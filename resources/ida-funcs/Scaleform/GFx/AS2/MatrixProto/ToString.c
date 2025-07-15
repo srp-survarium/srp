@@ -18,10 +18,15 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::ToString(const Scaleform::GFx::AS
   Scaleform::GFx::AS2::Value *v16; // esi
   bool v17; // zf
   void *v18; // esi
-  Scaleform::String str; // [esp+4h] [ebp-8Ch] BYREF
+  Scaleform::String v19; // [esp+4h] [ebp-8Ch] BYREF
   Scaleform::GFx::AS2::Value result; // [esp+8h] [ebp-88h] BYREF
-  Scaleform::GFx::ASString mxs[6]; // [esp+18h] [ebp-78h] BYREF
-  Scaleform::GFx::AS2::Value matrix[6]; // [esp+30h] [ebp-60h] BYREF
+  Scaleform::GFx::ASString v21; // [esp+18h] [ebp-78h] BYREF
+  Scaleform::GFx::ASString v22; // [esp+1Ch] [ebp-74h] BYREF
+  Scaleform::GFx::ASString v23; // [esp+20h] [ebp-70h] BYREF
+  Scaleform::GFx::ASString v24; // [esp+24h] [ebp-6Ch] BYREF
+  Scaleform::GFx::ASString v25; // [esp+28h] [ebp-68h] BYREF
+  Scaleform::GFx::ASString v26; // [esp+2Ch] [ebp-64h] BYREF
+  Scaleform::GFx::AS2::Value v27[6]; // [esp+30h] [ebp-60h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Matrix )
   {
@@ -32,62 +37,62 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::ToString(const Scaleform::GFx::AS
       if ( ThisPtr != (Scaleform::GFx::AS2::ObjectInterface *)16 )
       {
         `vector constructor iterator'(
-          (char *)matrix,
+          (char *)v27,
           0x10u,
           6,
           (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
         Scaleform::GFx::AS2::MatrixObject::GetMatrixAsValuesArray(
           p_pProto,
-          &fn->Env->StringContext,
-          (Scaleform::GFx::AS2::Value (*)[6])matrix);
+          (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+          (Scaleform::GFx::AS2::Value (*)[6])v27);
         Env = fn->Env;
-        v4 = Scaleform::GFx::AS2::Value::ToPrimitive(matrix, &result, Env, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v4, mxs, Env, 6, 0);
+        v4 = Scaleform::GFx::AS2::Value::ToPrimitive(v27, &result, Env, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v4, &v21, Env, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
         v5 = fn->Env;
-        v6 = Scaleform::GFx::AS2::Value::ToPrimitive(&matrix[1], &result, v5, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v6, &mxs[1], v5, 6, 0);
+        v6 = Scaleform::GFx::AS2::Value::ToPrimitive(&v27[1], &result, v5, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v6, &v22, v5, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
         v7 = fn->Env;
-        v8 = Scaleform::GFx::AS2::Value::ToPrimitive(&matrix[2], &result, v7, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v8, &mxs[2], v7, 6, 0);
+        v8 = Scaleform::GFx::AS2::Value::ToPrimitive(&v27[2], &result, v7, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v8, &v23, v7, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
         v9 = fn->Env;
-        v10 = Scaleform::GFx::AS2::Value::ToPrimitive(&matrix[3], &result, v9, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v10, &mxs[3], v9, 6, 0);
+        v10 = Scaleform::GFx::AS2::Value::ToPrimitive(&v27[3], &result, v9, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v10, &v24, v9, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
         v11 = fn->Env;
-        v12 = Scaleform::GFx::AS2::Value::ToPrimitive(&matrix[4], &result, v11, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v12, &mxs[4], v11, 6, 0);
+        v12 = Scaleform::GFx::AS2::Value::ToPrimitive(&v27[4], &result, v11, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v12, &v25, v11, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
         v13 = fn->Env;
-        v14 = Scaleform::GFx::AS2::Value::ToPrimitive(&matrix[5], &result, v13, NoHint);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v14, &mxs[5], v13, 6, 0);
+        v14 = Scaleform::GFx::AS2::Value::ToPrimitive(&v27[5], &result, v13, NoHint);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v14, &v26, v13, 6, 0);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
-        Scaleform::String::String(&str);
-        Scaleform::String::AppendString(&str, "(a=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[0].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ", b=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[1].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ", c=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[2].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ", d=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[3].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ", tx=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[4].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ", ty=", 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, (char *)mxs[5].pNode->pData, 0xFFFFFFFF);
-        Scaleform::String::AppendString(&str, ")", 0xFFFFFFFF);
+        Scaleform::String::String(&v19);
+        Scaleform::String::AppendString(&v19, (const __m128i *)"(a=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v21.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)", b=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v22.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)", c=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v23.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)", d=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v24.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)", tx=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v25.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)", ty=", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)v26.pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&v19, (const __m128i *)")", 0xFFFFFFFF);
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                        (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       (char *)((str.HeapTypeBits & 0xFFFFFFFC) + 8),
-                       *(_DWORD *)(str.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
+                       (__m128i *)((v19.HeapTypeBits & 0xFFFFFFFC) + 8),
+                       *(_DWORD *)(v19.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
         ++StringNode->RefCount;
         v16 = fn->Result;
         if ( v16->T.Type >= 5u )
@@ -98,16 +103,16 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::ToString(const Scaleform::GFx::AS
         --StringNode->RefCount;
         if ( v17 )
           Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-        v18 = (void *)(str.HeapTypeBits & 0xFFFFFFFC);
-        if ( InterlockedExchangeAdd((volatile LONG *)((str.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+        v18 = (void *)(v19.HeapTypeBits & 0xFFFFFFFC);
+        if ( InterlockedExchangeAdd((volatile LONG *)((v19.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v18);
         `vector destructor iterator'(
-          (char *)mxs,
+          (char *)&v21,
           4u,
           6,
           (void (__thiscall *)(void *))Scaleform::GFx::ASString::~ASString);
         `vector destructor iterator'(
-          (char *)matrix,
+          (char *)v27,
           0x10u,
           6,
           (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

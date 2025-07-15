@@ -1,28 +1,22 @@
-tm *__cdecl boost::date_time::c_time::gmtime(const __int64 *t)
+tm *__usercall boost::date_time::c_time::gmtime@<eax>(int a1@<ebx>, __int64 *t)
 {
-  survarium::game_options *v1; // eax
-  const std::exception *v2; // eax
-  survarium::game_camera v4[3]; // [esp+Bh] [ebp-129h] BYREF
-  tm *resulta; // [esp+140h] [ebp+Ch]
+  tm *v2; // esi
+  stlp_std::allocator<char> v4; // [esp+7h] [ebp-129h] BYREF
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > __str; // [esp+8h] [ebp-128h] BYREF
+  stlp_std::__Named_exception v6; // [esp+20h] [ebp-110h] BYREF
 
-  resulta = _gmtime64(t);
-  if ( !resulta )
+  v2 = _gmtime64(a1, t);
+  if ( !v2 )
   {
-    v1 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)v4);
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-      (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v4[0].__vftable
-                                                                                            + 1),
+      &__str,
       "could not convert calendar time to UTC time",
-      (const stlp_std::allocator<char> *)v1);
-    stlp_std::runtime_error::runtime_error(
-      (stlp_std::runtime_error *)((char *)&v4[0].m_inverted_view_matrix.lines[1].elements[1] + 1),
-      (const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v4[0].__vftable
-                                                                                                  + 1));
-    boost::throw_exception(v2);
-    stlp_std::__Named_exception::~__Named_exception((stlp_std::out_of_range *)((char *)&v4[0].m_inverted_view_matrix.lines[1].elements[1]
-                                                                             + 1));
-    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block((stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v4[0].__vftable + 1));
-    survarium::weapon_user_dead_state::finalize(v4);
+      &v4);
+    stlp_std::__Named_exception::__Named_exception(&v6, &__str);
+    v6.__vftable = (stlp_std::__Named_exception_vtbl *)&stlp_std::runtime_error::`vftable';
+    boost::throw_exception(&v6);
+    stlp_std::__Named_exception::~__Named_exception((stlp_std::out_of_range *)&v6);
+    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&__str);
   }
-  return resulta;
+  return v2;
 }

@@ -18,7 +18,7 @@ int __usercall fpcvt@<eax>(
   {
     v7 = 34;
     *_errno() = 34;
-    _invalid_parameter(0, (unsigned int)pflt, 0x22u);
+    _invalid_parameter(0, (int)pflt, 34);
     return v7;
   }
   v9 = sizeInChars - 2;

@@ -1,49 +1,28 @@
-vostok::buffer_string *__thiscall vostok::buffer_string::append(vostok::buffer_string *this, char c)
+vostok::buffer_string *__userpurge vostok::buffer_string::append@<eax>(
+        vostok::buffer_string *this@<esi>,
+        const char *end_src@<eax>,
+        char *begin_src)
 {
-  vostok::buffer_string *result; // eax
+  int v3; // edi
 
-  result = this;
-  *this->m_end++ = c;
-  *this->m_end = 0;
-  return result;
-}
-
-
-vostok::buffer_string *__thiscall vostok::buffer_string::append(
-        vostok::buffer_string *this,
-        char *begin_src,
-        const char *end_src)
-{
+  v3 = end_src - begin_src;
   memcpy((unsigned __int8 *)this->m_end, (unsigned __int8 *)begin_src, end_src - begin_src);
-  this->m_end += end_src - begin_src;
-  *this->m_end = 0;
-  return this;
-}
-
-
-vostok::buffer_string *__thiscall vostok::buffer_string::append(vostok::buffer_string *this, char *c_string)
-{
-  unsigned int v3; // edi
-
-  v3 = strlen(c_string);
-  memcpy((unsigned __int8 *)this->m_end, (unsigned __int8 *)c_string, v3);
   this->m_end += v3;
   *this->m_end = 0;
   return this;
 }
 
 
-vostok::buffer_string *__thiscall vostok::buffer_string::append<char *>(
-        vostok::buffer_string *this,
-        char **begin_src,
-        char **end_src)
+vostok::buffer_string *__userpurge vostok::buffer_string::append@<eax>(
+        vostok::buffer_string *this@<ecx>,
+        int a2@<esi>,
+        char *c_string)
 {
-  vostok::buffer_string *result; // eax
-  char *i; // edx
+  unsigned int v3; // edi
 
-  result = this;
-  for ( i = *begin_src; i != *end_src; ++i )
-    *this->m_end++ = *i;
-  *this->m_end = 0;
-  return result;
+  v3 = strlen(c_string);
+  memcpy(*(unsigned __int8 **)(a2 + 4), (unsigned __int8 *)c_string, v3);
+  *(_DWORD *)(a2 + 4) += v3;
+  **(_BYTE **)(a2 + 4) = 0;
+  return (vostok::buffer_string *)a2;
 }

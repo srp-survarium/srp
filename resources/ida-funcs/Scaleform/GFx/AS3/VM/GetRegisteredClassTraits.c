@@ -1,7 +1,7 @@
 const Scaleform::GFx::AS3::ClassTraits::Traits *__thiscall Scaleform::GFx::AS3::VM::GetRegisteredClassTraits(
         Scaleform::GFx::AS3::VM *this,
         const Scaleform::GFx::ASString *name,
-        Scaleform::GFx::AS3::Instances::fl::Namespace *ns,
+        const Scaleform::GFx::AS3::Instances::fl::Namespace *ns,
         Scaleform::GFx::AS3::VMAppDomain *appDomain)
 {
   Scaleform::GFx::AS3::VMAppDomain *ParentDomain; // ecx

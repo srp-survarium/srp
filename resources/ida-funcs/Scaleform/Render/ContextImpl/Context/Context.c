@@ -5,7 +5,7 @@ void __userpurge Scaleform::Render::ContextImpl::Context::Context(
 {
   Scaleform::List<Scaleform::Render::ContextImpl::ContextCaptureNotify,Scaleform::Render::ContextImpl::ContextCaptureNotify> *p_CaptureNotifyList; // eax
   Scaleform::Ptr<Scaleform::Render::ContextImpl::ContextLock> *p_pCaptureLock; // ecx
-  $225FDBFD3D591223A1811134BAF21324 *v6; // ecx
+  Scaleform::Render::ContextImpl::RTHandle::HandleData *v6; // ecx
   int v7; // eax
   Scaleform::Render::ContextImpl::ContextLock *v8; // edi
   Scaleform::RefCountVImpl *pObject; // ecx
@@ -38,9 +38,9 @@ void __userpurge Scaleform::Render::ContextImpl::Context::Context(
   if ( this == (Scaleform::Render::ContextImpl::Context *)-96 )
     v6 = 0;
   else
-    v6 = &this->RenderNode.4;
-  this->RTHandleList.Root.pPrev = (Scaleform::Render::ContextImpl::RTHandle::HandleData *)v6;
-  this->RTHandleList.Root.pNext = (Scaleform::Render::ContextImpl::RTHandle::HandleData *)v6;
+    v6 = (Scaleform::Render::ContextImpl::RTHandle::HandleData *)&this->RenderNode.4;
+  this->RTHandleList.Root.pPrev = v6;
+  this->RTHandleList.Root.pNext = v6;
   v7 = ((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, int))Scaleform::Memory::pGlobalHeap->Alloc)(
          Scaleform::Memory::pGlobalHeap,
          36,

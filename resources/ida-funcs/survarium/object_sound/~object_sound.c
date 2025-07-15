@@ -1,19 +1,7 @@
 void __thiscall survarium::object_sound::~object_sound(survarium::object_sound *this)
 {
-  vostok::sound::sound_instance_proxy *m_object; // eax
-  vostok::sound::sound_emitter *v4; // eax
-
   this->__vftable = (survarium::object_sound_vtbl *)&survarium::object_sound::`vftable';
-  m_object = this->m_sound_instance.m_object;
-  if ( m_object )
-  {
-    if ( m_object->m_reference_count-- == 1 )
-      this->m_sound_instance.m_object->free_object(this->m_sound_instance.m_object);
-  }
-  v4 = this->m_sound_emitter.m_object;
-  if ( v4 && !_InterlockedExchangeAdd(&v4->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_sound_emitter.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_sound_emitter.m_object);
+  vostok::intrusive_ptr<vostok::sound::sound_instance_proxy,vostok::sound::sound_instance_proxy,vostok::threading::single_threading_policy>::dec(&this->m_sound_instance);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_sound_emitter);
   vostok::resources::unmanaged_resource::~unmanaged_resource(this);
 }

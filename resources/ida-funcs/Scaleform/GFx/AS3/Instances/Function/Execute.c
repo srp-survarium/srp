@@ -1,106 +1,187 @@
 void __thiscall Scaleform::GFx::AS3::Instances::Function::Execute(
         Scaleform::GFx::AS3::Instances::Function *this,
-        const Scaleform::GFx::AS3::Value *_this,
+        Scaleform::GFx::AS3::Value *_this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *argv,
-        const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> discard_result)
+        bool discard_result)
 {
+  unsigned int v6; // ecx
   Scaleform::GFx::AS3::Traits *pObject; // eax
-  Scaleform::GFx::AS3::VMAbcFile *Parent; // esi
-  int MethodBodyInfoInd; // ebp
-  const Scaleform::GFx::AS3::Traits *v8; // edi
-  bool v9; // zf
-  const Scaleform::GFx::AS3::VM::Error *v10; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM *VMRef; // eax
-  Scaleform::MemoryHeap *MHeap; // eax
-  Scaleform::GFx::AS3::VM *v14; // ecx
-  Scaleform::GFx::AS3::VM *v15; // ecx
-  Scaleform::GFx::AS3::Abc::MethodBodyInfo *v16; // edi
-  Scaleform::GFx::AS3::Instances::fl_vec::Vector_object **p_DefXMLNamespace; // edi
-  Scaleform::GFx::AS3::VM *vm; // [esp+10h] [ebp-64h]
-  Scaleform::GFx::AS3::VM::Error v19; // [esp+14h] [ebp-60h] BYREF
-  Scaleform::GFx::AS3::Value v20; // [esp+1Ch] [ebp-58h] BYREF
-  Scaleform::GFx::AS3::CallFrame val; // [esp+2Ch] [ebp-48h] BYREF
+  Scaleform::GFx::AS3::VM *pVM; // ebp
+  Scaleform::GFx::AS3::VMAbcFile *Parent; // edi
+  const Scaleform::GFx::AS3::Traits *v10; // ecx
+  bool v11; // zf
+  const Scaleform::GFx::AS3::VM::Error *v12; // eax
+  Scaleform::GFx::ASStringNode *v13; // eax
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::AS3::VM *VMRef; // ecx
+  Scaleform::ArrayDH<Scaleform::GFx::AS3::Value,2,Scaleform::ArrayDefaultPolicy> *p_StoredScopeStack; // ecx
+  Scaleform::GFx::ASStringNode *pNode; // esi
+  Scaleform::ArrayDH<Scaleform::GFx::AS3::Value,2,Scaleform::ArrayDefaultPolicy> *v18; // ecx
+  Scaleform::GFx::AS3::VM *v19; // ecx
+  unsigned __int16 NumOfReservedElem; // dx
+  Scaleform::GFx::AS3::Abc::MethodBodyInfo *v21; // esi
+  Scaleform::GFx::AS3::Instances::fl_vec::Vector_object **p_DefXMLNamespace; // esi
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpServer *v24; // eax
+  Scaleform::GFx::AS3::VMAbcFile *pFile; // eax
+  Scaleform::RefCountVImpl *v26; // esi
+  Scaleform::GFx::AMP::ViewStats *v27; // eax
+  Scaleform::GFx::AMP::ViewStats *v28; // eax
+  unsigned int Size; // esi
+  Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Scaleform::AllocatorPagedCC<Scaleform::GFx::AS3::CallFrame,329> > *p_CallStack; // ebp
+  unsigned int v31; // esi
+  Scaleform::GFx::AS3::CallFrame *v32; // ecx
+  unsigned int SwfFileOffset; // [esp-14h] [ebp-ACh]
+  const __m128i *pData; // [esp-10h] [ebp-A8h]
+  unsigned int v35; // [esp-Ch] [ebp-A4h]
+  unsigned __int64 StartTicks; // [esp-8h] [ebp-A0h]
+  const Scaleform::GFx::AS3::Traits *otr; // [esp+10h] [ebp-88h] BYREF
+  Scaleform::GFx::ASStringNode *v38; // [esp+14h] [ebp-84h]
+  Scaleform::GFx::AS3::Abc::MbiInd mbi_ind; // [esp+18h] [ebp-80h]
+  Scaleform::GFx::AS3::Value *p_This; // [esp+1Ch] [ebp-7Ch]
+  Scaleform::GFx::AS3::Value v41; // [esp+20h] [ebp-78h] BYREF
+  Scaleform::GFx::AS3::CallFrame other; // [esp+30h] [ebp-68h] BYREF
+  unsigned int v43; // [esp+94h] [ebp-4h]
 
+  v6 = this->This.Flags & 0x1F;
   pObject = this->pTraits.pObject;
-  vm = pObject->pVM;
-  if ( (this->This.Flags & 0x1F) != 0 && ((this->This.Flags & 0x1F) - 12 > 3 || this->This.value.VS._1.VInt) )
-    _this = &this->This;
+  pVM = pObject->pVM;
+  if ( v6 && (v6 - 12 > 3 || this->This.value.VS._1.VInt) )
+    p_This = (Scaleform::GFx::AS3::Value *)&this->This;
+  else
+    p_This = _this;
   Parent = (Scaleform::GFx::AS3::VMAbcFile *)pObject[1].Parent;
-  MethodBodyInfoInd = Parent->File.pObject->Methods.Info.Data.Data[pObject[1].FirstOwnSlotNum]->MethodBodyInfoInd;
-  v8 = (const Scaleform::GFx::AS3::Traits *)pObject[1].VArray.Data.Data->Value.File.pObject;
+  v10 = (const Scaleform::GFx::AS3::Traits *)pObject[1].VArray.Data.Data->Value.File.pObject;
+  mbi_ind.Ind = Parent->File.pObject->Methods.Info.Data.Data[pObject[1].FirstOwnSlotNum]->MethodBodyInfoInd;
   this->RefCount = (this->RefCount + 1) & 0x8FBFFFFF;
-  v9 = vm->CallStack.Size == 128;
-  v20.Flags = 14;
-  v20.Bonus.pWeakProxy = 0;
-  v20.value.VS._1.VInt = (int)this;
-  if ( v9 )
+  v11 = pVM->CallStack.Size == 128;
+  otr = v10;
+  v41.Flags = 14;
+  v41.Bonus.pWeakProxy = 0;
+  v41.value.VS._1.VInt = (int)this;
+  if ( v11 )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v19, eStackOverflowError, vm);
-    Scaleform::GFx::AS3::VM::ThrowError(vm, v10);
-    pNode = v19.Message.pNode;
-    --v19.Message.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&otr, eStackOverflowError, pVM);
+    Scaleform::GFx::AS3::VM::ThrowError(pVM, v12);
+    v13 = v38;
+    --v38->RefCount;
+    if ( !v13->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v13);
   }
   else
   {
-    val.DiscardResult = (bool)discard_result.pObject;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    other.DiscardResult = discard_result;
     VMRef = Parent->VMRef;
-    val.ACopy = 0;
-    val.ScopeStackBaseInd = VMRef->ScopeStack.Data.Size;
-    val.pRegisterFile = &VMRef->RegisterFile;
-    val.CP = 0;
-    MHeap = VMRef->MHeap;
-    val.pSavedScope = &this->StoredScopeStack;
-    v14 = Parent->VMRef;
-    val.pHeap = MHeap;
-    val.pScopeStack = &v14->ScopeStack;
-    val.pFile = Parent;
-    val.MBIIndex.Ind = MethodBodyInfoInd;
-    val.OriginationTraits = v8;
-    val.DefXMLNamespace.pObject = 0;
-    val.Invoker.Flags = 14;
-    val.Invoker.Bonus.pWeakProxy = 0;
-    val.Invoker.value.VNumber = v20.value.VNumber;
-    Scaleform::GFx::AS3::Value::AddRefInternal(&v20);
-    v15 = Parent->VMRef;
-    val.PrevInitialStackPos = v15->OpStack.pCurrent;
-    val.PrevFirstStackPos = v15->OpStack.pStack;
-    v16 = val.pFile->File.pObject->MethodBodies.Info.Data.Data[val.MBIIndex.Ind];
-    Scaleform::GFx::AS3::ValueStack::Reserve(&v15->OpStack, LOWORD(v16->max_stack) + 1);
-    Scaleform::GFx::AS3::ValueRegisterFile::Reserve(val.pRegisterFile, v16->local_reg_count);
-    p_DefXMLNamespace = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object **)&val.pFile->VMRef->DefXMLNamespace;
+    v43 = HIDWORD(ProfileTicks);
+    other.ACopy = 0;
+    other.RegisteredFunction = 0;
+    other.ScopeStackBaseInd = VMRef->ScopeStack.Data.Size;
+    other.pRegisterFile = &VMRef->RegisterFile;
+    other.CP = 0;
+    other.pHeap = VMRef->MHeap;
+    p_StoredScopeStack = &this->StoredScopeStack;
+    pNode = this->Name.pNode;
+    other.pSavedScope = p_StoredScopeStack;
+    v18 = (Scaleform::ArrayDH<Scaleform::GFx::AS3::Value,2,Scaleform::ArrayDefaultPolicy> *)Parent->VMRef;
+    other.MBIIndex = mbi_ind;
+    other.pFile = Parent;
+    other.OriginationTraits = otr;
+    other.pScopeStack = v18 + 5;
+    other.DefXMLNamespace.pObject = 0;
+    other.Name.pObject = pNode;
+    if ( pNode )
+      ++pNode->RefCount;
+    other.StartTicks = __PAIR64__(v43, ProfileTicks);
+    other.Invoker = v41;
+    other.CurrFileInd = 0;
+    other.CurrLineNumber = 0;
+    if ( (v41.Flags & 0x1F) > 9 )
+    {
+      if ( (v41.Flags & 0x200) != 0 )
+        Scaleform::GFx::AS3::Value::AddRefWeakRef(&v41);
+      else
+        Scaleform::GFx::AS3::Value::AddRefInternal(&v41);
+    }
+    v19 = Parent->VMRef;
+    other.PrevInitialStackPos = v19->OpStack.pCurrent;
+    NumOfReservedElem = v19->OpStack.NumOfReservedElem;
+    v19 = (Scaleform::GFx::AS3::VM *)((char *)v19 + 40);
+    other.PrevReservedNum = NumOfReservedElem;
+    other.PrevFirstStackPos = (Scaleform::GFx::AS3::Value *)*((_DWORD *)&v19->__vftable + 1);
+    v21 = other.pFile->File.pObject->MethodBodies.Info.Data.Data[other.MBIIndex.Ind];
+    Scaleform::GFx::AS3::ValueStack::Reserve((Scaleform::GFx::AS3::ValueStack *)v19, LOWORD(v21->max_stack) + 1);
+    Scaleform::GFx::AS3::ValueRegisterFile::Reserve(other.pRegisterFile, v21->local_reg_count);
+    p_DefXMLNamespace = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object **)&other.pFile->VMRef->DefXMLNamespace;
     if ( *p_DefXMLNamespace )
     {
       Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::InteractiveObject>::SetPtr(
-        (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)&val.DefXMLNamespace,
+        (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)&other.DefXMLNamespace,
         *p_DefXMLNamespace);
-      discard_result.pObject = 0;
+      otr = 0;
       Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event>::Set(
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)p_DefXMLNamespace,
-        &discard_result);
+        (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&otr);
     }
     Scaleform::GFx::AS3::CallFrame::SetupRegisters(
-      &val,
-      Parent->File.pObject->Methods.Info.Data.Data[Parent->File.pObject->MethodBodies.Info.Data.Data[MethodBodyInfoInd]->method_info_ind],
-      _this,
+      &other,
+      Parent->File.pObject->Methods.Info.Data.Data[Parent->File.pObject->MethodBodies.Info.Data.Data[mbi_ind.Ind]->method_info_ind],
+      p_This,
       argc,
       argv);
-    if ( vm->HandleException )
-      val.ACopy = 1;
+    if ( pVM->HandleException )
+    {
+      other.ACopy = 1;
+    }
     else
-      Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Scaleform::AllocatorPagedCC<Scaleform::GFx::AS3::CallFrame,329>>::PushBack(
-        &vm->CallStack,
-        &val);
-    Scaleform::GFx::AS3::CallFrame::~CallFrame(&val);
+    {
+      if ( pVM->GetAdvanceStats(pVM) )
+      {
+        Instance = Scaleform::AmpServer::GetInstance();
+        if ( Instance->GetProfileLevel(Instance) >= Amp_Profile_Level_Medium )
+        {
+          v24 = Scaleform::AmpServer::GetInstance();
+          if ( v24->IsProfiling(v24) )
+          {
+            pFile = other.pFile;
+            v26 = (Scaleform::RefCountVImpl *)(other.pFile->File.pObject->FileHandle
+                                             + (other.pFile->File.pObject->MethodBodies.Info.Data.Data[other.MBIIndex.Ind]->method_info_ind << 16));
+            if ( !other.RegisteredFunction )
+            {
+              other.RegisteredFunction = 1;
+              pData = (const __m128i *)other.Name.pObject->pData;
+              SwfFileOffset = other.pFile->File.pObject->SwfFileOffset;
+              v27 = pVM->GetAdvanceStats(pVM);
+              Scaleform::GFx::AMP::ViewStats::RegisterScriptFunction(v27, v26, SwfFileOffset, pData, 0, 3u, 0);
+              pFile = other.pFile;
+            }
+            StartTicks = other.StartTicks;
+            v35 = pFile->File.pObject->SwfFileOffset;
+            v28 = pVM->GetAdvanceStats(pVM);
+            Scaleform::GFx::AMP::ViewStats::PushCallstack(v28, (unsigned int)v26, v35, StartTicks);
+          }
+        }
+      }
+      Size = pVM->CallStack.Size;
+      p_CallStack = &pVM->CallStack;
+      v31 = Size >> 6;
+      if ( v31 >= p_CallStack->NumPages )
+        Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Scaleform::AllocatorPagedCC<Scaleform::GFx::AS3::CallFrame,329>>::allocatePage(
+          p_CallStack,
+          v31);
+      v32 = &p_CallStack->Pages[v31][p_CallStack->Size & 0x3F];
+      if ( v32 )
+        Scaleform::GFx::AS3::CallFrame::CallFrame(v32, &other);
+      ++p_CallStack->Size;
+    }
+    Scaleform::GFx::AS3::CallFrame::~CallFrame(&other);
   }
-  if ( (v20.Flags & 0x1F) > 9 )
+  if ( (v41.Flags & 0x1F) > 9 )
   {
-    if ( (v20.Flags & 0x200) != 0 )
-      Scaleform::GFx::AS3::Value::ReleaseWeakRef(&v20);
+    if ( (v41.Flags & 0x200) != 0 )
+      Scaleform::GFx::AS3::Value::ReleaseWeakRef(&v41);
     else
-      Scaleform::GFx::AS3::Value::ReleaseInternal(&v20);
+      Scaleform::GFx::AS3::Value::ReleaseInternal(&v41);
   }
 }

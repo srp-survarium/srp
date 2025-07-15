@@ -1,18 +1,18 @@
-void __cdecl _CIacos(__int64 a1)
+void _CIacos()
 {
-  int v2; // eax
-  bool v3; // zf
-  char v4; // [esp+0h] [ebp-8h]
+  int v0; // eax
+  bool v1; // zf
+  char v2; // [esp+0h] [ebp-8h]
 
   if ( !__use_sse2_mathfcns )
     goto __CIacos;
-  v2 = _mm_getcsr() & 0x1F80;
-  v3 = v2 == 8064;
-  if ( v2 == 8064 )
-    v3 = (v4 & 0x7F) == 127;
-  if ( v3 )
-    _CIacos_pentium4(a1);
+  v0 = _mm_getcsr() & 0x1F80;
+  v1 = v0 == 8064;
+  if ( v0 == 8064 )
+    v1 = (v2 & 0x7F) == 127;
+  if ( v1 )
+    _CIacos_pentium4();
   else
 __CIacos:
-    _CIacos_default(a1, HIDWORD(a1));
+    _CIacos_default();
 }

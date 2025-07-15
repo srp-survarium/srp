@@ -1,4 +1,4 @@
-int __cdecl png_set_tIME(int a1, int a2, unsigned __int8 *src)
+int __cdecl png_set_tIME(int a1, int a2, const __m128i *src)
 {
   int result; // eax
 
@@ -9,15 +9,15 @@ int __cdecl png_set_tIME(int a1, int a2, unsigned __int8 *src)
       result = a1;
       if ( (*(_DWORD *)(a1 + 108) & 0x200) == 0 )
       {
-        if ( src[2]
-          && src[2] <= 0xCu
-          && src[3]
-          && src[3] <= 0x1Fu
-          && src[4] <= 0x17u
-          && src[5] <= 0x3Bu
-          && src[6] <= 0x3Cu )
+        if ( src->m128i_i8[2]
+          && src->m128i_u8[2] <= 0xCu
+          && src->m128i_i8[3]
+          && src->m128i_u8[3] <= 0x1Fu
+          && src->m128i_u8[4] <= 0x17u
+          && src->m128i_u8[5] <= 0x3Bu
+          && src->m128i_u8[6] <= 0x3Cu )
         {
-          memcpy((unsigned __int8 *)(a2 + 60), src, 8u);
+          memcpy(a2 + 60, src, 8u);
           result = a2;
           *(_DWORD *)(a2 + 8) |= 0x200u;
         }

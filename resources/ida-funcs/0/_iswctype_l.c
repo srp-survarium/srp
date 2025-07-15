@@ -1,30 +1,23 @@
-int __cdecl _iswctype_l(unsigned __int16 c, unsigned __int16 mask, localeinfo_struct *plocinfo)
+int __cdecl _iswctype_l(wchar_t c, unsigned __int16 mask, localeinfo_struct *plocinfo)
 {
-  _LocaleUpdate _loc_update; // [esp+0h] [ebp-14h] BYREF
-  int d; // [esp+10h] [ebp-4h] BYREF
+  _LocaleUpdate v4; // [esp+0h] [ebp-14h] BYREF
+  unsigned __int16 CharType[2]; // [esp+10h] [ebp-4h] BYREF
 
   if ( c == 0xFFFF )
   {
-    d = 0;
+    *(_DWORD *)CharType = 0;
   }
   else if ( c >= 0x100u )
   {
-    _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
-    if ( !__crtGetStringTypeW(
-            &_loc_update.localeinfo,
-            1u,
-            &c,
-            1,
-            (unsigned __int16 *)&d,
-            _loc_update.localeinfo.locinfo->lc_codepage,
-            _loc_update.localeinfo.locinfo->lc_handle[2]) )
-      d = 0;
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
+    _LocaleUpdate::_LocaleUpdate(&v4, plocinfo);
+    if ( !__crtGetStringTypeW(&v4.localeinfo, 1u, &c, 1, CharType) )
+      *(_DWORD *)CharType = 0;
+    if ( v4.updated )
+      v4.ptd->_ownlocale &= ~2u;
   }
   else
   {
-    d = (unsigned __int16)(mask & _pwctype[c]);
+    *(_DWORD *)CharType = (unsigned __int16)(mask & _pwctype[c]);
   }
-  return mask & (unsigned __int16)d;
+  return mask & CharType[0];
 }

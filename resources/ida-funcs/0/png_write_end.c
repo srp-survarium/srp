@@ -1,7 +1,7 @@
 void __cdecl png_write_end(int a1, _DWORD *a2)
 {
   int v2; // [esp+0h] [ebp-Ch]
-  char *lhs; // [esp+4h] [ebp-8h]
+  unsigned int j; // [esp+4h] [ebp-8h]
   int i; // [esp+8h] [ebp-4h]
 
   if ( a1 )
@@ -51,15 +51,17 @@ void __cdecl png_write_end(int a1, _DWORD *a2)
       }
       if ( a2[48] )
       {
-        for ( lhs = (char *)a2[47]; (unsigned int)lhs < a2[47] + 20 * a2[48]; lhs += 20 )
+        for ( j = a2[47]; j < a2[47] + 20 * a2[48]; j += 20 )
         {
-          v2 = png_handle_as_unknown(a1, (unsigned __int8 *)lhs);
+          v2 = png_handle_as_unknown(a1, (unsigned __int8 *)j);
           if ( v2 != 1
-            && lhs[16]
-            && (lhs[16] & 8) != 0
-            && ((lhs[3] & 0x20) != 0 || v2 == 3 || ((unsigned int)&_sbh_sizeHeaderList & *(_DWORD *)(a1 + 112)) != 0) )
+            && *(_BYTE *)(j + 16)
+            && (*(_BYTE *)(j + 16) & 8) != 0
+            && ((*(_BYTE *)(j + 3) & 0x20) != 0
+             || v2 == 3
+             || ((unsigned int)&_sbh_sizeHeaderList & *(_DWORD *)(a1 + 112)) != 0) )
           {
-            png_write_chunk(a1, (int)lhs, *((unsigned __int8 **)lhs + 2), *((_DWORD *)lhs + 3));
+            png_write_chunk(a1, j, *(unsigned __int8 **)(j + 8), *(_DWORD *)(j + 12));
           }
         }
       }

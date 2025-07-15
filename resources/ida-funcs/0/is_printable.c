@@ -1,4 +1,4 @@
-BOOL __cdecl is_printable(signed int value)
+BOOL __cdecl is_printable(int value)
 {
   BOOL result; // eax
   int v2; // eax

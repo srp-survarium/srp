@@ -11,15 +11,15 @@ char __thiscall Scaleform::GFx::DisplayObject::TransformPointToLocalAndCheckBoun
   Scaleform::GFx::DisplayObject::ScrollRectInfo *v9; // esi
   float x1; // [esp+4h] [ebp-10h]
   float y1; // [esp+8h] [ebp-Ch]
-  Scaleform::Render::Point<float> localPt2; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::Render::Point<float> pa; // [esp+Ch] [ebp-8h] BYREF
 
   if ( this->pScrollRect )
   {
-    Scaleform::GFx::DisplayObjectBase::TransformPointToLocal(this, &localPt2, pt, bPtInParentSpace, mat);
-    x = localPt2.x;
-    p->x = localPt2.x;
-    y = localPt2.y;
-    p->y = localPt2.y;
+    Scaleform::GFx::DisplayObjectBase::TransformPointToLocal(this, &pa, pt, bPtInParentSpace, mat);
+    x = pa.x;
+    p->x = pa.x;
+    y = pa.y;
+    p->y = pa.y;
     pScrollRect = this->pScrollRect;
     x1 = pScrollRect->Rectangle.x1;
     y1 = pScrollRect->Rectangle.y1;

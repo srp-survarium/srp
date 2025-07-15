@@ -5,7 +5,7 @@ void __userpurge Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::setStyle(
         Scaleform::String styleName,
         const Scaleform::GFx::AS3::Value *styleObject)
 {
-  const Scaleform::GFx::ASString *pData; // ebp
+  const __m128i ***pData; // ebp
   Scaleform::GFx::ASStringNode *Size; // edx
   unsigned int v8; // ecx
   Scaleform::GFx::Text::StyleManager *p_CSS; // ecx
@@ -13,7 +13,7 @@ void __userpurge Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::setStyle(
   void *v11; // esi
   const char *v12; // [esp-Ch] [ebp-18h]
 
-  pData = (const Scaleform::GFx::ASString *)styleName.pData;
+  pData = (const __m128i ***)styleName.pData;
   Size = (Scaleform::GFx::ASStringNode *)styleName.pData->Size;
   if ( *(_DWORD *)(*(_DWORD *)styleName.HeapTypeBits + 20) )
   {
@@ -24,7 +24,7 @@ void __userpurge Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::setStyle(
       {
         VInt = (Scaleform::String *)styleObject->value.VS._1.VInt;
         Scaleform::String::String(&styleName);
-        Scaleform::String::AppendString(&styleName, (char *)pData->pNode->pData, 0xFFFFFFFF);
+        Scaleform::String::AppendString(&styleName, **pData, 0xFFFFFFFF);
         Scaleform::String::AppendChar(&styleName, 0x7Bu);
         Scaleform::GFx::AS3::CSSStringBuilder::Process((int)pData, &styleName, VInt, a2);
         Scaleform::String::AppendChar(&styleName, 0x7Du);

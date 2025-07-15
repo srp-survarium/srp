@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getModalClip
   unsigned int RefCount; // eax
 
   pVM = this->pTraits.pObject->pVM;
-  if ( LOBYTE(pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&pVM[1].HandleException + 4) )
   {
     ModalClip = Scaleform::GFx::MovieImpl::GetModalClip(
                   (Scaleform::GFx::MovieImpl *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM,
@@ -46,7 +46,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getModalClip
           else
           {
             RefCount = pObject->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               pObject->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

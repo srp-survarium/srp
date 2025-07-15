@@ -7,19 +7,19 @@ bool __thiscall Scaleform::GFx::DisplayObjContainer::PointTestLocal(
   Scaleform::Render::Rect<float> *v5; // eax
   bool v6; // al
   Scaleform::GFx::DisplayObject *Mask; // esi
-  const Scaleform::Render::Matrix2x4<float> *m; // eax
   const Scaleform::Render::Matrix2x4<float> *WorldMatrix; // eax
+  const Scaleform::Render::Matrix2x4<float> *v9; // eax
   int v10; // edi
   int v11; // eax
   _WORD *v12; // esi
   float *v13; // eax
-  unsigned int Size; // [esp+188h] [ebp-54h]
-  int v15; // [esp+188h] [ebp-54h]
-  float x; // [esp+18Ch] [ebp-50h] BYREF
-  float y; // [esp+190h] [ebp-4Ch]
-  Scaleform::Render::Point<float> v18; // [esp+194h] [ebp-48h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+19Ch] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v20; // [esp+1BCh] [ebp-20h] BYREF
+  unsigned int Size; // [esp+1Ch] [ebp-54h]
+  int v15; // [esp+1Ch] [ebp-54h]
+  float x; // [esp+20h] [ebp-50h] BYREF
+  float y; // [esp+24h] [ebp-4Ch]
+  Scaleform::Render::Point<float> v18; // [esp+28h] [ebp-48h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+30h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v20; // [esp+50h] [ebp-20h] BYREF
 
   if ( (this->Scaleform::GFx::InteractiveObject::Flags & 0x800) != 0 )
     return 0;
@@ -56,10 +56,10 @@ bool __thiscall Scaleform::GFx::DisplayObjContainer::PointTestLocal(
       v20.M[1][2] = 0.0;
       v20.M[1][3] = 0.0;
       v20.M[1][1] = 1.0;
-      m = Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(Mask, &result);
-      Scaleform::Render::Matrix2x4<float>::SetInverse(&v20, m);
-      WorldMatrix = Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(this, &result);
-      Scaleform::Render::Matrix2x4<float>::Prepend(&v20, WorldMatrix);
+      WorldMatrix = Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(Mask, &result);
+      Scaleform::Render::Matrix2x4<float>::SetInverse(&v20, WorldMatrix);
+      v9 = Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(this, &result);
+      Scaleform::Render::Matrix2x4<float>::Prepend(&v20, v9);
       Scaleform::Render::Matrix2x4<float>::Transform(&v20, &v18, pt);
       if ( !Mask->PointTestLocal(Mask, &v18, hitTestMask) )
         return 0;
@@ -68,7 +68,7 @@ bool __thiscall Scaleform::GFx::DisplayObjContainer::PointTestLocal(
   memset(&result, 0, 12);
   Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskArray(
     this,
-    (Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *)&result,
+    (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)&result,
     pt,
     hitTestMask & 1);
   v20.M[0][0] = 1.0;

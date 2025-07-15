@@ -8,7 +8,7 @@ char __thiscall Scaleform::GFx::AS2::SharedObject::SetNameAndLocalPath(
   int v6; // edx
 
   v3 = name;
-  FirstCharAt = Scaleform::String::GetFirstCharAt(name, 0, (const char **)&name);
+  FirstCharAt = Scaleform::String::GetFirstCharAt(name, 0, (char **)&name);
   if ( !FirstCharAt )
   {
 LABEL_7:
@@ -40,7 +40,7 @@ LABEL_7:
           || v6 != 1
           && (Scaleform::UnicodeSpaceBits[v6 + ((unsigned __int8)FirstCharAt >> 4)] & (1 << (FirstCharAt & 0xF))) == 0 )
         {
-          FirstCharAt = Scaleform::String::GetNextChar(v3, (const char **)&name);
+          FirstCharAt = Scaleform::String::GetNextChar(v3, (char **)&name);
           if ( !FirstCharAt )
             goto LABEL_7;
           continue;

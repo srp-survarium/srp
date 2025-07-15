@@ -31,11 +31,11 @@ void __thiscall Scaleform::Render::GlyphFitter::FitGlyph(
       Scaleform::Render::GlyphFitter::detectEvents(v9, FitY);
       Scaleform::Render::GlyphFitter::computeLerpRamp(
         this,
-        FitY,
+        (unsigned __int8 *)2,
         this->UnitsPerPixelY,
         this->MinY + (this->MaxY - this->MinY) / 3,
         lowerCaseTop,
-        (Scaleform::Render::GlyphFitter::VertexType)upperCaseTop);
+        upperCaseTop);
     }
     if ( widthInPixels )
     {
@@ -44,7 +44,7 @@ void __thiscall Scaleform::Render::GlyphFitter::FitGlyph(
         Scaleform::Render::GlyphFitter::detectEvents(this, FitX);
         Scaleform::Render::GlyphFitter::computeLerpRamp(
           this,
-          FitX,
+          (unsigned __int8 *)1,
           this->UnitsPerPixelX,
           this->MinX + (this->MaxX - this->MinX) / 3,
           0,

@@ -1,33 +1,30 @@
 void __thiscall Scaleform::Render::TreeCacheShape::UpdateChildSubtree(
         Scaleform::Render::TreeCacheShape *this,
-        Scaleform::Render::TreeCacheNode *pdata,
-        unsigned __int16 depth)
+        const Scaleform::Render::TreeNode::NodeData *pdata,
+        int depth)
 {
   int v4; // eax
-  Scaleform::Render::Rect<float> *p_SortParentBounds; // edx
+  Scaleform::Render::TreeCacheNode *p_SortParentBounds; // edx
   unsigned int v6; // ebp
   Scaleform::Render::TreeCacheNode *v7; // esi
   Scaleform::Render::TreeCacheNode *i; // eax
   Scaleform::Render::Rect<float> *v9; // edx
-  Scaleform::Render::ShapeMeshProvider *meshProvider; // [esp+18h] [ebp-8h]
-  unsigned int layerCount; // [esp+1Ch] [ebp-4h]
-  Scaleform::Render::TreeCacheNode *pnewInsert; // [esp+24h] [ebp+4h]
+  Scaleform::Render::ShapeMeshProvider *v10; // [esp+18h] [ebp-8h]
+  unsigned int v11; // [esp+1Ch] [ebp-4h]
+  Scaleform::Render::TreeCacheNode *data; // [esp+24h] [ebp+4h]
 
-  Scaleform::Render::TreeCacheNode::UpdateChildSubtree(
-    this,
-    (const Scaleform::Render::TreeNode::NodeData *)pdata,
-    depth);
-  meshProvider = (Scaleform::Render::ShapeMeshProvider *)LODWORD(pdata[1].SortParentBounds.x1);
-  v4 = meshProvider->GetLayerCount(&meshProvider->Scaleform::Render::MeshProvider);
-  layerCount = v4;
+  Scaleform::Render::TreeCacheNode::UpdateChildSubtree(this, pdata, depth);
+  v10 = (Scaleform::Render::ShapeMeshProvider *)pdata[1].__vftable;
+  v4 = v10->GetLayerCount(&v10->Scaleform::Render::MeshProvider);
+  v11 = v4;
   if ( this == (Scaleform::Render::TreeCacheShape *)-80 )
     p_SortParentBounds = 0;
   else
-    p_SortParentBounds = &this->SortParentBounds;
-  if ( (Scaleform::Render::Rect<float> *)this->Children.Root.pNext == p_SortParentBounds )
+    p_SortParentBounds = (Scaleform::Render::TreeCacheNode *)&this->SortParentBounds;
+  if ( this->Children.Root.pNext == p_SortParentBounds )
   {
     v6 = 0;
-    pnewInsert = this->Children.Root.pNext->pPrev;
+    data = this->Children.Root.pNext->pPrev;
     if ( v4 )
     {
       do
@@ -35,7 +32,7 @@ void __thiscall Scaleform::Render::TreeCacheShape::UpdateChildSubtree(
         v7 = Scaleform::Render::TreeCacheShapeLayer::Create(
                (int)this,
                this,
-               meshProvider,
+               v10,
                v6,
                this->Flags & 0xC | 1,
                0,
@@ -50,12 +47,12 @@ void __thiscall Scaleform::Render::TreeCacheShape::UpdateChildSubtree(
                                                            + 148)));
         if ( v7 )
         {
-          Scaleform::Render::TreeCacheNode::UpdateInsertIntoParent(v7, this, pnewInsert, 0, depth);
-          pnewInsert = v7;
+          Scaleform::Render::TreeCacheNode::UpdateInsertIntoParent(v7, this, data, 0, depth);
+          data = v7;
         }
         ++v6;
       }
-      while ( v6 < layerCount );
+      while ( v6 < v11 );
     }
   }
   else

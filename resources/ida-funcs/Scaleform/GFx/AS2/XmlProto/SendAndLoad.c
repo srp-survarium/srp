@@ -12,7 +12,7 @@ void __cdecl Scaleform::GFx::AS2::XmlProto::SendAndLoad(const Scaleform::GFx::AS
       if ( Log )
         Scaleform::GFx::LogState::LogMessageByType(
           Log,
-          (Scaleform::LogMessageId)&loc_34000,
+          (Scaleform::LogMessageId)212992,
           "XML.sendAndLoad is not implemented.");
     }
   }

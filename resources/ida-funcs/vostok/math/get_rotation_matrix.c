@@ -1,39 +1,57 @@
-vostok::math::float4x4 *__cdecl vostok::math::get_rotation_matrix(
-        vostok::math::float4x4 *result,
-        const vostok::math::float3 *original_dir,
-        const vostok::math::float3 *target_dir)
+vostok::math::float4x4 *__usercall vostok::math::get_rotation_matrix@<eax>(
+        const vostok::math::float3 *original_dir@<ecx>,
+        const vostok::math::float3 *target_dir@<eax>,
+        vostok::math::float4x4 *a3)
 {
-  survarium::game_camera *v3; // ecx
-  vostok::math::float4x4 *v5; // eax
-  survarium::game_options v6; // [esp+6Ch] [ebp-B4h] BYREF
-  const vostok::math::float3 *rot_axis; // [esp+F4h] [ebp-2Ch]
-  vostok::math::float3 v8; // [esp+F8h] [ebp-28h] BYREF
-  float angle; // [esp+104h] [ebp-1Ch] BYREF
-  float cos_angle; // [esp+108h] [ebp-18h] BYREF
-  vostok::math::float3_pod v11; // [esp+10Ch] [ebp-14h] BYREF
-  float sin_angle; // [esp+118h] [ebp-8h] BYREF
-  const vostok::math::float3 *cp; // [esp+11Ch] [ebp-4h]
+  float y; // xmm5_4
+  float z; // xmm6_4
+  float v5; // xmm2_4
+  vostok::math::float4x4 *v6; // ecx
+  float v7; // xmm1_4
+  __m128i v8; // xmm0
+  unsigned int v9; // xmm2_4
+  vostok::math::float4x4 *v10; // esi
+  long double v12; // [esp+4h] [ebp-80h]
+  long double v13; // [esp+Ch] [ebp-78h]
+  float v14; // [esp+2Ch] [ebp-58h]
+  float v15; // [esp+30h] [ebp-54h]
+  float v16; // [esp+34h] [ebp-50h]
+  vostok::math::float3 v17; // [esp+38h] [ebp-4Ch] BYREF
+  vostok::math::float4x4 v18; // [esp+44h] [ebp-40h] BYREF
 
-  vostok::math::operator^(target_dir, original_dir, (vostok::math::float3 *)&v11);
-  cp = (const vostok::math::float3 *)&v11;
-  sin_angle = vostok::math::float3_pod::length(&v11, &v11.x);
-  cos_angle = vostok::math::operator|(original_dir, target_dir);
-  vostok::math::clamp<float>(&sin_angle, -1.0, 1.0);
-  vostok::math::clamp<float>(&cos_angle, -1.0, 1.0);
-  angle = vostok::math::atan2(sin_angle, cos_angle);
-  if ( vostok::math::is_zero<float>(&angle, &epsilon_5_87) )
+  y = original_dir->y;
+  z = original_dir->z;
+  v15 = (float)(target_dir->x * z) - (float)(original_dir->x * target_dir->z);
+  v14 = (float)(target_dir->z * y) - (float)(target_dir->y * z);
+  v16 = (float)(original_dir->x * target_dir->y) - (float)(target_dir->x * y);
+  v5 = fsqrt((float)((float)(v15 * v15) + (float)(v16 * v16)) + (float)(v14 * v14));
+  if ( v5 > -1.0 )
   {
-    v5 = (vostok::math::float4x4 *)survarium::weapon_core::cast_weapon_core(&v6);
-    qmemcpy((void *)result, vostok::math::float4x4::identity(v5), sizeof(vostok::math::float4x4));
+    if ( s_bm_current_air_resistance < v5 )
+      v5 = s_bm_current_air_resistance;
   }
   else
   {
-    vostok::math::normalize(cp, &v8.x);
-    rot_axis = &v8;
-    vostok::math::create_rotation(&v8, -angle);
-    HIBYTE(v6.m_conflicted_action_to_bind) = 0;
-    survarium::weapon_user_dead_state::finalize(v3);
-    qmemcpy((void *)result, &v6.m_conflicted_action_ids, sizeof(vostok::math::float4x4));
+    v5 = FLOAT_N1_0;
   }
-  return result;
+  __libm_sse2_atan2(v12, v13);
+  v7 = v5;
+  if ( COERCE_FLOAT(LODWORD(v5) & 0x7FFFFFFF) < 0.0000099999997 )
+  {
+    v10 = vostok::math::float4x4::identity(v6, &v18);
+  }
+  else
+  {
+    v8 = (__m128i)LODWORD(s_bm_current_air_resistance);
+    *(float *)v8.m128i_i32 = s_bm_current_air_resistance
+                           / fsqrt((float)((float)(v15 * v15) + (float)(v16 * v16)) + (float)(v14 * v14));
+    v17.x = *(float *)v8.m128i_i32 * v14;
+    *(float *)&v9 = *(float *)v8.m128i_i32 * v15;
+    *(float *)v8.m128i_i32 = *(float *)v8.m128i_i32 * v16;
+    v10 = &v18;
+    *(_QWORD *)&v17.elements[1] = __PAIR64__(v8.m128i_u32[0], v9);
+    vostok::math::create_rotation(&v17, (int)&v18, v8, COERCE_FLOAT(LODWORD(v7) ^ _mask__NegFloat_));
+  }
+  qmemcpy(a3, v10, sizeof(vostok::math::float4x4));
+  return a3;
 }

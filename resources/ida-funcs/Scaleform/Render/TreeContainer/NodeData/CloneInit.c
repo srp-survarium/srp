@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::TreeContainer::NodeData::CloneInit(
   int v13; // eax
   unsigned int v14; // esi
   Scaleform::Render::TreeNodeArray *WritableData; // eax
-  unsigned int count; // [esp+Ch] [ebp-10h]
+  unsigned int v17; // [esp+Ch] [ebp-10h]
   Scaleform::Render::TreeNodeArray *v18; // [esp+10h] [ebp-Ch]
 
   result = Scaleform::Render::TreeNode::NodeData::CloneInit(this, node, context);
@@ -28,15 +28,15 @@ char __thiscall Scaleform::Render::TreeContainer::NodeData::CloneInit(
     if ( v5 )
     {
       if ( (v5 & 1) != 0 )
-        count = *(_DWORD *)((v5 & 0xFFFFFFFE) + 4);
+        v17 = *(_DWORD *)((v5 & 0xFFFFFFFE) + 4);
       else
-        count = (p_Children->pData[1] != 0) + 1;
+        v17 = (p_Children->pData[1] != 0) + 1;
     }
     else
     {
-      count = 0;
+      v17 = 0;
     }
-    if ( count )
+    if ( v17 )
     {
       while ( 1 )
       {
@@ -86,7 +86,7 @@ char __thiscall Scaleform::Render::TreeContainer::NodeData::CloneInit(
           if ( v10->RefCount-- == 1 )
             Scaleform::Render::ContextImpl::Entry::destroyHelper(v10);
         }
-        if ( ++v7 >= count )
+        if ( ++v7 >= v17 )
           break;
         p_Children = v18;
       }

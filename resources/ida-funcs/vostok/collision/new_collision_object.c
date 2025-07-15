@@ -1,21 +1,20 @@
-vostok::collision::object *__cdecl vostok::collision::new_collision_object(
-        vostok::memory::base_allocator *allocator,
+vostok::collision::object *__usercall vostok::collision::new_collision_object@<eax>(
+        vostok::memory::base_allocator *allocator@<eax>,
         unsigned int object_type,
-        vostok::collision::geometry_instance *geometry,
-        void *user_data)
+        vostok::collision::geometry_instance *geometry)
 {
-  _DWORD *v4; // eax
+  char *v4; // eax
   vostok::collision::object *v5; // ecx
   _DWORD *v6; // esi
 
-  v4 = allocator->call_malloc(allocator, 52);
-  v6 = v4;
-  if ( !v4 )
+  v4 = type_info::raw_name(&vostok::collision::collision_object `RTTI Type Descriptor');
+  v6 = allocator->call_malloc(allocator, 52, v4, "vostok::collision::new_collision_object", ".\\api.cpp", 246);
+  if ( !v6 )
     return 0;
-  vostok::collision::object::object(v5, (int)v4);
-  v6[12] = geometry;
+  vostok::collision::object::object(v5, (int)v6);
+  v6[12] = object_type;
+  v6[9] = geometry;
   *v6 = &vostok::collision::collision_object::`vftable';
-  v6[9] = user_data;
-  v6[10] = object_type;
+  v6[10] = 1;
   return (vostok::collision::object *)v6;
 }

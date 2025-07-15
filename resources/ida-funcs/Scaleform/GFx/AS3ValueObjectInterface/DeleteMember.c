@@ -1,27 +1,39 @@
 char __thiscall Scaleform::GFx::AS3ValueObjectInterface::DeleteMember(
         Scaleform::GFx::AS3ValueObjectInterface *this,
         void *pdata,
-        char *name,
+        __m128i *name,
         bool isdobj)
 {
+  Scaleform::GFx::AMP::ViewStats *v5; // eax
   Scaleform::GFx::ASMovieRootBase *pObject; // eax
-  Scaleform::GFx::ASMovieRootBase_vtbl *v5; // edi
+  Scaleform::GFx::ASMovieRootBase_vtbl *v7; // edi
   Scaleform::GFx::ASStringNode *StringNode; // eax
-  Scaleform::GFx::ASStringNode *v7; // esi
+  Scaleform::GFx::ASStringNode *v9; // esi
   Scaleform::GFx::ASStringManager *pManager; // edx
-  Scaleform::GFx::AS3::GASRefCountBase *CheckAvm; // eax
+  Scaleform::GFx::AS3::GASRefCountBase *GenerateTouchEvents; // eax
   void *pWeakProxy; // eax
-  bool v11; // zf
-  char v12; // bl
-  Scaleform::GFx::AS3::Value nameVal; // [esp+Ch] [ebp-28h] BYREF
-  Scaleform::GFx::AS3::Multiname mn; // [esp+1Ch] [ebp-18h] BYREF
+  bool v13; // zf
+  char v14; // bl
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::AS3::Value nameVal; // [esp+10h] [ebp-38h] BYREF
+  Scaleform::AmpFunctionTimer _amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember; // [esp+20h] [ebp-28h] BYREF
+  Scaleform::GFx::AS3::Multiname mn; // [esp+30h] [ebp-18h] BYREF
 
+  v5 = this->GetAdvanceStats(this);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember,
+    v5,
+    "ObjectInterface::DeleteMember",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ObjectInterface_DeleteMember);
   pObject = this->pMovieRoot->pASMovieRoot.pObject;
-  v5 = pObject[2].__vftable;
+  v7 = pObject[2].__vftable;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)pObject[21].pASSupport.pObject,
                  name);
-  v7 = StringNode;
+  v9 = StringNode;
   pManager = StringNode->pManager;
   ++StringNode->RefCount;
   nameVal.Flags = 10;
@@ -37,11 +49,11 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::DeleteMember(
   {
     ++StringNode->RefCount;
   }
-  CheckAvm = (Scaleform::GFx::AS3::GASRefCountBase *)v5[1].CheckAvm;
+  GenerateTouchEvents = (Scaleform::GFx::AS3::GASRefCountBase *)v7[1].GenerateTouchEvents;
   mn.Kind = MN_QName;
-  mn.Obj.pObject = CheckAvm;
-  if ( CheckAvm )
-    CheckAvm->RefCount = (CheckAvm->RefCount + 1) & 0x8FBFFFFF;
+  mn.Obj.pObject = GenerateTouchEvents;
+  if ( GenerateTouchEvents )
+    GenerateTouchEvents->RefCount = (GenerateTouchEvents->RefCount + 1) & 0x8FBFFFFF;
   mn.Name.Flags = 0;
   mn.Name.Bonus.pWeakProxy = 0;
   Scaleform::GFx::AS3::Multiname::SetRTNameUnsafe(&mn, &nameVal);
@@ -50,8 +62,8 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::DeleteMember(
     if ( (nameVal.Flags & 0x200) != 0 )
     {
       pWeakProxy = nameVal.Bonus.pWeakProxy;
-      v11 = nameVal.Bonus.pWeakProxy->RefCount-- == 1;
-      if ( v11 )
+      v13 = nameVal.Bonus.pWeakProxy->RefCount-- == 1;
+      if ( v13 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pWeakProxy);
     }
     else
@@ -59,13 +71,23 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::DeleteMember(
       Scaleform::GFx::AS3::Value::ReleaseInternal(&nameVal);
     }
   }
-  v11 = v7->RefCount-- == 1;
-  if ( v11 )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-  v12 = *(_BYTE *)(*(int (__thiscall **)(void *, char **, Scaleform::GFx::AS3::Multiname *))(*(_DWORD *)pdata + 24))(
+  v13 = v9->RefCount-- == 1;
+  if ( v13 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+  v14 = *(_BYTE *)(*(int (__thiscall **)(void *, __m128i **, Scaleform::GFx::AS3::Multiname *))(*(_DWORD *)pdata + 36))(
                     pdata,
                     &name,
                     &mn);
   Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
-  return v12;
+  Stats = _amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember.Stats;
+  if ( _amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember.Stats )
+  {
+    p_NativePopCallstack = &_amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(_amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember.StartTicks),
+      (ProfileTicks - _amp_timer_Amp_Native_Function_Id_ObjectInterface_DeleteMember.StartTicks) >> 32);
+  }
+  return v14;
 }

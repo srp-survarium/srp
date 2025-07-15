@@ -2,60 +2,80 @@ void __thiscall vostok::animation::single_animation_cook::translate_query(
         vostok::animation::single_animation_cook *this,
         vostok::resources::query_result_for_cook *parent)
 {
-  char *m_requery_path; // eax
-  char *m_request_path; // eax
-  void (__cdecl *v5)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::animation::single_animation_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::animation::single_animation_cook *>,boost::arg<1> > > v6; // [esp-10h] [ebp-268h]
-  int v7; // [esp+0h] [ebp-258h]
-  vostok::resources::request arr[2]; // [esp+8h] [ebp-250h] BYREF
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+18h] [ebp-240h] BYREF
-  vostok::fixed_string<260> animation_path; // [esp+38h] [ebp-220h] BYREF
-  vostok::fixed_string<260> options_path; // [esp+148h] [ebp-110h] BYREF
-  char vars0; // [esp+258h] [ebp+0h] BYREF
+  const char *requested_path; // eax
+  vostok::buffer_string *v4; // ecx
+  const char *v5; // eax
+  vostok::buffer_string *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  vostok::resources::request v8; // [esp+8h] [ebp-260h] BYREF
+  int v9; // [esp+10h] [ebp-258h]
+  int v10; // [esp+14h] [ebp-254h]
+  int v11[2]; // [esp+18h] [ebp-250h] BYREF
+  vostok::animation::single_animation_cook *v12; // [esp+20h] [ebp-248h]
+  int v13; // [esp+24h] [ebp-244h]
+  vostok::animation::single_animation_cook *v14; // [esp+28h] [ebp-240h]
+  int v15; // [esp+2Ch] [ebp-23Ch]
+  void (__thiscall *v16)(vostok::animation::single_animation_cook *, vostok::resources::queries_result *); // [esp+38h] [ebp-230h]
+  int v17; // [esp+3Ch] [ebp-22Ch]
+  vostok::animation::single_animation_cook *v18; // [esp+40h] [ebp-228h]
+  int v19; // [esp+44h] [ebp-224h]
+  _DWORD v20[3]; // [esp+48h] [ebp-220h] BYREF
+  _BYTE v21[260]; // [esp+54h] [ebp-214h] BYREF
+  _DWORD v22[3]; // [esp+158h] [ebp-110h] BYREF
+  _BYTE v23[260]; // [esp+164h] [ebp-104h] BYREF
+  char vars0; // [esp+268h] [ebp+0h] BYREF
 
-  animation_path.m_begin = animation_path.m_buffer;
-  m_requery_path = parent->m_requery_path;
-  animation_path.m_end = animation_path.m_buffer;
-  animation_path.m_max_end = (char *)&options_path;
-  animation_path.m_buffer[0] = 0;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  vostok::buffer_string::assignf(&animation_path, "resources/animations/single/%s", m_requery_path);
-  options_path.m_max_end = &vars0;
-  m_request_path = parent->m_requery_path;
-  options_path.m_begin = options_path.m_buffer;
-  options_path.m_end = options_path.m_buffer;
-  options_path.m_buffer[0] = 0;
-  if ( !m_request_path )
-    m_request_path = parent->m_request_path;
-  vostok::buffer_string::assignf(&options_path, "resources/animations/single/%s%s", m_request_path, ".options");
-  arr[1].path = options_path.m_begin;
-  callback.vtable = (boost::detail::function::vtable_base *)vostok::animation::single_animation_cook::on_sub_resources_loaded;
-  (&callback.vtable)[1] = 0;
-  callback.functor.obj_ptr = this;
-  v6.f_.f_ = (void (__thiscall *__ptr64)(vostok::animation::single_animation_cook *, vostok::resources::queries_result *))(unsigned int)vostok::animation::single_animation_cook::on_sub_resources_loaded;
-  arr[0].path = animation_path.m_begin;
-  arr[0].id = animation_class;
-  arr[1].id = binary_config_class_impl;
-  *(_QWORD *)&v6.l_.a1_.t_ = *(_QWORD *)&callback.functor.obj_ptr;
-  boost::function1<void,vostok::resources::queries_result &>::function1<void,vostok::resources::queries_result &>(
-    0,
-    (int)&callback,
-    (int)parent,
+  v20[0] = v21;
+  v20[1] = v21;
+  v20[2] = v22;
+  v21[0] = 0;
+  requested_path = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fs_new::path_string_impl::assignf(
+    v20,
+    v4,
+    (vostok::buffer_string *)"resources/animations/single/%s",
+    requested_path);
+  v22[0] = v23;
+  v22[1] = v23;
+  v22[2] = &vars0;
+  v23[0] = 0;
+  v5 = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fs_new::path_string_impl::assignf(
+    v22,
     v6,
-    v7);
+    (vostok::buffer_string *)"resources/animations/single/%s%s",
+    v5,
+    ".options");
+  v8.path = (const char *)v20[0];
+  v12 = this;
+  v9 = v22[0];
+  v11[0] = (int)vostok::animation::single_animation_cook::on_sub_resources_loaded;
+  v11[1] = 0;
+  v16 = vostok::animation::single_animation_cook::on_sub_resources_loaded;
+  v17 = 0;
+  v18 = this;
+  v8.id = animation_class;
+  v10 = 32;
+  v19 = v13;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
+  {
+    v11[0] = 0;
+  }
+  else
+  {
+    v12 = (vostok::animation::single_animation_cook *)v16;
+    v13 = v17;
+    v14 = v18;
+    v15 = v19;
+    v11[0] = (int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::animation::single_animation_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::animation::single_animation_cook *>,boost::arg<1>>>>'::`2'::stored_vtable
+           + 1;
+  }
   vostok::resources::query_resources(
-    arr,
+    &v8,
     2u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
     &vostok::memory::g_resources_unmanaged_allocator,
     0,
-    parent,
+    (const vostok::variant<32> **)parent,
     assert_on_fail_true);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-  {
-    v5 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v5 )
-      v5(&callback.functor, &callback.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v7, v11);
 }

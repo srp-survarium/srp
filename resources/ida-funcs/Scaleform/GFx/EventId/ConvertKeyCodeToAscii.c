@@ -14,9 +14,9 @@ char __thiscall Scaleform::GFx::EventId::ConvertKeyCodeToAscii(Scaleform::GFx::E
     if ( KeyCode >= 0xBA && KeyCode <= 0x10A )
     {
       if ( v2 )
-        return byte_85A276[KeyCode];
+        return byte_6ECDD6[KeyCode];
       else
-        return byte_85A29E[KeyCode];
+        return byte_6ECDFE[KeyCode];
     }
   }
   else if ( v2 )

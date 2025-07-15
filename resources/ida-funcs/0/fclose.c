@@ -1,4 +1,4 @@
-int __cdecl fclose(_iobuf *stream)
+int __usercall fclose@<eax>(int a1@<ebx>, _iobuf *stream)
 {
   int result; // [esp+10h] [ebp-1Ch]
 
@@ -20,7 +20,7 @@ int __cdecl fclose(_iobuf *stream)
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, 0, 0);
     return -1;
   }
 }

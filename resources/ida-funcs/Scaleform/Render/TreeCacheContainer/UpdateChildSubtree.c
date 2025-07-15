@@ -9,12 +9,12 @@ void __thiscall Scaleform::Render::TreeCacheContainer::UpdateChildSubtree(
   unsigned int v7; // eax
   unsigned int v8; // eax
   int v9; // [esp-8h] [ebp-1Ch]
-  Scaleform::Render::TreeNodeArray *children; // [esp+18h] [ebp+4h]
+  Scaleform::Render::TreeNodeArray *v11; // [esp+18h] [ebp+4h]
 
   Scaleform::Render::TreeCacheNode::UpdateChildSubtree(this, pdata, depth);
   pPrev = this->Children.Root.pNext->pPrev;
   v5 = (Scaleform::Render::TreeNodeArray *)&pdata[1];
-  children = v5;
+  v11 = v5;
   v6 = 0;
   if ( Scaleform::Render::TreeNodeArray::GetSize(v5) )
   {
@@ -30,9 +30,9 @@ void __thiscall Scaleform::Render::TreeCacheContainer::UpdateChildSubtree(
                                                     pPrev,
                                                     v9,
                                                     depth);
-      if ( ++v6 >= (unsigned int)Scaleform::Render::TreeNodeArray::GetSize(children) )
+      if ( ++v6 >= (unsigned int)Scaleform::Render::TreeNodeArray::GetSize(v11) )
         break;
-      v5 = children;
+      v5 = v11;
     }
   }
 }

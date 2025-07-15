@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::AddChild(
 {
   Scaleform::GFx::InteractiveObject *pParent; // eax
   Scaleform::GFx::DisplayObject *pDispObj; // ecx
-  unsigned int pObject; // ebp
+  Scaleform::GFx::DisplayObjectBase *pObject; // ebp
   Scaleform::GFx::DisplayList *p_LastHitTestY; // edi
   int v7; // eax
   Scaleform::GFx::AS3::AvmDisplayObjContainer *v8; // ecx
@@ -20,13 +20,16 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::AddChild(
 
   pParent = ch->pParent;
   pDispObj = this->pDispObj;
-  pObject = (unsigned int)pDispObj[1].pRenNode.pObject;
+  pObject = (Scaleform::GFx::DisplayObjectBase *)pDispObj[1].pRenNode.pObject;
   p_LastHitTestY = (Scaleform::GFx::DisplayList *)&pDispObj[1].LastHitTestY;
   if ( pParent )
   {
     if ( pParent == pDispObj )
     {
-      Scaleform::GFx::AS3::AvmDisplayObjContainer::SetChildIndex(this, ch, (Scaleform::Render::TreeNode *)(pObject - 1));
+      Scaleform::GFx::AS3::AvmDisplayObjContainer::SetChildIndex(
+        this,
+        ch,
+        (Scaleform::GFx::DisplayObjectBase *)((char *)pObject - 1));
       return;
     }
     v7 = (*(int (__thiscall **)(int))(*((_DWORD *)&pParent->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable

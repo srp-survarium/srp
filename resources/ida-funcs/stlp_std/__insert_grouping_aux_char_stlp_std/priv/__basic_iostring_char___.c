@@ -20,7 +20,7 @@ void __usercall stlp_std::__insert_grouping_aux_char_stlp_std::priv::__basic_ios
   unsigned int v17; // ecx
   int *v18; // eax
   unsigned int v19; // eax
-  int __first_pos; // [esp+0h] [ebp-Ch]
+  int v20; // [esp+0h] [ebp-Ch]
   unsigned int v21; // [esp+4h] [ebp-8h] BYREF
   int v22; // [esp+8h] [ebp-4h] BYREF
 
@@ -30,7 +30,7 @@ void __usercall stlp_std::__insert_grouping_aux_char_stlp_std::priv::__basic_ios
     v8 = 0;
     if ( *M_data == Plus || *M_data == Minus )
       v8 = 1;
-    __first_pos = basechars + v8;
+    v20 = basechars + v8;
     inserted = &M_data[(_DWORD)__group_pos];
     v10 = 0;
     v11 = 0;
@@ -42,7 +42,7 @@ void __usercall stlp_std::__insert_grouping_aux_char_stlp_std::priv::__basic_ios
       if ( v10 <= 0 )
         break;
       v13 = (stlp_std::priv::__basic_iostring<char> *)iostr->_M_start_of_storage._M_data;
-      if ( v10 >= inserted - (char *)v13 - __first_pos || v10 == 127 )
+      if ( v10 >= inserted - (char *)v13 - v20 || v10 == 127 )
         break;
       M_finish = iostr->_M_finish;
       v15 = &inserted[-v10];

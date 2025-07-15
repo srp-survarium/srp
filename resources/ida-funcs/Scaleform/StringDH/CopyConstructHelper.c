@@ -40,7 +40,7 @@ void __thiscall Scaleform::StringDH::CopyConstructHelper(
                                          v6,
                                          *(_DWORD *)v5 & 0x7FFFFFFF,
                                          *(_DWORD *)v5 & 0x80000000,
-                                         (char *)(v5 + 8),
+                                         (const __m128i *)(v5 + 8),
                                          *(_DWORD *)v5 & 0x7FFFFFFF)
                        | 2;
   }

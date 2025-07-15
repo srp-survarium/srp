@@ -1,81 +1,82 @@
-int __cdecl X509_STORE_CTX_get1_issuer(x509_st **issuer, x509_store_ctx_st *ctx, x509_st *x)
+int __usercall X509_STORE_CTX_get1_issuer@<eax>(int a1@<ebx>, x509_st **issuer, x509_store_ctx_st *ctx, x509_st *x)
 {
   X509_name_st *issuer_name; // ebp
-  int v4; // eax
+  int v5; // eax
   char *ptr; // ebx
-  x509_object_st *v7; // edi
   int i; // ebx
+  x509_object_st *v9; // edi
   X509_name_st *subject_name; // eax
-  x509_object_st ret; // [esp+Ch] [ebp-8h] BYREF
+  x509_object_st v11; // [esp+Ch] [ebp-8h] BYREF
 
   issuer_name = X509_get_issuer_name(x);
-  v4 = X509_STORE_get_by_subject((unsigned int)x, ctx, 1, issuer_name, &ret);
-  if ( v4 == 1 )
+  v5 = X509_STORE_get_by_subject((int)x, a1, ctx, 1, issuer_name, &v11);
+  if ( v5 == 1 )
   {
-    ptr = ret.data.ptr;
-    if ( ctx->check_issued(ctx, x, (x509_st *)ret.data.ptr) )
+    ptr = v11.data.ptr;
+    if ( ctx->check_issued(ctx, x, (x509_st *)v11.data.ptr) )
     {
       *issuer = (x509_st *)ptr;
       return 1;
     }
     else
     {
-      if ( ret.type == 1 )
+      if ( v11.type == 1 )
       {
         X509_free((x509_st *)ptr);
       }
-      else if ( ret.type == 2 )
+      else if ( v11.type == 2 )
       {
         X509_CRL_free((X509_crl_st *)ptr);
       }
-      ret.type = 0;
-      CRYPTO_lock((unsigned int)x, 9, 11, ".\\crypto\\x509\\x509_lu.c", 657);
-      v7 = (x509_object_st *)x509_object_idx_cnt(ctx->ctx->objs, issuer_name, 0, 1);
-      if ( v7 != (x509_object_st *)-1 )
+      v11.type = 0;
+      CRYPTO_lock((int)x, (int)ptr, 9, 11, ".\\crypto\\x509\\x509_lu.c", 657);
+      i = 0;
+      v9 = (x509_object_st *)x509_object_idx_cnt(ctx->ctx->objs, issuer_name, 0, 1);
+      if ( v9 != (x509_object_st *)-1 )
       {
-        for ( i = (int)v7; i < sk_num(&ctx->ctx->objs->stack); ++i )
+        for ( i = (int)v9; i < sk_num(&ctx->ctx->objs->stack); ++i )
         {
-          v7 = (x509_object_st *)sk_value(&ctx->ctx->objs->stack, i);
-          if ( v7->type != 1 )
+          v9 = (x509_object_st *)sk_value(&ctx->ctx->objs->stack, i);
+          if ( v9->type != 1 )
             break;
-          subject_name = X509_get_subject_name(v7->data.x509);
+          subject_name = X509_get_subject_name(v9->data.x509);
           if ( X509_NAME_cmp(issuer_name, subject_name) )
             break;
-          if ( ctx->check_issued(ctx, x, (x509_st *)v7->data.ptr) )
+          if ( ctx->check_issued(ctx, x, (x509_st *)v9->data.ptr) )
           {
-            *issuer = v7->data.x509;
-            X509_OBJECT_up_ref_count(v7);
-            ret.type = 1;
+            *issuer = v9->data.x509;
+            X509_OBJECT_up_ref_count(v9);
+            v11.type = 1;
             break;
           }
         }
       }
-      CRYPTO_lock((unsigned int)v7, 10, 11, ".\\crypto\\x509\\x509_lu.c", 679);
-      return ret.type;
+      CRYPTO_lock((int)v9, i, 10, 11, ".\\crypto\\x509\\x509_lu.c", 679);
+      return v11.type;
     }
   }
-  else if ( v4 == -1 )
+  else if ( v5 == -1 )
   {
-    if ( ret.type == 1 )
+    if ( v11.type == 1 )
     {
-      X509_free(ret.data.x509);
+      X509_free(v11.data.x509);
     }
-    else if ( ret.type == 2 )
+    else if ( v11.type == 2 )
     {
-      X509_CRL_free(ret.data.crl);
+      X509_CRL_free(v11.data.crl);
     }
-    ERR_put_error(0xBu, 146, 106, ".\\crypto\\x509\\x509_lu.c", 636);
+    ERR_put_error(a1, 0xBu, 146, 106, ".\\crypto\\x509\\x509_lu.c", 636);
     return -1;
   }
-  else if ( v4 )
+  else if ( v5 )
   {
-    if ( ret.type == 1 )
+    if ( v11.type == 1 )
     {
-      X509_free(ret.data.x509);
+      X509_free(v11.data.x509);
     }
-    else if ( ret.type == 2 )
+    else if ( v11.type == 2 )
     {
-      X509_CRL_free(ret.data.crl);
+      X509_CRL_free(v11.data.crl);
       return -1;
     }
     return -1;

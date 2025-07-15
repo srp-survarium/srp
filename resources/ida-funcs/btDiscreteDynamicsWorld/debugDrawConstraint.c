@@ -1,1165 +1,1383 @@
-void __usercall btDiscreteDynamicsWorld::debugDrawConstraint(
-        btDiscreteDynamicsWorld *this@<edi>,
-        btTypedConstraint *constraint@<eax>,
-        double a3@<st1>)
+void __thiscall btDiscreteDynamicsWorld::debugDrawConstraint(
+        btDiscreteDynamicsWorld *this,
+        btTypedConstraint *constraint,
+        int a3)
 {
-  btIDebugDraw *v4; // eax
-  bool v5; // bl
-  btIDebugDraw *v6; // eax
-  __int16 v7; // ax
-  btHingeConstraint *v8; // ecx
-  float m_dbgDrawSize; // xmm1_4
-  float *m_rbA; // eax
-  unsigned __int64 v11; // xmm1_8
-  float v12; // xmm4_4
-  btDiscreteDynamicsWorld_vtbl *v13; // edx
-  float v14; // xmm5_4
-  float v15; // xmm4_4
-  float v16; // xmm5_4
-  unsigned int v17; // xmm4_4
-  btIDebugDraw *(__thiscall *getDebugDrawer)(struct btDiscreteDynamicsWorld *); // eax
-  int v19; // eax
-  unsigned __int64 v20; // xmm0_8
-  float *m_rbB; // esi
-  float v22; // xmm3_4
-  float v23; // xmm2_4
-  float v24; // xmm4_4
-  btIDebugDraw *v25; // eax
-  float *v26; // eax
-  float m_appliedImpulse; // xmm4_4
-  btTypedConstraint_vtbl *v28; // xmm5_4
+  int v3; // eax
+  int v4; // eax
+  __int16 v5; // ax
+  btMatrix3x3 *v6; // ecx
+  float v7; // xmm1_4
+  int v8; // eax
+  int v9; // eax
+  double v10; // st7
+  double v11; // st7
+  btTypedConstraint_vtbl *v12; // eax
+  int v13; // eax
+  float v14; // xmm1_4
+  __m128 v15; // xmm0
+  __m128i v16; // xmm0
+  float v17; // xmm1_4
+  float v18; // xmm3_4
+  float v19; // xmm4_4
+  float v20; // xmm2_4
+  float v21; // xmm1_4
+  int v22; // eax
+  int v23; // eax
+  int v24; // eax
+  int v25; // eax
+  float v26; // xmm4_4
+  float v27; // xmm1_4
+  btTypedConstraint_vtbl *v28; // eax
   float v29; // xmm3_4
-  float v30; // xmm1_4
-  float v31; // xmm2_4
-  float v32; // xmm6_4
-  float v33; // xmm7_4
-  float v34; // xmm6_4
-  float v35; // xmm4_4
-  float v36; // xmm7_4
-  int m_userConstraintType; // xmm6_4
-  btRigidBody *v38; // xmm5_4
-  unsigned int v39; // xmm7_4
-  float v40; // xmm4_4
-  unsigned int v41; // xmm4_4
-  unsigned int v42; // xmm5_4
-  float m_breakingImpulseThreshold; // xmm6_4
-  float v44; // xmm7_4
+  float v30; // xmm5_4
+  float v31; // xmm4_4
+  float v32; // xmm2_4
+  float v33; // xmm3_4
+  int v34; // eax
+  btTypedConstraint_vtbl *v35; // eax
+  int v36; // eax
+  btTypedConstraint_vtbl *v37; // eax
+  int v38; // eax
+  float *v39; // eax
+  float v40; // xmm5_4
+  float v41; // xmm2_4
+  float v42; // xmm4_4
+  float v43; // xmm1_4
+  float v44; // xmm3_4
   float v45; // xmm7_4
   float v46; // xmm6_4
-  float v47; // xmm7_4
+  float v47; // xmm5_4
   float v48; // xmm6_4
-  float v49; // xmm7_4
-  float v50; // xmm6_4
+  float v49; // xmm5_4
+  float v50; // xmm7_4
   float v51; // xmm7_4
-  float v52; // xmm6_4
-  btIDebugDraw *v53; // eax
-  float *v54; // eax
-  float v55; // xmm1_4
-  float v56; // xmm5_4
-  float v57; // xmm3_4
-  btRigidBody *v58; // xmm4_4
-  float v59; // xmm2_4
-  float v60; // xmm7_4
+  float v52; // xmm4_4
+  float v53; // xmm5_4
+  unsigned int v54; // xmm7_4
+  float v55; // xmm4_4
+  float v56; // xmm6_4
+  float v57; // xmm0_4
+  float v58; // xmm7_4
+  float v59; // xmm6_4
+  float v60; // xmm5_4
   float v61; // xmm6_4
   float v62; // xmm5_4
-  float v63; // xmm6_4
-  float v64; // xmm5_4
+  float v63; // xmm7_4
+  float v64; // xmm6_4
   float v65; // xmm7_4
-  float v66; // xmm7_4
-  float v67; // xmm6_4
-  float v68; // xmm4_4
-  int v69; // xmm5_4
-  unsigned int v70; // xmm7_4
-  float v71; // xmm4_4
-  unsigned int v72; // xmm4_4
-  unsigned int v73; // xmm5_4
-  btTypedConstraint_vtbl *v74; // xmm6_4
-  float v75; // xmm7_4
-  float v76; // xmm7_4
-  int m_objectType; // xmm6_4
-  float v78; // xmm7_4
-  btTypedConstraint_vtbl *v79; // xmm6_4
-  float v80; // xmm7_4
-  float v81; // xmm6_4
-  btIDebugDraw *v82; // eax
-  btHingeConstraint *v83; // ecx
-  float UpperLimit; // xmm0_4
-  btIDebugDraw *(__thiscall *v85)(struct btDiscreteDynamicsWorld *); // edx
-  int v86; // eax
-  float *v87; // eax
-  float v88; // xmm3_4
-  float v89; // xmm1_4
-  float v90; // xmm2_4
-  btRigidBody *v91; // xmm4_4
-  float v92; // xmm5_4
-  btRigidBody *v93; // xmm6_4
-  float v94; // xmm7_4
-  btTypedConstraint_vtbl *v95; // xmm6_4
+  float v66; // xmm6_4
+  float v67; // xmm5_4
+  float v68; // xmm6_4
+  float v69; // xmm5_4
+  float v70; // xmm7_4
+  float v71; // xmm6_4
+  float v72; // xmm5_4
+  int v73; // xmm6_4
+  float v74; // xmm7_4
+  float v75; // xmm6_4
+  float v76; // xmm5_4
+  float v77; // xmm7_4
+  float v78; // xmm4_4
+  float v79; // xmm1_4
+  int v80; // eax
+  float *v81; // eax
+  float v82; // xmm5_4
+  float v83; // xmm3_4
+  float v84; // xmm2_4
+  float v85; // xmm4_4
+  float v86; // xmm1_4
+  float v87; // xmm0_4
+  float v88; // xmm7_4
+  float v89; // xmm6_4
+  float v90; // xmm3_4
+  float v91; // xmm7_4
+  float v92; // xmm6_4
+  float v93; // xmm5_4
+  float v94; // xmm4_4
+  float v95; // xmm6_4
   float v96; // xmm5_4
-  btRigidBody *v97; // xmm7_4
-  unsigned int v98; // xmm4_4
-  unsigned int v99; // xmm5_4
-  float v100; // xmm6_4
-  float v101; // xmm7_4
+  float v97; // xmm6_4
+  float v98; // xmm3_4
+  float v99; // xmm6_4
+  float v100; // xmm7_4
+  float v101; // xmm5_4
   float v102; // xmm6_4
   float v103; // xmm7_4
-  int m_userConstraintId; // xmm6_4
-  float v105; // xmm7_4
-  float v106; // xmm6_4
-  float v107; // xmm7_4
-  int v108; // xmm6_4
-  float v109; // xmm7_4
-  float v110; // xmm6_4
-  btIDebugDraw *v111; // eax
-  float *v112; // eax
-  int v113; // xmm4_4
-  float v114; // xmm3_4
-  float v115; // xmm1_4
-  float v116; // xmm2_4
-  float v117; // xmm5_4
-  float v118; // xmm7_4
-  float v119; // xmm7_4
-  int v120; // xmm6_4
+  float v104; // xmm6_4
+  float v105; // xmm5_4
+  float v106; // xmm7_4
+  float v107; // xmm6_4
+  float v108; // xmm7_4
+  float v109; // xmm6_4
+  float v110; // xmm5_4
+  float v111; // xmm7_4
+  float v112; // xmm6_4
+  float v113; // xmm5_4
+  float v114; // xmm6_4
+  float v115; // xmm7_4
+  float v116; // xmm5_4
+  float v117; // xmm7_4
+  float v118; // xmm5_4
+  float v119; // xmm6_4
+  float v120; // xmm7_4
   float v121; // xmm4_4
-  float v122; // xmm7_4
-  btTypedConstraint_vtbl *v123; // xmm5_4
-  unsigned int v124; // xmm7_4
-  float v125; // xmm4_4
-  float v126; // xmm6_4
-  unsigned int v127; // xmm4_4
-  unsigned int v128; // xmm5_4
-  float v129; // xmm6_4
-  float v130; // xmm7_4
-  btTypedConstraint_vtbl *v131; // xmm6_4
-  float v132; // xmm7_4
-  float v133; // xmm6_4
-  float v134; // xmm7_4
-  float v135; // xmm6_4
-  float v136; // xmm6_4
-  btIDebugDraw *v137; // eax
-  int v138; // ebx
-  btIDebugDraw *(__thiscall *v139)(struct btDiscreteDynamicsWorld *); // eax
-  int v140; // eax
-  btIDebugDraw *v141; // eax
-  float *v142; // eax
-  float v143; // xmm4_4
-  int v144; // xmm3_4
-  float v145; // xmm0_4
-  float v146; // xmm1_4
-  int v147; // xmm5_4
-  float v148; // xmm2_4
-  float v149; // xmm7_4
-  float v150; // xmm6_4
+  float v122; // xmm6_4
+  float v123; // xmm0_4
+  btConeTwistConstraint *v124; // ecx
+  int v125; // eax
+  btConeTwistConstraint *v126; // ecx
+  int v127; // eax
+  int v128; // eax
+  float *v129; // eax
+  float v130; // xmm4_4
+  float v131; // xmm2_4
+  float v132; // xmm0_4
+  float v133; // xmm1_4
+  float v134; // xmm5_4
+  float v135; // xmm7_4
+  float v136; // xmm7_4
+  float v137; // xmm6_4
+  float v138; // xmm4_4
+  float v139; // xmm7_4
+  float v140; // xmm6_4
+  float v141; // xmm5_4
+  float v142; // xmm7_4
+  float v143; // xmm6_4
+  unsigned int v144; // xmm7_4
+  float v145; // xmm4_4
+  float v146; // xmm3_4
+  float v147; // xmm6_4
+  float v148; // xmm7_4
+  float v149; // xmm6_4
+  float v150; // xmm5_4
   float v151; // xmm7_4
-  float v152; // xmm3_4
-  float v153; // xmm6_4
-  float v154; // xmm5_4
-  btTypedConstraint_vtbl *v155; // xmm4_4
+  float v152; // xmm6_4
+  float v153; // xmm5_4
+  float v154; // xmm7_4
+  float v155; // xmm6_4
   float v156; // xmm6_4
-  btRigidBody *v157; // xmm5_4
-  int v158; // xmm7_4
-  int v159; // xmm6_4
-  unsigned int v160; // xmm3_4
-  unsigned int v161; // xmm4_4
-  unsigned int v162; // xmm5_4
-  btTypedConstraint_vtbl *v163; // xmm6_4
-  float v164; // xmm7_4
+  float v157; // xmm5_4
+  float v158; // xmm6_4
+  int v159; // eax
+  float v160; // xmm2_4
+  float v161; // xmm1_4
+  float v162; // xmm0_4
+  float v163; // xmm5_4
+  float v164; // xmm4_4
   float v165; // xmm6_4
   float v166; // xmm7_4
-  float v167; // xmm6_4
-  float v168; // xmm7_4
-  float v169; // xmm6_4
-  float v170; // xmm7_4
-  float v171; // xmm6_4
-  __m128i v172; // xmm1
-  float *v173; // eax
-  btRigidBody *v174; // xmm4_4
-  btRigidBody *v175; // xmm5_4
-  float v176; // xmm1_4
-  float v177; // xmm2_4
-  float v178; // xmm3_4
-  float v179; // xmm0_4
+  float v167; // xmm5_4
+  float v168; // xmm4_4
+  float v169; // xmm1_4
+  float v170; // xmm0_4
+  float v171; // xmm2_4
+  float v172; // xmm4_4
+  float v173; // xmm1_4
+  unsigned int v174; // xmm4_4
+  float v175; // xmm0_4
+  float v176; // xmm4_4
+  float v177; // xmm3_4
+  float v178; // xmm1_4
+  float v179; // xmm2_4
   float v180; // xmm7_4
-  int v181; // xmm6_4
-  float v182; // xmm7_4
-  float v183; // xmm6_4
-  btTypedConstraint_vtbl *v184; // xmm4_4
-  float v185; // xmm3_4
-  btRigidBody *v186; // xmm5_4
+  float v181; // xmm1_4
+  float v182; // xmm6_4
+  float v183; // xmm2_4
+  float v184; // xmm7_4
+  float v185; // xmm6_4
+  float v186; // xmm7_4
   float v187; // xmm6_4
-  float v188; // xmm3_4
+  float v188; // xmm7_4
   float v189; // xmm6_4
   float v190; // xmm7_4
-  int v191; // xmm5_4
-  float v192; // xmm6_4
-  float v193; // xmm7_4
-  float v194; // xmm6_4
-  int v195; // xmm5_4
-  float v196; // xmm7_4
-  float v197; // xmm6_4
-  float v198; // xmm7_4
+  btTypedConstraint_vtbl *v191; // eax
+  int v192; // eax
+  float *v193; // eax
+  float v194; // xmm2_4
+  float v195; // xmm3_4
+  float v196; // xmm1_4
+  float v197; // xmm5_4
+  float v198; // xmm4_4
   float v199; // xmm6_4
-  float v200; // xmm5_4
+  float v200; // xmm6_4
   float v201; // xmm7_4
-  float v202; // xmm6_4
-  float v203; // xmm5_4
-  float v204; // xmm6_4
-  float v205; // xmm7_4
-  float v206; // xmm5_4
-  float v207; // xmm7_4
-  int v208; // xmm5_4
-  btRigidBody *v209; // xmm6_4
-  float v210; // xmm7_4
-  float v211; // xmm4_4
-  float v212; // xmm6_4
+  float v202; // xmm5_4
+  float v203; // xmm4_4
+  float v204; // xmm1_4
+  float v205; // xmm3_4
+  unsigned int v206; // xmm4_4
+  float v207; // xmm2_4
+  float v208; // xmm0_4
+  float v209; // xmm1_4
+  float v210; // xmm4_4
+  float v211; // xmm6_4
+  float v212; // xmm2_4
   float v213; // xmm0_4
   float v214; // xmm2_4
-  btIDebugDraw *(__thiscall *v215)(struct btDiscreteDynamicsWorld *); // eax
-  int v216; // eax
-  btIDebugDraw *v217; // eax
-  btIDebugDraw *v218; // eax
-  double v219; // st7
-  double v220; // st7
-  __int64 v221; // xmm1_8
-  btDiscreteDynamicsWorld_vtbl *v222; // eax
-  btIDebugDraw *(__thiscall *v223)(struct btDiscreteDynamicsWorld *); // edx
-  btRigidBody *v224; // xmm0_4
-  int v225; // eax
-  __m128 v226; // xmm0
-  long double v227; // st7
-  float v228; // xmm5_4
-  float v229; // xmm4_4
-  int v230; // xmm1_4
-  btTypedConstraint_vtbl *v231; // xmm0_4
-  btIDebugDraw *v232; // eax
-  btDiscreteDynamicsWorld_vtbl *v233; // eax
-  btIDebugDraw *(__thiscall *v234)(struct btDiscreteDynamicsWorld *); // edx
-  int v235; // eax
-  btIDebugDraw *v236; // eax
-  btIDebugDraw *v237; // eax
-  __m128i *p_m_appliedImpulse; // eax
-  float v239; // xmm4_4
-  btIDebugDraw *(__thiscall *v240)(struct btDiscreteDynamicsWorld *); // edx
-  float v241; // xmm1_4
-  float v242; // xmm3_4
+  float v215; // xmm1_4
+  float v216; // xmm4_4
+  float v217; // xmm1_4
+  float v218; // xmm4_4
+  float v219; // xmm7_4
+  float v220; // xmm6_4
+  float v221; // xmm1_4
+  float v222; // xmm7_4
+  float v223; // xmm6_4
+  float v224; // xmm7_4
+  float v225; // xmm6_4
+  float v226; // xmm5_4
+  float v227; // xmm7_4
+  float v228; // xmm6_4
+  float v229; // xmm7_4
+  float v230; // xmm6_4
+  float v231; // xmm5_4
+  float v232; // xmm6_4
+  int v233; // eax
+  int v234; // eax
+  float v235; // xmm2_4
+  float v236; // xmm1_4
+  float v237; // xmm0_4
+  float v238; // xmm4_4
+  float v239; // xmm3_4
+  float v240; // xmm6_4
+  float v241; // xmm5_4
+  float v242; // xmm6_4
   float v243; // xmm7_4
-  btRigidBody *v244; // xmm4_4
-  float v245; // xmm2_4
-  float v246; // xmm3_4
-  int v247; // eax
-  btDiscreteDynamicsWorld_vtbl *v248; // eax
-  btIDebugDraw *(__thiscall *v249)(struct btDiscreteDynamicsWorld *); // edx
-  int v250; // eax
-  const float *v251; // [esp+3E0Eh] [ebp-1F0h]
-  float xz[4]; // [esp+3E16h] [ebp-1E8h] BYREF
-  float yy[2]; // [esp+3E26h] [ebp-1D8h] BYREF
-  float yx[4]; // [esp+3E2Eh] [ebp-1D0h] BYREF
-  btVector3 result; // [esp+3E3Eh] [ebp-1C0h] BYREF
-  btRigidBody *m_appliedImpulse_low; // [esp+3E52h] [ebp-1ACh]
-  _QWORD yz[2]; // [esp+3E56h] [ebp-1A8h] BYREF
-  __int64 v258; // [esp+3E66h] [ebp-198h]
-  __m128i v259; // [esp+3E6Eh] [ebp-190h] BYREF
-  __m128i v260; // [esp+3E7Eh] [ebp-180h] BYREF
-  __int64 v261; // [esp+3E8Eh] [ebp-170h]
-  __int64 v262; // [esp+3E96h] [ebp-168h]
-  btVector3 v263; // [esp+3E9Eh] [ebp-160h] BYREF
-  __m128i v264; // [esp+3EAEh] [ebp-150h] BYREF
-  __m128i v265; // [esp+3EBEh] [ebp-140h]
-  __m128i v266; // [esp+3ECEh] [ebp-130h]
-  __m128i si128; // [esp+3EDEh] [ebp-120h] BYREF
-  __m128i v268; // [esp+3EEEh] [ebp-110h] BYREF
-  btMatrix3x3 v269; // [esp+3F06h] [ebp-F8h] BYREF
-  float v270; // [esp+3F36h] [ebp-C8h]
-  int v271; // [esp+3F3Ah] [ebp-C4h]
-  float xy; // [esp+3F4Ah] [ebp-B4h] BYREF
-  _DWORD v273[4]; // [esp+3F4Eh] [ebp-B0h] BYREF
-  _QWORD v274[2]; // [esp+3F5Eh] [ebp-A0h] BYREF
-  _DWORD v275[10]; // [esp+3F6Eh] [ebp-90h] BYREF
-  __int128 v276; // [esp+3F96h] [ebp-68h] BYREF
-  int v277; // [esp+3FA6h] [ebp-58h]
-  int v278; // [esp+3FAAh] [ebp-54h]
-  int v279; // [esp+3FAEh] [ebp-50h] BYREF
-  int v280; // [esp+3FB2h] [ebp-4Ch]
-  int v281; // [esp+3FB6h] [ebp-48h]
-  int v282; // [esp+3FBAh] [ebp-44h]
-  __m128i v283; // [esp+3FBEh] [ebp-40h] BYREF
-  _DWORD v284[4]; // [esp+3FCEh] [ebp-30h] BYREF
-  _DWORD v285[4]; // [esp+3FDEh] [ebp-20h] BYREF
-  _QWORD v286[2]; // [esp+3FEEh] [ebp-10h] BYREF
+  float v244; // xmm4_4
+  float v245; // xmm3_4
+  float v246; // xmm1_4
+  float v247; // xmm0_4
+  float v248; // xmm2_4
+  float v249; // xmm3_4
+  float v250; // xmm1_4
+  unsigned int v251; // xmm3_4
+  float v252; // xmm6_4
+  float v253; // xmm3_4
+  float v254; // xmm0_4
+  float v255; // xmm1_4
+  float v256; // xmm6_4
+  float v257; // xmm5_4
+  float v258; // xmm1_4
+  float v259; // xmm2_4
+  float v260; // xmm7_4
+  float v261; // xmm6_4
+  float v262; // xmm7_4
+  float v263; // xmm6_4
+  float v264; // xmm5_4
+  float v265; // xmm6_4
+  float v266; // xmm7_4
+  float v267; // xmm6_4
+  float v268; // xmm7_4
+  float v269; // xmm0_4
+  float v270; // xmm6_4
+  float v271; // xmm2_4
+  btAngularLimit *v272; // ecx
+  int v273; // eax
+  btAngularLimit *v274; // ecx
+  float *v275; // eax
+  float v276; // xmm2_4
+  float v277; // xmm1_4
+  float v278; // xmm3_4
+  float v279; // xmm1_4
+  float v280; // xmm2_4
+  float v281; // xmm3_4
+  unsigned int v282; // xmm2_4
+  btTypedConstraint_vtbl *v283; // eax
+  int v284; // eax
+  float *v285; // ebx
+  float v286; // xmm1_4
+  float v287; // xmm0_4
+  float v288; // xmm2_4
+  float v289; // xmm0_4
+  unsigned int v290; // xmm1_4
+  float v291; // xmm2_4
+  int v292; // eax
+  long double v293; // [esp+54h] [ebp-200h]
+  long double v294; // [esp+54h] [ebp-200h]
+  int v295; // [esp+54h] [ebp-200h]
+  const float *v296; // [esp+54h] [ebp-200h]
+  float v297; // [esp+54h] [ebp-200h]
+  const float *v298; // [esp+54h] [ebp-200h]
+  int v299; // [esp+54h] [ebp-200h]
+  const float *v300; // [esp+54h] [ebp-200h]
+  int v301; // [esp+58h] [ebp-1FCh]
+  bool v302; // [esp+6Fh] [ebp-1E5h]
+  int v303; // [esp+70h] [ebp-1E4h] BYREF
+  btMatrix3x3 fAngleInRadians; // [esp+74h] [ebp-1E0h] BYREF
+  float v305; // [esp+ACh] [ebp-1A8h] BYREF
+  btMatrix3x3 v306; // [esp+B0h] [ebp-1A4h] BYREF
+  float v307; // [esp+E0h] [ebp-174h]
+  float v308; // [esp+E4h] [ebp-170h]
+  float v309; // [esp+E8h] [ebp-16Ch]
+  float v310; // [esp+ECh] [ebp-168h]
+  int v311; // [esp+F0h] [ebp-164h]
+  btVector3 v312; // [esp+F4h] [ebp-160h] BYREF
+  unsigned int v313; // [esp+108h] [ebp-14Ch]
+  float v314; // [esp+10Ch] [ebp-148h] BYREF
+  float v315; // [esp+110h] [ebp-144h] BYREF
+  float v316; // [esp+114h] [ebp-140h] BYREF
+  float v317; // [esp+118h] [ebp-13Ch] BYREF
+  float v318; // [esp+11Ch] [ebp-138h] BYREF
+  float v319; // [esp+120h] [ebp-134h] BYREF
+  _BYTE v320[12]; // [esp+124h] [ebp-130h] BYREF
+  int v321; // [esp+130h] [ebp-124h]
+  int v322; // [esp+134h] [ebp-120h] BYREF
+  int v323; // [esp+138h] [ebp-11Ch]
+  float v324; // [esp+13Ch] [ebp-118h]
+  int v325; // [esp+140h] [ebp-114h]
+  int v326; // [esp+144h] [ebp-110h]
+  int v327; // [esp+148h] [ebp-10Ch] BYREF
+  float v328; // [esp+14Ch] [ebp-108h]
+  int v329; // [esp+150h] [ebp-104h]
+  unsigned __int64 v330; // [esp+154h] [ebp-100h] BYREF
+  int v331; // [esp+15Ch] [ebp-F8h]
+  btVector3 v332; // [esp+160h] [ebp-F4h]
+  float v333; // [esp+170h] [ebp-E4h]
+  float v334; // [esp+174h] [ebp-E0h]
+  float v335; // [esp+178h] [ebp-DCh]
+  float v336; // [esp+17Ch] [ebp-D8h]
+  int v337; // [esp+180h] [ebp-D4h]
+  int v338; // [esp+184h] [ebp-D0h]
+  int v339; // [esp+188h] [ebp-CCh]
+  int v340; // [esp+18Ch] [ebp-C8h]
+  int v341; // [esp+190h] [ebp-C4h]
+  int v342; // [esp+1B0h] [ebp-A4h]
+  int v343; // [esp+1B4h] [ebp-A0h]
+  int v344; // [esp+1B8h] [ebp-9Ch]
+  int v345; // [esp+1BCh] [ebp-98h]
+  int v346; // [esp+1C8h] [ebp-8Ch]
+  int v347; // [esp+1CCh] [ebp-88h]
+  int v348; // [esp+1D0h] [ebp-84h]
+  int v349; // [esp+1D4h] [ebp-80h] BYREF
+  int v350; // [esp+1D8h] [ebp-7Ch]
+  int v351; // [esp+1DCh] [ebp-78h]
+  int v352; // [esp+1E0h] [ebp-74h]
+  _DWORD v353[4]; // [esp+1E4h] [ebp-70h] BYREF
+  _DWORD v354[8]; // [esp+1F4h] [ebp-60h] BYREF
+  _DWORD v355[8]; // [esp+214h] [ebp-40h] BYREF
+  btVector3 v356; // [esp+234h] [ebp-20h] BYREF
+  int v357; // [esp+244h] [ebp-10h] BYREF
+  int v358; // [esp+248h] [ebp-Ch] BYREF
+  int v359; // [esp+24Ch] [ebp-8h]
+  int v360; // [esp+250h] [ebp-4h]
+  int vars0; // [esp+254h] [ebp+0h]
+  _UNKNOWN *retaddr; // [esp+258h] [ebp+4h] BYREF
 
-  v4 = this->getDebugDrawer(this);
-  v5 = (v4->getDebugMode(v4) & 0x800) != 0;
-  v6 = this->getDebugDrawer(this);
-  v7 = v6->getDebugMode(v6);
-  m_dbgDrawSize = constraint->m_dbgDrawSize;
-  HIBYTE(yx[0]) = (v7 & 0x1000) != 0;
-  yx[1] = m_dbgDrawSize;
-  if ( m_dbgDrawSize > 0.0 )
+  v3 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+  v302 = ((*(int (__thiscall **)(int))(*(_DWORD *)v3 + 48))(v3) & 0x800) != 0;
+  v4 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+  v5 = (*(int (__thiscall **)(int))(*(_DWORD *)v4 + 48))(v4);
+  v7 = *(float *)(a3 + 36);
+  fAngleInRadians.m_el[1].mVec128.m128_i8[11] = (v5 & 0x1000) != 0;
+  fAngleInRadians.m_el[0].mVec128.m128_f32[3] = v7;
+  if ( v7 <= 0.0 )
+    return;
+  switch ( *(_DWORD *)(a3 + 4) )
   {
-    switch ( constraint->m_objectType )
-    {
-      case 3:
-        m_rbA = (float *)constraint->m_rbA;
-        v264.m128i_i64[0] = (unsigned int)clear_value;
-        v265.m128i_i32[1] = (int)clear_value;
-        v266.m128i_i64[1] = (unsigned int)clear_value;
-        v11 = *(_QWORD *)&constraint[8].m_breakingImpulseThreshold;
-        si128 = 0u;
-        m_rbA += 4;
-        v264.m128i_i64[1] = 0;
-        v265.m128i_i32[0] = 0;
-        v265.m128i_i64[1] = 0;
-        v266.m128i_i64[0] = 0;
-        v12 = m_rbA[2];
-        v13 = this->__vftable;
-        v263.mVec128.m128_u64[0] = v11;
-        v263.mVec128.m128_u64[1] = *(_QWORD *)&constraint[8].m_rbA;
-        v14 = m_rbA[5];
-        result.mVec128.m128_f32[0] = (float)((float)((float)(v12 * v263.mVec128.m128_f32[2])
-                                                   + (float)(m_rbA[1] * *((float *)&v11 + 1)))
-                                           + (float)(*(float *)&v11 * *m_rbA))
-                                   + m_rbA[12];
-        v15 = (float)(m_rbA[6] * v263.mVec128.m128_f32[2]) + (float)(v14 * *((float *)&v11 + 1));
-        v16 = m_rbA[4] * *(float *)&v11;
-        *(float *)&v11 = *(float *)&v11 * m_rbA[8];
-        result.mVec128.m128_f32[1] = (float)(v15 + v16) + m_rbA[13];
-        *(float *)&v17 = (float)((float)((float)(m_rbA[10] * v263.mVec128.m128_f32[2])
-                                       + (float)(m_rbA[9] * v263.mVec128.m128_f32[1]))
-                               + *(float *)&v11)
-                       + m_rbA[14];
-        getDebugDrawer = v13->getDebugDrawer;
-        result.mVec128.m128_u64[1] = v17;
-        si128 = _mm_load_si128((const __m128i *)&result);
-        v19 = (int)getDebugDrawer(this);
-        (*(void (__thiscall **)(int, __m128i *, _DWORD))(*(_DWORD *)v19 + 56))(v19, &v264, LODWORD(yx[1]));
-        v263.mVec128.m128_u64[0] = *(_QWORD *)&constraint[8].m_appliedImpulse;
-        v20 = *(_QWORD *)&constraint[9].__vftable;
-        m_rbB = (float *)constraint->m_rbB;
-        v22 = m_rbB[6];
-        v23 = m_rbB[5];
-        m_rbB += 4;
-        v263.mVec128.m128_u64[1] = v20;
-        v24 = m_rbB[5];
-        result.mVec128.m128_f32[0] = (float)((float)((float)(v22 * *(float *)&v20)
-                                                   + (float)(v23 * v263.mVec128.m128_f32[1]))
-                                           + (float)(v263.mVec128.m128_f32[0] * *m_rbB))
-                                   + m_rbB[12];
-        result.mVec128.m128_f32[1] = (float)((float)((float)(m_rbB[6] * *(float *)&v20)
-                                                   + (float)(v24 * v263.mVec128.m128_f32[1]))
-                                           + (float)(m_rbB[4] * v263.mVec128.m128_f32[0]))
-                                   + m_rbB[13];
-        result.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(
-                                       (float)((float)((float)(m_rbB[10] * *(float *)&v20)
-                                                     + (float)(m_rbB[9] * v263.mVec128.m128_f32[1]))
-                                             + (float)(m_rbB[8] * v263.mVec128.m128_f32[0]))
-                                     + m_rbB[14]);
-        si128 = _mm_load_si128((const __m128i *)&result);
-        if ( v5 )
-        {
-          v25 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, __m128i *, _DWORD))v25->drawTransform)(v25, &v264, LODWORD(yx[1]));
-        }
-        return;
-      case 4:
-        v26 = (float *)constraint->m_rbA;
-        m_appliedImpulse = constraint[16].m_appliedImpulse;
-        v28 = constraint[17].__vftable;
-        v29 = v26[5];
-        v30 = v26[4];
-        v31 = v26[6];
-        v26 += 4;
-        v32 = constraint[16].m_dbgDrawSize;
-        result.mVec128.m128_f32[0] = (float)((float)((float)(m_appliedImpulse * v30) + (float)(v32 * v29))
-                                           + (float)(*(float *)&v28 * v31))
-                                   + v26[12];
-        v33 = (float)((float)((float)(v26[5] * v32) + (float)(v26[6] * *(float *)&v28))
-                    + (float)(m_appliedImpulse * v26[4]))
-            + v26[13];
-        v34 = constraint[16].m_dbgDrawSize;
-        v35 = m_appliedImpulse * v26[8];
-        result.mVec128.m128_f32[1] = v33;
-        v36 = (float)(v26[9] * v34) + (float)(v26[10] * *(float *)&v28);
-        m_userConstraintType = constraint[16].m_userConstraintType;
-        v38 = constraint[16].m_rbA;
-        *(float *)&v39 = (float)(v36 + v35) + v26[14];
-        v40 = v26[9];
-        result.mVec128.m128_u64[1] = v39;
-        *(float *)&v41 = (float)((float)(v40 * *(float *)&m_userConstraintType) + (float)(v26[10] * *(float *)&v38))
-                       + (float)(v26[8] * constraint[15].m_appliedImpulse);
-        *(float *)&v42 = (float)((float)(v26[9] * *(float *)&constraint[16].m_objectType)
-                               + (float)(v26[10] * *(float *)&constraint[16].m_isEnabled))
-                       + (float)(v26[8] * *(float *)&constraint[15].m_rbB);
-        m_breakingImpulseThreshold = constraint[16].m_breakingImpulseThreshold;
-        yy[1] = v26[9] * *(float *)&constraint[16].__vftable;
-        v44 = v26[5];
-        yy[0] = (float)(yy[1] + (float)(v26[10] * m_breakingImpulseThreshold))
-              + (float)(*(float *)&constraint[15].m_rbA * v26[8]);
-        xz[3] = (float)(v44 * *(float *)&constraint[16].m_userConstraintType)
-              + (float)(v26[6] * *(float *)&constraint[16].m_rbA);
-        v45 = v26[5];
-        yx[3] = xz[3] + (float)(v26[4] * constraint[15].m_appliedImpulse);
-        v46 = *(float *)&constraint[16].m_isEnabled;
-        xz[3] = v45 * *(float *)&constraint[16].m_objectType;
-        v47 = v26[4];
-        xz[3] = xz[3] + (float)(v26[6] * v46);
-        v48 = xz[3] + (float)(v47 * *(float *)&constraint[15].m_rbB);
-        v49 = v26[5];
-        *(float *)yz = v48;
-        v50 = constraint[16].m_breakingImpulseThreshold;
-        xz[3] = v49 * *(float *)&constraint[16].__vftable;
-        v51 = v26[4];
-        xz[3] = xz[3] + (float)(v26[6] * v50);
-        yx[2] = xz[3] + (float)(v51 * *(float *)&constraint[15].m_rbA);
-        xz[3] = (float)(v30 * constraint[15].m_appliedImpulse)
-              + (float)(v29 * *(float *)&constraint[16].m_userConstraintType);
-        yy[1] = xz[3] + (float)(v31 * *(float *)&constraint[16].m_rbA);
-        xz[3] = (float)(v30 * *(float *)&constraint[15].m_rbB) + (float)(v29 * *(float *)&constraint[16].m_objectType);
-        v52 = xz[3] + (float)(v31 * *(float *)&constraint[16].m_isEnabled);
-        *(float *)&yz[1] = (float)((float)(v30 * *(float *)&constraint[15].m_rbA)
-                                 + (float)(v29 * *(float *)&constraint[16].__vftable))
-                         + (float)(v31 * constraint[16].m_breakingImpulseThreshold);
-        v258 = LODWORD(yy[1]);
-        v259.m128i_i64[0] = __PAIR64__(yz[0], LODWORD(yx[2]));
-        v259.m128i_i64[1] = LODWORD(yx[3]);
-        v260.m128i_i64[0] = __PAIR64__(v42, LODWORD(yy[0]));
-        *((float *)&yz[1] + 1) = v52;
-        v264 = _mm_load_si128((const __m128i *)&yz[1]);
-        v265 = _mm_load_si128(&v259);
-        v260.m128i_i64[1] = v41;
-        v266 = _mm_load_si128(&v260);
-        si128 = _mm_load_si128((const __m128i *)&result);
-        if ( v5 )
-        {
-          v53 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, __m128i *, _DWORD))v53->drawTransform)(v53, &v264, LODWORD(yx[1]));
-        }
-        v54 = (float *)constraint->m_rbB;
-        v55 = v54[4];
-        v56 = *(float *)&constraint[18].m_isEnabled;
-        v57 = v54[5];
-        v58 = constraint[18].m_rbA;
-        v59 = v54[6];
-        v54 += 4;
-        v60 = (float)((float)((float)(v55 * constraint[18].m_breakingImpulseThreshold) + (float)(v57 * v56))
-                    + (float)(v59 * *(float *)&v58))
-            + v54[12];
-        v61 = v54[5] * v56;
-        v62 = v54[6];
-        result.mVec128.m128_f32[0] = v60;
-        v63 = v61 + (float)(v62 * *(float *)&v58);
-        v64 = constraint[18].m_breakingImpulseThreshold;
-        v65 = v54[9];
-        result.mVec128.m128_f32[1] = (float)(v63 + (float)(v64 * v54[4])) + v54[13];
-        v66 = (float)(v65 * *(float *)&constraint[18].m_isEnabled) + (float)(v54[10] * *(float *)&v58);
-        v67 = constraint[17].m_appliedImpulse;
-        v68 = v54[8] * v64;
-        v69 = constraint[18].m_userConstraintType;
-        *(float *)&v70 = (float)(v66 + v68) + v54[14];
-        v71 = v54[9];
-        result.mVec128.m128_u64[1] = v70;
-        *(float *)&v72 = (float)((float)(v71 * v67) + (float)(v54[10] * *(float *)&v69))
-                       + (float)(v54[8] * constraint[17].m_breakingImpulseThreshold);
-        *(float *)&v73 = (float)((float)(v54[9] * *(float *)&constraint[17].m_rbB)
-                               + (float)(v54[10] * *(float *)&constraint[18].m_objectType))
-                       + (float)(v54[8] * *(float *)&constraint[17].m_userConstraintId);
-        v74 = constraint[18].__vftable;
-        yy[0] = v54[9] * *(float *)&constraint[17].m_rbA;
-        v75 = v54[5];
-        yx[2] = (float)(yy[0] + (float)(v54[10] * *(float *)&v74))
-              + (float)(*(float *)&constraint[17].m_userConstraintType * v54[8]);
-        yy[0] = v75 * constraint[17].m_appliedImpulse;
-        v76 = v54[5];
-        yy[1] = (float)(yy[0] + (float)(v54[6] * *(float *)&constraint[18].m_userConstraintType))
-              + (float)(constraint[17].m_breakingImpulseThreshold * v54[4]);
-        m_objectType = constraint[18].m_objectType;
-        yy[0] = v76 * *(float *)&constraint[17].m_rbB;
-        v78 = v54[5];
-        *(float *)yz = (float)(yy[0] + (float)(v54[6] * *(float *)&m_objectType))
-                     + (float)(*(float *)&constraint[17].m_userConstraintId * v54[4]);
-        v79 = constraint[18].__vftable;
-        xz[3] = v78 * *(float *)&constraint[17].m_rbA;
-        v80 = v54[4];
-        xz[3] = xz[3] + (float)(v54[6] * *(float *)&v79);
-        yx[3] = xz[3] + (float)(v80 * *(float *)&constraint[17].m_userConstraintType);
-        xz[3] = (float)(v55 * constraint[17].m_breakingImpulseThreshold)
-              + (float)(v57 * constraint[17].m_appliedImpulse);
-        yy[0] = xz[3] + (float)(v59 * *(float *)&constraint[18].m_userConstraintType);
-        xz[3] = (float)(v55 * *(float *)&constraint[17].m_userConstraintId)
-              + (float)(v57 * *(float *)&constraint[17].m_rbB);
-        v81 = xz[3] + (float)(v59 * *(float *)&constraint[18].m_objectType);
-        *(float *)&yz[1] = (float)((float)(v55 * *(float *)&constraint[17].m_userConstraintType)
-                                 + (float)(v57 * *(float *)&constraint[17].m_rbA))
-                         + (float)(v59 * *(float *)&constraint[18].__vftable);
-        *((float *)&yz[1] + 1) = v81;
-        v258 = LODWORD(yy[0]);
-        v259.m128i_i64[0] = __PAIR64__(yz[0], LODWORD(yx[3]));
-        v264 = _mm_load_si128((const __m128i *)&yz[1]);
-        v259.m128i_i64[1] = LODWORD(yy[1]);
-        v265 = _mm_load_si128(&v259);
-        v260.m128i_i64[0] = __PAIR64__(v73, LODWORD(yx[2]));
-        v260.m128i_i64[1] = v72;
-        v266 = _mm_load_si128(&v260);
-        si128 = _mm_load_si128((const __m128i *)&result);
-        if ( v5 )
-        {
-          v82 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, __m128i *, _DWORD))v82->drawTransform)(v82, &v264, LODWORD(yx[1]));
-        }
-        xz[3] = btHingeConstraint::getLowerLimit(v8, (int)constraint, a3);
-        UpperLimit = btHingeConstraint::getUpperLimit(v83, (int)constraint, a3);
-        yy[1] = UpperLimit;
-        if ( xz[3] != UpperLimit )
-        {
-          LOBYTE(yx[2]) = 1;
-          if ( xz[3] > UpperLimit )
-          {
-            xz[3] = 0.0;
-            yy[1] = c_fTwoPi_0;
-            LOBYTE(yx[2]) = 0;
-          }
-          if ( HIBYTE(yx[0]) )
-          {
-            v85 = this->getDebugDrawer;
-            v263.mVec128.m128_u64[0] = __PAIR64__(v265.m128i_u32[2], v264.m128i_u32[2]);
-            v263.mVec128.m128_u64[1] = v266.m128i_u32[2];
-            result.mVec128.m128_u64[0] = __PAIR64__(v265.m128i_u32[0], v264.m128i_u32[0]);
-            result.mVec128.m128_u64[1] = v266.m128i_u32[0];
-            v86 = (int)v85(this);
-            v269.m_el[2].mVec128.m128_u64[1] = 0;
-            v270 = 0.0;
-            v271 = 0;
-            (*(void (__thiscall **)(int, __m128i *, btVector3 *, btVector3 *, _DWORD, _DWORD, _DWORD, _DWORD, float *, _DWORD, _DWORD))(*(_DWORD *)v86 + 60))(
-              v86,
-              &si128,
-              &v263,
-              &result,
-              LODWORD(yx[1]),
-              LODWORD(yx[1]),
-              LODWORD(xz[3]),
-              LODWORD(yy[1]),
-              &v269.m_el[2].mVec128.m128_f32[2],
-              LODWORD(yx[2]),
-              10.0);
-          }
-        }
-        return;
-      case 5:
-        v87 = (float *)constraint->m_rbA;
-        v88 = v87[5];
-        v89 = v87[4];
-        v90 = v87[6];
-        v91 = constraint[9].m_rbA;
-        v87 += 4;
-        v92 = constraint[9].m_appliedImpulse;
-        v269.m_el[2].mVec128.m128_f32[2] = (float)((float)((float)(v89 * *(float *)&v91)
-                                                         + (float)(v88 * *(float *)&constraint[9].m_rbB))
-                                                 + (float)(v90 * v92))
-                                         + v87[12];
-        v93 = constraint[9].m_rbB;
-        v269.m_el[2].mVec128.m128_f32[3] = (float)((float)((float)(v87[5] * *(float *)&v93) + (float)(v87[6] * v92))
-                                                 + (float)(*(float *)&v91 * v87[4]))
-                                         + v87[13];
-        v94 = (float)(v87[9] * *(float *)&v93) + (float)(v87[10] * v92);
-        v95 = constraint[9].__vftable;
-        v96 = constraint[9].m_breakingImpulseThreshold;
-        v270 = (float)(v94 + (float)(*(float *)&v91 * v87[8])) + v87[14];
-        v97 = constraint[8].m_rbA;
-        v271 = 0;
-        *(float *)&v98 = (float)((float)(v87[9] * *(float *)&v95) + (float)(v87[10] * v96))
-                       + (float)(*(float *)&v97 * v87[8]);
-        *(float *)&v99 = (float)((float)(v87[9] * constraint[8].m_dbgDrawSize)
-                               + (float)(v87[10] * *(float *)&constraint[9].m_userConstraintId))
-                       + (float)(*(float *)&constraint[8].m_isEnabled * v87[8]);
-        v100 = constraint[8].m_appliedImpulse;
-        yy[0] = v87[10] * *(float *)&constraint[9].m_userConstraintType;
-        v101 = v87[5];
-        yx[2] = (float)(yy[0] + (float)(v87[9] * v100)) + (float)(constraint[8].m_breakingImpulseThreshold * v87[8]);
-        v102 = constraint[9].m_breakingImpulseThreshold;
-        yy[0] = v101 * *(float *)&constraint[9].__vftable;
-        v103 = v87[5];
-        yy[1] = (float)(yy[0] + (float)(v87[6] * v102)) + (float)(*(float *)&constraint[8].m_rbA * v87[4]);
-        m_userConstraintId = constraint[9].m_userConstraintId;
-        xz[3] = v103 * constraint[8].m_dbgDrawSize;
-        v105 = v87[4];
-        xz[3] = xz[3] + (float)(v87[6] * *(float *)&m_userConstraintId);
-        v106 = xz[3] + (float)(v105 * *(float *)&constraint[8].m_isEnabled);
-        v107 = v87[5];
-        *(float *)yz = v106;
-        v108 = constraint[9].m_userConstraintType;
-        xz[3] = v107 * constraint[8].m_appliedImpulse;
-        v109 = v87[4];
-        xz[3] = xz[3] + (float)(v87[6] * *(float *)&v108);
-        yx[3] = xz[3] + (float)(v109 * constraint[8].m_breakingImpulseThreshold);
-        xz[3] = (float)(v89 * *(float *)&constraint[8].m_rbA) + (float)(v88 * *(float *)&constraint[9].__vftable);
-        yy[0] = xz[3] + (float)(v90 * constraint[9].m_breakingImpulseThreshold);
-        xz[3] = (float)(v89 * *(float *)&constraint[8].m_isEnabled) + (float)(v88 * constraint[8].m_dbgDrawSize);
-        v110 = xz[3] + (float)(v90 * *(float *)&constraint[9].m_userConstraintId);
-        *(float *)&yz[1] = (float)((float)(v89 * constraint[8].m_breakingImpulseThreshold)
-                                 + (float)(v88 * constraint[8].m_appliedImpulse))
-                         + (float)(v90 * *(float *)&constraint[9].m_userConstraintType);
-        *((float *)&yz[1] + 1) = v110;
-        v258 = LODWORD(yy[0]);
-        v259.m128i_i64[0] = __PAIR64__(yz[0], LODWORD(yx[3]));
-        v259.m128i_i64[1] = LODWORD(yy[1]);
-        v260.m128i_i64[0] = __PAIR64__(v99, LODWORD(yx[2]));
-        v264 = _mm_load_si128((const __m128i *)&yz[1]);
-        v265 = _mm_load_si128(&v259);
-        v260.m128i_i64[1] = v98;
-        v266 = _mm_load_si128(&v260);
-        si128 = _mm_load_si128((const __m128i *)&v269.m_el[2].m_floats[2]);
-        if ( v5 )
-        {
-          v111 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, __m128i *, _DWORD))v111->drawTransform)(v111, &v264, LODWORD(yx[1]));
-        }
-        v112 = (float *)constraint->m_rbB;
-        v113 = constraint[11].m_userConstraintType;
-        v114 = v112[5];
-        v115 = v112[4];
-        v116 = v112[6];
-        v112 += 4;
-        v117 = constraint[11].m_breakingImpulseThreshold;
-        v118 = v112[5];
-        result.mVec128.m128_f32[0] = (float)((float)((float)(v115 * *(float *)&v113)
-                                                   + (float)(v114 * *(float *)&constraint[11].m_userConstraintId))
-                                           + (float)(v116 * v117))
-                                   + v112[12];
-        v119 = (float)((float)((float)(v118 * *(float *)&constraint[11].m_userConstraintId) + (float)(v112[6] * v117))
-                     + (float)(*(float *)&v113 * v112[4]))
-             + v112[13];
-        v120 = constraint[11].m_userConstraintId;
-        v121 = *(float *)&v113 * v112[8];
-        result.mVec128.m128_f32[1] = v119;
-        v122 = (float)(v112[9] * *(float *)&v120) + (float)(v112[10] * v117);
-        v123 = constraint[11].__vftable;
-        *(float *)&v124 = (float)(v122 + v121) + v112[14];
-        v125 = v112[9] * *(float *)&constraint[10].m_rbA;
-        v126 = v112[10];
-        result.mVec128.m128_u64[1] = v124;
-        *(float *)&v127 = (float)(v125 + (float)(v126 * *(float *)&v123))
-                        + (float)(*(float *)&constraint[10].m_userConstraintType * v112[8]);
-        *(float *)&v128 = (float)((float)(v112[9] * *(float *)&constraint[10].m_isEnabled)
-                                + (float)(v112[10] * constraint[10].m_dbgDrawSize))
-                        + (float)(*(float *)&constraint[10].m_objectType * v112[8]);
-        v129 = constraint[10].m_appliedImpulse;
-        yy[0] = v112[9] * constraint[10].m_breakingImpulseThreshold;
-        v130 = v112[5];
-        yx[2] = (float)(yy[0] + (float)(v112[10] * v129)) + (float)(*(float *)&constraint[10].__vftable * v112[8]);
-        v131 = constraint[11].__vftable;
-        yy[0] = v130 * *(float *)&constraint[10].m_rbA;
-        v132 = v112[5];
-        yy[1] = (float)(yy[0] + (float)(v112[6] * *(float *)&v131))
-              + (float)(*(float *)&constraint[10].m_userConstraintType * v112[4]);
-        v133 = constraint[10].m_dbgDrawSize;
-        yy[0] = v132 * *(float *)&constraint[10].m_isEnabled;
-        v134 = v112[5];
-        *(float *)yz = (float)(yy[0] + (float)(v112[6] * v133))
-                     + (float)(*(float *)&constraint[10].m_objectType * v112[4]);
-        v135 = constraint[10].m_appliedImpulse;
-        yy[0] = v134 * constraint[10].m_breakingImpulseThreshold;
-        yx[3] = (float)(yy[0] + (float)(v112[6] * v135)) + (float)(*(float *)&constraint[10].__vftable * v112[4]);
-        xz[3] = (float)(v115 * *(float *)&constraint[10].m_userConstraintType)
-              + (float)(v114 * *(float *)&constraint[10].m_rbA);
-        yy[0] = xz[3] + (float)(v116 * *(float *)&constraint[11].__vftable);
-        xz[3] = (float)(v115 * *(float *)&constraint[10].m_objectType)
-              + (float)(v114 * *(float *)&constraint[10].m_isEnabled);
-        v136 = xz[3] + (float)(v116 * constraint[10].m_dbgDrawSize);
-        *(float *)&yz[1] = (float)((float)(v115 * *(float *)&constraint[10].__vftable)
-                                 + (float)(v114 * constraint[10].m_breakingImpulseThreshold))
-                         + (float)(v116 * constraint[10].m_appliedImpulse);
-        v258 = LODWORD(yy[0]);
-        v259.m128i_i64[0] = __PAIR64__(yz[0], LODWORD(yx[3]));
-        *((float *)&yz[1] + 1) = v136;
-        v259.m128i_i64[1] = LODWORD(yy[1]);
-        v264 = _mm_load_si128((const __m128i *)&yz[1]);
-        v265 = _mm_load_si128(&v259);
-        v260.m128i_i64[0] = __PAIR64__(v128, LODWORD(yx[2]));
-        v260.m128i_i64[1] = v127;
-        v266 = _mm_load_si128(&v260);
-        si128 = _mm_load_si128((const __m128i *)&result);
-        if ( v5 )
-        {
-          v137 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, __m128i *, _DWORD))v137->drawTransform)(v137, &v264, LODWORD(yx[1]));
-        }
-        if ( HIBYTE(yx[0]) )
+    case 3:
+      btMatrix3x3::setIdentity(v6, (int)&v306.m_el[1].mVec128.m128_i32[1]);
+      v275 = *(float **)(a3 + 24);
+      v312.mVec128 = (__m128)0LL;
+      v276 = v275[6];
+      v277 = v275[5];
+      *(unsigned __int64 *)((char *)v306.m_el[0].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 336);
+      v306.m_el[0].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 344);
+      v275 += 4;
+      v306.m_el[1].mVec128.m128_i32[0] = *(_DWORD *)(a3 + 348);
+      v278 = v275[5] * v306.m_el[0].mVec128.m128_f32[2];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(v276 * v306.m_el[0].mVec128.m128_f32[3])
+                                                                  + (float)(v277 * v306.m_el[0].mVec128.m128_f32[2]))
+                                                          + (float)(v306.m_el[0].mVec128.m128_f32[1] * *v275))
+                                                  + v275[12];
+      v279 = v306.m_el[0].mVec128.m128_f32[1] * v275[8];
+      v280 = (float)((float)((float)(v275[6] * v306.m_el[0].mVec128.m128_f32[3]) + v278)
+                   + (float)(v306.m_el[0].mVec128.m128_f32[1] * v275[4]))
+           + v275[13];
+      v281 = v275[9] * v306.m_el[0].mVec128.m128_f32[2];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[1] = v280;
+      *(float *)&v282 = (float)((float)((float)(v275[10] * v306.m_el[0].mVec128.m128_f32[3]) + v281) + v279) + v275[14];
+      v283 = constraint->__vftable;
+      fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v282;
+      v312.mVec128.m128_u64[0] = fAngleInRadians.m_el[2].mVec128.m128_u64[0];
+      v312.mVec128.m128_u64[1] = v282;
+      v284 = ((int (__thiscall *)(btTypedConstraint *))v283->getInfo1)(constraint);
+      (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v284 + 56))(
+        v284,
+        &v306.m_el[1].mVec128.m128_f32[1],
+        fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      v285 = *(float **)(a3 + 28);
+      v286 = v285[6];
+      v287 = v285[5];
+      *(unsigned __int64 *)((char *)v306.m_el[0].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 352);
+      v306.m_el[0].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 360);
+      v285 += 4;
+      v306.m_el[1].mVec128.m128_i32[0] = *(_DWORD *)(a3 + 364);
+      v288 = v285[5] * v306.m_el[0].mVec128.m128_f32[2];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(v286 * v306.m_el[0].mVec128.m128_f32[3])
+                                                                  + (float)(v287 * v306.m_el[0].mVec128.m128_f32[2]))
+                                                          + (float)(v306.m_el[0].mVec128.m128_f32[1] * *v285))
+                                                  + v285[12];
+      v289 = v306.m_el[0].mVec128.m128_f32[1] * v285[8];
+      *(float *)&v290 = (float)((float)((float)(v285[6] * v306.m_el[0].mVec128.m128_f32[3]) + v288)
+                              + (float)(v285[4] * v306.m_el[0].mVec128.m128_f32[1]))
+                      + v285[13];
+      v291 = v285[9] * v306.m_el[0].mVec128.m128_f32[2];
+      fAngleInRadians.m_el[2].mVec128.m128_i32[1] = v290;
+      fAngleInRadians.m_el[2].mVec128.m128_f32[2] = (float)((float)((float)(v285[10] * v306.m_el[0].mVec128.m128_f32[3])
+                                                                  + v291)
+                                                          + v289)
+                                                  + v285[14];
+      fAngleInRadians.m_el[2].mVec128.m128_i32[3] = 0;
+      v312.mVec128.m128_i32[0] = fAngleInRadians.m_el[2].mVec128.m128_i32[0];
+      *(unsigned __int64 *)((char *)v312.mVec128.m128_u64 + 4) = __PAIR64__(
+                                                                   fAngleInRadians.m_el[2].mVec128.m128_u32[2],
+                                                                   v290);
+      v312.mVec128.m128_i32[3] = 0;
+      if ( v302 )
+      {
+        v292 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v292 + 56))(
+          v292,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      break;
+    case 4:
+      v193 = *(float **)(a3 + 24);
+      v194 = *(float *)(a3 + 676);
+      v195 = *(float *)(a3 + 672);
+      v196 = *(float *)(a3 + 680);
+      v197 = v193[5];
+      v198 = v193[6];
+      v193 += 4;
+      v199 = *v193;
+      fAngleInRadians.m_el[1].mVec128.m128_u64[0] = __PAIR64__(LODWORD(v197), LODWORD(v198));
+      *(float *)&v303 = v199;
+      v200 = (float)((float)((float)(v199 * v195) + (float)(v197 * v194)) + (float)(v198 * v196)) + v193[12];
+      v201 = v193[9];
+      v202 = *(float *)(a3 + 664);
+      fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)((float)((float)(v193[5] * v194) + (float)(v193[6] * v196))
+                                                          + (float)(v195 * v193[4]))
+                                                  + v193[13];
+      v203 = (float)(v193[9] * v194) + (float)(v193[10] * v196);
+      v204 = v193[8] * v195;
+      v205 = *(float *)(a3 + 644);
+      *(float *)&v206 = (float)(v203 + v204) + v193[14];
+      v207 = (float)(v193[9] * *(float *)(a3 + 648)) + (float)(v193[10] * v202);
+      v208 = v193[8] * *(float *)(a3 + 632);
+      v209 = v193[9];
+      fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v206;
+      v210 = v193[10];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = v200;
+      v211 = *(float *)(a3 + 640);
+      v212 = v207 + v208;
+      v213 = *(float *)(a3 + 628);
+      v314 = v212;
+      v214 = *(float *)(a3 + 660);
+      v215 = (float)(v209 * v205) + (float)(v210 * v214);
+      v216 = v193[8];
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v211;
+      v217 = v215 + (float)(v216 * v213);
+      v218 = *(float *)(a3 + 656);
+      v219 = (float)(v201 * v211) + (float)(v193[10] * v218);
+      v220 = v193[8];
+      v316 = v217;
+      v221 = *(float *)(a3 + 624);
+      v222 = v219 + (float)(v220 * v221);
+      v223 = *(float *)(a3 + 648);
+      v317 = v222;
+      v224 = v193[5] * v223;
+      v225 = v193[6] * v202;
+      v226 = *(float *)(a3 + 632);
+      v227 = (float)(v224 + v225) + (float)(v193[4] * v226);
+      v228 = v193[5];
+      v319 = v227;
+      v229 = v193[6];
+      v318 = (float)((float)(v228 * v205) + (float)(v229 * v214)) + (float)(v213 * v193[4]);
+      v315 = (float)((float)(v193[5] * fAngleInRadians.m_el[0].mVec128.m128_f32[0]) + (float)(v229 * v218))
+           + (float)(v221 * v193[4]);
+      v230 = *(float *)&v303 * v226;
+      v231 = *(float *)(a3 + 664);
+      v232 = v230 + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[1] * *(float *)(a3 + 648));
+      fAngleInRadians.m_el[0].mVec128.m128_f32[1] = (float)((float)(v213 * *(float *)&v303)
+                                                          + (float)(v205 * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+                                                  + (float)(v214 * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+      v306.m_el[0].mVec128.m128_f32[0] = v232 + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[0] * v231);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = (float)((float)(v221 * *(float *)&v303)
+                                                          + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[0]
+                                                                  * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+                                                  + (float)(v218 * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+      btMatrix3x3::setValue(
+        &fAngleInRadians,
+        (int)&v330,
+        &fAngleInRadians.m_el[0].mVec128.m128_f32[1],
+        (float *)&v306,
+        &v315,
+        &v318,
+        &v319,
+        &v317,
+        &v316,
+        &v314,
+        (const float *)LODWORD(v293));
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = v330;
+      v306.m_el[1].mVec128.m128_i32[3] = v331;
+      v306.m_el[2] = (btVector3)v332.mVec128;
+      v307 = v333;
+      v308 = v334;
+      v309 = v335;
+      v310 = v336;
+      v311 = v337;
+      v312.mVec128 = (__m128)fAngleInRadians.m_el[2];
+      if ( v302 )
+      {
+        v233 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v233 + 56))(
+          v233,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      v234 = *(_DWORD *)(a3 + 28);
+      v235 = *(float *)(a3 + 736);
+      v236 = *(float *)(a3 + 740);
+      v237 = *(float *)(a3 + 744);
+      v238 = *(float *)(v234 + 20);
+      v239 = *(float *)(v234 + 24);
+      v234 += 16;
+      v240 = v235 * *(float *)v234;
+      v303 = *(int *)v234;
+      v241 = *(float *)(a3 + 708);
+      fAngleInRadians.m_el[1].mVec128.m128_u64[0] = __PAIR64__(LODWORD(v238), LODWORD(v239));
+      v242 = (float)((float)(v240 + (float)(v236 * v238)) + (float)(v237 * v239)) + *(float *)(v234 + 48);
+      v243 = *(float *)(v234 + 36);
+      v244 = *(float *)(a3 + 712);
+      fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)((float)((float)(*(float *)(v234 + 20) * v236)
+                                                                  + (float)(*(float *)(v234 + 24) * v237))
+                                                          + (float)(*(float *)(v234 + 16) * v235))
+                                                  + *(float *)(v234 + 52);
+      v245 = *(float *)(v234 + 36) * v236;
+      v246 = *(float *)(v234 + 40) * v237;
+      v247 = *(float *)(v234 + 32) * v235;
+      v248 = *(float *)(v234 + 40);
+      v249 = v245 + v246;
+      v250 = *(float *)(v234 + 36);
+      *(float *)&v251 = (float)(v249 + v247) + *(float *)(v234 + 56);
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = v242;
+      v252 = *(float *)(v234 + 36) * v241;
+      fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v251;
+      v253 = *(float *)(a3 + 728);
+      v254 = *(float *)(a3 + 696);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v241;
+      v255 = (float)((float)(v250 * v244) + (float)(v248 * v253)) + (float)(v254 * *(float *)(v234 + 32));
+      v256 = v252 + (float)(*(float *)(v234 + 40) * *(float *)(a3 + 724));
+      v257 = *(float *)(a3 + 720);
+      fAngleInRadians.m_el[0].mVec128.m128_i32[1] = *(_DWORD *)(a3 + 724);
+      v316 = v255;
+      v258 = *(float *)(a3 + 692);
+      v259 = *(float *)(a3 + 688);
+      v317 = v256 + (float)(v258 * *(float *)(v234 + 32));
+      v260 = v243 * *(float *)(a3 + 704);
+      fAngleInRadians.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 704);
+      v261 = *(float *)(v234 + 40) * v257;
+      v314 = v257;
+      v262 = (float)(v260 + v261) + (float)(v259 * *(float *)(v234 + 32));
+      v263 = *(float *)(v234 + 24) * fAngleInRadians.m_el[0].mVec128.m128_f32[1];
+      v318 = (float)((float)(*(float *)(v234 + 20) * v244) + (float)(*(float *)(v234 + 24) * v253))
+           + (float)(*(float *)(v234 + 16) * v254);
+      v264 = (float)((float)(*(float *)(v234 + 20) * fAngleInRadians.m_el[0].mVec128.m128_f32[0]) + v263)
+           + (float)(*(float *)(v234 + 16) * v258);
+      v265 = *(float *)(v234 + 20);
+      v319 = v262;
+      v266 = *(float *)(v234 + 24);
+      v315 = v264;
+      v267 = (float)(v265 * fAngleInRadians.m_el[1].mVec128.m128_f32[3]) + (float)(v266 * v314);
+      v268 = *(float *)(v234 + 16);
+      v306.m_el[0].mVec128.m128_f32[0] = (float)((float)(v254 * *(float *)&v303)
+                                               + (float)(v244 * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+                                       + (float)(v253 * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+      v269 = fAngleInRadians.m_el[1].mVec128.m128_f32[3] * fAngleInRadians.m_el[1].mVec128.m128_f32[1];
+      v270 = v267 + (float)(v268 * v259);
+      v271 = (float)((float)(v259 * *(float *)&v303)
+                   + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[3] * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+           + (float)(v314 * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+      v314 = v270;
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = (float)((float)(v258 * *(float *)&v303)
+                                                          + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[0]
+                                                                  * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+                                                  + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[1]
+                                                          * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[1] = v271;
+      btMatrix3x3::setValue(
+        (btMatrix3x3 *)&fAngleInRadians.m_el[0].m_floats[1],
+        (int)&v330,
+        (float *)&fAngleInRadians,
+        (float *)&v306,
+        &v314,
+        &v315,
+        &v318,
+        &v319,
+        &v317,
+        &v316,
+        v300);
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = v330;
+      v306.m_el[1].mVec128.m128_i32[3] = v331;
+      v306.m_el[2] = (btVector3)v332.mVec128;
+      v307 = v333;
+      v308 = v334;
+      v309 = v335;
+      v310 = v336;
+      v311 = v337;
+      v312.mVec128 = (__m128)fAngleInRadians.m_el[2];
+      if ( v302 )
+      {
+        v273 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v273 + 56))(
+          v273,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      btAngularLimit::getLow(v272, (float *)(a3 + 760));
+      *(float *)&v303 = v269;
+      btAngularLimit::getHigh(v274, (float *)(a3 + 760));
+      fAngleInRadians.m_el[0].mVec128.m128_f32[2] = v269;
+      break;
+    case 5:
+      v39 = *(float **)(a3 + 24);
+      v40 = *(float *)(a3 + 388);
+      v41 = v39[5];
+      v42 = *(float *)(a3 + 392);
+      v43 = v39[6];
+      v39 += 4;
+      v44 = *v39;
+      v45 = (float)((float)((float)(*v39 * *(float *)(a3 + 384)) + (float)(v41 * v40)) + (float)(v43 * v42)) + v39[12];
+      v46 = v39[5] * v40;
+      v47 = v39[6];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = v45;
+      v48 = v46 + (float)(v47 * v42);
+      v49 = *(float *)(a3 + 384);
+      v50 = v39[9];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)(v48 + (float)(v39[4] * v49)) + v39[13];
+      v51 = (float)(v50 * *(float *)(a3 + 388)) + (float)(v39[10] * v42);
+      v52 = v39[8] * v49;
+      v53 = *(float *)(a3 + 344) * v39[8];
+      *(float *)&v54 = (float)(v51 + v52) + v39[14];
+      v55 = *(float *)(a3 + 360);
+      v56 = v39[9] * v55;
+      fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v54;
+      v57 = *(float *)(a3 + 376);
+      v58 = v39[9];
+      v59 = (float)(v56 + (float)(v39[10] * v57)) + v53;
+      v60 = *(float *)(a3 + 372);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v59;
+      v61 = v39[10] * v60;
+      v62 = *(float *)(a3 + 368);
+      v63 = (float)((float)(v58 * *(float *)(a3 + 356)) + v61) + (float)(v39[8] * *(float *)(a3 + 340));
+      v64 = *(float *)(a3 + 352);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[1] = v63;
+      v65 = (float)((float)(v39[9] * v64) + (float)(v39[10] * v62)) + (float)(v39[8] * *(float *)(a3 + 336));
+      v66 = v39[5] * v55;
+      v67 = v39[6] * v57;
+      fAngleInRadians.m_el[1].mVec128.m128_f32[3] = v65;
+      v68 = v66 + v67;
+      v69 = *(float *)(a3 + 356);
+      v70 = v39[6];
+      v305 = v68 + (float)(v39[4] * *(float *)(a3 + 344));
+      v71 = v39[5] * v69;
+      v72 = *(float *)(a3 + 352);
+      *(float *)&v73 = (float)(v71 + (float)(v70 * *(float *)(a3 + 372))) + (float)(v39[4] * *(float *)(a3 + 340));
+      v74 = v39[6];
+      v303 = v73;
+      v75 = v39[5] * v72;
+      v76 = *(float *)(a3 + 336);
+      fAngleInRadians.m_el[1].mVec128.m128_f32[1] = (float)(v75 + (float)(v74 * *(float *)(a3 + 368)))
+                                                  + (float)(v39[4] * v76);
+      v77 = (float)((float)(v44 * *(float *)(a3 + 344)) + (float)(v41 * v55)) + (float)(v43 * v57);
+      v78 = (float)((float)(v44 * *(float *)(a3 + 340)) + (float)(v41 * *(float *)(a3 + 356)))
+          + (float)(v43 * *(float *)(a3 + 372));
+      v79 = (float)((float)(v43 * *(float *)(a3 + 368)) + (float)(v44 * v76)) + (float)(v41 * *(float *)(a3 + 352));
+      fAngleInRadians.m_el[1].mVec128.m128_f32[0] = v77;
+      fAngleInRadians.m_el[0].mVec128.m128_f32[2] = v78;
+      v306.m_el[0].mVec128.m128_f32[0] = v79;
+      btMatrix3x3::setValue(
+        &v306,
+        (int)&v330,
+        &fAngleInRadians.m_el[0].mVec128.m128_f32[2],
+        fAngleInRadians.m_el[1].mVec128.m128_f32,
+        &fAngleInRadians.m_el[1].mVec128.m128_f32[1],
+        (float *)&v303,
+        &v305,
+        &fAngleInRadians.m_el[1].mVec128.m128_f32[3],
+        &fAngleInRadians.m_el[0].mVec128.m128_f32[1],
+        (const float *)&fAngleInRadians,
+        (const float *)LODWORD(v293));
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = v330;
+      v306.m_el[1].mVec128.m128_i32[3] = v331;
+      v306.m_el[2] = (btVector3)v332.mVec128;
+      v307 = v333;
+      v308 = v334;
+      v309 = v335;
+      v310 = v336;
+      v311 = v337;
+      v312.mVec128 = (__m128)fAngleInRadians.m_el[2];
+      if ( v302 )
+      {
+        v80 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v80 + 56))(
+          v80,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      v81 = *(float **)(a3 + 28);
+      v82 = *(float *)(a3 + 452);
+      v83 = *(float *)(a3 + 448);
+      v84 = v81[5];
+      v85 = *(float *)(a3 + 456);
+      v86 = v81[6];
+      v81 += 4;
+      v87 = *v81;
+      v88 = v81[6];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(*v81 * v83) + (float)(v84 * v82))
+                                                          + (float)(v86 * v85))
+                                                  + v81[12];
+      v89 = (float)((float)((float)(v81[5] * v82) + (float)(v88 * v85)) + (float)(v83 * v81[4])) + v81[13];
+      v90 = v83 * v81[8];
+      v91 = v81[10];
+      fAngleInRadians.m_el[2].mVec128.m128_f32[1] = v89;
+      v92 = v81[9] * v82;
+      v93 = v81[10] * v85;
+      v94 = *(float *)(a3 + 424);
+      v95 = v92 + v93;
+      v96 = *(float *)(a3 + 408);
+      fAngleInRadians.m_el[2].mVec128.m128_f32[2] = (float)(v95 + v90) + v81[14];
+      v97 = v81[9] * v94;
+      fAngleInRadians.m_el[2].mVec128.m128_i32[3] = 0;
+      v98 = *(float *)(a3 + 440);
+      v99 = v97 + (float)(v91 * v98);
+      v100 = v81[8] * v96;
+      v101 = *(float *)(a3 + 436);
+      v102 = v99 + v100;
+      v103 = v81[9];
+      v306.m_el[0].mVec128.m128_f32[0] = v102;
+      v104 = v81[10] * v101;
+      v105 = *(float *)(a3 + 432);
+      v106 = (float)((float)(v103 * *(float *)(a3 + 420)) + v104) + (float)(v81[8] * *(float *)(a3 + 404));
+      v107 = *(float *)(a3 + 416);
+      fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v106;
+      v108 = (float)(v81[9] * v107) + (float)(v81[10] * v105);
+      v109 = (float)(v81[5] * v94) + (float)(v81[6] * v98);
+      v110 = *(float *)(a3 + 408) * v81[4];
+      fAngleInRadians.m_el[0].mVec128.m128_f32[1] = v108 + (float)(*(float *)(a3 + 400) * v81[8]);
+      v111 = v81[6];
+      v112 = v109 + v110;
+      v113 = *(float *)(a3 + 420);
+      fAngleInRadians.m_el[1].mVec128.m128_f32[3] = v112;
+      v114 = (float)(v81[5] * v113) + (float)(v111 * *(float *)(a3 + 436));
+      v115 = v81[5];
+      v116 = *(float *)(a3 + 416);
+      v305 = v114 + (float)(*(float *)(a3 + 404) * v81[4]);
+      v117 = v115 * v116;
+      v118 = *(float *)(a3 + 432);
+      v119 = *(float *)(a3 + 408);
+      *(float *)&v303 = (float)(v117 + (float)(v81[6] * v118)) + (float)(*(float *)(a3 + 400) * v81[4]);
+      v120 = (float)((float)(v87 * v119) + (float)(v84 * v94)) + (float)(v86 * v98);
+      v121 = (float)(v87 * *(float *)(a3 + 404)) + (float)(v84 * *(float *)(a3 + 420));
+      v122 = v86 * *(float *)(a3 + 436);
+      v123 = (float)((float)(v87 * *(float *)(a3 + 400)) + (float)(v84 * *(float *)(a3 + 416))) + (float)(v86 * v118);
+      fAngleInRadians.m_el[1].mVec128.m128_f32[1] = v120;
+      fAngleInRadians.m_el[1].mVec128.m128_f32[0] = v121 + v122;
+      fAngleInRadians.m_el[0].mVec128.m128_f32[2] = v123;
+      btMatrix3x3::setValue(
+        (btMatrix3x3 *)&fAngleInRadians.m_el[0].m_floats[2],
+        (int)&v330,
+        fAngleInRadians.m_el[1].mVec128.m128_f32,
+        &fAngleInRadians.m_el[1].mVec128.m128_f32[1],
+        (float *)&v303,
+        &v305,
+        &fAngleInRadians.m_el[1].mVec128.m128_f32[3],
+        &fAngleInRadians.m_el[0].mVec128.m128_f32[1],
+        (float *)&fAngleInRadians,
+        (const float *)&v306,
+        v296);
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = v330;
+      v306.m_el[1].mVec128.m128_i32[3] = v331;
+      v306.m_el[2] = (btVector3)v332.mVec128;
+      v307 = v333;
+      v308 = v334;
+      v309 = v335;
+      v310 = v336;
+      v311 = v337;
+      v312.mVec128 = (__m128)fAngleInRadians.m_el[2];
+      if ( v302 )
+      {
+        v125 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v125 + 56))(
+          v125,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      if ( fAngleInRadians.m_el[1].mVec128.m128_i8[11] )
+      {
+        btConeTwistConstraint::GetPointForAngle(
+          v124,
+          a3,
+          (int)v320,
+          6.0868354,
+          fAngleInRadians.m_el[0].mVec128.m128_f32[3],
+          v297);
+        fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(v306.m_el[1].mVec128.m128_f32[3]
+                                                                            * *(float *)&v320[8])
+                                                                    + (float)(v306.m_el[1].mVec128.m128_f32[2]
+                                                                            * *(float *)&v320[4]))
+                                                            + (float)(v306.m_el[1].mVec128.m128_f32[1] * *(float *)v320))
+                                                    + v312.mVec128.m128_f32[0];
+        fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)((float)((float)(v306.m_el[2].mVec128.m128_f32[3]
+                                                                            * *(float *)&v320[8])
+                                                                    + (float)(v306.m_el[2].mVec128.m128_f32[2]
+                                                                            * *(float *)&v320[4]))
+                                                            + (float)(v306.m_el[2].mVec128.m128_f32[1] * *(float *)v320))
+                                                    + v312.mVec128.m128_f32[1];
+        fAngleInRadians.m_el[0].mVec128.m128_i32[2] = 0;
+        fAngleInRadians.m_el[2].mVec128.m128_f32[2] = (float)((float)((float)(v310 * *(float *)&v320[8])
+                                                                    + (float)(v309 * *(float *)&v320[4]))
+                                                            + (float)(v308 * *(float *)v320))
+                                                    + v312.mVec128.m128_f32[2];
+        *(float *)v320 = fAngleInRadians.m_el[2].mVec128.m128_f32[0];
+        *(_QWORD *)&v320[4] = *(unsigned __int64 *)((char *)fAngleInRadians.m_el[2].mVec128.m128_u64 + 4);
+        v321 = 0;
+        fAngleInRadians.m_el[2].mVec128.m128_i32[3] = 0;
+        do
         {
           btConeTwistConstraint::GetPointForAngle(
-            (btConeTwistConstraint *)v8,
-            (int)constraint,
-            &result,
-            6.0868354,
-            yx[1]);
-          v263.mVec128.m128_f32[0] = (float)((float)((float)(result.mVec128.m128_f32[2] * *(float *)&v264.m128i_i32[2])
-                                                   + (float)(*(float *)&v264.m128i_i32[1] * result.mVec128.m128_f32[1]))
-                                           + (float)(*(float *)v264.m128i_i32 * result.mVec128.m128_f32[0]))
-                                   + *(float *)si128.m128i_i32;
-          v263.mVec128.m128_f32[1] = (float)((float)((float)(result.mVec128.m128_f32[2] * *(float *)&v265.m128i_i32[2])
-                                                   + (float)(*(float *)&v265.m128i_i32[1] * result.mVec128.m128_f32[1]))
-                                           + (float)(*(float *)v265.m128i_i32 * result.mVec128.m128_f32[0]))
-                                   + *(float *)&si128.m128i_i32[1];
-          v263.mVec128.m128_f32[2] = (float)((float)((float)(result.mVec128.m128_f32[2] * *(float *)&v266.m128i_i32[2])
-                                                   + (float)(*(float *)&v266.m128i_i32[1] * result.mVec128.m128_f32[1]))
-                                           + (float)(*(float *)v266.m128i_i32 * result.mVec128.m128_f32[0]))
-                                   + *(float *)&si128.m128i_i32[2];
-          v263.mVec128.m128_i32[3] = 0;
-          result.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v263);
-          v138 = 0;
-          v268.m128i_i32[3] = 0;
-          do
+            v126,
+            a3,
+            (int)&v306.m_el[0].mVec128.m128_i32[1],
+            (float)fAngleInRadians.m_el[0].mVec128.m128_i32[2] * 0.19634953,
+            fAngleInRadians.m_el[0].mVec128.m128_f32[3],
+            *(float *)&v298);
+          fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(v306.m_el[1].mVec128.m128_f32[3]
+                                                                              * v306.m_el[0].mVec128.m128_f32[3])
+                                                                      + (float)(v306.m_el[1].mVec128.m128_f32[2]
+                                                                              * v306.m_el[0].mVec128.m128_f32[2]))
+                                                              + (float)(v306.m_el[1].mVec128.m128_f32[1]
+                                                                      * v306.m_el[0].mVec128.m128_f32[1]))
+                                                      + v312.mVec128.m128_f32[0];
+          fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)((float)((float)(v306.m_el[2].mVec128.m128_f32[3]
+                                                                              * v306.m_el[0].mVec128.m128_f32[3])
+                                                                      + (float)(v306.m_el[2].mVec128.m128_f32[2]
+                                                                              * v306.m_el[0].mVec128.m128_f32[2]))
+                                                              + (float)(v306.m_el[2].mVec128.m128_f32[1]
+                                                                      * v306.m_el[0].mVec128.m128_f32[1]))
+                                                      + v312.mVec128.m128_f32[1];
+          fAngleInRadians.m_el[2].mVec128.m128_f32[2] = (float)((float)((float)(v310 * v306.m_el[0].mVec128.m128_f32[3])
+                                                                      + (float)(v309 * v306.m_el[0].mVec128.m128_f32[2]))
+                                                              + (float)(v308 * v306.m_el[0].mVec128.m128_f32[1]))
+                                                      + v312.mVec128.m128_f32[2];
+          *(btVector3 *)((char *)v306.m_el + 4) = fAngleInRadians.m_el[2];
+          v127 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+          memset(v353, 0, sizeof(v353));
+          (*(void (__thiscall **)(int, _BYTE *, float *, _DWORD *))(*(_DWORD *)v127 + 12))(
+            v127,
+            v320,
+            &v306.m_el[0].mVec128.m128_f32[1],
+            v353);
+          if ( !(fAngleInRadians.m_el[0].mVec128.m128_i32[2] % 4) )
           {
-            btConeTwistConstraint::GetPointForAngle(
-              (btConeTwistConstraint *)&v263,
-              (int)constraint,
-              &v263,
-              (float)v138 * 0.19634953,
-              yx[1]);
-            v139 = this->getDebugDrawer;
-            *(float *)v268.m128i_i32 = (float)((float)((float)(v263.mVec128.m128_f32[2] * *(float *)&v264.m128i_i32[2])
-                                                     + (float)(*(float *)&v264.m128i_i32[1] * v263.mVec128.m128_f32[1]))
-                                             + (float)(*(float *)v264.m128i_i32 * v263.mVec128.m128_f32[0]))
-                                     + *(float *)si128.m128i_i32;
-            *(float *)&v268.m128i_i32[1] = (float)((float)((float)(v263.mVec128.m128_f32[2]
-                                                                 * *(float *)&v265.m128i_i32[2])
-                                                         + (float)(*(float *)&v265.m128i_i32[1]
-                                                                 * v263.mVec128.m128_f32[1]))
-                                                 + (float)(*(float *)v265.m128i_i32 * v263.mVec128.m128_f32[0]))
-                                         + *(float *)&si128.m128i_i32[1];
-            *(float *)&v268.m128i_i32[2] = (float)((float)((float)(v263.mVec128.m128_f32[2]
-                                                                 * *(float *)&v266.m128i_i32[2])
-                                                         + (float)(*(float *)&v266.m128i_i32[1]
-                                                                 * v263.mVec128.m128_f32[1]))
-                                                 + (float)(*(float *)v266.m128i_i32 * v263.mVec128.m128_f32[0]))
-                                         + *(float *)&si128.m128i_i32[2];
-            v263.mVec128 = (__m128)_mm_load_si128(&v268);
-            v140 = (int)v139(this);
-            *((_QWORD *)&v276 + 1) = 0;
-            v277 = 0;
-            v278 = 0;
-            (*(void (__thiscall **)(int, btVector3 *, btVector3 *, char *))(*(_DWORD *)v140 + 12))(
-              v140,
-              &result,
-              &v263,
-              (char *)&v276 + 8);
-            if ( (v138 & 3) == 0 )
-            {
-              v141 = this->getDebugDrawer(this);
-              memset(v285, 0, sizeof(v285));
-              v141->drawLine(v141, (const btVector3 *)&si128, &v263, (const btVector3 *)v285);
-            }
-            ++v138;
-            result.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v263);
+            v128 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+            memset(v354, 0, 16);
+            (*(void (__thiscall **)(int, btVector3 *, float *, _DWORD *))(*(_DWORD *)v128 + 12))(
+              v128,
+              &v312,
+              &v306.m_el[0].mVec128.m128_f32[1],
+              v354);
           }
-          while ( v138 < 32 );
-          v142 = (float *)constraint->m_rbB;
-          HIDWORD(yz[0]) = constraint[12].m_userConstraintType;
-          m_appliedImpulse_low = constraint[13].m_rbB;
-          if ( v142[88] <= 0.0 )
-          {
-            v173 = (float *)constraint->m_rbA;
-            v174 = constraint[9].m_rbB;
-            v175 = constraint[9].m_rbA;
-            v176 = v173[5];
-            v177 = v173[4];
-            v178 = constraint[9].m_appliedImpulse;
-            v179 = v173[6];
-            v173 += 4;
-            v180 = v173[6];
-            *(float *)v268.m128i_i32 = (float)((float)((float)(v177 * *(float *)&v175) + (float)(v176 * *(float *)&v174))
-                                             + (float)(v179 * v178))
-                                     + v173[12];
-            *(float *)&v181 = (float)((float)((float)(v173[5] * *(float *)&v174) + (float)(v180 * v178))
-                                    + (float)(v173[4] * *(float *)&v175))
-                            + v173[13];
-            v182 = v173[10];
-            v268.m128i_i32[1] = v181;
-            v183 = (float)(v173[9] * *(float *)&v174) + (float)(v173[10] * v178);
-            v184 = constraint[9].__vftable;
-            v185 = v173[8] * *(float *)&v175;
-            v186 = constraint[8].m_rbA;
-            *(float *)&v268.m128i_i32[2] = (float)(v183 + v185) + v173[14];
-            v187 = v173[9] * *(float *)&v184;
-            v268.m128i_i32[3] = 0;
-            v188 = constraint[9].m_breakingImpulseThreshold;
-            v189 = v187 + (float)(v182 * v188);
-            v190 = v173[8] * *(float *)&v186;
-            v191 = constraint[9].m_userConstraintId;
-            v192 = v189 + v190;
-            v193 = v173[9];
-            yy[0] = v192;
-            v194 = v173[10] * *(float *)&v191;
-            v195 = constraint[9].m_userConstraintType;
-            v196 = (float)((float)(v193 * constraint[8].m_dbgDrawSize) + v194)
-                 + (float)(v173[8] * *(float *)&constraint[8].m_isEnabled);
-            v197 = constraint[8].m_appliedImpulse;
-            yx[3] = v196;
-            v198 = (float)((float)(v173[9] * v197) + (float)(v173[10] * *(float *)&v195))
-                 + (float)(v173[8] * constraint[8].m_breakingImpulseThreshold);
-            v199 = v173[5] * *(float *)&v184;
-            v200 = v173[6] * v188;
-            *(float *)yz = v198;
-            v201 = v173[6];
-            v202 = (float)(v199 + v200) + (float)(*(float *)&constraint[8].m_rbA * v173[4]);
-            v203 = constraint[8].m_dbgDrawSize;
-            yy[1] = v202;
-            v204 = (float)(v173[5] * v203) + (float)(v201 * *(float *)&constraint[9].m_userConstraintId);
-            v205 = v173[5];
-            v206 = constraint[8].m_appliedImpulse;
-            yx[2] = v204 + (float)(*(float *)&constraint[8].m_isEnabled * v173[4]);
-            v207 = v205 * v206;
-            v208 = constraint[9].m_userConstraintType;
-            v209 = constraint[8].m_rbA;
-            xz[3] = (float)(v207 + (float)(v173[6] * *(float *)&v208))
-                  + (float)(constraint[8].m_breakingImpulseThreshold * v173[4]);
-            v210 = (float)((float)(v177 * *(float *)&v209) + (float)(v176 * *(float *)&v184)) + (float)(v179 * v188);
-            v211 = (float)(v177 * *(float *)&constraint[8].m_isEnabled) + (float)(v176 * constraint[8].m_dbgDrawSize);
-            v212 = v179 * *(float *)&constraint[9].m_userConstraintId;
-            v213 = (float)(v179 * *(float *)&v208) + (float)(v177 * constraint[8].m_breakingImpulseThreshold);
-            v214 = constraint[8].m_appliedImpulse;
-            xy = v210;
-            v269.m_el[0].mVec128.m128_f32[1] = v211 + v212;
-            v269.m_el[0].mVec128.m128_f32[0] = v213 + (float)(v176 * v214);
-            btMatrix3x3::btMatrix3x3(
-              &v269,
-              (btMatrix3x3 *)&yz[1],
-              &v269.m_el[0].mVec128.m128_f32[1],
-              &xy,
-              &xz[3],
-              &yx[2],
-              &yy[1],
-              (const float *)yz,
-              &yx[3],
-              yy,
-              v251);
-            v264 = _mm_load_si128((const __m128i *)&yz[1]);
-            v265 = _mm_load_si128(&v259);
-          }
-          else
-          {
-            v143 = constraint[11].m_breakingImpulseThreshold;
-            v144 = constraint[11].m_userConstraintType;
-            v145 = v142[4];
-            v146 = v142[6];
-            v147 = constraint[11].m_userConstraintId;
-            v148 = v142[5];
-            v149 = v142[10];
-            *(float *)v268.m128i_i32 = (float)((float)((float)(v143 * v146) + (float)(v145 * *(float *)&v144))
-                                             + (float)(v148 * *(float *)&v147))
-                                     + v142[16];
-            v150 = (float)(v142[9] * *(float *)&v147) + (float)(v149 * v143);
-            v151 = v142[8] * *(float *)&v144;
-            v152 = *(float *)&v144 * v142[12];
-            *(float *)&v268.m128i_i32[1] = (float)(v150 + v151) + v142[17];
-            v153 = v142[13] * *(float *)&v147;
-            v154 = v142[14] * v143;
-            v155 = constraint[11].__vftable;
-            v156 = v153 + v154;
-            v157 = constraint[10].m_rbA;
-            v158 = constraint[10].m_objectType;
-            *(float *)&v268.m128i_i32[2] = (float)(v156 + v152) + v142[18];
-            v159 = constraint[10].m_userConstraintType;
-            v268.m128i_i32[3] = 0;
-            *(float *)&v160 = (float)((float)(v142[13] * *(float *)&v157) + (float)(v142[14] * *(float *)&v155))
-                            + (float)(v142[12] * *(float *)&v159);
-            *(float *)&v161 = (float)((float)(v142[13] * *(float *)&constraint[10].m_isEnabled)
-                                    + (float)(v142[14] * constraint[10].m_dbgDrawSize))
-                            + (float)(v142[12] * *(float *)&v158);
-            *(float *)&v162 = (float)((float)(v142[13] * constraint[10].m_breakingImpulseThreshold)
-                                    + (float)(v142[14] * constraint[10].m_appliedImpulse))
-                            + (float)(v142[12] * *(float *)&constraint[10].__vftable);
-            v163 = constraint[11].__vftable;
-            yy[0] = v142[9] * *(float *)&constraint[10].m_rbA;
-            v164 = v142[9];
-            yy[1] = (float)(yy[0] + (float)(v142[10] * *(float *)&v163))
-                  + (float)(*(float *)&constraint[10].m_userConstraintType * v142[8]);
-            v165 = constraint[10].m_dbgDrawSize;
-            xz[3] = v164 * *(float *)&constraint[10].m_isEnabled;
-            v166 = v142[8];
-            xz[3] = xz[3] + (float)(v142[10] * v165);
-            v167 = xz[3] + (float)(v166 * *(float *)&constraint[10].m_objectType);
-            v168 = v142[9];
-            *(float *)yz = v167;
-            v169 = constraint[10].m_appliedImpulse;
-            xz[3] = v168 * constraint[10].m_breakingImpulseThreshold;
-            v170 = v142[8];
-            xz[3] = xz[3] + (float)(v142[10] * v169);
-            yx[3] = xz[3] + (float)(v170 * *(float *)&constraint[10].__vftable);
-            xz[3] = (float)(v145 * *(float *)&constraint[10].m_userConstraintType)
-                  + (float)(v148 * *(float *)&constraint[10].m_rbA);
-            yy[0] = xz[3] + (float)(v146 * *(float *)&constraint[11].__vftable);
-            xz[3] = (float)(v145 * *(float *)&constraint[10].m_objectType)
-                  + (float)(v148 * *(float *)&constraint[10].m_isEnabled);
-            v171 = xz[3] + (float)(v146 * constraint[10].m_dbgDrawSize);
-            *(float *)&yz[1] = (float)((float)(v145 * *(float *)&constraint[10].__vftable)
-                                     + (float)(v148 * constraint[10].m_breakingImpulseThreshold))
-                             + (float)(v146 * constraint[10].m_appliedImpulse);
-            v258 = LODWORD(yy[0]);
-            *((float *)&yz[1] + 1) = v171;
-            v259.m128i_i64[0] = __PAIR64__(yz[0], LODWORD(yx[3]));
-            v259.m128i_i64[1] = LODWORD(yy[1]);
-            v264 = _mm_load_si128((const __m128i *)&yz[1]);
-            v172 = _mm_load_si128(&v259);
-            v260.m128i_i64[0] = __PAIR64__(v161, v162);
-            v260.m128i_i64[1] = v160;
-            v265 = v172;
-          }
-          v266 = _mm_load_si128(&v260);
-          v215 = this->getDebugDrawer;
-          si128 = _mm_load_si128(&v268);
-          v283 = si128;
-          v269.m_el[0].mVec128.m128_u64[1] = __PAIR64__(v265.m128i_u32[0], v264.m128i_u32[0]);
-          v269.m_el[1].mVec128.m128_u64[0] = v266.m128i_u32[0];
-          v269.m_el[1].mVec128.m128_u64[1] = __PAIR64__(v265.m128i_u32[1], v264.m128i_u32[1]);
-          v269.m_el[2].mVec128.m128_u64[0] = v266.m128i_u32[1];
-          v216 = (int)v215(this);
-          memset(v284, 0, sizeof(v284));
-          (*(void (__thiscall **)(int, __m128i *, float *, float *, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD *, int, _DWORD))(*(_DWORD *)v216 + 60))(
-            v216,
-            &v283,
-            &v269.m_el[0].mVec128.m128_f32[2],
-            &v269.m_el[1].mVec128.m128_f32[2],
-            LODWORD(yx[1]),
-            LODWORD(yx[1]),
-            (float)-*(float *)&m_appliedImpulse_low - *((float *)yz + 1),
-            *((float *)yz + 1) - *(float *)&m_appliedImpulse_low,
-            v284,
-            1,
-            10.0);
+          ++fAngleInRadians.m_el[0].mVec128.m128_i32[2];
+          *(_QWORD *)v320 = *(unsigned __int64 *)((char *)v306.m_el[0].mVec128.m128_u64 + 4);
+          *(_DWORD *)&v320[8] = v306.m_el[0].mVec128.m128_i32[3];
+          v321 = v306.m_el[1].mVec128.m128_i32[0];
         }
-        return;
-      case 6:
-      case 9:
-        yz[1] = *(_QWORD *)&constraint[29].m_userConstraintType;
-        v258 = *(_QWORD *)&constraint[29].m_breakingImpulseThreshold;
-        v259 = *(__m128i *)&constraint[29].m_rbA;
-        v260 = *(__m128i *)&constraint[30].__vftable;
-        v261 = *(_QWORD *)&constraint[30].m_breakingImpulseThreshold;
-        v262 = *(_QWORD *)&constraint[30].m_rbA;
-        if ( v5 )
+        while ( fAngleInRadians.m_el[0].mVec128.m128_i32[2] < 32 );
+        v129 = *(float **)(a3 + 28);
+        fAngleInRadians.m_el[0].mVec128.m128_i32[0] = *(_DWORD *)(a3 + 488);
+        v314 = *(float *)(a3 + 548);
+        if ( v129[88] <= 0.0 )
         {
-          v217 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, _QWORD *, _DWORD))v217->drawTransform)(v217, &yz[1], LODWORD(yx[1]));
-        }
-        yz[1] = *(_QWORD *)&constraint[30].m_appliedImpulse;
-        v258 = *(_QWORD *)&constraint[31].__vftable;
-        v259 = *(__m128i *)&constraint[31].m_userConstraintType;
-        v260 = *(__m128i *)&constraint[31].m_rbA;
-        v261 = *(_QWORD *)&constraint[32].__vftable;
-        v262 = *(_QWORD *)&constraint[32].m_userConstraintType;
-        if ( v5 )
-        {
-          v218 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, _QWORD *, _DWORD))v218->drawTransform)(v218, &yz[1], LODWORD(yx[1]));
-        }
-        if ( !HIBYTE(yx[0]) )
-          return;
-        v219 = *(float *)&constraint[25].m_rbB;
-        yz[1] = *(_QWORD *)&constraint[29].m_userConstraintType;
-        v269.m_el[0].mVec128.m128_f32[0] = v219;
-        v220 = *(float *)&constraint[27].m_userConstraintType;
-        v258 = *(_QWORD *)&constraint[29].m_breakingImpulseThreshold;
-        *((float *)yz + 1) = v220;
-        v221 = *(_QWORD *)&constraint[29].m_rbA;
-        v222 = this->__vftable;
-        m_appliedImpulse_low = (btRigidBody *)constraint[27].m_userConstraintId;
-        v259.m128i_i64[0] = v221;
-        v223 = v222->getDebugDrawer;
-        v259.m128i_i64[1] = *(_QWORD *)&constraint[29].m_appliedImpulse;
-        v260 = *(__m128i *)&constraint[30].__vftable;
-        v261 = *(_QWORD *)&constraint[30].m_breakingImpulseThreshold;
-        v262 = *(_QWORD *)&constraint[30].m_rbA;
-        v269.m_el[0].mVec128.m128_i32[3] = v259.m128i_i32[2];
-        v269.m_el[1].mVec128.m128_u64[0] = v260.m128i_u32[2];
-        result.mVec128.m128_u64[0] = __PAIR64__(v221, yz[1]);
-        v224 = constraint[25].m_rbA;
-        result.mVec128.m128_u64[1] = v260.m128i_u32[0];
-        *(unsigned __int64 *)((char *)v269.m_el[0].mVec128.m128_u64 + 4) = __PAIR64__(v258, (unsigned int)v224);
-        v225 = (int)v223(this);
-        v279 = 0;
-        v280 = 0;
-        v281 = 0;
-        v282 = 0;
-        (*(void (__thiscall **)(int, btTypedConstraint *, float *, btVector3 *, _DWORD, int, int, _DWORD, btRigidBody *, int *, _DWORD))(*(_DWORD *)v225 + 64))(
-          v225,
-          constraint + 32,
-          &v269.m_el[0].mVec128.m128_f32[2],
-          &result,
-          yx[1] * 0.89999998,
-          v269.m_el[0].mVec128.m128_i32[1],
-          v269.m_el[0].mVec128.m128_i32[0],
-          HIDWORD(yz[0]),
-          m_appliedImpulse_low,
-          &v279,
-          10.0);
-        v269.m_el[1].mVec128.m128_u64[1] = __PAIR64__(v259.m128i_u32[1], HIDWORD(yz[1]));
-        v269.m_el[2].mVec128.m128_u64[0] = v260.m128i_u32[1];
-        v226 = (__m128)_mm_load_si128((const __m128i *)&v269.m_el[1].m_floats[2]);
-        m_appliedImpulse_low = *(btRigidBody **)&constraint[32].m_isEnabled;
-        yy[1] = *(float *)&constraint[32].m_rbA;
-        result.mVec128 = v226;
-        *((float *)yz + 1) = cosf(*(float *)&m_appliedImpulse_low);
-        v269.m_el[0].mVec128.m128_f32[0] = sinf(*(float *)&m_appliedImpulse_low);
-        yx[2] = cosf(yy[1]);
-        v227 = sinf(yy[1]);
-        *(float *)&m_appliedImpulse_low = v227;
-        v228 = *(float *)&v260.m128i_i32[1];
-        *(float *)&v268.m128i_i32[1] = *(float *)&v259.m128i_i32[1] * yx[2] - v227 * *((float *)&yz[1] + 1);
-        v229 = (float)(*(float *)&v259.m128i_i32[1] * *(float *)&m_appliedImpulse_low)
-             + (float)(*((float *)&yz[1] + 1) * yx[2]);
-        *(float *)&v268.m128i_i32[2] = (float)(*(float *)&v260.m128i_i32[1] * *((float *)yz + 1))
-                                     + (float)(v229 * v269.m_el[0].mVec128.m128_f32[0]);
-        yz[1] = *(_QWORD *)&constraint[30].m_appliedImpulse;
-        v258 = *(_QWORD *)&constraint[31].__vftable;
-        v259 = *(__m128i *)&constraint[31].m_userConstraintType;
-        v260 = *(__m128i *)&constraint[31].m_rbA;
-        v261 = *(_QWORD *)&constraint[32].__vftable;
-        v262 = *(_QWORD *)&constraint[32].m_userConstraintType;
-        v263.mVec128.m128_f32[0] = -*(float *)&yz[1];
-        v263.mVec128.m128_i32[1] = v259.m128i_i32[0] ^ 0x80000000;
-        v263.mVec128.m128_u64[1] = v260.m128i_u32[0] ^ 0x80000000LL;
-        v230 = constraint[24].m_objectType;
-        v231 = constraint[24].__vftable;
-        *(float *)v268.m128i_i32 = (float)(v229 * *((float *)yz + 1)) - (float)(v228 * v269.m_el[0].mVec128.m128_f32[0]);
-        HIDWORD(yz[0]) = v231;
-        m_appliedImpulse_low = (btRigidBody *)v230;
-        if ( *(float *)&v231 <= *(float *)&v230 )
-        {
-          if ( *(float *)&v230 <= *(float *)&v231 )
-          {
-LABEL_37:
-            v233 = this->__vftable;
-            yz[1] = *(_QWORD *)&constraint[29].m_userConstraintType;
-            v234 = v233->getDebugDrawer;
-            v258 = *(_QWORD *)&constraint[29].m_breakingImpulseThreshold;
-            v259 = *(__m128i *)&constraint[29].m_rbA;
-            v260 = *(__m128i *)&constraint[30].__vftable;
-            v261 = *(_QWORD *)&constraint[30].m_breakingImpulseThreshold;
-            v262 = *(_QWORD *)&constraint[30].m_rbA;
-            v283 = *(__m128i *)&constraint[18].m_appliedImpulse;
-            v286[0] = *(_QWORD *)&constraint[19].m_userConstraintType;
-            v286[1] = *(_QWORD *)&constraint[19].m_breakingImpulseThreshold;
-            v235 = (int)v234(this);
-            memset(v273, 0, sizeof(v273));
-            (*(void (__thiscall **)(int, __m128i *, _QWORD *, _QWORD *, _DWORD *))(*(_DWORD *)v235 + 68))(
-              v235,
-              &v283,
-              v286,
-              &yz[1],
-              v273);
-            return;
-          }
-          v232 = this->getDebugDrawer(this);
-          yy[0] = 10.0;
-          LODWORD(xz[3]) = 1;
-          v278 = 0;
-          v279 = 0;
-          v280 = 0;
-          v281 = 0;
+          v159 = *(_DWORD *)(a3 + 24);
+          v160 = *(float *)(a3 + 384);
+          v161 = *(float *)(a3 + 388);
+          v162 = *(float *)(a3 + 392);
+          v163 = *(float *)(v159 + 20);
+          v164 = *(float *)(v159 + 24);
+          v159 += 16;
+          fAngleInRadians.m_el[1].mVec128.m128_i32[1] = *(_DWORD *)v159;
+          fAngleInRadians.m_el[1].mVec128.m128_f32[0] = v164;
+          *(float *)&v303 = v163;
+          v165 = *(float *)(v159 + 36);
+          v166 = (float)((float)((float)(v160 * fAngleInRadians.m_el[1].mVec128.m128_f32[1]) + (float)(v161 * v163))
+                       + (float)(v162 * v164))
+               + *(float *)(v159 + 48);
+          v167 = *(float *)(a3 + 372);
+          fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)((float)((float)(*(float *)(v159 + 20) * v161)
+                                                                      + (float)(*(float *)(v159 + 24) * v162))
+                                                              + (float)(v160 * *(float *)(v159 + 16)))
+                                                      + *(float *)(v159 + 52);
+          v168 = *(float *)(v159 + 36) * v161;
+          v169 = *(float *)(v159 + 40) * v162;
+          v170 = *(float *)(v159 + 32) * v160;
+          v171 = *(float *)(v159 + 40);
+          v172 = v168 + v169;
+          v173 = *(float *)(v159 + 36);
+          *(float *)&v174 = (float)(v172 + v170) + *(float *)(v159 + 56);
+          v175 = *(float *)(a3 + 344);
+          fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v174;
+          v176 = *(float *)(a3 + 360);
+          v177 = *(float *)(a3 + 376);
+          fAngleInRadians.m_el[2].mVec128.m128_f32[0] = v166;
+          v178 = (float)((float)(v173 * v176) + (float)(v171 * v177)) + (float)(v175 * *(float *)(v159 + 32));
+          v179 = *(float *)(a3 + 340);
+          v180 = *(float *)(v159 + 40) * v167;
+          v316 = v178;
+          v181 = *(float *)(a3 + 356);
+          *(unsigned __int64 *)((char *)fAngleInRadians.m_el[0].mVec128.m128_u64 + 4) = __PAIR64__(
+                                                                                          *(_DWORD *)(a3 + 336),
+                                                                                          LODWORD(v179));
+          v182 = (float)((float)(v165 * v181) + v180) + (float)(v179 * *(float *)(v159 + 32));
+          v183 = *(float *)(a3 + 368);
+          v317 = v182;
+          v184 = *(float *)(v159 + 36) * *(float *)(a3 + 352);
+          fAngleInRadians.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 352);
+          v185 = *(float *)(v159 + 20);
+          v319 = (float)(v184 + (float)(*(float *)(v159 + 40) * v183))
+               + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[2] * *(float *)(v159 + 32));
+          v186 = *(float *)(v159 + 24);
+          v318 = (float)((float)(v185 * v176) + (float)(v186 * v177)) + (float)(v175 * *(float *)(v159 + 16));
+          v187 = (float)(*(float *)(v159 + 20) * v181) + (float)(v186 * v167);
+          v188 = *(float *)(v159 + 24);
+          v315 = v187 + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[1] * *(float *)(v159 + 16));
+          v189 = (float)(*(float *)(v159 + 20) * fAngleInRadians.m_el[1].mVec128.m128_f32[3]) + (float)(v188 * v183);
+          v190 = fAngleInRadians.m_el[0].mVec128.m128_f32[2] * *(float *)(v159 + 16);
+          v305 = (float)((float)(v175 * fAngleInRadians.m_el[1].mVec128.m128_f32[1]) + (float)(v176 * *(float *)&v303))
+               + (float)(v177 * fAngleInRadians.m_el[1].mVec128.m128_f32[0]);
+          v306.m_el[0].mVec128.m128_f32[0] = v189 + v190;
+          fAngleInRadians.m_el[0].mVec128.m128_f32[1] = (float)((float)(v181 * *(float *)&v303)
+                                                              + (float)(v167
+                                                                      * fAngleInRadians.m_el[1].mVec128.m128_f32[0]))
+                                                      + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[1]
+                                                              * fAngleInRadians.m_el[1].mVec128.m128_f32[1]);
+          fAngleInRadians.m_el[1].mVec128.m128_f32[3] = (float)((float)(v183
+                                                                      * fAngleInRadians.m_el[1].mVec128.m128_f32[0])
+                                                              + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[2]
+                                                                      * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+                                                      + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[3]
+                                                              * *(float *)&v303);
+          btMatrix3x3::setValue(
+            (btMatrix3x3 *)&fAngleInRadians.m_el[1].m_floats[3],
+            (int)&v330,
+            &fAngleInRadians.m_el[0].mVec128.m128_f32[1],
+            &v305,
+            (float *)&v306,
+            &v315,
+            &v318,
+            &v319,
+            &v317,
+            &v316,
+            v298);
         }
         else
         {
-          v232 = this->getDebugDrawer(this);
-          yy[0] = 10.0;
-          xz[3] = 0.0;
-          *(_QWORD *)((char *)&v276 + 4) = 0;
-          HIDWORD(v276) = 0;
-          v277 = 0;
+          v130 = *(float *)(a3 + 448);
+          v131 = v129[5];
+          v132 = v129[4];
+          v133 = v129[6];
+          v134 = *(float *)(a3 + 456);
+          v135 = v129[9];
+          fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)((float)((float)(v132 * v130)
+                                                                      + (float)(v131 * *(float *)(a3 + 452)))
+                                                              + (float)(v133 * v134))
+                                                      + v129[16];
+          v136 = (float)((float)((float)(v135 * *(float *)(a3 + 452)) + (float)(v129[10] * v134))
+                       + (float)(v130 * v129[8]))
+               + v129[17];
+          v137 = *(float *)(a3 + 452);
+          v138 = v130 * v129[12];
+          fAngleInRadians.m_el[2].mVec128.m128_f32[1] = v136;
+          v139 = v129[13] * v137;
+          v140 = v129[14] * v134;
+          v141 = *(float *)(a3 + 408);
+          v142 = v139 + v140;
+          v143 = v129[13];
+          *(float *)&v144 = (float)(v142 + v138) + v129[18];
+          v145 = *(float *)(a3 + 424);
+          fAngleInRadians.m_el[2].mVec128.m128_u64[1] = v144;
+          v146 = *(float *)(a3 + 440);
+          v147 = (float)((float)(v143 * v145) + (float)(v129[14] * v146)) + (float)(v129[12] * v141);
+          fAngleInRadians.m_el[0].mVec128.m128_i32[2] = *(_DWORD *)(a3 + 404);
+          v148 = v129[13];
+          v306.m_el[0].mVec128.m128_f32[0] = v147;
+          v149 = *(float *)(a3 + 420);
+          *(float *)&v303 = v141;
+          v150 = *(float *)(a3 + 436);
+          fAngleInRadians.m_el[1].mVec128.m128_f32[1] = v149;
+          v151 = (float)(v148 * v149) + (float)(v129[14] * v150);
+          v152 = *(float *)(a3 + 416);
+          v305 = v150;
+          v153 = *(float *)(a3 + 432);
+          v315 = v151 + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[2] * v129[12]);
+          fAngleInRadians.m_el[1].mVec128.m128_i32[0] = *(_DWORD *)(a3 + 400);
+          v154 = v129[13] * v152;
+          fAngleInRadians.m_el[1].mVec128.m128_f32[3] = v152;
+          v155 = v129[14] * v153;
+          fAngleInRadians.m_el[0].mVec128.m128_f32[1] = v153;
+          v318 = (float)(v154 + v155) + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[0] * v129[12]);
+          v156 = v129[10] * v305;
+          v319 = (float)((float)(v129[9] * v145) + (float)(v129[10] * v146)) + (float)(*(float *)&v303 * v129[8]);
+          v157 = (float)((float)(v129[9] * fAngleInRadians.m_el[1].mVec128.m128_f32[1]) + v156)
+               + (float)(fAngleInRadians.m_el[0].mVec128.m128_f32[2] * v129[8]);
+          v158 = v129[10] * fAngleInRadians.m_el[0].mVec128.m128_f32[1];
+          v317 = v157;
+          v316 = (float)((float)(v129[9] * fAngleInRadians.m_el[1].mVec128.m128_f32[3]) + v158)
+               + (float)(fAngleInRadians.m_el[1].mVec128.m128_f32[0] * v129[8]);
+          *(float *)&v303 = (float)((float)(v132 * *(float *)&v303) + (float)(v131 * v145)) + (float)(v133 * v146);
+          v305 = (float)((float)(v132 * fAngleInRadians.m_el[0].mVec128.m128_f32[2])
+                       + (float)(v131 * fAngleInRadians.m_el[1].mVec128.m128_f32[1]))
+               + (float)(v133 * v305);
+          fAngleInRadians.m_el[0].mVec128.m128_f32[1] = (float)((float)(v132
+                                                                      * fAngleInRadians.m_el[1].mVec128.m128_f32[0])
+                                                              + (float)(v131
+                                                                      * fAngleInRadians.m_el[1].mVec128.m128_f32[3]))
+                                                      + (float)(v133 * fAngleInRadians.m_el[0].mVec128.m128_f32[1]);
+          btMatrix3x3::setValue(
+            (btMatrix3x3 *)&fAngleInRadians.m_el[0].m_floats[1],
+            (int)&v330,
+            &v305,
+            (float *)&v303,
+            &v316,
+            &v317,
+            &v319,
+            &v318,
+            &v315,
+            (const float *)&v306,
+            v298);
         }
-        ((void (__thiscall *)(btIDebugDraw *, btTypedConstraint *, char *, float *))v232->drawArc)(
-          v232,
-          constraint + 32,
-          &v264.m128i_i8[12],
-          &v269.m_el[0].mVec128.m128_f32[1]);
-        goto LABEL_37;
-      case 7:
-        yz[1] = *(_QWORD *)&constraint[22].m_appliedImpulse;
-        v258 = *(_QWORD *)&constraint[23].__vftable;
-        v259 = *(__m128i *)&constraint[23].m_userConstraintType;
-        v260 = *(__m128i *)&constraint[23].m_rbA;
-        v261 = *(_QWORD *)&constraint[24].__vftable;
-        v262 = *(_QWORD *)&constraint[24].m_userConstraintType;
-        if ( v5 )
+        *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = v330;
+        v306.m_el[1].mVec128.m128_i32[3] = v331;
+        v306.m_el[2] = (btVector3)v332.mVec128;
+        v307 = v333;
+        v308 = v334;
+        v309 = v335;
+        v310 = v336;
+        v311 = v337;
+        v312.mVec128 = (__m128)fAngleInRadians.m_el[2];
+        v191 = constraint->__vftable;
+        v356.mVec128 = (__m128)fAngleInRadians.m_el[2];
+        v326 = v330;
+        v327 = v332.mVec128.m128_i32[1];
+        v322 = HIDWORD(v330);
+        v328 = v334;
+        v323 = v332.mVec128.m128_i32[2];
+        v329 = 0;
+        v324 = v335;
+        v325 = 0;
+        v192 = ((int (__thiscall *)(btTypedConstraint *, int))v191->getInfo1)(constraint, v299);
+        fAngleInRadians.m_el[0].mVec128.m128_f32[0] = 10.0;
+        v303 = 1;
+        v346 = 0;
+        v347 = 0;
+        v348 = 0;
+        v349 = 0;
+        (*(void (__thiscall **)(int, _UNKNOWN **))(*(_DWORD *)v192 + 60))(v192, &retaddr);
+      }
+      break;
+    default:
+      if ( *(_DWORD *)(a3 + 4) != 6 )
+      {
+        if ( *(_DWORD *)(a3 + 4) == 7 )
         {
-          v236 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, _QWORD *, _DWORD))v236->drawTransform)(v236, &yz[1], LODWORD(yx[1]));
+          v330 = *(_QWORD *)(a3 + 912);
+          v331 = *(_DWORD *)(a3 + 920);
+          v332.mVec128 = *(__m128 *)(a3 + 924);
+          v333 = *(float *)(a3 + 940);
+          v334 = *(float *)(a3 + 944);
+          v335 = *(float *)(a3 + 948);
+          v336 = *(float *)(a3 + 952);
+          v337 = *(_DWORD *)(a3 + 956);
+          v338 = *(_DWORD *)(a3 + 960);
+          v339 = *(_DWORD *)(a3 + 964);
+          v340 = *(_DWORD *)(a3 + 968);
+          v341 = *(_DWORD *)(a3 + 972);
+          if ( v302 )
+          {
+            v23 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+            (*(void (__thiscall **)(int, unsigned __int64 *, int))(*(_DWORD *)v23 + 56))(
+              v23,
+              &v330,
+              fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+          }
+          v330 = *(_QWORD *)(a3 + 976);
+          v331 = *(_DWORD *)(a3 + 984);
+          v332.mVec128 = *(__m128 *)(a3 + 988);
+          v333 = *(float *)(a3 + 1004);
+          v334 = *(float *)(a3 + 1008);
+          v335 = *(float *)(a3 + 1012);
+          v336 = *(float *)(a3 + 1016);
+          v337 = *(_DWORD *)(a3 + 1020);
+          v338 = *(_DWORD *)(a3 + 1024);
+          v339 = *(_DWORD *)(a3 + 1028);
+          v340 = *(_DWORD *)(a3 + 1032);
+          v341 = *(_DWORD *)(a3 + 1036);
+          if ( v302 )
+          {
+            v24 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+            (*(void (__thiscall **)(int, unsigned __int64 *, int))(*(_DWORD *)v24 + 56))(
+              v24,
+              &v330,
+              fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+          }
+          if ( fAngleInRadians.m_el[1].mVec128.m128_i8[11] )
+          {
+            v25 = a3 + 912;
+            if ( !*(_BYTE *)(a3 + 176) )
+              v25 = a3 + 976;
+            *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = *(_QWORD *)v25;
+            v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(v25 + 8);
+            v306.m_el[2] = *(btVector3 *)(v25 + 12);
+            v307 = *(float *)(v25 + 28);
+            v308 = *(float *)(v25 + 32);
+            v309 = *(float *)(v25 + 36);
+            v310 = *(float *)(v25 + 40);
+            v311 = *(_DWORD *)(v25 + 44);
+            v26 = *(float *)(a3 + 180);
+            v312.mVec128 = *(__m128 *)(v25 + 48);
+            v27 = (float)(v306.m_el[1].mVec128.m128_f32[3] + v306.m_el[1].mVec128.m128_f32[2]) * 0.0;
+            v28 = constraint->__vftable;
+            v29 = (float)(v306.m_el[2].mVec128.m128_f32[1] * v26) + v312.mVec128.m128_f32[1];
+            v306.m_el[0].mVec128.m128_f32[1] = (float)((float)(v306.m_el[1].mVec128.m128_f32[1] * v26)
+                                                     + v312.mVec128.m128_f32[0])
+                                             + v27;
+            v30 = (float)(v308 * v26) + v312.mVec128.m128_f32[2];
+            v31 = *(float *)(a3 + 184);
+            v32 = (float)(v306.m_el[2].mVec128.m128_f32[3] + v306.m_el[2].mVec128.m128_f32[2]) * 0.0;
+            v306.m_el[0].mVec128.m128_f32[2] = v29 + v32;
+            v33 = (float)(v310 + v309) * 0.0;
+            v306.m_el[0].mVec128.m128_f32[3] = v30 + v33;
+            *(float *)&v320[4] = (float)((float)(v306.m_el[2].mVec128.m128_f32[1] * v31) + v312.mVec128.m128_f32[1])
+                               + v32;
+            v306.m_el[1].mVec128.m128_i32[0] = 0;
+            *(float *)v320 = (float)((float)(v306.m_el[1].mVec128.m128_f32[1] * v31) + v312.mVec128.m128_f32[0]) + v27;
+            *(float *)&v320[8] = (float)((float)(v308 * v31) + v312.mVec128.m128_f32[2]) + v33;
+            v321 = 0;
+            v34 = ((int (__thiscall *)(btTypedConstraint *))v28->getInfo1)(constraint);
+            v358 = 0;
+            v359 = 0;
+            v360 = 0;
+            vars0 = 0;
+            (*(void (__thiscall **)(int, float *, int *, int *))(*(_DWORD *)v34 + 12))(
+              v34,
+              &v306.m_el[2].mVec128.m128_f32[2],
+              &v327,
+              &v358);
+            fAngleInRadians.m_el[2].mVec128.m128_f32[2] = *(float *)(a3 + 188);
+            v35 = constraint->__vftable;
+            fAngleInRadians.m_el[2].mVec128.m128_f32[1] = *(float *)(a3 + 192);
+            *((float *)&v330 + 1) = v309;
+            v331 = v312.mVec128.m128_i32[1];
+            v332.mVec128.m128_u64[1] = __PAIR64__(v312.mVec128.m128_u32[2], LODWORD(v310));
+            v332.mVec128.m128_u64[0] = v313;
+            v333 = v314;
+            v334 = 0.0;
+            v36 = ((int (__thiscall *)(btTypedConstraint *))v35->getInfo1)(constraint);
+            fAngleInRadians.m_el[0].mVec128.m128_f32[0] = 10.0;
+            v303 = 1;
+            memset(&v355[5], 0, 12);
+            v356.mVec128.m128_i32[0] = 0;
+            (*(void (__thiscall **)(int, int))(*(_DWORD *)v36 + 60))(v36, a3 + 1024);
+          }
+          return;
         }
-        yz[1] = *(_QWORD *)&constraint[24].m_breakingImpulseThreshold;
-        v258 = *(_QWORD *)&constraint[24].m_rbA;
-        v259 = *(__m128i *)&constraint[24].m_appliedImpulse;
-        v260 = *(__m128i *)&constraint[25].m_userConstraintType;
-        v261 = *(_QWORD *)&constraint[25].m_rbA;
-        v262 = *(_QWORD *)&constraint[25].m_appliedImpulse;
-        if ( v5 )
+        if ( *(_DWORD *)(a3 + 4) != 9 )
+          return;
+      }
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 1168);
+      v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1176);
+      v306.m_el[2] = *(btVector3 *)(a3 + 1180);
+      v307 = *(float *)(a3 + 1196);
+      v308 = *(float *)(a3 + 1200);
+      v309 = *(float *)(a3 + 1204);
+      v310 = *(float *)(a3 + 1208);
+      v311 = *(_DWORD *)(a3 + 1212);
+      v312.mVec128 = *(__m128 *)(a3 + 1216);
+      if ( v302 )
+      {
+        v8 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v8 + 56))(
+          v8,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 1232);
+      v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1240);
+      v306.m_el[2] = *(btVector3 *)(a3 + 1244);
+      v307 = *(float *)(a3 + 1260);
+      v308 = *(float *)(a3 + 1264);
+      v309 = *(float *)(a3 + 1268);
+      v310 = *(float *)(a3 + 1272);
+      v311 = *(_DWORD *)(a3 + 1276);
+      v312.mVec128 = *(__m128 *)(a3 + 1280);
+      if ( v302 )
+      {
+        v9 = ((int (__thiscall *)(btTypedConstraint *))constraint->getInfo1)(constraint);
+        (*(void (__thiscall **)(int, float *, int))(*(_DWORD *)v9 + 56))(
+          v9,
+          &v306.m_el[1].mVec128.m128_f32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[3]);
+      }
+      if ( fAngleInRadians.m_el[1].mVec128.m128_i8[11] )
+      {
+        fAngleInRadians.m_el[1].mVec128.m128_f32[3] = *(float *)(a3 + 1028);
+        v10 = *(float *)(a3 + 1088);
+        v306.m_el[1].mVec128.m128_i32[1] = *(_DWORD *)(a3 + 1168);
+        fAngleInRadians.m_el[0].mVec128.m128_f32[1] = v10;
+        v11 = *(float *)(a3 + 1092);
+        v306.m_el[1].mVec128.m128_i32[2] = *(_DWORD *)(a3 + 1172);
+        fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v11;
+        v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1176);
+        v306.m_el[2] = *(btVector3 *)(a3 + 1180);
+        v307 = *(float *)(a3 + 1196);
+        v308 = *(float *)(a3 + 1200);
+        v309 = *(float *)(a3 + 1204);
+        v310 = *(float *)(a3 + 1208);
+        v311 = *(_DWORD *)(a3 + 1212);
+        v12 = constraint->__vftable;
+        v312.mVec128 = *(__m128 *)(a3 + 1216);
+        v322 = v306.m_el[1].mVec128.m128_i32[3];
+        v323 = v306.m_el[2].mVec128.m128_i32[3];
+        v324 = v310;
+        *(_DWORD *)v320 = v306.m_el[1].mVec128.m128_i32[1];
+        v325 = 0;
+        *(_QWORD *)&v320[4] = __PAIR64__(LODWORD(v308), v306.m_el[2].mVec128.m128_u32[1]);
+        v321 = 0;
+        v305 = *(float *)(a3 + 1024);
+        v13 = ((int (__thiscall *)(btTypedConstraint *))v12->getInfo1)(constraint);
+        memset(v355, 0, 16);
+        (*(void (__thiscall **)(int, int, int *, _BYTE *, _DWORD, float, int, int, int, _DWORD *, _DWORD))(*(_DWORD *)v13 + 64))(
+          v13,
+          a3 + 1280,
+          &v322,
+          v320,
+          fAngleInRadians.m_el[0].mVec128.m128_f32[3] * 0.89999998,
+          COERCE_FLOAT(LODWORD(v305)),
+          fAngleInRadians.m_el[1].mVec128.m128_i32[3],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[1],
+          fAngleInRadians.m_el[0].mVec128.m128_i32[0],
+          v355,
+          10.0);
+        v14 = *(float *)(a3 + 1304);
+        v326 = v306.m_el[1].mVec128.m128_i32[2];
+        v327 = v306.m_el[2].mVec128.m128_i32[2];
+        v328 = v309;
+        v329 = 0;
+        v15 = (__m128)*(unsigned int *)(a3 + 1300);
+        *(_DWORD *)v320 = v306.m_el[1].mVec128.m128_i32[2];
+        *(_QWORD *)&v320[4] = __PAIR64__(LODWORD(v309), v306.m_el[2].mVec128.m128_u32[2]);
+        fAngleInRadians.m_el[0].mVec128.m128_i32[0] = v15.m128_i32[0];
+        v321 = 0;
+        *(float *)&v303 = v14;
+        v16 = (__m128i)_mm_cvtps_pd(v15);
+        __libm_sse2_cos(v293);
+        *(float *)v16.m128i_i32 = *(double *)v16.m128i_i64;
+        fAngleInRadians.m_el[1].mVec128.m128_u64[0] = __PAIR64__(LODWORD(v14), v16.m128i_u32[0]);
+        *(double *)v16.m128i_i64 = fAngleInRadians.m_el[0].mVec128.m128_f32[0];
+        __libm_sse2_sin(v16);
+        fAngleInRadians.m_el[0].mVec128.m128_i32[2] = fAngleInRadians.m_el[0].mVec128.m128_i32[0];
+        __libm_sse2_cos(v294);
+        *(double *)v16.m128i_i64 = v14;
+        __libm_sse2_sin(v16);
+        v17 = v306.m_el[2].mVec128.m128_f32[2];
+        v18 = v306.m_el[1].mVec128.m128_f32[2];
+        v19 = *(double *)v16.m128i_i64;
+        *(float *)v16.m128i_i32 = (float)(v306.m_el[2].mVec128.m128_f32[2] * v19)
+                                + (float)(v306.m_el[1].mVec128.m128_f32[2] * fAngleInRadians.m_el[1].mVec128.m128_f32[1]);
+        v20 = v309;
+        *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 1232);
+        v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1240);
+        v306.m_el[2] = *(btVector3 *)(a3 + 1244);
+        v307 = *(float *)(a3 + 1260);
+        v308 = *(float *)(a3 + 1264);
+        v309 = *(float *)(a3 + 1268);
+        v310 = *(float *)(a3 + 1272);
+        v311 = *(_DWORD *)(a3 + 1276);
+        v312.mVec128.m128_u64[0] = *(_QWORD *)(a3 + 1280);
+        v312.mVec128.m128_i32[2] = *(_DWORD *)(a3 + 1288);
+        fAngleInRadians.m_el[2].mVec128.m128_f32[1] = (float)(v17 * fAngleInRadians.m_el[1].mVec128.m128_f32[1])
+                                                    - (float)(v18 * v19);
+        v312.mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1292);
+        fAngleInRadians.m_el[2].mVec128.m128_f32[0] = (float)(*(float *)v16.m128i_i32
+                                                            * fAngleInRadians.m_el[1].mVec128.m128_f32[0])
+                                                    - (float)(v20 * fAngleInRadians.m_el[0].mVec128.m128_f32[0]);
+        fAngleInRadians.m_el[2].mVec128.m128_f32[2] = (float)(v20 * fAngleInRadians.m_el[1].mVec128.m128_f32[0])
+                                                    + (float)(*(float *)v16.m128i_i32
+                                                            * fAngleInRadians.m_el[0].mVec128.m128_f32[0]);
+        v306.m_el[0].mVec128.m128_i32[1] = v306.m_el[1].mVec128.m128_i32[1] ^ _mask__NegFloat_;
+        v306.m_el[0].mVec128.m128_i32[2] = v306.m_el[2].mVec128.m128_i32[1] ^ _mask__NegFloat_;
+        v306.m_el[0].mVec128.m128_i32[3] = LODWORD(v308) ^ _mask__NegFloat_;
+        v21 = *(float *)(a3 + 964);
+        v306.m_el[1].mVec128.m128_i32[0] = 0;
+        fAngleInRadians.m_el[0].mVec128.m128_i32[1] = *(_DWORD *)(a3 + 960);
+        fAngleInRadians.m_el[0].mVec128.m128_f32[0] = v21;
+        if ( fAngleInRadians.m_el[0].mVec128.m128_f32[1] <= v21 )
         {
-          v237 = this->getDebugDrawer(this);
-          ((void (__thiscall *)(btIDebugDraw *, _QWORD *, _DWORD))v237->drawTransform)(v237, &yz[1], LODWORD(yx[1]));
+          if ( v21 <= fAngleInRadians.m_el[0].mVec128.m128_f32[1] )
+          {
+LABEL_26:
+            *(unsigned __int64 *)((char *)v306.m_el[1].mVec128.m128_u64 + 4) = *(_QWORD *)(a3 + 1168);
+            v306.m_el[1].mVec128.m128_i32[3] = *(_DWORD *)(a3 + 1176);
+            v306.m_el[2] = *(btVector3 *)(a3 + 1180);
+            v307 = *(float *)(a3 + 1196);
+            v308 = *(float *)(a3 + 1200);
+            v309 = *(float *)(a3 + 1204);
+            v310 = *(float *)(a3 + 1208);
+            v311 = *(_DWORD *)(a3 + 1212);
+            v312.mVec128 = *(__m128 *)(a3 + 1216);
+            v356.mVec128.m128_u64[0] = *(_QWORD *)(a3 + 752);
+            v37 = constraint->__vftable;
+            v356.mVec128.m128_u64[1] = *(_QWORD *)(a3 + 760);
+            v357 = *(_DWORD *)(a3 + 768);
+            v358 = *(_DWORD *)(a3 + 772);
+            v359 = *(_DWORD *)(a3 + 776);
+            v360 = *(_DWORD *)(a3 + 780);
+            v38 = ((int (__thiscall *)(btTypedConstraint *))v37->getInfo1)(constraint);
+            v349 = 0;
+            v350 = 0;
+            v351 = 0;
+            v352 = 0;
+            (*(void (__thiscall **)(int, btVector3 *, int *, float *, int *))(*(_DWORD *)v38 + 68))(
+              v38,
+              &v356,
+              &v357,
+              &v306.m_el[1].mVec128.m128_f32[1],
+              &v349);
+            return;
+          }
+          v22 = ((int (__thiscall *)(btTypedConstraint *, int, int))constraint->getInfo1)(constraint, v295, v301);
+          v348 = 0;
+          v349 = 0;
+          v350 = 0;
+          v351 = 0;
         }
-        if ( HIBYTE(yx[0]) )
+        else
         {
-          p_m_appliedImpulse = (__m128i *)&constraint[22].m_appliedImpulse;
-          if ( !LOBYTE(constraint[4].m_breakingImpulseThreshold) )
-            p_m_appliedImpulse = (__m128i *)&constraint[24].m_breakingImpulseThreshold;
-          v239 = *(float *)&constraint[4].m_isEnabled;
-          v264 = *p_m_appliedImpulse;
-          v265 = p_m_appliedImpulse[1];
-          v266 = p_m_appliedImpulse[2];
-          si128.m128i_i64[0] = p_m_appliedImpulse[3].m128i_i64[0];
-          v240 = this->getDebugDrawer;
-          si128.m128i_i64[1] = p_m_appliedImpulse[3].m128i_i64[1];
-          v241 = (float)(*(float *)&v264.m128i_i32[1] + *(float *)&v264.m128i_i32[2]) * 0.0;
-          v242 = (float)(*(float *)v265.m128i_i32 * v239) + *(float *)&si128.m128i_i32[1];
-          v269.m_el[1].mVec128.m128_f32[2] = (float)((float)(*(float *)v264.m128i_i32 * v239) + *(float *)si128.m128i_i32)
-                                           + v241;
-          v243 = *(float *)v266.m128i_i32 * v239;
-          v244 = constraint[4].m_rbA;
-          v245 = (float)(*(float *)&v265.m128i_i32[1] + *(float *)&v265.m128i_i32[2]) * 0.0;
-          v269.m_el[1].mVec128.m128_f32[3] = v242 + v245;
-          v246 = (float)(*(float *)&v266.m128i_i32[1] + *(float *)&v266.m128i_i32[2]) * 0.0;
-          v269.m_el[2].mVec128.m128_f32[0] = (float)(v243 + *(float *)&si128.m128i_i32[2]) + v246;
-          v269.m_el[2].mVec128.m128_i32[1] = 0;
-          v269.m_el[0].mVec128.m128_f32[2] = (float)((float)(*(float *)v264.m128i_i32 * *(float *)&v244)
-                                                   + *(float *)si128.m128i_i32)
-                                           + v241;
-          v269.m_el[0].mVec128.m128_f32[3] = (float)((float)(*(float *)v265.m128i_i32 * *(float *)&v244)
-                                                   + *(float *)&si128.m128i_i32[1])
-                                           + v245;
-          v269.m_el[1].mVec128.m128_f32[0] = (float)((float)(*(float *)v266.m128i_i32 * *(float *)&v244)
-                                                   + *(float *)&si128.m128i_i32[2])
-                                           + v246;
-          v269.m_el[1].mVec128.m128_i32[1] = 0;
-          v247 = (int)v240(this);
-          memset(v274, 0, sizeof(v274));
-          (*(void (__thiscall **)(int, float *, float *, _QWORD *))(*(_DWORD *)v247 + 12))(
-            v247,
-            &v269.m_el[1].mVec128.m128_f32[2],
-            &v269.m_el[0].mVec128.m128_f32[2],
-            v274);
-          result.mVec128.m128_u64[0] = __PAIR64__(v265.m128i_u32[0], v264.m128i_u32[0]);
-          v248 = this->__vftable;
-          *((float *)yz + 1) = *(float *)&constraint[4].m_rbB;
-          v249 = v248->getDebugDrawer;
-          m_appliedImpulse_low = (btRigidBody *)LODWORD(constraint[4].m_appliedImpulse);
-          v268.m128i_i64[0] = __PAIR64__(v265.m128i_u32[1], v264.m128i_u32[1]);
-          result.mVec128.m128_u64[1] = v266.m128i_u32[0];
-          v268.m128i_i64[1] = v266.m128i_u32[1];
-          v250 = (int)v249(this);
-          memset(v275, 0, 16);
-          (*(void (__thiscall **)(int, btRigidBody **, btVector3 *, __m128i *, _DWORD, _DWORD, _DWORD, btRigidBody *, _DWORD *, int, _DWORD))(*(_DWORD *)v250 + 60))(
-            v250,
-            &constraint[25].m_rbA,
-            &result,
-            &v268,
-            LODWORD(yx[1]),
-            LODWORD(yx[1]),
-            HIDWORD(yz[0]),
-            m_appliedImpulse_low,
-            v275,
-            1,
-            10.0);
+          v22 = ((int (__thiscall *)(btTypedConstraint *, int, int))constraint->getInfo1)(constraint, v295, v301);
+          v342 = 0;
+          v343 = 0;
+          v344 = 0;
+          v345 = 0;
         }
-        return;
-      default:
-        return;
-    }
+        (*(void (__thiscall **)(int, int, btVector3 *, btMatrix3x3 *))(*(_DWORD *)v22 + 60))(
+          v22,
+          a3 + 1280,
+          &v306.m_el[2],
+          &v306);
+        goto LABEL_26;
+      }
+      break;
   }
 }

@@ -12,7 +12,7 @@ void __thiscall Scaleform::HeapPT::HeapRoot::DestroyAllArenas(Scaleform::HeapPT:
       if ( this->pArenas[i - 1] )
         Scaleform::HeapPT::HeapRoot::DestroyArena(this, i);
     }
-    Scaleform::HeapPT::Bookkeeper::Free(&this->AllocBookkeeper, this->pArenas, 4 * this->NumArenas);
+    Scaleform::HeapPT::Bookkeeper::Free(&this->AllocBookkeeper, (unsigned int)this->pArenas, 4 * this->NumArenas);
     this->pArenas = 0;
     this->NumArenas = 0;
   }

@@ -1,11 +1,12 @@
-int __thiscall vostok::fs_new::device_file_system_no_watcher_proxy::write(
-        vostok::fs_new::device_file_system_no_watcher_proxy *this,
+int __userpurge vostok::fs_new::device_file_system_no_watcher_proxy::write@<eax>(
+        vostok::fs_new::device_file_system_no_watcher_proxy *this@<ecx>,
+        _DWORD *a2@<eax>,
         void **file,
         const void *data,
         unsigned __int64 size)
 {
-  return ((int (__thiscall *)(vostok::fs_new::device_file_system_interface *, void **, const void *, _DWORD, _DWORD))this->m_device_file_system->write)(
-           this->m_device_file_system,
+  return (*(int (__thiscall **)(_DWORD, void **, const void *, _DWORD, _DWORD))(*(_DWORD *)*a2 + 16))(
+           *a2,
            file,
            data,
            size,

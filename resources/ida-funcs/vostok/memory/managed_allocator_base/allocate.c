@@ -1,55 +1,31 @@
-vostok::memory::managed_node *__userpurge vostok::memory::managed_allocator_base::allocate@<eax>(
+vostok::memory::managed_node *__usercall vostok::memory::managed_allocator_base::allocate@<eax>(
         vostok::memory::managed_allocator_base *this@<ecx>,
-        vostok::memory::managed_allocator_base *requested_size,
-        vostok::memory::managed_node *start_free_node)
+        vostok::memory::managed_node *a2@<edi>)
 {
-  unsigned int p_m_know_largest_free_block; // ecx
-  unsigned int m_granularity; // esi
-  vostok::memory::managed_node *m_first_free; // edx
-  vostok::memory::managed_node *v6; // eax
-  vostok::memory::managed_node *v7; // esi
-  unsigned int v8; // edi
+  unsigned int v2; // eax
+  vostok::memory::managed_node *m_owner; // esi
+  vostok::memory::managed_node *v4; // eax
+  vostok::memory::managed_node *v5; // ebx
   vostok::memory::managed_node *result; // eax
-  vostok::memory::managed_node *v10; // edx
-  vostok::memory::managed_node *v11; // [esp+0h] [ebp-Ch]
+  vostok::memory::managed_node *v7; // [esp+0h] [ebp-Ch]
+  unsigned int v8; // [esp+8h] [ebp-4h]
 
-  p_m_know_largest_free_block = (unsigned int)&this[1].m_know_largest_free_block;
-  m_granularity = requested_size->m_granularity;
-  if ( p_m_know_largest_free_block % m_granularity )
-    p_m_know_largest_free_block = m_granularity
-                                + p_m_know_largest_free_block
-                                - p_m_know_largest_free_block % m_granularity;
-  m_first_free = requested_size->m_first_free;
-  v6 = 0;
-  v7 = 0;
-  v8 = p_m_know_largest_free_block;
-  if ( requested_size->m_first_free )
+  v2 = vostok::math::align_up<unsigned long>((unsigned int)a2->m_unpin_notify_allocator);
+  m_owner = (vostok::memory::managed_node *)a2->m_owner;
+  v8 = v2;
+  v4 = 0;
+  v5 = 0;
+  while ( m_owner )
   {
-    while ( 1 )
-    {
-      result = vostok::memory::managed_allocator_base::allocate_in_node(
-                 v8,
-                 m_first_free,
-                 (vostok::memory::managed_node *)p_m_know_largest_free_block,
-                 requested_size,
-                 v6,
-                 v11);
-      if ( result )
-        break;
-      if ( !v7 || v7->m_size < v10->m_size )
-        v7 = v10;
-      v6 = v10;
-      m_first_free = v10->m_next_free;
-      if ( !m_first_free )
-        goto LABEL_9;
-    }
+    result = vostok::memory::managed_allocator_base::allocate_in_node(m_owner, a2, v8, v4, v7);
+    if ( result )
+      return result;
+    if ( !v5 || v5->m_size < m_owner->m_size )
+      v5 = m_owner;
+    v4 = m_owner;
+    m_owner = m_owner->m_next_free;
   }
-  else
-  {
-LABEL_9:
-    requested_size->m_know_largest_free_block = 1;
-    requested_size->m_largest_free_block = v7;
-    return 0;
-  }
-  return result;
+  LOBYTE(a2->m_prev) = 1;
+  a2->m_next_free = v5;
+  return 0;
 }

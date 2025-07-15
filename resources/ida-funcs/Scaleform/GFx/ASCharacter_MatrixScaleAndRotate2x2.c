@@ -4,25 +4,25 @@ void __cdecl Scaleform::GFx::ASCharacter_MatrixScaleAndRotate2x2(
         float sy,
         float radians)
 {
-  float x00; // [esp+0h] [ebp-10h]
-  float x00a; // [esp+0h] [ebp-10h]
-  float cosAngle; // [esp+4h] [ebp-Ch]
-  float x10; // [esp+8h] [ebp-8h]
-  float sinAngle; // [esp+Ch] [ebp-4h]
-  float x11; // [esp+14h] [ebp+4h]
-  float x01; // [esp+20h] [ebp+10h]
-  float x01a; // [esp+20h] [ebp+10h]
+  float v5; // [esp+0h] [ebp-10h]
+  float v6; // [esp+0h] [ebp-10h]
+  float v7; // [esp+4h] [ebp-Ch]
+  float v8; // [esp+8h] [ebp-8h]
+  float v9; // [esp+Ch] [ebp-4h]
+  float v10; // [esp+14h] [ebp+4h]
+  float v11; // [esp+20h] [ebp+10h]
+  float v12; // [esp+20h] [ebp+10h]
 
-  x00 = cos(radians);
-  cosAngle = x00;
-  x01 = sin(radians);
-  sinAngle = x01;
-  x00a = m->M[0][0];
-  x01a = m->M[0][1];
-  x10 = m->M[1][0];
-  x11 = m->M[1][1];
-  m->M[0][0] = (x00a * cosAngle - x10 * sinAngle) * sx;
-  m->M[0][1] = (x01a * cosAngle - x11 * sinAngle) * sy;
-  m->M[1][0] = (x10 * cosAngle + x00a * sinAngle) * sx;
-  m->M[1][1] = sy * (sinAngle * x01a + cosAngle * x11);
+  v5 = cos(radians);
+  v7 = v5;
+  v11 = sin(radians);
+  v9 = v11;
+  v6 = m->M[0][0];
+  v12 = m->M[0][1];
+  v8 = m->M[1][0];
+  v10 = m->M[1][1];
+  m->M[0][0] = (v6 * v7 - v8 * v9) * sx;
+  m->M[0][1] = (v12 * v7 - v10 * v9) * sy;
+  m->M[1][0] = (v8 * v7 + v6 * v9) * sx;
+  m->M[1][1] = sy * (v9 * v12 + v7 * v10);
 }

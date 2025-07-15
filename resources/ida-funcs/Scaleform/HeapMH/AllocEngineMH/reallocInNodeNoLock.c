@@ -1,4 +1,4 @@
-void *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
+Scaleform::HeapMH::NodeMH *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
         Scaleform::HeapMH::AllocEngineMH *this,
         Scaleform::HeapMH::NodeMH *node,
         char *oldPtr,
@@ -11,15 +11,15 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
   char *v9; // ebx
   unsigned int v10; // edi
   Scaleform::LockSafe *p_RootLock; // ebp
-  char *v12; // eax
+  Scaleform::HeapMH::NodeMH *v12; // eax
   Scaleform::HeapMH::NodeMH *v13; // ebp
-  void *result; // eax
+  Scaleform::HeapMH::NodeMH *result; // eax
   Scaleform::HeapMH::RootMH *v15; // edi
   Scaleform::HeapMH::NodeMH *v16; // ebx
-  unsigned int oldAlign; // [esp+18h] [ebp-8h]
-  unsigned int nodeSize; // [esp+1Ch] [ebp-4h]
-  void *newPtr; // [esp+24h] [ebp+4h]
-  Scaleform::HeapMH::RootMH *oldPtra; // [esp+28h] [ebp+8h]
+  unsigned int v17; // [esp+18h] [ebp-8h]
+  int v18; // [esp+1Ch] [ebp-4h]
+  Scaleform::HeapMH::NodeMH *nodea; // [esp+24h] [ebp+4h]
+  Scaleform::HeapMH::RootMH *v20; // [esp+28h] [ebp+8h]
 
   v5 = node->pHeap & 3;
   if ( v5 == 3 )
@@ -29,8 +29,8 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
   v8 = Align > 0x10 ? 20 : 16;
   v9 = (char *)node + v8 - (_DWORD)oldPtr;
   v10 = v8 + ((newSize + 3) & 0xFFFFFFFC);
-  oldAlign = Align;
-  nodeSize = v8;
+  v17 = Align;
+  v18 = v8;
   if ( v10 > (unsigned int)v9 && this->Limit )
   {
     while ( v10 + this->Footprint - (_DWORD)v9 > this->Limit && this->pLimHandler )
@@ -47,7 +47,7 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
         return 0;
       }
       EnterCriticalSection(&p_RootLock->mLock.cs);
-      v8 = nodeSize;
+      v8 = v18;
       if ( !this->Limit )
         break;
     }
@@ -55,26 +55,26 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(
   Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Remove(
     &Scaleform::HeapMH::GlobalRootMH->HeapTree,
     node);
-  v12 = (char *)this->pSysAlloc->Realloc(this->pSysAlloc, oldPtr, v9, v10, oldAlign);
-  newPtr = v12;
+  v12 = (Scaleform::HeapMH::NodeMH *)this->pSysAlloc->Realloc(this->pSysAlloc, oldPtr, v9, v10, v17);
+  nodea = v12;
   if ( v12 )
   {
-    oldPtra = Scaleform::HeapMH::GlobalRootMH;
-    v13 = (Scaleform::HeapMH::NodeMH *)&v12[v10 - nodeSize];
-    Scaleform::HeapMH::NodeMH::SetHeap(v13, (unsigned int)this->pHeap, oldAlign);
-    Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Insert(&oldPtra->HeapTree, v13);
+    v20 = Scaleform::HeapMH::GlobalRootMH;
+    v13 = (Scaleform::HeapMH::NodeMH *)((char *)v12 + v10 - v18);
+    Scaleform::HeapMH::NodeMH::SetHeap(v13, (unsigned int)this->pHeap, v17);
+    Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Insert(&v20->HeapTree, v13);
     newInfo->Node = v13;
-    newInfo->UsableSize = v10 - nodeSize;
+    newInfo->UsableSize = v10 - v18;
     newInfo->Page = 0;
     this->Footprint += v10 - (_DWORD)v9;
-    result = newPtr;
+    result = nodea;
     this->UsedSpace += v10 - (_DWORD)v9;
   }
   else
   {
     v15 = Scaleform::HeapMH::GlobalRootMH;
     v16 = (Scaleform::HeapMH::NodeMH *)&v9[(_DWORD)oldPtr - v8];
-    Scaleform::HeapMH::NodeMH::SetHeap(v16, (unsigned int)this->pHeap, oldAlign);
+    Scaleform::HeapMH::NodeMH::SetHeap(v16, (unsigned int)this->pHeap, v17);
     Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Insert(&v15->HeapTree, v16);
     return 0;
   }

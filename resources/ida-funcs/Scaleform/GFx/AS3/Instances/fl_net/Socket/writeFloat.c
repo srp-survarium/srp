@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::writeFloat(
     v = value;
     if ( (*((_DWORD *)this + 12) & 0x18) != 8 )
       LODWORD(v) = (((LODWORD(v) << 16) | LOWORD(v) & 0xFF00) << 8)
-                 | ((HIWORD(LODWORD(v)) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & LODWORD(v)) >> 8);
+                 | ((HIWORD(LODWORD(v)) | LODWORD(v) & 0xFF0000u) >> 8);
     Scaleform::GFx::AS3::SocketThreadMgr::SendFloat(this->SockMgr.pObject, v);
   }
   else

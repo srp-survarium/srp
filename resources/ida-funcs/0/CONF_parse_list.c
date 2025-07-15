@@ -1,64 +1,65 @@
-int __cdecl CONF_parse_list(
+int __usercall CONF_parse_list@<eax>(
+        int a1@<ebx>,
         char *list_,
         unsigned __int8 sep,
         int nospc,
         int (__cdecl *list_cb)(const char *, int, void *),
         void *arg)
 {
-  char *v5; // edi
+  char *v6; // edi
   int result; // eax
-  unsigned __int8 v7; // al
-  char *v8; // eax
-  char *v9; // ebx
-  char *v10; // esi
-  int v11; // eax
+  unsigned __int8 v8; // al
+  char *v9; // eax
+  char *v10; // ebx
+  char *v11; // esi
+  int v12; // eax
 
-  v5 = list_;
+  v6 = list_;
   if ( list_ )
   {
     while ( 1 )
     {
       if ( nospc )
       {
-        v7 = *v5;
-        if ( *v5 )
+        v8 = *v6;
+        if ( *v6 )
         {
           do
           {
-            if ( !isspace(v7) )
+            if ( !isspace(v8) )
               break;
-            v7 = *++v5;
+            v8 = *++v6;
           }
-          while ( v7 );
+          while ( v8 );
         }
       }
-      strchr(v5, sep);
-      v9 = v8;
-      if ( v8 == v5 || !*v5 )
+      strchr(v6, sep);
+      v10 = v9;
+      if ( v9 == v6 || !*v6 )
       {
         result = list_cb(0, 0, arg);
       }
       else
       {
-        v10 = v8 ? v8 - 1 : &v5[strlen(v5) - 1];
-        if ( nospc && isspace((unsigned __int8)*v10) )
+        v11 = v9 ? v9 - 1 : &v6[strlen(v6) - 1];
+        if ( nospc && isspace((unsigned __int8)*v11) )
         {
           do
-            v11 = (unsigned __int8)*--v10;
-          while ( isspace(v11) );
+            v12 = (unsigned __int8)*--v11;
+          while ( isspace(v12) );
         }
-        result = list_cb(v5, v10 - v5 + 1, arg);
+        result = list_cb(v6, v11 - v6 + 1, arg);
       }
       if ( result <= 0 )
         break;
-      if ( !v9 )
+      if ( !v10 )
         return 1;
-      v5 = v9 + 1;
+      v6 = v10 + 1;
     }
   }
   else
   {
-    ERR_put_error(0xEu, 119, 115, ".\\crypto\\conf\\conf_mod.c", 588);
+    ERR_put_error(a1, 0xEu, 119, 115, ".\\crypto\\conf\\conf_mod.c", 588);
     return 0;
   }
   return result;

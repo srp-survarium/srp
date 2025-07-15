@@ -3,76 +3,53 @@ void __thiscall btCollisionWorld::convexSweepTest(
         const btCollisionWorld *castShape,
         btConvexShape *convexFromWorld,
         const btTransform *convexToWorld,
-        const btTransform *resultCallback,
+        btCollisionWorld::ConvexResultCallback *resultCallback,
         btCollisionWorld::ConvexResultCallback *allowedCcdPenetration,
-        float allowedCcdPenetrationa)
+        float a7)
 {
-  CProfileNode *Sub_Node; // eax
-  int RecursionCounter; // ecx
-  CProfileNode *v9; // ecx
-  float v10; // [esp+BA0h] [ebp-1F0h]
-  btVector3 linvel; // [esp+BB0h] [ebp-1E0h] BYREF
-  btTransform curTrans; // [esp+BC0h] [ebp-1D0h] BYREF
-  btVector3 v13; // [esp+C00h] [ebp-190h] BYREF
-  btTransform transform0; // [esp+C10h] [ebp-180h] BYREF
-  btTransform transform1; // [esp+C50h] [ebp-140h] BYREF
-  btVector3 temporalAabbMin; // [esp+C90h] [ebp-100h] BYREF
-  btVector3 temporalAabbMax; // [esp+CA0h] [ebp-F0h] BYREF
-  btVector3 angvel; // [esp+CB0h] [ebp-E0h] BYREF
-  btSingleSweepCallback v19; // [esp+CC0h] [ebp-D0h] BYREF
+  btMatrix3x3 *v7; // ecx
+  btVector3 *v8; // [esp+Ch] [ebp-1F0h]
+  struct btCollisionWorld::ConvexResultCallback *v9; // [esp+Ch] [ebp-1F0h]
+  float v10; // [esp+10h] [ebp-1ECh]
+  btVector3 v11; // [esp+1Ch] [ebp-1E0h] BYREF
+  btQuaternion q; // [esp+2Ch] [ebp-1D0h] BYREF
+  btVector3 v13; // [esp+3Ch] [ebp-1C0h] BYREF
+  btVector3 v14; // [esp+4Ch] [ebp-1B0h] BYREF
+  btVector3 v15; // [esp+5Ch] [ebp-1A0h] BYREF
+  btTransform v16; // [esp+6Ch] [ebp-190h] BYREF
+  btTransform v17; // [esp+ACh] [ebp-150h] BYREF
+  btTransform v18; // [esp+ECh] [ebp-110h] BYREF
+  btSingleSweepCallback v19; // [esp+12Ch] [ebp-D0h] BYREF
 
-  Sub_Node = CProfileManager::CurrentNode;
-  if ( CProfileManager::CurrentNode->Name != "convexSweepTest" )
-  {
-    Sub_Node = CProfileNode::Get_Sub_Node((const char *)this);
-    CProfileManager::CurrentNode = Sub_Node;
-  }
-  RecursionCounter = Sub_Node->RecursionCounter;
-  ++Sub_Node->TotalCalls;
-  Sub_Node->RecursionCounter = RecursionCounter + 1;
-  if ( !RecursionCounter )
-    Sub_Node->StartTime = btClock::getTimeMicroseconds(0);
-  transform0 = *convexToWorld;
-  transform1.m_basis.m_el[0].mVec128.m128_u64[0] = resultCallback->m_basis.m_el[0].mVec128.m128_u64[0];
-  transform1.m_basis.m_el[0].mVec128.m128_u64[1] = resultCallback->m_basis.m_el[0].mVec128.m128_u64[1];
-  transform1.m_basis.m_el[1] = resultCallback->m_basis.m_el[1];
-  transform1.m_basis.m_el[2] = resultCallback->m_basis.m_el[2];
-  transform1.m_origin.mVec128.m128_u64[0] = resultCallback->m_origin.mVec128.m128_u64[0];
-  transform1.m_origin.mVec128.m128_u64[1] = resultCallback->m_origin.mVec128.m128_u64[1];
-  btTransformUtil::calculateVelocity(&transform1, &v13, &angvel, &transform0, 1.0);
-  memset(&linvel, 0, sizeof(linvel));
-  curTrans.m_basis.m_el[0].mVec128.m128_u64[0] = (unsigned int)clear_value;
-  memset(&curTrans.m_basis.m_el[0].m_floats[2], 0, 12);
-  *(unsigned __int64 *)((char *)curTrans.m_basis.m_el[1].mVec128.m128_u64 + 4) = (unsigned int)clear_value;
-  memset(&curTrans.m_basis.m_el[1].m_floats[3], 0, 12);
-  curTrans.m_basis.m_el[2].mVec128.m128_u64[1] = (unsigned int)clear_value;
-  memset(&curTrans.m_origin, 0, sizeof(curTrans.m_origin));
-  btMatrix3x3::getRotation((btMatrix3x3 *)&v13, (float *)&transform0, (btQuaternion *)&v13);
-  btMatrix3x3::setRotation((btMatrix3x3 *)&v13, (int)&curTrans);
-  btCollisionShape::calculateTemporalAabb(
-    convexFromWorld,
-    &curTrans,
-    &linvel,
-    &angvel,
-    v10,
-    &temporalAabbMin,
-    &temporalAabbMax);
+  v17 = *convexToWorld;
+  v18.m_basis.m_el[0].mVec128.m128_u64[0] = *(_QWORD *)&resultCallback->__vftable;
+  v18.m_basis.m_el[0].mVec128.m128_u64[1] = *(_QWORD *)&resultCallback->m_collisionFilterGroup;
+  v18.m_basis.m_el[1] = *(btVector3 *)&resultCallback[1].m_closestHitFraction;
+  v18.m_basis.m_el[2] = *(btVector3 *)&resultCallback[2].m_collisionFilterGroup;
+  v18.m_origin.mVec128.m128_u64[0] = *(_QWORD *)&resultCallback[4].__vftable;
+  v18.m_origin.mVec128.m128_u64[1] = *(_QWORD *)&resultCallback[4].m_collisionFilterGroup;
+  btTransformUtil::calculateVelocity(&v17, &v18, 1.0, (btVector3 *)&q, &v15);
+  memset(&v11, 0, sizeof(v11));
+  btMatrix3x3::setIdentity(v7, (int)&v16);
+  memset(&v16.m_origin, 0, sizeof(v16.m_origin));
+  btMatrix3x3::getRotation(&v17.m_basis, &q);
+  btMatrix3x3::setRotation(&q, &v16.m_basis);
+  btCollisionShape::calculateTemporalAabb(&v11, convexFromWorld, &v16, &v15, &v13, &v14, v8);
   btSingleSweepCallback::btSingleSweepCallback(
     &v19,
-    convexToWorld,
-    resultCallback,
+    (int)resultCallback,
+    a7,
     convexFromWorld,
+    convexToWorld,
     castShape,
     allowedCcdPenetration,
-    allowedCcdPenetrationa);
+    v9,
+    v10);
   castShape->m_broadphasePairCache->rayTest(
     castShape->m_broadphasePairCache,
-    &transform0.m_origin,
-    &transform1.m_origin,
+    &v17.m_origin,
+    &v18.m_origin,
     &v19,
-    &temporalAabbMin,
-    &temporalAabbMax);
-  v19.__vftable = (btSingleSweepCallback_vtbl *)&btBroadphaseAabbCallback::`vftable';
-  if ( CProfileNode::Return(v9) )
-    CProfileManager::CurrentNode = CProfileManager::CurrentNode->Parent;
+    &v13,
+    &v14);
 }

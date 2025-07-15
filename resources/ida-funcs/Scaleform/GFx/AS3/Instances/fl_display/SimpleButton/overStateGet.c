@@ -48,7 +48,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::SimpleButton::overSt
       else
       {
         RefCount = v9->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v9->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);

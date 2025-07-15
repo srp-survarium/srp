@@ -1,24 +1,31 @@
-vostok::math::float4x4 *__thiscall transform_getter::get_transform(
-        transform_getter *this,
+vostok::math::float4x4 *__userpurge transform_getter::get_transform@<eax>(
+        transform_getter *this@<ecx>,
+        const stlp_std::random_access_iterator_tag *a2@<edi>,
         vostok::math::float4x4 *result,
         vostok::math::float4x4 *animated_object)
 {
-  boost::function1<vostok::math::float4x4,void const *> *v3; // ecx
-  vostok::math::float4x4 *v4; // eax
-  vostok::math::float4x4 transform; // [esp+8h] [ebp-40h] BYREF
+  boost::function1<vostok::math::float4x4,void const *> *v5; // ecx
+  vostok::math::float4x4 *v6; // eax
+  _BYTE v7[64]; // [esp+8h] [ebp-40h] BYREF
 
   if ( vostok::animation::animation_player::try_get_transform(
-         this->animation_player,
-         this->animation_player,
-         animated_object) )
+         (vostok::animation::animation_player *)this,
+         a2,
+         (const vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy> *)this->animation_player,
+         animated_object,
+         (vostok::animation::mixing::animated_object_holder *)v7) )
   {
-    v4 = result;
-    qmemcpy((void *)result, &transform, sizeof(vostok::math::float4x4));
+    v6 = result;
+    qmemcpy(result, v7, sizeof(vostok::math::float4x4));
   }
   else
   {
-    boost::function1<vostok::math::float4x4,void const *>::operator()(v3, result, animated_object);
+    boost::function1<vostok::math::float4x4,void const *>::operator()(
+      v5,
+      &this->functor->vtable,
+      result,
+      animated_object);
     return result;
   }
-  return v4;
+  return v6;
 }

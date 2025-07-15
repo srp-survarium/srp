@@ -1,319 +1,246 @@
-// local variable allocation has failed, the output may be wrong!
-vostok::math::float4x4 *__thiscall vostok::render::stage_pre_rain::render_rain_shadow_map(
-        vostok::render::stage_pre_rain *this,
-        vostok::render::stage_pre_rain *result,
+vostok::math::float4x4 *__userpurge vostok::render::stage_pre_rain::render_rain_shadow_map@<eax>(
+        vostok::render::stage_pre_rain *this@<ecx>,
+        long double a2@<esi:edi>,
+        vostok::math::float4x4 *result,
         vostok::math::float4x4 *a3)
 {
-  vostok::render::base_scene_view *m_object; // edi
-  vostok::math::float4x4 *rotation_z; // ebp
   vostok::math::float4x4 *v5; // eax
-  double m_shadow_map_size; // st7
-  float v7; // ebp
-  float v8; // edx
-  float v9; // xmm1_4
-  float v10; // xmm2_4
-  double v11; // st7
-  const vostok::math::float4x4 *orthographic_projection; // eax
-  void *v13; // edi
-  vostok::render::renderer_context *v14; // ecx
-  float v15; // eax
-  void *v16; // edi
-  const char *m_conflicted_key_name; // eax
-  float v18; // ecx
-  int v19; // esi
-  bool v20; // zf
-  int y; // eax
-  double v22; // st7
-  float v23; // eax
-  vostok::render::render_surface_instance **M_start; // eax
-  vostok::render::render_surface_instance *v25; // esi
-  vostok::render::render_surface *m_render_surface; // edi
-  vostok::render::enum_vertex_input_type m_vertex_input_type; // ecx
-  survarium::game_action_id *v28; // ecx
-  float v29; // eax
-  unsigned int primitive_count; // eax
-  const char *v31; // edi
-  unsigned int v32; // ebp
-  const char *v33; // esi
-  float v34; // ebp
-  float v35; // esi
-  const vostok::math::float4x4 *v36; // xmm2_4
-  float v37; // eax
-  const vostok::math::float4x4 *v38; // eax
-  const char *v39; // esi
-  vostok::render::backend *v40; // ecx
-  int v41; // eax
-  void **v42; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  float result_4; // [esp+28h] [ebp-168h]
-  float v46; // [esp+2Ch] [ebp-164h]
-  vostok::render::stage_pre_rain *v47; // [esp+2Ch] [ebp-164h]
-  unsigned int v48; // [esp+2Ch] [ebp-164h]
-  float v49; // [esp+30h] [ebp-160h]
-  float v50; // [esp+34h] [ebp-15Ch]
-  float v51; // [esp+38h] [ebp-158h]
-  vostok::render::render_surface_instance *const *end_d; // [esp+3Ch] [ebp-154h] BYREF
-  vostok::render::render_surface_instance **it_d; // [esp+40h] [ebp-150h]
-  vostok::math::float3 local_up_in_world_space; // [esp+44h] [ebp-14Ch] BYREF
-  int v55; // [esp+50h] [ebp-140h]
-  vostok::math::float3 view_dir; // [esp+54h] [ebp-13Ch] BYREF
-  vostok::math::float4_pod direction; // [esp+60h] [ebp-130h] OVERLAPPED BYREF
-  vostok::math::float3 adjastment; // [esp+70h] [ebp-120h] BYREF
-  int v59; // [esp+7Ch] [ebp-114h]
-  vostok::math::float3 v60; // [esp+80h] [ebp-110h] BYREF
-  int v61; // [esp+8Ch] [ebp-104h]
-  vostok::render::vector<vostok::render::render_surface_instance *> m_caster_model; // [esp+90h] [ebp-100h] BYREF
-  D3D11_VIEWPORT tmp_viewport; // [esp+9Ch] [ebp-F4h] BYREF
-  vostok::math::float4x4 shadow_view_transform; // [esp+B4h] [ebp-DCh] BYREF
-  vostok::math::float4x4 shadow_full_transform; // [esp+F4h] [ebp-9Ch] BYREF
-  vostok::math::float4x4 shadow_projection_transform; // [esp+134h] [ebp-5Ch] BYREF
-  D3D11_VIEWPORT orig_viewport; // [esp+174h] [ebp-1Ch] BYREF
+  double x_low; // st7
+  float y; // eax
+  float v8; // xmm2_4
+  float v9; // xmm3_4
+  int y_low; // esi
+  vostok::render::renderer_context *v11; // ecx
+  float z; // esi
+  double v13; // st7
+  float v14; // xmm0_4
+  vostok::render::render_surface_instance **m_begin; // eax
+  vostok::render::render_surface_instance **m_end; // ecx
+  int v17; // edi
+  int *m_render_surface; // esi
+  bool v19; // zf
+  int v20; // eax
+  int w_low; // eax
+  vostok::render::res_geometry *v22; // ecx
+  vostok::render::backend *v23; // ecx
+  int v24; // eax
+  vostok::render::renderer_context *v25; // ecx
+  float v26; // edx
+  vostok::render::backend *v27; // ecx
+  vostok::math::float4x4 *v28; // ecx
+  vostok::math::float4x4 *v29; // eax
+  float v30; // esi
+  vostok::render::backend *v31; // ecx
+  int v32; // ecx
+  float v34; // [esp+4h] [ebp-2170h]
+  const D3D11_VIEWPORT *v35; // [esp+Ch] [ebp-2168h]
+  bool v36; // [esp+Ch] [ebp-2168h]
+  const D3D11_VIEWPORT *v37; // [esp+Ch] [ebp-2168h]
+  vostok::buffer_vector<vostok::render::render_surface_instance *> v38; // [esp+1Ch] [ebp-2158h] BYREF
+  _BYTE v39[8192]; // [esp+28h] [ebp-214Ch] BYREF
+  char v40; // [esp+2028h] [ebp-14Ch] BYREF
+  D3D11_VIEWPORT v41; // [esp+202Ch] [ebp-148h] BYREF
+  vostok::math::float4x4 v42; // [esp+2044h] [ebp-130h] BYREF
+  vostok::math::float4x4 resulta; // [esp+2084h] [ebp-F0h] BYREF
+  vostok::math::float4x4 v44; // [esp+20C4h] [ebp-B0h] BYREF
+  D3D11_VIEWPORT v45; // [esp+2108h] [ebp-6Ch] BYREF
+  int v46; // [esp+2120h] [ebp-54h]
+  vostok::render::stage_pre_rain v47; // [esp+2124h] [ebp-50h] BYREF
+  int v48; // [esp+2160h] [ebp-14h]
+  vostok::math::float3 v49; // [esp+2164h] [ebp-10h] BYREF
+  float v50; // [esp+2170h] [ebp-4h]
+  float v51; // [esp+217Ch] [ebp+8h]
+  vostok::math::float4x4 *v52; // [esp+217Ch] [ebp+8h]
+  vostok::render::render_surface_instance **v53; // [esp+217Ch] [ebp+8h]
 
-  m_object = result->m_context->m_scene_view.m_object;
-  rotation_z = vostok::math::create_rotation_z(
-                 (int)&shadow_full_transform,
-                 COERCE_VOSTOK_MATH_FLOAT4X4_(*(float *)&m_object[2].m_uid));
-  v5 = vostok::math::create_rotation_x(
-         &shadow_projection_transform,
-         COERCE_VOSTOK_MATH_FLOAT4X4_(*((float *)&m_object[2].m_reconstruction_size + 1)));
-  vostok::math::mul4x3(&shadow_view_transform, v5, rotation_z);
-  m_shadow_map_size = (double)result->m_shadow_map_size;
-  v7 = *(float *)&result->m_context;
-  v8 = *(float *)(LODWORD(v7) + 16940);
-  *(_QWORD *)&view_dir.x = *(_QWORD *)(LODWORD(v7) + 16932);
-  view_dir.z = v8;
-  direction.x = -shadow_view_transform.j.x;
-  direction.y = -shadow_view_transform.j.y;
-  direction.z = -shadow_view_transform.j.z;
-  *(float *)&it_d = m_shadow_map_size;
-  v9 = *(float *)(LODWORD(v7) + 16904) - (float)((float)-shadow_view_transform.j.y * 100.0);
-  v10 = *(float *)(LODWORD(v7) + 16908);
-  view_dir.x = (float)(*(float *)(LODWORD(v7) + 16900) - (float)((float)-shadow_view_transform.j.x * 100.0))
-             + (float)((float)((float)(view_dir.x * 0.5) * 0.5) * *(float *)&it_d);
-  *(_QWORD *)&local_up_in_world_space.x = (unsigned int)clear_value;
-  view_dir.y = v9 + (float)((float)((float)(view_dir.y * 0.5) * 0.5) * *(float *)&it_d);
-  view_dir.z = (float)(v10 - (float)((float)-shadow_view_transform.j.z * 100.0))
-             + (float)((float)((float)(v8 * 0.5) * 0.5) * *(float *)&it_d);
-  local_up_in_world_space.z = 0.0;
-  vostok::math::create_camera_direction(&view_dir, (const vostok::math::float3 *)&direction, &local_up_in_world_space);
-  v11 = (double)result->m_shadow_map_size;
-  *(float *)&end_d = v11;
-  result_4 = v11 * 0.5;
-  orthographic_projection = vostok::math::create_orthographic_projection(
-                              (vostok::math *)LODWORD(result_4),
-                              (struct vostok::math::float4x4 *)LODWORD(result_4),
-                              v46,
-                              v49,
-                              v50,
-                              v51);
-  vostok::math::mul4x3(&shadow_full_transform, &shadow_view_transform, orthographic_projection);
-  memset(&local_up_in_world_space, 0, sizeof(local_up_in_world_space));
-  vostok::render::stage_pre_rain::compute_aligment(&local_up_in_world_space, (int)&adjastment, *(float *)&it_d, v47);
-  *(_QWORD *)&v60.x = (unsigned int)clear_value;
-  v60.z = 0.0;
-  local_up_in_world_space.x = adjastment.x + view_dir.x;
-  local_up_in_world_space.y = adjastment.y + view_dir.y;
-  local_up_in_world_space.z = adjastment.z + view_dir.z;
+  HIDWORD(a2) = *(_DWORD *)(LODWORD(result->i.y) + 16268);
+  LODWORD(a2) = vostok::math::create_rotation_z(a2, &resulta, *(float *)(HIDWORD(a2) + 712));
+  v5 = vostok::math::create_rotation_x(a2, &v42, *(float *)(HIDWORD(a2) + 708));
+  vostok::math::mul4x3((const vostok::math::float4x4 *)LODWORD(a2), v5, &v44);
+  x_low = (double)LODWORD(result->k.x);
+  y = result->i.y;
+  v47.m_rain_density_parameter = *(vostok::render::shader_constant_host **)(LODWORD(y) + 21148);
+  v47.m_rain_offset = *(float *)(LODWORD(y) + 21152);
+  v47.m_rain_offset_counter = *(float *)(LODWORD(y) + 21156);
+  v47.m_effect_shadow_direct.m_object = (vostok::render::res_effect *)(LODWORD(v44.j.x) ^ _mask__NegFloat_);
+  v47.m_shadow_map_size = LODWORD(v44.j.y) ^ _mask__NegFloat_;
+  v47.m_view_to_shadow_parameter = (vostok::render::shader_constant_host *)(LODWORD(v44.j.z) ^ _mask__NegFloat_);
+  v50 = x_low;
+  LODWORD(y) += 21132;
+  v8 = *(float *)(LODWORD(y) + 4) - (float)(COERCE_FLOAT(LODWORD(v44.j.y) ^ _mask__NegFloat_) * s_spot_max_distance);
+  v9 = *(float *)(LODWORD(y) + 8);
+  *(float *)&v47.m_enabled = (float)(*(float *)LODWORD(y)
+                                   - (float)(COERCE_FLOAT(LODWORD(v44.j.x) ^ _mask__NegFloat_) * s_spot_max_distance))
+                           + (float)((float)((float)((float)(*(float *)&v47.m_rain_density_parameter * offs) * 0.5) * 0.5)
+                                   * v50);
+  *(float *)&v47.m_rt_rain_shadow_map.m_object = v8 + (float)((float)((float)((float)(offs * 0.0) * 0.5) * 0.5) * v50);
+  *(float *)&v47.m_t_rain_shadow_map.m_object = (float)(v9
+                                                      - (float)(COERCE_FLOAT(LODWORD(v44.j.z) ^ _mask__NegFloat_)
+                                                              * s_spot_max_distance))
+                                              + (float)((float)((float)((float)(v47.m_rain_offset_counter * offs) * 0.5)
+                                                              * 0.5)
+                                                      * v50);
+  *(_QWORD *)&v49.x = LODWORD(s_bm_current_air_resistance);
+  v49.z = 0.0;
+  vostok::math::create_camera_direction(
+    (const vostok::math::float3 *)&v47.m_effect_shadow_direct,
+    &v49,
+    &v44,
+    (float *)&v47.m_enabled);
+  v51 = (float)LODWORD(result->k.x);
+  v34 = v51 * 0.5;
+  vostok::math::create_orthographic_projection(
+    (int)&v42,
+    (float)(v51 * 1.41421) + 200.0,
+    (vostok::math *)LODWORD(v34),
+    (struct vostok::math::float4x4 *)LODWORD(v34),
+    0.1);
+  vostok::math::mul4x3(&v42, &v44, &resulta);
+  memset(&v49, 0, sizeof(v49));
+  vostok::render::stage_pre_rain::compute_aligment(&v49, v50, &v47);
+  *(float *)&v47.m_rain_density_parameter = s_bm_current_air_resistance;
+  v47.m_rain_offset = 0.0;
+  v47.m_rain_offset_counter = 0.0;
+  v49.x = *(float *)&v47.__vftable + *(float *)&v47.m_enabled;
+  v49.y = *(float *)&v47.m_context + *(float *)&v47.m_rt_rain_shadow_map.m_object;
+  v49.z = *(float *)&v47.m_renderer + *(float *)&v47.m_t_rain_shadow_map.m_object;
   qmemcpy(
-    (void *)&shadow_view_transform,
-    vostok::math::create_camera_direction(&local_up_in_world_space, (const vostok::math::float3 *)&direction, &v60),
-    sizeof(shadow_view_transform));
-  v13 = *(void **)(LODWORD(v7) + 13432);
-  if ( v13 )
-    qmemcpy(v13, (const void *)(LODWORD(v7) + 15620), 0x40u);
-  *(_DWORD *)(LODWORD(v7) + 13432) += 64;
-  vostok::render::renderer_context::set_v(
-    (vostok::render::renderer_context *)&shadow_view_transform,
-    (const vostok::math::float4x4 *)LODWORD(v7));
-  v15 = *(float *)&result->m_context;
-  v16 = *(void **)(LODWORD(v15) + 14464);
-  if ( v16 )
-  {
-    qmemcpy(v16, (const void *)(LODWORD(v15) + 15940), 0x40u);
-    v14 = 0;
-  }
-  *(_DWORD *)(LODWORD(v15) + 14464) += 64;
-  vostok::render::renderer_context::set_p(v14, (const vostok::math::float4x4 *)LODWORD(v15));
-  m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  if ( *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) )
-  {
-    *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = 0;
-    *((_BYTE *)m_conflicted_key_name + 163) = 1;
-  }
-  if ( *((_DWORD *)m_conflicted_key_name + 536) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 536) = 0;
-    *((_BYTE *)m_conflicted_key_name + 164) = 1;
-  }
-  if ( *((_DWORD *)m_conflicted_key_name + 537) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 537) = 0;
-    *((_BYTE *)m_conflicted_key_name + 165) = 1;
-  }
-  if ( *((_DWORD *)m_conflicted_key_name + 538) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 538) = 0;
-    *((_BYTE *)m_conflicted_key_name + 166) = 1;
-  }
-  v18 = *(float *)&result->m_rt_rain_shadow_map.m_object;
-  if ( v18 == 0.0 )
-    v19 = 0;
-  else
-    v19 = *(_DWORD *)(LODWORD(v18) + 20);
-  v20 = *((_DWORD *)m_conflicted_key_name + 539) == v19;
-  *((_DWORD *)m_conflicted_key_name + 539) = v19;
-  *((_BYTE *)m_conflicted_key_name + 167) |= !v20;
-  if ( s_debug_enabled_ds_clearing_value && v19 )
-    (*(void (__stdcall **)(int, int, int, _DWORD, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                         + 212))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v19,
-      3,
-      1.0,
-      0);
-  y = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y;
-  end_d = (vostok::render::render_surface_instance *const *)1;
-  (*(void (__stdcall **)(int, vostok::render::render_surface_instance *const **, D3D11_VIEWPORT *))(*(_DWORD *)y + 380))(
-    y,
-    &end_d,
-    &orig_viewport);
-  v22 = (double)result->m_shadow_map_size;
-  tmp_viewport.TopLeftX = 0.0;
-  tmp_viewport.TopLeftY = 0.0;
-  tmp_viewport.Width = v22;
-  tmp_viewport.MinDepth = 0.0;
-  tmp_viewport.Height = v22;
-  LODWORD(tmp_viewport.MaxDepth) = clear_value;
-  (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                    + 176))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    1,
-    &tmp_viewport);
-  v23 = *(float *)&result->m_context;
-  memset(&m_caster_model, 0, sizeof(m_caster_model));
-  vostok::render::scene::select_models(
-    *(vostok::render::scene **)(LODWORD(v23) + 12388),
-    (const vostok::math::float4x4 *)(LODWORD(v23) + 16260),
-    &m_caster_model,
-    (const vostok::math::float3 *)(LODWORD(v23) + 16900),
-    1u,
+    &v44,
+    vostok::math::create_camera_direction(
+      (const vostok::math::float3 *)&v47.m_effect_shadow_direct,
+      (const vostok::math::float3 *)&v47.m_rain_density_parameter,
+      &resulta,
+      &v49.x),
+    sizeof(v44));
+  y_low = LODWORD(result->i.y);
+  v52 = (vostok::math::float4x4 *)(y_low + 21132);
+  LODWORD(v50) = y_low + 20148;
+  vostok::render::renderer_context::push_set_v(0, y_low, &v44);
+  vostok::render::renderer_context::push_set_p(v11, LODWORD(result->i.y), &v42);
+  z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+  vostok::render::backend::set_render_targets(
+    (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+    0,
+    0,
+    0,
     0);
-  M_start = (vostok::render::render_surface_instance **)m_caster_model._M_impl._M_start;
-  it_d = (vostok::render::render_surface_instance **)m_caster_model._M_impl._M_start;
-  end_d = (vostok::render::render_surface_instance *const *)m_caster_model._M_impl._M_finish;
-  if ( s_rain_debug0 && m_caster_model._M_impl._M_start != m_caster_model._M_impl._M_finish )
+  vostok::render::backend::set_depth_stencil_target(
+    (vostok::render::backend *)LODWORD(z),
+    (const vostok::render::render_target *)LODWORD(result->j.x));
+  v13 = (double)LODWORD(result->k.x);
+  qmemcpy((void *)&v41, (const void *)(LODWORD(z) + 120), sizeof(v41));
+  v45.TopLeftX = 0.0;
+  v45.TopLeftY = 0.0;
+  v45.Width = v13;
+  v45.MinDepth = 0.0;
+  v45.Height = v13;
+  v14 = s_bm_current_air_resistance;
+  v45.MaxDepth = s_bm_current_air_resistance;
+  vostok::render::backend::set_viewports(
+    0,
+    SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+    &v45,
+    v35);
+  v38.m_begin = (vostok::render::render_surface_instance **)v39;
+  v38.m_end = (vostok::render::render_surface_instance **)v39;
+  v38.m_max_end = (vostok::render::render_surface_instance **)&v40;
+  vostok::render::scene::select_models(
+    (vostok::render::scene *)(LODWORD(result->i.y) + 20148),
+    *(_DWORD *)(LODWORD(result->i.y) + 16264),
+    (vostok::math::float4x4 *)(LODWORD(result->i.y) + 20148),
+    (const vostok::math::float4x4 *)LODWORD(v50),
+    &v38,
+    v52,
+    (const vostok::math::float3 *)1,
+    0,
+    v36);
+  m_begin = v38.m_begin;
+  m_end = v38.m_end;
+  v53 = v38.m_begin;
+  v47.m_eye_ray_corner_parameter = (vostok::render::shader_constant_host *)v38.m_end;
+  if ( s_rain_debug0 && v38.m_begin != v38.m_end )
   {
     do
     {
-      v25 = *M_start;
-      m_render_surface = (*M_start)->m_render_surface;
-      if ( m_render_surface->m_render_geometry.geom.m_object )
+      v17 = (int)*m_begin;
+      m_render_surface = (int *)(*m_begin)->m_render_surface;
+      v19 = m_render_surface[1] == 0;
+      v50 = *(float *)m_begin;
+      if ( !v19 )
       {
-        m_vertex_input_type = m_render_surface->m_vertex_input_type;
-        if ( m_vertex_input_type == static_mesh_vertex_input_type
-          || m_vertex_input_type == static_mesh_vertex_colored_input_type )
+        v20 = m_render_surface[37];
+        if ( (v20 == 2 || v20 == 4)
+          && !vostok::render::render_surface_instance::is_occluded(
+                (vostok::render::render_surface_instance *)m_end,
+                v17) )
         {
-          v28 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start;
-          if ( (!*((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                 + 288)
-             || !v25->m_occluded)
-            && v25->m_dynamic_screen_factor >= 0.0040000002 )
+          vostok::render::render_surface_instance::get_dynamic_screen_factor((vostok::render::render_surface_instance *)m_end);
+          if ( v14 >= 10.0 )
           {
-            v29 = *(float *)&result->m_effect_shadow_direct.m_object;
-            if ( (*(_DWORD *)(LODWORD(v29) + 284) - *(_DWORD *)(LODWORD(v29) + 280)) >> 2 )
-            {
-              *(_DWORD *)(LODWORD(v29) + 276) = 0;
-              vostok::render::res_effect::apply_pass((vostok::render::res_effect *)v28, v48);
-            }
-            v25->m_parent->set_constants(v25->m_parent);
-            vostok::render::res_geometry::apply(m_render_surface->m_render_geometry.geom.m_object);
-            vostok::render::renderer_context::set_w(result->m_context, v25->m_transform);
-            primitive_count = m_render_surface->m_render_geometry.primitive_count;
-            v31 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-            v32 = 3 * primitive_count;
-            LOBYTE(primitive_count) = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                      + 529) != 4;
-            v33 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-            *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 162) = primitive_count;
-            if ( (_BYTE)primitive_count )
-              *((_DWORD *)v31 + 529) = 4;
-            vostok::render::backend::flush((vostok::render::backend *)4, (int)v31);
-            if ( v33[104] )
-            {
-              ++*((_DWORD *)v33 + 25);
-              v32 += 3 * s_max_triagles_per_dip_value < v32 ? 3 * s_max_triagles_per_dip_value - v32 : 0;
-            }
-            if ( !v33[37] )
-              (*(void (__stdcall **)(int, unsigned int, _DWORD, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                       + 48))(
-                `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-                v32,
-                0,
-                0);
-            M_start = it_d;
-            *((_DWORD *)v33 + 21) += v32 / 3;
+            w_low = LODWORD(result->j.w);
+            *(_DWORD *)(w_low + 22048) = 0;
+            vostok::render::res_effect::apply_pass((vostok::render::res_effect *)m_end, w_low);
+            (*(void (__thiscall **)(_DWORD, _DWORD))(**(_DWORD **)(v17 + 20) + 68))(*(_DWORD *)(v17 + 20), 0);
+            vostok::render::res_geometry::apply(v22, m_render_surface[1]);
+            vostok::render::renderer_context::set_w(
+              *(const vostok::math::float4x4 **)(LODWORD(v50) + 36),
+              (vostok::render::renderer_context *)LODWORD(result->i.y));
+            vostok::render::backend::render_indexed(
+              (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+              3 * m_render_surface[6],
+              v23,
+              D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+              0,
+              0);
           }
         }
       }
-      it_d = ++M_start;
+      m_begin = v53 + 1;
+      v53 = m_begin;
     }
-    while ( M_start != end_d );
+    while ( m_begin != (vostok::render::render_surface_instance **)v47.m_eye_ray_corner_parameter );
   }
-  v34 = *(float *)&result->m_context;
-  qmemcpy((void *)&shadow_full_transform, (const void *)(LODWORD(v34) + 16260), sizeof(shadow_full_transform));
-  vostok::render::renderer_context::set_v(0, (const vostok::math::float4x4 *)LODWORD(v34));
-  *(_DWORD *)(LODWORD(v34) + 13432) -= 64;
-  v35 = *(float *)&result->m_context;
-  vostok::render::renderer_context::set_p(
-    (vostok::render::renderer_context *)(*(_DWORD *)(LODWORD(v35) + 14464) - 64),
-    (const vostok::math::float4x4 *)LODWORD(v35));
-  v36 = clear_value;
-  *(_DWORD *)(LODWORD(v35) + 14464) -= 64;
-  v37 = *(float *)&result->m_context;
-  *(_QWORD *)&local_up_in_world_space.x = 0;
-  v55 = 0;
-  adjastment.x = 0.0;
-  v59 = 0;
-  v60.z = 0.0;
-  v61 = 0;
-  *(_QWORD *)&v60.x = LODWORD(FLOAT_0_5);
-  *(_QWORD *)&shadow_view_transform.i.x = LODWORD(FLOAT_0_5);
-  *(_QWORD *)&shadow_view_transform.lines[0].elements[2] = 0;
-  LODWORD(direction.w) = v36;
-  LODWORD(local_up_in_world_space.z) = v36;
-  *(_QWORD *)&adjastment.elements[1] = 3204448256LL;
-  *(_QWORD *)&shadow_view_transform.lines[1].x = *(_QWORD *)&adjastment.x;
-  memset(&shadow_view_transform.lines[1].elements[2], 0, 16);
-  *(_QWORD *)&shadow_view_transform.lines[2].elements[2] = (unsigned int)v36;
-  direction.x = FLOAT_0_5;
-  *(_QWORD *)&direction.elements[1] = LODWORD(FLOAT_0_5) | 0xBA83126F00000000uLL;
-  shadow_view_transform.c = direction;
-  vostok::math::mul4x3(
-    &shadow_projection_transform,
-    (const vostok::math::float4x4 *)(LODWORD(v37) + 15748),
-    &shadow_full_transform);
-  vostok::math::mul4x3(a3, &shadow_projection_transform, &shadow_view_transform);
-  (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                    + 176))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    1,
-    &orig_viewport);
-  v38 = vostok::math::float4x4::identity(&shadow_full_transform);
-  vostok::render::renderer_context::set_w(result->m_context, v38);
-  v39 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
+  v24 = LODWORD(result->i.y);
+  qmemcpy(&resulta, (const void *)(v24 + 20148), sizeof(resulta));
+  vostok::render::renderer_context::pop_v(0, v24);
+  vostok::render::renderer_context::pop_p(v25, (vostok::render::renderer_context *)LODWORD(result->i.y));
+  *(float *)&v47.m_shadow_map_size = FLOAT_N0_001;
+  *(float *)&v47.m_rain_offset_parameter = c_anim_center;
+  memset(&v47.m_rain_density_parameter, 0, 12);
+  *(_QWORD *)&v44.i.x = LODWORD(c_anim_center);
+  memset(&v44.lines[0].elements[2], 0, 12);
+  *(float *)&v47.m_view_to_shadow_parameter = s_bm_current_air_resistance;
+  *(_QWORD *)&v49.elements[1] = LODWORD(s_bm_current_air_resistance);
+  v46 = 0;
+  *(float *)&v47.__vftable = FLOAT_N0_5;
+  v47.m_context = 0;
+  v47.m_renderer = 0;
+  *(_QWORD *)&v44.lines[1].elements[1] = LODWORD(FLOAT_N0_5);
+  memset(&v44.lines[1].elements[3], 0, 12);
+  v48 = 0;
+  v49.x = 0.0;
+  v26 = result->i.y;
+  *(_QWORD *)&v44.lines[2].elements[2] = LODWORD(s_bm_current_air_resistance);
+  *(float *)&v47.m_wet_surface_effect.m_object = c_anim_center;
+  *(float *)&v47.m_effect_shadow_direct.m_object = c_anim_center;
+  v44.c.x = c_anim_center;
+  *(_QWORD *)&v44.lines[3].elements[1] = __PAIR64__(LODWORD(FLOAT_N0_001), LODWORD(c_anim_center));
+  v44.c.w = s_bm_current_air_resistance;
+  vostok::math::mul4x3(&resulta, (const vostok::math::float4x4 *)(LODWORD(v26) + 19636), &v42);
+  vostok::math::mul4x3(&v44, &v42, a3);
+  vostok::render::backend::set_viewports(
+    v27,
+    SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+    &v41,
+    v37);
+  v29 = vostok::math::float4x4::identity(v28, &resulta);
+  vostok::render::renderer_context::set_w(v29, (vostok::render::renderer_context *)LODWORD(result->i.y));
+  v30 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
   vostok::render::backend::reset_render_targets(
-    v40,
-    (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name);
-  v41 = *((_DWORD *)v39 + 547);
-  v20 = *((_DWORD *)v39 + 539) == v41;
-  *((_DWORD *)v39 + 539) = v41;
-  *((_BYTE *)v39 + 167) |= !v20;
-  v42 = m_caster_model._M_impl._M_start;
-  if ( m_caster_model._M_impl._M_start )
-  {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v42);
-  }
+    v31,
+    SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z));
+  v32 = *(_DWORD *)(LODWORD(v30) + 7440);
+  *(_BYTE *)(LODWORD(v30) + 117) |= *(_DWORD *)(LODWORD(v30) + 7384) != v32;
+  *(_DWORD *)(LODWORD(v30) + 7384) = v32;
   return a3;
 }

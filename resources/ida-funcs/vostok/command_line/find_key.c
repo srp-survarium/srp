@@ -1,31 +1,17 @@
-vostok::command_line::key *__fastcall vostok::command_line::find_key(char *key_name)
+vostok::command_line::key *__cdecl vostok::command_line::find_key(char *key_name)
 {
-  char *m_buffer; // eax
-  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::void_predicate_ref<vostok::command_line::command_line_key_finder> pred; // [esp+4h] [ebp-218h] BYREF
-  vostok::command_line::command_line_key_finder finder; // [esp+8h] [ebp-214h] BYREF
+  vostok::fixed_string<512> *v1; // ecx
+  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy> *v2; // ecx
+  vostok::buffer_string v4[43]; // [esp+8h] [ebp-21Ch] BYREF
+  int v5; // [esp+214h] [ebp-10h]
+  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::void_predicate_ref<vostok::command_line::command_line_key_finder> pred; // [esp+21Ch] [ebp-8h] BYREF
 
-  finder.key_name.m_max_end = (char *)&finder.result;
-  m_buffer = finder.key_name.m_buffer;
-  finder.key_name.m_begin = finder.key_name.m_buffer;
-  finder.key_name.m_end = finder.key_name.m_buffer;
-  finder.key_name.m_buffer[0] = 0;
-  if ( key_name )
-  {
-    for ( ; *key_name; ++finder.key_name.m_end )
-    {
-      if ( m_buffer >= finder.key_name.m_max_end )
-        break;
-      *m_buffer = *key_name;
-      m_buffer = finder.key_name.m_end + 1;
-      ++key_name;
-    }
-    *m_buffer = 0;
-  }
-  pred.m_predicate_ref = &finder;
-  finder.result = 0;
+  vostok::fixed_string<512>::fixed_string<512>(v1, v4, key_name);
+  v5 = 0;
+  pred.m_predicate_ref = (vostok::command_line::command_line_key_finder *)v4;
   vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::for_each<vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::void_predicate_ref<vostok::command_line::command_line_key_finder>>(
-    (vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy> *)&pred,
+    v2,
     (int)s_command_line_keys,
     &pred);
-  return finder.result;
+  return (vostok::command_line::key *)v5;
 }

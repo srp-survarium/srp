@@ -4,14 +4,16 @@ void __thiscall Scaleform::GFx::FontData::ReadFontInfo(
         Scaleform::GFx::TagType tagType)
 {
   char *Name; // eax
-  signed int v5; // ecx
+  signed int v6; // ecx
   unsigned int Pos; // eax
-  unsigned __int8 v7; // bl
-  unsigned int v8; // eax
-  int v9; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v10; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v11; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v12; // ecx
+  unsigned __int8 v8; // bl
+  unsigned int v9; // eax
+  int v10; // ecx
+  unsigned int v11; // eax
+  char *v12; // eax
+  unsigned int v13; // ecx
+  const char *v14; // edx
+  unsigned __int8 ina; // [esp+14h] [ebp+4h]
 
   Name = this->Name;
   if ( Name )
@@ -20,27 +22,30 @@ void __thiscall Scaleform::GFx::FontData::ReadFontInfo(
     this->Name = 0;
   }
   this->Name = Scaleform::GFx::Stream::ReadStringWithLength(in, in->FileName.pHeap);
-  v5 = in->DataSize - in->Pos;
+  v6 = in->DataSize - in->Pos;
   in->UnusedBits = 0;
-  if ( v5 < 1 )
+  if ( v6 < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(in);
   Pos = in->Pos;
-  v7 = in->pBuffer[Pos];
-  v8 = Pos + 1;
-  in->Pos = v8;
+  v8 = in->pBuffer[Pos];
+  v9 = Pos + 1;
+  in->Pos = v9;
+  ina = 0;
   if ( tagType == Tag_DefineFontInfo2 )
   {
-    v9 = in->DataSize - v8;
+    v10 = in->DataSize - v9;
     in->UnusedBits = 0;
-    if ( v9 < 1 )
+    if ( v10 < 1 )
       Scaleform::GFx::Stream::PopulateBuffer1(in);
-    ++in->Pos;
+    v11 = in->Pos;
+    ina = in->pBuffer[v11];
+    in->Pos = v11 + 1;
   }
-  if ( (v7 & 0x10) != 0 )
+  if ( (v8 & 0x10) != 0 )
   {
     this->Flags = this->Flags & 0xFFFFFCFF | 0x200;
   }
-  else if ( (v7 & 8) != 0 )
+  else if ( (v8 & 8) != 0 )
   {
     this->Flags = this->Flags & 0xFFFFFCFF | 0x100;
   }
@@ -48,25 +53,46 @@ void __thiscall Scaleform::GFx::FontData::ReadFontInfo(
   {
     this->Flags &= 0xFFFFFCFF;
   }
-  if ( (v7 & 4) != 0 )
+  if ( (v8 & 4) != 0 )
     this->Flags |= 1u;
   else
     this->Flags &= ~1u;
-  if ( (v7 & 2) != 0 )
+  if ( (v8 & 2) != 0 )
     this->Flags |= 2u;
   else
     this->Flags &= ~2u;
-  if ( (v7 & 1) != 0 )
+  if ( (v8 & 1) != 0 )
     this->Flags |= 0x4000u;
   else
     this->Flags &= ~0x4000u;
   if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(in) )
   {
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v10);
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v11);
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)(this->Flags & 1));
+    if ( tagType == Tag_DefineFontInfo )
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(in, "reading DefineFontInfo\n");
+    else
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(in, "reading DefineFontInfo2\n");
+    v12 = this->Name;
+    if ( !v12 )
+      v12 = "(none)";
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(in, "  Name = %s\n", v12);
+    v13 = this->Flags & 0x300;
+    v14 = "Unicode";
+    if ( v13 == 512 )
+    {
+      v14 = "ShiftJIS";
+    }
+    else if ( v13 == 256 )
+    {
+      v14 = "ANSI";
+    }
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      in,
+      "  CodePage = %s, Italic = %d, Bold = %d\n",
+      v14,
+      this->Flags & 1,
+      (this->Flags >> 1) & 1);
     if ( tagType == Tag_DefineFontInfo2 )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v12);
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(in, "  LangCode = %d\n", ina);
   }
   Scaleform::GFx::FontData::ReadCodeTable(this, in);
 }

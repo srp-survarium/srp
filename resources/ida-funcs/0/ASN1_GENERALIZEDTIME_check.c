@@ -99,7 +99,7 @@ LABEL_25:
                 if ( v18 > 57 )
                   break;
                 v21 = v18 + 10 * v20 - 48;
-                if ( v21 < dword_839800[v16] || v21 > dword_839824[v16] )
+                if ( v21 < dword_6CB4C8[v16] || v21 > dword_6CB4EC[v16] )
                   break;
                 ++v16;
                 v15 = v19 + 1;

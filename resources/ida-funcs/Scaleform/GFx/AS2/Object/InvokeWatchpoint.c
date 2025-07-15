@@ -22,21 +22,21 @@ char __thiscall Scaleform::GFx::AS2::Object::InvokeWatchpoint(
   const Scaleform::GFx::AS2::FnCall *v20; // eax
   int v21; // edi
   Scaleform::GFx::AS2::ObjectInterface *ThisIn; // [esp+14h] [ebp-58h]
-  Scaleform::GFx::AS2::Value result; // [esp+18h] [ebp-54h] BYREF
-  Scaleform::GFx::AS2::Value oldVal; // [esp+28h] [ebp-44h] BYREF
-  Scaleform::GFx::AS2::Value v; // [esp+38h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::Value ResIn; // [esp+18h] [ebp-54h] BYREF
+  Scaleform::GFx::AS2::Value v26; // [esp+28h] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value v27; // [esp+38h] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FnCall v28; // [esp+48h] [ebp-24h] BYREF
 
   GetMember = this->GetMember;
-  oldVal.T.Type = 0;
+  v26.T.Type = 0;
   ThisIn = &this->Scaleform::GFx::AS2::ObjectInterface;
   ((void (__stdcall *)(Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::ASString *, Scaleform::GFx::AS2::Value *))GetMember)(
     penv,
     prop,
-    &oldVal);
+    &v26);
   v7 = penv->StringContext.SWFVersion <= 6u;
   pWatchpoints = this->pWatchpoints;
-  result.T.Type = 0;
+  ResIn.T.Type = 0;
   if ( v7 )
   {
     CaseInsensitive = Scaleform::GFx::ASStringHashBase<Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::HashUncachedLH_GC<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::ASStringHashFunctor,324>>::GetCaseInsensitive(
@@ -76,17 +76,17 @@ char __thiscall Scaleform::GFx::AS2::Object::InvokeWatchpoint(
     if ( penv->Stack.pCurrent >= penv->Stack.pPageEnd )
       Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
     if ( p_Stack->pCurrent )
-      Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, &oldVal);
+      Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, &v26);
     pNode = prop->pNode;
     ++pNode->RefCount;
     ++p_Stack->pCurrent;
-    v.NV.Int32Value = (int)pNode;
+    v27.NV.Int32Value = (int)pNode;
     pCurrent = p_Stack->pCurrent;
-    v.T.Type = 5;
+    v27.T.Type = 5;
     if ( pCurrent >= penv->Stack.pPageEnd )
       Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
-    if ( !p_Stack->pCurrent || (Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, &v), v.T.Type >= 5u) )
-      Scaleform::GFx::AS2::Value::DropRefs(&v);
+    if ( !p_Stack->pCurrent || (Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, &v27), v27.T.Type >= 5u) )
+      Scaleform::GFx::AS2::Value::DropRefs(&v27);
     v16 = this->GetASCharacter(this);
     v17 = v16;
     if ( v16 )
@@ -101,7 +101,7 @@ char __thiscall Scaleform::GFx::AS2::Object::InvokeWatchpoint(
         v19 = 0;
       Scaleform::GFx::AS2::FnCall::FnCall(
         &v28,
-        &result,
+        &ResIn,
         v19,
         penv,
         4,
@@ -111,7 +111,7 @@ char __thiscall Scaleform::GFx::AS2::Object::InvokeWatchpoint(
     {
       Scaleform::GFx::AS2::FnCall::FnCall(
         &v28,
-        &result,
+        &ResIn,
         ThisIn,
         penv,
         4,
@@ -134,17 +134,17 @@ char __thiscall Scaleform::GFx::AS2::Object::InvokeWatchpoint(
       --v21;
     }
     while ( v21 );
-    Scaleform::GFx::AS2::Value::operator=(resultVal, &result);
+    Scaleform::GFx::AS2::Value::operator=(resultVal, &ResIn);
     if ( v17 )
       Scaleform::RefCountNTSImpl::Release(v17);
-    if ( result.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&result);
-    if ( oldVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&oldVal);
+    if ( ResIn.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&ResIn);
+    if ( v26.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v26);
     return 1;
   }
 LABEL_45:
-  if ( oldVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&oldVal);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   return 0;
 }

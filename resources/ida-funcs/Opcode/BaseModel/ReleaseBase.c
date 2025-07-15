@@ -1,9 +1,8 @@
-void __usercall Opcode::BaseModel::ReleaseBase(Opcode::BaseModel *this@<ecx>, int a2@<edi>)
+void __thiscall Opcode::BaseModel::ReleaseBase(Opcode::BaseModel *this, int a2)
 {
-  int v2; // esi
-  int v3; // ebx
-  int v4; // esi
-  _BYTE *v5; // ebx
+  int v2; // edi
+  int v3; // esi
+  Opcode::AABBOptimizedTree **v4; // esi
 
   if ( *(_DWORD *)(a2 + 12) )
   {
@@ -12,18 +11,24 @@ void __usercall Opcode::BaseModel::ReleaseBase(Opcode::BaseModel *this@<ecx>, in
     if ( v2 )
     {
       Opcode::AABBTree::Release((Opcode::AABBTree *)this, v2);
-      (*(void (__thiscall **)(int, int))(*(_DWORD *)v3 + 24))(v3, v2);
+      (*(void (__thiscall **)(int, int, const char *, const char *, int))(*(_DWORD *)v3 + 24))(
+        v3,
+        v2,
+        "Opcode::BaseModel::ReleaseBase",
+        ".\\OPC_BaseModel.cpp",
+        80);
       *(_DWORD *)(a2 + 12) = 0;
     }
     *(_DWORD *)(a2 + 12) = 0;
   }
+  v4 = (Opcode::AABBOptimizedTree **)(a2 + 16);
   if ( *(_DWORD *)(a2 + 16) )
   {
-    v4 = *(_DWORD *)(a2 + 20);
-    v5 = __RTCastToVoid(*(void ***)(a2 + 16));
-    (***(void (__thiscall ****)(_DWORD, _DWORD))(a2 + 16))(*(_DWORD *)(a2 + 16), 0);
-    (*(void (__thiscall **)(int, _BYTE *))(*(_DWORD *)v4 + 24))(v4, v5);
-    *(_DWORD *)(a2 + 16) = 0;
-    *(_DWORD *)(a2 + 16) = 0;
+    vostok::memory::delete_helper<vostok::memory::base_allocator,Opcode::AABBOptimizedTree>(
+      *(vostok::memory::base_allocator **)(a2 + 20),
+      v4,
+      "Opcode::BaseModel::ReleaseBase",
+      (const char *const)0x51);
+    *v4 = 0;
   }
 }

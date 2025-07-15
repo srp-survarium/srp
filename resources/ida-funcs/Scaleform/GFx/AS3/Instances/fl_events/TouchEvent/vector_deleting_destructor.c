@@ -15,7 +15,7 @@ Scaleform::GFx::AS3::Instances::fl_gfx::FocusEventEx *__thiscall Scaleform::GFx:
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

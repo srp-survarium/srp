@@ -2,75 +2,75 @@ int __cdecl __init_ctype(threadlocaleinfostruct *ploci)
 {
   int v1; // ebx
   unsigned __int8 *v2; // eax
-  int j; // eax
+  int i; // eax
   unsigned __int8 *v4; // eax
   int v5; // ecx
   int v6; // edi
-  unsigned __int8 *v7; // eax
-  unsigned __int8 *v8; // edi
-  unsigned __int16 *v9; // ecx
+  const __m128i *v7; // eax
+  const __m128i *v8; // edi
+  unsigned __int8 *v9; // ecx
   bool v10; // cc
   unsigned __int8 *v11; // edx
-  unsigned __int16 *v12; // ecx
+  unsigned __int8 *v12; // ecx
   unsigned __int8 v13; // dl
-  int v14; // ecx
-  unsigned __int8 *k; // ecx
+  unsigned __int8 *v14; // ecx
+  __int16 *j; // ecx
   int *v16; // eax
-  unsigned int lc_codepage; // [esp-Ch] [ebp-64h]
-  localeinfo_struct locinfo; // [esp+Ch] [ebp-4Ch] BYREF
+  UINT lc_codepage; // [esp-Ch] [ebp-64h]
+  localeinfo_struct v19; // [esp+Ch] [ebp-4Ch] BYREF
   const unsigned __int8 *v20; // [esp+14h] [ebp-44h]
   const unsigned __int16 *v21; // [esp+18h] [ebp-40h]
   unsigned __int16 *v22; // [esp+1Ch] [ebp-3Ch]
   const unsigned __int8 *v23; // [esp+20h] [ebp-38h]
-  unsigned __int8 *v24; // [esp+24h] [ebp-34h]
-  int mb_cur_max; // [esp+28h] [ebp-30h]
-  int *refcount; // [esp+2Ch] [ebp-2Ch]
-  unsigned __int8 *newcumap; // [esp+30h] [ebp-28h]
-  unsigned __int8 *cbuffer; // [esp+34h] [ebp-24h]
-  int i; // [esp+38h] [ebp-20h]
-  unsigned __int16 *newctype1; // [esp+3Ch] [ebp-1Ch]
-  _cpinfo lpCPInfo; // [esp+40h] [ebp-18h] BYREF
+  __int16 *v24; // [esp+24h] [ebp-34h]
+  int MaxCharSize_low; // [esp+28h] [ebp-30h]
+  void *pointer; // [esp+2Ch] [ebp-2Ch]
+  unsigned __int8 *v27; // [esp+30h] [ebp-28h]
+  char *lpSrcStr; // [esp+34h] [ebp-24h]
+  unsigned __int8 *v29; // [esp+38h] [ebp-20h]
+  unsigned __int8 *dst; // [esp+3Ch] [ebp-1Ch]
+  _cpinfo CPInfo; // [esp+40h] [ebp-18h] BYREF
 
   v1 = 0;
-  refcount = 0;
-  newctype1 = 0;
-  i = 0;
-  newcumap = 0;
-  cbuffer = 0;
-  locinfo.locinfo = ploci;
-  locinfo.mbcinfo = 0;
+  pointer = 0;
+  dst = 0;
+  v29 = 0;
+  v27 = 0;
+  lpSrcStr = 0;
+  v19.locinfo = ploci;
+  v19.mbcinfo = 0;
   if ( ploci->lc_handle[2] )
   {
     if ( !ploci->lc_codepage
-      && __getlocaleinfo(&locinfo, 0, ploci->lc_id[2].wLanguage, 0x1004u, (char **)&ploci->lc_codepage) )
+      && __getlocaleinfo(&v19, 0, ploci->lc_id[2].wLanguage, 0x1004u, (unsigned __int8 **)&ploci->lc_codepage) )
     {
       goto error_cleanup_0;
     }
-    refcount = (int *)_malloc_crt(4u);
-    newctype1 = (unsigned __int16 *)_calloc_crt(0x180u, 2u);
-    i = (int)_calloc_crt(0x180u, 1u);
-    newcumap = (unsigned __int8 *)_calloc_crt(0x180u, 1u);
-    v2 = (unsigned __int8 *)_calloc_crt(0x101u, 1u);
-    cbuffer = v2;
-    if ( !refcount )
+    pointer = _malloc_crt(4u);
+    dst = _calloc_crt(0x180u, 2u);
+    v29 = _calloc_crt(0x180u, 1u);
+    v27 = _calloc_crt(0x180u, 1u);
+    v2 = _calloc_crt(0x101u, 1u);
+    lpSrcStr = (char *)v2;
+    if ( !pointer )
       goto error_cleanup_0;
-    if ( !newctype1 )
+    if ( !dst )
       goto error_cleanup_0;
     if ( !v2 )
       goto error_cleanup_0;
-    if ( !i )
+    if ( !v29 )
       goto error_cleanup_0;
-    if ( !newcumap )
+    if ( !v27 )
       goto error_cleanup_0;
-    *refcount = 0;
-    for ( j = 0; j < 256; ++j )
-      cbuffer[j] = j;
-    if ( !GetCPInfo(ploci->lc_codepage, &lpCPInfo) || lpCPInfo.MaxCharSize > 5 )
+    *(_DWORD *)pointer = 0;
+    for ( i = 0; i < 256; ++i )
+      lpSrcStr[i] = i;
+    if ( !GetCPInfo(ploci->lc_codepage, &CPInfo) || CPInfo.MaxCharSize > 5 )
       goto error_cleanup_0;
-    mb_cur_max = LOWORD(lpCPInfo.MaxCharSize);
-    if ( LOWORD(lpCPInfo.MaxCharSize) > 1u && lpCPInfo.LeadByte[0] )
+    MaxCharSize_low = LOWORD(CPInfo.MaxCharSize);
+    if ( LOWORD(CPInfo.MaxCharSize) > 1u && CPInfo.LeadByte[0] )
     {
-      v4 = &lpCPInfo.LeadByte[1];
+      v4 = &CPInfo.LeadByte[1];
       do
       {
         LOBYTE(v5) = *v4;
@@ -80,7 +80,7 @@ int __cdecl __init_ctype(threadlocaleinfostruct *ploci)
         v5 = (unsigned __int8)v5;
         while ( v6 <= v5 )
         {
-          cbuffer[v6] = 32;
+          lpSrcStr[v6] = 32;
           v5 = *v4;
           ++v6;
         }
@@ -89,15 +89,15 @@ int __cdecl __init_ctype(threadlocaleinfostruct *ploci)
       while ( *(v4 - 1) );
     }
     lc_codepage = ploci->lc_codepage;
-    v21 = newctype1 + 128;
-    if ( __crtGetStringTypeA(0, 1u, (const char *)cbuffer, 256, newctype1 + 128, lc_codepage, 0, 0)
+    v21 = (const unsigned __int16 *)(dst + 256);
+    if ( __crtGetStringTypeA(0, 1u, lpSrcStr, 256, (unsigned __int16 *)dst + 128, lc_codepage, 0, 0)
       && __crtLCMapStringA(
            0,
            ploci->lc_handle[2],
            0x100u,
-           (const char *)cbuffer + 1,
+           lpSrcStr + 1,
            255,
-           (char *)(i + 129),
+           (wchar_t *)(v29 + 129),
            255,
            ploci->lc_codepage,
            0)
@@ -105,56 +105,56 @@ int __cdecl __init_ctype(threadlocaleinfostruct *ploci)
            0,
            ploci->lc_handle[2],
            0x200u,
-           (const char *)cbuffer + 1,
+           lpSrcStr + 1,
            255,
-           (char *)newcumap + 129,
+           (wchar_t *)(v27 + 129),
            255,
            ploci->lc_codepage,
            0) )
     {
-      v7 = (unsigned __int8 *)newctype1;
-      v8 = (unsigned __int8 *)i;
-      v9 = newctype1 + 127;
-      v10 = mb_cur_max <= 1;
-      newctype1[127] = 0;
-      v11 = newcumap;
-      v22 = v9;
-      v8[127] = 0;
+      v7 = (const __m128i *)dst;
+      v8 = (const __m128i *)v29;
+      v9 = dst + 254;
+      v10 = MaxCharSize_low <= 1;
+      *((_WORD *)dst + 127) = 0;
+      v11 = v27;
+      v22 = (unsigned __int16 *)v9;
+      v8[7].m128i_i8[15] = 0;
       v11[127] = 0;
-      v8[128] = 0;
-      v20 = v8 + 128;
+      v8[8].m128i_i8[0] = 0;
+      v20 = (const unsigned __int8 *)&v8[8];
       v23 = v11 + 128;
       v11[128] = 0;
-      if ( !v10 && lpCPInfo.LeadByte[0] )
+      if ( !v10 && CPInfo.LeadByte[0] )
       {
-        v12 = (unsigned __int16 *)&lpCPInfo.LeadByte[1];
-        newctype1 = (unsigned __int16 *)&lpCPInfo.LeadByte[1];
+        v12 = &CPInfo.LeadByte[1];
+        dst = &CPInfo.LeadByte[1];
         do
         {
-          v13 = *(_BYTE *)v12;
-          if ( !*(_BYTE *)v12 )
+          v13 = *v12;
+          if ( !*v12 )
             break;
-          v14 = *((unsigned __int8 *)v12 - 1);
-          i = v14;
-          if ( v14 <= v13 )
+          v14 = (unsigned __int8 *)*(v12 - 1);
+          v29 = v14;
+          if ( (int)v14 <= v13 )
           {
-            for ( k = &v7[2 * v14 + 256]; ; k = v24 )
+            for ( j = &v7[16].m128i_i16[(_DWORD)v14]; ; j = v24 )
             {
-              ++i;
-              *(_WORD *)k = 0x8000;
-              v24 = k + 2;
-              if ( i > *(unsigned __int8 *)newctype1 )
+              ++v29;
+              *j = 0x8000;
+              v24 = j + 1;
+              if ( (int)v29 > *dst )
                 break;
             }
           }
-          v12 = newctype1 + 1;
-          newctype1 = v12;
+          v12 = dst + 2;
+          dst = v12;
         }
-        while ( *((_BYTE *)v12 - 1) );
+        while ( *(v12 - 1) );
       }
-      memcpy(v7, v7 + 512, 0xFEu);
-      memcpy(v8, v8 + 256, 0x7Fu);
-      memcpy(newcumap, newcumap + 256, 0x7Fu);
+      memcpy((int)v7, v7 + 32, 0xFEu);
+      memcpy((int)v8, v8 + 16, 0x7Fu);
+      memcpy((int)v27, (const __m128i *)v27 + 16, 0x7Fu);
       if ( ploci->ctype1_refcount )
       {
         if ( !InterlockedDecrement(ploci->ctype1_refcount) )
@@ -165,25 +165,25 @@ int __cdecl __init_ctype(threadlocaleinfostruct *ploci)
           free(ploci->ctype1_refcount);
         }
       }
-      v16 = refcount;
-      *refcount = 1;
+      v16 = (int *)pointer;
+      *(_DWORD *)pointer = 1;
       ploci->ctype1_refcount = v16;
       ploci->pctype = v21;
       ploci->ctype1 = v22;
       ploci->pclmap = v20;
       ploci->pcumap = v23;
-      ploci->mb_cur_max = mb_cur_max;
+      ploci->mb_cur_max = MaxCharSize_low;
     }
     else
     {
 error_cleanup_0:
-      free(refcount);
-      free(newctype1);
-      free((void *)i);
-      free(newcumap);
+      free(pointer);
+      free(dst);
+      free(v29);
+      free(v27);
       v1 = 1;
     }
-    free(cbuffer);
+    free(lpSrcStr);
     return v1;
   }
   else
@@ -192,7 +192,7 @@ error_cleanup_0:
       InterlockedDecrement(ploci->ctype1_refcount);
     ploci->ctype1_refcount = 0;
     ploci->ctype1 = 0;
-    ploci->pctype = asc_81F380;
+    ploci->pctype = asc_6B79D8;
     ploci->pclmap = &__newclmap[128];
     ploci->pcumap = &__newcumap[128];
     ploci->mb_cur_max = 1;

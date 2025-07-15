@@ -1,11 +1,11 @@
-BOOL __usercall check_pem@<eax>(char *nm@<edi>, const char *name@<ecx>)
+BOOL __usercall check_pem@<eax>(char *nm@<edi>, const char *name@<ecx>, int a3@<ebx>)
 {
-  engine_st *v4; // eax
+  engine_st *v5; // eax
   const evp_pkey_asn1_method_st *str; // eax
-  engine_st *v6; // eax
-  const evp_pkey_asn1_method_st *v7; // eax
-  BOOL v8; // esi
-  engine_st *pe; // [esp+4h] [ebp-4h] BYREF
+  engine_st *v7; // eax
+  const evp_pkey_asn1_method_st *v8; // eax
+  BOOL v9; // esi
+  engine_st *v10; // [esp+4h] [ebp-4h] BYREF
 
   if ( !strcmp(nm, name) )
     return 1;
@@ -13,10 +13,10 @@ BOOL __usercall check_pem@<eax>(char *nm@<edi>, const char *name@<ecx>)
   {
     if ( !strcmp(nm, "ENCRYPTED PRIVATE KEY") || !strcmp(nm, "PRIVATE KEY") )
       return 1;
-    v4 = (engine_st *)pem_check_suffix(nm, "PRIVATE KEY");
-    if ( (int)v4 > 0 )
+    v5 = (engine_st *)pem_check_suffix(nm, "PRIVATE KEY");
+    if ( (int)v5 > 0 )
     {
-      str = EVP_PKEY_asn1_find_str(0, nm, v4);
+      str = EVP_PKEY_asn1_find_str(0, nm, v5);
       if ( str )
       {
         if ( str->old_priv_decode )
@@ -34,14 +34,14 @@ BOOL __usercall check_pem@<eax>(char *nm@<edi>, const char *name@<ecx>)
         || !strcmp(nm, "PKCS #7 SIGNED DATA") && !strcmp(name, "PKCS7")
         || !strcmp(nm, "CERTIFICATE") && !strcmp(name, "CMS")
         || !strcmp(nm, "PKCS7") && !strcmp(name, "CMS");
-  v6 = (engine_st *)pem_check_suffix(nm, "PARAMETERS");
-  if ( (int)v6 <= 0 )
+  v7 = (engine_st *)pem_check_suffix(nm, "PARAMETERS");
+  if ( (int)v7 <= 0 )
     return 0;
-  v7 = EVP_PKEY_asn1_find_str(&pe, nm, v6);
-  if ( !v7 )
+  v8 = EVP_PKEY_asn1_find_str(&v10, nm, v7);
+  if ( !v8 )
     return 0;
-  v8 = v7->param_decode != 0;
-  if ( pe )
-    ENGINE_finish((unsigned int)nm, pe);
-  return v8;
+  v9 = v8->param_decode != 0;
+  if ( v10 )
+    ENGINE_finish((int)nm, a3, v10);
+  return v9;
 }

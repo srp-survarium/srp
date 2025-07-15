@@ -18,16 +18,16 @@ bool __thiscall Scaleform::Render::Text::Allocator::FlushParagraphFormatCache(
   Scaleform::HashSetBase<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,78>,Scaleform::HashsetCachedEntry<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor> >::TableType *v16; // eax
   bool v17; // cf
   Scaleform::HashSetBase<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,78>,Scaleform::HashsetCachedEntry<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor> >::TableType *v18; // eax
-  unsigned int pfSize; // [esp+Ch] [ebp-Ch]
-  Scaleform::HashSetBase<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,78>,Scaleform::HashsetCachedEntry<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor> >::Iterator it; // [esp+10h] [ebp-8h] BYREF
+  unsigned int EntryCount; // [esp+Ch] [ebp-Ch]
+  Scaleform::HashSetBase<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,78>,Scaleform::HashsetCachedEntry<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor> >::Iterator v21; // [esp+10h] [ebp-8h] BYREF
 
   pTable = this->ParagraphFormatStorage.pTable;
   p_ParagraphFormatStorage = &this->ParagraphFormatStorage;
   pHash = 0;
   if ( pTable )
-    pfSize = pTable->EntryCount;
+    EntryCount = pTable->EntryCount;
   else
-    pfSize = 0;
+    EntryCount = 0;
   v6.pTable = p_ParagraphFormatStorage->pTable;
   Index = 0;
   if ( p_ParagraphFormatStorage->pTable )
@@ -44,24 +44,24 @@ bool __thiscall Scaleform::Render::Text::Allocator::FlushParagraphFormatCache(
     while ( Index <= SizeMask );
     pHash = p_ParagraphFormatStorage;
   }
-  it.Index = Index;
-  it.pHash = pHash;
+  v21.Index = Index;
+  v21.pHash = pHash;
   while ( pHash && pHash->pTable && (signed int)Index <= (signed int)pHash->pTable->SizeMask )
   {
     if ( **((_DWORD **)&pHash->pTable[2].EntryCount + 3 * Index) == 1 )
     {
       Scaleform::HashSetBase<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,78>,Scaleform::HashsetCachedEntry<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>,Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>::HashFunctor>>::Iterator::RemoveAlt<Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat>>(
-        &it,
+        &v21,
         (const Scaleform::Render::Text::TextFormatPtrWrapper<Scaleform::Render::Text::ParagraphFormat> *)&pHash->pTable[2]
       + 3 * Index);
-      Index = it.Index;
-      pHash = it.pHash;
+      Index = v21.Index;
+      pHash = v21.pHash;
     }
     v10.pTable = pHash->pTable;
     v11 = pHash->pTable->SizeMask;
     if ( (int)Index <= (int)v11 )
     {
-      it.Index = ++Index;
+      v21.Index = ++Index;
       if ( Index <= v11 )
       {
         v12 = &v10.pTable[1].EntryCount + 3 * Index;
@@ -71,7 +71,7 @@ bool __thiscall Scaleform::Render::Text::Allocator::FlushParagraphFormatCache(
             break;
           ++Index;
           v12 += 3;
-          it.Index = Index;
+          v21.Index = Index;
         }
         while ( Index <= v11 );
       }
@@ -111,7 +111,7 @@ bool __thiscall Scaleform::Render::Text::Allocator::FlushParagraphFormatCache(
     this->ParagraphFormatStorageCap = 10;
   }
   if ( p_ParagraphFormatStorage->pTable )
-    return pfSize != p_ParagraphFormatStorage->pTable->EntryCount;
+    return EntryCount != p_ParagraphFormatStorage->pTable->EntryCount;
   else
-    return pfSize != 0;
+    return EntryCount != 0;
 }

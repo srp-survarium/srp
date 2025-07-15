@@ -1,27 +1,41 @@
-double __thiscall survarium::weapon_core::computed_backward_recoil_time(
-        survarium::weapon_core *this,
-        float animation_length,
-        float animation_time_before_time_scale_starts,
-        unsigned int time_scale_start_time_in_ms,
-        survarium::game_camera *current_time_in_ms,
+double __userpurge survarium::weapon_core::computed_backward_recoil_time@<st0>(
+        survarium::weapon_core *this@<ecx>,
+        float a2@<xmm4>,
+        const float animation_length,
+        const float animation_time_before_time_scale_starts,
+        const unsigned int time_scale_start_time_in_ms,
+        const unsigned int current_time_in_ms,
         unsigned int target_time_in_ms,
-        float time_scale)
+        const float __formal)
 {
-  _BYTE *v7; // eax
-  float max; // [esp+Ch] [ebp-20h]
-  unsigned int v10; // [esp+10h] [ebp-1Ch]
-  const survarium::player_input *v12; // [esp+24h] [ebp-8h]
+  survarium::base_player *m_user; // eax
+  float v11; // xmm0_4
+  float v13; // [esp+14h] [ebp-4h]
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *v7 )
-    survarium::weapon_user_dead_state::finalize(current_time_in_ms);
-  survarium::weapon_core::update_recoil(this, target_time_in_ms, time_scale);
-  v12 = this->m_user->input(this->m_user);
-  if ( (v12->actions_mask & 0x80) != 0 && (v12->actions_mask & 0x8000000) != 0 )
-    survarium::weapon_core::update_breath_vibration(this, 1, target_time_in_ms, time_scale);
+  m_user = this->m_user;
+  if ( !m_user || !m_user->m_is_alive )
+    return 0.0;
+  if ( this->m_aimed )
+    survarium::breath_vibration_calculator::tick(
+      (survarium::breath_vibration_calculator *)this,
+      (int)&this->m_breath_vibration_calculator,
+      a2,
+      this->m_dispersion_calculator.m_weapon_dispersion.m_current_value
+    + this->m_dispersion_calculator.m_character_dispersion.m_current_value,
+      target_time_in_ms - current_time_in_ms);
+  v11 = survarium::weapon_recoil_calculator::get_back_value(
+          &this->m_recoil_calculator.m_weapon_calculator,
+          target_time_in_ms).m128_f32[0];
+  if ( epsilon < v11 )
+  {
+    if ( (float)(s_bm_current_air_resistance - epsilon) < v11 )
+      v13 = s_bm_current_air_resistance - epsilon;
+    else
+      v13 = v11;
+  }
   else
-    survarium::weapon_core::update_breath_vibration(this, 0, target_time_in_ms, time_scale);
-  max = *(float *)&clear_value - epsilon;
-  *(float *)&v10 = survarium::recoil_calculator::get_back_coeff(&this->m_recoil_calculator);
-  return vostok::math::clamp_r<float>((__m128)LODWORD(epsilon), v10, max).m128_f32[0] * animation_length;
+  {
+    v13 = epsilon;
+  }
+  return v13 * animation_length;
 }

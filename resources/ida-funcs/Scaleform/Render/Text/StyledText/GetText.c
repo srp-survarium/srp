@@ -5,12 +5,12 @@ Scaleform::String *__thiscall Scaleform::Render::Text::StyledText::GetText(
   Scaleform::ArrayLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2,Scaleform::ArrayDefaultPolicy> *p_Paragraphs; // edi
   int v4; // esi
   Scaleform::Render::Text::Paragraph *pPara; // eax
-  const wchar_t *pText; // ecx
+  wchar_t *pText; // ecx
   unsigned int Size; // eax
   unsigned int v8; // edx
-  const wchar_t *v9; // edx
+  wchar_t *v9; // edx
 
-  Scaleform::String::operator=(retStr, (char *)&buf);
+  Scaleform::String::operator=(retStr, (const __m128i *)uri);
   p_Paragraphs = &this->Paragraphs;
   v4 = 0;
   while ( p_Paragraphs && v4 >= 0 && v4 < (signed int)p_Paragraphs->Data.Size )
@@ -46,9 +46,9 @@ void __thiscall Scaleform::Render::Text::StyledText::GetText(
   int v6; // ebp
   Scaleform::Render::Text::Paragraph *pPara; // eax
   unsigned int Size; // esi
-  unsigned __int8 *pText; // ecx
+  const __m128i *pText; // ecx
   unsigned int v10; // eax
-  unsigned __int8 *v11; // eax
+  __int16 *v11; // eax
 
   Length = Scaleform::Render::Text::StyledText::GetLength(this);
   Scaleform::WStringBuffer::Resize(pBuffer, Length + 1);
@@ -59,18 +59,18 @@ void __thiscall Scaleform::Render::Text::StyledText::GetText(
   {
     pPara = p_Paragraphs->Data.Data[v4].pPara;
     Size = pPara->Text.Size;
-    pText = (unsigned __int8 *)pPara->Text.pText;
+    pText = (const __m128i *)pPara->Text.pText;
     if ( Size )
     {
       v10 = Size - 1;
       if ( pText && v10 < Size )
-        v11 = &pText[2 * v10];
+        v11 = &pText->m128i_i16[v10];
       else
         v11 = 0;
-      if ( !*(_WORD *)v11 )
+      if ( !*v11 )
         --Size;
     }
-    memcpy((unsigned __int8 *)&pBuffer->pText[v6], pText, 2 * Size);
+    memcpy((int)&pBuffer->pText[v6], pText, 2 * Size);
     v6 += Size;
     if ( v4 < (signed int)p_Paragraphs->Data.Size )
       ++v4;
@@ -96,7 +96,7 @@ void __thiscall Scaleform::Render::Text::StyledText::GetText(
   unsigned int v13; // edx
   wchar_t *v14; // ecx
   unsigned int v15; // esi
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+10h] [ebp-8h] BYREF
 
   Length = endPos;
   if ( endPos == -1 )
@@ -106,13 +106,13 @@ void __thiscall Scaleform::Render::Text::StyledText::GetText(
   Scaleform::WStringBuffer::Resize(pBuffer, Length - startPos + 1);
   startPos = 0;
   v8 = v7;
-  Scaleform::Render::Text::StyledText::GetParagraphByIndex(this, &paraIter, v6, &startPos);
+  Scaleform::Render::Text::StyledText::GetParagraphByIndex(this, &result, v6, &startPos);
   v9 = startPos;
-  CurIndex = paraIter.CurIndex;
+  CurIndex = result.CurIndex;
   endPos = 0;
-  while ( paraIter.pArray && CurIndex >= 0 && CurIndex < (signed int)paraIter.pArray->Data.Size && v8 )
+  while ( result.pArray && CurIndex >= 0 && CurIndex < (signed int)result.pArray->Data.Size && v8 )
   {
-    pPara = paraIter.pArray->Data.Data[CurIndex].pPara;
+    pPara = result.pArray->Data.Data[CurIndex].pPara;
     Size = pPara->Text.Size;
     if ( Size )
     {
@@ -127,11 +127,11 @@ void __thiscall Scaleform::Render::Text::StyledText::GetText(
     v15 = Size - v9;
     if ( v15 > v8 )
       v15 = v8;
-    memcpy((unsigned __int8 *)&pBuffer->pText[endPos], (unsigned __int8 *)&pPara->Text.pText[v9], 2 * v15);
+    memcpy((int)&pBuffer->pText[endPos], (const __m128i *)&pPara->Text.pText[v9], 2 * v15);
     endPos += v15;
     v9 = 0;
     v8 -= v15;
-    if ( CurIndex < (signed int)paraIter.pArray->Data.Size )
+    if ( CurIndex < (signed int)result.pArray->Data.Size )
       ++CurIndex;
   }
   pBuffer->pText[endPos] = 0;

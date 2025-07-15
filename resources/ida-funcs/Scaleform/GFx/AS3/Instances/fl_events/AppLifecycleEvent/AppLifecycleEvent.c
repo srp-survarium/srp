@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::AppLifecycleEvent::Ap
   unsigned int v7; // edx
   Scaleform::GFx::AS3::Value::V2U v8; // [esp+10h] [ebp-4h]
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   pObject = this->pTraits.pObject;
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_events::AppLifecycleEvent_vtbl *)&Scaleform::GFx::AS3::Instances::fl_events::Event::`vftable';
   p_EmptyStringNode = &pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;

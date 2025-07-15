@@ -8,7 +8,7 @@ void __cdecl __freetlocinfo(threadlocaleinfostruct *ptloci)
   __lc_time_data *lc_time_curr; // eax
   void **p_refcount; // edi
   _DWORD *v9; // eax
-  int ptlocia; // [esp+14h] [ebp+8h]
+  int pointer; // [esp+14h] [ebp+8h]
 
   lconv = ptloci->lconv;
   if ( lconv )
@@ -53,7 +53,7 @@ void __cdecl __freetlocinfo(threadlocaleinfostruct *ptloci)
     free(ptloci->lc_time_curr);
   }
   p_refcount = (void **)&ptloci->lc_category[0].refcount;
-  ptlocia = 6;
+  pointer = 6;
   do
   {
     if ( *(p_refcount - 2) != __clocalestr && *p_refcount && !*(_DWORD *)*p_refcount )
@@ -68,8 +68,8 @@ void __cdecl __freetlocinfo(threadlocaleinfostruct *ptloci)
       }
     }
     p_refcount += 4;
-    --ptlocia;
+    --pointer;
   }
-  while ( ptlocia );
+  while ( pointer );
   free(ptloci);
 }

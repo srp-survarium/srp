@@ -46,7 +46,7 @@ int __cdecl buffer_gets(bio_st *b, char *buf, int size)
         return v12;
       }
     }
-    v11 = BIO_read(b->next_bio, v6, *ptr);
+    v11 = BIO_read(v4, b->next_bio, v6, *ptr);
     if ( v11 <= 0 )
       break;
 LABEL_17:

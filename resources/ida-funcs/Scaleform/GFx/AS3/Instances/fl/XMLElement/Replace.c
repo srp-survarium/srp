@@ -51,7 +51,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -63,7 +63,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   v11 = value;
   if ( (value->Flags & 0x1F) - 12 > 3
     || !Scaleform::GFx::AS3::IsXMLObject(value->value.VS._1.VObj)
-    || (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v11->value.VS._1.VInt + 92))(v11->value.VS._1) == 5 )
+    || (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v11->value.VS._1.VInt + 104))(v11->value.VS._1) == 5 )
   {
     if ( (v11->Flags & 0x1F) - 12 <= 3 && Scaleform::GFx::AS3::IsXMLListObject(v11->value.VS._1.VObj) )
     {
@@ -88,7 +88,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
           else
           {
             v25 = v24->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & v25) != 0 )
+            if ( (v25 & 0x3FFFFF) != 0 )
             {
               v24->RefCount = v25 - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v24);
@@ -119,7 +119,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   else
   {
     v12 = v11->value.VS._1;
-    if ( (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v12.VInt + 92))(v12) == 1 )
+    if ( (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v12.VInt + 104))(v12) == 1 )
     {
       v13 = this;
       while ( v13 != (Scaleform::GFx::AS3::Instances::fl::XMLElement *)v12.VInt )
@@ -158,7 +158,7 @@ LABEL_15:
           else
           {
             v21 = v16->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & v21) != 0 )
+            if ( (v21 & 0x3FFFFF) != 0 )
             {
               v16->RefCount = v21 - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v16);

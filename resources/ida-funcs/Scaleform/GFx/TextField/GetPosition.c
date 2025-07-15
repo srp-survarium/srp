@@ -6,13 +6,13 @@ void __thiscall Scaleform::GFx::TextField::GetPosition(
   bool (__thiscall *GetVisible)(Scaleform::GFx::DisplayObjectBase *); // eax
   bool v5; // al
   long double v6; // st7
-  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+144h] [ebp-90h] BYREF
-  long double XScale; // [esp+1A4h] [ebp-30h]
-  long double YScale; // [esp+1ACh] [ebp-28h]
-  long double Rotation; // [esp+1B4h] [ebp-20h]
-  long double v11; // [esp+1BCh] [ebp-18h]
-  long double v12; // [esp+1C4h] [ebp-10h]
-  long double v13; // [esp+1CCh] [ebp-8h]
+  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+Ch] [ebp-90h] BYREF
+  long double XScale; // [esp+6Ch] [ebp-30h]
+  long double YScale; // [esp+74h] [ebp-28h]
+  long double Rotation; // [esp+7Ch] [ebp-20h]
+  long double v11; // [esp+84h] [ebp-18h]
+  long double v12; // [esp+8Ch] [ebp-10h]
+  long double v13; // [esp+94h] [ebp-8h]
 
   pgeomData.OrigMatrix.M[0][0] = 1.0;
   pgeomData.OrigMatrix.M[0][1] = 0.0;

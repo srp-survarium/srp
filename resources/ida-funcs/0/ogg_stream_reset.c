@@ -1,17 +1,23 @@
 int __cdecl ogg_stream_reset(ogg_stream_state *os)
 {
-  if ( !os || !os->body_data )
+  _DWORD *v1; // ecx
+  int result; // eax
+
+  if ( ogg_stream_check(os) )
     return -1;
-  os->body_fill = 0;
-  os->body_returned = 0;
-  os->lacing_fill = 0;
-  os->lacing_packet = 0;
-  os->lacing_returned = 0;
-  os->header_fill = 0;
-  os->e_o_s = 0;
-  os->b_o_s = 0;
-  os->pageno = -1;
-  os->packetno = 0;
-  os->granulepos = 0;
-  return 0;
+  v1[85] = -1;
+  result = 0;
+  v1[2] = 0;
+  v1[3] = 0;
+  v1[7] = 0;
+  v1[8] = 0;
+  v1[9] = 0;
+  v1[81] = 0;
+  v1[82] = 0;
+  v1[83] = 0;
+  v1[86] = 0;
+  v1[87] = 0;
+  v1[88] = 0;
+  v1[89] = 0;
+  return result;
 }

@@ -1,539 +1,337 @@
 void __thiscall vostok::render::stage_visibility::frustum_culling(
         vostok::render::stage_visibility *this,
-        vostok::render::stage_visibility *thisa)
+        int probes_generate_pass)
 {
-  vostok::render::renderer_context *m_context; // eax
-  vostok::render::scene *m_scene; // ecx
-  vostok::render::base_scene_view *m_object; // ebp
-  void **m_flags; // eax
-  void **type; // ecx
-  void **v7; // esi
-  void **v8; // eax
-  void **v9; // ecx
-  void **v10; // esi
-  void **v11; // eax
-  void **v12; // ecx
-  void **v13; // esi
-  void **v14; // eax
-  void **v15; // ecx
-  void **v16; // esi
-  vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *m_next_in_global_list; // eax
-  vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v18; // esi
-  void **v19; // eax
-  void **m_reference_count; // ecx
-  void **v21; // edi
-  void **m_reconstruction_info_actuality_tick_high; // eax
-  void **m_reconstruction_info_actuality_tick; // ecx
-  void **v24; // esi
-  void **m_memory_type_data; // eax
-  void **m_construct_thread_id; // ecx
-  void **v27; // esi
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *v28; // ecx
-  vostok::particle::world *v29; // ecx
-  const void **M_start; // eax
-  stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *M_finish; // ecx
-  const vostok::collision::object *const *v32; // ebx
-  vostok::render::light *m_user_data; // eax
-  vostok::render::light *v34; // esi
-  vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v35; // eax
-  vostok::render::grass_render_model *v37; // ebx
-  vostok::render::light *v38; // eax
-  void *v39; // esi
-  vostok::render::scene *v40; // edi
-  const void **v41; // eax
-  vostok::render::light *v42; // ecx
-  char *m_prev_in_global_delay_delete_list; // esi
-  int v44; // eax
-  unsigned int v45; // eax
-  char v46; // dl
-  const vostok::collision::object *const **p_e; // ecx
-  unsigned int v48; // ecx
-  const vostok::collision::object *const **v49; // eax
-  const vostok::collision::object *const *v50; // ecx
-  vostok::render::grass_render_model *v51; // eax
-  unsigned int v52; // ecx
-  unsigned __int8 *v53; // edi
-  unsigned __int8 *m_next_in_global_delay_delete_list; // eax
-  unsigned int v55; // esi
-  int v56; // eax
-  _DWORD *v57; // eax
-  vostok::resources::unmanaged_resource *v58; // ebx
-  vostok::resources::unmanaged_resource *v59; // eax
-  void *v60; // esi
-  unsigned __int8 *v61; // eax
-  const void **v62; // eax
-  vostok::render::light *v63; // ecx
-  char *v64; // esi
-  int v65; // ebx
-  unsigned int v66; // eax
-  char v67; // dl
-  vostok::render::ambient_volume ***p_end; // ecx
-  unsigned int v69; // ecx
-  vostok::render::ambient_volume ***v70; // eax
-  vostok::render::ambient_volume **v71; // ecx
-  vostok::render::grass_render_model *v72; // eax
-  unsigned int v73; // ecx
-  unsigned __int8 *v74; // edi
-  unsigned __int8 *v75; // eax
-  unsigned int v76; // esi
-  int v77; // eax
-  unsigned __int8 *v78; // eax
-  _DWORD *v79; // ebx
-  void *v80; // eax
-  void *v81; // esi
-  vostok::render::scene *v82; // edi
-  void **v83; // ebx
-  char *v84; // esi
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *v85; // ecx
-  void **v86; // eax
-  vostok::render::vector<vostok::render::render_surface_instance *> *v87; // esi
-  void **v88; // [esp+18h] [ebp-D0h]
-  unsigned int m_size; // [esp+1Ch] [ebp-CCh]
-  unsigned int v90; // [esp+1Ch] [ebp-CCh]
-  vostok::render::render_surface_instance **v91; // [esp+1Ch] [ebp-CCh]
-  const stlp_std::__false_type *v92; // [esp+20h] [ebp-C8h]
-  unsigned int v93; // [esp+24h] [ebp-C4h]
-  bool v94; // [esp+28h] [ebp-C0h]
-  vostok::render::ambient_volume **end; // [esp+38h] [ebp-B0h] BYREF
-  const vostok::collision::object *const *i; // [esp+3Ch] [ebp-ACh] BYREF
-  vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> __x; // [esp+40h] [ebp-A8h] BYREF
-  vostok::render::scene *render_scene; // [esp+44h] [ebp-A4h]
-  const vostok::collision::object *const *e; // [esp+48h] [ebp-A0h] BYREF
-  int v100; // [esp+4Ch] [ebp-9Ch] BYREF
-  vostok::vectora<vostok::collision::object const *> probe_objects; // [esp+50h] [ebp-98h] BYREF
-  __int64 v102; // [esp+60h] [ebp-88h]
-  const void **v103; // [esp+68h] [ebp-80h] BYREF
-  vostok::render::vector<vostok::render::render_surface_instance *> *selection; // [esp+6Ch] [ebp-7Ch]
-  vostok::math::frustum view_frustum; // [esp+70h] [ebp-78h] BYREF
+  int v2; // edi
+  int v3; // eax
+  int v4; // esi
+  unsigned int v5; // ebx
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v6; // ecx
+  int v7; // eax
+  int v8; // ecx
+  vostok::render::ambient_light *v9; // edi
+  vostok::render::ambient_light *v10; // eax
+  _DWORD *m_reference_count; // edi
+  int v12; // eax
+  int v13; // eax
+  vostok::render::light *v14; // eax
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v15; // ecx
+  vostok::render::light *v16; // eax
+  char *v17; // edi
+  vostok::memory::doug_lea_allocator *v19; // esi
+  vostok::memory::doug_lea_allocator *v20; // ecx
+  int v21; // edi
+  void *v22; // esp
+  int v23; // ecx
+  vostok::render::light *v24; // edi
+  vostok::render::ambient_light **v25; // eax
+  int v26; // edi
+  void *v27; // esp
+  int v28; // ecx
+  vostok::buffer_vector<vostok::render::environment_probe *> *v29; // ecx
+  vostok::render::light *v30; // edi
+  vostok::render::ambient_volume **v31; // ecx
+  vostok::render::ambient_light *v32; // eax
+  vostok::buffer_vector<vostok::render::ambient_volume *> *v33; // ecx
+  int v34; // edi
+  void *v35; // esp
+  int v36; // ecx
+  vostok::buffer_vector<vostok::render::ambient_light *> *v37; // ecx
+  vostok::render::light *v38; // edi
+  vostok::render::ambient_light *v39; // ecx
+  int *v40; // esi
+  vostok::render::ambient_light *v41; // ebx
+  vostok::render::render_surface_instance **m_begin; // edi
+  int v43; // ebx
+  unsigned int *v44; // eax
+  unsigned int v45; // edx
+  const char *v46[4]; // [esp+0h] [ebp-20D4h] BYREF
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v47; // [esp+10h] [ebp-20C4h] BYREF
+  vostok::render::ambient_light *v48; // [esp+14h] [ebp-20C0h]
+  char *v49; // [esp+18h] [ebp-20BCh]
+  _BYTE v50[8192]; // [esp+1Ch] [ebp-20B8h] BYREF
+  char v51; // [esp+201Ch] [ebp-B8h] BYREF
+  vostok::math::frustum v52; // [esp+2020h] [ebp-B4h] BYREF
+  int v53; // [esp+2098h] [ebp-3Ch]
+  _BYTE v54[24]; // [esp+209Ch] [ebp-38h] BYREF
+  vostok::buffer_vector<vostok::render::render_surface_instance *> *v55; // [esp+20B4h] [ebp-20h]
+  int v56; // [esp+20B8h] [ebp-1Ch]
+  vostok::render::ambient_light *v57; // [esp+20BCh] [ebp-18h]
+  vostok::render::ambient_volume **v58; // [esp+20C0h] [ebp-14h]
+  bool v59; // [esp+20C7h] [ebp-Dh] BYREF
+  vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> value; // [esp+20C8h] [ebp-Ch] BYREF
+  vostok::render::ambient_light *v61[2]; // [esp+20CCh] [ebp-8h] BYREF
+  int v62; // [esp+20DCh] [ebp+8h]
 
-  vostok::math::frustum::frustum(&view_frustum, &thisa->m_context->m_vp);
-  m_context = thisa->m_context;
-  m_scene = m_context->m_scene;
-  m_object = m_context->m_scene_view.m_object;
-  m_flags = (void **)m_object[5].vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
-  render_scene = m_scene;
-  type = (void **)m_object[5].type;
-  if ( type != m_flags )
-  {
-    v7 = stlp_std::priv::__copy_ptrs<void * *,void * *>(m_flags, m_flags, type);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    m_object[5].vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags = (volatile int)v7;
-  }
-  v8 = (void **)&m_object[4].m_prev_in_global_delay_delete_list->vostok::resources::unmanaged_resource::__vftable;
-  v9 = (void **)&m_object[4].m_next_in_global_delay_delete_list->vostok::resources::unmanaged_resource::__vftable;
-  if ( v9 != v8 )
-  {
-    v10 = stlp_std::priv::__copy_ptrs<void * *,void * *>(v8, v8, v9);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    m_object[4].m_prev_in_global_delay_delete_list = (vostok::resources::unmanaged_resource *)v10;
-  }
-  v11 = *(void ***)&m_object[4].m_inlined_in_fat;
-  v12 = (void **)m_object[4].vostok::resources::unmanaged_resource::m_flags.vostok::resources::unmanaged_resource::m_flags;
-  if ( v12 != v11 )
-  {
-    v13 = stlp_std::priv::__copy_ptrs<void * *,void * *>(v11, v11, v12);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    *(_DWORD *)&m_object[4].m_inlined_in_fat = v13;
-  }
-  v14 = (void **)&m_object[4].next_scene_view.m_object->__vftable;
-  v15 = (void **)&m_object[4].last_command->__vftable;
-  if ( v15 != v14 )
-  {
-    v16 = stlp_std::priv::__copy_ptrs<void * *,void * *>(v14, v14, v15);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    m_object[4].next_scene_view.m_object = (vostok::render::base_scene_view *)v16;
-  }
-  m_next_in_global_list = (vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_next_in_global_list;
-  if ( (vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_next_delay_delete != m_next_in_global_list )
-  {
-    v18 = stlp_std::priv::__copy<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *,vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *,int>(
-            m_next_in_global_list,
-            m_next_in_global_list,
-            (vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_next_delay_delete);
-    stlp_std::__destroy_range_aux<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *,vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>(
-      v18,
-      (vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_next_in_global_list);
-    m_object[4].m_next_in_global_list = (vostok::resources::unmanaged_resource *)v18;
-  }
-  v19 = (void **)m_object[4].vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags.vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags;
-  m_reference_count = (void **)m_object[4].m_reference_count;
-  selection = (vostok::render::vector<vostok::render::render_surface_instance *> *)&m_object[4].vostok::resources::unmanaged_intrusive_base;
-  if ( m_reference_count != v19 )
-  {
-    v21 = stlp_std::priv::__copy_ptrs<void * *,void * *>(v19, v19, m_reference_count);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    m_object[4].vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags.vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags = (volatile int)v21;
-  }
-  m_reconstruction_info_actuality_tick_high = (void **)HIDWORD(m_object[5].m_reconstruction_info_actuality_tick);
-  m_reconstruction_info_actuality_tick = (void **)m_object[5].m_reconstruction_info_actuality_tick;
-  if ( m_reconstruction_info_actuality_tick != m_reconstruction_info_actuality_tick_high )
-  {
-    v24 = stlp_std::priv::__copy_ptrs<void * *,void * *>(
-            m_reconstruction_info_actuality_tick_high,
-            m_reconstruction_info_actuality_tick_high,
-            m_reconstruction_info_actuality_tick);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    HIDWORD(m_object[5].m_reconstruction_info_actuality_tick) = v24;
-  }
-  m_memory_type_data = (void **)m_object[4].m_memory_type_data;
-  m_construct_thread_id = (void **)m_object[4].m_construct_thread_id;
-  if ( m_construct_thread_id != m_memory_type_data )
-  {
-    v27 = stlp_std::priv::__copy_ptrs<void * *,void * *>(m_memory_type_data, m_memory_type_data, m_construct_thread_id);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    m_object[4].m_memory_type_data = (vostok::resources::memory_type *)v27;
-  }
-  if ( render_scene->m_grass )
+  v2 = probes_generate_pass;
+  vostok::math::frustum::frustum(&v52, (const vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 20148));
+  v3 = *(_DWORD *)(probes_generate_pass + 4);
+  v4 = *(_DWORD *)(v3 + 16264);
+  v5 = *(_DWORD *)(v3 + 16268);
+  *(_DWORD *)(v5 + 48356) = *(_DWORD *)(v5 + 48352);
+  *(_DWORD *)(v5 + 52464) = *(_DWORD *)(v5 + 52460);
+  v6 = *(vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > **)(v5 + 56568);
+  *(_DWORD *)(v5 + 56572) = v6;
+  v56 = v4;
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::clear(
+    v6,
+    v5,
+    (const char *)probes_generate_pass,
+    (const char *)v4,
+    (vostok::render::light *)(v5 + 44244));
+  *(_DWORD *)(v5 + 9372) = *(_DWORD *)(v5 + 9368);
+  v55 = (vostok::buffer_vector<vostok::render::render_surface_instance *> *)(v5 + 9368);
+  *(_DWORD *)(v5 + 60680) = *(_DWORD *)(v5 + 60676);
+  *(_DWORD *)(v5 + 64788) = *(_DWORD *)(v5 + 64784);
+  *(_DWORD *)(v5 + 1168) = *(_DWORD *)(v5 + 1164);
+  v7 = *(int *)((char *)&dword_8B9668 + v4);
+  if ( v7
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
     vostok::render::grass_world::process_culling(
-      (vostok::render::grass_world *)thisa,
-      thisa->m_context,
-      *(const float *)&v92);
-    stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::operator=(
-      v28,
-      (int)&m_object[5].type,
-      (unsigned int)&render_scene->m_grass->m_visible_patches);
+      (vostok::render::grass_world *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr,
+      v7,
+      *(vostok::render::renderer_context **)(probes_generate_pass + 4),
+      *(const float *)v46);
+    v2 = probes_generate_pass;
   }
-  v29 = render_scene->m_particle_world.m_object;
-  if ( v29 )
-    v29->get_render_emitter_instances(
-      v29,
-      &thisa->m_context->m_vp,
-      (vostok::vectora<vostok::particle::render_particle_emitter_instance *> *)&m_object[4].last_command);
-  probe_objects._M_impl._M_start = 0;
-  probe_objects._M_impl._M_finish = 0;
-  probe_objects._M_impl._M_end_of_storage.m_allocator = (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object;
-  probe_objects._M_impl._M_end_of_storage._M_data = 0;
-  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *>>::reserve(
-    (stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *> > *)vostok::render::g_allocator.m_object,
-    &probe_objects._M_impl,
-    0x400u);
-  render_scene->m_lights.m_object->m_lights_tree->cuboid_query(
-    render_scene->m_lights.m_object->m_lights_tree,
-    -1u,
-    &view_frustum,
-    &probe_objects);
-  M_start = probe_objects._M_impl._M_start;
-  M_finish = (stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *)probe_objects._M_impl._M_finish;
-  v32 = (const vostok::collision::object *const *)probe_objects._M_impl._M_start;
-  i = (const vostok::collision::object *const *)probe_objects._M_impl._M_start;
-  e = (const vostok::collision::object *const *)probe_objects._M_impl._M_finish;
-  if ( probe_objects._M_impl._M_start != probe_objects._M_impl._M_finish )
+  v8 = *(int *)((char *)&dword_8B9664 + v4);
+  if ( v8 )
+    (*(void (__thiscall **)(int, int, unsigned int))(*(_DWORD *)v8 + 36))(v8, *(_DWORD *)(v2 + 4) + 20148, v5 + 56568);
+  if ( ((*(_DWORD *)(v5 + 56572) - *(_DWORD *)(v5 + 56568)) & 0xFFFFFFFC) != 0 )
+  {
+    v9 = *(vostok::render::ambient_light **)(v5 + 56568);
+    v10 = *(vostok::render::ambient_light **)(v5 + 56572);
+    v58 = 0;
+    v53 = 0;
+    v57 = v9;
+    v61[0] = v10;
+    if ( v9 != v10 )
+    {
+      value.m_object = (vostok::render::light *)(*(int (__thiscall **)(unsigned int))(*(_DWORD *)v9->m_reference_count
+                                                                                    + 24))(v9->m_reference_count);
+      while ( 1 )
+      {
+        m_reference_count = (_DWORD *)v9->m_reference_count;
+        v12 = (*(int (__thiscall **)(_DWORD *))(*m_reference_count + 28))(m_reference_count);
+        if ( v53 != v12 )
+        {
+          v13 = (*(int (__thiscall **)(_DWORD *))(*m_reference_count + 28))(m_reference_count);
+          v58 = 0;
+          v53 = v13;
+        }
+        v14 = (vostok::render::light *)(*(int (__thiscall **)(_DWORD *))(*m_reference_count + 24))(m_reference_count);
+        if ( value.m_object != v14 )
+        {
+          v58 = (vostok::render::ambient_volume **)((char *)v58 + 1);
+          m_reference_count[95] = v58;
+          value.m_object = (vostok::render::light *)(*(int (__thiscall **)(_DWORD *))(*m_reference_count + 24))(m_reference_count);
+        }
+        v57 = (vostok::render::ambient_light *)((char *)v57 + 4);
+        if ( v57 == v61[0] )
+          break;
+        v9 = v57;
+      }
+    }
+  }
+  v47 = (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)v50;
+  v48 = (vostok::render::ambient_light *)v50;
+  v49 = &v51;
+  (*(void (__thiscall **)(_DWORD, int, vostok::math::frustum *, vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > **))(**(_DWORD **)(*(int *)((char *)&dword_8B9660 + v4) + 8204) + 28))(
+    *(_DWORD *)(*(int *)((char *)&dword_8B9660 + v4) + 8204),
+    -1,
+    &v52,
+    &v47);
+  v15 = v47;
+  v57 = (vostok::render::ambient_light *)v47;
+  v61[0] = v48;
+  if ( v47 != (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)v48 )
   {
     do
     {
-      m_user_data = (vostok::render::light *)(*v32)->m_user_data;
-      v34 = 0;
-      __x.m_object = 0;
-      if ( m_user_data )
+      v16 = *(vostok::render::light **)(v57->m_reference_count + 36);
+      v17 = 0;
+      value.m_object = 0;
+      if ( v16 )
       {
-        ++m_user_data->m_reference_count;
-        v34 = m_user_data;
-        __x.m_object = m_user_data;
+        ++v16->m_reference_count;
+        v17 = (char *)v16;
+        value.m_object = v16;
       }
-      v35 = (vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_next_in_global_list;
-      if ( v35 == (vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object[4].m_prev_in_global_list )
+      vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::push_back(
+        v15,
+        v5 + 44244,
+        &value);
+      if ( v17 )
       {
-        stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>>::_M_insert_overflow_aux(
-          M_finish,
-          (int)&m_object[4].232,
-          v35,
-          &__x,
-          v92,
-          v93,
-          v94);
-      }
-      else
-      {
-        if ( v35 )
+        if ( (*(_DWORD *)v17)-- == 1 )
         {
-          v35->m_object = 0;
-          vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::set(
-            &__x,
-            (const vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)v35,
-            &__x);
-        }
-        m_object[4].m_next_in_global_list = (vostok::resources::unmanaged_resource *)((char *)m_object[4].m_next_in_global_list
-                                                                                    + 4);
-      }
-      if ( v34 )
-      {
-        if ( v34->m_reference_count-- == 1 )
-        {
-          v37 = vostok::render::g_allocator.m_object;
-          vostok::render::light::~light((vostok::render::light *)M_finish, (int)v34);
-          v38 = v34;
-          v39 = (void *)HIDWORD(v37->m_reconstruction_info_actuality_tick);
-          BYTE2(v37->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v39, v38);
-          v32 = i;
+          v19 = vostok::render::g_allocator;
+          vostok::render::light::remove_collision((vostok::render::light *)v15, (int)v17);
+          `vector destructor iterator'(
+            v17 + 724,
+            4u,
+            6,
+            (void (__thiscall *)(void *))vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>);
+          `vector destructor iterator'(
+            v17 + 700,
+            4u,
+            6,
+            (void (__thiscall *)(void *))vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>);
+          vostok::memory::doug_lea_allocator::free_impl(v20, (int)v19, v17, v46[0], v46[1], (const unsigned int)v46[2]);
         }
       }
-      i = ++v32;
+      v57 = (vostok::render::ambient_light *)((char *)v57 + 4);
     }
-    while ( v32 != e );
-    M_start = probe_objects._M_impl._M_start;
+    while ( v57 != v61[0] );
+    v4 = v56;
   }
-  if ( M_start )
-    probe_objects._M_impl._M_end_of_storage.m_allocator->call_free(
-      probe_objects._M_impl._M_end_of_storage.m_allocator,
-      M_start);
-  v40 = render_scene;
-  m_size = render_scene->m_decals.m_size;
-  probe_objects._M_impl._M_start = 0;
-  probe_objects._M_impl._M_finish = 0;
-  probe_objects._M_impl._M_end_of_storage.m_allocator = (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object;
-  probe_objects._M_impl._M_end_of_storage._M_data = 0;
-  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *>>::reserve(
-    (stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *> > *)vostok::render::g_allocator.m_object,
-    &probe_objects._M_impl,
-    m_size);
-  v40->m_decals_tree->cuboid_query(v40->m_decals_tree, -1u, &view_frustum, &probe_objects);
-  v41 = probe_objects._M_impl._M_start;
-  v42 = (vostok::render::light *)probe_objects._M_impl._M_start;
-  __x.m_object = (vostok::render::light *)probe_objects._M_impl._M_start;
-  end = (vostok::render::ambient_volume **)probe_objects._M_impl._M_finish;
-  if ( probe_objects._M_impl._M_start != probe_objects._M_impl._M_finish )
+  v21 = *(int *)((char *)&dword_8B6544 + v4);
+  v22 = alloca(v21 * 4);
+  v23 = *(int *)((char *)&dword_8B9650 + v4);
+  *(_DWORD *)&v54[12] = v46;
+  *(_DWORD *)&v54[16] = v46;
+  *(_DWORD *)&v54[20] = &v46[v21];
+  (*(void (__thiscall **)(int, int, vostok::math::frustum *, _BYTE *))(*(_DWORD *)v23 + 28))(v23, -1, &v52, &v54[12]);
+  v24 = *(vostok::render::light **)&v54[12];
+  for ( value.m_object = *(vostok::render::light **)&v54[16];
+        v24 != value.m_object;
+        v24 = (vostok::render::light *)((char *)v24 + 4) )
+  {
+    v61[0] = *(vostok::render::ambient_light **)(v24->m_reference_count + 36);
+    if ( *(_DWORD *)(v5 + 48356) >= *(_DWORD *)(v5 + 48360)
+      && !HIBYTE(vostok::quasi_singleton<vostok::render::effect_constant_storage>::pinst.elements[2]) )
+    {
+      v59 = 0;
+      vostok::debug::on_error(
+        &v59,
+        process_error_true,
+        0,
+        "assertion_failed",
+        "fatal error",
+        "c:\\survarium.deploy\\sources\\vostok/buffer_vector_inline.h",
+        "vostok::buffer_vector<struct vostok::render::decal_instance *>::push_back",
+        (const char *)0x12E,
+        "buffer overflow",
+        v46[0]);
+      if ( vostok::debug::is_debugger_present() || v59 )
+        __debugbreak();
+    }
+    v25 = *(vostok::render::ambient_light ***)(v5 + 48356);
+    if ( v25 )
+      *v25 = v61[0];
+    *(_DWORD *)(v5 + 48356) += 4;
+  }
+  v26 = (*(_DWORD *)&aAvbtcollisionw[v4 + 8] - *(_DWORD *)&aAvbtcollisionw[v4 + 4]) >> 2;
+  v27 = alloca(v26 * 4);
+  v28 = *(int *)((char *)&dword_8B9658 + v4);
+  *(_DWORD *)&v54[12] = v46;
+  *(_DWORD *)&v54[16] = v46;
+  *(_DWORD *)&v54[20] = &v46[v26];
+  (*(void (__thiscall **)(int, int, vostok::math::frustum *, _BYTE *))(*(_DWORD *)v28 + 28))(v28, -1, &v52, &v54[12]);
+  v30 = *(vostok::render::light **)&v54[12];
+  value.m_object = *(vostok::render::light **)&v54[16];
+  if ( *(_DWORD *)&v54[12] != *(_DWORD *)&v54[16] )
   {
     do
     {
-      m_prev_in_global_delay_delete_list = (char *)m_object[4].m_prev_in_global_delay_delete_list;
-      v44 = *(_DWORD *)(v42->m_reference_count + 36);
-      v100 = v44;
-      if ( m_prev_in_global_delay_delete_list == (char *)m_object[4].m_deallocation_thread_id )
-      {
-        v45 = (m_prev_in_global_delay_delete_list - (char *)m_object[4].m_next_in_global_delay_delete_list) >> 2;
-        v46 = 1;
-        i = (const vostok::collision::object *const *)1;
-        e = (const vostok::collision::object *const *)v45;
-        if ( v45 == 0x3FFFFFFF )
-LABEL_66:
-          stlp_std::__stl_throw_length_error("vector");
-        p_e = &e;
-        if ( v45 <= 1 )
-          p_e = &i;
-        v48 = (unsigned int)*p_e + v45;
-        i = (const vostok::collision::object *const *)v48;
-        if ( v48 > 0x3FFFFFFF || v48 < v45 )
-        {
-          v48 = 0x3FFFFFFF;
-          i = (const vostok::collision::object *const *)0x3FFFFFFF;
-        }
-        v103 = (const void **)v48;
-        e = (const vostok::collision::object *const *)1;
-        v49 = &e;
-        if ( v48 )
-          v49 = (const vostok::collision::object *const **)&v103;
-        v50 = *v49;
-        v51 = vostok::render::g_allocator.m_object;
-        v52 = 4 * (_DWORD)v50;
-        if ( !BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) || !v52 )
-          v46 = 0;
-        BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = v46;
-        if ( v52 )
-          v53 = (unsigned __int8 *)vostok_mspace_malloc((void *)HIDWORD(v51->m_reconstruction_info_actuality_tick), v52);
-        else
-          v53 = 0;
-        m_next_in_global_delay_delete_list = (unsigned __int8 *)m_object[4].m_next_in_global_delay_delete_list;
-        v55 = m_prev_in_global_delay_delete_list - (char *)m_next_in_global_delay_delete_list;
-        if ( v55 )
-        {
-          memmove(v53, m_next_in_global_delay_delete_list, v55);
-          v57 = (_DWORD *)(v55 + v56);
-        }
-        else
-        {
-          v57 = v53;
-        }
-        *v57 = v100;
-        v58 = (vostok::resources::unmanaged_resource *)(v57 + 1);
-        v59 = m_object[4].m_next_in_global_delay_delete_list;
-        if ( v59 )
-        {
-          v60 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v60, v59);
-        }
-        v42 = __x.m_object;
-        v61 = &v53[4 * (_DWORD)i];
-        m_object[4].m_next_in_global_delay_delete_list = (vostok::resources::unmanaged_resource *)v53;
-        v40 = render_scene;
-        m_object[4].m_prev_in_global_delay_delete_list = v58;
-        m_object[4].m_deallocation_thread_id = (unsigned int)v61;
-      }
-      else
-      {
-        *(_DWORD *)m_prev_in_global_delay_delete_list = v44;
-        m_object[4].m_prev_in_global_delay_delete_list = (vostok::resources::unmanaged_resource *)((char *)m_object[4].m_prev_in_global_delay_delete_list
-                                                                                                 + 4);
-      }
-      v42 = (vostok::render::light *)((char *)v42 + 4);
-      __x.m_object = v42;
+      v61[0] = *(vostok::render::ambient_light **)(v30->m_reference_count + 36);
+      vostok::buffer_vector<vostok::render::environment_probe *>::push_back(
+        v29,
+        v5 + 52460,
+        (vostok::render::environment_probe **)v61);
+      v30 = (vostok::render::light *)((char *)v30 + 4);
     }
-    while ( v42 != (vostok::render::light *)end );
-    v41 = probe_objects._M_impl._M_start;
+    while ( v30 != value.m_object );
+    v4 = v56;
   }
-  if ( v41 )
-    probe_objects._M_impl._M_end_of_storage.m_allocator->call_free(
-      probe_objects._M_impl._M_end_of_storage.m_allocator,
-      v41);
-  v90 = v40->m_environment_probes._M_impl._M_finish - v40->m_environment_probes._M_impl._M_start;
-  probe_objects._M_impl._M_start = 0;
-  probe_objects._M_impl._M_finish = 0;
-  probe_objects._M_impl._M_end_of_storage.m_allocator = (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object;
-  probe_objects._M_impl._M_end_of_storage._M_data = 0;
-  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *>>::reserve(
-    (stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *> > *)vostok::render::g_allocator.m_object,
-    &probe_objects._M_impl,
-    v90);
-  v40->m_environment_probes_tree->cuboid_query(v40->m_environment_probes_tree, -1u, &view_frustum, &probe_objects);
-  v62 = probe_objects._M_impl._M_start;
-  v63 = (vostok::render::light *)probe_objects._M_impl._M_start;
-  __x.m_object = (vostok::render::light *)probe_objects._M_impl._M_start;
-  v103 = probe_objects._M_impl._M_finish;
-  if ( probe_objects._M_impl._M_start != probe_objects._M_impl._M_finish )
+  v31 = *(vostok::render::ambient_volume ***)((char *)&vostok::memory::s_resources.m_buffer[9314] + v4);
+  v32 = *(vostok::render::ambient_light **)((char *)&vostok::memory::s_resources.m_buffer[9315] + v4);
+  v58 = v31;
+  v61[0] = v32;
+  if ( v31 != (vostok::render::ambient_volume **)v32 )
+  {
+    while ( 1 )
+    {
+      qmemcpy(v54, &(*v31)->m_aabb, sizeof(v54));
+      if ( vostok::math::cuboid::test_inexact(0, (int)&v52, (vostok::math::aabb_plane *)v54) != 2 )
+        vostok::buffer_vector<vostok::render::ambient_volume *>::push_back(v33, v5 + 60676, v58);
+      if ( ++v58 == (vostok::render::ambient_volume **)v61[0] )
+        break;
+      v31 = v58;
+    }
+    v4 = v56;
+  }
+  v34 = (*(_DWORD *)((char *)&SNaN_33 + v4 + 4) - *(_DWORD *)((char *)&SNaN_33 + v4)) >> 2;
+  v35 = alloca(v34 * 4);
+  v36 = *(int *)((char *)&dword_8B965C + v4);
+  *(_DWORD *)&v54[12] = v46;
+  *(_DWORD *)&v54[16] = v46;
+  *(_DWORD *)&v54[20] = &v46[v34];
+  (*(void (__thiscall **)(int, int, vostok::math::frustum *, _BYTE *))(*(_DWORD *)v36 + 28))(v36, -1, &v52, &v54[12]);
+  v38 = *(vostok::render::light **)&v54[12];
+  value.m_object = *(vostok::render::light **)&v54[16];
+  if ( *(_DWORD *)&v54[12] != *(_DWORD *)&v54[16] )
   {
     do
     {
-      v64 = *(char **)&m_object[4].m_inlined_in_fat;
-      v65 = *(_DWORD *)(v63->m_reference_count + 36);
-      if ( v64 == (char *)m_object[4].first_command )
-      {
-        v66 = (int)&v64[-m_object[4].vostok::resources::unmanaged_resource::m_flags.vostok::resources::unmanaged_resource::m_flags] >> 2;
-        v67 = 1;
-        v100 = 1;
-        end = (vostok::render::ambient_volume **)v66;
-        if ( v66 == 0x3FFFFFFF )
-          goto LABEL_66;
-        p_end = &end;
-        if ( v66 <= 1 )
-          p_end = (vostok::render::ambient_volume ***)&v100;
-        v69 = (unsigned int)*p_end + v66;
-        i = (const vostok::collision::object *const *)v69;
-        if ( v69 > 0x3FFFFFFF || v69 < v66 )
-        {
-          v69 = 0x3FFFFFFF;
-          i = (const vostok::collision::object *const *)0x3FFFFFFF;
-        }
-        v100 = v69;
-        end = (vostok::render::ambient_volume **)1;
-        v70 = &end;
-        if ( v69 )
-          v70 = (vostok::render::ambient_volume ***)&v100;
-        v71 = *v70;
-        v72 = vostok::render::g_allocator.m_object;
-        v73 = 4 * (_DWORD)v71;
-        if ( !BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) || !v73 )
-          v67 = 0;
-        BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = v67;
-        if ( v73 )
-          v74 = (unsigned __int8 *)vostok_mspace_malloc((void *)HIDWORD(v72->m_reconstruction_info_actuality_tick), v73);
-        else
-          v74 = 0;
-        v75 = (unsigned __int8 *)m_object[4].vostok::resources::unmanaged_resource::m_flags.vostok::resources::unmanaged_resource::m_flags;
-        v76 = v64 - (char *)v75;
-        if ( v76 )
-        {
-          memmove(v74, v75, v76);
-          v78 = (unsigned __int8 *)(v76 + v77);
-        }
-        else
-        {
-          v78 = v74;
-        }
-        *(_DWORD *)v78 = v65;
-        v79 = v78 + 4;
-        v80 = (void *)m_object[4].vostok::resources::unmanaged_resource::m_flags.vostok::resources::unmanaged_resource::m_flags;
-        if ( v80 )
-        {
-          v81 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v81, v80);
-        }
-        m_object[4].first_command = (vostok::render::base_command *)&v74[4 * (_DWORD)i];
-        v63 = __x.m_object;
-        m_object[4].vostok::resources::unmanaged_resource::m_flags.vostok::resources::unmanaged_resource::m_flags = (unsigned int)v74;
-        *(_DWORD *)&m_object[4].m_inlined_in_fat = v79;
-      }
-      else
-      {
-        *(_DWORD *)v64 = v65;
-        *(_DWORD *)&m_object[4].m_inlined_in_fat += 4;
-      }
-      v63 = (vostok::render::light *)((char *)v63 + 4);
-      __x.m_object = v63;
+      v61[0] = *(vostok::render::ambient_light **)(v38->m_reference_count + 36);
+      vostok::buffer_vector<vostok::render::ambient_light *>::push_back(v37, v5 + 64784, v61);
+      v38 = (vostok::render::light *)((char *)v38 + 4);
     }
-    while ( v63 != (vostok::render::light *)v103 );
-    v62 = probe_objects._M_impl._M_start;
-  }
-  if ( v62 )
-    probe_objects._M_impl._M_end_of_storage.m_allocator->call_free(
-      probe_objects._M_impl._M_end_of_storage.m_allocator,
-      v62);
-  v82 = render_scene;
-  v83 = render_scene->m_ambient_volumes._M_impl._M_start;
-  for ( end = (vostok::render::ambient_volume **)render_scene->m_ambient_volumes._M_impl._M_finish;
-        v83 != (void **)end;
-        ++v83 )
-  {
-    v84 = (char *)*v83;
-    probe_objects = *(vostok::vectora<vostok::collision::object const *> *)((char *)*v83 + 76);
-    v102 = *(_QWORD *)(v84 + 92);
-    if ( vostok::math::cuboid::test_inexact(
-           (vostok::math::cuboid *)&probe_objects,
-           (const vostok::math::aabb *)&probe_objects) != intersection_outside )
-    {
-      v86 = (void **)HIDWORD(m_object[5].m_reconstruction_info_actuality_tick);
-      if ( v86 == (void **)m_object[5].m_reconstruction_size )
-      {
-        stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-          v85,
-          (int)&m_object[5].vostok::resources::resource_reconstruction_info,
-          v86,
-          v83,
-          (const stlp_std::__true_type *)1,
-          1,
-          (bool)v92);
-        v82 = render_scene;
-      }
-      else
-      {
-        *v86 = v84;
-        HIDWORD(m_object[5].m_reconstruction_info_actuality_tick) += 4;
-      }
-    }
+    while ( v38 != value.m_object );
+    v4 = v56;
   }
   vostok::render::scene::select_models(
-    v82,
-    &thisa->m_context->m_vp,
-    selection,
-    (const vostok::math::float3 *)&thisa->m_context->m_view_pos,
-    1u,
-    0);
+    (vostok::render::scene *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    v4,
+    (vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    (const vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    v55,
+    (vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 21132),
+    (const vostok::math::float3 *)1,
+    0,
+    (bool)v46[0]);
   vostok::render::scene::select_models(
-    v82,
-    &thisa->m_context->m_vp,
-    (vostok::render::vector<vostok::render::render_surface_instance *> *)&m_object[4].m_construct_thread_id,
-    (const vostok::math::float3 *)&thisa->m_context->m_view_pos,
+    (vostok::render::scene *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    v4,
+    (vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    (const vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 20148),
+    (vostok::buffer_vector<vostok::render::render_surface_instance *> *)(v5 + 1164),
+    (vostok::math::float4x4 *)(*(_DWORD *)(probes_generate_pass + 4) + 21132),
+    (const vostok::math::float3 *)1,
     1u,
-    1);
-  if ( LODWORD(blend_alpha.z) )
+    (bool)v46[0]);
+  if ( s_visible_surfaces_limit_value )
   {
-    v87 = selection;
-    v91 = (vostok::render::render_surface_instance **)m_object[4].vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags.vostok::resources::unmanaged_resource::vostok::resources::unmanaged_intrusive_base::vostok::resources::base_of_intrusive_base::m_flags;
-    v88 = selection->_M_impl._M_start;
-    end = 0;
-    stlp_std::random_shuffle<vostok::render::render_surface_instance * *,vostok::math::random32>(
-      (vostok::math::random32 *)&end,
-      (vostok::render::render_surface_instance **)v88,
-      v91);
-    if ( (unsigned int)(v87->_M_impl._M_finish - v87->_M_impl._M_start) > LODWORD(blend_alpha.z) )
+    v40 = (int *)v55;
+    v41 = *(vostok::render::ambient_light **)(v5 + 9372);
+    m_begin = v55->m_begin;
+    v62 = 0;
+    v61[0] = v41;
+    if ( m_begin != (vostok::render::render_surface_instance **)v41 )
     {
-      end = 0;
-      stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::resize(
-        &v87->_M_impl,
-        LODWORD(blend_alpha.z),
-        (void *const *)&end);
+      v39 = (vostok::render::ambient_light *)(m_begin + 1);
+      if ( m_begin + 1 != (vostok::render::render_surface_instance **)v41 )
+      {
+        v43 = 4;
+        do
+        {
+          v62 = 134775813 * v62 + 1;
+          v44 = (unsigned int *)&m_begin[((unsigned int)v62 * (unsigned __int64)(unsigned int)((v43 >> 2) + 1)) >> 32];
+          v45 = v39->m_reference_count;
+          v39->m_reference_count = *v44;
+          v39 = (vostok::render::ambient_light *)((char *)v39 + 4);
+          v43 += 4;
+          *v44 = v45;
+        }
+        while ( v39 != v61[0] );
+        v40 = (int *)v55;
+      }
     }
+    if ( (v40[1] - *v40) >> 2 > s_visible_surfaces_limit_value )
+      vostok::buffer_vector<vostok::render::render_surface_instance *>::resize(
+        (vostok::buffer_vector<vostok::render::render_surface_instance *> *)v39,
+        v40);
   }
 }

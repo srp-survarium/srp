@@ -217,7 +217,7 @@ LABEL_110:
           }
           else if ( (v8 & 1) != 0 )
           {
-            v14 = (double)Scaleform::String::CompareNoCase(str_a.pNode->pData, str_b.pNode->pData);
+            v14 = (double)Scaleform::String::CompareNoCase((char *)str_a.pNode->pData, (char *)str_b.pNode->pData);
           }
           else
           {
@@ -274,7 +274,7 @@ LABEL_110:
       if ( name.Obj.pObject && ((int)name.Obj.pObject & 1) == 0 )
       {
         RefCount = name.Obj.pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject = name.Obj.pObject;
           name.Obj.pObject->RefCount = RefCount - 1;

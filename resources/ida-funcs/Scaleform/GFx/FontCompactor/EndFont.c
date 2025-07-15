@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompactor *this)
 {
   Scaleform::GFx::FontCompactor *v1; // esi
-  unsigned int j; // edi
+  unsigned int i; // edi
   int v3; // ebx
   Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *p_Encoder; // ebp
   unsigned int v5; // eax
@@ -26,13 +26,13 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
   Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261> > *v24; // esi
   unsigned int v25; // edi
   int v26; // ebx
-  unsigned int i; // [esp+10h] [ebp-Ch]
-  const Scaleform::GFx::FontCompactor::KerningPairType *kerningPair; // [esp+14h] [ebp-8h]
+  unsigned int v27; // [esp+10h] [ebp-Ch]
+  Scaleform::GFx::FontCompactor::KerningPairType *v28; // [esp+14h] [ebp-8h]
 
   v1 = this;
-  for ( j = 0; j < v1->GlyphInfoTable.Size; ++j )
+  for ( i = 0; i < v1->GlyphInfoTable.Size; ++i )
   {
-    v3 = (int)&v1->GlyphInfoTable.Pages[j >> 6][j & 0x3F];
+    v3 = (int)&v1->GlyphInfoTable.Pages[i >> 6][i & 0x3F];
     Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteUInt16fixlen(
       &v1->Encoder,
       *(_WORD *)v3);
@@ -53,7 +53,7 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
     &v1->Encoder,
     v1->KerningTable.Size);
   v5 = 0;
-  i = 0;
+  v27 = 0;
   if ( v1->KerningTable.Size )
   {
     while ( 1 )
@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
       v9 = v5 & 0x3F;
       Char1 = v8[v9].Char1;
       v11 = p_Encoder->Data->Size >> 12;
-      kerningPair = &v8[v9];
+      v28 = &v8[v9];
       if ( v11 >= p_Encoder->Data->NumPages )
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
           Data,
@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
           p_Encoder->Data->Size >> 12);
       v12->Pages[v13][v12->Size++ & 0xFFF] = v14;
       v15 = p_Encoder->Data;
-      Char2 = kerningPair->Char2;
+      Char2 = v28->Char2;
       v17 = p_Encoder->Data->Size >> 12;
       if ( v17 >= p_Encoder->Data->NumPages )
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
@@ -95,7 +95,7 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
           p_Encoder->Data->Size >> 12);
       v18->Pages[v19][v18->Size++ & 0xFFF] = v20;
       v21 = p_Encoder->Data;
-      Adjustment = kerningPair->Adjustment;
+      Adjustment = v28->Adjustment;
       v23 = p_Encoder->Data->Size >> 12;
       if ( v23 >= p_Encoder->Data->NumPages )
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
@@ -110,9 +110,9 @@ void __thiscall Scaleform::GFx::FontCompactor::EndFont(Scaleform::GFx::FontCompa
           v24,
           p_Encoder->Data->Size >> 12);
       v24->Pages[v25][v24->Size++ & 0xFFF] = v26;
-      if ( ++i >= this->KerningTable.Size )
+      if ( ++v27 >= this->KerningTable.Size )
         break;
-      v5 = i;
+      v5 = v27;
       v1 = this;
     }
   }

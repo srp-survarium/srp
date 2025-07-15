@@ -1,14 +1,15 @@
 void __thiscall boost::asio::detail::socket_select_interrupter::interrupt(
-        boost::asio::detail::socket_select_interrupter *this)
+        boost::asio::detail::socket_select_interrupter *this,
+        int a2)
 {
-  char byte; // [esp+4Bh] [ebp-11h] BYREF
-  _WSABUF b; // [esp+4Ch] [ebp-10h] BYREF
-  boost::system::error_code ec; // [esp+54h] [ebp-8h] BYREF
+  boost::system::error_code v2; // [esp+4h] [ebp-18h] BYREF
+  _WSABUF v3; // [esp+Ch] [ebp-10h] BYREF
+  char v4; // [esp+17h] [ebp-5h] BYREF
 
-  byte = 0;
-  b.buf = &byte;
-  b.len = 1;
-  ec.m_val = 0;
-  ec.m_cat = boost::system::system_category();
-  boost::asio::detail::socket_ops::send(this->write_descriptor_, &b, 1u, 0, &ec);
+  v2.m_val = 0;
+  v4 = 0;
+  v3.buf = &v4;
+  v3.len = 1;
+  v2.m_cat = boost::system::system_category();
+  boost::asio::detail::socket_ops::send(&v2, *(_DWORD *)(a2 + 4), &v3, 1u);
 }

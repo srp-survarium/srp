@@ -16,13 +16,13 @@ int __cdecl EC_POINT_add(
     }
     else
     {
-      ERR_put_error(0x10u, 112, 101, ".\\crypto\\ec\\ec_lib.c", 988);
+      ERR_put_error((int)group, 0x10u, 112, 101, ".\\crypto\\ec\\ec_lib.c", 988);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x10u, 112, 66, ".\\crypto\\ec\\ec_lib.c", 983);
+    ERR_put_error((int)group, 0x10u, 112, 66, ".\\crypto\\ec\\ec_lib.c", 983);
     return 0;
   }
 }

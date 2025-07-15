@@ -44,15 +44,15 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::decomposeGlyphOutline(
   int v41; // edi
   int v42; // edx
   int v43; // edi
-  const unsigned __int8 *v44; // eax
+  int *v44; // eax
   int v45; // esi
-  _FIXED v46; // ecx
+  int v46; // ecx
   Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *v47; // edx
   int v48; // edi
   int v49; // esi
   bool v50; // cc
   Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *v51; // eax
-  unsigned int v52; // edi
+  const unsigned __int8 *v52; // edi
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v53; // ebx
   unsigned int v54; // esi
   bool *v55; // eax
@@ -73,48 +73,51 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::decomposeGlyphOutline(
   float v70; // [esp+10h] [ebp-A8h]
   float v71; // [esp+10h] [ebp-A8h]
   float v72; // [esp+10h] [ebp-A8h]
-  const unsigned __int8 *v73; // [esp+10h] [ebp-A8h]
-  int i; // [esp+14h] [ebp-A4h]
-  float ia; // [esp+14h] [ebp-A4h]
-  float ib; // [esp+14h] [ebp-A4h]
-  float ic; // [esp+14h] [ebp-A4h]
-  float id; // [esp+14h] [ebp-A4h]
-  float ie; // [esp+14h] [ebp-A4h]
-  int ig; // [esp+14h] [ebp-A4h]
-  int u; // [esp+1Ch] [ebp-9Ch]
-  int ua; // [esp+1Ch] [ebp-9Ch]
-  int *ub; // [esp+1Ch] [ebp-9Ch]
-  int uc; // [esp+1Ch] [ebp-9Ch]
+  _WORD *v73; // [esp+10h] [ebp-A8h]
+  int v74; // [esp+14h] [ebp-A4h]
+  float v75; // [esp+14h] [ebp-A4h]
+  float v76; // [esp+14h] [ebp-A4h]
+  float v77; // [esp+14h] [ebp-A4h]
+  float v78; // [esp+14h] [ebp-A4h]
+  float v79; // [esp+14h] [ebp-A4h]
+  int v80; // [esp+14h] [ebp-A4h]
+  int v81; // [esp+1Ch] [ebp-9Ch]
+  int v82; // [esp+1Ch] [ebp-9Ch]
+  int *v83; // [esp+1Ch] [ebp-9Ch]
+  int v84; // [esp+1Ch] [ebp-9Ch]
   float v85; // [esp+20h] [ebp-98h]
   float v86; // [esp+20h] [ebp-98h]
   float v87; // [esp+20h] [ebp-98h]
-  const unsigned __int8 *curPoly; // [esp+24h] [ebp-94h]
-  int pntB; // [esp+28h] [ebp-90h]
-  int pntB_4; // [esp+2Ch] [ebp-8Ch]
-  const unsigned __int8 *curGlyph; // [esp+30h] [ebp-88h]
+  const unsigned __int8 *v88; // [esp+24h] [ebp-94h]
+  int v89; // [esp+28h] [ebp-90h]
+  int v90; // [esp+2Ch] [ebp-8Ch]
+  const unsigned __int8 *v91; // [esp+30h] [ebp-88h]
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v92; // [esp+34h] [ebp-84h] BYREF
   float Multiplier; // [esp+38h] [ebp-80h]
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v94; // [esp+3Ch] [ebp-7Ch] BYREF
   float v95; // [esp+40h] [ebp-78h]
-  tagPOINTFX pntC; // [esp+44h] [ebp-74h]
-  const unsigned __int8 *endPoly; // [esp+4Ch] [ebp-6Ch]
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v98; // [esp+50h] [ebp-68h] BYREF
-  float v99; // [esp+54h] [ebp-64h]
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v100; // [esp+58h] [ebp-60h] BYREF
-  float v101; // [esp+5Ch] [ebp-5Ch]
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v102; // [esp+60h] [ebp-58h] BYREF
-  float v103; // [esp+64h] [ebp-54h]
-  const unsigned __int8 *endGlyph; // [esp+68h] [ebp-50h]
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v105; // [esp+6Ch] [ebp-4Ch] BYREF
-  float v106; // [esp+70h] [ebp-48h]
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v107; // [esp+74h] [ebp-44h] BYREF
-  float v108; // [esp+78h] [ebp-40h]
-  int v109; // [esp+7Ch] [ebp-3Ch]
-  Scaleform::Render::ShapePosInfo pos; // [esp+80h] [ebp-38h]
+  int v96; // [esp+44h] [ebp-74h]
+  int v97; // [esp+48h] [ebp-70h]
+  const unsigned __int8 *v98; // [esp+4Ch] [ebp-6Ch]
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v99; // [esp+50h] [ebp-68h] BYREF
+  float v100; // [esp+54h] [ebp-64h]
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v101; // [esp+58h] [ebp-60h] BYREF
+  float v102; // [esp+5Ch] [ebp-5Ch]
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v103; // [esp+60h] [ebp-58h] BYREF
+  float v104; // [esp+64h] [ebp-54h]
+  const unsigned __int8 *v105; // [esp+68h] [ebp-50h]
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v106; // [esp+6Ch] [ebp-4Ch] BYREF
+  float v107; // [esp+70h] [ebp-48h]
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v108; // [esp+74h] [ebp-44h] BYREF
+  float v109; // [esp+78h] [ebp-40h]
+  int v110; // [esp+7Ch] [ebp-3Ch]
+  int v111; // [esp+84h] [ebp-34h]
+  int v112; // [esp+88h] [ebp-30h]
+  int v113; // [esp+90h] [ebp-28h]
 
   v5 = shape->Data.Data.Size == 0;
-  curGlyph = data;
-  endGlyph = &data[size];
+  v91 = data;
+  v105 = &data[size];
   if ( v5 )
   {
     if ( shape->Data.Data.Policy.Capacity )
@@ -134,15 +137,15 @@ LABEL_6:
   {
     do
     {
-      v6 = *((_DWORD *)curGlyph + 3);
-      endPoly = &curGlyph[*(_DWORD *)curGlyph];
-      curPoly = curGlyph + 16;
+      v6 = *((_DWORD *)v91 + 3);
+      v98 = &v91[*(_DWORD *)v91];
+      v88 = v91 + 16;
       if ( hintedSize )
       {
-        v7 = *((_DWORD *)curGlyph + 2);
+        v7 = *((_DWORD *)v91 + 2);
         pContainer = shape->pContainer;
         Multiplier = shape->Multiplier;
-        u = v7;
+        v81 = v7;
         v92.Data = pContainer;
         Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt15(
           &v92,
@@ -207,9 +210,9 @@ LABEL_6:
         v17 = pContainer->Data.Data;
         pContainer->Data.Size = v16;
         v17[v16 - 1] = 0;
-        v65 = 20.0 * (double)SHIWORD(u) + (double)(unsigned __int16)u * 20.0 * 0.0000152587890625;
+        v65 = 20.0 * (double)SHIWORD(v81) + (double)(unsigned __int16)v81 * 20.0 * 0.0000152587890625;
         v18 = (int)(v65 * Multiplier);
-        pos.StartX = v18;
+        v111 = v18;
         Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteSInt30(
           &v92,
           v18);
@@ -220,7 +223,7 @@ LABEL_6:
       else
       {
         v21 = shape->pContainer;
-        ua = *((_DWORD *)curGlyph + 2);
+        v82 = *((_DWORD *)v91 + 2);
         v95 = shape->Multiplier;
         v94.Data = v21;
         Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt15(
@@ -286,9 +289,9 @@ LABEL_6:
         v30 = v21->Data.Data;
         v21->Data.Size = v29;
         v30[v29 - 1] = 0;
-        v67 = (double)((SHIWORD(ua) << 8) + BYTE1(ua)) * 4.0 / 240.0;
+        v67 = (double)((SHIWORD(v82) << 8) + BYTE1(v82)) * 4.0 / 240.0;
         v18 = (int)(v67 * v95);
-        pos.StartX = v18;
+        v111 = v18;
         Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteSInt30(
           &v94,
           v18);
@@ -296,40 +299,40 @@ LABEL_6:
         v19 = (int)(v68 * v95);
         v20 = &v94;
       }
-      pos.LastY = v19;
-      pos.StartY = v19;
+      v113 = v19;
+      v112 = v19;
       Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteSInt30(
         v20,
         v19);
-      for ( ; curPoly < endPoly; curPoly += 8 * *((unsigned __int16 *)curPoly + 1) + 4 )
+      for ( ; v88 < v98; v88 += 8 * *((unsigned __int16 *)v88 + 1) + 4 )
       {
-        if ( *(_WORD *)curPoly == 1 )
+        if ( *(_WORD *)v88 == 1 )
         {
-          i = 0;
-          if ( *((_WORD *)curPoly + 1) )
+          v74 = 0;
+          if ( *((_WORD *)v88 + 1) )
           {
-            ub = (int *)(curPoly + 4);
+            v83 = (int *)(v88 + 4);
             do
             {
               v31 = shape->pContainer;
               if ( hintedSize )
               {
-                v32 = ub[1];
-                v101 = shape->Multiplier;
-                v33 = *ub;
-                v100.Data = v31;
+                v32 = v83[1];
+                v102 = shape->Multiplier;
+                v33 = *v83;
+                v101.Data = v31;
                 v69 = (double)(unsigned __int16)v33 * 20.0 * 0.0000152587890625 + (double)SHIWORD(v33) * 20.0;
-                v34 = (int)(v69 * v101) - v18;
+                v34 = (int)(v69 * v102) - v18;
                 v70 = 0.0000152587890625 * (20.0 * (double)(unsigned __int16)v32) + (double)SHIWORD(v32) * 20.0;
-                v35 = (int)(v101 * v70);
-                v36 = -(pos.LastY + v35);
-                if ( pos.LastY + v35 )
+                v35 = (int)(v102 * v70);
+                v36 = -(v113 + v35);
+                if ( v113 + v35 )
                 {
-                  v62 = -(pos.LastY + v35);
+                  v62 = -(v113 + v35);
                   if ( v34 )
                   {
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
-                      &v100,
+                      &v101,
                       v34,
                       v62);
                     v18 += v34;
@@ -337,158 +340,158 @@ LABEL_6:
                   else
                   {
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
-                      &v100,
+                      &v101,
                       v62);
                   }
-                  pos.LastY += v36;
+                  v113 += v36;
                 }
                 else
                 {
                   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteHLine(
-                    &v100,
+                    &v101,
                     v34);
                   v18 += v34;
-                  pos.LastY += v36;
+                  v113 += v36;
                 }
               }
               else
               {
-                v37 = ub[1];
-                v99 = shape->Multiplier;
-                v38 = *ub;
-                v98.Data = v31;
+                v37 = v83[1];
+                v100 = shape->Multiplier;
+                v38 = *v83;
+                v99.Data = v31;
                 v71 = (double)(BYTE1(v38) + (SHIWORD(v38) << 8)) * -4.0 / 240.0;
-                v39 = -v18 - (int)(v71 * v99);
+                v39 = -v18 - (int)(v71 * v100);
                 v72 = (double)(BYTE1(v37) + (SHIWORD(v37) << 8)) * 4.0 / 240.0;
-                v40 = (int)(v99 * v72);
-                v41 = -pos.LastY - v40;
-                if ( -pos.LastY == v40 )
+                v40 = (int)(v100 * v72);
+                v41 = -v113 - v40;
+                if ( -v113 == v40 )
                 {
                   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteHLine(
-                    &v98,
+                    &v99,
                     v39);
                 }
                 else
                 {
-                  v63 = -pos.LastY - v40;
+                  v63 = -v113 - v40;
                   if ( v39 )
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
-                      &v98,
+                      &v99,
                       v39,
                       v63);
                   else
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
-                      &v98,
+                      &v99,
                       v63);
                 }
                 v18 += v39;
-                pos.LastY += v41;
+                v113 += v41;
               }
-              ub += 2;
-              ++i;
+              v83 += 2;
+              ++v74;
             }
-            while ( i < *((unsigned __int16 *)curPoly + 1) );
+            while ( v74 < *((unsigned __int16 *)v88 + 1) );
           }
         }
-        if ( *(_WORD *)curPoly == 2 )
+        if ( *(_WORD *)v88 == 2 )
         {
-          v42 = *((unsigned __int16 *)curPoly + 1);
+          v42 = *((unsigned __int16 *)v88 + 1);
           v43 = 0;
-          uc = 0;
+          v84 = 0;
           if ( v42 - 1 > 0 )
           {
-            v44 = curPoly + 12;
-            v73 = curPoly + 12;
+            v44 = (int *)(v88 + 12);
+            v73 = v88 + 12;
             do
             {
-              v45 = *((_DWORD *)v44 + 1);
-              pntB = *((_DWORD *)v44 - 2);
-              pntB_4 = *((_DWORD *)v44 - 1);
-              v46 = *(_FIXED *)v44;
-              pntC.x = *(_FIXED *)v44;
-              pntC.y = (_FIXED)v45;
+              v45 = v44[1];
+              v89 = *(v44 - 2);
+              v90 = *(v44 - 1);
+              v46 = *v44;
+              v96 = *v44;
+              v97 = v45;
               if ( v43 < v42 - 2 )
               {
-                v46 = (_FIXED)((*(_DWORD *)&v46 + pntB) / 2);
-                v45 = (v45 + pntB_4) / 2;
-                pntC.x = v46;
-                pntC.y = (_FIXED)v45;
+                v46 = (v46 + v89) / 2;
+                v45 = (v45 + v90) / 2;
+                v96 = v46;
+                v97 = v45;
               }
               v47 = shape->pContainer;
               if ( hintedSize )
               {
-                v106 = shape->Multiplier;
-                v105.Data = v47;
-                ia = (double)v46.fract * 20.0 * 0.0000152587890625 + (double)v46.value * 20.0;
-                v48 = (int)(ia * v106) - v18;
-                ib = (double)SHIWORD(v45) * 20.0 + (double)(unsigned __int16)v45 * 20.0 * 0.0000152587890625;
-                v49 = -(pos.LastY + (int)(ib * v106));
-                ic = (double)SHIWORD(pntB_4) * 20.0 + (double)(unsigned __int16)pntB_4 * 20.0 * 0.0000152587890625;
-                v60 = -(pos.LastY + (int)(ic * v106));
-                id = 0.0000152587890625 * (20.0 * (double)(unsigned __int16)pntB) + (double)SHIWORD(pntB) * 20.0;
+                v107 = shape->Multiplier;
+                v106.Data = v47;
+                v75 = (double)(unsigned __int16)v46 * 20.0 * 0.0000152587890625 + (double)SHIWORD(v46) * 20.0;
+                v48 = (int)(v75 * v107) - v18;
+                v76 = (double)SHIWORD(v45) * 20.0 + (double)(unsigned __int16)v45 * 20.0 * 0.0000152587890625;
+                v49 = -(v113 + (int)(v76 * v107));
+                v77 = (double)SHIWORD(v90) * 20.0 + (double)(unsigned __int16)v90 * 20.0 * 0.0000152587890625;
+                v60 = -(v113 + (int)(v77 * v107));
+                v78 = 0.0000152587890625 * (20.0 * (double)(unsigned __int16)v89) + (double)SHIWORD(v89) * 20.0;
                 Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteQuad(
-                  &v105,
-                  (int)(v106 * id) - v18,
+                  &v106,
+                  (int)(v107 * v78) - v18,
                   v60,
                   v48,
                   v49);
                 v18 += v48;
-                pos.LastY += v49;
+                v113 += v49;
               }
               else
               {
-                v108 = shape->Multiplier;
-                v107.Data = v47;
-                ie = (double)((pntC.x.value << 8) + HIBYTE(v46.fract)) * -4.0 / 240.0;
-                ig = -v18 - (int)(ie * v108);
-                v85 = (double)((pntC.y.value << 8) + HIBYTE(pntC.y.fract)) * 4.0 / 240.0;
-                v109 = -pos.LastY - (int)(v85 * v108);
-                v86 = 4.0 * (double)((SHIWORD(pntB_4) << 8) + BYTE1(pntB_4)) / 240.0;
-                v61 = -pos.LastY - (int)(v86 * v108);
-                v87 = -4.0 * (double)((SHIWORD(pntB) << 8) + BYTE1(pntB)) / 240.0;
+                v109 = shape->Multiplier;
+                v108.Data = v47;
+                v79 = (double)((SHIWORD(v96) << 8) + BYTE1(v46)) * -4.0 / 240.0;
+                v80 = -v18 - (int)(v79 * v109);
+                v85 = (double)((SHIWORD(v97) << 8) + BYTE1(v97)) * 4.0 / 240.0;
+                v110 = -v113 - (int)(v85 * v109);
+                v86 = 4.0 * (double)((SHIWORD(v90) << 8) + BYTE1(v90)) / 240.0;
+                v61 = -v113 - (int)(v86 * v109);
+                v87 = -4.0 * (double)((SHIWORD(v89) << 8) + BYTE1(v89)) / 240.0;
                 Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteQuad(
-                  &v107,
-                  -v18 - (int)(v108 * v87),
+                  &v108,
+                  -v18 - (int)(v109 * v87),
                   v61,
-                  ig,
-                  v109);
-                v18 += ig;
-                pos.LastY += v109;
+                  v80,
+                  v110);
+                v18 += v80;
+                v113 += v110;
               }
-              v42 = *((unsigned __int16 *)curPoly + 1);
-              v43 = uc + 1;
-              v44 = v73 + 8;
-              v50 = ++uc < v42 - 1;
-              v73 += 8;
+              v42 = *((unsigned __int16 *)v88 + 1);
+              v43 = v84 + 1;
+              v44 = (int *)(v73 + 4);
+              v50 = ++v84 < v42 - 1;
+              v73 += 4;
             }
             while ( v50 );
           }
         }
       }
       v51 = shape->pContainer;
-      v103 = shape->Multiplier;
-      v52 = (unsigned int)&curGlyph[*(_DWORD *)curGlyph];
-      v102.Data = v51;
-      curGlyph = (const unsigned __int8 *)v52;
-      if ( v18 != pos.StartX || pos.LastY != pos.StartY )
+      v104 = shape->Multiplier;
+      v52 = &v91[*(_DWORD *)v91];
+      v103.Data = v51;
+      v91 = v52;
+      if ( v18 != v111 || v113 != v112 )
       {
-        if ( pos.StartY == pos.LastY )
+        if ( v112 == v113 )
         {
           Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteHLine(
-            &v102,
-            pos.StartX - v18);
+            &v103,
+            v111 - v18);
         }
         else
         {
-          v64 = pos.StartY - pos.LastY;
-          if ( pos.StartX == v18 )
+          v64 = v112 - v113;
+          if ( v111 == v18 )
             Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
-              &v102,
+              &v103,
               v64);
           else
             Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
-              &v102,
-              pos.StartX - v18,
+              &v103,
+              v111 - v18,
               v64);
         }
       }
@@ -513,7 +516,7 @@ LABEL_6:
       v53->Size = v54;
       v55[v54 - 1] = 15;
     }
-    while ( v52 < (unsigned int)endGlyph );
+    while ( v52 < v105 );
   }
   if ( shape->IsEmpty(shape) )
     return 0;

@@ -10,14 +10,14 @@ void __cdecl png_set_unknown_chunks(int a1, int a2, int a3, int a4)
     dst = (unsigned __int8 *)png_malloc_warn(a1, 20 * (a4 + *(_DWORD *)(a2 + 192)));
     if ( dst )
     {
-      memcpy(dst, *(unsigned __int8 **)(a2 + 188), 20 * *(_DWORD *)(a2 + 192));
+      memcpy((int)dst, *(const __m128i **)(a2 + 188), 20 * *(_DWORD *)(a2 + 192));
       png_free(a1, *(void **)(a2 + 188));
       *(_DWORD *)(a2 + 188) = 0;
       for ( i = 0; i < a4; ++i )
       {
         v5 = &dst[20 * *(_DWORD *)(a2 + 192) + 20 * i];
         src = (unsigned __int8 *)(a3 + 20 * i);
-        memcpy(v5, src, 5u);
+        memcpy((int)v5, (const __m128i *)src, 5u);
         v5[4] = 0;
         *((_DWORD *)v5 + 3) = *((_DWORD *)src + 3);
         v5[16] = *(_DWORD *)(a1 + 108);
@@ -26,7 +26,7 @@ void __cdecl png_set_unknown_chunks(int a1, int a2, int a3, int a4)
           *((_DWORD *)v5 + 2) = png_malloc_warn(a1, *((_DWORD *)src + 3));
           if ( *((_DWORD *)v5 + 2) )
           {
-            memcpy(*((unsigned __int8 **)v5 + 2), *((unsigned __int8 **)src + 2), *((_DWORD *)src + 3));
+            memcpy(*((_DWORD *)v5 + 2), *((const __m128i **)src + 2), *((_DWORD *)src + 3));
           }
           else
           {

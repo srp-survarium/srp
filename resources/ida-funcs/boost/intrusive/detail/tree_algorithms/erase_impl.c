@@ -1,118 +1,128 @@
-void __cdecl boost::intrusive::detail::tree_algorithms<boost::intrusive::rbtree_node_traits<void *,0>>::erase_impl(
+void __usercall boost::intrusive::detail::tree_algorithms<boost::intrusive::rbtree_node_traits<void *,0>>::erase_impl(
+        boost::intrusive::rbtree_node<void *> *z@<eax>,
         boost::intrusive::rbtree_node<void *> *header,
-        boost::intrusive::rbtree_node<void *> *z,
         boost::intrusive::detail::tree_algorithms<boost::intrusive::rbtree_node_traits<void *,0> >::data_for_rebalance *info)
 {
-  boost::intrusive::rbtree_node<void *> *v3; // ecx
   boost::intrusive::rbtree_node<void *> *left; // edx
-  boost::intrusive::rbtree_node<void *> *right; // eax
-  boost::intrusive::rbtree_node<void *> *parent; // ebp
-  boost::intrusive::rbtree_node<void *> *v7; // eax
-  boost::intrusive::rbtree_node<void *> *k; // edx
-  boost::intrusive::rbtree_node<void *> *v9; // ebp
-  boost::intrusive::rbtree_node<void *> *v10; // esi
-  boost::intrusive::rbtree_node<void *> *i; // esi
-  boost::intrusive::rbtree_node<void *> *v12; // eax
-  boost::intrusive::rbtree_node<void *> *j; // ecx
+  boost::intrusive::rbtree_node<void *> *right; // ecx
+  boost::intrusive::rbtree_node<void *> *parent; // edi
+  boost::intrusive::rbtree_node<void *> *v6; // ecx
+  boost::intrusive::rbtree_node<void *> *i; // edx
+  boost::intrusive::rbtree_node<void *> *v8; // esi
+  boost::intrusive::rbtree_node<void *> *v9; // esi
+  boost::intrusive::rbtree_node<void *> *v10; // ecx
+  boost::intrusive::rbtree_node<void *> *v11; // ecx
+  boost::intrusive::rbtree_node<void *> *v12; // esi
+  boost::intrusive::rbtree_node<void *> *v13; // eax
   boost::intrusive::rbtree_node<void *> *v14; // eax
+  boost::intrusive::rbtree_node<void *> *v15; // ecx
+  boost::intrusive::rbtree_node<void *> *v16; // [esp+Ch] [ebp-8h]
+  boost::intrusive::rbtree_node<void *> *v17; // [esp+10h] [ebp-4h]
 
-  v3 = z;
   left = z->left_;
   right = z->right_;
+  v16 = z;
   if ( !left )
   {
     left = z->right_;
 LABEL_3:
-    parent = v3->parent_;
+    parent = z->parent_;
     if ( left )
       left->parent_ = parent;
-    v7 = v3->parent_;
-    if ( header->parent_ == v3 )
+    v6 = z->parent_;
+    if ( header->parent_ == z )
     {
       header->parent_ = left;
     }
-    else if ( v3->parent_->left_ == v3 )
+    else if ( z->parent_->left_ == z )
     {
-      v7->left_ = left;
+      v6->left_ = left;
     }
     else
     {
-      v7->right_ = left;
+      v6->right_ = left;
     }
-    if ( header->left_ == v3 )
+    if ( header->left_ == z )
     {
-      if ( v3->right_ )
+      if ( z->right_ )
       {
-        v12 = left->left_;
-        for ( i = left; v12; v12 = v12->left_ )
-          i = v12;
+        v11 = left->left_;
+        v12 = left;
+        while ( v11 )
+        {
+          v12 = v11;
+          v11 = v11->left_;
+        }
+        v10 = v12;
       }
       else
       {
-        i = v3->parent_;
+        v10 = z->parent_;
       }
-      header->left_ = i;
+      header->left_ = v10;
     }
-    if ( header->right_ == v3 )
+    if ( header->right_ == z )
     {
-      if ( v3->left_ )
+      if ( z->left_ )
       {
         v14 = left->right_;
-        for ( j = left; v14; v14 = v14->right_ )
-          j = v14;
+        v15 = left;
+        while ( v14 )
+        {
+          v15 = v14;
+          v14 = v14->right_;
+        }
+        v13 = v15;
       }
       else
       {
-        j = v3->parent_;
+        v13 = z->parent_;
       }
-      header->right_ = j;
+      header->right_ = v13;
     }
-    info->x = left;
-    info->x_parent = parent;
-    info->y = z;
-    return;
+    goto LABEL_42;
   }
   if ( !right )
     goto LABEL_3;
-  for ( k = right->left_; k; k = k->left_ )
-    right = k;
+  for ( i = right->left_; i; i = i->left_ )
+    right = i;
   left = right->right_;
-  z = right;
-  if ( right == v3 )
+  v16 = right;
+  if ( right == z )
     goto LABEL_3;
-  v3->left_->parent_ = right;
-  right->left_ = v3->left_;
-  if ( right == v3->right_ )
+  z->left_->parent_ = right;
+  right->left_ = z->left_;
+  if ( right == z->right_ )
   {
-    v9 = right;
+    v17 = right;
   }
   else
   {
-    v9 = right->parent_;
+    v8 = right->parent_;
+    v17 = right->parent_;
     if ( left )
-      left->parent_ = v9;
-    v9->left_ = left;
-    right->right_ = v3->right_;
-    v3->right_->parent_ = right;
+      left->parent_ = v8;
+    v8->left_ = left;
+    right->right_ = z->right_;
+    z->right_->parent_ = right;
   }
-  v10 = v3->parent_;
-  if ( header->parent_ == v3 )
+  v9 = z->parent_;
+  if ( header->parent_ == z )
   {
     header->parent_ = right;
-    right->parent_ = v3->parent_;
-    info->x = left;
-    info->x_parent = v9;
-    info->y = right;
+  }
+  else if ( z->parent_->left_ == z )
+  {
+    v9->left_ = right;
   }
   else
   {
-    if ( v3->parent_->left_ == v3 )
-      v10->left_ = right;
-    else
-      v10->right_ = right;
-    right->parent_ = v3->parent_;
-    info->x = left;
-    info->x_parent = v9;
-    info->y = right;
+    v9->right_ = right;
   }
+  parent = v17;
+  right->parent_ = z->parent_;
+LABEL_42:
+  info->x_parent = parent;
+  info->x = left;
+  info->y = v16;
 }

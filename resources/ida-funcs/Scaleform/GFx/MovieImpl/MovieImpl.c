@@ -1,4 +1,7 @@
-void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *this, Scaleform::MemoryHeap *pheap)
+void __userpurge Scaleform::GFx::MovieImpl::MovieImpl(
+        Scaleform::GFx::MovieImpl *this@<ecx>,
+        int a2@<ebp>,
+        Scaleform::MemoryHeap *pheap)
 {
   Scaleform::List<Scaleform::GFx::MovieDefRootNode,Scaleform::GFx::MovieDefRootNode> *p_RootMovieDefNodes; // eax
   Scaleform::ArrayDefaultPolicy *p_Policy; // ecx
@@ -7,46 +10,56 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   Scaleform::GFx::KeyboardState *KeyboardStates; // edi
   int j; // ebp
   Scaleform::GFx::MovieImpl::DragState *CurrentDragStates; // ecx
-  int v10; // edx
+  int v11; // edx
   float *p_y; // eax
   Scaleform::GFx::FocusGroupDescr *FocusGroups; // ebp
-  Scaleform::ArrayDefaultPolicy *v13; // edi
-  Scaleform::MemoryHeap *v14; // eax
-  bool v15; // sf
+  Scaleform::ArrayDefaultPolicy *v14; // edi
+  Scaleform::MemoryHeap *v15; // eax
+  bool v16; // sf
   unsigned int *p_Size; // ecx
   Scaleform::Render::ContextImpl::Context *p_RenderContext; // edi
-  Scaleform::Render::TreeRoot::NodeData *v18; // eax
-  Scaleform::Render::ContextImpl::EntryData *v19; // ebp
+  Scaleform::Render::TreeRoot::NodeData *v19; // eax
+  Scaleform::Render::ContextImpl::EntryData *v20; // ebp
   Scaleform::Render::ContextImpl::Entry *EntryHelper; // eax
   Scaleform::Render::TreeRoot *pObject; // ecx
-  Scaleform::Render::TreeRoot *v22; // ebp
-  bool v23; // zf
-  Scaleform::RefCountVImpl *v24; // ecx
-  Scaleform::Render::TreeNode::NodeData *v25; // eax
-  Scaleform::Render::TreeNode::NodeData *v26; // ebp
-  Scaleform::Render::ContextImpl::Entry *v27; // eax
-  Scaleform::Render::TreeContainer *v28; // ecx
-  Scaleform::Render::TreeContainer *v29; // ebp
-  Scaleform::Render::TreeRoot *v30; // ebp
+  Scaleform::Render::TreeRoot *v23; // ebp
+  bool v24; // zf
+  Scaleform::Render::ContextImpl::RTHandle::HandleData *v25; // ecx
+  Scaleform::Render::TreeNode::NodeData *v26; // eax
+  Scaleform::Render::TreeNode::NodeData *v27; // ebp
+  Scaleform::Render::ContextImpl::Entry *v28; // eax
+  Scaleform::Render::TreeContainer *v29; // ecx
+  Scaleform::Render::TreeContainer *v30; // ebp
+  Scaleform::Render::TreeRoot *v31; // ebp
   unsigned int Size; // eax
-  Scaleform::MemoryHeap *v32; // ecx
-  Scaleform::Lock *v33; // eax
-  Scaleform::GFx::StateBagImpl *v34; // edi
-  Scaleform::RefCountVImpl *v35; // ecx
-  Scaleform::GFx::StateBagImpl *v36; // ecx
-  unsigned __int8 v37; // al
+  Scaleform::MemoryHeap *v33; // ecx
+  Scaleform::Lock *v34; // eax
+  Scaleform::GFx::StateBagImpl *v35; // edi
+  Scaleform::RefCountVImpl *v36; // ecx
+  Scaleform::RefCountVImpl *v37; // ecx
+  unsigned __int8 v38; // al
   unsigned __int8 *p_KeyboardIndex; // ecx
-  Scaleform::MemoryHeap *v39; // ecx
-  Scaleform::GFx::FontManagerStates *v40; // eax
-  Scaleform::GFx::StateBagImpl *v41; // ecx
-  Scaleform::GFx::StateBag *v42; // ecx
-  Scaleform::GFx::FontManagerStates *v43; // edi
-  Scaleform::GFx::FontManagerStates *v44; // ecx
-  unsigned __int64 v45; // rax
-  Scaleform::Render::TreeContainer *v46; // [esp+8h] [ebp-18h]
-  Scaleform::Render::ContextImpl::RTHandle v47; // [esp+1Ch] [ebp-4h] BYREF
-  int pheapa; // [esp+24h] [ebp+4h]
-  float pheapb; // [esp+24h] [ebp+4h]
+  Scaleform::MemoryHeap *v40; // ecx
+  Scaleform::GFx::FontManagerStates *v41; // eax
+  Scaleform::GFx::StateBagImpl *v42; // ecx
+  Scaleform::GFx::StateBag *v43; // ecx
+  Scaleform::GFx::FontManagerStates *v44; // edi
+  Scaleform::GFx::FontManagerStates *v45; // ecx
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpServer *v47; // eax
+  Scaleform::GFx::AMP::ViewStats *v48; // eax
+  Scaleform::GFx::AMP::ViewStats *v49; // eax
+  Scaleform::GFx::AMP::ViewStats *v50; // edi
+  Scaleform::RefCountVImpl *v51; // ecx
+  Scaleform::AmpServer *v52; // eax
+  Scaleform::GFx::AMP::ViewStats *v53; // eax
+  Scaleform::GFx::AMP::ViewStats *v54; // eax
+  Scaleform::GFx::AMP::ViewStats *v55; // edi
+  Scaleform::RefCountVImpl *v56; // ecx
+  Scaleform::Render::TreeContainer *v58; // [esp+10h] [ebp-18h]
+  Scaleform::Render::ContextImpl::RTHandle v59; // [esp+24h] [ebp-4h] BYREF
+  int v60; // [esp+2Ch] [ebp+4h]
+  float v61; // [esp+2Ch] [ebp+4h]
 
   this->Scaleform::GFx::Movie::Scaleform::RefCountBase<Scaleform::GFx::Movie,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,327>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::GFx::MovieImpl_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -124,7 +137,7 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   for ( j = 5; j >= 0; --j )
     Scaleform::GFx::KeyboardState::KeyboardState(KeyboardStates++);
   CurrentDragStates = this->CurrentDragStates;
-  v10 = 5;
+  v11 = 5;
   p_y = &this->CurrentDragStates[0].BoundRB.y;
   do
   {
@@ -136,13 +149,13 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
     ++CurrentDragStates;
     *p_y = 0.0;
     p_y += 9;
-    --v10;
+    --v11;
     *(p_y - 10) = 0.0;
     *(p_y - 7) = 0.0;
     *(p_y - 8) = 0.0;
     *(p_y - 6) = NAN;
   }
-  while ( v10 >= 0 );
+  while ( v11 >= 0 );
   this->StickyVariables.mHash.pTable = 0;
   this->TopmostLevelCharacters.Data.Data = 0;
   this->TopmostLevelCharacters.Data.Size = 0;
@@ -152,30 +165,30 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   FocusGroups = this->FocusGroups;
   this->IntervalTimers.Data.Policy.Capacity = 0;
   this->FocusRectContainerNode.pObject = 0;
-  pheapa = 15;
-  v13 = &this->FocusGroups[0].TabableArray.Data.Policy;
+  v60 = 15;
+  v14 = &this->FocusGroups[0].TabableArray.Data.Policy;
   do
   {
     FocusGroups->FocusRectNode.pObject = 0;
-    v14 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, FocusGroups);
-    v13[-2].Capacity = 0;
-    v13[-1].Capacity = 0;
-    v13->Capacity = 0;
-    v13[1].Capacity = (unsigned int)v14;
-    v13[2].Capacity = 0;
-    v13[3].Capacity = 0;
-    v13[4].Capacity = 0;
-    *(float *)&v13[5].Capacity = 0.0;
-    *(float *)&v13[6].Capacity = 0.0;
+    v15 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, FocusGroups);
+    v14[-2].Capacity = 0;
+    v14[-1].Capacity = 0;
+    v14->Capacity = 0;
+    v14[1].Capacity = (unsigned int)v15;
+    v14[2].Capacity = 0;
+    v14[3].Capacity = 0;
+    v14[4].Capacity = 0;
+    *(float *)&v14[5].Capacity = 0.0;
+    *(float *)&v14[6].Capacity = 0.0;
     ++FocusGroups;
-    *(float *)&v13[7].Capacity = 0.0;
-    v13 += 16;
-    v15 = --pheapa < 0;
-    *(float *)&v13[-8].Capacity = 0.0;
-    LOBYTE(v13[-7].Capacity) = 0;
-    BYTE1(v13[-7].Capacity) = 0;
+    *(float *)&v14[7].Capacity = 0.0;
+    v14 += 16;
+    v16 = --v60 < 0;
+    *(float *)&v14[-8].Capacity = 0.0;
+    LOBYTE(v14[-7].Capacity) = 0;
+    BYTE1(v14[-7].Capacity) = 0;
   }
-  while ( !v15 );
+  while ( !v16 );
   this->Flags = 0;
   this->Flags2 = 0;
   this->RegisteredFonts.Data.Data = 0;
@@ -203,58 +216,62 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   this->IndirectTransformPairs.Data.Data = 0;
   this->IndirectTransformPairs.Data.Size = 0;
   this->IndirectTransformPairs.Data.Policy.Capacity = 0;
-  v18 = (Scaleform::Render::TreeRoot::NodeData *)p_RenderContext->pHeap->Alloc(p_RenderContext->pHeap, 208u, 0);
-  v19 = v18;
-  if ( v18 )
-    Scaleform::Render::TreeRoot::NodeData::NodeData(v18);
-  EntryHelper = Scaleform::Render::ContextImpl::Context::createEntryHelper(&this->RenderContext, v19);
+  v19 = (Scaleform::Render::TreeRoot::NodeData *)((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, int))p_RenderContext->pHeap->Alloc)(
+                                                   p_RenderContext->pHeap,
+                                                   208,
+                                                   0,
+                                                   a2);
+  v20 = v19;
+  if ( v19 )
+    Scaleform::Render::TreeRoot::NodeData::NodeData(v19);
+  EntryHelper = Scaleform::Render::ContextImpl::Context::createEntryHelper(&this->RenderContext, v20);
   pObject = this->pRenderRoot.pObject;
-  v22 = (Scaleform::Render::TreeRoot *)EntryHelper;
+  v23 = (Scaleform::Render::TreeRoot *)EntryHelper;
   if ( pObject )
   {
-    v23 = pObject->RefCount-- == 1;
-    if ( v23 )
+    v24 = pObject->RefCount-- == 1;
+    if ( v24 )
       Scaleform::Render::ContextImpl::Entry::destroyHelper(pObject);
   }
-  this->pRenderRoot.pObject = v22;
-  Scaleform::Render::ContextImpl::RTHandle::RTHandle(&v47, v22);
-  if ( v47.pData.pObject )
-    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v47.pData.pObject);
-  v24 = (Scaleform::RefCountVImpl *)this->hDisplayRoot.pData.pObject;
-  if ( v24 )
-    Scaleform::RefCountImpl::Release(v24);
-  this->hDisplayRoot = (Scaleform::Render::ContextImpl::DisplayHandle<Scaleform::Render::TreeRoot>)v47.pData.pObject;
-  Scaleform::Render::ContextImpl::RTHandle::~RTHandle(&v47);
-  v25 = (Scaleform::Render::TreeNode::NodeData *)p_RenderContext->pHeap->Alloc(p_RenderContext->pHeap, 160u, 0);
-  v26 = v25;
+  this->pRenderRoot.pObject = v23;
+  Scaleform::Render::ContextImpl::RTHandle::RTHandle(&v59, v23);
+  if ( v59.pData.pObject )
+    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v59.pData.pObject);
+  v25 = this->hDisplayRoot.pData.pObject;
   if ( v25 )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v25);
+  this->hDisplayRoot = (Scaleform::Render::ContextImpl::DisplayHandle<Scaleform::Render::TreeRoot>)v59.pData.pObject;
+  Scaleform::Render::ContextImpl::RTHandle::~RTHandle(&v59);
+  v26 = (Scaleform::Render::TreeNode::NodeData *)p_RenderContext->pHeap->Alloc(p_RenderContext->pHeap, 160u, 0);
+  v27 = v26;
+  if ( v26 )
   {
-    Scaleform::Render::TreeNode::NodeData::NodeData(v25, ET_Container);
-    v26->__vftable = (Scaleform::Render::TreeNode::NodeData_vtbl *)&Scaleform::Render::TreeContainer::NodeData::`vftable';
-    *(_DWORD *)&v26[1].Type = 0;
-    v26[1].__vftable = 0;
+    Scaleform::Render::TreeNode::NodeData::NodeData(v26, ET_Container);
+    v27->__vftable = (Scaleform::Render::TreeNode::NodeData_vtbl *)&Scaleform::Render::TreeContainer::NodeData::`vftable';
+    *(_DWORD *)&v27[1].Type = 0;
+    v27[1].__vftable = 0;
   }
-  v27 = Scaleform::Render::ContextImpl::Context::createEntryHelper(
+  v28 = Scaleform::Render::ContextImpl::Context::createEntryHelper(
           &this->RenderContext,
-          &v26->Scaleform::Render::ContextImpl::EntryData);
-  v28 = this->pTopMostRoot.pObject;
-  v29 = (Scaleform::Render::TreeContainer *)v27;
-  if ( v28 )
+          &v27->Scaleform::Render::ContextImpl::EntryData);
+  v29 = this->pTopMostRoot.pObject;
+  v30 = (Scaleform::Render::TreeContainer *)v28;
+  if ( v29 )
   {
-    v23 = v28->RefCount-- == 1;
-    if ( v23 )
-      Scaleform::Render::ContextImpl::Entry::destroyHelper(v28);
+    v24 = v29->RefCount-- == 1;
+    if ( v24 )
+      Scaleform::Render::ContextImpl::Entry::destroyHelper(v29);
   }
-  this->pTopMostRoot.pObject = v29;
-  v30 = this->pRenderRoot.pObject;
-  v46 = this->pTopMostRoot.pObject;
-  Size = Scaleform::Render::TreeContainer::GetSize(v30);
-  Scaleform::Render::TreeContainer::Insert(v30, Size, v46);
+  this->pTopMostRoot.pObject = v30;
+  v31 = this->pRenderRoot.pObject;
+  v58 = this->pTopMostRoot.pObject;
+  Size = Scaleform::Render::TreeContainer::GetSize(v31);
+  Scaleform::Render::TreeContainer::Insert(v31, Size, (Scaleform::Render::TreeNodeArray *)v58);
   Scaleform::Render::ContextImpl::Context::Capture(&this->RenderContext);
   this->pMainMovie = 0;
-  this->Flags |= 0x40180u;
+  this->Flags |= (unsigned int)&loc_4017F + 1;
   this->TimeRemainder = 0.0;
-  v32 = this->pHeap;
+  v33 = this->pHeap;
   this->FrameTime = 0.083333336;
   this->pPlayListOptHead = 0;
   this->pPlayListHead = 0;
@@ -263,70 +280,70 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   this->ForceFrameCatchUp = 0;
   this->pLoadQueueHead = 0;
   this->pLoadQueueMTHead = 0;
-  v33 = (Scaleform::Lock *)v32->Alloc(v32, 48u, 0);
-  v34 = (Scaleform::GFx::StateBagImpl *)v33;
-  if ( v33 )
+  v34 = (Scaleform::Lock *)v33->Alloc(v33, 48u, 0);
+  v35 = (Scaleform::GFx::StateBagImpl *)v34;
+  if ( v34 )
   {
-    v33->cs.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)&Scaleform::RefCountImplCore::`vftable';
-    v33->cs.LockCount = 1;
-    v33->cs.RecursionCount = (int)&Scaleform::GFx::StateBag::`vftable';
-    v33->cs.OwningThread = &Scaleform::GFx::LogBase<Scaleform::GFx::AS2::ActionLogger>::`vftable';
-    v33->cs.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)&Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::RefCountBase<Scaleform::GFx::StateBagImpl,2>'};
-    v33->cs.RecursionCount = (int)&Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::GFx::StateBag'};
-    v33->cs.OwningThread = &Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::GFx::LogBase<Scaleform::GFx::StateBagImpl>'};
-    v33->cs.LockSemaphore = 0;
-    v33->cs.SpinCount = 0;
-    Scaleform::Lock::Lock(v33 + 1, 0);
-    v35 = (Scaleform::RefCountVImpl *)v34->pDelegate.pObject;
-    if ( v35 )
-      Scaleform::RefCountImpl::Release(v35);
-    v34->pDelegate.pObject = 0;
+    v34->cs.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)&Scaleform::RefCountImplCore::`vftable';
+    v34->cs.LockCount = 1;
+    v34->cs.RecursionCount = (int)&Scaleform::GFx::StateBag::`vftable';
+    v34->cs.OwningThread = &Scaleform::GFx::LogBase<Scaleform::GFx::AS2::ActionLogger>::`vftable';
+    v34->cs.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)&Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::RefCountBase<Scaleform::GFx::StateBagImpl,2>'};
+    v34->cs.RecursionCount = (int)&Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::GFx::StateBag'};
+    v34->cs.OwningThread = &Scaleform::GFx::StateBagImpl::`vftable'{for `Scaleform::GFx::LogBase<Scaleform::GFx::StateBagImpl>'};
+    v34->cs.LockSemaphore = 0;
+    v34->cs.SpinCount = 0;
+    Scaleform::Lock::Lock(v34 + 1, 0);
+    v36 = (Scaleform::RefCountVImpl *)v35->pDelegate.pObject;
+    if ( v36 )
+      Scaleform::RefCountImpl::Release(v36);
+    v35->pDelegate.pObject = 0;
   }
   else
   {
-    v34 = 0;
+    v35 = 0;
   }
-  v36 = this->pStateBag.pObject;
-  if ( v36 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v36);
-  this->pStateBag.pObject = v34;
-  v37 = 0;
+  v37 = (Scaleform::RefCountVImpl *)this->pStateBag.pObject;
+  if ( v37 )
+    Scaleform::RefCountImpl::Release(v37);
+  this->pStateBag.pObject = v35;
+  v38 = 0;
   p_KeyboardIndex = &this->KeyboardStates[0].KeyboardIndex;
   do
   {
-    *p_KeyboardIndex = v37++;
+    *p_KeyboardIndex = v38++;
     p_KeyboardIndex += 1660;
   }
-  while ( v37 < 6u );
-  v39 = this->pHeap;
+  while ( v38 < 6u );
+  v40 = this->pHeap;
   this->pRetValHolder = 0;
-  v40 = (Scaleform::GFx::FontManagerStates *)v39->Alloc(v39, 32u, 0);
-  if ( v40 )
+  v41 = (Scaleform::GFx::FontManagerStates *)((int (__thiscall *)(Scaleform::MemoryHeap *, int))v40->Alloc)(v40, 32);
+  if ( v41 )
   {
-    v41 = this->pStateBag.pObject;
-    if ( v41 )
-      v42 = &v41->Scaleform::GFx::StateBag;
+    v42 = this->pStateBag.pObject;
+    if ( v42 )
+      v43 = &v42->Scaleform::GFx::StateBag;
     else
-      v42 = 0;
-    v40->RefCount = 1;
-    v40->Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::StateBag::`vftable';
-    v40->Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountNTSImpl,327>::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable = (Scaleform::GFx::FontManagerStates_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>'};
-    v40->Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::GFx::StateBag'};
-    v40->pFontLib.pObject = 0;
-    v40->pFontMap.pObject = 0;
-    v40->pFontProvider.pObject = 0;
-    v40->pTranslator.pObject = 0;
-    v40->pDelegate = v42;
-    v43 = v40;
+      v43 = 0;
+    v41->RefCount = 1;
+    v41->Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::StateBag::`vftable';
+    v41->Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountNTSImpl,327>::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable = (Scaleform::GFx::FontManagerStates_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>'};
+    v41->Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::GFx::StateBag'};
+    v41->pFontLib.pObject = 0;
+    v41->pFontMap.pObject = 0;
+    v41->pFontProvider.pObject = 0;
+    v41->pTranslator.pObject = 0;
+    v41->pDelegate = v43;
+    v44 = v41;
   }
   else
   {
-    v43 = 0;
+    v44 = 0;
   }
-  v44 = this->pFontManagerStates.pObject;
-  if ( v44 )
-    Scaleform::RefCountNTSImpl::Release(v44);
-  this->pFontManagerStates.pObject = v43;
+  v45 = this->pFontManagerStates.pObject;
+  if ( v45 )
+    Scaleform::RefCountNTSImpl::Release(v45);
+  this->pFontManagerStates.pObject = v44;
   this->ViewScaleX = 1.0;
   this->InstanceNameCount = 0;
   this->ViewScaleY = 1.0;
@@ -341,21 +358,62 @@ void __thiscall Scaleform::GFx::MovieImpl::MovieImpl(Scaleform::GFx::MovieImpl *
   *(_DWORD *)&this->FocusGroupIndexes[12] = 0;
   this->LastIntervalTimerId = 0;
   this->pIMECandidateListStyle = 0;
-  v45 = Scaleform::Timer::GetTicks() / 0x3E8;
-  LODWORD(this->StartTickMs) = v45;
+  this->StartTickMs = Scaleform::Timer::GetTicks() / 0x3E8;
   LODWORD(this->PauseTickMs) = 0;
   HIDWORD(this->PauseTickMs) = 0;
-  HIDWORD(this->StartTickMs) = HIDWORD(v45);
   this->SafeRect.x1 = 0.0;
   this->SafeRect.y1 = 0.0;
-  pheapb = 0.0 + 0.0;
-  this->SafeRect.x2 = pheapb;
-  this->SafeRect.y2 = pheapb;
+  v61 = 0.0 + 0.0;
+  this->SafeRect.x2 = v61;
+  this->SafeRect.y2 = v61;
   this->pAudio = 0;
   this->pSoundRenderer = 0;
   this->pObjectInterface = 0;
   this->LastLoadQueueEntryCnt = 0;
   this->pUnloadListHead = 0;
+  Instance = Scaleform::AmpServer::GetInstance();
+  if ( Instance->IsEnabled(Instance) )
+  {
+    v47 = Scaleform::AmpServer::GetInstance();
+    v59.pData.pObject = (Scaleform::Render::ContextImpl::RTHandle::HandleData *)2;
+    v48 = (Scaleform::GFx::AMP::ViewStats *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+                                              Scaleform::Memory::pGlobalHeap,
+                                              v47,
+                                              288,
+                                              &v59);
+    if ( v48 )
+    {
+      Scaleform::GFx::AMP::ViewStats::ViewStats(v48);
+      v50 = v49;
+    }
+    else
+    {
+      v50 = 0;
+    }
+    v51 = (Scaleform::RefCountVImpl *)this->AdvanceStats.pObject;
+    if ( v51 )
+      Scaleform::RefCountImpl::Release(v51);
+    this->AdvanceStats.pObject = v50;
+    v52 = Scaleform::AmpServer::GetInstance();
+    v52->AddMovie(v52, this);
+  }
+  else
+  {
+    v53 = (Scaleform::GFx::AMP::ViewStats *)this->pHeap->Alloc(this->pHeap, 288, 0);
+    if ( v53 )
+    {
+      Scaleform::GFx::AMP::ViewStats::ViewStats(v53);
+      v55 = v54;
+    }
+    else
+    {
+      v55 = 0;
+    }
+    v56 = (Scaleform::RefCountVImpl *)this->AdvanceStats.pObject;
+    if ( v56 )
+      Scaleform::RefCountImpl::Release(v56);
+    this->AdvanceStats.pObject = v55;
+  }
   this->MultitouchMode = MTI_None;
   this->PreviouslyCaptured = 0;
   this->FocusRectChanged = 1;

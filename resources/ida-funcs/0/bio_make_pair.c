@@ -10,7 +10,7 @@ int __cdecl bio_make_pair(bio_st *bio1, bio_st *bio2)
   v3 = bio2->ptr;
   if ( *ptr || *v3 )
   {
-    ERR_put_error(0x20u, 121, 123, ".\\crypto\\bio\\bss_bio.c", 716);
+    ERR_put_error(0, 0x20u, 121, 123, ".\\crypto\\bio\\bss_bio.c", 716);
     return 0;
   }
   else
@@ -21,7 +21,7 @@ int __cdecl bio_make_pair(bio_st *bio1, bio_st *bio2)
       ptr[5] = v4;
       if ( !v4 )
       {
-        ERR_put_error(0x20u, 121, 65, ".\\crypto\\bio\\bss_bio.c", 725);
+        ERR_put_error(0, 0x20u, 121, 65, ".\\crypto\\bio\\bss_bio.c", 725);
         return 0;
       }
       ptr[2] = 0;
@@ -33,7 +33,7 @@ int __cdecl bio_make_pair(bio_st *bio1, bio_st *bio2)
       v3[5] = v6;
       if ( !v6 )
       {
-        ERR_put_error(0x20u, 121, 65, ".\\crypto\\bio\\bss_bio.c", 737);
+        ERR_put_error(0, 0x20u, 121, 65, ".\\crypto\\bio\\bss_bio.c", 737);
         return 0;
       }
       v3[2] = 0;

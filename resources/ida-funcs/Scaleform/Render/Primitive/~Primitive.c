@@ -14,7 +14,7 @@ void __thiscall Scaleform::Render::Primitive::~Primitive(Scaleform::Render::Prim
     {
       pNext = this->Batches.Root.pNext;
       pNext->pPrev->pNext = pNext->pNext;
-      pNext->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$C512BB809886916B7F681A9EBDF58E11::pPrev = pNext->pPrev;
+      pNext->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$B6E31D4B7F8069B2127C6EE45BDFC5DE::pPrev = pNext->pPrev;
       if ( pNext->MeshNode.pMeshItem )
       {
         pNext->MeshNode.pPrev->pNext = pNext->MeshNode.pNext;

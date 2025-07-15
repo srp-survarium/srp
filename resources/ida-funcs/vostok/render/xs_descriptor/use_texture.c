@@ -1,34 +1,18 @@
-char __userpurge vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture@<al>(
-        vostok::render::xs_descriptor<vostok::render::vs_data> *this@<ecx>,
-        int a2@<eax>,
+char __thiscall vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(
+        vostok::render::xs_descriptor<vostok::render::vs_data> *this,
         const char *name)
 {
+  int v2; // ebx
   unsigned int v3; // edi
-  int v4; // ebx
-  const char **i; // esi
-  const char *v6; // eax
-  int v7; // eax
+  vostok::render::texture_slot *i; // esi
 
-  v3 = (*(_DWORD *)(a2 + 1400) - *(_DWORD *)(a2 + 1396)) / 84;
-  v4 = 0;
+  v2 = 0;
+  v3 = this->m_shader_data.textures.m_end - this->m_shader_data.textures.m_begin;
   if ( !v3 )
     return 0;
-  for ( i = *(const char ***)(a2 + 1396); ; i += 21 )
+  for ( i = this->m_shader_data.textures.m_begin; vostok::detail::strcmp_s(i->name.m_begin, name); ++i )
   {
-    v6 = *i;
-    if ( *i )
-    {
-      v7 = name ? strcmp(v6, name) : *v6 != 0;
-    }
-    else
-    {
-      if ( !name )
-        return 1;
-      v7 = -(*name != 0);
-    }
-    if ( !v7 )
-      break;
-    if ( ++v4 >= v3 )
+    if ( ++v2 >= v3 )
       return 0;
   }
   return 1;

@@ -24,48 +24,61 @@ char __thiscall Scaleform::Render::TreeCacheShapeLayer::updateMeshKey(
   Scaleform::GFx::Resource *v23; // eax
   Scaleform::GFx::Resource *v24; // esi
   Scaleform::Render::MeshKey *v25; // ecx
-  const Scaleform::Render::ToleranceParams *p_Tolerances; // [esp+31Ch] [ebp-F0h]
-  unsigned int v27; // [esp+320h] [ebp-ECh]
-  int v28; // [esp+324h] [ebp-E8h] BYREF
-  int v29; // [esp+328h] [ebp-E4h] BYREF
-  Scaleform::Render::Scale9GridData __that; // [esp+32Ch] [ebp-E0h] BYREF
-  float v31[20]; // [esp+3BCh] [ebp-50h] BYREF
+  const Scaleform::Render::ToleranceParams *cfg; // [esp+28h] [ebp-F0h]
+  unsigned int flags; // [esp+2Ch] [ebp-ECh]
+  int v28; // [esp+30h] [ebp-E8h] BYREF
+  int v29; // [esp+34h] [ebp-E4h] BYREF
+  Scaleform::Render::Scale9GridData s9g; // [esp+38h] [ebp-E0h] BYREF
+  Scaleform::Render::Rect<float> keyData[5]; // [esp+C8h] [ebp-50h] BYREF
 
-  p_Tolerances = &r2D->Tolerances;
+  cfg = &r2D->Tolerances;
   Layer = this->Layer;
   v9 = 0;
   if ( (meshGenFlags & 1) != 0 )
     v9 = 64;
   if ( (meshGenFlags & 2) != 0 )
     v9 |= 0x80u;
-  __that.RefCount = 1;
-  __that.__vftable = (Scaleform::Render::Scale9GridData_vtbl *)&Scaleform::Render::Matrix4x4Ref<float>::`vftable';
+  s9g.RefCount = 1;
+  s9g.__vftable = (Scaleform::Render::Scale9GridData_vtbl *)&Scaleform::Render::Matrix4x4Ref<float>::`vftable';
   v10 = v9
-      | Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(this, provider, viewMatrix, Layer, v31, &__that, morphRatio);
-  v27 = v10;
+      | Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
+          this,
+          provider,
+          viewMatrix,
+          Layer,
+          keyData,
+          &s9g,
+          morphRatio);
+  flags = v10;
   if ( meshKeyFlags )
     *meshKeyFlags = v10;
   pObject = r2D->pMeshKeyManager.pObject;
   v12 = this->pMeshKey.pObject;
   if ( v12 )
   {
-    if ( Scaleform::Render::MeshKey::Match(v12, Layer, v10, v31, p_Tolerances) )
+    if ( Scaleform::Render::MeshKey::Match(v12, Layer, v10, &keyData[0].x1, cfg) )
     {
 LABEL_23:
-      Scaleform::RefCountImplCore::~RefCountImplCore(&__that);
+      Scaleform::RefCountImplCore::~RefCountImplCore(&s9g);
       return 0;
     }
     MatchingKey = Scaleform::Render::MeshKeyManager::CreateMatchingKey(
                     pObject,
                     this->pMeshKey.pObject->pKeySet,
                     Layer,
-                    v27,
-                    v31,
-                    p_Tolerances);
+                    flags,
+                    &keyData[0].x1,
+                    cfg);
   }
   else
   {
-    MatchingKey = Scaleform::Render::MeshKeyManager::CreateMatchingKey(pObject, provider, Layer, v10, v31, p_Tolerances);
+    MatchingKey = Scaleform::Render::MeshKeyManager::CreateMatchingKey(
+                    pObject,
+                    provider,
+                    Layer,
+                    v10,
+                    &keyData[0].x1,
+                    cfg);
   }
   v14 = MatchingKey;
   if ( !MatchingKey )
@@ -118,14 +131,14 @@ LABEL_19:
     Scaleform::Render::MeshKey::Release(v14);
     goto LABEL_23;
   }
-  if ( (v27 & 0x10) != 0 )
+  if ( (flags & 0x10) != 0 )
   {
     v22 = (Scaleform::Render::Scale9GridData *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::operator new(
                                                  0x90u,
                                                  (Scaleform::MemAddressStub *)this);
     if ( v22 )
     {
-      Scaleform::Render::Scale9GridData::Scale9GridData(v22, &__that);
+      Scaleform::Render::Scale9GridData::Scale9GridData(v22, &s9g);
       v24 = v23;
     }
     else
@@ -141,6 +154,6 @@ LABEL_30:
   if ( v25 )
     Scaleform::Render::MeshKey::Release(v25);
   this->pMeshKey.pObject = v14;
-  Scaleform::RefCountImplCore::~RefCountImplCore(&__that);
+  Scaleform::RefCountImplCore::~RefCountImplCore(&s9g);
   return 1;
 }

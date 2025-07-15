@@ -1,16 +1,13 @@
 void __thiscall vostok::engine::game_console::on_deactivate(vostok::engine::game_console *this)
 {
-  vostok::ui::window *v2; // eax
-  vostok::ui::window *v3; // eax
-  vostok::input::world *m_input_world; // ecx
+  vostok::engine::console *v2; // eax
 
-  v2 = this->m_text_edit->w(this->m_text_edit);
-  v2->set_focused(v2, 0);
-  v3 = this->m_ui_view->w(this->m_ui_view);
-  v3->set_focused(v3, 0);
-  m_input_world = this->m_input_world;
-  this->m_active = 0;
-  m_input_world->remove_handler(m_input_world, &this->vostok::engine::console);
+  vostok::console_impl::on_deactivate(this);
+  if ( this )
+    v2 = &this->vostok::engine::console;
+  else
+    v2 = 0;
+  this->m_input_world->remove_handler(this->m_input_world, v2);
 }
 
 

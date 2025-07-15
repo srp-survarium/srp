@@ -4,15 +4,15 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessMouse(
         unsigned int *miceProceededMask,
         bool avm2)
 {
-  unsigned int MouseIndex; // ebx
+  float v6; // ebx
   Scaleform::GFx::InteractiveObject *TopMostEntity; // eax
   Scaleform::GFx::AS3::Value *v8; // ebx
   Scaleform::GFx::State *v9; // eax
-  Scaleform::GFx::AS3::Instances::fl_net::NetConnection *v10; // esi
+  Scaleform::GFx::AS3::Instances::fl_net::NetConnection *v10; // edi
   int v11; // ebx
   bool v12; // al
   unsigned int Size; // eax
-  Scaleform::GFx::InteractiveObject *pObject; // esi
+  Scaleform::GFx::InteractiveObject *pObject; // edi
   Scaleform::GFx::InteractiveObject_vtbl *v15; // eax
   void (__thiscall *PropagateMouseEvent)(Scaleform::GFx::InteractiveObject *, const Scaleform::GFx::EventId *); // edx
   Scaleform::GFx::InteractiveObject_vtbl *v17; // eax
@@ -21,36 +21,46 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessMouse(
   unsigned int v20; // ebx
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *p_LastFocused; // ebp
   Scaleform::WeakPtrProxy *v22; // eax
-  Scaleform::RefCountNTSImpl *v23; // esi
+  Scaleform::RefCountNTSImpl *v23; // edi
   Scaleform::RefCountNTSImpl *v25; // ebp
-  unsigned int movieIndex; // [esp+10h] [ebp-20h]
-  unsigned int movieIndexa; // [esp+10h] [ebp-20h]
-  Scaleform::Render::Point<float> mousePos; // [esp+14h] [ebp-1Ch] BYREF
-  int v30; // [esp+1Ch] [ebp-14h] BYREF
-  int v31; // [esp+20h] [ebp-10h]
-  int v32; // [esp+24h] [ebp-Ch]
-  int v33; // [esp+28h] [ebp-8h]
-  char v34; // [esp+2Ch] [ebp-4h]
-  __int16 v35; // [esp+2Dh] [ebp-3h]
-  char v36; // [esp+2Fh] [ebp-1h]
-  unsigned int mi; // [esp+34h] [ebp+4h]
-  unsigned int *miceProceededMaska; // [esp+38h] [ebp+8h]
-  Scaleform::GFx::Sprite *avm2a; // [esp+3Ch] [ebp+Ch]
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  int buttonsState; // [esp+20h] [ebp-30h]
+  int buttonsStatea; // [esp+20h] [ebp-30h]
+  Scaleform::Render::Point<float> v32; // [esp+24h] [ebp-2Ch] BYREF
+  Scaleform::AmpFunctionTimer v33; // [esp+2Ch] [ebp-24h] BYREF
+  int v34; // [esp+3Ch] [ebp-14h] BYREF
+  int v35; // [esp+40h] [ebp-10h]
+  int v36; // [esp+44h] [ebp-Ch]
+  int v37; // [esp+48h] [ebp-8h]
+  char v38; // [esp+4Ch] [ebp-4h]
+  __int16 v39; // [esp+4Dh] [ebp-3h]
+  char v40; // [esp+4Fh] [ebp-1h]
+  Scaleform::GFx::InputEventsQueueEntry *qea; // [esp+54h] [ebp+4h]
+  char *v42; // [esp+58h] [ebp+8h]
+  Scaleform::GFx::Sprite *v43; // [esp+5Ch] [ebp+Ch]
 
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v33,
+    this->AdvanceStats.pObject,
+    "MovieImpl::ProcessMouse",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ProcessMouse);
   *miceProceededMask |= 1 << qe->u.mouseEntry.MouseIndex;
-  MouseIndex = qe->u.mouseEntry.MouseIndex;
-  miceProceededMaska = (unsigned int *)((char *)this + 56 * MouseIndex);
-  mi = MouseIndex;
-  Scaleform::GFx::MouseState::UpdateState((Scaleform::GFx::MouseState *)(miceProceededMaska + 1147), qe);
-  mousePos.x = qe->u.mouseEntry.PosX;
-  mousePos.y = qe->u.mouseEntry.PosY;
-  TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(this, &mousePos, MouseIndex, avm2, 0);
+  LODWORD(v6) = qe->u.mouseEntry.MouseIndex;
+  v42 = (char *)this + 56 * LODWORD(v6);
+  qea = (Scaleform::GFx::InputEventsQueueEntry *)LODWORD(v6);
+  Scaleform::GFx::MouseState::UpdateState((Scaleform::GFx::MouseState *)(v42 + 4588), qe);
+  v32.x = qe->u.mouseEntry.PosX;
+  v32.y = qe->u.mouseEntry.PosY;
+  TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(this, &v32, v6, avm2, 0);
   v8 = (Scaleform::GFx::AS3::Value *)TopMostEntity;
-  avm2a = (Scaleform::GFx::Sprite *)TopMostEntity;
+  v43 = (Scaleform::GFx::Sprite *)TopMostEntity;
   if ( TopMostEntity )
     ++TopMostEntity->RefCount;
-  Scaleform::GFx::MouseState::SetTopmostEntity((Scaleform::GFx::MouseState *)(miceProceededMaska + 1147), TopMostEntity);
-  movieIndex = miceProceededMaska[1153];
+  Scaleform::GFx::MouseState::SetTopmostEntity((Scaleform::GFx::MouseState *)(v42 + 4588), TopMostEntity);
+  buttonsState = *((_DWORD *)v42 + 1153);
   if ( qe->u.mouseEntry.ButtonsState )
   {
     v9 = this->GetStateAddRef(&this->Scaleform::GFx::StateBag, 24);
@@ -62,13 +72,13 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessMouse(
              this) )
       {
         if ( (qe->u.mouseEntry.Flags & 0xC0) != 0 || !qe->u.mouseEntry.ButtonsState )
-          Scaleform::GFx::AS3::MovieRoot::PrintObjectsReport(v10, (Scaleform::GFx::AS3::Value *)this, movieIndex, v8);
+          Scaleform::DefaultAmpServer::AddSourceFile(v10, (Scaleform::GFx::AS3::Value *)this, buttonsState, v8);
         else
           Scaleform::GFx::IMEManagerBase::OnMouseDown(
             (Scaleform::GFx::IMEManagerBase *)v10,
             this,
-            movieIndex,
-            (Scaleform::GFx::InteractiveObject *)v8);
+            buttonsState,
+            (Scaleform::GFx::TextField *)v8);
       }
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v10);
     }
@@ -80,65 +90,70 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessMouse(
     v11 = v12 ? 16 : 32;
   }
   Size = this->MovieLevels.Data.Size;
-  for ( movieIndexa = Size; movieIndexa; --movieIndexa )
+  buttonsStatea = Size;
+  if ( Size )
   {
-    pObject = this->MovieLevels.Data.Data[Size - 1].pSprite.pObject;
-    if ( v11 )
+    do
     {
-      v31 = 0;
-      v32 = 0;
-      v36 = 0;
-      LOBYTE(v33) = 0;
-      v34 = 0;
-      v15 = pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
-      v35 = (unsigned __int8)mi;
-      PropagateMouseEvent = v15->PropagateMouseEvent;
-      v30 = v11;
-      PropagateMouseEvent(pObject, (const Scaleform::GFx::EventId *)&v30);
+      pObject = this->MovieLevels.Data.Data[Size - 1].pSprite.pObject;
+      if ( v11 )
+      {
+        v35 = 0;
+        v36 = 0;
+        v40 = 0;
+        LOBYTE(v37) = 0;
+        v38 = 0;
+        v15 = pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
+        v39 = (unsigned __int8)qea;
+        PropagateMouseEvent = v15->PropagateMouseEvent;
+        v34 = v11;
+        PropagateMouseEvent(pObject, (const Scaleform::GFx::EventId *)&v34);
+      }
+      if ( (v42[4640] & 8) != 0 )
+      {
+        v35 = 0;
+        v36 = 0;
+        v17 = pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
+        v39 = (unsigned __int8)qea;
+        v18 = v17->PropagateMouseEvent;
+        v34 = 8;
+        v40 = 0;
+        LOBYTE(v37) = 0;
+        v38 = 0;
+        v18(pObject, (const Scaleform::GFx::EventId *)&v34);
+      }
+      Size = --buttonsStatea;
     }
-    if ( (miceProceededMaska[1160] & 8) != 0 )
-    {
-      v31 = 0;
-      v32 = 0;
-      v17 = pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
-      v35 = (unsigned __int8)mi;
-      v18 = v17->PropagateMouseEvent;
-      v30 = 8;
-      v36 = 0;
-      LOBYTE(v33) = 0;
-      v34 = 0;
-      v18(pObject, (const Scaleform::GFx::EventId *)&v30);
-    }
-    Size = movieIndexa - 1;
+    while ( buttonsStatea );
   }
   if ( ((this->Flags & 0x10000) != 0 || !qe->u.mouseEntry.ButtonsState)
-    && (((this->Flags >> 22) & 3) == 1 || (miceProceededMaska[1160] & 8) == 0) )
+    && (((this->Flags >> 22) & 3) == 1 || (v42[4640] & 8) == 0) )
   {
-    v19 = mi;
+    v19 = (unsigned int)qea;
   }
   else
   {
-    v19 = mi;
-    Scaleform::GFx::MovieImpl::HideFocusRect(this, mi);
+    v19 = (unsigned int)qea;
+    Scaleform::GFx::MovieImpl::HideFocusRect(this, (Scaleform::Ptr<Scaleform::GFx::Sprite>)qea);
   }
-  if ( (qe->u.mouseEntry.Flags & 0x20) != 0 && avm2a )
-    avm2a->OnMouseWheelEvent(avm2a, qe->u.mouseEntry.WheelScrollDelta);
+  if ( (qe->u.mouseEntry.Flags & 0x20) != 0 && v43 )
+    v43->OnMouseWheelEvent(v43, qe->u.mouseEntry.WheelScrollDelta);
   this->pASMovieRoot.pObject->NotifyMouseEvent(
     this->pASMovieRoot.pObject,
     qe,
-    (const Scaleform::GFx::MouseState *)(miceProceededMaska + 1147),
+    (const Scaleform::GFx::MouseState *)(v42 + 4588),
     v19);
-  if ( Scaleform::GFx::MouseState::IsTopmostEntityChanged((Scaleform::GFx::MouseState *)(miceProceededMaska + 1147)) )
+  if ( Scaleform::GFx::MouseState::IsTopmostEntityChanged((Scaleform::GFx::MouseState *)(v42 + 4588)) )
   {
     v20 = 0;
-    if ( avm2a )
-      v20 = avm2a->GetCursorType(avm2a);
-    if ( miceProceededMaska[1158] != v20 )
-      this->pASMovieRoot.pObject->ChangeMouseCursorType(this->pASMovieRoot.pObject, mi, v20);
-    if ( miceProceededMaska[1157] != -1 )
-      v20 = miceProceededMaska[1157];
-    miceProceededMaska[1158] = v20;
-    v19 = mi;
+    if ( v43 )
+      v20 = v43->GetCursorType(v43);
+    if ( *((_DWORD *)v42 + 1158) != v20 )
+      this->pASMovieRoot.pObject->ChangeMouseCursorType(this->pASMovieRoot.pObject, (unsigned int)qea, v20);
+    if ( *((_DWORD *)v42 + 1157) != -1 )
+      v20 = *((_DWORD *)v42 + 1157);
+    *((_DWORD *)v42 + 1158) = v20;
+    v19 = (unsigned int)qea;
   }
   if ( (qe->u.mouseEntry.Flags & 0xC0) == 0 && qe->u.mouseEntry.ButtonsState && (qe->u.keyEntry.AsciiCode & 1) != 0 )
   {
@@ -168,17 +183,27 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessMouse(
         p_LastFocused->pProxy.pObject = 0;
       }
     }
-    v25 = avm2a;
-    if ( avm2a != v23 )
-      Scaleform::GFx::MovieImpl::QueueSetFocusTo(this, avm2a, avm2a, v19, GFx_FocusMovedByMouse, 0);
+    v25 = v43;
+    if ( v43 != v23 )
+      Scaleform::GFx::MovieImpl::QueueSetFocusTo(this, v43, v43, v19, GFx_FocusMovedByMouse, 0);
     if ( v23 )
       Scaleform::RefCountNTSImpl::Release(v23);
   }
   else
   {
-    v25 = avm2a;
+    v25 = v43;
   }
   this->pASMovieRoot.pObject->GenerateMouseEvents(this->pASMovieRoot.pObject, v19);
   if ( v25 )
     Scaleform::RefCountNTSImpl::Release(v25);
+  Stats = v33.Stats;
+  if ( v33.Stats )
+  {
+    p_NativePopCallstack = &v33.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(v33.StartTicks),
+      (ProfileTicks - v33.StartTicks) >> 32);
+  }
 }

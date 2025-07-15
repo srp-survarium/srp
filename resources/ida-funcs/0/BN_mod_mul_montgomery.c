@@ -23,7 +23,7 @@ int __cdecl BN_mod_mul_montgomery(
   {
     if ( top > r->dmax )
     {
-      result = (int)bn_expand2(r, (unsigned int *)top);
+      result = (int)bn_expand2(r, top);
       v5 = mont;
     }
     else
@@ -32,7 +32,7 @@ int __cdecl BN_mod_mul_montgomery(
     }
     if ( !result )
       return result;
-    if ( bn_mul_mont((char)r->d, (char)a->vals[0].d, b->vals[0].d, v5->N.d, v5->n0, top) )
+    if ( bn_mul_mont(r->d, a->vals[0].d, b->vals[0].d, v5->N.d, v5->n0, top) )
     {
       v8 = b->vals[0].neg ^ a->vals[0].neg;
       r->top = top;
@@ -50,12 +50,12 @@ int __cdecl BN_mod_mul_montgomery(
       return 1;
     }
   }
-  BN_CTX_start(ctx);
-  v12 = BN_CTX_get(ctx);
+  BN_CTX_start((int)a, ctx);
+  v12 = BN_CTX_get((int)a, ctx);
   v13 = (bignum_st *)v12;
   if ( v12 )
   {
-    v14 = a == b ? BN_sqr(v12->vals, a->vals, ctx) : BN_mul(v12, a, b, ctx);
+    v14 = a == b ? BN_sqr(v12, a, ctx) : BN_mul(v12, a, b, ctx);
     if ( v14 && BN_from_montgomery_word(r, v13, mont) )
       v15 = 1;
   }

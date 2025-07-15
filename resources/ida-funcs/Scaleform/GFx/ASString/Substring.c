@@ -1,8 +1,8 @@
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASString::Substring(
         Scaleform::GFx::ASString *this,
         Scaleform::GFx::ASString *result,
-        const char *start,
-        const char *end)
+        char *start,
+        char *end)
 {
   Scaleform::GFx::ASStringNode *v4; // eax
 

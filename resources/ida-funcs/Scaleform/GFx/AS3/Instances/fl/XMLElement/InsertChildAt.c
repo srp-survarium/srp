@@ -63,9 +63,9 @@ LABEL_6:
           v12 = this->Children.Data.Size;
           if ( v9 < v12 )
           {
-            if ( (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v10 + 92))(v10) == 2 )
+            if ( (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v10 + 104))(v10) == 2 )
             {
-              v13 = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)(*(int (__thiscall **)(unsigned int, _BYTE *, Scaleform::GFx::AS3::Instances::fl::XMLElement *))(*(_DWORD *)v10 + 128))(
+              v13 = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)(*(int (__thiscall **)(unsigned int, _BYTE *, Scaleform::GFx::AS3::Instances::fl::XMLElement *))(*(_DWORD *)v10 + 140))(
                                                                     v10,
                                                                     v37,
                                                                     this);
@@ -79,7 +79,7 @@ LABEL_6:
                 if ( ((unsigned __int8)v13 & 1) == 0 )
                 {
                   RefCount = v13->RefCount;
-                  if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+                  if ( (RefCount & 0x3FFFFF) != 0 )
                     goto LABEL_14;
                 }
               }
@@ -95,7 +95,7 @@ LABEL_23:
             if ( (v10 & 1) == 0 )
             {
               v15 = *(_DWORD *)(v10 + 16);
-              if ( ((unsigned int)&byte_3FFFFF & v15) != 0 )
+              if ( (v15 & 0x3FFFFF) != 0 )
               {
                 *(_DWORD *)(v10 + 16) = v15 - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v10);
@@ -108,7 +108,7 @@ LABEL_23:
           }
           if ( v9 == v12 )
           {
-            if ( (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v10 + 92))(v10) != 2 )
+            if ( (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v10 + 104))(v10) != 2 )
             {
               *(_DWORD *)(v10 + 16) = (*(_DWORD *)(v10 + 16) + 1) & 0x8FBFFFFF;
               pos = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)v10;
@@ -117,7 +117,7 @@ LABEL_23:
                 (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *)&pos);
               goto LABEL_23;
             }
-            v13 = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)(*(int (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Instances::fl::XMLElement *))(*(_DWORD *)v10 + 128))(
+            v13 = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)(*(int (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Instances::fl::XMLElement *))(*(_DWORD *)v10 + 140))(
                                                                   v10,
                                                                   &_this,
                                                                   this);
@@ -130,7 +130,7 @@ LABEL_23:
               if ( ((unsigned __int8)v13 & 1) == 0 )
               {
                 RefCount = v13->RefCount;
-                if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+                if ( (RefCount & 0x3FFFFF) != 0 )
                 {
 LABEL_14:
                   v13->RefCount = RefCount - 1;
@@ -194,9 +194,9 @@ LABEL_48:
         v29 = (unsigned int)pos;
         if ( (unsigned int)pos < v28 )
         {
-          if ( ((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *))v19->pObject[1].V.__vftable)(v19) == 2 )
+          if ( ((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *))v19->pObject[1].V.ValueA.Data.Data)(v19) == 2 )
           {
-            pos = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *, const Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Instances::fl::XMLElement *))v19->pObject[2].pNext)(
+            pos = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *, const Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Instances::fl::XMLElement *))v19->pObject[2].pTraits.pObject)(
                                                                   v19,
                                                                   &value,
                                                                   this);
@@ -219,14 +219,14 @@ LABEL_66:
         }
         if ( pos == (Scaleform::GFx::AS3::RefCountBaseGC<328> *)v28 )
         {
-          if ( ((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *))v19->pObject[1].V.__vftable)(v19) != 2 )
+          if ( ((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *))v19->pObject[1].V.ValueA.Data.Data)(v19) != 2 )
           {
             Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
               (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> > *)&this->Children,
               (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *)&value);
             goto LABEL_66;
           }
-          pos = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *, const Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Instances::fl::XMLElement *))v19->pObject[2].pNext)(
+          pos = *(Scaleform::GFx::AS3::RefCountBaseGC<328> **)((int (__thiscall *)(Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *, const Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Instances::fl::XMLElement *))v19->pObject[2].pTraits.pObject)(
                                                                 v19,
                                                                 &value,
                                                                 this);
@@ -242,7 +242,7 @@ LABEL_67:
           if ( ((unsigned __int8)v19 & 1) == 0 )
           {
             v33 = v19[4].pObject;
-            if ( ((unsigned int)&byte_3FFFFF & (unsigned int)v33) != 0 )
+            if ( ((unsigned int)v33 & 0x3FFFFF) != 0 )
             {
               v19[4].pObject = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)((char *)v33 - 1);
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v19);
@@ -264,7 +264,7 @@ LABEL_67:
       if ( ((unsigned __int8)v19 & 1) == 0 )
       {
         v32 = v19[4].pObject;
-        if ( ((unsigned int)&byte_3FFFFF & (unsigned int)v32) != 0 )
+        if ( ((unsigned int)v32 & 0x3FFFFF) != 0 )
         {
           v19[4].pObject = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)((char *)v32 - 1);
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v19);

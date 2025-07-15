@@ -5,9 +5,9 @@ void __thiscall Scaleform::Render::ShadowFilter::ShadowFilter(
         float dist)
 {
   Scaleform::Render::Point<float> v5; // [esp+4h] [ebp-8h]
-  float paramsa; // [esp+10h] [ebp+4h]
-  float anglea; // [esp+14h] [ebp+8h]
-  float dista; // [esp+18h] [ebp+Ch]
+  float __that; // [esp+10h] [ebp+4h]
+  float v7; // [esp+14h] [ebp+8h]
+  float v8; // [esp+18h] [ebp+Ch]
 
   this->__vftable = (Scaleform::Render::ShadowFilter_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -16,13 +16,13 @@ void __thiscall Scaleform::Render::ShadowFilter::ShadowFilter(
   this->__vftable = (Scaleform::Render::ShadowFilter_vtbl *)&Scaleform::Render::BlurFilterImpl::`vftable';
   Scaleform::Render::BlurFilterParams::BlurFilterParams(&this->Params, params);
   this->__vftable = (Scaleform::Render::ShadowFilter_vtbl *)&Scaleform::Render::ShadowFilter::`vftable';
-  paramsa = dist * 20.0;
+  __that = dist * 20.0;
   this->Angle = angle;
-  this->Distance = paramsa;
-  dista = cos(angle);
-  v5.x = dista * paramsa;
-  anglea = sin(angle);
-  v5.y = anglea * paramsa;
+  this->Distance = __that;
+  v8 = cos(angle);
+  v5.x = v8 * __that;
+  v7 = sin(angle);
+  v5.y = v7 * __that;
   this->Params.Offset = v5;
 }
 
@@ -36,22 +36,22 @@ void __thiscall Scaleform::Render::ShadowFilter::ShadowFilter(
         unsigned int passes)
 {
   Scaleform::Render::Point<float> v7; // [esp+4h] [ebp-8h]
-  float anglea; // [esp+10h] [ebp+4h]
-  float blurxa; // [esp+18h] [ebp+Ch]
-  float blurya; // [esp+1Ch] [ebp+10h]
+  float v8; // [esp+10h] [ebp+4h]
+  float v9; // [esp+18h] [ebp+Ch]
+  float v10; // [esp+1Ch] [ebp+10h]
 
   Scaleform::Render::BlurFilterImpl::BlurFilterImpl(this, Filter_Shadow);
   this->__vftable = (Scaleform::Render::ShadowFilter_vtbl *)&Scaleform::Render::ShadowFilter::`vftable';
   this->Params.Passes = passes;
   this->Params.BlurX = blurx * 20.0;
   this->Params.BlurY = blury * 20.0;
-  blurxa = 20.0 * dist;
+  v9 = 20.0 * dist;
   this->Angle = angle;
-  this->Distance = blurxa;
-  blurya = cos(angle);
-  v7.x = blurya * blurxa;
-  anglea = sin(angle);
-  v7.y = anglea * blurxa;
+  this->Distance = v9;
+  v10 = cos(angle);
+  v7.x = v10 * v9;
+  v8 = sin(angle);
+  v7.y = v8 * v9;
   this->Params.Offset = v7;
   this->Params.Colors[0].Channels.Red = 0;
   this->Params.Colors[0].Channels.Green = 0;

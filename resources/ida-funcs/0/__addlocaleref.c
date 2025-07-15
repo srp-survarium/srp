@@ -1,7 +1,7 @@
 void __cdecl __addlocaleref(threadlocaleinfostruct *ptloci)
 {
   volatile LONG **p_refcount; // ebx
-  int ptlocia; // [esp+14h] [ebp+8h]
+  int lpAddend; // [esp+14h] [ebp+8h]
 
   InterlockedIncrement(&ptloci->refcount);
   if ( ptloci->lconv_intl_refcount )
@@ -13,7 +13,7 @@ void __cdecl __addlocaleref(threadlocaleinfostruct *ptloci)
   if ( ptloci->ctype1_refcount )
     InterlockedIncrement(ptloci->ctype1_refcount);
   p_refcount = (volatile LONG **)&ptloci->lc_category[0].refcount;
-  ptlocia = 6;
+  lpAddend = 6;
   do
   {
     if ( *(p_refcount - 2) != (volatile LONG *)__clocalestr && *p_refcount )
@@ -21,8 +21,8 @@ void __cdecl __addlocaleref(threadlocaleinfostruct *ptloci)
     if ( *(p_refcount - 1) && p_refcount[1] )
       InterlockedIncrement(p_refcount[1]);
     p_refcount += 4;
-    --ptlocia;
+    --lpAddend;
   }
-  while ( ptlocia );
+  while ( lpAddend );
   InterlockedIncrement(&ptloci->lc_time_curr->refcount);
 }

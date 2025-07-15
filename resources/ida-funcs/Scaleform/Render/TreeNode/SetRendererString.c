@@ -1,4 +1,4 @@
-void __thiscall Scaleform::Render::TreeNode::SetRendererString(Scaleform::Render::TreeNode *this, char *str)
+void __thiscall Scaleform::Render::TreeNode::SetRendererString(Scaleform::Render::TreeNode *this, const __m128i *str)
 {
   Scaleform::Render::StateBag *WritableData; // ebp
   unsigned int State; // eax
@@ -8,7 +8,7 @@ void __thiscall Scaleform::Render::TreeNode::SetRendererString(Scaleform::Render
 
   WritableData = (Scaleform::Render::StateBag *)Scaleform::Render::ContextImpl::Entry::getWritableData(
                                                   this,
-                                                  (unsigned int)Scaleform::GFx::AS2::CreateShadow);
+                                                  (unsigned int)&loc_400000);
   State = Scaleform::Render::StateBag::GetState(
             (Scaleform::Render::StateBag *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)this & 0xFFFFF000) + 0x10)
                                                       + 4
@@ -36,7 +36,7 @@ void __thiscall Scaleform::Render::TreeNode::SetRendererString(Scaleform::Render
     {
       v6->HeapTypeBits = (unsigned int)&Scaleform::RefCountImplCore::`vftable';
       v6[1].HeapTypeBits = 1;
-      v6->HeapTypeBits = (unsigned int)&Scaleform::Render::UserDataState::Data::`vftable';
+      v6->HeapTypeBits = (unsigned int)&Scaleform::GFx::AMP::Server::SourceFileInfo::`vftable';
       Scaleform::StringLH::StringLH(v6 + 2);
       *(float *)&v5[3].pData = 0.0;
       LOBYTE(v5[4].pData) = 0;

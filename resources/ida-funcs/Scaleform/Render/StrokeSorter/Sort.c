@@ -7,74 +7,76 @@ void __thiscall Scaleform::Render::StrokeSorter::Sort(Scaleform::Render::StrokeS
   unsigned int start; // ebp
   unsigned int numVer; // eax
   unsigned int v8; // ebp
-  unsigned __int8 *v9; // ebp
-  unsigned __int8 *Array; // eax
-  unsigned int v11; // ecx
-  unsigned int v12; // edi
+  Scaleform::Render::StrokeSorter::PathType *v9; // ebp
+  unsigned int v10; // eax
+  unsigned __int8 *v11; // ebp
+  Scaleform::Render::StrokeSorter::SortedPathType *Array; // eax
   unsigned int v13; // ecx
-  unsigned int v14; // edx
-  int v15; // edi
-  unsigned int v16; // ebx
-  Scaleform::Render::StrokeSorter::VertexType *v17; // eax
-  Scaleform::Render::StrokeSorter::SortedPathType *v18; // ebx
-  unsigned int v19; // edx
-  int v20; // edi
-  unsigned int v21; // ebx
-  Scaleform::Render::StrokeSorter::VertexType *v22; // eax
-  Scaleform::Render::StrokeSorter::SortedPathType *v23; // ebx
-  int v24; // ebx
-  unsigned int v25; // edx
-  int v26; // edi
-  unsigned int v27; // ebx
-  Scaleform::Render::StrokeSorter::VertexType *v28; // eax
-  int v29; // ebp
-  Scaleform::Render::StrokeSorter::SortedPathType *v30; // ebx
+  unsigned int v14; // edi
+  unsigned int v15; // ecx
+  unsigned int v16; // edx
+  int v17; // edi
+  unsigned int v18; // ebx
+  Scaleform::Render::StrokeSorter::VertexType *v19; // eax
+  Scaleform::Render::StrokeSorter::SortedPathType *v20; // ebx
+  unsigned int v21; // edx
+  int v22; // edi
+  unsigned int v23; // ebx
+  Scaleform::Render::StrokeSorter::VertexType *v24; // eax
+  Scaleform::Render::StrokeSorter::SortedPathType *v25; // ebx
+  int v26; // ebx
+  unsigned int v27; // edx
+  int v28; // edi
+  unsigned int v29; // ebx
+  Scaleform::Render::StrokeSorter::VertexType *v30; // eax
+  int v31; // ebp
+  Scaleform::Render::StrokeSorter::SortedPathType *v32; // ebx
   Scaleform::Render::StrokeSorter::VertexType **Pages; // ebx
-  unsigned int v32; // edx
-  Scaleform::Render::StrokeSorter::PathType *v33; // edi
+  unsigned int v34; // edx
+  Scaleform::Render::StrokeSorter::PathType *v35; // edi
   float *p_x; // eax
-  float *v35; // edi
-  unsigned int v36; // ecx
-  int v37; // edx
-  unsigned int v38; // ebx
-  Scaleform::Render::StrokeSorter::VertexType *v39; // eax
-  Scaleform::Render::StrokeSorter::SortedPathType *v40; // ebx
+  float *v37; // edi
+  unsigned int v38; // ecx
+  int v39; // edx
+  unsigned int v40; // ebx
+  Scaleform::Render::StrokeSorter::VertexType *v41; // eax
+  Scaleform::Render::StrokeSorter::SortedPathType *v42; // ebx
   unsigned int Next; // eax
-  int v42; // eax
+  int v44; // eax
   Scaleform::Render::StrokeSorter::PathType *thisPath; // ecx
-  unsigned int v44; // edi
-  Scaleform::Render::StrokeSorter::VertexType **v45; // edx
-  unsigned int v46; // ebp
-  float *v47; // ecx
-  float *v48; // edx
-  Scaleform::Render::StrokeSorter::VertexType **v49; // edx
-  float *v50; // ecx
-  float *v51; // edx
-  unsigned int v52; // ecx
-  Scaleform::Render::StrokeSorter::PathType *v53; // ecx
-  unsigned int v54; // eax
+  unsigned int v46; // edi
+  Scaleform::Render::StrokeSorter::VertexType **v47; // edx
+  unsigned int v48; // ebp
+  float *v49; // ecx
+  float *v50; // edx
+  Scaleform::Render::StrokeSorter::VertexType **v51; // edx
+  float *v52; // ecx
+  float *v53; // edx
+  unsigned int v54; // ecx
+  Scaleform::Render::StrokeSorter::PathType *v55; // ecx
+  unsigned int v56; // eax
   unsigned int i; // [esp+10h] [ebp-18h]
-  unsigned int ia; // [esp+10h] [ebp-18h]
-  unsigned int ib; // [esp+10h] [ebp-18h]
-  int v58; // [esp+14h] [ebp-14h]
-  unsigned int v59; // [esp+14h] [ebp-14h]
+  unsigned int v58; // [esp+10h] [ebp-18h]
+  unsigned int v59; // [esp+10h] [ebp-18h]
   int v60; // [esp+14h] [ebp-14h]
-  unsigned int n; // [esp+18h] [ebp-10h] BYREF
-  unsigned int v62; // [esp+1Ch] [ebp-Ch]
-  Scaleform::Render::StrokeSorter::PathType p; // [esp+20h] [ebp-8h]
+  unsigned int v61; // [esp+14h] [ebp-14h]
+  int v62; // [esp+14h] [ebp-14h]
+  Scaleform::Render::StrokeSorter::PathType dst; // [esp+18h] [ebp-10h] BYREF
+  int v64; // [esp+20h] [ebp-8h]
+  unsigned int v65; // [esp+24h] [ebp-4h]
 
   Size = this->SrcPaths.Size;
   v3 = 0;
-  n = Size;
+  dst.start = Size;
   for ( i = 0; v3 < Size; i = v3 )
   {
     v4 = this->SrcPaths.Pages[v3 >> 4];
     v5 = v3 & 0xF;
     start = v4[v5].start;
     numVer = v4[v5].numVer;
-    p.start = start;
+    v64 = start;
     v8 = this->SrcPaths.Size >> 4;
-    p.numVer = numVer;
+    v65 = numVer;
     if ( v8 >= this->SrcPaths.NumPages )
     {
       Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
@@ -82,94 +84,96 @@ void __thiscall Scaleform::Render::StrokeSorter::Sort(Scaleform::Render::StrokeS
         v8);
       v3 = i;
     }
-    this->SrcPaths.Pages[v8][this->SrcPaths.Size & 0xF] = p;
+    v9 = this->SrcPaths.Pages[v8];
+    v10 = this->SrcPaths.Size & 0xF;
+    v9[v10].start = v64;
     ++v3;
+    v9[v10].numVer = v65;
     ++this->SrcPaths.Size;
   }
   if ( Size > this->SortedPaths.Size )
   {
-    v9 = Scaleform::Render::LinearHeap::Alloc(this->SortedPaths.pHeap, 12 * Size);
-    memset((int)v9, 0, 12 * Size);
-    Array = (unsigned __int8 *)this->SortedPaths.Array;
+    v11 = Scaleform::Render::LinearHeap::Alloc(this->SortedPaths.pHeap, 12 * Size);
+    memset((int)v11, 0, 12 * Size);
+    Array = this->SortedPaths.Array;
     if ( Array )
     {
-      v11 = this->SortedPaths.Size;
-      if ( v11 )
-        memcpy(v9, Array, 12 * v11);
+      v13 = this->SortedPaths.Size;
+      if ( v13 )
+        memcpy((int)v11, (const __m128i *)Array, 12 * v13);
     }
-    this->SortedPaths.Array = (Scaleform::Render::StrokeSorter::SortedPathType *)v9;
+    this->SortedPaths.Array = (Scaleform::Render::StrokeSorter::SortedPathType *)v11;
   }
-  v12 = 0;
+  v14 = 0;
   this->SortedPaths.Size = Size;
-  ia = 0;
+  v58 = 0;
   if ( (int)Size >= 4 )
   {
-    v13 = 2;
-    v58 = 0;
+    v15 = 2;
+    v60 = 0;
     do
     {
-      v14 = v12 >> 4;
-      v15 = v12 & 0xF;
-      v16 = this->SrcPaths.Pages[v14][v15].start;
-      v17 = &this->SrcVertices.Pages[v16 >> 4][v16 & 0xF];
-      v18 = &this->SortedPaths.Array[v58];
-      v18->x = v17->x;
-      v18->y = v17->y;
-      v18->thisPath = &this->SrcPaths.Pages[v14][v15];
-      v19 = (v13 - 1) >> 4;
-      v20 = ((_BYTE)v13 - 1) & 0xF;
-      v21 = this->SrcPaths.Pages[v19][v20].start;
-      v22 = &this->SrcVertices.Pages[v21 >> 4][v21 & 0xF];
-      v23 = this->SortedPaths.Array;
-      v23[v58 + 1].x = v22->x;
-      v24 = (int)&v23[v58 + 1];
-      *(float *)(v24 + 4) = v22->y;
-      *(_DWORD *)(v24 + 8) = &this->SrcPaths.Pages[v19][v20];
-      v25 = v13 >> 4;
-      v26 = v13 & 0xF;
-      v27 = this->SrcPaths.Pages[v25][v26].start;
-      v28 = &this->SrcVertices.Pages[v27 >> 4][v27 & 0xF];
-      v29 = v58 * 12 + 36;
-      v30 = &this->SortedPaths.Array[v58 + 2];
-      v30->x = v28->x;
-      v30->y = v28->y;
-      v30->thisPath = &this->SrcPaths.Pages[v25][v26];
+      v16 = v14 >> 4;
+      v17 = v14 & 0xF;
+      v18 = this->SrcPaths.Pages[v16][v17].start;
+      v19 = &this->SrcVertices.Pages[v18 >> 4][v18 & 0xF];
+      v20 = &this->SortedPaths.Array[v60];
+      v20->x = v19->x;
+      v20->y = v19->y;
+      v20->thisPath = &this->SrcPaths.Pages[v16][v17];
+      v21 = (v15 - 1) >> 4;
+      v22 = ((_BYTE)v15 - 1) & 0xF;
+      v23 = this->SrcPaths.Pages[v21][v22].start;
+      v24 = &this->SrcVertices.Pages[v23 >> 4][v23 & 0xF];
+      v25 = this->SortedPaths.Array;
+      v25[v60 + 1].x = v24->x;
+      v26 = (int)&v25[v60 + 1];
+      *(float *)(v26 + 4) = v24->y;
+      *(_DWORD *)(v26 + 8) = &this->SrcPaths.Pages[v21][v22];
+      v27 = v15 >> 4;
+      v28 = v15 & 0xF;
+      v29 = this->SrcPaths.Pages[v27][v28].start;
+      v30 = &this->SrcVertices.Pages[v29 >> 4][v29 & 0xF];
+      v31 = v60 * 12 + 36;
+      v32 = &this->SortedPaths.Array[v60 + 2];
+      v32->x = v30->x;
+      v32->y = v30->y;
+      v32->thisPath = &this->SrcPaths.Pages[v27][v28];
       Pages = this->SrcVertices.Pages;
-      v32 = (v13 + 1) >> 4;
-      v33 = this->SrcPaths.Pages[v32];
-      p.start = 8 * ((v13 + 1) & 0xF);
-      v58 += 4;
-      p_x = &Pages[*(unsigned int *)((char *)&v33->start + p.start) >> 4][*(unsigned int *)((_BYTE *)&v33->start
-                                                                                          + p.start)
-                                                                        & 0xF].x;
-      Size = n;
-      v35 = (float *)((char *)&this->SortedPaths.Array->x + v29);
-      *v35 = *p_x;
-      v13 += 4;
-      v35[1] = p_x[1];
-      *((_DWORD *)v35 + 2) = (char *)this->SrcPaths.Pages[v32] + p.start;
-      v12 = ia + 4;
-      ia = v12;
+      v34 = (v15 + 1) >> 4;
+      v35 = this->SrcPaths.Pages[v34];
+      v64 = 8 * ((v15 + 1) & 0xF);
+      v60 += 4;
+      p_x = &Pages[*(unsigned int *)((char *)&v35->start + v64) >> 4][*(unsigned int *)((_BYTE *)&v35->start + v64)
+                                                                    & 0xF].x;
+      Size = dst.start;
+      v37 = (float *)((char *)&this->SortedPaths.Array->x + v31);
+      *v37 = *p_x;
+      v15 += 4;
+      v37[1] = p_x[1];
+      *((_DWORD *)v37 + 2) = (char *)this->SrcPaths.Pages[v34] + v64;
+      v14 = v58 + 4;
+      v58 = v14;
     }
-    while ( v12 < Size - 3 );
+    while ( v14 < Size - 3 );
   }
-  if ( v12 < Size )
+  if ( v14 < Size )
   {
-    v59 = v12;
+    v61 = v14;
     do
     {
-      v36 = v12 >> 4;
-      v37 = v12 & 0xF;
-      v38 = this->SrcPaths.Pages[v36][v37].start;
-      v39 = &this->SrcVertices.Pages[v38 >> 4][v38 & 0xF];
-      v40 = &this->SortedPaths.Array[v59];
-      v40->x = v39->x;
-      ++v12;
-      v40->y = v39->y;
-      v40->thisPath = &this->SrcPaths.Pages[v36][v37];
-      ++v59;
+      v38 = v14 >> 4;
+      v39 = v14 & 0xF;
+      v40 = this->SrcPaths.Pages[v38][v39].start;
+      v41 = &this->SrcVertices.Pages[v40 >> 4][v40 & 0xF];
+      v42 = &this->SortedPaths.Array[v61];
+      v42->x = v41->x;
+      ++v14;
+      v42->y = v41->y;
+      v42->thisPath = &this->SrcPaths.Pages[v38][v39];
+      ++v61;
     }
-    while ( v12 < n );
+    while ( v14 < dst.start );
   }
   Scaleform::Alg::QuickSortSliced<Scaleform::Render::ArrayUnsafe<Scaleform::Render::StrokeSorter::SortedPathType>,bool (__cdecl *)(Scaleform::Render::StrokeSorter::SortedPathType const &,Scaleform::Render::StrokeSorter::SortedPathType const &)>(
     &this->SortedPaths,
@@ -177,58 +181,55 @@ void __thiscall Scaleform::Render::StrokeSorter::Sort(Scaleform::Render::StrokeS
     this->SortedPaths.Size,
     (bool (__cdecl *)(const Scaleform::Render::StrokeSorter::SortedPathType *, const Scaleform::Render::StrokeSorter::SortedPathType *))Scaleform::Render::StrokeSorter::cmpPaths);
   Next = 0;
-  ib = 0;
+  v59 = 0;
   if ( this->SortedPaths.Size )
   {
-    v60 = 0;
+    v62 = 0;
     do
     {
-      if ( (this->SortedPaths.Array[v60].thisPath->numVer & 0x40000000) == 0 )
+      if ( (this->SortedPaths.Array[v62].thisPath->numVer & 0x40000000) == 0 )
       {
-        n = 0;
-        v62 = 0;
+        dst.start = 0;
+        dst.numVer = 0;
         do
         {
-          v42 = Next & 0xFFFFFFF;
-          thisPath = this->SortedPaths.Array[v42].thisPath;
+          v44 = Next & 0xFFFFFFF;
+          thisPath = this->SortedPaths.Array[v44].thisPath;
           thisPath->numVer |= 0x40000000u;
-          Scaleform::Render::StrokeSorter::appendPath(
-            this,
-            (Scaleform::Render::StrokeSorter::PathType *)&n,
-            this->SortedPaths.Array[v42].thisPath);
-          v44 = n;
-          v45 = this->OutVertices.Pages;
-          v46 = v62;
-          v47 = &v45[n >> 4][n & 0xF].x;
-          v48 = &v45[((v62 & 0xFFFFFFF) + n - 1) >> 4][((v62 & 0xFFFFFFF) + n - 1) & 0xF].x;
-          if ( *v48 == *v47 && v48[1] == v47[1] )
+          Scaleform::Render::StrokeSorter::appendPath(this, &dst, this->SortedPaths.Array[v44].thisPath);
+          v46 = dst.start;
+          v47 = this->OutVertices.Pages;
+          v48 = dst.numVer;
+          v49 = &v47[dst.start >> 4][dst.start & 0xF].x;
+          v50 = &v47[((dst.numVer & 0xFFFFFFF) + dst.start - 1) >> 4][((dst.numVer & 0xFFFFFFF) + dst.start - 1) & 0xF].x;
+          if ( *v50 == *v49 && v50[1] == v49[1] )
             break;
-          Next = Scaleform::Render::StrokeSorter::findNext(this, (const Scaleform::Render::StrokeSorter::PathType *)&n);
+          Next = Scaleform::Render::StrokeSorter::findNext(this, &dst);
         }
         while ( Next != -1 );
-        v49 = this->OutVertices.Pages;
-        v50 = &v49[v44 >> 4][v44 & 0xF].x;
-        v51 = &v49[((v46 & 0xFFFFFFF) + v44 - 1) >> 4][((v46 & 0xFFFFFFF) + v44 - 1) & 0xF].x;
-        if ( *v51 == *v50 && v51[1] == v50[1] )
-          v46 |= 0x20000000u;
-        v52 = this->OutPaths.Size >> 4;
-        p.start = v52;
-        if ( v52 >= this->OutPaths.NumPages )
+        v51 = this->OutVertices.Pages;
+        v52 = &v51[v46 >> 4][v46 & 0xF].x;
+        v53 = &v51[((v48 & 0xFFFFFFF) + v46 - 1) >> 4][((v48 & 0xFFFFFFF) + v46 - 1) & 0xF].x;
+        if ( *v53 == *v52 && v53[1] == v52[1] )
+          v48 |= 0x20000000u;
+        v54 = this->OutPaths.Size >> 4;
+        v64 = v54;
+        if ( v54 >= this->OutPaths.NumPages )
         {
           Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
             (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->OutPaths,
-            v52);
-          v52 = p.start;
+            v54);
+          v54 = v64;
         }
-        v53 = this->OutPaths.Pages[v52];
-        v54 = this->OutPaths.Size & 0xF;
-        v53[v54].start = v44;
-        v53[v54].numVer = v46;
+        v55 = this->OutPaths.Pages[v54];
+        v56 = this->OutPaths.Size & 0xF;
+        v55[v56].start = v46;
+        v55[v56].numVer = v48;
         ++this->OutPaths.Size;
-        Next = ib;
+        Next = v59;
       }
-      ++v60;
-      ib = ++Next;
+      ++v62;
+      v59 = ++Next;
     }
     while ( Next < this->SortedPaths.Size );
   }

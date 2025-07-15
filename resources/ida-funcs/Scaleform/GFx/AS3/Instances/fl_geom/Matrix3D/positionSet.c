@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::positionSet(
   if ( pDispObj )
   {
     Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(&this->mat4, &v4);
-    memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)&v4, sizeof(dst));
+    memcpy((int)&dst, (const __m128i *)&v4, sizeof(dst));
     pDispObj->SetMatrix3D(pDispObj, &dst);
   }
 }

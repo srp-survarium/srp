@@ -3,10 +3,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
         bool *result,
         Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *child)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v4; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v6; // [esp+0h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v6; // [esp-8h] [ebp-14h]
+  Scaleform::GFx::AS3::VM::Error v7; // [esp+4h] [ebp-8h] BYREF
 
   if ( child )
   {
@@ -16,11 +16,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v6, eNullPointerError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v4);
-    pNode = v6.Message.pNode;
-    --v6.Message.pNode->RefCount;
+    v6.pStr = "child";
+    v6.Size = 5;
+    Scaleform::GFx::AS3::VM::Error::Error(&v7, eNullPointerError, this->pTraits.pObject->pVM, v6);
+    Scaleform::GFx::AS3::VM::ThrowTypeError(this->pTraits.pObject->pVM, v4);
+    pNode = v7.Message.pNode;
+    --v7.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

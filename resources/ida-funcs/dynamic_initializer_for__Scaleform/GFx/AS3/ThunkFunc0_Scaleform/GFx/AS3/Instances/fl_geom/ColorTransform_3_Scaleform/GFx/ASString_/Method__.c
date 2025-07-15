@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toString;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform,3,Scaleform::GFx::ASString>::Method) = Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toString;
-  dword_AAC7E4 = 0;
+  dword_8F0F9C = 0;
   return result;
 }

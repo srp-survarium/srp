@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::innerSet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter,9,Scaleform::GFx::AS3::Value const,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::innerSet;
-  dword_AADE5C = 0;
+  dword_8F2614 = 0;
   return result;
 }

@@ -1,6 +1,6 @@
 Scaleform::GFx::ResourceKey *__cdecl Scaleform::GFx::MovieDataDef::CreateMovieFileKey(
         Scaleform::GFx::ResourceKey *result,
-        char *pfilename,
+        const __m128i *pfilename,
         __int64 modifyTime,
         Scaleform::GFx::Resource *pfileOpener,
         Scaleform::GFx::Resource *pimageCreator)

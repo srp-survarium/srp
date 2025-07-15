@@ -1,480 +1,251 @@
-int __usercall vorbis_book_init_decode@<eax>(codebook *c@<eax>, const static_codebook *s)
+int __usercall vorbis_book_init_decode@<eax>(codebook *c@<edi>, const static_codebook *s@<eax>, __int128 a3@<xmm0>)
 {
-  int v2; // ebx
+  int v3; // ebx
   int entries; // eax
   int *lengthlist; // ecx
-  int v6; // edx
-  vostok::memory::doug_lea_mt_allocator *v7; // ecx
-  unsigned int *words; // esi
-  void *v9; // esp
-  unsigned int *v11; // edx
-  unsigned int v12; // ecx
-  unsigned int v13; // eax
-  unsigned int v14; // eax
-  unsigned int v15; // eax
-  unsigned int *v16; // esi
-  void *v17; // esp
-  int v18; // eax
-  int v19; // ecx
-  int *v20; // eax
-  int v21; // esi
-  int v22; // ecx
-  unsigned int v23; // esi
-  unsigned int *codelist; // edx
-  bool v25; // zf
-  const static_codebook *v26; // ebx
-  vostok::memory::doug_lea_mt_allocator *dec_index; // ecx
-  unsigned int **v28; // esi
-  int v29; // eax
-  bool v30; // cc
-  char *v31; // eax
-  unsigned int **v32; // edx
-  int v33; // ecx
-  int *v34; // eax
-  char *v35; // eax
-  unsigned int used_entries; // ecx
+  int v7; // edx
+  void *v8; // esp
+  int v10; // eax
+  int *v11; // ecx
+  bool v12; // zf
+  void *v13; // esp
   int i; // eax
+  int *v15; // edx
+  int *v16; // eax
+  char *v17; // ecx
+  int v18; // edx
+  unsigned int v19; // ecx
+  unsigned int *codelist; // ebx
+  int v21; // ebx
+  float *v22; // eax
+  int v23; // eax
+  unsigned int j; // ecx
+  char *v25; // eax
+  int v26; // ecx
+  bool v27; // cc
+  int *v28; // eax
+  int v29; // edx
+  char *dec_codelengths; // ebx
+  char v31; // al
+  int v32; // eax
+  unsigned __int8 *v33; // eax
+  int v34; // esi
+  char *v35; // eax
+  int v36; // ecx
+  int v37; // ebx
   int v38; // eax
   int dec_firsttablen; // ecx
-  int v40; // ebx
-  unsigned int *v41; // eax
-  int v42; // esi
-  unsigned int *v43; // ebx
-  char *dec_codelengths; // eax
+  int v40; // edx
+  int v41; // ebx
+  unsigned int v42; // ebx
+  unsigned int v43; // esi
+  unsigned int *v44; // edx
   int v45; // ecx
-  char *v46; // eax
-  int v47; // ebx
-  unsigned int v48; // edx
-  unsigned int v49; // eax
-  unsigned int v50; // edx
-  unsigned int v51; // eax
-  int v52; // edx
-  int v53; // eax
-  char *v54; // esi
-  unsigned int v55; // esi
-  unsigned int v56; // edx
-  unsigned int v57; // ebx
-  unsigned int v58; // ecx
-  int v59; // ebx
-  unsigned int v60; // ecx
-  unsigned int **v61; // ebx
-  int v62; // eax
-  int v63; // eax
-  unsigned int v64; // ebx
-  __int16 v65; // si
-  unsigned int v66; // edx
-  unsigned int v67; // ecx
-  unsigned int v68; // eax
-  unsigned int v69; // [esp-4h] [ebp-28h]
-  char (*v70)[112]; // [esp+0h] [ebp-24h] BYREF
-  volatile int *v71; // [esp+4h] [ebp-20h]
-  vostok::memory::inplace_constructor v72; // [esp+8h] [ebp-1Ch]
-  unsigned int mask; // [esp+Ch] [ebp-18h]
-  int tabn; // [esp+10h] [ebp-14h]
-  unsigned int *codes; // [esp+14h] [ebp-10h]
-  unsigned int size; // [esp+18h] [ebp-Ch]
-  int hi; // [esp+1Ch] [ebp-8h]
-  unsigned int **codep; // [esp+20h] [ebp-4h]
-  int lo; // [esp+2Ch] [ebp+8h]
-  int loa; // [esp+2Ch] [ebp+8h]
+  unsigned int *v46; // eax
+  unsigned int *v47; // eax
+  unsigned int v48; // eax
+  __int16 v49; // cx
+  unsigned int v50; // [esp-Ch] [ebp-34h]
+  _BYTE v51[12]; // [esp+0h] [ebp-28h] BYREF
+  int v52; // [esp+Ch] [ebp-1Ch]
+  signed int v53; // [esp+10h] [ebp-18h]
+  unsigned int size; // [esp+14h] [ebp-14h]
+  void *base; // [esp+18h] [ebp-10h]
+  void *memblock; // [esp+1Ch] [ebp-Ch]
+  int *v57; // [esp+20h] [ebp-8h]
+  int v58; // [esp+24h] [ebp-4h]
 
-  v2 = 0;
+  v3 = 0;
+  v58 = 0;
   memset((int)c, 0, sizeof(codebook));
   entries = s->entries;
   if ( entries > 0 )
   {
     lengthlist = s->lengthlist;
-    v6 = s->entries;
+    v7 = s->entries;
     do
     {
       if ( *lengthlist > 0 )
-        ++v2;
+        ++v3;
       ++lengthlist;
-      --v6;
+      --v7;
     }
-    while ( v6 );
+    while ( v7 );
+    v58 = v3;
   }
   c->entries = entries;
-  c->used_entries = v2;
+  c->used_entries = v3;
   c->dim = s->dim;
-  if ( v2 > 0 )
+  if ( v3 > 0 )
   {
-    words = _make_words(s->lengthlist, s->entries, v2);
-    codes = words;
-    size = 4 * v2;
-    v9 = alloca(4 * v2);
-    codep = (unsigned int **)&v70;
-    if ( !words )
+    memblock = _make_words(s->lengthlist, s->entries, v3);
+    size = 4 * v3;
+    v8 = alloca(4 * v3);
+    base = v51;
+    if ( !memblock )
     {
-      vorbis_book_clear(c, v7);
+      vorbis_book_clear(c);
       return -1;
     }
-    v11 = words;
-    tabn = (char *)codep - (char *)words;
-    hi = v2;
+    v57 = (int *)memblock;
+    v52 = (_BYTE *)base - (_BYTE *)memblock;
+    v53 = v3;
     do
     {
-      v12 = __ROL4__(*v11, 16);
-      v13 = (v12 << 8) ^ (unsigned int)&vostok::memory::s_CRT_arena[5508919] & ((v12 << 8) ^ (v12 >> 8));
-      v14 = (16 * v13) ^ ((16 * v13) ^ (v13 >> 4)) & 0xF0F0F0F;
-      v15 = (4 * v14) ^ ((4 * v14) ^ (v14 >> 2)) & 0x33333333;
-      *v11 = (2 * v15) ^ ((2 * v15) ^ (v15 >> 1)) & 0x55555555;
-      *(unsigned int *)((char *)v11 + tabn) = (unsigned int)v11;
-      ++v11;
-      --hi;
+      v10 = bitreverse((void *)*v57);
+      v11 = v57;
+      *v57 = v10;
+      *(int *)((char *)v11 + v52) = (int)v11;
+      v12 = v53-- == 1;
+      v57 = v11 + 1;
     }
-    while ( hi );
-    v16 = codes;
-    qsort((char *)codep, v2, 4u, (int (__cdecl *)(const void *, const void *))sort32a);
-    v17 = alloca(size);
-    hi = (int)&v70;
-    if ( !vostok::memory::g_crt_allocator.__vftable )
+    while ( !v12 );
+    qsort((char *)base, v3, 4u, (int (__cdecl *)(const void *, const void *))sort32a);
+    v13 = alloca(size);
+    v57 = (int *)v51;
+    c->codelist = (unsigned int *)ogg_malloc_impl(size);
+    for ( i = 0; i < v3; ++i )
     {
-      vostok::debug::preinitialize((vostok::debug *)v70);
-      if ( !vostok::core::g_log_callback )
-      {
-        vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-        vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-      }
-      LOBYTE(tabn) = 0;
-      vostok::bind_pointer_to_buffer_mt_safe<vostok::memory::doug_lea_mt_allocator,vostok::memory::inplace_constructor>(
-        (vostok::memory::doug_lea_mt_allocator **)tabn,
-        v70,
-        v71,
-        v72);
+      v15 = v57;
+      v57[(*((_DWORD *)base + i) - (int)memblock) >> 2] = i;
     }
-    c->codelist = (unsigned int *)vostok::memory::doug_lea_mt_allocator::malloc_impl(
-                                    (vostok::memory::doug_lea_mt_allocator *)size,
-                                    size);
-    v18 = 0;
-    v19 = hi;
-    do
-    {
-      *(_DWORD *)(v19 + 4 * (codep[v18] - v16)) = v18;
-      ++v18;
-    }
-    while ( v18 < v2 );
-    v20 = (int *)hi;
-    v21 = (int)v16 - hi;
-    tabn = v21;
-    codep = (unsigned int **)v2;
+    v16 = v15;
+    v17 = (char *)((_BYTE *)memblock - (_BYTE *)v15);
+    v52 = (_BYTE *)memblock - (_BYTE *)v15;
+    v53 = v3;
     while ( 1 )
     {
-      v22 = *v20;
-      v23 = *(int *)((char *)v20 + v21);
+      v18 = *v16;
+      v19 = *(int *)((char *)v16 + (_DWORD)v17);
       codelist = c->codelist;
-      ++v20;
-      v25 = codep == (unsigned int **)1;
-      codep = (unsigned int **)((char *)codep - 1);
-      codelist[v22] = v23;
-      if ( v25 )
+      ++v16;
+      v12 = v53-- == 1;
+      codelist[v18] = v19;
+      if ( v12 )
         break;
-      v21 = tabn;
+      v17 = (char *)v52;
     }
-    if ( !vostok::memory::g_crt_allocator.__vftable )
+    v21 = v58;
+    ogg_free_impl(memblock);
+    v22 = _book_unquantize(s, (int)c, a3, v21, v57);
+    v50 = size;
+    c->valuelist = v22;
+    c->dec_index = (int *)ogg_malloc_impl(v50);
+    v23 = 0;
+    for ( j = 0; v23 < s->entries; ++v23 )
     {
-      vostok::debug::preinitialize((vostok::debug *)v70);
-      if ( !vostok::core::g_log_callback )
-      {
-        vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-        vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-      }
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-      {
-        if ( _InterlockedExchange((volatile __int32 *)&s_crt_allocator_creation, 1) )
-        {
-          while ( !vostok::memory::g_crt_allocator.__vftable )
-            ;
-        }
-        else
-        {
-          vostok::memory::doug_lea_mt_allocator::doug_lea_mt_allocator(
-            &s_crt_allocator_creation,
-            (const bool)v70,
-            (const bool)v71,
-            *(_BYTE *)&v72,
-            mask);
-          (*(void (__thiscall **)(char *, unsigned __int8 *, unsigned __int8 *, _DWORD, const char *))(*(_DWORD *)s_crt_allocator_buffer + 4))(
-            s_crt_allocator_buffer,
-            vostok::memory::s_CRT_arena,
-            &vostok::memory::s_CRT_arena[55905848],
-            0,
-            "CRT allocator");
-          _InterlockedExchange((volatile __int32 *)&vostok::memory::g_crt_allocator, (__int32)s_crt_allocator_buffer);
-        }
-      }
+      if ( s->lengthlist[v23] > 0 )
+        c->dec_index[v57[j++]] = v23;
     }
-    vostok::memory::doug_lea_mt_allocator::free_impl((vostok::memory::doug_lea_mt_allocator *)codes, codes);
-    c->valuelist = _book_unquantize(s, v2, (int *)hi);
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-    {
-      vostok::debug::preinitialize((vostok::debug *)v70);
-      if ( !vostok::core::g_log_callback )
-      {
-        vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-        vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-      }
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-      {
-        if ( _InterlockedExchange((volatile __int32 *)&s_crt_allocator_creation, 1) )
-        {
-          while ( !vostok::memory::g_crt_allocator.__vftable )
-            ;
-        }
-        else
-        {
-          vostok::memory::doug_lea_mt_allocator::doug_lea_mt_allocator(
-            &s_crt_allocator_creation,
-            (const bool)v70,
-            (const bool)v71,
-            *(_BYTE *)&v72,
-            mask);
-          (*(void (__thiscall **)(char *, unsigned __int8 *, unsigned __int8 *, _DWORD, const char *))(*(_DWORD *)s_crt_allocator_buffer + 4))(
-            s_crt_allocator_buffer,
-            vostok::memory::s_CRT_arena,
-            &vostok::memory::s_CRT_arena[55905848],
-            0,
-            "CRT allocator");
-          _InterlockedExchange((volatile __int32 *)&vostok::memory::g_crt_allocator, (__int32)s_crt_allocator_buffer);
-        }
-      }
-    }
-    v26 = s;
-    c->dec_index = (int *)vostok::memory::doug_lea_mt_allocator::malloc_impl(
-                            (vostok::memory::doug_lea_mt_allocator *)size,
-                            size);
-    v28 = 0;
-    v29 = 0;
-    v30 = s->entries <= 0;
-    codep = 0;
-    if ( !v30 )
+    v25 = (char *)ogg_malloc_impl(j);
+    v26 = 0;
+    c->dec_codelengths = v25;
+    v27 = s->entries <= 0;
+    v58 = 0;
+    if ( !v27 )
     {
       do
       {
-        if ( s->lengthlist[v29] > 0 )
+        v28 = &s->lengthlist[v26];
+        if ( *v28 > 0 )
         {
-          dec_index = (vostok::memory::doug_lea_mt_allocator *)c->dec_index;
-          *((_DWORD *)&dec_index->__vftable + *(_DWORD *)(hi + 4 * (_DWORD)v28)) = v29;
-          v28 = (unsigned int **)((char *)v28 + 1);
+          v29 = v57[v58];
+          dec_codelengths = c->dec_codelengths;
+          v31 = *(_BYTE *)v28;
+          ++v58;
+          dec_codelengths[v29] = v31;
         }
-        ++v29;
+        ++v26;
       }
-      while ( v29 < s->entries );
-      codep = v28;
+      while ( v26 < s->entries );
     }
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-    {
-      vostok::debug::preinitialize((vostok::debug *)v70);
-      if ( !vostok::core::g_log_callback )
-      {
-        vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-        vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-      }
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-      {
-        if ( _InterlockedExchange((volatile __int32 *)&s_crt_allocator_creation, 1) )
-        {
-          while ( !vostok::memory::g_crt_allocator.__vftable )
-            ;
-        }
-        else
-        {
-          vostok::memory::doug_lea_mt_allocator::doug_lea_mt_allocator(
-            dec_index,
-            (const bool)v70,
-            (const bool)v71,
-            *(_BYTE *)&v72,
-            mask);
-          (*(void (__thiscall **)(char *, unsigned __int8 *, unsigned __int8 *, _DWORD, const char *))(*(_DWORD *)s_crt_allocator_buffer + 4))(
-            s_crt_allocator_buffer,
-            vostok::memory::s_CRT_arena,
-            &vostok::memory::s_CRT_arena[55905848],
-            0,
-            "CRT allocator");
-          dec_index = &vostok::memory::g_crt_allocator;
-          _InterlockedExchange((volatile __int32 *)&vostok::memory::g_crt_allocator, (__int32)s_crt_allocator_buffer);
-          v28 = codep;
-        }
-      }
-    }
-    v31 = (char *)vostok::memory::doug_lea_mt_allocator::malloc_impl(dec_index, (unsigned int)v28);
-    v32 = 0;
-    v33 = 0;
-    c->dec_codelengths = v31;
-    v30 = s->entries <= 0;
-    codep = 0;
-    if ( !v30 )
-    {
-      do
-      {
-        v34 = v26->lengthlist;
-        v30 = v34[v33] <= 0;
-        v35 = (char *)&v34[v33];
-        if ( !v30 )
-        {
-          c->dec_codelengths[*(_DWORD *)(hi + 4 * (_DWORD)v32)] = *v35;
-          v26 = s;
-          v32 = (unsigned int **)((char *)v32 + 1);
-        }
-        ++v33;
-      }
-      while ( v33 < v26->entries );
-      codep = v32;
-    }
-    used_entries = c->used_entries;
-    for ( i = 0; used_entries; used_entries >>= 1 )
-      ++i;
-    v38 = i - 4;
-    c->dec_firsttablen = v38;
-    if ( v38 < 5 )
+    v32 = _ilog(c->used_entries) - 4;
+    c->dec_firsttablen = v32;
+    if ( v32 < 5 )
       c->dec_firsttablen = 5;
     if ( c->dec_firsttablen > 8 )
       c->dec_firsttablen = 8;
-    dec_firsttablen = c->dec_firsttablen;
-    v40 = 1 << dec_firsttablen;
-    tabn = 1 << dec_firsttablen;
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-    {
-      vostok::debug::preinitialize((vostok::debug *)v70);
-      if ( !vostok::core::g_log_callback )
-      {
-        vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-        vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-      }
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-      {
-        dec_firsttablen = (int)&s_crt_allocator_creation;
-        if ( _InterlockedExchange((volatile __int32 *)&s_crt_allocator_creation, 1) )
-        {
-          while ( !vostok::memory::g_crt_allocator.__vftable )
-            ;
-        }
-        else
-        {
-          vostok::memory::doug_lea_mt_allocator::doug_lea_mt_allocator(
-            &s_crt_allocator_creation,
-            (const bool)v70,
-            (const bool)v71,
-            *(_BYTE *)&v72,
-            mask);
-          (*(void (__thiscall **)(char *, unsigned __int8 *, unsigned __int8 *, _DWORD, const char *))(*(_DWORD *)s_crt_allocator_buffer + 4))(
-            s_crt_allocator_buffer,
-            vostok::memory::s_CRT_arena,
-            &vostok::memory::s_CRT_arena[55905848],
-            0,
-            "CRT allocator");
-          dec_firsttablen = _InterlockedExchange(
-                              (volatile __int32 *)&vostok::memory::g_crt_allocator,
-                              (__int32)s_crt_allocator_buffer);
-        }
-      }
-    }
-    v41 = (unsigned int *)vostok::memory::doug_lea_mt_allocator::malloc_impl(
-                            (vostok::memory::doug_lea_mt_allocator *)dec_firsttablen,
-                            4 * v40);
-    v69 = 4 * v40;
-    v42 = 0;
-    v43 = v41;
-    memset((int)v41, 0, v69);
-    v30 = (int)codep <= 0;
-    c->dec_firsttable = v43;
+    v53 = 1 << c->dec_firsttablen;
+    v33 = ogg_calloc_impl(v53, 4u);
+    v34 = 0;
+    v27 = v58 <= 0;
+    c->dec_firsttable = (unsigned int *)v33;
     c->dec_maxlength = 0;
-    if ( !v30 )
+    if ( !v27 )
     {
       do
       {
-        dec_codelengths = c->dec_codelengths;
-        v45 = dec_codelengths[v42];
-        v46 = &dec_codelengths[v42];
-        if ( c->dec_maxlength < v45 )
-          c->dec_maxlength = v45;
-        v47 = *v46;
-        if ( v47 <= c->dec_firsttablen )
+        v35 = &c->dec_codelengths[v34];
+        v36 = *v35;
+        if ( c->dec_maxlength < v36 )
+          c->dec_maxlength = v36;
+        v37 = *v35;
+        if ( v37 <= c->dec_firsttablen )
         {
-          v48 = __ROL4__(c->codelist[v42], 16);
-          v49 = (v48 << 8) ^ (unsigned int)&vostok::memory::s_CRT_arena[5508919] & ((v48 << 8) ^ (v48 >> 8));
-          v50 = (16 * v49) ^ ((16 * v49) ^ (v49 >> 4)) & 0xF0F0F0F;
-          v51 = (4 * v50) ^ ((4 * v50) ^ (v50 >> 2)) & 0x33333333;
-          v52 = (2 * v51) ^ ((2 * v51) ^ (v51 >> 1)) & 0x55555555;
-          v53 = 0;
-          lo = 0;
-          if ( 1 << (LOBYTE(c->dec_firsttablen) - v47) > 0 )
+          v38 = bitreverse((void *)c->codelist[v34]);
+          dec_firsttablen = c->dec_firsttablen;
+          v52 = v38;
+          v40 = 0;
+          if ( 1 << (dec_firsttablen - v37) > 0 )
           {
             do
             {
-              c->dec_firsttable[v52 | (v53 << c->dec_codelengths[v42])] = v42 + 1;
-              v53 = lo + 1;
-              lo = v53;
+              v41 = v52 | (v40++ << c->dec_codelengths[v34]);
+              c->dec_firsttable[v41] = v34 + 1;
             }
-            while ( v53 < 1 << (LOBYTE(c->dec_firsttablen) - c->dec_codelengths[v42]) );
+            while ( v40 < 1 << (LOBYTE(c->dec_firsttablen) - c->dec_codelengths[v34]) );
           }
         }
-        ++v42;
+        ++v34;
       }
-      while ( v42 < (int)codep );
+      while ( v34 < v58 );
     }
-    v54 = 0;
-    loa = 0;
-    mask = -2 << (31 - LOBYTE(c->dec_firsttablen));
-    hi = 0;
-    for ( codes = 0; (int)codes < tabn; codes = (unsigned int *)((char *)codes + 1) )
+    v42 = 0;
+    v52 = -2 << (31 - LOBYTE(c->dec_firsttablen));
+    v57 = 0;
+    for ( memblock = 0; (int)memblock < v53; memblock = (char *)memblock + 1 )
     {
-      v55 = (_DWORD)v54 << (32 - LOBYTE(c->dec_firsttablen));
-      v56 = __ROL4__(v55, 16);
-      v57 = 16 * ((v56 << 8) ^ (unsigned int)&vostok::memory::s_CRT_arena[5508919] & ((v56 << 8) ^ (v56 >> 8)));
-      v58 = v57
-          ^ (v57
-           ^ (((v56 << 8) ^ (unsigned int)&vostok::memory::s_CRT_arena[5508919] & ((v56 << 8) ^ (v56 >> 8))) >> 4))
-          & 0xF0F0F0F;
-      v59 = 2 * ((4 * v58) ^ ((4 * v58) ^ (v58 >> 2)) & 0x33333333);
-      if ( !c->dec_firsttable[v59 ^ (v59 ^ (((4 * v58) ^ ((4 * v58) ^ (v58 >> 2)) & 0x33333333) >> 1)) & 0x55555555] )
+      v43 = (_DWORD)memblock << (32 - LOBYTE(c->dec_firsttablen));
+      v44 = &c->dec_firsttable[bitreverse((void *)v43)];
+      v12 = *v44 == 0;
+      size = (unsigned int)v44;
+      if ( v12 )
       {
-        v60 = loa;
-        v61 = codep;
-        v62 = loa + 1;
-        if ( loa + 1 < (int)codep )
+        if ( (int)(v42 + 1) < v58 )
         {
-          v61 = codep;
-          size = (unsigned int)&c->codelist[loa + 1];
+          v45 = v42 + 1;
+          v46 = &c->codelist[v42 + 1];
           do
           {
-            if ( *(_DWORD *)size > v55 )
+            if ( *v46 > v43 )
               break;
-            ++loa;
-            size += 4;
-            ++v62;
+            ++v42;
+            ++v46;
+            ++v45;
           }
-          while ( v62 < (int)codep );
-          v60 = loa;
+          while ( v45 < v58 );
         }
-        v63 = hi;
-        if ( hi < (int)v61 )
+        if ( (int)v57 < v58 )
         {
-          size = (unsigned int)&c->codelist[hi];
+          v47 = &c->codelist[(_DWORD)v57];
           do
           {
-            if ( v55 < (mask & *(_DWORD *)size) )
+            if ( v43 < (v52 & *v47) )
               break;
-            size += 4;
-            ++v63;
+            v57 = (int *)((char *)v57 + 1);
+            ++v47;
           }
-          while ( v63 < (int)v61 );
-          v60 = loa;
-          hi = v63;
+          while ( (int)v57 < v58 );
+          v44 = (unsigned int *)size;
         }
-        v64 = (unsigned int)v61 - v63;
-        v65 = v60;
-        if ( v60 > 0x7FFF )
-          v65 = 0x7FFF;
-        if ( v64 > 0x7FFF )
-          v64 = 0x7FFF;
-        v66 = (v56 << 8) ^ (unsigned int)&vostok::memory::s_CRT_arena[5508919] & ((v56 << 8) ^ (v56 >> 8));
-        v67 = (16 * v66) ^ ((16 * v66) ^ (v66 >> 4)) & 0xF0F0F0F;
-        v68 = (4 * v67) ^ ((4 * v67) ^ (v67 >> 2)) & 0x33333333;
-        c->dec_firsttable[(2 * v68) ^ ((2 * v68) ^ (v68 >> 1)) & 0x55555555] = v64
-                                                                             | ((*(_DWORD *)&v65 | 0xFFFF0000) << 15);
+        v48 = v58 - (_DWORD)v57;
+        v49 = v42;
+        if ( v42 > 0x7FFF )
+          v49 = 0x7FFF;
+        if ( v48 > 0x7FFF )
+          v48 = 0x7FFF;
+        *v44 = v48 | ((*(_DWORD *)&v49 | 0xFFFF0000) << 15);
       }
-      v54 = (char *)codes + 1;
     }
   }
   return 0;

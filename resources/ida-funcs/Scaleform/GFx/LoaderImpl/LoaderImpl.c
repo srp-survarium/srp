@@ -4,11 +4,11 @@ void __thiscall Scaleform::GFx::LoaderImpl::LoaderImpl(
         bool debugHeap)
 {
   Scaleform::GFx::ResourceWeakLib *pWeakLib; // edi
-  Scaleform::GFx::ResourceWeakLib *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::Lock *v6; // eax
   Scaleform::GFx::StateBagImpl *v7; // edi
   Scaleform::RefCountVImpl *v8; // ecx
-  Scaleform::GFx::StateBagImpl *v9; // ecx
+  Scaleform::RefCountVImpl *v9; // ecx
   Scaleform::GFx::Resource *v10; // eax
   Scaleform::GFx::Resource *v11; // edi
   Scaleform::GFx::ImageCreator *v12; // eax
@@ -39,9 +39,9 @@ void __thiscall Scaleform::GFx::LoaderImpl::LoaderImpl(
     pWeakLib = plib->pWeakLib;
     if ( pWeakLib )
       Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)plib->pWeakLib);
-    pObject = this->pWeakResourceLib.pObject;
+    pObject = (Scaleform::RefCountVImpl *)this->pWeakResourceLib.pObject;
     if ( pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+      Scaleform::RefCountImpl::Release(pObject);
     this->pWeakResourceLib.pObject = pWeakLib;
   }
   v6 = (Scaleform::Lock *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 48, 0);
@@ -67,9 +67,9 @@ void __thiscall Scaleform::GFx::LoaderImpl::LoaderImpl(
   {
     v7 = 0;
   }
-  v9 = this->pStateBag.pObject;
+  v9 = (Scaleform::RefCountVImpl *)this->pStateBag.pObject;
   if ( v9 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v9);
+    Scaleform::RefCountImpl::Release(v9);
   this->pStateBag.pObject = v7;
   if ( v7 )
   {

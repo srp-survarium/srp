@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::DisplayObjectEx::getRender
         Scaleform::GFx::ASString *result,
         Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *o)
 {
-  char *RendererString; // eax
+  Scaleform::GFx::ASStringNode *RendererString; // eax
   Scaleform::GFx::ASStringManager *pStringManager; // esi
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::DisplayObjectEx::getRender
 
   if ( o )
   {
-    RendererString = (char *)Scaleform::GFx::DisplayObjectBase::GetRendererString(o->pDispObj.pObject);
+    RendererString = (Scaleform::GFx::ASStringNode *)Scaleform::GFx::DisplayObjectBase::GetRendererString(o->pDispObj.pObject);
     if ( RendererString )
     {
       Scaleform::GFx::ASString::operator=(result, RendererString);

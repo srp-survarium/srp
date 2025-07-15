@@ -1,249 +1,232 @@
-void __userpurge vostok::render::user_render_surface_editable::load_from_chunk_data(
-        vostok::render::user_render_surface_editable *this@<ecx>,
-        vostok::memory::chunk_reader::chunk_type *a2@<edi>,
+void __thiscall vostok::render::user_render_surface_editable::load_from_chunk_data(
+        vostok::render::user_render_surface_editable *this,
         vostok::memory::chunk_reader *chunk)
 {
-  unsigned int v4; // eax
-  const unsigned __int8 *m_pointer; // ecx
-  const unsigned __int8 *v6; // eax
-  const unsigned __int8 *i; // edx
-  unsigned __int8 *v8; // eax
-  unsigned int *v9; // ecx
-  unsigned int v10; // eax
-  vostok::render::untyped_buffer *v11; // eax
-  vostok::render::untyped_buffer *v12; // ebx
-  unsigned int *v13; // esi
-  unsigned int v14; // ecx
-  unsigned int v15; // kr00_4
-  vostok::render::untyped_buffer *v16; // eax
+  vostok::memory::reader *v3; // ecx
+  char *v4; // eax
+  vostok::fixed_string<256> *v5; // ecx
+  vostok::memory::chunk_reader *v6; // ecx
+  const unsigned __int8 *m_pointer; // esi
+  unsigned int v8; // edi
+  vostok::render::untyped_buffer *v9; // eax
+  vostok::memory::chunk_reader *v10; // ecx
+  unsigned int v11; // eax
+  unsigned int v12; // edi
+  vostok::render::untyped_buffer *v13; // eax
+  vostok::render::resource_manager *v14; // ecx
   vostok::render::res_declaration *declaration; // eax
+  vostok::render::resource_manager *v16; // ecx
   vostok::render::res_geometry *geometry; // eax
-  vostok::render::res_geometry *v19; // ecx
-  vostok::render::res_geometry *m_object; // eax
-  vostok::render::material_effects_instance_cook_data *v21; // esi
-  unsigned int v22; // eax
-  unsigned int v23; // ebx
+  vostok::memory::doug_lea_allocator *v18; // esi
+  survarium::pure_game_effect_emitter_base *v19; // ecx
+  vostok::render::material_effects_instance_cook_data *v20; // eax
+  vostok::memory::doug_lea_allocator *v21; // esi
+  char *v22; // eax
+  vostok::memory::doug_lea_allocator *v23; // ecx
   char *v24; // esi
-  void (__cdecl *v25)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::render::res_declaration *v26; // eax
-  bool v27; // zf
-  vostok::render::untyped_buffer *v28; // edi
-  vostok::render::untyped_buffer *v29; // edi
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::user_render_surface,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,char *>,boost::_bi::list4<boost::_bi::value<vostok::render::user_render_surface_editable *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<char *> > > v30; // [esp+878h] [ebp-1B8h]
-  vostok::render::resource_manager *v31; // [esp+87Ch] [ebp-1B4h]
-  vostok::memory::chunk_reader::chunk_type *v33; // [esp+890h] [ebp-1A0h]
-  vostok::memory::chunk_reader::chunk_type *v34; // [esp+890h] [ebp-1A0h]
-  unsigned int chunk_id; // [esp+89Ch] [ebp-194h] BYREF
-  vostok::resources::request requests; // [esp+8A0h] [ebp-190h] BYREF
-  float v37; // [esp+8A8h] [ebp-188h]
-  vostok::render::res_declaration *dcl; // [esp+8ACh] [ebp-184h]
-  vostok::render::untyped_buffer *v39; // [esp+8B0h] [ebp-180h]
-  vostok::render::untyped_buffer *buffer; // [esp+8B4h] [ebp-17Ch]
-  _DWORD v41[2]; // [esp+8B8h] [ebp-178h] BYREF
-  unsigned int v42[8]; // [esp+8C0h] [ebp-170h] BYREF
-  _DWORD *v43; // [esp+8E0h] [ebp-150h]
-  int v44; // [esp+8E4h] [ebp-14Ch]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+8E8h] [ebp-148h] BYREF
-  __int64 v46; // [esp+908h] [ebp-128h]
-  __int64 v47; // [esp+918h] [ebp-118h]
-  char *_Src; // [esp+920h] [ebp-110h]
-  _BYTE *v49; // [esp+924h] [ebp-10Ch]
-  unsigned __int8 *v50; // [esp+928h] [ebp-108h]
-  _BYTE v51[256]; // [esp+92Ch] [ebp-104h] BYREF
-  char v52; // [esp+A2Ch] [ebp-4h] BYREF
+  bool ListenerStatus; // al
+  vostok::fixed_string<260> *v26; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v27; // ecx
+  vostok::variant<32> *v28; // ecx
+  const vostok::render::untyped_buffer *v29; // esi
+  bool v30; // zf
+  vostok::render::untyped_buffer *v31; // esi
+  vostok::render::resource_manager *v32; // [esp-24h] [ebp-2C0h]
+  const unsigned __int8 *v33; // [esp-1Ch] [ebp-2B8h]
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v34; // [esp-14h] [ebp-2B0h] BYREF
+  int v35; // [esp-10h] [ebp-2ACh]
+  vostok::render::hw_buffer_pool *v36; // [esp-Ch] [ebp-2A8h]
+  const char *v37; // [esp-8h] [ebp-2A4h]
+  unsigned int v38; // [esp-4h] [ebp-2A0h]
+  unsigned int v39; // [esp+4h] [ebp-298h]
+  vostok::render::material_effects_instance_cook_data *v40; // [esp+8h] [ebp-294h] BYREF
+  vostok::render::untyped_buffer *ib; // [esp+Ch] [ebp-290h]
+  vostok::memory::reader v42[2]; // [esp+10h] [ebp-28Ch] BYREF
+  unsigned int vertex_stride; // [esp+28h] [ebp-274h] BYREF
+  _BYTE v44[32]; // [esp+2Ch] [ebp-270h] BYREF
+  vostok::variant<32> v45; // [esp+4Ch] [ebp-250h] BYREF
+  vostok::buffer_string _Src[22]; // [esp+7Ch] [ebp-220h] BYREF
+  vostok::buffer_string v47[22]; // [esp+18Ch] [ebp-110h] BYREF
 
-  *(_QWORD *)&this->m_aabbox.min.x = 0xC1200000C1200000uLL;
-  v37 = FLOAT_10_0;
-  *(float *)&requests.path = FLOAT_10_0;
-  *(float *)&requests.id = FLOAT_10_0;
-  *(vostok::resources::request *)&this->m_aabbox.max.x = requests;
-  this->m_aabbox.max.z = FLOAT_10_0;
+  *(float *)&v42[0].m_pointer = FLOAT_N10_0;
+  *(float *)&v42[0].m_size = FLOAT_N10_0;
+  this->m_aabbox.min.x = FLOAT_N10_0;
+  *(_QWORD *)&this->m_aabbox.min.elements[1] = *(_QWORD *)&v42[0].m_pointer;
+  *(float *)&v42[0].m_data = FLOAT_10_0;
+  *(float *)&v42[0].m_pointer = FLOAT_10_0;
+  *(float *)&v42[0].m_size = FLOAT_10_0;
+  this->m_aabbox.max.x = FLOAT_10_0;
+  *(_QWORD *)&this->m_aabbox.max.elements[1] = *(_QWORD *)&v42[0].m_pointer;
+  v35 = 2;
   this->m_vertex_input_type = user_vertex_input_type;
-  this->m_aabbox.min.z = -10.0;
-  v4 = vostok::memory::chunk_reader::chunk_size((vostok::memory::chunk_reader *)2, (const unsigned int)&chunk_id, a2);
-  m_pointer = chunk->m_reader.m_pointer;
-  v6 = &m_pointer[v4];
-  for ( i = m_pointer; i != v6; ++i )
+  vostok::memory::chunk_reader::open_reader(
+    (vostok::memory::chunk_reader *)this,
+    chunk,
+    &v42[0].m_data,
+    (vostok::memory::chunk_reader::chunk_type *)v35,
+    (unsigned int)v36);
+  v4 = (char *)vostok::memory::reader::r_string(v3, v42);
+  vostok::fixed_string<256>::fixed_string<256>(v5, _Src, v4);
+  v42[0] = *vostok::memory::chunk_reader::open_reader(
+              v6,
+              chunk,
+              (const unsigned __int8 **)v44,
+              (vostok::memory::chunk_reader::chunk_type *)3,
+              (unsigned int)v36);
+  m_pointer = v42[0].m_pointer;
+  v42[0].m_pointer += 4;
+  v8 = *(_DWORD *)m_pointer;
+  LOBYTE(v35) = 0;
+  LOBYTE(v34.m_object) = 1;
+  this->m_render_geometry.vertex_count = v8;
+  vostok::render::resource_manager::create_buffer(
+    20 * v8,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)0x14,
+    (vostok::render::enum_buffer_type)v42[0].m_pointer,
+    0,
+    (bool)v34.m_object,
+    v35);
+  ib = 0;
+  if ( v9 )
   {
-    if ( !*i )
-      break;
+    ++v9->m_reference_count;
+    ib = v9;
   }
-  v8 = v51;
-  _Src = v51;
-  v49 = v51;
-  v50 = (unsigned __int8 *)&v52;
-  v51[0] = 0;
-  if ( m_pointer )
-  {
-    for ( ; *m_pointer; ++v49 )
-    {
-      if ( v8 >= v50 )
-        break;
-      *v8 = *m_pointer;
-      v8 = v49 + 1;
-      ++m_pointer;
-    }
-    *v8 = 0;
-  }
-  vostok::memory::chunk_reader::chunk_size((vostok::memory::chunk_reader *)3, (const unsigned int)&chunk_id, v33);
-  v9 = (unsigned int *)chunk->m_reader.m_pointer;
-  v10 = *v9;
-  this->m_render_geometry.vertex_count = *v9;
-  v11 = vostok::render::resource_manager::create_buffer(
-          20 * v10,
-          (bool)this,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v9 + 1,
-          enum_buffer_type_vertex,
-          (vostok::render::untyped_buffer *)1,
-          0);
-  v12 = 0;
+  v42[0] = *vostok::memory::chunk_reader::open_reader(
+              v10,
+              chunk,
+              (const unsigned __int8 **)v44,
+              (vostok::memory::chunk_reader::chunk_type *)4,
+              (unsigned int)v36);
+  v35 = 3;
+  v39 = *(_DWORD *)v42[0].m_pointer;
+  v11 = v39 / 3;
+  v42[0].m_pointer += 4;
+  LOBYTE(v35) = 0;
+  LOBYTE(v34.m_object) = 0;
+  v33 = v42[0].m_pointer;
+  v12 = 2 * v39;
+  v32 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+  this->m_render_geometry.index_count = v39;
+  this->m_render_geometry.primitive_count = v11;
+  vostok::render::resource_manager::create_buffer(
+    v12,
+    v32,
+    (void *)2,
+    (vostok::render::enum_buffer_type)v33,
+    1,
+    (bool)v34.m_object,
+    v35);
   v39 = 0;
-  if ( v11 )
+  if ( v13 )
   {
-    ++v11->m_reference_count;
-    v39 = v11;
-    v12 = v11;
-  }
-  vostok::memory::chunk_reader::chunk_size((vostok::memory::chunk_reader *)4, (const unsigned int)&chunk_id, v34);
-  v13 = (unsigned int *)chunk->m_reader.m_pointer;
-  v14 = *v13;
-  v15 = *v13;
-  this->m_render_geometry.index_count = *v13;
-  v31 = (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-  this->m_render_geometry.primitive_count = v15 / 3;
-  v16 = vostok::render::resource_manager::create_buffer(2 * v14, (bool)this, v31, v13 + 1, enum_buffer_type_index, 0, 0);
-  buffer = 0;
-  if ( v16 )
-  {
-    ++v16->m_reference_count;
-    buffer = v16;
+    ++v13->m_reference_count;
+    v39 = (unsigned int)v13;
   }
   declaration = vostok::render::resource_manager::create_declaration(
-                  2u,
-                  (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                  (stlp_std::forward_iterator_tag *)layout_editable);
-  dcl = 0;
+                  v14,
+                  (const D3D11_INPUT_ELEMENT_DESC *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                  layout_editable,
+                  2u);
+  vertex_stride = 0;
   if ( declaration )
   {
     ++declaration->m_reference_count;
-    dcl = declaration;
+    vertex_stride = (unsigned int)declaration;
   }
   geometry = vostok::render::resource_manager::create_geometry(
-               dcl,
-               v12,
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               0x14u,
-               buffer);
-  v19 = 0;
-  if ( geometry )
+               v16,
+               (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+               (vostok::render::res_declaration *)vertex_stride,
+               (vostok::render::untyped_buffer *)0x14,
+               ib,
+               (vostok::render::untyped_buffer *)v39);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    &this->m_render_geometry.geom,
+    geometry);
+  v18 = vostok::render::g_allocator;
+  this->m_vb = ib;
+  v40 = (vostok::render::material_effects_instance_cook_data *)vostok::memory::new_helper<vostok::render::material_effects_instance_cook_data>::call<vostok::memory::doug_lea_allocator>(
+                                                                 v18,
+                                                                 (const char *const)v36,
+                                                                 v37,
+                                                                 v38);
+  if ( v40 )
   {
-    ++geometry->m_reference_count;
-    v19 = geometry;
-  }
-  m_object = this->m_render_geometry.geom.m_object;
-  this->m_render_geometry.geom.m_object = v19;
-  if ( m_object )
-  {
-    if ( !--m_object->m_reference_count )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        m_object);
-  }
-  this->m_vb = v12;
-  v21 = (vostok::render::material_effects_instance_cook_data *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                                 (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                                 0x10u);
-  if ( v21 )
-  {
+    v35 = 0;
+    v34.m_object = v19;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      &v34,
+      0);
     vostok::render::material_effects_instance_cook_data::material_effects_instance_cook_data(
-      v21,
       this->m_vertex_input_type,
-      0,
-      0,
-      cull_mode_back);
-    v23 = v22;
+      v40,
+      v34,
+      v35,
+      (vostok::render::enum_cull_mode)v36);
+    v40 = v20;
   }
   else
   {
-    chunk_id = 0;
-    v23 = 0;
+    v40 = 0;
   }
-  v43 = 0;
-  v44 = 0;
-  v44 = vostok::detail::type_to_int<vostok::render::material_effects_instance_cook_data *>::get();
-  v42[0] = v23;
-  v41[0] = &vostok::detail::concrete_type_helper<vostok::render::material_effects_instance_cook_data *>::`vftable';
-  v43 = v41;
-  v24 = (char *)vostok::memory::doug_lea_allocator::malloc_impl(
-                  (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                  0x100u);
+  v45.m_helper = 0;
+  v45.m_type_id = 0;
+  vostok::variant<32>::set<vostok::render::material_effects_instance_cook_data *>(
+    (vostok::variant<32> *)v19,
+    &v45,
+    &v40);
+  v21 = vostok::render::g_allocator;
+  v22 = type_info::raw_name(&char `RTTI Type Descriptor');
+  v24 = vostok::memory::doug_lea_allocator::malloc_impl(v23, (int)v21, 0x100u, v22, (const char *const)v36, v37, v38);
   memset((int)v24, 0, 0x100u);
-  strcpy_s(v24, 0x100u, _Src);
-  LODWORD(v46) = vostok::render::user_render_surface::material_ready;
-  HIDWORD(v46) = 0;
-  requests = (vostok::resources::request)__PAIR64__(v23, (unsigned int)this);
-  v30.f_.f_ = (void (__thiscall *__ptr64)(vostok::render::user_render_surface *, vostok::resources::queries_result *, vostok::render::material_effects_instance_cook_data *, char *))v46;
-  v30.l_.boost::_bi::storage3<boost::_bi::value<vostok::render::user_render_surface_editable *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *> > = (boost::_bi::storage3<boost::_bi::value<vostok::render::user_render_surface_editable *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *> >)__PAIR64__(v23, (unsigned int)this);
-  LODWORD(v47) = v24;
-  callback.vtable = 0;
-  *(_QWORD *)&v30.l_.a4_.t_ = v47;
-  boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::user_render_surface,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,char *>,boost::_bi::list4<boost::_bi::value<vostok::render::user_render_surface_editable *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<char *>>>>(
-    0,
-    (int)&callback,
-    (int)v24,
-    v30);
-  requests.path = _Src;
-  chunk_id = (unsigned int)v41;
-  requests.id = material_effects_instance_class;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    &callback,
-    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-    (const vostok::variant<32> **)&chunk_id,
+  strcpy_s(v24, 0x100u, _Src[0].m_begin);
+  *(_DWORD *)&v44[4] = 0;
+  *(_DWORD *)v44 = vostok::render::user_render_surface::material_ready;
+  *(_DWORD *)&v44[8] = this;
+  *(_DWORD *)&v44[12] = v40;
+  *(_DWORD *)&v44[16] = v24;
+  v35 = (int)v42;
+  qmemcpy(v42, v44, sizeof(v42));
+  ListenerStatus = Scaleform::Render::RenderEvent::GetListenerStatus(0);
+  v26 = (vostok::fixed_string<260> *)v35;
+  if ( ListenerStatus )
+  {
+    *(_DWORD *)v44 = 0;
+  }
+  else
+  {
+    qmemcpy(&v44[8], v42, 0x18u);
+    v26 = 0;
+    *(_DWORD *)v44 = (char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::user_render_surface,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,char *>,boost::_bi::list4<boost::_bi::value<vostok::render::user_render_surface_editable *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<char *>>>>'::`2'::stored_vtable
+                   + 1;
+  }
+  vostok::fixed_string<260>::fixed_string<260>(v26, v47, _Src[0].m_begin);
+  vostok::resources::query_resource(
+    v47[0].m_begin,
+    (vostok::variant<32> *)0xF,
+    vostok::render::g_allocator,
+    &v45,
     0,
     assert_on_fail_true);
-  if ( callback.vtable )
-  {
-    if ( ((int)callback.vtable & 1) == 0 )
-    {
-      v25 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-      if ( v25 )
-        v25(&callback.functor, &callback.functor, 2);
-    }
-    callback.vtable = 0;
-  }
-  if ( v43 )
-  {
-    (*(void (__thiscall **)(_DWORD *, unsigned int *))(*v43 + 4))(v43, v42);
-    v43 = 0;
-  }
-  v26 = dcl;
-  if ( dcl )
-  {
-    v27 = dcl->m_reference_count-- == 1;
-    if ( v27 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v26);
-  }
-  v28 = buffer;
-  if ( buffer )
-  {
-    v27 = buffer->m_reference_count-- == 1;
-    if ( v27 )
-      vostok::render::resource_manager::release(
-        (vostok::render::res_state *)v28,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
-  }
-  v29 = v39;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v27,
+    (int *)v44);
+  vostok::variant<32>::destroy_previous_variable_if_needed(v28, (int)&v45);
+  vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>((vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&vertex_stride);
+  v29 = (const vostok::render::untyped_buffer *)v39;
   if ( v39 )
   {
-    v27 = v39->m_reference_count-- == 1;
-    if ( v27 )
-      vostok::render::resource_manager::release(
-        (vostok::render::res_state *)v29,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
+    v30 = (*(_DWORD *)v39)-- == 1;
+    if ( v30 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v29, v36);
+  }
+  v31 = ib;
+  if ( ib )
+  {
+    v30 = ib->m_reference_count-- == 1;
+    if ( v30 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v31, v36);
   }
 }

@@ -10,9 +10,8 @@ void __thiscall Scaleform::GFx::XML::DOMStringManager::DOMStringManager(Scalefor
   this->pTextBufferPages = 0;
   this->EmptyStringNode.RefCount = 1;
   this->EmptyStringNode.Size = 0;
-  this->EmptyStringNode.HashFlags = (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                  & Scaleform::String::BernsteinHashFunction((char *)&buf, 0, 0x1505u);
-  this->EmptyStringNode.pData = (const char *)&buf;
+  this->EmptyStringNode.HashFlags = Scaleform::String::BernsteinHashFunction((char *)uri, 0, 0x1505u) & 0xFFFFFF;
+  this->EmptyStringNode.pData = uri;
   this->EmptyStringNode.pManager = this;
   key = &this->EmptyStringNode;
   Scaleform::HashSetBase<Scaleform::GFx::XML::DOMStringNode *,Scaleform::GFx::XML::DOMStringNodeHashFunc<Scaleform::GFx::XML::DOMStringNode *>,Scaleform::GFx::XML::DOMStringNodeHashFunc<Scaleform::GFx::XML::DOMStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::XML::DOMStringNode *,326>,Scaleform::HashsetEntry<Scaleform::GFx::XML::DOMStringNode *,Scaleform::GFx::XML::DOMStringNodeHashFunc<Scaleform::GFx::XML::DOMStringNode *>>>::add<Scaleform::GFx::XML::DOMStringNode *>(

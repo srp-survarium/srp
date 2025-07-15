@@ -6,7 +6,7 @@ int __cdecl png_malloc_warn(int a1, unsigned int size)
   if ( !a1 )
     return 0;
   v3 = *(_DWORD *)(a1 + 112);
-  *(_DWORD *)(a1 + 112) = v3 | 0x100000;
+  *(_DWORD *)(a1 + 112) = (unsigned int)&loc_100000 | v3;
   result = png_malloc(a1, size);
   *(_DWORD *)(a1 + 112) = v3;
   return result;

@@ -12,14 +12,14 @@ int __thiscall Scaleform::Render::Text::DocView::GetCharIndexAtPoint(
   int Advance; // eax
   int TextPos; // eax
   int v12; // esi
-  float xoffseta; // [esp+8h] [ebp-7Ch]
-  float xoffsetb; // [esp+8h] [ebp-7Ch]
-  int xoffset; // [esp+8h] [ebp-7Ch]
-  float xoffInLine; // [esp+Ch] [ebp-78h]
-  Scaleform::Render::Text::LineBuffer::Iterator it; // [esp+10h] [ebp-74h] BYREF
-  Scaleform::Render::Text::LineBuffer::GlyphIterator git; // [esp+24h] [ebp-60h] BYREF
-  float xa; // [esp+88h] [ebp+4h]
-  float ya; // [esp+8Ch] [ebp+8h]
+  int yoff; // [esp+8h] [ebp-7Ch]
+  float OffsetX; // [esp+8h] [ebp-7Ch]
+  int v16; // [esp+8h] [ebp-7Ch]
+  float v17; // [esp+Ch] [ebp-78h]
+  Scaleform::Render::Text::LineBuffer::Iterator result; // [esp+10h] [ebp-74h] BYREF
+  Scaleform::Render::Text::LineBuffer::GlyphIterator v19; // [esp+24h] [ebp-60h] BYREF
+  float v20; // [esp+88h] [ebp+4h]
+  float v21; // [esp+8Ch] [ebp+8h]
 
   if ( (this->RTFlags & 3) != 0 )
   {
@@ -27,51 +27,52 @@ int __thiscall Scaleform::Render::Text::DocView::GetCharIndexAtPoint(
     this->RTFlags &= 0xFCu;
   }
   p_mLineBuffer = &this->mLineBuffer;
-  xa = x - (p_mLineBuffer->Geom.VisibleRect.x1 - *(float *)&p_mLineBuffer[1].Lines.Data.Data);
-  ya = y - (p_mLineBuffer->Geom.VisibleRect.y1 - *(float *)&p_mLineBuffer[1].Lines.Data.Size);
-  xoffseta = (double)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(p_mLineBuffer) + ya;
-  Scaleform::Render::Text::LineBuffer::FindLineAtYOffset(p_mLineBuffer, &it, xoffseta);
-  if ( !it.pLineBuffer )
+  v20 = x - (p_mLineBuffer->Geom.VisibleRect.x1 - *(float *)&p_mLineBuffer[1].Lines.Data.Data);
+  v21 = y - (p_mLineBuffer->Geom.VisibleRect.y1 - *(float *)&p_mLineBuffer[1].Lines.Data.Size);
+  *(float *)&yoff = (double)(unsigned int)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(p_mLineBuffer)
+                  + v21;
+  Scaleform::Render::Text::LineBuffer::FindLineAtYOffset(p_mLineBuffer, &result, yoff);
+  if ( !result.pLineBuffer )
     return -1;
-  if ( it.CurrentPos >= it.pLineBuffer->Lines.Data.Size )
+  if ( result.CurrentPos >= result.pLineBuffer->Lines.Data.Size )
     return -1;
-  if ( (it.CurrentPos & 0x80000000) != 0 )
+  if ( (result.CurrentPos & 0x80000000) != 0 )
     return -1;
-  v5 = it.pLineBuffer->Lines.Data.Data[it.CurrentPos];
-  xoffsetb = (float)v5->Data32.OffsetX;
-  v6 = xa;
-  v7 = xoffsetb;
-  if ( xoffsetb > (double)xa )
+  v5 = result.pLineBuffer->Lines.Data.Data[result.CurrentPos];
+  OffsetX = (float)v5->Data32.OffsetX;
+  v6 = v20;
+  v7 = OffsetX;
+  if ( OffsetX > (double)v20 )
     return -1;
-  xoffset = (v5->MemSize & 0x80000000) == 0 ? v5->Data32.Width : v5->Data8.Width;
-  if ( (double)xoffset + v7 < v6 )
+  v16 = (v5->MemSize & 0x80000000) == 0 ? v5->Data32.Width : v5->Data8.Width;
+  if ( (double)v16 + v7 < v6 )
     return -1;
   v8 = 0;
-  Scaleform::Render::Text::LineBuffer::Line::Begin(v5, &git);
+  Scaleform::Render::Text::LineBuffer::Line::Begin(v5, &v19);
   v9 = 0;
-  while ( git.pGlyphs && git.pGlyphs < git.pEndGlyphs )
+  while ( v19.pGlyphs && v19.pGlyphs < v19.pEndGlyphs )
   {
-    Advance = git.pGlyphs->Advance;
-    if ( (git.pGlyphs->Flags & 0x40) != 0 )
+    Advance = v19.pGlyphs->Advance;
+    if ( (v19.pGlyphs->Flags & 0x40) != 0 )
       Advance = -Advance;
     v8 += Advance;
-    xoffInLine = v6 - v7;
-    if ( xoffInLine < (double)v8 )
+    v17 = v6 - v7;
+    if ( v17 < (double)v8 )
       break;
-    v9 += git.pGlyphs->LenAndFontSize >> 12;
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
+    v9 += v19.pGlyphs->LenAndFontSize >> 12;
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&v19);
   }
   TextPos = v5->Data32.TextPos;
   if ( (v5->MemSize & 0x80000000) != 0 )
   {
-    TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+    TextPos &= 0xFFFFFFu;
+    if ( TextPos == 0xFFFFFF )
       TextPos = -1;
   }
   v12 = TextPos + v9;
-  if ( git.pImage.pObject )
-    Scaleform::RefCountNTSImpl::Release(git.pImage.pObject);
-  if ( git.pFontHandle.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)git.pFontHandle.pObject);
+  if ( v19.pImage.pObject )
+    Scaleform::RefCountNTSImpl::Release(v19.pImage.pObject);
+  if ( v19.pFontHandle.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v19.pFontHandle.pObject);
   return v12;
 }

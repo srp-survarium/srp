@@ -1,15 +1,10 @@
-_iobuf *__usercall _openfile@<eax>(
-        unsigned int a1@<edi>,
-        const char *filename,
-        const char *mode,
-        int shflag,
-        _iobuf *str)
+_iobuf *__usercall _openfile@<eax>(int a1@<edi>, char *filename, char *mode, int shflag, _iobuf *str)
 {
   char v6; // al
   _iobuf *result; // eax
   int v8; // ecx
-  const unsigned __int8 *v9; // esi
-  signed __int8 v10; // al
+  char *v9; // esi
+  char v10; // al
   int v11; // eax
   int v12; // eax
   int v13; // eax
@@ -20,24 +15,24 @@ _iobuf *__usercall _openfile@<eax>(
   int v18; // eax
   int v19; // eax
   int v20; // ecx
-  int filedes; // [esp+8h] [ebp-10h] BYREF
-  int commodeset; // [esp+Ch] [ebp-Ch]
-  int scanset; // [esp+10h] [ebp-8h]
-  int streamflag; // [esp+14h] [ebp-4h]
-  unsigned int modeflag; // [esp+24h] [ebp+Ch]
+  int pfh; // [esp+8h] [ebp-10h] BYREF
+  int v22; // [esp+Ch] [ebp-Ch]
+  int v23; // [esp+10h] [ebp-8h]
+  unsigned int v24; // [esp+14h] [ebp-4h]
+  unsigned int oflag; // [esp+24h] [ebp+Ch]
 
-  streamflag = _commode;
-  commodeset = 0;
-  scanset = 0;
-  filedes = 0;
+  v24 = _commode;
+  v22 = 0;
+  v23 = 0;
+  pfh = 0;
   while ( *mode == 32 )
     ++mode;
   v6 = *mode;
   if ( *mode == 97 )
   {
-    modeflag = 265;
+    oflag = 265;
 LABEL_11:
-    streamflag |= 2u;
+    v24 |= 2u;
     goto LABEL_12;
   }
   if ( v6 != 114 )
@@ -45,17 +40,17 @@ LABEL_11:
     if ( v6 != 119 )
     {
       *_errno() = 22;
-      _invalid_parameter(0, a1, (unsigned int)mode);
+      _invalid_parameter(0, a1, (int)mode);
       return 0;
     }
-    modeflag = 769;
+    oflag = 769;
     goto LABEL_11;
   }
-  streamflag |= 1u;
-  modeflag = 0;
+  v24 |= 1u;
+  oflag = 0;
 LABEL_12:
   v8 = 1;
-  v9 = (const unsigned __int8 *)(mode + 1);
+  v9 = mode + 1;
   v10 = *v9;
   if ( !*v9 )
     goto LABEL_67;
@@ -67,9 +62,9 @@ LABEL_12:
       v16 = v10 - 84;
       if ( !v16 )
       {
-        if ( (modeflag & 0x1000) == 0 )
+        if ( (oflag & 0x1000) == 0 )
         {
-          modeflag |= 0x1000u;
+          oflag |= 0x1000u;
           goto LABEL_49;
         }
         goto LABEL_47;
@@ -85,39 +80,39 @@ LABEL_12:
           {
             if ( v19 != 6 )
               goto LABEL_69;
-            if ( (modeflag & 0xC000) != 0 )
+            if ( (oflag & 0xC000) != 0 )
               goto LABEL_47;
-            modeflag |= 0x4000u;
+            oflag |= 0x4000u;
           }
           else
           {
-            if ( commodeset )
+            if ( v22 )
               goto LABEL_47;
-            streamflag &= ~0x4000u;
-            commodeset = 1;
+            v24 &= ~0x4000u;
+            v22 = 1;
           }
         }
         else
         {
-          if ( commodeset )
+          if ( v22 )
             goto LABEL_47;
-          streamflag |= 0x4000u;
-          commodeset = 1;
+          v24 |= 0x4000u;
+          v22 = 1;
         }
       }
       else
       {
-        if ( (modeflag & 0xC000) != 0 )
+        if ( (oflag & 0xC000) != 0 )
           goto LABEL_47;
-        modeflag |= 0x8000u;
+        oflag |= 0x8000u;
       }
     }
     else if ( v10 == 83 )
     {
-      if ( scanset )
+      if ( v23 )
         goto LABEL_47;
-      modeflag |= 0x20u;
-      scanset = 1;
+      oflag |= 0x20u;
+      v23 = 1;
     }
     else
     {
@@ -130,7 +125,7 @@ LABEL_12:
           v13 = v12 - 1;
           if ( !v13 )
           {
-            filedes = 1;
+            pfh = 1;
 LABEL_47:
             v8 = 0;
             goto LABEL_49;
@@ -143,29 +138,29 @@ LABEL_47:
             {
               if ( v15 != 4 )
                 goto LABEL_69;
-              if ( scanset )
+              if ( v23 )
                 goto LABEL_47;
-              modeflag |= 0x10u;
-              scanset = 1;
+              oflag |= 0x10u;
+              v23 = 1;
             }
             else
             {
-              modeflag |= 0x80u;
+              oflag |= 0x80u;
             }
           }
           else
           {
-            if ( (modeflag & 0x40) != 0 )
+            if ( (oflag & 0x40) != 0 )
               goto LABEL_47;
-            modeflag |= 0x40u;
+            oflag |= 0x40u;
           }
         }
         else
         {
-          if ( (modeflag & 2) != 0 )
+          if ( (oflag & 2) != 0 )
             goto LABEL_47;
-          modeflag = modeflag & 0xFFFFFFFC | 2;
-          streamflag = streamflag & 0xFFFFFF7C | 0x80;
+          oflag = oflag & 0xFFFFFFFC | 2;
+          v24 = v24 & 0xFFFFFF7C | 0x80;
         }
       }
     }
@@ -174,11 +169,11 @@ LABEL_49:
     if ( !*v9 )
       break;
   }
-  if ( !filedes )
+  if ( !pfh )
     goto LABEL_67;
   while ( *v9 == 32 )
     ++v9;
-  if ( _mbsnbcmp("ccs", v9, 3u) )
+  if ( _mbsnbcmp((int)v9, (char *)ccsField, v9, 3u) )
     goto LABEL_69;
   for ( v9 += 3; *v9 == 32; ++v9 )
     ;
@@ -187,22 +182,22 @@ LABEL_49:
   do
     ++v9;
   while ( *v9 == 32 );
-  if ( !_mbsnbicmp(v9, "UTF-8", 5u) )
+  if ( !_mbsnbicmp(0x4000, (int)v9, v9, "UTF-8", 5u) )
   {
     v9 += 5;
-    modeflag |= 0x40000u;
+    oflag |= 0x40000u;
     goto LABEL_67;
   }
-  if ( !_mbsnbicmp(v9, "UTF-16LE", 8u) )
+  if ( !_mbsnbicmp(0x4000, (int)v9, v9, "UTF-16LE", 8u) )
   {
     v9 += 8;
-    modeflag |= (unsigned int)&loc_20000;
+    oflag |= (unsigned int)&loc_20000;
     goto LABEL_67;
   }
-  if ( _mbsnbicmp(v9, "UNICODE", 7u) )
+  if ( _mbsnbicmp(0x4000, (int)v9, v9, "UNICODE", 7u) )
     goto LABEL_69;
   v9 += 7;
-  modeflag |= (unsigned int)&_sbh_sizeHeaderList;
+  oflag |= (unsigned int)&_sbh_sizeHeaderList;
 LABEL_67:
   while ( *v9 == 32 )
     ++v9;
@@ -210,15 +205,15 @@ LABEL_67:
   {
 LABEL_69:
     *_errno() = 22;
-    _invalid_parameter(0, a1, (unsigned int)v9);
+    _invalid_parameter(0, a1, (int)v9);
     return 0;
   }
-  if ( _sopen_s(&filedes, filename, modeflag, shflag, 384) )
+  if ( _sopen_s(&pfh, filename, oflag, shflag, 384) )
     return 0;
   result = str;
   ++_cflush;
-  str->_flag = streamflag;
-  v20 = filedes;
+  str->_flag = v24;
+  v20 = pfh;
   str->_cnt = 0;
   str->_ptr = 0;
   str->_base = 0;

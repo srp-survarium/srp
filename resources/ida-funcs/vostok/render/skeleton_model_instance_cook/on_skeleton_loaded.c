@@ -1,75 +1,47 @@
 void __thiscall vostok::render::skeleton_model_instance_cook::on_skeleton_loaded(
         vostok::render::skeleton_model_instance_cook *this,
-        vostok::resources::unmanaged_resource *result,
+        vostok::resources::queries_result *result,
         vostok::render::skeleton_model_instance_cook_data *cook_data)
 {
-  vostok::resources::query_result_for_cook *m_lock; // ecx
-  vostok::resources::unmanaged_resource *v4; // ebx
-  vostok::resources::unmanaged_resource *v5; // esi
-  vostok::render::skeleton_model_instance_cook_data *v6; // edi
-  vostok::resources::unmanaged_intrusive_base *v7; // eax
-  vostok::resources::unmanaged_intrusive_base *v8; // ecx
-  vostok::resources::unmanaged_resource *m_object; // eax
-  bool v10; // zf
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *p_m_children_resources; // [esp-4h] [ebp-18h]
+  vostok::resources::query_result_for_cook *m_result; // ecx
+  vostok::resources::queries_result *m_object; // esi
+  vostok::render::skeleton_model_instance_cook_data *v5; // esi
+  vostok::render::skeleton_model_instance_cook *v6; // ecx
+  bool v7; // zf
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v8; // [esp+Ch] [ebp-4h] BYREF
 
-  m_lock = (vostok::resources::query_result_for_cook *)result->m_parent_resources.m_lock;
-  if ( m_lock == (vostok::resources::query_result_for_cook *)1 )
+  m_result = (vostok::resources::query_result_for_cook *)result->m_result;
+  if ( m_result == (vostok::resources::query_result_for_cook *)1 )
   {
-    p_m_children_resources = (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)&result[1].m_children_resources;
+    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v8,
+      (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&result->m_queries[0].m_unmanaged_resource);
+    m_object = (vostok::resources::queries_result *)v8.m_object;
     result = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result,
-      (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)p_m_children_resources);
-    v4 = result;
-    v5 = 0;
-    if ( result )
+    if ( v8.m_object )
     {
-      v5 = result;
-      _InterlockedExchangeAdd(&result->m_reference_count, 1u);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result);
+      result = m_object;
+      _InterlockedExchangeAdd((volatile signed __int32 *)&m_object->m_queries[0].m_target_quality_level, 1u);
     }
-    v6 = cook_data;
-    v7 = 0;
-    if ( v5 )
-    {
-      v7 = (vostok::resources::unmanaged_intrusive_base *)v5;
-      _InterlockedExchangeAdd(&v5->m_reference_count, 1u);
-    }
-    v8 = v7;
-    m_object = v6->skeleton.m_object;
-    v6->skeleton.m_object = (vostok::animation::skeleton *)v8;
-    if ( m_object )
-    {
-      v8 = &m_object->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v8, m_object);
-    }
-    if ( v5 )
-    {
-      v8 = &v5->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&v5->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v8, v5);
-    }
-    if ( v4 )
-    {
-      v8 = &v4->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&v4->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v8, v4);
-    }
-    v10 = !v6->render_model_ready;
-    v6->skeleton_ready = 1;
-    if ( !v10 )
-      vostok::render::skeleton_model_instance_cook::on_all_subresources_ready(
-        (vostok::render::skeleton_model_instance_cook *)v8,
-        v6);
+    v5 = cook_data;
+    vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+      (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&result,
+      (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&cook_data->skeleton);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v8);
+    v7 = !v5->render_model_ready;
+    v5->skeleton_ready = 1;
+    if ( !v7 )
+      vostok::render::skeleton_model_instance_cook::on_all_subresources_ready(v6, v5);
   }
   else
   {
     vostok::resources::query_result_for_cook::finish_query_impl(
-      m_lock,
-      (int)cook_data->parent_query,
-      result_error,
+      m_result,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)cook_data->parent_query,
+      result_success,
       assert_on_fail_true,
-      (vostok::resources::query_result_for_cook *)0xB);
+      result_out_of_memory|0x8);
   }
 }

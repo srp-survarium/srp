@@ -1,4 +1,4 @@
-int __usercall _get_fmode@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int *pMode)
+int __usercall _get_fmode@<eax>(int a1@<ebx>, int a2@<edi>, int *pMode)
 {
   if ( pMode )
   {

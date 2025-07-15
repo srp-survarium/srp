@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getLineMetrics(
         Scaleform::GFx::AS3::Instances::fl_text::TextField *this,
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *result,
-        int lineIndex)
+        unsigned int lineIndex)
 {
   Scaleform::GFx::AS3::Value *v4; // eax
   int i; // ecx
@@ -111,7 +111,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getLineMetri
       if ( ((unsigned __int8)v21 & 1) == 0 )
       {
         RefCount = v21->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v21->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v21);

@@ -46,16 +46,16 @@ void __userpurge Scaleform::GFx::TimelineSnapshot::SourceTags::Unpack(
   int v44; // edi
   char *v45; // esi
   Scaleform::RefCountVImpl *v46; // ecx
-  _QWORD v47[5]; // [esp+400h] [ebp-3F0h] BYREF
-  float v48[18]; // [esp+428h] [ebp-3C8h] BYREF
-  _BYTE v49[112]; // [esp+470h] [ebp-380h] BYREF
-  _BYTE v50[112]; // [esp+4E0h] [ebp-310h] BYREF
-  _BYTE v51[112]; // [esp+550h] [ebp-2A0h] BYREF
-  _BYTE v52[112]; // [esp+5C0h] [ebp-230h] BYREF
-  _BYTE v53[112]; // [esp+630h] [ebp-1C0h] BYREF
-  _BYTE v54[112]; // [esp+6A0h] [ebp-150h] BYREF
-  _BYTE v55[112]; // [esp+710h] [ebp-E0h] BYREF
-  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData v56; // [esp+780h] [ebp-70h] BYREF
+  _QWORD v47[5]; // [esp+14h] [ebp-3F0h] BYREF
+  float v48[18]; // [esp+3Ch] [ebp-3C8h] BYREF
+  _BYTE v49[112]; // [esp+84h] [ebp-380h] BYREF
+  _BYTE v50[112]; // [esp+F4h] [ebp-310h] BYREF
+  _BYTE v51[112]; // [esp+164h] [ebp-2A0h] BYREF
+  _BYTE v52[112]; // [esp+1D4h] [ebp-230h] BYREF
+  _BYTE v53[112]; // [esp+244h] [ebp-1C0h] BYREF
+  _BYTE v54[112]; // [esp+2B4h] [ebp-150h] BYREF
+  _BYTE v55[112]; // [esp+324h] [ebp-E0h] BYREF
+  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData v56; // [esp+394h] [ebp-70h] BYREF
 
   this->pMainTag->Unpack(this->pMainTag, data);
   v17 = 8;

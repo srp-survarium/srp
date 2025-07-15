@@ -62,7 +62,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::pointAt(
     if ( this->pDispObj )
     {
       Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(&this->mat4, &eyePt);
-      memcpy((unsigned __int8 *)lookAtPt, (unsigned __int8 *)&eyePt, sizeof(lookAtPt));
+      memcpy((int)lookAtPt, (const __m128i *)&eyePt, sizeof(lookAtPt));
       this->pDispObj->SetMatrix3D(this->pDispObj, (const Scaleform::Render::Matrix3x4<float> *)lookAtPt);
     }
   }

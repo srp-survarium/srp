@@ -1,4 +1,4 @@
-int __cdecl XML_Parse(int a1, unsigned __int8 *src, unsigned int count, int a4)
+int __cdecl XML_Parse(int a1, const __m128i *src, unsigned int count, int a4)
 {
   int v5; // [esp+0h] [ebp-Ch]
   int v6; // [esp+4h] [ebp-8h]
@@ -18,7 +18,7 @@ int __cdecl XML_Parse(int a1, unsigned __int8 *src, unsigned int count, int a4)
       return 0;
     }
   }
-  else if ( !*(_DWORD *)(a1 + 476) && !(unsigned __int8)sub_525390(a1) )
+  else if ( !*(_DWORD *)(a1 + 476) && !(unsigned __int8)sub_640730(a1) )
   {
     *(_DWORD *)(a1 + 284) = 1;
     return 0;
@@ -29,7 +29,7 @@ int __cdecl XML_Parse(int a1, unsigned __int8 *src, unsigned int count, int a4)
     dst = (unsigned __int8 *)XML_GetBuffer(a1, count);
     if ( dst )
     {
-      memcpy(dst, src, count);
+      memcpy((int)dst, src, count);
       return XML_ParseBuffer(a1, count, a4);
     }
     else

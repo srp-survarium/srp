@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl_text::StaticText::MakeOb
   if ( v3 )
   {
     Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::DisplayObject(v3, t);
-    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::`vftable';
+    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_text::StaticText::`vftable';
     Scaleform::GFx::AS3::Value::Pick(result, v4);
   }
   else

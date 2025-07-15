@@ -1,20 +1,24 @@
-void __thiscall boost::asio::detail::win_thread::join(boost::asio::detail::win_thread *this)
+void __usercall boost::asio::detail::win_thread::join(boost::asio::detail::win_thread *this@<ecx>, int a2@<esi>)
 {
-  void *handles[2]; // [esp+4h] [ebp-8h] BYREF
+  LONG v2; // eax
+  void *v3; // [esp-8h] [ebp-10h]
+  HANDLE Handles[2]; // [esp+0h] [ebp-8h] BYREF
 
-  handles[0] = this->exit_event_;
-  handles[1] = this->thread_;
-  WaitForMultipleObjects(2u, handles, 0, 0xFFFFFFFF);
-  CloseHandle(this->exit_event_);
-  if ( InterlockedExchangeAdd(
-         (volatile LONG *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_parent_scene,
-         0) )
+  Handles[0] = *(HANDLE *)(a2 + 8);
+  Handles[1] = *(HANDLE *)(a2 + 4);
+  WaitForMultipleObjects(2u, Handles, 0, 0xFFFFFFFF);
+  CloseHandle(*(HANDLE *)(a2 + 8));
+  v2 = InterlockedExchangeAdd(
+         &boost::asio::detail::win_thread_base<boost::asio::detail::win_thread>::terminate_threads_,
+         0);
+  v3 = *(void **)(a2 + 4);
+  if ( v2 )
   {
-    TerminateThread(this->thread_, 0);
+    TerminateThread(v3, 0);
   }
   else
   {
-    QueueUserAPC(boost::asio::detail::apc_function, this->thread_, 0);
-    WaitForSingleObject(this->thread_, 0xFFFFFFFF);
+    QueueUserAPC((PAPCFUNC)survarium::empty_hands::tick, v3, 0);
+    WaitForSingleObject(*(HANDLE *)(a2 + 4), 0xFFFFFFFF);
   }
 }

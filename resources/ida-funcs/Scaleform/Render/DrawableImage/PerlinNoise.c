@@ -25,7 +25,7 @@ void __thiscall Scaleform::Render::DrawableImage::PerlinNoise(
     fractal,
     channelMask,
     grayScale,
-    offsets,
+    (const __m128i *)offsets,
     offsetCount);
   Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::DICommand_PerlinNoise>(this, v12);
   v13.__vftable = (Scaleform::Render::DICommand_PerlinNoise_vtbl *)&Scaleform::Render::DICommand::`vftable';

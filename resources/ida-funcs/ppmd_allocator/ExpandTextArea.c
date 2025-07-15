@@ -1,42 +1,44 @@
 void __usercall ppmd_allocator::ExpandTextArea(ppmd_allocator *this@<ecx>, int a2@<eax>)
 {
-  _DWORD *i; // eax
-  int v4; // ecx
+  unsigned __int8 *v3; // ecx
+  _DWORD *v4; // eax
   _DWORD *v5; // edx
-  unsigned int *v6; // ecx
+  unsigned __int8 *v6; // ecx
   int v7; // esi
-  _DWORD *j; // eax
-  bool v9; // zf
-  unsigned int Count[38]; // [esp+8h] [ebp-98h] BYREF
+  _DWORD *v8; // eax
+  unsigned __int8 dst[152]; // [esp+Ch] [ebp-20h] BYREF
 
-  memset((unsigned __int8 *)Count, 0, sizeof(Count));
-  for ( i = *(_DWORD **)(a2 + 492); *i == -1; i = *(_DWORD **)(a2 + 492) )
+  memset((int)dst, 0, sizeof(dst));
+  while ( 1 )
   {
-    *(_DWORD *)(a2 + 492) = &i[3 * i[2]];
-    v4 = *(unsigned __int8 *)(i[2] + a2 + 345);
-    ++Count[v4];
-    *i = 0;
+    v4 = *(_DWORD **)(a2 + 492);
+    if ( *v4 != -1 )
+      break;
+    *(_DWORD *)(a2 + 492) = &v4[3 * v4[2]];
+    v3 = &dst[4 * *(unsigned __int8 *)(v4[2] + a2 + 345)];
+    ++*(_DWORD *)v3;
+    *v4 = 0;
   }
   v5 = (_DWORD *)(a2 + 4);
-  v6 = Count;
+  v6 = dst;
   v7 = 38;
   do
   {
-    for ( j = v5; *v6; j = (_DWORD *)j[1] )
+    v8 = v5;
+    while ( *(_DWORD *)v6 )
     {
-      if ( !*(_DWORD *)j[1] )
+      do
       {
-        do
-        {
-          j[1] = *(_DWORD *)(j[1] + 4);
-          --*v5;
-          v9 = (*v6)-- == 1;
-        }
-        while ( !v9 && !*(_DWORD *)j[1] );
+        if ( *(_DWORD *)v8[1] )
+          break;
+        v8[1] = *(_DWORD *)(v8[1] + 4);
+        --*v5;
       }
+      while ( (*(_DWORD *)v6)-- != 1 );
+      v8 = (_DWORD *)v8[1];
     }
     v5 += 2;
-    ++v6;
+    v6 += 4;
     --v7;
   }
   while ( v7 );

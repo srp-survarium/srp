@@ -1,24 +1,24 @@
-void __usercall vostok::physics::destroy_ghost_object(vostok::physics::bt_ghost_object *obj@<eax>)
+void __cdecl vostok::physics::destroy_ghost_object(vostok::physics::bt_ghost_object *obj)
 {
-  vostok::memory::base_allocator *v1; // ebx
-  vostok::physics::bt_collision_shape *m_object; // edi
-  _BYTE *v4; // ebp
-  vostok::memory::base_allocator *v5; // edi
-  _BYTE *v6; // ebx
-  vostok::physics::bt_ghost_object *v7; // ecx
+  vostok::physics::bt_collision_shape *m_object; // esi
+  vostok::memory::base_allocator *v2; // edi
+  vostok::memory::base_allocator *v3; // esi
+  _BYTE *v4; // edi
+  vostok::memory::detail::call_destructor_predicate *v5; // [esp+0h] [ebp-14h]
+  _BYTE *v6; // [esp+10h] [ebp-4h]
 
-  v1 = vostok::physics::g_ph_allocator;
   m_object = obj->m_shape.m_object;
+  v2 = vostok::physics::g_allocator;
   if ( m_object )
   {
-    v4 = __RTCastToVoid((void **)&m_object->__vftable);
-    ((void (__thiscall *)(vostok::physics::bt_collision_shape *, _DWORD))m_object->~vostok::resources::resource_base)(
+    v6 = __RTCastToVoid((void **)&obj->m_shape.m_object->__vftable);
+    ((void (__thiscall *)(vostok::physics::bt_collision_shape *, _DWORD))m_object->~vostok::physics::bt_collision_shape)(
       m_object,
       0);
-    v1->call_free(v1, v4);
+    v2->call_free(v2, v6, "vostok::physics::destroy_ghost_object", ".\\ghost_object.cpp", 67u);
   }
-  v5 = vostok::physics::g_ph_allocator;
-  v6 = __RTCastToVoid((void **)&obj->__vftable);
-  vostok::physics::bt_ghost_object::~bt_ghost_object(v7, (int)obj);
-  v5->call_free(v5, v6);
+  v3 = vostok::physics::g_allocator;
+  v4 = __RTCastToVoid((void **)&obj->__vftable);
+  vostok::memory::detail::call_destructor_predicate::operator()<vostok::physics::bt_ghost_object>(obj, v5);
+  v3->call_free(v3, v4, "vostok::physics::destroy_ghost_object", ".\\ghost_object.cpp", 68u);
 }

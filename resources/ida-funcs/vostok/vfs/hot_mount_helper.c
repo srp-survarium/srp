@@ -2,27 +2,26 @@ void __cdecl vostok::vfs::hot_mount_helper(
         bool *out_got_lock,
         vostok::vfs::vfs_locked_iterator *out_iterator,
         vostok::vfs::virtual_file_system *file_system,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *virtual_path,
+        const vostok::fs_new::virtual_path_string *virtual_path,
         vostok::memory::base_allocator *allocator,
         vostok::vfs::mount_result result)
 {
-  char *src; // [esp+4h] [ebp-118h] BYREF
-  vostok::fs_new::path_string_impl v7; // [esp+8h] [ebp-114h] BYREF
+  vostok::fixed_string<260> *v6; // ecx
+  vostok::buffer_string path_to_find[22]; // [esp+8h] [ebp-114h] BYREF
+  char v8; // [esp+118h] [ebp-4h]
 
-  if ( result.result == result_requery || (*out_got_lock = 1, !out_iterator) || out_iterator->m_node )
+  if ( result.result != result_cannot_lock )
   {
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&result.mount);
+    *out_got_lock = 1;
+    if ( out_iterator )
+    {
+      if ( !out_iterator->m_node )
+      {
+        vostok::fixed_string<260>::fixed_string<260>(v6, path_to_find, virtual_path->m_string.m_begin);
+        v8 = 47;
+        vostok::vfs::try_find_sync(path_to_find[0].m_begin, out_iterator, 0, file_system, allocator);
+      }
+    }
   }
-  else
-  {
-    src = (char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(virtual_path);
-    vostok::fs_new::path_string_impl::path_string_impl(&v7, 47, (const char **)&src);
-    vostok::vfs::virtual_file_system::try_find_sync(
-      file_system,
-      (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v7,
-      out_iterator,
-      (vostok::vfs::find_enum)0,
-      allocator);
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&result.mount);
-  }
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec(&result.mount);
 }

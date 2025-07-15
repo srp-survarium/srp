@@ -13,11 +13,11 @@ void __usercall fill_window(internal_state *s@<esi>)
   unsigned int v11; // eax
   __int16 v12; // ax
   int v13; // edi
-  unsigned __int8 *v14; // eax
+  int v14; // eax
   unsigned int v15; // ebx
   int v16; // edx
   int v17; // ecx
-  int v18; // eax
+  unsigned int v18; // eax
   unsigned int v19; // edi
   int v20; // ecx
   unsigned __int8 *v21; // edx
@@ -33,7 +33,7 @@ void __usercall fill_window(internal_state *s@<esi>)
     more = v3;
     if ( v2 >= s[11].dummy + dummy - 262 )
     {
-      memcpy((unsigned __int8 *)s[14].dummy, (unsigned __int8 *)(s[14].dummy + dummy), dummy);
+      memcpy(s[14].dummy, (const __m128i *)(s[14].dummy + dummy), dummy);
       v4 = s[19].dummy;
       v5 = s[17].dummy;
       s[28].dummy -= dummy;
@@ -69,7 +69,7 @@ void __usercall fill_window(internal_state *s@<esi>)
     v13 = s->dummy;
     if ( !*(_DWORD *)(s->dummy + 4) )
       break;
-    v14 = (unsigned __int8 *)(s[14].dummy + s[27].dummy + s[29].dummy);
+    v14 = s[14].dummy + s[27].dummy + s[29].dummy;
     v15 = *(_DWORD *)(v13 + 4);
     if ( v15 > more )
       v15 = more;
@@ -84,7 +84,7 @@ void __usercall fill_window(internal_state *s@<esi>)
       v18 = adler32(*(_DWORD *)(v13 + 48), *(const unsigned __int8 **)v13, v15);
 LABEL_22:
       *(_DWORD *)(v13 + 48) = v18;
-      v14 = (unsigned __int8 *)v24;
+      v14 = v24;
       goto LABEL_23;
     }
     if ( v17 == 2 )
@@ -93,7 +93,7 @@ LABEL_22:
       goto LABEL_22;
     }
 LABEL_23:
-    memcpy(v14, *(unsigned __int8 **)v13, v15);
+    memcpy(v14, *(const __m128i **)v13, v15);
     *(_DWORD *)v13 += v15;
     *(_DWORD *)(v13 + 8) += v15;
 LABEL_24:

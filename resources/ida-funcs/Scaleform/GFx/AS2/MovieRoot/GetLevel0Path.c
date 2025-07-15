@@ -6,7 +6,7 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(
   unsigned int Size; // edx
   unsigned int v4; // eax
   Scaleform::GFx::MovieImpl::LevelInfo *Data; // ecx
-  char *v6; // eax
+  const __m128i *v6; // eax
 
   pMovieImpl = this->pMovieImpl;
   Size = pMovieImpl->MovieLevels.Data.Size;
@@ -23,7 +23,7 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(
     }
     if ( pMovieImpl->MovieLevels.Data.Data[v4].pSprite.pObject )
     {
-      v6 = (char *)pMovieImpl->pMainMovieDef.pObject->GetFileURL(pMovieImpl->pMainMovieDef.pObject);
+      v6 = (const __m128i *)pMovieImpl->pMainMovieDef.pObject->GetFileURL(pMovieImpl->pMainMovieDef.pObject);
       Scaleform::String::operator=(ppath, v6);
       if ( Scaleform::GFx::URLBuilder::ExtractFilePath(ppath) )
         return 1;

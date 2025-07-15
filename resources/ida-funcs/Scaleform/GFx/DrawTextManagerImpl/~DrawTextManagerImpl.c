@@ -1,21 +1,21 @@
 void __thiscall Scaleform::GFx::DrawTextManagerImpl::~DrawTextManagerImpl(Scaleform::GFx::DrawTextManagerImpl *this)
 {
-  Scaleform::RefCountVImpl *pObject; // ecx
+  Scaleform::Render::ContextImpl::RTHandle::HandleData *pObject; // ecx
   Scaleform::Render::TreeRoot *v3; // ecx
   bool v4; // zf
   Scaleform::RefCountVImpl *v5; // ecx
   volatile LONG *v6; // edi
-  Scaleform::GFx::ResourceWeakLib *v7; // ecx
+  Scaleform::RefCountVImpl *v7; // ecx
   Scaleform::GFx::FontManagerStates *v8; // ecx
   Scaleform::RefCountVImpl *v9; // ecx
   Scaleform::Render::Text::Allocator *v10; // ecx
   Scaleform::GFx::MovieDef *v11; // ecx
-  Scaleform::GFx::StateBagImpl *v12; // ecx
+  Scaleform::RefCountVImpl *v12; // ecx
   Scaleform::Render::TreeRoot *v13; // ecx
 
-  pObject = (Scaleform::RefCountVImpl *)this->DispHandle.pData.pObject;
+  pObject = this->DispHandle.pData.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release(pObject);
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
   this->DispHandle.pData.pObject = 0;
   v3 = this->pRootNode.pObject;
   if ( this->pRootNode.pObject )
@@ -34,9 +34,9 @@ void __thiscall Scaleform::GFx::DrawTextManagerImpl::~DrawTextManagerImpl(Scalef
   v6 = (volatile LONG *)(this->DefaultTextParams.FontName.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd(v6 + 1, -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)v6);
-  v7 = this->pWeakLib.pObject;
+  v7 = (Scaleform::RefCountVImpl *)this->pWeakLib.pObject;
   if ( v7 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v7);
+    Scaleform::RefCountImpl::Release(v7);
   v8 = this->pFontStates.pObject;
   if ( v8 )
     Scaleform::RefCountNTSImpl::Release(v8);
@@ -49,9 +49,9 @@ void __thiscall Scaleform::GFx::DrawTextManagerImpl::~DrawTextManagerImpl(Scalef
   v11 = this->pMovieDef.pObject;
   if ( v11 )
     Scaleform::GFx::Resource::Release(v11);
-  v12 = this->pStateBag.pObject;
+  v12 = (Scaleform::RefCountVImpl *)this->pStateBag.pObject;
   if ( v12 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v12);
+    Scaleform::RefCountImpl::Release(v12);
   v13 = this->pRootNode.pObject;
   if ( this->pRootNode.pObject )
   {

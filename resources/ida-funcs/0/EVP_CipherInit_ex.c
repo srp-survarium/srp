@@ -3,14 +3,14 @@ int __cdecl EVP_CipherInit_ex(
         const evp_cipher_st *cipher,
         engine_st *impl,
         const unsigned __int8 *key,
-        unsigned __int8 *iv,
+        const __m128i *iv,
         int enc)
 {
   int v6; // ebx
   evp_cipher_ctx_st *v7; // esi
   const evp_cipher_st *v8; // edi
   engine_st *cipher_engine; // ebx
-  const evp_cipher_st *v11; // eax
+  engine_st *v11; // eax
   int ctx_size; // eax
   void *v13; // eax
   const evp_cipher_st *v14; // edx
@@ -41,14 +41,14 @@ int __cdecl EVP_CipherInit_ex(
   {
     if ( cipher )
     {
-      EVP_CIPHER_CTX_cleanup((unsigned int)cipher, v7);
+      EVP_CIPHER_CTX_cleanup((int)cipher, v6, v7);
       v7->encrypt = v6;
       cipher_engine = impl;
       if ( impl )
       {
-        if ( !ENGINE_init((unsigned int)cipher, impl) )
+        if ( !ENGINE_init((int)cipher, (int)impl, impl) )
         {
-          ERR_put_error(6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 127);
+          ERR_put_error((int)impl, 6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 127);
           return 0;
         }
       }
@@ -61,10 +61,10 @@ int __cdecl EVP_CipherInit_ex(
         v11 = ENGINE_get_cipher(cipher_engine, cipher->nid);
         if ( !v11 )
         {
-          ERR_put_error(6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 144);
+          ERR_put_error((int)cipher_engine, 6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 144);
           return 0;
         }
-        v8 = v11;
+        v8 = (const evp_cipher_st *)v11;
         v7->engine = cipher_engine;
       }
       else
@@ -79,7 +79,7 @@ int __cdecl EVP_CipherInit_ex(
         v7->cipher_data = v13;
         if ( !v13 )
         {
-          ERR_put_error(6u, 123, 65, ".\\crypto\\evp\\evp_enc.c", 164);
+          ERR_put_error((int)cipher_engine, 6u, 123, 65, ".\\crypto\\evp\\evp_enc.c", 164);
           return 0;
         }
       }
@@ -90,34 +90,35 @@ int __cdecl EVP_CipherInit_ex(
       v14 = v7->cipher;
       v7->key_len = v8->key_len;
       v7->flags = 0;
-      if ( (v14->flags & 0x40) != 0 && !EVP_CIPHER_CTX_ctrl(v7, 0, 0, 0) )
+      if ( (v14->flags & 0x40) != 0 && !EVP_CIPHER_CTX_ctrl((int)cipher_engine, v7, 0, 0, 0) )
       {
-        ERR_put_error(6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 178);
+        ERR_put_error((int)cipher_engine, 6u, 123, 134, ".\\crypto\\evp\\evp_enc.c", 178);
         return 0;
       }
       v6 = enc;
     }
     else if ( !v7->cipher )
     {
-      ERR_put_error(6u, 123, 131, ".\\crypto\\evp\\evp_enc.c", 185);
+      ERR_put_error(v6, 6u, 123, 131, ".\\crypto\\evp\\evp_enc.c", 185);
       return 0;
     }
   }
   block_size = v7->cipher->block_size;
   if ( block_size != 1 && block_size != 8 && block_size != 16 )
     OpenSSLDie(
-      (unsigned int)v8,
-      (unsigned int)v7,
+      (int)v8,
+      (int)v7,
+      v6,
       ".\\crypto\\evp\\evp_enc.c",
       194,
       "ctx->cipher->block_size == 1 || ctx->cipher->block_size == 8 || ctx->cipher->block_size == 16");
   if ( (EVP_CIPHER_CTX_flags(v7) & 0x10) == 0 )
   {
-    switch ( (unsigned int)&loc_F0007 & EVP_CIPHER_CTX_flags(v7) )
+    switch ( EVP_CIPHER_CTX_flags(v7) & 0xF0007 )
     {
       case 0u:
       case 1u:
-        goto $LN9_34;
+        goto $LN9_47;
       case 2u:
         break;
       case 3u:
@@ -129,21 +130,22 @@ int __cdecl EVP_CipherInit_ex(
     }
     if ( (int)X509_get_issuer_name((x509_st *)v7) > 16 )
       OpenSSLDie(
-        (unsigned int)iv,
-        (unsigned int)v7,
+        (int)iv,
+        (int)v7,
+        v6,
         ".\\crypto\\evp\\evp_enc.c",
         212,
         "EVP_CIPHER_CTX_iv_length(ctx) <= (int)sizeof(ctx->iv)");
     if ( iv )
     {
       issuer_name = X509_get_issuer_name((x509_st *)v7);
-      memcpy(v7->oiv, iv, (unsigned int)issuer_name);
+      memcpy((int)v7->oiv, iv, (unsigned int)issuer_name);
     }
     v17 = X509_get_issuer_name((x509_st *)v7);
-    memcpy(v7->iv, v7->oiv, (unsigned int)v17);
+    memcpy((int)v7->iv, (const __m128i *)v7->oiv, (unsigned int)v17);
   }
-$LN9_34:
-  if ( (key || (v7->cipher->flags & 0x20) != 0) && !v7->cipher->init(v7, key, iv, v6) )
+$LN9_47:
+  if ( (key || (v7->cipher->flags & 0x20) != 0) && !v7->cipher->init(v7, key, (const unsigned __int8 *)iv, v6) )
     return 0;
   v18 = v7->cipher;
   v7->buf_len = 0;

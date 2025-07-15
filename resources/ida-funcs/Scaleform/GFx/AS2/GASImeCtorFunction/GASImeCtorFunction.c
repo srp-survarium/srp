@@ -14,7 +14,7 @@ void __userpurge Scaleform::GFx::AS2::GASImeCtorFunction::GASImeCtorFunction(
   Scaleform::GFx::ASStringNode *v12; // eax
   int v13; // [esp-4h] [ebp-30h]
   Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+10h] [ebp-1Ch] BYREF
-  int i; // [esp+14h] [ebp-18h]
+  int v15; // [esp+14h] [ebp-18h]
   Scaleform::GFx::AS2::GASImeCtorFunction *v16; // [esp+18h] [ebp-14h]
   Scaleform::GFx::AS2::Value v17; // [esp+1Ch] [ebp-10h] BYREF
 
@@ -23,7 +23,7 @@ void __userpurge Scaleform::GFx::AS2::GASImeCtorFunction::GASImeCtorFunction(
   Scaleform::GFx::AS2::CFunctionObject::CFunctionObject(
     this,
     (Scaleform::GFx::AS2::ASStringContext *)psc,
-    Scaleform::GFx::AS2::ObjectProto::GlobalCtor);
+    (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::ObjectProto::GlobalCtor);
   v5 = &this->Scaleform::GFx::AS2::ObjectInterface;
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::GASImeCtorFunction_vtbl *)&Scaleform::GFx::AS2::GASImeCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::XmlNodeCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
@@ -41,13 +41,13 @@ void __userpurge Scaleform::GFx::AS2::GASImeCtorFunction::GASImeCtorFunction(
     7u,
     v13);
   v6 = 0;
-  i = 0;
+  v15 = 0;
   if ( Scaleform::GFx::AS2::GASImeCtorFunction::GASNumberConstTable[0].Name )
   {
     v7 = Scaleform::GFx::AS2::GASImeCtorFunction::GASNumberConstTable;
     do
     {
-      v8 = dword_86B1DC[v6];
+      v8 = dword_7000A4[v6];
       Name = (char *)v7->Name;
       v10 = *v3;
       LOBYTE(psc) = 7;
@@ -67,9 +67,9 @@ void __userpurge Scaleform::GFx::AS2::GASImeCtorFunction::GASImeCtorFunction(
       if ( !v12->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v12);
       Scaleform::GFx::AS2::Value::~Value(&v17);
-      ++i;
-      v6 = 2 * i;
-      v7 = &Scaleform::GFx::AS2::GASImeCtorFunction::GASNumberConstTable[i];
+      ++v15;
+      v6 = 2 * v15;
+      v7 = &Scaleform::GFx::AS2::GASImeCtorFunction::GASNumberConstTable[v15];
     }
     while ( v7->Name );
   }

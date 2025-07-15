@@ -1,6 +1,5 @@
-int __cdecl strncpy_s(char *_Dst, unsigned int _SizeInBytes, const char *_Src, unsigned int _Count)
+int __usercall strncpy_s@<eax>(int a1@<edi>, char *_Dst, int _SizeInBytes, const char *_Src, unsigned int _Count)
 {
-  unsigned int v5; // edi
   int v6; // esi
   const char *v7; // edx
   char *v8; // eax
@@ -15,7 +14,7 @@ LABEL_7:
       v6 = 22;
       *_errno() = 22;
 LABEL_8:
-      _invalid_parameter(0, 0, 0, 0, 0);
+      _invalid_parameter(0, a1, v6);
       return v6;
     }
   }
@@ -25,7 +24,7 @@ LABEL_8:
       return 0;
     goto LABEL_7;
   }
-  v5 = _SizeInBytes;
+  a1 = _SizeInBytes;
   if ( !_SizeInBytes )
     goto LABEL_7;
   if ( !_Count )
@@ -48,9 +47,9 @@ LABEL_8:
       *v8++ = *v7++;
       if ( !v9 )
         break;
-      --v5;
+      --a1;
     }
-    while ( v5 );
+    while ( a1 );
   }
   else
   {
@@ -60,7 +59,7 @@ LABEL_8:
       *v8++ = *v7++;
       if ( !v10 )
         break;
-      if ( !--v5 )
+      if ( !--a1 )
         break;
       --_Count;
     }
@@ -68,7 +67,7 @@ LABEL_8:
     if ( !_Count )
       *v8 = 0;
   }
-  if ( v5 )
+  if ( a1 )
     return 0;
   if ( _Count != -1 )
   {

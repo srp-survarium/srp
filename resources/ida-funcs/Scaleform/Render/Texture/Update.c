@@ -2,16 +2,16 @@ char __thiscall Scaleform::Render::Texture::Update(Scaleform::Render::Texture *t
 {
   Scaleform::Render::ImageFormat v2; // ebp
   Scaleform::Render::TextureManagerLocks *pObject; // eax
-  Scaleform::Render::TextureManager *v4; // edi
+  Scaleform::Render::TextureManager *pManager; // edi
   unsigned __int8 TextureFlags; // cl
   bool v6; // zf
   Scaleform::Render::ImageFormat v7; // eax
   void (__thiscall *computeUpdateConvertRescaleFlags)(Scaleform::Render::Texture *, bool, bool, Scaleform::Render::ImageFormat, Scaleform::Render::ResizeImageType *, Scaleform::Render::ImageFormat *, bool *); // edx
-  Scaleform::Lock *pLock; // ebp
+  _RTL_CRITICAL_SECTION *v9; // ebp
   Scaleform::Render::Image *v10; // eax
   Scaleform::Render::ImageData *p_Data; // ebp
   void (__stdcall *v13)(unsigned __int8 *, const unsigned __int8 *, unsigned int, Scaleform::Render::Palette *, void *); // eax
-  Scaleform::Render::ImageData *p_imageData2; // ebp
+  Scaleform::Render::ImageData *v14; // ebp
   const Scaleform::Render::Size<unsigned long> *v15; // eax
   Scaleform::Render::RawImage *v16; // eax
   Scaleform::Render::ResizeImageType ImageFormatRescaleType; // eax
@@ -29,89 +29,89 @@ char __thiscall Scaleform::Render::Texture::Update(Scaleform::Render::Texture *t
   unsigned int v29; // ebp
   Scaleform::Render::ImageFormat v30; // ebp
   void (__stdcall *v31)(unsigned __int8 *, const unsigned __int8 *, unsigned int, Scaleform::Render::Palette *, void *); // eax
-  unsigned int MipLevels; // ecx
+  unsigned int v32; // ecx
   Scaleform::Render::Palette *v33; // esi
   Scaleform::Render::Palette *v34; // esi
   Scaleform::Render::Palette *v35; // [esp+26h] [ebp-FCh]
   int v36; // [esp+3Eh] [ebp-E4h] BYREF
-  Scaleform::Render::ImageData *psource; // [esp+42h] [ebp-E0h]
-  unsigned int level; // [esp+46h] [ebp-DCh]
-  unsigned int rescale; // [esp+4Ah] [ebp-D8h]
-  Scaleform::Ptr<Scaleform::Render::RawImage> pimage1; // [esp+4Eh] [ebp-D4h]
+  Scaleform::Render::ImageData *src; // [esp+42h] [ebp-E0h]
+  unsigned int mipLevel; // [esp+46h] [ebp-DCh]
+  unsigned int v39; // [esp+4Ah] [ebp-D8h]
+  Scaleform::Render::RawImage *v40; // [esp+4Eh] [ebp-D4h]
   Scaleform::Render::ImageFormat format; // [esp+52h] [ebp-D0h]
-  unsigned int sourceMipLevels; // [esp+56h] [ebp-CCh]
-  Scaleform::Ptr<Scaleform::Render::RawImage> pimage2; // [esp+5Ah] [ebp-C8h]
-  Scaleform::Render::ImageFormat rescaleBuffFromat; // [esp+5Eh] [ebp-C4h] BYREF
-  Scaleform::Lock::Locker imageLock; // [esp+62h] [ebp-C0h]
-  Scaleform::Render::ImagePlane tplane; // [esp+66h] [ebp-BCh] BYREF
-  Scaleform::Render::ResizeImageType rescaleType; // [esp+7Ah] [ebp-A8h] BYREF
-  Scaleform::Render::ImagePlane pplane; // [esp+7Eh] [ebp-A4h] BYREF
+  unsigned int MipLevels; // [esp+56h] [ebp-CCh]
+  Scaleform::Render::RawImage *v43; // [esp+5Ah] [ebp-C8h]
+  Scaleform::Render::ImageFormat v44; // [esp+5Eh] [ebp-C4h] BYREF
+  LPCRITICAL_SECTION lpCriticalSection; // [esp+62h] [ebp-C0h]
+  Scaleform::Render::ImagePlane pplane; // [esp+66h] [ebp-BCh] BYREF
+  Scaleform::Render::ResizeImageType resizeType; // [esp+7Ah] [ebp-A8h] BYREF
+  Scaleform::Render::ImagePlane splane; // [esp+7Eh] [ebp-A4h] BYREF
   Scaleform::Render::ImagePlane dplane; // [esp+92h] [ebp-90h] BYREF
   int v50; // [esp+A6h] [ebp-7Ch]
   int v51; // [esp+AAh] [ebp-78h]
   unsigned int Width; // [esp+AEh] [ebp-74h]
   unsigned int Height; // [esp+B2h] [ebp-70h]
   unsigned int v54; // [esp+B6h] [ebp-6Ch]
-  BOOL swMipGen; // [esp+BAh] [ebp-68h]
-  Scaleform::Render::TextureManager *pmanager; // [esp+BEh] [ebp-64h]
-  Scaleform::Render::ImageData imageData1; // [esp+C2h] [ebp-60h] BYREF
-  Scaleform::Render::ImageData imageData2; // [esp+EAh] [ebp-38h] BYREF
-  _BYTE v59[8]; // [esp+112h] [ebp-10h] BYREF
-  _BYTE v60[8]; // [esp+11Ah] [ebp-8h] BYREF
+  BOOL v55; // [esp+BAh] [ebp-68h]
+  Scaleform::Render::TextureManager *v56; // [esp+BEh] [ebp-64h]
+  Scaleform::Render::ImageData v57; // [esp+C2h] [ebp-60h] BYREF
+  Scaleform::Render::ImageData v58; // [esp+EAh] [ebp-38h] BYREF
+  char v59[8]; // [esp+112h] [ebp-10h] BYREF
+  char v60[8]; // [esp+11Ah] [ebp-8h] BYREF
 
   v2 = this->GetImageFormat(this);
   pObject = this->pManagerLocks.pObject;
   format = v2;
   if ( pObject )
-    v4 = pObject->pManager;
+    pManager = pObject->pManager;
   else
-    v4 = 0;
+    pManager = 0;
   TextureFlags = this->TextureFlags;
   v6 = (this->Use & 2) == 0;
-  LOBYTE(swMipGen) = (TextureFlags & 2) != 0;
-  LOBYTE(rescale) = TextureFlags & 1;
-  imageData1.RawPlaneCount = 1;
-  pmanager = v4;
+  LOBYTE(v55) = (TextureFlags & 2) != 0;
+  LOBYTE(v39) = TextureFlags & 1;
+  v57.RawPlaneCount = 1;
+  v56 = pManager;
   HIBYTE(v36) = 0;
-  level = 0;
-  memset(&imageData1, 0, 10);
-  imageData1.pPlanes = &imageData1.Plane0;
-  memset(&imageData1.pPalette, 0, 24);
-  memset(&imageData2, 0, 10);
-  imageData2.RawPlaneCount = 1;
-  imageData2.pPlanes = &imageData2.Plane0;
-  memset(&imageData2.pPalette, 0, 24);
-  pimage1.pObject = 0;
-  pimage2.pObject = 0;
+  mipLevel = 0;
+  memset(&v57, 0, 10);
+  v57.pPlanes = &v57.Plane0;
+  memset(&v57.pPalette, 0, 24);
+  memset(&v58, 0, 10);
+  v58.RawPlaneCount = 1;
+  v58.pPlanes = &v58.Plane0;
+  memset(&v58.pPalette, 0, 24);
+  v40 = 0;
+  v43 = 0;
   if ( v6 )
-    sourceMipLevels = this->MipLevels;
+    MipLevels = this->MipLevels;
   else
-    sourceMipLevels = 1;
+    MipLevels = 1;
   v7 = this->GetImageFormat(this);
   computeUpdateConvertRescaleFlags = this->computeUpdateConvertRescaleFlags;
-  rescaleBuffFromat = v7;
-  rescaleType = ResizeNone;
-  computeUpdateConvertRescaleFlags(this, rescale, swMipGen, v2, &rescaleType, &rescaleBuffFromat, (bool *)&v36 + 3);
-  imageLock.pLock = &this->pManagerLocks.pObject->ImageLock;
-  pLock = imageLock.pLock;
-  EnterCriticalSection(&imageLock.pLock->cs);
+  v44 = v7;
+  resizeType = ResizeNone;
+  computeUpdateConvertRescaleFlags(this, v39, v55, v2, &resizeType, &v44, (bool *)&v36 + 3);
+  lpCriticalSection = &this->pManagerLocks.pObject->ImageLock.cs;
+  v9 = lpCriticalSection;
+  EnterCriticalSection(lpCriticalSection);
   if ( this->pImage && (this->TextureFlags & 4) == 0 )
   {
     if ( this->pImage->GetImageType(this->pImage) == Type_RawImage )
     {
-      if ( (_BYTE)rescale )
+      if ( (_BYTE)v39 )
       {
         v10 = this->pImage->GetAsImage(this->pImage);
-        Scaleform::Render::ImageData::operator=(&imageData1, (const Scaleform::Render::ImageData *)&v10[1]);
-        psource = &imageData1;
+        Scaleform::Render::ImageData::operator=(&v57, (const Scaleform::Render::ImageData *)&v10[1]);
+        src = &v57;
         goto LABEL_32;
       }
     }
-    else if ( (_BYTE)rescale )
+    else if ( (_BYTE)v39 )
     {
       goto LABEL_17;
     }
-    if ( !HIBYTE(v36) && v4->isScanlineCompatible(v4, this->pFormat) && v4->mapTexture(v4, this) )
+    if ( !HIBYTE(v36) && pManager->isScanlineCompatible(pManager, this->pFormat) && pManager->mapTexture(pManager, this) )
     {
       p_Data = &this->pMap->Data;
 LABEL_21:
@@ -122,68 +122,70 @@ LABEL_21:
       if ( !this->pImage->Decode(this->pImage, p_Data, v13, 0) )
       {
         if ( p_Data == &this->pMap->Data )
-          v4->unmapTexture(v4, this, 0);
-        LeaveCriticalSection(&imageLock.pLock->cs);
+          pManager->unmapTexture(pManager, this, 0);
+        LeaveCriticalSection(lpCriticalSection);
         goto LABEL_28;
       }
-      psource = p_Data;
-      pLock = imageLock.pLock;
+      src = p_Data;
+      v9 = lpCriticalSection;
 LABEL_32:
-      if ( (_BYTE)rescale )
+      if ( (_BYTE)v39 )
       {
-        if ( !HIBYTE(v36) && v4->isScanlineCompatible(v4, this->pFormat) && v4->mapTexture(v4, this) )
+        if ( !HIBYTE(v36)
+          && pManager->isScanlineCompatible(pManager, this->pFormat)
+          && pManager->mapTexture(pManager, this) )
         {
-          p_imageData2 = &this->pMap->Data;
+          v14 = &this->pMap->Data;
         }
         else
         {
           v15 = this->GetTextureSize(this, v60, 0);
-          v16 = Scaleform::Render::RawImage::Create(rescaleBuffFromat, sourceMipLevels, v15, 0, 0, 0);
-          pimage2.pObject = v16;
+          v16 = Scaleform::Render::RawImage::Create(v44, MipLevels, v15, 0, 0, 0);
+          v43 = v16;
           if ( !v16 )
           {
-            LeaveCriticalSection(&pLock->cs);
+            LeaveCriticalSection(v9);
 LABEL_39:
-            if ( pimage1.pObject )
-              pimage1.pObject->Release(pimage1.pObject);
+            if ( v40 )
+              v40->Release(v40);
             goto LABEL_19;
           }
-          Scaleform::Render::ImageData::operator=(&imageData2, &v16->Data);
-          p_imageData2 = &imageData2;
+          Scaleform::Render::ImageData::operator=(&v58, &v16->Data);
+          v14 = &v58;
         }
-        ImageFormatRescaleType = rescaleType;
-        level = (unsigned int)p_imageData2;
-        if ( rescaleType == ResizeNone )
+        ImageFormatRescaleType = resizeType;
+        mipLevel = (unsigned int)v14;
+        if ( resizeType == ResizeNone )
         {
           ImageFormatRescaleType = Scaleform::Render::GetImageFormatRescaleType(format);
-          rescaleType = ImageFormatRescaleType;
+          resizeType = ImageFormatRescaleType;
         }
-        Scaleform::Render::RescaleImageData(p_imageData2, psource, ImageFormatRescaleType);
-        psource = p_imageData2;
+        Scaleform::Render::RescaleImageData(v14, src, ImageFormatRescaleType);
+        src = v14;
       }
       FormatPlaneCount = Scaleform::Render::ImageData::GetFormatPlaneCount(format);
-      rescale = FormatPlaneCount;
-      if ( !HIBYTE(v36) && v4->isScanlineCompatible(v4, this->pFormat) )
+      v39 = FormatPlaneCount;
+      if ( !HIBYTE(v36) && pManager->isScanlineCompatible(pManager, this->pFormat) )
         goto LABEL_59;
-      if ( !v4->isScanlineCompatible(v4, this->pFormat) )
+      if ( !pManager->isScanlineCompatible(pManager, this->pFormat) )
       {
         for ( i = 0; i < FormatPlaneCount; ++i )
         {
-          memset(&tplane, 0, sizeof(tplane));
+          memset(&pplane, 0, sizeof(pplane));
           memset(&dplane, 0, sizeof(dplane));
           v50 = 0;
           v51 = 0;
           Width = 0;
           Height = 0;
-          Scaleform::Render::ImageData::GetMipLevelPlane(psource, 0, i, &tplane);
-          dplane.Pitch = tplane.Pitch;
-          dplane.Height = tplane.Height;
-          dplane.DataSize = tplane.DataSize;
-          Height = tplane.Height;
-          dplane.Width = tplane.Width;
-          Width = tplane.Width;
+          Scaleform::Render::ImageData::GetMipLevelPlane(src, 0, i, &pplane);
+          dplane.Pitch = pplane.Pitch;
+          dplane.Height = pplane.Height;
+          dplane.DataSize = pplane.DataSize;
+          Height = pplane.Height;
+          dplane.Width = pplane.Width;
+          Width = pplane.Width;
           v24 = this->__vftable;
-          dplane.pData = tplane.pData;
+          dplane.pData = pplane.pData;
           Update = v24->Update;
           v50 = 0;
           v51 = 0;
@@ -192,134 +194,134 @@ LABEL_39:
         }
         goto LABEL_59;
       }
-      if ( v4->mapTexture(v4, this) )
+      if ( pManager->mapTexture(pManager, this) )
       {
         v19 = &this->pMap->Data;
 LABEL_56:
         v22 = this->pFormat->GetScanlineCopyFn(this->pFormat);
-        Scaleform::Render::ConvertImageData(v19, psource, v22, 0);
+        Scaleform::Render::ConvertImageData(v19, src, v22, 0);
 LABEL_59:
-        if ( swMipGen )
+        if ( v55 )
         {
-          for ( j = 0; j < rescale; ++j )
+          for ( j = 0; j < v39; ++j )
           {
+            memset(&splane, 0, sizeof(splane));
             memset(&pplane, 0, sizeof(pplane));
-            memset(&tplane, 0, sizeof(tplane));
-            Scaleform::Render::ImageData::GetMipLevelPlane(psource, 0, j, &pplane);
+            Scaleform::Render::ImageData::GetMipLevelPlane(src, 0, j, &splane);
             v27 = this->MipLevels <= 1u;
-            level = 1;
+            mipLevel = 1;
             if ( !v27 )
             {
-              v28 = pplane.Width;
+              v28 = splane.Width;
               do
               {
-                Scaleform::Render::ImageData::GetMipLevelPlane(&this->pMap->Data, level, j, &tplane);
+                Scaleform::Render::ImageData::GetMipLevelPlane(&this->pMap->Data, mipLevel, j, &pplane);
                 if ( HIBYTE(v36) )
                 {
-                  dplane.Pitch = pplane.Pitch;
+                  dplane.Pitch = splane.Pitch;
                   v29 = v28 >> 1;
-                  dplane.DataSize = pplane.DataSize;
-                  dplane.pData = pplane.pData;
+                  dplane.DataSize = splane.DataSize;
+                  dplane.pData = splane.pData;
                   dplane.Width = 1;
                   if ( v29 )
                     dplane.Width = v29;
                   dplane.Height = 1;
-                  if ( pplane.Height >> 1 )
-                    dplane.Height = pplane.Height >> 1;
+                  if ( splane.Height >> 1 )
+                    dplane.Height = splane.Height >> 1;
                   v30 = format;
-                  Scaleform::Render::GenerateMipLevel(&dplane, &pplane, format, j);
-                  v35 = psource->pPalette.pObject;
+                  Scaleform::Render::GenerateMipLevel(&dplane, &splane, format, j);
+                  v35 = src->pPalette.pObject;
                   v31 = this->pFormat->GetScanlineCopyFn(this->pFormat);
-                  Scaleform::Render::ConvertImagePlane(&tplane, &dplane, v30, j, v31, v35, 0);
+                  Scaleform::Render::ConvertImagePlane(&pplane, &dplane, v30, j, v31, v35, 0);
                   v28 = dplane.Width;
-                  pplane.Height = dplane.Height;
+                  splane.Height = dplane.Height;
                 }
                 else
                 {
-                  Scaleform::Render::GenerateMipLevel(&tplane, &pplane, format, j);
-                  v28 = tplane.Width;
-                  pplane.Height = tplane.Height;
-                  pplane.Pitch = tplane.Pitch;
-                  pplane.DataSize = tplane.DataSize;
-                  pplane.pData = tplane.pData;
+                  Scaleform::Render::GenerateMipLevel(&pplane, &splane, format, j);
+                  v28 = pplane.Width;
+                  splane.Height = pplane.Height;
+                  splane.Pitch = pplane.Pitch;
+                  splane.DataSize = pplane.DataSize;
+                  splane.pData = pplane.pData;
                 }
-                MipLevels = this->MipLevels;
-                pplane.Width = v28;
-                ++level;
+                v32 = this->MipLevels;
+                splane.Width = v28;
+                ++mipLevel;
               }
-              while ( level < MipLevels );
+              while ( mipLevel < v32 );
             }
           }
         }
-        if ( psource == &this->pMap->Data )
-          pmanager->unmapTexture(pmanager, this, 1);
+        if ( src == &this->pMap->Data )
+          v56->unmapTexture(v56, this, 1);
         else
-          this->uploadImage(this, psource);
-        LeaveCriticalSection(&imageLock.pLock->cs);
-        if ( pimage2.pObject )
-          pimage2.pObject->Release(pimage2.pObject);
+          this->uploadImage(this, src);
+        LeaveCriticalSection(lpCriticalSection);
+        if ( v43 )
+          v43->Release(v43);
 LABEL_28:
-        if ( pimage1.pObject )
-          pimage1.pObject->Release(pimage1.pObject);
-        Scaleform::Render::ImageData::~ImageData(&imageData2);
-        Scaleform::Render::ImageData::~ImageData(&imageData1);
+        if ( v40 )
+          v40->Release(v40);
+        Scaleform::Render::ImageData::~ImageData(&v58);
+        Scaleform::Render::ImageData::~ImageData(&v57);
         return 1;
       }
-      v19 = (Scaleform::Render::ImageData *)level;
-      if ( level )
+      v19 = (Scaleform::Render::ImageData *)mipLevel;
+      if ( mipLevel )
         goto LABEL_56;
       v20 = this->GetTextureSize(this, v59, 0);
-      v21 = Scaleform::Render::RawImage::Create(rescaleBuffFromat, sourceMipLevels, v20, 0, 0, 0);
-      if ( pimage2.pObject )
-        pimage2.pObject->Release(pimage2.pObject);
-      pimage2.pObject = v21;
+      v21 = Scaleform::Render::RawImage::Create(v44, MipLevels, v20, 0, 0, 0);
+      if ( v43 )
+        v43->Release(v43);
+      v43 = v21;
       if ( v21 )
       {
-        Scaleform::Render::ImageData::operator=(&imageData2, &v21->Data);
-        v19 = &imageData2;
+        Scaleform::Render::ImageData::operator=(&v58, &v21->Data);
+        v19 = &v58;
         goto LABEL_56;
       }
-      LeaveCriticalSection(&imageLock.pLock->cs);
+      LeaveCriticalSection(lpCriticalSection);
       goto LABEL_39;
     }
 LABEL_17:
-    pimage1.pObject = Scaleform::Render::RawImage::Create(rescaleBuffFromat, sourceMipLevels, &this->ImgSize, 0, 0, 0);
-    if ( !pimage1.pObject )
+    v40 = Scaleform::Render::RawImage::Create(v44, MipLevels, &this->ImgSize, 0, 0, 0);
+    if ( !v40 )
     {
-      LeaveCriticalSection(&pLock->cs);
+      LeaveCriticalSection(v9);
 LABEL_19:
-      Scaleform::Render::ImageData::~ImageData(&imageData2);
-      Scaleform::Render::ImageData::~ImageData(&imageData1);
+      Scaleform::Render::ImageData::~ImageData(&v58);
+      Scaleform::Render::ImageData::~ImageData(&v57);
       return 0;
     }
-    Scaleform::Render::ImageData::operator=(&imageData1, &pimage1.pObject->Data);
-    imageData1.Format = format | 0x100000;
-    p_Data = &imageData1;
+    Scaleform::Render::ImageData::operator=(&v57, &v40->Data);
+    v57.Format = (unsigned int)&loc_100000 | format;
+    p_Data = &v57;
     goto LABEL_21;
   }
-  LeaveCriticalSection(&pLock->cs);
-  if ( (imageData2.Flags & 2) != 0 )
+  LeaveCriticalSection(v9);
+  if ( (v58.Flags & 2) != 0 )
   {
-    imageData2.Flags &= ~2u;
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, imageData2.pPlanes);
+    v58.Flags &= ~2u;
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v58.pPlanes);
   }
-  imageData2.pPlanes = &imageData2.Plane0;
-  if ( imageData2.pPalette.pObject )
+  v58.pPlanes = &v58.Plane0;
+  if ( v58.pPalette.pObject )
   {
-    v33 = imageData2.pPalette.pObject;
-    if ( InterlockedExchangeAdd(&imageData2.pPalette.pObject->RefCount.Value, -1) == 1 )
+    v33 = v58.pPalette.pObject;
+    if ( InterlockedExchangeAdd(&v58.pPalette.pObject->RefCount.Value, -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v33);
   }
-  if ( (imageData1.Flags & 2) != 0 )
+  if ( (v57.Flags & 2) != 0 )
   {
-    imageData1.Flags &= ~2u;
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, imageData1.pPlanes);
+    v57.Flags &= ~2u;
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v57.pPlanes);
   }
-  imageData1.pPlanes = &imageData1.Plane0;
-  if ( imageData1.pPalette.pObject )
+  v57.pPlanes = &v57.Plane0;
+  if ( v57.pPalette.pObject )
   {
-    v34 = imageData1.pPalette.pObject;
-    if ( InterlockedExchangeAdd(&imageData1.pPalette.pObject->RefCount.Value, -1) == 1 )
+    v34 = v57.pPalette.pObject;
+    if ( InterlockedExchangeAdd(&v57.pPalette.pObject->RefCount.Value, -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v34);
   }
   return 0;

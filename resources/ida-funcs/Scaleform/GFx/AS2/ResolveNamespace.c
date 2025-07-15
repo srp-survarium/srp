@@ -3,114 +3,109 @@ void __usercall Scaleform::GFx::AS2::ResolveNamespace(
         Scaleform::GFx::ASStringNode *elemNode,
         Scaleform::GFx::XML::RootNode *proot)
 {
-  Scaleform::GFx::XML::ElementNode *v3; // ebx
+  Scaleform::GFx::ASStringNode *v3; // ebx
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
-  Scaleform::GFx::XML::DOMString *p_Namespace; // ebp
+  Scaleform::GFx::XML::DOMString *v5; // ebp
   Scaleform::GFx::XML::DOMStringNode *v6; // eax
-  Scaleform::GFx::ASStringNode *v7; // eax
-  Scaleform::GFx::XML::ElementNode *Parent; // edi
-  Scaleform::GFx::ASStringNode *pNode; // ecx
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::XML::ElementNode *HashFlags; // edi
+  Scaleform::GFx::AS2::XmlNodeObject *pObject; // ecx
   unsigned int RefCount; // eax
   Scaleform::GFx::XML::DOMStringNode *StringNode; // eax
   Scaleform::GFx::ASStringNode *v12; // eax
-  Scaleform::GFx::XML::DOMStringNode *p_EmptyStringNode; // [esp+8h] [ebp-28h]
+  Scaleform::GFx::XML::DOMStringNode *p_HashFlags; // [esp+8h] [ebp-28h]
   Scaleform::GFx::XML::DOMString v14; // [esp+18h] [ebp-18h] BYREF
-  Scaleform::GFx::ASString ns; // [esp+1Ch] [ebp-14h] BYREF
-  Scaleform::GFx::AS2::Value qval; // [esp+20h] [ebp-10h] BYREF
+  Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> result; // [esp+1Ch] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::Value v16; // [esp+20h] [ebp-10h] BYREF
 
-  v3 = (Scaleform::GFx::XML::ElementNode *)elemNode;
+  v3 = elemNode;
   StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(penv->StringContext.pContext);
-  elemNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, "xmlns", 5u);
+  elemNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, (__m128i *)"xmlns", 5u);
   ++elemNode->RefCount;
-  if ( v3->Prefix.pNode->Size )
+  if ( *(_DWORD *)(v3[1].RefCount + 12) )
   {
     Scaleform::GFx::ASString::Append(
       (Scaleform::GFx::ASString *)&elemNode,
-      (char *)&stru_95963C.m_max_end,
+      (const __m128i *)":",
       (Scaleform::GFx::ASStringNode *)1);
     Scaleform::GFx::ASString::Append(
       (Scaleform::GFx::ASString *)&elemNode,
-      (char *)v3->Prefix.pNode->pData,
-      (Scaleform::GFx::ASStringNode *)strlen(v3->Prefix.pNode->pData));
+      *(const __m128i **)v3[1].RefCount,
+      (Scaleform::GFx::ASStringNode *)strlen(*(const char **)v3[1].RefCount));
   }
-  p_EmptyStringNode = &v3->MemoryManager.pObject->StringPool.EmptyStringNode;
-  qval.T.Type = 0;
-  Scaleform::GFx::XML::DOMString::DOMString(&v14, p_EmptyStringNode);
-  p_Namespace = &v3->Namespace;
-  Scaleform::GFx::XML::DOMString::AssignNode(&v3->Namespace, v14.pNode);
+  p_HashFlags = (Scaleform::GFx::XML::DOMStringNode *)&v3->pLower[1].HashFlags;
+  v16.T.Type = 0;
+  Scaleform::GFx::XML::DOMString::DOMString(&v14, p_HashFlags);
+  v5 = (Scaleform::GFx::XML::DOMString *)&v3[1].HashFlags;
+  Scaleform::GFx::XML::DOMString::AssignNode((Scaleform::GFx::XML::DOMString *)&v3[1].HashFlags, v14.pNode);
   Scaleform::GFx::XML::DOMString::~DOMString(&v14);
-  (*((void (__thiscall **)(Scaleform::GFx::XML::ShadowRefBase_vtbl *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *))v3->pShadow[2].__vftable[4].~Scaleform::GFx::XML::ShadowRefBase
-   + 4))(
-    v3->pShadow[2].__vftable + 4,
+  (*(void (__thiscall **)(Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *> > >::TableType *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *))(v3[1].pManager->StringSet.pTable[2].EntryCount + 16))(
+    v3[1].pManager->StringSet.pTable + 2,
     penv,
     &elemNode,
-    &qval);
-  if ( !qval.T.Type || qval.T.Type == 10 )
+    &v16);
+  if ( !v16.T.Type || v16.T.Type == 10 )
   {
-    Parent = v3->Parent;
-    if ( !Parent )
+    HashFlags = (Scaleform::GFx::XML::ElementNode *)v3->HashFlags;
+    if ( !HashFlags )
       goto LABEL_18;
     while ( 1 )
     {
-      if ( !Parent->pShadow )
+      if ( !HashFlags->pShadow )
       {
-        Scaleform::GFx::AS2::CreateShadow(
-          (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *)&ns,
-          penv,
-          Parent,
-          proot);
-        pNode = ns.pNode;
-        if ( ns.pNode )
+        Scaleform::GFx::AS2::CreateShadow(&result, penv, HashFlags, proot);
+        pObject = result.pObject;
+        if ( result.pObject )
         {
-          RefCount = ns.pNode->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          RefCount = result.pObject->RefCount;
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
-            ns.pNode->RefCount = RefCount - 1;
-            Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pNode);
+            result.pObject->RefCount = RefCount - 1;
+            Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
           }
         }
       }
-      (*((void (__thiscall **)(Scaleform::GFx::XML::ShadowRefBase_vtbl *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *))Parent->pShadow[2].__vftable[4].~Scaleform::GFx::XML::ShadowRefBase
+      (*((void (__thiscall **)(Scaleform::GFx::XML::ShadowRefBase_vtbl *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *))HashFlags->pShadow[2].__vftable[4].~Scaleform::GFx::XML::ShadowRefBase
        + 4))(
-        Parent->pShadow[2].__vftable + 4,
+        HashFlags->pShadow[2].__vftable + 4,
         penv,
         &elemNode,
-        &qval);
-      if ( qval.T.Type )
+        &v16);
+      if ( v16.T.Type )
       {
-        if ( qval.T.Type != 10 )
+        if ( v16.T.Type != 10 )
           break;
       }
-      Parent = Parent->Parent;
-      if ( !Parent )
+      HashFlags = HashFlags->Parent;
+      if ( !HashFlags )
         goto LABEL_18;
     }
-    Scaleform::GFx::AS2::Value::ToStringImpl(&qval, (Scaleform::GFx::ASString *)&v14, penv, -1, 0);
+    Scaleform::GFx::AS2::Value::ToStringImpl(&v16, (Scaleform::GFx::ASString *)&v14, penv, -1, 0);
     StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
-                   &v3->MemoryManager.pObject->StringPool,
+                   (Scaleform::GFx::XML::DOMStringManager *)&v3->pLower->HashFlags,
                    v14.pNode->pData,
                    (unsigned int)v14.pNode[1].pData);
-    Scaleform::GFx::XML::DOMString::DOMString((Scaleform::GFx::XML::DOMString *)&ns, StringNode);
-    Scaleform::GFx::XML::DOMString::AssignNode(p_Namespace, (Scaleform::GFx::XML::DOMStringNode *)ns.pNode);
-    Scaleform::GFx::XML::DOMString::~DOMString((Scaleform::GFx::XML::DOMString *)&ns);
-    v7 = (Scaleform::GFx::ASStringNode *)v14.pNode;
+    Scaleform::GFx::XML::DOMString::DOMString((Scaleform::GFx::XML::DOMString *)&result, StringNode);
+    Scaleform::GFx::XML::DOMString::AssignNode(v5, (Scaleform::GFx::XML::DOMStringNode *)result.pObject);
+    Scaleform::GFx::XML::DOMString::~DOMString((Scaleform::GFx::XML::DOMString *)&result);
+    pNode = (Scaleform::GFx::ASStringNode *)v14.pNode;
   }
   else
   {
-    Scaleform::GFx::AS2::Value::ToStringImpl(&qval, &ns, penv, -1, 0);
+    Scaleform::GFx::AS2::Value::ToStringImpl(&v16, (Scaleform::GFx::ASString *)&result, penv, -1, 0);
     v6 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
-           &v3->MemoryManager.pObject->StringPool,
-           ns.pNode->pData,
-           ns.pNode->Size);
+           (Scaleform::GFx::XML::DOMStringManager *)&v3->pLower->HashFlags,
+           (const char *)result.pObject->__vftable,
+           (unsigned int)result.pObject->pUserDataHolder);
     Scaleform::GFx::XML::DOMString::DOMString(&v14, v6);
-    Scaleform::GFx::XML::DOMString::AssignNode(p_Namespace, v14.pNode);
+    Scaleform::GFx::XML::DOMString::AssignNode(v5, v14.pNode);
     Scaleform::GFx::XML::DOMString::~DOMString(&v14);
-    v7 = ns.pNode;
+    pNode = (Scaleform::GFx::ASStringNode *)result.pObject;
   }
-  if ( !--v7->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+  if ( !--pNode->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 LABEL_18:
-  Scaleform::GFx::AS2::Value::~Value(&qval);
+  Scaleform::GFx::AS2::Value::~Value(&v16);
   v12 = elemNode;
   --elemNode->RefCount;
   if ( !v12->RefCount )

@@ -2,7 +2,7 @@ int __cdecl PEM_bytes_read_bio(
         unsigned __int8 **pdata,
         int *plen,
         char **pnm,
-        char *name,
+        const char *name,
         bio_st *bp,
         int (__cdecl *cb)(char *, int, int, void *),
         void *u)
@@ -42,7 +42,7 @@ LABEL_4:
   while ( 1 )
   {
     v7 = namea;
-    if ( check_pem(namea, name) )
+    if ( check_pem(namea, name, (int)pnm) )
       break;
     CRYPTO_free(v7);
     CRYPTO_free(header);
@@ -50,9 +50,9 @@ LABEL_4:
     if ( !PEM_read_bio(bp, &namea, &header, &data, &len) )
       goto LABEL_4;
   }
-  EVP_CIPHER_INFO = PEM_get_EVP_CIPHER_INFO(header, &cipher);
+  EVP_CIPHER_INFO = PEM_get_EVP_CIPHER_INFO((int)pnm, header, &cipher);
   v10 = data;
-  if ( EVP_CIPHER_INFO && PEM_do_header(&cipher, data, &len, callback, ua) )
+  if ( EVP_CIPHER_INFO && PEM_do_header((int)pnm, &cipher, (__m128i *)data, &len, callback, (__m128i *)ua) )
   {
     v11 = len;
     v12 = v19;

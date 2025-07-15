@@ -3,26 +3,27 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::Timer::AS3Constructor(
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  unsigned int v3; // ebx
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  unsigned int v3; // edi
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::Value *v8; // edi
-  Scaleform::GFx::AS3::VM::Error v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::GFx::AS3::Value *v7; // ebx
+  Scaleform::StringDataPtr v8; // [esp-14h] [ebp-28h]
+  Scaleform::GFx::AS3::VM::Error v9; // [esp+Ch] [ebp-8h] BYREF
 
   v3 = argc;
   if ( argc )
   {
-    v8 = argv;
+    v7 = argv;
     Scaleform::GFx::AS3::Value::Convert2Number(argv, (Scaleform::GFx::AS3::CheckResult *)&argc, &this->Delay);
     if ( v3 >= 2 )
-      Scaleform::GFx::AS3::Value::Convert2Int32(v8 + 1, (Scaleform::GFx::AS3::CheckResult *)&argc, &this->RepeatCount);
+      Scaleform::GFx::AS3::Value::Convert2Int32(v7 + 1, (Scaleform::GFx::AS3::CheckResult *)&argc, &this->RepeatCount);
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v9, eWrongArgumentCountError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
+    v8.pStr = "Timer::AS3Constructor";
+    v8.Size = 21;
+    Scaleform::GFx::AS3::VM::Error::Error(&v9, eWrongArgumentCountError, this->pTraits.pObject->pVM, v8, 1, 1, 0);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
     pNode = v9.Message.pNode;
     --v9.Message.pNode->RefCount;
     if ( !pNode->RefCount )

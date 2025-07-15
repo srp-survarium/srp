@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StaticText::textGet(
   SubString = Scaleform::GFx::StaticTextSnapshotData::GetSubString(v7, &v16, 0, CharCount, 1);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  StringManagerRef->pStringManager,
-                 (char *)((SubString->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((SubString->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(SubString->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   StringNode->RefCount += 2;
   pNode = result->pNode;

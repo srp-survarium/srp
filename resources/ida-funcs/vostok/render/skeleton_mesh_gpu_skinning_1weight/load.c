@@ -1,138 +1,98 @@
-void __userpurge vostok::render::skeleton_mesh_gpu_skinning_1weight::load(
-        vostok::render::skeleton_mesh_gpu_skinning_1weight *this@<ecx>,
-        float a2@<xmm0>,
+void __thiscall vostok::render::skeleton_mesh_gpu_skinning_1weight::load(
+        vostok::render::skeleton_mesh_gpu_skinning_1weight *this,
         const vostok::configs::binary_config_value *properties,
-        vostok::memory::chunk_reader *r)
+        unsigned int r)
 {
-  vostok::memory::chunk_reader *v4; // esi
-  unsigned int *m_pointer; // ebp
-  unsigned int v7; // eax
-  unsigned int *v8; // ebp
-  unsigned int *v9; // esi
-  unsigned int v10; // ecx
-  unsigned int v11; // kr00_4
-  vostok::render::res_declaration *v12; // edi
-  const void *v13; // esi
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::memory::chunk_reader *declaration; // eax
-  vostok::render::untyped_buffer *v16; // eax
-  vostok::render::untyped_buffer *v17; // ecx
-  vostok::render::res_state *m_object; // eax
-  bool v19; // zf
+  vostok::memory::chunk_reader *v4; // edi
+  vostok::memory::chunk_reader *v6; // ecx
+  unsigned int *v7; // esi
+  vostok::memory::chunk_reader *v8; // edi
+  vostok::memory::chunk_reader *v9; // ecx
+  unsigned int v10; // eax
+  unsigned int v11; // edi
+  vostok::render::untyped_buffer *v12; // eax
+  vostok::render::resource_manager *v13; // ecx
+  vostok::render::res_declaration *declaration; // eax
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v15; // eax
+  vostok::render::resource_manager *v16; // ecx
   vostok::render::res_geometry *geometry; // eax
-  vostok::render::res_geometry *v21; // ecx
-  vostok::render::res_geometry *v22; // eax
-  vostok::render::resource_manager *v23; // [esp-14h] [ebp-24h]
-  vostok::memory::chunk_reader::chunk_type *v24; // [esp+0h] [ebp-10h]
-  vostok::memory::chunk_reader::chunk_type *v25; // [esp+0h] [ebp-10h]
-  unsigned int v26; // [esp+0h] [ebp-10h]
-  vostok::render::untyped_buffer *ib; // [esp+14h] [ebp+4h]
+  vostok::render::resource_manager *v19; // [esp-18h] [ebp-3Ch]
+  void *v20; // [esp-10h] [ebp-34h]
+  unsigned int v21; // [esp+0h] [ebp-24h]
+  unsigned int v22; // [esp+0h] [ebp-24h]
+  vostok::render::hw_buffer_pool *v23; // [esp+0h] [ebp-24h]
+  const unsigned __int8 *v24; // [esp+Ch] [ebp-18h] BYREF
+  vostok::math::float3 *positions; // [esp+10h] [ebp-14h]
+  const unsigned __int8 *v26; // [esp+18h] [ebp-Ch] BYREF
+  void *data; // [esp+1Ch] [ebp-8h]
+  vostok::render::untyped_buffer *propertiesa; // [esp+2Ch] [ebp+8h]
 
-  v4 = r;
-  vostok::render::render_surface::load(this, properties, r);
-  vostok::memory::chunk_reader::chunk_size((vostok::memory::chunk_reader *)3, (const unsigned int)&r, v24);
-  m_pointer = (unsigned int *)v4->m_reader.m_pointer;
-  v7 = *m_pointer;
-  v8 = m_pointer + 1;
-  this->m_render_geometry.vertex_count = v7;
-  vostok::memory::chunk_reader::chunk_size((vostok::memory::chunk_reader *)4, (const unsigned int)&r, v25);
-  v9 = (unsigned int *)v4->m_reader.m_pointer;
-  v10 = *v9;
-  v11 = *v9;
-  v12 = 0;
-  v13 = v9 + 1;
-  this->m_render_geometry.index_count = v10;
-  v23 = (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-  this->m_render_geometry.primitive_count = v11 / 3;
-  buffer = vostok::render::resource_manager::create_buffer(2 * v10, 0, v23, v13, enum_buffer_type_index, 0, 0);
-  ib = 0;
-  if ( buffer )
+  v4 = (vostok::memory::chunk_reader *)r;
+  vostok::render::render_surface::load(this, properties, (vostok::memory::chunk_reader *)r);
+  vostok::memory::chunk_reader::open_reader(v6, v4, &v24, (vostok::memory::chunk_reader::chunk_type *)3, v21);
+  v7 = (unsigned int *)positions;
+  positions = (vostok::math::float3 *)((char *)positions + 4);
+  v8 = (vostok::memory::chunk_reader *)r;
+  this->m_render_geometry.vertex_count = *v7;
+  vostok::memory::chunk_reader::open_reader(v9, v8, &v26, (vostok::memory::chunk_reader::chunk_type *)4, v22);
+  r = *(_DWORD *)data;
+  v10 = r / 3;
+  data = (char *)data + 4;
+  v20 = data;
+  v11 = 2 * r;
+  v19 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+  this->m_render_geometry.index_count = r;
+  this->m_render_geometry.primitive_count = v10;
+  vostok::render::resource_manager::create_buffer(v11, v19, (void *)2, (vostok::render::enum_buffer_type)v20, 1, 0, 0);
+  propertiesa = 0;
+  if ( v12 )
   {
-    ++buffer->m_reference_count;
-    ib = buffer;
+    ++v12->m_reference_count;
+    propertiesa = v12;
   }
-  declaration = (vostok::memory::chunk_reader *)vostok::render::resource_manager::create_declaration(
-                                                  6u,
-                                                  (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                                                  (stlp_std::forward_iterator_tag *)hardware_1weight_skinning_vertex_layout);
+  declaration = vostok::render::resource_manager::create_declaration(
+                  v13,
+                  (const D3D11_INPUT_ELEMENT_DESC *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                  hardware_1weight_skinning_vertex_layout,
+                  6u);
   r = 0;
   if ( declaration )
   {
-    ++*(_DWORD *)&declaration->gap0;
-    r = declaration;
-    v12 = (vostok::render::res_declaration *)declaration;
+    ++declaration->m_reference_count;
+    r = (unsigned int)declaration;
   }
-  v16 = vostok::render::resource_manager::create_buffer(
-          36 * this->m_render_geometry.vertex_count,
-          (bool)v12,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v8,
-          enum_buffer_type_vertex,
-          (vostok::render::untyped_buffer *)1,
-          0);
-  v17 = 0;
-  if ( v16 )
-  {
-    ++v16->m_reference_count;
-    v17 = v16;
-  }
-  m_object = (vostok::render::res_state *)this->m_vertex_buffer.m_object;
-  this->m_vertex_buffer.m_object = v17;
-  if ( m_object )
-  {
-    v19 = m_object->m_reference_count-- == 1;
-    if ( v19 )
-    {
-      vostok::render::resource_manager::release(
-        m_object,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
-      v12 = (vostok::render::res_declaration *)r;
-    }
-  }
+  vostok::render::resource_manager::create_buffer(
+    36 * this->m_render_geometry.vertex_count,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)0x24,
+    (vostok::render::enum_buffer_type)positions,
+    0,
+    1,
+    0);
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    v15,
+    (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&this->m_vertex_buffer,
+    (vostok::render::hw_buffer_pool *)&this->m_vertex_buffer);
   geometry = vostok::render::resource_manager::create_geometry(
-               v12,
+               v16,
+               (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+               (vostok::render::res_declaration *)r,
+               (vostok::render::untyped_buffer *)0x24,
                this->m_vertex_buffer.m_object,
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               0x24u,
-               ib);
-  v21 = 0;
-  if ( geometry )
+               propertiesa);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    &this->m_render_geometry.geom,
+    geometry);
+  LODWORD(this->m_streaming_texture_factor) = vostok::render::calculate_streaming_texture_factor(
+                                                this->m_render_geometry.index_count,
+                                                positions,
+                                                (const vostok::math::float2 *)&positions[2].elements[1],
+                                                0x24u,
+                                                (const unsigned int)data);
+  vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>((vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&r);
+  if ( propertiesa )
   {
-    ++geometry->m_reference_count;
-    v21 = geometry;
-  }
-  v22 = this->m_render_geometry.geom.m_object;
-  this->m_render_geometry.geom.m_object = v21;
-  if ( v22 )
-  {
-    v19 = v22->m_reference_count-- == 1;
-    if ( v19 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v22);
-  }
-  vostok::render::calculate_streaming_texture_factor(
-    (const vostok::math::float3 *)v8,
-    (const vostok::math::float2 *)(v8 + 7),
-    0x24u,
-    (const unsigned int)v13,
-    (const unsigned __int16 *)this->m_render_geometry.index_count,
-    v26);
-  this->m_streaming_texture_factor = a2;
-  if ( v12 )
-  {
-    v19 = v12->m_reference_count-- == 1;
-    if ( v19 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v12);
-  }
-  if ( ib )
-  {
-    v19 = ib->m_reference_count-- == 1;
-    if ( v19 )
-      vostok::render::resource_manager::release(
-        (vostok::render::res_state *)ib,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
+    if ( propertiesa->m_reference_count-- == 1 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(propertiesa, v23);
   }
 }

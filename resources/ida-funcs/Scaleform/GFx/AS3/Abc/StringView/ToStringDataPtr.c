@@ -17,7 +17,7 @@ Scaleform::StringDataPtr *__thiscall Scaleform::GFx::AS3::Abc::StringView::ToStr
   else
   {
     v2 = result;
-    result->pStr = (const char *)&buf;
+    result->pStr = uri;
     result->Size = 0;
   }
   return v2;

@@ -5,29 +5,29 @@ void __thiscall Scaleform::GFx::MovieImpl::AddIndirectTransformPair(
         Scaleform::GFx::DisplayObjectBase *obj)
 {
   Scaleform::Render::TreeNode *pObject; // ecx
-  Scaleform::GFx::MovieImpl::IndirectTransPair p; // [esp+0h] [ebp-10h] BYREF
+  Scaleform::GFx::MovieImpl::IndirectTransPair val; // [esp+0h] [ebp-10h] BYREF
 
-  p.OrigParentDepth = -1;
+  val.OrigParentDepth = -1;
   if ( transformParent )
     ++transformParent->RefCount;
-  p.TransformParent.pObject = transformParent;
+  val.TransformParent.pObject = transformParent;
   if ( obj )
     ++obj->RefCount;
-  p.Obj.pObject = obj;
+  val.Obj.pObject = obj;
   if ( origParent )
     ++origParent->RefCount;
-  p.OriginalParent.pObject = origParent;
+  val.OriginalParent.pObject = origParent;
   Scaleform::ArrayData<Scaleform::GFx::MovieImpl::IndirectTransPair,Scaleform::AllocatorLH<Scaleform::GFx::MovieImpl::IndirectTransPair,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
     &this->IndirectTransformPairs.Data,
-    &p);
-  if ( p.OriginalParent.pObject )
-    Scaleform::RefCountNTSImpl::Release(p.OriginalParent.pObject);
-  if ( p.Obj.pObject )
-    Scaleform::RefCountNTSImpl::Release(p.Obj.pObject);
-  pObject = p.TransformParent.pObject;
-  if ( p.TransformParent.pObject )
+    &val);
+  if ( val.OriginalParent.pObject )
+    Scaleform::RefCountNTSImpl::Release(val.OriginalParent.pObject);
+  if ( val.Obj.pObject )
+    Scaleform::RefCountNTSImpl::Release(val.Obj.pObject);
+  pObject = val.TransformParent.pObject;
+  if ( val.TransformParent.pObject )
   {
-    if ( p.TransformParent.pObject->RefCount-- == 1 )
+    if ( val.TransformParent.pObject->RefCount-- == 1 )
       Scaleform::Render::ContextImpl::Entry::destroyHelper(pObject);
   }
 }

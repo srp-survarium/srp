@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::MeshKeySet::DestroyKey(
   Scaleform::RefCountVImpl *v5; // ecx
 
   key->pPrev->pNext = key->pNext;
-  key->pNext->Scaleform::ListNode<Scaleform::Render::MeshKey>::$5252AFF3D3E939C0FA7A55516A935C36::pPrev = key->pPrev;
+  key->pNext->Scaleform::ListNode<Scaleform::Render::MeshKey>::$C02E696F318C57037B72EC74A56D5482::pPrev = key->pPrev;
   pObject = key->pMesh.pObject;
   if ( pObject )
   {

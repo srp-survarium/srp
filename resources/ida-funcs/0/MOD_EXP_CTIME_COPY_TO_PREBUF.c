@@ -13,7 +13,7 @@ int __usercall MOD_EXP_CTIME_COPY_TO_PREBUF@<eax>(
   unsigned int *v11; // edx
 
   if ( top > b->dmax )
-    result = (int)bn_expand2(b, (unsigned int *)top);
+    result = (int)bn_expand2(b, top);
   else
     result = (int)b;
   if ( result )

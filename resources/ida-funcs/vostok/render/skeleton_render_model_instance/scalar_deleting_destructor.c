@@ -4,6 +4,6 @@ vostok::render::skeleton_render_model_instance *__thiscall vostok::render::skele
 {
   vostok::render::skeleton_render_model_instance::~skeleton_render_model_instance(this);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

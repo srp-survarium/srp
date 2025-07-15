@@ -22,7 +22,7 @@ int __cdecl BN_rshift(bignum_st *r, const bignum_st *a, int n)
   top = a->top;
   if ( n / 32 >= top || !top )
   {
-    BN_set_word(r, 0);
+    BN_set_word(v4, r, 0);
     return 1;
   }
   v6 = r;
@@ -35,7 +35,7 @@ int __cdecl BN_rshift(bignum_st *r, const bignum_st *a, int n)
   r->neg = a->neg;
   if ( a->top - v3 + 1 > r->dmax )
   {
-    result = (int)bn_expand2(r, (unsigned int *)(a->top - v3 + 1));
+    result = (int)bn_expand2(r, a->top - v3 + 1);
     v6 = r;
   }
   else

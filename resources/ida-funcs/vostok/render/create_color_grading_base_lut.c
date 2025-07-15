@@ -1,70 +1,61 @@
 vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *__usercall vostok::render::create_color_grading_base_lut@<eax>(
-        vostok::render::res_texture **a1@<edi>)
+        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *a1@<eax>,
+        vostok::render::resource_manager *a2@<ecx>)
 {
-  void *v1; // esp
-  unsigned int v2; // ecx
-  char *v3; // eax
-  unsigned int v4; // edx
-  unsigned int v5; // ecx
-  char v6; // dl
-  char v7; // bl
-  vostok::render::res_texture *v8; // eax
-  unsigned int v10[4098]; // [esp-4000h] [ebp-4020h] BYREF
-  D3D11_SUBRESOURCE_DATA data; // [esp+8h] [ebp-18h] BYREF
-  unsigned int v12; // [esp+14h] [ebp-Ch]
-  unsigned int v13; // [esp+18h] [ebp-8h]
-  char v14; // [esp+1Fh] [ebp-1h]
+  void *v3; // esp
+  char *v4; // eax
+  unsigned int v5; // edx
+  char v6; // bl
+  vostok::render::res_texture *v7; // eax
+  unsigned int v9[4100]; // [esp-4000h] [ebp-4028h] BYREF
+  D3D11_SUBRESOURCE_DATA width; // [esp+10h] [ebp-18h] BYREF
+  unsigned int v11; // [esp+1Ch] [ebp-Ch]
+  unsigned int v12; // [esp+20h] [ebp-8h]
+  char v13; // [esp+27h] [ebp-1h]
 
-  v1 = alloca(0x4000);
-  LOBYTE(v2) = 0;
-  v12 = 0;
-  v3 = (char *)v10 + 2;
+  v3 = alloca(0x4000);
+  v11 = 0;
+  v4 = (char *)v9 + 1;
   do
   {
-    LOBYTE(v4) = 0;
-    v13 = 0;
-    v14 = 16 * v2;
+    v12 = 0;
+    v13 = 16 * v11;
     do
     {
       v5 = 0;
-      v6 = 16 * v4;
+      LOBYTE(a2) = 16 * v12;
       do
       {
-        *(v3 - 2) = 16 * v5;
-        v7 = v14;
-        *(v3 - 1) = v6;
-        *v3 = v7;
-        v3[1] = -1;
+        v4[1] = 16 * v5;
+        v6 = v13;
+        *v4 = (char)a2;
+        *(v4 - 1) = v6;
+        v4[2] = -1;
         ++v5;
-        v3 += 4;
+        v4 += 4;
       }
       while ( v5 < 0x10 );
-      v4 = v13 + 1;
-      v13 = v4;
+      ++v12;
     }
-    while ( v4 < 0x10 );
-    v2 = v12 + 1;
-    v12 = v2;
+    while ( v12 < 0x10 );
+    ++v11;
   }
-  while ( v2 < 0x10 );
-  data.pSysMem = v10;
-  data.SysMemSlicePitch = 1024;
-  data.SysMemPitch = 64;
-  v8 = vostok::render::resource_manager::create_texture3d(
-         &data,
-         DXGI_FORMAT_R8G8B8A8_UNORM,
-         (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-         "$user$test3d",
-         0x10u,
-         0x10u,
-         0x10u,
-         D3D11_USAGE_IMMUTABLE,
-         v10[0]);
-  *a1 = 0;
-  if ( v8 )
-  {
-    ++v8->m_reference_count;
-    *a1 = v8;
-  }
-  return (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)a1;
+  while ( v11 < 0x10 );
+  width.pSysMem = v9;
+  width.SysMemPitch = 64;
+  width.SysMemSlicePitch = 1024;
+  v7 = vostok::render::resource_manager::create_texture3d(
+         a2,
+         (const char *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+         &width,
+         v9[0],
+         v9[1],
+         (const D3D11_SUBRESOURCE_DATA *)v9[2],
+         (DXGI_FORMAT)v9[3],
+         v9[4],
+         v9[5]);
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+    a1,
+    v7);
+  return a1;
 }

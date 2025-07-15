@@ -3,7 +3,7 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
         unsigned int size,
         unsigned int alignSize,
         Scaleform::HeapMH::PageInfoMH *info,
-        Scaleform::LockSafe::Locker globalLocked)
+        Scaleform::LockSafe *globalLocked)
 {
   unsigned int v5; // eax
   unsigned int v7; // ecx
@@ -22,7 +22,7 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
     if ( size < v9 )
       v5 = v9;
     v10 = (v5 + 3) & 0xFFFFFFFC;
-    if ( LOBYTE(globalLocked.pLock) )
+    if ( (_BYTE)globalLocked )
     {
       v11 = info;
       LOBYTE(alignSize) = 0;
@@ -32,7 +32,7 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
     }
     else
     {
-      globalLocked.pLock = &Scaleform::HeapMH::GlobalRootMH->RootLock;
+      globalLocked = &Scaleform::HeapMH::GlobalRootMH->RootLock;
       EnterCriticalSection(&Scaleform::HeapMH::GlobalRootMH->RootLock.mLock.cs);
       LOBYTE(alignSize) = 0;
       while ( 1 )
@@ -42,11 +42,11 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
           break;
         if ( !(_BYTE)alignSize )
         {
-          LeaveCriticalSection(&globalLocked.pLock->mLock.cs);
+          LeaveCriticalSection(&globalLocked->mLock.cs);
           return 0;
         }
       }
-      LeaveCriticalSection(&globalLocked.pLock->mLock.cs);
+      LeaveCriticalSection(&globalLocked->mLock.cs);
       return v12;
     }
   }
@@ -60,7 +60,7 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
                      (size + 15) & 0xFFFFFFF0,
                      v7,
                      info,
-                     (bool)globalLocked.pLock);
+                     (bool)globalLocked);
   }
   return result;
 }
@@ -70,12 +70,12 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
         Scaleform::HeapMH::AllocEngineMH *this,
         unsigned int size,
         Scaleform::HeapMH::PageInfoMH *info,
-        Scaleform::LockSafe::Locker globalLocked)
+        Scaleform::LockSafe *globalLocked)
 {
   unsigned int MinAlignSize; // eax
   char *result; // eax
   char *v8; // edi
-  Scaleform::LockSafe *rl; // [esp+8h] [ebp+4h]
+  Scaleform::LockSafe *lpCriticalSection; // [esp+8h] [ebp+4h]
 
   MinAlignSize = this->MinAlignSize;
   if ( MinAlignSize > 0x10 )
@@ -85,10 +85,10 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
                      this,
                      (size + 15) & 0xFFFFFFF0,
                      info,
-                     (bool)globalLocked.pLock);
-  if ( LOBYTE(globalLocked.pLock) )
+                     (bool)globalLocked);
+  if ( (_BYTE)globalLocked )
   {
-    LOBYTE(globalLocked.pLock) = 0;
+    LOBYTE(globalLocked) = 0;
     do
       result = Scaleform::HeapMH::AllocEngineMH::allocDirect(
                  this,
@@ -96,25 +96,25 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::Alloc(
                  this->MinAlignSize,
                  (bool *)&globalLocked,
                  info);
-    while ( !result && LOBYTE(globalLocked.pLock) );
+    while ( !result && (_BYTE)globalLocked );
   }
   else
   {
-    rl = &Scaleform::HeapMH::GlobalRootMH->RootLock;
+    lpCriticalSection = &Scaleform::HeapMH::GlobalRootMH->RootLock;
     EnterCriticalSection(&Scaleform::HeapMH::GlobalRootMH->RootLock.mLock.cs);
-    LOBYTE(globalLocked.pLock) = 0;
+    LOBYTE(globalLocked) = 0;
     while ( 1 )
     {
       v8 = Scaleform::HeapMH::AllocEngineMH::allocDirect(this, size, this->MinAlignSize, (bool *)&globalLocked, info);
       if ( v8 )
         break;
-      if ( !LOBYTE(globalLocked.pLock) )
+      if ( !(_BYTE)globalLocked )
       {
-        LeaveCriticalSection(&rl->mLock.cs);
+        LeaveCriticalSection(&lpCriticalSection->mLock.cs);
         return 0;
       }
     }
-    LeaveCriticalSection(&rl->mLock.cs);
+    LeaveCriticalSection(&lpCriticalSection->mLock.cs);
     return v8;
   }
   return result;

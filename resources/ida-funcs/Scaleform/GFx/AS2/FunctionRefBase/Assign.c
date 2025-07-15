@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS2::FunctionRefBase::Assign(
         if ( Function != orig->Function )
         {
           RefCount = Function->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v5 = this->Function;
             Function->RefCount = RefCount - 1;
@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS2::FunctionRefBase::Assign(
       if ( v9 && (this->Flags & 1) == 0 )
       {
         v10 = v9->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+        if ( (v10 & 0x3FFFFFF) != 0 )
         {
           v9->RefCount = v10 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

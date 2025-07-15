@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::SetMetadata(
         Scaleform::GFx::MovieDataDef::LoadTaskData *this,
-        unsigned __int8 *pdata,
+        const __m128i *pdata,
         unsigned int size)
 {
   unsigned __int8 *v4; // eax
@@ -10,6 +10,6 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::SetMetadata(
   if ( v4 )
   {
     this->MetadataSize = size;
-    memcpy(v4, pdata, size);
+    memcpy((int)v4, pdata, size);
   }
 }

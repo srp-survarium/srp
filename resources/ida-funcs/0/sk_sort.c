@@ -1,10 +1,10 @@
-void __cdecl sk_sort(stack_st *st)
+void __usercall sk_sort(int a1@<edi>, stack_st *st)
 {
   if ( st )
   {
     if ( !st->sorted )
     {
-      qsort((char *)st->data, st->num, 4u, st->comp);
+      qsort(a1, (char *)st->data, st->num, 4u, st->comp);
       st->sorted = 1;
     }
   }

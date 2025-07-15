@@ -4,7 +4,7 @@ asn1_type_st *__usercall get_attribute@<eax>(stack_st_X509_ATTRIBUTE *sk@<ebx>, 
   int v3; // esi
   char *v4; // edi
 
-  v2 = OBJ_nid2obj(nid);
+  v2 = OBJ_nid2obj((int)sk, nid);
   if ( !v2 || !sk )
     return 0;
   v3 = 0;

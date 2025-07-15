@@ -1,4 +1,4 @@
-int __thiscall Scaleform::GFx::Text::EditorKit::GlyphPos2TextPos(
+unsigned int __thiscall Scaleform::GFx::Text::EditorKit::GlyphPos2TextPos(
         Scaleform::GFx::Text::EditorKit *this,
         unsigned int glyphPos)
 {

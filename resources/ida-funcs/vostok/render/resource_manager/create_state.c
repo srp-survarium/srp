@@ -1,63 +1,88 @@
-vostok::render::res_state *__usercall vostok::render::resource_manager::create_state@<eax>(
-        vostok::render::resource_manager *this@<ecx>,
-        vostok::render::state_descriptor *descriptor@<eax>)
+vostok::render::res_state *__thiscall vostok::render::resource_manager::create_state(
+        vostok::render::resource_manager *this,
+        vostok::render::state_descriptor *descriptor,
+        const D3D11_RASTERIZER_DESC *desc)
 {
-  ID3D11RasterizerState *state; // ebx
-  ID3D11DepthStencilState *v5; // ebp
-  _DWORD *v6; // eax
-  ID3D11BlendState *v7; // ecx
-  _DWORD *v8; // esi
-  vostok::render::vector<vostok::render::res_state *> *p_m_states; // edi
-  void **M_finish; // eax
-  bool v12; // [esp+0h] [ebp-14h]
-  ID3D11BlendState *blend_state; // [esp+10h] [ebp-4h] BYREF
+  vostok::render::state_descriptor *v4; // edi
+  vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC,32> *v6; // ecx
+  vostok::buffer_vector<vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::state_record> *v7; // ecx
+  vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC,32> *v8; // ecx
+  ID3D11BlendState *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // esi
+  ID3D11BlendState *v11; // edi
+  char *v12; // eax
+  vostok::memory::doug_lea_allocator *v13; // ecx
+  vostok::render::res_state *result; // eax
+  unsigned int AntialiasedLineEnable; // ebx
+  _BYTE v16[44]; // [esp-2Ch] [ebp-6Ch] BYREF
+  const char *v17; // [esp+0h] [ebp-40h]
+  const char *v18; // [esp+4h] [ebp-3Ch]
+  unsigned int v19; // [esp+8h] [ebp-38h]
+  _BYTE v20[40]; // [esp+Ch] [ebp-34h] BYREF
+  _DWORD v21[2]; // [esp+34h] [ebp-Ch] BYREF
+  unsigned int hash; // [esp+3Ch] [ebp-4h]
+  ID3D11DepthStencilState *state; // [esp+48h] [ebp+8h]
+  ID3D11RasterizerState *desca; // [esp+4Ch] [ebp+Ch]
 
-  state = vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::get_state(
-            &descriptor->m_rasterizer_desc,
-            &this->m_rs_cache);
-  v5 = vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC>::get_state(
-         &descriptor->m_depth_stencil_desc,
-         &this->m_dss_cache);
-  blend_state = vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC>::get_state(
-                  &descriptor->m_effect_desc,
-                  &this->m_bs_cache);
-  v6 = vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-         0x18u);
-  if ( v6 )
+  v4 = descriptor;
+  hash = vostok::render::state_utils::get_hash(desc);
+  desca = vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::find(
+            (vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32> *)((char *)descriptor
+                                                                                          + (_DWORD)&loc_901B6
+                                                                                          + 2),
+            desc,
+            hash);
+  if ( !desca )
   {
-    v7 = blend_state;
-    v6[4] = descriptor->m_stencil_ref;
-    *v6 = 0;
-    v6[1] = state;
-    v6[2] = v5;
-    v6[3] = v7;
-    *((_BYTE *)v6 + 20) = 0;
-    v8 = v6;
+    v21[1] = hash;
+    qmemcpy(v20, desc, sizeof(v20));
+    *(_DWORD *)v16 = v21;
+    qmemcpy(&v16[4], desc, 0x28u);
+    vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::create_state(
+      0,
+      *(D3D11_RASTERIZER_DESC *)v16,
+      *(ID3D11RasterizerState ***)&v16[40]);
+    desca = (ID3D11RasterizerState *)v21[0];
+    vostok::buffer_vector<vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::state_record>::push_back(
+      v7,
+      (const vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::state_record *)((char *)descriptor + (_DWORD)&loc_901B6 + 2),
+      v20);
+    v4 = descriptor;
+  }
+  state = vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC,32>::get_state(
+            v6,
+            (const vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC,32>::state_record *)((char *)v4 + (_DWORD)&loc_907C3 + 1),
+            (const D3D11_DEPTH_STENCIL_DESC *)&desc[1]);
+  v9 = vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC,32>::get_state(
+         v8,
+         (const vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC,32>::state_record *)((char *)&loc_90F50
+                                                                                                 + (_DWORD)v4),
+         (const D3D11_BLEND_DESC *)&desc[2].DepthBias);
+  v10 = vostok::render::g_allocator;
+  v11 = v9;
+  v12 = type_info::raw_name(&vostok::render::res_state `RTTI Type Descriptor');
+  result = (vostok::render::res_state *)vostok::memory::doug_lea_allocator::malloc_impl(
+                                          v13,
+                                          (int)v10,
+                                          0x18u,
+                                          v12,
+                                          v17,
+                                          v18,
+                                          v19);
+  if ( result )
+  {
+    AntialiasedLineEnable = desc[8].AntialiasedLineEnable;
+    result->m_reference_count = 0;
+    result->m_rasterizer_state = desca;
+    result->m_depth_stencil_state = state;
+    result->m_blend_state = v11;
+    result->m_stencil_ref = AntialiasedLineEnable;
+    result->m_is_registered = 0;
   }
   else
   {
-    v8 = 0;
+    result = 0;
   }
-  p_m_states = &this->m_states;
-  *((_BYTE *)v8 + 20) = 1;
-  M_finish = p_m_states->_M_impl._M_finish;
-  blend_state = (ID3D11BlendState *)v8;
-  if ( M_finish == p_m_states->_M_impl._M_end_of_storage._M_data )
-  {
-    stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-      (stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *)v7,
-      (int)p_m_states,
-      M_finish,
-      (void *const *)&blend_state,
-      (const stlp_std::__true_type *)1,
-      1,
-      v12);
-  }
-  else
-  {
-    *M_finish = v8;
-    ++p_m_states->_M_impl._M_finish;
-  }
-  return (vostok::render::res_state *)v8;
+  result->m_is_registered = 1;
+  return result;
 }

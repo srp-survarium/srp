@@ -1,10 +1,10 @@
 void __thiscall Scaleform::GFx::TextField::AddIdImageDescAssoc(
         Scaleform::GFx::TextField *this,
-        char *idStr,
-        Scaleform::Render::Text::ImageDesc *pdesc)
+        const __m128i *idStr,
+        Scaleform::RefCountNTSImpl *pdesc)
 {
   Scaleform::StringHashLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2,Scaleform::String::NoCaseHashFunctor,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *v4; // eax
-  Scaleform::Render::Text::ImageDesc *v5; // eax
+  Scaleform::RefCountNTSImpl *v5; // eax
   Scaleform::StringHashLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2,Scaleform::String::NoCaseHashFunctor,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *pImageDescAssoc; // ecx
   void *v7; // esi
   Scaleform::RefCountNTSImpl *v8; // [esp+10h] [ebp-Ch] BYREF

@@ -3,511 +3,517 @@ unsigned int __thiscall Scaleform::GFx::AS3::VM::ExecuteCode(
         unsigned int max_stack_depth)
 {
   Scaleform::GFx::AS3::CallFrame **Pages; // edx
-  Scaleform::GFx::AS3::CallFrame *v4; // ecx
-  Scaleform::GFx::AS3::CallFrame *v5; // ebx
+  Scaleform::GFx::AS3::CallFrame *v4; // edi
+  Scaleform::GFx::AS3::Value::V1U v5; // edx
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // ecx
-  Scaleform::GFx::AS3::Value *p_ExceptionObj; // esi
-  Scaleform::GFx::AS3::Abc::File *pObject; // eax
+  Scaleform::GFx::AS3::Value *p_ExceptionObj; // ebx
+  bool HandleException; // al
   Scaleform::GFx::AS3::Value::V2U v9; // edx
   unsigned int Flags; // eax
   Scaleform::GFx::AS3::WeakProxy *v11; // eax
-  unsigned int *CP; // esi
+  const unsigned int *CP; // ebx
   int v13; // eax
-  Scaleform::GFx::AS3::Boolean3 v14; // ecx
+  int v14; // edx
   unsigned int v15; // eax
-  int v16; // esi
+  const Scaleform::ArrayLH_POD<unsigned int,338,Scaleform::ArrayDefaultPolicy> *OpCode; // eax
   Scaleform::GFx::AS3::Abc::Multiname *v17; // eax
   int v18; // eax
+  Scaleform::GFx::AS3::Abc::Multiname *v19; // eax
   Scaleform::GFx::AS3::Instances::fl::Namespace *InternedNamespace; // eax
-  unsigned int v20; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v21; // ecx
-  Scaleform::GFx::AS3::Boolean3 v22; // eax
-  __int32 v23; // esi
+  unsigned int v21; // eax
+  Scaleform::GFx::AS3::RefCountBaseGC<328> *v22; // ecx
+  int v23; // eax
   int v24; // eax
   Scaleform::GFx::AS3::Value *v25; // ecx
   Scaleform::GFx::AS3::Value *v26; // eax
   Scaleform::GFx::AS3::Value::V1U v27; // ecx
-  unsigned int *v28; // esi
-  Scaleform::GFx::AS3::Boolean3 v29; // edx
+  const unsigned int *v28; // ebx
+  int v29; // edx
   Scaleform::GFx::AS3::Value *v30; // eax
   long double v31; // st7
   unsigned int v32; // edx
   long double v33; // st6
-  unsigned int *v34; // esi
+  const unsigned int *v34; // ebx
   unsigned int v35; // ecx
   Scaleform::GFx::AS3::Value *pCurrent; // eax
-  __int32 v37; // esi
-  int v38; // eax
-  Scaleform::GFx::AS3::Value *v39; // ecx
-  Scaleform::GFx::AS3::Value *v40; // eax
-  Scaleform::GFx::AS3::Value::V1U v41; // ecx
-  Scaleform::GFx::AS3::Value *v42; // eax
-  long double v43; // st7
-  unsigned int v44; // edx
-  long double v45; // st6
-  Scaleform::GFx::AS3::Value *v46; // eax
-  int v47; // eax
-  Scaleform::GFx::AS3::Value *v48; // ecx
-  Scaleform::GFx::AS3::Value *v49; // eax
-  Scaleform::GFx::AS3::Value::V1U v50; // ecx
-  Scaleform::GFx::AS3::Value *v51; // eax
-  long double v52; // st7
-  unsigned int v53; // edx
-  long double v54; // st6
-  int v55; // eax
-  Scaleform::GFx::AS3::Value *v56; // ecx
-  Scaleform::GFx::AS3::Value *v57; // eax
-  Scaleform::GFx::AS3::Value::V1U v58; // ecx
-  Scaleform::GFx::AS3::Value *v59; // eax
-  long double v60; // st7
-  unsigned int v61; // edx
-  long double v62; // st6
-  Scaleform::GFx::AS3::Value *v63; // ecx
-  unsigned int *v64; // esi
-  bool v65; // al
-  char v66; // al
-  Scaleform::GFx::AS3::Boolean3 v67; // ecx
-  Scaleform::GFx::AS3::Value *v68; // eax
+  int v37; // eax
+  Scaleform::GFx::AS3::Value *v38; // ecx
+  Scaleform::GFx::AS3::Value *v39; // eax
+  Scaleform::GFx::AS3::Value::V1U v40; // ecx
+  Scaleform::GFx::AS3::Value *v41; // eax
+  long double v42; // st7
+  unsigned int v43; // edx
+  long double v44; // st6
+  Scaleform::GFx::AS3::Value *v45; // eax
+  int v46; // eax
+  Scaleform::GFx::AS3::Value *v47; // ecx
+  Scaleform::GFx::AS3::Value *v48; // eax
+  Scaleform::GFx::AS3::Value::V1U v49; // ecx
+  Scaleform::GFx::AS3::Value *v50; // eax
+  long double v51; // st7
+  unsigned int v52; // edx
+  long double v53; // st6
+  int v54; // eax
+  Scaleform::GFx::AS3::Value *v55; // ecx
+  Scaleform::GFx::AS3::Value *v56; // eax
+  Scaleform::GFx::AS3::Value::V1U v57; // ecx
+  Scaleform::GFx::AS3::Value *v58; // eax
+  long double v59; // st7
+  unsigned int v60; // edx
+  long double v61; // st6
+  Scaleform::GFx::AS3::Value *v62; // ecx
+  const unsigned int *v63; // ebx
+  bool v64; // al
+  char v65; // al
+  int v66; // ecx
+  Scaleform::GFx::AS3::Value *v67; // eax
   bool VBool; // cl
-  unsigned int v70; // edx
-  unsigned int *v71; // esi
-  unsigned int v72; // eax
-  Scaleform::GFx::AS3::Value *v73; // ecx
-  bool v74; // al
-  char v75; // al
-  Scaleform::GFx::AS3::Value *v76; // eax
-  bool v77; // cl
-  unsigned int v78; // edx
-  int v79; // eax
-  Scaleform::GFx::AS3::Value *v80; // ecx
-  Scaleform::GFx::AS3::Value *v81; // eax
-  Scaleform::GFx::AS3::Value::V1U v82; // ecx
-  Scaleform::GFx::AS3::Value *v83; // eax
-  long double v84; // st7
-  unsigned int v85; // edx
-  long double v86; // st6
-  int v87; // eax
-  Scaleform::GFx::AS3::Value *v88; // ecx
-  Scaleform::GFx::AS3::Value *v89; // eax
-  Scaleform::GFx::AS3::Value::V1U v90; // ecx
-  Scaleform::GFx::AS3::Value *v91; // eax
-  long double v92; // st7
-  unsigned int v93; // edx
-  long double v94; // st6
-  unsigned int v95; // esi
-  int v96; // eax
-  Scaleform::GFx::AS3::Value *v97; // ecx
-  Scaleform::GFx::AS3::Value *v98; // eax
-  Scaleform::GFx::AS3::Value::V1U v99; // ecx
-  unsigned int *v100; // esi
-  unsigned int v101; // edx
-  Scaleform::GFx::AS3::Value *v102; // eax
-  unsigned int v103; // esi
-  int v104; // eax
-  Scaleform::GFx::AS3::Value *v105; // ecx
-  Scaleform::GFx::AS3::Value *v106; // eax
-  Scaleform::GFx::AS3::Value::V1U v107; // ecx
+  unsigned int v69; // edx
+  const unsigned int *v70; // ebx
+  unsigned int v71; // eax
+  Scaleform::GFx::AS3::Value *v72; // ecx
+  bool v73; // al
+  char v74; // al
+  Scaleform::GFx::AS3::Value *v75; // eax
+  bool v76; // cl
+  unsigned int v77; // edx
+  int v78; // eax
+  Scaleform::GFx::AS3::Value *v79; // ecx
+  Scaleform::GFx::AS3::Value *v80; // eax
+  Scaleform::GFx::AS3::Value::V1U v81; // ecx
+  Scaleform::GFx::AS3::Value *v82; // eax
+  long double v83; // st7
+  unsigned int v84; // edx
+  long double v85; // st6
+  int v86; // eax
+  Scaleform::GFx::AS3::Value *v87; // ecx
+  Scaleform::GFx::AS3::Value *v88; // eax
+  Scaleform::GFx::AS3::Value::V1U v89; // ecx
+  Scaleform::GFx::AS3::Value *v90; // eax
+  long double v91; // st7
+  unsigned int v92; // edx
+  long double v93; // st6
+  int v94; // eax
+  Scaleform::GFx::AS3::Value *v95; // ecx
+  Scaleform::GFx::AS3::Value *v96; // eax
+  Scaleform::GFx::AS3::Value::V1U v97; // ecx
+  const unsigned int *v98; // ebx
+  unsigned int v99; // edx
+  Scaleform::GFx::AS3::Value *v100; // eax
+  int v101; // eax
+  Scaleform::GFx::AS3::Value *v102; // ecx
+  Scaleform::GFx::AS3::Value *v103; // eax
+  Scaleform::GFx::AS3::Value::V1U v104; // ecx
+  Scaleform::GFx::AS3::Value *v105; // eax
+  int v106; // eax
+  Scaleform::GFx::AS3::Value *v107; // ecx
   Scaleform::GFx::AS3::Value *v108; // eax
-  int v109; // eax
-  Scaleform::GFx::AS3::Value *v110; // ecx
-  Scaleform::GFx::AS3::Value *v111; // eax
-  Scaleform::GFx::AS3::Value::V1U v112; // ecx
-  int v113; // eax
-  Scaleform::GFx::AS3::Value *v114; // ecx
-  Scaleform::GFx::AS3::Value *v115; // eax
-  Scaleform::GFx::AS3::Value::V1U v116; // ecx
-  int v117; // eax
-  bool v118; // zf
-  Scaleform::GFx::AS3::Value *v119; // eax
-  unsigned int *v120; // esi
-  Scaleform::GFx::AS3::Value *v121; // eax
-  unsigned int v122; // ecx
-  int v123; // edx
-  Scaleform::GFx::AS3::WeakProxy *v124; // edx
-  Scaleform::GFx::AS3::Value *v125; // eax
-  unsigned int v126; // ecx
-  int v127; // edx
-  Scaleform::GFx::AS3::WeakProxy *v128; // edx
-  const unsigned int *v129; // eax
-  const unsigned int *v130; // eax
-  Scaleform::GFx::AS3::Value *v131; // eax
-  Scaleform::GFx::AS3::Value *v132; // eax
+  Scaleform::GFx::AS3::Value::V1U v109; // ecx
+  int v110; // eax
+  Scaleform::GFx::AS3::Value *v111; // ecx
+  Scaleform::GFx::AS3::Value *v112; // eax
+  Scaleform::GFx::AS3::Value::V1U v113; // ecx
+  int v114; // eax
+  unsigned int v115; // ecx
+  Scaleform::GFx::AS3::Value *v116; // eax
+  const unsigned int *v117; // ebx
+  Scaleform::GFx::AS3::Value *v118; // eax
+  unsigned int v119; // ecx
+  int v120; // edx
+  Scaleform::GFx::AS3::WeakProxy *v121; // edx
+  Scaleform::GFx::AS3::Value *v122; // eax
+  unsigned int v123; // ecx
+  int v124; // edx
+  Scaleform::GFx::AS3::WeakProxy *v125; // edx
+  const unsigned int *v126; // eax
+  const unsigned int *v127; // eax
+  Scaleform::GFx::AS3::Value *v128; // eax
+  Scaleform::GFx::AS3::Value *v129; // eax
+  unsigned int v130; // ecx
+  int v131; // edx
+  Scaleform::GFx::AS3::WeakProxy *v132; // edx
   unsigned int v133; // ecx
   int v134; // edx
-  Scaleform::GFx::AS3::WeakProxy *v135; // edx
-  unsigned int v136; // ecx
-  int v137; // edx
-  Scaleform::GFx::AS3::Value *v138; // eax
-  unsigned int v139; // edx
-  unsigned int *v140; // esi
-  int v141; // eax
+  Scaleform::GFx::AS3::Value *v135; // eax
+  unsigned int v136; // edx
+  const unsigned int *v137; // ebx
   Scaleform::GFx::ASStringNode *pNode; // edx
-  Scaleform::GFx::AS3::Value *v143; // eax
-  unsigned int v144; // ecx
-  Scaleform::GFx::AS3::Value *v145; // eax
-  unsigned int v146; // edx
-  Scaleform::GFx::ASStringNode *v147; // ecx
-  unsigned int v148; // ecx
+  Scaleform::GFx::AS3::Value *v139; // eax
+  int v140; // eax
+  unsigned int v141; // ecx
+  Scaleform::GFx::AS3::Value *v142; // eax
+  unsigned int v143; // edx
+  Scaleform::GFx::ASStringNode *v144; // ecx
+  Scaleform::GFx::AS3::Value::V1U v145; // ecx
+  Scaleform::GFx::AS3::Value *v146; // eax
+  unsigned int v147; // edx
+  Scaleform::GFx::ASStringNode *v148; // ecx
   Scaleform::GFx::AS3::Value *v149; // eax
-  unsigned int v150; // edx
-  Scaleform::GFx::ASStringNode *v151; // ecx
-  Scaleform::GFx::AS3::Value *v152; // eax
-  Scaleform::GFx::AS3::Value::V2U v153; // edx
-  Scaleform::GFx::AS3::Value *v154; // eax
-  Scaleform::GFx::AS3::Value::V2U v155; // ecx
-  int v156; // eax
-  int v157; // edx
-  int v158; // ecx
+  Scaleform::GFx::AS3::Value::V2U v150; // edx
+  Scaleform::GFx::AS3::Value *v151; // eax
+  Scaleform::GFx::AS3::Value::V2U v152; // ecx
+  int v153; // eax
+  int v154; // edx
+  int v155; // ecx
   Scaleform::GFx::AS3::Value *pRF; // ecx
-  Scaleform::GFx::AS3::Value *v160; // eax
+  Scaleform::GFx::AS3::Value *v157; // eax
   Scaleform::StringDataPtr *String; // eax
   Scaleform::GFx::ASStringNode *StringNode; // eax
-  Scaleform::GFx::AS3::Value *v163; // ecx
-  Scaleform::GFx::ASStringNode *v164; // eax
-  int v165; // ecx
-  Scaleform::GFx::AS3::Value *v166; // eax
-  unsigned int v167; // ecx
-  Scaleform::GFx::AS3::Value *v168; // eax
-  Scaleform::GFx::AS3::Value::V1U v169; // ecx
-  Scaleform::GFx::AS3::Value *v170; // eax
-  Scaleform::GFx::AS3::Value::V2U v171; // edx
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v172; // eax
-  Scaleform::GFx::AS3::Value::V1U v173; // eax
-  Scaleform::GFx::AS3::GlobalSlotIndex v174; // ecx
-  Scaleform::GFx::AS3::Value::VU *v175; // eax
-  Scaleform::GFx::AS3::Value::VU *v176; // eax
-  int v177; // eax
+  Scaleform::GFx::AS3::Value *v160; // ecx
+  Scaleform::GFx::ASStringNode *v161; // eax
+  int v162; // ecx
+  Scaleform::GFx::AS3::Value *v163; // eax
+  unsigned int v164; // ecx
+  Scaleform::GFx::AS3::Value *v165; // eax
+  Scaleform::GFx::AS3::Value::V1U v166; // ecx
+  Scaleform::GFx::AS3::Value *v167; // eax
+  Scaleform::GFx::AS3::Value::V2U v168; // edx
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v169; // eax
+  Scaleform::GFx::AS3::Value::V1U v170; // eax
+  Scaleform::GFx::AS3::GlobalSlotIndex v171; // ecx
+  Scaleform::GFx::AS3::Value::VU *v172; // eax
+  Scaleform::GFx::AS3::Value::VU *v173; // eax
+  unsigned int v174; // eax
+  unsigned int v175; // ecx
+  unsigned int v176; // eax
+  unsigned int v177; // ecx
   unsigned int v178; // eax
   unsigned int v179; // ecx
   unsigned int v180; // eax
   unsigned int v181; // ecx
-  unsigned int v182; // eax
+  Scaleform::GFx::AS3::Abc::MiInd v182; // eax
   unsigned int v183; // ecx
   unsigned int v184; // eax
   unsigned int v185; // ecx
-  Scaleform::GFx::AS3::Abc::MiInd v186; // eax
+  unsigned int v186; // eax
   unsigned int v187; // ecx
-  unsigned int v188; // eax
-  unsigned int v189; // ecx
+  bool v188; // zf
+  int v189; // edi
   unsigned int v190; // eax
   unsigned int v191; // ecx
-  unsigned int v192; // eax
-  unsigned int v193; // ecx
-  unsigned int v194; // eax
-  unsigned int v195; // ecx
-  unsigned int v196; // eax
-  unsigned int v197; // ecx
-  unsigned int v198; // eax
-  unsigned int v199; // ecx
+  int v192; // eax
+  unsigned int v193; // eax
+  unsigned int v194; // ecx
+  unsigned int v195; // eax
+  unsigned int v196; // ecx
+  unsigned int v197; // eax
+  unsigned int v198; // ecx
   Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *GlobalObject; // eax
-  int v201; // edx
-  Scaleform::GFx::AS3::Value *v202; // eax
+  int v200; // edx
+  Scaleform::GFx::AS3::Value *v201; // eax
+  Scaleform::GFx::AS3::Value *v202; // ecx
   Scaleform::GFx::AS3::Value *v203; // ecx
-  Scaleform::GFx::AS3::Value *v204; // ecx
-  Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *v205; // eax
-  Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *v206; // ecx
-  Scaleform::GFx::AS3::Value *v207; // eax
-  Scaleform::GFx::AS3::Value *v208; // ecx
-  Scaleform::GFx::AS3::Value *v209; // eax
-  bool v210; // al
-  Scaleform::GFx::AS3::Value *v211; // eax
-  const Scaleform::GFx::AS3::VM::Error *v212; // eax
-  Scaleform::GFx::ASStringNode *v213; // eax
+  Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *v204; // eax
+  Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *v205; // ecx
+  Scaleform::GFx::AS3::Value *v206; // eax
+  Scaleform::GFx::AS3::Value *v207; // ecx
+  Scaleform::GFx::AS3::Value *v208; // eax
+  bool v209; // al
+  Scaleform::GFx::AS3::Value *v210; // eax
+  const Scaleform::GFx::AS3::VM::Error *v211; // eax
+  Scaleform::GFx::ASStringNode *v212; // eax
+  Scaleform::GFx::AS3::Value *v213; // ecx
   Scaleform::GFx::AS3::Value *v214; // ecx
   Scaleform::GFx::AS3::Value *v215; // ecx
-  Scaleform::GFx::AS3::Value *v216; // ecx
-  bool v217; // al
-  Scaleform::GFx::AS3::Value *v218; // ecx
-  bool v219; // cl
-  double *v220; // eax
-  double v221; // st7
+  bool v216; // al
+  Scaleform::GFx::AS3::Value *v217; // ecx
+  bool v218; // cl
+  double *v219; // eax
+  double v220; // st7
+  Scaleform::GFx::AS3::Value *v221; // eax
   Scaleform::GFx::AS3::Value *v222; // eax
-  Scaleform::GFx::AS3::Value *v223; // eax
-  Scaleform::GFx::AS3::Value::V2U v224; // ecx
+  Scaleform::GFx::AS3::Value::V2U v223; // ecx
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // eax
-  Scaleform::GFx::AS3::Value *v226; // eax
-  bool v227; // cl
-  unsigned int v228; // eax
-  long double v229; // st7
-  Scaleform::GFx::AS3::Value *v230; // eax
-  bool v231; // cl
-  unsigned int v232; // eax
-  Scaleform::GFx::AS3::Value *v233; // ecx
-  bool v234; // cl
-  double *v235; // eax
-  double v236; // st7
-  Scaleform::GFx::AS3::Value *v237; // eax
-  Scaleform::GFx::AS3::Value *v238; // eax
-  long double v239; // st7
-  Scaleform::GFx::AS3::Value *v240; // ecx
-  bool v241; // cl
-  double *v242; // eax
-  double v243; // st7
-  Scaleform::GFx::AS3::Value *v244; // eax
-  Scaleform::GFx::AS3::Value *v245; // ecx
-  bool v246; // al
-  int *v247; // ecx
-  Scaleform::GFx::AS3::Value *v248; // ecx
-  Scaleform::GFx::AS3::Value *v249; // ecx
-  bool v250; // al
-  int *v251; // ecx
-  Scaleform::GFx::AS3::Value *v252; // ecx
-  Scaleform::GFx::AS3::Value *v253; // ecx
-  bool v254; // al
-  int *v255; // ecx
-  Scaleform::GFx::AS3::Value *v256; // ecx
-  Scaleform::GFx::AS3::Value *v257; // ecx
-  bool v258; // al
-  int *v259; // ecx
-  Scaleform::GFx::AS3::Value *v260; // ecx
-  Scaleform::GFx::AS3::Value *v261; // ecx
-  bool v262; // al
-  int *v263; // ecx
-  Scaleform::GFx::AS3::Value *v264; // ecx
-  Scaleform::GFx::AS3::Value *v265; // ecx
-  bool v266; // al
-  int *v267; // ecx
-  Scaleform::GFx::AS3::Value *v268; // ecx
-  Scaleform::GFx::AS3::Value *v269; // eax
+  Scaleform::GFx::AS3::Value *v225; // eax
+  bool v226; // cl
+  unsigned int v227; // eax
+  Scaleform::GFx::AS3::Value *v228; // eax
+  bool v229; // cl
+  unsigned int v230; // eax
+  Scaleform::GFx::AS3::Value *v231; // ecx
+  bool v232; // cl
+  double *v233; // eax
+  double v234; // st7
+  Scaleform::GFx::AS3::Value *v235; // eax
+  Scaleform::GFx::AS3::Value *v236; // eax
+  long double v237; // st7
+  Scaleform::GFx::AS3::Value *v238; // ecx
+  bool v239; // cl
+  double *v240; // eax
+  double v241; // st7
+  Scaleform::GFx::AS3::Value *v242; // eax
+  Scaleform::GFx::AS3::Value *v243; // ecx
+  bool v244; // al
+  int *v245; // ecx
+  Scaleform::GFx::AS3::Value *v246; // ecx
+  Scaleform::GFx::AS3::Value *v247; // ecx
+  bool v248; // al
+  int *v249; // ecx
+  Scaleform::GFx::AS3::Value *v250; // ecx
+  Scaleform::GFx::AS3::Value *v251; // ecx
+  bool v252; // al
+  int *v253; // ecx
+  Scaleform::GFx::AS3::Value *v254; // ecx
+  Scaleform::GFx::AS3::Value *v255; // ecx
+  bool v256; // al
+  int *v257; // ecx
+  Scaleform::GFx::AS3::Value *v258; // ecx
+  Scaleform::GFx::AS3::Value *v259; // ecx
+  bool v260; // al
+  int *v261; // ecx
+  Scaleform::GFx::AS3::Value *v262; // ecx
+  Scaleform::GFx::AS3::Value *v263; // ecx
+  bool v264; // al
+  int *v265; // ecx
+  Scaleform::GFx::AS3::Value *v266; // ecx
+  Scaleform::GFx::AS3::Value *v267; // eax
+  Scaleform::GFx::AS3::Value::V2U v268; // ecx
+  bool v269; // dl
   Scaleform::GFx::AS3::Value *v270; // eax
   Scaleform::GFx::AS3::Value::Extra v271; // edx
   Scaleform::GFx::AS3::Value *v272; // eax
   Scaleform::GFx::AS3::Value *v273; // eax
-  Scaleform::GFx::AS3::Value::V2U v274; // ecx
+  Scaleform::GFx::AS3::Value::V2U v274; // edx
   Scaleform::GFx::AS3::Value *v275; // eax
-  Scaleform::GFx::AS3::CheckResult *v276; // ecx
+  Scaleform::GFx::AS3::Value::V2U v276; // ecx
   Scaleform::GFx::AS3::Value *v277; // eax
-  Scaleform::GFx::AS3::Value::V2U v278; // ecx
-  Scaleform::GFx::AS3::Value *v279; // eax
-  Scaleform::GFx::AS3::Value::V2U v280; // ecx
-  Scaleform::GFx::AS3::Value *v281; // eax
-  unsigned int v282; // ecx
-  Scaleform::GFx::AS3::Value::V1U v283; // edx
-  Scaleform::GFx::AS3::Value::V2U v284; // edx
-  const Scaleform::GFx::AS3::VM::Error *v285; // eax
-  Scaleform::GFx::ASStringNode *v286; // eax
+  Scaleform::GFx::AS3::Value *v278; // eax
+  unsigned int v279; // ecx
+  Scaleform::GFx::AS3::Value::V1U v280; // edx
+  Scaleform::GFx::AS3::Value::V2U v281; // edx
+  const Scaleform::GFx::AS3::VM::Error *v282; // eax
+  Scaleform::GFx::ASStringNode *v283; // eax
   Scaleform::GFx::AS3::Value *AbsObject; // eax
+  Scaleform::GFx::AS3::Value *v285; // ecx
+  Scaleform::GFx::AS3::Value *v286; // ecx
+  Scaleform::GFx::AS3::Value::VU *p_value; // eax
   Scaleform::GFx::AS3::Value *v288; // ecx
   Scaleform::GFx::AS3::Value *v289; // ecx
-  Scaleform::GFx::AS3::Value::VU *p_value; // eax
-  Scaleform::GFx::AS3::Value *v291; // ecx
-  Scaleform::GFx::AS3::Value::VU *v292; // eax
-  Scaleform::GFx::AS3::Value *v293; // ecx
-  bool v294; // al
-  int *v295; // ecx
-  Scaleform::GFx::AS3::Value *v296; // ecx
-  Scaleform::GFx::AS3::Value *v297; // eax
-  Scaleform::GFx::AS3::Value::V1U v298; // ecx
-  Scaleform::GFx::AS3::Value *v299; // eax
+  bool v290; // al
+  int *v291; // ecx
+  Scaleform::GFx::AS3::Value *v292; // ecx
+  Scaleform::GFx::AS3::Value *v293; // eax
+  Scaleform::GFx::AS3::Value::V1U v294; // ecx
+  Scaleform::GFx::AS3::Value *v295; // eax
   long double VNumber; // st7
-  Scaleform::GFx::AS3::Value *v301; // ecx
-  bool v302; // al
-  int *v303; // ecx
-  Scaleform::GFx::AS3::Value *v304; // ecx
-  Scaleform::GFx::AS3::Value *v305; // eax
-  Scaleform::GFx::AS3::Value::V1U v306; // ecx
-  Scaleform::GFx::AS3::Value *v307; // eax
-  long double v308; // st7
-  Scaleform::GFx::AS3::Value *v309; // ecx
-  bool v310; // al
-  int *v311; // ecx
-  Scaleform::GFx::AS3::Value *v312; // ecx
+  Scaleform::GFx::AS3::Value *v297; // ecx
+  bool v298; // al
+  int *v299; // ecx
+  Scaleform::GFx::AS3::Value *v300; // ecx
+  Scaleform::GFx::AS3::Value *v301; // eax
+  Scaleform::GFx::AS3::Value::V1U v302; // ecx
+  Scaleform::GFx::AS3::Value *v303; // eax
+  long double v304; // st7
+  Scaleform::GFx::AS3::Value *v305; // ecx
+  bool v306; // al
+  int *v307; // ecx
+  Scaleform::GFx::AS3::Value *v308; // ecx
+  Scaleform::GFx::AS3::Value *v309; // eax
+  Scaleform::GFx::AS3::Value::V1U v310; // ecx
+  Scaleform::GFx::AS3::Value *v311; // eax
+  long double v312; // st7
   Scaleform::GFx::AS3::Value *v313; // eax
-  Scaleform::GFx::AS3::Value::V1U v314; // ecx
+  Scaleform::GFx::AS3::Value *v314; // eax
   Scaleform::GFx::AS3::Value *v315; // eax
-  long double v316; // st7
-  Scaleform::GFx::AS3::Value *v317; // eax
-  Scaleform::GFx::AS3::Value *v318; // eax
-  Scaleform::GFx::AS3::Value *v319; // eax
-  Scaleform::GFx::AS3::Value *v320; // eax
-  unsigned int v321; // edx
-  Scaleform::GFx::AS3::CallFrame *v322; // ecx
+  Scaleform::GFx::AS3::Value *v316; // eax
+  int v317; // eax
+  Scaleform::GFx::AS3::CallFrame *v318; // edi
+  unsigned int v319; // ebx
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpServer *v321; // eax
+  int StartTicks_high; // edx
+  __int64 v323; // kr08_8
+  _DWORD *v324; // ecx
+  Scaleform::GFx::AMP::ViewStats *v325; // eax
+  Scaleform::GFx::AS3::CallFrame *v326; // eax
   unsigned int Size; // eax
-  const Scaleform::ArrayLH_POD<unsigned int,338,Scaleform::ArrayDefaultPolicy> *OpCode; // eax
+  int v329; // [esp-8h] [ebp-250h]
+  unsigned int v330; // [esp-4h] [ebp-24Ch]
+  Scaleform::GFx::AS3::Abc::Multiname *v; // [esp+0h] [ebp-248h]
   Scaleform::GFx::AS3::Abc::Multiname *va; // [esp+0h] [ebp-248h]
-  Scaleform::GFx::AS3::Abc::Multiname *vb; // [esp+0h] [ebp-248h]
-  Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> *v; // [esp+0h] [ebp-248h]
-  Scaleform::GFx::AS3::Abc::Multiname *v_4a; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v_4b; // [esp+4h] [ebp-244h]
+  unsigned __int64 vb; // [esp+0h] [ebp-248h]
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v_4; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Value *v_4a; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Value *v_4b; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Value *v_4c; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Value *v_4d; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Value *v_4e; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Value *v_4f; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Value *v_4g; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Value *v_4h; // [esp+4h] [ebp-244h]
+  unsigned int v_4g; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::AbsoluteIndex v_4h; // [esp+4h] [ebp-244h]
   unsigned int v_4i; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::AbsoluteIndex v_4j; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v_4j; // [esp+4h] [ebp-244h]
   unsigned int v_4k; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v_4l; // [esp+4h] [ebp-244h]
+  unsigned int v_4l; // [esp+4h] [ebp-244h]
   unsigned int v_4m; // [esp+4h] [ebp-244h]
   unsigned int v_4n; // [esp+4h] [ebp-244h]
   unsigned int v_4o; // [esp+4h] [ebp-244h]
   unsigned int v_4p; // [esp+4h] [ebp-244h]
   unsigned int v_4q; // [esp+4h] [ebp-244h]
-  unsigned int v_4r; // [esp+4h] [ebp-244h]
-  unsigned int v_4s; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::ASString v_4t; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::ASString v_4r; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Abc::Multiname *v_4s; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Abc::MethodBodyInfo::ExceptionInfo *v_4t; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Abc::Multiname *v_4u; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Abc::MethodBodyInfo::ExceptionInfo *v_4v; // [esp+4h] [ebp-244h]
+  unsigned int v_4v; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Abc::Multiname *v_4w; // [esp+4h] [ebp-244h]
   unsigned int v_4x; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Abc::Multiname *v_4y; // [esp+4h] [ebp-244h]
-  unsigned int v_4z; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Abc::Multiname *v_4ba; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Abc::Multiname *v_4bb; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Abc::Multiname *v_4z; // [esp+4h] [ebp-244h]
+  unsigned int v_4ba; // [esp+4h] [ebp-244h]
+  unsigned int v_4bb; // [esp+4h] [ebp-244h]
   unsigned int v_4bc; // [esp+4h] [ebp-244h]
   unsigned int v_4bd; // [esp+4h] [ebp-244h]
-  unsigned int v_4be; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::VM *v_4bf; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Abc::Multiname *v_4be; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::Abc::Multiname *v_4bf; // [esp+4h] [ebp-244h]
   Scaleform::GFx::AS3::Abc::Multiname *v_4bg; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Abc::Multiname *v_4bh; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> *v_4; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Abc::Multiname *v_4bi; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::ClassTraits::fl::Object *v_4bj; // [esp+4h] [ebp-244h]
+  Scaleform::GFx::AS3::ClassTraits::fl::Object *v_4bh; // [esp+4h] [ebp-244h]
+  unsigned int v_4bi; // [esp+4h] [ebp-244h]
+  unsigned int v_4bj; // [esp+4h] [ebp-244h]
   unsigned int v_4bk; // [esp+4h] [ebp-244h]
   unsigned int v_4bl; // [esp+4h] [ebp-244h]
   unsigned int v_4bm; // [esp+4h] [ebp-244h]
-  unsigned int v_4bn; // [esp+4h] [ebp-244h]
-  Scaleform::GFx::AS3::Boolean3 Data; // [esp+50h] [ebp-1F8h] BYREF
-  unsigned int v371; // [esp+54h] [ebp-1F4h]
-  double default_offset; // [esp+58h] [ebp-1F0h] BYREF
-  const unsigned int *curr_cp; // [esp+64h] [ebp-1E4h] BYREF
-  unsigned int case_count; // [esp+68h] [ebp-1E0h]
-  const Scaleform::GFx::AS3::Abc::ConstPool *constp; // [esp+6Ch] [ebp-1DCh]
-  Scaleform::GFx::AS3::VMAbcFile *file; // [esp+70h] [ebp-1D8h]
-  unsigned int call_stack_size; // [esp+74h] [ebp-1D4h]
-  Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> r; // [esp+78h] [ebp-1D0h] BYREF
-  bool tmpHandleException; // [esp+91h] [ebp-1B7h]
-  bool v380; // [esp+92h] [ebp-1B6h] BYREF
-  bool v381; // [esp+93h] [ebp-1B5h] BYREF
-  Scaleform::GFx::AS3::CheckResult v382; // [esp+94h] [ebp-1B4h] BYREF
-  Scaleform::GFx::AS3::CheckResult v383; // [esp+95h] [ebp-1B3h] BYREF
-  Scaleform::GFx::AS3::CheckResult v384; // [esp+96h] [ebp-1B2h] BYREF
-  Scaleform::GFx::AS3::CheckResult v385; // [esp+97h] [ebp-1B1h] BYREF
-  Scaleform::GFx::AS3::CheckResult v386; // [esp+98h] [ebp-1B0h] BYREF
-  Scaleform::GFx::AS3::CheckResult v387; // [esp+99h] [ebp-1AFh] BYREF
-  Scaleform::GFx::AS3::CheckResult v388; // [esp+9Ah] [ebp-1AEh] BYREF
-  Scaleform::GFx::AS3::CheckResult v389; // [esp+9Bh] [ebp-1ADh] BYREF
-  Scaleform::GFx::AS3::CheckResult v390; // [esp+9Ch] [ebp-1ACh] BYREF
-  Scaleform::GFx::AS3::CheckResult v391; // [esp+9Dh] [ebp-1ABh] BYREF
-  Scaleform::GFx::AS3::CheckResult v392; // [esp+9Eh] [ebp-1AAh] BYREF
-  Scaleform::GFx::AS3::CheckResult v393; // [esp+9Fh] [ebp-1A9h] BYREF
-  Scaleform::GFx::AS3::CheckResult v394; // [esp+A0h] [ebp-1A8h] BYREF
-  Scaleform::GFx::AS3::CheckResult v395; // [esp+A1h] [ebp-1A7h] BYREF
-  Scaleform::GFx::AS3::CheckResult v396; // [esp+A2h] [ebp-1A6h] BYREF
-  Scaleform::GFx::AS3::CheckResult v397; // [esp+A3h] [ebp-1A5h] BYREF
-  Scaleform::GFx::AS3::CheckResult v398; // [esp+A4h] [ebp-1A4h] BYREF
-  Scaleform::GFx::AS3::CheckResult v399; // [esp+A5h] [ebp-1A3h] BYREF
-  Scaleform::GFx::AS3::CheckResult v400; // [esp+A6h] [ebp-1A2h] BYREF
-  Scaleform::GFx::AS3::CheckResult v401; // [esp+A7h] [ebp-1A1h] BYREF
-  Scaleform::GFx::AS3::CheckResult v402; // [esp+A8h] [ebp-1A0h] BYREF
-  Scaleform::GFx::AS3::CheckResult result; // [esp+A9h] [ebp-19Fh] BYREF
-  Scaleform::GFx::AS3::CheckResult v404; // [esp+AAh] [ebp-19Eh] BYREF
-  Scaleform::GFx::AS3::CheckResult v405; // [esp+ABh] [ebp-19Dh] BYREF
-  Scaleform::GFx::AS3::CheckResult v406; // [esp+ACh] [ebp-19Ch] BYREF
-  Scaleform::GFx::AS3::CheckResult v407; // [esp+ADh] [ebp-19Bh] BYREF
-  Scaleform::GFx::AS3::CheckResult v408; // [esp+AEh] [ebp-19Ah] BYREF
-  Scaleform::GFx::AS3::CheckResult v409; // [esp+AFh] [ebp-199h] BYREF
-  Scaleform::GFx::AS3::CheckResult v410; // [esp+B0h] [ebp-198h] BYREF
-  Scaleform::GFx::AS3::CheckResult v411; // [esp+B1h] [ebp-197h] BYREF
-  Scaleform::GFx::AS3::CheckResult v412; // [esp+B2h] [ebp-196h] BYREF
-  Scaleform::GFx::AS3::CheckResult v413; // [esp+B3h] [ebp-195h] BYREF
-  Scaleform::GFx::AS3::CheckResult v414; // [esp+B4h] [ebp-194h] BYREF
-  Scaleform::GFx::AS3::CheckResult v415; // [esp+B5h] [ebp-193h] BYREF
-  Scaleform::GFx::AS3::CheckResult v416; // [esp+B6h] [ebp-192h] BYREF
-  Scaleform::GFx::AS3::CheckResult v417; // [esp+B7h] [ebp-191h] BYREF
-  Scaleform::GFx::AS3::CheckResult v418; // [esp+B8h] [ebp-190h] BYREF
-  Scaleform::GFx::AS3::CheckResult v419; // [esp+B9h] [ebp-18Fh] BYREF
-  Scaleform::GFx::AS3::CheckResult v420; // [esp+BAh] [ebp-18Eh] BYREF
-  Scaleform::GFx::AS3::CheckResult v421; // [esp+BBh] [ebp-18Dh] BYREF
-  Scaleform::GFx::AS3::CheckResult v422; // [esp+BCh] [ebp-18Ch] BYREF
-  Scaleform::GFx::AS3::CheckResult v423; // [esp+BDh] [ebp-18Bh] BYREF
-  Scaleform::GFx::AS3::CheckResult v424; // [esp+BEh] [ebp-18Ah] BYREF
-  Scaleform::GFx::AS3::CheckResult v425; // [esp+BFh] [ebp-189h] BYREF
-  Scaleform::GFx::AS3::CheckResult v426; // [esp+C0h] [ebp-188h] BYREF
-  Scaleform::GFx::AS3::CheckResult v427; // [esp+C1h] [ebp-187h] BYREF
-  Scaleform::GFx::AS3::CheckResult v428; // [esp+C2h] [ebp-186h] BYREF
-  Scaleform::GFx::AS3::CheckResult v429; // [esp+C3h] [ebp-185h] BYREF
-  Scaleform::GFx::AS3::CheckResult v430; // [esp+C4h] [ebp-184h] BYREF
-  Scaleform::GFx::AS3::CheckResult v431; // [esp+C5h] [ebp-183h] BYREF
-  Scaleform::GFx::AS3::CheckResult v432; // [esp+C6h] [ebp-182h] BYREF
-  Scaleform::GFx::AS3::CheckResult v433; // [esp+C7h] [ebp-181h] BYREF
-  Scaleform::GFx::AS3::CheckResult v434; // [esp+C8h] [ebp-180h] BYREF
-  Scaleform::GFx::AS3::CheckResult v435; // [esp+C9h] [ebp-17Fh] BYREF
-  Scaleform::GFx::AS3::CheckResult v436; // [esp+CAh] [ebp-17Eh] BYREF
-  char v437; // [esp+CBh] [ebp-17Dh] BYREF
-  Scaleform::GFx::AS3::CheckResult v438; // [esp+CCh] [ebp-17Ch] BYREF
-  Scaleform::GFx::AS3::CheckResult v439; // [esp+CDh] [ebp-17Bh] BYREF
-  Scaleform::GFx::AS3::CheckResult v440; // [esp+CEh] [ebp-17Ah] BYREF
-  Scaleform::GFx::AS3::CheckResult v441; // [esp+CFh] [ebp-179h] BYREF
-  Scaleform::GFx::AS3::VM::Error v442; // [esp+D0h] [ebp-178h] BYREF
-  Scaleform::GFx::AS3::Boolean3 v443; // [esp+DCh] [ebp-16Ch] BYREF
-  char v444; // [esp+E0h] [ebp-168h]
-  int v445; // [esp+E4h] [ebp-164h]
-  char v446; // [esp+ECh] [ebp-15Ch]
-  int v447; // [esp+F0h] [ebp-158h]
-  int v448; // [esp+F8h] [ebp-150h] BYREF
-  char v449; // [esp+FCh] [ebp-14Ch]
-  int v450; // [esp+100h] [ebp-148h]
-  char v451; // [esp+108h] [ebp-140h]
-  int v452; // [esp+10Ch] [ebp-13Ch]
-  Scaleform::GFx::AS3::Boolean3 v453; // [esp+114h] [ebp-134h] BYREF
-  char v454; // [esp+118h] [ebp-130h]
-  int v455; // [esp+11Ch] [ebp-12Ch]
-  char v456; // [esp+124h] [ebp-124h]
-  int v457; // [esp+128h] [ebp-120h]
-  char v458; // [esp+130h] [ebp-118h]
-  int v459; // [esp+134h] [ebp-114h]
-  bool v460[4]; // [esp+13Ch] [ebp-10Ch] BYREF
-  char v461; // [esp+140h] [ebp-108h]
-  int v462; // [esp+144h] [ebp-104h]
-  Scaleform::GFx::AS3::Boolean3 v463; // [esp+14Ch] [ebp-FCh] BYREF
-  char v464; // [esp+150h] [ebp-F8h]
-  int v465; // [esp+154h] [ebp-F4h]
-  Scaleform::GFx::AS3::Boolean3 v466; // [esp+15Ch] [ebp-ECh] BYREF
-  Scaleform::GFx::AS3::Value tmpExceptionValue; // [esp+160h] [ebp-E8h] BYREF
-  Scaleform::GFx::AS3::Value::V1U v468; // [esp+170h] [ebp-D8h]
-  Scaleform::GFx::AS3::Value::V2U v469; // [esp+174h] [ebp-D4h]
-  long double Double; // [esp+178h] [ebp-D0h]
-  Scaleform::GFx::AS3::Value v471; // [esp+180h] [ebp-C8h] BYREF
-  Scaleform::GFx::AS3::Value::V1U v472; // [esp+190h] [ebp-B8h]
-  Scaleform::GFx::AS3::Value::V2U v473; // [esp+194h] [ebp-B4h]
-  Scaleform::StringDataPtr v474; // [esp+198h] [ebp-B0h] BYREF
-  double v475; // [esp+1A0h] [ebp-A8h]
+  Scaleform::GFx::ASStringNode *v_4bn; // [esp+4h] [ebp-244h]
+  int position; // [esp+40h] [ebp-208h] BYREF
+  unsigned int v376; // [esp+44h] [ebp-204h]
+  double default_offset; // [esp+48h] [ebp-200h] BYREF
+  const unsigned int *curr_cp; // [esp+54h] [ebp-1F4h] BYREF
+  unsigned int case_count; // [esp+58h] [ebp-1F0h]
+  const Scaleform::GFx::AS3::Abc::ConstPool *constp; // [esp+5Ch] [ebp-1ECh]
+  Scaleform::GFx::AS3::VMAbcFile *file; // [esp+60h] [ebp-1E8h]
+  unsigned int call_stack_size; // [esp+64h] [ebp-1E4h]
+  Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> r; // [esp+68h] [ebp-1E0h] BYREF
+  bool tmpHandleException; // [esp+81h] [ebp-1C7h]
+  bool v385; // [esp+82h] [ebp-1C6h] BYREF
+  bool v386; // [esp+83h] [ebp-1C5h] BYREF
+  Scaleform::GFx::AS3::CheckResult v387; // [esp+84h] [ebp-1C4h] BYREF
+  Scaleform::GFx::AS3::CheckResult v388; // [esp+85h] [ebp-1C3h] BYREF
+  Scaleform::GFx::AS3::CheckResult v389; // [esp+86h] [ebp-1C2h] BYREF
+  Scaleform::GFx::AS3::CheckResult v390; // [esp+87h] [ebp-1C1h] BYREF
+  Scaleform::GFx::AS3::CheckResult v391; // [esp+88h] [ebp-1C0h] BYREF
+  Scaleform::GFx::AS3::CheckResult v392; // [esp+89h] [ebp-1BFh] BYREF
+  Scaleform::GFx::AS3::CheckResult v393; // [esp+8Ah] [ebp-1BEh] BYREF
+  Scaleform::GFx::AS3::CheckResult v394; // [esp+8Bh] [ebp-1BDh] BYREF
+  Scaleform::GFx::AS3::CheckResult v395; // [esp+8Ch] [ebp-1BCh] BYREF
+  Scaleform::GFx::AS3::CheckResult v396; // [esp+8Dh] [ebp-1BBh] BYREF
+  Scaleform::GFx::AS3::CheckResult v397; // [esp+8Eh] [ebp-1BAh] BYREF
+  Scaleform::GFx::AS3::CheckResult v398; // [esp+8Fh] [ebp-1B9h] BYREF
+  Scaleform::GFx::AS3::CheckResult v399; // [esp+90h] [ebp-1B8h] BYREF
+  Scaleform::GFx::AS3::CheckResult v400; // [esp+91h] [ebp-1B7h] BYREF
+  Scaleform::GFx::AS3::CheckResult v401; // [esp+92h] [ebp-1B6h] BYREF
+  Scaleform::GFx::AS3::CheckResult v402; // [esp+93h] [ebp-1B5h] BYREF
+  Scaleform::GFx::AS3::CheckResult v403; // [esp+94h] [ebp-1B4h] BYREF
+  Scaleform::GFx::AS3::CheckResult v404; // [esp+95h] [ebp-1B3h] BYREF
+  Scaleform::GFx::AS3::CheckResult v405; // [esp+96h] [ebp-1B2h] BYREF
+  Scaleform::GFx::AS3::CheckResult v406; // [esp+97h] [ebp-1B1h] BYREF
+  Scaleform::GFx::AS3::CheckResult v407; // [esp+98h] [ebp-1B0h] BYREF
+  Scaleform::GFx::AS3::CheckResult v408; // [esp+99h] [ebp-1AFh] BYREF
+  Scaleform::GFx::AS3::CheckResult result; // [esp+9Ah] [ebp-1AEh] BYREF
+  Scaleform::GFx::AS3::CheckResult v410; // [esp+9Bh] [ebp-1ADh] BYREF
+  Scaleform::GFx::AS3::CheckResult v411; // [esp+9Ch] [ebp-1ACh] BYREF
+  Scaleform::GFx::AS3::CheckResult v412; // [esp+9Dh] [ebp-1ABh] BYREF
+  Scaleform::GFx::AS3::CheckResult v413; // [esp+9Eh] [ebp-1AAh] BYREF
+  Scaleform::GFx::AS3::CheckResult v414; // [esp+9Fh] [ebp-1A9h] BYREF
+  Scaleform::GFx::AS3::CheckResult v415; // [esp+A0h] [ebp-1A8h] BYREF
+  Scaleform::GFx::AS3::CheckResult v416; // [esp+A1h] [ebp-1A7h] BYREF
+  Scaleform::GFx::AS3::CheckResult v417; // [esp+A2h] [ebp-1A6h] BYREF
+  Scaleform::GFx::AS3::CheckResult v418; // [esp+A3h] [ebp-1A5h] BYREF
+  Scaleform::GFx::AS3::CheckResult v419; // [esp+A4h] [ebp-1A4h] BYREF
+  Scaleform::GFx::AS3::CheckResult v420; // [esp+A5h] [ebp-1A3h] BYREF
+  Scaleform::GFx::AS3::CheckResult v421; // [esp+A6h] [ebp-1A2h] BYREF
+  Scaleform::GFx::AS3::CheckResult v422; // [esp+A7h] [ebp-1A1h] BYREF
+  Scaleform::GFx::AS3::CheckResult v423; // [esp+A8h] [ebp-1A0h] BYREF
+  Scaleform::GFx::AS3::CheckResult v424; // [esp+A9h] [ebp-19Fh] BYREF
+  Scaleform::GFx::AS3::CheckResult v425; // [esp+AAh] [ebp-19Eh] BYREF
+  Scaleform::GFx::AS3::CheckResult v426; // [esp+ABh] [ebp-19Dh] BYREF
+  Scaleform::GFx::AS3::CheckResult v427; // [esp+ACh] [ebp-19Ch] BYREF
+  Scaleform::GFx::AS3::CheckResult v428; // [esp+ADh] [ebp-19Bh] BYREF
+  Scaleform::GFx::AS3::CheckResult v429; // [esp+AEh] [ebp-19Ah] BYREF
+  Scaleform::GFx::AS3::CheckResult v430; // [esp+AFh] [ebp-199h] BYREF
+  Scaleform::GFx::AS3::CheckResult v431; // [esp+B0h] [ebp-198h] BYREF
+  Scaleform::GFx::AS3::CheckResult v432; // [esp+B1h] [ebp-197h] BYREF
+  Scaleform::GFx::AS3::CheckResult v433; // [esp+B2h] [ebp-196h] BYREF
+  Scaleform::GFx::AS3::CheckResult v434; // [esp+B3h] [ebp-195h] BYREF
+  Scaleform::GFx::AS3::CheckResult v435; // [esp+B4h] [ebp-194h] BYREF
+  Scaleform::GFx::AS3::CheckResult v436; // [esp+B5h] [ebp-193h] BYREF
+  Scaleform::GFx::AS3::CheckResult v437; // [esp+B6h] [ebp-192h] BYREF
+  Scaleform::GFx::AS3::CheckResult v438; // [esp+B7h] [ebp-191h] BYREF
+  Scaleform::GFx::AS3::CheckResult v439; // [esp+B8h] [ebp-190h] BYREF
+  Scaleform::GFx::AS3::CheckResult v440; // [esp+B9h] [ebp-18Fh] BYREF
+  Scaleform::GFx::AS3::CheckResult v441; // [esp+BAh] [ebp-18Eh] BYREF
+  Scaleform::GFx::AS3::CheckResult v442; // [esp+BBh] [ebp-18Dh] BYREF
+  Scaleform::GFx::AS3::CheckResult v443; // [esp+BCh] [ebp-18Ch] BYREF
+  Scaleform::GFx::AS3::CheckResult v444; // [esp+BDh] [ebp-18Bh] BYREF
+  Scaleform::GFx::AS3::CheckResult v445; // [esp+BEh] [ebp-18Ah] BYREF
+  Scaleform::GFx::AS3::CheckResult v446; // [esp+BFh] [ebp-189h] BYREF
+  Scaleform::GFx::AS3::VM::Error v447; // [esp+C0h] [ebp-188h] BYREF
+  Scaleform::GFx::AS3::Boolean3 v448; // [esp+CCh] [ebp-17Ch] BYREF
+  char v449; // [esp+D0h] [ebp-178h]
+  int v450; // [esp+D4h] [ebp-174h]
+  char v451; // [esp+DCh] [ebp-16Ch]
+  int v452; // [esp+E0h] [ebp-168h]
+  int v453; // [esp+E8h] [ebp-160h] BYREF
+  char v454; // [esp+ECh] [ebp-15Ch]
+  int v455; // [esp+F0h] [ebp-158h]
+  __int64 v456; // [esp+F8h] [ebp-150h]
+  char v457; // [esp+100h] [ebp-148h]
+  int v458; // [esp+104h] [ebp-144h]
+  char v459; // [esp+10Ch] [ebp-13Ch]
+  int v460; // [esp+110h] [ebp-138h]
+  char v461; // [esp+118h] [ebp-130h]
+  int v462; // [esp+11Ch] [ebp-12Ch]
+  Scaleform::GFx::AS3::Boolean3 v463; // [esp+124h] [ebp-124h] BYREF
+  char v464; // [esp+128h] [ebp-120h]
+  int v465; // [esp+12Ch] [ebp-11Ch]
+  bool v466[4]; // [esp+134h] [ebp-114h] BYREF
+  char v467; // [esp+138h] [ebp-110h]
+  int v468; // [esp+13Ch] [ebp-10Ch]
+  Scaleform::GFx::AS3::Boolean3 v469; // [esp+144h] [ebp-104h] BYREF
+  char v470; // [esp+148h] [ebp-100h]
+  int v471; // [esp+14Ch] [ebp-FCh]
+  Scaleform::GFx::AS3::Boolean3 v472; // [esp+154h] [ebp-F4h] BYREF
+  Scaleform::GFx::AS3::Value tmpExceptionValue; // [esp+158h] [ebp-F0h] BYREF
+  Scaleform::GFx::AS3::Value::V1U v474; // [esp+168h] [ebp-E0h]
+  Scaleform::GFx::AS3::Value::V2U v475; // [esp+16Ch] [ebp-DCh]
+  Scaleform::StringDataPtr v476; // [esp+170h] [ebp-D8h] BYREF
+  Scaleform::GFx::AS3::Value::V1U v477; // [esp+178h] [ebp-D0h]
+  Scaleform::GFx::AS3::Value::V2U v478; // [esp+17Ch] [ebp-CCh]
+  unsigned int v479; // [esp+184h] [ebp-C4h]
+  Scaleform::GFx::AS3::Value v480; // [esp+188h] [ebp-C0h] BYREF
+  long double Double; // [esp+198h] [ebp-B0h]
+  double v482; // [esp+1A0h] [ebp-A8h]
   Scaleform::GFx::AS3::Value other; // [esp+1A8h] [ebp-A0h] BYREF
-  Scaleform::GFx::AS3::Value v477; // [esp+1B8h] [ebp-90h] BYREF
-  long double v478; // [esp+1C8h] [ebp-80h] BYREF
-  long double v479; // [esp+1D0h] [ebp-78h] BYREF
-  long double v480; // [esp+1D8h] [ebp-70h] BYREF
-  Scaleform::GFx::AS3::VM::Error v481; // [esp+1E0h] [ebp-68h] BYREF
-  char v482; // [esp+1E8h] [ebp-60h]
-  long double v483; // [esp+1F0h] [ebp-58h]
-  char v484; // [esp+200h] [ebp-48h]
-  double v485; // [esp+208h] [ebp-40h]
-  long double v486; // [esp+218h] [ebp-30h] BYREF
-  char v487; // [esp+220h] [ebp-28h]
-  double v488; // [esp+228h] [ebp-20h]
-  Scaleform::GFx::AS3::Value v489; // [esp+238h] [ebp-10h] BYREF
+  Scaleform::GFx::AS3::Value v484; // [esp+1B8h] [ebp-90h] BYREF
+  Scaleform::GFx::AS3::VM::Error v485; // [esp+1C8h] [ebp-80h] BYREF
+  long double v486; // [esp+1D0h] [ebp-78h] BYREF
+  char v487; // [esp+1D8h] [ebp-70h]
+  long double v488; // [esp+1E0h] [ebp-68h]
+  long double v489; // [esp+1F0h] [ebp-58h] BYREF
+  long double v490; // [esp+1F8h] [ebp-50h] BYREF
+  char v491; // [esp+200h] [ebp-48h]
+  double v492; // [esp+208h] [ebp-40h]
+  long double v493; // [esp+218h] [ebp-30h] BYREF
+  char v494; // [esp+220h] [ebp-28h]
+  double v495; // [esp+228h] [ebp-20h]
+  Scaleform::GFx::AS3::Value v496; // [esp+238h] [ebp-10h] BYREF
 
-  v118 = this->CallStack.Size == 0;
-  v371 = 0;
-  if ( v118 )
+  v188 = this->CallStack.Size == 0;
+  v376 = 0;
+  if ( v188 )
     return max_stack_depth;
   while ( 1 )
   {
     Pages = this->CallStack.Pages;
     call_stack_size = this->CallStack.Size;
-    v4 = Pages[(call_stack_size - 1) >> 6];
-    LOBYTE(Pages) = this->HandleException;
-    v5 = &v4[(call_stack_size - 1) & 0x3F];
+    v4 = &Pages[(call_stack_size - 1) >> 6][(call_stack_size - 1) & 0x3F];
+    v5 = this->ExceptionObj.value.VS._1;
     pWeakProxy = this->ExceptionObj.Bonus.pWeakProxy;
+    file = v4->pFile;
     p_ExceptionObj = &this->ExceptionObj;
-    file = v5->pFile;
-    pObject = file->File.pObject;
-    tmpHandleException = (char)Pages;
-    tmpExceptionValue.value.VS._1.VInt = this->ExceptionObj.value.VS._1.VInt;
+    constp = &file->File.pObject->Const_Pool;
+    HandleException = this->HandleException;
+    tmpExceptionValue.value.VS._1 = v5;
     v9.VObj = (Scaleform::GFx::AS3::Object *)this->ExceptionObj.value.VS._2;
-    constp = &pObject->Const_Pool;
+    tmpHandleException = HandleException;
     Flags = this->ExceptionObj.Flags;
     tmpExceptionValue.value.VS._2 = v9;
     tmpExceptionValue.Flags = Flags;
@@ -525,8 +531,8 @@ unsigned int __thiscall Scaleform::GFx::AS3::VM::ExecuteCode(
       if ( (p_ExceptionObj->Flags & 0x200) != 0 )
       {
         v11 = this->ExceptionObj.Bonus.pWeakProxy;
-        v118 = v11->RefCount-- == 1;
-        if ( v118 )
+        v188 = v11->RefCount-- == 1;
+        if ( v188 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);
         p_ExceptionObj->Flags &= 0xFFFFFDE0;
         this->ExceptionObj.Bonus.pWeakProxy = 0;
@@ -539,2104 +545,2142 @@ unsigned int __thiscall Scaleform::GFx::AS3::VM::ExecuteCode(
       }
     }
     p_ExceptionObj->Flags = 0;
-    if ( !v5->CP )
-      v5->CP = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-    v118 = !this->HandleException;
-    CP = (unsigned int *)v5->CP;
+    if ( !v4->CP )
+      v4->CP = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+    v188 = !this->HandleException;
+    CP = v4->CP;
     _mm_prefetch((const char *)CP, 2);
-    if ( !v118 )
-      goto LABEL_588;
+    if ( !v188 )
+    {
+LABEL_597:
+      v189 = 2;
+      goto call_stack_label;
+    }
     if ( tmpHandleException )
     {
       this->HandleException = tmpHandleException;
       Scaleform::GFx::AS3::Value::Assign(&this->ExceptionObj, &tmpExceptionValue);
     }
 LABEL_17:
-    if ( !this->HandleException )
-      goto $LN436;
-    Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-    v13 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - Data) >> 2, (unsigned int)v5);
-    if ( v13 >= 0 )
+    if ( this->HandleException )
     {
-      v14 = Data;
+      position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+      v13 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+      if ( v13 < 0 )
+        goto LABEL_597;
+      v14 = position;
 LABEL_20:
-      CP = (unsigned int *)(v14 + 4 * v13);
-$LN436:
-      while ( 2 )
+      CP = (const unsigned int *)(v14 + 4 * v13);
+    }
+    while ( 2 )
+    {
+      v15 = *CP;
+      curr_cp = CP++;
+      switch ( v15 )
       {
-        v15 = *CP;
-        curr_cp = CP++;
-        switch ( v15 )
-        {
-          case 3u:
-            v16 = Scaleform::GFx::AS3::VM::exec_throw(this, CP, v5);
-            if ( v16 < 0 )
-              goto LABEL_587;
-            CP = &Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data[v16];
+        case 3u:
+          position = Scaleform::GFx::AS3::VM::exec_throw(this, CP, v4);
+          if ( position < 0 )
+            goto LABEL_597;
+          OpCode = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4);
+          CP = &OpCode->Data.Data[position];
+          continue;
+        case 4u:
+          v17 = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_getsuper(this, file, v4->OriginationTraits, v17);
+          goto LABEL_25;
+        case 5u:
+          v19 = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_setsuper(this, file, v4->OriginationTraits, v19);
+LABEL_25:
+          if ( !this->HandleException )
             continue;
-          case 4u:
-            v_4a = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_getsuper(
-              this,
-              file,
-              (Scaleform::GFx::AS3::Traits *)v5->OriginationTraits,
-              v_4a);
-            goto LABEL_17;
-          case 5u:
-            v17 = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_setsuper(
-              this,
-              file,
-              (Scaleform::GFx::AS3::Traits *)v5->OriginationTraits,
-              v17);
-            goto LABEL_26;
-          case 6u:
-            v_4b = (Scaleform::GFx::AS3::Instances::fl::Namespace *)*CP++;
-            InternedNamespace = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(v5->pFile, v_4b);
-            curr_cp = (const unsigned int *)InternedNamespace;
-            if ( InternedNamespace )
-              InternedNamespace->RefCount = (InternedNamespace->RefCount + 1) & 0x8FBFFFFF;
-            Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event>::Set(
-              (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&this->DefXMLNamespace,
-              (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&curr_cp);
-            if ( curr_cp )
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v18 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v18 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v18);
+          continue;
+        case 6u:
+          v_4 = (Scaleform::GFx::AS3::Instances::fl::Namespace *)*CP++;
+          InternedNamespace = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(v4->pFile, v_4);
+          curr_cp = (const unsigned int *)InternedNamespace;
+          if ( InternedNamespace )
+            InternedNamespace->RefCount = (InternedNamespace->RefCount + 1) & 0x8FBFFFFF;
+          Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event>::Set(
+            (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&this->DefXMLNamespace,
+            (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&curr_cp);
+          if ( curr_cp )
+          {
+            if ( ((unsigned __int8)curr_cp & 1) == 0 )
             {
-              if ( ((unsigned __int8)curr_cp & 1) == 0 )
+              v21 = curr_cp[4];
+              if ( (v21 & 0x3FFFFF) != 0 )
               {
-                v20 = curr_cp[4];
-                if ( ((unsigned int)&byte_3FFFFF & v20) != 0 )
-                {
-                  v21 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)curr_cp;
-                  *((_DWORD *)curr_cp + 4) = v20 - 1;
-                  Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v21);
-                }
+                v22 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)curr_cp;
+                *((_DWORD *)curr_cp + 4) = v21 - 1;
+                Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v22);
               }
             }
-            goto LABEL_17;
-          case 7u:
-            Scaleform::GFx::AS3::VM::exec_dxnslate(this);
-LABEL_26:
-            if ( !this->HandleException )
-              continue;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v18 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - Data) >> 2, (unsigned int)v5);
-            if ( v18 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(Data + 4 * v18);
-            continue;
-          case 8u:
-            v22 = *CP++;
-            Data = v22;
-            if ( (_S10_0 & 1) == 0 )
-            {
-              _S10_0 |= 1u;
-              ::v.Flags = 0;
-              ::v.Bonus.pWeakProxy = 0;
-              atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
-            }
-            Scaleform::GFx::AS3::Value::Assign(&this->RegisterFile.pRF[Data], &::v);
-            continue;
-          case 0xAu:
-            p_value = &this->RegisterFile.pRF[*CP++].value;
-            ++p_value->VS._1.VInt;
-            continue;
-          case 0xBu:
-            v292 = &this->RegisterFile.pRF[*CP++].value;
-            --v292->VS._1.VInt;
-            continue;
-          case 0xCu:
-            v_4c = this->OpStack.pCurrent;
-            Data = *CP;
-            v23 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&result, &v443, v_4c - 1, v_4c)->Result && v443 != true3 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_45;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v24 = Scaleform::GFx::AS3::VM::OnException(this, (v23 - Data) >> 2, (unsigned int)v5);
-            if ( v24 < 0 )
-              goto LABEL_587;
-            v23 = Data + 4 * v24;
+          }
+          goto LABEL_17;
+        case 7u:
+          Scaleform::GFx::AS3::VM::exec_dxnslate(this);
+          goto LABEL_17;
+        case 8u:
+          v23 = *CP++;
+          position = v23;
+          if ( (_S15 & 1) == 0 )
+          {
+            _S15 |= 1u;
+            ::v.Flags = 0;
+            ::v.Bonus.pWeakProxy = 0;
+            atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
+          }
+          Scaleform::GFx::AS3::Value::Assign(&this->RegisterFile.pRF[position], &::v);
+          continue;
+        case 0xAu:
+          p_value = &this->RegisterFile.pRF[*CP++].value;
+          ++p_value->VS._1.VInt;
+          continue;
+        case 0xBu:
+        case 0x38u:
+          v173 = &this->RegisterFile.pRF[*CP++].value;
+          --v173->VS._1.VInt;
+          continue;
+        case 0xCu:
+          v_4a = this->OpStack.pCurrent;
+          position = *CP++;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&result, &v448, v_4a - 1, v_4a)->Result && v448 != true3 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_45;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v24 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v24 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v24);
 LABEL_45:
-            CP = (unsigned int *)(v23 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0xDu:
-            pCurrent = this->OpStack.pCurrent;
-            Data = *CP;
-            v37 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v391, &v453, pCurrent, pCurrent - 1)->Result && v453 != false3 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_58;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v38 = Scaleform::GFx::AS3::VM::OnException(this, (v37 - Data) >> 2, (unsigned int)v5);
-            if ( v38 < 0 )
-              goto LABEL_587;
-            v37 = Data + 4 * v38;
+          CP += (int)curr_cp;
+          continue;
+        case 0xDu:
+          pCurrent = this->OpStack.pCurrent;
+          position = *CP++;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v394, &v472, pCurrent, pCurrent - 1)->Result && v472 != false3 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_58;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v37 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v37 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v37);
 LABEL_58:
-            CP = (unsigned int *)(v37 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0xEu:
-            v46 = this->OpStack.pCurrent;
-            Data = *CP;
-            v37 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v393, &v463, v46, v46 - 1)->Result && v463 != true3 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_58;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v47 = Scaleform::GFx::AS3::VM::OnException(this, (v37 - Data) >> 2, (unsigned int)v5);
-            if ( v47 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(Data + 4 * v47 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0xFu:
-            v_4d = this->OpStack.pCurrent;
-            Data = *CP;
-            v37 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v395, &v466, v_4d - 1, v_4d)->Result && v466 != false3 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_58;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v55 = Scaleform::GFx::AS3::VM::OnException(this, (v37 - Data) >> 2, (unsigned int)v5);
-            if ( v55 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(Data + 4 * v55 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x10u:
-            CP += *CP + 1;
-            continue;
-          case 0x11u:
-            v63 = this->OpStack.pCurrent;
-            Data = *CP;
-            v64 = CP + 1;
-            curr_cp = &v63->Flags;
-            v65 = Scaleform::GFx::AS3::Value::Convert2Boolean(v63);
-            Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)curr_cp, v65);
-            v66 = *((_BYTE *)curr_cp + 8);
-            --this->OpStack.pCurrent;
-            v67 = undefined3;
-            if ( v66 == 1 )
-              v67 = Data;
-            goto LABEL_86;
-          case 0x12u:
-            v73 = this->OpStack.pCurrent;
-            Data = *CP;
-            v64 = CP + 1;
-            curr_cp = &v73->Flags;
-            v74 = Scaleform::GFx::AS3::Value::Convert2Boolean(v73);
-            Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)curr_cp, v74);
-            v75 = *((_BYTE *)curr_cp + 8);
-            --this->OpStack.pCurrent;
-            v67 = undefined3;
-            if ( v75 )
+          CP += (int)curr_cp;
+          continue;
+        case 0xEu:
+          v45 = this->OpStack.pCurrent;
+          position = *CP++;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v396, &v469, v45, v45 - 1)->Result && v469 != true3 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_58;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v46 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v46 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v46 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0xFu:
+          v_4b = this->OpStack.pCurrent;
+          position = *CP++;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v398, &v463, v_4b - 1, v_4b)->Result && v463 != false3 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_58;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v54 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v54 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v54 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0x10u:
+          CP += *CP + 1;
+          continue;
+        case 0x11u:
+          v62 = this->OpStack.pCurrent;
+          position = *CP;
+          v63 = CP + 1;
+          curr_cp = &v62->Flags;
+          v64 = Scaleform::GFx::AS3::Value::Convert2Boolean(v62);
+          Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)curr_cp, v64);
+          v65 = *((_BYTE *)curr_cp + 8);
+          --this->OpStack.pCurrent;
+          v66 = 0;
+          if ( v65 == 1 )
+            v66 = position;
+          goto LABEL_86;
+        case 0x12u:
+          v72 = this->OpStack.pCurrent;
+          position = *CP;
+          v63 = CP + 1;
+          curr_cp = &v72->Flags;
+          v73 = Scaleform::GFx::AS3::Value::Convert2Boolean(v72);
+          Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)curr_cp, v73);
+          v74 = *((_BYTE *)curr_cp + 8);
+          --this->OpStack.pCurrent;
+          v66 = 0;
+          if ( v74 )
 LABEL_86:
-              CP = &v64[v67];
-            else
-              CP = &v64[Data];
-            continue;
-          case 0x13u:
-            Data = *CP;
-            v_4e = this->OpStack.pCurrent;
-            v37 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractEqual(&v397, &v381, v_4e - 1, v_4e)->Result && v381 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_58;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v79 = Scaleform::GFx::AS3::VM::OnException(this, (v37 - Data) >> 2, (unsigned int)v5);
-            if ( v79 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(Data + 4 * v79 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x14u:
-            v_4f = this->OpStack.pCurrent;
-            Data = *CP;
-            v37 = (__int32)(CP + 1);
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractEqual(&v399, &v380, v_4f - 1, v_4f)->Result && !v380 )
-              curr_cp = (const unsigned int *)Data;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_58;
-            Data = (Scaleform::GFx::AS3::Boolean3)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v87 = Scaleform::GFx::AS3::VM::OnException(this, (v37 - Data) >> 2, (unsigned int)v5);
-            if ( v87 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(Data + 4 * v87 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x15u:
-            v_4g = this->OpStack.pCurrent;
-            case_count = *CP;
-            v95 = (unsigned int)(CP + 1);
-            Data = undefined3;
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v401, (Scaleform::GFx::AS3::Boolean3 *)&curr_cp, v_4g - 1, v_4g)->Result
-              && curr_cp == (const unsigned int *)1 )
-            {
-              Data = case_count;
-            }
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_120;
-            case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v96 = Scaleform::GFx::AS3::VM::OnException(this, (int)(v95 - case_count) >> 2, (unsigned int)v5);
-            if ( v96 < 0 )
-              goto LABEL_587;
-            v95 = case_count + 4 * v96;
+            CP = &v63[v66];
+          else
+            CP = &v63[position];
+          continue;
+        case 0x13u:
+          position = *CP;
+          v_4c = this->OpStack.pCurrent;
+          ++CP;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractEqual(&v400, &v386, v_4c - 1, v_4c)->Result && v386 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_58;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v78 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v78 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v78 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0x14u:
+          v_4d = this->OpStack.pCurrent;
+          position = *CP++;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractEqual(&v402, &v385, v_4d - 1, v_4d)->Result && !v385 )
+            curr_cp = (const unsigned int *)position;
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_58;
+          position = (int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v86 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - position) >> 2, (unsigned int)v4);
+          if ( v86 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(position + 4 * v86 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0x15u:
+          v_4e = this->OpStack.pCurrent;
+          case_count = *CP++;
+          position = 0;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v404, (Scaleform::GFx::AS3::Boolean3 *)&curr_cp, v_4e - 1, v_4e)->Result
+            && curr_cp == (const unsigned int *)1 )
+          {
+            position = case_count;
+          }
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_120;
+          case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v94 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v4);
+          if ( v94 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(case_count + 4 * v94);
 LABEL_120:
-            CP = (unsigned int *)(v95 + 4 * Data);
-            continue;
-          case 0x16u:
-            v102 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v103 = (unsigned int)(CP + 1);
-            curr_cp = 0;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v438, &Data, v102, v102 - 1)->Result && Data == false3 )
-              curr_cp = (const unsigned int *)case_count;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_130;
-            case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v104 = Scaleform::GFx::AS3::VM::OnException(this, (int)(v103 - case_count) >> 2, (unsigned int)v5);
-            if ( v104 < 0 )
-              goto LABEL_587;
-            v103 = case_count + 4 * v104;
+          CP += position;
+          continue;
+        case 0x16u:
+          v100 = this->OpStack.pCurrent;
+          case_count = *CP++;
+          curr_cp = 0;
+          position = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v443, (Scaleform::GFx::AS3::Boolean3 *)&position, v100, v100 - 1)->Result
+            && position == 2 )
+          {
+            curr_cp = (const unsigned int *)case_count;
+          }
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_130;
+          case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v101 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v4);
+          if ( v101 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(case_count + 4 * v101);
 LABEL_130:
-            CP = (unsigned int *)(v103 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x17u:
-            v108 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v103 = (unsigned int)(CP + 1);
-            curr_cp = 0;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v440, &Data, v108, v108 - 1)->Result && Data == true3 )
-              curr_cp = (const unsigned int *)case_count;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_130;
-            case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v109 = Scaleform::GFx::AS3::VM::OnException(this, (int)(v103 - case_count) >> 2, (unsigned int)v5);
-            if ( v109 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(case_count + 4 * v109 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x18u:
-            v_4h = this->OpStack.pCurrent;
-            case_count = *CP;
-            v103 = (unsigned int)(CP + 1);
-            curr_cp = 0;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v423, &Data, v_4h - 1, v_4h)->Result && Data == false3 )
-              curr_cp = (const unsigned int *)case_count;
-            Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
-            if ( !this->HandleException )
-              goto LABEL_130;
-            case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v113 = Scaleform::GFx::AS3::VM::OnException(this, (int)(v103 - case_count) >> 2, (unsigned int)v5);
-            if ( v113 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(case_count + 4 * v113 + 4 * (_DWORD)curr_cp);
-            continue;
-          case 0x19u:
-            v119 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v120 = CP + 1;
-            curr_cp = 0;
-            if ( Scaleform::GFx::AS3::StrictEqual(v119, v119 - 1) )
-              curr_cp = (const unsigned int *)case_count;
-            v121 = this->OpStack.pCurrent;
-            v122 = v121->Flags;
-            v123 = v121->Flags & 0x1F;
-            Data = (Scaleform::GFx::AS3::Boolean3)v121;
-            if ( (char)v123 > 9 )
+          CP += (int)curr_cp;
+          continue;
+        case 0x17u:
+          v105 = this->OpStack.pCurrent;
+          case_count = *CP++;
+          curr_cp = 0;
+          position = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v445, (Scaleform::GFx::AS3::Boolean3 *)&position, v105, v105 - 1)->Result
+            && position == 1 )
+          {
+            curr_cp = (const unsigned int *)case_count;
+          }
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_130;
+          case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v106 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v4);
+          if ( v106 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(case_count + 4 * v106 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0x18u:
+          v_4f = this->OpStack.pCurrent;
+          case_count = *CP++;
+          curr_cp = 0;
+          position = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v442, (Scaleform::GFx::AS3::Boolean3 *)&position, v_4f - 1, v_4f)->Result
+            && position == 2 )
+          {
+            curr_cp = (const unsigned int *)case_count;
+          }
+          Scaleform::GFx::AS3::VSBase::PopBack(&this->OpStack, 2u);
+          if ( !this->HandleException )
+            goto LABEL_130;
+          case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v110 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v4);
+          if ( v110 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(case_count + 4 * v110 + 4 * (_DWORD)curr_cp);
+          continue;
+        case 0x19u:
+          case_count = *CP;
+          v116 = this->OpStack.pCurrent;
+          v117 = CP + 1;
+          curr_cp = 0;
+          if ( Scaleform::GFx::AS3::StrictEqual(v116, v116 - 1) )
+            curr_cp = (const unsigned int *)case_count;
+          v118 = this->OpStack.pCurrent;
+          v119 = v118->Flags;
+          v120 = v118->Flags & 0x1F;
+          position = (int)v118;
+          if ( (char)v120 > 9 )
+          {
+            if ( (v119 & 0x200) != 0 )
             {
-              if ( (v122 & 0x200) != 0 )
+              v121 = v118->Bonus.pWeakProxy;
+              v188 = v121->RefCount-- == 1;
+              if ( v188 )
               {
-                v124 = v121->Bonus.pWeakProxy;
-                v118 = v124->RefCount-- == 1;
-                if ( v118 )
-                {
-                  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v124);
-                  v121 = (Scaleform::GFx::AS3::Value *)Data;
-                }
-                v121->Flags &= 0xFFFFFDE0;
-                v121->Bonus.pWeakProxy = 0;
-                v121->value.VS._1.VInt = 0;
-                v121->value.VS._2.VObj = 0;
+                Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v121);
+                v118 = (Scaleform::GFx::AS3::Value *)position;
               }
-              else
-              {
-                Scaleform::GFx::AS3::Value::ReleaseInternal(v121);
-              }
+              v118->Flags &= 0xFFFFFDE0;
+              v118->Bonus.pWeakProxy = 0;
+              v118->value.VS._1.VInt = 0;
+              v118->value.VS._2.VObj = 0;
             }
-            v125 = --this->OpStack.pCurrent;
-            v126 = v125->Flags;
-            v127 = v125->Flags & 0x1F;
-            Data = (Scaleform::GFx::AS3::Boolean3)v125;
-            if ( (char)v127 <= 9 )
-              goto LABEL_169;
-            if ( (v126 & 0x200) == 0 )
-              goto LABEL_168;
-            v128 = v125->Bonus.pWeakProxy;
-            v118 = v128->RefCount-- == 1;
-            if ( v118 )
-              goto LABEL_166;
-            goto LABEL_167;
-          case 0x1Au:
-            v131 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v120 = CP + 1;
-            curr_cp = 0;
-            if ( !Scaleform::GFx::AS3::StrictEqual(v131, v131 - 1) )
-              curr_cp = (const unsigned int *)case_count;
-            v132 = this->OpStack.pCurrent;
-            v133 = v132->Flags;
-            v134 = v132->Flags & 0x1F;
-            Data = (Scaleform::GFx::AS3::Boolean3)v132;
-            if ( (char)v134 > 9 )
+            else
             {
-              if ( (v133 & 0x200) != 0 )
-              {
-                v135 = v132->Bonus.pWeakProxy;
-                v118 = v135->RefCount-- == 1;
-                if ( v118 )
-                {
-                  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v135);
-                  v132 = (Scaleform::GFx::AS3::Value *)Data;
-                }
-                v132->Flags &= 0xFFFFFDE0;
-                v132->Bonus.pWeakProxy = 0;
-                v132->value.VS._1.VInt = 0;
-                v132->value.VS._2.VObj = 0;
-              }
-              else
-              {
-                Scaleform::GFx::AS3::Value::ReleaseInternal(v132);
-              }
+              Scaleform::GFx::AS3::Value::ReleaseInternal(v118);
             }
-            v125 = --this->OpStack.pCurrent;
-            v136 = v125->Flags;
-            v137 = v125->Flags & 0x1F;
-            Data = (Scaleform::GFx::AS3::Boolean3)v125;
-            if ( (char)v137 <= 9 )
-              goto LABEL_169;
-            if ( (v136 & 0x200) != 0 )
+          }
+          v122 = --this->OpStack.pCurrent;
+          v123 = v122->Flags;
+          v124 = v122->Flags & 0x1F;
+          position = (int)v122;
+          if ( (char)v124 <= 9 )
+            goto LABEL_166;
+          if ( (v123 & 0x200) == 0 )
+            goto LABEL_165;
+          v125 = v122->Bonus.pWeakProxy;
+          v188 = v125->RefCount-- == 1;
+          if ( v188 )
+            goto LABEL_163;
+          goto LABEL_164;
+        case 0x1Au:
+          v128 = this->OpStack.pCurrent;
+          case_count = *CP;
+          v117 = CP + 1;
+          curr_cp = 0;
+          if ( !Scaleform::GFx::AS3::StrictEqual(v128, v128 - 1) )
+            curr_cp = (const unsigned int *)case_count;
+          v129 = this->OpStack.pCurrent;
+          v130 = v129->Flags;
+          v131 = v129->Flags & 0x1F;
+          position = (int)v129;
+          if ( (char)v131 > 9 )
+          {
+            if ( (v130 & 0x200) != 0 )
             {
-              v128 = v125->Bonus.pWeakProxy;
-              v118 = v128->RefCount-- == 1;
-              if ( v118 )
+              v132 = v129->Bonus.pWeakProxy;
+              v188 = v132->RefCount-- == 1;
+              if ( v188 )
               {
+                Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v132);
+                v129 = (Scaleform::GFx::AS3::Value *)position;
+              }
+              v129->Flags &= 0xFFFFFDE0;
+              v129->Bonus.pWeakProxy = 0;
+              v129->value.VS._1.VInt = 0;
+              v129->value.VS._2.VObj = 0;
+            }
+            else
+            {
+              Scaleform::GFx::AS3::Value::ReleaseInternal(v129);
+            }
+          }
+          v122 = --this->OpStack.pCurrent;
+          v133 = v122->Flags;
+          v134 = v122->Flags & 0x1F;
+          position = (int)v122;
+          if ( (char)v134 <= 9 )
+            goto LABEL_166;
+          if ( (v133 & 0x200) != 0 )
+          {
+            v125 = v122->Bonus.pWeakProxy;
+            v188 = v125->RefCount-- == 1;
+            if ( v188 )
+            {
+LABEL_163:
+              Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v125);
+              v122 = (Scaleform::GFx::AS3::Value *)position;
+            }
+LABEL_164:
+            v122->Bonus.pWeakProxy = 0;
+            v122->value.VS._1.VInt = 0;
+            v122->value.VS._2.VObj = 0;
+            v122->Flags &= 0xFFFFFDE0;
+            v126 = curr_cp;
+            --this->OpStack.pCurrent;
+            CP = &v117[(_DWORD)v126];
+          }
+          else
+          {
+LABEL_165:
+            Scaleform::GFx::AS3::Value::ReleaseInternal(v122);
 LABEL_166:
-                Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v128);
-                v125 = (Scaleform::GFx::AS3::Value *)Data;
-              }
-LABEL_167:
-              v125->Bonus.pWeakProxy = 0;
-              v125->value.VS._1.VInt = 0;
-              v125->value.VS._2.VObj = 0;
-              v125->Flags &= 0xFFFFFDE0;
-              v129 = curr_cp;
-              --this->OpStack.pCurrent;
-              CP = &v120[(_DWORD)v129];
-            }
-            else
-            {
-LABEL_168:
-              Scaleform::GFx::AS3::Value::ReleaseInternal(v125);
-LABEL_169:
-              v130 = curr_cp;
-              --this->OpStack.pCurrent;
-              CP = &v120[(_DWORD)v130];
-            }
-            continue;
-          case 0x1Bu:
-            v138 = this->OpStack.pCurrent;
-            v139 = CP[1];
-            LODWORD(default_offset) = *CP;
-            v140 = CP + 1;
-            Data = v138->value.VS._1.VInt;
-            case_count = v139;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(v138, 0);
+            v127 = curr_cp;
             --this->OpStack.pCurrent;
-            if ( Data < undefined3 || Data > case_count )
-              CP = (unsigned int *)&curr_cp[LODWORD(default_offset)];
-            else
-              CP = (unsigned int *)&curr_cp[v140[Data + 1]];
+            CP = &v117[(_DWORD)v127];
+          }
+          continue;
+        case 0x1Bu:
+          v135 = this->OpStack.pCurrent;
+          v136 = CP[1];
+          LODWORD(default_offset) = *CP;
+          v137 = CP + 1;
+          position = v135->value.VS._1.VInt;
+          case_count = v136;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(v135, 0);
+          --this->OpStack.pCurrent;
+          if ( position < 0 || position > case_count )
+            CP = &curr_cp[LODWORD(default_offset)];
+          else
+            CP = &curr_cp[v137[position + 1]];
+          continue;
+        case 0x1Cu:
+          Scaleform::GFx::AS3::VM::exec_pushwith(this);
+          goto LABEL_184;
+        case 0x1Du:
+          Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::Resize(
+            &this->ScopeStack.Data,
+            this->ScopeStack.Data.Size - 1);
+          continue;
+        case 0x1Eu:
+          Scaleform::GFx::AS3::VM::exec_nextname(this);
+          goto LABEL_184;
+        case 0x1Fu:
+          Scaleform::GFx::AS3::VM::exec_hasnext(this);
+          goto LABEL_184;
+        case 0x20u:
+          ++this->OpStack.pCurrent;
+          pNode = v447.Message.pNode;
+          this->OpStack.pCurrent->Flags = 0;
+          v139 = this->OpStack.pCurrent;
+          v139->Flags = v139->Flags & 0xFFFFFFE0 | 0xC;
+          v139->value.VS._1.VInt = 0;
+          v139->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)pNode;
+          continue;
+        case 0x21u:
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          this->OpStack.pCurrent->Flags &= 0xFFFFFFE0;
+          continue;
+        case 0x22u:
+          this->OpStack.pCurrent->value.VS._1.VBool = !this->OpStack.pCurrent->value.VS._1.VBool;
+          continue;
+        case 0x23u:
+          Scaleform::GFx::AS3::VM::exec_nextvalue(this);
+          goto LABEL_194;
+        case 0x24u:
+          v141 = *CP;
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v142 = this->OpStack.pCurrent;
+          v143 = v142->Flags & 0xFFFFFFE2;
+          ++CP;
+          v142->value.VS._1.VInt = (char)v141;
+          v144 = v447.Message.pNode;
+          v142->Flags = v143 | 2;
+          v142->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v144;
+          continue;
+        case 0x25u:
+          v145 = *(Scaleform::GFx::AS3::Value::V1U *)CP;
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v146 = this->OpStack.pCurrent;
+          v147 = v146->Flags & 0xFFFFFFE2;
+          ++CP;
+          v146->value.VS._1 = v145;
+          v148 = v447.Message.pNode;
+          v146->Flags = v147 | 2;
+          v146->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v148;
+          continue;
+        case 0x26u:
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v149 = this->OpStack.pCurrent;
+          v149->Flags = v149->Flags & 0xFFFFFFE0 | 1;
+          v150.VObj = v478.VObj;
+          v477.VBool = 1;
+          v149->value.VS._1 = v477;
+          v149->value.VS._2 = v150;
+          continue;
+        case 0x27u:
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v151 = this->OpStack.pCurrent;
+          v151->Flags = v151->Flags & 0xFFFFFFE0 | 1;
+          v152.VObj = v475.VObj;
+          v474.VBool = 0;
+          v151->value.VS._1 = v474;
+          v151->value.VS._2 = v152;
+          continue;
+        case 0x28u:
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          v482 = Scaleform::GFx::NumberUtil::NaN();
+          v153 = LODWORD(default_offset);
+          v154 = LODWORD(v482);
+          *(_DWORD *)LODWORD(default_offset) = *(_DWORD *)LODWORD(default_offset) & 0xFFFFFFE0 | 4;
+          v155 = HIDWORD(v482);
+          *(_DWORD *)(v153 + 8) = v154;
+          *(_DWORD *)(v153 + 12) = v155;
+          continue;
+        case 0x29u:
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          goto $LN199_0;
+        case 0x2Au:
+          pRF = this->OpStack.pCurrent;
+          this->OpStack.pCurrent = pRF + 1;
+          v157 = this->OpStack.pCurrent;
+          if ( pRF == (Scaleform::GFx::AS3::Value *)-16 )
             continue;
-          case 0x1Cu:
-            Scaleform::GFx::AS3::VM::exec_pushwith(this);
-            goto LABEL_187;
-          case 0x1Du:
-            Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::Resize(
-              &this->ScopeStack.Data,
-              this->ScopeStack.Data.Size - 1);
+          v157->Flags = pRF->Flags;
+          v157->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
+          v157->value.VS._1.VInt = pRF->value.VS._1.VInt;
+          v157->value.VS._2.VObj = pRF->value.VS._2.VObj;
+          if ( (pRF->Flags & 0x1F) <= 9 )
             continue;
-          case 0x1Eu:
-            Scaleform::GFx::AS3::VM::exec_nextname(this);
-            goto LABEL_187;
-          case 0x1Fu:
-            Scaleform::GFx::AS3::VM::exec_hasnext(this);
-            goto LABEL_193;
-          case 0x20u:
-            ++this->OpStack.pCurrent;
-            pNode = v442.Message.pNode;
-            this->OpStack.pCurrent->Flags = 0;
-            v143 = this->OpStack.pCurrent;
-            v143->Flags = v143->Flags & 0xFFFFFFE0 | 0xC;
-            v143->value.VS._1.VInt = 0;
-            v143->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)pNode;
-            continue;
-          case 0x21u:
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            this->OpStack.pCurrent->Flags &= 0xFFFFFFE0;
-            continue;
-          case 0x22u:
-            this->OpStack.pCurrent->value.VS._1.VBool = !this->OpStack.pCurrent->value.VS._1.VBool;
-            continue;
-          case 0x23u:
-            Scaleform::GFx::AS3::VM::exec_nextvalue(this);
-            goto LABEL_193;
-          case 0x24u:
-            v144 = *CP;
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v145 = this->OpStack.pCurrent;
-            v146 = v145->Flags & 0xFFFFFFE2;
-            ++CP;
-            v145->value.VS._1.VInt = (char)v144;
-            v147 = v442.Message.pNode;
-            v145->Flags = v146 | 2;
-            v145->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v147;
-            continue;
-          case 0x25u:
-            v148 = *CP;
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v149 = this->OpStack.pCurrent;
-            v150 = v149->Flags & 0xFFFFFFE2;
-            ++CP;
-            v149->value.VS._1.VInt = v148;
-            v151 = v442.Message.pNode;
-            v149->Flags = v150 | 2;
-            v149->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v151;
-            continue;
-          case 0x26u:
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v152 = this->OpStack.pCurrent;
-            v152->Flags = v152->Flags & 0xFFFFFFE0 | 1;
-            v153.VObj = v469.VObj;
-            v468.VBool = 1;
-            v152->value.VS._1 = v468;
-            v152->value.VS._2 = v153;
-            continue;
-          case 0x27u:
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v154 = this->OpStack.pCurrent;
-            v154->Flags = v154->Flags & 0xFFFFFFE0 | 1;
-            v155.VObj = v473.VObj;
-            v472.VBool = 0;
-            v154->value.VS._1 = v472;
-            v154->value.VS._2 = v155;
-            continue;
-          case 0x28u:
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            v475 = Scaleform::GFx::NumberUtil::NaN();
-            v156 = LODWORD(default_offset);
-            v157 = LODWORD(v475);
-            *(_DWORD *)LODWORD(default_offset) = *(_DWORD *)LODWORD(default_offset) & 0xFFFFFFE0 | 4;
-            v158 = HIDWORD(v475);
-            *(_DWORD *)(v156 + 8) = v157;
-            *(_DWORD *)(v156 + 12) = v158;
-            continue;
-          case 0x29u:
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            goto $LN199_0;
-          case 0x2Au:
-            pRF = this->OpStack.pCurrent;
-            this->OpStack.pCurrent = pRF + 1;
-            v160 = this->OpStack.pCurrent;
-            if ( pRF == (Scaleform::GFx::AS3::Value *)-16 )
-              continue;
-            v160->Flags = pRF->Flags;
-            v160->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
-            v160->value.VS._1.VInt = pRF->value.VS._1.VInt;
-            v160->value.VS._2.VObj = pRF->value.VS._2.VObj;
-            if ( (pRF->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (pRF->Flags & 0x200) == 0 )
-              goto LABEL_259;
-            ++pRF->Bonus.pWeakProxy->RefCount;
-            continue;
-          case 0x2Bu:
-            Scaleform::GFx::AS3::VSBase::SwapTop(&this->OpStack);
-            continue;
-          case 0x2Cu:
-            v_4j.Index = *CP++;
-            String = Scaleform::GFx::AS3::Abc::ConstPool::GetString(
-                       (Scaleform::GFx::AS3::Abc::ConstPool *)constp,
-                       &v474,
-                       v_4j);
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                           this->StringManagerRef->pStringManager,
-                           (char *)String->pStr,
-                           String->Size);
-            ++StringNode->RefCount;
-            v163 = this->OpStack.pCurrent;
-            curr_cp = (const unsigned int *)StringNode;
-            Scaleform::GFx::AS3::Value::AssignUnsafe(v163, (const Scaleform::GFx::ASString *)&curr_cp);
-            v164 = (Scaleform::GFx::ASStringNode *)curr_cp;
-            v118 = curr_cp[3]-- == 1;
-            if ( v118 )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v164);
-            continue;
-          case 0x2Du:
-            v165 = constp->ConstInt.Data.Data[*CP];
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v166 = this->OpStack.pCurrent;
-            ++CP;
-            v166->Flags = v166->Flags & 0xFFFFFFE0 | 2;
-            v166->value.VS._1.VInt = v165;
-            v166->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v474.Size;
-            continue;
-          case 0x2Eu:
-            v167 = constp->ConstUInt.Data.Data[*CP];
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            v168 = this->OpStack.pCurrent;
-            ++CP;
-            v168->Flags = v168->Flags & 0xFFFFFFE0 | 3;
-            v168->value.VS._1.VInt = v167;
-            v168->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v474.Size;
-            continue;
-          case 0x2Fu:
-            v_4k = *CP++;
-            Double = Scaleform::GFx::AS3::Abc::ConstPool::GetDouble((Scaleform::GFx::AS3::Abc::ConstPool *)constp, v_4k);
-            ++this->OpStack.pCurrent;
-            v169 = LODWORD(Double);
-            this->OpStack.pCurrent->Flags = 0;
-            v170 = this->OpStack.pCurrent;
-            v170->Flags = v170->Flags & 0xFFFFFFE0 | 4;
-            v171.VObj = *(Scaleform::GFx::AS3::Object **)((char *)&Double + 4);
-            v170->value.VS._1 = v169;
-            v170->value.VS._2 = v171;
-            continue;
-          case 0x30u:
-            Scaleform::GFx::AS3::VM::exec_pushscope(this);
-            goto LABEL_187;
-          case 0x31u:
-            v_4l = (Scaleform::GFx::AS3::Instances::fl::Namespace *)*CP++;
-            v172 = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(file, v_4l);
-            ++this->OpStack.pCurrent;
-            this->OpStack.pCurrent->Flags = 0;
-            Scaleform::GFx::AS3::Value::AssignUnsafe(this->OpStack.pCurrent, v172);
-            continue;
-          case 0x32u:
-            v173.VInt = *CP;
-            v174.Index = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_hasnext2(this, v173, v174);
-            goto LABEL_193;
-          case 0x33u:
-            v68 = this->OpStack.pCurrent;
-            VBool = v68->value.VS._1.VBool;
-            v70 = *CP;
-            this->OpStack.pCurrent = v68 - 1;
-            v71 = CP + 1;
-            v72 = 0;
-            if ( VBool )
-              v72 = v70;
-            goto LABEL_89;
-          case 0x34u:
-            v76 = this->OpStack.pCurrent;
-            v77 = v76->value.VS._1.VBool;
-            v78 = *CP;
-            this->OpStack.pCurrent = v76 - 1;
-            v71 = CP + 1;
-            v72 = 0;
-            if ( v77 )
+          if ( (pRF->Flags & 0x200) == 0 )
+            goto LABEL_263;
+          ++pRF->Bonus.pWeakProxy->RefCount;
+          continue;
+        case 0x2Bu:
+          Scaleform::GFx::AS3::VSBase::SwapTop(&this->OpStack);
+          continue;
+        case 0x2Cu:
+          v_4h.Index = *CP++;
+          String = Scaleform::GFx::AS3::Abc::ConstPool::GetString(
+                     (Scaleform::GFx::AS3::Abc::ConstPool *)constp,
+                     &v476,
+                     v_4h);
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                         this->StringManagerRef->pStringManager,
+                         (__m128i *)String->pStr,
+                         String->Size);
+          ++StringNode->RefCount;
+          v160 = this->OpStack.pCurrent;
+          curr_cp = (const unsigned int *)StringNode;
+          Scaleform::GFx::AS3::Value::AssignUnsafe(v160, (const Scaleform::GFx::ASString *)&curr_cp);
+          v161 = (Scaleform::GFx::ASStringNode *)curr_cp;
+          v188 = curr_cp[3]-- == 1;
+          if ( v188 )
+            Scaleform::GFx::ASStringNode::ReleaseNode(v161);
+          continue;
+        case 0x2Du:
+          v162 = constp->ConstInt.Data.Data[*CP];
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v163 = this->OpStack.pCurrent;
+          ++CP;
+          v163->Flags = v163->Flags & 0xFFFFFFE0 | 2;
+          v163->value.VS._1.VInt = v162;
+          v163->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v476.Size;
+          continue;
+        case 0x2Eu:
+          v164 = constp->ConstUInt.Data.Data[*CP];
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          v165 = this->OpStack.pCurrent;
+          ++CP;
+          v165->Flags = v165->Flags & 0xFFFFFFE0 | 3;
+          v165->value.VS._1.VInt = v164;
+          v165->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v476.Size;
+          continue;
+        case 0x2Fu:
+          v_4i = *CP++;
+          Double = Scaleform::GFx::AS3::Abc::ConstPool::GetDouble((Scaleform::GFx::AS3::Abc::ConstPool *)constp, v_4i);
+          ++this->OpStack.pCurrent;
+          v166 = LODWORD(Double);
+          this->OpStack.pCurrent->Flags = 0;
+          v167 = this->OpStack.pCurrent;
+          v167->Flags = v167->Flags & 0xFFFFFFE0 | 4;
+          v168.VObj = *(Scaleform::GFx::AS3::Object **)((char *)&Double + 4);
+          v167->value.VS._1 = v166;
+          v167->value.VS._2 = v168;
+          continue;
+        case 0x30u:
+          Scaleform::GFx::AS3::VM::exec_pushscope(this);
+          goto LABEL_184;
+        case 0x31u:
+          v_4j = (Scaleform::GFx::AS3::Instances::fl::Namespace *)*CP++;
+          v169 = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(file, v_4j);
+          ++this->OpStack.pCurrent;
+          this->OpStack.pCurrent->Flags = 0;
+          Scaleform::GFx::AS3::Value::AssignUnsafe(this->OpStack.pCurrent, v169);
+          continue;
+        case 0x32u:
+          v170 = *(Scaleform::GFx::AS3::Value::V1U *)CP;
+          v171.Index = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_hasnext2(this, v170, v171);
+          goto LABEL_184;
+        case 0x33u:
+          v67 = this->OpStack.pCurrent;
+          VBool = v67->value.VS._1.VBool;
+          v69 = *CP;
+          this->OpStack.pCurrent = v67 - 1;
+          v70 = CP + 1;
+          v71 = 0;
+          if ( VBool )
+            v71 = v69;
+          goto LABEL_89;
+        case 0x34u:
+          v75 = this->OpStack.pCurrent;
+          v76 = v75->value.VS._1.VBool;
+          v77 = *CP;
+          this->OpStack.pCurrent = v75 - 1;
+          v70 = CP + 1;
+          v71 = 0;
+          if ( v76 )
 LABEL_89:
-              CP = &v71[v72];
-            else
-              CP = &v71[v78];
+            CP = &v70[v71];
+          else
+            CP = &v70[v77];
+          continue;
+        case 0x35u:
+        case 0x98u:
+          ++this->OpStack.pCurrent->value.VS._1.VInt;
+          continue;
+        case 0x36u:
+        case 0x99u:
+          --this->OpStack.pCurrent->value.VS._1.VInt;
+          continue;
+        case 0x37u:
+          v172 = &this->RegisterFile.pRF[*CP++].value;
+          ++v172->VS._1.VInt;
+          continue;
+        case 0x3Fu:
+          this->OpStack.pCurrent->value.VS._1.VInt = -this->OpStack.pCurrent->value.VS._1.VInt;
+          continue;
+        case 0x40u:
+          v_4k = *CP++;
+          Scaleform::GFx::AS3::VM::exec_newfunction(this, (Scaleform::GFx::AS3::Instances::FunctionBase *)v4, v_4k);
+          continue;
+        case 0x41u:
+          v_4l = *CP++;
+          Scaleform::GFx::AS3::VM::exec_call(this, v_4l);
+          goto LABEL_240;
+        case 0x42u:
+          v_4m = *CP++;
+          Scaleform::GFx::AS3::VM::exec_construct(this, v_4m);
+          goto LABEL_240;
+        case 0x43u:
+          v174 = *CP;
+          v175 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callmethod(this, v174, v175);
+          goto LABEL_240;
+        case 0x44u:
+          v182.Ind = *CP;
+          v183 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callstatic(this, file, v182, v183);
+          goto LABEL_240;
+        case 0x45u:
+          v184 = *CP;
+          v185 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callsuper(
+            this,
+            file,
+            v4->OriginationTraits,
+            &constp->const_multiname.Data.Data[v184],
+            v185);
+          goto LABEL_240;
+        case 0x46u:
+          v186 = *CP;
+          v187 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callproperty(this, file, &constp->const_multiname.Data.Data[v186], v187);
+          goto LABEL_240;
+        case 0x47u:
+          Scaleform::GFx::AS3::VM::exec_returnvoid(this);
+          goto LABEL_597;
+        case 0x48u:
+          Scaleform::GFx::AS3::VM::exec_returnvalue(this);
+          if ( this->HandleException )
+          {
+            LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+            v317 = Scaleform::GFx::AS3::VM::OnException(
+                     this,
+                     ((int)CP - LODWORD(default_offset)) >> 2,
+                     (unsigned int)v4);
+            if ( v317 >= 0 )
+              CP = (const unsigned int *)(LODWORD(default_offset) + 4 * v317);
+          }
+          goto LABEL_597;
+        case 0x49u:
+          v_4n = *CP++;
+          Scaleform::GFx::AS3::VM::exec_constructsuper(this, v4->OriginationTraits, v_4n);
+          goto LABEL_232;
+        case 0x4Au:
+          v190 = *CP;
+          v191 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_constructprop(this, file, &constp->const_multiname.Data.Data[v190], v191);
+          goto LABEL_240;
+        case 0x4Cu:
+          v193 = *CP;
+          v194 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callproplex(this, file, &constp->const_multiname.Data.Data[v193], v194);
+          goto LABEL_240;
+        case 0x4Eu:
+          v195 = *CP;
+          v196 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callsupervoid(
+            this,
+            file,
+            v4->OriginationTraits,
+            &constp->const_multiname.Data.Data[v195],
+            v196);
+          goto LABEL_240;
+        case 0x4Fu:
+          v197 = *CP;
+          v198 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callpropvoid(this, file, &constp->const_multiname.Data.Data[v197], v198);
+          goto LABEL_240;
+        case 0x53u:
+          v_4o = *CP++;
+          Scaleform::GFx::AS3::VM::exec_applytype(this, v_4o);
+          goto LABEL_184;
+        case 0x54u:
+          this->OpStack.pCurrent->value.VNumber = -this->OpStack.pCurrent->value.VNumber;
+          continue;
+        case 0x55u:
+          v_4p = *CP++;
+          Scaleform::GFx::AS3::VM::exec_newobject(this, v_4p);
+          continue;
+        case 0x56u:
+          v_4q = *CP++;
+          Scaleform::GFx::AS3::VM::exec_newarray(this, v_4q);
+          continue;
+        case 0x57u:
+          Scaleform::GFx::AS3::VM::exec_newactivation(this, (Scaleform::GFx::ASStringNode *)v4);
+          continue;
+        case 0x58u:
+          v_4r.pNode = (Scaleform::GFx::ASStringNode *)*CP++;
+          Scaleform::GFx::AS3::VM::exec_newclass(this, (Scaleform::GFx::ASStringNode *)file, v_4r);
+          goto LABEL_240;
+        case 0x59u:
+          v_4s = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_getdescendants(this, file, v_4s);
+          goto LABEL_184;
+        case 0x5Au:
+          v_4t = &v4->pFile->Exceptions.Data.Data[v4->MBIIndex.Ind].info.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_newcatch(this, file, v_4t);
+          continue;
+        case 0x5Du:
+          v = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_findpropstrict(this, file, v, v4->pSavedScope);
+          goto LABEL_184;
+        case 0x5Eu:
+          ++CP;
+          GlobalObject = Scaleform::GFx::AS3::CallFrame::GetGlobalObject(v4);
+          Scaleform::GFx::AS3::VM::exec_findproperty(
+            this,
+            file,
+            &constp->const_multiname.Data.Data[v200],
+            v4->pSavedScope,
+            GlobalObject);
+          goto LABEL_184;
+        case 0x60u:
+          va = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_getlex(this, file, va, v4->pSavedScope);
+          goto LABEL_184;
+        case 0x61u:
+          v_4u = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_setproperty(this, file, v_4u);
+          goto LABEL_184;
+        case 0x62u:
+          v201 = &this->RegisterFile.pRF[*CP++];
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v202 = this->OpStack.pCurrent;
+          if ( v188 )
             continue;
-          case 0x35u:
-          case 0x98u:
-            ++this->OpStack.pCurrent->value.VS._1.VInt;
+          v202->Flags = v201->Flags;
+          v202->Bonus.pWeakProxy = v201->Bonus.pWeakProxy;
+          v202->value.VS._1.VInt = v201->value.VS._1.VInt;
+          v202->value.VS._2.VObj = v201->value.VS._2.VObj;
+          if ( (v201->Flags & 0x1F) <= 9 )
             continue;
-          case 0x36u:
-          case 0x99u:
-            --this->OpStack.pCurrent->value.VS._1.VInt;
-            continue;
-          case 0x37u:
-            v175 = &this->RegisterFile.pRF[*CP++].value;
-            ++v175->VS._1.VInt;
-            continue;
-          case 0x38u:
-            v176 = &this->RegisterFile.pRF[*CP++].value;
-            --v176->VS._1.VInt;
-            continue;
-          case 0x3Fu:
-            this->OpStack.pCurrent->value.VS._1.VInt = -this->OpStack.pCurrent->value.VS._1.VInt;
-            continue;
-          case 0x40u:
-            v_4m = *CP++;
-            Scaleform::GFx::AS3::VM::exec_newfunction(this, (Scaleform::GFx::AS3::Instances::FunctionBase *)v5, v_4m);
-            continue;
-          case 0x41u:
-            v_4n = *CP++;
-            Scaleform::GFx::AS3::VM::exec_call(this, v_4n);
-            goto LABEL_226;
-          case 0x42u:
-            v_4o = *CP++;
-            Scaleform::GFx::AS3::VM::exec_construct(this, v_4o);
-            goto LABEL_226;
-          case 0x43u:
-            v178 = *CP;
-            v179 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callmethod(this, v178, v179);
-            goto LABEL_226;
-          case 0x44u:
-            v186.Ind = *CP;
-            v187 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callstatic(this, file, v186, v187);
-            goto LABEL_226;
-          case 0x45u:
-            v188 = *CP;
-            v189 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callsuper(
-              this,
-              file,
-              (Scaleform::GFx::AS3::Traits *)v5->OriginationTraits,
-              &constp->const_multiname.Data.Data[v188],
-              v189);
-            goto LABEL_226;
-          case 0x46u:
-            v190 = *CP;
-            v191 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callproperty(this, file, &constp->const_multiname.Data.Data[v190], v191);
-            goto LABEL_226;
-          case 0x47u:
-            Scaleform::GFx::AS3::VM::exec_returnvoid(this);
-            goto LABEL_587;
-          case 0x48u:
-            Scaleform::GFx::AS3::VM::exec_returnvalue(this);
-            if ( !this->HandleException )
-              goto LABEL_589;
-            OpCode = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5);
-            Scaleform::GFx::AS3::VM::OnException(this, CP - OpCode->Data.Data, (unsigned int)v5);
-            goto LABEL_587;
-          case 0x49u:
-            v_4p = *CP++;
-            Scaleform::GFx::AS3::VM::exec_constructsuper(this, v5->OriginationTraits, v_4p);
-            goto LABEL_226;
-          case 0x4Au:
-            v192 = *CP;
-            v193 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_constructprop(this, file, &constp->const_multiname.Data.Data[v192], v193);
-            goto LABEL_226;
-          case 0x4Cu:
-            v194 = *CP;
-            v195 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callproplex(this, file, &constp->const_multiname.Data.Data[v194], v195);
-            goto LABEL_226;
-          case 0x4Eu:
-            v196 = *CP;
-            v197 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callsupervoid(
-              this,
-              file,
-              (Scaleform::GFx::AS3::Traits *)v5->OriginationTraits,
-              &constp->const_multiname.Data.Data[v196],
-              v197);
-            goto LABEL_226;
-          case 0x4Fu:
-            v198 = *CP;
-            v199 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callpropvoid(this, file, &constp->const_multiname.Data.Data[v198], v199);
-            goto LABEL_226;
-          case 0x53u:
-            v_4q = *CP++;
-            Scaleform::GFx::AS3::VM::exec_applytype(this, v_4q);
-            goto LABEL_187;
-          case 0x54u:
-            this->OpStack.pCurrent->value.VNumber = -this->OpStack.pCurrent->value.VNumber;
-            continue;
-          case 0x55u:
-            v_4r = *CP++;
-            Scaleform::GFx::AS3::VM::exec_newobject(this, v_4r);
-            continue;
-          case 0x56u:
-            v_4s = *CP++;
-            Scaleform::GFx::AS3::VM::exec_newarray(this, v_4s);
-            continue;
-          case 0x57u:
-            Scaleform::GFx::AS3::VM::exec_newactivation(this, (int)v5);
-            continue;
-          case 0x58u:
-            v_4t.pNode = (Scaleform::GFx::ASStringNode *)*CP++;
-            Scaleform::GFx::AS3::VM::exec_newclass(this, (Scaleform::GFx::ASStringNode *)file, v_4t);
-            goto LABEL_226;
-          case 0x59u:
-            v_4u = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_getdescendants(this, file, v_4u);
-            goto LABEL_187;
-          case 0x5Au:
-            v_4v = &v5->pFile->Exceptions.Data.Data[v5->MBIIndex.Ind].info.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_newcatch(this, file, v_4v);
-            continue;
-          case 0x5Du:
-            va = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_findpropstrict(this, file, va, v5->pSavedScope);
-            goto LABEL_187;
-          case 0x5Eu:
-            ++CP;
-            GlobalObject = Scaleform::GFx::AS3::CallFrame::GetGlobalObject(v5);
-            Scaleform::GFx::AS3::VM::exec_findproperty(
-              this,
-              file,
-              &constp->const_multiname.Data.Data[v201],
-              v5->pSavedScope,
-              GlobalObject);
-            goto LABEL_187;
-          case 0x60u:
-            vb = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_getlex(this, file, vb, v5->pSavedScope);
-            goto LABEL_187;
-          case 0x61u:
-            v_4w = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_setproperty(this, file, v_4w);
-            goto LABEL_187;
-          case 0x62u:
-            v202 = &this->RegisterFile.pRF[*CP++];
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v203 = this->OpStack.pCurrent;
-            if ( v118 )
-              continue;
-            v203->Flags = v202->Flags;
-            v203->Bonus.pWeakProxy = v202->Bonus.pWeakProxy;
-            v203->value.VS._1.VInt = v202->value.VS._1.VInt;
-            v203->value.VS._2.VObj = v202->value.VS._2.VObj;
-            if ( (v202->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (v202->Flags & 0x200) != 0 )
-            {
-              ++v202->Bonus.pWeakProxy->RefCount;
-            }
-            else
-            {
-              pRF = v202;
-LABEL_259:
-              Scaleform::GFx::AS3::Value::AddRefInternal(pRF);
-            }
-            continue;
-          case 0x63u:
-            v204 = &this->RegisterFile.pRF[*CP++];
-            Scaleform::GFx::AS3::Value::Pick(v204, this->OpStack.pCurrent);
-            --this->OpStack.pCurrent;
-            continue;
-          case 0x64u:
-            v205 = Scaleform::GFx::AS3::VM::GetGlobalObject(this);
-            v206 = v205;
-            v471.Flags = 12;
-            v471.Bonus.pWeakProxy = 0;
-            v471.value.VS._1.VInt = (int)v205;
-            if ( v205 )
-              v205->RefCount = (v205->RefCount + 1) & 0x8FBFFFFF;
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v207 = this->OpStack.pCurrent;
-            if ( !v118 )
-            {
-              v207->value.VS._1.VInt = (int)v206;
-              v207->value.VS._2.VObj = v471.value.VS._2.VObj;
-              v207->Flags = 12;
-              v207->Bonus.pWeakProxy = 0;
-              Scaleform::GFx::AS3::Value::AddRefInternal(&v471);
-            }
-            Scaleform::GFx::AS3::Value::~Value(&v471);
-            continue;
-          case 0x65u:
-            v_4x = *CP++ + v5->ScopeStackBaseInd;
-            Scaleform::GFx::AS3::VM::exec_getscopeobject(this, v_4x);
-            continue;
-          case 0x66u:
-            v_4y = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_getproperty(this, file, v_4y);
-            goto LABEL_187;
-          case 0x67u:
-            v_4z = *CP++;
-            Scaleform::GFx::AS3::VM::exec_getouterscope(this, v5, v_4z);
-            continue;
-          case 0x68u:
-            v_4ba = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_initproperty(this, file, v_4ba);
-            goto LABEL_187;
-          case 0x69u:
-            v208 = this->OpStack.pCurrent;
-            this->OpStack.pCurrent = v208 + 1;
-            v209 = this->OpStack.pCurrent;
-            if ( v208 != (Scaleform::GFx::AS3::Value *)-16 )
-            {
-              v209->Flags = v208->Flags;
-              v209->Bonus.pWeakProxy = v208->Bonus.pWeakProxy;
-              v209->value.VS._1.VInt = v208->value.VS._1.VInt;
-              v209->value.VS._2.VObj = v208->value.VS._2.VObj;
-            }
-            continue;
-          case 0x6Au:
-            v_4bb = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_deleteproperty(this, file, v_4bb);
-            goto LABEL_187;
-          case 0x6Bu:
+          if ( (v201->Flags & 0x200) != 0 )
+          {
+            ++v201->Bonus.pWeakProxy->RefCount;
+          }
+          else
+          {
+            pRF = v201;
+LABEL_263:
+            Scaleform::GFx::AS3::Value::AddRefInternal(pRF);
+          }
+          continue;
+        case 0x63u:
+          v203 = &this->RegisterFile.pRF[*CP++];
+          Scaleform::GFx::AS3::Value::Pick(v203, this->OpStack.pCurrent);
+          --this->OpStack.pCurrent;
+          continue;
+        case 0x64u:
+          v204 = Scaleform::GFx::AS3::VM::GetGlobalObject(this);
+          v205 = v204;
+          v480.Flags = 12;
+          v480.Bonus.pWeakProxy = 0;
+          v480.value.VS._1.VInt = (int)v204;
+          if ( v204 )
+            v204->RefCount = (v204->RefCount + 1) & 0x8FBFFFFF;
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v206 = this->OpStack.pCurrent;
+          if ( !v188 )
+          {
+            v206->value.VS._1.VInt = (int)v205;
+            v206->value.VS._2.VObj = v480.value.VS._2.VObj;
+            v206->Flags = 12;
+            v206->Bonus.pWeakProxy = 0;
+            Scaleform::GFx::AS3::Value::AddRefInternal(&v480);
+          }
+          Scaleform::GFx::AS3::Value::~Value(&v480);
+          continue;
+        case 0x65u:
+          v_4v = *CP++ + v4->ScopeStackBaseInd;
+          Scaleform::GFx::AS3::VM::exec_getscopeobject(this, v_4v);
+          continue;
+        case 0x66u:
+          v_4w = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_getproperty(this, file, v_4w);
+          goto LABEL_184;
+        case 0x67u:
+          v_4x = *CP++;
+          Scaleform::GFx::AS3::VM::exec_getouterscope(this, v4, v_4x);
+          continue;
+        case 0x68u:
+          v_4y = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_initproperty(this, file, v_4y);
+          goto LABEL_184;
+        case 0x69u:
+          v207 = this->OpStack.pCurrent;
+          this->OpStack.pCurrent = v207 + 1;
+          v208 = this->OpStack.pCurrent;
+          if ( v207 != (Scaleform::GFx::AS3::Value *)-16 )
+          {
+            v208->Flags = v207->Flags;
+            v208->Bonus.pWeakProxy = v207->Bonus.pWeakProxy;
+            v208->value.VS._1.VInt = v207->value.VS._1.VInt;
+            v208->value.VS._2.VObj = v207->value.VS._2.VObj;
+          }
+          continue;
+        case 0x6Au:
+          v_4z = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_deleteproperty(this, file, v_4z);
+          goto LABEL_184;
+        case 0x6Bu:
 $LN199_0:
-            --this->OpStack.pCurrent;
-            continue;
-          case 0x6Cu:
-            v_4bc = *CP++;
-            Scaleform::GFx::AS3::VM::exec_getslot(this, v_4bc);
-            goto LABEL_193;
-          case 0x6Du:
-            v_4bd = *CP++;
-            Scaleform::GFx::AS3::VM::exec_setslot(this, v_4bd);
-            goto LABEL_187;
-          case 0x6Eu:
-            v_4be = *CP++;
-            Scaleform::GFx::AS3::VM::exec_getglobalslot(this, v_4be);
-            goto LABEL_193;
-          case 0x6Fu:
-            v_4bf = (Scaleform::GFx::AS3::VM *)*CP++;
-            Scaleform::GFx::AS3::VM::exec_setglobalslot(this, v_4bf);
-            goto LABEL_187;
-          case 0x70u:
+          --this->OpStack.pCurrent;
+          continue;
+        case 0x6Cu:
+          v_4ba = *CP++;
+          Scaleform::GFx::AS3::VM::exec_getslot(this, v_4ba);
+          goto LABEL_194;
+        case 0x6Du:
+          v_4bb = *CP++;
+          Scaleform::GFx::AS3::VM::exec_setslot(this, v_4bb);
+          goto LABEL_194;
+        case 0x6Eu:
+          v_4bc = *CP++;
+          Scaleform::GFx::AS3::VM::exec_getglobalslot(this, v_4bc);
+          goto LABEL_194;
+        case 0x6Fu:
+          v_4bd = *CP++;
+          Scaleform::GFx::AS3::VM::exec_setglobalslot(this, v_4bd);
+          goto LABEL_194;
+        case 0x70u:
+          Scaleform::GFx::AS3::Value::ToStringValue(
+            this->OpStack.pCurrent,
+            &v389,
+            (Scaleform::GFx::ASStringNode *)this->StringManagerRef);
+          goto LABEL_184;
+        case 0x71u:
+          Scaleform::GFx::AS3::VM::exec_esc_xelem(this);
+          goto LABEL_184;
+        case 0x72u:
+          Scaleform::GFx::AS3::VM::exec_esc_xattr(this);
+          goto LABEL_184;
+        case 0x73u:
+          Scaleform::GFx::AS3::Value::ToInt32Value(this->OpStack.pCurrent, &v423);
+          goto LABEL_184;
+        case 0x74u:
+          Scaleform::GFx::AS3::Value::ToUInt32Value(this->OpStack.pCurrent, &v391);
+          goto LABEL_184;
+        case 0x75u:
+          Scaleform::GFx::AS3::Value::ToNumberValue(this->OpStack.pCurrent, &v425);
+          goto LABEL_184;
+        case 0x76u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          v209 = Scaleform::GFx::AS3::Value::Convert2Boolean((Scaleform::GFx::AS3::Value *)LODWORD(default_offset));
+          Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v209);
+          continue;
+        case 0x77u:
+          v210 = this->OpStack.pCurrent;
+          if ( (v210->Flags & 0x1F) == 0 || (v210->Flags & 0x1F) - 12 <= 3 && !v210->value.VS._1.VInt )
+          {
+            Scaleform::GFx::AS3::VM::Error::Error(&v485, eConvertNullToObjectError, this);
+            Scaleform::GFx::AS3::VM::ThrowErrorInternal(
+              this,
+              v211,
+              (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::TypeErrorTI);
+            v212 = v485.Message.pNode;
+            --v485.Message.pNode->RefCount;
+            if ( !v212->RefCount )
+              Scaleform::GFx::ASStringNode::ReleaseNode(v212);
+          }
+          goto LABEL_184;
+        case 0x78u:
+          Scaleform::GFx::AS3::VM::exec_checkfilter(this);
+          continue;
+        case 0x79u:
+          v293 = this->OpStack.pCurrent;
+          v294 = v293->value.VS._1;
+          this->OpStack.pCurrent = v293 - 1;
+          v293[-1].value.VS._1.VInt += v294.VInt;
+          continue;
+        case 0x7Au:
+          v301 = this->OpStack.pCurrent;
+          v302 = v301->value.VS._1;
+          this->OpStack.pCurrent = v301 - 1;
+          v301[-1].value.VS._1.VInt -= v302.VInt;
+          continue;
+        case 0x7Bu:
+          v309 = this->OpStack.pCurrent;
+          v310 = v309->value.VS._1;
+          this->OpStack.pCurrent = v309 - 1;
+          v309[-1].value.VS._1.VInt *= v310.VInt;
+          continue;
+        case 0x7Cu:
+          v295 = this->OpStack.pCurrent;
+          VNumber = v295->value.VNumber;
+          this->OpStack.pCurrent = v295 - 1;
+          v295[-1].value.VNumber = VNumber + v295[-1].value.VNumber;
+          continue;
+        case 0x7Du:
+          v303 = this->OpStack.pCurrent;
+          v304 = v303->value.VNumber;
+          this->OpStack.pCurrent = v303 - 1;
+          v303[-1].value.VNumber = v303[-1].value.VNumber - v304;
+          continue;
+        case 0x7Eu:
+          v311 = this->OpStack.pCurrent;
+          v312 = v311->value.VNumber;
+          this->OpStack.pCurrent = v311 - 1;
+          v311[-1].value.VNumber = v312 * v311[-1].value.VNumber;
+          continue;
+        case 0x7Fu:
+          v236 = this->OpStack.pCurrent;
+          v237 = v236->value.VNumber;
+          this->OpStack.pCurrent = v236 - 1;
+          v236[-1].value.VNumber = v236[-1].value.VNumber / v237;
+          continue;
+        case 0x80u:
+          v_4be = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_coerce(this, file, v_4be);
+          goto LABEL_184;
+        case 0x85u:
+          v213 = this->OpStack.pCurrent;
+          if ( (v213->Flags & 0x1F) != 0 && ((v213->Flags & 0x1F) - 12 > 3 || v213->value.VS._1.VInt) )
             Scaleform::GFx::AS3::Value::ToStringValue(
-              this->OpStack.pCurrent,
-              &v384,
+              v213,
+              &v393,
               (Scaleform::GFx::ASStringNode *)this->StringManagerRef);
-            goto LABEL_187;
-          case 0x71u:
-            Scaleform::GFx::AS3::VM::exec_esc_xelem(this);
-            goto LABEL_193;
-          case 0x72u:
-            Scaleform::GFx::AS3::VM::exec_esc_xattr(this);
-            goto LABEL_187;
-          case 0x73u:
-            Scaleform::GFx::AS3::Value::ToInt32Value(this->OpStack.pCurrent, &v416);
-            goto LABEL_187;
-          case 0x74u:
-            Scaleform::GFx::AS3::Value::ToUInt32Value(this->OpStack.pCurrent, &v386);
-            goto LABEL_187;
-          case 0x75u:
-            Scaleform::GFx::AS3::Value::ToNumberValue(this->OpStack.pCurrent, &v418);
-            goto LABEL_187;
-          case 0x76u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            v210 = Scaleform::GFx::AS3::Value::Convert2Boolean((Scaleform::GFx::AS3::Value *)LODWORD(default_offset));
-            Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v210);
-            continue;
-          case 0x77u:
-            v211 = this->OpStack.pCurrent;
-            if ( (v211->Flags & 0x1F) == 0 || (v211->Flags & 0x1F) - 12 <= 3 && !v211->value.VS._1.VInt )
-            {
-              Scaleform::GFx::AS3::VM::Error::Error(&v481, eConvertNullToObjectError, this);
-              Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-                this,
-                v212,
-                (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::TypeErrorTI);
-              v213 = v481.Message.pNode;
-              --v481.Message.pNode->RefCount;
-              if ( !v213->RefCount )
-                Scaleform::GFx::ASStringNode::ReleaseNode(v213);
-            }
-            goto LABEL_187;
-          case 0x78u:
-            Scaleform::GFx::AS3::VM::exec_checkfilter(this);
-            continue;
-          case 0x79u:
-            v297 = this->OpStack.pCurrent;
-            v298 = v297->value.VS._1;
-            this->OpStack.pCurrent = v297 - 1;
-            v297[-1].value.VS._1.VInt += v298.VInt;
-            continue;
-          case 0x7Au:
-            v305 = this->OpStack.pCurrent;
-            v306 = v305->value.VS._1;
-            this->OpStack.pCurrent = v305 - 1;
-            v305[-1].value.VS._1.VInt -= v306.VInt;
-            continue;
-          case 0x7Bu:
-            v313 = this->OpStack.pCurrent;
-            v314 = v313->value.VS._1;
-            this->OpStack.pCurrent = v313 - 1;
-            v313[-1].value.VS._1.VInt *= v314.VInt;
-            continue;
-          case 0x7Cu:
-            v299 = this->OpStack.pCurrent;
-            VNumber = v299->value.VNumber;
-            this->OpStack.pCurrent = v299 - 1;
-            v299[-1].value.VNumber = VNumber + v299[-1].value.VNumber;
-            continue;
-          case 0x7Du:
-            v307 = this->OpStack.pCurrent;
-            v308 = v307->value.VNumber;
-            this->OpStack.pCurrent = v307 - 1;
-            v307[-1].value.VNumber = v307[-1].value.VNumber - v308;
-            continue;
-          case 0x7Eu:
-            v315 = this->OpStack.pCurrent;
-            v316 = v315->value.VNumber;
-            this->OpStack.pCurrent = v315 - 1;
-            v315[-1].value.VNumber = v316 * v315[-1].value.VNumber;
-            continue;
-          case 0x7Fu:
-            v238 = this->OpStack.pCurrent;
-            v239 = v238->value.VNumber;
-            this->OpStack.pCurrent = v238 - 1;
-            v238[-1].value.VNumber = v238[-1].value.VNumber / v239;
-            continue;
-          case 0x80u:
-            v_4bg = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_coerce(this, file, v_4bg);
-            goto LABEL_187;
-          case 0x85u:
-            v214 = this->OpStack.pCurrent;
-            if ( (v214->Flags & 0x1F) != 0 && ((v214->Flags & 0x1F) - 12 > 3 || v214->value.VS._1.VInt) )
-              Scaleform::GFx::AS3::Value::ToStringValue(
-                v214,
-                &v388,
-                (Scaleform::GFx::ASStringNode *)this->StringManagerRef);
-            else
-              Scaleform::GFx::AS3::Value::SetNull(v214);
-            goto LABEL_187;
-          case 0x86u:
-            v_4bh = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_astype(this, file, v_4bh);
-            goto LABEL_187;
-          case 0x87u:
-            Scaleform::GFx::AS3::VM::exec_astypelate(this);
-            goto LABEL_193;
-          case 0x8Au:
-            Data = *CP;
-            v25 = this->OpStack.pCurrent;
-            v26 = v25 - 1;
-            this->OpStack.pCurrent = v25 - 1;
-            v27 = v25->value.VS._1;
-            this->OpStack.pCurrent = v26 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v26->value.VS._1.VInt >= v27.VInt )
-              v29 = Data;
+          else
+            Scaleform::GFx::AS3::Value::SetNull(v213);
+          goto LABEL_184;
+        case 0x86u:
+          v_4bf = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_astype(this, file, v_4bf);
+          goto LABEL_184;
+        case 0x87u:
+          Scaleform::GFx::AS3::VM::exec_astypelate(this);
+          goto LABEL_184;
+        case 0x8Au:
+          v25 = this->OpStack.pCurrent;
+          position = *CP;
+          v26 = v25 - 1;
+          this->OpStack.pCurrent = v25 - 1;
+          v27 = v25->value.VS._1;
+          this->OpStack.pCurrent = v26 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v26->value.VS._1.VInt >= v27.VInt )
+            v29 = position;
+          goto LABEL_48;
+        case 0x8Bu:
+          position = *CP;
+          v38 = this->OpStack.pCurrent;
+          v39 = v38 - 1;
+          this->OpStack.pCurrent = v38 - 1;
+          v40 = v38->value.VS._1;
+          this->OpStack.pCurrent = v39 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v39->value.VS._1.VInt <= v40.VInt )
             goto LABEL_48;
-          case 0x8Bu:
-            v39 = this->OpStack.pCurrent;
-            Data = *CP;
-            v40 = v39 - 1;
-            this->OpStack.pCurrent = v39 - 1;
-            v41 = v39->value.VS._1;
-            this->OpStack.pCurrent = v40 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v40->value.VS._1.VInt <= v41.VInt )
-              goto LABEL_48;
-            CP = &v28[Data];
-            continue;
-          case 0x8Cu:
-            v48 = this->OpStack.pCurrent;
-            Data = *CP;
-            v49 = v48 - 1;
-            this->OpStack.pCurrent = v48 - 1;
-            v50 = v48->value.VS._1;
-            this->OpStack.pCurrent = v49 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v49->value.VS._1.VInt > v50.VInt )
-              goto LABEL_48;
-            CP = &v28[Data];
-            continue;
-          case 0x8Du:
-            v56 = this->OpStack.pCurrent;
-            Data = *CP;
-            v57 = v56 - 1;
-            this->OpStack.pCurrent = v56 - 1;
-            v58 = v56->value.VS._1;
-            this->OpStack.pCurrent = v57 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v57->value.VS._1.VInt >= v58.VInt )
-              goto LABEL_48;
-            CP = &v28[Data];
-            continue;
-          case 0x8Eu:
-            v80 = this->OpStack.pCurrent;
-            Data = *CP;
-            v81 = v80 - 1;
-            this->OpStack.pCurrent = v80 - 1;
-            v82 = v80->value.VS._1;
-            this->OpStack.pCurrent = v81 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v81->value.VS._1.VInt != v82.VInt )
-              goto LABEL_48;
-            CP = &v28[Data];
-            continue;
-          case 0x8Fu:
-            v114 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v115 = v114 - 1;
-            this->OpStack.pCurrent = v114 - 1;
-            v116 = v114->value.VS._1;
-            this->OpStack.pCurrent = v115 - 1;
-            v100 = CP + 1;
-            v101 = 0;
-            if ( v115->value.VS._1.VInt < v116.VInt )
-              goto LABEL_123;
-            CP = &v100[case_count];
-            continue;
-          case 0x90u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v420)->Result )
-              *(double *)(LODWORD(default_offset) + 8) = -*(double *)(LODWORD(default_offset) + 8);
-            goto LABEL_187;
-          case 0x91u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v390)->Result )
-              *(double *)(LODWORD(default_offset) + 8) = *(double *)(LODWORD(default_offset) + 8) + 1.0;
-            goto LABEL_187;
-          case 0x92u:
-            v215 = &this->RegisterFile.pRF[*CP++];
-            LODWORD(default_offset) = v215;
-            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v215, &v422, &v479)->Result )
-              Scaleform::GFx::AS3::Value::SetNumber((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v479 + 1.0);
-            goto LABEL_193;
-          case 0x93u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v392)->Result )
-              *(double *)(LODWORD(default_offset) + 8) = *(double *)(LODWORD(default_offset) + 8) - 1.0;
-            goto LABEL_187;
-          case 0x94u:
-            v216 = &this->RegisterFile.pRF[*CP++];
-            LODWORD(default_offset) = v216;
-            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v216, &v424, &v480)->Result )
-              Scaleform::GFx::AS3::Value::SetNumber((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v480 - 1.0);
-            goto LABEL_193;
-          case 0x95u:
-            Scaleform::GFx::AS3::VM::exec_typeof(this);
-            continue;
-          case 0x96u:
-            Data = (Scaleform::GFx::AS3::Boolean3)this->OpStack.pCurrent;
-            v217 = Scaleform::GFx::AS3::Value::Convert2Boolean((Scaleform::GFx::AS3::Value *)Data);
-            Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)Data, v217);
-            *(_BYTE *)(Data + 8) = *(_BYTE *)(Data + 8) == 0;
-            continue;
-          case 0x97u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::Convert2Int32(
-                   (Scaleform::GFx::AS3::Value *)LODWORD(default_offset),
-                   &v394,
-                   (Scaleform::GFx::AS3::Value::V1U *)&v448)->Result )
-              Scaleform::GFx::AS3::Value::SetSInt32((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), ~v448);
-            goto LABEL_193;
-          case 0x9Bu:
-            v218 = this->OpStack.pCurrent;
-            v371 |= 1u;
-            LODWORD(default_offset) = v218;
-            v219 = Scaleform::GFx::AS3::Value::ToNumberValue(v218, &v426)->Result;
-            if ( (v371 & 1) != 0 )
-              v371 &= ~1u;
-            if ( v219 )
-              v220 = (double *)(LODWORD(default_offset) + 8);
-            else
-              v220 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            v221 = *v220;
-            v222 = this->OpStack.pCurrent - 1;
-            v485 = v221;
-            Data = (Scaleform::GFx::AS3::Boolean3)v222;
-            if ( !v219
-              || (v371 |= 2u, v118 = !Scaleform::GFx::AS3::Value::ToNumberValue(v222, &v396)->Result, v484 = 1, v118) )
-            {
-              v484 = 0;
-            }
-            if ( (v371 & 2) != 0 )
-              v371 &= ~2u;
-            if ( v484 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v484 )
-              *(double *)Data = v485 + *(double *)Data;
-            goto LABEL_187;
-          case 0x9Cu:
-            v110 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v111 = v110 - 1;
-            this->OpStack.pCurrent = v110 - 1;
-            v112 = v110->value.VS._1;
-            this->OpStack.pCurrent = v111 - 1;
-            v100 = CP + 1;
-            v101 = 0;
-            if ( v111->value.VS._1.VInt <= v112.VInt )
-              goto LABEL_123;
-            CP = &v100[case_count];
-            continue;
-          case 0x9Du:
-            v105 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v106 = v105 - 1;
-            this->OpStack.pCurrent = v105 - 1;
-            v107 = v105->value.VS._1;
-            this->OpStack.pCurrent = v106 - 1;
-            v100 = CP + 1;
-            v101 = 0;
-            if ( v106->value.VS._1.VInt > v107.VInt )
-              goto LABEL_123;
-            CP = &v100[case_count];
-            continue;
-          case 0x9Eu:
-            v97 = this->OpStack.pCurrent;
-            case_count = *CP;
-            v98 = v97 - 1;
-            this->OpStack.pCurrent = v97 - 1;
-            v99 = v97->value.VS._1;
-            this->OpStack.pCurrent = v98 - 1;
-            v100 = CP + 1;
-            v101 = 0;
-            if ( v98->value.VS._1.VInt < v99.VInt )
-              v101 = case_count;
+          CP = &v28[position];
+          continue;
+        case 0x8Cu:
+          position = *CP;
+          v47 = this->OpStack.pCurrent;
+          v48 = v47 - 1;
+          this->OpStack.pCurrent = v47 - 1;
+          v49 = v47->value.VS._1;
+          this->OpStack.pCurrent = v48 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v48->value.VS._1.VInt > v49.VInt )
+            goto LABEL_48;
+          CP = &v28[position];
+          continue;
+        case 0x8Du:
+          position = *CP;
+          v55 = this->OpStack.pCurrent;
+          v56 = v55 - 1;
+          this->OpStack.pCurrent = v55 - 1;
+          v57 = v55->value.VS._1;
+          this->OpStack.pCurrent = v56 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v56->value.VS._1.VInt >= v57.VInt )
+            goto LABEL_48;
+          CP = &v28[position];
+          continue;
+        case 0x8Eu:
+          position = *CP;
+          v79 = this->OpStack.pCurrent;
+          v80 = v79 - 1;
+          this->OpStack.pCurrent = v79 - 1;
+          v81 = v79->value.VS._1;
+          this->OpStack.pCurrent = v80 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v80->value.VS._1.VInt != v81.VInt )
+            goto LABEL_48;
+          CP = &v28[position];
+          continue;
+        case 0x8Fu:
+          case_count = *CP;
+          v111 = this->OpStack.pCurrent;
+          v112 = v111 - 1;
+          this->OpStack.pCurrent = v111 - 1;
+          v113 = v111->value.VS._1;
+          this->OpStack.pCurrent = v112 - 1;
+          v98 = CP + 1;
+          v99 = 0;
+          if ( v112->value.VS._1.VInt < v113.VInt )
+            goto LABEL_123;
+          CP = &v98[case_count];
+          continue;
+        case 0x90u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v427)->Result )
+            *(double *)(LODWORD(default_offset) + 8) = -*(double *)(LODWORD(default_offset) + 8);
+          goto LABEL_184;
+        case 0x91u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v395)->Result )
+            *(double *)(LODWORD(default_offset) + 8) = *(double *)(LODWORD(default_offset) + 8) + 1.0;
+          goto LABEL_184;
+        case 0x92u:
+          v214 = &this->RegisterFile.pRF[*CP++];
+          LODWORD(default_offset) = v214;
+          if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v214, &v429, &v490)->Result )
+            Scaleform::GFx::AS3::Value::SetNumber((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v490 + 1.0);
+          goto LABEL_184;
+        case 0x93u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v397)->Result )
+            *(double *)(LODWORD(default_offset) + 8) = *(double *)(LODWORD(default_offset) + 8) - 1.0;
+          goto LABEL_184;
+        case 0x94u:
+          v215 = &this->RegisterFile.pRF[*CP++];
+          LODWORD(default_offset) = v215;
+          if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v215, &v431, &v489)->Result )
+            Scaleform::GFx::AS3::Value::SetNumber((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), v489 - 1.0);
+          goto LABEL_184;
+        case 0x95u:
+          Scaleform::GFx::AS3::VM::exec_typeof(this);
+          continue;
+        case 0x96u:
+          position = (int)this->OpStack.pCurrent;
+          v216 = Scaleform::GFx::AS3::Value::Convert2Boolean((Scaleform::GFx::AS3::Value *)position);
+          Scaleform::GFx::AS3::Value::SetBool((Scaleform::GFx::AS3::Value *)position, v216);
+          *(_BYTE *)(position + 8) = *(_BYTE *)(position + 8) == 0;
+          continue;
+        case 0x97u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::Convert2Int32(
+                 (Scaleform::GFx::AS3::Value *)LODWORD(default_offset),
+                 &v399,
+                 (Scaleform::GFx::AS3::Value::V1U *)&v453)->Result )
+            Scaleform::GFx::AS3::Value::SetSInt32((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), ~v453);
+          goto LABEL_194;
+        case 0x9Bu:
+          v217 = this->OpStack.pCurrent;
+          v376 |= 1u;
+          LODWORD(default_offset) = v217;
+          v218 = Scaleform::GFx::AS3::Value::ToNumberValue(v217, &v433)->Result;
+          if ( (v376 & 1) != 0 )
+            v376 &= ~1u;
+          if ( v218 )
+            v219 = (double *)(LODWORD(default_offset) + 8);
+          else
+            v219 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          v220 = *v219;
+          v221 = this->OpStack.pCurrent - 1;
+          v492 = v220;
+          position = (int)v221;
+          if ( !v218
+            || (v376 |= 2u,
+                v188 = !Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)position, &v401)->Result,
+                v491 = 1,
+                v188) )
+          {
+            v491 = 0;
+          }
+          if ( (v376 & 2) != 0 )
+            v376 &= ~2u;
+          if ( v491 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v491 )
+            *(double *)position = v492 + *(double *)position;
+          goto LABEL_194;
+        case 0x9Cu:
+          case_count = *CP;
+          v107 = this->OpStack.pCurrent;
+          v108 = v107 - 1;
+          this->OpStack.pCurrent = v107 - 1;
+          v109 = v107->value.VS._1;
+          this->OpStack.pCurrent = v108 - 1;
+          v98 = CP + 1;
+          v99 = 0;
+          if ( v108->value.VS._1.VInt <= v109.VInt )
+            goto LABEL_123;
+          CP = &v98[case_count];
+          continue;
+        case 0x9Du:
+          case_count = *CP;
+          v102 = this->OpStack.pCurrent;
+          v103 = v102 - 1;
+          this->OpStack.pCurrent = v102 - 1;
+          v104 = v102->value.VS._1;
+          this->OpStack.pCurrent = v103 - 1;
+          v98 = CP + 1;
+          v99 = 0;
+          if ( v103->value.VS._1.VInt > v104.VInt )
+            goto LABEL_123;
+          CP = &v98[case_count];
+          continue;
+        case 0x9Eu:
+          case_count = *CP;
+          v95 = this->OpStack.pCurrent;
+          v96 = v95 - 1;
+          this->OpStack.pCurrent = v95 - 1;
+          v97 = v95->value.VS._1;
+          this->OpStack.pCurrent = v96 - 1;
+          v98 = CP + 1;
+          v99 = 0;
+          if ( v96->value.VS._1.VInt < v97.VInt )
+            v99 = case_count;
 LABEL_123:
-            CP = &v100[v101];
-            continue;
-          case 0x9Fu:
-            v88 = this->OpStack.pCurrent;
-            Data = *CP;
-            v89 = v88 - 1;
-            this->OpStack.pCurrent = v88 - 1;
-            v90 = v88->value.VS._1;
-            this->OpStack.pCurrent = v89 - 1;
-            v28 = CP + 1;
-            v29 = undefined3;
-            if ( v89->value.VS._1.VInt == v90.VInt )
+          CP = &v98[v99];
+          continue;
+        case 0x9Fu:
+          position = *CP;
+          v87 = this->OpStack.pCurrent;
+          v88 = v87 - 1;
+          this->OpStack.pCurrent = v87 - 1;
+          v89 = v87->value.VS._1;
+          this->OpStack.pCurrent = v88 - 1;
+          v28 = CP + 1;
+          v29 = 0;
+          if ( v88->value.VS._1.VInt == v89.VInt )
 LABEL_48:
-              CP = &v28[v29];
-            else
-              CP = &v28[Data];
-            continue;
-          case 0xA0u:
-            v223 = this->OpStack.pCurrent;
-            r._2.Flags = v223->Flags;
-            r._2.Bonus.pWeakProxy = v223->Bonus.pWeakProxy;
-            r._2.value.VS._1.VInt = v223->value.VS._1.VInt;
-            v224.VObj = (Scaleform::GFx::AS3::Object *)v223->value.VS._2;
-            this->OpStack.pCurrent = v223 - 1;
-            r._1 = v223 - 1;
-            StringManagerRef = this->StringManagerRef;
-            r._2.value.VS._2 = v224;
-            Scaleform::GFx::AS3::Add(&v428, StringManagerRef, r._1, r._1, &r._2);
+            CP = &v28[v29];
+          else
+            CP = &v28[position];
+          continue;
+        case 0xA0u:
+          v222 = this->OpStack.pCurrent;
+          r._2.Flags = v222->Flags;
+          r._2.Bonus.pWeakProxy = v222->Bonus.pWeakProxy;
+          r._2.value.VS._1.VInt = v222->value.VS._1.VInt;
+          v223.VObj = (Scaleform::GFx::AS3::Object *)v222->value.VS._2;
+          this->OpStack.pCurrent = v222 - 1;
+          r._1 = v222 - 1;
+          StringManagerRef = this->StringManagerRef;
+          r._2.value.VS._2 = v223;
+          Scaleform::GFx::AS3::Add(&v435, StringManagerRef, r._1, r._1, &r._2);
+          Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
+          goto LABEL_194;
+        case 0xA1u:
+          v225 = this->OpStack.pCurrent;
+          v376 |= 4u;
+          default_offset = 0.0;
+          r._2.Flags = v225->Flags;
+          r._2.Bonus.pWeakProxy = v225->Bonus.pWeakProxy;
+          r._2.value.VNumber = v225->value.VNumber;
+          this->OpStack.pCurrent = v225 - 1;
+          r._1 = v225 - 1;
+          v226 = 0;
+          if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v225 - 1, &v403, &v486)->Result )
+          {
+            v376 |= 8u;
+            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(&r._2, &v437, &default_offset)->Result )
+              v226 = 1;
+          }
+          v227 = v376;
+          if ( (v376 & 8) != 0 )
+          {
+            v227 = v376 & 0xFFFFFFF7;
+            v376 &= ~8u;
+          }
+          if ( (v227 & 4) != 0 )
+            v376 = v227 & 0xFFFFFFFB;
+          if ( v226 )
+            Scaleform::GFx::AS3::Value::SetNumber(r._1, v486 - default_offset);
+          goto LABEL_342;
+        case 0xA2u:
+          v228 = this->OpStack.pCurrent;
+          v376 |= 0x10u;
+          default_offset = 0.0;
+          r._2.Flags = v228->Flags;
+          r._2.Bonus.pWeakProxy = v228->Bonus.pWeakProxy;
+          r._2.value.VNumber = v228->value.VNumber;
+          this->OpStack.pCurrent = v228 - 1;
+          r._1 = v228 - 1;
+          v229 = 0;
+          if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v228 - 1, &v405, &v493)->Result )
+          {
+            v376 |= 0x20u;
+            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(&r._2, &v439, &default_offset)->Result )
+              v229 = 1;
+          }
+          v230 = v376;
+          if ( (v376 & 0x20) != 0 )
+          {
+            v230 = v376 & 0xFFFFFFDF;
+            v376 &= ~0x20u;
+          }
+          if ( (v230 & 0x10) != 0 )
+            v376 = v230 & 0xFFFFFFEF;
+          if ( v229 )
+            Scaleform::GFx::AS3::Value::SetNumber(r._1, v493 * default_offset);
+          goto LABEL_353;
+        case 0xA3u:
+          v231 = this->OpStack.pCurrent;
+          v376 |= 0x40u;
+          LODWORD(default_offset) = v231;
+          v232 = Scaleform::GFx::AS3::Value::ToNumberValue(v231, &v441)->Result;
+          if ( (v376 & 0x40) != 0 )
+            v376 &= ~0x40u;
+          if ( v232 )
+            v233 = (double *)(LODWORD(default_offset) + 8);
+          else
+            v233 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          v234 = *v233;
+          v235 = this->OpStack.pCurrent - 1;
+          v495 = v234;
+          position = (int)v235;
+          if ( !v232
+            || (v376 |= 0x80u,
+                v188 = !Scaleform::GFx::AS3::Value::ToNumberValue((Scaleform::GFx::AS3::Value *)position, &v408)->Result,
+                v494 = 1,
+                v188) )
+          {
+            v494 = 0;
+          }
+          if ( (v376 & 0x80u) != 0 )
+            v376 &= ~0x80u;
+          if ( v494 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v494 )
+            *(double *)position = *(double *)position / v495;
+          goto LABEL_194;
+        case 0xA4u:
+          v238 = this->OpStack.pCurrent;
+          v376 |= 0x100u;
+          LODWORD(default_offset) = v238;
+          v239 = Scaleform::GFx::AS3::Value::ToNumberValue(v238, &v428)->Result;
+          if ( (v376 & 0x100) != 0 )
+            v376 &= ~0x100u;
+          if ( v239 )
+            v240 = (double *)(LODWORD(default_offset) + 8);
+          else
+            v240 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          v241 = *v240;
+          v242 = this->OpStack.pCurrent - 1;
+          v488 = v241;
+          position = (int)v242;
+          if ( !v239
+            || (v376 |= 0x200u, v188 = !Scaleform::GFx::AS3::Value::ToNumberValue(v242, &v410)->Result, v487 = 1, v188) )
+          {
+            v487 = 0;
+          }
+          if ( (v376 & 0x200) != 0 )
+            v376 &= ~0x200u;
+          if ( v487 )
+            curr_cp = (const unsigned int *)(position + 8);
+          else
+            curr_cp = (const unsigned int *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v487 )
+            *(long double *)curr_cp = fmod(*(double *)curr_cp, v488);
+          goto LABEL_194;
+        case 0xA5u:
+          v243 = this->OpStack.pCurrent;
+          v376 |= 0x400u;
+          LODWORD(default_offset) = v243;
+          v244 = Scaleform::GFx::AS3::Value::ToUInt32Value(v243, &v438)->Result;
+          if ( (v376 & 0x400) != 0 )
+            v376 &= ~0x400u;
+          if ( v244 )
+            v245 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v245 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
+          v450 = *v245;
+          v246 = this->OpStack.pCurrent - 1;
+          position = (int)v246;
+          if ( !v244
+            || (v376 |= 0x800u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v246, &v412)->Result, v449 = 1, v188) )
+          {
+            v449 = 0;
+          }
+          if ( (v376 & 0x800) != 0 )
+            v376 &= ~0x800u;
+          if ( v449 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v449 )
+            *(_DWORD *)position <<= v450 & 0x1F;
+          goto LABEL_184;
+        case 0xA6u:
+          v247 = this->OpStack.pCurrent;
+          v376 |= 0x1000u;
+          LODWORD(default_offset) = v247;
+          v248 = Scaleform::GFx::AS3::Value::ToUInt32Value(v247, &v430)->Result;
+          if ( (v376 & 0x1000) != 0 )
+            v376 &= ~0x1000u;
+          if ( v248 )
+            v249 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v249 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
+          v452 = *v249;
+          v250 = this->OpStack.pCurrent - 1;
+          position = (int)v250;
+          if ( !v248
+            || (v376 |= 0x2000u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v250, &v414)->Result, v451 = 1, v188) )
+          {
+            v451 = 0;
+          }
+          if ( (v376 & 0x2000) != 0 )
+            v376 &= ~0x2000u;
+          if ( v451 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v451 )
+            *(int *)position >>= v452 & 0x1F;
+          goto LABEL_184;
+        case 0xA7u:
+          v251 = this->OpStack.pCurrent;
+          v376 |= 0x4000u;
+          LODWORD(default_offset) = v251;
+          v252 = Scaleform::GFx::AS3::Value::ToUInt32Value(v251, &v446)->Result;
+          if ( (v376 & 0x4000) != 0 )
+            v376 &= ~0x4000u;
+          if ( v252 )
+            v253 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v253 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
+          v455 = *v253;
+          v254 = this->OpStack.pCurrent - 1;
+          position = (int)v254;
+          if ( !v252
+            || (v376 |= 0x8000u, v188 = !Scaleform::GFx::AS3::Value::ToUInt32Value(v254, &v416)->Result, v454 = 1, v188) )
+          {
+            v454 = 0;
+          }
+          if ( (v376 & 0x8000) != 0 )
+            v376 &= ~0x8000u;
+          if ( v454 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v454 )
+            *(_DWORD *)position >>= v455 & 0x1F;
+          goto LABEL_184;
+        case 0xA8u:
+          v255 = this->OpStack.pCurrent;
+          v376 |= (unsigned int)&_sbh_sizeHeaderList;
+          LODWORD(default_offset) = v255;
+          v256 = Scaleform::GFx::AS3::Value::ToInt32Value(v255, &v432)->Result;
+          if ( ((unsigned int)&_sbh_sizeHeaderList & v376) != 0 )
+            v376 &= ~0x10000u;
+          if ( v256 )
+            v257 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v257 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v458 = *v257;
+          v258 = this->OpStack.pCurrent - 1;
+          position = (int)v258;
+          if ( !v256
+            || (v376 |= (unsigned int)&loc_20000,
+                v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v258, &v418)->Result,
+                v457 = 1,
+                v188) )
+          {
+            v457 = 0;
+          }
+          if ( ((unsigned int)&loc_20000 & v376) != 0 )
+            v376 &= ~0x20000u;
+          if ( v457 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v457 )
+            *(_DWORD *)position &= v458;
+          goto LABEL_194;
+        case 0xA9u:
+          v259 = this->OpStack.pCurrent;
+          v376 |= 0x40000u;
+          LODWORD(default_offset) = v259;
+          v260 = Scaleform::GFx::AS3::Value::ToInt32Value(v259, &v440)->Result;
+          if ( (v376 & 0x40000) != 0 )
+            v376 &= ~0x40000u;
+          if ( v260 )
+            v261 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v261 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v460 = *v261;
+          v262 = this->OpStack.pCurrent - 1;
+          position = (int)v262;
+          if ( !v260
+            || (v376 |= 0x80000u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v262, &v420)->Result, v459 = 1, v188) )
+          {
+            v459 = 0;
+          }
+          if ( (v376 & 0x80000) != 0 )
+            v376 &= ~0x80000u;
+          if ( v459 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v459 )
+            *(_DWORD *)position |= v460;
+          goto LABEL_194;
+        case 0xAAu:
+          v263 = this->OpStack.pCurrent;
+          v376 |= (unsigned int)&loc_100000;
+          LODWORD(default_offset) = v263;
+          v264 = Scaleform::GFx::AS3::Value::ToInt32Value(v263, &v434)->Result;
+          if ( ((unsigned int)&loc_100000 & v376) != 0 )
+            v376 &= ~0x100000u;
+          if ( v264 )
+            v265 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v265 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v462 = *v265;
+          v266 = this->OpStack.pCurrent - 1;
+          position = (int)v266;
+          if ( !v264
+            || (v376 |= (unsigned int)&loc_200000,
+                v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v266, &v422)->Result,
+                v461 = 1,
+                v188) )
+          {
+            v461 = 0;
+          }
+          if ( ((unsigned int)&loc_200000 & v376) != 0 )
+            v376 &= ~0x200000u;
+          if ( v461 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v461 )
+            *(_DWORD *)position ^= v462;
+          goto LABEL_194;
+        case 0xABu:
+          v267 = this->OpStack.pCurrent;
+          r._2.Flags = v267->Flags;
+          r._2.Bonus.pWeakProxy = v267->Bonus.pWeakProxy;
+          r._2.value.VS._1.VInt = v267->value.VS._1.VInt;
+          v268.VObj = (Scaleform::GFx::AS3::Object *)v267->value.VS._2;
+          this->OpStack.pCurrent = v267 - 1;
+          r._1 = v267 - 1;
+          r._2.value.VS._2 = v268;
+          if ( !Scaleform::GFx::AS3::AbstractEqual(&v444, v466, v267 - 1, &r._2)->Result )
+            goto LABEL_342;
+          v269 = v466[0];
+          goto LABEL_477;
+        case 0xACu:
+          v270 = this->OpStack.pCurrent;
+          v271.pWeakProxy = (Scaleform::GFx::AS3::WeakProxy *)v270->Bonus;
+          r._2.Flags = v270->Flags;
+          r._2.value.VS._1.VInt = v270->value.VS._1.VInt;
+          r._2.Bonus = v271;
+          r._2.value.VS._2.VObj = v270->value.VS._2.VObj;
+          this->OpStack.pCurrent = v270 - 1;
+          r._1 = v270 - 1;
+          other.Flags = 1;
+          other.Bonus.pWeakProxy = 0;
+          other.value.VS._1.VBool = Scaleform::GFx::AS3::StrictEqual(v270 - 1, &r._2);
+          Scaleform::GFx::AS3::Value::Assign(r._1, &other);
+          Scaleform::GFx::AS3::Value::~Value(&other);
+          Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
+          continue;
+        case 0xADu:
+          v272 = this->OpStack.pCurrent;
+          r._2.Flags = v272->Flags;
+          r._2.Bonus.pWeakProxy = v272->Bonus.pWeakProxy;
+          r._2.value.VNumber = v272->value.VNumber;
+          this->OpStack.pCurrent = v272 - 1;
+          r._1 = v272 - 1;
+          position = 0;
+          if ( !Scaleform::GFx::AS3::AbstractLessThan(
+                  &v424,
+                  (Scaleform::GFx::AS3::Boolean3 *)&position,
+                  v272 - 1,
+                  &r._2)->Result )
+            goto LABEL_342;
+          v269 = position == 1;
+          goto LABEL_477;
+        case 0xAEu:
+          v273 = this->OpStack.pCurrent;
+          r._2.Flags = v273->Flags;
+          r._2.Bonus.pWeakProxy = v273->Bonus.pWeakProxy;
+          r._2.value.VS._1.VInt = v273->value.VS._1.VInt;
+          v274.VObj = (Scaleform::GFx::AS3::Object *)v273->value.VS._2;
+          this->OpStack.pCurrent = v273 - 1;
+          r._1 = v273 - 1;
+          r._2.value.VS._2 = v274;
+          position = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v436, (Scaleform::GFx::AS3::Boolean3 *)&position, &r._2, v273 - 1)->Result )
+            Scaleform::GFx::AS3::Value::SetBool(r._1, position == 2);
+LABEL_353:
+          Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
+          goto LABEL_194;
+        case 0xAFu:
+          v275 = this->OpStack.pCurrent;
+          r._2.Flags = v275->Flags;
+          r._2.Bonus.pWeakProxy = v275->Bonus.pWeakProxy;
+          r._2.value.VS._1.VInt = v275->value.VS._1.VInt;
+          v276.VObj = (Scaleform::GFx::AS3::Object *)v275->value.VS._2;
+          this->OpStack.pCurrent = v275 - 1;
+          r._1 = v275 - 1;
+          r._2.value.VS._2 = v276;
+          position = 0;
+          if ( Scaleform::GFx::AS3::AbstractLessThan(&v426, (Scaleform::GFx::AS3::Boolean3 *)&position, &r._2, v275 - 1)->Result )
+            Scaleform::GFx::AS3::Value::SetBool(r._1, position == 1);
+          goto LABEL_342;
+        case 0xB0u:
+          v277 = this->OpStack.pCurrent;
+          r._2.Flags = v277->Flags;
+          r._2.Bonus.pWeakProxy = v277->Bonus.pWeakProxy;
+          r._2.value.VNumber = v277->value.VNumber;
+          this->OpStack.pCurrent = v277 - 1;
+          r._1 = v277 - 1;
+          position = 0;
+          if ( !Scaleform::GFx::AS3::AbstractLessThan(
+                  &v406,
+                  (Scaleform::GFx::AS3::Boolean3 *)&position,
+                  v277 - 1,
+                  &r._2)->Result )
+            goto LABEL_342;
+          v269 = position == 2;
+LABEL_477:
+          Scaleform::GFx::AS3::Value::SetBool(r._1, v269);
+          goto LABEL_342;
+        case 0xB1u:
+          Scaleform::GFx::AS3::VM::exec_instanceof(this);
+          goto LABEL_184;
+        case 0xB2u:
+          v_4bg = &constp->const_multiname.Data.Data[*CP++];
+          Scaleform::GFx::AS3::VM::exec_istype(this, file, v_4bg);
+          goto LABEL_184;
+        case 0xB3u:
+          v278 = this->OpStack.pCurrent;
+          v279 = v278->Flags;
+          r._2.Bonus.pWeakProxy = v278->Bonus.pWeakProxy;
+          v280 = v278->value.VS._1;
+          r._2.Flags = v279;
+          r._2.value.VS._1 = v280;
+          v281.VObj = (Scaleform::GFx::AS3::Object *)v278->value.VS._2;
+          --v278;
+          r._2.value.VS._2 = v281;
+          this->OpStack.pCurrent = v278;
+          r._1 = v278;
+          if ( (v279 & 0x1F) == 0xD )
+          {
+            v_4bh = *(Scaleform::GFx::AS3::ClassTraits::fl::Object **)(r._2.value.VS._1.VInt + 20);
+            v484.Flags = 1;
+            v484.Bonus.pWeakProxy = 0;
+            v484.value.VS._1.VBool = Scaleform::GFx::AS3::VM::IsOfType(this, r._1, v_4bh);
+            Scaleform::GFx::AS3::Value::Assign(r._1, &v484);
+            Scaleform::GFx::AS3::Value::~Value(&v484);
             Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-            goto LABEL_193;
-          case 0xA1u:
-            v226 = this->OpStack.pCurrent;
-            v371 |= 4u;
-            default_offset = 0.0;
-            r._2.Flags = v226->Flags;
-            r._2.Bonus.pWeakProxy = v226->Bonus.pWeakProxy;
-            r._2.value.VNumber = v226->value.VNumber;
-            this->OpStack.pCurrent = v226 - 1;
-            r._1 = v226 - 1;
-            v227 = 0;
-            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v226 - 1, &v398, &v486)->Result )
+          }
+          else
+          {
+            Scaleform::GFx::AS3::VM::Error::Error(&v447, eIsTypeMustBeClassError, this);
+            Scaleform::GFx::AS3::VM::ThrowErrorInternal(
+              this,
+              v282,
+              (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::TypeErrorTI);
+            v283 = v447.Message.pNode;
+            --v447.Message.pNode->RefCount;
+            if ( v283->RefCount )
             {
-              v371 |= 8u;
-              if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(&r._2, &v430, &default_offset)->Result )
-                v227 = 1;
-            }
-            v228 = v371;
-            if ( (v371 & 8) != 0 )
-            {
-              v228 = v371 & 0xFFFFFFF7;
-              v371 &= ~8u;
-            }
-            if ( (v228 & 4) != 0 )
-              v371 = v228 & 0xFFFFFFFB;
-            if ( !v227 )
-              goto LABEL_339;
-            v229 = v486 - default_offset;
-            goto LABEL_338;
-          case 0xA2u:
-            v230 = this->OpStack.pCurrent;
-            v371 |= 0x10u;
-            default_offset = 0.0;
-            r._2.Flags = v230->Flags;
-            r._2.Bonus.pWeakProxy = v230->Bonus.pWeakProxy;
-            r._2.value.VNumber = v230->value.VNumber;
-            this->OpStack.pCurrent = v230 - 1;
-            r._1 = v230 - 1;
-            v231 = 0;
-            if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(v230 - 1, &v400, &v478)->Result )
-            {
-              v371 |= 0x20u;
-              if ( Scaleform::GFx::AS3::Value::Convert2NumberInline(&r._2, &v432, &default_offset)->Result )
-                v231 = 1;
-            }
-            v232 = v371;
-            if ( (v371 & 0x20) != 0 )
-            {
-              v232 = v371 & 0xFFFFFFDF;
-              v371 &= ~0x20u;
-            }
-            if ( (v232 & 0x10) != 0 )
-              v371 = v232 & 0xFFFFFFEF;
-            if ( !v231 )
-              goto LABEL_339;
-            v229 = v478 * default_offset;
-LABEL_338:
-            Scaleform::GFx::AS3::Value::SetNumber(r._1, v229);
-LABEL_339:
-            Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-            goto LABEL_193;
-          case 0xA3u:
-            v233 = this->OpStack.pCurrent;
-            v371 |= 0x40u;
-            LODWORD(default_offset) = v233;
-            v234 = Scaleform::GFx::AS3::Value::ToNumberValue(v233, &v402)->Result;
-            if ( (v371 & 0x40) != 0 )
-              v371 &= ~0x40u;
-            if ( v234 )
-              v235 = (double *)(LODWORD(default_offset) + 8);
-            else
-              v235 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            v236 = *v235;
-            v237 = this->OpStack.pCurrent - 1;
-            v488 = v236;
-            Data = (Scaleform::GFx::AS3::Boolean3)v237;
-            if ( !v234
-              || (v371 |= 0x80u, v118 = !Scaleform::GFx::AS3::Value::ToNumberValue(v237, &v434)->Result, v487 = 1, v118) )
-            {
-              v487 = 0;
-            }
-            if ( (v371 & 0x80u) != 0 )
-              v371 &= ~0x80u;
-            if ( v487 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v487 )
-              *(double *)Data = *(double *)Data / v488;
-            goto LABEL_187;
-          case 0xA4u:
-            v240 = this->OpStack.pCurrent;
-            v371 |= 0x100u;
-            LODWORD(default_offset) = v240;
-            v241 = Scaleform::GFx::AS3::Value::ToNumberValue(v240, &v436)->Result;
-            if ( (v371 & 0x100) != 0 )
-              v371 &= ~0x100u;
-            if ( v241 )
-              v242 = (double *)(LODWORD(default_offset) + 8);
-            else
-              v242 = (double *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            v243 = *v242;
-            v244 = this->OpStack.pCurrent - 1;
-            v483 = v243;
-            Data = (Scaleform::GFx::AS3::Boolean3)v244;
-            if ( !v241
-              || (v371 |= 0x200u, v118 = !Scaleform::GFx::AS3::Value::ToNumberValue(v244, &v405)->Result, v482 = 1, v118) )
-            {
-              v482 = 0;
-            }
-            if ( (v371 & 0x200) != 0 )
-              v371 &= ~0x200u;
-            if ( v482 )
-              curr_cp = (const unsigned int *)(Data + 8);
-            else
-              curr_cp = (const unsigned int *)&`Scaleform::GFx::AS3::ToType<double>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v482 )
-              *(long double *)curr_cp = fmod(*(double *)curr_cp, v483);
-            goto LABEL_193;
-          case 0xA5u:
-            v245 = this->OpStack.pCurrent;
-            v371 |= 0x400u;
-            LODWORD(default_offset) = v245;
-            v246 = Scaleform::GFx::AS3::Value::ToUInt32Value(v245, &v433)->Result;
-            if ( (v371 & 0x400) != 0 )
-              v371 &= ~0x400u;
-            if ( v246 )
-              v247 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v247 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
-            v457 = *v247;
-            v248 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v248;
-            if ( !v246
-              || (v371 |= 0x800u, v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v248, &v407)->Result, v456 = 1, v118) )
-            {
-              v456 = 0;
-            }
-            if ( (v371 & 0x800) != 0 )
-              v371 &= ~0x800u;
-            if ( v456 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v456 )
-              *(_DWORD *)Data <<= v457 & 0x1F;
-            goto LABEL_187;
-          case 0xA6u:
-            v249 = this->OpStack.pCurrent;
-            v371 |= 0x1000u;
-            LODWORD(default_offset) = v249;
-            v250 = Scaleform::GFx::AS3::Value::ToUInt32Value(v249, &v425)->Result;
-            if ( (v371 & 0x1000) != 0 )
-              v371 &= ~0x1000u;
-            if ( v250 )
-              v251 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v251 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
-            v445 = *v251;
-            v252 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v252;
-            if ( !v250
-              || (v371 |= 0x2000u, v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v252, &v409)->Result, v444 = 1, v118) )
-            {
-              v444 = 0;
-            }
-            if ( (v371 & 0x2000) != 0 )
-              v371 &= ~0x2000u;
-            if ( v444 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v444 )
-              *(int *)Data >>= v445 & 0x1F;
-            goto LABEL_187;
-          case 0xA7u:
-            v253 = this->OpStack.pCurrent;
-            v371 |= 0x4000u;
-            LODWORD(default_offset) = v253;
-            v254 = Scaleform::GFx::AS3::Value::ToUInt32Value(v253, &v441)->Result;
-            if ( (v371 & 0x4000) != 0 )
-              v371 &= ~0x4000u;
-            if ( v254 )
-              v255 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v255 = (int *)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
-            v447 = *v255;
-            v256 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v256;
-            if ( !v254
-              || (v371 |= 0x8000u, v118 = !Scaleform::GFx::AS3::Value::ToUInt32Value(v256, &v411)->Result,
-                                   v446 = 1,
-                                   v118) )
-            {
-              v446 = 0;
-            }
-            if ( (v371 & 0x8000) != 0 )
-              v371 &= ~0x8000u;
-            if ( v446 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<unsigned long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v446 )
-              *(_DWORD *)Data >>= v447 & 0x1F;
-            goto LABEL_187;
-          case 0xA8u:
-            v257 = this->OpStack.pCurrent;
-            v371 |= (unsigned int)&_sbh_sizeHeaderList;
-            LODWORD(default_offset) = v257;
-            v258 = Scaleform::GFx::AS3::Value::ToInt32Value(v257, &v427)->Result;
-            if ( ((unsigned int)&_sbh_sizeHeaderList & v371) != 0 )
-              v371 &= ~0x10000u;
-            if ( v258 )
-              v259 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v259 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v450 = *v259;
-            v260 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v260;
-            if ( !v258
-              || (v371 |= (unsigned int)&loc_20000,
-                  v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v260, &v413)->Result,
-                  v449 = 1,
-                  v118) )
-            {
-              v449 = 0;
-            }
-            if ( ((unsigned int)&loc_20000 & v371) != 0 )
-              v371 &= ~0x20000u;
-            if ( v449 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v449 )
-              *(_DWORD *)Data &= v450;
-            goto LABEL_193;
-          case 0xA9u:
-            v261 = this->OpStack.pCurrent;
-            v371 |= 0x40000u;
-            LODWORD(default_offset) = v261;
-            v262 = Scaleform::GFx::AS3::Value::ToInt32Value(v261, &v435)->Result;
-            if ( (v371 & 0x40000) != 0 )
-              v371 &= ~0x40000u;
-            if ( v262 )
-              v263 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v263 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v452 = *v263;
-            v264 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v264;
-            if ( !v262
-              || (v371 |= 0x80000u, v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v264, &v415)->Result,
-                                    v451 = 1,
-                                    v118) )
-            {
-              v451 = 0;
-            }
-            if ( (v371 & 0x80000) != 0 )
-              v371 &= ~0x80000u;
-            if ( v451 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v451 )
-              *(_DWORD *)Data |= v452;
-            goto LABEL_193;
-          case 0xAAu:
-            v265 = this->OpStack.pCurrent;
-            v371 |= 0x100000u;
-            LODWORD(default_offset) = v265;
-            v266 = Scaleform::GFx::AS3::Value::ToInt32Value(v265, &v429)->Result;
-            if ( (v371 & 0x100000) != 0 )
-              v371 &= ~0x100000u;
-            if ( v266 )
-              v267 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v267 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v455 = *v267;
-            v268 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v268;
-            if ( !v266
-              || (v371 |= 0x200000u,
-                  v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v268, &v417)->Result,
-                  v454 = 1,
-                  v118) )
-            {
-              v454 = 0;
-            }
-            if ( (v371 & 0x200000) != 0 )
-              v371 &= ~0x200000u;
-            if ( v454 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v454 )
-              *(_DWORD *)Data ^= v455;
-            goto LABEL_193;
-          case 0xABu:
-            v269 = this->OpStack.pCurrent;
-            r._2.Flags = v269->Flags;
-            r._2.Bonus.pWeakProxy = v269->Bonus.pWeakProxy;
-            r._2.value.VNumber = v269->value.VNumber;
-            this->OpStack.pCurrent = v269 - 1;
-            r._1 = v269 - 1;
-            if ( !Scaleform::GFx::AS3::AbstractEqual(&v439, v460, v269 - 1, &r._2)->Result )
-              goto LABEL_339;
-            Scaleform::GFx::AS3::Value::SetBool(r._1, v460[0]);
-            Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-            goto LABEL_193;
-          case 0xACu:
-            v270 = this->OpStack.pCurrent;
-            v271.pWeakProxy = (Scaleform::GFx::AS3::WeakProxy *)v270->Bonus;
-            r._2.Flags = v270->Flags;
-            r._2.value.VS._1.VInt = v270->value.VS._1.VInt;
-            r._2.Bonus = v271;
-            r._2.value.VS._2.VObj = v270->value.VS._2.VObj;
-            this->OpStack.pCurrent = v270 - 1;
-            r._1 = v270 - 1;
-            other.Flags = 1;
-            other.Bonus.pWeakProxy = 0;
-            other.value.VS._1.VBool = Scaleform::GFx::AS3::StrictEqual(v270 - 1, &r._2);
-            Scaleform::GFx::AS3::Value::Assign(r._1, &other);
-            Scaleform::GFx::AS3::Value::~Value(&other);
-            Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-            continue;
-          case 0xADu:
-            v272 = this->OpStack.pCurrent;
-            r._2.Flags = v272->Flags;
-            r._2.Bonus.pWeakProxy = v272->Bonus.pWeakProxy;
-            r._2.value.VNumber = v272->value.VNumber;
-            this->OpStack.pCurrent = v272 - 1;
-            r._1 = v272 - 1;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v419, &Data, v272 - 1, &r._2)->Result )
-              goto LABEL_475;
-            goto LABEL_476;
-          case 0xAEu:
-            v273 = this->OpStack.pCurrent;
-            r._2.Flags = v273->Flags;
-            r._2.Bonus.pWeakProxy = v273->Bonus.pWeakProxy;
-            r._2.value.VS._1.VInt = v273->value.VS._1.VInt;
-            v274.VObj = (Scaleform::GFx::AS3::Object *)v273->value.VS._2;
-            v275 = v273 - 1;
-            v_4 = (Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> *)v275;
-            r._2.value.VS._2 = v274;
-            v = &r;
-            v276 = &v431;
-            goto LABEL_478;
-          case 0xAFu:
-            v277 = this->OpStack.pCurrent;
-            r._2.Flags = v277->Flags;
-            r._2.Bonus.pWeakProxy = v277->Bonus.pWeakProxy;
-            r._2.value.VS._1.VInt = v277->value.VS._1.VInt;
-            v278.VObj = (Scaleform::GFx::AS3::Object *)v277->value.VS._2;
-            this->OpStack.pCurrent = v277 - 1;
-            r._1 = v277 - 1;
-            r._2.value.VS._2 = v278;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(&v421, &Data, &r._2, v277 - 1)->Result )
-LABEL_475:
-              Scaleform::GFx::AS3::Value::SetBool(r._1, Data == true3);
-            goto LABEL_476;
-          case 0xB0u:
-            v279 = this->OpStack.pCurrent;
-            r._2.Flags = v279->Flags;
-            r._2.Bonus.pWeakProxy = v279->Bonus.pWeakProxy;
-            r._2.value.VS._1.VInt = v279->value.VS._1.VInt;
-            v280.VObj = (Scaleform::GFx::AS3::Object *)v279->value.VS._2;
-            v275 = v279 - 1;
-            v_4 = &r;
-            r._2.value.VS._2 = v280;
-            v = (Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value> *)v275;
-            v276 = (Scaleform::GFx::AS3::CheckResult *)&v437;
-LABEL_478:
-            this->OpStack.pCurrent = v275;
-            r._1 = v275;
-            Data = undefined3;
-            if ( Scaleform::GFx::AS3::AbstractLessThan(v276, &Data, &v->_2, &v_4->_2)->Result )
-              Scaleform::GFx::AS3::Value::SetBool(r._1, Data == false3);
-            goto LABEL_476;
-          case 0xB1u:
-            Scaleform::GFx::AS3::VM::exec_instanceof(this);
-            goto LABEL_193;
-          case 0xB2u:
-            v_4bi = &constp->const_multiname.Data.Data[*CP++];
-            Scaleform::GFx::AS3::VM::exec_istype(this, file, v_4bi);
-            goto LABEL_187;
-          case 0xB3u:
-            v281 = this->OpStack.pCurrent;
-            v282 = v281->Flags;
-            r._2.Bonus.pWeakProxy = v281->Bonus.pWeakProxy;
-            v283 = v281->value.VS._1;
-            r._2.Flags = v282;
-            r._2.value.VS._1 = v283;
-            v284.VObj = (Scaleform::GFx::AS3::Object *)v281->value.VS._2;
-            --v281;
-            r._2.value.VS._2 = v284;
-            this->OpStack.pCurrent = v281;
-            r._1 = v281;
-            if ( (v282 & 0x1F) == 0xD )
-            {
-              v_4bj = *(Scaleform::GFx::AS3::ClassTraits::fl::Object **)(r._2.value.VS._1.VInt + 20);
-              v477.Flags = 1;
-              v477.Bonus.pWeakProxy = 0;
-              v477.value.VS._1.VBool = Scaleform::GFx::AS3::VM::IsOfType(this, r._1, v_4bj);
-              Scaleform::GFx::AS3::Value::Assign(r._1, &v477);
-              Scaleform::GFx::AS3::Value::~Value(&v477);
+LABEL_342:
               Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
             }
             else
             {
-              Scaleform::GFx::AS3::VM::Error::Error(&v442, eIsTypeMustBeClassError, this);
-              Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-                this,
-                v285,
-                (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::TypeErrorTI);
-              v286 = v442.Message.pNode;
-              --v442.Message.pNode->RefCount;
-              if ( v286->RefCount )
-              {
-LABEL_476:
-                Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-              }
-              else
-              {
-                Scaleform::GFx::ASStringNode::ReleaseNode(v286);
-                Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
-              }
+              Scaleform::GFx::ASStringNode::ReleaseNode(v283);
+              Scaleform::GFx::AS3::SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>::~SH2<1,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value>(&r);
             }
-            goto LABEL_187;
-          case 0xB4u:
-            Scaleform::GFx::AS3::VM::exec_in(this);
-            goto LABEL_193;
-          case 0xB5u:
-            v_4bk = *CP++;
-            AbsObject = Scaleform::GFx::AS3::GetAbsObject(&v489, v_4bk);
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v288 = this->OpStack.pCurrent;
-            if ( v118 )
-              goto LABEL_495;
-            v288->Flags = AbsObject->Flags;
-            v288->Bonus.pWeakProxy = AbsObject->Bonus.pWeakProxy;
-            v288->value.VS._1.VInt = AbsObject->value.VS._1.VInt;
-            v288->value.VS._2.VObj = AbsObject->value.VS._2.VObj;
-            if ( (AbsObject->Flags & 0x1F) <= 9 )
-              goto LABEL_495;
-            if ( (AbsObject->Flags & 0x200) != 0 )
-            {
-              ++AbsObject->Bonus.pWeakProxy->RefCount;
-              Scaleform::GFx::AS3::Value::~Value(&v489);
-            }
-            else
-            {
-              Scaleform::GFx::AS3::Value::AddRefInternal(AbsObject);
-LABEL_495:
-              Scaleform::GFx::AS3::Value::~Value(&v489);
-            }
+          }
+LABEL_184:
+          if ( !this->HandleException )
             continue;
-          case 0xB6u:
-            v_4bl = *CP++;
-            Scaleform::GFx::AS3::VM::exec_getabsslot(this, v_4bl);
-            goto LABEL_187;
-          case 0xB7u:
-            v_4bm = *CP++;
-            Scaleform::GFx::AS3::VM::exec_setabsslot(this, v_4bm);
-            goto LABEL_193;
-          case 0xB8u:
-            v_4bn = *CP++;
-            Scaleform::GFx::AS3::VM::exec_initabsslot(this, v_4bn);
-            goto LABEL_187;
-          case 0xB9u:
-            v180 = *CP;
-            v181 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callsupermethod(this, v5->OriginationTraits, v180, v181);
-            goto LABEL_226;
-          case 0xBAu:
-            v182 = *CP;
-            v183 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callgetter(this, v182, v183);
-            goto LABEL_226;
-          case 0xBBu:
-            v184 = *CP;
-            v185 = CP[1];
-            CP += 2;
-            Scaleform::GFx::AS3::VM::exec_callsupergetter(this, v5->OriginationTraits, v184, v185);
-LABEL_226:
-            if ( !this->HandleException )
-              goto LABEL_229;
-            LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v177 = Scaleform::GFx::AS3::VM::OnException(
-                     this,
-                     ((int)CP - LODWORD(default_offset)) >> 2,
-                     (unsigned int)v5);
-            if ( v177 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(LODWORD(default_offset) + 4 * v177);
-LABEL_229:
-            v118 = call_stack_size == this->CallStack.Size;
-            goto LABEL_153;
-          case 0xBCu:
-          case 0xC9u:
-            v42 = this->OpStack.pCurrent;
-            v43 = v42->value.VNumber;
-            v44 = *CP;
-            v45 = v42[-1].value.VNumber;
-            this->OpStack.pCurrent = v42 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v45 <= v43 )
-              goto LABEL_51;
-            CP = &v34[v44];
-            continue;
-          case 0xBDu:
-          case 0xCAu:
-            v51 = this->OpStack.pCurrent;
-            v52 = v51->value.VNumber;
-            v53 = *CP;
-            v54 = v51[-1].value.VNumber;
-            this->OpStack.pCurrent = v51 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v54 > v52 )
-              goto LABEL_51;
-            CP = &v34[v53];
-            continue;
-          case 0xBEu:
-          case 0xCBu:
-            v59 = this->OpStack.pCurrent;
-            v60 = v59->value.VNumber;
-            v61 = *CP;
-            v62 = v59[-1].value.VNumber;
-            this->OpStack.pCurrent = v59 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v62 >= v60 )
-              goto LABEL_51;
-            CP = &v34[v61];
-            continue;
-          case 0xBFu:
-            v91 = this->OpStack.pCurrent;
-            v92 = v91->value.VNumber;
-            v93 = *CP;
-            v94 = v91[-1].value.VNumber;
-            this->OpStack.pCurrent = v91 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v94 == v92 )
-              goto LABEL_51;
-            CP = &v34[v93];
-            continue;
-          case 0xC0u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v382)->Result )
-              ++*(_DWORD *)(LODWORD(default_offset) + 8);
-            goto LABEL_187;
-          case 0xC1u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v404)->Result )
-              --*(_DWORD *)(LODWORD(default_offset) + 8);
-            goto LABEL_187;
-          case 0xC2u:
-            v289 = &this->RegisterFile.pRF[*CP++];
-            LODWORD(default_offset) = v289;
-            if ( Scaleform::GFx::AS3::Value::ToInt32Value(v289, &v406)->Result )
-              ++*(_DWORD *)(LODWORD(default_offset) + 8);
-LABEL_187:
-            if ( !this->HandleException )
-              continue;
-            LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v13 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - LODWORD(default_offset)) >> 2, (unsigned int)v5);
-            if ( v13 < 0 )
-              goto LABEL_587;
-            v14 = LODWORD(default_offset);
-            goto LABEL_20;
-          case 0xC3u:
-            v291 = &this->RegisterFile.pRF[*CP++];
-            LODWORD(default_offset) = v291;
-            if ( Scaleform::GFx::AS3::Value::ToInt32Value(v291, &v408)->Result )
-              --*(_DWORD *)(LODWORD(default_offset) + 8);
-            goto LABEL_193;
-          case 0xC4u:
-            LODWORD(default_offset) = this->OpStack.pCurrent;
-            if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v410)->Result )
-              *(_DWORD *)(LODWORD(default_offset) + 8) = -*(_DWORD *)(LODWORD(default_offset) + 8);
-            goto LABEL_193;
-          case 0xC5u:
-            v293 = this->OpStack.pCurrent;
-            v371 |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
-            LODWORD(default_offset) = v293;
-            v294 = Scaleform::GFx::AS3::Value::ToInt32Value(v293, &v412)->Result;
-            if ( ((unsigned int)Scaleform::GFx::AS2::CreateShadow & v371) != 0 )
-              v371 &= ~0x400000u;
-            if ( v294 )
-              v295 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v295 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v459 = *v295;
-            v296 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v296;
-            if ( !v294
-              || (v371 |= (unsigned int)&unk_800000,
-                  v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v296, &v414)->Result,
-                  v458 = 1,
-                  v118) )
-            {
-              v458 = 0;
-            }
-            if ( ((unsigned int)&unk_800000 & v371) != 0 )
-              v371 &= ~0x800000u;
-            if ( v458 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v458 )
-              *(_DWORD *)Data += v459;
-            goto LABEL_193;
-          case 0xC6u:
-            v301 = this->OpStack.pCurrent;
-            v371 |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
-            LODWORD(default_offset) = v301;
-            v302 = Scaleform::GFx::AS3::Value::ToInt32Value(v301, &v383)->Result;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[5574200] & v371) != 0 )
-              v371 &= ~0x1000000u;
-            if ( v302 )
-              v303 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v303 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v462 = *v303;
-            v304 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v304;
-            if ( !v302
-              || (v371 |= (unsigned int)&vostok::memory::s_CRT_arena[22351416],
-                  v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v304, &v385)->Result,
-                  v461 = 1,
-                  v118) )
-            {
-              v461 = 0;
-            }
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & v371) != 0 )
-              v371 &= ~0x2000000u;
-            if ( v461 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v461 )
-              *(_DWORD *)Data -= v462;
-            goto LABEL_193;
-          case 0xC7u:
-            v309 = this->OpStack.pCurrent;
-            v371 |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
-            LODWORD(default_offset) = v309;
-            v310 = Scaleform::GFx::AS3::Value::ToInt32Value(v309, &v387)->Result;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & v371) != 0 )
-              v371 &= ~0x4000000u;
-            if ( v310 )
-              v311 = (int *)(LODWORD(default_offset) + 8);
-            else
-              v311 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            v465 = *v311;
-            v312 = this->OpStack.pCurrent - 1;
-            Data = (Scaleform::GFx::AS3::Boolean3)v312;
-            if ( !v310
-              || (v371 |= 0x8000000u,
-                  v118 = !Scaleform::GFx::AS3::Value::ToInt32Value(v312, &v389)->Result,
-                  v464 = 1,
-                  v118) )
-            {
-              v464 = 0;
-            }
-            if ( (v371 & 0x8000000) != 0 )
-              v371 &= ~0x8000000u;
-            if ( v464 )
-              Data += 8;
-            else
-              Data = (Scaleform::GFx::AS3::Boolean3)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
-            Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
-            --this->OpStack.pCurrent;
-            if ( v464 )
-              *(_DWORD *)Data *= v465;
-LABEL_193:
-            if ( !this->HandleException )
-              continue;
-            LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v141 = Scaleform::GFx::AS3::VM::OnException(
-                     this,
-                     ((int)CP - LODWORD(default_offset)) >> 2,
-                     (unsigned int)v5);
-            if ( v141 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(LODWORD(default_offset) + 4 * v141);
-            continue;
-          case 0xC8u:
-          case 0xCDu:
-            v30 = this->OpStack.pCurrent;
-            v31 = v30->value.VNumber;
-            v32 = *CP;
-            v33 = v30[-1].value.VNumber;
-            this->OpStack.pCurrent = v30 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v33 >= v31 )
-              v35 = v32;
+          LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v13 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - LODWORD(default_offset)) >> 2, (unsigned int)v4);
+          if ( v13 < 0 )
+            goto LABEL_597;
+          v14 = LODWORD(default_offset);
+          goto LABEL_20;
+        case 0xB4u:
+          Scaleform::GFx::AS3::VM::exec_in(this);
+          goto LABEL_184;
+        case 0xB5u:
+          v_4bi = *CP++;
+          AbsObject = Scaleform::GFx::AS3::GetAbsObject(&v496, v_4bi);
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v285 = this->OpStack.pCurrent;
+          if ( v188 )
+            goto LABEL_501;
+          v285->Flags = AbsObject->Flags;
+          v285->Bonus.pWeakProxy = AbsObject->Bonus.pWeakProxy;
+          v285->value.VS._1.VInt = AbsObject->value.VS._1.VInt;
+          v285->value.VS._2.VObj = AbsObject->value.VS._2.VObj;
+          if ( (AbsObject->Flags & 0x1F) <= 9 )
+            goto LABEL_501;
+          if ( (AbsObject->Flags & 0x200) != 0 )
+          {
+            ++AbsObject->Bonus.pWeakProxy->RefCount;
+            Scaleform::GFx::AS3::Value::~Value(&v496);
+          }
+          else
+          {
+            Scaleform::GFx::AS3::Value::AddRefInternal(AbsObject);
+LABEL_501:
+            Scaleform::GFx::AS3::Value::~Value(&v496);
+          }
+          continue;
+        case 0xB6u:
+          v_4bj = *CP++;
+          Scaleform::GFx::AS3::VM::exec_getabsslot(this, v_4bj);
+          goto LABEL_184;
+        case 0xB7u:
+          v_4bk = *CP++;
+          Scaleform::GFx::AS3::VM::exec_setabsslot(this, v_4bk);
+          goto LABEL_184;
+        case 0xB8u:
+          v_4bl = *CP++;
+          Scaleform::GFx::AS3::VM::exec_initabsslot(this, v_4bl);
+          goto LABEL_184;
+        case 0xB9u:
+          v176 = *CP;
+          v177 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callsupermethod(this, v4->OriginationTraits, v176, v177);
+          goto LABEL_232;
+        case 0xBAu:
+          v178 = *CP;
+          v179 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callgetter(this, v178, v179);
+LABEL_240:
+          if ( !this->HandleException )
+            goto LABEL_243;
+          LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v192 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - LODWORD(default_offset)) >> 2, (unsigned int)v4);
+          if ( v192 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(LODWORD(default_offset) + 4 * v192);
+LABEL_243:
+          v188 = call_stack_size == this->CallStack.Size;
+          goto LABEL_237;
+        case 0xBBu:
+          v180 = *CP;
+          v181 = CP[1];
+          CP += 2;
+          Scaleform::GFx::AS3::VM::exec_callsupergetter(this, v4->OriginationTraits, v180, v181);
+LABEL_232:
+          if ( !this->HandleException )
+            goto LABEL_236;
+          LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v114 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - LODWORD(default_offset)) >> 2, (unsigned int)v4);
+          if ( v114 < 0 )
+            goto LABEL_597;
+          v115 = LODWORD(default_offset);
+          goto LABEL_235;
+        case 0xBCu:
+        case 0xC9u:
+          v41 = this->OpStack.pCurrent;
+          v42 = v41->value.VNumber;
+          v43 = *CP;
+          v44 = v41[-1].value.VNumber;
+          this->OpStack.pCurrent = v41 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v44 <= v42 )
             goto LABEL_51;
-          case 0xCCu:
-            v83 = this->OpStack.pCurrent;
-            v84 = v83->value.VNumber;
-            v85 = *CP;
-            v86 = v83[-1].value.VNumber;
-            this->OpStack.pCurrent = v83 - 2;
-            v34 = CP + 1;
-            v35 = 0;
-            if ( v86 == v84 )
-              CP = &v34[v85];
-            else
+          CP = &v34[v43];
+          continue;
+        case 0xBDu:
+        case 0xCAu:
+          v50 = this->OpStack.pCurrent;
+          v51 = v50->value.VNumber;
+          v52 = *CP;
+          v53 = v50[-1].value.VNumber;
+          this->OpStack.pCurrent = v50 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v53 > v51 )
+            goto LABEL_51;
+          CP = &v34[v52];
+          continue;
+        case 0xBEu:
+        case 0xCBu:
+          v58 = this->OpStack.pCurrent;
+          v59 = v58->value.VNumber;
+          v60 = *CP;
+          v61 = v58[-1].value.VNumber;
+          this->OpStack.pCurrent = v58 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v61 >= v59 )
+            goto LABEL_51;
+          CP = &v34[v60];
+          continue;
+        case 0xBFu:
+          v90 = this->OpStack.pCurrent;
+          v91 = v90->value.VNumber;
+          v92 = *CP;
+          v93 = v90[-1].value.VNumber;
+          this->OpStack.pCurrent = v90 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v93 == v91 )
+            goto LABEL_51;
+          CP = &v34[v92];
+          continue;
+        case 0xC0u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v407)->Result )
+            ++*(_DWORD *)(LODWORD(default_offset) + 8);
+          goto LABEL_184;
+        case 0xC1u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v387)->Result )
+            --*(_DWORD *)(LODWORD(default_offset) + 8);
+          goto LABEL_184;
+        case 0xC2u:
+          v286 = &this->RegisterFile.pRF[*CP++];
+          LODWORD(default_offset) = v286;
+          if ( Scaleform::GFx::AS3::Value::ToInt32Value(v286, &v411)->Result )
+            ++*(_DWORD *)(LODWORD(default_offset) + 8);
+          goto LABEL_194;
+        case 0xC3u:
+          v288 = &this->RegisterFile.pRF[*CP++];
+          LODWORD(default_offset) = v288;
+          if ( Scaleform::GFx::AS3::Value::ToInt32Value(v288, &v413)->Result )
+            --*(_DWORD *)(LODWORD(default_offset) + 8);
+          goto LABEL_194;
+        case 0xC4u:
+          LODWORD(default_offset) = this->OpStack.pCurrent;
+          if ( Scaleform::GFx::AS3::Value::ToInt32Value((Scaleform::GFx::AS3::Value *)LODWORD(default_offset), &v415)->Result )
+            *(_DWORD *)(LODWORD(default_offset) + 8) = -*(_DWORD *)(LODWORD(default_offset) + 8);
+          goto LABEL_194;
+        case 0xC5u:
+          v289 = this->OpStack.pCurrent;
+          v376 |= (unsigned int)&loc_400000;
+          LODWORD(default_offset) = v289;
+          v290 = Scaleform::GFx::AS3::Value::ToInt32Value(v289, &v417)->Result;
+          if ( ((unsigned int)&loc_400000 & v376) != 0 )
+            v376 &= ~0x400000u;
+          if ( v290 )
+            v291 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v291 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v465 = *v291;
+          v292 = this->OpStack.pCurrent - 1;
+          position = (int)v292;
+          if ( !v290
+            || (v376 |= 0x800000u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v292, &v419)->Result, v464 = 1, v188) )
+          {
+            v464 = 0;
+          }
+          if ( (v376 & 0x800000) != 0 )
+            v376 &= ~0x800000u;
+          if ( v464 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v464 )
+            *(_DWORD *)position += v465;
+          goto LABEL_194;
+        case 0xC6u:
+          v297 = this->OpStack.pCurrent;
+          v376 |= 0x1000000u;
+          LODWORD(default_offset) = v297;
+          v298 = Scaleform::GFx::AS3::Value::ToInt32Value(v297, &v421)->Result;
+          if ( (v376 & 0x1000000) != 0 )
+            v376 &= ~0x1000000u;
+          if ( v298 )
+            v299 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v299 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v468 = *v299;
+          v300 = this->OpStack.pCurrent - 1;
+          position = (int)v300;
+          if ( !v298
+            || (v376 |= 0x2000000u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v300, &v388)->Result,
+                                    v467 = 1,
+                                    v188) )
+          {
+            v467 = 0;
+          }
+          if ( (v376 & 0x2000000) != 0 )
+            v376 &= ~0x2000000u;
+          if ( v467 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v467 )
+            *(_DWORD *)position -= v468;
+          goto LABEL_194;
+        case 0xC7u:
+          v305 = this->OpStack.pCurrent;
+          v376 |= 0x4000000u;
+          LODWORD(default_offset) = v305;
+          v306 = Scaleform::GFx::AS3::Value::ToInt32Value(v305, &v390)->Result;
+          if ( (v376 & 0x4000000) != 0 )
+            v376 &= ~0x4000000u;
+          if ( v306 )
+            v307 = (int *)(LODWORD(default_offset) + 8);
+          else
+            v307 = (int *)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          v471 = *v307;
+          v308 = this->OpStack.pCurrent - 1;
+          position = (int)v308;
+          if ( !v306
+            || (v376 |= 0x8000000u, v188 = !Scaleform::GFx::AS3::Value::ToInt32Value(v308, &v392)->Result,
+                                    v470 = 1,
+                                    v188) )
+          {
+            v470 = 0;
+          }
+          if ( (v376 & 0x8000000) != 0 )
+            v376 &= ~0x8000000u;
+          if ( v470 )
+            position += 8;
+          else
+            position = (int)&`Scaleform::GFx::AS3::ToType<long>'::`2'::tmp;
+          Scaleform::GFx::AS3::Value::`scalar deleting destructor'(this->OpStack.pCurrent, 0);
+          --this->OpStack.pCurrent;
+          if ( v470 )
+            *(_DWORD *)position *= v471;
+LABEL_194:
+          if ( !this->HandleException )
+            continue;
+          LODWORD(default_offset) = Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v140 = Scaleform::GFx::AS3::VM::OnException(this, ((int)CP - LODWORD(default_offset)) >> 2, (unsigned int)v4);
+          if ( v140 < 0 )
+            goto LABEL_597;
+          CP = (const unsigned int *)(LODWORD(default_offset) + 4 * v140);
+          continue;
+        case 0xC8u:
+        case 0xCDu:
+          v30 = this->OpStack.pCurrent;
+          v31 = v30->value.VNumber;
+          v32 = *CP;
+          v33 = v30[-1].value.VNumber;
+          this->OpStack.pCurrent = v30 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v33 >= v31 )
+            v35 = v32;
+          goto LABEL_51;
+        case 0xCCu:
+          v82 = this->OpStack.pCurrent;
+          v83 = v82->value.VNumber;
+          v84 = *CP;
+          v85 = v82[-1].value.VNumber;
+          this->OpStack.pCurrent = v82 - 2;
+          v34 = CP + 1;
+          v35 = 0;
+          if ( v85 == v83 )
+            CP = &v34[v84];
+          else
 LABEL_51:
-              CP = &v34[v35];
+            CP = &v34[v35];
+          continue;
+        case 0xCEu:
+          v_4g = *CP++;
+          Scaleform::GFx::AS3::VM::exec_callobject(this, v_4g);
+          if ( !this->HandleException )
+            goto LABEL_236;
+          case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v4->pFile, v4->MBIIndex, v4)->Data.Data;
+          v114 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v4);
+          if ( v114 < 0 )
+            goto LABEL_597;
+          v115 = case_count;
+LABEL_235:
+          CP = (const unsigned int *)(v115 + 4 * v114);
+LABEL_236:
+          v188 = call_stack_size == this->CallStack.Size;
+LABEL_237:
+          if ( v188 )
             continue;
-          case 0xCEu:
-            v_4i = *CP++;
-            Scaleform::GFx::AS3::VM::exec_callobject(this, v_4i);
-            if ( !this->HandleException )
-              goto LABEL_152;
-            case_count = (unsigned int)Scaleform::GFx::AS3::VMAbcFile::GetOpCode(v5->pFile, v5->MBIIndex, v5)->Data.Data;
-            v117 = Scaleform::GFx::AS3::VM::OnException(this, (int)((int)CP - case_count) >> 2, (unsigned int)v5);
-            if ( v117 < 0 )
-              goto LABEL_587;
-            CP = (unsigned int *)(case_count + 4 * v117);
-LABEL_152:
-            v118 = call_stack_size == this->CallStack.Size;
-LABEL_153:
-            if ( v118 )
-              continue;
-            ++max_stack_depth;
-            this->CallStack.Pages[(call_stack_size - 1) >> 6][(call_stack_size - 1) & 0x3F].CP = CP;
-            break;
-          case 0xD0u:
-            pRF = this->RegisterFile.pRF;
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v317 = this->OpStack.pCurrent;
-            if ( v118 )
-              continue;
-            v317->Flags = pRF->Flags;
-            v317->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
-            v317->value.VS._1.VInt = pRF->value.VS._1.VInt;
-            v317->value.VS._2.VObj = pRF->value.VS._2.VObj;
-            if ( (pRF->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (pRF->Flags & 0x200) == 0 )
-              goto LABEL_259;
-            ++pRF->Bonus.pWeakProxy->RefCount;
+          v189 = 1;
+          break;
+        case 0xD0u:
+          pRF = this->RegisterFile.pRF;
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v313 = this->OpStack.pCurrent;
+          if ( v188 )
             continue;
-          case 0xD1u:
-            pRF = this->RegisterFile.pRF + 1;
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v318 = this->OpStack.pCurrent;
-            if ( v118 )
-              continue;
-            v318->Flags = pRF->Flags;
-            v318->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
-            v318->value.VS._1.VInt = pRF->value.VS._1.VInt;
-            v318->value.VS._2.VObj = pRF->value.VS._2.VObj;
-            if ( (pRF->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (pRF->Flags & 0x200) == 0 )
-              goto LABEL_259;
-            ++pRF->Bonus.pWeakProxy->RefCount;
+          v313->Flags = pRF->Flags;
+          v313->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
+          v313->value.VS._1.VInt = pRF->value.VS._1.VInt;
+          v313->value.VS._2.VObj = pRF->value.VS._2.VObj;
+          if ( (pRF->Flags & 0x1F) <= 9 )
             continue;
-          case 0xD2u:
-            pRF = this->RegisterFile.pRF + 2;
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v319 = this->OpStack.pCurrent;
-            if ( v118 )
-              continue;
-            v319->Flags = pRF->Flags;
-            v319->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
-            v319->value.VS._1.VInt = pRF->value.VS._1.VInt;
-            v319->value.VS._2.VObj = pRF->value.VS._2.VObj;
-            if ( (pRF->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (pRF->Flags & 0x200) == 0 )
-              goto LABEL_259;
-            ++pRF->Bonus.pWeakProxy->RefCount;
+          if ( (pRF->Flags & 0x200) == 0 )
+            goto LABEL_263;
+          ++pRF->Bonus.pWeakProxy->RefCount;
+          continue;
+        case 0xD1u:
+          pRF = this->RegisterFile.pRF + 1;
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v314 = this->OpStack.pCurrent;
+          if ( v188 )
             continue;
-          case 0xD3u:
-            pRF = this->RegisterFile.pRF + 3;
-            v118 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
-            v320 = this->OpStack.pCurrent;
-            if ( v118 )
-              continue;
-            v320->Flags = pRF->Flags;
-            v320->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
-            v320->value.VS._1.VInt = pRF->value.VS._1.VInt;
-            v320->value.VS._2.VObj = pRF->value.VS._2.VObj;
-            if ( (pRF->Flags & 0x1F) <= 9 )
-              continue;
-            if ( (pRF->Flags & 0x200) == 0 )
-              goto LABEL_259;
-            ++pRF->Bonus.pWeakProxy->RefCount;
+          v314->Flags = pRF->Flags;
+          v314->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
+          v314->value.VS._1.VInt = pRF->value.VS._1.VInt;
+          v314->value.VS._2.VObj = pRF->value.VS._2.VObj;
+          if ( (pRF->Flags & 0x1F) <= 9 )
             continue;
-          case 0xD4u:
-            Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF, this->OpStack.pCurrent);
-            --this->OpStack.pCurrent;
+          if ( (pRF->Flags & 0x200) == 0 )
+            goto LABEL_263;
+          ++pRF->Bonus.pWeakProxy->RefCount;
+          continue;
+        case 0xD2u:
+          pRF = this->RegisterFile.pRF + 2;
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v315 = this->OpStack.pCurrent;
+          if ( v188 )
             continue;
-          case 0xD5u:
-            Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 1, this->OpStack.pCurrent);
-            --this->OpStack.pCurrent;
+          v315->Flags = pRF->Flags;
+          v315->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
+          v315->value.VS._1.VInt = pRF->value.VS._1.VInt;
+          v315->value.VS._2.VObj = pRF->value.VS._2.VObj;
+          if ( (pRF->Flags & 0x1F) <= 9 )
             continue;
-          case 0xD6u:
-            Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 2, this->OpStack.pCurrent);
-            --this->OpStack.pCurrent;
+          if ( (pRF->Flags & 0x200) == 0 )
+            goto LABEL_263;
+          ++pRF->Bonus.pWeakProxy->RefCount;
+          continue;
+        case 0xD3u:
+          pRF = this->RegisterFile.pRF + 3;
+          v188 = this->OpStack.pCurrent++ == (Scaleform::GFx::AS3::Value *)-16;
+          v316 = this->OpStack.pCurrent;
+          if ( v188 )
             continue;
-          case 0xD7u:
-            Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 3, this->OpStack.pCurrent);
-            --this->OpStack.pCurrent;
+          v316->Flags = pRF->Flags;
+          v316->Bonus.pWeakProxy = pRF->Bonus.pWeakProxy;
+          v316->value.VS._1.VInt = pRF->value.VS._1.VInt;
+          v316->value.VS._2.VObj = pRF->value.VS._2.VObj;
+          if ( (pRF->Flags & 0x1F) <= 9 )
             continue;
-          case 0xEFu:
-            CP += 4;
-            continue;
-          case 0xF0u:
-          case 0xF1u:
-          case 0xF2u:
-            ++CP;
-            continue;
-          default:
-            continue;
-        }
-        goto LABEL_592;
+          if ( (pRF->Flags & 0x200) == 0 )
+            goto LABEL_263;
+          ++pRF->Bonus.pWeakProxy->RefCount;
+          continue;
+        case 0xD4u:
+          Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF, this->OpStack.pCurrent);
+          --this->OpStack.pCurrent;
+          continue;
+        case 0xD5u:
+          Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 1, this->OpStack.pCurrent);
+          --this->OpStack.pCurrent;
+          continue;
+        case 0xD6u:
+          Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 2, this->OpStack.pCurrent);
+          --this->OpStack.pCurrent;
+          continue;
+        case 0xD7u:
+          Scaleform::GFx::AS3::Value::Pick(this->RegisterFile.pRF + 3, this->OpStack.pCurrent);
+          --this->OpStack.pCurrent;
+          continue;
+        case 0xEFu:
+          CP += 4;
+          continue;
+        case 0xF0u:
+          v_4bm = *CP++;
+          Scaleform::GFx::AS3::VM::exec_debugline(this, v4, v_4bm);
+          continue;
+        case 0xF1u:
+          v_4bn = (Scaleform::GFx::ASStringNode *)*CP++;
+          Scaleform::GFx::AS3::VM::exec_debugfile(this, v4, v_4bn);
+          continue;
+        case 0xF2u:
+          ++CP;
+          continue;
+        default:
+          continue;
       }
-    }
-LABEL_587:
-    if ( this->HandleException )
-    {
-LABEL_588:
-      v321 = this->CallStack.Size - 1;
-      v322 = this->CallStack.Pages[v321 >> 6];
-      Scaleform::GFx::AS3::ValueStack::PopReserved(
-        &v322[v321 & 0x3F].pFile->VMRef->OpStack,
-        v322[v321 & 0x3F].PrevInitialStackPos);
-    }
-LABEL_589:
-    Size = this->CallStack.Size;
-    if ( Size )
-    {
-      Scaleform::GFx::AS3::CallFrame::~CallFrame(&this->CallStack.Pages[(Size - 1) >> 6][(Size - 1) & 0x3F]);
-      --this->CallStack.Size;
-    }
-    if ( !--max_stack_depth )
       break;
-LABEL_592:
+    }
+call_stack_label:
+    Scaleform::GFx::AS3::VM::SetActiveLine(this, 0);
+    Scaleform::GFx::AS3::VM::SetActiveFile(this, 0);
+    if ( v189 != 1 )
+      break;
+    ++max_stack_depth;
+    this->CallStack.Pages[(call_stack_size - 1) >> 6][(call_stack_size - 1) & 0x3F].CP = CP;
+LABEL_610:
     Scaleform::GFx::AS3::Value::~Value(&tmpExceptionValue);
     if ( !this->CallStack.Size )
       return max_stack_depth;
   }
+  if ( this->GetAdvanceStats(this) )
+  {
+    v318 = &this->CallStack.Pages[(this->CallStack.Size - 1) >> 6][(this->CallStack.Size - 1) & 0x3F];
+    v319 = 0;
+    v479 = 0;
+    Instance = Scaleform::AmpServer::GetInstance();
+    if ( Instance->IsProfiling(Instance) )
+    {
+      v321 = Scaleform::AmpServer::GetInstance();
+      if ( v321->GetProfileLevel(v321) >= Amp_Profile_Level_Medium )
+      {
+        StartTicks_high = HIDWORD(v318->StartTicks);
+        LODWORD(v456) = v318->StartTicks;
+        HIDWORD(v456) = StartTicks_high;
+        v323 = Scaleform::Timer::GetProfileTicks() - v456;
+        v479 = HIDWORD(v323);
+        v319 = v323;
+      }
+    }
+    v324 = &v318->pFile->File.pObject->__vftable;
+    vb = __PAIR64__(v479, v319);
+    v330 = v324[5];
+    v329 = v324[4] + (*(_DWORD *)(*(_DWORD *)(v324[45] + 4 * v318->MBIIndex.Ind) + 12) << 16);
+    v325 = this->GetAdvanceStats(this);
+    Scaleform::GFx::AMP::ViewStats::PopCallstack(
+      v325,
+      (Scaleform::Ptr<Scaleform::GFx::AMP::FuncTreeItem>)v329,
+      v330,
+      vb);
+  }
+  if ( this->HandleException )
+  {
+    v326 = &this->CallStack.Pages[(this->CallStack.Size - 1) >> 6][(this->CallStack.Size - 1) & 0x3F];
+    Scaleform::GFx::AS3::ValueStack::PopReserved(&v326->pFile->VMRef->OpStack, v326->PrevInitialStackPos);
+  }
+  Size = this->CallStack.Size;
+  if ( Size )
+  {
+    Scaleform::GFx::AS3::CallFrame::~CallFrame(&this->CallStack.Pages[(Size - 1) >> 6][(Size - 1) & 0x3F]);
+    --this->CallStack.Size;
+  }
+  if ( --max_stack_depth )
+    goto LABEL_610;
   Scaleform::GFx::AS3::Value::~Value(&tmpExceptionValue);
   return max_stack_depth;
 }

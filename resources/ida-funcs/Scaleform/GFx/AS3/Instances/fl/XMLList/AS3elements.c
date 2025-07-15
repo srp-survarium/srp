@@ -73,7 +73,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3elements(
   {
     RefCount = mn.Obj.pObject->RefCount;
     v13 = mn.Obj.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       mn.Obj.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);

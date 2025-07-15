@@ -18,4 +18,5 @@ void __thiscall Scaleform::Render::FileImageSource::FileImageSource(
   pObject = this->pFile.pObject;
   HIDWORD(this->FileLen) = HIDWORD(len);
   this->FilePos = pObject->LTell(pObject);
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
 }

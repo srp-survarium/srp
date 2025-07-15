@@ -1,4 +1,4 @@
-void *__cdecl CRYPTO_malloc(int num, const char *file, int line)
+void *__cdecl CRYPTO_malloc(int num, char *file, int line)
 {
   void *v4; // ebp
 

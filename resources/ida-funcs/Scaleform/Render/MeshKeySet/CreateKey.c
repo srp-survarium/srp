@@ -1,6 +1,6 @@
 Scaleform::Render::MeshKey *__thiscall Scaleform::Render::MeshKeySet::CreateKey(
         Scaleform::Render::MeshKeySet *this,
-        float *keyData,
+        const __m128i *keyData,
         unsigned __int16 flags)
 {
   int v4; // eax
@@ -26,7 +26,7 @@ Scaleform::Render::MeshKey *__thiscall Scaleform::Render::MeshKeySet::CreateKey(
     result->Flags = flags;
     result->pKeySet = this;
     result->Size = v5;
-    memcpy((unsigned __int8 *)result->Data, (unsigned __int8 *)keyData, 4 * v5);
+    memcpy((int)result->Data, keyData, 4 * v5);
     pPrev = this->Meshes.Root.pPrev;
     v7->pNext = (Scaleform::Render::MeshKey *)&this->Meshes;
     v7->pPrev = pPrev;

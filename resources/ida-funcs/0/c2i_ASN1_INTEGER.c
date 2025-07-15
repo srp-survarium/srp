@@ -1,19 +1,19 @@
-asn1_string_st *__cdecl c2i_ASN1_INTEGER(asn1_string_st **a, unsigned __int8 **pp, unsigned int len)
+asn1_string_st *__cdecl c2i_ASN1_INTEGER(asn1_string_st **a, const __m128i **pp, unsigned int len)
 {
   asn1_string_st **v3; // esi
   asn1_string_st *v4; // ebp
   asn1_string_st *result; // eax
-  unsigned __int8 *v6; // ebx
+  const __m128i *v6; // ebx
   unsigned int v7; // edi
   unsigned __int8 *v8; // eax
-  unsigned __int8 *v9; // eax
+  char *v9; // eax
   unsigned int v10; // esi
   unsigned __int8 *v11; // ecx
   int v12; // esi
   unsigned __int8 *v13; // ecx
-  unsigned __int8 *i; // eax
+  char *i; // eax
   unsigned __int8 *v15; // [esp+8h] [ebp-8h]
-  const unsigned __int8 *v16; // [esp+Ch] [ebp-4h]
+  unsigned __int8 *v16; // [esp+Ch] [ebp-4h]
 
   v3 = a;
   if ( !a || (v4 = *a) == 0 )
@@ -26,36 +26,36 @@ asn1_string_st *__cdecl c2i_ASN1_INTEGER(asn1_string_st **a, unsigned __int8 **p
   }
   v6 = *pp;
   v7 = len;
-  v16 = &(*pp)[len];
+  v16 = &(*pp)->m128i_u8[len];
   v8 = (unsigned __int8 *)CRYPTO_malloc(len + 1, ".\\crypto\\asn1\\a_int.c", 199);
   v15 = v8;
   if ( !v8 )
   {
-    ERR_put_error(0xDu, 194, 65, ".\\crypto\\asn1\\a_int.c", 259);
+    ERR_put_error((int)v6, 0xDu, 194, 65, ".\\crypto\\asn1\\a_int.c", 259);
     if ( v4 && (!a || *a != v4) )
       ASN1_STRING_free(v4);
     return 0;
   }
   if ( len )
   {
-    if ( (*v6 & 0x80u) == 0 )
+    if ( v6->m128i_i8[0] >= 0 )
     {
       v4->type = 2;
-      if ( !*v6 && len != 1 )
+      if ( !v6->m128i_i8[0] && len != 1 )
       {
-        ++v6;
+        v6 = (const __m128i *)((char *)v6 + 1);
         v7 = len - 1;
       }
-      memcpy(v8, v6, v7);
+      memcpy((int)v8, v6, v7);
       goto LABEL_23;
     }
     v4->type = 258;
-    if ( *v6 == 0xFF && len != 1 )
+    if ( v6->m128i_i8[0] == -1 && len != 1 )
     {
-      ++v6;
+      v6 = (const __m128i *)((char *)v6 + 1);
       v7 = len - 1;
     }
-    v9 = &v6[v7 - 1];
+    v9 = &v6->m128i_i8[v7 - 1];
     v10 = v7;
     v11 = &v15[v7 - 1];
     if ( *v9 )
@@ -102,6 +102,6 @@ LABEL_23:
   if ( v3 )
     *v3 = v4;
   result = v4;
-  *pp = (unsigned __int8 *)v16;
+  *pp = (const __m128i *)v16;
   return result;
 }

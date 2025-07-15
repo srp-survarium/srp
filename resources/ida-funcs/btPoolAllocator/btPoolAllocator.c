@@ -3,18 +3,17 @@ void __usercall btPoolAllocator::btPoolAllocator(
         int elemSize@<eax>,
         int maxElements@<ecx>)
 {
-  unsigned __int8 *v3; // eax
-  int m_maxElements; // ecx
+  unsigned __int8 *v3; // ecx
+  int m_maxElements; // eax
   int v5; // edx
-  int m_elemSize; // ecx
+  int m_elemSize; // eax
 
-  ++gNumAlignedAllocs;
   this->m_elemSize = elemSize;
   this->m_maxElements = maxElements;
-  v3 = (unsigned __int8 *)sAlignedAllocFunc(maxElements * elemSize, 16);
+  v3 = (unsigned __int8 *)btAlignedAllocInternal(maxElements * elemSize);
+  this->m_pool = v3;
   m_maxElements = this->m_maxElements;
   v5 = m_maxElements - 1;
-  this->m_pool = v3;
   this->m_firstFree = v3;
   this->m_freeCount = m_maxElements;
   if ( m_maxElements != 1 )

@@ -1,6 +1,6 @@
-unsigned int __usercall Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::GetParameterStage@<eax>(
-        const Scaleform::Render::D3D1x::ShaderPair *sd@<edx>,
-        Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair> *this)
+unsigned int __fastcall Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::GetParameterStage(
+        int a1,
+        const Scaleform::Render::D3D1x::ShaderPair *sd)
 {
   const Scaleform::Render::D3D1x::VertexShaderDesc *pVDesc; // ecx
   const Scaleform::Render::D3D1x::BatchVar *BatchUniforms; // eax

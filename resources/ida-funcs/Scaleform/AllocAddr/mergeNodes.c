@@ -16,15 +16,15 @@ unsigned int __thiscall Scaleform::AllocAddr::mergeNodes(
     if ( next )
     {
       v7 = size + next->Size + v6;
-      Scaleform::AllocAddr::pullNode(this, prev);
-      Scaleform::AllocAddr::pullNode(this, next);
+      Scaleform::AllocAddr::pullNode(this, (Scaleform::HeapPT::DualTNode *)prev);
+      Scaleform::AllocAddr::pullNode(this, (Scaleform::HeapPT::DualTNode *)next);
       Scaleform::AllocAddr::pushNode(this, prev, prev->Addr, v7);
       this->pNodeHeap->Free(this->pNodeHeap, next);
     }
     else
     {
       v7 = size + v6;
-      Scaleform::AllocAddr::pullNode(this, prev);
+      Scaleform::AllocAddr::pullNode(this, (Scaleform::HeapPT::DualTNode *)prev);
       Scaleform::AllocAddr::pushNode(this, prev, prev->Addr, v7);
     }
     return v7;
@@ -32,7 +32,7 @@ unsigned int __thiscall Scaleform::AllocAddr::mergeNodes(
   else if ( next )
   {
     v9 = size + next->Size;
-    Scaleform::AllocAddr::pullNode(this, next);
+    Scaleform::AllocAddr::pullNode(this, (Scaleform::HeapPT::DualTNode *)next);
     Scaleform::AllocAddr::pushNode(this, next, addr, v9);
     return v9;
   }

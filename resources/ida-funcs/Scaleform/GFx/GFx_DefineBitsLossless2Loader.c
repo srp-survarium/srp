@@ -1,6 +1,6 @@
 void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
         Scaleform::GFx::LoadProcess *p,
-        const Scaleform::GFx::TagInfo *tagInfo)
+        Scaleform::Render::ImageSource *tagInfo)
 {
   Scaleform::GFx::SWFProcessInfo *pAltStream; // edi
   int v4; // eax
@@ -23,39 +23,40 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
   unsigned int v21; // ebx
   __int16 U8; // cx
   Scaleform::GFx::SWFProcessInfo *v24; // eax
-  int v25; // ebp
+  char *v25; // ebp
   Scaleform::GFx::ZlibImageSource *v26; // edi
-  Scaleform::File *v27; // eax
+  Scaleform::GFx::Resource *v27; // eax
   Scaleform::Render::ImageSource *v28; // eax
   Scaleform::GFx::ZlibImageSource *v29; // edi
-  Scaleform::File *v30; // eax
+  Scaleform::GFx::Resource *v30; // eax
   Scaleform::GFx::ZlibImageSource *v31; // edi
-  Scaleform::File *v32; // eax
+  Scaleform::GFx::Resource *v32; // eax
   Scaleform::GFx::SWFProcessInfo *v33; // eax
-  int v34; // ebp
+  char *v34; // ebp
   Scaleform::GFx::ZlibImageSource *v35; // edi
-  Scaleform::File *UnderlyingFile; // eax
+  Scaleform::GFx::Resource *UnderlyingFile; // eax
   Scaleform::GFx::ZlibImageSource *v37; // edi
-  Scaleform::File *v38; // eax
+  Scaleform::GFx::Resource *v38; // eax
   Scaleform::GFx::ZlibImageSource *v39; // edi
-  Scaleform::File *v40; // eax
-  unsigned __int16 pzlib; // [esp+10h] [ebp-38h]
-  Scaleform::GFx::ZlibSupportBase *pzliba; // [esp+10h] [ebp-38h]
-  Scaleform::Render::Size<unsigned long> v43; // [esp+14h] [ebp-34h] BYREF
-  Scaleform::GFx::ResourceId v44; // [esp+1Ch] [ebp-2Ch]
+  Scaleform::GFx::Resource *v40; // eax
+  Scaleform::Render::ImageSource_vtbl *v41; // [esp-14h] [ebp-5Ch]
+  unsigned __int16 zlib; // [esp+10h] [ebp-38h]
+  Scaleform::GFx::ZlibSupportBase *zliba; // [esp+10h] [ebp-38h]
+  Scaleform::Render::Size<unsigned long> v44; // [esp+14h] [ebp-34h] BYREF
+  Scaleform::GFx::ResourceId v45; // [esp+1Ch] [ebp-2Ch]
   Scaleform::Render::Size<unsigned long> size; // [esp+20h] [ebp-28h] BYREF
-  Scaleform::Render::Size<unsigned long> v46; // [esp+28h] [ebp-20h] BYREF
-  Scaleform::Render::Size<unsigned long> v47; // [esp+30h] [ebp-18h] BYREF
-  Scaleform::Render::Size<unsigned long> v48; // [esp+38h] [ebp-10h] BYREF
-  Scaleform::Render::Size<unsigned long> v49; // [esp+40h] [ebp-8h] BYREF
-  unsigned __int8 bufferBytes; // [esp+4Ch] [ebp+4h]
-  unsigned __int16 bufferBytesa; // [esp+4Ch] [ebp+4h]
-  int bufferBytesb; // [esp+4Ch] [ebp+4h]
-  int bufferBytesc; // [esp+4Ch] [ebp+4h]
-  unsigned __int16 bufferBytesd; // [esp+4Ch] [ebp+4h]
-  int bufferBytese; // [esp+4Ch] [ebp+4h]
-  int bufferBytesf; // [esp+4Ch] [ebp+4h]
-  Scaleform::Render::ImageSource *pimageSrc; // [esp+50h] [ebp+8h]
+  Scaleform::Render::Size<unsigned long> v47; // [esp+28h] [ebp-20h] BYREF
+  Scaleform::Render::Size<unsigned long> v48; // [esp+30h] [ebp-18h] BYREF
+  Scaleform::Render::Size<unsigned long> v49; // [esp+38h] [ebp-10h] BYREF
+  Scaleform::Render::Size<unsigned long> v50; // [esp+40h] [ebp-8h] BYREF
+  unsigned __int8 v51; // [esp+4Ch] [ebp+4h]
+  unsigned __int16 v52; // [esp+4Ch] [ebp+4h]
+  Scaleform::GFx::LoadProcess *v53; // [esp+4Ch] [ebp+4h]
+  Scaleform::GFx::LoadProcess *v54; // [esp+4Ch] [ebp+4h]
+  unsigned __int16 v55; // [esp+4Ch] [ebp+4h]
+  Scaleform::GFx::LoadProcess *v56; // [esp+4Ch] [ebp+4h]
+  Scaleform::GFx::LoadProcess *v57; // [esp+4Ch] [ebp+4h]
+  Scaleform::Render::ImageSource *pimage; // [esp+50h] [ebp+8h]
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -70,7 +71,7 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
   LOWORD(pBuffer) = pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
   p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-  pzlib = (unsigned __int16)pBuffer | (v7 << 8);
+  zlib = (unsigned __int16)pBuffer | (v7 << 8);
   if ( !p_ProcessInfo )
     p_ProcessInfo = &p->ProcessInfo;
   v9 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
@@ -81,7 +82,7 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
   v11 = p_ProcessInfo->Stream.pBuffer[v10];
   p_ProcessInfo->Stream.Pos = v10 + 1;
   v12 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-  bufferBytes = v11;
+  v51 = v11;
   if ( !v12 )
     v12 = &p->ProcessInfo;
   v13 = v12->Stream.DataSize - v12->Stream.Pos;
@@ -104,85 +105,101 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
   v20 = v17->Stream.Pos;
   v21 = *(unsigned __int16 *)&v17->Stream.pBuffer[v20];
   v17->Stream.Pos = v20 + 2;
-  v44.Id = pzlib;
-  v43.Width = v18;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)&p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>);
-  pimageSrc = 0;
-  pzliba = p->pLoadStates.pObject->pZlibSupport.pObject;
-  if ( !pzliba )
+  v45.Id = zlib;
+  v41 = tagInfo->__vftable;
+  v44.Width = v18;
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  DefBitsLossless2: tagInfo.TagType = %d, id = %d, fmt = %d, w = %d, h = %d\n",
+    v41,
+    zlib,
+    v51,
+    v18,
+    v21);
+  pimage = 0;
+  zliba = p->pLoadStates.pObject->pZlibSupport.pObject;
+  if ( !zliba )
   {
     Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogError(
       &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
       "Error: GFxZlibState is not set - can't load zipped image data\n");
     goto LABEL_44;
   }
-  if ( tagInfo->TagType != Tag_DefineBitsLossless )
+  if ( tagInfo->__vftable != (Scaleform::Render::ImageSource_vtbl *)20 )
   {
-    switch ( bufferBytes )
+    switch ( v51 )
     {
       case 3u:
-        bufferBytesd = Scaleform::GFx::LoadProcess::ReadU8(p) + 1;
+        v55 = Scaleform::GFx::LoadProcess::ReadU8(p) + 1;
         v33 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
         if ( !v33 )
           v33 = &p->ProcessInfo;
-        v34 = tagInfo->TagLength + tagInfo->TagDataOffset + v33->Stream.DataSize - v33->Stream.FilePos - v33->Stream.Pos;
+        v34 = (char *)tagInfo[1].__vftable
+            + tagInfo[1].RefCount
+            + v33->Stream.DataSize
+            - v33->Stream.FilePos
+            - v33->Stream.Pos;
         v35 = (Scaleform::GFx::ZlibImageSource *)((int (__stdcall *)(int, _DWORD))Scaleform::Memory::pGlobalHeap->Alloc)(
-                                                   64,
+                                                   72,
                                                    0);
         if ( v35 )
         {
-          v47.Width = v43.Width;
-          v47.Height = v21;
-          UnderlyingFile = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+          v48.Width = v44.Width;
+          v48.Height = v21;
+          UnderlyingFile = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
           Scaleform::GFx::ZlibImageSource::ZlibImageSource(
             v35,
-            pzliba,
+            (Scaleform::GFx::Resource *)zliba,
             UnderlyingFile,
-            &v47,
+            &v48,
             ColorMappedRGBA,
             Image_R8G8B8A8,
-            bufferBytesd,
-            v34);
+            v55,
+            (int)v34);
           goto LABEL_43;
         }
         break;
       case 4u:
-        bufferBytese = tagInfo->TagLength + tagInfo->TagDataOffset - Scaleform::GFx::LoadProcess::Tell(p);
-        v37 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x40u);
+        v56 = (Scaleform::GFx::LoadProcess *)((char *)tagInfo[1].__vftable
+                                            + tagInfo[1].RefCount
+                                            - Scaleform::GFx::LoadProcess::Tell(p));
+        v37 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x48u);
         if ( v37 )
         {
-          v48.Width = v18;
-          v48.Height = v21;
-          v38 = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+          v49.Width = v18;
+          v49.Height = v21;
+          v38 = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
           Scaleform::GFx::ZlibImageSource::ZlibImageSource(
             v37,
-            pzliba,
+            (Scaleform::GFx::Resource *)zliba,
             v38,
-            &v48,
+            &v49,
             RGB16,
             Image_R8G8B8A8,
             0,
-            bufferBytese);
+            (int)v56);
           goto LABEL_43;
         }
         break;
       case 5u:
-        bufferBytesf = tagInfo->TagLength + tagInfo->TagDataOffset - Scaleform::GFx::LoadProcess::Tell(p);
-        v39 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x40u);
+        v57 = (Scaleform::GFx::LoadProcess *)((char *)tagInfo[1].__vftable
+                                            + tagInfo[1].RefCount
+                                            - Scaleform::GFx::LoadProcess::Tell(p));
+        v39 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x48u);
         if ( v39 )
         {
-          v49.Width = v18;
-          v49.Height = v21;
-          v40 = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+          v50.Width = v18;
+          v50.Height = v21;
+          v40 = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
           Scaleform::GFx::ZlibImageSource::ZlibImageSource(
             v39,
-            pzliba,
+            (Scaleform::GFx::Resource *)zliba,
             v40,
-            &v49,
+            &v50,
             RGBA,
             Image_R8G8B8A8,
             0,
-            bufferBytesf);
+            (int)v57);
           goto LABEL_43;
         }
         break;
@@ -191,33 +208,53 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsLossless2Loader(
     }
     goto LABEL_42;
   }
-  if ( bufferBytes != 3 )
+  if ( v51 != 3 )
   {
-    if ( bufferBytes == 4 )
+    if ( v51 == 4 )
     {
-      bufferBytesb = tagInfo->TagLength + tagInfo->TagDataOffset - Scaleform::GFx::LoadProcess::Tell(p);
-      v29 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x40u);
+      v53 = (Scaleform::GFx::LoadProcess *)((char *)tagInfo[1].__vftable
+                                          + tagInfo[1].RefCount
+                                          - Scaleform::GFx::LoadProcess::Tell(p));
+      v29 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x48u);
       if ( v29 )
       {
-        v43.Width = v18;
-        v43.Height = v21;
-        v30 = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
-        Scaleform::GFx::ZlibImageSource::ZlibImageSource(v29, pzliba, v30, &v43, RGB16, Image_R8G8B8, 0, bufferBytesb);
+        v44.Width = v18;
+        v44.Height = v21;
+        v30 = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+        Scaleform::GFx::ZlibImageSource::ZlibImageSource(
+          v29,
+          (Scaleform::GFx::Resource *)zliba,
+          v30,
+          &v44,
+          RGB16,
+          Image_R8G8B8,
+          0,
+          (int)v53);
         goto LABEL_43;
       }
     }
     else
     {
-      if ( bufferBytes != 5 )
+      if ( v51 != 5 )
         goto LABEL_44;
-      bufferBytesc = tagInfo->TagLength + tagInfo->TagDataOffset - Scaleform::GFx::LoadProcess::Tell(p);
-      v31 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x40u);
+      v54 = (Scaleform::GFx::LoadProcess *)((char *)tagInfo[1].__vftable
+                                          + tagInfo[1].RefCount
+                                          - Scaleform::GFx::LoadProcess::Tell(p));
+      v31 = (Scaleform::GFx::ZlibImageSource *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x48u);
       if ( v31 )
       {
-        v46.Width = v18;
-        v46.Height = v21;
-        v32 = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
-        Scaleform::GFx::ZlibImageSource::ZlibImageSource(v31, pzliba, v32, &v46, RGB24, Image_R8G8B8, 0, bufferBytesc);
+        v47.Width = v18;
+        v47.Height = v21;
+        v32 = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+        Scaleform::GFx::ZlibImageSource::ZlibImageSource(
+          v31,
+          (Scaleform::GFx::Resource *)zliba,
+          v32,
+          &v47,
+          RGB24,
+          Image_R8G8B8,
+          0,
+          (int)v54);
         goto LABEL_43;
       }
     }
@@ -227,31 +264,35 @@ LABEL_42:
   }
   U8 = Scaleform::GFx::LoadProcess::ReadU8(p);
   v24 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-  bufferBytesa = U8 + 1;
+  v52 = U8 + 1;
   if ( !v24 )
     v24 = &p->ProcessInfo;
-  v25 = tagInfo->TagLength + tagInfo->TagDataOffset + v24->Stream.DataSize - v24->Stream.FilePos - v24->Stream.Pos;
+  v25 = (char *)tagInfo[1].__vftable
+      + tagInfo[1].RefCount
+      + v24->Stream.DataSize
+      - v24->Stream.FilePos
+      - v24->Stream.Pos;
   v26 = (Scaleform::GFx::ZlibImageSource *)((int (__stdcall *)(int, _DWORD))Scaleform::Memory::pGlobalHeap->Alloc)(
-                                             64,
+                                             72,
                                              0);
   if ( !v26 )
     goto LABEL_42;
-  size.Width = v43.Width;
+  size.Width = v44.Width;
   size.Height = v21;
-  v27 = Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
+  v27 = (Scaleform::GFx::Resource *)Scaleform::GFx::LoadProcess::GetUnderlyingFile(p);
   Scaleform::GFx::ZlibImageSource::ZlibImageSource(
     v26,
-    pzliba,
+    (Scaleform::GFx::Resource *)zliba,
     v27,
     &size,
     ColorMappedRGB,
     Image_R8G8B8,
-    bufferBytesa,
-    v25);
+    v52,
+    (int)v25);
 LABEL_43:
-  pimageSrc = v28;
+  pimage = v28;
 LABEL_44:
-  Scaleform::GFx::LoadProcess::AddImageResource(p, v44, pimageSrc);
-  if ( pimageSrc )
-    pimageSrc->Release(pimageSrc);
+  Scaleform::GFx::LoadProcess::AddImageResource(p, v45, pimage);
+  if ( pimage )
+    pimage->Release(pimage);
 }

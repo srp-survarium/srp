@@ -6,14 +6,14 @@ void __thiscall Scaleform::Render::Matrix3x4<float>::GetEulerAngles(
 {
   float *v4; // eax
   double v5; // st7
-  float v6; // [esp+3Ch] [ebp-34h]
-  float v7; // [esp+3Ch] [ebp-34h]
-  float v8; // [esp+3Ch] [ebp-34h]
-  float v9; // [esp+3Ch] [ebp-34h]
-  float v10; // [esp+3Ch] [ebp-34h]
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+40h] [ebp-30h] BYREF
+  float v6; // [esp+10h] [ebp-34h]
+  float v7; // [esp+10h] [ebp-34h]
+  float v8; // [esp+10h] [ebp-34h]
+  float v9; // [esp+10h] [ebp-34h]
+  float v10; // [esp+10h] [ebp-34h]
+  Scaleform::Render::Matrix3x4<float> dst; // [esp+14h] [ebp-30h] BYREF
 
-  memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)this, sizeof(dst));
+  memcpy((int)&dst, (const __m128i *)this, sizeof(dst));
   Scaleform::Render::Matrix3x4<float>::SetXScale(&dst, 1.0);
   Scaleform::Render::Matrix3x4<float>::SetYScale(&dst, 1.0);
   Scaleform::Render::Matrix3x4<float>::SetZScale(&dst, 1.0);

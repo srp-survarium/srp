@@ -4,7 +4,7 @@ void __thiscall Scaleform::HeapPT::Bookkeeper::freeSegment(
 {
   Scaleform::HeapPT::AllocBitSet1::ReleaseSegment((Scaleform::HeapPT::AllocBitSet2 *)&this->Allocator, seg);
   seg->pPrev->pNext = seg->pNext;
-  seg->pNext->Scaleform::ListNode<Scaleform::Heap::HeapSegment>::$D955224E6C67FC6F5EB4FF8DAC5F01DE::pPrev = seg->pPrev;
+  seg->pNext->Scaleform::ListNode<Scaleform::Heap::HeapSegment>::$10C38F3F495752B04D9D9C52DB001523::pPrev = seg->pPrev;
   Scaleform::HeapPT::PageTable::UnmapRange(Scaleform::HeapPT::GlobalPageTable, (unsigned int)seg, seg->SelfSize);
   this->Footprint -= seg->SelfSize;
   this->pSysAlloc->Free(this->pSysAlloc, (void *)seg, seg->SelfSize, 4096u);

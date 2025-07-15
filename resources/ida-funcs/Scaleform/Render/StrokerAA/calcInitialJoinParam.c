@@ -5,19 +5,19 @@ void __thiscall Scaleform::Render::StrokerAA::calcInitialJoinParam(
         const Scaleform::Render::StrokerAA::WidthsType *w,
         Scaleform::Render::StrokerAA::JoinParamType *p)
 {
-  float v1a; // [esp+4h] [ebp+4h]
-  float dy; // [esp+8h] [ebp+8h]
+  float v6; // [esp+4h] [ebp+4h]
+  float v7; // [esp+8h] [ebp+8h]
 
-  v1a = (v2->y - v1->y) / v1->dist;
-  dy = (v1->x - v2->x) / v1->dist;
-  p->dx3SolidL = w->solidWidthL * v1a;
-  p->dy3SolidL = w->solidWidthL * dy;
-  p->dx3SolidR = w->solidWidthR * v1a;
-  p->dy3SolidR = w->solidWidthR * dy;
-  p->dx3TotalL = w->totalWidthL * v1a;
-  p->dy3TotalL = w->totalWidthL * dy;
-  p->dx3TotalR = v1a * w->totalWidthR;
-  p->dy3TotalR = dy * w->totalWidthR;
+  v6 = (v2->y - v1->y) / v1->dist;
+  v7 = (v1->x - v2->x) / v1->dist;
+  p->dx3SolidL = w->solidWidthL * v6;
+  p->dy3SolidL = w->solidWidthL * v7;
+  p->dx3SolidR = w->solidWidthR * v6;
+  p->dy3SolidR = w->solidWidthR * v7;
+  p->dx3TotalL = w->totalWidthL * v6;
+  p->dy3TotalL = w->totalWidthL * v7;
+  p->dx3TotalR = v6 * w->totalWidthR;
+  p->dy3TotalR = v7 * w->totalWidthR;
   p->xMiterNextL = v1->x - p->dx3TotalL;
   p->yMiterNextL = v1->y - p->dy3TotalL;
   p->xMiterNextR = v1->x + p->dx3TotalR;

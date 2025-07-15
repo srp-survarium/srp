@@ -1,18 +1,18 @@
 void __userpurge vostok::memory::doug_lea_mt_allocator::free_impl(
         vostok::memory::doug_lea_mt_allocator *this@<ecx>,
-        int a2@<eax>,
-        char *pointer)
+        const vostok::memory::doug_lea_mt_allocator *a2@<eax>,
+        char *pointer,
+        const char *const function,
+        const char *const file,
+        const unsigned int line)
 {
-  mutex_mt_raii guard; // [esp+10h] [ebp-8h] BYREF
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  mutex_mt_raii *v8; // ecx
+  const char *v9; // [esp+0h] [ebp-10h]
+  const char *v10; // [esp+4h] [ebp-Ch]
+  mutex_mt_raii v11; // [esp+8h] [ebp-8h] BYREF
 
-  mutex_mt_raii::mutex_mt_raii((mutex_mt_raii *)a2, &guard);
-  if ( pointer )
-  {
-    *(_BYTE *)(a2 + 42) = 0;
-    vostok_mspace_free(*(malloc_state **)(a2 + 20), pointer);
-  }
-  if ( guard.m_is_tasks_aware )
-    LeaveCriticalSection((LPCRITICAL_SECTION)&guard.m_instance->m_mutex);
-  else
-    LeaveCriticalSection((LPCRITICAL_SECTION)&guard.m_instance->m_mutex_tasks_unaware);
+  mutex_mt_raii::mutex_mt_raii(&v11, a2, (vostok::threading::mutex *)this);
+  vostok::memory::doug_lea_allocator::free_impl(v7, (int)a2, pointer, v9, v10, (const unsigned int)v11.m_instance);
+  mutex_mt_raii::~mutex_mt_raii(v8, (int *)&v11);
 }

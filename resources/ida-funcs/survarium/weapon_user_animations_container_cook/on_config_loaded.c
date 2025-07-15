@@ -2,195 +2,138 @@ void __thiscall survarium::weapon_user_animations_container_cook::on_config_load
         survarium::weapon_user_animations_container_cook *this,
         vostok::resources::queries_result *data)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::resources::queries_result *v3; // ecx
-  vostok::resources::query_result_for_cook *v4; // eax
-  void *v5; // esp
-  vostok::buffer_vector<vostok::resources::request> *v6; // eax
-  vostok::resources::query_result *v7; // eax
-  vostok::resources::query_result_for_user *v8; // ecx
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *unmanaged_resource; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v10; // ecx
-  const vostok::variant<32> **v11; // eax
-  vostok::configs::binary_config *v12; // ecx
-  vostok::configs::binary_config_value *v13; // eax
-  vostok::configs::binary_config_value *v14; // eax
-  vostok::configs::binary_config_value *v15; // eax
-  vostok::configs::binary_config_value *v16; // eax
-  vostok::configs::binary_config_value *v17; // eax
-  vostok::configs::binary_config_value *v18; // eax
-  vostok::configs::binary_config_value *v19; // eax
-  vostok::configs::binary_config_value *v20; // eax
-  vostok::configs::binary_config_value *v21; // eax
-  vostok::configs::binary_config_value *v22; // eax
-  vostok::configs::binary_config_value *v23; // eax
-  vostok::configs::binary_config_value *v24; // eax
-  vostok::configs::binary_config_value *v25; // eax
-  vostok::configs::binary_config_value *v26; // eax
-  vostok::configs::binary_config_value *v27; // eax
-  vostok::configs::binary_config_value *v28; // eax
-  vostok::configs::binary_config_value *v29; // eax
-  vostok::configs::binary_config_value *v30; // eax
-  vostok::configs::binary_config_value *v31; // eax
-  vostok::configs::binary_config_value *v32; // eax
-  survarium::game_camera *v33; // ecx
-  vostok::resources::queries_result *v34; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v35; // ecx
-  const vostok::variant<32> **v36; // eax
-  vostok::buffer_vector<vostok::resources::request> *v37; // ecx
-  unsigned int v38; // [esp-EB8h] [ebp-1030h]
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core_animation_end_aware_state,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_animation_end_aware_state *>,boost::arg<1> > > v39; // [esp-EB4h] [ebp-102Ch]
-  vostok::memory::base_allocator *v40; // [esp-EB0h] [ebp-1028h]
-  vostok::resources::query_result_for_cook *parent_query; // [esp-EA8h] [ebp-1020h]
-  unsigned int v42[938]; // [esp-EA0h] [ebp-1018h] BYREF
-  survarium::weapon_user_animations_container_cook *thisa; // [esp+8h] [ebp-170h]
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1> > > result; // [esp+120h] [ebp-58h] BYREF
-  void (__thiscall *f)(survarium::weapon_user_animations_container_cook *, vostok::resources::queries_result *); // [esp+130h] [ebp-48h]
-  int f_4; // [esp+134h] [ebp-44h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+138h] [ebp-40h] BYREF
-  char v48; // [esp+15Fh] [ebp-19h]
-  vostok::resources::resource_ptr<survarium::game_world_object,vostok::resources::unmanaged_intrusive_base> v49; // [esp+160h] [ebp-18h] BYREF
-  char v50; // [esp+167h] [ebp-11h]
-  const vostok::configs::binary_config_value *root; // [esp+168h] [ebp-10h]
-  vostok::buffer_vector<vostok::resources::request> requests; // [esp+16Ch] [ebp-Ch] BYREF
-  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> config; // [esp+174h] [ebp-4h] BYREF
+  vostok::resources::query_result_for_cook *m_result; // ecx
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  vostok::resources::unmanaged_resource *v4; // esi
+  const vostok::configs::binary_config_value *v5; // ecx
+  unsigned int v6; // eax
+  unsigned int v7; // ebx
+  int v8; // edi
+  void *v9; // esp
+  const vostok::configs::binary_config_value *v10; // eax
+  const vostok::configs::binary_config_value *v11; // eax
+  const vostok::configs::binary_config_value *v12; // eax
+  const vostok::configs::binary_config_value *v13; // eax
+  const vostok::configs::binary_config_value *v14; // eax
+  const vostok::configs::binary_config_value *v15; // eax
+  const vostok::configs::binary_config_value *v16; // eax
+  const vostok::configs::binary_config_value *v17; // eax
+  const vostok::configs::binary_config_value *v18; // eax
+  const vostok::configs::binary_config_value *v19; // eax
+  const vostok::configs::binary_config_value *v20; // eax
+  const vostok::configs::binary_config_value *v21; // eax
+  const vostok::configs::binary_config_value *v22; // eax
+  const vostok::configs::binary_config_value *v23; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v24; // ecx
+  _BYTE v25[28]; // [esp-1Ch] [ebp-98h] BYREF
+  _BYTE v26[16]; // [esp+0h] [ebp-7Ch] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::weapon_user_animations_container_cook,vostok::resources::queries_result &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::weapon_user_animations_container_cook *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > f; // [esp+10h] [ebp-6Ch] BYREF
+  _DWORD v28[10]; // [esp+30h] [ebp-4Ch] BYREF
+  vostok::buffer_vector<vostok::resources::request> requests; // [esp+58h] [ebp-24h] BYREF
+  survarium::weapon_user_animations_container_cook *v30; // [esp+64h] [ebp-18h]
+  const vostok::configs::binary_config_value *v31; // [esp+68h] [ebp-14h]
+  const vostok::configs::binary_config_value *cfg; // [esp+6Ch] [ebp-10h]
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v33; // [esp+70h] [ebp-Ch] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v34; // [esp+74h] [ebp-8h] BYREF
 
-  thisa = this;
-  if ( vostok::resources::queries_result::is_successful(data) )
+  v30 = this;
+  m_result = (vostok::resources::query_result_for_cook *)data->m_result;
+  if ( m_result == (vostok::resources::query_result_for_cook *)1 )
   {
-    v5 = alloca(3744);
-    v42[937] = (unsigned int)v42;
-    survarium::weapon_user_dead_state::finalize(v2);
-    vostok::buffer_vector<vostok::resources::request>::buffer_vector<vostok::resources::request>(
-      v6,
-      (vostok::buffer_vector<vostok::resources::request> **)&requests,
-      0,
-      v42[0],
-      v42[1]);
-    v7 = vostok::resources::queries_result::operator[](data, 0);
-    unmanaged_resource = vostok::resources::query_result_for_user::get_unmanaged_resource(
-                           v8,
-                           (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v7,
-                           (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v49);
-    vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
-      (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)unmanaged_resource,
-      &config);
-    vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v49);
-    v11 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v10, (int)&config);
-    root = vostok::configs::binary_config::get_root(v12, (int)v11);
-    v13 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "stand_hud");
-    survarium::create_requests_for_animations(v13, 0x1Bu, &requests);
-    v14 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "stand");
-    survarium::create_requests_for_animations(v14, 0x1Bu, &requests);
-    v15 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "stand_hands_only_hud");
-    survarium::create_requests_for_animations(v15, 6u, &requests);
-    v16 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "stand_hands_only");
-    survarium::create_requests_for_animations(v16, 6u, &requests);
-    v17 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_stand_hud");
-    survarium::create_requests_for_animations(v17, 0x1Bu, &requests);
-    v18 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_stand");
-    survarium::create_requests_for_animations(v18, 0x1Bu, &requests);
-    v19 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_stand_hands_only_hud");
-    survarium::create_requests_for_animations(v19, 6u, &requests);
-    v20 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_stand_hands_only");
-    survarium::create_requests_for_animations(v20, 6u, &requests);
-    v21 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "crouch_hud");
-    survarium::create_requests_for_animations(v21, 0x1Bu, &requests);
-    v22 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "crouch");
-    survarium::create_requests_for_animations(v22, 0x1Bu, &requests);
-    v23 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "crouch_hands_only_hud");
-    survarium::create_requests_for_animations(v23, 6u, &requests);
-    v24 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "crouch_hands_only");
-    survarium::create_requests_for_animations(v24, 6u, &requests);
-    v25 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_crouch_hud");
-    survarium::create_requests_for_animations(v25, 0x1Bu, &requests);
-    v26 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_crouch");
-    survarium::create_requests_for_animations(v26, 0x1Bu, &requests);
-    v27 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_crouch_hands_only_hud");
-    survarium::create_requests_for_animations(v27, 6u, &requests);
-    v28 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "aimed_crouch_hands_only");
-    survarium::create_requests_for_animations(v28, 6u, &requests);
-    v29 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "sprint_hud");
-    survarium::create_requests_for_animations(v29, 2u, &requests);
-    v30 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "sprint");
-    survarium::create_requests_for_animations(v30, 2u, &requests);
-    v31 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "jump_hud");
-    survarium::create_requests_for_animations(v31, 0x64u, &requests);
-    v32 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    (vostok::configs::binary_config_value *)root,
-                                                    "jump");
-    survarium::create_requests_for_animations(v32, 0x64u, &requests);
-    v48 = 0;
-    survarium::weapon_user_dead_state::finalize(v33);
-    f = survarium::weapon_user_animations_container_cook::on_animations_loaded;
-    f_4 = 0;
-    v39 = *boost::bind<void,vostok::sound::ogg_sound_cook,vostok::resources::queries_result &,vostok::sound::ogg_sound_cook *,boost::arg<1>>(
-             (boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core_animation_end_aware_state,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_animation_end_aware_state *>,boost::arg<1> > > *)&result,
-             (void (__thiscall *__ptr64)(vostok::sound::sound_environment_cook *, vostok::resources::queries_result *))(unsigned int)survarium::weapon_user_animations_container_cook::on_animations_loaded,
-             (survarium::weapon_core_animation_end_aware_state *)thisa);
+    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v33,
+      (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data->m_queries[0].m_unmanaged_resource);
+    m_object = (vostok::particle::particle_system_instance_impl *)v33.m_object;
+    v34.m_object = 0;
+    if ( v33.m_object )
+    {
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v34);
+      v34.m_object = m_object;
+      _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
+    }
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v33);
+    v4 = v34.m_object->m_lods[0].m_template.m_object;
+    cfg = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "death_hud");
+    v5 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "death");
+    v6 = 24 * cfg->count / 24;
+    v31 = v5;
+    v7 = v6;
+    v33.m_object = (survarium::pure_game_effect_emitter_base *)(24 * v5->count / 24);
+    v8 = 8 * ((int)&v33.m_object[1].m_construct_thread_id + v6);
+    v9 = alloca(v8);
+    requests.m_begin = (vostok::resources::request *)v26;
+    requests.m_end = (vostok::resources::request *)v26;
+    requests.m_max_end = (vostok::resources::request *)&v26[v8];
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(v6, cfg, &requests);
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(
+      (unsigned int)v33.m_object,
+      v31,
+      &requests);
+    v10 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "stand_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v10, &requests);
+    v11 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "stand");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v11, &requests);
+    v12 = vostok::configs::binary_config_value::operator[](
+            (vostok::configs::binary_config_value *)v4,
+            "aimed_stand_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v12, &requests);
+    v13 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "aimed_stand");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v13, &requests);
+    v14 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "crouch_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v14, &requests);
+    v15 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "crouch");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v15, &requests);
+    v16 = vostok::configs::binary_config_value::operator[](
+            (vostok::configs::binary_config_value *)v4,
+            "aimed_crouch_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v16, &requests);
+    v17 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "aimed_crouch");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x1Bu, v17, &requests);
+    v18 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "sprint_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(6u, v18, &requests);
+    v19 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "sprint");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(6u, v19, &requests);
+    v20 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "jump_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x6Cu, v20, &requests);
+    v21 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "jump");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(0x6Cu, v21, &requests);
+    v22 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "stand_hit_hud");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(8u, v22, &requests);
+    v23 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v4, "stand_hit");
+    survarium::create_requests_for_animations<vostok::buffer_vector<vostok::resources::request>>(8u, v23, &requests);
+    v28[7] = v30;
+    v28[1] = 0;
+    v28[0] = survarium::weapon_user_animations_container_cook::on_animations_loaded;
+    v28[9] = v33.m_object;
+    v28[8] = v7;
+    v28[2] = v30;
+    v28[3] = v7;
+    v28[4] = v33.m_object;
+    *(_DWORD *)v25 = &f;
+    qmemcpy(&v25[4], v28, 0x18u);
     boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
-      &callback,
-      (boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::weapon_user_animations_container_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_user_animations_container_cook *>,boost::arg<1> > >)v39,
-      0);
-    parent_query = vostok::resources::queries_result::get_parent_query(v34, (int)data);
-    v40 = (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_;
-    v38 = vostok::vectora<vostok::resources::request>::size((survarium::vector<vostok::resources::request> *)&requests);
-    v36 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v35, (int)&requests);
-    vostok::resources::query_resources(
-      (const vostok::resources::request *)v36,
-      v38,
-      (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-      v40,
       0,
-      parent_query,
+      *(boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::weapon_user_animations_container_cook,vostok::resources::queries_result &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::weapon_user_animations_container_cook *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > *)v25,
+      *(int *)&v25[24]);
+    vostok::resources::query_resources(
+      requests.m_begin,
+      requests.m_end - requests.m_begin,
+      survarium::g_allocator,
+      0,
+      (const vostok::variant<32> **)data->m_parent_query,
       assert_on_fail_true);
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&callback);
-    vostok::resources::resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::inventory,vostok::resources::unmanaged_intrusive_base> *)&config);
-    vostok::buffer_vector<unsigned int>::~buffer_vector<unsigned int>(v37, &requests);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v24,
+      (int *)&f);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v34);
   }
   else
   {
-    v50 = 0;
-    survarium::weapon_user_dead_state::finalize(v2);
-    v4 = vostok::resources::queries_result::get_parent_query(v3, (int)data);
-    vostok::resources::query_result_for_cook::finish_query(v4, result_error, assert_on_fail_true);
+    vostok::resources::query_result_for_cook::finish_query_impl(
+      m_result,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)data->m_parent_query,
+      result_success,
+      assert_on_fail_true,
+      result_out_of_memory|0x8);
   }
 }

@@ -6,16 +6,16 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginFill(const Scaleform::GF
   Scaleform::GFx::AS2::Value *v4; // eax
   unsigned int v5; // edi
   Scaleform::GFx::AS2::Value *v6; // eax
-  unsigned int v7; // edi
+  int v7; // edi
   double v8; // st7
   bool v9; // c0
   bool v10; // c3
   double v11; // st7
   Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-18h]
   Scaleform::GFx::AS2::Environment *v13; // [esp-4h] [ebp-18h]
-  float alphaa; // [esp+18h] [ebp+4h]
-  float alpha; // [esp+18h] [ebp+4h]
-  float alphab; // [esp+18h] [ebp+4h]
+  float v14; // [esp+18h] [ebp+4h]
+  float v15; // [esp+18h] [ebp+4h]
+  float v16; // [esp+18h] [ebp+4h]
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -45,13 +45,13 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginFill(const Scaleform::GF
       goto LABEL_14;
     v13 = fn->Env;
     v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    alphaa = Scaleform::GFx::AS2::Value::ToNumber(v6, v13);
-    v7 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v5;
-    alpha = alphaa * 255.0 / 100.0;
-    v8 = alpha;
-    if ( alpha >= 255.0 )
+    v14 = Scaleform::GFx::AS2::Value::ToNumber(v6, v13);
+    v7 = v5 & 0xFFFFFF;
+    v15 = v14 * 255.0 / 100.0;
+    v8 = v15;
+    if ( v15 >= 255.0 )
     {
-      alpha = 255.0;
+      v15 = 255.0;
     }
     else
     {
@@ -61,8 +61,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginFill(const Scaleform::GF
       if ( !v9 && !v10 )
       {
 LABEL_13:
-        alphab = v11;
-        v5 = ((__int64)alphab << 24) | v7;
+        v16 = v11;
+        v5 = ((__int64)v16 << 24) | v7;
 LABEL_14:
         Scaleform::GFx::AS2::AvmSprite::BeginFill(
           (Scaleform::GFx::AS2::AvmSprite *)(&Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
@@ -71,7 +71,7 @@ LABEL_14:
         return;
       }
     }
-    v11 = alpha;
+    v11 = v15;
     goto LABEL_13;
   }
 }

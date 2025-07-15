@@ -22,7 +22,7 @@ LABEL_9:
   }
   v3 = 1;
 LABEL_5:
-  if ( fseek(this->fs, offset, v3) )
+  if ( fseek(offset, v3, this->fs, offset, v3) )
     return -1;
   return this->Tell(this);
 }

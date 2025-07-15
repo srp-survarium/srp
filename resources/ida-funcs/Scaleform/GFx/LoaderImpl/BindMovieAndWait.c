@@ -8,10 +8,10 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::BindMovieAndWa
   Scaleform::GFx::LoaderImpl::LoadStackItem *v5; // esi
   Scaleform::GFx::LoaderImpl::LoadStackItem *v6; // eax
   bool v7; // al
-  char *v8; // eax
-  char *v9; // eax
+  const __m128i *v8; // eax
+  const __m128i *v9; // eax
   char *pData; // eax
-  Scaleform::StringBuffer buffer; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v12; // [esp+10h] [ebp-18h] BYREF
 
   if ( pbp && ((loadConstants & 1) != 0 || !Scaleform::GFx::LoadStates::SubmitBackgroundTask(pls, pbp)) )
     pbp->Execute(pbp);
@@ -48,25 +48,25 @@ LABEL_20:
     Scaleform::GFx::Resource::Release(pm);
     return 0;
   }
-  Scaleform::StringBuffer::StringBuffer(&buffer, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v12, Scaleform::Memory::pGlobalHeap);
   do
   {
-    v8 = (char *)v5->pDefImpl->GetFileURL(v5->pDefImpl);
-    Scaleform::StringBuffer::AppendString(&buffer, v8, 0xFFFFFFFF);
-    Scaleform::StringBuffer::AppendChar(&buffer, 0xAu);
+    v8 = (const __m128i *)v5->pDefImpl->GetFileURL(v5->pDefImpl);
+    Scaleform::StringBuffer::AppendString(&v12, v8, 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendChar(&v12, 0xAu);
     v5 = v5->pNext;
   }
   while ( v5 );
-  v9 = (char *)pm->GetFileURL(pm);
-  Scaleform::StringBuffer::AppendString(&buffer, v9, 0xFFFFFFFF);
-  pData = buffer.pData;
-  if ( !buffer.pData )
-    pData = (char *)&buf;
+  v9 = (const __m128i *)pm->GetFileURL(pm);
+  Scaleform::StringBuffer::AppendString(&v12, v9, 0xFFFFFFFF);
+  pData = v12.pData;
+  if ( !v12.pData )
+    pData = (char *)uri;
   Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogError(
     &pls->pLog.pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
     "Recursive import detected. Import stack:\n%s",
     pData);
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&buffer);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v12);
   Scaleform::GFx::Resource::Release(pm);
   return 0;
 }

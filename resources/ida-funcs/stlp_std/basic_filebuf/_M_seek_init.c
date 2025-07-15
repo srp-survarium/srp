@@ -73,7 +73,7 @@ LABEL_7:
         this->_M_in_error_mode = 1;
         return 0;
       }
-      v4 = !stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_unshift((stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)this);
+      v4 = stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_unshift((stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)this) == 0;
     }
     else
     {

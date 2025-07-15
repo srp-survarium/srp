@@ -1,4 +1,4 @@
-char __thiscall Scaleform::GFx::SwfShapeCharacterDef::DefPointTestLocal(
+bool __thiscall Scaleform::GFx::SwfShapeCharacterDef::DefPointTestLocal(
         Scaleform::GFx::SwfShapeCharacterDef *this,
         const Scaleform::Render::Point<float> *pt,
         bool testShape,

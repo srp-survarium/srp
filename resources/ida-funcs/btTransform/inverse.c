@@ -1,43 +1,58 @@
-btTransform *__usercall btTransform::inverse@<eax>(btTransform *this@<ecx>, btTransform *a2@<eax>)
+btTransform *__userpurge btTransform::inverse@<eax>(btTransform *this@<ecx>, int a2@<eax>, btTransform *result)
 {
-  float v2; // xmm7_4
-  float v3; // xmm4_4
-  float v4; // xmm5_4
-  float v5; // xmm3_4
-  unsigned __int64 v6; // [esp+30h] [ebp-40h]
-  unsigned __int64 v7; // [esp+38h] [ebp-38h]
-  unsigned __int64 v8; // [esp+40h] [ebp-30h]
-  unsigned __int64 v9; // [esp+50h] [ebp-20h]
-  unsigned __int64 v10; // [esp+58h] [ebp-18h]
-  unsigned __int64 v11; // [esp+60h] [ebp-10h]
-  unsigned __int64 v12; // [esp+68h] [ebp-8h]
+  int v4; // xmm1_4
+  int v5; // xmm2_4
+  int v6; // xmm3_4
+  float v7; // xmm4_4
+  float v8; // xmm1_4
+  float v9; // xmm2_4
+  float v10; // xmm3_4
+  float v11; // xmm0_4
+  float v12; // xmm0_4
+  float v13; // xmm4_4
+  float v14; // xmm0_4
+  float v15; // xmm4_4
+  float v16; // xmm0_4
+  float v17; // xmm1_4
+  unsigned __int64 v19; // [esp+10h] [ebp-40h]
+  btMatrix3x3 v20; // [esp+20h] [ebp-30h] BYREF
 
-  v2 = this->m_basis.m_el[2].mVec128.m128_f32[0];
-  LODWORD(v8) = this->m_basis.m_el[0].mVec128.m128_i32[0];
-  v12 = this->m_basis.m_el[2].mVec128.m128_u32[2];
-  v3 = -this->m_origin.mVec128.m128_f32[1];
-  v4 = -this->m_origin.mVec128.m128_f32[2];
-  v5 = -this->m_origin.mVec128.m128_f32[0];
-  HIDWORD(v8) = this->m_basis.m_el[1].mVec128.m128_i32[0];
-  LODWORD(v9) = this->m_basis.m_el[0].mVec128.m128_i32[1];
-  v10 = this->m_basis.m_el[2].mVec128.m128_u32[1];
-  *(float *)&v6 = (float)((float)(this->m_basis.m_el[0].mVec128.m128_f32[0] * v5) + (float)(v4 * v2))
-                + (float)(v3 * *((float *)&v8 + 1));
-  HIDWORD(v9) = this->m_basis.m_el[1].mVec128.m128_i32[1];
-  LODWORD(v11) = this->m_basis.m_el[0].mVec128.m128_i32[2];
-  HIDWORD(v11) = this->m_basis.m_el[1].mVec128.m128_i32[2];
-  HIDWORD(v7) = 0;
-  a2->m_basis.m_el[0].mVec128.m128_u64[0] = v8;
-  a2->m_basis.m_el[0].mVec128.m128_u64[1] = LODWORD(v2);
-  a2->m_basis.m_el[1].mVec128.m128_u64[0] = v9;
-  a2->m_basis.m_el[1].mVec128.m128_u64[1] = v10;
-  a2->m_basis.m_el[2].mVec128.m128_u64[0] = v11;
-  a2->m_basis.m_el[2].mVec128.m128_u64[1] = v12;
-  *((float *)&v6 + 1) = (float)((float)(*((float *)&v9 + 1) * v3) + (float)(*(float *)&v10 * v4))
-                      + (float)(*(float *)&v9 * v5);
-  a2->m_origin.mVec128.m128_u64[0] = v6;
-  *(float *)&v7 = (float)((float)(*((float *)&v11 + 1) * v3) + (float)(*(float *)&v12 * v4))
-                + (float)(*(float *)&v11 * v5);
-  a2->m_origin.mVec128.m128_u64[1] = v7;
-  return a2;
+  btMatrix3x3::btMatrix3x3(
+    (btMatrix3x3 *)a2,
+    &v20,
+    (float *)(a2 + 16),
+    (float *)(a2 + 32),
+    (float *)(a2 + 4),
+    (float *)(a2 + 20),
+    (float *)(a2 + 36),
+    (float *)(a2 + 8),
+    (float *)(a2 + 24),
+    (const float *)(a2 + 40));
+  v4 = *(_DWORD *)(a2 + 48);
+  v5 = *(_DWORD *)(a2 + 52);
+  v6 = *(_DWORD *)(a2 + 56);
+  v7 = v20.m_el[0].mVec128.m128_f32[1];
+  result->m_basis.m_el[0].mVec128.m128_u64[0] = v20.m_el[0].mVec128.m128_u64[0];
+  result->m_basis.m_el[0].mVec128.m128_u64[1] = v20.m_el[0].mVec128.m128_u64[1];
+  LODWORD(v8) = v4 ^ _mask__NegFloat_;
+  LODWORD(v9) = v5 ^ _mask__NegFloat_;
+  LODWORD(v10) = v6 ^ _mask__NegFloat_;
+  v11 = v20.m_el[0].mVec128.m128_f32[0] * v8;
+  result->m_basis.m_el[1].mVec128.m128_u64[0] = v20.m_el[1].mVec128.m128_u64[0];
+  result->m_basis.m_el[1].mVec128.m128_i32[2] = v20.m_el[1].mVec128.m128_i32[2];
+  v12 = v11 + (float)(v7 * v9);
+  v13 = v20.m_el[0].mVec128.m128_f32[2];
+  result->m_basis.m_el[1].mVec128.m128_i32[3] = v20.m_el[1].mVec128.m128_i32[3];
+  *(float *)&v19 = v12 + (float)(v13 * v10);
+  v14 = (float)(v20.m_el[1].mVec128.m128_f32[0] * v8) + (float)(v20.m_el[1].mVec128.m128_f32[2] * v10);
+  v15 = v20.m_el[1].mVec128.m128_f32[1];
+  result->m_basis.m_el[2].mVec128.m128_u64[0] = v20.m_el[2].mVec128.m128_u64[0];
+  *((float *)&v19 + 1) = v14 + (float)(v15 * v9);
+  v16 = (float)(v20.m_el[2].mVec128.m128_f32[0] * v8) + (float)(v20.m_el[2].mVec128.m128_f32[2] * v10);
+  v17 = v20.m_el[2].mVec128.m128_f32[1];
+  result->m_basis.m_el[2].mVec128.m128_u64[1] = v20.m_el[2].mVec128.m128_u64[1];
+  result->m_origin.mVec128.m128_u64[0] = v19;
+  result->m_origin.mVec128.m128_f32[2] = v16 + (float)(v17 * v9);
+  result->m_origin.mVec128.m128_i32[3] = 0;
+  return result;
 }

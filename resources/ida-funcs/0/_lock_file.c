@@ -1,6 +1,6 @@
 void __cdecl _lock_file(_iobuf *pf)
 {
-  if ( pf < _iob || pf > &stru_9AE290 )
+  if ( pf < _iob || pf > &stru_86F340 )
   {
     EnterCriticalSection((LPCRITICAL_SECTION)&pf[1]);
   }

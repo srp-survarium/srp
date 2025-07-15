@@ -137,7 +137,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::disp
           {
             RefCount = event->RefCount;
             v17 = event;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               event->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);
@@ -174,7 +174,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::disp
       if ( ((unsigned __int8)VInt & 1) == 0 )
       {
         v23 = VInt->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v23) != 0 )
+        if ( (v23 & 0x3FFFFF) != 0 )
         {
           VInt->RefCount = v23 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(VInt);
@@ -195,7 +195,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::disp
       if ( !v18->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v18);
       v19 = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&newEvent, eNullPointerError, v19);
+      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&newEvent, eNullPointerError, v19, &v);
       Scaleform::GFx::AS3::VM::ThrowTypeError(v19, v20);
       v21 = v25;
       --v25->RefCount;

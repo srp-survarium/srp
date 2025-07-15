@@ -1,6 +1,5 @@
-int __cdecl strcat_s(char *_Dst, unsigned int _SizeInBytes, const char *_Src)
+int __usercall strcat_s@<eax>(int a1@<edi>, char *_Dst, int _SizeInBytes, const char *_Src)
 {
-  unsigned int v3; // edi
   int v4; // esi
   const char *v6; // esi
   char *v7; // edx
@@ -8,7 +7,7 @@ int __cdecl strcat_s(char *_Dst, unsigned int _SizeInBytes, const char *_Src)
 
   if ( !_Dst )
     goto LABEL_3;
-  v3 = _SizeInBytes;
+  a1 = _SizeInBytes;
   if ( !_SizeInBytes )
     goto LABEL_3;
   v6 = _Src;
@@ -20,10 +19,10 @@ int __cdecl strcat_s(char *_Dst, unsigned int _SizeInBytes, const char *_Src)
     if ( !*v7 )
       break;
     ++v7;
-    --v3;
+    --a1;
   }
-  while ( v3 );
-  if ( !v3 )
+  while ( a1 );
+  if ( !a1 )
   {
 LABEL_6:
     *_Dst = 0;
@@ -31,7 +30,7 @@ LABEL_3:
     v4 = 22;
     *_errno() = 22;
 LABEL_4:
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(0, a1, v4);
     return v4;
   }
   do
@@ -40,10 +39,10 @@ LABEL_4:
     *v7++ = *v6++;
     if ( !v8 )
       break;
-    --v3;
+    --a1;
   }
-  while ( v3 );
-  if ( !v3 )
+  while ( a1 );
+  if ( !a1 )
   {
     *_Dst = 0;
     *_errno() = 34;
@@ -51,10 +50,4 @@ LABEL_4:
     goto LABEL_4;
   }
   return 0;
-}
-
-
-int __usercall strcat_s<260>@<eax>(char (*_Dest)[260]@<ecx>, const char *_Source@<eax>)
-{
-  return strcat_s((char *)_Dest, 0x104u, _Source);
 }

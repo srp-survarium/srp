@@ -6,24 +6,24 @@ void __thiscall Scaleform::GFx::PlaceObjectTag::Execute(
   void (__thiscall *Unpack)(Scaleform::GFx::GFxPlaceObjectBase *, Scaleform::GFx::GFxPlaceObjectBase::UnpackedData *); // edx
   Scaleform::GFx::ASStringManager *StringManager; // eax
   Scaleform::GFx::ASStringNode *v6; // eax
-  Scaleform::GFx::ASStringNode *p_EmptyStringNode; // [esp+7Ch] [ebp-74h] BYREF
-  Scaleform::Render::Cxform v8; // [esp+80h] [ebp-70h] BYREF
-  float v9; // [esp+A0h] [ebp-50h]
-  float v10; // [esp+A4h] [ebp-4Ch]
-  float v11; // [esp+A8h] [ebp-48h]
-  float v12; // [esp+ACh] [ebp-44h]
-  float v13; // [esp+B0h] [ebp-40h]
-  float v14; // [esp+B4h] [ebp-3Ch]
-  float v15; // [esp+B8h] [ebp-38h]
-  float v16; // [esp+BCh] [ebp-34h]
-  Scaleform::RefCountVImpl *v17; // [esp+C0h] [ebp-30h]
-  float v18; // [esp+C4h] [ebp-2Ch]
-  int v19; // [esp+C8h] [ebp-28h]
-  int v20; // [esp+CCh] [ebp-24h]
-  int v21; // [esp+D0h] [ebp-20h]
-  __int16 v22; // [esp+D4h] [ebp-1Ch]
-  __int16 v23; // [esp+D6h] [ebp-1Ah]
-  char v24; // [esp+D8h] [ebp-18h]
+  Scaleform::GFx::ASStringNode *p_EmptyStringNode; // [esp+24h] [ebp-74h] BYREF
+  Scaleform::Render::Cxform v8; // [esp+28h] [ebp-70h] BYREF
+  float v9; // [esp+48h] [ebp-50h]
+  float v10; // [esp+4Ch] [ebp-4Ch]
+  float v11; // [esp+50h] [ebp-48h]
+  float v12; // [esp+54h] [ebp-44h]
+  float v13; // [esp+58h] [ebp-40h]
+  float v14; // [esp+5Ch] [ebp-3Ch]
+  float v15; // [esp+60h] [ebp-38h]
+  float v16; // [esp+64h] [ebp-34h]
+  Scaleform::RefCountVImpl *v17; // [esp+68h] [ebp-30h]
+  float v18; // [esp+6Ch] [ebp-2Ch]
+  int v19; // [esp+70h] [ebp-28h]
+  int v20; // [esp+74h] [ebp-24h]
+  int v21; // [esp+78h] [ebp-20h]
+  __int16 v22; // [esp+7Ch] [ebp-1Ch]
+  __int16 v23; // [esp+7Eh] [ebp-1Ah]
+  char v24; // [esp+80h] [ebp-18h]
 
   Scaleform::Render::Cxform::Cxform(&v8);
   v3 = this->__vftable;

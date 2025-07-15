@@ -1,101 +1,84 @@
-void __thiscall vostok::render::culling::portal_sector_structure::initialize_portals_geometry(
-        vostok::render::culling::portal_sector_structure *this,
-        vostok::render::culling::portal_sector_structure *thisa)
+void __usercall vostok::render::culling::portal_sector_structure::initialize_portals_geometry(
+        vostok::render::culling::portal_sector_structure *this@<ecx>,
+        int a2@<edi>)
 {
-  vostok::render::culling::portal_sector_structure *v2; // esi
-  int v3; // ecx
-  unsigned int v4; // ebx
-  void *v5; // esp
-  void *v6; // esp
-  const vostok::render::culling::portal *m_end; // eax
-  const vostok::render::culling::portal *m_begin; // ecx
-  unsigned int *v9; // edi
-  int v10; // esi
-  _DWORD *v11; // edi
-  _DWORD *v12; // edi
-  int *v13; // edi
-  _DWORD *v14; // edi
-  _DWORD *v15; // edi
-  vostok::collision::triangle_mesh_buffer *v16; // eax
-  vostok::collision::geometry *v17; // eax
-  const unsigned int *v18[4]; // [esp+0h] [ebp-34h] BYREF
-  vostok::buffer_vector<vostok::math::float3> vertices; // [esp+10h] [ebp-24h] BYREF
-  unsigned int indices_count; // [esp+18h] [ebp-1Ch]
-  const unsigned int **v21; // [esp+1Ch] [ebp-18h]
-  const vostok::render::culling::portal *portals_end; // [esp+20h] [ebp-14h]
-  vostok::math::float3 *end; // [esp+24h] [ebp-10h] BYREF
-  vostok::math::float3 *where; // [esp+28h] [ebp-Ch] BYREF
-  const vostok::render::culling::portal *it; // [esp+2Ch] [ebp-8h]
-  vostok::memory::base_allocator *thisb; // [esp+3Ch] [ebp+8h]
+  int v2; // esi
+  void *v3; // esp
+  int v4; // eax
+  unsigned int v5; // ebx
+  int v6; // esi
+  void *v7; // esp
+  const vostok::math::float3 *v8; // ecx
+  const vostok::math::float3 *v9; // eax
+  vostok::math::float3 *v10; // esi
+  vostok::buffer_vector<unsigned int> *v11; // ecx
+  vostok::buffer_vector<unsigned int> *v12; // ecx
+  vostok::buffer_vector<unsigned int> *v13; // ecx
+  vostok::buffer_vector<unsigned int> *v14; // ecx
+  vostok::buffer_vector<unsigned int> *v15; // ecx
+  vostok::buffer_vector<unsigned int> *v16; // ecx
+  _BYTE v17[8]; // [esp+0h] [ebp-38h] BYREF
+  vostok::buffer_vector<vostok::math::float3> v18; // [esp+8h] [ebp-30h] BYREF
+  unsigned int *indices[3]; // [esp+14h] [ebp-24h] BYREF
+  unsigned int vertex_count; // [esp+20h] [ebp-18h]
+  const vostok::math::float3 *v21; // [esp+24h] [ebp-14h]
+  vostok::math::float3 *end; // [esp+28h] [ebp-10h] BYREF
+  vostok::math::float3 *where; // [esp+2Ch] [ebp-Ch] BYREF
+  const vostok::math::float3 *v24; // [esp+30h] [ebp-8h]
+  vostok::math::float3 *v25; // [esp+34h] [ebp-4h]
 
-  v2 = thisa;
-  v3 = (char *)thisa->m_portals.m_end - (char *)thisa->m_portals.m_begin;
-  v4 = 4 * (v3 / 76);
-  v5 = alloca(48 * (v3 / 76));
-  vertices.m_begin = (vostok::math::float3 *)v18;
-  vertices.m_end = (vostok::math::float3 *)v18;
-  indices_count = 6 * (v3 / 76);
-  v6 = alloca(24 * (v3 / 76));
-  m_end = thisa->m_portals.m_end;
-  m_begin = thisa->m_portals.m_begin;
-  v9 = (unsigned int *)v18;
-  v21 = v18;
-  portals_end = m_end;
-  it = m_begin;
-  if ( m_begin != m_end )
+  v2 = 48 * ((*(_DWORD *)(a2 + 276) - *(_DWORD *)(a2 + 272)) / 76);
+  vertex_count = 4 * ((*(_DWORD *)(a2 + 276) - *(_DWORD *)(a2 + 272)) / 76);
+  v3 = alloca(v2);
+  v18.m_begin = (vostok::math::float3 *)v17;
+  v18.m_end = (vostok::math::float3 *)v17;
+  v4 = (*(_DWORD *)(a2 + 276) - *(_DWORD *)(a2 + 272)) / 76;
+  v18.m_max_end = (vostok::math::float3 *)&v17[v2];
+  v5 = 6 * v4;
+  v6 = 24 * v4;
+  v7 = alloca(24 * v4);
+  v8 = *(const vostok::math::float3 **)(a2 + 272);
+  indices[0] = (unsigned int *)v17;
+  indices[1] = (unsigned int *)v17;
+  v9 = *(const vostok::math::float3 **)(a2 + 276);
+  indices[2] = (unsigned int *)&v17[v6];
+  v21 = v9;
+  v24 = v8;
+  if ( v8 != v9 )
   {
     while ( 1 )
     {
-      v10 = vertices.m_end - vertices.m_begin;
-      end = (vostok::math::float3 *)&m_begin->m_visible;
-      where = vertices.m_end;
+      v10 = (vostok::math::float3 *)(v18.m_end - v18.m_begin);
+      end = (vostok::math::float3 *)&v8[6];
+      where = v18.m_end;
+      v25 = v10;
       vostok::buffer_vector<vostok::math::float3>::insert<vostok::math::float3 const *>(
-        m_begin->m_points,
         (const vostok::math::float3 *const *)&end,
-        &vertices,
-        &where);
-      if ( v9 )
-        *v9 = v10;
-      v11 = v9 + 1;
-      if ( v11 )
-        *v11 = v10 + 1;
-      v12 = v11 + 1;
-      if ( v12 )
-        *v12 = v10 + 2;
-      v13 = v12 + 1;
-      if ( v13 )
-        *v13 = v10;
-      v14 = v13 + 1;
-      if ( v14 )
-        *v14 = v10 + 2;
-      v15 = v14 + 1;
-      if ( v15 )
-        *v15 = v10 + 3;
-      v9 = v15 + 1;
-      if ( ++it == portals_end )
+        &v18,
+        &where,
+        v8 + 2);
+      end = v10;
+      vostok::buffer_vector<unsigned int>::push_back(v11, (int)indices, (const unsigned int *)&end);
+      end = (vostok::math::float3 *)((char *)&v25->x + 1);
+      vostok::buffer_vector<unsigned int>::push_back(v12, (int)indices, (const unsigned int *)&end);
+      end = (vostok::math::float3 *)((char *)v25->elements + 2);
+      vostok::buffer_vector<unsigned int>::push_back(v13, (int)indices, (const unsigned int *)&end);
+      end = v25;
+      vostok::buffer_vector<unsigned int>::push_back(v14, (int)indices, (const unsigned int *)&end);
+      end = (vostok::math::float3 *)((char *)v25->elements + 2);
+      vostok::buffer_vector<unsigned int>::push_back(v15, (int)indices, (const unsigned int *)&end);
+      end = (vostok::math::float3 *)((char *)v25->elements + 3);
+      vostok::buffer_vector<unsigned int>::push_back(v16, (int)indices, (const unsigned int *)&end);
+      v24 = (const vostok::math::float3 *)((char *)v24 + 76);
+      if ( v24 == v21 )
         break;
-      m_begin = it;
+      v8 = v24;
     }
-    v9 = (unsigned int *)v21;
-    v2 = thisa;
   }
-  thisb = v2->m_allocator;
-  v16 = (vostok::collision::triangle_mesh_buffer *)((int (__stdcall *)(int))thisb->call_malloc)(352);
-  if ( v16 )
-  {
-    vostok::collision::triangle_mesh_buffer::triangle_mesh_buffer(
-      v16,
-      thisb,
-      vertices.m_begin,
-      v4,
-      v9,
-      indices_count,
-      v18[0],
-      (unsigned int)v18[1]);
-    v2->m_portals_geometry = v17;
-  }
-  else
-  {
-    v2->m_portals_geometry = 0;
-  }
+  *(_DWORD *)(a2 + 312) = vostok::collision::new_triangle_mesh_geometry(
+                            *(vostok::memory::base_allocator **)(a2 + 264),
+                            v18.m_begin,
+                            vertex_count,
+                            indices[0],
+                            v5);
 }

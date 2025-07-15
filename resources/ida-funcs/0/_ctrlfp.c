@@ -1,6 +1,6 @@
 unsigned int __cdecl _ctrlfp()
 {
-  __int16 oldCw; // [esp+0h] [ebp-4h]
+  __int16 v1; // [esp+0h] [ebp-4h]
 
-  return oldCw;
+  return v1;
 }

@@ -1,226 +1,167 @@
-signed int *__cdecl floor1_unpack(vorbis_info *vi, oggpack_buffer *opb)
+unsigned __int8 *__cdecl floor1_unpack(vorbis_info *vi, oggpack_buffer *opb)
 {
-  vostok::memory::doug_lea_mt_allocator *codec_setup; // ecx
-  signed int v3; // esi
-  signed int *v4; // ebp
-  signed int v5; // eax
-  signed int *v6; // ebx
-  signed int v7; // eax
-  int v8; // ebx
-  int *v9; // esi
+  _DWORD *codec_setup; // eax
+  unsigned __int8 *v3; // edi
+  signed int v4; // eax
+  signed int *v5; // ebx
+  signed int v6; // eax
+  unsigned int *v7; // ebx
+  signed int v8; // eax
+  int v9; // ecx
   signed int v10; // eax
-  int v11; // ebp
-  signed int *v12; // ebx
-  signed int v13; // eax
-  int v14; // ebx
-  signed int *v15; // eax
-  int v16; // ebp
-  int v17; // esi
-  signed int *v18; // esi
-  signed int v19; // eax
-  int *v20; // edx
-  signed int v21; // esi
-  signed int v22; // eax
-  int *v23; // ecx
-  int v24; // eax
-  vostok::memory::doug_lea_mt_allocator *v26; // ecx
-  vostok::memory *v27; // [esp+0h] [ebp-12Ch]
-  bool v28; // [esp+0h] [ebp-12Ch]
-  bool v29; // [esp+4h] [ebp-128h]
-  bool v30; // [esp+8h] [ebp-124h]
-  bool v31; // [esp+Ch] [ebp-120h]
-  int maxclass; // [esp+10h] [ebp-11Ch]
-  int maxclassa; // [esp+10h] [ebp-11Ch]
-  _DWORD *maxclassb; // [esp+10h] [ebp-11Ch]
-  signed int *v35; // [esp+14h] [ebp-118h]
-  int count; // [esp+18h] [ebp-114h]
-  int j; // [esp+1Ch] [ebp-110h]
-  int ja; // [esp+1Ch] [ebp-110h]
-  codec_setup_info *ci; // [esp+20h] [ebp-10Ch]
-  int v40; // [esp+24h] [ebp-108h]
-  int *sortpointer[65]; // [esp+28h] [ebp-104h] BYREF
+  int v11; // ecx
+  bool v12; // cc
+  signed int *v13; // ebx
+  signed int v14; // eax
+  int v15; // esi
+  int v16; // edx
+  unsigned __int8 *v17; // eax
+  signed int v18; // esi
+  signed int v19; // ecx
+  int v20; // eax
+  _DWORD base[65]; // [esp+Ch] [ebp-11Ch] BYREF
+  int v24; // [esp+110h] [ebp-18h]
+  _DWORD *v25; // [esp+114h] [ebp-14h]
+  int v26; // [esp+118h] [ebp-10h]
+  int bits; // [esp+11Ch] [ebp-Ch]
+  _DWORD *v28; // [esp+120h] [ebp-8h]
+  int v29; // [esp+124h] [ebp-4h]
+  int v30; // [esp+130h] [ebp+8h]
+  int v31; // [esp+130h] [ebp+8h]
+  int v32; // [esp+130h] [ebp+8h]
 
-  codec_setup = (vostok::memory::doug_lea_mt_allocator *)vi->codec_setup;
-  v3 = 0;
-  ci = (codec_setup_info *)codec_setup;
-  count = 0;
-  maxclass = -1;
-  if ( !vostok::memory::g_crt_allocator.__vftable )
-    vostok::memory::initialize_crt_allocator(v27);
-  v4 = (signed int *)vostok::memory::doug_lea_mt_allocator::malloc_impl(codec_setup, 0x460u);
-  v35 = v4;
-  memset((int)v4, 0, 0x460u);
-  v5 = oggpack_read(opb, 5u);
-  *v4 = v5;
-  if ( v5 <= 0 )
+  codec_setup = vi->codec_setup;
+  v26 = 0;
+  v29 = -1;
+  v25 = codec_setup;
+  v3 = ogg_calloc_impl(1u, 0x460u);
+  v4 = oggpack_read(opb, 5u);
+  v30 = 0;
+  *(_DWORD *)v3 = v4;
+  if ( v4 <= 0 )
   {
-LABEL_9:
-    v8 = maxclass + 1;
-    j = 0;
-    v40 = maxclass + 1;
-    if ( maxclass + 1 <= 0 )
+LABEL_7:
+    v31 = 0;
+    v24 = v29 + 1;
+    if ( v29 + 1 <= 0 )
     {
-LABEL_23:
-      v4[208] = oggpack_read(opb, 2u) + 1;
-      v14 = oggpack_read(opb, 4u);
-      if ( v14 >= 0 )
+LABEL_20:
+      *((_DWORD *)v3 + 208) = oggpack_read(opb, 2u) + 1;
+      bits = oggpack_read(opb, 4u);
+      if ( bits >= 0 )
       {
-        v15 = v35;
-        v16 = 0;
-        ja = 0;
-        if ( *v35 <= 0 )
+        v12 = *(_DWORD *)v3 <= 0;
+        v32 = 0;
+        v29 = 0;
+        if ( v12 )
         {
-          v17 = 0;
-LABEL_36:
-          v20 = v15 + 209;
-          v21 = v17 + 2;
-          v15[209] = 0;
-          v15[210] = 1 << v14;
-          v22 = 0;
-          if ( v21 > 0 )
+LABEL_30:
+          v15 = v26;
+          v16 = 1 << bits;
+          v17 = v3 + 836;
+          *((_DWORD *)v3 + 209) = 0;
+          v18 = v15 + 2;
+          v19 = 0;
+          for ( *((_DWORD *)v3 + 210) = v16; v19 < v18; v17 += 4 )
+            base[v19++] = v17;
+          qsort((char *)base, v18, 4u, (int (__cdecl *)(const void *, const void *))icomp);
+          v20 = 1;
+          if ( v18 <= 1 )
+            return v3;
+          while ( *(_DWORD *)base[v20 - 1] != *(_DWORD *)base[v20] )
           {
-            v23 = v20;
-            do
-              sortpointer[v22++] = v23++;
-            while ( v22 < v21 );
-          }
-          qsort((char *)sortpointer, v21, 4u, (int (__cdecl *)(const void *, const void *))icomp);
-          v24 = 1;
-          if ( v21 <= 1 )
-            return v35;
-          while ( *sortpointer[v24 - 1] != *sortpointer[v24] )
-          {
-            if ( ++v24 >= v21 )
-              return v35;
+            if ( ++v20 >= v18 )
+              return v3;
           }
         }
         else
         {
-          maxclassb = v35 + 1;
+          v28 = v3 + 4;
           while ( 1 )
           {
-            count += v15[*maxclassb + 32];
-            v17 = count;
-            if ( count > 63 )
+            v26 += *(_DWORD *)&v3[4 * *v28 + 128];
+            if ( v26 > 63 )
               break;
-            if ( v16 < count )
+            if ( v29 < v26 )
             {
-              v18 = &v35[v16 + 211];
-              while ( 1 )
+              v13 = (signed int *)&v3[4 * v29 + 844];
+              do
               {
-                v19 = oggpack_read(opb, v14);
-                *v18 = v19;
-                if ( v19 < 0 || v19 >= 1 << v14 )
-                  goto LABEL_44;
-                ++v16;
-                ++v18;
-                if ( v16 >= count )
-                {
-                  v17 = count;
-                  break;
-                }
+                v14 = oggpack_read(opb, bits);
+                *v13 = v14;
+                if ( v14 < 0 || v14 >= 1 << bits )
+                  goto err_out_4;
+                ++v29;
+                ++v13;
               }
+              while ( v29 < v26 );
             }
-            ++maxclassb;
-            if ( ++ja >= *v35 )
-            {
-              v15 = v35;
-              goto LABEL_36;
-            }
-            v15 = v35;
+            ++v32;
+            ++v28;
+            if ( v32 >= *(_DWORD *)v3 )
+              goto LABEL_30;
           }
         }
-LABEL_44:
-        v4 = v35;
       }
     }
     else
     {
-      maxclassa = (int)(v4 + 80);
-      v9 = v4 + 64;
+      v28 = v3 + 320;
+      v7 = (unsigned int *)(v3 + 256);
       while ( 1 )
       {
-        *(v9 - 32) = oggpack_read(opb, 3u) + 1;
-        v10 = oggpack_read(opb, 2u);
-        *(v9 - 16) = v10;
-        if ( v10 < 0 )
+        *(v7 - 32) = oggpack_read(opb, 3u) + 1;
+        v8 = oggpack_read(opb, 2u);
+        *(v7 - 16) = v8;
+        if ( v8 < 0 )
           break;
-        if ( v10 )
-          *v9 = oggpack_read(opb, 8u);
-        if ( *v9 < 0 || *v9 >= ci->books )
+        if ( v8 )
+          *v7 = oggpack_read(opb, 8u);
+        if ( (*v7 & 0x80000000) != 0 || (signed int)*v7 >= v25[6] )
           break;
-        v11 = 0;
-        if ( 1 << *(v9 - 16) > 0 )
+        v9 = *(v7 - 16);
+        v29 = 0;
+        if ( 1 << v9 > 0 )
         {
-          v12 = (signed int *)maxclassa;
-          while ( 1 )
+          bits = (int)v28;
+          do
           {
-            v13 = oggpack_read(opb, 8u) - 1;
-            *v12 = v13;
-            if ( v13 < -1 || v13 >= ci->books )
-              goto LABEL_44;
-            ++v11;
-            ++v12;
-            if ( v11 >= 1 << *(v9 - 16) )
-            {
-              v8 = v40;
-              break;
-            }
+            v10 = oggpack_read(opb, 8u) - 1;
+            *(_DWORD *)bits = v10;
+            if ( v10 < -1 || v10 >= v25[6] )
+              goto err_out_4;
+            v11 = *(v7 - 16);
+            ++v29;
+            bits += 4;
           }
+          while ( v29 < 1 << v11 );
         }
-        maxclassa += 32;
-        v4 = v35;
-        ++v9;
-        if ( ++j >= v8 )
-          goto LABEL_23;
+        ++v31;
+        v28 += 8;
+        ++v7;
+        if ( v31 >= v24 )
+          goto LABEL_20;
       }
     }
   }
   else
   {
-    v6 = v4 + 1;
+    v5 = (signed int *)(v3 + 4);
     while ( 1 )
     {
-      v7 = oggpack_read(opb, 4u);
-      *v6 = v7;
-      if ( v7 < 0 )
+      v6 = oggpack_read(opb, 4u);
+      *v5 = v6;
+      if ( v6 < 0 )
         break;
-      if ( maxclass < v7 )
-        maxclass = v7;
-      ++v3;
-      ++v6;
-      if ( v3 >= *v4 )
-        goto LABEL_9;
+      if ( v29 < v6 )
+        v29 = v6;
+      ++v30;
+      ++v5;
+      if ( v30 >= *(_DWORD *)v3 )
+        goto LABEL_7;
     }
   }
-  memset((int)v4, 0, 0x460u);
-  if ( !vostok::memory::g_crt_allocator.__vftable )
-  {
-    vostok::debug::preinitialize(v27);
-    if ( !vostok::core::g_log_callback )
-    {
-      vostok::core::g_log_callback = (void (__cdecl *)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag))vostok::core::logging_callback;
-      vostok::debug::set_log_callback(vostok::core::debug_log_callback);
-    }
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-    {
-      if ( !_InterlockedExchange((volatile __int32 *)&s_crt_allocator_creation, 1) )
-      {
-        vostok::memory::doug_lea_mt_allocator::doug_lea_mt_allocator(v26, v28, v29, v30, v31);
-        (*(void (__thiscall **)(char *, unsigned __int8 *, unsigned __int8 *, _DWORD, const char *))(*(_DWORD *)s_crt_allocator_buffer + 4))(
-          s_crt_allocator_buffer,
-          vostok::memory::s_CRT_arena,
-          &vostok::memory::s_CRT_arena[55905848],
-          0,
-          "CRT allocator");
-        _InterlockedExchange((volatile __int32 *)&vostok::memory::g_crt_allocator, (__int32)s_crt_allocator_buffer);
-        vostok::memory::doug_lea_mt_allocator::free_impl(&vostok::memory::g_crt_allocator, v4);
-        return 0;
-      }
-      while ( !vostok::memory::g_crt_allocator.__vftable )
-        ;
-    }
-  }
-  vostok::memory::doug_lea_mt_allocator::free_impl(v26, v4);
+err_out_4:
+  floor1_free_info(v3);
   return 0;
 }

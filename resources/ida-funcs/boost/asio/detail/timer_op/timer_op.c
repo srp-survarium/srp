@@ -1,15 +1,13 @@
-void __thiscall boost::asio::detail::timer_op::timer_op(
-        boost::asio::detail::timer_op *this,
-        void (__cdecl *func)(boost::asio::detail::win_iocp_io_service *, boost::asio::detail::win_iocp_operation *, const boost::system::error_code *, unsigned int))
+void __usercall boost::asio::detail::timer_op::timer_op(boost::asio::detail::timer_op *this@<ecx>, _DWORD *a2@<esi>)
 {
-  this->next_ = 0;
-  this->func_ = func;
-  this->Internal = 0;
-  this->InternalHigh = 0;
-  this->Offset = 0;
-  this->OffsetHigh = 0;
-  this->hEvent = 0;
-  this->ready_ = 0;
-  this->ec_.m_val = 0;
-  this->ec_.m_cat = boost::system::system_category();
+  a2[5] = 0;
+  a2[6] = this;
+  *a2 = 0;
+  a2[1] = 0;
+  a2[2] = 0;
+  a2[3] = 0;
+  a2[4] = 0;
+  a2[7] = 0;
+  a2[8] = 0;
+  a2[9] = boost::system::system_category();
 }

@@ -1,13 +1,13 @@
 char __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::ParseEndElement(
         Scaleform::Render::Text::SGMLParser<wchar_t> *this,
-        const wchar_t **ppelemName,
+        wchar_t **ppelemName,
         unsigned int *pelemLen)
 {
   const wchar_t *pNextChar; // eax
 
   if ( this->CurState != 4 )
     return 0;
-  Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, ppelemName, pelemLen);
+  Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, (const __m128i **)ppelemName, pelemLen);
   if ( this->Iter.CurChar != 62 )
   {
     this->CurState = 1;

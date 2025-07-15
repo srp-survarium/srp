@@ -1,16 +1,16 @@
-int __cdecl EVP_MD_CTX_copy_ex(env_md_ctx_st *out, const env_md_ctx_st *in)
+int __usercall EVP_MD_CTX_copy_ex@<eax>(int a1@<ebx>, env_md_ctx_st *out, const env_md_ctx_st *in)
 {
   void *md_data; // ebx
   int ctx_size; // eax
-  evp_pkey_ctx_st *v5; // eax
-  void *v6; // eax
+  evp_pkey_ctx_st *v6; // eax
+  void *v7; // eax
   int (__cdecl *copy)(env_md_ctx_st *, const env_md_ctx_st *); // eax
 
   if ( in && in->digest )
   {
-    if ( in->engine && !ENGINE_init((unsigned int)in, in->engine) )
+    if ( in->engine && !ENGINE_init((int)in, a1, in->engine) )
     {
-      ERR_put_error(6u, 110, 38, ".\\crypto\\evp\\digest.c", 281);
+      ERR_put_error(a1, 6u, 110, 38, ".\\crypto\\evp\\digest.c", 281);
       return 0;
     }
     if ( out->digest == in->digest )
@@ -22,7 +22,7 @@ int __cdecl EVP_MD_CTX_copy_ex(env_md_ctx_st *out, const env_md_ctx_st *in)
     {
       md_data = 0;
     }
-    EVP_MD_CTX_cleanup((unsigned int)in, out);
+    EVP_MD_CTX_cleanup((int)in, (int)md_data, out);
     *out = *in;
     if ( in->md_data )
     {
@@ -35,19 +35,19 @@ int __cdecl EVP_MD_CTX_copy_ex(env_md_ctx_st *out, const env_md_ctx_st *in)
         }
         else
         {
-          v6 = CRYPTO_malloc(ctx_size, ".\\crypto\\evp\\digest.c", 301);
-          out->md_data = v6;
-          if ( !v6 )
+          v7 = CRYPTO_malloc(ctx_size, ".\\crypto\\evp\\digest.c", 301);
+          out->md_data = v7;
+          if ( !v7 )
           {
-            ERR_put_error(6u, 110, 65, ".\\crypto\\evp\\digest.c", 304);
+            ERR_put_error(0, 6u, 110, 65, ".\\crypto\\evp\\digest.c", 304);
             return 0;
           }
         }
-        memcpy((unsigned __int8 *)out->md_data, (unsigned __int8 *)in->md_data, out->digest->ctx_size);
+        memcpy((int)out->md_data, (const __m128i *)in->md_data, out->digest->ctx_size);
       }
     }
     out->update = in->update;
-    if ( !in->pctx || (v5 = EVP_PKEY_CTX_dup(in->pctx), (out->pctx = v5) != 0) )
+    if ( !in->pctx || (v6 = EVP_PKEY_CTX_dup((int)md_data, (int)in, in->pctx), (out->pctx = v6) != 0) )
     {
       copy = out->digest->copy;
       if ( copy )
@@ -57,13 +57,13 @@ int __cdecl EVP_MD_CTX_copy_ex(env_md_ctx_st *out, const env_md_ctx_st *in)
     }
     else
     {
-      EVP_MD_CTX_cleanup((unsigned int)in, out);
+      EVP_MD_CTX_cleanup((int)in, (int)md_data, out);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(6u, 110, 111, ".\\crypto\\evp\\digest.c", 274);
+    ERR_put_error(a1, 6u, 110, 111, ".\\crypto\\evp\\digest.c", 274);
     return 0;
   }
 }

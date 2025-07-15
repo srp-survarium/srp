@@ -1,81 +1,70 @@
 void __thiscall survarium::object_particle_visual::load(
         survarium::object_particle_visual *this,
-        vostok::configs::binary_config_value *t,
-        const char *project_resources_path,
-        boost::function4<void,unsigned int,float,float,char const *> *cb)
+        const vostok::configs::binary_config_value *t,
+        char *project_resources_path,
+        boost::function<void __cdecl(survarium::game_object_ &)> *cb)
 {
-  survarium::base_game_scene *m_game_scene; // ecx
-  vostok::render::base_scene *v6; // edx
-  vostok::render::base_scene *m_object; // eax
-  unsigned int m_quality_levels_count; // esi
   const char *pointer; // ebx
-  boost::function<void __cdecl(vostok::resources::queries_result &)> *v10; // ecx
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__thiscall *__ptr64 v12)(survarium::object_vegetation *, vostok::resources::queries_result *, boost::function<void __cdecl(survarium::game_object_ &)> *); // [esp-30h] [ebp-C8h]
-  boost::function<void __cdecl(survarium::game_object_ &)> v13; // [esp-20h] [ebp-B8h] BYREF
-  vostok::variant<32> ud; // [esp+0h] [ebp-98h] BYREF
-  int v15; // [esp+30h] [ebp-68h]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *result; // [esp+3Ch] [ebp-5Ch] BYREF
-  vostok::resources::request requests; // [esp+40h] [ebp-58h] BYREF
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+48h] [ebp-50h] BYREF
-  _DWORD v19[2]; // [esp+68h] [ebp-30h] BYREF
-  unsigned int v20[8]; // [esp+70h] [ebp-28h] BYREF
-  _DWORD *v21; // [esp+90h] [ebp-8h]
-  int v22; // [esp+94h] [ebp-4h]
+  boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v8; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v9; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > v11; // [esp-34h] [ebp-F4h] BYREF
+  boost::detail::function::function_buffer *p_functor; // [esp-4h] [ebp-C4h]
+  unsigned int v13; // [esp+10h] [ebp-B0h] BYREF
+  boost::detail::function::function_buffer functor; // [esp+18h] [ebp-A8h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > v15; // [esp+30h] [ebp-90h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > v16; // [esp+60h] [ebp-60h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > __that; // [esp+90h] [ebp-30h] BYREF
 
-  survarium::load_transform(t, &this->m_transform);
-  m_game_scene = this->m_game_scene;
-  v6 = 0;
-  v21 = 0;
-  v22 = 0;
-  m_object = m_game_scene->m_render_scene.m_object;
-  if ( m_object )
-  {
-    v6 = m_game_scene->m_render_scene.m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  m_quality_levels_count = v6[3].m_quality_levels_count;
-  result = (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)&v6->vostok::resources::unmanaged_intrusive_base;
-  if ( !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v6->vostok::resources::unmanaged_intrusive_base, v6);
-  v22 = vostok::detail::type_to_int<vostok::particle::world *>::get();
-  v20[0] = m_quality_levels_count;
-  v19[0] = &vostok::detail::concrete_type_helper<vostok::particle::world *>::`vftable';
-  v21 = v19;
+  survarium::game_object_static::load(this, t, project_resources_path, cb);
   pointer = (const char *)vostok::configs::binary_config_value::operator[](t, "lib_name")->data.pointer;
-  result = (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)&ud;
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(cb, (int)&v13);
-  HIDWORD(v12) = (unsigned __int8)1_141;
-  LODWORD(v12) = this;
-  boost::bind<void,survarium::object_environment,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &,survarium::object_environment *,boost::arg<1>,boost::function<void __cdecl (survarium::game_object_ &)>>(
-    (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_environment,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_environment *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)result,
-    v12,
-    (void (__thiscall *__ptr64)(survarium::object_vegetation *, vostok::resources::queries_result *, boost::function<void __cdecl(survarium::game_object_ &)> *))(unsigned int)survarium::object_particle_visual::on_visual_ready,
-    v13);
-  boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
-    v10,
-    (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_particle_visual,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_particle_visual *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > >)ud,
-    v15);
-  result = (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)v19;
-  requests.path = pointer;
-  requests.id = particle_system_instance_class;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
-    (const vostok::variant<32> **)&result,
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)cb,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&(&v11.l_.a3_.t_.vtable)[1]);
+  *((_DWORD *)&v11.l_.boost::_bi::storage2<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1> > + 1) = survarium::object_particle_visual::on_visual_ready;
+  v11.l_.a1_.t_ = (survarium::object_vegetation *)(unsigned __int8)1_112;
+  boost::bind<void,survarium::object_sound,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &,survarium::object_sound *,boost::arg<1>,boost::function<void __cdecl (survarium::game_object_ &)>>(
+    (int)&__that,
+    (boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)this,
+    *(void (__thiscall *__ptr64 *)(survarium::object_vegetation *, vostok::resources::queries_result *, boost::function<void __cdecl(survarium::game_object_ &)> *))&v11.l_.a1_.t_,
+    0,
+    (int)(&v11.l_.a3_.t_.vtable)[1]);
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>(
+    &v16,
+    &__that);
+  v13 = 0;
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>(
+    &v15,
+    &v16);
+  p_functor = &functor;
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>::bind_t<void,boost::_mfi::mf2<void,survarium::object_wire,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_wire *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>(
+    &v11,
+    &v15);
+  v13 = boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_vegetation,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_vegetation *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>>(
+          v6,
+          v11,
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)p_functor) != 0
+      ? (unsigned int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::object_particle_visual,vostok::resources::queries_result &,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list3<boost::_bi::value<survarium::object_particle_visual *>,boost::arg<1>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>>'::`2'::stored_vtable
+      : 0;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&v15.l_.a3_);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v8,
+    (int *)&v16.l_.a3_);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v9,
+    (int *)&__that.l_.a3_);
+  vostok::resources::query_resource(
+    pointer,
+    (vostok::variant<32> *)0x3E,
+    survarium::g_allocator,
+    0,
     0,
     assert_on_fail_true);
-  if ( callback.vtable )
-  {
-    if ( ((int)callback.vtable & 1) == 0 )
-    {
-      v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-      if ( v11 )
-        v11(&callback.functor, &callback.functor, 2);
-    }
-  }
-  if ( v21 )
-    (*(void (__thiscall **)(_DWORD *, unsigned int *))(*v21 + 4))(v21, v20);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v10,
+    (int *)&v13);
 }

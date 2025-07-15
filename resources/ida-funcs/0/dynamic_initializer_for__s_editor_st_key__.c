@@ -1,6 +1,11 @@
-void dynamic_initializer_for__s_editor_st_key__()
+void __thiscall dynamic_initializer_for__s_editor_st_key__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_editor_st_key);
+  vostok::command_line::key::key(
+    this,
+    &s_editor_st_key,
+    "editor_single_thread",
+    "editor_st",
+    uri,
+    "run editor in single thread",
+    uri);
 }

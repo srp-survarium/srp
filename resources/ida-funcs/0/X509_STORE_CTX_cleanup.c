@@ -1,4 +1,4 @@
-void __cdecl X509_STORE_CTX_cleanup(x509_store_ctx_st *ctx)
+void __usercall X509_STORE_CTX_cleanup(int a1@<ebx>, x509_store_ctx_st *ctx)
 {
   int (__cdecl *cleanup)(x509_store_ctx_st *); // eax
   stack_st_X509 *chain; // eax
@@ -23,7 +23,7 @@ void __cdecl X509_STORE_CTX_cleanup(x509_store_ctx_st *ctx)
     sk_pop_free(&chain->stack, (void (__cdecl *)(void *))X509_free);
     ctx->chain = 0;
   }
-  CRYPTO_free_ex_data((unsigned int)&ctx->ex_data);
+  CRYPTO_free_ex_data((int)&ctx->ex_data, a1);
   ctx->ex_data.sk = 0;
   ctx->ex_data.dummy = 0;
 }

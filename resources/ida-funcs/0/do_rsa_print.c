@@ -74,16 +74,16 @@ int __usercall do_rsa_print@<eax>(const rsa_st *x@<edi>, bio_st *bp, int off, in
   v15 = (unsigned __int8 *)CRYPTO_malloc(v5 + 10, ".\\crypto\\rsa\\rsa_ameth.c", 204);
   if ( !v15 )
   {
-    ERR_put_error(4u, 146, 65, ".\\crypto\\rsa\\rsa_ameth.c", 207);
+    ERR_put_error(0, 4u, 146, 65, ".\\crypto\\rsa\\rsa_ameth.c", 207);
     return 0;
   }
   if ( x->n )
     v6 = BN_num_bits(x->n);
-  if ( BIO_indent(bp, off, 128) )
+  if ( BIO_indent(v6, bp, off, 128) )
   {
     if ( priv && x->d )
     {
-      if ( (int)BIO_printf(bp, "Private-Key: (%d bit)\n", v6) > 0 )
+      if ( BIO_printf(bp, "Private-Key: (%d bit)\n", v6) > 0 )
       {
         v17 = "modulus:";
         v18 = "publicExponent:";
@@ -102,7 +102,7 @@ LABEL_37:
         }
       }
     }
-    else if ( (int)BIO_printf(bp, "Public-Key: (%d bit)\n", v6) > 0 )
+    else if ( BIO_printf(bp, "Public-Key: (%d bit)\n", v6) > 0 )
     {
       v17 = "Modulus:";
       v18 = "Exponent:";

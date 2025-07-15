@@ -1,4 +1,4 @@
-unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
+int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
         Scaleform::GFx::StreamContext *ps,
         Scaleform::Render::FilterSet *filters)
 {
@@ -9,15 +9,15 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
   const unsigned __int8 *v7; // edi
   unsigned __int8 v8; // cl
   unsigned int v9; // eax
-  unsigned int v10; // ebp
+  int v10; // ebp
   Scaleform::Render::ShadowFilter *v11; // eax
-  Scaleform::GFx::Resource *v12; // eax
+  Scaleform::RefCountVImpl *v12; // eax
   Scaleform::Render::BlurFilter *v13; // eax
-  Scaleform::GFx::Resource *v14; // eax
+  Scaleform::RefCountVImpl *v14; // eax
   Scaleform::Render::GlowFilter *v15; // eax
-  Scaleform::GFx::Resource *v16; // eax
+  Scaleform::RefCountVImpl *v16; // eax
   Scaleform::Render::BevelFilter *v17; // eax
-  Scaleform::GFx::Resource *v18; // eax
+  Scaleform::RefCountVImpl *v18; // eax
   unsigned __int8 v19; // cl
   unsigned int v20; // eax
   int v21; // edx
@@ -49,14 +49,14 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
   unsigned int CurBitIndex; // eax
   unsigned int v48; // ecx
   float v50; // [esp+20h] [ebp-40h]
-  Scaleform::GFx::Resource *filter; // [esp+24h] [ebp-3Ch]
-  Scaleform::MemoryHeap *filtersHeap; // [esp+28h] [ebp-38h]
-  unsigned int numFilters; // [esp+2Ch] [ebp-34h]
-  float distance; // [esp+30h] [ebp-30h] BYREF
+  Scaleform::RefCountVImpl *v51; // [esp+24h] [ebp-3Ch]
+  Scaleform::MemoryHeap *v52; // [esp+28h] [ebp-38h]
+  int v53; // [esp+2Ch] [ebp-34h]
+  float dist; // [esp+30h] [ebp-30h] BYREF
   float angle; // [esp+34h] [ebp-2Ch] BYREF
-  unsigned int numBytes; // [esp+38h] [ebp-28h]
+  int v56; // [esp+38h] [ebp-28h]
   Scaleform::Render::BlurFilterParams params; // [esp+3Ch] [ebp-24h] BYREF
-  unsigned __int8 filterCount; // [esp+64h] [ebp+4h]
+  unsigned __int8 v58; // [esp+64h] [ebp+4h]
 
   if ( ps->CurBitIndex )
     ++ps->CurByteIndex;
@@ -64,20 +64,20 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
   pData = ps->pData;
   angle = 0.0;
   ps->CurBitIndex = 0;
-  distance = 0.0;
+  dist = 0.0;
   v5 = pData[CurByteIndex];
   ps->CurByteIndex = CurByteIndex + 1;
-  filterCount = v5;
-  numFilters = 0;
+  v58 = v5;
+  v53 = 0;
   if ( filters )
-    filtersHeap = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, filters);
+    v52 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, filters);
   else
-    filtersHeap = Scaleform::Memory::pGlobalHeap;
-  if ( !filterCount )
+    v52 = Scaleform::Memory::pGlobalHeap;
+  if ( !v58 )
     return 0;
   do
   {
-    --filterCount;
+    --v58;
     if ( ps->CurBitIndex )
       ++ps->CurByteIndex;
     v6 = ps->CurByteIndex;
@@ -91,9 +91,9 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
     v10 = 0;
     params.Offset.y = 0.0;
     ps->CurByteIndex = v9;
-    numBytes = 0;
+    v56 = 0;
     params.Strength = 1.0;
-    filter = 0;
+    v51 = 0;
     params.Mode = 0;
     params.Passes = 1;
     *(_WORD *)&params.Colors[0].Channels.Green = 0;
@@ -105,55 +105,41 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::StreamContext>(
     switch ( v8 )
     {
       case 0u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
-          ps,
-          &params,
-          &angle,
-          &distance,
-          13,
-          Filter_Shadow,
-          0x1Fu);
-        v11 = (Scaleform::Render::ShadowFilter *)filtersHeap->Alloc(filtersHeap, 60u, 0);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, &angle, &dist, 13, 1u, 0x1Fu);
+        v11 = (Scaleform::Render::ShadowFilter *)v52->Alloc(v52, 60u, 0);
         if ( !v11 )
           goto LABEL_12;
-        Scaleform::Render::ShadowFilter::ShadowFilter(v11, &params, angle, distance);
-        filter = v12;
+        Scaleform::Render::ShadowFilter::ShadowFilter(v11, &params, angle, dist);
+        v51 = v12;
         break;
       case 1u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, 0, 0, 0, Filter_Blur, 0xF8u);
-        v13 = (Scaleform::Render::BlurFilter *)filtersHeap->Alloc(filtersHeap, 60u, 0);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, 0, 0, 0, 0, 0xF8u);
+        v13 = (Scaleform::Render::BlurFilter *)v52->Alloc(v52, 60u, 0);
         if ( !v13 )
           goto LABEL_12;
         Scaleform::Render::BlurFilter::BlurFilter(v13, &params);
-        filter = v14;
+        v51 = v14;
         break;
       case 2u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, 0, 0, 9, Filter_Glow, 0x1Fu);
-        v15 = (Scaleform::Render::GlowFilter *)filtersHeap->Alloc(filtersHeap, 60u, 0);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, 0, 0, 9, 2u, 0x1Fu);
+        v15 = (Scaleform::Render::GlowFilter *)v52->Alloc(v52, 60u, 0);
         if ( !v15 )
           goto LABEL_12;
         Scaleform::Render::GlowFilter::GlowFilter(v15, &params);
-        filter = v16;
+        v51 = v16;
         break;
       case 3u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
-          ps,
-          &params,
-          &angle,
-          &distance,
-          15,
-          Filter_Bevel,
-          0xFu);
-        v17 = (Scaleform::Render::BevelFilter *)filtersHeap->Alloc(filtersHeap, 60u, 0);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(ps, &params, &angle, &dist, 15, 3u, 0xFu);
+        v17 = (Scaleform::Render::BevelFilter *)v52->Alloc(v52, 60u, 0);
         if ( v17 )
         {
-          Scaleform::Render::BevelFilter::BevelFilter(v17, &params, angle, distance);
-          filter = v18;
+          Scaleform::Render::BevelFilter::BevelFilter(v17, &params, angle, dist);
+          v51 = v18;
         }
         else
         {
 LABEL_12:
-          filter = 0;
+          v51 = 0;
         }
         break;
       case 4u:
@@ -174,7 +160,7 @@ LABEL_12:
         v10 = 4 * v21 + 13;
         break;
       case 6u:
-        v22 = (Scaleform::Render::ColorMatrixFilter *)filtersHeap->Alloc(filtersHeap, 96u, 0);
+        v22 = (Scaleform::Render::ColorMatrixFilter *)v52->Alloc(v52, 96u, 0);
         if ( v22 )
         {
           Scaleform::Render::ColorMatrixFilter::ColorMatrixFilter(v22);
@@ -186,7 +172,7 @@ LABEL_12:
         {
           v24 = 0;
         }
-        filter = v24;
+        v51 = (Scaleform::RefCountVImpl *)v24;
         for ( i = 0; i < 0x14; i += 10 )
         {
           if ( ps->CurBitIndex )
@@ -202,80 +188,80 @@ LABEL_12:
           ps->CurBitIndex = 0;
           LODWORD(v29) = *v28 | ((v28[1] | (*((unsigned __int16 *)v28 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E439[i]) = v29;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B51[i]) = v29;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v30 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v31) = *v30 | ((v30[1] | (*((unsigned __int16 *)v30 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43A[i]) = v31;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B52[i]) = v31;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v32 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v33) = *v32 | ((v32[1] | (*((unsigned __int16 *)v32 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43B[i]) = v33;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B53[i]) = v33;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v34 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v35) = *v34 | ((v34[1] | (*((unsigned __int16 *)v34 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43C[i]) = v35;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B54[i]) = v35;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v36 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v37) = *v36 | ((v36[1] | (*((unsigned __int16 *)v36 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43D[i]) = v37;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B55[i]) = v37;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v38 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v39) = *v38 | ((v38[1] | (*((unsigned __int16 *)v38 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43E[i]) = v39;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B56[i]) = v39;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v40 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v41) = *v40 | ((v40[1] | (*((unsigned __int16 *)v40 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E43F[i]) = v41;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B57[i]) = v41;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v42 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v43) = *v42 | ((v42[1] | (*((unsigned __int16 *)v42 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_85E440[i]) = v43;
+          *((float *)&v24[1].RefCount.Value + (unsigned __int8)byte_6F1B58[i]) = v43;
           if ( ps->CurBitIndex )
             ++ps->CurByteIndex;
           v44 = &ps->pData[ps->CurByteIndex];
           ps->CurBitIndex = 0;
           LODWORD(v50) = *v44 | ((v44[1] | (*((unsigned __int16 *)v44 + 1) << 8)) << 8);
           ps->CurByteIndex += 4;
-          v45 = (unsigned __int8)byte_85E441[i];
+          v45 = (unsigned __int8)byte_6F1B59[i];
           *((float *)&v24[1].RefCount.Value + v45) = v50;
         }
-        ++numFilters;
+        ++v53;
         *(float *)&v24[6].pLib = *(float *)&v24[6].pLib * 0.003921568859368563;
         *(float *)&v24[7].__vftable = *(float *)&v24[7].__vftable * 0.003921568859368563;
         *(float *)&v24[7].RefCount.Value = *(float *)&v24[7].RefCount.Value * 0.003921568859368563;
         *(float *)&v24[7].pLib = 0.003921568859368563 * *(float *)&v24[7].pLib;
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v24);
-        v10 = numBytes;
+        v10 = v56;
         break;
       default:
         break;
     }
-    if ( filters && filter )
+    if ( filters && v51 )
     {
-      Scaleform::Render::FilterSet::AddFilter(filters, filter);
-      ++numFilters;
+      Scaleform::Render::FilterSet::AddFilter(filters, (Scaleform::GFx::Resource *)v51);
+      ++v53;
     }
     if ( v10 )
     {
@@ -293,15 +279,15 @@ LABEL_12:
       ps->CurBitIndex = 0;
       ps->CurByteIndex = v48;
     }
-    if ( filter )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)filter);
+    if ( v51 )
+      Scaleform::RefCountImpl::Release(v51);
   }
-  while ( filterCount );
-  return numFilters;
+  while ( v58 );
+  return v53;
 }
 
 
-unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
+int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
         Scaleform::GFx::Stream *ps,
         Scaleform::Render::FilterSet *filters)
 {
@@ -314,15 +300,15 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
   unsigned int v9; // eax
   unsigned __int8 v10; // cl
   unsigned int v11; // eax
-  unsigned int v12; // edi
+  int v12; // edi
   Scaleform::Render::ShadowFilter *v13; // eax
-  Scaleform::GFx::Resource *v14; // eax
+  Scaleform::RefCountVImpl *v14; // eax
   Scaleform::Render::BlurFilter *v15; // eax
-  Scaleform::GFx::Resource *v16; // eax
+  Scaleform::RefCountVImpl *v16; // eax
   Scaleform::Render::GlowFilter *v17; // eax
-  Scaleform::GFx::Resource *v18; // eax
+  Scaleform::RefCountVImpl *v18; // eax
   Scaleform::Render::BevelFilter *v19; // eax
-  Scaleform::GFx::Resource *v20; // eax
+  Scaleform::RefCountVImpl *v20; // eax
   int v21; // edx
   unsigned int v22; // eax
   unsigned __int8 v23; // cl
@@ -342,15 +328,15 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
   unsigned int v37; // eax
   unsigned __int8 v38; // cl
   signed int v39; // edx
-  Scaleform::GFx::Resource *filter; // [esp+20h] [ebp-40h]
-  unsigned int numFilters; // [esp+24h] [ebp-3Ch]
-  float distance; // [esp+28h] [ebp-38h] BYREF
+  Scaleform::RefCountVImpl *v41; // [esp+20h] [ebp-40h]
+  int v42; // [esp+24h] [ebp-3Ch]
+  float dist; // [esp+28h] [ebp-38h] BYREF
   float angle; // [esp+2Ch] [ebp-34h] BYREF
-  Scaleform::MemoryHeap *filtersHeap; // [esp+30h] [ebp-30h]
+  Scaleform::MemoryHeap *v45; // [esp+30h] [ebp-30h]
   float v46; // [esp+34h] [ebp-2Ch]
-  unsigned int numBytes; // [esp+38h] [ebp-28h]
+  int v47; // [esp+38h] [ebp-28h]
   Scaleform::Render::BlurFilterParams params; // [esp+3Ch] [ebp-24h] BYREF
-  unsigned __int8 filterCount; // [esp+64h] [ebp+4h]
+  unsigned __int8 v49; // [esp+64h] [ebp+4h]
 
   v3 = ps->DataSize - ps->Pos;
   ps->UnusedBits = 0;
@@ -360,26 +346,26 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
   pBuffer = ps->pBuffer;
   angle = 0.0;
   v6 = pBuffer[Pos];
-  distance = 0.0;
+  dist = 0.0;
   ps->Pos = Pos + 1;
-  filterCount = v6;
-  numFilters = 0;
+  v49 = v6;
+  v42 = 0;
   if ( filters )
   {
     v7 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, filters);
-    filtersHeap = v7;
+    v45 = v7;
   }
   else
   {
     v7 = Scaleform::Memory::pGlobalHeap;
-    filtersHeap = Scaleform::Memory::pGlobalHeap;
+    v45 = Scaleform::Memory::pGlobalHeap;
   }
-  if ( !filterCount )
+  if ( !v49 )
     return 0;
   do
   {
     v8 = ps->DataSize - ps->Pos;
-    --filterCount;
+    --v49;
     ps->UnusedBits = 0;
     if ( v8 < 1 )
       Scaleform::GFx::Stream::PopulateBuffer1(ps);
@@ -392,9 +378,9 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
     v12 = 0;
     params.Offset.y = 0.0;
     ps->Pos = v11;
-    numBytes = 0;
+    v47 = 0;
     params.Strength = 1.0;
-    filter = 0;
+    v41 = 0;
     params.Mode = 0;
     params.Passes = 1;
     *(_WORD *)&params.Colors[0].Channels.Green = 0;
@@ -406,41 +392,41 @@ unsigned int __cdecl Scaleform::GFx::LoadFilters<Scaleform::GFx::Stream>(
     switch ( v10 )
     {
       case 0u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, &angle, &distance, 13, Filter_Shadow, 0x1Fu);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, &angle, &dist, 13, 1u, 0x1Fu);
         v13 = (Scaleform::Render::ShadowFilter *)v7->Alloc(v7, 60u, 0);
         if ( !v13 )
           goto LABEL_12;
-        Scaleform::Render::ShadowFilter::ShadowFilter(v13, &params, angle, distance);
-        filter = v14;
+        Scaleform::Render::ShadowFilter::ShadowFilter(v13, &params, angle, dist);
+        v41 = v14;
         break;
       case 1u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, 0, 0, 0, Filter_Blur, 0xF8u);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, 0, 0, 0, 0, 0xF8u);
         v15 = (Scaleform::Render::BlurFilter *)v7->Alloc(v7, 60u, 0);
         if ( !v15 )
           goto LABEL_12;
         Scaleform::Render::BlurFilter::BlurFilter(v15, &params);
-        filter = v16;
+        v41 = v16;
         break;
       case 2u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, 0, 0, 9, Filter_Glow, 0x1Fu);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, 0, 0, 9, 2u, 0x1Fu);
         v17 = (Scaleform::Render::GlowFilter *)v7->Alloc(v7, 60u, 0);
         if ( !v17 )
           goto LABEL_12;
         Scaleform::Render::GlowFilter::GlowFilter(v17, &params);
-        filter = v18;
+        v41 = v18;
         break;
       case 3u:
-        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, &angle, &distance, 15, Filter_Bevel, 0xFu);
+        Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(ps, &params, &angle, &dist, 15, 3u, 0xFu);
         v19 = (Scaleform::Render::BevelFilter *)v7->Alloc(v7, 60u, 0);
         if ( v19 )
         {
-          Scaleform::Render::BevelFilter::BevelFilter(v19, &params, angle, distance);
-          filter = v20;
+          Scaleform::Render::BevelFilter::BevelFilter(v19, &params, angle, dist);
+          v41 = v20;
         }
         else
         {
 LABEL_12:
-          filter = 0;
+          v41 = 0;
         }
         break;
       case 4u:
@@ -480,13 +466,13 @@ LABEL_12:
           v30 = v29;
           if ( v29 )
             Scaleform::RefCountImpl::AddRef(v29);
-          filter = v30;
+          v41 = (Scaleform::RefCountVImpl *)v30;
           v31 = 0;
         }
         else
         {
           v30 = 0;
-          filter = 0;
+          v41 = 0;
           v31 = 0;
         }
         do
@@ -505,22 +491,22 @@ LABEL_12:
           *((float *)&v30[1].RefCount.Value + v35) = v34;
         }
         while ( v31 < 0x14 );
-        ++numFilters;
+        ++v42;
         *(float *)&v30[6].pLib = *(float *)&v30[6].pLib * 0.003921568859368563;
         *(float *)&v30[7].__vftable = *(float *)&v30[7].__vftable * 0.003921568859368563;
         *(float *)&v30[7].RefCount.Value = *(float *)&v30[7].RefCount.Value * 0.003921568859368563;
         *(float *)&v30[7].pLib = 0.003921568859368563 * *(float *)&v30[7].pLib;
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v30);
-        v12 = numBytes;
-        v7 = filtersHeap;
+        v12 = v47;
+        v7 = v45;
         break;
       default:
         break;
     }
-    if ( filters && filter )
+    if ( filters && v41 )
     {
-      Scaleform::Render::FilterSet::AddFilter(filters, filter);
-      ++numFilters;
+      Scaleform::Render::FilterSet::AddFilter(filters, (Scaleform::GFx::Resource *)v41);
+      ++v42;
     }
     for ( ; v12; ++ps->Pos )
     {
@@ -530,9 +516,9 @@ LABEL_12:
       if ( v39 < 1 )
         Scaleform::GFx::Stream::PopulateBuffer1(ps);
     }
-    if ( filter )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)filter);
+    if ( v41 )
+      Scaleform::RefCountImpl::Release(v41);
   }
-  while ( filterCount );
-  return numFilters;
+  while ( v49 );
+  return v42;
 }

@@ -7,11 +7,12 @@ void __stdcall Scaleform::GFx::GFx_DebugIDLoader(
   int v4; // eax
   unsigned int Pos; // eax
   unsigned __int8 v6; // cl
-  void *v7; // esi
-  char acHex[4]; // [esp+Ch] [ebp-8h] BYREF
-  Scaleform::String strSwdId; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::AmpServer *Instance; // eax
+  void *v8; // esi
+  char v9[4]; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::String v10; // [esp+10h] [ebp-4h] BYREF
 
-  Scaleform::String::String(&strSwdId);
+  Scaleform::String::String(&v10);
   v2 = 16;
   do
   {
@@ -25,12 +26,18 @@ void __stdcall Scaleform::GFx::GFx_DebugIDLoader(
     Pos = pAltStream->Stream.Pos;
     v6 = pAltStream->Stream.pBuffer[Pos];
     pAltStream->Stream.Pos = Pos + 1;
-    _itoa_s((char *)v2, v6, acHex, 3u, 0x10u);
-    Scaleform::String::AppendString(&strSwdId, acHex, 0xFFFFFFFF);
+    _itoa_s((char *)v2, v6, v9, 3u, 0x10u);
+    Scaleform::String::AppendString(&v10, (const __m128i *)v9, 0xFFFFFFFF);
     --v2;
   }
   while ( v2 );
-  v7 = (void *)(strSwdId.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((strSwdId.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->AddSwf(
+    Instance,
+    p->pLoadData.pObject->SwdHandle,
+    (const char *)((v10.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const char *)((p->pLoadData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8));
+  v8 = (void *)(v10.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v10.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
 }

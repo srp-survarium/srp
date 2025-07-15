@@ -1,4 +1,4 @@
-int __usercall _wcsicmp@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, wchar_t *dst, wchar_t *src)
+int __usercall _wcsicmp@<eax>(int a1@<ebx>, int a2@<edi>, wchar_t *dst, wchar_t *src)
 {
   wchar_t *v4; // edi
   wchar_t *v6; // edx
@@ -29,7 +29,7 @@ int __usercall _wcsicmp@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, wcha
   else
   {
     *_errno() = 22;
-    _invalid_parameter(a1, (unsigned int)dst, 0);
+    _invalid_parameter(a1, (int)dst, 0);
     return 0x7FFFFFFF;
   }
 }

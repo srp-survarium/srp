@@ -11,7 +11,8 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::PropertyIsEnumerableP
   Scaleform::GFx::AS3::Object *VObj; // ebx
   const Scaleform::GFx::AS3::VM::Error *v9; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v11; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v11; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v12; // [esp+Ch] [ebp-8h] BYREF
 
   if ( (_this->Flags & 0x1F) - 12 <= 3
     && (v6 = vm->XMLSupport_.pObject->GetITraitsXML(vm->XMLSupport_.pObject),
@@ -31,10 +32,12 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::PropertyIsEnumerableP
   }
   else
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v11, eInvokeOnIncompatibleObjectError, vm);
+    v11.pStr = "XML::PropertyIsEnumerableProto";
+    v11.Size = 30;
+    Scaleform::GFx::AS3::VM::Error::Error(&v12, eInvokeOnIncompatibleObjectError, vm, v11);
     Scaleform::GFx::AS3::VM::ThrowTypeError(vm, v9);
-    pNode = v11.Message.pNode;
-    --v11.Message.pNode->RefCount;
+    pNode = v12.Message.pNode;
+    --v12.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

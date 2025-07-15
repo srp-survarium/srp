@@ -12,11 +12,11 @@ Scaleform::Render::TGA::TGAFileImageSource *__thiscall Scaleform::Render::TGA::F
     return 0;
   v3 = (Scaleform::Render::TGA::TGAFileImageSource *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                        Scaleform::Memory::pGlobalHeap,
-                                                       64,
+                                                       72,
                                                        0);
   if ( !v3 )
     return 0;
-  Scaleform::Render::TGA::TGAFileImageSource::TGAFileImageSource(v3, file, args->Format);
+  Scaleform::Render::TGA::TGAFileImageSource::TGAFileImageSource(v3, (Scaleform::GFx::Resource *)file, args->Format);
   v5 = v4;
   if ( v4 )
   {

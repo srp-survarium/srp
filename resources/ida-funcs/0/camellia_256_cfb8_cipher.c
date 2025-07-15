@@ -1,7 +1,7 @@
 int __cdecl camellia_256_cfb8_cipher(
         evp_cipher_ctx_st *ctx,
         unsigned __int8 *out,
-        const unsigned __int8 *in,
+        unsigned __int8 *in,
         unsigned int inl)
 {
   unsigned int v4; // edi

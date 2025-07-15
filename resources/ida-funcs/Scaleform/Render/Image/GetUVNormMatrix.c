@@ -7,9 +7,9 @@ void __thiscall Scaleform::Render::Image::GetUVNormMatrix(
   double v5; // st7
   Scaleform::Render::Rect<unsigned long> *v6; // eax
   int v7; // edx
-  float v8; // [esp+28h] [ebp-28h]
-  float v9; // [esp+2Ch] [ebp-24h]
-  Scaleform::Render::Matrix2x4<float> m; // [esp+30h] [ebp-20h] BYREF
+  float v8; // [esp+Ch] [ebp-28h]
+  float v9; // [esp+10h] [ebp-24h]
+  Scaleform::Render::Matrix2x4<float> m; // [esp+14h] [ebp-20h] BYREF
 
   v4 = this->GetTexture(this, manager);
   v5 = 0.0;

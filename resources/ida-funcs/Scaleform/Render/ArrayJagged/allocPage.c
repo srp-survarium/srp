@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::T
     if ( a->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(this->pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)a->Pages, 4 * a->NumPages);
+      memcpy((int)v5, (const __m128i *)a->Pages, 4 * a->NumPages);
       v6 = a->MaxPages;
       a->Pages = (Scaleform::Render::Tessellator::TriangleType **)v5;
       a->MaxPages = 2 * v6;

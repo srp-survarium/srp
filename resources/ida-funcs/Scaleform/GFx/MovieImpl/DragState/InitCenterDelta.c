@@ -7,10 +7,10 @@ void __thiscall Scaleform::GFx::MovieImpl::DragState::InitCenterDelta(
   Scaleform::GFx::InteractiveObject *pParent; // ecx
   unsigned int v6; // eax
   int v7; // eax
-  Scaleform::Render::Point<float> p; // [esp+E8h] [ebp-50h] BYREF
-  Scaleform::Render::Point<float> result; // [esp+F0h] [ebp-48h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+F8h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v11; // [esp+118h] [ebp-20h] BYREF
+  Scaleform::Render::Point<float> p; // [esp+10h] [ebp-50h] BYREF
+  Scaleform::Render::Point<float> result; // [esp+18h] [ebp-48h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v11; // [esp+40h] [ebp-20h] BYREF
 
   this->LockCenter = lockCenter;
   this->MouseIndex = mouseIndex;

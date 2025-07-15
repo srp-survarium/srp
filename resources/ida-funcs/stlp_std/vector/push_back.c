@@ -1,56 +1,61 @@
-void __usercall stlp_std::vector<vostok::resources::request,survarium::std_allocator<vostok::resources::request>>::push_back(
-        stlp_std::vector<vostok::resources::request,survarium::std_allocator<vostok::resources::request> > *this@<ecx>,
+void __usercall stlp_std::vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<void *>>::push_back(
+        stlp_std::vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<void *> > *this@<ecx>,
         int a2@<eax>)
 {
-  int v3; // eax
-  bool v4; // [esp+0h] [ebp-4h]
+  vostok::physics::closest_ray_result *v2; // edi
+  unsigned int v3; // [esp+0h] [ebp-8h]
+  bool v4; // [esp+4h] [ebp-4h]
 
-  v3 = *(_DWORD *)(a2 + 4);
-  if ( v3 == *(_DWORD *)(a2 + 8) )
+  v2 = *(vostok::physics::closest_ray_result **)(a2 + 4);
+  if ( v2 == *(vostok::physics::closest_ray_result **)(a2 + 12) )
   {
-    stlp_std::priv::_Impl_vector<vostok::resources::request,survarium::std_allocator<vostok::resources::request>>::_M_insert_overflow(
+    stlp_std::priv::_Impl_vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<vostok::physics::closest_ray_result>>::_M_insert_overflow(
       &this->_M_impl,
-      (vostok::resources::request *)v3,
-      (const vostok::resources::request *)this,
-      (const stlp_std::__true_type *)1,
-      1u,
+      a2,
+      v2,
+      (const stlp_std::__true_type *)this,
+      v3,
       v4);
   }
   else
   {
-    *(_DWORD *)v3 = this->_M_impl._M_start;
-    *(_DWORD *)(v3 + 4) = this->_M_impl._M_finish;
-    *(_DWORD *)(a2 + 4) += 8;
+    if ( v2 )
+      qmemcpy(v2, this, sizeof(vostok::physics::closest_ray_result));
+    *(_DWORD *)(a2 + 4) += 40;
   }
 }
 
 
-void __userpurge stlp_std::vector<vostok::render::streaming_ready_texture,vostok::render::std_allocator<vostok::render::streaming_ready_texture>>::push_back(
-        const stlp_std::__false_type *__x@<eax>,
-        stlp_std::priv::_Impl_vector<vostok::render::streaming_ready_texture,vostok::render::std_allocator<vostok::render::streaming_ready_texture> > *a2@<ecx>,
-        stlp_std::vector<vostok::render::streaming_ready_texture,vostok::render::std_allocator<vostok::render::streaming_ready_texture> > *this)
+void __usercall stlp_std::vector<survarium::relocate_item_descr,survarium::std_allocator<survarium::relocate_item_descr>>::push_back(
+        stlp_std::vector<survarium::relocate_item_descr,survarium::std_allocator<survarium::relocate_item_descr> > *this@<ecx>,
+        unsigned int a2@<eax>)
 {
-  vostok::render::streaming_ready_texture *M_finish; // esi
-  unsigned int v4; // [esp+0h] [ebp-10h]
-  bool v5; // [esp+4h] [ebp-Ch]
+  survarium::relocate_item_descr *v2; // edi
+  survarium::relocate_item_descr **p_item_dict_id; // edi
+  unsigned int v4; // [esp+0h] [ebp-Ch]
+  bool v5; // [esp+4h] [ebp-8h]
 
-  M_finish = this->_M_impl._M_finish;
-  if ( M_finish == this->_M_impl._M_end_of_storage._M_data )
+  v2 = *(survarium::relocate_item_descr **)(a2 + 4);
+  if ( v2 == *(survarium::relocate_item_descr **)(a2 + 8) )
   {
-    stlp_std::priv::_Impl_vector<vostok::render::streaming_ready_texture,vostok::render::std_allocator<vostok::render::streaming_ready_texture>>::_M_insert_overflow_aux(
+    stlp_std::priv::_Impl_vector<survarium::relocate_item_descr,survarium::std_allocator<survarium::relocate_item_descr>>::_M_insert_overflow(
+      &this->_M_impl,
       a2,
-      (vostok::render::streaming_ready_texture *)this,
-      M_finish,
-      __x,
+      v2,
+      (const stlp_std::__true_type *)this,
       v4,
       v5);
   }
   else
   {
-    if ( M_finish )
-      vostok::render::streaming_ready_texture::streaming_ready_texture(
-        M_finish,
-        (const vostok::render::streaming_ready_texture *)__x);
-    ++this->_M_impl._M_finish;
+    if ( v2 )
+    {
+      v2->item_id = (unsigned int)this->_M_impl._M_start;
+      p_item_dict_id = (survarium::relocate_item_descr **)&v2->item_dict_id;
+      *p_item_dict_id++ = this->_M_impl._M_finish;
+      *p_item_dict_id = this->_M_impl._M_end_of_storage._M_data;
+      p_item_dict_id[1] = this[1]._M_impl._M_start;
+    }
+    *(_DWORD *)(a2 + 4) += 16;
   }
 }

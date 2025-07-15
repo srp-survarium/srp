@@ -12,7 +12,7 @@ stack_st_CONF_VALUE *__cdecl i2v_AUTHORITY_INFO_ACCESS(
   char *v11; // eax
   char *v12; // esi
   stack_st_CONF_VALUE *v13; // [esp+10h] [ebp-60h]
-  char buf[80]; // [esp+1Ch] [ebp-54h] BYREF
+  char src[80]; // [esp+1Ch] [ebp-54h] BYREF
 
   v3 = ainfo;
   v5 = 0;
@@ -26,16 +26,16 @@ stack_st_CONF_VALUE *__cdecl i2v_AUTHORITY_INFO_ACCESS(
       if ( !v8 )
         return (stack_st_CONF_VALUE *)sk_new_null();
       v9 = sk_value(&v8->stack, v5);
-      i2t_ASN1_OBJECT(buf, 0x50u, *(asn1_object_st **)v7);
-      v10 = strlen(*((const char **)v9 + 1)) + strlen(buf) + 5;
+      i2t_ASN1_OBJECT(src, 0x50u, *(asn1_object_st **)v7);
+      v10 = strlen(*((const char **)v9 + 1)) + strlen(src) + 5;
       v11 = (char *)CRYPTO_malloc(v10, ".\\crypto\\x509v3\\v3_info.c", 118);
       v12 = v11;
       if ( !v11 )
       {
-        ERR_put_error(0x22u, 138, 65, ".\\crypto\\x509v3\\v3_info.c", 121);
+        ERR_put_error((int)v9, 0x22u, 138, 65, ".\\crypto\\x509v3\\v3_info.c", 121);
         return 0;
       }
-      BUF_strlcpy(v11, buf, v10);
+      BUF_strlcpy(v11, src, v10);
       BUF_strlcat(v12, " - ", v10);
       BUF_strlcat(v12, *((const char **)v9 + 1), v10);
       CRYPTO_free(*((void **)v9 + 1));

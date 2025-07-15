@@ -15,14 +15,14 @@ file_st *__usercall win32_splitter@<eax>(const char *filename@<ecx>, int assume_
   v3 = filename;
   if ( !filename )
   {
-    ERR_put_error(0x25u, 136, 111, ".\\crypto\\dso\\dso_win32.c", 322);
+    ERR_put_error(assume_last_is_dir, 0x25u, 136, 111, ".\\crypto\\dso\\dso_win32.c", 322);
     return 0;
   }
   v5 = (const char **)CRYPTO_malloc(40, ".\\crypto\\dso\\dso_win32.c", 327);
   v6 = v5;
   if ( !v5 )
   {
-    ERR_put_error(0x25u, 136, 65, ".\\crypto\\dso\\dso_win32.c", 331);
+    ERR_put_error(assume_last_is_dir, 0x25u, 136, 65, ".\\crypto\\dso\\dso_win32.c", 331);
     return 0;
   }
   *v5 = 0;
@@ -105,7 +105,7 @@ file_st *__usercall win32_splitter@<eax>(const char *filename@<ecx>, int assume_
       case 0x3A:
         if ( v7 != 1 )
         {
-          ERR_put_error(0x25u, 136, 115, ".\\crypto\\dso\\dso_win32.c", 356);
+          ERR_put_error(assume_last_is_dir, 0x25u, 136, 115, ".\\crypto\\dso\\dso_win32.c", 356);
           CRYPTO_free(v6);
           return 0;
         }

@@ -101,7 +101,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
     case 7:
       value = value->pLower;
       v9 = Scaleform::AsString<long>(&v33, (int *)&value);
-      v10 = Scaleform::operator+(&v32, "VTable ind: ", v9);
+      v10 = Scaleform::operator+(&v32, (const __m128i *)"VTable ind: ", v9);
       Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(sm, result, v10);
       Scaleform::String::~String(&v32);
       Scaleform::String::~String(&v33);
@@ -117,7 +117,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
       v26 = (Scaleform::GFx::ASStringNode *)(pLower.VInt + 28);
       if ( *(_DWORD *)(v25 + 20) )
       {
-        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&value, (char *)&stru_95AF78);
+        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&value, (const __m128i *)" ");
         Scaleform::GFx::ASString::Append((Scaleform::GFx::ASString *)&value, v26);
       }
       v27 = value;
@@ -137,7 +137,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
         return v8;
       }
       v6 = result;
-      v29 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v11.VInt + 20) + 16))(
+      v29 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v11.VInt + 20) + 28))(
                                                 *(_DWORD *)(v11.VInt + 20),
                                                 &v36);
       v12 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateConstString(
@@ -145,7 +145,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
               &v35,
               "[object ");
       v13 = Scaleform::GFx::ASString::operator+(v12, &v34, v29);
-      Scaleform::GFx::ASString::operator+(v13, result, "]");
+      Scaleform::GFx::ASString::operator+(v13, result, (const __m128i *)"]");
       v14 = v34.pNode;
       --v34.pNode->RefCount;
       if ( !v14->RefCount )
@@ -161,7 +161,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
       if ( v17.VInt )
       {
         v6 = result;
-        v30 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v17.VInt + 20) + 16))(
+        v30 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v17.VInt + 20) + 28))(
                                                   *(_DWORD *)(v17.VInt + 20),
                                                   &v39);
         v18 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateConstString(
@@ -169,7 +169,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::AsString(
                 &v38,
                 "[class ");
         v19 = Scaleform::GFx::ASString::operator+(v18, &v37, v30);
-        Scaleform::GFx::ASString::operator+(v19, result, "]");
+        Scaleform::GFx::ASString::operator+(v19, result, (const __m128i *)"]");
         v20 = v37.pNode;
         --v37.pNode->RefCount;
         if ( !v20->RefCount )

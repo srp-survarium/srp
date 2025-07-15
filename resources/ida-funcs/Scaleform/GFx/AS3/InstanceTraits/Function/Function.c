@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::Function::Function(
   this->File.pObject = 0;
   this->GOS.pObject = 0;
   this->TraitsType = Traits_Function;
-  this->MemSize = 72;
+  this->MemSize = 80;
   Scaleform::GFx::AS3::InstanceTraits::Function::RegisterSlots(this);
 }
 
@@ -36,6 +36,6 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::Function::Function(
     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)&this->pConstructor,
     Constructor);
   this->TraitsType = Traits_Function;
-  this->MemSize = 72;
+  this->MemSize = 80;
   Scaleform::GFx::AS3::InstanceTraits::Function::RegisterSlots(this);
 }

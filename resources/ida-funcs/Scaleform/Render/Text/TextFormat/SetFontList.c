@@ -14,8 +14,8 @@ void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
     Length = Scaleform::String::GetLength(&this->FontList);
     if ( Length != Scaleform::String::GetLength(fontList)
       || Scaleform::String::CompareNoCase(
-           (const char *)((p_FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
-           (const char *)((fontList->HeapTypeBits & 0xFFFFFFFC) + 8)) )
+           (char *)((p_FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
+           (char *)((fontList->HeapTypeBits & 0xFFFFFFFC) + 8)) )
     {
       pObject = (Scaleform::RefCountVImpl *)this->pFontHandle.pObject;
       if ( pObject )
@@ -37,7 +37,7 @@ void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
 
 void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
         Scaleform::Render::Text::TextFormat *this,
-        char *pfontList,
+        const __m128i *pfontList,
         unsigned int fontListSz)
 {
   unsigned int v3; // ebx
@@ -47,10 +47,13 @@ void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
 
   v3 = fontListSz;
   if ( fontListSz == -1 )
-    v3 = strlen(pfontList);
+    v3 = strlen(pfontList->m128i_i8);
   if ( (this->PresentMask & 0x800) != 0
     && (Scaleform::String::GetLength(&this->FontList) != v3
-     || Scaleform::String::CompareNoCase((const char *)((this->FontList.HeapTypeBits & 0xFFFFFFFC) + 8), pfontList, v3)) )
+     || Scaleform::String::CompareNoCase(
+          (const char *)((this->FontList.HeapTypeBits & 0xFFFFFFFC) + 8),
+          pfontList->m128i_i8,
+          v3)) )
   {
     pObject = (Scaleform::RefCountVImpl *)this->pFontHandle.pObject;
     if ( pObject )
@@ -72,7 +75,7 @@ void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
 
 void __thiscall Scaleform::Render::Text::TextFormat::SetFontList(
         Scaleform::Render::Text::TextFormat *this,
-        const wchar_t *pfontList,
+        wchar_t *pfontList,
         unsigned int fontListSz)
 {
   int v3; // ebp

@@ -1,7 +1,7 @@
 int __cdecl ssl3_send_alert(ssl_st *s, int level, int desc)
 {
   int v3; // eax
-  unsigned __int8 v4; // bl
+  int v4; // ebx
 
   v3 = s->method->ssl3_enc->alert_value(desc);
   v4 = v3;
@@ -16,7 +16,7 @@ int __cdecl ssl3_send_alert(ssl_st *s, int level, int desc)
   if ( level == 2 )
   {
     if ( s->session )
-      SSL_CTX_remove_session(s->ctx, s->session);
+      SSL_CTX_remove_session(v4, s->ctx, s->session);
   }
   s->s3->alert_dispatch = 1;
   s->s3->send_alert[0] = level;

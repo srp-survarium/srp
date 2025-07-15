@@ -1,4 +1,4 @@
-void __thiscall illegal_instruction_handler(survarium::game_camera *this)
+void __cdecl illegal_instruction_handler()
 {
-  handler_base(this);
+  handler_base("illegal instruction");
 }

@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(
 
 void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray *this,
-        unsigned __int8 *src,
+        const __m128i *src,
         unsigned int buff_size)
 {
   unsigned int v4; // eax
@@ -38,6 +38,6 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(
   {
     Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Resize(this, buff_size + this->Position);
   }
-  memcpy(&this->Data.Data.Data[this->Position], src, buff_size);
+  memcpy((int)&this->Data.Data.Data[this->Position], src, buff_size);
   this->Position += buff_size;
 }

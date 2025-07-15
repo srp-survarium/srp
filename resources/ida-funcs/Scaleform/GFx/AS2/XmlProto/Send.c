@@ -10,10 +10,7 @@ void __cdecl Scaleform::GFx::AS2::XmlProto::Send(const Scaleform::GFx::AS2::FnCa
     {
       Log = (Scaleform::GFx::LogState *)Scaleform::GFx::AS2::FnCall::GetLog(fn);
       if ( Log )
-        Scaleform::GFx::LogState::LogMessageByType(
-          Log,
-          (Scaleform::LogMessageId)&loc_34000,
-          "XML.send is not implemented.");
+        Scaleform::GFx::LogState::LogMessageByType(Log, (Scaleform::LogMessageId)212992, "XML.send is not implemented.");
     }
   }
   else

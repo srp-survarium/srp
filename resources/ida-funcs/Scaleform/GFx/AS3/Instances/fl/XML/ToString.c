@@ -3,5 +3,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::ToString(
         Scaleform::StringBuffer *buf,
         int ident)
 {
-  Scaleform::StringBuffer::AppendString(buf, (char *)this->Text.pNode->pData, this->Text.pNode->Size);
+  Scaleform::StringBuffer::AppendString(buf, (const __m128i *)this->Text.pNode->pData, this->Text.pNode->Size);
 }

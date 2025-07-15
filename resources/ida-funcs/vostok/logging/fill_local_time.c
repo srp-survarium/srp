@@ -1,16 +1,16 @@
 void __cdecl vostok::logging::fill_local_time(char (*dest)[512], bool brief)
 {
-  _SYSTEMTIME date_time; // [esp+0h] [ebp-10h] BYREF
+  _SYSTEMTIME SystemTime; // [esp+0h] [ebp-10h] BYREF
 
-  GetLocalTime(&date_time);
+  GetLocalTime(&SystemTime);
   if ( brief )
-    vostok::sprintf<512>(dest, "%02d:%02d:%02d", date_time.wHour, date_time.wMinute, date_time.wSecond);
+    vostok::sprintf<512>(dest, "%02d:%02d:%02d", SystemTime.wHour, SystemTime.wMinute, SystemTime.wSecond);
   else
     vostok::sprintf<512>(
       dest,
-      "%02d:%02d:%02d:%03d",
-      date_time.wHour,
-      date_time.wMinute,
-      date_time.wSecond,
-      date_time.wMilliseconds);
+      "%02d:%02d:%02d.%03d",
+      SystemTime.wHour,
+      SystemTime.wMinute,
+      SystemTime.wSecond,
+      SystemTime.wMilliseconds);
 }

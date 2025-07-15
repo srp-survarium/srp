@@ -1,4 +1,4 @@
-int EVP_cleanup()
+void EVP_cleanup()
 {
   OBJ_NAME_cleanup(2);
   OBJ_NAME_cleanup(1);
@@ -9,5 +9,5 @@ int EVP_cleanup()
     obj_cleanup_defer = 0;
     OBJ_cleanup();
   }
-  return OBJ_sigid_free();
+  OBJ_sigid_free();
 }

@@ -7,10 +7,10 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Disp
   Scaleform::GFx::AS3::VM *pVM; // esi
   Scaleform::GFx::AS3::Class *Constructor; // eax
   const Scaleform::GFx::EventId *v7; // edi
-  unsigned __int8 *Id; // edx
+  unsigned int Id; // edx
   Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *v9; // ecx
   Scaleform::GFx::AS3::Instances::fl_events::Event *v10; // ebx
-  unsigned __int8 *v11; // eax
+  unsigned int v11; // eax
   Scaleform::GFx::AS3::Instances::fl_events::Event *v12; // eax
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *p_evtId; // ecx
   Scaleform::GFx::AS3::Instances::fl_events::Event *v14; // eax
@@ -67,16 +67,16 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Disp
   pVM = pObject->pVM;
   Constructor = Scaleform::GFx::AS3::Traits::GetConstructor(pObject);
   v7 = evtId;
-  Id = (unsigned __int8 *)evtId->Id;
+  Id = evtId->Id;
   v9 = (Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *)Constructor;
   v10 = 0;
-  v11 = (unsigned __int8 *)evtId->Id;
+  v11 = evtId->Id;
   ev.pObject = 0;
-  if ( v11 > &vostok::memory::s_CRT_arena[5574210] )
+  if ( v11 > 0x100000A )
   {
-    switch ( v11 - &vostok::memory::s_CRT_arena[5574211] )
+    switch ( v11 )
     {
-      case 0:
+      case 0x100000Bu:
         MouseEventObject = (Scaleform::GFx::AS3::Instances::fl_events::MouseEvent **)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
                                                                                        v9,
                                                                                        (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v60,
@@ -124,7 +124,7 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Disp
             else
             {
               RefCount = v43->RefCount;
-              if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFF) != 0 )
               {
                 v43->RefCount = RefCount - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v43);
@@ -147,7 +147,7 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Disp
         else
         {
           v46 = v45->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v46) != 0 )
+          if ( (v46 & 0x3FFFFF) != 0 )
           {
             v45->RefCount = v46 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v45);
@@ -159,7 +159,7 @@ LABEL_92:
 LABEL_102:
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>(p_evtId);
         goto LABEL_103;
-      case 1:
+      case 0x100000Cu:
         v47 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
                                                                     v9,
                                                                     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v61,
@@ -173,7 +173,7 @@ LABEL_102:
         }
         p_evtId = (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v61;
         goto LABEL_102;
-      case 2:
+      case 0x100000Du:
         v48 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
                                                                     v9,
                                                                     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v62,
@@ -187,7 +187,7 @@ LABEL_102:
         }
         p_evtId = (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v62;
         goto LABEL_102;
-      case 3:
+      case 0x100000Eu:
         v49 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
                                                                     v9,
                                                                     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v63,
@@ -201,10 +201,10 @@ LABEL_102:
         }
         p_evtId = (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v63;
         goto LABEL_102;
-      case 6:
-      case 7:
+      case 0x1000011u:
+      case 0x1000012u:
         v31 = (const Scaleform::GFx::ASString *)pVM[1].__vftable;
-        if ( Id == &vostok::memory::s_CRT_arena[5574217] )
+        if ( Id == 16777233 )
           v32 = v31 + 74;
         else
           v32 = v31 + 79;
@@ -215,7 +215,7 @@ LABEL_102:
           0,
           0);
         goto LABEL_58;
-      case 8:
+      case 0x1000013u:
         Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateEventObject(
           v9,
           (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&evtId,
@@ -235,7 +235,7 @@ LABEL_102:
         }
         KeyCode = evtId[2].KeyCode;
         goto LABEL_62;
-      case 9:
+      case 0x1000014u:
         Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateEventObject(
           v9,
           (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&evtId,
@@ -264,7 +264,7 @@ LABEL_62:
         return 1;
     }
   }
-  if ( v11 == &vostok::memory::s_CRT_arena[5574210] )
+  if ( v11 == 16777226 )
   {
     Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
       v9,
@@ -309,7 +309,7 @@ LABEL_49:
           if ( ((unsigned __int8)v20 & 1) == 0 )
           {
             v30 = v20->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & v30) != 0 )
+            if ( (v30 & 0x3FFFFF) != 0 )
             {
               v20->RefCount = v30 - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v20);
@@ -325,7 +325,7 @@ LABEL_49:
       else
       {
         v29 = v27->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v29) != 0 )
+        if ( (v29 & 0x3FFFFF) != 0 )
         {
           v27->RefCount = v29 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v27);
@@ -336,65 +336,65 @@ LABEL_49:
     v20 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)evtId;
     goto LABEL_49;
   }
-  if ( (unsigned int)v11 > 0x40 )
+  if ( v11 > 0x40 )
   {
-    if ( v11 == (unsigned __int8 *)128 )
+    switch ( v11 )
     {
-      v19 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateKeyboardEventObject(
-                                                                  v9,
-                                                                  (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v59,
-                                                                  evtId,
-                                                                  (const Scaleform::GFx::ASString *)&pVM[1].__vftable[52],
-                                                                  (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
-      if ( v19 )
-      {
-        v19->RefCount = (v19->RefCount + 1) & 0x8FBFFFFF;
-        ev.pObject = v19;
-      }
-      Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v59);
-    }
-    else if ( v11 == (unsigned __int8 *)0x2000 )
-    {
-      v18 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
-                                                                  v9,
-                                                                  (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v58,
-                                                                  evtId,
-                                                                  (const Scaleform::GFx::ASString *)&pVM[1].__vftable[51],
-                                                                  (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
-      if ( v18 )
-      {
-        v18->RefCount = (v18->RefCount + 1) & 0x8FBFFFFF;
-        ev.pObject = v18;
-        v10 = v18;
-      }
-      Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v58);
-      *((_BYTE *)v10 + 48) &= ~1u;
-    }
-    else
-    {
-      if ( v11 != (unsigned __int8 *)0x4000 )
+      case 0x80u:
+        v19 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateKeyboardEventObject(
+                                                                    v9,
+                                                                    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v59,
+                                                                    evtId,
+                                                                    (const Scaleform::GFx::ASString *)&pVM[1].__vftable[52],
+                                                                    (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
+        if ( v19 )
+        {
+          v19->RefCount = (v19->RefCount + 1) & 0x8FBFFFFF;
+          ev.pObject = v19;
+        }
+        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v59);
+        break;
+      case 0x2000u:
+        v18 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
+                                                                    v9,
+                                                                    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v58,
+                                                                    evtId,
+                                                                    (const Scaleform::GFx::ASString *)&pVM[1].__vftable[51],
+                                                                    (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
+        if ( v18 )
+        {
+          v18->RefCount = (v18->RefCount + 1) & 0x8FBFFFFF;
+          ev.pObject = v18;
+          v10 = v18;
+        }
+        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v58);
+        *((_BYTE *)v10 + 48) &= ~1u;
+        break;
+      case 0x4000u:
+        v17 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
+                                                                    v9,
+                                                                    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v57,
+                                                                    evtId,
+                                                                    (const Scaleform::GFx::ASString *)&pVM[1].__vftable[50].GetAdvanceStats,
+                                                                    (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
+        if ( v17 )
+        {
+          v17->RefCount = (v17->RefCount + 1) & 0x8FBFFFFF;
+          ev.pObject = v17;
+          v10 = v17;
+        }
+        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v57);
+        *((_BYTE *)v10 + 48) &= ~1u;
+        break;
+      default:
         return 1;
-      v17 = (Scaleform::GFx::AS3::Instances::fl_events::Event *)Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateMouseEventObject(
-                                                                  v9,
-                                                                  (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&v57,
-                                                                  evtId,
-                                                                  (const Scaleform::GFx::ASString *)&pVM[1].__vftable[50].GetAdvanceStats,
-                                                                  (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this)->pObject;
-      if ( v17 )
-      {
-        v17->RefCount = (v17->RefCount + 1) & 0x8FBFFFFF;
-        ev.pObject = v17;
-        v10 = v17;
-      }
-      Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&v57);
-      *((_BYTE *)v10 + 48) &= ~1u;
     }
   }
   else
   {
-    if ( v11 != (unsigned __int8 *)64 )
+    if ( v11 != 64 )
     {
-      switch ( (unsigned int)v11 )
+      switch ( v11 )
       {
         case 2u:
           Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateEventObject(
@@ -470,7 +470,7 @@ LABEL_103:
   if ( ((int)ev.pObject & 1) != 0 )
     return v34;
   v51 = ev.pObject->RefCount;
-  if ( ((unsigned int)&byte_3FFFFF & v51) == 0 )
+  if ( (v51 & 0x3FFFFF) == 0 )
     return v34;
   ev.pObject->RefCount = v51 - 1;
   Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v50);

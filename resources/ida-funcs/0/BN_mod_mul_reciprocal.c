@@ -10,16 +10,16 @@ int __cdecl BN_mod_mul_reciprocal(
   int v7; // eax
 
   v5 = 0;
-  BN_CTX_start(ctx);
-  v6 = BN_CTX_get(ctx);
+  BN_CTX_start(0, ctx);
+  v6 = BN_CTX_get(0, ctx);
   if ( v6 )
   {
     if ( !y )
     {
       v6 = x;
 LABEL_9:
-      v5 = BN_div_recp(0, r, v6->vals, recp, ctx);
-      goto err_189;
+      v5 = BN_div_recp(0, 0, r, v6->vals, recp, ctx);
+      goto err_191;
     }
     if ( x == y )
       v7 = BN_sqr(v6, x, ctx);
@@ -28,7 +28,7 @@ LABEL_9:
     if ( v7 )
       goto LABEL_9;
   }
-err_189:
+err_191:
   BN_CTX_end(ctx);
   return v5;
 }

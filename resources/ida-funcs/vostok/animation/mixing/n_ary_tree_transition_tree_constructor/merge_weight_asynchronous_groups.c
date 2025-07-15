@@ -1,58 +1,83 @@
 void __userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::merge_weight_asynchronous_groups(
         vostok::animation::mixing::n_ary_tree_animation_node *const from_begin@<eax>,
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *to_begin@<ecx>,
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this,
-        vostok::animation::mixing::n_ary_tree_animation_node *const from_end,
+        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *a2@<ecx>,
+        const vostok::animation::base_interpolator *this,
+        vostok::animation::mixing::n_ary_tree_subtraction_node *from_end,
+        vostok::animation::mixing::n_ary_tree_animation_node *const to_begin,
         vostok::animation::mixing::n_ary_tree_animation_node *const to_end)
 {
-  vostok::animation::mixing::n_ary_tree_animation_node *v5; // esi
-  vostok::animation::mixing::n_ary_tree_animation_node *v6; // edi
-  vostok::animation::mixing::n_ary_tree_transition_tree_constructor *v7; // ecx
-  vostok::animation::mixing::n_ary_tree_node_comparer comparer; // [esp+10h] [ebp-8h] BYREF
+  const boost::function<unsigned char __cdecl(void const *)> *v8; // eax
+  vostok::animation::comparison_result_enum v9; // eax
+  vostok::animation::mixing::n_ary_tree_transition_tree_constructor *v10; // ecx
+  _BYTE v11[28]; // [esp-14h] [ebp-34h]
+  _DWORD v12[3]; // [esp+10h] [ebp-10h] BYREF
+  char v13; // [esp+1Ch] [ebp-4h]
 
-  v5 = from_begin;
-  comparer.__vftable = (vostok::animation::mixing::n_ary_tree_node_comparer_vtbl *)&vostok::animation::mixing::n_ary_tree_node_comparer::`vftable';
-  comparer.result = equal;
-  v6 = (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin;
+  v12[2] = 0;
+  v8 = (const boost::function<unsigned char __cdecl(void const *)> *)this[20].__vftable;
+  v12[0] = &vostok::animation::mixing::n_ary_tree_node_comparer::`vftable';
+  v12[1] = v8;
+  v13 = 0;
   if ( !from_begin )
+    goto LABEL_14;
+  while ( from_end )
   {
-LABEL_10:
-    while ( v6 )
+    v9 = vostok::animation::mixing::n_ary_tree_node_comparer::compare(
+           (vostok::animation::mixing::n_ary_tree_node_comparer *)from_begin,
+           (int)v12,
+           from_end,
+           *(vostok::animation::mixing::n_ary_tree_base_node **)&v11[20]);
+    *(_DWORD *)&v11[16] = 0;
+    if ( v9 == equal )
     {
-      vostok::animation::mixing::n_ary_tree_transition_tree_constructor::add_animation(to_begin, this, v6, 0);
-      v6 = v6->m_next_weight_animation;
-    }
-    return;
-  }
-  while ( v6 )
-  {
-    comparer.result = equal;
-    v5->accept(v5, &comparer, v6);
-    if ( comparer.result == equal )
-    {
+      *(_DWORD *)&v11[12] = 0;
+      *(_DWORD *)&v11[8] = from_end;
+      *(_DWORD *)&v11[4] = from_begin;
+      *(_DWORD *)v11 = this;
       vostok::animation::mixing::n_ary_tree_transition_tree_constructor::change_animation(
-        v7,
-        this,
-        v5,
-        (vostok::animation::mixing::n_ary_tree_base_node *const *)v6,
-        0,
-        0);
-      v5 = v5->m_next_weight_animation;
+        v10,
+        *(const vostok::animation::mixing::animation_interval *)v11);
+      from_begin = from_begin->m_next_weight_animation;
       goto LABEL_8;
     }
-    if ( comparer.result != less )
+    if ( v9 != less )
     {
-      vostok::animation::mixing::n_ary_tree_transition_tree_constructor::add_animation(v7, this, v6, 0);
+      vostok::animation::mixing::n_ary_tree_transition_tree_constructor::add_animation(
+        v10,
+        this,
+        (vostok::animation::mixing::n_ary_tree_animation_node *const)from_end,
+        0);
 LABEL_8:
-      v6 = v6->m_next_weight_animation;
+      from_end = (vostok::animation::mixing::n_ary_tree_subtraction_node *)from_end[5].__vftable;
       goto LABEL_9;
     }
-    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::remove_animation(this, v5, 0, 0);
-    v5 = v5->m_next_weight_animation;
+    *(_QWORD *)&v11[8] = (unsigned int)this;
+    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::remove_animation(
+      from_begin,
+      *(const vostok::animation::mixing::animation_interval *)&v11[8]);
+    from_begin = from_begin->m_next_weight_animation;
 LABEL_9:
-    if ( !v5 )
-      goto LABEL_10;
+    if ( !from_begin )
+      goto LABEL_14;
   }
-  for ( ; v5; v5 = v5->m_next_weight_animation )
-    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::remove_animation(this, v5, 0, 0);
+  do
+  {
+    *(_DWORD *)&v11[16] = 0;
+    *(_QWORD *)&v11[8] = (unsigned int)this;
+    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::remove_animation(
+      from_begin,
+      *(const vostok::animation::mixing::animation_interval *)&v11[8]);
+    from_begin = from_begin->m_next_weight_animation;
+  }
+  while ( from_begin );
+LABEL_14:
+  while ( from_end )
+  {
+    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::add_animation(
+      a2,
+      this,
+      (vostok::animation::mixing::n_ary_tree_animation_node *const)from_end,
+      0);
+    from_end = (vostok::animation::mixing::n_ary_tree_subtraction_node *)from_end[5].__vftable;
+  }
 }

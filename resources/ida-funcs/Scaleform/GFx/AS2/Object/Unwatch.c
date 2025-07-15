@@ -1,7 +1,7 @@
 char __thiscall Scaleform::GFx::AS2::Object::Unwatch(
         Scaleform::GFx::AS2::Object *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
-        Scaleform::GFx::AS2::ASStringContext *prop)
+        Scaleform::GFx::ASString *prop)
 {
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::TableType *pTable; // ecx
   Scaleform::GFx::AS2::ASStringContext *v5; // edi
@@ -15,11 +15,11 @@ char __thiscall Scaleform::GFx::AS2::Object::Unwatch(
   if ( !pTable )
     return 0;
   v5 = psc;
-  v6 = prop;
+  v6 = (Scaleform::GFx::AS2::ASStringContext *)prop;
   LOBYTE(psc) = psc->SWFVersion > 6u;
   if ( !Scaleform::GFx::ASStringHashBase<Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::HashUncachedLH_GC<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::ASStringHashFunctor,324>>::GetCaseCheck(
           (Scaleform::GFx::ASStringHashBase<Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::HashUncachedLH_GC<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Object::Watchpoint,Scaleform::GFx::ASStringHashFunctor,324> > *)pTable,
-          (const Scaleform::GFx::ASString *)prop,
+          prop,
           (bool)psc) )
     return 0;
   v7 = this->Members.mHash.pTable;

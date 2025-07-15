@@ -13,11 +13,9 @@ void __thiscall Scaleform::GFx::AS2::MovieClipLoader::NotifyOnLoadError(
   Scaleform::GFx::AS2::Value *v11; // edi
   Scaleform::GFx::CharacterHandle *pObject; // eax
   Scaleform::GFx::AS2::ObjectInterface *v13; // edi
-  unsigned int v14; // ebp
+  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *v14; // ebp
   Scaleform::GFx::ASStringNode *v15; // eax
-  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback pcallback; // [esp+Ch] [ebp-Ch] BYREF
-  int v18; // [esp+10h] [ebp-8h]
-  unsigned int v19; // [esp+14h] [ebp-4h]
+  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback v17[3]; // [esp+Ch] [ebp-Ch] BYREF
 
   ++penv->Stack.pCurrent;
   p_Stack = &penv->Stack;
@@ -73,7 +71,10 @@ void __thiscall Scaleform::GFx::AS2::MovieClipLoader::NotifyOnLoadError(
     v13 = &this->Scaleform::GFx::AS2::ObjectInterface;
   else
     v13 = 0;
-  v14 = penv->Stack.pCurrent - penv->Stack.pPageStart + 32 * penv->Stack.Pages.Data.Size - 32;
+  v14 = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)(penv->Stack.pCurrent
+                                                                  - penv->Stack.pPageStart
+                                                                  + 32 * penv->Stack.Pages.Data.Size
+                                                                  - 32);
   status = Scaleform::GFx::ASStringManager::CreateConstStringNode(
              (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
              "onLoadError",
@@ -82,14 +83,14 @@ void __thiscall Scaleform::GFx::AS2::MovieClipLoader::NotifyOnLoadError(
   ++status->RefCount;
   if ( v13 )
   {
-    pcallback.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
-    v18 = 3;
-    v19 = v14;
+    v17[0].__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
+    v17[1].__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)3;
+    v17[2].__vftable = v14;
     Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
       penv,
       v13,
       (const Scaleform::GFx::ASString *)&status,
-      &pcallback);
+      v17);
   }
   v15 = status;
   --status->RefCount;

@@ -3,7 +3,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::ArrayBase::OfC
         Scaleform::GFx::AS3::CheckResult *result,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v5; // esi
   const Scaleform::GFx::AS3::ClassTraits::Traits *ClassTraits; // eax

@@ -8,16 +8,16 @@ void __thiscall Scaleform::Render::DICommand_Merge::ExecuteSW(
   Scaleform::Render::ImagePlane *pPlanes; // eax
   unsigned int Height; // edx
   unsigned int Width; // ecx
-  Scaleform::Render::ImagePlane *v9; // ebx
-  int v10; // eax
-  int v11; // ecx
+  unsigned int *p_Width; // ebx
+  unsigned int v10; // eax
+  unsigned int v11; // ecx
   Scaleform::Render::TextureManager *v12; // eax
   Scaleform::Render::TextureManager *v13; // eax
   Scaleform::Render::ImageData *v14; // ebx
-  signed int y1; // ebx
-  unsigned int v16; // edi
+  int y1; // ebx
+  int v16; // edi
   unsigned int BlueMultiplier; // eax
-  int Alpha; // edi
+  int v18; // edi
   bool v19; // zf
   unsigned int v20; // ecx
   unsigned int v21; // edx
@@ -26,116 +26,117 @@ void __thiscall Scaleform::Render::DICommand_Merge::ExecuteSW(
   unsigned int v24; // edx
   unsigned int v25; // eax
   bool Transparent; // [esp+37h] [ebp-B9h]
-  unsigned int blendedCol; // [esp+38h] [ebp-B8h]
-  unsigned int x; // [esp+3Ch] [ebp-B4h]
+  int v27; // [esp+38h] [ebp-B8h]
+  int x1; // [esp+3Ch] [ebp-B4h]
   int i; // [esp+40h] [ebp-B0h]
-  unsigned int v30; // [esp+44h] [ebp-ACh]
-  Scaleform::Render::Color dCol; // [esp+48h] [ebp-A8h] BYREF
-  Scaleform::Render::Color sCol; // [esp+4Ch] [ebp-A4h] BYREF
-  int y[2]; // [esp+50h] [ebp-A0h] BYREF
-  Scaleform::Render::Rect<long> dstClippedRect; // [esp+58h] [ebp-98h] BYREF
-  unsigned __int8 bChan[4]; // [esp+68h] [ebp-88h] BYREF
-  unsigned int v36; // [esp+6Ch] [ebp-84h]
-  unsigned int dChan[4]; // [esp+70h] [ebp-80h]
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+80h] [ebp-70h] BYREF
-  Scaleform::Render::ImageSwizzlerContext srcSwiz; // [esp+98h] [ebp-58h] BYREF
-  Scaleform::Render::Point<long> delta; // [esp+B0h] [ebp-40h] BYREF
-  Scaleform::Render::ImagePlane d; // [esp+B8h] [ebp-38h] BYREF
-  Scaleform::Render::ImagePlane s; // [esp+CCh] [ebp-24h] BYREF
-  unsigned int factors[4]; // [esp+E0h] [ebp-10h]
+  int v30; // [esp+44h] [ebp-ACh]
+  _BYTE v31[4]; // [esp+48h] [ebp-A8h] BYREF
+  _BYTE v32[4]; // [esp+4Ch] [ebp-A4h] BYREF
+  Scaleform::Render::Size<unsigned long> v33; // [esp+50h] [ebp-A0h] BYREF
+  Scaleform::Render::Rect<long> v34; // [esp+58h] [ebp-98h] BYREF
+  Scaleform::Render::Size<unsigned long> v35; // [esp+68h] [ebp-88h] BYREF
+  int v36; // [esp+70h] [ebp-80h]
+  int v37; // [esp+74h] [ebp-7Ch]
+  int v38; // [esp+78h] [ebp-78h]
+  int v39; // [esp+7Ch] [ebp-74h]
+  _DWORD v40[6]; // [esp+80h] [ebp-70h] BYREF
+  _DWORD v41[6]; // [esp+98h] [ebp-58h] BYREF
+  Scaleform::Render::Point<long> v42; // [esp+B0h] [ebp-40h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+B8h] [ebp-38h] BYREF
+  Scaleform::Render::ImagePlane v44; // [esp+CCh] [ebp-24h] BYREF
+  unsigned int v45; // [esp+E8h] [ebp-8h]
 
   v4 = *psrc;
-  memset(&d, 0, sizeof(d));
-  memset(&s, 0, sizeof(s));
-  Scaleform::Render::ImageData::GetPlane(dest, 0, &d);
-  Scaleform::Render::ImageData::GetPlane(v4, 0, &s);
+  memset(&pplane, 0, sizeof(pplane));
+  memset(&v44, 0, sizeof(v44));
+  Scaleform::Render::ImageData::GetPlane(dest, 0, &pplane);
+  Scaleform::Render::ImageData::GetPlane(v4, 0, &v44);
   pPlanes = dest->pPlanes;
   Height = pPlanes->Height;
   Width = pPlanes->Width;
-  v9 = v4->pPlanes;
-  v10 = v9->Width;
-  *(_DWORD *)bChan = Width;
-  v11 = v9->Height;
-  v36 = Height;
-  y[0] = v10;
-  y[1] = v11;
-  memset(&dstClippedRect, 0, sizeof(dstClippedRect));
+  p_Width = &v4->pPlanes->Width;
+  v10 = *p_Width;
+  v35.Width = Width;
+  v11 = p_Width[1];
+  v35.Height = Height;
+  v33.Width = v10;
+  v33.Height = v11;
+  memset(&v34, 0, sizeof(v34));
   if ( Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
          this,
-         (const Scaleform::Render::Size<unsigned long> *)y,
-         (const Scaleform::Render::Size<unsigned long> *)bChan,
+         &v33,
+         &v35,
          &this->SourceRect,
-         &dstClippedRect,
-         &delta) )
+         &v34,
+         &v42) )
   {
     v12 = context->pHAL->GetTextureManager(context->pHAL);
-    dstSwiz.Swizzler = v12->GetImageSwizzler(v12);
-    dstSwiz.pCurrentScanline = 0;
-    dstSwiz.pImage = dest;
-    memset(&dstSwiz.CachedBlockY, 0, 12);
-    dstSwiz.Swizzler->Initialize(dstSwiz.Swizzler, &dstSwiz);
+    v40[0] = v12->GetImageSwizzler(v12);
+    v40[1] = 0;
+    v40[2] = dest;
+    memset(&v40[3], 0, 12);
+    (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v40[0] + 4))(v40[0], v40);
     v13 = context->pHAL->GetTextureManager(context->pHAL);
     v14 = *psrc;
-    srcSwiz.Swizzler = v13->GetImageSwizzler(v13);
-    srcSwiz.pCurrentScanline = 0;
-    srcSwiz.pImage = v14;
-    memset(&srcSwiz.CachedBlockY, 0, 12);
-    srcSwiz.Swizzler->Initialize(srcSwiz.Swizzler, &srcSwiz);
-    y1 = dstClippedRect.y1;
-    y[0] = dstClippedRect.y1;
-    if ( dstClippedRect.y1 < dstClippedRect.y2 )
+    v41[0] = v13->GetImageSwizzler(v13);
+    v41[1] = 0;
+    v41[2] = v14;
+    memset(&v41[3], 0, 12);
+    (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v41[0] + 4))(v41[0], v41);
+    y1 = v34.y1;
+    v33.Width = v34.y1;
+    if ( v34.y1 < v34.y2 )
     {
-      v30 = dstClippedRect.y1 - delta.y;
+      v30 = v34.y1 - v42.y;
       do
       {
-        dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, y1);
-        srcSwiz.Swizzler->CacheScanline(srcSwiz.Swizzler, &srcSwiz, v30);
-        x = dstClippedRect.x1;
-        if ( dstClippedRect.x1 < dstClippedRect.x2 )
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v40[0] + 8))(v40[0], v40, y1);
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v41[0] + 8))(v41[0], v41, v30);
+        x1 = v34.x1;
+        if ( v34.x1 < v34.x2 )
         {
-          v16 = dstClippedRect.x1 - delta.x;
-          for ( i = dstClippedRect.x1 - delta.x; ; v16 = i )
+          v16 = v34.x1 - v42.x;
+          for ( i = v34.x1 - v42.x; ; v16 = i )
           {
-            dstSwiz.Swizzler->GetPixelInScanline(dstSwiz.Swizzler, &dCol, &dstSwiz, x);
-            srcSwiz.Swizzler->GetPixelInScanline(srcSwiz.Swizzler, &sCol, &srcSwiz, v16);
+            (*(void (__thiscall **)(_DWORD, _BYTE *, _DWORD *, int))(*(_DWORD *)v40[0] + 20))(v40[0], v31, v40, x1);
+            (*(void (__thiscall **)(_DWORD, _BYTE *, _DWORD *, int))(*(_DWORD *)v41[0] + 20))(v41[0], v32, v41, v16);
             BlueMultiplier = this->BlueMultiplier;
-            Alpha = sCol.Channels.Alpha;
-            dChan[0] = dCol.Channels.Red;
-            dChan[1] = dCol.Channels.Green;
-            dChan[2] = dCol.Channels.Blue;
+            v18 = v32[3];
+            v36 = v31[2];
+            v37 = v31[1];
+            v38 = v31[0];
             v19 = !this->pSource.pObject->Transparent;
-            factors[2] = BlueMultiplier;
-            dChan[3] = dCol.Channels.Alpha;
+            v45 = BlueMultiplier;
+            v39 = v31[3];
             if ( v19 )
-              Alpha = 255;
+              v18 = 255;
             Transparent = this->pImage.pObject->Transparent;
             if ( !Transparent )
-              dChan[3] = 255;
-            v20 = this->RedMultiplier * sCol.Channels.Red + dChan[0] * (256 - this->RedMultiplier);
-            v21 = this->GreenMultiplier * sCol.Channels.Green + dChan[1] * (256 - this->GreenMultiplier);
+              v39 = 255;
+            v20 = this->RedMultiplier * v32[2] + v36 * (256 - this->RedMultiplier);
+            v21 = this->GreenMultiplier * v32[1] + v37 * (256 - this->GreenMultiplier);
             AlphaMultiplier = this->AlphaMultiplier;
-            bChan[2] = (unsigned __int16)(LOWORD(factors[2]) * sCol.Channels.Blue
-                                        + LOWORD(dChan[2]) * (256 - LOWORD(factors[2]))) >> 8;
+            BYTE2(v35.Width) = (unsigned __int16)(v45 * v32[0] + v38 * (256 - v45)) >> 8;
             v23 = v20 >> 8;
             v24 = v21 >> 8;
-            v25 = (AlphaMultiplier * Alpha + dChan[3] * (256 - AlphaMultiplier)) >> 8;
+            v25 = (AlphaMultiplier * v18 + v39 * (256 - AlphaMultiplier)) >> 8;
             if ( !Transparent )
               LOBYTE(v25) = -1;
-            BYTE2(blendedCol) = v23;
-            BYTE1(blendedCol) = v24;
-            LOBYTE(blendedCol) = bChan[2];
-            HIBYTE(blendedCol) = v25;
-            dstSwiz.Swizzler->SetPixelInScanline(dstSwiz.Swizzler, &dstSwiz, x, blendedCol);
+            BYTE2(v27) = v23;
+            BYTE1(v27) = v24;
+            LOBYTE(v27) = BYTE2(v35.Width);
+            HIBYTE(v27) = v25;
+            (*(void (__thiscall **)(_DWORD, _DWORD *, int, int))(*(_DWORD *)v40[0] + 12))(v40[0], v40, x1, v27);
             ++i;
-            if ( (int)++x >= dstClippedRect.x2 )
+            if ( ++x1 >= v34.x2 )
               break;
           }
-          y1 = y[0];
+          y1 = v33.Width;
         }
         ++v30;
-        y[0] = ++y1;
+        v33.Width = ++y1;
       }
-      while ( y1 < dstClippedRect.y2 );
+      while ( y1 < v34.y2 );
     }
   }
 }

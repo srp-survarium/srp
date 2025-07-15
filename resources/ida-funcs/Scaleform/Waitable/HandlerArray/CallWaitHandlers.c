@@ -5,7 +5,7 @@ void __thiscall Scaleform::Waitable::HandlerArray::CallWaitHandlers(Scaleform::W
   unsigned int v4; // ebx
   Scaleform::Waitable::HandlerStruct *Data; // edi
   unsigned int i; // esi
-  Scaleform::Array<Scaleform::Waitable::HandlerStruct,2,Scaleform::ArrayConstPolicy<0,16,1> > handlersCopy; // [esp+8h] [ebp-Ch] BYREF
+  Scaleform::Array<Scaleform::Waitable::HandlerStruct,2,Scaleform::ArrayConstPolicy<0,16,1> > v7; // [esp+8h] [ebp-Ch] BYREF
 
   p_HandlersLock = &this->HandlersLock;
   EnterCriticalSection(&this->HandlersLock.cs);
@@ -19,10 +19,10 @@ void __thiscall Scaleform::Waitable::HandlerArray::CallWaitHandlers(Scaleform::W
       return;
     }
     Scaleform::Array<Scaleform::Waitable::HandlerStruct,2,Scaleform::ArrayConstPolicy<0,16,1>>::Array<Scaleform::Waitable::HandlerStruct,2,Scaleform::ArrayConstPolicy<0,16,1>>(
-      &handlersCopy,
+      &v7,
       &this->Handlers);
-    v4 = handlersCopy.Data.Size;
-    Data = handlersCopy.Data.Data;
+    v4 = v7.Data.Size;
+    Data = v7.Data.Data;
     for ( i = 0; i < v4; ++i )
       Data[i].Handler(Data[i].pUserData);
     if ( Data )

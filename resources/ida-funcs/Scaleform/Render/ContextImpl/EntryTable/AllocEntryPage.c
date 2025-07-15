@@ -10,7 +10,7 @@ char __thiscall Scaleform::Render::ContextImpl::EntryTable::AllocEntryPage(
   v3 = v2;
   if ( !v2 )
     return 0;
-  memset((int)v2, 0, 0xFFCu);
+  memset((int)v2, 0, 4092);
   v4 = (Scaleform::Render::ContextImpl::SnapshotPage *)this->pHeap->Alloc(this->pHeap, 600, 16, 0);
   if ( v4 )
   {

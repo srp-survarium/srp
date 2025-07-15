@@ -1,65 +1,47 @@
-bool __thiscall vostok::resources::query_result::check_fat_for_resource_reusage(
-        vostok::resources::query_result *this,
-        vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> cached_resource)
+bool __usercall vostok::resources::query_result::check_fat_for_resource_reusage@<al>(
+        vostok::resources::query_result *this@<ecx>,
+        int a2@<esi>)
 {
-  vostok::resources::query_result *m_object; // ebx
-  vostok::resources::cook_base *cook; // eax
-  vostok::resources::unmanaged_resource *v5; // esi
-  vostok::resources::unmanaged_resource *v6; // eax
-  vostok::resources::resource_base *v7; // edi
-  vostok::resources::query_result *v8; // ecx
-  vostok::vfs::vfs_iterator v9[2]; // [esp-10h] [ebp-28h] BYREF
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> cached_unmanaged_resource; // [esp+10h] [ebp-8h] BYREF
-  vostok::resources::resource_base *associated; // [esp+14h] [ebp-4h]
+  void *m_object; // edi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v4; // [esp+8h] [ebp-8h] BYREF
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> result; // [esp+Ch] [ebp-4h] BYREF
 
-  m_object = (vostok::resources::query_result *)cached_resource.m_object;
-  cook = vostok::resources::resources_manager::find_cook((int)this, cached_resource.m_object->m_class_id);
-  if ( cook && cook->m_reuse_type != reuse_true || !m_object->m_fat_it.m_node )
+  if ( vostok::resources::cook_base::reuse_type(*(vostok::resources::class_id_enum *)(a2 + 132)) != reuse_true
+    || !*(_DWORD *)(a2 + 164) )
+  {
     return 0;
-  associated = 0;
-  vostok::vfs::vfs_iterator::vfs_iterator(v9, &m_object->m_fat_it);
+  }
+  m_object = 0;
   vostok::resources::get_associated_unmanaged_resource_ptr(
-    (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&cached_unmanaged_resource,
-    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)v9[0].m_hashset);
-  v5 = cached_unmanaged_resource.m_object;
-  if ( cached_unmanaged_resource.m_object
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v4,
+    *(vostok::vfs::vfs_iterator *)(a2 + 160));
+  if ( v4.m_object
     && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    _InterlockedExchangeAdd(&cached_unmanaged_resource.m_object->m_reference_count, 1u);
-    v6 = m_object->m_unmanaged_resource.m_object;
-    m_object->m_unmanaged_resource.m_object = v5;
-    if ( v6 && !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(&v6->vostok::resources::unmanaged_intrusive_base, v6);
-    v7 = v5;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::operator=(
+      (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v4,
+      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)(a2 + 220));
+    m_object = v4.m_object;
   }
   else
   {
-    vostok::vfs::vfs_iterator::vfs_iterator(v9, &m_object->m_fat_it);
-    vostok::resources::get_associated_managed_resource_ptr(
-      &cached_resource,
-      (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)v9[0].m_hashset);
-    if ( cached_resource.m_object
-      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+    vostok::resources::get_associated_managed_resource_ptr(&result, *(vostok::vfs::vfs_iterator *)(a2 + 160));
+    if ( result.m_object
+      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
+      && (result.m_object->m_flags.m_flags & 0x10) == 0 )
     {
-      if ( (cached_resource.m_object->m_flags.m_flags & 0x10) == 0 )
-      {
-        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::operator=(
-          &m_object->m_managed_resource,
-          &cached_resource);
-        associated = cached_resource.m_object;
-      }
-      v5 = cached_unmanaged_resource.m_object;
+      vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::operator=(
+        &result,
+        (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)(a2 + 216));
+      m_object = result.m_object;
     }
-    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&cached_resource);
-    v7 = associated;
+    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(&result);
   }
-  if ( v5 && !_InterlockedExchangeAdd(&v5->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v5->vostok::resources::unmanaged_intrusive_base, v5);
-  if ( v7 )
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v4);
+  if ( m_object )
   {
-    vostok::threading::interlocked_or(&m_object->m_flags, 0x40000u);
-    if ( !_InterlockedExchangeAdd(&m_object->m_query_end_guard, 0xFFFFFFFF) )
-      vostok::resources::query_result::end_query_might_destroy_this_impl(v8, m_object);
+    _InterlockedOr((volatile signed __int32 *)(a2 + 704), (unsigned int)&loc_3FFFF + 1);
+    vostok::resources::query_result::end_query_might_destroy_this((vostok::resources::query_result *)(a2 + 704), a2);
   }
-  return v7 != 0;
+  return m_object != 0;
 }

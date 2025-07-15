@@ -2,126 +2,140 @@ void __thiscall Scaleform::Render::Renderer2DImpl::Draw(
         Scaleform::Render::Renderer2DImpl *this,
         Scaleform::Render::TreeRoot *pnode)
 {
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpStats *v4; // eax
   Scaleform::Render::TreeCacheRoot *pRenderer; // esi
-  _DWORD *v4; // eax
-  bool v5; // zf
-  Scaleform::Render::Viewport *v6; // ecx
-  int v7; // eax
-  int v8; // edx
-  int p_ViewRectOriginal; // eax
+  _DWORD *v6; // eax
+  bool v7; // zf
+  Scaleform::Render::Viewport *v8; // ecx
+  int v9; // eax
   int v10; // edx
+  int p_ViewRectOriginal; // eax
+  int v12; // edx
   int Left; // edx
   char CullRectF; // al
-  int v13; // esi
-  Scaleform::Render::TreeCacheRoot *v14; // eax
-  Scaleform::Render::TreeCacheRoot *v15; // eax
+  __int16 v15; // si
+  Scaleform::Render::TreeCacheRoot *v16; // eax
+  Scaleform::Render::TreeCacheRoot *v17; // eax
   double x1; // st7
-  char v17; // [esp+9Dh] [ebp-25h]
-  Scaleform::Render::Viewport *p_VP; // [esp+9Eh] [ebp-24h]
-  int v19; // [esp+A2h] [ebp-20h]
-  int Top; // [esp+A2h] [ebp-20h]
-  Scaleform::Render::HAL *pObject; // [esp+AAh] [ebp-18h]
-  int v22; // [esp+AAh] [ebp-18h]
-  int v23; // [esp+AEh] [ebp-14h] BYREF
-  Scaleform::Render::Rect<float> prect; // [esp+B2h] [ebp-10h] BYREF
+  Scaleform::AmpStats *Stats; // esi
+  Scaleform::AmpStats_vtbl *v20; // edi
+  unsigned __int64 ProfileTicks; // rax
+  char v22; // [esp+1Bh] [ebp-35h]
+  Scaleform::Render::Viewport *p_VP; // [esp+1Ch] [ebp-34h]
+  int v24; // [esp+20h] [ebp-30h]
+  int Top; // [esp+20h] [ebp-30h]
+  Scaleform::Render::HAL *pObject; // [esp+28h] [ebp-28h]
+  __int16 v27; // [esp+28h] [ebp-28h]
+  int v28; // [esp+2Ch] [ebp-24h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+30h] [ebp-20h] BYREF
+  Scaleform::AmpFunctionTimer v30; // [esp+40h] [ebp-10h] BYREF
 
+  Instance = Scaleform::AmpServer::GetInstance();
+  v4 = Instance->GetDisplayStats(Instance);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v30,
+    v4,
+    "Renderer2DImpl::Draw",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_Draw);
   pRenderer = (Scaleform::Render::TreeCacheRoot *)pnode->pRenderer;
-  v4 = (_DWORD *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)pnode & 0xFFFFF000) + 0x14)
+  v6 = (_DWORD *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)pnode & 0xFFFFF000) + 0x14)
                             + 4 * ((int)((int)&pnode[-1] - ((unsigned int)pnode & 0xFFFFF000)) / 28)
                             + 20)
                 & 0xFFFFFFFE);
-  v5 = v4[40] == 0;
-  v6 = (Scaleform::Render::Viewport *)(v4 + 40);
-  v23 = (int)v4;
-  if ( v5 || !v4[41] )
+  v7 = v6[40] == 0;
+  v8 = (Scaleform::Render::Viewport *)(v6 + 40);
+  v28 = (int)v6;
+  if ( v7 || !v6[41] )
   {
     p_VP = &this->VP;
-    v6 = &this->VP;
+    v8 = &this->VP;
   }
   else
   {
-    v7 = v4[50] & 0x30;
-    p_VP = v6;
-    if ( v7 == 16 || v7 == 48 )
+    v9 = v6[50] & 0x30;
+    p_VP = v8;
+    if ( v9 == 16 || v9 == 48 )
     {
-      Left = v6->Left;
-      Top = v6->Top;
-      LODWORD(prect.x2) = Left + v6->Height;
-      LODWORD(prect.y2) = Top + v6->Width;
+      Left = v8->Left;
+      Top = v8->Top;
+      LODWORD(r.x2) = Left + v8->Height;
+      LODWORD(r.y2) = Top + v8->Width;
       pObject = this->pHal.pObject;
       p_ViewRectOriginal = (int)&pObject->Matrices.pObject->ViewRectOriginal;
       *(_DWORD *)p_ViewRectOriginal = Left;
-      v10 = Top;
+      v12 = Top;
     }
     else
     {
-      v8 = v6->Left;
-      v19 = v6->Top;
-      LODWORD(prect.x2) = v8 + v6->Width;
-      LODWORD(prect.y2) = v19 + v6->Height;
+      v10 = v8->Left;
+      v24 = v8->Top;
+      LODWORD(r.x2) = v10 + v8->Width;
+      LODWORD(r.y2) = v24 + v8->Height;
       pObject = this->pHal.pObject;
       p_ViewRectOriginal = (int)&pObject->Matrices.pObject->ViewRectOriginal;
-      *(_DWORD *)p_ViewRectOriginal = v8;
-      v10 = v19;
+      *(_DWORD *)p_ViewRectOriginal = v10;
+      v12 = v24;
     }
-    *(_DWORD *)(p_ViewRectOriginal + 4) = v10;
-    *(float *)(p_ViewRectOriginal + 8) = prect.x2;
-    *(float *)(p_ViewRectOriginal + 12) = prect.y2;
+    *(_DWORD *)(p_ViewRectOriginal + 4) = v12;
+    *(float *)(p_ViewRectOriginal + 8) = r.x2;
+    *(float *)(p_ViewRectOriginal + 12) = r.y2;
     pObject->Matrices.pObject->UVPOChanged = 1;
   }
-  prect.x1 = 0.0;
-  prect.y1 = 0.0;
-  prect.x2 = 0.0;
-  prect.y2 = 0.0;
-  CullRectF = Scaleform::Render::Viewport::GetCullRectF(v6, &prect, 1);
-  v17 = CullRectF;
+  r.x1 = 0.0;
+  r.y1 = 0.0;
+  r.x2 = 0.0;
+  r.y2 = 0.0;
+  CullRectF = Scaleform::Render::Viewport::GetCullRectF(v8, &r, 1);
+  v22 = CullRectF;
   if ( p_VP->BufferWidth && p_VP->BufferHeight )
   {
     if ( pRenderer )
     {
       if ( CullRectF == pRenderer->ViewValid )
       {
-        if ( !Scaleform::Render::Rect<float>::operator!=(&prect, &pRenderer->ViewCullRect) )
+        if ( !Scaleform::Render::Rect<float>::operator!=(&r, &pRenderer->ViewCullRect) )
           goto LABEL_22;
-        CullRectF = v17;
+        CullRectF = v22;
       }
-      x1 = prect.x1;
+      x1 = r.x1;
       pRenderer->ViewValid = CullRectF;
       pRenderer->ViewCullRect.x1 = x1;
-      pRenderer->ViewCullRect.y1 = prect.y1;
-      pRenderer->ViewCullRect.x2 = prect.x2;
-      pRenderer->ViewCullRect.y2 = prect.y2;
+      pRenderer->ViewCullRect.y1 = r.y1;
+      pRenderer->ViewCullRect.x2 = r.x2;
+      pRenderer->ViewCullRect.y2 = r.y2;
       Scaleform::Render::TreeCacheRoot::AddToUpdate(pRenderer, pRenderer, 1u);
 LABEL_21:
       Scaleform::Render::TreeCacheRoot::UpdateTreeData(pRenderer);
 LABEL_22:
-      if ( v17 )
+      if ( v22 )
         Scaleform::Render::TreeCacheRoot::Draw(pRenderer);
-      return;
+      goto LABEL_24;
     }
-    v13 = *(_WORD *)(v23 + 6) & 0xC;
-    v22 = *(_BYTE *)(v23 + 6) & 1;
-    if ( !v13 )
-      v13 = 4;
-    v23 = 74;
-    v14 = (Scaleform::Render::TreeCacheRoot *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+    v15 = *(_WORD *)(v28 + 6) & 0xC;
+    v27 = *(_BYTE *)(v28 + 6) & 1;
+    if ( (*(_WORD *)(v28 + 6) & 0xC) == 0 )
+      v15 = 4;
+    v28 = 74;
+    v16 = (Scaleform::Render::TreeCacheRoot *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                 Scaleform::Memory::pGlobalHeap,
                                                 this,
                                                 304,
-                                                &v23);
-    if ( v14 )
+                                                &v28);
+    if ( v16 )
     {
-      Scaleform::Render::TreeCacheRoot::TreeCacheRoot(v14, this, this->pHal.pObject, v22 | v13, pnode);
-      pRenderer = v15;
-      if ( v15 )
+      Scaleform::Render::TreeCacheRoot::TreeCacheRoot(v16, this, this->pHal.pObject, v27 | v15, pnode);
+      pRenderer = v17;
+      if ( v17 )
       {
-        pnode->pRenderer = v15;
-        v15->pPrev = this->RenderRoots.Root.pPrev;
-        v15->pNext = (Scaleform::Render::TreeCacheNode *)&this->VP.ScissorTop;
-        this->RenderRoots.Root.pPrev->pNext = v15;
-        this->RenderRoots.Root.pPrev = v15;
-        v15->ViewValid = v17;
-        Scaleform::Render::Rect<float>::operator=(&v15->ViewCullRect, &prect);
+        pnode->pRenderer = v17;
+        v17->pPrev = this->RenderRoots.Root.pPrev;
+        v17->pNext = (Scaleform::Render::TreeCacheNode *)&this->VP.ScissorTop;
+        this->RenderRoots.Root.pPrev->pNext = v17;
+        this->RenderRoots.Root.pPrev = v17;
+        v17->ViewValid = v22;
+        Scaleform::Render::Rect<float>::operator=(&v17->ViewCullRect, &r);
         pRenderer->UpdateChildSubtree(
           pRenderer,
           (const Scaleform::Render::TreeNode::NodeData *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)pnode & 0xFFFFF000)
@@ -133,13 +147,21 @@ LABEL_22:
                                                                     + 20)
                                                         & 0xFFFFFFFE),
           1u);
-        Scaleform::Render::TreeCacheRoot::AddToUpdate(
-          pRenderer,
-          pRenderer,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574203]);
+        Scaleform::Render::TreeCacheRoot::AddToUpdate(pRenderer, pRenderer, 0x1000003u);
         Scaleform::Render::TreeCacheRoot::ChainUpdatesByDepth(pRenderer);
         goto LABEL_21;
       }
     }
+  }
+LABEL_24:
+  Stats = v30.Stats;
+  if ( v30.Stats )
+  {
+    v20 = v30.Stats->__vftable;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))v20->NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(v30.StartTicks),
+      (ProfileTicks - v30.StartTicks) >> 32);
   }
 }

@@ -1,19 +1,19 @@
 char __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::SetNameAndLocalPath(
         Scaleform::GFx::AS3::Instances::fl_net::SharedObject *this,
-        Scaleform::GFx::ASString *name,
+        const __m128i ***name,
         const Scaleform::GFx::ASString *localPath)
 {
-  Scaleform::GFx::ASString *v3; // esi
+  const __m128i ***v3; // esi
   unsigned int FirstCharAt; // eax
   int v6; // edx
 
   v3 = name;
-  FirstCharAt = Scaleform::GFx::ASConstString::GetFirstCharAt(name, 0, (const char **)&name);
+  FirstCharAt = Scaleform::GFx::ASConstString::GetFirstCharAt((Scaleform::GFx::ASConstString *)name, 0, (char **)&name);
   if ( !FirstCharAt )
   {
 LABEL_7:
-    Scaleform::String::operator=(&this->Name, (char *)v3->pNode->pData);
-    Scaleform::String::operator=(&this->LocalPath, (char *)localPath->pNode->pData);
+    Scaleform::String::operator=(&this->Name, **v3);
+    Scaleform::String::operator=(&this->LocalPath, (const __m128i *)localPath->pNode->pData);
     return 1;
   }
   while ( 2 )
@@ -40,7 +40,7 @@ LABEL_7:
           || v6 != 1
           && (Scaleform::UnicodeSpaceBits[v6 + ((unsigned __int8)FirstCharAt >> 4)] & (1 << (FirstCharAt & 0xF))) == 0 )
         {
-          FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(v3, (const char **)&name);
+          FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar((Scaleform::GFx::ASConstString *)v3, (char **)&name);
           if ( !FirstCharAt )
             goto LABEL_7;
           continue;

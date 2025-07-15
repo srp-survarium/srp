@@ -1,4 +1,4 @@
-void __cdecl stlp_std::ios_base::_S_uninitialize()
+int stlp_std::ios_base::_S_uninitialize()
 {
   _DWORD *v0; // ecx
   int v1; // eax
@@ -166,7 +166,7 @@ void __cdecl stlp_std::ios_base::_S_uninitialize()
   (**(void (__thiscall ***)(_BYTE *, _DWORD))&stlp_std::wcerr.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wcerr.gap0 + 4)])(
     &stlp_std::wcerr.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wcerr.gap0 + 4)],
     0);
-  (**(void (__thiscall ***)(_BYTE *, _DWORD))&stlp_std::wclog.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wclog.gap0 + 4)])(
-    &stlp_std::wclog.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wclog.gap0 + 4)],
-    0);
+  return (**(int (__thiscall ***)(_BYTE *, _DWORD))&stlp_std::wclog.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wclog.gap0 + 4)])(
+           &stlp_std::wclog.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::wclog.gap0 + 4)],
+           0);
 }

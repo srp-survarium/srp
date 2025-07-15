@@ -1,42 +1,60 @@
 char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
         Scaleform::GFx::AS3ValueObjectInterface *this,
         Scaleform::String pdata,
-        char *name,
+        __m128i *name,
         Scaleform::GFx::ASStringNode *value,
         bool isdobj)
 {
-  char *v5; // ebp
+  Scaleform::GFx::AMP::ViewStats *v6; // eax
   Scaleform::GFx::AS3::MovieRoot *pObject; // edi
+  __m128i *v8; // ebp
   Scaleform::GFx::ASStringNode *StringNode; // eax
-  Scaleform::GFx::ASStringNode *v8; // esi
+  Scaleform::GFx::ASStringNode *v10; // esi
   Scaleform::GFx::ASStringManager *pManager; // edx
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v10; // eax
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v12; // eax
   void *pWeakProxy; // eax
-  bool v12; // zf
-  Scaleform::String v13; // esi
-  int v14; // eax
+  bool v14; // zf
+  Scaleform::String v15; // esi
+  int v16; // eax
   unsigned int Size; // ecx
-  unsigned int v16; // eax
-  int v17; // ecx
-  int v18; // eax
-  Scaleform::GFx::AS3::AvmDisplayObjContainer *v19; // esi
-  Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v20; // esi
-  int v21; // edx
+  unsigned int v18; // eax
+  int v19; // ecx
+  int v20; // eax
+  Scaleform::GFx::AS3::AvmDisplayObjContainer *v21; // esi
+  Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v22; // esi
+  int v23; // edx
   Scaleform::GFx::AS3::RefCountBaseGC<328> *Flags; // ecx
-  void *v23; // esi
+  void *v25; // esi
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASStringNode *v26; // eax
-  Scaleform::GFx::ASString propName; // [esp+10h] [ebp-40h] BYREF
-  Scaleform::GFx::AS3::VM *vm; // [esp+14h] [ebp-3Ch]
-  Scaleform::GFx::AS3::Value nameVal; // [esp+18h] [ebp-38h] BYREF
-  Scaleform::GFx::AS3::Value asval; // [esp+28h] [ebp-28h] BYREF
-  Scaleform::GFx::AS3::Multiname mn; // [esp+38h] [ebp-18h] BYREF
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::ASStringNode *v31; // eax
+  Scaleform::AmpStats *v32; // edi
+  void (__thiscall **v33)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v34; // rax
+  Scaleform::AmpStats *v35; // edi
+  void (__thiscall **v36)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v37; // rax
+  Scaleform::GFx::ASString propName; // [esp+10h] [ebp-50h] BYREF
+  Scaleform::GFx::AS3::VM *vm; // [esp+14h] [ebp-4Ch]
+  Scaleform::GFx::AS3::Value nameVal; // [esp+18h] [ebp-48h] BYREF
+  Scaleform::AmpFunctionTimer _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember; // [esp+28h] [ebp-38h] BYREF
+  Scaleform::GFx::AS3::Value asval; // [esp+38h] [ebp-28h] BYREF
+  Scaleform::GFx::AS3::Multiname mn; // [esp+48h] [ebp-18h] BYREF
 
-  v5 = name;
+  v6 = this->GetAdvanceStats(this);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember,
+    v6,
+    "ObjectInterface::SetMember",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ObjectInterface_SetMember);
   pObject = (Scaleform::GFx::AS3::MovieRoot *)this->pMovieRoot->pASMovieRoot.pObject;
+  v8 = name;
   vm = pObject->pAVM.pObject;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(pObject->BuiltinsMgr.pStringManager, name);
-  v8 = StringNode;
+  v10 = StringNode;
   pManager = StringNode->pManager;
   ++StringNode->RefCount;
   nameVal.Flags = 10;
@@ -52,11 +70,11 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
   {
     ++StringNode->RefCount;
   }
-  v10 = vm->PublicNamespace.pObject;
+  v12 = vm->PublicNamespace.pObject;
   mn.Kind = MN_QName;
-  mn.Obj.pObject = v10;
-  if ( v10 )
-    v10->RefCount = (v10->RefCount + 1) & 0x8FBFFFFF;
+  mn.Obj.pObject = &v12->Scaleform::GFx::AS3::GASRefCountBase;
+  if ( v12 )
+    v12->RefCount = (v12->RefCount + 1) & 0x8FBFFFFF;
   mn.Name.Flags = 0;
   mn.Name.Bonus.pWeakProxy = 0;
   Scaleform::GFx::AS3::Multiname::SetRTNameUnsafe(&mn, &nameVal);
@@ -65,8 +83,8 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
     if ( (nameVal.Flags & 0x200) != 0 )
     {
       pWeakProxy = nameVal.Bonus.pWeakProxy;
-      v12 = nameVal.Bonus.pWeakProxy->RefCount-- == 1;
-      if ( v12 )
+      v14 = nameVal.Bonus.pWeakProxy->RefCount-- == 1;
+      if ( v14 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pWeakProxy);
     }
     else
@@ -74,45 +92,45 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
       Scaleform::GFx::AS3::Value::ReleaseInternal(&nameVal);
     }
   }
-  v12 = v8->RefCount-- == 1;
-  if ( v12 )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v8);
-  v13.pData = pdata.pData;
-  v14 = *(_DWORD *)pdata.pData[1].Data;
-  if ( (unsigned int)(*(_DWORD *)(v14 + 60) - 23) < 6 && (*(_DWORD *)(v14 + 56) & 0x20) == 0 )
+  v14 = v10->RefCount-- == 1;
+  if ( v14 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v10);
+  v15.pData = pdata.pData;
+  v16 = *(_DWORD *)pdata.pData[1].Data;
+  if ( (unsigned int)(*(_DWORD *)(v16 + 60) - 23) < 6 && (*(_DWORD *)(v16 + 56) & 0x20) == 0 )
   {
     Size = pdata.pData[4].Size;
-    v16 = (*(_WORD *)(Size + 62) & 0x200) != 0 ? Size : 0;
-    if ( v16
-      && (v17 = *(unsigned __int8 *)((*(_WORD *)(Size + 62) & 0x200) != 0 ? Size + 0x41 : 65),
-          (v18 = (*(int (__thiscall **)(unsigned int))(*(_DWORD *)(v16 + 4 * v17) + 20))(v16 + 4 * v17)) != 0) )
+    v18 = (*(_WORD *)(Size + 62) & 0x200) != 0 ? Size : 0;
+    if ( v18
+      && (v19 = *(unsigned __int8 *)((*(_WORD *)(Size + 62) & 0x200) != 0 ? Size + 0x41 : 65),
+          (v20 = (*(int (__thiscall **)(unsigned int))(*(_DWORD *)(v18 + 4 * v19) + 20))(v18 + 4 * v19)) != 0) )
     {
-      v19 = (Scaleform::GFx::AS3::AvmDisplayObjContainer *)(v18 - 36);
+      v21 = (Scaleform::GFx::AS3::AvmDisplayObjContainer *)(v20 - 36);
     }
     else
     {
-      v19 = 0;
+      v21 = 0;
     }
-    propName.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(pObject->BuiltinsMgr.pStringManager, v5);
+    propName.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(pObject->BuiltinsMgr.pStringManager, v8);
     ++propName.pNode->RefCount;
-    v20 = Scaleform::GFx::AS3::AvmDisplayObjContainer::GetAS3ChildByName(
-            v19,
+    v22 = Scaleform::GFx::AS3::AvmDisplayObjContainer::GetAS3ChildByName(
+            v21,
             (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::DisplayObject> *)&nameVal,
             &propName)->pObject;
     if ( nameVal.Flags )
     {
       if ( (nameVal.Flags & 1) == 0 )
       {
-        v21 = *(_DWORD *)(nameVal.Flags + 16);
+        v23 = *(_DWORD *)(nameVal.Flags + 16);
         Flags = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)nameVal.Flags;
-        if ( ((unsigned int)&byte_3FFFFF & v21) != 0 )
+        if ( (v23 & 0x3FFFFF) != 0 )
         {
-          *(_DWORD *)(nameVal.Flags + 16) = v21 - 1;
+          *(_DWORD *)(nameVal.Flags + 16) = v23 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(Flags);
         }
       }
     }
-    if ( v20 )
+    if ( v22 )
     {
       Scaleform::String::String(&pdata);
       nameVal.Flags = 0;
@@ -125,33 +143,53 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
         &pObject->Scaleform::GFx::AS3::FlashUI,
         Output_Error,
         (const char *)((pdata.HeapTypeBits & 0xFFFFFFFC) + 8));
-      v23 = (void *)(pdata.HeapTypeBits & 0xFFFFFFFC);
+      v25 = (void *)(pdata.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((pdata.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v23);
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v25);
       pNode = propName.pNode;
       --propName.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
       Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
+      Stats = _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats;
+      if ( _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats )
+      {
+        p_NativePopCallstack = &_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats->NativePopCallstack;
+        ProfileTicks = Scaleform::Timer::GetProfileTicks();
+        ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+          Stats,
+          ProfileTicks - LODWORD(_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks),
+          (ProfileTicks - _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks) >> 32);
+      }
       return 0;
     }
-    v26 = propName.pNode;
+    v31 = propName.pNode;
     --propName.pNode->RefCount;
-    if ( !v26->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v26);
-    v13.pData = pdata.pData;
+    if ( !v31->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v31);
+    v15.pData = pdata.pData;
   }
   asval.Flags = 0;
   asval.Bonus.pWeakProxy = 0;
   Scaleform::GFx::AS3::MovieRoot::GFxValue2ASValue(pObject, value, &asval);
-  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::String, Scaleform::String *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v13.HeapTypeBits + 12))(
-                   v13,
+  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::String, Scaleform::String *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v15.HeapTypeBits + 24))(
+                   v15,
                    &pdata,
                    &mn,
                    &asval) )
   {
     Scaleform::GFx::AS3::Value::~Value(&asval);
     Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
+    v35 = _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats;
+    if ( _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats )
+    {
+      v36 = &_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats->NativePopCallstack;
+      v37 = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v36)(
+        v35,
+        v37 - LODWORD(_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks),
+        (v37 - _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks) >> 32);
+    }
     return 1;
   }
   else
@@ -160,6 +198,16 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetMember(
       Scaleform::GFx::AS3::VM::OutputAndIgnoreException(vm);
     Scaleform::GFx::AS3::Value::~Value(&asval);
     Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
+    v32 = _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats;
+    if ( _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats )
+    {
+      v33 = &_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.Stats->NativePopCallstack;
+      v34 = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v33)(
+        v32,
+        v34 - LODWORD(_amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks),
+        (v34 - _amp_timer_Amp_Native_Function_Id_ObjectInterface_SetMember.StartTicks) >> 32);
+    }
     return 0;
   }
 }

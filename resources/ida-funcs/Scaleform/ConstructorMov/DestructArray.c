@@ -1,3 +1,26 @@
+void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AMP::ViewStats::CallInfo>::DestructArray(
+        Scaleform::GFx::AMP::ViewStats::CallInfo *p,
+        unsigned int count)
+{
+  Scaleform::RefCountVImpl **v2; // esi
+  unsigned int v3; // edi
+
+  v2 = (Scaleform::RefCountVImpl **)&p[count - 1];
+  if ( count )
+  {
+    v3 = count;
+    do
+    {
+      if ( *v2 )
+        Scaleform::RefCountImpl::Release(*v2);
+      v2 -= 6;
+      --v3;
+    }
+    while ( v3 );
+  }
+}
+
+
 void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::Button::CharToRec>::DestructArray(
         Scaleform::GFx::Button::CharToRec *p,
         unsigned int count)
@@ -97,7 +120,6 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::HAL::FilterStackEntry>
 {
   Scaleform::Render::HAL::FilterStackEntry *v2; // esi
   unsigned int v3; // edi
-  Scaleform::Render::RenderTarget *pObject; // ecx
 
   v2 = &p[count - 1];
   if ( count )
@@ -105,12 +127,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::HAL::FilterStackEntry>
     v3 = count;
     do
     {
-      pObject = v2->pRenderTarget.pObject;
-      if ( pObject )
-        pObject->Release(pObject);
-      if ( v2->pPrimitive.pObject )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v2->pPrimitive.pObject);
-      --v2;
+      Scaleform::Render::HAL::FilterStackEntry::~FilterStackEntry(v2--);
       --v3;
     }
     while ( v3 );
@@ -264,54 +281,16 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::ComplexPrimitiveBundle
 }
 
 
-void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener>::DestructArray(
-        Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener *p,
-        unsigned int count)
-{
-  Scaleform::GFx::AS3::Value *p_mFunction; // esi
-  unsigned int v3; // edi
-
-  if ( count )
-  {
-    p_mFunction = &p[count - 1].mFunction;
-    v3 = count;
-    do
-    {
-      if ( (p_mFunction->Flags & 0x1F) > 9 )
-      {
-        if ( (p_mFunction->Flags & 0x200) != 0 )
-          Scaleform::GFx::AS3::Value::ReleaseWeakRef(p_mFunction);
-        else
-          Scaleform::GFx::AS3::Value::ReleaseInternal(p_mFunction);
-      }
-      p_mFunction = (Scaleform::GFx::AS3::Value *)((char *)p_mFunction - 24);
-      --v3;
-    }
-    while ( v3 );
-  }
-}
-
-
 void __cdecl Scaleform::ConstructorMov<Scaleform::Render::HAL::MaskStackEntry>::DestructArray(
         Scaleform::Render::HAL::MaskStackEntry *p,
         unsigned int count)
 {
-  Scaleform::RefCountVImpl **v2; // esi
-  unsigned int v3; // edi
+  unsigned int v2; // edi
+  Scaleform::Render::HAL::MaskStackEntry *i; // esi
 
-  v2 = (Scaleform::RefCountVImpl **)&p[count - 1];
-  if ( count )
-  {
-    v3 = count;
-    do
-    {
-      if ( *v2 )
-        Scaleform::RefCountImpl::Release(*v2);
-      v2 -= 6;
-      --v3;
-    }
-    while ( v3 );
-  }
+  v2 = count;
+  for ( i = &p[count - 1]; v2; --v2 )
+    Scaleform::Render::HAL::MaskStackEntry::`scalar deleting destructor'(i--, 0);
 }
 
 
@@ -423,23 +402,12 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::HAL::RenderTargetEntry
         Scaleform::Render::HAL::RenderTargetEntry *p,
         unsigned int count)
 {
-  Scaleform::Render::HAL::RenderTargetEntry *v2; // esi
-  unsigned int v3; // edi
+  unsigned int v2; // edi
+  Scaleform::Render::HAL::RenderTargetEntry *i; // esi
 
-  v2 = &p[count - 1];
-  if ( count )
-  {
-    v3 = count;
-    do
-    {
-      Scaleform::RefCountImplCore::~RefCountImplCore(&v2->OldMatrixState);
-      if ( v2->pRenderTarget.pObject )
-        v2->pRenderTarget.pObject->Release(v2->pRenderTarget.pObject);
-      --v2;
-      --v3;
-    }
-    while ( v3 );
-  }
+  v2 = count;
+  for ( i = &p[count - 1]; v2; --v2 )
+    Scaleform::Render::HAL::RenderTargetEntry::~RenderTargetEntry(i--);
 }
 
 
@@ -655,7 +623,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS2::ArraySortFunctor>::D
         if ( v4 )
         {
           RefCount = v4->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v4->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);
@@ -670,7 +638,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS2::ArraySortFunctor>::D
         if ( *p_pLocalFrame )
         {
           v8 = v7->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+          if ( (v8 & 0x3FFFFFF) != 0 )
           {
             v7->RefCount = v8 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);
@@ -1083,7 +1051,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Ptr<Scaleform::GFx::AS2::Objec
       if ( v2->pObject )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -1120,29 +1088,6 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Ptr<Scaleform::GFx::Sprite>>::
 }
 
 
-void __cdecl Scaleform::ConstructorMov<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>>::DestructArray(
-        Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone> *p,
-        unsigned int count)
-{
-  Scaleform::GFx::TextField::CSSHolderBase::UrlZone *p_Data; // esi
-  unsigned int v3; // edi
-
-  if ( count )
-  {
-    p_Data = &p[count - 1].Data;
-    v3 = count;
-    do
-    {
-      if ( p_Data->SavedFmt.pObject )
-        Scaleform::RefCountNTSImpl::Release(p_Data->SavedFmt.pObject);
-      p_Data = (Scaleform::GFx::TextField::CSSHolderBase::UrlZone *)((char *)p_Data - 20);
-      --v3;
-    }
-    while ( v3 );
-  }
-}
-
-
 void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::ASStringNode>>::DestructArray(
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::ASStringNode> *p,
         unsigned int count)
@@ -1167,46 +1112,6 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::SPtr<Scaleform::GFx:
         else if ( pObject->RefCount-- == 1 )
         {
           Scaleform::GFx::ASStringNode::ReleaseNode(pObject);
-        }
-      }
-      --v2;
-      --v3;
-    }
-    while ( v3 );
-  }
-}
-
-
-void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::fl::Catch>>::DestructArray(
-        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::VMAbcFile> *p,
-        unsigned int count)
-{
-  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::VMAbcFile> *v2; // esi
-  unsigned int v3; // edi
-  Scaleform::GFx::AS3::VMAbcFile *pObject; // ecx
-  unsigned int RefCount; // eax
-
-  v2 = &p[count - 1];
-  if ( count )
-  {
-    v3 = count;
-    do
-    {
-      pObject = v2->pObject;
-      if ( v2->pObject )
-      {
-        if ( ((unsigned __int8)pObject & 1) != 0 )
-        {
-          v2->pObject = (Scaleform::GFx::AS3::VMAbcFile *)((char *)pObject - 1);
-        }
-        else
-        {
-          RefCount = pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
-          {
-            pObject->RefCount = RefCount - 1;
-            Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
-          }
         }
       }
       --v2;

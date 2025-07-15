@@ -3,5 +3,5 @@ void __thiscall Scaleform::GFx::AMP::GFxSocketImpl::SetBroadcast(
         BOOL broadcast)
 {
   broadcast = broadcast;
-  setsockopt(this->Socket, 0xFFFF, 32, (const char *)&broadcast, 4);
+  ((void (__stdcall *)(unsigned int, int, int, BOOL *, int))(&off_8E3A98 + 21))(this->Socket, 0xFFFF, 32, &broadcast, 4);
 }

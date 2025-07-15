@@ -19,8 +19,8 @@ char __thiscall Scaleform::GFx::AS2::RefCountCollector<323>::Collect(
   unsigned int Size; // eax
   unsigned int v18; // eax
   unsigned int v20; // [esp+8h] [ebp-Ch]
-  unsigned int initialNRoots; // [esp+Ch] [ebp-8h]
-  unsigned int totalKillListSize; // [esp+10h] [ebp-4h]
+  unsigned int v21; // [esp+Ch] [ebp-8h]
+  unsigned int v22; // [esp+10h] [ebp-4h]
 
   if ( (this->Flags & 1) != 0 || (v3 = 0, (v20 = this->Roots.Size) == 0) )
   {
@@ -33,12 +33,12 @@ char __thiscall Scaleform::GFx::AS2::RefCountCollector<323>::Collect(
   }
   else
   {
-    initialNRoots = 0;
-    totalKillListSize = 0;
+    v21 = 0;
+    v22 = 0;
     p_ListRoot = &this->ListRoot;
     do
     {
-      initialNRoots += v20;
+      v21 += v20;
       this->pLastPtr = p_ListRoot;
       this->ListRoot.RootIndex = (unsigned int)p_ListRoot;
       this->ListRoot.pRCC = (Scaleform::GFx::AS2::RefCountCollector<323> *)p_ListRoot;
@@ -96,7 +96,7 @@ char __thiscall Scaleform::GFx::AS2::RefCountCollector<323>::Collect(
       for ( i = this->ListRoot.pNext; i != p_ListRoot; i = i->pNext )
       {
         v11 = i->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v11) != 0 )
+        if ( (v11 & 0x3FFFFFF) != 0 )
         {
           i->RefCount = v11 & 0x8FFFFFFF;
           this->pLastPtr = i;
@@ -117,7 +117,7 @@ char __thiscall Scaleform::GFx::AS2::RefCountCollector<323>::Collect(
           {
             v12->Finalize_GC(v12);
             Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
-            ++totalKillListSize;
+            ++v22;
           }
           else
           {
@@ -161,10 +161,10 @@ char __thiscall Scaleform::GFx::AS2::RefCountCollector<323>::Collect(
     while ( Size );
     if ( pstat )
     {
-      v18 = initialNRoots;
-      pstat->RootsNumber = initialNRoots;
-      if ( initialNRoots >= totalKillListSize )
-        v18 = totalKillListSize;
+      v18 = v21;
+      pstat->RootsNumber = v21;
+      if ( v21 >= v22 )
+        v18 = v22;
       pstat->RootsFreedTotal = v18;
     }
     return 1;

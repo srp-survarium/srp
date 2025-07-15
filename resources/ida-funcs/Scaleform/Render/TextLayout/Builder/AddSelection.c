@@ -4,28 +4,33 @@ void __thiscall Scaleform::Render::TextLayout::Builder::AddSelection(
         unsigned int color)
 {
   double x2; // st7
-  Scaleform::Render::TextLayout::SelectionRecord *p_rec; // edi
+  unsigned __int8 *v4; // edi
   int v5; // esi
   Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2> *p_Data; // ebx
-  Scaleform::Render::TextLayout::SelectionRecord rec; // [esp+4h] [ebp-18h] BYREF
+  _BYTE v7[2]; // [esp+4h] [ebp-18h] BYREF
+  __int16 v8; // [esp+6h] [ebp-16h]
+  unsigned int v9; // [esp+8h] [ebp-14h]
+  float x1; // [esp+Ch] [ebp-10h]
+  float y1; // [esp+10h] [ebp-Ch]
+  float v12; // [esp+14h] [ebp-8h]
+  float y2; // [esp+18h] [ebp-4h]
 
-  rec.Filler = 0;
-  rec.x1 = r->x1;
-  rec.y1 = r->y1;
-  rec.Tag = 5;
+  v8 = 0;
+  x1 = r->x1;
+  y1 = r->y1;
+  v7[0] = 5;
   x2 = r->x2;
-  rec.Flags = 0;
-  rec.x2 = x2;
-  rec.mColor = color;
-  p_rec = &rec;
-  rec.y2 = r->y2;
+  v7[1] = 0;
+  v12 = x2;
+  v9 = color;
+  v4 = v7;
+  y2 = r->y2;
   v5 = 24;
   p_Data = &this->Data;
   do
   {
     --v5;
-    Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(p_Data, &p_rec->Tag);
-    p_rec = (Scaleform::Render::TextLayout::SelectionRecord *)((char *)p_rec + 1);
+    Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(p_Data, v4++);
   }
   while ( v5 );
 }

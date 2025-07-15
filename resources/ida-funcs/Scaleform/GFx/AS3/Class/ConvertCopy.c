@@ -1,7 +1,8 @@
 Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::Class::ConvertCopy(
         Scaleform::GFx::AS3::Class *this,
         Scaleform::GFx::AS3::Value *result,
-        Scaleform::GFx::AS3::Value *v)
+        Scaleform::GFx::AS3::Value *v,
+        const Scaleform::GFx::AS3::Traits *__formal)
 {
   unsigned int Flags; // eax
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // edi

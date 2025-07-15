@@ -1,44 +1,44 @@
 void __userpurge ppmd_compressor_impl::StartModelRare(
         vostok::ppmd_compressor::model_restoration_enum MRMethod@<eax>,
-        unsigned int a2@<edi>,
         ppmd_compressor_impl *this,
         int MaxOrder)
 {
-  ppmd_allocator *v6; // ecx
-  int v7; // edi
-  PPM_CONTEXT *MaxContext; // eax
-  unsigned int v9; // ecx
-  int v10; // ebx
-  unsigned __int16 *v11; // esi
-  unsigned __int16 *v12; // edi
-  unsigned __int16 *v13; // eax
-  int v14; // ecx
-  int v15; // ecx
-  int v16; // edx
-  unsigned __int8 *v17; // edi
-  SEE2_CONTEXT *v18; // eax
-  SEE2_CONTEXT *v19; // ecx
-  int v20; // esi
-  bool v21; // zf
-  unsigned __int8 *HiUnit; // eax
-  PPM_CONTEXT *next; // eax
-  BLK_NODE *Stats; // edx
-  compression::ppmd::stream *v25; // eax
-  unsigned __int8 *m_pointer; // ecx
-  int v27; // edx
-  int v28; // ecx
-  unsigned int i; // eax
-  int v30; // eax
-  PPM_CONTEXT *StartModelRare_context; // edx
-  unsigned __int8 *QTable; // [esp+8h] [ebp-4h]
-  int v34; // [esp+8h] [ebp-4h]
-  unsigned int m; // [esp+10h] [ebp+4h]
-  unsigned int ma; // [esp+10h] [ebp+4h]
+  ppmd_allocator *v5; // ecx
+  int v6; // edi
+  PPM_CONTEXT *m; // eax
+  unsigned __int16 *v8; // ecx
+  unsigned __int8 *i; // eax
+  unsigned int j; // esi
+  unsigned int v11; // edx
+  unsigned __int16 *v12; // eax
+  _DWORD *v13; // eax
+  int v14; // edx
+  _DWORD *v15; // edi
+  unsigned __int8 *v16; // esi
+  SEE2_CONTEXT *v17; // eax
+  SEE2_CONTEXT *v18; // edx
+  PPM_CONTEXT *v19; // eax
+  compression::ppmd::stream *v20; // esi
+  int v21; // ecx
+  unsigned int k; // eax
+  int v23; // eax
+  int v24; // ecx
+  PPM_CONTEXT *StartModelRare_context; // eax
+  unsigned __int8 *CharMask; // [esp-Ch] [ebp-24h]
+  unsigned __int8 *QTable; // [esp+Ch] [ebp-Ch]
+  int v28; // [esp+Ch] [ebp-Ch]
+  unsigned __int16 *v29; // [esp+10h] [ebp-8h]
+  int v30; // [esp+10h] [ebp-8h]
+  unsigned int v31; // [esp+14h] [ebp-4h]
+  int v32; // [esp+14h] [ebp-4h]
+  ppmd_compressor_impl *impl; // [esp+20h] [ebp+8h]
+  ppmd_compressor_impl *impla; // [esp+20h] [ebp+8h]
 
+  CharMask = this->CharMask;
   if ( this->StartModelRare_first_time )
   {
-    memset((int)this->CharMask, 0, sizeof(this->CharMask));
-    v7 = MaxOrder;
+    memset((int)CharMask, 0, 0x100u);
+    v6 = MaxOrder;
     this->PrintCount = 1;
     this->EscCount = 1;
     if ( MaxOrder >= 2 )
@@ -46,148 +46,123 @@ void __userpurge ppmd_compressor_impl::StartModelRare(
       this->MRMethod = MRMethod;
       this->MaxOrder = MaxOrder;
       this->OrderFall = MaxOrder;
-      ppmd_allocator::InitSubAllocator(v6, (int)&this->m_allocator);
+      ppmd_allocator::InitSubAllocator(v5, &this->m_allocator.m_allocator);
       if ( MaxOrder >= 12 )
-        v7 = 12;
-      this->InitRL = -1 - v7;
-      this->RunLength = -1 - v7;
-      v9 = 0;
-      m = 0;
-      v10 = 0;
+        v6 = 12;
+      v31 = 0;
+      impl = 0;
+      this->InitRL = -1 - v6;
+      this->RunLength = -1 - v6;
       QTable = this->QTable;
-      v11 = &this->BinSumm[0][8];
-      v12 = &this->BinSumm[0][1];
-      while ( 1 )
+      v8 = this->BinSumm[0];
+      do
       {
-        for ( ; *QTable == v9; QTable = &this->QTable[v10] )
-          ++v10;
-        *(v12 - 1) = 0x4000 - 0x3CDDu / (v10 + 1);
-        *v12 = 0x4000 - 0x1F3Fu / (v10 + 1);
-        v12[1] = 0x4000 - 0x59BFu / (v10 + 1);
-        v12[2] = 0x4000 - 0x48F3u / (v10 + 1);
-        v12[3] = 0x4000 - 0x64A1u / (v10 + 1);
-        v12[4] = 0x4000 - 0x5ABCu / (v10 + 1);
-        v12[5] = 0x4000 - 0x6632u / (v10 + 1);
-        v12[6] = 0x4000 - 0x6051u / (v10 + 1);
-        v13 = v11;
+        for ( i = QTable; *i == v31; QTable = i )
+        {
+          impl = (ppmd_compressor_impl *)((char *)impl + 1);
+          i = &impl->QTable[(_DWORD)this];
+        }
+        v29 = v8;
+        for ( j = 0; j < 8; ++j )
+        {
+          v11 = 0x4000 - InitBinEsc[j] / ((unsigned int)&impl->__vftable + 1);
+          v12 = v29++;
+          *v12 = v11;
+        }
+        v13 = v8 + 8;
         v14 = 7;
         do
         {
-          *(_QWORD *)v13 = *((_QWORD *)v11 - 2);
-          *((_QWORD *)v13 + 1) = *((_QWORD *)v11 - 1);
-          v13 += 8;
+          *v13 = *(_DWORD *)v8;
+          v13[1] = *((_DWORD *)v8 + 1);
+          v13[2] = *((_DWORD *)v8 + 2);
+          v15 = v13 + 3;
+          v13 += 4;
           --v14;
+          *v15 = *((_DWORD *)v8 + 3);
         }
         while ( v14 );
-        v12 += 64;
-        v11 += 64;
-        if ( ++m >= 0x19 )
-          break;
-        v9 = m;
+        ++v31;
+        v8 += 64;
       }
-      v15 = 3;
-      v16 = 0;
-      v17 = &this->QTable[3];
-      ma = 3;
-      v18 = this->SEE2Cont[0];
-      v34 = 24;
+      while ( v31 < 0x19 );
+      impla = 0;
+      v16 = &this->QTable[3];
+      v32 = 3;
+      v17 = this->SEE2Cont[0];
+      v30 = 24;
       do
       {
-        for ( ; *v17 == v15; v17 = &this->QTable[v16 + 3] )
-          ++v16;
-        v18->Summ = 16 * v16 + 40;
-        v18->Shift = 3;
-        v18->Count = 7;
-        v19 = v18 + 1;
-        v20 = 31;
+        while ( *v16 == v32 )
+        {
+          impla = (ppmd_compressor_impl *)((char *)impla + 1);
+          v16 = &this->QTable[(_DWORD)impla + 3];
+        }
+        v17->Summ = 16 * (_WORD)impla + 40;
+        v17->Shift = 3;
+        v17->Count = 7;
+        v18 = v17 + 1;
+        v28 = 31;
         do
         {
-          *v19++ = *v18;
-          --v20;
+          *v18++ = *v17;
+          --v28;
         }
-        while ( v20 );
-        v15 = ma + 1;
-        v18 += 32;
-        v21 = v34-- == 1;
-        ++ma;
+        while ( v28 );
+        ++v32;
+        v17 += 32;
+        --v30;
       }
-      while ( !v21 );
-      HiUnit = this->m_allocator.HiUnit;
-      if ( HiUnit == this->m_allocator.LoUnit )
+      while ( v30 );
+      v19 = (PPM_CONTEXT *)ppmd_allocator::AllocContext(&this->m_allocator);
+      v20 = trained_model;
+      this->MaxContext = v19;
+      v19->Suffix = 0;
+      if ( v20 && compression::ppmd::stream::get_char(v20) <= MaxOrder )
       {
-        if ( this->m_allocator.BList[0].next )
-        {
-          next = (PPM_CONTEXT *)this->m_allocator.BList[0].next;
-          Stats = (BLK_NODE *)next->Stats;
-          --this->m_allocator.BList[0].Stamp;
-          this->m_allocator.BList[0].next = Stats;
-        }
-        else
-        {
-          next = (PPM_CONTEXT *)ppmd_allocator::AllocUnitsRare(&this->m_allocator, 0, a2);
-        }
-      }
-      else
-      {
-        next = (PPM_CONTEXT *)(HiUnit - 12);
-        this->m_allocator.HiUnit = &next->NumStats;
-      }
-      this->MaxContext = next;
-      next->Suffix = 0;
-      v25 = trained_model;
-      if ( trained_model
-        && ((m_pointer = trained_model->m_pointer, m_pointer >= &trained_model->m_buffer[trained_model->m_buffer_size])
-          ? (unsigned __int8 *)(v27 = -1)
-          : (v27 = *m_pointer, trained_model->m_pointer = m_pointer + 1),
-            v27 <= MaxOrder) )
-      {
-        PPM_CONTEXT::read(this->MaxContext, (unsigned int)this, this, (int)v25, 0xFFu);
+        PPM_CONTEXT::read(this->MaxContext, this, v20, 0xFFu);
         PPM_CONTEXT::makeSuffix(this->MaxContext);
-        this->StartModelRare_context = this->MaxContext;
       }
       else
       {
         this->MaxContext->NumStats = -1;
         this->MaxContext->SummFreq = 257;
         this->MaxContext->Stats = (PPM_CONTEXT::STATE *)ppmd_allocator::AllocUnits(&this->m_allocator, 0x80u);
-        v28 = 0;
+        v21 = 0;
         this->PrevSuccess = 0;
-        for ( i = 0; i < 256; ++i )
+        for ( k = 0; k < 256; ++k )
         {
-          this->MaxContext->Stats[i].Symbol = v28;
-          this->MaxContext->Stats[i].Freq = 1;
-          this->MaxContext->Stats[i].Successor = 0;
-          ++v28;
+          this->MaxContext->Stats[k].Symbol = v21;
+          this->MaxContext->Stats[k].Freq = 1;
+          this->MaxContext->Stats[k].Successor = 0;
+          ++v21;
         }
-        this->StartModelRare_context = this->MaxContext;
       }
+      this->StartModelRare_context = this->MaxContext;
     }
     else
     {
-      MaxContext = this->MaxContext;
-      for ( this->OrderFall = this->MaxOrder; MaxContext; MaxContext = MaxContext->Suffix )
-      {
-        if ( !MaxContext->Suffix )
-          break;
+      this->OrderFall = this->MaxOrder;
+      for ( m = this->MaxContext; m && m->Suffix; m = m->Suffix )
         --this->OrderFall;
-      }
     }
   }
   else
   {
-    memset((int)this->CharMask, 0, sizeof(this->CharMask));
-    v30 = MaxOrder;
+    memset((int)CharMask, 0, 0x100u);
+    v23 = MaxOrder;
     this->PrintCount = 1;
     this->EscCount = 1;
     this->MaxOrder = MaxOrder;
     this->OrderFall = MaxOrder;
     this->MRMethod = MRMethod;
     if ( MaxOrder >= 12 )
-      v30 = 12;
+      v23 = 12;
+    v24 = -1 - v23;
     StartModelRare_context = this->StartModelRare_context;
-    this->InitRL = -1 - v30;
-    this->RunLength = -1 - v30;
-    this->MaxContext = StartModelRare_context;
     this->FoundState = 0;
+    this->InitRL = v24;
+    this->RunLength = v24;
+    this->MaxContext = StartModelRare_context;
   }
 }

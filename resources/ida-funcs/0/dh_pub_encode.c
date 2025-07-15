@@ -1,6 +1,6 @@
 int __cdecl dh_pub_encode(X509_pubkey_st *pk, const evp_pkey_st *pkey)
 {
-  const dh_st *dh; // edi
+  dh_st *dh; // edi
   asn1_string_st *v3; // ebx
   asn1_string_st *v4; // esi
   int v5; // eax
@@ -13,7 +13,7 @@ int __cdecl dh_pub_encode(X509_pubkey_st *pk, const evp_pkey_st *pkey)
   dh = pkey->pkey.dh;
   v3 = 0;
   str = 0;
-  v4 = ASN1_STRING_new();
+  v4 = ASN1_STRING_new(0);
   v5 = i2d_DHparams(dh, &v4->data);
   v4->length = v5;
   if ( v5 > 0 )
@@ -27,19 +27,19 @@ int __cdecl dh_pub_encode(X509_pubkey_st *pk, const evp_pkey_st *pkey)
       if ( v8 > 0 )
       {
         v10 = (unsigned __int8 *)str;
-        v9 = OBJ_nid2obj(0x1Cu);
+        v9 = OBJ_nid2obj((int)v4, 0x1Cu);
         if ( X509_PUBKEY_set0_param(pk, v9, 16, v4, v10, v8) )
           return 1;
       }
       else
       {
-        ERR_put_error(5u, 109, 65, ".\\crypto\\dh\\dh_ameth.c", 161);
+        ERR_put_error((int)v4, 5u, 109, 65, ".\\crypto\\dh\\dh_ameth.c", 161);
       }
     }
   }
   else
   {
-    ERR_put_error(5u, 109, 65, ".\\crypto\\dh\\dh_ameth.c", 145);
+    ERR_put_error(0, 5u, 109, 65, ".\\crypto\\dh\\dh_ameth.c", 145);
   }
   if ( str )
     CRYPTO_free(str);

@@ -1,11 +1,11 @@
-asn1_object_st *__cdecl policy_data_new(POLICYINFO_st *policy, X509_POLICY_DATA_st *cid, int crit)
+asn1_object_st *__cdecl policy_data_new(POLICYINFO_st *policy, asn1_object_st *cid, int crit)
 {
   asn1_object_st *result; // eax
   asn1_object_st *v4; // edi
-  X509_POLICY_DATA_st *v5; // esi
+  asn1_object_st *v5; // esi
   stack_st *v6; // eax
 
-  result = (asn1_object_st *)cid;
+  result = cid;
   if ( policy )
   {
     if ( !cid )
@@ -18,16 +18,16 @@ asn1_object_st *__cdecl policy_data_new(POLICYINFO_st *policy, X509_POLICY_DATA_
   {
     return result;
   }
-  result = OBJ_dup((const asn1_object_st *)cid);
+  result = OBJ_dup((int)policy, cid);
   v4 = result;
   if ( !result )
     return result;
 LABEL_8:
-  v5 = (X509_POLICY_DATA_st *)CRYPTO_malloc(16, ".\\crypto\\x509v3\\pcy_data.c", 100);
+  v5 = (asn1_object_st *)CRYPTO_malloc(16, ".\\crypto\\x509v3\\pcy_data.c", 100);
   if ( !v5 )
     return 0;
   v6 = sk_new_null();
-  v5->expected_policy_set = (stack_st_ASN1_OBJECT *)v6;
+  v5->length = (int)v6;
   if ( !v6 )
   {
     CRYPTO_free(v5);
@@ -35,26 +35,26 @@ LABEL_8:
       ASN1_OBJECT_free(v4);
     return 0;
   }
-  v5->flags = crit != 0 ? 0x10 : 0;
+  v5->sn = crit != 0 ? (const char *)0x10 : 0;
   if ( v4 )
   {
-    v5->valid_policy = v4;
+    v5->ln = (const char *)v4;
   }
   else
   {
-    v5->valid_policy = policy->policyid;
+    v5->ln = (const char *)policy->policyid;
     policy->policyid = 0;
   }
   if ( policy )
   {
-    v5->qualifier_set = policy->qualifiers;
-    result = (asn1_object_st *)v5;
+    v5->nid = (int)policy->qualifiers;
+    result = v5;
     policy->qualifiers = 0;
   }
   else
   {
-    v5->qualifier_set = 0;
-    return (asn1_object_st *)v5;
+    v5->nid = 0;
+    return v5;
   }
   return result;
 }

@@ -29,7 +29,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
           this,
           (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)&v);
         v10 = v;
-        (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Instances::fl::XMLList *, const Scaleform::GFx::AS3::Multiname *))(*(_DWORD *)v4->value.VS._1.VInt + 144))(
+        (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Instances::fl::XMLList *, const Scaleform::GFx::AS3::Multiname *))(*(_DWORD *)v4->value.VS._1.VInt + 156))(
           v4->value.VS._1,
           v,
           mn);

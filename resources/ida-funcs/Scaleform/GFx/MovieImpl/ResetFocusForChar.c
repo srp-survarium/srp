@@ -9,13 +9,13 @@ void __thiscall Scaleform::GFx::MovieImpl::ResetFocusForChar(
   Scaleform::WeakPtrProxy *v7; // eax
   Scaleform::RefCountNTSImpl *v8; // ebx
   unsigned int ControllerMaskByFocusGroup; // edi
-  unsigned int v10; // esi
+  Scaleform::Ptr<Scaleform::GFx::Sprite> v10; // esi
   Scaleform::WeakPtrProxy *v11; // eax
-  unsigned int i; // [esp+4h] [ebp-Ch]
+  unsigned int focusGroupIndex; // [esp+4h] [ebp-Ch]
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *v13; // [esp+8h] [ebp-8h]
-  unsigned int cc; // [esp+Ch] [ebp-4h]
+  unsigned int i; // [esp+Ch] [ebp-4h]
 
-  i = 0;
+  focusGroupIndex = 0;
   if ( this->FocusGroupsCnt )
   {
     p_LastFocused = &this->FocusGroups[0].LastFocused;
@@ -66,13 +66,19 @@ void __thiscall Scaleform::GFx::MovieImpl::ResetFocusForChar(
               Scaleform::RefCountNTSImpl::Release(v8);
               if ( !Scaleform::GFx::MovieImpl::IsShutdowning(this) )
               {
-                ControllerMaskByFocusGroup = Scaleform::GFx::MovieImpl::GetControllerMaskByFocusGroup(this, i);
-                v10 = 0;
-                for ( cc = this->GetControllerCount(this); ControllerMaskByFocusGroup; ControllerMaskByFocusGroup >>= 1 )
+                ControllerMaskByFocusGroup = Scaleform::GFx::MovieImpl::GetControllerMaskByFocusGroup(
+                                               this,
+                                               focusGroupIndex);
+                v10.pObject = 0;
+                for ( i = this->GetControllerCount(this); ControllerMaskByFocusGroup; ControllerMaskByFocusGroup >>= 1 )
                 {
-                  if ( v10 >= cc )
+                  if ( (unsigned int)v10.pObject >= i )
                     break;
-                  Scaleform::GFx::MovieImpl::SetFocusTo(this, 0, v10++, GFx_FocusMovedByKeyboard);
+                  Scaleform::GFx::MovieImpl::SetFocusTo(
+                    this,
+                    0,
+                    (Scaleform::Ptr<Scaleform::GFx::Sprite>)v10.pObject++,
+                    GFx_FocusMovedByKeyboard);
                 }
                 p_LastFocused = v13;
               }
@@ -102,9 +108,9 @@ void __thiscall Scaleform::GFx::MovieImpl::ResetFocusForChar(
           Scaleform::RefCountNTSImpl::Release(v8);
       }
       p_LastFocused += 16;
-      ++i;
+      ++focusGroupIndex;
       v13 = p_LastFocused;
     }
-    while ( i < this->FocusGroupsCnt );
+    while ( focusGroupIndex < this->FocusGroupsCnt );
   }
 }

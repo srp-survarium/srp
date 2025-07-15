@@ -3,12 +3,14 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callmethod(
         unsigned int method_index,
         unsigned int arg_count)
 {
-  Scaleform::GFx::AS3::Traits *ValueTraits; // eax
+  const Scaleform::GFx::AS3::Traits *ValueTraits; // eax
   Scaleform::GFx::AS3::Value *FixedArr; // ecx
   Scaleform::GFx::AS3::ReadArgsObject args; // [esp+8h] [ebp-B0h] BYREF
 
   Scaleform::GFx::AS3::ReadArgs::ReadArgs(&args, this, arg_count);
-  args.ArgObject = *(Scaleform::GFx::AS3::Value *)*(_DWORD *)args.OpStack;
+  args.ArgObject.Flags = args.OpStack->pCurrent->Flags;
+  args.ArgObject.Bonus.pWeakProxy = args.OpStack->pCurrent->Bonus.pWeakProxy;
+  args.ArgObject.value.VNumber = args.OpStack->pCurrent->value.VNumber;
   --args.OpStack->pCurrent;
   Scaleform::GFx::AS3::StackReader::CheckObject(&args, &args.ArgObject);
   if ( !this->HandleException )

@@ -30,9 +30,9 @@ char __thiscall Scaleform::GFx::AS2::StageCtorFunction::GetMember(
   bool v28; // bl
   Scaleform::GFx::MovieImpl *v29; // ecx
   int v30; // eax
-  Scaleform::GFx::AS2::StageCtorFunction *v31; // [esp+5Ch] [ebp-24h]
-  Scaleform::GFx::AS2::Value result; // [esp+60h] [ebp-20h] BYREF
-  Scaleform::Render::Rect<float> rect; // [esp+70h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::StageCtorFunction *v31; // [esp+Ch] [ebp-24h]
+  Scaleform::GFx::AS2::Value result; // [esp+10h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> rect; // [esp+20h] [ebp-10h] BYREF
 
   pContext = penv->StringContext.pContext;
   p_StringContext = &penv->StringContext;

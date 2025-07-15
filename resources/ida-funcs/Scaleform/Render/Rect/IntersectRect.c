@@ -1,40 +1,36 @@
-char __thiscall Scaleform::Render::Rect<int>::IntersectRect(
+bool __thiscall Scaleform::Render::Rect<int>::IntersectRect(
         Scaleform::Render::Rect<int> *this,
         Scaleform::Render::Rect<int> *pdest,
         const Scaleform::Render::Rect<int> *r)
 {
-  int x1; // edx
-  int x2; // edx
-  int y1; // edx
-  int y2; // ecx
-  int v8; // eax
+  bool result; // al
+  int x1; // ecx
+  int x2; // ecx
+  int y1; // ecx
+  int y2; // esi
 
-  if ( this->y2 < r->y1 )
-    return 0;
-  if ( r->y2 < this->y1 )
-    return 0;
-  if ( r->x2 < this->x1 )
-    return 0;
-  x1 = r->x1;
-  if ( this->x2 < r->x1 )
-    return 0;
-  if ( this->x1 > x1 )
-    x1 = this->x1;
-  pdest->x1 = x1;
-  x2 = this->x2;
-  if ( x2 > r->x2 )
-    x2 = r->x2;
-  pdest->x2 = x2;
-  y1 = this->y1;
-  if ( y1 <= r->y1 )
-    y1 = r->y1;
-  pdest->y1 = y1;
-  y2 = this->y2;
-  v8 = r->y2;
-  if ( y2 <= v8 )
-    v8 = y2;
-  pdest->y2 = v8;
-  return 1;
+  result = Scaleform::Render::Rect<int>::Intersects(this, r);
+  if ( result )
+  {
+    x1 = r->x1;
+    if ( this->x1 > r->x1 )
+      x1 = this->x1;
+    pdest->x1 = x1;
+    x2 = this->x2;
+    if ( x2 > r->x2 )
+      x2 = r->x2;
+    pdest->x2 = x2;
+    y1 = this->y1;
+    if ( y1 <= r->y1 )
+      y1 = r->y1;
+    pdest->y1 = y1;
+    y2 = this->y2;
+    if ( y2 > r->y2 )
+      y2 = r->y2;
+    pdest->y2 = y2;
+    return 1;
+  }
+  return result;
 }
 
 
@@ -87,10 +83,10 @@ bool __thiscall Scaleform::Render::Rect<float>::IntersectRect(
   double x1; // st7
   double x2; // st7
   double y1; // st7
-  float rb; // [esp+8h] [ebp+8h]
-  float rc; // [esp+8h] [ebp+8h]
-  float rd; // [esp+8h] [ebp+8h]
-  float ra; // [esp+8h] [ebp+8h]
+  float v8; // [esp+8h] [ebp+8h]
+  float v9; // [esp+8h] [ebp+8h]
+  float v10; // [esp+8h] [ebp+8h]
+  float y2; // [esp+8h] [ebp+8h]
 
   if ( r->y1 > (double)this->y2 || this->y1 > (double)r->y2 || this->x1 > (double)r->x2 || r->x1 > (double)this->x2 )
     return 0;
@@ -98,26 +94,26 @@ bool __thiscall Scaleform::Render::Rect<float>::IntersectRect(
     x1 = r->x1;
   else
     x1 = this->x1;
-  rb = x1;
-  pdest->x1 = rb;
+  v8 = x1;
+  pdest->x1 = v8;
   if ( r->x2 >= (double)this->x2 )
     x2 = this->x2;
   else
     x2 = r->x2;
-  rc = x2;
-  pdest->x2 = rc;
+  v9 = x2;
+  pdest->x2 = v9;
   if ( r->y1 >= (double)this->y1 )
     y1 = r->y1;
   else
     y1 = this->y1;
-  rd = y1;
-  pdest->y1 = rd;
+  v10 = y1;
+  pdest->y1 = v10;
   result = 1;
   if ( r->y2 >= (double)this->y2 )
-    ra = this->y2;
+    y2 = this->y2;
   else
-    ra = r->y2;
-  pdest->y2 = ra;
+    y2 = r->y2;
+  pdest->y2 = y2;
   return result;
 }
 

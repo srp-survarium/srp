@@ -30,7 +30,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetBeginIndex(const Sca
     pMovieImpl = v1->Env->Target->pASRoot->pMovieImpl;
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
       (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[v4]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&fn);
+      (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&fn);
     v7 = (Scaleform::GFx::TextField *)fn;
     if ( fn )
     {

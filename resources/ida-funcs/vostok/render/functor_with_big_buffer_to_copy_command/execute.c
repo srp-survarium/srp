@@ -1,8 +1,17 @@
 void __thiscall vostok::render::functor_with_big_buffer_to_copy_command<vostok::render::game::renderer::draw_scene_params>::execute(
         vostok::render::functor_with_big_buffer_to_copy_command<vostok::math::float4x4> *this)
 {
-  boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-    (boost::function1<void,char const *> *)this,
-    &this->m_on_execute.vtable,
-    (const char *)&this->m_data);
+  const std::exception *v2; // eax
+  stlp_std::out_of_range v3; // [esp+8h] [ebp-110h] BYREF
+
+  if ( !this->m_on_execute.vtable )
+  {
+    boost::bad_function_call::bad_function_call((boost::bad_function_call *)this, (stlp_std::runtime_error *)&v3);
+    boost::throw_exception(v2);
+    stlp_std::__Named_exception::~__Named_exception(&v3);
+  }
+  (*(void (__cdecl **)(boost::detail::function::function_buffer *, const vostok::math::float4x4 *))(((int)this->m_on_execute.vtable & 0xFFFFFFFE)
+                                                                                                  + 4))(
+    &this->m_on_execute.functor,
+    &this->m_data);
 }

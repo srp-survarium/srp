@@ -1,336 +1,202 @@
 void __usercall btPolyhedralContactClipping::clipHullAgainstHull(
         const btVector3 *separatingNormal1@<eax>,
-        const btTransform *transB@<esi>,
         const btConvexPolyhedron *hullA,
         const btConvexPolyhedron *hullB,
         const btTransform *transA,
+        const btTransform *transB,
         float minDist,
         float maxDist,
         btDiscreteCollisionDetectorInterface::Result *resultOut)
 {
-  long double v9; // st7
-  float v10; // xmm3_4
-  int v11; // eax
-  long double v12; // st6
-  float v13; // xmm4_4
-  long double v14; // st7
-  const btConvexPolyhedron *v15; // edi
-  int m_size; // edx
-  float *v17; // ecx
-  float *v18; // ecx
-  int v19; // eax
-  int v20; // edi
-  btVector3 *m_data; // edx
-  int v22; // ebx
-  int v23; // ecx
-  btVector3 *v24; // eax
-  float v25; // xmm1_4
-  float v26; // xmm2_4
-  float v27; // xmm0_4
-  float v28; // xmm4_4
-  int v29; // eax
+  const btConvexPolyhedron *v8; // edx
+  int m_size; // ecx
+  float v10; // xmm0_4
+  unsigned int v11; // xmm1_4
+  float v12; // xmm6_4
+  int v13; // esi
+  float v14; // xmm7_4
+  float *v15; // eax
+  float v16; // xmm5_4
+  btAlignedObjectArray<GrahamVector2> *v17; // ecx
+  int v18; // eax
+  int v19; // esi
+  float *m128_f32; // eax
+  float v21; // xmm0_4
+  float v22; // xmm2_4
+  float v23; // xmm1_4
+  float v24; // xmm3_4
+  float v25; // xmm0_4
+  btVector3 *v26; // eax
+  btVector3 *v27; // eax
+  char *v28; // esi
+  char *v29; // esi
   btVector3 *v30; // edi
-  btVector3 *v31; // eax
-  char *v32; // ecx
-  int v33; // edx
-  __m128 *p_mVec128; // eax
-  int v35; // [esp+1A8h] [ebp-68h]
-  __int64 v36; // [esp+1ACh] [ebp-64h]
-  __int64 v37; // [esp+1ACh] [ebp-64h]
-  float v38; // [esp+1B4h] [ebp-5Ch]
-  __int64 v39; // [esp+1B8h] [ebp-58h]
-  __int64 v40; // [esp+1B8h] [ebp-58h]
-  float v41; // [esp+1C0h] [ebp-50h]
-  float v42; // [esp+1C0h] [ebp-50h]
-  int v43; // [esp+1C0h] [ebp-50h]
-  __int64 v44; // [esp+1C4h] [ebp-4Ch]
-  __int64 v45; // [esp+1C4h] [ebp-4Ch]
-  int v46; // [esp+1C4h] [ebp-4Ch]
-  float v47; // [esp+1C8h] [ebp-48h]
-  int v48; // [esp+1C8h] [ebp-48h]
-  float v49; // [esp+1CCh] [ebp-44h]
-  float v50; // [esp+1CCh] [ebp-44h]
-  float v51; // [esp+1CCh] [ebp-44h]
-  int v52; // [esp+1CCh] [ebp-44h]
-  btVector3 v53; // [esp+1D0h] [ebp-40h] BYREF
-  unsigned __int64 v54; // [esp+1E0h] [ebp-30h]
-  unsigned __int64 v55; // [esp+1E8h] [ebp-28h]
-  btAlignedObjectArray<btVector3> v56; // [esp+1FCh] [ebp-14h] BYREF
+  int *v31; // edi
+  int v32; // [esp+1Ch] [ebp-60h]
+  float v33; // [esp+20h] [ebp-5Ch]
+  btVector3 *v34; // [esp+20h] [ebp-5Ch]
+  int v35; // [esp+24h] [ebp-58h]
+  int v36; // [esp+28h] [ebp-54h]
+  btAlignedObjectArray<GrahamVector2> *v37; // [esp+2Ch] [ebp-50h]
+  int v38; // [esp+30h] [ebp-4Ch]
+  char *v39; // [esp+34h] [ebp-48h]
+  int v40; // [esp+38h] [ebp-44h]
+  btVector3 v41; // [esp+3Ch] [ebp-40h] BYREF
+  float v42; // [esp+4Ch] [ebp-30h]
+  float v43; // [esp+50h] [ebp-2Ch]
+  float v44; // [esp+54h] [ebp-28h]
+  int v45; // [esp+58h] [ebp-24h]
+  btAlignedObjectArray<btVector3> v46; // [esp+68h] [ebp-14h] BYREF
 
-  v49 = separatingNormal1->mVec128.m128_f32[0];
-  v9 = 1.0
-     / sqrtf(
-         (float)((float)(v49 * v49)
-               + (float)(separatingNormal1->mVec128.m128_f32[1] * separatingNormal1->mVec128.m128_f32[1]))
-       + (float)(separatingNormal1->mVec128.m128_f32[2] * separatingNormal1->mVec128.m128_f32[2]));
-  v10 = -3.4028235e38;
-  v11 = 0;
-  v53.mVec128.m128_i32[3] = 0;
-  v35 = -1;
-  v47 = v9;
-  v12 = v9 * separatingNormal1->mVec128.m128_f32[1];
-  v13 = v49 * v47;
-  v53.mVec128.m128_f32[0] = v49 * v47;
-  v53.mVec128.m128_f32[1] = v12;
-  v14 = v9 * separatingNormal1->mVec128.m128_f32[2];
-  v15 = hullB;
+  v8 = hullB;
   m_size = hullB->m_faces.m_size;
-  v53.mVec128.m128_f32[2] = v14;
-  if ( m_size >= 4 )
+  v35 = -1;
+  v10 = s_bm_current_air_resistance
+      / fsqrt(
+          (float)((float)(separatingNormal1->mVec128.m128_f32[0] * separatingNormal1->mVec128.m128_f32[0])
+                + (float)(separatingNormal1->mVec128.m128_f32[1] * separatingNormal1->mVec128.m128_f32[1]))
+        + (float)(separatingNormal1->mVec128.m128_f32[2] * separatingNormal1->mVec128.m128_f32[2]));
+  *(float *)&v11 = separatingNormal1->mVec128.m128_f32[0] * v10;
+  v12 = v10 * separatingNormal1->mVec128.m128_f32[1];
+  v41.mVec128.m128_f32[2] = v10 * separatingNormal1->mVec128.m128_f32[2];
+  v41.mVec128.m128_i32[3] = 0;
+  v13 = 0;
+  v41.mVec128.m128_u64[0] = __PAIR64__(LODWORD(v12), v11);
+  v33 = FLOAT_N3_4028235e38;
+  if ( m_size > 0 )
   {
-    v36 = *(__int64 *)((char *)transB->m_basis.m_el[0].mVec128.m128_i64 + 4);
-    v38 = transB->m_basis.m_el[0].mVec128.m128_f32[0];
-    v39 = *(__int64 *)((char *)transB->m_basis.m_el[1].mVec128.m128_i64 + 4);
-    v41 = transB->m_basis.m_el[1].mVec128.m128_f32[0];
-    v44 = *(__int64 *)((char *)transB->m_basis.m_el[2].mVec128.m128_i64 + 4);
-    v50 = transB->m_basis.m_el[2].mVec128.m128_f32[0];
-    v17 = &hullB->m_faces.m_data->m_plane[1];
+    v15 = &hullB->m_faces.m_data->m_plane[1];
     do
     {
-      if ( (float)((float)((float)((float)((float)((float)(*(float *)&v39 * *v17)
-                                                 + (float)(*((float *)&v39 + 1) * v17[1]))
-                                         + (float)(v41 * *(v17 - 1)))
-                                 * v53.mVec128.m128_f32[1])
-                         + (float)((float)((float)((float)(*(float *)&v44 * *v17)
-                                                 + (float)(*((float *)&v44 + 1) * v17[1]))
-                                         + (float)(v50 * *(v17 - 1)))
-                                 * v53.mVec128.m128_f32[2]))
-                 + (float)((float)((float)((float)(*v17 * *(float *)&v36) + (float)(v17[1] * *((float *)&v36 + 1)))
-                                 + (float)(v38 * *(v17 - 1)))
-                         * v13)) > v10 )
+      v16 = v15[1];
+      v14 = transB->m_basis.m_el[0].mVec128.m128_f32[2];
+      if ( (float)((float)((float)((float)((float)((float)(transB->m_basis.m_el[1].mVec128.m128_f32[0] * *(v15 - 1))
+                                                 + (float)(transB->m_basis.m_el[1].mVec128.m128_f32[1] * *v15))
+                                         + (float)(transB->m_basis.m_el[1].mVec128.m128_f32[2] * v16))
+                                 * v12)
+                         + (float)((float)((float)((float)(transB->m_basis.m_el[2].mVec128.m128_f32[0] * *(v15 - 1))
+                                                 + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[1] * *v15))
+                                         + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[2] * v16))
+                                 * v41.mVec128.m128_f32[2]))
+                 + (float)((float)((float)((float)(transB->m_basis.m_el[0].mVec128.m128_f32[1] * *v15)
+                                         + (float)(v14 * v16))
+                                 + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[0] * *(v15 - 1)))
+                         * v41.mVec128.m128_f32[0])) > v33 )
       {
-        v10 = (float)((float)((float)((float)((float)(*(float *)&v39 * *v17) + (float)(*((float *)&v39 + 1) * v17[1]))
-                                    + (float)(v41 * *(v17 - 1)))
-                            * v53.mVec128.m128_f32[1])
-                    + (float)((float)((float)((float)(*(float *)&v44 * *v17) + (float)(*((float *)&v44 + 1) * v17[1]))
-                                    + (float)(v50 * *(v17 - 1)))
-                            * v53.mVec128.m128_f32[2]))
-            + (float)((float)((float)((float)(*v17 * *(float *)&v36) + (float)(v17[1] * *((float *)&v36 + 1)))
-                            + (float)(v38 * *(v17 - 1)))
-                    * v13);
-        v35 = v11;
+        v33 = (float)((float)((float)((float)((float)(transB->m_basis.m_el[1].mVec128.m128_f32[0] * *(v15 - 1))
+                                            + (float)(transB->m_basis.m_el[1].mVec128.m128_f32[1] * *v15))
+                                    + (float)(transB->m_basis.m_el[1].mVec128.m128_f32[2] * v16))
+                            * v12)
+                    + (float)((float)((float)((float)(transB->m_basis.m_el[2].mVec128.m128_f32[0] * *(v15 - 1))
+                                            + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[1] * *v15))
+                                    + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[2] * v16))
+                            * v41.mVec128.m128_f32[2]))
+            + (float)((float)((float)((float)(transB->m_basis.m_el[0].mVec128.m128_f32[1] * *v15) + (float)(v14 * v16))
+                            + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[0] * *(v15 - 1)))
+                    * v41.mVec128.m128_f32[0]);
+        v35 = v13;
       }
-      if ( (float)((float)((float)((float)((float)((float)(*(float *)&v39 * v17[9])
-                                                 + (float)(*((float *)&v39 + 1) * v17[10]))
-                                         + (float)(v41 * v17[8]))
-                                 * v53.mVec128.m128_f32[1])
-                         + (float)((float)((float)((float)(*(float *)&v44 * v17[9])
-                                                 + (float)(*((float *)&v44 + 1) * v17[10]))
-                                         + (float)(v50 * v17[8]))
-                                 * v53.mVec128.m128_f32[2]))
-                 + (float)((float)((float)((float)(v17[9] * *(float *)&v36) + (float)(v17[10] * *((float *)&v36 + 1)))
-                                 + (float)(v38 * v17[8]))
-                         * v13)) > v10 )
-      {
-        v10 = (float)((float)((float)((float)((float)(*(float *)&v39 * v17[9]) + (float)(*((float *)&v39 + 1) * v17[10]))
-                                    + (float)(v41 * v17[8]))
-                            * v53.mVec128.m128_f32[1])
-                    + (float)((float)((float)((float)(*(float *)&v44 * v17[9]) + (float)(*((float *)&v44 + 1) * v17[10]))
-                                    + (float)(v50 * v17[8]))
-                            * v53.mVec128.m128_f32[2]))
-            + (float)((float)((float)((float)(v17[9] * *(float *)&v36) + (float)(v17[10] * *((float *)&v36 + 1)))
-                            + (float)(v38 * v17[8]))
-                    * v13);
-        v35 = v11 + 1;
-      }
-      if ( (float)((float)((float)((float)((float)((float)(*(float *)&v39 * v17[18])
-                                                 + (float)(*((float *)&v39 + 1) * v17[19]))
-                                         + (float)(v41 * v17[17]))
-                                 * v53.mVec128.m128_f32[1])
-                         + (float)((float)((float)((float)(*(float *)&v44 * v17[18])
-                                                 + (float)(*((float *)&v44 + 1) * v17[19]))
-                                         + (float)(v50 * v17[17]))
-                                 * v53.mVec128.m128_f32[2]))
-                 + (float)((float)((float)((float)(v17[18] * *(float *)&v36) + (float)(v17[19] * *((float *)&v36 + 1)))
-                                 + (float)(v38 * v17[17]))
-                         * v13)) > v10 )
-      {
-        v10 = (float)((float)((float)((float)((float)(*(float *)&v39 * v17[18]) + (float)(*((float *)&v39 + 1) * v17[19]))
-                                    + (float)(v41 * v17[17]))
-                            * v53.mVec128.m128_f32[1])
-                    + (float)((float)((float)((float)(*(float *)&v44 * v17[18]) + (float)(*((float *)&v44 + 1) * v17[19]))
-                                    + (float)(v50 * v17[17]))
-                            * v53.mVec128.m128_f32[2]))
-            + (float)((float)((float)((float)(v17[18] * *(float *)&v36) + (float)(v17[19] * *((float *)&v36 + 1)))
-                            + (float)(v38 * v17[17]))
-                    * v13);
-        v35 = v11 + 2;
-      }
-      if ( (float)((float)((float)((float)((float)((float)(*(float *)&v39 * v17[27])
-                                                 + (float)(*((float *)&v39 + 1) * v17[28]))
-                                         + (float)(v41 * v17[26]))
-                                 * v53.mVec128.m128_f32[1])
-                         + (float)((float)((float)((float)(*(float *)&v44 * v17[27])
-                                                 + (float)(*((float *)&v44 + 1) * v17[28]))
-                                         + (float)(v50 * v17[26]))
-                                 * v53.mVec128.m128_f32[2]))
-                 + (float)((float)((float)((float)(v17[27] * *(float *)&v36) + (float)(v17[28] * *((float *)&v36 + 1)))
-                                 + (float)(v38 * v17[26]))
-                         * v13)) > v10 )
-      {
-        v10 = (float)((float)((float)((float)((float)(*(float *)&v39 * v17[27]) + (float)(*((float *)&v39 + 1) * v17[28]))
-                                    + (float)(v41 * v17[26]))
-                            * v53.mVec128.m128_f32[1])
-                    + (float)((float)((float)((float)(*(float *)&v44 * v17[27]) + (float)(*((float *)&v44 + 1) * v17[28]))
-                                    + (float)(v50 * v17[26]))
-                            * v53.mVec128.m128_f32[2]))
-            + (float)((float)((float)((float)(v17[27] * *(float *)&v36) + (float)(v17[28] * *((float *)&v36 + 1)))
-                            + (float)(v38 * v17[26]))
-                    * v13);
-        v35 = v11 + 3;
-      }
-      v11 += 4;
-      v17 += 36;
+      ++v13;
+      v15 += 9;
     }
-    while ( v11 < m_size - 3 );
-    v15 = hullB;
+    while ( v13 < m_size );
   }
-  if ( v11 < m_size )
+  v17 = (btAlignedObjectArray<GrahamVector2> *)&hullB->m_faces.m_data[v35];
+  v18 = 0;
+  v19 = v17->m_size;
+  v46.m_ownsMemory = 1;
+  memset(&v46.m_size, 0, 12);
+  v37 = v17;
+  v40 = v19;
+  v38 = 0;
+  if ( v19 > 0 )
   {
-    v18 = &v15->m_faces.m_data[v11].m_plane[1];
+    v45 = 0;
     do
     {
-      v37 = *(__int64 *)((char *)transB->m_basis.m_el[0].mVec128.m128_i64 + 4);
-      v40 = *(__int64 *)((char *)transB->m_basis.m_el[1].mVec128.m128_i64 + 4);
-      v42 = transB->m_basis.m_el[1].mVec128.m128_f32[0];
-      v45 = *(__int64 *)((char *)transB->m_basis.m_el[2].mVec128.m128_i64 + 4);
-      v51 = transB->m_basis.m_el[2].mVec128.m128_f32[0];
-      if ( (float)((float)((float)((float)((float)((float)(*(float *)&v40 * *v18)
-                                                 + (float)(*((float *)&v40 + 1) * v18[1]))
-                                         + (float)(v42 * *(v18 - 1)))
-                                 * v53.mVec128.m128_f32[1])
-                         + (float)((float)((float)((float)(*(float *)&v45 * *v18)
-                                                 + (float)(*((float *)&v45 + 1) * v18[1]))
-                                         + (float)(v51 * *(v18 - 1)))
-                                 * v53.mVec128.m128_f32[2]))
-                 + (float)((float)((float)((float)(*v18 * *(float *)&v37) + (float)(v18[1] * *((float *)&v37 + 1)))
-                                 + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[0] * *(v18 - 1)))
-                         * v13)) > v10 )
+      m128_f32 = v8->m_vertices.m_data[v17->m_data->mVec128.m128_i32[v18]].mVec128.m128_f32;
+      v21 = *m128_f32;
+      v22 = m128_f32[1];
+      v23 = m128_f32[2];
+      v42 = (float)((float)((float)(*m128_f32 * transB->m_basis.m_el[0].mVec128.m128_f32[0])
+                          + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[1] * v22))
+                  + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[2] * v23))
+          + transB->m_origin.mVec128.m128_f32[0];
+      v24 = (float)(v21 * transB->m_basis.m_el[1].mVec128.m128_f32[0])
+          + (float)(v22 * transB->m_basis.m_el[1].mVec128.m128_f32[1]);
+      v25 = (float)((float)((float)(v21 * transB->m_basis.m_el[2].mVec128.m128_f32[0])
+                          + (float)(v22 * transB->m_basis.m_el[2].mVec128.m128_f32[1]))
+                  + (float)(v23 * transB->m_basis.m_el[2].mVec128.m128_f32[2]))
+          + transB->m_origin.mVec128.m128_f32[2];
+      v43 = (float)(v24 + (float)(v23 * transB->m_basis.m_el[1].mVec128.m128_f32[2]))
+          + transB->m_origin.mVec128.m128_f32[1];
+      v44 = v25;
+      if ( v46.m_size == v46.m_capacity )
       {
-        v10 = (float)((float)((float)((float)((float)(*(float *)&v40 * *v18) + (float)(*((float *)&v40 + 1) * v18[1]))
-                                    + (float)(v42 * *(v18 - 1)))
-                            * v53.mVec128.m128_f32[1])
-                    + (float)((float)((float)((float)(*(float *)&v45 * *v18) + (float)(*((float *)&v45 + 1) * v18[1]))
-                                    + (float)(v51 * *(v18 - 1)))
-                            * v53.mVec128.m128_f32[2]))
-            + (float)((float)((float)((float)(*v18 * *(float *)&v37) + (float)(v18[1] * *((float *)&v37 + 1)))
-                            + (float)(transB->m_basis.m_el[0].mVec128.m128_f32[0] * *(v18 - 1)))
-                    * v13);
-        v35 = v11;
-      }
-      ++v11;
-      v18 += 9;
-    }
-    while ( v11 < m_size );
-  }
-  v19 = (int)&v15->m_faces.m_data[v35];
-  v20 = *(_DWORD *)(v19 + 4);
-  m_data = 0;
-  v22 = 0;
-  v23 = 0;
-  v56.m_ownsMemory = 1;
-  memset(&v56.m_size, 0, 12);
-  v43 = v19;
-  v46 = v20;
-  v48 = 0;
-  if ( v20 > 0 )
-  {
-    HIDWORD(v55) = 0;
-    while ( 1 )
-    {
-      v24 = &hullB->m_vertices.m_data[*(_DWORD *)(*(_DWORD *)(v19 + 12) + 4 * v48)];
-      v25 = v24->mVec128.m128_f32[1];
-      v26 = v24->mVec128.m128_f32[0];
-      v27 = v24->mVec128.m128_f32[2];
-      v28 = transB->m_basis.m_el[1].mVec128.m128_f32[1];
-      *(float *)&v54 = (float)((float)((float)(transB->m_basis.m_el[0].mVec128.m128_f32[0] * v24->mVec128.m128_f32[0])
-                                     + (float)(v25 * transB->m_basis.m_el[0].mVec128.m128_f32[1]))
-                             + (float)(v27 * transB->m_basis.m_el[0].mVec128.m128_f32[2]))
-                     + transB->m_origin.mVec128.m128_f32[0];
-      *((float *)&v54 + 1) = (float)((float)((float)(transB->m_basis.m_el[1].mVec128.m128_f32[0] * v26)
-                                           + (float)(v28 * v25))
-                                   + (float)(transB->m_basis.m_el[1].mVec128.m128_f32[2] * v27))
-                           + transB->m_origin.mVec128.m128_f32[1];
-      *(float *)&v55 = (float)((float)((float)(transB->m_basis.m_el[2].mVec128.m128_f32[1] * v25)
-                                     + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[2] * v27))
-                             + (float)(transB->m_basis.m_el[2].mVec128.m128_f32[0] * v26))
-                     + transB->m_origin.mVec128.m128_f32[2];
-      if ( v22 == v23 )
-      {
-        if ( v22 )
+        v32 = v46.m_size ? 2 * v46.m_size : 1;
+        if ( v46.m_capacity < v32 )
         {
-          v29 = 2 * v22;
-          v52 = 2 * v22;
-        }
-        else
-        {
-          v52 = 1;
-          v29 = 1;
-        }
-        if ( v23 < v29 )
-        {
-          if ( v29 )
+          if ( v32 )
           {
-            ++gNumAlignedAllocs;
-            v30 = (btVector3 *)sAlignedAllocFunc(16 * v29, 16);
+            v26 = (btVector3 *)btAlignedAllocInternal(16 * v32);
+            v8 = hullB;
+            v17 = v37;
+            v34 = v26;
           }
           else
           {
-            v30 = 0;
+            v34 = 0;
           }
-          if ( v22 > 0 )
+          if ( v46.m_size > 0 )
           {
-            v31 = v30;
-            v32 = (char *)((char *)v56.m_data - (char *)v30);
-            v33 = v22;
-            do
+            v27 = v34;
+            v28 = (char *)((char *)v46.m_data - (char *)v34);
+            v39 = (char *)((char *)v46.m_data - (char *)v34);
+            v36 = v46.m_size;
+            while ( 1 )
             {
-              if ( v31 )
+              if ( v27 )
               {
-                v31->mVec128.m128_u64[0] = *(unsigned __int64 *)((char *)v31->mVec128.m128_u64 + (_DWORD)v32);
-                v31->mVec128.m128_u64[1] = *(unsigned __int64 *)((char *)&v31->mVec128.m128_u64[1] + (_DWORD)v32);
+                v29 = &v28[(_DWORD)v27];
+                v27->mVec128.m128_i32[0] = *(_DWORD *)v29;
+                v29 += 4;
+                v27->mVec128.m128_i32[1] = *(_DWORD *)v29;
+                v29 += 4;
+                v27->mVec128.m128_i32[2] = *(_DWORD *)v29;
+                v27->mVec128.m128_i32[3] = *((_DWORD *)v29 + 1);
               }
-              ++v31;
-              --v33;
+              ++v27;
+              if ( !--v36 )
+                break;
+              v28 = v39;
             }
-            while ( v33 );
           }
-          if ( v56.m_data )
+          if ( v46.m_data )
           {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v56.m_data);
+            btAlignedFreeInternal(v46.m_data);
+            v8 = hullB;
+            v17 = v37;
           }
-          v23 = v52;
-          v56.m_ownsMemory = 1;
-          v56.m_data = v30;
-          v56.m_capacity = v52;
-          m_data = v30;
+          v46.m_data = v34;
+          v46.m_ownsMemory = 1;
+          v46.m_capacity = v32;
         }
       }
-      p_mVec128 = &m_data[v22].mVec128;
-      if ( p_mVec128 )
+      v30 = &v46.m_data[v46.m_size];
+      if ( v30 )
       {
-        p_mVec128->m128_u64[0] = v54;
-        p_mVec128->m128_u64[1] = v55;
+        v30->mVec128.m128_f32[0] = v42;
+        v31 = &v30->mVec128.m128_i32[1];
+        *(float *)v31++ = v43;
+        *(float *)v31 = v44;
+        v31[1] = v45;
       }
-      ++v22;
-      if ( ++v48 >= v46 )
-        break;
-      v19 = v43;
+      ++v46.m_size;
+      v18 = ++v38;
     }
-    v56.m_size = v22;
+    while ( v38 < v40 );
   }
   if ( v35 >= 0 )
-  {
-    btPolyhedralContactClipping::clipFaceAgainstHull(transA, &v56, &v53, hullA, minDist, maxDist, resultOut);
-    m_data = v56.m_data;
-  }
-  if ( m_data )
-  {
-    if ( v56.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_data);
-    }
-  }
+    btPolyhedralContactClipping::clipFaceAgainstHull(&v46, &v41, hullA, transA, minDist, maxDist, resultOut);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v17, (int)&v46);
 }

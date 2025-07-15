@@ -25,10 +25,10 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ChangeMouseCursorType(
   unsigned __int8 Flags; // bl
   unsigned int RefCount; // eax
   unsigned int v25; // eax
-  Scaleform::GFx::AS2::FunctionRef funcRef; // [esp+20h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::Value objVal; // [esp+2Ch] [ebp-54h] BYREF
-  Scaleform::GFx::AS2::Value scval; // [esp+3Ch] [ebp-44h] BYREF
-  Scaleform::GFx::AS2::Value res; // [esp+4Ch] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+20h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value ThisIn; // [esp+2Ch] [ebp-54h] BYREF
+  Scaleform::GFx::AS2::Value v28; // [esp+3Ch] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value ResIn; // [esp+4Ch] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FnCall v30; // [esp+5Ch] [ebp-24h] BYREF
 
   pMovieImpl = this->pMovieImpl;
@@ -58,29 +58,29 @@ LABEL_5:
   v11 = this->pMovieImpl;
   if ( (v11->Flags & 0x1000) != 0 && (v12 = v10->StringContext.pContext, v12->GFxExtensions.Value == 1) )
   {
-    objVal.T.Type = 0;
+    ThisIn.T.Type = 0;
     if ( v12->pGlobal.pObject->GetMemberRaw(
            &v12->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface,
            &v10->StringContext,
            (const Scaleform::GFx::ASString *)&v12->pMovieRoot->pASMovieRoot.pObject[13].pASSupport,
-           &objVal) )
+           &ThisIn) )
     {
-      v13 = Scaleform::GFx::AS2::Value::ToObject(&objVal, v10);
+      v13 = Scaleform::GFx::AS2::Value::ToObject(&ThisIn, v10);
       if ( v13 )
       {
         pContext = v10->StringContext.pContext;
-        scval.T.Type = 0;
+        v28.T.Type = 0;
         if ( v13->GetMember(
                &v13->Scaleform::GFx::AS2::ObjectInterface,
                v10,
                (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[35].pMovieImpl,
-               &scval) )
+               &v28) )
         {
-          Scaleform::GFx::AS2::Value::ToFunction(&scval, &funcRef, v10);
-          Function = funcRef.Function;
-          if ( funcRef.Function )
+          Scaleform::GFx::AS2::Value::ToFunction(&v28, &result, v10);
+          Function = result.Function;
+          if ( result.Function )
           {
-            res.T.Type = 0;
+            ResIn.T.Type = 0;
             ++v10->Stack.pCurrent;
             p_Stack = &v10->Stack;
             if ( v10->Stack.pCurrent >= v10->Stack.pPageEnd )
@@ -102,13 +102,13 @@ LABEL_5:
             }
             Scaleform::GFx::AS2::FnCall::FnCall(
               &v30,
-              &res,
-              &objVal,
+              &ResIn,
+              &ThisIn,
               v10,
               2,
               v10->Stack.pCurrent - v10->Stack.pPageStart + 32 * v10->Stack.Pages.Data.Size - 32);
-            pLocalFrame = funcRef.pLocalFrame;
-            Function->Invoke(Function, v20, funcRef.pLocalFrame, 0);
+            pLocalFrame = result.pLocalFrame;
+            Function->Invoke(Function, v20, result.pLocalFrame, 0);
             Scaleform::GFx::AS2::FnCall::~FnCall(&v30);
             v21 = p_Stack->pCurrent;
             if ( &p_Stack->pCurrent[-2] >= p_Stack->pPageStart )
@@ -133,20 +133,20 @@ LABEL_5:
               }
               while ( v22 );
             }
-            if ( res.T.Type >= 5u )
-              Scaleform::GFx::AS2::Value::DropRefs(&res);
+            if ( ResIn.T.Type >= 5u )
+              Scaleform::GFx::AS2::Value::DropRefs(&ResIn);
           }
           else
           {
-            pLocalFrame = funcRef.pLocalFrame;
+            pLocalFrame = result.pLocalFrame;
           }
-          Flags = funcRef.Flags;
-          if ( (funcRef.Flags & 2) == 0 )
+          Flags = result.Flags;
+          if ( (result.Flags & 2) == 0 )
           {
             if ( Function )
             {
               RefCount = Function->RefCount;
-              if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFFF) != 0 )
               {
                 Function->RefCount = RefCount - 1;
                 Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -158,7 +158,7 @@ LABEL_5:
             if ( pLocalFrame )
             {
               v25 = pLocalFrame->RefCount;
-              if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v25) != 0 )
+              if ( (v25 & 0x3FFFFFF) != 0 )
               {
                 pLocalFrame->RefCount = v25 - 1;
                 Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
@@ -166,12 +166,12 @@ LABEL_5:
             }
           }
         }
-        if ( scval.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&scval);
+        if ( v28.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v28);
       }
     }
-    if ( objVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&objVal);
+    if ( ThisIn.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&ThisIn);
   }
   else if ( newCursorType != v11->mMouseState[mouseIdx].CursorType )
   {

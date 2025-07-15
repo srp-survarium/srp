@@ -6,5 +6,5 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_system::System::exit(
   void (__thiscall *v3)(Scaleform::GFx::AS3::VM *); // eax
 
   v3 = this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
-  *((_DWORD *)v3 + 4061) |= 0x200000u;
+  *((_DWORD *)v3 + 4061) |= (unsigned int)&loc_200000;
 }

@@ -1,8 +1,8 @@
 int __cdecl BN_usub(bignum_st *r, const bignum_st *a, const bignum_st *b)
 {
-  unsigned int *top; // eax
+  int top; // eax
   int v4; // edi
-  char *v5; // esi
+  int v5; // esi
   bignum_st *v7; // ecx
   bignum_st *v8; // eax
   unsigned int *d; // eax
@@ -13,27 +13,27 @@ int __cdecl BN_usub(bignum_st *r, const bignum_st *a, const bignum_st *b)
   unsigned int v14; // edi
   unsigned int v15; // edi
   unsigned int v16; // edx
-  char *v17; // edx
-  char *v18; // esi
-  char *v19; // edx
-  char *v20; // esi
-  char *v21; // edx
+  int v17; // edx
+  int v18; // esi
+  int v19; // edx
+  int v20; // esi
+  int v21; // edx
   int v22; // eax
   unsigned int *v23; // ecx
   int v25; // [esp+10h] [ebp-4h]
   int v26; // [esp+1Ch] [ebp+8h]
 
-  top = (unsigned int *)a->top;
+  top = a->top;
   v4 = b->top;
-  v5 = (char *)top - v4;
-  v25 = (int)top;
-  if ( (int)top - v4 < 0 )
+  v5 = top - v4;
+  v25 = top;
+  if ( top - v4 < 0 )
   {
-    ERR_put_error(3u, 115, 100, ".\\crypto\\bn\\bn_add.c", 184);
+    ERR_put_error((int)b, 3u, 115, 100, ".\\crypto\\bn\\bn_add.c", 184);
     return 0;
   }
   v7 = r;
-  if ( (int)top > r->dmax )
+  if ( top > r->dmax )
   {
     v8 = bn_expand2(r, top);
     v7 = r;

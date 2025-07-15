@@ -1,17 +1,17 @@
 int __cdecl _crtLCMapStringA_stat(
-        unsigned int Locale,
+        LCID Locale,
         DWORD dwMapFlags,
-        const char *lpSrcStr,
+        char *lpSrcStr,
         int cchSrc,
-        char *lpDestStr,
+        wchar_t *lpDestStr,
         int cchDest,
-        unsigned int code_page,
+        UINT code_page,
         int bError)
 {
-  localeinfo_struct *plocinfo; // ecx
-  localeinfo_struct *v9; // esi
+  int v8; // ecx
+  int v9; // esi
   int v10; // ecx
-  const char *v11; // eax
+  char *v11; // eax
   int v12; // eax
   int v13; // eax
   int v14; // edi
@@ -26,7 +26,7 @@ int __cdecl _crtLCMapStringA_stat(
   wchar_t *v23; // eax
   int v24; // eax
   int v26; // eax
-  wchar_t *v27; // eax
+  char *v27; // eax
   int v28; // eax
   int v29; // esi
   unsigned int v30; // eax
@@ -35,12 +35,12 @@ int __cdecl _crtLCMapStringA_stat(
   char *v33; // eax
   _DWORD v34[2]; // [esp+0h] [ebp-20h] BYREF
   int v35; // [esp+8h] [ebp-18h] BYREF
-  int AnsiCP; // [esp+Ch] [ebp-14h]
-  char *cbuffer2; // [esp+10h] [ebp-10h]
-  wchar_t *inwbuffer; // [esp+14h] [ebp-Ch]
-  int retval; // [esp+18h] [ebp-8h] BYREF
+  int fromCP; // [esp+Ch] [ebp-14h]
+  void *pointer; // [esp+10h] [ebp-10h]
+  LPWSTR lpWideCharStr; // [esp+14h] [ebp-Ch]
+  int cchWideChar; // [esp+18h] [ebp-8h] BYREF
 
-  v9 = plocinfo;
+  v9 = v8;
   if ( !f_use_0 )
   {
     if ( LCMapStringW(0, 0x100u, &FLOAT_0_0, 1, 0, 0) )
@@ -77,24 +77,24 @@ int __cdecl _crtLCMapStringA_stat(
   {
     if ( f_use_0 == 1 )
     {
-      retval = 0;
+      cchWideChar = 0;
       if ( !code_page )
-        code_page = v9->locinfo->lc_codepage;
+        code_page = *(_DWORD *)(*(_DWORD *)v9 + 4);
       v13 = MultiByteToWideChar(code_page, 8 * (bError != 0) + 1, lpSrcStr, cchSrc, 0, 0);
       v14 = v13;
       if ( v13 )
       {
         if ( v13 <= 0 || 0xFFFFFFE0 / v13 < 2 )
         {
-          inwbuffer = 0;
+          lpWideCharStr = 0;
 LABEL_30:
-          if ( inwbuffer )
+          if ( lpWideCharStr )
           {
-            if ( MultiByteToWideChar(code_page, 1u, lpSrcStr, cchSrc, inwbuffer, v14) )
+            if ( MultiByteToWideChar(code_page, 1u, lpSrcStr, cchSrc, lpWideCharStr, v14) )
             {
-              v18 = LCMapStringW(Locale, dwMapFlags, inwbuffer, v14, 0, 0);
+              v18 = LCMapStringW(Locale, dwMapFlags, lpWideCharStr, v14, 0, 0);
               v19 = v18;
-              retval = v18;
+              cchWideChar = v18;
               if ( v18 )
               {
                 if ( (dwMapFlags & 0x400) != 0 )
@@ -102,7 +102,7 @@ LABEL_30:
                   if ( cchDest )
                   {
                     if ( v18 <= cchDest )
-                      LCMapStringW(Locale, dwMapFlags, inwbuffer, v14, (LPWSTR)lpDestStr, cchDest);
+                      LCMapStringW(Locale, dwMapFlags, lpWideCharStr, v14, lpDestStr, cchDest);
                   }
                   goto LABEL_53;
                 }
@@ -112,13 +112,13 @@ LABEL_30:
 LABEL_46:
                   if ( v22 )
                   {
-                    if ( LCMapStringW(Locale, dwMapFlags, inwbuffer, v14, v22, retval) )
+                    if ( LCMapStringW(Locale, dwMapFlags, lpWideCharStr, v14, v22, cchWideChar) )
                     {
                       if ( cchDest )
-                        v24 = WideCharToMultiByte(code_page, 0, v22, retval, lpDestStr, cchDest, 0, 0);
+                        v24 = WideCharToMultiByte(code_page, 0, v22, cchWideChar, (LPSTR)lpDestStr, cchDest, 0, 0);
                       else
-                        v24 = WideCharToMultiByte(code_page, 0, v22, retval, 0, 0, 0, 0);
-                      retval = v24;
+                        v24 = WideCharToMultiByte(code_page, 0, v22, cchWideChar, 0, 0, 0, 0);
+                      cchWideChar = v24;
                     }
                     _freea(v22);
                   }
@@ -146,8 +146,8 @@ LABEL_46:
               }
             }
 LABEL_53:
-            _freea(inwbuffer);
-            return retval;
+            _freea(lpWideCharStr);
+            return cchWideChar;
           }
           return 0;
         }
@@ -172,33 +172,33 @@ LABEL_27:
             v17 += 4;
           }
         }
-        inwbuffer = v17;
+        lpWideCharStr = v17;
         goto LABEL_30;
       }
     }
     return 0;
   }
-  inwbuffer = 0;
-  cbuffer2 = 0;
+  lpWideCharStr = 0;
+  pointer = 0;
   if ( !Locale )
-    Locale = v9->locinfo->lc_handle[2];
+    Locale = *(_DWORD *)(*(_DWORD *)v9 + 20);
   if ( !code_page )
-    code_page = v9->locinfo->lc_codepage;
+    code_page = *(_DWORD *)(*(_DWORD *)v9 + 4);
   v26 = __ansicp(Locale);
-  AnsiCP = v26;
+  fromCP = v26;
   if ( v26 == -1 )
     return 0;
   if ( v26 == code_page )
   {
-    v29 = LCMapStringA(Locale, dwMapFlags, lpSrcStr, cchSrc, lpDestStr, cchDest);
+    v29 = LCMapStringA(Locale, dwMapFlags, lpSrcStr, cchSrc, (LPSTR)lpDestStr, cchDest);
     goto LABEL_78;
   }
-  v27 = (wchar_t *)__convertcp(code_page, v26, lpSrcStr, &cchSrc, 0, 0);
-  inwbuffer = v27;
+  v27 = __convertcp(code_page, v26, lpSrcStr, &cchSrc, 0, 0);
+  lpWideCharStr = (LPWSTR)v27;
   if ( !v27 )
     return 0;
-  v28 = LCMapStringA(Locale, dwMapFlags, (LPCSTR)v27, cchSrc, 0, 0);
-  retval = v28;
+  v28 = LCMapStringA(Locale, dwMapFlags, v27, cchSrc, 0, 0);
+  cchWideChar = v28;
   if ( v28 )
   {
     if ( v28 <= 0 )
@@ -229,12 +229,12 @@ LABEL_27:
     }
     if ( v32 )
     {
-      memset((int)v32, 0, retval);
-      retval = LCMapStringA(Locale, dwMapFlags, (LPCSTR)inwbuffer, cchSrc, v32, retval);
-      if ( retval )
+      memset((int)v32, 0, cchWideChar);
+      cchWideChar = LCMapStringA(Locale, dwMapFlags, (LPCSTR)lpWideCharStr, cchSrc, v32, cchWideChar);
+      if ( cchWideChar )
       {
-        cbuffer2 = __convertcp(AnsiCP, code_page, v32, &retval, lpDestStr, cchDest);
-        v29 = cbuffer2 != 0 ? retval : 0;
+        pointer = __convertcp(fromCP, code_page, v32, &cchWideChar, (char *)lpDestStr, cchDest);
+        v29 = pointer != 0 ? cchWideChar : 0;
       }
       else
       {
@@ -247,9 +247,9 @@ LABEL_27:
 LABEL_63:
   v29 = 0;
 LABEL_78:
-  if ( inwbuffer )
-    free(inwbuffer);
-  if ( cbuffer2 && lpDestStr != cbuffer2 )
-    free(cbuffer2);
+  if ( lpWideCharStr )
+    free(lpWideCharStr);
+  if ( pointer && lpDestStr != pointer )
+    free(pointer);
   return v29;
 }

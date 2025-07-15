@@ -14,23 +14,23 @@ void __thiscall Scaleform::Render::Text::StyledText::SetParagraphFormat(
   wchar_t *pText; // esi
   unsigned int v12; // ecx
   wchar_t *v13; // ecx
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+14h] [ebp-8h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+14h] [ebp-8h] BYREF
 
   v4 = startPos;
-  Scaleform::Render::Text::StyledText::GetParagraphByIndex(this, &paraIter, startPos, &startPos);
+  Scaleform::Render::Text::StyledText::GetParagraphByIndex(this, &result, startPos, &startPos);
   v5 = startPos;
-  CurIndex = paraIter.CurIndex;
+  CurIndex = result.CurIndex;
   v7 = endPos - v4;
   while ( 1 )
   {
-    pArray = paraIter.pArray;
-    if ( !paraIter.pArray || CurIndex < 0 || CurIndex >= (signed int)paraIter.pArray->Data.Size )
+    pArray = result.pArray;
+    if ( !result.pArray || CurIndex < 0 || CurIndex >= (signed int)result.pArray->Data.Size )
       break;
-    pPara = paraIter.pArray->Data.Data[CurIndex].pPara;
+    pPara = result.pArray->Data.Data[CurIndex].pPara;
     if ( !v5 )
     {
       Scaleform::Render::Text::Paragraph::SetFormat(pPara, this->pTextAllocator.pObject, fmt);
-      pArray = paraIter.pArray;
+      pArray = result.pArray;
     }
     if ( !v7 )
       break;

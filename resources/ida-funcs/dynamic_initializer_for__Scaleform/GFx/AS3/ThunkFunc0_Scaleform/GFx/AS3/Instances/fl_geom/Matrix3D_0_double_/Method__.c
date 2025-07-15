@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::determinantGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D,0,double>::Method) = Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::determinantGet;
-  dword_AAC9F4 = 0;
+  dword_8F11AC = 0;
   return result;
 }

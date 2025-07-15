@@ -1,23 +1,20 @@
 const vostok::math::float4x4 *__usercall vostok::render::renderer_context::get_view2shadow@<eax>(
         vostok::render::renderer_context *this@<ecx>,
-        int a2@<eax>)
+        unsigned int index@<eax>)
 {
-  const vostok::math::float4x4 *result; // eax
+  int v2; // eax
+  int v3; // eax
 
-  switch ( (unsigned int)this )
+  if ( index )
   {
-    case 1u:
-      result = (const vostok::math::float4x4 *)(a2 + 16580);
-      break;
-    case 2u:
-      result = (const vostok::math::float4x4 *)(a2 + 16644);
-      break;
-    case 3u:
-      result = (const vostok::math::float4x4 *)(a2 + 16708);
-      break;
-    default:
-      result = (const vostok::math::float4x4 *)(a2 + 16516);
-      break;
+    v2 = index - 1;
+    if ( !v2 )
+      return &this->m_v2shadow1;
+    v3 = v2 - 1;
+    if ( !v3 )
+      return &this->m_v2shadow2;
+    if ( v3 == 1 )
+      return &this->m_v2shadow3;
   }
-  return result;
+  return &this->m_v2shadow0;
 }

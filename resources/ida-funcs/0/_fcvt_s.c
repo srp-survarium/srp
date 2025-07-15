@@ -3,16 +3,16 @@ int __cdecl _fcvt_s(char *result, unsigned int sizeInChars, _CRT_DOUBLE value, i
   _strflt *v7; // eax
   int v8; // edx
   int v9; // ecx
-  _strflt strfltstruct; // [esp+Ch] [ebp-34h] BYREF
+  _strflt flt; // [esp+Ch] [ebp-34h] BYREF
   int *v11; // [esp+1Ch] [ebp-24h]
   int *v12; // [esp+20h] [ebp-20h]
-  char resultstring[24]; // [esp+24h] [ebp-1Ch] BYREF
+  char resultstr[24]; // [esp+24h] [ebp-1Ch] BYREF
 
   v12 = decpt;
   v11 = sign;
   if ( result && sizeInChars && (*result = 0, decpt) && sign )
   {
-    v7 = _fltout2(value, &strfltstruct, resultstring, 0x16u);
+    v7 = _fltout2(value, &flt, resultstr, 0x16u);
     v8 = v7->decpt;
     v9 = v8 + ndec;
     if ( ndec > 0 && v8 > 0 && v9 < ndec )
@@ -22,7 +22,7 @@ int __cdecl _fcvt_s(char *result, unsigned int sizeInChars, _CRT_DOUBLE value, i
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, (unsigned int)result, 0x16u);
+    _invalid_parameter(0, (int)result, 22);
     return 22;
   }
 }

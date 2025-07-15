@@ -25,11 +25,11 @@ bn_blinding_st *__cdecl BN_BLINDING_create_param(
     v8 = v7;
     if ( !v7 )
     {
-      ERR_put_error(3u, 102, 65, ".\\crypto\\bn\\bn_blind.c", 145);
+      ERR_put_error(32, 3u, 102, 65, ".\\crypto\\bn\\bn_blind.c", 145);
       return 0;
     }
     memset((int)v7, 0, sizeof(bn_blinding_st));
-    v10 = BN_dup(m);
+    v10 = BN_dup(32, m);
     v8->mod = v10;
     if ( !v10 )
     {
@@ -43,36 +43,36 @@ LABEL_37:
     CRYPTO_THREADID_current(&v8->tid);
   }
   if ( !v8 )
-    goto err_110;
+    goto err_112;
   if ( !v8->A )
   {
-    v11 = BN_new();
+    v11 = BN_new(32);
     v8->A = v11;
     if ( !v11 )
-      goto err_110;
+      goto err_112;
   }
   if ( !v8->Ai )
   {
-    v12 = BN_new();
+    v12 = BN_new(32);
     v8->Ai = v12;
     if ( !v12 )
-      goto err_110;
+      goto err_112;
   }
   if ( e )
   {
     if ( v8->e )
       BN_free(v8->e);
-    v8->e = BN_dup(e);
+    v8->e = BN_dup(32, e);
   }
   if ( !v8->e )
-    goto err_110;
+    goto err_112;
   if ( bn_mod_exp )
     v8->bn_mod_exp = bn_mod_exp;
   if ( m_ctx )
     v8->m_ctx = m_ctx;
   if ( !BN_rand_range(v8->A, v8->mod) )
   {
-err_110:
+err_112:
     if ( b || !v8 )
       return v8;
     goto LABEL_37;
@@ -80,24 +80,24 @@ err_110:
   while ( !BN_mod_inverse(v8->Ai, v8->A, v8->mod, ctx) )
   {
     if ( (ERR_peek_last_error() & 0xFFF) != 0x6C )
-      goto err_110;
+      goto err_112;
     if ( !v6-- )
     {
-      ERR_put_error(3u, 128, 113, ".\\crypto\\bn\\bn_blind.c", 353);
-      goto err_110;
+      ERR_put_error(v6, 3u, 128, 113, ".\\crypto\\bn\\bn_blind.c", 353);
+      goto err_112;
     }
-    ERR_clear_error();
+    ERR_clear_error(v6);
     if ( !BN_rand_range(v8->A, v8->mod) )
-      goto err_110;
+      goto err_112;
   }
   v14 = v8->bn_mod_exp;
   if ( v14 && v8->m_ctx )
   {
     if ( v14(v8->A, v8->A, v8->e, v8->mod, ctx, v8->m_ctx) )
       return v8;
-    goto err_110;
+    goto err_112;
   }
   if ( !BN_mod_exp(v8->A, v8->A, v8->e, v8->mod, ctx) )
-    goto err_110;
+    goto err_112;
   return v8;
 }

@@ -1,49 +1,26 @@
 void __thiscall btSoftRigidDynamicsWorld::~btSoftRigidDynamicsWorld(btSoftRigidDynamicsWorld *this)
 {
-  btSoftBodySolver *m_softBodySolver; // eax
-  btSparseSdf<3>::Cell **m_data; // eax
-  btSoftBody **v4; // eax
+  btSoftRigidDynamicsWorld *v1; // edi
+  bool v2; // zf
+  void **p_m_softBodySolver; // esi
+  btAlignedObjectArray<GrahamVector2> *v4; // ecx
+  btSoftRigidDynamicsWorld *v5; // [esp-4h] [ebp-Ch]
 
+  v1 = this;
+  v2 = !this->m_ownsSolver;
   this->__vftable = (btSoftRigidDynamicsWorld_vtbl *)&btSoftRigidDynamicsWorld::`vftable';
-  if ( this->m_ownsSolver )
+  if ( !v2 )
   {
+    p_m_softBodySolver = (void **)&this->m_softBodySolver;
     ((void (__thiscall *)(btSoftBodySolver *, _DWORD))this->m_softBodySolver->~btSoftBodySolver)(
       this->m_softBodySolver,
       0);
-    m_softBodySolver = this->m_softBodySolver;
-    if ( m_softBodySolver )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_softBodySolver);
-    }
+    btAlignedFreeInternal(*p_m_softBodySolver);
+    this = v5;
   }
-  m_data = this->m_sbi.m_sparsesdf.cells.m_data;
-  if ( m_data )
-  {
-    if ( this->m_sbi.m_sparsesdf.cells.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_data);
-    }
-    this->m_sbi.m_sparsesdf.cells.m_data = 0;
-  }
-  this->m_sbi.m_sparsesdf.cells.m_ownsMemory = 1;
-  this->m_sbi.m_sparsesdf.cells.m_data = 0;
-  this->m_sbi.m_sparsesdf.cells.m_size = 0;
-  this->m_sbi.m_sparsesdf.cells.m_capacity = 0;
-  v4 = this->m_softBodies.m_data;
-  if ( v4 )
-  {
-    if ( this->m_softBodies.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v4);
-    }
-    this->m_softBodies.m_data = 0;
-  }
-  this->m_softBodies.m_data = 0;
-  this->m_softBodies.m_size = 0;
-  this->m_softBodies.m_capacity = 0;
-  this->m_softBodies.m_ownsMemory = 1;
-  btDiscreteDynamicsWorld::~btDiscreteDynamicsWorld(this);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+    (btAlignedObjectArray<GrahamVector2> *)this,
+    (int)&v1->m_sbi.m_sparsesdf);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v4, (int)&v1->m_softBodies);
+  btDiscreteDynamicsWorld::~btDiscreteDynamicsWorld(v1);
 }

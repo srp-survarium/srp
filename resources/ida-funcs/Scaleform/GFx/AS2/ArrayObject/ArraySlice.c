@@ -12,15 +12,15 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySlice(const Scaleform::GFx::
   int v10; // ecx
   Scaleform::GFx::AS2::ArrayObject *v11; // ebx
   int i; // ebp
-  Scaleform::GFx::AS2::Value **Data; // ecx
+  Scaleform::GFx::AS2::Object *v13; // ecx
   Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *p_Elements; // edi
   unsigned int v15; // esi
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *v16; // eax
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-Ch] [ebp-1Ch]
   Scaleform::GFx::AS2::Environment *v19; // [esp-Ch] [ebp-1Ch]
-  int end; // [esp+8h] [ebp-8h]
-  Scaleform::GFx::AS2::ArrayObject *pThis; // [esp+Ch] [ebp-4h]
+  int v20; // [esp+8h] [ebp-8h]
+  Scaleform::Ptr<Scaleform::GFx::AS2::Object> *v21; // [esp+Ch] [ebp-4h]
 
   v1 = fn;
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Array )
@@ -29,17 +29,17 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySlice(const Scaleform::GFx::
     if ( ThisPtr )
     {
       p_pProto = &ThisPtr[-2].pProto;
-      pThis = (Scaleform::GFx::AS2::ArrayObject *)&ThisPtr[-2].pProto;
+      v21 = &ThisPtr[-2].pProto;
     }
     else
     {
-      pThis = 0;
+      v21 = 0;
       p_pProto = 0;
     }
     pObject = (int)p_pProto[15].pObject;
     LOBYTE(p_pProto[19].pObject) = 0;
     v5 = 0;
-    end = pObject;
+    v20 = pObject;
     if ( fn->NArgs >= 1 )
     {
       Env = fn->Env;
@@ -61,19 +61,19 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySlice(const Scaleform::GFx::
       v8 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
       v9 = Scaleform::GFx::AS2::Value::ToInt32(v8, v19);
       v10 = v9;
-      end = v9;
+      v20 = v9;
       if ( v9 < 0 )
       {
         v10 = (int)p_pProto[15].pObject + v9;
-        end = v10;
+        v20 = v10;
         if ( v10 < 0 )
         {
-          end = 0;
+          v20 = 0;
           v10 = 0;
         }
       }
       if ( v10 > (int)p_pProto[15].pObject )
-        end = (int)p_pProto[15].pObject;
+        v20 = (int)p_pProto[15].pObject;
     }
     v11 = (Scaleform::GFx::AS2::ArrayObject *)Scaleform::GFx::AS2::Environment::OperatorNew(
                                                 fn->Env,
@@ -83,12 +83,16 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySlice(const Scaleform::GFx::
                                                 -1);
     if ( v11 )
     {
-      for ( i = v5; i < end; ++i )
+      for ( i = v5; i < v20; ++i )
       {
-        Data = pThis->Elements.Data.Data;
-        if ( Data[i] )
+        v13 = v21[14].pObject;
+        if ( *((_DWORD *)&v13->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable
+             + i) )
         {
-          Scaleform::GFx::AS2::ArrayObject::PushBack(v11, Data[i]);
+          Scaleform::GFx::AS2::ArrayObject::PushBack(
+            v11,
+            *((const Scaleform::GFx::AS2::Value **)&v13->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable
+            + i));
         }
         else
         {
@@ -121,7 +125,7 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySlice(const Scaleform::GFx::
     if ( v11 )
     {
       RefCount = v11->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v11->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);

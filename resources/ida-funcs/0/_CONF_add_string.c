@@ -10,7 +10,7 @@ int __cdecl _CONF_add_string(conf_st *conf, CONF_VALUE *section, CONF_VALUE *val
   result = sk_push((stack_st *)v3, (char *)value);
   if ( result )
   {
-    v5 = (char *)lh_insert((lhash_st *)conf->data, value);
+    v5 = (char *)lh_insert((lhash_st *)conf->data, (lhash_node_st *)value);
     v6 = (void **)v5;
     if ( v5 )
     {

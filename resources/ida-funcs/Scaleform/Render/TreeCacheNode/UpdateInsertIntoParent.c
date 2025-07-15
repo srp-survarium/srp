@@ -36,10 +36,7 @@ LABEL_4:
     if ( v6->pRoot )
     {
       if ( v6->IsPatternChainValid(v6) )
-        Scaleform::Render::TreeCacheRoot::AddToUpdate(
-          v6->pRoot,
-          v6,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+        Scaleform::Render::TreeCacheRoot::AddToUpdate(v6->pRoot, v6, 0x1000000u);
     }
   }
   if ( pinsert )

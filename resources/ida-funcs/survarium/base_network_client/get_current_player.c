@@ -1,20 +1,9 @@
-vostok::memory::detail::call_destructor_predicate *__usercall survarium::base_network_client::get_current_player@<eax>(
+vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *__usercall survarium::base_network_client::get_current_player@<eax>(
         survarium::base_network_client *this@<ecx>,
-        int a2@<edi>,
-        vostok::memory::detail::call_destructor_predicate *a3@<esi>)
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *a2@<eax>)
 {
-  bool v3; // zf
-  int v4; // eax
-
-  v3 = *(_DWORD *)(a2 + 8) == 0;
-  *(_DWORD *)a3 = 0;
-  if ( !v3 )
-  {
-    vostok::memory::detail::call_destructor_predicate::operator()<survarium::profile_player_character>(a3);
-    v4 = *(_DWORD *)(a2 + 8);
-    *(_DWORD *)a3 = v4;
-    if ( v4 )
-      _InterlockedExchangeAdd((volatile signed __int32 *)(v4 + 496), 1u);
-  }
-  return a3;
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    a2,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_current_player);
+  return a2;
 }

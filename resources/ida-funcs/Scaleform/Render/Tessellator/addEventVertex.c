@@ -9,7 +9,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::addEventVertex(
   Scaleform::Render::Tessellator::SrcVertexType **Pages; // edx
   Scaleform::Render::Tessellator::SrcVertexType *v8; // edx
   int v9; // ecx
-  double v10; // st7
+  double x; // st7
   float *p_x; // ecx
   double v12; // st7
   unsigned int lower; // ecx
@@ -23,10 +23,10 @@ unsigned int __thiscall Scaleform::Render::Tessellator::addEventVertex(
   unsigned int v22; // edx
   double v23; // st6
   double v24; // st5
-  Scaleform::Render::TessVertex v2; // [esp+Ch] [ebp-14h] BYREF
-  float x; // [esp+2Ch] [ebp+Ch]
-  float xa; // [esp+2Ch] [ebp+Ch]
-  float xb; // [esp+2Ch] [ebp+Ch]
+  Scaleform::Render::TessVertex val; // [esp+Ch] [ebp-14h] BYREF
+  float v26; // [esp+2Ch] [ebp+Ch]
+  float v27; // [esp+2Ch] [ebp+Ch]
+  float v28; // [esp+2Ch] [ebp+Ch]
 
   v5 = &this->Edges.Pages[mc->edge >> 4][mc->edge & 0xF];
   if ( !enforceFlag )
@@ -41,21 +41,21 @@ unsigned int __thiscall Scaleform::Render::Tessellator::addEventVertex(
         return -1;
       v8 = Pages[v5->lower >> 4];
       v9 = v5->lower & 0xF;
-      v10 = v8[v9].x;
+      x = v8[v9].x;
       p_x = &v8[v9].x;
-      if ( this->LastX < v10 )
+      if ( this->LastX < x )
       {
-        x = *p_x;
-        v2.Styles[1] = -1;
-        this->LastX = x;
-        v2.Idx = -1;
-        v2.x = x;
-        v2.Flags = 2;
+        v26 = *p_x;
+        val.Styles[1] = -1;
+        this->LastX = v26;
+        val.Idx = -1;
+        val.x = v26;
+        val.Flags = 2;
         v12 = p_x[1];
-        v2.Styles[0] = -1;
-        v2.y = v12;
-        v2.Mesh = 0;
-        Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &v2);
+        val.Styles[0] = -1;
+        val.y = v12;
+        val.Mesh = 0;
+        Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &val);
         return this->MeshVertices.Size - 1;
       }
       return this->MeshVertices.Size - 1;
@@ -75,14 +75,14 @@ unsigned int __thiscall Scaleform::Render::Tessellator::addEventVertex(
       v21 = *v20;
 LABEL_13:
       this->LastX = v21;
-      v2.x = v21;
-      v2.Idx = -1;
-      v2.y = v20[1];
-      v2.Styles[1] = -1;
-      v2.Styles[0] = -1;
-      v2.Mesh = 0;
-      v2.Flags = 2;
-      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &v2);
+      val.x = v21;
+      val.Idx = -1;
+      val.y = v20[1];
+      val.Styles[1] = -1;
+      val.Styles[0] = -1;
+      val.Mesh = 0;
+      val.Flags = 2;
+      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &val);
       return this->MeshVertices.Size - 1;
     }
   }
@@ -97,21 +97,21 @@ LABEL_13:
   }
   else
   {
-    xa = (v16 - v15[lower >> 4][lower & 0xF].y) * v5->slope + v15[lower >> 4][lower & 0xF].x;
-    v23 = xa;
-    v24 = xa - this->LastX;
-    xb = fabs(v16);
-    if ( xb * this->Epsilon < v24 )
+    v27 = (v16 - v15[lower >> 4][lower & 0xF].y) * v5->slope + v15[lower >> 4][lower & 0xF].x;
+    v23 = v27;
+    v24 = v27 - this->LastX;
+    v28 = fabs(v16);
+    if ( v28 * this->Epsilon < v24 )
     {
       this->LastX = v23;
-      v2.x = v23;
-      v2.Styles[0] = -1;
-      v2.y = yb;
-      v2.Styles[1] = -1;
-      v2.Idx = -1;
-      v2.Flags = 2;
-      v2.Mesh = 0;
-      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &v2);
+      val.x = v23;
+      val.Styles[0] = -1;
+      val.y = yb;
+      val.Styles[1] = -1;
+      val.Idx = -1;
+      val.Flags = 2;
+      val.Mesh = 0;
+      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &val);
       return this->MeshVertices.Size - 1;
     }
   }

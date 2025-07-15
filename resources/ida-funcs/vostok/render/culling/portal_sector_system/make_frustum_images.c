@@ -3,78 +3,68 @@ void __userpurge vostok::render::culling::portal_sector_system::make_frustum_ima
         unsigned int a2@<edi>,
         vostok::render::culling::portal_sector_system *this)
 {
-  __int64 v3; // xmm0_8
-  float z; // eax
   vostok::render::culling::portal_sector_structure *m_object; // esi
-  void *v6; // esp
-  vostok::render::culling::spatial_sector *m_end; // ebx
+  void *v5; // esp
+  int v6; // ecx
+  vostok::render::culling::spatial_sector *m_end; // edi
   vostok::math::aabb *p_m_aabb; // esi
-  unsigned int *v9; // edi
+  vostok::render::culling::sector_double_query_preventer *v9; // ecx
   vostok::math::float3 *v10; // eax
-  unsigned int v11[3]; // [esp-Ch] [ebp-24h] BYREF
-  vostok::math::float3 v12; // [esp+0h] [ebp-18h] BYREF
-  unsigned int *v13; // [esp+Ch] [ebp-Ch]
-  unsigned int furthest_vertex_id; // [esp+10h] [ebp-8h]
+  vostok::buffer_vector<vostok::math::float3> *v11; // ecx
+  unsigned int v12[3]; // [esp-Ch] [ebp-24h] BYREF
+  vostok::math::float3 v13; // [esp+0h] [ebp-18h] BYREF
+  vostok::math::float3 value; // [esp+Ch] [ebp-Ch] BYREF
+  int v15; // [esp+20h] [ebp+8h]
 
-  v3 = *(_QWORD *)&view_dir->x;
-  z = view_dir->z;
-  *(_QWORD *)&v12.x = v3;
-  v11[0] = a2;
-  v12.z = z;
-  if ( *(float *)&v3 < 0.0 )
+  v12[0] = a2;
+  value = *view_dir;
+  if ( value.x < 0.0 )
   {
-    if ( v12.y < 0.0 )
+    if ( value.y < 0.0 )
     {
-      furthest_vertex_id = v12.z >= 0.0;
+      v15 = value.z >= 0.0;
     }
-    else if ( v12.z < 0.0 )
+    else if ( value.z < 0.0 )
     {
-      furthest_vertex_id = 3;
+      v15 = 3;
     }
     else
     {
-      furthest_vertex_id = 2;
+      v15 = 2;
     }
   }
-  else if ( v12.y < 0.0 )
+  else if ( value.y < 0.0 )
   {
-    if ( v12.z < 0.0 )
-      furthest_vertex_id = 4;
+    if ( value.z < 0.0 )
+      v15 = 4;
     else
-      furthest_vertex_id = 5;
+      v15 = 5;
   }
-  else if ( v12.z < 0.0 )
+  else if ( value.z < 0.0 )
   {
-    furthest_vertex_id = 6;
+    v15 = 6;
   }
   else
   {
-    furthest_vertex_id = 7;
+    v15 = 7;
   }
   m_object = this->m_structure.m_object;
-  v6 = alloca(12 * (m_object->m_sectors.m_end - m_object->m_sectors.m_begin));
+  v5 = alloca(12 * (m_object->m_sectors.m_end - m_object->m_sectors.m_begin));
+  v6 = (char *)m_object->m_sectors.m_end - (char *)m_object->m_sectors.m_begin;
   m_end = m_object->m_sectors.m_end;
   p_m_aabb = &m_object->m_sectors.m_begin->m_aabb;
-  v9 = v11;
-  v13 = v11;
-  if ( p_m_aabb != (vostok::math::aabb *)m_end )
+  v9 = (vostok::render::culling::sector_double_query_preventer *)&v12[3 * (v6 >> 5)];
+  LODWORD(value.x) = v12;
+  LODWORD(value.y) = v12;
+  LODWORD(value.z) = v9;
+  while ( p_m_aabb != (vostok::math::aabb *)m_end )
   {
-    do
-    {
-      v10 = vostok::math::aabb::vertex(p_m_aabb, &v12, (vostok::math::float3 *)furthest_vertex_id, v11[0]);
-      if ( v9 )
-      {
-        *(_QWORD *)v9 = *(_QWORD *)&v10->x;
-        v9[2] = LODWORD(v10->z);
-      }
-      p_m_aabb = (vostok::math::aabb *)((char *)p_m_aabb + 32);
-      v9 += 3;
-    }
-    while ( p_m_aabb != (vostok::math::aabb *)m_end );
-    v9 = v13;
+    v10 = vostok::math::aabb::vertex(p_m_aabb, &v13, (vostok::math::float3 *)v15, v12[0]);
+    vostok::buffer_vector<vostok::math::float3>::push_back(v11, &value, v10);
+    p_m_aabb = (vostok::math::aabb *)((char *)p_m_aabb + 32);
   }
   vostok::render::culling::sector_double_query_preventer::make_frustum_images(
-    (vostok::render::culling::sector_double_query_preventer *)this,
-    this->m_preventer,
-    (const vostok::math::float3 *)v9);
+    v9,
+    (const vostok::math::float3 *)this->m_preventer,
+    SLODWORD(value.x));
 }

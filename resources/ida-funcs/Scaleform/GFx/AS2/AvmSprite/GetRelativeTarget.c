@@ -1,6 +1,6 @@
 Scaleform::GFx::Sprite *__userpurge Scaleform::GFx::AS2::AvmSprite::GetRelativeTarget@<eax>(
         Scaleform::GFx::AS2::AvmSprite *this@<ecx>,
-        unsigned int a2@<ebx>,
+        int a2@<ebx>,
         Scaleform::GFx::ASString *name,
         const char *first_call)
 {
@@ -11,15 +11,15 @@ Scaleform::GFx::Sprite *__userpurge Scaleform::GFx::AS2::AvmSprite::GetRelativeT
   Scaleform::GFx::Sprite *result; // eax
   Scaleform::GFx::ASMovieRootBase *v10; // eax
   Scaleform::GFx::StateBag_vtbl *pLower; // edx
-  char *pData; // ecx
+  const char *pData; // ecx
   unsigned int v13; // eax
   Scaleform::GFx::InteractiveObject *pDispObj; // esi
-  bool caseSensitive; // [esp+Ch] [ebp-4h]
+  bool v15; // [esp+Ch] [ebp-4h]
 
   v5 = this->ASEnvironment.StringContext.SWFVersion < 6u;
   v6 = this->ASEnvironment.StringContext.SWFVersion == 6;
   pNode = name->pNode;
-  caseSensitive = !v5 && !v6;
+  v15 = !v5 && !v6;
   if ( (name->pNode->HashFlags & 0x80000000) != 0 )
   {
     if ( !v5 && !v6 )
@@ -57,13 +57,13 @@ Scaleform::GFx::Sprite *__userpurge Scaleform::GFx::AS2::AvmSprite::GetRelativeT
       return (Scaleform::GFx::Sprite *)this->GetTopParent(this, 0);
   }
 LABEL_20:
-  pData = (char *)pNode->pData;
+  pData = pNode->pData;
   if ( *pData == 95 )
   {
     if ( (_BYTE)first_call )
     {
       first_call = 0;
-      v13 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(pData, a2, pData, (char **)&first_call, caseSensitive);
+      v13 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(pData, a2, pData, &first_call, v15);
       if ( v13 != -1 && !*first_call )
         return Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(
                  (Scaleform::GFx::AS2::MovieRoot *)this->pDispObj->pASRoot,

@@ -6,9 +6,9 @@ int __cdecl EVP_DecodeUpdate(
         int inl)
 {
   int num; // ecx
-  unsigned int v7; // edi
+  int v7; // edi
   int v8; // ebx
-  unsigned int v9; // esi
+  int v9; // esi
   int v10; // eax
   int result; // eax
   int expect_nl; // [esp+10h] [ebp-14h]
@@ -47,7 +47,7 @@ LABEL_40:
     else
     {
       if ( num >= 80 )
-        OpenSSLDie(v7, v9, ".\\crypto\\evp\\encode.c", 262, "n < (int)sizeof(ctx->enc_data)");
+        OpenSSLDie(v7, v9, v8, ".\\crypto\\evp\\encode.c", 262, "n < (int)sizeof(ctx->enc_data)");
       ctx->enc_data[num++] = v8;
       ++line_num;
     }

@@ -1,55 +1,59 @@
-void __usercall vostok::render::culling::portal_sector_structure::~portal_sector_structure(
-        vostok::render::culling::portal_sector_structure *this@<ecx>,
-        int a2@<esi>)
+void __thiscall vostok::render::culling::portal_sector_structure::~portal_sector_structure(
+        vostok::render::culling::portal_sector_structure *this,
+        vostok::resources::unmanaged_resource *a2)
 {
-  int v2; // edi
-  int v3; // ebx
-  _BYTE *v4; // ebp
-  _DWORD **v5; // edi
-  int v6; // ebx
-  _BYTE *v7; // ebp
+  vostok::collision::space_partitioning_tree *m_thread_id; // esi
+  vostok::memory::base_allocator *v3; // edi
+  unsigned int m_reconstruction_size; // eax
+  unsigned int type; // eax
+  int m_reconstruction_info_actuality_tick_high; // eax
 
-  v2 = *(_DWORD *)(a2 + 300);
-  *(_DWORD *)a2 = &vostok::render::culling::portal_sector_structure::`vftable';
-  if ( v2 )
+  m_thread_id = (vostok::collision::space_partitioning_tree *)a2[1].m_children_resources.m_thread_id;
+  v3 = (vostok::memory::base_allocator *)a2[1].__vftable;
+  a2->__vftable = (vostok::resources::unmanaged_resource_vtbl *)&vostok::render::culling::portal_sector_structure::`vftable';
+  vostok::render::culling::delete_tree(v3, m_thread_id);
+  vostok::render::culling::delete_tree(
+    (vostok::memory::base_allocator *)a2[1].__vftable,
+    (vostok::collision::space_partitioning_tree *)a2[1].m_children_resources.m_lock);
+  a2[1].m_uid = *(&a2[1].m_reconstruction_size + 1);
+  m_reconstruction_size = a2[1].m_reconstruction_size;
+  if ( m_reconstruction_size )
   {
-    v3 = **(_DWORD **)(v2 + 16);
-    v4 = __RTCastToVoid((void **)v2);
-    (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v2 + 68))(v2, 0);
-    (*(void (__thiscall **)(int, _BYTE *))(*(_DWORD *)v3 + 24))(v3, v4);
+    (*((void (__thiscall **)(vostok::resources::unmanaged_resource_vtbl *, unsigned int, const char *, const char *, int))a2[1].~vostok::resources::unmanaged_resource
+     + 6))(
+      a2[1].__vftable,
+      m_reconstruction_size,
+      "vostok::render::culling::portal_sector_structure::~portal_sector_structure",
+      ".\\portal_sector_structure.cpp",
+      60);
+    a2[1].m_reconstruction_size = 0;
   }
-  v5 = *(_DWORD ***)(a2 + 296);
-  if ( v5 )
+  *((_DWORD *)&a2[1].vostok::resources::resource_flags + 3) = a2[1].vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+  type = a2[1].type;
+  if ( type )
   {
-    v6 = *v5[4];
-    v7 = __RTCastToVoid(*(void ***)(a2 + 296));
-    ((void (__thiscall *)(_DWORD **, _DWORD))(*v5)[17])(v5, 0);
-    (*(void (__thiscall **)(int, _BYTE *))(*(_DWORD *)v6 + 24))(v6, v7);
+    (*((void (__thiscall **)(vostok::resources::unmanaged_resource_vtbl *, unsigned int, const char *, const char *, int))a2[1].~vostok::resources::unmanaged_resource
+     + 6))(
+      a2[1].__vftable,
+      type,
+      "vostok::render::culling::portal_sector_structure::~portal_sector_structure",
+      ".\\portal_sector_structure.cpp",
+      62);
+    a2[1].type = 0;
   }
-  *(_DWORD *)(a2 + 292) = *(_DWORD *)(a2 + 288);
-  if ( *(_DWORD *)(a2 + 284) )
+  m_reconstruction_info_actuality_tick_high = HIDWORD(a2[1].m_reconstruction_info_actuality_tick);
+  if ( m_reconstruction_info_actuality_tick_high )
   {
-    (*(void (__thiscall **)(_DWORD, _DWORD))(**(_DWORD **)(a2 + 264) + 24))(
-      *(_DWORD *)(a2 + 264),
-      *(_DWORD *)(a2 + 284));
-    *(_DWORD *)(a2 + 284) = 0;
+    (*((void (__thiscall **)(vostok::resources::unmanaged_resource_vtbl *, int, const char *, const char *, int))a2[1].~vostok::resources::unmanaged_resource
+     + 6))(
+      a2[1].__vftable,
+      m_reconstruction_info_actuality_tick_high,
+      "vostok::render::culling::portal_sector_structure::~portal_sector_structure",
+      ".\\portal_sector_structure.cpp",
+      63);
+    HIDWORD(a2[1].m_reconstruction_info_actuality_tick) = 0;
   }
-  *(_DWORD *)(a2 + 276) = *(_DWORD *)(a2 + 272);
-  if ( *(_DWORD *)(a2 + 268) )
-  {
-    (*(void (__thiscall **)(_DWORD, _DWORD))(**(_DWORD **)(a2 + 264) + 24))(
-      *(_DWORD *)(a2 + 264),
-      *(_DWORD *)(a2 + 268));
-    *(_DWORD *)(a2 + 268) = 0;
-  }
-  if ( *(_DWORD *)(a2 + 280) )
-  {
-    (*(void (__thiscall **)(_DWORD, _DWORD))(**(_DWORD **)(a2 + 264) + 24))(
-      *(_DWORD *)(a2 + 264),
-      *(_DWORD *)(a2 + 280));
-    *(_DWORD *)(a2 + 280) = 0;
-  }
-  *(_DWORD *)(a2 + 292) = *(_DWORD *)(a2 + 288);
-  *(_DWORD *)(a2 + 276) = *(_DWORD *)(a2 + 272);
-  vostok::resources::unmanaged_resource::~unmanaged_resource((vostok::resources::unmanaged_resource *)a2);
+  a2[1].m_uid = *(&a2[1].m_reconstruction_size + 1);
+  *((_DWORD *)&a2[1].vostok::resources::resource_flags + 3) = a2[1].vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+  vostok::resources::unmanaged_resource::~unmanaged_resource(a2);
 }

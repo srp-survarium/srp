@@ -1,4 +1,4 @@
-buf_mem_st *__cdecl BUF_MEM_new()
+buf_mem_st *__usercall BUF_MEM_new@<eax>(int a1@<ebx>)
 {
   buf_mem_st *result; // eax
 
@@ -11,7 +11,7 @@ buf_mem_st *__cdecl BUF_MEM_new()
   }
   else
   {
-    ERR_put_error(7u, 101, 65, ".\\crypto\\buffer\\buffer.c", 70);
+    ERR_put_error(a1, 7u, 101, 65, ".\\crypto\\buffer\\buffer.c", 70);
     return 0;
   }
   return result;

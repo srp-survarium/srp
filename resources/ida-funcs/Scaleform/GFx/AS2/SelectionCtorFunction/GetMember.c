@@ -124,7 +124,7 @@ LABEL_30:
       Scaleform::GFx::AS2::Value::Value(
         &v14,
         p_StringContext,
-        (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::SelectionCtorFunction::SetControllerFocusGroup);
+        Scaleform::GFx::AS2::SelectionCtorFunction::SetControllerFocusGroup);
       goto LABEL_4;
     }
     if ( Scaleform::GFx::ASString::operator==(name, "getControllerFocusGroup") )
@@ -173,7 +173,10 @@ LABEL_30:
              name,
              pval);
   }
-  Scaleform::GFx::AS2::Value::Value(&v14, p_StringContext, Scaleform::GFx::AS2::SelectionCtorFunction::CaptureFocus);
+  Scaleform::GFx::AS2::Value::Value(
+    &v14,
+    p_StringContext,
+    (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::SelectionCtorFunction::CaptureFocus);
 LABEL_4:
   Scaleform::GFx::AS2::Value::operator=(pval, v6);
   if ( v14.T.Type >= 5u )

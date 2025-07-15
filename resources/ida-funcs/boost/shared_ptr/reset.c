@@ -1,54 +1,64 @@
-void __thiscall boost::shared_ptr<void>::reset(boost::shared_ptr<void> *this)
+void __usercall boost::shared_ptr<void>::reset(boost::shared_ptr<void> *this@<ecx>, _DWORD *a2@<eax>)
 {
-  boost::detail::sp_counted_base *pi; // [esp+10h] [ebp-14h]
-  vostok::size_policy __a; // [esp+1Ch] [ebp-8h] BYREF
-  boost::detail::sp_counted_base *v4; // [esp+20h] [ebp-4h]
+  volatile signed __int32 *v2; // ecx
+  volatile signed __int32 *v3; // [esp+4h] [ebp-4h] BYREF
 
-  __a.m_size = 0;
-  v4 = 0;
-  stlp_std::swap<vostok::size_policy>(&__a, (vostok::size_policy *)this);
-  pi = this->pn.pi_;
-  this->pn.pi_ = v4;
-  v4 = pi;
-  if ( pi )
-    boost::detail::sp_counted_base::release(v4);
+  *a2 = 0;
+  v2 = (volatile signed __int32 *)a2[1];
+  a2[1] = 0;
+  v3 = v2;
+  boost::detail::shared_count::~shared_count((boost::detail::shared_count *)v2, &v3);
 }
 
 
-void __thiscall boost::shared_ptr<boost::asio::detail::win_mutex>::reset<boost::asio::detail::win_mutex>(
-        boost::shared_ptr<boost::asio::detail::win_mutex> *this,
-        boost::asio::detail::win_mutex *p)
-{
-  boost::detail::sp_counted_base *pi; // [esp+10h] [ebp-28h]
-  boost::detail::shared_count v4; // [esp+34h] [ebp-4h] BYREF
-
-  boost::detail::shared_count::shared_count(&v4, p);
-  boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>();
-  this->px = p;
-  pi = this->pn.pi_;
-  this->pn = v4;
-  v4.pi_ = pi;
-  if ( pi )
-    boost::detail::sp_counted_base::release(v4.pi_);
-}
-
-
-void __thiscall boost::shared_ptr<void>::reset<void,boost::asio::detail::socket_ops::noop_deleter>(
-        boost::shared_ptr<void> *this,
-        boost::detail::sp_counted_base_vtbl *p,
+void __userpurge boost::shared_ptr<void>::reset<void,boost::asio::detail::socket_ops::noop_deleter>(
+        boost::shared_ptr<void> *this@<ecx>,
+        int *a2@<esi>,
+        void *p,
         boost::asio::detail::socket_ops::noop_deleter d)
 {
-  boost::detail::sp_counted_base *pi; // [esp+10h] [ebp-20h]
-  vostok::size_policy __a; // [esp+28h] [ebp-8h] BYREF
-  boost::detail::shared_count v6; // [esp+2Ch] [ebp-4h] BYREF
+  boost::detail::shared_count *v4; // eax
+  int v5; // ecx
+  const std::exception *v6; // eax
+  int v7; // ecx
+  boost::detail::shared_count *v8; // eax
+  boost::detail::shared_count *v9; // ecx
+  int v10; // [esp-4h] [ebp-20h]
+  std::bad_alloc v11; // [esp+4h] [ebp-18h] BYREF
+  int v12; // [esp+10h] [ebp-Ch]
+  boost::detail::shared_count *v13; // [esp+14h] [ebp-8h] BYREF
 
-  __a.m_size = (unsigned int)p;
-  boost::detail::shared_count::shared_count(&v6, p, d);
-  boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>();
-  stlp_std::swap<vostok::size_policy>(&__a, (vostok::size_policy *)this);
-  pi = this->pn.pi_;
-  this->pn = v6;
-  v6.pi_ = pi;
-  if ( pi )
-    boost::detail::sp_counted_base::release(v6.pi_);
+  v12 = 0;
+  v13 = 0;
+  v4 = (boost::detail::shared_count *)operator new(0x14u);
+  v5 = v10;
+  if ( v4 )
+  {
+    v5 = 1;
+    v4[1].pi_ = (boost::detail::sp_counted_base *)1;
+    v4[2].pi_ = (boost::detail::sp_counted_base *)1;
+    v4->pi_ = (boost::detail::sp_counted_base *)&boost::detail::sp_counted_impl_pd<void *,boost::asio::detail::socket_ops::noop_deleter>::`vftable';
+    v4[3].pi_ = 0;
+  }
+  else
+  {
+    v4 = 0;
+  }
+  v13 = v4;
+  if ( !v4 )
+  {
+    std::bad_alloc::bad_alloc(&v11);
+    boost::throw_exception(v6);
+    v11.__vftable = (std::bad_alloc_vtbl *)&std::bad_alloc::`vftable';
+    std::exception::~exception(&v11);
+  }
+  vostok::memory::process_allocator::finalize_impl((vostok::render::stage_screen_space_reflections *)v5);
+  v7 = *a2;
+  *a2 = v12;
+  v8 = (boost::detail::shared_count *)a2[1];
+  v12 = v7;
+  v9 = v13;
+  v13 = v8;
+  a2[1] = (int)v9;
+  boost::detail::shared_count::~shared_count(v9, (volatile signed __int32 **)&v13);
 }

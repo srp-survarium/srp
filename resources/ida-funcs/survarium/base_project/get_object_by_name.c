@@ -2,8 +2,8 @@ survarium::base_game_object *__thiscall survarium::base_project::get_object_by_n
         survarium::base_project *this,
         const char *name)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  return *stlp_std::map<vostok::fixed_string<260>,survarium::base_game_object *,stlp_std::less<vostok::fixed_string<260>>,survarium::std_allocator<stlp_std::pair<vostok::fixed_string<260>,survarium::base_game_object *>>>::operator[]<char const *>(
-            &name,
-            &this->m_objects_registry);
+  return *(survarium::base_game_object **)&stlp_std::priv::_Rb_tree<vostok::fixed_string<260>,stlp_std::less<vostok::fixed_string<260>>,stlp_std::pair<vostok::fixed_string<260> const,survarium::base_game_object *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<260> const,survarium::base_game_object *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<260> const,survarium::base_game_object *>>,survarium::std_allocator<stlp_std::pair<vostok::fixed_string<260>,survarium::base_game_object *>>>::_M_find<char const *>(
+                                             &this->m_objects_registry._M_t,
+                                             (const char *const *)&this->m_objects_registry,
+                                             &name)[18]._M_color;
 }

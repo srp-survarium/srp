@@ -1,481 +1,375 @@
-bool __cdecl allocate_arenas(
+char __cdecl allocate_arenas(
         vostok::memory::platform::region *arenas,
         vostok::buffer_vector<vostok::memory::platform::region> *resource_arenas,
         char *start_address,
         vostok::memory::platform::region *only_resources)
 {
   stlp_std::less<vostok::memory::platform::region> v4; // cl
-  vostok::buffer_vector<vostok::memory::platform::region> *v5; // ebx
+  vostok::memory::platform::region *v5; // ebx
   vostok::memory::platform::region *i; // ecx
-  vostok::memory::platform::region *m_end; // eax
-  int size; // edx
-  vostok::memory::platform::region *v9; // eax
-  unsigned int v10; // esi
-  unsigned int size_high; // edi
-  int v12; // edi
-  void *v13; // esp
-  void *v14; // esp
-  stlp_std::less<vostok::memory::platform::region> v15; // cl
-  stlp_std::less<vostok::memory::platform::region> v16; // cl
-  vostok::memory::platform::region *v17; // eax
+  _QWORD *v7; // eax
+  unsigned __int64 v8; // rdi
+  void *v9; // esp
+  void *v10; // esp
+  stlp_std::less<vostok::memory::platform::region> v11; // cl
+  stlp_std::less<vostok::memory::platform::region> v12; // cl
   vostok::memory::platform::region *m_begin; // ecx
-  unsigned __int64 v19; // xmm0_8
-  __int64 v20; // xmm1_8
-  vostok::buffer_vector<vostok::memory::platform::region> *v21; // eax
-  vostok::memory::platform::region *v22; // ecx
-  vostok::memory::platform::region *v23; // ebx
-  unsigned __int64 v24; // rax
-  __int64 v25; // rax
-  vostok::memory::platform::region *v26; // edi
-  vostok::memory::platform::region *v27; // eax
-  vostok::buffer_vector<vostok::memory::platform::region> *p_high_memory_regions; // esi
+  vostok::memory::platform::region *v14; // eax
+  vostok::memory::platform::region *size_high; // eax
+  vostok::memory::platform::region *size; // ebx
+  vostok::memory::platform::region *v17; // ebx
+  unsigned __int64 v18; // rax
+  vostok::memory::platform::region *m_end; // esi
+  vostok::memory::platform::region *v20; // eax
+  vostok::buffer_vector<vostok::memory::platform::region> *v21; // edi
+  unsigned int v22; // ecx
+  unsigned int v23; // eax
+  bool v24; // cf
+  vostok::memory::platform::region **v25; // esi
+  stlp_std::less<vostok::memory::platform::region> v26; // cl
+  vostok::memory::platform::region *v27; // edi
+  vostok::memory::platform::region *v28; // esi
   unsigned int v29; // ecx
-  unsigned int v30; // eax
-  SIZE_T v31; // ecx
-  void *address; // eax
-  bool v33; // cf
-  __int64 v34; // xmm0_8
-  vostok::memory::platform::region *v35; // eax
-  vostok::memory::platform::region *v36; // eax
-  vostok::memory::platform::region *v37; // esi
-  vostok::memory::platform::region *v38; // edi
-  int v39; // ecx
-  int j; // edx
-  vostok::memory::platform::region *v41; // edi
-  vostok::memory::platform::region *v42; // esi
-  __int64 v43; // rcx
-  unsigned int v44; // edx
-  vostok::memory::platform::region *v45; // edi
-  regions_filler v46; // kr18_8
-  vostok::memory::platform::region *v47; // ebx
-  SIZE_T v48; // ecx
-  int v49; // edx
+  vostok::memory::platform::region *v30; // edi
+  regions_filler v31; // kr18_8
+  vostok::memory::platform::region *v32; // ebx
+  unsigned int v33; // eax
   void **p_address; // ebx
-  void *v51; // eax
-  LPVOID v52; // eax
-  bool result; // al
-  SIZE_T v54; // ecx
-  char *v55; // eax
-  LPVOID v56; // eax
-  unsigned __int64 v57; // kr04_8
-  double v58; // st7
-  SIZE_T v59; // ecx
-  unsigned int v60; // edx
-  unsigned int v61; // kr14_4
-  unsigned int v62; // edx
-  SIZE_T v63; // eax
-  void *v64; // ebx
-  LPVOID v65; // eax
   LPVOID region; // eax
-  unsigned int v67; // eax
-  int v68; // eax
-  LPVOID v69; // eax
-  char *v70; // eax
-  unsigned __int64 v71; // rax
-  LPVOID v72; // eax
-  unsigned __int64 v73; // rax
-  LPVOID v74; // eax
-  unsigned int v75; // ecx
-  unsigned int v76; // eax
-  void *v77; // eax
-  LPVOID v78; // eax
-  unsigned __int64 v79; // rax
-  unsigned int v80; // ecx
-  unsigned __int64 v81; // kr50_8
-  vostok::buffer_vector<vostok::memory::platform::region> *v82; // ecx
-  vostok::memory::platform::region *v83; // eax
-  SIZE_T v84; // ecx
-  LPVOID v85; // eax
-  char *v86; // eax
-  SIZE_T v87; // ecx
-  unsigned __int64 v88; // [esp-18h] [ebp-A0h]
-  unsigned __int64 v89; // [esp-10h] [ebp-98h]
-  unsigned __int64 dwAllocationGranularity; // [esp-8h] [ebp-90h]
-  const vostok::memory::platform::region *v91[3]; // [esp+0h] [ebp-88h] BYREF
-  _SYSTEM_INFO SystemInfo; // [esp+Ch] [ebp-7Ch] BYREF
-  vostok::memory::platform::region temp; // [esp+30h] [ebp-58h] BYREF
-  unsigned __int64 min_buffer_size; // [esp+40h] [ebp-48h]
-  vostok::buffer_vector<vostok::memory::platform::region> high_memory_regions; // [esp+48h] [ebp-40h] BYREF
-  vostok::buffer_vector<vostok::memory::platform::region> regions; // [esp+50h] [ebp-38h] BYREF
-  regions_filler filler; // [esp+58h] [ebp-30h] BYREF
-  stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region> v98[8]; // [esp+60h] [ebp-28h]
-  vostok::memory::platform::region *k; // [esp+6Ch] [ebp-1Ch] BYREF
-  unsigned __int64 v100; // [esp+70h] [ebp-18h]
-  stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region> __comp1[4]; // [esp+78h] [ebp-10h]
-  stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region> __comp2[4]; // [esp+7Ch] [ebp-Ch]
-  stlp_std::reverse_iterator<vostok::memory::platform::region *> e; // [esp+80h] [ebp-8h]
-  vostok::memory::platform::region *regions_b; // [esp+84h] [ebp-4h]
+  vostok::buffer_vector<vostok::memory::platform::region> *v37; // eax
+  int v38; // eax
+  unsigned int v39; // kr00_4
+  vostok::buffer_vector<vostok::memory::platform::region> *m_regions; // eax
+  vostok::buffer_vector<vostok::memory::platform::region> *m_high_memory_regions; // kr04_4
+  double v42; // st7
+  vostok::buffer_vector<vostok::memory::platform::region> *v43; // eax
+  unsigned __int64 v44; // kr08_8
+  int v45; // ecx
+  LPVOID v46; // eax
+  vostok::buffer_vector<vostok::memory::platform::region> *v47; // eax
+  LPVOID v48; // eax
+  unsigned __int64 v49; // rax
+  LPVOID v50; // eax
+  unsigned __int64 v51; // rax
+  LPVOID v52; // eax
+  vostok::buffer_vector<vostok::memory::platform::region> *v53; // eax
+  int v54; // eax
+  int v55; // eax
+  unsigned int v56; // kr10_4
+  unsigned __int64 v57; // rax
+  unsigned int v58; // ecx
+  vostok::memory::platform::region *v59; // ebx
+  LPVOID v60; // eax
+  unsigned __int64 v61; // [esp-1Ch] [ebp-7Ch]
+  void *v62; // [esp-14h] [ebp-74h]
+  _BYTE v63[12]; // [esp-10h] [ebp-70h]
+  vostok::buffer_vector<vostok::memory::platform::region> *address; // [esp-4h] [ebp-64h]
+  _BYTE v65[16]; // [esp+0h] [ebp-60h] BYREF
+  vostok::memory::platform::region __val; // [esp+10h] [ebp-50h] BYREF
+  vostok::buffer_vector<vostok::memory::platform::region> v67; // [esp+20h] [ebp-40h] BYREF
+  vostok::buffer_vector<vostok::memory::platform::region> __first; // [esp+2Ch] [ebp-34h] BYREF
+  unsigned __int64 v69; // [esp+38h] [ebp-28h]
+  regions_filler v70; // [esp+40h] [ebp-20h] BYREF
+  regions_filler v71; // [esp+48h] [ebp-18h] BYREF
+  unsigned __int64 v72; // [esp+50h] [ebp-10h]
+  vostok::memory::platform::region **p_first; // [esp+58h] [ebp-8h]
+  unsigned int allocation_granularity; // [esp+5Ch] [ebp-4h]
 
-  v5 = (vostok::buffer_vector<vostok::memory::platform::region> *)arenas;
+  v5 = arenas;
   stlp_std::sort<vostok::memory::platform::region *>(
     (vostok::memory::platform::region *)arenas->size,
     (vostok::memory::platform::region *)HIDWORD(arenas->size),
     v4);
-  stlp_std::priv::__reverse<vostok::memory::platform::region *>(v5->m_begin, v5->m_end);
-  for ( i = v5->m_begin; i != v5->m_end; v5->m_end = v9 )
+  stlp_std::reverse<vostok::memory::platform::region *>(
+    (vostok::memory::platform::region *)v5->size,
+    (vostok::memory::platform::region *)HIDWORD(v5->size));
+  for ( i = (vostok::memory::platform::region *)v5->size;
+        i != (vostok::memory::platform::region *)HIDWORD(v5->size);
+        HIDWORD(v5->size) = v7 )
   {
-    m_end = v5->m_end;
-    size = m_end[-1].size;
-    v9 = m_end - 1;
-    if ( HIDWORD(v9->size) | size )
+    v7 = (_QWORD *)(HIDWORD(v5->size) - 16);
+    if ( *v7 )
       break;
   }
-  stlp_std::priv::__reverse<vostok::memory::platform::region *>(i, v5->m_end);
-  v10 = v5->m_begin->size;
-  size_high = HIDWORD(v5->m_begin->size);
+  stlp_std::reverse<vostok::memory::platform::region *>(i, (vostok::memory::platform::region *)HIDWORD(v5->size));
+  v8 = *(_QWORD *)LODWORD(v5->size);
   arenas = 0;
-  min_buffer_size = __PAIR64__(size_high, v10);
-  GetSystemInfo(&SystemInfo);
-  iterate_regions<regions_count>(
-    start_address,
-    SystemInfo.dwAllocationGranularity,
-    __PAIR64__(size_high, v10),
-    (regions_count *)&arenas);
-  v12 = 16 * ((_DWORD)&arenas->size + 1);
-  v13 = alloca(v12);
-  regions.m_begin = (vostok::memory::platform::region *)v91;
-  regions.m_end = (vostok::memory::platform::region *)v91;
-  v14 = alloca(v12);
-  high_memory_regions.m_begin = (vostok::memory::platform::region *)v91;
-  high_memory_regions.m_end = (vostok::memory::platform::region *)v91;
-  filler.m_regions = &regions;
-  filler.m_high_memory_regions = &high_memory_regions;
-  iterate_regions<regions_filler>(
-    (const unsigned int)start_address,
-    SystemInfo.dwAllocationGranularity,
-    __PAIR64__(HIDWORD(min_buffer_size), v10),
-    &filler);
-  stlp_std::sort<vostok::memory::platform::region *>(regions.m_begin, regions.m_end, v15);
-  stlp_std::sort<vostok::memory::platform::region *>(high_memory_regions.m_begin, high_memory_regions.m_end, v16);
+  v69 = v8;
+  allocation_granularity = ::allocation_granularity();
+  iterate_regions<regions_count>(start_address, allocation_granularity, v8, (regions_count *)&arenas);
+  HIDWORD(v8) = 16 * ((_DWORD)&arenas->size + 1);
+  v9 = alloca(SHIDWORD(v8));
+  __first.m_begin = (vostok::memory::platform::region *)v65;
+  __first.m_end = (vostok::memory::platform::region *)v65;
+  __first.m_max_end = (vostok::memory::platform::region *)&v65[HIDWORD(v8)];
+  v10 = alloca(SHIDWORD(v8));
+  v67.m_begin = (vostok::memory::platform::region *)v65;
+  v67.m_end = (vostok::memory::platform::region *)v65;
+  v70.m_regions = &__first;
+  v70.m_high_memory_regions = &v67;
+  v67.m_max_end = (vostok::memory::platform::region *)&v65[HIDWORD(v8)];
+  iterate_regions<regions_filler>(start_address, allocation_granularity, v69, &v70);
+  stlp_std::sort<vostok::memory::platform::region *>(__first.m_begin, __first.m_end, v11);
+  stlp_std::sort<vostok::memory::platform::region *>(v67.m_begin, v67.m_end, v12);
   if ( vostok::memory::g_use_resources_manager )
   {
-    v17 = resource_arenas->m_end;
     m_begin = resource_arenas->m_begin;
-    if ( resource_arenas->m_begin->size > v17[-1].size )
+    v14 = resource_arenas->m_end - 1;
+    if ( resource_arenas->m_begin->size > v14->size )
     {
-      v19 = m_begin->size;
-      v20 = *(_QWORD *)&m_begin->address;
-      m_begin->size = v17[-1].size;
-      *(_QWORD *)&m_begin->address = *(_QWORD *)&v17[-1].address;
-      v17[-1].size = v19;
-      *(_QWORD *)&v17[-1].address = v20;
+      __val = *m_begin;
+      LODWORD(m_begin->size) = v14->size;
+      HIDWORD(m_begin->size) = HIDWORD(v14->size);
+      m_begin->address = v14->address;
+      m_begin->data = v14->data;
+      *v14 = __val;
     }
   }
-  v21 = (vostok::buffer_vector<vostok::memory::platform::region> *)v5->m_end;
-  v22 = v5->m_begin;
-  arenas = (vostok::memory::platform::region *)v21;
-  e.current = v22;
-  if ( !(_BYTE)only_resources && v21 != (vostok::buffer_vector<vostok::memory::platform::region> *)v22 )
+  size_high = (vostok::memory::platform::region *)HIDWORD(v5->size);
+  size = (vostok::memory::platform::region *)v5->size;
+  arenas = size_high;
+  v70.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)size;
+  if ( !(_BYTE)only_resources && size_high != size )
   {
-    v23 = (vostok::memory::platform::region *)&v21[-2];
+    v17 = size_high - 1;
     do
     {
-      v24 = (v23->size - 1) / SystemInfo.dwAllocationGranularity;
-      LODWORD(v89) = v24 + 1;
-      v25 = (v24 + 1) * SystemInfo.dwAllocationGranularity;
-      HIDWORD(v23->size) = HIDWORD(v25);
-      __comp2[0] = 0;
-      HIDWORD(dwAllocationGranularity) = *(_DWORD *)__comp2;
-      LODWORD(v23->size) = v25;
-      v26 = high_memory_regions.m_end;
-      __comp1[0] = 0;
-      LODWORD(dwAllocationGranularity) = *(_DWORD *)__comp1;
-      regions_b = high_memory_regions.m_begin;
-      v27 = stlp_std::priv::__lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,int>(
-              high_memory_regions.m_begin,
-              v23,
-              high_memory_regions.m_end);
-      only_resources = v27;
-      p_high_memory_regions = &high_memory_regions;
-      if ( v27 == v26 || v27->size < v23->size )
+      v18 = (v17->size - 1) / allocation_granularity;
+      *(_DWORD *)&v63[8] = allocation_granularity;
+      *(_QWORD *)v63 = v18 + 1;
+      v17->size = (v18 + 1) * allocation_granularity;
+      m_end = v67.m_end;
+      HIDWORD(v72) = v67.m_begin;
+      v20 = stlp_std::lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region>(
+              v67.m_end,
+              v17,
+              v67.m_begin);
+      v21 = &v67;
+      only_resources = v20;
+      p_first = (vostok::memory::platform::region **)&v67;
+      if ( v20 == m_end || v20->size < v17->size )
       {
-        v26 = regions.m_end;
-        BYTE4(v100) = 0;
-        LOBYTE(v100) = 0;
-        dwAllocationGranularity = v100;
-        regions_b = regions.m_begin;
-        v27 = stlp_std::priv::__lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,int>(
-                regions.m_begin,
-                v23,
-                regions.m_end);
-        only_resources = v27;
-        p_high_memory_regions = &regions;
+        m_end = __first.m_end;
+        HIDWORD(v72) = __first.m_begin;
+        v20 = stlp_std::lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region>(
+                __first.m_end,
+                v17,
+                __first.m_begin);
+        only_resources = v20;
+        p_first = (vostok::memory::platform::region **)&__first;
+        v21 = &__first;
       }
       if ( !vostok::memory::g_use_resources_manager )
       {
-        k = v27 + 1;
-        if ( &v27[1] != v26 && &v27[2] == v26 )
+        v71.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)&v20[1];
+        if ( &v20[1] != m_end && &v20[2] == m_end )
         {
-          if ( v27 == regions_b )
+          if ( v20 == (vostok::memory::platform::region *)HIDWORD(v72) )
           {
-            v29 = 0;
-            v30 = 0;
+            v22 = 0;
+            v23 = 0;
           }
           else
           {
-            v29 = v27[-1].size;
-            v30 = HIDWORD(v27[-1].size);
+            v22 = v20[-1].size;
+            v23 = HIDWORD(v20[-1].size);
           }
-          dwAllocationGranularity = __PAIR64__(SystemInfo.dwAllocationGranularity, (unsigned int)resource_arenas);
-          v27 = *select_best_region_0(
-                   __PAIR64__(v30, v29),
+          address = (vostok::buffer_vector<vostok::memory::platform::region> *)allocation_granularity;
+          *(_DWORD *)&v63[8] = resource_arenas;
+          v20 = *select_best_region_0(
+                   __PAIR64__(v23, v22),
                    &only_resources,
-                   &k,
-                   v23->size,
+                   (vostok::memory::platform::region **)&v71.m_high_memory_regions,
+                   v17->size,
                    resource_arenas,
-                   SystemInfo.dwAllocationGranularity);
-          only_resources = v27;
+                   allocation_granularity);
+          only_resources = v20;
         }
       }
-      v31 = v23->size;
-      address = v27->address;
-      k = (vostok::memory::platform::region *)HIDWORD(v23->size);
-      v23->address = VirtualAlloc(address, v31, 0x3000u, 4u);
-      only_resources->address = (char *)only_resources->address + LODWORD(v23->size);
-      v33 = LODWORD(only_resources->size) < LODWORD(v23->size);
-      LODWORD(only_resources->size) -= LODWORD(v23->size);
-      HIDWORD(only_resources->size) -= v33 + HIDWORD(v23->size);
-      if ( only_resources == p_high_memory_regions->m_begin )
+      v17->address = allocate_region(v17->size, v20->address);
+      only_resources->address = (char *)only_resources->address + LODWORD(v17->size);
+      v24 = LODWORD(only_resources->size) < LODWORD(v17->size);
+      LODWORD(only_resources->size) -= LODWORD(v17->size);
+      HIDWORD(only_resources->size) -= v24 + HIDWORD(v17->size);
+      if ( only_resources == v21->m_begin )
       {
-        if ( only_resources->size < min_buffer_size )
-        {
-          k = only_resources + 1;
-          vostok::buffer_vector<vostok::memory::platform::region>::erase(p_high_memory_regions, &only_resources, &k);
-        }
+        if ( only_resources->size < v69 )
+          vostok::buffer_vector<vostok::memory::platform::region>::erase(v21, &only_resources);
       }
       else if ( only_resources->size < only_resources[-1].size )
       {
-        temp.size = only_resources->size;
-        v34 = *(_QWORD *)&only_resources->address;
-        k = only_resources + 1;
-        *(_QWORD *)&temp.address = v34;
-        vostok::buffer_vector<vostok::memory::platform::region>::erase(p_high_memory_regions, &only_resources, &k);
-        if ( temp.size >= min_buffer_size )
+        __val = *only_resources;
+        v25 = p_first;
+        vostok::buffer_vector<vostok::memory::platform::region>::erase(
+          (vostok::buffer_vector<vostok::memory::platform::region> *)p_first,
+          &only_resources);
+        if ( __val.size >= v69 )
         {
-          v35 = p_high_memory_regions->m_end;
-          v98[4] = 0;
-          LOBYTE(filler.m_high_memory_regions) = 0;
-          dwAllocationGranularity = __PAIR64__(*(unsigned int *)&v98[4], (unsigned int)filler.m_high_memory_regions);
-          k = stlp_std::priv::__lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,stlp_std::priv::__less_2<vostok::memory::platform::region,vostok::memory::platform::region>,int>(
-                p_high_memory_regions->m_begin,
-                &temp,
-                v35);
-          vostok::buffer_vector<vostok::memory::platform::region>::insert(p_high_memory_regions, &k, &temp, v91[0]);
+          v71.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)stlp_std::lower_bound<vostok::memory::platform::region *,vostok::memory::platform::region>(
+                                                                                                   v25[1],
+                                                                                                   &__val,
+                                                                                                   *v25);
+          vostok::buffer_vector<vostok::memory::platform::region>::insert(
+            address,
+            v25,
+            &v71.m_high_memory_regions,
+            &__val);
         }
       }
-      --v23;
       --arenas;
+      --v17;
     }
-    while ( arenas != e.current );
+    while ( arenas != (vostok::memory::platform::region *)v70.m_high_memory_regions );
   }
   if ( !vostok::memory::g_use_resources_manager )
     return 1;
-  arenas = high_memory_regions.m_end;
-  only_resources = regions.m_end;
+  arenas = v67.m_end;
+  only_resources = __first.m_end;
   vostok::buffer_vector<vostok::memory::platform::region>::insert<vostok::memory::platform::region *>(
-    high_memory_regions.m_begin,
     &arenas,
-    &regions,
-    &only_resources);
-  v36 = regions.m_end;
-  v37 = regions.m_begin;
-  v38 = regions.m_end;
-  if ( regions.m_begin != regions.m_end )
+    &__first,
+    &only_resources,
+    v67.m_begin);
+  stlp_std::sort<vostok::memory::platform::region *>(__first.m_begin, __first.m_end, v26);
+  v27 = resource_arenas->m_end;
+  v28 = resource_arenas->m_begin;
+  v29 = HIDWORD(v27[-1].size);
+  v30 = v27 - 1;
+  v31 = (regions_filler)(resource_arenas->m_begin->size + __PAIR64__(v29, v30->size));
+  v32 = __first.m_end - 1;
+  v70 = v31;
+  v71 = v31;
+  v33 = __first.m_end[-1].size;
+  arenas = __first.m_end;
+  if ( __PAIR64__(HIDWORD(__first.m_end[-1].size), v33) >= *(_QWORD *)&v31 )
   {
-    v39 = regions.m_end - regions.m_begin;
-    for ( j = 0; v39 != 1; ++j )
-      v39 >>= 1;
-    stlp_std::priv::__introsort_loop<vostok::memory::platform::region *,vostok::memory::platform::region,int,stlp_std::less<vostok::memory::platform::region>>(
-      regions.m_begin,
-      regions.m_end,
-      0,
-      2 * j,
-      only_resources);
-    if ( (int)(((char *)v38 - (char *)v37) & 0xFFFFFFF0) <= 256 )
-    {
-      stlp_std::priv::__insertion_sort<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::less<vostok::memory::platform::region>>(
-        v37,
-        v38,
-        only_resources);
-    }
-    else
-    {
-      stlp_std::priv::__insertion_sort<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::less<vostok::memory::platform::region>>(
-        v37,
-        v37 + 16,
-        only_resources);
-      stlp_std::priv::__unguarded_insertion_sort_aux<vostok::memory::platform::region *,vostok::memory::platform::region,stlp_std::less<vostok::memory::platform::region>>(
-        v37 + 16,
-        v38,
-        only_resources);
-    }
-    v36 = regions.m_end;
+    p_address = &__first.m_end[-1].address;
+    region = allocate_region(v28->size, __first.m_end[-1].address);
+    v28->address = region;
+    if ( !region )
+      return 0;
+    v37 = (vostok::buffer_vector<vostok::memory::platform::region> *)((char *)*p_address + LODWORD(v28->size));
+    goto LABEL_49;
   }
-  v41 = resource_arenas->m_end;
-  v42 = resource_arenas->m_begin;
-  LODWORD(v43) = v41[-1].size;
-  v44 = resource_arenas->m_begin->size;
-  HIDWORD(v43) = HIDWORD(resource_arenas->m_begin->size);
-  v45 = v41 - 1;
-  LODWORD(min_buffer_size) = v43;
-  HIDWORD(min_buffer_size) = HIDWORD(v45->size);
-  v46 = (regions_filler)(__PAIR64__(HIDWORD(min_buffer_size), v44) + v43);
-  v47 = v36 - 1;
-  arenas = v36;
-  *(regions_filler *)v98 = v46;
-  filler = v46;
-  if ( v36[-1].size < *(_QWORD *)&v46 )
+  v38 = v28->size;
+  LODWORD(v69) = 0;
+  LODWORD(v72) = v38;
+  HIDWORD(v69) = HIDWORD(v28->size);
+  v39 = HIDWORD(v69);
+  HIDWORD(v72) = HIDWORD(v69) & 0x7FFFFFFF;
+  m_regions = v70.m_regions;
+  v70.m_regions = 0;
+  v69 = __PAIR64__((unsigned int)v70.m_high_memory_regions, (unsigned int)m_regions) & 0x7FFFFFFFFFFFFFFFLL;
+  m_high_memory_regions = v70.m_high_memory_regions;
+  v70.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)((int)v70.m_high_memory_regions
+                                                                                        & 0x80000000);
+  v42 = (double)__PAIR64__(v39, v72) / (double)__PAIR64__((unsigned int)m_high_memory_regions, (unsigned int)m_regions);
+  if ( (((char *)__first.m_end - (char *)__first.m_begin) & 0xFFFFFFF0) == 0x10 )
+    goto LABEL_47;
+  v43 = (vostok::buffer_vector<vostok::memory::platform::region> *)__first.m_end[-2].size;
+  LODWORD(v72) = 0;
+  v70.m_regions = v43;
+  v70.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)HIDWORD(__first.m_end[-2].size);
+  v69 = v32->size;
+  v44 = v69;
+  v72 = *(_QWORD *)&v70 & 0x8000000000000000uLL;
+  v69 = __PAIR64__((unsigned int)v70.m_high_memory_regions, (unsigned int)v43) & 0x7FFFFFFFFFFFFFFFLL;
+  if ( (double)v44 * v42 >= (double)__PAIR64__((unsigned int)v70.m_high_memory_regions, (unsigned int)v43) )
   {
-    HIDWORD(v57) = HIDWORD(v42->size);
-    LODWORD(min_buffer_size) = v42->size;
-    LODWORD(v57) = min_buffer_size;
-    min_buffer_size = *(_QWORD *)v98 & 0x8000000000000000uLL;
-    v58 = (double)v57 / (double)*(unsigned __int64 *)v98;
-    if ( (((char *)v36 - (char *)regions.m_begin) & 0xFFFFFFF0) == 0x10
-      || (v59 = v36[-2].size,
-          HIDWORD(min_buffer_size) = HIDWORD(v36[-2].size),
-          *(_DWORD *)v98 = v47->size,
-          v60 = HIDWORD(v47->size),
-          v61 = *(_DWORD *)v98,
-          *(_QWORD *)v98 = min_buffer_size & 0x8000000000000000uLL,
-          (double)__PAIR64__(v60, v61) * v58 >= (double)__PAIR64__(HIDWORD(min_buffer_size), v59)) )
-    {
-      LODWORD(min_buffer_size) = v47->size;
-      v80 = HIDWORD(v47->size);
-      dwAllocationGranularity = SystemInfo.dwAllocationGranularity;
-      v89 = (unsigned __int64)(v58 * (double)__PAIR64__(v80, min_buffer_size));
-      min_buffer_size = v89;
-      v81 = v89 - v89 % SystemInfo.dwAllocationGranularity;
-      v42->size = v81;
-      v82 = (vostok::buffer_vector<vostok::memory::platform::region> *)arenas;
-      v45->size = v47->size - __PAIR64__(HIDWORD(v42->size), v81);
-      v83 = v82[-1].m_begin;
-      v84 = v42->size;
-      HIDWORD(min_buffer_size) = HIDWORD(v42->size);
-      v85 = VirtualAlloc(v83, v84, 0x3000u, 4u);
-      v42->address = v85;
-      if ( !v85 )
-        return 0;
-      v86 = (char *)arenas[-1].address + LODWORD(v42->size);
-      v87 = v45->size;
-      HIDWORD(min_buffer_size) = HIDWORD(v45->size);
-      v56 = VirtualAlloc(v86, v87, 0x3000u, 4u);
-      goto LABEL_59;
-    }
-    if ( v47->size < v45->size )
-    {
-      v62 = HIDWORD(min_buffer_size);
-    }
-    else
-    {
-      v62 = HIDWORD(min_buffer_size);
-      if ( __PAIR64__(HIDWORD(min_buffer_size), v59) >= v42->size )
-      {
-        v63 = v42->size;
-        v64 = v47[-1].address;
-        HIDWORD(min_buffer_size) = HIDWORD(v42->size);
-        v65 = VirtualAlloc(v64, v63, 0x3000u, 4u);
-        v42->address = v65;
-        if ( !v65 )
-          return 0;
-        region = allocate_region(v45->size);
-        v45->address = region;
-        if ( region )
-          return 1;
-        dwAllocationGranularity = v42->size;
-        goto LABEL_61;
-      }
-    }
-    v67 = (__PAIR64__(v62, v59) + v47->size) >> 32;
-    *(_DWORD *)v98 = v59 + LODWORD(v47->size);
-    if ( __PAIR64__(v67, *(unsigned int *)v98) < *(_QWORD *)&filler )
-    {
-      dwAllocationGranularity = 0x400003000LL;
-      LODWORD(v42->size) = v59;
-      HIDWORD(v42->size) = v62;
-      v77 = v47[-1].address;
-      HIDWORD(min_buffer_size) = v62;
-      v78 = VirtualAlloc(v77, v59, dwAllocationGranularity, HIDWORD(dwAllocationGranularity));
-      v42->address = v78;
-      if ( !v78 )
-        return 0;
-      LODWORD(v79) = v47->size;
-      LODWORD(v45->size) = v47->size;
-      HIDWORD(v79) = HIDWORD(v47->size);
-      HIDWORD(v45->size) = HIDWORD(v79);
-      v72 = allocate_region(v79);
-    }
-    else
-    {
-      if ( v47->size <= v45->size )
-      {
-        v73 = vostok::math::align_down<unsigned __int64>(
-                *(_QWORD *)&filler - v47->size,
-                SystemInfo.dwAllocationGranularity);
-        HIDWORD(v88) = HIDWORD(v73);
-        v42->size = v73;
-        LODWORD(v88) = v73;
-        v74 = allocate_region(v88);
-        v42->address = v74;
-        if ( !v74 )
-          return 0;
-        v75 = v47->size;
-        LODWORD(v45->size) = v47->size;
-        v76 = HIDWORD(v47->size);
-        HIDWORD(v45->size) = v76;
-        v56 = allocate_region(__PAIR64__(v76, v75));
-        goto LABEL_59;
-      }
-      LODWORD(v42->size) = v59;
-      v68 = v42->size;
-      HIDWORD(dwAllocationGranularity) = HIDWORD(min_buffer_size);
-      HIDWORD(v42->size) = HIDWORD(min_buffer_size);
-      LODWORD(dwAllocationGranularity) = v68;
-      v69 = allocate_region(dwAllocationGranularity);
-      v42->address = v69;
-      if ( !v69 )
-        return 0;
-      v33 = filler.m_regions < (vostok::buffer_vector<vostok::memory::platform::region> *)LODWORD(v47[-1].size);
-      v70 = (char *)filler.m_regions - LODWORD(v47[-1].size);
-      dwAllocationGranularity = SystemInfo.dwAllocationGranularity;
-      HIDWORD(v89) = (char *)filler.m_high_memory_regions - v33 - HIDWORD(v47[-1].size);
-      LODWORD(v89) = v70;
-      v71 = vostok::math::align_down<unsigned __int64>(v89, SystemInfo.dwAllocationGranularity);
-      HIDWORD(v88) = HIDWORD(v71);
-      v45->size = v71;
-      LODWORD(v88) = v71;
-      v72 = allocate_region(v88);
-    }
-    v45->address = v72;
-    if ( v72 )
-      return 1;
-    dwAllocationGranularity = v42->size;
-LABEL_61:
-    vostok::memory::platform::free_region(v42->address, dwAllocationGranularity);
-    result = 0;
-    v42->address = 0;
-    return result;
+LABEL_47:
+    v54 = v32->size;
+    v70.m_regions = 0;
+    LODWORD(v69) = v54;
+    HIDWORD(v69) = HIDWORD(v32->size);
+    v55 = HIDWORD(v69);
+    v56 = HIDWORD(v69);
+    HIDWORD(v69) &= ~0x80000000;
+    v70.m_high_memory_regions = (vostok::buffer_vector<vostok::memory::platform::region> *)(v55 & 0x80000000);
+    v57 = vostok::math::align_down<unsigned __int64>(
+            (unsigned __int64)(v42 * (double)__PAIR64__(v56, v69)),
+            allocation_granularity);
+    v28->size = v57;
+    LODWORD(v57) = v32->size;
+    v58 = HIDWORD(v32->size);
+    v59 = arenas;
+    v30->size = __PAIR64__(v58, v57) - __PAIR64__(HIDWORD(v57), v28->size);
+    v60 = allocate_region(v28->size, v59[-1].address);
+    v28->address = v60;
+    if ( !v60 )
+      return 0;
+    v37 = (vostok::buffer_vector<vostok::memory::platform::region> *)((char *)v59[-1].address + LODWORD(v28->size));
+LABEL_49:
+    address = v37;
+    goto LABEL_50;
   }
-  v48 = v42->size;
-  v49 = HIDWORD(v42->size);
-  HIDWORD(dwAllocationGranularity) = 4;
-  p_address = &v36[-1].address;
-  v51 = v36[-1].address;
-  HIDWORD(min_buffer_size) = v49;
-  v52 = VirtualAlloc(v51, v48, 0x3000u, 4u);
-  v42->address = v52;
-  if ( !v52 )
+  if ( v32->size >= v30->size )
+  {
+    v45 = HIDWORD(v28->size);
+    if ( *(_QWORD *)&v70 >= v28->size )
+    {
+      address = (vostok::buffer_vector<vostok::memory::platform::region> *)__first.m_end[-2].address;
+      *(_DWORD *)&v63[8] = v45;
+      *(_DWORD *)&v63[4] = v28->size;
+      v46 = allocate_region(*(unsigned __int64 *)&v63[4], address);
+      v28->address = v46;
+      if ( !v46 )
+        return 0;
+      goto LABEL_37;
+    }
+  }
+  if ( *(_QWORD *)&v70 + v32->size < *(_QWORD *)&v71 )
+  {
+    LODWORD(v28->size) = v70.m_regions;
+    v53 = v70.m_high_memory_regions;
+    HIDWORD(v28->size) = v70.m_high_memory_regions;
+    address = (vostok::buffer_vector<vostok::memory::platform::region> *)v32[-1].address;
+    *(_DWORD *)&v63[8] = v53;
+    *(_DWORD *)&v63[4] = v28->size;
+    v52 = allocate_region(*(unsigned __int64 *)&v63[4], address);
+    goto LABEL_45;
+  }
+  if ( v32->size <= v30->size )
+  {
+    v51 = vostok::math::align_down<unsigned __int64>(*(_QWORD *)&v71 - v32->size, allocation_granularity);
+    v28->size = v51;
+    v52 = allocate_region(v51, v32[-1].address);
+LABEL_45:
+    v28->address = v52;
+    if ( !v52 )
+      return 0;
+    LODWORD(v30->size) = v32->size;
+    HIDWORD(v30->size) = HIDWORD(v32->size);
+LABEL_37:
+    address = (vostok::buffer_vector<vostok::memory::platform::region> *)arenas[-1].address;
+LABEL_50:
+    v50 = allocate_region(v30->size, address);
+    goto LABEL_51;
+  }
+  LODWORD(v28->size) = v70.m_regions;
+  v47 = v70.m_high_memory_regions;
+  HIDWORD(v28->size) = v70.m_high_memory_regions;
+  address = (vostok::buffer_vector<vostok::memory::platform::region> *)v32[-1].address;
+  *(_DWORD *)&v63[8] = v47;
+  *(_DWORD *)&v63[4] = v28->size;
+  v48 = allocate_region(*(unsigned __int64 *)&v63[4], address);
+  v28->address = v48;
+  if ( !v48 )
     return 0;
-  v54 = v45->size;
-  v55 = (char *)*p_address + LODWORD(v42->size);
-  HIDWORD(min_buffer_size) = HIDWORD(v45->size);
-  v56 = VirtualAlloc(v55, v54, 0x3000u, 4u);
-LABEL_59:
-  v45->address = v56;
-  if ( !v56 )
+  v49 = vostok::math::align_down<unsigned __int64>(*(_QWORD *)&v71 - v32[-1].size, allocation_granularity);
+  LODWORD(v30->size) = v49;
+  LODWORD(v49) = arenas;
+  HIDWORD(v30->size) = HIDWORD(v49);
+  v62 = *(void **)(v49 - 8);
+  HIDWORD(v61) = HIDWORD(v49);
+  LODWORD(v61) = v30->size;
+  v50 = allocate_region(v61, v62);
+LABEL_51:
+  v30->address = v50;
+  if ( !v50 )
   {
-    dwAllocationGranularity = v42->size;
-    goto LABEL_61;
+    vostok::memory::platform::free_region(v28->size);
+    v28->address = 0;
+    return 0;
   }
   return 1;
 }

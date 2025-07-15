@@ -1,94 +1,125 @@
-void __thiscall survarium::inventory::setup_from_profile(
-        survarium::inventory *this,
+void __userpurge survarium::inventory::setup_from_profile(
+        survarium::inventory *this@<ecx>,
+        float a2@<xmm0>,
         survarium::player_profile *profile,
-        survarium::items_dictionary *dict)
+        int a4)
 {
-  survarium::game_camera *v3; // ecx
-  survarium::inventory_item *v4; // ecx
-  survarium::game_camera *v5; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v6; // ecx
-  const vostok::variant<32> **v7; // eax
-  vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v8; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v9; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v10; // ecx
-  const vostok::variant<32> **v11; // eax
-  const vostok::variant<32> **v12; // eax
-  survarium::inventory_item *v13; // ecx
-  vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v15; // [esp+1Ch] [ebp-3Ch]
-  vostok::ai::sound_player *object; // [esp+20h] [ebp-38h]
-  survarium::inventory_item *v17; // [esp+28h] [ebp-30h]
-  vostok::resources::resource_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base> *v18; // [esp+2Ch] [ebp-2Ch]
-  survarium::inventory *v19; // [esp+30h] [ebp-28h]
-  unsigned int k; // [esp+34h] [ebp-24h]
-  unsigned int amount; // [esp+38h] [ebp-20h]
-  vostok::resources::resource_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base> *iitem; // [esp+3Ch] [ebp-1Ch]
-  survarium::inventory *v23; // [esp+40h] [ebp-18h]
-  unsigned int j; // [esp+44h] [ebp-14h]
-  vostok::resources::resource_ptr<survarium::weapon_core,vostok::resources::unmanaged_intrusive_base> weapon; // [esp+48h] [ebp-10h] BYREF
-  survarium::profile_slot_enum current; // [esp+4Ch] [ebp-Ch]
-  unsigned int i; // [esp+50h] [ebp-8h]
-  survarium::profile_slot *slot; // [esp+54h] [ebp-4h]
+  __int32 v4; // ecx
+  _WORD *v5; // esi
+  survarium::empty_hands *m_object; // edi
+  survarium::inventory_item *v7; // ecx
+  __int32 v8; // eax
+  _DWORD *v9; // esi
+  int v10; // ecx
+  survarium::profile_slot_enum v11; // eax
+  bool v12; // zf
+  survarium::empty_hands *v13; // edi
+  unsigned int *v14; // esi
+  survarium::inventory_item *v15; // ecx
+  int v16; // ecx
+  int v17; // ecx
+  float v18; // xmm0_4
+  unsigned __int8 v19; // al
+  _DWORD *v20; // eax
+  unsigned __int8 v21; // [esp+17h] [ebp-11h]
+  unsigned __int8 m; // [esp+17h] [ebp-11h]
+  unsigned int i; // [esp+1Ch] [ebp-Ch]
+  unsigned int j; // [esp+1Ch] [ebp-Ch]
+  unsigned int k; // [esp+1Ch] [ebp-Ch]
+  vostok::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v26; // [esp+20h] [ebp-8h] BYREF
+  int v27; // [esp+24h] [ebp-4h]
 
   for ( i = 0; i < 2; ++i )
   {
-    current = weapon_slots[i];
-    slot = &profile->slots[current];
-    if ( profile->slots[current].item.id )
+    v4 = 16 * weapon_slots[i];
+    v5 = (_WORD *)(v4 + a4 + 72);
+    if ( *(_DWORD *)(v4 + a4 + 80) )
     {
-      v15 = (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)survarium::inventory::item_in_slot((survarium::inventory *)current, (int)this);
-      object = (vostok::ai::sound_player *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(v15);
-      vostok::resources::resource_ptr<vostok::ai::sound_player,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::ai::sound_player,vostok::resources::unmanaged_intrusive_base>(
-        (vostok::resources::resource_ptr<vostok::ai::sound_player,vostok::resources::unmanaged_intrusive_base> *)&weapon,
-        object);
-      survarium::weapon_user_dead_state::finalize(v3);
-      LOWORD(v4) = slot->item.condition_or_stack;
-      survarium::inventory_item::set_amount(v4, (int)weapon.m_object);
-      survarium::weapon_user_dead_state::finalize(v5);
-      weapon.m_object->m_load_ammo_on_next_activate = 1;
-      vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&weapon);
+      vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<survarium::weapon_core,vostok::resources::unmanaged_intrusive_base>,survarium::inventory_item,vostok::resources::unmanaged_intrusive_base>(
+        (const vostok::resources::resource_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base> *)&profile->slots[12].id
+      + weapon_slots[i],
+        (vostok::resources::resource_ptr<survarium::weapon_core,vostok::resources::unmanaged_intrusive_base> *)&v26);
+      m_object = v26.m_object;
+      LOWORD(v7) = *v5;
+      survarium::inventory_item::set_amount(v7, (int)&v26.m_object->vostok::resources::unmanaged_resource);
+      BYTE3(m_object[3].m_reconstruction_info_actuality_tick) = 1;
+      vostok::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v26);
     }
   }
-  for ( j = 0; j < 4; ++j )
+  for ( j = 0; j < 8; ++j )
   {
-    v23 = (survarium::inventory *)ammunition_slots[j];
-    slot = &profile->slots[(_DWORD)v23];
-    if ( profile->slots[(_DWORD)v23].item.id )
+    v8 = 16 * ammunition_slots[j];
+    v9 = (_DWORD *)(v8 + a4 + 72);
+    if ( *(_DWORD *)(v8 + a4 + 80) && *v9 )
     {
-      iitem = survarium::inventory::item_in_slot(v23, (int)this);
-      amount = vostok::math::min(slot->item.condition_or_stack, slot->item.amount_in_inventory);
-      v7 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v6, (int)iitem);
-      survarium::inventory_item::set_amount((survarium::inventory_item *)amount, (int)v7);
-      slot->item.amount_in_inventory -= amount;
+      survarium::inventory_item::set_amount(
+        (survarium::inventory_item *)(v9[1] + (*v9 < v9[1] ? *v9 - v9[1] : 0)),
+        *(&profile->slots[12].id + ammunition_slots[j]));
+      v9[1] -= v10;
     }
   }
-  for ( k = 0; k < 0xD; ++k )
+  for ( k = 0; k < 13; ++k )
   {
-    v19 = (survarium::inventory *)item_slots[k];
-    slot = &profile->slots[(_DWORD)v19];
-    if ( profile->slots[(_DWORD)v19].item.id )
+    v11 = item_slots[k];
+    v12 = *(_DWORD *)(16 * v11 + a4 + 80) == 0;
+    v27 = 16 * v11 + a4 + 72;
+    if ( !v12 )
     {
-      v18 = survarium::inventory::item_in_slot(v19, (int)this);
-      if ( vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator survarium::inventory_item * (__thiscall vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::*)(void)const(
-             v8,
-             v18) )
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v26,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&profile->slots[12].id
+      + v11);
+      v13 = v26.m_object;
+      if ( v26.m_object
+        && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
       {
-        if ( survarium::items_dictionary::item_by_id(dict, slot->item.dict_id)[283].gap0 )
+        v14 = (unsigned int *)v27;
+        if ( survarium::items_dictionary::item_by_id(
+               (survarium::items_dictionary *)profile->slots[12].amount_in_inventory,
+               (survarium::items_dictionary_vtbl *)*(unsigned __int16 *)(v27 + 12))->is_stack )
         {
-          v17 = (survarium::inventory_item *)vostok::math::min(
-                                               slot->item.condition_or_stack,
-                                               slot->item.amount_in_inventory);
-          v11 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v10, (int)v18);
-          survarium::inventory_item::set_amount(v17, (int)v11);
-          slot->item.amount_in_inventory -= (unsigned int)v17;
+          survarium::inventory_item::set_amount(
+            (survarium::inventory_item *)(v14[1] + ((*v14 - v14[1]) & ((*v14 - (unsigned __int64)v14[1]) >> 32))),
+            (int)v13);
+          v14[1] -= v16;
         }
         else
         {
-          v12 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v9, (int)v18);
-          HIWORD(v13) = HIWORD(slot);
-          LOWORD(v13) = slot->item.condition_or_stack;
-          survarium::inventory_item::set_amount(v13, (int)v12);
+          LOWORD(v15) = *(_WORD *)v14;
+          survarium::inventory_item::set_amount(v15, (int)v13);
         }
+        v13->on_player_model_removed(v13);
       }
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v26);
     }
   }
+  v21 = 13;
+  while ( 1 )
+  {
+    v17 = *(&profile->slots[12].id + v21);
+    if ( !v17 || (*(int (__thiscall **)(int))(*(_DWORD *)v17 + 68))(v17) )
+      break;
+    if ( ++v21 >= 0x13u )
+      goto LABEL_26;
+  }
+  v18 = survarium::player_params_modifiers_container::apply_modifier(
+          (survarium::player_params_modifiers_container *)(a4 + 448),
+          artefact_slots_modifier,
+          a2,
+          0.0,
+          1.0);
+  v19 = vostok::math::floor(v18);
+  LOBYTE(profile->slots[18].id) = 19 - v21 + (v19 < (unsigned __int8)(19 - v21) ? v19 - (19 - v21) : 0);
+  profile->slots[18].amount_in_inventory = (unsigned int)(&profile->slots[12].id + v21);
+LABEL_26:
+  for ( m = 0; m < LOBYTE(profile->slots[18].id); ++m )
+  {
+    v20 = (_DWORD *)(profile->slots[18].amount_in_inventory + 4 * m);
+    if ( *v20
+      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+    {
+      (*(void (__thiscall **)(_DWORD))(*(_DWORD *)*v20 + 48))(*v20);
+    }
+  }
+  LOBYTE(profile->slots[20].amount_in_inventory) = 1;
 }

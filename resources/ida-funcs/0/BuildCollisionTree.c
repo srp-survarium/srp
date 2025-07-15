@@ -4,43 +4,35 @@ void __cdecl BuildCollisionTree(
         unsigned int *current_id,
         const Opcode::AABBTreeNode *current_node)
 {
-  unsigned int v4; // ecx
-  const Opcode::AABBTreeNode *v5; // esi
-  Opcode::AABBCollisionNode *v6; // eax
-  unsigned int v7; // eax
-  unsigned int v8; // edi
+  unsigned int v4; // edx
+  Opcode::AABBCollisionNode *v5; // ecx
+  Opcode::AABBCollisionNode *i; // eax
+  unsigned int v8; // eax
   unsigned int v9; // esi
-  unsigned int v10; // eax
-  Opcode::AABBCollisionNode *v11; // eax
 
   v4 = box_id;
-  v5 = current_node;
-  linear[box_id].mAABB.mCenter.x = current_node->mBV.mCenter.x;
-  v6 = &linear[box_id];
-  v6->mAABB.mCenter.y = current_node->mBV.mCenter.y;
-  v6->mAABB.mCenter.z = current_node->mBV.mCenter.z;
-  for ( v6->mAABB.mExtents = current_node->mBV.mExtents; (v5->mPos & 0xFFFFFFFE) != 0; box_id = v8 )
+  v5 = linear;
+  for ( i = &linear[box_id]; ; i = &linear[v9] )
   {
-    v7 = *current_id;
-    v8 = *current_id + 1;
+    i->mAABB.mCenter.x = current_node->mBV.mCenter.x;
+    i->mAABB.mCenter.y = current_node->mBV.mCenter.y;
+    i->mAABB.mCenter.z = current_node->mBV.mCenter.z;
+    i->mAABB.mExtents.x = current_node->mBV.mExtents.x;
+    i->mAABB.mExtents.y = current_node->mBV.mExtents.y;
+    i->mAABB.mExtents.z = current_node->mBV.mExtents.z;
+    if ( (current_node->mPos & 0xFFFFFFFE) == 0 )
+      break;
+    v8 = *current_id;
+    v9 = *current_id + 1;
     *current_id += 2;
-    *(&linear->mData + 8 * v4 - box_id) = (unsigned int)&linear[v7];
-    BuildCollisionTree(linear, v7, current_id, (const Opcode::AABBTreeNode *)(v5->mPos & 0xFFFFFFFE));
-    v9 = v5->mPos & 0xFFFFFFFE;
-    if ( v9 )
-      v5 = (const Opcode::AABBTreeNode *)(v9 + 36);
-    else
-      v5 = 0;
-    v10 = v8;
-    linear[v10].mAABB.mCenter.x = v5->mBV.mCenter.x;
-    linear[v10].mAABB.mCenter.y = v5->mBV.mCenter.y;
-    v11 = &linear[v8];
-    v11->mAABB.mCenter.z = v5->mBV.mCenter.z;
-    v11 = (Opcode::AABBCollisionNode *)((char *)v11 + 12);
-    v11->mAABB.mCenter.x = v5->mBV.mExtents.x;
-    v11->mAABB.mCenter.y = v5->mBV.mExtents.y;
-    v4 = v8;
-    v11->mAABB.mCenter.z = v5->mBV.mExtents.z;
+    v5[box_id].mData = (unsigned int)&v5[v8];
+    BuildCollisionTree(v5, v8, current_id, (const Opcode::AABBTreeNode *)(current_node->mPos & 0xFFFFFFFE));
+    v5 = linear;
+    v4 = v9;
+    current_node = (current_node->mPos & 0xFFFFFFFE) != 0
+                 ? (const Opcode::AABBTreeNode *)((current_node->mPos & 0xFFFFFFFE) + 36)
+                 : 0;
+    box_id = v9;
   }
-  linear[v4].mData = (2 * *v5->mNodePrimitives) | 1;
+  v5[v4].mData = (2 * *current_node->mNodePrimitives) | 1;
 }

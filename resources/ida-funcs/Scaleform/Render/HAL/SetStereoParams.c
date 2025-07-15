@@ -3,11 +3,11 @@ void __thiscall Scaleform::Render::HAL::SetStereoParams(
         Scaleform::Render::StereoParams sParams)
 {
   if ( sParams.DisplayWidthCm == 0.0 )
-    sParams.DisplayWidthCm = sParams.DisplayDiagInches
-                           / sqrtf(
-                               (float)((float)(*(float *)&clear_value / sParams.DisplayAspectRatio)
-                                     * (float)(*(float *)&clear_value / sParams.DisplayAspectRatio))
-                             + *(float *)&clear_value)
+    sParams.DisplayWidthCm = (float)(sParams.DisplayDiagInches
+                                   / fsqrt(
+                                       (float)((float)(s_bm_current_air_resistance / sParams.DisplayAspectRatio)
+                                             * (float)(s_bm_current_air_resistance / sParams.DisplayAspectRatio))
+                                     + s_bm_current_air_resistance))
                            * 2.54;
-  this->Matrices.pObject->S3DParams = sParams;
+  qmemcpy(&this->Matrices.pObject->S3DParams, &sParams, sizeof(this->Matrices.pObject->S3DParams));
 }

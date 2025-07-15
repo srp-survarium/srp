@@ -1,8 +1,8 @@
 void __usercall btTriangleMeshShape::btTriangleMeshShape(
-        btTriangleMeshShape *this@<eax>,
+        btTriangleMeshShape *this@<esi>,
         btStridingMeshInterface *meshInterface@<edi>)
 {
-  btTriangleMeshShape *v3; // ecx
+  btTriangleMeshShape *v2; // ecx
 
   this->m_userPointer = 0;
   this->m_collisionMargin = 0.0;
@@ -12,5 +12,5 @@ void __usercall btTriangleMeshShape::btTriangleMeshShape(
   if ( meshInterface->hasPremadeAabb(meshInterface) )
     meshInterface->getPremadeAabb(meshInterface, &this->m_localAabbMin, &this->m_localAabbMax);
   else
-    btTriangleMeshShape::recalcLocalAabb(v3, (float *)this);
+    btTriangleMeshShape::recalcLocalAabb(v2, (float *)this);
 }

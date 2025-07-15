@@ -51,24 +51,29 @@ char __usercall Scaleform::GFx::GetGlyphShape_Scaleform::GFx::FontDataCompactedG
   float v50; // [esp+2Ch] [ebp-84h]
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v51; // [esp+30h] [ebp-80h] BYREF
   float v52; // [esp+34h] [ebp-7Ch]
-  Scaleform::GFx::Normalizer n; // [esp+38h] [ebp-78h]
-  int edge[5]; // [esp+3Ch] [ebp-74h] BYREF
-  Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261> > glyph; // [esp+50h] [ebp-60h] BYREF
-  Scaleform::Render::ShapePosInfo pos; // [esp+78h] [ebp-38h]
+  signed int v53; // [esp+38h] [ebp-78h]
+  int edge; // [esp+3Ch] [ebp-74h] BYREF
+  int v55; // [esp+40h] [ebp-70h]
+  int v56; // [esp+44h] [ebp-6Ch]
+  int v57; // [esp+48h] [ebp-68h]
+  int v58; // [esp+4Ch] [ebp-64h]
+  Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261> > v59; // [esp+50h] [ebp-60h] BYREF
+  int v60; // [esp+7Ch] [ebp-34h]
+  int v61; // [esp+80h] [ebp-30h]
 
   if ( glyphIndex >= font->CompactedFontValue.NumGlyphs )
     return 0;
   GlyphInfoTablePos = font->CompactedFontValue.GlyphInfoTablePos;
-  glyph.Data.Data = &font->Container;
+  v59.Data.Data = &font->Container;
   v5 = GlyphInfoTablePos + 8 * glyphIndex + 4;
   Data = font->CompactedFontValue.Decoder.Data->Data;
   Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::StartGlyph(
-    &glyph,
+    &v59,
     Data[v5] | ((Data[v5 + 1] | ((Data[v5 + 2] | (Data[v5 + 3] << 8)) << 8)) << 8));
   v7 = shape;
   v8 = shape->Data.Data.Size == 0;
   NominalSize = font->CompactedFontValue.NominalSize;
-  n.NominalSize = NominalSize;
+  v53 = NominalSize;
   if ( v8 )
   {
     if ( shape->Data.Data.Policy.Capacity )
@@ -83,17 +88,17 @@ char __usercall Scaleform::GFx::GetGlyphShape_Scaleform::GFx::FontDataCompactedG
     &shape->Data,
     0);
 LABEL_7:
-  v8 = glyph.NumContours == 0;
+  v8 = v59.NumContours == 0;
   shape->Data.Data.Size = 0;
   if ( !v8 )
   {
     v44 = (float)(unsigned int)NominalSize;
     while ( 1 )
     {
-      v10 = (glyph.MoveY << 10) / NominalSize;
+      v10 = (v59.MoveY << 10) / NominalSize;
       v45.Data = v7->pContainer;
       v11 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v45.Data;
-      v34 = (double)glyph.MoveX * 1024.0 / v44;
+      v34 = (double)v59.MoveX * 1024.0 / v44;
       v42 = (float)v10;
       Multiplier = v7->Multiplier;
       Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt15(
@@ -161,27 +166,27 @@ LABEL_7:
       v11->Size = v19;
       v20[v19 - 1] = 0;
       v22 = (int)v21;
-      pos.StartX = (int)v21;
+      v60 = (int)v21;
       Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteSInt30(
         &v45,
         (int)v21);
       v23 = (int)(v42 * Multiplier);
-      pos.StartY = v23;
+      v61 = v23;
       Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteSInt30(
         &v45,
         v23);
-      if ( glyph.NumEdges )
+      if ( v59.NumEdges )
       {
         do
         {
-          Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::ReadEdge(&glyph, edge);
-          if ( edge[0] == 2 )
+          Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::ReadEdge(&v59, &edge);
+          if ( edge == 2 )
           {
             v48 = v7->Multiplier;
             v47.Data = v7->pContainer;
-            v35 = (double)edge[1] * 1024.0 / v44;
+            v35 = (double)v55 * 1024.0 / v44;
             v24 = (int)(v35 * v48) - v22;
-            v36 = 1024.0 * (double)edge[2] / v44;
+            v36 = 1024.0 * (double)v56 / v44;
             v25 = (int)(v48 * v36) - v23;
             v37 = v25;
             if ( v25 )
@@ -214,13 +219,13 @@ LABEL_7:
           {
             v52 = v7->Multiplier;
             v51.Data = v7->pContainer;
-            v38 = (double)edge[3] * 1024.0 / v44;
+            v38 = (double)v57 * 1024.0 / v44;
             v26 = (int)(v38 * v52) - v22;
-            v39 = (double)edge[4] * 1024.0 / v44;
+            v39 = (double)v58 * 1024.0 / v44;
             v43 = (int)(v39 * v52) - v23;
-            v40 = (double)edge[2] * 1024.0 / v44;
+            v40 = (double)v56 * 1024.0 / v44;
             v32 = (int)(v40 * v52) - v23;
-            v41 = 1024.0 * (double)edge[1] / v44;
+            v41 = 1024.0 * (double)v55 / v44;
             Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteQuad(
               &v51,
               (int)(v52 * v41) - v22,
@@ -232,29 +237,29 @@ LABEL_7:
           }
           v7 = shape;
         }
-        while ( glyph.NumEdges );
+        while ( v59.NumEdges );
         pContainer = shape->pContainer;
         v50 = shape->Multiplier;
         v49.Data = pContainer;
-        if ( v22 != pos.StartX || v23 != pos.StartY )
+        if ( v22 != v60 || v23 != v61 )
         {
-          if ( pos.StartY == v23 )
+          if ( v61 == v23 )
           {
             Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteHLine(
               &v49,
-              pos.StartX - v22);
+              v60 - v22);
           }
           else
           {
-            v33 = pos.StartY - v23;
-            if ( pos.StartX == v22 )
+            v33 = v61 - v23;
+            if ( v60 == v22 )
               Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
                 &v49,
                 v33);
             else
               Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
                 &v49,
-                pos.StartX - v22,
+                v60 - v22,
                 v33);
           }
         }
@@ -279,11 +284,11 @@ LABEL_7:
         v28->Size = v29;
         v30[v29 - 1] = 15;
       }
-      --glyph.NumContours;
-      Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::readPathHeader(&glyph);
-      if ( !glyph.NumContours )
+      --v59.NumContours;
+      Scaleform::GFx::GlyphPathIterator<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::readPathHeader(&v59);
+      if ( !v59.NumContours )
         break;
-      NominalSize = n.NominalSize;
+      NominalSize = v53;
     }
   }
   if ( !v7->IsEmpty(v7) )

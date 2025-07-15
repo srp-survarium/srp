@@ -1,6 +1,6 @@
 int __cdecl str_copy(conf_st *conf, char *section, char **pto)
 {
-  char *from; // ecx
+  char *v3; // ecx
   int v4; // ebx
   char *v5; // esi
   buf_mem_st *v6; // edi
@@ -13,7 +13,7 @@ int __cdecl str_copy(conf_st *conf, char *section, char **pto)
   int v14; // edx
   char v15; // al
   unsigned __int8 v16; // al
-  char v17; // dl
+  unsigned __int8 v17; // dl
   char *v18; // eax
   char *v19; // edi
   int v20; // edx
@@ -22,7 +22,7 @@ int __cdecl str_copy(conf_st *conf, char *section, char **pto)
   _WORD *v23; // eax
   int v24; // edx
   int v25; // eax
-  const char *string; // ebp
+  char *string; // ebp
   char j; // al
   buf_mem_st *str; // [esp+Ch] [ebp-1Ch]
   int v29; // [esp+10h] [ebp-18h]
@@ -33,15 +33,15 @@ int __cdecl str_copy(conf_st *conf, char *section, char **pto)
   char *v34; // [esp+24h] [ebp-4h]
 
   v4 = 0;
-  v5 = from;
+  v5 = v3;
   v32 = 0;
-  v6 = BUF_MEM_new();
+  v6 = BUF_MEM_new(0);
   str = v6;
   if ( !v6 )
     return 0;
   if ( !BUF_MEM_grow(v6, strlen(v5) + 1) )
   {
-err_26:
+err_28:
     BUF_MEM_free(str);
     return 0;
   }
@@ -187,8 +187,8 @@ LABEL_36:
       {
         if ( v25 != v29 )
         {
-          ERR_put_error(0xEu, 101, 102, ".\\crypto\\conf\\conf_def.c", 599);
-          goto err_26;
+          ERR_put_error(v4, 0xEu, 101, 102, ".\\crypto\\conf\\conf_def.c", 599);
+          goto err_28;
         }
         ++v19;
       }
@@ -198,8 +198,8 @@ LABEL_36:
       *v34 = v33;
       if ( !string )
       {
-        ERR_put_error(0xEu, 101, 104, ".\\crypto\\conf\\conf_def.c", 618);
-        goto err_26;
+        ERR_put_error(v4, 0xEu, 101, 104, ".\\crypto\\conf\\conf_def.c", 618);
+        goto err_28;
       }
       BUF_MEM_grow_clean(str, (unsigned int)&v5[strlen(string) - (_DWORD)v19 + str->length]);
       for ( j = *string; *string; ++v4 )

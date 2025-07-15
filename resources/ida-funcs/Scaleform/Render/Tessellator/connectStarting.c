@@ -17,7 +17,7 @@ void __thiscall Scaleform::Render::Tessellator::connectStarting(
   Scaleform::Render::Tessellator::MonoVertexType *v15; // eax
   unsigned int prevIdx1; // ecx
   unsigned int i; // [esp+10h] [ebp-10h]
-  unsigned int ia; // [esp+10h] [ebp-10h]
+  unsigned int v18; // [esp+10h] [ebp-10h]
   Scaleform::Render::Tessellator::MonoVertexType val; // [esp+14h] [ebp-Ch] BYREF
   Scaleform::Render::Tessellator::BaseLineType *upperBasea; // [esp+28h] [ebp+8h]
 
@@ -75,13 +75,13 @@ void __thiscall Scaleform::Render::Tessellator::connectStarting(
     if ( v10 )
     {
       v11 = this->MonoVertices.Size >> 4;
-      ia = v11;
+      v18 = v11;
       if ( v11 >= this->MonoVertices.NumPages )
       {
         Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::FanEdgeType,4,16>::allocPage(
           &this->MonoVertices,
           v11);
-        v11 = ia;
+        v11 = v18;
       }
       v12 = this->MonoVertices.Pages[v11];
       v13 = this->MonoVertices.Size & 0xF;
@@ -113,8 +113,16 @@ LABEL_29:
   }
 LABEL_30:
   if ( srcVer >= 0 )
-    Scaleform::Render::Tessellator::connectStartingToRight(this, scan, v7, srcVer);
+    Scaleform::Render::Tessellator::connectStartingToRight(
+      this,
+      (Scaleform::Render::Tessellator::PendingEndType *)scan,
+      v7,
+      srcVer);
   else
-    Scaleform::Render::Tessellator::connectStartingToLeft(this, scan, v7, srcVer & 0xFFFFFFF);
+    Scaleform::Render::Tessellator::connectStartingToLeft(
+      this,
+      (Scaleform::Render::Tessellator::PendingEndType *)scan,
+      v7,
+      srcVer & 0xFFFFFFF);
   v7->numChains = 0;
 }

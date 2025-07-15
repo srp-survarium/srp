@@ -1,7 +1,7 @@
-int __cdecl _towlower_l(unsigned __int16 c, localeinfo_struct *plocinfo)
+int __cdecl _towlower_l(wchar_t c, localeinfo_struct *plocinfo)
 {
   int result; // eax
-  LCID v3; // edx
+  unsigned int v3; // edx
   bool v4; // zf
   _LocaleUpdate _loc_update; // [esp+0h] [ebp-14h] BYREF
   unsigned __int16 widechar; // [esp+10h] [ebp-4h] BYREF
@@ -15,7 +15,15 @@ int __cdecl _towlower_l(unsigned __int16 c, localeinfo_struct *plocinfo)
     {
       if ( c >= 0x100u )
       {
-        v4 = __crtLCMapStringW(&_loc_update.localeinfo, v3, 0x100u, &c, 1, &widechar, 1) == 0;
+        v4 = __crtLCMapStringW(
+               &_loc_update.localeinfo,
+               v3,
+               0x100u,
+               &c,
+               1,
+               &widechar,
+               1,
+               _loc_update.localeinfo.locinfo->lc_codepage) == 0;
         result = c;
         if ( !v4 )
           result = widechar;

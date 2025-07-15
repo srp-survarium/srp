@@ -1,12 +1,12 @@
 void __thiscall Scaleform::GFx::AS3::Class::InitPrototypeFromVTable(
         Scaleform::GFx::AS3::Class *this,
         Scaleform::GFx::AS3::Object *obj,
-        Scaleform::GFx::AS3::Value *(__thiscall *__ptr64 f)(Scaleform::GFx::AS3::Class *this, Scaleform::GFx::AS3::Value *result, const Scaleform::GFx::AS3::Value *))
+        Scaleform::GFx::AS3::Value *(__thiscall *__ptr64 f)(Scaleform::GFx::AS3::Class *this, Scaleform::GFx::AS3::Value *result, const Scaleform::GFx::AS3::Value *, const Scaleform::GFx::AS3::Traits *))
 {
-  Scaleform::GFx::AS3::Traits *v3; // ebx
+  Scaleform::GFx::AS3::Traits *v3; // ebp
   Scaleform::GFx::AS3::VTable *v4; // eax
   unsigned int FirstOwnSlotNum; // esi
-  int v6; // ebp
+  int v6; // ebx
   const Scaleform::GFx::AS3::SlotInfo *p_Value; // eax
   int v8; // edi
   Scaleform::GFx::ASStringNode *pObject; // esi
@@ -42,10 +42,11 @@ void __thiscall Scaleform::GFx::AS3::Class::InitPrototypeFromVTable(
                     (Scaleform::GFx::AS3::AbsoluteIndex)v6);
       v10 = (int)&vt->VTMethods.Data.Data[(32 * v8) >> 15];
       ++pObject->RefCount;
-      key.pSecond = (const Scaleform::GFx::AS3::Value *)((int (__thiscall *)(char *, Scaleform::GFx::AS3::Value *, int))f)(
+      key.pSecond = (const Scaleform::GFx::AS3::Value *)((int (__thiscall *)(char *, Scaleform::GFx::AS3::Value *, int, Scaleform::GFx::AS3::Traits *))f)(
                                                           (char *)this + HIDWORD(f),
                                                           &result,
-                                                          v10);
+                                                          v10,
+                                                          v3);
       v16 = 1;
       v17 = pObject;
       ++pObject->RefCount;

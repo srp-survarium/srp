@@ -1,25 +1,24 @@
-void __userpurge vostok::render::one_way_render_channel::one_way_render_channel(
-        vostok::render::one_way_render_channel *this@<ecx>,
-        int a2@<esi>,
-        vostok::memory::base_allocator *owner_allocator)
+void __usercall vostok::render::one_way_render_channel::one_way_render_channel(
+        vostok::render::one_way_render_channel *this@<edi>,
+        vostok::memory::base_allocator *owner_allocator@<eax>,
+        vostok::threading::event_tasks_unaware *a3@<ecx>)
 {
-  *(_DWORD *)a2 = 0;
-  *(_DWORD *)(a2 + 4) = -1;
-  *(_DWORD *)(a2 + 8) = -1;
-  *(_DWORD *)(a2 + 64) = 0;
-  *(_DWORD *)(a2 + 68) = 0;
-  *(_DWORD *)(a2 + 72) = -1;
-  *(_DWORD *)(a2 + 76) = -1;
-  *(_DWORD *)(a2 + 132) = 0;
-  *(_DWORD *)(a2 + 136) = owner_allocator;
-  *(_DWORD *)(a2 + 144) = CreateEventA(0, 0, 0, 0);
-  *(_DWORD *)(a2 + 152) = 0;
-  *(_DWORD *)(a2 + 160) = 0;
-  *(_DWORD *)(a2 + 164) = 0;
-  *(_DWORD *)(a2 + 168) = 0;
-  *(_DWORD *)(a2 + 172) = 0;
-  *(_DWORD *)(a2 + 176) = 0;
-  *(_BYTE *)(a2 + 180) = 0;
-  _InterlockedExchange((volatile __int32 *)(a2 + 8), GetCurrentThreadId());
-  _InterlockedExchange((volatile __int32 *)(a2 + 72), GetCurrentThreadId());
+  this->m_owner_allocator = owner_allocator;
+  this->m_channel.m_forward_queue.m_head = 0;
+  this->m_channel.m_forward_queue.m_pop_thread_id = -1;
+  this->m_channel.m_forward_queue.m_tail = 0;
+  this->m_channel.m_backward_queue.m_head = 0;
+  this->m_channel.m_backward_queue.m_push_thread_id = -1;
+  this->m_channel.m_backward_queue.m_pop_thread_id = -1;
+  this->m_channel.m_backward_queue.m_tail = 0;
+  vostok::threading::event_tasks_unaware::event_tasks_unaware(a3, (HANDLE *)&this->m_wait_form_command_event);
+  this->m_next_frame_commands_queue.m_size = 0;
+  this->m_next_frame_commands_queue.m_first = 0;
+  this->m_next_frame_commands_queue.m_last = 0;
+  this->m_scenes.m_object = 0;
+  this->m_scene_views.m_object = 0;
+  this->m_current_frame_id = 0;
+  this->m_process_next_frame_commands = 0;
+  _InterlockedExchange(&this->m_channel.m_forward_queue.m_pop_thread_id, GetCurrentThreadId());
+  _InterlockedExchange(&this->m_channel.m_backward_queue.m_push_thread_id, GetCurrentThreadId());
 }

@@ -9,8 +9,8 @@ bool __thiscall Scaleform::Render::ComplexMeshVertexOutput::BeginOutput(
   Scaleform::Render::MeshCache *pCache; // ecx
   Scaleform::Render::MeshCache::AllocResult v9; // eax
   BOOL WaitForCache; // [esp-8h] [ebp-28h]
-  Scaleform::Render::MeshCacheItem *batchData; // [esp+Ch] [ebp-14h] BYREF
-  Scaleform::Render::MeshCacheItem::MeshBaseContent mc; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::Render::MeshCacheItem *v11; // [esp+Ch] [ebp-14h] BYREF
+  _DWORD v12[4]; // [esp+10h] [ebp-10h] BYREF
 
   v4 = fills;
   p_pMesh = &this->pMesh;
@@ -25,18 +25,18 @@ bool __thiscall Scaleform::Render::ComplexMeshVertexOutput::BeginOutput(
          (unsigned int *)&vertexMatrix) )
   {
     WaitForCache = this->WaitForCache;
-    mc.HashKey = (unsigned int)*p_pMesh >> 5;
+    v12[3] = (unsigned int)*p_pMesh >> 5;
     pCache = this->pCache;
-    mc.Meshes.pData = &this->pMesh;
-    mc.Meshes.Size = 1;
-    mc.Meshes.StrideSize = 4;
+    v12[0] = &this->pMesh;
+    v12[1] = 1;
+    v12[2] = 4;
     v9 = pCache->AllocCacheItem(
            pCache,
-           &batchData,
+           &v11,
            &this->pVertexDataStart,
            &this->pIndexDataStart,
            Mesh_Complex,
-           &mc,
+           (Scaleform::Render::MeshCacheItem::MeshBaseContent *)v12,
            (unsigned int)fills,
            fillCount,
            (unsigned int)vertexMatrix,

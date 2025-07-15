@@ -1,5 +1,5 @@
 void __cdecl SEED_ofb128_encrypt(
-        const unsigned __int8 *in,
+        unsigned __int8 *in,
         unsigned __int8 *out,
         unsigned int len,
         const seed_key_st *ks,
@@ -12,6 +12,6 @@ void __cdecl SEED_ofb128_encrypt(
     len,
     ks,
     ivec,
-    num,
+    (unsigned int *)num,
     (void (__cdecl *)(const unsigned __int8 *, unsigned __int8 *, const void *))SEED_encrypt);
 }

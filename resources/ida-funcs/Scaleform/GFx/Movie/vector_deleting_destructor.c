@@ -17,7 +17,7 @@ Scaleform::GFx::Movie *__thiscall Scaleform::GFx::Movie::`vector deleting destru
 }
 
 
-void *__thiscall Scaleform::GFx::Movie::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::Movie *__thiscall Scaleform::GFx::Movie::`vector deleting destructor'(char *this, char a2)
 {
   return Scaleform::GFx::Movie::`vector deleting destructor'((Scaleform::GFx::Movie *)(this - 8), a2);
 }

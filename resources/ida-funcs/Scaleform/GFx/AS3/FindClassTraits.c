@@ -33,7 +33,7 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::FindClassTraits(
       v10 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
               vm,
               (const Scaleform::GFx::ASString *)&mn,
-              *(Scaleform::GFx::AS3::Instances::fl::Namespace **)(*v7 + 4 * v8),
+              *(const Scaleform::GFx::AS3::Instances::fl::Namespace **)(*v7 + 4 * v8),
               v9);
       v11 = (Scaleform::GFx::ASStringNode *)mn;
       --mn->Name.Bonus.pWeakProxy;

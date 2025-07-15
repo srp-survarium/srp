@@ -1,6 +1,6 @@
 unsigned int __thiscall Scaleform::Render::Text::DocView::GetLineLength(
         Scaleform::Render::Text::DocView *this,
-        signed int lineIndex,
+        unsigned int lineIndex,
         bool *phasNewLine)
 {
   Scaleform::Render::Text::LineBuffer *p_mLineBuffer; // esi
@@ -12,7 +12,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetLineLength(
     this->RTFlags &= 0xFCu;
   }
   p_mLineBuffer = &this->mLineBuffer;
-  if ( p_mLineBuffer && lineIndex < p_mLineBuffer->Lines.Data.Size && lineIndex >= 0 )
+  if ( p_mLineBuffer && lineIndex < p_mLineBuffer->Lines.Data.Size && (lineIndex & 0x80000000) == 0 )
   {
     if ( phasNewLine )
       *phasNewLine = Scaleform::Render::Text::LineBuffer::Line::HasNewLine(p_mLineBuffer->Lines.Data.Data[lineIndex]);

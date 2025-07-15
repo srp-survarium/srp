@@ -10,13 +10,13 @@ void __thiscall Scaleform::NumericBase::ULongLong2String(
   unsigned __int64 v9; // rcx
   char *v10; // ebp
   char v11; // bl
-  const char *chars; // [esp+18h] [ebp+10h]
+  const char *v12; // [esp+18h] [ebp+10h]
 
   if ( !separator || base != 10 || (v7 = 3, (*((_BYTE *)this + 5) & 0x7F) == 0) )
     v7 = 1000;
-  chars = "0123456789ABCDEF";
+  v12 = "0123456789ABCDEF";
   if ( (*((_BYTE *)this + 6) & 1) == 0 )
-    chars = "0123456789abcdef";
+    v12 = "0123456789abcdef";
   if ( base - 2 <= 0xE )
   {
     do
@@ -34,7 +34,7 @@ void __thiscall Scaleform::NumericBase::ULongLong2String(
         v7 = 3;
         *v10 = v11;
       }
-      *--this->ValueStr = chars[(unsigned __int8)v9];
+      *--this->ValueStr = v12[(unsigned __int8)v9];
       --v7;
     }
     while ( value );

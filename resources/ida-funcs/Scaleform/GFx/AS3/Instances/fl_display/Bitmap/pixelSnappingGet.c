@@ -12,15 +12,15 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Bitmap::pixelSnappin
     if ( v3 )
     {
       if ( v3 == 1 )
-        Scaleform::GFx::ASString::operator=(result, "auto");
+        Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"auto");
     }
     else
     {
-      Scaleform::GFx::ASString::operator=(result, "always");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"always");
     }
   }
   else
   {
-    Scaleform::GFx::ASString::operator=(result, "never");
+    Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"never");
   }
 }

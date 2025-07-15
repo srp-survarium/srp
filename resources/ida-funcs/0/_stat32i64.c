@@ -1,29 +1,32 @@
-int __cdecl _stat32i64(const char *name, _stat32i64 *buf)
+int __cdecl _stat32i64(char *name, _stat32i64 *buf)
 {
   const char *dwHighDateTime; // esi
-  unsigned int v3; // eax
-  unsigned __int8 *v4; // eax
-  const char *v5; // esi
-  int v6; // eax
-  int v7; // eax
-  int st_mtime; // eax
+  int v3; // eax
+  unsigned int v4; // eax
+  int v5; // eax
+  unsigned __int8 *v6; // eax
+  const char *v7; // esi
+  int v8; // eax
   int v9; // eax
-  __int64 v10; // rax
+  int st_mtime; // eax
+  int v11; // eax
+  __int64 v12; // rax
   DWORD LastError; // eax
   __int64 nFileSizeHigh; // [esp-10h] [ebp-284h]
-  char *v14; // [esp-4h] [ebp-278h]
-  int drive; // [esp+Ch] [ebp-268h]
-  _FILETIME LocalFTime; // [esp+10h] [ebp-264h] BYREF
+  void *v16; // [esp-4h] [ebp-278h]
+  unsigned int v17; // [esp+Ch] [ebp-268h]
+  _FILETIME LocalFileTime; // [esp+10h] [ebp-264h] BYREF
   _SYSTEMTIME SystemTime; // [esp+18h] [ebp-25Ch] BYREF
-  char *pBuf; // [esp+28h] [ebp-24Ch] BYREF
-  _WIN32_FIND_DATAA findbuf; // [esp+2Ch] [ebp-248h] BYREF
-  char pathbuf[260]; // [esp+16Ch] [ebp-108h] BYREF
+  void *pointer; // [esp+28h] [ebp-24Ch] BYREF
+  _WIN32_FIND_DATAA FindFileData; // [esp+2Ch] [ebp-248h] BYREF
+  char v22[260]; // [esp+16Ch] [ebp-108h] BYREF
 
   dwHighDateTime = name;
-  LocalFTime.dwHighDateTime = (unsigned int)name;
+  LocalFileTime.dwHighDateTime = (unsigned int)name;
   if ( name && buf )
   {
-    if ( _mbspbrk((const unsigned __int8 *)name, "?*") )
+    _mbspbrk((int)buf, (unsigned __int8 *)name, "?*");
+    if ( v3 )
     {
 LABEL_5:
       *_errno() = 2;
@@ -34,56 +37,57 @@ LABEL_5:
     {
       if ( *name && !name[2] )
         goto LABEL_5;
-      v3 = _mbctolower(*name) - 96;
+      v4 = _mbctolower(*name) - 96;
     }
     else
     {
-      v3 = _getdrive();
+      v4 = _getdrive();
     }
-    drive = v3;
-    pBuf = (char *)FindFirstFileA(name, &findbuf);
-    if ( pBuf == (char *)-1 )
+    v17 = v4;
+    pointer = FindFirstFileA(name, &FindFileData);
+    if ( pointer == (void *)-1 )
     {
-      pBuf = 0;
-      if ( !_mbspbrk((const unsigned __int8 *)name, "./\\") )
+      pointer = 0;
+      _mbspbrk((int)buf, (unsigned __int8 *)name, "./\\");
+      if ( !v5 )
         goto LABEL_5;
-      v4 = (unsigned __int8 *)fullpath_helper(pathbuf, name, 0x104u, &pBuf);
-      v5 = (const char *)v4;
-      if ( !v4 || (strlen(v4), v6 != 3) && !IsRootUNCName(v5) || GetDriveTypeA(v5) <= 1 )
+      v6 = (unsigned __int8 *)fullpath_helper(v22, name, 0x104u, (char **)&pointer);
+      v7 = (const char *)v6;
+      if ( !v6 || (strlen(v6), v8 != 3) && !IsRootUNCName(v7) || GetDriveTypeA(v7) <= 1 )
       {
-        if ( pBuf )
-          free(pBuf);
+        if ( pointer )
+          free(pointer);
         goto LABEL_5;
       }
-      if ( pBuf )
-        free(pBuf);
-      findbuf.dwFileAttributes = 16;
-      findbuf.nFileSizeHigh = 0;
-      findbuf.nFileSizeLow = 0;
-      findbuf.cFileName[0] = 0;
-      v7 = __loctotime32_t(1980, 1, 1, 0, 0, 0, -1);
-      dwHighDateTime = (const char *)LocalFTime.dwHighDateTime;
-      buf->st_mtime = v7;
-      buf->st_atime = v7;
-      buf->st_ctime = v7;
+      if ( pointer )
+        free(pointer);
+      FindFileData.dwFileAttributes = 16;
+      FindFileData.nFileSizeHigh = 0;
+      FindFileData.nFileSizeLow = 0;
+      FindFileData.cFileName[0] = 0;
+      v9 = __loctotime32_t(1980, 1, 1, 0, 0, 0, -1);
+      dwHighDateTime = (const char *)LocalFileTime.dwHighDateTime;
+      buf->st_mtime = v9;
+      buf->st_atime = v9;
+      buf->st_ctime = v9;
 LABEL_41:
-      buf->st_mode = __dtoxmode(findbuf.dwFileAttributes, dwHighDateTime);
-      nFileSizeHigh = findbuf.nFileSizeHigh;
+      buf->st_mode = __dtoxmode(FindFileData.dwFileAttributes, dwHighDateTime);
+      nFileSizeHigh = FindFileData.nFileSizeHigh;
       buf->st_nlink = 1;
-      v10 = findbuf.nFileSizeLow + (nFileSizeHigh << 32);
-      LODWORD(buf->st_size) = findbuf.nFileSizeLow;
+      v12 = FindFileData.nFileSizeLow + (nFileSizeHigh << 32);
+      LODWORD(buf->st_size) = FindFileData.nFileSizeLow;
       buf->st_ino = 0;
       buf->st_gid = 0;
       buf->st_uid = 0;
-      buf->st_dev = drive - 1;
-      buf->st_rdev = drive - 1;
-      HIDWORD(buf->st_size) = HIDWORD(v10);
+      buf->st_dev = v17 - 1;
+      buf->st_rdev = v17 - 1;
+      HIDWORD(buf->st_size) = HIDWORD(v12);
       return 0;
     }
-    if ( findbuf.ftLastWriteTime.dwLowDateTime || findbuf.ftLastWriteTime.dwHighDateTime )
+    if ( FindFileData.ftLastWriteTime.dwLowDateTime || FindFileData.ftLastWriteTime.dwHighDateTime )
     {
-      if ( !FileTimeToLocalFileTime(&findbuf.ftLastWriteTime, &LocalFTime)
-        || !FileTimeToSystemTime(&LocalFTime, &SystemTime) )
+      if ( !FileTimeToLocalFileTime(&FindFileData.ftLastWriteTime, &LocalFileTime)
+        || !FileTimeToSystemTime(&LocalFileTime, &SystemTime) )
       {
         goto LABEL_42;
       }
@@ -100,10 +104,10 @@ LABEL_41:
     {
       buf->st_mtime = 0;
     }
-    if ( findbuf.ftLastAccessTime.dwLowDateTime || findbuf.ftLastAccessTime.dwHighDateTime )
+    if ( FindFileData.ftLastAccessTime.dwLowDateTime || FindFileData.ftLastAccessTime.dwHighDateTime )
     {
-      if ( !FileTimeToLocalFileTime(&findbuf.ftLastAccessTime, &LocalFTime)
-        || !FileTimeToSystemTime(&LocalFTime, &SystemTime) )
+      if ( !FileTimeToLocalFileTime(&FindFileData.ftLastAccessTime, &LocalFileTime)
+        || !FileTimeToSystemTime(&LocalFileTime, &SystemTime) )
       {
         goto LABEL_42;
       }
@@ -121,35 +125,36 @@ LABEL_41:
       st_mtime = buf->st_mtime;
     }
     buf->st_atime = st_mtime;
-    if ( !findbuf.ftCreationTime.dwLowDateTime && !findbuf.ftCreationTime.dwHighDateTime )
+    if ( !FindFileData.ftCreationTime.dwLowDateTime && !FindFileData.ftCreationTime.dwHighDateTime )
     {
-      v9 = buf->st_mtime;
+      v11 = buf->st_mtime;
 LABEL_40:
-      v14 = pBuf;
-      buf->st_ctime = v9;
-      FindClose(v14);
+      v16 = pointer;
+      buf->st_ctime = v11;
+      FindClose(v16);
       goto LABEL_41;
     }
-    if ( FileTimeToLocalFileTime(&findbuf.ftCreationTime, &LocalFTime) && FileTimeToSystemTime(&LocalFTime, &SystemTime) )
+    if ( FileTimeToLocalFileTime(&FindFileData.ftCreationTime, &LocalFileTime)
+      && FileTimeToSystemTime(&LocalFileTime, &SystemTime) )
     {
-      v9 = __loctotime32_t(
-             SystemTime.wYear,
-             SystemTime.wMonth,
-             SystemTime.wDay,
-             SystemTime.wHour,
-             SystemTime.wMinute,
-             SystemTime.wSecond,
-             -1);
+      v11 = __loctotime32_t(
+              SystemTime.wYear,
+              SystemTime.wMonth,
+              SystemTime.wDay,
+              SystemTime.wHour,
+              SystemTime.wMinute,
+              SystemTime.wSecond,
+              -1);
       goto LABEL_40;
     }
 LABEL_42:
     LastError = GetLastError();
     _dosmaperr(LastError);
-    FindClose(pBuf);
+    FindClose(pointer);
     return -1;
   }
   *__doserrno() = 0;
   *_errno() = 22;
-  _invalid_parameter(0, 0, 0, 0, 0);
+  _invalid_parameter(0, (int)buf, (int)name);
   return -1;
 }

@@ -16,9 +16,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<2,Sc
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -36,19 +36,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<2,Sc
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[8].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 172;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 172;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -57,17 +57,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<2,Sc
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[8].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[8].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[8].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -90,9 +90,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<3,Sc
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -110,19 +110,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<3,Sc
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[8].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 176;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 176;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -131,17 +131,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<3,Sc
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[8].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[8].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[8].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -164,9 +164,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<4,Sc
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, char *@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, char *@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -184,19 +184,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<4,Sc
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[9].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 9;
+    *(_DWORD *)&v19.T.Type = pObject + 9;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -205,17 +205,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<4,Sc
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[9].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[9].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[9],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -238,9 +238,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<5,Sc
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -258,19 +258,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<5,Sc
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[9].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 184;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 184;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -279,17 +279,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<5,Sc
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[9].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[9].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[9].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -312,9 +312,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<9,Sc
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -332,19 +332,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<9,Sc
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[10].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 10;
+    *(_DWORD *)&v19.T.Type = pObject + 10;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -353,17 +353,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<9,Sc
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[10].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[10].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[10],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -386,9 +386,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<10,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -406,19 +406,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<10,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[10].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 204;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 204;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -427,17 +427,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<10,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[10].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[10].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[10].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -460,9 +460,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<16,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -480,19 +480,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<16,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     pMovieImpl = pObject[11].pMovieImpl;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 228;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 228;
     pLoadQueueHead = (unsigned int)pMovieImpl->pLoadQueueHead;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       pLoadQueueHead);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -501,17 +501,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<16,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[11].pMovieImpl;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[11].pMovieImpl;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[11].pMovieImpl,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -534,9 +534,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<17,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -554,19 +554,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<17,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[11].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 232;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 232;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -575,17 +575,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<17,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[11].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[11].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[11].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -608,9 +608,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<18,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(unsigned __int8 *@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(unsigned __int8 *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -628,19 +628,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<18,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[11].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 236;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 236;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -649,17 +649,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<18,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[11].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[11].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[11].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -682,9 +682,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<19,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -702,19 +702,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<19,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[12].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 12;
+    *(_DWORD *)&v19.T.Type = pObject + 12;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -723,17 +723,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<19,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[12].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[12].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[12],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -756,9 +756,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<20,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -776,19 +776,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<20,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[12].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 244;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 244;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -797,17 +797,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<20,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[12].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[12].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[12].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -830,9 +830,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<21,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -850,19 +850,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<21,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     pMovieImpl = pObject[12].pMovieImpl;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 248;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 248;
     pLoadQueueHead = (unsigned int)pMovieImpl->pLoadQueueHead;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       pLoadQueueHead);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -871,17 +871,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<21,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[12].pMovieImpl;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[12].pMovieImpl;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[12].pMovieImpl,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -904,9 +904,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<22,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(unsigned __int8 *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -924,19 +924,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<22,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[12].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 252;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 252;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -945,17 +945,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<22,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[12].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[12].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[12].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -978,9 +978,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<23,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -998,19 +998,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<23,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[12].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 256;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 256;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1019,17 +1019,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<23,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[12].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[12].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[12].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1054,7 +1054,7 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<24,S
   char v16; // [esp+13h] [ebp-19h] BYREF
   Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1072,19 +1072,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<24,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[13].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 13;
+    *(_DWORD *)&v19.T.Type = pObject + 13;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1093,17 +1093,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<24,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[13].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[13].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[13],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1126,9 +1126,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<25,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(unsigned __int8 *@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(unsigned __int8 *@<ebx>, Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1146,19 +1146,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<25,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[13].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 264;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 264;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1167,17 +1167,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<25,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[13].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[13].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[13].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1200,9 +1200,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<27,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1220,19 +1220,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<27,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[13].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 272;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 272;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1241,17 +1241,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<27,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[13].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[13].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[13].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1274,9 +1274,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<28,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1294,19 +1294,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<28,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[13].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 276;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 276;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1315,17 +1315,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<28,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[13].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[13].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[13].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1348,9 +1348,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<29,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1368,19 +1368,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<29,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[14].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 14;
+    *(_DWORD *)&v19.T.Type = pObject + 14;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1389,17 +1389,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<29,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[14].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[14].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[14],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1422,9 +1422,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<30,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1442,19 +1442,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<30,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[14].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 284;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 284;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1463,17 +1463,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<30,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[14].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[14].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[14].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1496,9 +1496,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<31,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1516,19 +1516,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<31,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     pMovieImpl = pObject[14].pMovieImpl;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 288;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 288;
     pLoadQueueHead = (unsigned int)pMovieImpl->pLoadQueueHead;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       pLoadQueueHead);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1537,17 +1537,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<31,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[14].pMovieImpl;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[14].pMovieImpl;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[14].pMovieImpl,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1570,9 +1570,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<32,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1590,19 +1590,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<32,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[14].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 292;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 292;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1611,17 +1611,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<32,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[14].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[14].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[14].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1644,9 +1644,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<33,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *(__cdecl *v17)(Scaleform::GFx::AS2::RefCountBaseGC<323> *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1664,19 +1664,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<33,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[14].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 296;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 296;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1685,17 +1685,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<33,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[14].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[14].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[14].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1718,9 +1718,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<37,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1738,19 +1738,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<37,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[15].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 312;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 312;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1759,17 +1759,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<37,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[15].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[15].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[15].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1792,9 +1792,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<38,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1812,19 +1812,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<38,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[15].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 316;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 316;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1833,17 +1833,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<38,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[15].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[15].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[15].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1866,9 +1866,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<39,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1886,19 +1886,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<39,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[16].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 16;
+    *(_DWORD *)&v19.T.Type = pObject + 16;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1907,17 +1907,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<39,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[16].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[16].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[16],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -1940,9 +1940,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<40,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -1960,19 +1960,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<40,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[16].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 324;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 324;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -1981,17 +1981,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<40,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[16].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[16].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[16].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2014,9 +2014,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<41,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2034,19 +2034,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<41,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     pMovieImpl = pObject[16].pMovieImpl;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 328;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 328;
     pLoadQueueHead = (unsigned int)pMovieImpl->pLoadQueueHead;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       pLoadQueueHead);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2055,17 +2055,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<41,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[16].pMovieImpl;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[16].pMovieImpl;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[16].pMovieImpl,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2088,9 +2088,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<42,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2108,19 +2108,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<42,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[16].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 332;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 332;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2129,17 +2129,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<42,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[16].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[16].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[16].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2162,9 +2162,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<43,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2182,19 +2182,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<43,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[16].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 336;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 336;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2203,17 +2203,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<43,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[16].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[16].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[16].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2236,9 +2236,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<44,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::LocalFrame **@<ebp>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2256,19 +2256,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<44,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[17].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 17;
+    *(_DWORD *)&v19.T.Type = pObject + 17;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2277,17 +2277,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<44,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[17].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[17].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[17],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2310,9 +2310,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<154,
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::FunctionRef *, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2330,19 +2330,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<154,
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[39].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 39;
+    *(_DWORD *)&v19.T.Type = pObject + 39;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2351,17 +2351,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<154,
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[39].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[39].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[39],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2384,9 +2384,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<11,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(int@<ebx>, int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__usercall *v17)@<eax>(const char *@<ebx>, Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2404,19 +2404,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<11,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     pMovieImpl = pObject[10].pMovieImpl;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 208;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 208;
     pLoadQueueHead = (unsigned int)pMovieImpl->pLoadQueueHead;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       pLoadQueueHead);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2425,17 +2425,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<11,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[10].pMovieImpl;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[10].pMovieImpl;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[10].pMovieImpl,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2458,9 +2458,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<12,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2478,19 +2478,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<12,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[10].pASSupport.pObject;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 212;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 212;
     RefCount = v10[1].RefCount;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       RefCount);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2499,17 +2499,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<12,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[10].pASSupport.pObject;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[10].pASSupport.pObject;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[10].pASSupport,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2532,9 +2532,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<13,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2552,19 +2552,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<13,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = *(_DWORD *)&pObject[10].AVMVersion;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 216;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 216;
     v11 = *(_DWORD *)(v10 + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2573,17 +2573,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<13,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = *(_DWORD *)&v15[10].AVMVersion;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = *(_DWORD *)&v15[10].AVMVersion;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[10].AVMVersion,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2606,9 +2606,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<14,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2626,19 +2626,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<14,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     v10 = pObject[11].__vftable;
-    *(_DWORD *)&key.T.Type = pObject + 11;
+    *(_DWORD *)&v19.T.Type = pObject + 11;
     CheckAvm = (unsigned int)v10->CheckAvm;
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       CheckAvm);
     if ( v18 )
     {
       RefCount = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2647,17 +2647,17 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<14,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = (int)v15[11].__vftable;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = (int)v15[11].__vftable;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[11],
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }
 
@@ -2680,9 +2680,9 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<15,S
   Scaleform::GFx::MovieImpl *v14; // edx
   Scaleform::GFx::ASMovieRootBase *v15; // eax
   char v16; // [esp+13h] [ebp-19h] BYREF
-  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(int, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::FunctionRef *(__cdecl *v17)(Scaleform::GFx::AS2::ASBuiltinType, Scaleform::GFx::AS2::GlobalContext *); // [esp+14h] [ebp-18h] BYREF
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v18; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value key; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+1Ch] [ebp-10h] BYREF
 
   pMovieRoot = this->pMovieRoot;
   pTable = this->BuiltinClassesRegistry.mHash.pTable;
@@ -2700,19 +2700,19 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<15,S
     v18 = 0;
     pObject = pMovieRoot->pASMovieRoot.pObject;
     RefCount = pObject[11].RefCount;
-    *(_DWORD *)&key.T.Type = (char *)pObject + 224;
+    *(_DWORD *)&v19.T.Type = (char *)pObject + 224;
     v11 = *(_DWORD *)(RefCount + 16);
-    key.NV.Int32Value = (int)&v17;
+    v19.NV.Int32Value = (int)&v17;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_BuiltinClassesRegistry->mHash,
       (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> *)p_BuiltinClassesRegistry,
-      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&key,
+      (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext::ClassRegEntry,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&v19,
       v11);
     if ( v18 )
     {
       v12 = v18->RefCount;
       v13 = v18;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
         v18->RefCount = v12 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v13);
@@ -2721,16 +2721,16 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::AddBuiltinClassRegistry<15,S
     v14 = this->pMovieRoot;
     v16 = 0;
     v15 = v14->pASMovieRoot.pObject;
-    key.T.Type = 11;
-    key.NV.Int32Value = v15[11].RefCount;
-    ++*(_DWORD *)(key.NV.Int32Value + 12);
+    v19.T.Type = 11;
+    v19.NV.Int32Value = v15[11].RefCount;
+    ++*(_DWORD *)(v19.NV.Int32Value + 12);
     pdest->SetMemberRaw(
       &pdest->Scaleform::GFx::AS2::ObjectInterface,
       sc,
       (const Scaleform::GFx::ASString *)&this->pMovieRoot->pASMovieRoot.pObject[11].RefCount,
-      &key,
+      &v19,
       (const Scaleform::GFx::AS2::PropFlags *)&v16);
-    if ( key.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&key);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
   }
 }

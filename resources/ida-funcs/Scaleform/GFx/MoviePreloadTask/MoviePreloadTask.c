@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::MoviePreloadTask::MoviePreloadTask(
   const Scaleform::String *UrlStrGfx; // eax
   void *v13; // edi
   Scaleform::String result; // [esp+10h] [ebp-4h] BYREF
-  Scaleform::GFx::Resource *urla; // [esp+1Ch] [ebp+8h]
+  Scaleform::String *src; // [esp+1Ch] [ebp+8h]
 
   this->__vftable = (Scaleform::GFx::MoviePreloadTask_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->__vftable = (Scaleform::GFx::MoviePreloadTask_vtbl *)&Scaleform::GFx::Task::`vftable';
@@ -31,9 +31,9 @@ void __thiscall Scaleform::GFx::MoviePreloadTask::MoviePreloadTask(
   v6 = (Scaleform::GFx::LoadStates *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 80, 0);
   if ( v6 )
   {
-    urla = (Scaleform::GFx::Resource *)pmovieRoot->pMainMovieDef.pObject->pLoaderImpl.pObject;
+    src = (Scaleform::String *)pmovieRoot->pMainMovieDef.pObject->pLoaderImpl.pObject;
     v7 = (Scaleform::GFx::StateBag *)pmovieRoot->GetStateBagImpl(&pmovieRoot->Scaleform::GFx::StateBag);
-    Scaleform::GFx::LoadStates::LoadStates(v6, urla, v7, 0);
+    Scaleform::GFx::LoadStates::LoadStates(v6, (Scaleform::GFx::Resource *)src, v7, 0);
     v9 = v8;
   }
   else
@@ -48,7 +48,7 @@ void __thiscall Scaleform::GFx::MoviePreloadTask::MoviePreloadTask(
       | pmovieRoot->pMainMovieDef.pObject->pBindData.pObject->LoadFlags & 0xFFFFFFFC;
   this->LoadFlags = v11;
   if ( quietOpen )
-    this->LoadFlags = v11 | 0x200000;
+    this->LoadFlags = (unsigned int)&loc_200000 | v11;
   Scaleform::GFx::MovieImpl::GetMainMoviePath(pmovieRoot, &this->Level0Path);
   if ( stripped )
   {

@@ -20,10 +20,7 @@ void __thiscall Scaleform::GFx::AS3::Impl::SparseArray::Pick(
       Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::Resize(
         &this->ValueA.Data,
         Size + num);
-      memcpy(
-        (unsigned __int8 *)&p_ValueA->Data.Data[Size],
-        (unsigned __int8 *)&x->pCurrent[-(unsigned __int16)(num - 1)],
-        16 * num);
+      memcpy((int)&p_ValueA->Data.Data[Size], (const __m128i *)&x->pCurrent[-(unsigned __int16)(num - 1)], 16 * num);
       x->pCurrent -= num;
       this->Length = this->ValueA.Data.Size;
     }

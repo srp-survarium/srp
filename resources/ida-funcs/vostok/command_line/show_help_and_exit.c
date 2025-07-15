@@ -1,280 +1,232 @@
-void __cdecl vostok::command_line::show_help_and_exit()
+int vostok::command_line::show_help_and_exit()
 {
   void *v0; // esp
-  void (__cdecl *v1)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  unsigned int v2; // eax
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::command_line::key **v4; // eax
-  vostok::command_line::key **v5; // ecx
-  vostok::command_line::key *v6; // edi
-  const char *m_category; // ecx
-  char *m_begin; // edx
-  char *m_end; // eax
-  char *v10; // ecx
-  char *v11; // esi
-  char *v12; // eax
+  vostok::command_line::key **p_m_first; // esi
+  vostok::threading::mutex_tasks_unaware *v2; // ebx
+  vostok::command_line::key *v3; // esi
+  vostok::command_line::key **v4; // esi
+  vostok::command_line::key **v5; // edi
+  int v6; // eax
+  int v7; // ecx
+  unsigned int v8; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v9; // ecx
+  vostok::fixed_string<512> *v10; // ecx
+  vostok::command_line::key **v11; // eax
+  const char *v12; // esi
   char *v13; // esi
-  void (__cdecl *v14)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v15)(char *, char *, int); // eax
-  const char *m_short_name; // eax
-  const char *m_full_name; // ecx
-  char **p_m_max_end; // esi
-  void (__cdecl *v19)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // edi
-  void (__cdecl *v20)(char *, char *, int); // eax
+  char *m_begin; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v15; // ecx
+  const char *v16; // eax
+  vostok::buffer_string *v17; // ecx
+  bool v18; // zf
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v19; // ecx
   const char *v21; // [esp-8h] [ebp-8C0h]
-  _BYTE v22[16]; // [esp+0h] [ebp-8B8h] BYREF
-  vostok::buffer_string v23; // [esp+10h] [ebp-8A8h] BYREF
-  _BYTE v24[512]; // [esp+1Ch] [ebp-89Ch] BYREF
-  char v25; // [esp+21Ch] [ebp-69Ch] BYREF
-  vostok::buffer_string v26; // [esp+220h] [ebp-698h] BYREF
-  _BYTE v27[512]; // [esp+22Ch] [ebp-68Ch] BYREF
-  char v28; // [esp+42Ch] [ebp-48Ch] BYREF
-  vostok::buffer_string string; // [esp+430h] [ebp-488h] BYREF
-  _BYTE v30[512]; // [esp+43Ch] [ebp-47Ch] BYREF
-  char v31; // [esp+63Ch] [ebp-27Ch] BYREF
-  vostok::buffer_string v32; // [esp+640h] [ebp-278h] BYREF
-  _BYTE v33[512]; // [esp+64Ch] [ebp-26Ch] BYREF
-  char v34; // [esp+84Ch] [ebp-6Ch] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v22; // [esp-4h] [ebp-8BCh]
+  vostok::buffer_string *v23; // [esp-4h] [ebp-8BCh]
+  vostok::buffer_string *v24; // [esp-4h] [ebp-8BCh]
+  _DWORD v25[4]; // [esp+0h] [ebp-8B8h] BYREF
+  vostok::buffer_string v26; // [esp+10h] [ebp-8A8h] BYREF
+  char *format[3]; // [esp+220h] [ebp-698h] BYREF
+  _BYTE v28[512]; // [esp+22Ch] [ebp-68Ch] BYREF
+  char v29; // [esp+42Ch] [ebp-48Ch] BYREF
+  _DWORD v30[3]; // [esp+430h] [ebp-488h] BYREF
+  _BYTE v31[512]; // [esp+43Ch] [ebp-47Ch] BYREF
+  char v32; // [esp+63Ch] [ebp-27Ch] BYREF
+  vostok::buffer_string out_dest; // [esp+640h] [ebp-278h] BYREF
+  _BYTE v34[512]; // [esp+64Ch] [ebp-26Ch] BYREF
+  char v35; // [esp+84Ch] [ebp-6Ch] BYREF
   boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+850h] [ebp-68h] BYREF
-  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy> v36; // [esp+874h] [ebp-44h] BYREF
-  vostok::command_line::key **v37; // [esp+8A4h] [ebp-14h]
-  vostok::command_line::key **__first; // [esp+8A8h] [ebp-10h] BYREF
-  vostok::command_line::key **__last; // [esp+8ACh] [ebp-Ch]
-  vostok::command_line::key *v40; // [esp+8B0h] [ebp-8h]
-  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::void_predicate_ref<vostok::command_line::command_line_key_adder> pred; // [esp+8B4h] [ebp-4h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v37; // [esp+870h] [ebp-48h] BYREF
+  vostok::command_line::command_line_key_adder v38; // [esp+894h] [ebp-24h] BYREF
+  char *right; // [esp+8A0h] [ebp-18h]
+  vostok::command_line::key **__first; // [esp+8A4h] [ebp-14h] BYREF
+  vostok::command_line::key **__last; // [esp+8A8h] [ebp-10h]
+  _DWORD *v42; // [esp+8ACh] [ebp-Ch]
+  vostok::command_line::key_compare_predicate __comp[4]; // [esp+8B0h] [ebp-8h]
+  const char *m_next_key; // [esp+8B4h] [ebp-4h]
 
-  v0 = alloca(4 * s_command_line_keys_count);
-  __first = (vostok::command_line::key **)v22;
-  __last = (vostok::command_line::key **)v22;
-  v36.m_size = (unsigned int)&__first;
-  *((_DWORD *)&v36.vostok::size_policy + 1) = 0;
-  LODWORD(v36.m_mutex[0]) = 0;
-  pred.m_predicate_ref = (vostok::command_line::command_line_key_adder *)&v36;
-  vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::for_each<vostok::intrusive_list<vostok::command_line::key,vostok::command_line::key *,552,vostok::threading::mutex_tasks_unaware,vostok::size_policy,vostok::no_debug_policy>::void_predicate_ref<vostok::command_line::command_line_key_adder>>(
-    &v36,
-    (int)s_command_line_keys,
-    &pred);
-  LOBYTE(pred.m_predicate_ref) = 0;
-  stlp_std::sort<vostok::command_line::key * *,vostok::command_line::key_compare_predicate>(__first, __last, 0);
-  v23.m_begin = v24;
-  v23.m_end = v24;
-  v23.m_max_end = &v25;
-  v24[0] = 0;
-  vostok::buffer_string::assignf(
-    &v23,
-    "    %%-%ds  %%s %%s",
-    LODWORD(v36.m_mutex[0]) + *((_DWORD *)&v36.vostok::size_policy + 1) + 5);
-  v1 = vostok::core::g_log_callback;
-  log_callback.vtable = 0;
-  if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-    `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-      &log_callback.functor,
-      &log_callback.functor,
-      destroy_functor_tag);
-  if ( v1 )
+  v0 = alloca(4 * HIDWORD(s_command_line_keys_creation.m_mutex[0]));
+  __first = (vostok::command_line::key **)v25;
+  __last = (vostok::command_line::key **)v25;
+  v38.keys_ = (vostok::buffer_vector<vostok::command_line::key *> *)&__first;
+  v42 = &v25[HIDWORD(s_command_line_keys_creation.m_mutex[0])];
+  p_m_first = &s_command_line_keys->m_first;
+  v38.longest_short_key_name = 0;
+  v38.longest_full_key_name = 0;
+  if ( s_command_line_keys->m_first )
   {
-    log_callback.functor.obj_ptr = v1;
-    log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                 + 1);
+    v2 = &s_command_line_keys->vostok::threading::mutex_tasks_unaware;
+    EnterCriticalSection((LPCRITICAL_SECTION)&s_command_line_keys->vostok::threading::mutex_tasks_unaware);
+    v3 = *p_m_first;
+    if ( v3 )
+    {
+      do
+      {
+        m_next_key = (const char *)v3->m_next_key;
+        vostok::command_line::command_line_key_adder::operator()(&v38, v3);
+        v3 = (vostok::command_line::key *)m_next_key;
+      }
+      while ( m_next_key );
+    }
+    LeaveCriticalSection((LPCRITICAL_SECTION)v2);
   }
-  else
+  v4 = __first;
+  __comp[0] = 0;
+  v5 = __last;
+  if ( __first != __last )
   {
-    log_callback.vtable = 0;
+    v6 = __last - __first;
+    v7 = 0;
+    while ( v6 != 1 )
+    {
+      ++v7;
+      v6 >>= 1;
+    }
+    stlp_std::priv::__introsort_loop<vostok::command_line::key * *,vostok::command_line::key *,int,vostok::command_line::key_compare_predicate>(
+      (vostok::command_line::key_compare_predicate *)__last,
+      __first,
+      __last,
+      0,
+      2 * v7,
+      *(vostok::command_line::key ***)__comp);
+    stlp_std::priv::__final_insertion_sort<vostok::command_line::key * *,vostok::command_line::key_compare_predicate>(
+      v4,
+      v5,
+      *(vostok::command_line::key **)__comp);
   }
+  format[0] = v28;
+  format[1] = v28;
+  format[2] = &v29;
+  v28[0] = 0;
+  vostok::fs_new::path_string_impl::assignf(
+    (int)format,
+    (vostok::buffer_string *)v38.longest_short_key_name,
+    (vostok::buffer_string *)&stru_8027D4,
+    (const char *)(v38.longest_full_key_name + v38.longest_short_key_name + 5));
+  boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+    v22,
+    &log_callback);
   v21 = s_build_date;
-  v2 = build_id(s_build_date);
+  v8 = build_id((char *)s_build_date);
   vostok::logging::append(
     &log_callback,
     (void *const)1,
-    &vostok::logging::format_message,
+    (vostok::logging::log_format *)&vostok::logging::format_message,
     ".\\command_line.cpp",
-    0x1C7u,
+    0x1C8u,
     "void __cdecl vostok::command_line::show_help_and_exit(void)",
     "core:",
     info,
-    "               Vostok Engine v0.1, build %d, %s\n"
+    "               Vostok Engine v0.20e, build %d, %s\n"
     "                  Copyright(C) Vostok Games - 2013\n"
     "      Finger print info: %s",
-    v2,
+    v8,
     v21,
-    (const char *)&vostok::memory::g_crt_allocator.m_arena_start);
-  if ( log_callback.vtable )
+    (const char *)&s_command_line_keys_creation.m_mutex[2]);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v9,
+    (int *)&log_callback);
+  v11 = __first;
+  right = (char *)uri;
+  *(_DWORD *)__comp = __first;
+  while ( v11 != __last )
   {
-    if ( ((int)log_callback.vtable & 1) == 0 )
+    v12 = **(const char ***)__comp;
+    m_next_key = **(const char ***)__comp;
+    if ( *(vostok::command_line::key ***)__comp == __first
+      || vostok::strings::compare(*((const char **)v12 + 134), right) )
     {
-      v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-      if ( v3 )
-        v3(&log_callback.functor, &log_callback.functor, 2);
-    }
-    log_callback.vtable = 0;
-  }
-  v4 = __first;
-  v5 = __first;
-  pred.m_predicate_ref = (vostok::command_line::command_line_key_adder *)&buf;
-  v37 = __first;
-  if ( __first != __last )
-  {
-    while ( 1 )
-    {
-      v6 = *v5;
-      v40 = *v5;
-      if ( v5 == v4 || strcmp(v6->m_category, (const char *)pred.m_predicate_ref) )
-      {
-        m_category = v6->m_category;
-        if ( !*m_category )
-          m_category = "global";
-        m_begin = v33;
-        m_end = v33;
-        v32.m_begin = v33;
-        v32.m_end = v33;
-        v32.m_max_end = &v34;
-        v33[0] = 0;
-        if ( m_category )
-        {
-          for ( ; *m_category; ++v32.m_end )
-          {
-            if ( m_end >= v32.m_max_end )
-              break;
-            v6 = v40;
-            *m_end = *m_category;
-            m_end = v32.m_end + 1;
-            ++m_category;
-          }
-          *m_end = 0;
-          m_end = v32.m_end;
-          m_begin = v32.m_begin;
-        }
-        string.m_begin = v30;
-        string.m_max_end = &v31;
-        v10 = v30;
-        string.m_end = v30;
-        v30[0] = 0;
-        v11 = &m_begin[m_end != m_begin];
-        v12 = m_begin;
-        if ( m_begin != v11 )
-        {
-          do
-          {
-            *v10 = *v12++;
-            v10 = ++string.m_end;
-          }
-          while ( v12 != v11 );
-          v6 = v40;
-        }
-        *v10 = 0;
-        if ( string.m_end != string.m_begin )
-          _strupr_s(string.m_begin, string.m_end - string.m_begin + 1);
-        v13 = vostok::buffer_string::operator[](&string, 0);
-        *vostok::buffer_string::operator[](&v32, 0) = *v13;
-        v14 = vostok::core::g_log_callback;
-        HIDWORD(v36.m_mutex[0]) = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            (const boost::detail::function::function_buffer *)((char *)&v36.m_mutex[1] + 4),
-            (boost::detail::function::function_buffer *)((char *)&v36.m_mutex[1] + 4),
-            destroy_functor_tag);
-        if ( v14 )
-        {
-          HIDWORD(v36.m_mutex[1]) = v14;
-          HIDWORD(v36.m_mutex[0]) = (char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                  + 1;
-        }
-        else
-        {
-          HIDWORD(v36.m_mutex[0]) = 0;
-        }
-        vostok::logging::append(
-          (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)((char *)v36.m_mutex + 4),
-          (void *const)1,
-          &vostok::logging::format_message,
-          ".\\command_line.cpp",
-          0x1D8u,
-          "void __cdecl vostok::command_line::show_help_and_exit(void)",
-          "core:",
-          info,
-          "\n%s options: ",
-          v32.m_begin);
-        if ( HIDWORD(v36.m_mutex[0]) )
-        {
-          if ( (v36.m_mutex[0] & 0x100000000LL) == 0 )
-          {
-            v15 = *(void (__cdecl **)(char *, char *, int))(HIDWORD(v36.m_mutex[0]) & 0xFFFFFFFE);
-            if ( v15 )
-              v15((char *)&v36.m_mutex[1] + 4, (char *)&v36.m_mutex[1] + 4, 2);
-          }
-        }
-        pred.m_predicate_ref = (vostok::command_line::command_line_key_adder *)v6->m_category;
-      }
-      v26.m_begin = v27;
-      v26.m_end = v27;
-      v26.m_max_end = &v28;
-      v27[0] = 0;
-      m_short_name = v6->m_short_name;
-      if ( !*m_short_name )
-        goto LABEL_42;
-      m_full_name = v6->m_full_name;
-      if ( *m_full_name )
-      {
-        vostok::buffer_string::assignf(&v26, "-%s [-%s]", m_full_name, m_short_name);
-        goto LABEL_44;
-      }
-      if ( !*m_short_name )
-LABEL_42:
-        m_short_name = v6->m_full_name;
-      vostok::buffer_string::assignf(&v26, "-%s", m_short_name);
-LABEL_44:
-      if ( *v6->m_argument_description )
-        vostok::buffer_string::appendf((vostok::buffer_string *)&stru_95963C, v6->m_argument_description);
-      p_m_max_end = &stru_95963C.m_max_end;
-      if ( !*v6->m_description )
-        p_m_max_end = (char **)&buf;
-      v19 = vostok::core::g_log_callback;
-      HIDWORD(v36.m_mutex[0]) = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          (const boost::detail::function::function_buffer *)((char *)&v36.m_mutex[1] + 4),
-          (boost::detail::function::function_buffer *)((char *)&v36.m_mutex[1] + 4),
-          destroy_functor_tag);
-      if ( v19 )
-      {
-        HIDWORD(v36.m_mutex[1]) = v19;
-        HIDWORD(v36.m_mutex[0]) = (char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                + 1;
-      }
-      else
-      {
-        HIDWORD(v36.m_mutex[0]) = 0;
-      }
+      v13 = (char *)*((_DWORD *)v12 + 134);
+      if ( !*v13 )
+        v13 = "global";
+      vostok::fixed_string<512>::fixed_string<512>(v10, &v26, v13);
+      out_dest.m_begin = v34;
+      out_dest.m_end = v34;
+      out_dest.m_max_end = &v35;
+      v34[0] = 0;
+      vostok::buffer_string::substr(0, (char *)1, &out_dest, &v26);
+      if ( out_dest.m_end != out_dest.m_begin )
+        _strupr_s(out_dest.m_begin, out_dest.m_end - out_dest.m_begin + 1);
+      m_begin = v26.m_begin;
+      *v26.m_begin = *out_dest.m_begin;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)m_begin,
+        &v37);
       vostok::logging::append(
-        (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)((char *)v36.m_mutex + 4),
+        &v37,
         (void *const)1,
-        &vostok::logging::format_message,
+        (vostok::logging::log_format *)&vostok::logging::format_message,
         ".\\command_line.cpp",
-        0x1E8u,
+        0x1D9u,
         "void __cdecl vostok::command_line::show_help_and_exit(void)",
         "core:",
         info,
-        v23.m_begin,
-        v26.m_begin,
-        p_m_max_end,
-        v40->m_description);
-      if ( HIDWORD(v36.m_mutex[0]) )
-      {
-        if ( (v36.m_mutex[0] & 0x100000000LL) == 0 )
-        {
-          v20 = *(void (__cdecl **)(char *, char *, int))(HIDWORD(v36.m_mutex[0]) & 0xFFFFFFFE);
-          if ( v20 )
-            v20((char *)&v36.m_mutex[1] + 4, (char *)&v36.m_mutex[1] + 4, 2);
-        }
-        HIDWORD(v36.m_mutex[0]) = 0;
-      }
-      if ( ++v37 == __last )
-        break;
-      v4 = __first;
-      v5 = v37;
+        "\n%s options: ",
+        v26.m_begin);
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        v15,
+        (int *)&v37);
+      v12 = m_next_key;
+      right = (char *)*((_DWORD *)m_next_key + 134);
     }
+    v30[0] = v31;
+    v30[1] = v31;
+    v30[2] = &v32;
+    v31[0] = 0;
+    v16 = (const char *)*((_DWORD *)v12 + 133);
+    if ( !*v16 )
+      goto LABEL_22;
+    v10 = (vostok::fixed_string<512> *)*((_DWORD *)v12 + 132);
+    if ( LOBYTE(v10->m_begin) )
+    {
+      vostok::fs_new::path_string_impl::assignf(
+        (int)v30,
+        v10,
+        (vostok::buffer_string *)&stru_8028C0,
+        (const char *)v10,
+        v16);
+      goto LABEL_24;
+    }
+    if ( !*v16 )
+LABEL_22:
+      v16 = (const char *)*((_DWORD *)v12 + 132);
+    vostok::fs_new::path_string_impl::assignf((int)v30, v10, (vostok::buffer_string *)&stru_8028CC, v16);
+    v17 = v23;
+LABEL_24:
+    if ( **((_BYTE **)v12 + 136) )
+    {
+      vostok::buffer_string::appendf(v30, v17, (vostok::buffer_string *)&stru_8028CC.m_end, *((const char **)v12 + 136));
+      v17 = v24;
+    }
+    v18 = **((_BYTE **)v12 + 135) == 0;
+    m_next_key = ":";
+    if ( v18 )
+      m_next_key = uri;
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v17,
+      &v37);
+    vostok::logging::append(
+      &v37,
+      (void *const)1,
+      (vostok::logging::log_format *)&vostok::logging::format_message,
+      ".\\command_line.cpp",
+      0x1E9u,
+      "void __cdecl vostok::command_line::show_help_and_exit(void)",
+      "core:",
+      info,
+      format[0],
+      v30[0],
+      m_next_key,
+      *((_DWORD *)v12 + 135));
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v19,
+      (int *)&v37);
+    *(_DWORD *)__comp += 4;
+    v11 = *(vostok::command_line::key ***)__comp;
   }
-  if ( !s_engine )
-    vostok::debug::terminate((char *)&buf);
-  s_engine->exit(s_engine, 0);
+  if ( !HIDWORD(s_command_line_keys_creation.m_mutex[1]) )
+    vostok::debug::terminate((char *)uri);
+  return (*(int (__thiscall **)(_DWORD, _DWORD))(*(_DWORD *)HIDWORD(s_command_line_keys_creation.m_mutex[1]) + 64))(
+           HIDWORD(s_command_line_keys_creation.m_mutex[1]),
+           0);
 }

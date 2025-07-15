@@ -25,5 +25,5 @@ bool __stdcall Scaleform::Render::Text::WordWrapHelper::FindCharWithFlags(
     if ( v4 > v5 )
       return 0;
   }
-  return (charBreakFlags & (unsigned __int8)byte_9B37CA[4 * v6]) != 0;
+  return (charBreakFlags & (unsigned __int8)byte_874FDA[4 * v6]) != 0;
 }

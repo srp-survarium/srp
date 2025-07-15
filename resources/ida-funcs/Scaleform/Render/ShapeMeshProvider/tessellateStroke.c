@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
+bool __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
         Scaleform::Render::ShapeMeshProvider *this,
         const Scaleform::Render::Scale9GridInfo *s9g,
         unsigned int strokeStyleIdx,
@@ -9,7 +9,7 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
 {
   Scaleform::Render::Renderer2DImpl *pRenderer2D; // ebx
   double v9; // st7
-  Scaleform::Render::MeshGenerator *p_MeshGen; // esi
+  int p_MeshGen; // esi
   const Scaleform::Render::ToleranceParams *p_Tolerances; // ebx
   double v12; // st6
   double v13; // st6
@@ -19,52 +19,53 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
   double v17; // st6
   double v18; // st6
   double v19; // st7
-  char v20; // al
+  bool v20; // al
   int v21; // ecx
   int v22; // eax
   int v23; // edx
   int v24; // edi
-  Scaleform::Render::TessBase *p_mStrokerAA; // edi
+  Scaleform::Render::TessBase *v25; // edi
   Scaleform::Render::ShapeMeshProvider *v26; // ebx
-  char v27; // bl
-  const Scaleform::Render::ToleranceParams *v29; // [esp+680h] [ebp-B8h]
-  const Scaleform::Render::ToleranceParams *v30; // [esp+680h] [ebp-B8h]
-  char v31; // [esp+6A7h] [ebp-91h]
-  char v32; // [esp+6A7h] [ebp-91h]
-  float v33; // [esp+6A8h] [ebp-90h]
-  float v34; // [esp+6A8h] [ebp-90h]
-  float v35; // [esp+6A8h] [ebp-90h]
-  float v36; // [esp+6A8h] [ebp-90h]
-  float v37; // [esp+6A8h] [ebp-90h]
-  float v38; // [esp+6A8h] [ebp-90h]
-  float v39; // [esp+6A8h] [ebp-90h]
-  float v40; // [esp+6A8h] [ebp-90h]
-  float v41; // [esp+6A8h] [ebp-90h]
-  float v42; // [esp+6A8h] [ebp-90h]
-  float v43; // [esp+6ACh] [ebp-8Ch]
-  float v44; // [esp+6ACh] [ebp-8Ch]
-  float v45; // [esp+6ACh] [ebp-8Ch]
-  float v46; // [esp+6ACh] [ebp-8Ch]
-  float v47; // [esp+6ACh] [ebp-8Ch]
-  float v48; // [esp+6ACh] [ebp-8Ch]
-  Scaleform::Render::TransformerBase *v49; // [esp+6ACh] [ebp-8Ch]
-  float v50; // [esp+6B0h] [ebp-88h]
-  float v51; // [esp+6B0h] [ebp-88h]
-  float v52; // [esp+6B4h] [ebp-84h]
-  float v53; // [esp+6B4h] [ebp-84h]
-  float v54; // [esp+6B4h] [ebp-84h]
-  int v55; // [esp+6B4h] [ebp-84h]
-  float Units; // [esp+6B8h] [ebp-80h]
-  float v57; // [esp+6B8h] [ebp-80h]
-  float MorphRatio; // [esp+6BCh] [ebp-7Ch]
-  unsigned int StartPos; // [esp+6C4h] [ebp-74h]
-  Scaleform::Render::Matrix2x4<float> v61; // [esp+6C8h] [ebp-70h] BYREF
-  void **v62; // [esp+6ECh] [ebp-4Ch] BYREF
-  Scaleform::Render::Matrix2x4<float> *v63; // [esp+6F0h] [ebp-48h]
-  void **v64; // [esp+6F4h] [ebp-44h] BYREF
-  const Scaleform::Render::Scale9GridInfo *v65; // [esp+6F8h] [ebp-40h]
-  Scaleform::Render::StrokeStyleType s1; // [esp+6FCh] [ebp-3Ch] BYREF
-  Scaleform::Render::Matrix2x4<float> v67; // [esp+718h] [ebp-20h] BYREF
+  bool v27; // bl
+  const Scaleform::Render::ToleranceParams *v29; // [esp-10h] [ebp-B8h]
+  const Scaleform::Render::ToleranceParams *v30; // [esp-10h] [ebp-B8h]
+  char v31; // [esp+17h] [ebp-91h]
+  char v32; // [esp+17h] [ebp-91h]
+  float v33; // [esp+18h] [ebp-90h]
+  float v34; // [esp+18h] [ebp-90h]
+  float v35; // [esp+18h] [ebp-90h]
+  float v36; // [esp+18h] [ebp-90h]
+  float v37; // [esp+18h] [ebp-90h]
+  float v38; // [esp+18h] [ebp-90h]
+  float v39; // [esp+18h] [ebp-90h]
+  float v40; // [esp+18h] [ebp-90h]
+  float v41; // [esp+18h] [ebp-90h]
+  float v42; // [esp+18h] [ebp-90h]
+  float tra; // [esp+1Ch] [ebp-8Ch]
+  float trb; // [esp+1Ch] [ebp-8Ch]
+  float trc; // [esp+1Ch] [ebp-8Ch]
+  float trd; // [esp+1Ch] [ebp-8Ch]
+  float tre; // [esp+1Ch] [ebp-8Ch]
+  float trf; // [esp+1Ch] [ebp-8Ch]
+  Scaleform::Render::TransformerBase *tr; // [esp+1Ch] [ebp-8Ch]
+  float v50; // [esp+20h] [ebp-88h]
+  float v51; // [esp+20h] [ebp-88h]
+  float v52; // [esp+24h] [ebp-84h]
+  float v53; // [esp+24h] [ebp-84h]
+  float v54; // [esp+24h] [ebp-84h]
+  int v55; // [esp+24h] [ebp-84h]
+  float Units; // [esp+28h] [ebp-80h]
+  float v57; // [esp+28h] [ebp-80h]
+  float morphRatio; // [esp+2Ch] [ebp-7Ch]
+  unsigned int startPos; // [esp+34h] [ebp-74h]
+  Scaleform::Render::Matrix2x4<float> v61; // [esp+38h] [ebp-70h] BYREF
+  void **v62; // [esp+5Ch] [ebp-4Ch] BYREF
+  Scaleform::Render::Matrix2x4<float> *v63; // [esp+60h] [ebp-48h]
+  void **v64; // [esp+64h] [ebp-44h] BYREF
+  const Scaleform::Render::Scale9GridInfo *v65; // [esp+68h] [ebp-40h]
+  Scaleform::Render::StrokeStyleType s1; // [esp+6Ch] [ebp-3Ch] BYREF
+  Scaleform::Render::Matrix2x4<float> v67; // [esp+88h] [ebp-20h] BYREF
+  int savedregs; // [esp+A8h] [ebp+0h] BYREF
 
   v61.M[0][0] = pmesh->ViewMatrix.M[0][0];
   pRenderer2D = pmesh->pRenderer2D;
@@ -75,14 +76,14 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
   v9 = pmesh->ViewMatrix.M[1][0];
   s1.pDashes.pObject = 0;
   v61.M[1][0] = v9;
-  p_MeshGen = &pRenderer2D->MeshGen;
+  p_MeshGen = (int)&pRenderer2D->MeshGen;
   v61.M[1][1] = pmesh->ViewMatrix.M[1][1];
   p_Tolerances = &pRenderer2D->Tolerances;
   v61.M[1][2] = pmesh->ViewMatrix.M[1][2];
   v61.M[1][3] = pmesh->ViewMatrix.M[1][3];
-  MorphRatio = pmesh->MorphRatio;
-  Scaleform::Render::ShapeMeshProvider::GetStrokeStyle(this, strokeStyleIdx, &s1, MorphRatio);
-  StartPos = this->DrawLayers.Data.Data[drawLayerIdx].StartPos;
+  morphRatio = pmesh->MorphRatio;
+  Scaleform::Render::ShapeMeshProvider::GetStrokeStyle(this, strokeStyleIdx, &s1, morphRatio);
+  startPos = this->DrawLayers.Data.Data[drawLayerIdx].StartPos;
   if ( s1.Miter < 1.0 )
     s1.Miter = 1.0;
   v31 = s1.Flags & 1;
@@ -92,18 +93,18 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
       v12 = 0.5;
     else
       v12 = -0.5;
-    v43 = v12;
-    v44 = v61.M[0][3] + v43;
-    v45 = floor(v44);
-    v61.M[0][3] = v45;
+    tra = v12;
+    trb = v61.M[0][3] + tra;
+    trc = floor(trb);
+    v61.M[0][3] = trc;
     if ( v61.M[1][3] >= 0.0 )
       v13 = 0.5;
     else
       v13 = -0.5;
-    v46 = v13;
-    v47 = v61.M[1][3] + v46;
-    v48 = floor(v47);
-    v61.M[1][3] = v48;
+    trd = v13;
+    tre = v61.M[1][3] + trd;
+    trf = floor(tre);
+    v61.M[1][3] = trf;
   }
   v67.M[0][0] = v61.M[0][0];
   v62 = &Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float>>::`vftable';
@@ -120,14 +121,14 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::tessellateStroke(
   if ( s9g )
   {
     v65 = s9g;
-    v49 = (Scaleform::Render::TransformerBase *)&v64;
+    tr = (Scaleform::Render::TransformerBase *)&v64;
   }
   else
   {
     v63 = &v67;
-    v49 = (Scaleform::Render::TransformerBase *)&v62;
+    tr = (Scaleform::Render::TransformerBase *)&v62;
   }
-  Scaleform::Render::MeshGenerator::Clear(p_MeshGen);
+  Scaleform::Render::MeshGenerator::Clear((Scaleform::Render::MeshGenerator *)p_MeshGen);
   Units = s1.Units;
   Flags = s1.Flags;
   if ( !s9g )
@@ -233,66 +234,69 @@ LABEL_33:
     }
     if ( v32 )
     {
-      p_mStrokerAA = &p_MeshGen->mStrokerAA;
+      v25 = (Scaleform::Render::TessBase *)(p_MeshGen + 1320);
       v39 = v51 * 0.5;
-      p_MeshGen->mStrokerAA.WidthRight = v39;
-      p_MeshGen->mStrokerAA.WidthLeft = v39;
+      *(float *)(p_MeshGen + 1352) = v39;
+      *(float *)(p_MeshGen + 1348) = v39;
       v40 = v18 * p_Tolerances->EdgeAAScale;
       v41 = 2.0 * v40;
-      p_MeshGen->mStrokerAA.AaWidthRight = v41;
-      p_MeshGen->mStrokerAA.AaWidthLeft = v41;
-      p_MeshGen->mStrokerAA.EndLineCap = v21;
-      p_MeshGen->mStrokerAA.LineJoin = v55;
-      p_MeshGen->mStrokerAA.StartLineCap = v23;
-      p_MeshGen->mStrokerAA.MiterLimit = s1.Miter;
-      Scaleform::Render::StrokerAA::SetToleranceParam(&p_MeshGen->mStrokerAA, p_Tolerances);
+      *(float *)(p_MeshGen + 1360) = v41;
+      *(float *)(p_MeshGen + 1356) = v41;
+      *(_DWORD *)(p_MeshGen + 1332) = v21;
+      *(_DWORD *)(p_MeshGen + 1324) = v55;
+      *(_DWORD *)(p_MeshGen + 1328) = v23;
+      *(float *)(p_MeshGen + 1336) = s1.Miter;
+      Scaleform::Render::StrokerAA::SetToleranceParam((Scaleform::Render::StrokerAA *)(p_MeshGen + 1320), p_Tolerances);
       v29 = p_Tolerances;
       v26 = this;
       Scaleform::Render::ShapeMeshProvider::addStroke(
         this,
-        p_MeshGen,
-        &p_MeshGen->mStrokerAA,
+        (Scaleform::Render::MeshGenerator *)p_MeshGen,
+        (Scaleform::Render::TessBase *)(p_MeshGen + 1320),
         v29,
-        v49,
-        StartPos,
+        tr,
+        startPos,
         strokeStyleIdx,
         v57,
-        MorphRatio);
+        morphRatio);
 LABEL_64:
       v20 = Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
               v26,
-              p_mStrokerAA,
+              v25,
               &v67,
               pout,
               drawLayerIdx,
               strokeStyleIdx,
               meshGenFlags,
-              MorphRatio);
+              morphRatio);
       goto LABEL_65;
     }
 LABEL_63:
-    p_MeshGen->mStroker.EndLineCap = v21;
-    p_MeshGen->mStroker.LineJoin = v55;
-    p_MeshGen->mStroker.StartLineCap = v23;
-    p_MeshGen->mStroker.Width = v51 * 0.5;
-    p_MeshGen->mStroker.MiterLimit = s1.Miter;
-    Scaleform::Render::Stroker::SetToleranceParam(&p_MeshGen->mStroker, p_Tolerances);
-    p_mStrokerAA = &p_MeshGen->mTess;
-    Scaleform::Render::Tessellator::SetFillRule(&p_MeshGen->mTess, FillStroker);
+    *(_DWORD *)(p_MeshGen + 840) = v21;
+    *(_DWORD *)(p_MeshGen + 832) = v55;
+    *(_DWORD *)(p_MeshGen + 836) = v23;
+    *(float *)(p_MeshGen + 828) = v51 * 0.5;
+    *(float *)(p_MeshGen + 844) = s1.Miter;
+    Scaleform::Render::Stroker::SetToleranceParam((Scaleform::Render::Stroker *)(p_MeshGen + 800), p_Tolerances);
+    v25 = (Scaleform::Render::TessBase *)(p_MeshGen + 80);
+    Scaleform::Render::Tessellator::SetFillRule((Scaleform::Render::Tessellator *)(p_MeshGen + 80), FillStroker);
     v42 = p_Tolerances->EdgeAAScale * v37;
-    Scaleform::Render::Tessellator::SetEdgeAAWidth(&p_MeshGen->mTess, v42);
+    Scaleform::Render::Tessellator::SetEdgeAAWidth((Scaleform::Render::Tessellator *)(p_MeshGen + 80), v42);
     v30 = p_Tolerances;
     v26 = this;
     Scaleform::Render::ShapeMeshProvider::addStroke(
       this,
+      (int)&savedregs,
+      (Scaleform::Render::TessBase *)(p_MeshGen + 80),
       p_MeshGen,
+      (Scaleform::Render::MeshGenerator *)p_MeshGen,
       v30,
-      v49,
-      StartPos,
+      tr,
+      startPos,
       strokeStyleIdx,
       v57,
-      MorphRatio);
-    Scaleform::Render::Tessellator::Tessellate(&p_MeshGen->mTess, 0);
+      morphRatio);
+    Scaleform::Render::Tessellator::Tessellate((Scaleform::Render::Tessellator *)(p_MeshGen + 80), 0);
     goto LABEL_64;
   }
   if ( v16 >= 1.0 )
@@ -300,31 +304,31 @@ LABEL_63:
   else
     v19 = v37;
   v38 = v19;
-  p_MeshGen->mHairliner.Width = v38 + v38;
-  Scaleform::Render::Hairliner::SetToleranceParam(&p_MeshGen->mHairliner, p_Tolerances);
+  *(float *)(p_MeshGen + 980) = v38 + v38;
+  Scaleform::Render::Hairliner::SetToleranceParam((Scaleform::Render::Hairliner *)(p_MeshGen + 964), p_Tolerances);
   Scaleform::Render::ShapeMeshProvider::addStroke(
     this,
-    p_MeshGen,
-    &p_MeshGen->mHairliner,
+    (Scaleform::Render::MeshGenerator *)p_MeshGen,
+    (Scaleform::Render::TessBase *)(p_MeshGen + 964),
     p_Tolerances,
-    v49,
-    StartPos,
+    tr,
+    startPos,
     strokeStyleIdx,
     v57,
-    MorphRatio);
-  Scaleform::Render::Hairliner::Tessellate(&p_MeshGen->mHairliner);
+    morphRatio);
+  Scaleform::Render::Hairliner::Tessellate((Scaleform::Render::Hairliner *)(p_MeshGen + 964));
   v20 = Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
           this,
-          &p_MeshGen->mHairliner,
+          (Scaleform::Render::TessBase *)(p_MeshGen + 964),
           &v67,
           pout,
           drawLayerIdx,
           strokeStyleIdx,
           meshGenFlags,
-          MorphRatio);
+          morphRatio);
 LABEL_65:
   v27 = v20;
-  Scaleform::Render::MeshGenerator::Clear(p_MeshGen);
+  Scaleform::Render::MeshGenerator::Clear((Scaleform::Render::MeshGenerator *)p_MeshGen);
   v64 = &Scaleform::GFx::AS3::ArrayBase::`vftable';
   v62 = &Scaleform::GFx::AS3::ArrayBase::`vftable';
   if ( s1.pDashes.pObject )

@@ -10,9 +10,7 @@ char *__cdecl win32_name_converter(dso_st *dso, char *filename)
 
   v2 = strlen(filename);
   strstr((unsigned __int8 *)filename, "/");
-  if ( v3
-    || (strstr((unsigned __int8 *)filename, "\\"), v4)
-    || (strstr((unsigned __int8 *)filename, (unsigned __int8 *)&stru_95963C.m_max_end), v5) )
+  if ( v3 || (strstr((unsigned __int8 *)filename, "\\"), v4) || (strstr((unsigned __int8 *)filename, ":"), v5) )
   {
     v6 = 0;
     v7 = (char *)CRYPTO_malloc(v2 + 1, ".\\crypto\\dso\\dso_win32.c", 644);
@@ -26,14 +24,14 @@ char *__cdecl win32_name_converter(dso_st *dso, char *filename)
   if ( v7 )
   {
     if ( v6 )
-      sprintf(v7, "%s.dll", filename);
+      sprintf((int)filename, (int)v7, v7, "%s.dll", filename);
     else
-      sprintf(v7, "%s", filename);
+      sprintf((int)filename, (int)v7, v7, (char *)&stru_7F9BE8.allocator, filename);
     return v8;
   }
   else
   {
-    ERR_put_error(0x25u, 125, 109, ".\\crypto\\dso\\dso_win32.c", 648);
+    ERR_put_error(v6, 0x25u, 125, 109, ".\\crypto\\dso\\dso_win32.c", 648);
     return 0;
   }
 }

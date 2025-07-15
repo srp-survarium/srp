@@ -1,108 +1,88 @@
-void __usercall vostok::command_line::key_is_set_impl(const char *key_raw@<eax>, char *command_line)
+bool __usercall vostok::command_line::key_is_set_impl@<al>(
+        boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *command_line@<ecx>,
+        char *key_raw@<eax>)
 {
-  bool v2; // zf
-  const char *v3; // esi
-  char v4; // bl
-  void (__cdecl *v5)(vostok::strings::detail::tuples::pair *, vostok::strings::detail::tuples::pair *, int); // eax
-  vostok::strings::detail::tuples *v6; // ecx
-  void *v7; // esp
-  vostok::strings::detail::tuples *v8; // ecx
-  char v9; // dl
-  const char *v10; // esi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v2; // edi
+  bool has_passed_filters; // al
+  vostok::strings::detail::tuples *v5; // ecx
+  void *v6; // esp
+  vostok::strings::detail::tuples *v7; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v8; // esi
+  char vtable; // dl
+  _BYTE *v10; // ecx
   unsigned __int8 *v11; // eax
-  char *v12; // ecx
-  unsigned __int8 v13; // al
-  char v14[16]; // [esp+0h] [ebp-54h] BYREF
-  vostok::strings::detail::tuples STR_JOINA_tuples_unique_identifier; // [esp+10h] [ebp-44h] BYREF
-  int v16; // [esp+4Ch] [ebp-8h]
+  unsigned __int8 v12; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v13; // [esp-4h] [ebp-54h]
+  char v14[16]; // [esp+0h] [ebp-50h] BYREF
+  vostok::strings::detail::tuples v15; // [esp+10h] [ebp-40h] BYREF
+  int v16; // [esp+4Ch] [ebp-4h]
 
-  v2 = *key_raw == 0;
+  v2 = command_line;
   v16 = 0;
-  if ( v2 )
+  if ( !*key_raw )
   {
-    if ( vostok::core::g_log_filter_tree
-      && !vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "command_line_key:", warning) )
+    if ( !vostok::core::g_log_filter_tree
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)&stru_8028DC,
+                                 (const char *)3),
+          command_line = v13,
+          has_passed_filters) )
     {
-      v4 = v16;
-    }
-    else
-    {
-      v3 = (const char *)vostok::core::g_log_callback;
-      STR_JOINA_tuples_unique_identifier.m_strings[2].first = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          (const boost::detail::function::function_buffer *)&STR_JOINA_tuples_unique_identifier.m_strings[3],
-          (boost::detail::function::function_buffer *)&STR_JOINA_tuples_unique_identifier.m_strings[3],
-          destroy_functor_tag);
-      if ( v3 )
-      {
-        STR_JOINA_tuples_unique_identifier.m_strings[3].first = v3;
-        STR_JOINA_tuples_unique_identifier.m_strings[2].first = (char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1;
-      }
-      else
-      {
-        STR_JOINA_tuples_unique_identifier.m_strings[2].first = 0;
-      }
-      v4 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        command_line,
+        &v15.m_strings[2].first);
+      v16 = 1;
       vostok::logging::append(
-        (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)&STR_JOINA_tuples_unique_identifier.m_strings[2],
+        (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)&v15.m_strings[2],
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\command_line.cpp",
-        0x203u,
-        "bool __cdecl vostok::command_line::key_is_set_impl(const char *,const char *)",
-        "command_line_key:",
+        0x204u,
+        (const char *)&stru_8028DC.filter_stack.m_policy.m_mutex.m_mutex[1] + 4,
+        (char *)&stru_8028DC,
         warning,
-        "empty key specified to ");
+        (char *)&stru_8028DC.filter_stack.m_first);
     }
-    if ( (v4 & 1) != 0
-      && STR_JOINA_tuples_unique_identifier.m_strings[2].first
-      && ((int)STR_JOINA_tuples_unique_identifier.m_strings[2].first & 1) == 0 )
-    {
-      v5 = *(void (__cdecl **)(vostok::strings::detail::tuples::pair *, vostok::strings::detail::tuples::pair *, int))((int)STR_JOINA_tuples_unique_identifier.m_strings[2].first & 0xFFFFFFFE);
-      if ( v5 )
-        v5(&STR_JOINA_tuples_unique_identifier.m_strings[3], &STR_JOINA_tuples_unique_identifier.m_strings[3], 2);
-    }
+    if ( (v16 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)command_line,
+        (int *)&v15.m_strings[2]);
+    return 0;
   }
-  else
+  vostok::strings::detail::tuples::tuples((vostok::strings::detail::tuples *)command_line, &v15, "-", key_raw);
+  v6 = alloca(vostok::strings::detail::tuples::size(v5, (unsigned int *)&v15));
+  v16 = (int)v14;
+  vostok::strings::detail::tuples::concat(v7, (int)&v15, v14);
+  v8 = v2;
+  if ( !LOBYTE(v2->vtable) )
+    return 0;
+  vtable = (char)v2->vtable;
+  while ( 1 )
   {
-    vostok::strings::detail::tuples::tuples(&STR_JOINA_tuples_unique_identifier, "-", key_raw);
-    v7 = alloca(vostok::strings::detail::tuples::size(v6, (unsigned int *)&STR_JOINA_tuples_unique_identifier));
-    vostok::strings::detail::tuples::size(v8, (unsigned int *)&STR_JOINA_tuples_unique_identifier);
-    vostok::strings::detail::tuples::concat(v14, &STR_JOINA_tuples_unique_identifier);
-    v9 = *command_line;
-    v10 = command_line;
-    if ( *command_line )
-    {
-      while ( 1 )
-      {
-        v11 = (unsigned __int8 *)v10;
-        v12 = v14;
-        if ( v9 )
-          break;
-LABEL_22:
-        if ( !*v12 )
-          goto LABEL_25;
-        v9 = *++v10;
-        if ( !v9 )
-          return;
-      }
-      while ( *v12 )
-      {
-        if ( *v11 == *v12 )
-        {
-          ++v11;
-          ++v12;
-          if ( *v11 )
-            continue;
-        }
-        goto LABEL_22;
-      }
-LABEL_25:
-      v13 = *v11;
-      if ( v13 )
-        strchr(" \t=", v13);
-    }
+    v10 = (_BYTE *)v16;
+    v11 = (unsigned __int8 *)v8;
+    if ( vtable )
+      break;
+LABEL_14:
+    if ( !*v10 )
+      goto LABEL_17;
+    v8 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)((char *)v8 + 1);
+    vtable = (char)v8->vtable;
+    if ( !LOBYTE(v8->vtable) )
+      return 0;
   }
+  while ( *v10 )
+  {
+    if ( *v11 == *v10 )
+    {
+      ++v11;
+      ++v10;
+      if ( *v11 )
+        continue;
+    }
+    goto LABEL_14;
+  }
+LABEL_17:
+  v12 = *v11;
+  return !v12 || vostok::command_line::is_delimiter(v12, " \t=");
 }

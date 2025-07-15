@@ -6,17 +6,17 @@ double __thiscall Scaleform::Render::GlyphCache::GetCachedFontSize(
 {
   double v5; // st7
   double result; // st7
-  float maxHeighta; // [esp+18h] [ebp+Ch]
-  float maxHeightb; // [esp+18h] [ebp+Ch]
-  float maxHeight; // [esp+18h] [ebp+Ch]
+  float v7; // [esp+18h] [ebp+Ch]
+  float v8; // [esp+18h] [ebp+Ch]
+  float v9; // [esp+18h] [ebp+Ch]
 
   if ( !exactFit )
   {
     if ( (gp->Flags & 1) != 0 )
     {
-      maxHeighta = screenSize * 4.0 + 0.5;
-      maxHeightb = floor(maxHeighta);
-      v5 = maxHeightb * 0.25;
+      v7 = screenSize * 4.0 + 0.5;
+      v8 = floor(v7);
+      v5 = v8 * 0.25;
     }
     else
     {
@@ -24,13 +24,13 @@ double __thiscall Scaleform::Render::GlyphCache::GetCachedFontSize(
     }
     screenSize = v5;
   }
-  maxHeight = (float)(this->MaxSlotHeight - 2 * this->SlotPadding);
+  v9 = (float)(this->MaxSlotHeight - 2 * this->SlotPadding);
   result = screenSize;
-  if ( this->Param.MaxRasterScale * maxHeight >= screenSize )
+  if ( this->Param.MaxRasterScale * v9 >= screenSize )
   {
-    if ( maxHeight >= result )
+    if ( v9 >= result )
       return screenSize;
-    return maxHeight;
+    return v9;
   }
   return result;
 }

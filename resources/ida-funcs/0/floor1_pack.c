@@ -1,137 +1,121 @@
-void __cdecl floor1_pack(_DWORD *i, oggpack_buffer *opb)
+void __cdecl floor1_pack(unsigned int *i, oggpack_buffer *opb)
 {
-  int *v2; // ebp
-  int v3; // esi
-  int v4; // edi
-  unsigned int *v5; // esi
-  int v6; // eax
-  unsigned int *v7; // esi
-  int v8; // edi
-  _DWORD *v9; // ebp
-  unsigned int v10; // eax
-  unsigned int v11; // ecx
-  unsigned int v12; // ecx
-  unsigned int v13; // eax
-  int v14; // eax
-  int v15; // esi
-  unsigned int *v16; // edi
-  int k; // [esp+10h] [ebp-10h]
-  char *ka; // [esp+10h] [ebp-10h]
-  int count; // [esp+14h] [ebp-Ch]
-  int j; // [esp+18h] [ebp-8h]
-  int ja; // [esp+18h] [ebp-8h]
-  int maxposit; // [esp+1Ch] [ebp-4h]
-  unsigned int maxposita; // [esp+1Ch] [ebp-4h]
-  _DWORD *ia; // [esp+24h] [ebp+4h]
+  unsigned int v3; // edi
+  signed int v4; // ebx
+  unsigned int *v5; // edi
+  unsigned int *v6; // edi
+  _DWORD *v7; // ebx
+  unsigned int v8; // ecx
+  unsigned int v9; // eax
+  unsigned int j; // edi
+  int v11; // eax
+  int v12; // edi
+  unsigned int *v13; // ebx
+  int v14; // [esp+Ch] [ebp-10h]
+  _DWORD *v15; // [esp+Ch] [ebp-10h]
+  int bits; // [esp+10h] [ebp-Ch]
+  unsigned int bitsa; // [esp+10h] [ebp-Ch]
+  int v18; // [esp+14h] [ebp-8h]
+  int v19; // [esp+18h] [ebp-4h]
+  signed int v20; // [esp+24h] [ebp+8h]
+  _DWORD *v21; // [esp+24h] [ebp+8h]
+  signed int v22; // [esp+24h] [ebp+8h]
 
-  v2 = i;
+  v18 = 0;
   v3 = i[210];
-  v4 = 0;
-  count = 0;
-  maxposit = v3;
-  k = -1;
+  bits = v3;
+  v4 = -1;
   oggpack_write(opb, *i, 5u);
+  v20 = 0;
   if ( (int)*i > 0 )
   {
     v5 = i + 1;
     do
     {
       oggpack_write(opb, *v5, 4u);
-      if ( k < (int)*v5 )
-        k = *v5;
-      ++v4;
+      if ( v4 < (int)*v5 )
+        v4 = *v5;
+      ++v20;
       ++v5;
     }
-    while ( v4 < *i );
-    v3 = maxposit;
+    while ( v20 < (int)*i );
+    v3 = bits;
   }
-  v6 = k + 1;
-  if ( k + 1 > 0 )
+  if ( v4 + 1 > 0 )
   {
-    ka = (char *)(i + 80);
-    v7 = i + 48;
-    j = v6;
+    v21 = i + 80;
+    v6 = i + 48;
+    v14 = v4 + 1;
     do
     {
-      oggpack_write(opb, *(v7 - 16) - 1, 3u);
-      oggpack_write(opb, *v7, 2u);
-      if ( *v7 )
-        oggpack_write(opb, v7[16], 8u);
-      v8 = 0;
-      if ( 1 << *v7 > 0 )
+      oggpack_write(opb, *(v6 - 16) - 1, 3u);
+      oggpack_write(opb, *v6, 2u);
+      if ( *v6 )
+        oggpack_write(opb, v6[16], 8u);
+      v19 = 0;
+      if ( 1 << *v6 > 0 )
       {
-        v9 = ka;
+        v7 = v21;
         do
         {
-          oggpack_write(opb, *v9 + 1, 8u);
-          ++v8;
-          ++v9;
+          oggpack_write(opb, *v7 + 1, 8u);
+          ++v19;
+          ++v7;
         }
-        while ( v8 < 1 << *v7 );
-        v2 = i;
+        while ( v19 < 1 << *v6 );
       }
-      ka += 32;
-      ++v7;
-      --j;
+      v21 += 8;
+      ++v6;
+      --v14;
     }
-    while ( j );
-    v3 = maxposit;
+    while ( v14 );
+    v3 = bits;
   }
-  oggpack_write(opb, v2[208] - 1, 2u);
-  v10 = 0;
+  oggpack_write(opb, i[208] - 1, 2u);
+  v8 = 0;
   if ( v3 )
   {
-    v11 = v3 - 1;
+    v9 = v3 - 1;
     if ( v3 != 1 )
     {
       do
       {
-        ++v10;
-        v11 >>= 1;
+        ++v8;
+        v9 >>= 1;
       }
-      while ( v11 );
+      while ( v9 );
     }
   }
-  oggpack_write(opb, v10, 4u);
-  v12 = 0;
-  maxposita = 0;
+  oggpack_write(opb, v8, 4u);
+  bitsa = 0;
   if ( v3 )
   {
-    v13 = v3 - 1;
-    if ( v3 != 1 )
-    {
-      do
-      {
-        ++v12;
-        v13 >>= 1;
-      }
-      while ( v13 );
-      maxposita = v12;
-    }
+    for ( j = v3 - 1; j; j >>= 1 )
+      ++bitsa;
   }
-  v14 = 0;
-  ja = 0;
-  if ( *v2 > 0 )
+  v11 = 0;
+  v22 = 0;
+  if ( (int)*i > 0 )
   {
-    ia = v2 + 1;
+    v15 = i + 1;
     do
     {
-      count += v2[*ia + 32];
-      if ( v14 < count )
+      v18 += i[*v15 + 32];
+      if ( v11 < v18 )
       {
-        v15 = count - v14;
-        v16 = (unsigned int *)&v2[v14 + 211];
+        v12 = v18 - v11;
+        v13 = &i[v11 + 211];
         do
         {
-          oggpack_write(opb, *v16++, maxposita);
-          --v15;
+          oggpack_write(opb, *v13++, bitsa);
+          --v12;
         }
-        while ( v15 );
-        v14 = count;
+        while ( v12 );
+        v11 = v18;
       }
-      ++ia;
-      ++ja;
+      ++v22;
+      ++v15;
     }
-    while ( ja < *v2 );
+    while ( v22 < (int)*i );
   }
 }

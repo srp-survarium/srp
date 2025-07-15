@@ -19,9 +19,9 @@ Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::VMAbcFile::GetDetail
   if ( (int)d->pData <= 0 )
   {
 LABEL_18:
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -54,7 +54,7 @@ LABEL_18:
         String = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
                    this->VMRef->StringManagerRef,
                    (Scaleform::GFx::ASString *)&d,
-                   (char *)v14.pStr,
+                   (__m128i *)v14.pStr,
                    v14.Size);
         v10 = result;
         Scaleform::GFx::AS3::Value::Value(result, String);

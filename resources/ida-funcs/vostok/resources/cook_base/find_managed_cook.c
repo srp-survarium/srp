@@ -1,5 +1,4 @@
-vostok::resources::managed_cook *__fastcall vostok::resources::cook_base::find_managed_cook(
-        int a1,
+vostok::resources::managed_cook *__cdecl vostok::resources::cook_base::find_managed_cook(
         vostok::resources::class_id_enum resource_class)
 {
   vostok::resources::managed_cook *result; // eax

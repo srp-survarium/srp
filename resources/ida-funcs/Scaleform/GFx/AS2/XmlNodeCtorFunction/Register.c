@@ -63,7 +63,7 @@ Scaleform::GFx::AS2::FunctionRef *__cdecl Scaleform::GFx::AS2::XmlNodeCtorFuncti
   {
     pTable = pgc->RegisteredClasses.mHash.pTable;
     v11 = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)pgc;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & (unsigned int)pTable) != 0 )
+    if ( ((unsigned int)pTable & 0x3FFFFFF) != 0 )
     {
       pgc->RegisteredClasses.mHash.pTable = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::TableType *)((char *)pTable - 1);
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -87,7 +87,7 @@ Scaleform::GFx::AS2::FunctionRef *__cdecl Scaleform::GFx::AS2::XmlNodeCtorFuncti
   if ( v9 )
   {
     v16 = *(_DWORD *)(v9 + 12);
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v16) != 0 )
+    if ( (v16 & 0x3FFFFFF) != 0 )
     {
       *(_DWORD *)(v9 + 12) = v16 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)v9);

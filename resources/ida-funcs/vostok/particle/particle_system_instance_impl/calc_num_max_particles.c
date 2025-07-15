@@ -1,28 +1,35 @@
-unsigned int __thiscall vostok::particle::particle_system_instance_impl::calc_num_max_particles(
-        vostok::particle::particle_system_instance_impl *this,
+int __userpurge vostok::particle::particle_system_instance_impl::calc_num_max_particles@<eax>(
+        vostok::particle::particle_system_instance_impl *this@<ecx>,
+        int a2@<eax>,
         float time_delta)
 {
-  unsigned int total_summ; // [esp+8h] [ebp-8h]
-  vostok::particle::particle_emitter_instance *instance; // [esp+Ch] [ebp-4h]
-  vostok::particle::particle_emitter_instance *instancea; // [esp+Ch] [ebp-4h]
+  int v5; // ebx
+  _DWORD *v6; // edi
+  int v7; // eax
+  int v8; // eax
+  _DWORD *v9; // esi
+  int v10; // eax
 
-  if ( this->m_paused )
+  if ( *(_BYTE *)(a2 + 770) )
     return 0;
-  total_summ = 0;
-  for ( instance = this->m_lods[this->m_current_lod].m_emitter_instance_list.m_first; instance; instance = instance->m_next )
-    total_summ += ((int (__thiscall *)(vostok::particle::particle_emitter_instance *, _DWORD))instance->calc_num_max_particles)(
-                    instance,
-                    LODWORD(time_delta));
-  if ( this->m_current_lod != this->m_old_lod )
+  v5 = 0;
+  v6 = *(_DWORD **)(32 * *(_DWORD *)(a2 + 732) + a2 + 276);
+  while ( v6 )
   {
-    for ( instancea = this->m_lods[this->m_old_lod].m_emitter_instance_list.m_first;
-          instancea;
-          instancea = instancea->m_next )
+    v7 = (*(int (__thiscall **)(_DWORD *, _DWORD))(*v6 + 20))(v6, LODWORD(time_delta));
+    v6 = (_DWORD *)v6[123];
+    v5 += v7;
+  }
+  v8 = *(_DWORD *)(a2 + 736);
+  if ( *(_DWORD *)(a2 + 732) != v8 )
+  {
+    v9 = *(_DWORD **)(32 * v8 + a2 + 276);
+    while ( v9 )
     {
-      total_summ += ((int (__thiscall *)(vostok::particle::particle_emitter_instance *, _DWORD))instancea->calc_num_max_particles)(
-                      instancea,
-                      LODWORD(time_delta));
+      v10 = (*(int (__thiscall **)(_DWORD *, _DWORD))(*v9 + 20))(v9, LODWORD(time_delta));
+      v9 = (_DWORD *)v9[123];
+      v5 += v10;
     }
   }
-  return total_summ;
+  return v5;
 }

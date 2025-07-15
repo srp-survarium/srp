@@ -1,10 +1,6 @@
-void __userpurge survarium::flash_movie::SetExternalInterface(
-        survarium::flash_movie *this@<ecx>,
-        int a2@<eax>,
-        survarium::flash_external_handler *handler)
+void __usercall survarium::flash_movie::SetExternalInterface(
+        survarium::flash_movie *this@<eax>,
+        survarium::flash_external_handler *handler@<edx>)
 {
-  (*(void (__thiscall **)(int, int, survarium::flash_external_handler_impl *))(*(_DWORD *)(*(_DWORD *)(a2 + 4) + 8) + 8))(
-    *(_DWORD *)(a2 + 4) + 8,
-    6,
-    handler->impl);
+  this->m_movie->SetState(&this->m_movie->Scaleform::GFx::StateBag, State_ExternalInterface, handler->impl);
 }

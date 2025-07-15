@@ -15,9 +15,9 @@ Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::VM::GetDefaultValue(
       return result;
     }
   }
-  if ( (_S10_0 & 1) == 0 )
+  if ( (_S15 & 1) == 0 )
   {
-    _S10_0 |= 1u;
+    _S15 |= 1u;
     v.Flags = 0;
     v.Bonus.pWeakProxy = 0;
     atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -90,9 +90,9 @@ Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::VM::GetDefaultValue(
         }
         return v5;
       }
-      if ( (_S10_0 & 1) == 0 )
+      if ( (_S15 & 1) == 0 )
       {
-        _S10_0 |= 1u;
+        _S15 |= 1u;
         v.Flags = 0;
         v.Bonus.pWeakProxy = 0;
         atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);

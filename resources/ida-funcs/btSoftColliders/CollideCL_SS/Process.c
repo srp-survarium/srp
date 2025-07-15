@@ -1,218 +1,196 @@
 void __userpurge btSoftColliders::CollideCL_SS::Process(
-        btSoftColliders::CollideCL_SS *this@<esi>,
+        btSoftColliders::CollideCL_SS *this@<edi>,
         btSoftBody *psa@<eax>,
         btSoftBody *psb)
 {
-  btCollisionShape *m_collisionShape; // ebx
+  btCollisionShape *m_collisionShape; // ecx
   double v6; // st7
+  btCollisionShape *v7; // ecx
+  double v8; // st7
   float *p_kDF; // eax
-  const btDbvtNode *v8; // ecx
-  double v9; // st7
-  btDbvtNode *m_root; // edi
-  float psba; // [esp+14h] [ebp+4h]
+  const btDbvtNode *v10; // ecx
+  btDbvtNode *m_root; // esi
+  btCollisionShape *v12; // [esp+14h] [ebp+8h]
+  float v13; // [esp+14h] [ebp+8h]
 
   this->idt = psa->m_sst.isdt;
-  m_collisionShape = psa->m_collisionShape;
-  psba = psb->m_collisionShape->getMargin(psb->m_collisionShape);
+  m_collisionShape = psb->m_collisionShape;
+  v12 = psa->m_collisionShape;
   v6 = ((double (__thiscall *)(btCollisionShape *))m_collisionShape->getMargin)(m_collisionShape);
+  v7 = v12;
+  v13 = v6;
+  v8 = ((double (__thiscall *)(btCollisionShape *))v7->getMargin)(v7);
   p_kDF = &psb->m_cfg.kDF;
-  v8 = (const btDbvtNode *)&psa->m_cfg.kDF;
-  this->m_margin = v6 + psba;
+  v10 = (const btDbvtNode *)&psa->m_cfg.kDF;
+  this->m_margin = v8 + v13;
   if ( psb->m_cfg.kDF > psa->m_cfg.kDF )
     p_kDF = &psa->m_cfg.kDF;
-  v9 = *p_kDF;
+  this->friction = *p_kDF;
   this->bodies[0] = psa;
-  this->friction = v9;
   this->bodies[1] = psb;
   m_root = psa->m_cdbvt.m_root;
   if ( m_root )
-    btDbvt::collideTT<btSoftColliders::CollideCL_SS>(v8, m_root, (btSoftColliders::CollideCL_SS *)psb->m_cdbvt.m_root);
+    btDbvt::collideTT<btSoftColliders::CollideCL_SS>(
+      v10,
+      m_root,
+      (btAlignedObjectArray<GrahamVector2> *)psb->m_cdbvt.m_root,
+      this);
 }
 
 
 void __userpurge btSoftColliders::CollideCL_SS::Process(
         const btDbvtNode *la@<eax>,
-        const btDbvtNode *lb@<ecx>,
-        btSoftColliders::CollideCL_SS *this)
+        int a2@<ecx>,
+        const btGjkEpaSolver2::sResults *this,
+        const btDbvtNode *lb)
 {
-  btSoftBody::Cluster *v3; // ebx
-  btSoftBody::Cluster *v4; // esi
-  btSoftBody *v5; // eax
-  unsigned int v6; // xmm2_4
-  unsigned int v7; // xmm3_4
+  btDbvtNode *v4; // esi
+  btDbvtNode *v5; // edi
+  btSoftBody *v6; // eax
+  btConvexInternalShape_vtbl *v7; // ecx
   unsigned int v8; // xmm0_4
-  const btTransform *Identity; // edi
-  btSoftBody::CJoint *v10; // ecx
-  btSoftBody::CJoint *v11; // eax
-  btSoftColliders::CollideCL_SS *v12; // ebx
-  btSoftBody *v13; // edi
+  unsigned int v9; // xmm2_4
+  unsigned int v10; // xmm3_4
+  const btTransform *v11; // eax
+  btSoftBody::Joint *v12; // ecx
+  const btSoftBody::CJoint *v13; // edi
+  btSoftColliders::ClusterBase *v14; // ecx
+  btSoftBody::CJoint *v15; // eax
+  btSoftBody::CJoint *v16; // esi
+  btSoftBody::CJoint *v17; // ecx
+  btSoftBody *v18; // esi
   int m_capacity; // ecx
   int m_size; // eax
-  btAlignedObjectArray<btSoftBody::Joint *> *p_m_joints; // edi
-  int v17; // esi
-  int v18; // edx
-  int v19; // eax
-  const btTransform *v20; // ecx
-  btSoftBody::Joint **m_data; // eax
-  btSoftBody::CJoint **v22; // eax
-  btSoftBody *v23; // ecx
-  float kSSHR_CL; // xmm0_4
-  float *p_kSSHR_CL; // ecx
-  float *v26; // eax
-  btSoftBody::Body v27; // [esp+A2Ch] [ebp-24Ch]
-  btSoftBody::Body v28; // [esp+A38h] [ebp-240h]
-  const btTransform *wtrs1; // [esp+A60h] [ebp-218h]
-  const btTransform *wtrs1a; // [esp+A60h] [ebp-218h]
-  btSoftBody::CJoint *v31; // [esp+A64h] [ebp-214h]
-  btVector3 guess; // [esp+A68h] [ebp-210h] BYREF
-  btConvexShape shape1; // [esp+A78h] [ebp-200h] BYREF
-  const vostok::math::float4x4 *v34; // [esp+A88h] [ebp-1F0h]
-  const vostok::math::float4x4 *v35; // [esp+A8Ch] [ebp-1ECh]
-  const vostok::math::float4x4 *v36; // [esp+A90h] [ebp-1E8h]
-  int v37; // [esp+A94h] [ebp-1E4h]
-  int v38; // [esp+AA8h] [ebp-1D0h]
-  btSoftBody::Cluster *v39; // [esp+AB8h] [ebp-1C0h]
-  btConvexShape shape0; // [esp+AC8h] [ebp-1B0h] BYREF
-  const vostok::math::float4x4 *v41; // [esp+AD8h] [ebp-1A0h]
-  const vostok::math::float4x4 *v42; // [esp+ADCh] [ebp-19Ch]
-  const vostok::math::float4x4 *v43; // [esp+AE0h] [ebp-198h]
-  int v44; // [esp+AE4h] [ebp-194h]
-  int v45; // [esp+AF8h] [ebp-180h]
-  btSoftBody::Cluster *v46; // [esp+B08h] [ebp-170h]
-  btGjkEpaSolver2::sResults results; // [esp+B18h] [ebp-160h] BYREF
-  btSoftBody::CJoint __that; // [esp+B68h] [ebp-110h] BYREF
+  btAlignedObjectArray<btSoftBody::Joint *> *p_m_joints; // esi
+  int v22; // edi
+  int v23; // edx
+  int v24; // ecx
+  _DWORD *v25; // eax
+  const btSoftBody::CJoint **v26; // eax
+  float *v27; // eax
+  btSoftBody::Body v28; // [esp-20h] [ebp-250h]
+  btSoftBody::Body v29; // [esp-14h] [ebp-244h]
+  const btTransform *Identity; // [esp-Ch] [ebp-23Ch]
+  btSoftBody::Joint *v31; // [esp-4h] [ebp-234h]
+  const btSoftBody::CJoint *v32; // [esp+14h] [ebp-21Ch]
+  _DWORD *v33; // [esp+18h] [ebp-218h]
+  int v34; // [esp+1Ch] [ebp-214h]
+  btVector3 guess; // [esp+20h] [ebp-210h] BYREF
+  btConvexInternalShape shape0; // [esp+30h] [ebp-200h] BYREF
+  btDbvtNode *v37; // [esp+70h] [ebp-1C0h]
+  btConvexInternalShape shape1; // [esp+80h] [ebp-1B0h] BYREF
+  btDbvtNode *v39; // [esp+C0h] [ebp-170h]
+  btGjkEpaSolver2::sResults results; // [esp+D0h] [ebp-160h] BYREF
+  btSoftBody::Joint v41; // [esp+120h] [ebp-110h] BYREF
 
-  v3 = (btSoftBody::Cluster *)la->childs[0];
-  v4 = (btSoftBody::Cluster *)lb->childs[0];
-  v5 = this->bodies[0];
-  if ( v5 == this->bodies[1]
-    && v5->m_clusterConnectivity.m_size
-    && v5->m_clusterConnectivity.m_data[v5->m_clusters.m_size * v4->m_clusterIndex + v3->m_clusterIndex] )
+  v4 = la->childs[0];
+  v5 = lb->childs[0];
+  v6 = (btSoftBody *)this->witnesses[0].mVec128.m128_i32[1];
+  if ( v6 == (btSoftBody *)this->witnesses[0].mVec128.m128_i32[2]
+    && v6->m_clusterConnectivity.m_size
+    && (a2 = v6->m_clusters.m_size,
+        v6->m_clusterConnectivity.m_data[a2 * v5[8].volume.mx.mVec128.m128_i32[0] + v4[8].volume.mx.mVec128.m128_i32[0]]) )
   {
     ++`btSoftColliders::CollideCL_SS::Process'::`16'::count;
   }
   else
   {
-    *(float *)&v6 = v3->m_com.mVec128.m128_f32[1] - v4->m_com.mVec128.m128_f32[1];
-    *(float *)&v7 = v3->m_com.mVec128.m128_f32[0] - v4->m_com.mVec128.m128_f32[0];
-    v41 = clear_value;
-    v42 = clear_value;
-    v43 = clear_value;
-    v34 = clear_value;
-    v35 = clear_value;
-    v36 = clear_value;
-    *(float *)&v8 = v3->m_com.mVec128.m128_f32[2] - v4->m_com.mVec128.m128_f32[2];
-    shape0.m_shapeType = 35;
-    shape0.m_userPointer = 0;
-    v44 = 0;
-    shape0.__vftable = (btConvexShape_vtbl *)&btSoftClusterCollisionShape::`vftable';
-    v46 = v3;
-    v45 = 0;
-    shape1.m_shapeType = 35;
-    shape1.m_userPointer = 0;
-    v37 = 0;
-    shape1.__vftable = (btConvexShape_vtbl *)&btSoftClusterCollisionShape::`vftable';
-    v39 = v4;
-    v38 = 0;
-    guess.mVec128.m128_u64[0] = __PAIR64__(v6, v7);
+    btConvexInternalShape::btConvexInternalShape((btConvexInternalShape *)a2, &shape0);
+    shape0.__vftable = (btConvexInternalShape_vtbl *)&btSoftClusterCollisionShape::`vftable';
+    v37 = v4;
+    shape0.m_collisionMargin = 0.0;
+    btConvexInternalShape::btConvexInternalShape(
+      (btConvexInternalShape *)&btSoftClusterCollisionShape::`vftable',
+      &shape1);
+    shape1.__vftable = v7;
+    *(float *)&v8 = v4[5].volume.mi.mVec128.m128_f32[2] - v5[5].volume.mi.mVec128.m128_f32[2];
+    *(float *)&v9 = v4[5].volume.mi.mVec128.m128_f32[1] - v5[5].volume.mi.mVec128.m128_f32[1];
+    *(float *)&v10 = v4[5].volume.mi.mVec128.m128_f32[0] - v5[5].volume.mi.mVec128.m128_f32[0];
+    v39 = v5;
+    shape1.m_collisionMargin = 0.0;
+    guess.mVec128.m128_u64[0] = __PAIR64__(v9, v10);
     guess.mVec128.m128_u64[1] = v8;
-    wtrs1 = btTransform::getIdentity();
     Identity = btTransform::getIdentity();
-    if ( btGjkEpaSolver2::Distance(&shape0, Identity, &shape1, wtrs1, &guess, &results)
-      || btGjkEpaSolver2::Penetration(&shape0, Identity, &shape1, wtrs1, &guess, &results, 0) )
+    v11 = btTransform::getIdentity();
+    if ( btGjkEpaSolver2::SignedDistance(&shape0, v11, &shape1, Identity, &guess, &results) )
     {
-      __that.__vftable = (btSoftBody::CJoint_vtbl *)&btSoftBody::Joint::`vftable';
-      `vector constructor iterator'(
-        (char *)__that.m_bodies,
-        0xCu,
-        2,
-        (void *(__thiscall *)(void *))vostok::render::vector<vostok::render::lpv_render_surface>::vector<vostok::render::lpv_render_surface>);
-      __that.m_delete = 0;
-      __that.__vftable = (btSoftBody::CJoint_vtbl *)&btSoftBody::CJoint::`vftable';
-      v28.m_soft = v4;
-      *(_QWORD *)&v28.m_rigid = 0;
-      v27.m_soft = v3;
-      *(_QWORD *)&v27.m_rigid = 0;
-      if ( btSoftColliders::ClusterBase::SolveContact(&results, this, v27, v28, &__that) )
+      btSoftBody::Joint::Joint(v12, (int)&v41);
+      *(_QWORD *)&v29.m_rigid = (unsigned int)v5;
+      v13 = 0;
+      *(_QWORD *)&v28.m_rigid = (unsigned int)v4;
+      v29.m_soft = 0;
+      v28.m_soft = (btSoftBody::Cluster *)&results;
+      v41.__vftable = (btSoftBody::Joint_vtbl *)&btSoftBody::CJoint::`vftable';
+      if ( btSoftColliders::ClusterBase::SolveContact(v14, 0, this, v28, v29, 0, (int)&v41) )
       {
-        ++gNumAlignedAllocs;
-        if ( sAlignedAllocFunc(0x110u, 16) )
+        v15 = (btSoftBody::CJoint *)btAlignedAllocInternal(0x110u);
+        v16 = v15;
+        v17 = (btSoftBody::CJoint *)v31;
+        if ( v15 )
         {
-          btSoftBody::CJoint::CJoint(v10);
-          v31 = v11;
-          btSoftBody::CJoint::operator=(v11, &__that);
+          btSoftBody::Joint::Joint(v31, (int)v15);
+          v16->__vftable = (btSoftBody::CJoint_vtbl *)&btSoftBody::CJoint::`vftable';
+          v13 = v16;
         }
-        else
-        {
-          v31 = 0;
-          btSoftBody::CJoint::operator=(0, &__that);
-        }
-        v12 = this;
-        v13 = this->bodies[0];
-        m_capacity = v13->m_joints.m_capacity;
-        m_size = v13->m_joints.m_size;
-        p_m_joints = &v13->m_joints;
+        v32 = v13;
+        btSoftBody::CJoint::operator=(v17, v13, &v41);
+        v18 = (btSoftBody *)this->witnesses[0].mVec128.m128_i32[1];
+        m_capacity = v18->m_joints.m_capacity;
+        m_size = v18->m_joints.m_size;
+        p_m_joints = &v18->m_joints;
         if ( m_size == m_capacity )
         {
-          v17 = 2 * m_size;
-          if ( !m_size )
-            v17 = 1;
-          if ( m_capacity < v17 )
+          if ( m_size )
+            v22 = 2 * m_size;
+          else
+            v22 = 1;
+          v34 = v22;
+          if ( m_capacity < v22 )
           {
-            if ( v17 )
-            {
-              ++gNumAlignedAllocs;
-              wtrs1a = (const btTransform *)sAlignedAllocFunc(4 * v17, 16);
-            }
+            if ( v22 )
+              v33 = btAlignedAllocInternal(4 * v22);
             else
+              v33 = 0;
+            v23 = p_m_joints->m_size;
+            v24 = 0;
+            if ( v23 > 0 )
             {
-              wtrs1a = 0;
-            }
-            v18 = p_m_joints->m_size;
-            v19 = 0;
-            if ( v18 > 0 )
-            {
-              v20 = wtrs1a;
+              v25 = v33;
               do
               {
-                if ( v20 )
+                if ( v25 )
                 {
-                  v20->m_basis.m_el[0].mVec128.m128_i32[0] = (int)p_m_joints->m_data[v19];
-                  v12 = this;
+                  *v25 = p_m_joints->m_data[v24];
+                  v22 = v34;
                 }
-                ++v19;
-                v20 = (const btTransform *)((char *)v20 + 4);
+                ++v24;
+                ++v25;
               }
-              while ( v19 < v18 );
+              while ( v24 < v23 );
             }
-            m_data = p_m_joints->m_data;
-            if ( m_data )
+            if ( p_m_joints->m_data )
             {
               if ( p_m_joints->m_ownsMemory )
-              {
-                ++gNumAlignedFree;
-                sAlignedFreeFunc(m_data);
-              }
+                btAlignedFreeInternal(p_m_joints->m_data);
               p_m_joints->m_data = 0;
             }
             p_m_joints->m_ownsMemory = 1;
-            p_m_joints->m_data = (btSoftBody::Joint **)wtrs1a;
-            p_m_joints->m_capacity = v17;
+            p_m_joints->m_data = (btSoftBody::Joint **)v33;
+            p_m_joints->m_capacity = v22;
           }
+          v13 = v32;
         }
-        v22 = (btSoftBody::CJoint **)&p_m_joints->m_data[p_m_joints->m_size];
-        if ( v22 )
-          *v22 = v31;
+        v26 = (const btSoftBody::CJoint **)&p_m_joints->m_data[p_m_joints->m_size];
+        if ( v26 )
+          *v26 = v13;
         ++p_m_joints->m_size;
-        v23 = v12->bodies[0];
-        kSSHR_CL = v23->m_cfg.kSSHR_CL;
-        p_kSSHR_CL = &v23->m_cfg.kSSHR_CL;
-        v26 = &v12->bodies[1]->m_cfg.kSSHR_CL;
-        if ( kSSHR_CL > *v26 )
-          v26 = p_kSSHR_CL;
-        v31->m_erp = *v26 * v31->m_erp;
-        v31->m_split = (float)((float)(v12->bodies[1]->m_cfg.kSS_SPLT_CL + v12->bodies[0]->m_cfg.kSS_SPLT_CL)
-                             * v31->m_split)
+        v27 = (float *)(this->witnesses[0].mVec128.m128_i32[2] + 356);
+        if ( *(float *)(this->witnesses[0].mVec128.m128_i32[1] + 356) > *v27 )
+          v27 = (float *)(this->witnesses[0].mVec128.m128_i32[1] + 356);
+        v13->m_erp = v13->m_erp * *v27;
+        v13->m_split = (float)((float)(*(float *)(this->witnesses[0].mVec128.m128_i32[1] + 368)
+                                     + *(float *)(this->witnesses[0].mVec128.m128_i32[2] + 368))
+                             * v13->m_split)
                      * 0.5;
       }
     }

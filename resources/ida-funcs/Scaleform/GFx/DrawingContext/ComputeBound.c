@@ -5,8 +5,8 @@ void __thiscall Scaleform::GFx::DrawingContext::ComputeBound(
   unsigned int v3; // edi
   _DWORD *v4; // eax
   int v5; // eax
-  unsigned int Size; // [esp+30h] [ebp-14h]
-  Scaleform::Render::Rect<float> left; // [esp+34h] [ebp-10h] BYREF
+  unsigned int Size; // [esp+20h] [ebp-14h]
+  Scaleform::Render::Rect<float> left; // [esp+24h] [ebp-10h] BYREF
 
   Scaleform::GFx::DrawingContext::UpdateRenderNode(this, (int)this);
   v3 = 0;

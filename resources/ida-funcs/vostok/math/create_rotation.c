@@ -1,194 +1,230 @@
-vostok::math::float4x4 *__usercall vostok::math::create_rotation@<eax>(
-        const vostok::math::float3 *direction@<eax>,
-        const vostok::math::float3 *normal@<edi>,
-        _QWORD *a3@<esi>)
+vostok::math::float4x4 *__fastcall vostok::math::create_rotation(
+        const vostok::math::float3 *normal,
+        const vostok::math::float3 *direction,
+        int a3)
 {
-  float z; // xmm4_4
+  float z; // xmm0_4
   float y; // xmm6_4
-  float v5; // xmm0_4
-  float v6; // xmm2_4
-  double v7; // st7
-  float v8; // xmm5_4
-  float v9; // xmm3_4
-  float v11; // [esp+8h] [ebp-28h]
-  float x; // [esp+Ch] [ebp-24h]
-  float v13; // [esp+14h] [ebp-1Ch]
-  __int128 v14; // [esp+1Ch] [ebp-14h]
+  vostok::math::float4x4 *result; // eax
+  float v6; // xmm3_4
+  float x; // xmm1_4
+  float v8; // xmm4_4
+  float v9; // xmm0_4
+  float v10; // xmm5_4
+  float v11; // xmm2_4
+  float v12; // xmm3_4
+  float v13; // xmm4_4
+  float v14; // xmm4_4
+  float v15; // [esp+4h] [ebp-20h]
+  float v16; // [esp+Ch] [ebp-18h]
+  float v17; // [esp+10h] [ebp-14h]
 
   z = direction->z;
   y = direction->y;
-  v5 = (float)(normal->y * z) - (float)(normal->z * y);
+  result = (vostok::math::float4x4 *)a3;
+  v6 = (float)(normal->y * z) - (float)(normal->z * y);
   x = normal->x;
-  v6 = (float)(normal->x * y) - (float)(direction->x * normal->y);
-  v13 = (float)(direction->x * normal->z) - (float)(normal->x * z);
-  v7 = sqrtf((float)((float)(v6 * v6) + (float)(v5 * v5)) + (float)(v13 * v13));
-  v8 = normal->z;
-  v11 = 1.0 / v7;
-  *(float *)&v14 = v11 * v5;
-  *((float *)&v14 + 1) = v11 * v13;
-  *a3 = v14;
-  a3[1] = COERCE_UNSIGNED_INT(v6 * v11);
-  *(_QWORD *)((char *)&v14 + 4) = *(_QWORD *)&normal->elements[1];
-  *(float *)&v14 = x;
-  a3[2] = v14;
-  a3[3] = DWORD2(v14);
-  v9 = normal->y;
-  *(float *)&v14 = (float)(v8 * (float)(v11 * v13)) - (float)(v9 * (float)(v6 * v11));
-  *((float *)&v14 + 1) = (float)(x * (float)(v6 * v11)) - (float)(v8 * (float)(v11 * v5));
-  a3[4] = v14;
-  a3[5] = COERCE_UNSIGNED_INT((float)(v9 * (float)(v11 * v5)) - (float)(x * (float)(v11 * v13)));
-  HIDWORD(v14) = clear_value;
-  a3[6] = 0;
-  DWORD2(v14) = 0;
-  a3[7] = *((_QWORD *)&v14 + 1);
-  return (vostok::math::float4x4 *)a3;
+  v8 = (float)(direction->x * normal->z) - (float)(normal->x * z);
+  v9 = (float)(normal->x * y) - (float)(direction->x * normal->y);
+  v10 = s_bm_current_air_resistance / fsqrt((float)((float)(v9 * v9) + (float)(v6 * v6)) + (float)(v8 * v8));
+  v11 = v10 * v6;
+  v15 = v10 * v6;
+  v12 = v10 * v8;
+  v13 = normal->y;
+  *(float *)a3 = v15;
+  *(float *)(a3 + 4) = v12;
+  *(float *)(a3 + 8) = v9 * v10;
+  *(_DWORD *)(a3 + 12) = 0;
+  v16 = normal->z;
+  *(float *)(a3 + 16) = x;
+  *(float *)(a3 + 20) = v13;
+  v14 = normal->y;
+  *(float *)(a3 + 24) = v16;
+  *(_DWORD *)(a3 + 28) = 0;
+  *(float *)(a3 + 32) = (float)(v16 * v12) - (float)(v14 * (float)(v9 * v10));
+  *(float *)(a3 + 36) = (float)(x * (float)(v9 * v10)) - (float)(v16 * v11);
+  *(float *)(a3 + 40) = (float)(v14 * v11) - (float)(x * v12);
+  *(_DWORD *)(a3 + 44) = 0;
+  v17 = s_bm_current_air_resistance;
+  *(_DWORD *)(a3 + 48) = 0;
+  *(_DWORD *)(a3 + 52) = 0;
+  *(_DWORD *)(a3 + 56) = 0;
+  *(float *)(a3 + 60) = v17;
+  return result;
 }
 
 
-vostok::math::float4x4 *__cdecl vostok::math::create_rotation(
-        vostok::math::float4x4 *result,
-        const vostok::math::float3 *angles)
+vostok::math::float4x4 *__usercall vostok::math::create_rotation@<eax>(
+        const vostok::math::float3 *angles@<eax>,
+        int a2@<edi>,
+        int a3)
 {
-  long double v2; // st7
-  vostok::math::float4x4 *v3; // eax
-  float xsXzc; // [esp+8h] [ebp-2Ch]
-  float xsXzca; // [esp+8h] [ebp-2Ch]
-  float xsXzcb; // [esp+8h] [ebp-2Ch]
-  float z; // [esp+Ch] [ebp-28h]
-  float z_4; // [esp+10h] [ebp-24h]
-  float x; // [esp+14h] [ebp-20h]
-  float x_4; // [esp+18h] [ebp-1Ch]
-  unsigned int y; // [esp+1Ch] [ebp-18h]
-  float y_4; // [esp+20h] [ebp-14h]
-  __int64 v13; // [esp+24h] [ebp-10h]
-  __int64 v14; // [esp+2Ch] [ebp-8h]
+  __m128i v4; // xmm0
+  __m128i v5; // xmm0
+  __m128i v6; // xmm0
+  long double v8; // [esp-4h] [ebp-40h]
+  long double v9; // [esp-4h] [ebp-40h]
+  long double v10; // [esp-4h] [ebp-40h]
+  float x; // [esp+10h] [ebp-2Ch]
+  float y; // [esp+10h] [ebp-2Ch]
+  float z; // [esp+10h] [ebp-2Ch]
+  float v14; // [esp+14h] [ebp-28h]
+  float v15; // [esp+18h] [ebp-24h]
+  float v16; // [esp+1Ch] [ebp-20h]
+  float v17; // [esp+20h] [ebp-1Ch]
+  float v18; // [esp+38h] [ebp-4h]
 
-  xsXzc = angles->x;
-  x = sinf(xsXzc);
-  x_4 = cosf(xsXzc);
-  xsXzca = angles->y;
-  *(float *)&y = sinf(xsXzca);
-  y_4 = cosf(xsXzca);
-  xsXzcb = angles->z;
-  z = sinf(xsXzcb);
-  v2 = cosf(xsXzcb);
-  v3 = result;
-  z_4 = v2;
-  *(float *)&v13 = v2 * y_4;
-  *((float *)&v13 + 1) = -(y_4 * z);
-  *(_QWORD *)&result->i.x = v13;
-  *(_QWORD *)&result->lines[0].elements[2] = y;
-  *(float *)&v13 = (float)(z * x_4) + (float)(*(float *)&y * (float)(z_4 * x));
-  *((float *)&v13 + 1) = (float)(z_4 * x_4) - (float)((float)(*(float *)&y * z) * x);
-  *(_QWORD *)&result->lines[1].x = v13;
-  *(_QWORD *)&result->lines[1].elements[2] = COERCE_UNSIGNED_INT(-(float)(y_4 * x));
-  *((float *)&v13 + 1) = (float)((float)(*(float *)&y * z) * x_4) + (float)(z_4 * x);
-  *(float *)&v13 = (float)(z * x) - (float)((float)(*(float *)&y * z_4) * x_4);
-  *(_QWORD *)&result->lines[2].x = v13;
-  *(_QWORD *)&result->lines[2].elements[2] = COERCE_UNSIGNED_INT(x_4 * y_4);
-  HIDWORD(v14) = clear_value;
-  *(_QWORD *)&result->lines[3].x = 0;
-  LODWORD(v14) = 0;
-  *(_QWORD *)&result->lines[3].elements[2] = v14;
-  return v3;
+  x = angles->x;
+  LODWORD(v8) = a2;
+  v4 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(angles->x));
+  __libm_sse2_sin(v4);
+  *(float *)v4.m128i_i32 = *(double *)v4.m128i_i64;
+  v14 = *(float *)v4.m128i_i32;
+  __libm_sse2_cos(v8);
+  v15 = x;
+  y = angles->y;
+  v5 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(y));
+  __libm_sse2_sin(v5);
+  *(float *)v5.m128i_i32 = *(double *)v5.m128i_i64;
+  v16 = *(float *)v5.m128i_i32;
+  __libm_sse2_cos(v9);
+  v17 = y;
+  z = angles->z;
+  v6 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(z));
+  __libm_sse2_sin(v6);
+  *(float *)v6.m128i_i32 = *(double *)v6.m128i_i64;
+  __libm_sse2_cos(v10);
+  *(float *)a3 = z * v17;
+  *(_DWORD *)(a3 + 4) = COERCE_UNSIGNED_INT(*(float *)v6.m128i_i32 * v17) ^ _mask__NegFloat_;
+  *(float *)(a3 + 8) = v16;
+  *(_DWORD *)(a3 + 12) = 0;
+  *(float *)(a3 + 16) = (float)(*(float *)v6.m128i_i32 * v15) + (float)(v16 * (float)(z * v14));
+  *(float *)(a3 + 20) = (float)(z * v15) - (float)((float)(v16 * *(float *)v6.m128i_i32) * v14);
+  *(_DWORD *)(a3 + 24) = COERCE_UNSIGNED_INT(v17 * v14) ^ _mask__NegFloat_;
+  *(_DWORD *)(a3 + 28) = 0;
+  *(float *)(a3 + 32) = (float)(*(float *)v6.m128i_i32 * v14) - (float)((float)(v16 * z) * v15);
+  *(float *)(a3 + 36) = (float)((float)(v16 * *(float *)v6.m128i_i32) * v15) + (float)(z * v14);
+  *(float *)(a3 + 40) = v15 * v17;
+  *(_DWORD *)(a3 + 44) = 0;
+  v18 = s_bm_current_air_resistance;
+  *(_DWORD *)(a3 + 48) = 0;
+  *(_DWORD *)(a3 + 52) = 0;
+  *(_DWORD *)(a3 + 56) = 0;
+  *(float *)(a3 + 60) = v18;
+  return (vostok::math::float4x4 *)a3;
 }
 
 
 vostok::math::float4x4 *__usercall vostok::math::create_rotation@<eax>(
         const vostok::math::float3 *axis@<edi>,
         int a2@<esi>,
+        __m128i a3@<xmm0>,
         float angle)
 {
   float y; // xmm3_4
-  float z; // xmm5_4
-  const vostok::math::float4x4 *v5; // xmm7_4
-  float v6; // xmm1_4
-  float v7; // xmm4_4
-  float v8; // xmm6_4
-  float v9; // xmm5_4
-  float v10; // xmm3_4
-  float v11; // xmm0_4
-  float sqr_y; // [esp+Ch] [ebp-10h]
-  float sqr_z; // [esp+10h] [ebp-Ch]
-  float temp; // [esp+14h] [ebp-8h]
-  float temp_4; // [esp+18h] [ebp-4h]
+  float z; // xmm4_4
+  float v6; // xmm2_4
+  float v7; // xmm7_4
+  float v8; // xmm4_4
+  float v9; // xmm1_4
+  float v10; // xmm6_4
+  float v11; // xmm7_4
+  float v12; // xmm5_4
+  long double v14; // [esp+0h] [ebp-14h]
+  float v15; // [esp+0h] [ebp-14h]
+  float v16; // [esp+8h] [ebp-Ch]
 
-  temp = sinf(angle);
-  temp_4 = cosf(angle);
+  *(double *)a3.m128i_i64 = angle;
+  __libm_sse2_sin(a3);
+  *(float *)&v14 = angle;
+  __libm_sse2_cos(v14);
   y = axis->y;
   z = axis->z;
-  v5 = clear_value;
-  sqr_y = y * y;
-  sqr_z = z * z;
-  v6 = (float)(z * axis->x) * (float)(*(float *)&clear_value - temp_4);
-  v7 = (float)(y * axis->x) * (float)(*(float *)&clear_value - temp_4);
-  v8 = (float)(z * y) * (float)(*(float *)&clear_value - temp_4);
-  v9 = z * temp;
-  v10 = y * temp;
-  v11 = axis->x * temp;
-  *(float *)a2 = (float)((float)(*(float *)&clear_value - (float)(axis->x * axis->x)) * temp_4)
+  v6 = s_bm_current_air_resistance;
+  v16 = z * z;
+  v7 = z * y;
+  v8 = z * v15;
+  v9 = (float)(axis->z * axis->x) * (float)(s_bm_current_air_resistance - angle);
+  v10 = (float)(y * axis->x) * (float)(s_bm_current_air_resistance - angle);
+  v11 = v7 * (float)(s_bm_current_air_resistance - angle);
+  v12 = axis->x * v15;
+  *(float *)a2 = (float)((float)(s_bm_current_air_resistance - (float)(axis->x * axis->x)) * angle)
                + (float)(axis->x * axis->x);
-  *(float *)(a2 + 4) = v7 - v9;
-  *(float *)(a2 + 8) = v10 + v6;
+  *(float *)(a2 + 4) = v10 - v8;
+  *(float *)(a2 + 8) = (float)(y * v15) + v9;
   *(_DWORD *)(a2 + 12) = 0;
-  *(float *)(a2 + 16) = v9 + v7;
+  *(float *)(a2 + 20) = (float)((float)(v6 - (float)(y * y)) * angle) + (float)(y * y);
   *(_DWORD *)(a2 + 28) = 0;
-  *(float *)(a2 + 20) = (float)((float)(*(float *)&v5 - sqr_y) * temp_4) + sqr_y;
-  *(float *)(a2 + 24) = v8 - v11;
-  *(float *)(a2 + 32) = v6 - v10;
-  *(float *)(a2 + 36) = v11 + v8;
+  *(float *)(a2 + 24) = v11 - v12;
+  *(float *)(a2 + 16) = v8 + v10;
+  *(float *)(a2 + 32) = v9 - (float)(y * v15);
+  *(float *)(a2 + 40) = (float)((float)(v6 - v16) * angle) + v16;
   *(_DWORD *)(a2 + 44) = 0;
-  *(float *)(a2 + 40) = (float)((float)(*(float *)&v5 - sqr_z) * temp_4) + sqr_z;
+  *(float *)(a2 + 36) = v12 + v11;
   *(_DWORD *)(a2 + 48) = 0;
   *(_DWORD *)(a2 + 52) = 0;
   *(_DWORD *)(a2 + 56) = 0;
-  *(float *)(a2 + 60) = *(float *)&v5;
+  *(float *)(a2 + 60) = v6;
   return (vostok::math::float4x4 *)a2;
 }
 
 
 vostok::math::float4x4 *__usercall vostok::math::create_rotation@<eax>(
-        const vostok::math::float3 *angles@<edi>,
-        _QWORD *a2@<esi>)
+        const vostok::math::float3 *angles@<eax>,
+        int a2@<edi>,
+        const vostok::math::axis_rotation_order order)
 {
-  long double v2; // st7
-  __int64 v3; // xmm7_8
-  float _X; // [esp+8h] [ebp-30h]
-  float v6; // [esp+8h] [ebp-30h]
-  float v7; // [esp+8h] [ebp-30h]
-  float z; // [esp+Ch] [ebp-2Ch]
-  float z_4; // [esp+10h] [ebp-28h]
-  unsigned int x; // [esp+14h] [ebp-24h]
-  float x_4; // [esp+18h] [ebp-20h]
-  float y; // [esp+1Ch] [ebp-1Ch]
-  float y_4; // [esp+20h] [ebp-18h]
-  __int64 v14; // [esp+24h] [ebp-14h]
-  __int64 v15; // [esp+2Ch] [ebp-Ch]
+  __m128i v4; // xmm0
+  __m128i v5; // xmm0
+  __m128i v6; // xmm0
+  long double v8; // [esp-4h] [ebp-40h]
+  long double v9; // [esp-4h] [ebp-40h]
+  long double v10; // [esp-4h] [ebp-40h]
+  float x; // [esp+10h] [ebp-2Ch]
+  float y; // [esp+10h] [ebp-2Ch]
+  float z; // [esp+10h] [ebp-2Ch]
+  float v14; // [esp+14h] [ebp-28h]
+  float v15; // [esp+18h] [ebp-24h]
+  float v16; // [esp+1Ch] [ebp-20h]
+  float v17; // [esp+20h] [ebp-1Ch]
+  float v18; // [esp+38h] [ebp-4h]
 
-  _X = angles->x;
-  *(float *)&x = sinf(_X);
-  x_4 = cosf(_X);
-  v6 = angles->y;
-  y = sinf(v6);
-  y_4 = cosf(v6);
-  v7 = angles->z;
-  z = sinf(v7);
-  v2 = cosf(v7);
-  z_4 = v2;
-  *((float *)&v14 + 1) = -(z * x_4);
-  *(float *)&v14 = (float)(y_4 * z_4) - (float)(*(float *)&x * (float)(z * y));
-  v3 = v14;
-  *((float *)&v14 + 1) = v2 * x_4;
-  *a2 = v3;
-  a2[1] = COERCE_UNSIGNED_INT((float)(*(float *)&x * (float)(y_4 * z)) + (float)(z_4 * y));
-  *(float *)&v14 = (float)(*(float *)&x * (float)(z_4 * y)) + (float)(y_4 * z);
-  a2[2] = v14;
-  a2[3] = COERCE_UNSIGNED_INT((float)(z * y) - (float)(*(float *)&x * (float)(y_4 * z_4)));
-  a2[4] = __PAIR64__(x, -(float)(x_4 * y));
-  a2[5] = COERCE_UNSIGNED_INT(x_4 * y_4);
-  HIDWORD(v15) = clear_value;
-  a2[6] = 0;
-  LODWORD(v15) = 0;
-  a2[7] = v15;
-  return (vostok::math::float4x4 *)a2;
+  x = angles->x;
+  LODWORD(v8) = a2;
+  v4 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(angles->x));
+  __libm_sse2_sin(v4);
+  *(float *)v4.m128i_i32 = *(double *)v4.m128i_i64;
+  v14 = *(float *)v4.m128i_i32;
+  __libm_sse2_cos(v8);
+  v15 = x;
+  y = angles->y;
+  v5 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(y));
+  __libm_sse2_sin(v5);
+  *(float *)v5.m128i_i32 = *(double *)v5.m128i_i64;
+  v16 = *(float *)v5.m128i_i32;
+  __libm_sse2_cos(v9);
+  v17 = y;
+  z = angles->z;
+  v6 = (__m128i)_mm_cvtps_pd((__m128)LODWORD(z));
+  __libm_sse2_sin(v6);
+  *(float *)v6.m128i_i32 = *(double *)v6.m128i_i64;
+  __libm_sse2_cos(v10);
+  *(float *)order = (float)(v17 * z) - (float)(v14 * (float)(*(float *)v6.m128i_i32 * v16));
+  *(_DWORD *)(order + 4) = COERCE_UNSIGNED_INT(v15 * *(float *)v6.m128i_i32) ^ _mask__NegFloat_;
+  *(float *)(order + 8) = (float)(v14 * (float)(v17 * *(float *)v6.m128i_i32)) + (float)(z * v16);
+  *(_DWORD *)(order + 12) = 0;
+  *(float *)(order + 16) = (float)(v14 * (float)(z * v16)) + (float)(v17 * *(float *)v6.m128i_i32);
+  *(float *)(order + 20) = v15 * z;
+  *(float *)(order + 24) = (float)(*(float *)v6.m128i_i32 * v16) - (float)(v14 * (float)(v17 * z));
+  *(_DWORD *)(order + 28) = 0;
+  *(_DWORD *)(order + 32) = COERCE_UNSIGNED_INT(v15 * v16) ^ _mask__NegFloat_;
+  *(float *)(order + 36) = v14;
+  *(float *)(order + 40) = v15 * v17;
+  *(_DWORD *)(order + 44) = 0;
+  v18 = s_bm_current_air_resistance;
+  *(_DWORD *)(order + 48) = 0;
+  *(_DWORD *)(order + 52) = 0;
+  *(_DWORD *)(order + 56) = 0;
+  *(float *)(order + 60) = v18;
+  return (vostok::math::float4x4 *)order;
 }

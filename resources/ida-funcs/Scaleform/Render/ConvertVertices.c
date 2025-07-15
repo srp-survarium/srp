@@ -4,7 +4,7 @@ void __cdecl Scaleform::Render::ConvertVertices(
         const Scaleform::Render::VertexFormat *destFormat,
         unsigned __int8 *pdest,
         unsigned int count,
-        void **pargs)
+        const void **pargs)
 {
   Scaleform::Render::VertexElement *pElements; // edi
   unsigned int Attribute; // ebx
@@ -69,7 +69,7 @@ void __cdecl Scaleform::Render::ConvertVertices(
         {
 LABEL_14:
           Scaleform::Render::CopyVertexElements(
-            &psource[v10->Offset],
+            (const __m128i *)&psource[v10->Offset],
             v8->Size,
             &pdest[pElements->Offset],
             destFormat->Size,

@@ -1,12 +1,12 @@
 Scaleform::String *__thiscall Scaleform::String::GetExtension(Scaleform::String *this, Scaleform::String *result)
 {
   unsigned int HeapTypeBits; // ecx
-  const char *ext; // [esp+0h] [ebp-4h] BYREF
+  Scaleform::String *v4; // [esp+0h] [ebp-4h] BYREF
 
-  ext = (const char *)this;
+  v4 = this;
   HeapTypeBits = this->HeapTypeBits;
-  ext = 0;
-  Scaleform::ScanFilePath((const char *)((HeapTypeBits & 0xFFFFFFFC) + 8), 0, &ext);
-  Scaleform::String::String(result, (char *)ext);
+  v4 = 0;
+  Scaleform::ScanFilePath((char *)((HeapTypeBits & 0xFFFFFFFC) + 8), 0, (const char **)&v4);
+  Scaleform::String::String(result, (const __m128i *)v4);
   return result;
 }

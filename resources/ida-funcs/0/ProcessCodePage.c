@@ -1,36 +1,36 @@
-UINT __usercall ProcessCodePage@<eax>(char *lpCodePageStr@<ecx>, setloc_struct *_psetloc_data@<edi>)
+UINT __usercall ProcessCodePage@<eax>(char *lpCodePageStr@<ecx>, setloc_struct *_psetloc_data@<edi>, int a3@<ebx>)
 {
-  char *v2; // esi
-  int v3; // eax
+  char *v3; // esi
   int v4; // eax
-  int v6; // eax
-  char chCodePage[8]; // [esp+4h] [ebp-Ch] BYREF
+  int v5; // eax
+  int v7; // eax
+  char LCData[8]; // [esp+4h] [ebp-Ch] BYREF
 
-  v2 = lpCodePageStr;
+  v3 = lpCodePageStr;
   if ( lpCodePageStr )
   {
     if ( *lpCodePageStr )
     {
       strcmp((unsigned __int8 *)lpCodePageStr, "ACP");
-      if ( v3 )
+      if ( v4 )
       {
-        strcmp((unsigned __int8 *)v2, "OCP");
-        if ( v4 )
-          return atol(v2);
-        if ( GetLocaleInfoA(_psetloc_data->lcidCountry, 0xBu, chCodePage, 8) )
+        strcmp((unsigned __int8 *)v3, "OCP");
+        if ( v5 )
+          return atol(a3, v3);
+        if ( GetLocaleInfoA(_psetloc_data->lcidCountry, 0xBu, LCData, 8) )
         {
 LABEL_6:
-          v2 = chCodePage;
-          return atol(v2);
+          v3 = LCData;
+          return atol(a3, v3);
         }
         return 0;
       }
     }
   }
-  if ( !GetLocaleInfoA(_psetloc_data->lcidCountry, 0x1004u, chCodePage, 8) )
+  if ( !GetLocaleInfoA(_psetloc_data->lcidCountry, 0x1004u, LCData, 8) )
     return 0;
-  strcmp((unsigned __int8 *)chCodePage, (unsigned __int8 *)&stru_95AF78.m_key_bindings[6].m_keyboard[1]);
-  if ( v6 )
+  strcmp((unsigned __int8 *)LCData, "0");
+  if ( v7 )
     goto LABEL_6;
   return GetACP();
 }

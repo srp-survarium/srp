@@ -10,11 +10,11 @@ bool __thiscall Scaleform::GFx::AS3::Instances::fl_text::Font::CreateLibraryObje
   Scaleform::GFx::LogState *v8; // esi
   const char *pData; // esi
   Scaleform::GFx::LogState *v10; // edi
-  Scaleform::GFx::Resource_vtbl *v11; // esi
+  Scaleform::Render::Font *v11; // esi
   Scaleform::RefCountVImpl *v12; // ecx
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASString className; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::String symbol; // [esp+14h] [ebp-Ch] BYREF
+  Scaleform::Ptr<Scaleform::GFx::LogState> result; // [esp+14h] [ebp-Ch] BYREF
   Scaleform::GFx::ResourceBindData resBindData; // [esp+18h] [ebp-8h] BYREF
 
   if ( this->pFont.pObject )
@@ -29,31 +29,27 @@ bool __thiscall Scaleform::GFx::AS3::Instances::fl_text::Font::CreateLibraryObje
   pObject->GetQualifiedName(pObject, &className, qnfWithDot);
   resBindData.pResource.pObject = 0;
   resBindData.pBinding = 0;
-  Scaleform::String::String(&symbol, (char *)className.pNode->pData);
+  Scaleform::String::String((Scaleform::String *)&result, (const __m128i *)className.pNode->pData);
   v5 = Scaleform::GFx::MovieImpl::FindExportedResource(
          pVM->pMovieRoot->pMovieImpl,
          ResourceMovieDef,
          &resBindData,
-         &symbol) == 0;
-  v6 = (void *)(symbol.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((symbol.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+         (const Scaleform::String *)&result) == 0;
+  v6 = (void *)((unsigned int)result.pObject & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)result.pObject & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v6);
   if ( v5 )
   {
     pMovieRoot = pVM->pMovieRoot;
-    v8 = Scaleform::GFx::StateBag::GetLogState(
-           &pMovieRoot->pMovieImpl->Scaleform::GFx::StateBag,
-           (Scaleform::Ptr<Scaleform::GFx::LogState> *)&symbol)->pObject;
-    if ( symbol.pData )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)symbol.pData);
+    v8 = Scaleform::GFx::StateBag::GetLogState(&pMovieRoot->pMovieImpl->Scaleform::GFx::StateBag, &result)->pObject;
+    if ( result.pObject )
+      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pObject);
     if ( v8 )
     {
       pData = className.pNode->pData;
-      v10 = Scaleform::GFx::StateBag::GetLogState(
-              &pMovieRoot->pMovieImpl->Scaleform::GFx::StateBag,
-              (Scaleform::Ptr<Scaleform::GFx::LogState> *)&symbol)->pObject;
-      if ( symbol.pData )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)symbol.pData);
+      v10 = Scaleform::GFx::StateBag::GetLogState(&pMovieRoot->pMovieImpl->Scaleform::GFx::StateBag, &result)->pObject;
+      if ( result.pObject )
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pObject);
       Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
         &v10->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
         "Attaching a font with class '%s' failed",
@@ -68,13 +64,13 @@ LABEL_20:
   {
     if ( (resBindData.pResource.pObject->GetResourceTypeCode(resBindData.pResource.pObject) & 0x200) != 0 )
     {
-      v11 = resBindData.pResource.pObject[1].__vftable;
+      v11 = (Scaleform::Render::Font *)resBindData.pResource.pObject[1].__vftable;
       if ( v11 )
         Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)resBindData.pResource.pObject[1].__vftable);
       v12 = (Scaleform::RefCountVImpl *)this->pFont.pObject;
       if ( v12 )
         Scaleform::RefCountImpl::Release(v12);
-      this->pFont.pObject = (Scaleform::Render::Font *)v11;
+      this->pFont.pObject = v11;
     }
     goto LABEL_20;
   }

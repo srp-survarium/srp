@@ -1,37 +1,39 @@
-vostok::math::float3 *__thiscall survarium::bullet::compute_parabolic_velocity(
+vostok::math::float3 *__userpurge survarium::bullet::compute_parabolic_velocity@<eax>(
+        const vostok::math::float3 *gravity@<edx>,
+        vostok::math::float3 *result@<eax>,
         survarium::bullet *this,
-        vostok::math::float3 *result,
-        float time,
-        const vostok::math::float3 *gravity)
+        float time)
 {
-  vostok::math::float3 *v4; // eax
-  vostok::math::float3 *v6; // esi
-  vostok::math::float3 *v7; // eax
-  vostok::math::float3 v9; // [esp+24h] [ebp-38h] BYREF
-  float v10; // [esp+30h] [ebp-2Ch] BYREF
-  vostok::math::float3 v11; // [esp+34h] [ebp-28h] BYREF
-  vostok::math::float3 v12; // [esp+40h] [ebp-1Ch] BYREF
-  float value; // [esp+4Ch] [ebp-10h] BYREF
-  vostok::math::float3 xz_velocity; // [esp+50h] [ebp-Ch] BYREF
+  float v4; // xmm2_4
+  float v5; // xmm3_4
+  float v6; // xmm0_4
+  float v7; // xmm6_4
+  float v8; // xmm2_4
+  float v9; // xmm1_4
+  float v10; // xmm2_4
 
-  vostok::math::float3::float3(
-    &xz_velocity,
-    COERCE_UNSIGNED_INT(this->m_start_velocity.x),
-    COERCE_UNSIGNED_INT(0.0),
-    this->m_start_velocity.z);
-  value = vostok::math::float3_pod::squared_length((SpeedTree::Vec3 *)&xz_velocity);
-  if ( vostok::math::is_zero<float>(&value, &epsilon_5_84) )
+  if ( fabs(
+         (float)(this->m_start_velocity.z * this->m_start_velocity.z)
+       + (float)(this->m_start_velocity.x * this->m_start_velocity.x)) >= 0.0000099999997 )
   {
-    v4 = vostok::math::operator*(gravity, &v12, &time);
-    vostok::math::operator+(v4, &this->m_start_velocity, result);
+    v7 = 0.0;
+    v8 = this->m_air_resistance * time;
+    if ( (float)(s_bm_current_air_resistance - v8) >= 0.0 )
+      v7 = s_bm_current_air_resistance - v8;
+    v9 = (float)(this->m_start_velocity.y * v7) + (float)(gravity->y * time);
+    v10 = (float)(this->m_start_velocity.z * v7) + (float)(gravity->z * time);
+    result->x = (float)(this->m_start_velocity.x * v7) + (float)(gravity->x * time);
+    result->y = v9;
+    result->z = v10;
   }
   else
   {
-    vostok::math::max();
-    v10 = *(float *)&FLOAT_0_0;
-    v6 = vostok::math::operator*(gravity, &v11, &time);
-    v7 = vostok::math::operator*(&this->m_start_velocity, &v9, &v10);
-    vostok::math::operator+(v6, v7, result);
+    v4 = gravity->z * time;
+    v5 = this->m_start_velocity.x + (float)(gravity->x * time);
+    result->y = this->m_start_velocity.y + (float)(gravity->y * time);
+    v6 = this->m_start_velocity.z + v4;
+    result->x = v5;
+    result->z = v6;
   }
   return result;
 }

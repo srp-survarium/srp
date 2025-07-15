@@ -13,12 +13,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::prepend(
 
   if ( rhs )
   {
-    memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)&this->mat4, sizeof(dst));
+    memcpy((int)&dst, (const __m128i *)&this->mat4, sizeof(dst));
     Scaleform::Render::Matrix4x4<double>::MultiplyMatrix_NonOpt(&this->mat4, &dst, &rhs->mat4);
     if ( this->pDispObj )
     {
       Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(&this->mat4, &v8);
-      memcpy(v9, (unsigned __int8 *)&v8, sizeof(v9));
+      memcpy((int)v9, (const __m128i *)&v8, sizeof(v9));
       this->pDispObj->SetMatrix3D(this->pDispObj, (const Scaleform::Render::Matrix3x4<float> *)v9);
     }
   }

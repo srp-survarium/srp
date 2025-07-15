@@ -15,7 +15,7 @@ int __usercall tree_link_unmatched@<eax>(
   {
     if ( !node->nchild )
     {
-      v9 = policy_data_new(0, node->data->valid_policy, node->data->flags & 0x10);
+      v9 = (X509_POLICY_DATA_st *)policy_data_new(0, node->data->valid_policy, node->data->flags & 0x10);
       if ( !v9 )
         return 0;
       qualifier_set = cache->anyPolicy->qualifier_set;

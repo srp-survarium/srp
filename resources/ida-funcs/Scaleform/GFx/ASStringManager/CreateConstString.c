@@ -1,7 +1,7 @@
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringManager::CreateConstString(
         Scaleform::GFx::ASStringManager *this,
         Scaleform::GFx::ASString *result,
-        const char *pstr)
+        char *pstr)
 {
   Scaleform::GFx::ASStringNode *ConstStringNode; // eax
 

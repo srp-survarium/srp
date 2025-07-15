@@ -1,6 +1,9 @@
-BOOL __usercall vostok::render::stage_gbuffer::is_effects_ready@<eax>(
-        vostok::render::stage_gbuffer *this@<ecx>,
-        int a2@<eax>)
+BOOL __thiscall vostok::render::stage_gbuffer::is_effects_ready(vostok::render::stage_gbuffer *this)
 {
-  return *(_DWORD *)(a2 + 112) && *(_DWORD *)(a2 + 116);
+  BOOL result; // eax
+
+  result = 0;
+  if ( this->m_copy_depth_rt.m_object )
+    return this->m_fill_depth_effect.m_object != 0;
+  return result;
 }

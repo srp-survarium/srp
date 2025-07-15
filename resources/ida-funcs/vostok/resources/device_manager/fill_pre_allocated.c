@@ -1,37 +1,39 @@
 void __usercall vostok::resources::device_manager::fill_pre_allocated(
         vostok::resources::device_manager *this@<ecx>,
-        vostok::resources::device_manager *a2@<edi>)
+        vostok::resources::query_result *a2@<edi>)
 {
   vostok::resources::device_manager *v2; // ecx
-  vostok::resources::query_result *m_first; // eax
-  vostok::resources::query_result *m_next_in_device_manager; // esi
-  bool grabbed_something; // [esp+Fh] [ebp-11h]
-  vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> queries; // [esp+10h] [ebp-10h] BYREF
+  int v3; // eax
+  int v4; // esi
+  bool v5; // [esp+Fh] [ebp-11h]
+  int v6; // [esp+10h] [ebp-10h] BYREF
+  int v7; // [esp+18h] [ebp-8h]
+  int v8; // [esp+1Ch] [ebp-4h]
 
-  queries.m_size = 0;
-  queries.m_first = 0;
-  queries.m_last = 0;
+  v6 = 0;
+  v7 = 0;
+  v8 = 0;
   do
   {
-    a2->grab_sorted_queries(a2, &queries);
-    m_first = queries.m_first;
-    grabbed_something = queries.m_first != 0;
-    if ( queries.m_first )
+    ((void (__thiscall *)(vostok::resources::query_result *, int *))a2->link_child_resource)(a2, &v6);
+    v3 = v7;
+    v5 = v7 != 0;
+    if ( v7 )
     {
       do
       {
-        m_next_in_device_manager = m_first->m_next_in_device_manager;
-        vostok::resources::device_manager::pre_allocate(v2, a2, m_first);
-        m_first = m_next_in_device_manager;
+        v4 = *(_DWORD *)(v3 + 624);
+        vostok::resources::device_manager::pre_allocate(v2, a2, (vostok::fs_new::asynchronous_device_interface *)v3);
+        v3 = v4;
       }
-      while ( m_next_in_device_manager );
-      if ( queries.m_first )
+      while ( v4 );
+      if ( v7 )
       {
-        queries.m_first = 0;
-        queries.m_last = 0;
-        queries.m_size = 0;
+        v7 = 0;
+        v8 = 0;
+        v6 = 0;
       }
     }
   }
-  while ( grabbed_something );
+  while ( v5 );
 }

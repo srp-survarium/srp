@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::AddRequestHeader(const Scalefor
     if ( v1 )
       Scaleform::GFx::LogState::LogMessageByType(
         v1,
-        (Scaleform::LogMessageId)&loc_34000,
+        (Scaleform::LogMessageId)212992,
         "LoadVars.addRequestHeader is not implemented.");
   }
   else

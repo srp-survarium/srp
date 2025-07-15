@@ -20,8 +20,8 @@ void __thiscall Scaleform::GFx::AS2::Object::VisitMembers(
   _DWORD *v17; // ecx
   unsigned int RootIndex; // ecx
   Scaleform::GFx::AS2::Object *v19; // eax
-  unsigned int it; // [esp+14h] [ebp-18h]
-  Scaleform::GFx::AS2::Value value; // [esp+1Ch] [ebp-10h] BYREF
+  unsigned int v21; // [esp+14h] [ebp-18h]
+  Scaleform::GFx::AS2::Value v22; // [esp+1Ch] [ebp-10h] BYREF
 
   p_RefCount = &this->RefCount;
   RefCount = this->RefCount;
@@ -46,7 +46,7 @@ void __thiscall Scaleform::GFx::AS2::Object::VisitMembers(
   }
   v10 = pvisitor;
   v11 = RefCount;
-  it = RefCount;
+  v21 = RefCount;
   v12 = v7;
   while ( v11 )
   {
@@ -59,7 +59,7 @@ void __thiscall Scaleform::GFx::AS2::Object::VisitMembers(
     {
       if ( *(_BYTE *)(v14 + v13 + 16) == 10 )
       {
-        value.T.Type = 0;
+        v22.T.Type = 0;
         if ( (visitFlags & 8) == 0 )
         {
           v15 = instance;
@@ -69,16 +69,12 @@ void __thiscall Scaleform::GFx::AS2::Object::VisitMembers(
             v15,
             psc,
             v14 + v13 + 12,
-            &value);
-          v11 = it;
+            &v22);
+          v11 = v21;
         }
-        v10->Visit(
-          v10,
-          (const Scaleform::GFx::ASString *)(*(_DWORD *)v11 + v14 + 12),
-          &value,
-          (unsigned __int8)pvisitor);
-        if ( value.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&value);
+        v10->Visit(v10, (const Scaleform::GFx::ASString *)(*(_DWORD *)v11 + v14 + 12), &v22, (unsigned __int8)pvisitor);
+        if ( v22.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v22);
       }
       else
       {
@@ -87,7 +83,7 @@ void __thiscall Scaleform::GFx::AS2::Object::VisitMembers(
           (const Scaleform::GFx::ASString *)(v14 + v13 + 12),
           (const Scaleform::GFx::AS2::Value *)(v14 + v13 + 16),
           (unsigned __int8)pvisitor);
-        v11 = it;
+        v11 = v21;
       }
     }
     v16 = *(_DWORD *)(*(_DWORD *)v11 + 4);

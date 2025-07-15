@@ -1,12 +1,12 @@
 const Scaleform::Render::FilterSet *__thiscall Scaleform::GFx::TextField::GetFilters(Scaleform::GFx::TextField *this)
 {
   Scaleform::Render::TreeText *RenderNode; // esi
-  unsigned int v3; // edi
+  unsigned int Filters; // edi
   Scaleform::Render::FilterSet *v4; // eax
   Scaleform::Render::FilterSet *v5; // eax
   Scaleform::Render::FilterSet *v6; // esi
   Scaleform::RefCountVImpl *pObject; // ecx
-  $57F196AB27F8D57F4328C335D7E3132A *v8; // esi
+  $A4C37A7477F7A8C6E9231F01C70999D4 *v8; // esi
   unsigned int v9; // ebp
   Scaleform::Render::GlowFilter *v10; // eax
   int v11; // eax
@@ -19,18 +19,18 @@ const Scaleform::Render::FilterSet *__thiscall Scaleform::GFx::TextField::GetFil
   int v18; // ecx
   Scaleform::RefCountVImpl *v20; // ecx
   float angle; // [esp+34h] [ebp-64h]
-  Scaleform::Render::TreeText::Filter filters[3]; // [esp+38h] [ebp-60h] BYREF
+  Scaleform::Render::TreeText::Filter filtersBuf; // [esp+38h] [ebp-60h] BYREF
 
   if ( !Scaleform::GFx::DisplayObjectBase::GetRenderNode(this) || this->pFilters.pObject )
     return this->pFilters.pObject;
   RenderNode = (Scaleform::Render::TreeText *)Scaleform::GFx::DisplayObjectBase::GetRenderNode(this);
   `vector constructor iterator'(
-    (char *)filters,
+    (char *)&filtersBuf,
     0x20u,
     3,
     (void *(__thiscall *)(void *))Scaleform::Render::TreeText::Filter::Filter);
-  v3 = Scaleform::Render::TreeText::GetFilters(RenderNode, filters, 3u);
-  if ( v3 )
+  Filters = Scaleform::Render::TreeText::GetFilters(RenderNode, &filtersBuf, 3u);
+  if ( Filters )
   {
     v4 = (Scaleform::Render::FilterSet *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 24, 0);
     if ( v4 )
@@ -46,8 +46,8 @@ const Scaleform::Render::FilterSet *__thiscall Scaleform::GFx::TextField::GetFil
     if ( pObject )
       Scaleform::RefCountImpl::Release(pObject);
     this->pFilters.pObject = v6;
-    v8 = &filters[0].4;
-    v9 = v3;
+    v8 = &filtersBuf.4;
+    v9 = Filters;
     while ( LODWORD(v8[-1].DropShadow.Distance) != 1 )
     {
       if ( LODWORD(v8[-1].DropShadow.Distance) == 2 )
@@ -86,7 +86,7 @@ LABEL_20:
         goto LABEL_21;
       }
 LABEL_29:
-      v8 = ($57F196AB27F8D57F4328C335D7E3132A *)((char *)v8 + 32);
+      v8 = ($A4C37A7477F7A8C6E9231F01C70999D4 *)((char *)v8 + 32);
       if ( !--v9 )
         return this->pFilters.pObject;
     }

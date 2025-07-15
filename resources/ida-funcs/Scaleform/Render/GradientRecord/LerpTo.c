@@ -7,10 +7,10 @@ Scaleform::Render::GradientRecord *__thiscall Scaleform::Render::GradientRecord:
   unsigned int Raw; // edx
   Scaleform::Render::GradientRecord *v6; // eax
   float v7; // [esp+Ch] [ebp-8h]
-  Scaleform::Render::Color v8; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::Render::Color resulta; // [esp+10h] [ebp-4h] BYREF
 
-  Scaleform::Render::Color::Blend(&v8, this->ColorV, r2->ColorV, ratio);
-  Raw = v8.Raw;
+  Scaleform::Render::Color::Blend(&resulta, this->ColorV, r2->ColorV, ratio);
+  Raw = resulta.Raw;
   v7 = (float)this->Ratio;
   v6 = result;
   result->Ratio = (int)(((double)r2->Ratio - v7) * ratio + v7);

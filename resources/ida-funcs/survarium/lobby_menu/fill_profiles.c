@@ -1,120 +1,95 @@
-void __thiscall survarium::lobby_menu::fill_profiles(survarium::lobby_menu *this, survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::fill_profiles(survarium::lobby_menu *this, int a2)
 {
-  int v2; // eax
-  survarium::flash_movie_resource *m_object; // edx
-  int v4; // esi
-  unsigned __int8 v5; // al
-  int v6; // edi
-  char *v7; // esi
-  survarium::flash_movie_resource *v8; // eax
-  int v9; // ecx
-  survarium::flash_value profile_item_property; // [esp+54h] [ebp-468h] BYREF
-  int v11; // [esp+6Ch] [ebp-450h]
-  survarium::flash_value profile_item; // [esp+70h] [ebp-44Ch] BYREF
-  unsigned int pConvertedChars; // [esp+88h] [ebp-434h] BYREF
-  survarium::flash_value profiles_array; // [esp+8Ch] [ebp-430h] BYREF
-  int v15; // [esp+A4h] [ebp-418h] BYREF
-  int v16; // [esp+A8h] [ebp-414h]
-  wchar_t *v17; // [esp+ACh] [ebp-410h]
-  wchar_t profile_name_w[512]; // [esp+BCh] [ebp-400h] BYREF
+  int v2; // edi
+  int v3; // ebx
+  int v4; // eax
+  Scaleform::GFx::Movie *v5; // ecx
+  survarium::flash_movie *v6; // ecx
+  unsigned __int8 v7; // al
+  int v8; // ebx
+  int v9; // eax
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  unsigned int v13; // edi
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  survarium::flash_value *v17; // ecx
+  survarium::flash_value *v18; // ecx
+  bool v19; // cf
+  survarium::flash_value *v20; // ecx
+  Scaleform::GFx::Value pargs; // [esp+Ch] [ebp-70h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+24h] [ebp-58h] BYREF
+  Scaleform::GFx::Value v23; // [esp+3Ch] [ebp-40h] BYREF
+  survarium::flash_value value; // [esp+54h] [ebp-28h] BYREF
+  int v25; // [esp+6Ch] [ebp-10h]
+  int v26; // [esp+70h] [ebp-Ch]
+  unsigned int v27; // [esp+74h] [ebp-8h]
 
-  v2 = (int)thisa->m_game->m_network_client->lobby_client(thisa->m_game->m_network_client);
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)profiles_array.body = 0;
-  *(_DWORD *)&profiles_array.body[4] = 0;
-  v4 = v2;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&profiles_array);
-  v5 = *(_BYTE *)(v4 + 604);
-  *(_DWORD *)profile_item_property.body = 0;
-  *(_DWORD *)&profile_item_property.body[4] = 0;
-  if ( v5 )
+  v2 = a2;
+  v3 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 160) + 13912) + 60))(*(_DWORD *)(*(_DWORD *)(a2 + 160) + 13912));
+  v4 = *(_DWORD *)(a2 + 1600);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  v5 = *(Scaleform::GFx::Movie **)(*(_DWORD *)(v4 + 264) + 4);
+  v25 = v3;
+  Scaleform::GFx::Movie::CreateArray(v5, &pvalue);
+  v7 = *(_BYTE *)(v3 + 608);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  if ( v7 )
   {
-    v6 = 0;
-    v7 = (char *)(v4 + 616);
-    v11 = v5;
+    v27 = 0;
+    v8 = v3 + 2112;
+    v26 = v7;
     do
     {
-      v8 = thisa->m_lobby_menu_ui.m_object;
-      *(_DWORD *)profile_item.body = 0;
-      *(_DWORD *)&profile_item.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(v8->movie->m_movie, (Scaleform::GFx::Value *)&profile_item, 0, 0, 0);
-      pConvertedChars = 0;
-      mbstowcs_s(&pConvertedChars, profile_name_w, 0x200u, v7, 0xFFFFFFFF);
-      v9 = 0;
-      v15 = 0;
-      v16 = 7;
-      v17 = profile_name_w;
-      if ( (profile_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profile_item_property.body + 8))(
-          *(_DWORD *)profile_item_property.body,
-          &profile_item_property,
-          *(_DWORD *)&profile_item_property.body[8]);
-        v9 = v15;
-        *(_DWORD *)profile_item_property.body = 0;
-      }
-      *(_DWORD *)&profile_item_property.body[4] = 7;
-      *(_DWORD *)&profile_item_property.body[8] = profile_name_w;
-      if ( (v16 & 0x40) != 0 )
-        (*(void (__thiscall **)(int, int *, wchar_t *))(*(_DWORD *)v9 + 8))(v9, &v15, v17);
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)profile_item.body
-                                                                                           + 20))(
-        *(_DWORD *)profile_item.body,
-        *(_DWORD *)&profile_item.body[8],
-        "name",
-        &profile_item_property,
-        (profile_item.body[4] & 0x8F) == 10);
-      if ( (profile_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profile_item_property.body + 8))(
-          *(_DWORD *)profile_item_property.body,
-          &profile_item_property,
-          *(_DWORD *)&profile_item_property.body[8]);
-        *(_DWORD *)profile_item_property.body = 0;
-      }
-      *(_DWORD *)&profile_item_property.body[4] = 3;
-      *(_DWORD *)&profile_item_property.body[8] = 1;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)profile_item.body
-                                                                                           + 20))(
-        *(_DWORD *)profile_item.body,
-        *(_DWORD *)&profile_item.body[8],
-        "icon",
-        &profile_item_property,
-        (profile_item.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, int, survarium::flash_value *))(**(_DWORD **)profiles_array.body + 52))(
-        *(_DWORD *)profiles_array.body,
-        *(_DWORD *)&profiles_array.body[8],
-        v6,
-        &profile_item);
-      if ( (profile_item.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profile_item.body + 8))(
-          *(_DWORD *)profile_item.body,
-          &profile_item,
-          *(_DWORD *)&profile_item.body[8]);
-      ++v6;
-      v7 += 440;
-      --v11;
+      v9 = *(_DWORD *)(v2 + 1600);
+      v23.pObjectInterface = 0;
+      v23.Type = VT_Undefined;
+      survarium::flash_movie::CreateObject(v6, *(survarium::flash_value **)(v9 + 264), &v23);
+      survarium::flash_value::SetString(&value, (const char *)(v8 - 1488));
+      survarium::flash_value::SetMember(v10, &v23, "nickname", &value);
+      survarium::flash_value::SetInt(v11, (int)&value, 1);
+      survarium::flash_value::SetMember(v12, &v23, "icon", &value);
+      v13 = *(_DWORD *)(v8 - 4) - *(_DWORD *)v8;
+      survarium::flash_value::SetUInt(
+        (survarium::flash_value *)(*(_DWORD *)(v8 - 8) - *(_DWORD *)v8),
+        (int)&value,
+        *(_DWORD *)(v8 - 8) - *(_DWORD *)v8);
+      survarium::flash_value::SetMember(v14, &v23, "experience_current", &value);
+      survarium::flash_value::SetUInt(v15, (int)&value, *(unsigned __int8 *)(v8 + 11));
+      survarium::flash_value::SetMember(v16, &v23, "skill_level", &value);
+      survarium::flash_value::SetUInt(v17, (int)&value, v13);
+      survarium::flash_value::SetMember(v18, &v23, "experience_next_level", &value);
+      pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v27, &v23);
+      Scaleform::GFx::Value::~Value(&v23);
+      ++v27;
+      v2 = a2;
+      v8 += 1512;
+      --v26;
     }
-    while ( v11 );
+    while ( v26 );
+    v3 = v25;
   }
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_lobby_menu_ui.m_object->movie->m_movie,
-    "root.player_profile.setupProfiles",
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(v2 + 1600) + 264) + 4),
+    "root.setup_player_profiles",
     0,
-    (const Scaleform::GFx::Value *)&profiles_array,
+    &pvalue,
     1u);
-  if ( (profile_item_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profile_item_property.body + 8))(
-      *(_DWORD *)profile_item_property.body,
-      &profile_item_property,
-      *(_DWORD *)&profile_item_property.body[8]);
-    *(_DWORD *)profile_item_property.body = 0;
-  }
-  *(_DWORD *)&profile_item_property.body[4] = 0;
-  if ( (profiles_array.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profiles_array.body + 8))(
-      *(_DWORD *)profiles_array.body,
-      &profiles_array,
-      *(_DWORD *)&profiles_array.body[8]);
+  v19 = *(_BYTE *)(v3 + 608) < 8u;
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  survarium::flash_value::SetBoolean(v20, (int)&pargs, v19);
+  Scaleform::GFx::Movie::Invoke(
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(v2 + 1600) + 264) + 4),
+    "root.set_add_profile_button_enabled",
+    0,
+    &pargs,
+    1u);
+  Scaleform::GFx::Value::~Value(&pargs);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

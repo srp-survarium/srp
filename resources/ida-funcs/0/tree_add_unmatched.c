@@ -12,7 +12,7 @@ int __usercall tree_add_unmatched@<eax>(
   valid_policy = id;
   if ( !id )
     valid_policy = node->data->valid_policy;
-  v6 = policy_data_new(0, valid_policy, node->data->flags & 0x10);
+  v6 = (X509_POLICY_DATA_st *)policy_data_new(0, valid_policy, node->data->flags & 0x10);
   if ( !v6 )
     return 0;
   qualifier_set = cache->anyPolicy->qualifier_set;

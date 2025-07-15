@@ -1,9 +1,18 @@
 void __thiscall vostok::ui::ui_world::create_scroll_view(vostok::ui::ui_world *this)
 {
-  vostok::ui::ui_scroll_view *v2; // eax
-  int v3; // ecx
+  vostok::memory::base_allocator *m_allocator; // esi
+  char *v3; // eax
+  vostok::ui::ui_scroll_view *v4; // eax
 
-  v2 = (vostok::ui::ui_scroll_view *)this->m_allocator->call_malloc(this->m_allocator, 468);
-  if ( v2 )
-    vostok::ui::ui_scroll_view::ui_scroll_view(v3, this->m_allocator, v2);
+  m_allocator = this->m_allocator;
+  v3 = type_info::raw_name(&vostok::ui::ui_scroll_view `RTTI Type Descriptor');
+  v4 = (vostok::ui::ui_scroll_view *)m_allocator->call_malloc(
+                                       m_allocator,
+                                       468u,
+                                       v3,
+                                       "vostok::ui::ui_world::create_scroll_view",
+                                       ".\\ui_world_factory.cpp",
+                                       45u);
+  if ( v4 )
+    vostok::ui::ui_scroll_view::ui_scroll_view(v4, this->m_allocator);
 }

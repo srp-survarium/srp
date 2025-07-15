@@ -1,25 +1,26 @@
-X509_name_entry_st *__cdecl X509_NAME_ENTRY_create_by_OBJ(
+X509_name_entry_st *__usercall X509_NAME_ENTRY_create_by_OBJ@<eax>(
+        int a1@<ebx>,
         X509_name_entry_st **ne,
         asn1_object_st *obj,
         int type,
-        unsigned __int8 *bytes,
+        __m128i *bytes,
         int len)
 {
-  X509_name_entry_st *v5; // edi
+  X509_name_entry_st *v6; // edi
 
-  if ( !ne || (v5 = *ne) == 0 )
+  if ( !ne || (v6 = *ne) == 0 )
   {
-    v5 = X509_NAME_ENTRY_new();
-    if ( !v5 )
+    v6 = X509_NAME_ENTRY_new();
+    if ( !v6 )
       return 0;
   }
-  if ( !X509_NAME_ENTRY_set_object(v5, obj) || !X509_NAME_ENTRY_set_data(v5, type, bytes, len) )
+  if ( !X509_NAME_ENTRY_set_object(a1, v6, obj) || !X509_NAME_ENTRY_set_data(v6, type, bytes, len) )
   {
-    if ( !ne || v5 != *ne )
-      X509_NAME_ENTRY_free(v5);
+    if ( !ne || v6 != *ne )
+      X509_NAME_ENTRY_free(v6);
     return 0;
   }
   if ( ne && !*ne )
-    *ne = v5;
-  return v5;
+    *ne = v6;
+  return v6;
 }

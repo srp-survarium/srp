@@ -1,31 +1,24 @@
-bool __thiscall survarium::lobby_menu::is_mouse_over_ui(survarium::lobby_menu *this)
+char __thiscall survarium::lobby_menu::is_mouse_over_ui(survarium::lobby_menu *this)
 {
-  survarium::flash_movie_resource *m_object; // ecx
-  char v3; // bl
-  bool v4; // bl
-  survarium::flash_value is_mouse_over_val; // [esp+8h] [ebp-18h] BYREF
+  char v1; // bl
+  survarium::flash_movie_resource *m_object; // eax
+  Scaleform::GFx::Value presult; // [esp+Ch] [ebp-1Ch] BYREF
+  bool BValue; // [esp+27h] [ebp-1h]
 
+  v1 = 0;
   m_object = this->m_lobby_menu_ui.m_object;
-  *(_DWORD *)is_mouse_over_val.body = 0;
-  *(_DWORD *)&is_mouse_over_val.body[4] = 0;
+  presult.pObjectInterface = 0;
+  presult.Type = VT_Undefined;
+  Scaleform::GFx::Movie::Invoke(m_object->movie->m_movie, "root.get_mouse_over", &presult, 0, 0);
+  BValue = presult.mValue.BValue;
   Scaleform::GFx::Movie::Invoke(
-    m_object->movie->m_movie,
+    this->m_game->m_chat_handler->m_current_chat_ui.m_object->movie->m_movie,
     "root.get_mouse_over",
-    (Scaleform::GFx::Value *)&is_mouse_over_val,
+    &presult,
     0,
     0);
-  v3 = is_mouse_over_val.body[8];
-  Scaleform::GFx::Movie::Invoke(
-    this->m_game->m_chat_handler->m_chat_ui.m_object->movie->m_movie,
-    "root.get_mouse_over",
-    (Scaleform::GFx::Value *)&is_mouse_over_val,
-    0,
-    0);
-  v4 = v3 || is_mouse_over_val.body[8];
-  if ( (is_mouse_over_val.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)is_mouse_over_val.body + 8))(
-      *(_DWORD *)is_mouse_over_val.body,
-      &is_mouse_over_val,
-      *(_DWORD *)&is_mouse_over_val.body[8]);
-  return v4;
+  if ( BValue || presult.mValue.BValue )
+    v1 = 1;
+  Scaleform::GFx::Value::~Value(&presult);
+  return v1;
 }

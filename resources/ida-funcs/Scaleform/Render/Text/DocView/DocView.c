@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::Text::DocView::DocView(
   Scaleform::Render::Text::DocView::DocumentText *v5; // edi
   Scaleform::Render::Text::DocView::DocumentText *pObject; // ecx
   int v7; // [esp+20h] [ebp-4h] BYREF
-  float pfontMgra; // [esp+2Ch] [ebp+8h]
+  float v8; // [esp+2Ch] [ebp+8h]
 
   this->__vftable = (Scaleform::Render::Text::DocView_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -61,9 +61,9 @@ void __thiscall Scaleform::Render::Text::DocView::DocView(
   this->Flags = 0;
   this->ViewRect.x1 = 0.0;
   this->ViewRect.y1 = 0.0;
-  pfontMgra = 0.0 + 0.0;
-  this->ViewRect.x2 = pfontMgra;
-  this->ViewRect.y2 = pfontMgra;
+  v8 = 0.0 + 0.0;
+  this->ViewRect.x2 = v8;
+  this->ViewRect.y2 = v8;
   this->pImageSubstitutor = 0;
   Scaleform::Render::Text::DocView::SetFontScaleFactor(this, 1.0);
   this->Flags |= 0x80u;

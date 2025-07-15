@@ -1,117 +1,101 @@
 vostok::render::res_texture *__userpurge vostok::render::resource_manager::create_texture3d@<eax>(
-        const D3D11_SUBRESOURCE_DATA *data@<ecx>,
-        DXGI_FORMAT format@<eax>,
-        vostok::render::resource_manager *this,
+        vostok::render::resource_manager *this@<ecx>,
         const char *user_name,
-        unsigned int width,
+        const D3D11_SUBRESOURCE_DATA *width,
         unsigned int height,
         unsigned int depth,
-        D3D11_USAGE usage,
+        const D3D11_SUBRESOURCE_DATA *data,
+        DXGI_FORMAT format,
+        unsigned int usage,
         unsigned int mip_levels)
 {
-  int x; // eax
-  HRESULT v12; // eax
-  const char *d3d11_error_string; // eax
+  ID3D11Device_vtbl *v10; // ecx
+  HRESULT v11; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v12; // ecx
+  bool *d3d11_error_string; // eax
   void *v14; // eax
   vostok::render::res_texture *v15; // ecx
-  int v16; // eax
-  int v17; // esi
-  const char *v18; // eax
-  bool v20; // [esp+Ch] [ebp-16Ch]
-  bool v21; // [esp+10h] [ebp-168h]
-  bool do_debug_break; // [esp+20h] [ebp-158h] BYREF
-  ID3D11Texture3D *d3d_texture; // [esp+24h] [ebp-154h] BYREF
-  unsigned int src_row_pitch; // [esp+28h] [ebp-150h] BYREF
-  vostok::render::render_target *v25; // [esp+2Ch] [ebp-14Ch]
-  D3D11_TEXTURE3D_DESC desc; // [esp+30h] [ebp-148h] BYREF
-  stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >,bool> v27; // [esp+54h] [ebp-124h] BYREF
-  stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> v28; // [esp+5Ch] [ebp-11Ch] BYREF
+  vostok::render::res_texture *v16; // ebx
+  vostok::render::res_texture *v17; // eax
+  vostok::fixed_string<260> *v18; // ecx
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v19; // ecx
+  vostok::render::res_texture *v20; // ecx
+  ID3D11Device *m_device; // [esp-1Ch] [ebp-174h]
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > v22[12]; // [esp-4h] [ebp-15Ch] BYREF
+  char v23; // [esp+11Ch] [ebp-3Ch]
+  vostok::render::res_texture *v24; // [esp+120h] [ebp-38h]
+  char v25; // [esp+124h] [ebp-34h] BYREF
+  _DWORD v26[9]; // [esp+12Ch] [ebp-2Ch] BYREF
+  ID3D11Resource *surface; // [esp+150h] [ebp-8h] BYREF
+  char v28; // [esp+157h] [ebp-1h] BYREF
 
-  desc.Width = width;
-  desc.Height = height;
-  desc.Depth = depth;
-  desc.MipLevels = 1;
-  desc.Format = format;
-  desc.Usage = usage;
-  desc.BindFlags = 8;
-  if ( usage == D3D11_USAGE_IMMUTABLE )
+  if ( vostok::command_line::key::is_set((vostok::command_line::key *)this, (int)&s_no_render_targets) )
+    return 0;
+  v26[0] = 16;
+  v26[1] = 16;
+  v26[2] = 16;
+  v26[3] = 1;
+  v26[5] = 1;
+  v26[4] = 87;
+  v26[6] = 8;
+  v26[7] = 0;
+  v26[8] = 0;
+  surface = 0;
+  if ( !ignore_always_10
+    && vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateTexture3D(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         (const D3D11_TEXTURE3D_DESC *)v26,
+         width,
+         (ID3D11Texture3D **)&surface) < 0 )
   {
-    desc.CPUAccessFlags = 0;
-  }
-  else if ( usage == D3D11_USAGE_DYNAMIC )
-  {
-    desc.CPUAccessFlags = (unsigned int)&_sbh_sizeHeaderList;
-  }
-  desc.MiscFlags = 0;
-  d3d_texture = 0;
-  if ( !BYTE1(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_waiting_for_bind_action)
-    && (*(int (__stdcall **)(int, D3D11_TEXTURE3D_DESC *, const D3D11_SUBRESOURCE_DATA *, ID3D11Texture3D **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 24))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         &desc,
-         data,
-         &d3d_texture) < 0 )
-  {
-    x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-    do_debug_break = 1;
-    v12 = (*(int (__stdcall **)(int, D3D11_TEXTURE3D_DESC *, const D3D11_SUBRESOURCE_DATA *, ID3D11Texture3D **))(*(_DWORD *)x + 24))(
-            x,
-            &desc,
-            data,
-            &d3d_texture);
-    d3d11_error_string = make_d3d11_error_string(v12);
+    v10 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->lpVtbl;
+    *(_DWORD *)&v22[0]._M_header._M_data._M_color = 3435;
+    m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+    v28 = 1;
+    v11 = v10->CreateTexture3D(m_device, (const D3D11_TEXTURE3D_DESC *)v26, width, (ID3D11Texture3D **)&surface);
+    d3d11_error_string = (bool *)make_d3d11_error_string(v11, v12);
     vostok::debug::on_error(
-      &do_debug_break,
+      (bool *)&v28,
       process_error_true,
-      (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_waiting_for_bind_action
-    + 1,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\resource_manager.cpp",
       "vostok::render::resource_manager::create_texture3d",
-      0xA13u);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      (const char *)0xD6B);
+    if ( vostok::debug::is_debugger_present() || v28 )
       __debugbreak();
   }
-  v14 = vostok::memory::doug_lea_allocator::malloc_impl(
-          (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-          0x1BCu);
+  v14 = vostok::memory::new_helper<vostok::render::res_texture>::call<vostok::memory::doug_lea_allocator>(
+          vostok::render::g_allocator,
+          (const char *const)&v22[0]._M_header._M_data._M_parent->_M_color,
+          (const char *const)&v22[0]._M_header._M_data._M_left->_M_color,
+          (const unsigned int)v22[0]._M_header._M_data._M_right);
+  v16 = 0;
   if ( v14 )
   {
     vostok::render::res_texture::res_texture(v15, (int)v14, 0);
-    v17 = v16;
+    v16 = v17;
   }
-  else
-  {
-    v17 = 0;
-  }
-  *(_DWORD *)(v17 + 52) = depth * vostok::render::utils::calc_surface_size(width, height, format, &src_row_pitch);
-  v18 = *(const char **)(v17 + 144);
-  if ( v18 != user_name )
-  {
-    *(_DWORD *)(v17 + 148) = v18;
-    *v18 = 0;
-    vostok::buffer_string::operator+=((vostok::buffer_string *)(v17 + 144), user_name);
-  }
-  src_row_pitch = *(_DWORD *)(v17 + 144);
-  v25 = (vostok::render::render_target *)v17;
-  vostok::fs_new::virtual_path_string::virtual_path_string(
-    (vostok::fs_new::virtual_path_string *)&v28.first,
-    (const char **)&src_row_pitch);
-  v28.second = v25;
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *>>>::insert_unique(
-    &v28,
-    (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)&this->m_texture_registry,
-    &v27);
-  *(_BYTE *)(v17 + 439) = 1;
-  vostok::render::res_texture::set_hw_texture(
-    (vostok::render::res_texture *)d3d_texture,
-    v17,
-    d3d_texture,
-    0,
-    usage == D3D11_USAGE_STAGING,
-    v20,
-    v21);
-  d3d_texture->Release(d3d_texture);
-  return (vostok::render::res_texture *)v17;
+  v16->m_mem_usage = 16
+                   * vostok::render::utils::calc_surface_size(
+                       0x10u,
+                       0x10u,
+                       DXGI_FORMAT_B8G8R8A8_UNORM,
+                       (unsigned int *)&width);
+  vostok::render::res_texture::set_name(v16, "$user$color_grading_base_3d_lut");
+  vostok::fixed_string<260>::fixed_string<260>(
+    v18,
+    (vostok::buffer_string *)&v22[0]._M_node_count,
+    v16->m_name.m_string.m_begin);
+  *(_DWORD *)&v22[0]._M_header._M_data._M_color = &v22[0]._M_node_count;
+  v23 = 47;
+  v24 = v16;
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::insert_unique(
+    v19,
+    (stlp_std::priv::_Rb_tree_node_base *)(user_name + 557220),
+    (const stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> *)&v25,
+    v22[0]);
+  v16->m_is_registered = 1;
+  vostok::render::res_texture::set_hw_texture(v20, (int)v16, surface, 0, 0, 0, (bool)v22[0]._M_header._M_data._M_parent);
+  surface->Release(surface);
+  return v16;
 }

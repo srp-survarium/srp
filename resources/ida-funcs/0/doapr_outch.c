@@ -1,5 +1,5 @@
 void __usercall doapr_outch(
-        char **sbuffer@<ebx>,
+        const __m128i **sbuffer@<ebx>,
         char **buffer@<edi>,
         unsigned int *maxlen@<esi>,
         unsigned int *currlen,
@@ -24,7 +24,7 @@ void __usercall doapr_outch(
         v5 = (char *)CRYPTO_malloc(*maxlen, ".\\crypto\\bio\\b_print.c", 741);
         *buffer = v5;
         if ( *currlen )
-          memcpy((unsigned __int8 *)v5, (unsigned __int8 *)*sbuffer, *currlen);
+          memcpy((int)v5, *sbuffer, *currlen);
         *sbuffer = 0;
       }
     }
@@ -34,7 +34,7 @@ void __usercall doapr_outch(
   if ( *currlen < *maxlen )
   {
     if ( *sbuffer )
-      (*sbuffer)[v6] = c;
+      (*sbuffer)->m128i_i8[v6] = c;
     else
       (*buffer)[v6] = c;
     ++*currlen;

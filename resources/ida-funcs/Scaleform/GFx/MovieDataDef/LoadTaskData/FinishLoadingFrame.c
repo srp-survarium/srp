@@ -7,10 +7,10 @@ char __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::FinishLoadingFrame(
   Scaleform::GFx::FrameBindData *v6; // edi
   Scaleform::GFx::SWFProcessInfo *pAltStream; // eax
   Scaleform::Mutex *p_mMutex; // ebp
-  char success; // [esp+14h] [ebp+4h]
+  char v10; // [esp+14h] [ebp+4h]
 
   Scaleform::GFx::LoadProcess::CommitFrameTags(plp);
-  success = 1;
+  v10 = 1;
   FrameBindData = Scaleform::GFx::LoadProcess::CreateFrameBindData(plp);
   v6 = FrameBindData;
   if ( FrameBindData )
@@ -29,7 +29,7 @@ char __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::FinishLoadingFrame(
   if ( !v6 )
   {
     this->LoadState = LS_LoadError;
-    success = 0;
+    v10 = 0;
     goto LABEL_12;
   }
   if ( this->BindData.pFrameData.Value )
@@ -42,9 +42,9 @@ char __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::FinishLoadingFrame(
   {
     this->LoadState = LS_LoadFinished;
 LABEL_12:
-    if ( finished || !success )
+    if ( finished || !v10 )
       Scaleform::WaitCondition::NotifyAll(&this->pFrameUpdate.pObject->WC);
   }
   Scaleform::Mutex::Unlock(p_mMutex);
-  return success;
+  return v10;
 }

@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   int NArgs; // eax
   Scaleform::GFx::AS2::Value *v3; // eax
   bool v4; // cc
-  Scaleform::GFx::AS2::Environment *Env; // esi
+  Scaleform::GFx::AS2::Environment *v5; // esi
   Scaleform::GFx::MovieImpl *pMovieImpl; // ebx
   unsigned __int8 Type; // al
   Scaleform::GFx::AS2::Value *v8; // eax
@@ -24,17 +24,17 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   Scaleform::GFx::ASStringNode *v22; // ecx
   bool v23; // zf
   Scaleform::Log *v24; // eax
-  const char *focusInfo_40; // [esp+21Eh] [ebp-68h]
-  Scaleform::GFx::AS2::Environment *focusInfo_44; // [esp+222h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *focusInfo_44a; // [esp+222h] [ebp-64h]
-  unsigned __int8 v28; // [esp+235h] [ebp-51h]
-  Scaleform::GFx::ASString v29; // [esp+236h] [ebp-50h] BYREF
-  unsigned int v30; // [esp+23Ah] [ebp-4Ch]
-  Scaleform::RefCountNTSImpl *v31; // [esp+23Eh] [ebp-48h]
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+242h] [ebp-44h] BYREF
-  Scaleform::GFx::MovieImpl *v33; // [esp+246h] [ebp-40h]
-  Scaleform::GFx::InputEventsQueueEntry::KeyEntry keyEntry; // [esp+24Ah] [ebp-3Ch] BYREF
-  Scaleform::GFx::ProcessFocusKeyInfo pfocusInfo; // [esp+256h] [ebp-30h] BYREF
+  const char *v25; // [esp-8h] [ebp-68h]
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v27; // [esp-4h] [ebp-64h]
+  unsigned __int8 v28; // [esp+Fh] [ebp-51h]
+  Scaleform::GFx::ASString v29; // [esp+10h] [ebp-50h] BYREF
+  unsigned int v30; // [esp+14h] [ebp-4Ch]
+  Scaleform::RefCountNTSImpl *v31; // [esp+18h] [ebp-48h]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+1Ch] [ebp-44h] BYREF
+  Scaleform::GFx::MovieImpl *v33; // [esp+20h] [ebp-40h]
+  Scaleform::GFx::InputEventsQueueEntry::KeyEntry keyEntry; // [esp+24h] [ebp-3Ch] BYREF
+  Scaleform::GFx::ProcessFocusKeyInfo pfocusInfo; // [esp+30h] [ebp-30h] BYREF
 
   v1 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v1);
@@ -45,13 +45,13 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   v30 = 0;
   if ( NArgs >= 4 )
   {
-    focusInfo_44 = fn->Env;
+    Env = fn->Env;
     v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-    v30 = Scaleform::GFx::AS2::Value::ToUInt32(v3, focusInfo_44);
+    v30 = Scaleform::GFx::AS2::Value::ToUInt32(v3, Env);
   }
   v4 = fn->NArgs < 2;
-  Env = fn->Env;
-  pMovieImpl = Env->Target->pASRoot->pMovieImpl;
+  v5 = fn->Env;
+  pMovieImpl = v5->Target->pASRoot->pMovieImpl;
   v33 = pMovieImpl;
   if ( v4
     || (Type = Scaleform::GFx::AS2::FnCall::Arg(fn, 1)->T.Type) == 0
@@ -60,7 +60,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   {
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
       (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[v30]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+      &result);
     pObject = result.pObject;
     if ( result.pObject )
     {
@@ -75,7 +75,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   else
   {
     v8 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    v9 = Scaleform::GFx::AS2::Value::ToCharacter(v8, Env);
+    v9 = Scaleform::GFx::AS2::Value::ToCharacter(v8, v5);
     if ( v9 )
       ++v9->RefCount;
     v31 = v9;
@@ -86,9 +86,9 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::MoveFocus(const Scalefo
   }
   else
   {
-    focusInfo_44a = fn->Env;
+    v27 = fn->Env;
     v11 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-    LOBYTE(result.pObject) = Scaleform::GFx::AS2::Value::ToBool(v11, focusInfo_44a);
+    LOBYTE(result.pObject) = Scaleform::GFx::AS2::Value::ToBool(v11, (int)fn, v27);
   }
   v12 = fn->Env;
   v13 = 0;
@@ -122,7 +122,7 @@ LABEL_32:
     pfocusInfo.CurFocused.pObject = v17;
     pfocusInfo.ManualFocus = 1;
     Scaleform::GFx::MovieImpl::ProcessFocusKey(v16, KeyDown, &keyEntry, &pfocusInfo);
-    Scaleform::GFx::MovieImpl::FinalizeProcessFocusKey(v16, &pfocusInfo);
+    Scaleform::GFx::MovieImpl::FinalizeProcessFocusKey(v16, (Scaleform::Ptr<Scaleform::GFx::Sprite>)&pfocusInfo);
     v18 = pfocusInfo.CurFocused.pObject;
     v19 = fn->Result;
     if ( pfocusInfo.CurFocused.pObject )
@@ -190,7 +190,7 @@ LABEL_31:
                               fn->Env->Target,
                               "moveFocus - invalid string id for key: '%s'",
                               pNode->pData);
-    Scaleform::Log::LogWarning(v24, focusInfo_40);
+    Scaleform::Log::LogWarning(v24, v25);
   }
   v23 = pNode->RefCount-- == 1;
   if ( v23 )

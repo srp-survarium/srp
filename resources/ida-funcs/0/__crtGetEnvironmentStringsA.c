@@ -1,4 +1,4 @@
-unsigned __int8 *__cdecl __crtGetEnvironmentStringsA()
+char *__cdecl __crtGetEnvironmentStringsA()
 {
   int v0; // eax
   char *v1; // ebx
@@ -7,13 +7,13 @@ unsigned __int8 *__cdecl __crtGetEnvironmentStringsA()
   unsigned int v5; // eax
   char *v6; // eax
   LPCH EnvironmentStrings; // eax
-  char *v8; // esi
-  unsigned __int8 *v9; // eax
-  unsigned __int8 *v10; // edi
-  int nSizeW; // [esp+Ch] [ebp-Ch]
-  int nSizeA; // [esp+10h] [ebp-8h]
-  unsigned int nSizeAa; // [esp+10h] [ebp-8h]
-  char *aEnv; // [esp+14h] [ebp-4h]
+  __m128i *v8; // esi
+  void *v9; // eax
+  void *v10; // edi
+  int cchWideChar; // [esp+Ch] [ebp-Ch]
+  int cbMultiByte; // [esp+10h] [ebp-8h]
+  unsigned int cbMultiBytea; // [esp+10h] [ebp-8h]
+  char *pointer; // [esp+14h] [ebp-4h]
 
   v0 = f_use;
   v1 = 0;
@@ -51,30 +51,30 @@ LABEL_8:
         ++i;
       while ( *i );
     }
-    nSizeW = i - EnvironmentStringsW + 1;
-    v5 = WideCharToMultiByte(0, 0, EnvironmentStringsW, nSizeW, 0, 0, 0, 0);
-    nSizeA = v5;
+    cchWideChar = i - EnvironmentStringsW + 1;
+    v5 = WideCharToMultiByte(0, 0, EnvironmentStringsW, cchWideChar, 0, 0, 0, 0);
+    cbMultiByte = v5;
     if ( v5 )
     {
       v6 = (char *)_malloc_crt(v5);
-      aEnv = v6;
+      pointer = v6;
       if ( v6 )
       {
-        if ( !WideCharToMultiByte(0, 0, EnvironmentStringsW, nSizeW, v6, nSizeA, 0, 0) )
+        if ( !WideCharToMultiByte(0, 0, EnvironmentStringsW, cchWideChar, v6, cbMultiByte, 0, 0) )
         {
-          free(aEnv);
-          aEnv = 0;
+          free(pointer);
+          pointer = 0;
         }
-        v1 = aEnv;
+        v1 = pointer;
       }
     }
     FreeEnvironmentStringsW(EnvironmentStringsW);
-    return (unsigned __int8 *)v1;
+    return v1;
   }
   if ( v0 != 2 && v0 )
     return 0;
   EnvironmentStrings = GetEnvironmentStrings();
-  v8 = EnvironmentStrings;
+  v8 = (__m128i *)EnvironmentStrings;
   if ( !EnvironmentStrings )
     return 0;
   for ( ; *EnvironmentStrings; ++EnvironmentStrings )
@@ -83,15 +83,15 @@ LABEL_8:
       ++EnvironmentStrings;
     while ( *EnvironmentStrings );
   }
-  nSizeAa = EnvironmentStrings - v8 + 1;
-  v9 = (unsigned __int8 *)_malloc_crt(nSizeAa);
+  cbMultiBytea = EnvironmentStrings - (LPCH)v8 + 1;
+  v9 = _malloc_crt(cbMultiBytea);
   v10 = v9;
   if ( !v9 )
   {
-    FreeEnvironmentStringsA(v8);
+    FreeEnvironmentStringsA(v8->m128i_i8);
     return 0;
   }
-  memcpy(v9, (unsigned __int8 *)v8, nSizeAa);
-  FreeEnvironmentStringsA(v8);
-  return v10;
+  memcpy((int)v9, v8, cbMultiBytea);
+  FreeEnvironmentStringsA(v8->m128i_i8);
+  return (char *)v10;
 }

@@ -1,4 +1,4 @@
-int __cdecl png_set_sBIT(int a1, int a2, unsigned __int8 *src)
+int __cdecl png_set_sBIT(int a1, int a2, const __m128i *src)
 {
   int result; // eax
 
@@ -6,7 +6,7 @@ int __cdecl png_set_sBIT(int a1, int a2, unsigned __int8 *src)
   {
     if ( a2 )
     {
-      memcpy((unsigned __int8 *)(a2 + 68), src, 5u);
+      memcpy(a2 + 68, src, 5u);
       result = *(_DWORD *)(a2 + 8) | 2;
       *(_DWORD *)(a2 + 8) = result;
     }

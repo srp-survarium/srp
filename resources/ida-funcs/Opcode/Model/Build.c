@@ -1,81 +1,90 @@
 char __thiscall Opcode::Model::Build(Opcode::Model *this, const Opcode::OPCODECREATE *create)
 {
   Opcode::MeshInterface *mIMesh; // eax
-  unsigned int mNbTris; // edi
-  _DWORD *v6; // eax
+  char *v6; // eax
   Opcode::AABBTree *v7; // eax
-  Opcode::AABBTree **p_mSource; // ebx
-  vostok::memory::base_allocator *m_allocator; // edx
-  Opcode::MeshInterface *v10; // ecx
-  unsigned int mLimit; // edx
-  Opcode::AABBTree *mRules; // ecx
-  Opcode::BaseModel *v13; // ecx
-  Opcode::AABBTree *v14; // ecx
-  Opcode::AABBTreeOfTrianglesBuilder TB; // [esp+8h] [ebp-24h] BYREF
+  vostok::memory::base_allocator *v8; // ecx
+  Opcode::BaseModel *v9; // ecx
+  Opcode::AABBTree *v10; // ecx
+  Opcode::AABBTree *mSource; // edi
+  Opcode::AABBTreeBuilder builder; // [esp+Ch] [ebp-28h] BYREF
+  Opcode::MeshInterface *v13; // [esp+2Ch] [ebp-8h]
+  unsigned int mNbTris; // [esp+30h] [ebp-4h]
+  vostok::memory::base_allocator *m_allocator; // [esp+3Ch] [ebp+8h]
+  vostok::memory::base_allocator *v16; // [esp+3Ch] [ebp+8h]
 
   mIMesh = create->mIMesh;
-  if ( !create->mIMesh
-    || !mIMesh->mNbTris
-    || !mIMesh->mNbVerts
-    || !mIMesh->mTris
-    || !mIMesh->mVerts
-    || create->mSettings.mLimit != 1 )
+  if ( create->mIMesh
+    && mIMesh->mNbTris
+    && mIMesh->mNbVerts
+    && mIMesh->mTris
+    && mIMesh->mVerts
+    && create->mSettings.mLimit == 1 )
   {
-    return 0;
-  }
-  Opcode::BaseModel::ReleaseBase(this);
-  this->mIMesh = create->mIMesh;
-  mNbTris = create->mIMesh->mNbTris;
-  if ( mNbTris == 1 )
-  {
-    this->mModelCode |= 4u;
-    return 1;
-  }
-  else
-  {
-    v6 = this->m_allocator->call_malloc(this->m_allocator, 56);
-    if ( v6 )
-      Opcode::AABBTree::AABBTree((Opcode::AABBTree *)this->m_allocator, v6, this->m_allocator);
-    else
-      v7 = 0;
-    p_mSource = &this->mSource;
-    this->mSource = v7;
-    if ( !v7 )
-      return 0;
-    m_allocator = this->m_allocator;
-    TB.mNodeBase = 0;
-    TB.mCount = 0;
-    TB.mNbInvalidSplits = 0;
-    v10 = create->mIMesh;
-    TB.m_allocator = m_allocator;
-    mLimit = create->mSettings.mLimit;
-    TB.mIMesh = v10;
-    mRules = (Opcode::AABBTree *)create->mSettings.mRules;
-    TB.mNbPrimitives = mNbTris;
-    TB.__vftable = (Opcode::AABBTreeOfTrianglesBuilder_vtbl *)&Opcode::AABBTreeOfTrianglesBuilder::`vftable';
-    TB.mSettings.mLimit = mLimit;
-    TB.mSettings.mRules = (unsigned int)mRules;
-    if ( !Opcode::AABBTree::Build(&TB, mRules, v7) )
-      return 0;
-    if ( Opcode::BaseModel::CreateTree(v13, create->mNoLeaf, create->mQuantized)
-      && this->mTree->Build(this->mTree, *p_mSource) )
+    Opcode::BaseModel::ReleaseBase(this, (int)this);
+    this->mIMesh = create->mIMesh;
+    mNbTris = create->mIMesh->mNbTris;
+    if ( mNbTris == 1 )
     {
-      if ( !create->mKeepOriginal )
-      {
-        if ( *p_mSource )
-        {
-          vostok::memory::delete_helper<vostok::memory::base_allocator,Opcode::AABBTree>(
-            &this->mSource,
-            v14,
-            this->m_allocator);
-          *p_mSource = 0;
-        }
-      }
+      this->mModelCode |= 4u;
       return 1;
     }
+    m_allocator = this->m_allocator;
+    v6 = type_info::raw_name(&Opcode::AABBTree `RTTI Type Descriptor');
+    v7 = (Opcode::AABBTree *)m_allocator->call_malloc(
+                               m_allocator,
+                               56u,
+                               v6,
+                               "Opcode::Model::Build",
+                               ".\\OPC_Model.cpp",
+                               169u);
+    if ( v7 )
+    {
+      v8 = this->m_allocator;
+      v7->mPos = 0;
+      v7->mNodePrimitives = 0;
+      v7->mNbPrimitives = 0;
+      v7->mIndices = 0;
+      v7->mPool = 0;
+      v7->mTotalNbNodes = 0;
+      v7->m_allocator = v8;
+    }
     else
     {
-      return 0;
+      v7 = 0;
+    }
+    this->mSource = v7;
+    if ( v7 )
+    {
+      builder.m_allocator = this->m_allocator;
+      v13 = create->mIMesh;
+      builder.mSettings = create->mSettings;
+      builder.mNbPrimitives = mNbTris;
+      builder.mNodeBase = 0;
+      builder.mCount = 0;
+      builder.mNbInvalidSplits = 0;
+      builder.__vftable = (Opcode::AABBTreeBuilder_vtbl *)&Opcode::AABBTreeOfTrianglesBuilder::`vftable';
+      if ( Opcode::AABBTree::Build((Opcode::AABBTree *)&builder, (int)v7, (const char *)this, &builder) )
+      {
+        if ( Opcode::BaseModel::CreateTree(v9, (int)this, create->mNoLeaf, create->mQuantized)
+          && this->mTree->Build(this->mTree, this->mSource) )
+        {
+          if ( !create->mKeepOriginal && this->mSource )
+          {
+            mSource = this->mSource;
+            v16 = this->m_allocator;
+            if ( mSource )
+            {
+              Opcode::AABBTree::Release(v10, (int)mSource);
+              v16->call_free(v16, mSource, "Opcode::Model::Build", ".\\OPC_Model.cpp", 189u);
+              this->mSource = 0;
+            }
+            this->mSource = 0;
+          }
+          return 1;
+        }
+      }
     }
   }
+  return 0;
 }

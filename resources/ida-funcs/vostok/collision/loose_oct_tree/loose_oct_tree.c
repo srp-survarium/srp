@@ -1,25 +1,30 @@
 void __userpurge vostok::collision::loose_oct_tree::loose_oct_tree(
-        vostok::collision::loose_oct_tree *this@<esi>,
-        vostok::memory::base_allocator *allocator@<edi>,
-        unsigned int min_aabb_extents,
-        unsigned int reserve_item_count)
+        vostok::collision::oct_node *nodes@<edx>,
+        unsigned int nodes_count@<ecx>,
+        vostok::collision::loose_oct_tree *this,
+        float min_aabb_extents)
 {
-  vostok::collision::vertex_allocator *v4; // eax
+  float v4; // xmm0_4
+  vostok::collision::oct_node *v5; // ecx
+  vostok::collision::oct_node *v6; // esi
 
+  v4 = s_bm_current_air_resistance;
+  this->m_nodes_count = nodes_count;
+  v5 = &nodes[nodes_count];
   this->__vftable = (vostok::collision::loose_oct_tree_vtbl *)&vostok::collision::loose_oct_tree::`vftable';
-  v4 = (vostok::collision::vertex_allocator *)allocator->call_malloc(allocator, 12);
-  if ( v4 )
-  {
-    v4->m_allocator = allocator;
-    v4->m_nodes = 0;
-    v4->m_node_count = 0;
-  }
-  else
-  {
-    v4 = 0;
-  }
-  this->m_allocator = v4;
   this->m_root = 0;
-  *(_QWORD *)&this->m_min_aabb_extents = min_aabb_extents;
+  this->m_nodes = nodes;
+  this->m_min_aabb_extents = v4;
+  this->m_objects_count = 0;
+  this->m_allocated_nodes_count = 0;
   this->m_initialized = 0;
+  v6 = 0;
+  while ( nodes != v5 )
+  {
+    if ( v6 )
+      v6->parent = nodes;
+    v6 = nodes++;
+  }
+  this->m_nodes[this->m_nodes_count - 1].parent = 0;
+  this->m_head = this->m_nodes;
 }

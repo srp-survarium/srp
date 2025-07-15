@@ -11,12 +11,12 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Traits::RegisterSlots(Scalefor
   v3 = 3;
   do
   {
-    Scaleform::GFx::AS3::Traits::Add2VT(&this->Scaleform::GFx::AS3::Traits, &Scaleform::GFx::AS3::fl::ObjectCI, v2++);
+    Scaleform::GFx::AS3::Traits::Add2VT(this, (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::ObjectCI, v2++);
     --v3;
   }
   while ( v3 );
-  TNone.Name = (const char *)&buf;
-  TNone.PkgName = (const char *)&buf;
+  TNone.Name = uri;
+  TNone.PkgName = uri;
   TNone.Flags = 0;
   TNone.Parent = 0;
   TNone.Implements = 0;
@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Traits::RegisterSlots(Scalefor
   v5 = 3;
   do
   {
-    Scaleform::GFx::AS3::Traits::Add2VT(&this->Scaleform::GFx::AS3::Traits, &CNone, v4++);
+    Scaleform::GFx::AS3::Traits::Add2VT(this, (Scaleform::GFx::ASStringNode *)&CNone, v4++);
     --v5;
   }
   while ( v5 );

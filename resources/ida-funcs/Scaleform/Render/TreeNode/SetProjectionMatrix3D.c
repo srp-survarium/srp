@@ -9,14 +9,14 @@ void __thiscall Scaleform::Render::TreeNode::SetProjectionMatrix3D(
   Scaleform::RefCountVImpl *v7; // ebx
   int v8; // [esp+10h] [ebp-4h] BYREF
 
-  WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, 0x100000u);
+  WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, (unsigned int)&loc_100000);
   v8 = 2;
   v4 = (float *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, this, 80, &v8);
   v5 = v4;
   if ( v4 )
   {
     v6 = v4 + 4;
-    memset((int)(v4 + 4), 0, 0x40u);
+    memset((int)(v4 + 4), 0, 64);
     *v6 = 1.0;
     v5[9] = 1.0;
     v7 = (Scaleform::RefCountVImpl *)v5;

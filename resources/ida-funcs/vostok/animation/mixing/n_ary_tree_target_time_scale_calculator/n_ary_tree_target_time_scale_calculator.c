@@ -5,8 +5,11 @@ void __usercall vostok::animation::mixing::n_ary_tree_target_time_scale_calculat
   vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v2; // esi
 
   this->__vftable = (vostok::animation::mixing::n_ary_tree_target_time_scale_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_target_time_scale_calculator::`vftable';
-  if ( node->m_operands_count
-    && (v2 = node[1].__vftable) != 0
+  if ( node->m_operands_count )
+    v2 = node[1].__vftable;
+  else
+    v2 = 0;
+  if ( v2
     && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v2->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
         + 3))(v2) )
   {
@@ -17,6 +20,6 @@ void __usercall vostok::animation::mixing::n_ary_tree_target_time_scale_calculat
   }
   else
   {
-    LODWORD(this->m_result) = clear_value;
+    this->m_result = s_bm_current_air_resistance;
   }
 }

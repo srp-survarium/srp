@@ -85,7 +85,7 @@ LABEL_11:
     s2 = start_num;
     start_value.Flags = 4;
     start_value.Bonus.pWeakProxy = 0;
-    if ( (HIDWORD(s2) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(s2) | LODWORD(s2)
+    if ( (HIDWORD(s2) & 0x7FF00000) == 0x7FF00000 && HIDWORD(s2) & 0xFFFFF | LODWORD(s2)
       || (s2 = start_num, start_num == INFINITY) )
     {
       v15 = 0x7FFFFFF;

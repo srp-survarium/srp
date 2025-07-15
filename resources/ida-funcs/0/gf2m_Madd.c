@@ -12,9 +12,9 @@ int __usercall gf2m_Madd@<eax>(
   bignum_pool_item *a; // [esp+Ch] [ebp-Ch]
   bignum_pool_item *v12; // [esp+10h] [ebp-8h]
 
-  BN_CTX_start(v10);
-  a = BN_CTX_get(ctx);
-  v12 = BN_CTX_get(ctx);
+  BN_CTX_start((int)z1, v10);
+  a = BN_CTX_get((int)z1, ctx);
+  v12 = BN_CTX_get((int)z1, ctx);
   if ( !v12
     || !BN_copy(a->vals, x)
     || !group->meth->field_mul(group, x1, x1, z2, ctx)

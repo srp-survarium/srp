@@ -1,15 +1,22 @@
-unsigned __int64 __cdecl get_minimum_kernel_memory()
+int __cdecl get_minimum_kernel_memory()
 {
-  _OSVERSIONINFOEXA os_version_info; // [esp+0h] [ebp-9Ch] BYREF
+  _BYTE dst[156]; // [esp+0h] [ebp-A0h] BYREF
 
-  memset((int)&os_version_info, 0, sizeof(os_version_info));
-  os_version_info.dwOSVersionInfoSize = 156;
-  GetVersionExA((LPOSVERSIONINFOA)&os_version_info);
-  if ( os_version_info.dwMajorVersion == 5 )
+  memset((int)dst, 0, sizeof(dst));
+  *(_DWORD *)dst = 156;
+  GetVersionExA((LPOSVERSIONINFOA)dst);
+  if ( *(_DWORD *)&dst[4] <= 5u )
     return 0x8000000;
-  if ( os_version_info.dwMajorVersion != 6 )
+  if ( *(_DWORD *)&dst[4] != 6 )
     return 0x20000000;
-  if ( os_version_info.dwMinorVersion )
+  if ( vostok::platform::is_address_space_or_ram_under_2_gb() )
+    return 0x10000000;
+  if ( *(_DWORD *)&dst[8] < 2u )
+    return 335544320;
+  if ( *(_DWORD *)&dst[8] == 2 )
+    return 0x10000000;
+  if ( *(_DWORD *)&dst[8] == 3 )
+    return 0x10000000;
+  else
     return 0x20000000;
-  return 402653184;
 }

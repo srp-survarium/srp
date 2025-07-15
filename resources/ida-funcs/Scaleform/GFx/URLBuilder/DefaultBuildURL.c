@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::URLBuilder::DefaultBuildURL(
   int v5; // eax
 
   p_FileName = &loc->FileName;
-  if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((const char *)((loc->FileName.HeapTypeBits & 0xFFFFFFFC) + 8)) )
+  if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((char *)((loc->FileName.HeapTypeBits & 0xFFFFFFFC) + 8)) )
   {
     Scaleform::String::operator=(ppath, p_FileName);
   }
@@ -21,7 +21,7 @@ void __cdecl Scaleform::GFx::URLBuilder::DefaultBuildURL(
       Scaleform::String::operator=(ppath, p_ParentPath);
       v5 = *(char *)((p_ParentPath->HeapTypeBits & 0xFFFFFFFC) + v4 + 7);
       if ( v5 != 92 && v5 != 47 )
-        Scaleform::String::AppendString(ppath, "/", -1);
+        Scaleform::String::AppendString(ppath, "/", 0xFFFFFFFF);
       Scaleform::String::operator+=(ppath, p_FileName);
     }
     else

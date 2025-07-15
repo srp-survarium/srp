@@ -4,7 +4,7 @@ void __thiscall vostok::console_commands::cc_float3::syntax(
 {
   vostok::sprintf<512>(
     dest,
-    (const char *)&stru_95AF78.m_key_bindings[28],
+    "range [%3.3f,%3.3f,%3.3f]-[%3.3f,%3.3f,%3.3f]",
     this->m_min.x,
     this->m_min.y,
     this->m_min.z,

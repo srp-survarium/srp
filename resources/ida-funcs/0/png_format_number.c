@@ -19,7 +19,7 @@ _BYTE *__cdecl png_format_number(unsigned int a1, int a2, int a3, unsigned int a
       case 2:
         v5 = 2;
 LABEL_11:
-        *--v8 = byte_85E620[a4 % 0xA];
+        *--v8 = byte_6F1F74[a4 % 0xA];
         a4 /= 0xAu;
         break;
       case 3:
@@ -27,14 +27,14 @@ LABEL_11:
       case 4:
         v5 = 2;
 LABEL_13:
-        *--v8 = byte_85E620[a4 & 0xF];
+        *--v8 = byte_6F1F74[a4 & 0xF];
         a4 >>= 4;
         break;
       case 5:
         v5 = 5;
         if ( v6 || a4 % 0xA )
         {
-          *--v8 = byte_85E620[a4 % 0xA];
+          *--v8 = byte_6F1F74[a4 % 0xA];
           v6 = 1;
         }
         a4 /= 0xAu;

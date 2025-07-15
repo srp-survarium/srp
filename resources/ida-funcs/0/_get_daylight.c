@@ -1,4 +1,4 @@
-int __usercall _get_daylight@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int *_Daylight)
+int __usercall _get_daylight@<eax>(int a1@<ebx>, int a2@<edi>, int *_Daylight)
 {
   if ( _Daylight )
   {

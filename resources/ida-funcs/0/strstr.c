@@ -14,7 +14,7 @@ void __cdecl strstr(unsigned __int8 *str1, unsigned __int8 *str2)
   {
     v4 = str2[1];
     if ( !v4 )
-      JUMPOUT(0x18A166);
+      JUMPOUT(0x2977C6);
 findnext:
     v5 = str2;
     v6 = str1 + 1;

@@ -1,81 +1,81 @@
 vostok::strings::shared::profile *__thiscall vostok::strings::shared::manager::string(
         vostok::strings::shared::manager *this,
-        vostok::strings::shared::manager *value,
-        const char *valuea)
+        char *value)
 {
-  unsigned int m_checksum; // edi
-  vostok::strings::shared::profile *m_value; // esi
-  unsigned int m_length; // ecx
-  vostok::strings::shared::profile *v6; // eax
-  bool v7; // cf
-  unsigned __int8 v8; // dl
-  int v9; // eax
-  vostok::strings::shared::profile *v11; // esi
-  char *v12; // eax
-  vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator i; // [esp+10h] [ebp-28h] BYREF
-  vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator v14; // [esp+1Ch] [ebp-1Ch] BYREF
-  vostok::strings::shared::profile query; // [esp+28h] [ebp-10h] BYREF
+  unsigned int v2; // esi
+  vostok::threading::mutex *v3; // ecx
+  void *m_value; // esi
+  vostok::threading::mutex *v6; // ecx
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  unsigned int v9; // eax
+  vostok::threading::mutex *v10; // ecx
+  vostok::strings::shared::profile **v11; // eax
+  unsigned int v12; // [esp-4h] [ebp-44h]
+  vostok::strings::shared::profile *v13; // [esp+0h] [ebp-40h]
+  const char *v14; // [esp+0h] [ebp-40h]
+  const char *v15; // [esp+4h] [ebp-3Ch]
+  unsigned int v16; // [esp+8h] [ebp-38h]
+  boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> v17; // [esp+10h] [ebp-30h] BYREF
+  unsigned int count; // [esp+14h] [ebp-2Ch]
+  vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator v19; // [esp+18h] [ebp-28h] BYREF
+  vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator v20; // [esp+24h] [ebp-1Ch] BYREF
+  int v21; // [esp+30h] [ebp-10h] BYREF
+  unsigned int v22; // [esp+38h] [ebp-8h]
+  unsigned int v23; // [esp+3Ch] [ebp-4h]
 
-  query.m_reference_count = 0;
-  if ( !valuea )
-    valuea = (const char *)&buf;
-  vostok::strings::shared::profile::create_temp(valuea, &query);
-  vostok::threading::mutex::lock(&value->m_mutex);
+  v21 = 0;
+  if ( !value )
+    value = (char *)uri;
+  v22 = strlen(value);
+  v17.rem_ = boost::detail::crc_helper<32,1>::reflect(0xFFFFFFFF);
+  boost::detail::crc_table_t<32,79764919,1>::init_table();
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(&v17, value, &value[v22]);
+  v2 = ~v17.rem_;
+  v23 = ~v17.rem_;
+  vostok::threading::mutex::lock(v3, &s_manager_buffer);
   vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::find(
-    (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)&query,
-    &i,
-    &value->m_storage);
-  m_checksum = query.m_checksum;
-  while ( 1 )
+    (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)&v21,
+    &v19,
+    (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)&result,
+    v13);
+  while ( v19.m_value && v19.m_value->m_checksum == v2 )
   {
-    m_value = i.m_value;
-    if ( !i.m_value || i.m_value->m_checksum != m_checksum )
-      break;
-    m_length = query.m_length;
-    if ( i.m_value->m_length == query.m_length )
+    if ( v19.m_value->m_length == v22 && !vostok::strings::compare((const char *)&v19.m_value[1], value) )
     {
-      m_length = (unsigned int)valuea;
-      v6 = i.m_value + 1;
-      while ( 1 )
-      {
-        v7 = LOBYTE(v6->m_reference_count) < *(_BYTE *)m_length;
-        if ( LOBYTE(v6->m_reference_count) != *(_BYTE *)m_length )
-          break;
-        if ( !LOBYTE(v6->m_reference_count) )
-          goto LABEL_12;
-        v8 = BYTE1(v6->m_reference_count);
-        v7 = v8 < *(_BYTE *)(m_length + 1);
-        if ( v8 != *(_BYTE *)(m_length + 1) )
-          break;
-        v6 = (vostok::strings::shared::profile *)((char *)v6 + 2);
-        m_length += 2;
-        if ( !v8 )
-        {
-LABEL_12:
-          v9 = 0;
-          goto LABEL_14;
-        }
-      }
-      v9 = -v7 - (v7 - 1);
-LABEL_14:
-      if ( !v9 )
-      {
-        LeaveCriticalSection((LPCRITICAL_SECTION)value);
-        return m_value;
-      }
+      m_value = v19.m_value;
+      goto LABEL_10;
     }
     vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator::operator++(
-      (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy>::iterator *)m_length,
-      &v14,
-      (__int64 *)&i);
+      &v19,
+      &v20);
   }
-  LeaveCriticalSection((LPCRITICAL_SECTION)value);
-  v11 = vostok::strings::shared::profile::create(&value->m_mutex, valuea, &query);
-  vostok::threading::mutex::lock(&value->m_mutex);
-  v12 = (char *)&value->m_storage.m_buffer[v11->m_checksum & 0x7FFF];
-  v11->next_in_hashset = *(vostok::strings::shared::profile **)v12;
-  *(_DWORD *)v12 = v11;
-  ++*(_UNKNOWN **)((char *)&off_20004 + (_DWORD)&value->m_storage);
-  LeaveCriticalSection((LPCRITICAL_SECTION)value);
-  return v11;
+  LeaveCriticalSection(&s_manager_buffer);
+  count = v22 + 1;
+  vostok::threading::mutex::lock(v6, &s_manager_buffer);
+  vostok::memory::doug_lea_allocator::user_current_thread_id(v7, (int)&vostok::strings::shared::g_allocator);
+  m_value = vostok::memory::doug_lea_allocator::malloc_impl(
+              v8,
+              (int)&vostok::strings::shared::g_allocator,
+              count + 16,
+              "shared::string",
+              v14,
+              v15,
+              v16);
+  LeaveCriticalSection(&s_manager_buffer);
+  v9 = v22;
+  v12 = count;
+  *((_DWORD *)m_value + 1) = 0;
+  *((_DWORD *)m_value + 2) = v9;
+  *((_DWORD *)m_value + 3) = v23;
+  *(_DWORD *)m_value = 0;
+  memcpy((unsigned __int8 *)m_value + 16, (unsigned __int8 *)value, v12);
+  vostok::threading::mutex::lock(v10, &s_manager_buffer);
+  v11 = &result.m_value + (*((_DWORD *)m_value + 3) & 0x7FFF);
+  *((_DWORD *)m_value + 1) = *v11;
+  *v11 = (vostok::strings::shared::profile *)m_value;
+  ++dword_A2DC34;
+LABEL_10:
+  LeaveCriticalSection(&s_manager_buffer);
+  return (vostok::strings::shared::profile *)m_value;
 }

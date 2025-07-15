@@ -24,7 +24,7 @@ void __thiscall Scaleform::GFx::AS2::DoActionTag::Execute(
                                                 0);
     if ( v7 )
     {
-      Scaleform::GFx::AS2::ActionBuffer::ActionBuffer(v7, v6, this->pBuf.pObject);
+      Scaleform::GFx::AS2::ActionBuffer::ActionBuffer(v7, v6, (Scaleform::GFx::Resource *)this->pBuf.pObject);
       v9 = v8;
     }
     else

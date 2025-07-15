@@ -1,4 +1,4 @@
-void __usercall SSL_free(unsigned int a1@<edi>, ssl_st *s)
+void __usercall SSL_free(int a1@<edi>, int a2@<ebx>, ssl_st *s)
 {
   bio_st *bbio; // eax
   bio_st *wbio; // eax
@@ -11,20 +11,20 @@ void __usercall SSL_free(unsigned int a1@<edi>, ssl_st *s)
   {
     if ( s->param )
       X509_VERIFY_PARAM_free(s->param);
-    CRYPTO_free_ex_data(a1);
+    CRYPTO_free_ex_data(a1, a2);
     bbio = s->bbio;
     if ( bbio )
     {
       if ( bbio == s->wbio )
-        s->wbio = BIO_pop(s->wbio);
-      BIO_free(a1, s->bbio);
+        s->wbio = BIO_pop(a2, s->wbio);
+      BIO_free(a1, a2, s->bbio);
       s->bbio = 0;
     }
     if ( s->rbio )
-      BIO_free_all(s->rbio);
+      BIO_free_all(a2, s->rbio);
     wbio = s->wbio;
     if ( wbio && wbio != s->rbio )
-      BIO_free_all(s->wbio);
+      BIO_free_all(a2, s->wbio);
     if ( s->init_buf )
       BUF_MEM_free(s->init_buf);
     if ( s->cipher_list )
@@ -34,21 +34,21 @@ void __usercall SSL_free(unsigned int a1@<edi>, ssl_st *s)
     if ( s->session )
     {
       ssl_clear_bad_session(s);
-      SSL_SESSION_free(s->session);
+      SSL_SESSION_free(a1, s->session);
     }
-    ssl_clear_cipher_ctx(s);
+    ssl_clear_cipher_ctx(a2, s);
     if ( s->read_hash )
-      EVP_MD_CTX_destroy(a1, s->read_hash);
+      EVP_MD_CTX_destroy(a1, a2, s->read_hash);
     s->read_hash = 0;
     if ( s->write_hash )
-      EVP_MD_CTX_destroy(a1, s->write_hash);
+      EVP_MD_CTX_destroy(a1, a2, s->write_hash);
     s->write_hash = 0;
     if ( s->cert )
-      ssl_cert_free(s->cert);
+      ssl_cert_free(a1, s->cert);
     if ( s->tlsext_hostname )
       CRYPTO_free(s->tlsext_hostname);
     if ( s->initial_ctx )
-      SSL_CTX_free(a1, s->initial_ctx);
+      SSL_CTX_free(a1, a2, s->initial_ctx);
     if ( s->tlsext_ecpointformatlist )
       CRYPTO_free(s->tlsext_ecpointformatlist);
     if ( s->tlsext_ellipticcurvelist )
@@ -70,7 +70,7 @@ void __usercall SSL_free(unsigned int a1@<edi>, ssl_st *s)
     if ( method )
       method->ssl_free(s);
     if ( s->ctx )
-      SSL_CTX_free(a1, s->ctx);
+      SSL_CTX_free(a1, a2, s->ctx);
     CRYPTO_free(s);
   }
 }

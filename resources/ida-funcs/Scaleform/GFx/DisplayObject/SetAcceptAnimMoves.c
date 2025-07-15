@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::DisplayObject::SetAcceptAnimMoves(Scaleform::GFx
 {
   const Scaleform::GFx::DisplayObjectBase::GeomDataType *v3; // eax
   Scaleform::GFx::ASMovieRootBase *pASRoot; // eax
-  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+10h] [ebp-60h] BYREF
 
   if ( !this->pGeomData )
   {

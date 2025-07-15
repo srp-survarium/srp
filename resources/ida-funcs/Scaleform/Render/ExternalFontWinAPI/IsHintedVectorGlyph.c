@@ -5,7 +5,7 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::IsHintedVectorGlyph(
 {
   Scaleform::Render::Font::NativeHintingRange VectorRange; // eax
   Scaleform::Lock *pFontLock; // ebp
-  bool IsCJK; // bl
+  char IsCJK; // bl
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
     return 0;

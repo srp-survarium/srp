@@ -1,9 +1,9 @@
 void __userpurge Scaleform::Render::D3D1x::DepthStencilSurface::DepthStencilSurface(
         Scaleform::Render::D3D1x::DepthStencilSurface *this@<esi>,
-        Scaleform::GFx::Resource *pmanagerLocks@<edi>,
-        const Scaleform::Render::Size<unsigned long> *size)
+        const Scaleform::Render::Size<unsigned long> *size@<edi>,
+        Scaleform::GFx::Resource *pmanagerLocks)
 {
-  unsigned int Width; // ecx
+  unsigned int Width; // edx
 
   this->__vftable = (Scaleform::Render::D3D1x::DepthStencilSurface_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;

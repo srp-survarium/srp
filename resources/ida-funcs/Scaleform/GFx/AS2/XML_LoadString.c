@@ -30,11 +30,11 @@ void __usercall Scaleform::GFx::AS2::XML_LoadString(
   Scaleform::GFx::XML::ShadowRefBase_vtbl *v28; // edi
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v29; // ecx
   unsigned int RefCount; // eax
-  Scaleform::GFx::ASString textstr; // [esp+10h] [ebp-7Ch] BYREF
+  Scaleform::GFx::ASStringNode *v31; // [esp+10h] [ebp-7Ch] BYREF
   Scaleform::GFx::XML::DOMString v32; // [esp+14h] [ebp-78h] BYREF
   Scaleform::Ptr<Scaleform::GFx::XML::Document> result; // [esp+18h] [ebp-74h] BYREF
-  Scaleform::GFx::AS2::Value text; // [esp+1Ch] [ebp-70h] BYREF
-  Scaleform::GFx::XML::DOMBuilder docb; // [esp+2Ch] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v34; // [esp+1Ch] [ebp-70h] BYREF
+  Scaleform::GFx::XML::DOMBuilder v35; // [esp+2Ch] [ebp-60h] BYREF
 
   Log = (Scaleform::GFx::LogState *)Scaleform::GFx::AS2::FnCall::GetLog(fn);
   MovieImpl = Scaleform::GFx::AS2::Environment::GetMovieImpl(fn->Env);
@@ -61,11 +61,11 @@ void __usercall Scaleform::GFx::AS2::XML_LoadString(
       MovieImpl->pXMLObjectManager = 0;
   }
   v11 = fn->NArgs <= 0;
-  text.T.Type = 0;
+  v34.T.Type = 0;
   if ( v11 )
     goto LABEL_25;
   v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-  Scaleform::GFx::AS2::Value::operator=(&text, v12);
+  Scaleform::GFx::AS2::Value::operator=(&v34, v12);
   v13 = Scaleform::GFx::AS2::Environment::GetMovieImpl(fn->Env);
   v14 = (Scaleform::RefCountVImpl *)v13->GetStateAddRef(&v13->Scaleform::GFx::StateBag, State_XMLSupport);
   v15 = (Scaleform::GFx::Resource *)v14;
@@ -74,7 +74,7 @@ void __usercall Scaleform::GFx::AS2::XML_LoadString(
     if ( Log )
       Scaleform::GFx::LogState::LogMessageByType(
         Log,
-        (Scaleform::LogMessageId)&loc_34000,
+        (Scaleform::LogMessageId)212992,
         "No XML parser state set for movie!");
 LABEL_25:
     v18 = pnode;
@@ -84,15 +84,15 @@ LABEL_26:
   }
   Scaleform::RefCountImpl::Release(v14);
   Scaleform::RefCountImpl::AddRef(v15);
-  Scaleform::GFx::XML::DOMBuilder::DOMBuilder(&docb, (Scaleform::Ptr<Scaleform::GFx::XML::SupportBase>)v15, 1);
-  Scaleform::GFx::AS2::Value::ToStringImpl(&text, &textstr, fn->Env, -1, 0);
+  Scaleform::GFx::XML::DOMBuilder::DOMBuilder(&v35, (Scaleform::Ptr<Scaleform::GFx::XML::SupportBase>)v15, 1);
+  Scaleform::GFx::AS2::Value::ToStringImpl(&v34, (Scaleform::GFx::ASString *)&v31, fn->Env, -1, 0);
   if ( v9 )
     ++v9->RefCount;
   v16 = Scaleform::GFx::XML::DOMBuilder::ParseString(
-          &docb,
+          &v35,
           &result,
-          textstr.pNode->pData,
-          textstr.pNode->Size,
+          v31->pData,
+          v31->Size,
           (Scaleform::Ptr<Scaleform::GFx::XML::ObjectManager>)v9);
   if ( v16->pObject )
     ++v16->pObject->RefCount;
@@ -101,18 +101,15 @@ LABEL_26:
     Scaleform::RefCountNTSImpl::Release(result.pObject);
   v18 = pnode;
   Scaleform::GFx::AS2::XmlObject::AssignXMLDecl(pnode, (Scaleform::GFx::ASStringNode *)fn->Env, Document);
-  v19 = textstr.pNode;
-  --textstr.pNode->RefCount;
+  v19 = v31;
+  --v31->RefCount;
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  Scaleform::GFx::XML::DOMBuilder::~DOMBuilder(&docb);
+  Scaleform::GFx::XML::DOMBuilder::~DOMBuilder(&v35);
   if ( !Document )
     goto LABEL_26;
 LABEL_27:
-  StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
-                 &v9->StringPool,
-                 (const char *)&stru_96A440.m_projection.lines[0].elements[1],
-                 4u);
+  StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(&v9->StringPool, "null", 4u);
   Scaleform::GFx::XML::DOMString::DOMString(&v32, StringNode);
   Scaleform::GFx::XML::DOMString::AssignNode(&Document->Value, v32.pNode);
   Scaleform::GFx::XML::DOMString::~DOMString(&v32);
@@ -148,7 +145,7 @@ LABEL_27:
   if ( v29 )
   {
     RefCount = v29->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v29->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v29);
@@ -156,7 +153,7 @@ LABEL_27:
   }
   v24[2].__vftable = v28;
   v24[1].__vftable = (Scaleform::GFx::XML::ShadowRefBase_vtbl *)pnode;
-  Scaleform::GFx::AS2::Value::~Value(&text);
+  Scaleform::GFx::AS2::Value::~Value(&v34);
   Scaleform::RefCountNTSImpl::Release(Document);
   Scaleform::RefCountNTSImpl::Release(v9);
 }

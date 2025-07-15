@@ -66,7 +66,7 @@ LABEL_25:
     if ( ((unsigned __int8)VInt & 1) == 0 )
     {
       RefCount = VInt->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         VInt->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(VInt);

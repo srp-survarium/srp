@@ -1,7 +1,7 @@
 void __usercall stlp_std::priv::_Stl_mult64(
         unsigned __int64 *low@<esi>,
-        unsigned __int64 u,
-        unsigned __int64 v,
+        const unsigned __int64 u,
+        const unsigned __int64 v,
         unsigned __int64 *high)
 {
   unsigned __int64 v4; // kr00_8

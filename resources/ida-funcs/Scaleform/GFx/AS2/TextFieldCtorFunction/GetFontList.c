@@ -24,19 +24,16 @@ void __cdecl Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList(const Scale
   Scaleform::GFx::AS2::ObjectInterface **v22; // ecx
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::ArrayObject *v24; // [esp+1Ch] [ebp-1Ch]
-  Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList::__l2::FontsVisitor fontsVisitor; // [esp+20h] [ebp-18h] BYREF
-  Scaleform::GFx::AS2::Value name; // [esp+28h] [ebp-10h] BYREF
+  _DWORD v25[2]; // [esp+20h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::Value val; // [esp+28h] [ebp-10h] BYREF
 
   v1 = fn;
   pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
   v3 = (int)pMovieImpl->GetMovieDef(pMovieImpl);
-  fontsVisitor.pFontNames = (Scaleform::StringHash<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2> > *)&fn;
+  v25[1] = &fn;
   fn = 0;
-  fontsVisitor.__vftable = (Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList::__l2::FontsVisitor_vtbl *)&`Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList'::`2'::FontsVisitor::`vftable';
-  (*(void (__thiscall **)(int, Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList::__l2::FontsVisitor *, int))(*(_DWORD *)v3 + 104))(
-    v3,
-    &fontsVisitor,
-    1);
+  v25[0] = &`Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList'::`2'::FontsVisitor::`vftable';
+  (*(void (__thiscall **)(int, _DWORD *, int))(*(_DWORD *)v3 + 104))(v3, v25, 1);
   GetStateAddRef = pMovieImpl->GetStateAddRef;
   v5 = &pMovieImpl->Scaleform::GFx::StateBag;
   v6 = (Scaleform::RefCountVImpl *)GetStateAddRef(v5, State_FontLib);
@@ -94,18 +91,18 @@ void __cdecl Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList(const Scale
       break;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v1->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   (char *)(((int)*(&v18->ThisFunctionRef.pLocalFrame + 4 * v17) & 0xFFFFFFFC) + 8),
+                   (__m128i *)(((int)*(&v18->ThisFunctionRef.pLocalFrame + 4 * v17) & 0xFFFFFFFC) + 8),
                    *(_DWORD *)((int)*(&v18->ThisFunctionRef.pLocalFrame + 4 * v17) & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++StringNode->RefCount;
     v20 = ++StringNode->RefCount == 1;
     --StringNode->RefCount;
-    name.T.Type = 5;
-    name.NV.Int32Value = (int)StringNode;
+    val.T.Type = 5;
+    val.NV.Int32Value = (int)StringNode;
     if ( v20 )
       Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-    Scaleform::GFx::AS2::ArrayObject::PushBack(v24, &name);
-    if ( name.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&name);
+    Scaleform::GFx::AS2::ArrayObject::PushBack(v24, &val);
+    if ( val.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&val);
     Result = (*v16)->Result;
     if ( v17 <= (int)Result && ++v17 <= (unsigned int)Result )
     {
@@ -124,12 +121,12 @@ void __cdecl Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList(const Scale
   if ( v24 )
   {
     RefCount = v24->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v24->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v24);
     }
   }
-  fontsVisitor.__vftable = (Scaleform::GFx::AS2::TextFieldCtorFunction::GetFontList::__l2::FontsVisitor_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+  v25[0] = &Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF>>::Clear((Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *)&fn);
 }

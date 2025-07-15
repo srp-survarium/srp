@@ -10,7 +10,7 @@ char __thiscall Scaleform::GFx::AS2::AvmButton::SetStandardMember(
   Scaleform::GFx::ASStringManager *pMovieImpl; // ecx
   char *pName; // edx
   char v10; // bl
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v11; // eax
   Scaleform::GFx::InteractiveObject *v12; // edi
   const Scaleform::GFx::AS2::Environment *v13; // eax
   Scaleform::GFx::AS2::Environment *v15; // ebx
@@ -18,11 +18,11 @@ char __thiscall Scaleform::GFx::AS2::AvmButton::SetStandardMember(
   Scaleform::GFx::AS2::RectangleObject *v17; // edi
   Scaleform::GFx::InteractiveObject *pDispObj; // esi
   Scaleform::GFx::InteractiveObject *v19; // esi
-  Scaleform::GFx::ASString prop; // [esp+FCh] [ebp-54h] BYREF
-  Scaleform::GFx::AS2::Value v21; // [esp+100h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value resultVal; // [esp+110h] [ebp-40h] BYREF
-  float v23[4]; // [esp+120h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> r; // [esp+130h] [ebp-20h] BYREF
+  Scaleform::GFx::ASStringNode *v20; // [esp+Ch] [ebp-54h] BYREF
+  Scaleform::GFx::AS2::Value v21; // [esp+10h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v22; // [esp+20h] [ebp-40h] BYREF
+  float v23[4]; // [esp+30h] [ebp-30h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+40h] [ebp-20h] BYREF
 
   Scaleform::GFx::AS2::Value::Value(&v21, origVal);
   v5 = this->GetASEnvironment(this);
@@ -35,23 +35,23 @@ char __thiscall Scaleform::GFx::AS2::AvmButton::SetStandardMember(
   {
     pMovieImpl = (Scaleform::GFx::ASStringManager *)v7->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
     pName = (char *)Scaleform::GFx::AS2::AvmCharacter::MemberTable[member].pName;
-    resultVal.T.Type = 0;
-    *(float *)&prop.pNode = COERCE_FLOAT(
-                              Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                                pMovieImpl,
-                                pName,
-                                strlen(pName),
-                                0));
-    ++prop.pNode->RefCount;
-    v10 = Scaleform::GFx::AS2::Object::InvokeWatchpoint(this->ASButtonObj.pObject, v7, &prop, &v21, &resultVal);
-    pNode = prop.pNode;
-    --prop.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    v22.T.Type = 0;
+    *(float *)&v20 = COERCE_FLOAT(Scaleform::GFx::ASStringManager::CreateConstStringNode(pMovieImpl, pName, strlen(pName), 0));
+    ++v20->RefCount;
+    v10 = Scaleform::GFx::AS2::Object::InvokeWatchpoint(
+            this->ASButtonObj.pObject,
+            v7,
+            (const Scaleform::GFx::ASString *)&v20,
+            &v21,
+            &v22);
+    v11 = v20;
+    --v20->RefCount;
+    if ( !v11->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v11);
     if ( v10 )
-      Scaleform::GFx::AS2::Value::operator=(&v21, &resultVal);
-    if ( resultVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&resultVal);
+      Scaleform::GFx::AS2::Value::operator=(&v21, &v22);
+    if ( v22.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v22);
     v6 = member;
   }
   if ( Scaleform::GFx::AS2::AvmCharacter::SetStandardMember(this, v6, &v21, opcodeFlag) )
@@ -70,18 +70,18 @@ char __thiscall Scaleform::GFx::AS2::AvmButton::SetStandardMember(
       r.x2 = 0.0;
       r.y2 = 0.0;
       Scaleform::GFx::AS2::RectangleObject::GetProperties(v17, v15, &r);
-      *(float *)&prop.pNode = r.x1;
+      *(float *)&v20 = r.x1;
       pDispObj = this->pDispObj;
-      *(float *)&resultVal.T.Type = *(float *)&prop.pNode * 20.0;
-      *(float *)&prop.pNode = r.y1;
-      *(float *)&resultVal.V.pStringNode = *(float *)&prop.pNode * 20.0;
-      *(float *)&prop.pNode = r.x2 - r.x1;
-      *(float *)&prop.pNode = *(float *)&prop.pNode * 20.0;
-      *(float *)&resultVal.V.FunctionValue.pLocalFrame = *(float *)&prop.pNode + *(float *)&resultVal.T.Type;
-      *(float *)&prop.pNode = r.y2 - r.y1;
-      *(float *)&prop.pNode = 20.0 * *(float *)&prop.pNode;
-      *((float *)&resultVal.NV + 3) = *(float *)&prop.pNode + *(float *)&resultVal.V.pStringNode;
-      pDispObj->SetScale9Grid(pDispObj, (const Scaleform::Render::Rect<float> *)&resultVal);
+      *(float *)&v22.T.Type = *(float *)&v20 * 20.0;
+      *(float *)&v20 = r.y1;
+      *(float *)&v22.V.pStringNode = *(float *)&v20 * 20.0;
+      *(float *)&v20 = r.x2 - r.x1;
+      *(float *)&v20 = *(float *)&v20 * 20.0;
+      *(float *)&v22.V.FunctionValue.pLocalFrame = *(float *)&v20 + *(float *)&v22.T.Type;
+      *(float *)&v20 = r.y2 - r.y1;
+      *(float *)&v20 = 20.0 * *(float *)&v20;
+      *((float *)&v22.NV + 3) = *(float *)&v20 + *(float *)&v22.V.pStringNode;
+      pDispObj->SetScale9Grid(pDispObj, (const Scaleform::Render::Rect<float> *)&v22);
     }
     else
     {
@@ -101,7 +101,7 @@ LABEL_26:
   {
     v12 = this->pDispObj;
     v13 = this->GetASEnvironment(this);
-    if ( Scaleform::GFx::AS2::Value::ToBool(&v21, v13) )
+    if ( Scaleform::GFx::AS2::Value::ToBool(&v21, (int)v12, v13) )
       v12->Flags |= 0x800u;
     else
       v12->Flags &= ~0x800u;

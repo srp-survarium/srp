@@ -1,25 +1,25 @@
-void __thiscall survarium::key_binder::set_default_controls(survarium::key_binder *this, survarium::key_binder *thisa)
+void __thiscall survarium::key_binder::set_default_controls(survarium::key_binder *this, survarium::key_binder *a2)
 {
-  unsigned int i; // ebx
+  unsigned int i; // edi
   vostok::strings::detail::tuples *v3; // ecx
   void *v4; // esp
   vostok::strings::detail::tuples *v5; // ecx
   char v6[16]; // [esp+0h] [ebp-44h] BYREF
-  vostok::strings::detail::tuples STR_JOINA_tuples_unique_identifier; // [esp+10h] [ebp-34h] BYREF
+  vostok::strings::detail::tuples v7; // [esp+10h] [ebp-34h] BYREF
 
-  for ( i = 0; i < 250; i += 5 )
+  for ( i = 0; i < 54; ++i )
   {
-    if ( off_9C3E48[i] )
+    if ( actions_[i].default_key )
     {
       vostok::strings::detail::tuples::tuples(
-        &STR_JOINA_tuples_unique_identifier,
-        actions_[i / 5].action_name,
-        (const char *)&stru_95AF78,
-        off_9C3E48[i]);
-      v4 = alloca(vostok::strings::detail::tuples::size(v3, (unsigned int *)&STR_JOINA_tuples_unique_identifier));
-      vostok::strings::detail::tuples::size(v5, (unsigned int *)&STR_JOINA_tuples_unique_identifier);
-      vostok::strings::detail::tuples::concat(v6, &STR_JOINA_tuples_unique_identifier);
-      survarium::key_binder::bind_key(thisa, v6, 0);
+        (vostok::strings::detail::tuples *)this,
+        &v7,
+        actions_[i].action_name,
+        " ",
+        (char *)actions_[i].default_key);
+      v4 = alloca(vostok::strings::detail::tuples::size(v3, (unsigned int *)&v7));
+      vostok::strings::detail::tuples::concat(v5, (int)&v7, v6);
+      survarium::key_binder::bind_key(a2, v6, 0);
     }
   }
 }

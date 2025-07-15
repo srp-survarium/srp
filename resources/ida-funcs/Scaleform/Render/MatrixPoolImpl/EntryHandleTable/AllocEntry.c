@@ -19,7 +19,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
   if ( !result->pHeader )
   {
     pNext->pPrev->pNext = pNext->pNext;
-    pNext->pNext->Scaleform::ListNode<Scaleform::Render::MatrixPoolImpl::HandlePageBase>::$100264D7F6BD7FB1D268588F766D014E::pPrev = pNext->pPrev;
+    pNext->pNext->Scaleform::ListNode<Scaleform::Render::MatrixPoolImpl::HandlePageBase>::$4F14703550C207190F4A6C7C0B1D11AC::pPrev = pNext->pPrev;
     pNext->pPrev = this->FullPages.Root.pPrev;
     pNext->pNext = (Scaleform::Render::MatrixPoolImpl::HandlePageBase *)&this->FullPages;
     this->FullPages.Root.pPrev->pNext = pNext;

@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::MovieImpl::SetViewScaleMode(
   void (__thiscall *SetViewport)(Scaleform::GFx::Movie *, const Scaleform::GFx::Viewport *); // edx
   int v16; // [esp+8h] [ebp-3Ch] BYREF
   int v17; // [esp+Ch] [ebp-38h]
-  Scaleform::GFx::Viewport v; // [esp+10h] [ebp-34h] BYREF
+  _DWORD v18[13]; // [esp+10h] [ebp-34h] BYREF
 
   pObject = this->pUserEventHandler.pObject;
   if ( pObject )
@@ -28,30 +28,30 @@ void __thiscall Scaleform::GFx::MovieImpl::SetViewScaleMode(
   }
   this->ViewScaleMode = scaleMode;
   BufferWidth = this->mViewport.BufferWidth;
-  v.Scale = this->mViewport.Scale;
+  *(float *)&v18[11] = this->mViewport.Scale;
   BufferHeight = this->mViewport.BufferHeight;
   Left = this->mViewport.Left;
-  v.AspectRatio = this->mViewport.AspectRatio;
-  v.BufferWidth = BufferWidth;
+  *(float *)&v18[12] = this->mViewport.AspectRatio;
+  v18[0] = BufferWidth;
   Top = this->mViewport.Top;
-  v.BufferHeight = BufferHeight;
+  v18[1] = BufferHeight;
   Width = this->mViewport.Width;
-  v.Left = Left;
+  v18[2] = Left;
   Height = this->mViewport.Height;
-  v.Top = Top;
+  v18[3] = Top;
   Flags = this->mViewport.Flags;
-  v.Width = Width;
+  v18[4] = Width;
   ScissorLeft = this->mViewport.ScissorLeft;
-  v.Height = Height;
+  v18[5] = Height;
   ScissorTop = this->mViewport.ScissorTop;
-  v.Flags = Flags;
+  v18[10] = Flags;
   ScissorWidth = this->mViewport.ScissorWidth;
-  v.ScissorLeft = ScissorLeft;
+  v18[6] = ScissorLeft;
   ScissorHeight = this->mViewport.ScissorHeight;
   ++this->mViewport.Flags;
-  v.ScissorTop = ScissorTop;
+  v18[7] = ScissorTop;
   SetViewport = this->SetViewport;
-  v.ScissorWidth = ScissorWidth;
-  v.ScissorHeight = ScissorHeight;
-  SetViewport(this, &v);
+  v18[8] = ScissorWidth;
+  v18[9] = ScissorHeight;
+  SetViewport(this, (const Scaleform::GFx::Viewport *)v18);
 }

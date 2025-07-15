@@ -9,9 +9,9 @@ char __userpurge Scaleform::Render::TextMeshProvider::generateMask@<al>(
   Scaleform::Render::TextMeshEntry *Data; // eax
   bool (__thiscall *BeginOutput)(Scaleform::Render::VertexOutput *, const Scaleform::Render::VertexOutput::Fill *, unsigned int, const Scaleform::Render::Matrix2x4<float> *); // eax
   char result; // al
-  _WORD v9[14]; // [esp+100h] [ebp-58h] BYREF
-  _DWORD v10[7]; // [esp+11Ch] [ebp-3Ch] BYREF
-  Scaleform::Render::Matrix2x4<float> v11; // [esp+138h] [ebp-20h] BYREF
+  _WORD v9[14]; // [esp+28h] [ebp-58h] BYREF
+  _DWORD v10[7]; // [esp+44h] [ebp-3Ch] BYREF
+  Scaleform::Render::Matrix2x4<float> v11; // [esp+60h] [ebp-20h] BYREF
 
   Start = layer->Start;
   v11.M[0][0] = 1.0;

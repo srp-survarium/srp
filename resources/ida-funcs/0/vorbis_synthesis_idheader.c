@@ -1,44 +1,50 @@
-BOOL __cdecl vorbis_synthesis_idheader(ogg_packet *op)
+bool __cdecl vorbis_synthesis_idheader(ogg_packet *op)
 {
-  BOOL result; // eax
-  bool v2; // zf
+  bool result; // al
   unsigned __int8 *packet; // edx
   int bytes; // eax
-  int v5; // esi
-  char *v6; // ebx
-  char buffer[6]; // [esp+0h] [ebp-1Ch] BYREF
-  oggpack_buffer opb; // [esp+8h] [ebp-14h] BYREF
+  bool v4; // zf
+  int v5; // ecx
+  const char *v6; // edi
+  int *v7; // esi
+  oggpack_buffer b; // [esp+8h] [ebp-1Ch] BYREF
+  int v9; // [esp+1Ch] [ebp-8h] BYREF
+  __int16 v10; // [esp+20h] [ebp-4h]
 
   result = 0;
   if ( op )
   {
-    v2 = op->b_o_s == 0;
+    v4 = op->b_o_s == 0;
     packet = op->packet;
-    memset(&opb.buffer, 0, 12);
-    opb.endbyte = 0;
-    opb.endbit = 0;
+    memset(&b, 0, sizeof(b));
     bytes = op->bytes;
-    opb.ptr = packet;
-    opb.buffer = packet;
-    opb.storage = bytes;
-    if ( v2 )
+    b.ptr = packet;
+    b.buffer = packet;
+    b.storage = bytes;
+    if ( v4 || oggpack_read(&b, 8u) != 1 )
     {
       return 0;
     }
     else
     {
-      if ( oggpack_read(&opb, 8u) != 1 )
-        return 0;
-      memset(buffer, 0, sizeof(buffer));
-      v5 = 6;
-      v6 = buffer;
+      v9 = 0;
+      v10 = 0;
+      v_readstring((char *)&v9, &b, 6);
+      v4 = 1;
+      v5 = 3;
+      v6 = "vorbis";
+      v7 = &v9;
       do
       {
+        if ( !v5 )
+          break;
+        v4 = *(_WORD *)v7 == *(_WORD *)v6;
+        v7 = (int *)((char *)v7 + 2);
+        v6 += 2;
         --v5;
-        *v6++ = oggpack_read(&opb, 8u);
       }
-      while ( v5 );
-      return *(_DWORD *)buffer == 1651666806 && buffer[4] == 105 && buffer[5] == 115;
+      while ( v4 );
+      return v4;
     }
   }
   return result;

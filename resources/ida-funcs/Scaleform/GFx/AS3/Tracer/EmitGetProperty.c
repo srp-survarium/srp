@@ -76,7 +76,7 @@ LABEL_28:
       if ( Scaleform::GFx::AS3::TR::State::GetPropertyType(
              st,
              (Scaleform::GFx::AS3::CheckResult *)&st,
-             (Scaleform::GFx::AS3::Traits *)v33.Name.value.VS._2.VObj,
+             v33.Name.value.VS._2.pTraits,
              FixedSlot,
              &type)->Result )
       {
@@ -115,7 +115,7 @@ LABEL_23:
     if ( v10.VObj[1].pUserDataHolder == (Scaleform::GFx::AS3::Object::UserDataHolder *)11
       && ((int)v10.VObj[1].DynAttrs.mHash.pTable & 0x20) == 0 )
     {
-      pObject = Scaleform::GFx::AS3::Traits::GetClass((Scaleform::GFx::AS3::Traits *)v10.VObj)->pTraits.pObject[1]._pRCC;
+      pObject = Scaleform::GFx::AS3::Traits::GetClass(v10.pTraits)->pTraits.pObject[1]._pRCC;
 LABEL_42:
       nRoots = (Scaleform::GFx::AS3::Value::V1U)pObject[1].Roots[0].nRoots;
       if ( nRoots.VInt )
@@ -181,7 +181,7 @@ fall_back:
     if ( !Scaleform::GFx::AS3::TR::State::GetPropertyType(
             st,
             (Scaleform::GFx::AS3::CheckResult *)&st,
-            (Scaleform::GFx::AS3::Traits *)v33.Name.value.VS._2.VObj,
+            v33.Name.value.VS._2.pTraits,
             v14,
             &type)->Result )
       goto LABEL_23;
@@ -208,7 +208,7 @@ LABEL_27:
       Scaleform::GFx::AS3::Tracer::EmitGetAbsSlot(this, st, (unsigned int)args);
       v35.Index = (32 * *(_DWORD *)v14) >> 15;
       v34.Index = (int)&type;
-      VT = Scaleform::GFx::AS3::Traits::GetVT((Scaleform::GFx::AS3::Traits *)v10.VObj);
+      VT = Scaleform::GFx::AS3::Traits::GetVT(v10.pTraits);
       Value = Scaleform::GFx::AS3::VTable::GetValue(VT, (Scaleform::GFx::AS3::Value *)v34.Index, v35);
       FunctType = Scaleform::GFx::AS3::TR::State::GetFunctType(v16, Value);
       Scaleform::GFx::AS3::Value::~Value(&type);
@@ -235,7 +235,7 @@ LABEL_27:
   v35.Index = ((int (__thiscall *)(Scaleform::GFx::AS3::Value::V2U))v10.VObj->AS3Constructor)(v10);
   v34.Index = (32 * v21) >> 15;
   v33.Name.value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)&type;
-  v23 = Scaleform::GFx::AS3::Traits::GetVT((Scaleform::GFx::AS3::Traits *)v10.VObj);
+  v23 = Scaleform::GFx::AS3::Traits::GetVT(v10.pTraits);
   v24 = Scaleform::GFx::AS3::VTable::GetValue(v23, (Scaleform::GFx::AS3::Value *)v33.Name.value.VS._2.VObj, v34);
   FunctReturnType = Scaleform::GFx::AS3::VM::GetFunctReturnType(
                       VMRef,

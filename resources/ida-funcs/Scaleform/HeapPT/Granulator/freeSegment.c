@@ -2,22 +2,22 @@ bool __thiscall Scaleform::HeapPT::Granulator::freeSegment(
         Scaleform::HeapPT::Granulator *this,
         Scaleform::HeapMH::NodeMH *seg)
 {
-  Scaleform::HeapPT::HdrPage *pHeap; // ebx
+  _DWORD *pHeap; // ebx
   bool result; // al
   unsigned int SegSize; // ebp
   Scaleform::HeapPT::TreeSeg *Root; // edi
   unsigned int i; // ebp
   unsigned int v9; // ecx
-  unsigned int *p_UseCount; // eax
+  _DWORD *v10; // eax
   unsigned __int16 HeadBytes; // cx
   unsigned int v12; // edx
   unsigned int v13; // ebx
-  bool ret; // [esp+18h] [ebp+4h]
+  bool node; // [esp+18h] [ebp+4h]
 
-  pHeap = (Scaleform::HeapPT::HdrPage *)seg->pHeap;
+  pHeap = (_DWORD *)seg->pHeap;
   result = 1;
-  ret = 1;
-  if ( (Scaleform::HeapPT::HdrPage *)((char *)pHeap + this->HdrPageSize) != (Scaleform::HeapPT::HdrPage *)seg->Align )
+  node = 1;
+  if ( (_DWORD *)((char *)pHeap + this->HdrPageSize) != (_DWORD *)seg->Align )
   {
     Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Remove(
       (Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor> *)&this->UsedSeg,
@@ -26,7 +26,7 @@ bool __thiscall Scaleform::HeapPT::Granulator::freeSegment(
     seg->Child[0] = (Scaleform::HeapMH::NodeMH *)&this->FreeSeg;
     this->FreeSeg.Root.AddrChild[1]->AddrChild[0] = (Scaleform::HeapPT::TreeSeg *)seg;
     this->FreeSeg.Root.AddrChild[1] = (Scaleform::HeapPT::TreeSeg *)seg;
-    --pHeap->UseCount;
+    --pHeap[2];
     SegSize = Scaleform::HeapPT::Granulator::getSegSize(this, (const Scaleform::HeapPT::TreeSeg *)seg);
     Scaleform::HeapPT::AllocLite::ReleaseSegment(&this->Allocator, (Scaleform::HeapPT::TreeSeg *)seg);
     this->Footprint -= SegSize;
@@ -37,9 +37,9 @@ bool __thiscall Scaleform::HeapPT::Granulator::freeSegment(
                       - (seg->Align == this->HdrPageSize + seg->pHeap ? this->HdrPageSize : 0)),
                SegSize,
                1 << LOBYTE(seg[1].Child[1]));
-    ret = result;
+    node = result;
   }
-  if ( pHeap->UseCount == 1 )
+  if ( pHeap[2] == 1 )
   {
     Root = this->UsedSeg.Root;
     for ( i = (unsigned int)pHeap + this->HdrPageSize; Root; i *= 2 )
@@ -50,7 +50,7 @@ bool __thiscall Scaleform::HeapPT::Granulator::freeSegment(
     }
     if ( Root->UseCount )
     {
-      return ret;
+      return node;
     }
     else
     {
@@ -64,18 +64,18 @@ bool __thiscall Scaleform::HeapPT::Granulator::freeSegment(
       this->FreeSeg.Root.AddrChild[1] = Root;
       if ( this->HdrCapacity )
       {
-        p_UseCount = &pHeap[1].UseCount;
+        v10 = pHeap + 10;
         do
         {
-          *(_DWORD *)(*(p_UseCount - 1) + 8) = *p_UseCount;
+          *(_DWORD *)(*(v10 - 1) + 8) = *v10;
           ++v9;
-          *(_DWORD *)(*p_UseCount + 4) = *(p_UseCount - 1);
-          p_UseCount += 8;
+          *(_DWORD *)(*v10 + 4) = *(v10 - 1);
+          v10 += 8;
         }
         while ( v9 < this->HdrCapacity );
       }
-      pHeap->pPrev->pNext = pHeap->pNext;
-      pHeap->pNext->Scaleform::ListNode<Scaleform::HeapPT::HdrPage>::$E40FB752466EC49710C58491A779D7E5::pPrev = pHeap->pPrev;
+      *(_DWORD *)(*pHeap + 4) = pHeap[1];
+      *(_DWORD *)pHeap[1] = *pHeap;
       HeadBytes = Root->HeadBytes;
       if ( HeadBytes )
         v12 = this->Allocator.MinSize - HeadBytes;

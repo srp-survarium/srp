@@ -11,10 +11,10 @@ int __usercall nref_nos@<eax>(stack_st_ASN1_INTEGER *nnums@<ebx>, stack_st_CONF_
   while ( 1 )
   {
     v3 = sk_value(&nos->stack, v2);
-    v4 = (char *)s2i_ASN1_INTEGER(0, *((char **)v3 + 1));
+    v4 = (char *)s2i_ASN1_INTEGER((int)nnums, 0, *((char **)v3 + 1));
     if ( !v4 )
     {
-      ERR_put_error(0x22u, 133, 140, ".\\crypto\\x509v3\\v3_cpols.c", 349);
+      ERR_put_error((int)nnums, 0x22u, 133, 140, ".\\crypto\\x509v3\\v3_cpols.c", 349);
       goto LABEL_8;
     }
     if ( !sk_push(&nnums->stack, v4) )
@@ -22,7 +22,7 @@ int __usercall nref_nos@<eax>(stack_st_ASN1_INTEGER *nnums@<ebx>, stack_st_CONF_
     if ( ++v2 >= sk_num(&nos->stack) )
       return 1;
   }
-  ERR_put_error(0x22u, 133, 65, ".\\crypto\\x509v3\\v3_cpols.c", 357);
+  ERR_put_error((int)nnums, 0x22u, 133, 65, ".\\crypto\\x509v3\\v3_cpols.c", 357);
 LABEL_8:
   sk_pop_free(&nnums->stack, (void (__cdecl *)(void *))ASN1_STRING_free);
   return 0;

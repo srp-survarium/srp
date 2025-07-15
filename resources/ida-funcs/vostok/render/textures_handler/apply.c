@@ -1,107 +1,127 @@
-void __thiscall vostok::render::textures_handler<1>::apply(
-        vostok::render::textures_handler<1> *this,
-        vostok::render::textures_handler<1> *thisa)
+void __usercall vostok::render::textures_handler<1>::apply(
+        vostok::render::textures_handler<1> *this@<ecx>,
+        _DWORD *a2@<eax>)
 {
-  int v2; // edi
-  int v3; // ebx
-  ID3D11ShaderResourceView **v4; // esi
-  ID3D11ShaderResourceView **m_tmp_buffer; // ebp
-  int end; // [esp+Ch] [ebp-204h] BYREF
-  ID3D11ShaderResourceView *tmp_buffer[128]; // [esp+10h] [ebp-200h] BYREF
+  ID3D11ShaderResourceView **v3; // esi
+  vostok::render::textures_handler<0> *v4; // ecx
+  int v5; // eax
+  bool v6; // cc
+  signed int v7; // ebx
+  ID3D11ShaderResourceView *const *v8; // esi
+  int out_num_textures; // [esp+Ch] [ebp-4h] BYREF
 
-  v2 = 0;
-  memset((int)tmp_buffer, 0, sizeof(tmp_buffer));
-  vostok::render::textures_handler<1>::fill_changes_buffer(
-    (vostok::render::textures_handler<0> *)&end,
-    thisa,
-    tmp_buffer,
-    &end);
-  if ( *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 38)
-    && (v3 = thisa->m_diff_range_end - thisa->m_diff_range_start, v3 > 0) )
+  v3 = (ID3D11ShaderResourceView **)(a2 + 3);
+  memset((int)(a2 + 3), 0, 0x200u);
+  vostok::render::textures_handler<1>::fill_changes_buffer(v4, a2, v3, (vostok::render::res_texture *)&out_num_textures);
+  v5 = a2[1];
+  if ( out_num_textures > v5 )
   {
-    v4 = tmp_buffer;
-    m_tmp_buffer = thisa->m_tmp_buffer;
-    do
+    v6 = v5 < out_num_textures - v5;
+    v7 = a2[1];
+    out_num_textures -= v5;
+    if ( v6 )
     {
-      if ( *v4 != *m_tmp_buffer )
+      v8 = (ID3D11ShaderResourceView *const *)&a2[v5 + 3];
+      do
       {
-        (*(void (__stdcall **)(int, int, int, ID3D11ShaderResourceView **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                          + 32))(
-          `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-          v2,
-          1,
-          v4);
-        *m_tmp_buffer = *v4;
+        if ( *v8 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetShaderResources(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v7,
+            1u,
+            v8);
+        ++v7;
+        ++v8;
       }
-      ++v2;
-      ++v4;
-      ++m_tmp_buffer;
+      while ( v7 < out_num_textures );
     }
-    while ( v2 < v3 );
-    thisa->m_diff_range_end = 0;
-    thisa->m_diff_range_start = 0;
   }
-  else
-  {
-    thisa->m_diff_range_start = 0;
-    thisa->m_diff_range_end = 0;
-  }
+  a2[2] = 0;
+  a2[1] = 0;
 }
 
 
 void __usercall vostok::render::textures_handler<2>::apply(
         vostok::render::textures_handler<2> *this@<ecx>,
-        int a2@<esi>)
+        _DWORD *a2@<eax>)
 {
-  vostok::render::textures_handler<0> *v2; // ecx
-  int v3; // eax
-  int v4; // ecx
-  int end; // [esp+8h] [ebp-4h] BYREF
+  ID3D11ShaderResourceView **v3; // esi
+  vostok::render::textures_handler<0> *v4; // ecx
+  int v5; // eax
+  bool v6; // cc
+  signed int v7; // ebx
+  ID3D11ShaderResourceView *const *v8; // esi
+  int out_num_textures; // [esp+Ch] [ebp-4h] BYREF
 
-  memset(a2 + 12, 0, 0x200u);
-  vostok::render::textures_handler<1>::fill_changes_buffer(
-    v2,
-    (_DWORD *)a2,
-    (ID3D11ShaderResourceView **)(a2 + 12),
-    &end);
-  v3 = *(_DWORD *)(a2 + 4);
-  v4 = *(_DWORD *)(a2 + 8) - v3;
-  if ( v4 > 0 )
-    (*(void (__stdcall **)(int, int, int, int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                              + 124))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v3,
-      v4,
-      a2 + 4 * v3 + 12);
-  *(_DWORD *)(a2 + 4) = 0;
-  *(_DWORD *)(a2 + 8) = 0;
+  v3 = (ID3D11ShaderResourceView **)(a2 + 3);
+  memset((int)(a2 + 3), 0, 0x200u);
+  vostok::render::textures_handler<1>::fill_changes_buffer(v4, a2, v3, (vostok::render::res_texture *)&out_num_textures);
+  v5 = a2[1];
+  if ( out_num_textures > v5 )
+  {
+    v6 = v5 < out_num_textures - v5;
+    v7 = a2[1];
+    out_num_textures -= v5;
+    if ( v6 )
+    {
+      v8 = (ID3D11ShaderResourceView *const *)&a2[v5 + 3];
+      do
+      {
+        if ( *v8 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetShaderResources(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v7,
+            1u,
+            v8);
+        ++v7;
+        ++v8;
+      }
+      while ( v7 < out_num_textures );
+    }
+  }
+  a2[2] = 0;
+  a2[1] = 0;
 }
 
 
 void __usercall vostok::render::textures_handler<0>::apply(
         vostok::render::textures_handler<0> *this@<ecx>,
-        int a2@<esi>)
+        _DWORD *a2@<eax>)
 {
-  vostok::render::textures_handler<0> *v2; // ecx
-  int v3; // eax
-  int v4; // ecx
-  int end; // [esp+8h] [ebp-4h] BYREF
+  ID3D11ShaderResourceView **v3; // esi
+  vostok::render::textures_handler<0> *v4; // ecx
+  int v5; // eax
+  bool v6; // cc
+  signed int v7; // ebx
+  ID3D11ShaderResourceView *const *v8; // esi
+  int out_num_textures; // [esp+Ch] [ebp-4h] BYREF
 
-  memset(a2 + 12, 0, 0x200u);
-  vostok::render::textures_handler<1>::fill_changes_buffer(
-    v2,
-    (_DWORD *)a2,
-    (ID3D11ShaderResourceView **)(a2 + 12),
-    &end);
-  v3 = *(_DWORD *)(a2 + 4);
-  v4 = *(_DWORD *)(a2 + 8) - v3;
-  if ( v4 > 0 )
-    (*(void (__stdcall **)(int, int, int, int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                              + 100))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v3,
-      v4,
-      a2 + 4 * v3 + 12);
-  *(_DWORD *)(a2 + 4) = 0;
-  *(_DWORD *)(a2 + 8) = 0;
+  v3 = (ID3D11ShaderResourceView **)(a2 + 3);
+  memset((int)(a2 + 3), 0, 0x200u);
+  vostok::render::textures_handler<1>::fill_changes_buffer(v4, a2, v3, (vostok::render::res_texture *)&out_num_textures);
+  v5 = a2[1];
+  if ( out_num_textures > v5 )
+  {
+    v6 = v5 < out_num_textures - v5;
+    v7 = a2[1];
+    out_num_textures -= v5;
+    if ( v6 )
+    {
+      v8 = (ID3D11ShaderResourceView *const *)&a2[v5 + 3];
+      do
+      {
+        if ( *v8 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetShaderResources(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v7,
+            1u,
+            v8);
+        ++v7;
+        ++v8;
+      }
+      while ( v7 < out_num_textures );
+    }
+  }
+  a2[2] = 0;
+  a2[1] = 0;
 }

@@ -1,11 +1,14 @@
 void __thiscall Scaleform::GFx::ImageResource::~ImageResource(Scaleform::GFx::ImageResource *this)
 {
+  Scaleform::AmpServer *Instance; // eax
   Scaleform::Render::ImageBase *pImage; // ecx
   Scaleform::GFx::ResourceKey::KeyInterface *pKeyInterface; // ecx
   Scaleform::Render::Image *pObject; // ecx
 
-  pImage = this->pImage;
   this->__vftable = (Scaleform::GFx::ImageResource_vtbl *)&Scaleform::GFx::ImageResource::`vftable';
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->RemoveImage(Instance, this);
+  pImage = this->pImage;
   if ( pImage && pImage != &this->Delegate )
     pImage->Release(pImage);
   pKeyInterface = this->Key.pKeyInterface;

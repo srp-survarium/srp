@@ -1,47 +1,48 @@
-char __thiscall Scaleform::GFx::AS2::ArrayObject::HasMember(
-        Scaleform::GFx::AS2::ArrayObject *this,
+char __userpurge Scaleform::GFx::AS2::ArrayObject::HasMember@<al>(
+        Scaleform::GFx::AS2::ArrayObject *this@<ecx>,
+        int a2@<ebx>,
         Scaleform::GFx::AS2::ASStringContext *psc,
         const Scaleform::GFx::ASString *name,
         bool inclPrototypes)
 {
   const char *pData; // ecx
-  char v6; // al
-  int v7; // eax
-  int v8; // ecx
-  bool v9; // zf
-  char **v10; // eax
-  char v11; // cl
+  char v7; // al
+  signed int v8; // eax
+  int v9; // ecx
+  bool v10; // zf
+  char **v11; // eax
+  char v12; // cl
   char result; // al
 
   pData = name->pNode->pData;
-  v6 = *pData;
+  v7 = *pData;
   if ( *pData )
   {
-    while ( v6 >= 48 && v6 <= 57 )
+    while ( v7 >= 48 && v7 <= 57 )
     {
-      v6 = *++pData;
-      if ( !v6 )
+      v7 = *++pData;
+      if ( !v7 )
         goto LABEL_7;
     }
     if ( *pData )
       return Scaleform::GFx::AS2::Object::HasMember(this, psc, name, inclPrototypes);
   }
 LABEL_7:
-  v7 = atoi(name->pNode->pData);
-  if ( v7 < 0 )
+  v8 = atoi(a2, (char *)name->pNode->pData);
+  if ( v8 < 0 )
     return Scaleform::GFx::AS2::Object::HasMember(this, psc, name, inclPrototypes);
   result = 0;
-  if ( v7 < (int)this->pWatchpoints )
+  if ( v8 < (int)this->pWatchpoints )
   {
-    v8 = *(_DWORD *)&this->ResolveHandler.Flags;
-    v9 = *(_DWORD *)(v8 + 4 * v7) == 0;
-    v10 = (char **)(v8 + 4 * v7);
-    if ( !v9 )
+    v9 = *(_DWORD *)&this->ResolveHandler.Flags;
+    v10 = *(_DWORD *)(v9 + 4 * v8) == 0;
+    v11 = (char **)(v9 + 4 * v8);
+    if ( !v10 )
     {
-      v11 = **v10;
-      if ( v11 )
+      v12 = **v11;
+      if ( v12 )
       {
-        if ( v11 != 10 && v11 != 1 )
+        if ( v12 != 10 && v12 != 1 )
           return 1;
       }
     }

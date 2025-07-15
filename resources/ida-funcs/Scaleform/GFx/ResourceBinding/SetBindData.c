@@ -21,12 +21,12 @@ void __userpurge Scaleform::GFx::ResourceBinding::SetBindData(
   Scaleform::GFx::ResourceBindData *volatile v19; // ebp
   volatile unsigned int ResourceCount; // ebx
   Scaleform::GFx::ResourceBindData *v21; // esi
-  Scaleform::GFx::ResourceBindData *pnewRes; // [esp+Ch] [ebp-Ch]
-  unsigned int size; // [esp+10h] [ebp-8h]
-  Scaleform::Lock *lock; // [esp+14h] [ebp-4h]
+  Scaleform::GFx::ResourceBindData *v23; // [esp+Ch] [ebp-Ch]
+  int v24; // [esp+10h] [ebp-8h]
+  Scaleform::Lock *v25; // [esp+14h] [ebp-4h]
 
   p_ResourceLock = &this->ResourceLock;
-  lock = &this->ResourceLock;
+  v25 = &this->ResourceLock;
   EnterCriticalSection(&this->ResourceLock.cs);
   v6 = (index + 16) & 0xFFFFFFF0;
   if ( v6 > this->ResourceCount )
@@ -36,7 +36,7 @@ void __userpurge Scaleform::GFx::ResourceBinding::SetBindData(
     if ( this->pResources )
     {
       v11 = ((int (__thiscall *)(Scaleform::MemoryHeap *, unsigned int, _DWORD, int))pHeap->Alloc)(pHeap, 8 * v6, 0, a2);
-      size = v11;
+      v24 = v11;
       v12 = (_DWORD *)v11;
       if ( v6 )
       {
@@ -64,20 +64,20 @@ void __userpurge Scaleform::GFx::ResourceBinding::SetBindData(
           if ( pObject )
           {
             Scaleform::RefCountImpl::AddRef(pObject);
-            v11 = size;
+            v11 = v24;
           }
           v18 = *(Scaleform::GFx::Resource **)(v15 + v11);
           if ( v18 )
           {
             Scaleform::GFx::Resource::Release(v18);
-            v11 = size;
+            v11 = v24;
           }
           *(_DWORD *)(v15 + v11) = v17->pResource.pObject;
           *(_DWORD *)(v15 + v11 + 4) = v17->pBinding;
           ++v7;
         }
         while ( v7 < this->ResourceCount );
-        v6 = (unsigned int)lock;
+        v6 = (unsigned int)v25;
       }
       v19 = this->pResources;
       if ( this->ResourceCount )
@@ -93,8 +93,8 @@ void __userpurge Scaleform::GFx::ResourceBinding::SetBindData(
         while ( ResourceCount );
       }
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->pResources);
-      p_ResourceLock = lock;
-      this->pResources = pnewRes;
+      p_ResourceLock = v25;
+      this->pResources = v23;
     }
     else
     {

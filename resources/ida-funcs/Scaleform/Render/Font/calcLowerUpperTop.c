@@ -3,27 +3,27 @@ void __thiscall Scaleform::Render::Font::calcLowerUpperTop(
         Scaleform::Render::GlyphCache *log)
 {
   unsigned __int8 v3; // al
-  unsigned __int8 *v4; // edi
+  char *v4; // edi
   unsigned __int16 v5; // bx
   const char *v6; // ecx
   const char *v7; // eax
   const char *v8; // eax
   unsigned __int8 v9; // al
-  unsigned __int8 *v10; // edi
+  char *v10; // edi
   unsigned __int16 v11; // ax
   const char *v12; // [esp-8h] [ebp-28h]
   const char *v13; // [esp-4h] [ebp-24h]
-  char lowerCaseCandidates[8]; // [esp+Ch] [ebp-14h] BYREF
-  char upperCaseCandidates[12]; // [esp+14h] [ebp-Ch] BYREF
+  char v14[8]; // [esp+Ch] [ebp-14h] BYREF
+  char v15[12]; // [esp+14h] [ebp-Ch] BYREF
 
   if ( this->LowerCaseTop )
     goto LABEL_6;
   if ( this->UpperCaseTop )
     goto LABEL_6;
-  strcpy(upperCaseCandidates, "HEFTUVWXZ");
-  strcpy(lowerCaseCandidates, "zxvwy");
+  strcpy(v15, "HEFTUVWXZ");
+  strcpy(v14, "zxvwy");
   v3 = aHeft[0];
-  v4 = (unsigned __int8 *)upperCaseCandidates;
+  v4 = v15;
   if ( !aHeft[0] )
     goto LABEL_6;
   while ( 1 )
@@ -35,19 +35,19 @@ void __thiscall Scaleform::Render::Font::calcLowerUpperTop(
     if ( !v3 )
       goto LABEL_6;
   }
-  v9 = lowerCaseCandidates[0];
-  v10 = (unsigned __int8 *)lowerCaseCandidates;
-  if ( !lowerCaseCandidates[0] )
+  v9 = v14[0];
+  v10 = v14;
+  if ( !v14[0] )
   {
 LABEL_6:
     if ( log )
     {
       v6 = " Italic";
       if ( (this->Flags & 1) == 0 )
-        v6 = (const char *)&buf;
+        v6 = uri;
       v7 = " Bold";
       if ( (this->Flags & 2) == 0 )
-        v7 = (const char *)&buf;
+        v7 = uri;
       v8 = (const char *)((int (__thiscall *)(Scaleform::Render::Font *, const char *, const char *))this->GetName)(
                            this,
                            v7,

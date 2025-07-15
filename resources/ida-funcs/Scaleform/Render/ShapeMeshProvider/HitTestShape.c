@@ -9,56 +9,57 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::HitTestShape(
         Scaleform::Render::Scale9GridInfo *s9g)
 {
   unsigned int v9; // eax
-  Scaleform::GFx::Resource *pObject; // edx
+  Scaleform::Render::ShapeDataInterface *pObject; // edx
   Scaleform::GFx::Resource *v11; // ecx
-  Scaleform::Render::TransformerBase *p_trScale9; // eax
+  Scaleform::Render::TransformerBase *v12; // eax
   char v13; // al
   char v15; // [esp+1Bh] [ebp-CDh]
-  Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float> > trAffine; // [esp+1Ch] [ebp-CCh] BYREF
-  Scaleform::Render::TransformerWrapper<Scaleform::Render::Scale9GridInfo> trScale9; // [esp+24h] [ebp-C4h] BYREF
-  Scaleform::Render::ShapePosInfo pos2; // [esp+2Ch] [ebp-BCh] BYREF
-  Scaleform::Render::MorphInterpolator shape; // [esp+64h] [ebp-84h] BYREF
+  void **v16; // [esp+1Ch] [ebp-CCh] BYREF
+  const Scaleform::Render::Matrix2x4<float> *v17; // [esp+20h] [ebp-C8h]
+  void **v18; // [esp+24h] [ebp-C4h] BYREF
+  Scaleform::Render::Scale9GridInfo *v19; // [esp+28h] [ebp-C0h]
+  Scaleform::Render::ShapePosInfo v20; // [esp+2Ch] [ebp-BCh] BYREF
+  Scaleform::Render::MorphInterpolator v21; // [esp+64h] [ebp-84h] BYREF
 
   v9 = this->pShapeData.pObject->GetStartingPos(this->pShapeData.pObject);
-  pObject = (Scaleform::GFx::Resource *)this->pShapeData.pObject;
-  pos2.Sfactor = 1.0;
-  pos2.Pos = v9;
+  pObject = this->pShapeData.pObject;
+  v20.Sfactor = 1.0;
+  v20.Pos = v9;
   v11 = (Scaleform::GFx::Resource *)this->pMorphData.pObject;
-  memset(&pos2.StartX, 0, 44);
-  pos2.Initialized = 0;
-  Scaleform::Render::MorphInterpolator::MorphInterpolator(&shape, pObject, v11, morphRatio, &pos2);
-  trAffine.__vftable = (Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float> >_vtbl *)&Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float>>::`vftable';
-  trAffine.Tr = 0;
-  trScale9.__vftable = (Scaleform::Render::TransformerWrapper<Scaleform::Render::Scale9GridInfo>_vtbl *)&Scaleform::Render::TransformerWrapper<Scaleform::Render::Scale9GridInfo>::`vftable';
-  trScale9.Tr = 0;
+  memset(&v20.StartX, 0, 44);
+  v20.Initialized = 0;
+  Scaleform::Render::MorphInterpolator::MorphInterpolator(
+    &v21,
+    (Scaleform::GFx::Resource *)pObject,
+    v11,
+    morphRatio,
+    &v20);
+  v16 = &Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float>>::`vftable';
+  v17 = 0;
+  v18 = &Scaleform::Render::TransformerWrapper<Scaleform::Render::Scale9GridInfo>::`vftable';
+  v19 = 0;
   if ( s9g )
   {
-    trScale9.Tr = s9g;
-    p_trScale9 = &trScale9;
+    v19 = s9g;
+    v12 = (Scaleform::Render::TransformerBase *)&v18;
   }
   else
   {
-    trAffine.Tr = m;
-    p_trScale9 = &trAffine;
+    v17 = m;
+    v12 = (Scaleform::Render::TransformerBase *)&v16;
   }
   if ( gen )
-    v13 = Scaleform::Render::HitTestFillAndStrokes<Scaleform::Render::TransformerBase>(
-            &shape,
-            p_trScale9,
-            x,
-            y,
-            gen,
-            tol);
+    v13 = Scaleform::Render::HitTestFillAndStrokes<Scaleform::Render::TransformerBase>(&v21, v12, x, y, gen, tol);
   else
-    v13 = Scaleform::Render::HitTestFill<Scaleform::Render::Matrix2x4<float>>(&shape, m, x, y);
+    v13 = Scaleform::Render::HitTestFill<Scaleform::Render::Matrix2x4<float>>(&v21, m, x, y);
   v15 = v13;
-  trAffine.__vftable = (Scaleform::Render::TransformerWrapper<Scaleform::Render::Matrix2x4<float> >_vtbl *)&Scaleform::GFx::AS3::ArrayBase::`vftable';
-  trScale9.__vftable = (Scaleform::Render::TransformerWrapper<Scaleform::Render::Scale9GridInfo>_vtbl *)&Scaleform::GFx::AS3::ArrayBase::`vftable';
-  if ( shape.pMorphData.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)shape.pMorphData.pObject);
-  if ( shape.pShapeData.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)shape.pShapeData.pObject);
-  Scaleform::RefCountImplCore::~RefCountImplCore(&shape);
+  v16 = &Scaleform::GFx::AS3::ArrayBase::`vftable';
+  v18 = &Scaleform::GFx::AS3::ArrayBase::`vftable';
+  if ( v21.pMorphData.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v21.pMorphData.pObject);
+  if ( v21.pShapeData.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v21.pShapeData.pObject);
+  Scaleform::RefCountImplCore::~RefCountImplCore(&v21);
   return v15;
 }
 

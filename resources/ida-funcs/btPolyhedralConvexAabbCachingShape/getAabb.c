@@ -1,24 +1,20 @@
-void __thiscall btPolyhedralConvexAabbCachingShape::getAabb(
-        btPolyhedralConvexAabbCachingShape *this,
-        const btTransform *trans,
-        const struct btTransform *aabbMin,
+void __userpurge btPolyhedralConvexAabbCachingShape::getAabb(
+        btPolyhedralConvexAabbCachingShape *this@<ecx>,
+        const float *a2@<edi>,
+        btPolyhedralConvexAabbCachingShape *trans,
+        const btTransform *aabbMin,
         btVector3 *aabbMax)
 {
-  btPolyhedralConvexAabbCachingShape *v5; // ecx
-  struct btVector3 *v6; // [esp+0h] [ebp-10h]
-  struct btVector3 *v7; // [esp+4h] [ebp-Ch]
-  float v8; // [esp+8h] [ebp-8h]
-  float v9; // [esp+Ch] [ebp-4h]
+  float v6; // [esp+0h] [ebp-8h]
+  float v7; // [esp+4h] [ebp-4h]
 
-  v9 = this->getMargin(this);
+  v6 = this->getMargin(this);
   btPolyhedralConvexAabbCachingShape::getNonvirtualAabb(
-    v5,
+    trans,
     (float *)this,
-    (unsigned __int64 *)aabbMax,
-    (float *)trans,
-    v9,
+    a2,
     aabbMin,
-    v6,
-    v7,
-    v8);
+    aabbMax,
+    (btVector3 *)LODWORD(v6),
+    v7);
 }

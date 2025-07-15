@@ -18,7 +18,7 @@ X509_POLICY_NODE_st *__cdecl level_add_node(
     result->nchild = 0;
     if ( level )
     {
-      if ( OBJ_obj2nid(data->valid_policy) == 746 )
+      if ( OBJ_obj2nid(data->valid_policy) == (void *)746 )
       {
         if ( level->anyPolicy )
         {

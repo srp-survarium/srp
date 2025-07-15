@@ -2,10 +2,9 @@ void __thiscall vostok::collision::loose_oct_tree::remove_nodes(
         vostok::collision::loose_oct_tree *this,
         vostok::collision::oct_node *node)
 {
-  vostok::collision::oct_node **p_parent; // edi
-  vostok::collision::oct_node *v4; // esi
-  vostok::collision::vertex_allocator *m_allocator; // eax
-  vostok::collision::oct_node *m_nodes; // ecx
+  vostok::collision::oct_node **p_parent; // ebx
+  vostok::collision::oct_node *v4; // ebp
+  vostok::collision::oct_node *m_head; // eax
 
   p_parent = &node->parent;
   v4 = node;
@@ -16,9 +15,8 @@ void __thiscall vostok::collision::loose_oct_tree::remove_nodes(
     v4 = (vostok::collision::oct_node *)((char *)v4 + 4);
   }
   while ( v4 != (vostok::collision::oct_node *)p_parent );
-  m_allocator = this->m_allocator;
-  m_nodes = m_allocator->m_nodes;
-  --m_allocator->m_node_count;
-  *p_parent = m_nodes;
-  m_allocator->m_nodes = node;
+  m_head = this->m_head;
+  --this->m_allocated_nodes_count;
+  *p_parent = m_head;
+  this->m_head = node;
 }

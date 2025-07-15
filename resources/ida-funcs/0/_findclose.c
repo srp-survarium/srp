@@ -1,4 +1,4 @@
-int __cdecl _findclose(void *hFile)
+int __cdecl _findclose(HANDLE hFile)
 {
   if ( FindClose(hFile) )
     return 0;

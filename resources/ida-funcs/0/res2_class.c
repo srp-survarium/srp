@@ -1,7 +1,7 @@
 int **__cdecl res2_class(vorbis_block *vb, _DWORD *vl, int **in, int *nonzero, int ch)
 {
-  int v5; // edx
-  int v6; // eax
+  int v5; // eax
+  int v6; // ecx
 
   v5 = 0;
   v6 = 0;
@@ -9,12 +9,12 @@ int **__cdecl res2_class(vorbis_block *vb, _DWORD *vl, int **in, int *nonzero, i
     return 0;
   do
   {
-    if ( nonzero[v6] )
-      ++v5;
-    ++v6;
+    if ( nonzero[v5] )
+      ++v6;
+    ++v5;
   }
-  while ( v6 < ch );
-  if ( v5 )
+  while ( v5 < ch );
+  if ( v6 )
     return 2class(vb, vl, in, ch);
   else
     return 0;

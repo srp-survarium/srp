@@ -1,8 +1,8 @@
 unsigned int __usercall Scaleform::GFx::AS2::MovieRoot::ParseLevelName@<eax>(
-        char *a1@<ecx>,
-        unsigned int a2@<ebx>,
-        char *pname,
-        char **ptail,
+        const char *a1@<ecx>,
+        int a2@<ebx>,
+        const char *pname,
+        const char **ptail,
         bool caseSensitive)
 {
   char v5; // cl
@@ -14,15 +14,15 @@ unsigned int __usercall Scaleform::GFx::AS2::MovieRoot::ParseLevelName@<eax>(
   char v11; // cl
   char v12; // cl
   const char *v13; // [esp-Ch] [ebp-10h]
-  char *ptail2; // [esp+0h] [ebp-4h] BYREF
+  const char *v14; // [esp+0h] [ebp-4h] BYREF
 
-  ptail2 = a1;
+  v14 = a1;
   v5 = *pname;
   if ( *pname >= 48 && v5 <= 57 )
   {
     v13 = pname;
     pname = 0;
-    result = strtol(a2, v13, &pname, 0xAu);
+    result = strtol(a2, v13, &pname, 10);
     *ptail = pname;
     return result;
   }
@@ -54,8 +54,8 @@ unsigned int __usercall Scaleform::GFx::AS2::MovieRoot::ParseLevelName@<eax>(
   v12 = pname[6];
   if ( v12 < 48 || v12 > 57 )
     return -1;
-  ptail2 = 0;
-  result = strtol(a2, pname + 6, &ptail2, 0xAu);
-  *ptail = ptail2;
+  v14 = 0;
+  result = strtol(a2, pname + 6, &v14, 10);
+  *ptail = v14;
   return result;
 }

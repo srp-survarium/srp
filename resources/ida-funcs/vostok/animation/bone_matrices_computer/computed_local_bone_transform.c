@@ -1,250 +1,130 @@
-const vostok::animation::skeleton_bone *__thiscall vostok::animation::bone_matrices_computer::computed_local_bone_transform(
+vostok::animation::bone_transform *__thiscall vostok::animation::bone_matrices_computer::computed_local_bone_transform(
         vostok::animation::bone_matrices_computer *this,
         vostok::animation::bone_transform *result,
-        const vostok::animation::skeleton_bone *bone,
-        char **bone_mask,
+        vostok::animation::bone_transform *bone,
+        unsigned int bone_mask,
         unsigned int animation_layer_id,
-        unsigned int a6)
+        int a7)
 {
   float x; // esi
-  void *v7; // esp
-  float *v8; // ebx
+  void *v8; // esp
   void *v9; // esp
-  void *v10; // esp
-  vostok::animation::bone_transform *v11; // edx
-  float z; // edi
-  float v13; // xmm4_4
-  int v14; // esi
-  _DWORD *v15; // ecx
-  char *v16; // eax
-  vostok::animation::bone_names *v17; // esi
-  vostok::animation::bone_names *v18; // esi
-  unsigned int v19; // eax
-  vostok::animation::frame *p_f; // eax
-  vostok::animation::frame *v21; // eax
-  float v22; // ecx
-  float v23; // edx
-  __int64 v24; // xmm0_8
-  int v25; // xmm0_4
-  int v26; // eax
-  stlp_std::pair<vostok::math::float3,float> *m_end; // eax
-  float v28; // xmm0_4
-  float v29; // ecx
-  float v30; // xmm0_4
-  stlp_std::pair<vostok::math::float3,float> *v31; // eax
-  float v32; // edx
-  float *v33; // eax
-  float v34; // xmm1_4
-  float *j; // ecx
-  float v36; // xmm0_4
-  const vostok::math::float4x4 *v37; // xmm2_4
-  float v38; // xmm0_4
-  float *v39; // ecx
-  float v40; // xmm0_4
-  float *k; // ecx
-  float v42; // xmm1_4
-  float v43; // xmm5_4
-  float v44; // xmm6_4
-  float *v45; // eax
-  float v46; // xmm3_4
-  float v47; // xmm0_4
-  float v48; // xmm1_4
-  float v49; // xmm2_4
-  float v50; // xmm0_4
-  float v51; // xmm1_4
-  float v52; // xmm2_4
-  vostok::math::float3 *v53; // esi
-  vostok::math::quaternion *v54; // eax
-  const vostok::animation::skeleton_bone *v55; // edx
-  __int64 v56; // xmm0_8
-  unsigned int z_low; // eax
-  _BYTE v59[16]; // [esp+8h] [ebp-114h] BYREF
-  vostok::animation::frame v60; // [esp+18h] [ebp-104h] BYREF
-  vostok::animation::frame f; // [esp+40h] [ebp-DCh] BYREF
-  vostok::animation::current_frame_position frame_pos; // [esp+64h] [ebp-B8h] BYREF
-  _QWORD v63[4]; // [esp+88h] [ebp-94h] BYREF
-  float v64; // [esp+A8h] [ebp-74h]
-  vostok::math::quaternion do_normalization; // [esp+ACh] [ebp-70h] BYREF
-  __int64 v66; // [esp+BCh] [ebp-60h] BYREF
-  int v67; // [esp+C4h] [ebp-58h]
-  __int64 v68; // [esp+CCh] [ebp-50h]
-  __int64 v69; // [esp+D4h] [ebp-48h]
-  __int64 v70; // [esp+DCh] [ebp-40h]
-  __int64 v71; // [esp+E4h] [ebp-38h]
-  float v72; // [esp+ECh] [ebp-30h]
-  int i; // [esp+F0h] [ebp-2Ch]
-  vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > v74; // [esp+F4h] [ebp-28h] BYREF
-  vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > transforms; // [esp+FCh] [ebp-20h] BYREF
-  float *v76; // [esp+104h] [ebp-18h]
-  _BYTE v77[12]; // [esp+108h] [ebp-14h]
-  float v78; // [esp+114h] [ebp-8h]
+  float z; // ebx
+  int v11; // esi
+  _DWORD *v12; // ecx
+  int v13; // xmm0_4
+  int v14; // xmm0_4
+  vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > *v15; // ecx
+  float v16; // xmm0_4
+  __int64 v17; // kr00_8
+  float v18; // xmm2_4
+  float i; // eax
+  float v20; // xmm1_4
+  float v21; // xmm1_4
+  float *v22; // eax
+  float v23; // xmm1_4
+  int j; // eax
+  float v25; // xmm2_4
+  vostok::math::quaternion *v26; // ebx
+  vostok::math::float3 *v27; // esi
+  vostok::animation::bone_transform *v28; // eax
+  vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > *v29; // [esp-4h] [ebp-A8h]
+  _BYTE v30[16]; // [esp+0h] [ebp-A4h] BYREF
+  vostok::animation::current_frame_position frame_pos; // [esp+10h] [ebp-94h] BYREF
+  vostok::math::quaternion v32; // [esp+34h] [ebp-70h] BYREF
+  vostok::animation::frame f; // [esp+44h] [ebp-60h] BYREF
+  __int64 v34; // [esp+68h] [ebp-3Ch] BYREF
+  float v35; // [esp+70h] [ebp-34h]
+  int v36; // [esp+74h] [ebp-30h]
+  vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > v37; // [esp+78h] [ebp-2Ch] BYREF
+  __int128 v38; // [esp+84h] [ebp-20h] BYREF
+  stlp_std::pair<vostok::math::float3,float> value; // [esp+94h] [ebp-10h] BYREF
 
   x = result->rotation.x;
-  v7 = alloca(16 * LODWORD(x));
-  v8 = (float *)v59;
-  v76 = (float *)v59;
+  v8 = alloca(16 * LODWORD(x));
+  LODWORD(value.first.x) = v30;
+  LODWORD(value.first.y) = v30;
+  LODWORD(value.first.z) = &v30[16 * LODWORD(x)];
   v9 = alloca(16 * LODWORD(x));
-  v74.m_begin = (stlp_std::pair<vostok::math::float3,float> *)v59;
-  v74.m_end = (stlp_std::pair<vostok::math::float3,float> *)v59;
-  v10 = alloca(16 * LODWORD(x));
-  v11 = result;
   z = result->translation.z;
-  v13 = 0.0;
-  v14 = LODWORD(z) + 180 * LODWORD(x);
-  transforms.m_begin = (stlp_std::pair<vostok::math::float3,float> *)v59;
-  transforms.m_end = (stlp_std::pair<vostok::math::float3,float> *)v59;
-  for ( i = v14; LODWORD(z) != v14; LODWORD(z) += 180 )
+  v37.m_begin = (stlp_std::pair<vostok::math::float3,float> *)v30;
+  v37.m_end = (stlp_std::pair<vostok::math::float3,float> *)v30;
+  v37.m_max_end = (stlp_std::pair<vostok::math::float3,float> *)LODWORD(value.first.z);
+  v11 = LODWORD(z) + 176 * LODWORD(x);
+  while ( LODWORD(z) != v11 )
   {
-    v15 = *(_DWORD **)(LODWORD(z) + 172);
-    if ( v15[9] == LODWORD(v11->translation.x)
+    v12 = *(_DWORD **)(LODWORD(z) + 168);
+    if ( v12[9] == LODWORD(result->translation.x)
       && *(float *)(LODWORD(z) + 104) != 0.0
-      && v15[18] == a6
-      && (animation_layer_id & v15[19]) != 0 )
+      && v12[18] == a7
+      && (animation_layer_id & v12[19]) != 0 )
     {
-      v16 = *bone_mask;
-      v17 = *(vostok::animation::bone_names **)(LODWORD(z) + 84);
       memset(&frame_pos, 0, sizeof(frame_pos));
-      if ( vostok::animation::bone_names::bone_index(v17, v16) == -1 )
-      {
-        v21 = identity_frame(&v60);
-        v22 = v21->scale.z;
-        v63[0] = *(_QWORD *)&v21->translation.x;
-        v63[1] = *(_QWORD *)&v21->channels[2];
-        v63[2] = *(_QWORD *)&v21->channels[4];
-        v63[3] = *(_QWORD *)&v21->channels[6];
-        v64 = v22;
-        p_f = (vostok::animation::frame *)v63;
-      }
-      else
-      {
-        v18 = *(vostok::animation::bone_names **)(LODWORD(z) + 84);
-        v19 = vostok::animation::bone_names::bone_index(v18, *bone_mask);
-        vostok::animation::evaluate_frame(
-          (const vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *)((char *)&v18[9 * v19] + v18[2].m_bone_count),
-          &f,
-          0.0,
-          *(float *)(LODWORD(z) + 108) * 30.0,
-          &frame_pos);
-        p_f = &f;
-      }
-      v23 = p_f->scale.z;
-      v68 = *(_QWORD *)&p_f->translation.x;
-      v69 = *(_QWORD *)&p_f->channels[2];
-      v24 = *(_QWORD *)&p_f->channels[4];
-      v66 = v68;
-      v70 = v24;
-      v71 = *(_QWORD *)&p_f->channels[6];
-      v25 = *(_DWORD *)(LODWORD(z) + 104);
-      v72 = v23;
-      v67 = v69;
-      if ( v8 )
-      {
-        v26 = v67;
-        *(_QWORD *)v8 = v66;
-        *((_DWORD *)v8 + 2) = v26;
-        *((_DWORD *)v8 + 3) = v25;
-      }
-      m_end = v74.m_end;
-      v28 = *(float *)(LODWORD(z) + 104);
-      *(_QWORD *)v77 = __PAIR64__(v70, HIDWORD(v69));
-      v8 += 4;
-      *(_DWORD *)&v77[8] = HIDWORD(v70);
-      if ( v74.m_end )
-      {
-        v29 = *(float *)&v77[8];
-        *(_QWORD *)&v74.m_end->first.x = *(_QWORD *)v77;
-        m_end->first.z = v29;
-        m_end->second = v28;
-      }
-      v30 = *(float *)(LODWORD(z) + 104);
-      *(_QWORD *)&do_normalization.x = v71;
-      v74.m_end = m_end + 1;
-      v31 = transforms.m_end;
-      do_normalization.z = v72;
-      if ( transforms.m_end )
-      {
-        v32 = do_normalization.z;
-        *(_QWORD *)&transforms.m_end->first.x = *(_QWORD *)&do_normalization.x;
-        v31->first.z = v32;
-        v31->second = v30;
-      }
-      v13 = 0.0;
-      v11 = result;
-      v14 = i;
-      transforms.m_end = v31 + 1;
+      vostok::animation::evaluate_frame(
+        (const vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *)(*(_DWORD *)(LODWORD(z) + 84) + *(_DWORD *)(*(_DWORD *)(LODWORD(z) + 84) + 20) + 72 * *(_DWORD *)(**(_DWORD **)(LODWORD(z) + 84) + 72 * *(_DWORD *)(bone_mask + 20) + *(_DWORD *)(LODWORD(z) + 84) + 68)),
+        channel_scale_x,
+        *(float *)(LODWORD(z) + 108) * 30.0,
+        &f,
+        &frame_pos);
+      v13 = *(_DWORD *)(LODWORD(z) + 104);
+      v34 = *(_QWORD *)&f.translation.x;
+      v35 = f.translation.z;
+      v36 = v13;
+      vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float>>::push_back(v29, &value, (float *)&v34);
+      v14 = *(_DWORD *)(LODWORD(z) + 104);
+      *(vostok::math::float3_pod *)&v38 = f.rotation;
+      HIDWORD(v38) = v14;
+      vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float>>::push_back(
+        v15,
+        (const stlp_std::pair<vostok::math::float3,float> *)&v37,
+        (float *)&v38);
     }
+    LODWORD(z) += 176;
   }
-  v33 = v76;
-  if ( !a6 )
+  v16 = s_bm_current_air_resistance;
+  if ( !a7 )
   {
-    v34 = 0.0;
-    for ( j = v76; j != v8; v34 = v36 + v34 )
+    v17 = *(_QWORD *)&value.first.x;
+    v18 = 0.0;
+    for ( i = value.first.x; LODWORD(i) != LODWORD(value.first.y); v18 = v20 + v18 )
     {
-      v36 = j[3];
-      j += 4;
+      v20 = *(float *)(LODWORD(i) + 12);
+      LODWORD(i) += 16;
     }
-    v37 = clear_value;
-    if ( fabs(v34 - *(float *)&clear_value) >= 0.0000099999997 )
+    if ( fabs(v18 - s_bm_current_air_resistance) >= 0.0000099999997 )
     {
-      if ( v76 != v8 )
+      if ( LODWORD(value.first.x) != LODWORD(value.first.y) )
       {
-        v38 = *(float *)&clear_value / v34;
-        v39 = v76 + 3;
+        v21 = s_bm_current_air_resistance / v18;
+        v22 = (float *)(LODWORD(value.first.x) + 12);
         do
         {
-          *v39 = v38 * *v39;
-          v39 += 4;
+          *v22 = *v22 * v21;
+          v22 += 4;
         }
-        while ( v39 - 3 != v8 );
+        while ( v22 - 3 != (float *)HIDWORD(v17) );
       }
-      v40 = 0.0;
-      for ( k = v33; k != v8; v40 = v42 + v40 )
+      v23 = 0.0;
+      for ( j = v17; j != HIDWORD(v17); v23 = v25 + v23 )
       {
-        v42 = k[3];
-        k += 4;
+        v25 = *(float *)(j + 12);
+        j += 16;
       }
-      if ( !LOBYTE(v11->rotation.vector.elements[2]) && fabs(*(float *)&v37 - v40) >= 0.5 )
-        LOBYTE(v11->rotation.vector.elements[2]) = 1;
+      if ( !LOBYTE(result->rotation.vector.elements[2]) && fabs(v16 - v23) >= 0.5 )
+        LOBYTE(result->rotation.vector.elements[2]) = 1;
     }
   }
-  v43 = 0.0;
-  v44 = 0.0;
-  *(_DWORD *)&v77[4] = 0;
-  *(_DWORD *)&v77[8] = 0;
-  v78 = 0.0;
-  if ( v33 != v8 )
-  {
-    v45 = v33 + 3;
-    do
-    {
-      v46 = *v45;
-      v47 = *(v45 - 3);
-      v48 = *(v45 - 2);
-      v49 = *(v45 - 1);
-      v45 += 4;
-      v50 = (float)(v47 * v46) + v13;
-      v51 = (float)(v48 * v46) + v43;
-      v52 = (float)(v49 * v46) + v44;
-      v13 = v50;
-      v43 = v51;
-      v44 = v52;
-    }
-    while ( v45 - 3 != v8 );
-    v78 = v52;
-    *(float *)&v77[8] = v51;
-    *(float *)&v77[4] = v50;
-  }
-  v53 = mix_scales(&transforms, (float *)&v66 + 1);
-  v54 = mix_rotations(&v74, &do_normalization, a6 < 2);
-  v55 = (const vostok::animation::skeleton_bone *)LODWORD(v78);
-  *(_QWORD *)&bone->m_id = *(_QWORD *)&v77[4];
-  *(_QWORD *)&bone->m_children_end = *(_QWORD *)&v54->x;
-  v56 = *(_QWORD *)&v54->vector.elements[2];
-  z_low = LODWORD(v53->z);
-  *(_QWORD *)&bone[1].m_id = v56;
-  *(_QWORD *)&bone[1].m_children_begin = *(_QWORD *)&v53->x;
-  bone[1].m_mask = z_low;
-  bone->m_children_begin = v55;
-  LOBYTE(bone[2].m_id) = 1;
-  return bone;
+  *((float *)&v38 + 1) = v16;
+  *((float *)&v38 + 2) = v16;
+  *((float *)&v38 + 3) = v16;
+  v26 = mix_rotations(&v37, &v32, a7 == 0);
+  v27 = mix_translations(
+          (const vostok::buffer_vector<stlp_std::pair<vostok::math::float3,float> > *)&value,
+          (vostok::math::float3 *)((char *)&v34 + 4));
+  v28 = bone;
+  bone->translation = *v27;
+  bone->rotation = *v26;
+  bone->scale = *(vostok::math::float3 *)((char *)&v38 + 4);
+  bone->visibility = 1;
+  return v28;
 }

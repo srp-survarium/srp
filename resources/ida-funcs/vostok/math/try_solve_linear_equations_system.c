@@ -5,47 +5,33 @@ char __cdecl vostok::math::try_solve_linear_equations_system(
         const vostok::math::float3 *b,
         vostok::math::float3 *result)
 {
-  vostok::math::float4x4 *v5; // eax
-  float z; // edx
-  vostok::math::float4x4 *v7; // esi
-  __int64 v8; // xmm0_8
-  float v9; // eax
-  float v10; // ecx
-  __int64 v11; // xmm0_8
-  char v12; // al
-  float v13; // xmm2_4
+  vostok::math::float4x4 *v5; // ecx
+  char v6; // al
+  float z; // xmm2_4
+  float x; // xmm0_4
   float y; // xmm1_4
-  float v15; // ecx
-  __int64 v16; // [esp+14h] [ebp-8Ch]
-  vostok::math::float4x4 inverted; // [esp+20h] [ebp-80h] BYREF
-  vostok::math::float4x4 m; // [esp+60h] [ebp-40h] BYREF
+  vostok::math::float4x4 v10; // [esp+10h] [ebp-94h] BYREF
+  vostok::math::float4x4 v11; // [esp+50h] [ebp-54h] BYREF
+  vostok::math::float3 v12; // [esp+94h] [ebp-10h]
 
-  v5 = vostok::math::float4x4::identity(&inverted);
-  z = third->z;
-  v7 = v5;
-  v8 = *(_QWORD *)&first->x;
-  v9 = first->z;
-  qmemcpy((void *)&m, v7, sizeof(m));
-  v10 = second->z;
-  m.i.z = v9;
-  *(_QWORD *)&m.i.x = v8;
-  *(_QWORD *)&m.lines[1].x = *(_QWORD *)&second->x;
-  v11 = *(_QWORD *)&third->x;
-  m.j.z = v10;
-  *(_QWORD *)&m.lines[2].x = v11;
-  m.k.z = z;
-  v12 = vostok::math::float4x4::try_invert(&m, &inverted);
-  if ( v12 )
+  qmemcpy(&v10, vostok::math::float4x4::identity(v5, &v11), sizeof(v10));
+  *(_QWORD *)&v10.i.x = *(_QWORD *)&first->x;
+  v10.i.z = first->z;
+  *(_QWORD *)&v10.lines[1].x = *(_QWORD *)&second->x;
+  v10.j.z = second->z;
+  *(_QWORD *)&v10.lines[2].x = *(_QWORD *)&third->x;
+  v10.k.z = third->z;
+  v6 = vostok::math::float4x4::try_invert(&v10, &v11);
+  if ( v6 )
   {
-    v13 = b->z;
+    z = b->z;
+    x = b->x;
     y = b->y;
-    *(float *)&v16 = (float)((float)(b->x * inverted.i.x) + (float)(v13 * inverted.i.z)) + (float)(y * inverted.i.y);
-    v15 = (float)((float)(b->x * inverted.k.x) + (float)(y * inverted.k.y)) + (float)(v13 * inverted.k.z);
-    *((float *)&v16 + 1) = (float)((float)(b->x * inverted.j.x) + (float)(y * inverted.j.y))
-                         + (float)(v13 * inverted.j.z);
-    *(_QWORD *)&result->x = v16;
-    result->z = v15;
+    v12.x = (float)((float)(b->x * v11.i.x) + (float)(z * v11.i.z)) + (float)(y * v11.i.y);
+    v12.y = (float)((float)(x * v11.j.x) + (float)(y * v11.j.y)) + (float)(z * v11.j.z);
+    v12.z = (float)((float)(x * v11.k.x) + (float)(y * v11.k.y)) + (float)(z * v11.k.z);
+    *result = v12;
     return 1;
   }
-  return v12;
+  return v6;
 }

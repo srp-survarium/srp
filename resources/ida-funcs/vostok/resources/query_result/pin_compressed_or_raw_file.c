@@ -1,19 +1,19 @@
-vostok::const_buffer *__userpurge vostok::resources::query_result::pin_compressed_or_raw_file@<eax>(
-        vostok::resources::query_result *this@<ecx>,
-        vostok::vfs::vfs_iterator *a2@<eax>,
+vostok::const_buffer *__fastcall vostok::resources::query_result::pin_compressed_or_raw_file(
+        vostok::resources::query_result *this,
+        vostok::resources::query_result *a2,
         vostok::const_buffer *result)
 {
-  const char **v4; // eax
-  unsigned int v5; // edx
-  vostok::mutable_buffer v7; // [esp+10h] [ebp-10h] BYREF
-  vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v8; // [esp+18h] [ebp-8h] BYREF
+  void *v3; // eax
+  const char *v4; // ecx
+  vostok::resources::query_result_for_cook *v6; // [esp+10h] [ebp-14h] BYREF
+  vostok::const_buffer v7; // [esp+18h] [ebp-Ch] BYREF
 
-  if ( a2[10].m_node && vostok::vfs::vfs_iterator::is_compressed(a2 + 10) )
-    v4 = (const char **)vostok::resources::query_result::pin_compressed_file(this, a2, &v7);
+  if ( a2->m_fat_it.m_node && vostok::vfs::vfs_iterator::is_compressed(&a2->m_fat_it) )
+    v3 = vostok::resources::query_result::pin_compressed_file(a2, &v7);
   else
-    v4 = (const char **)vostok::resources::query_result::pin_raw_file(this, &v8, (vostok::resources::query_result *)a2);
-  v5 = (unsigned int)v4[1];
-  result->m_data = *v4;
-  result->m_size = v5;
+    v3 = vostok::resources::query_result::pin_raw_file(this, &v6, a2);
+  v4 = *(const char **)v3;
+  result->m_size = *((_DWORD *)v3 + 1);
+  result->m_data = v4;
   return result;
 }

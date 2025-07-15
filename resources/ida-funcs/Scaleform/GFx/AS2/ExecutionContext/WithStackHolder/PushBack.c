@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS2::ExecutionContext::WithStackHolder::PushBack(
         Scaleform::GFx::AS2::ExecutionContext::WithStackHolder *this,
-        const Scaleform::GFx::AS2::WithStackEntry *entry)
+        Scaleform::GFx::AS2::AsFunctionObject::ArgSpec *entry)
 {
   Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,Scaleform::ArrayDefaultPolicy> *v3; // eax
   Scaleform::ArrayDataBase<Scaleform::GFx::AS2::AsFunctionObject::ArgSpec,Scaleform::AllocatorLH<Scaleform::GFx::AS2::AsFunctionObject::ArgSpec,323>,Scaleform::ArrayDefaultPolicy> *pWithStackArray; // edi
@@ -39,5 +39,5 @@ void __thiscall Scaleform::GFx::AS2::ExecutionContext::WithStackHolder::PushBack
       pWithStackArray->Size + 1);
   }
   pWithStackArray->Size = v5;
-  pWithStackArray->Data[v5 - 1] = (Scaleform::GFx::AS2::AsFunctionObject::ArgSpec)*entry;
+  pWithStackArray->Data[v5 - 1] = *entry;
 }

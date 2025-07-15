@@ -13,7 +13,7 @@ unsigned int __cdecl png_write_tEXt(_DWORD *a1, LPCSTR a2, char *lpString)
       v7 = lstrlenA(lpString);
     else
       v7 = 0;
-    sub_36AD20(a1, 1950701684, v5 + v7 + 1);
+    sub_4779E0(a1, 1950701684, v5 + v7 + 1);
     png_write_chunk_data(a1, (unsigned __int8 *)pointer, v5 + 1);
     if ( v7 )
       png_write_chunk_data(a1, (unsigned __int8 *)lpString, v7);

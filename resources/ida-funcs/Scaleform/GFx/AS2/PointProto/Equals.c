@@ -8,8 +8,8 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Equals(const Scaleform::GFx::AS2::
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::AS2::PointObject *p_pProto; // ecx
   Scaleform::GFx::AS2::Value *Result; // esi
-  Scaleform::Render::Point<double> pt2; // [esp+Ch] [ebp-20h] BYREF
-  Scaleform::Render::Point<double> pt1; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::Render::Point<double> v9; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::Render::Point<double> pt; // [esp+1Ch] [ebp-10h] BYREF
 
   v1 = 0;
   if ( fn->NArgs > 0 )
@@ -38,9 +38,9 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Equals(const Scaleform::GFx::AS2::
           p_pProto = (Scaleform::GFx::AS2::PointObject *)&ThisPtr[-2].pProto;
         else
           p_pProto = 0;
-        Scaleform::GFx::AS2::PointObject::GetProperties(p_pProto, fn->Env, &pt1);
-        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v5, &pt2);
-        v1 = Scaleform::Render::Point<double>::operator==(&pt1, &pt2);
+        Scaleform::GFx::AS2::PointObject::GetProperties(p_pProto, fn->Env, &pt);
+        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v5, &v9);
+        v1 = Scaleform::Render::Point<double>::operator==(&pt, &v9);
       }
     }
   }

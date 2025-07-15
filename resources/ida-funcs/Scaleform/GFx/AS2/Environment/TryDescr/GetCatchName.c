@@ -20,7 +20,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS2::Environment::TryDescr:
     return result;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 (char *)pTryBlock + 7);
+                 (__m128i *)(pTryBlock + 7));
   pNode = result->pNode;
   v8 = StringNode;
   StringNode->RefCount += 2;

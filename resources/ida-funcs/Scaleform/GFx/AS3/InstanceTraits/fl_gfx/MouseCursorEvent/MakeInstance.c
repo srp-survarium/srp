@@ -14,7 +14,7 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_gfx::MouseCursorEvent> *_
   {
     Scaleform::GFx::AS3::Instances::fl_events::Event::Event(v2, t);
     pObject = v3->pTraits.pObject;
-    v3->__vftable = (Scaleform::GFx::AS3::Instances::fl_events::Event_vtbl *)&Scaleform::GFx::AS3::Instances::fl_gfx::IMEEventEx::`vftable';
+    v3->__vftable = (Scaleform::GFx::AS3::Instances::fl_events::Event_vtbl *)&Scaleform::GFx::AS3::Instances::fl_gfx::MouseCursorEvent::`vftable';
     p_EmptyStringNode = (int)&pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;
     v3[1].__vftable = (Scaleform::GFx::AS3::Instances::fl_events::Event_vtbl *)p_EmptyStringNode;
     ++*(_DWORD *)(p_EmptyStringNode + 12);

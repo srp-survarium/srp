@@ -1,4 +1,4 @@
-int __usercall fgetpos@<eax>(unsigned int a1@<ebx>, unsigned int a2@<esi>, _iobuf *stream, __int64 *pos)
+int __usercall fgetpos@<eax>(int a1@<ebx>, int a2@<esi>, _iobuf *stream, __int64 *pos)
 {
   int result; // eax
   __int64 v5; // rax

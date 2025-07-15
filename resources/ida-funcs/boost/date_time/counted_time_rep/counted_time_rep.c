@@ -1,31 +1,30 @@
-void __thiscall boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>(
-        boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config> *this,
-        const boost::gregorian::date *d,
-        const boost::posix_time::time_duration *time_of_day)
+void __usercall boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>(
+        boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config> *this@<edi>,
+        const boost::gregorian::date *d@<eax>,
+        const boost::posix_time::time_duration *time_of_day@<ecx>)
 {
-  int value_high; // ecx
-  boost::date_time::int_adapter<__int64> *v4; // eax
-  int v5; // edx
-  bool v6; // [esp+4h] [ebp-D8h]
-  boost::date_time::int_adapter<__int64> result; // [esp+C4h] [ebp-18h] BYREF
-  boost::date_time::int_adapter<unsigned int> rhs; // [esp+D0h] [ebp-Ch] BYREF
-  boost::date_time::int_adapter<__int64> v10; // [esp+D4h] [ebp-8h] BYREF
+  unsigned int days; // ebx
+  int v5; // [esp+8h] [ebp-18h] BYREF
+  boost::date_time::int_adapter<__int64> v6; // [esp+10h] [ebp-10h] BYREF
+  boost::date_time::int_adapter<unsigned int> v7; // [esp+1Ch] [ebp-4h] BYREF
 
   this->time_count_.value_ = 1;
-  v6 = !d->days_ || d->days_ == -1;
-  if ( v6 || d->days_ == -2 || boost::date_time::int_adapter<__int64>::is_special(&time_of_day->ticks_) )
+  days = d->days_;
+  if ( !d->days_
+    || days == -1
+    || days == -2
+    || boost::date_time::int_adapter<__int64>::is_special(&time_of_day->ticks_, (int)time_of_day) )
   {
-    rhs.value_ = d->days_;
-    value_high = HIDWORD(time_of_day->ticks_.value_);
-    LODWORD(v10.value_) = time_of_day->ticks_.value_;
-    HIDWORD(v10.value_) = value_high;
-    v4 = boost::date_time::int_adapter<__int64>::operator+<unsigned int>(&v10, &result, &rhs);
-    v5 = HIDWORD(v4->value_);
-    LODWORD(this->time_count_.value_) = v4->value_;
-    HIDWORD(this->time_count_.value_) = v5;
+    v6.value_ = time_of_day->ticks_.value_;
+    v7.value_ = days;
+    this->time_count_.value_ = boost::date_time::int_adapter<__int64>::operator+<unsigned int>(
+                                 &time_of_day->ticks_,
+                                 &v5,
+                                 &v6,
+                                 &v7)->value_;
   }
   else
   {
-    this->time_count_.value_ = time_of_day->ticks_.value_ + d->days_ * 86400LL * (unsigned int)&off_F4240;
+    this->time_count_.value_ = time_of_day->ticks_.value_ + 86400000000LL * days;
   }
 }

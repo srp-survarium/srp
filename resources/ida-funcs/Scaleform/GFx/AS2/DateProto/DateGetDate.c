@@ -31,7 +31,7 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateGetDate(const Scaleform::GFx::A
         if ( v5 < months[v10][i] )
         {
           Result = fn->Result;
-          v8 = (double)(v5 - dword_865024[12 * v6 + i] + 1);
+          v8 = (double)(v5 - dword_6F8914[12 * v6 + i] + 1);
           goto LABEL_9;
         }
       }

@@ -1,11 +1,18 @@
-vostok::math::float3 *__thiscall vostok::sound::sound_instance_proxy_internal::get_volumetric_position(
-        vostok::sound::sound_instance_proxy_internal *this,
+vostok::math::float3 *__userpurge vostok::sound::sound_instance_proxy_internal::get_volumetric_position@<eax>(
+        vostok::sound::sound_instance_proxy_internal *this@<ecx>,
+        int a2@<esi>,
         vostok::math::float3 *result,
         const vostok::math::float3 *listener_position)
 {
-  const vostok::math::float4x4 *v3; // eax
+  int v4; // edi
+  int v5; // eax
 
-  v3 = this->m_collision->get_matrix(this->m_collision);
-  this->m_collision->get_closest_point_to(this->m_collision, result, listener_position, v3);
+  v4 = **(_DWORD **)(a2 + 116);
+  v5 = (*(int (__thiscall **)(_DWORD))(v4 + 8))(*(_DWORD *)(a2 + 116));
+  (*(void (__thiscall **)(_DWORD, vostok::math::float3 *, const vostok::math::float3 *, int))(v4 + 124))(
+    *(_DWORD *)(a2 + 116),
+    result,
+    listener_position,
+    v5);
   return result;
 }

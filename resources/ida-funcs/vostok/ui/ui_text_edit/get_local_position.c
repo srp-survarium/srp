@@ -1,13 +1,13 @@
-__int64 __usercall vostok::ui::ui_text_edit::get_local_position@<xmm0>(
-        vostok::ui::ui_text_edit *this@<esi>,
-        unsigned __int16 pos@<di>)
+void __userpurge vostok::ui::ui_text_edit::get_local_position(
+        vostok::ui::ui_text_edit *this@<ecx>,
+        int a2@<esi>,
+        unsigned __int16 pos)
 {
-  const char *v2; // eax
-  __int64 result; // xmm0_8
+  int v3; // eax
 
-  if ( !pos )
-    return 0;
-  v2 = this->get_text(&this->vostok::ui::ui_text<vostok::ui::dynamic_text>);
-  vostok::ui::calc_string_length_n(this->m_font, v2, pos);
-  return result;
+  if ( pos )
+  {
+    v3 = (*(int (__thiscall **)(int))(*(_DWORD *)(a2 + 4) + 12))(a2 + 4);
+    vostok::ui::calc_string_length_n(v3, pos, *(vostok::ui::ui_font **)(a2 + 596));
+  }
 }

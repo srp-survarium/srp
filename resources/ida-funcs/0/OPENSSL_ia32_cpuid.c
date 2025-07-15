@@ -13,7 +13,7 @@ unsigned __int64 OPENSSL_ia32_cpuid()
 
   _EDX = 0;
   v1 = __readeflags();
-  __writeeflags(((unsigned int)&loc_1FFFFE + 2) ^ v1);
+  __writeeflags((unsigned int)&loc_200000 ^ v1);
   v2 = __readeflags();
   _ECX = v2 ^ v1;
   if ( ((v2 ^ v1) & 0x200000) != 0 )
@@ -48,7 +48,7 @@ $L001intel:
       _EAX = 1;
       __asm { cpuid }
       if ( !v11 && (BYTE1(_EAX) & 0xF) == 0xF )
-        _EDX |= 0x100000u;
+        _EDX |= (unsigned int)&loc_100000;
       if ( (_EDX & 0x10000000) != 0 )
       {
         _EDX &= ~0x10000000u;

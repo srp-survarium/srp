@@ -1,50 +1,86 @@
 void __usercall vostok::physics::create_bt_primitive(
         vostok::collision::primitive_type type@<edx>,
         const vostok::math::float3 *dim@<ecx>,
-        float a3@<xmm4>)
+        vostok::memory::base_allocator *allocator@<esi>)
 {
-  btSphereShape *v3; // eax
-  btSphereShape *v4; // ecx
-  void *(__thiscall *call_malloc)(vostok::memory::base_allocator *, unsigned int); // edx
-  btBoxShape *v6; // eax
-  void *(__thiscall *v7)(vostok::memory::base_allocator *, unsigned int); // edx
-  btCylinderShape *v8; // eax
-  btCapsuleShape *v9; // eax
-  float x; // [esp+6Ch] [ebp-18h]
-  float v11; // [esp+6Ch] [ebp-18h]
-  btVector3 boxHalfExtents; // [esp+74h] [ebp-10h] BYREF
+  int v4; // edx
+  int v5; // edx
+  char *v6; // eax
+  btCapsuleShape *v7; // eax
+  btConvexInternalShape *v8; // ecx
+  char *v9; // eax
+  btCylinderShape *v10; // eax
+  char *v11; // eax
+  btBoxShape *v12; // eax
+  char *v13; // eax
+  btSphereShape *v14; // ecx
+  __int64 radius; // [esp+20h] [ebp-18h]
+  float x; // [esp+24h] [ebp-14h]
 
-  switch ( type )
+  if ( type )
   {
-    case primitive_sphere:
-      x = dim->x;
-      v3 = (btSphereShape *)vostok::physics::g_ph_allocator->call_malloc(vostok::physics::g_ph_allocator, 64);
-      if ( v3 )
-        btSphereShape::btSphereShape(v4, v3, x);
-      break;
-    case primitive_box:
-      boxHalfExtents.mVec128.m128_u64[0] = *(_QWORD *)&dim->x;
-      call_malloc = vostok::physics::g_ph_allocator->call_malloc;
-      boxHalfExtents.mVec128.m128_u64[1] = LODWORD(dim->z);
-      v6 = (btBoxShape *)call_malloc(vostok::physics::g_ph_allocator, 80u);
-      if ( v6 )
-        btBoxShape::btBoxShape(v6, &boxHalfExtents);
-      break;
-    case primitive_cylinder:
-      boxHalfExtents.mVec128.m128_u64[0] = *(_QWORD *)&dim->x;
-      v7 = vostok::physics::g_ph_allocator->call_malloc;
-      boxHalfExtents.mVec128.m128_u64[1] = LODWORD(dim->z);
-      v8 = (btCylinderShape *)v7(vostok::physics::g_ph_allocator, 80u);
-      if ( v8 )
-        btCylinderShape::btCylinderShape(v8, &boxHalfExtents);
-      break;
-    case primitive_capsule:
-      v11 = dim->x;
-      v9 = (btCapsuleShape *)vostok::physics::g_ph_allocator->call_malloc(vostok::physics::g_ph_allocator, 80);
-      if ( v9 )
-        btCapsuleShape::btCapsuleShape(v9, v11, a3);
-      break;
-    default:
-      return;
+    v4 = type - 1;
+    if ( v4 )
+    {
+      v5 = v4 - 1;
+      if ( v5 )
+      {
+        if ( v5 == 1 )
+        {
+          radius = *(_QWORD *)&dim->x;
+          v6 = type_info::raw_name(&btCapsuleShape `RTTI Type Descriptor');
+          v7 = (btCapsuleShape *)allocator->call_malloc(
+                                   allocator,
+                                   80,
+                                   v6,
+                                   "vostok::physics::create_bt_primitive",
+                                   ".\\collision_shapes.cpp",
+                                   210);
+          if ( v7 )
+            btCapsuleShape::btCapsuleShape(v7, v8, *((float *)&radius + 1), *(float *)&radius);
+        }
+      }
+      else
+      {
+        v9 = type_info::raw_name(&btCylinderShape `RTTI Type Descriptor');
+        v10 = (btCylinderShape *)allocator->call_malloc(
+                                   allocator,
+                                   80,
+                                   v9,
+                                   "vostok::physics::create_bt_primitive",
+                                   ".\\collision_shapes.cpp",
+                                   201);
+        if ( v10 )
+          btCylinderShape::btCylinderShape(v10);
+      }
+    }
+    else
+    {
+      v11 = type_info::raw_name(&btBoxShape `RTTI Type Descriptor');
+      v12 = (btBoxShape *)allocator->call_malloc(
+                            allocator,
+                            80,
+                            v11,
+                            "vostok::physics::create_bt_primitive",
+                            ".\\collision_shapes.cpp",
+                            193);
+      if ( v12 )
+        btBoxShape::btBoxShape(v12);
+    }
+  }
+  else
+  {
+    x = dim->x;
+    v13 = type_info::raw_name(&btSphereShape `RTTI Type Descriptor');
+    if ( allocator->call_malloc(
+           allocator,
+           64,
+           v13,
+           "vostok::physics::create_bt_primitive",
+           ".\\collision_shapes.cpp",
+           185) )
+    {
+      btSphereShape::btSphereShape(v14, x);
+    }
   }
 }

@@ -5,8 +5,8 @@ int __usercall asn1_item_ex_combine_new@<eax>(
 {
   _DWORD *funcs; // eax
   int v5; // ebp
-  int (__cdecl *v6)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD); // eax
-  int (__cdecl *v7)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD); // ebx
+  const ASN1_TEMPLATE_st *v6; // eax
+  const ASN1_TEMPLATE_st *templates; // ebx
   _DWORD *v8; // eax
   int (__cdecl *v9)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *); // eax
   int v10; // eax
@@ -17,21 +17,20 @@ int __usercall asn1_item_ex_combine_new@<eax>(
   struct ASN1_VALUE_st *v16; // eax
   int v17; // eax
   struct ASN1_VALUE_st *v18; // eax
-  const ASN1_TEMPLATE_st *templates; // ebx
   struct ASN1_VALUE_st **field_ptr; // eax
-  int (__cdecl *v21)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD); // [esp+Ch] [ebp-4h]
+  const ASN1_TEMPLATE_st *v20; // [esp+Ch] [ebp-4h]
 
   funcs = it->funcs;
   v5 = 0;
-  if ( funcs && (v6 = (int (__cdecl *)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD))funcs[4]) != 0 )
+  if ( funcs && (v6 = (const ASN1_TEMPLATE_st *)funcs[4]) != 0 )
   {
-    v7 = v6;
-    v21 = v6;
+    templates = v6;
+    v20 = v6;
   }
   else
   {
-    v21 = 0;
-    v7 = 0;
+    v20 = 0;
+    templates = 0;
   }
   if ( !combine )
     *pval = 0;
@@ -39,14 +38,14 @@ int __usercall asn1_item_ex_combine_new@<eax>(
   {
     case 0:
       if ( !it->templates )
-        goto $LN24_8;
+        goto $LN24_12;
       v10 = ASN1_template_new(pval, it->templates);
       goto LABEL_11;
     case 1:
     case 6:
-      if ( !v7 )
+      if ( !templates )
         goto LABEL_32;
-      v17 = v7(0, pval, it, 0);
+      v17 = ((int (__cdecl *)(_DWORD, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD))templates)(0, pval, it, 0);
       if ( !v17 )
         goto auxerr;
       if ( v17 == 2 )
@@ -67,9 +66,9 @@ LABEL_35:
         goto LABEL_38;
       break;
     case 2:
-      if ( !v7 )
+      if ( !templates )
         goto LABEL_23;
-      v15 = v7(0, pval, it, 0);
+      v15 = ((int (__cdecl *)(_DWORD, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD))templates)(0, pval, it, 0);
       if ( !v15 )
         goto auxerr;
       if ( v15 == 2 )
@@ -84,9 +83,9 @@ LABEL_23:
       memset((int)v16, 0, it->size);
 LABEL_26:
       asn1_set_choice_selector(pval, -1, it);
-      if ( !v7 )
+      if ( !templates )
         return 1;
-      if ( !v7(1, pval, it, 0) )
+      if ( !((int (__cdecl *)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD))templates)(1, pval, it, 0) )
         goto auxerr;
       return 1;
     case 3:
@@ -112,8 +111,8 @@ LABEL_12:
         return 1;
       goto memerr_0;
     case 5:
-$LN24_8:
-      v10 = ASN1_primitive_new(pval, it);
+$LN24_12:
+      v10 = ASN1_primitive_new((int)templates, pval, it);
       goto LABEL_11;
     default:
       return 1;
@@ -124,7 +123,7 @@ $LN24_8:
     if ( !ASN1_template_new(field_ptr, templates) )
     {
 memerr_0:
-      ERR_put_error(0xDu, 121, 65, ".\\crypto\\asn1\\tasn_new.c", 214);
+      ERR_put_error((int)templates, 0xDu, 121, 65, ".\\crypto\\asn1\\tasn_new.c", 214);
       return 0;
     }
     ++v5;
@@ -132,10 +131,10 @@ memerr_0:
   }
   while ( v5 < it->tcount );
 LABEL_38:
-  if ( !v21 || v21(1, pval, it, 0) )
+  if ( !v20 || ((int (__cdecl *)(int, struct ASN1_VALUE_st **, const ASN1_ITEM_st *, _DWORD))v20)(1, pval, it, 0) )
     return 1;
 auxerr:
-  ERR_put_error(0xDu, 121, 100, ".\\crypto\\asn1\\tasn_new.c", 221);
+  ERR_put_error((int)templates, 0xDu, 121, 100, ".\\crypto\\asn1\\tasn_new.c", 221);
   ASN1_item_ex_free(pval, it);
   return 0;
 }

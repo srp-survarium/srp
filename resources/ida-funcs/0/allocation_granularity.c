@@ -1,7 +1,7 @@
 unsigned int __cdecl allocation_granularity()
 {
-  _SYSTEM_INFO system_info; // [esp+0h] [ebp-24h] BYREF
+  _SYSTEM_INFO SystemInfo; // [esp+0h] [ebp-24h] BYREF
 
-  GetSystemInfo(&system_info);
-  return system_info.dwAllocationGranularity;
+  GetSystemInfo(&SystemInfo);
+  return SystemInfo.dwAllocationGranularity;
 }

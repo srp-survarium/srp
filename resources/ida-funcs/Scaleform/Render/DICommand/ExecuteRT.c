@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::DICommand::ExecuteRT(
   unsigned int (__thiscall *GetSourceImages)(Scaleform::Render::DICommand *, Scaleform::Render::DISourceImages *); // edx
   unsigned int v6; // edi
   Scaleform::Render::DrawableImage *v7; // edi
-  Scaleform::Render::DISourceImages images; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DISourceImages v8; // [esp+8h] [ebp-8h] BYREF
 
   v3 = this->GetRenderCaps(this);
   pObject = this->pImage.pObject->pQueue.pObject;
@@ -15,13 +15,13 @@ void __thiscall Scaleform::Render::DICommand::ExecuteRT(
   {
     Scaleform::Render::DICommandQueue::updateGPUModifiedImagesRT(pObject);
     GetSourceImages = this->GetSourceImages;
-    images.pImages[0] = 0;
-    images.pImages[1] = 0;
-    v6 = GetSourceImages(this, &images);
+    v8.pImages[0] = 0;
+    v8.pImages[1] = 0;
+    v6 = GetSourceImages(this, &v8);
     if ( (this->pImage.pObject->DrawableImageState & 3) != 0
       || Scaleform::Render::DrawableImage::mapTextureRT(this->pImage.pObject, 0, 0) )
     {
-      Scaleform::Render::DICommand::executeSWHelper(this, context, this->pImage.pObject, &images, v6);
+      Scaleform::Render::DICommand::executeSWHelper(this, context, this->pImage.pObject, &v8, v6);
     }
   }
   else

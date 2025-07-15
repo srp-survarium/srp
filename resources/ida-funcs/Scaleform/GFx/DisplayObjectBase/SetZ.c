@@ -1,10 +1,10 @@
-void __thiscall Scaleform::GFx::DisplayObjectBase::SetZ(Scaleform::GFx::DisplayObjectBase *this, double z)
+void __thiscall Scaleform::GFx::DisplayObjectBase::SetZ(Scaleform::GFx::DisplayObjectBase *this, long double z)
 {
   Scaleform::GFx::ASMovieRootBase *pASRoot; // eax
   double v4; // [esp+0h] [ebp-8h]
 
   v4 = z;
-  if ( (HIDWORD(v4) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(v4) | LODWORD(v4)) )
+  if ( (HIDWORD(v4) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(v4) & 0xFFFFF | LODWORD(v4)) )
   {
     if ( z == -INFINITY || z == INFINITY )
       z = 0.0;

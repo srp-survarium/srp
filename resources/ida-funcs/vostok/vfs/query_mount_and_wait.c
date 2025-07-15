@@ -4,54 +4,73 @@ vostok::vfs::mount_result *__cdecl vostok::vfs::query_mount_and_wait(
         vostok::vfs::query_mount_arguments *args,
         boost::function<void __cdecl(void)> dispatch_callback)
 {
-  boost::_bi::bind_t<void,void (__cdecl*)(vostok::vfs::mount_result,vostok::vfs::mount_result *,bool *),boost::_bi::list3<boost::arg<1>,boost::_bi::value<vostok::vfs::mount_result *>,boost::_bi::value<bool *> > > v5; // [esp-10h] [ebp-198h]
-  boost::function1<void,vostok::vfs::mount_result> v6; // [esp+144h] [ebp-44h] BYREF
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> other; // [esp+164h] [ebp-24h] BYREF
-  boost::_bi::bind_t<void,void (__cdecl*)(vostok::vfs::mount_result,vostok::vfs::mount_result *,bool *),boost::_bi::list3<boost::arg<1>,boost::_bi::value<vostok::vfs::mount_result *>,boost::_bi::value<bool *> > > v8; // [esp+16Ch] [ebp-1Ch] BYREF
-  vostok::vfs::mount_result resulta; // [esp+17Ch] [ebp-Ch] BYREF
-  bool finished; // [esp+187h] [ebp-1h] BYREF
+  vostok::vfs::vfs_mount *v4; // ecx
+  vostok::vfs::query_mount_arguments *v5; // ebx
+  vostok::vfs::mount_result *v6; // ecx
+  vostok::particle::particle_action *v7; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v8; // ecx
+  vostok::threading::mutex *v9; // ecx
+  vostok::fs_new::asynchronous_device_interface *v10; // ecx
+  vostok::one_way_threads_channel_with_response<vostok::fs_new::asynchronous_device_query,vostok::intrusive_mpsc_queue<vostok::fs_new::asynchronous_device_query,vostok::threads_channel_query_base_helper<vostok::fs_new::asynchronous_device_query>,0>,vostok::fs_new::null_device_query> *p_m_queries; // esi
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> v13; // [esp-8h] [ebp-54h] BYREF
+  int v14; // [esp-4h] [ebp-50h]
+  boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> v15; // [esp+10h] [ebp-3Ch] BYREF
+  __int64 v16; // [esp+30h] [ebp-1Ch] BYREF
+  char *v17; // [esp+38h] [ebp-14h]
+  void (__cdecl *v18)(vostok::vfs::mount_result, vostok::vfs::mount_result *, bool *); // [esp+3Ch] [ebp-10h]
+  vostok::vfs::mount_result *v19; // [esp+40h] [ebp-Ch]
+  char *v20; // [esp+44h] [ebp-8h]
 
+  v5 = args;
+  v14 = 1;
+  v13.m_object = v4;
   vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-    &other,
+    &v13,
     0);
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-    &resulta.mount,
-    &other);
-  resulta.result = result_error;
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&other);
-  finished = 0;
-  v5 = *boost::bind<void,vostok::vfs::mount_result,vostok::vfs::mount_result *,bool *,boost::arg<1>,vostok::vfs::mount_result *,bool *>(
-          &v8,
-          vostok::vfs::on_mounted,
-          *(_BYTE *)&1_25,
-          &resulta,
-          &finished);
-  boost::function1<void,vostok::vfs::mount_result>::function1<void,vostok::vfs::mount_result>(&v6, v5, 0);
-  boost::function1<unsigned int,char const *>::swap(
-    (boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *)&v6,
-    (boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *)&args->callback);
-  boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&v6);
+  vostok::vfs::mount_result::mount_result(v6, &result->mount, v13, (vostok::vfs::vfs_mount *)v14);
+  v19 = result;
+  v20 = (char *)&args + 3;
+  v18 = vostok::vfs::on_mounted;
+  LODWORD(v16) = vostok::vfs::on_mounted;
+  HIDWORD(v16) = result;
+  v14 = (int)&v16;
+  HIBYTE(args) = 0;
+  v17 = (char *)&args + 3;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(v7) )
+  {
+    v15.vtable = 0;
+  }
+  else
+  {
+    *(_QWORD *)&v15.functor.obj_ptr = v16;
+    v15.functor.vostok_pointer_size_alignment[2] = v17;
+    v15.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::vfs::mount_result>::assign_to<boost::_bi::bind_t<void,void (__cdecl *)(vostok::vfs::mount_result,vostok::vfs::mount_result *,bool *),boost::_bi::list3<boost::arg<1>,boost::_bi::value<vostok::vfs::mount_result *>,boost::_bi::value<bool *>>>>'::`2'::stored_vtable
+                                                        + 1);
+  }
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(
+    (boost::function1<void,vostok::physics::contact_point const &> *)&v5->callback,
+    &v15);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v8,
+    (int *)&v15);
   do
   {
-    finished = 0;
-    while ( !finished )
+    HIBYTE(args) = 0;
+    do
     {
-      vostok::vfs::virtual_file_system::query_mount(vfs, args);
-      if ( args->asynchronous_device )
-        vostok::fs_new::asynchronous_device_interface::dispatch_callbacks(args->asynchronous_device);
-      if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&dispatch_callback)
-          ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-          : 0) != 0 )
-        boost::function0<void>::operator()(&dispatch_callback);
-      vostok::vfs::virtual_file_system::dispatch_callbacks(vfs);
+      vostok::vfs::virtual_file_system::query_mount(v5, v9, vfs);
+      p_m_queries = &v5->asynchronous_device->m_queries;
+      if ( p_m_queries )
+        vostok::fs_new::asynchronous_device_interface::dispatch_callbacks(v10, p_m_queries);
+      if ( (dispatch_callback.vtable != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+        boost::function0<void>::operator()((boost::function0<bool> *)v10, &dispatch_callback);
+      vostok::vfs::virtual_file_system::dispatch_callbacks((vostok::vfs::virtual_file_system *)v10, &vfs->mount_history);
     }
+    while ( !HIBYTE(args) );
   }
-  while ( resulta.result == result_requery );
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-    &result->mount,
-    &resulta.mount);
-  result->result = resulta.result;
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&resulta.mount);
-  boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&dispatch_callback);
+  while ( result->result == result_cannot_lock );
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v9,
+    (int *)&dispatch_callback);
   return result;
 }

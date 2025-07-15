@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS3::XMLParser::CommentExpatCallback(
         Scaleform::GFx::AS3::RefCountBaseGC<328> *userData,
-        char *data)
+        __m128i *data)
 {
   Scaleform::GFx::AS3::RefCountBaseGC<328> *v2; // ebx
   Scaleform::GFx::AS3::InstanceTraits::fl::XML *pNext; // edi
@@ -32,9 +32,9 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::CommentExpatCallback(
     Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
   v9 = *p_RefCount;
   userData = pV;
-  if ( v9 && (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v9 + 92))(v9) == 1 )
+  if ( v9 && (*(int (__thiscall **)(unsigned int))(*(_DWORD *)v9 + 104))(v9) == 1 )
   {
-    (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::RefCountBaseGC<328> **))(*(_DWORD *)*p_RefCount + 80))(
+    (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::RefCountBaseGC<328> **))(*(_DWORD *)*p_RefCount + 92))(
       *p_RefCount,
       &userData);
   }
@@ -63,7 +63,7 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::CommentExpatCallback(
   {
     RefCount = userData->RefCount;
     v14 = userData;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       userData->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v14);

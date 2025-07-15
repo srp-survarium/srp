@@ -5,7 +5,7 @@ stack_st_GENERAL_NAME *__usercall gnames_from_sectname@<eax>(v3_ext_ctx *ctx@<eb
   stack_st_GENERAL_NAME *v5; // ebp
 
   if ( *sect == 64 )
-    section = X509V3_get_section(ctx, sect + 1);
+    section = X509V3_get_section(ctx);
   else
     section = X509V3_parse_list(sect);
   v3 = section;
@@ -20,7 +20,7 @@ stack_st_GENERAL_NAME *__usercall gnames_from_sectname@<eax>(v3_ext_ctx *ctx@<eb
   }
   else
   {
-    ERR_put_error(0x22u, 156, 150, ".\\crypto\\x509v3\\v3_crld.c", 104);
+    ERR_put_error((int)ctx, 0x22u, 156, 150, ".\\crypto\\x509v3\\v3_crld.c", 104);
     return 0;
   }
 }

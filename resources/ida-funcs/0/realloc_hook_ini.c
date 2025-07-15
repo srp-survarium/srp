@@ -1,4 +1,4 @@
-_DWORD *__cdecl realloc_hook_ini(char *ptr, char *sz)
+char *__cdecl realloc_hook_ini(char *ptr, unsigned int sz)
 {
   __malloc_hook = 0;
   __realloc_hook = 0;

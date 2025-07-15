@@ -1,13 +1,14 @@
-void __thiscall boost::posix_time::ptime::ptime(boost::posix_time::ptime *this)
+void __usercall boost::posix_time::ptime::ptime(
+        boost::posix_time::ptime *this@<ecx>,
+        boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config> *a2@<eax>)
 {
-  const boost::gregorian::date *v1; // eax
-  boost::gregorian::date v3; // [esp+23Ch] [ebp-Ch] BYREF
-  boost::posix_time::time_duration time_of_day; // [esp+240h] [ebp-8h] BYREF
+  boost::posix_time::time_duration time_of_day; // [esp+8h] [ebp-10h] BYREF
+  boost::gregorian::date d; // [esp+14h] [ebp-4h] BYREF
 
   time_of_day.ticks_.value_ = 0x7FFFFFFFFFFFFFFELL;
-  boost::gregorian::date::date(&v3, not_a_date_time);
+  d.days_ = -2;
   boost::date_time::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>::counted_time_rep<boost::posix_time::millisec_posix_time_system_config>(
-    &this->time_,
-    v1,
+    a2,
+    &d,
     &time_of_day);
 }

@@ -5,5 +5,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::ToXMLString(
         const Scaleform::GFx::AS3::NamespaceArray *ancestorNamespaces,
         const Scaleform::GFx::AS3::NamespaceArray *usedNotDeclared)
 {
-  Scaleform::StringBuffer::AppendString(buf, (char *)this->Text.pNode->pData, this->Text.pNode->Size);
+  Scaleform::StringBuffer::AppendString(buf, (const __m128i *)this->Text.pNode->pData, this->Text.pNode->Size);
 }

@@ -3,9 +3,9 @@ Scaleform::Render::Matrix3x4<float> *__cdecl Scaleform::Render::Matrix3x4<float>
         float angle)
 {
   Scaleform::Render::Matrix3x4<float> *v2; // eax
-  float v3; // [esp+14h] [ebp-8h]
-  float v4; // [esp+14h] [ebp-8h]
-  float v5; // [esp+18h] [ebp-4h]
+  float v3; // [esp+8h] [ebp-8h]
+  float v4; // [esp+8h] [ebp-8h]
+  float v5; // [esp+Ch] [ebp-4h]
 
   memset((int)result, 0, sizeof(Scaleform::Render::Matrix3x4<float>));
   v3 = cos(angle);

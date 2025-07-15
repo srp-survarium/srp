@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::Text::StyledText::StyledText(
   Scaleform::Render::Text::TextFormat *v8; // edi
   Scaleform::Render::Text::TextFormat *v9; // ebp
   Scaleform::Render::Text::ParagraphFormat srcfmt; // [esp+10h] [ebp-14h] BYREF
-  Scaleform::Render::Text::ParagraphFormat *pallocatora; // [esp+28h] [ebp+4h]
+  Scaleform::Render::Text::ParagraphFormat *v11; // [esp+28h] [ebp+4h]
 
   this->RefCount = 1;
   this->__vftable = (Scaleform::Render::Text::StyledText_vtbl *)&Scaleform::Render::Text::StyledText::`vftable';
@@ -32,7 +32,7 @@ void __thiscall Scaleform::Render::Text::StyledText::StyledText(
   srcfmt.PresentMask = 0;
   v4 = Scaleform::Render::Text::Allocator::AllocateParagraphFormat(pallocator, &srcfmt);
   pObject = this->pDefaultParagraphFormat.pObject;
-  pallocatora = v4;
+  v11 = v4;
   if ( pObject )
   {
     v6 = pObject->RefCount-- == 1;
@@ -42,7 +42,7 @@ void __thiscall Scaleform::Render::Text::StyledText::StyledText(
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pObject);
     }
   }
-  this->pDefaultParagraphFormat.pObject = pallocatora;
+  this->pDefaultParagraphFormat.pObject = v11;
   Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&srcfmt);
   TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(pallocator, &pallocator->EntryTextFormat);
   v8 = this->pDefaultTextFormat.pObject;

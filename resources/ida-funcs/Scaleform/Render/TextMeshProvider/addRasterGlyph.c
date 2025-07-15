@@ -15,24 +15,24 @@ void __thiscall Scaleform::Render::TextMeshProvider::addRasterGlyph(
   double v12; // st7
   double v13; // st6
   Scaleform::Render::PrimitiveFill *Fill; // eax
-  float v15; // [esp+1F0h] [ebp-50h]
-  float ShadowOffsetX; // [esp+1F0h] [ebp-50h]
-  float NewLineX; // [esp+1F4h] [ebp-4Ch]
-  float v18; // [esp+1F8h] [ebp-48h]
-  float ShadowOffsetY; // [esp+1F8h] [ebp-48h]
-  float v21; // [esp+200h] [ebp-40h]
-  float v22; // [esp+200h] [ebp-40h]
-  float v23; // [esp+200h] [ebp-40h]
-  float v24; // [esp+204h] [ebp-3Ch]
-  float v25; // [esp+204h] [ebp-3Ch]
-  float v26; // [esp+204h] [ebp-3Ch]
-  float v27; // [esp+208h] [ebp-38h]
-  float v28; // [esp+208h] [ebp-38h]
-  float v29; // [esp+208h] [ebp-38h]
-  float v30; // [esp+20Ch] [ebp-34h]
-  float v31; // [esp+20Ch] [ebp-34h]
-  float v32; // [esp+20Ch] [ebp-34h]
-  Scaleform::Render::TmpTextMeshEntry val; // [esp+21Ch] [ebp-24h] BYREF
+  float v15; // [esp+10h] [ebp-50h]
+  float ShadowOffsetX; // [esp+10h] [ebp-50h]
+  float NewLineX; // [esp+14h] [ebp-4Ch]
+  float v18; // [esp+18h] [ebp-48h]
+  float ShadowOffsetY; // [esp+18h] [ebp-48h]
+  float v21; // [esp+20h] [ebp-40h]
+  float v22; // [esp+20h] [ebp-40h]
+  float v23; // [esp+20h] [ebp-40h]
+  float v24; // [esp+24h] [ebp-3Ch]
+  float v25; // [esp+24h] [ebp-3Ch]
+  float v26; // [esp+24h] [ebp-3Ch]
+  float v27; // [esp+28h] [ebp-38h]
+  float v28; // [esp+28h] [ebp-38h]
+  float v29; // [esp+28h] [ebp-38h]
+  float v30; // [esp+2Ch] [ebp-34h]
+  float v31; // [esp+2Ch] [ebp-34h]
+  float v32; // [esp+2Ch] [ebp-34h]
+  Scaleform::Render::TmpTextMeshEntry val; // [esp+3Ch] [ebp-24h] BYREF
 
   NewLineX = data->NewLineX;
   if ( snap && ((data->pFont->Flags & 0x80) != 0 || (node->Param.Flags & 1) != 0 && (node->Param.Flags & 4) == 0) )

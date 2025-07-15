@@ -1,13 +1,14 @@
 void __userpurge vostok::resources::resources_manager::init_new_queries(
         vostok::resources::query_result *queries_with_unlocked_fat_it@<eax>,
-        vostok::resources::query_result *p_m_query_end_guard@<ecx>,
+        vostok::resources::resources_manager *a2@<ecx>,
         vostok::resources::resources_manager *this)
 {
-  vostok::resources::query_result *v3; // esi
-  vostok::resources::class_id_enum m_class_id; // edx
-  vostok::resources::query_result *m_next_in_device_manager; // edi
-  vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy> *v6; // ecx
-  bool *v7; // [esp+0h] [ebp-10h]
+  vostok::resources::query_result *v3; // edi
+  vostok::resources::class_id_enum m_class_id; // eax
+  vostok::resources::query_result *m_next_in_device_manager; // ebx
+  vostok::resources::cook_base *cook; // eax
+  vostok::threading::mutex *m_num_cook_registrators; // ecx
+  vostok::resources::resources_manager *v8; // [esp-4h] [ebp-14h]
 
   v3 = queries_with_unlocked_fat_it;
   if ( queries_with_unlocked_fat_it )
@@ -18,24 +19,28 @@ void __userpurge vostok::resources::resources_manager::init_new_queries(
       m_next_in_device_manager = v3->m_next_in_device_manager;
       if ( m_class_id == raw_data_class
         || m_class_id == raw_data_class_no_reuse
-        || vostok::resources::resources_manager::find_cook((int)p_m_query_end_guard, m_class_id) )
+        || (cook = vostok::resources::resources_manager::find_cook(v3->m_class_id), a2 = v8, cook) )
       {
-        vostok::resources::resources_manager::init_new_query(this, v3);
-      }
-      else if ( this->m_num_cook_registrators )
-      {
-        vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
-          v6,
-          (char *)&loc_20288 + (_DWORD)this,
-          v3,
-          v7);
+        vostok::resources::resources_manager::init_new_query(
+          a2,
+          this,
+          (vostok::resources::query_result::only_try_to_get_associated_resource_bool)v3);
       }
       else
       {
-        v3->m_error_type = error_type_cook_not_registered;
-        p_m_query_end_guard = (vostok::resources::query_result *)&v3->m_query_end_guard;
-        if ( !_InterlockedExchangeAdd(&v3->m_query_end_guard, 0xFFFFFFFF) )
-          vostok::resources::query_result::end_query_might_destroy_this_impl(p_m_query_end_guard, v3);
+        m_num_cook_registrators = (vostok::threading::mutex *)this->m_num_cook_registrators;
+        if ( m_num_cook_registrators )
+        {
+          vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,624,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
+            (vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,624,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy> *)((char *)&loc_20290 + (_DWORD)this),
+            v3,
+            m_num_cook_registrators);
+        }
+        else
+        {
+          v3->m_error_type = error_type_cook_not_registered;
+          vostok::resources::query_result::end_query_might_destroy_this(0, (int)v3);
+        }
       }
       v3 = m_next_in_device_manager;
     }

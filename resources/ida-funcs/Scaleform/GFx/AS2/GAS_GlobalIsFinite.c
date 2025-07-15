@@ -14,7 +14,7 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalIsFinite(const Scaleform::GFx::AS2::
   if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
     v2 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
   if ( (v3 = Scaleform::GFx::AS2::Value::ToNumber(v2, Env), v6 = v3, (HIDWORD(v6) & 0x7FF00000) == 0x7FF00000)
-    && (unsigned int)&loc_FFFFF & HIDWORD(v6) | LODWORD(v6)
+    && HIDWORD(v6) & 0xFFFFF | LODWORD(v6)
     || v3 == -INFINITY
     || v3 == INFINITY )
   {

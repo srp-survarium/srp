@@ -5,7 +5,7 @@ int __cdecl ASN1_STRING_copy(asn1_string_st *dst, const asn1_string_st *str)
   if ( !str )
     return 0;
   dst->type = str->type;
-  result = ASN1_STRING_set(dst, (char *)str->data, str->length);
+  result = ASN1_STRING_set(dst, (const __m128i *)str->data, str->length);
   if ( result )
   {
     dst->flags = str->flags;

@@ -1,4 +1,4 @@
-int __usercall tls1_enc@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, ssl_st *s, int send)
+int __usercall tls1_enc@<eax>(int a1@<edi>, int a2@<esi>, ssl_st *s, int send)
 {
   ui_string_st *object; // eax
   evp_cipher_ctx_st *enc_write_ctx; // ebp
@@ -23,8 +23,8 @@ int __usercall tls1_enc@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, ssl_
     if ( X509_EXTENSION_get_object((ui_string_st *)s->write_hash) )
     {
       object = X509_EXTENSION_get_object((ui_string_st *)s->write_hash);
-      if ( EVP_MD_size((const env_md_st *)object) < 0 )
-        OpenSSLDie(a1, a2, ".\\ssl\\t1_enc.c", 651, "n >= 0");
+      if ( EVP_MD_size((int)s, (const env_md_st *)object) < 0 )
+        OpenSSLDie(a1, a2, (int)s, ".\\ssl\\t1_enc.c", 651, "n >= 0");
     }
     enc_write_ctx = s->enc_write_ctx;
     p_wrec = &s->s3->wrec;
@@ -39,8 +39,8 @@ int __usercall tls1_enc@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, ssl_
     if ( X509_EXTENSION_get_object((ui_string_st *)s->read_hash) )
     {
       v9 = X509_EXTENSION_get_object((ui_string_st *)s->read_hash);
-      if ( EVP_MD_size((const env_md_st *)v9) < 0 )
-        OpenSSLDie(a1, a2, ".\\ssl\\t1_enc.c", 665, "n >= 0");
+      if ( EVP_MD_size((int)s, (const env_md_st *)v9) < 0 )
+        OpenSSLDie(a1, a2, (int)s, ".\\ssl\\t1_enc.c", 665, "n >= 0");
     }
     enc_read_ctx = s->enc_read_ctx;
     p_wrec = &s->s3->rrec;
@@ -57,7 +57,7 @@ int __usercall tls1_enc@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, ssl_
   }
   if ( !s->session || !enc_write_ctx || !enc_read_ctx )
   {
-    memmove(p_wrec->data, p_wrec->input, p_wrec->length);
+    memmove((int)p_wrec->data, (const __m128i *)p_wrec->input, p_wrec->length);
     p_wrec->input = p_wrec->data;
     return 1;
   }
@@ -85,7 +85,7 @@ LABEL_25:
 LABEL_26:
   if ( !length || length % (unsigned int)v11 )
   {
-    ERR_put_error(0x14u, 210, 129, ".\\ssl\\t1_enc.c", 731);
+    ERR_put_error((int)s, 0x14u, 210, 129, ".\\ssl\\t1_enc.c", 731);
     ssl3_send_alert(s, 2, 21);
     return 0;
   }
@@ -97,9 +97,9 @@ LABEL_29:
   v16 = (ssl_st *)((char *)&sb->version + 1);
   if ( (s->options & 0x200) != 0 && !s->expand )
   {
-    v17 = &unk_853388;
+    v17 = &unk_6E5050;
     v18 = 8;
-    while ( *(_DWORD *)((char *)v17 + s->s3->read_sequence - (unsigned __int8 *)&unk_853388) == *v17 )
+    while ( *(_DWORD *)((char *)v17 + s->s3->read_sequence - (unsigned __int8 *)&unk_6E5050) == *v17 )
     {
       v18 -= 4;
       ++v17;

@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::readUTFBytes(
         Size = length;
       StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                      this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                     bytesRead.Data.Data,
+                     (__m128i *)bytesRead.Data.Data,
                      Size);
       StringNode->RefCount += 2;
       pNode = result->pNode;

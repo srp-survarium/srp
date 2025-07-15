@@ -18,12 +18,12 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginBitmapFill(
   Scaleform::RefCountVImpl *v16; // ebx
   Scaleform::Render::FillStyleType *v17; // ebx
   Scaleform::RefCountVImpl *v18; // ecx
-  Scaleform::Render::ImageBase *v19; // [esp+110h] [ebp-64h]
-  unsigned int v20; // [esp+128h] [ebp-4Ch]
-  unsigned int v21; // [esp+12Ch] [ebp-48h] BYREF
-  Scaleform::RefCountVImpl *v22; // [esp+130h] [ebp-44h]
-  Scaleform::Render::Matrix2x4<float> v23; // [esp+134h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v24; // [esp+154h] [ebp-20h] BYREF
+  Scaleform::Render::ImageBase *v19; // [esp+4h] [ebp-64h]
+  unsigned int v20; // [esp+1Ch] [ebp-4Ch]
+  unsigned int v21; // [esp+20h] [ebp-48h] BYREF
+  Scaleform::RefCountVImpl *v22; // [esp+24h] [ebp-44h]
+  Scaleform::Render::Matrix2x4<float> m; // [esp+28h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v24; // [esp+48h] [ebp-20h] BYREF
 
   v5 = Scaleform::GFx::DrawingContext::SetNewFill(this);
   v20 = v5;
@@ -44,23 +44,23 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginBitmapFill(
     }
     if ( v22 )
       Scaleform::RefCountImpl::Release(v22);
-    v23.M[0][0] = mtx->M[0][0];
-    v23.M[0][1] = mtx->M[0][1];
+    m.M[0][0] = mtx->M[0][0];
+    m.M[0][1] = mtx->M[0][1];
     v22 = (Scaleform::RefCountVImpl *)v9;
-    v23.M[0][2] = mtx->M[0][2];
-    v23.M[0][3] = mtx->M[0][3];
-    v23.M[1][0] = mtx->M[1][0];
-    v23.M[1][1] = mtx->M[1][1];
-    v23.M[1][2] = mtx->M[1][2];
-    v23.M[1][3] = mtx->M[1][3];
-    v23.M[0][0] = v23.M[0][0] * 20.0;
-    v23.M[0][1] = v23.M[0][1] * 20.0;
-    v23.M[0][2] = v23.M[0][2] * 20.0;
-    v23.M[0][3] = v23.M[0][3] * 20.0;
-    v23.M[1][0] = v23.M[1][0] * 20.0;
-    v23.M[1][1] = v23.M[1][1] * 20.0;
-    v23.M[1][2] = v23.M[1][2] * 20.0;
-    v23.M[1][3] = 20.0 * v23.M[1][3];
+    m.M[0][2] = mtx->M[0][2];
+    m.M[0][3] = mtx->M[0][3];
+    m.M[1][0] = mtx->M[1][0];
+    m.M[1][1] = mtx->M[1][1];
+    m.M[1][2] = mtx->M[1][2];
+    m.M[1][3] = mtx->M[1][3];
+    m.M[0][0] = m.M[0][0] * 20.0;
+    m.M[0][1] = m.M[0][1] * 20.0;
+    m.M[0][2] = m.M[0][2] * 20.0;
+    m.M[0][3] = m.M[0][3] * 20.0;
+    m.M[1][0] = m.M[1][0] * 20.0;
+    m.M[1][1] = m.M[1][1] * 20.0;
+    m.M[1][2] = m.M[1][2] * 20.0;
+    m.M[1][3] = 20.0 * m.M[1][3];
     v24.M[0][0] = 1.0;
     v24.M[0][1] = 0.0;
     v24.M[0][2] = 0.0;
@@ -69,7 +69,7 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginBitmapFill(
     v24.M[1][2] = 0.0;
     v24.M[1][3] = 0.0;
     v24.M[1][1] = 1.0;
-    Scaleform::Render::Matrix2x4<float>::SetInverse(&v24, &v23);
+    Scaleform::Render::Matrix2x4<float>::SetInverse(&v24, &m);
     pImage = pimageRes->pImage;
     *(float *)(v9 + 16) = v24.M[0][0];
     GetImageType = pImage->GetImageType;
@@ -101,7 +101,9 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginBitmapFill(
     }
     else
     {
-      Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "ImageCreator is null in BeginBitmapFill");
+      Scaleform::LogDebugMessage(
+        (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+        "ImageCreator is null in BeginBitmapFill");
     }
     v16 = v22 + 1;
     if ( v12 )

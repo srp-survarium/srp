@@ -1,75 +1,66 @@
-boost::system::error_code *__thiscall boost::asio::detail::win_iocp_socket_service_base::cancel(
+boost::system::error_code *__userpurge boost::asio::detail::win_iocp_socket_service_base::cancel@<eax>(
+        boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl@<eax>,
+        boost::system::error_code *ec@<esi>,
         boost::asio::detail::win_iocp_socket_service_base *this,
-        boost::system::error_code *result,
-        boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl,
-        boost::system::error_code *ec)
+        boost::system::error_code *a4)
 {
-  const boost::system::error_category *m_cat; // eax
+  const boost::system::error_category *v5; // eax
+  boost::system::error_code *result; // eax
   HMODULE ModuleHandleA; // eax
-  const boost::system::error_category *v7; // ecx
-  const boost::system::error_category *v9; // [esp+64h] [ebp-44h]
-  const boost::system::error_category *v10; // [esp+74h] [ebp-34h]
-  const boost::system::error_category *v11; // [esp+7Ch] [ebp-2Ch]
-  const boost::system::error_category *v12; // [esp+84h] [ebp-24h]
-  const boost::system::error_category *v13; // [esp+8Ch] [ebp-1Ch]
-  boost::asio::detail::select_reactor *r; // [esp+90h] [ebp-18h]
-  DWORD last_error; // [esp+94h] [ebp-14h]
-  int (__stdcall *cancel_io_ex_ptr)(); // [esp+A4h] [ebp-4h]
+  BOOL (__stdcall *CancelIoEx)(HANDLE, LPOVERLAPPED); // eax
+  DWORD LastError; // ebx
+  _RTL_CRITICAL_SECTION *v10; // ebx
+  stlp_std::priv::_List_node_base v11; // [esp+8h] [ebp-8h] BYREF
+  stlp_std::priv::_List_node_base *socket; // [esp+18h] [ebp+8h]
 
   if ( impl->socket_ == -1 )
   {
-    v10 = boost::system::system_category();
+    v5 = boost::system::system_category();
+    ec->m_cat = v5;
+    a4->m_cat = v5;
     ec->m_val = 10009;
-    ec->m_cat = v10;
-    m_cat = ec->m_cat;
-    result->m_val = ec->m_val;
-    result->m_cat = m_cat;
-    return result;
+    a4->m_val = 10009;
+    return a4;
   }
   else
   {
-    ModuleHandleA = GetModuleHandleA(&stru_984D24.m_working_macro_list.m_buffer[1].m_store[392]);
-    cancel_io_ex_ptr = GetProcAddress(ModuleHandleA, &stru_984D24.m_working_macro_list.m_buffer[1].m_store[380]);
-    if ( cancel_io_ex_ptr )
+    ModuleHandleA = GetModuleHandleA("KERNEL32");
+    CancelIoEx = (BOOL (__stdcall *)(HANDLE, LPOVERLAPPED))GetProcAddress(ModuleHandleA, "CancelIoEx");
+    LastError = 0;
+    if ( CancelIoEx )
     {
-      if ( ((int (__stdcall *)(unsigned int, _DWORD))cancel_io_ex_ptr)(impl->socket_, 0) )
+      if ( !CancelIoEx((HANDLE)impl->socket_, 0) )
       {
-        v11 = boost::system::system_category();
-        ec->m_val = 0;
-        ec->m_cat = v11;
-      }
-      else
-      {
-        last_error = GetLastError();
-        if ( last_error == 1168 )
-        {
-          v13 = boost::system::system_category();
-          ec->m_val = 0;
-          ec->m_cat = v13;
-        }
-        else
-        {
-          v12 = boost::system::system_category();
-          ec->m_val = last_error;
-          ec->m_cat = v12;
-        }
+        LastError = GetLastError();
+        if ( LastError == 1168 )
+          LastError = 0;
       }
     }
     else
     {
-      v9 = boost::system::system_category();
-      ec->m_val = 10045;
-      ec->m_cat = v9;
+      LastError = 10045;
     }
-    if ( !ec->m_val )
+    ec->m_cat = boost::system::system_category();
+    ec->m_val = LastError;
+    if ( !LastError )
     {
-      r = (boost::asio::detail::select_reactor *)InterlockedCompareExchange((volatile LONG *)&this->reactor_, 0, 0);
-      if ( r )
-        boost::asio::detail::select_reactor::cancel_ops(r, impl->socket_, &impl->reactor_data_);
+      v10 = (_RTL_CRITICAL_SECTION *)InterlockedCompareExchange((volatile LONG *)&this->reactor_, 0, 0);
+      if ( v10 )
+      {
+        socket = (stlp_std::priv::_List_node_base *)impl->socket_;
+        EnterCriticalSection(v10 + 1);
+        v11._M_prev = (stlp_std::priv::_List_node_base *)boost::system::system_category();
+        v11._M_next = (stlp_std::priv::_List_node_base *)995;
+        boost::asio::detail::select_reactor::cancel_ops_unlocked(
+          (boost::asio::detail::select_reactor *)0x3E3,
+          (int)v10,
+          socket,
+          &v11);
+        LeaveCriticalSection(v10 + 1);
+      }
     }
-    v7 = ec->m_cat;
-    result->m_val = ec->m_val;
-    result->m_cat = v7;
-    return result;
+    result = a4;
+    *a4 = *ec;
   }
+  return result;
 }

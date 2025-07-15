@@ -1,14 +1,14 @@
-void __fastcall nist_cp_bn_0(int max, int top, unsigned int *buf, unsigned int *a)
+void __fastcall nist_cp_bn_0(int max, int top, char *buf, char *a)
 {
-  unsigned int *v4; // edi
+  char *v4; // edi
   int i; // ecx
   int v7; // esi
 
   v4 = buf;
   for ( i = top; i; --i )
   {
-    *v4 = *(unsigned int *)((char *)v4 + (char *)a - (char *)buf);
-    ++v4;
+    *(_DWORD *)v4 = *(_DWORD *)&v4[a - buf];
+    v4 += 4;
   }
   v7 = max - top;
   if ( v7 )

@@ -4,7 +4,7 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
         const Scaleform::Render::Matrix2x4<float> *matrix,
         const Scaleform::Render::Cxform *cform,
         Scaleform::Render::BlendMode blendMode,
-        Scaleform::Render::Rect<int> *clipRect,
+        Scaleform::Render::Rect<long> *clipRect,
         bool smoothing)
 {
   Scaleform::Render::DrawableImageContext *pObject; // eax
@@ -33,7 +33,7 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
   float y2; // [esp+2Ch] [ebp-A4h]
   Scaleform::Render::Size<unsigned long> *v32; // [esp+40h] [ebp-90h]
   Scaleform::Render::ShapeDataFloatMP *v33; // [esp+44h] [ebp-8Ch]
-  Scaleform::Render::TreeShape *childSubtree; // [esp+48h] [ebp-88h]
+  Scaleform::Render::TreeShape *v34; // [esp+48h] [ebp-88h]
   Scaleform::Render::FillStyleType fill; // [esp+4Ch] [ebp-84h] BYREF
   unsigned int Height; // [esp+54h] [ebp-7Ch] BYREF
   _DWORD v37[4]; // [esp+5Ch] [ebp-74h] BYREF
@@ -57,9 +57,9 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
     v13 = 0;
     if ( EntryHelper )
     {
-      childSubtree = Scaleform::Render::ContextImpl::Context::CreateEntry<Scaleform::Render::TreeShape>(this->pContext.pObject->RContext);
+      v34 = Scaleform::Render::ContextImpl::Context::CreateEntry<Scaleform::Render::TreeShape>(this->pContext.pObject->RContext);
       Size = Scaleform::Render::TreeContainer::GetSize(EntryHelper);
-      Scaleform::Render::TreeContainer::Insert(EntryHelper, Size, childSubtree);
+      Scaleform::Render::TreeContainer::Insert(EntryHelper, Size, v34);
       Alloc = Scaleform::Memory::pGlobalHeap->Alloc;
       fill.Color = 0;
       v16 = (Scaleform::Render::ComplexFill *)Alloc(Scaleform::Memory::pGlobalHeap, 64u, 0);
@@ -103,8 +103,8 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
       y2 = (float)Height;
       Scaleform::Render::ShapeDataFloatMP::RectanglePath(v21, 0.0, 0.0, x2, y2);
       Scaleform::Render::ShapeDataFloatMP::CountLayers(v21);
-      Scaleform::Render::TreeShape::SetShape(childSubtree, (Scaleform::Render::ContextImpl::EntryData_vtbl *)v21);
-      v22 = clipRect;
+      Scaleform::Render::TreeShape::SetShape(v34, (Scaleform::Render::ContextImpl::EntryData_vtbl *)v21);
+      v22 = (Scaleform::Render::Rect<int> *)clipRect;
       if ( !clipRect )
       {
         v23 = this->GetSize(this, &Height);
@@ -120,19 +120,15 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
       Scaleform::Render::Viewport::Viewport(&vp, *v25, v29, 0);
       Scaleform::Render::TreeRoot::SetViewport(EntryHelper, &vp);
       Scaleform::Render::TreeNode::SetMatrix(EntryHelper, matrix);
-      Scaleform::Render::TreeNode::SetMatrix(childSubtree, &Scaleform::Render::Matrix2x4<float>::Identity);
-      qmemcpy(&Scaleform::Render::ContextImpl::Entry::getWritableData(childSubtree, 2u)[10], cform, 0x20u);
-      Scaleform::Render::TreeNode::SetBlendMode(childSubtree, blendMode);
+      Scaleform::Render::TreeNode::SetMatrix(v34, &Scaleform::Render::Matrix2x4<float>::Identity);
+      qmemcpy(&Scaleform::Render::ContextImpl::Entry::getWritableData(v34, 2u)[10], cform, 0x20u);
+      Scaleform::Render::TreeNode::SetBlendMode(v34, blendMode);
       ++EntryHelper->RefCount;
       pControlContext = this->pContext.pObject->pControlContext;
       if ( pControlContext )
         pControlContext->DIChangesRequired = 1;
       this->pContext.pObject->OnCapture(&this->pContext.pObject->Scaleform::Render::ContextImpl::ContextCaptureNotify);
-      Scaleform::Render::DICommand_Draw::DICommand_Draw(
-        &v41,
-        this,
-        EntryHelper,
-        (const Scaleform::Render::Rect<long> *)clipRect);
+      Scaleform::Render::DICommand_Draw::DICommand_Draw(&v41, this, EntryHelper, clipRect);
       Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::DICommand_Draw>(this, v27);
       v41.__vftable = (Scaleform::Render::DICommand_Draw_vtbl *)&Scaleform::Render::DICommand::`vftable';
       if ( v41.pImage.pObject )
@@ -140,11 +136,11 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
       v33->Release(&v33->Scaleform::Render::MeshProvider);
       if ( fill.pFill.pObject )
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)fill.pFill.pObject);
-      if ( childSubtree )
+      if ( v34 )
       {
-        v28 = childSubtree->RefCount-- == 1;
+        v28 = v34->RefCount-- == 1;
         if ( v28 )
-          Scaleform::Render::ContextImpl::Entry::destroyHelper(childSubtree);
+          Scaleform::Render::ContextImpl::Entry::destroyHelper(v34);
       }
       v28 = EntryHelper->RefCount-- == 1;
       if ( v28 )
@@ -160,7 +156,7 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
         const Scaleform::Render::Matrix2x4<float> *matrix,
         const Scaleform::Render::Cxform *cform,
         Scaleform::Render::BlendMode blendMode,
-        Scaleform::Render::Rect<int> *clipRect)
+        Scaleform::Render::Rect<long> *clipRect)
 {
   Scaleform::Render::DrawableImageContext *pObject; // eax
   Scaleform::Render::ContextImpl::Context *RContext; // ebp
@@ -199,7 +195,7 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
       v12 = Scaleform::Render::TreeNode::Clone(subtree, this->pContext.pObject->RContext);
       Size = Scaleform::Render::TreeContainer::GetSize(EntryHelper);
       Scaleform::Render::TreeContainer::Insert(EntryHelper, Size, v12);
-      v14 = clipRect;
+      v14 = (Scaleform::Render::Rect<int> *)clipRect;
       if ( !clipRect )
       {
         v15 = this->GetSize(this, v22);
@@ -223,11 +219,7 @@ void __thiscall Scaleform::Render::DrawableImage::Draw(
       if ( pControlContext )
         pControlContext->DIChangesRequired = 1;
       this->pContext.pObject->OnCapture(&this->pContext.pObject->Scaleform::Render::ContextImpl::ContextCaptureNotify);
-      Scaleform::Render::DICommand_Draw::DICommand_Draw(
-        &v25,
-        this,
-        EntryHelper,
-        (const Scaleform::Render::Rect<long> *)clipRect);
+      Scaleform::Render::DICommand_Draw::DICommand_Draw(&v25, this, EntryHelper, clipRect);
       Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::DICommand_Draw>(this, v19);
       v25.__vftable = (Scaleform::Render::DICommand_Draw_vtbl *)&Scaleform::Render::DICommand::`vftable';
       if ( v25.pImage.pObject )

@@ -1,108 +1,97 @@
 void __userpurge btGImpactCollisionAlgorithm::gimpact_vs_shape_find_pairs(
-        btCollisionShape *shape1@<ecx>,
-        btAlignedObjectArray<int> *collided_primitives@<eax>,
+        btAlignedObjectArray<int> *collided_primitives@<edi>,
+        btTransform *a2@<ecx>,
         btGImpactCollisionAlgorithm *this,
         const btTransform *trans0,
-        btGImpactShapeInterface *trans1,
-        btGImpactShapeInterface *shape0)
+        const btTransform *trans1,
+        btGImpactShapeInterface *shape0,
+        btCollisionShape *shape1)
 {
-  const btTransform *v8; // edi
-  int v9; // ebx
+  const btTransform *v7; // esi
+  int i; // eax
   int m_capacity; // ecx
   int m_size; // eax
-  int v12; // edi
-  int v13; // edx
-  int v14; // eax
-  int *v15; // ecx
-  int *m_data; // eax
-  int *v17; // eax
-  int *v18; // [esp+15Ch] [ebp-68h]
-  int v19; // [esp+160h] [ebp-64h]
-  btAABB box; // [esp+164h] [ebp-60h] BYREF
-  btTransform v21; // [esp+184h] [ebp-40h] BYREF
+  int v11; // ebx
+  int v12; // edx
+  int v13; // ecx
+  int *v14; // eax
+  int *v15; // eax
+  int *v16; // [esp+1Ch] [ebp-68h]
+  int v17; // [esp+20h] [ebp-64h]
+  btAABB box; // [esp+24h] [ebp-60h] BYREF
+  btTransform v19; // [esp+44h] [ebp-40h] BYREF
 
-  if ( trans1->m_box_set.m_box_tree.m_num_nodes )
+  v7 = trans1;
+  if ( trans1[1].m_basis.m_el[1].mVec128.m128_i32[0] )
   {
-    btTransform::inverse((btTransform *)this, &v21);
-    btTransform::operator*=(trans0, &v21);
-    shape1->getAabb(shape1, &v21, (btVector3 *)&box, &box.m_max);
-    btGImpactQuantizedBvh::boxQuery(&trans1->m_box_set, &box, collided_primitives);
+    btTransform::inverse(a2, (int)this, &v19);
+    btTransform::operator*=(&v19, trans0);
+    shape0->getAabb(shape0, &v19, (btVector3 *)&box, &box.m_max);
+    btGImpactQuantizedBvh::boxQuery(&box, (btGImpactQuantizedBvh *)&trans1[1].m_basis.m_el[1], collided_primitives);
   }
   else
   {
-    shape1->getAabb(shape1, trans0, (btVector3 *)&box, &box.m_max);
-    v8 = (const btTransform *)trans1;
-    v9 = trans1->getNumChildShapes(trans1);
-    while ( v9 )
+    shape0->getAabb(shape0, trans0, (btVector3 *)&box, &box.m_max);
+    for ( i = (*(int (__thiscall **)(const btTransform *))(trans1->m_basis.m_el[0].mVec128.m128_i32[0] + 80))(trans1);
+          i;
+          i = v17 )
     {
-      v19 = --v9;
-      (*(void (__thiscall **)(const btTransform *, int, btGImpactCollisionAlgorithm *, btTransform *, btVector3 *))(v8->m_basis.m_el[0].mVec128.m128_i32[0] + 112))(
-        v8,
-        v9,
+      v17 = i - 1;
+      (*(void (__thiscall **)(const btTransform *, int, btGImpactCollisionAlgorithm *, btTransform *, btVector3 *))(v7->m_basis.m_el[0].mVec128.m128_i32[0] + 112))(
+        v7,
+        i - 1,
         this,
-        &v21,
-        &v21.m_basis.m_el[1]);
-      if ( box.m_min.mVec128.m128_f32[0] <= v21.m_basis.m_el[1].mVec128.m128_f32[0]
-        && v21.m_basis.m_el[0].mVec128.m128_f32[0] <= box.m_max.mVec128.m128_f32[0]
-        && box.m_min.mVec128.m128_f32[1] <= v21.m_basis.m_el[1].mVec128.m128_f32[1]
-        && v21.m_basis.m_el[0].mVec128.m128_f32[1] <= box.m_max.mVec128.m128_f32[1]
-        && box.m_min.mVec128.m128_f32[2] <= v21.m_basis.m_el[1].mVec128.m128_f32[2]
-        && v21.m_basis.m_el[0].mVec128.m128_f32[2] <= box.m_max.mVec128.m128_f32[2] )
+        &v19,
+        &v19.m_basis.m_el[1]);
+      if ( box.m_min.mVec128.m128_f32[0] <= v19.m_basis.m_el[1].mVec128.m128_f32[0]
+        && v19.m_basis.m_el[0].mVec128.m128_f32[0] <= box.m_max.mVec128.m128_f32[0]
+        && box.m_min.mVec128.m128_f32[1] <= v19.m_basis.m_el[1].mVec128.m128_f32[1]
+        && v19.m_basis.m_el[0].mVec128.m128_f32[1] <= box.m_max.mVec128.m128_f32[1]
+        && box.m_min.mVec128.m128_f32[2] <= v19.m_basis.m_el[1].mVec128.m128_f32[2]
+        && v19.m_basis.m_el[0].mVec128.m128_f32[2] <= box.m_max.mVec128.m128_f32[2] )
       {
         m_capacity = collided_primitives->m_capacity;
         m_size = collided_primitives->m_size;
         if ( m_size == m_capacity )
         {
-          v12 = 2 * m_size;
-          if ( !m_size )
-            v12 = 1;
-          if ( m_capacity < v12 )
+          v11 = m_size ? 2 * m_size : 1;
+          if ( m_capacity < v11 )
           {
-            if ( v12 )
-            {
-              ++gNumAlignedAllocs;
-              v18 = (int *)sAlignedAllocFunc(4 * v12, 16);
-            }
+            if ( v11 )
+              v16 = (int *)btAlignedAllocInternal(4 * v11);
             else
+              v16 = 0;
+            v12 = collided_primitives->m_size;
+            v13 = 0;
+            if ( v12 > 0 )
             {
-              v18 = 0;
-            }
-            v13 = collided_primitives->m_size;
-            v14 = 0;
-            if ( v13 > 0 )
-            {
-              v15 = v18;
+              v14 = v16;
               do
               {
-                if ( v15 )
+                if ( v14 )
                 {
-                  *v15 = collided_primitives->m_data[v14];
-                  v9 = v19;
+                  *v14 = collided_primitives->m_data[v13];
+                  v7 = trans1;
                 }
+                ++v13;
                 ++v14;
-                ++v15;
               }
-              while ( v14 < v13 );
+              while ( v13 < v12 );
             }
-            m_data = collided_primitives->m_data;
-            if ( m_data )
+            if ( collided_primitives->m_data )
             {
               if ( collided_primitives->m_ownsMemory )
-              {
-                ++gNumAlignedFree;
-                sAlignedFreeFunc(m_data);
-              }
+                btAlignedFreeInternal(collided_primitives->m_data);
               collided_primitives->m_data = 0;
             }
             collided_primitives->m_ownsMemory = 1;
-            collided_primitives->m_data = v18;
-            collided_primitives->m_capacity = v12;
+            collided_primitives->m_data = v16;
+            collided_primitives->m_capacity = v11;
           }
-          v8 = (const btTransform *)trans1;
         }
-        v17 = &collided_primitives->m_data[collided_primitives->m_size];
-        if ( v17 )
-          *v17 = v9;
+        v15 = &collided_primitives->m_data[collided_primitives->m_size];
+        if ( v15 )
+          *v15 = v17;
         ++collided_primitives->m_size;
       }
     }

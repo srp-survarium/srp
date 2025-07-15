@@ -23,7 +23,9 @@ Scaleform::GFx::AS2::ButtonProto *__thiscall Scaleform::GFx::AS2::ButtonProto::`
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::ButtonProto *__thiscall Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::ButtonProto *)(this - 16),
@@ -31,7 +33,9 @@ void *__thiscall Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::ButtonProto *__thiscall Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::ButtonProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::ButtonProto *)(this - 56),

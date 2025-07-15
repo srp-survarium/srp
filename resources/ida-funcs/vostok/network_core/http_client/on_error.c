@@ -1,52 +1,64 @@
-void __thiscall vostok::network_core::http_client::on_error(
-        vostok::network_core::http_client *this,
-        const boost::system::error_code *err)
+void __userpurge vostok::network_core::http_client::on_error(
+        const boost::system::error_code *err@<edi>,
+        boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *a2@<ecx>,
+        vostok::network_core::http_client *this)
 {
   bool has_passed_filters; // al
-  vostok::network_core::http_client *thisa; // [esp+4h] [ebp-174h]
-  char v4; // [esp+13Ch] [ebp-3Ch]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+140h] [ebp-38h] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v6; // [esp+160h] [ebp-18h] BYREF
+  const boost::system::error_category *m_cat; // ecx
+  boost::system::error_category_vtbl *v5; // eax
+  int v6; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // [esp-4h] [ebp-50h]
+  int m_val; // [esp-4h] [ebp-50h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v9; // [esp+8h] [ebp-44h] BYREF
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char> > v10; // [esp+2Ch] [ebp-20h] BYREF
+  int v11; // [esp+44h] [ebp-8h]
 
-  thisa = this;
-  v4 = 0;
+  v11 = 0;
   if ( !vostok::core::g_log_filter_tree
     || (has_passed_filters = vostok::logging::has_passed_filters(
-                               vostok::core::g_log_filter_tree,
-                               "network_core:",
-                               error),
-        (this = (vostok::network_core::http_client *)has_passed_filters) != 0) )
+                               (vostok::logging::filter_tree *)"network_core",
+                               (const char *)2),
+        a2 = v7,
+        has_passed_filters) )
   {
-    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>((boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this);
-    v4 = 3;
-    err->m_cat->message(err->m_cat, &v6, err->m_val);
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      a2,
+      &v9);
+    m_val = err->m_val;
+    m_cat = err->m_cat;
+    v5 = m_cat->__vftable;
+    v11 = 3;
+    v5->message(
+      m_cat,
+      (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)&v10,
+      m_val);
     vostok::logging::append(
-      &log_callback,
+      &v9,
       (void *const)vostok::core::g_log_flags,
       &vostok::core::g_log_format,
       ".\\http_client.cpp",
-      0x3Au,
+      0x48u,
       "void __thiscall vostok::network_core::http_client::on_error(const class boost::system::error_code &)",
-      "network_core:",
+      "network_core",
       error,
       "http_client error: %s",
-      v6._M_start_of_storage._M_data);
+      v10._M_start_of_storage._M_data);
   }
-  if ( (v4 & 2) != 0 )
+  if ( (v11 & 2) != 0 )
   {
-    v4 &= ~2u;
-    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v6);
+    v11 &= ~2u;
+    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v10);
   }
-  if ( (v4 & 1) != 0 )
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)this,
-      (int *)&log_callback);
-  vostok::network_core::http_client::close_connection(thisa);
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&thisa->m_on_error)
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
-    boost::function2<void,vostok::ai::brain_unit const *,vostok::ai::animation_item const *>::operator()(
-      (boost::function2<void,char const *,vostok::network_core::udp_match_packet const *> *)&thisa->m_on_error,
-      (const char *)err->m_val,
-      (const vostok::network_core::udp_match_packet *)err->m_cat);
+  if ( (v11 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)a2,
+      (int *)&v9);
+  vostok::network_core::http_client::close_connection((vostok::network_core::http_client *)a2, (int)this);
+  v6 = -(this->m_on_error.vtable != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v6) != 0 )
+    boost::function1<void,boost::system::error_code>::operator()(
+      (boost::function2<void,vostok::math::float4x4 *,unsigned int> *)v6,
+      &this->m_on_error.vtable,
+      (vostok::math::float4x4 *)err->m_val,
+      (unsigned int)err->m_cat);
 }

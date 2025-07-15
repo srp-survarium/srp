@@ -3,7 +3,6 @@ void __usercall vostok::memory::doug_lea_allocator::user_current_thread_id(
         int a2@<esi>)
 {
   DWORD CurrentThreadId; // eax
-  const char *Value; // eax
 
   CurrentThreadId = GetCurrentThreadId();
   if ( *(_DWORD *)(a2 + 36) != CurrentThreadId )
@@ -12,8 +11,5 @@ void __usercall vostok::memory::doug_lea_allocator::user_current_thread_id(
     if ( *(_DWORD *)(a2 + 28) )
       *(_BYTE *)(a2 + 32) = 1;
   }
-  Value = (const char *)TlsGetValue(s_thread_logging_name_tls_key);
-  if ( !Value )
-    Value = "undefined";
-  *(_DWORD *)(a2 + 24) = Value;
+  *(_DWORD *)(a2 + 24) = vostok::threading::current_thread_logging_name();
 }

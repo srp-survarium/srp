@@ -1,13 +1,12 @@
-void __stdcall btPerturbedContactResult::btPerturbedContactResult(
-        btPerturbedContactResult *this,
+void __userpurge btPerturbedContactResult::btPerturbedContactResult(
+        btPerturbedContactResult *this@<eax>,
+        const btTransform *unPerturbedTransform@<edx>,
         btManifoldResult *originalResult,
         const btTransform *transformA,
+        const btTransform *transformB,
         bool perturbA,
         btIDebugDraw *debugDrawer)
 {
-  const btTransform *transformB; // edx
-  const btTransform *unPerturbedTransform; // ecx
-
   this->__vftable = (btPerturbedContactResult_vtbl *)&btPerturbedContactResult::`vftable';
   this->m_partId0 = -1;
   this->m_partId1 = -1;

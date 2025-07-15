@@ -1,79 +1,81 @@
 void __thiscall vostok::render::scene_renderer::set_model_visible(
         vostok::render::scene_renderer *this,
-        vostok::render::scene_renderer *v,
-        const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *surface_id,
+        const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *v,
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *surface_id,
         unsigned int flags,
-        unsigned int flagsa)
+        volatile int *a3)
 {
-  char v5; // bl
-  __int32 v6; // edi
-  boost::function<void __cdecl(void)> *v7; // ecx
-  vostok::render::render_model_instance *m_channel; // eax
-  bool v9; // zf
-  void (__cdecl *v10)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::resources::unmanaged_resource *m_object; // [esp-18h] [ebp-6Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > v13; // [esp-14h] [ebp-68h] BYREF
-  int v14; // [esp+0h] [ebp-54h]
-  boost::function4<void,unsigned int,float,float,char const *> v15; // [esp+10h] [ebp-44h] BYREF
-  boost::function0<void> f; // [esp+30h] [ebp-24h] BYREF
+  vostok::render::functor_command *v6; // eax
+  vostok::render::base_scene *t; // ecx
+  boost::function0<void> *v8; // ecx
+  vostok::memory::base_allocator *m_object; // ecx
+  vostok::render::base_command *v10; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v11; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > v12; // [esp-14h] [ebp-9Ch] BYREF
+  boost::function<void __cdecl(vostok::render::base_command &)> on_defer_execution; // [esp+10h] [ebp-78h] BYREF
+  boost::function<void __cdecl(void)> on_execute; // [esp+30h] [ebp-58h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > result; // [esp+50h] [ebp-38h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf4<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,vostok::render::environment_probe_properties const &,long volatile *>,boost::_bi::list5<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::arg<1>,boost::_bi::value<long volatile *> > > __that; // [esp+68h] [ebp-20h] BYREF
+  vostok::render::functor_command *v17; // [esp+84h] [ebp-4h]
+  char v18; // [esp+90h] [ebp+8h]
 
-  v5 = 0;
-  v6 = (__int32)v->m_allocator->call_malloc(v->m_allocator, 152);
+  v18 = 0;
+  v6 = (vostok::render::functor_command *)vostok::memory::new_helper<vostok::render::functor_command>::call<vostok::memory::base_allocator>(
+                                            (vostok::memory::base_allocator *)v[2].m_object,
+                                            "vostok::render::scene_renderer::set_model_visible",
+                                            (const char *const)0x3F0);
+  t = (vostok::render::base_scene *)v12.l_.a4_.t_;
+  v17 = v6;
   if ( v6 )
   {
-    m_object = 0;
-    if ( surface_id->m_object )
-    {
-      m_object = surface_id->m_object;
-      _InterlockedExchangeAdd(&surface_id->m_object->m_reference_count, 1u);
-    }
+    v12.l_.a4_.t_ = (unsigned int)a3;
+    v12.l_.a3_.t_ = flags;
+    v12.l_.a2_.t_.m_object = (vostok::render::render_model_instance *)t;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v12.l_.a2_,
+      surface_id);
     boost::bind<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int,vostok::render::engine::world *,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>,unsigned int,unsigned int>(
-      (boost::_bi::value<unsigned int>)flags,
-      (boost::_bi::value<vostok::render::light_props *>)flagsa,
-      &v13,
-      v->m_render_engine_world,
-      m_object);
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v7, v13, v14);
-    v15.vtable = 0;
-    *(_BYTE *)(v6 + 12) = 0;
-    *(_DWORD *)(v6 + 80) = 0;
-    *(_BYTE *)(v6 + 13) = 1;
-    *(_DWORD *)v6 = &vostok::render::functor_command::`vftable';
-    *(_DWORD *)(v6 + 88) = 0;
-    v5 = 3;
-    boost::function0<void>::assign_to_own((boost::function0<void> *)(v6 + 88), &f);
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(&v15, v6 + 120);
+      &result,
+      (void (__thiscall *)(vostok::render::engine::world *, const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *, unsigned int, unsigned int))v->m_object,
+      (vostok::render::engine::world *)v12.l_.a2_.t_.m_object,
+      (vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>)v12.l_.a3_.t_,
+      v12.l_.a4_.t_);
+    boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>(
+      (const boost::_bi::bind_t<void,boost::_mfi::mf4<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,vostok::render::environment_probe_properties const &,long volatile *>,boost::_bi::list5<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::arg<1>,boost::_bi::value<long volatile *> > > *)&result,
+      &__that);
+    on_execute.vtable = 0;
+    boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>(
+      &__that,
+      (boost::_bi::bind_t<void,boost::_mfi::mf4<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,vostok::render::environment_probe_properties const &,long volatile *>,boost::_bi::list5<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> >,boost::_bi::value<unsigned int>,boost::arg<1>,boost::_bi::value<long volatile *> > > *)&v12);
+    boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::engine::world,vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> const &,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>>(
+      v8,
+      (int)&on_execute,
+      v12);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&__that.l_.a2_);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result.l_.a2_);
+    m_object = (vostok::memory::base_allocator *)v[2].m_object;
+    on_defer_execution.vtable = 0;
+    v18 = 3;
+    vostok::render::functor_command::functor_command(
+      v17,
+      m_object,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_defer_execution,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_execute);
   }
   else
   {
-    v6 = 0;
+    v10 = 0;
   }
-  m_channel = (vostok::render::render_model_instance *)v->m_channel;
-  v9 = *(_DWORD *)(m_channel->m_parent_resources.m_lock + 4) == 0;
-  *(_DWORD *)(v6 + 4) = 0;
-  _InterlockedExchange((volatile __int32 *)&m_channel->log_string, v6);
-  m_channel->__vftable = (vostok::render::render_model_instance_vtbl *)v6;
-  if ( v9 )
-    SetEvent(m_channel->grm_satisfaction_tree_hook.right_);
-  if ( (v5 & 2) != 0 )
+  vostok::render::one_way_render_channel::owner_push_back((vostok::render::one_way_render_channel *)v[1].m_object, v10);
+  if ( (v18 & 2) != 0 )
   {
-    v5 &= ~2u;
-    if ( v15.vtable )
-    {
-      if ( ((int)v15.vtable & 1) == 0 )
-      {
-        v10 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v15.vtable & 0xFFFFFFFE);
-        if ( v10 )
-          v10(&v15.functor, &v15.functor, 2);
-      }
-      v15.vtable = 0;
-    }
+    v18 &= ~2u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v11,
+      (int *)&on_defer_execution);
   }
-  if ( (v5 & 1) != 0 && f.vtable && ((int)f.vtable & 1) == 0 )
-  {
-    v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)f.vtable & 0xFFFFFFFE);
-    if ( v11 )
-      v11(&f.functor, &f.functor, 2);
-  }
+  if ( (v18 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v11,
+      (int *)&on_execute);
 }

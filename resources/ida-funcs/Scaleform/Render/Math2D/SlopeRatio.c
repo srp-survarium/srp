@@ -2,24 +2,24 @@ double __cdecl Scaleform::Render::Math2D::SlopeRatio(float x1, float y1, float x
 {
   double v4; // st7
   double v5; // st6
-  float x1a; // [esp+4h] [ebp+4h]
-  float denb; // [esp+Ch] [ebp+Ch]
-  float denc; // [esp+Ch] [ebp+Ch]
-  float den; // [esp+Ch] [ebp+Ch]
-  float dena; // [esp+Ch] [ebp+Ch]
+  float v7; // [esp+4h] [ebp+4h]
+  float v8; // [esp+Ch] [ebp+Ch]
+  float v9; // [esp+Ch] [ebp+Ch]
+  float v10; // [esp+Ch] [ebp+Ch]
+  float v11; // [esp+Ch] [ebp+Ch]
 
-  x1a = x2 - x1;
-  denb = y2 - y1;
-  v4 = denb;
-  v5 = x1a * x1a;
-  denc = denb * denb + v5;
-  den = denc + denc;
-  if ( den == 0.0 )
+  v7 = x2 - x1;
+  v8 = y2 - y1;
+  v4 = v8;
+  v5 = v7 * v7;
+  v9 = v8 * v8 + v5;
+  v10 = v9 + v9;
+  if ( v10 == 0.0 )
     return 0.0;
-  dena = v5 / den;
-  if ( x1a < 0.0 )
-    dena = -dena;
+  v11 = v5 / v10;
+  if ( v7 < 0.0 )
+    v11 = -v11;
   if ( v4 > 0.0 )
-    dena = 1.0 - dena;
-  return (float)(dena - 0.5);
+    v11 = 1.0 - v11;
+  return (float)(v11 - 0.5);
 }

@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::TGA::TGAFileImageSource::TGAFileImageSource(
         Scaleform::Render::TGA::TGAFileImageSource *this,
-        Scaleform::File *file,
+        Scaleform::GFx::Resource *file,
         Scaleform::Render::ImageFormat format)
 {
   Scaleform::Render::FileImageSource::FileImageSource(this, file, format, 0);

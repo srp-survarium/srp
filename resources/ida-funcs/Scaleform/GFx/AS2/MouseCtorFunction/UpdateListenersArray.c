@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS2::MouseCtorFunction::UpdateListenersArray(
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::ArrayObject *v9; // ecx
   unsigned int v10; // eax
-  Scaleform::GFx::AS2::Value v11; // [esp+10h] [ebp+0h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+Ch] [ebp+0h] BYREF
 
   pContext = psc->pContext;
   v11.T.Type = 0;
@@ -29,7 +29,7 @@ void __thiscall Scaleform::GFx::AS2::MouseCtorFunction::UpdateListenersArray(
       if ( pObject )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -43,7 +43,7 @@ void __thiscall Scaleform::GFx::AS2::MouseCtorFunction::UpdateListenersArray(
       if ( v9 )
       {
         v10 = v9->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+        if ( (v10 & 0x3FFFFFF) != 0 )
         {
           v9->RefCount = v10 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

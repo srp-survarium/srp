@@ -1,9 +1,10 @@
 int __usercall pkey_hmac_ctrl@<eax>(
-        unsigned int a1@<edi>,
+        int a1@<edi>,
+        env_md_ctx_st *a2@<ebx>,
         evp_pkey_ctx_st *ctx,
         int type,
         int p1,
-        const unsigned __int8 *p2)
+        unsigned __int8 *p2)
 {
   char *data; // ecx
 
@@ -19,8 +20,9 @@ int __usercall pkey_hmac_ctrl@<eax>(
     return -2;
   HMAC_Init_ex(
     a1,
+    a2,
     (hmac_ctx_st *)(data + 20),
-    *((unsigned __int8 **)ctx->pkey->pkey.ptr + 2),
+    *((const __m128i **)ctx->pkey->pkey.ptr + 2),
     *(_DWORD *)ctx->pkey->pkey.ptr,
     *(const env_md_st **)data,
     ctx->engine);

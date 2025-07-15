@@ -51,8 +51,8 @@ bool __thiscall Scaleform::Render::TextMeshProvider::generatePackedMesh(
   bool v49; // [esp+2Dh] [ebp-277Dh]
   int v50; // [esp+2Eh] [ebp-277Ch]
   unsigned int v52; // [esp+36h] [ebp-2774h]
-  Scaleform::Render::Rect<float> tex; // [esp+3Ah] [ebp-2770h] BYREF
-  Scaleform::Render::Rect<float> chr; // [esp+4Ah] [ebp-2760h] BYREF
+  Scaleform::Render::Rect<float> v53; // [esp+3Ah] [ebp-2770h] BYREF
+  Scaleform::Render::Rect<float> v54; // [esp+4Ah] [ebp-2760h] BYREF
   int v55; // [esp+62h] [ebp-2748h]
   unsigned int v56; // [esp+66h] [ebp-2744h]
   unsigned int v57; // [esp+6Ah] [ebp-2740h]
@@ -111,48 +111,48 @@ bool __thiscall Scaleform::Render::TextMeshProvider::generatePackedMesh(
         v16 = &this->Entries.Data.Data[v52 + layer->Start];
         pGlyph = (float *)v16->EntryData.RasterData.pGlyph;
         mColor = v16->mColor;
-        tex.x1 = pGlyph[4];
+        v53.x1 = pGlyph[4];
         pGlyph += 4;
         v19 = pGlyph[1];
         v58 = *(float *)&mColor;
-        tex.y1 = v19;
+        v53.y1 = v19;
         v20 = 6 * v5;
-        tex.x2 = pGlyph[2];
-        tex.y2 = pGlyph[3];
-        chr.x1 = v16->EntryData.RasterData.Coord[0];
-        chr.y1 = v16->EntryData.RasterData.Coord[1];
-        chr.x2 = v16->EntryData.RasterData.Coord[2];
-        chr.y2 = v16->EntryData.RasterData.Coord[3];
-        Scaleform::Render::TextMeshProvider::clipGlyphRect(this, &chr, &tex);
-        x1 = chr.x1;
+        v53.x2 = pGlyph[2];
+        v53.y2 = pGlyph[3];
+        v54.x1 = v16->EntryData.RasterData.Coord[0];
+        v54.y1 = v16->EntryData.RasterData.Coord[1];
+        v54.x2 = v16->EntryData.RasterData.Coord[2];
+        v54.y2 = v16->EntryData.RasterData.Coord[3];
+        Scaleform::Render::TextMeshProvider::clipGlyphRect(this, &v54, &v53);
+        x1 = v54.x1;
         if ( v49 )
         {
           v22 = v58;
           v23 = 20 * v5;
-          v63[v23] = chr.x1;
+          v63[v23] = v54.x1;
           v63[v23 + 2] = v22;
-          y1 = chr.y1;
-          v63[v23 + 1] = chr.y1;
-          v25 = tex.x1;
-          v63[v23 + 3] = tex.x1;
-          v26 = tex.y1;
-          v63[v23 + 4] = tex.y1;
+          y1 = v54.y1;
+          v63[v23 + 1] = v54.y1;
+          v25 = v53.x1;
+          v63[v23 + 3] = v53.x1;
+          v26 = v53.y1;
+          v63[v23 + 4] = v53.y1;
           v63[v23 + 7] = v22;
-          x2 = chr.x2;
-          v63[v23 + 5] = chr.x2;
+          x2 = v54.x2;
+          v63[v23 + 5] = v54.x2;
           v28 = x2;
           v63[v23 + 6] = y1;
-          v29 = tex.x2;
-          v63[v23 + 8] = tex.x2;
+          v29 = v53.x2;
+          v63[v23 + 8] = v53.x2;
           v63[v23 + 9] = v26;
           v63[v23 + 12] = v22;
           v63[v23 + 10] = v28;
-          y2 = chr.y2;
-          v63[v23 + 11] = chr.y2;
+          y2 = v54.y2;
+          v63[v23 + 11] = v54.y2;
           v31 = y2;
           v63[v23 + 13] = v29;
-          v32 = tex.y2;
-          v63[v23 + 14] = tex.y2;
+          v32 = v53.y2;
+          v63[v23 + 14] = v53.y2;
           v33 = &v63[20 * v5 + 15];
           v33[2] = v22;
           *v33 = x1;
@@ -163,28 +163,28 @@ bool __thiscall Scaleform::Render::TextMeshProvider::generatePackedMesh(
         else
         {
           v34 = v5 << 6;
-          *(float *)((char *)v62 + v34) = chr.x1;
+          *(float *)((char *)v62 + v34) = v54.x1;
           v35 = &v62[16 * v5 + 12];
-          v36 = chr.y1;
-          *(float *)((char *)&v62[1] + v34) = chr.y1;
-          v37 = tex.x1;
-          *(float *)((char *)&v62[2] + v34) = tex.x1;
-          v38 = tex.y1;
-          *(float *)((char *)&v62[3] + v34) = tex.y1;
-          v39 = chr.x2;
-          *(float *)((char *)&v62[4] + v34) = chr.x2;
+          v36 = v54.y1;
+          *(float *)((char *)&v62[1] + v34) = v54.y1;
+          v37 = v53.x1;
+          *(float *)((char *)&v62[2] + v34) = v53.x1;
+          v38 = v53.y1;
+          *(float *)((char *)&v62[3] + v34) = v53.y1;
+          v39 = v54.x2;
+          *(float *)((char *)&v62[4] + v34) = v54.x2;
           v40 = v39;
           *(float *)((char *)&v62[5] + v34) = v36;
-          v41 = tex.x2;
-          *(float *)((char *)&v62[6] + v34) = tex.x2;
+          v41 = v53.x2;
+          *(float *)((char *)&v62[6] + v34) = v53.x2;
           *(float *)((char *)&v62[7] + v34) = v38;
           *(float *)((char *)&v62[8] + v34) = v40;
-          v42 = chr.y2;
-          *(float *)((char *)&v62[9] + v34) = chr.y2;
+          v42 = v54.y2;
+          *(float *)((char *)&v62[9] + v34) = v54.y2;
           v43 = v42;
           *(float *)((char *)&v62[10] + v34) = v41;
-          v44 = tex.y2;
-          *(float *)((char *)&v62[11] + v34) = tex.y2;
+          v44 = v53.y2;
+          *(float *)((char *)&v62[11] + v34) = v53.y2;
           *v35 = x1;
           v35[1] = v43;
           v35[2] = v37;

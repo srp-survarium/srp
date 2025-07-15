@@ -9,7 +9,7 @@ int __usercall asn1_item_flags_i2d@<eax>(
   int v6; // esi
   unsigned __int8 *v7; // eax
   unsigned __int8 *v8; // edi
-  unsigned __int8 *outa; // [esp+4h] [ebp-4h] BYREF
+  unsigned __int8 *v9; // [esp+4h] [ebp-4h] BYREF
 
   v4 = it;
   if ( !out || *out )
@@ -22,8 +22,8 @@ int __usercall asn1_item_flags_i2d@<eax>(
     v8 = v7;
     if ( v7 )
     {
-      outa = v7;
-      ASN1_item_ex_i2d(&val, &outa, v4, -1, flags);
+      v9 = v7;
+      ASN1_item_ex_i2d(&val, &v9, v4, -1, flags);
       *out = v8;
       return v6;
     }

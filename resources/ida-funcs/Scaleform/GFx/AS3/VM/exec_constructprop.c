@@ -38,11 +38,11 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_constructprop(
     {
       pNode = v5[25].pNode;
       if ( !pNode[2].Size )
-        (*((void (__thiscall **)(Scaleform::GFx::ASStringNode *))pNode->pData + 11))(pNode);
+        (*((void (__thiscall **)(Scaleform::GFx::ASStringNode *))pNode->pData + 14))(pNode);
       FixedArr = args.FixedArr;
       if ( args.ArgNum > 8 )
         FixedArr = args.CallArgs.Data.Data;
-      (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, unsigned int, Scaleform::GFx::AS3::Value *, _DWORD))(*(_DWORD *)pNode[2].Size + 36))(
+      (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, unsigned int, Scaleform::GFx::AS3::Value *, _DWORD))(*(_DWORD *)pNode[2].Size + 48))(
         pNode[2].Size,
         args.ArgObject,
         arg_count,
@@ -62,7 +62,12 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_constructprop(
     || ((int)prop.pSI & 1) != 0 && ((int)prop.pSI & 0xFFFFFFFE) == 0
     || ((int)prop.pSI & 2) != 0 && ((int)prop.pSI & 0xFFFFFFFD) == 0 )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v17, eReadSealedError, this);
+    Scaleform::GFx::AS3::VM::Error::Error(
+      &v17,
+      (Scaleform::GFx::AS3::VM_vtbl *)0x42D,
+      (Scaleform::GFx::ASStringNode *)this,
+      &args.ArgMN.Name,
+      args.ArgObject);
     Scaleform::GFx::AS3::VM::ThrowErrorInternal(
       this,
       v14,
@@ -102,7 +107,11 @@ LABEL_33:
   }
   if ( v8 == 7 || v8 == 17 )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v17, eCannotCallMethodAsConstructor, this);
+    Scaleform::GFx::AS3::VM::Error::Error(
+      &v17,
+      (Scaleform::GFx::AS3::VM_vtbl *)0x428,
+      (Scaleform::GFx::ASStringNode *)this,
+      &args.ArgMN.Name);
     Scaleform::GFx::AS3::VM::ThrowErrorInternal(
       this,
       v12,
@@ -117,7 +126,7 @@ LABEL_33:
     Data = args.FixedArr;
     if ( args.ArgNum > 8 )
       Data = args.CallArgs.Data.Data;
-    (*(void (__stdcall **)(Scaleform::GFx::AS3::Value *, unsigned int, Scaleform::GFx::AS3::Value *, _DWORD))(*(_DWORD *)value.value.VS._1.VInt + 36))(
+    (*(void (__stdcall **)(Scaleform::GFx::AS3::Value *, unsigned int, Scaleform::GFx::AS3::Value *, _DWORD))(*(_DWORD *)value.value.VS._1.VInt + 48))(
       args.ArgObject,
       arg_count,
       Data,

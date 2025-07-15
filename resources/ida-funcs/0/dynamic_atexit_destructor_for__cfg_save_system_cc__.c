@@ -1,4 +1,8 @@
-void __thiscall dynamic_atexit_destructor_for__cfg_save_system_cc__(vostok::console_commands::cc_delegate *this)
+void __thiscall dynamic_atexit_destructor_for__cfg_save_system_cc__(
+        boost::function1<void,vostok::sound::create_sound_propagator_params const &> *this)
 {
-  vostok::console_commands::cc_delegate::~cc_delegate(this, (survarium::keyboard_key_descr ***)&cfg_save_system_cc);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    this,
+    (int *)&cfg_save_system_cc.m_functor);
+  vostok::console_commands::console_command::~console_command(&cfg_save_system_cc);
 }

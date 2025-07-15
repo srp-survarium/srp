@@ -1,6 +1,5 @@
 void __userpurge vostok::render::resource_manager::copy2D(
-        unsigned int size_x@<eax>,
-        unsigned int size_y@<edx>,
+        unsigned int size_x@<ecx>,
         vostok::render::resource_manager *this,
         vostok::render::res_texture *dest,
         unsigned int dest_x,
@@ -8,29 +7,21 @@ void __userpurge vostok::render::resource_manager::copy2D(
         vostok::render::res_texture *source,
         unsigned int src_x,
         unsigned int src_y,
+        unsigned int size_y,
         unsigned int dest_mip,
         unsigned int src_mip)
 {
-  vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::state_record *M_data; // ecx
-  int y; // eax
+  ID3D11DeviceContext *m_context; // ecx
+  ID3D11Resource *v12; // [esp-20h] [ebp-44h]
   ID3D11Resource *m_surface; // [esp-Ch] [ebp-30h]
-  D3D11_BOX box; // [esp+8h] [ebp-1Ch] BYREF
+  _DWORD v14[7]; // [esp+8h] [ebp-1Ch] BYREF
 
   m_surface = dest->m_surface;
-  memset((void *)&box, 0, 12);
-  M_data = this->m_rs_cache.states._M_impl._M_end_of_storage._M_data;
-  box.right = size_x;
-  y = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y;
-  box.bottom = size_y;
-  box.back = 1;
-  (*(void (__stdcall **)(int, vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::state_record *, _DWORD, _DWORD, _DWORD, _DWORD, ID3D11Resource *, _DWORD, D3D11_BOX *))(*(_DWORD *)y + 184))(
-    y,
-    M_data,
-    0,
-    0,
-    0,
-    0,
-    m_surface,
-    0,
-    &box);
+  v14[3] = size_x;
+  memset(v14, 0, 12);
+  v12 = *(ID3D11Resource **)&this->m_loaded_texture_names.m_buffer[1].m_store[120];
+  v14[4] = dest_x;
+  m_context = vostok::quasi_singleton<vostok::render::device>::pinst->m_context;
+  v14[5] = 1;
+  m_context->CopySubresourceRegion(m_context, v12, 0, 0, 0, 0, m_surface, 0, (const D3D11_BOX *)v14);
 }

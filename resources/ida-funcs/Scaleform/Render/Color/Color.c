@@ -1,6 +1,4 @@
-void __thiscall Scaleform::Render::Color::Color(
-        vostok::vectora_allocator<void const *> *this,
-        const vostok::vectora_allocator<vostok::collision::object const *> *allocator)
+void __thiscall Scaleform::Render::Color::Color(Scaleform::Render::Color *this, const Scaleform::Render::Color *c)
 {
-  this->m_allocator = allocator->m_allocator;
+  *this = *c;
 }

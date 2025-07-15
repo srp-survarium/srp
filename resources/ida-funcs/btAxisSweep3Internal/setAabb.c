@@ -11,7 +11,7 @@ void __thiscall btAxisSweep3Internal<unsigned short>::setAabb(
   m_uniqueId = proxy->m_uniqueId;
   proxy->m_aabbMin.mVec128.m128_u64[1] = aabbMin->mVec128.m128_u64[1];
   proxy->m_aabbMax = (btVector3)aabbMax->mVec128;
-  btAxisSweep3Internal<unsigned short>::updateHandle(this, m_uniqueId, aabbMin, aabbMax, dispatcher);
+  btAxisSweep3Internal<unsigned short>::updateHandle(m_uniqueId, aabbMin, this, aabbMax, dispatcher);
   if ( this->m_raycastAccelerator )
     this->m_raycastAccelerator->setAabb(
       this->m_raycastAccelerator,

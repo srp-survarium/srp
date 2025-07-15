@@ -45,7 +45,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadQueueEntry(
   Scaleform::GFx::MovieDataDef *v43; // edx
   void (__thiscall *OnEventLoad)(Scaleform::GFx::DisplayObjectBase *); // eax
   Scaleform::GFx::LoadQueueEntry_vtbl *v45; // ecx
-  Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo *ContentLoaderInfo; // eax
+  Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo *ImageId; // eax
   Scaleform::GFx::AS3::VMAppDomain *CursorPos; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v48; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v49; // ecx
@@ -101,16 +101,28 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadQueueEntry(
     {
       if ( Scaleform::GFx::AS3::Instances::fl_net::URLLoader::IsLoadingVariables((Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext) )
       {
-        Scaleform::GFx::MovieImpl::ReadTextData((int)v4, &urlStrGfx, (Scaleform::String)v4, (int *)&avmSpr, 1, v57);
+        Scaleform::GFx::MovieImpl::ReadTextData(
+          (int)v4,
+          &urlStrGfx,
+          (Scaleform::String)v4,
+          (Scaleform::String)&avmSpr,
+          1,
+          v57);
       }
       else if ( Scaleform::GFx::AS3::Instances::fl_net::URLLoader::IsLoadingText((Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext) )
       {
-        Scaleform::GFx::MovieImpl::ReadTextData((int)v4, &urlStrGfx, (Scaleform::String)v4, (int *)&avmSpr, 0, v57);
+        Scaleform::GFx::MovieImpl::ReadTextData(
+          (int)v4,
+          &urlStrGfx,
+          (Scaleform::String)v4,
+          (Scaleform::String)&avmSpr,
+          0,
+          v57);
       }
       else if ( Scaleform::GFx::AS3::Instances::fl_net::URLLoader::IsLoadingBinary((Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext) )
       {
         Scaleform::GFx::MovieImpl::ReadBinaryData(
-          (Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *)&appDomain,
+          (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)&appDomain,
           v4,
           (int *)&avmSpr);
       }
@@ -137,7 +149,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadQueueEntry(
       {
         Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetVariablesDataString(
           (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext,
-          (char *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 8));
+          (__m128i *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 8));
       }
       else
       {
@@ -147,7 +159,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadQueueEntry(
         {
           Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetTextString(
             (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pNext,
-            (char *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 8));
+            (Scaleform::GFx::ASStringNode *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 8));
         }
         else if ( Scaleform::GFx::AS3::Instances::fl_net::URLLoader::IsLoadingBinary((Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pNext) )
         {
@@ -198,7 +210,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadQueueEntry(
     v34 = !pentry->QuietOpen;
     lf = (unsigned int)pres | 0x10001;
     if ( !v34 )
-      lf |= 0x200000u;
+      lf |= (unsigned int)&loc_200000;
     Method = (const Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *)pentry[1].Method;
     if ( Method )
     {
@@ -288,7 +300,7 @@ LABEL_139:
     icinfo.pLog = v18;
     icinfo.pMovie = this->pMovieImpl;
     icinfo.pFileOpener = (Scaleform::GFx::FileOpener *)appDomain.pObject;
-    Scaleform::String::String((Scaleform::String *)&lf, (char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
+    Scaleform::String::String((Scaleform::String *)&lf, (const __m128i *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
     rootPath.pData = (Scaleform::String::DataDesc *)((int (__thiscall *)(Scaleform::GFx::Resource *, Scaleform::GFx::ImageCreateInfo *, unsigned int *))pres->GetKey)(
                                                       pres,
                                                       &icinfo,
@@ -307,8 +319,8 @@ LABEL_139:
                               this->pMovieImpl,
                               (Scaleform::GFx::ImageResource *)avmSpr,
                               bilinearImage,
-                              (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8),
-                              pls);
+                              (char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8),
+                              (Scaleform::Log *)pls);
           Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)avmSpr);
         }
       }
@@ -448,10 +460,10 @@ LABEL_45:
                                                 + v39->AvmObjOffset);
       if ( v45 )
       {
-        ContentLoaderInfo = Scaleform::GFx::AS3::Instances::fl_display::Loader::GetContentLoaderInfo((Scaleform::GFx::AS3::Instances::fl_display::Loader *)v45);
-        if ( ContentLoaderInfo )
+        ImageId = Scaleform::Render::RawImage::GetImageId((Scaleform::GFx::AS3::Instances::fl_display::Loader *)v45);
+        if ( ImageId )
         {
-          Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::applicationDomainGet(ContentLoaderInfo, &appDomain);
+          Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::applicationDomainGet(ImageId, &appDomain);
           if ( appDomain.pObject )
           {
             CursorPos = Scaleform::GFx::Text::EditorKit::GetCursorPos(appDomain.pObject);

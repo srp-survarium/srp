@@ -1,10 +1,10 @@
-int __cdecl jinit_memory_mgr(int a1)
+const char *__cdecl jinit_memory_mgr(int a1)
 {
   Scaleform::GFx::AS3::Instances::fl_gfx::GamePadAnalogEvent *v1; // ecx
   _DWORD *v2; // edi
   Scaleform::GFx::AS3::RefCountBaseGC<328> *v3; // ecx
   _DWORD *small; // esi
-  int result; // eax
+  const char *result; // eax
   Scaleform::GFx::AS3::Object *StrokeStyleCount; // [esp+Ch] [ebp-4h] BYREF
 
   v2 = (_DWORD *)a1;
@@ -18,17 +18,17 @@ int __cdecl jinit_memory_mgr(int a1)
     *(_DWORD *)(*v2 + 24) = 0;
     (*(void (__cdecl **)(_DWORD *, _DWORD *))*v2)(v2, v2);
   }
-  *small = sub_374640;
-  small[1] = sub_374770;
-  small[2] = sub_374810;
-  small[3] = sub_3748C0;
-  small[4] = sub_374970;
-  small[5] = sub_3749E0;
-  small[6] = sub_374A50;
-  small[7] = sub_374D30;
-  small[8] = sub_374E70;
-  small[9] = sub_374FC0;
-  small[10] = sub_3750D0;
+  *small = sub_481300;
+  small[1] = sub_481430;
+  small[2] = sub_4814D0;
+  small[3] = sub_481580;
+  small[4] = sub_481630;
+  small[5] = sub_4816A0;
+  small[6] = sub_481710;
+  small[7] = sub_4819F0;
+  small[8] = sub_481B30;
+  small[9] = sub_481C80;
+  small[10] = sub_481D90;
   small[12] = 1000000000;
   small[11] = StrokeStyleCount;
   small[14] = 0;
@@ -39,21 +39,21 @@ int __cdecl jinit_memory_mgr(int a1)
   small[18] = 0;
   small[19] = 84;
   v2[1] = small;
-  result = (int)getenv(0, (unsigned int)v2, "JPEGMEM");
+  result = getenv(0, (int)v2, "JPEGMEM");
   if ( result )
   {
     LOBYTE(a1) = 120;
-    result = sscanf((char *)result, "%ld%c", &StrokeStyleCount, &a1);
-    if ( result > 0 )
+    result = (const char *)sscanf(0, result, "%ld%c", &StrokeStyleCount, &a1);
+    if ( (int)result > 0 )
     {
       if ( (_BYTE)a1 == 109 || (_BYTE)a1 == 77 )
       {
-        result = 1000000 * (_DWORD)StrokeStyleCount;
+        result = (const char *)(1000000 * (_DWORD)StrokeStyleCount);
         small[11] = 1000000 * (_DWORD)StrokeStyleCount;
       }
       else
       {
-        result = 1000 * (_DWORD)StrokeStyleCount;
+        result = (const char *)(1000 * (_DWORD)StrokeStyleCount);
         small[11] = 1000 * (_DWORD)StrokeStyleCount;
       }
     }

@@ -1,236 +1,168 @@
 void __thiscall survarium::network_client::on_connected_to_login(
         survarium::network_client *this,
-        vostok::connection_error_types_enum connection_error,
-        vostok::handshaking_error_types_enum handshaking_error,
-        vostok::socket_error_types_enum socket_error,
-        vostok::login_server_message_types_enum message_type)
+        const vostok::connection_error_types_enum connection_error,
+        const vostok::handshaking_error_types_enum handshaking_error,
+        const vostok::socket_error_types_enum socket_error,
+        unsigned int message_type)
 {
-  __int16 v5; // bx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v6; // ecx
-  void (__cdecl *v7)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v8)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v10)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v11)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  int *p_log_callback; // esi
-  void (__cdecl *v13)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v14)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v15)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v16)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v17; // ecx
-  void (__cdecl *v18)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v19; // ecx
-  void (__cdecl *v20)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v21; // ecx
-  void (__cdecl *v22)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v23; // ecx
-  void (__cdecl *v24)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v25; // ecx
-  void (__cdecl *v26)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v27; // ecx
-  void (__cdecl *v28)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v29; // ecx
-  void (__cdecl *v30)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v31)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-108h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v34; // [esp+30h] [ebp-E8h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v35; // [esp+50h] [ebp-C8h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v36; // [esp+70h] [ebp-A8h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v37; // [esp+90h] [ebp-88h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v38; // [esp+B0h] [ebp-68h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v39; // [esp+D0h] [ebp-48h] BYREF
-  int v40; // [esp+F4h] [ebp-24h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v41; // [esp+F8h] [ebp-20h] BYREF
+  bool has_passed_filters; // al
+  bool v6; // zf
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // esi
+  char v8; // bl
+  bool v9; // al
+  bool v10; // al
+  char v11; // bl
+  bool v12; // al
+  bool v13; // al
+  bool v14; // al
+  bool v15; // al
+  bool v16; // al
+  bool v17; // al
+  bool v18; // al
+  bool v19; // al
+  bool v20; // al
+  bool v21; // al
+  bool v22; // al
+  unsigned int v23; // [esp-14h] [ebp-10Ch]
+  unsigned int v24; // [esp-14h] [ebp-10Ch]
+  survarium::network_client *v25; // [esp-4h] [ebp-FCh]
+  survarium::login_menu_status_enum v26; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v27; // [esp-4h] [ebp-FCh]
+  char *v28; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v29; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v30; // [esp-4h] [ebp-FCh]
+  char *v31; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v32; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v33; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v34; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v35; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v36; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v37; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v38; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v39; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v40; // [esp-4h] [ebp-FCh]
+  survarium::network_client *v41; // [esp-4h] [ebp-FCh]
+  __int16 v42; // [esp+10h] [ebp-E8h]
+  survarium::network_client *v43; // [esp+14h] [ebp-E4h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v44; // [esp+18h] [ebp-E0h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v45; // [esp+38h] [ebp-C0h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v46; // [esp+58h] [ebp-A0h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v47; // [esp+78h] [ebp-80h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v48; // [esp+98h] [ebp-60h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v49; // [esp+B8h] [ebp-40h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v50; // [esp+D8h] [ebp-20h] BYREF
 
-  v5 = 0;
-  v40 = 0;
+  v43 = this;
+  v42 = 0;
   if ( connection_error )
   {
-    if ( connection_error == cannot_connect )
+    if ( connection_error != cannot_connect )
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)"game",
+                                   (const char *)2),
+            this = v25,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        v34.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v34.functor,
-            &v34.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          v34.functor.obj_ptr = v9;
-          v34.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v34.vtable = 0;
-        }
-        LOBYTE(v5) = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+          &v44);
+        LOBYTE(v42) = 2;
         vostok::logging::append(
-          &v34,
+          &v44,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\network_client.cpp",
-          0xD8u,
+          0xD4u,
           "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "game: cannot connect to login server");
-      }
-      if ( (v5 & 1) != 0 && v34.vtable )
-      {
-        if ( ((int)v34.vtable & 1) == 0 )
-        {
-          v10 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v34.vtable & 0xFFFFFFFE);
-          if ( v10 )
-            v10(&v34.functor, &v34.functor, 2);
-        }
-        v34.vtable = 0;
-      }
-    }
-    else
-    {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v7 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v7 )
-        {
-          log_callback.functor.obj_ptr = v7;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        LOBYTE(v5) = 2;
-        vostok::logging::append(
-          &log_callback,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0xDFu,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
+          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+          "game",
           error,
           "game: unexpected socket error type");
       }
-      if ( (v5 & 2) != 0 && log_callback.vtable )
+      v6 = (v42 & 2) == 0;
+LABEL_7:
+      if ( !v6 )
       {
-        if ( ((int)log_callback.vtable & 1) == 0 )
-        {
-          v8 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-          if ( v8 )
-            v8(&log_callback.functor, &log_callback.functor, 2);
-        }
-        log_callback.vtable = 0;
+        v7 = &v44;
+LABEL_9:
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+          (int *)v7);
+        goto LABEL_10;
+      }
+      goto LABEL_10;
+    }
+    v8 = 1;
+    if ( vostok::core::g_log_filter_tree )
+    {
+      v9 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2);
+      this = v27;
+      if ( !v9 )
+      {
+LABEL_15:
+        if ( ((unsigned __int8)v8 & (unsigned __int8)v42) == 0 )
+          goto LABEL_10;
+        v7 = &v45;
+        goto LABEL_9;
       }
     }
-    goto LABEL_176;
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+      &v45);
+    v28 = "game: cannot connect to login server";
+    v23 = 205;
+LABEL_14:
+    LOBYTE(v42) = v8;
+    vostok::logging::append(
+      &v45,
+      (void *const)vostok::core::g_log_flags,
+      &vostok::core::g_log_format,
+      ".\\network_client.cpp",
+      v23,
+      "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enum,co"
+      "nst enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+      "game",
+      error,
+      v28);
+    goto LABEL_15;
   }
   if ( handshaking_error )
   {
     if ( handshaking_error == cannot_handshake )
     {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+      v11 = 4;
+      if ( vostok::core::g_log_filter_tree )
       {
-        v13 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v13 )
-        {
-          log_callback.functor.obj_ptr = v13;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        LOBYTE(v5) = 4;
-        vostok::logging::append(
-          &log_callback,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0xECu,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "game: SSL certificate verification failed");
+        v12 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2);
+        this = v30;
+        if ( !v12 )
+          goto LABEL_27;
       }
-      if ( (v5 & 4) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&log_callback;
-LABEL_175:
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        v6,
-        p_log_callback);
-LABEL_176:
-      survarium::game::switch_to_login((survarium::game *)v6, (int)this->m_game, login_menu_status_error_connection);
-      return;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+        &v44);
+      v31 = "game: SSL certificate verification failed";
+      v24 = 225;
+      goto LABEL_26;
     }
     if ( handshaking_error != no_handshake )
     {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+      v8 = 8;
+      if ( vostok::core::g_log_filter_tree )
       {
-        v11 = vostok::core::g_log_callback;
-        v34.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v34.functor,
-            &v34.functor,
-            destroy_functor_tag);
-        if ( v11 )
-        {
-          v34.functor.obj_ptr = v11;
-          v34.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v34.vtable = 0;
-        }
-        LOBYTE(v5) = 8;
-        vostok::logging::append(
-          &v34,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0xF6u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "game: unexpected SSL error");
+        v10 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2);
+        this = v29;
+        if ( !v10 )
+          goto LABEL_15;
       }
-      if ( (v5 & 8) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&v34;
-      goto LABEL_175;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+        &v45);
+      v28 = "game: unexpected SSL error";
+      v23 = 235;
+      goto LABEL_14;
     }
   }
   if ( socket_error )
@@ -238,464 +170,297 @@ LABEL_176:
     if ( socket_error == unable_to_write_to_socket )
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+        || (v15 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+            this = v34,
+            v15) )
       {
-        v16 = vostok::core::g_log_callback;
-        v35.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v35.functor,
-            &v35.functor,
-            destroy_functor_tag);
-        if ( v16 )
-        {
-          v35.functor.obj_ptr = v16;
-          v35.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v35.vtable = 0;
-        }
-        LOBYTE(v5) = 16;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+          &v46);
+        LOBYTE(v42) = 16;
         vostok::logging::append(
-          &v35,
+          &v46,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\network_client.cpp",
-          0x103u,
+          0xF8u,
           "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
+          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+          "game",
           error,
           "game: unable to write to socket");
       }
-      if ( (v5 & 0x10) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&v35;
+      if ( (v42 & 0x10) == 0 )
+        goto LABEL_10;
+      v7 = &v46;
+      goto LABEL_9;
     }
-    else if ( socket_error == unable_to_read_from_socket )
+    if ( socket_error != unable_to_read_from_socket )
     {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+      v8 = 64;
+      if ( vostok::core::g_log_filter_tree )
       {
-        v15 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v15 )
-        {
-          log_callback.functor.obj_ptr = v15;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        LOBYTE(v5) = 32;
-        vostok::logging::append(
-          &log_callback,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x10Au,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "game: unable to read from socket");
+        v13 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2);
+        this = v32;
+        if ( !v13 )
+          goto LABEL_15;
       }
-      if ( (v5 & 0x20) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&log_callback;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+        &v45);
+      v28 = "game: unexpected socket error type";
+      v23 = 262;
+      goto LABEL_14;
     }
-    else
+    v11 = 32;
+    if ( vostok::core::g_log_filter_tree )
     {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+      v14 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2);
+      this = v33;
+      if ( !v14 )
       {
-        v14 = vostok::core::g_log_callback;
-        v34.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v34.functor,
-            &v34.functor,
-            destroy_functor_tag);
-        if ( v14 )
-        {
-          v34.functor.obj_ptr = v14;
-          v34.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v34.vtable = 0;
-        }
-        LOBYTE(v5) = 64;
-        vostok::logging::append(
-          &v34,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x111u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "game: unexpected socket error type");
+LABEL_27:
+        v6 = ((unsigned __int8)v11 & (unsigned __int8)v42) == 0;
+        goto LABEL_7;
       }
-      if ( (v5 & 0x40) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&v34;
     }
-    goto LABEL_175;
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+      &v44);
+    v31 = "game: unable to read from socket";
+    v24 = 255;
+LABEL_26:
+    LOBYTE(v42) = v11;
+    vostok::logging::append(
+      &v44,
+      (void *const)vostok::core::g_log_flags,
+      &vostok::core::g_log_format,
+      ".\\network_client.cpp",
+      v24,
+      "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enum,co"
+      "nst enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+      "game",
+      error,
+      v31);
+    goto LABEL_27;
   }
-  switch ( message_type )
+  if ( message_type > 0x12 )
   {
-    case servers_connection_info_message_type:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
-      {
-        v18 = vostok::core::g_log_callback;
-        v35.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v35.functor,
-            &v35.functor,
-            destroy_functor_tag);
-        if ( v18 )
+    switch ( message_type )
+    {
+      case 0x13u:
+        if ( !vostok::core::g_log_filter_tree
+          || (v22 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v41,
+              v22) )
         {
-          v35.functor.obj_ptr = v18;
-          v35.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v50);
+          LOBYTE(v42) = 0x80;
+          vostok::logging::append(
+            &v50,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x11Eu,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: user already signed in");
         }
-        else
+        if ( (v42 & 0x80u) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v50);
+        v26 = login_menu_status_sign_in_already_online;
+        goto LABEL_94;
+      case 0x14u:
+        if ( !vostok::core::g_log_filter_tree
+          || (v21 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v40,
+              v21) )
         {
-          v35.vtable = 0;
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v48);
+          v42 = 256;
+          vostok::logging::append(
+            &v48,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x124u,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: invalid version");
         }
-        LOBYTE(v5) = 0x80;
-        vostok::logging::append(
-          &v35,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x11Bu,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          info,
-          "on_connected_to_login.");
-      }
-      if ( (v5 & 0x80u) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v17,
-          (int *)&v35);
-      survarium::game::switch_to_lobby((survarium::game *)v17, (int)this->m_game);
-      break;
-    case invalid_user_name_or_password_message_type:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v24 = vostok::core::g_log_callback;
-        v38.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v38.functor,
-            &v38.functor,
-            destroy_functor_tag);
-        if ( v24 )
-        {
-          v38.functor.obj_ptr = v24;
-          v38.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v38.vtable = 0;
-        }
-        v5 = 1024;
-        vostok::logging::append(
-          &v38,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x12Eu,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: invalid user name or password");
-      }
-      if ( (v5 & 0x400) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v23,
-          (int *)&v38);
-      survarium::game::switch_to_login(
-        (survarium::game *)v23,
-        (int)this->m_game,
-        login_menu_status_invalid_user_or_password);
-      break;
-    case sign_in_attempt_interval_violated_message_type:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v30 = vostok::core::g_log_callback;
-        v39.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v39.functor,
-            &v39.functor,
-            destroy_functor_tag);
-        if ( v30 )
-        {
-          v39.functor.obj_ptr = v30;
-          v39.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v39.vtable = 0;
-        }
-        v5 = 0x2000;
-        vostok::logging::append(
-          &v39,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x140u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: attempt interval is violated");
-      }
-      if ( (v5 & 0x2000) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v29,
-          (int *)&v39);
-      survarium::game::switch_to_login(
-        (survarium::game *)v29,
-        (int)this->m_game,
-        login_menu_status_sign_in_attempt_interval_violated);
-      break;
-    case user_banned_message_type:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v26 = vostok::core::g_log_callback;
-        v36.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v36.functor,
-            &v36.functor,
-            destroy_functor_tag);
-        if ( v26 )
-        {
-          v36.functor.obj_ptr = v26;
-          v36.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v36.vtable = 0;
-        }
-        v5 = 2048;
-        vostok::logging::append(
-          &v36,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x134u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: user banned");
-      }
-      if ( (v5 & 0x800) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v25,
-          (int *)&v36);
-      survarium::game::switch_to_login((survarium::game *)v25, (int)this->m_game, login_menu_status_user_banned);
-      break;
-    case user_restricted_by_access_level_message_type:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v28 = vostok::core::g_log_callback;
-        v37.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v37.functor,
-            &v37.functor,
-            destroy_functor_tag);
-        if ( v28 )
-        {
-          v37.functor.obj_ptr = v28;
-          v37.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v37.vtable = 0;
-        }
-        v5 = 4096;
-        vostok::logging::append(
-          &v37,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x13Au,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: user access level restriction");
-      }
-      if ( (v5 & 0x1000) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v27,
-          (int *)&v37);
-      survarium::game::switch_to_login(
-        (survarium::game *)v27,
-        (int)this->m_game,
-        login_menu_status_access_level_restriction);
-      break;
-    case sign_in_user_already_signed_in:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v20 = vostok::core::g_log_callback;
-        v34.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v34.functor,
-            &v34.functor,
-            destroy_functor_tag);
-        if ( v20 )
-        {
-          v34.functor.obj_ptr = v20;
-          v34.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v34.vtable = 0;
-        }
-        v5 = 256;
-        vostok::logging::append(
-          &v34,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x122u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: user already signed in");
-      }
-      if ( (v5 & 0x100) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v19,
-          (int *)&v34);
-      survarium::game::switch_to_login(
-        (survarium::game *)v19,
-        (int)this->m_game,
-        login_menu_status_sign_in_already_online);
-      break;
-    case sign_in_invalid_version:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v22 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v22 )
-        {
-          log_callback.functor.obj_ptr = v22;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v5 = 512;
-        vostok::logging::append(
-          &log_callback,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x128u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: invalid version");
-      }
-      if ( (v5 & 0x200) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v21,
-          (int *)&log_callback);
-      survarium::game::switch_to_login((survarium::game *)v21, (int)this->m_game, login_menu_status_invalid_version);
-      break;
-    default:
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-      {
-        v31 = vostok::core::g_log_callback;
-        v41.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v41.functor,
-            &v41.functor,
-            destroy_functor_tag);
-        if ( v31 )
-        {
-          v41.functor.obj_ptr = v31;
-          v41.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v41.vtable = 0;
-        }
-        v5 = 0x4000;
-        vostok::logging::append(
-          &v41,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\network_client.cpp",
-          0x147u,
-          "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enu"
-          "m,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const enum vostok"
-          "::login_server_message_types_enum)",
-          "game:",
-          error,
-          "sign in: unexpected message type");
-      }
-      if ( (v5 & 0x4000) == 0 )
-        goto LABEL_176;
-      p_log_callback = (int *)&v41;
-      goto LABEL_175;
+        if ( (v42 & 0x100) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v48);
+        v26 = login_menu_status_invalid_version;
+        goto LABEL_94;
+      case 0x15u:
+        survarium::game::switch_to_login(
+          (survarium::game *)this,
+          this->m_game,
+          login_menu_status_sign_in_eula_check_failed);
+        return;
+    }
   }
+  else
+  {
+    switch ( message_type )
+    {
+      case 0x12u:
+        if ( !vostok::core::g_log_filter_tree
+          || (v19 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v38,
+              v19) )
+        {
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v49);
+          v42 = 2048;
+          vostok::logging::append(
+            &v49,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x136u,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: user access level restriction");
+        }
+        if ( (v42 & 0x800) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v49);
+        v26 = login_menu_status_access_level_restriction;
+        goto LABEL_94;
+      case 8u:
+        survarium::game::switch_to_lobby((survarium::game *)this, this->m_game);
+        return;
+      case 0xAu:
+        if ( !vostok::core::g_log_filter_tree
+          || (v18 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v37,
+              v18) )
+        {
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v44);
+          v42 = 512;
+          vostok::logging::append(
+            &v44,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x12Au,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: invalid user name or password");
+        }
+        if ( (v42 & 0x200) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v44);
+        v26 = login_menu_status_invalid_user_or_password;
+        goto LABEL_94;
+      case 0xCu:
+        if ( !vostok::core::g_log_filter_tree
+          || (v17 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v36,
+              v17) )
+        {
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v45);
+          v42 = 4096;
+          vostok::logging::append(
+            &v45,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x13Cu,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: attempt interval is violated");
+        }
+        if ( (v42 & 0x1000) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v45);
+        v26 = login_menu_status_sign_in_attempt_interval_violated;
+        goto LABEL_94;
+      case 0x11u:
+        if ( !vostok::core::g_log_filter_tree
+          || (v16 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+              this = v35,
+              v16) )
+        {
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+            &v46);
+          v42 = 1024;
+          vostok::logging::append(
+            &v46,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\network_client.cpp",
+            0x130u,
+            "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_e"
+            "num,const enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+            "game",
+            error,
+            "sign in: user banned");
+        }
+        if ( (v42 & 0x400) != 0 )
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+            (int *)&v46);
+        v26 = login_menu_status_user_banned;
+        goto LABEL_94;
+    }
+  }
+  if ( !vostok::core::g_log_filter_tree
+    || (v20 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+        this = v39,
+        v20) )
+  {
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+      &v47);
+    v42 = 0x2000;
+    vostok::logging::append(
+      &v47,
+      (void *const)vostok::core::g_log_flags,
+      &vostok::core::g_log_format,
+      ".\\network_client.cpp",
+      0x143u,
+      "void __thiscall survarium::network_client::on_connected_to_login(const enum vostok::connection_error_types_enum,co"
+      "nst enum vostok::handshaking_error_types_enum,const enum vostok::socket_error_types_enum,const unsigned int)",
+      "game",
+      error,
+      "sign in: unexpected message type");
+  }
+  if ( (v42 & 0x2000) != 0 )
+  {
+    v7 = &v47;
+    goto LABEL_9;
+  }
+LABEL_10:
+  v26 = login_menu_status_error_connection;
+LABEL_94:
+  survarium::game::switch_to_login((survarium::game *)this, v43->m_game, v26);
 }

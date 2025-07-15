@@ -4,9 +4,8 @@ void __thiscall vostok::render::grass_render_model::set_children(
         unsigned __int8 count,
         vostok::render::model_lods_descriptor *lods)
 {
-  _DWORD *v4; // ecx
-  unsigned int i; // edx
-  int v6; // esi
+  unsigned int i; // ecx
+  int v6; // eax
 
   vostok::render::render_model::set_children(this, children, count, lods);
   for ( i = 0; i < 3; ++i )
@@ -21,12 +20,12 @@ void __thiscall vostok::render::grass_render_model::set_children(
     }
     else
     {
-      v4[78] = children[v6];
+      this->m_l0 = (vostok::render::grass_render_surface *)children[v6];
     }
-    v4[79] = children[v6];
+    this->m_l1 = (vostok::render::grass_render_surface *)children[v6];
 LABEL_8:
-    v4[80] = children[v6];
+    this->m_l2 = (vostok::render::grass_render_surface *)children[v6];
   }
-  if ( !v4[78] )
-    v4[78] = *children;
+  if ( !this->m_l0 )
+    this->m_l0 = (vostok::render::grass_render_surface *)*children;
 }

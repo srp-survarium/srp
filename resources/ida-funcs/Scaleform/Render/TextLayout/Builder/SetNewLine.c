@@ -3,24 +3,26 @@ void __thiscall Scaleform::Render::TextLayout::Builder::SetNewLine(
         float x,
         float y)
 {
-  Scaleform::Render::TextLayout::LineRecord *p_rec; // edi
+  unsigned __int8 *v3; // edi
   int v4; // esi
   Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2> *p_Data; // ebx
-  Scaleform::Render::TextLayout::LineRecord rec; // [esp+0h] [ebp-Ch] BYREF
+  _BYTE v6[2]; // [esp+0h] [ebp-Ch] BYREF
+  __int16 v7; // [esp+2h] [ebp-Ah]
+  float v8; // [esp+4h] [ebp-8h]
+  float v9; // [esp+8h] [ebp-4h]
 
-  rec.x = x;
-  rec.y = y;
-  rec.Tag = 3;
-  rec.Flags = 0;
-  rec.Filler = 0;
-  p_rec = &rec;
+  v8 = x;
+  v9 = y;
+  v6[0] = 3;
+  v6[1] = 0;
+  v7 = 0;
+  v3 = v6;
   v4 = 12;
   p_Data = &this->Data;
   do
   {
     --v4;
-    Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(p_Data, &p_rec->Tag);
-    p_rec = (Scaleform::Render::TextLayout::LineRecord *)((char *)p_rec + 1);
+    Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(p_Data, v3++);
   }
   while ( v4 );
 }

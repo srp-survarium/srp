@@ -1,50 +1,115 @@
-void __userpurge survarium::game_material_manager_cook::create_game_materials(
-        survarium::game_material_manager_cook *this@<ecx>,
-        float a2@<xmm0>,
-        survarium::game_material_manager *const manager,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *materials_root)
+void __thiscall survarium::game_material_manager_cook::create_game_materials(
+        survarium::game_material_manager_cook *this,
+        survarium::game_material_manager_cook *manager,
+        vostok::configs::binary_config_value **materials_root)
 {
-  vostok::configs::binary_config_value *v4; // eax
-  survarium::game_camera *v5; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v6; // ecx
-  survarium::game_camera *v7; // [esp+0h] [ebp-40h]
-  char *left; // [esp+Ch] [ebp-34h]
-  int *_Where; // [esp+10h] [ebp-30h]
-  survarium::game_material *v10; // [esp+2Ch] [ebp-14h]
-  const vostok::configs::binary_config_value *end; // [esp+38h] [ebp-8h]
-  vostok::configs::binary_config_value *it; // [esp+3Ch] [ebp-4h]
+  vostok::configs::binary_config_value **v3; // eax
+  vostok::configs::binary_config_value *v4; // ebx
+  vostok::configs::binary_config_value *v5; // ebp
+  vostok::memory::doug_lea_allocator *v6; // esi
+  char *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  int v9; // ecx
+  char *v10; // esi
+  float v11; // xmm0_4
+  vostok::configs::binary_config_value *i; // esi
+  const vostok::configs::binary_config_value *v13; // eax
+  vostok::configs::binary_config_value *v14; // ecx
+  vostok::configs::binary_config_value *v15; // eax
+  const char *pointer; // ebx
+  unsigned __int16 *v17; // eax
+  survarium::game_material_manager *v18; // ecx
+  unsigned __int16 v19; // di
+  const char **v20; // eax
+  const char *v21; // [esp+0h] [ebp-14h]
+  const char *v22; // [esp+4h] [ebp-10h]
+  unsigned int v23; // [esp+8h] [ebp-Ch]
+  const survarium::game_material *material; // [esp+1Ch] [ebp+8h]
 
-  vostok::memory::zero<unsigned short,64>((unsigned __int16 (*)[64])survarium::g_material_physics_group);
-  it = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(materials_root);
-  end = vostok::configs::binary_config_value::end((vostok::configs::binary_config_value *)materials_root);
-  while ( it != end )
+  v3 = materials_root;
+  v4 = *materials_root;
+  v5 = &(*materials_root)[*((unsigned __int16 *)materials_root + 11)];
+  if ( *materials_root != v5 )
   {
-    if ( !vostok::configs::binary_config_value::value_exists(it, "deleted")
-      || (v4 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](it, "deleted"),
-          !vostok::configs::binary_config_value::operator bool(v4)) )
+    do
     {
-      _Where = vostok::memory::doug_lea_allocator::malloc_impl(
-                 (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-                 0x60u);
-      v10 = (survarium::game_material *)operator new(0x60u, _Where);
-      if ( v10 )
+      if ( !vostok::configs::binary_config_value::value_exists(
+              (vostok::configs::binary_config_value *)this,
+              (int)v4,
+              (unsigned int)"deleted")
+        || !vostok::configs::binary_config_value::operator[](v4, "deleted")->data.pointer )
       {
-        survarium::game_material::game_material(v10);
-        v7 = v5;
+        v6 = survarium::g_allocator;
+        v7 = type_info::raw_name(&survarium::game_material `RTTI Type Descriptor');
+        v10 = vostok::memory::doug_lea_allocator::malloc_impl(v8, (int)v6, 0x6Cu, v7, v21, v22, v23);
+        if ( v10 )
+        {
+          vostok::fixed_string<64>::fixed_string<64>(
+            (vostok::fixed_string<64> *)v9,
+            (vostok::buffer_string *)v10,
+            "default");
+          *((float *)v10 + 19) = retry_to_increase_quality_period_sec;
+          v11 = s_bm_current_air_resistance;
+          v9 = 0xFFFF;
+          *((float *)v10 + 20) = s_bm_current_air_resistance;
+          *((float *)v10 + 21) = s_aim_transition_time;
+          *((float *)v10 + 22) = v11;
+          *((float *)v10 + 23) = v11;
+          *((float *)v10 + 24) = v11;
+          *((_WORD *)v10 + 50) = -1;
+          *((_WORD *)v10 + 51) = -1;
+          v10[104] = 0;
+          v10[105] = 0;
+          v10[106] = 0;
+        }
+        else
+        {
+          v10 = 0;
+        }
+        survarium::game_material::load_from_config((survarium::game_material *)v9, (int)v10, v4);
+        this = (survarium::game_material_manager_cook *)*((unsigned __int16 *)v10 + 50);
+        *((_DWORD *)&manager[7].m_reuse_type + (_DWORD)this) = v10;
+        LOWORD(this) = *((_WORD *)v10 + 50);
+        if ( (_WORD)this == *(_WORD *)((char *)&off_1030C + (_DWORD)manager) )
+          *(int *)((char *)&dword_10308 + (_DWORD)manager) = (int)v10;
       }
-      else
-      {
-        v7 = 0;
-      }
-      survarium::weapon_user_dead_state::finalize(v7);
-      survarium::game_material::load_from_config((survarium::game_material *)v7, a2, it);
-      survarium::game_material_manager::add_game_material(manager, (stlp_std::priv::_Rb_tree_node_base *)v7);
-      left = (char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v6, (int)v7);
-      if ( vostok::strings::equal(left, &result.m_buffer[40]) )
-        manager->m_default_material_id = LOWORD(v7[1].m_inverted_view_matrix.lines[0].elements[1]);
+      ++v4;
     }
-    ++it;
+    while ( v4 != v5 );
+    v3 = materials_root;
   }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)it);
-  vostok::physics::setup_game_material_groups(survarium::g_material_physics_group, 0x40u);
+  for ( i = *v3; i != v5; ++i )
+  {
+    if ( !vostok::configs::binary_config_value::value_exists(
+            (vostok::configs::binary_config_value *)this,
+            (int)i,
+            (unsigned int)"deleted")
+      || !vostok::configs::binary_config_value::operator[](i, "deleted")->data.pointer )
+    {
+      v13 = vostok::configs::binary_config_value::operator[](i, "physic");
+      if ( vostok::configs::binary_config_value::value_exists(v14, (int)v13, (unsigned int)"base_material") )
+      {
+        v15 = vostok::configs::binary_config_value::operator[](i, "physic");
+        pointer = (const char *)vostok::configs::binary_config_value::operator[](v15, "base_material")->data.pointer;
+        v17 = (unsigned __int16 *)vostok::configs::binary_config_value::operator[](i, "id");
+        material = survarium::game_material_manager::get_material(v18, (int)manager, *v17);
+        v19 = 0;
+        while ( 1 )
+        {
+          this = manager;
+          v20 = (const char **)*((_DWORD *)&manager[7].m_reuse_type + v19);
+          if ( v20 )
+          {
+            if ( !vostok::strings::compare(*v20, pointer) )
+              break;
+          }
+          if ( ++v19 >= 0x80u )
+            goto LABEL_21;
+        }
+        material->m_base_material_id = v19;
+      }
+    }
+LABEL_21:
+    ;
+  }
 }

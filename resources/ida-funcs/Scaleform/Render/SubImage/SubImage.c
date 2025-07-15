@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::SubImage::SubImage(
 {
   unsigned int y2; // ecx
   unsigned int x2; // edx
-  unsigned int x1; // eax
+  unsigned int y1; // edi
 
   this->__vftable = (Scaleform::Render::SubImage_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -19,9 +19,10 @@ void __thiscall Scaleform::Render::SubImage::SubImage(
   this->pImage.pObject = pimage;
   y2 = rect->y2;
   x2 = rect->x2;
-  x1 = rect->x1;
-  this->SubRect.y1 = rect->y1;
-  this->SubRect.x1 = x1;
+  y1 = rect->y1;
+  this->SubRect.x1 = rect->x1;
+  this->SubRect.y1 = y1;
   this->SubRect.x2 = x2;
   this->SubRect.y2 = y2;
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
 }

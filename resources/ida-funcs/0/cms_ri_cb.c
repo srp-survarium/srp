@@ -1,38 +1,38 @@
-int __cdecl cms_ri_cb(int operation, struct ASN1_VALUE_st **pval)
+int __usercall cms_ri_cb@<eax>(int a1@<edi>, int operation, struct ASN1_VALUE_st **pval)
 {
-  int *v2; // eax
-  int v3; // ecx
-  int v4; // esi
-  x509_st *v5; // esi
-  int v7; // esi
-  int v8; // eax
+  int *v3; // eax
+  int v4; // ecx
+  int v5; // esi
+  x509_st *v6; // esi
+  int v8; // esi
+  int v9; // eax
 
   if ( operation == 2 )
   {
-    v2 = (int *)*pval;
-    v3 = *(_DWORD *)*pval;
-    if ( v3 )
+    v3 = (int *)*pval;
+    v4 = *(_DWORD *)*pval;
+    if ( v4 )
     {
-      if ( v3 == 2 )
+      if ( v4 == 2 )
       {
-        v7 = v2[1];
-        v8 = *(_DWORD *)(v7 + 16);
-        if ( v8 )
+        v8 = v3[1];
+        v9 = *(_DWORD *)(v8 + 16);
+        if ( v9 )
         {
-          OPENSSL_cleanse(v8, *(_DWORD *)(v7 + 20));
-          CRYPTO_free(*(void **)(v7 + 16));
+          OPENSSL_cleanse(v9, *(_DWORD *)(v8 + 20));
+          CRYPTO_free(*(void **)(v8 + 16));
         }
       }
     }
     else
     {
-      v4 = v2[1];
-      if ( *(_DWORD *)(v4 + 20) )
-        EVP_PKEY_free(*(evp_pkey_st **)(v4 + 20));
-      v5 = *(x509_st **)(v4 + 16);
-      if ( v5 )
+      v5 = v3[1];
+      if ( *(_DWORD *)(v5 + 20) )
+        EVP_PKEY_free(a1, *(evp_pkey_st **)(v5 + 20));
+      v6 = *(x509_st **)(v5 + 16);
+      if ( v6 )
       {
-        X509_free(v5);
+        X509_free(v6);
         return 1;
       }
     }

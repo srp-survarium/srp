@@ -2,174 +2,69 @@ void __thiscall vostok::render::statistics_int::print(
         vostok::render::statistics_int *this,
         vostok::fs_new::virtual_path_string *out_result)
 {
-  unsigned int num_digits; // eax
-  unsigned int v4; // eax
-  unsigned int v5; // eax
-  unsigned int v6; // eax
-  unsigned int v7; // eax
-  unsigned int v8; // eax
-  char *m_buffer; // eax
-  const char *v10; // ecx
-  char *m_end; // eax
-  const char *v12; // ecx
-  int v13; // edi
-  char *v14; // ecx
-  const char *v15; // eax
-  char *v16; // eax
-  const char *v17; // ecx
-  int v18; // edi
-  char *v19; // ecx
-  const char *v20; // eax
-  char *v21; // eax
-  const char *v22; // ecx
-  int v23; // edi
-  char *v24; // ecx
-  const char *v25; // eax
-  int value_num_max_digits; // [esp-4h] [ebp-234h]
-  int min_value_num_max_digits; // [esp-4h] [ebp-234h]
-  int v28; // [esp-4h] [ebp-234h]
-  vostok::fixed_string<260> rule; // [esp+10h] [ebp-220h] BYREF
-  vostok::buffer_string v30; // [esp+120h] [ebp-110h] BYREF
-  _BYTE v31[260]; // [esp+12Ch] [ebp-104h] BYREF
-  char vars0; // [esp+230h] [ebp+0h] BYREF
+  unsigned __int8 *v3; // eax
+  unsigned __int64 v4; // kr00_8
+  unsigned __int8 *max_value; // eax
+  unsigned __int64 v6; // kr08_8
+  unsigned __int8 *min_value; // eax
+  unsigned __int64 v8; // kr10_8
+  vostok::fixed_string<260> *v9; // ecx
+  vostok::fixed_string<260> *v10; // eax
+  vostok::buffer_string *v11; // eax
+  vostok::fixed_string<260> *v12; // eax
+  vostok::buffer_string *v13; // eax
+  vostok::fixed_string<260> *v14; // eax
+  int v15; // eax
+  vostok::buffer_string *v16; // ecx
+  int v17; // [esp-8h] [ebp-238h]
+  int v18; // [esp-4h] [ebp-234h]
+  vostok::buffer_string v19[22]; // [esp+10h] [ebp-220h] BYREF
+  _BYTE v20[272]; // [esp+120h] [ebp-110h] BYREF
 
-  num_digits = vostok::render::get_num_digits((char *)this->value);
-  v4 = vostok::math::max(this->value_num_max_digits, num_digits);
-  this->value_num_max_digits = vostok::math::max(v4, 1u);
-  v5 = vostok::render::get_num_digits((char *)this->max_value);
-  v6 = vostok::math::max(this->max_value_num_max_digits, v5);
-  this->max_value_num_max_digits = vostok::math::max(v6, 1u);
-  v7 = vostok::render::get_num_digits((char *)this->min_value);
-  v8 = vostok::math::max(this->min_value_num_max_digits, v7);
-  this->min_value_num_max_digits = vostok::math::max(v8, 1u);
-  m_buffer = rule.m_buffer;
-  rule.m_end = rule.m_buffer;
-  rule.m_buffer[0] = 0;
-  v10 = "%s: ";
-  do
-  {
-    if ( m_buffer >= (char *)&v30 )
-      break;
-    *m_buffer = *v10;
-    m_buffer = rule.m_end + 1;
-    ++v10;
-    ++rule.m_end;
-  }
-  while ( *v10 );
-  *m_buffer = 0;
-  m_end = rule.m_end;
-  v12 = "%";
-  do
-  {
-    if ( m_end >= (char *)&v30 )
-      break;
-    *m_end = *v12;
-    m_end = rule.m_end + 1;
-    ++v12;
-    ++rule.m_end;
-  }
-  while ( *v12 );
-  *m_end = 0;
-  value_num_max_digits = this->value_num_max_digits;
-  v30.m_end = v31;
-  v30.m_begin = v31;
-  v30.m_max_end = &vars0;
-  v31[0] = 0;
-  vostok::buffer_string::assignf(&v30, "%d", value_num_max_digits);
-  v13 = v30.m_end - v30.m_begin;
-  memcpy((unsigned __int8 *)rule.m_end, (unsigned __int8 *)v30.m_begin, v30.m_end - v30.m_begin);
-  rule.m_end += v13;
-  *rule.m_end = 0;
-  v14 = rule.m_end;
-  v15 = "d (";
-  do
-  {
-    if ( v14 >= (char *)&v30 )
-      break;
-    *v14 = *v15;
-    v14 = rule.m_end + 1;
-    ++v15;
-    ++rule.m_end;
-  }
-  while ( *v15 );
-  *v14 = 0;
-  v16 = rule.m_end;
-  v17 = "%";
-  do
-  {
-    if ( v16 >= (char *)&v30 )
-      break;
-    *v16 = *v17;
-    v16 = rule.m_end + 1;
-    ++v17;
-    ++rule.m_end;
-  }
-  while ( *v17 );
-  *v16 = 0;
-  min_value_num_max_digits = this->min_value_num_max_digits;
-  v30.m_end = v31;
-  v30.m_begin = v31;
-  v30.m_max_end = &vars0;
-  v31[0] = 0;
-  vostok::buffer_string::assignf(&v30, "%d", min_value_num_max_digits);
-  v18 = v30.m_end - v30.m_begin;
-  memcpy((unsigned __int8 *)rule.m_end, (unsigned __int8 *)v30.m_begin, v30.m_end - v30.m_begin);
-  rule.m_end += v18;
-  *rule.m_end = 0;
-  v19 = rule.m_end;
-  v20 = "d..";
-  do
-  {
-    if ( v19 >= (char *)&v30 )
-      break;
-    *v19 = *v20;
-    v19 = rule.m_end + 1;
-    ++v20;
-    ++rule.m_end;
-  }
-  while ( *v20 );
-  *v19 = 0;
-  v21 = rule.m_end;
-  v22 = "%";
-  do
-  {
-    if ( v21 >= (char *)&v30 )
-      break;
-    *v21 = *v22;
-    v21 = rule.m_end + 1;
-    ++v22;
-    ++rule.m_end;
-  }
-  while ( *v22 );
-  *v21 = 0;
-  v28 = this->min_value_num_max_digits;
-  v30.m_end = v31;
-  v30.m_begin = v31;
-  v30.m_max_end = &vars0;
-  v31[0] = 0;
-  vostok::buffer_string::assignf(&v30, "%d", v28);
-  v23 = v30.m_end - v30.m_begin;
-  memcpy((unsigned __int8 *)rule.m_end, (unsigned __int8 *)v30.m_begin, v30.m_end - v30.m_begin);
-  rule.m_end += v23;
-  *rule.m_end = 0;
-  v24 = rule.m_end;
-  v25 = "d)";
-  do
-  {
-    if ( v24 >= (char *)&v30 )
-      break;
-    *v24 = *v25;
-    v24 = rule.m_end + 1;
-    ++v25;
-    ++rule.m_end;
-  }
-  while ( *v25 );
-  *v24 = 0;
+  v3 = (unsigned __int8 *)vostok::render::statistics_value<int>::average(this);
+  v4 = this->value_num_max_digits - (unsigned __int64)(unsigned int)vostok::render::get_num_digits(v3);
+  max_value = (unsigned __int8 *)this->max_value;
+  this->value_num_max_digits = this->value_num_max_digits
+                             - (v4 & BYTE4(v4))
+                             - (this->value_num_max_digits == ((unsigned int)v4 & HIDWORD(v4))
+                              ? this->value_num_max_digits - (v4 & BYTE4(v4)) - 1
+                              : 0);
+  v6 = this->max_value_num_max_digits - (unsigned __int64)(unsigned int)vostok::render::get_num_digits(max_value);
+  min_value = (unsigned __int8 *)this->min_value;
+  this->max_value_num_max_digits = this->max_value_num_max_digits
+                                 - (v6 & BYTE4(v6))
+                                 - (this->max_value_num_max_digits == ((unsigned int)v6 & HIDWORD(v6))
+                                  ? this->max_value_num_max_digits - (v6 & BYTE4(v6)) - 1
+                                  : 0);
+  v8 = this->min_value_num_max_digits - (unsigned __int64)(unsigned int)vostok::render::get_num_digits(min_value);
+  v9 = (vostok::fixed_string<260> *)(this->min_value_num_max_digits - (v8 & HIDWORD(v8)));
+  LOBYTE(v9) = (_BYTE)v9
+             - (this->min_value_num_max_digits == ((unsigned int)v8 & HIDWORD(v8))
+              ? this->min_value_num_max_digits - (v8 & BYTE4(v8)) - 1
+              : 0);
+  this->min_value_num_max_digits = (unsigned __int8)v9;
+  vostok::fixed_string<260>::fixed_string<260>(v9, v19, "%s: ");
+  vostok::buffer_string::operator+=(v19, "%");
+  v10 = vostok::render::u32_to_string((int)v20, (vostok::fixed_string<260> *)this->value_num_max_digits);
+  vostok::buffer_string::append(v19, v10->m_end, v10->m_begin);
+  v11 = vostok::buffer_string::operator+=(v19, "d (");
+  vostok::buffer_string::operator+=(v11, "%");
+  v12 = vostok::render::u32_to_string((int)v20, (vostok::fixed_string<260> *)this->min_value_num_max_digits);
+  vostok::buffer_string::append(v19, v12->m_end, v12->m_begin);
+  v13 = vostok::buffer_string::operator+=(v19, "d..");
+  vostok::buffer_string::operator+=(v13, "%");
+  v14 = vostok::render::u32_to_string((int)v20, (vostok::fixed_string<260> *)this->min_value_num_max_digits);
+  vostok::buffer_string::append(v19, v14->m_end, v14->m_begin);
+  vostok::buffer_string::operator+=(v19, "d)");
+  v18 = this->max_value;
+  v17 = this->min_value;
+  v15 = vostok::render::statistics_value<int>::average(this);
   vostok::fs_new::path_string_impl::assignf(
     out_result,
-    rule.m_buffer,
+    v16,
+    (vostok::buffer_string *)v19[0].m_begin,
     this->m_name.m_begin,
-    this->value,
-    this->min_value,
-    this->max_value);
+    v15,
+    v17,
+    v18);
 }

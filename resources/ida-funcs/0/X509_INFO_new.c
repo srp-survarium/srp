@@ -1,4 +1,4 @@
-X509_info_st *__cdecl X509_INFO_new()
+X509_info_st *__usercall X509_INFO_new@<eax>(int a1@<ebx>)
 {
   X509_info_st *result; // eax
 
@@ -15,7 +15,7 @@ X509_info_st *__cdecl X509_INFO_new()
   }
   else
   {
-    ERR_put_error(0xDu, 170, 65, ".\\crypto\\asn1\\x_info.c", 72);
+    ERR_put_error(a1, 0xDu, 170, 65, ".\\crypto\\asn1\\x_info.c", 72);
     return 0;
   }
   return result;

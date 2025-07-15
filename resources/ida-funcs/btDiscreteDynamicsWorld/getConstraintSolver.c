@@ -1,4 +1,4 @@
-btConstraintSolver *__thiscall btDiscreteDynamicsWorld::getConstraintSolver(btDiscreteDynamicsWorld *this)
+vostok::sound::world_user *__thiscall btDiscreteDynamicsWorld::getConstraintSolver(vostok::sound::sound_world *this)
 {
-  return this->m_constraintSolver;
+  return this->m_logic_world_user;
 }

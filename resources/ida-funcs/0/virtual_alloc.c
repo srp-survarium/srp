@@ -1,25 +1,27 @@
-virtual_alloc_region *__fastcall virtual_alloc(unsigned int size)
+virtual_alloc_region *__thiscall virtual_alloc(void *size)
 {
+  unsigned int v1; // ecx
   virtual_alloc_region *result; // eax
   virtual_alloc_region *next_free_region; // ecx
-  unsigned int v3; // ecx
-  virtual_alloc_region *v4; // edx
-  virtual_alloc_region *v5; // ecx
+  virtual_alloc_region *previous_free_region; // edx
+  unsigned int v5; // ecx
 
-  if ( (_WORD)size )
-    size += (unsigned int)&_sbh_sizeHeaderList - (unsigned __int16)size;
+  v1 = vostok::math::align_up<unsigned long>((unsigned int)&_sbh_sizeHeaderList);
   result = g_ptmalloc3_arena.first_free_region;
-  if ( g_ptmalloc3_arena.first_free_region )
+  if ( !g_ptmalloc3_arena.first_free_region )
+    goto LABEL_17;
+  do
   {
-    while ( result->size < size )
+    if ( result->size >= v1 )
+      break;
+    result = result->next_free_region;
+  }
+  while ( result );
+  if ( result )
+  {
+    if ( result->size == v1 )
     {
-      result = result->next_free_region;
-      if ( !result )
-        goto LABEL_6;
-    }
-    if ( result->size == size )
-    {
-      g_ptmalloc3_arena.free_size -= size;
+      g_ptmalloc3_arena.free_size -= v1;
       --g_ptmalloc3_arena.region_count;
       if ( result->previous_free_region )
         result->previous_free_region->next_free_region = result->next_free_region;
@@ -27,28 +29,32 @@ virtual_alloc_region *__fastcall virtual_alloc(unsigned int size)
         g_ptmalloc3_arena.first_free_region = result->next_free_region;
       next_free_region = result->next_free_region;
       if ( next_free_region )
-        next_free_region->previous_free_region = result->previous_free_region;
+      {
+        previous_free_region = result->previous_free_region;
+LABEL_11:
+        next_free_region->previous_free_region = previous_free_region;
+      }
     }
     else
     {
-      v3 = (((size - 1) >> 12) + 1) << 12;
-      g_ptmalloc3_arena.free_size -= v3;
-      v4 = (virtual_alloc_region *)((char *)result + v3);
-      v4->next_free_region = result->next_free_region;
-      v4->previous_free_region = result->previous_free_region;
-      v4->size = result->size - v3;
+      v5 = (((v1 - 1) >> 12) + 1) << 12;
+      g_ptmalloc3_arena.free_size -= v5;
+      previous_free_region = (virtual_alloc_region *)((char *)result + v5);
+      previous_free_region->next_free_region = result->next_free_region;
+      previous_free_region->previous_free_region = result->previous_free_region;
+      previous_free_region->size = result->size - v5;
       if ( result->previous_free_region )
-        result->previous_free_region->next_free_region = v4;
+        result->previous_free_region->next_free_region = previous_free_region;
       else
-        g_ptmalloc3_arena.first_free_region = (virtual_alloc_region *)((char *)result + v3);
-      v5 = result->next_free_region;
-      if ( v5 )
-        v5->previous_free_region = v4;
+        g_ptmalloc3_arena.first_free_region = (virtual_alloc_region *)((char *)result + v5);
+      next_free_region = result->next_free_region;
+      if ( next_free_region )
+        goto LABEL_11;
     }
   }
   else
   {
-LABEL_6:
+LABEL_17:
     if ( g_ptmalloc3_arena.out_of_memory_handler )
       g_ptmalloc3_arena.out_of_memory_handler(&g_ptmalloc3_arena, g_ptmalloc3_arena.out_of_memory_handler_parameter, 0);
     return (virtual_alloc_region *)-1;

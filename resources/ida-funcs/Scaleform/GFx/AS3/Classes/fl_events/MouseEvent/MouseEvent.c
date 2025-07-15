@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_events::MouseEvent::MouseEvent(
         Scaleform::GFx::AS3::ClassTraits::Traits *t)
 {
   Scaleform::GFx::AS3::Class::Class(this, t);
-  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::MouseEvent_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::MouseEvent_vtbl *)&Scaleform::GFx::AS3::Classes::fl_events::MouseEvent::`vftable';
   this->CLICK = "click";
   this->CONTEXT_MENU = "contextMenu";
   this->DOUBLE_CLICK = "doubleClick";

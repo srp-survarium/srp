@@ -12,17 +12,17 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
   Scaleform::Render::Text::ParagraphFormat *ParagraphFormat; // eax
   Scaleform::Render::Text::ParagraphFormat *pObject; // esi
   bool v13; // zf
-  const Scaleform::Render::Text::TextFormat **v14; // esi
+  Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> > *v14; // esi
   Scaleform::Render::Text::TextFormat *TextFormat; // eax
   Scaleform::Render::Text::TextFormat *v16; // ebx
   Scaleform::Render::Text::TextFormat *v17; // ecx
-  unsigned int it; // [esp+10h] [ebp-Ch]
-  unsigned int it_4; // [esp+14h] [ebp-8h]
+  unsigned int v18; // [esp+10h] [ebp-Ch]
+  unsigned int v19; // [esp+14h] [ebp-8h]
   unsigned int v20; // [esp+18h] [ebp-4h]
   Scaleform::Render::Text::TextFormat *v21; // [esp+18h] [ebp-4h]
-  Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> > *oa; // [esp+20h] [ebp+4h]
-  Scaleform::Render::Text::ParagraphFormat *ob; // [esp+20h] [ebp+4h]
-  const Scaleform::Render::Text::Paragraph *oc; // [esp+20h] [ebp+4h]
+  Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> > *Data; // [esp+20h] [ebp+4h]
+  Scaleform::Render::Text::ParagraphFormat *v23; // [esp+20h] [ebp+4h]
+  int v24; // [esp+20h] [ebp+4h]
 
   v3 = ptextAllocator;
   v6 = (wchar_t *)ptextAllocator->pHeap->Alloc(ptextAllocator->pHeap, 2 * o->Text.Size, 0);
@@ -30,15 +30,15 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
   Size = o->Text.Size;
   this->Text.Size = Size;
   this->Text.Allocated = Size;
-  memcpy((unsigned __int8 *)v6, (unsigned __int8 *)o->Text.pText, 2 * o->Text.Size);
+  memcpy((int)v6, (const __m128i *)o->Text.pText, 2 * o->Text.Size);
   this->pFormat.pObject = 0;
   p_FormatInfo = &this->FormatInfo;
   this->FormatInfo.Ranges.Data.Data = 0;
   this->FormatInfo.Ranges.Data.Size = 0;
   this->FormatInfo.Ranges.Data.Policy.Capacity = 0;
   v9 = o->FormatInfo.Ranges.Data.Size;
-  it = v9;
-  oa = o->FormatInfo.Ranges.Data.Data;
+  v18 = v9;
+  Data = o->FormatInfo.Ranges.Data.Data;
   if ( v9 )
   {
     v20 = this->FormatInfo.Ranges.Data.Size;
@@ -48,8 +48,8 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
       v9 + v20);
     Scaleform::ConstructorMov<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>>>::ConstructArray(
       &p_FormatInfo->Ranges.Data.Data[v20].Index,
-      it,
-      oa);
+      v18,
+      Data);
   }
   this->StartIndex = o->StartIndex;
   this->ModCounter = 0;
@@ -58,7 +58,7 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
   this->UniqueId = NewParagraphId;
   ParagraphFormat = Scaleform::Render::Text::Allocator::AllocateParagraphFormat(ptextAllocator, o->pFormat.pObject);
   pObject = this->pFormat.pObject;
-  ob = ParagraphFormat;
+  v23 = ParagraphFormat;
   if ( pObject )
   {
     v13 = pObject->RefCount-- == 1;
@@ -68,17 +68,17 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pObject);
     }
   }
-  this->pFormat.pObject = ob;
-  it_4 = 0;
-  oc = 0;
-  while ( (int)oc >= 0 && it_4 < this->FormatInfo.Ranges.Data.Size )
+  this->pFormat.pObject = v23;
+  v19 = 0;
+  v24 = 0;
+  while ( v24 >= 0 && v19 < this->FormatInfo.Ranges.Data.Size )
   {
-    v14 = (const Scaleform::Render::Text::TextFormat **)((char *)oc + (unsigned int)p_FormatInfo->Ranges.Data.Data);
-    TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(v3, v14[2]);
+    v14 = &p_FormatInfo->Ranges.Data.Data[v24];
+    TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(v3, v14->Data.pObject);
     v16 = TextFormat;
     if ( TextFormat )
       ++TextFormat->RefCount;
-    v17 = (Scaleform::Render::Text::TextFormat *)v14[2];
+    v17 = v14->Data.pObject;
     v21 = v17;
     if ( v17 )
     {
@@ -89,7 +89,7 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v21);
       }
     }
-    v14[2] = v16;
+    v14->Data.pObject = v16;
     if ( v16 )
     {
       v13 = v16->RefCount-- == 1;
@@ -100,10 +100,10 @@ void __thiscall Scaleform::Render::Text::Paragraph::Paragraph(
       }
     }
     v3 = ptextAllocator;
-    if ( (signed int)it_4 < (signed int)this->FormatInfo.Ranges.Data.Size )
+    if ( (signed int)v19 < (signed int)this->FormatInfo.Ranges.Data.Size )
     {
-      ++it_4;
-      oc = (const Scaleform::Render::Text::Paragraph *)((char *)oc + 12);
+      ++v19;
+      ++v24;
     }
   }
 }

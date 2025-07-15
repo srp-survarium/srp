@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnRemoved(
       {
         RefCount = evt.pObject->RefCount;
         pObject = evt.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           evt.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -54,12 +54,12 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnRemoved(
   {
     this->pDispObj->pASRoot->CheckAvm(this->pDispObj->pASRoot);
     v9 = this->pDispObj->pASRoot;
-    if ( !LOBYTE(v9[2].OnMovieFocus) )
+    if ( !LOBYTE(v9[2].OnNextFrame) )
     {
       v10 = (const Scaleform::GFx::ASString *)this->pDispObj->pASRoot;
       v9->CheckAvm(v9);
       Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateEventObject(
-        (Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *)v10[10].pNode[19].Size,
+        (Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *)v10[10].pNode[21].RefCount,
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&evt,
         v10 + 78,
         0,
@@ -71,7 +71,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnRemoved(
         {
           v11 = evt.pObject->RefCount;
           v12 = evt.pObject;
-          if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+          if ( (v11 & 0x3FFFFF) != 0 )
           {
             evt.pObject->RefCount = v11 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);
@@ -92,7 +92,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnRemoved(
     else
     {
       v14 = v13->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v14) != 0 )
+      if ( (v14 & 0x3FFFFF) != 0 )
       {
         v13->RefCount = v14 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);

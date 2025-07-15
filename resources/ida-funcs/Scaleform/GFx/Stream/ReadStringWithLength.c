@@ -44,7 +44,8 @@ char __thiscall Scaleform::GFx::Stream::ReadStringWithLength(Scaleform::GFx::Str
   signed int v3; // eax
   unsigned int Pos; // eax
   unsigned __int8 v5; // cl
-  Scaleform::GFx::Stream::ReadStringWithLength::__l2::StringReader sreader; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::String::InitStruct src; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::GFx::Stream *v8; // [esp+8h] [ebp-4h]
 
   v3 = this->DataSize - this->Pos;
   this->UnusedBits = 0;
@@ -55,9 +56,9 @@ char __thiscall Scaleform::GFx::Stream::ReadStringWithLength(Scaleform::GFx::Str
   this->Pos = Pos + 1;
   if ( v5 )
   {
-    sreader.__vftable = (Scaleform::GFx::Stream::ReadStringWithLength::__l2::StringReader_vtbl *)&`Scaleform::GFx::Stream::ReadStringWithLength'::`2'::StringReader::`vftable';
-    sreader.pStream = this;
-    Scaleform::String::AssignString(pstr, &sreader, v5);
+    src.__vftable = (Scaleform::String::InitStruct_vtbl *)&`Scaleform::GFx::Stream::ReadStringWithLength'::`2'::StringReader::`vftable';
+    v8 = this;
+    Scaleform::String::AssignString(pstr, &src, v5);
     return 1;
   }
   else

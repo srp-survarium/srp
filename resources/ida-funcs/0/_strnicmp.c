@@ -1,4 +1,4 @@
-void __usercall _strnicmp(unsigned int a1@<ebx>, const char *a2@<edi>, char *dst, char *src, unsigned int count)
+void __usercall _strnicmp(int a1@<ebx>, const char *a2@<edi>, char *dst, char *src, unsigned int count)
 {
   if ( __locale_changed )
   {
@@ -11,6 +11,6 @@ void __usercall _strnicmp(unsigned int a1@<ebx>, const char *a2@<edi>, char *dst
   else
   {
     *_errno() = 22;
-    _invalid_parameter(a1, (unsigned int)a2, 0);
+    _invalid_parameter(a1, (int)a2, 0);
   }
 }

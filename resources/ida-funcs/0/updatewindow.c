@@ -6,7 +6,7 @@ int __usercall updatewindow@<eax>(z_stream_s *strm@<ebx>, unsigned int out@<eax>
   unsigned int v7; // edi
   unsigned int v8; // eax
   unsigned __int8 *next_out; // ecx
-  unsigned __int8 *v10; // edx
+  int v10; // edx
   int v11; // eax
   unsigned int v12; // ebp
   unsigned int v13; // edi
@@ -32,17 +32,17 @@ int __usercall updatewindow@<eax>(z_stream_s *strm@<ebx>, unsigned int out@<eax>
   v7 = out - strm->avail_out;
   v8 = state[10].dummy;
   next_out = strm->next_out;
-  v10 = (unsigned __int8 *)state[13].dummy;
+  v10 = state[13].dummy;
   if ( v7 < v8 )
   {
     v12 = v8 - state[12].dummy;
     if ( v12 > v7 )
       v12 = v7;
-    memcpy(&v10[state[12].dummy], &next_out[-v7], v12);
+    memcpy(state[12].dummy + v10, (const __m128i *)&next_out[-v7], v12);
     v13 = v7 - v12;
     if ( v13 )
     {
-      memcpy((unsigned __int8 *)state[13].dummy, &strm->next_out[-v13], v13);
+      memcpy(state[13].dummy, (const __m128i *)&strm->next_out[-v13], v13);
       v14 = state[10].dummy;
       state[12].dummy = v13;
       state[11].dummy = v14;
@@ -62,7 +62,7 @@ int __usercall updatewindow@<eax>(z_stream_s *strm@<ebx>, unsigned int out@<eax>
   }
   else
   {
-    memcpy(v10, &next_out[-v8], state[10].dummy);
+    memcpy(v10, (const __m128i *)&next_out[-v8], state[10].dummy);
     v11 = state[10].dummy;
     state[12].dummy = 0;
     state[11].dummy = v11;

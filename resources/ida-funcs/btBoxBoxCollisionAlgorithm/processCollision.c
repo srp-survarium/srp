@@ -5,47 +5,56 @@ void __thiscall btBoxBoxCollisionAlgorithm::processCollision(
         const btDispatcherInfo *dispatchInfo,
         btManifoldResult *resultOut)
 {
-  btPersistentManifold *m_manifoldPtr; // ebx
-  btBoxShape *m_collisionShape; // edx
-  btBoxShape *v7; // edi
-  unsigned __int64 v8; // xmm0_8
-  btPersistentManifold *v9; // eax
-  btIDebugDraw *m_debugDraw; // [esp+124h] [ebp-B8h]
-  btPersistentManifold *v11; // [esp+128h] [ebp-B4h]
-  btBoxBoxDetector v13; // [esp+140h] [ebp-9Ch] BYREF
-  btDiscreteCollisionDetectorInterface::ClosestPointInput v14; // [esp+14Ch] [ebp-90h] BYREF
+  btPersistentManifold *m_manifoldPtr; // esi
+  btBoxShape *m_collisionShape; // ecx
+  btPersistentManifold *v7; // eax
+  btTransform *p_m_rootTransB; // ecx
+  btTransform *p_m_rootTransA; // edx
+  btIDebugDraw *m_debugDraw; // [esp-8h] [ebp-B8h]
+  btBoxShape *v12; // [esp+10h] [ebp-A0h]
+  btBoxBoxDetector v13; // [esp+14h] [ebp-9Ch] BYREF
+  btDiscreteCollisionDetectorInterface::ClosestPointInput input; // [esp+20h] [ebp-90h] BYREF
 
   m_manifoldPtr = this->m_manifoldPtr;
   if ( m_manifoldPtr )
   {
+    input.m_stackAlloc = 0;
     m_collisionShape = (btBoxShape *)body0->m_collisionShape;
-    v7 = (btBoxShape *)body1->m_collisionShape;
+    v12 = (btBoxShape *)body1->m_collisionShape;
     resultOut->m_manifoldPtr = m_manifoldPtr;
-    v14.m_maximumDistanceSquared = 9.9999998e17;
-    v14.m_transformA = body0->m_worldTransform;
-    v14.m_transformB.m_basis.m_el[0].mVec128.m128_u64[0] = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
-    v14.m_transformB.m_basis.m_el[0].mVec128.m128_u64[1] = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-    v14.m_transformB.m_basis.m_el[1] = body1->m_worldTransform.m_basis.m_el[1];
-    v14.m_transformB.m_basis.m_el[2] = body1->m_worldTransform.m_basis.m_el[2];
-    v14.m_transformB.m_origin.mVec128.m128_u64[0] = body1->m_worldTransform.m_origin.mVec128.m128_u64[0];
-    v8 = body1->m_worldTransform.m_origin.mVec128.m128_u64[1];
+    input.m_maximumDistanceSquared = FLOAT_9_9999998e17;
+    input.m_transformA = body0->m_worldTransform;
+    input.m_transformB.m_basis.m_el[0].mVec128.m128_u64[0] = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
+    input.m_transformB.m_basis.m_el[0].mVec128.m128_u64[1] = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
+    input.m_transformB.m_basis.m_el[1] = body1->m_worldTransform.m_basis.m_el[1];
+    input.m_transformB.m_basis.m_el[2] = body1->m_worldTransform.m_basis.m_el[2];
+    input.m_transformB.m_origin.mVec128.m128_u64[0] = body1->m_worldTransform.m_origin.mVec128.m128_u64[0];
+    v13.m_box2 = v12;
     m_debugDraw = dispatchInfo->m_debugDraw;
+    input.m_transformB.m_origin.mVec128.m128_i32[2] = body1->m_worldTransform.m_origin.mVec128.m128_i32[2];
     v13.m_box1 = m_collisionShape;
-    v14.m_stackAlloc = 0;
-    v14.m_transformB.m_origin.mVec128.m128_u64[1] = v8;
+    input.m_transformB.m_origin.mVec128.m128_i32[3] = body1->m_worldTransform.m_origin.mVec128.m128_i32[3];
     v13.__vftable = (btBoxBoxDetector_vtbl *)&btBoxBoxDetector::`vftable';
-    v13.m_box2 = v7;
-    btBoxBoxDetector::getClosestPoints(&v13, &v14, resultOut, m_debugDraw, 0);
+    btBoxBoxDetector::getClosestPoints(&v13, &input, resultOut, m_debugDraw, 0);
     if ( this->m_ownManifold )
     {
-      v9 = resultOut->m_manifoldPtr;
-      if ( v9->m_cachedPoints )
+      v7 = resultOut->m_manifoldPtr;
+      if ( v7->m_cachedPoints )
       {
-        v11 = resultOut->m_manifoldPtr;
-        if ( v9->m_body0 == resultOut->m_body0 )
-          btPersistentManifold::refreshContactPoints(v11, &resultOut->m_rootTransA, &resultOut->m_rootTransB);
+        if ( v7->m_body0 == resultOut->m_body0 )
+        {
+          p_m_rootTransB = &resultOut->m_rootTransB;
+          p_m_rootTransA = &resultOut->m_rootTransA;
+        }
         else
-          btPersistentManifold::refreshContactPoints(v11, &resultOut->m_rootTransB, &resultOut->m_rootTransA);
+        {
+          p_m_rootTransB = &resultOut->m_rootTransA;
+          p_m_rootTransA = &resultOut->m_rootTransB;
+        }
+        btPersistentManifold::refreshContactPoints(
+          (btPersistentManifold *)p_m_rootTransB,
+          p_m_rootTransA,
+          resultOut->m_manifoldPtr);
       }
     }
   }

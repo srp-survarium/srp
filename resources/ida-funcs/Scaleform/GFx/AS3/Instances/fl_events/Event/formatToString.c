@@ -4,25 +4,31 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::Event::formatToString
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  Scaleform::GFx::AS3::VM *v5; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
-  Scaleform::GFx::ASStringNode *v7; // eax
-  Scaleform::GFx::AS3::VM *pVM; // edi
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
+  Scaleform::GFx::ASStringNode *v6; // eax
+  Scaleform::GFx::AS3::VM *pVM; // esi
+  Scaleform::GFx::AS3::Value *v8; // edi
   bool v9; // bl
-  const Scaleform::GFx::AS3::VM::Error *v10; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *v11; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v13; // ecx
+  bool v14; // zf
+  const Scaleform::GFx::AS3::VM::Error *v15; // eax
+  Scaleform::GFx::ASStringNode *v16; // eax
+  Scaleform::GFx::ASStringNode *v17; // eax
   unsigned int RefCount; // edx
   Scaleform::GFx::AS3::GASRefCountBase *pObject; // ecx
-  char *pData; // eax
-  Scaleform::GFx::ASStringNode *v15; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASString asstr; // [esp+Ch] [ebp-480h] BYREF
-  Scaleform::GFx::AS3::CheckResult v18; // [esp+13h] [ebp-479h] BYREF
-  unsigned int i; // [esp+14h] [ebp-478h] BYREF
-  Scaleform::GFx::ASStringNode *v20; // [esp+18h] [ebp-474h]
-  Scaleform::GFx::AS3::Value *v21; // [esp+1Ch] [ebp-470h]
-  Scaleform::GFx::AS3::CheckResult v22; // [esp+22h] [ebp-46Ah] BYREF
-  Scaleform::GFx::AS3::CheckResult v23; // [esp+23h] [ebp-469h] BYREF
+  Scaleform::GFx::ASStringNode *v20; // eax
+  Scaleform::GFx::ASStringNode *v21; // eax
+  Scaleform::StringDataPtr v22; // [esp-14h] [ebp-4A0h]
+  Scaleform::StringDataPtr v23; // [esp-8h] [ebp-494h]
+  Scaleform::GFx::ASString asstr; // [esp+10h] [ebp-47Ch] BYREF
+  Scaleform::GFx::AS3::CheckResult v25; // [esp+17h] [ebp-475h] BYREF
+  unsigned int i; // [esp+18h] [ebp-474h] BYREF
+  Scaleform::GFx::ASStringNode *v27; // [esp+1Ch] [ebp-470h]
+  Scaleform::GFx::AS3::CheckResult v28; // [esp+22h] [ebp-46Ah] BYREF
+  Scaleform::GFx::AS3::CheckResult v29; // [esp+23h] [ebp-469h] BYREF
   Scaleform::GFx::AS3::PropRef prop; // [esp+24h] [ebp-468h] BYREF
   Scaleform::GFx::AS3::Value asval; // [esp+3Ch] [ebp-450h] BYREF
   Scaleform::StringBuffer sb; // [esp+4Ch] [ebp-440h] BYREF
@@ -36,31 +42,35 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::Event::formatToString
     pVM = this->pTraits.pObject->pVM;
     asstr.pNode = (Scaleform::GFx::ASStringNode *)pVM[1].__vftable[23].~Scaleform::GFx::AS3::VM;
     ++asstr.pNode->RefCount;
-    Scaleform::GFx::AS3::Value::Convert2String(argv, &v18, &asstr);
+    Scaleform::GFx::AS3::Value::Convert2String(argv, &v25, &asstr);
     Scaleform::SFsprintf(str, 0x400u, "[%s", asstr.pNode->pData);
-    Scaleform::StringBuffer::AppendString(&sb, str, 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(&sb, (const __m128i *)str, 0xFFFFFFFF);
     i = 1;
     if ( argc <= 1 )
     {
-LABEL_54:
-      Scaleform::StringBuffer::AppendString(&sb, "]", 2u);
-      pData = sb.pData;
+LABEL_29:
+      Scaleform::StringBuffer::AppendString(&sb, (const __m128i *)"]", 2u);
+      pData = (__m128i *)sb.pData;
       if ( !sb.pData )
-        pData = (char *)&buf;
+        pData = (__m128i *)uri;
       i = (unsigned int)Scaleform::GFx::ASStringManager::CreateStringNode(pVM->StringManagerRef->pStringManager, pData);
       ++*(_DWORD *)(i + 12);
       Scaleform::GFx::AS3::Value::Assign(result, (const Scaleform::GFx::ASString *)&i);
-      v15 = (Scaleform::GFx::ASStringNode *)i;
+      v11 = (Scaleform::GFx::ASStringNode *)i;
       --*(_DWORD *)(i + 12);
-      if ( !v15->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v15);
+      if ( !v11->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v11);
+      pNode = asstr.pNode;
+      --asstr.pNode->RefCount;
+      v13 = pNode;
+      v14 = pNode->RefCount == 0;
     }
     else
     {
-      v21 = argv + 1;
+      v8 = argv + 1;
       while ( 1 )
       {
-        Scaleform::GFx::AS3::Value::Convert2String(v21, &v18, &asstr);
+        Scaleform::GFx::AS3::Value::Convert2String(v8, &v25, &asstr);
         Scaleform::GFx::AS3::Value::Value(&name, &asstr);
         Scaleform::GFx::AS3::Multiname::Multiname(&mn, pVM->PublicNamespace.pObject, &name);
         if ( (name.Flags & 0x1F) > 9 )
@@ -76,21 +86,21 @@ LABEL_54:
           &prop,
           &mn,
           FindGet);
-        if ( (prop.This.Flags & 0x1F) == 0
-          || ((int)prop.pSI & 1) != 0 && ((int)prop.pSI & 0xFFFFFFFE) == 0
-          || ((int)prop.pSI & 2) != 0 && ((int)prop.pSI & 0xFFFFFFFD) == 0 )
+        if ( (prop.This.Flags & 0x1F) == 0 || ((int)prop.pSI & 1) != 0 && ((int)prop.pSI & 0xFFFFFFFE) == 0 )
+          break;
+        if ( ((int)prop.pSI & 2) != 0 && ((int)prop.pSI & 0xFFFFFFFD) == 0 )
+          break;
+        asval.Flags = 0;
+        asval.Bonus.pWeakProxy = 0;
+        if ( !Scaleform::GFx::AS3::PropRef::GetSlotValueUnsafe(&prop, &v29, pVM, &asval, valGet)->Result )
         {
-          Scaleform::SFsprintf(
-            str,
-            0x400u,
-            "Property %s not found on flash.events.Event and there is no default value.",
-            asstr.pNode->pData);
-          Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&i, eReadSealedError, pVM);
-          Scaleform::GFx::AS3::VM::ThrowReferenceError(pVM, v10);
-          v11 = v20;
-          --v20->RefCount;
-          if ( !v11->RefCount )
-            Scaleform::GFx::ASStringNode::ReleaseNode(v11);
+          if ( (asval.Flags & 0x1F) > 9 )
+          {
+            if ( (asval.Flags & 0x200) != 0 )
+              Scaleform::GFx::AS3::Value::ReleaseWeakRef(&asval);
+            else
+              Scaleform::GFx::AS3::Value::ReleaseInternal(&asval);
+          }
           if ( (prop.This.Flags & 0x1F) > 9 )
           {
             if ( (prop.This.Flags & 0x200) != 0 )
@@ -98,44 +108,21 @@ LABEL_54:
             else
               Scaleform::GFx::AS3::Value::ReleaseInternal(&prop.This);
           }
-          if ( (mn.Name.Flags & 0x1F) > 9 )
-          {
-            if ( (mn.Name.Flags & 0x200) != 0 )
-              Scaleform::GFx::AS3::Value::ReleaseWeakRef(&mn.Name);
-            else
-              Scaleform::GFx::AS3::Value::ReleaseInternal(&mn.Name);
-          }
-          if ( mn.Obj.pObject )
-          {
-            if ( ((int)mn.Obj.pObject & 1) != 0 )
-            {
-              --mn.Obj.pObject;
-            }
-            else
-            {
-              RefCount = mn.Obj.pObject->RefCount;
-              pObject = mn.Obj.pObject;
-              if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
-              {
-                mn.Obj.pObject->RefCount = RefCount - 1;
-                Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
-              }
-            }
-          }
-          goto LABEL_58;
+          Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
+          v21 = asstr.pNode;
+          --asstr.pNode->RefCount;
+          v13 = v21;
+          v14 = v21->RefCount == 0;
+          goto LABEL_34;
         }
-        asval.Flags = 0;
-        asval.Bonus.pWeakProxy = 0;
-        if ( !Scaleform::GFx::AS3::PropRef::GetSlotValueUnsafe(&prop, &v23, pVM, &asval, valGet)->Result )
-          break;
         Scaleform::SFsprintf(str, 0x400u, " %s=", asstr.pNode->pData);
-        Scaleform::StringBuffer::AppendString(&sb, str, 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(&sb, (const __m128i *)str, 0xFFFFFFFF);
         v9 = (asval.Flags & 0x1F) == 10;
-        Scaleform::GFx::AS3::Value::Convert2String(&asval, &v22, &asstr);
+        Scaleform::GFx::AS3::Value::Convert2String(&asval, &v28, &asstr);
         if ( v9 )
           Scaleform::StringBuffer::AppendChar(&sb, 0x22u);
-        Scaleform::SFsprintf(str, 0x400u, "%s", asstr.pNode->pData);
-        Scaleform::StringBuffer::AppendString(&sb, str, 0xFFFFFFFF);
+        Scaleform::SFsprintf(str, 0x400u, (char *)&stru_7F9BE8.allocator, asstr.pNode->pData);
+        Scaleform::StringBuffer::AppendString(&sb, (const __m128i *)str, 0xFFFFFFFF);
         if ( v9 )
           Scaleform::StringBuffer::AppendChar(&sb, 0x22u);
         if ( (asval.Flags & 0x1F) > 9 )
@@ -153,44 +140,82 @@ LABEL_54:
             Scaleform::GFx::AS3::Value::ReleaseInternal(&prop.This);
         }
         Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
-        ++v21;
+        ++v8;
         if ( ++i >= argc )
-          goto LABEL_54;
+          goto LABEL_29;
       }
-      if ( (asval.Flags & 0x1F) > 9 )
-      {
-        if ( (asval.Flags & 0x200) != 0 )
-          Scaleform::GFx::AS3::Value::ReleaseWeakRef(&asval);
-        else
-          Scaleform::GFx::AS3::Value::ReleaseInternal(&asval);
-      }
+      Scaleform::SFsprintf(
+        str,
+        0x400u,
+        "Property %s not found on flash.events.Event and there is no default value.",
+        asstr.pNode->pData);
+      v23.pStr = str;
+      v23.Size = strlen(str);
+      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&i, eReadSealedError, pVM, v23);
+      Scaleform::GFx::AS3::VM::ThrowReferenceError(pVM, v15);
+      v16 = v27;
+      --v27->RefCount;
+      if ( !v16->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v16);
       if ( (prop.This.Flags & 0x1F) > 9 )
       {
         if ( (prop.This.Flags & 0x200) != 0 )
-        {
           Scaleform::GFx::AS3::Value::ReleaseWeakRef(&prop.This);
-          Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
-          goto LABEL_58;
-        }
-        Scaleform::GFx::AS3::Value::ReleaseInternal(&prop.This);
+        else
+          Scaleform::GFx::AS3::Value::ReleaseInternal(&prop.This);
       }
-      Scaleform::GFx::AS3::Multiname::~Multiname(&mn);
+      if ( (mn.Name.Flags & 0x1F) > 9 )
+      {
+        if ( (mn.Name.Flags & 0x200) != 0 )
+          Scaleform::GFx::AS3::Value::ReleaseWeakRef(&mn.Name);
+        else
+          Scaleform::GFx::AS3::Value::ReleaseInternal(&mn.Name);
+      }
+      if ( mn.Obj.pObject )
+      {
+        if ( ((int)mn.Obj.pObject & 1) != 0 )
+        {
+          --mn.Obj.pObject;
+          v17 = asstr.pNode;
+          --asstr.pNode->RefCount;
+          v13 = v17;
+          v14 = v17->RefCount == 0;
+          goto LABEL_34;
+        }
+        RefCount = mn.Obj.pObject->RefCount;
+        pObject = mn.Obj.pObject;
+        if ( (RefCount & 0x3FFFFF) != 0 )
+        {
+          mn.Obj.pObject->RefCount = RefCount - 1;
+          Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
+        }
+      }
+      v20 = asstr.pNode;
+      --asstr.pNode->RefCount;
+      v13 = v20;
+      v14 = v20->RefCount == 0;
     }
-LABEL_58:
-    pNode = asstr.pNode;
-    --asstr.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+LABEL_34:
+    if ( v14 )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v13);
     Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&sb);
   }
   else
   {
-    v5 = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&i, eWrongArgumentCountError, v5);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v5, v6);
-    v7 = v20;
-    --v20->RefCount;
-    if ( !v7->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+    v22.pStr = "Event::formatToString";
+    v22.Size = 21;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&i,
+      eWrongArgumentCountError,
+      this->pTraits.pObject->pVM,
+      v22,
+      1,
+      1,
+      0);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
+    v6 = v27;
+    --v27->RefCount;
+    if ( !v6->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v6);
   }
 }

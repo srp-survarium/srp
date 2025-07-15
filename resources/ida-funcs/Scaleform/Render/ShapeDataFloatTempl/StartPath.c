@@ -9,11 +9,11 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned
   unsigned int Size; // eax
   unsigned int v8; // edi
   unsigned __int8 *v9; // eax
-  Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > encoder; // [esp+8h] [ebp-4h] BYREF
+  Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v10; // [esp+8h] [ebp-4h] BYREF
 
   v5 = this->Status == Status_Clean;
   Data = this->Data;
-  encoder.Data = Data;
+  v10.Data = Data;
   if ( v5 )
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartLayer(this);
   Size = Data->Data.Size;
@@ -38,13 +38,13 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned
   if ( v9 )
     *v9 = 1;
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     leftStyle);
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     rightStyle);
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     strokeStyle);
   this->Status = Status_StartPath;
 }
@@ -61,11 +61,11 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<un
   unsigned int Size; // eax
   unsigned int v8; // edi
   unsigned __int8 *v9; // edx
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > encoder; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v10; // [esp+Ch] [ebp-4h] BYREF
 
   v5 = this->Status == Status_Clean;
   Data = this->Data;
-  encoder.Data = Data;
+  v10.Data = Data;
   if ( v5 )
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartLayer(this);
   Size = Data->Data.Size;
@@ -89,13 +89,13 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<un
   Data->Data.Size = v8;
   v9[v8 - 1] = 1;
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     leftStyle);
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     rightStyle);
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteUInt30(
-    &encoder,
+    &v10,
     strokeStyle);
   this->Status = Status_StartPath;
 }

@@ -1,26 +1,25 @@
-void __thiscall vostok::vfs::mounter::free_mount_branch(
-        vostok::vfs::mounter *this,
-        survarium::game_camera *helper_nodes)
+void __userpurge vostok::vfs::mounter::free_mount_branch(
+        vostok::buffer_vector<vostok::vfs::mount_helper_node<1> *> *helper_nodes@<edi>,
+        vostok::vfs::mounter *this)
 {
-  vostok::memory::base_allocator *v2; // eax
-  void **v4; // [esp+Ch] [ebp-Ch]
-  unsigned int i; // [esp+14h] [ebp-4h]
+  vostok::vfs::mount_helper_node<1> **m_begin; // eax
+  unsigned int i; // ebx
+  void **v4; // esi
 
-  for ( i = 0;
-        i < (signed int)(LODWORD(helper_nodes->m_inverted_view_matrix.i.x) - (unsigned int)helper_nodes->__vftable) >> 2;
-        ++i )
+  m_begin = helper_nodes->m_begin;
+  for ( i = 0; i < helper_nodes->m_end - helper_nodes->m_begin; ++i )
   {
-    survarium::weapon_user_dead_state::finalize(helper_nodes);
-    if ( *((_DWORD *)&helper_nodes->get_projection_matrix + i) )
+    v4 = (void **)&m_begin[i];
+    if ( *v4 )
     {
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)i);
-      v4 = (void **)(&helper_nodes->get_projection_matrix + i);
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-      if ( *v4 )
-      {
-        vostok::memory::base_allocator::free_impl(v2, *v4);
-        *v4 = 0;
-      }
+      this->m_args.allocator->call_free(
+        this->m_args.allocator,
+        *v4,
+        "vostok::vfs::mounter::free_mount_branch",
+        ".\\mount_helper_branch.cpp",
+        545u);
+      *v4 = 0;
     }
+    m_begin = helper_nodes->m_begin;
   }
 }

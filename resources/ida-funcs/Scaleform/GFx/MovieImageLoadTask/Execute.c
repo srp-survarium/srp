@@ -21,9 +21,9 @@ void __thiscall Scaleform::GFx::MovieImageLoadTask::Execute(Scaleform::GFx::Movi
   bool inited; // bl
   Scaleform::GFx::MovieDataDef *v21; // ecx
   Scaleform::GFx::MovieDefImpl::BindTaskData *v22; // edi
-  unsigned int v23; // eax
+  LONG v23; // eax
   Scaleform::GFx::ImageResource *v24; // ecx
-  unsigned int FileLength; // [esp-4h] [ebp-1Ch]
+  volatile unsigned int FileLength; // [esp-4h] [ebp-1Ch]
   Scaleform::Log *plog; // [esp+Ch] [ebp-Ch]
   Scaleform::Render::ImageSource *v27; // [esp+10h] [ebp-8h]
   Scaleform::File *v28; // [esp+14h] [ebp-4h]

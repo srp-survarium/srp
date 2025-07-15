@@ -9,9 +9,7 @@ void __thiscall Scaleform::GFx::AS3::FrameCounter::QueueFrameActions(Scaleform::
   unsigned int v8; // eax
 
   p_AVMVersion = (Scaleform::GFx::AS3::EventChains *)&this->pASRoot->pMovieImpl->pASMovieRoot.pObject[8].AVMVersion;
-  Scaleform::GFx::AS3::EventChains::QueueEvents(
-    p_AVMVersion,
-    (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574221]);
+  Scaleform::GFx::AS3::EventChains::QueueEvents(p_AVMVersion, Event_FrameConstructed);
   if ( (this->pASRoot->pMovieImpl->Flags & 0x80000) != 0 )
   {
     for ( i = this->pPlayPrev; i; i = i->pPlayPrev )
@@ -48,7 +46,5 @@ void __thiscall Scaleform::GFx::AS3::FrameCounter::QueueFrameActions(Scaleform::
       }
     }
   }
-  Scaleform::GFx::AS3::EventChains::QueueEvents(
-    p_AVMVersion,
-    (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574222]);
+  Scaleform::GFx::AS3::EventChains::QueueEvents(p_AVMVersion, Event_ExitFrame);
 }

@@ -11,7 +11,7 @@ int __cdecl i2a_ASN1_INTEGER(bio_st *bp, asn1_string_st *a)
     return 0;
   if ( (a->type & 0x100) != 0 )
   {
-    if ( BIO_write(bp, "-", 1) != 1 )
+    if ( BIO_write(0, bp, "-", 1) != 1 )
       return -1;
     v3 = 1;
   }
@@ -24,14 +24,14 @@ int __cdecl i2a_ASN1_INTEGER(bio_st *bp, asn1_string_st *a)
     {
       if ( v5 && !(v5 % 35) )
       {
-        if ( BIO_write(bp, "\\\n", 2) != 2 )
+        if ( BIO_write(v3, bp, "\\\n", 2) != 2 )
           return -1;
         v3 += 2;
       }
       v6 = &v2->data[v5];
       LOBYTE(a) = h[*v6 >> 4];
       BYTE1(a) = h[*v6 & 0xF];
-      if ( BIO_write(bp, (const char *)&a, 2) != 2 )
+      if ( BIO_write(v3, bp, (const char *)&a, 2) != 2 )
         break;
       ++v5;
       v3 += 2;
@@ -39,7 +39,7 @@ int __cdecl i2a_ASN1_INTEGER(bio_st *bp, asn1_string_st *a)
         return v3;
     }
   }
-  else if ( BIO_write(bp, "00", 2) == 2 )
+  else if ( BIO_write(v3, bp, "00", 2) == 2 )
   {
     v3 += 2;
     return v3;

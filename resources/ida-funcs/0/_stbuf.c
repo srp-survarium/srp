@@ -1,33 +1,33 @@
-int __cdecl _stbuf(_iobuf *str)
+int __usercall _stbuf@<eax>(int a1@<ebx>, int a2@<edi>, _iobuf *str)
 {
-  int v1; // eax
-  int v2; // eax
-  char **v3; // edi
-  char *v4; // eax
-  char *v5; // edi
+  int v3; // eax
+  int v4; // eax
+  char **v5; // edi
+  char *v6; // eax
+  char *v7; // edi
 
-  v1 = _fileno(str);
-  if ( !_isatty(v1) )
+  v3 = _fileno(a1, a2, str);
+  if ( !_isatty(a1, a2, v3) )
     return 0;
   if ( str == &__iob_func()[1] )
   {
-    v2 = 0;
+    v4 = 0;
   }
   else
   {
     if ( str != &__iob_func()[2] )
       return 0;
-    v2 = 1;
+    v4 = 1;
   }
   ++_cflush;
   if ( (str->_flag & 0x10C) != 0 )
     return 0;
-  v3 = (char **)&_stdbuf[v2];
-  if ( *v3 || (v4 = (char *)_malloc_crt(0x1000u), (*v3 = v4) != 0) )
+  v5 = (char **)&_stdbuf[v4];
+  if ( *v5 || (v6 = (char *)_malloc_crt(0x1000u), (*v5 = v6) != 0) )
   {
-    v5 = *v3;
-    str->_base = v5;
-    str->_ptr = v5;
+    v7 = *v5;
+    str->_base = v7;
+    str->_ptr = v7;
     str->_bufsiz = 4096;
     str->_cnt = 4096;
   }

@@ -1,78 +1,38 @@
 void __thiscall btDiscreteDynamicsWorld::~btDiscreteDynamicsWorld(btDiscreteDynamicsWorld *this)
 {
-  btSimulationIslandManager *m_islandManager; // eax
-  btConstraintSolver *m_constraintSolver; // eax
-  btActionInterface **m_data; // eax
-  btRigidBody **v5; // eax
-  btTypedConstraint **v6; // eax
+  btDiscreteDynamicsWorld *v1; // edi
+  bool v2; // zf
+  void **p_m_islandManager; // esi
+  btAlignedObjectArray<GrahamVector2> *v4; // ecx
+  btAlignedObjectArray<GrahamVector2> *v5; // ecx
+  btDiscreteDynamicsWorld *v6; // [esp-4h] [ebp-Ch]
+  btDiscreteDynamicsWorld *v7; // [esp-4h] [ebp-Ch]
 
+  v1 = this;
+  v2 = !this->m_ownsIslandManager;
   this->__vftable = (btDiscreteDynamicsWorld_vtbl *)&btDiscreteDynamicsWorld::`vftable';
-  if ( this->m_ownsIslandManager )
+  if ( !v2 )
   {
+    p_m_islandManager = (void **)&this->m_islandManager;
     ((void (__thiscall *)(btSimulationIslandManager *, _DWORD))this->m_islandManager->~btSimulationIslandManager)(
       this->m_islandManager,
       0);
-    m_islandManager = this->m_islandManager;
-    if ( m_islandManager )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_islandManager);
-    }
+    btAlignedFreeInternal(*p_m_islandManager);
+    this = v6;
   }
-  if ( this->m_ownsConstraintSolver )
+  if ( v1->m_ownsConstraintSolver )
   {
-    ((void (__thiscall *)(btConstraintSolver *, _DWORD))this->m_constraintSolver->~btConstraintSolver)(
-      this->m_constraintSolver,
+    ((void (__thiscall *)(btConstraintSolver *, _DWORD))v1->m_constraintSolver->~btConstraintSolver)(
+      v1->m_constraintSolver,
       0);
-    m_constraintSolver = this->m_constraintSolver;
-    if ( m_constraintSolver )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_constraintSolver);
-    }
+    btAlignedFreeInternal(v1->m_constraintSolver);
+    this = v7;
   }
-  m_data = this->m_actions.m_data;
-  if ( m_data )
-  {
-    if ( this->m_actions.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_data);
-    }
-    this->m_actions.m_data = 0;
-  }
-  this->m_actions.m_ownsMemory = 1;
-  this->m_actions.m_data = 0;
-  this->m_actions.m_size = 0;
-  this->m_actions.m_capacity = 0;
-  v5 = this->m_nonStaticRigidBodies.m_data;
-  if ( v5 )
-  {
-    if ( this->m_nonStaticRigidBodies.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v5);
-    }
-    this->m_nonStaticRigidBodies.m_data = 0;
-  }
-  this->m_nonStaticRigidBodies.m_ownsMemory = 1;
-  this->m_nonStaticRigidBodies.m_data = 0;
-  this->m_nonStaticRigidBodies.m_size = 0;
-  this->m_nonStaticRigidBodies.m_capacity = 0;
-  v6 = this->m_constraints.m_data;
-  if ( v6 )
-  {
-    if ( this->m_constraints.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v6);
-    }
-    this->m_constraints.m_data = 0;
-  }
-  this->m_constraints.m_data = 0;
-  this->m_constraints.m_size = 0;
-  this->m_constraints.m_capacity = 0;
-  this->m_constraints.m_ownsMemory = 1;
-  this->__vftable = (btDiscreteDynamicsWorld_vtbl *)&btDynamicsWorld::`vftable';
-  btCollisionWorld::~btCollisionWorld(this);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+    (btAlignedObjectArray<GrahamVector2> *)this,
+    (int)&v1->m_actions);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v4, (int)&v1->m_nonStaticRigidBodies);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v5, (int)&v1->m_constraints);
+  v1->__vftable = (btDiscreteDynamicsWorld_vtbl *)&btDynamicsWorld::`vftable';
+  btCollisionWorld::~btCollisionWorld(v1);
 }

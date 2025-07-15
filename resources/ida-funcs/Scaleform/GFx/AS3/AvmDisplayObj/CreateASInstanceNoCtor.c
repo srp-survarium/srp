@@ -52,7 +52,7 @@ LABEL_15:
   (*(void (__stdcall **)(Scaleform::GFx::AS3::Value *, _DWORD, int, int))(**(_DWORD **)(*(_DWORD *)(value.value.VS._1.VInt
                                                                                                   + 20)
                                                                                       + 100)
-                                                                        + 48))(
+                                                                        + 60))(
     &_this,
     *(_DWORD *)(*(_DWORD *)(value.value.VS._1.VInt + 20) + 100),
     a2,
@@ -70,7 +70,7 @@ LABEL_15:
     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)&this->pAS3CollectiblePtr,
     (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)v13);
   this->pAS3RawPtr = 0;
-  if ( !*(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, char *, Scaleform::GFx::AS3::Value::VU *))(*(_DWORD *)v8.VInt + 68))(
+  if ( !*(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, char *, Scaleform::GFx::AS3::Value::VU *))(*(_DWORD *)v8.VInt + 80))(
                     v8,
                     (char *)as3iobj + 3,
                     &_this.value) )
@@ -80,7 +80,7 @@ LABEL_15:
       goto LABEL_14;
     goto LABEL_15;
   }
-  (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int))(*(_DWORD *)_this.value.VS._1.VInt + 40))(
+  (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int))(*(_DWORD *)_this.value.VS._1.VInt + 52))(
     _this.value.VS._1,
     1);
   Scaleform::GFx::AS3::Value::~Value(&value);

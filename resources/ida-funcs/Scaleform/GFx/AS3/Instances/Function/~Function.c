@@ -1,14 +1,18 @@
 void __thiscall Scaleform::GFx::AS3::Instances::Function::~Function(Scaleform::GFx::AS3::Instances::Function *this)
 {
+  Scaleform::GFx::ASStringNode *pNode; // ecx
   Scaleform::GFx::AS3::Value *p_This; // ecx
   Scaleform::GFx::AS3::Object *pObject; // ecx
   unsigned int RefCount; // eax
 
-  p_This = (Scaleform::GFx::AS3::Value *)&this->This;
+  pNode = this->Name.pNode;
   this->__vftable = (Scaleform::GFx::AS3::Instances::Function_vtbl *)&Scaleform::GFx::AS3::Instances::Function::`vftable';
-  if ( (p_This->Flags & 0x1F) > 9 )
+  if ( pNode->RefCount-- == 1 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+  p_This = (Scaleform::GFx::AS3::Value *)&this->This;
+  if ( (this->This.Flags & 0x1F) > 9 )
   {
-    if ( (p_This->Flags & 0x200) != 0 )
+    if ( (this->This.Flags & 0x200) != 0 )
       Scaleform::GFx::AS3::Value::ReleaseWeakRef(p_This);
     else
       Scaleform::GFx::AS3::Value::ReleaseInternal(p_This);
@@ -28,7 +32,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::Function::~Function(Scaleform::G
       return;
     }
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

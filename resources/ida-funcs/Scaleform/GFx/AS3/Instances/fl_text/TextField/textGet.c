@@ -6,16 +6,19 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::textGet(
   Scaleform::GFx::ASStringNode *pNode; // esi
   Scaleform::GFx::ASStringNode *v4; // ecx
   Scaleform::GFx::ASStringNode *v6; // eax
-  Scaleform::GFx::ASString v7; // [esp+0h] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *v7; // [esp+0h] [ebp-4h] BYREF
 
-  v7.pNode = (Scaleform::GFx::ASStringNode *)this;
-  Text = Scaleform::GFx::TextField::GetText((Scaleform::GFx::TextField *)this->pDispObj.pObject, &v7, 0);
+  v7 = (Scaleform::GFx::ASStringNode *)this;
+  Text = Scaleform::GFx::TextField::GetText(
+           (Scaleform::GFx::TextField *)this->pDispObj.pObject,
+           (Scaleform::GFx::ASString *)&v7,
+           0);
   pNode = Text->pNode;
   ++Text->pNode->RefCount;
   v4 = result->pNode;
   if ( result->pNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v4);
-  v6 = v7.pNode;
+  v6 = v7;
   result->pNode = pNode;
   if ( !--v6->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v6);

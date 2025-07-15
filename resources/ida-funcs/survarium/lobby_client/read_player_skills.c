@@ -1,94 +1,136 @@
-char __userpurge survarium::lobby_client::read_player_skills@<al>(
-        vostok::network_core::packet_reader *reader@<edi>,
-        survarium::lobby_client *this)
+char __thiscall survarium::lobby_client::read_player_skills(
+        survarium::lobby_client *this,
+        vostok::network_core::buffer_reader *reader,
+        int a3)
 {
-  vostok::sound::sound_world *v2; // ecx
-  survarium::player_skill *m_player_skills; // eax
-  void *m_start_time_high; // esi
-  const unsigned __int8 *m_pointer; // eax
-  unsigned int v6; // ecx
-  const unsigned __int8 *v7; // eax
-  unsigned int v8; // ecx
-  const unsigned __int8 *v9; // eax
-  unsigned int v10; // ecx
-  const unsigned __int8 *v11; // eax
-  unsigned int v12; // esi
-  vostok::memory::doug_lea_allocator *v13; // eax
-  survarium::player_skill *v14; // eax
-  unsigned __int8 m_player_skills_count; // cl
-  unsigned int v16; // esi
-  vostok::sound::sound_world *v17; // ecx
-  unsigned __int8 *m_player_perks; // eax
-  void *v19; // esi
-  const unsigned __int8 *v20; // eax
-  unsigned __int8 v21; // cl
-  unsigned int v22; // esi
-  vostok::memory::doug_lea_allocator *v23; // eax
-  unsigned __int8 *v24; // eax
-  unsigned __int8 m_player_perks_count; // cl
-  int v26; // esi
-  vostok::sound::sound_world *f; // [esp-4h] [ebp-14h]
+  int *v4; // esi
+  unsigned __int8 v5; // dl
+  vostok::network_core::buffer_reader *v6; // eax
+  const unsigned __int8 **v7; // esi
+  unsigned int *v8; // esi
+  char *v9; // esi
+  _BYTE *v10; // eax
+  vostok::memory::doug_lea_allocator *v11; // esi
+  char *v12; // eax
+  unsigned __int8 *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // ecx
+  unsigned int v15; // esi
+  char *v16; // esi
+  _BYTE *v17; // eax
+  vostok::memory::doug_lea_allocator *v18; // esi
+  char *v19; // eax
+  char *v20; // eax
+  unsigned __int8 m_buffer_size; // cl
+  int v22; // esi
+  const char *v24; // [esp+0h] [ebp-10h]
+  const char *v25; // [esp+0h] [ebp-10h]
+  const char *v26; // [esp+4h] [ebp-Ch]
+  const char *v27; // [esp+4h] [ebp-Ch]
+  unsigned int v28; // [esp+8h] [ebp-8h]
+  unsigned int v29; // [esp+8h] [ebp-8h]
+  int v30; // [esp+1Ch] [ebp+Ch]
+  const unsigned __int8 *v31; // [esp+1Ch] [ebp+Ch]
+  unsigned int v32; // [esp+1Ch] [ebp+Ch]
+  const unsigned __int8 *v33; // [esp+1Ch] [ebp+Ch]
+  char v34; // [esp+1Fh] [ebp+Fh]
+  char v35; // [esp+1Fh] [ebp+Fh]
+  char v36; // [esp+1Fh] [ebp+Fh]
 
-  v2 = boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)survarium::g_allocator.f_.f_);
-  m_player_skills = this->m_player_skills;
-  if ( m_player_skills )
+  if ( reader[1060].m_buffer_size )
   {
-    m_start_time_high = (void *)HIDWORD(v2->m_timer.m_start_time);
-    BYTE2(v2->m_xaudio_callback_orders.m_pop_thread_id) = 0;
-    vostok_mspace_free(m_start_time_high, m_player_skills);
-    this->m_player_skills = 0;
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)survarium::g_allocator,
+      (char *)reader[1060].m_buffer_size,
+      v24,
+      v26,
+      v28);
+    reader[1060].m_buffer_size = 0;
   }
-  m_pointer = reader->m_pointer;
-  v6 = *(_DWORD *)m_pointer;
-  reader->m_pointer = m_pointer + 4;
-  this->m_player_leveling_info.total_experience = v6;
-  v7 = reader->m_pointer;
-  v8 = *(_DWORD *)v7;
-  reader->m_pointer = v7 + 4;
-  this->m_player_leveling_info.next_level_experience = v8;
-  v9 = reader->m_pointer;
-  v10 = *(_DWORD *)v9;
-  reader->m_pointer = v9 + 4;
-  this->m_player_leveling_info.prev_level_experience = v10;
-  v11 = reader->m_pointer;
-  LOBYTE(v10) = *v11;
-  reader->m_pointer = v11 + 1;
-  this->m_player_skills_count = v10;
-  v12 = 2 * (unsigned __int8)v10;
-  v13 = (vostok::memory::doug_lea_allocator *)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)survarium::g_allocator.f_.f_);
-  v14 = (survarium::player_skill *)vostok::memory::doug_lea_allocator::malloc_impl(v13, v12);
-  m_player_skills_count = this->m_player_skills_count;
-  v16 = 2 * m_player_skills_count;
-  this->m_player_skills = v14;
-  if ( m_player_skills_count )
+  v4 = *(int **)(a3 + 4);
+  v30 = *v4;
+  v5 = 0;
+  *(_DWORD *)(a3 + 4) = v4 + 1;
+  if ( LOBYTE(reader[50].m_buffer_size) )
   {
-    memcpy(&v14->skill_id, (unsigned __int8 *)reader->m_pointer, v16);
-    reader->m_pointer += v16;
+    while ( reader[126 * v5 + 51].m_buffer_size != v30 )
+    {
+      if ( ++v5 >= LOBYTE(reader[50].m_buffer_size) )
+        goto LABEL_8;
+    }
+    v34 = *((_BYTE *)v4 + 4);
+    *(_DWORD *)(a3 + 4) = (char *)v4 + 5;
+    v6 = &reader[126 * v5];
+    HIBYTE(v6[176].m_buffer_size) = v34;
+    v7 = *(const unsigned __int8 ***)(a3 + 4);
+    v31 = *v7;
+    *(_DWORD *)(a3 + 4) = v7 + 1;
+    v6[175].m_pointer = v31;
+    v8 = *(unsigned int **)(a3 + 4);
+    v32 = *v8;
+    *(_DWORD *)(a3 + 4) = v8 + 1;
+    v6[175].m_buffer_size = v32;
+    v33 = **(const unsigned __int8 ***)(a3 + 4);
+    *(_DWORD *)(a3 + 4) += 4;
+    v6[176].m_buffer = v33;
   }
-  v17 = boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)survarium::g_allocator.f_.f_);
-  m_player_perks = this->m_player_perks;
-  if ( m_player_perks )
+LABEL_8:
+  v9 = *(char **)(a3 + 4);
+  v10 = v9 + 1;
+  v35 = *v9;
+  v11 = survarium::g_allocator;
+  *(_DWORD *)(a3 + 4) = v10;
+  LOBYTE(reader[1061].m_buffer) = v35;
+  v12 = type_info::raw_name(&survarium::player_skill `RTTI Type Descriptor');
+  v13 = (unsigned __int8 *)vostok::memory::doug_lea_allocator::malloc_impl(
+                             (vostok::memory::doug_lea_allocator *)(2 * LOBYTE(reader[1061].m_buffer)),
+                             (int)v11,
+                             2 * LOBYTE(reader[1061].m_buffer),
+                             v12,
+                             v24,
+                             v26,
+                             v28);
+  LOBYTE(v14) = reader[1061].m_buffer;
+  v15 = 2 * (unsigned __int8)v14;
+  reader[1060].m_buffer_size = (const unsigned int)v13;
+  if ( (_BYTE)v14 )
   {
-    v19 = (void *)HIDWORD(v17->m_timer.m_start_time);
-    BYTE2(v17->m_xaudio_callback_orders.m_pop_thread_id) = 0;
-    vostok_mspace_free(v19, m_player_perks);
-    this->m_player_perks = 0;
+    memcpy(v13, *(unsigned __int8 **)(a3 + 4), v15);
+    *(_DWORD *)(a3 + 4) += v15;
   }
-  v20 = reader->m_pointer;
-  v21 = *v20;
-  reader->m_pointer = v20 + 1;
-  f = (vostok::sound::sound_world *)survarium::g_allocator.f_.f_;
-  this->m_player_perks_count = v21;
-  v22 = v21;
-  v23 = (vostok::memory::doug_lea_allocator *)boost::get_pointer<vostok::sound::sound_scene>(f);
-  v24 = (unsigned __int8 *)vostok::memory::doug_lea_allocator::malloc_impl(v23, v22);
-  m_player_perks_count = this->m_player_perks_count;
-  this->m_player_perks = v24;
-  v26 = m_player_perks_count;
-  if ( m_player_perks_count )
+  if ( reader[1095].m_pointer )
   {
-    memcpy(v24, (unsigned __int8 *)reader->m_pointer, m_player_perks_count);
-    reader->m_pointer += v26;
+    vostok::memory::doug_lea_allocator::free_impl(
+      v14,
+      (int)survarium::g_allocator,
+      (char *)reader[1095].m_pointer,
+      v25,
+      v27,
+      v29);
+    reader[1095].m_pointer = 0;
+  }
+  v16 = *(char **)(a3 + 4);
+  v17 = v16 + 1;
+  v36 = *v16;
+  v18 = survarium::g_allocator;
+  *(_DWORD *)(a3 + 4) = v17;
+  LOBYTE(reader[1095].m_buffer_size) = v36;
+  v19 = type_info::raw_name(&unsigned char `RTTI Type Descriptor');
+  v20 = vostok::memory::doug_lea_allocator::malloc_impl(
+          (vostok::memory::doug_lea_allocator *)LOBYTE(reader[1095].m_buffer_size),
+          (int)v18,
+          LOBYTE(reader[1095].m_buffer_size),
+          v19,
+          v25,
+          v27,
+          v29);
+  m_buffer_size = reader[1095].m_buffer_size;
+  reader[1095].m_pointer = (const unsigned __int8 *)v20;
+  v22 = m_buffer_size;
+  if ( m_buffer_size )
+  {
+    memcpy((unsigned __int8 *)v20, *(unsigned __int8 **)(a3 + 4), m_buffer_size);
+    *(_DWORD *)(a3 + 4) += v22;
   }
   return 1;
 }

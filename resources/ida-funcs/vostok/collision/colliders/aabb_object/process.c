@@ -1,30 +1,26 @@
 void __usercall vostok::collision::colliders::aabb_object::process(
         vostok::collision::colliders::aabb_object *this@<ecx>,
-        bool a2@<bpl>,
-        vostok::collision::colliders::aabb_object *a3@<edi>)
+        __int64 a2@<esi:edi>)
 {
-  vostok::vectora<vostok::collision::object const *> *m_objects; // eax
-  unsigned int v4; // esi
-  vostok::vectora<vostok::collision::object const *> *v5; // ecx
-  unsigned int v6; // eax
+  _DWORD *v2; // eax
+  _DWORD *v3; // ecx
+  unsigned int v4; // eax
 
-  m_objects = a3->m_objects;
-  if ( m_objects )
-    v4 = m_objects->_M_impl._M_finish - m_objects->_M_impl._M_start;
+  v2 = *(_DWORD **)(a2 + 8);
+  if ( v2 )
+    HIDWORD(a2) = (v2[1] - *v2) >> 2;
   else
-    v4 = a3->m_triangles->_M_impl._M_finish - a3->m_triangles->_M_impl._M_start;
+    HIDWORD(a2) = (*(_DWORD *)(*(_DWORD *)(a2 + 12) + 4) - **(_DWORD **)(a2 + 12)) >> 3;
   vostok::collision::colliders::aabb_object::query(
-    a3,
+    (vostok::collision::colliders::aabb_object *)a2,
     a2,
-    (const stlp_std::__true_type *)a3,
-    v4,
-    a3->m_tree->m_root,
-    COERCE_FLOAT((int)&a3->m_tree->m_aabb_center),
-    a3->m_tree->m_aabb_extents);
-  v5 = a3->m_objects;
-  if ( v5 )
-    v6 = v5->_M_impl._M_finish - v5->_M_impl._M_start;
+    *(vostok::collision::oct_node **)(*(_DWORD *)(a2 + 16) + 4),
+    COERCE_FLOAT(*(_DWORD *)(a2 + 16) + 16),
+    COERCE_INT(*(float *)(*(_DWORD *)(a2 + 16) + 28)));
+  v3 = *(_DWORD **)(a2 + 8);
+  if ( v3 )
+    v4 = (v3[1] - *v3) >> 2;
   else
-    v6 = a3->m_triangles->_M_impl._M_finish - a3->m_triangles->_M_impl._M_start;
-  a3->m_result = v6 > v4;
+    v4 = (*(_DWORD *)(*(_DWORD *)(a2 + 12) + 4) - **(_DWORD **)(a2 + 12)) >> 3;
+  *(_BYTE *)(a2 + 4) = v4 > HIDWORD(a2);
 }

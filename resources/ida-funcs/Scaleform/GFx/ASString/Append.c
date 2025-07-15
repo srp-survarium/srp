@@ -7,9 +7,9 @@ void __thiscall Scaleform::GFx::ASString::Append(Scaleform::GFx::ASString *this,
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pNode->pManager,
-                 (char *)this->pNode->pData,
+                 (const __m128i *)this->pNode->pData,
                  this->pNode->Size,
-                 *(char **)str->pData,
+                 *(const __m128i **)str->pData,
                  *((Scaleform::GFx::ASStringNode **)str->pData + 5));
   ++StringNode->RefCount;
   pNode = this->pNode;
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::ASString::Append(Scaleform::GFx::ASString *this,
 
 void __thiscall Scaleform::GFx::ASString::Append(
         Scaleform::GFx::ASString *this,
-        char *str,
+        const __m128i *str,
         Scaleform::GFx::ASStringNode *len)
 {
   Scaleform::GFx::ASStringNode *StringNode; // ebx
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::ASString::Append(
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pNode->pManager,
-                 (char *)this->pNode->pData,
+                 (const __m128i *)this->pNode->pData,
                  this->pNode->Size,
                  str,
                  len);

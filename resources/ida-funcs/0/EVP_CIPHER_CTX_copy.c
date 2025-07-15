@@ -1,16 +1,16 @@
-int __usercall EVP_CIPHER_CTX_copy@<eax>(unsigned int a1@<edi>, evp_cipher_ctx_st *out, evp_cipher_ctx_st *in)
+int __usercall EVP_CIPHER_CTX_copy@<eax>(int a1@<edi>, evp_cipher_ctx_st *out, evp_cipher_ctx_st *in)
 {
   int ctx_size; // eax
   void *v5; // eax
 
   if ( in && in->cipher )
   {
-    if ( in->engine && !ENGINE_init(a1, in->engine) )
+    if ( in->engine && !ENGINE_init(a1, (int)in, in->engine) )
     {
-      ERR_put_error(6u, 163, 38, ".\\crypto\\evp\\evp_enc.c", 581);
+      ERR_put_error((int)in, 6u, 163, 38, ".\\crypto\\evp\\evp_enc.c", 581);
       return 0;
     }
-    EVP_CIPHER_CTX_cleanup(a1, out);
+    EVP_CIPHER_CTX_cleanup(a1, (int)in, out);
     qmemcpy(out, in, sizeof(evp_cipher_ctx_st));
     if ( in->cipher_data )
     {
@@ -21,10 +21,10 @@ int __usercall EVP_CIPHER_CTX_copy@<eax>(unsigned int a1@<edi>, evp_cipher_ctx_s
         out->cipher_data = v5;
         if ( !v5 )
         {
-          ERR_put_error(6u, 163, 65, ".\\crypto\\evp\\evp_enc.c", 594);
+          ERR_put_error((int)in, 6u, 163, 65, ".\\crypto\\evp\\evp_enc.c", 594);
           return 0;
         }
-        memcpy((unsigned __int8 *)v5, (unsigned __int8 *)in->cipher_data, in->cipher->ctx_size);
+        memcpy((int)v5, (const __m128i *)in->cipher_data, in->cipher->ctx_size);
       }
     }
     if ( (in->cipher->flags & 0x400) != 0 )
@@ -34,7 +34,7 @@ int __usercall EVP_CIPHER_CTX_copy@<eax>(unsigned int a1@<edi>, evp_cipher_ctx_s
   }
   else
   {
-    ERR_put_error(6u, 163, 111, ".\\crypto\\evp\\evp_enc.c", 574);
+    ERR_put_error((int)in, 6u, 163, 111, ".\\crypto\\evp\\evp_enc.c", 574);
     return 0;
   }
 }

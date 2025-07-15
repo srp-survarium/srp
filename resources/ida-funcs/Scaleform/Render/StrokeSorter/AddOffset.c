@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::StrokeSorter::AddOffset(
   Scaleform::Render::StrokeSorter::PathType *v6; // eax
   int v7; // edi
   unsigned int numVer; // ebp
-  unsigned int v9; // eax
+  unsigned int start; // eax
   int v10; // ebp
   unsigned int v11; // edx
   unsigned int v12; // eax
@@ -29,12 +29,12 @@ void __thiscall Scaleform::Render::StrokeSorter::AddOffset(
   unsigned int v26; // ebp
   unsigned int v27; // eax
   int v28; // edx
-  unsigned int i; // [esp+4h] [ebp-4h]
-  unsigned int start; // [esp+Ch] [ebp+4h]
-  unsigned int j; // [esp+10h] [ebp+8h]
+  unsigned int v29; // [esp+4h] [ebp-4h]
+  unsigned int v30; // [esp+Ch] [ebp+4h]
+  int v31; // [esp+10h] [ebp+8h]
 
   v3 = 0;
-  i = 0;
+  v29 = 0;
   if ( this->OutPaths.Size )
   {
     v4 = offsetY;
@@ -44,15 +44,15 @@ void __thiscall Scaleform::Render::StrokeSorter::AddOffset(
       v6 = this->OutPaths.Pages[v3 >> 4];
       v7 = v3 & 0xF;
       numVer = v6[v7].numVer;
-      v9 = v6[v7].start;
+      start = v6[v7].start;
       v10 = numVer & 0xFFFFFFF;
       v11 = 0;
-      start = v9;
+      v30 = start;
       if ( v10 >= 4 )
       {
-        v12 = v9 + 1;
+        v12 = start + 1;
         v13 = ((unsigned int)(v10 - 4) >> 2) + 1;
-        j = 4 * v13;
+        v31 = 4 * v13;
         do
         {
           v14 = (v12 - 1) >> 4;
@@ -78,13 +78,13 @@ void __thiscall Scaleform::Render::StrokeSorter::AddOffset(
           this->OutVertices.Pages[v23][v24].y = this->OutVertices.Pages[v23][v24].y + v4;
         }
         while ( v13 );
-        v11 = j;
-        v9 = start;
-        v3 = i;
+        v11 = v31;
+        start = v30;
+        v3 = v29;
       }
       if ( v11 < v10 )
       {
-        v25 = v11 + v9;
+        v25 = v11 + start;
         v26 = v10 - v11;
         do
         {
@@ -95,9 +95,9 @@ void __thiscall Scaleform::Render::StrokeSorter::AddOffset(
           this->OutVertices.Pages[v27][v28].y = this->OutVertices.Pages[v27][v28].y + v4;
         }
         while ( v26 );
-        v3 = i;
+        v3 = v29;
       }
-      i = ++v3;
+      v29 = ++v3;
     }
     while ( v3 < this->OutPaths.Size );
   }

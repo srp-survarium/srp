@@ -1,349 +1,109 @@
-void __thiscall survarium::game_world_ui::update_minimap_objects(
-        survarium::game_world_ui *this,
-        survarium::game_world_ui *thisa)
+void __thiscall survarium::game_world_ui::update_minimap_objects(survarium::game_world_ui *this, int a2)
 {
-  survarium::game_world_ui *v2; // esi
-  unsigned __int8 v3; // bl
-  survarium::base_network_client *m_network_client; // edi
-  survarium::flash_movie_resource *m_object; // ecx
-  survarium::player *v6; // eax
-  survarium::simple_game_project *v7; // ecx
-  survarium::simple_game_project *v8; // eax
-  survarium::simple_game_project *v9; // ecx
-  survarium::simple_game_project *v10; // eax
-  bool v11; // bl
-  survarium::victory_items_container **v12; // ebx
-  survarium::game_team_id v13; // eax
-  survarium::flash_movie_resource *v14; // ecx
-  vostok::math::float4x4 *transform; // eax
-  survarium::usable_object *v16; // ecx
-  vostok::math::float4x4 *v17; // eax
-  unsigned __int8 m_container_id; // bl
-  const char *v19; // edi
-  int v20; // ecx
-  survarium::game_world *m_game_world; // eax
-  vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *M_start; // edi
-  float x; // xmm0_4
-  survarium::victory_item *v24; // ecx
-  vostok::math::float4x4 *(__thiscall *get_transform)(survarium::victory_item_core *, vostok::math::float4x4 *); // eax
-  int v26; // eax
-  int v27; // esi
-  int v28; // ecx
-  survarium::player *v29; // eax
-  vostok::resources::unmanaged_intrusive_base *v30; // ecx
-  unsigned __int8 v31; // [esp+82h] [ebp-B6h]
-  char v32; // [esp+83h] [ebp-B5h]
-  survarium::flash_value level_object_val_prop; // [esp+84h] [ebp-B4h] BYREF
-  survarium::victory_items_container **it; // [esp+9Ch] [ebp-9Ch]
-  survarium::flash_value level_object_val; // [esp+A0h] [ebp-98h] BYREF
-  float position_x; // [esp+B8h] [ebp-80h]
-  survarium::game_team_id local_player_team; // [esp+BCh] [ebp-7Ch]
-  float position_y; // [esp+C0h] [ebp-78h]
-  vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> current_player; // [esp+C4h] [ebp-74h]
-  int v40; // [esp+C8h] [ebp-70h] BYREF
-  int v41; // [esp+CCh] [ebp-6Ch]
-  const char *v42; // [esp+D0h] [ebp-68h]
-  survarium::flash_value level_objects; // [esp+E0h] [ebp-58h] BYREF
-  vostok::math::float4x4 result; // [esp+F8h] [ebp-40h] BYREF
+  vostok::particle::particle_system_instance_impl *m_object; // edi
+  int v4; // eax
+  survarium::flash_movie *v5; // ecx
+  int v6; // eax
+  survarium::flash_value *v7; // ecx
+  _DWORD *v8; // esi
+  unsigned int *v9; // esi
+  survarium::flash_value *v10; // ecx
+  const char *v11; // edi
+  survarium::flash_value *v12; // ecx
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  survarium::flash_movie *v17; // ecx
+  survarium::flash_value *v18; // ecx
+  survarium::flash_value *v19; // ecx
+  survarium::flash_value *v20; // ecx
+  float *v21; // edi
+  survarium::flash_value *v22; // ecx
+  survarium::flash_value *v23; // ecx
+  survarium::flash_value *v24; // ecx
+  survarium::flash_value *v25; // ecx
+  Scaleform::GFx::Value pvalue; // [esp+18h] [ebp-70h] BYREF
+  Scaleform::GFx::Value v27; // [esp+30h] [ebp-58h] BYREF
+  survarium::flash_value value; // [esp+48h] [ebp-40h] BYREF
+  Scaleform::GFx::Value v29; // [esp+60h] [ebp-28h] BYREF
+  float *v30; // [esp+78h] [ebp-10h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v31; // [esp+7Ch] [ebp-Ch] BYREF
+  int v32; // [esp+80h] [ebp-8h]
+  char v33; // [esp+93h] [ebp+Bh]
+  unsigned __int8 i; // [esp+93h] [ebp+Bh]
 
-  v2 = thisa;
-  v3 = 0;
-  m_network_client = thisa->m_game_world->m_game->m_network_client;
-  local_player_team = team_1;
-  LOBYTE(it) = 0;
-  while ( !m_network_client->is_player_local(m_network_client, (const unsigned __int8)it) )
+  survarium::base_network_client::get_current_player(
+    *(survarium::base_network_client **)(*(_DWORD *)(*(_DWORD *)(a2 + 20) + 160) + 13912),
+    &v31);
+  m_object = v31.m_object;
+  if ( v31.m_object
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    LOBYTE(it) = ++v3;
-    if ( v3 >= 0x14u )
-      goto LABEL_6;
+    v32 = *(_DWORD *)(v31.m_object[88].m_is_playing + 440);
   }
-  local_player_team = m_network_client->match_options(m_network_client)->player_profiles[v3].team;
-LABEL_6:
-  m_object = thisa->m_game_hud_ui.m_object;
-  *(_DWORD *)level_objects.body = 0;
-  *(_DWORD *)&level_objects.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&level_objects);
-  *(_DWORD *)level_object_val_prop.body = 0;
-  *(_DWORD *)&level_object_val_prop.body[4] = 0;
-  v6 = m_network_client->m_current_player.m_object;
-  v31 = 0;
-  current_player.m_object = 0;
-  if ( !v6
-    || (current_player.m_object = v6,
-        _InterlockedExchangeAdd(&v6->m_reference_count, 1u),
-        v32 = 1,
-        !v6->m_inventory.m_object->m_victory_item) )
+  else
   {
     v32 = 0;
   }
-  v7 = thisa->m_game_world->m_game_project.m_object;
-  v8 = 0;
-  if ( v7 )
+  v4 = *(_DWORD *)(a2 + 8);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v4 + 264) + 4), &pvalue);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  if ( !m_object || (v33 = 1, !*(_DWORD *)(m_object->m_lods[0].m_emitter_instance_list.m_size + 380)) )
+    v33 = 0;
+  v6 = *(_DWORD *)(a2 + 8);
+  v27.pObjectInterface = 0;
+  v27.Type = VT_Undefined;
+  survarium::flash_movie::CreateObject(v5, *(survarium::flash_value **)(v6 + 264), &v27);
+  v8 = (_DWORD *)(a2 + 340);
+  if ( v32 )
+    v8 = (_DWORD *)(a2 + 352);
+  *((_DWORD *)&v29.mValue.BValue + 1) = *v8;
+  v9 = v8 + 1;
+  v29.DataAux = *v9;
+  *(&v29.DataAux + 1) = v9[1];
+  v30 = (float *)(*(&v29.DataAux + 1) ^ _mask__NegFloat_);
+  survarium::flash_value::SetUInt(v7, (int)&value, v32 + 20);
+  survarium::flash_value::SetMember(v10, &v27, "id", &value);
+  v11 = "base_highlighted";
+  if ( !v33 )
+    v11 = "base";
+  survarium::flash_value::SetString(&value, v11);
+  survarium::flash_value::SetMember(v12, &v27, "type", &value);
+  survarium::flash_value::SetNumber(v13, (int)&value, *((float *)&v29.mValue.BValue + 1));
+  survarium::flash_value::SetMember(v14, &v27, "pos_x", &value);
+  survarium::flash_value::SetNumber(v15, (int)&value, *(float *)&v30);
+  survarium::flash_value::SetMember(v16, &v27, "pos_y", &value);
+  pvalue.pObjectInterface->PushBack(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, &v27);
+  for ( i = 0; i < *(_BYTE *)(a2 + 484); ++i )
   {
-    v8 = thisa->m_game_world->m_game_project.m_object;
-    _InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-  }
-  it = (survarium::victory_items_container **)v8->m_victory_items_containers._M_impl._M_start;
-  if ( !_InterlockedExchangeAdd(&v8->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v8->vostok::resources::unmanaged_intrusive_base, v8);
-  while ( 1 )
-  {
-    v9 = thisa->m_game_world->m_game_project.m_object;
-    v10 = 0;
-    if ( v9 )
-    {
-      v10 = thisa->m_game_world->m_game_project.m_object;
-      _InterlockedExchangeAdd(&v9->m_reference_count, 1u);
-    }
-    v11 = it != (survarium::victory_items_container **)v10->m_victory_items_containers._M_impl._M_finish;
-    if ( !_InterlockedExchangeAdd(&v10->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(&v10->vostok::resources::unmanaged_intrusive_base, v10);
-    if ( !v11 )
-      break;
-    v12 = it;
-    v13 = (*it)->team(*it);
-    if ( v13 == local_player_team )
-    {
-      v14 = thisa->m_game_hud_ui.m_object;
-      *(_DWORD *)level_object_val.body = 0;
-      *(_DWORD *)&level_object_val.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(v14->movie->m_movie, (Scaleform::GFx::Value *)&level_object_val, 0, 0, 0);
-      transform = survarium::usable_object::get_transform(*v12, &result);
-      v16 = *v12;
-      position_x = transform->c.x;
-      v17 = survarium::usable_object::get_transform(v16, &result);
-      m_container_id = (*v12)->m_container_id;
-      position_y = -v17->c.z;
-      if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-          *(_DWORD *)level_object_val_prop.body,
-          &level_object_val_prop,
-          *(_DWORD *)&level_object_val_prop.body[8]);
-        *(_DWORD *)level_object_val_prop.body = 0;
-      }
-      *(_DWORD *)&level_object_val_prop.body[8] = m_container_id;
-      *(_DWORD *)&level_object_val_prop.body[4] = 4;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                           + 20))(
-        *(_DWORD *)level_object_val.body,
-        *(_DWORD *)&level_object_val.body[8],
-        "id",
-        &level_object_val_prop,
-        (level_object_val.body[4] & 0x8F) == 10);
-      v19 = "base_highlighted";
-      if ( !v32 )
-        v19 = "base";
-      v20 = 0;
-      v40 = 0;
-      v41 = 6;
-      v42 = v19;
-      if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-          *(_DWORD *)level_object_val_prop.body,
-          &level_object_val_prop,
-          *(_DWORD *)&level_object_val_prop.body[8]);
-        v20 = v40;
-        *(_DWORD *)level_object_val_prop.body = 0;
-      }
-      *(_DWORD *)&level_object_val_prop.body[4] = 6;
-      *(_DWORD *)&level_object_val_prop.body[8] = v19;
-      if ( (v41 & 0x40) != 0 )
-        (*(void (__thiscall **)(int, int *, const char *))(*(_DWORD *)v20 + 8))(v20, &v40, v42);
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                           + 20))(
-        *(_DWORD *)level_object_val.body,
-        *(_DWORD *)&level_object_val.body[8],
-        "type",
-        &level_object_val_prop,
-        (level_object_val.body[4] & 0x8F) == 10);
-      if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-          *(_DWORD *)level_object_val_prop.body,
-          &level_object_val_prop,
-          *(_DWORD *)&level_object_val_prop.body[8]);
-        *(_DWORD *)level_object_val_prop.body = 0;
-      }
-      *(_DWORD *)&level_object_val_prop.body[4] = 5;
-      *(double *)&level_object_val_prop.body[8] = position_x;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                           + 20))(
-        *(_DWORD *)level_object_val.body,
-        *(_DWORD *)&level_object_val.body[8],
-        "pos_x",
-        &level_object_val_prop,
-        (level_object_val.body[4] & 0x8F) == 10);
-      if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-          *(_DWORD *)level_object_val_prop.body,
-          &level_object_val_prop,
-          *(_DWORD *)&level_object_val_prop.body[8]);
-        *(_DWORD *)level_object_val_prop.body = 0;
-      }
-      *(_DWORD *)&level_object_val_prop.body[4] = 5;
-      *(double *)&level_object_val_prop.body[8] = position_y;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                           + 20))(
-        *(_DWORD *)level_object_val.body,
-        *(_DWORD *)&level_object_val.body[8],
-        "pos_y",
-        &level_object_val_prop,
-        (level_object_val.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)level_objects.body + 60))(
-        *(_DWORD *)level_objects.body,
-        *(_DWORD *)&level_objects.body[8],
-        &level_object_val);
-      ++v31;
-      if ( (level_object_val.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val.body + 8))(
-          *(_DWORD *)level_object_val.body,
-          &level_object_val,
-          *(_DWORD *)&level_object_val.body[8]);
-      v12 = it;
-    }
-    it = v12 + 1;
-  }
-  m_game_world = thisa->m_game_world;
-  M_start = m_game_world->m_victory_items._M_impl._M_start;
-  if ( M_start != m_game_world->m_victory_items._M_impl._M_finish )
-  {
-    do
-    {
-      if ( M_start->m_object->m_spoted_to_team == local_player_team )
-      {
-        *(_DWORD *)level_object_val.body = 0;
-        *(_DWORD *)&level_object_val.body[4] = 0;
-        Scaleform::GFx::Movie::CreateObject(
-          v2->m_game_hud_ui.m_object->movie->m_movie,
-          (Scaleform::GFx::Value *)&level_object_val,
-          0,
-          0,
-          0);
-        x = M_start->m_object->get_transform(M_start->m_object, &result)->c.x;
-        v24 = M_start->m_object;
-        get_transform = M_start->m_object->get_transform;
-        position_y = x;
-        v26 = (int)get_transform(v24, &result);
-        v27 = v31 + M_start->m_object->id;
-        position_x = -*(float *)(v26 + 56);
-        if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-            *(_DWORD *)level_object_val_prop.body,
-            &level_object_val_prop,
-            *(_DWORD *)&level_object_val_prop.body[8]);
-          *(_DWORD *)level_object_val_prop.body = 0;
-        }
-        *(_DWORD *)&level_object_val_prop.body[4] = 4;
-        *(_DWORD *)&level_object_val_prop.body[8] = v27;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                             + 20))(
-          *(_DWORD *)level_object_val.body,
-          *(_DWORD *)&level_object_val.body[8],
-          "id",
-          &level_object_val_prop,
-          (level_object_val.body[4] & 0x8F) == 10);
-        v28 = 0;
-        v40 = 0;
-        v41 = 6;
-        v42 = "artifact";
-        if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-            *(_DWORD *)level_object_val_prop.body,
-            &level_object_val_prop,
-            *(_DWORD *)&level_object_val_prop.body[8]);
-          v28 = v40;
-          *(_DWORD *)level_object_val_prop.body = 0;
-        }
-        *(_DWORD *)&level_object_val_prop.body[4] = 6;
-        *(_DWORD *)&level_object_val_prop.body[8] = "artifact";
-        if ( (v41 & 0x40) != 0 )
-          (*(void (__thiscall **)(int, int *, const char *))(*(_DWORD *)v28 + 8))(v28, &v40, v42);
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                             + 20))(
-          *(_DWORD *)level_object_val.body,
-          *(_DWORD *)&level_object_val.body[8],
-          "type",
-          &level_object_val_prop,
-          (level_object_val.body[4] & 0x8F) == 10);
-        if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-            *(_DWORD *)level_object_val_prop.body,
-            &level_object_val_prop,
-            *(_DWORD *)&level_object_val_prop.body[8]);
-          *(_DWORD *)level_object_val_prop.body = 0;
-        }
-        *(_DWORD *)&level_object_val_prop.body[4] = 5;
-        *(double *)&level_object_val_prop.body[8] = position_y;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                             + 20))(
-          *(_DWORD *)level_object_val.body,
-          *(_DWORD *)&level_object_val.body[8],
-          "pos_x",
-          &level_object_val_prop,
-          (level_object_val.body[4] & 0x8F) == 10);
-        if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-            *(_DWORD *)level_object_val_prop.body,
-            &level_object_val_prop,
-            *(_DWORD *)&level_object_val_prop.body[8]);
-          *(_DWORD *)level_object_val_prop.body = 0;
-        }
-        *(_DWORD *)&level_object_val_prop.body[4] = 5;
-        *(double *)&level_object_val_prop.body[8] = position_x;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)level_object_val.body
-                                                                                             + 20))(
-          *(_DWORD *)level_object_val.body,
-          *(_DWORD *)&level_object_val.body[8],
-          "pos_y",
-          &level_object_val_prop,
-          (level_object_val.body[4] & 0x8F) == 10);
-        (*(void (__thiscall **)(_DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)level_objects.body + 60))(
-          *(_DWORD *)level_objects.body,
-          *(_DWORD *)&level_objects.body[8],
-          &level_object_val);
-        if ( (level_object_val.body[4] & 0x40) != 0 )
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val.body + 8))(
-            *(_DWORD *)level_object_val.body,
-            &level_object_val,
-            *(_DWORD *)&level_object_val.body[8]);
-        v2 = thisa;
-      }
-      ++M_start;
-    }
-    while ( M_start != v2->m_game_world->m_victory_items._M_impl._M_finish );
+    v29.pObjectInterface = 0;
+    v29.Type = VT_Undefined;
+    v30 = (float *)(12 * i + a2 + 364);
+    survarium::flash_movie::CreateObject(v17, *(survarium::flash_value **)(*(_DWORD *)(a2 + 8) + 264), &v29);
+    survarium::flash_value::SetUInt(v18, (int)&value, i + 22);
+    survarium::flash_value::SetMember(v19, &v29, "id", &value);
+    survarium::flash_value::SetString(&value, "artifact");
+    survarium::flash_value::SetMember(v20, &v29, "type", &value);
+    v21 = v30;
+    survarium::flash_value::SetNumber(v22, (int)&value, *v30);
+    survarium::flash_value::SetMember(v23, &v29, "pos_x", &value);
+    survarium::flash_value::SetNumber(v24, (int)&value, COERCE_FLOAT(*((_DWORD *)v21 + 2) ^ _mask__NegFloat_));
+    survarium::flash_value::SetMember(v25, &v29, "pos_y", &value);
+    pvalue.pObjectInterface->PushBack(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, &v29);
+    Scaleform::GFx::Value::~Value(&v29);
   }
   Scaleform::GFx::Movie::Invoke(
-    v2->m_game_hud_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 8) + 264) + 4),
     "root.update_objects",
     0,
-    (const Scaleform::GFx::Value *)&level_objects,
+    &pvalue,
     1u);
-  v29 = current_player.m_object;
-  if ( current_player.m_object )
-  {
-    v30 = &current_player.m_object->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&current_player.m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v30, &v29->vostok::resources::unmanaged_resource);
-  }
-  if ( (level_object_val_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_object_val_prop.body + 8))(
-      *(_DWORD *)level_object_val_prop.body,
-      &level_object_val_prop,
-      *(_DWORD *)&level_object_val_prop.body[8]);
-    *(_DWORD *)level_object_val_prop.body = 0;
-  }
-  *(_DWORD *)&level_object_val_prop.body[4] = 0;
-  if ( (level_objects.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)level_objects.body + 8))(
-      *(_DWORD *)level_objects.body,
-      &level_objects,
-      *(_DWORD *)&level_objects.body[8]);
+  Scaleform::GFx::Value::~Value(&v27);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v31);
 }

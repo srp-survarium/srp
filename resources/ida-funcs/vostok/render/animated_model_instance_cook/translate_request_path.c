@@ -5,6 +5,7 @@ void __thiscall vostok::render::animated_model_instance_cook::translate_request_
 {
   vostok::fs_new::path_string_impl::assignf(
     new_request,
-    "resources/animated_model_instances/render_animated_models/%s.render_model",
+    (vostok::buffer_string *)this,
+    (vostok::buffer_string *)"resources/animated_model_instances/render_animated_models/%s.render_model",
     request);
 }

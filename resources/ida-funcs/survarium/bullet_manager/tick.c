@@ -1,67 +1,154 @@
-void __thiscall survarium::bullet_manager::tick(survarium::bullet_manager *this, unsigned int current_time_in_ms)
+void __thiscall survarium::bullet_manager::tick(
+        survarium::bullet_manager *this,
+        survarium::redundant_bullet_predicate current_time_in_ms,
+        unsigned int current_time_in_msa)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::bullet_manager *thisb; // [esp+0h] [ebp-1F0h]
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > v5; // [esp+180h] [ebp-70h]
-  vostok::ai::planning::action_parameter **begin; // [esp+198h] [ebp-58h] BYREF
-  vostok::ai::planning::action_parameter **end; // [esp+19Ch] [ebp-54h] BYREF
-  char v8; // [esp+1A3h] [ebp-4Dh]
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > result; // [esp+1A4h] [ebp-4Ch] BYREF
-  boost::function0<void> v10; // [esp+1B8h] [ebp-38h] BYREF
-  survarium::bullet_manager::bullet_functor *functor; // [esp+1D8h] [ebp-18h] BYREF
-  unsigned int i; // [esp+1DCh] [ebp-14h]
-  unsigned int granularity; // [esp+1E0h] [ebp-10h]
-  unsigned int start_index; // [esp+1E4h] [ebp-Ch]
-  unsigned int n; // [esp+1E8h] [ebp-8h]
-  unsigned int bullets_count; // [esp+1ECh] [ebp-4h]
+  unsigned int v3; // edx
+  vostok::buffer_vector<vostok::render::ambient_light *> *p_m_bullets; // esi
+  unsigned int v5; // eax
+  unsigned int v6; // ecx
+  vostok::render::ambient_light **v7; // eax
+  bool ListenerStatus; // al
+  vostok::tasks::task_manager *v9; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  bool v11; // zf
+  vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76> *v12; // ecx
+  boost::function0<bool> *v13; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v14; // ecx
+  vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76> *v15; // ecx
+  vostok::render::ambient_light **v16; // edi
+  survarium::bullet **m_begin; // eax
+  vostok::render::ambient_light **v18; // eax
+  survarium::bullet **v19; // ebx
+  _DWORD *p_vtable; // ecx
+  survarium::bullet_manager::bullet_functor *value; // [esp+Ch] [ebp-6Ch]
+  survarium::bullet_manager::bullet_functor *valuea; // [esp+Ch] [ebp-6Ch]
+  survarium::bullet_manager::bullet_functor *valueb; // [esp+Ch] [ebp-6Ch]
+  unsigned int v24; // [esp+14h] [ebp-64h]
+  vostok::render::ambient_light **end; // [esp+18h] [ebp-60h] BYREF
+  vostok::render::ambient_light **begin; // [esp+1Ch] [ebp-5Ch] BYREF
+  survarium::bullet_manager *bullet_manager; // [esp+20h] [ebp-58h]
+  vostok::render::ambient_light **v28; // [esp+24h] [ebp-54h]
+  vostok::render::ambient_light **v29; // [esp+28h] [ebp-50h]
+  unsigned int v30; // [esp+2Ch] [ebp-4Ch]
+  _DWORD v31[5]; // [esp+30h] [ebp-48h] BYREF
+  _BYTE v32[20]; // [esp+44h] [ebp-34h] BYREF
+  int v33[2]; // [esp+58h] [ebp-20h] BYREF
+  _BYTE v34[20]; // [esp+60h] [ebp-18h] BYREF
 
-  bullets_count = this->m_bullets.m_end - this->m_bullets.m_begin;
-  if ( bullets_count )
+  v3 = current_time_in_msa;
+  p_m_bullets = (vostok::buffer_vector<vostok::render::ambient_light *> *)&current_time_in_ms.bullet_manager->m_bullets;
+  current_time_in_ms.bullet_manager->m_current_time_in_ms = current_time_in_msa;
+  v5 = current_time_in_ms.bullet_manager->m_bullets.m_end - current_time_in_ms.bullet_manager->m_bullets.m_begin;
+  v24 = v5;
+  if ( v5 )
   {
-    granularity = 256;
-    n = bullets_count >> 8;
-    if ( bullets_count >= 0x100 )
+    v6 = v5 >> 8;
+    begin = (vostok::render::ambient_light **)(v5 >> 8);
+    if ( v5 >= 0x100 && v6 )
     {
-      for ( i = 0; i < n; ++i )
+      bullet_manager = current_time_in_ms.bullet_manager;
+      v30 = current_time_in_msa;
+      v7 = 0;
+      value = (survarium::bullet_manager::bullet_functor *)v6;
+      do
       {
-        v5 = *boost::bind<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int,survarium::bullet_manager *,unsigned int,unsigned int,unsigned int>(
-                &result,
-                survarium::bullet_manager::tick_bullets,
-                this,
-                16 * i,
-                16 * (i + 1),
-                current_time_in_ms);
-        boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-          (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v5.l_.a3_.t_,
-          &v10);
-        boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>>(
-          &v10,
-          v5);
-        vostok::tasks::spawn_task((const boost::function<void __cdecl(void)> *)&v10, this->m_task_type, 0);
-        boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&v10);
+        v28 = v7;
+        v29 = v7 + 4;
+        v31[0] = survarium::bullet_manager::tick_bullets;
+        v31[1] = bullet_manager;
+        v31[2] = v7;
+        v31[3] = v7 + 4;
+        end = v7 + 4;
+        v31[4] = v30;
+        qmemcpy(v32, v31, sizeof(v32));
+        ListenerStatus = Scaleform::Render::RenderEvent::GetListenerStatus(0);
+        v9 = (vostok::tasks::task_manager *)v32;
+        if ( ListenerStatus )
+        {
+          v33[0] = 0;
+        }
+        else
+        {
+          qmemcpy(v34, v32, sizeof(v34));
+          v9 = 0;
+          v33[0] = (int)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>>>>'::`2'::stored_vtable
+                 + 1;
+        }
+        vostok::tasks::task_manager::spawn_task(
+          v9,
+          (vostok::tasks::task *)v33,
+          (boost::function<void __cdecl(void)> *)current_time_in_ms.bullet_manager->m_task_type,
+          0);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v10,
+          v33);
+        v11 = value == (survarium::bullet_manager::bullet_functor *)1;
+        value = (survarium::bullet_manager::bullet_functor *)((char *)value - 1);
+        v7 = end;
+      }
+      while ( !v11 );
+      v3 = current_time_in_msa;
+      LOBYTE(v5) = v24;
+      v6 = (unsigned int)begin;
+      p_m_bullets = (vostok::buffer_vector<vostok::render::ambient_light *> *)&current_time_in_ms.bullet_manager->m_bullets;
+    }
+    survarium::bullet_manager::tick_bullets(
+      current_time_in_ms.bullet_manager,
+      v6 << 8,
+      (v6 << 8) + (unsigned __int8)v5,
+      v3);
+    if ( v24 >= 0x100 )
+      vostok::tasks::wait_for_all_children();
+    while ( current_time_in_ms.bullet_manager->m_functors.m_top.m_pointer )
+    {
+      valuea = vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76>::try_pop(
+                 v12,
+                 &current_time_in_ms.bullet_manager->m_functors.m_top.whole);
+      boost::function0<void>::operator()(v13, valuea);
+      if ( valuea )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&valuea->resource);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v14,
+          (int *)valuea);
+        vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76>::push(
+          v15,
+          (int)&current_time_in_ms.bullet_manager->m_mt_stack_allocator,
+          valuea);
+        p_m_bullets = (vostok::buffer_vector<vostok::render::ambient_light *> *)&current_time_in_ms.bullet_manager->m_bullets;
       }
     }
-    start_index = n << 8;
-    survarium::bullet_manager::tick_bullets(this, n << 8, (n << 8) + bullets_count % 0x100, current_time_in_ms);
-    vostok::tasks::wait_for_all_children((vostok::tasks *)this);
-    while ( thisb->m_functors.m_top.m_pointer )
+    m_begin = (survarium::bullet **)p_m_bullets->m_begin;
+    end = (vostok::render::ambient_light **)current_time_in_ms.bullet_manager->m_bullets.m_end;
+    v16 = end;
+    v18 = (vostok::render::ambient_light **)stlp_std::priv::__find_if<survarium::bullet * *,survarium::redundant_bullet_predicate>(
+                                              m_begin,
+                                              (survarium::bullet **)end,
+                                              current_time_in_ms);
+    if ( v18 != end )
     {
-      functor = vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,72>::try_pop(&thisb->m_functors);
-      v8 = 0;
-      survarium::weapon_user_dead_state::finalize(v2);
-      boost::function0<void>::operator()(&functor->functor);
-      vostok::memory::detail::delete_helper_impl<survarium::bullet_manager::bullet_functor_mt_allocator,survarium::bullet_manager::bullet_functor,vostok::memory::detail::call_destructor_predicate>(
-        &thisb->m_mt_stack_allocator,
-        (boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> **)&functor);
+      begin = (vostok::render::ambient_light **)current_time_in_ms.bullet_manager;
+      v19 = (survarium::bullet **)(v18 + 1);
+      valueb = (survarium::bullet_manager::bullet_functor *)v18;
+      if ( v18 + 1 != end )
+      {
+        do
+        {
+          if ( !survarium::redundant_bullet_predicate::operator()(*v19, (survarium::redundant_bullet_predicate *)&begin) )
+          {
+            p_vtable = &valueb->functor.vtable;
+            valueb = (survarium::bullet_manager::bullet_functor *)((char *)valueb + 4);
+            *p_vtable = *v19;
+          }
+          ++v19;
+        }
+        while ( v19 != (survarium::bullet **)v16 );
+        p_m_bullets = (vostok::buffer_vector<vostok::render::ambient_light *> *)&current_time_in_ms.bullet_manager->m_bullets;
+      }
+      v18 = (vostok::render::ambient_light **)valueb;
     }
-    end = (vostok::ai::planning::action_parameter **)thisb->m_bullets.m_end;
-    begin = (vostok::ai::planning::action_parameter **)stlp_std::remove_if<survarium::bullet * *,survarium::redundant_bullet_predicate>(
-                                                         thisb->m_bullets.m_begin,
-                                                         thisb->m_bullets.m_end,
-                                                         (survarium::redundant_bullet_predicate)thisb);
-    vostok::buffer_vector<vostok::ai::planning::action_parameter *>::erase(
-      (vostok::buffer_vector<vostok::ai::planning::action_parameter *> *)thisb,
-      &begin,
-      &end);
+    begin = v18;
+    vostok::buffer_vector<vostok::particle::render_particle_emitter_instance *>::erase(p_m_bullets, &begin, &end);
   }
 }

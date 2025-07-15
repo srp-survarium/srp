@@ -4,10 +4,11 @@ void __thiscall vostok::render::statistics_cpu_gpu::print(
 {
   vostok::fs_new::path_string_impl::assignf(
     out_result,
-    "%s: CPU:%.4f(%.4f..%.4f), GPU:%.4f",
+    (vostok::buffer_string *)this,
+    (vostok::buffer_string *)"%s: CPU:%.4f(%.4f..%.4f), GPU:%.4f",
     this->m_name.m_begin,
-    (double)this->cpu_time.value,
-    (double)this->cpu_time.min_value,
-    (double)this->cpu_time.max_value,
-    (double)this->gpu_time.value);
+    this->cpu_time.value,
+    this->cpu_time.min_value,
+    this->cpu_time.max_value,
+    this->gpu_time.value);
 }

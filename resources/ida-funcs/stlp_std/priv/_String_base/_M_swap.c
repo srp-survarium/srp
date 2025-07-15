@@ -79,7 +79,7 @@ void __thiscall stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t
   wchar_t *M_end_of_storage; // eax
   wchar_t *v10; // eax
   wchar_t *v11; // eax
-  wchar_t *__tmp_end_data; // [esp+Ch] [ebp+4h]
+  stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers *__b; // [esp+Ch] [ebp+4h]
 
   if ( (stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> > *)this->_M_start_of_storage._M_data == this )
   {
@@ -108,12 +108,12 @@ LABEL_4:
     {
       v5 = this->_M_start_of_storage._M_data;
       M_finish = this->_M_finish;
-      __tmp_end_data = this->_M_buffers._M_end_of_storage;
+      __b = (stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers *)this->_M_buffers._M_end_of_storage;
       qmemcpy(this, __s, 0x20u);
       __s->_M_start_of_storage._M_data = v5;
       this->_M_start_of_storage._M_data = (wchar_t *)this;
       this->_M_finish = (wchar_t *)((char *)this + 2 * (((char *)__s->_M_finish - (char *)__s) >> 1));
-      __s->_M_buffers._M_end_of_storage = __tmp_end_data;
+      __s->_M_buffers._M_end_of_storage = (wchar_t *)__b;
       __s->_M_start_of_storage._M_data = v5;
       __s->_M_finish = M_finish;
     }

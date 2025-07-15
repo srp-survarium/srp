@@ -8,7 +8,7 @@ void __thiscall btGImpactCollisionAlgorithm::processCollision(
   btPersistentManifold *m_manifoldPtr; // eax
   btCollisionAlgorithm *m_convex_algorithm; // ecx
   btGImpactMeshShapePart *m_collisionShape; // eax
-  btStaticPlaneShape *v9; // edx
+  btGImpactShapeInterface *v9; // ecx
 
   m_manifoldPtr = this->m_manifoldPtr;
   if ( m_manifoldPtr )
@@ -29,10 +29,10 @@ void __thiscall btGImpactCollisionAlgorithm::processCollision(
   this->m_part0 = -1;
   this->m_triface1 = -1;
   this->m_part1 = -1;
-  this->m_dispatchInfo = dispatchInfo;
   this->m_resultOut = resultOut;
+  this->m_dispatchInfo = dispatchInfo;
   m_collisionShape = (btGImpactMeshShapePart *)body0->m_collisionShape;
-  v9 = (btStaticPlaneShape *)body1->m_collisionShape;
+  v9 = (btGImpactShapeInterface *)body1->m_collisionShape;
   if ( m_collisionShape->m_shapeType == 25 )
   {
     if ( v9->m_shapeType == 25 )
@@ -41,18 +41,12 @@ void __thiscall btGImpactCollisionAlgorithm::processCollision(
         body0,
         body1,
         m_collisionShape,
-        (btGImpactMeshShapePart *)body1->m_collisionShape);
+        (btGImpactShapeInterface *)body1->m_collisionShape);
     else
-      btGImpactCollisionAlgorithm::gimpact_vs_shape(this, body0, body1, m_collisionShape, v9, 0);
+      btGImpactCollisionAlgorithm::gimpact_vs_shape(this, body0, body1, (btStaticPlaneShape *)m_collisionShape, v9, 0);
   }
   else if ( v9->m_shapeType == 25 )
   {
-    btGImpactCollisionAlgorithm::gimpact_vs_shape(
-      this,
-      body1,
-      body0,
-      (btGImpactMeshShapePart *)v9,
-      (btStaticPlaneShape *)m_collisionShape,
-      1);
+    btGImpactCollisionAlgorithm::gimpact_vs_shape(this, body1, body0, (btStaticPlaneShape *)v9, m_collisionShape, 1);
   }
 }

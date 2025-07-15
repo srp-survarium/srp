@@ -2,6 +2,6 @@ Scaleform::String *__thiscall Scaleform::GFx::AS3::AvmLoader::GetASClassName(
         Scaleform::GFx::AS3::AvmLoader *this,
         Scaleform::String *className)
 {
-  Scaleform::String::operator=(className, "flash.display.Loader");
+  Scaleform::String::operator=(className, (const __m128i *)"flash.display.Loader");
   return className;
 }

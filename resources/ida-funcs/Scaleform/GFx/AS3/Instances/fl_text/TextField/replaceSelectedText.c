@@ -33,13 +33,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::replaceSelec
     if ( Length >= 0x400 )
     {
       v9 = (wchar_t *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 2 * Length + 2, 0);
-      Scaleform::UTF8Util::DecodeString(v9, value->pNode->pData, -1);
+      Scaleform::UTF8Util::DecodeString(v9, (char *)value->pNode->pData, -1);
       Scaleform::GFx::TextField::ReplaceTextA(pObject, v9, GetCompositionString, endPos, 0xFFFFFFFF);
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
     }
     else
     {
-      Scaleform::UTF8Util::DecodeString(buf, value->pNode->pData, -1);
+      Scaleform::UTF8Util::DecodeString(buf, (char *)value->pNode->pData, -1);
       Scaleform::GFx::TextField::ReplaceTextA(pObject, buf, GetCompositionString, endPos, 0xFFFFFFFF);
     }
     Scaleform::GFx::Text::EditorKit::SetCursorPos(

@@ -9,7 +9,9 @@ Scaleform::Render::FilterPrimitive *__thiscall Scaleform::Render::FilterPrimitiv
 }
 
 
-void *__thiscall Scaleform::Render::FilterPrimitive::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::FilterPrimitive *__thiscall Scaleform::Render::FilterPrimitive::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::FilterPrimitive::`vector deleting destructor'(
            (Scaleform::Render::FilterPrimitive *)(this - 8),

@@ -3,7 +3,7 @@ Scaleform::Render::TreeCacheNode *__usercall Scaleform::Render::TreeCacheShapeLa
         Scaleform::Render::TreeCacheNode *pparent,
         Scaleform::Render::ShapeMeshProvider *provider,
         unsigned int drawLayer,
-        unsigned int flags,
+        __int16 flags,
         Scaleform::Render::TreeShape *shapeNode,
         Scaleform::Render::TreeShape *morphRatio)
 {
@@ -12,19 +12,19 @@ Scaleform::Render::TreeCacheNode *__usercall Scaleform::Render::TreeCacheShapeLa
   int v9; // esi
   int v11; // ecx
   int v12; // eax
-  Scaleform::Ptr<Scaleform::Render::Image> gradient; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::Ptr<Scaleform::Render::Image> v13; // [esp+10h] [ebp-10h] BYREF
   int v14; // [esp+14h] [ebp-Ch] BYREF
-  Scaleform::Render::SortKey key; // [esp+18h] [ebp-8h] BYREF
+  Scaleform::Render::SortKey v15; // [esp+18h] [ebp-8h] BYREF
   void *retaddr; // [esp+20h] [ebp+0h]
 
-  gradient.pObject = 0;
+  v13.pObject = 0;
   Scaleform::Render::TreeCacheShapeLayer::CreateSortKey(
-    &key,
+    &v15,
     pparent,
     provider,
     drawLayer,
     flags,
-    &gradient,
+    &v13,
     *(float *)&morphRatio);
   v14 = 74;
   v7 = (Scaleform::Render::TreeCacheShapeLayer *)((int (__thiscall *)(Scaleform::MemoryHeap *, Scaleform::Render::TreeCacheNode *, int, int *, int))Scaleform::Memory::pGlobalHeap->AllocAutoHeap)(
@@ -37,7 +37,7 @@ Scaleform::Render::TreeCacheNode *__usercall Scaleform::Render::TreeCacheShapeLa
     && (Scaleform::Render::TreeCacheShapeLayer::TreeCacheShapeLayer(
           v7,
           morphRatio,
-          (const Scaleform::Render::SortKey *)&key.Data,
+          (const Scaleform::Render::SortKey *)&v15.Data,
           drawLayer,
           pparent->pRenderer2D,
           flags),
@@ -56,16 +56,16 @@ Scaleform::Render::TreeCacheNode *__usercall Scaleform::Render::TreeCacheShapeLa
       v11 = v14;
     }
     *(_DWORD *)(v9 + 132) = v11;
-    (*(void (__thiscall **)(void *, void *))(*(_DWORD *)key.Data + 8))(key.Data, retaddr);
-    if ( gradient.pObject )
-      gradient.pObject->Release(gradient.pObject);
+    (*(void (__thiscall **)(void *, void *))(*(_DWORD *)v15.Data + 8))(v15.Data, retaddr);
+    if ( v13.pObject )
+      v13.pObject->Release(v13.pObject);
     return (Scaleform::Render::TreeCacheNode *)v9;
   }
   else
   {
-    (*(void (__thiscall **)(void *, void *))(*(_DWORD *)key.Data + 8))(key.Data, retaddr);
-    if ( gradient.pObject )
-      gradient.pObject->Release(gradient.pObject);
+    (*(void (__thiscall **)(void *, void *))(*(_DWORD *)v15.Data + 8))(v15.Data, retaddr);
+    if ( v13.pObject )
+      v13.pObject->Release(v13.pObject);
     return 0;
   }
 }

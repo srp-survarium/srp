@@ -1,79 +1,62 @@
-int __cdecl boost::asio::detail::socket_ops::getpeername(
-        SOCKET s,
+int __usercall boost::asio::detail::socket_ops::getpeername@<eax>(
+        unsigned int *addrlen@<ecx>,
+        boost::system::error_code *ec@<eax>,
+        unsigned int s,
         sockaddr *addr,
-        unsigned int *addrlen,
-        bool cached,
-        boost::system::error_code *ec)
+        bool cached)
 {
-  const boost::system::error_category *v5; // eax
-  const boost::system::error_category *v7; // eax
-  const boost::system::error_category *v8; // eax
-  const boost::system::error_category *v9; // eax
-  const boost::system::error_category *v10; // [esp+4h] [ebp-A4h]
-  int v11; // [esp+10h] [ebp-98h]
-  int namelen[30]; // [esp+14h] [ebp-94h] BYREF
-  int v13; // [esp+8Ch] [ebp-1Ch]
-  const boost::system::error_category *v14; // [esp+90h] [ebp-18h]
-  const boost::system::error_category *v15; // [esp+98h] [ebp-10h]
-  unsigned int connect_time; // [esp+9Ch] [ebp-Ch] BYREF
-  unsigned int connect_time_len; // [esp+A0h] [ebp-8h] BYREF
-  int result; // [esp+A4h] [ebp-4h]
+  int v5; // ebx
+  int v8; // edi
+  int v10; // eax
+  const boost::system::error_category *v11; // eax
+  int v12; // [esp+0h] [ebp-14h]
+  int v13; // [esp+4h] [ebp-10h]
+  unsigned int v14; // [esp+Ch] [ebp-8h] BYREF
+  unsigned int v15; // [esp+10h] [ebp-4h] BYREF
 
+  v5 = -1;
   if ( s == -1 )
   {
-    v5 = boost::system::system_category();
-    namelen[27] = (int)v5;
-    namelen[28] = 10009;
-    namelen[29] = (int)v5;
-    ec->m_val = 10009;
-    ec->m_cat = v5;
-    return -1;
+    v8 = 10009;
+LABEL_10:
+    v11 = boost::system::system_category();
+    ec->m_val = v8;
+    ec->m_cat = v11;
+    return v5;
   }
-  else if ( cached )
+  if ( cached )
   {
-    connect_time = 0;
-    connect_time_len = 4;
-    if ( boost::asio::detail::socket_ops::getsockopt(s, 0, 0xFFFF, 28684, (char *)&connect_time, &connect_time_len, ec) == -1 )
+    v15 = 0;
+    v14 = 4;
+    if ( boost::asio::detail::socket_ops::getsockopt(&v14, ec, s, 28684, (int)&v15) != -1 )
     {
-      return -1;
-    }
-    else if ( connect_time == -1 )
-    {
-      v7 = boost::system::system_category();
-      namelen[1] = (int)v7;
-      namelen[2] = 10057;
-      namelen[3] = (int)v7;
-      ec->m_val = 10057;
-      ec->m_cat = v7;
-      return -1;
-    }
-    else
-    {
-      v8 = boost::system::system_category();
-      v15 = v8;
-      ec->m_val = 0;
-      ec->m_cat = v8;
-      return 0;
+      if ( v15 != -1 )
+      {
+        ec->m_cat = boost::system::system_category();
+        ec->m_val = 0;
+        return 0;
+      }
+      v8 = 10057;
+      goto LABEL_10;
     }
   }
   else
   {
     WSASetLastError(0);
-    namelen[0] = *addrlen;
-    v11 = getpeername(s, addr, namelen);
-    *addrlen = namelen[0];
-    v10 = boost::system::system_category();
-    ec->m_val = WSAGetLastError();
-    ec->m_cat = v10;
-    result = v11;
-    if ( !v11 )
+    v15 = *addrlen;
+    v10 = ((int (__stdcall *)(unsigned int, sockaddr *, unsigned int *, int, int))(&off_8E3A98 + 15))(
+            s,
+            addr,
+            &v15,
+            v12,
+            v13);
+    *addrlen = v15;
+    v5 = boost::asio::detail::socket_ops::error_wrapper<int>(ec, v10);
+    if ( !v5 )
     {
-      v13 = 0;
-      v9 = boost::system::system_category();
-      v14 = v9;
-      ec->m_val = v13;
-      ec->m_cat = v9;
+      v8 = 0;
+      goto LABEL_10;
     }
-    return result;
   }
+  return v5;
 }

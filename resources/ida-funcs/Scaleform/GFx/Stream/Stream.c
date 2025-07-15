@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::Stream::Stream(
         Scaleform::GFx::ParseControl *pparseControl)
 {
   Scaleform::StringDH *p_FileName; // edi
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   unsigned int ParseFlags; // eax
   unsigned int BufferSize; // eax
 
@@ -36,9 +36,9 @@ void __thiscall Scaleform::GFx::Stream::Stream(
     this->BufferSize = bufSize;
   else
     this->BufferSize = 0;
-  pObject = this->pInput.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pInput.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pInput.pObject = 0;
   this->pLog = plog;
   this->pParseControl = pparseControl;

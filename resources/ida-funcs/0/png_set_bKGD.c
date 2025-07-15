@@ -1,4 +1,4 @@
-int __cdecl png_set_bKGD(int a1, int a2, unsigned __int8 *src)
+int __cdecl png_set_bKGD(int a1, int a2, const __m128i *src)
 {
   int result; // eax
 
@@ -6,7 +6,7 @@ int __cdecl png_set_bKGD(int a1, int a2, unsigned __int8 *src)
   {
     if ( a2 )
     {
-      memcpy((unsigned __int8 *)(a2 + 90), src, 0xAu);
+      memcpy(a2 + 90, src, 0xAu);
       result = *(_DWORD *)(a2 + 8) | 0x20;
       *(_DWORD *)(a2 + 8) = result;
     }

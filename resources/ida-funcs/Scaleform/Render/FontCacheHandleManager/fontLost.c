@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::FontCacheHandleManager::fontLost(
   if ( pFontHandle )
   {
     pFontHandle->pPrev->pNext = pFontHandle->pNext;
-    pFontHandle->pNext->Scaleform::ListNode<Scaleform::Render::FontCacheHandle>::$FB676B2DD387CD239CA1C56099119648::pPrev = pFontHandle->pPrev;
+    pFontHandle->pNext->Scaleform::ListNode<Scaleform::Render::FontCacheHandle>::$23F765397AA6D94B0E32A5066342EE47::pPrev = pFontHandle->pPrev;
     pFontHandle->pPrev = this->Fonts[1].Root.pPrev;
     pFontHandle->pNext = (Scaleform::Render::FontCacheHandle *)&this->Fonts[1];
     this->Fonts[1].Root.pPrev->pNext = pFontHandle;

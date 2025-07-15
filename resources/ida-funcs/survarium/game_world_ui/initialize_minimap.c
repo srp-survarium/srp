@@ -1,79 +1,55 @@
 void __thiscall survarium::game_world_ui::initialize_minimap(
         survarium::game_world_ui *this,
-        survarium::game_world_ui *thisa)
+        vostok::intrusive_ptr<survarium::simple_game_project,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> a2)
 {
-  survarium::simple_game_project *m_object; // eax
-  vostok::resources::unmanaged_resource *v3; // esi
+  survarium::simple_game_project *m_object; // ebx
+  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> *p_m_config; // esi
+  vostok::configs::binary_config_value *v4; // ecx
   const char *pointer; // edi
-  survarium::flash_movie_resource *v5; // edx
-  survarium::flash_movie_resource *v6; // edx
-  survarium::game_world_ui *v7; // ecx
-  survarium::game_world_ui *v8; // ecx
-  survarium::flash_value minimap_props_value_property; // [esp+18h] [ebp-30h] BYREF
-  survarium::flash_value minimap_props_value; // [esp+30h] [ebp-18h] BYREF
+  stlp_std::priv::_Rb_tree_node_base *M_parent; // eax
+  survarium::flash_movie *v7; // ecx
+  stlp_std::priv::_Rb_tree_node_base *v8; // eax
+  survarium::flash_movie *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  survarium::game_world_ui *v11; // ecx
+  Scaleform::GFx::Value pargs; // [esp+10h] [ebp-34h] BYREF
+  survarium::flash_value value; // [esp+28h] [ebp-1Ch] BYREF
 
-  m_object = thisa->m_game_world->m_game_project.m_object;
-  v3 = 0;
-  if ( m_object )
-  {
-    v3 = thisa->m_game_world->m_game_project.m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
+  m_object = a2.m_object;
+  p_m_config = &survarium::game_world::get_project(
+                  (survarium::game_world *)a2.m_object->m_objects_registry._M_t._M_node_count,
+                  &a2)->m_object->m_config;
   if ( vostok::configs::binary_config_value::value_exists(
-         (vostok::configs::binary_config_value *)v3[1].m_children_resources.m_first[22].resource,
-         "project_name") )
+         v4,
+         (int)p_m_config->m_object->m_root,
+         (unsigned int)"project_name") )
   {
     pointer = (const char *)vostok::configs::binary_config_value::operator[](
-                              (vostok::configs::binary_config_value *)v3[1].m_children_resources.m_first[22].resource,
+                              p_m_config->m_object->m_root,
                               "project_name")->data.pointer;
   }
   else
   {
-    pointer = (const char *)&buf;
+    pointer = uri;
   }
-  if ( !_InterlockedExchangeAdd(&v3->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v3->vostok::resources::unmanaged_intrusive_base, v3);
-  v5 = thisa->m_game_hud_ui.m_object;
-  *(_DWORD *)minimap_props_value.body = 0;
-  *(_DWORD *)&minimap_props_value.body[4] = 0;
-  Scaleform::GFx::Movie::CreateObject(v5->movie->m_movie, (Scaleform::GFx::Value *)&minimap_props_value, 0, 0, 0);
-  v6 = thisa->m_game_hud_ui.m_object;
-  *(_DWORD *)minimap_props_value_property.body = 0;
-  *(_DWORD *)&minimap_props_value_property.body[4] = 0;
-  Scaleform::GFx::Movie::CreateObject(
-    v6->movie->m_movie,
-    (Scaleform::GFx::Value *)&minimap_props_value_property,
-    0,
-    0,
-    0);
-  survarium::flash_value::SetString(&minimap_props_value_property, pointer);
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)minimap_props_value.body
-                                                                                       + 20))(
-    *(_DWORD *)minimap_props_value.body,
-    *(_DWORD *)&minimap_props_value.body[8],
-    "map",
-    &minimap_props_value_property,
-    (minimap_props_value.body[4] & 0x8F) == 10);
+  vostok::intrusive_ptr<survarium::simple_game_project,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&a2);
+  M_parent = m_object->m_objects_registry._M_t._M_header._M_data._M_parent;
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  survarium::flash_movie::CreateObject(v7, (survarium::flash_value *)M_parent[16]._M_left, &pargs);
+  v8 = m_object->m_objects_registry._M_t._M_header._M_data._M_parent;
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  survarium::flash_movie::CreateObject(v9, (survarium::flash_value *)v8[16]._M_left, (Scaleform::GFx::Value *)&value);
+  survarium::flash_value::SetString(&value, pointer);
+  survarium::flash_value::SetMember(v10, &pargs, "map", &value);
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_game_hud_ui.m_object->movie->m_movie,
+    (Scaleform::GFx::Movie *)m_object->m_objects_registry._M_t._M_header._M_data._M_parent[16]._M_left->_M_parent,
     "root.set_minimap_props",
     0,
-    (const Scaleform::GFx::Value *)&minimap_props_value,
+    &pargs,
     1u);
-  survarium::game_world_ui::update_minimap_objects(v7, thisa);
-  survarium::game_world_ui::reset_map_rotatable(v8, (int)thisa);
-  if ( (minimap_props_value_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)minimap_props_value_property.body + 8))(
-      *(_DWORD *)minimap_props_value_property.body,
-      &minimap_props_value_property,
-      *(_DWORD *)&minimap_props_value_property.body[8]);
-    *(_DWORD *)minimap_props_value_property.body = 0;
-  }
-  *(_DWORD *)&minimap_props_value_property.body[4] = 0;
-  if ( (minimap_props_value.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)minimap_props_value.body + 8))(
-      *(_DWORD *)minimap_props_value.body,
-      &minimap_props_value,
-      *(_DWORD *)&minimap_props_value.body[8]);
+  survarium::game_world_ui::reset_map_rotatable(v11, (int)m_object);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pargs);
 }

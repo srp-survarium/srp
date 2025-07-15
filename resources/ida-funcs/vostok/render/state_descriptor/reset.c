@@ -1,38 +1,54 @@
-void __usercall vostok::render::state_descriptor::reset(vostok::render::state_descriptor *this@<ecx>, int a2@<esi>)
+void __usercall vostok::render::state_descriptor::reset(vostok::render::state_descriptor *this@<ecx>, _DWORD *a2@<esi>)
 {
-  *(_BYTE *)(a2 + 360) = 0;
-  *(_BYTE *)(a2 + 361) = 0;
-  *(_BYTE *)(a2 + 362) = 0;
-  *(_QWORD *)a2 = 0;
-  *(_QWORD *)(a2 + 8) = 0;
-  *(_QWORD *)(a2 + 16) = 0;
-  *(_QWORD *)(a2 + 24) = 0;
-  *(_QWORD *)(a2 + 32) = 0;
-  *(_DWORD *)a2 = 3;
-  *(_DWORD *)(a2 + 4) = 3;
-  *(_DWORD *)(a2 + 8) = 0;
-  *(_DWORD *)(a2 + 12) = 0;
-  *(_DWORD *)(a2 + 16) = 0;
-  *(_DWORD *)(a2 + 20) = 0;
-  *(_DWORD *)(a2 + 24) = 1;
-  *(_DWORD *)(a2 + 28) = 0;
-  *(_DWORD *)(a2 + 32) = 0;
-  *(_DWORD *)(a2 + 36) = 0;
-  memset(a2 + 40, 0, 0x34u);
-  *(_BYTE *)(a2 + 56) = 127;
-  *(_BYTE *)(a2 + 57) = 127;
-  *(_DWORD *)(a2 + 72) = 8;
-  *(_DWORD *)(a2 + 88) = 8;
-  *(_DWORD *)(a2 + 40) = 1;
-  *(_DWORD *)(a2 + 44) = 1;
-  *(_DWORD *)(a2 + 48) = 2;
-  *(_DWORD *)(a2 + 52) = 1;
-  *(_DWORD *)(a2 + 60) = 1;
-  *(_DWORD *)(a2 + 64) = 1;
-  *(_DWORD *)(a2 + 68) = 1;
-  *(_DWORD *)(a2 + 76) = 1;
-  *(_DWORD *)(a2 + 80) = 1;
-  *(_DWORD *)(a2 + 84) = 1;
-  vostok::render::state_utils::reset((D3D11_BLEND_DESC *)(a2 + 92));
-  *(_DWORD *)(a2 + 356) = 0;
+  int v2; // edx
+  _DWORD *v3; // eax
+
+  *((_BYTE *)a2 + 360) = 0;
+  *((_BYTE *)a2 + 361) = 0;
+  *((_BYTE *)a2 + 362) = 0;
+  memset(a2, 0, 0x28u);
+  *a2 = 3;
+  a2[1] = 3;
+  a2[2] = 0;
+  a2[3] = 0;
+  *((_QWORD *)a2 + 2) = 0;
+  a2[6] = 1;
+  a2[7] = 1;
+  a2[8] = 0;
+  a2[9] = 0;
+  memset((int)(a2 + 10), 0, 0x34u);
+  a2[10] = 1;
+  a2[11] = 0;
+  a2[12] = 4;
+  a2[13] = 0;
+  *((_BYTE *)a2 + 56) = 127;
+  *((_BYTE *)a2 + 57) = 127;
+  a2[15] = 1;
+  a2[16] = 1;
+  a2[17] = 1;
+  a2[18] = 8;
+  a2[19] = 1;
+  a2[20] = 1;
+  a2[21] = 1;
+  a2[22] = 8;
+  memset((int)(a2 + 23), 0, 0x108u);
+  v2 = 8;
+  a2[23] = 0;
+  a2[24] = 0;
+  v3 = a2 + 26;
+  do
+  {
+    *(v3 - 1) = 0;
+    *v3 = 2;
+    v3[1] = 1;
+    v3[2] = 1;
+    v3[3] = 2;
+    v3[4] = 1;
+    v3[5] = 1;
+    *((_BYTE *)v3 + 24) = 15;
+    v3 += 8;
+    --v2;
+  }
+  while ( v2 );
+  a2[89] = 0;
 }

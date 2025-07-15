@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3name(
   {
     RefCount = v5->RefCount;
     v4 = v5;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);

@@ -1,61 +1,30 @@
-stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__thiscall boost::asio::ip::address_v6::to_string(
-        boost::asio::ip::address_v6 *this,
-        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *result,
-        boost::system::error_code *ec)
+stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__usercall boost::asio::ip::address_v6::to_string@<eax>(
+        boost::asio::ip::address_v6 *this@<ecx>,
+        char *a2@<edi>,
+        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *a3@<esi>)
 {
-  survarium::game_options *v3; // eax
-  survarium::game_options *v5; // eax
-  survarium::game_camera v6[3]; // [esp+D6h] [ebp-106h] BYREF
+  char *v3; // eax
+  char dest[260]; // [esp+0h] [ebp-110h] BYREF
+  boost::system::error_code scope_id; // [esp+104h] [ebp-Ch] BYREF
+  stlp_std::allocator<char> v7; // [esp+10Fh] [ebp-1h] BYREF
 
-  *(survarium::game_camera_vtbl **)((char *)&v6[0].__vftable + 2) = (survarium::game_camera_vtbl *)boost::asio::detail::socket_ops::inet_ntop(
-                                                                                                     23,
-                                                                                                     this,
-                                                                                                     (char *)&v6[0].m_inverted_view_matrix.elements[0][0] + 2,
-                                                                                                     0x100u,
-                                                                                                     this->scope_id_,
-                                                                                                     ec);
-  if ( *(survarium::game_camera_vtbl **)((char *)&v6[0].__vftable + 2) )
+  scope_id.m_val = 0;
+  scope_id.m_cat = boost::system::system_category();
+  v3 = boost::asio::detail::socket_ops::inet_ntop(a2, 23, dest, *((_DWORD *)a2 + 4), &scope_id);
+  if ( v3 )
   {
-    v5 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)v6);
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-      result,
-      *(char **)((char *)&v6[0].__vftable + 2),
-      (const stlp_std::allocator<char> *)v5);
-    survarium::weapon_user_dead_state::finalize(v6);
+      a3,
+      v3,
+      &v7);
   }
   else
   {
-    v3 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)((char *)&v6[0].__vftable + 1));
-    result->_M_finish = (char *)result;
-    stlp_std::priv::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>(
-      &result->_M_start_of_storage,
-      (const stlp_std::allocator<char> *)v3,
-      (char *)result);
-    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_allocate_block(result, 0x10u);
-    stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_terminate_string(result);
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)((char *)&v6[0].__vftable + 1));
+    a3->_M_finish = (char *)a3;
+    a3->_M_start_of_storage._M_data = (char *)a3;
+    *a3->_M_finish = 0;
   }
-  return result;
-}
-
-
-stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__thiscall boost::asio::ip::address_v6::to_string(
-        boost::asio::ip::address_v6 *this,
-        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *result)
-{
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > addr; // [esp+274h] [ebp-20h] BYREF
-  boost::system::error_code ec; // [esp+28Ch] [ebp-8h] BYREF
-
-  ec.m_val = 0;
-  ec.m_cat = boost::system::system_category();
-  boost::asio::ip::address_v6::to_string(this, &addr, &ec);
-  if ( (ec.m_val != 0
-      ? (unsigned int)boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>
-      : 0) != 0 )
-    boost::asio::detail::do_throw_error(&ec);
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-    result,
-    &addr);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&addr);
-  return result;
+  if ( (scope_id.m_val != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+    boost::asio::detail::do_throw_error(&scope_id);
+  return a3;
 }

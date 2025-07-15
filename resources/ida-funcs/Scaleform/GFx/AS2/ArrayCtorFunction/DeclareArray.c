@@ -7,13 +7,13 @@ void __cdecl Scaleform::GFx::AS2::ArrayCtorFunction::DeclareArray(const Scalefor
   Scaleform::GFx::AS2::ArrayObject *v5; // ebp
   Scaleform::GFx::AS2::Environment *Env; // eax
   bool (__thiscall *SetMember)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::ASString *, const Scaleform::GFx::AS2::Value *, const Scaleform::GFx::AS2::PropFlags *); // edx
-  unsigned __int8 Flags; // bl
-  Scaleform::GFx::AS2::FunctionObject *Function; // ecx
+  char v8; // bl
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v9; // ecx
+  int v10; // eax
+  Scaleform::GFx::ASStringNode *pStringNode; // ecx
+  int v12; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
-  unsigned int v12; // eax
-  unsigned int v13; // eax
-  Scaleform::GFx::AS2::FunctionRef ctor; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v14; // [esp+18h] [ebp-10h] BYREF
 
   v1 = fn;
   pHeap = fn->Env->StringContext.pContext->pHeap;
@@ -30,55 +30,55 @@ void __cdecl Scaleform::GFx::AS2::ArrayCtorFunction::DeclareArray(const Scalefor
   Env = v1->Env;
   SetMember = v5->SetMember;
   LOBYTE(fn) = 1;
-  LOBYTE(ctor.Function) = 4;
-  ctor.pLocalFrame = 0;
+  v14.T.Type = 4;
+  v14.NV.Int32Value = 0;
   SetMember(
     &v5->Scaleform::GFx::AS2::ObjectInterface,
     Env,
     (const Scaleform::GFx::ASString *)&Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].RefCount,
-    (const Scaleform::GFx::AS2::Value *)&ctor,
+    &v14,
     (const Scaleform::GFx::AS2::PropFlags *)&fn);
-  if ( LOBYTE(ctor.Function) >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&ctor);
-  Scaleform::GFx::AS2::Environment::GetConstructor(v1->Env, &ctor, ASBuiltin_Array);
+  if ( v14.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v14);
+  Scaleform::GFx::AS2::Environment::GetConstructor(v1->Env, (Scaleform::GFx::AS2::FunctionRef *)&v14, ASBuiltin_Array);
   Scaleform::GFx::AS2::ObjectInterface::Set_constructor(
     &v5->Scaleform::GFx::AS2::ObjectInterface,
     &v1->Env->StringContext,
-    &ctor);
+    (const Scaleform::GFx::AS2::FunctionRef *)&v14);
   if ( v1->NArgs )
     Scaleform::GFx::AS2::ArrayObject::InitArray(v5, v1);
   Scaleform::GFx::AS2::Value::SetAsObject(v1->Result, v5);
-  Flags = ctor.Flags;
-  if ( (ctor.Flags & 2) == 0 )
+  v8 = BYTE4(v14.NV.NumberValue);
+  if ( (BYTE4(v14.NV.NumberValue) & 2) == 0 )
   {
-    Function = ctor.Function;
-    if ( ctor.Function )
+    v9 = *(Scaleform::GFx::AS2::RefCountBaseGC<323> **)&v14.T.Type;
+    if ( *(_DWORD *)&v14.T.Type )
     {
-      RefCount = ctor.Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      v10 = *(_DWORD *)(*(_DWORD *)&v14.T.Type + 12);
+      if ( (v10 & 0x3FFFFFF) != 0 )
       {
-        ctor.Function->RefCount = RefCount - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
+        *(_DWORD *)(*(_DWORD *)&v14.T.Type + 12) = v10 - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
       }
     }
   }
-  if ( (Flags & 1) == 0 )
+  if ( (v8 & 1) == 0 )
   {
-    pLocalFrame = ctor.pLocalFrame;
-    if ( ctor.pLocalFrame )
+    pStringNode = v14.V.pStringNode;
+    if ( v14.NV.Int32Value )
     {
-      v12 = ctor.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+      v12 = *(_DWORD *)(v14.NV.Int32Value + 12);
+      if ( (v12 & 0x3FFFFFF) != 0 )
       {
-        ctor.pLocalFrame->RefCount = v12 - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
+        *(_DWORD *)(v14.NV.Int32Value + 12) = v12 - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pStringNode);
       }
     }
   }
-  v13 = v5->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v13) != 0 )
+  RefCount = v5->RefCount;
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
-    v5->RefCount = v13 - 1;
+    v5->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);
   }
 }

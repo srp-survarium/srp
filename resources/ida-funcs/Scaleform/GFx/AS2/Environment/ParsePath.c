@@ -25,10 +25,10 @@ char __cdecl Scaleform::GFx::AS2::Environment::ParsePath(
   strchr(pData, 0x3Au);
   if ( !v6 )
   {
-    strrchr((unsigned __int8 *)pData, 0x2Eu);
+    strrchr(pData, 0x2Eu);
     if ( !v6 )
     {
-      strrchr((unsigned __int8 *)pData, 0x2Fu);
+      strrchr(pData, 0x2Fu);
       if ( !v7 )
         return 0;
       goto LABEL_10;
@@ -51,7 +51,7 @@ LABEL_10:
   v9 = psc;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 (char *)&varPath->pNode->pData[v5 + 1]);
+                 (__m128i *)&varPath->pNode->pData[v5 + 1]);
   StringNode->RefCount += 2;
   v11 = pvar->pNode;
   v12 = pvar->pNode->RefCount-- == 1;
@@ -83,7 +83,7 @@ LABEL_13:
   {
     v16 = Scaleform::GFx::ASStringManager::CreateStringNode(
             (Scaleform::GFx::ASStringManager *)v9->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-            (char *)varPath->pNode->pData,
+            (__m128i *)varPath->pNode->pData,
             v5);
     v16->RefCount += 2;
     v17 = ppath->pNode;

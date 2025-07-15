@@ -1,38 +1,31 @@
-int __cdecl vostok::vfs::get_file_size<1>(const vostok::vfs::base_node<1> *node)
+unsigned int __thiscall vostok::vfs::get_file_size<1>(vostok::vfs::base_node<1> *node)
 {
-  survarium::game_camera *v1; // ecx
-  survarium::game_camera *v3; // ecx
-  const vostok::vfs::physical_file_node<1> *full; // [esp+20h] [ebp-4h]
+  unsigned __int16 m_flags; // ax
+  vostok::vfs::archive_file_node<1> *v3; // eax
 
-  survarium::weapon_user_dead_state::finalize(v1);
-  if ( (node->m_flags & 0x2000) == 0x2000 )
+  m_flags = node->m_flags;
+  if ( (m_flags & 0x2000) == 0x2000 )
     return vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(node)->uncompressed_size;
-  if ( (node->m_flags & 4) == 4 )
+  if ( (m_flags & 4) != 0 )
   {
-    if ( (node->m_flags & 0x1000) == 0x1000 )
+    if ( (m_flags & 0x1000) == 0x1000 )
+      return *((_DWORD *)node - 2);
+    if ( (m_flags & 0x40) != 0 )
     {
-      return vostok::vfs::node_cast<vostok::vfs::external_subfat_node,vostok::vfs::base_node,1>(node)->external_fat_size;
-    }
-    else if ( (node->m_flags & 0x40) == 0x40 )
-    {
-      if ( (node->m_flags & 0x10) == 0x10 )
+      if ( (m_flags & 0x10) != 0 )
         return vostok::vfs::node_cast<vostok::vfs::archive_inline_compressed_file_node,vostok::vfs::base_node,1>(node)->uncompressed_size;
-      else
-        return vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(node)->size_in_db;
-    }
-    else if ( (node->m_flags & 0x10) == 0x10 )
-    {
-      return vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(node)->uncompressed_size;
+      v3 = (vostok::vfs::archive_file_node<1> *)vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(node);
     }
     else
     {
-      return vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>(node)->size_in_db;
+      if ( (m_flags & 0x10) != 0 )
+        return vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(node)->uncompressed_size;
+      v3 = vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>(node);
     }
   }
   else
   {
-    full = vostok::vfs::node_cast<vostok::vfs::physical_file_node,vostok::vfs::base_node,1>(node);
-    survarium::weapon_user_dead_state::finalize(v3);
-    return full->m_size;
+    v3 = (vostok::vfs::archive_file_node<1> *)vostok::vfs::cast_physical_file<1>(node);
   }
+  return v3->size_in_db;
 }

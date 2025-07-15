@@ -1,40 +1,41 @@
 bool __thiscall survarium::player_input_handler::on_mouse_key_action(
         survarium::player_input_handler *this,
         vostok::input::world *input_world,
-        survarium::toggle_action_enum button,
+        int button,
         vostok::input::enum_mouse_key_action actions_mask)
 {
   survarium::game_action_id binded_action; // eax
-  stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v6; // ecx
-  stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *m_end; // ecx
+  survarium::player_input_handler *v6; // ecx
+  survarium::action_state_enum v7; // esi
+  __int32 v8; // ebx
+  survarium::player_input_handler *v9; // ecx
+  stlp_std::pair<enum survarium::game_action_id,enum survarium::action_state_enum> actions_mask_type; // [esp+10h] [ebp-8h] BYREF
 
-  binded_action = survarium::key_binder::get_binded_action(this->m_game_world->m_game->m_key_binder, button, &button, 1);
-  if ( binded_action == kNOTBINDED )
-    return 0;
-  if ( actions_mask )
+  binded_action = survarium::key_binder::get_binded_action(
+                    this->m_game_world->m_game->m_key_binder,
+                    button,
+                    (survarium::toggle_action_enum *)&actions_mask_type,
+                    1);
+  v7 = binded_action;
+  if ( binded_action != kNOTBINDED )
   {
-    if ( actions_mask != ms_key_hold || button )
-      return 0;
-    m_end = this->m_game_actions.m_end;
-    if ( m_end )
+    v8 = 0;
+    if ( actions_mask_type.first )
     {
-      m_end->second = hold;
-      m_end->first = binded_action;
+      if ( actions_mask_type.first == kRIGHT && actions_mask == ms_key_down )
+        survarium::player_input_handler::process_toggle_action(v6, (const survarium::game_action_id)this, binded_action);
     }
-    goto LABEL_10;
-  }
-  if ( (unsigned int)button <= toggle_action )
-  {
-    v6 = this->m_game_actions.m_end;
-    if ( v6 )
+    else if ( actions_mask == ms_key_down
+           || (v8 = 2, actions_mask == ms_key_hold)
+           || (v8 = 1, actions_mask == ms_key_up) )
     {
-      v6->second = down;
-      v6->first = binded_action;
-      ++this->m_game_actions.m_end;
-      return 0;
+      actions_mask_type.first = binded_action;
+      actions_mask_type.second = v8;
+      vostok::circular_buffer<stlp_std::pair<enum survarium::game_action_id,enum survarium::action_state_enum>,64>::push_back(
+        &this->m_game_actions,
+        &actions_mask_type);
+      survarium::player_input_handler::process_dependent_actions(v9, (const survarium::game_action_id)this, v7, v8);
     }
-LABEL_10:
-    ++this->m_game_actions.m_end;
   }
   return 0;
 }

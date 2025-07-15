@@ -1,10 +1,10 @@
-bool __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::shutdownHeapEngine(
+char __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::shutdownHeapEngine(
         Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc> *this)
 {
-  bool v2; // bl
   Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::SysAllocContainer *pContainer; // eax
+  char v4; // [esp+7h] [ebp-1h]
 
-  v2 = Scaleform::SysAlloc::shutdownHeapEngine(this);
+  v4 = Scaleform::SysAlloc::shutdownHeapEngine(this);
   pContainer = this->pContainer;
   if ( pContainer )
   {
@@ -14,14 +14,14 @@ bool __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMall
       0);
     this->pContainer = 0;
   }
-  return v2;
+  return v4;
 }
 
 
-bool __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocPagedMalloc,Scaleform::SysAllocPaged>::shutdownHeapEngine(
+char __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocPagedMalloc,Scaleform::SysAllocPaged>::shutdownHeapEngine(
         Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocPagedMalloc,Scaleform::SysAllocPaged> *this)
 {
-  bool v2; // bl
+  char v2; // bl
   Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocPagedMalloc,Scaleform::SysAllocPaged>::SysAllocContainer *pContainer; // eax
 
   v2 = Scaleform::SysAllocPaged::shutdownHeapEngine(this);
@@ -38,10 +38,10 @@ bool __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocPage
 }
 
 
-bool __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocWinAPI,Scaleform::SysAllocPaged>::shutdownHeapEngine(
+char __thiscall Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocWinAPI,Scaleform::SysAllocPaged>::shutdownHeapEngine(
         Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocWinAPI,Scaleform::SysAllocPaged> *this)
 {
-  bool v2; // bl
+  char v2; // bl
   Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocWinAPI,Scaleform::SysAllocPaged>::SysAllocContainer *pContainer; // eax
 
   v2 = Scaleform::SysAllocPaged::shutdownHeapEngine(this);

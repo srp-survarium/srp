@@ -1,23 +1,16 @@
 void __usercall vostok::animation::mixing::binary_tree_expression_simplifier::~binary_tree_expression_simplifier(
         vostok::animation::mixing::binary_tree_expression_simplifier *this@<ecx>,
-        int a2@<esi>)
+        vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_animation_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *a2@<esi>)
 {
-  int v2; // eax
-  bool v3; // zf
-  int v4; // eax
+  vostok::animation::mixing::binary_tree_animation_node *m_object; // eax
 
-  v2 = *(_DWORD *)(a2 + 12);
-  if ( v2 )
+  m_object = a2[3].m_object;
+  if ( m_object )
   {
-    v3 = (*(_DWORD *)(v2 + 16))-- == 1;
-    if ( v3 )
-      (***(void (__thiscall ****)(_DWORD, _DWORD))(a2 + 12))(*(_DWORD *)(a2 + 12), 0);
+    if ( m_object->m_reference_count-- == 1 )
+      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))a2[3].m_object->~vostok::animation::mixing::binary_tree_base_node)(
+        a2[3].m_object,
+        0);
   }
-  v4 = *(_DWORD *)(a2 + 8);
-  if ( v4 )
-  {
-    v3 = (*(_DWORD *)(v4 + 16))-- == 1;
-    if ( v3 )
-      (***(void (__thiscall ****)(_DWORD, _DWORD))(a2 + 8))(*(_DWORD *)(a2 + 8), 0);
-  }
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>(a2 + 2);
 }

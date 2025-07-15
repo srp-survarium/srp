@@ -1,19 +1,35 @@
-int __cdecl floor0_inverse2(vorbis_block *vb, vorbis_look_floor0 *i, float *memo, float *out)
+int __usercall floor0_inverse2@<eax>(
+        __int128 a1@<xmm2>,
+        vorbis_block *vb,
+        vorbis_look_floor0 *i,
+        float *memo,
+        float *out)
 {
-  int *p_order; // esi
-  float ampoffset; // [esp+4h] [ebp-14h]
+  vorbis_info_floor0 *vi; // edi
+  int W; // eax
 
-  p_order = &i->vi->order;
-  floor0_map_lazy_init(vb, i, p_order);
+  vi = i->vi;
+  floor0_map_lazy_init(vb, i, &vi->order);
+  W = vb->W;
   if ( memo )
   {
-    ampoffset = (float)p_order[4];
-    vorbis_lsp_to_curve(out, i->linearmap[vb->W], i->n[vb->W], i->ln, memo, i->m, memo[i->m], ampoffset);
+    vorbis_lsp_to_curve(
+      (int)vi,
+      (int)i,
+      a1,
+      out,
+      i->linearmap[W],
+      i->n[W],
+      i->ln,
+      memo,
+      i->m,
+      memo[i->m],
+      (float)vi->ampdB);
     return 1;
   }
   else
   {
-    memset((int)out, 0, 4 * i->n[vb->W]);
+    memset((int)out, 0, 4 * i->n[W]);
     return 0;
   }
 }

@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_xml::XMLNode::XMLNode(
   Scaleform::GFx::AS3::Traits *pObject; // eax
   Scaleform::GFx::ASStringNode *v5; // eax
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_xml::XMLNode_vtbl *)&Scaleform::GFx::AS3::Instances::fl_xml::XMLNode::`vftable';
   this->firstChild.pObject = 0;
   this->lastChild.pObject = 0;

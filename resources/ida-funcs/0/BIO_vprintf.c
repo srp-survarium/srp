@@ -1,29 +1,29 @@
-unsigned int __cdecl BIO_vprintf(bio_st *bio, char *format)
+int __cdecl BIO_vprintf(bio_st *bio, char *format, int a3)
 {
-  char *v2; // esi
-  unsigned int v3; // edi
-  char *buffer; // [esp+Ch] [ebp-818h] BYREF
-  unsigned int retlen; // [esp+10h] [ebp-814h] BYREF
-  unsigned int maxlen; // [esp+14h] [ebp-810h] BYREF
-  char *sbuffer; // [esp+18h] [ebp-80Ch] BYREF
-  int truncated; // [esp+1Ch] [ebp-808h] BYREF
-  char in[2048]; // [esp+20h] [ebp-804h] BYREF
+  void *v3; // esi
+  int v4; // edi
+  void *str; // [esp+Ch] [ebp-818h] BYREF
+  int v7; // [esp+10h] [ebp-814h] BYREF
+  unsigned int v8; // [esp+14h] [ebp-810h] BYREF
+  const __m128i *v9; // [esp+18h] [ebp-80Ch] BYREF
+  int v10; // [esp+1Ch] [ebp-808h] BYREF
+  char v11[2048]; // [esp+20h] [ebp-804h] BYREF
 
-  sbuffer = in;
-  maxlen = 2048;
-  buffer = 0;
-  CRYPTO_push_info_((unsigned int)bio, "doapr()", ".\\crypto\\bio\\b_print.c", 0x31Au);
-  dopr(&sbuffer, &buffer, &maxlen, &retlen, &truncated, format);
-  v2 = buffer;
-  if ( buffer )
+  v9 = (const __m128i *)v11;
+  v8 = 2048;
+  str = 0;
+  CRYPTO_push_info_((int)bio, a3, "doapr()", ".\\crypto\\bio\\b_print.c", 0x31Au);
+  dopr(&v9, (char **)&str, &v8, (unsigned int *)&v7, &v10, format);
+  v3 = str;
+  if ( str )
   {
-    v3 = BIO_write(bio, buffer, retlen);
-    CRYPTO_free(v2);
+    v4 = BIO_write(a3, bio, (const char *)str, v7);
+    CRYPTO_free(v3);
   }
   else
   {
-    v3 = BIO_write(bio, in, retlen);
+    v4 = BIO_write(a3, bio, v11, v7);
   }
-  CRYPTO_pop_info(v3);
-  return v3;
+  CRYPTO_pop_info(v4, a3);
+  return v4;
 }

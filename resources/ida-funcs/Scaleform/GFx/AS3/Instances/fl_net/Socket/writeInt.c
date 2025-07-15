@@ -10,8 +10,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::writeInt(
     else
       Scaleform::GFx::AS3::SocketThreadMgr::SendInt(
         this->SockMgr.pObject,
-        (((value << 16) | value & 0xFF00) << 8)
-      | ((HIWORD(value) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & value) >> 8));
+        (((value << 16) | value & 0xFF00) << 8) | ((HIWORD(value) | value & 0xFF0000) >> 8));
   }
   else
   {

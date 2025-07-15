@@ -13,7 +13,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::packGlyp
   Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::PageType *v12; // eax
   Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::PageType *v13; // eax
   Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::PageType *v14; // eax
-  Scaleform::ListAllocLH_POD<Scaleform::Render::GlyphNode,127,79> *glypha; // [esp+1Ch] [ebp+Ch]
+  Scaleform::ListAllocLH_POD<Scaleform::Render::GlyphNode,127,79> *p_Glyphs; // [esp+1Ch] [ebp+Ch]
 
   if ( glyph->Param.pFont )
   {
@@ -41,7 +41,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::packGlyp
       v11 = v8 - w;
       if ( v11 >= this->MinSlotSpace || v10 >= this->MinSlotSpace )
       {
-        glypha = &this->Glyphs;
+        p_Glyphs = &this->Glyphs;
         v12 = Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79>>::Alloc(
                 &this->Glyphs,
                 glyph);
@@ -53,7 +53,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::packGlyp
           if ( v11 >= this->MinSlotSpace )
           {
             v14 = Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79>>::Alloc(
-                    glypha,
+                    p_Glyphs,
                     glyph);
             glyph->pNex2 = (Scaleform::Render::GlyphNode *)v14;
             v14->Data[0].pNext = 0;
@@ -69,7 +69,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::packGlyp
           if ( v10 >= this->MinSlotSpace )
           {
             v13 = Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79>>::Alloc(
-                    glypha,
+                    p_Glyphs,
                     glyph);
             glyph->pNex2 = (Scaleform::Render::GlyphNode *)v13;
             v13->Data[0].pNext = 0;

@@ -1,5 +1,5 @@
-void __cdecl names_lh_free_LHASH_DOALL(const char **arg)
+void __cdecl names_lh_free_LHASH_DOALL(const char **a1)
 {
-  if ( arg && (free_type < 0 || (const char *)free_type == *arg) )
-    OBJ_NAME_remove(arg[2], (int)*arg);
+  if ( a1 && (free_type < 0 || (const char *)free_type == *a1) )
+    OBJ_NAME_remove(a1[2], (int)*a1);
 }

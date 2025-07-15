@@ -1,34 +1,23 @@
-void __userpurge survarium::rifle_scope::rifle_scope(
-        survarium::rifle_scope *this@<ecx>,
-        int a2@<esi>,
-        const vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base> *idle_scope,
-        const vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base> *aimed_scope,
-        float change_scope_factor,
-        bool hide_weapon_on_aim,
+void __thiscall survarium::rifle_scope::rifle_scope(
+        survarium::rifle_scope *this,
+        vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base> *idle_scope,
+        const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *aimed_scope,
+        const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *change_scope_factor,
+        vostok::render::static_model_instance *hide_weapon_on_aim,
         float fov_factor,
-        float near_plane_factor)
+        vostok::render::static_model_instance *near_plane_factor,
+        vostok::render::static_model_instance *a8)
 {
-  vostok::render::static_model_instance *m_object; // eax
-  vostok::render::static_model_instance *v9; // eax
-
-  vostok::resources::unmanaged_resource::unmanaged_resource((vostok::resources::unmanaged_resource *)a2, 1u);
-  *(_DWORD *)a2 = &survarium::rifle_scope::`vftable';
-  *(_DWORD *)(a2 + 264) = 0;
-  m_object = idle_scope->m_object;
-  if ( idle_scope->m_object )
-  {
-    *(_DWORD *)(a2 + 264) = m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  *(_DWORD *)(a2 + 268) = 0;
-  v9 = aimed_scope->m_object;
-  if ( aimed_scope->m_object )
-  {
-    *(_DWORD *)(a2 + 268) = v9;
-    _InterlockedExchangeAdd(&v9->m_reference_count, 1u);
-  }
-  *(float *)(a2 + 272) = change_scope_factor;
-  *(float *)(a2 + 276) = fov_factor;
-  *(float *)(a2 + 280) = near_plane_factor;
-  *(_BYTE *)(a2 + 284) = hide_weapon_on_aim;
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, idle_scope, fs_iterator_class);
+  idle_scope->m_object = (vostok::render::static_model_instance *)&survarium::rifle_scope::`vftable';
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&idle_scope[66],
+    aimed_scope);
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&idle_scope[67],
+    change_scope_factor);
+  idle_scope[68].m_object = hide_weapon_on_aim;
+  idle_scope[69].m_object = near_plane_factor;
+  LOBYTE(idle_scope[71].m_object) = LOBYTE(fov_factor);
+  idle_scope[70].m_object = a8;
 }

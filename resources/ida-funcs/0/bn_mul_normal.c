@@ -10,8 +10,8 @@ void __cdecl bn_mul_normal(unsigned int *r, unsigned int *a, int na, unsigned in
   int v12; // esi
   int v13; // esi
   int v14; // esi
-  unsigned int v15; // eax
-  unsigned int *naa; // [esp+18h] [ebp+Ch]
+  int v15; // eax
+  unsigned int *v16; // [esp+18h] [ebp+Ch]
 
   v5 = nb;
   v6 = na;
@@ -36,23 +36,23 @@ void __cdecl bn_mul_normal(unsigned int *r, unsigned int *a, int na, unsigned in
     {
       v10 = &r[v6 + 2];
       v11 = r + 2;
-      naa = b + 2;
+      v16 = b + 2;
       do
       {
         v12 = v9 - 1;
-        *(v10 - 1) = bn_mul_add_words(v11 - 1, a, v6, *(naa - 1));
+        *(v10 - 1) = bn_mul_add_words(v11 - 1, a, v6, *(v16 - 1));
         if ( v12 <= 0 )
           break;
         v13 = v12 - 1;
-        *v10 = bn_mul_add_words(v11, a, v6, *naa);
+        *v10 = bn_mul_add_words(v11, a, v6, *v16);
         if ( v13 <= 0 )
           break;
         v14 = v13 - 1;
-        v10[1] = bn_mul_add_words(v11 + 1, a, v6, naa[1]);
+        v10[1] = bn_mul_add_words(v11 + 1, a, v6, v16[1]);
         if ( v14 <= 0 )
           break;
-        v15 = bn_mul_add_words(v11 + 2, a, v6, naa[2]);
-        naa += 4;
+        v15 = bn_mul_add_words(v11 + 2, a, v6, v16[2]);
+        v16 += 4;
         v10[2] = v15;
         v9 = v14 - 1;
         v10 += 4;

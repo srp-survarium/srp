@@ -30,8 +30,8 @@ stack_st **__cdecl v2i_NAME_CONSTRAINTS(const v3_ext_method *method, v3_ext_ctx 
       {
         if ( strncmp(*((const char **)v6 + 1), "excluded", 8u) || (v9 = *((_DWORD *)v6 + 1), !*(_BYTE *)(v9 + 8)) )
         {
-          ERR_put_error(0x22u, 147, 143, ".\\crypto\\x509v3\\v3_ncons.c", 135);
-          goto err_8;
+          ERR_put_error((int)v4, 0x22u, 147, 143, ".\\crypto\\x509v3\\v3_ncons.c", 135);
+          goto err_10;
         }
         ++v4;
         v8 = (char *)(v9 + 9);
@@ -57,9 +57,9 @@ stack_st **__cdecl v2i_NAME_CONSTRAINTS(const v3_ext_method *method, v3_ext_ctx 
   else
   {
 memerr:
-    ERR_put_error(0x22u, 147, 65, ".\\crypto\\x509v3\\v3_ncons.c", 152);
+    ERR_put_error((int)v4, 0x22u, 147, 65, ".\\crypto\\x509v3\\v3_ncons.c", 152);
   }
-err_8:
+err_10:
   if ( v4 )
     ASN1_item_free((struct ASN1_VALUE_st *)v4, &local_it_0);
   if ( v3 )

@@ -1,4 +1,4 @@
-DWORD __usercall _commit@<eax>(stlp_std::ioinfo **a1@<edi>, unsigned int a2@<esi>, int filedes)
+DWORD __usercall _commit@<eax>(stlp_std::ioinfo **a1@<edi>, int a2@<esi>, int filedes)
 {
   void *osfhandle; // eax
   DWORD retval; // [esp+14h] [ebp-1Ch]
@@ -13,13 +13,13 @@ DWORD __usercall _commit@<eax>(stlp_std::ioinfo **a1@<edi>, unsigned int a2@<esi
     || (a1 = &__pioinfo[filedes >> 5], a2 = (filedes & 0x1F) << 6, (*(&(*a1)->osfile + a2) & 1) == 0) )
   {
     *_errno() = 9;
-    _invalid_parameter(0, (unsigned int)a1, a2);
+    _invalid_parameter(0, (int)a1, a2);
     return -1;
   }
   __lock_fhandle(filedes);
   if ( (*(&(*a1)->osfile + a2) & 1) != 0 )
   {
-    osfhandle = (void *)_get_osfhandle(filedes);
+    osfhandle = (void *)_get_osfhandle(0, (int)a1, filedes);
     if ( FlushFileBuffers(osfhandle) )
       retval = 0;
     else

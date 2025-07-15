@@ -302,7 +302,7 @@ bool __thiscall Scaleform::GFx::AS3::Abc::Reader::Read(
   if ( v36 )
   {
     v36->Kind = NS_Public;
-    v36->NameURI.pStr = (const char *)&buf;
+    v36->NameURI.pStr = uri;
     v36->NameURI.Size = 0;
   }
   if ( v32 > 1 )
@@ -311,7 +311,7 @@ bool __thiscall Scaleform::GFx::AS3::Abc::Reader::Read(
     do
     {
       info.Ind = 0;
-      info.NextIndex = (int)&buf;
+      info.NextIndex = (int)uri;
       info.NameIndex = 0;
       v34 = v34 && Scaleform::GFx::AS3::Abc::Reader::Read(this, obj, (Scaleform::GFx::AS3::Abc::NamespaceInfo *)&info);
       v38 = obj->ConstNamespace.Data.Size + 1;
@@ -1550,7 +1550,7 @@ bool __thiscall Scaleform::GFx::AS3::Abc::Reader::Read(
   v3 = this->CP;
   v4 = *v3;
   this->CP = v3 + 1;
-  zero_val.pStr = (const char *)&buf;
+  zero_val.pStr = uri;
   zero_val.Size = 0;
   result = Scaleform::GFx::AS3::Abc::Reader::Read(this, cp, &obj->NameURI, &zero_val) != 0;
   switch ( v4 )

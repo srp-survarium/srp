@@ -2,51 +2,55 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
         Scaleform::GFx::AS2::BevelFilterObject *this,
         Scaleform::GFx::AS2::Environment *penv,
         Scaleform::GFx::ASString *name,
-        float val,
+        Scaleform::GFx::ASString val,
         const Scaleform::GFx::AS2::PropFlags *flags)
 {
   Scaleform::Render::BlurFilterParams *v7; // eax
   Scaleform::Render::BlurFilterParams *v8; // eax
   unsigned int v9; // eax
   unsigned int v10; // eax
-  char v11; // al
+  bool v11; // al
   long double v12; // st7
   bool v13; // al
   Scaleform::GFx::AS2::BitmapFilterObject *v14; // ecx
   Scaleform::Render::BlurFilterParams *v15; // eax
   Scaleform::Render::BlurFilterParams *v16; // eax
-  Scaleform::GFx::ASStringNode *v17; // ecx
+  Scaleform::GFx::ASStringNode *pNode; // ecx
   Scaleform::Render::BlurFilterParams *v19; // eax
   float a; // [esp+0h] [ebp-18h]
   float aa; // [esp+0h] [ebp-18h]
 
   if ( !strcmp(name->pNode->pData, "angle") )
   {
-    LODWORD(val) = (__int16)Scaleform::GFx::AS2::Value::ToInt32((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
-    a = (float)SLODWORD(val);
+    val.pNode = (Scaleform::GFx::ASStringNode *)(__int16)Scaleform::GFx::AS2::Value::ToInt32(
+                                                           (Scaleform::GFx::AS2::Value *)val.pNode,
+                                                           penv);
+    a = (float)(int)val.pNode;
     Scaleform::GFx::AS2::BitmapFilterObject::SetAngle((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16), a);
     return 1;
   }
   else if ( !strcmp(name->pNode->pData, "blurX") )
   {
-    val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
-    val = val * 20.0;
+    *(float *)&val.pNode = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
+    *(float *)&val.pNode = *(float *)&val.pNode * 20.0;
     v7 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16));
-    v7->BlurX = val;
+    v7->BlurX = *(float *)&val.pNode;
     return 1;
   }
   else if ( !strcmp(name->pNode->pData, "blurY") )
   {
-    val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
-    val = val * 20.0;
+    *(float *)&val.pNode = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
+    *(float *)&val.pNode = *(float *)&val.pNode * 20.0;
     v8 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16));
-    v8->BlurY = val;
+    v8->BlurY = *(float *)&val.pNode;
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "distance") )
   {
-    LODWORD(val) = (__int16)Scaleform::GFx::AS2::Value::ToInt32((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
-    aa = (float)SLODWORD(val);
+    val.pNode = (Scaleform::GFx::ASStringNode *)(__int16)Scaleform::GFx::AS2::Value::ToInt32(
+                                                           (Scaleform::GFx::AS2::Value *)val.pNode,
+                                                           penv);
+    aa = (float)(int)val.pNode;
     Scaleform::GFx::AS2::BitmapFilterObject::SetDistance(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
       aa);
@@ -54,29 +58,29 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "highlightAlpha") )
   {
-    val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    *(float *)&val.pNode = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetAlpha(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
-      val);
+      *(float *)&val.pNode);
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "highlightColor") )
   {
-    v9 = Scaleform::GFx::AS2::Value::ToUInt32((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    v9 = Scaleform::GFx::AS2::Value::ToUInt32((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetColor((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16), v9);
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "shadowAlpha") )
   {
-    val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    *(float *)&val.pNode = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetAlpha2(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
-      val);
+      *(float *)&val.pNode);
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "shadowColor") )
   {
-    v10 = Scaleform::GFx::AS2::Value::ToUInt32((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    v10 = Scaleform::GFx::AS2::Value::ToUInt32((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetColor2(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
       v10);
@@ -84,7 +88,7 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "knockout") )
   {
-    v11 = Scaleform::GFx::AS2::Value::ToBool((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    v11 = Scaleform::GFx::AS2::Value::ToBool((Scaleform::GFx::AS2::Value *)val.pNode, (int)this, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetKnockOut(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
       v11);
@@ -92,7 +96,7 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "quality") )
   {
-    v12 = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    v12 = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetPasses(
       (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16),
       (__int64)v12);
@@ -100,13 +104,8 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "type") )
   {
-    Scaleform::GFx::AS2::Value::ToStringImpl(
-      (Scaleform::GFx::AS2::Value *)LODWORD(val),
-      (Scaleform::GFx::ASString *)&val,
-      penv,
-      -1,
-      0);
-    v13 = Scaleform::GFx::ASString::operator==((Scaleform::GFx::ASString *)&val, "inner");
+    Scaleform::GFx::AS2::Value::ToStringImpl((Scaleform::GFx::AS2::Value *)val.pNode, &val, penv, -1, 0);
+    v13 = Scaleform::GFx::ASString::operator==(&val, "inner");
     v14 = (Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16);
     if ( v13 )
     {
@@ -118,20 +117,20 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::SetMember(
       v16 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(v14);
       v16->Mode &= ~0x20u;
     }
-    v17 = (Scaleform::GFx::ASStringNode *)LODWORD(val);
-    if ( (*(_DWORD *)(LODWORD(val) + 12))-- == 1 )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v17);
+    pNode = val.pNode;
+    if ( val.pNode->RefCount-- == 1 )
+      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "strength") )
   {
-    val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), penv);
+    *(float *)&val.pNode = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)val.pNode, penv);
     v19 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16));
-    v19->Strength = val;
+    v19->Strength = *(float *)&val.pNode;
     return 1;
   }
   else
   {
-    return Scaleform::GFx::AS2::Object::SetMember(this, penv, name, (Scaleform::GFx::AS2::Value *)LODWORD(val), flags);
+    return Scaleform::GFx::AS2::Object::SetMember(this, penv, name, (Scaleform::GFx::AS2::Value *)val.pNode, flags);
   }
 }

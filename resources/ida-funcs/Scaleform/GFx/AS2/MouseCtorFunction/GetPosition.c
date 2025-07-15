@@ -1,70 +1,71 @@
-void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::GetPosition(const Scaleform::GFx::AS2::FnCall *fn)
+long double __cdecl Scaleform::GFx::AS2::MouseCtorFunction::GetPosition(int fn)
 {
-  Scaleform::GFx::AS2::Value *Result; // edi
-  Scaleform::GFx::AS2::Environment *Env; // eax
+  Scaleform::GFx::AS2::Value *v1; // edi
+  Scaleform::GFx::AS2::Environment *v2; // eax
   Scaleform::GFx::MovieImpl *pMovieImpl; // ebx
   unsigned int v4; // edi
   Scaleform::GFx::AS2::Value *v5; // ecx
-  int v6; // eax
-  Scaleform::MemoryHeap *pHeap; // ecx
-  Scaleform::GFx::AS2::PointObject *v8; // eax
+  long double result; // st7
+  int v7; // eax
+  int v8; // ecx
   Scaleform::GFx::AS2::PointObject *v9; // eax
-  Scaleform::GFx::AS2::PointObject *v10; // edi
-  double v11; // st7
+  Scaleform::GFx::AS2::PointObject *v10; // eax
+  Scaleform::GFx::AS2::PointObject *v11; // edi
   Scaleform::GFx::AS2::Environment *v12; // eax
   unsigned int RefCount; // eax
   char v14; // [esp+10h] [ebp-24h]
   float v15; // [esp+1Ch] [ebp-18h]
   float v16; // [esp+20h] [ebp-14h]
-  Scaleform::Render::Point<double> pt; // [esp+24h] [ebp-10h] BYREF
+  Scaleform::Render::Point<double> v17; // [esp+24h] [ebp-10h] BYREF
 
-  Result = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(Result);
-  Result->T.Type = 0;
-  Env = fn->Env;
-  pMovieImpl = Env->Target->pASRoot->pMovieImpl;
+  v1 = *(Scaleform::GFx::AS2::Value **)(fn + 4);
+  Scaleform::GFx::AS2::Value::DropRefs(v1);
+  v1->T.Type = 0;
+  v2 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
+  pMovieImpl = v2->Target->pASRoot->pMovieImpl;
   v4 = 0;
-  if ( fn->NArgs > 0 )
+  if ( *(int *)(fn + 28) > 0 )
   {
     v5 = 0;
-    if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
-      v5 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
-                                                                                         & 0x1F];
-    v4 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v5, Env);
+    if ( *(_DWORD *)(fn + 32) <= 32 * (v2->Stack.Pages.Data.Size - 1) + v2->Stack.pCurrent - v2->Stack.pPageStart )
+      v5 = &v2->Stack.Pages.Data.Data[*(_DWORD *)(fn + 32) >> 5]->Values[*(_DWORD *)(fn + 32) & 0x1F];
+    result = Scaleform::GFx::AS2::Value::ToNumber(v5, v2);
+    v4 = (__int64)result;
   }
   if ( v4 < pMovieImpl->GetMouseCursorCount(pMovieImpl) )
   {
     if ( v4 < 6 )
-      v6 = (int)&pMovieImpl->mMouseState[v4];
+      v7 = (int)&pMovieImpl->mMouseState[v4];
     else
-      v6 = 0;
-    v15 = *(float *)(v6 + 32);
-    pHeap = fn->Env->StringContext.pContext->pHeap;
-    v16 = *(float *)(v6 + 36);
-    v8 = (Scaleform::GFx::AS2::PointObject *)pHeap->Alloc(pHeap, 52u, 0);
-    if ( v8 )
+      v7 = 0;
+    v15 = *(float *)(v7 + 32);
+    v8 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(fn + 24) + 116) + 24);
+    v16 = *(float *)(v7 + 36);
+    v9 = (Scaleform::GFx::AS2::PointObject *)(*(int (__thiscall **)(int, int, _DWORD))(*(_DWORD *)v8 + 40))(v8, 52, 0);
+    if ( v9 )
     {
-      Scaleform::GFx::AS2::PointObject::PointObject(v8, fn->Env);
-      v10 = v9;
+      Scaleform::GFx::AS2::PointObject::PointObject(v9, *(Scaleform::GFx::AS2::Environment **)(fn + 24));
+      v11 = v10;
     }
     else
     {
-      v10 = 0;
+      v11 = 0;
     }
-    pt.x = floor(v15 + 0.5) * 0.05;
-    v11 = floor(v16 + 0.5);
-    v12 = fn->Env;
-    pt.y = v11 * 0.05;
-    Scaleform::GFx::AS2::PointObject::SetProperties(v10, (int)v10, (int)fn, v12, &pt, v14);
-    Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v10);
-    if ( v10 )
+    v17.x = floor(v15 + 0.5) * 0.05;
+    result = floor(v16 + 0.5) * 0.05;
+    v12 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
+    v17.y = result;
+    Scaleform::GFx::AS2::PointObject::SetProperties(v11, (int)v11, fn, v12, &v17, v14);
+    Scaleform::GFx::AS2::Value::SetAsObject(*(Scaleform::GFx::AS2::Value **)(fn + 4), v11);
+    if ( v11 )
     {
-      RefCount = v10->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      RefCount = v11->RefCount;
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
-        v10->RefCount = RefCount - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);
+        v11->RefCount = RefCount - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
       }
     }
   }
+  return result;
 }

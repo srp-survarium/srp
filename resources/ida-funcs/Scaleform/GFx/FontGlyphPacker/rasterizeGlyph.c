@@ -1,11 +1,11 @@
 void __userpurge Scaleform::GFx::FontGlyphPacker::rasterizeGlyph(
         Scaleform::GFx::FontGlyphPacker *this@<ecx>,
-        unsigned int *a2@<edi>,
+        int *a2@<edi>,
         Scaleform::Render::RawImage *texImage,
         Scaleform::GFx::FontGlyphPacker::GlyphInfo *gi)
 {
   const Scaleform::Render::ShapeDataInterface *v5; // esi
-  unsigned int v6; // eax
+  int v6; // eax
   Scaleform::Render::Rasterizer *p_Ras; // edi
   void (__thiscall *Clear)(struct Scaleform::Render::Rasterizer *); // edx
   int i; // eax
@@ -18,125 +18,132 @@ void __userpurge Scaleform::GFx::FontGlyphPacker::rasterizeGlyph(
   int v16; // eax
   unsigned int v17; // esi
   Scaleform::Render::Palette *pObject; // esi
-  bool first; // [esp+3Bh] [ebp-CDh]
-  int y; // [esp+3Ch] [ebp-CCh]
-  float yb; // [esp+3Ch] [ebp-CCh]
-  float yc; // [esp+3Ch] [ebp-CCh]
-  int ya; // [esp+3Ch] [ebp-CCh]
-  float coord[6]; // [esp+40h] [ebp-C8h] BYREF
-  Scaleform::Render::Rasterizer *v26; // [esp+58h] [ebp-B0h]
-  Scaleform::Render::ImageData d; // [esp+5Ch] [ebp-ACh] BYREF
-  Scaleform::Render::ShapePosInfo pos; // [esp+84h] [ebp-84h] BYREF
-  unsigned int styles[3]; // [esp+BCh] [ebp-4Ch] BYREF
+  char v20; // [esp+3Bh] [ebp-CDh]
+  float v21; // [esp+3Ch] [ebp-CCh]
+  float v22; // [esp+3Ch] [ebp-CCh]
+  float v23; // [esp+3Ch] [ebp-CCh]
+  int v24; // [esp+3Ch] [ebp-CCh]
+  float x; // [esp+40h] [ebp-C8h] BYREF
+  float x2; // [esp+44h] [ebp-C4h] BYREF
+  float v27; // [esp+48h] [ebp-C0h]
+  float v28; // [esp+4Ch] [ebp-BCh]
+  float v29; // [esp+50h] [ebp-B8h]
+  Scaleform::Render::Rasterizer *v30; // [esp+58h] [ebp-B0h]
+  Scaleform::Render::ImageData v31; // [esp+5Ch] [ebp-ACh] BYREF
+  int v32; // [esp+84h] [ebp-84h] BYREF
+  float v33[12]; // [esp+88h] [ebp-80h] BYREF
+  char v34; // [esp+B8h] [ebp-50h]
+  int v35; // [esp+BCh] [ebp-4Ch] BYREF
+  int v36; // [esp+C0h] [ebp-48h] BYREF
   Scaleform::Render::ToleranceParams param; // [esp+C8h] [ebp-40h] BYREF
 
   v5 = gi->pFont->pFont.pObject->GetPermanentGlyphShape(gi->pFont->pFont.pObject, gi->GlyphIndex);
   if ( v5 && !v5->IsEmpty(v5) )
   {
     Scaleform::Render::ToleranceParams::ToleranceParams(&param);
-    *(float *)&y = (double)this->PackTextureConfig.NominalSize / 1536.0;
+    v21 = (double)this->PackTextureConfig.NominalSize / 1536.0;
     v6 = v5->GetStartingPos(v5);
     p_Ras = &this->Ras;
-    pos.Sfactor = 1.0;
-    pos.Pos = v6;
+    v33[11] = 1.0;
+    v32 = v6;
     Clear = this->Ras.Clear;
-    memset(&pos.StartX, 0, 44);
-    pos.Initialized = 0;
-    first = 1;
-    v26 = &this->Ras;
+    memset(v33, 0, 44);
+    v34 = 0;
+    v20 = 1;
+    v30 = &this->Ras;
     Clear(&this->Ras);
-    for ( i = v5->ReadPathInfo(v5, &pos, coord, styles);
+    for ( i = v5->ReadPathInfo(v5, (Scaleform::Render::ShapePosInfo *)&v32, &x, (unsigned int *)&v35);
           i;
-          i = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, int *, float *))v5->ReadPathInfo)(
+          i = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, float *, float *))v5->ReadPathInfo)(
                 v5,
-                &pos.StartX,
-                &coord[1]) )
+                v33,
+                &x2) )
     {
-      v10 = *(float *)&y;
-      if ( !first && i == 2 )
+      v10 = v21;
+      if ( !v20 && i == 2 )
         break;
-      first = 0;
-      if ( styles[0] == styles[1] )
+      v20 = 0;
+      if ( v35 == v36 )
       {
-        ((void (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, Scaleform::Render::ShapePosInfo *, unsigned int *))v5->SkipPathData)(
+        ((void (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, int *, int *))v5->SkipPathData)(
           v5,
-          &pos,
+          &v32,
           a2);
       }
       else
       {
-        coord[0] = coord[0] * v10;
-        coord[1] = v10 * coord[1];
-        Scaleform::Render::Rasterizer::MoveTo(&this->Ras, coord[0], coord[1]);
-        for ( j = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, Scaleform::Render::ShapePosInfo *, float *, unsigned int *))v5->ReadEdge)(
+        x = x * v10;
+        x2 = v10 * x2;
+        Scaleform::Render::Rasterizer::MoveTo(&this->Ras, x, x2);
+        for ( j = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, int *, float *, int *))v5->ReadEdge)(
                     v5,
-                    &pos,
-                    coord,
-                    a2); j; j = v5->ReadEdge(v5, (Scaleform::Render::ShapePosInfo *)&pos.StartX, &coord[1]) )
+                    &v32,
+                    &x,
+                    a2); j; j = v5->ReadEdge(v5, (Scaleform::Render::ShapePosInfo *)v33, &x2) )
         {
-          v12 = coord[0];
-          coord[1] = coord[1] * coord[0];
+          v12 = x;
+          x2 = x2 * x;
           if ( j == 1 )
           {
-            coord[2] = v12 * coord[2];
-            Scaleform::Render::Rasterizer::LineTo(&this->Ras, coord[1], coord[2]);
+            v27 = v12 * v27;
+            Scaleform::Render::Rasterizer::LineTo(&this->Ras, x2, v27);
           }
           else
           {
-            coord[2] = coord[2] * v12;
-            coord[3] = coord[3] * v12;
-            coord[4] = v12 * coord[4];
+            v27 = v27 * v12;
+            v28 = v28 * v12;
+            v29 = v12 * v29;
             Scaleform::Render::TessellateQuadCurve(
               &this->Ras,
               (Scaleform::Render::ToleranceParams *)&param.CurveTolerance,
-              coord[1],
-              coord[2],
-              coord[3],
-              coord[4]);
+              x2,
+              v27,
+              v28,
+              v29);
           }
         }
         p_Ras->ClosePath(&this->Ras);
       }
-      a2 = &styles[1];
+      a2 = &v36;
     }
     if ( Scaleform::Render::Rasterizer::SortCells(&this->Ras) )
     {
-      d.pPlanes = &d.Plane0;
-      memset(&d, 0, 10);
-      d.RawPlaneCount = 1;
-      memset(&d.pPalette, 0, 24);
-      Scaleform::Render::RawImage::GetImageData(texImage, &d);
+      v31.pPlanes = &v31.Plane0;
+      memset(&v31, 0, 10);
+      v31.RawPlaneCount = 1;
+      memset(&v31.pPalette, 0, 24);
+      Scaleform::Render::RawImage::GetImageData(texImage, &v31);
       PadPixels = this->PackTextureConfig.PadPixels;
       v14 = this->Ras.MaxY - this->Ras.MinY + 1;
-      yb = floor(gi->Bounds.x1);
-      v15 = PadPixels + (int)yb;
-      yc = floor(gi->Bounds.y1);
-      v16 = PadPixels + (int)yc;
+      v22 = floor(gi->Bounds.x1);
+      v15 = PadPixels + (int)v22;
+      v23 = floor(gi->Bounds.y1);
+      v16 = PadPixels + (int)v23;
       v17 = 0;
-      ya = v16;
+      v24 = v16;
       if ( v14 )
       {
         while ( 1 )
         {
           Scaleform::Render::Rasterizer::SweepScanline(
-            v26,
+            v30,
             v17,
-            &d.pPlanes->pData[d.pPlanes->Pitch * (v17 + v16) + v15],
+            &v31.pPlanes->pData[v31.pPlanes->Pitch * (v17 + v16) + v15],
             1u,
             0);
           if ( ++v17 >= v14 )
             break;
-          v16 = ya;
+          v16 = v24;
         }
       }
-      Scaleform::Render::ImageData::freePlanes(&d);
-      if ( d.pPalette.pObject )
+      Scaleform::Render::ImageData::freePlanes(&v31);
+      if ( v31.pPalette.pObject )
       {
-        pObject = d.pPalette.pObject;
-        if ( InterlockedExchangeAdd(&d.pPalette.pObject->RefCount.Value, -1) == 1 )
+        pObject = v31.pPalette.pObject;
+        if ( InterlockedExchangeAdd(&v31.pPalette.pObject->RefCount.Value, -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pObject);
       }
-      p_Ras = v26;
+      p_Ras = v30;
     }
     p_Ras->Clear(p_Ras);
   }

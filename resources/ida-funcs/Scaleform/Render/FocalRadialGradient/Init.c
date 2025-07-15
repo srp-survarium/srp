@@ -21,27 +21,27 @@ void __thiscall Scaleform::Render::FocalRadialGradient::Init(
   double v18; // st6
   double v19; // rt1
   double v20; // st5
-  float da; // [esp+4h] [ebp+4h]
-  float db; // [esp+4h] [ebp+4h]
-  float dc; // [esp+4h] [ebp+4h]
-  float d; // [esp+4h] [ebp+4h]
-  float dd; // [esp+4h] [ebp+4h]
-  float de; // [esp+4h] [ebp+4h]
-  float df; // [esp+4h] [ebp+4h]
+  float v21; // [esp+4h] [ebp+4h]
+  float v22; // [esp+4h] [ebp+4h]
+  float v23; // [esp+4h] [ebp+4h]
+  float v24; // [esp+4h] [ebp+4h]
+  float v25; // [esp+4h] [ebp+4h]
+  float v26; // [esp+4h] [ebp+4h]
+  float v27; // [esp+4h] [ebp+4h]
 
   v4 = r;
   this->Radius = r;
   this->FocusX = fx;
   v5 = fy;
   this->FocusY = fy;
-  da = v4 * v4;
-  v6 = da;
-  this->Radius2 = da;
-  db = v5 * v5;
-  v7 = db;
-  dc = fx * fx;
-  d = v6 - (v7 + dc);
-  if ( 0.0 == d )
+  v21 = v4 * v4;
+  v6 = v21;
+  this->Radius2 = v21;
+  v22 = v5 * v5;
+  v7 = v22;
+  v23 = fx * fx;
+  v24 = v6 - (v7 + v23);
+  if ( 0.0 == v24 )
   {
     if ( 0.0 == fx )
     {
@@ -82,14 +82,14 @@ void __thiscall Scaleform::Render::FocalRadialGradient::Init(
       }
       this->FocusY = v17;
     }
-    dd = this->FocusX * this->FocusX;
-    v20 = dd;
-    de = this->FocusY * this->FocusY;
-    df = v18 - (v20 + de);
-    this->Multiplier = v4 / df;
+    v25 = this->FocusX * this->FocusX;
+    v20 = v25;
+    v26 = this->FocusY * this->FocusY;
+    v27 = v18 - (v20 + v26);
+    this->Multiplier = v4 / v27;
   }
   else
   {
-    this->Multiplier = v4 / d;
+    this->Multiplier = v4 / v24;
   }
 }

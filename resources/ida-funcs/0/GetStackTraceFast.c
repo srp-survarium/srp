@@ -1,27 +1,35 @@
-void __cdecl GetStackTraceFast(void *hThread, unsigned __int64 (*ranOffsets)[2])
+void __cdecl GetStackTraceFast(char *ranOffsets)
 {
-  int v2; // edx
-  int v3; // ecx
-  int capcount; // [esp+4h] [ebp-814h]
-  void *stacktrace[513]; // [esp+8h] [ebp-810h] BYREF
-  int index; // [esp+814h] [ebp-4h]
+  unsigned int v1; // esi
+  unsigned __int16 v2; // ax
+  signed int v3; // edi
+  char *v4; // ecx
+  __int64 v5; // rax
+  char *v6; // eax
+  void *v7[513]; // [esp+Ch] [ebp-804h] BYREF
 
-  if ( s_pfnCaptureStackBackTrace )
+  v1 = 0;
+  v2 = s_pfnCaptureStackBackTrace(3u, 0x200u, v7, 0);
+  v3 = v2;
+  if ( !v2 )
+    goto LABEL_5;
+  v4 = ranOffsets;
+  do
   {
-    capcount = s_pfnCaptureStackBackTrace(3u, 0x200u, stacktrace, 0);
-    for ( index = 0; index < capcount; ++index )
-    {
-      (*ranOffsets)[2 * index] = (int)stacktrace[index];
-      (*ranOffsets)[2 * index + 1] = (int)stacktrace[index];
-    }
-    if ( (unsigned int)index <= 0x200 )
-    {
-      v2 = 2 * index;
-      LODWORD((*ranOffsets)[v2]) = 0;
-      HIDWORD((*ranOffsets)[v2]) = 0;
-      v3 = 2 * index;
-      LODWORD((*ranOffsets)[v3 + 1]) = 0;
-      HIDWORD((*ranOffsets)[v3 + 1]) = 0;
-    }
+    v5 = (int)v7[v1];
+    *(_QWORD *)v4 = v5;
+    *((_QWORD *)v4 + 1) = v5;
+    ++v1;
+    v4 += 16;
+  }
+  while ( (int)v1 < v3 );
+  if ( v1 <= 0x200 )
+  {
+LABEL_5:
+    v6 = &ranOffsets[16 * v1];
+    *(_DWORD *)v6 = 0;
+    *((_DWORD *)v6 + 1) = 0;
+    *((_DWORD *)v6 + 2) = 0;
+    *((_DWORD *)v6 + 3) = 0;
   }
 }

@@ -11,7 +11,7 @@ Scaleform::Render::ContextImpl::Entry *__thiscall Scaleform::Render::ContextImpl
   }
   pNext = this->FreeNodes.Root.pNext;
   pNext->pPrev->RefCount = pNext->RefCount;
-  pNext->pNext->$98779B275605A540A5FF3CE1916F2CF0::pPrev = pNext->pPrev;
+  pNext->pNext->$A6339410173C75E57E963979A37E1205::pPrev = pNext->pPrev;
   ++*(_DWORD *)(((unsigned int)pNext & 0xFFFFF000) + 8);
   *(_DWORD *)(*(_DWORD *)(((unsigned int)pNext & 0xFFFFF000) + 0x10)
             + 4 * ((int)((int)&pNext[-1] - ((unsigned int)pNext & 0xFFFFF000)) / 28)

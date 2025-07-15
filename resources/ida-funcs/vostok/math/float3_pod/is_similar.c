@@ -1,7 +1,9 @@
-bool __thiscall vostok::math::float3_pod::is_similar(
-        vostok::math::float3_pod *this,
-        const vostok::math::float3_pod *other,
+bool __userpurge vostok::math::float3_pod::is_similar@<al>(
+        vostok::math::float3_pod *this@<edi>,
+        const vostok::math::float3_pod *other@<eax>,
         float epsilon)
 {
-  return epsilon > fabs(this->x - other->x) && epsilon > fabs(this->y - other->y) && epsilon > fabs(this->z - other->z);
+  return vostok::math::is_similar<float>(&this->x, &other->x, epsilon)
+      && vostok::math::is_similar<float>(&this->y, &other->y, epsilon)
+      && vostok::math::is_similar<float>(&this->z, &other->z, epsilon);
 }

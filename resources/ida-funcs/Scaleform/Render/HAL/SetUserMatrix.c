@@ -1,6 +1,8 @@
-void __thiscall Scaleform::Render::HAL::SetUserMatrix(
-        Scaleform::Render::HAL *this,
-        const Scaleform::Render::Matrix2x4<float> *m)
+int __thiscall Scaleform::Render::HAL::SetUserMatrix(
+        btCollisionWorld::rayTestSingle::__l42::LocalInfoAdder2 *this,
+        btBroadphaseProxy *p)
 {
-  this->Matrices.pObject->SetUserMatrix(this->Matrices.pObject, m);
+  return ((int (__thiscall *)(btCollisionWorld::RayResultCallback *, btBroadphaseProxy *))this->m_userCallback->needsCollision)(
+           this->m_userCallback,
+           p);
 }

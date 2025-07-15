@@ -5,12 +5,12 @@ int __cdecl _mtinit()
   BOOL (__stdcall *FlsFree)(DWORD); // eax
   DWORD v3; // eax
   int (__stdcall *v4)(_DWORD); // eax
-  _tiddata *v5; // eax
+  unsigned __int8 *v5; // eax
   _tiddata *v6; // esi
-  int (__stdcall *v7)(unsigned int, _tiddata *); // eax
+  int (__stdcall *v7)(unsigned int, unsigned __int8 *); // eax
   DWORD CurrentThreadId; // eax
   unsigned int v10; // [esp-8h] [ebp-10h]
-  _tiddata *v11; // [esp-4h] [ebp-Ch]
+  unsigned __int8 *v11; // [esp-4h] [ebp-Ch]
 
   ModuleHandleW = GetModuleHandleW(L"KERNEL32.DLL");
   if ( !ModuleHandleW )
@@ -45,13 +45,13 @@ int __cdecl _mtinit()
       __flsindex = v4(_freefls);
       if ( __flsindex != -1 )
       {
-        v5 = (_tiddata *)_calloc_crt(1u, 0x214u);
-        v6 = v5;
+        v5 = _calloc_crt(1u, 0x214u);
+        v6 = (_tiddata *)v5;
         if ( v5 )
         {
           v11 = v5;
           v10 = __flsindex;
-          v7 = (int (__stdcall *)(unsigned int, _tiddata *))_decode_pointer(gpFlsSetValue);
+          v7 = (int (__stdcall *)(unsigned int, unsigned __int8 *))_decode_pointer(gpFlsSetValue);
           if ( v7(v10, v11) )
           {
             _initptd(v6, 0);

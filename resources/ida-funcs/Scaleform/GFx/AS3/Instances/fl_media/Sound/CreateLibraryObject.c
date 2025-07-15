@@ -12,7 +12,7 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_media::Sound::CreateLibraryOb
   Scaleform::GFx::SoundResource *v11; // esi
   Scaleform::GFx::ASStringNode *v12; // eax
   Scaleform::GFx::ASString className; // [esp+Ch] [ebp-10h] BYREF
-  Scaleform::String symbol; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::String v14; // [esp+10h] [ebp-Ch] BYREF
   Scaleform::GFx::ResourceBindData resBindData; // [esp+14h] [ebp-8h] BYREF
 
   if ( this->pSoundResource.pObject )
@@ -28,14 +28,10 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_media::Sound::CreateLibraryOb
   pObject->GetQualifiedName(pObject, &className, qnfWithDot);
   resBindData.pResource.pObject = 0;
   resBindData.pBinding = 0;
-  Scaleform::String::String(&symbol, (char *)className.pNode->pData);
-  v5 = Scaleform::GFx::MovieImpl::FindExportedResource(
-         pVM->pMovieRoot->pMovieImpl,
-         this->pMovieDef,
-         &resBindData,
-         &symbol) == 0;
-  v6 = (void *)(symbol.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((symbol.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  Scaleform::String::String(&v14, (const __m128i *)className.pNode->pData);
+  v5 = Scaleform::GFx::MovieImpl::FindExportedResource(pVM->pMovieRoot->pMovieImpl, this->pMovieDef, &resBindData, &v14) == 0;
+  v6 = (void *)(v14.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v14.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v6);
   if ( v5 )
   {

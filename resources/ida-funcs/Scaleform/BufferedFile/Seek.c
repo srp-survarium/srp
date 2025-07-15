@@ -1,11 +1,11 @@
-unsigned int __thiscall Scaleform::BufferedFile::Seek(Scaleform::BufferedFile *this, int offset, int origin)
+int __thiscall Scaleform::BufferedFile::Seek(Scaleform::BufferedFile *this, int offset, int origin)
 {
   int v4; // ebp
   unsigned int Pos; // edx
   unsigned int DataSize; // ecx
   unsigned int v7; // edi
   unsigned int v8; // eax
-  unsigned int result; // eax
+  int result; // eax
   unsigned int v10; // edi
 
   if ( this->BufferMode != ReadBuffer )
@@ -50,6 +50,6 @@ LABEL_12:
   this->Pos = 0;
 LABEL_13:
   result = this->pFile.pObject->Seek(this->pFile.pObject, result, v4);
-  this->FilePos = (int)result;
+  this->FilePos = result;
   return result;
 }

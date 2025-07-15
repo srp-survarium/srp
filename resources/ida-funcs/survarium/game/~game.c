@@ -1,217 +1,192 @@
 void __thiscall survarium::game::~game(survarium::game *this)
 {
-  vostok::core::engine *v2; // ecx
-  const char *v3; // eax
-  survarium::stats_graph *v4; // ecx
-  int f; // edi
-  _BYTE *v6; // esi
-  void *v7; // eax
-  void *v8; // esi
-  int v9; // edi
-  _BYTE *v10; // esi
-  void *v11; // eax
-  void *v12; // esi
-  int v13; // edi
-  _BYTE *v14; // esi
-  void *v15; // eax
-  void *v16; // esi
-  int v17; // edi
-  _BYTE *v18; // esi
-  void *v19; // eax
-  void *v20; // esi
-  int v21; // edi
-  _BYTE *v22; // esi
-  void *v23; // eax
-  void *v24; // esi
-  survarium::stats *m_stats; // esi
-  int v26; // edi
-  survarium::stats *v27; // eax
-  void *v28; // esi
+  vostok::memory::doug_lea_allocator *v2; // esi
+  vostok::memory::doug_lea_allocator *v3; // ecx
+  char *v4; // edi
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  vostok::memory::doug_lea_allocator *v6; // esi
+  char *v7; // edi
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  vostok::memory::doug_lea_allocator *v9; // esi
+  char *v10; // edi
+  vostok::memory::doug_lea_allocator *v11; // ecx
+  vostok::memory::doug_lea_allocator *v12; // esi
+  char *m_stats; // edi
+  vostok::memory::doug_lea_allocator *v14; // ecx
+  vostok::memory::doug_lea_allocator *v15; // esi
   survarium::stats_graph *m_fps_graph; // edi
-  int v30; // esi
-  survarium::game *v31; // ecx
-  survarium::key_binder *m_key_binder; // eax
-  void *v33; // esi
-  int v34; // edi
-  _BYTE *v35; // esi
-  void *v36; // eax
-  void *v37; // esi
-  survarium::game_options *v38; // ecx
-  survarium::scheduler *v39; // ecx
-  vostok::configs::binary_config *m_object; // eax
-  survarium::items_dictionary *v41; // eax
-  vostok::render::base_output_window *v42; // eax
-  vostok::console_commands::command_type v43; // [esp+0h] [ebp-10h]
-  vostok::memory::base_allocator *v44; // [esp+4h] [ebp-Ch]
+  vostok::memory::doug_lea_allocator *v17; // ecx
+  vostok::sound::sound_debug_stats *m_sound_stats; // eax
+  vostok::memory::doug_lea_allocator *v19; // esi
+  survarium::flash_text_manager *m_flash_text_manager; // esi
+  vostok::memory::doug_lea_allocator *v21; // esi
+  char *v22; // edi
+  vostok::memory::doug_lea_allocator *v23; // ecx
+  survarium::game *p_m_ui_sounds; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v25; // eax
+  char *v26; // esi
+  vostok::memory::doug_lea_allocator *v27; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v28; // edi
+  vostok::journaling::journal *m_variable; // esi
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,survarium::respawn_point_core *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,survarium::respawn_point_core *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,survarium::respawn_point_core *> >,survarium::std_allocator<stlp_std::pair<unsigned int,survarium::respawn_point_core *> > > *v30; // ecx
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *v31; // ecx
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *v32; // ecx
+  survarium::flash_factory *v33; // ecx
+  vostok::memory::doug_lea_allocator *v34; // [esp-4h] [ebp-28h]
+  vostok::memory::doug_lea_allocator *v35; // [esp-4h] [ebp-28h]
+  const char *v36; // [esp+0h] [ebp-24h]
+  char *v37; // [esp+0h] [ebp-24h]
+  const char *v38; // [esp+0h] [ebp-24h]
+  const char *v39; // [esp+4h] [ebp-20h]
+  const char *v40; // [esp+4h] [ebp-20h]
+  unsigned int v41; // [esp+8h] [ebp-1Ch]
+  unsigned int v42; // [esp+8h] [ebp-1Ch]
+  vostok::memory::doug_lea_allocator *v43; // [esp+Ch] [ebp-18h]
+  vostok::particle::particle_system_instance_impl *m_object; // [esp+10h] [ebp-14h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v45; // [esp+14h] [ebp-10h]
 
-  v2 = s_engine_0;
   this->vostok::engine_user::world::__vftable = (survarium::game_vtbl *)&survarium::game::`vftable'{for `vostok::engine_user::world'};
   this->survarium::scaleform_game_engine::__vftable = (survarium::scaleform_game_engine_vtbl *)&survarium::game::`vftable'{for `survarium::scaleform_game_engine'};
-  v3 = v2->get_user_data_directory(v2);
-  vostok::console_commands::save("user.cfg", v3, v43, v44);
-  f = (int)survarium::g_allocator.f_.f_;
-  if ( this->m_network_client )
-  {
-    v6 = __RTCastToVoid((void **)&this->m_network_client->__vftable);
-    ((void (__thiscall *)(survarium::base_network_client *, _DWORD))this->m_network_client->~survarium::base_network_client)(
-      this->m_network_client,
-      0);
-    if ( v6 )
-    {
-      v7 = v6;
-      v8 = *(void **)(f + 20);
-      *(_BYTE *)(f + 42) = 0;
-      vostok_mspace_free(v8, v7);
-    }
-    this->m_network_client = 0;
-  }
-  v9 = (int)survarium::g_allocator.f_.f_;
-  if ( this->m_main_menu )
-  {
-    v10 = __RTCastToVoid((void **)&this->m_main_menu->__vftable);
-    ((void (__thiscall *)(survarium::main_menu *, _DWORD))this->m_main_menu->~survarium::base_game_scene)(
-      this->m_main_menu,
-      0);
-    if ( v10 )
-    {
-      v11 = v10;
-      v12 = *(void **)(v9 + 20);
-      *(_BYTE *)(v9 + 42) = 0;
-      vostok_mspace_free(v12, v11);
-    }
-    this->m_main_menu = 0;
-  }
-  v13 = (int)survarium::g_allocator.f_.f_;
+  cfg_save_user(this);
+  vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,survarium::base_network_client>(
+    survarium::g_allocator,
+    (survarium::game_effect **)&this->m_network_client,
+    v36,
+    v39,
+    v41);
+  v2 = survarium::g_allocator;
+  v3 = v34;
   if ( this->m_lobby_menu )
   {
-    v14 = __RTCastToVoid((void **)&this->m_lobby_menu->__vftable);
+    v4 = __RTCastToVoid((void **)&this->m_lobby_menu->__vftable);
     ((void (__thiscall *)(survarium::lobby_menu *, _DWORD))this->m_lobby_menu->~survarium::base_game_scene)(
       this->m_lobby_menu,
       0);
-    if ( v14 )
-    {
-      v15 = v14;
-      v16 = *(void **)(v13 + 20);
-      *(_BYTE *)(v13 + 42) = 0;
-      vostok_mspace_free(v16, v15);
-    }
+    vostok::memory::doug_lea_allocator::free_impl(v5, (int)v2, v4, v37, v40, v42);
     this->m_lobby_menu = 0;
   }
-  v17 = (int)survarium::g_allocator.f_.f_;
+  v6 = survarium::g_allocator;
   if ( this->m_login_menu )
   {
-    v18 = __RTCastToVoid((void **)&this->m_login_menu->__vftable);
+    v7 = __RTCastToVoid((void **)&this->m_login_menu->__vftable);
     ((void (__thiscall *)(survarium::login_menu *, _DWORD))this->m_login_menu->~survarium::base_game_scene)(
       this->m_login_menu,
       0);
-    if ( v18 )
-    {
-      v19 = v18;
-      v20 = *(void **)(v17 + 20);
-      *(_BYTE *)(v17 + 42) = 0;
-      vostok_mspace_free(v20, v19);
-    }
+    vostok::memory::doug_lea_allocator::free_impl(v8, (int)v6, v7, v37, v40, v42);
     this->m_login_menu = 0;
   }
-  v21 = (int)survarium::g_allocator.f_.f_;
+  v9 = survarium::g_allocator;
   if ( this->m_console )
   {
-    v22 = __RTCastToVoid((void **)&this->m_console->__vftable);
+    v10 = __RTCastToVoid((void **)&this->m_console->__vftable);
     ((void (__thiscall *)(vostok::engine::console *, _DWORD))this->m_console->~vostok::engine::console)(
       this->m_console,
       0);
-    if ( v22 )
-    {
-      v23 = v22;
-      v24 = *(void **)(v21 + 20);
-      *(_BYTE *)(v21 + 42) = 0;
-      vostok_mspace_free(v24, v23);
-    }
+    vostok::memory::doug_lea_allocator::free_impl(v11, (int)v9, v10, v37, v40, v42);
     this->m_console = 0;
   }
-  m_stats = this->m_stats;
-  v26 = (int)survarium::g_allocator.f_.f_;
+  v12 = survarium::g_allocator;
+  m_stats = (char *)this->m_stats;
   if ( m_stats )
   {
-    m_stats->m_ui_world->destroy_window(m_stats->m_ui_world, m_stats->m_main_window);
-    v27 = m_stats;
-    v28 = *(void **)(v26 + 20);
-    *(_BYTE *)(v26 + 42) = 0;
-    vostok_mspace_free(v28, v27);
+    (*(void (__thiscall **)(_DWORD, _DWORD))(**(_DWORD **)m_stats + 36))(*(_DWORD *)m_stats, *((_DWORD *)m_stats + 1));
+    vostok::memory::doug_lea_allocator::free_impl(v14, (int)v12, m_stats, v37, v40, v42);
     this->m_stats = 0;
   }
+  v15 = survarium::g_allocator;
   m_fps_graph = this->m_fps_graph;
-  v30 = (int)survarium::g_allocator.f_.f_;
   if ( m_fps_graph )
   {
-    survarium::stats_graph::~stats_graph(v4, (int)m_fps_graph);
-    *(_BYTE *)(v30 + 42) = 0;
-    vostok_mspace_free(*(void **)(v30 + 20), m_fps_graph);
+    vostok::memory::detail::call_destructor_predicate::operator()<survarium::stats_graph>(
+      m_fps_graph,
+      (vostok::memory::detail::call_destructor_predicate *)v37);
+    vostok::memory::doug_lea_allocator::free_impl(v17, (int)v15, (char *)m_fps_graph, v38, v40, v42);
     this->m_fps_graph = 0;
   }
-  vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,survarium::flash_factory,vostok::memory::detail::call_destructor_predicate>(
-    (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-    &this->m_flash_factory);
-  m_key_binder = this->m_key_binder;
-  if ( m_key_binder )
+  m_sound_stats = this->m_sound_stats;
+  if ( m_sound_stats )
   {
-    v33 = *(void **)(LODWORD(survarium::g_allocator.f_.f_) + 20);
-    *(_BYTE *)(LODWORD(survarium::g_allocator.f_.f_) + 42) = 0;
-    vostok_mspace_free(v33, m_key_binder);
+    v19 = survarium::g_allocator;
+    m_sound_stats->m_scene = 0;
+    vostok::memory::doug_lea_allocator::free_impl(v3, (int)v19, (char *)m_sound_stats, v37, v40, v42);
+    this->m_sound_stats = 0;
+  }
+  m_flash_text_manager = this->m_flash_text_manager;
+  if ( m_flash_text_manager )
+  {
+    if ( m_flash_text_manager->text_manager_impl )
+      ((void (__thiscall *)(Scaleform::GFx::DrawTextManager *, int))m_flash_text_manager->text_manager_impl->~Scaleform::GFx::DrawTextManager)(
+        m_flash_text_manager->text_manager_impl,
+        1);
+    operator delete(m_flash_text_manager);
+    v3 = v35;
+  }
+  if ( this->m_key_binder )
+  {
+    vostok::memory::doug_lea_allocator::free_impl(
+      v3,
+      (int)survarium::g_allocator,
+      (char *)this->m_key_binder,
+      v37,
+      v40,
+      v42);
     this->m_key_binder = 0;
   }
-  v34 = (int)survarium::g_allocator.f_.f_;
+  v21 = survarium::g_allocator;
   if ( this->m_chat_handler )
   {
-    v35 = __RTCastToVoid((void **)&this->m_chat_handler->__vftable);
+    v22 = __RTCastToVoid((void **)&this->m_chat_handler->__vftable);
     ((void (__thiscall *)(survarium::chat_handler *, _DWORD))this->m_chat_handler->~survarium::chat_handler)(
       this->m_chat_handler,
       0);
-    if ( v35 )
-    {
-      v36 = v35;
-      v37 = *(void **)(v34 + 20);
-      *(_BYTE *)(v34 + 42) = 0;
-      vostok_mspace_free(v37, v36);
-    }
+    vostok::memory::doug_lea_allocator::free_impl(v23, (int)v21, v22, v37, v40, v42);
     this->m_chat_handler = 0;
   }
-  survarium::game::deinitialize_modules(v31);
-  survarium::game_options::~game_options(v38);
-  m_object = this->m_text_translator.m_text_data.m_object;
-  if ( m_object )
+  p_m_ui_sounds = (survarium::game *)&this->m_ui_sounds;
+  if ( this->m_ui_sounds )
   {
-    v39 = (survarium::scheduler *)_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF);
-    if ( !v39 )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &this->m_text_translator.m_text_data.m_object->vostok::resources::unmanaged_intrusive_base,
-        this->m_text_translator.m_text_data.m_object);
+    v43 = survarium::g_allocator;
+    v25 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)p_m_ui_sounds->vostok::engine_user::world::__vftable;
+    v26 = (char *)&v25[-2];
+    v27 = (vostok::memory::doug_lea_allocator *)p_m_ui_sounds->vostok::engine_user::world::__vftable[-1].~survarium::game;
+    m_object = v25[-1].m_object;
+    v28 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)v25 + (_DWORD)v27 * (int)v25[-2].m_object);
+    while ( 1 )
+    {
+      v45 = v25;
+      if ( v25 == v28 )
+        break;
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(v25);
+      v25 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)v45 + (_DWORD)m_object);
+    }
+    vostok::memory::doug_lea_allocator::free_impl(v27, (int)v43, v26, v37, v40, v42);
   }
-  if ( this->m_swf_input_translator.char_map._M_t._M_node_count )
+  survarium::game::deinitialize_modules(p_m_ui_sounds, (int)this);
+  s_initialized_1 = 0;
+  if ( vostok::core::g_journal.m_initialized )
   {
-    stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const,survarium::respawn_point_core *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,survarium::std_allocator<stlp_std::pair<unsigned int,survarium::respawn_point_core *>>>::_M_erase(
-      (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,survarium::respawn_point_core *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,survarium::respawn_point_core *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,survarium::respawn_point_core *> >,survarium::std_allocator<stlp_std::pair<unsigned int,survarium::respawn_point_core *> > > *)&this->m_swf_input_translator,
-      this->m_swf_input_translator.char_map._M_t._M_header._M_data._M_parent);
-    this->m_swf_input_translator.char_map._M_t._M_header._M_data._M_left = &this->m_swf_input_translator.char_map._M_t._M_header._M_data;
-    this->m_swf_input_translator.char_map._M_t._M_header._M_data._M_parent = 0;
-    this->m_swf_input_translator.char_map._M_t._M_header._M_data._M_right = &this->m_swf_input_translator.char_map._M_t._M_header._M_data;
-    this->m_swf_input_translator.char_map._M_t._M_node_count = 0;
+    m_variable = vostok::core::g_journal.m_variable;
+    if ( vostok::core::g_journal.m_variable->m_usage == record_journal )
+      vostok::core::g_journal.m_variable->m_device.m_device_file_system->flush(
+        vostok::core::g_journal.m_variable->m_device.m_device_file_system,
+        vostok::core::g_journal.m_variable->m_file);
+    m_variable->m_device.m_device_file_system->close(m_variable->m_device.m_device_file_system, m_variable->m_file);
+    vostok::core::g_journal.m_initialized = 0;
   }
-  v41 = this->m_items_dictionary.m_object;
-  if ( v41 )
-  {
-    v39 = (survarium::scheduler *)_InterlockedExchangeAdd(&v41->m_reference_count, 0xFFFFFFFF);
-    if ( !v39 )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &this->m_items_dictionary.m_object->vostok::resources::unmanaged_intrusive_base,
-        this->m_items_dictionary.m_object);
-  }
-  survarium::scheduler::~scheduler(v39);
+  survarium::game_options::~game_options(&this->m_game_options);
+  if ( this->m_replay_match_reader.m_file )
+    this->m_replay_match_reader.m_device.m_device_file_system->close(
+      this->m_replay_match_reader.m_device.m_device_file_system,
+      this->m_replay_match_reader.m_file);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_text_translator);
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const,survarium::respawn_point_core *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,survarium::std_allocator<stlp_std::pair<unsigned int,survarium::respawn_point_core *>>>::~_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const,survarium::respawn_point_core *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const,survarium::respawn_point_core *>>,survarium::std_allocator<stlp_std::pair<unsigned int,survarium::respawn_point_core *>>>(
+    v30,
+    (stlp_std::priv::_Rb_tree<vostok::fixed_string<260>,stlp_std::less<vostok::fixed_string<260> >,stlp_std::pair<vostok::fixed_string<260> const ,survarium::base_game_object *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<260> const ,survarium::base_game_object *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<260> const ,survarium::base_game_object *> >,survarium::std_allocator<stlp_std::pair<vostok::fixed_string<260>,survarium::base_game_object *> > > *)&this->m_swf_input_translator);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_items_dictionary);
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::~_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>(v31);
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::~_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>(v32);
   survarium::game_world::~game_world(&this->m_game_world);
-  v42 = this->m_render_output_window.m_object;
-  if ( v42 && !_InterlockedExchangeAdd(&v42->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_render_output_window.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_render_output_window.m_object);
+  survarium::flash_factory::~flash_factory(v33, &this->m_flash_factory.m_gfx_loader);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_render_output_window);
   DeleteCriticalSection((LPCRITICAL_SECTION)&this->m_application_activation);
 }

@@ -1,97 +1,53 @@
 char __thiscall survarium::messaging_client::read_friend_status(
         survarium::messaging_client *this,
-        survarium::messaging_client *reader,
-        vostok::network_core::packet_reader *readera)
+        vostok::network_core::buffer_reader *reader,
+        vostok::network_core::buffer_reader *a3)
 {
-  const unsigned __int8 *m_pointer; // eax
-  unsigned __int16 v5; // cx
-  unsigned int *v6; // eax
-  unsigned int v7; // ecx
-  char v8; // bl
-  survarium::account_list_item *M_finish; // esi
-  survarium::account_list_item *v10; // eax
-  void (__cdecl *v11)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v12)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  int v14; // [esp+10h] [ebp-2Ch]
-  unsigned int account_id; // [esp+14h] [ebp-28h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+18h] [ebp-24h] BYREF
-  unsigned int readerb; // [esp+44h] [ebp+8h]
+  survarium::messaging_client *v4; // ecx
+  const unsigned __int8 *m_pointer; // esi
+  bool v6; // al
+  survarium::account_list_item *m_buffer_size; // esi
+  survarium::account_list_item *v8; // eax
+  survarium::messaging_client *v10; // [esp-4h] [ebp-24h]
+  survarium::messaging_client *v11; // [esp+10h] [ebp-10h]
+  unsigned int v12; // [esp+14h] [ebp-Ch] BYREF
+  unsigned int v13; // [esp+18h] [ebp-8h]
+  unsigned int v14; // [esp+1Ch] [ebp-4h]
+  bool v15; // [esp+2Bh] [ebp+Bh]
 
-  m_pointer = readera->m_pointer;
-  v5 = *(_WORD *)m_pointer;
-  readera->m_pointer = m_pointer + 2;
-  readerb = 0;
-  if ( v5 )
+  v4 = (survarium::messaging_client *)vostok::network_core::buffer_reader::r<unsigned short>(a3);
+  v11 = v4;
+  if ( (survarium::messaging_client *)((signed int)(reader[29].m_buffer_size - (unsigned int)reader[29].m_pointer) / 72) != v4 )
   {
-    v14 = v5;
-    do
+LABEL_6:
+    survarium::messaging_client::query_for_friend_list(v4, (int)reader);
+    return 1;
+  }
+  v14 = 0;
+  if ( v4 )
+  {
+    while ( 1 )
     {
-      v6 = (unsigned int *)readera->m_pointer;
-      v7 = *v6++;
-      readera->m_pointer = (const unsigned __int8 *)v6;
-      v8 = *(_BYTE *)v6;
-      readera->m_pointer = (const unsigned __int8 *)v6 + 1;
-      M_finish = reader->m_friend_list._M_impl._M_finish;
-      account_id = v7;
-      v10 = stlp_std::priv::__find<survarium::account_list_item *,unsigned int>(
-              reader->m_friend_list._M_impl._M_start,
-              M_finish,
-              &account_id);
-      if ( v10 == M_finish )
-      {
-        if ( !vostok::core::g_log_filter_tree
-          || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-        {
-          v11 = vostok::core::g_log_callback;
-          log_callback.vtable = 0;
-          if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-            `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-              &log_callback.functor,
-              &log_callback.functor,
-              destroy_functor_tag);
-          if ( v11 )
-          {
-            log_callback.functor.obj_ptr = v11;
-            log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                         + 1);
-          }
-          else
-          {
-            log_callback.vtable = 0;
-          }
-          readerb |= 1u;
-          vostok::logging::append(
-            &log_callback,
-            (void *const)vostok::core::g_log_flags,
-            &vostok::core::g_log_format,
-            ".\\messaging_client.cpp",
-            0x7Cu,
-            "bool __thiscall survarium::messaging_client::read_friend_status(class vostok::network_core::packet_reader &)",
-            "game:",
-            error,
-            "Friend list out of sync.");
-        }
-        if ( (readerb & 1) != 0 )
-        {
-          readerb &= ~1u;
-          if ( log_callback.vtable )
-          {
-            if ( ((int)log_callback.vtable & 1) == 0 )
-            {
-              v12 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-              if ( v12 )
-                v12(&log_callback.functor, &log_callback.functor, 2);
-            }
-          }
-        }
-      }
-      else
-      {
-        v10->online = v8;
-      }
-      --v14;
+      m_pointer = a3->m_pointer;
+      v13 = *(_DWORD *)m_pointer;
+      a3->m_pointer = m_pointer + 4;
+      v12 = v13;
+      v6 = vostok::network_core::buffer_reader::r<bool>(a3);
+      m_buffer_size = (survarium::account_list_item *)reader[29].m_buffer_size;
+      v15 = v6;
+      v8 = stlp_std::find<survarium::account_list_item *,unsigned int>(
+             (survarium::account_list_item *)reader[29].m_pointer,
+             &v12,
+             m_buffer_size);
+      v4 = v10;
+      if ( v8 == m_buffer_size )
+        break;
+      ++v14;
+      v8->online = v15;
+      if ( v14 >= (unsigned int)v11 )
+        return 1;
     }
-    while ( v14 );
+    goto LABEL_6;
   }
   return 1;
 }

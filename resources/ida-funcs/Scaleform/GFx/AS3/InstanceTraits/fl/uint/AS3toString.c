@@ -34,7 +34,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::uint::AS3toString(
       return;
     if ( radix < 2 || radix > 0x10 )
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v16, eInvalidRadixError, vm);
+      Scaleform::GFx::AS3::VM::Error::Error(&v16, eInvalidRadixError, vm, radix);
       Scaleform::GFx::AS3::VM::ThrowRangeError(vm, v12);
 LABEL_13:
       pNode = v16.Message.pNode;
@@ -51,7 +51,7 @@ LABEL_13:
   Scaleform::DoubleFormatter::GetResult((Scaleform::DoubleFormatter *)&f, &r);
   StringNode = (const Scaleform::GFx::AS3::Value *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                      vm->StringManagerRef->pStringManager,
-                                                     (char *)r.pStr,
+                                                     (__m128i *)r.pStr,
                                                      r.Size);
   v10 = result;
   _this = (Scaleform::GFx::AS3::Value *)StringNode;

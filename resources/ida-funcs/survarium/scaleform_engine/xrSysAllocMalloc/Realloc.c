@@ -5,20 +5,17 @@ unsigned __int8 *__thiscall survarium::scaleform_engine::xrSysAllocMalloc::Reall
         unsigned int newSize,
         unsigned int align)
 {
-  unsigned __int8 *result; // eax
-  unsigned __int8 *v7; // edi
-  unsigned int v8; // eax
+  unsigned __int8 *v6; // edi
+  unsigned int v7; // eax
 
-  result = (unsigned __int8 *)this->Alloc(this, newSize, align);
-  v7 = result;
-  if ( result )
+  v6 = (unsigned __int8 *)this->Alloc(this, newSize, align);
+  if ( v6 )
   {
-    v8 = newSize;
+    v7 = newSize;
     if ( newSize >= oldSize )
-      v8 = oldSize;
-    memcpy(v7, oldPtr, v8);
+      v7 = oldSize;
+    memcpy(v6, oldPtr, v7);
     this->Free(this, oldPtr, oldSize, align);
-    return v7;
   }
-  return result;
+  return v6;
 }

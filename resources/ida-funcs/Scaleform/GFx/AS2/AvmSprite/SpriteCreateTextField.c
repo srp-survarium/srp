@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v1; // esi
+  Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // esi
   Scaleform::GFx::InteractiveObject *Target; // esi
   Scaleform::GFx::AS2::Value *v4; // eax
@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scalefo
   Scaleform::GFx::AS2::Value *v6; // eax
   Scaleform::RefCountNTSImpl *v7; // eax
   Scaleform::RefCountNTSImpl *v8; // esi
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v9; // eax
   Scaleform::GFx::InteractiveObject *v10; // eax
   int *v11; // esi
   int v12; // ebx
@@ -19,16 +19,16 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scalefo
   Scaleform::GFx::AS2::Value *v17; // eax
   int v18; // ebx
   Scaleform::GFx::AS2::Value *v19; // eax
-  Scaleform::GFx::AS2::Environment *pos_56; // [esp+A0h] [ebp-A8h]
-  Scaleform::GFx::AS2::Environment *pos_84; // [esp+BCh] [ebp-8Ch]
-  Scaleform::GFx::ASString result; // [esp+DCh] [ebp-6Ch] BYREF
-  Scaleform::GFx::InteractiveObject *pchar; // [esp+E0h] [ebp-68h]
-  Scaleform::RefCountNTSImpl *v24; // [esp+E4h] [ebp-64h]
-  Scaleform::GFx::CharPosInfo v25; // [esp+E8h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp+14h] [ebp-A8h]
+  Scaleform::GFx::AS2::Environment *v21; // [esp+30h] [ebp-8Ch]
+  Scaleform::GFx::ASStringNode *v22; // [esp+50h] [ebp-6Ch] BYREF
+  Scaleform::GFx::InteractiveObject *pchar; // [esp+54h] [ebp-68h]
+  Scaleform::RefCountNTSImpl *v24; // [esp+58h] [ebp-64h]
+  Scaleform::GFx::CharPosInfo v25; // [esp+5Ch] [ebp-60h] BYREF
 
-  v1 = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(v1);
-  v1->T.Type = 0;
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 0;
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
   {
@@ -43,9 +43,9 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scalefo
   }
   if ( Target && fn->NArgs >= 6 )
   {
-    pos_56 = fn->Env;
+    Env = fn->Env;
     v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    v5 = (int)Scaleform::GFx::AS2::Value::ToNumber(v4, pos_56);
+    v5 = (int)Scaleform::GFx::AS2::Value::ToNumber(v4, Env);
     Scaleform::GFx::CharPosInfo::CharPosInfo(
       &v25,
       (Scaleform::GFx::ResourceId)((char *)&_sbh_sizeHeaderList.unused + 2),
@@ -61,13 +61,13 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scalefo
       Blend_None);
     if ( v25.Depth <= 0x7EFFFFFDu )
     {
-      pos_84 = fn->Env;
+      v21 = fn->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v6, &result, pos_84, -1, 0);
-      v7 = (Scaleform::RefCountNTSImpl *)((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASString *, _DWORD, _DWORD, int, int, _DWORD, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
+      Scaleform::GFx::AS2::Value::ToStringImpl(v6, (Scaleform::GFx::ASString *)&v22, v21, -1, 0);
+      v7 = (Scaleform::RefCountNTSImpl *)((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASStringNode **, _DWORD, _DWORD, int, int, _DWORD, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
                                            Target,
                                            &v25,
-                                           &result,
+                                           &v22,
                                            0,
                                            0,
                                            -1,
@@ -78,10 +78,10 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateTextField(const Scalefo
       v24 = v7;
       if ( v7 )
         ++v7->RefCount;
-      pNode = result.pNode;
-      --result.pNode->RefCount;
-      if ( !pNode->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+      v9 = v22;
+      --v22->RefCount;
+      if ( !v9->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v9);
       if ( v8 )
       {
         ((void (__thiscall *)(Scaleform::RefCountNTSImpl *, _DWORD))v8->__vftable[51].~Scaleform::RefCountNTSImpl)(

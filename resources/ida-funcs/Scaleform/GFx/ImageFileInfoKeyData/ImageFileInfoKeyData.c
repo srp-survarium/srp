@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::ImageFileInfoKeyData::ImageFileInfoKeyData(
         Scaleform::MemoryHeap *pimageHeap)
 {
   Scaleform::GFx::ImageFileInfo *pObject; // ecx
-  Scaleform::GFx::FileOpener *v7; // ecx
+  Scaleform::RefCountVImpl *v7; // ecx
   Scaleform::RefCountVImpl *v8; // ecx
 
   this->__vftable = (Scaleform::GFx::ImageFileInfoKeyData_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -23,9 +23,9 @@ void __thiscall Scaleform::GFx::ImageFileInfoKeyData::ImageFileInfoKeyData(
   this->pFileInfo.pObject = pfileInfo;
   if ( pfileOpener )
     Scaleform::RefCountImpl::AddRef(pfileOpener);
-  v7 = this->pFileOpener.pObject;
+  v7 = (Scaleform::RefCountVImpl *)this->pFileOpener.pObject;
   if ( v7 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v7);
+    Scaleform::RefCountImpl::Release(v7);
   this->pFileOpener.pObject = (Scaleform::GFx::FileOpener *)pfileOpener;
   if ( pimageCreator )
     Scaleform::RefCountImpl::AddRef(pimageCreator);

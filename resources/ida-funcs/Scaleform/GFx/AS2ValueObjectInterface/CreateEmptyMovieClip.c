@@ -2,38 +2,65 @@ char __thiscall Scaleform::GFx::AS2ValueObjectInterface::CreateEmptyMovieClip(
         Scaleform::GFx::AS2ValueObjectInterface *this,
         Scaleform::GFx::CharacterHandle *pdata,
         Scaleform::GFx::Value *pmc,
-        char *instanceName,
+        __m128i *instanceName,
         int depth)
 {
-  Scaleform::GFx::InteractiveObject *v6; // esi
+  Scaleform::GFx::AMP::ViewStats *v6; // eax
+  Scaleform::GFx::InteractiveObject *v7; // esi
   Scaleform::GFx::AS2::MovieRoot *pObject; // ebx
-  int v8; // ecx
-  Scaleform::GFx::AS2::Environment *v9; // edi
-  int v10; // eax
+  int v9; // ecx
+  Scaleform::GFx::AS2::Environment *v10; // edi
+  int v11; // eax
   int LargestDepthInUse; // eax
-  int v12; // eax
-  Scaleform::GFx::InteractiveObject *v13; // esi
-  Scaleform::GFx::ASStringNode *v14; // eax
-  Scaleform::GFx::ASStringNode *StringNode; // [esp+DCh] [ebp-74h] BYREF
-  Scaleform::GFx::AS2::Value value; // [esp+E0h] [ebp-70h] BYREF
-  Scaleform::GFx::CharPosInfo v18; // [esp+F0h] [ebp-60h] BYREF
+  int v13; // eax
+  Scaleform::GFx::InteractiveObject *v14; // esi
+  Scaleform::GFx::ASStringNode *v15; // eax
+  Scaleform::AmpStats *v17; // edi
+  void (__thiscall **v18)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v19; // rax
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::ASStringNode *StringNode; // [esp+20h] [ebp-84h] BYREF
+  Scaleform::AmpFunctionTimer v24; // [esp+24h] [ebp-80h] BYREF
+  Scaleform::GFx::AS2::Value value; // [esp+34h] [ebp-70h] BYREF
+  Scaleform::GFx::CharPosInfo v26; // [esp+44h] [ebp-60h] BYREF
 
-  v6 = Scaleform::GFx::CharacterHandle::ResolveCharacter(pdata, this->pMovieRoot);
-  if ( !v6 || (v6->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x400) == 0 )
+  v6 = this->GetAdvanceStats(this);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v24,
+    v6,
+    "ObjectInterface::CreateEmptyMovieClip",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ObjectInterface_CreateEmptyMovieClip);
+  v7 = Scaleform::GFx::CharacterHandle::ResolveCharacter(pdata, this->pMovieRoot);
+  if ( !v7 || (v7->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x400) == 0 )
+  {
+    Stats = v24.Stats;
+    if ( v24.Stats )
+    {
+      p_NativePopCallstack = &v24.Stats->NativePopCallstack;
+      ProfileTicks = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+        Stats,
+        ProfileTicks - LODWORD(v24.StartTicks),
+        (ProfileTicks - v24.StartTicks) >> 32);
+    }
     return 0;
+  }
   pObject = (Scaleform::GFx::AS2::MovieRoot *)this->pMovieRoot->pASMovieRoot.pObject;
-  v8 = (int)pObject->pMovieImpl->pMainMovie + 4 * pObject->pMovieImpl->pMainMovie->AvmObjOffset;
-  v9 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 124))(v8);
-  v10 = depth;
+  v9 = (int)pObject->pMovieImpl->pMainMovie + 4 * pObject->pMovieImpl->pMainMovie->AvmObjOffset;
+  v10 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v9 + 124))(v9);
+  v11 = depth;
   if ( depth < 0 )
   {
-    LargestDepthInUse = Scaleform::GFx::DisplayList::GetLargestDepthInUse((Scaleform::GFx::DisplayList *)&v6[1]);
-    v10 = LargestDepthInUse - 0x3FFF < 0 ? 0 : LargestDepthInUse - 0x3FFF;
+    LargestDepthInUse = Scaleform::GFx::DisplayList::GetLargestDepthInUse((Scaleform::GFx::DisplayList *)&v7[1]);
+    v11 = LargestDepthInUse - 0x3FFF < 0 ? 0 : LargestDepthInUse - 0x3FFF;
   }
   Scaleform::GFx::CharPosInfo::CharPosInfo(
-    &v18,
+    &v26,
     (Scaleform::GFx::ResourceId)65537,
-    v10 + 0x4000,
+    v11 + 0x4000,
     1,
     &Scaleform::Render::Cxform::Identity,
     1,
@@ -43,19 +70,30 @@ char __thiscall Scaleform::GFx::AS2ValueObjectInterface::CreateEmptyMovieClip(
     0,
     0,
     Blend_None);
-  if ( v18.Depth > 0x7EFFFFFDu )
+  if ( v26.Depth > 0x7EFFFFFDu )
   {
-    if ( v18.pFilters.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v18.pFilters.pObject);
+    if ( v26.pFilters.pObject )
+      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v26.pFilters.pObject);
+    v17 = v24.Stats;
+    if ( v24.Stats )
+    {
+      v18 = &v24.Stats->NativePopCallstack;
+      v19 = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v18)(
+        v17,
+        v19 - LODWORD(v24.StartTicks),
+        (v19 - v24.StartTicks) >> 32);
+      return 0;
+    }
     return 0;
   }
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                 (Scaleform::GFx::ASStringManager *)v9->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                 (Scaleform::GFx::ASStringManager *)v10->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                  instanceName);
   ++StringNode->RefCount;
-  v12 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASStringNode **, _DWORD, _DWORD, int, int, _DWORD, _DWORD))v6->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
-          v6,
-          &v18,
+  v13 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASStringNode **, _DWORD, _DWORD, int, int, _DWORD, _DWORD))v7->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
+          v7,
+          &v26,
           &StringNode,
           0,
           0,
@@ -63,23 +101,24 @@ char __thiscall Scaleform::GFx::AS2ValueObjectInterface::CreateEmptyMovieClip(
           1,
           0,
           0);
-  v13 = (Scaleform::GFx::InteractiveObject *)v12;
-  if ( v12 )
-    ++*(_DWORD *)(v12 + 4);
-  v14 = StringNode;
-  --StringNode->RefCount;
-  if ( !v14->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v14);
+  v14 = (Scaleform::GFx::InteractiveObject *)v13;
   if ( v13 )
+    ++*(_DWORD *)(v13 + 4);
+  v15 = StringNode;
+  --StringNode->RefCount;
+  if ( !v15->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v15);
+  if ( v14 )
   {
-    v13->SetAcceptAnimMoves(v13, 0);
-    Scaleform::GFx::AS2::Value::Value(&value, v13);
-    Scaleform::GFx::AS2::MovieRoot::ASValue2Value(pObject, v9, &value, pmc);
+    v14->SetAcceptAnimMoves(v14, 0);
+    Scaleform::GFx::AS2::Value::Value(&value, v14);
+    Scaleform::GFx::AS2::MovieRoot::ASValue2Value(pObject, v10, &value, pmc);
     if ( value.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&value);
-    Scaleform::RefCountNTSImpl::Release(v13);
+    Scaleform::RefCountNTSImpl::Release(v14);
   }
-  if ( v18.pFilters.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v18.pFilters.pObject);
+  if ( v26.pFilters.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v26.pFilters.pObject);
+  Scaleform::AmpFunctionTimer::~AmpFunctionTimer(&v24);
   return 1;
 }

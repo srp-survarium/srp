@@ -5,11 +5,11 @@ void __stdcall Scaleform::GFx::GFx_DefineBinaryData(
   Scaleform::GFx::SWFProcessInfo *pAltStream; // esi
   int v3; // eax
   unsigned int Pos; // eax
-  unsigned int v5; // ecx
-  Scaleform::GFx::ResourceId v6; // esi
+  Scaleform::GFx::ResourceId v5; // ebp
+  Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // eax
   Scaleform::GFx::ButtonDef *v7; // eax
   Scaleform::GFx::Resource *v8; // eax
-  Scaleform::GFx::Resource *v9; // ebx
+  Scaleform::GFx::Resource *v9; // esi
 
   Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogError(
     &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
@@ -22,11 +22,20 @@ void __stdcall Scaleform::GFx::GFx_DefineBinaryData(
   if ( v3 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   Pos = pAltStream->Stream.Pos;
-  v5 = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
+  v5.Id = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
-  v6.Id = v5;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v5);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  DefineBinaryData: CharId = %d\n",
+    v5.Id);
   Scaleform::GFx::LoadProcess::ReadU32(p);
+  if ( (p->ParseFlags & 1) != 0 )
+  {
+    p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
+    if ( !p_ProcessInfo )
+      p_ProcessInfo = &p->ProcessInfo;
+    Scaleform::GFx::Stream::LogTagBytes(&p_ProcessInfo->Stream);
+  }
   v7 = (Scaleform::GFx::ButtonDef *)p->pLoadData.pObject->pHeap->Alloc(p->pLoadData.pObject->pHeap, 52, 0);
   if ( v7 )
   {
@@ -38,7 +47,7 @@ void __stdcall Scaleform::GFx::GFx_DefineBinaryData(
     v9 = 0;
   }
   if ( p->LoadState == LS_LoadingRoot )
-    Scaleform::GFx::MovieDataDef::LoadTaskData::AddResource(p->pLoadData.pObject, v6, v9);
+    Scaleform::GFx::MovieDataDef::LoadTaskData::AddResource(p->pLoadData.pObject, v5, v9);
   if ( v9 )
     Scaleform::GFx::Resource::Release(v9);
 }

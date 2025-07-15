@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::PushBack(
         Scaleform::GFx::AS3::VectorBase<unsigned long> *this,
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   Scaleform::GFx::AS3::Value::V1U v5; // ebp
   const Scaleform::MemoryHeap *pHeap; // eax
@@ -24,7 +24,12 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::PushBack(
       {
         r.Flags = 0;
         r.Bonus.pWeakProxy = 0;
-        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&argv, tr, v, &r)->Result )
+        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+                this,
+                (Scaleform::GFx::AS3::CheckResult *)&argv,
+                tr,
+                v,
+                (Scaleform::GFx::ASStringNode *)&r)->Result )
           break;
         v5 = r.value.VS._1;
         pHeap = this->ValueA.Data.pHeap;
@@ -76,10 +81,10 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::PushBack(
         Scaleform::GFx::AS3::VectorBase<double> *this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   int v5; // ebp
-  const Scaleform::GFx::AS3::ClassTraits::Traits *v6; // ebx
+  Scaleform::GFx::AS3::ClassTraits::Traits *v6; // ebx
   const Scaleform::GFx::AS3::Value *i; // esi
   Scaleform::GFx::AS3::CheckResult result; // [esp+7h] [ebp-11h] BYREF
   Scaleform::GFx::AS3::Value r; // [esp+8h] [ebp-10h] BYREF
@@ -94,7 +99,12 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::PushBack(
       {
         r.Flags = 0;
         r.Bonus.pWeakProxy = 0;
-        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&argv, v6, i, &r)->Result )
+        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+                this,
+                (Scaleform::GFx::AS3::CheckResult *)&argv,
+                v6,
+                i,
+                (Scaleform::GFx::ASStringNode *)&r)->Result )
           break;
         Scaleform::GFx::AS3::VectorBase<double>::PushBackUnsafe(this, &r);
         if ( (r.Flags & 0x1F) > 9 )
@@ -123,10 +133,10 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Pus
         Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value> *this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   int v5; // ebp
-  const Scaleform::GFx::AS3::ClassTraits::Traits *v6; // ebx
+  Scaleform::GFx::AS3::ClassTraits::Traits *v6; // ebx
   const Scaleform::GFx::AS3::Value *i; // esi
   Scaleform::GFx::AS3::CheckResult result; // [esp+7h] [ebp-11h] BYREF
   Scaleform::GFx::AS3::Value r; // [esp+8h] [ebp-10h] BYREF
@@ -141,7 +151,12 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Pus
       {
         r.Flags = 0;
         r.Bonus.pWeakProxy = 0;
-        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&argv, v6, i, &r)->Result )
+        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+                this,
+                (Scaleform::GFx::AS3::CheckResult *)&argv,
+                v6,
+                i,
+                (Scaleform::GFx::ASStringNode *)&r)->Result )
           break;
         Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::PushBackUnsafe(this, &r);
         if ( (r.Flags & 0x1F) > 9 )
@@ -170,7 +185,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::A
         Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> > *this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   const Scaleform::GFx::AS3::Value *j; // ebx
   Scaleform::GFx::ASStringNode *VStr; // edi
@@ -188,7 +203,12 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::A
       {
         r.Flags = 0;
         r.Bonus.pWeakProxy = 0;
-        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&argv, tr, j, &r)->Result )
+        if ( !Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+                this,
+                (Scaleform::GFx::AS3::CheckResult *)&argv,
+                tr,
+                j,
+                (Scaleform::GFx::ASStringNode *)&r)->Result )
           break;
         VStr = r.value.VS._1.VStr;
         if ( r.value.VS._1.VInt )

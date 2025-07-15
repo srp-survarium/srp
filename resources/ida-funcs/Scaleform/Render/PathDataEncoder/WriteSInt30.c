@@ -17,7 +17,7 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayDH<un
   {
     if ( (unsigned int)(v + 0x2000) > 0x3FFF )
     {
-      if ( v + 0x200000 > (unsigned int)&byte_3FFFFF )
+      if ( (char *)&loc_200000 + v > (char *)&loc_3FFFFE + 1 )
       {
         Data = this->Data;
         LOBYTE(v) = (4 * v) | 3;
@@ -120,7 +120,7 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
     LOBYTE(v) = 4 * v;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       Data,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     return 1;
   }
   if ( (unsigned int)(v + 0x2000) <= 0x3FFF )
@@ -129,30 +129,30 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
     LOBYTE(v) = (4 * v) | 1;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       v6,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     v7 = this->Data;
     LOBYTE(v) = v2 >> 6;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       v7,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     return 2;
   }
-  if ( v + 0x200000 <= (unsigned int)&byte_3FFFFF )
+  if ( (unsigned int)&loc_200000 + v <= 0x3FFFFF )
   {
     LOBYTE(v) = (4 * v) | 2;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       this->Data,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     v8 = this->Data;
     LOBYTE(v) = v2 >> 6;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       v8,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     v9 = this->Data;
     LOBYTE(v) = v2 >> 14;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       v9,
-      (const unsigned __int8 *)&v);
+      (unsigned __int8 *)&v);
     return 3;
   }
   v10 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)this->Data;

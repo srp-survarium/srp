@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::ContextImpl::Snapshot::~Snapshot(Scaleform::R
     {
       pNext = this->Heaps.Root.pNext;
       pNext->pPrev->pNext = pNext->pNext;
-      pNext->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::Snapshot::HeapNode>::$E7F4EF65E359D67DD8FB4306098C3B03::pPrev = pNext->pPrev;
+      pNext->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::Snapshot::HeapNode>::$FA00632856A528F02AFC0CAE99DF669B::pPrev = pNext->pPrev;
       Scaleform::Render::LinearHeap::ClearAndRelease(&pNext->ChangeHeap);
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pNext);
     }
@@ -23,7 +23,7 @@ void __thiscall Scaleform::Render::ContextImpl::Snapshot::~Snapshot(Scaleform::R
   {
     v4 = this->SnapshotPages.Root.pNext;
     v4->pPrev->pNext = v4->pNext;
-    v4->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::SnapshotPage>::$C3DCB7443EC176C973748899EB0467D2::pPrev = v4->pPrev;
+    v4->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::SnapshotPage>::$BA975D4AA5D1C976BB87C4661EC708FF::pPrev = v4->pPrev;
     pNewerSnapshotPage = v4->pNewerSnapshotPage;
     if ( pNewerSnapshotPage )
       pNewerSnapshotPage->pOlderSnapshotPage = v4->pOlderSnapshotPage;

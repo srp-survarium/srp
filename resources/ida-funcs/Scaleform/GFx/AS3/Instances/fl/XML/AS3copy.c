@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3copy(
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

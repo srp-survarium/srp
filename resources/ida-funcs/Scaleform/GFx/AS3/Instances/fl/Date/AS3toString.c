@@ -28,7 +28,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::AS3toString(
   {
     LocalTZA = Scaleform::GFx::AS3::Instances::fl::Date::GetLocalTZA(this);
     v8 = Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeString(out, 0x80u, this->TimeValue, LocalTZA, 1, 1, 0);
-    ConstStringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, out, v8);
+    ConstStringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                        StringManagerRef->pStringManager,
+                        (__m128i *)out,
+                        v8);
   }
   v9 = ConstStringNode;
   ConstStringNode->RefCount += 2;

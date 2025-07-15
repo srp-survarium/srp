@@ -1,32 +1,32 @@
-const survarium::flash_text *__cdecl _wincmdln()
+const char *__cdecl _wincmdln()
 {
   BOOL v0; // edi
-  const survarium::flash_text *v1; // esi
-  unsigned __int8 text_impl; // al
+  const char *v1; // esi
+  unsigned __int8 v2; // al
 
   v0 = 0;
   if ( !__mbctype_initialized )
     __initmbctable();
-  v1 = (const survarium::flash_text *)_acmdln;
+  v1 = _acmdln;
   if ( !_acmdln )
-    v1 = &buf;
+    v1 = uri;
   while ( 1 )
   {
-    text_impl = (unsigned __int8)v1->text_impl;
-    if ( LOBYTE(v1->text_impl) <= 0x20u )
+    v2 = *v1;
+    if ( *v1 <= 0x20u )
     {
-      if ( !text_impl )
+      if ( !v2 )
         return v1;
       if ( !v0 )
         break;
     }
-    if ( text_impl == 34 )
+    if ( v2 == 34 )
       v0 = !v0;
-    if ( _ismbblead(text_impl) )
-      v1 = (const survarium::flash_text *)((char *)v1 + 1);
-    v1 = (const survarium::flash_text *)((char *)v1 + 1);
+    if ( _ismbblead(v2) )
+      ++v1;
+    ++v1;
   }
-  while ( LOBYTE(v1->text_impl) && LOBYTE(v1->text_impl) <= 0x20u )
-    v1 = (const survarium::flash_text *)((char *)v1 + 1);
+  while ( *v1 && *v1 <= 0x20u )
+    ++v1;
   return v1;
 }

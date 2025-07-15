@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::TreeNode::SetFilters(
   if ( filters && filters->Filters.Data.Size )
   {
     v3 = (Scaleform::RefCountVImpl *)Scaleform::Render::FilterSet::Clone(filters, 1, 0);
-    WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, 0x200002u);
+    WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, (unsigned int)&loc_200002);
     Scaleform::Render::StateBag::SetStateVoid(
       (Scaleform::Render::StateBag *)&WritableData[8],
       &Scaleform::Render::FilterState::InterfaceImpl,
@@ -26,7 +26,7 @@ void __thiscall Scaleform::Render::TreeNode::SetFilters(
                    + 6)
         & 0x400) == 0 )
       return;
-    v5 = Scaleform::Render::ContextImpl::Entry::getWritableData(this, 0x200002u);
+    v5 = Scaleform::Render::ContextImpl::Entry::getWritableData(this, (unsigned int)&loc_200002);
     Scaleform::Render::StateBag::RemoveState((Scaleform::Render::StateBag *)&v5[8], State_ActionControl);
     v5->Flags &= ~0x400u;
   }

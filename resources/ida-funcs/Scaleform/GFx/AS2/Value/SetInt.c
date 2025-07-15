@@ -1,4 +1,4 @@
-void __thiscall Scaleform::GFx::AS2::Value::SetInt(Scaleform::GFx::AS2::Value *this, unsigned int val)
+void __thiscall Scaleform::GFx::AS2::Value::SetInt(Scaleform::GFx::AS2::Value *this, int val)
 {
   if ( this->T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(this);

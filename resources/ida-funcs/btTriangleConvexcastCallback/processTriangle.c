@@ -1,40 +1,42 @@
 void __thiscall btTriangleConvexcastCallback::processTriangle(
         btTriangleConvexcastCallback *this,
-        btVector3 *triangle,
+        btTriangleShape *triangle,
         int partId,
         int triangleIndex)
 {
   float m_triangleCollisionMargin; // xmm0_4
-  const btConvexShape *m_convexShape; // edx
   float m_allowedPenetration; // xmm0_4
-  long double v8; // st7
-  float (__thiscall *reportHit)(btTriangleConvexcastCallback *, const btVector3 *, const btVector3 *, float, int, int); // edx
-  void **v10; // [esp+C58h] [ebp-2F0h] BYREF
-  float _X; // [esp+C5Ch] [ebp-2ECh]
-  btContinuousConvexCollision v12; // [esp+C60h] [ebp-2E8h] BYREF
-  btConvexCast::CastResult result; // [esp+C78h] [ebp-2D0h] BYREF
-  btTriangleShape v14; // [esp+D38h] [ebp-210h] BYREF
-  char v15; // [esp+DB8h] [ebp-190h] BYREF
-  float v16; // [esp+EF8h] [ebp-50h]
-  __int16 v17; // [esp+F18h] [ebp-30h]
+  float v7; // xmm0_4
+  btTriangleConvexcastCallback_vtbl *v8; // eax
+  float v9; // xmm0_4
+  const btVector3 *v10; // [esp+Ch] [ebp-300h]
+  void **v11; // [esp+20h] [ebp-2ECh] BYREF
+  btContinuousConvexCollision v12; // [esp+24h] [ebp-2E8h] BYREF
+  btConvexCast::CastResult result; // [esp+3Ch] [ebp-2D0h] BYREF
+  btPolyhedralConvexShape v14; // [esp+FCh] [ebp-210h] BYREF
+  char v15; // [esp+17Ch] [ebp-190h] BYREF
+  float v16; // [esp+2BCh] [ebp-50h]
+  __int16 v17; // [esp+2DCh] [ebp-30h]
 
-  btTriangleShape::btTriangleShape(&v14);
+  btTriangleShape::btTriangleShape(triangle, &v14, &triangle->m_localScaling, &triangle->m_implicitShapeDimensions, v10);
   m_triangleCollisionMargin = this->m_triangleCollisionMargin;
-  m_convexShape = this->m_convexShape;
-  v17 &= 0xFFF0u;
+  v17 &= ~1u;
+  v17 &= ~2u;
+  v12.m_planeShape = 0;
+  result.m_debugDrawer = 0;
+  v17 &= ~4u;
+  v17 &= ~8u;
   v12.m_simplexSolver = (btVoronoiSimplexSolver *)&v15;
-  v12.m_penetrationDepthSolver = (btConvexPenetrationDepthSolver *)&v10;
+  v12.m_penetrationDepthSolver = (btConvexPenetrationDepthSolver *)&v11;
+  v12.m_convexA = this->m_convexShape;
   v12.m_convexB1 = &v14;
   v14.m_collisionMargin = m_triangleCollisionMargin;
-  v12.m_convexA = m_convexShape;
   v16 = FLOAT_0_000099999997;
-  LODWORD(result.m_fraction) = clear_value;
+  result.m_fraction = s_bm_current_air_resistance;
   m_allowedPenetration = this->m_allowedPenetration;
-  v10 = &btGjkEpaPenetrationDepthSolver::`vftable';
+  v11 = &btGjkEpaPenetrationDepthSolver::`vftable';
   v12.__vftable = (btContinuousConvexCollision_vtbl *)&btContinuousConvexCollision::`vftable';
-  v12.m_planeShape = 0;
   result.__vftable = (btConvexCast::CastResult_vtbl *)&btConvexCast::CastResult::`vftable';
-  result.m_debugDrawer = 0;
   result.m_allowedPenetration = m_allowedPenetration;
   if ( btContinuousConvexCollision::calcTimeOfImpact(
          &v12,
@@ -44,17 +46,17 @@ void __thiscall btTriangleConvexcastCallback::processTriangle(
          &this->m_triangleToWorld,
          &result) )
   {
-    _X = (float)((float)(result.m_normal.mVec128.m128_f32[1] * result.m_normal.mVec128.m128_f32[1])
+    v7 = (float)((float)(result.m_normal.mVec128.m128_f32[1] * result.m_normal.mVec128.m128_f32[1])
                + (float)(result.m_normal.mVec128.m128_f32[2] * result.m_normal.mVec128.m128_f32[2]))
        + (float)(result.m_normal.mVec128.m128_f32[0] * result.m_normal.mVec128.m128_f32[0]);
-    if ( _X > 0.000099999997 && this->m_hitFraction > result.m_fraction )
+    if ( v7 > 0.000099999997 && this->m_hitFraction > result.m_fraction )
     {
-      v8 = 1.0 / sqrtf(_X);
-      reportHit = this->reportHit;
-      result.m_normal.mVec128.m128_f32[0] = result.m_normal.mVec128.m128_f32[0] * v8;
-      result.m_normal.mVec128.m128_f32[1] = result.m_normal.mVec128.m128_f32[1] * v8;
-      result.m_normal.mVec128.m128_f32[2] = v8 * result.m_normal.mVec128.m128_f32[2];
-      ((void (__thiscall *)(btTriangleConvexcastCallback *, btVector3 *, btVector3 *, _DWORD, int, int))reportHit)(
+      v8 = this->__vftable;
+      v9 = s_bm_current_air_resistance / fsqrt(v7);
+      result.m_normal.mVec128.m128_f32[0] = v9 * result.m_normal.mVec128.m128_f32[0];
+      result.m_normal.mVec128.m128_f32[1] = result.m_normal.mVec128.m128_f32[1] * v9;
+      result.m_normal.mVec128.m128_f32[2] = result.m_normal.mVec128.m128_f32[2] * v9;
+      ((void (__thiscall *)(btTriangleConvexcastCallback *, btVector3 *, btVector3 *, _DWORD, int, int))v8->reportHit)(
         this,
         &result.m_normal,
         &result.m_hitPoint,
@@ -64,11 +66,6 @@ void __thiscall btTriangleConvexcastCallback::processTriangle(
     }
   }
   result.__vftable = (btConvexCast::CastResult_vtbl *)&btConvexCast::CastResult::`vftable';
-  v10 = &btConvexPenetrationDepthSolver::`vftable';
-  v14.__vftable = (btTriangleShape_vtbl *)&btPolyhedralConvexShape::`vftable';
-  if ( v14.m_polyhedron )
-  {
-    ++gNumAlignedFree;
-    sAlignedFreeFunc(v14.m_polyhedron);
-  }
+  v11 = &btConvexPenetrationDepthSolver::`vftable';
+  btPolyhedralConvexShape::~btPolyhedralConvexShape(&v14);
 }

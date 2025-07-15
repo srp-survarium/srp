@@ -1,61 +1,40 @@
 void __thiscall Scaleform::Render::D3D1x::TextureManager::initTextureFormats(
         Scaleform::Render::D3D1x::TextureManager *this,
-        unsigned int formatSupport)
+        int a2)
 {
-  unsigned int v2; // ebx
   Scaleform::Render::D3D1x::TextureFormat::Mapping *i; // edi
-  void *(__thiscall *AllocAutoHeap)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // edx
-  _DWORD *v5; // eax
-  _DWORD *v6; // ebp
-  int v7; // ecx
-  int v8; // edx
-  Scaleform::Render::ImageFormat Format; // ecx
-  int v10; // [esp+Ch] [ebp-4h] BYREF
+  _DWORD *v4; // eax
+  _BYTE v5[4]; // [esp+8h] [ebp-4h] BYREF
+  _DWORD *v6; // [esp+14h] [ebp+8h]
 
-  v2 = formatSupport;
   for ( i = Scaleform::Render::D3D1x::TextureFormatMapping; i->Format; ++i )
   {
-    if ( (*(int (__stdcall **)(_DWORD, DXGI_FORMAT, unsigned int *))(**(_DWORD **)(v2 + 88) + 116))(
-           *(_DWORD *)(v2 + 88),
+    if ( (*(int (__stdcall **)(_DWORD, DXGI_FORMAT, _BYTE *))(**(_DWORD **)(a2 + 88) + 116))(
+           *(_DWORD *)(a2 + 88),
            i->D3DFormat,
-           &formatSupport) >= 0
-      && (formatSupport & 0x20) != 0 )
+           v5) >= 0
+      && (v5[0] & 0x20) != 0 )
     {
-      AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-      v10 = 75;
-      v5 = (_DWORD *)AllocAutoHeap(
-                       Scaleform::Memory::pGlobalHeap,
-                       (const void *)v2,
-                       12u,
-                       (const Scaleform::AllocInfo *)&v10);
-      if ( v5 )
+      v4 = Scaleform::NewOverrideBase<75>::operator new(0xCu, (Scaleform::MemAddressStub *)a2);
+      if ( v4 )
       {
-        *v5 = &Scaleform::Render::D3D1x::TextureFormat::`vftable';
-        v5[1] = i;
-        v5[2] = 0;
-        v6 = v5;
+        v4[2] = 0;
+        *v4 = &Scaleform::Render::D3D1x::TextureFormat::`vftable';
+        v4[1] = i;
+        v6 = v4;
       }
       else
       {
         v6 = 0;
       }
       Scaleform::ArrayDataBase<Scaleform::Render::TextureFormat *,Scaleform::AllocatorLH<Scaleform::Render::TextureFormat *,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-        (Scaleform::ArrayDataBase<Scaleform::Render::TextureFormat *,Scaleform::AllocatorLH<Scaleform::Render::TextureFormat *,2>,Scaleform::ArrayDefaultPolicy> *)(v2 + 52),
-        (const void *)(v2 + 52),
-        *(_DWORD *)(v2 + 56) + 1);
-      v7 = *(_DWORD *)(v2 + 56);
-      v8 = *(_DWORD *)(v2 + 52);
-      if ( v8 + 4 * v7 != 4 )
-        *(_DWORD *)(v8 + 4 * v7 - 4) = v6;
-      if ( i[1].Format == i->Format )
-      {
-        do
-        {
-          Format = i[2].Format;
-          ++i;
-        }
-        while ( Format == i->Format );
-      }
+        (Scaleform::ArrayDataBase<Scaleform::Render::TextureFormat *,Scaleform::AllocatorLH<Scaleform::Render::TextureFormat *,2>,Scaleform::ArrayDefaultPolicy> *)(a2 + 52),
+        (void *)(a2 + 52),
+        *(_DWORD *)(a2 + 56) + 1);
+      if ( *(_DWORD *)(a2 + 52) + 4 * *(_DWORD *)(a2 + 56) != 4 )
+        *(_DWORD *)(*(_DWORD *)(a2 + 52) + 4 * *(_DWORD *)(a2 + 56) - 4) = v6;
+      while ( i[1].Format == i->Format )
+        ++i;
     }
   }
 }

@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::ImageFileHandlerRegistry::AddHandler(
   Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *p_Handlers; // edi
   unsigned int v7; // esi
   Scaleform::GFx::AS3::Instances::fl::Object **v8; // eax
-  Scaleform::Render::ImageFileHandler *handlera; // [esp+Ch] [ebp+4h]
+  Scaleform::Render::ImageFileFormat v9; // [esp+Ch] [ebp+4h]
 
   if ( handler )
   {
@@ -17,8 +17,8 @@ void __thiscall Scaleform::Render::ImageFileHandlerRegistry::AddHandler(
       while ( 1 )
       {
         v5 = this->Handlers.Data.Data[v4];
-        handlera = (Scaleform::Render::ImageFileHandler *)handler->GetFormat(handler);
-        if ( (Scaleform::Render::ImageFileHandler *)v5->GetFormat(v5) == handlera )
+        v9 = handler->GetFormat(handler);
+        if ( v5->GetFormat(v5) == v9 )
           break;
         if ( ++v4 >= this->Handlers.Data.Size )
           goto LABEL_5;

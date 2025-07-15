@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::AS3Constructo
   {
     if ( (argv->Flags & 0x1F) - 12 > 3
       || (v3 = 1,
-          (*(void (__thiscall **)(_DWORD, Scaleform::GFx::ASString *))(**(_DWORD **)(argv->value.VS._1.VInt + 20) + 16))(
+          (*(void (__thiscall **)(_DWORD, Scaleform::GFx::ASString *))(**(_DWORD **)(argv->value.VS._1.VInt + 20) + 28))(
             *(_DWORD *)(argv->value.VS._1.VInt + 20),
             &v16),
           v15 = 0,
@@ -93,7 +93,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::AS3Constructo
       if ( v17->pDispObj )
       {
         Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(v13, &result);
-        memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)&result, sizeof(dst));
+        memcpy((int)&dst, (const __m128i *)&result, sizeof(dst));
         v14->pDispObj->SetMatrix3D(v14->pDispObj, &dst);
       }
     }

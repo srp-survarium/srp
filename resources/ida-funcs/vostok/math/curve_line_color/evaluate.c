@@ -1,55 +1,54 @@
-vostok::math::float4 *__userpurge vostok::math::curve_line_color::evaluate@<eax>(
-        vostok::math::curve_line_color *this@<ecx>,
-        int a2@<edi>,
-        vostok::math::float4 *a3@<esi>,
+vostok::math::float4 *__thiscall vostok::math::curve_line_color::evaluate(
+        vostok::math::curve_line_color *this,
         vostok::math::float4 *result,
-        __int64 time,
-        __int64 default_value_8,
-        int a7,
-        vostok::math::enum_evaluate_time_type time_type)
+        vostok::math::float4 *time,
+        vostok::math::float4 default_value,
+        unsigned int time_type)
 {
-  vostok::math::float4_pod *v8; // eax
+  vostok::math::float4_pod *v6; // eax
   double w; // st7
-  vostok::math::float4 *v10; // eax
-  float max_value; // [esp+4h] [ebp-40h]
-  vostok::math::float4_pod v12; // [esp+8h] [ebp-3Ch]
-  float left_range_alpha; // [esp+1Ch] [ebp-28h]
-  float right_range_alpha; // [esp+20h] [ebp-24h]
-  vostok::math::float4_pod v15; // [esp+24h] [ebp-20h] BYREF
-  vostok::math::float4_pod resulta; // [esp+34h] [ebp-10h] BYREF
+  vostok::math::float4 *v8; // eax
+  vostok::math::curve_line_points<vostok::math::float4_pod,1> *v9; // [esp+0h] [ebp-4Ch]
+  float v10; // [esp+4h] [ebp-48h]
+  vostok::math::float4_pod v11; // [esp+8h] [ebp-44h]
+  vostok::math::enum_evaluate_time_type v12; // [esp+18h] [ebp-34h]
+  float v13; // [esp+1Ch] [ebp-30h]
+  float v14; // [esp+20h] [ebp-2Ch]
+  vostok::math::float4_pod v15; // [esp+28h] [ebp-24h] BYREF
+  vostok::math::float4_pod v16; // [esp+38h] [ebp-14h] BYREF
 
-  right_range_alpha = 0.0;
-  left_range_alpha = 0.0;
-  *(_QWORD *)&v12.x = time;
-  *(_QWORD *)&v12.elements[2] = default_value_8;
-  if ( *(_DWORD *)(a2 + 56) )
+  *(_QWORD *)&v11.x = *(_QWORD *)&default_value.elements[1];
+  *(_QWORD *)&v11.elements[2] = __PAIR64__(time_type, LODWORD(default_value.w));
+  if ( LODWORD(result[3].z) )
   {
-    max_value = vostok::math::random_float(*(float *)a2, *(float *)(a2 + 4));
-    v8 = vostok::math::curve_line_points<vostok::math::float4_pod,1>::evaluate(
-           (vostok::math::curve_line_points<vostok::math::float4_pod,1> *)a2,
-           &v15,
-           max_value,
+    v10 = vostok::math::random_float(result->x, result->y);
+    v6 = vostok::math::curve_line_points<vostok::math::float4_pod,1>::evaluate(
+           v9,
+           (int)result,
+           &v16,
+           v10,
+           v11,
            v12,
-           range_time_type,
-           left_range_alpha,
-           right_range_alpha);
+           v13,
+           v14);
   }
   else
   {
-    v8 = vostok::math::curve_line_points<vostok::math::float4_pod,1>::evaluate(
-           (vostok::math::curve_line_points<vostok::math::float4_pod,1> *)a2,
-           &resulta,
-           *(float *)&result,
+    v6 = vostok::math::curve_line_points<vostok::math::float4_pod,1>::evaluate(
+           (vostok::math::curve_line_points<vostok::math::float4_pod,1> *)&v15,
+           (int)result,
+           &v15,
+           default_value.x,
+           v11,
            v12,
-           range_time_type,
-           left_range_alpha,
-           right_range_alpha);
+           v13,
+           v14);
   }
-  a3->x = v8->x;
-  a3->y = v8->y;
-  a3->z = v8->z;
-  w = v8->w;
-  v10 = a3;
-  a3->w = w;
-  return v10;
+  time->x = v6->x;
+  time->y = v6->y;
+  time->z = v6->z;
+  w = v6->w;
+  v8 = time;
+  time->w = w;
+  return v8;
 }

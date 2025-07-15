@@ -18,7 +18,10 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::InstanceTraits::Method
   Convert = f.Convert;
   *((_DWORD *)&f + 7) = *((_DWORD *)&f + 7) & 0xFFFFFFE0 | 0x10;
   Convert(&f);
-  Scaleform::GFx::ASString::Append(result, f.ValueStr, (Scaleform::GFx::ASStringNode *)strlen(f.ValueStr));
+  Scaleform::GFx::ASString::Append(
+    result,
+    (const __m128i *)f.ValueStr,
+    (Scaleform::GFx::ASStringNode *)strlen(f.ValueStr));
   f.Scaleform::String::InitStruct::__vftable = (Scaleform::String::InitStruct_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
   Scaleform::Formatter::~Formatter(&f);
   return result;

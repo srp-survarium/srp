@@ -1,69 +1,101 @@
 void __thiscall Scaleform::GFx::AS2ValueObjectInterface::VisitElements(
         Scaleform::GFx::AS2ValueObjectInterface *this,
-        Scaleform::GFx::AS2::ArrayObject *pdata,
+        char *pdata,
         Scaleform::GFx::Value::ObjectInterface::ArrVisitor *visitor,
         unsigned int idx,
         int count)
 {
+  Scaleform::GFx::AMP::ViewStats *v6; // eax
   Scaleform::GFx::AS2::MovieRoot *pObject; // edi
-  int v6; // ecx
-  unsigned int v7; // esi
-  unsigned int Size; // eax
+  int v8; // ecx
+  unsigned int v9; // esi
+  unsigned int v10; // eax
   Scaleform::GFx::Value::ObjectInterface *pObjectInterface; // ecx
-  int v10; // edx
-  unsigned int v11; // edx
-  unsigned int v12; // ebp
-  Scaleform::GFx::AS2::Value *v13; // eax
-  Scaleform::GFx::AS2::Environment *penv; // [esp+Ch] [ebp-1Ch]
-  Scaleform::GFx::Value val; // [esp+10h] [ebp-18h] BYREF
-  Scaleform::GFx::AS2::ArrayObject *parr; // [esp+2Ch] [ebp+4h]
+  Scaleform::AmpStats *Stats; // edi
+  int v13; // edx
+  unsigned int v14; // edx
+  unsigned int v15; // ebp
+  Scaleform::GFx::AS2::Value *v16; // eax
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::AS2::Environment *penv; // [esp+14h] [ebp-2Ch]
+  Scaleform::AmpFunctionTimer v20; // [esp+18h] [ebp-28h] BYREF
+  Scaleform::GFx::Value pdestVal; // [esp+28h] [ebp-18h] BYREF
+  char *v22; // [esp+44h] [ebp+4h]
 
+  v6 = this->GetAdvanceStats(this);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v20,
+    v6,
+    "ObjectInterface::VisitElements",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ObjectInterface_VisitElements);
   if ( pdata )
-    parr = (Scaleform::GFx::AS2::ArrayObject *)((char *)pdata - 16);
+    v22 = pdata - 16;
   else
-    parr = 0;
+    v22 = 0;
   pObject = (Scaleform::GFx::AS2::MovieRoot *)this->pMovieRoot->pASMovieRoot.pObject;
-  v6 = (int)pObject->pMovieImpl->pMainMovie + 4 * pObject->pMovieImpl->pMainMovie->AvmObjOffset;
-  v7 = idx;
-  penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v6 + 124))(v6);
-  Size = parr->Elements.Data.Size;
+  v8 = (int)pObject->pMovieImpl->pMainMovie + 4 * pObject->pMovieImpl->pMainMovie->AvmObjOffset;
+  v9 = idx;
+  penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 124))(v8);
+  v10 = *((_DWORD *)v22 + 15);
   pObjectInterface = 0;
-  val.pObjectInterface = 0;
-  val.Type = VT_Undefined;
-  if ( idx < Size )
+  pdestVal.pObjectInterface = 0;
+  pdestVal.Type = VT_Undefined;
+  if ( idx >= v10 )
   {
-    v10 = count;
-    if ( count < 0 )
-      v10 = Size - idx;
-    v11 = idx + v10;
-    v12 = Size;
-    if ( Size >= v11 )
-      v12 = v11;
-    if ( idx < v12 )
+    Stats = v20.Stats;
+    pdestVal.Type = VT_Undefined;
+    if ( !v20.Stats )
+      return;
+    goto LABEL_21;
+  }
+  v13 = count;
+  if ( count < 0 )
+    v13 = v10 - idx;
+  v14 = idx + v13;
+  v15 = v10;
+  if ( v10 >= v14 )
+    v15 = v14;
+  if ( idx < v15 )
+  {
+    do
     {
-      do
+      v16 = *(Scaleform::GFx::AS2::Value **)(*((_DWORD *)v22 + 14) + 4 * v9);
+      if ( v16 )
       {
-        v13 = parr->Elements.Data.Data[v7];
-        if ( v13 )
-        {
-          Scaleform::GFx::AS2::MovieRoot::ASValue2Value(pObject, penv, v13, &val);
-        }
-        else
-        {
-          if ( (val.Type & 0x40) != 0 )
-          {
-            pObjectInterface->ObjectRelease(pObjectInterface, &val, val.mValue.pStringManaged);
-            val.pObjectInterface = 0;
-          }
-          val.Type = VT_Undefined;
-        }
-        visitor->Visit(visitor, v7, &val);
-        pObjectInterface = val.pObjectInterface;
-        ++v7;
+        Scaleform::GFx::AS2::MovieRoot::ASValue2Value(pObject, penv, v16, &pdestVal);
       }
-      while ( v7 < v12 );
+      else
+      {
+        if ( (pdestVal.Type & 0x40) != 0 )
+        {
+          pObjectInterface->ObjectRelease(pObjectInterface, &pdestVal, pdestVal.mValue.pStringManaged);
+          pdestVal.pObjectInterface = 0;
+        }
+        pdestVal.Type = VT_Undefined;
+      }
+      visitor->Visit(visitor, v9, &pdestVal);
+      pObjectInterface = pdestVal.pObjectInterface;
+      ++v9;
     }
-    if ( (val.Type & 0x40) != 0 )
-      pObjectInterface->ObjectRelease(pObjectInterface, &val, val.mValue.pStringManaged);
+    while ( v9 < v15 );
+  }
+  if ( (pdestVal.Type & 0x40) != 0 )
+  {
+    pObjectInterface->ObjectRelease(pObjectInterface, &pdestVal, pdestVal.mValue.pStringManaged);
+    pdestVal.pObjectInterface = 0;
+  }
+  Stats = v20.Stats;
+  pdestVal.Type = VT_Undefined;
+  if ( v20.Stats )
+  {
+LABEL_21:
+    p_NativePopCallstack = &v20.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(v20.StartTicks),
+      (ProfileTicks - v20.StartTicks) >> 32);
   }
 }

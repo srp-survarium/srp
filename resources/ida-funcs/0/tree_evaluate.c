@@ -11,7 +11,7 @@ int __usercall tree_evaluate@<eax>(X509_POLICY_TREE_st *tree@<esi>)
     return 1;
   while ( 1 )
   {
-    v3 = policy_cache_set(v2->cert);
+    v3 = policy_cache_set((stack_st_X509_EXTENSION *)v2->cert);
     if ( !tree_link_nodes(v2, v3) || (v2->flags & 0x200) == 0 && !tree_link_any(v2, v3, tree) )
       break;
     result = tree_prune(tree);

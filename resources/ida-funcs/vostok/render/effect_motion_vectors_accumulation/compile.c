@@ -1,110 +1,96 @@
 void __thiscall vostok::render::effect_motion_vectors_accumulation::compile(
         vostok::render::effect_motion_vectors_accumulation *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  vostok::render::custom_config_value *v3; // ecx
-  char data; // al
-  char v5; // bl
-  vostok::render::custom_config_value *v6; // ecx
-  char v7; // al
-  vostok::render::custom_config_value *v8; // ecx
-  char v9; // bl
-  const vostok::render::custom_config_value *v10; // eax
-  const vostok::render::custom_config_value *v11; // eax
-  vostok::render::custom_config_value *v12; // ecx
-  vostok::strings::shared::profile *v13; // eax
-  vostok::render::effect_constant_storage *v14; // ecx
-  vostok::render::effect_compiler *v15; // ecx
-  vostok::render::effect_compiler *v16; // ecx
-  vostok::shared_string v17; // [esp-4h] [ebp-24h]
-  const char *v18; // [esp+0h] [ebp-20h]
-  bool v19; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration *v20; // [esp+4h] [ebp-1Ch]
-  float alpha_ref; // [esp+Ch] [ebp-14h] BYREF
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
+  vostok::configs::binary_config_value *v4; // ecx
+  vostok::configs::binary_config_value *v5; // eax
+  bool v6; // al
+  vostok::configs::binary_config_value *v7; // ecx
+  vostok::configs::binary_config_value *v8; // eax
+  bool v9; // al
+  vostok::render::effect_compiler *v10; // ecx
+  vostok::configs::binary_config_value *v11; // ecx
+  vostok::configs::binary_config_value *v12; // eax
+  char **v13; // eax
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::configs::binary_config_value *v15; // eax
+  const vostok::configs::binary_config_value *v16; // eax
+  float pointer; // xmm0_4
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_material_base *v19; // ecx
+  vostok::render::shader_configuration *v20; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v21; // [esp+4h] [ebp-20h]
+  const vostok::configs::binary_config_value *v22; // [esp+8h] [ebp-1Ch]
+  float v23; // [esp+10h] [ebp-14h] BYREF
+  _DWORD v24[4]; // [esp+14h] [ebp-10h] BYREF
 
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  if ( vostok::render::custom_config_value::value_exists(&stru_960A44, (int)config) )
-    data = (char)vostok::render::custom_config_value::operator[](
-                   v3,
-                   (int)config,
-                   (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_960A44)->data;
+  v24[2] = 0x80000;
+  v24[0] = 0;
+  v24[1] = 0;
+  v24[3] = 0;
+  if ( vostok::configs::binary_config_value::value_exists(
+         (vostok::configs::binary_config_value *)this,
+         (int)config,
+         (unsigned int)"use_alpha_test") )
+  {
+    v5 = vostok::configs::binary_config_value::operator[](config, "use_alpha_test");
+    v6 = vostok::configs::binary_config_value::operator[](v5, "value")->data.pointer != 0;
+  }
   else
-    data = 0;
-  v5 = 2 * (data & 1);
-  if ( vostok::render::custom_config_value::value_exists(&stru_9667A8, (int)config) )
-    v7 = (char)vostok::render::custom_config_value::operator[](
-                 v6,
-                 (int)config,
-                 (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_9667A8)->data;
+  {
+    v6 = 0;
+  }
+  BYTE2(v24[0]) = 16 * v6;
+  if ( vostok::configs::binary_config_value::value_exists(v4, (int)config, (unsigned int)"use_tdiffuse") )
+  {
+    v8 = vostok::configs::binary_config_value::operator[](config, "use_tdiffuse");
+    v9 = vostok::configs::binary_config_value::operator[](v8, "value")->data.pointer != 0;
+  }
   else
-    v7 = 0;
-  *(_BYTE *)&configuration.0 = (v5 ^ v7) & 1 ^ v5;
+  {
+    v9 = 0;
+  }
+  BYTE2(v24[0]) ^= (BYTE2(v24[0]) ^ (8 * v9)) & 8;
   vostok::render::effect_material_base::compile_begin(
+    parameters,
+    v7,
+    (vostok::render::effect_material_base *)&stru_80E8FC,
+    "motion_vectors_accumulation",
     compiler,
+    (const char *)v24,
     config,
-    (vostok::render::effect_material_base *)&stru_966284,
-    (vostok::render::shader_configuration *)&stru_9667A8.destroyer,
-    (const char *)&configuration,
+    v20,
+    v22);
+  vostok::render::effect_compiler::set_depth(v10, (int)compiler, 1, 0, v21);
+  v23 = FLOAT_0_25;
+  if ( (v24[0] & 0x80000) != 0 )
+  {
+    v12 = vostok::configs::binary_config_value::operator[](config, "texture_diffuse");
+    v13 = (char **)vostok::configs::binary_config_value::operator[](v12, "value");
+    vostok::render::effect_compiler::set_texture(v14, (const char *)compiler, "t_base", *v13, 0, 0xFFFFFFFF, 0, 1.0);
+  }
+  if ( (v24[0] & 0x100000) != 0
+    && vostok::configs::binary_config_value::value_exists(v11, (int)config, (unsigned int)"alpha_ref") )
+  {
+    v15 = vostok::configs::binary_config_value::operator[](config, "alpha_ref");
+    v16 = vostok::configs::binary_config_value::operator[](v15, "value");
+    if ( v16->type == 2 )
+      pointer = *(float *)&v16->data.pointer;
+    else
+      pointer = (float)(int)v16->data.pointer;
+    v23 = pointer;
+  }
+  vostok::render::effect_compiler::set_constant<float>(
+    (vostok::render::effect_constant_storage *)v11,
+    &v23,
+    compiler,
+    "alpha_ref_parameter");
+  vostok::render::effect_compiler::color_write_enable(
     v18,
-    v20);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      LOBYTE(alpha_ref) = 0;
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  v9 = (char)configuration.0;
-  alpha_ref = 0.25;
-  if ( (*(_BYTE *)&configuration.0 & 1) != 0 )
-  {
-    v10 = vostok::render::custom_config_value::operator[](
-            v8,
-            (int)config,
-            (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"texture_diffuse");
-    vostok::render::effect_compiler::set_texture(
-      0xFFFFFFFF,
-      compiler,
-      &stru_963F84.m_name.m_string.m_buffer[116],
-      (char *)v10->data,
-      0,
-      v19);
-  }
-  if ( (v9 & 2) != 0 && vostok::render::custom_config_value::value_exists(&stru_9667FC, (int)config) )
-  {
-    v11 = vostok::render::custom_config_value::operator[](
-            v8,
-            (int)config,
-            (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_9667FC);
-    alpha_ref = vostok::render::custom_config_value::operator<float> float(v12, (int)v11);
-  }
-  v13 = vostok::strings::shared::manager::string(
-          (vostok::strings::shared::manager *)v8,
-          s_manager.m_variable,
-          (const char *)&stru_9667FC.type);
-  v17.m_pointer.m_object = 0;
-  if ( v13 )
-  {
-    v17.m_pointer.m_object = v13;
-    v14 = (vostok::render::effect_constant_storage *)_InterlockedExchangeAdd(&v13->m_reference_count, 1u);
-  }
-  vostok::render::effect_compiler::set_constant<float>(&alpha_ref, v14, compiler, v17);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_NONE);
-  vostok::render::effect_compiler::end_pass(
-    v15,
-    (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
-  vostok::render::effect_compiler::end_technique(v16, (int)compiler);
+    (int)compiler,
+    0,
+    D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_material_base::compile_end(v19, compiler);
 }

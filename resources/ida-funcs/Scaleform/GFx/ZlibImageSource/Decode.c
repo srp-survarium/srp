@@ -12,22 +12,22 @@ char __thiscall Scaleform::GFx::ZlibImageSource::Decode(
   Scaleform::File *v10; // eax
   Scaleform::File *v11; // edi
   char v12; // bl
-  Scaleform::GFx::ZlibDecodeParams params; // [esp+Ch] [ebp-18h] BYREF
+  Scaleform::GFx::ZlibDecodeParams v14; // [esp+Ch] [ebp-18h] BYREF
 
   Format = this->Format;
   BitmapFormatId = this->BitmapFormatId;
   Width = this->Size.Width;
-  params.Format = Format;
+  v14.Format = Format;
   Height = this->Size.Height;
-  params.SrcFormat = BitmapFormatId;
+  v14.SrcFormat = BitmapFormatId;
   pObject = this->Zlib.pObject;
-  params.Size.Height = Height;
+  v14.Size.Height = Height;
   v10 = this->pFile.pObject;
-  params.Size.Width = Width;
+  v14.Size.Width = Width;
   v11 = pObject->CreateZlibFile(pObject, v10);
-  params.ColorTableSize = this->ColorTableSize;
-  params.ZlibFile.pObject = v11;
-  v12 = Scaleform::GFx::ZlibDecodeHelper(copyScanline, arg, &params, pdest);
+  v14.ColorTableSize = this->ColorTableSize;
+  v14.ZlibFile.pObject = v11;
+  v12 = Scaleform::GFx::ZlibDecodeHelper(copyScanline, arg, &v14, pdest);
   if ( v11 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v11);
   return v12;

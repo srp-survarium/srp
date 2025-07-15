@@ -21,12 +21,12 @@ void __thiscall Scaleform::GFx::StreamContext::ReadMatrix(
   unsigned int v20; // eax
   int v21; // ebp
   unsigned int v22; // eax
-  Scaleform::Render::Matrix2x4<float> *pma; // [esp+14h] [ebp+4h]
-  Scaleform::Render::Matrix2x4<float> *pmb; // [esp+14h] [ebp+4h]
-  Scaleform::Render::Matrix2x4<float> *pmc; // [esp+14h] [ebp+4h]
-  Scaleform::Render::Matrix2x4<float> *pmd; // [esp+14h] [ebp+4h]
-  Scaleform::Render::Matrix2x4<float> *pme; // [esp+14h] [ebp+4h]
-  Scaleform::Render::Matrix2x4<float> *pmf; // [esp+14h] [ebp+4h]
+  int v23; // [esp+14h] [ebp+4h]
+  int v24; // [esp+14h] [ebp+4h]
+  int v25; // [esp+14h] [ebp+4h]
+  int v26; // [esp+14h] [ebp+4h]
+  int v27; // [esp+14h] [ebp+4h]
+  int v28; // [esp+14h] [ebp+4h]
 
   if ( this->CurBitIndex )
     ++this->CurByteIndex;
@@ -53,15 +53,15 @@ void __thiscall Scaleform::GFx::StreamContext::ReadMatrix(
     UInt = Scaleform::GFx::StreamContext::ReadUInt(this, 5u);
     v8 = Scaleform::GFx::StreamContext::ReadUInt(this, UInt);
     v9 = 1 << (UInt - 1);
-    pma = (Scaleform::Render::Matrix2x4<float> *)v8;
+    v23 = v8;
     if ( (v9 & v8) != 0 )
-      pma = (Scaleform::Render::Matrix2x4<float> *)((-1 << UInt) | v8);
-    pm->M[0][0] = (double)(int)pma * 0.0000152587890625;
+      v23 = (-1 << UInt) | v8;
+    pm->M[0][0] = (double)v23 * 0.0000152587890625;
     v10 = Scaleform::GFx::StreamContext::ReadUInt(this, UInt);
-    pmb = (Scaleform::Render::Matrix2x4<float> *)v10;
+    v24 = v10;
     if ( (v9 & v10) != 0 )
-      pmb = (Scaleform::Render::Matrix2x4<float> *)((-1 << UInt) | v10);
-    pm->M[1][1] = (double)(int)pmb * 0.0000152587890625;
+      v24 = (-1 << UInt) | v10;
+    pm->M[1][1] = (double)v24 * 0.0000152587890625;
   }
   v11 = this->CurBitIndex;
   v12 = this->CurByteIndex;
@@ -77,15 +77,15 @@ void __thiscall Scaleform::GFx::StreamContext::ReadMatrix(
     v14 = Scaleform::GFx::StreamContext::ReadUInt(this, 5u);
     v15 = Scaleform::GFx::StreamContext::ReadUInt(this, v14);
     v16 = 1 << (v14 - 1);
-    pmc = (Scaleform::Render::Matrix2x4<float> *)v15;
+    v25 = v15;
     if ( (v16 & v15) != 0 )
-      pmc = (Scaleform::Render::Matrix2x4<float> *)((-1 << v14) | v15);
-    pm->M[1][0] = (double)(int)pmc * 0.0000152587890625;
+      v25 = (-1 << v14) | v15;
+    pm->M[1][0] = (double)v25 * 0.0000152587890625;
     v17 = Scaleform::GFx::StreamContext::ReadUInt(this, v14);
-    pmd = (Scaleform::Render::Matrix2x4<float> *)v17;
+    v26 = v17;
     if ( (v16 & v17) != 0 )
-      pmd = (Scaleform::Render::Matrix2x4<float> *)((-1 << v14) | v17);
-    pm->M[0][1] = 0.0000152587890625 * (double)(int)pmd;
+      v26 = (-1 << v14) | v17;
+    pm->M[0][1] = 0.0000152587890625 * (double)v26;
   }
   v18 = Scaleform::GFx::StreamContext::ReadUInt(this, 5u);
   v19 = v18;
@@ -93,14 +93,14 @@ void __thiscall Scaleform::GFx::StreamContext::ReadMatrix(
   {
     v20 = Scaleform::GFx::StreamContext::ReadUInt(this, v18);
     v21 = 1 << (v19 - 1);
-    pme = (Scaleform::Render::Matrix2x4<float> *)v20;
+    v27 = v20;
     if ( (v21 & v20) != 0 )
-      pme = (Scaleform::Render::Matrix2x4<float> *)((-1 << v19) | v20);
-    pm->M[0][3] = (float)(int)pme;
+      v27 = (-1 << v19) | v20;
+    pm->M[0][3] = (float)v27;
     v22 = Scaleform::GFx::StreamContext::ReadUInt(this, v19);
-    pmf = (Scaleform::Render::Matrix2x4<float> *)v22;
+    v28 = v22;
     if ( (v21 & v22) != 0 )
-      pmf = (Scaleform::Render::Matrix2x4<float> *)((-1 << v19) | v22);
-    pm->M[1][3] = (float)(int)pmf;
+      v28 = (-1 << v19) | v22;
+    pm->M[1][3] = (float)v28;
   }
 }

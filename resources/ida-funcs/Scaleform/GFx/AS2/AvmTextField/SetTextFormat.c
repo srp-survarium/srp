@@ -26,7 +26,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::SetTextFormat(const Scaleform::G
   Scaleform::GFx::AS2::Environment *v24; // [esp-10h] [ebp-1Ch]
   Scaleform::GFx::AS2::Environment *v25; // [esp-10h] [ebp-1Ch]
   Scaleform::GFx::AS2::Environment *Env; // [esp-8h] [ebp-14h]
-  double beginIndex; // [esp+4h] [ebp-8h]
+  double startPos; // [esp+4h] [ebp-8h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextField )
   {
@@ -105,15 +105,15 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::SetTextFormat(const Scaleform::G
             v17 = Scaleform::GFx::AS2::Value::ToNumber(v16, v24);
             if ( v17 < 0.0 )
               v17 = 0.0;
-            beginIndex = v17;
+            startPos = v17;
             v25 = fn->Env;
             v18 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
             v19 = Scaleform::GFx::AS2::Value::ToNumber(v18, v25);
             if ( v19 < 0.0 )
               v19 = 0.0;
-            if ( beginIndex <= v19 )
+            if ( startPos <= v19 )
             {
-              v20 = (__int64)beginIndex;
+              v20 = (__int64)startPos;
               Scaleform::Render::Text::DocView::SetTextFormat(
                 v2->pDocument.pObject,
                 (const Scaleform::Render::Text::TextFormat *)&v15[1],

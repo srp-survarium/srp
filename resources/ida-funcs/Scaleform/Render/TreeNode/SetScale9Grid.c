@@ -1,4 +1,6 @@
-void __thiscall Scaleform::Render::TreeNode::SetScale9Grid(Scaleform::Render::TreeNode *this, int rect)
+void __thiscall Scaleform::Render::TreeNode::SetScale9Grid(
+        Scaleform::Render::TreeNode *this,
+        Scaleform::Render::Rect<float> *rect)
 {
   Scaleform::Render::StateBag *WritableData; // eax
   const Scaleform::Render::Rect<float> *v4; // edi
@@ -9,15 +11,15 @@ void __thiscall Scaleform::Render::TreeNode::SetScale9Grid(Scaleform::Render::Tr
   WritableData = (Scaleform::Render::StateBag *)Scaleform::Render::ContextImpl::Entry::getWritableData(
                                                   this,
                                                   (unsigned int)&_sbh_sizeHeaderList);
-  v4 = (const Scaleform::Render::Rect<float> *)rect;
+  v4 = rect;
   v5 = WritableData;
-  if ( *(float *)(rect + 8) <= (double)*(float *)rect || *(float *)(rect + 12) <= (double)*(float *)(rect + 4) )
+  if ( rect->x2 <= (double)rect->x1 || rect->y2 <= (double)rect->y1 )
   {
     Scaleform::Render::StateBag::RemoveState(WritableData + 8, State_Log);
   }
   else
   {
-    rect = 2;
+    rect = (Scaleform::Render::Rect<float> *)2;
     v6 = Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, this, 32, &rect);
     v7 = (Scaleform::RefCountVImpl *)v6;
     if ( v6 )

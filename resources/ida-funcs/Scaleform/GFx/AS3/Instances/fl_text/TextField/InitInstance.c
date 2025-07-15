@@ -16,6 +16,6 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::InitInstance
       pObject,
       COERCE_UNSIGNED_INT64(100.0),
       HIDWORD(COERCE_UNSIGNED_INT64(100.0)));
-    Scaleform::GFx::TextField::SetTextValue(pObject, (char *)&buf, 1, 1);
+    Scaleform::GFx::TextField::SetTextValue(pObject, (const __m128i *)uri, 1, 1);
   }
 }

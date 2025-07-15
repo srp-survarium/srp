@@ -1,25 +1,22 @@
-void __thiscall vostok::console_commands::cc_float::execute(vostok::console_commands::cc_float *this, float args)
+void __thiscall vostok::console_commands::cc_float::execute(vostok::console_commands::cc_float *this, char *args)
 {
-  const char *v2; // edi
-  vostok::console_commands::console_command *v4; // ecx
-  boost::function1<void,char const *> *m_value; // ecx
+  vostok::console_commands::console_command *v3; // ecx
+  float m_min; // [esp+4h] [ebp-4h] BYREF
 
-  v2 = (const char *)LODWORD(args);
-  if ( sscanf_s((char *)LODWORD(args), (const char *)&stru_95AF78.m_key_bindings[63].m_keyboard[1], &args) == 1
-    && this->m_min <= args
-    && args <= this->m_max )
+  if ( sscanf_s(args, "%f", &m_min) == 1 && this->m_min <= m_min && m_min <= this->m_max )
   {
-    m_value = (boost::function1<void,char const *> *)this->m_value;
-    *(float *)&m_value->vtable = args;
+    *this->m_value = m_min;
   }
   else
   {
-    vostok::console_commands::console_command::on_invalid_syntax(v4, (const char **)this, v2);
-    args = this->m_min;
+    vostok::console_commands::console_command::on_invalid_syntax(
+      v3,
+      (void (__thiscall ***)(const char **, char *))this,
+      args);
+    m_min = this->m_min;
   }
-  if ( (this->m_on_change_event.vtable != 0 ? (unsigned int)survarium::weapon_user_dead_state::finalize : 0) != 0 )
-    boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-      m_value,
-      &this->m_on_change_event.vtable,
-      v2);
+  vostok::console_commands::console_command::on_changed(
+    v3,
+    (int)this,
+    (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)args);
 }

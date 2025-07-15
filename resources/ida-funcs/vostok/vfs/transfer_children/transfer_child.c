@@ -1,93 +1,75 @@
-void __thiscall vostok::vfs::transfer_children::transfer_child(
-        vostok::vfs::transfer_children *this,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *path,
-        unsigned int hash,
-        vostok::vfs::base_node<1> *const child)
+void __userpurge vostok::vfs::transfer_children::transfer_child(
+        vostok::vfs::transfer_children *this@<eax>,
+        vostok::vfs::base_node<1> *const child@<esi>,
+        const vostok::fs_new::virtual_path_string *path,
+        unsigned int hash)
 {
-  survarium::game_camera *v4; // ecx
-  unsigned int v5; // eax
-  vostok::vfs::base_node<1> *v6; // eax
-  survarium::game_camera *v7; // ecx
-  survarium::game_camera *v8; // ecx
-  int v9; // [esp-Ch] [ebp-1C0h] BYREF
-  vostok::vfs::transfer_children *thisa; // [esp+0h] [ebp-1B4h]
-  int *v11; // [esp+3Ch] [ebp-178h]
-  vostok::vfs::base_node<1> *pointer; // [esp+40h] [ebp-174h]
-  vostok::vfs::base_node<1> *v13; // [esp+44h] [ebp-170h]
-  vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper *p_m_next_overlapped; // [esp+48h] [ebp-16Ch]
-  vostok::vfs::transfer_children v15; // [esp+4Ch] [ebp-168h] BYREF
-  char v16; // [esp+197h] [ebp-1Dh]
-  vostok::vfs::base_folder_node<1> *parent_to_link_folder; // [esp+198h] [ebp-1Ch]
-  vostok::vfs::base_node<1> *it_parent; // [esp+19Ch] [ebp-18h]
-  vostok::vfs::base_folder_node<1> *dest_folder; // [esp+1A0h] [ebp-14h]
-  vostok::vfs::base_node<1> *first_overlapper; // [esp+1A4h] [ebp-10h] BYREF
-  unsigned int last_overlapper_mount_id; // [esp+1A8h] [ebp-Ch]
-  vostok::vfs::base_node<1> *last_overlapper; // [esp+1ACh] [ebp-8h] BYREF
-  vostok::vfs::base_node<1> *parent_to_link; // [esp+1B0h] [ebp-4h]
+  vostok::vfs::base_node<1> *v5; // eax
+  vostok::vfs::base_node<1> *v6; // edi
+  vostok::vfs::base_folder_node<1> *v7; // eax
+  unsigned int v8; // eax
+  vostok::vfs::base_node<1> *m_dest_start; // ebx
+  vostok::vfs::base_node<1> *m_source_folder; // eax
+  vostok::vfs::base_folder_node<1> *v11; // eax
+  bool *v12; // [esp+0h] [ebp-158h]
+  vostok::vfs::transfer_children v13; // [esp+8h] [ebp-150h] BYREF
+  unsigned int v14; // [esp+14Ch] [ebp-Ch]
+  vostok::vfs::base_node<1> *dest_start; // [esp+150h] [ebp-8h] BYREF
+  vostok::vfs::base_node<1> *node; // [esp+154h] [ebp-4h] BYREF
 
-  thisa = this;
-  first_overlapper = 0;
-  last_overlapper = 0;
-  vostok::vfs::transfer_children::find_first_and_last_overlapper(
-    this,
-    &first_overlapper,
-    &last_overlapper,
-    path,
-    hash,
-    child);
-  if ( last_overlapper )
+  dest_start = 0;
+  node = 0;
+  vostok::vfs::transfer_children::find_first_and_last_overlapper(this, path, &dest_start, &node, hash, child);
+  v5 = node;
+  if ( node )
   {
-    v16 = 0;
-    survarium::weapon_user_dead_state::finalize(v4);
-    v13 = last_overlapper;
-    p_m_next_overlapped = &last_overlapper->m_next_overlapped;
-    last_overlapper->m_next_overlapped.pointer = child;
-    last_overlapper_mount_id = vostok::vfs::mount_id_of_node<1>(last_overlapper);
-    parent_to_link = 0;
-    for ( it_parent = thisa->m_dest_start; it_parent; it_parent = pointer )
+    node->m_next_overlapped.pointer = child;
+    v8 = vostok::vfs::mount_id_of_node<1>(v5);
+    node = 0;
+    m_dest_start = this->m_dest_start;
+    v14 = v8;
+    while ( m_dest_start )
     {
-      v5 = vostok::vfs::mount_id_of_node<1>(it_parent);
-      if ( v5 < last_overlapper_mount_id )
+      if ( vostok::vfs::mount_id_of_node<1>(m_dest_start) < v14 )
       {
-        parent_to_link = it_parent;
+        node = m_dest_start;
         break;
       }
-      pointer = it_parent->m_next_overlapped.pointer;
+      m_dest_start = m_dest_start->m_next_overlapped.pointer;
     }
-    if ( (parent_to_link->m_flags & 1) == 1
-      && (v6 = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::physical_folder_node,1>(thisa->m_source_folder),
-          parent_to_link != v6) )
+    if ( (node->m_flags & 1) == 0 )
+      goto LABEL_17;
+    m_source_folder = (vostok::vfs::base_node<1> *)this->m_source_folder;
+    if ( m_source_folder )
+      m_source_folder = (vostok::vfs::base_node<1> *)((char *)m_source_folder + 16);
+    if ( node == m_source_folder )
     {
-      parent_to_link_folder = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(parent_to_link);
-      vostok::vfs::base_folder_node<1>::prepend_child(parent_to_link_folder, child);
+LABEL_17:
+      vostok::intrusive_list<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,24,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
+        (vostok::intrusive_list<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,24,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)node,
+        (vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper *)&this->m_new_source_nodes,
+        (vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper)(unsigned int)child,
+        v12);
     }
     else
     {
-      v11 = &v9;
-      vostok::intrusive_list<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,24,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-        &thisa->m_new_source_nodes,
-        (vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper)(unsigned int)child,
-        0);
+      v11 = vostok::vfs::cast_folder<1>(node);
+      child->m_parent.pointer = v11;
+      child->m_next.max_storage = v11->m_first_child.max_storage;
+      v11->m_first_child.pointer = child;
     }
-    if ( (child->m_flags & 1) == 1 )
-    {
-      if ( first_overlapper )
-      {
-        vostok::vfs::transfer_children::transfer_children(
-          &v15,
-          thisa->m_hashset,
-          (const vostok::fs_new::virtual_path_string *)path,
-          hash,
-          first_overlapper,
-          child);
-        survarium::weapon_user_dead_state::finalize(v7);
-        survarium::weapon_user_dead_state::finalize(v8);
-      }
-    }
+    if ( (child->m_flags & 1) != 0 && dest_start )
+      vostok::vfs::transfer_children::transfer_children(&v13, this->m_hashset, path, hash, dest_start, child);
   }
   else
   {
-    dest_folder = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(thisa->m_dest_start);
-    vostok::vfs::base_folder_node<1>::prepend_child(dest_folder, child);
+    v6 = this->m_dest_start;
+    if ( v6 )
+      v7 = vostok::vfs::cast_folder<1>(v6);
+    else
+      v7 = 0;
+    child->m_parent.pointer = v7;
+    child->m_next.max_storage = v7->m_first_child.max_storage;
+    v7->m_first_child.pointer = child;
   }
 }

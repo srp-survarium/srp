@@ -1,4 +1,4 @@
-int __cdecl ASN1_STRING_set(asn1_string_st *str, char *_data, int len)
+int __cdecl ASN1_STRING_set(asn1_string_st *str, const __m128i *_data, int len)
 {
   int v3; // edi
   unsigned __int8 *data; // eax
@@ -9,7 +9,7 @@ int __cdecl ASN1_STRING_set(asn1_string_st *str, char *_data, int len)
   {
     if ( !_data )
       return 0;
-    v3 = strlen(_data);
+    v3 = strlen(_data->m128i_i8);
   }
   if ( str->length >= v3 && (data = str->data) != 0
     || ((v6 = str->data) != 0
@@ -20,14 +20,14 @@ int __cdecl ASN1_STRING_set(asn1_string_st *str, char *_data, int len)
     str->length = v3;
     if ( _data )
     {
-      memcpy(data, (unsigned __int8 *)_data, v3);
+      memcpy((int)data, _data, v3);
       str->data[v3] = 0;
     }
     return 1;
   }
   else
   {
-    ERR_put_error(0xDu, 186, 65, ".\\crypto\\asn1\\asn1_lib.c", 392);
+    ERR_put_error((int)v6, 0xDu, 186, 65, ".\\crypto\\asn1\\asn1_lib.c", 392);
     str->data = v6;
     return 0;
   }

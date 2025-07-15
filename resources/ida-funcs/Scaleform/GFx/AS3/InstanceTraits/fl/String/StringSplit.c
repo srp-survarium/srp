@@ -21,7 +21,7 @@ Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scalefo
   Scaleform::GFx::AS3::Value *v19; // ecx
   Scaleform::GFx::ASStringNode *v20; // eax
   void *v21; // esi
-  char *v22; // ebp
+  __m128i *v22; // ebp
   const char *v23; // esi
   unsigned int v24; // edi
   unsigned int v25; // ebx
@@ -91,7 +91,7 @@ Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scalefo
   if ( LOBYTE(delimiters->pData) )
   {
     str = 0;
-    v22 = (char *)v9;
+    v22 = (__m128i *)v9;
     while ( 2 )
     {
       s2 = v8;
@@ -127,9 +127,9 @@ LABEL_47:
         return (Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> **)result.pData;
       StringManagerRef = vm->StringManagerRef;
       if ( end )
-        v27 = (const char *)(end - v22);
+        v27 = (const char *)(end - (const char *)v22);
       else
-        v27 = (const char *)strlen(v22);
+        v27 = (const char *)strlen(v22->m128i_i8);
       if ( (int)v27 <= 0 )
         p_EmptyStringNode = &StringManagerRef->pStringManager->EmptyStringNode;
       else
@@ -173,7 +173,7 @@ LABEL_47:
         Scaleform::GFx::ASStringNode::ReleaseNode(v33);
       v9 = prev;
       str = (const Scaleform::GFx::ASString *)((char *)str + 1);
-      v22 = (char *)prev;
+      v22 = (__m128i *)prev;
       pstr = prev;
 LABEL_64:
       if ( v24 )
@@ -244,7 +244,7 @@ LABEL_72:
       Scaleform::String::AppendChar(&result, v16);
       delimiters = Scaleform::GFx::ASStringManager::CreateStringNode(
                      v6->StringManagerRef->pStringManager,
-                     (char *)((result.HeapTypeBits & 0xFFFFFFFC) + 8),
+                     (__m128i *)((result.HeapTypeBits & 0xFFFFFFFC) + 8),
                      *(_DWORD *)(result.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       ++delimiters->RefCount;
       v17 = *pData;

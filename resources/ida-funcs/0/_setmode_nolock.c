@@ -1,4 +1,4 @@
-int __cdecl _setmode_nolock(int fh, HINSTANCE__ *mode)
+int __cdecl _setmode_nolock(int fh, unsigned __int8 *mode)
 {
   stlp_std::ioinfo **v2; // edx
   int v3; // esi
@@ -13,18 +13,18 @@ int __cdecl _setmode_nolock(int fh, HINSTANCE__ *mode)
   v4 = (char *)*v2 + v3;
   v5 = v4[4] & 0x80;
   v6 = (char)(2 * v4[36]) >> 1;
-  if ( mode == (HINSTANCE__ *)0x4000 )
+  if ( mode == (unsigned __int8 *)0x4000 )
   {
     v4[4] |= 0x80u;
     *((_BYTE *)&(*v2)[1].osfhnd + v3) &= 0x80u;
   }
-  else if ( mode == (HINSTANCE__ *)0x8000 )
+  else if ( mode == (unsigned __int8 *)0x8000 )
   {
     v4[4] &= ~0x80u;
   }
   else
   {
-    if ( mode == &_sbh_sizeHeaderList || mode == (HINSTANCE__ *)&loc_20000 )
+    if ( mode == (unsigned __int8 *)&_sbh_sizeHeaderList || mode == (unsigned __int8 *)&loc_20000 )
     {
       v4[4] |= 0x80u;
       v7 = (char *)&(*v2)[1] + v3;
@@ -32,7 +32,7 @@ int __cdecl _setmode_nolock(int fh, HINSTANCE__ *mode)
     }
     else
     {
-      if ( mode != (HINSTANCE__ *)((char *)&loc_3FFFF + 1) )
+      if ( mode != (_BYTE *)&loc_3FFFF + 1 )
         goto LABEL_11;
       v4[4] |= 0x80u;
       v7 = (char *)&(*v2)[1] + v3;

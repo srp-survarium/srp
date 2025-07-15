@@ -176,14 +176,14 @@ void __thiscall Scaleform::GFx::AS2::LocalFrame::ForEachChild_GC<Scaleform::GFx:
   pObject = this->PrevFrame.pObject;
   if ( pObject )
   {
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & --pObject->RefCount) != 0 )
+    if ( (--pObject->RefCount & 0x3FFFFFF) != 0 )
     {
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
     }
     else
     {
       Scaleform::GFx::AS2::RefCountCollector<323>::RemoveFromRoots(prcc, pObject);
-      pObject->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
+      pObject->RefCount |= 0x4000000u;
       if ( (pObject->RefCount & 0x8000000) == 0 )
       {
         pObject->RootIndex = *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0;
@@ -222,21 +222,21 @@ void __thiscall Scaleform::GFx::AS2::LocalFrame::ForEachChild_GC<Scaleform::GFx:
   int v13; // ecx
   unsigned int v14; // ecx
   int v15; // eax
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *v16; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *v16; // eax
   unsigned int v17; // ecx
   int v18; // ecx
   unsigned int v19; // ecx
   unsigned int v20; // eax
   _DWORD *v21; // ecx
-  Scaleform::GFx::AS2::LocalFrame *pObject; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *pObject; // eax
   unsigned int v23; // ecx
   unsigned __int8 Type; // cl
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *pObjectValue; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *pStringNode; // eax
   unsigned int v26; // ecx
   unsigned __int8 v27; // cl
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *v28; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *v28; // eax
   unsigned int v29; // ecx
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::TableType *it; // [esp+10h] [ebp-8h]
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::TableType *v31; // [esp+10h] [ebp-8h]
 
   p_Variables = &this->Variables;
   pTable = this->Variables.mHash.pTable;
@@ -260,7 +260,7 @@ void __thiscall Scaleform::GFx::AS2::LocalFrame::ForEachChild_GC<Scaleform::GFx:
     v4 = 0;
   }
   v7 = pTable;
-  it = pTable;
+  v31 = pTable;
   v8 = v4;
   while ( v7 )
   {
@@ -283,7 +283,7 @@ void __thiscall Scaleform::GFx::AS2::LocalFrame::ForEachChild_GC<Scaleform::GFx:
           {
             *(_DWORD *)(*(_DWORD *)(v12 + 8) + 4) = *(_DWORD *)(v12 + 4);
             *(_DWORD *)(*(_DWORD *)(v12 + 4) + 8) = *(_DWORD *)(v12 + 8);
-            v7 = it;
+            v7 = v31;
             *(_DWORD *)(v12 + 8) = *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0;
             *(_DWORD *)(v12 + 4) = prcc->pLastPtr->pRCC;
             *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0 = v12;
@@ -297,7 +297,7 @@ void __thiscall Scaleform::GFx::AS2::LocalFrame::ForEachChild_GC<Scaleform::GFx:
     }
     else
     {
-      if ( v11 != 6 || (v16 = *(Scaleform::GFx::AS2::RefCountBaseGC<323> **)(EntryCount + 24 * v8 + 20)) == 0 )
+      if ( v11 != 6 || (v16 = *(Scaleform::GFx::AS2::RefCountCollector<323> **)(EntryCount + 24 * v8 + 20)) == 0 )
       {
         if ( v11 != 9 )
           goto LABEL_27;
@@ -320,10 +320,10 @@ LABEL_24:
         }
         goto LABEL_27;
       }
-      v17 = ++v16->RefCount;
+      v17 = ++v16->Roots.Size;
       if ( (v17 & 0x70000000) != 0 )
       {
-        v16->RefCount = v17 & 0x8FFFFFFF;
+        v16->Roots.Size = v17 & 0x8FFFFFFF;
         Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, v16);
       }
     }
@@ -342,13 +342,13 @@ LABEL_27:
       while ( v8 <= v20 );
     }
   }
-  pObject = this->PrevFrame.pObject;
+  pObject = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->PrevFrame.pObject;
   if ( pObject )
   {
-    v23 = ++pObject->RefCount;
+    v23 = ++pObject->Roots.Size;
     if ( (v23 & 0x70000000) != 0 )
     {
-      pObject->RefCount = v23 & 0x8FFFFFFF;
+      pObject->Roots.Size = v23 & 0x8FFFFFFF;
       Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pObject);
     }
   }
@@ -360,19 +360,19 @@ LABEL_27:
       prcc);
     goto LABEL_44;
   }
-  if ( Type == 6 && (pObjectValue = this->Callee.V.pObjectValue) != 0 )
+  if ( Type == 6 && (pStringNode = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Callee.V.pStringNode) != 0 )
   {
 LABEL_42:
-    v26 = ++pObjectValue->RefCount;
+    v26 = ++pStringNode->Roots.Size;
     if ( (v26 & 0x70000000) != 0 )
     {
-      pObjectValue->RefCount = v26 & 0x8FFFFFFF;
-      Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pObjectValue);
+      pStringNode->Roots.Size = v26 & 0x8FFFFFFF;
+      Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pStringNode);
     }
   }
   else if ( Type == 9 )
   {
-    pObjectValue = this->Callee.V.pObjectValue;
+    pStringNode = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Callee.V.pStringNode;
     goto LABEL_42;
   }
 LABEL_44:
@@ -384,19 +384,19 @@ LABEL_44:
       prcc);
     return;
   }
-  if ( v27 == 6 && (v28 = this->Caller.V.pObjectValue) != 0 )
+  if ( v27 == 6 && (v28 = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Caller.V.pStringNode) != 0 )
   {
 LABEL_50:
-    v29 = ++v28->RefCount;
+    v29 = ++v28->Roots.Size;
     if ( (v29 & 0x70000000) != 0 )
     {
-      v28->RefCount = v29 & 0x8FFFFFFF;
+      v28->Roots.Size = v29 & 0x8FFFFFFF;
       Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, v28);
     }
   }
   else if ( v27 == 9 )
   {
-    v28 = this->Caller.V.pObjectValue;
+    v28 = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Caller.V.pStringNode;
     goto LABEL_50;
   }
 }

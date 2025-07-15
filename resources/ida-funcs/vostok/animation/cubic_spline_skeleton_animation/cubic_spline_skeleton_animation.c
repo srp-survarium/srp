@@ -1,115 +1,94 @@
-void __userpurge vostok::animation::cubic_spline_skeleton_animation::cubic_spline_skeleton_animation(
-        vostok::animation::cubic_spline_skeleton_animation *this@<ecx>,
-        int a2@<esi>,
-        const vostok::animation::bi_spline_skeleton_animation_baked *animation)
+void __thiscall vostok::animation::cubic_spline_skeleton_animation::cubic_spline_skeleton_animation(
+        vostok::animation::cubic_spline_skeleton_animation *this,
+        vostok::animation::bone_names *animation,
+        int a3)
 {
-  const vostok::animation::bi_spline_skeleton_animation_baked *v3; // edi
-  vostok::resources::unmanaged_resource *v4; // eax
-  vostok::resources::unmanaged_intrusive_base *v5; // ecx
-  int v6; // ecx
-  _BYTE *v7; // ebx
-  int v8; // ecx
-  _DWORD *v9; // eax
-  int v10; // ebp
-  unsigned int i; // ebx
-  unsigned int v12; // eax
-  int v13; // eax
-  vostok::animation::animation_event_channels *v14; // ecx
-  int v15; // eax
-  void *v16; // [esp+0h] [ebp-1Ch]
-  vostok::animation::bi_spline_bone_animation_baked *bd; // [esp+Ch] [ebp-10h]
-  void *mem_ptr; // [esp+10h] [ebp-Ch] BYREF
-  int v19; // [esp+14h] [ebp-8h]
-  unsigned int bone; // [esp+18h] [ebp-4h]
+  signed int m_internal_memory_position; // ecx
+  _DWORD *v4; // eax
+  vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *v5; // esi
+  int v6; // edi
+  int v7; // ecx
+  vostok::animation::animation_event_channels *v8; // ecx
+  unsigned int v9; // eax
+  signed int v10; // [esp-4h] [ebp-2Ch]
+  void *v11; // [esp+0h] [ebp-28h]
+  unsigned int *memory; // [esp+Ch] [ebp-1Ch]
+  int v13; // [esp+10h] [ebp-18h]
+  const vostok::animation::bi_spline_bone_animation_baked *v14; // [esp+14h] [ebp-14h]
+  unsigned int *v15; // [esp+18h] [ebp-10h]
+  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> names; // [esp+1Ch] [ebp-Ch] BYREF
+  int v17; // [esp+20h] [ebp-8h]
+  const vostok::animation::bi_spline_channel_animation_baked *v18; // [esp+24h] [ebp-4h]
 
-  *(_DWORD *)a2 = -1;
-  *(_DWORD *)(a2 + 4) = -1;
-  v3 = animation;
-  *(_DWORD *)(a2 + 8) = -1;
-  *(_DWORD *)(a2 + 12) = -1;
-  *(_DWORD *)(a2 + 24) = HIBYTE(animation[1].__vftable);
-  *(_DWORD *)(a2 + 16) = LOWORD(animation[1].__vftable);
-  mem_ptr = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&mem_ptr,
-    &animation->m_bones_names);
-  vostok::animation::bone_names::create_internals_in_place(
-    (const vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> *)&mem_ptr,
-    (vostok::animation::bone_names *)a2,
-    (_BYTE *)(a2 + 28));
-  v4 = (vostok::resources::unmanaged_resource *)mem_ptr;
-  if ( mem_ptr )
+  animation->m_internal_memory_position = -1;
+  animation->m_bone_count = -1;
+  animation[1].m_internal_memory_position = -1;
+  animation[1].m_bone_count = -1;
+  animation[3].m_internal_memory_position = *(unsigned __int8 *)(a3 + 275);
+  animation[2].m_internal_memory_position = *(unsigned __int16 *)(a3 + 272);
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&names,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a3 + 264));
+  vostok::animation::bone_names::create_internals_in_place(&names, animation, &animation[3].m_bone_count);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&names);
+  m_internal_memory_position = animation[2].m_internal_memory_position;
+  names.m_object = 0;
+  memory = &animation[9 * m_internal_memory_position + 3 + 9 * m_internal_memory_position].m_bone_count;
+  animation[2].m_bone_count = 72 * m_internal_memory_position + 28;
+  if ( m_internal_memory_position )
   {
-    v5 = (vostok::resources::unmanaged_intrusive_base *)((char *)mem_ptr + 208);
-    if ( !_InterlockedExchangeAdd((volatile signed __int32 *)mem_ptr + 52, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v5, v4);
-  }
-  v6 = *(_DWORD *)(a2 + 16);
-  v7 = (_BYTE *)(72 * v6 + 72 * v6 + a2 + 28);
-  *(_DWORD *)(a2 + 20) = 72 * v6 + 28;
-  mem_ptr = v7;
-  bone = 0;
-  if ( v6 )
-  {
-    v8 = 0;
-    v19 = 0;
-    bd = (vostok::animation::bi_spline_bone_animation_baked *)&animation[1].type;
-    while ( 1 )
+    v13 = 0;
+    v14 = (const vostok::animation::bi_spline_bone_animation_baked *)(a3 + 276);
+    do
     {
-      v9 = (_DWORD *)(*(_DWORD *)(a2 + 20) + v8 + a2);
-      if ( v9 )
+      v4 = (unsigned int *)((char *)&animation[v13].m_internal_memory_position + animation[2].m_bone_count);
+      if ( v4 )
       {
-        *v9 = -1;
-        v9[1] = -1;
-        v9[2] = -1;
-        v9[3] = -1;
-        v9[4] = -1;
-        v9[5] = -1;
-        v9[6] = -1;
-        v9[7] = -1;
-        v9[8] = -1;
-        v9[9] = -1;
-        v9[10] = -1;
-        v9[11] = -1;
-        v9[12] = -1;
-        v9[13] = -1;
-        v9[14] = -1;
-        v9[15] = -1;
-        v9[16] = -1;
-        v9[17] = -1;
+        for ( m_internal_memory_position = 8; m_internal_memory_position >= 0; --m_internal_memory_position )
+        {
+          *v4 = -1;
+          v4[1] = -1;
+          v4 += 2;
+        }
       }
-      vostok::animation::bone_animation::create_internals_in_place(
-        (vostok::animation::bone_animation *)(*(_DWORD *)(a2 + 20) + a2 + v8),
-        bd,
-        v7);
-      v10 = 0;
-      for ( i = 0; i < 9; ++i )
+      v5 = (vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *)((char *)&animation[v13]
+                                                                                                  + animation[2].m_bone_count);
+      v15 = memory;
+      v6 = (char *)v14 - (char *)v5;
+      v17 = 9;
+      do
       {
-        v12 = vostok::animation::poly_knots_count(bd->m_channel_animations[i].pointer);
-        v10 += 20 * v12;
+        v18 = *(const vostok::animation::bi_spline_channel_animation_baked **)((char *)&v5->m_time_channel.m_knots_count
+                                                                             + v6);
+        vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1>>::create_in_place_internals(
+          v15,
+          m_internal_memory_position,
+          v5,
+          v18);
+        v15 += 5 * vostok::animation::poly_knots_count(v7, v18);
+        ++v5;
+        --v17;
       }
-      mem_ptr = (char *)mem_ptr + v10;
-      v7 = mem_ptr;
-      v19 += 72;
-      ++bd;
-      if ( ++bone >= *(_DWORD *)(a2 + 16) )
-        break;
-      v8 = v19;
+      while ( v17 );
+      memory = (unsigned int *)((char *)memory + vostok::animation::bone_animation::count_internal_memory_size(v14));
+      ++names.m_object;
+      v13 += 9;
+      ++v14;
+      m_internal_memory_position = v10;
     }
-    v3 = animation;
+    while ( (unsigned int)names.m_object < animation[2].m_internal_memory_position );
   }
-  v13 = LOWORD(v3[1].__vftable);
-  v14 = (vostok::animation::animation_event_channels *)(&v3[1].type + 18 * v13);
-  if ( (const vostok::animation::bi_spline_skeleton_animation_baked *)((char *)v3 + 72 * v13) != (const vostok::animation::bi_spline_skeleton_animation_baked *)-276 )
+  v8 = (vostok::animation::animation_event_channels *)(72 * *(unsigned __int16 *)(a3 + 272) + a3 + 276);
+  if ( 72 * *(unsigned __int16 *)(a3 + 272) + a3 != -276 )
   {
-    v15 = BYTE2(v3[1].__vftable);
-    *(_DWORD *)(a2 + 8) = v15;
-    if ( v15 )
+    v9 = *(unsigned __int8 *)(a3 + 274);
+    animation[1].m_internal_memory_position = v9;
+    if ( v9 )
       vostok::animation::animation_event_channels::create_in_place_internals(
-        v14,
-        (unsigned int *)(a2 + 8),
-        (const vostok::animation::bi_spline_event_channel_baked *)v14,
-        v7,
-        v16);
+        v8,
+        &animation[1].m_internal_memory_position,
+        (const vostok::animation::bi_spline_event_channel_baked *)v8,
+        (unsigned int)memory,
+        v11);
   }
 }

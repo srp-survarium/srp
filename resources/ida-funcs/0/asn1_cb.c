@@ -38,7 +38,7 @@ LABEL_6:
   v9 = asn1_str2tag(elem, v4);
   if ( v9 == -1 )
   {
-    ERR_put_error(0xDu, 177, 194, ".\\crypto\\asn1\\asn1_gen.c", 303);
+    ERR_put_error((int)v3, 0xDu, 177, 194, ".\\crypto\\asn1\\asn1_gen.c", 303);
     ERR_add_error_data(2, "tag=", v3);
     return -1;
   }
@@ -51,7 +51,7 @@ LABEL_6:
         case 65537:
           if ( bitstr->imp_tag != -1 )
           {
-            ERR_put_error(0xDu, 177, 181, ".\\crypto\\asn1\\asn1_gen.c", 329);
+            ERR_put_error((int)v3, 0xDu, 177, 181, ".\\crypto\\asn1\\asn1_gen.c", 329);
             return -1;
           }
           if ( !parse_tagging(v6, (int)v5, &bitstr->imp_class, &bitstr->imp_tag) )
@@ -74,15 +74,15 @@ LABEL_6:
               v13->exp_pad = 0;
               return 1;
             }
-            ERR_put_error(0xDu, 176, 174, ".\\crypto\\asn1\\asn1_gen.c", 524);
+            ERR_put_error((int)&len, 0xDu, 176, 174, ".\\crypto\\asn1\\asn1_gen.c", 524);
           }
           else
           {
-            ERR_put_error(0xDu, 176, 179, ".\\crypto\\asn1\\asn1_gen.c", 518);
+            ERR_put_error((int)&len, 0xDu, 176, 179, ".\\crypto\\asn1\\asn1_gen.c", 518);
           }
           return -1;
         case 65540:
-          appended = append_exp(bitstr, 3, 0, 0, 1, 1);
+          appended = append_exp((int)v3, bitstr, 3, 0, 0, 1, 1);
           goto LABEL_29;
         case 65541:
           v17 = 0;
@@ -92,10 +92,10 @@ LABEL_6:
           v17 = 1;
           v16 = 16;
 LABEL_28:
-          appended = append_exp(bitstr, v16, 0, v17, 0, 1);
+          appended = append_exp((int)v3, bitstr, v16, 0, v17, 0, 1);
           goto LABEL_29;
         case 65543:
-          appended = append_exp(bitstr, 17, 0, 1, 0, 1);
+          appended = append_exp((int)v3, bitstr, 17, 0, 1, 0, 1);
 LABEL_29:
           if ( appended )
             return 1;
@@ -121,7 +121,7 @@ LABEL_29:
             bitstr->format = 4;
             return 1;
           }
-          ERR_put_error(0xDu, 177, 195, ".\\crypto\\asn1\\asn1_gen.c", 375);
+          ERR_put_error((int)v3, 0xDu, 177, 195, ".\\crypto\\asn1\\asn1_gen.c", 375);
           return -1;
         default:
           return 1;
@@ -136,7 +136,7 @@ LABEL_29:
     }
     else
     {
-      ERR_put_error(0xDu, 177, 189, ".\\crypto\\asn1\\asn1_gen.c", 316);
+      ERR_put_error((int)v3, 0xDu, 177, 189, ".\\crypto\\asn1\\asn1_gen.c", 316);
       return -1;
     }
   }

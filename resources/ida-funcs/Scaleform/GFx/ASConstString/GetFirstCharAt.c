@@ -1,20 +1,20 @@
 unsigned int __thiscall Scaleform::GFx::ASConstString::GetFirstCharAt(
         Scaleform::GFx::ASConstString *this,
-        const char *index,
-        const char **offset)
+        char *index,
+        char **offset)
 {
   Scaleform::GFx::ASStringNode *pNode; // eax
-  const char *v4; // edi
-  const char *v5; // esi
+  char *v4; // edi
+  char *v5; // esi
   unsigned int result; // eax
 
   pNode = this->pNode;
   v4 = index;
-  index = this->pNode->pData;
+  index = (char *)this->pNode->pData;
   v5 = &index[pNode->Size];
   while ( 1 )
   {
-    result = Scaleform::UTF8Util::DecodeNextChar_Advance0(&index);
+    result = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&index);
     --v4;
     if ( index >= v5 )
       break;

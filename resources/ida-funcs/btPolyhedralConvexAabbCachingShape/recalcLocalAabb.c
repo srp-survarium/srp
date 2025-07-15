@@ -1,68 +1,70 @@
 void __usercall btPolyhedralConvexAabbCachingShape::recalcLocalAabb(
         btPolyhedralConvexAabbCachingShape *this@<ecx>,
-        int a2@<esi>,
+        int *a2@<esi>,
         int a3,
         int a4,
         int a5,
-        float a6,
+        int a6,
         int a7,
         int a8,
         int a9,
         int a10,
-        float a11,
+        int a11,
         int a12,
-        float a13,
-        int a14,
-        int a15,
-        int a16,
-        int a17,
-        float a18,
-        int a19,
-        int a20,
-        int a21,
-        int a22,
-        float a23)
+        char a13)
 {
-  void (__thiscall *v23)(int, const btVector3 *, btVector3 *, int); // edx
-  btVector3 _supporting[6]; // [esp+Ch] [ebp-60h] BYREF
-  float vars0; // [esp+6Ch] [ebp+0h]
+  bool v13; // zf
+  int v14; // eax
+  float *v15; // ecx
+  float *v16; // eax
+  int v17; // edx
+  _DWORD v18[23]; // [esp+0h] [ebp-60h] BYREF
+  int v19; // [esp+5Ch] [ebp-4h]
 
-  *(_BYTE *)(a2 + 112) = 1;
-  if ( (_S1_5 & 1) == 0 )
+  v13 = (_S1_6 & 1) == 0;
+  *((_BYTE *)a2 + 112) = 1;
+  if ( v13 )
   {
-    _S1_5 |= 1u;
-    directions[0].mVec128.m128_i32[0] = (int)clear_value;
-    dword_4C27084 = (int)clear_value;
-    dword_4C27098 = (int)clear_value;
-    dword_4C27074 = 0;
-    dword_4C27078 = 0;
-    dword_4C2707C = 0;
-    dword_4C27080 = 0;
-    dword_4C27088 = 0;
-    dword_4C2708C = 0;
-    dword_4C27090 = 0;
-    dword_4C27094 = 0;
-    dword_4C2709C = 0;
-    dword_4C270A0 = -1082130432;
-    dword_4C270A4 = 0;
-    dword_4C270A8 = 0;
-    dword_4C270AC = 0;
-    dword_4C270B0 = 0;
-    dword_4C270B4 = -1082130432;
-    dword_4C270B8 = 0;
-    dword_4C270BC = 0;
-    dword_4C270C0 = 0;
-    dword_4C270C4 = 0;
-    dword_4C270C8 = -1082130432;
-    dword_4C270CC = 0;
+    _S1_6 |= 1u;
+    directions[0].mVec128.m128_f32[0] = s_bm_current_air_resistance;
+    dword_47EA894 = LODWORD(s_bm_current_air_resistance);
+    dword_47EA8A8 = LODWORD(s_bm_current_air_resistance);
+    dword_47EA884 = 0;
+    dword_47EA888 = 0;
+    dword_47EA88C = 0;
+    dword_47EA890 = 0;
+    dword_47EA898 = 0;
+    dword_47EA89C = 0;
+    dword_47EA8A0 = 0;
+    dword_47EA8A4 = 0;
+    dword_47EA8AC = 0;
+    dword_47EA8B0 = LODWORD(FLOAT_N1_0);
+    dword_47EA8B4 = 0;
+    dword_47EA8B8 = 0;
+    dword_47EA8BC = 0;
+    dword_47EA8C0 = 0;
+    dword_47EA8C4 = LODWORD(FLOAT_N1_0);
+    dword_47EA8C8 = 0;
+    dword_47EA8CC = 0;
+    dword_47EA8D0 = 0;
+    dword_47EA8D4 = 0;
+    dword_47EA8D8 = LODWORD(FLOAT_N1_0);
+    dword_47EA8DC = 0;
   }
-  v23 = *(void (__thiscall **)(int, const btVector3 *, btVector3 *, int))(*(_DWORD *)a2 + 68);
-  memset(_supporting, 0, sizeof(_supporting));
-  v23(a2, directions, _supporting, 6);
-  *(float *)(a2 + 96) = *(float *)(a2 + 48) + vars0;
-  *(float *)(a2 + 80) = a13 - *(float *)(a2 + 48);
-  *(float *)(a2 + 100) = *(float *)(a2 + 48) + a6;
-  *(float *)(a2 + 84) = a18 - *(float *)(a2 + 48);
-  *(float *)(a2 + 104) = *(float *)(a2 + 48) + a11;
-  *(float *)(a2 + 88) = a23 - *(float *)(a2 + 48);
+  v14 = *a2;
+  memset(v18, 0, sizeof(v18));
+  v19 = 0;
+  (*(void (__thiscall **)(int *, const btVector3 *, _DWORD *, int))(v14 + 68))(a2, directions, v18, 6);
+  v19 = 3;
+  v15 = (float *)&a13;
+  v16 = (float *)(a2 + 20);
+  v17 = 3;
+  do
+  {
+    v16[4] = *(v15 - 12) + *((float *)a2 + 12);
+    *v16++ = *v15 - *((float *)a2 + 12);
+    v15 += 5;
+    --v17;
+  }
+  while ( v17 );
 }

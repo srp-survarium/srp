@@ -15,7 +15,7 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalIsNaN(const Scaleform::GFx::AS2::FnC
       v3 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
                                                                                          & 0x1F];
     v5 = Scaleform::GFx::AS2::Value::ToNumber(v3, Env);
-    if ( (HIDWORD(v5) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(v5) | LODWORD(v5)) )
+    if ( (HIDWORD(v5) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(v5) & 0xFFFFF | LODWORD(v5)) )
       v1 = 0;
   }
   Result = fn->Result;

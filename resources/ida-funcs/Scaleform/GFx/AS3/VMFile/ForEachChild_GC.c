@@ -1,79 +1,78 @@
 void __thiscall Scaleform::GFx::AS3::VMFile::ForEachChild_GC(
         Scaleform::GFx::AS3::VMFile *this,
         Scaleform::GFx::AS3::RefCountCollector<328> *prcc,
-        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **))
+        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **, const Scaleform::GFx::AS3::RefCountBaseGC<328> *))
 {
-  unsigned int Size; // ebx
-  unsigned int i; // edi
+  unsigned int Size; // edi
+  unsigned int i; // esi
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::NamespaceSet> *Data; // ecx
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MbiInd,340>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF> >::TableType *pTable; // ecx
-  Scaleform::HashLH<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd>,340,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF> > *p_ActivationTraitsCache; // esi
-  unsigned int v9; // eax
-  unsigned int SizeMask; // edx
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MbiInd,340>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF> >::TableType *v11; // ecx
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MbiInd,340>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF> >::TableType *v12; // edi
-  signed int v13; // esi
-  unsigned int EntryCount; // eax
-  bool v15; // zf
-  const Scaleform::GFx::AS3::RefCountBaseGC<328> **v16; // eax
-  unsigned int v17; // eax
-  _DWORD *v18; // ecx
+  _DWORD *p_EntryCount; // ecx
+  unsigned int v8; // eax
+  unsigned int v9; // edx
+  _DWORD *v10; // ecx
+  _DWORD *v11; // edi
+  signed int v12; // esi
+  int v13; // eax
+  bool v14; // zf
+  const Scaleform::GFx::AS3::RefCountBaseGC<328> **v15; // eax
+  unsigned int v16; // eax
+  _DWORD *v17; // ecx
 
   Scaleform::GFx::AS3::AbcMultinameHash<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,340>::ForEachChild_GC(
     &this->IntNamespaces,
     prcc,
-    op);
+    op,
+    this);
   Size = this->IntNamespaceSets.Data.Size;
   for ( i = 0; i < Size; ++i )
   {
     Data = this->IntNamespaceSets.Data.Data;
     if ( Data[i].pObject )
-      op(prcc, (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&Data[i].pObject);
+      op(prcc, (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&Data[i].pObject, this);
   }
-  pTable = this->ActivationTraitsCache.mHash.pTable;
-  p_ActivationTraitsCache = &this->ActivationTraitsCache;
-  if ( pTable )
+  p_EntryCount = &this->ActivationTraitsCache.mHash.pTable->EntryCount;
+  if ( p_EntryCount )
   {
-    SizeMask = pTable->SizeMask;
-    v9 = 0;
-    v11 = pTable + 1;
+    v9 = p_EntryCount[1];
+    v8 = 0;
+    v10 = p_EntryCount + 2;
     do
     {
-      if ( v11->EntryCount != -2 )
+      if ( *v10 != -2 )
         break;
-      ++v9;
-      v11 += 2;
+      ++v8;
+      v10 += 4;
     }
-    while ( v9 <= SizeMask );
-    pTable = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MbiInd,340>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >,Scaleform::HashNode<Scaleform::GFx::AS3::Abc::MbiInd,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Traits>,Scaleform::FixedSizeHash<Scaleform::GFx::AS3::Abc::MbiInd> >::NodeHashF> >::TableType *)p_ActivationTraitsCache;
+    while ( v8 <= v9 );
+    p_EntryCount = &this->ActivationTraitsCache.mHash.pTable;
   }
   else
   {
-    v9 = 0;
+    v8 = 0;
   }
-  v12 = pTable;
-  v13 = v9;
-  while ( v12 )
+  v11 = p_EntryCount;
+  v12 = v8;
+  while ( v11 )
   {
-    EntryCount = v12->EntryCount;
-    if ( !v12->EntryCount || v13 > *(_DWORD *)(EntryCount + 4) )
+    v13 = *v11;
+    if ( !*v11 || v12 > *(_DWORD *)(v13 + 4) )
       break;
-    v15 = *(_DWORD *)(16 * v13 + EntryCount + 20) == 0;
-    v16 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)(16 * v13 + EntryCount + 20);
-    if ( !v15 )
-      op(prcc, v16);
-    v17 = *(_DWORD *)(v12->EntryCount + 4);
-    if ( v13 <= (int)v17 && ++v13 <= v17 )
+    v14 = *(_DWORD *)(16 * v12 + v13 + 20) == 0;
+    v15 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)(16 * v12 + v13 + 20);
+    if ( !v14 )
+      op(prcc, v15, this);
+    v16 = *(_DWORD *)(*v11 + 4);
+    if ( v12 <= (int)v16 && ++v12 <= v16 )
     {
-      v18 = (_DWORD *)(16 * v13 + v12->EntryCount + 8);
+      v17 = (_DWORD *)(16 * v12 + *v11 + 8);
       do
       {
-        if ( *v18 != -2 )
+        if ( *v17 != -2 )
           break;
-        ++v13;
-        v18 += 4;
+        ++v12;
+        v17 += 4;
       }
-      while ( v13 <= v17 );
+      while ( v12 <= v16 );
     }
   }
 }

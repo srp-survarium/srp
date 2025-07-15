@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::ColorMatrixFilter::c
       else
       {
         RefCount = v8->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v8->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);
@@ -61,7 +61,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::ColorMatrixFilter::c
   if ( v7 && ((unsigned __int8)v7 & 1) == 0 )
   {
     v10 = v7->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v10) != 0 )
+    if ( (v10 & 0x3FFFFF) != 0 )
     {
       v7->RefCount = v10 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

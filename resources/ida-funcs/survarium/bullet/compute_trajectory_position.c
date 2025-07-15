@@ -1,40 +1,33 @@
-vostok::math::float3 *__thiscall survarium::bullet::compute_trajectory_position(
-        survarium::bullet *this,
-        vostok::math::float3 *result,
-        float time,
-        const vostok::math::float3 *gravity)
+vostok::math::float3 *__userpurge survarium::bullet::compute_trajectory_position@<eax>(
+        survarium::bullet *this@<edi>,
+        survarium::bullet *a2@<ecx>,
+        vostok::math::float3 *a3@<esi>,
+        float a4@<xmm0>,
+        float time)
 {
-  vostok::math::float3 *v5; // esi
-  vostok::math::float3 *v6; // eax
-  vostok::math::float3 *v7; // eax
-  vostok::math::float3 v9; // [esp+14h] [ebp-50h] BYREF
-  vostok::math::float3 v10; // [esp+20h] [ebp-44h] BYREF
-  vostok::math::float3 v11; // [esp+2Ch] [ebp-38h] BYREF
-  float value; // [esp+38h] [ebp-2Ch] BYREF
-  const vostok::math::float3 *parabolic_pos; // [esp+3Ch] [ebp-28h]
-  vostok::math::float3 v14; // [esp+40h] [ebp-24h] BYREF
-  const vostok::math::float3 *parabolic_vel; // [esp+4Ch] [ebp-18h]
-  float fall_down_time; // [esp+50h] [ebp-14h] BYREF
-  vostok::math::float3 v17; // [esp+54h] [ebp-10h] BYREF
-  float parabolic_time; // [esp+60h] [ebp-4h]
+  const vostok::math::float3 *v5; // edx
+  const vostok::math::float3 *v7; // edx
+  float *v8; // edx
+  float v9; // xmm0_4
+  float v10; // xmm1_4
+  float v11; // xmm2_4
+  vostok::math::float3 v12; // [esp+4h] [ebp-20h] BYREF
+  vostok::math::float3 v13; // [esp+10h] [ebp-14h] BYREF
+  float v14; // [esp+1Ch] [ebp-8h]
+  float v15; // [esp+20h] [ebp-4h]
 
-  parabolic_time = survarium::bullet::get_parabolic_time(this);
-  fall_down_time = time - parabolic_time;
-  if ( (float)(time - parabolic_time) >= 0.0 )
-  {
-    survarium::bullet::compute_parabolic_position(this, &v17, parabolic_time, gravity);
-    parabolic_pos = &v17;
-    survarium::bullet::compute_parabolic_velocity(this, &v14, parabolic_time, gravity);
-    parabolic_vel = &v14;
-    value = vostok::math::sqr<float>(&fall_down_time) * 0.5;
-    v5 = vostok::math::operator*(gravity, &v11, &value);
-    v6 = vostok::math::operator*(parabolic_vel, &v10, &fall_down_time);
-    v7 = vostok::math::operator+(v6, parabolic_pos, &v9);
-    vostok::math::operator+(v5, v7, result);
-  }
-  else
-  {
-    survarium::bullet::compute_parabolic_position(this, result, time, gravity);
-  }
-  return result;
+  survarium::bullet::get_parabolic_time(a2);
+  v15 = a4;
+  v14 = time - a4;
+  if ( (float)(time - a4) < 0.0 )
+    return survarium::bullet::compute_parabolic_position(v5, a3, this, time);
+  survarium::bullet::compute_parabolic_position(v5, &v12, this, v15);
+  survarium::bullet::compute_parabolic_velocity(v7, &v13, this, v15);
+  v9 = (float)(v14 * v14) * 0.5;
+  v10 = (float)(v12.y + (float)(v13.y * v14)) + (float)(v8[1] * v9);
+  v11 = (float)(v12.z + (float)(v13.z * v14)) + (float)(v8[2] * v9);
+  a3->x = (float)(v12.x + (float)(v13.x * v14)) + (float)(*v8 * v9);
+  a3->y = v10;
+  a3->z = v11;
+  return a3;
 }

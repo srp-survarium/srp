@@ -1,4 +1,4 @@
-_DWORD *__cdecl memalign_hook_ini(unsigned int alignment, char *sz)
+char *__cdecl memalign_hook_ini(unsigned int alignment, unsigned int sz)
 {
   __memalign_hook = 0;
   ptmalloc_init();

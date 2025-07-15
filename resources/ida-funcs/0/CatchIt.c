@@ -10,7 +10,7 @@ void __usercall CatchIt(
         int CatchDepth,
         EHRegistrationNode *pMarkerRN)
 {
-  void (__stdcall *v10)(void *, EHRegistrationNode *); // eax
+  void (__stdcall *v10)(_DWORD, EHRegistrationNode *); // eax
 
   if ( pConv )
     __BuildCatchObject(pExcept, (int (__stdcall *)())pRN, pCatch, pConv);
@@ -20,7 +20,7 @@ void __usercall CatchIt(
     _UnwindNestedFrames((_EXCEPTION_REGISTRATION_RECORD **)pCatch, pRN, (_EXCEPTION_RECORD *)pExcept);
   __FrameUnwindToState(pRN, pDC, pFuncInfo, pEntry->tryLow);
   pRN->state = pEntry->tryHigh + 1;
-  v10 = (void (__stdcall *)(void *, EHRegistrationNode *))CallCatchBlock(
+  v10 = (void (__stdcall *)(_DWORD, EHRegistrationNode *))CallCatchBlock(
                                                             pExcept,
                                                             pRN,
                                                             pContext,

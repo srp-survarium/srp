@@ -11,9 +11,9 @@ char __thiscall btSoftSingleRayCallback::process(btSoftSingleRayCallback *this, 
   {
     btSoftRigidDynamicsWorld::rayTestSingle(
       &this->m_rayFromTrans,
+      m_clientObject->m_collisionShape,
       &this->m_rayToTrans,
       m_clientObject,
-      m_clientObject->m_collisionShape,
       &m_clientObject->m_worldTransform,
       this->m_resultCallback);
   }

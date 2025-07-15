@@ -1,4 +1,4 @@
-int __usercall _get_dstbias@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int *_Daylight_savings_bias)
+int __usercall _get_dstbias@<eax>(int a1@<ebx>, int a2@<edi>, int *_Daylight_savings_bias)
 {
   if ( _Daylight_savings_bias )
   {

@@ -1,4 +1,4 @@
-int __usercall putc@<eax>(unsigned int a1@<ebx>, int ch, _iobuf *str)
+int __usercall putc@<eax>(int a1@<ebx>, unsigned __int8 ch, _iobuf *str)
 {
   int v4; // eax
   ioinfo *v5; // ecx
@@ -12,7 +12,7 @@ int __usercall putc@<eax>(unsigned int a1@<ebx>, int ch, _iobuf *str)
     _lock_file(str);
     if ( (str->_flag & 0x40) == 0 )
     {
-      v4 = _fileno(str);
+      v4 = _fileno(a1, 0, str);
       if ( v4 == -1 || v4 == -2 )
         v5 = &__badioinfo;
       else
@@ -24,7 +24,7 @@ int __usercall putc@<eax>(unsigned int a1@<ebx>, int ch, _iobuf *str)
             *((char *)v6 + 36) < 0) )
       {
         *_errno() = 22;
-        _invalid_parameter(a1, 0, (unsigned int)str);
+        _invalid_parameter(a1, 0, (int)str);
         retval = -1;
       }
     }
@@ -37,7 +37,7 @@ int __usercall putc@<eax>(unsigned int a1@<ebx>, int ch, _iobuf *str)
       else
       {
         *str->_ptr = ch;
-        v8 = (unsigned __int8)ch;
+        v8 = ch;
         ++str->_ptr;
       }
       retval = v8;

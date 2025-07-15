@@ -6,16 +6,16 @@ void __thiscall Scaleform::Render::RectPacker::AddRect(
 {
   Scaleform::ArrayPagedLH_POD<unsigned int,6,64,2> *p_Failed; // esi
   unsigned int v5; // edi
-  Scaleform::Render::RectPacker::RectType r; // [esp+0h] [ebp-Ch] BYREF
+  Scaleform::Render::RectPacker::RectType val; // [esp+0h] [ebp-Ch] BYREF
 
   if ( w && h && w <= this->Width && h <= this->Height )
   {
-    r.x = w;
-    r.y = h;
-    r.Id = id;
+    val.x = w;
+    val.y = h;
+    val.Id = id;
     Scaleform::ArrayPagedBase<Scaleform::Render::RectPacker::RectType,8,64,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::RectPacker::RectType,2>>::PushBack(
       &this->SrcRects,
-      &r);
+      &val);
   }
   else
   {

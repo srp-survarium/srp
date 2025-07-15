@@ -1,6 +1,6 @@
 int __cdecl BN_mod_exp_mont_consttime(
         bignum_st *rr,
-        const bignum_st *a,
+        bignum_pool_item *a,
         const bignum_st *p,
         const bignum_st *m,
         bignum_ctx *ctx,
@@ -12,9 +12,9 @@ int __cdecl BN_mod_exp_mont_consttime(
   bn_mont_ctx_st *v11; // eax
   int v12; // ebp
   char *v13; // eax
-  const bignum_st *v14; // eax
+  bignum_pool_item *v14; // eax
   bignum_pool_item *v15; // eax
-  const bignum_st *v16; // esi
+  bignum_pool_item *v16; // esi
   int v17; // ecx
   int v18; // edi
   int v19; // ebx
@@ -22,11 +22,11 @@ int __cdecl BN_mod_exp_mont_consttime(
   int v21; // esi
   unsigned int is_bit_set; // eax
   bn_mont_ctx_st *mont; // [esp+Ch] [ebp-28h]
-  bignum_st *rm; // [esp+10h] [ebp-24h]
+  bignum_pool_item *rm; // [esp+10h] [ebp-24h]
   bignum_pool_item *b; // [esp+14h] [ebp-20h]
   unsigned __int8 *buf; // [esp+18h] [ebp-1Ch]
   bignum_pool_item *r; // [esp+1Ch] [ebp-18h]
-  int count; // [esp+20h] [ebp-14h]
+  int v28; // [esp+20h] [ebp-14h]
   void *str; // [esp+24h] [ebp-10h]
   int top; // [esp+28h] [ebp-Ch]
   int v31; // [esp+2Ch] [ebp-8h]
@@ -37,25 +37,25 @@ int __cdecl BN_mod_exp_mont_consttime(
   v31 = 0;
   mont = 0;
   str = 0;
-  count = 0;
+  v28 = 0;
   buf = 0;
   b = 0;
   rm = 0;
   top = v7;
   if ( (*(_BYTE *)m->d & 1) == 0 )
   {
-    ERR_put_error(3u, 124, 102, ".\\crypto\\bn\\bn_exp.c", 595);
+    ERR_put_error((int)m, 3u, 124, 102, ".\\crypto\\bn\\bn_exp.c", 595);
     return 0;
   }
   v9 = BN_num_bits(p);
   v32 = v9;
   if ( !v9 )
-    return BN_set_word(rr, 1u);
+    return BN_set_word((int)m, rr, 1u);
   v10 = ctx;
-  BN_CTX_start(ctx);
-  r = BN_CTX_get(ctx);
+  BN_CTX_start((int)m, ctx);
+  r = BN_CTX_get((int)m, ctx);
   if ( !r )
-    goto err_142;
+    goto err_144;
   if ( in_mont )
   {
     mont = in_mont;
@@ -87,35 +87,35 @@ LABEL_10:
       mod = 6;
     }
     v12 = 1 << mod;
-    count = 4 * v7 * (1 << mod);
-    v13 = CRYPTO_malloc(count + 64, ".\\crypto\\bn\\bn_exp.c", 629);
+    v28 = 4 * v7 * (1 << mod);
+    v13 = CRYPTO_malloc(v28 + 64, ".\\crypto\\bn\\bn_exp.c", 629);
     str = v13;
     if ( v13 )
     {
       buf = (unsigned __int8 *)((char *)v13 - ((unsigned __int8)v13 & 0x3F) + 64);
-      memset((int)buf, 0, count);
-      v14 = BN_value_one();
-      if ( BN_mod_mul_montgomery(r->vals, v14, &mont->RR, mont, ctx) )
+      memset((int)buf, 0, v28);
+      v14 = (bignum_pool_item *)BN_value_one();
+      if ( BN_mod_mul_montgomery(r->vals, v14, (bignum_pool_item *)&mont->RR, mont, ctx) )
       {
         if ( MOD_EXP_CTIME_COPY_TO_PREBUF(r->vals, v7, buf, 0, v12) )
         {
-          b = BN_CTX_get(ctx);
-          v15 = BN_CTX_get(ctx);
-          rm = (bignum_st *)v15;
+          b = BN_CTX_get((int)m, ctx);
+          v15 = BN_CTX_get((int)m, ctx);
+          rm = v15;
           if ( b )
           {
             if ( v15 )
             {
               v16 = a;
-              if ( a->neg || BN_ucmp(a, m) >= 0 )
+              if ( a->vals[0].neg || BN_ucmp(a->vals, m) >= 0 )
               {
-                if ( !BN_div(0, rm, a, m, ctx) )
-                  goto err_142;
+                if ( !BN_div(0, rm->vals, a->vals, m, ctx) )
+                  goto err_144;
                 v16 = rm;
               }
-              if ( BN_mod_mul_montgomery(rm, v16, &mont->RR, mont, ctx)
-                && BN_copy(b->vals, rm)
-                && MOD_EXP_CTIME_COPY_TO_PREBUF(rm, top, buf, 1, v12) )
+              if ( BN_mod_mul_montgomery(rm->vals, v16, (bignum_pool_item *)&mont->RR, mont, ctx)
+                && BN_copy(b->vals, rm->vals)
+                && MOD_EXP_CTIME_COPY_TO_PREBUF(rm->vals, top, buf, 1, v12) )
               {
                 v17 = mod;
                 if ( mod <= 1 || (v18 = 2, v12 <= 2) )
@@ -138,14 +138,14 @@ LABEL_42:
                         break;
 LABEL_39:
                       if ( !MOD_EXP_CTIME_COPY_FROM_PREBUF(b->vals, top, buf, v21, v12)
-                        || !BN_mod_mul_montgomery(r->vals, r->vals, b->vals, mont, ctx) )
+                        || !BN_mod_mul_montgomery(r->vals, r, b, mont, ctx) )
                       {
-                        goto err_142;
+                        goto err_144;
                       }
                       if ( v19 < 0 )
                         goto LABEL_42;
                     }
-                    while ( BN_mod_mul_montgomery(r->vals, r->vals, r->vals, mont, ctx) )
+                    while ( BN_mod_mul_montgomery(r->vals, r, r, mont, ctx) )
                     {
                       is_bit_set = BN_is_bit_set(p, v19);
                       ++v20;
@@ -158,7 +158,7 @@ LABEL_39:
                 }
                 else
                 {
-                  while ( BN_mod_mul_montgomery(b->vals, rm, b->vals, mont, ctx)
+                  while ( BN_mod_mul_montgomery(b->vals, rm, b, mont, ctx)
                        && MOD_EXP_CTIME_COPY_TO_PREBUF(b->vals, top, buf, v18, v12) )
                   {
                     if ( ++v18 >= v12 )
@@ -174,18 +174,18 @@ LABEL_39:
         }
       }
     }
-err_142:
+err_144:
     v10 = ctx;
     if ( in_mont )
     {
 LABEL_47:
       if ( buf )
       {
-        OPENSSL_cleanse(buf, count);
+        OPENSSL_cleanse(buf, v28);
         CRYPTO_free(str);
       }
       if ( rm )
-        BN_clear(rm);
+        BN_clear(rm->vals);
       if ( b )
         BN_clear(b->vals);
       goto LABEL_53;

@@ -6,10 +6,10 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetRGB(const Scaleform::GFx::AS2::
   Scaleform::GFx::AS2::Value *v4; // eax
   const Scaleform::Render::Cxform *Cxform; // esi
   __int16 v6; // ax
-  Scaleform::GFx::AS2::Environment *c_28; // [esp+44h] [ebp-44h]
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+5Ch] [ebp-2Ch] BYREF
-  __int64 v9; // [esp+60h] [ebp-28h]
-  Scaleform::Render::Cxform v10; // [esp+68h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-44h]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+14h] [ebp-2Ch] BYREF
+  __int64 v9; // [esp+18h] [ebp-28h]
+  Scaleform::Render::Cxform v10; // [esp+20h] [ebp-20h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Color )
   {
@@ -21,7 +21,7 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetRGB(const Scaleform::GFx::AS2::
       {
         Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
           p_pProto + 13,
-          (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+          &result);
         pObject = result.pObject;
         if ( result.pObject )
         {
@@ -35,9 +35,9 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetRGB(const Scaleform::GFx::AS2::
         }
         else if ( pObject )
         {
-          c_28 = fn->Env;
+          Env = fn->Env;
           v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-          v9 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v4, c_28);
+          v9 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v4, Env);
           Cxform = Scaleform::GFx::DisplayObjectBase::GetCxform(pObject);
           v6 = v9;
           qmemcpy(&v10, Cxform, sizeof(v10));

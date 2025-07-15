@@ -6,22 +6,22 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   char *v3; // eax
   const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *v4; // eax
   int v5; // ebx
-  stlp_std::allocator<char> __a; // [esp+Fh] [ebp-29h] BYREF
+  stlp_std::allocator<char> v7; // [esp+Fh] [ebp-29h] BYREF
   unsigned int v8; // [esp+10h] [ebp-28h]
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v9; // [esp+14h] [ebp-24h] BYREF
   int v10; // [esp+34h] [ebp-4h]
 
   v2 = 0;
   v8 = 0;
-  if ( (dword_A9B100 & 1) == 0 )
+  if ( (dword_8E4C34 & 1) == 0 )
   {
-    dword_A9B100 |= 1u;
+    dword_8E4C34 |= 1u;
     v10 = 1;
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-      &stru_A9B0E8,
+      (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)&dword_8E4C1C,
       "Unknown error",
-      &__a);
-    atexit(sub_7F34F0);
+      &v7);
+    atexit(sub_69F460);
     LOBYTE(v10) = 0;
   }
   v3 = strerror(errnum);
@@ -38,7 +38,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   }
   else
   {
-    v4 = &stru_A9B0E8;
+    v4 = (const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)&dword_8E4C1C;
   }
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
     a1,

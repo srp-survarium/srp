@@ -168,7 +168,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
   Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy> *p_Second; // edi
   unsigned int Size; // ebp
   unsigned int v4; // ebx
-  Scaleform::GFx::AS2::Value *srca; // [esp+10h] [ebp+4h]
+  Scaleform::GFx::AS2::Value *Data; // [esp+10h] [ebp+4h]
 
   this->First.Id = src->First.Id;
   this->First.WcharCode = src->First.WcharCode;
@@ -180,7 +180,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
   this->Second.Data.Size = 0;
   this->Second.Data.Policy.Capacity = 0;
   Size = src->Second.Data.Size;
-  srca = src->Second.Data.Data;
+  Data = src->Second.Data.Data;
   if ( Size )
   {
     v4 = this->Second.Data.Size;
@@ -188,7 +188,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
       &this->Second.Data,
       &this->Second,
       v4 + Size);
-    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::ConstructArray(&p_Second->Data.Data[v4], Size, srca);
+    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::ConstructArray(&p_Second->Data.Data[v4], Size, Data);
   }
 }
 
@@ -201,7 +201,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
   Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy> *p_Second; // edi
   unsigned int Size; // ebp
   unsigned int v5; // ebx
-  const Scaleform::GFx::AS2::Value *srca; // [esp+10h] [ebp+4h]
+  const Scaleform::GFx::AS2::Value *Data; // [esp+10h] [ebp+4h]
 
   this->First = *src->pFirst;
   pSecond = src->pSecond;
@@ -210,7 +210,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
   this->Second.Data.Size = 0;
   this->Second.Data.Policy.Capacity = 0;
   Size = pSecond->Data.Size;
-  srca = pSecond->Data.Data;
+  Data = pSecond->Data.Data;
   if ( Size )
   {
     v5 = this->Second.Data.Size;
@@ -218,7 +218,61 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<S
       &this->Second.Data,
       &this->Second,
       v5 + Size);
-    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::ConstructArray(&p_Second->Data.Data[v5], Size, srca);
+    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::ConstructArray(&p_Second->Data.Data[v5], Size, Data);
+  }
+}
+
+
+void __thiscall Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor>::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor>(
+        Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor> *this,
+        const Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor> *src)
+{
+  unsigned int Size; // ebx
+  unsigned int v4; // ebp
+  const Scaleform::String *srca; // [esp+10h] [ebp+4h]
+
+  Scaleform::String::String(&this->First, &src->First);
+  this->Second.Data.Data = 0;
+  this->Second.Data.Size = 0;
+  this->Second.Data.Policy.Capacity = 0;
+  Size = src->Second.Data.Size;
+  srca = src->Second.Data.Data;
+  if ( Size )
+  {
+    v4 = this->Second.Data.Size;
+    Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
+      &this->Second.Data,
+      &this->Second,
+      Size + v4);
+    Scaleform::ConstructorMov<Scaleform::String>::ConstructArray(&this->Second.Data.Data[v4], Size, srca);
+  }
+}
+
+
+void __thiscall Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor>::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor>(
+        Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor> *this,
+        const Scaleform::HashNode<Scaleform::String,Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy>,Scaleform::String::NoCaseHashFunctor>::NodeRef *src)
+{
+  const Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *pSecond; // eax
+  unsigned int Size; // ebx
+  unsigned int v5; // ebp
+  const Scaleform::String *Data; // [esp+10h] [ebp+4h]
+
+  Scaleform::String::String(&this->First, src->pFirst);
+  pSecond = src->pSecond;
+  this->Second.Data.Data = 0;
+  this->Second.Data.Size = 0;
+  this->Second.Data.Policy.Capacity = 0;
+  Size = pSecond->Data.Size;
+  Data = pSecond->Data.Data;
+  if ( Size )
+  {
+    v5 = this->Second.Data.Size;
+    Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
+      &this->Second.Data,
+      &this->Second,
+      Size + v5);
+    Scaleform::ConstructorMov<Scaleform::String>::ConstructArray(&this->Second.Data.Data[v5], Size, Data);
   }
 }
 

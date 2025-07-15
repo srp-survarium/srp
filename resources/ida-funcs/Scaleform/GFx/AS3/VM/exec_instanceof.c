@@ -40,7 +40,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_instanceof(Scaleform::GFx::AS3::VM
       {
         if ( ClassTraits )
         {
-          while ( ClassTraits != (const Scaleform::GFx::AS3::ClassTraits::Traits *)ValueTraits )
+          while ( ClassTraits != ValueTraits )
           {
             ClassTraits = (const Scaleform::GFx::AS3::ClassTraits::Traits *)ClassTraits->pParent.pObject;
             if ( !ClassTraits )
@@ -60,7 +60,7 @@ LABEL_13:
               ClassTraits = (const Scaleform::GFx::AS3::ClassTraits::Traits *)ClassTraits->pParent.pObject )
         {
           if ( !ClassTraits->pConstructor.pObject )
-            ClassTraits->InitOnDemand(&ClassTraits->Scaleform::GFx::AS3::Traits);
+            ClassTraits->InitOnDemand(ClassTraits);
           if ( Scaleform::GFx::AS3::Class::GetPrototype(ClassTraits->pConstructor.pObject, (int)i) == i )
             goto LABEL_13;
         }

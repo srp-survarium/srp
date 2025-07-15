@@ -1,13 +1,21 @@
 void __thiscall vostok::network::match_client::on_packet_received_impl(
         vostok::network::match_client *this,
-        unsigned __int8 message_type,
-        boost::function4<void,unsigned int,float,float,char const *> *reader)
+        const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *message_type,
+        const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *reader)
 {
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_on_packet_received)
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
-    boost::function2<void,unsigned char,vostok::network_core::packet_reader &>::operator()(
-      &this->m_on_packet_received,
-      message_type,
-      reader);
+  int v3; // ecx
+  _DWORD *v4; // eax
+  int v5; // ecx
+
+  if ( vostok::network::match_client::is_connected(this) )
+  {
+    v4 = (_DWORD *)(v3 + 168);
+    v5 = -(*(_DWORD *)(v3 + 168) != 0);
+    if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v5) != 0 )
+      boost::function2<void,vostok::vfs::vfs_locked_iterator const &,enum vostok::vfs::result_enum>::operator()(
+        (boost::function2<unsigned short,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &> *)v5,
+        v4,
+        message_type,
+        reader);
+  }
 }

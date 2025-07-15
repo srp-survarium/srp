@@ -5,38 +5,37 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
   bool v5; // zf
   unsigned __int8 *v6; // ebp
   unsigned __int8 *v7; // eax
-  char *tlsext_hostname; // ebx
+  unsigned int tlsext_hostname; // ebx
   unsigned __int8 v9; // cl
-  unsigned int v10; // ebx
   unsigned int tlsext_ecpointformatlist_length; // edx
-  unsigned int v12; // ecx
+  unsigned int v11; // ecx
   unsigned int tlsext_ellipticcurvelist_length; // edx
-  unsigned int v14; // ecx
+  unsigned int v13; // ecx
   ssl_session_st *session; // eax
   unsigned int tlsext_ticklen; // ebx
-  tls_session_ticket_ext_st *v17; // eax
-  int v18; // ebx
-  int v19; // edi
-  char *v20; // eax
-  int v21; // eax
+  tls_session_ticket_ext_st *v16; // eax
+  int v17; // ebx
+  int v18; // edi
+  char *v19; // eax
+  int v20; // eax
   stack_st_X509_EXTENSION *tlsext_ocsp_exts; // eax
-  int v23; // edi
-  ssl_st *v24; // eax
+  int v22; // edi
+  ssl_st *v23; // eax
   tls_session_ticket_ext_st *tlsext_session_ticket; // eax
-  ssl_session_st *v26; // edx
+  ssl_session_st *v25; // edx
   const stack_st *p_stack; // eax
-  unsigned __int8 *v28; // ebx
-  char *v29; // eax
-  __int16 v30; // ax
-  ssl_st *v31; // eax
-  unsigned __int8 *v32; // esi
-  unsigned __int8 *v33; // ecx
-  __int16 v34; // ax
-  unsigned __int8 *v35; // [esp-14h] [ebp-1Ch]
-  unsigned __int8 *tlsext_ecpointformatlist; // [esp-14h] [ebp-1Ch]
-  unsigned __int8 *tlsext_ellipticcurvelist; // [esp-14h] [ebp-1Ch]
+  unsigned __int8 *v27; // ebx
+  char *v28; // eax
+  __int16 v29; // ax
+  ssl_st *v30; // eax
+  unsigned __int8 *v31; // esi
+  unsigned __int8 *v32; // ecx
+  __int16 v33; // ax
+  const __m128i *v34; // [esp-14h] [ebp-1Ch]
+  const __m128i *tlsext_ecpointformatlist; // [esp-14h] [ebp-1Ch]
+  const __m128i *tlsext_ellipticcurvelist; // [esp-14h] [ebp-1Ch]
+  unsigned int v37; // [esp-10h] [ebp-18h]
   unsigned int v38; // [esp-10h] [ebp-18h]
-  unsigned int v39; // [esp-10h] [ebp-18h]
   unsigned __int8 *dst; // [esp+4h] [ebp-4h] BYREF
 
   result = p;
@@ -50,37 +49,37 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
   dst = p + 2;
   if ( p + 2 >= limit )
     return 0;
-  tlsext_hostname = s->tlsext_hostname;
+  tlsext_hostname = (unsigned int)s->tlsext_hostname;
   if ( tlsext_hostname )
   {
     if ( limit - v7 - 9 < 0 )
       return 0;
-    v10 = strlen(tlsext_hostname);
-    if ( v10 > limit - v7 - 9 )
+    tlsext_hostname = strlen((const char *)tlsext_hostname);
+    if ( tlsext_hostname > limit - v7 - 9 )
       return 0;
     *v7 = v9;
     dst[1] = v9;
     dst += 2;
-    *dst = (unsigned __int16)(v10 + 5) >> 8;
-    dst[1] = v10 + 5;
+    *dst = (unsigned __int16)(tlsext_hostname + 5) >> 8;
+    dst[1] = tlsext_hostname + 5;
     dst += 2;
-    *dst = (unsigned __int16)(v10 + 3) >> 8;
-    dst[1] = v10 + 3;
+    *dst = (unsigned __int16)(tlsext_hostname + 3) >> 8;
+    dst[1] = tlsext_hostname + 3;
     dst += 2;
     *dst++ = 0;
-    *dst = BYTE1(v10);
-    dst[1] = v10;
-    v35 = (unsigned __int8 *)v4->tlsext_hostname;
+    *dst = BYTE1(tlsext_hostname);
+    dst[1] = tlsext_hostname;
+    v34 = (const __m128i *)v4->tlsext_hostname;
     dst += 2;
-    memcpy(dst, v35, v10);
-    v7 = &dst[v10];
-    dst += v10;
+    memcpy((int)dst, v34, tlsext_hostname);
+    v7 = &dst[tlsext_hostname];
+    dst += tlsext_hostname;
   }
   if ( v4->new_session )
   {
     if ( !ssl_add_clienthello_renegotiate_ext(v4, 0, (int *)&s, 0) )
     {
-      ERR_put_error(0x14u, 277, 68, ".\\ssl\\t1_lib.c", 326);
+      ERR_put_error(tlsext_hostname, 0x14u, 277, 68, ".\\ssl\\t1_lib.c", 326);
       return 0;
     }
     if ( v6 - (unsigned __int8 *)s - (int)p - 4 < 0 )
@@ -93,7 +92,7 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
     dst += 2;
     if ( !ssl_add_clienthello_renegotiate_ext(v4, dst, (int *)&s, (int)s) )
     {
-      ERR_put_error(0x14u, 277, 68, ".\\ssl\\t1_lib.c", 337);
+      ERR_put_error(tlsext_hostname, 0x14u, 277, 68, ".\\ssl\\t1_lib.c", 337);
       return 0;
     }
     v7 = &dst[(_DWORD)s];
@@ -108,21 +107,21 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
       return 0;
     if ( tlsext_ecpointformatlist_length > 0xFF )
     {
-      ERR_put_error(0x14u, 277, 68, ".\\ssl\\t1_lib.c", 355);
+      ERR_put_error(tlsext_hostname, 0x14u, 277, 68, ".\\ssl\\t1_lib.c", 355);
       return 0;
     }
     *v7 = 0;
     dst[1] = 11;
-    v12 = v4->tlsext_ecpointformatlist_length;
+    v11 = v4->tlsext_ecpointformatlist_length;
     dst += 2;
-    *dst = (unsigned __int16)(v12 + 1) >> 8;
+    *dst = (unsigned __int16)(v11 + 1) >> 8;
     dst[1] = LOBYTE(v4->tlsext_ecpointformatlist_length) + 1;
-    LOBYTE(v12) = v4->tlsext_ecpointformatlist_length;
+    LOBYTE(v11) = v4->tlsext_ecpointformatlist_length;
     dst += 2;
-    *dst = v12;
-    v38 = v4->tlsext_ecpointformatlist_length;
-    tlsext_ecpointformatlist = v4->tlsext_ecpointformatlist;
-    memcpy(++dst, tlsext_ecpointformatlist, v38);
+    *dst = v11;
+    v37 = v4->tlsext_ecpointformatlist_length;
+    tlsext_ecpointformatlist = (const __m128i *)v4->tlsext_ecpointformatlist;
+    memcpy((int)++dst, tlsext_ecpointformatlist, v37);
     v7 = &dst[v4->tlsext_ecpointformatlist_length];
     dst = v7;
   }
@@ -135,23 +134,23 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
       return 0;
     if ( tlsext_ellipticcurvelist_length > 0xFFFC )
     {
-      ERR_put_error(0x14u, 277, 68, ".\\ssl\\t1_lib.c", 375);
+      ERR_put_error(tlsext_hostname, 0x14u, 277, 68, ".\\ssl\\t1_lib.c", 375);
       return 0;
     }
     *v7 = 0;
     dst[1] = 10;
-    v14 = v4->tlsext_ellipticcurvelist_length;
+    v13 = v4->tlsext_ellipticcurvelist_length;
     dst += 2;
-    *dst = (unsigned __int16)(v14 + 2) >> 8;
+    *dst = (unsigned __int16)(v13 + 2) >> 8;
     dst[1] = LOBYTE(v4->tlsext_ellipticcurvelist_length) + 2;
-    LOBYTE(v14) = BYTE1(v4->tlsext_ellipticcurvelist_length);
+    LOBYTE(v13) = BYTE1(v4->tlsext_ellipticcurvelist_length);
     dst += 2;
-    *dst = v14;
+    *dst = v13;
     dst[1] = v4->tlsext_ellipticcurvelist_length;
-    v39 = v4->tlsext_ellipticcurvelist_length;
-    tlsext_ellipticcurvelist = v4->tlsext_ellipticcurvelist;
+    v38 = v4->tlsext_ellipticcurvelist_length;
+    tlsext_ellipticcurvelist = (const __m128i *)v4->tlsext_ellipticcurvelist;
     dst += 2;
-    memcpy(dst, tlsext_ellipticcurvelist, v39);
+    memcpy((int)dst, tlsext_ellipticcurvelist, v38);
     dst += v4->tlsext_ellipticcurvelist_length;
   }
   if ( (SSL_ctrl(v4, 32, 0, 0) & 0x4000) != 0 )
@@ -177,10 +176,10 @@ unsigned __int8 *__cdecl ssl_add_clienthello_tlsext(ssl_st *s, unsigned __int8 *
       {
         tlsext_ticklen = tlsext_session_ticket->length;
         v4->session->tlsext_tick = (unsigned __int8 *)CRYPTO_malloc(tlsext_ticklen, ".\\ssl\\t1_lib.c", 402);
-        v26 = v4->session;
-        if ( !v26->tlsext_tick )
+        v25 = v4->session;
+        if ( !v25->tlsext_tick )
           return 0;
-        memcpy(v26->tlsext_tick, (unsigned __int8 *)v4->tlsext_session_ticket->data, tlsext_ticklen);
+        memcpy((int)v25->tlsext_tick, (const __m128i *)v4->tlsext_session_ticket->data, tlsext_ticklen);
         v4->session->tlsext_ticklen = tlsext_ticklen;
 LABEL_36:
         if ( tlsext_ticklen )
@@ -196,7 +195,7 @@ LABEL_39:
           dst += 2;
           if ( tlsext_ticklen )
           {
-            memcpy(dst, v4->session->tlsext_tick, tlsext_ticklen);
+            memcpy((int)dst, (const __m128i *)v4->session->tlsext_tick, tlsext_ticklen);
             dst += tlsext_ticklen;
           }
           goto skip_ext;
@@ -207,82 +206,82 @@ LABEL_39:
   }
   tlsext_ticklen = 0;
 LABEL_37:
-  v17 = v4->tlsext_session_ticket;
-  if ( !v17 || v17->data )
+  v16 = v4->tlsext_session_ticket;
+  if ( !v16 || v16->data )
     goto LABEL_39;
 skip_ext:
   if ( v4->tlsext_status_type == 1 && v4->version != 65279 )
   {
+    v17 = 0;
     v18 = 0;
-    v19 = 0;
     if ( sk_num(&v4->tlsext_ocsp_ids->stack) > 0 )
     {
       do
       {
-        v20 = sk_value(&v4->tlsext_ocsp_ids->stack, v19);
-        v21 = i2d_OCSP_RESPID((ocsp_responder_id_st *)v20, 0);
-        if ( v21 <= 0 )
+        v19 = sk_value(&v4->tlsext_ocsp_ids->stack, v18);
+        v20 = i2d_OCSP_RESPID((ocsp_responder_id_st *)v19, 0);
+        if ( v20 <= 0 )
           return 0;
-        v18 += v21 + 2;
+        v17 += v20 + 2;
       }
-      while ( ++v19 < sk_num(&v4->tlsext_ocsp_ids->stack) );
+      while ( ++v18 < sk_num(&v4->tlsext_ocsp_ids->stack) );
     }
     tlsext_ocsp_exts = v4->tlsext_ocsp_exts;
-    v23 = 0;
+    v22 = 0;
     if ( tlsext_ocsp_exts )
     {
-      v24 = (ssl_st *)i2d_X509_EXTENSIONS(tlsext_ocsp_exts, 0);
-      s = v24;
-      if ( (int)v24 < 0 )
+      v23 = (ssl_st *)i2d_X509_EXTENSIONS(tlsext_ocsp_exts, 0);
+      s = v23;
+      if ( (int)v23 < 0 )
         return 0;
     }
     else
     {
       s = 0;
-      v24 = 0;
+      v23 = 0;
     }
-    if ( v6 - (unsigned __int8 *)v24 - v18 - (int)dst - 7 < 0 )
+    if ( v6 - (unsigned __int8 *)v23 - v17 - (int)dst - 7 < 0 )
       return 0;
     *dst = 0;
     dst[1] = 5;
     dst += 2;
-    if ( (int)v24 + v18 > 65520 )
+    if ( (int)v23 + v17 > 65520 )
       return 0;
-    *dst = (unsigned __int16)((_WORD)v24 + v18 + 5) >> 8;
-    dst[1] = (_BYTE)v24 + v18 + 5;
+    *dst = (unsigned __int16)((_WORD)v23 + v17 + 5) >> 8;
+    dst[1] = (_BYTE)v23 + v17 + 5;
     dst += 2;
     *dst++ = 1;
-    *dst = BYTE1(v18);
-    dst[1] = v18;
+    *dst = BYTE1(v17);
+    dst[1] = v17;
     p_stack = &v4->tlsext_ocsp_ids->stack;
     dst += 2;
     if ( sk_num(p_stack) > 0 )
     {
       do
       {
-        v28 = dst;
-        v29 = sk_value(&v4->tlsext_ocsp_ids->stack, v23);
+        v27 = dst;
+        v28 = sk_value(&v4->tlsext_ocsp_ids->stack, v22);
         dst += 2;
-        v30 = i2d_OCSP_RESPID((ocsp_responder_id_st *)v29, &dst);
-        *v28 = HIBYTE(v30);
-        v28[1] = v30;
-        ++v23;
+        v29 = i2d_OCSP_RESPID((ocsp_responder_id_st *)v28, &dst);
+        *v27 = HIBYTE(v29);
+        v27[1] = v29;
+        ++v22;
       }
-      while ( v23 < sk_num(&v4->tlsext_ocsp_ids->stack) );
+      while ( v22 < sk_num(&v4->tlsext_ocsp_ids->stack) );
     }
-    v31 = s;
+    v30 = s;
     *dst = BYTE1(s);
-    dst[1] = (unsigned __int8)v31;
+    dst[1] = (unsigned __int8)v30;
     dst += 2;
-    if ( (int)v31 > 0 )
+    if ( (int)v30 > 0 )
       i2d_X509_EXTENSIONS(v4->tlsext_ocsp_exts, &dst);
   }
-  v32 = dst;
-  v33 = p;
-  v34 = (_WORD)dst - (_WORD)p - 2;
+  v31 = dst;
+  v32 = p;
+  v33 = (_WORD)dst - (_WORD)p - 2;
   if ( dst - p == 2 )
     return p;
-  p[1] = v34;
-  *v33 = HIBYTE(v34);
-  return v32;
+  p[1] = v33;
+  *v32 = HIBYTE(v33);
+  return v31;
 }

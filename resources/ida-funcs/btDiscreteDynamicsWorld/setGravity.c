@@ -1,31 +1,20 @@
-void __userpurge btDiscreteDynamicsWorld::setGravity(
-        btDiscreteDynamicsWorld *this@<ecx>,
-        const btVector3 *a2@<edi>,
-        btRigidBody *gravity)
+void __thiscall btDiscreteDynamicsWorld::setGravity(btDiscreteDynamicsWorld *this, btRigidBody *gravity)
 {
-  btRigidBody *v4; // ecx
-  int v5; // edi
-  bool v6; // cc
-  btRigidBody *v7; // edx
+  btRigidBody *v3; // ecx
+  int i; // esi
+  btRigidBody *v5; // edx
   int m_activationState1; // eax
-  const btVector3 *v9; // [esp-4h] [ebp-8h]
 
-  v4 = gravity;
-  v9 = a2;
-  this->m_gravity.mVec128.m128_u64[0] = *(_QWORD *)&gravity->__vftable;
-  v5 = 0;
-  v6 = this->m_nonStaticRigidBodies.m_size <= 0;
-  this->m_gravity.mVec128.m128_u64[1] = *((_QWORD *)&gravity->__vftable + 1);
-  if ( !v6 )
+  v3 = gravity;
+  this->m_gravity.mVec128.m128_i32[0] = (int)gravity->__vftable;
+  this->m_gravity.mVec128.m128_i32[1] = *((_DWORD *)&gravity->__vftable + 1);
+  this->m_gravity.mVec128.m128_i32[2] = *((_DWORD *)&gravity->__vftable + 2);
+  this->m_gravity.mVec128.m128_i32[3] = *((_DWORD *)&gravity->__vftable + 3);
+  for ( i = 0; i < this->m_nonStaticRigidBodies.m_size; ++i )
   {
-    do
-    {
-      v7 = this->m_nonStaticRigidBodies.m_data[v5];
-      m_activationState1 = v7->m_activationState1;
-      if ( m_activationState1 != 2 && m_activationState1 != 5 && (v7->m_rigidbodyFlags & 1) == 0 )
-        btRigidBody::setGravity(v4, v9);
-      ++v5;
-    }
-    while ( v5 < this->m_nonStaticRigidBodies.m_size );
+    v5 = this->m_nonStaticRigidBodies.m_data[i];
+    m_activationState1 = v5->m_activationState1;
+    if ( m_activationState1 != 2 && m_activationState1 != 5 && (v5->m_rigidbodyFlags & 1) == 0 )
+      btRigidBody::setGravity(v3, (int)v5);
   }
 }

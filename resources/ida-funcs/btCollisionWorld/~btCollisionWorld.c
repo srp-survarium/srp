@@ -1,44 +1,38 @@
 void __thiscall btCollisionWorld::~btCollisionWorld(btCollisionWorld *this)
 {
-  int v2; // ebx
-  bool v3; // cc
-  btCollisionObject *v4; // ebp
-  btBroadphaseProxy *m_broadphaseHandle; // edi
-  btOverlappingPairCache *v6; // eax
-  btCollisionObject **m_data; // eax
+  btCollisionWorld *v1; // esi
+  bool v2; // cc
+  btCollisionObject *v3; // edi
+  btBroadphaseProxy *m_broadphaseHandle; // ebx
+  int v5; // eax
+  int v6; // [esp+4h] [ebp-4h]
 
-  v2 = 0;
-  v3 = this->m_collisionObjects.m_size <= 0;
+  v6 = 0;
+  v1 = this;
+  v2 = this->m_collisionObjects.m_size <= 0;
   this->__vftable = (btCollisionWorld_vtbl *)&btCollisionWorld::`vftable';
-  if ( !v3 )
+  if ( !v2 )
   {
     do
     {
-      v4 = this->m_collisionObjects.m_data[v2];
-      m_broadphaseHandle = v4->m_broadphaseHandle;
+      this = (btCollisionWorld *)v6;
+      v3 = v1->m_collisionObjects.m_data[v6];
+      m_broadphaseHandle = v3->m_broadphaseHandle;
       if ( m_broadphaseHandle )
       {
-        v6 = this->m_broadphasePairCache->getOverlappingPairCache(this->m_broadphasePairCache);
-        v6->cleanProxyFromPairs(v6, m_broadphaseHandle, this->m_dispatcher1);
-        this->m_broadphasePairCache->destroyProxy(this->m_broadphasePairCache, m_broadphaseHandle, this->m_dispatcher1);
-        v4->m_broadphaseHandle = 0;
+        v5 = (int)v1->m_broadphasePairCache->getOverlappingPairCache(v1->m_broadphasePairCache);
+        (*(void (__thiscall **)(int, btBroadphaseProxy *, btDispatcher *))(*(_DWORD *)v5 + 36))(
+          v5,
+          m_broadphaseHandle,
+          v1->m_dispatcher1);
+        v1->m_broadphasePairCache->destroyProxy(v1->m_broadphasePairCache, m_broadphaseHandle, v1->m_dispatcher1);
+        v3->m_broadphaseHandle = 0;
       }
-      ++v2;
+      ++v6;
     }
-    while ( v2 < this->m_collisionObjects.m_size );
+    while ( v6 < v1->m_collisionObjects.m_size );
   }
-  m_data = this->m_collisionObjects.m_data;
-  if ( m_data )
-  {
-    if ( this->m_collisionObjects.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_data);
-    }
-    this->m_collisionObjects.m_data = 0;
-  }
-  this->m_collisionObjects.m_ownsMemory = 1;
-  this->m_collisionObjects.m_data = 0;
-  this->m_collisionObjects.m_size = 0;
-  this->m_collisionObjects.m_capacity = 0;
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+    (btAlignedObjectArray<GrahamVector2> *)this,
+    (int)&v1->m_collisionObjects);
 }

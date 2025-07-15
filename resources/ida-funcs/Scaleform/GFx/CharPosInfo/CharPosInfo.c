@@ -2,12 +2,12 @@ void __thiscall Scaleform::GFx::CharPosInfo::CharPosInfo(
         Scaleform::GFx::CharPosInfo *this,
         const Scaleform::GFx::CharPosInfo *__that)
 {
-  Scaleform::GFx::Resource *pObject; // ecx
+  Scaleform::Render::FilterSet *pObject; // ecx
 
   qmemcpy((void *)this, __that, 0x40u);
-  pObject = (Scaleform::GFx::Resource *)__that->pFilters.pObject;
+  pObject = __that->pFilters.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::AddRef(pObject);
+    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject);
   this->pFilters.pObject = __that->pFilters.pObject;
   this->Ratio = __that->Ratio;
   this->Depth = __that->Depth;

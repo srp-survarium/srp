@@ -1,6 +1,6 @@
 void __userpurge Scaleform::GFx::AS3::Classes::fl::Date::Call(
         Scaleform::GFx::AS3::Classes::fl::Date *this@<ecx>,
-        unsigned int a2@<ebx>,
+        int a2@<ebx>,
         const Scaleform::GFx::AS3::Value *__formal,
         Scaleform::GFx::AS3::Value *result,
         unsigned int argc,
@@ -16,7 +16,7 @@ void __userpurge Scaleform::GFx::AS3::Classes::fl::Date::Call(
   v7 = Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeString(out, 0x80u, timeValue, localTZA, 1, 1, 0);
   localTZA = (int)Scaleform::GFx::ASStringManager::CreateStringNode(
                     this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                    out,
+                    (__m128i *)out,
                     v7);
   ++*(_DWORD *)(localTZA + 12);
   Scaleform::GFx::AS3::Value::Assign(result, (const Scaleform::GFx::ASString *)&localTZA);

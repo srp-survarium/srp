@@ -16,9 +16,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::hitTestTe
   maxDistanceb = y * 20.0;
   v5 = maxDistanceb;
   maxDistancec = 20.0 * x;
-  *result = (double)(int)Scaleform::GFx::StaticTextSnapshotData::HitTestTextNearPos(
-                           &this->SnapshotData,
-                           maxDistancec,
-                           v5,
-                           closedist);
+  *result = (double)Scaleform::GFx::StaticTextSnapshotData::HitTestTextNearPos(
+                      &this->SnapshotData,
+                      maxDistancec,
+                      v5,
+                      closedist);
 }

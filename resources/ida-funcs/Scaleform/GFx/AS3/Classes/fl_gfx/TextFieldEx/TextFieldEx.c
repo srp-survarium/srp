@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx::TextFieldEx(
   Scaleform::GFx::AS3::Class::Class(this, t);
   this->VALIGN_NONE = "none";
   this->TEXTAUTOSZ_NONE = "none";
-  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx_vtbl *)&Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx::`vftable';
   this->VALIGN_TOP = "top";
   this->VALIGN_CENTER = "center";
   this->VALIGN_BOTTOM = "bottom";

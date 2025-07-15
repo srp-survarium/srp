@@ -7,7 +7,7 @@ unsigned __int8 *__cdecl ssl_add_serverhello_tlsext(ssl_st *s, unsigned __int8 *
   _BYTE *v7; // ebp
   unsigned __int8 *v8; // ebp
   unsigned int tlsext_ecpointformatlist_length; // ecx
-  unsigned __int8 *v10; // ebp
+  _BYTE *v10; // ebp
   _BYTE *v11; // ebp
   _BYTE *v12; // ebp
   int id; // eax
@@ -40,7 +40,7 @@ LABEL_9:
   {
     if ( !ssl_add_serverhello_renegotiate_ext(s, 0, &len, 0) )
     {
-      ERR_put_error(0x14u, 278, 68, ".\\ssl\\t1_lib.c", 530);
+      ERR_put_error(0, 0x14u, 278, 68, ".\\ssl\\t1_lib.c", 530);
       return 0;
     }
     v6 = len;
@@ -54,7 +54,7 @@ LABEL_9:
     v8 = v7 + 2;
     if ( !ssl_add_serverhello_renegotiate_ext(s, v8, &len, v6) )
     {
-      ERR_put_error(0x14u, 278, 68, ".\\ssl\\t1_lib.c", 541);
+      ERR_put_error(0, 0x14u, 278, 68, ".\\ssl\\t1_lib.c", 541);
       return 0;
     }
     v5 = &v8[len];
@@ -68,7 +68,7 @@ LABEL_9:
       return 0;
     if ( tlsext_ecpointformatlist_length > 0xFF )
     {
-      ERR_put_error(0x14u, 278, 68, ".\\ssl\\t1_lib.c", 559);
+      ERR_put_error(0, 0x14u, 278, 68, ".\\ssl\\t1_lib.c", 559);
       return 0;
     }
     *v5 = 0;
@@ -78,7 +78,7 @@ LABEL_9:
     v10[1] = LOBYTE(s->tlsext_ecpointformatlist_length) + 1;
     v10 += 2;
     *v10++ = s->tlsext_ecpointformatlist_length;
-    memcpy(v10, s->tlsext_ecpointformatlist, s->tlsext_ecpointformatlist_length);
+    memcpy((int)v10, (const __m128i *)s->tlsext_ecpointformatlist, s->tlsext_ecpointformatlist_length);
     v5 = &v10[s->tlsext_ecpointformatlist_length];
   }
   if ( s->tlsext_ticket_expected && (SSL_ctrl(s, 32, 0, 0) & 0x4000) == 0 )

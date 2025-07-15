@@ -1,8 +1,8 @@
-void __usercall ecdh_data_free(unsigned int a1@<edi>, engine_st **data)
+void __usercall ecdh_data_free(int a1@<ebx>, int a2@<edi>, engine_st **str)
 {
-  if ( data[1] )
-    ENGINE_finish(a1, data[1]);
-  CRYPTO_free_ex_data(a1);
-  OPENSSL_cleanse(data, 24);
-  CRYPTO_free(data);
+  if ( str[1] )
+    ENGINE_finish(a2, a1, str[1]);
+  CRYPTO_free_ex_data(a2, a1);
+  OPENSSL_cleanse(str, 24);
+  CRYPTO_free(str);
 }

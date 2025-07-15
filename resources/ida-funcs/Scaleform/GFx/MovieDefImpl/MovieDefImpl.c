@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::MovieDefImpl::MovieDefImpl(
         unsigned int memoryArena)
 {
   Scaleform::MemoryHeap *v9; // ebx
-  char *ShortFilename; // eax
+  const __m128i *ShortFilename; // eax
   Scaleform::MemoryHeap *v12; // eax
   void *v13; // edi
   Scaleform::GFx::MovieDefImpl::BindTaskData *v14; // eax
@@ -22,9 +22,9 @@ void __thiscall Scaleform::GFx::MovieDefImpl::MovieDefImpl(
   Scaleform::GFx::StateBagImpl *v20; // eax
   Scaleform::GFx::StateBagImpl *v21; // eax
   Scaleform::GFx::StateBagImpl *v22; // ebx
-  Scaleform::GFx::StateBagImpl *v23; // ecx
-  Scaleform::String heapName; // [esp+10h] [ebp-24h] BYREF
-  Scaleform::MemoryHeap::HeapDesc desc; // [esp+14h] [ebp-20h] BYREF
+  Scaleform::RefCountVImpl *v23; // ecx
+  Scaleform::String v24; // [esp+10h] [ebp-24h] BYREF
+  _DWORD v25[8]; // [esp+14h] [ebp-20h] BYREF
 
   v9 = pargHeap;
   this->Scaleform::GFx::MovieDef::Scaleform::GFx::Resource::__vftable = (Scaleform::GFx::MovieDefImpl_vtbl *)&Scaleform::GFx::Resource::`vftable';
@@ -39,25 +39,25 @@ void __thiscall Scaleform::GFx::MovieDefImpl::MovieDefImpl(
   this->pBindData.pObject = 0;
   if ( !pargHeap )
   {
-    ShortFilename = (char *)Scaleform::GetShortFilename((const char *)((pdataDef->pData.pObject->FileURL.HeapTypeBits
-                                                                      & 0xFFFFFFFC)
-                                                                     + 8));
-    Scaleform::String::String(&heapName, "MovieDef  \"", ShortFilename, "\"");
-    desc.Granularity = 4096;
-    desc.Reserve = 4096;
-    desc.Arena = memoryArena;
-    desc.Limit = 0;
-    desc.Flags = HIWORD(loadConstantFlags) & 0x1000;
-    desc.MinAlign = 16;
-    desc.Threshold = -1;
-    desc.HeapId = 2;
+    ShortFilename = (const __m128i *)Scaleform::GetShortFilename((const char *)((pdataDef->pData.pObject->FileURL.HeapTypeBits
+                                                                               & 0xFFFFFFFC)
+                                                                              + 8));
+    Scaleform::String::String(&v24, (const __m128i *)"MovieDef  \"", ShortFilename, (const __m128i *)"\"");
+    v25[2] = 4096;
+    v25[3] = 4096;
+    v25[7] = memoryArena;
+    v25[5] = 0;
+    v25[0] = HIWORD(loadConstantFlags) & 0x1000;
+    v25[1] = 16;
+    v25[4] = -1;
+    v25[6] = 2;
     v12 = Scaleform::Memory::pGlobalHeap->CreateHeap(
             Scaleform::Memory::pGlobalHeap,
-            (heapName.HeapTypeBits & 0xFFFFFFFC) + 8,
-            &desc);
-    v13 = (void *)(heapName.HeapTypeBits & 0xFFFFFFFC);
+            (v24.HeapTypeBits & 0xFFFFFFFC) + 8,
+            v25);
+    v13 = (void *)(v24.HeapTypeBits & 0xFFFFFFFC);
     v9 = v12;
-    if ( InterlockedExchangeAdd((volatile LONG *)((heapName.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    if ( InterlockedExchangeAdd((volatile LONG *)((v24.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
   }
   v14 = (Scaleform::GFx::MovieDefImpl::BindTaskData *)v9->Alloc(v9, 140u, 0);
@@ -98,8 +98,8 @@ void __thiscall Scaleform::GFx::MovieDefImpl::MovieDefImpl(
   {
     v22 = 0;
   }
-  v23 = this->pStateBag.pObject;
+  v23 = (Scaleform::RefCountVImpl *)this->pStateBag.pObject;
   if ( v23 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v23);
+    Scaleform::RefCountImpl::Release(v23);
   this->pStateBag.pObject = v22;
 }

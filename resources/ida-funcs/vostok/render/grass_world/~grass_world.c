@@ -1,60 +1,36 @@
-void __thiscall vostok::render::grass_world::~grass_world(
-        vostok::render::grass_world *this,
-        vostok::render::grass_world *thisa)
+void __usercall vostok::render::grass_world::~grass_world(vostok::render::grass_world *this@<ecx>, int a2@<edi>)
 {
-  vostok::collision::space_partitioning_tree *m_patches_tree; // esi
-  void (__thiscall *insert)(vostok::collision::space_partitioning_tree *, vostok::collision::object *, const vostok::math::float4x4 *); // edi
-  _BYTE *v4; // ebx
-  void **M_start; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void **v7; // eax
-  void *v8; // esi
-  void **v9; // eax
-  void *v10; // esi
-  vostok::render::trample_desc *v11; // eax
-  void *v12; // esi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  vostok::render::grass_patch *v3; // ecx
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *i; // ebx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v5; // esi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **v6; // ebx
 
-  thisa->__vftable = (vostok::render::grass_world_vtbl *)&vostok::render::grass_world::`vftable';
-  vostok::render::grass_world::clear(this, thisa);
-  m_patches_tree = thisa->m_patches_tree;
-  if ( m_patches_tree )
+  *(_DWORD *)a2 = &vostok::render::grass_world::`vftable';
+  vostok::render::grass_world::clear(this, (_DWORD *)a2);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)(a2 + 392));
+  v3 = *(vostok::render::grass_patch **)(a2 + 340);
+  *(_DWORD *)(a2 + 344) = v3;
+  for ( i = *(vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 328);
+        i != *(vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 332);
+        i += 4142 )
   {
-    insert = m_patches_tree[4].insert;
-    v4 = __RTCastToVoid((void **)&thisa->m_patches_tree->__vftable);
-    ((void (__thiscall *)(vostok::collision::space_partitioning_tree *, _DWORD))m_patches_tree->~vostok::collision::space_partitioning_tree)(
-      m_patches_tree,
-      0);
-    (*(void (__thiscall **)(void (__thiscall *)(vostok::collision::space_partitioning_tree *, vostok::collision::object *, const vostok::math::float4x4 *), _BYTE *))(*(_DWORD *)insert + 24))(
-      insert,
-      v4);
+    vostok::render::grass_patch::~grass_patch(v3, i);
   }
-  M_start = thisa->m_visible_patches._M_impl._M_start;
-  if ( M_start )
+  *(_DWORD *)(a2 + 332) = *(_DWORD *)(a2 + 328);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v3,
+    (int *)(a2 + 280));
+  v5 = *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 268);
+  v6 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 272);
+  while ( v5 != *v6 )
   {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, M_start);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(v5 + 4);
+    v5 += 9;
   }
-  v7 = thisa->m_patches._M_impl._M_start;
-  if ( v7 )
-  {
-    v8 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v8, v7);
-  }
-  v9 = thisa->m_templates._M_impl._M_start;
-  if ( v9 )
-  {
-    v10 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v10, v9);
-  }
-  v11 = thisa->m_trample_array._M_impl._M_start;
-  if ( v11 )
-  {
-    v12 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v12, v11);
-  }
-  vostok::resources::unmanaged_resource::~unmanaged_resource(thisa);
+  *v6 = *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 268);
+  vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>((vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 264));
+  vostok::resources::unmanaged_resource::~unmanaged_resource((vostok::resources::unmanaged_resource *)a2);
 }

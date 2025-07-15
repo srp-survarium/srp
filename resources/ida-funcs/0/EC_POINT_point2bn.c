@@ -10,14 +10,14 @@ bignum_st *__cdecl EC_POINT_point2bn(
   void *v7; // edi
   bignum_st *v8; // esi
 
-  result = (bignum_st *)EC_POINT_point2oct(group, point, form, 0, 0, ctx);
+  result = (bignum_st *)EC_POINT_point2oct((int)ctx, group, point, form, 0, 0, ctx);
   v6 = result;
   if ( result )
   {
     v7 = CRYPTO_malloc((int)result, ".\\crypto\\ec\\ec_print.c", 73);
     if ( !v7 )
       return 0;
-    if ( !EC_POINT_point2oct(group, point, form, (unsigned __int8 *)v7, (unsigned int)v6, ctx) )
+    if ( !EC_POINT_point2oct((int)ctx, group, point, form, (unsigned __int8 *)v7, (unsigned int)v6, ctx) )
     {
       CRYPTO_free(v7);
       return 0;

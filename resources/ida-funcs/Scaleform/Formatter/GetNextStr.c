@@ -1,11 +1,7 @@
-Scaleform::StringDataPtr *__thiscall Scaleform::Formatter::GetNextStr(
-        Scaleform::Formatter *this,
-        Scaleform::StringDataPtr *result)
+void __thiscall Scaleform::Formatter::GetNextStr(
+        Scaleform::StatInfo_InterfaceImpl<Scaleform::TimerStat> *this,
+        Scaleform::Stat *p)
 {
-  Scaleform::StringDataPtr *v2; // eax
-
-  v2 = result;
-  result->pStr = 0;
-  result->Size = 0;
-  return v2;
+  *(_DWORD *)p = 0;
+  *(_DWORD *)&p[4] = 0;
 }

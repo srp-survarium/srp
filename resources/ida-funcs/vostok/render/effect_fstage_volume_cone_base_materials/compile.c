@@ -1,198 +1,222 @@
 void __thiscall vostok::render::effect_fstage_volume_cone_base_materials::compile(
         vostok::render::effect_fstage_volume_cone_base_materials *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  vostok::render::custom_config_value *v3; // ecx
-  vostok::render::custom_config_value *v4; // ecx
-  const vostok::render::custom_config_value *v5; // eax
-  vostok::render::custom_config_value *v6; // ecx
-  vostok::render::custom_config_value *v7; // ecx
-  const vostok::render::custom_config_value *v8; // eax
-  vostok::render::custom_config_value *v9; // ecx
-  vostok::render::custom_config_value *v10; // ecx
-  const vostok::render::custom_config_value *v11; // eax
-  vostok::render::custom_config_value *v12; // ecx
-  vostok::render::custom_config_value *v13; // ecx
-  const vostok::render::custom_config_value *v14; // eax
-  vostok::render::custom_config_value *v15; // ecx
-  vostok::strings::shared::profile *v16; // eax
-  vostok::strings::shared::manager *v17; // ecx
-  vostok::strings::shared::profile *v18; // eax
-  vostok::render::custom_config_value *v19; // ecx
-  const vostok::render::custom_config_value *v20; // eax
-  vostok::render::custom_config_value *v21; // ecx
-  const vostok::render::custom_config_value *v22; // eax
-  vostok::render::custom_config_value *v23; // ecx
-  const vostok::render::custom_config_value *v24; // eax
-  vostok::render::custom_config_value *v25; // ecx
-  const vostok::render::custom_config_value *v26; // eax
-  vostok::render::custom_config_value *v27; // ecx
-  vostok::strings::shared::manager *v28; // ecx
-  vostok::strings::shared::profile *v29; // eax
-  vostok::render::effect_constant_storage *v30; // ecx
-  vostok::strings::shared::manager *v31; // ecx
-  vostok::strings::shared::profile *v32; // eax
-  vostok::render::effect_constant_storage *v33; // ecx
-  vostok::render::effect_compiler *v34; // ecx
+  unsigned int vertex_input_type; // ecx
+  int v5; // eax
+  vostok::configs::binary_config_value *v6; // eax
+  vostok::configs::binary_config_value *v7; // eax
+  vostok::configs::binary_config_value *v8; // ecx
+  vostok::configs::binary_config_value *v9; // eax
+  const vostok::configs::binary_config_value *v10; // eax
+  float *pointer; // edi
+  double v12; // xmm0_8
+  double v13; // xmm0_8
+  double v14; // xmm0_8
+  vostok::configs::binary_config_value *v15; // eax
+  const vostok::configs::binary_config_value *v16; // eax
+  float v17; // xmm0_4
+  vostok::configs::binary_config_value *v18; // eax
+  const vostok::configs::binary_config_value *v19; // eax
+  _DWORD *v20; // esi
+  vostok::configs::binary_config_value *v21; // eax
+  const vostok::configs::binary_config_value *v22; // eax
+  vostok::render::effect_constant_storage *v23; // ecx
+  float v24; // xmm0_4
+  vostok::render::effect_constant_storage *v25; // ecx
+  vostok::render::effect_compiler *v26; // ecx
+  vostok::render::effect_compiler *v27; // ecx
+  vostok::configs::binary_config_value *v28; // eax
+  char **v29; // eax
+  vostok::render::effect_compiler *v30; // ecx
+  vostok::render::effect_compiler *v31; // ecx
+  vostok::configs::binary_config_value *v32; // ecx
+  vostok::configs::binary_config_value *v33; // eax
+  char **v34; // eax
   vostok::render::effect_compiler *v35; // ecx
-  vostok::shared_string v36; // [esp-4h] [ebp-54h]
-  vostok::shared_string v37; // [esp-4h] [ebp-54h]
-  vostok::shared_string v38; // [esp-4h] [ebp-54h]
-  vostok::shared_string v39; // [esp-4h] [ebp-54h]
-  const char *v40; // [esp+0h] [ebp-50h]
-  bool v41; // [esp+0h] [ebp-50h]
-  bool v42; // [esp+0h] [ebp-50h]
-  bool v43; // [esp+0h] [ebp-50h]
-  bool v44; // [esp+0h] [ebp-50h]
-  vostok::render::shader_configuration *v45; // [esp+4h] [ebp-4Ch]
-  float solid_transparency; // [esp+Ch] [ebp-44h] BYREF
-  float v47; // [esp+10h] [ebp-40h] BYREF
-  vostok::math::float3 v48; // [esp+14h] [ebp-3Ch] BYREF
-  vostok::render::shader_configuration configuration; // [esp+20h] [ebp-30h] BYREF
-  vostok::math::float4 source; // [esp+30h] [ebp-20h] BYREF
-  vostok::math::float4 v51; // [esp+40h] [ebp-10h] BYREF
+  vostok::configs::binary_config_value *v36; // eax
+  const vostok::configs::binary_config_value *v37; // eax
+  float v38; // xmm0_4
+  vostok::configs::binary_config_value *v39; // eax
+  const vostok::configs::binary_config_value *v40; // eax
+  vostok::render::effect_constant_storage *v41; // ecx
+  float v42; // xmm0_4
+  vostok::render::effect_constant_storage *v43; // ecx
+  vostok::render::effect_material_base *v44; // ecx
+  vostok::render::shader_configuration *v45; // [esp+4h] [ebp-58h]
+  long double v46; // [esp+4h] [ebp-58h]
+  long double v47; // [esp+4h] [ebp-58h]
+  long double v48; // [esp+4h] [ebp-58h]
+  const vostok::configs::binary_config_value *v49; // [esp+8h] [ebp-54h]
+  long double v50; // [esp+Ch] [ebp-50h]
+  long double v51; // [esp+Ch] [ebp-50h]
+  long double v52; // [esp+Ch] [ebp-50h]
+  float v53; // [esp+14h] [ebp-48h]
+  unsigned int num_last_mips_used; // [esp+18h] [ebp-44h] BYREF
+  unsigned int streaming_priority; // [esp+1Ch] [ebp-40h] BYREF
+  __int64 v56; // [esp+20h] [ebp-3Ch]
+  unsigned int v57; // [esp+28h] [ebp-34h]
+  int v58; // [esp+2Ch] [ebp-30h] BYREF
+  int v59; // [esp+30h] [ebp-2Ch]
+  int v60; // [esp+34h] [ebp-28h]
+  int v61; // [esp+38h] [ebp-24h]
+  float v62; // [esp+3Ch] [ebp-20h]
+  float v63; // [esp+40h] [ebp-1Ch]
+  float v64; // [esp+44h] [ebp-18h]
+  float v65; // [esp+48h] [ebp-14h]
+  vostok::math::float4 v66; // [esp+4Ch] [ebp-10h] BYREF
 
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  *(_BYTE *)&configuration.0 = (int)vostok::render::custom_config_value::operator[](
-                                      (vostok::render::custom_config_value *)this,
-                                      (int)config,
-                                      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_9667A8)->data
-                             & 1;
-  *((_BYTE *)&configuration.0 + 1) = (16
-                                    * LOBYTE(vostok::render::custom_config_value::operator[](
-                                               v3,
-                                               (int)config,
-                                               (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_967DE4.destroyer)->data))
-                                   & 0x10;
+  vertex_input_type = parameters->vertex_input_type;
+  LOBYTE(num_last_mips_used) = parameters->vertex_input_type >= 0xF
+                            || (v5 = 1 << vertex_input_type, 1 << vertex_input_type != 2048)
+                            && v5 != 128
+                            && v5 != 512
+                            && v5 != 256;
+  v60 = 0x80000;
+  v58 = 0;
+  v59 = 0;
+  v61 = 0;
+  streaming_priority = (_BYTE)num_last_mips_used == 0 ? -1 : 5;
+  v6 = vostok::configs::binary_config_value::operator[](config, "use_tdiffuse");
+  BYTE2(v58) = 8 * (vostok::configs::binary_config_value::operator[](v6, "value")->data.pointer != 0);
+  v7 = vostok::configs::binary_config_value::operator[](config, "use_ttransparency");
+  LOBYTE(v59) = vostok::configs::binary_config_value::operator[](v7, "value")->data.pointer != 0;
   vostok::render::effect_material_base::compile_begin(
+    parameters,
+    v8,
+    (vostok::render::effect_material_base *)&stru_80E8FC,
+    (const char *)&stru_8124C8,
     compiler,
+    (const char *)&v58,
     config,
-    (vostok::render::effect_material_base *)&stru_966284,
-    (vostok::render::shader_configuration *)&stru_966378.m_passes._M_t._M_header._M_data._M_parent,
-    (const char *)&configuration,
-    v40,
-    v45);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_NONE);
-  v5 = vostok::render::custom_config_value::operator[](
-         v4,
-         (int)config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"constant_volume_color");
-  vostok::render::custom_config_value::operator<vostok::math::float4> vostok::math::float4(v6, &v51, (int)v5);
-  v8 = vostok::render::custom_config_value::operator[](
-         v7,
-         (int)config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"constant_volume_color_multiplier");
-  solid_transparency = vostok::render::custom_config_value::operator<float> float(v9, (int)v8);
-  v11 = vostok::render::custom_config_value::operator[](
-          v10,
-          (int)config,
-          (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"move_direction");
-  vostok::render::custom_config_value::operator<vostok::math::float3> vostok::math::float3(v12, &v48, (int)v11);
-  v14 = vostok::render::custom_config_value::operator[](
-          v13,
-          (int)config,
-          (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"uv_tile");
-  source.w = vostok::render::custom_config_value::operator<float> float(v15, (int)v14);
-  *(_QWORD *)&source.x = *(_QWORD *)&v48.x;
-  source.z = v48.z;
-  v16 = vostok::strings::shared::manager::string(
-          s_manager.m_variable,
-          s_manager.m_variable,
-          "mode_direction_and_uv_tile");
-  v36.m_pointer.m_object = 0;
-  if ( v16 )
-  {
-    v36.m_pointer.m_object = v16;
-    _InterlockedExchangeAdd(&v16->m_reference_count, 1u);
-  }
-  vostok::render::effect_compiler::set_constant<vostok::math::float4>(
-    (vostok::render::effect_constant_storage *)&source,
-    compiler,
-    v36);
-  source.x = v51.x * solid_transparency;
-  source.y = v51.y * solid_transparency;
-  source.z = v51.z * solid_transparency;
-  source.w = v51.w;
-  v18 = vostok::strings::shared::manager::string(v17, s_manager.m_variable, "volume_color");
-  v37.m_pointer.m_object = 0;
-  if ( v18 )
-  {
-    v37.m_pointer.m_object = v18;
-    _InterlockedExchangeAdd(&v18->m_reference_count, 1u);
-  }
-  vostok::render::effect_compiler::set_constant<vostok::math::float4>(
-    (vostok::render::effect_constant_storage *)&source,
-    compiler,
-    v37);
-  vostok::render::effect_compiler::set_texture(0xFFFFFFFF, compiler, "t_position", "$user$position", 0, v41);
-  if ( (*(_BYTE *)&configuration.0 & 1) != 0 )
-  {
-    v20 = vostok::render::custom_config_value::operator[](
-            v19,
-            (int)config,
-            (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"texture_diffuse");
-    vostok::render::effect_compiler::set_texture(
-      0xFFFFFFFF,
-      compiler,
-      (const char *)&stru_9642F8.m_desc.ArraySize,
-      (char *)v20->data,
-      0,
-      v42);
-  }
-  vostok::render::effect_compiler::set_texture(0xFFFFFFFF, compiler, "t_spot_falloff", "fx/spot_falloff", 0, v42);
+    v45,
+    v49);
+  v9 = vostok::configs::binary_config_value::operator[](config, "constant_volume_color");
+  v10 = vostok::configs::binary_config_value::operator[](v9, "value");
+  pointer = (float *)v10->data.pointer;
+  v12 = *(float *)v10->data.pointer;
+  __libm_sse2_pow(v46, v50);
+  *(float *)&v12 = v12;
+  v62 = *(float *)&v12;
+  v13 = pointer[1];
+  __libm_sse2_pow(v47, v51);
+  *(float *)&v13 = v13;
+  v63 = *(float *)&v13;
+  v14 = pointer[2];
+  __libm_sse2_pow(v48, v52);
+  *(float *)&v14 = v14;
+  v64 = *(float *)&v14;
+  v65 = pointer[3];
+  v15 = vostok::configs::binary_config_value::operator[](config, "constant_volume_color_multiplier");
+  v16 = vostok::configs::binary_config_value::operator[](v15, "value");
+  if ( v16->type == 2 )
+    v17 = *(float *)&v16->data.pointer;
+  else
+    v17 = (float)(int)v16->data.pointer;
+  v53 = v17;
+  v18 = vostok::configs::binary_config_value::operator[](config, "move_direction");
+  v19 = vostok::configs::binary_config_value::operator[](v18, "value");
+  v20 = v19->data.pointer;
+  LODWORD(v56) = *(_DWORD *)v19->data.pointer;
+  HIDWORD(v56) = *++v20;
+  v57 = v20[1];
+  v21 = vostok::configs::binary_config_value::operator[](config, "uv_tile");
+  v22 = vostok::configs::binary_config_value::operator[](v21, "value");
+  if ( v22->type == 2 )
+    v24 = *(float *)&v22->data.pointer;
+  else
+    v24 = (float)(int)v22->data.pointer;
+  *(_QWORD *)&v66.x = v56;
+  *(_QWORD *)&v66.elements[2] = __PAIR64__(LODWORD(v24), v57);
+  vostok::render::effect_compiler::set_constant<vostok::math::float4>(&v66, v23, compiler, "mode_direction_and_uv_tile");
+  v66.x = v62 * v53;
+  v66.y = v63 * v53;
+  v66.z = v64 * v53;
+  v66.w = v65;
+  vostok::render::effect_compiler::set_constant<vostok::math::float4>(&v66, v25, compiler, "volume_color");
   vostok::render::effect_compiler::set_texture(
-    0xFFFFFFFF,
-    compiler,
-    "t_sphere_falloff",
-    (char *)&stru_9656C8.m_desc_valid,
+    v26,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
     0,
-    v43);
-  if ( (*((_BYTE *)&configuration.0 + 1) & 0x10) != 0 )
+    0xFFFFFFFF,
+    0,
+    1.0);
+  if ( (v58 & 0x80000) != 0 )
   {
-    v22 = vostok::render::custom_config_value::operator[](
-            v21,
-            (int)config,
-            (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_967E3C);
-    vostok::render::effect_compiler::set_texture(0xFFFFFFFF, compiler, "t_transparency", (char *)v22->data, 0, v44);
+    v28 = vostok::configs::binary_config_value::operator[](config, "texture_diffuse");
+    v29 = (char **)vostok::configs::binary_config_value::operator[](v28, "value");
+    vostok::render::effect_compiler::set_texture(
+      v30,
+      (const char *)compiler,
+      "t_diffuse",
+      *v29,
+      num_last_mips_used,
+      streaming_priority,
+      0,
+      1.0);
   }
-  if ( vostok::render::custom_config_value::value_exists(&stru_967E64, (int)config) )
+  vostok::render::effect_compiler::set_texture(
+    v27,
+    (const char *)compiler,
+    "t_spot_falloff",
+    "fx/spot_falloff",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v31,
+    (const char *)compiler,
+    "t_sphere_falloff",
+    "fx/sphere_falloff",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  if ( (v59 & 1) != 0 )
   {
-    v24 = vostok::render::custom_config_value::operator[](
-            v23,
-            (int)config,
-            (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)&stru_967E64);
-    solid_transparency = vostok::render::custom_config_value::operator<float> float(v25, (int)v24);
+    v33 = vostok::configs::binary_config_value::operator[](config, "texture_transparency");
+    v34 = (char **)vostok::configs::binary_config_value::operator[](v33, "value");
+    vostok::render::effect_compiler::set_texture(
+      v35,
+      (const char *)compiler,
+      "t_transparency",
+      *v34,
+      num_last_mips_used,
+      streaming_priority,
+      0,
+      1.0);
+  }
+  if ( vostok::configs::binary_config_value::value_exists(v32, (int)config, (unsigned int)"constant_transparency") )
+  {
+    v36 = vostok::configs::binary_config_value::operator[](config, "constant_transparency");
+    v37 = vostok::configs::binary_config_value::operator[](v36, "value");
+    if ( v37->type == 2 )
+      v38 = *(float *)&v37->data.pointer;
+    else
+      v38 = (float)(int)v37->data.pointer;
   }
   else
   {
-    solid_transparency = *(float *)&clear_value;
+    v38 = s_bm_current_air_resistance;
   }
-  v26 = vostok::render::custom_config_value::operator[](
-          v23,
-          (int)config,
-          (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"attenuation_scale");
-  v47 = vostok::render::custom_config_value::operator<float> float(v27, (int)v26);
-  v29 = vostok::strings::shared::manager::string(v28, s_manager.m_variable, "attenuation_scale");
-  v38.m_pointer.m_object = 0;
-  if ( v29 )
-  {
-    v38.m_pointer.m_object = v29;
-    v30 = (vostok::render::effect_constant_storage *)_InterlockedExchangeAdd(&v29->m_reference_count, 1u);
-  }
-  vostok::render::effect_compiler::set_constant<float>(&v47, v30, compiler, v38);
-  v32 = vostok::strings::shared::manager::string(v31, s_manager.m_variable, (const char *)&stru_967E7C);
-  v39.m_pointer.m_object = 0;
-  if ( v32 )
-  {
-    v39.m_pointer.m_object = v32;
-    v33 = (vostok::render::effect_constant_storage *)_InterlockedExchangeAdd(&v32->m_reference_count, 1u);
-  }
-  vostok::render::effect_compiler::set_constant<float>(&solid_transparency, v33, compiler, v39);
-  vostok::render::effect_compiler::end_pass(
-    v34,
-    (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
-  vostok::render::effect_compiler::end_technique(v35, (int)compiler);
+  num_last_mips_used = LODWORD(v38);
+  v39 = vostok::configs::binary_config_value::operator[](config, "attenuation_scale");
+  v40 = vostok::configs::binary_config_value::operator[](v39, "value");
+  if ( v40->type == 2 )
+    v42 = *(float *)&v40->data.pointer;
+  else
+    v42 = (float)(int)v40->data.pointer;
+  streaming_priority = LODWORD(v42);
+  vostok::render::effect_compiler::set_constant<float>(v41, (float *)&streaming_priority, compiler, "attenuation_scale");
+  vostok::render::effect_compiler::set_constant<float>(
+    v43,
+    (float *)&num_last_mips_used,
+    compiler,
+    "solid_transparency");
+  vostok::render::effect_material_base::compile_end(v44, compiler);
 }

@@ -6,15 +6,17 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalGradientImageLoader(
   int v3; // eax
   unsigned int Pos; // eax
   unsigned int v5; // ecx
-  unsigned int v6; // eax
+  int v6; // eax
   int v7; // edx
   Scaleform::GFx::ResourceId v8; // ebp
   unsigned int v9; // eax
   unsigned __int16 v10; // di
   int v11; // edx
-  void *v12; // esi
-  Scaleform::String imageFileName; // [esp+10h] [ebp-Ch] BYREF
-  Scaleform::GFx::ResourceHandle result; // [esp+14h] [ebp-8h] BYREF
+  unsigned int v12; // eax
+  unsigned __int16 v13; // bx
+  void *v14; // esi
+  Scaleform::String pstr; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::GFx::ResourceHandle v16; // [esp+14h] [ebp-8h] BYREF
 
   if ( p->pAltStream )
     pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
@@ -26,7 +28,7 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalGradientImageLoader(
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   Pos = pAltStream->Stream.Pos;
   v5 = Pos + 2;
-  v6 = (unsigned int)&loc_50000 | *(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
+  v6 = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos] | 0x50000;
   v7 = pAltStream->Stream.DataSize - v5;
   pAltStream->Stream.Pos = v5;
   v8.Id = v6;
@@ -41,22 +43,31 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalGradientImageLoader(
   pAltStream->Stream.UnusedBits = 0;
   if ( v11 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-  pAltStream->Stream.Pos += 2;
-  Scaleform::String::String(&imageFileName);
-  Scaleform::GFx::Stream::ReadStringWithLength(&pAltStream->Stream, &imageFileName);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)tagInfo->TagType);
+  v12 = pAltStream->Stream.Pos;
+  v13 = *(_WORD *)&pAltStream->Stream.pBuffer[v12];
+  pAltStream->Stream.Pos = v12 + 2;
+  Scaleform::String::String(&pstr);
+  Scaleform::GFx::Stream::ReadStringWithLength(&pAltStream->Stream, &pstr);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    &pAltStream->Stream,
+    "  DefineExternalGradientImage: tagInfo.TagType = %d, id = 0x%X, fmt = %d, name = '%s', size = %d\n",
+    tagInfo->TagType,
+    v8.Id,
+    v10,
+    (const char *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    v13);
   Scaleform::GFx::GFx_CreateImageFileResourceHandle(
-    &result,
+    &v16,
     p,
     v8,
-    (char *)((imageFileName.HeapTypeBits & 0xFFFFFFFC) + 8),
-    (char *)&buf,
+    (const __m128i *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const __m128i *)uri,
     v10,
     0,
     0);
-  if ( result.HType == RH_Pointer && result.BindIndex )
-    Scaleform::GFx::Resource::Release(result.pResource);
-  v12 = (void *)(imageFileName.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((imageFileName.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
+  if ( v16.HType == RH_Pointer && v16.BindIndex )
+    Scaleform::GFx::Resource::Release(v16.pResource);
+  v14 = (void *)(pstr.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v14);
 }

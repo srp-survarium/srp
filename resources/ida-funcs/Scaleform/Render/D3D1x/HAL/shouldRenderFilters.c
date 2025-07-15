@@ -2,10 +2,10 @@ char __thiscall Scaleform::Render::D3D1x::HAL::shouldRenderFilters(
         Scaleform::Render::D3D1x::HAL *this,
         const Scaleform::Render::FilterPrimitive *prim)
 {
-  Scaleform::Render::FilterSet *pObject; // ecx
-  unsigned int Size; // edx
-  int v5; // eax
-  Scaleform::Ptr<Scaleform::Render::Filter> *i; // ecx
+  Scaleform::Render::FilterSet *pObject; // eax
+  unsigned int Size; // ecx
+  int v5; // edx
+  Scaleform::Ptr<Scaleform::Render::Filter> *i; // eax
 
   if ( this->SManager.ShaderModel == ShaderVersion_D3D1xFL1x )
     return 1;

@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::TreeText::SetFontSize(
   int v8; // ecx
   Scaleform::MemoryHeap *v9; // eax
   int v10; // esi
-  const Scaleform::Render::Text::TextFormat *v11; // eax
+  Scaleform::Render::Text::TextFormat *v11; // eax
   Scaleform::Render::ContextImpl::EntryData *WritableData; // eax
   Scaleform::Render::Text::TextFormat fmt; // [esp+Ch] [ebp-50h] BYREF
   Scaleform::Render::Text::TextFormat result; // [esp+34h] [ebp-28h] BYREF

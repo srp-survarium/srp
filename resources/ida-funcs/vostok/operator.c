@@ -1,66 +1,70 @@
-char __cdecl vostok::operator==(vostok::fs_new::path_string_impl *s1, vostok::fs_new::path_string_impl *s2)
+unsigned int __fastcall vostok::operator-(
+        const vostok::circular_buffer<stlp_std::pair<enum survarium::game_action_id,enum survarium::action_state_enum>,64>::const_iterator *left,
+        const vostok::circular_buffer<stlp_std::pair<enum survarium::game_action_id,enum survarium::action_state_enum>,64>::const_iterator *right)
 {
-  unsigned int v2; // esi
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v3; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v4; // ecx
-  char v6; // [esp+4h] [ebp-24h]
-  unsigned int v7; // [esp+8h] [ebp-20h]
-  unsigned int v8; // [esp+10h] [ebp-18h]
-  vostok::const_buffer buffer1; // [esp+18h] [ebp-10h] BYREF
-  vostok::const_buffer buffer2; // [esp+20h] [ebp-8h] BYREF
+  unsigned int m_index; // eax
+  unsigned int v3; // edx
+  unsigned int m_head; // ecx
 
-  v2 = vostok::fs_new::path_string_impl::length(s1);
-  v6 = 0;
-  if ( v2 == vostok::fs_new::path_string_impl::length(s2) )
+  m_index = left->m_index;
+  v3 = right->m_index;
+  m_head = left->m_container->m_head;
+  if ( m_index < v3 )
   {
-    v8 = vostok::fs_new::path_string_impl::length(s2);
-    buffer2.m_data = (const char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                     v3,
-                                     (int)s2);
-    buffer2.m_size = v8;
-    v7 = vostok::fs_new::path_string_impl::length(s1);
-    buffer1.m_data = (const char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                     v4,
-                                     (int)s1);
-    buffer1.m_size = v7;
-    if ( !vostok::memory::compare(&buffer1, &buffer2) )
-      return 1;
+    if ( m_head >= m_index && v3 > m_head )
+      return m_index - v3 + 65;
   }
-  return v6;
+  else if ( m_head >= v3 && m_index > m_head )
+  {
+    return m_index - v3 - 65;
+  }
+  return m_index - v3;
 }
 
 
-BOOL __usercall vostok::operator==@<eax>(const vostok::buffer_string *s1@<ecx>, const char *s2@<eax>)
+unsigned int __fastcall vostok::operator-(
+        const vostok::circular_buffer<survarium::fx_history_item,10>::iterator *left,
+        const vostok::circular_buffer<survarium::fx_history_item,10>::iterator *right)
 {
-  return vostok::detail::strcmp_s(s1->m_begin, s2) == 0;
+  unsigned int m_index; // eax
+  unsigned int v3; // edx
+  unsigned int m_head; // ecx
+
+  m_index = left->m_index;
+  v3 = right->m_index;
+  m_head = left->m_container->m_head;
+  if ( m_index < v3 )
+  {
+    if ( m_head >= m_index && v3 > m_head )
+      return m_index - v3 + 11;
+  }
+  else if ( m_head >= v3 && m_index > m_head )
+  {
+    return m_index - v3 - 11;
+  }
+  return m_index - v3;
 }
 
 
-vostok::mutable_buffer *__cdecl vostok::operator+(
-        vostok::mutable_buffer *result,
-        const vostok::mutable_buffer *buffer,
-        vostok::mutable_buffer *offs)
+unsigned int __fastcall vostok::operator-(
+        const vostok::circular_buffer<vostok::network_core::sequence_number<unsigned short>,8>::iterator *left,
+        const vostok::circular_buffer<vostok::network_core::sequence_number<unsigned short>,8>::iterator *right)
 {
-  unsigned int m_size; // edx
-  vostok::mutable_buffer resulta; // [esp+4h] [ebp-8h] BYREF
+  unsigned int m_index; // eax
+  unsigned int v3; // edx
+  unsigned int m_head; // ecx
 
-  m_size = buffer->m_size;
-  resulta.m_data = buffer->m_data;
-  resulta.m_size = m_size;
-  vostok::mutable_buffer::operator+=(offs, &resulta);
-  *result = resulta;
-  return result;
-}
-
-
-bool __cdecl vostok::operator<(const vostok::buffer_string *s1, const vostok::buffer_string *s2)
-{
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v2; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v3; // ecx
-  const vostok::variant<32> **v4; // eax
-  const vostok::variant<32> **v6; // [esp-4h] [ebp-8h]
-
-  v6 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v2, (int)s2);
-  v4 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v3, (int)s1);
-  return vostok::detail::strcmp_s((const char *)v4, (const char *)v6) == -1;
+  m_index = left->m_index;
+  v3 = right->m_index;
+  m_head = left->m_container->m_head;
+  if ( m_index < v3 )
+  {
+    if ( m_head >= m_index && v3 > m_head )
+      return m_index - v3 + 9;
+  }
+  else if ( m_head >= v3 && m_index > m_head )
+  {
+    return m_index - v3 - 9;
+  }
+  return m_index - v3;
 }

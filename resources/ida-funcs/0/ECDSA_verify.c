@@ -3,7 +3,7 @@ int __cdecl ECDSA_verify(
         const unsigned __int8 *dgst,
         int dgst_len,
         unsigned __int8 *sigbuf,
-        int sig_len,
+        const unsigned __int8 *sig_len,
         ec_key_st *eckey)
 {
   int v6; // esi
@@ -16,11 +16,11 @@ int __cdecl ECDSA_verify(
   a = ECDSA_SIG_new();
   if ( !a )
     return -1;
-  if ( d2i_ECDSA_SIG(&a, (const unsigned __int8 **)&sigbuf, sig_len) )
+  if ( d2i_ECDSA_SIG(&a, &sigbuf, sig_len) )
   {
     v8 = a;
     v9 = eckey;
-    v10 = ecdsa_check(eckey);
+    v10 = ecdsa_check((int)eckey, eckey);
     if ( !v10 )
     {
       ECDSA_SIG_free(a);

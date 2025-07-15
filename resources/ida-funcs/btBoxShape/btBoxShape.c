@@ -1,26 +1,23 @@
-void __usercall btBoxShape::btBoxShape(btBoxShape *this@<eax>, btConvexInternalShape *boxHalfExtents@<edi>)
+void __stdcall btBoxShape::btBoxShape(btBoxShape *this)
 {
-  const vostok::math::float4x4 *v2; // xmm0_4
+  const btVector3 *v1; // eax
+  btConvexInternalShape *v2; // ecx
+  const btVector3 *v3; // edi
   float m_collisionMargin; // xmm5_4
-  btVector3 v5; // [esp+Ch] [ebp-10h]
+  unsigned __int64 v5; // [esp+14h] [ebp-Ch]
 
-  v2 = clear_value;
-  this->m_userPointer = 0;
-  this->m_localScaling.mVec128.m128_i32[0] = (int)v2;
-  this->m_localScaling.mVec128.m128_i32[1] = (int)v2;
-  this->m_localScaling.mVec128.m128_u64[1] = (unsigned int)v2;
-  this->m_collisionMargin = 0.039999999;
+  v3 = v1;
+  btConvexInternalShape::btConvexInternalShape(v2, this);
   this->m_polyhedron = 0;
-  this->__vftable = (btBoxShape_vtbl *)&btBoxShape::`vftable';
   this->m_shapeType = 0;
-  btConvexInternalShape::setSafeMargin(boxHalfExtents, (int)this);
+  this->__vftable = (btBoxShape_vtbl *)&btBoxShape::`vftable';
+  btConvexInternalShape::setSafeMargin(this, v3);
   m_collisionMargin = this->m_collisionMargin;
-  v5.mVec128.m128_f32[0] = (float)(*(float *)&boxHalfExtents->__vftable * this->m_localScaling.mVec128.m128_f32[0])
-                         - m_collisionMargin;
-  v5.mVec128.m128_i32[3] = 0;
-  v5.mVec128.m128_f32[1] = (float)(this->m_localScaling.mVec128.m128_f32[1] * *(float *)&boxHalfExtents->m_shapeType)
-                         - m_collisionMargin;
-  v5.mVec128.m128_f32[2] = (float)(this->m_localScaling.mVec128.m128_f32[2] * *(float *)&boxHalfExtents->m_userPointer)
-                         - m_collisionMargin;
-  this->m_implicitShapeDimensions = (btVector3)v5.mVec128;
+  *(float *)&v5 = (float)(this->m_localScaling.mVec128.m128_f32[1] * v3->mVec128.m128_f32[1]) - m_collisionMargin;
+  *((float *)&v5 + 1) = (float)(this->m_localScaling.mVec128.m128_f32[2] * v3->mVec128.m128_f32[2]) - m_collisionMargin;
+  this->m_implicitShapeDimensions.mVec128.m128_f32[0] = (float)(this->m_localScaling.mVec128.m128_f32[0]
+                                                              * v3->mVec128.m128_f32[0])
+                                                      - m_collisionMargin;
+  *(unsigned __int64 *)((char *)this->m_implicitShapeDimensions.mVec128.m128_u64 + 4) = v5;
+  this->m_implicitShapeDimensions.mVec128.m128_i32[3] = 0;
 }

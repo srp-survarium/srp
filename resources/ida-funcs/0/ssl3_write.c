@@ -1,8 +1,8 @@
-int __usercall ssl3_write@<eax>(unsigned int a1@<edi>, ssl_st *s, void *buf, int len)
+int __usercall ssl3_write@<eax>(int a1@<edi>, int a2@<ebx>, ssl_st *s, void *buf, int len)
 {
   ssl3_state_st *s3; // eax
   int result; // eax
-  ssl3_state_st *v6; // esi
+  ssl3_state_st *v7; // esi
   bio_st *wbio; // [esp-10h] [ebp-14h]
 
   SetLastError(0);
@@ -13,22 +13,22 @@ int __usercall ssl3_write@<eax>(unsigned int a1@<edi>, ssl_st *s, void *buf, int
     return s->method->ssl_write_bytes(s, 23, buf, len);
   if ( !s3->delay_buf_pop_ret )
   {
-    result = ssl3_write_bytes(s, 23, (char *)buf, len);
+    result = ssl3_write_bytes(a2, s, 23, (char *)buf, len);
     if ( result <= 0 )
       return result;
     s->s3->delay_buf_pop_ret = result;
   }
   wbio = s->wbio;
   s->rwstate = 2;
-  result = BIO_ctrl(wbio, 11, 0, 0);
+  result = BIO_ctrl(a2, wbio, 11, 0, 0);
   if ( result > 0 )
   {
     s->rwstate = 1;
-    ssl_free_wbio_buffer(a1, s);
+    ssl_free_wbio_buffer(a1, a2, s);
     s->s3->flags &= ~4u;
-    v6 = s->s3;
-    result = v6->delay_buf_pop_ret;
-    v6->delay_buf_pop_ret = 0;
+    v7 = s->s3;
+    result = v7->delay_buf_pop_ret;
+    v7->delay_buf_pop_ret = 0;
   }
   return result;
 }

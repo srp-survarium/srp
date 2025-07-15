@@ -45,7 +45,7 @@ int __cdecl XML_GetBuffer(int a1, int a2)
         v4 = *(_DWORD *)(a1 + 24) - *(_DWORD *)(a1 + 8);
         if ( v4 > 1024 )
           v4 = 1024;
-        memcpy(dst, (unsigned __int8 *)(*(_DWORD *)(a1 + 24) - v4), v4 + *(_DWORD *)(a1 + 28) - *(_DWORD *)(a1 + 24));
+        memcpy((int)dst, (const __m128i *)(*(_DWORD *)(a1 + 24) - v4), v4 + *(_DWORD *)(a1 + 28) - *(_DWORD *)(a1 + 24));
         (*(void (__cdecl **)(_DWORD))(a1 + 20))(*(_DWORD *)(a1 + 8));
         *(_DWORD *)(a1 + 8) = dst;
         *(_DWORD *)(a1 + 28) = v4 + *(_DWORD *)(a1 + 28) - *(_DWORD *)(a1 + 24) + *(_DWORD *)(a1 + 8);
@@ -62,8 +62,8 @@ int __cdecl XML_GetBuffer(int a1, int a2)
     {
       v7 = *(_DWORD *)(a1 + 24) - *(_DWORD *)(a1 + 8) - v8;
       memmove(
-        *(unsigned __int8 **)(a1 + 8),
-        (unsigned __int8 *)(v7 + *(_DWORD *)(a1 + 8)),
+        *(_DWORD *)(a1 + 8),
+        (const __m128i *)(v7 + *(_DWORD *)(a1 + 8)),
         v8 + *(_DWORD *)(a1 + 28) - *(_DWORD *)(a1 + 24));
       *(_DWORD *)(a1 + 28) -= v7;
       *(_DWORD *)(a1 + 24) -= v7;

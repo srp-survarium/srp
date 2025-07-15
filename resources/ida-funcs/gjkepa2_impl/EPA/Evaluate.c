@@ -1,381 +1,348 @@
 gjkepa2_impl::EPA::eStatus::_ __thiscall gjkepa2_impl::EPA::Evaluate(
         gjkepa2_impl::EPA *this,
-        gjkepa2_impl::EPA *gjk,
+        gjkepa2_impl::GJK::sSV *gjk,
         gjkepa2_impl::GJK *guess,
-        const btVector3 *guessa)
+        _DWORD *a4)
 {
-  gjkepa2_impl::GJK::sSV **c; // esi
-  int root; // eax
-  int v6; // ecx
-  int v7; // ecx
-  int v8; // ecx
-  float *v9; // eax
-  float *v10; // ecx
-  float v11; // xmm5_4
-  float v12; // xmm4_4
-  float v13; // xmm0_4
-  float *v14; // ecx
-  float v15; // xmm6_4
-  float v16; // xmm1_4
-  gjkepa2_impl::GJK::sSV *v17; // ecx
-  float v18; // xmm3_4
-  float v19; // xmm1_4
-  float v20; // xmm2_4
-  gjkepa2_impl::GJK::sSV *v21; // xmm0_4
+  gjkepa2_impl::GJK::sSimplex *m_simplex; // esi
+  gjkepa2_impl::EPA::sFace **v5; // edi
+  float *m128_f32; // eax
+  float *v7; // ecx
+  float v8; // xmm5_4
+  float v9; // xmm0_4
+  float v10; // xmm4_4
+  float *v11; // ecx
+  float v12; // xmm1_4
+  gjkepa2_impl::EPA *v13; // ecx
+  float v14; // xmm3_4
+  float v15; // xmm2_4
+  float v16; // xmm6_4
+  float v17; // xmm0_4
+  gjkepa2_impl::EPA::sFace *v18; // eax
+  gjkepa2_impl::EPA *v19; // ecx
+  gjkepa2_impl::EPA::sFace *v20; // eax
+  gjkepa2_impl::EPA *v21; // ecx
   gjkepa2_impl::EPA::sFace *v22; // eax
-  gjkepa2_impl::GJK::sSV *v23; // edx
-  gjkepa2_impl::GJK::sSV *v24; // edi
-  gjkepa2_impl::EPA::sFace *v25; // eax
-  gjkepa2_impl::GJK::sSV *v26; // edi
+  gjkepa2_impl::EPA *v23; // ecx
+  gjkepa2_impl::EPA::sFace *v24; // eax
+  gjkepa2_impl::EPA *v25; // ecx
+  bool v26; // zf
   gjkepa2_impl::EPA::sFace *v27; // eax
-  gjkepa2_impl::GJK::sSV *v28; // ecx
-  gjkepa2_impl::GJK::sSV *v29; // edi
-  gjkepa2_impl::EPA::sFace *v30; // eax
-  gjkepa2_impl::EPA *v31; // ecx
-  bool v32; // zf
-  gjkepa2_impl::EPA::sFace *v33; // eax
-  int v34; // edx
-  unsigned __int64 v35; // kr00_8
-  int v36; // ecx
-  unsigned int m_nextsv; // ecx
-  int v38; // edi
-  gjkepa2_impl::GJK::sSV *v39; // eax
-  int v40; // esi
-  gjkepa2_impl::EPA::sFace *ff; // eax
-  gjkepa2_impl::EPA::sFace *cf; // ecx
-  int v43; // eax
-  int v44; // eax
-  gjkepa2_impl::EPA *v45; // ecx
-  int v46; // eax
-  float v47; // xmm0_4
-  gjkepa2_impl::GJK::sSV *v48; // eax
-  gjkepa2_impl::GJK::sSV *v49; // edi
-  gjkepa2_impl::GJK::sSV *v50; // esi
-  float v51; // xmm1_4
-  float v52; // xmm4_4
-  float v53; // xmm5_4
-  unsigned __int64 v54; // xmm2_8
-  unsigned int v55; // xmm1_4
-  unsigned int v56; // xmm4_4
-  float v57; // xmm5_4
-  float v58; // xmm3_4
+  unsigned int nf; // edx
+  gjkepa2_impl::EPA::sFace *ff; // ecx
+  gjkepa2_impl::EPA::sFace *v30; // esi
+  gjkepa2_impl::EPA::sFace *cf; // eax
+  unsigned int v32; // eax
+  gjkepa2_impl::GJK::sSV *p_w; // edi
+  char v34; // cl
+  gjkepa2_impl::EPA::sFace *v35; // esi
+  gjkepa2_impl::EPA::sFace *v36; // eax
+  gjkepa2_impl::EPA::sFace *v37; // ecx
+  gjkepa2_impl::EPA *v38; // ecx
+  gjkepa2_impl::EPA::sFace *v39; // eax
+  float *v40; // edx
+  float v41; // xmm0_4
+  float *v42; // eax
+  float *v43; // ecx
+  float v44; // xmm4_4
+  float v45; // xmm5_4
+  float v46; // xmm6_4
+  float v47; // xmm4_4
+  float v48; // xmm5_4
+  float v49; // xmm1_4
+  float v50; // xmm2_4
+  float v51; // xmm3_4
+  float v52; // xmm0_4
+  float v53; // xmm2_4
+  float v54; // xmm0_4
+  float v55; // xmm7_4
+  float v56; // xmm0_4
+  float v57; // xmm3_4
+  float v58; // xmm2_4
   float v59; // xmm0_4
-  float v60; // xmm7_4
-  float v61; // xmm6_4
-  float v62; // xmm1_4
-  float *v63; // eax
-  float v64; // xmm6_4
-  float v65; // xmm0_4
-  float v66; // xmm3_4
-  float v67; // xmm1_4
-  float v68; // xmm1_4
-  float v69; // xmm0_4
-  float v70; // xmm6_4
-  float v71; // xmm5_4
-  float v72; // xmm3_4
-  float v73; // xmm1_4
+  float v60; // xmm1_4
+  float v61; // xmm0_4
+  float v62; // xmm0_4
+  float v63; // xmm7_4
+  float v64; // xmm3_4
+  float v65; // xmm1_4
+  float v66; // xmm2_4
+  float v67; // xmm0_4
   gjkepa2_impl::EPA::eStatus::_ result; // eax
-  float v75; // xmm0_4
-  float v76; // xmm1_4
-  long double v77; // st7
-  const vostok::math::float4x4 *v78; // xmm1_4
-  gjkepa2_impl::GJK::sSV *v79; // [esp+3B2h] [ebp-8Ch]
-  gjkepa2_impl::GJK::sSV *v80; // [esp+3B6h] [ebp-88h]
-  char v81; // [esp+3CDh] [ebp-71h]
-  unsigned int v82; // [esp+3CEh] [ebp-70h]
-  float *v83; // [esp+3D2h] [ebp-6Ch]
-  gjkepa2_impl::EPA::sFace **v84; // [esp+3D2h] [ebp-6Ch]
-  float v85; // [esp+3D2h] [ebp-6Ch]
-  gjkepa2_impl::GJK::sSV *v86; // [esp+3D6h] [ebp-68h]
-  float v87; // [esp+3D6h] [ebp-68h]
-  int v88; // [esp+3DAh] [ebp-64h]
-  float v89; // [esp+3DAh] [ebp-64h]
-  float v90; // [esp+3DAh] [ebp-64h]
-  gjkepa2_impl::EPA::sHorizon v91; // [esp+3DEh] [ebp-60h] BYREF
-  unsigned __int64 v92; // [esp+3EEh] [ebp-50h]
-  unsigned __int64 v93; // [esp+3F6h] [ebp-48h]
-  _QWORD v94[8]; // [esp+3FEh] [ebp-40h] BYREF
+  float v69; // xmm6_4
+  float v70; // xmm2_4
+  float v71; // xmm0_4
+  int v72; // xmm1_4
+  float v73; // xmm3_4
+  float *v74; // [esp-14h] [ebp-B8h]
+  float *v75; // [esp-14h] [ebp-B8h]
+  float *v76; // [esp-14h] [ebp-B8h]
+  char v77; // [esp+Bh] [ebp-99h]
+  const btVector3 *p_n; // [esp+Ch] [ebp-98h]
+  gjkepa2_impl::EPA::sFace **v79; // [esp+Ch] [ebp-98h]
+  float v80; // [esp+Ch] [ebp-98h]
+  gjkepa2_impl::EPA::sFace *v81; // [esp+10h] [ebp-94h]
+  int v82; // [esp+10h] [ebp-94h]
+  float v83; // [esp+10h] [ebp-94h]
+  float v84; // [esp+14h] [ebp-90h]
+  float v85; // [esp+14h] [ebp-90h]
+  int v86; // [esp+18h] [ebp-8Ch]
+  float v87; // [esp+18h] [ebp-8Ch]
+  int v88; // [esp+1Ch] [ebp-88h]
+  float v89; // [esp+1Ch] [ebp-88h]
+  gjkepa2_impl::EPA::sHorizon horizon; // [esp+24h] [ebp-80h] BYREF
+  gjkepa2_impl::EPA::sFace *v91; // [esp+30h] [ebp-74h]
+  unsigned int pass; // [esp+3Ch] [ebp-68h]
+  unsigned int v93; // [esp+40h] [ebp-64h]
+  float v94; // [esp+44h] [ebp-60h]
+  float v95; // [esp+48h] [ebp-5Ch]
+  float v96; // [esp+54h] [ebp-50h]
+  btVector3 v97[4]; // [esp+64h] [ebp-40h] BYREF
 
-  c = guess->m_simplex->c;
-  if ( (unsigned int)c[8] <= 1 || !gjkepa2_impl::GJK::EncloseOrigin(guess) )
-    goto LABEL_41;
-  for ( ; gjk->m_hull.root; gjk->m_stock.root = (gjkepa2_impl::EPA::sFace *)root )
+  m_simplex = guess->m_simplex;
+  if ( m_simplex->rank <= 1 || !gjkepa2_impl::GJK::EncloseOrigin(guess) )
+    goto LABEL_25;
+  v5 = (gjkepa2_impl::EPA::sFace **)&gjk[322].w.mVec128.m128_i32[1];
+  while ( *v5 )
   {
-    root = (int)gjk->m_hull.root;
-    v6 = *(_DWORD *)(root + 52);
-    if ( v6 )
-      *(_DWORD *)(v6 + 48) = *(_DWORD *)(root + 48);
-    v7 = *(_DWORD *)(root + 48);
-    if ( v7 )
-      *(_DWORD *)(v7 + 52) = *(_DWORD *)(root + 52);
-    if ( (gjkepa2_impl::EPA::sFace *)root == gjk->m_hull.root )
-      gjk->m_hull.root = *(gjkepa2_impl::EPA::sFace **)(root + 52);
-    --gjk->m_hull.count;
-    *(_DWORD *)(root + 48) = 0;
-    *(_DWORD *)(root + 52) = gjk->m_stock.root;
-    v8 = (int)gjk->m_stock.root;
-    if ( v8 )
-      *(_DWORD *)(v8 + 48) = root;
-    ++gjk->m_stock.count;
+    v81 = *v5;
+    gjkepa2_impl::EPA::remove((gjkepa2_impl::EPA::sList *)&gjk[322].w.m_floats[1], *v5);
+    gjkepa2_impl::EPA::append((gjkepa2_impl::EPA::sList *)&gjk[322].w.m_floats[3], v81);
   }
-  gjk->m_status = Valid;
-  gjk->m_nextsv = 0;
-  v9 = (float *)c[3];
-  v10 = (float *)c[2];
-  v11 = v10[5] - v9[5];
-  v12 = v10[4] - v9[4];
-  v13 = v10[6] - v9[6];
-  v14 = (float *)c[1];
-  v15 = v14[4] - v9[4];
-  *((float *)&v92 + 1) = v14[5] - v9[5];
-  v16 = v14[6];
-  v17 = *c;
-  v18 = (*c)->w.mVec128.m128_f32[2] - v9[6];
-  v19 = v16 - v9[6];
-  *(float *)&v91.cf = (*c)->w.mVec128.m128_f32[0] - v9[4];
-  v20 = v17->w.mVec128.m128_f32[1] - v9[5];
-  *(float *)&v92 = v15;
-  if ( (float)((float)((float)((float)((float)((float)((float)(v18 * v11) * v15) + (float)((float)(v20 * v19) * v12))
-                                     - (float)((float)(v19 * v11) * *(float *)&v91.cf))
-                             - (float)((float)(v20 * v13) * v15))
-                     + (float)((float)(v13 * *((float *)&v92 + 1)) * *(float *)&v91.cf))
-             - (float)((float)(v18 * *((float *)&v92 + 1)) * v12)) < 0.0 )
+  gjk->d.mVec128.m128_i32[0] = 0;
+  gjk[322].w.mVec128.m128_i32[0] = 0;
+  m128_f32 = m_simplex->c[3]->d.mVec128.m128_f32;
+  v7 = m_simplex->c[2]->d.mVec128.m128_f32;
+  v8 = v7[5] - m128_f32[5];
+  v9 = v7[6] - m128_f32[6];
+  v10 = v7[4] - m128_f32[4];
+  v11 = m_simplex->c[1]->w.mVec128.m128_f32;
+  *(float *)&horizon.cf = *v11 - m128_f32[4];
+  *(float *)&horizon.ff = v11[1] - m128_f32[5];
+  v12 = v11[2];
+  v13 = (gjkepa2_impl::EPA *)m_simplex->c[0];
+  v14 = m_simplex->c[0]->w.mVec128.m128_f32[2] - m128_f32[6];
+  v84 = m_simplex->c[0]->w.mVec128.m128_f32[0] - m128_f32[4];
+  v15 = m_simplex->c[0]->w.mVec128.m128_f32[1] - m128_f32[5];
+  v16 = (float)((float)((float)((float)((float)((float)(v15 * (float)(v12 - m128_f32[6])) * v10)
+                                      + (float)((float)(v14 * v8) * *(float *)&horizon.cf))
+                              - (float)((float)((float)(v12 - m128_f32[6]) * v8) * v84))
+                      - (float)((float)(v15 * v9) * *(float *)&horizon.cf))
+              + (float)((float)(v9 * *(float *)&horizon.ff) * v84))
+      - (float)((float)(v14 * *(float *)&horizon.ff) * v10);
+  v95 = v8;
+  if ( v16 < 0.0 )
   {
-    *c = c[1];
-    v21 = c[4];
-    c[4] = c[5];
-    c[1] = v17;
-    c[5] = v21;
+    m_simplex->c[0] = m_simplex->c[1];
+    v17 = m_simplex->p[0];
+    m_simplex->p[0] = m_simplex->p[1];
+    m_simplex->c[1] = (gjkepa2_impl::GJK::sSV *)v13;
+    m_simplex->p[1] = v17;
   }
-  v22 = gjkepa2_impl::EPA::newface(gjk, *c, c[1], c[2], 1);
-  v23 = c[3];
-  v24 = c[1];
-  LODWORD(v92) = v22;
-  v25 = gjkepa2_impl::EPA::newface(gjk, v24, *c, v23, 1);
-  v26 = c[2];
-  v80 = c[3];
-  v79 = c[1];
-  HIDWORD(v92) = v25;
-  v27 = gjkepa2_impl::EPA::newface(gjk, v26, v79, v80, 1);
-  v28 = c[2];
-  v29 = *c;
-  LODWORD(v93) = v27;
-  v30 = gjkepa2_impl::EPA::newface(gjk, v29, v28, c[3], 1);
-  v32 = gjk->m_hull.count == 4;
-  HIDWORD(v93) = v30;
-  if ( v32 )
+  v18 = gjkepa2_impl::EPA::newface(v13, gjk, m_simplex->c[0], m_simplex->c[1], m_simplex->c[2]->d.mVec128.m128_f32, 1);
+  v74 = m_simplex->c[3]->d.mVec128.m128_f32;
+  horizon.cf = v18;
+  v20 = gjkepa2_impl::EPA::newface(v19, gjk, m_simplex->c[1], m_simplex->c[0], v74, 1);
+  v75 = m_simplex->c[3]->d.mVec128.m128_f32;
+  horizon.ff = v20;
+  v22 = gjkepa2_impl::EPA::newface(v21, gjk, m_simplex->c[2], m_simplex->c[1], v75, 1);
+  v76 = m_simplex->c[3]->d.mVec128.m128_f32;
+  horizon.nf = (unsigned int)v22;
+  v24 = gjkepa2_impl::EPA::newface(v23, gjk, m_simplex->c[0], m_simplex->c[2], v76, 1);
+  v26 = gjk[322].w.mVec128.m128_i32[2] == 4;
+  v91 = v24;
+  if ( v26 )
   {
-    v33 = gjkepa2_impl::EPA::findbest(v31);
-    v34 = HIDWORD(v92);
-    qmemcpy(v94, v33, sizeof(v94));
-    v35 = v93;
+    v27 = gjkepa2_impl::EPA::findbest(v25, (int)gjk);
+    nf = horizon.nf;
+    qmemcpy(v97, v27, sizeof(v97));
+    ff = horizon.ff;
+    v30 = v91;
+    p_n = &v27->n;
+    cf = horizon.cf;
+    horizon.cf->e[0] = 0;
+    cf->f[0] = ff;
+    ff->e[0] = 0;
+    ff->f[0] = cf;
+    cf->e[1] = 0;
+    cf->f[1] = (gjkepa2_impl::EPA::sFace *)nf;
+    *(_BYTE *)(nf + 56) = 1;
+    *(_DWORD *)(nf + 36) = cf;
+    cf->e[2] = 0;
+    cf->f[2] = v30;
+    v30->e[0] = 2;
+    v30->f[0] = cf;
+    ff->e[1] = 2;
+    ff->f[1] = v30;
+    v30->e[2] = 1;
+    v30->f[2] = ff;
+    ff->e[2] = 1;
+    ff->f[2] = (gjkepa2_impl::EPA::sFace *)nf;
+    *(_BYTE *)(nf + 57) = 2;
+    *(_DWORD *)(nf + 40) = ff;
+    *(_BYTE *)(nf + 58) = 1;
+    *(_DWORD *)(nf + 44) = v30;
+    v30->e[1] = 2;
+    v30->f[1] = (gjkepa2_impl::EPA::sFace *)nf;
+    pass = 0;
     v82 = 0;
-    v88 = 0;
-    v36 = v92;
-    *(_BYTE *)(v92 + 56) = 0;
-    *(_DWORD *)(v36 + 36) = v34;
-    *(_BYTE *)(v34 + 56) = 0;
-    *(_DWORD *)(v34 + 36) = v36;
-    *(_BYTE *)(v36 + 57) = 0;
-    *(_DWORD *)(v36 + 40) = v35;
-    *(_BYTE *)(v35 + 56) = 1;
-    *(_DWORD *)(v35 + 36) = v36;
-    *(_BYTE *)(v36 + 58) = 0;
-    *(_DWORD *)(v36 + 44) = HIDWORD(v35);
-    *(_BYTE *)(HIDWORD(v35) + 56) = 2;
-    *(_DWORD *)(HIDWORD(v35) + 36) = v36;
-    *(_BYTE *)(v34 + 57) = 2;
-    *(_DWORD *)(v34 + 40) = HIDWORD(v35);
-    *(_BYTE *)(HIDWORD(v35) + 58) = 1;
-    *(_DWORD *)(HIDWORD(v35) + 44) = v34;
-    *(_BYTE *)(v34 + 58) = 1;
-    *(_DWORD *)(v34 + 44) = v35;
-    *(_BYTE *)(v35 + 57) = 2;
-    *(_DWORD *)(v35 + 40) = v34;
-    *(_BYTE *)(v35 + 58) = 1;
-    *(_DWORD *)(v35 + 44) = HIDWORD(v35);
-    *(_BYTE *)(HIDWORD(v35) + 57) = 2;
-    *(_DWORD *)(HIDWORD(v35) + 40) = v35;
-    v83 = (float *)v33;
-    gjk->m_status = Valid;
+    gjk->d.mVec128.m128_i32[0] = 0;
     while ( 1 )
     {
-      m_nextsv = gjk->m_nextsv;
-      if ( m_nextsv >= 0x40 )
+      v32 = gjk[322].w.mVec128.m128_u32[0];
+      if ( v32 >= 0x40 )
         break;
-      memset(&v91, 0, sizeof(v91));
-      gjk->m_nextsv = m_nextsv + 1;
-      v33->pass = ++v82;
-      v86 = &gjk->m_sv_store[m_nextsv];
-      v81 = 1;
-      gjkepa2_impl::GJK::getsupport(&v33->n, v86, guess);
-      v38 = (int)v83;
-      v39 = v86;
-      if ( (float)((float)((float)((float)(v86->w.mVec128.m128_f32[2] * v83[2])
-                                 + (float)(v86->w.mVec128.m128_f32[1] * v83[1]))
-                         + (float)(v86->w.mVec128.m128_f32[0] * *v83))
-                 - v83[4]) <= 0.000099999997 )
+      memset(&horizon, 0, sizeof(horizon));
+      p_w = (gjkepa2_impl::GJK::sSV *)&gjk[v32 + 2].w;
+      v34 = ++pass;
+      gjk[322].w.mVec128.m128_i32[0] = v32 + 1;
+      v77 = 1;
+      p_n[3].mVec128.m128_i8[11] = v34;
+      gjkepa2_impl::GJK::getsupport(p_n, guess, p_w);
+      v35 = (gjkepa2_impl::EPA::sFace *)p_n;
+      if ( (float)((float)((float)((float)(p_w->w.mVec128.m128_f32[2] * p_n->mVec128.m128_f32[2])
+                                 + (float)(p_w->w.mVec128.m128_f32[1] * p_n->mVec128.m128_f32[1]))
+                         + (float)(p_w->w.mVec128.m128_f32[0] * p_n->mVec128.m128_f32[0]))
+                 - p_n[1].mVec128.m128_f32[0]) <= 0.000099999997 )
       {
-        gjk->m_status = Failed|Inside|0x4;
-        goto LABEL_40;
+        gjk->d.mVec128.m128_i32[0] = 7;
+        goto LABEL_24;
       }
-      v40 = 0;
-      v84 = (gjkepa2_impl::EPA::sFace **)(v83 + 9);
-      while ( 1 )
+      v93 = 0;
+      v79 = (gjkepa2_impl::EPA::sFace **)&p_n[2].mVec128.m128_i32[1];
+      do
       {
-        if ( !v81 )
-          goto LABEL_37;
-        v81 &= gjkepa2_impl::EPA::expand(gjk, v82, v39, *v84++, *(unsigned __int8 *)(v40 + v38 + 56), &v91);
-        if ( (unsigned int)++v40 >= 3 )
-          break;
-        v39 = v86;
+        if ( !v77 )
+          goto LABEL_21;
+        v77 &= gjkepa2_impl::EPA::expand((gjkepa2_impl::EPA *)gjk, pass, p_w, *v79++, v35->e[v93++], &horizon);
       }
-      if ( !v81 || v91.nf < 3 )
+      while ( v93 < 3 );
+      if ( !v77 || horizon.nf < 3 )
       {
-LABEL_37:
-        gjk->m_status = 4;
-        goto LABEL_40;
+LABEL_21:
+        gjk->d.mVec128.m128_i32[0] = 4;
+        goto LABEL_24;
       }
-      ff = v91.ff;
-      cf = v91.cf;
-      v91.cf->e[1] = 2;
-      cf->f[1] = ff;
-      ff->e[2] = 1;
-      ff->f[2] = cf;
-      v43 = *(_DWORD *)(v38 + 52);
-      if ( v43 )
-        *(_DWORD *)(v43 + 48) = *(_DWORD *)(v38 + 48);
-      v44 = *(_DWORD *)(v38 + 48);
-      if ( v44 )
-        *(_DWORD *)(v44 + 52) = *(_DWORD *)(v38 + 52);
-      if ( (gjkepa2_impl::EPA::sFace *)v38 == gjk->m_hull.root )
-        gjk->m_hull.root = *(gjkepa2_impl::EPA::sFace **)(v38 + 52);
-      --gjk->m_hull.count;
-      *(_DWORD *)(v38 + 48) = 0;
-      v45 = (gjkepa2_impl::EPA *)gjk->m_stock.root;
-      *(_DWORD *)(v38 + 52) = v45;
-      v46 = (int)gjk->m_stock.root;
-      if ( v46 )
-        *(_DWORD *)(v46 + 48) = v38;
-      ++gjk->m_stock.count;
-      gjk->m_stock.root = (gjkepa2_impl::EPA::sFace *)v38;
-      v33 = gjkepa2_impl::EPA::findbest(v45);
-      v83 = (float *)v33;
-      if ( v33->p >= *((float *)&v94[2] + 1) )
-        qmemcpy(v94, v33, sizeof(v94));
-      if ( (unsigned int)++v88 >= 0xFF )
-        goto LABEL_40;
+      v36 = horizon.ff;
+      v37 = horizon.cf;
+      horizon.cf->e[1] = 2;
+      v37->f[1] = v36;
+      v36->e[2] = 1;
+      v36->f[2] = v37;
+      gjkepa2_impl::EPA::remove((gjkepa2_impl::EPA::sList *)&gjk[322].w.m_floats[1], v35);
+      gjkepa2_impl::EPA::append((gjkepa2_impl::EPA::sList *)&gjk[322].w.m_floats[3], v35);
+      v39 = gjkepa2_impl::EPA::findbest(v38, (int)gjk);
+      p_n = &v39->n;
+      if ( v39->p >= v97[1].mVec128.m128_f32[1] )
+        qmemcpy(v97, v39, sizeof(v97));
+      if ( (unsigned int)++v82 >= 0xFF )
+        goto LABEL_24;
     }
-    gjk->m_status = 6;
-LABEL_40:
-    v47 = *(float *)&v94[2];
-    v48 = (gjkepa2_impl::GJK::sSV *)v94[4];
-    v49 = (gjkepa2_impl::GJK::sSV *)HIDWORD(v94[3]);
-    v50 = (gjkepa2_impl::GJK::sSV *)v94[3];
-    v51 = *(float *)v94;
-    v52 = *((float *)v94 + 1);
-    v53 = *(float *)&v94[1];
-    gjk->m_normal.mVec128.m128_u64[0] = v94[0];
-    v54 = v94[1];
-    *(float *)&v55 = v51 * v47;
-    gjk->m_depth = v47;
-    gjk->m_normal.mVec128.m128_u64[1] = v54;
-    *(float *)&v56 = v52 * v47;
-    v57 = v53 * v47;
-    gjk->m_result.c[2] = v48;
-    gjk->m_result.rank = 3;
-    gjk->m_result.c[0] = v50;
-    gjk->m_result.c[1] = v49;
-    v58 = v49->w.mVec128.m128_f32[1];
-    v59 = v48->w.mVec128.m128_f32[1] - *(float *)&v56;
-    *(float *)&v54 = v48->w.mVec128.m128_f32[2] - v57;
-    v60 = v49->w.mVec128.m128_f32[0] - *(float *)&v55;
-    v61 = v48->w.mVec128.m128_f32[0] - *(float *)&v55;
-    v92 = __PAIR64__(v56, v55);
-    v62 = v49->w.mVec128.m128_f32[2] - v57;
-    *(float *)&v93 = v57;
-    v85 = sqrtf(
-            (float)((float)((float)((float)(v59 * v60) - (float)((float)(v58 - *(float *)&v56) * v61))
-                          * (float)((float)(v59 * v60) - (float)((float)(v58 - *(float *)&v56) * v61)))
-                  + (float)((float)((float)(v62 * v61) - (float)(*(float *)&v54 * v60))
-                          * (float)((float)(v62 * v61) - (float)(*(float *)&v54 * v60))))
-          + (float)((float)((float)((float)(v58 - *(float *)&v56) * *(float *)&v54) - (float)(v62 * v59))
-                  * (float)((float)((float)(v58 - *(float *)&v56) * *(float *)&v54) - (float)(v62 * v59))));
-    v63 = (float *)v94[4];
-    gjk->m_result.p[0] = v85;
-    v64 = v63[4] - *(float *)&v92;
-    v65 = v50->w.mVec128.m128_f32[1] - *((float *)&v92 + 1);
-    *(float *)&v54 = v50->w.mVec128.m128_f32[2] - *(float *)&v93;
-    v66 = v63[5] - *((float *)&v92 + 1);
-    v67 = v63[6] - *(float *)&v93;
-    v87 = sqrtf(
-            (float)((float)((float)((float)(v65 * v64)
-                                  - (float)(v66 * (float)(v50->w.mVec128.m128_f32[0] - *(float *)&v92)))
-                          * (float)((float)(v65 * v64)
-                                  - (float)(v66 * (float)(v50->w.mVec128.m128_f32[0] - *(float *)&v92))))
-                  + (float)((float)((float)(v67 * (float)(v50->w.mVec128.m128_f32[0] - *(float *)&v92))
-                                  - (float)(*(float *)&v54 * v64))
-                          * (float)((float)(v67 * (float)(v50->w.mVec128.m128_f32[0] - *(float *)&v92))
-                                  - (float)(*(float *)&v54 * v64))))
-          + (float)((float)((float)(v66 * *(float *)&v54) - (float)(v67 * v65))
-                  * (float)((float)(v66 * *(float *)&v54) - (float)(v67 * v65))));
-    v68 = *(float *)&v92;
-    gjk->m_result.p[1] = v87;
-    v69 = v49->w.mVec128.m128_f32[1] - *((float *)&v92 + 1);
-    *(float *)&v54 = v49->w.mVec128.m128_f32[2] - *(float *)&v93;
-    v70 = v50->w.mVec128.m128_f32[0] - v68;
-    v71 = v49->w.mVec128.m128_f32[0] - v68;
-    v72 = v50->w.mVec128.m128_f32[1] - *((float *)&v92 + 1);
-    v73 = v50->w.mVec128.m128_f32[2] - *(float *)&v93;
-    v89 = sqrtf(
-            (float)((float)((float)((float)(v69 * v70) - (float)(v72 * v71))
-                          * (float)((float)(v69 * v70) - (float)(v72 * v71)))
-                  + (float)((float)((float)(v73 * v71) - (float)(*(float *)&v54 * v70))
-                          * (float)((float)(v73 * v71) - (float)(*(float *)&v54 * v70))))
-          + (float)((float)((float)(v72 * *(float *)&v54) - (float)(v73 * v69))
-                  * (float)((float)(v72 * *(float *)&v54) - (float)(v73 * v69))));
-    result = gjk->m_status;
-    v75 = *(float *)&clear_value / (float)((float)(v89 + v87) + v85);
-    gjk->m_result.p[0] = v75 * v85;
-    gjk->m_result.p[1] = v75 * v87;
-    gjk->m_result.p[2] = v75 * v89;
+    gjk->d.mVec128.m128_i32[0] = 6;
+LABEL_24:
+    v40 = (float *)v97[2].mVec128.m128_i32[0];
+    v41 = v97[1].mVec128.m128_f32[0];
+    v43 = (float *)v97[1].mVec128.m128_i32[3];
+    v42 = (float *)v97[1].mVec128.m128_i32[2];
+    v44 = v97[0].mVec128.m128_f32[0];
+    v45 = v97[0].mVec128.m128_f32[1];
+    v46 = v97[0].mVec128.m128_f32[2] * v97[1].mVec128.m128_f32[0];
+    gjk[2].d.mVec128.m128_i32[0] = v97[1].mVec128.m128_i32[0];
+    gjk[1].w = v97[0];
+    v47 = v44 * v41;
+    v48 = v45 * v41;
+    gjk[1].d.mVec128.m128_i32[1] = 3;
+    *(unsigned __int64 *)((char *)gjk->d.mVec128.m128_u64 + 4) = __PAIR64__((unsigned int)v43, (unsigned int)v42);
+    gjk->d.mVec128.m128_i32[3] = (int)v40;
+    v49 = v43[4];
+    v50 = v40[6];
+    v51 = v43[5];
+    v94 = v40[4] - v47;
+    v52 = v40[5];
+    v96 = v49 - v47;
+    v53 = v50 - v46;
+    v54 = v52 - v48;
+    v55 = v43[6] - v46;
+    v56 = fsqrt(
+            (float)((float)((float)((float)((float)(v51 - v48) * v53) - (float)(v55 * v54))
+                          * (float)((float)((float)(v51 - v48) * v53) - (float)(v55 * v54)))
+                  + (float)((float)((float)(v54 * v96) - (float)((float)(v51 - v48) * v94))
+                          * (float)((float)(v54 * v96) - (float)((float)(v51 - v48) * v94))))
+          + (float)((float)((float)(v55 * v94) - (float)(v53 * (float)(v49 - v47)))
+                  * (float)((float)(v55 * v94) - (float)(v53 * (float)(v49 - v47)))));
+    gjk->w.mVec128.m128_f32[1] = v56;
+    v57 = v40[5];
+    v58 = v42[6] - v46;
+    v83 = v56;
+    v59 = v42[4];
+    v94 = v40[4] - v47;
+    v60 = v40[6] - v46;
+    v96 = v59 - v47;
+    v61 = v42[5] - v48;
+    v62 = fsqrt(
+            (float)((float)((float)((float)(v61 * v94) - (float)((float)(v57 - v48) * v96))
+                          * (float)((float)(v61 * v94) - (float)((float)(v57 - v48) * v96)))
+                  + (float)((float)((float)(v60 * v96) - (float)(v58 * v94))
+                          * (float)((float)(v60 * v96) - (float)(v58 * v94))))
+          + (float)((float)((float)((float)(v57 - v48) * v58) - (float)(v60 * v61))
+                  * (float)((float)((float)(v57 - v48) * v58) - (float)(v60 * v61))));
+    gjk->w.mVec128.m128_f32[2] = v62;
+    v63 = v42[4];
+    v64 = v42[5];
+    v65 = v42[6] - v46;
+    v66 = v43[6] - v46;
+    v80 = v62;
+    v67 = v43[5] - v48;
+    result = gjk->d.mVec128.m128_i32[0];
+    v69 = v43[4] - v47;
+    v70 = fsqrt(
+            (float)((float)((float)((float)(v67 * (float)(v63 - v47)) - (float)((float)(v64 - v48) * v69))
+                          * (float)((float)(v67 * (float)(v63 - v47)) - (float)((float)(v64 - v48) * v69)))
+                  + (float)((float)((float)(v65 * v69) - (float)(v66 * (float)(v63 - v47)))
+                          * (float)((float)(v65 * v69) - (float)(v66 * (float)(v63 - v47)))))
+          + (float)((float)((float)((float)(v64 - v48) * v66) - (float)(v65 * v67))
+                  * (float)((float)((float)(v64 - v48) * v66) - (float)(v65 * v67))));
+    v71 = s_bm_current_air_resistance / (float)((float)(v70 + v80) + v83);
+    gjk->w.mVec128.m128_f32[1] = v71 * v83;
+    gjk->w.mVec128.m128_f32[2] = v71 * v80;
+    gjk->w.mVec128.m128_f32[3] = v71 * v70;
   }
   else
   {
-LABEL_41:
-    gjk->m_status = 8;
-    *(float *)&v92 = -guessa->mVec128.m128_f32[0];
-    *((float *)&v92 + 1) = -guessa->mVec128.m128_f32[1];
-    v76 = -guessa->mVec128.m128_f32[2];
-    HIDWORD(v93) = 0;
-    gjk->m_normal.mVec128.m128_u64[0] = v92;
-    *(float *)&v93 = v76;
-    gjk->m_normal.mVec128.m128_u64[1] = v93;
-    v77 = sqrtf(
-            (float)((float)(gjk->m_normal.mVec128.m128_f32[0] * gjk->m_normal.mVec128.m128_f32[0])
-                  + (float)(gjk->m_normal.mVec128.m128_f32[1] * gjk->m_normal.mVec128.m128_f32[1]))
-          + (float)(gjk->m_normal.mVec128.m128_f32[2] * gjk->m_normal.mVec128.m128_f32[2]));
-    v90 = v77;
-    v78 = clear_value;
-    if ( v77 <= 0.0 )
+LABEL_25:
+    result = 8;
+    gjk->d.mVec128.m128_i32[0] = 8;
+    v86 = a4[1] ^ _mask__NegFloat_;
+    v88 = a4[2] ^ _mask__NegFloat_;
+    gjk[1].w.mVec128.m128_i32[0] = *a4 ^ _mask__NegFloat_;
+    gjk[1].w.mVec128.m128_i32[1] = v86;
+    gjk[1].w.mVec128.m128_i32[2] = v88;
+    gjk[1].w.mVec128.m128_i32[3] = 0;
+    v72 = LODWORD(s_bm_current_air_resistance);
+    v73 = fsqrt(
+            (float)((float)(gjk[1].w.mVec128.m128_f32[0] * gjk[1].w.mVec128.m128_f32[0])
+                  + (float)(gjk[1].w.mVec128.m128_f32[1] * gjk[1].w.mVec128.m128_f32[1]))
+          + (float)(gjk[1].w.mVec128.m128_f32[2] * gjk[1].w.mVec128.m128_f32[2]));
+    if ( v73 <= 0.0 )
     {
-      v92 = (unsigned int)clear_value;
-      LODWORD(v93) = 0;
+      v85 = s_bm_current_air_resistance;
+      v87 = 0.0;
+      v89 = 0.0;
     }
     else
     {
-      *(float *)&v92 = gjk->m_normal.mVec128.m128_f32[0] * (float)(*(float *)&clear_value / v90);
-      *((float *)&v92 + 1) = gjk->m_normal.mVec128.m128_f32[1] * (float)(*(float *)&clear_value / v90);
-      *(float *)&v93 = gjk->m_normal.mVec128.m128_f32[2] * (float)(*(float *)&clear_value / v90);
+      v85 = gjk[1].w.mVec128.m128_f32[0] * (float)(s_bm_current_air_resistance / v73);
+      v87 = gjk[1].w.mVec128.m128_f32[1] * (float)(s_bm_current_air_resistance / v73);
+      v89 = gjk[1].w.mVec128.m128_f32[2] * (float)(s_bm_current_air_resistance / v73);
     }
-    gjk->m_normal.mVec128.m128_u64[0] = v92;
-    HIDWORD(v93) = 0;
-    gjk->m_normal.mVec128.m128_u64[1] = v93;
-    gjk->m_depth = 0.0;
-    gjk->m_result.rank = 1;
-    gjk->m_result.c[0] = *c;
-    LODWORD(gjk->m_result.p[0]) = v78;
-    return 8;
+    gjk[1].w.mVec128.m128_f32[0] = v85;
+    gjk[1].w.mVec128.m128_f32[1] = v87;
+    gjk[1].w.mVec128.m128_f32[2] = v89;
+    gjk[1].w.mVec128.m128_i32[3] = 0;
+    gjk[2].d.mVec128.m128_i32[0] = 0;
+    gjk[1].d.mVec128.m128_i32[1] = 1;
+    gjk->d.mVec128.m128_i32[1] = (int)m_simplex->c[0];
+    gjk->w.mVec128.m128_i32[1] = v72;
   }
   return result;
 }

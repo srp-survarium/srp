@@ -5,8 +5,8 @@ void __thiscall std::bad_cast::bad_cast(std::bad_cast *this, const std::bad_cast
 }
 
 
-void __thiscall std::bad_cast::bad_cast(std::bad_cast *this, const char *_Message)
+void __thiscall std::bad_cast::bad_cast(std::bad_cast *this, char *_Message)
 {
-  std::exception::exception(this, &_Message);
+  std::exception::exception(this, (const char *const *)&_Message);
   this->__vftable = (std::bad_cast_vtbl *)&std::bad_cast::`vftable';
 }

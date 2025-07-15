@@ -1,52 +1,52 @@
-int __cdecl png_set_text_2(int a1, int a2, int a3, int a4)
+int __cdecl png_set_text_2(int a1, _DWORD *a2, int a3, int a4)
 {
   int v5; // [esp+0h] [ebp-24h]
-  int v6; // [esp+4h] [ebp-20h]
+  int *v6; // [esp+4h] [ebp-20h]
   int v7; // [esp+8h] [ebp-1Ch]
   int count; // [esp+Ch] [ebp-18h]
   int v9; // [esp+10h] [ebp-14h]
-  unsigned __int8 *src; // [esp+14h] [ebp-10h]
+  __m128i *src; // [esp+14h] [ebp-10h]
   int v11; // [esp+18h] [ebp-Ch]
   int v12; // [esp+1Ch] [ebp-8h]
   int i; // [esp+20h] [ebp-4h]
 
   if ( !a1 || !a2 || !a4 )
     return 0;
-  if ( a4 + *(_DWORD *)(a2 + 48) > *(_DWORD *)(a2 + 52) )
+  if ( a4 + a2[12] > a2[13] )
   {
-    v11 = *(_DWORD *)(a2 + 52);
-    v12 = *(_DWORD *)(a2 + 48);
-    if ( *(_DWORD *)(a2 + 56) )
+    v11 = a2[13];
+    v12 = a2[12];
+    if ( a2[14] )
     {
-      *(_DWORD *)(a2 + 52) = *(_DWORD *)(a2 + 48) + a4 + 8;
-      src = *(unsigned __int8 **)(a2 + 56);
-      *(_DWORD *)(a2 + 56) = png_malloc_warn(a1, 28 * *(_DWORD *)(a2 + 52));
-      if ( !*(_DWORD *)(a2 + 56) )
+      a2[13] = a2[12] + a4 + 8;
+      src = (__m128i *)a2[14];
+      a2[14] = png_malloc_warn(a1, 28 * a2[13]);
+      if ( !a2[14] )
       {
-        *(_DWORD *)(a2 + 52) = v11;
-        *(_DWORD *)(a2 + 56) = src;
+        a2[13] = v11;
+        a2[14] = src;
         return 1;
       }
-      memcpy(*(unsigned __int8 **)(a2 + 56), src, 28 * v11);
+      memcpy(a2[14], src, 28 * v11);
       png_free(a1, src);
     }
     else
     {
-      *(_DWORD *)(a2 + 52) = a4 + 8;
-      *(_DWORD *)(a2 + 48) = 0;
-      *(_DWORD *)(a2 + 56) = png_malloc_warn(a1, 28 * *(_DWORD *)(a2 + 52));
-      if ( !*(_DWORD *)(a2 + 56) )
+      a2[13] = a4 + 8;
+      a2[12] = 0;
+      a2[14] = png_malloc_warn(a1, 28 * a2[13]);
+      if ( !a2[14] )
       {
-        *(_DWORD *)(a2 + 48) = v12;
-        *(_DWORD *)(a2 + 52) = v11;
+        a2[12] = v12;
+        a2[13] = v11;
         return 1;
       }
-      *(_DWORD *)(a2 + 184) |= 0x4000u;
+      a2[46] |= 0x4000u;
     }
   }
   for ( i = 0; i < a4; ++i )
   {
-    v6 = *(_DWORD *)(a2 + 56) + 28 * *(_DWORD *)(a2 + 48);
+    v6 = (int *)(a2[14] + 28 * a2[12]);
     if ( *(_DWORD *)(a3 + 28 * i + 4) )
     {
       if ( *(int *)(a3 + 28 * i) >= -1 && *(int *)(a3 + 28 * i) < 3 )
@@ -71,51 +71,51 @@ int __cdecl png_set_text_2(int a1, int a2, int a3, int a4)
         if ( *(_DWORD *)(a3 + 28 * i + 8) && **(_BYTE **)(a3 + 28 * i + 8) )
         {
           v9 = lstrlenA(*(LPCSTR *)(a3 + 28 * i + 8));
-          *(_DWORD *)v6 = *(_DWORD *)(a3 + 28 * i);
+          *v6 = *(_DWORD *)(a3 + 28 * i);
         }
         else
         {
           v9 = 0;
           if ( *(int *)(a3 + 28 * i) <= 0 )
-            *(_DWORD *)v6 = -1;
+            *v6 = -1;
           else
-            *(_DWORD *)v6 = 1;
+            *v6 = 1;
         }
-        *(_DWORD *)(v6 + 4) = png_malloc_warn(a1, v7 + v9 + count + v5 + 4);
-        if ( !*(_DWORD *)(v6 + 4) )
+        v6[1] = png_malloc_warn(a1, v7 + v9 + count + v5 + 4);
+        if ( !v6[1] )
           return 1;
-        memcpy(*(unsigned __int8 **)(v6 + 4), *(unsigned __int8 **)(a3 + 28 * i + 4), count);
-        *(_BYTE *)(*(_DWORD *)(v6 + 4) + count) = 0;
+        memcpy(v6[1], *(const __m128i **)(a3 + 28 * i + 4), count);
+        *(_BYTE *)(v6[1] + count) = 0;
         if ( *(int *)(a3 + 28 * i) <= 0 )
         {
-          *(_DWORD *)(v6 + 20) = 0;
-          *(_DWORD *)(v6 + 24) = 0;
-          *(_DWORD *)(v6 + 8) = *(_DWORD *)(v6 + 4) + count + 1;
+          v6[5] = 0;
+          v6[6] = 0;
+          v6[2] = v6[1] + count + 1;
         }
         else
         {
-          *(_DWORD *)(v6 + 20) = *(_DWORD *)(v6 + 4) + count + 1;
-          memcpy(*(unsigned __int8 **)(v6 + 20), *(unsigned __int8 **)(a3 + 28 * i + 20), v7);
-          *(_BYTE *)(*(_DWORD *)(v6 + 20) + v7) = 0;
-          *(_DWORD *)(v6 + 24) = *(_DWORD *)(v6 + 20) + v7 + 1;
-          memcpy(*(unsigned __int8 **)(v6 + 24), *(unsigned __int8 **)(a3 + 28 * i + 24), v5);
-          *(_BYTE *)(*(_DWORD *)(v6 + 24) + v5) = 0;
-          *(_DWORD *)(v6 + 8) = *(_DWORD *)(v6 + 24) + v5 + 1;
+          v6[5] = v6[1] + count + 1;
+          memcpy(v6[5], *(const __m128i **)(a3 + 28 * i + 20), v7);
+          *(_BYTE *)(v6[5] + v7) = 0;
+          v6[6] = v6[5] + v7 + 1;
+          memcpy(v6[6], *(const __m128i **)(a3 + 28 * i + 24), v5);
+          *(_BYTE *)(v6[6] + v5) = 0;
+          v6[2] = v6[6] + v5 + 1;
         }
         if ( v9 )
-          memcpy(*(unsigned __int8 **)(v6 + 8), *(unsigned __int8 **)(a3 + 28 * i + 8), v9);
-        *(_BYTE *)(*(_DWORD *)(v6 + 8) + v9) = 0;
-        if ( *(int *)v6 <= 0 )
+          memcpy(v6[2], *(const __m128i **)(a3 + 28 * i + 8), v9);
+        *(_BYTE *)(v6[2] + v9) = 0;
+        if ( *v6 <= 0 )
         {
-          *(_DWORD *)(v6 + 12) = v9;
-          *(_DWORD *)(v6 + 16) = 0;
+          v6[3] = v9;
+          v6[4] = 0;
         }
         else
         {
-          *(_DWORD *)(v6 + 12) = 0;
-          *(_DWORD *)(v6 + 16) = v9;
+          v6[3] = 0;
+          v6[4] = v9;
         }
-        ++*(_DWORD *)(a2 + 48);
+        ++a2[12];
       }
       else
       {

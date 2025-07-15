@@ -1,28 +1,36 @@
-BLK_NODE *__usercall ppmd_allocator::AllocUnits@<eax>(ppmd_allocator *this@<ecx>, unsigned int NU@<eax>)
+unsigned __int8 *__usercall ppmd_allocator::AllocUnits@<eax>(ppmd_allocator *this@<ecx>, unsigned int NU@<eax>)
 {
-  ppmd_allocator *v3; // ecx
-  BLK_NODE *result; // eax
-  BLK_NODE *next; // edx
-  unsigned __int8 *v6; // edx
-  unsigned int v7; // [esp+0h] [ebp-4h]
+  unsigned int v2; // eax
+  char *v3; // edx
+  unsigned __int8 *result; // eax
+  int v5; // ecx
+  unsigned __int8 *v6; // esi
+  unsigned __int8 *LoUnit; // edi
+  unsigned __int8 *v8; // edx
 
-  v3 = (ppmd_allocator *)this->Indx2Units[NU + 37];
-  if ( this->BList[(_DWORD)v3].next )
+  v2 = this->Indx2Units[NU + 37];
+  v3 = (char *)this + 8 * v2;
+  if ( *((_DWORD *)v3 + 2) )
   {
-    result = this->BList[(_DWORD)v3].next;
-    next = result->next;
-    --this->BList[(_DWORD)v3].Stamp;
-    this->BList[(_DWORD)v3].next = next;
+    result = (unsigned __int8 *)*((_DWORD *)v3 + 2);
+    v5 = *((_DWORD *)result + 1);
+    --*((_DWORD *)v3 + 1);
+    *((_DWORD *)v3 + 2) = v5;
   }
   else
   {
-    result = (BLK_NODE *)this->LoUnit;
-    v6 = (unsigned __int8 *)result + 12 * this->Indx2Units[(_DWORD)v3];
-    this->LoUnit = v6;
-    if ( v6 > this->HiUnit )
+    v6 = &this->Indx2Units[v2];
+    LoUnit = this->LoUnit;
+    v8 = &LoUnit[12 * *v6];
+    this->LoUnit = v8;
+    if ( v8 > this->HiUnit )
     {
-      this->LoUnit = &v6[-12 * this->Indx2Units[(_DWORD)v3]];
-      return ppmd_allocator::AllocUnitsRare(this, v3, v7);
+      this->LoUnit = &v8[-12 * *v6];
+      return ppmd_allocator::AllocUnitsRare(this, v2);
+    }
+    else
+    {
+      return LoUnit;
     }
   }
   return result;

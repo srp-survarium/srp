@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddInvokeAlias(
   Scaleform::GFx::ASStringHash<Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo> *v6; // eax
   Scaleform::GFx::ASStringHash<Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo> *pInvokeAliases; // ecx
   Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>::NodeRef key; // [esp+8h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo aliasInfo; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo v9; // [esp+10h] [ebp-14h] BYREF
 
   if ( !this->pInvokeAliases )
   {
@@ -22,20 +22,20 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddInvokeAlias(
       v6 = 0;
     this->pInvokeAliases = v6;
   }
-  memset(&aliasInfo.Function, 0, 9);
+  memset(&v9.Function, 0, 9);
   if ( pthisObj )
     pthisObj->RefCount = (pthisObj->RefCount + 1) & 0x8FFFFFFF;
-  aliasInfo.ThisObject.pObject = pthisObj;
+  v9.ThisObject.pObject = pthisObj;
   if ( pthisChar )
     ++pthisChar->RefCount;
-  aliasInfo.ThisChar.pObject = pthisChar;
-  Scaleform::GFx::AS2::FunctionRefBase::Assign(&aliasInfo.Function, func);
+  v9.ThisChar.pObject = pthisChar;
+  Scaleform::GFx::AS2::FunctionRefBase::Assign(&v9.Function, func);
   pInvokeAliases = this->pInvokeAliases;
   key.pFirst = alias;
-  key.pSecond = &aliasInfo;
+  key.pSecond = &v9;
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
     &pInvokeAliases->mHash,
     pInvokeAliases,
     &key);
-  Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo::~InvokeAliasInfo(&aliasInfo);
+  Scaleform::GFx::AS2::MovieRoot::InvokeAliasInfo::~InvokeAliasInfo(&v9);
 }

@@ -1,6 +1,6 @@
 char __thiscall Scaleform::WStringBuffer::Resize(Scaleform::WStringBuffer *this, unsigned int size)
 {
-  unsigned __int8 *v3; // edi
+  wchar_t *v3; // edi
 
   if ( size <= this->Length || size < this->Reserved.Size )
   {
@@ -11,18 +11,18 @@ char __thiscall Scaleform::WStringBuffer::Resize(Scaleform::WStringBuffer *this,
   }
   else
   {
-    v3 = (unsigned __int8 *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 2 * size + 2, 0);
+    v3 = (wchar_t *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 2 * size + 2, 0);
     if ( v3 )
     {
       if ( this->pText )
-        memcpy(v3, (unsigned __int8 *)this->pText, 2 * this->Length + 2);
-      *(_WORD *)&v3[2 * size] = 0;
+        memcpy((int)v3, (const __m128i *)this->pText, 2 * this->Length + 2);
+      v3[size] = 0;
       if ( this->pText != this->Reserved.pBuffer )
       {
         if ( this->pText )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->pText);
       }
-      this->pText = (wchar_t *)v3;
+      this->pText = v3;
       this->Length = size;
       return 1;
     }

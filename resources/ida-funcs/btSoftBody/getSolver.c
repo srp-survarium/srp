@@ -1,31 +1,18 @@
-void (__cdecl *__usercall btSoftBody::getSolver@<eax>(btSoftBody::eVSolver::_ solver@<eax>))(btSoftBody *, float)
-{
-  return solver == Linear ? btSoftBody::VSolve_Links : 0;
-}
-
-
 void (__cdecl *__usercall btSoftBody::getSolver@<eax>(
-        btSoftBody::ePSolver::_ solver@<eax>))(btSoftBody *, float, float)
+        btSoftBody::ePSolver::_ solver@<eax>))(btSoftBody *psb, float kst)
 {
-  void (__cdecl *result)(btSoftBody *, float, float); // eax
+  int v1; // eax
+  int v2; // eax
 
-  switch ( solver )
-  {
-    case Linear:
-      result = (void (__cdecl *)(btSoftBody *, float, float))btSoftBody::PSolve_Links;
-      break;
-    case Anchors:
-      result = (void (__cdecl *)(btSoftBody *, float, float))btSoftBody::PSolve_Anchors;
-      break;
-    case RContacts:
-      result = (void (__cdecl *)(btSoftBody *, float, float))btSoftBody::PSolve_RContacts;
-      break;
-    case SContacts:
-      result = (void (__cdecl *)(btSoftBody *, float, float))btSoftBody::PSolve_SContacts;
-      break;
-    default:
-      result = 0;
-      break;
-  }
-  return result;
+  if ( solver == Linear )
+    return btSoftBody::PSolve_Links;
+  v1 = solver - 1;
+  if ( !v1 )
+    return btSoftBody::PSolve_Anchors;
+  v2 = v1 - 1;
+  if ( !v2 )
+    return btSoftBody::PSolve_RContacts;
+  if ( v2 == 1 )
+    return (void (__cdecl *)(btSoftBody *, float))btSoftBody::PSolve_SContacts;
+  return 0;
 }

@@ -9,9 +9,9 @@ void __thiscall stlp_std::_Locale_impl::~_Locale_impl(stlp_std::_Locale_impl *th
   if ( (_S1 & 1) == 0 )
   {
     _S1 |= 1u;
-    Addend = 0;
+    dword_8E3FF4 = 0;
   }
-  InterlockedDecrement(&Addend);
+  InterlockedDecrement(&dword_8E3FF4);
   M_finish = this->facets_vec._M_impl._M_finish;
   for ( i = this->facets_vec._M_impl._M_start; i != M_finish; ++i )
   {

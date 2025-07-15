@@ -27,9 +27,9 @@ LABEL_17:
   while ( 1 )
   {
     v6 = (const asn1_object_st **)sk_value(&maps->stack, v4);
-    if ( OBJ_obj2nid(v6[1]) == 746 || OBJ_obj2nid(*v6) == 746 )
+    if ( OBJ_obj2nid(v6[1]) == (void *)746 || OBJ_obj2nid(*v6) == (void *)746 )
       break;
-    data = policy_cache_find_data(policy_cache, *v6);
+    data = policy_cache_find_data((int)v6, policy_cache, *v6);
     v8 = data;
     if ( data )
     {
@@ -42,7 +42,7 @@ LABEL_14:
     }
     if ( policy_cache->anyPolicy )
     {
-      v8 = (X509_POLICY_DATA_st *)policy_data_new(0, (X509_POLICY_DATA_st *)*v6, policy_cache->anyPolicy->flags & 0x10);
+      v8 = (X509_POLICY_DATA_st *)policy_data_new(0, (asn1_object_st *)*v6, policy_cache->anyPolicy->flags & 0x10);
       if ( !v8 )
         goto LABEL_4;
       qualifier_set = policy_cache->anyPolicy->qualifier_set;

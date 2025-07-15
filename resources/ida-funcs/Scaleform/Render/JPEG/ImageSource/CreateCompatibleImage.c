@@ -25,6 +25,8 @@ void __thiscall Scaleform::Render::JPEG::ImageSource::CreateCompatibleImage(
   unsigned int FileLen; // [esp-8h] [ebp-1Ch]
   unsigned int v24; // [esp-8h] [ebp-1Ch]
   bool WithHeaders; // [esp-4h] [ebp-18h]
+  int v26; // [esp+4h] [ebp-10h]
+  int v27; // [esp+8h] [ebp-Ch]
   Scaleform::Render::Size<unsigned long> size; // [esp+Ch] [ebp-8h] BYREF
 
   if ( this->IsDecodeOnlyImageCompatible(this, args) )
@@ -34,7 +36,7 @@ void __thiscall Scaleform::Render::JPEG::ImageSource::CreateCompatibleImage(
     {
       if ( !pHeap )
         pHeap = Scaleform::Memory::pGlobalHeap;
-      v4 = (Scaleform::Render::JPEG::MemoryBufferImage *)pHeap->Alloc(pHeap, 56u, 0);
+      v4 = (Scaleform::Render::JPEG::MemoryBufferImage *)pHeap->Alloc(pHeap, 60u, 0);
       if ( v4 )
       {
         pUpdateSync = args->pUpdateSync;
@@ -70,7 +72,7 @@ void __thiscall Scaleform::Render::JPEG::ImageSource::CreateCompatibleImage(
     {
       if ( !pHeap )
         pHeap = Scaleform::Memory::pGlobalHeap;
-      v10 = (Scaleform::Render::JPEG::MemoryBufferImage *)pHeap->Alloc(pHeap, 56u, 0);
+      v10 = (Scaleform::Render::JPEG::MemoryBufferImage *)pHeap->Alloc(pHeap, 60u, 0);
       if ( v10 )
       {
         v11 = args->pUpdateSync;
@@ -105,6 +107,6 @@ void __thiscall Scaleform::Render::JPEG::ImageSource::CreateCompatibleImage(
   }
   else
   {
-    Scaleform::Render::ImageSource::CreateCompatibleImage(this, args);
+    Scaleform::Render::ImageSource::CreateCompatibleImage(this, args, v26, v27, size.Width);
   }
 }

@@ -1,4 +1,7 @@
-void __thiscall survarium::oxygen_tank::action(survarium::oxygen_tank *this, bool key_down)
+void __thiscall survarium::oxygen_tank::action(
+        survarium::oxygen_tank *this,
+        bool key_down,
+        unsigned int current_time_in_ms)
 {
   if ( key_down )
   {

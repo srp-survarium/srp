@@ -24,7 +24,7 @@ LABEL_1:
           break;
         if ( a4 < 0 )
           return a2;
-        a2 += unk_888F56;
+        a2 += unk_72C9CE;
       }
       if ( v6 == (unsigned __int8 *)127
         || v6 == (unsigned __int8 *)132

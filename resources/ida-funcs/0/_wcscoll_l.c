@@ -1,6 +1,6 @@
 int __usercall _wcscoll_l@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
+        int a1@<edi>,
+        int a2@<esi>,
         const wchar_t *_string1,
         const wchar_t *_string2,
         localeinfo_struct *plocinfo)

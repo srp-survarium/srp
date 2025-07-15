@@ -16,8 +16,8 @@ void __cdecl jinit_d_coef_controller(int a1, char a2)
   v3 = (_DWORD *)(**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 116);
   v4 = v3;
   *(_DWORD *)(a1 + 408) = v3;
-  *v3 = sub_375340;
-  v3[2] = sub_3760B0;
+  *v3 = sub_482000;
+  v3[2] = sub_482D70;
   v3[28] = 0;
   if ( a2 )
   {
@@ -42,8 +42,8 @@ void __cdecl jinit_d_coef_controller(int a1, char a2)
       }
       while ( v9 );
     }
-    v4[1] = sub_3755B0;
-    v4[3] = sub_375790;
+    v4[1] = sub_482270;
+    v4[3] = sub_482450;
     v4[4] = v4 + 18;
   }
   else
@@ -60,9 +60,9 @@ void __cdecl jinit_d_coef_controller(int a1, char a2)
     v4[16] = v10 + 1024;
     v4[17] = v10 + 1152;
     if ( !*(_DWORD *)(a1 + 392) )
-      memset(v10, 0, 0x500u);
+      memset(v10, 0, 1280);
     v4[4] = 0;
     v4[1] = Scaleform::GFx::ConstShapeNoStyles::GetStrokeStyleCount;
-    v4[3] = sub_375360;
+    v4[3] = sub_482020;
   }
 }

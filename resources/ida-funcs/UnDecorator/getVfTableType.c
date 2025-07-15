@@ -10,7 +10,7 @@ DName *__cdecl UnDecorator::getVfTableType(DName *result, const DName *superType
   const DName *v9; // eax
   DName v11; // [esp+8h] [ebp-18h] BYREF
   DName v12; // [esp+10h] [ebp-10h] BYREF
-  DName v13; // [esp+18h] [ebp-8h] BYREF
+  DName resulta; // [esp+18h] [ebp-8h] BYREF
 
   result->node = superType->node;
   v2 = *((_DWORD *)superType + 1);
@@ -19,8 +19,8 @@ DName *__cdecl UnDecorator::getVfTableType(DName *result, const DName *superType
   {
     if ( *UnDecorator::gName )
     {
-      UnDecorator::getDataIndirectType(&v13);
-      v3 = DName::operator+(&v13, &v11, 32);
+      UnDecorator::getDataIndirectType(&resulta);
+      v3 = DName::operator+(&resulta, &v11, 32);
       v4 = DName::operator+(v3, &v12, result);
       DName::operator=(result, v4);
       if ( *((char *)result + 4) <= 1 )
@@ -31,7 +31,7 @@ DName *__cdecl UnDecorator::getVfTableType(DName *result, const DName *superType
         while ( *((char *)result + 4) <= 1 && *UnDecorator::gName && *UnDecorator::gName != 64 )
         {
           Scope = UnDecorator::getScope(&v12);
-          v6 = operator+(&v13, 96, Scope);
+          v6 = operator+(&resulta, 96, Scope);
           v7 = DName::operator+(v6, &v11, 39);
           DName::operator+=(result, v7);
           v8 = UnDecorator::gName;

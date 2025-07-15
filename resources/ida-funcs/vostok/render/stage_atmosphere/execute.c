@@ -1,764 +1,572 @@
 void __thiscall vostok::render::stage_atmosphere::execute(vostok::render::stage_atmosphere *this)
 {
+  vostok::render::environment_properties *v2; // ecx
+  vostok::render::base_scene_view *m_object; // edi
+  vostok::math::float3 *sun_direction; // eax
+  vostok::render::res_effect *v5; // ecx
+  bool v6; // zf
+  vostok::render::renderer *m_renderer; // eax
+  pix_event_wrapper_dx11 m_scene_changed; // dl
   vostok::render::renderer_context *m_context; // eax
-  vostok::render::lights_db *m_object; // ecx
-  const vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v4; // eax
-  vostok::render::light *v5; // ecx
-  vostok::render::light *v6; // ebx
-  _DWORD *v7; // eax
-  void *v8; // edi
-  vostok::render::grass_render_model *v9; // esi
-  _QWORD *p_x; // esi
-  float z; // eax
-  bool v12; // zf
-  unsigned int v13; // xmm0_4
-  unsigned int v14; // xmm1_4
-  const vostok::math::float4x4 *v15; // xmm0_4
-  const char *v16; // esi
-  vostok::render::shader_constant_host *v17; // eax
-  int v18; // ecx
-  unsigned __int16 v19; // cx
-  vostok::collision::space_partitioning_tree *v20; // xmm1_4
-  vostok::render::light_data *v21; // xmm2_4
-  vostok::render::light_data *v22; // xmm3_4
-  vostok::render::shader_constant_host *m_c_atmosphere_parameters; // eax
-  vostok::render::enum_render_target_index v24; // ecx
-  vostok::render::renderer_context *v25; // edx
-  vostok::render::stage_atmosphere *v26; // ecx
-  vostok::render::render_target *v27; // eax
-  vostok::render::render_target *v28; // ecx
-  ID3D11RenderTargetView *m_rt; // edx
-  const char *m_conflicted_key_name; // eax
-  int v31; // esi
-  const vostok::math::float3 *intensity_low; // xmm0_4
-  const char *v33; // esi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v10; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_effect *v12; // eax
+  volatile int m_thread_id; // xmm0_4
+  float z; // esi
+  vostok::render::backend *v15; // ecx
+  vostok::resources::name_registry_entry *m_name_registry_entry; // xmm0_4
+  vostok::resources::resource_base *m_next_for_query_finished_callback; // xmm1_4
+  float v18; // xmm2_4
+  vostok::resources::query_result *m_destruction_observer; // xmm3_4
+  vostok::render::backend *v20; // ecx
+  vostok::render::render_target *v21; // ecx
+  vostok::render::stage_atmosphere *v22; // ecx
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v23; // eax
+  float v24; // esi
+  vostok::render::render_target *v25; // eax
+  vostok::render::res_effect *v26; // ecx
+  vostok::render::res_effect *v27; // eax
+  float v28; // esi
+  vostok::render::backend *v29; // ecx
   vostok::render::shader_constant_host *m_to_sun_direction_parameter; // eax
-  int v35; // ecx
-  unsigned __int16 m_buffer_index; // cx
-  float x; // xmm0_4
-  vostok::render::shader_constant_host *v38; // eax
-  int v39; // ecx
-  unsigned __int16 v40; // cx
-  vostok::render::renderer_context *v41; // eax
-  const vostok::math::float4x4 *v42; // eax
-  vostok::render::renderer_context *v43; // ecx
-  vostok::render::lights_db *v44; // edi
-  const char *v45; // esi
-  const char *v46; // esi
-  vostok::render::shader_constant_host *m_sky_clouds_parameters0; // eax
-  int v48; // ecx
-  vostok::collision::space_partitioning_tree *m_lights_tree; // xmm0_4
-  unsigned __int16 v50; // cx
-  vostok::render::shader_constant_buffer *v51; // edx
-  unsigned __int16 m_class_id; // cx
-  unsigned __int16 m_slot_index; // ax
-  vostok::render::shader_constant_host *m_sky_clouds_parameters1; // eax
-  int v55; // ecx
-  vostok::render::light_data *M_start; // xmm1_4
-  unsigned __int16 v57; // cx
-  vostok::render::shader_constant_buffer *v58; // edx
-  unsigned __int16 v59; // cx
-  unsigned __int16 v60; // ax
-  long double v61; // st7
-  vostok::render::shader_constant_host *m_sky_clouds_parameters2; // eax
-  int v63; // ecx
-  unsigned __int16 v64; // cx
-  vostok::render::shader_constant_buffer *v65; // edx
-  unsigned __int16 v66; // cx
-  unsigned __int16 v67; // ax
-  float *v68; // eax
-  float v69; // xmm0_4
-  float v70; // eax
-  float v71; // xmm3_4
-  __int64 v72; // xmm0_8
-  vostok::math::float3 *p_L_up; // ecx
-  float v74; // xmm2_4
-  float v75; // xmm1_4
-  vostok::render::renderer_context *v76; // eax
-  float v77; // xmm0_4
-  float v78; // xmm1_4
-  float v79; // xmm2_4
-  long double v80; // st7
+  vostok::render::renderer_context *v31; // eax
+  vostok::math::float4x4 *v32; // ecx
+  vostok::math::float4x4 *v33; // eax
+  vostok::render::sky_dome_geometry *v34; // ecx
+  vostok::render::resource_manager *v35; // ecx
+  vostok::render::res_texture *v36; // edi
+  BOOL v37; // esi
+  vostok::render::base_scene_view *v38; // eax
+  vostok::shared_string *p_m_name; // eax
+  vostok::render::res_texture **stratosphere_texture; // eax
+  vostok::render::backend *v41; // ecx
+  vostok::render::resource_manager *v42; // ecx
+  vostok::render::resource_intrusive_base *v43; // eax
+  float w; // xmm3_4
+  float v45; // esi
+  float x; // xmm1_4
   float y; // xmm2_4
-  long double v82; // st7
-  float v83; // xmm3_4
-  float v84; // xmm0_4
-  float v85; // xmm1_4
-  float v86; // xmm2_4
-  float v87; // ecx
-  vostok::math::float4x4 *v88; // ecx
-  const vostok::math::float3 *angles_xyz; // eax
-  vostok::math::float4x4 *v90; // eax
-  const vostok::math::float4x4 *v91; // eax
-  vostok::render::lights_db *v92; // esi
-  const char *v93; // edi
-  vostok::render::shader_constant_host *m_sun_moon_parameters; // eax
-  vostok::render::light_data *M_finish; // xmm0_4
-  vostok::render::backend *v96; // esi
-  int v97; // ecx
-  unsigned __int16 v98; // cx
-  const vostok::math::float3 *v99; // edx
-  const vostok::math::float4x4 *v100; // eax
-  vostok::render::renderer_context *v101; // esi
-  const char *v102; // eax
-  vostok::render::backend *v103; // ecx
-  vostok::render::constants_handler<1> *v104; // esi
-  vostok::render::shader_constant_host *v105; // eax
-  int v106; // ecx
-  unsigned __int16 v107; // cx
-  const vostok::math::float4x4 *v108; // edx
-  const vostok::math::float3 *v109; // eax
-  const vostok::math::float3 *v110; // ecx
-  vostok::collision::space_partitioning_tree *v111; // xmm1_4
-  vostok::render::shader_constant_host *m_c_inscatter_parameters; // eax
-  vostok::render::enum_render_target_index m_diff_range_start; // ecx
-  vostok::render::stage_atmosphere *v114; // ecx
-  vostok::render::constants_handler<1> *v115; // esi
-  vostok::render::shader_constant_host *v116; // eax
-  int v117; // ecx
-  unsigned __int16 v118; // cx
-  const vostok::math::float4x4 *v119; // edx
-  const vostok::math::float3 *v120; // eax
-  const vostok::math::float3 *v121; // ecx
-  vostok::render::light *v122; // xmm1_4
-  vostok::render::shader_constant_host *v123; // eax
-  vostok::render::enum_render_target_index v124; // ecx
-  vostok::render::stage_atmosphere *v125; // ecx
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v126; // [esp-8h] [ebp-1ACh] BYREF
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v127; // [esp-4h] [ebp-1A8h] BYREF
-  int epsilon; // [esp+0h] [ebp-1A4h]
-  char src_ptr[8]; // [esp+14h] [ebp-190h] BYREF
-  unsigned __int64 v130; // [esp+1Ch] [ebp-188h]
-  const vostok::math::float3 *eye_rays; // [esp+24h] [ebp-180h] BYREF
-  vostok::math::float3 L_dir; // [esp+28h] [ebp-17Ch]
-  bool recalc_rayleigh_scattering; // [esp+37h] [ebp-16Dh]
-  vostok::render::lights_db *v134; // [esp+38h] [ebp-16Ch]
-  vostok::math::float3 to_sun_direction; // [esp+3Ch] [ebp-168h]
-  vostok::math::float3 L_up; // [esp+48h] [ebp-15Ch] BYREF
-  vostok::math::float3 L_right; // [esp+54h] [ebp-150h] BYREF
-  void *mem; // [esp+60h] [ebp-144h] BYREF
-  vostok::math::float4x4 world_transform; // [esp+64h] [ebp-140h] BYREF
-  vostok::math::float4x4 v140; // [esp+A4h] [ebp-100h] BYREF
-  vostok::math::float4x4 result; // [esp+E4h] [ebp-C0h] BYREF
-  char v142[64]; // [esp+124h] [ebp-80h] BYREF
-  vostok::math::float4x4 v143; // [esp+164h] [ebp-40h] BYREF
+  float v48; // xmm0_4
+  unsigned int m_max_uses_height; // xmm0_4
+  DXGI_FORMAT m_base_format; // xmm1_4
+  vostok::render::backend *v51; // ecx
+  vostok::render::backend *v52; // ecx
+  __m128 x_low; // xmm0
+  __m128i v54; // xmm0
+  float v55; // xmm1_4
+  vostok::render::shader_constant_host *m_sky_clouds_parameters2; // eax
+  vostok::render::backend *v57; // ecx
+  vostok::render::sky_dome_geometry *v58; // ecx
+  vostok::render::base_scene_view *v59; // eax
+  vostok::render::resource_intrusive_base *v60; // eax
+  vostok::render::res_texture **sky_clouds_texture; // eax
+  vostok::render::backend *v62; // ecx
+  vostok::render::resource_manager *v63; // ecx
+  vostok::render::resource_intrusive_base *v64; // eax
+  float v65; // xmm3_4
+  float v66; // esi
+  float v67; // xmm1_4
+  unsigned int v68; // xmm2_4
+  unsigned int v69; // xmm0_4
+  unsigned int v70; // xmm0_4
+  DXGI_FORMAT v71; // xmm1_4
+  vostok::render::backend *v72; // ecx
+  vostok::render::backend *v73; // ecx
+  __m128 loaded_num_mips; // xmm0
+  __m128i v75; // xmm0
+  float v76; // xmm1_4
+  vostok::render::shader_constant_host *v77; // eax
+  vostok::render::backend *v78; // ecx
+  vostok::render::sky_dome_geometry *v79; // ecx
+  vostok::render::backend *v80; // ecx
+  vostok::render::res_effect *v81; // eax
+  vostok::math::float3 *m_eye_rays; // edi
+  float v83; // esi
+  vostok::render::backend *v84; // ecx
+  vostok::render::backend *v85; // ecx
+  vostok::render::backend *v86; // ecx
+  vostok::render::render_target *v87; // ecx
+  vostok::render::stage_atmosphere *v88; // ecx
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v89; // [esp-Ch] [ebp-ACh] BYREF
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v90; // [esp-8h] [ebp-A8h] BYREF
+  unsigned int p_arg; // [esp-4h] [ebp-A4h]
+  long double v92; // [esp+0h] [ebp-A0h]
+  unsigned __int8 m_atmosphere_changed; // [esp+13h] [ebp-8Dh]
+  vostok::math::float3 arg; // [esp+14h] [ebp-8Ch] BYREF
+  float v95; // [esp+20h] [ebp-80h]
+  int v96; // [esp+24h] [ebp-7Ch]
+  pix_event_wrapper_dx11 wszName; // [esp+2Ah] [ebp-76h] BYREF
+  bool wszName_1; // [esp+2Bh] [ebp-75h]
+  const char *v99; // [esp+2Ch] [ebp-74h]
+  vostok::render::res_texture *v100; // [esp+30h] [ebp-70h] BYREF
+  vostok::render::render_target *rt; // [esp+34h] [ebp-6Ch] BYREF
+  float v102; // [esp+38h] [ebp-68h] BYREF
+  unsigned int v103; // [esp+3Ch] [ebp-64h]
+  float v104; // [esp+40h] [ebp-60h]
+  unsigned int v105; // [esp+44h] [ebp-5Ch]
+  int v106; // [esp+48h] [ebp-58h]
+  float v107; // [esp+4Ch] [ebp-54h]
+  vostok::math::float4x4 v108; // [esp+50h] [ebp-50h] BYREF
+  float v109[3]; // [esp+94h] [ebp-Ch] BYREF
 
-  if ( !this->m_atmospheric_scattering_effect.m_object )
-    return;
-  if ( !this->is_enabled(this) )
+  v96 = 0;
+  pix_event_wrapper_dx11::pix_event_wrapper_dx11((pix_event_wrapper_dx11 *)this, &wszName, (int)L"stage_atmosphere");
+  if ( this->is_effects_ready(this) )
   {
-    this->execute_disabled(this);
-    return;
-  }
-  m_context = this->m_context;
-  m_object = (vostok::render::lights_db *)m_context->m_scene_view.m_object;
-  v4 = (const vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_context->m_scene->m_lights.m_object;
-  v134 = m_object;
-  to_sun_direction.x = 0.0;
-  *(_QWORD *)&to_sun_direction.elements[1] = (unsigned int)clear_value;
-  v6 = vostok::render::lights_db::get_sun(
-         m_object,
-         v4,
-         (const vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&mem)->m_object;
-  v7 = mem;
-  if ( mem )
-  {
-    --*(_DWORD *)mem;
-    if ( !*v7 )
+    if ( !this->is_enabled(this) )
     {
-      v8 = mem;
-      v9 = vostok::render::g_allocator.m_object;
-      if ( mem )
-      {
-        vostok::render::light::~light(v5, (int)mem);
-        BYTE2(v9->m_children_resources.m_lock) = 0;
-        vostok_mspace_free((void *)HIDWORD(v9->m_reconstruction_info_actuality_tick), v8);
-      }
+LABEL_3:
+      this->execute_disabled(this);
+      goto LABEL_56;
     }
-  }
-  if ( this->m_type == atmosphere_on_sky )
-  {
-    recalc_rayleigh_scattering = HIDWORD(this->m_context->m_scene_view.m_object[5].m_current_satisfaction_update_tick) != this->m_context->m_targets->m_id;
-    if ( !v6 )
-      goto LABEL_14;
-    p_x = (_QWORD *)&v6->direction.x;
-    if ( !vostok::math::float3_pod::is_similar(&v6->direction, &v6->previous_direction, 0.001) )
-    {
-      z = v6->direction.z;
-      *(_QWORD *)&v6->previous_direction.x = *p_x;
-      v6->previous_direction.z = z;
-      recalc_rayleigh_scattering = 1;
-    }
-    v12 = LOBYTE(v134[47].m_lights._M_impl._M_end_of_storage._M_data) == 0;
-    *(float *)&v13 = -*(float *)p_x;
-    *(float *)&v14 = -v6->direction.y;
-    L_up.z = -v6->direction.z;
-    *(_QWORD *)&L_up.x = __PAIR64__(v14, v13);
-    *(_QWORD *)&to_sun_direction.x = __PAIR64__(v14, v13);
-    to_sun_direction.z = L_up.z;
-    if ( v12 )
-    {
-LABEL_14:
-      if ( !recalc_rayleigh_scattering )
-      {
-LABEL_25:
-        v27 = this->m_context->m_targets->m_family[47].target.m_object;
-        v28 = 0;
-        if ( v27 )
-        {
-          v28 = this->m_context->m_targets->m_family[47].target.m_object;
-          ++v27->m_reference_count;
-          m_rt = v27->m_rt;
-        }
-        else
-        {
-          m_rt = 0;
-        }
-        m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-        if ( *((ID3D11RenderTargetView **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-             + 535) != m_rt )
-        {
-          *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = m_rt;
-          *((_BYTE *)m_conflicted_key_name + 163) = 1;
-        }
-        if ( *((_DWORD *)m_conflicted_key_name + 536) )
-        {
-          *((_DWORD *)m_conflicted_key_name + 536) = 0;
-          *((_BYTE *)m_conflicted_key_name + 164) = 1;
-        }
-        if ( *((_DWORD *)m_conflicted_key_name + 537) )
-        {
-          *((_DWORD *)m_conflicted_key_name + 537) = 0;
-          *((_BYTE *)m_conflicted_key_name + 165) = 1;
-        }
-        if ( *((_DWORD *)m_conflicted_key_name + 538) )
-        {
-          *((_DWORD *)m_conflicted_key_name + 538) = 0;
-          *((_BYTE *)m_conflicted_key_name + 166) = 1;
-        }
-        if ( v28 )
-        {
-          if ( !--v28->m_reference_count )
-          {
-            vostok::render::resource_manager::release(
-              (vostok::render::resource_manager *)v28,
-              (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-              (const char *)v28);
-            m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          }
-        }
-        v31 = *((_DWORD *)m_conflicted_key_name + 547);
-        v12 = *((_DWORD *)m_conflicted_key_name + 539) == v31;
-        *((_DWORD *)m_conflicted_key_name + 539) = v31;
-        *((_BYTE *)m_conflicted_key_name + 167) |= !v12;
-        if ( v6 )
-          intensity_low = (const vostok::math::float3 *)LODWORD(v6->intensity);
-        else
-          intensity_low = (const vostok::math::float3 *)clear_value;
-        v12 = LOBYTE(v134[40].m_sun.m_object) == 0;
-        eye_rays = intensity_low;
-        if ( v12 )
-          eye_rays = 0;
-        vostok::render::res_effect::apply(
-          (vostok::render::res_effect *)1,
-          &this->m_atmospheric_scattering_effect.m_object->__vftable);
-        v33 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-        m_to_sun_direction_parameter = this->m_to_sun_direction_parameter;
-        v35 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 573);
-        *(_QWORD *)src_ptr = *(_QWORD *)&to_sun_direction.x;
-        v130 = __PAIR64__((unsigned int)eye_rays, LODWORD(to_sun_direction.z));
-        if ( m_to_sun_direction_parameter->m_update_markers[1] == v35 )
-        {
-          m_buffer_index = m_to_sun_direction_parameter->m_shader_slots[1].m_buffer_index;
-          if ( m_buffer_index != 0xFFFF )
-            vostok::render::shader_constant_buffer::set_memory(
-              m_to_sun_direction_parameter->m_shader_slots[1].m_slot_index,
-              (unsigned __int8)m_to_sun_direction_parameter->m_shader_slots[1].m_class_id,
-              *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                       + 371)
-                                                                     + 16)
-                                                         + 4 * m_buffer_index),
-              src_ptr);
-        }
-        x = to_sun_direction.x;
-        ++*((_DWORD *)v33 + 23);
-        v38 = this->m_to_sun_direction_parameter;
-        v39 = *((_DWORD *)v33 + 572);
-        *(_QWORD *)src_ptr = __PAIR64__(LODWORD(to_sun_direction.y), LODWORD(x));
-        v130 = __PAIR64__((unsigned int)eye_rays, LODWORD(to_sun_direction.z));
-        if ( v38->m_update_markers[0] == v39 )
-        {
-          v40 = v38->m_shader_slots[0].m_buffer_index;
-          if ( v40 != 0xFFFF )
-            vostok::render::shader_constant_buffer::set_memory(
-              v38->m_shader_slots[0].m_slot_index,
-              (unsigned __int8)v38->m_shader_slots[0].m_class_id,
-              *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)v33 + 51) + 16) + 4 * v40),
-              src_ptr);
-        }
-        ++*((_DWORD *)v33 + 23);
-        v41 = this->m_context;
-        qmemcpy((void *)&world_transform, &v41->m_p, sizeof(world_transform));
-        world_transform.k.z = 1.0000001;
-        world_transform.c.z = -1.0000001;
-        vostok::render::renderer_context::push_set_p(0, (int)v41, (vostok::render::renderer_context *)&world_transform);
-        v42 = vostok::math::float4x4::identity(&world_transform);
-        vostok::render::renderer_context::set_w(this->m_context, v42);
-        vostok::render::sky_dome_geometry::draw(&this->m_sky_dome_geometry);
-        v44 = v134;
-        if ( v134[39].m_lights._M_impl._M_end_of_storage._M_data
-          && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-        {
-          vostok::render::res_effect::apply(
-            (vostok::render::res_effect *)(3 - (v134[42].m_lights._M_impl._M_end_of_storage._M_data != 0)),
-            &this->m_atmospheric_scattering_effect.m_object->__vftable);
-          epsilon = (int)v44[39].m_lights._M_impl._M_end_of_storage._M_data;
-          v45 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          *((_BYTE *)v45 + 159) = vostok::render::textures_handler<0>::set_overwrite(
-                                    (vostok::render::textures_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                          + 1488),
-                                    (char *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                  + 1488,
-                                    (vostok::render::res_texture *)&stru_9620D4.destroyer,
-                                    (vostok::render::res_texture *)epsilon);
-          v46 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          m_sky_clouds_parameters0 = this->m_sky_clouds_parameters0;
-          v48 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                + 573);
-          m_lights_tree = v44[40].m_lights_tree;
-          *(_DWORD *)src_ptr = v44[41].m_lights._M_impl._M_start;
-          *(_DWORD *)&src_ptr[4] = v44[41].m_lights._M_impl._M_finish;
-          LODWORD(v130) = v44[41].m_lights._M_impl._M_end_of_storage._M_data;
-          HIDWORD(v130) = m_lights_tree;
-          if ( m_sky_clouds_parameters0->m_update_markers[1] == v48 )
-          {
-            v50 = m_sky_clouds_parameters0->m_shader_slots[1].m_buffer_index;
-            if ( v50 != 0xFFFF )
-            {
-              v51 = *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                             + 371)
-                                                                           + 16)
-                                                               + 4 * v50);
-              m_class_id = m_sky_clouds_parameters0->m_shader_slots[1].m_class_id;
-              m_slot_index = m_sky_clouds_parameters0->m_shader_slots[1].m_slot_index;
-              eye_rays = (const vostok::math::float3 *)(unsigned __int8)m_class_id;
-              vostok::render::shader_constant_buffer::set_memory(
-                m_slot_index,
-                (unsigned __int8)m_class_id,
-                v51,
-                src_ptr);
-            }
-          }
-          ++*((_DWORD *)v46 + 23);
-          m_sky_clouds_parameters1 = this->m_sky_clouds_parameters1;
-          v55 = *((_DWORD *)v46 + 573);
-          M_start = v44[42].m_lights._M_impl._M_start;
-          *(_DWORD *)src_ptr = v44[41].m_lights_tree;
-          *(_DWORD *)&src_ptr[4] = M_start;
-          v130 = 0;
-          if ( m_sky_clouds_parameters1->m_update_markers[1] == v55 )
-          {
-            v57 = m_sky_clouds_parameters1->m_shader_slots[1].m_buffer_index;
-            if ( v57 != 0xFFFF )
-            {
-              v58 = *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)v46 + 371) + 16) + 4 * v57);
-              v59 = m_sky_clouds_parameters1->m_shader_slots[1].m_class_id;
-              v60 = m_sky_clouds_parameters1->m_shader_slots[1].m_slot_index;
-              eye_rays = (const vostok::math::float3 *)(unsigned __int8)v59;
-              vostok::render::shader_constant_buffer::set_memory(v60, (unsigned __int8)v59, v58, src_ptr);
-            }
-          }
-          ++*((_DWORD *)v46 + 23);
-          *(float *)&eye_rays = *(float *)&v44[42].m_lights._M_impl._M_finish * 0.0055555557 * 3.1415927;
-          L_dir.x = sinf(*(float *)&eye_rays);
-          v61 = cosf(*(float *)&eye_rays);
-          m_sky_clouds_parameters2 = this->m_sky_clouds_parameters2;
-          *(float *)src_ptr = v61;
-          v63 = *((_DWORD *)v46 + 572);
-          *(float *)&src_ptr[4] = L_dir.x;
-          v130 = 0;
-          if ( m_sky_clouds_parameters2->m_update_markers[0] == v63 )
-          {
-            v64 = m_sky_clouds_parameters2->m_shader_slots[0].m_buffer_index;
-            if ( v64 != 0xFFFF )
-            {
-              v65 = *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)v46 + 51) + 16) + 4 * v64);
-              v66 = m_sky_clouds_parameters2->m_shader_slots[0].m_class_id;
-              v67 = m_sky_clouds_parameters2->m_shader_slots[0].m_slot_index;
-              LODWORD(L_dir.x) = (unsigned __int8)v66;
-              vostok::render::shader_constant_buffer::set_memory(v67, (unsigned __int8)v66, v65, src_ptr);
-            }
-          }
-          ++*((_DWORD *)v46 + 23);
-          vostok::render::sphere_geometry::draw(&this->m_clouds_geometry);
-        }
-        if ( v44[39].m_sun.m_object
-          && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-          && v6 )
-        {
-          eye_rays = 0;
-          v68 = (float *)vostok::render::vertex_buffer::lock(
-                           (vostok::render::vertex_buffer *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                           + 40),
-                           4u,
-                           0x18u,
-                           (unsigned int *)&eye_rays);
-          v69 = *(float *)&clear_value;
-          *(_QWORD *)v68 = 0xBF800000BF800000uLL;
-          *((float *)&v130 + 1) = v69;
-          v68[5] = v69;
-          LODWORD(v130) = 0;
-          *((_QWORD *)v68 + 1) = v130;
-          v68[4] = 0.0;
-          v68 += 6;
-          *(_DWORD *)src_ptr = -1082130432;
-          *(float *)&src_ptr[4] = v69;
-          *(_QWORD *)v68 = *(_QWORD *)src_ptr;
-          *((float *)&v130 + 1) = v69;
-          LODWORD(v130) = 0;
-          *((_QWORD *)v68 + 1) = v130;
-          v68[4] = 0.0;
-          v68[5] = 0.0;
-          v68 += 6;
-          *(_QWORD *)src_ptr = LODWORD(v69) | 0xBF80000000000000uLL;
-          *(_QWORD *)v68 = *(_QWORD *)src_ptr;
-          v68[4] = v69;
-          v68[5] = v69;
-          *((float *)&v130 + 1) = v69;
-          LODWORD(v130) = 0;
-          *((_QWORD *)v68 + 1) = v130;
-          v68 += 6;
-          L_dir.x = v69;
-          *(float *)src_ptr = v69;
-          *(float *)&src_ptr[4] = v69;
-          *((float *)&v130 + 1) = v69;
-          *(_QWORD *)v68 = *(_QWORD *)src_ptr;
-          L_dir.y = 0.0;
-          LODWORD(v130) = 0;
-          *((_QWORD *)v68 + 1) = v130;
-          v68[4] = v69;
-          v68[5] = 0.0;
-          vostok::render::vertex_buffer::unlock((vostok::render::vertex_buffer *)LODWORD(v69));
-          vostok::render::res_geometry::apply(this->m_screen_vertex_geometry.m_object);
-          vostok::render::res_effect::apply(
-            (vostok::render::res_effect *)4,
-            &this->m_atmospheric_scattering_effect.m_object->__vftable);
-          v70 = v6->direction.z;
-          *(_QWORD *)&L_dir.x = *(_QWORD *)&v6->direction.x;
-          v71 = (float)((float)(v6->right.y * v6->right.y) + (float)(v6->right.z * v6->right.z))
-              + (float)(v6->right.x * v6->right.x);
-          L_dir.z = v70;
-          if ( v71 <= 0.0000099999997 )
-          {
-            v74 = *(float *)&clear_value;
-            v75 = 0.0;
-            if ( COERCE_FLOAT(
-                   COERCE_UNSIGNED_INT((float)((float)(L_dir.x * 0.0) + L_dir.y) + (float)(L_dir.z * 0.0))
-                 & _mask__AbsFloat_) > 0.99000001 )
-            {
-              v75 = *(float *)&clear_value;
-              v74 = 0.0;
-            }
-            *(float *)&v130 = (float)(L_dir.y * 0.0) - (float)(v74 * L_dir.x);
-            *(float *)src_ptr = (float)(v74 * L_dir.z) - (float)(v75 * L_dir.y);
-            *(float *)&src_ptr[4] = (float)(v75 * L_dir.x) - (float)(L_dir.z * 0.0);
-            L_right.z = *(float *)&v130;
-            *(_QWORD *)&L_right.x = *(_QWORD *)src_ptr;
-            vostok::math::float3_pod::normalize(&L_right);
-            *(float *)src_ptr = (float)(L_right.z * L_dir.y) - (float)(L_right.y * L_dir.z);
-            *(float *)&v130 = (float)(L_right.y * L_dir.x) - (float)(L_dir.y * L_right.x);
-            *(float *)&src_ptr[4] = (float)(L_dir.z * L_right.x) - (float)(L_right.z * L_dir.x);
-            *(_QWORD *)&L_up.x = *(_QWORD *)src_ptr;
-            L_up.z = *(float *)&v130;
-            p_L_up = &L_up;
-          }
-          else
-          {
-            v72 = *(_QWORD *)&v6->right.x;
-            L_right.z = v6->right.z;
-            *(_QWORD *)&L_right.x = v72;
-            vostok::math::float3_pod::normalize(&L_right);
-            *(float *)src_ptr = (float)(L_right.z * L_dir.y) - (float)(L_right.y * L_dir.z);
-            *(float *)&v130 = (float)(L_right.y * L_dir.x) - (float)(L_dir.y * L_right.x);
-            *(float *)&src_ptr[4] = (float)(L_dir.z * L_right.x) - (float)(L_right.z * L_dir.x);
-            *(_QWORD *)&L_up.x = *(_QWORD *)src_ptr;
-            L_up.z = *(float *)&v130;
-            vostok::math::float3_pod::normalize(&L_up);
-            *(float *)src_ptr = (float)(L_up.y * L_dir.z) - (float)(L_up.z * L_dir.y);
-            *(float *)&v130 = (float)(L_dir.y * L_up.x) - (float)(L_up.y * L_dir.x);
-            *(float *)&src_ptr[4] = (float)(L_up.z * L_dir.x) - (float)(L_dir.z * L_up.x);
-            *(_QWORD *)&L_right.x = *(_QWORD *)src_ptr;
-            L_right.z = *(float *)&v130;
-            p_L_up = &L_right;
-          }
-          vostok::math::float3_pod::normalize(p_L_up);
-          v76 = this->m_context;
-          v77 = v76->m_view_pos.x - v6->position.x;
-          v78 = v76->m_view_pos.y - v6->position.y;
-          v79 = v76->m_view_pos.z - v6->position.z;
-          v80 = sqrtf((float)((float)(v77 * v77) + (float)(v78 * v78)) + (float)(v79 * v79));
-          y = v6->direction.y;
-          v82 = v80 * 0.0000000026010034 * 6948400.0 * *(float *)&v134[40].m_lights._M_impl._M_end_of_storage._M_data;
-          v83 = v6->direction.z;
-          *(_QWORD *)&world_transform.i.x = *(_QWORD *)&L_right.x;
-          L_dir.x = v82;
-          *(_QWORD *)&world_transform.lines[1].x = *(_QWORD *)&L_up.x;
-          *(_QWORD *)&world_transform.lines[2].x = *(_QWORD *)&v6->direction.x;
-          *(_QWORD *)&world_transform.lines[3].x = *(_QWORD *)&v6->position.x;
-          v84 = (float)(v6->direction.x * 0.0) + v6->position.x;
-          v85 = v6->position.y + (float)(y * 0.0);
-          v86 = v6->position.z;
-          *(_QWORD *)&world_transform.lines[1].elements[2] = LODWORD(L_up.z);
-          *(_QWORD *)&world_transform.lines[2].elements[2] = LODWORD(v83);
-          *(_QWORD *)&world_transform.lines[0].elements[2] = LODWORD(L_right.z);
-          v87 = v6->position.z;
-          *(float *)src_ptr = v84;
-          *(float *)&src_ptr[4] = v85;
-          *(float *)&v130 = v86 + (float)(v83 * 0.0);
-          *(_QWORD *)&world_transform.lines[3].elements[2] = __PAIR64__((unsigned int)clear_value, LODWORD(v87));
-          L_up.x = L_dir.x;
-          L_up.y = L_dir.x;
-          L_up.z = L_dir.x;
-          epsilon = (int)vostok::math::create_translation(&result, (const vostok::math::float3 *)src_ptr);
-          angles_xyz = vostok::math::float4x4::get_angles_xyz(v88, (vostok::math::float3 *)v88);
-          v127.m_object = (vostok::render::render_target *)vostok::math::create_rotation(&v143, angles_xyz);
-          v90 = vostok::math::create_scale(&L_up, (int)v142);
-          v91 = vostok::math::operator*(&v140, v90, (const vostok::math::float4x4 *)v127.m_object);
-          vostok::math::operator*(&world_transform, v91, (const vostok::math::float4x4 *)epsilon);
-          vostok::render::renderer_context::set_w(this->m_context, &world_transform);
-          v92 = v134;
-          epsilon = (int)v134[39].m_sun.m_object;
-          v93 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          *((_BYTE *)v93 + 159) = vostok::render::textures_handler<0>::set_overwrite(
-                                    (vostok::render::textures_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                          + 1488),
-                                    (char *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                  + 1488,
-                                    (vostok::render::res_texture *)&stru_9621B0,
-                                    (vostok::render::res_texture *)epsilon);
-          m_sun_moon_parameters = this->m_sun_moon_parameters;
-          *(_DWORD *)src_ptr = v92[39].m_lights_tree;
-          *(_DWORD *)&src_ptr[4] = v92[40].m_lights._M_impl._M_start;
-          M_finish = v92[40].m_lights._M_impl._M_finish;
-          v96 = (vostok::render::backend *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          v97 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                + 573);
-          v130 = (unsigned int)M_finish;
-          if ( m_sun_moon_parameters->m_update_markers[1] == v97 )
-          {
-            v98 = m_sun_moon_parameters->m_shader_slots[1].m_buffer_index;
-            if ( v98 != 0xFFFF )
-              vostok::render::shader_constant_buffer::set_memory(
-                m_sun_moon_parameters->m_shader_slots[1].m_slot_index,
-                (unsigned __int8)m_sun_moon_parameters->m_shader_slots[1].m_class_id,
-                *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                         + 371)
-                                                                       + 16)
-                                                           + 4 * v98),
-                src_ptr);
-          }
-          v99 = eye_rays;
-          ++v96->num_setted_shader_constants;
-          vostok::render::backend::render_indexed(v96, 6u, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST, 0, (unsigned int)v99);
-          v100 = vostok::math::float4x4::identity(&v140);
-          vostok::render::renderer_context::set_w(this->m_context, v100);
-        }
-        v101 = this->m_context;
-        epsilon = (int)&v101->m_p_stack.m_end[-1];
-        vostok::render::renderer_context::set_p(v43, (const vostok::math::float4x4 *)v101);
-        v102 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-        --v101->m_p_stack.m_end;
-        vostok::render::backend::reset_render_targets(v103, (int)v102);
-        goto LABEL_75;
-      }
-    }
-    else
-    {
-      LOBYTE(v134[47].m_lights._M_impl._M_end_of_storage._M_data) = 0;
-    }
-    LOBYTE(this->m_context->m_scene_view.m_object[3].m_fat_it.m_link_target) = 0;
-    vostok::render::res_effect::apply(0, &this->m_atmospheric_scattering_effect.m_object->__vftable);
+    m_object = this->m_context->m_scene_view.m_object;
+    v100 = (vostok::render::res_texture *)m_object;
+    sun_direction = vostok::render::environment_properties::get_sun_direction(v2, (int)&m_object[1], v109);
+    v6 = this->m_type == atmosphere_on_sky;
+    v105 = LODWORD(sun_direction->x) ^ _mask__NegFloat_;
+    v103 = LODWORD(sun_direction->y) ^ _mask__NegFloat_;
+    LODWORD(v104) = LODWORD(sun_direction->z) ^ _mask__NegFloat_;
     if ( v6 )
-      v15 = (const vostok::math::float4x4 *)LODWORD(v6->intensity);
-    else
-      v15 = clear_value;
-    v16 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    v17 = this->m_to_sun_direction_parameter;
-    v18 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 573);
-    *(_QWORD *)src_ptr = *(_QWORD *)&to_sun_direction.x;
-    v130 = __PAIR64__((unsigned int)v15, LODWORD(to_sun_direction.z));
-    if ( v17->m_update_markers[1] == v18 )
     {
-      v19 = v17->m_shader_slots[1].m_buffer_index;
-      if ( v19 != 0xFFFF )
-        vostok::render::shader_constant_buffer::set_memory(
-          v17->m_shader_slots[1].m_slot_index,
-          (unsigned __int8)v17->m_shader_slots[1].m_class_id,
-          *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                   + 371)
-                                                                 + 16)
-                                                     + 4 * v19),
-          src_ptr);
-    }
-    ++*((_DWORD *)v16 + 23);
-    v20 = v134[46].m_lights_tree;
-    v21 = v134[47].m_lights._M_impl._M_start;
-    v22 = v134[47].m_lights._M_impl._M_finish;
-    m_c_atmosphere_parameters = this->m_c_atmosphere_parameters;
-    v24 = *((_DWORD *)v16 + 573);
-    *(_DWORD *)src_ptr = v134[46].m_sun.m_object;
-    *(_DWORD *)&src_ptr[4] = v20;
-    v130 = __PAIR64__((unsigned int)v22, (unsigned int)v21);
-    if ( m_c_atmosphere_parameters->m_update_markers[1] == v24 )
-    {
-      v24 = m_c_atmosphere_parameters->m_shader_slots[1].m_buffer_index;
-      if ( (unsigned __int16)v24 != 0xFFFF )
-        vostok::render::shader_constant_buffer::set_memory(
-          m_c_atmosphere_parameters->m_shader_slots[1].m_slot_index,
-          (unsigned __int8)m_c_atmosphere_parameters->m_shader_slots[1].m_class_id,
-          *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)v16 + 371) + 16)
-                                                     + 4 * (unsigned __int16)v24),
-          src_ptr);
-    }
-    ++*((_DWORD *)v16 + 23);
-    v25 = this->m_context;
-    epsilon = 0;
-    v127.m_object = (vostok::render::render_target *)v24;
-    vostok::render::renderer_context::get_rt((vostok::render::renderer_context *)0x41, &v127, v25, v24);
-    vostok::render::renderer_context::get_rt(
-      (vostok::render::renderer_context *)0x42,
-      &v126,
-      this->m_context,
-      (vostok::render::enum_render_target_index)v126.m_object);
-    vostok::render::stage_atmosphere::fill_surfaces(v26, this, v126, v127, epsilon);
-    HIDWORD(this->m_context->m_scene_view.m_object[5].m_current_satisfaction_update_tick) = this->m_context->m_targets->m_id;
-    goto LABEL_25;
-  }
-LABEL_75:
-  if ( this->m_type == atmosphere_on_geometry )
-  {
-    eye_rays = this->m_context->m_eye_rays;
-    if ( LOBYTE(v134[50].m_lights._M_impl._M_start) )
-    {
-      vostok::render::res_effect::apply(
-        (vostok::render::res_effect *)6,
-        &this->m_atmospheric_scattering_effect.m_object->__vftable);
-      v104 = (vostok::render::constants_handler<1> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      v105 = this->m_to_sun_direction_parameter;
-      v106 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 573);
-      *(_QWORD *)src_ptr = *(_QWORD *)&to_sun_direction.x;
-      v130 = __PAIR64__((unsigned int)clear_value, LODWORD(to_sun_direction.z));
-      if ( v105->m_update_markers[1] == v106 )
+      if ( !vostok::quasi_singleton<vostok::render::options>::pinst->current.m_atmosphere_stage )
+        goto LABEL_3;
+      m_renderer = this->m_renderer;
+      m_scene_changed = (pix_event_wrapper_dx11)m_renderer->m_scene_changed;
+      m_atmosphere_changed = m_renderer->m_atmosphere_changed;
+      m_context = this->m_context;
+      v10 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)m_context->m_scene_view.m_object;
+      v6 = *(int *)((char *)&dword_10E28 + (_DWORD)v10) == m_context->m_targets->m_id;
+      wszName = m_scene_changed;
+      wszName_1 = !v6;
+      if ( *(_BYTE *)&m_scene_changed || __PAIR16__(wszName_1, 0) != m_atmosphere_changed )
       {
-        v107 = v105->m_shader_slots[1].m_buffer_index;
-        if ( v107 != 0xFFFF )
-          vostok::render::shader_constant_buffer::set_memory(
-            v105->m_shader_slots[1].m_slot_index,
-            (unsigned __int8)v105->m_shader_slots[1].m_class_id,
-            *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                     + 371)
-                                                                   + 16)
-                                                       + 4 * v107),
-            src_ptr);
+        if ( !vostok::core::g_log_filter_tree
+          || (has_passed_filters = vostok::logging::has_passed_filters(
+                                     (vostok::logging::filter_tree *)"render_pc_dx11",
+                                     (const char *)4),
+              v10 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)p_arg,
+              has_passed_filters) )
+        {
+          v99 = "true";
+          if ( !wszName_1 )
+            v99 = "false";
+          v102 = COERCE_FLOAT("true");
+          if ( !m_atmosphere_changed )
+            v102 = COERCE_FLOAT("false");
+          rt = (vostok::render::render_target *)"true";
+          if ( !*(_BYTE *)&wszName )
+            rt = (vostok::render::render_target *)"false";
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            v10,
+            &v108);
+          v96 = 1;
+          vostok::logging::append(
+            (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)&v108,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\stage_atmosphere.cpp",
+            0xB6u,
+            "void __thiscall vostok::render::stage_atmosphere::execute(void)",
+            "render_pc_dx11",
+            info,
+            "atmosphere recalculated ( scene_changed:%s, parameters_changed:%s, window_resized:%s )",
+            (const char *)rt,
+            (const char *)LODWORD(v102),
+            v99);
+        }
+        if ( (v96 & 1) != 0 )
+        {
+          v96 &= ~1u;
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v10,
+            (int *)&v108);
+        }
+        v12 = this->m_atmospheric_scattering_effect[0].m_object;
+        v12->m_cur_technique = 0;
+        vostok::render::res_effect::apply_pass((vostok::render::res_effect *)v10, (int)v12);
+        m_thread_id = this->m_context->m_scene_view.m_object[1].m_parent_resources.m_thread_id;
+        z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+        *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_to_sun_direction_parameter;
+        arg.z = v104;
+        v95 = *(float *)&m_thread_id;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v15,
+          (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        m_name_registry_entry = m_object[1].m_name_registry_entry;
+        m_next_for_query_finished_callback = m_object[1].m_next_for_query_finished_callback;
+        v18 = *(float *)&m_object[1].m_next_for_grm_observer_list;
+        m_destruction_observer = m_object[1].m_destruction_observer;
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_c_atmosphere_parameters;
+        *(_QWORD *)&arg.x = __PAIR64__(
+                              (unsigned int)m_next_for_query_finished_callback,
+                              (unsigned int)m_name_registry_entry);
+        arg.z = v18;
+        v95 = *(float *)&m_destruction_observer;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v20,
+          (vostok::render::constants_handler<1> *)LODWORD(z),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        p_arg = 0;
+        v90.m_object = v21;
+        v89.m_object = v21;
+        vostok::render::renderer_context::get_rt(this->m_context, rt_mie_scattering, &v90);
+        vostok::render::renderer_context::get_rt(this->m_context, rt_rayleigh_scattering, &v89);
+        vostok::render::stage_atmosphere::fill_surfaces(
+          v22,
+          (vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)this,
+          v89.m_object,
+          v90.m_object,
+          p_arg);
+        *(int *)((char *)&dword_10E28 + (unsigned int)this->m_context->m_scene_view.m_object) = this->m_context->m_targets->m_id;
       }
-      ++v104[7].m_current.m_object;
-      vostok::math::try_invert4x4(&this->m_context->m_vp, &world_transform);
-      v109 = (const vostok::math::float3 *)vostok::math::transpose(&v140, v108);
-      vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
-        this->m_c_inverted_view_projection_matrix,
-        v104 + 123,
-        v109);
-      v110 = eye_rays;
-      ++v104[7].m_current.m_object;
-      vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
+      v23 = vostok::render::renderer_context::get_rt(
+              this->m_context,
+              rt_generic_0,
+              (vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&rt);
+      v24 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+      vostok::render::backend::set_render_targets(
+        (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        v23->m_object,
+        0,
+        0,
+        0);
+      v25 = rt;
+      if ( rt )
+      {
+        --rt->m_reference_count;
+        if ( !v25->m_reference_count )
+        {
+          vostok::render::resource_manager::release(
+            rt,
+            vostok::quasi_singleton<vostok::render::resource_manager>::pinst);
+          v24 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+        }
+      }
+      v26 = *(vostok::render::res_effect **)(LODWORD(v24) + 7440);
+      v6 = *(_DWORD *)(LODWORD(v24) + 7384) == (_DWORD)v26;
+      *(_DWORD *)(LODWORD(v24) + 7384) = v26;
+      *(_BYTE *)(LODWORD(v24) + 117) |= !v6;
+      v6 = LOBYTE(m_object[1].m_creation_source) == 0;
+      v99 = (const char *)this->m_context->m_scene_view.m_object[1].m_parent_resources.m_thread_id;
+      if ( v6 )
+        v99 = 0;
+      v27 = this->m_atmospheric_scattering_effect[0].m_object;
+      v27->m_cur_technique = 1;
+      vostok::render::res_effect::apply_pass(v26, (int)v27);
+      v28 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+      *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+      p_arg = (unsigned int)&arg;
+      v90.m_object = (vostok::render::render_target *)this->m_to_sun_direction_parameter;
+      arg.z = v104;
+      v95 = *(float *)&v99;
+      vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+        v29,
+        (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        (const vostok::render::shader_constant_host *)v90.m_object,
+        &arg);
+      *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+      arg.z = v104;
+      p_arg = (unsigned int)&arg;
+      m_to_sun_direction_parameter = this->m_to_sun_direction_parameter;
+      v95 = *(float *)&v99;
+      vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+        (vostok::render::backend *)LODWORD(v28),
+        m_to_sun_direction_parameter,
+        (const unsigned int *)&arg);
+      v31 = this->m_context;
+      qmemcpy(&v108, &v31->m_p, sizeof(v108));
+      v108.k.z = FLOAT_1_0000001;
+      v108.c.z = FLOAT_N1_0000001;
+      vostok::render::renderer_context::push_set_p((vostok::render::renderer_context *)&v108, (int)v31, &v108);
+      v33 = vostok::math::float4x4::identity(v32, &v108);
+      vostok::render::renderer_context::set_w(v33, this->m_context);
+      vostok::render::sky_dome_geometry::draw(v34, (int)&this->m_sky_dome_geometry);
+      v36 = v100;
+      v6 = LOBYTE(v100[1].max_tiling) == 0;
+      v37 = LOBYTE(v100[1].m_desc.Format) != 0;
+      v107 = *(float *)&v37;
+      if ( v6
+        || (v38 = this->m_context->m_scene_view.m_object,
+            v96 |= 2u,
+            !vostok::render::scene_view::get_stratosphere_texture((vostok::render::scene_view *)&rt, (int)v38)->__vftable)
+        || (m_atmosphere_changed = 1,
+            !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) )
+      {
+        m_atmosphere_changed = 0;
+      }
+      if ( (v96 & 2) != 0 )
+      {
+        v96 &= ~2u;
+        if ( rt )
+        {
+          p_m_name = &rt->m_name;
+          --rt->m_name.m_pointer.m_object;
+          if ( !p_m_name->m_pointer.m_object )
+            vostok::render::resource_manager::release(
+              v35,
+              (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+              (vostok::render::res_texture *)rt);
+        }
+      }
+      if ( m_atmosphere_changed )
+      {
+        vostok::render::res_effect::apply(
+          (vostok::render::res_effect *)(3 - (LODWORD(v36[1].m_rescale_min.z) != 0)),
+          (int)this->m_atmospheric_scattering_effect[v37].m_object);
+        stratosphere_texture = (vostok::render::res_texture **)vostok::render::scene_view::get_stratosphere_texture(
+                                                                 (vostok::render::scene_view *)&v102,
+                                                                 (int)this->m_context->m_scene_view.m_object);
+        vostok::render::backend::set_ps_texture(
+          v41,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          "sky_clouds_texture",
+          *stratosphere_texture);
+        if ( v102 != 0.0 )
+        {
+          v43 = (vostok::render::resource_intrusive_base *)(LODWORD(v102) + 4);
+          --*(_DWORD *)(LODWORD(v102) + 4);
+          if ( !v43->m_reference_count )
+            vostok::render::resource_manager::release(
+              v42,
+              (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+              (vostok::render::res_texture *)LODWORD(v102));
+        }
+        w = v36[1].m_rescale_max.w;
+        v45 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+        x = v36[1].m_rescale_max.x;
+        y = v36[1].m_rescale_max.y;
+        v48 = v36[1].m_rescale_min.w * w;
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_sky_clouds_parameters0;
+        arg.x = v48;
+        arg.y = x * w;
+        arg.z = y * w;
+        v95 = 0.0;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          (vostok::render::backend *)v42,
+          (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        m_max_uses_height = v36[1].m_max_uses_height;
+        m_base_format = v36[1].m_base_format;
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_sky_clouds_parameters1;
+        *(_QWORD *)&arg.x = __PAIR64__(m_base_format, m_max_uses_height);
+        arg.z = 0.0;
+        v95 = 0.0;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v51,
+          (vostok::render::constants_handler<1> *)LODWORD(v45),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_to_sun_direction_parameter;
+        arg.z = v104;
+        v95 = *(float *)&v99;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v52,
+          (vostok::render::constants_handler<1> *)LODWORD(v45),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        x_low = (__m128)LODWORD(v36[1].m_rescale_min.x);
+        x_low.m128_f32[0] = (float)(x_low.m128_f32[0] * 0.0055555557) * 3.1415927;
+        v102 = x_low.m128_f32[0];
+        v54 = (__m128i)_mm_cvtps_pd(x_low);
+        __libm_sse2_sin(v54);
+        *(float *)v54.m128i_i32 = *(double *)v54.m128i_i64;
+        v106 = v54.m128i_i32[0];
+        *(double *)v54.m128i_i64 = v102;
+        __libm_sse2_cos(v92);
+        v55 = v36[1].m_rescale_min.y;
+        *(float *)v54.m128i_i32 = *(double *)v54.m128i_i64;
+        *(_QWORD *)&arg.x = __PAIR64__(v106, v54.m128i_u32[0]);
+        p_arg = (unsigned int)&arg;
+        m_sky_clouds_parameters2 = this->m_sky_clouds_parameters2;
+        arg.z = v55;
+        v95 = FLOAT_200000_0;
+        vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+          (vostok::render::backend *)LODWORD(v45),
+          m_sky_clouds_parameters2,
+          (const unsigned int *)&arg);
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v57,
+          (vostok::render::constants_handler<1> *)LODWORD(v45),
+          this->m_sky_clouds_parameters3,
+          (const vostok::math::float3 *)&v36[1].m_streamed);
+        vostok::render::sky_dome_geometry::draw(v58, (int)&this->m_clouds_geometry);
+        *(float *)&v37 = v107;
+        v36 = v100;
+      }
+      if ( !BYTE1(v36[1].num_mips)
+        || (v59 = this->m_context->m_scene_view.m_object,
+            v96 |= 4u,
+            !vostok::render::scene_view::get_sky_clouds_texture((vostok::render::scene_view *)&v100, (int)v59)->__vftable)
+        || (m_atmosphere_changed = 1,
+            !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) )
+      {
+        m_atmosphere_changed = 0;
+      }
+      if ( (v96 & 4) != 0 )
+      {
+        if ( v100 )
+        {
+          v60 = &v100->vostok::render::resource_intrusive_base;
+          --v100->m_reference_count;
+          if ( !v60->m_reference_count )
+            vostok::render::resource_manager::release(
+              v35,
+              (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+              v100);
+        }
+      }
+      if ( m_atmosphere_changed )
+      {
+        vostok::render::res_effect::apply(
+          (vostok::render::res_effect *)(3 - (LODWORD(v36[1].m_rescale_min.z) != 0)),
+          (int)this->m_atmospheric_scattering_effect[v37].m_object);
+        sky_clouds_texture = (vostok::render::res_texture **)vostok::render::scene_view::get_sky_clouds_texture(
+                                                               (vostok::render::scene_view *)&v100,
+                                                               (int)this->m_context->m_scene_view.m_object);
+        vostok::render::backend::set_ps_texture(
+          v62,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          "sky_clouds_texture",
+          *sky_clouds_texture);
+        if ( v100 )
+        {
+          v64 = &v100->vostok::render::resource_intrusive_base;
+          --v100->m_reference_count;
+          if ( !v64->m_reference_count )
+            vostok::render::resource_manager::release(
+              v63,
+              (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+              v100);
+        }
+        v65 = v36[1].m_rescale_max.w;
+        v66 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+        v67 = v36[1].m_rescale_max.y;
+        *(float *)&v68 = v65 * v36[1].m_rescale_min.w;
+        *(float *)&v69 = v36[1].m_rescale_max.x * v65;
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_sky_clouds_parameters0;
+        *(_QWORD *)&arg.x = __PAIR64__(v69, v68);
+        arg.z = v67 * v65;
+        v95 = 0.0;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          (vostok::render::backend *)v63,
+          (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        v70 = v36[1].m_max_uses_height;
+        v71 = v36[1].m_base_format;
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_sky_clouds_parameters1;
+        *(_QWORD *)&arg.x = __PAIR64__(v71, v70);
+        arg.z = 0.0;
+        v95 = 0.0;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v72,
+          (vostok::render::constants_handler<1> *)LODWORD(v66),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+        p_arg = (unsigned int)&arg;
+        v90.m_object = (vostok::render::render_target *)this->m_to_sun_direction_parameter;
+        arg.z = v104;
+        v95 = *(float *)&v99;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v73,
+          (vostok::render::constants_handler<1> *)LODWORD(v66),
+          (const vostok::render::shader_constant_host *)v90.m_object,
+          &arg);
+        loaded_num_mips = (__m128)v36[1].loaded_num_mips;
+        loaded_num_mips.m128_f32[0] = (float)(loaded_num_mips.m128_f32[0] * 0.0055555557) * 3.1415927;
+        v107 = loaded_num_mips.m128_f32[0];
+        v75 = (__m128i)_mm_cvtps_pd(loaded_num_mips);
+        __libm_sse2_sin(v75);
+        *(float *)v75.m128i_i32 = *(double *)v75.m128i_i64;
+        v106 = v75.m128i_i32[0];
+        *(double *)v75.m128i_i64 = v107;
+        __libm_sse2_cos(v92);
+        v76 = *(float *)&v36[1].streaming_priority;
+        *(float *)v75.m128i_i32 = *(double *)v75.m128i_i64;
+        *(_QWORD *)&arg.x = __PAIR64__(v106, v75.m128i_u32[0]);
+        p_arg = (unsigned int)&arg;
+        v77 = this->m_sky_clouds_parameters2;
+        arg.z = v76;
+        v95 = FLOAT_100000_0;
+        vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+          (vostok::render::backend *)LODWORD(v66),
+          v77,
+          (const unsigned int *)&arg);
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v78,
+          (vostok::render::constants_handler<1> *)LODWORD(v66),
+          this->m_sky_clouds_parameters3,
+          (const vostok::math::float3 *)&v36[1].m_streamed);
+        vostok::render::sky_dome_geometry::draw(v79, (int)&this->m_clouds_geometry);
+      }
+      vostok::render::renderer_context::pop_p((vostok::render::renderer_context *)v35, this->m_context);
+      vostok::render::backend::reset_render_targets(
+        v80,
+        SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z));
+    }
+    if ( this->m_type == atmosphere_on_geometry )
+    {
+      if ( !vostok::quasi_singleton<vostok::render::options>::pinst->current.m_atmosphere_on_geometry_stage )
+        goto LABEL_3;
+      v81 = this->m_atmospheric_scattering_effect[0].m_object;
+      m_eye_rays = this->m_context->m_eye_rays;
+      v81->m_cur_technique = 8;
+      vostok::render::res_effect::apply_pass(v5, (int)v81);
+      v83 = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+      *(_QWORD *)&arg.x = __PAIR64__(v103, v105);
+      p_arg = (unsigned int)&arg;
+      v90.m_object = (vostok::render::render_target *)this->m_to_sun_direction_parameter;
+      arg.z = v104;
+      v95 = s_bm_current_air_resistance;
+      vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+        v84,
+        (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        (const vostok::render::shader_constant_host *)v90.m_object,
+        &arg);
+      vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+        v85,
+        (vostok::render::constants_handler<1> *)LODWORD(v83),
         this->m_c_eye_ray_corner,
-        v104 + 123,
-        v110);
-      ++v104[7].m_current.m_object;
-      v111 = v134[49].m_lights_tree;
-      m_c_inscatter_parameters = this->m_c_inscatter_parameters;
-      m_diff_range_start = v104[191].m_diff_range_start;
-      *(_DWORD *)src_ptr = v134[49].m_sun.m_object;
-      *(_DWORD *)&src_ptr[4] = v111;
-      v130 = 0;
-      if ( m_c_inscatter_parameters->m_update_markers[1] == m_diff_range_start )
-      {
-        m_diff_range_start = m_c_inscatter_parameters->m_shader_slots[1].m_buffer_index;
-        if ( (unsigned __int16)m_diff_range_start != 0xFFFF )
-          vostok::render::shader_constant_buffer::set_memory(
-            m_c_inscatter_parameters->m_shader_slots[1].m_slot_index,
-            (unsigned __int8)m_c_inscatter_parameters->m_shader_slots[1].m_class_id,
-            v104[123].m_current.m_object->m_const_buffers._M_impl._M_start[(unsigned __int16)m_diff_range_start].m_object,
-            src_ptr);
-      }
-      ++v104[7].m_current.m_object;
-      epsilon = 1;
-      v127.m_object = 0;
-      vostok::render::renderer_context::get_rt(
-        (vostok::render::renderer_context *)0x2F,
-        &v126,
-        this->m_context,
-        m_diff_range_start);
-      vostok::render::stage_atmosphere::fill_surfaces(v114, this, v126, v127, epsilon);
-      vostok::render::res_effect::apply(
-        (vostok::render::res_effect *)7,
-        &this->m_atmospheric_scattering_effect.m_object->__vftable);
-      v115 = (vostok::render::constants_handler<1> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      v116 = this->m_to_sun_direction_parameter;
-      v117 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 573);
-      *(_QWORD *)src_ptr = *(_QWORD *)&to_sun_direction.x;
-      v130 = __PAIR64__((unsigned int)clear_value, LODWORD(to_sun_direction.z));
-      if ( v116->m_update_markers[1] == v117 )
-      {
-        v118 = v116->m_shader_slots[1].m_buffer_index;
-        if ( v118 != 0xFFFF )
-          vostok::render::shader_constant_buffer::set_memory(
-            v116->m_shader_slots[1].m_slot_index,
-            (unsigned __int8)v116->m_shader_slots[1].m_class_id,
-            *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                     + 371)
-                                                                   + 16)
-                                                       + 4 * v118),
-            src_ptr);
-      }
-      ++v115[7].m_current.m_object;
-      vostok::math::try_invert4x4(&this->m_context->m_vp, &world_transform);
-      v120 = (const vostok::math::float3 *)vostok::math::transpose(&v140, v119);
-      vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
-        this->m_c_inverted_view_projection_matrix,
-        v115 + 123,
-        v120);
-      v121 = eye_rays;
-      ++v115[7].m_current.m_object;
-      vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
-        this->m_c_eye_ray_corner,
-        v115 + 123,
-        v121);
-      ++v115[7].m_current.m_object;
-      v122 = v134[49].m_sun.m_object;
-      v123 = this->m_c_inscatter_parameters;
-      v124 = v115[191].m_diff_range_start;
-      *(_DWORD *)&src_ptr[4] = v134[49].m_lights_tree;
-      *(_DWORD *)src_ptr = v122;
-      v130 = 0;
-      if ( v123->m_update_markers[1] == v124 )
-      {
-        v124 = v123->m_shader_slots[1].m_buffer_index;
-        if ( (unsigned __int16)v124 != 0xFFFF )
-          vostok::render::shader_constant_buffer::set_memory(
-            v123->m_shader_slots[1].m_slot_index,
-            (unsigned __int8)v123->m_shader_slots[1].m_class_id,
-            v115[123].m_current.m_object->m_const_buffers._M_impl._M_start[(unsigned __int16)v124].m_object,
-            src_ptr);
-      }
-      ++v115[7].m_current.m_object;
-      epsilon = 1;
-      v127.m_object = 0;
-      vostok::render::renderer_context::get_rt((vostok::render::renderer_context *)0x2F, &v126, this->m_context, v124);
-      vostok::render::stage_atmosphere::fill_surfaces(v125, this, v126, v127, epsilon);
+        m_eye_rays);
+      *(_QWORD *)&arg.x = __PAIR64__(LODWORD(s_bm_current_air_resistance), LODWORD(s_spot_max_distance));
+      p_arg = (unsigned int)&arg;
+      v90.m_object = (vostok::render::render_target *)this->m_c_inscatter_parameters;
+      arg.z = 0.0;
+      v95 = 0.0;
+      vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+        v86,
+        (vostok::render::constants_handler<1> *)LODWORD(v83),
+        (const vostok::render::shader_constant_host *)v90.m_object,
+        &arg);
+      p_arg = 1;
+      v90.m_object = 0;
+      v89.m_object = v87;
+      vostok::render::renderer_context::get_rt(this->m_context, rt_generic_0, &v89);
+      vostok::render::stage_atmosphere::fill_surfaces(
+        v88,
+        (vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)this,
+        v89.m_object,
+        v90.m_object,
+        p_arg);
     }
+    vostok::render::backend::reset_render_targets(
+      (vostok::render::backend *)v5,
+      SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z));
   }
-  vostok::render::backend::reset_render_targets(
-    (vostok::render::backend *)v5,
-    (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name);
+LABEL_56:
+  D3DPERF_EndEvent();
 }

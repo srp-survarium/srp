@@ -1,4 +1,9 @@
-bool __thiscall vostok::network::match_client::is_connected(vostok::network::match_client *this)
+BOOL __usercall vostok::network::match_client::is_connected@<eax>(
+        vostok::network::match_client *this@<ecx>,
+        int a2@<eax>)
 {
-  return *this->m_client && !*(int *)((char *)&dword_258154 + (unsigned int)*this->m_client);
+  _DWORD *v2; // eax
+
+  v2 = *(_DWORD **)(a2 + 240);
+  return *v2 && !*(_DWORD *)((char *)&loc_55F64 + *v2);
 }

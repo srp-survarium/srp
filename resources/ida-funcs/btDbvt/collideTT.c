@@ -1,227 +1,226 @@
 void __thiscall btDbvt::collideTT<btSoftColliders::CollideCL_SS>(
         const btDbvtNode *root0,
         const btDbvtNode *root1,
-        const btDbvtNode *policy,
-        btSoftColliders::CollideCL_SS *policya)
+        btAlignedObjectArray<GrahamVector2> *policy,
+        const btGjkEpaSolver2::sResults *a4)
 {
-  int v4; // esi
+  int v4; // edi
   char *v5; // eax
-  int v6; // ecx
-  char *v7; // edi
-  int v8; // edx
-  const btDbvtNode *v9; // ecx
+  char *v6; // esi
+  char *v7; // edx
+  btAlignedObjectArray<GrahamVector2> *v8; // ecx
+  const btDbvtNode *v9; // eax
   const btDbvtNode *v10; // ebx
-  int v11; // eax
-  char *v12; // eax
-  char *v13; // edx
-  _DWORD *v14; // eax
-  char *v15; // eax
+  int v11; // ecx
+  _DWORD *v12; // eax
+  _DWORD *v13; // ecx
+  bool v14; // zf
+  btDbvtNode *v15; // eax
   btDbvtNode *v16; // eax
-  btDbvtNode *v17; // eax
-  int v18; // esi
-  btDbvtNode *v19; // eax
-  btDbvtNode *v20; // ebx
-  btDbvtNode *v21; // eax
-  btDbvtNode *v22; // edx
-  btDbvtNode *v23; // edx
+  int v17; // edi
+  btDbvtNode *v18; // eax
+  btDbvtNode *v19; // ebx
+  int v20; // edi
+  btDbvtNode *v21; // edx
+  btDbvtNode *v22; // ecx
+  int v23; // edi
   btDbvtNode *v24; // edx
-  btDbvtNode *v25; // ebx
-  int v26; // esi
-  btDbvtNode *v27; // eax
-  btDbvtNode *v28; // ecx
-  int v29; // esi
-  int v30; // [esp+A0h] [ebp-4Ch]
-  char *v31; // [esp+A4h] [ebp-48h]
-  int v32; // [esp+ACh] [ebp-40h]
-  int v33; // [esp+ACh] [ebp-40h]
-  int v34; // [esp+ACh] [ebp-40h]
-  int v35; // [esp+B4h] [ebp-38h]
-  btDbvtNode *lb; // [esp+B8h] [ebp-34h]
-  btDbvtNode *lba; // [esp+B8h] [ebp-34h]
-  __m128 v38; // [esp+BCh] [ebp-30h]
-  int v39; // [esp+DCh] [ebp-10h]
-  int v40; // [esp+E0h] [ebp-Ch]
+  _DWORD *v25; // [esp+10h] [ebp-50h]
+  int v26; // [esp+14h] [ebp-4Ch]
+  int v27; // [esp+14h] [ebp-4Ch]
+  char *v28; // [esp+18h] [ebp-48h]
+  int v29; // [esp+18h] [ebp-48h]
+  int v30; // [esp+1Ch] [ebp-44h]
+  int v31; // [esp+1Ch] [ebp-44h]
+  char *v32; // [esp+1Ch] [ebp-44h]
+  int v33; // [esp+20h] [ebp-40h]
+  int v34; // [esp+24h] [ebp-3Ch]
+  const btDbvtNode *v35; // [esp+24h] [ebp-3Ch]
+  __m128 v36; // [esp+30h] [ebp-30h]
+  char v37[4]; // [esp+4Ch] [ebp-14h] BYREF
+  int v38; // [esp+50h] [ebp-10h]
+  int v39; // [esp+54h] [ebp-Ch]
+  char *v40; // [esp+58h] [ebp-8h]
+  char v41; // [esp+5Ch] [ebp-4h]
 
   if ( policy )
   {
     v4 = 1;
-    ++gNumAlignedAllocs;
-    v32 = 124;
-    v5 = (char *)sAlignedAllocFunc(0x400u, 16);
-    v6 = 128;
+    v30 = 124;
+    v5 = (char *)btAlignedAllocInternal(0x400u);
+    v6 = v5;
+    v41 = 1;
+    v40 = v5;
+    v39 = 128;
     v7 = v5;
-    v40 = 128;
+    v26 = 128;
     do
     {
-      if ( v5 )
+      if ( v7 )
       {
-        *(_DWORD *)v5 = v35;
-        *((_DWORD *)v5 + 1) = lb;
+        *(_DWORD *)v7 = v33;
+        *((_DWORD *)v7 + 1) = v34;
       }
-      v5 += 8;
-      --v6;
+      v7 += 8;
+      --v26;
     }
-    while ( v6 );
-    v8 = 128;
-    v39 = 128;
-    *(_DWORD *)v7 = root1;
-    *((_DWORD *)v7 + 1) = policy;
+    while ( v26 );
+    v38 = 128;
+    *(_DWORD *)v5 = root1;
+    v8 = policy;
+    *((_DWORD *)v5 + 1) = policy;
     while ( 1 )
     {
-      v9 = *(const btDbvtNode **)&v7[8 * v4 - 4];
-      v10 = *(const btDbvtNode **)&v7[8 * v4-- - 8];
-      lba = (btDbvtNode *)v9;
-      if ( v4 > v32 )
+      v9 = *(const btDbvtNode **)&v6[8 * v4-- - 4];
+      v10 = *(const btDbvtNode **)&v6[8 * v4];
+      v35 = v9;
+      if ( v4 > v30 )
       {
-        v11 = 2 * v8;
-        v30 = 2 * v8;
-        if ( 2 * v8 > v8 )
+        v11 = 2 * v38;
+        v27 = 2 * v38;
+        if ( 2 * v38 > v38 )
         {
-          if ( v40 < v11 )
+          if ( v39 < v11 )
           {
             if ( v11 )
             {
-              ++gNumAlignedAllocs;
-              v12 = (char *)sAlignedAllocFunc(16 * v8, 16);
-              v9 = lba;
-              v31 = v12;
-              v11 = v30;
+              v12 = btAlignedAllocInternal(16 * v38);
+              v11 = 2 * v38;
+              v25 = v12;
+              v9 = v35;
             }
             else
             {
-              v31 = 0;
+              v25 = 0;
             }
-            if ( v39 > 0 )
+            if ( v38 > 0 )
             {
-              v13 = (char *)(v7 - v31);
-              v33 = v39;
-              v14 = v31;
-              while ( 1 )
+              v13 = v25;
+              v28 = (char *)(v6 - (char *)v25);
+              v31 = v38;
+              do
               {
-                if ( v14 )
+                if ( v13 )
                 {
-                  *v14 = *(_DWORD *)((char *)v14 + (_DWORD)v13);
-                  v14[1] = *(_DWORD *)((char *)v14 + v7 - v31 + 4);
+                  *v13 = *(_DWORD *)((char *)v13 + (_DWORD)v28);
+                  v13[1] = *(_DWORD *)((char *)v13 + (_DWORD)v28 + 4);
                 }
-                v14 += 2;
-                if ( !--v33 )
-                  break;
-                v13 = (char *)(v7 - v31);
+                v13 += 2;
+                --v31;
               }
-              v11 = v30;
+              while ( v31 );
+              v11 = v27;
             }
-            if ( v7 )
+            if ( v6 )
             {
-              ++gNumAlignedFree;
-              sAlignedFreeFunc(v7);
-              v11 = v30;
-              v9 = lba;
+              btAlignedFreeInternal(v6);
+              v9 = v35;
+              v11 = v27;
             }
-            v7 = v31;
-            v8 = v39;
-            v40 = v11;
+            v6 = (char *)v25;
+            v41 = 1;
+            v39 = v11;
           }
-          if ( v8 < v11 )
+          if ( v38 < v11 )
           {
-            v34 = v11 - v39;
-            v15 = &v7[8 * v8];
+            v32 = &v6[8 * v38];
+            v29 = v11 - v38;
             do
             {
-              if ( v15 )
+              if ( v32 )
               {
-                *(_DWORD *)v15 = v35;
-                *((_DWORD *)v15 + 1) = lba;
+                *(_DWORD *)v32 = v33;
+                *((_DWORD *)v32 + 1) = v35;
+                v11 = v27;
               }
-              v15 += 8;
-              --v34;
+              v14 = v29-- == 1;
+              v32 += 8;
             }
-            while ( v34 );
-            v11 = v30;
+            while ( !v14 );
           }
         }
-        v39 = v11;
-        v32 = v11 - 4;
+        v38 = v11;
+        v8 = (btAlignedObjectArray<GrahamVector2> *)(v11 - 4);
+        v30 = (int)v8;
       }
       if ( v10 == v9 )
       {
         if ( v10->childs[1] )
         {
-          v16 = v10->childs[0];
-          *(_DWORD *)&v7[8 * v4] = v16;
-          *(_DWORD *)&v7[8 * v4 + 4] = v16;
-          v17 = v10->childs[1];
-          v18 = v4 + 1;
-          *(_DWORD *)&v7[8 * v18] = v17;
-          *(_DWORD *)&v7[8 * v18 + 4] = v17;
-          v19 = v10->childs[0];
-          v20 = v10->childs[1];
-          ++v18;
-          *(_DWORD *)&v7[8 * v18] = v19;
-          *(_DWORD *)&v7[8 * v18 + 4] = v20;
-          v4 = v18 + 1;
+          v15 = v10->childs[0];
+          *(_DWORD *)&v6[8 * v4] = v15;
+          *(_DWORD *)&v6[8 * v4 + 4] = v15;
+          v16 = v10->childs[1];
+          v17 = v4 + 1;
+          *(_DWORD *)&v6[8 * v17] = v16;
+          *(_DWORD *)&v6[8 * v17 + 4] = v16;
+          v18 = v10->childs[0];
+          v19 = v10->childs[1];
+          v20 = v17 + 1;
+          *(_DWORD *)&v6[8 * v20] = v18;
+          *(_DWORD *)&v6[8 * v20 + 4] = v19;
+          goto LABEL_40;
         }
       }
       else
       {
-        v38 = _mm_or_ps(
+        v36 = _mm_or_ps(
                 _mm_cmplt_ps(v10->volume.mx.mVec128, v9->volume.mi.mVec128),
                 _mm_cmplt_ps(v9->volume.mx.mVec128, v10->volume.mi.mVec128));
-        if ( !(v38.m128_i32[2] | v38.m128_i32[1] | v38.m128_i32[0]) )
+        v8 = (btAlignedObjectArray<GrahamVector2> *)(v36.m128_i32[2] | v36.m128_i32[1] | v36.m128_i32[0]);
+        if ( !v8 )
         {
           if ( v10->childs[1] )
           {
-            v21 = v10->childs[0];
+            v8 = (btAlignedObjectArray<GrahamVector2> *)v10->childs[0];
             if ( v9->childs[1] )
             {
-              v22 = v9->childs[0];
-              *(_DWORD *)&v7[8 * v4] = v21;
-              *(_DWORD *)&v7[8 * v4 + 4] = v22;
-              v23 = v9->childs[0];
-              *(_DWORD *)&v7[8 * v4 + 8] = v10->childs[1];
-              *(_DWORD *)&v7[8 * v4 + 12] = v23;
+              v21 = v9->childs[0];
+              *(_DWORD *)&v6[8 * v4] = v8;
+              *(_DWORD *)&v6[8 * v4 + 4] = v21;
+              v22 = v10->childs[1];
+              *(_DWORD *)&v6[8 * v4 + 12] = v9->childs[0];
+              v23 = v4 + 1;
+              *(_DWORD *)&v6[8 * v23] = v22;
+              v8 = (btAlignedObjectArray<GrahamVector2> *)v10->childs[0];
               v24 = v9->childs[1];
-              v4 += 2;
-              *(_DWORD *)&v7[8 * v4] = v10->childs[0];
-              *(_DWORD *)&v7[8 * v4 + 4] = v24;
-              v25 = v10->childs[1];
-              v9 = v9->childs[1];
+              v4 = v23 + 1;
+              *(_DWORD *)&v6[8 * v4] = v8;
+              *(_DWORD *)&v6[8 * v4 + 4] = v24;
+              v10 = v10->childs[1];
+              goto LABEL_38;
             }
-            else
-            {
-              *(_DWORD *)&v7[8 * v4] = v21;
-              *(_DWORD *)&v7[8 * v4 + 4] = v9;
-              v25 = v10->childs[1];
-            }
-            v26 = v4 + 1;
-            *(_DWORD *)&v7[8 * v26] = v25;
-            *(_DWORD *)&v7[8 * v26 + 4] = v9;
-            v4 = v26 + 1;
-          }
-          else if ( v9->childs[1] )
-          {
-            v27 = v9->childs[0];
-            *(_DWORD *)&v7[8 * v4] = v10;
-            *(_DWORD *)&v7[8 * v4 + 4] = v27;
-            v28 = v9->childs[1];
-            v29 = v4 + 1;
-            *(_DWORD *)&v7[8 * v29] = v10;
-            *(_DWORD *)&v7[8 * v29 + 4] = v28;
-            v4 = v29 + 1;
+            *(_DWORD *)&v6[8 * v4] = v8;
+            *(_DWORD *)&v6[8 * v4 + 4] = v9;
+            v10 = v10->childs[1];
           }
           else
           {
-            btSoftColliders::CollideCL_SS::Process(v10, v9, policya);
+            if ( !v9->childs[1] )
+            {
+              btSoftColliders::CollideCL_SS::Process(v10, 0, a4, v9);
+              goto LABEL_42;
+            }
+            v8 = (btAlignedObjectArray<GrahamVector2> *)v9->childs[0];
+            *(_DWORD *)&v6[8 * v4] = v10;
+            *(_DWORD *)&v6[8 * v4 + 4] = v8;
+LABEL_38:
+            v9 = v9->childs[1];
           }
+          v20 = v4 + 1;
+          *(_DWORD *)&v6[8 * v20] = v10;
+          *(_DWORD *)&v6[8 * v20 + 4] = v9;
+LABEL_40:
+          v4 = v20 + 1;
         }
       }
+LABEL_42:
       if ( !v4 )
-        break;
-      v8 = v39;
-    }
-    if ( v7 )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v7);
+      {
+        v40 = v6;
+        btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v8, (int)v37);
+        return;
+      }
     }
   }
 }
@@ -230,227 +229,226 @@ void __thiscall btDbvt::collideTT<btSoftColliders::CollideCL_SS>(
 void __thiscall btDbvt::collideTT<btSoftColliders::CollideVF_SS>(
         const btDbvtNode *root0,
         const btDbvtNode *root1,
-        const btDbvtNode *policy,
-        btSoftColliders::CollideVF_SS *policya)
+        btAlignedObjectArray<GrahamVector2> *policy,
+        btSoftColliders::CollideVF_SS *a4)
 {
-  int v4; // esi
+  int v4; // edi
   char *v5; // eax
-  int v6; // ecx
-  char *v7; // edi
-  int v8; // edx
-  const btDbvtNode *v9; // ecx
+  char *v6; // esi
+  char *v7; // edx
+  btAlignedObjectArray<GrahamVector2> *v8; // ecx
+  const btDbvtNode *v9; // eax
   const btDbvtNode *v10; // ebx
-  int v11; // eax
-  char *v12; // eax
-  char *v13; // edx
-  _DWORD *v14; // eax
-  char *v15; // eax
+  int v11; // ecx
+  _DWORD *v12; // eax
+  _DWORD *v13; // ecx
+  bool v14; // zf
+  btDbvtNode *v15; // eax
   btDbvtNode *v16; // eax
-  btDbvtNode *v17; // eax
-  int v18; // esi
-  btDbvtNode *v19; // eax
-  btDbvtNode *v20; // ebx
-  btDbvtNode *v21; // eax
-  btDbvtNode *v22; // edx
-  btDbvtNode *v23; // edx
+  int v17; // edi
+  btDbvtNode *v18; // eax
+  btDbvtNode *v19; // ebx
+  int v20; // edi
+  btDbvtNode *v21; // edx
+  btDbvtNode *v22; // ecx
+  int v23; // edi
   btDbvtNode *v24; // edx
-  btDbvtNode *v25; // ebx
-  int v26; // esi
-  btDbvtNode *v27; // eax
-  btDbvtNode *v28; // ecx
-  int v29; // esi
-  int v30; // [esp+A0h] [ebp-4Ch]
-  char *v31; // [esp+A4h] [ebp-48h]
-  int v32; // [esp+ACh] [ebp-40h]
-  int v33; // [esp+ACh] [ebp-40h]
-  int v34; // [esp+ACh] [ebp-40h]
-  int v35; // [esp+B4h] [ebp-38h]
-  btDbvtNode *lface; // [esp+B8h] [ebp-34h]
-  btDbvtNode *lfacea; // [esp+B8h] [ebp-34h]
-  __m128 v38; // [esp+BCh] [ebp-30h]
-  int v39; // [esp+DCh] [ebp-10h]
-  int v40; // [esp+E0h] [ebp-Ch]
+  _DWORD *v25; // [esp+10h] [ebp-50h]
+  int v26; // [esp+14h] [ebp-4Ch]
+  int v27; // [esp+14h] [ebp-4Ch]
+  char *v28; // [esp+18h] [ebp-48h]
+  int v29; // [esp+18h] [ebp-48h]
+  int v30; // [esp+1Ch] [ebp-44h]
+  int v31; // [esp+1Ch] [ebp-44h]
+  char *v32; // [esp+1Ch] [ebp-44h]
+  int v33; // [esp+20h] [ebp-40h]
+  int v34; // [esp+24h] [ebp-3Ch]
+  const btDbvtNode *v35; // [esp+24h] [ebp-3Ch]
+  __m128 v36; // [esp+30h] [ebp-30h]
+  char v37[4]; // [esp+4Ch] [ebp-14h] BYREF
+  int v38; // [esp+50h] [ebp-10h]
+  int v39; // [esp+54h] [ebp-Ch]
+  char *v40; // [esp+58h] [ebp-8h]
+  char v41; // [esp+5Ch] [ebp-4h]
 
   if ( policy )
   {
     v4 = 1;
-    ++gNumAlignedAllocs;
-    v32 = 124;
-    v5 = (char *)sAlignedAllocFunc(0x400u, 16);
-    v6 = 128;
+    v30 = 124;
+    v5 = (char *)btAlignedAllocInternal(0x400u);
+    v6 = v5;
+    v41 = 1;
+    v40 = v5;
+    v39 = 128;
     v7 = v5;
-    v40 = 128;
+    v26 = 128;
     do
     {
-      if ( v5 )
+      if ( v7 )
       {
-        *(_DWORD *)v5 = v35;
-        *((_DWORD *)v5 + 1) = lface;
+        *(_DWORD *)v7 = v33;
+        *((_DWORD *)v7 + 1) = v34;
       }
-      v5 += 8;
-      --v6;
+      v7 += 8;
+      --v26;
     }
-    while ( v6 );
-    v8 = 128;
-    v39 = 128;
-    *(_DWORD *)v7 = root1;
-    *((_DWORD *)v7 + 1) = policy;
+    while ( v26 );
+    v38 = 128;
+    *(_DWORD *)v5 = root1;
+    v8 = policy;
+    *((_DWORD *)v5 + 1) = policy;
     while ( 1 )
     {
-      v9 = *(const btDbvtNode **)&v7[8 * v4 - 4];
-      v10 = *(const btDbvtNode **)&v7[8 * v4-- - 8];
-      lfacea = (btDbvtNode *)v9;
-      if ( v4 > v32 )
+      v9 = *(const btDbvtNode **)&v6[8 * v4-- - 4];
+      v10 = *(const btDbvtNode **)&v6[8 * v4];
+      v35 = v9;
+      if ( v4 > v30 )
       {
-        v11 = 2 * v8;
-        v30 = 2 * v8;
-        if ( 2 * v8 > v8 )
+        v11 = 2 * v38;
+        v27 = 2 * v38;
+        if ( 2 * v38 > v38 )
         {
-          if ( v40 < v11 )
+          if ( v39 < v11 )
           {
             if ( v11 )
             {
-              ++gNumAlignedAllocs;
-              v12 = (char *)sAlignedAllocFunc(16 * v8, 16);
-              v9 = lfacea;
-              v31 = v12;
-              v11 = v30;
+              v12 = btAlignedAllocInternal(16 * v38);
+              v11 = 2 * v38;
+              v25 = v12;
+              v9 = v35;
             }
             else
             {
-              v31 = 0;
+              v25 = 0;
             }
-            if ( v39 > 0 )
+            if ( v38 > 0 )
             {
-              v13 = (char *)(v7 - v31);
-              v33 = v39;
-              v14 = v31;
-              while ( 1 )
+              v13 = v25;
+              v28 = (char *)(v6 - (char *)v25);
+              v31 = v38;
+              do
               {
-                if ( v14 )
+                if ( v13 )
                 {
-                  *v14 = *(_DWORD *)((char *)v14 + (_DWORD)v13);
-                  v14[1] = *(_DWORD *)((char *)v14 + v7 - v31 + 4);
+                  *v13 = *(_DWORD *)((char *)v13 + (_DWORD)v28);
+                  v13[1] = *(_DWORD *)((char *)v13 + (_DWORD)v28 + 4);
                 }
-                v14 += 2;
-                if ( !--v33 )
-                  break;
-                v13 = (char *)(v7 - v31);
+                v13 += 2;
+                --v31;
               }
-              v11 = v30;
+              while ( v31 );
+              v11 = v27;
             }
-            if ( v7 )
+            if ( v6 )
             {
-              ++gNumAlignedFree;
-              sAlignedFreeFunc(v7);
-              v11 = v30;
-              v9 = lfacea;
+              btAlignedFreeInternal(v6);
+              v9 = v35;
+              v11 = v27;
             }
-            v7 = v31;
-            v8 = v39;
-            v40 = v11;
+            v6 = (char *)v25;
+            v41 = 1;
+            v39 = v11;
           }
-          if ( v8 < v11 )
+          if ( v38 < v11 )
           {
-            v34 = v11 - v39;
-            v15 = &v7[8 * v8];
+            v32 = &v6[8 * v38];
+            v29 = v11 - v38;
             do
             {
-              if ( v15 )
+              if ( v32 )
               {
-                *(_DWORD *)v15 = v35;
-                *((_DWORD *)v15 + 1) = lfacea;
+                *(_DWORD *)v32 = v33;
+                *((_DWORD *)v32 + 1) = v35;
+                v11 = v27;
               }
-              v15 += 8;
-              --v34;
+              v14 = v29-- == 1;
+              v32 += 8;
             }
-            while ( v34 );
-            v11 = v30;
+            while ( !v14 );
           }
         }
-        v39 = v11;
-        v32 = v11 - 4;
+        v38 = v11;
+        v8 = (btAlignedObjectArray<GrahamVector2> *)(v11 - 4);
+        v30 = (int)v8;
       }
       if ( v10 == v9 )
       {
         if ( v10->childs[1] )
         {
-          v16 = v10->childs[0];
-          *(_DWORD *)&v7[8 * v4] = v16;
-          *(_DWORD *)&v7[8 * v4 + 4] = v16;
-          v17 = v10->childs[1];
-          v18 = v4 + 1;
-          *(_DWORD *)&v7[8 * v18] = v17;
-          *(_DWORD *)&v7[8 * v18 + 4] = v17;
-          v19 = v10->childs[0];
-          v20 = v10->childs[1];
-          ++v18;
-          *(_DWORD *)&v7[8 * v18] = v19;
-          *(_DWORD *)&v7[8 * v18 + 4] = v20;
-          v4 = v18 + 1;
+          v15 = v10->childs[0];
+          *(_DWORD *)&v6[8 * v4] = v15;
+          *(_DWORD *)&v6[8 * v4 + 4] = v15;
+          v16 = v10->childs[1];
+          v17 = v4 + 1;
+          *(_DWORD *)&v6[8 * v17] = v16;
+          *(_DWORD *)&v6[8 * v17 + 4] = v16;
+          v18 = v10->childs[0];
+          v19 = v10->childs[1];
+          v20 = v17 + 1;
+          *(_DWORD *)&v6[8 * v20] = v18;
+          *(_DWORD *)&v6[8 * v20 + 4] = v19;
+          goto LABEL_40;
         }
       }
       else
       {
-        v38 = _mm_or_ps(
+        v36 = _mm_or_ps(
                 _mm_cmplt_ps(v10->volume.mx.mVec128, v9->volume.mi.mVec128),
                 _mm_cmplt_ps(v9->volume.mx.mVec128, v10->volume.mi.mVec128));
-        if ( !(v38.m128_i32[2] | v38.m128_i32[1] | v38.m128_i32[0]) )
+        v8 = (btAlignedObjectArray<GrahamVector2> *)(v36.m128_i32[2] | v36.m128_i32[1] | v36.m128_i32[0]);
+        if ( !v8 )
         {
           if ( v10->childs[1] )
           {
-            v21 = v10->childs[0];
+            v8 = (btAlignedObjectArray<GrahamVector2> *)v10->childs[0];
             if ( v9->childs[1] )
             {
-              v22 = v9->childs[0];
-              *(_DWORD *)&v7[8 * v4] = v21;
-              *(_DWORD *)&v7[8 * v4 + 4] = v22;
-              v23 = v9->childs[0];
-              *(_DWORD *)&v7[8 * v4 + 8] = v10->childs[1];
-              *(_DWORD *)&v7[8 * v4 + 12] = v23;
+              v21 = v9->childs[0];
+              *(_DWORD *)&v6[8 * v4] = v8;
+              *(_DWORD *)&v6[8 * v4 + 4] = v21;
+              v22 = v10->childs[1];
+              *(_DWORD *)&v6[8 * v4 + 12] = v9->childs[0];
+              v23 = v4 + 1;
+              *(_DWORD *)&v6[8 * v23] = v22;
+              v8 = (btAlignedObjectArray<GrahamVector2> *)v10->childs[0];
               v24 = v9->childs[1];
-              v4 += 2;
-              *(_DWORD *)&v7[8 * v4] = v10->childs[0];
-              *(_DWORD *)&v7[8 * v4 + 4] = v24;
-              v25 = v10->childs[1];
-              v9 = v9->childs[1];
+              v4 = v23 + 1;
+              *(_DWORD *)&v6[8 * v4] = v8;
+              *(_DWORD *)&v6[8 * v4 + 4] = v24;
+              v10 = v10->childs[1];
+              goto LABEL_38;
             }
-            else
-            {
-              *(_DWORD *)&v7[8 * v4] = v21;
-              *(_DWORD *)&v7[8 * v4 + 4] = v9;
-              v25 = v10->childs[1];
-            }
-            v26 = v4 + 1;
-            *(_DWORD *)&v7[8 * v26] = v25;
-            *(_DWORD *)&v7[8 * v26 + 4] = v9;
-            v4 = v26 + 1;
-          }
-          else if ( v9->childs[1] )
-          {
-            v27 = v9->childs[0];
-            *(_DWORD *)&v7[8 * v4] = v10;
-            *(_DWORD *)&v7[8 * v4 + 4] = v27;
-            v28 = v9->childs[1];
-            v29 = v4 + 1;
-            *(_DWORD *)&v7[8 * v29] = v10;
-            *(_DWORD *)&v7[8 * v29 + 4] = v28;
-            v4 = v29 + 1;
+            *(_DWORD *)&v6[8 * v4] = v8;
+            *(_DWORD *)&v6[8 * v4 + 4] = v9;
+            v10 = v10->childs[1];
           }
           else
           {
-            btSoftColliders::CollideVF_SS::Process(v10, v9, policya);
+            if ( !v9->childs[1] )
+            {
+              btSoftColliders::CollideVF_SS::Process(v10, a4, v9);
+              goto LABEL_42;
+            }
+            v8 = (btAlignedObjectArray<GrahamVector2> *)v9->childs[0];
+            *(_DWORD *)&v6[8 * v4] = v10;
+            *(_DWORD *)&v6[8 * v4 + 4] = v8;
+LABEL_38:
+            v9 = v9->childs[1];
           }
+          v20 = v4 + 1;
+          *(_DWORD *)&v6[8 * v20] = v10;
+          *(_DWORD *)&v6[8 * v20 + 4] = v9;
+LABEL_40:
+          v4 = v20 + 1;
         }
       }
+LABEL_42:
       if ( !v4 )
-        break;
-      v8 = v39;
-    }
-    if ( v7 )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v7);
+      {
+        v40 = v6;
+        btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v8, (int)v37);
+        return;
+      }
     }
   }
 }

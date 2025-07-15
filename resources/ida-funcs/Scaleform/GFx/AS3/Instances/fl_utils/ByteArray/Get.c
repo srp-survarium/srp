@@ -1,12 +1,12 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Get(
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray *this,
-        unsigned __int8 *dest,
+        void *dest,
         unsigned int destSz)
 {
   this->Position = 0;
   if ( destSz <= this->Data.Data.Size )
   {
-    memcpy(dest, this->Data.Data.Data, destSz);
+    memcpy((int)dest, (const __m128i *)this->Data.Data.Data, destSz);
     this->Position += destSz;
   }
   else
@@ -21,18 +21,21 @@ unsigned __int8 __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray *this,
         unsigned int ind)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v4; // eax
+  unsigned int Length; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v6; // [esp+0h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v7; // [esp-14h] [ebp-20h]
+  Scaleform::GFx::AS3::VM::Error v8; // [esp+4h] [ebp-8h] BYREF
 
-  if ( ind < this->Length )
+  Length = this->Length;
+  if ( ind < Length )
     return this->Data.Data.Data[ind];
-  pVM = this->pTraits.pObject->pVM;
-  Scaleform::GFx::AS3::VM::Error::Error(&v6, eInvalidArgumentError, pVM);
-  Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v4);
-  pNode = v6.Message.pNode;
-  --v6.Message.pNode->RefCount;
+  v7.pStr = "ByteArray::Get";
+  v7.Size = 14;
+  Scaleform::GFx::AS3::VM::Error::Error(&v8, eInvalidArgumentError, this->pTraits.pObject->pVM, v7, ind, 0, Length - 1);
+  Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
+  pNode = v8.Message.pNode;
+  --v8.Message.pNode->RefCount;
   if ( !pNode->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   return 0;

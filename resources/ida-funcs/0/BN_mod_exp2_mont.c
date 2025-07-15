@@ -1,4 +1,5 @@
-int __cdecl BN_mod_exp2_mont(
+int __usercall BN_mod_exp2_mont@<eax>(
+        int ebx0@<ebx>,
         bignum_st *rr,
         bignum_pool_item *a1,
         const bignum_st *p1,
@@ -8,268 +9,267 @@ int __cdecl BN_mod_exp2_mont(
         bignum_ctx *ctx,
         bn_mont_ctx_st *in_mont)
 {
-  int v9; // esi
-  int v10; // eax
-  bignum_ctx *v11; // ebx
-  bignum_pool_item *v12; // edi
-  bignum_pool_item *v13; // eax
-  bn_mont_ctx_st *v14; // ebp
-  bn_mont_ctx_st *v15; // eax
-  int v16; // edi
-  bignum_pool_item *v17; // eax
-  bignum_pool_item *v18; // esi
-  int v19; // edi
-  int v20; // esi
-  bignum_pool_item *v21; // eax
+  int v10; // esi
+  int v11; // eax
+  bignum_ctx *v12; // ebx
+  bignum_pool_item *v13; // edi
+  bignum_pool_item *v14; // eax
+  bn_mont_ctx_st *v15; // ebp
+  bn_mont_ctx_st *v16; // eax
+  int v17; // edi
+  bignum_pool_item *v18; // eax
+  bignum_pool_item *v19; // esi
+  int v20; // edi
+  int v21; // esi
   bignum_pool_item *v22; // eax
-  int v23; // edi
-  int v24; // esi
-  bignum_pool_item *v25; // eax
-  int v26; // esi
-  int v27; // edi
-  bignum_pool_item *v28; // eax
-  int v29; // ebp
+  bignum_pool_item *v23; // eax
+  int v24; // edi
+  int v25; // esi
+  bignum_pool_item *v26; // eax
+  int v27; // esi
+  int v28; // edi
+  bignum_pool_item *v29; // eax
+  int v30; // ebp
   int i; // esi
-  bool v31; // cc
-  int v32; // ebx
-  bignum_st *j; // edi
-  int v34; // ebx
-  bignum_pool_item *r; // [esp+4h] [ebp-12Ch]
-  bignum_st *ra; // [esp+4h] [ebp-12Ch]
-  bn_mont_ctx_st *v37; // [esp+8h] [ebp-128h]
-  int v38; // [esp+Ch] [ebp-124h]
-  int b; // [esp+10h] [ebp-120h]
-  bignum_pool_item *ba; // [esp+10h] [ebp-120h]
-  bignum_pool_item *v41; // [esp+14h] [ebp-11Ch]
-  int v42; // [esp+18h] [ebp-118h]
+  bool v32; // cc
+  int v33; // ebx
+  int j; // edi
+  int v35; // ebx
+  bignum_pool_item *v36; // [esp+4h] [ebp-12Ch]
+  int v37; // [esp+4h] [ebp-12Ch]
+  bn_mont_ctx_st *mont; // [esp+8h] [ebp-128h]
+  int v39; // [esp+Ch] [ebp-124h]
+  int v40; // [esp+10h] [ebp-120h]
+  bignum_pool_item *p_RR; // [esp+10h] [ebp-120h]
+  bignum_pool_item *v42; // [esp+14h] [ebp-11Ch]
   int v43; // [esp+18h] [ebp-118h]
-  int v44; // [esp+1Ch] [ebp-114h]
-  int v45; // [esp+20h] [ebp-110h]
-  bignum_st *v46; // [esp+24h] [ebp-10Ch]
-  int v47; // [esp+28h] [ebp-108h]
-  bignum_st *v48; // [esp+2Ch] [ebp-104h]
-  bignum_st *v49[32]; // [esp+30h] [ebp-100h]
-  bignum_st *rm[32]; // [esp+B0h] [ebp-80h]
+  int v44; // [esp+18h] [ebp-118h]
+  int v45; // [esp+1Ch] [ebp-114h]
+  int v46; // [esp+20h] [ebp-110h]
+  int v47; // [esp+24h] [ebp-10Ch]
+  int v48; // [esp+28h] [ebp-108h]
+  int v49; // [esp+2Ch] [ebp-104h]
+  bignum_st *v50[32]; // [esp+30h] [ebp-100h]
+  bignum_st *v51[32]; // [esp+B0h] [ebp-80h]
 
-  v44 = 0;
-  v37 = 0;
+  v45 = 0;
+  mont = 0;
   if ( (*(_BYTE *)m->d & 1) == 0 )
   {
-    ERR_put_error(3u, 118, 102, ".\\crypto\\bn\\bn_exp2.c", 138);
+    ERR_put_error(ebx0, 3u, 118, 102, ".\\crypto\\bn\\bn_exp2.c", 138);
     return 0;
   }
-  v9 = BN_num_bits(p1);
-  v10 = BN_num_bits(p2);
-  b = v10;
-  if ( !v9 && !v10 )
-    return BN_set_word(rr, 1u);
-  v42 = v9;
-  if ( v9 <= v10 )
-    v42 = v10;
-  v11 = ctx;
-  BN_CTX_start(ctx);
-  r = BN_CTX_get(ctx);
-  v12 = BN_CTX_get(ctx);
-  v41 = v12;
-  rm[0] = (bignum_st *)BN_CTX_get(ctx);
-  v13 = BN_CTX_get(ctx);
-  v14 = in_mont;
-  v49[0] = (bignum_st *)v13;
-  if ( r && v12 && rm[0] && v13 )
+  v10 = BN_num_bits(p1);
+  v11 = BN_num_bits(p2);
+  v40 = v11;
+  if ( !v10 && !v11 )
+    return BN_set_word(ebx0, rr, 1u);
+  v43 = v10;
+  if ( v10 <= v11 )
+    v43 = v11;
+  v12 = ctx;
+  BN_CTX_start((int)ctx, ctx);
+  v36 = BN_CTX_get((int)v12, v12);
+  v13 = BN_CTX_get((int)v12, v12);
+  v42 = v13;
+  v51[0] = (bignum_st *)BN_CTX_get((int)v12, v12);
+  v14 = BN_CTX_get((int)v12, v12);
+  v15 = in_mont;
+  v50[0] = (bignum_st *)v14;
+  if ( v36 && v13 && v51[0] && v14 )
   {
     if ( in_mont )
     {
-      v37 = in_mont;
+      mont = in_mont;
     }
     else
     {
-      v15 = BN_MONT_CTX_new();
-      v14 = v15;
-      v37 = v15;
-      if ( !v15 )
+      v16 = BN_MONT_CTX_new();
+      v15 = v16;
+      mont = v16;
+      if ( !v16 )
         goto LABEL_94;
-      if ( !BN_MONT_CTX_set(v15, m, ctx) )
+      if ( !BN_MONT_CTX_set((int)ctx, v16, m, ctx) )
         goto LABEL_92;
     }
-    if ( v9 <= 671 )
+    if ( v10 <= 671 )
     {
-      if ( v9 <= 239 )
+      if ( v10 <= 239 )
       {
-        if ( v9 <= 79 )
+        if ( v10 <= 79 )
         {
-          v16 = 2 * (v9 > 23) + 1;
-          v45 = v16;
+          v17 = 2 * (v10 > 23) + 1;
+          v46 = v17;
         }
         else
         {
-          v16 = 4;
-          v45 = 4;
+          v17 = 4;
+          v46 = 4;
         }
       }
       else
       {
-        v16 = 5;
-        v45 = 5;
+        v17 = 5;
+        v46 = 5;
       }
     }
     else
     {
-      v16 = 6;
-      v45 = 6;
+      v17 = 6;
+      v46 = 6;
     }
-    if ( b <= 671 )
+    if ( v40 <= 671 )
     {
-      if ( b <= 239 )
+      if ( v40 <= 239 )
       {
-        if ( b <= 79 )
-          v38 = 2 * (b > 23) + 1;
+        if ( v40 <= 79 )
+          v39 = 2 * (v40 > 23) + 1;
         else
-          v38 = 4;
+          v39 = 4;
       }
       else
       {
-        v38 = 5;
+        v39 = 5;
       }
     }
     else
     {
-      v38 = 6;
+      v39 = 6;
     }
     if ( a1->vals[0].neg || BN_ucmp(a1->vals, m) >= 0 )
     {
-      v18 = (bignum_pool_item *)rm[0];
-      if ( !BN_div(0, rm[0], a1->vals, m, ctx) )
-        goto err_161;
-      v17 = (bignum_pool_item *)rm[0];
+      v19 = (bignum_pool_item *)v51[0];
+      if ( !BN_div((int)ctx, 0, v51[0], a1->vals, m, ctx) )
+        goto err_163;
+      v18 = (bignum_pool_item *)v51[0];
     }
     else
     {
-      v17 = a1;
-      v18 = (bignum_pool_item *)rm[0];
+      v18 = a1;
+      v19 = (bignum_pool_item *)v51[0];
     }
-    if ( !v17->vals[0].top )
+    if ( !v18->vals[0].top )
     {
-      BN_set_word(rr, 0);
+      BN_set_word((int)ctx, rr, 0);
 LABEL_89:
-      v44 = 1;
-      goto err_161;
+      v45 = 1;
+      goto err_163;
     }
-    ba = (bignum_pool_item *)&v14->RR;
-    if ( !BN_mod_mul_montgomery(v18->vals, v17, (bignum_pool_item *)&v14->RR, v14, ctx) )
-      goto err_161;
-    if ( v16 <= 1 )
+    p_RR = (bignum_pool_item *)&v15->RR;
+    if ( !BN_mod_mul_montgomery(v19->vals, v18, (bignum_pool_item *)&v15->RR, v15, ctx) )
+      goto err_163;
+    if ( v17 <= 1 )
       goto LABEL_44;
-    if ( !BN_mod_mul_montgomery(r->vals, v18, v18, v14, ctx) )
-      goto err_161;
-    v19 = 1 << (v16 - 1);
-    v20 = 1;
-    if ( v19 <= 1 )
+    if ( !BN_mod_mul_montgomery(v36->vals, v19, v19, v15, ctx) )
+      goto err_163;
+    v20 = 1 << (v17 - 1);
+    v21 = 1;
+    if ( v20 <= 1 )
     {
 LABEL_44:
       if ( a2->vals[0].neg || BN_ucmp(a2->vals, m) >= 0 )
       {
-        if ( !BN_div(0, v49[0], a2->vals, m, ctx) )
-          goto err_161;
-        v22 = (bignum_pool_item *)v49[0];
+        if ( !BN_div((int)ctx, 0, v50[0], a2->vals, m, ctx) )
+          goto err_163;
+        v23 = (bignum_pool_item *)v50[0];
       }
       else
       {
-        v22 = a2;
+        v23 = a2;
       }
-      if ( !v22->vals[0].top )
+      if ( !v23->vals[0].top )
       {
-        BN_set_word(rr, 0);
+        BN_set_word((int)ctx, rr, 0);
         goto LABEL_89;
       }
-      if ( !BN_mod_mul_montgomery(v49[0], v22, ba, v14, ctx) )
-        goto err_161;
-      if ( v38 <= 1 )
+      if ( !BN_mod_mul_montgomery(v50[0], v23, p_RR, v15, ctx) )
+        goto err_163;
+      if ( v39 <= 1 )
         goto LABEL_58;
-      if ( !BN_mod_mul_montgomery(r->vals, (bignum_pool_item *)v49[0], (bignum_pool_item *)v49[0], v14, ctx) )
-        goto err_161;
-      v23 = 1 << (v38 - 1);
-      v24 = 1;
-      if ( v23 <= 1 )
+      if ( !BN_mod_mul_montgomery(v36->vals, (bignum_pool_item *)v50[0], (bignum_pool_item *)v50[0], v15, ctx) )
+        goto err_163;
+      v24 = 1 << (v39 - 1);
+      v25 = 1;
+      if ( v24 <= 1 )
       {
 LABEL_58:
-        v26 = 0;
-        v47 = 1;
         v27 = 0;
-        v46 = 0;
-        v48 = 0;
-        v28 = (bignum_pool_item *)BN_value_one();
-        if ( !BN_mod_mul_montgomery(v41->vals, v28, ba, v14, ctx) )
-          goto err_161;
-        ra = (bignum_st *)(v42 - 1);
-        if ( v42 - 1 < 0 )
+        v48 = 1;
+        v28 = 0;
+        v47 = 0;
+        v49 = 0;
+        v29 = (bignum_pool_item *)BN_value_one();
+        if ( !BN_mod_mul_montgomery(v42->vals, v29, p_RR, v15, ctx) )
+          goto err_163;
+        v37 = v43 - 1;
+        if ( v43 - 1 < 0 )
         {
 LABEL_88:
-          if ( !BN_from_montgomery(rr, v41->vals, v37, v11) )
-            goto err_161;
+          if ( !BN_from_montgomery(rr, v42->vals, mont, v12) )
+            goto err_163;
           goto LABEL_89;
         }
-        v29 = v42 - 2;
-        v43 = 2 - v38;
-        while ( v47 || BN_mod_mul_montgomery(v41->vals, v41, v41, v37, v11) )
+        v30 = v43 - 2;
+        v44 = 2 - v39;
+        while ( v48 || BN_mod_mul_montgomery(v42->vals, v42, v42, mont, v12) )
         {
-          if ( !v26 && BN_is_bit_set(p1, (int)ra) )
+          if ( !v27 && BN_is_bit_set(p1, v37) )
           {
-            for ( i = 2 - v45 + v29; !BN_is_bit_set(p1, i); ++i )
+            for ( i = 2 - v46 + v30; !BN_is_bit_set(p1, i); ++i )
               ;
-            v31 = v29 < i;
-            v46 = (bignum_st *)i;
-            v26 = 1;
-            v32 = v29;
-            if ( !v31 )
-            {
-              do
-              {
-                v26 *= 2;
-                if ( BN_is_bit_set(p1, v32) )
-                  ++v26;
-                --v32;
-              }
-              while ( v32 >= (int)v46 );
-            }
-          }
-          if ( !v27 && BN_is_bit_set(p2, (int)ra) )
-          {
-            for ( j = (bignum_st *)(v43 + v29); !BN_is_bit_set(p2, (int)j); j = (bignum_st *)((char *)j + 1) )
-              ;
-            v31 = v29 < (int)j;
-            v48 = j;
+            v32 = v30 < i;
+            v47 = i;
             v27 = 1;
-            v34 = v29;
-            if ( !v31 )
+            v33 = v30;
+            if ( !v32 )
             {
               do
               {
                 v27 *= 2;
-                if ( BN_is_bit_set(p2, v34) )
+                if ( BN_is_bit_set(p1, v33) )
                   ++v27;
-                --v34;
+                --v33;
               }
-              while ( v34 >= (int)v48 );
+              while ( v33 >= v47 );
             }
           }
-          if ( v26 && ra == v46 )
+          if ( !v28 && BN_is_bit_set(p2, v37) )
           {
-            if ( !BN_mod_mul_montgomery(v41->vals, v41, (bignum_pool_item *)rm[v26 >> 1], v37, ctx) )
-              break;
-            v26 = 0;
-            v47 = 0;
+            for ( j = v44 + v30; !BN_is_bit_set(p2, j); ++j )
+              ;
+            v32 = v30 < j;
+            v49 = j;
+            v28 = 1;
+            v35 = v30;
+            if ( !v32 )
+            {
+              do
+              {
+                v28 *= 2;
+                if ( BN_is_bit_set(p2, v35) )
+                  ++v28;
+                --v35;
+              }
+              while ( v35 >= v49 );
+            }
           }
-          if ( v27 && ra == v48 )
+          if ( v27 && v37 == v47 )
           {
-            if ( !BN_mod_mul_montgomery(v41->vals, v41, (bignum_pool_item *)v49[v27 >> 1], v37, ctx) )
+            if ( !BN_mod_mul_montgomery(v42->vals, v42, (bignum_pool_item *)v51[v27 >> 1], mont, ctx) )
               break;
             v27 = 0;
-            v47 = 0;
+            v48 = 0;
           }
-          v11 = ctx;
-          --v29;
-          ra = (bignum_st *)((char *)ra - 1);
-          if ( (int)ra < 0 )
+          if ( v28 && v37 == v49 )
+          {
+            if ( !BN_mod_mul_montgomery(v42->vals, v42, (bignum_pool_item *)v50[v28 >> 1], mont, ctx) )
+              break;
+            v28 = 0;
+            v48 = 0;
+          }
+          v12 = ctx;
+          --v30;
+          if ( --v37 < 0 )
             goto LABEL_88;
         }
       }
@@ -277,11 +277,11 @@ LABEL_88:
       {
         while ( 1 )
         {
-          v25 = BN_CTX_get(ctx);
-          v49[v24] = (bignum_st *)v25;
-          if ( !v25 || !BN_mod_mul_montgomery(v25->vals, (bignum_pool_item *)v49[v24 - 1], r, v14, ctx) )
+          v26 = BN_CTX_get((int)ctx, ctx);
+          v50[v25] = (bignum_st *)v26;
+          if ( !v26 || !BN_mod_mul_montgomery(v26->vals, (bignum_pool_item *)v50[v25 - 1], v36, v15, ctx) )
             break;
-          if ( ++v24 >= v23 )
+          if ( ++v25 >= v24 )
             goto LABEL_58;
         }
       }
@@ -290,25 +290,25 @@ LABEL_88:
     {
       while ( 1 )
       {
-        v21 = BN_CTX_get(ctx);
-        rm[v20] = (bignum_st *)v21;
-        if ( !v21 || !BN_mod_mul_montgomery(v21->vals, (bignum_pool_item *)v49[v20 + 31], r, v14, ctx) )
+        v22 = BN_CTX_get((int)ctx, ctx);
+        v51[v21] = (bignum_st *)v22;
+        if ( !v22 || !BN_mod_mul_montgomery(v22->vals, (bignum_pool_item *)v50[v21 + 31], v36, v15, ctx) )
           break;
-        if ( ++v20 >= v19 )
+        if ( ++v21 >= v20 )
           goto LABEL_44;
       }
     }
   }
-err_161:
-  v11 = ctx;
+err_163:
+  v12 = ctx;
   if ( !in_mont )
   {
-    v14 = v37;
+    v15 = mont;
 LABEL_92:
-    if ( v14 )
-      BN_MONT_CTX_free(v14);
+    if ( v15 )
+      BN_MONT_CTX_free(v15);
   }
 LABEL_94:
-  BN_CTX_end(v11);
-  return v44;
+  BN_CTX_end(v12);
+  return v45;
 }

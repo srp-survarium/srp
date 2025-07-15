@@ -177,7 +177,7 @@ unsigned int __stdcall Scaleform::UTF8Util::DecodeNextChar_Advance0(const char *
             {
               *putf8Buffer = v33 + 1;
               v36 = v35 & 0x3F | v34;
-              if ( v36 >= 0x200000 )
+              if ( v36 >= (unsigned int)&loc_200000 )
                 return v36;
             }
             return 65533;
@@ -231,7 +231,7 @@ unsigned int __stdcall Scaleform::UTF8Util::DecodeNextChar_Advance0(const char *
     return 65533;
   *putf8Buffer = v49 + 1;
   result = v51 & 0x3F | v50;
-  if ( result < (unsigned int)&vostok::memory::s_CRT_arena[55905848] )
+  if ( result < 0x4000000 )
     return 65533;
   return result;
 }

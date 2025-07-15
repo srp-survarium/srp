@@ -1,159 +1,120 @@
-void __userpurge survarium::shotgun_weapon_reload_state_cook::create_resource(
-        survarium::shotgun_weapon_reload_state_cook *this@<ecx>,
-        vostok::resources::query_result_for_cook *parent,
+void __thiscall survarium::shotgun_weapon_reload_state_cook::create_resource(
+        survarium::shotgun_weapon_reload_state_cook *this,
+        const vostok::variant<32> **parent,
         vostok::const_buffer raw_file_data,
-        vostok::mutable_buffer in_out_unmanaged_resource_buffer,
-        int a5,
-        int a6,
-        int a7,
-        char a8)
+        vostok::mutable_buffer in_out_unmanaged_resource_buffer)
 {
-  vostok::variant<32> *m_user_data; // esi
-  vostok::resources::query_result_for_cook *v9; // ecx
-  vostok::resources::creation_request *v10; // edi
-  char *v11; // esi
-  const vostok::configs::binary_config_value *v12; // ebx
-  char *v13; // eax
-  bool v14; // zf
-  vostok::resources::query_result_for_cook *v15; // ecx
-  void (__cdecl *v16)(char *, char *, int); // eax
-  int v17; // edi
-  char *v18; // esi
-  int v19; // ecx
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::project_cooker_simple,survarium::game_object_ &,survarium::simple_game_project *,vostok::resources::query_result_for_cook *>,boost::_bi::list4<boost::_bi::value<survarium::project_cooker_simple *>,boost::arg<1>,boost::_bi::value<survarium::simple_game_project *>,boost::_bi::value<vostok::resources::query_result_for_cook *> > > v20; // [esp+464h] [ebp-14Ch]
-  vostok::sound::encoded_sound_interface *v21; // [esp+484h] [ebp-12Ch]
-  int v22; // [esp+488h] [ebp-128h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+48Ch] [ebp-124h] BYREF
-  vostok::configs::binary_config_value out_value; // [esp+4B0h] [ebp-100h] BYREF
-  vostok::variant<32> *v25[3]; // [esp+4CCh] [ebp-E4h] BYREF
-  vostok::resources::creation_request v26; // [esp+4D8h] [ebp-D8h] BYREF
-  const char *v27; // [esp+4E8h] [ebp-C8h]
-  vostok::const_buffer v28; // [esp+4ECh] [ebp-C4h]
-  int v29; // [esp+4F4h] [ebp-BCh]
-  const char *v30; // [esp+4F8h] [ebp-B8h]
-  vostok::const_buffer v31; // [esp+4FCh] [ebp-B4h]
-  int v32; // [esp+504h] [ebp-ACh]
-  void (__thiscall *v33)(survarium::shotgun_weapon_reload_state_cook *, vostok::resources::queries_result *, vostok::mutable_buffer, const survarium::weapon_state_creation_params *); // [esp+508h] [ebp-A8h]
-  int v34; // [esp+50Ch] [ebp-A4h]
-  char __t[40]; // [esp+520h] [ebp-90h] BYREF
-  char v36; // [esp+548h] [ebp-68h] BYREF
-  char v37; // [esp+550h] [ebp-60h] BYREF
-  char v38; // [esp+580h] [ebp-30h] BYREF
+  vostok::configs::binary_config_value *v4; // eax
+  vostok::variant<32> *v5; // ecx
+  vostok::resources::query_result_for_cook *v6; // ecx
+  int v7; // ecx
+  char *v8; // eax
+  const vostok::configs::binary_config_value *v9; // ebx
+  vostok::resources::creation_request *v10; // esi
+  const vostok::configs::binary_config_value *v11; // eax
+  vostok::variant<32> *v12; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v13; // ecx
+  vostok::resources::query_result_for_cook *v14; // ecx
+  vostok::variant<32> *v15; // ecx
+  char *v16; // esi
+  int i; // edi
+  int v18; // [esp+Ch] [ebp-114h]
+  _BYTE v20[32]; // [esp+18h] [ebp-108h] BYREF
+  const vostok::variant<32> *v21[3]; // [esp+3Ch] [ebp-E4h] BYREF
+  _DWORD v22[6]; // [esp+48h] [ebp-D8h] BYREF
+  vostok::resources::creation_request v23; // [esp+60h] [ebp-C0h] BYREF
+  const char *v24; // [esp+70h] [ebp-B0h]
+  vostok::const_buffer v25; // [esp+74h] [ebp-ACh]
+  int v26; // [esp+7Ch] [ebp-A4h]
+  const char *v27; // [esp+80h] [ebp-A0h]
+  vostok::const_buffer v28; // [esp+84h] [ebp-9Ch]
+  int v29; // [esp+8Ch] [ebp-94h]
+  _BYTE v30[44]; // [esp+90h] [ebp-90h] BYREF
+  char v31; // [esp+BCh] [ebp-64h] BYREF
+  char v32; // [esp+C0h] [ebp-60h] BYREF
+  char v33; // [esp+F0h] [ebp-30h] BYREF
+  char vars0; // [esp+120h] [ebp+0h] BYREF
 
-  callback.vtable = (boost::detail::function::vtable_base *)this;
-  v21 = vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr((vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&raw_file_data);
-  out_value.data.max_storage = 0;
-  vostok::platform_pointer_selector<char const,1>::helper::helper(&out_value.id, 0);
-  out_value.id_crc = 0;
-  m_user_data = parent->m_user_data;
-  out_value.type = 0;
-  out_value.count = 0;
-  if ( vostok::variant<32>::try_get<vostok::configs::binary_config_value>(m_user_data, &out_value, 0) )
+  vostok::configs::binary_config_value::binary_config_value((vostok::configs::binary_config_value *)this, (int)v20);
+  if ( vostok::variant<32>::try_get<vostok::configs::binary_config_value>(v5, (int)parent[66], v4) )
   {
-    v26.m_name = "start_substate";
-    v26.m_data = raw_file_data;
-    v26.m_id = weapon_shotgun_reload_start_substate_class;
-    v27 = "reload_one_substate";
+    v23.m_data = raw_file_data;
+    v25 = raw_file_data;
     v28 = raw_file_data;
-    v29 = 312;
-    v30 = "finish_substate";
-    v31 = raw_file_data;
-    v32 = 313;
-    `vector constructor iterator'(__t, 0x30u, 3, (void *(__thiscall *)(void *))vostok::variant<32>::variant<32>);
-    v10 = &v26;
-    v11 = &v36;
-    v22 = 3;
+    v23.m_name = "start_substate";
+    v23.m_id = weapon_shotgun_reload_start_substate_class;
+    v24 = "reload_one_substate";
+    v26 = 308;
+    v27 = "finish_substate";
+    v29 = 309;
+    v7 = 2;
+    v8 = &v31;
     do
     {
-      v12 = vostok::configs::binary_config_value::operator[](&out_value, v10->m_name);
-      if ( *(_DWORD *)v11 )
-      {
-        (*(void (__thiscall **)(_DWORD, _DWORD *))(**(_DWORD **)v11 + 4))(*(_DWORD *)v11, (_DWORD *)v11 - 8);
-        *(_DWORD *)v11 = 0;
-      }
-      *((_DWORD *)v11 + 1) = vostok::detail::type_to_int<vostok::configs::binary_config_value>::get();
-      if ( v11 != (char *)32 )
-      {
-        *((_QWORD *)v11 - 4) = v12->data.max_storage;
-        *((_QWORD *)v11 - 3) = v12->id.max_storage;
-        *((_QWORD *)v11 - 2) = *(_QWORD *)&v12->id_crc;
-      }
-      v13 = v11 - 40;
-      *(_DWORD *)v11 = v11 - 40;
-      ++v10;
-      v11 += 48;
-      v14 = v22-- == 1;
-      *(_DWORD *)v13 = &vostok::detail::concrete_type_helper<vostok::configs::binary_config_value>::`vftable';
+      *((_DWORD *)v8 - 1) = 0;
+      *(_DWORD *)v8 = 0;
+      v8 += 48;
+      --v7;
     }
-    while ( !v14 );
-    v25[0] = (vostok::variant<32> *)__t;
-    (&callback.vtable)[1] = callback.vtable;
-    *(vostok::mutable_buffer *)&callback.functor.obj_ptr = in_out_unmanaged_resource_buffer;
-    v25[1] = (vostok::variant<32> *)&v37;
-    v25[2] = (vostok::variant<32> *)&v38;
-    v33 = survarium::shotgun_weapon_reload_state_cook::on_substates_ready;
-    v34 = 0;
-    LODWORD(v20.f_.f_) = 0;
-    callback.functor.vostok_pointer_size_alignment[2] = v21;
-    *(void (__thiscall *__ptr64 *)(survarium::project_cooker_simple *, survarium::game_object_ *, survarium::simple_game_project *, vostok::resources::query_result_for_cook *))((char *)&v20.f_.f_ + 4) = *(void (__thiscall *__ptr64 *)(survarium::project_cooker_simple *, survarium::game_object_ *, survarium::simple_game_project *, vostok::resources::query_result_for_cook *))&(&callback.vtable)[1];
-    (&callback.vtable)[1] = 0;
-    *(_QWORD *)&v20.l_.a3_.t_ = *(_QWORD *)((char *)&callback.functor.bound_memfunc_ptr.memfunc_ptr + 4);
-    if ( boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::player_cook,vostok::resources::queries_result &,survarium::player_creation_params *,survarium::inventory_cooker_data *,survarium::player_parameters_cooker_data *>,boost::_bi::list5<boost::_bi::value<survarium::player_cook *>,boost::arg<1>,boost::_bi::value<survarium::player_creation_params *>,boost::_bi::value<survarium::inventory_cooker_data *>,boost::_bi::value<survarium::player_parameters_cooker_data *>>>>(
-           (boost::detail::function::function_buffer *)((char *)&callback.functor.bound_memfunc_ptr.memfunc_ptr + 4),
-           (boost::detail::function::basic_vtable1<void,survarium::game_object_ &> *)survarium::shotgun_weapon_reload_state_cook::on_substates_ready,
-           v20) )
+    while ( v7 >= 0 );
+    v9 = (const vostok::configs::binary_config_value *)v30;
+    v10 = &v23;
+    v18 = 3;
+    do
     {
-      (&callback.vtable)[1] = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::shotgun_weapon_reload_state_cook,vostok::resources::queries_result &,vostok::mutable_buffer,survarium::weapon_state_creation_params const *>,boost::_bi::list4<boost::_bi::value<survarium::shotgun_weapon_reload_state_cook *>,boost::arg<1>,boost::_bi::value<vostok::mutable_buffer>,boost::_bi::value<survarium::weapon_state_creation_params const *>>>>'::`2'::stored_vtable
-                                                                     + 1);
+      v11 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)v20,
+              (char *)v10->m_name);
+      vostok::variant<32>::set<vostok::configs::binary_config_value>(v12, v9, v11);
+      ++v10;
+      v9 += 2;
+      --v18;
+    }
+    while ( v18 );
+    v21[0] = (const vostok::variant<32> *)v30;
+    v21[1] = (const vostok::variant<32> *)&v32;
+    v21[2] = (const vostok::variant<32> *)&v33;
+    *(_DWORD *)&v20[4] = 0;
+    *(_DWORD *)v20 = survarium::shotgun_weapon_reload_state_cook::on_substates_ready;
+    *(_DWORD *)&v20[8] = this;
+    *(vostok::mutable_buffer *)&v20[12] = in_out_unmanaged_resource_buffer;
+    *(_DWORD *)&v20[20] = raw_file_data.m_data;
+    qmemcpy(v22, v20, sizeof(v22));
+    if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
+    {
+      *(_DWORD *)v20 = 0;
     }
     else
     {
-      (&callback.vtable)[1] = 0;
+      qmemcpy(&v20[8], v22, 0x18u);
+      *(_DWORD *)v20 = (char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::shotgun_weapon_reload_state_cook,vostok::resources::queries_result &,vostok::mutable_buffer,survarium::weapon_state_creation_params const *>,boost::_bi::list4<boost::_bi::value<survarium::shotgun_weapon_reload_state_cook *>,boost::arg<1>,boost::_bi::value<vostok::mutable_buffer>,boost::_bi::value<survarium::weapon_state_creation_params const *>>>>'::`2'::stored_vtable
+                     + 1;
     }
-    vostok::resources::query_create_resources(
-      &v26,
-      3u,
-      (const boost::function<void __cdecl(vostok::resources::queries_result &)> *)&(&callback.vtable)[1],
-      (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
-      (const vostok::variant<32> **)v25,
-      parent,
-      assert_on_fail_true);
-    if ( (&callback.vtable)[1] )
-    {
-      if ( ((int)(&callback.vtable)[1] & 1) == 0 )
-      {
-        v16 = *(void (__cdecl **)(char *, char *, int))((int)(&callback.vtable)[1] & 0xFFFFFFFE);
-        if ( v16 )
-          v16((char *)&callback.functor.type.const_qualified, (char *)&callback.functor.type.const_qualified, 2);
-      }
-    }
+    vostok::resources::query_create_resources(&v23, 3u, survarium::g_allocator, v21, parent);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v13,
+      (int *)v20);
     vostok::resources::query_result_for_cook::finish_query_impl(
-      v15,
-      result_postponed,
+      v14,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent,
+      result_need_async,
       assert_on_fail_true,
-      error_type_unset);
-    v17 = 2;
-    v18 = &a8;
-    do
+      result_fail);
+    v16 = &vars0;
+    for ( i = 2; i >= 0; --i )
     {
-      v19 = *((_DWORD *)v18 - 12);
-      v18 -= 48;
-      if ( v19 )
-      {
-        (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v19 + 4))(v19, (_DWORD *)v18 - 8);
-        *(_DWORD *)v18 = 0;
-      }
-      --v17;
+      v16 -= 48;
+      vostok::variant<32>::destroy_previous_variable_if_needed(v15, (int)v16);
     }
-    while ( v17 >= 0 );
   }
   else
   {
     __debugbreak();
     vostok::resources::query_result_for_cook::finish_query_impl(
-      v9,
-      result_error,
+      v6,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent,
+      result_success,
       assert_on_fail_true,
-      error_type_cook_failed);
+      result_out_of_memory|0x8);
   }
 }

@@ -1,7 +1,7 @@
-int __cdecl res1_inverse(vorbis_block *vb, vorbis_info_residue0 **vl, float **in, int *nonzero, int ch)
+int __cdecl res1_inverse(vorbis_block *vb, _DWORD **vl, float **in, char *nonzero, int ch)
 {
-  int v5; // esi
-  int v6; // ecx
+  int v5; // edi
+  int v6; // esi
   float **v7; // eax
 
   v5 = ch;
@@ -11,7 +11,7 @@ int __cdecl res1_inverse(vorbis_block *vb, vorbis_info_residue0 **vl, float **in
   v7 = in;
   do
   {
-    if ( *(float **)((char *)v7 + (char *)nonzero - (char *)in) )
+    if ( *(float **)((char *)v7 + nonzero - (char *)in) )
       in[v6++] = *v7;
     ++v7;
     --v5;

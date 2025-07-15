@@ -56,14 +56,14 @@ unsigned int __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::ForEachChil
           while ( 1 )
           {
             v9 = *((_DWORD *)&pObject[1].pUserDataHolder->pMovieView + v8);
-            if ( *(Scaleform::GFx::ASStringNode **)(*(int (__thiscall **)(int))(*(_DWORD *)v9 + 108))(v9) == VStr
+            if ( *(Scaleform::GFx::ASStringNode **)(*(int (__thiscall **)(int))(*(_DWORD *)v9 + 120))(v9) == VStr
               || Scaleform::GFx::AS3::Multiname::IsAnyType(v3) )
             {
               if ( Scaleform::GFx::AS3::Multiname::IsQName(v3) )
               {
                 if ( Scaleform::GFx::AS3::Multiname::IsAnyNamespace(v3)
                   || (Namespace = Scaleform::GFx::AS3::Multiname::GetNamespace((Scaleform::GFx::AS3::SoundObject *)v3),
-                      v11 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 112))(v9),
+                      v11 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 124))(v9),
                       *(_DWORD *)(Namespace + 28) == *(_DWORD *)(v11 + 28))
                   && ((*(_BYTE *)(Namespace + 20) ^ *(_BYTE *)(v11 + 20)) & 0xF) == 0 )
                 {
@@ -83,7 +83,7 @@ unsigned int __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::ForEachChil
                   while ( 1 )
                   {
                     v16 = *(_DWORD *)(*v14 + 4 * v15);
-                    v17 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 112))(v9);
+                    v17 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 124))(v9);
                     if ( *(_DWORD *)(v16 + 28) == *(_DWORD *)(v17 + 28)
                       && ((*(_BYTE *)(v16 + 20) ^ *(_BYTE *)(v17 + 20)) & 0xF) == 0 )
                     {

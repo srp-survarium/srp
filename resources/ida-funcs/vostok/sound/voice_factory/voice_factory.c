@@ -1,76 +1,83 @@
-void __thiscall vostok::sound::voice_factory::voice_factory(
-        vostok::sound::voice_factory *this,
-        unsigned __int8 *buffer,
+void __userpurge vostok::sound::voice_factory::voice_factory(
+        vostok::sound::voice_factory *this@<ecx>,
+        int a2@<edi>,
+        vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>::node *buffer,
         unsigned int buffer_size,
         vostok::sound::sound_world *world,
         const vostok::sound::pool_parametrs *params)
 {
-  unsigned int stereo_voices_count; // edx
-  vostok::sound::voice_bridge *v6; // eax
-  vostok::sound::voice_bridge *v7; // eax
-  vostok::sound::voice_bridge *v8; // [esp+0h] [ebp-74h]
-  vostok::sound::voice_bridge *v9; // [esp+4h] [ebp-70h]
-  int v11; // [esp+48h] [ebp-2Ch]
-  boost::array<vostok::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>,2> *j; // [esp+4Ch] [ebp-28h]
-  vostok::sound::voice_bridge *v13; // [esp+50h] [ebp-24h]
-  vostok::sound::voice_bridge *v14; // [esp+54h] [ebp-20h]
-  unsigned int k; // [esp+5Ch] [ebp-18h]
-  unsigned int i; // [esp+64h] [ebp-10h]
-  vostok::sound::voice_bridge::creation_parametrs voice_params; // [esp+68h] [ebp-Ch] BYREF
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  bool v8; // zf
+  vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>::node *v9; // eax
+  int v10; // eax
+  _DWORD *v11; // ecx
+  vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>::node *v12; // eax
+  int v13; // eax
+  _DWORD *v14; // ecx
+  boost::function<void __cdecl(vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy> const &)> on_out_of_memory; // [esp+8h] [ebp-28h] BYREF
+  vostok::sound::voice_bridge::creation_parametrs v16; // [esp+28h] [ebp-8h] BYREF
+  unsigned int arena_size; // [esp+3Ch] [ebp+Ch]
+  unsigned int arena_sizea; // [esp+3Ch] [ebp+Ch]
+  unsigned int v19; // [esp+44h] [ebp+14h]
+  unsigned int v20; // [esp+44h] [ebp+14h]
 
-  stereo_voices_count = params->stereo_voices_count;
-  this->m_pool_params.mono_voices_count = params->mono_voices_count;
-  this->m_pool_params.stereo_voices_count = stereo_voices_count;
-  v11 = 2;
-  for ( j = &this->m_voices_pool;
-        --v11 >= 0;
-        j = (boost::array<vostok::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>,2> *)((char *)j + 16) )
-  {
-    vostok::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>(j->elems);
-  }
-  vostok::memory::single_size_buffer_allocator<28,vostok::threading::single_threading_policy>::single_size_buffer_allocator<28,vostok::threading::single_threading_policy>(
-    &this->m_voices_allocator,
+  *(vostok::sound::pool_parametrs *)a2 = *params;
+  *(_DWORD *)(a2 + 1032) = 0;
+  *(_DWORD *)(a2 + 1036) = 0;
+  on_out_of_memory.vtable = 0;
+  vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>(
+    &on_out_of_memory,
+    (vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy> *)(a2 + 1040),
     buffer,
     buffer_size);
-  this->m_min_frequency_ratio = 0.0009765625;
-  this->m_max_frequency_ratio = FLOAT_2_0;
-  voice_params.xaudio_engine = world->m_xaudio;
-  voice_params.master_channels_num = vostok::sound::sound_world::master_channels_num(world);
-  voice_params.max_frequency_ratio = this->m_max_frequency_ratio;
-  voice_params.channels_num = 1;
-  for ( i = 0; i < params->mono_voices_count; ++i )
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&on_out_of_memory);
+  v19 = 0;
+  v8 = params->mono_voices_count == 0;
+  v16.world = world;
+  v16.channels_num = 1;
+  v16.enable_filter = 1;
+  if ( !v8 )
   {
-    v14 = (vostok::sound::voice_bridge *)vostok::memory::single_size_buffer_allocator<28,vostok::threading::single_threading_policy>::allocate(&this->m_voices_allocator);
-    if ( v14 )
+    arena_size = a2 + 8;
+    do
     {
-      vostok::sound::voice_bridge::voice_bridge(v14, &voice_params);
-      v9 = v6;
+      v9 = vostok::memory::new_helper<vostok::sound::voice_bridge>::call<vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>>((const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)(a2 + 1040));
+      if ( v9 )
+        vostok::sound::voice_bridge::voice_bridge((vostok::sound::voice_bridge *)&v16, (int)v9, &v16, v19);
+      else
+        v10 = 0;
+      v11 = (_DWORD *)arena_size;
+      ++v19;
+      arena_size += 4;
+      *v11 = v10;
     }
-    else
-    {
-      v9 = 0;
-    }
-    vostok::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-      &this->m_voices_pool.elems[voice_params.channels_num - 1],
-      v9,
-      0);
+    while ( v19 < params->mono_voices_count );
   }
-  voice_params.channels_num = 2;
-  for ( k = 0; k < params->stereo_voices_count; ++k )
+  v20 = 0;
+  v8 = params->stereo_voices_count == 0;
+  v16.channels_num = 2;
+  v16.enable_filter = 0;
+  if ( !v8 )
   {
-    v13 = (vostok::sound::voice_bridge *)vostok::memory::single_size_buffer_allocator<28,vostok::threading::single_threading_policy>::allocate(&this->m_voices_allocator);
-    if ( v13 )
+    arena_sizea = a2 + 520;
+    do
     {
-      vostok::sound::voice_bridge::voice_bridge(v13, &voice_params);
-      v8 = v7;
+      v12 = vostok::memory::new_helper<vostok::sound::voice_bridge>::call<vostok::memory::single_size_buffer_allocator<64,vostok::threading::single_threading_policy>>((const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)(a2 + 1040));
+      if ( v12 )
+        vostok::sound::voice_bridge::voice_bridge(
+          (vostok::sound::voice_bridge *)&v16,
+          (int)v12,
+          &v16,
+          v20 + params->mono_voices_count);
+      else
+        v13 = 0;
+      v14 = (_DWORD *)arena_sizea;
+      ++v20;
+      arena_sizea += 4;
+      *v14 = v13;
     }
-    else
-    {
-      v8 = 0;
-    }
-    vostok::intrusive_list<vostok::sound::voice_bridge,vostok::sound::voice_bridge *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-      &this->m_voices_pool.elems[voice_params.channels_num - 1],
-      v8,
-      0);
+    while ( v20 < params->stereo_voices_count );
   }
 }

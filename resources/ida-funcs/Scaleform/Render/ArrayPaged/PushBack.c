@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(
         Scaleform::Render::ArrayPaged<unsigned int,3,4> *this,
-        const unsigned int *val)
+        unsigned int *val)
 {
   unsigned int v3; // edi
 
@@ -15,7 +15,7 @@ void __thiscall Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(
 
 void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType *,4,2>::PushBack(
         Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType *,4,2> *this,
-        Scaleform::Render::Tessellator::MonoVertexType *const *val)
+        Scaleform::Render::Tessellator::MonoVertexType **val)
 {
   unsigned int v3; // edi
 

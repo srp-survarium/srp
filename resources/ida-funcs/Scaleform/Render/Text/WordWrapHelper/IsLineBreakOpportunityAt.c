@@ -1,5 +1,5 @@
 bool __stdcall Scaleform::Render::Text::WordWrapHelper::IsLineBreakOpportunityAt(
-        unsigned int wwMode,
+        char wwMode,
         wchar_t prevChar,
         wchar_t curChar)
 {

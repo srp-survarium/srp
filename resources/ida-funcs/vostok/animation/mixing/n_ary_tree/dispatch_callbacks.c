@@ -1,143 +1,108 @@
-bool __cdecl vostok::animation::mixing::n_ary_tree::dispatch_callbacks(
-        const vostok::animation::mixing::callback_generator_info *callback_generators_head,
-        const vostok::animation::subscribed_channel **channels_head,
+char __usercall vostok::animation::mixing::n_ary_tree::dispatch_callbacks@<al>(
+        const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *callback_generators_head@<eax>,
+        boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *a2@<ecx>,
+        vostok::animation::subscribed_channel **channels_head,
         unsigned int current_time_in_ms,
-        bool *callbacks_are_actual)
+        boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *callbacks_are_actual)
 {
-  const vostok::animation::mixing::callback_generator_info *v4; // ebx
-  bool *v5; // ebp
-  bool v6; // al
-  const vostok::animation::subscribed_channel *i; // edi
-  char v8; // al
-  unsigned __int16 event_type; // dx
-  vostok::animation::animation_callback *j; // esi
-  vostok::resources::managed_resource *m_object; // eax
-  const void *animated_object; // eax
-  bool v13; // zf
-  const char *channel_id; // ecx
-  unsigned int user_data; // eax
-  survarium::game_camera *v16; // eax
-  bool v17; // al
-  bool v18; // al
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> v19; // ecx
-  vostok::resources::managed_resource *v20; // eax
-  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *v21; // ecx
-  const unsigned __int8 *m_data; // eax
-  const unsigned __int8 *v23; // ecx
-  const unsigned __int8 *v24; // eax
-  int v25; // eax
-  const unsigned __int8 *v26; // esi
-  int v27; // ecx
-  const vostok::animation::event_channel *v28; // edi
-  char *v29; // ebp
-  const vostok::animation::event_channel *v30; // eax
-  int v31; // ecx
-  const unsigned __int8 *v32; // eax
-  unsigned int v33; // ebp
-  float v34; // xmm1_4
-  const unsigned __int8 *v35; // ecx
-  int v36; // esi
-  int v37; // eax
-  int v38; // edi
-  unsigned int v39; // edi
-  int v40; // edx
-  float v41; // xmm2_4
-  int v42; // eax
-  int v43; // edx
-  float v44; // xmm3_4
-  unsigned int v45; // eax
-  float v46; // xmm0_4
-  const vostok::animation::subscribed_channel *v47; // edi
-  vostok::animation::animation_callback *first_callback; // esi
-  unsigned __int8 v49; // cl
-  vostok::resources::managed_resource *v50; // eax
-  unsigned __int8 v51; // al
-  const void *v52; // eax
-  const char *v53; // edx
-  unsigned int v54; // eax
-  unsigned __int8 animation_interval_id; // cl
-  survarium::game_camera *v56; // eax
-  bool v57; // al
-  bool v58; // al
-  const unsigned __int8 *v59; // eax
-  const unsigned __int8 *v60; // ecx
-  const unsigned __int8 *v61; // eax
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> v62; // [esp-4h] [ebp-288h] BYREF
-  bool result; // [esp+13h] [ebp-271h]
-  const vostok::animation::subscribed_channel *subscribed_channel; // [esp+14h] [ebp-270h] BYREF
-  unsigned __int8 domain_data; // [esp+1Bh] [ebp-269h]
-  const vostok::animation::mixing::callback_generator_info *generator; // [esp+1Ch] [ebp-268h]
-  vostok::resources::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation> pinned_animation; // [esp+20h] [ebp-264h] BYREF
-  unsigned int knot_upper_id; // [esp+2Ch] [ebp-258h]
-  _DWORD v69[5]; // [esp+30h] [ebp-254h] BYREF
-  unsigned __int8 v70; // [esp+44h] [ebp-240h]
-  unsigned __int8 v71; // [esp+45h] [ebp-23Fh]
-  char v72; // [esp+46h] [ebp-23Eh]
-  vostok::animation::animation_callback_params params; // [esp+48h] [ebp-23Ch] BYREF
-  boost::bad_function_call v74; // [esp+60h] [ebp-224h] BYREF
-  boost::bad_function_call v75; // [esp+170h] [ebp-114h] BYREF
+  int i; // ebx
+  char v7; // al
+  __int16 v8; // dx
+  int j; // esi
+  vostok::resources::managed_resource *v10; // eax
+  vostok::resources::managed_resource *v11; // eax
+  int v12; // eax
+  bool v13; // al
+  bool v14; // al
+  bool v15; // zf
+  vostok::resources::pinned_ptr_mutable<unsigned char> *v16; // ecx
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *v17; // ecx
+  int k; // ebx
+  vostok::animation::animation_event_channels *v19; // esi
+  int channel_id; // eax
+  float v21; // xmm1_4
+  int v22; // edx
+  float *v23; // esi
+  int v24; // eax
+  float *v25; // ebx
+  boost::detail::function::vtable_base *vtable; // ebx
+  unsigned int v27; // eax
+  _DWORD *v28; // eax
+  float v29; // xmm2_4
+  boost::detail::function::vtable_base *v30; // eax
+  float v31; // xmm3_4
+  float v32; // xmm0_4
+  unsigned int v33; // eax
+  int v34; // esi
+  vostok::resources::managed_resource *v35; // eax
+  char v36; // al
+  vostok::resources::managed_resource *v37; // eax
+  int v38; // eax
+  bool v39; // al
+  bool v40; // al
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v42; // [esp-4h] [ebp-44h] BYREF
+  char v43; // [esp+Eh] [ebp-32h]
+  char v44; // [esp+Fh] [ebp-31h]
+  int v45; // [esp+10h] [ebp-30h]
+  int v46; // [esp+14h] [ebp-2Ch]
+  unsigned int v47; // [esp+18h] [ebp-28h]
+  _BYTE v48[4]; // [esp+1Ch] [ebp-24h] BYREF
+  vostok::animation::animation_event_channels *v49; // [esp+20h] [ebp-20h]
+  vostok::resources::managed_resource *m_object; // [esp+28h] [ebp-18h] BYREF
+  const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v51; // [esp+2Ch] [ebp-14h]
+  vostok::resources::managed_resource *v52; // [esp+30h] [ebp-10h]
+  unsigned int v53; // [esp+34h] [ebp-Ch]
+  vostok::resources::managed_resource *v54; // [esp+38h] [ebp-8h]
+  char v55; // [esp+3Ch] [ebp-4h]
+  stlp_std::input_iterator_tag m_object_high; // [esp+3Dh] [ebp-3h]
+  char v57; // [esp+3Eh] [ebp-2h]
 
-  v4 = callback_generators_head;
-  v5 = callbacks_are_actual;
-  v6 = 0;
-  result = 0;
-  generator = callback_generators_head;
-  if ( callback_generators_head )
+  v43 = 0;
+  while ( callback_generators_head )
   {
-    do
+    if ( ((int)callback_generators_head[5].m_object & 0x1E) != 0 )
     {
-      if ( (v4->event_type & 0x1E) != 0 )
+      for ( i = (int)*channels_head; i; i = *(_DWORD *)(i + 4) )
       {
-        for ( i = *channels_head; i; i = i->next )
+        v7 = **(_BYTE **)i;
+        if ( v7 < 4 )
         {
-          v8 = *i->channel_id;
-          if ( v8 < 4 )
+          if ( (v8 = (__int16)callback_generators_head[5].m_object, (v8 & 0x18) != 0) && (LOBYTE(a2) = v7 == 1) != 0
+            || (v8 & 4) != 0 && (LOBYTE(a2) = v7 == 2) != 0
+            || (v8 & 2) != 0 && v7 == 3 )
           {
-            if ( (event_type = v4->event_type, (event_type & 0x18) != 0) && v8 == 1
-              || (event_type & 4) != 0 && v8 == 2
-              || (event_type & 2) != 0 && v8 == 3 )
+            for ( j = *(_DWORD *)(i + 8); j; j = *(_DWORD *)(j + 40) )
             {
-              for ( j = i->first_callback; j; j = j->next )
+              if ( *(_BYTE *)(j + 49) )
               {
-                if ( j->enabled )
+                v10 = *(vostok::resources::managed_resource **)(j + 32);
+                if ( !v10
+                  || (a2 = (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) == 0
+                  || v10 == callback_generators_head->m_object )
                 {
-                  m_object = j->animation.m_object;
-                  if ( !m_object
-                    || !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-                    || m_object == v4->animation.m_object )
+                  v11 = *(vostok::resources::managed_resource **)(j + 36);
+                  if ( !v11 || v11 == callback_generators_head[1].m_object )
                   {
-                    animated_object = j->animated_object;
-                    if ( !animated_object || animated_object == v4->animated_object )
-                    {
-                      v13 = j->callback.vtable == 0;
-                      channel_id = i->channel_id;
-                      params.animated_object = v4->animated_object;
-                      user_data = v4->user_data;
-                      params.channel_id = channel_id;
-                      LOBYTE(channel_id) = v4->animation_interval_id;
-                      params.animation = &v4->animation;
-                      params.callback_time_in_ms = current_time_in_ms;
-                      params.animation_user_data = user_data;
-                      params.domain_data = -1;
-                      params.animation_interval_id = (unsigned __int8)channel_id;
-                      params.interrupt_animation_player_tick = 0;
-                      if ( v13 )
-                      {
-                        boost::bad_function_call::bad_function_call(&v74);
-                        boost::throw_exception(v16);
-                        stlp_std::__Named_exception::~__Named_exception((stlp_std::out_of_range *)&v74);
-                      }
-                      v17 = !(*(int (__cdecl **)(boost::detail::function::function_buffer *, vostok::animation::animation_callback_params *))(((int)j->callback.vtable & 0xFFFFFFFE) + 4))(
-                               &j->callback.functor,
-                               &params)
-                         && j->enabled;
-                      j->enabled = v17;
-                      v18 = *v5 && v17;
-                      v13 = !result;
-                      *v5 = v18;
-                      if ( !v13 || (result = 0, params.interrupt_animation_player_tick) )
-                        result = 1;
-                    }
+                    m_object = callback_generators_head[1].m_object;
+                    v52 = *(vostok::resources::managed_resource **)i;
+                    v53 = current_time_in_ms;
+                    v54 = callback_generators_head[3].m_object;
+                    m_object_high = (stlp_std::input_iterator_tag)HIBYTE(callback_generators_head[5].m_object);
+                    v51 = callback_generators_head;
+                    v55 = -1;
+                    v57 = 0;
+                    boost::function1<void,vostok::collision::object const &>::operator()(
+                      a2,
+                      (_DWORD *)j,
+                      (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)&m_object);
+                    v13 = !v12 && *(_BYTE *)(j + 49);
+                    a2 = callbacks_are_actual;
+                    *(_BYTE *)(j + 49) = v13;
+                    v14 = LOBYTE(callbacks_are_actual->vtable) && v13;
+                    v15 = v43 == 0;
+                    LOBYTE(callbacks_are_actual->vtable) = v14;
+                    if ( !v15 || (v43 = 0, v57) )
+                      v43 = 1;
                   }
                 }
               }
@@ -145,208 +110,139 @@ bool __cdecl vostok::animation::mixing::n_ary_tree::dispatch_callbacks(
           }
         }
       }
-      if ( (v4->event_type & 0x20) != 0 )
-      {
-        v19.m_object = v4->animation.m_object;
-        v20 = 0;
-        subscribed_channel = 0;
-        if ( v19.m_object )
-        {
-          v20 = v19.m_object;
-          subscribed_channel = (const vostok::animation::subscribed_channel *)v19.m_object;
-          _InterlockedExchangeAdd(&v19.m_object->m_reference_count, 1u);
-        }
-        v21 = (vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *)&v62;
-        v62.m_object = 0;
-        if ( v20 )
-        {
-          v62.m_object = v20;
-          v21 = (vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *)_InterlockedExchangeAdd(&v20->m_reference_count, 1u);
-        }
-        vostok::resources::pinned_ptr_base<vostok::render::texture_data_resource const>::pinned_ptr_base<vostok::render::texture_data_resource const>(
-          v21,
-          &pinned_animation.m_resource,
-          v62);
-        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&subscribed_channel);
-        m_data = pinned_animation.m_data;
-        if ( *((_DWORD *)pinned_animation.m_data + 2) )
-        {
-          for ( subscribed_channel = *channels_head; subscribed_channel; subscribed_channel = subscribed_channel->next )
-          {
-            v25 = *((_DWORD *)pinned_animation.m_data + 2);
-            v26 = pinned_animation.m_data + 8;
-            if ( v25 != -1 )
-            {
-              if ( v25 )
-              {
-                v27 = *((_DWORD *)pinned_animation.m_data + 3);
-                v28 = (const vostok::animation::event_channel *)&v26[44 * v25 + v27];
-                v29 = (char *)&v26[v27];
-                v30 = stlp_std::priv::__find_if<vostok::animation::event_channel const *,vostok::animation::find_predicate>(
-                        (const vostok::animation::event_channel *)&v26[v27],
-                        v28,
-                        (vostok::animation::find_predicate)subscribed_channel->channel_id);
-                if ( v30 != v28 )
-                {
-                  v31 = ((char *)v30 - v29) / 44;
-                  if ( v31 != -1 && ((unsigned __int8)(1 << v31) & v4->channel_ids) == 1 << v31 )
-                  {
-                    v32 = &v26[44 * v31 + *((_DWORD *)v26 + 1)];
-                    v33 = *((_DWORD *)v32 + 8);
-                    v34 = (float)v4->animation_time * 30.0;
-                    v35 = v32 + 32;
-                    v36 = (int)&v32[v33 + 32 + *((_DWORD *)v32 + 9)];
-                    v37 = (int)(4 * v33) >> 2;
-                    while ( v37 > 0 )
-                    {
-                      v38 = v37 >> 1;
-                      if ( v34 <= *(float *)(v36 + 4 * (v37 >> 1)) )
-                      {
-                        v37 >>= 1;
-                      }
-                      else
-                      {
-                        v36 += 4 * v38 + 4;
-                        v37 += -1 - v38;
-                      }
-                    }
-                    v39 = ((int)(4 * v33 - *((_DWORD *)v35 + 1) - v33 - (_DWORD)v35 + v36 - 4) >> 2) % v33;
-                    knot_upper_id = ((int)(v36 - *((_DWORD *)v35 + 1) - (_DWORD)v35 - v33) >> 2) % v33;
-                    v40 = *((_DWORD *)pinned_animation.m_data + 5);
-                    v41 = *(float *)&pinned_animation.m_data[20 * *(_DWORD *)&pinned_animation.m_data[v40]
-                                                           - 4
-                                                           + v40
-                                                           + *(_DWORD *)&pinned_animation.m_data[v40 + 4]]
-                        - *(float *)&pinned_animation.m_data[16 * *(_DWORD *)&pinned_animation.m_data[v40]
-                                                           + v40
-                                                           + *(_DWORD *)&pinned_animation.m_data[v40 + 4]];
-                    v42 = 4 * v39;
-                    v43 = *((_DWORD *)v35 + 1);
-                    if ( v34 < *(float *)&v35[4 * v39 + v33 + v43] )
-                      v44 = *(float *)&v35[v33 + v42 + v43] - v41;
-                    else
-                      v44 = *(float *)&v35[v42 + v43 + v33];
-                    v45 = knot_upper_id;
-                    v46 = *(float *)&v35[4 * knot_upper_id + *((_DWORD *)v35 + 1) + v33];
-                    if ( *(float *)&v35[4 * knot_upper_id + v33 + *((_DWORD *)v35 + 1)] < v34 )
-                      v46 = v46 + v41;
-                    if ( v46 <= v34 )
-                      v34 = v46;
-                    if ( (float)(v34 - v44) <= (float)(v46 - v34) )
-                      v45 = v39;
-                    v47 = subscribed_channel;
-                    first_callback = subscribed_channel->first_callback;
-                    v4 = generator;
-                    v49 = v35[*((_DWORD *)v35 + 1) + v45 % v33];
-                    domain_data = v49;
-                    if ( first_callback )
-                    {
-                      while ( 1 )
-                      {
-                        if ( first_callback->enabled )
-                        {
-                          v50 = first_callback->animation.m_object;
-                          if ( !v50
-                            || !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-                            || v50 == v4->animation.m_object )
-                          {
-                            v51 = first_callback->event_type;
-                            if ( v51 == 0xFF || v51 == v49 )
-                            {
-                              v52 = first_callback->animated_object;
-                              if ( !v52 || v52 == v4->animated_object )
-                              {
-                                v13 = first_callback->callback.vtable == 0;
-                                v53 = v47->channel_id;
-                                v69[0] = v4->animated_object;
-                                v54 = v4->user_data;
-                                v70 = v49;
-                                animation_interval_id = v4->animation_interval_id;
-                                v69[1] = v4;
-                                v69[2] = v53;
-                                v69[3] = current_time_in_ms;
-                                v69[4] = v54;
-                                v71 = animation_interval_id;
-                                v72 = 0;
-                                if ( v13 )
-                                {
-                                  boost::bad_function_call::bad_function_call(&v75);
-                                  boost::throw_exception(v56);
-                                  stlp_std::__Named_exception::~__Named_exception((stlp_std::out_of_range *)&v75);
-                                }
-                                v57 = !(*(int (__cdecl **)(boost::detail::function::function_buffer *, _DWORD *))(((int)first_callback->callback.vtable & 0xFFFFFFFE) + 4))(
-                                         &first_callback->callback.functor,
-                                         v69)
-                                   && first_callback->enabled;
-                                first_callback->enabled = v57;
-                                v58 = *callbacks_are_actual && v57;
-                                v13 = !result;
-                                *callbacks_are_actual = v58;
-                                if ( !v13 || (result = 0, v72) )
-                                  result = 1;
-                              }
-                            }
-                          }
-                        }
-                        first_callback = first_callback->next;
-                        if ( !first_callback )
-                          break;
-                        v49 = domain_data;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          if ( pinned_animation.m_resource.m_object )
-          {
-            if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-            {
-              v59 = pinned_animation.m_data;
-              v60 = pinned_animation.m_data - 8;
-              _InterlockedExchangeAdd((volatile signed __int32 *)pinned_animation.m_data - 2, 0xFFFFFFFF);
-              v61 = v59 - 36;
-              if ( *(_DWORD *)v61 )
-              {
-                if ( !*(_DWORD *)v60 )
-                {
-                  _InterlockedExchangeAdd((volatile signed __int32 *)(*(_DWORD *)v61 + 40), 1u);
-                  *(_DWORD *)v61 = 0;
-                }
-              }
-            }
-          }
-          vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&pinned_animation.m_resource);
-          v5 = callbacks_are_actual;
-        }
-        else
-        {
-          if ( pinned_animation.m_resource.m_object )
-          {
-            if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-            {
-              v23 = pinned_animation.m_data - 8;
-              _InterlockedExchangeAdd((volatile signed __int32 *)pinned_animation.m_data - 2, 0xFFFFFFFF);
-              v24 = m_data - 36;
-              if ( *(_DWORD *)v24 )
-              {
-                if ( !*(_DWORD *)v23 )
-                {
-                  _InterlockedExchangeAdd((volatile signed __int32 *)(*(_DWORD *)v24 + 40), 1u);
-                  *(_DWORD *)v24 = 0;
-                }
-              }
-            }
-          }
-          vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&pinned_animation.m_resource);
-        }
-      }
-      v4 = v4->next;
-      generator = v4;
     }
-    while ( v4 );
-    return result;
+    if ( ((int)callback_generators_head[5].m_object & 0x20) != 0 )
+    {
+      v42.m_object = (vostok::resources::managed_resource *)a2;
+      vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
+        &v42,
+        callback_generators_head);
+      vostok::resources::pinned_ptr_const<unsigned char>::pinned_ptr_const<unsigned char>(
+        v16,
+        (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>)v48,
+        v42);
+      if ( v49[1].m_channels_count )
+      {
+        for ( k = (int)*channels_head; ; k = *(_DWORD *)(k + 4) )
+        {
+          v46 = k;
+          if ( !k )
+            break;
+          v42.m_object = *(vostok::resources::managed_resource **)k;
+          v19 = v49 + 1;
+          channel_id = vostok::animation::animation_event_channels::get_channel_id(v49 + 1, (char *)v42.m_object);
+          if ( channel_id != -1 )
+          {
+            v17 = (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)channel_id;
+            LOBYTE(v17) = (1 << channel_id) & BYTE2(callback_generators_head[5].m_object);
+            if ( (_BYTE)v17 == 1 << channel_id )
+            {
+              v21 = *(float *)&callback_generators_head[4].m_object * 30.0;
+              v17 = (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)((char *)&v19[4] + 44 * channel_id + v19->m_internal_memory_position);
+              v22 = *(unsigned int *)((char *)&v19[4].m_internal_memory_position
+                                    + 44 * channel_id
+                                    + v19->m_internal_memory_position);
+              v23 = (float *)((char *)v17 + (unsigned int)v17->vtable + v22);
+              v24 = (4 * (int)v17->vtable) >> 2;
+              while ( v24 > 0 )
+              {
+                v25 = &v23[v24 >> 1];
+                if ( v21 <= *v25 )
+                {
+                  v24 >>= 1;
+                }
+                else
+                {
+                  v23 = v25 + 1;
+                  v24 += -1 - (v24 >> 1);
+                }
+              }
+              vtable = v17->vtable;
+              v27 = (signed int)((char *)v23 - (char *)(&v17->vtable)[1] - (unsigned int)v17 - (unsigned int)v17->vtable) >> 2;
+              v47 = ((int)((int)v23
+                         + 4 * (int)v17->vtable
+                         - (unsigned int)(&v17->vtable)[1]
+                         - (unsigned int)v17->vtable
+                         - (_DWORD)v17
+                         - 4) >> 2)
+                  % (unsigned int)v17->vtable;
+              v45 = v27 % (unsigned int)vtable;
+              v28 = (unsigned int *)((char *)&v49->m_channels_count + v49[2].m_internal_memory_position);
+              v29 = *(float *)((char *)&v28[5 * *v28 - 1] + v28[1]) - *(float *)((char *)&v28[4 * *v28] + v28[1]);
+              v30 = (&v17->vtable)[1];
+              if ( v21 < *(float *)((char *)&v17->vtable[v47].manager + (unsigned int)v30 + (_DWORD)v17) )
+                v31 = *(float *)((char *)&v17->vtable[v47].manager + (unsigned int)v30 + (_DWORD)v17) - v29;
+              else
+                v31 = *(float *)((char *)&v17->vtable[v47].manager + (unsigned int)v30 + (_DWORD)v17);
+              v32 = *(float *)((char *)&(&v17->vtable)[v45] + (unsigned int)v17->vtable
+                                                            + (unsigned int)(&v17->vtable)[1]);
+              if ( *(float *)((char *)&(&v17->vtable)[v45] + (unsigned int)(&v17->vtable)[1] + (unsigned int)v17->vtable) < v21 )
+                v32 = v32 + v29;
+              if ( v32 <= v21 )
+                v21 = v32;
+              v33 = v45;
+              if ( (float)(v21 - v31) <= (float)(v32 - v21) )
+                v33 = v47;
+              k = v46;
+              v34 = *(_DWORD *)(v46 + 8);
+              LOBYTE(v17) = *((_BYTE *)&(&v17->vtable)[1]->manager + v33 % (unsigned int)v17->vtable + (unsigned int)v17);
+              v44 = (char)v17;
+              if ( v34 )
+              {
+                while ( 1 )
+                {
+                  if ( *(_BYTE *)(v34 + 49) )
+                  {
+                    v35 = *(vostok::resources::managed_resource **)(v34 + 32);
+                    if ( !v35
+                      || !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
+                      || v35 == callback_generators_head->m_object )
+                    {
+                      v36 = *(_BYTE *)(v34 + 48);
+                      if ( v36 == -1 || v36 == (_BYTE)v17 )
+                      {
+                        v37 = *(vostok::resources::managed_resource **)(v34 + 36);
+                        if ( !v37 || v37 == callback_generators_head[1].m_object )
+                        {
+                          m_object = callback_generators_head[1].m_object;
+                          v52 = *(vostok::resources::managed_resource **)k;
+                          v53 = current_time_in_ms;
+                          v54 = callback_generators_head[3].m_object;
+                          m_object_high = (stlp_std::input_iterator_tag)HIBYTE(callback_generators_head[5].m_object);
+                          v51 = callback_generators_head;
+                          v55 = (char)v17;
+                          v57 = 0;
+                          boost::function1<void,vostok::collision::object const &>::operator()(
+                            v17,
+                            (_DWORD *)v34,
+                            (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)&m_object);
+                          v39 = !v38 && *(_BYTE *)(v34 + 49);
+                          v17 = callbacks_are_actual;
+                          *(_BYTE *)(v34 + 49) = v39;
+                          v40 = LOBYTE(callbacks_are_actual->vtable) && v39;
+                          v15 = v43 == 0;
+                          LOBYTE(callbacks_are_actual->vtable) = v40;
+                          if ( !v15 || (v43 = 0, v57) )
+                            v43 = 1;
+                        }
+                      }
+                    }
+                  }
+                  v34 = *(_DWORD *)(v34 + 40);
+                  if ( !v34 )
+                    break;
+                  LOBYTE(v17) = v44;
+                }
+              }
+            }
+          }
+        }
+      }
+      vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>::~pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>(
+        (vostok::resources::pinned_ptr_const<unsigned char> *)v17,
+        (int)v48);
+    }
+    callback_generators_head = (const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)callback_generators_head[2].m_object;
   }
-  return v6;
+  return v43;
 }

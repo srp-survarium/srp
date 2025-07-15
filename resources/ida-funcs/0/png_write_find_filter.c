@@ -164,7 +164,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v124 = (unsigned __int16)v128;
-      v126 = (unsigned int)&loc_3FFFC0 & (v128 >> 10);
+      v126 = (v128 >> 10) & 0x3FFFC0;
       for ( i = 0; i < v137; ++i )
       {
         if ( !*(_BYTE *)(*(_DWORD *)(a1 + 520) + i) )
@@ -175,7 +175,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v125 = (v124 * **(unsigned __int16 **)(a1 + 532)) >> 3;
       v127 = (v126 * **(unsigned __int16 **)(a1 + 532)) >> 3;
-      if ( v127 <= (unsigned int)&loc_3FFFC0 )
+      if ( v127 <= 0x3FFFC0 )
         v128 = v125 + (v127 << 10);
       else
         v128 = 0x7FFFFFFF;
@@ -212,7 +212,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v111 = (unsigned __int16)v132;
-      v109 = (unsigned int)&loc_3FFFC0 & (v132 >> 10);
+      v109 = (v132 >> 10) & 0x3FFFC0;
       for ( j = 0; j < v137; ++j )
       {
         if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + j) == 1 )
@@ -223,7 +223,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v112 = (v111 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 2)) >> 3;
       v110 = (v109 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 2)) >> 3;
-      if ( v110 <= (unsigned int)&loc_3FFFC0 )
+      if ( v110 <= 0x3FFFC0 )
         v117 = v112 + (v110 << 10);
       else
         v117 = 0x7FFFFFFF;
@@ -257,7 +257,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v104 = (unsigned __int16)v114;
-      v106 = (unsigned int)&loc_3FFFC0 & (v114 >> 10);
+      v106 = (v114 >> 10) & 0x3FFFC0;
       for ( m = 0; m < v137; ++m )
       {
         if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + m) == 1 )
@@ -268,7 +268,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v105 = (v104 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 2)) >> 3;
       v107 = (v106 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 2)) >> 3;
-      if ( v107 <= (unsigned int)&loc_3FFFC0 )
+      if ( v107 <= 0x3FFFC0 )
         v114 = v105 + (v107 << 10);
       else
         v114 = 0x7FFFFFFF;
@@ -302,7 +302,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v90 = (unsigned __int16)v132;
-      v88 = (unsigned int)&loc_3FFFC0 & (v132 >> 10);
+      v88 = (v132 >> 10) & 0x3FFFC0;
       for ( n = 0; n < v137; ++n )
       {
         if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + n) == 2 )
@@ -313,7 +313,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v91 = (v90 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 4)) >> 3;
       v89 = (v88 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 4)) >> 3;
-      if ( v89 <= (unsigned int)&loc_3FFFC0 )
+      if ( v89 <= 0x3FFFC0 )
         v96 = v91 + (v89 << 10);
       else
         v96 = 0x7FFFFFFF;
@@ -337,7 +337,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v83 = (unsigned __int16)v92;
-      v85 = (unsigned int)&loc_3FFFC0 & (v92 >> 10);
+      v85 = (v92 >> 10) & 0x3FFFC0;
       for ( ii = 0; ii < v137; ++ii )
       {
         if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + ii) == 2 )
@@ -348,7 +348,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v84 = (v83 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 4)) >> 3;
       v86 = (v85 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 4)) >> 3;
-      if ( v86 <= (unsigned int)&loc_3FFFC0 )
+      if ( v86 <= 0x3FFFC0 )
         v92 = v84 + (v86 << 10);
       else
         v92 = 0x7FFFFFFF;
@@ -385,7 +385,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v66 = (unsigned __int16)v132;
-      v64 = (unsigned int)&loc_3FFFC0 & (v132 >> 10);
+      v64 = (v132 >> 10) & 0x3FFFC0;
       for ( jj = 0; jj < v137; ++jj )
       {
         if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + jj) == 3 )
@@ -396,7 +396,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v67 = (v66 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 6)) >> 3;
       v65 = (v64 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 6)) >> 3;
-      if ( v65 <= (unsigned int)&loc_3FFFC0 )
+      if ( v65 <= 0x3FFFC0 )
         v73 = v67 + (v65 << 10);
       else
         v73 = 0x7FFFFFFF;
@@ -435,7 +435,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
     if ( *(_BYTE *)(a1 + 516) == 2 )
     {
       v59 = (unsigned __int16)v69;
-      v61 = (unsigned int)&loc_3FFFC0 & (v69 >> 10);
+      v61 = (v69 >> 10) & 0x3FFFC0;
       for ( kk = 0; kk < v137; ++kk )
       {
         if ( !*(_BYTE *)(*(_DWORD *)(a1 + 520) + kk) )
@@ -446,7 +446,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       }
       v60 = (v59 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 6)) >> 3;
       v62 = (v61 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 6)) >> 3;
-      if ( v62 <= (unsigned int)&loc_3FFFC0 )
+      if ( v62 <= 0x3FFFC0 )
         v69 = v60 + (v62 << 10);
       else
         v69 = 0x7FFFFFFF;
@@ -505,7 +505,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       ++v56;
     }
     v136 = *(_BYTE **)(a1 + 280);
-    sub_36F9B0(a1, v136, *(_DWORD *)(a2 + 4) + 1);
+    sub_47C670(a1, v136, *(_DWORD *)(a2 + 4) + 1);
   }
   else
   {
@@ -516,7 +516,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       if ( *(_BYTE *)(a1 + 516) == 2 )
       {
         v35 = (unsigned __int16)v132;
-        v33 = (unsigned int)&loc_3FFFC0 & (v132 >> 10);
+        v33 = (v132 >> 10) & 0x3FFFC0;
         for ( mm = 0; mm < v137; ++mm )
         {
           if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + mm) == 4 )
@@ -527,7 +527,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
         }
         v36 = (v35 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 8)) >> 3;
         v34 = (v33 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 536) + 8)) >> 3;
-        if ( v34 <= (unsigned int)&loc_3FFFC0 )
+        if ( v34 <= 0x3FFFC0 )
           v42 = v36 + (v34 << 10);
         else
           v42 = 0x7FFFFFFF;
@@ -582,7 +582,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       if ( *(_BYTE *)(a1 + 516) == 2 )
       {
         v23 = (unsigned __int16)v38;
-        v25 = (unsigned int)&loc_3FFFC0 & (v38 >> 10);
+        v25 = (v38 >> 10) & 0x3FFFC0;
         for ( nn = 0; nn < v137; ++nn )
         {
           if ( *(_BYTE *)(*(_DWORD *)(a1 + 520) + nn) == 4 )
@@ -593,7 +593,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
         }
         v24 = (v23 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 8)) >> 3;
         v26 = (v25 * *(unsigned __int16 *)(*(_DWORD *)(a1 + 532) + 8)) >> 3;
-        if ( v26 <= (unsigned int)&loc_3FFFC0 )
+        if ( v26 <= 0x3FFFC0 )
           v38 = v24 + (v26 << 10);
         else
           v38 = 0x7FFFFFFF;
@@ -601,7 +601,7 @@ char __cdecl png_write_find_filter(int a1, int a2)
       if ( v38 < v132 )
         v136 = *(_BYTE **)(a1 + 280);
     }
-    sub_36F9B0(a1, v136, *(_DWORD *)(a2 + 4) + 1);
+    sub_47C670(a1, v136, *(_DWORD *)(a2 + 4) + 1);
   }
   result = a1;
   if ( *(_BYTE *)(a1 + 517) )

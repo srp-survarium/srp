@@ -7,22 +7,22 @@ BOOL __thiscall Scaleform::Render::TextMeshProvider::NeedsUpdate(
 {
   double v6; // st6
   BOOL result; // eax
-  float heightRatio; // [esp+Ch] [ebp+8h]
-  float vpa; // [esp+10h] [ebp+Ch]
-  float vpb; // [esp+10h] [ebp+Ch]
-  float vpc; // [esp+10h] [ebp+Ch]
+  float v8; // [esp+Ch] [ebp+8h]
+  float v9; // [esp+10h] [ebp+Ch]
+  float v10; // [esp+10h] [ebp+Ch]
+  float v11; // [esp+10h] [ebp+Ch]
 
-  heightRatio = Scaleform::Render::TextMeshProvider::calcHeightRatio(m, m4, vp);
-  vpa = 0.85000002;
+  v8 = Scaleform::Render::TextMeshProvider::calcHeightRatio(m, m4, vp);
+  v9 = 0.85000002;
   if ( (param->TextParam.Flags & 1) != 0 )
-    vpa = 0.99000001;
-  v6 = vpa;
-  vpb = this->HeightRatio * vpa;
+    v9 = 0.99000001;
+  v6 = v9;
+  v10 = this->HeightRatio * v9;
   result = 1;
-  if ( vpb <= (double)heightRatio )
+  if ( v10 <= (double)v8 )
   {
-    vpc = this->HeightRatio / v6;
-    if ( vpc >= (double)heightRatio )
+    v11 = this->HeightRatio / v6;
+    if ( v11 >= (double)v8 )
       return 0;
   }
   return result;

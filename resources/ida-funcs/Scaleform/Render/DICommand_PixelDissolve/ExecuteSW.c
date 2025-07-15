@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::DICommand_PixelDissolve::ExecuteSW(
         unsigned int psrc)
 {
   Scaleform::Render::TextureManager *v5; // eax
-  Scaleform::Render::ImageSwizzler *v6; // eax
+  int v6; // eax
   Scaleform::Render::ImageData *v7; // edi
   int *pPlanes; // edi
   int v9; // edx
@@ -15,51 +15,49 @@ void __thiscall Scaleform::Render::DICommand_PixelDissolve::ExecuteSW(
   unsigned int v13; // et2
   unsigned int *Result; // esi
   Scaleform::Render::TextureManager *v15; // eax
-  Scaleform::Render::ImageData *v16; // ebp
+  int v16; // ebp
   Scaleform::Render::ImagePlane *v17; // ecx
   int y; // ebp
-  Scaleform::Render::ImageData **v19; // edi
+  int v19; // edi
   int v20; // ecx
-  Scaleform::Render::ImagePlane *v21; // eax
-  int Width; // edx
-  int Height; // eax
+  int *v21; // eax
+  int v22; // edx
+  int v23; // eax
   int v24; // ecx
-  int v25; // edi
+  unsigned int v25; // edi
   unsigned int v26; // ebx
   unsigned int v27; // ebp
   unsigned int *v28; // esi
-  Scaleform::Render::Rect<long> srcClippedRect; // [esp+10h] [ebp-50h] BYREF
-  Scaleform::Render::Rect<long> dstImageRect; // [esp+20h] [ebp-40h] BYREF
-  Scaleform::Render::ImageSwizzlerContext destSwiz; // [esp+30h] [ebp-30h] BYREF
-  Scaleform::Render::ImageSwizzlerContext srcSwiz; // [esp+48h] [ebp-18h] BYREF
+  Scaleform::Render::Rect<long> v29; // [esp+10h] [ebp-50h] BYREF
+  Scaleform::Render::Rect<long> v30; // [esp+20h] [ebp-40h] BYREF
+  _DWORD v31[6]; // [esp+30h] [ebp-30h] BYREF
+  _DWORD v32[6]; // [esp+48h] [ebp-18h] BYREF
+  int v33; // [esp+64h] [ebp+4h]
+  int v34; // [esp+64h] [ebp+4h]
   unsigned int i; // [esp+64h] [ebp+4h]
-  signed int ia; // [esp+64h] [ebp+4h]
-  unsigned int ib; // [esp+64h] [ebp+4h]
 
   v5 = context->pHAL->GetTextureManager(context->pHAL);
-  v6 = v5->GetImageSwizzler(v5);
+  v6 = (int)v5->GetImageSwizzler(v5);
   v7 = dest;
-  destSwiz.Swizzler = v6;
-  destSwiz.pCurrentScanline = 0;
-  destSwiz.pImage = dest;
-  memset(&destSwiz.CachedBlockY, 0, 12);
-  v6->Initialize(v6, &destSwiz);
+  v31[0] = v6;
+  v31[1] = 0;
+  v31[2] = dest;
+  memset(&v31[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v6 + 4))(v6, v31);
   if ( this->pImage.pObject == this->pSource.pObject )
   {
     pPlanes = (int *)v7->pPlanes;
     v9 = pPlanes[1];
-    dstImageRect.x2 = *pPlanes;
-    dstImageRect.x1 = 0;
-    dstImageRect.y1 = 0;
-    dstImageRect.y2 = v9;
-    memset(&srcClippedRect, 0, sizeof(srcClippedRect));
-    if ( Scaleform::Render::Rect<long>::IntersectRect(&dstImageRect, &srcClippedRect, &this->SourceRect) )
+    v30.x2 = *pPlanes;
+    v30.x1 = 0;
+    v30.y1 = 0;
+    v30.y2 = v9;
+    memset(&v29, 0, sizeof(v29));
+    if ( Scaleform::Render::Rect<long>::IntersectRect(&v30, &v29, &this->SourceRect) )
     {
-      v10 = srcClippedRect.x2 - srcClippedRect.x1;
-      i = srcClippedRect.x2 - srcClippedRect.x1;
-      Scaleform::Render::LFSR::LFSR(
-        (Scaleform::Render::LFSR *)&srcClippedRect,
-        (srcClippedRect.x2 - srcClippedRect.x1) * (srcClippedRect.y2 - srcClippedRect.y1));
+      v10 = v29.x2 - v29.x1;
+      v33 = v29.x2 - v29.x1;
+      Scaleform::Render::LFSR::LFSR((Scaleform::Render::LFSR *)&v29, (v29.x2 - v29.x1) * (v29.y2 - v29.y1));
       RandomSeed = this->RandomSeed;
       v12 = 0;
       if ( this->NumPixels )
@@ -67,18 +65,23 @@ void __thiscall Scaleform::Render::DICommand_PixelDissolve::ExecuteSW(
         while ( 1 )
         {
           do
-            RandomSeed = Scaleform::Render::LFSR::FeedbackPoly[srcClippedRect.y1]
-                       & -(RandomSeed & 1)
-                       ^ (RandomSeed >> 1);
-          while ( (unsigned int)RandomSeed > srcClippedRect.x1 );
+            RandomSeed = Scaleform::Render::LFSR::FeedbackPoly[v29.y1] & -(RandomSeed & 1) ^ (RandomSeed >> 1);
+          while ( (unsigned int)RandomSeed > v29.x1 );
           psrc = RandomSeed;
           v13 = (RandomSeed - 1) % v10;
-          destSwiz.Swizzler->CacheScanline(destSwiz.Swizzler, &destSwiz, (RandomSeed - 1) / v10);
-          destSwiz.Swizzler->SetPixelInScanline(destSwiz.Swizzler, &destSwiz, v13, this->Fill.Raw);
+          (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v31[0] + 8))(
+            v31[0],
+            v31,
+            (RandomSeed - 1) / v10);
+          (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int, unsigned int))(*(_DWORD *)v31[0] + 12))(
+            v31[0],
+            v31,
+            v13,
+            this->Fill.Raw);
           RandomSeed = psrc;
           if ( ++v12 >= this->NumPixels )
             break;
-          v10 = i;
+          v10 = v33;
         }
       }
       Result = this->Result;
@@ -91,52 +94,62 @@ LABEL_21:
     return;
   }
   v15 = context->pHAL->GetTextureManager(context->pHAL);
-  v16 = *(Scaleform::Render::ImageData **)psrc;
-  srcSwiz.Swizzler = v15->GetImageSwizzler(v15);
-  srcSwiz.pCurrentScanline = 0;
-  srcSwiz.pImage = v16;
-  memset(&srcSwiz.CachedBlockY, 0, 12);
-  srcSwiz.Swizzler->Initialize(srcSwiz.Swizzler, &srcSwiz);
+  v16 = *(_DWORD *)psrc;
+  v32[0] = v15->GetImageSwizzler(v15);
+  v32[1] = 0;
+  v32[2] = v16;
+  memset(&v32[3], 0, 12);
+  (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v32[0] + 4))(v32[0], v32);
   v17 = v7->pPlanes;
   y = this->DestPoint.y;
-  v19 = (Scaleform::Render::ImageData **)(v17->Width - this->DestPoint.x - this->DestPoint.x);
+  v19 = v17->Width - this->DestPoint.x - this->DestPoint.x;
   v20 = v17->Height - y;
-  if ( (int)v19 <= 0 )
+  if ( v19 <= 0 )
     goto LABEL_21;
-  ia = v20 - y;
+  v34 = v20 - y;
   if ( v20 - y <= 0 )
     goto LABEL_21;
-  v21 = *(Scaleform::Render::ImagePlane **)(*(_DWORD *)psrc + 12);
-  Width = v21->Width;
-  Height = v21->Height;
-  dstImageRect.x2 = Width;
-  dstImageRect.y2 = Height;
-  memset(&srcClippedRect, 0, sizeof(srcClippedRect));
-  dstImageRect.x1 = 0;
-  dstImageRect.y1 = 0;
-  if ( !Scaleform::Render::Rect<long>::IntersectRect(&this->SourceRect, &srcClippedRect, &dstImageRect) )
+  v21 = *(int **)(*(_DWORD *)psrc + 12);
+  v22 = *v21;
+  v23 = v21[1];
+  v30.x2 = v22;
+  v30.y2 = v23;
+  memset(&v29, 0, sizeof(v29));
+  v30.x1 = 0;
+  v30.y1 = 0;
+  if ( !Scaleform::Render::Rect<long>::IntersectRect(&this->SourceRect, &v29, &v30) )
     goto LABEL_21;
-  v24 = ia;
-  if ( srcClippedRect.y2 - srcClippedRect.y1 < ia )
-    v24 = srcClippedRect.y2 - srcClippedRect.y1;
-  psrc = srcClippedRect.x2 - srcClippedRect.x1;
-  if ( srcClippedRect.x2 - srcClippedRect.x1 >= (int)v19 )
-    psrc = (unsigned int)v19;
-  Scaleform::Render::LFSR::LFSR((Scaleform::Render::LFSR *)&srcClippedRect, v24 * psrc);
+  v24 = v34;
+  if ( v29.y2 - v29.y1 < v34 )
+    v24 = v29.y2 - v29.y1;
+  psrc = v29.x2 - v29.x1;
+  if ( v29.x2 - v29.x1 >= v19 )
+    psrc = v19;
+  Scaleform::Render::LFSR::LFSR((Scaleform::Render::LFSR *)&v29, v24 * psrc);
   v25 = this->RandomSeed;
-  for ( ib = 0; ib < this->NumPixels; ++ib )
+  for ( i = 0; i < this->NumPixels; ++i )
   {
-    v25 = Scaleform::Render::LFSR::Next((Scaleform::Render::LFSR *)&srcClippedRect, v25);
+    v25 = Scaleform::Render::LFSR::Next((Scaleform::Render::LFSR *)&v29, v25);
     v26 = (v25 - 1) % psrc;
     v27 = (v25 - 1) / psrc;
-    srcSwiz.Swizzler->CacheScanline(srcSwiz.Swizzler, &srcSwiz, v27 + this->SourceRect.y1);
-    srcSwiz.Swizzler->GetPixelInScanline(
-      srcSwiz.Swizzler,
-      (Scaleform::Render::Color *)&dest,
-      &srcSwiz,
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v32[0] + 8))(
+      v32[0],
+      v32,
+      v27 + this->SourceRect.y1);
+    (*(void (__thiscall **)(_DWORD, Scaleform::Render::ImageData **, _DWORD *, unsigned int))(*(_DWORD *)v32[0] + 20))(
+      v32[0],
+      &dest,
+      v32,
       v26 + this->SourceRect.x1);
-    destSwiz.Swizzler->CacheScanline(destSwiz.Swizzler, &destSwiz, v27 + this->DestPoint.y);
-    destSwiz.Swizzler->SetPixelInScanline(destSwiz.Swizzler, &destSwiz, v26 + this->DestPoint.x, (unsigned int)dest);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v31[0] + 8))(
+      v31[0],
+      v31,
+      v27 + this->DestPoint.y);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int, Scaleform::Render::ImageData *))(*(_DWORD *)v31[0] + 12))(
+      v31[0],
+      v31,
+      v26 + this->DestPoint.x,
+      dest);
   }
   v28 = this->Result;
   if ( v28 )

@@ -1,37 +1,26 @@
-void __thiscall vostok::particle::particle_action_initial_rotation::init(
-        vostok::particle::particle_action_initial_rotation *this,
+void __userpurge vostok::particle::particle_action_initial_rotation::init(
+        vostok::particle::particle_action_initial_rotation *this@<ecx>,
+        unsigned int a2@<edi>,
         vostok::particle::particle_emitter_instance *instance,
         vostok::particle::base_particle *P,
         float time)
 {
-  _BYTE *v4; // eax
-  const vostok::math::float3 *v5; // eax
-  vostok::math::float3 *v6; // eax
-  float other_y; // [esp+4h] [ebp-60h]
-  const vostok::math::float3 *other_z; // [esp+8h] [ebp-5Ch]
-  boost::_bi::list1<vostok::network_core::packet_reader &> *m_seed; // [esp+10h] [ebp-54h]
-  vostok::math::float3 result; // [esp+3Ch] [ebp-28h] BYREF
-  vostok::math::float3 v12; // [esp+48h] [ebp-1Ch] BYREF
-  char v13; // [esp+57h] [ebp-Dh]
-  vostok::math::float3 rotation; // [esp+58h] [ebp-Ch] BYREF
+  int v5; // edx
+  vostok::math::curve_line_ranged_xyz_float *v6; // ecx
+  vostok::math::float3 *v7; // eax
+  float v8; // xmm2_4
+  float v9; // xmm3_4
+  unsigned int m_seed; // [esp+8h] [ebp-24h]
+  vostok::math::float3 v11; // [esp+14h] [ebp-18h] BYREF
+  vostok::math::float3 v12; // [esp+20h] [ebp-Ch] BYREF
 
-  v13 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *v4 )
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)instance);
-  m_seed = (boost::_bi::list1<vostok::network_core::packet_reader &> *)P->m_seed;
-  vostok::math::float3::float3(&v12, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-  other_z = v5;
-  other_y = vostok::particle::particle_emitter_instance::get_linear_emitter_time(instance);
-  v6 = vostok::particle::curve_line_ranged_xyz_float::evaluate(
-         &this->m_init_rotation,
-         &result,
-         other_y,
-         other_z,
-         range_time_type,
-         m_seed);
-  vostok::math::operator*(v6, &rotation, (float *)&pi_x2_2);
-  P->rotation = P->rotation + rotation.x;
-  P->rotationY = P->rotationY + rotation.y;
-  P->rotationZ = P->rotationZ + rotation.z;
+  m_seed = P->m_seed;
+  memset(&v12, 0, sizeof(v12));
+  vostok::particle::particle_emitter_instance::get_linear_emitter_time((vostok::particle::particle_emitter_instance *)this);
+  v7 = vostok::math::curve_line_ranged_xyz_float::evaluate(v6, v5 + 24, 0.0, &v11, 0.0, &v12, m_seed, a2);
+  v8 = v7->y * 6.2831855;
+  v9 = v7->z * 6.2831855;
+  P->rotation = P->rotation + (float)(v7->x * 6.2831855);
+  P->rotationY = P->rotationY + v8;
+  P->rotationZ = P->rotationZ + v9;
 }

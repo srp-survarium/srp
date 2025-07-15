@@ -8,11 +8,11 @@ void __thiscall Scaleform::GFx::MovieImpl::ShutdownTimersForMovieDef(
   Scaleform::Ptr<Scaleform::GFx::ASIntervalTimerIntf> *Data; // esi
   Scaleform::RefCountVImpl *v7; // ecx
   Scaleform::Ptr<Scaleform::GFx::ASIntervalTimerIntf> *v8; // esi
-  unsigned int n; // [esp+Ch] [ebp-4h]
+  unsigned int i; // [esp+Ch] [ebp-4h]
 
   Size = this->IntervalTimers.Data.Size;
   v4 = 0;
-  for ( n = Size; v4 < Size; ++v4 )
+  for ( i = Size; v4 < Size; ++v4 )
   {
     pObject = this->IntervalTimers.Data.Data[v4].pObject;
     if ( pObject->ClearFor(pObject, this, defimpl) )
@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::MovieImpl::ShutdownTimersForMovieDef(
       if ( v7 )
         Scaleform::RefCountImpl::Release(v7);
       v8->pObject = 0;
-      Size = n;
+      Size = i;
     }
   }
 }

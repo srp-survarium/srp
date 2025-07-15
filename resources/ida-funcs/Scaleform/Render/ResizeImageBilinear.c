@@ -3,7 +3,7 @@ void __stdcall Scaleform::Render::ResizeImageBilinear(
         int dstWidth,
         int dstHeight,
         int dstPitch,
-        const unsigned __int8 *pSrc,
+        unsigned __int8 *pSrc,
         int srcWidth,
         int srcHeight,
         int srcPitch,

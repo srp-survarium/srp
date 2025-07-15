@@ -13,15 +13,15 @@ DName *__cdecl UnDecorator::getECSUDataType(DName *result)
   int v11; // eax
   DName *v12; // eax
   DName v13; // [esp+8h] [ebp-18h] BYREF
-  DName ecsuDataType; // [esp+10h] [ebp-10h] BYREF
-  DName Prefix; // [esp+18h] [ebp-8h] BYREF
+  DName resulta; // [esp+10h] [ebp-10h] BYREF
+  DName rd; // [esp+18h] [ebp-8h] BYREF
 
   v1 = 1;
   if ( ((UnDecorator::disableFlags >> 15) & 1) != 0 || (UnDecorator::disableFlags & 0x1000) != 0 )
     v1 = 0;
   v2 = *UnDecorator::gName;
-  Prefix.node = 0;
-  *((_DWORD *)&Prefix + 1) &= 0xFFFF0000;
+  rd.node = 0;
+  *((_DWORD *)&rd + 1) &= 0xFFFF0000;
   ++UnDecorator::gName;
   if ( v2 )
   {
@@ -41,46 +41,46 @@ DName *__cdecl UnDecorator::getECSUDataType(DName *result)
             if ( v7 )
             {
               if ( v7 == 1 )
-                DName::operator=(&Prefix, "cointerface ");
+                DName::operator=(&rd, "cointerface ");
             }
             else
             {
-              DName::operator=(&Prefix, "coclass ");
+              DName::operator=(&rd, "coclass ");
             }
           }
           else
           {
             v1 = ((UnDecorator::disableFlags >> 15) & 1) == 0;
-            EnumType = UnDecorator::getEnumType(&ecsuDataType);
+            EnumType = UnDecorator::getEnumType(&resulta);
             v9 = operator+(&v13, "enum ", EnumType);
             node = v9->node;
             v11 = *((_DWORD *)v9 + 1);
-            Prefix.node = node;
-            *((_DWORD *)&Prefix + 1) = v11;
+            rd.node = node;
+            *((_DWORD *)&rd + 1) = v11;
           }
         }
         else
         {
-          DName::operator=(&Prefix, "class ");
+          DName::operator=(&rd, "class ");
         }
       }
       else
       {
-        DName::operator=(&Prefix, "struct ");
+        DName::operator=(&rd, "struct ");
       }
     }
     else
     {
-      DName::operator=(&Prefix, "union ");
+      DName::operator=(&rd, "union ");
     }
-    ecsuDataType.node = 0;
-    *((_DWORD *)&ecsuDataType + 1) &= 0xFFFF0000;
+    resulta.node = 0;
+    *((_DWORD *)&resulta + 1) &= 0xFFFF0000;
     if ( v1 )
-      ecsuDataType = Prefix;
-    UnDecorator::getScopedName(&Prefix);
-    DName::operator+=(&ecsuDataType, &Prefix);
+      resulta = rd;
+    UnDecorator::getScopedName(&rd);
+    DName::operator+=(&resulta, &rd);
     v12 = result;
-    *result = ecsuDataType;
+    *result = resulta;
   }
   else
   {

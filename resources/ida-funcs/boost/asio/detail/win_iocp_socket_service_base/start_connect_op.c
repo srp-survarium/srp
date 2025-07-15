@@ -1,32 +1,49 @@
-void __thiscall boost::asio::detail::win_iocp_socket_service_base::start_connect_op(
-        boost::asio::detail::win_iocp_socket_service_base *this,
+void __userpurge boost::asio::detail::win_iocp_socket_service_base::start_connect_op(
+        boost::asio::detail::win_iocp_socket_service_base *this@<ecx>,
+        volatile LONG *a2@<eax>,
         boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl,
         boost::asio::detail::reactor_op *op,
         const sockaddr *addr,
         unsigned int addrlen)
 {
-  char v5; // [esp+0h] [ebp-124h]
-  char v6; // [esp+4h] [ebp-120h]
-  boost::asio::detail::win_iocp_io_service *io_service; // [esp+Ch] [ebp-118h]
-  const boost::system::error_category *v8; // [esp+10Ch] [ebp-18h]
-  boost::asio::detail::select_reactor *r; // [esp+120h] [ebp-4h]
+  boost::asio::detail::service_registry *v8; // ecx
+  boost::system::error_code *p_ec; // esi
+  int io_service; // esi
+  boost::asio::detail::win_iocp_io_service *v11; // ecx
+  unsigned int v12; // [esp+0h] [ebp-18h]
+  boost::asio::detail::select_reactor::per_descriptor_data *v13; // [esp+4h] [ebp-14h]
+  bool v14; // [esp+8h] [ebp-10h]
+  boost::asio::io_service::service::key key; // [esp+Ch] [ebp-Ch] BYREF
+  volatile LONG *Target; // [esp+14h] [ebp-4h]
+  boost::asio::detail::select_reactor *v17; // [esp+20h] [ebp+8h]
 
-  r = boost::asio::detail::win_iocp_socket_service_base::get_reactor(this);
-  if ( ((impl->state_ & 3) != 0
-     || boost::asio::detail::socket_ops::set_internal_non_blocking(impl->socket_, &impl->state_, 1, &op->ec_))
-    && boost::asio::detail::socket_ops::connect(impl->socket_, addr, addrlen, &op->ec_)
-    && (op->ec_.m_cat != boost::system::system_category() || op->ec_.m_val != 10036 ? (v6 = 0) : (v6 = 1),
-        v6 || (op->ec_.m_cat != boost::system::system_category() || op->ec_.m_val != 10035 ? (v5 = 0) : (v5 = 1), v5)) )
+  Target = a2 + 2;
+  v17 = (boost::asio::detail::select_reactor *)InterlockedCompareExchange(a2 + 2, 0, 0);
+  if ( !v17 )
   {
-    v8 = boost::system::system_category();
-    op->ec_.m_val = 0;
-    op->ec_.m_cat = v8;
-    boost::asio::detail::select_reactor::start_op(r, 3, impl->socket_, &impl->reactor_data_, op, 0);
+    v8 = *(boost::asio::detail::service_registry **)(*a2 + 4);
+    key.id_ = 0;
+    key.type_info_ = (const type_info *)&boost::asio::detail::typeid_wrapper<boost::asio::detail::select_reactor> `RTTI Type Descriptor';
+    v17 = (boost::asio::detail::select_reactor *)boost::asio::detail::service_registry::do_use_service(
+                                                   v8,
+                                                   &key,
+                                                   (boost::asio::io_service::service *(__cdecl *)(boost::asio::io_service *))boost::asio::detail::service_registry::create<boost::asio::detail::select_reactor>);
+    InterlockedExchange(Target, (LONG)v17);
+  }
+  if ( ((impl->state_ & 3) != 0
+     || boost::asio::detail::socket_ops::set_internal_non_blocking(&impl->state_, &op->ec_, (int)impl, impl->socket_))
+    && (p_ec = &op->ec_, boost::asio::detail::socket_ops::connect(&op->ec_, (int)impl, impl->socket_, addr, addrlen))
+    && (op->ec_.m_cat == boost::system::system_category() && p_ec->m_val == 10036
+     || op->ec_.m_cat == boost::system::system_category() && p_ec->m_val == 10035) )
+  {
+    op->ec_.m_cat = boost::system::system_category();
+    p_ec->m_val = 0;
+    boost::asio::detail::select_reactor::start_op(v17, op, impl->socket_, v12, v13, v14);
   }
   else
   {
-    io_service = r->io_service_;
-    InterlockedIncrement(&io_service->outstanding_work_);
-    boost::asio::detail::win_iocp_io_service::post_deferred_completion(io_service, op);
+    io_service = (int)v17->io_service_;
+    InterlockedIncrement((volatile LONG *)(io_service + 24));
+    boost::asio::detail::win_iocp_io_service::post_deferred_completion(v11, io_service, op);
   }
 }

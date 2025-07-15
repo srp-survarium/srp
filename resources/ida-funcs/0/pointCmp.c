@@ -1,9 +1,9 @@
-BOOL __cdecl pointCmp(const btConvexHullInternal::Point32 *p, const btConvexHullInternal::Point32 *q)
+BOOL __cdecl pointCmp(const btConvexHullInternal::Point32 *a1, const btConvexHullInternal::Point32 *a2)
 {
-  int y; // eax
-  int v3; // ecx
+  int y; // edx
+  int v3; // esi
 
-  y = p->y;
-  v3 = q->y;
-  return y < v3 || y == v3 && (p->x < q->x || p->x == q->x && p->z < q->z);
+  y = a1->y;
+  v3 = a2->y;
+  return y < v3 || y == v3 && (a1->x < a2->x || a1->x == a2->x && a1->z < a2->z);
 }

@@ -1,4 +1,4 @@
-int __cdecl _set_osfhnd(int fh, void *value)
+int __cdecl _set_osfhnd(int fh, HANDLE value)
 {
   stlp_std::ioinfo **v2; // edi
   int v3; // esi

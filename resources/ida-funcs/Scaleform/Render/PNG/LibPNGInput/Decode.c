@@ -100,7 +100,7 @@ LABEL_13:
         format);
       for ( j = 0; j < v5->Context.height; ++j )
       {
-        memcpy(v18.pReadScanline, (unsigned __int8 *)v14[j], v18.ReadScanlineSize);
+        memcpy((int)v18.pReadScanline, (const __m128i *)v14[j], v18.ReadScanlineSize);
         Scaleform::Render::ImageScanlineBufferImpl::ConvertReadBuffer(
           &v18,
           &pdest->pPlanes->pData[j * pdest->pPlanes->Pitch],

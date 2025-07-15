@@ -1,415 +1,349 @@
-void __thiscall vostok::render::hw_hiz_occlusion_manager::downsample_occlusion_buffer(
-        vostok::render::hw_hiz_occlusion_manager *this,
-        vostok::render::hw_hiz_occlusion_manager *thisa)
+void __userpurge vostok::render::hw_hiz_occlusion_manager::downsample_occlusion_buffer(
+        vostok::render::hw_hiz_occlusion_manager *this@<ecx>,
+        vostok::render::res_texture wszName)
 {
-  vostok::render::hw_hiz_occlusion_manager *v2; // edi
-  unsigned int v3; // ebp
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v4; // esi
-  int y; // eax
-  vostok::render::render_target *m_object; // eax
-  vostok::render::backend *m_rt; // ecx
-  const char *m_conflicted_key_name; // eax
-  vostok::render::res_texture *v9; // eax
-  vostok::render::res_texture *v10; // ebp
-  _DWORD *v11; // eax
-  unsigned int v12; // ecx
-  const char *v13; // esi
-  unsigned int Width; // ecx
-  double v15; // st7
-  const char *v16; // edx
-  vostok::render::shader_constant_host *m_prev_texture_size_parameter; // eax
-  int v18; // ecx
-  unsigned __int16 m_buffer_index; // cx
-  int v20; // ebp
-  unsigned int m_class_id; // esi
-  int m_slot_index; // eax
-  float *v23; // edi
-  int v24; // ecx
-  _BYTE *v25; // esi
-  _BYTE *v26; // eax
-  char v27; // bl
-  char v28; // dl
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > **v29; // esi
-  vostok::render::render_target *v30; // eax
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v31; // ecx
-  vostok::render::res_texture *v32; // eax
-  void **v33; // edi
-  const char *m_begin; // edx
-  survarium::options_tab *v35; // ebp
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v36; // eax
-  stlp_std::priv::_Rb_tree_node_base *v37; // eax
-  malloc_state *m_reconstruction_info_actuality_tick_high; // esi
-  vostok::render::grass_render_model *v39; // ebp
-  char *v40; // esi
-  char *v41; // eax
-  malloc_state *v42; // esi
-  unsigned int v43; // ebx
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v44; // esi
-  _DWORD *v45; // eax
-  const char *v46; // edi
-  char v47; // al
-  vostok::render::render_target *v48; // eax
-  const char *v49; // esi
-  int v50; // eax
-  bool v51; // zf
-  survarium::options_tab *v52; // edi
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v53; // eax
-  stlp_std::priv::_Rb_tree_node_base *v54; // eax
-  malloc_state *v55; // esi
-  vostok::render::grass_render_model *v56; // edi
-  char *v57; // esi
-  char *v58; // eax
-  malloc_state *v59; // esi
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v60; // [esp+Ch] [ebp-94h] BYREF
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v61; // [esp+10h] [ebp-90h]
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v62; // [esp+14h] [ebp-8Ch]
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v63; // [esp+18h] [ebp-88h]
-  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v64; // [esp+1Ch] [ebp-84h]
-  D3D11_VIEWPORT *v65; // [esp+20h] [ebp-80h]
-  float v66; // [esp+24h] [ebp-7Ch]
-  float pos_y; // [esp+28h] [ebp-78h]
-  float size_x; // [esp+2Ch] [ebp-74h]
-  float size_y; // [esp+30h] [ebp-70h]
-  float v70; // [esp+34h] [ebp-6Ch]
-  float v71; // [esp+38h] [ebp-68h]
-  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> read_texture; // [esp+4Ch] [ebp-54h]
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > **v73; // [esp+50h] [ebp-50h]
-  unsigned int mip_level_index; // [esp+54h] [ebp-4Ch] BYREF
-  const char *v75; // [esp+58h] [ebp-48h] BYREF
-  unsigned int Height; // [esp+5Ch] [ebp-44h]
-  float v77[4]; // [esp+60h] [ebp-40h] BYREF
-  D3D11_VIEWPORT view_port; // [esp+70h] [ebp-30h] BYREF
-  D3D11_VIEWPORT prev_view_port; // [esp+88h] [ebp-18h] BYREF
+  vostok::render::res_texture_vtbl *v2; // ebx
+  void (__thiscall *v3)(vostok::render::res_texture *); // ecx
+  int z_low; // esi
+  vostok::render::backend *v5; // ecx
+  vostok::render::backend *v6; // ecx
+  vostok::render::res_pass *v7; // ecx
+  void (__thiscall *v8)(vostok::render::res_texture *); // eax
+  _DWORD *v9; // eax
+  _DWORD *v10; // esi
+  vostok::render::res_pass *v11; // eax
+  vostok::render::effect_manager *v12; // ecx
+  vostok::render::res_pass *v13; // eax
+  bool v14; // al
+  vostok::memory::doug_lea_allocator *v15; // ecx
+  vostok::render::res_texture *v16; // ecx
+  vostok::render::res_texture *v17; // eax
+  vostok::render::backend *v18; // ecx
+  vostok::render::res_texture *m_object; // esi
+  vostok::render::render_target *v20; // ecx
+  void (__thiscall *v21)(vostok::render::res_texture *); // eax
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v22; // eax
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v23; // esi
+  vostok::render::res_texture_vtbl *v24; // eax
+  vostok::render::res_pass *v25; // edi
+  vostok::render::effect_manager *v26; // ecx
+  vostok::render::set<vostok::render::res_shader_technique *,vostok::render::effect_manager::compare_predicate<vostok::render::res_shader_technique> > *p_m_techniques; // edi
+  stlp_std::priv::_Rb_tree_node_base **p_M_left; // esi
+  stlp_std::priv::_Rb_tree_node_base *M_left; // eax
+  stlp_std::priv::_Rb_tree_node_base *v30; // eax
+  vostok::memory::doug_lea_allocator *v31; // ecx
+  vostok::memory::doug_lea_allocator *v32; // esi
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v33; // ecx
+  vostok::memory::doug_lea_allocator *v34; // ecx
+  vostok::render::render_target *m_reference_count; // esi
+  float z; // esi
+  vostok::render::resource_manager *v37; // ecx
+  bool v38; // zf
+  vostok::render::res_texture *v39; // eax
+  vostok::render::system_renderer *v40; // [esp-10h] [ebp-70h]
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v41; // [esp-Ch] [ebp-6Ch] BYREF
+  vostok::render::render_target *v42; // [esp-8h] [ebp-68h]
+  vostok::render::render_target *v43; // [esp-4h] [ebp-64h]
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v44; // [esp+0h] [ebp-60h]
+  vostok::render::render_target *v45; // [esp+4h] [ebp-5Ch]
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v46; // [esp+8h] [ebp-58h]
+  const D3D11_VIEWPORT *v47; // [esp+Ch] [ebp-54h]
+  const char *v48; // [esp+10h] [ebp-50h]
+  float v49; // [esp+14h] [ebp-4Ch]
+  float v50; // [esp+18h] [ebp-48h]
+  D3D11_VIEWPORT v51; // [esp+1Ch] [ebp-44h] BYREF
+  D3D11_VIEWPORT v52; // [esp+34h] [ebp-2Ch] BYREF
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v53; // [esp+4Ch] [ebp-14h]
+  unsigned int v54; // [esp+50h] [ebp-10h]
+  vostok::render::res_pass *pass; // [esp+54h] [ebp-Ch]
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *object; // [esp+58h] [ebp-8h]
 
-  v2 = thisa;
-  v3 = 1;
-  if ( thisa->m_num_mips > 1 )
+  v2 = wszName.__vftable;
+  pix_event_wrapper_dx11::pix_event_wrapper_dx11(
+    (pix_event_wrapper_dx11 *)this,
+    (pix_event_wrapper_dx11 *)&wszName.__vftable + 3,
+    (int)L"downsample_occlusion_buffer");
+  if ( !s_hiz2 )
   {
-    v4 = &thisa->m_rt_depth_mips[1];
-    do
+    pass = (vostok::render::res_pass *)1;
+    if ( (char *)v2[56].~vostok::render::res_texture > (char *)1 )
     {
-      y = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y;
-      mip_level_index = 1;
-      (*(void (__stdcall **)(int, unsigned int *, D3D11_VIEWPORT *))(*(_DWORD *)y + 380))(
-        y,
-        &mip_level_index,
-        &prev_view_port);
-      m_object = v4->m_object;
-      view_port.Width = (float)v4->m_object->m_width;
-      view_port.Height = (float)m_object->m_height;
-      view_port.MinDepth = 0.0;
-      LODWORD(view_port.MaxDepth) = clear_value;
-      view_port.TopLeftX = 0.0;
-      view_port.TopLeftY = 0.0;
-      (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                        + 176))(
-        `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-        1,
-        &view_port);
-      if ( v4->m_object )
-        m_rt = (vostok::render::backend *)v4->m_object->m_rt;
-      else
-        m_rt = 0;
-      m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      if ( *((vostok::render::backend **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-           + 535) != m_rt )
+      wszName.__vftable = v2 + 35;
+      do
       {
-        *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = m_rt;
-        *((_BYTE *)m_conflicted_key_name + 163) = 1;
+        qmemcpy(
+          (void *)&v51,
+          (const void *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 120),
+          sizeof(v51));
+        v3 = wszName.~vostok::render::res_texture;
+        v52.Width = (float)*((unsigned int *)wszName.~vostok::render::res_texture + 8);
+        v53.m_object = (vostok::render::render_target *)*((_DWORD *)v3 + 9);
+        v52.Height = (float)(unsigned int)v53.m_object;
+        v52.MinDepth = 0.0;
+        v52.MaxDepth = s_bm_current_air_resistance;
+        v52.TopLeftX = 0.0;
+        v52.TopLeftY = 0.0;
+        vostok::render::backend::set_viewports(
+          (vostok::render::backend *)&v52,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          &v52,
+          v47);
+        z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+        vostok::render::backend::set_render_targets(
+          (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          (const vostok::render::render_target *)wszName.~vostok::render::res_texture,
+          0,
+          0,
+          0);
+        vostok::render::backend::clear_render_targets(v5, z_low, SLODWORD(s_bm_current_air_resistance), 1.0, 1.0, 1.0);
+        vostok::render::backend::set_viewports(
+          v6,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          &v51,
+          v47);
+        pass = (vostok::render::res_pass *)((char *)pass + 1);
+        ++wszName.__vftable;
       }
-      if ( *((_DWORD *)m_conflicted_key_name + 536) )
-      {
-        *((_DWORD *)m_conflicted_key_name + 536) = 0;
-        *((_BYTE *)m_conflicted_key_name + 164) = 1;
-      }
-      if ( *((_DWORD *)m_conflicted_key_name + 537) )
-      {
-        *((_DWORD *)m_conflicted_key_name + 537) = 0;
-        *((_BYTE *)m_conflicted_key_name + 165) = 1;
-      }
-      if ( *((_DWORD *)m_conflicted_key_name + 538) )
-      {
-        *((_DWORD *)m_conflicted_key_name + 538) = 0;
-        *((_BYTE *)m_conflicted_key_name + 166) = 1;
-      }
-      vostok::render::backend::clear_render_targets(
-        m_rt,
-        (int)m_conflicted_key_name,
-        *(float *)&clear_value,
-        1.0,
-        1.0,
-        1.0,
-        v71);
-      (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                        + 176))(
-        `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-        1,
-        &prev_view_port);
-      ++v3;
-      ++v4;
+      while ( (char *)pass < (char *)v2[56].~vostok::render::res_texture );
     }
-    while ( v3 < v2->m_num_mips );
-  }
-  v9 = v2->m_t_depth_mips.m_object;
-  v10 = 0;
-  read_texture.m_object = 0;
-  if ( v9 )
-  {
-    ++v9->m_reference_count;
-    read_texture.m_object = v9;
-    v10 = v9;
-  }
-  mip_level_index = 1;
-  if ( v2->m_num_mips > 1 )
-  {
-    v77[2] = 0.0;
-    v77[3] = 0.0;
-    v73 = (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > **)&v2->m_t_depth_mips_work[1];
-    do
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+      (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&wszName,
+      (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&v2[51]);
+    v54 = 1;
+    if ( (char *)v2[56].~vostok::render::res_texture > (char *)1 )
     {
-      v11 = &v2->m_hiz_occlusion_effect.m_object->__vftable;
-      v12 = (v11[71] - v11[70]) >> 2;
-      if ( v12 > 4 )
+      v52.MinDepth = 0.0;
+      v52.MaxDepth = 0.0;
+      object = (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&v2[19];
+      do
       {
-        v11[69] = 4;
-        vostok::render::res_effect::apply_pass((vostok::render::res_effect *)v12, (int)v11);
-      }
-      v13 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      *((_BYTE *)v13 + 159) = vostok::render::textures_handler<0>::set_overwrite(
-                                (vostok::render::textures_handler<0> *)v12,
-                                (char *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                              + 1488,
-                                (vostok::render::res_texture *)&stru_967C04,
-                                v10);
-      Width = v10->m_desc.Width;
-      Height = v10->m_desc.Height;
-      v15 = (double)Height;
-      Height = Width;
-      v16 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      v77[0] = (float)Width;
-      m_prev_texture_size_parameter = v2->m_prev_texture_size_parameter;
-      v18 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 573);
-      v77[1] = v15;
-      if ( m_prev_texture_size_parameter->m_update_markers[1] == v18 )
-      {
-        m_buffer_index = m_prev_texture_size_parameter->m_shader_slots[1].m_buffer_index;
-        if ( m_buffer_index != 0xFFFF )
+        v8 = v2[1].~vostok::render::res_texture;
+        *((_DWORD *)v8 + 5512) = 4;
+        v9 = *(_DWORD **)(*((_DWORD *)v8 + 5513) + 16);
+        v10 = 0;
+        if ( v9 )
         {
-          v20 = *(_DWORD *)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                        + 371)
-                                      + 16)
-                          + 4 * m_buffer_index);
-          m_class_id = (unsigned __int8)m_prev_texture_size_parameter->m_shader_slots[1].m_class_id;
-          m_slot_index = m_prev_texture_size_parameter->m_shader_slots[1].m_slot_index;
-          v23 = v77;
-          if ( m_class_id > *(_DWORD *)(v20 + 92) - m_slot_index )
-            m_class_id = *(_DWORD *)(v20 + 92) - m_slot_index;
-          v24 = *(_DWORD *)(v20 + 88);
-          v25 = (_BYTE *)(v24 + m_slot_index + m_class_id);
-          v26 = (_BYTE *)(v24 + m_slot_index);
-          v27 = 0;
-          if ( v26 != v25 )
-          {
-            do
-            {
-              v28 = *(_BYTE *)v23 ^ *v26;
-              *v26++ = *(_BYTE *)v23;
-              v27 |= v28;
-              v23 = (float *)((char *)v23 + 1);
-            }
-            while ( v26 != v25 );
-            v16 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-          }
-          *(_BYTE *)(v20 + 100) |= v27 != 0;
-          v10 = read_texture.m_object;
+          v10 = v9;
+          ++*v9;
         }
-      }
-      ++*((_DWORD *)v16 + 23);
-      v70 = 1.0;
-      v29 = v73;
-      size_y = 1.0;
-      size_x = 0.0;
-      pos_y = 0.0;
-      v66 = 0.0;
-      v65 = 0;
-      v64.m_object = 0;
-      v63.m_object = 0;
-      v62.m_object = 0;
-      v61.m_object = 0;
-      v30 = (vostok::render::render_target *)*(v73 - 16);
-      v60.m_object = 0;
-      if ( v30 )
-      {
-        v60.m_object = v30;
-        ++v30->m_reference_count;
-      }
-      vostok::render::system_renderer::fill_surface(
-        (vostok::render::system_renderer *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-        (vostok::render::system_renderer *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-        v60,
-        v61,
-        v62,
-        v63,
-        v64,
-        v65,
-        v66,
-        pos_y,
-        size_x,
-        size_y,
-        v70);
-      v31 = *v29;
-      v32 = 0;
-      if ( *v29 )
-      {
-        v32 = (vostok::render::res_texture *)*v29;
-        ++v31->_M_header._M_data._M_parent;
-      }
-      v33 = (void **)&v10->__vftable;
-      read_texture.m_object = v32;
-      if ( v10 )
-      {
-        if ( !--v10->m_reference_count && v10->m_is_registered )
+        v11 = *(vostok::render::res_pass **)v10[2];
+        pass = 0;
+        if ( v11 )
         {
-          m_begin = v10->m_name.m_string.m_begin;
-          v35 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3] + 7;
-          v75 = m_begin;
-          v36 = (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(v31, (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][7], &v75);
-          if ( v36 != (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)v35 )
+          ++v11->m_reference_count;
+          pass = v11;
+        }
+        vostok::render::res_pass::apply(v7, (int)pass);
+        v13 = pass;
+        if ( pass )
+        {
+          --pass->m_reference_count;
+          if ( !v13->m_reference_count )
+            vostok::render::effect_manager::delete_pass(
+              v12,
+              (int)vostok::quasi_singleton<vostok::render::effect_manager>::pinst,
+              v13);
+        }
+        if ( !--*v10 )
+        {
+          if ( *((_BYTE *)v10 + 148) )
           {
-            v37 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
-                    &v36->_M_header._M_data,
-                    (stlp_std::priv::_Rb_tree_node_base **)&v35->m_options_count,
-                    (stlp_std::priv::_Rb_tree_node_base **)&v35->m_type,
-                    (stlp_std::priv::_Rb_tree_node_base **)&v35->m_game);
-            if ( v37 )
+            v14 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+                    (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)&vostok::quasi_singleton<vostok::render::effect_manager>::pinst->m_techniques,
+                    (const vostok::render::res_pass *)v10);
+            v12 = (vostok::render::effect_manager *)v46;
+            if ( v14 )
             {
-              m_reconstruction_info_actuality_tick_high = (malloc_state *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-              BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-              vostok_mspace_free(m_reconstruction_info_actuality_tick_high, (char *)&v37->_M_color);
-            }
-            --v35->m_movie;
-            v39 = vostok::render::g_allocator.m_object;
-            v40 = __RTCastToVoid(v33);
-            (*(void (__thiscall **)(void **, _DWORD))*v33)(v33, 0);
-            if ( v40 )
-            {
-              v41 = v40;
-              v42 = (malloc_state *)HIDWORD(v39->m_reconstruction_info_actuality_tick);
-              BYTE2(v39->m_children_resources.m_lock) = 0;
-              vostok_mspace_free(v42, v41);
+              pass = (vostok::render::res_pass *)vostok::render::g_allocator;
+              vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::clear(
+                v46,
+                (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)v10
+              + 2);
+              vostok::memory::doug_lea_allocator::free_impl(
+                v15,
+                (int)pass,
+                (char *)v10,
+                (const char *const)v47,
+                v48,
+                LODWORD(v49));
             }
           }
         }
-      }
-      this = thisa;
-      ++v73;
-      v10 = read_texture.m_object;
-      ++mip_level_index;
-      v43 = 1;
-      v2 = thisa;
-    }
-    while ( mip_level_index < thisa->m_num_mips );
-    if ( thisa->m_num_mips > 1 )
-    {
-      v44 = &thisa->m_rt_depth_mips[1];
-      while ( 1 )
-      {
-        v45 = &v2->m_hiz_occlusion_effect.m_object->__vftable;
-        if ( (unsigned int)((v45[71] - v45[70]) >> 2) > 5 )
-        {
-          v45[69] = 5;
-          vostok::render::res_effect::apply_pass((vostok::render::res_effect *)this, (int)v45);
-        }
-        v70 = *(float *)&v44[-16].m_object;
-        v46 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-        v47 = vostok::render::textures_handler<0>::set_overwrite(
-                (vostok::render::textures_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                      + 1488),
-                (char *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 1488,
-                (vostok::render::res_texture *)&stru_967C04,
-                (vostok::render::res_texture *)LODWORD(v70));
-        v70 = 1.0;
-        size_y = 1.0;
-        *((_BYTE *)v46 + 159) = v47;
-        size_x = 0.0;
-        pos_y = 0.0;
-        v66 = 0.0;
-        v65 = 0;
-        v64.m_object = 0;
-        v63.m_object = 0;
-        v62.m_object = 0;
-        v61.m_object = 0;
-        v48 = v44->m_object;
-        v60.m_object = 0;
-        if ( v48 )
-        {
-          v60.m_object = v48;
-          ++v48->m_reference_count;
-        }
+        vostok::render::backend::set_ps_texture(
+          (vostok::render::backend *)v12,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          "hiz_depth_texture",
+          (vostok::render::res_texture *)wszName.__vftable);
+        v17 = (vostok::render::res_texture *)vostok::render::res_texture::height(v16, (int)wszName.__vftable);
+        v53.m_object = (vostok::render::render_target *)vostok::render::res_texture::width(v17, (int)wszName.__vftable);
+        v52.Width = (float)(unsigned int)v53.m_object;
+        v52.Height = (float)(unsigned int)v18;
+        vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+          v18,
+          (vostok::render::constants_handler<1> *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          (const vostok::render::shader_constant_host *)v2[63].~vostok::render::res_texture,
+          (const vostok::math::float3 *)&v52.Width);
+        v46 = 0;
+        v45 = 0;
+        v44.m_object = 0;
+        v43 = 0;
+        v42 = 0;
+        m_object = object[-16].m_object;
+        v41.m_object = v20;
+        v40 = (vostok::render::system_renderer *)v20;
+        pass = (vostok::render::res_pass *)vostok::quasi_singleton<vostok::render::system_renderer>::pinst;
+        vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+          &v41,
+          (vostok::render::render_target *)m_object);
         vostok::render::system_renderer::fill_surface(
-          (vostok::render::system_renderer *)&v60,
-          (vostok::render::system_renderer *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-          v60,
-          v61,
-          v62,
-          v63,
-          v64,
-          v65,
-          v66,
-          pos_y,
-          size_x,
-          size_y,
-          v70);
-        this = thisa;
-        ++v43;
-        ++v44;
-        if ( v43 >= thisa->m_num_mips )
-          break;
-        v2 = thisa;
+          v40,
+          (vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)pass,
+          v41.m_object,
+          v42,
+          v43,
+          v44,
+          v45,
+          (D3D11_VIEWPORT *)v46,
+          *(float *)&v47,
+          *(float *)&v48,
+          v49,
+          v50);
+        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+          object,
+          &wszName);
+        ++v54;
+        ++object;
       }
+      while ( (char *)v54 < (char *)v2[56].~vostok::render::res_texture );
     }
-  }
-  v49 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  vostok::render::backend::reset_render_targets(
-    (vostok::render::backend *)this,
-    (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name);
-  v50 = *((_DWORD *)v49 + 547);
-  v51 = *((_DWORD *)v49 + 539) == v50;
-  *((_DWORD *)v49 + 539) = v50;
-  *((_BYTE *)v49 + 167) |= !v51;
-  if ( v10 )
-  {
-    v51 = v10->m_reference_count-- == 1;
-    if ( v51 && v10->m_is_registered )
+    v54 = 1;
+    if ( (char *)v2[56].~vostok::render::res_texture > (char *)1 )
     {
-      v52 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3] + 7;
-      thisa = (vostok::render::hw_hiz_occlusion_manager *)v10->m_name.m_string.m_begin;
-      v53 = (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>((stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&thisa, (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][7], (const char **)&thisa);
-      if ( v53 != (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)v52 )
+      pass = (vostok::render::res_pass *)&v2[35];
+      do
       {
-        v54 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
-                &v53->_M_header._M_data,
-                (stlp_std::priv::_Rb_tree_node_base **)&v52->m_options_count,
-                (stlp_std::priv::_Rb_tree_node_base **)&v52->m_type,
-                (stlp_std::priv::_Rb_tree_node_base **)&v52->m_game);
-        if ( v54 )
+        v21 = v2[1].~vostok::render::res_texture;
+        *((_DWORD *)v21 + 5512) = 5;
+        v22 = *(vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(*((_DWORD *)v21 + 5513) + 20);
+        v23 = 0;
+        object = 0;
+        if ( v22 )
         {
-          v55 = (malloc_state *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v55, (char *)&v54->_M_color);
+          ++v22->m_object;
+          object = v22;
+          v23 = v22;
         }
-        --v52->m_movie;
-        v56 = vostok::render::g_allocator.m_object;
-        v57 = __RTCastToVoid((void **)&v10->__vftable);
-        ((void (__thiscall *)(vostok::render::res_texture *, _DWORD))v10->~vostok::render::res_texture)(v10, 0);
-        if ( v57 )
+        v53.m_object = (vostok::render::render_target *)&v23[2];
+        v24 = v23[2].m_object->__vftable;
+        v25 = 0;
+        if ( v24 )
         {
-          v58 = v57;
-          v59 = (malloc_state *)HIDWORD(v56->m_reconstruction_info_actuality_tick);
-          BYTE2(v56->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v59, v58);
+          v25 = (vostok::render::res_pass *)v23[2].m_object->__vftable;
+          ++v24->~vostok::render::res_texture;
         }
+        vostok::render::res_pass::apply(v7, (int)v25);
+        if ( v25 )
+        {
+          if ( !--v25->m_reference_count )
+            vostok::render::effect_manager::delete_pass(
+              v26,
+              (int)vostok::quasi_singleton<vostok::render::effect_manager>::pinst,
+              v25);
+        }
+        if ( !--v23->m_object && LOBYTE(v23[37].m_object) )
+        {
+          p_m_techniques = &vostok::quasi_singleton<vostok::render::effect_manager>::pinst->m_techniques;
+          p_M_left = &vostok::quasi_singleton<vostok::render::effect_manager>::pinst->m_techniques._M_t._M_header._M_data._M_left;
+          M_left = vostok::quasi_singleton<vostok::render::effect_manager>::pinst->m_techniques._M_t._M_header._M_data._M_left;
+          while ( 1 )
+          {
+            LOBYTE(v26) = M_left != (stlp_std::priv::_Rb_tree_node_base *)p_m_techniques;
+            if ( M_left == (stlp_std::priv::_Rb_tree_node_base *)p_m_techniques )
+              break;
+            if ( *(vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&M_left[1]._M_color == object )
+            {
+              v30 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+                      M_left,
+                      &p_m_techniques->_M_t._M_header._M_data._M_parent,
+                      p_M_left,
+                      &p_m_techniques->_M_t._M_header._M_data._M_right);
+              vostok::memory::doug_lea_allocator::free_impl(
+                v31,
+                (int)vostok::render::g_allocator,
+                (char *)&v30->_M_color,
+                (const char *const)v47,
+                v48,
+                LODWORD(v49));
+              --p_m_techniques->_M_t._M_node_count;
+              v32 = vostok::render::g_allocator;
+              vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::clear(
+                v33,
+                (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)v53.m_object);
+              vostok::memory::doug_lea_allocator::free_impl(
+                v34,
+                (int)v32,
+                (char *)object,
+                (const char *const)v47,
+                v48,
+                LODWORD(v49));
+              break;
+            }
+            M_left = stlp_std::priv::_Rb_global<bool>::_M_increment(M_left);
+            v26 = (vostok::render::effect_manager *)v46;
+          }
+        }
+        vostok::render::backend::set_ps_texture(
+          (vostok::render::backend *)v26,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          "hiz_depth_texture",
+          (vostok::render::res_texture *)pass[-3].m_input_layout.m_object);
+        v46 = 0;
+        v45 = 0;
+        v44.m_object = 0;
+        v43 = 0;
+        v42 = 0;
+        m_reference_count = (vostok::render::render_target *)pass->m_reference_count;
+        v41.m_object = 0;
+        v53.m_object = (vostok::render::render_target *)vostok::quasi_singleton<vostok::render::system_renderer>::pinst;
+        vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+          &v41,
+          m_reference_count);
+        vostok::render::system_renderer::fill_surface(
+          0,
+          v53,
+          v41.m_object,
+          v42,
+          v43,
+          v44,
+          v45,
+          (D3D11_VIEWPORT *)v46,
+          *(float *)&v47,
+          *(float *)&v48,
+          v49,
+          v50);
+        ++v54;
+        pass = (vostok::render::res_pass *)((char *)pass + 4);
       }
+      while ( (char *)v54 < (char *)v2[56].~vostok::render::res_texture );
+    }
+    z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+    vostok::render::backend::reset_render_targets(
+      (vostok::render::backend *)v7,
+      SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z));
+    v37 = *(vostok::render::resource_manager **)(LODWORD(z) + 7440);
+    v38 = *(_DWORD *)(LODWORD(z) + 7384) == (_DWORD)v37;
+    *(_DWORD *)(LODWORD(z) + 7384) = v37;
+    v39 = (vostok::render::res_texture *)wszName.__vftable;
+    *(_BYTE *)(LODWORD(z) + 117) |= !v38;
+    if ( v39 )
+    {
+      v38 = v39->m_reference_count-- == 1;
+      if ( v38 )
+        vostok::render::resource_manager::release(
+          v37,
+          (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+          v39);
     }
   }
+  D3DPERF_EndEvent();
 }

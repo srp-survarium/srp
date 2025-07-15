@@ -1,58 +1,51 @@
 void __usercall vostok::render::one_way_render_channel::process_next_frame_commands(
         vostok::render::one_way_render_channel *this@<ecx>,
-        int a2@<edi>)
+        int a2@<esi>)
 {
   unsigned int v2; // eax
-  __int32 v3; // esi
-  int v4; // eax
-  void (__thiscall **v5)(__int32); // edx
-  pop_front_predicate predicate; // [esp+Ch] [ebp-14h]
-  int new_next_frame_commands_queue; // [esp+10h] [ebp-10h]
-  __int32 new_next_frame_commands_queue_8; // [esp+18h] [ebp-8h]
-  __int32 new_next_frame_commands_queue_12; // [esp+1Ch] [ebp-4h]
+  vostok::render::base_command_vtbl *v3; // eax
+  vostok::render::base_command *v4; // eax
+  __int32 v5; // edi
+  int v6; // [esp+Ch] [ebp-14h] BYREF
+  int v7; // [esp+14h] [ebp-Ch]
+  int v8; // [esp+18h] [ebp-8h]
+  unsigned int v9; // [esp+1Ch] [ebp-4h]
 
-  v2 = *(_DWORD *)(a2 + 176);
-  *(_BYTE *)(a2 + 180) = 0;
-  new_next_frame_commands_queue = 0;
-  new_next_frame_commands_queue_8 = 0;
-  new_next_frame_commands_queue_12 = 0;
-  predicate.m_current_frame_id = v2;
-  while ( *(_DWORD *)(a2 + 160) )
+  v6 = 0;
+  v7 = 0;
+  v8 = 0;
+  v2 = *(_DWORD *)(a2 + 168);
+  *(_BYTE *)(a2 + 172) = 0;
+  v9 = v2;
+  while ( 1 )
   {
-    v3 = *(_DWORD *)(a2 + 160);
-    --*(_DWORD *)(a2 + 152);
-    v4 = *(_DWORD *)(v3 + 8);
-    *(_DWORD *)(a2 + 160) = v4;
+    v4 = vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::pop_front((vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)(a2 + 144));
+    v5 = (__int32)v4;
     if ( !v4 )
-      *(_DWORD *)(a2 + 164) = 0;
-    *(_DWORD *)(v3 + 8) = 0;
-    v5 = *(void (__thiscall ***)(__int32))v3;
-    if ( *(_BYTE *)(v3 + 12) )
+      break;
+    v3 = v4->__vftable;
+    if ( *(_BYTE *)(v5 + 16) )
     {
-      v5[1](v3);
+      v3->defer_execution((vostok::render::base_command *)v5);
     }
     else
     {
-      (*v5)(v3);
-      if ( *(_BYTE *)(v3 + 12) || *(_DWORD *)(v3 + 80) > predicate.m_current_frame_id )
+      v3->execute((vostok::render::base_command *)v5);
+      if ( *(_BYTE *)(v5 + 16) || *(_DWORD *)(v5 + 84) > v9 )
       {
-        ++new_next_frame_commands_queue;
-        *(_DWORD *)(v3 + 8) = 0;
-        if ( new_next_frame_commands_queue_8 )
-          *(_DWORD *)(new_next_frame_commands_queue_12 + 8) = v3;
-        else
-          new_next_frame_commands_queue_8 = v3;
-        new_next_frame_commands_queue_12 = v3;
+        vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
+          (vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)v5,
+          &v6);
       }
-      else if ( v3 != *(_DWORD *)(a2 + 64) )
+      else if ( v5 != *(_DWORD *)(a2 + 64) )
       {
-        *(_DWORD *)(v3 + 4) = 0;
-        _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(a2 + 68) + 4), v3);
-        *(_DWORD *)(a2 + 68) = v3;
+        *(_DWORD *)(v5 + 8) = 0;
+        _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(a2 + 68) + 8), v5);
+        *(_DWORD *)(a2 + 68) = v5;
       }
     }
   }
-  *(_DWORD *)(a2 + 160) = new_next_frame_commands_queue_8;
-  *(_DWORD *)(a2 + 164) = new_next_frame_commands_queue_12;
-  *(_DWORD *)(a2 + 152) = new_next_frame_commands_queue;
+  *(_DWORD *)(a2 + 152) = v7;
+  *(_DWORD *)(a2 + 156) = v8;
+  *(_DWORD *)(a2 + 144) = v6;
 }

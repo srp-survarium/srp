@@ -7,7 +7,7 @@ char __thiscall Scaleform::GFx::AS3::IMEManager::AcquireCandidateList(Scaleform:
   Scaleform::GFx::URLBuilder *v6; // eax
   Scaleform::RefCountVImpl *v7; // eax
   Scaleform::GFx::MovieDef *v8; // eax
-  char *v9; // eax
+  const __m128i *v9; // eax
   __int64 v10; // rax
   const Scaleform::String *v12; // eax
   Scaleform::GFx::AS3::VM *v13; // edi
@@ -58,10 +58,10 @@ char __thiscall Scaleform::GFx::AS3::IMEManager::AcquireCandidateList(Scaleform:
   {
     Scaleform::String::String(&parentPath);
     v8 = this->pMovie->GetMovieDef(this->pMovie);
-    v9 = (char *)v8->GetFileURL(v8);
+    v9 = (const __m128i *)v8->GetFileURL(v8);
     Scaleform::String::operator=(&parentPath, v9);
     Scaleform::GFx::URLBuilder::ExtractFilePath(&parentPath);
-    if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((const char *)((parentPath.HeapTypeBits & 0xFFFFFFFC) + 8)) )
+    if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((char *)((parentPath.HeapTypeBits & 0xFFFFFFFC) + 8)) )
     {
       Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&loc, File_Regular, &this->CandidateSwfPath, &parentPath);
       Scaleform::String::String(&path);
@@ -74,7 +74,7 @@ char __thiscall Scaleform::GFx::AS3::IMEManager::AcquireCandidateList(Scaleform:
     else
     {
       GetCurrentDirectoryA(0x104u, workingDir);
-      Scaleform::String::String(&v31, workingDir);
+      Scaleform::String::String(&v31, (const __m128i *)workingDir);
       Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&loc, File_Regular, &this->CandidateSwfPath, v12);
       Scaleform::String::~String(&v31);
       Scaleform::String::String(&path);
@@ -124,7 +124,7 @@ LABEL_26:
       goto LABEL_30;
     }
     VInt = (Scaleform::GFx::AS3::Instances::fl_display::Loader *)result.value.VS._1.VInt;
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)result.value.VS._1.VInt + 40))(0);
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)result.value.VS._1.VInt + 52))(0);
     v15 = (Scaleform::GFx::AS3::Instances::fl_net::URLRequest *)result2.value.VS._1.VInt;
     Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
       &pObject->BuiltinsMgr,

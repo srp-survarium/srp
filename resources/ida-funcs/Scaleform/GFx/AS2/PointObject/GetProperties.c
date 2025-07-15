@@ -30,25 +30,26 @@ void __thiscall Scaleform::GFx::AS2::PointObject::GetProperties(
   Scaleform::GFx::AS2::Value *v6; // esi
   int v7; // edi
   long double v8; // [esp+18h] [ebp-28h]
-  Scaleform::GFx::AS2::Value params[2]; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v9; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v10; // [esp+30h] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+40h] [ebp+0h] BYREF
 
   pContext = penv->StringContext.pContext;
   v4 = &this->Scaleform::GFx::AS2::ObjectInterface;
-  params[0].T.Type = 0;
-  params[1].T.Type = 0;
+  v9.T.Type = 0;
+  v10.T.Type = 0;
   this->GetMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
     &penv->StringContext,
     (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[34],
-    params);
+    &v9);
   v4->GetMemberRaw(
     v4,
     &penv->StringContext,
     (const Scaleform::GFx::ASString *)&penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[34].RefCount,
-    &params[1]);
-  v8 = Scaleform::GFx::AS2::Value::ToNumber(params, penv);
-  v5 = Scaleform::GFx::AS2::Value::ToNumber(&params[1], penv);
+    &v10);
+  v8 = Scaleform::GFx::AS2::Value::ToNumber(&v9, penv);
+  v5 = Scaleform::GFx::AS2::Value::ToNumber(&v10, penv);
   pt->x = v8;
   v6 = (Scaleform::GFx::AS2::Value *)&retaddr;
   v7 = 1;

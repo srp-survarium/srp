@@ -7,7 +7,7 @@ bio_st *__cdecl cms_SignedData_init_bio(CMS_ContentInfo_st *cms)
   bio_st *inited; // eax
 
   v1 = 0;
-  if ( OBJ_obj2nid(cms->contentType) == 22 )
+  if ( OBJ_obj2nid(cms->contentType) == (void *)22 )
   {
     signedData = cms->d.signedData;
     if ( signedData )
@@ -28,14 +28,14 @@ bio_st *__cdecl cms_SignedData_init_bio(CMS_ContentInfo_st *cms)
           if ( !inited )
             break;
           if ( v1 )
-            BIO_push(v1, inited);
+            BIO_push((int)v1, v1, inited);
           else
             v1 = inited;
           if ( ++v4 >= sk_num(&signedData->digestAlgorithms->stack) )
             return v1;
         }
         if ( v1 )
-          BIO_free_all(v1);
+          BIO_free_all((int)v1, v1);
         return 0;
       }
     }
@@ -46,7 +46,7 @@ bio_st *__cdecl cms_SignedData_init_bio(CMS_ContentInfo_st *cms)
   }
   else
   {
-    ERR_put_error(0x2Eu, 133, 108, ".\\crypto\\cms\\cms_sd.c", 71);
+    ERR_put_error(0, 0x2Eu, 133, 108, ".\\crypto\\cms\\cms_sd.c", 71);
     return 0;
   }
 }

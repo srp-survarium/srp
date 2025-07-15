@@ -1,19 +1,19 @@
-void __cdecl ssl3_finish_mac(ssl_st *s, const unsigned __int8 *buf, int len)
+void __usercall ssl3_finish_mac(int a1@<ebx>, ssl_st *s, const char *buf, int len)
 {
   int i; // esi
-  env_md_ctx_st **v4; // eax
+  env_md_ctx_st **v5; // eax
 
   if ( s->s3->handshake_buffer )
   {
-    BIO_write(s->s3->handshake_buffer, (const char *)buf, len);
+    BIO_write(a1, s->s3->handshake_buffer, buf, len);
   }
   else
   {
     for ( i = 0; i < 4; ++i )
     {
-      v4 = &s->s3->handshake_dgst[i];
-      if ( *v4 )
-        EVP_DigestUpdate(*v4);
+      v5 = &s->s3->handshake_dgst[i];
+      if ( *v5 )
+        EVP_DigestUpdate(*v5);
     }
   }
 }

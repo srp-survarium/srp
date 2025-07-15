@@ -11,7 +11,7 @@ char *__cdecl __RTDynamicCast(
   char *v8; // esi
   unsigned int attributes; // ecx
   const _s_RTTIBaseClassDescriptor *VITargetTypeInstance; // eax
-  std::bad_cast pExceptionObject; // [esp+10h] [ebp-28h] BYREF
+  std::bad_cast v11; // [esp+10h] [ebp-28h] BYREF
   void *pResult; // [esp+1Ch] [ebp-1Ch]
   CPPEH_RECORD ms_exc; // [esp+20h] [ebp-18h]
 
@@ -44,8 +44,8 @@ char *__cdecl __RTDynamicCast(
     pResult = 0;
     if ( isReference )
     {
-      std::bad_cast::bad_cast(&pExceptionObject, "Bad dynamic_cast!");
-      _CxxThrowException(&pExceptionObject, &_TI2_AVbad_cast_std__);
+      std::bad_cast::bad_cast(&v11, aBadDynamic);
+      _CxxThrowException((DWORD)&v11, &_TI2_AVbad_cast_std__);
     }
   }
   ms_exc.registration.TryLevel = -2;

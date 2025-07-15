@@ -27,7 +27,7 @@ int __cdecl deflate_slow(internal_state *s, int flush)
   int v26; // eax
   int v27; // edx
   char *v28; // ecx
-  int v29; // edi
+  int *v29; // edi
   int v30; // eax
   unsigned int v31; // ebx
   int v32; // eax
@@ -36,7 +36,7 @@ int __cdecl deflate_slow(internal_state *s, int flush)
   unsigned __int8 v36; // al
   int v37; // ecx
   char *v38; // eax
-  int v39; // edi
+  int *v39; // edi
   int v40; // eax
   unsigned int v41; // ebx
   int v42; // eax
@@ -121,22 +121,22 @@ LABEL_23:
           else
             v38 = (char *)(v37 + s[14].dummy);
           _tr_flush_block(s, v38, s[27].dummy - v37, 0);
-          v39 = s->dummy;
+          v39 = (int *)s->dummy;
           s[23].dummy = s[27].dummy;
-          v40 = *(_DWORD *)(v39 + 28);
+          v40 = v39[7];
           v41 = *(_DWORD *)(v40 + 20);
-          if ( v41 > *(_DWORD *)(v39 + 16) )
-            v41 = *(_DWORD *)(v39 + 16);
+          if ( v41 > v39[4] )
+            v41 = v39[4];
           if ( v41 )
           {
-            memcpy(*(unsigned __int8 **)(v39 + 12), *(unsigned __int8 **)(v40 + 16), v41);
-            v42 = *(_DWORD *)(v39 + 28);
-            *(_DWORD *)(v39 + 12) += v41;
+            memcpy(v39[3], *(const __m128i **)(v40 + 16), v41);
+            v42 = v39[7];
+            v39[3] += v41;
             *(_DWORD *)(v42 + 16) += v41;
-            *(_DWORD *)(v39 + 20) += v41;
-            *(_DWORD *)(v39 + 16) -= v41;
-            *(_DWORD *)(*(_DWORD *)(v39 + 28) + 20) -= v41;
-            v43 = *(_DWORD **)(v39 + 28);
+            v39[5] += v41;
+            v39[4] -= v41;
+            *(_DWORD *)(v39[7] + 20) -= v41;
+            v43 = (_DWORD *)v39[7];
             if ( !v43[5] )
               v43[4] = v43[2];
           }
@@ -162,7 +162,7 @@ LABEL_23:
       ++LOWORD(s[_length_code[v14] + 294].dummy);
       v16 = v15 - 1;
       if ( v16 >= 0x100u )
-        v17 = (unsigned __int8)byte_88F848[v16 >> 7];
+        v17 = (unsigned __int8)byte_7332C8[v16 >> 7];
       else
         v17 = _dist_code[v16];
       ++LOWORD(s[v17 + 610].dummy);
@@ -199,22 +199,22 @@ LABEL_23:
         else
           v28 = (char *)(v27 + s[14].dummy);
         _tr_flush_block(s, v28, v26 - v27, 0);
-        v29 = s->dummy;
+        v29 = (int *)s->dummy;
         s[23].dummy = s[27].dummy;
-        v30 = *(_DWORD *)(v29 + 28);
+        v30 = v29[7];
         v31 = *(_DWORD *)(v30 + 20);
-        if ( v31 > *(_DWORD *)(v29 + 16) )
-          v31 = *(_DWORD *)(v29 + 16);
+        if ( v31 > v29[4] )
+          v31 = v29[4];
         if ( v31 )
         {
-          memcpy(*(unsigned __int8 **)(v29 + 12), *(unsigned __int8 **)(v30 + 16), v31);
-          v32 = *(_DWORD *)(v29 + 28);
-          *(_DWORD *)(v29 + 12) += v31;
+          memcpy(v29[3], *(const __m128i **)(v30 + 16), v31);
+          v32 = v29[7];
+          v29[3] += v31;
           *(_DWORD *)(v32 + 16) += v31;
-          *(_DWORD *)(v29 + 20) += v31;
-          *(_DWORD *)(v29 + 16) -= v31;
-          *(_DWORD *)(*(_DWORD *)(v29 + 28) + 20) -= v31;
-          v33 = *(_DWORD **)(v29 + 28);
+          v29[5] += v31;
+          v29[4] -= v31;
+          *(_DWORD *)(v29[7] + 20) -= v31;
+          v33 = (_DWORD *)v29[7];
           if ( !v33[5] )
             v33[4] = v33[2];
         }

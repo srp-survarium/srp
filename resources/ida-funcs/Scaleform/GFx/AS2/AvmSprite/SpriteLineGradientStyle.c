@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineGradientStyle(const Scale
   Scaleform::GFx::InteractiveObject *Target; // eax
   Scaleform::GFx::InteractiveObject_vtbl **v3; // esi
   Scaleform::GFx::DrawingContext *v4; // edi
-  Scaleform::GFx::Resource *LineComplexFill; // eax
+  Scaleform::Render::ComplexFill *LineComplexFill; // eax
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -27,8 +27,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineGradientStyle(const Scale
     Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v3[4]);
     Scaleform::GFx::DisplayObjectBase::InvalidateHitResult((Scaleform::GFx::DisplayObjectBase *)v3[4]);
     Scaleform::GFx::DrawingContext::AcquirePath(v4, 1);
-    LineComplexFill = Scaleform::GFx::DrawingContext::CreateLineComplexFill(v4);
+    LineComplexFill = (Scaleform::Render::ComplexFill *)Scaleform::GFx::DrawingContext::CreateLineComplexFill(v4);
     if ( LineComplexFill )
-      Scaleform::GFx::AS2::AvmSprite::SpriteCreateGradient(fn, (Scaleform::Render::ComplexFill *)LineComplexFill);
+      Scaleform::GFx::AS2::AvmSprite::SpriteCreateGradient(fn, LineComplexFill);
   }
 }

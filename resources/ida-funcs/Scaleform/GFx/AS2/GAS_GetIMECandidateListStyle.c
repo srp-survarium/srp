@@ -17,8 +17,8 @@ void __cdecl Scaleform::GFx::AS2::GAS_GetIMECandidateListStyle(const Scaleform::
   Scaleform::GFx::AS2::Environment *v15; // edx
   Scaleform::GFx::AS2::Environment *v16; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-3Ch] BYREF
-  Scaleform::GFx::IMECandidateListStyle st; // [esp+1Ch] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+Ch] [ebp-3Ch] BYREF
+  Scaleform::GFx::IMECandidateListStyle v19; // [esp+1Ch] [ebp-2Ch] BYREF
 
   pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
   v2 = (Scaleform::GFx::IMEManagerBase *)pMovieImpl->GetStateAddRef(
@@ -26,8 +26,8 @@ void __cdecl Scaleform::GFx::AS2::GAS_GetIMECandidateListStyle(const Scaleform::
                                            State_IMEManager);
   if ( v2 )
   {
-    st.Flags = 0;
-    if ( Scaleform::GFx::IMEManagerBase::GetCandidateListStyle(v2, &st) )
+    v19.Flags = 0;
+    if ( Scaleform::GFx::IMEManagerBase::GetCandidateListStyle(v2, &v19) )
     {
       pHeap = fn->Env->StringContext.pContext->pHeap;
       v4 = (Scaleform::GFx::AS2::Object *)pHeap->Alloc(pHeap, 52u, 0);
@@ -40,142 +40,141 @@ void __cdecl Scaleform::GFx::AS2::GAS_GetIMECandidateListStyle(const Scaleform::
       {
         v6 = 0;
       }
-      if ( (st.Flags & 1) != 0 )
+      if ( (v19.Flags & 1) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         Env = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & st.TextColor);
+        v18.NV.NumberValue = (double)(v19.TextColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &Env->StringContext,
+          (Scaleform::GFx::ASStringNode *)&Env->StringContext,
           "textColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 2) != 0 )
+      if ( (v19.Flags & 2) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v8 = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & st.BackgroundColor);
+        v18.NV.NumberValue = (double)(v19.BackgroundColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v8->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v8->StringContext,
           "backgroundColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 4) != 0 )
+      if ( (v19.Flags & 4) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v9 = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & st.IndexBackgroundColor);
+        v18.NV.NumberValue = (double)(v19.IndexBackgroundColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v9->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v9->StringContext,
           "indexBackgroundColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 8) != 0 )
+      if ( (v19.Flags & 8) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v10 = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & st.SelectedTextColor);
+        v18.NV.NumberValue = (double)(v19.SelectedTextColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v10->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v10->StringContext,
           "selectedTextColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 0x10) != 0 )
+      if ( (v19.Flags & 0x10) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v11 = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & st.SelectedBackgroundColor);
+        v18.NV.NumberValue = (double)(v19.SelectedBackgroundColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v11->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v11->StringContext,
           "selectedTextBackgroundColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 0x20) != 0 )
+      if ( (v19.Flags & 0x20) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v12 = fn->Env;
-        val.NV.NumberValue = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                    & st.SelectedIndexBackgroundColor);
+        v18.NV.NumberValue = (double)(v19.SelectedIndexBackgroundColor & 0xFFFFFF);
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v12->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v12->StringContext,
           "selectedIndexBackgroundColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 0x40) != 0 )
+      if ( (v19.Flags & 0x40) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v13 = fn->Env;
-        val.NV.NumberValue = (double)st.FontSize;
+        v18.NV.NumberValue = (double)v19.FontSize;
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v13->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v13->StringContext,
           "fontSize",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( SLOBYTE(st.Flags) < 0 )
+      if ( SLOBYTE(v19.Flags) < 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v14 = fn->Env;
-        val.NV.NumberValue = (double)st.ReadingWindowTextColor;
+        v18.NV.NumberValue = (double)v19.ReadingWindowTextColor;
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v14->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v14->StringContext,
           "readingWindowTextColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 0x100) != 0 )
+      if ( (v19.Flags & 0x100) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v15 = fn->Env;
-        val.NV.NumberValue = (double)st.ReadingWindowBackgroundColor;
+        v18.NV.NumberValue = (double)v19.ReadingWindowBackgroundColor;
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v15->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v15->StringContext,
           "readingWindowBackgroundColor",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
-      if ( (st.Flags & 0x200) != 0 )
+      if ( (v19.Flags & 0x200) != 0 )
       {
-        val.T.Type = 3;
+        v18.T.Type = 3;
         v16 = fn->Env;
-        val.NV.NumberValue = (double)st.ReadingWindowFontSize;
+        v18.NV.NumberValue = (double)v19.ReadingWindowFontSize;
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v6->Scaleform::GFx::AS2::ObjectInterface,
-          &v16->StringContext,
+          (Scaleform::GFx::ASStringNode *)&v16->StringContext,
           "readingWindowFontSize",
-          &val);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+          &v18);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
       }
       Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v6);
       if ( v6 )
       {
         RefCount = v6->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v6->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

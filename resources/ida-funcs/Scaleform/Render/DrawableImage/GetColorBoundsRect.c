@@ -23,7 +23,7 @@ Scaleform::Render::Rect<long> *__thiscall Scaleform::Render::DrawableImage::GetC
   cmd.FindColor = findColor;
   cmd.Result = result;
   if ( v6 )
-    cmd.Mask = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & mask;
+    cmd.Mask = mask & 0xFFFFFF;
   Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::DICommand_GetColorBoundsRect>(this, &cmd);
   cmd.__vftable = (Scaleform::Render::DICommand_GetColorBoundsRect_vtbl *)&Scaleform::Render::DICommand::`vftable';
   if ( cmd.pImage.pObject )

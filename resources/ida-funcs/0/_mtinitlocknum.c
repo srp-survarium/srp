@@ -7,7 +7,7 @@ int __cdecl _mtinitlocknum(int locknum)
   retval = 1;
   if ( !_crtheap )
   {
-    _FF_MSGBANNER();
+    _FF_MSGBANNER(0, 1);
     _NMSG_WRITE(30);
     __crtExitProcess(255);
   }

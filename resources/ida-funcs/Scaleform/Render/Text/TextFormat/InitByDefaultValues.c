@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::Text::TextFormat::InitByDefaultValues(Scalefo
 
   this->ColorV &= 0xFF000000;
   this->PresentMask |= 1u;
-  Scaleform::Render::Text::TextFormat::SetFontList(this, "Times New Roman", 0xFFFFFFFF);
+  Scaleform::Render::Text::TextFormat::SetFontList(this, (const __m128i *)"Times New Roman", 0xFFFFFFFF);
   Scaleform::Render::Text::TextFormat::SetFontSize(this, 12.0);
   if ( (this->PresentMask & 0x800) != 0 && (this->FormatFlags & 1) != 0 )
   {

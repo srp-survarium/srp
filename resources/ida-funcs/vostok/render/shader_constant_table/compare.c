@@ -1,48 +1,48 @@
 int __usercall vostok::render::shader_constant_table::compare@<eax>(
         vostok::render::shader_constant_table *this@<edi>,
-        const vostok::render::shader_constant_table *other@<esi>)
+        const vostok::render::shader_constant_table *other@<eax>)
 {
-  unsigned int v2; // ecx
-  unsigned int *p_size; // eax
-  unsigned int v4; // ebp
-  vostok::render::shader_constant *M_start; // ebx
-  char *v6; // eax
-  int v7; // eax
-  unsigned int size; // [esp+0h] [ebp-8h] BYREF
-  unsigned int i; // [esp+4h] [ebp-4h] BYREF
+  bool v3; // cf
+  unsigned int *v4; // eax
+  unsigned int v5; // eax
+  vostok::render::shader_constant *m_begin; // ebx
+  char *v7; // eax
+  int v8; // eax
+  unsigned int v10; // [esp+8h] [ebp-Ch]
+  int i; // [esp+Ch] [ebp-8h] BYREF
+  unsigned int v12; // [esp+10h] [ebp-4h] BYREF
 
-  v2 = other->m_table._M_impl._M_finish - other->m_table._M_impl._M_start;
-  i = this->m_table._M_impl._M_finish - this->m_table._M_impl._M_start;
-  size = v2;
-  p_size = &size;
-  if ( v2 >= i )
-    p_size = &i;
-  v4 = 0;
-  size = *p_size;
-  if ( size )
+  v12 = other->m_table.m_end - other->m_table.m_begin;
+  v3 = v12 < this->m_table.m_end - this->m_table.m_begin;
+  i = this->m_table.m_end - this->m_table.m_begin;
+  v4 = &v12;
+  if ( !v3 )
+    v4 = (unsigned int *)&i;
+  v5 = *v4;
+  v12 = 0;
+  v10 = v5;
+  if ( v5 )
   {
-    M_start = this->m_table._M_impl._M_start;
-    v6 = (char *)((char *)other->m_table._M_impl._M_start - (char *)M_start);
-    for ( i = (unsigned int)v6; ; v6 = (char *)i )
+    m_begin = this->m_table.m_begin;
+    v7 = (char *)((char *)other->m_table.m_begin - (char *)m_begin);
+    for ( i = (int)v7; ; v7 = (char *)i )
     {
-      v7 = vostok::render::compare((const vostok::render::shader_constant *)&v6[(_DWORD)M_start], M_start);
-      if ( v7 == -1 )
+      v8 = vostok::render::compare(m_begin, (const vostok::render::shader_constant *)&v7[(_DWORD)m_begin]);
+      if ( v8 == -1 )
         break;
-      if ( v7 )
+      if ( v8 )
         return 1;
-      ++v4;
-      ++M_start;
-      if ( v4 >= size )
+      ++v12;
+      ++m_begin;
+      if ( v12 >= v10 )
         goto LABEL_9;
     }
   }
   else
   {
 LABEL_9:
-    if ( this->m_table._M_impl._M_finish - this->m_table._M_impl._M_start >= (unsigned int)(other->m_table._M_impl._M_finish
-                                                                                          - other->m_table._M_impl._M_start) )
-      return other->m_table._M_impl._M_finish - other->m_table._M_impl._M_start < (unsigned int)(this->m_table._M_impl._M_finish
-                                                                                               - this->m_table._M_impl._M_start);
+    if ( this->m_table.m_end - this->m_table.m_begin >= (unsigned int)(other->m_table.m_end - other->m_table.m_begin) )
+      return other->m_table.m_end - other->m_table.m_begin < (unsigned int)(this->m_table.m_end - this->m_table.m_begin);
   }
   return -1;
 }

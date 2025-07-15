@@ -1,4 +1,4 @@
-int __usercall _wfopen_s@<eax>(unsigned int a1@<ebx>, _iobuf **pfile, _iobuf *file, const wchar_t *mode)
+int __usercall _wfopen_s@<eax>(int a1@<ebx>, _iobuf **pfile, _iobuf *file, const wchar_t *mode)
 {
   _iobuf *v5; // eax
 
@@ -14,7 +14,7 @@ int __usercall _wfopen_s@<eax>(unsigned int a1@<ebx>, _iobuf **pfile, _iobuf *fi
   else
   {
     *_errno() = 22;
-    _invalid_parameter(a1, 0x16u, 0);
+    _invalid_parameter(a1, 22, 0);
     return 22;
   }
 }

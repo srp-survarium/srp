@@ -1,61 +1,55 @@
-void __userpurge vostok::resources::query_result::late_set_fat_it(
-        vostok::resources::query_result *this@<ecx>,
-        int a2@<eax>,
-        vostok::vfs::vfs_iterator new_it)
+void __thiscall vostok::resources::query_result::late_set_fat_it(
+        vostok::resources::query_result *this,
+        vostok::vfs::vfs_iterator new_it,
+        vostok::resources::managed_resource *a3)
 {
-  _QWORD *v4; // ebx
-  vostok::vfs::base_node<1> *mount_root_user_data; // eax
-  vostok::vfs::vfs_iterator *v6; // esi
-  vostok::vfs::vfs_iterator *v7; // esi
-  vostok::vfs::vfs_iterator *v8; // esi
-  vostok::vfs::vfs_iterator *v9; // esi
-  vostok::vfs::vfs_iterator *v10; // edi
-  vostok::vfs::vfs_iterator v11; // [esp+8h] [ebp-10h] BYREF
+  vostok::resources::vfs_sub_fat_resource *node_sub_fat; // eax
+  vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> *v4; // ecx
+  vostok::particle::particle_system_instance_impl *(__thiscall *v5)(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *); // edx
+  unsigned int writer_thread_id; // ebx
+  vostok::vfs::vfs_iterator v7; // [esp-10h] [ebp-2Ch]
+  vostok::vfs::vfs_iterator v8; // [esp-10h] [ebp-2Ch]
 
-  v4 = (_QWORD *)(a2 + 160);
-  if ( !vostok::vfs::vfs_iterator::operator==((vostok::vfs::vfs_iterator *)(a2 + 160), &new_it) )
+  if ( (vostok::vfs::base_node<1> *)new_it.m_hashset->m_hashlocks[20].m_readers_writers_counter.writer_thread_id != new_it.m_link_target )
   {
-    mount_root_user_data = vostok::mutable_buffer::size(&new_it);
-    if ( mount_root_user_data )
-      mount_root_user_data = (vostok::vfs::base_node<1> *)vostok::vfs::base_node<1>::get_mount_root_user_data(mount_root_user_data);
+    node_sub_fat = vostok::resources::get_node_sub_fat(new_it.m_link_target, (vostok::vfs::base_node<1> *)this);
     vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base>::operator=(
-      (vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> *)mount_root_user_data,
-      (vostok::resources::unmanaged_resource **)(a2 + 604));
-    *v4 = *(_QWORD *)&new_it.m_hashset;
-    *(_QWORD *)(a2 + 168) = *(_QWORD *)&new_it.m_link_target;
-    vostok::threading::interlocked_or((volatile int *)(a2 + 688), 0x10u);
-    vostok::threading::interlocked_exchange_add(
-      (int *)((char *)&dword_201B8 + (unsigned int)vostok::resources::g_resources_manager.m_variable),
-      1u);
-    v6 = *(vostok::vfs::vfs_iterator **)(a2 + 632);
-    if ( v6 )
+      v4,
+      (int *)&new_it.m_hashset->m_hashset.m_buffer[90],
+      node_sub_fat);
+    new_it.m_hashset->m_hashlocks[20].m_readers_writers_counter.whole = *(_QWORD *)&new_it.m_node;
+    *(_DWORD *)&new_it.m_hashset->m_hashlocks[21].m_readers_writers_counter.readers_count = new_it.m_type;
+    new_it.m_hashset->m_hashlocks[21].m_readers_writers_counter.writer_thread_id = (unsigned int)a3;
+    _InterlockedOr((volatile signed __int32 *)&new_it.m_hashset->m_hashset.m_buffer[111], 0x10u);
+    _InterlockedExchangeAdd(&s_resources_manager_buffer.m_count_of_pending_query_with_fat_it, 1u);
+    v5 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr;
+    if ( new_it.m_hashset->m_hashset.m_buffer[97]
+      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
     {
-      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      {
-        vostok::vfs::vfs_iterator::vfs_iterator(&v11, &new_it);
-        v7 = v6 + 10;
-        if ( !vostok::vfs::vfs_iterator::operator==(&v11, v7) )
-          *v7 = v11;
-      }
+      *(_QWORD *)&v7.m_hashset = *(_QWORD *)&new_it.m_node;
+      *(_QWORD *)&v7.m_link_target = __PAIR64__((unsigned int)a3, new_it.m_type);
+      vostok::resources::managed_resource::late_set_fat_it(
+        a3,
+        (vostok::vfs::vfs_iterator *)new_it.m_hashset->m_hashset.m_buffer[97],
+        v7);
     }
-    v8 = *(vostok::vfs::vfs_iterator **)(a2 + 216);
-    if ( v8 )
+    if ( *(_DWORD *)&new_it.m_hashset->m_hashlocks[27].m_readers_writers_counter.readers_count && v5 )
     {
-      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      {
-        vostok::vfs::vfs_iterator::vfs_iterator(&v11, &new_it);
-        v9 = v8 + 10;
-        if ( !vostok::vfs::vfs_iterator::operator==(&v11, v9) )
-          *v9 = v11;
-      }
+      *(_QWORD *)&v8.m_hashset = *(_QWORD *)&new_it.m_node;
+      *(_QWORD *)&v8.m_link_target = __PAIR64__((unsigned int)a3, new_it.m_type);
+      vostok::resources::managed_resource::late_set_fat_it(
+        a3,
+        *(vostok::vfs::vfs_iterator **)&new_it.m_hashset->m_hashlocks[27].m_readers_writers_counter.readers_count,
+        v8);
     }
-    v10 = *(vostok::vfs::vfs_iterator **)(a2 + 220);
-    if ( v10 )
+    writer_thread_id = new_it.m_hashset->m_hashlocks[27].m_readers_writers_counter.writer_thread_id;
+    if ( writer_thread_id )
     {
       if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
       {
-        vostok::vfs::vfs_iterator::vfs_iterator(&v11, &new_it);
-        v10[10] = v11;
+        *(_QWORD *)(writer_thread_id + 160) = *(_QWORD *)&new_it.m_node;
+        *(_DWORD *)(writer_thread_id + 168) = new_it.m_type;
+        *(_DWORD *)(writer_thread_id + 172) = a3;
       }
     }
   }

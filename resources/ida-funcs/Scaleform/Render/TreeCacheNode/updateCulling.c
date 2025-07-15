@@ -25,21 +25,21 @@ Scaleform::Render::TransformFlags __thiscall Scaleform::Render::TreeCacheNode::u
   unsigned __int16 v23; // ax
   Scaleform::Render::TreeCacheNode *pParent; // eax
   Scaleform::Render::TransformFlags result; // eax
-  const Scaleform::Render::Viewport *p_M34; // [esp+1534h] [ebp-1C0h]
-  const Scaleform::Render::Viewport *v27; // [esp+1534h] [ebp-1C0h]
-  Scaleform::Render::MaskEffectState MES; // [esp+153Ch] [ebp-1B8h]
-  char v29; // [esp+155Ah] [ebp-19Ah]
-  _BYTE v30[5]; // [esp+155Bh] [ebp-199h]
-  int v31; // [esp+1560h] [ebp-194h]
-  float v32; // [esp+1560h] [ebp-194h]
-  float v33; // [esp+1560h] [ebp-194h]
-  Scaleform::Render::Rect<float> maskBounds; // [esp+1564h] [ebp-190h] BYREF
-  Scaleform::Render::FilterEffect *v35; // [esp+1580h] [ebp-174h]
-  Scaleform::Render::Matrix2x4<float> boundAreaMatrix; // [esp+1584h] [ebp-170h] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+15A4h] [ebp-150h] BYREF
-  Scaleform::Render::Matrix3x4<float> viewMatrix; // [esp+15B4h] [ebp-140h] BYREF
-  Scaleform::Render::Matrix3x4<float> v39; // [esp+15E4h] [ebp-110h] BYREF
-  Scaleform::Render::TransformArgs v40; // [esp+1614h] [ebp-E0h] BYREF
+  const Scaleform::Render::Viewport *p_M34; // [esp-10h] [ebp-1C0h]
+  const Scaleform::Render::Viewport *v27; // [esp-10h] [ebp-1C0h]
+  Scaleform::Render::MaskEffectState MES; // [esp-8h] [ebp-1B8h]
+  char v29; // [esp+16h] [ebp-19Ah]
+  _BYTE v30[5]; // [esp+17h] [ebp-199h]
+  int v31; // [esp+1Ch] [ebp-194h]
+  float v32; // [esp+1Ch] [ebp-194h]
+  float v33; // [esp+1Ch] [ebp-194h]
+  Scaleform::Render::Rect<float> r; // [esp+20h] [ebp-190h] BYREF
+  Scaleform::Render::FilterEffect *v35; // [esp+3Ch] [ebp-174h]
+  Scaleform::Render::Matrix2x4<float> areaMatrix; // [esp+40h] [ebp-170h] BYREF
+  Scaleform::Render::Rect<float> v37; // [esp+60h] [ebp-150h] BYREF
+  Scaleform::Render::Matrix3x4<float> m; // [esp+70h] [ebp-140h] BYREF
+  Scaleform::Render::Matrix3x4<float> v39; // [esp+A0h] [ebp-110h] BYREF
+  Scaleform::Render::TransformArgs ta; // [esp+D0h] [ebp-E0h] BYREF
 
   v30[4] = 0;
   v29 = 0;
@@ -48,10 +48,10 @@ Scaleform::Render::TransformFlags __thiscall Scaleform::Render::TreeCacheNode::u
     goto LABEL_49;
   v6 = this->pMask == 0;
   v7 = 0.0;
-  maskBounds.x1 = 0.0;
-  maskBounds.y1 = 0.0;
-  maskBounds.x2 = 0.0;
-  maskBounds.y2 = 0.0;
+  r.x1 = 0.0;
+  r.y1 = 0.0;
+  r.x2 = 0.0;
+  r.y2 = 0.0;
   if ( v6 && (data->Flags & 0x400) == 0 )
   {
     v8 = t;
@@ -59,20 +59,20 @@ Scaleform::Render::TransformFlags __thiscall Scaleform::Render::TreeCacheNode::u
   else
   {
     v8 = t;
-    Scaleform::Render::TransformArgs::GetMatrix3D(t, flags, &viewMatrix);
+    Scaleform::Render::TransformArgs::GetMatrix3D(t, flags, &m);
     v7 = 0.0;
   }
   if ( this->pMask )
   {
     pEffect = (Scaleform::Render::MaskEffect *)this->Effects.pEffect;
-    boundAreaMatrix.M[0][0] = 1.0;
-    boundAreaMatrix.M[1][1] = 1.0;
-    boundAreaMatrix.M[0][1] = v7;
-    boundAreaMatrix.M[0][2] = v7;
-    boundAreaMatrix.M[0][3] = v7;
-    boundAreaMatrix.M[1][0] = v7;
-    boundAreaMatrix.M[1][2] = v7;
-    boundAreaMatrix.M[1][3] = v7;
+    areaMatrix.M[0][0] = 1.0;
+    areaMatrix.M[1][1] = 1.0;
+    areaMatrix.M[0][1] = v7;
+    areaMatrix.M[0][2] = v7;
+    areaMatrix.M[0][3] = v7;
+    areaMatrix.M[1][0] = v7;
+    areaMatrix.M[1][2] = v7;
+    areaMatrix.M[1][3] = v7;
     if ( pEffect )
     {
       while ( pEffect->GetType(pEffect) != State_UserEventHandler )
@@ -83,15 +83,8 @@ Scaleform::Render::TransformFlags __thiscall Scaleform::Render::TreeCacheNode::u
       }
       MES = pEffect->MES;
       ViewProj = Scaleform::Render::TransformArgs::GetViewProj(v8);
-      v11 = Scaleform::Render::TreeCacheNode::calcMaskBounds(
-              this,
-              &maskBounds,
-              &boundAreaMatrix,
-              &viewMatrix,
-              ViewProj,
-              MES,
-              flags);
-      if ( Scaleform::Render::MaskEffect::UpdateMatrix(pEffect, v11, &boundAreaMatrix) )
+      v11 = Scaleform::Render::TreeCacheNode::calcMaskBounds(this, &r, &areaMatrix, &m, ViewProj, MES, flags);
+      if ( Scaleform::Render::MaskEffect::UpdateMatrix(pEffect, v11, &areaMatrix) )
       {
         this->UpdateFlags |= 0x40000u;
         Scaleform::Render::TreeCacheNode::addParentToDepthPatternUpdate(this);
@@ -101,14 +94,7 @@ Scaleform::Render::TransformFlags __thiscall Scaleform::Render::TreeCacheNode::u
     {
 LABEL_10:
       v10 = Scaleform::Render::TransformArgs::GetViewProj(v8);
-      v11 = Scaleform::Render::TreeCacheNode::calcMaskBounds(
-              this,
-              &maskBounds,
-              &boundAreaMatrix,
-              &viewMatrix,
-              v10,
-              MES_NoMask,
-              flags);
+      v11 = Scaleform::Render::TreeCacheNode::calcMaskBounds(this, &r, &areaMatrix, &m, v10, MES_NoMask, flags);
     }
     if ( v11 == MES_NoMask )
       goto LABEL_14;
@@ -125,15 +111,15 @@ LABEL_14:
     {
       p_M34 = (const Scaleform::Render::Viewport *)&Scaleform::Render::TreeCacheNode::GetNodeData(this->pRoot)[1].M34;
       v13 = Scaleform::Render::TransformArgs::GetViewProj(t);
-      Scaleform::Render::TransformBounds3D(&r, v13, p_M34, &viewMatrix, (__m128 *)&maskBounds, 0);
+      Scaleform::Render::TransformBounds3D(&v37, v13, p_M34, &m, (__m128 *)&r, 0);
       if ( (LOBYTE(Scaleform::Render::TreeCacheNode::GetNodeData(this->pRoot)[1].M34.M[2][2]) & 0x30) != 0 )
         goto LABEL_14;
     }
     else
     {
-      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&t->Mat, &maskBounds, (__m128 *)&maskBounds);
+      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&t->Mat, (__m128 *)&r, (__m128 *)&r);
     }
-    if ( !Scaleform::Render::Rect<float>::IntersectRect(cullRect, cullRect, &maskBounds) )
+    if ( !Scaleform::Render::Rect<float>::IntersectRect(cullRect, cullRect, &r) )
     {
       v7 = 0.0;
       v8 = t;
@@ -146,30 +132,24 @@ LABEL_14:
 LABEL_22:
   if ( (data->Flags & 0x400) != 0 && (flags & 3) != 0 )
   {
-    boundAreaMatrix.M[0][0] = 1.0;
-    boundAreaMatrix.M[1][1] = 1.0;
-    boundAreaMatrix.M[0][1] = v7;
-    boundAreaMatrix.M[0][2] = v7;
-    boundAreaMatrix.M[0][3] = v7;
-    boundAreaMatrix.M[1][0] = v7;
-    boundAreaMatrix.M[1][2] = v7;
-    boundAreaMatrix.M[1][3] = v7;
-    r.x1 = v7;
-    r.y1 = v7;
-    r.x2 = v7;
-    r.y2 = v7;
+    areaMatrix.M[0][0] = 1.0;
+    areaMatrix.M[1][1] = 1.0;
+    areaMatrix.M[0][1] = v7;
+    areaMatrix.M[0][2] = v7;
+    areaMatrix.M[0][3] = v7;
+    areaMatrix.M[1][0] = v7;
+    areaMatrix.M[1][2] = v7;
+    areaMatrix.M[1][3] = v7;
+    v37.x1 = v7;
+    v37.y1 = v7;
+    v37.x2 = v7;
+    v37.y2 = v7;
     FilterEffect = Scaleform::Render::CacheEffectChain::GetFilterEffect(&this->Effects);
     v35 = FilterEffect;
     if ( FilterEffect )
     {
       v15 = Scaleform::Render::TransformArgs::GetViewProj(v8);
-      v16 = Scaleform::Render::TreeCacheNode::calcFilterBounds(
-              this,
-              (__m128 *)&r,
-              &boundAreaMatrix,
-              &viewMatrix,
-              v15,
-              cullRect);
+      v16 = Scaleform::Render::TreeCacheNode::calcFilterBounds(this, (__m128 *)&v37, &areaMatrix, &m, v15, cullRect);
       v31 = v16;
       if ( v16 )
       {
@@ -177,7 +157,7 @@ LABEL_22:
         {
           qmemcpy(&v39, &v8->Cx, 0x20u);
           Scaleform::Render::Cxform::Append((Scaleform::Render::Cxform *)&v39, &data->Cx);
-          Scaleform::Render::FilterEffect::UpdateCxform(v35, (const Scaleform::Render::Cxform *)&v39);
+          Scaleform::Render::FilterEffect::UpdateCxform(v35, (Scaleform::Render::Cxform *)&v39);
           FilterEffect = v35;
           v16 = v31;
           v8 = t;
@@ -185,7 +165,7 @@ LABEL_22:
         if ( (flags & 1) != 0 )
         {
           v17 = (flags & 0x80) != 0 || v16 == 1;
-          if ( Scaleform::Render::FilterEffect::UpdateMatrix(FilterEffect, &boundAreaMatrix, &v8->Mat, v17) )
+          if ( Scaleform::Render::FilterEffect::UpdateMatrix(FilterEffect, &areaMatrix, &v8->Mat, v17) )
           {
             State = Scaleform::Render::StateBag::GetState(&data->States, State_ActionControl);
             FilterEffect->Update(FilterEffect, (const Scaleform::Render::State *)State);
@@ -220,15 +200,15 @@ LABEL_22:
     Scaleform::Render::TransformArgs::GetMatrix3D(v8, flags, &v39);
     v27 = (const Scaleform::Render::Viewport *)&Scaleform::Render::TreeCacheNode::GetNodeData(this->pRoot)[1].M34;
     v19 = Scaleform::Render::TransformArgs::GetViewProj(v8);
-    Scaleform::Render::TransformBounds3D(&r, v19, v27, &v39, (__m128 *)&data->AproxLocalBounds, 1);
-    if ( Scaleform::Render::Rect<float>::Intersects(cullRect, &r) )
+    Scaleform::Render::TransformBounds3D(&v37, v19, v27, &v39, (__m128 *)&data->AproxLocalBounds, 1);
+    if ( Scaleform::Render::Rect<float>::Intersects(cullRect, &v37) )
       goto LABEL_49;
     *(_DWORD *)&v30[1] = 5;
   }
   else
   {
-    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8->Mat, &maskBounds, (__m128 *)&data->AproxLocalBounds);
-    if ( Scaleform::Render::Rect<float>::Intersects(cullRect, &maskBounds) )
+    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8->Mat, (__m128 *)&r, (__m128 *)&data->AproxLocalBounds);
+    if ( Scaleform::Render::Rect<float>::Intersects(cullRect, &r) )
       goto LABEL_49;
     *(_DWORD *)&v30[1] = 3;
   }
@@ -255,10 +235,7 @@ LABEL_49:
       {
         pParent = this->pParent;
         if ( pParent )
-          Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(
-            pRoot,
-            pParent,
-            (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+          Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(pRoot, pParent, 0x1000000u);
       }
     }
   }
@@ -272,10 +249,7 @@ LABEL_49:
       {
         v22 = this->pParent;
         if ( v22 )
-          Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(
-            pRoot,
-            v22,
-            (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+          Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(pRoot, v22, 0x1000000u);
       }
     }
     flags &= ~0x10u;
@@ -285,22 +259,22 @@ LABEL_49:
   {
     if ( (flags & 0x80u) != 0 )
     {
-      Scaleform::Render::TransformArgs::GetMatrix3D(t, flags, &viewMatrix);
-      Scaleform::Render::TransformArgs::TransformArgs(&v40, t, &viewMatrix);
-      v40.Mat.M[0][0] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][0];
-      v40.Mat.M[0][1] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][1];
-      v40.Mat.M[0][2] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][2];
-      v40.Mat.M[0][3] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][3];
-      v40.Mat.M[1][0] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][0];
-      v40.Mat.M[1][1] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][1];
-      v40.Mat.M[1][2] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][2];
-      v40.Mat.M[1][3] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][3];
+      Scaleform::Render::TransformArgs::GetMatrix3D(t, flags, &m);
+      Scaleform::Render::TransformArgs::TransformArgs(&ta, t, (const __m128i *)&m);
+      ta.Mat.M[0][0] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][0];
+      ta.Mat.M[0][1] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][1];
+      ta.Mat.M[0][2] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][2];
+      ta.Mat.M[0][3] = Scaleform::Render::Matrix2x4<float>::Identity.M[0][3];
+      ta.Mat.M[1][0] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][0];
+      ta.Mat.M[1][1] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][1];
+      ta.Mat.M[1][2] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][2];
+      ta.Mat.M[1][3] = Scaleform::Render::Matrix2x4<float>::Identity.M[1][3];
     }
     else
     {
-      Scaleform::Render::TransformArgs::TransformArgs(&v40, t, &t->Mat);
+      Scaleform::Render::TransformArgs::TransformArgs(&ta, t, &t->Mat);
     }
-    Scaleform::Render::TreeCacheNode::updateMaskTransform(this, &v40, flags);
+    Scaleform::Render::TreeCacheNode::updateMaskTransform(this, &ta, flags);
     return flags;
   }
   return result;

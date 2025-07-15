@@ -8,14 +8,14 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachMovie(const Scaleform::
   Scaleform::GFx::MovieImpl *pMovieImpl; // ebx
   Scaleform::GFx::MovieDefImpl *v7; // eax
   void *v8; // ebx
-  Scaleform::GFx::ASStringNode *pNode; // ebx
+  Scaleform::GFx::ASStringNode *v9; // ebx
   const char *pData; // edi
   Scaleform::GFx::ASString *Name; // eax
-  Scaleform::String::DataDesc *v12; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASStringNode *v13; // ecx
   const char *v14; // edi
   Scaleform::GFx::ASString *v15; // eax
-  Scaleform::String::DataDesc *v16; // eax
+  Scaleform::GFx::ASStringNode *v16; // eax
   Scaleform::GFx::AS2::ObjectInterface *v17; // ebx
   Scaleform::GFx::AS2::Environment *v18; // ecx
   Scaleform::GFx::AS2::Value *v19; // eax
@@ -30,17 +30,17 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachMovie(const Scaleform::
   const char *v28; // edi
   Scaleform::GFx::ASString *v29; // eax
   Scaleform::GFx::ASStringNode *v30; // eax
-  Scaleform::GFx::AS2::Environment *pos_56; // [esp+194h] [ebp-B8h]
-  Scaleform::GFx::AS2::Environment *pos_84; // [esp+1B0h] [ebp-9Ch]
-  Scaleform::GFx::AS2::Environment *pos_92; // [esp+1B8h] [ebp-94h]
-  bool v34; // [esp+1CFh] [ebp-7Dh]
-  Scaleform::GFx::ASString result; // [esp+1D0h] [ebp-7Ch] BYREF
-  Scaleform::String symbol; // [esp+1D4h] [ebp-78h] BYREF
-  Scaleform::GFx::ResourceBindData presBindData; // [esp+1D8h] [ebp-74h] BYREF
-  Scaleform::GFx::Resource *pObject; // [esp+1E0h] [ebp-6Ch] BYREF
-  Scaleform::GFx::Resource *pOwnerDefRes; // [esp+1E4h] [ebp-68h]
-  int v40; // [esp+1E8h] [ebp-64h]
-  Scaleform::GFx::CharPosInfo v41; // [esp+1ECh] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Environment *v31; // [esp-14h] [ebp-B8h]
+  Scaleform::GFx::AS2::Environment *v32; // [esp+8h] [ebp-9Ch]
+  Scaleform::GFx::AS2::Environment *v33; // [esp+10h] [ebp-94h]
+  bool v34; // [esp+27h] [ebp-7Dh]
+  Scaleform::GFx::ASStringNode *v35; // [esp+28h] [ebp-7Ch] BYREF
+  Scaleform::GFx::ASString result; // [esp+2Ch] [ebp-78h] BYREF
+  Scaleform::GFx::ResourceBindData v37; // [esp+30h] [ebp-74h] BYREF
+  Scaleform::GFx::Resource *pObject; // [esp+38h] [ebp-6Ch] BYREF
+  Scaleform::GFx::Resource *pOwnerDefRes; // [esp+3Ch] [ebp-68h]
+  int v40; // [esp+40h] [ebp-64h]
+  Scaleform::GFx::CharPosInfo v41; // [esp+44h] [ebp-60h] BYREF
 
   v1 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v1);
@@ -61,69 +61,69 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachMovie(const Scaleform::
     return;
   Env = fn->Env;
   v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-  Scaleform::GFx::AS2::Value::ToStringImpl(v5, &result, Env, -1, 0);
-  presBindData.pResource.pObject = 0;
-  presBindData.pBinding = 0;
-  Scaleform::String::String(&symbol, (char *)result.pNode->pData);
+  Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&v35, Env, -1, 0);
+  v37.pResource.pObject = 0;
+  v37.pBinding = 0;
+  Scaleform::String::String((Scaleform::String *)&result, (const __m128i *)v35->pData);
   pMovieImpl = Target->pASRoot->pMovieImpl;
   v7 = Target->GetResourceMovieDef(Target);
-  v34 = Scaleform::GFx::MovieImpl::FindExportedResource(pMovieImpl, v7, &presBindData, &symbol) == 0;
-  v8 = (void *)(symbol.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((symbol.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v34 = Scaleform::GFx::MovieImpl::FindExportedResource(pMovieImpl, v7, &v37, (const Scaleform::String *)&result) == 0;
+  v8 = (void *)((unsigned int)result.pNode & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)result.pNode & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
   if ( v34 )
   {
-    pNode = result.pNode;
-    pData = result.pNode->pData;
-    Name = Scaleform::GFx::DisplayObject::GetName(Target, (Scaleform::GFx::ASString *)&symbol);
+    v9 = v35;
+    pData = v35->pData;
+    Name = Scaleform::GFx::DisplayObject::GetName(Target, &result);
     Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::LogScriptWarning(
       &Target->Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>,
       "%s.attachMovie() failed - export name \"%s\" is not found.",
       Name->pNode->pData,
       pData);
-    v12 = symbol.pData;
-    --symbol.pData[1].Size;
-    v13 = (Scaleform::GFx::ASStringNode *)v12;
-    if ( v12[1].Size )
+    pNode = result.pNode;
+    --result.pNode->RefCount;
+    v13 = pNode;
+    if ( pNode->RefCount )
     {
 LABEL_37:
-      if ( presBindData.pResource.pObject )
-        Scaleform::GFx::Resource::Release(presBindData.pResource.pObject);
-      v27 = pNode->RefCount-- == 1;
+      if ( v37.pResource.pObject )
+        Scaleform::GFx::Resource::Release(v37.pResource.pObject);
+      v27 = v9->RefCount-- == 1;
       if ( v27 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        Scaleform::GFx::ASStringNode::ReleaseNode(v9);
       return;
     }
 LABEL_12:
     Scaleform::GFx::ASStringNode::ReleaseNode(v13);
     goto LABEL_37;
   }
-  if ( (presBindData.pResource.pObject->GetResourceTypeCode(presBindData.pResource.pObject) & 0x8000) == 0 )
+  if ( (v37.pResource.pObject->GetResourceTypeCode(v37.pResource.pObject) & 0x8000) == 0 )
   {
-    pNode = result.pNode;
-    v14 = result.pNode->pData;
-    v15 = Scaleform::GFx::DisplayObject::GetName(Target, (Scaleform::GFx::ASString *)&symbol);
+    v9 = v35;
+    v14 = v35->pData;
+    v15 = Scaleform::GFx::DisplayObject::GetName(Target, &result);
     Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::LogScriptWarning(
       &Target->Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>,
       "%s.attachMovie() failed - \"%s\" is not a movieclip.",
       v15->pNode->pData,
       v14);
-    v16 = symbol.pData;
-    --symbol.pData[1].Size;
-    v13 = (Scaleform::GFx::ASStringNode *)v16;
-    if ( v16[1].Size )
+    v16 = result.pNode;
+    --result.pNode->RefCount;
+    v13 = v16;
+    if ( v16->RefCount )
       goto LABEL_37;
     goto LABEL_12;
   }
   v17 = 0;
-  pObject = presBindData.pResource.pObject;
+  pObject = v37.pResource.pObject;
   v18 = fn->Env;
   pOwnerDefRes = 0;
-  pos_56 = v18;
+  v31 = v18;
   v40 = 0;
-  pOwnerDefRes = presBindData.pBinding->pOwnerDefRes;
+  pOwnerDefRes = v37.pBinding->pOwnerDefRes;
   v19 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-  v20 = (int)Scaleform::GFx::AS2::Value::ToNumber(v19, pos_56);
+  v20 = (int)Scaleform::GFx::AS2::Value::ToNumber(v19, v31);
   Scaleform::GFx::CharPosInfo::CharPosInfo(
     &v41,
     (Scaleform::GFx::ResourceId)pObject[1].__vftable,
@@ -139,17 +139,17 @@ LABEL_12:
     Blend_None);
   if ( v41.Depth > 0x7EFFFFFDu )
   {
-    pNode = result.pNode;
-    v28 = result.pNode->pData;
-    v29 = Scaleform::GFx::DisplayObject::GetName(Target, (Scaleform::GFx::ASString *)&symbol);
+    v9 = v35;
+    v28 = v35->pData;
+    v29 = Scaleform::GFx::DisplayObject::GetName(Target, &result);
     Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::LogScriptWarning(
       &Target->Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>,
       "%s.attachMovie(\"%s\") failed - depth (%d) must be >= 0",
       v29->pNode->pData,
       v28,
       v41.Depth);
-    v30 = (Scaleform::GFx::ASStringNode *)symbol.pData;
-    --symbol.pData[1].Size;
+    v30 = result.pNode;
+    --result.pNode->RefCount;
     if ( !v30->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v30);
     if ( v41.pFilters.pObject )
@@ -158,17 +158,17 @@ LABEL_12:
   }
   if ( fn->NArgs == 4 )
   {
-    pos_92 = fn->Env;
+    v33 = fn->Env;
     v21 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-    v17 = Scaleform::GFx::AS2::Value::ToObjectInterface(v21, pos_92);
+    v17 = Scaleform::GFx::AS2::Value::ToObjectInterface(v21, v33);
   }
-  pos_84 = fn->Env;
+  v32 = fn->Env;
   v22 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-  Scaleform::GFx::AS2::Value::ToStringImpl(v22, (Scaleform::GFx::ASString *)&symbol, pos_84, -1, 0);
-  v23 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::String *, _DWORD, Scaleform::GFx::AS2::ObjectInterface *, int, int, Scaleform::GFx::Resource **, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
+  Scaleform::GFx::AS2::Value::ToStringImpl(v22, &result, v32, -1, 0);
+  v23 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASString *, _DWORD, Scaleform::GFx::AS2::ObjectInterface *, int, int, Scaleform::GFx::Resource **, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
           Target,
           &v41,
-          &symbol,
+          &result,
           0,
           v17,
           -1,
@@ -178,8 +178,8 @@ LABEL_12:
   v24 = (Scaleform::GFx::InteractiveObject *)v23;
   if ( v23 )
     ++*(_DWORD *)(v23 + 4);
-  v25 = (Scaleform::GFx::ASStringNode *)symbol.pData;
-  --symbol.pData[1].Size;
+  v25 = result.pNode;
+  --result.pNode->RefCount;
   if ( !v25->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v25);
   if ( v24 )
@@ -193,10 +193,10 @@ LABEL_12:
   }
   if ( v41.pFilters.pObject )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v41.pFilters.pObject);
-  if ( presBindData.pResource.pObject )
-    Scaleform::GFx::Resource::Release(presBindData.pResource.pObject);
-  v26 = result.pNode;
-  v27 = result.pNode->RefCount-- == 1;
+  if ( v37.pResource.pObject )
+    Scaleform::GFx::Resource::Release(v37.pResource.pObject);
+  v26 = v35;
+  v27 = v35->RefCount-- == 1;
   if ( v27 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v26);
 }

@@ -1,15 +1,16 @@
-void __thiscall vostok::fs_new::path_string_impl::convert(
-        vostok::fs_new::path_string_impl *this,
-        char *begin,
+void __userpurge vostok::fs_new::path_string_impl::convert(
+        vostok::fs_new::path_string_impl *this@<ecx>,
+        int a2@<esi>,
+        vostok::fs_new::path_string_impl *begin,
         char *end)
 {
-  char other_separator; // [esp+Fh] [ebp-1h]
+  char v4; // al
 
-  other_separator = this->m_separator != 47 ? 47 : 92;
-  while ( begin != end )
+  v4 = *(_BYTE *)(a2 + 272) != 47 ? 47 : 92;
+  while ( this != begin )
   {
-    if ( *begin == other_separator )
-      *begin = this->m_separator;
-    ++begin;
+    if ( LOBYTE(this->m_string.m_begin) == v4 )
+      LOBYTE(this->m_string.m_begin) = *(_BYTE *)(a2 + 272);
+    this = (vostok::fs_new::path_string_impl *)((char *)this + 1);
   }
 }

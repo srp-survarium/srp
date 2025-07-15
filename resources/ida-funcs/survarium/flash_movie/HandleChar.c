@@ -1,12 +1,15 @@
-void __fastcall survarium::flash_movie::HandleChar(survarium::flash_movie *this, int a2)
+void __userpurge survarium::flash_movie::HandleChar(wchar_t c@<ax>, survarium::flash_movie *this)
 {
-  int v2; // ecx
-  Scaleform::GFx::CharEvent ev; // [esp+0h] [ebp-14h] BYREF
+  Scaleform::GFx::Movie *m_movie; // ecx
+  int v3; // [esp+0h] [ebp-14h] BYREF
+  char v4; // [esp+4h] [ebp-10h]
+  int v5; // [esp+8h] [ebp-Ch]
+  char v6; // [esp+Ch] [ebp-8h]
 
-  ev.WcharCode = (unsigned __int16)this;
-  v2 = *(_DWORD *)(a2 + 4);
-  ev.Modifiers.States = 0;
-  ev.KeyboardIndex = 0;
-  ev.Type = Char;
-  (*(void (__thiscall **)(int, Scaleform::GFx::CharEvent *))(*(_DWORD *)v2 + 136))(v2, &ev);
+  v5 = c;
+  m_movie = this->m_movie;
+  v4 = 0;
+  v3 = 26;
+  v6 = 0;
+  m_movie->HandleEvent(m_movie, (const Scaleform::GFx::Event *)&v3);
 }

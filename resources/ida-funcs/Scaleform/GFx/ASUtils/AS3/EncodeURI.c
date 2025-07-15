@@ -1,12 +1,12 @@
 void __cdecl Scaleform::GFx::ASUtils::AS3::EncodeURI(
-        const char *psrc,
-        unsigned int length,
+        char *psrc,
+        int length,
         Scaleform::String *escapedStr,
         bool useUtf8)
 {
-  Scaleform::GFx::ASUtils::AS3::Formatter f; // [esp+0h] [ebp-208h] BYREF
+  Scaleform::GFx::ASUtils::AS3::Formatter v4; // [esp+0h] [ebp-208h] BYREF
 
-  f.Endp = &f.Buf[511];
-  f.pBuf = (char *)&f;
-  Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(&f, psrc, length, escapedStr, unescaped_mask_URI, useUtf8);
+  v4.Endp = &v4.Buf[511];
+  v4.pBuf = (char *)&v4;
+  Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(&v4, psrc, length, escapedStr, unescaped_mask_URI, useUtf8);
 }

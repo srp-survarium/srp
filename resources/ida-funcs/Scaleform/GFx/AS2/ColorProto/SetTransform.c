@@ -6,12 +6,12 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetTransform(const Scaleform::GFx:
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::AS2::ObjectInterface *v5; // ebx
   Scaleform::RefCountNTSImpl *v6; // ecx
-  Scaleform::GFx::AS2::ASStringContext *p_StringContext; // esi
-  Scaleform::GFx::AS2::Environment *c_28; // [esp+4Ch] [ebp-54h]
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+68h] [ebp-38h] BYREF
-  float v10; // [esp+6Ch] [ebp-34h]
-  Scaleform::GFx::AS2::Value v11; // [esp+70h] [ebp-30h] BYREF
-  Scaleform::Render::Cxform v12; // [esp+80h] [ebp-20h] BYREF
+  Scaleform::GFx::ASStringNode *p_StringContext; // esi
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-54h]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+18h] [ebp-38h] BYREF
+  float v10; // [esp+1Ch] [ebp-34h]
+  Scaleform::GFx::AS2::Value v11; // [esp+20h] [ebp-30h] BYREF
+  Scaleform::Render::Cxform v12; // [esp+30h] [ebp-20h] BYREF
 
   if ( !fn->ThisPtr || fn->ThisPtr->GetObjectType(fn->ThisPtr) != Object_Color )
   {
@@ -29,7 +29,7 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetTransform(const Scaleform::GFx:
     {
       Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
         p_pProto + 13,
-        (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+        &result);
       pObject = result.pObject;
       if ( result.pObject )
       {
@@ -45,14 +45,14 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::SetTransform(const Scaleform::GFx:
       {
         if ( !pObject )
           return;
-        c_28 = fn->Env;
+        Env = fn->Env;
         v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-        v5 = Scaleform::GFx::AS2::Value::ToObjectInterface(v4, c_28);
+        v5 = Scaleform::GFx::AS2::Value::ToObjectInterface(v4, Env);
         v6 = pObject;
         if ( !v5 )
           goto LABEL_31;
         qmemcpy(&v12, Scaleform::GFx::DisplayObjectBase::GetCxform(pObject), sizeof(v12));
-        p_StringContext = &fn->Env->StringContext;
+        p_StringContext = (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext;
         v11.T.Type = 0;
         if ( Scaleform::GFx::AS2::ObjectInterface::GetConstMemberRaw(v5, p_StringContext, "ba", &v11) )
         {

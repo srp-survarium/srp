@@ -1,9 +1,9 @@
-unsigned int __thiscall Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
+int __thiscall Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
         Scaleform::Render::TreeCacheShapeLayer *this,
         Scaleform::Render::ShapeMeshProvider *pmeshProvider,
         const Scaleform::Render::Matrix2x4<float> *m,
         unsigned int drawLayer,
-        float *keyData,
+        Scaleform::Render::Rect<float> *keyData,
         Scaleform::Render::Scale9GridData *s9g,
         float morphRatio)
 {
@@ -16,20 +16,20 @@ unsigned int __thiscall Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
   int v13; // eax
   double v14; // st7
   const Scaleform::Render::Matrix2x4<float> *v15; // ebx
-  unsigned int v16; // ebx
+  int v16; // ebx
   Scaleform::Render::TreeNode *pNode; // eax
-  bool v19; // bl
+  char v19; // bl
   unsigned int StrokeStyle; // eax
-  unsigned int v21; // [esp+10Ch] [ebp-50h]
-  float v22; // [esp+10Ch] [ebp-50h]
-  Scaleform::Render::TreeCacheShapeLayer *pParent; // [esp+110h] [ebp-4Ch]
-  float v24; // [esp+110h] [ebp-4Ch]
-  float v26; // [esp+118h] [ebp-44h]
-  Scaleform::Render::StrokeStyleType s1; // [esp+11Ch] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v28; // [esp+13Ch] [ebp-20h] BYREF
+  unsigned int flags; // [esp+14h] [ebp-50h]
+  float flagsa; // [esp+14h] [ebp-50h]
+  Scaleform::Render::TreeCacheShapeLayer *pParent; // [esp+18h] [ebp-4Ch]
+  float v24; // [esp+18h] [ebp-4Ch]
+  float v26; // [esp+20h] [ebp-44h]
+  Scaleform::Render::StrokeStyleType s1; // [esp+24h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v28; // [esp+44h] [ebp-20h] BYREF
 
   v7 = this;
-  v21 = 1;
+  flags = 1;
   if ( SLOBYTE(this->Flags) >= 0 )
     goto LABEL_17;
   pParent = this;
@@ -82,11 +82,11 @@ unsigned int __thiscall Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
     s9g->S9Rect.x2 = *(float *)&s1.Flags;
     s9g->S9Rect.y2 = s1.Miter;
     v24 = *(float *)(v8 + 116);
-    v22 = *(float *)(v8 + 120);
+    flagsa = *(float *)(v8 + 120);
     v26 = *(float *)(v8 + 124);
     s9g->Bounds.x1 = *(float *)(v8 + 112);
     s9g->Bounds.y1 = v24;
-    s9g->Bounds.x2 = v22;
+    s9g->Bounds.x2 = flagsa;
     s9g->Bounds.y2 = v26;
     s9g->ShapeMtx = v28;
     s9g->Scale9Mtx = *(Scaleform::Render::Matrix2x4<float> *)(v8 + 16);
@@ -95,32 +95,32 @@ unsigned int __thiscall Scaleform::Render::TreeCacheShapeLayer::calcMeshKey(
       (Scaleform::Render::TreeNode::NodeData *)v8,
       &s9g->Bounds);
     v7 = this;
-    v21 = 17;
+    flags = 17;
   }
   else
   {
 LABEL_17:
     v15 = m;
   }
-  if ( (v21 & 0x10) != 0 )
+  if ( (flags & 0x10) != 0 )
   {
     Scaleform::Render::Scale9GridData::MakeMeshKey(s9g, keyData);
 LABEL_20:
-    v16 = v21;
+    v16 = flags;
     goto LABEL_21;
   }
-  v19 = Scaleform::Render::MeshKey::CalcMatrixKey(v15, keyData, 0);
+  v19 = Scaleform::Render::MeshKey::CalcMatrixKey(v15, &keyData->x1, 0);
   StrokeStyle = pmeshProvider->DrawLayers.Data.Data[drawLayer].StrokeStyle;
   if ( StrokeStyle )
   {
-    v21 = 2;
+    flags = 2;
     s1.pFill.pObject = 0;
     s1.pDashes.pObject = 0;
     Scaleform::Render::ShapeMeshProvider::GetStrokeStyle(pmeshProvider, StrokeStyle, &s1, 0.0);
     if ( (s1.Flags & 1) != 0 )
-      v21 = 3;
+      flags = 3;
     if ( (s1.Flags & 6) == 0 )
-      v21 |= 0x20u;
+      flags |= 0x20u;
     if ( s1.pDashes.pObject )
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)s1.pDashes.pObject);
     if ( s1.pFill.pObject )
@@ -128,7 +128,7 @@ LABEL_20:
   }
   if ( v19 )
     goto LABEL_20;
-  v16 = v21 | 0x8000;
+  v16 = flags | 0x8000;
 LABEL_21:
   pNode = v7->pNode;
   if ( !pNode )
@@ -140,6 +140,6 @@ LABEL_21:
                             + 144)
                 + 80) )
     v16 |= 0x100u;
-  keyData[Scaleform::Render::MeshKey::GetKeySize(v16) - 1] = morphRatio;
+  *((float *)keyData + Scaleform::Render::MeshKey::GetKeySize(v16) - 1) = morphRatio;
   return v16;
 }

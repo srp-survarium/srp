@@ -1,72 +1,70 @@
 void __userpurge vostok::collision::loose_oct_tree::initialize(
-        vostok::collision::loose_oct_tree *this@<esi>,
         vostok::collision::object *object@<eax>,
+        vostok::collision::loose_oct_tree *a2@<ecx>,
+        vostok::collision::loose_oct_tree *this,
         const vostok::math::float3 *aabb_center,
         const vostok::math::float3 *aabb_extents)
 {
-  vostok::collision::vertex_allocator *m_allocator; // ecx
-  vostok::collision::oct_node *v6; // eax
+  vostok::collision::oct_node *v7; // eax
   vostok::collision::oct_node *m_root; // eax
+  vostok::collision::oct_node *v9; // eax
   vostok::collision::oct_node *p_parent; // ecx
   float m_min_aabb_extents; // xmm0_4
-  float v10; // xmm0_4
-  float v11; // xmm2_4
   float v12; // xmm1_4
-  float v13; // xmm0_4
-  signed int v14; // edi
-  signed int v15; // edi
-  long double v16; // [esp+8h] [ebp-20h]
-  long double v17; // [esp+8h] [ebp-20h]
-  float v18; // [esp+14h] [ebp-14h]
-  float v19; // [esp+18h] [ebp-10h]
+  float v13; // xmm3_4
+  float v14; // xmm0_4
+  float v15; // xmm0_4
+  long double v16; // [esp+4h] [ebp-Ch]
+  long double v17; // [esp+4h] [ebp-Ch]
+  long double v18; // [esp+4h] [ebp-Ch]
+  long double v19; // [esp+4h] [ebp-Ch]
+  long double _C; // [esp+Ch] [ebp-4h]
+  long double _Ca; // [esp+Ch] [ebp-4h]
+  float v22; // [esp+18h] [ebp+8h]
 
-  m_allocator = this->m_allocator;
   this->m_initialized = 1;
-  v6 = vostok::collision::vertex_allocator::allocate(m_allocator);
-  this->m_root = v6;
-  v6->objects = object;
+  v7 = vostok::collision::loose_oct_tree::new_node(a2, (int)this);
+  this->m_root = v7;
+  v7->objects = object;
   object->m_moved = 1;
-  object->m_node = this->m_root;
-  object->m_next = 0;
   m_root = this->m_root;
-  p_parent = (vostok::collision::oct_node *)&m_root->parent;
-  do
+  object->m_next = 0;
+  object->m_node = m_root;
+  v9 = this->m_root;
+  p_parent = (vostok::collision::oct_node *)&v9->parent;
+  while ( v9 != p_parent )
   {
-    m_root->octants[0] = 0;
-    m_root = (vostok::collision::oct_node *)((char *)m_root + 4);
+    v9->octants[0] = 0;
+    v9 = (vostok::collision::oct_node *)((char *)v9 + 4);
   }
-  while ( m_root != p_parent );
-  this->m_object_count = 1;
-  *(_QWORD *)&this->m_aabb_center.x = *(_QWORD *)&aabb_center->x;
   m_min_aabb_extents = this->m_min_aabb_extents;
-  this->m_aabb_center.z = aabb_center->z;
-  v18 = m_min_aabb_extents;
-  if ( m_min_aabb_extents <= aabb_extents->x
-    || m_min_aabb_extents <= aabb_extents->y
-    || m_min_aabb_extents <= aabb_extents->z )
+  this->m_objects_count = 1;
+  this->m_aabb_center = *aabb_center;
+  v22 = m_min_aabb_extents;
+  if ( m_min_aabb_extents > aabb_extents->x
+    && m_min_aabb_extents > aabb_extents->y
+    && m_min_aabb_extents > aabb_extents->z )
   {
-    v10 = *(float *)&clear_value / this->m_min_aabb_extents;
-    v11 = v10 * aabb_extents->x;
-    v12 = v10 * aabb_extents->y;
-    v13 = v10 * aabb_extents->z;
-    if ( v12 > v13 )
-      v13 = v12;
-    if ( v11 > v13 )
-      v13 = v11;
-    __libm_sse2_log(v16);
-    __libm_sse2_log(v17);
-    v14 = ~(~(COERCE_INT(v13 / (float)2.0) - 1) & 0x80000000) & COERCE_UNSIGNED_INT(v13 / (float)2.0);
-    v15 = (v14 >> 31)
-        ^ ((158 - (unsigned __int8)(v14 >> 23) - 96 + 64) >> 31)
-        & (((v14 | 0xFF800000) << 8 >> (-98 - (v14 >> 23)))
-         - ((v14 >> 31) & ((v14 & (((1 << (-98 - (v14 >> 23) - 96)) - 1) >> 8)) == 0)));
-    v19 = powf(2.0, (float)v15) * v18;
-    this->m_aabb_extents = v19;
-    if ( v19 < aabb_extents->x || v19 < aabb_extents->y || v19 < aabb_extents->z )
-      this->m_aabb_extents = powf(2.0, (float)(v15 + 1)) * v18;
+    goto LABEL_15;
   }
-  else
+  v12 = s_bm_current_air_resistance / this->m_min_aabb_extents;
+  v13 = v12 * aabb_extents->x;
+  v14 = aabb_extents->y * v12;
+  if ( v14 <= (float)(aabb_extents->z * v12) )
+    v14 = aabb_extents->z * v12;
+  if ( v13 <= v14 )
+    v13 = v14;
+  __libm_sse2_log(v16);
+  __libm_sse2_log(v17);
+  vostok::math::floor(v13 / (float)2.0);
+  __libm_sse2_pow(v18, _C);
+  v15 = (float)2.0 * v22;
+  this->m_aabb_extents = v15;
+  if ( v15 < aabb_extents->x || v15 < aabb_extents->y || v15 < aabb_extents->z )
   {
+    __libm_sse2_pow(v19, _Ca);
+    m_min_aabb_extents = (float)2.0 * v22;
+LABEL_15:
     this->m_aabb_extents = m_min_aabb_extents;
   }
 }

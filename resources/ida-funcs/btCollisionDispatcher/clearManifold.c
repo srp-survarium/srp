@@ -1,33 +1,20 @@
 void __thiscall btCollisionDispatcher::clearManifold(btCollisionDispatcher *this, btPersistentManifold *manifold)
 {
-  int v2; // edi
-  bool (__cdecl *v3)(void *); // ecx
-  void **p_m_userPersistentData; // esi
+  int v2; // ebx
+  btManifoldPoint *m_pointCache; // esi
 
   v2 = 0;
-  if ( manifold->m_cachedPoints <= 0 )
+  if ( manifold->m_cachedPoints > 0 )
   {
-    manifold->m_cachedPoints = 0;
-  }
-  else
-  {
-    v3 = gContactDestroyedCallback;
-    p_m_userPersistentData = &manifold->m_pointCache[0].m_userPersistentData;
+    m_pointCache = manifold->m_pointCache;
     do
     {
-      if ( *p_m_userPersistentData )
-      {
-        if ( v3 )
-        {
-          v3(*p_m_userPersistentData);
-          v3 = gContactDestroyedCallback;
-          *p_m_userPersistentData = 0;
-        }
-      }
+      if ( m_pointCache->m_userPersistentData )
+        btPersistentManifold::clearUserCache(m_pointCache);
       ++v2;
-      p_m_userPersistentData += 72;
+      ++m_pointCache;
     }
     while ( v2 < manifold->m_cachedPoints );
-    manifold->m_cachedPoints = 0;
   }
+  manifold->m_cachedPoints = 0;
 }

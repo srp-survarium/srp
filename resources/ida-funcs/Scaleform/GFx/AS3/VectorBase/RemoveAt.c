@@ -18,10 +18,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<lon
     }
     else
     {
-      memmove(
-        (unsigned __int8 *)&p_ValueA->Data.Data[ind],
-        (unsigned __int8 *)&p_ValueA->Data.Data[ind + 1],
-        4 * (Size - ind) - 4);
+      memmove((int)&p_ValueA->Data.Data[ind], (const __m128i *)&p_ValueA->Data.Data[ind + 1], 4 * (Size - ind) - 4);
       v3 = result;
       --p_ValueA->Data.Size;
     }
@@ -56,10 +53,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<dou
     }
     else
     {
-      memmove(
-        (unsigned __int8 *)&p_ValueA->Data.Data[ind],
-        (unsigned __int8 *)&p_ValueA->Data.Data[ind + 1],
-        8 * (Size - ind) - 8);
+      memmove((int)&p_ValueA->Data.Data[ind], (const __m128i *)&p_ValueA->Data.Data[ind + 1], 8 * (Size - ind) - 8);
       v3 = result;
       --p_ValueA->Data.Size;
     }

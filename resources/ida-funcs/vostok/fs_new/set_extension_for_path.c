@@ -1,88 +1,81 @@
-void __thiscall vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>(
-        vostok::fs_new::virtual_path_string *in_out_result)
+void __usercall vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>(
+        vostok::fs_new::virtual_path_string *in_out_result@<eax>)
 {
-  char *m_begin; // esi
-  char *v2; // eax
-  unsigned int v3; // eax
-  char *m_end; // edi
-  char *v5; // edx
-  unsigned int v6; // edx
-  unsigned int v7; // eax
-  char *v8; // eax
-  bool do_debug_break; // [esp+Bh] [ebp-5h] BYREF
-  const char *extensiona; // [esp+Ch] [ebp-4h] BYREF
+  char *m_end; // ecx
+  char *m_begin; // eax
+  char *v4; // ecx
+  unsigned int v5; // ecx
+  char *v6; // edi
+  char *v7; // edx
+  unsigned int v8; // edx
+  unsigned int v9; // eax
+  char *v10; // ecx
+  bool v11; // [esp+Fh] [ebp-1h] BYREF
 
-  m_begin = in_out_result->m_string.m_begin;
-  v2 = in_out_result->m_string.m_end - 1;
-  extensiona = "dds";
-  if ( v2 >= m_begin )
-  {
-    if ( *v2 == 46 )
-    {
-LABEL_5:
-      v3 = v2 - m_begin;
-      goto LABEL_7;
-    }
-    while ( v2 != m_begin )
-    {
-      if ( *--v2 == 46 )
-        goto LABEL_5;
-    }
-  }
-  v3 = -1;
-LABEL_7:
   m_end = in_out_result->m_string.m_end;
-  v5 = m_end - 1;
-  if ( m_end - 1 < m_begin )
+  m_begin = in_out_result->m_string.m_begin;
+  v4 = m_end - 1;
+  if ( v4 >= m_begin )
   {
-LABEL_12:
-    v6 = -1;
-    goto LABEL_13;
-  }
-  if ( *v5 != 47 )
-  {
-    while ( v5 != m_begin )
+    while ( *v4 != 46 )
     {
-      if ( *--v5 == 47 )
-        goto LABEL_11;
+      if ( v4 == m_begin )
+        goto LABEL_2;
+      --v4;
     }
-    goto LABEL_12;
-  }
-LABEL_11:
-  v6 = v5 - m_begin;
-LABEL_13:
-  if ( v3 != -1 && (v6 == -1 || v3 >= v6) )
-  {
-    v8 = &m_begin[v3 + 1];
-    in_out_result->m_string.m_end = v8;
-    *v8 = 0;
-    vostok::fs_new::path_string_impl::append<char const *>(in_out_result, (char **)&extensiona);
-  }
-  else if ( `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`8'::debug_macro_helper_ignore_always
-         || m_end != m_begin )
-  {
-    vostok::fs_new::path_string_impl::appendf(in_out_result, ".%s", "dds");
+    v5 = v4 - m_begin;
   }
   else
   {
-    v7 = `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left;
-    if ( `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left == -1 )
-      v7 = 10;
-    `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left = v7 - 1;
-    if ( v7 )
+LABEL_2:
+    v5 = -1;
+  }
+  v6 = in_out_result->m_string.m_end;
+  v7 = v6 - 1;
+  if ( v6 - 1 >= m_begin )
+  {
+    while ( *v7 != 47 )
     {
-      do_debug_break = 0;
+      if ( v7 == m_begin )
+        goto LABEL_4;
+      --v7;
+    }
+    v8 = v7 - m_begin;
+  }
+  else
+  {
+LABEL_4:
+    v8 = -1;
+  }
+  if ( v5 != -1 && (v8 == -1 || v5 >= v8) )
+  {
+    v10 = &m_begin[v5 + 1];
+    in_out_result->m_string.m_end = v10;
+    *v10 = 0;
+    vostok::buffer_string::append((vostok::buffer_string *)v10, (int)in_out_result, "dds");
+  }
+  else if ( `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`8'::debug_macro_helper_ignore_always
+         || v6 != m_begin )
+  {
+    vostok::buffer_string::appendf(in_out_result, (vostok::buffer_string *)v5, (vostok::buffer_string *)".%s", "dds");
+  }
+  else
+  {
+    v9 = `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left;
+    if ( `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left == -1 )
+      v9 = 10;
+    `vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`11'::occurances_left = v9 - 1;
+    if ( v9 )
+    {
+      v11 = 0;
       vostok::debug::on_error(
-        &do_debug_break,
+        &v11,
         process_error_false,
-        &`vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>'::`8'::debug_macro_helper_ignore_always,
-        assert_untyped,
-        "assertion_failed",
-        "in_out_result->length()",
-        "C:\\survarium\\sources\\vostok/fs/path_string_utils_inline.h",
+        (bool *)"in_out_result->length()",
+        "c:\\survarium.deploy\\sources\\vostok/fs/path_string_utils_inline.h",
         "vostok::fs_new::set_extension_for_path",
-        0xF9u);
-      if ( vostok::debug::is_debugger_present() || do_debug_break )
+        (const char *)0xF9);
+      if ( vostok::debug::is_debugger_present() || v11 )
         __debugbreak();
     }
   }

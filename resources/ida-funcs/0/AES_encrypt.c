@@ -13,9 +13,9 @@ void __cdecl AES_encrypt(__m64 *a1, __m64 *a2, __m64 *a3)
 
   v3 = alloca(((char *)v11 - ((char *)&a3[-16].m64_u64 + 1)) & 0x3C0);
   v11[8] = &v12;
-  v11[0] = 8148015;
+  v11[0] = 6783663;
   v4 = ((_WORD)v3 + 764 - (unsigned __int16)_LAES_Te) & 0x300;
-  v5 = (char *)_LAES_Te + v4 + (_DWORD)&loc_7C5CAD - 8148013;
+  v5 = (char *)_LAES_Te + v4 + (_DWORD)&loc_678B2D - 6783661;
   if ( _bittest((const signed __int32 *)&OPENSSL_ia32cap_P, 0x19u) )
   {
     m64_u64 = a1->m64_u64;
@@ -27,7 +27,7 @@ void __cdecl AES_encrypt(__m64 *a1, __m64 *a2, __m64 *a3)
   }
   else
   {
-    v11[7] = (char *)_LAES_Te + v4 + (_DWORD)&loc_7C5CAD - 8148013;
+    v11[7] = (char *)_LAES_Te + v4 + (_DWORD)&loc_678B2D - 6783661;
     v8 = a1->m64_i32[1];
     a2->m64_i32[0] = _x86_AES_encrypt_compact(
                        a1->m64_i32[0],

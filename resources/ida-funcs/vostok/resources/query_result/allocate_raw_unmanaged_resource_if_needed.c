@@ -2,86 +2,75 @@ int __usercall vostok::resources::query_result::allocate_raw_unmanaged_resource_
         vostok::resources::query_result *this@<ecx>,
         int a2@<eax>)
 {
-  vostok::resources::cook_base *cook; // eax
-  vostok::resources::cook_base *v4; // ebx
-  unsigned int m_flags; // eax
+  vostok::resources::inplace_unmanaged_cook *inplace_unmanaged_cook; // edi
+  int v4; // ebx
   vostok::resources::query_result *v6; // ecx
   vostok::resources::query_result *v7; // ecx
-  vostok::resources::query_result *v8; // ecx
-  vostok::resources::query_result_for_cook *v9; // ecx
-  _DWORD *v10; // eax
+  vostok::resources::query_result_for_cook *v8; // ecx
+  vostok::mutable_buffer *v9; // eax
   unsigned int raw_file_size; // eax
-  boost::function1<void,vostok::collision::object const &> *v12; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v13; // ecx
-  DWORD v15[2]; // [esp+10h] [ebp-30h] BYREF
-  _BYTE v16[8]; // [esp+18h] [ebp-28h] BYREF
-  boost::function<void __cdecl(vostok::resources::query_result *)> callback; // [esp+20h] [ebp-20h] BYREF
+  char *m_data; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v12; // ecx
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *v13; // [esp-4h] [ebp-44h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v14; // [esp+10h] [ebp-30h] BYREF
+  vostok::mutable_buffer v15; // [esp+30h] [ebp-10h] BYREF
+  char v16; // [esp+38h] [ebp-8h] BYREF
+  DWORD CurrentThreadId; // [esp+3Ch] [ebp-4h]
 
-  cook = vostok::resources::resources_manager::find_cook(*(vostok::resources::class_id_enum *)(a2 + 132));
-  v4 = cook;
-  if ( !cook )
+  inplace_unmanaged_cook = vostok::resources::cook_base::find_inplace_unmanaged_cook(*(vostok::resources::class_id_enum *)(a2 + 132));
+  v4 = 0;
+  if ( !inplace_unmanaged_cook )
     return 0;
-  m_flags = cook->m_flags.m_flags;
-  if ( (m_flags & 0x20) != 0 )
-    return 0;
-  if ( (m_flags & 0x10) == 0 )
-    return 0;
-  if ( (m_flags & 8) != 0 )
-    return 0;
-  v15[0] = GetCurrentThreadId();
-  if ( vostok::resources::query_result::allocate_thread_id(v6, a2) != v15[0]
+  CurrentThreadId = GetCurrentThreadId();
+  if ( vostok::resources::query_result::allocate_thread_id(v6, a2) != CurrentThreadId
     || vostok::resources::query_result::need_create_resource_inplace_in_creation_or_inline_data(v7, a2) )
   {
     return 0;
   }
-  vostok::threading::interlocked_and((volatile int *)(a2 + 688), 0xFFFEFFFF);
-  if ( vostok::resources::query_result::need_create_resource_if_no_file(v8) )
+  _InterlockedAnd((volatile signed __int32 *)(a2 + 704), 0xFFFEFFFF);
+  if ( vostok::resources::query_result::need_create_resource_if_no_file(
+         (vostok::resources::query_result *)0xFFFEFFFF,
+         (_DWORD *)a2) )
   {
-    v10 = (_DWORD *)((int (__thiscall *)(vostok::resources::cook_base *, DWORD *, int, _DWORD, int, _DWORD))v4->__vftable[1].cache_by_game_resources_manager)(
-                      v4,
-                      v15,
-                      a2,
-                      0,
-                      a2 + 672,
-                      0);
+    v9 = inplace_unmanaged_cook->allocate_resource(
+           inplace_unmanaged_cook,
+           (vostok::mutable_buffer *)&v16,
+           (vostok::resources::query_result_for_cook *)a2,
+           0,
+           (unsigned int *)(a2 + 688),
+           0);
   }
   else
   {
-    raw_file_size = vostok::resources::query_result_for_cook::get_raw_file_size(v9);
-    *(_DWORD *)(a2 + 672) = 0;
-    v10 = (_DWORD *)((int (__thiscall *)(vostok::resources::cook_base *, _BYTE *, int, unsigned int, int, int))v4->__vftable[1].cache_by_game_resources_manager)(
-                      v4,
-                      v16,
-                      a2,
-                      raw_file_size,
-                      a2 + 672,
-                      1);
+    raw_file_size = vostok::resources::query_result_for_cook::get_raw_file_size(v8, (_DWORD *)a2);
+    *(_DWORD *)(a2 + 688) = 0;
+    v9 = inplace_unmanaged_cook->allocate_resource(
+           inplace_unmanaged_cook,
+           &v15,
+           (vostok::resources::query_result_for_cook *)a2,
+           raw_file_size,
+           (unsigned int *)(a2 + 688),
+           1);
   }
-  *(_DWORD *)(a2 + 636) = *v10;
-  *(_DWORD *)(a2 + 640) = v10[1];
-  if ( !vostok::mutable_buffer::operator bool((vostok::mutable_buffer *)(a2 + 636))
-    && ((unsigned int)&_sbh_sizeHeaderList & *(_DWORD *)(a2 + 688)) == 0 )
+  m_data = v9->m_data;
+  *(_DWORD *)(a2 + 652) = v9->m_data;
+  *(_DWORD *)(a2 + 656) = v9->m_size;
+  if ( m_data || ((unsigned int)&_sbh_sizeHeaderList & *(_DWORD *)(a2 + 704)) != 0 )
+    return 1;
+  *(_DWORD *)(a2 + 320) = 3;
+  *(_DWORD *)(a2 + 256) = 7;
+  vostok::resources::get_out_of_memory_callback(&v14);
+  v12 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v13;
+  if ( (v14.vtable != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
   {
-    *(_DWORD *)(a2 + 304) = 3;
-    *(_DWORD *)(a2 + 256) = 7;
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-      (boost::function4<void,unsigned int,float,float,char const *> *)&s_out_of_memory_callback,
-      (int)&callback);
-    if ( (callback.vtable != 0 ? (unsigned int)survarium::weapon_user_dead_state::finalize : 0) != 0 )
-    {
-      boost::function1<void,vostok::collision::object const &>::operator()(
-        v12,
-        &callback,
-        (const vostok::collision::object *)a2);
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        v13,
-        (int *)&callback);
-      return 2;
-    }
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v12,
-      (int *)&callback);
-    return 0;
+    boost::function1<void,vostok::collision::object const &>::operator()(
+      v13,
+      &v14,
+      (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)a2);
+    v4 = 2;
   }
-  return 1;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v12,
+    (int *)&v14);
+  return v4;
 }

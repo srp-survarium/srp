@@ -3,10 +3,10 @@ unsigned __int16 __thiscall Scaleform::Render::Font::calcTopBound(Scaleform::Ren
   Scaleform::Render::Font_vtbl *v3; // eax
   int (__thiscall *GetGlyphIndex)(Scaleform::Render::Font *, unsigned __int16); // edx
   unsigned int v5; // eax
-  float v7; // [esp+20h] [ebp-10h] BYREF
-  float v8; // [esp+24h] [ebp-Ch]
-  float v9; // [esp+28h] [ebp-8h]
-  float v10; // [esp+2Ch] [ebp-4h]
+  float v7; // [esp+12h] [ebp-10h] BYREF
+  float v8; // [esp+16h] [ebp-Ch]
+  float v9; // [esp+1Ah] [ebp-8h]
+  float v10; // [esp+1Eh] [ebp-4h]
 
   v7 = 0.0;
   v8 = 0.0;

@@ -2,15 +2,17 @@ void __thiscall survarium::scaleform_movie_cook::scaleform_movie_cook(
         survarium::scaleform_movie_cook *this,
         survarium::flash_factory *factory)
 {
-  s_scaleform_movie_cook.__vftable = (survarium::scaleform_movie_cook_vtbl *)&vostok::resources::cook_base::`vftable';
-  s_scaleform_movie_cook.m_cook_users_count.m_count = 0;
-  s_scaleform_movie_cook.m_class_id = flash_movie_class;
-  s_scaleform_movie_cook.m_reuse_type = reuse_false;
-  s_scaleform_movie_cook.m_creation_thread_id = -1;
-  s_scaleform_movie_cook.m_allocate_thread_id = GetCurrentThreadId();
-  s_scaleform_movie_cook.m_flags.m_flags = 8;
-  s_scaleform_movie_cook.m_next = 0;
+  vostok::buffer_vector<vostok::resources::cook_base *> *v2; // ecx
+  vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> v3; // [esp+0h] [ebp-8h]
+
+  vostok::resources::translate_query_cook::translate_query_cook(
+    (vostok::resources::translate_query_cook *)0x203,
+    &s_scaleform_movie_cook,
+    reuse_false,
+    0xFFFFFFFD,
+    0,
+    v3);
   s_scaleform_movie_cook.__vftable = (survarium::scaleform_movie_cook_vtbl *)&survarium::scaleform_movie_cook::`vftable';
   s_scaleform_movie_cook.m_factory = factory;
-  vostok::resources::resources_manager::register_cook(&s_scaleform_movie_cook);
+  vostok::resources::resources_manager::register_cook(&s_scaleform_movie_cook, v2);
 }

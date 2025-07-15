@@ -3,12 +3,12 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstring(const Scaleform::
   const Scaleform::GFx::AS2::FnCall *v1; // edi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   const Scaleform::GFx::ASString *p_pProto; // ebp
-  const char *v4; // esi
+  char *v4; // esi
   int v5; // ebx
   Scaleform::GFx::AS2::Value *v6; // eax
   Scaleform::GFx::AS2::Value *v7; // eax
   int v8; // ebx
-  const char *v9; // eax
+  char *v9; // eax
   Scaleform::GFx::ASString *v10; // eax
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::ASString *v12; // ebx
@@ -37,7 +37,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstring(const Scaleform::
   {
     Env = v1->Env;
     v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-    v4 = (const char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v6, Env);
+    v4 = (char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v6, Env);
   }
   if ( v1->NArgs >= 2 )
   {
@@ -54,7 +54,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstring(const Scaleform::
         return;
       }
       v9 = v4;
-      v4 = (const char *)v8;
+      v4 = (char *)v8;
       v8 = (int)v9;
     }
     if ( (int)v4 < 0 )
@@ -80,14 +80,14 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstring(const Scaleform::
 Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS2::StringProto::StringSubstring(
         Scaleform::GFx::ASString *result,
         const Scaleform::GFx::ASString *self,
-        const char *start,
+        char *start,
         int length)
 {
   int v4; // edi
   Scaleform::GFx::ASStringManager *v5; // eax
   Scaleform::GFx::ASStringNode *v6; // ecx
   Scaleform::GFx::ASString *v7; // eax
-  const char *v8; // esi
+  char *v8; // esi
   signed int v9; // eax
   Scaleform::GFx::ASStringManager *pManager; // eax
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // ecx

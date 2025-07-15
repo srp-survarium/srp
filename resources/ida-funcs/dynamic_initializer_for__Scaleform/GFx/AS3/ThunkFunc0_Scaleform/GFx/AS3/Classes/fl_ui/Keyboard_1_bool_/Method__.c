@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Classes::fl_ui::Keyboard::numLockGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Classes::fl_ui::Keyboard,1,bool>::Method) = Scaleform::GFx::AS3::Classes::fl_ui::Keyboard::numLockGet;
-  dword_AAE00C = 0;
+  dword_8F27C4 = 0;
   return result;
 }

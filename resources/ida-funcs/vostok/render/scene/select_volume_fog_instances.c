@@ -1,66 +1,70 @@
-void __thiscall vostok::render::scene::select_volume_fog_instances(
-        vostok::render::scene *this,
-        vostok::render::scene *vp,
-        const vostok::math::float4x4 *out_instances,
-        vostok::render::vector<vostok::render::volume_fog_parameters> *out_instancesa)
+void __userpurge vostok::render::scene::select_volume_fog_instances(
+        vostok::render::scene *this@<ecx>,
+        int a2@<eax>,
+        const vostok::math::float4x4 *vp,
+        vostok::fixed_vector<vostok::render::volume_fog_parameters,32> *out_instances)
 {
-  float v4; // ebx
-  vostok::math::aabb *v5; // edi
-  const vostok::math::aabb *v6; // eax
-  vostok::math::cuboid *v7; // ecx
-  stlp_std::priv::_Impl_vector<vostok::render::volume_fog_parameters,vostok::render::std_allocator<vostok::render::volume_fog_parameters> > *v8; // ecx
-  vostok::render::volume_fog_parameters *M_finish; // eax
-  const vostok::math::float4x4 *v10; // [esp+0h] [ebp-B8h]
-  unsigned int v11; // [esp+4h] [ebp-B4h]
-  bool v12; // [esp+8h] [ebp-B0h]
-  vostok::math::float3 v13; // [esp+10h] [ebp-A8h]
-  unsigned __int64 v14; // [esp+1Ch] [ebp-9Ch]
-  float v15; // [esp+24h] [ebp-94h]
-  vostok::math::aabb bbox; // [esp+28h] [ebp-90h]
-  vostok::math::frustum view_frustum; // [esp+40h] [ebp-78h] BYREF
+  stlp_std::priv::_Rb_tree_node_base *v4; // ebx
+  vostok::math::aabb_plane *v5; // eax
+  vostok::math::cuboid *v6; // ecx
+  vostok::render::volume_fog_parameters *m_end; // eax
+  const char *v8; // [esp+0h] [ebp-C0h]
+  vostok::math::frustum v9; // [esp+10h] [ebp-B0h] BYREF
+  vostok::math::aabb v10; // [esp+88h] [ebp-38h] BYREF
+  vostok::math::float3 v11; // [esp+A0h] [ebp-20h]
+  __int64 v12; // [esp+ACh] [ebp-14h]
+  float v13; // [esp+B4h] [ebp-Ch]
+  stlp_std::priv::_Rb_tree_node_base *v14; // [esp+B8h] [ebp-8h]
+  bool v15; // [esp+BFh] [ebp-1h] BYREF
 
-  v4 = *(float *)&vp->m_volume_fogs._M_impl._M_start;
-  if ( (stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> *)LODWORD(v4) != vp->m_volume_fogs._M_impl._M_finish )
+  v4 = *(stlp_std::priv::_Rb_tree_node_base **)((char *)&loc_1CE1A8 + a2);
+  v14 = (stlp_std::priv::_Rb_tree_node_base *)((char *)survarium::weapon_user_animations_selector::stand_from_crouch_predicate
+                                             + a2);
+  if ( v4 != (stlp_std::priv::_Rb_tree_node_base *)((char *)survarium::weapon_user_animations_selector::stand_from_crouch_predicate
+                                                  + a2) )
   {
-    LODWORD(v13.x) = clear_value;
-    LODWORD(v13.y) = clear_value;
-    LODWORD(v13.z) = clear_value;
-    v14 = 0xBF800000BF800000uLL;
-    v15 = -1.0;
-    v5 = (vostok::math::aabb *)(LODWORD(v4) + 4);
+    v11.x = s_bm_current_air_resistance;
+    v11.y = s_bm_current_air_resistance;
+    v11.z = s_bm_current_air_resistance;
+    *(float *)&v12 = FLOAT_N1_0;
+    *((float *)&v12 + 1) = FLOAT_N1_0;
+    v13 = FLOAT_N1_0;
     do
     {
-      vostok::math::frustum::frustum(&view_frustum, out_instances);
-      *(_QWORD *)&bbox.min.x = v14;
-      bbox.min.z = v15;
-      bbox.max = v13;
-      v6 = vostok::math::aabb::modify(v5, v10);
-      if ( vostok::math::cuboid::test_inexact(v7, v6) != intersection_outside )
+      vostok::math::frustum::frustum(&v9, vp);
+      *(_QWORD *)&v10.min.x = v12;
+      v10.min.z = v13;
+      v10.max = v11;
+      v5 = (vostok::math::aabb_plane *)vostok::math::aabb::modify((vostok::math::aabb *)&v4[1]._M_parent, &v10);
+      if ( vostok::math::cuboid::test_inexact(v6, (int)&v9, v5) != 2 )
       {
-        M_finish = out_instancesa->_M_impl._M_finish;
-        if ( M_finish == out_instancesa->_M_impl._M_end_of_storage._M_data )
+        if ( out_instances->m_end >= out_instances->m_max_end
+          && !`vostok::buffer_vector<vostok::render::volume_fog_parameters>::push_back'::`11'::debug_macro_helper_ignore_always )
         {
-          stlp_std::priv::_Impl_vector<vostok::render::volume_fog_parameters,vostok::render::std_allocator<vostok::render::volume_fog_parameters>>::_M_insert_overflow(
-            M_finish,
-            v8,
-            &out_instancesa->_M_impl,
-            (const vostok::render::volume_fog_parameters *)v5,
-            (const stlp_std::__true_type *)v10,
-            v11,
-            v12);
+          v15 = 0;
+          vostok::debug::on_error(
+            &v15,
+            process_error_true,
+            0,
+            "assertion_failed",
+            "fatal error",
+            "c:\\survarium.deploy\\sources\\vostok/buffer_vector_inline.h",
+            "vostok::buffer_vector<struct vostok::render::volume_fog_parameters>::push_back",
+            (const char *)0x12E,
+            "buffer overflow",
+            v8);
+          if ( vostok::debug::is_debugger_present() || v15 )
+            __debugbreak();
         }
-        else
-        {
-          if ( M_finish )
-            vostok::render::volume_fog_parameters::volume_fog_parameters(
-              M_finish,
-              (const vostok::render::volume_fog_parameters *)v5);
-          ++out_instancesa->_M_impl._M_finish;
-        }
+        m_end = out_instances->m_end;
+        if ( m_end )
+          vostok::render::volume_fog_parameters::volume_fog_parameters(
+            m_end,
+            (const vostok::render::volume_fog_parameters *)&v4[1]._M_parent);
+        ++out_instances->m_end;
       }
-      LODWORD(v4) += 120;
-      v5 += 5;
+      v4 = stlp_std::priv::_Rb_global<bool>::_M_increment(v4);
     }
-    while ( (stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> *)LODWORD(v4) != vp->m_volume_fogs._M_impl._M_finish );
+    while ( v4 != v14 );
   }
 }

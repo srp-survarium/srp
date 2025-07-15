@@ -16,8 +16,8 @@ Scaleform::Render::Matrix2x4<float> *__thiscall Scaleform::Render::Hairliner::St
   Scaleform::Render::Hairliner::OutVertexType *v14; // eax
   double x; // st6
   double y; // st7
-  float v18; // [esp+44h] [ebp-28h]
-  Scaleform::Render::Matrix2x4<float> m; // [esp+4Ch] [ebp-20h] BYREF
+  float v18; // [esp+38h] [ebp-28h]
+  Scaleform::Render::Matrix2x4<float> m; // [esp+40h] [ebp-20h] BYREF
 
   result->M[0][0] = 1.0;
   result->M[0][1] = 0.0;

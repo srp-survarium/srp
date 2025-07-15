@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::TreeCacheText::UpdateTransform(
         Scaleform::Render::TransformFlags flags)
 {
   Scaleform::Render::TreeCacheText_vtbl *v5; // eax
-  unsigned int v6; // eax
+  int v6; // eax
   Scaleform::Render::MatrixPoolImpl::EntryHandle *v7; // edi
   double v8; // st6
   double v9; // st6
@@ -17,7 +17,7 @@ void __thiscall Scaleform::Render::TreeCacheText::UpdateTransform(
   unsigned int Start; // eax
   Scaleform::Render::Renderer2DImpl *pRenderer2D; // ecx
   const Scaleform::Render::TextMeshEntry *v17; // eax
-  unsigned int v18; // eax
+  int v18; // eax
   Scaleform::Render::MeshKey *pObject; // ecx
   Scaleform::Render::Renderer2DImpl *v20; // eax
   const Scaleform::Render::ToleranceParams *p_Tolerances; // edi
@@ -25,46 +25,46 @@ void __thiscall Scaleform::Render::TreeCacheText::UpdateTransform(
   Scaleform::Render::MeshKey *v23; // ecx
   Scaleform::Render::MeshKey *v24; // edi
   Scaleform::Render::Mesh *v25; // eax
-  unsigned int v26; // eax
+  Scaleform::Render::MeshBase *v26; // eax
   Scaleform::Render::MeshKey *v27; // edi
   Scaleform::RefCountVImpl *v28; // ecx
-  unsigned int *p_pMesh; // edi
+  Scaleform::Ptr<Scaleform::Render::MeshBase> *p_pMesh; // edi
   Scaleform::Render::MeshKey *v30; // eax
   Scaleform::Render::Mesh *v31; // edi
   Scaleform::RefCountVImpl *v32; // ecx
   Scaleform::Render::MatrixPoolImpl::EntryHandle *pHandle; // eax
-  float y1; // [esp+6ECh] [ebp-C8h]
-  float v35; // [esp+6ECh] [ebp-C8h]
-  float v36; // [esp+6ECh] [ebp-C8h]
-  float v37; // [esp+6ECh] [ebp-C8h]
-  float v38; // [esp+6ECh] [ebp-C8h]
-  unsigned int v39; // [esp+6ECh] [ebp-C8h]
-  float y2; // [esp+6F0h] [ebp-C4h]
-  float v41; // [esp+6F0h] [ebp-C4h]
-  float v42; // [esp+6F0h] [ebp-C4h]
-  int v43; // [esp+6F0h] [ebp-C4h]
-  float x2; // [esp+6F4h] [ebp-C0h]
-  unsigned int v45; // [esp+6F4h] [ebp-C0h]
-  float v46; // [esp+6F4h] [ebp-C0h]
-  unsigned int v47; // [esp+6F4h] [ebp-C0h]
-  unsigned int v48; // [esp+6F4h] [ebp-C0h]
-  unsigned int meshGenFlags; // [esp+6F8h] [ebp-BCh]
-  Scaleform::Render::MeshKeyManager *v50; // [esp+6FCh] [ebp-B8h] BYREF
-  Scaleform::Render::MatrixPoolImpl::HMatrix result; // [esp+700h] [ebp-B4h] BYREF
-  Scaleform::Render::Matrix2x4<float> m; // [esp+704h] [ebp-B0h] BYREF
-  Scaleform::Render::Rect<float> v53; // [esp+724h] [ebp-90h] BYREF
-  Scaleform::Render::Viewport v54; // [esp+738h] [ebp-7Ch] BYREF
-  Scaleform::Render::Matrix4x4<float> dst; // [esp+764h] [ebp-50h] BYREF
+  float y1; // [esp+38h] [ebp-C8h]
+  float v35; // [esp+38h] [ebp-C8h]
+  float v36; // [esp+38h] [ebp-C8h]
+  float v37; // [esp+38h] [ebp-C8h]
+  float v38; // [esp+38h] [ebp-C8h]
+  unsigned int v39; // [esp+38h] [ebp-C8h]
+  float y2; // [esp+3Ch] [ebp-C4h]
+  float v41; // [esp+3Ch] [ebp-C4h]
+  float v42; // [esp+3Ch] [ebp-C4h]
+  int v43; // [esp+3Ch] [ebp-C4h]
+  float x2; // [esp+40h] [ebp-C0h]
+  int v45; // [esp+40h] [ebp-C0h]
+  float v46; // [esp+40h] [ebp-C0h]
+  unsigned int v47; // [esp+40h] [ebp-C0h]
+  Scaleform::Render::MeshBase *v48; // [esp+40h] [ebp-C0h]
+  int meshGenFlags; // [esp+44h] [ebp-BCh]
+  int v50; // [esp+48h] [ebp-B8h] BYREF
+  Scaleform::Render::MatrixPoolImpl::HMatrix result; // [esp+4Ch] [ebp-B4h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+50h] [ebp-B0h] BYREF
+  Scaleform::Render::Rect<float> cullRect; // [esp+70h] [ebp-90h] BYREF
+  Scaleform::Render::Viewport vp; // [esp+84h] [ebp-7Ch] BYREF
+  Scaleform::Render::Matrix4x4<float> m4; // [esp+B0h] [ebp-50h] BYREF
 
-  v53.x1 = t->CullRect.x1;
-  v53.y1 = t->CullRect.y1;
-  v53.x2 = t->CullRect.x2;
-  v53.y2 = t->CullRect.y2;
+  cullRect.x1 = t->CullRect.x1;
+  cullRect.y1 = t->CullRect.y1;
+  cullRect.x2 = t->CullRect.x2;
+  cullRect.y2 = t->CullRect.y2;
   Scaleform::Render::TreeCacheNode::updateCulling(
     this,
     nodeData,
     t,
-    &v53,
+    &cullRect,
     (Scaleform::Render::TransformFlags)(flags | 0x20));
   y1 = nodeData->AproxParentBounds.y1;
   x2 = nodeData->AproxParentBounds.x2;
@@ -124,21 +124,20 @@ LABEL_19:
                     &this->M,
                     pRenderer2D,
                     meshGenFlags,
-                    (float *)&dst);
+                    (float *)&m4);
             pObject = v14->pMeshKey.pObject;
             v47 = v18;
             v20 = this->pRenderer2D;
-            v50 = v20->pMeshKeyManager.pObject;
+            v50 = (int)v20->pMeshKeyManager.pObject;
             p_Tolerances = &v20->Tolerances;
-            if ( !pObject
-              || !Scaleform::Render::MeshKey::Match(pObject, 0, flags, (const float *)&dst, &v20->Tolerances) )
+            if ( !pObject || !Scaleform::Render::MeshKey::Match(pObject, 0, flags, (const float *)&m4, &v20->Tolerances) )
             {
               MatchingKey = Scaleform::Render::MeshKeyManager::CreateMatchingKey(
-                              v50,
+                              (Scaleform::Render::MeshKeyManager *)v50,
                               v14->pShape.pObject,
                               0,
                               v47,
-                              (float *)&dst,
+                              (float *)&m4,
                               p_Tolerances);
               v23 = v14->pMeshKey.pObject;
               v24 = MatchingKey;
@@ -147,7 +146,7 @@ LABEL_19:
               v14->pMeshKey.pObject = v24;
               if ( !v24->pMesh.pObject )
               {
-                v50 = (Scaleform::Render::MeshKeyManager *)70;
+                v50 = 70;
                 v25 = (Scaleform::Render::Mesh *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                    Scaleform::Memory::pGlobalHeap,
                                                    this,
@@ -171,10 +170,10 @@ LABEL_19:
                 }
                 v27 = v14->pMeshKey.pObject;
                 v28 = (Scaleform::RefCountVImpl *)v27->pMesh.pObject;
-                p_pMesh = (unsigned int *)&v27->pMesh;
+                p_pMesh = &v27->pMesh;
                 if ( v28 )
                   Scaleform::RefCountImpl::Release(v28);
-                *p_pMesh = v48;
+                p_pMesh->pObject = v48;
               }
               v30 = v14->pMeshKey.pObject;
               v31 = (Scaleform::Render::Mesh *)v30->pMesh.pObject;
@@ -212,13 +211,13 @@ LABEL_19:
     if ( (v7->pHeader->Format & 0x10) == 0
       && !Scaleform::Render::Matrix2x4<float>::IsFreeRotation(
             (Scaleform::Render::Matrix2x4<float> *)(&v7->pHeader[1].RefCount
-                                                  + 4 * (unsigned __int8)byte_9B2B74[5 * (v7->pHeader->Format & 0xF)]),
+                                                  + 4 * (unsigned __int8)byte_874214[5 * (v7->pHeader->Format & 0xF)]),
             0.000001) )
     {
       Scaleform::Render::Matrix2x4<float>::operator=(
         &m,
         (const Scaleform::Render::Matrix2x4<float> *)(&v7->pHeader[1].RefCount
-                                                    + 4 * (unsigned __int8)byte_9B2B74[5 * (v7->pHeader->Format & 0xF)]));
+                                                    + 4 * (unsigned __int8)byte_874214[5 * (v7->pHeader->Format & 0xF)]));
       if ( m.M[0][3] >= 0.0 )
         v8 = 0.5;
       else
@@ -241,27 +240,27 @@ LABEL_19:
   v10 = this->SorterShapeNode.pBundle.pObject;
   if ( v10 && (this->TMProvider.Flags & 0x20) != 0 )
   {
-    memset((int)&dst, 0, sizeof(dst));
-    dst.M[0][0] = 1.0;
-    dst.M[1][1] = 1.0;
-    v54.Height = 1;
-    dst.M[2][2] = 1.0;
-    v54.Width = 1;
-    dst.M[3][3] = 1.0;
+    memset((int)&m4, 0, sizeof(m4));
+    m4.M[0][0] = 1.0;
+    m4.M[1][1] = 1.0;
+    vp.Height = 1;
+    m4.M[2][2] = 1.0;
+    vp.Width = 1;
+    m4.M[3][3] = 1.0;
     v11 = this->M.pHandle;
-    memset(&v54, 0, 16);
-    memset(&v54.ScissorLeft, 0, 20);
+    memset(&vp, 0, 16);
+    memset(&vp.ScissorLeft, 0, 20);
     if ( (v11->pHeader->Format & 0x10) != 0 && this->pRoot )
     {
       ViewProj = Scaleform::Render::TransformArgs::GetViewProj(t);
-      Scaleform::Render::TreeCacheText::getMatrix4F(this, &dst, ViewProj);
-      qmemcpy(&v54, &Scaleform::Render::TreeCacheNode::GetNodeData(this->pRoot)[1].M34, sizeof(v54));
+      Scaleform::Render::TreeCacheText::getMatrix4F(this, &m4, ViewProj);
+      qmemcpy(&vp, &Scaleform::Render::TreeCacheNode::GetNodeData(this->pRoot)[1].M34, sizeof(vp));
     }
     if ( Scaleform::Render::TextMeshProvider::NeedsUpdate(
            &this->TMProvider,
            &this->M,
-           &dst,
-           &v54,
+           &m4,
+           &vp,
            (const Scaleform::Render::TextFieldParam *)(v45 + 8)) )
     {
       v10->UpdateMesh(v10, &this->SorterShapeNode);

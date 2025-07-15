@@ -6,7 +6,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::ArrayBase::ToString(
   unsigned int v4; // ebp
   char *v5; // edi
   void (__thiscall *GetValueUnsafe)(Scaleform::GFx::AS3::ArrayBase *, unsigned int, Scaleform::GFx::AS3::Value *); // edx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // eax
   Scaleform::GFx::AS3::CheckResult v10; // [esp+13h] [ebp-29h] BYREF
   Scaleform::GFx::AS3::Value v; // [esp+14h] [ebp-28h] BYREF
@@ -20,7 +20,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::ArrayBase::ToString(
   while ( 1 )
   {
     if ( v5 )
-      Scaleform::StringBuffer::AppendString(&buff, (char *)sep->pNode->pData, 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&buff, (const __m128i *)sep->pNode->pData, 0xFFFFFFFF);
     GetValueUnsafe = this->GetValueUnsafe;
     v.Flags = 0;
     v.Bonus.pWeakProxy = 0;
@@ -58,9 +58,9 @@ LABEL_13:
       Scaleform::GFx::AS3::Value::ReleaseInternal(&v);
   }
 LABEL_20:
-  pData = buff.pData;
+  pData = (__m128i *)buff.pData;
   if ( !buff.pData )
-    pData = (char *)&buf;
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->VMRef->StringManagerRef->pStringManager,
                  pData,

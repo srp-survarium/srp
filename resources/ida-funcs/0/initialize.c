@@ -1,31 +1,29 @@
 void __thiscall initialize(vostok::memory::base_allocator *this, void *a2, unsigned __int64 a3, const char *a4)
 {
-  survarium::game_camera *v4; // ecx
-  survarium::game_camera *v5; // ecx
-  void (__cdecl *log_callback)(const char *, bool, bool, const char *); // [esp+4h] [ebp-8h]
-  HMODULE handle; // [esp+8h] [ebp-4h]
+  HMODULE ModuleHandleA; // eax
 
-  if ( !s_initialized_3 )
+  if ( !s_initialized_4 )
   {
     if ( InterlockedIncrement(&s_initializer_lock) == 1 )
     {
-      handle = GetModuleHandleA("ntdll.dll");
-      survarium::weapon_user_dead_state::finalize(v4);
-      s_pfnCaptureStackBackTrace = (unsigned __int16 (__stdcall *)(unsigned int, unsigned int, void **, unsigned int *))GetProcAddress(handle, "RtlCaptureStackBackTrace");
-      if ( !s_pfnCaptureStackBackTrace )
-      {
-        log_callback = vostok::debug::get_log_callback();
-        if ( log_callback )
-          log_callback("debug", 1, 0, "can't find function RtlCaptureStackBackTrace in ntdll.dll");
-      }
-      load_library(v5);
+      ModuleHandleA = GetModuleHandleA("ntdll.dll");
+      s_pfnCaptureStackBackTrace = (unsigned __int16 (__stdcall *)(unsigned int, unsigned int, void **, unsigned int *))GetProcAddress(ModuleHandleA, "RtlCaptureStackBackTrace");
+      if ( !s_pfnCaptureStackBackTrace && (s_log_disable_counter == 0 ? (unsigned int)s_log_callback : 0) != 0 )
+        ((void (__cdecl *)(const vostok::logging::filter_tree *, int, _DWORD, const char *))(s_log_disable_counter == 0
+                                                                                           ? (unsigned int)s_log_callback
+                                                                                           : 0))(
+          &stru_802CB8,
+          1,
+          0,
+          "can't find function RtlCaptureStackBackTrace in ntdll.dll");
+      load_library_0();
       if ( s_use_dbghelp )
-        InitSymInfo(0);
-      InterlockedExchange(&s_initialized_3, 1);
+        InitSymInfo();
+      InterlockedExchange(&s_initialized_4, 1);
     }
     else
     {
-      while ( !s_initialized_3 )
+      while ( !s_initialized_4 )
         Sleep(1u);
     }
   }

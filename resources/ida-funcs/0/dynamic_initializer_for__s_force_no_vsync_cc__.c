@@ -1,0 +1,16 @@
+int __thiscall dynamic_initializer_for__s_force_no_vsync_cc__(vostok::console_commands::console_command *this)
+{
+  vostok::console_commands::console_command::console_command(
+    this,
+    (int)&s_force_no_vsync_cc,
+    "r_force_no_vsync",
+    0,
+    command_type_user_specific,
+    execution_filter_general);
+  s_force_no_vsync_cc.m_value = &s_force_no_vsync;
+  s_force_no_vsync_cc.m_min = 0;
+  s_force_no_vsync_cc.m_max = 1;
+  s_force_no_vsync_cc.__vftable = (vostok::console_commands::cc_bool_vtbl *)&vostok::console_commands::cc_bool::`vftable';
+  s_force_no_vsync_cc.m_need_args = 1;
+  return atexit(dynamic_atexit_destructor_for__s_force_no_vsync_cc__);
+}

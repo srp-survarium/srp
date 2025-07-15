@@ -14,13 +14,13 @@ void __thiscall Scaleform::GFx::PlaceObject3Tag::Execute(
   Scaleform::GFx::ASStringNode *v12; // esi
   char v13; // bl
   Scaleform::GFx::ASStringNode *v14; // eax
-  Scaleform::GFx::ASStringNode *v15; // [esp+1ECh] [ebp-7Ch] BYREF
-  Scaleform::GFx::ASStringNode *v16; // [esp+1F0h] [ebp-78h] BYREF
-  _BYTE v17[4]; // [esp+1F4h] [ebp-74h] BYREF
-  Scaleform::GFx::CharPosInfo v18; // [esp+1F8h] [ebp-70h] BYREF
-  const Scaleform::ArrayLH<Scaleform::GFx::SwfEvent *,260,Scaleform::ArrayDefaultPolicy> *v19; // [esp+258h] [ebp-10h]
-  char *pstr; // [esp+25Ch] [ebp-Ch]
-  int v21; // [esp+260h] [ebp-8h]
+  Scaleform::GFx::ASStringNode *v15; // [esp+24h] [ebp-7Ch] BYREF
+  Scaleform::GFx::ASStringNode *v16; // [esp+28h] [ebp-78h] BYREF
+  _BYTE v17[4]; // [esp+2Ch] [ebp-74h] BYREF
+  Scaleform::GFx::CharPosInfo v18; // [esp+30h] [ebp-70h] BYREF
+  const Scaleform::ArrayLH<Scaleform::GFx::SwfEvent *,260,Scaleform::ArrayDefaultPolicy> *v19; // [esp+90h] [ebp-10h]
+  __m128i *v20; // [esp+94h] [ebp-Ch]
+  int v21; // [esp+98h] [ebp-8h]
 
   v16 = 0;
   Scaleform::Render::Cxform::Cxform(&v18.ColorTransform);
@@ -50,10 +50,10 @@ void __thiscall Scaleform::GFx::PlaceObject3Tag::Execute(
     if ( v21 != 2 )
       goto LABEL_27;
     StringManager = Scaleform::GFx::InteractiveObject::GetStringManager(m);
-    if ( pstr )
+    if ( v20 )
     {
       v8 = 8;
-      StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, pstr);
+      StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, v20);
       ++StringNode->RefCount;
       v15 = StringNode;
       p_EmptyStringNode = StringNode;
@@ -91,10 +91,10 @@ void __thiscall Scaleform::GFx::PlaceObject3Tag::Execute(
   else
   {
     v11 = Scaleform::GFx::InteractiveObject::GetStringManager(m);
-    if ( pstr )
+    if ( v20 )
     {
       v13 = 2;
-      v14 = Scaleform::GFx::ASStringManager::CreateStringNode(v11, pstr);
+      v14 = Scaleform::GFx::ASStringManager::CreateStringNode(v11, v20);
       ++v14->RefCount;
       v16 = v14;
       v12 = v14;

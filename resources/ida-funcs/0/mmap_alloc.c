@@ -1,11 +1,12 @@
-int *__usercall mmap_alloc@<eax>(unsigned int nb@<eax>, malloc_state *m)
+int *__cdecl mmap_alloc(malloc_state *m)
 {
-  unsigned int v2; // ecx
+  unsigned int nb; // ecx
+  unsigned int v2; // eax
   unsigned int v3; // edi
   char *v4; // eax
-  int v5; // edx
+  int v5; // ecx
   int *v6; // esi
-  int v7; // ecx
+  char *v7; // ecx
   unsigned int footprint; // eax
 
   v2 = ~(mparams.granularity - 1);
@@ -15,15 +16,13 @@ int *__usercall mmap_alloc@<eax>(unsigned int nb@<eax>, malloc_state *m)
   v4 = (char *)mmap(v2 & (mparams.granularity + nb + 30));
   if ( v4 == (char *)-1 )
     return 0;
-  v5 = (unsigned __int8)v4 & 7;
-  if ( ((unsigned __int8)v4 & 7) != 0 )
-    v5 = -v5 & 7;
+  v5 = ((unsigned __int8)v4 & 7) != 0 ? -((unsigned __int8)v4 & 7) & 7 : 0;
   v6 = (int *)&v4[v5];
-  v7 = v3 - v5 - 16;
   *v6 = v5 | 1;
-  v6[1] = v7 | 2;
-  *(int *)((char *)v6 + v7 + 4) = 7;
-  *(int *)((char *)v6 + v7 + 8) = 0;
+  v6[1] = (v3 - v5 - 16) | 2;
+  v7 = &v4[v3 - 16];
+  *((_DWORD *)v7 + 2) = 0;
+  *((_DWORD *)v7 + 1) = 7;
   if ( v4 < m->least_addr )
     m->least_addr = v4;
   m->footprint += v3;

@@ -1,30 +1,29 @@
-char __usercall load_splash_screen@<al>(
-        void *const file_handle@<edi>,
-        unsigned __int8 *const buffer,
-        unsigned int buffer_size)
+char __cdecl load_splash_screen(HANDLE file_handle, unsigned __int8 *const buffer, DWORD buffer_size)
 {
-  HANDLE EventA; // esi
-  BOOL OverlappedResult; // eax
-  void *overlapped_16; // [esp+28h] [ebp-24h]
-  unsigned int NumberOfBytesTransferred; // [esp+34h] [ebp-18h] BYREF
-  _OVERLAPPED Overlapped; // [esp+38h] [ebp-14h] BYREF
+  vostok::threading::event_tasks_unaware *v3; // ecx
+  HANDLE v4; // esi
+  char v5; // bl
+  unsigned int NumberOfBytesTransferred; // [esp+Ch] [ebp-24h] BYREF
+  HANDLE hObject; // [esp+10h] [ebp-20h] BYREF
+  _OVERLAPPED Overlapped; // [esp+1Ch] [ebp-14h] BYREF
 
-  EventA = CreateEventA(0, 0, 0, 0);
+  vostok::threading::event_tasks_unaware::event_tasks_unaware(v3, &hObject);
+  v4 = hObject;
+  v5 = 0;
   Overlapped.Offset = 0;
   Overlapped.OffsetHigh = 0;
-  Overlapped.hEvent = EventA;
-  if ( !ReadFile(file_handle, buffer, buffer_size, 0, &Overlapped) && GetLastError() != 997 )
+  Overlapped.hEvent = hObject;
+  if ( ReadFile(file_handle, buffer, buffer_size, 0, &Overlapped) || GetLastError() == 997 )
   {
-    overlapped_16 = EventA;
-LABEL_4:
-    CloseHandle(overlapped_16);
+    WaitForSingleObject(v4, 0xFFFFFFFF);
+    if ( GetOverlappedResult(file_handle, &Overlapped, &NumberOfBytesTransferred, 0) )
+      v5 = 1;
+    CloseHandle(v4);
+    return v5;
+  }
+  else
+  {
+    CloseHandle(v4);
     return 0;
   }
-  WaitForSingleObject(EventA, 0xFFFFFFFF);
-  OverlappedResult = GetOverlappedResult(file_handle, &Overlapped, &NumberOfBytesTransferred, 0);
-  overlapped_16 = EventA;
-  if ( !OverlappedResult )
-    goto LABEL_4;
-  CloseHandle(EventA);
-  return 1;
 }

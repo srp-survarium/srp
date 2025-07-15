@@ -5,7 +5,7 @@ const Scaleform::GFx::AS3::SlotInfo *__thiscall Scaleform::GFx::AS3::Instances::
         unsigned int *index)
 {
   Scaleform::GFx::AS3::Class *v4; // ebx
-  const Scaleform::GFx::AS3::ClassTraits::Traits *pObject; // esi
+  Scaleform::GFx::AS3::ClassTraits::Traits *pObject; // esi
   Scaleform::GFx::AS3::Value *v7; // eax
   const Scaleform::GFx::AS3::SlotInfo *v8; // esi
   Scaleform::GFx::ASStringNode *v9; // eax
@@ -13,8 +13,8 @@ const Scaleform::GFx::AS3::SlotInfo *__thiscall Scaleform::GFx::AS3::Instances::
   Scaleform::GFx::AS3::Value v12; // [esp+Ch] [ebp-10h] BYREF
 
   v4 = cl;
-  pObject = (const Scaleform::GFx::AS3::ClassTraits::Traits *)cl->pTraits.pObject;
-  pObject->GetName(&pObject->Scaleform::GFx::AS3::Traits, (Scaleform::GFx::ASString *)&cl);
+  pObject = (Scaleform::GFx::AS3::ClassTraits::Traits *)cl->pTraits.pObject;
+  pObject->GetName(pObject, (Scaleform::GFx::ASString *)&cl);
   v11 = index;
   Scaleform::GFx::AS3::Value::Value(&v12, v4);
   v8 = Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::AddFixedSlotValuePair(
@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::AddFixedSlo
   Scaleform::GFx::AS3::Traits *pObject; // ecx
   Scaleform::GFx::ASString *(__thiscall *GetName)(Scaleform::GFx::AS3::Traits *, Scaleform::GFx::ASString *); // eax
   Scaleform::GFx::AS3::Instances::fl::Namespace *v6; // esi
-  const Scaleform::GFx::AS3::ClassTraits::Traits *v7; // ebp
+  Scaleform::GFx::AS3::ClassTraits::Traits *v7; // ebp
   Scaleform::GFx::AS3::Value *v8; // eax
   Scaleform::GFx::ASStringNode *v9; // eax
   unsigned int index; // [esp+10h] [ebp-14h] BYREF
@@ -61,7 +61,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::AddFixedSlo
   index = 0;
   GetName(pObject, (Scaleform::GFx::ASString *)&cl);
   v6 = this->pTraits.pObject->pVM->PublicNamespace.pObject;
-  v7 = (const Scaleform::GFx::AS3::ClassTraits::Traits *)v2->pTraits.pObject;
+  v7 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v2->pTraits.pObject;
   if ( v6 )
     v6->RefCount = (v6->RefCount + 1) & 0x8FBFFFFF;
   Scaleform::GFx::AS3::Value::Value(&v11, v2);

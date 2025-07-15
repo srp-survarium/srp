@@ -1,79 +1,50 @@
 void __userpurge survarium::game_world_ui::show_parametrized_message(
-        const char *message_id@<edx>,
-        survarium::game_world_ui *this,
-        unsigned __int8 font_size,
+        survarium::game_world_ui *this@<ecx>,
+        const char *message_id,
+        char *font_size,
         unsigned __int8 y_pos_in_percents,
         unsigned int timeout_in_ms)
 {
-  survarium::flash_value *v5; // eax
-  int i; // ecx
-  survarium::flash_movie_resource *m_object; // ecx
-  char *v8; // esi
-  int j; // edi
-  int v10; // eax
-  survarium::flash_value message_val[4]; // [esp+18h] [ebp-468h] BYREF
-  char v12; // [esp+78h] [ebp-408h] BYREF
-  wchar_t message[512]; // [esp+80h] [ebp-400h] BYREF
+  survarium::flash_value *v5; // ecx
+  survarium::flash_value *v6; // ecx
+  int v7; // edx
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  char *v11; // esi
+  int i; // edi
+  survarium::flash_value v13; // [esp+10h] [ebp-260h] BYREF
+  _BYTE v14[24]; // [esp+28h] [ebp-248h] BYREF
+  _BYTE v15[24]; // [esp+40h] [ebp-230h] BYREF
+  _BYTE v16[24]; // [esp+58h] [ebp-218h] BYREF
+  char value[512]; // [esp+70h] [ebp-200h] BYREF
 
-  survarium::text_translator::translate_text(&this->m_game_world->m_game->m_text_translator, message_id, message);
-  v5 = message_val;
-  for ( i = 3; i >= 0; --i )
+  survarium::text_translator::translate_text(
+    (survarium::text_translator *)this,
+    *(_DWORD *)(*((_DWORD *)message_id + 5) + 160) + 13944,
+    font_size,
+    value);
+  v5 = &v13;
+  do
   {
-    if ( v5 )
-    {
-      *(_DWORD *)v5->body = 0;
-      *(_DWORD *)&v5->body[4] = 0;
-    }
-    ++v5;
+    survarium::flash_value::flash_value(v5);
+    v5 = v6 + 1;
   }
-  survarium::flash_value::SetStringW(message_val, message);
-  if ( (message_val[1].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_val[1].body + 8))(
-      *(_DWORD *)message_val[1].body,
-      &message_val[1],
-      *(_DWORD *)&message_val[1].body[8]);
-    *(_DWORD *)message_val[1].body = 0;
-  }
-  *(_DWORD *)&message_val[1].body[4] = 4;
-  *(_DWORD *)&message_val[1].body[8] = 25;
-  if ( (message_val[2].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_val[2].body + 8))(
-      *(_DWORD *)message_val[2].body,
-      &message_val[2],
-      *(_DWORD *)&message_val[2].body[8]);
-    *(_DWORD *)message_val[2].body = 0;
-  }
-  *(_DWORD *)&message_val[2].body[4] = 4;
-  *(_DWORD *)&message_val[2].body[8] = 20;
-  if ( (message_val[3].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_val[3].body + 8))(
-      *(_DWORD *)message_val[3].body,
-      &message_val[3],
-      *(_DWORD *)&message_val[3].body[8]);
-    *(_DWORD *)message_val[3].body = 0;
-  }
-  m_object = this->m_game_hud_ui.m_object;
-  *(_DWORD *)&message_val[3].body[4] = 4;
-  *(_DWORD *)&message_val[3].body[8] = 3000;
+  while ( v7 - 1 >= 0 );
+  survarium::flash_value::SetString(&v13, value);
+  survarium::flash_value::SetUInt(v8, (int)v14, 0x21u);
+  survarium::flash_value::SetUInt(v9, (int)v15, 0x14u);
+  survarium::flash_value::SetUInt(v10, (int)v16, 0xBB8u);
   Scaleform::GFx::Movie::Invoke(
-    m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*((_DWORD *)message_id + 2) + 264) + 4),
     "root.set_parameterized_message",
     0,
-    (const Scaleform::GFx::Value *)message_val,
+    (const Scaleform::GFx::Value *)&v13,
     4u);
-  v8 = &v12;
-  for ( j = 3; j >= 0; --j )
+  v11 = value;
+  for ( i = 3; i >= 0; --i )
   {
-    v10 = *((_DWORD *)v8 - 5);
-    v8 -= 24;
-    if ( (v10 & 0x40) != 0 )
-    {
-      (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v8 + 8))(v8, *((_DWORD *)v8 + 2));
-      *(_DWORD *)v8 = 0;
-    }
-    *((_DWORD *)v8 + 1) = 0;
+    v11 -= 24;
+    Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)v11);
   }
 }

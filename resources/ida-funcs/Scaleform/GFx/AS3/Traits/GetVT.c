@@ -1,39 +1,48 @@
 Scaleform::GFx::AS3::VTable *__thiscall Scaleform::GFx::AS3::Traits::GetVT(Scaleform::GFx::AS3::Traits *this)
 {
-  Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable> *p_pVTable; // ebp
-  Scaleform::GFx::AS3::VTable *v3; // edi
+  Scaleform::GFx::AS3::VTable *v2; // edi
   const Scaleform::GFx::AS3::VTable *VT; // eax
-  Scaleform::GFx::AS3::VTable *v5; // eax
+  Scaleform::GFx::AS3::VTable *v4; // eax
+  Scaleform::GFx::AS3::VTable *v5; // edi
+  Scaleform::GFx::AS3::VTable *v6; // eax
   Scaleform::GFx::AS3::VTable *v7; // eax
+  Scaleform::GFx::AS3::VTable *pObject; // ecx
 
-  p_pVTable = &this->pVTable;
   if ( this->pVTable.pObject )
-    return p_pVTable->pObject;
+    return this->pVTable.pObject;
   if ( !this->pParent.pObject )
   {
-    v7 = (Scaleform::GFx::AS3::VTable *)this->pVM->MHeap->Alloc(this->pVM->MHeap, 16, 0);
-    if ( v7 )
+    v6 = (Scaleform::GFx::AS3::VTable *)this->pVM->MHeap->Alloc(this->pVM->MHeap, 32, 0);
+    if ( v6 )
     {
-      v7->pTraits = this;
-      v7->VTMethods.Data.Data = 0;
-      v7->VTMethods.Data.Size = 0;
-      v7->VTMethods.Data.Policy.Capacity = 0;
-      Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable>::operator=(p_pVTable, v7);
-      return p_pVTable->pObject;
+      Scaleform::GFx::AS3::VTable::VTable(v6, this);
+      v5 = v7;
+      goto LABEL_8;
     }
-    Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable>::operator=(p_pVTable, 0);
-    return p_pVTable->pObject;
+LABEL_7:
+    v5 = 0;
+    goto LABEL_8;
   }
-  v3 = (Scaleform::GFx::AS3::VTable *)this->pVM->MHeap->Alloc(this->pVM->MHeap, 16, 0);
-  if ( v3 )
+  v2 = (Scaleform::GFx::AS3::VTable *)this->pVM->MHeap->Alloc(this->pVM->MHeap, 32, 0);
+  if ( !v2 )
+    goto LABEL_7;
+  VT = Scaleform::GFx::AS3::Traits::GetVT(this->pParent.pObject);
+  Scaleform::GFx::AS3::VTable::VTable(v2, this, VT);
+  v5 = v4;
+LABEL_8:
+  pObject = this->pVTable.pObject;
+  if ( pObject != v5 )
   {
-    VT = Scaleform::GFx::AS3::Traits::GetVT((Scaleform::GFx::AS3::Traits *)this->pParent.pObject);
-    Scaleform::GFx::AS3::VTable::VTable(v3, this, VT);
-    Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable>::operator=(p_pVTable, v5);
+    if ( pObject )
+    {
+      if ( this->pVTable.Owner )
+      {
+        this->pVTable.Owner = 0;
+        Scaleform::GFx::AS3::VTable::`scalar deleting destructor'(pObject, 1);
+      }
+    }
+    this->pVTable.pObject = v5;
   }
-  else
-  {
-    Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable>::operator=(p_pVTable, 0);
-  }
-  return p_pVTable->pObject;
+  this->pVTable.Owner = v5 != 0;
+  return this->pVTable.pObject;
 }

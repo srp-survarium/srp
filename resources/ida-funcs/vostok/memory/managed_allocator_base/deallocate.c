@@ -6,13 +6,13 @@ vostok::memory::managed_allocator_base *__usercall vostok::memory::managed_alloc
   unsigned int v3; // esi
   bool v4; // bl
   int v5; // edx
-  unsigned int v6; // ebp
-  int v7; // ecx
-  vostok::memory::managed_allocator_base *result; // eax
+  int v6; // ecx
   vostok::memory::managed_node *m_pinned; // ecx
-  int v10; // edx
-  vostok::memory::managed_allocator_base **v11; // eax
-  bool can_join_prev; // [esp+Fh] [ebp-1h]
+  vostok::memory::managed_allocator_base *result; // eax
+  int v9; // edx
+  vostok::memory::managed_allocator_base **v10; // eax
+  volatile unsigned int v11; // [esp+8h] [ebp-8h]
+  char v12; // [esp+Fh] [ebp-1h]
 
   *(_DWORD *)(a2 + 20) += this->m_num_unpinned_objects;
   v2 = *(_DWORD *)a2;
@@ -27,25 +27,24 @@ vostok::memory::managed_allocator_base *__usercall vostok::memory::managed_alloc
     v2 = *(_DWORD *)(v2 + 12);
   }
   while ( v2 );
-  if ( !v3 || (can_join_prev = 1, *(vostok::memory::managed_allocator_base **)(v3 + 4) != this) )
+  if ( !v3 || (v12 = 1, *(vostok::memory::managed_allocator_base **)(v3 + 4) != this) )
 LABEL_6:
-    can_join_prev = 0;
+    v12 = 0;
   v4 = v2 && *(vostok::memory::managed_allocator_base **)(v2 + 8) == this;
   if ( *(_BYTE *)(a2 + 8) && (v5 = *(_DWORD *)(a2 + 12)) != 0 )
-    v6 = *(_DWORD *)(v5 + 40);
+    v11 = *(_DWORD *)(v5 + 40);
   else
-    v6 = 0;
-  if ( can_join_prev )
+    v11 = 0;
+  if ( v12 )
   {
     if ( v4 )
     {
       *(_DWORD *)(v3 + 40) += this->m_num_unpinned_objects + *(_DWORD *)(v2 + 40);
       *(_DWORD *)(v3 + 4) = *(_DWORD *)(v2 + 4);
-      v7 = *(_DWORD *)(v2 + 4);
-      if ( v7 )
-        *(_DWORD *)(v7 + 8) = v3;
+      v6 = *(_DWORD *)(v2 + 4);
+      if ( v6 )
+        *(_DWORD *)(v6 + 8) = v3;
       *(_DWORD *)(v3 + 12) = *(_DWORD *)(v2 + 12);
-      result = (vostok::memory::managed_allocator_base *)v3;
     }
     else
     {
@@ -54,8 +53,8 @@ LABEL_6:
       m_pinned = this->m_pinned;
       if ( m_pinned )
         m_pinned->m_prev = (vostok::memory::managed_node *)v3;
-      result = (vostok::memory::managed_allocator_base *)v3;
     }
+    result = (vostok::memory::managed_allocator_base *)v3;
   }
   else
   {
@@ -64,21 +63,21 @@ LABEL_6:
     {
       this->m_num_unpinned_objects += *(_DWORD *)(v2 + 40);
       this->m_pinned = *(vostok::memory::managed_node **)(v2 + 4);
-      v10 = *(_DWORD *)(v2 + 4);
-      if ( v10 )
-        *(_DWORD *)(v10 + 8) = this;
+      v9 = *(_DWORD *)(v2 + 4);
+      if ( v9 )
+        *(_DWORD *)(v9 + 8) = this;
       v2 = *(_DWORD *)(v2 + 12);
     }
     this->m_largest_free_block = (vostok::memory::managed_node *)v2;
-    v11 = (vostok::memory::managed_allocator_base **)(v3 + 12);
+    v10 = (vostok::memory::managed_allocator_base **)(v3 + 12);
     if ( !v3 )
-      v11 = (vostok::memory::managed_allocator_base **)a2;
-    *v11 = this;
+      v10 = (vostok::memory::managed_allocator_base **)a2;
+    *v10 = this;
     result = this;
   }
   if ( *(_BYTE *)(a2 + 8) )
   {
-    if ( result->m_num_unpinned_objects > v6 )
+    if ( result->m_num_unpinned_objects > v11 )
       *(_DWORD *)(a2 + 12) = result;
   }
   return result;

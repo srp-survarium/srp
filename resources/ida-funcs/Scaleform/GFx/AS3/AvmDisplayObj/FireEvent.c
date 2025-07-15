@@ -10,7 +10,7 @@ void __userpurge Scaleform::GFx::AS3::AvmDisplayObj::FireEvent(
   unsigned int v8; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *AS3Parent; // ecx
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v10; // eax
-  bool (__thiscall *CheckAvm)(Scaleform::GFx::ASMovieRootBase *); // edi
+  void (__thiscall *GenerateTouchEvents)(Scaleform::GFx::ASMovieRootBase *, unsigned int); // edi
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject_vtbl *v12; // ebp
   const Scaleform::GFx::AS3::Value *v13; // eax
   const Scaleform::GFx::AS3::Multiname *v14; // eax
@@ -47,11 +47,11 @@ void __userpurge Scaleform::GFx::AS3::AvmDisplayObj::FireEvent(
     v5->RefCount = (v5->RefCount + 1) & 0x8FBFFFFF;
   v6 = id;
   v7 = id->Id;
-  if ( id->Id > (unsigned int)&vostok::memory::s_CRT_arena[5574215] )
+  if ( id->Id > 0x100000F )
   {
-    switch ( v7 - (_DWORD)&vostok::memory::s_CRT_arena[5574216] )
+    switch ( v7 )
     {
-      case 0u:
+      case 0x1000010u:
         this->pDispObj->Depth = 0;
         pObject = this->pAS3RawPtr;
         p_pMovieImpl = (const Scaleform::GFx::ASString *)&this->pDispObj->pASRoot[15].pMovieImpl;
@@ -62,7 +62,7 @@ void __userpurge Scaleform::GFx::AS3::AvmDisplayObj::FireEvent(
           v23 = (Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)((char *)pObject - 1);
         if ( v23
           && Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::HasEventHandler(v23, p_pMovieImpl, 0)
-          && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnMovieFocus) )
+          && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnNextFrame) )
         {
           Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::CreateEventObject(
             v23,
@@ -76,7 +76,7 @@ void __userpurge Scaleform::GFx::AS3::AvmDisplayObj::FireEvent(
           Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Dispatch(v23, evt.pObject, this->pDispObj);
           Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>(&evt);
         }
-        if ( (this->Flags & 1) != 0 && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnMovieFocus) )
+        if ( (this->Flags & 1) != 0 && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnNextFrame) )
         {
           Scaleform::GFx::AS3::MovieRoot::CreateEventObject(
             (Scaleform::GFx::AS3::MovieRoot *)this->pDispObj->pASRoot,
@@ -90,30 +90,30 @@ void __userpurge Scaleform::GFx::AS3::AvmDisplayObj::FireEvent(
         this->pDispObj->OnEventUnload(this->pDispObj);
         v5 = v26;
         break;
-      case 1u:
+      case 0x1000011u:
         if ( !v5 )
           return;
         if ( (unsigned __int8)Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::MayHaveActivateHandler(v5) )
           goto LABEL_70;
         break;
-      case 2u:
+      case 0x1000012u:
         if ( !v5 )
           return;
         if ( (unsigned __int8)Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::MayHaveDeactivateHandler(v5) )
           goto LABEL_70;
         break;
-      case 3u:
+      case 0x1000013u:
         if ( !v5 )
           return;
         if ( (unsigned __int8)Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::MayHaveRenderHandler(v5) )
 LABEL_70:
           Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Dispatch(v5, v6, this->pDispObj);
         break;
-      case 4u:
+      case 0x1000014u:
         if ( v5 )
           goto LABEL_70;
         return;
-      case 5u:
+      case 0x1000015u:
         if ( !v5 )
           return;
         if ( (unsigned __int8)Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::MayHaveFrameConstructedHandler(v5) )
@@ -124,7 +124,7 @@ LABEL_70:
             0,
             this->pDispObj);
         break;
-      case 6u:
+      case 0x1000016u:
         if ( !v5 )
           return;
         if ( (unsigned __int8)Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::MayHaveExitFrameHandler(v5) )
@@ -139,7 +139,7 @@ LABEL_70:
         break;
     }
   }
-  else if ( (unsigned __int8 *)id->Id == &vostok::memory::s_CRT_arena[5574215] )
+  else if ( id->Id == 16777231 )
   {
     v17 = this->pAS3RawPtr;
     v18 = (const Scaleform::GFx::ASString *)&this->pDispObj->pASRoot[15];
@@ -154,7 +154,7 @@ LABEL_70:
     }
     if ( v19
       && Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::HasEventHandler(v19, v18, 0)
-      && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnMovieFocus) )
+      && !LOBYTE(Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(this)->OnNextFrame) )
     {
       Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::CreateEventObject(
         v28,
@@ -172,7 +172,7 @@ LABEL_70:
     {
       this->pDispObj->pASRoot->CheckAvm(this->pDispObj->pASRoot);
       pDispObj = this->pDispObj;
-      if ( !LOBYTE(pDispObj->pASRoot[2].OnMovieFocus) )
+      if ( !LOBYTE(pDispObj->pASRoot[2].OnNextFrame) )
       {
         Scaleform::GFx::AS3::MovieRoot::CreateEventObject(
           (Scaleform::GFx::AS3::MovieRoot *)pDispObj->pASRoot,
@@ -208,13 +208,13 @@ LABEL_70:
             v10 = this->pAS3CollectiblePtr.pObject;
           if ( ((unsigned __int8)v10 & 1) != 0 )
             v10 = (Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)((char *)v10 - 1);
-          CheckAvm = this->pDispObj->pASRoot[2].__vftable[1].CheckAvm;
+          GenerateTouchEvents = this->pDispObj->pASRoot[2].__vftable[1].GenerateTouchEvents;
           v12 = AS3Parent->__vftable;
           Scaleform::GFx::AS3::Value::Value(&v31, v10);
           v25 = v13;
           Scaleform::GFx::AS3::Multiname::Multiname(
             &v32,
-            (Scaleform::GFx::AS3::Instances::fl::Namespace *)CheckAvm,
+            (Scaleform::GFx::AS3::Instances::fl::Namespace *)GenerateTouchEvents,
             &name);
           v12->SetProperty(
             (struct Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)v27,
@@ -264,7 +264,7 @@ LABEL_70:
   if ( v5 && ((unsigned __int8)v5 & 1) == 0 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);

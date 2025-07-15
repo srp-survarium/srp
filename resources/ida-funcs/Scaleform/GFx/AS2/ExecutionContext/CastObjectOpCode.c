@@ -20,10 +20,10 @@ void __thiscall Scaleform::GFx::AS2::ExecutionContext::CastObjectOpCode(Scalefor
   Scaleform::GFx::AS2::Environment *v19; // esi
   Scaleform::GFx::AS2::Value *v20; // eax
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *v21; // esi
-  Scaleform::GFx::AS2::Environment *v22; // [esp-4h] [ebp-44h]
-  Scaleform::GFx::AS2::FunctionRef ctorFunc; // [esp+14h] [ebp-2Ch] BYREF
-  Scaleform::GFx::AS2::Value prototypeVal; // [esp+20h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value rv; // [esp+30h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Environment *v22; // [esp-8h] [ebp-44h]
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+10h] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS2::Value v24; // [esp+1Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+2Ch] [ebp-10h] BYREF
 
   pEnv = this->pEnv;
   pCurrent = this->pEnv->Stack.pCurrent;
@@ -32,77 +32,87 @@ void __thiscall Scaleform::GFx::AS2::ExecutionContext::CastObjectOpCode(Scalefor
   else
     pPrevPageTop = pCurrent - 1;
   Type = pPrevPageTop->T.Type;
-  rv.T.Type = 1;
-  if ( Type != 8 && Type != 11 )
-    goto LABEL_26;
-  Scaleform::GFx::AS2::Value::ToFunction(pPrevPageTop, &ctorFunc, pEnv);
-  Function = ctorFunc.Function;
-  if ( ctorFunc.Function )
+  v.T.Type = 1;
+  if ( Type == 8 || Type == 11 )
   {
-    v22 = this->pEnv;
-    if ( pCurrent->T.Type == 7 )
+    Scaleform::GFx::AS2::Value::ToFunction(pPrevPageTop, &result, pEnv);
+    Function = result.Function;
+    if ( result.Function )
     {
-      v7 = Scaleform::GFx::AS2::Value::ToAvmCharacter(pCurrent, v22);
-      if ( v7 )
+      v22 = this->pEnv;
+      if ( pCurrent->T.Type == 7 )
       {
-        v8 = &v7->Scaleform::GFx::AS2::ObjectInterface;
-        goto LABEL_12;
-      }
-    }
-    else
-    {
-      v9 = Scaleform::GFx::AS2::Value::ToObject(pCurrent, v22);
-      if ( v9 )
-      {
-        v8 = &v9->Scaleform::GFx::AS2::ObjectInterface;
-LABEL_12:
-        if ( v8 )
+        v7 = Scaleform::GFx::AS2::Value::ToAvmCharacter(pCurrent, v22);
+        if ( v7 )
         {
-          v10 = this->pEnv;
-          prototypeVal.T.Type = 0;
-          if ( Function->GetMemberRaw(
-                 &Function->Scaleform::GFx::AS2::ObjectInterface,
-                 &v10->StringContext,
-                 (const Scaleform::GFx::ASString *)&v10->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[23].pASSupport,
-                 &prototypeVal) )
+          v8 = &v7->Scaleform::GFx::AS2::ObjectInterface;
+          goto LABEL_12;
+        }
+      }
+      else
+      {
+        v9 = Scaleform::GFx::AS2::Value::ToObject(pCurrent, v22);
+        if ( v9 )
+        {
+          v8 = &v9->Scaleform::GFx::AS2::ObjectInterface;
+LABEL_12:
+          if ( v8 )
           {
-            v11 = Scaleform::GFx::AS2::Value::ToObject(&prototypeVal, this->pEnv);
-            if ( v8->InstanceOf(v8, this->pEnv, v11, 1) )
-              Scaleform::GFx::AS2::Value::SetAsObjectInterface(&rv, v8);
+            v10 = this->pEnv;
+            v24.T.Type = 0;
+            if ( Function->GetMemberRaw(
+                   &Function->Scaleform::GFx::AS2::ObjectInterface,
+                   &v10->StringContext,
+                   (const Scaleform::GFx::ASString *)&v10->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[23].pASSupport,
+                   &v24) )
+            {
+              v11 = Scaleform::GFx::AS2::Value::ToObject(&v24, this->pEnv);
+              if ( v8->InstanceOf(v8, this->pEnv, v11, 1) )
+                Scaleform::GFx::AS2::Value::SetAsObjectInterface(&v, v8);
+            }
+            else if ( (*((_BYTE *)this + 54) & 1) != 0 )
+            {
+              Scaleform::GFx::AS2::ActionLogger::LogScriptError(
+                &this->LogF,
+                "The constructor function in 'cast' should have 'prototype'.");
+            }
+            if ( v24.T.Type >= 5u )
+              Scaleform::GFx::AS2::Value::DropRefs(&v24);
           }
-          if ( prototypeVal.T.Type >= 5u )
-            Scaleform::GFx::AS2::Value::DropRefs(&prototypeVal);
         }
       }
     }
-  }
-  Flags = ctorFunc.Flags;
-  if ( (ctorFunc.Flags & 2) == 0 )
-  {
-    if ( Function )
+    Flags = result.Flags;
+    if ( (result.Flags & 2) == 0 )
     {
-      RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( Function )
       {
-        Function->RefCount = RefCount - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
+        RefCount = Function->RefCount;
+        if ( (RefCount & 0x3FFFFFF) != 0 )
+        {
+          Function->RefCount = RefCount - 1;
+          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
+        }
       }
     }
-  }
-  if ( (Flags & 1) == 0 )
-  {
-    pLocalFrame = ctorFunc.pLocalFrame;
-    if ( ctorFunc.pLocalFrame )
+    if ( (Flags & 1) == 0 )
     {
-      v15 = ctorFunc.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v15) != 0 )
+      pLocalFrame = result.pLocalFrame;
+      if ( result.pLocalFrame )
       {
-        ctorFunc.pLocalFrame->RefCount = v15 - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
+        v15 = result.pLocalFrame->RefCount;
+        if ( (v15 & 0x3FFFFFF) != 0 )
+        {
+          result.pLocalFrame->RefCount = v15 - 1;
+          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
+        }
       }
     }
+    goto LABEL_30;
   }
-LABEL_26:
+  if ( (*((_BYTE *)this + 54) & 1) != 0 )
+    Scaleform::GFx::AS2::ActionLogger::LogScriptError(&this->LogF, "The parameter of 'cast' should be a function.");
+LABEL_30:
   v16 = this->pEnv->Stack.pCurrent;
   p_Stack = &this->pEnv->Stack;
   if ( &v16[-2] >= this->pEnv->Stack.pPageStart )
@@ -133,7 +143,7 @@ LABEL_26:
   if ( v20 >= v21->pPageEnd )
     Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(v21);
   if ( v21->pCurrent )
-    Scaleform::GFx::AS2::Value::Value(v21->pCurrent, &rv);
-  if ( rv.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&rv);
+    Scaleform::GFx::AS2::Value::Value(v21->pCurrent, &v);
+  if ( v.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v);
 }

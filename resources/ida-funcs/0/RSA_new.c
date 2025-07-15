@@ -1,4 +1,4 @@
-rsa_st *__cdecl RSA_new()
+rsa_st *__usercall RSA_new@<eax>(int a1@<ebx>)
 {
-  return RSA_new_method(0);
+  return RSA_new_method(a1, 0);
 }

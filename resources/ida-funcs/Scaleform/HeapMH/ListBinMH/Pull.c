@@ -1,14 +1,16 @@
-void __thiscall Scaleform::HeapMH::ListBinMH::Pull(Scaleform::HeapMH::ListBinMH *this, unsigned __int8 *node)
+void __thiscall Scaleform::HeapMH::ListBinMH::Pull(
+        Scaleform::HeapMH::ListBinMH *this,
+        Scaleform::HeapMH::BinNodeMH *node)
 {
   unsigned int v3; // ecx
   Scaleform::HeapMH::BinNodeMH *v4; // esi
   Scaleform::HeapMH::BinNodeMH *Next; // edi
 
-  v3 = node[12] - 1;
+  v3 = LOBYTE(node[1].Prev) - 1;
   if ( v3 >= 0x1F )
     v3 = 31;
   v4 = this->Roots[v3];
-  if ( node == (unsigned __int8 *)v4 )
+  if ( node == v4 )
   {
     Next = (Scaleform::HeapMH::BinNodeMH *)v4->Next;
     if ( v4 == Next )
@@ -19,13 +21,13 @@ void __thiscall Scaleform::HeapMH::ListBinMH::Pull(Scaleform::HeapMH::ListBinMH 
     else
     {
       this->Roots[v3] = Next;
-      *(_DWORD *)(*(_DWORD *)node + 4) = *((_DWORD *)node + 1);
-      **((_DWORD **)node + 1) = *(_DWORD *)node;
+      *(_DWORD *)(node->Prev + 4) = node->Next;
+      *(_DWORD *)node->Next = node->Prev;
     }
   }
   else
   {
-    *(_DWORD *)(*(_DWORD *)node + 4) = *((_DWORD *)node + 1);
-    **((_DWORD **)node + 1) = *(_DWORD *)node;
+    *(_DWORD *)(node->Prev + 4) = node->Next;
+    *(_DWORD *)node->Next = node->Prev;
   }
 }

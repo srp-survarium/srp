@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_vec::Vector_object::AS3push(
     &this->V,
     argc,
     argv,
-    (const Scaleform::GFx::AS3::ClassTraits::Traits *)Constructor->pTraits.pObject[1]._pRCC);
+    (Scaleform::GFx::AS3::ClassTraits::Traits *)Constructor->pTraits.pObject[1]._pRCC);
   Size = this->V.ValueA.Data.Size;
   if ( (result->Flags & 0x1F) > 9 )
   {

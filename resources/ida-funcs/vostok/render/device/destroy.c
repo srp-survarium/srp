@@ -1,21 +1,28 @@
-void __usercall vostok::render::device::destroy(vostok::render::device *this@<ecx>, int a2@<esi>)
+void __thiscall vostok::render::device::destroy(vostok::render::device *this)
 {
-  int v2; // eax
-  int v3; // eax
+  int v1; // esi
+  int v2; // esi
 
-  (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(a2 + 304) + 440))(*(_DWORD *)(a2 + 304));
-  log_ref_count<ID3D11Device>(*(ID3D11Device **)(a2 + 300), "* destroy: device");
-  v2 = *(_DWORD *)(a2 + 300);
-  if ( v2 )
+  (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0DC + 440))(dword_D0D0DC);
+  v1 = dword_D0D0D8;
+  (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0D8 + 4))(dword_D0D0D8);
+  (*(void (__stdcall **)(int))(*(_DWORD *)v1 + 8))(v1);
+  if ( dword_D0D0D8 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v2 + 8))(*(_DWORD *)(a2 + 300));
-    *(_DWORD *)(a2 + 300) = 0;
+    (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0D8 + 8))(dword_D0D0D8);
+    dword_D0D0D8 = 0;
   }
-  log_ref_count<IDXGIAdapter>(*(IDXGIAdapter **)(a2 + 296));
-  v3 = *(_DWORD *)(a2 + 296);
-  if ( v3 )
+  v2 = dword_D0D0D4;
+  (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0D4 + 4))(dword_D0D0D4);
+  (*(void (__stdcall **)(int))(*(_DWORD *)v2 + 8))(v2);
+  if ( dword_D0D0D4 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*(_DWORD *)(a2 + 296));
-    *(_DWORD *)(a2 + 296) = 0;
+    (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0D4 + 8))(dword_D0D0D4);
+    dword_D0D0D4 = 0;
+  }
+  if ( dword_D0D0D0 )
+  {
+    (*(void (__stdcall **)(int))(*(_DWORD *)dword_D0D0D0 + 8))(dword_D0D0D0);
+    dword_D0D0D0 = 0;
   }
 }

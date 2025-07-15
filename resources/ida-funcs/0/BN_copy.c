@@ -15,7 +15,7 @@ bignum_st *__cdecl BN_copy(bignum_st *a, const bignum_st *b)
   if ( a == b )
     return v3;
   if ( b->top > a->dmax )
-    result = bn_expand2(a, (unsigned int *)b->top);
+    result = bn_expand2(a, b->top);
   else
     result = a;
   if ( result )

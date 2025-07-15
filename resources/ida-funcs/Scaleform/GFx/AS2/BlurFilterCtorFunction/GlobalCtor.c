@@ -1,41 +1,41 @@
-void __usercall Scaleform::GFx::AS2::BlurFilterCtorFunction::GlobalCtor(
+long double __usercall Scaleform::GFx::AS2::BlurFilterCtorFunction::GlobalCtor@<st0>(
         int a1@<ebx>,
         int a2@<edi>,
-        float fn,
+        Scaleform::GFx::AS2::FnCall *fn,
         int a4,
         char a5)
 {
-  const Scaleform::GFx::AS2::FnCall *v5; // esi
+  Scaleform::GFx::AS2::FnCall *v5; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::AS2::BitmapFilterObject *p_pProto; // ebp
   Scaleform::MemoryHeap *pHeap; // ecx
   Scaleform::GFx::AS2::BlurFilterObject *v9; // eax
   Scaleform::GFx::AS2::BitmapFilterObject *v10; // eax
-  _DWORD *v11; // edx
-  Scaleform::GFx::AS2::Value *v12; // ecx
-  Scaleform::Render::BlurFilterParams *v13; // eax
-  Scaleform::GFx::AS2::Value *v14; // eax
-  Scaleform::Render::BlurFilterParams *v15; // eax
-  Scaleform::GFx::AS2::Value *v16; // eax
-  unsigned int v17; // edi
-  Scaleform::GFx::AS2::Environment *v18; // esi
+  long double result; // st7
+  _DWORD *v12; // edx
+  Scaleform::GFx::AS2::Value *v13; // ecx
+  Scaleform::Render::BlurFilterParams *v14; // eax
+  Scaleform::GFx::AS2::Value *v15; // eax
+  Scaleform::Render::BlurFilterParams *v16; // eax
+  Scaleform::GFx::AS2::Value *v17; // eax
+  unsigned int v18; // edi
+  Scaleform::GFx::AS2::Environment *v19; // esi
   Scaleform::GFx::AS2::GlobalContext *pContext; // ecx
   Scaleform::GFx::AS2::ASStringContext *p_StringContext; // esi
-  Scaleform::GFx::AS2::ObjectInterface *v21; // edi
-  Scaleform::GFx::ASStringNode *v22; // eax
-  Scaleform::GFx::AS2::GlobalContext *v23; // eax
-  Scaleform::GFx::ASStringNode *v24; // eax
-  Scaleform::GFx::AS2::GlobalContext *v25; // eax
-  Scaleform::GFx::ASStringNode *v26; // eax
+  Scaleform::GFx::AS2::ObjectInterface *v22; // edi
+  Scaleform::GFx::ASStringNode *v23; // eax
+  Scaleform::GFx::AS2::GlobalContext *v24; // eax
+  Scaleform::GFx::ASStringNode *v25; // eax
+  Scaleform::GFx::AS2::GlobalContext *v26; // eax
+  Scaleform::GFx::ASStringNode *v27; // eax
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp+24h] [ebp-2Ch]
-  Scaleform::GFx::AS2::Environment *v29; // [esp+24h] [ebp-2Ch]
-  __int64 v31; // [esp+38h] [ebp-18h] BYREF
-  Scaleform::GFx::AS2::Value v32; // [esp+40h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Environment *v30; // [esp+24h] [ebp-2Ch]
+  __int64 v32; // [esp+38h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::Value v33; // [esp+40h] [ebp-10h] BYREF
 
-  v5 = (const Scaleform::GFx::AS2::FnCall *)LODWORD(fn);
-  if ( *(_DWORD *)(LODWORD(fn) + 8)
-    && (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(LODWORD(fn) + 8) + 8))(*(_DWORD *)(LODWORD(fn) + 8)) == 40 )
+  v5 = fn;
+  if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_BlurFilter )
   {
     ThisPtr = v5->ThisPtr;
     if ( ThisPtr )
@@ -63,108 +63,113 @@ void __usercall Scaleform::GFx::AS2::BlurFilterCtorFunction::GlobalCtor(
   Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->Colors[0].Channels.Alpha = -1;
   Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->BlurX = 80.0;
   Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->BlurY = 80.0;
+  result = 1.0;
   Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->Strength = 1.0;
   if ( v5->NArgs > 0 )
   {
-    v11 = &v5->Env->__vftable;
-    v12 = 0;
-    if ( v5->FirstArgBottomIndex <= (unsigned int)(32 * (v11[6] - 1) + ((v11[1] - v11[2]) >> 4)) )
-      v12 = (Scaleform::GFx::AS2::Value *)(*(_DWORD *)(v11[5] + 4 * ((unsigned int)v5->FirstArgBottomIndex >> 5))
+    v12 = &v5->Env->__vftable;
+    v13 = 0;
+    if ( v5->FirstArgBottomIndex <= (unsigned int)(32 * (v12[6] - 1) + ((v12[1] - v12[2]) >> 4)) )
+      v13 = (Scaleform::GFx::AS2::Value *)(*(_DWORD *)(v12[5] + 4 * ((unsigned int)v5->FirstArgBottomIndex >> 5))
                                          + 16 * (v5->FirstArgBottomIndex & 0x1F));
-    fn = Scaleform::GFx::AS2::Value::ToNumber(v12, v5->Env);
-    fn = fn * 20.0;
-    v13 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto);
-    v13->BlurX = fn;
+    *(float *)&fn = Scaleform::GFx::AS2::Value::ToNumber(v13, v5->Env);
+    *(float *)&fn = *(float *)&fn * 20.0;
+    v14 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto);
+    result = *(float *)&fn;
+    v14->BlurX = *(float *)&fn;
     if ( v5->NArgs > 1 )
     {
       Env = v5->Env;
-      v14 = Scaleform::GFx::AS2::FnCall::Arg(v5, 1);
-      fn = Scaleform::GFx::AS2::Value::ToNumber(v14, Env);
-      fn = fn * 20.0;
-      v15 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto);
-      v15->BlurY = fn;
+      v15 = Scaleform::GFx::AS2::FnCall::Arg(v5, 1);
+      *(float *)&fn = Scaleform::GFx::AS2::Value::ToNumber(v15, Env);
+      *(float *)&fn = *(float *)&fn * 20.0;
+      v16 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto);
+      result = *(float *)&fn;
+      v16->BlurY = *(float *)&fn;
       if ( v5->NArgs > 2 )
       {
-        v29 = v5->Env;
-        v16 = Scaleform::GFx::AS2::FnCall::Arg(v5, 2);
-        v31 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v16, v29);
-        v17 = v31;
-        if ( (unsigned int)v31 >= 0xF )
-          v17 = 15;
-        Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->Passes = v17;
+        v30 = v5->Env;
+        v17 = Scaleform::GFx::AS2::FnCall::Arg(v5, 2);
+        result = Scaleform::GFx::AS2::Value::ToNumber(v17, v30);
+        v32 = (__int64)result;
+        v18 = (__int64)result;
+        if ( v18 >= 0xF )
+          v18 = 15;
+        Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams(p_pProto)->Passes = v18;
       }
     }
   }
-  v18 = v5->Env;
-  pContext = v18->StringContext.pContext;
-  p_StringContext = &v18->StringContext;
+  v19 = v5->Env;
+  pContext = v19->StringContext.pContext;
+  p_StringContext = &v19->StringContext;
   LOBYTE(fn) = 0;
-  v32.T.Type = 10;
-  v21 = &p_pProto->Scaleform::GFx::AS2::ObjectInterface;
-  LODWORD(v31) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+  v33.T.Type = 10;
+  v22 = &p_pProto->Scaleform::GFx::AS2::ObjectInterface;
+  LODWORD(v32) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                    (Scaleform::GFx::ASStringManager *)pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                    "blurX",
                    5u,
                    0);
-  ++*(_DWORD *)(v31 + 12);
-  ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, __int64 *, Scaleform::GFx::AS2::Value *, float *, int, int))p_pProto->SetMemberRaw)(
+  ++*(_DWORD *)(v32 + 12);
+  ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, __int64 *, Scaleform::GFx::AS2::Value *, Scaleform::GFx::AS2::FnCall **, int, int))p_pProto->SetMemberRaw)(
     &p_pProto->Scaleform::GFx::AS2::ObjectInterface,
     p_StringContext,
-    &v31,
     &v32,
+    &v33,
     &fn,
     a2,
     a1);
-  v22 = *(Scaleform::GFx::ASStringNode **)&v32.T.Type;
-  --*(_DWORD *)(*(_DWORD *)&v32.T.Type + 12);
-  if ( !v22->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v22);
-  if ( BYTE4(v32.NV.NumberValue) >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)((char *)&v32.NV.NumberValue + 4));
-  v23 = p_StringContext->pContext;
-  BYTE4(v32.NV.NumberValue) = 10;
+  v23 = *(Scaleform::GFx::ASStringNode **)&v33.T.Type;
+  --*(_DWORD *)(*(_DWORD *)&v33.T.Type + 12);
+  if ( !v23->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v23);
+  if ( BYTE4(v33.NV.NumberValue) >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)((char *)&v33.NV.NumberValue + 4));
+  v24 = p_StringContext->pContext;
+  BYTE4(v33.NV.NumberValue) = 10;
   a5 = 0;
-  *(_DWORD *)&v32.T.Type = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                             (Scaleform::GFx::ASStringManager *)v23->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+  *(_DWORD *)&v33.T.Type = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                             (Scaleform::GFx::ASStringManager *)v24->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                              "blurY",
                              5u,
                              0);
-  ++*(_DWORD *)(*(_DWORD *)&v32.T.Type + 12);
-  v21->SetMemberRaw(
+  ++*(_DWORD *)(*(_DWORD *)&v33.T.Type + 12);
+  v22->SetMemberRaw(
     &p_pProto->Scaleform::GFx::AS2::ObjectInterface,
     p_StringContext,
-    (const Scaleform::GFx::ASString *)&v32,
-    (Scaleform::GFx::AS2::Value *)((char *)&v32.NV.NumberValue + 4),
+    (const Scaleform::GFx::ASString *)&v33,
+    (Scaleform::GFx::AS2::Value *)((char *)&v33.NV.NumberValue + 4),
     (const Scaleform::GFx::AS2::PropFlags *)&a5);
-  v24 = *(Scaleform::GFx::ASStringNode **)&v32.T.Type;
-  --*(_DWORD *)(*(_DWORD *)&v32.T.Type + 12);
-  if ( !v24->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v24);
-  if ( BYTE4(v32.NV.NumberValue) >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)((char *)&v32.NV.NumberValue + 4));
-  v25 = p_StringContext->pContext;
-  BYTE4(v32.NV.NumberValue) = 10;
+  v25 = *(Scaleform::GFx::ASStringNode **)&v33.T.Type;
+  --*(_DWORD *)(*(_DWORD *)&v33.T.Type + 12);
+  if ( !v25->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v25);
+  if ( BYTE4(v33.NV.NumberValue) >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)((char *)&v33.NV.NumberValue + 4));
+  v26 = p_StringContext->pContext;
+  BYTE4(v33.NV.NumberValue) = 10;
   a5 = 0;
-  *(_DWORD *)&v32.T.Type = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                             (Scaleform::GFx::ASStringManager *)v25->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+  *(_DWORD *)&v33.T.Type = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                             (Scaleform::GFx::ASStringManager *)v26->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                              "quality",
                              7u,
                              0);
-  ++*(_DWORD *)(*(_DWORD *)&v32.T.Type + 12);
-  ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::AS2::Value *))v21->SetMemberRaw)(
+  ++*(_DWORD *)(*(_DWORD *)&v33.T.Type + 12);
+  ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::AS2::Value *))v22->SetMemberRaw)(
     &p_pProto->Scaleform::GFx::AS2::ObjectInterface,
     p_StringContext,
-    &v32);
-  v26 = (Scaleform::GFx::ASStringNode *)v31;
-  --*(_DWORD *)(v31 + 12);
-  if ( !v26->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v26);
-  if ( v32.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&v32);
+    &v33);
+  v27 = (Scaleform::GFx::ASStringNode *)v32;
+  --*(_DWORD *)(v32 + 12);
+  if ( !v27->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v27);
+  if ( v33.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v33);
   RefCount = p_pProto->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
     p_pProto->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);
   }
+  return result;
 }

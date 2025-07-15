@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::TextClipboard::SetText(
         Scaleform::GFx::TextClipboard *this,
-        const wchar_t *ptext,
+        wchar_t *ptext,
         unsigned int len)
 {
   Scaleform::Render::Text::StyledText *pStyledText; // ecx
@@ -15,6 +15,6 @@ void __thiscall Scaleform::GFx::TextClipboard::SetText(
   Scaleform::WStringBuffer::SetString(&this->PlainText, ptext, len);
   v5 = this->PlainText.pText;
   if ( !v5 )
-    v5 = (wchar_t *)&word_96B534;
+    v5 = (wchar_t *)&unk_6E53BC;
   this->OnTextStore(this, v5, this->PlainText.Length);
 }

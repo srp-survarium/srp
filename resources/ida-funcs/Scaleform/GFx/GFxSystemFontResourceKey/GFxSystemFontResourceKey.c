@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::GFxSystemFontResourceKey::GFxSystemFontResourceKey(
         Scaleform::GFx::GFxSystemFontResourceKey *this,
-        char *pname,
+        const __m128i *pname,
         char fontFlags,
         Scaleform::GFx::Resource *pfontProvider)
 {

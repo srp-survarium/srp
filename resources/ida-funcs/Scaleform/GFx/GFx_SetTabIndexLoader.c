@@ -23,5 +23,7 @@ void __stdcall Scaleform::GFx::GFx_SetTabIndexLoader(
   if ( v5 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 2);
   p_ProcessInfo->Stream.Pos += 2;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v5);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "SetTabIndex (unused) \n");
 }

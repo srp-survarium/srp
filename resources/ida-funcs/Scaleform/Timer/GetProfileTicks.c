@@ -24,15 +24,15 @@ unsigned __int64 __stdcall Scaleform::Timer::GetProfileTicks()
   {
     v2 = PerformanceCount;
   }
-  HighPart = HIDWORD(qword_AA3D38);
-  LowPart = qword_AA3D38;
-  if ( !qword_AA3D38 )
+  HighPart = HIDWORD(perfFreq);
+  LowPart = perfFreq;
+  if ( !perfFreq )
   {
     QueryPerformanceFrequency(&Frequency);
     HighPart = Frequency.HighPart;
     LowPart = Frequency.LowPart;
     v0 = TimerOverrideInstance;
-    qword_AA3D38 = Frequency.QuadPart;
+    perfFreq = Frequency.QuadPart;
   }
   if ( v0 )
   {
@@ -43,5 +43,5 @@ unsigned __int64 __stdcall Scaleform::Timer::GetProfileTicks()
     HighPart = HIDWORD(v5);
     LowPart = v5;
   }
-  return v2.QuadPart * (unsigned __int64)(unsigned int)&off_F4240 / __PAIR64__(HighPart, LowPart);
+  return v2.QuadPart * (unsigned __int64)(unsigned int)&loc_F4240 / __PAIR64__(HighPart, LowPart);
 }

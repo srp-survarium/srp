@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BlurFilter::clone(
       else
       {
         v14 = v13->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v14) != 0 )
+        if ( (v14 & 0x3FFFFF) != 0 )
         {
           v13->RefCount = v14 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);

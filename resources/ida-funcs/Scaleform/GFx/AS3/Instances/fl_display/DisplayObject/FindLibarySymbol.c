@@ -38,7 +38,7 @@ BOOL __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::FindL
       pObject->GetQualifiedName(pObject, &className, qnfWithDot);
       resBindData.pResource.pObject = 0;
       resBindData.pBinding = 0;
-      Scaleform::String::String((Scaleform::String *)&pccinfo, (char *)className.pNode->pData);
+      Scaleform::String::String((Scaleform::String *)&pccinfo, (const __m128i *)className.pNode->pData);
       ExportedResource = Scaleform::GFx::MovieImpl::FindExportedResource(
                            asvm->pMovieRoot->pMovieImpl,
                            pdefImpl,
@@ -61,7 +61,7 @@ BOOL __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::FindL
       }
       else
       {
-        pObject = (Scaleform::GFx::AS3::Traits *)pObject->pParent.pObject;
+        pObject = pObject->pParent.pObject;
       }
       if ( v9 )
         Scaleform::GFx::Resource::Release(v9);

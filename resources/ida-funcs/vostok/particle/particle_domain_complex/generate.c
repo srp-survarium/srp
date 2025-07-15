@@ -1,250 +1,289 @@
 vostok::math::float3 *__thiscall vostok::particle::particle_domain_complex::generate(
         vostok::particle::particle_domain_complex *this,
-        vostok::math::float3 *result)
+        vostok::particle::particle_domain_complex *result,
+        float *a3)
 {
   vostok::math::float4x4 *transform; // eax
-  vostok::math::float3 *v3; // eax
-  vostok::math::float3 *v4; // eax
-  vostok::math::float3 *v5; // eax
-  const vostok::math::float3 *v6; // esi
-  vostok::math::float4x4 *v7; // eax
-  const vostok::math::float3 *v8; // eax
-  const vostok::math::float3 *v9; // eax
-  vostok::math::float3 *v10; // eax
-  float v11; // xmm0_4
-  vostok::math::float3 *v12; // esi
-  vostok::math::float3 *v13; // edi
-  vostok::math::float3 *v14; // eax
-  vostok::math::float3 *v15; // eax
-  vostok::math::float3 *v16; // esi
-  vostok::math::float4x4 *v17; // eax
-  const vostok::math::float3 *v18; // eax
-  const vostok::math::float3 *v19; // esi
-  vostok::math::float4x4 *v20; // eax
-  const vostok::math::float3 *v21; // eax
-  const vostok::math::float3 *v22; // esi
-  vostok::math::float4x4 *v23; // eax
-  vostok::math::float3 *v24; // eax
-  vostok::math::float3 *v25; // esi
-  vostok::math::float4x4 *v26; // eax
-  vostok::math::float2 *v27; // ecx
-  vostok::math::float2_pod *v28; // ecx
-  float y; // edx
-  double v30; // st7
-  double v31; // st7
-  vostok::math::float4x4 *v32; // eax
-  vostok::math::float2 *v33; // ecx
-  vostok::math::float2_pod *v34; // ecx
-  float v35; // edx
-  double v36; // st7
-  double v37; // st7
-  vostok::math::float4x4 *v38; // eax
-  vostok::math::float2 *v39; // ecx
-  vostok::math::float2_pod *v40; // ecx
-  vostok::math::float2 *v41; // eax
-  vostok::math::float3 *v42; // eax
-  vostok::math::float3 *v43; // eax
-  vostok::math::float4x4 *v44; // eax
-  survarium::game_camera *v45; // ecx
-  vostok::math::float3 *v46; // eax
-  vostok::math::float3 other_x; // [esp+Ch] [ebp-430h]
-  vostok::math::float3 other_xa; // [esp+Ch] [ebp-430h]
-  unsigned int other_y; // [esp+10h] [ebp-42Ch]
-  unsigned int other_ya; // [esp+10h] [ebp-42Ch]
-  unsigned int other_yb; // [esp+10h] [ebp-42Ch]
-  unsigned int other_yc; // [esp+10h] [ebp-42Ch]
-  unsigned int min_value; // [esp+14h] [ebp-428h]
-  unsigned int min_valuea; // [esp+14h] [ebp-428h]
-  float max_value; // [esp+18h] [ebp-424h]
-  const vostok::math::float3 *max_valuea; // [esp+18h] [ebp-424h]
-  float max_valueb; // [esp+18h] [ebp-424h]
-  float max_valuec; // [esp+18h] [ebp-424h]
-  float max_valued; // [esp+18h] [ebp-424h]
-  float max_valuee; // [esp+18h] [ebp-424h]
-  float max_valuef; // [esp+18h] [ebp-424h]
-  float max_valueg; // [esp+18h] [ebp-424h]
-  float max_valueh; // [esp+18h] [ebp-424h]
-  float max_valuei; // [esp+18h] [ebp-424h]
-  float max_valuej; // [esp+18h] [ebp-424h]
-  float max_valuek; // [esp+18h] [ebp-424h]
-  float max_valuel; // [esp+18h] [ebp-424h]
-  float v68; // [esp+1Ch] [ebp-420h]
-  int v69; // [esp+24h] [ebp-418h]
-  int v70; // [esp+28h] [ebp-414h]
-  int v71; // [esp+2Ch] [ebp-410h]
-  vostok::math::float2_pod *v73; // [esp+38h] [ebp-404h]
-  vostok::math::float2 *v74; // [esp+3Ch] [ebp-400h]
-  vostok::math::float2 *v75; // [esp+40h] [ebp-3FCh]
-  vostok::math::float4x4 v76; // [esp+8Ch] [ebp-3B0h] BYREF
-  vostok::math::float4x4 v77; // [esp+CCh] [ebp-370h] BYREF
-  vostok::math::float3 v78; // [esp+10Ch] [ebp-330h] BYREF
-  vostok::math::float3 v79; // [esp+118h] [ebp-324h] BYREF
-  _BYTE v80[8]; // [esp+124h] [ebp-318h] BYREF
-  vostok::math::float4x4 v81; // [esp+12Ch] [ebp-310h] BYREF
-  vostok::math::float4x4 v82; // [esp+16Ch] [ebp-2D0h] BYREF
-  vostok::math::float3 v83; // [esp+1ACh] [ebp-290h] BYREF
-  float value; // [esp+1B8h] [ebp-284h] BYREF
-  vostok::math::float4x4 v85; // [esp+1BCh] [ebp-280h] BYREF
-  vostok::math::float3 v86; // [esp+1FCh] [ebp-240h] BYREF
-  vostok::math::float4x4 v87; // [esp+208h] [ebp-234h] BYREF
-  vostok::math::float3 v88; // [esp+248h] [ebp-1F4h] BYREF
-  vostok::math::float4x4 v89; // [esp+254h] [ebp-1E8h] BYREF
-  vostok::math::float3 v90; // [esp+294h] [ebp-1A8h] BYREF
-  vostok::math::float3 v91; // [esp+2A0h] [ebp-19Ch] BYREF
-  vostok::math::float3 v92; // [esp+2ACh] [ebp-190h] BYREF
-  vostok::math::float3 v93; // [esp+2B8h] [ebp-184h] BYREF
-  vostok::math::float3 v94; // [esp+2C4h] [ebp-178h] BYREF
-  vostok::math::float4x4 v95; // [esp+2D0h] [ebp-16Ch] BYREF
-  vostok::math::float3 v96; // [esp+310h] [ebp-12Ch] BYREF
-  vostok::math::float3 v97; // [esp+31Ch] [ebp-120h] BYREF
-  vostok::math::float3 v98; // [esp+328h] [ebp-114h] BYREF
-  vostok::math::float3 v99; // [esp+334h] [ebp-108h] BYREF
-  vostok::math::float3 v100; // [esp+340h] [ebp-FCh] BYREF
-  vostok::math::float3 v101; // [esp+34Ch] [ebp-F0h] BYREF
-  vostok::math::float4x4 v102; // [esp+358h] [ebp-E4h] BYREF
-  vostok::math::float3 vector; // [esp+398h] [ebp-A4h] BYREF
-  vostok::math::float4x4 v104; // [esp+3A4h] [ebp-98h] BYREF
-  vostok::math::float2 xz_offset; // [esp+3E4h] [ebp-58h] BYREF
-  vostok::math::float3 v106; // [esp+3ECh] [ebp-50h] BYREF
-  vostok::math::float2 direction; // [esp+3F8h] [ebp-44h] BYREF
-  vostok::math::float3 position; // [esp+400h] [ebp-3Ch] BYREF
-  vostok::math::float3 pos; // [esp+40Ch] [ebp-30h] BYREF
-  float height; // [esp+418h] [ebp-24h]
-  vostok::math::float2 dir2d; // [esp+41Ch] [ebp-20h] BYREF
-  vostok::math::float3 dir; // [esp+424h] [ebp-18h] BYREF
-  vostok::math::float3 weights; // [esp+430h] [ebp-Ch] BYREF
+  float v6; // xmm0_4
+  float v7; // xmm1_4
+  float v8; // xmm0_4
+  float v9; // xmm1_4
+  float v10; // xmm0_4
+  float v11; // xmm1_4
+  float v12; // xmm0_4
+  float v13; // xmm1_4
+  float m_line_width; // xmm1_4
+  float v15; // xmm0_4
+  float v16; // xmm1_4
+  float v17; // xmm0_4
+  float v18; // xmm1_4
+  float v19; // xmm0_4
+  float v20; // xmm1_4
+  float v21; // xmm0_4
+  vostok::math::float3 *v22; // eax
+  float v23; // xmm1_4
+  float v24; // xmm3_4
+  float v25; // xmm1_4
+  vostok::particle::particle_domain_complex *v26; // ecx
+  float v27; // xmm0_4
+  float v28; // xmm3_4
+  float v29; // xmm1_4
+  float v30; // xmm0_4
+  float v31; // xmm1_4
+  float v32; // xmm5_4
+  float v33; // xmm6_4
+  float v34; // xmm4_4
+  float x; // xmm7_4
+  float v36; // xmm7_4
+  float y; // xmm1_4
+  float v38; // xmm2_4
+  float v39; // xmm1_4
+  vostok::math::float4x4 *v40; // eax
+  vostok::math::float4x4 *v41; // eax
+  double v42; // st7
+  double v43; // st6
+  double v44; // st7
+  double v45; // st6
+  double v46; // st5
+  float v47; // xmm0_4
+  float v48; // xmm1_4
+  float m_cylinder_height; // xmm0_4
+  double v50; // st7
+  float v51; // xmm0_4
+  float v52; // xmm0_4
+  double v53; // st7
+  float v54; // xmm0_4
+  float v55; // xmm1_4
+  float v56; // xmm0_4
+  float v57; // xmm1_4
+  float v58; // xmm2_4
+  float v59; // xmm0_4
+  vostok::math::float4_pod *p_c; // eax
+  float v62; // [esp+4h] [ebp-274h]
+  vostok::math::float4x4 v63; // [esp+14h] [ebp-264h] BYREF
+  vostok::math::float4x4 v64; // [esp+54h] [ebp-224h] BYREF
+  vostok::math::float4x4 v65; // [esp+94h] [ebp-1E4h] BYREF
+  vostok::math::float4x4 v66; // [esp+D4h] [ebp-1A4h] BYREF
+  vostok::math::float4x4 v67; // [esp+114h] [ebp-164h] BYREF
+  vostok::math::float4x4 resulta; // [esp+154h] [ebp-124h] BYREF
+  vostok::math::float4x4 v69; // [esp+194h] [ebp-E4h] BYREF
+  vostok::math::float4x4 v70; // [esp+1D4h] [ebp-A4h] BYREF
+  vostok::math::float4x4 v71; // [esp+214h] [ebp-64h] BYREF
+  vostok::math::float3 v72; // [esp+254h] [ebp-24h] BYREF
+  vostok::math::float3 v73; // [esp+260h] [ebp-18h] BYREF
+  $D38C34BC714B112AEE2977F5CA171B83 v74; // [esp+26Ch] [ebp-Ch] BYREF
+  float v75; // [esp+280h] [ebp+8h]
+  float v76; // [esp+280h] [ebp+8h]
+  float m_outer_radius; // [esp+280h] [ebp+8h]
+  float v78; // [esp+280h] [ebp+8h]
+  float v79; // [esp+280h] [ebp+8h]
+  float v80; // [esp+280h] [ebp+8h]
+  float v81; // [esp+280h] [ebp+8h]
+  float v82; // [esp+284h] [ebp+Ch]
 
-  switch ( this->m_domain_type )
+  switch ( result->m_domain_type )
   {
     case 0u:
-      vostok::math::float3::float3((vostok::math::float3 *)&this->164, &vector);
-      transform = vostok::particle::particle_domain_complex::get_transform(this, &v104);
-      vostok::math::float4x4::transform_position(&vector, result, transform);
-      v3 = result;
-      break;
+      v74 = result->164;
+      transform = vostok::particle::particle_domain_complex::get_transform(result, &resulta);
+      v6 = (float)(transform->k.x * v74.m_point_position.z) + (float)(transform->j.x * v74.m_point_position.y);
+      v7 = transform->i.x * v74.m_point_position.x;
+      goto LABEL_3;
     case 1u:
-      max_value = vostok::particle::random_float(0.0, 1.0);
-      vostok::math::float3::float3(&v101, COERCE_UNSIGNED_INT(this->m_line_width / 2.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-      other_x = *v4;
-      vostok::math::float3::float3(
-        &v100,
-        COERCE_UNSIGNED_INT((float)-this->m_line_width / 2.0),
-        COERCE_UNSIGNED_INT(0.0),
-        0.0);
-      v6 = vostok::particle::linear_interpolation<vostok::math::float3>(&v99, *v5, other_x, max_value);
-      v7 = vostok::particle::particle_domain_complex::get_transform(this, &v102);
-      vostok::math::float4x4::transform_position(v6, result, v7);
-      v3 = result;
-      break;
+      m_line_width = result->m_line_width;
+      v75 = vostok::particle::random_float(0.0, 1.0);
+      v74.m_point_position.x = (float)((float)(s_bm_current_air_resistance - v75) * (float)(m_line_width * -0.5))
+                             + (float)((float)(m_line_width * 0.5) * v75);
+      v74.m_point_position.y = (float)((float)(s_bm_current_air_resistance - v75) * 0.0) + (float)(v75 * 0.0);
+      v74.m_point_position.z = v74.m_point_position.y;
+      transform = vostok::particle::particle_domain_complex::get_transform(result, &v63);
+      v15 = (float)(transform->k.x * v74.m_point_position.z) + (float)(transform->j.x * v74.m_point_position.y);
+      v16 = transform->i.x * v74.m_point_position.x;
+      goto LABEL_6;
     case 2u:
-      vostok::math::float3::float3(&v98, COERCE_UNSIGNED_INT(1.0), COERCE_UNSIGNED_INT(1.0), 1.0);
-      max_valuea = v8;
-      vostok::math::float3::float3(&v97, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-      v10 = vostok::particle::random_float3(&v96, v9, max_valuea);
-      weights = *vostok::math::float3_pod::normalize(v10);
-      v11 = (float)(weights.x + weights.y) + weights.z;
-      vostok::math::max();
-      vostok::math::float3_pod::operator/=(&weights, v11);
-      v12 = vostok::math::operator*(&this->m_triangle_c, &v94, &weights.z);
-      v13 = vostok::math::operator*(&this->m_triangle_b, &v93, &weights.y);
-      v14 = vostok::math::operator*(&this->m_point_position, &v92, &weights.x);
-      v15 = vostok::math::operator+(v13, v14, &v91);
-      v16 = vostok::math::operator+(v12, v15, &v90);
-      v17 = vostok::particle::particle_domain_complex::get_transform(this, &v95);
-      vostok::math::float4x4::transform_position(v16, result, v17);
-      v3 = result;
-      break;
+      v21 = s_bm_current_air_resistance;
+      v74.m_point_position.x = s_bm_current_air_resistance;
+      v74.m_point_position.y = s_bm_current_air_resistance;
+      v74.m_point_position.z = s_bm_current_air_resistance;
+      memset(&v73, 0, sizeof(v73));
+      v22 = vostok::particle::random_float3((const vostok::math::float3 *)&v74, &v72, &v73);
+      v23 = v21 / fsqrt((float)((float)(v22->z * v22->z) + (float)(v22->y * v22->y)) + (float)(v22->x * v22->x));
+      v24 = v23 * v22->x;
+      v22->y = v23 * v22->y;
+      v22->z = v22->z * v23;
+      v22->x = v24;
+      v73 = *v22;
+      v25 = (float)(v73.z + v73.y) + v73.x;
+      if ( v25 <= 0.001 )
+        v25 = epsilon_3_4;
+      v26 = result;
+      v27 = v21 / v25;
+      v28 = v27 * v73.x;
+      v29 = v27;
+      v30 = v27 * v73.z;
+      v31 = v29 * v73.y;
+      v32 = result->m_triangle_c.y * v30;
+      v33 = result->m_triangle_c.z * v30;
+      v34 = result->m_triangle_c.x * v30;
+      x = result->m_triangle_b.x;
+      v73.y = result->m_triangle_b.y * v31;
+      v73.z = result->m_triangle_b.z * v31;
+      v36 = x * v31;
+      y = result->m_point_position.y;
+      v38 = (float)((float)(result->m_point_position.z * v28) + v73.z) + v33;
+      v74.m_point_position.x = (float)((float)(result->m_point_position.x * v28) + v36) + v34;
+      v39 = (float)((float)(y * v28) + v73.y) + v32;
+      v74.m_point_position.z = v38;
+      v40 = &v70;
+      goto LABEL_10;
     case 4u:
-      max_valueb = vostok::particle::random_float(-0.5 * this->m_box_depth, 0.5 * this->m_box_depth);
-      *(float *)&min_value = vostok::particle::random_float(-0.5 * this->m_box_height, 0.5 * this->m_box_height);
-      *(float *)&other_y = vostok::particle::random_float(-0.5 * this->m_box_width, 0.5 * this->m_box_width);
-      vostok::math::float3::float3(&v88, other_y, min_value, max_valueb);
-      v19 = v18;
-      v20 = vostok::particle::particle_domain_complex::get_transform(this, &v89);
-      vostok::math::float4x4::transform_position(v19, result, v20);
-      v3 = result;
-      break;
+      v74.m_point_position.x = vostok::particle::random_float(result->m_box_width * -0.5, result->m_box_width * 0.5);
+      v74.m_point_position.y = vostok::particle::random_float(result->m_box_height * -0.5, result->m_box_height * 0.5);
+      v74.m_point_position.z = vostok::particle::random_float(result->m_box_depth * -0.5, result->m_box_depth * 0.5);
+      v41 = vostok::particle::particle_domain_complex::get_transform(result, &v64);
+      *a3 = v41->k.x * v74.m_point_position.z
+          + v41->j.x * v74.m_point_position.y
+          + v74.m_point_position.x * v41->i.x
+          + v41->c.x;
+      a3[1] = v41->k.y * v74.m_point_position.z
+            + v41->i.y * v74.m_point_position.x
+            + v41->j.y * v74.m_point_position.y
+            + v41->c.y;
+      v42 = v41->k.z * v74.m_point_position.z + v41->i.z * v74.m_point_position.x;
+      v43 = v41->j.z * v74.m_point_position.y;
+      goto LABEL_12;
     case 5u:
-      max_valued = vostok::particle::random_float(-1.0, 1.0);
-      *(float *)&min_valuea = vostok::particle::random_float(-1.0, 1.0);
-      *(float *)&other_yb = vostok::particle::random_float(-1.0, 1.0);
-      vostok::math::float3::float3(&dir, other_yb, min_valuea, max_valued);
-      value = this->m_outer_radius - vostok::particle::random_float(0.0, this->m_outer_radius - this->m_inner_radius);
-      v24 = vostok::math::float3_pod::normalize(&dir);
-      v25 = vostok::math::operator*(v24, &v83, &value);
-      v26 = vostok::particle::particle_domain_complex::get_transform(this, &v85);
-      vostok::math::float4x4::transform_position(v25, result, v26);
-      v3 = result;
-      break;
+      v74.m_point_position.x = vostok::particle::random_float(-1.0, 1.0);
+      v74.m_point_position.y = vostok::particle::random_float(-1.0, 1.0);
+      v74.m_point_position.z = vostok::particle::random_float(-1.0, 1.0);
+      v76 = result->m_outer_radius
+          - vostok::particle::random_float(0.0, result->m_outer_radius - result->m_inner_radius);
+      v47 = s_bm_current_air_resistance
+          / fsqrt(
+              (float)((float)(v74.m_point_position.x * v74.m_point_position.x)
+                    + (float)(v74.m_point_position.z * v74.m_point_position.z))
+            + (float)(v74.m_point_position.y * v74.m_point_position.y));
+      v74.m_point_position.x = (float)(v47 * v74.m_point_position.x) * v76;
+      v74.m_point_position.y = (float)(v47 * v74.m_point_position.y) * v76;
+      v74.m_point_position.z = (float)(v47 * v74.m_point_position.z) * v76;
+      transform = vostok::particle::particle_domain_complex::get_transform(result, &v69);
+      v15 = (float)(transform->k.x * v74.m_point_position.z) + (float)(transform->j.x * v74.m_point_position.y);
+      v16 = v74.m_point_position.x * transform->i.x;
+LABEL_6:
+      v17 = (float)(v15 + v16) + transform->c.x;
+      v18 = transform->j.y * v74.m_point_position.y;
+      *a3 = v17;
+      v19 = (float)((float)((float)(transform->k.y * v74.m_point_position.z) + v18)
+                  + (float)(transform->i.y * v74.m_point_position.x))
+          + transform->c.y;
+      v20 = transform->j.z * v74.m_point_position.y;
+      a3[1] = v19;
+      v12 = (float)(transform->k.z * v74.m_point_position.z) + v20;
+      v13 = transform->i.z * v74.m_point_position.x;
+      goto LABEL_4;
     case 6u:
-      max_valuee = vostok::particle::random_float(-1.0, 1.0);
-      *(float *)&v71 = vostok::particle::random_float(-1.0, 1.0);
-      vostok::math::float2::float2(v27, (int)&dir2d, v71, max_valuee, v68);
-      max_valuef = vostok::math::float2_pod::length(v28, &dir2d.x);
-      v75 = vostok::math::float2_pod::operator/=(&dir2d, max_valuef);
-      y = v75->y;
-      dir2d.x = v75->x;
-      dir2d.y = y;
-      height = vostok::particle::random_float(-0.5 * this->m_cylinder_height, 0.5 * this->m_cylinder_height);
-      survarium::weapon_core::cast_weapon_core((survarium::game_options *)&pos);
-      v30 = vostok::particle::random_float(0.0, this->m_outer_radius - this->m_inner_radius);
-      pos.x = (this->m_outer_radius - v30) * dir2d.x;
-      v31 = vostok::particle::random_float(0.0, this->m_outer_radius - this->m_inner_radius);
-      pos.z = (this->m_outer_radius - v31) * dir2d.y;
-      pos.y = height;
-      v32 = vostok::particle::particle_domain_complex::get_transform(this, &v82);
-      vostok::math::float4x4::transform_position(&pos, result, v32);
-      v3 = result;
-      break;
+      v74.m_point_position.y = vostok::particle::random_float(-1.0, 1.0);
+      v74.m_point_position.z = vostok::particle::random_float(-1.0, 1.0);
+      v48 = s_bm_current_air_resistance
+          / fsqrt(
+              (float)(v74.m_point_position.z * v74.m_point_position.z)
+            + (float)(v74.m_point_position.y * v74.m_point_position.y));
+      v74.m_point_position.z = v48 * v74.m_point_position.z;
+      m_cylinder_height = result->m_cylinder_height;
+      v74.m_point_position.y = v48 * v74.m_point_position.y;
+      v82 = vostok::particle::random_float(m_cylinder_height * -0.5, m_cylinder_height * 0.5);
+      m_outer_radius = result->m_outer_radius;
+      v50 = vostok::particle::random_float(0.0, result->m_outer_radius - result->m_inner_radius);
+      v51 = m_outer_radius - result->m_inner_radius;
+      v73.x = (m_outer_radius - v50) * v74.m_point_position.y;
+      v73.z = (result->m_outer_radius - vostok::particle::random_float(0.0, v51)) * v74.m_point_position.z;
+      v41 = vostok::particle::particle_domain_complex::get_transform(result, &v67);
+      *a3 = v41->j.x * v82 + v41->k.x * v73.z + v41->i.x * v73.x + v41->c.x;
+      a3[1] = v41->j.y * v82 + v41->k.y * v73.z + v41->i.y * v73.x + v41->c.y;
+      v42 = v41->j.z * v82 + v41->k.z * v73.z;
+      v43 = v41->i.z * v73.x;
+      goto LABEL_12;
     case 7u:
-      max_valuej = vostok::particle::random_float(-1.0, 1.0) * this->m_outer_radius;
-      *(float *)&v69 = vostok::particle::random_float(-1.0, 1.0) * this->m_outer_radius;
-      v73 = (vostok::math::float2_pod *)vostok::math::float2::float2(v39, (int)v80, v69, max_valuej, v68);
-      max_valuek = vostok::math::float2_pod::length(v40, &v73->x);
-      v41 = vostok::math::float2_pod::operator/=(v73, max_valuek);
-      Wm4::Vector2<float>::operator=(v41, &xz_offset);
-      max_valuel = vostok::particle::random_float(0.0, 1.0);
-      vostok::math::float3::float3(&v79, LODWORD(xz_offset.x), COERCE_UNSIGNED_INT(-1.0), xz_offset.y);
-      other_xa = *v42;
-      vostok::math::float3::float3(&v78, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-      vostok::particle::linear_interpolation<vostok::math::float3>(&v106, *v43, other_xa, max_valuel);
-      v44 = vostok::particle::particle_domain_complex::get_transform(this, &v77);
-      vostok::math::float4x4::transform_position(&v106, result, v44);
-      v3 = result;
-      break;
+      v74.m_point_position.y = vostok::particle::random_float(-1.0, 1.0);
+      v74.m_point_position.z = vostok::particle::random_float(-1.0, 1.0);
+      v80 = vostok::particle::random_float(0.0, 1.0);
+      v55 = s_bm_current_air_resistance
+          / fsqrt(
+              (float)(v74.m_point_position.y * v74.m_point_position.y)
+            + (float)(v74.m_point_position.z * v74.m_point_position.z));
+      v56 = (float)(v55 * v74.m_point_position.z) * v80;
+      v57 = (float)(v55 * v74.m_point_position.y) * v80;
+      v58 = v56;
+      v81 = vostok::particle::random_float(-1.0, 0.0);
+      v59 = result->m_outer_radius;
+      v74.m_point_position.x = (float)(v57 * v59) * v81;
+      v39 = result->m_cylinder_height * v81;
+      v74.m_point_position.z = (float)(v59 * v81) * v58;
+      v40 = &v71;
+      v26 = result;
+LABEL_10:
+      v74.m_point_position.y = v39;
+      transform = vostok::particle::particle_domain_complex::get_transform(v26, v40);
+      v6 = (float)(transform->k.x * v74.m_point_position.z) + (float)(transform->j.x * v74.m_point_position.y);
+      v7 = v74.m_point_position.x * transform->i.x;
+LABEL_3:
+      v8 = (float)(v6 + v7) + transform->c.x;
+      v9 = transform->k.y * v74.m_point_position.z;
+      *a3 = v8;
+      v10 = (float)((float)((float)(transform->i.y * v74.m_point_position.x) + v9)
+                  + (float)(transform->j.y * v74.m_point_position.y))
+          + transform->c.y;
+      v11 = transform->k.z * v74.m_point_position.z;
+      a3[1] = v10;
+      v12 = (float)(transform->i.z * v74.m_point_position.x) + v11;
+      v13 = transform->j.z * v74.m_point_position.y;
+LABEL_4:
+      a3[2] = (float)(v12 + v13) + transform->c.z;
+      return (vostok::math::float3 *)a3;
     case 9u:
-      max_valueg = vostok::particle::random_float(-1.0, 1.0);
-      *(float *)&v70 = vostok::particle::random_float(-1.0, 1.0);
-      vostok::math::float2::float2(v33, (int)&direction, v70, max_valueg, v68);
-      max_valueh = vostok::math::float2_pod::length(v34, &direction.x);
-      v74 = vostok::math::float2_pod::operator/=(&direction, max_valueh);
-      v35 = v74->y;
-      direction.x = v74->x;
-      direction.y = v35;
-      v36 = vostok::particle::random_float(0.0, this->m_outer_radius - this->m_inner_radius);
-      max_valuei = (this->m_outer_radius - v36) * direction.y;
-      v37 = vostok::particle::random_float(0.0, this->m_outer_radius - this->m_inner_radius);
-      *(float *)&other_yc = (this->m_outer_radius - v37) * direction.x;
-      vostok::math::float3::float3(&position, other_yc, COERCE_UNSIGNED_INT(0.0), max_valuei);
-      v38 = vostok::particle::particle_domain_complex::get_transform(this, &v81);
-      vostok::math::float4x4::transform_position(&position, result, v38);
-      v3 = result;
-      break;
+      v74.m_point_position.y = vostok::particle::random_float(-1.0, 1.0);
+      v74.m_point_position.z = vostok::particle::random_float(-1.0, 1.0);
+      v52 = s_bm_current_air_resistance
+          / fsqrt(
+              (float)(v74.m_point_position.y * v74.m_point_position.y)
+            + (float)(v74.m_point_position.z * v74.m_point_position.z));
+      v74.m_point_position.z = v52 * v74.m_point_position.z;
+      v78 = result->m_outer_radius;
+      v62 = v78 - result->m_inner_radius;
+      v74.m_point_position.y = v52 * v74.m_point_position.y;
+      v53 = v78 - vostok::particle::random_float(0.0, v62);
+      v79 = result->m_outer_radius;
+      v54 = v79 - result->m_inner_radius;
+      v73.x = v53 * v74.m_point_position.y;
+      v73.z = (v79 - vostok::particle::random_float(0.0, v54)) * v74.m_point_position.z;
+      v41 = vostok::particle::particle_domain_complex::get_transform(result, &v65);
+      v44 = 0.0;
+      *a3 = v41->j.x * 0.0 + v41->k.x * v73.z + v73.x * v41->i.x + v41->c.x;
+      a3[1] = v41->k.y * v73.z + v41->i.y * v73.x + v41->j.y * 0.0 + v41->c.y;
+      v45 = v41->k.z * v73.z;
+      v46 = v41->i.z * v73.x;
+      goto LABEL_14;
     case 0xAu:
-      max_valuec = vostok::particle::random_float(-0.5 * this->m_box_height, 0.5 * this->m_box_height);
-      *(float *)&other_ya = vostok::particle::random_float(-0.5 * this->m_box_width, 0.5 * this->m_box_width);
-      vostok::math::float3::float3(&v86, other_ya, COERCE_UNSIGNED_INT(0.0), max_valuec);
-      v22 = v21;
-      v23 = vostok::particle::particle_domain_complex::get_transform(this, &v87);
-      vostok::math::float4x4::transform_position(v22, result, v23);
-      v3 = result;
+      v74.m_point_position.x = vostok::particle::random_float(result->m_box_width * -0.5, result->m_box_width * 0.5);
+      v74.m_point_position.z = vostok::particle::random_float(result->m_box_height * -0.5, result->m_box_height * 0.5);
+      v41 = vostok::particle::particle_domain_complex::get_transform(result, &v66);
+      v44 = 0.0;
+      *a3 = v41->j.x * 0.0 + v41->k.x * v74.m_point_position.z + v41->i.x * v74.m_point_position.x + v41->c.x;
+      a3[1] = v41->k.y * v74.m_point_position.z + v41->i.y * v74.m_point_position.x + v41->j.y * 0.0 + v41->c.y;
+      v45 = v41->k.z * v74.m_point_position.z;
+      v46 = v41->i.z * v74.m_point_position.x;
+LABEL_14:
+      v43 = v45 + v46;
+      v42 = v44 * v41->j.z;
+LABEL_12:
+      a3[2] = v42 + v43 + v41->c.z;
       break;
     default:
-      vostok::particle::particle_domain_complex::get_transform(this, &v76);
-      survarium::weapon_user_dead_state::finalize(v45);
-      *result = *v46;
-      v3 = result;
+      p_c = &vostok::particle::particle_domain_complex::get_transform(result, &v71)->c;
+      *a3 = p_c->x;
+      a3[1] = p_c->y;
+      a3[2] = p_c->z;
       break;
   }
-  return v3;
+  return (vostok::math::float3 *)a3;
 }

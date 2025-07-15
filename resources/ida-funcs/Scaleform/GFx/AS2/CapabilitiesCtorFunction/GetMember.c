@@ -11,7 +11,7 @@ char __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::GetMember(
   int v9; // ebp
   Scaleform::GFx::ASString *v10; // ebp
   Scaleform::GFx::InteractiveObject *v11; // ecx
-  int BufferHeight; // ecx
+  int v12; // ecx
   Scaleform::GFx::InteractiveObject *v14; // eax
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
   Scaleform::RefCountVImpl *v16; // eax
@@ -41,10 +41,22 @@ char __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::GetMember(
   Scaleform::GFx::ASString *v40; // eax
   Scaleform::GFx::MovieImpl *v41; // ecx
   unsigned int (__thiscall *GetControllerCount)(Scaleform::GFx::Movie *); // eax
-  unsigned int cap_bits; // [esp+10h] [ebp-4Ch] BYREF
+  int v43; // [esp+10h] [ebp-4Ch] BYREF
   Scaleform::GFx::AS2::CapabilitiesCtorFunction *v44; // [esp+14h] [ebp-48h]
   Scaleform::GFx::AS2::Value v; // [esp+18h] [ebp-44h] BYREF
-  Scaleform::GFx::Viewport vp; // [esp+28h] [ebp-34h] BYREF
+  int v46; // [esp+28h] [ebp-34h] BYREF
+  int v47; // [esp+2Ch] [ebp-30h]
+  int v48; // [esp+30h] [ebp-2Ch]
+  int v49; // [esp+34h] [ebp-28h]
+  int v50; // [esp+38h] [ebp-24h]
+  int v51; // [esp+3Ch] [ebp-20h]
+  int v52; // [esp+40h] [ebp-1Ch]
+  int v53; // [esp+44h] [ebp-18h]
+  int v54; // [esp+48h] [ebp-14h]
+  float v55; // [esp+4Ch] [ebp-10h]
+  float v56; // [esp+50h] [ebp-Ch]
+  float v57; // [esp+54h] [ebp-8h]
+  float v58; // [esp+58h] [ebp-4h]
   Scaleform::GFx::AS2::Environment *penva; // [esp+60h] [ebp+4h]
 
   Target = penv->Target;
@@ -65,9 +77,9 @@ char __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::GetMember(
     v9 = 0;
     penva = 0;
   }
-  cap_bits = 0;
+  v43 = 0;
   if ( v9 )
-    (*(void (__thiscall **)(int, unsigned int *))(*(_DWORD *)v9 + 4))(v9, &cap_bits);
+    (*(void (__thiscall **)(int, int *))(*(_DWORD *)v9 + 4))(v9, &v43);
   if ( penv->StringContext.SWFVersion <= 6u )
   {
     ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -89,15 +101,22 @@ char __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::GetMember(
     if ( (_BYTE)name )
     {
       v25 = penv->Target;
-      vp.AspectRatio = 1.0;
-      vp.Height = 1;
-      vp.Scale = 1.0;
-      vp.Width = 1;
-      memset(&vp, 0, 16);
-      memset(&vp.ScissorLeft, 0, 20);
-      v25->pASRoot->pMovieImpl->GetViewport(v25->pASRoot->pMovieImpl, &vp);
+      v58 = 1.0;
+      v51 = 1;
+      v57 = 1.0;
+      v50 = 1;
+      v46 = 0;
+      v47 = 0;
+      v49 = 0;
+      v48 = 0;
+      v55 = 0.0;
+      v54 = 0;
+      v53 = 0;
+      v52 = 0;
+      v56 = 0.0;
+      v25->pASRoot->pMovieImpl->GetViewport(v25->pASRoot->pMovieImpl, (Scaleform::GFx::Viewport *)&v46);
       v.T.Type = 4;
-      v.NV.Int32Value = vp.BufferWidth;
+      v.NV.Int32Value = v46;
       Scaleform::GFx::AS2::Value::operator=(val, &v);
       goto LABEL_12;
     }
@@ -119,14 +138,21 @@ char __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::GetMember(
     if ( (_BYTE)name )
     {
       v28 = penv->Target;
-      vp.AspectRatio = 1.0;
-      vp.Height = 1;
-      vp.Scale = 1.0;
-      vp.Width = 1;
-      memset(&vp, 0, 16);
-      memset(&vp.ScissorLeft, 0, 20);
-      v28->pASRoot->pMovieImpl->GetViewport(v28->pASRoot->pMovieImpl, &vp);
-      BufferHeight = vp.BufferHeight;
+      v58 = 1.0;
+      v51 = 1;
+      v57 = 1.0;
+      v50 = 1;
+      v46 = 0;
+      v47 = 0;
+      v49 = 0;
+      v48 = 0;
+      v55 = 0.0;
+      v54 = 0;
+      v53 = 0;
+      v52 = 0;
+      v56 = 0.0;
+      v28->pASRoot->pMovieImpl->GetViewport(v28->pASRoot->pMovieImpl, (Scaleform::GFx::Viewport *)&v46);
+      v12 = v47;
       goto LABEL_10;
     }
     v29 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -186,7 +212,7 @@ LABEL_22:
       Scaleform::GFx::ASStringNode::ReleaseNode(v34);
     if ( (_BYTE)name )
     {
-      if ( !penva || (cap_bits & 1) != 0 )
+      if ( !penva || (v43 & 1) != 0 )
       {
 LABEL_32:
         v.T.Type = 2;
@@ -220,7 +246,7 @@ LABEL_12:
     if ( (_BYTE)name )
     {
 LABEL_29:
-      if ( penva && (cap_bits & 4) == 0 )
+      if ( penva && (v43 & 4) == 0 )
         v8 = 1;
       goto LABEL_32;
     }
@@ -264,33 +290,47 @@ LABEL_37:
     if ( !strcmp(name->pNode->pData, "screenResolutionX") )
     {
       v11 = penv->Target;
-      vp.AspectRatio = 1.0;
-      vp.Height = 1;
-      vp.Scale = 1.0;
-      vp.Width = 1;
-      memset(&vp, 0, 16);
-      memset(&vp.ScissorLeft, 0, 20);
-      v11->pASRoot->pMovieImpl->GetViewport(v11->pASRoot->pMovieImpl, &vp);
-      BufferHeight = vp.BufferWidth;
+      v58 = 1.0;
+      v51 = 1;
+      v57 = 1.0;
+      v50 = 1;
+      v46 = 0;
+      v47 = 0;
+      v49 = 0;
+      v48 = 0;
+      v55 = 0.0;
+      v54 = 0;
+      v53 = 0;
+      v52 = 0;
+      v56 = 0.0;
+      v11->pASRoot->pMovieImpl->GetViewport(v11->pASRoot->pMovieImpl, (Scaleform::GFx::Viewport *)&v46);
+      v12 = v46;
 LABEL_10:
       v.T.Type = 4;
-      v.NV.Int32Value = BufferHeight;
+      v.NV.Int32Value = v12;
 LABEL_11:
       Scaleform::GFx::AS2::Value::operator=(val, &v);
       goto LABEL_12;
     }
     if ( !strcmp(name->pNode->pData, "screenResolutionY") )
     {
-      vp.Height = 1;
-      vp.AspectRatio = 1.0;
-      vp.Width = 1;
-      vp.Scale = 1.0;
+      v51 = 1;
+      v58 = 1.0;
+      v50 = 1;
+      v57 = 1.0;
       v14 = penv->Target;
-      memset(&vp, 0, 16);
-      memset(&vp.ScissorLeft, 0, 20);
-      v14->pASRoot->pMovieImpl->GetViewport(v14->pASRoot->pMovieImpl, &vp);
+      v46 = 0;
+      v47 = 0;
+      v49 = 0;
+      v48 = 0;
+      v55 = 0.0;
+      v54 = 0;
+      v53 = 0;
+      v52 = 0;
+      v56 = 0.0;
+      v14->pASRoot->pMovieImpl->GetViewport(v14->pASRoot->pMovieImpl, (Scaleform::GFx::Viewport *)&v46);
       v.T.Type = 4;
-      v.NV.Int32Value = vp.BufferHeight;
+      v.NV.Int32Value = v47;
       Scaleform::GFx::AS2::Value::operator=(val, &v);
       goto LABEL_12;
     }
@@ -312,7 +352,7 @@ LABEL_18:
       goto LABEL_22;
     if ( Scaleform::GFx::ASString::operator==(v10, "hasMP3") )
     {
-      if ( penva && (cap_bits & 1) == 0 )
+      if ( penva && (v43 & 1) == 0 )
         v8 = 1;
       v.T.Type = 2;
       v.V.BooleanValue = v8;

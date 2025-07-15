@@ -1,63 +1,49 @@
 void __thiscall PPM_CONTEXT::makeSuffix(PPM_CONTEXT *this)
 {
-  PPM_CONTEXT *v1; // esi
-  PPM_CONTEXT *v2; // eax
-  char *p_SummFreq; // eax
-  char j; // cl
-  unsigned int Stats; // edi
-  int v6; // edx
   PPM_CONTEXT *Suffix; // eax
-  PPM_CONTEXT::STATE *i; // eax
+  char *i; // eax
+  PPM_CONTEXT::STATE *Stats; // edi
+  PPM_CONTEXT::STATE *j; // eax
+  PPM_CONTEXT *Successor; // edx
+  PPM_CONTEXT *v7; // eax
+  PPM_CONTEXT::STATE *k; // eax
 
-  v1 = this;
-  if ( this->NumStats )
+  while ( !this->NumStats )
   {
-LABEL_8:
-    Stats = (unsigned int)v1->Stats;
-    if ( Stats <= Stats + 6 * v1->NumStats )
+    if ( !this->Stats )
+      return;
+    Suffix = this->Suffix;
+    if ( Suffix->NumStats )
     {
-      do
-      {
-        v6 = *(_DWORD *)(Stats + 2);
-        if ( v6 )
-        {
-          Suffix = v1->Suffix;
-          if ( Suffix )
-          {
-            for ( i = Suffix->Stats; i->Symbol != *(_BYTE *)Stats; ++i )
-              ;
-            *(_DWORD *)(v6 + 8) = i->Successor;
-          }
-          else
-          {
-            *(_DWORD *)(v6 + 8) = v1;
-          }
-          PPM_CONTEXT::makeSuffix(*(PPM_CONTEXT **)(Stats + 2));
-        }
-        Stats += 6;
-      }
-      while ( (PPM_CONTEXT::STATE *)Stats <= &v1->Stats[v1->NumStats] );
+      for ( i = (char *)Suffix->Stats; *i != LOBYTE(this->SummFreq); i += 6 )
+        ;
     }
-  }
-  else
-  {
-    while ( v1->Stats )
+    else
     {
-      v2 = v1->Suffix;
-      if ( v2->NumStats )
+      i = (char *)&Suffix->SummFreq;
+    }
+    this->Stats[1].Successor = *(PPM_CONTEXT **)(i + 2);
+    this = (PPM_CONTEXT *)this->Stats;
+  }
+  Stats = this->Stats;
+  for ( j = &Stats[this->NumStats]; Stats <= j; j = &this->Stats[this->NumStats] )
+  {
+    Successor = Stats->Successor;
+    if ( Successor )
+    {
+      v7 = this->Suffix;
+      if ( v7 )
       {
-        p_SummFreq = (char *)v2->Stats;
-        for ( j = v1->SummFreq; *p_SummFreq != j; p_SummFreq += 6 )
+        for ( k = v7->Stats; k->Symbol != Stats->Symbol; ++k )
           ;
+        Successor->Suffix = k->Successor;
       }
       else
       {
-        p_SummFreq = (char *)&v2->SummFreq;
+        Successor->Suffix = this;
       }
-      v1->Stats[1].Successor = *(PPM_CONTEXT **)(p_SummFreq + 2);
-      v1 = (PPM_CONTEXT *)v1->Stats;
-      if ( v1->NumStats )
-        goto LABEL_8;
+      PPM_CONTEXT::makeSuffix(Stats->Successor);
     }
+    ++Stats;
   }
 }

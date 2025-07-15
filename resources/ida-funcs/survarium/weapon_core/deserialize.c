@@ -1,130 +1,136 @@
 void __thiscall survarium::weapon_core::deserialize(
         survarium::weapon_core *this,
-        vostok::network_core::packet_reader *reader)
+        vostok::network_core::buffer_reader *reader,
+        vostok::network_core::buffer_reader *client_reader,
+        unsigned int time_offset)
 {
-  boost::_bi::list1<vostok::network_core::packet_reader &> *v2; // eax
-  vostok::network_core::packet_reader *v3; // ecx
-  unsigned __int8 v4; // al
-  vostok::network_core::packet_reader *v5; // ecx
-  vostok::network_core::packet_reader *v6; // ecx
-  survarium::inventory *inventory; // eax
-  vostok::network_core::packet_reader *v8; // ecx
-  vostok::network_core::packet_reader *v9; // ecx
-  survarium::game_camera *v10; // ecx
-  int v11; // eax
-  boost::_bi::list4<enum vostok::connection_error_types_enum &,enum vostok::handshaking_error_types_enum &,enum vostok::socket_error_types_enum &,enum vostok::lobby_server_message_types_enum &> *v12; // ecx
-  vostok::ai::fsm_state *v13; // ecx
-  survarium::base_player *v14; // ecx
-  unsigned int v15; // [esp+0h] [ebp-7Ch]
-  survarium::weapon_user_animations_container *m_object; // [esp+28h] [ebp-54h]
-  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v18; // [esp+2Ch] [ebp-50h] BYREF
-  vostok::resources::resource_ptr<survarium::weapon_ammunition,vostok::resources::unmanaged_intrusive_base> *p_m_ammunition; // [esp+30h] [ebp-4Ch]
-  survarium::weapon_ammunition *v20; // [esp+34h] [ebp-48h]
-  vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v21; // [esp+38h] [ebp-44h] BYREF
-  vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v22; // [esp+3Ch] [ebp-40h]
-  survarium::weapon_user_animations_container *object; // [esp+40h] [ebp-3Ch]
-  survarium::weapon_user_animations_container *v24; // [esp+44h] [ebp-38h]
-  int v25; // [esp+5Ch] [ebp-20h]
-  int destination; // [esp+60h] [ebp-1Ch] BYREF
-  char v27; // [esp+6Bh] [ebp-11h]
-  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v28; // [esp+6Ch] [ebp-10h] BYREF
-  vostok::ai::fsm_state *i; // [esp+70h] [ebp-Ch]
-  unsigned __int8 target_state_id; // [esp+76h] [ebp-6h]
-  unsigned __int8 state_id; // [esp+77h] [ebp-5h]
-  vostok::ai::fsm_state *current; // [esp+78h] [ebp-4h]
+  const unsigned __int8 *m_pointer; // esi
+  const unsigned __int8 *v6; // esi
+  const unsigned __int8 *v7; // esi
+  survarium::profile_slot_enum *m_ammunition_slots; // eax
+  survarium::profile_slot_enum v9; // eax
+  vostok::particle::particle_system_instance_impl *v10; // esi
+  survarium::weapon_ammunition *m_object; // ecx
+  vostok::network_core::buffer_reader *v12; // esi
+  survarium::dispersion_calculator *v13; // ecx
+  bool v14; // al
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v15; // ecx
+  vostok::threading::mutex *v16; // ecx
+  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core *>,boost::arg<1> > > v17; // [esp-14h] [ebp-4Ch]
+  unsigned int v18; // [esp+0h] [ebp-38h]
+  unsigned __int8 v19; // [esp+13h] [ebp-25h]
+  unsigned __int8 v20; // [esp+13h] [ebp-25h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v21; // [esp+14h] [ebp-24h] BYREF
+  boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> f; // [esp+18h] [ebp-20h] BYREF
 
-  survarium::inventory_item::deserialize(&this->survarium::inventory_item, reader);
-  this->m_deserializing = 1;
-  v2 = (boost::_bi::list1<vostok::network_core::packet_reader &> *)vostok::network_core::packet_reader::r<unsigned int>(
-                                                                     (vostok::network_core::packet_reader *)this,
-                                                                     (int)reader);
-  stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-    v2,
-    (boost::_bi::list1<vostok::network_core::packet_reader &> **)&this->m_random);
-  vostok::network_core::packet_reader::r(reader, 4u, (unsigned __int8 *)&destination, v15);
-  v3 = (vostok::network_core::packet_reader *)destination;
-  v25 = destination;
-  this->m_normal_random.m_seed = destination;
-  v4 = vostok::network_core::packet_reader::r<unsigned char>(v3, (int)reader);
-  this->m_target = v4;
-  this->m_old_actions_mask = vostok::network_core::packet_reader::r<unsigned int>(
-                               (vostok::network_core::packet_reader *)v4,
-                               (int)reader);
-  this->m_ammo_in_magazine = vostok::network_core::packet_reader::r<unsigned short>(
-                               (vostok::network_core::packet_reader *)this,
-                               (int)reader);
-  this->m_bullets_in_queue = vostok::network_core::packet_reader::r<unsigned short>(v5, (int)reader);
-  this->m_fire_queue_type = vostok::network_core::packet_reader::r<unsigned char>(
-                              (vostok::network_core::packet_reader *)this,
-                              (int)reader);
-  this->m_ammo_slot = vostok::network_core::packet_reader::r<unsigned char>(v6, (int)reader);
-  if ( this->m_ammo_slot == max_slots_count )
+  survarium::inventory_item::deserialize(&this->survarium::inventory_item, reader, client_reader, time_offset);
+  m_pointer = reader->m_pointer;
+  v21.m_object = *(vostok::particle::particle_system_instance_impl **)m_pointer;
+  reader->m_pointer = m_pointer + 4;
+  this->m_random_generator._x = (unsigned int)v21.m_object;
+  v6 = reader->m_pointer;
+  v21.m_object = *(vostok::particle::particle_system_instance_impl **)v6;
+  reader->m_pointer = v6 + 4;
+  this->m_last_tick_time_in_ms = (unsigned int)v21.m_object;
+  this->m_load_ammo_on_next_activate = vostok::network_core::buffer_reader::r<bool>(reader);
+  this->m_ammo_in_magazine = vostok::network_core::buffer_reader::r<unsigned short>(reader);
+  this->m_bullets_in_queue = vostok::network_core::buffer_reader::r<unsigned short>(reader);
+  v19 = *reader->m_pointer++;
+  this->m_fire_queue_type = v19;
+  v7 = reader->m_pointer;
+  v20 = *v7;
+  reader->m_pointer = v7 + 1;
+  m_ammunition_slots = this->m_ammunition_slots;
+  this->m_selected_ammo_id = v20;
+  if ( !m_ammunition_slots || (v9 = m_ammunition_slots[v20], v9 == max_slots_count) )
   {
-    v18.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_allocation_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v18,
-      0);
-    m_object = v18.m_object;
-    v18.m_object = (survarium::weapon_user_animations_container *)this->m_ammunition.m_object;
-    this->m_ammunition.m_object = (survarium::weapon_ammunition *)m_object;
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v18);
+    m_object = this->m_ammunition.m_object;
+    this->m_ammunition.m_object = 0;
+    v21.m_object = (vostok::particle::particle_system_instance_impl *)m_object;
   }
   else
   {
-    inventory = survarium::inventory_item::get_inventory(&this->survarium::inventory_item, (int)this);
-    v22 = (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)survarium::inventory::item_in_slot((survarium::inventory *)this->m_ammo_slot, (int)inventory);
-    v24 = (survarium::weapon_user_animations_container *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(v22);
-    object = v24;
-    v28.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_allocation_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v28,
-      v24);
-    p_m_ammunition = &this->m_ammunition;
+    v10 = (vostok::particle::particle_system_instance_impl *)this->m_inventory->m_slots.elems[v9].m_object;
     v21.m_object = 0;
-    vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v21,
-      (const vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v28);
-    v20 = (survarium::weapon_ammunition *)v21.m_object;
-    v21.m_object = (vostok::ai::behaviour *)this->m_ammunition.m_object;
-    this->m_ammunition.m_object = v20;
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v21);
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v28);
-  }
-  if ( this->m_is_there_chamber_a_round_state )
-    this->m_is_round_chambered = vostok::network_core::packet_reader::r<unsigned char>(v8, (int)reader);
-  if ( this->m_logic->m_current_state )
-  {
-    this->m_is_shown = vostok::network_core::packet_reader::r<unsigned char>(
-                         (vostok::network_core::packet_reader *)this->m_logic->m_current_state,
-                         (int)reader);
-    survarium::hand_to_weapon_ik_processor::deserialize(&this->m_hand_ik_processor, reader);
-    target_state_id = vostok::network_core::packet_reader::r<unsigned char>(v9, (int)reader);
-    state_id = 0;
-    current = 0;
-    survarium::weapon_user_dead_state::finalize(v10);
-    i = (vostok::ai::fsm_state *)boost::_bi::list3<char const * &,enum survarium::hit_affects_type_enum &,enum survarium::affect_event_type_enum &>::operator[](
-                                   v12,
-                                   v11);
-    while ( i )
+    if ( v10 )
     {
-      v13 = (vostok::ai::fsm_state *)state_id;
-      if ( state_id == target_state_id )
-      {
-        current = i;
-        break;
-      }
-      v13 = i;
-      i = i->next;
-      ++state_id;
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v21);
+      v21.m_object = v10;
+      _InterlockedExchangeAdd(&v10->m_reference_count, 1u);
     }
-    v27 = 0;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v13);
-    vostok::ai::fsm::set_initial_state(this->m_logic, current);
-    ((void (__thiscall *)(vostok::ai::fsm_state *, vostok::network_core::packet_reader *))this->m_logic->m_current_state->__vftable[1].initialize)(
-      this->m_logic->m_current_state,
-      reader);
-    survarium::weapon_user_animations_selector::deserialize(&this->m_user_animations_selector, reader);
-    survarium::base_player::force_animation_selection(v14, (int)this->m_user);
+    vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+      (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&v21,
+      (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_ammunition);
   }
-  this->m_deserializing = 0;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v21);
+  v12 = reader;
+  if ( this->m_is_there_chamber_a_round_state )
+    this->m_is_round_chambered = vostok::network_core::buffer_reader::r<bool>(reader);
+  if ( this->m_user )
+  {
+    survarium::recoil_calculator::deserialize(&this->m_recoil_calculator, reader, time_offset);
+    survarium::dispersion_calculator::deserialize(
+      v13,
+      (vostok::network_core::buffer_reader *)&this->m_dispersion_calculator,
+      reader,
+      time_offset);
+    this->m_aimed = vostok::network_core::buffer_reader::r<bool>(reader);
+    survarium::transition_helper::deserialize(&this->m_aim_progress, reader, time_offset);
+    if ( this->m_aimed )
+      survarium::breath_vibration_calculator::deserialize(
+        reader,
+        &this->m_breath_vibration_calculator,
+        client_reader,
+        v18);
+    v14 = vostok::network_core::buffer_reader::r<bool>(reader);
+    this->m_is_in_sprint_transition = v14;
+    if ( v14 )
+    {
+      (&f.vtable)[1] = 0;
+      f.functor.obj_ptr = (void *)this;
+      f.vtable = (boost::detail::function::vtable_base *)survarium::weapon_core::on_sprint_animation_ended;
+      HIDWORD(v17.f_.f_) = survarium::weapon_core::on_sprint_animation_ended;
+      *(_QWORD *)&v17.l_.a1_.t_ = __PAIR64__((unsigned int)this, 0);
+      LODWORD(v17.f_.f_) = &f;
+      v21.m_object = 0;
+      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
+        0,
+        v17,
+        (int)f.functor.vostok_pointer_size_alignment[1]);
+      survarium::base_player::subscribe_animation_player(
+        (survarium::base_player *)&f,
+        (vostok::animation::reserved_channel_ids_enum)this->m_user,
+        (const boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> *)3,
+        &f,
+        (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)this,
+        (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&v21,
+        this->m_user);
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        v15,
+        (int *)&f);
+      vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&v21);
+      v12 = reader;
+    }
+    this->m_need_to_auto_reload = vostok::network_core::buffer_reader::r<bool>(v12);
+    vostok::ai::fsm::deserialize(this->m_logic, v12, client_reader);
+    this->m_portable_interactive_object->deserialize(
+      this->m_portable_interactive_object,
+      v12,
+      client_reader,
+      time_offset);
+    vostok::intrusive_list<vostok::resources::fs_task,vostok::resources::fs_task *,4,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
+      &this->m_user->m_profile->modifiers.m_modifiers.elems[4],
+      &this->m_move_speed_modifier,
+      v16);
+  }
+}
+
+
+void __thiscall survarium::weapon_core::deserialize(
+        char *this,
+        vostok::network_core::buffer_reader *a2,
+        vostok::network_core::buffer_reader *a3,
+        unsigned int a4)
+{
+  survarium::weapon_core::deserialize((survarium::weapon_core *)(this - 16), a2, a3, a4);
 }

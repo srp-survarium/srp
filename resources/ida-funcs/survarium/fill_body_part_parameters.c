@@ -1,39 +1,82 @@
 void __usercall survarium::fill_body_part_parameters(
-        float a1@<xmm0>,
-        survarium::body_part_parameters *body_part,
+        survarium::body_part_parameters *body_part@<esi>,
         survarium::damage_model *const model,
         vostok::memory::stack_allocator *allocator,
-        vostok::configs::binary_config_value *part_value)
+        const vostok::configs::binary_config_value *part_value,
+        vostok::resources::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base> *const threshold_emitters,
+        vostok::resources::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base> *const hit_emitters)
 {
-  survarium::affects_threshold *new_threshold; // [esp+20h] [ebp-28h]
-  survarium::hit_type_parameters *hit_type_params; // [esp+2Ch] [ebp-1Ch]
-  vostok::configs::binary_config_value *types_value; // [esp+30h] [ebp-18h]
-  vostok::configs::binary_config_value *thresholds_value; // [esp+34h] [ebp-14h]
-  vostok::configs::binary_config_value *it_type; // [esp+38h] [ebp-10h]
-  const vostok::configs::binary_config_value *it_type_end; // [esp+3Ch] [ebp-Ch]
-  vostok::configs::binary_config_value *it_threshold; // [esp+40h] [ebp-8h]
-  const vostok::configs::binary_config_value *it_threshold_end; // [esp+44h] [ebp-4h]
+  unsigned int v6; // ebx
+  vostok::configs::binary_config_value *v7; // ecx
+  char **v8; // edi
+  const vostok::configs::binary_config_value *v9; // edi
+  vostok::configs::binary_config_value *v10; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v11; // eax
+  survarium::hit_type_parameters *hit_type_parameters; // edi
+  const vostok::configs::binary_config_value *v13; // eax
+  const vostok::configs::binary_config_value *pointer; // ebx
+  int v15; // edi
+  survarium::affects_threshold *threshold; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v17; // [esp+Ch] [ebp-10h] BYREF
+  vostok::configs::binary_config_value *v18; // [esp+10h] [ebp-Ch]
+  vostok::resources::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base> *v19; // [esp+14h] [ebp-8h]
+  int v20; // [esp+18h] [ebp-4h]
 
-  types_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          part_value,
-                                                          "hit_types");
-  it_type = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)types_value);
-  it_type_end = vostok::configs::binary_config_value::end(types_value);
-  while ( it_type != it_type_end )
+  v6 = 0;
+  v20 = 0;
+  v18 = vostok::configs::binary_config_value::operator[](part_value, "hit_types");
+  v19 = hit_emitters;
+  do
   {
-    hit_type_params = survarium::create_hit_type_parameters(a1, model, allocator, it_type);
-    survarium::body_part_parameters::add_hit_type(body_part, (survarium::game_camera *)hit_type_params);
-    ++it_type;
+    v8 = (char **)&hit_type_names_37[v6];
+    if ( vostok::configs::binary_config_value::value_exists(v7, (int)v18, (unsigned int)*v8) )
+    {
+      v9 = vostok::configs::binary_config_value::operator[](v18, *v8);
+      if ( vostok::configs::binary_config_value::value_exists(v10, (int)v9, (unsigned int)"effect") )
+      {
+        v11 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v19++;
+      }
+      else
+      {
+        v20 |= 1u;
+        v17.m_object = 0;
+        v11 = &v17;
+      }
+      hit_type_parameters = survarium::create_hit_type_parameters(
+                              model,
+                              allocator,
+                              (vostok::particle::particle_system_instance_impl *)v6,
+                              v9,
+                              v11);
+      if ( (v20 & 1) != 0 )
+      {
+        v20 &= ~1u;
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v17);
+      }
+      hit_type_parameters->next = 0;
+      ++body_part->m_hit_types.m_size;
+      if ( body_part->m_hit_types.m_first )
+        body_part->m_hit_types.m_last->next = hit_type_parameters;
+      else
+        body_part->m_hit_types.m_first = hit_type_parameters;
+      body_part->m_hit_types.m_last = hit_type_parameters;
+    }
+    ++v6;
   }
-  thresholds_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                               part_value,
-                                                               "thresholds");
-  it_threshold = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)thresholds_value);
-  it_threshold_end = vostok::configs::binary_config_value::end(thresholds_value);
-  while ( it_threshold != it_threshold_end )
+  while ( v6 < 8 );
+  v13 = vostok::configs::binary_config_value::operator[](part_value, "thresholds");
+  pointer = (const vostok::configs::binary_config_value *)v13->data.pointer;
+  v15 = (int)v13->data.pointer + 24 * v13->count;
+  while ( pointer != (const vostok::configs::binary_config_value *)v15 )
   {
-    new_threshold = survarium::create_threshold(a1, allocator, it_threshold, model);
-    survarium::body_part_parameters::add_threshold(body_part, (survarium::game_camera *)new_threshold);
-    ++it_threshold;
+    threshold = (survarium::affects_threshold *)survarium::create_threshold(allocator, pointer, threshold_emitters);
+    threshold->next = 0;
+    ++body_part->m_thresholds.m_size;
+    if ( body_part->m_thresholds.m_first )
+      body_part->m_thresholds.m_last->next = threshold;
+    else
+      body_part->m_thresholds.m_first = threshold;
+    body_part->m_thresholds.m_last = threshold;
+    ++pointer;
   }
 }

@@ -77,7 +77,7 @@ int __cdecl png_read_transform_info(int a1, int a2)
     if ( (*(_DWORD *)(a1 + 116) & 0x1000000) != 0 )
       *(_BYTE *)(a2 + 25) |= 4u;
   }
-  if ( (*(_DWORD *)(a1 + 116) & 0x100000) != 0 )
+  if ( ((unsigned int)&loc_100000 & *(_DWORD *)(a1 + 116)) != 0 )
   {
     if ( *(unsigned __int8 *)(a2 + 24) < (int)*(unsigned __int8 *)(a1 + 104) )
       *(_BYTE *)(a2 + 24) = *(_BYTE *)(a1 + 104);

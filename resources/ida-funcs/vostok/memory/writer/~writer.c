@@ -13,13 +13,9 @@ void __thiscall vostok::memory::writer::~writer(vostok::memory::writer *this)
     m_allocator = this->m_allocator;
     if ( m_data )
     {
-      m_allocator->call_free(m_allocator, this->m_data);
+      m_allocator->call_free(m_allocator, m_data, "vostok::memory::writer::free_", ".\\memory_writer.cpp", 86u);
       this->m_data = 0;
     }
   }
-  this->__vftable = (vostok::memory::writer_vtbl *)&vostok::memory::writer_base::`vftable';
-  if ( this->m_chunk_pos._M_impl._M_start )
-    this->m_chunk_pos._M_impl._M_end_of_storage.m_allocator->call_free(
-      this->m_chunk_pos._M_impl._M_end_of_storage.m_allocator,
-      this->m_chunk_pos._M_impl._M_start);
+  vostok::memory::writer_base::~writer_base(this);
 }

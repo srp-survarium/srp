@@ -3,8 +3,8 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadCSS(
         Scaleform::String pentry,
         Scaleform::GFx::LoadStates *pls)
 {
-  Scaleform::GFx::LoadQueueEntry *pData; // ebp
-  Scaleform::String *p_RefCount; // esi
+  Scaleform::String::DataDesc *pData; // ebp
+  const Scaleform::String *p_RefCount; // esi
   Scaleform::GFx::LoadStates *v6; // esi
   void *v7; // esi
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
@@ -14,30 +14,31 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadCSS(
   Scaleform::GFx::MovieImpl::LevelInfo *v12; // ecx
   Scaleform::GFx::InteractiveObject *pObject; // eax
   Scaleform::GFx::AS2::Environment *v14; // eax
-  _DWORD *EntryTime; // ebx
+  _DWORD *v15; // ebx
   Scaleform::GFx::AS2::Environment *v16; // edi
   void (__thiscall **v17)(_DWORD *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Object *); // esi
   Scaleform::GFx::AS2::Object *v18; // eax
   void *v19; // esi
   void *v20; // esi
-  Scaleform::String level0Path; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::String src; // [esp+18h] [ebp-10h] BYREF
   Scaleform::GFx::URLBuilder::LocationInfo loc; // [esp+1Ch] [ebp-Ch] BYREF
 
-  Scaleform::String::String(&level0Path);
-  Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(this, &level0Path);
-  pData = (Scaleform::GFx::LoadQueueEntry *)pentry.pData;
-  p_RefCount = (Scaleform::String *)&pentry.pData[1].RefCount;
+  Scaleform::String::String(&src);
+  Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(this, &src);
+  pData = pentry.pData;
+  p_RefCount = (const Scaleform::String *)&pentry.pData[1].RefCount;
   if ( Scaleform::String::GetLength((Scaleform::String *)&pentry.pData[1].RefCount) )
   {
     loc.Use = File_LoadCSS;
     Scaleform::String::String(&loc.FileName, p_RefCount);
-    Scaleform::String::String(&loc.ParentPath, &level0Path);
+    Scaleform::String::String(&loc.ParentPath, &src);
     Scaleform::String::String(&pentry);
     v6 = pls;
     Scaleform::GFx::LoadStates::BuildURL(pls, &pentry, &loc);
-    Scaleform::String::String((Scaleform::String *)&pls, (char *)((pentry.HeapTypeBits & 0xFFFFFFFC) + 8));
-    (*(void (__thiscall **)(unsigned int, Scaleform::GFx::LoadStates **, Scaleform::GFx::FileOpener *))(*(_DWORD *)pData[3].EntryTime + 4))(
-      pData[3].EntryTime,
+    Scaleform::String::String((Scaleform::String *)&pls, (const __m128i *)((pentry.HeapTypeBits & 0xFFFFFFFC) + 8));
+    (*(void (__thiscall **)(_DWORD, Scaleform::GFx::LoadStates **, Scaleform::GFx::FileOpener *))(**(_DWORD **)pData[8].Data
+                                                                                                + 4))(
+      *(_DWORD *)pData[8].Data,
       &pls,
       v6->pBindStates.pObject->pFileOpener.pObject);
     v7 = (void *)((unsigned int)pls & 0xFFFFFFFC);
@@ -68,17 +69,17 @@ LABEL_8:
                                                                            + pObject->AvmObjOffset)
                                                                          + 124))((int)pObject + 4
                                                                                               * pObject->AvmObjOffset);
-    EntryTime = (_DWORD *)pData[3].EntryTime;
+    v15 = *(_DWORD **)pData[8].Data;
     v16 = v14;
-    v17 = (void (__thiscall **)(_DWORD *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Object *))(*EntryTime + 8);
-    v18 = Scaleform::GFx::AS2::Value::ToObject((Scaleform::GFx::AS2::Value *)&pData[3].pNext, v14);
-    (*v17)(EntryTime, v16, v18);
+    v17 = (void (__thiscall **)(_DWORD *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Object *))(*v15 + 8);
+    v18 = Scaleform::GFx::AS2::Value::ToObject((Scaleform::GFx::AS2::Value *)&pData[7].RefCount, v14);
+    (*v17)(v15, v16, v18);
     v19 = (void *)(pentry.HeapTypeBits & 0xFFFFFFFC);
     if ( InterlockedExchangeAdd((volatile LONG *)((pentry.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v19);
     Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&loc);
   }
-  v20 = (void *)(level0Path.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((level0Path.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v20 = (void *)(src.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((src.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v20);
 }

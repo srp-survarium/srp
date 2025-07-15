@@ -72,7 +72,7 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *__thiscall Sca
       if ( v10 && ((unsigned __int8)v10 & 1) == 0 )
       {
         RefCount = v10->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v10->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::ASStringManager::ASStringManager(
   unsigned int v7; // ecx
   unsigned int Size; // edx
   unsigned int HashFlags; // [esp-4h] [ebp-14h]
-  Scaleform::GFx::ASStringNode *key; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *p_EmptyStringNode; // [esp+Ch] [ebp-4h] BYREF
 
   this->__vftable = (Scaleform::GFx::ASStringManager_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -25,18 +25,17 @@ void __thiscall Scaleform::GFx::ASStringManager::ASStringManager(
   this->pTextBufferPages = 0;
   this->EmptyStringNode.RefCount = 1;
   this->EmptyStringNode.Size = 0;
-  this->EmptyStringNode.HashFlags = (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                  & Scaleform::String::BernsteinHashFunctionCIS((char *)&buf, 0, 0x1505u)
+  this->EmptyStringNode.HashFlags = Scaleform::String::BernsteinHashFunctionCIS((char *)uri, 0, 0x1505u) & 0xFFFFFF
                                   | 0xC8000000;
-  this->EmptyStringNode.pData = (const char *)&buf;
+  this->EmptyStringNode.pData = uri;
   this->EmptyStringNode.pManager = this;
   this->EmptyStringNode.pLower = &this->EmptyStringNode;
   HashFlags = this->EmptyStringNode.HashFlags;
-  key = &this->EmptyStringNode;
+  p_EmptyStringNode = &this->EmptyStringNode;
   Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>>>::add<Scaleform::GFx::ASStringNode *>(
     p_StringSet,
     p_StringSet,
-    &key,
+    &p_EmptyStringNode,
     HashFlags);
   pManager = this->EmptyStringNode.pManager;
   this->NullStringNode.pData = this->EmptyStringNode.pData;

@@ -1,4 +1,4 @@
-char __thiscall Scaleform::GFx::ResourceWeakLib::ResourceNode::operator==(
+bool __thiscall Scaleform::GFx::ResourceWeakLib::ResourceNode::operator==(
         Scaleform::GFx::ResourceWeakLib::ResourceNode *this,
         const Scaleform::GFx::ResourceKey *k)
 {

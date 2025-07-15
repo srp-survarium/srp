@@ -4,7 +4,7 @@ void __cdecl SEED_cbc_encrypt(
         unsigned int len,
         const seed_key_st *ks,
         unsigned __int8 *ivec,
-        int enc)
+        void (__cdecl *enc)(const unsigned __int8 *, unsigned __int8 *, const void *))
 {
   if ( enc )
     CRYPTO_cbc128_encrypt(

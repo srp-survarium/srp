@@ -4,7 +4,7 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet1::Alloc(
         Scaleform::Heap::HeapSegment **allocSeg)
 {
   unsigned int v3; // ebp
-  unsigned int v5; // ecx
+  unsigned int MinAlignShift; // ecx
   unsigned int v6; // ebx
   Scaleform::HeapPT::BinTNode *result; // eax
   Scaleform::HeapPT::BinTNode *v8; // edi
@@ -15,14 +15,14 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet1::Alloc(
   char *v13; // eax
   unsigned int v14; // eax
   unsigned int v15; // eax
-  char minAlignShift; // [esp+Ch] [ebp-4h]
-  Scaleform::HeapPT::FreeBin *bytesa; // [esp+14h] [ebp+4h]
+  char v16; // [esp+Ch] [ebp-4h]
+  Scaleform::HeapPT::FreeBin *p_Bin; // [esp+14h] [ebp+4h]
 
   v3 = bytes;
-  v5 = this->MinAlignShift;
-  v6 = bytes >> v5;
-  minAlignShift = v5;
-  bytesa = &this->Bin;
+  MinAlignShift = this->MinAlignShift;
+  v6 = bytes >> MinAlignShift;
+  v16 = MinAlignShift;
+  p_Bin = &this->Bin;
   result = Scaleform::HeapPT::FreeBin::PullBest(&this->Bin, v6);
   v8 = result;
   if ( result )
@@ -32,8 +32,8 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet1::Alloc(
     if ( ShortSize >= 0x21 )
       ShortSize = v8->Size;
     v11 = ShortSize - v6;
-    v12 = v11 << minAlignShift;
-    if ( v11 << minAlignShift < 0x10 )
+    v12 = v11 << v16;
+    if ( v11 << v16 < 0x10 )
     {
       v3 += v12;
     }
@@ -53,15 +53,14 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet1::Alloc(
         *((_WORD *)v13 + 6) = v11;
       }
       *((_DWORD *)v13 + 2) = pSegment;
-      Scaleform::HeapPT::FreeBin::Push(bytesa, (Scaleform::HeapPT::BinTNode *)((char *)v8 + v3));
-      v14 = (v3 + (char *)v8 - (char *)pSegment->pData) >> minAlignShift;
+      Scaleform::HeapPT::FreeBin::Push(p_Bin, (Scaleform::HeapPT::BinTNode *)((char *)v8 + v3));
+      v14 = (v3 + (char *)v8 - (char *)pSegment->pData) >> v16;
       *((_DWORD *)&pSegment[1].pPrev + (v14 >> 5)) &= ~(1 << (v14 & 0x1F));
       *((_DWORD *)&pSegment[1].pPrev + ((v14 + v11 - 1) >> 5)) &= ~(1 << ((v14 + v11 - 1) & 0x1F));
     }
-    v15 = ((char *)v8 - (char *)pSegment->pData) >> minAlignShift;
+    v15 = ((char *)v8 - (char *)pSegment->pData) >> v16;
     *((_DWORD *)&pSegment[1].pPrev + (v15 >> 5)) |= 1 << (v15 & 0x1F);
-    *((_DWORD *)&pSegment[1].pPrev + ((v15 + (v3 >> minAlignShift) - 1) >> 5)) |= 1 << ((v15 + (v3 >> minAlignShift) - 1)
-                                                                                      & 0x1F);
+    *((_DWORD *)&pSegment[1].pPrev + ((v15 + (v3 >> v16) - 1) >> 5)) |= 1 << ((v15 + (v3 >> v16) - 1) & 0x1F);
     *allocSeg = pSegment;
     return v8;
   }

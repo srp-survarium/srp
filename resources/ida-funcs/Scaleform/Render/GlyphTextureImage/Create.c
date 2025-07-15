@@ -11,7 +11,7 @@ Scaleform::Render::GlyphTextureImage *__cdecl Scaleform::Render::GlyphTextureIma
   Scaleform::Render::Image *v8; // esi
   Scaleform::Render::Texture *v9; // eax
 
-  v6 = (Scaleform::Render::GlyphTextureImage *)heap->Alloc(heap, 44, 0);
+  v6 = (Scaleform::Render::GlyphTextureImage *)heap->Alloc(heap, 48, 0);
   if ( v6 )
   {
     Scaleform::Render::GlyphTextureImage::GlyphTextureImage(v6, cache, textureId, size, use);

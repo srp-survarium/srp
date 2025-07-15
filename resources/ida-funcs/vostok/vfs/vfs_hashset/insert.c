@@ -1,28 +1,19 @@
-void __thiscall vostok::vfs::vfs_hashset::insert(
-        vostok::vfs::vfs_hashset *this,
-        unsigned int hash,
+void __userpurge vostok::vfs::vfs_hashset::insert(
+        vostok::vfs::vfs_hashset *this@<ecx>,
+        int a2@<eax>,
+        __int16 hash,
         vostok::vfs::base_node<1> *node,
-        unsigned int mount_id)
+        vostok::vfs::should_overlap_predicate mount_id)
 {
-  vostok::threading::reader_writer_lock *v4; // ecx
-  vostok::threading::reader_writer_lock *v6; // [esp+4h] [ebp-14h]
-  vostok::vfs::should_overlap_predicate should_overlap_predicate; // [esp+8h] [ebp-10h] BYREF
-  vostok::threading::reader_writer_lock::mutex_raii raii; // [esp+Ch] [ebp-Ch] BYREF
+  volatile signed __int64 *v6; // edi
+  vostok::threading::reader_writer_lock *v7; // ecx
 
-  v6 = &this->m_hashlocks[hash % 0x20];
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&raii);
-  raii.lock = v6;
-  raii.lock_type = lock_type_write;
-  vostok::threading::reader_writer_lock::lock(
-    v4,
-    (unsigned int *)&v6->m_readers_writers_counter.readers_count,
-    lock_type_write);
-  raii.locked = 1;
-  should_overlap_predicate.mount_id = mount_id;
+  v6 = (volatile signed __int64 *)(a2 + 8 * (hash & 0x1F));
+  vostok::threading::reader_writer_lock::lock_write_impl(this->m_hashlocks, v6);
   vostok::hash_multiset<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,16,vostok::detail::fixed_size_policy<32768>,vostok::detail::null_hash<vostok::vfs::base_node<1>>,vostok::detail::null_equal<vostok::vfs::base_node<1>>,vostok::threading::single_threading_policy>::insert<vostok::vfs::should_overlap_predicate>(
-    &this->m_hashset,
     hash,
+    (vostok::hash_multiset<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,16,vostok::detail::fixed_size_policy<32768>,vostok::detail::null_hash<vostok::vfs::base_node<1> >,vostok::detail::null_equal<vostok::vfs::base_node<1> >,vostok::threading::single_threading_policy> *)(a2 + 256),
     node,
-    &should_overlap_predicate);
-  vostok::threading::reader_writer_lock::mutex_raii::~mutex_raii(&raii);
+    &mount_id);
+  vostok::threading::reader_writer_lock::unlock(v7, v6, lock_type_write);
 }

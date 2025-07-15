@@ -1,56 +1,42 @@
-vostok::resources::cook_base *__cdecl vostok::resources::resources_manager::unregister_cook(
-        vostok::resources::class_id_enum resource_class)
+vostok::resources::cook_base *__thiscall vostok::resources::resources_manager::unregister_cook(
+        vostok::buffer_vector<vostok::resources::cook_base *> *this)
 {
-  vostok::resources::cook_base **m_end; // eax
-  char v2; // bl
-  int v3; // ecx
-  vostok::resources::cook_base *v4; // edi
-  void (__cdecl *v5)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  int v1; // esi
+  int v2; // ebx
+  bool has_passed_filters; // al
+  int v5; // [esp-8h] [ebp-40h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v6; // [esp-4h] [ebp-3Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-28h] BYREF
+  vostok::resources::cook_base *value; // [esp+30h] [ebp-8h] BYREF
+  int v9; // [esp+34h] [ebp-4h]
 
-  m_end = s_cooks_registry.m_end;
-  v2 = 0;
+  v9 = 0;
   if ( s_cooks_registry.m_begin == s_cooks_registry.m_end )
   {
-    v3 = 517;
+    value = 0;
+    v1 = 518;
     do
     {
-      if ( m_end )
-      {
-        *m_end = 0;
-        m_end = s_cooks_registry.m_end;
-      }
-      ++m_end;
-      --v3;
-      s_cooks_registry.m_end = m_end;
+      vostok::buffer_vector<vostok::resources::cook_base *>::push_back(this, &value);
+      --v1;
     }
-    while ( v3 );
+    while ( v1 );
   }
-  v4 = s_cooks_registry.m_begin[resource_class];
-  if ( v4 && v4->m_cook_users_count.m_count )
+  v2 = *((_DWORD *)s_cooks_registry.m_begin + 12);
+  if ( v2 && *(_DWORD *)(v2 + 4) )
   {
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "core:", warning) )
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)&stru_802D94,
+                                 (const char *)3),
+          this = v6,
+          has_passed_filters) )
     {
-      v5 = vostok::core::g_log_callback;
-      log_callback.vtable = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          &log_callback.functor,
-          &log_callback.functor,
-          destroy_functor_tag);
-      if ( v5 )
-      {
-        log_callback.functor.obj_ptr = v5;
-        log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                     + 1);
-      }
-      else
-      {
-        log_callback.vtable = 0;
-      }
-      v2 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+        &log_callback);
+      v5 = *(_DWORD *)(v2 + 4);
+      v9 = 1;
       vostok::logging::append(
         &log_callback,
         (void *const)vostok::core::g_log_flags,
@@ -59,25 +45,17 @@ vostok::resources::cook_base *__cdecl vostok::resources::resources_manager::unre
         0x6Eu,
         "class vostok::resources::cook_base *__cdecl vostok::resources::resources_manager::unregister_cook(enum vostok::r"
         "esources::class_id_enum)",
-        "core:",
+        (char *)&stru_802D94,
         warning,
         "There are [%d] leaked resource(s). (classid = [%d])",
-        v4->m_cook_users_count.m_count,
-        resource_class);
+        v5,
+        12);
     }
-    if ( (v2 & 1) != 0 )
-    {
-      if ( log_callback.vtable )
-      {
-        if ( ((int)log_callback.vtable & 1) == 0 )
-        {
-          v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-          if ( v6 )
-            v6(&log_callback.functor, &log_callback.functor, 2);
-        }
-      }
-    }
+    if ( (v9 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+        (int *)&log_callback);
   }
-  s_cooks_registry.m_begin[resource_class] = 0;
-  return v4;
+  *((_DWORD *)s_cooks_registry.m_begin + 12) = 0;
+  return (vostok::resources::cook_base *)v2;
 }

@@ -5,7 +5,7 @@ unsigned int __thiscall Scaleform::GFx::MovieDefImpl::GetMetadata(
 {
   Scaleform::GFx::MovieDataDef::LoadTaskData *pObject; // eax
   unsigned int MetadataSize; // esi
-  unsigned __int8 *pMetadata; // eax
+  const __m128i *pMetadata; // eax
 
   pObject = this->pBindData.pObject->pDataDef.pObject->pData.pObject;
   MetadataSize = buffSize;
@@ -13,8 +13,8 @@ unsigned int __thiscall Scaleform::GFx::MovieDefImpl::GetMetadata(
     return pObject->MetadataSize;
   if ( buffSize >= pObject->MetadataSize )
     MetadataSize = pObject->MetadataSize;
-  pMetadata = pObject->pMetadata;
+  pMetadata = (const __m128i *)pObject->pMetadata;
   if ( pMetadata )
-    memcpy((unsigned __int8 *)pbuff, pMetadata, MetadataSize);
+    memcpy((int)pbuff, pMetadata, MetadataSize);
   return MetadataSize;
 }

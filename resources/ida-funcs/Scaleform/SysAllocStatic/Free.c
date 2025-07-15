@@ -1,6 +1,6 @@
 char __thiscall Scaleform::SysAllocStatic::Free(
         Scaleform::SysAllocStatic *this,
-        void *ptr,
+        Scaleform::HeapPT::DualTNode *ptr,
         unsigned int size,
         unsigned int alignment)
 {

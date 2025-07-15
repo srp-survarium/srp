@@ -45,7 +45,7 @@ void __thiscall Scaleform::String::AssignString(
 }
 
 
-void __thiscall Scaleform::String::AssignString(Scaleform::String *this, char *putf8str, unsigned int size)
+void __thiscall Scaleform::String::AssignString(Scaleform::String *this, const __m128i *putf8str, unsigned int size)
 {
   Scaleform::MemoryHeap *pData; // eax
   volatile LONG *v5; // edi

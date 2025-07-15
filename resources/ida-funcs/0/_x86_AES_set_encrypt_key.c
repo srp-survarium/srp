@@ -39,7 +39,7 @@ int __cdecl _x86_AES_set_encrypt_key(int a1, int *a2, int a3, int *a4)
   v4 = a4;
   if ( !a2 || !a4 )
     return -1;
-  v5 = (char *)&loc_7C79F9 + (_DWORD)&_LAES_Te[-2038879] + 3;
+  v5 = (char *)&loc_67A879 + (_DWORD)&_LAES_Te[-1697791] + 3;
   switch ( a3 )
   {
     case 128:
@@ -54,7 +54,7 @@ int __cdecl _x86_AES_set_encrypt_key(int a1, int *a2, int a3, int *a4)
       v11 = 0;
       while ( 1 )
       {
-        v12 = *(_DWORD *)&v5[4 * v11 + (_DWORD)&loc_7C74F8 - 8155512]
+        v12 = *(_DWORD *)&v5[4 * v11 + (_DWORD)&loc_67A378 - 6791160]
             ^ ((unsigned __int8)v5[HIBYTE(v10) - 128] << 16)
             ^ ((unsigned __int8)v5[BYTE2(v10) - 128] << 8)
             ^ (unsigned __int8)v5[BYTE1(v10) - 128]
@@ -90,7 +90,7 @@ int __cdecl _x86_AES_set_encrypt_key(int a1, int *a2, int a3, int *a4)
       v20 = 0;
       while ( 1 )
       {
-        v21 = *(_DWORD *)&v5[4 * v20 + (_DWORD)&loc_7C74F8 - 8155512]
+        v21 = *(_DWORD *)&v5[4 * v20 + (_DWORD)&loc_67A378 - 6791160]
             ^ ((unsigned __int8)v5[HIBYTE(v19) - 128] << 16)
             ^ ((unsigned __int8)v5[BYTE2(v19) - 128] << 8)
             ^ (unsigned __int8)v5[BYTE1(v19) - 128]
@@ -133,7 +133,7 @@ int __cdecl _x86_AES_set_encrypt_key(int a1, int *a2, int a3, int *a4)
       v32 = 0;
       while ( 1 )
       {
-        v33 = *(_DWORD *)&v5[4 * v32 + (_DWORD)&loc_7C74F8 - 8155512]
+        v33 = *(_DWORD *)&v5[4 * v32 + (_DWORD)&loc_67A378 - 6791160]
             ^ ((unsigned __int8)v5[HIBYTE(v31) - 128] << 16)
             ^ ((unsigned __int8)v5[BYTE2(v31) - 128] << 8)
             ^ (unsigned __int8)v5[BYTE1(v31) - 128]

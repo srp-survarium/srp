@@ -14,7 +14,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Mo
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::MonoVertexType ***)v5;
       this->MaxPages = 2 * v6;
@@ -50,7 +50,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Mo
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::MonoVertexType ***)v5;
       this->MaxPages = 2 * v6;
@@ -84,7 +84,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Ba
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::TessMesh **)v5;
       this->MaxPages = 2 * v6;
@@ -116,7 +116,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::FanE
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::MonoVertexType **)v5;
       this->MaxPages = 2 * v6;
@@ -152,7 +152,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::Hori
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Hairliner::HorizontalEdgeType **)v5;
       this->MaxPages = 2 * v6;
@@ -188,7 +188,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::Inte
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::IntersectionType **)v5;
       this->MaxPages = 2 * v6;
@@ -224,7 +224,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::Mono
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Hairliner::MonoChainType **)v5;
       this->MaxPages = 2 * v6;
@@ -258,7 +258,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Mo
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::MonoChainType **)v5;
       this->MaxPages = 2 * v6;
@@ -292,7 +292,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Mo
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::MonotoneType **)v5;
       this->MaxPages = 2 * v6;
@@ -326,7 +326,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::PathBasic,2,4>:
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::PathBasic **)v5;
       this->MaxPages = 2 * v6;
@@ -358,7 +358,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Pa
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::TmpTextMeshLayer **)v5;
       this->MaxPages = 2 * v6;
@@ -390,7 +390,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Sc
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::ScanChainType **)v5;
       this->MaxPages = 2 * v6;
@@ -424,7 +424,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::TessVertex **)v5;
       this->MaxPages = 2 * v6;
@@ -456,7 +456,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::Tm
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::Tessellator::TmpEdgeAAType **)v5;
       this->MaxPages = 2 * v6;
@@ -490,7 +490,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::TmpTextMeshEntr
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::TmpTextMeshEntry **)v5;
       this->MaxPages = 2 * v6;
@@ -522,7 +522,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,1
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::VertexBasic **)v5;
       this->MaxPages = 2 * v6;
@@ -554,7 +554,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::GlyphFitter::Ve
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (unsigned int **)v5;
       this->MaxPages = 2 * v6;
@@ -586,7 +586,7 @@ void __thiscall Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::V
     if ( this->Pages )
     {
       v5 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-      memcpy(v5, (unsigned __int8 *)this->Pages, 4 * this->NumPages);
+      memcpy((int)v5, (const __m128i *)this->Pages, 4 * this->NumPages);
       v6 = this->MaxPages;
       this->Pages = (Scaleform::Render::StrokeSorter::VertexType **)v5;
       this->MaxPages = 2 * v6;

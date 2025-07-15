@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::AS2::ObjectCtorFunction::RegisterClassA(const Scaleform::GFx::AS2::FnCall *fn)
 {
   const Scaleform::GFx::AS2::FnCall *v1; // esi
-  Scaleform::GFx::AS2::Value *Result; // edi
+  Scaleform::GFx::AS2::Value *v2; // edi
   _DWORD *v3; // eax
   Scaleform::GFx::AS2::GlobalContext *v4; // ebx
   Scaleform::GFx::AS2::Value *v5; // ecx
@@ -19,17 +19,17 @@ void __cdecl Scaleform::GFx::AS2::ObjectCtorFunction::RegisterClassA(const Scale
   Scaleform::GFx::AS2::Value *v17; // esi
   char v18; // bl
   Scaleform::GFx::AS2::Value *v19; // eax
-  Scaleform::GFx::ASStringNode *pNode; // edi
+  Scaleform::GFx::ASStringNode *v20; // edi
   Scaleform::GFx::ASStringNode *v22; // eax
   const Scaleform::GFx::AS2::Environment *v23; // [esp-Ch] [ebp-24h]
-  Scaleform::GFx::ASString a1; // [esp+8h] [ebp-10h] BYREF
-  Scaleform::GFx::AS2::FunctionRef func; // [esp+Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::ASStringNode *v24; // [esp+8h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+Ch] [ebp-Ch] BYREF
 
   v1 = fn;
-  Result = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(Result);
-  Result->T.Type = 2;
-  Result->V.BooleanValue = 0;
+  v2 = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(v2);
+  v2->T.Type = 2;
+  v2->V.BooleanValue = 0;
   if ( v1->NArgs >= 2 )
   {
     v3 = &v1->Env->__vftable;
@@ -49,39 +49,39 @@ void __cdecl Scaleform::GFx::AS2::ObjectCtorFunction::RegisterClassA(const Scale
     {
       v23 = v1->Env;
       v10 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
-      Scaleform::GFx::AS2::Value::ToFunction(v10, &func, v23);
+      Scaleform::GFx::AS2::Value::ToFunction(v10, &result, v23);
       Scaleform::GFx::ASStringHashBase<Scaleform::GFx::AS2::FunctionRef,Scaleform::HashUncachedLH<Scaleform::GFx::ASString,Scaleform::GFx::AS2::FunctionRef,Scaleform::GFx::ASStringHashFunctor,324>>::SetCaseCheck(
         &v4->RegisteredClasses,
         (const Scaleform::GFx::ASString *)&fn,
-        &func,
+        &result,
         v1->Env->StringContext.SWFVersion > 6u);
       v11 = v1->Result;
       Scaleform::GFx::AS2::Value::DropRefs(v11);
       v11->T.Type = 2;
       v11->V.BooleanValue = 1;
-      if ( (func.Flags & 2) == 0 )
+      if ( (result.Flags & 2) == 0 )
       {
-        if ( func.Function )
+        if ( result.Function )
         {
-          RefCount = func.Function->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          RefCount = result.Function->RefCount;
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
-            Function = func.Function;
-            func.Function->RefCount = RefCount - 1;
+            Function = result.Function;
+            result.Function->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
           }
         }
       }
-      func.Function = 0;
-      if ( (func.Flags & 1) == 0 )
+      result.Function = 0;
+      if ( (result.Flags & 1) == 0 )
       {
-        if ( func.pLocalFrame )
+        if ( result.pLocalFrame )
         {
-          v14 = func.pLocalFrame->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v14) != 0 )
+          v14 = result.pLocalFrame->RefCount;
+          if ( (v14 & 0x3FFFFFF) != 0 )
           {
-            pLocalFrame = func.pLocalFrame;
-            func.pLocalFrame->RefCount = v14 - 1;
+            pLocalFrame = result.pLocalFrame;
+            result.pLocalFrame->RefCount = v14 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
           }
         }
@@ -102,15 +102,15 @@ void __cdecl Scaleform::GFx::AS2::ObjectCtorFunction::RegisterClassA(const Scale
     else
     {
       v19 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v19, &a1, Env, -1, 0);
-      pNode = a1.pNode;
+      Scaleform::GFx::AS2::Value::ToStringImpl(v19, (Scaleform::GFx::ASString *)&v24, Env, -1, 0);
+      v20 = v24;
       Scaleform::GFx::AS2::Environment::LogScriptError(
         v1->Env,
         "Second parameter of Object.registerClass(%s, %s) should be function or null",
         (const char *)fn->__vftable,
-        a1.pNode->pData);
-      if ( pNode->RefCount-- == 1 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        v24->pData);
+      if ( v20->RefCount-- == 1 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v20);
     }
     v22 = (Scaleform::GFx::ASStringNode *)fn;
     --fn->ThisFunctionRef.Function;

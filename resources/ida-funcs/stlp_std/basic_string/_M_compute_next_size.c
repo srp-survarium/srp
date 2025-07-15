@@ -2,22 +2,22 @@ unsigned int __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this,
         unsigned int __n)
 {
-  const unsigned int *v2; // eax
-  unsigned int v3; // eax
-  unsigned int v6; // [esp+20h] [ebp-20h]
-  unsigned int __size; // [esp+38h] [ebp-8h] BYREF
-  unsigned int __len; // [esp+3Ch] [ebp-4h]
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > **p_n; // eax
+  unsigned int result; // eax
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *v4; // [esp+0h] [ebp-4h] BYREF
 
-  __size = this->_M_finish - this->_M_start_of_storage._M_data;
-  v6 = stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::max_size(this);
-  if ( __n > v6 - __size )
-    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_throw_length_error(this);
-  v2 = stlp_std::max<unsigned int>(&__n, &__size);
-  __len = __size + *v2 + 1;
-  v3 = stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::max_size(this);
-  if ( __len > v3 || __len < __size )
-    return stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::max_size(this);
-  return __len;
+  v4 = this;
+  v4 = (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)(this->_M_finish
+                                                                                             - this->_M_start_of_storage._M_data);
+  if ( __n > -2 - (int)v4 )
+    stlp_std::__stl_throw_length_error("basic_string");
+  p_n = &v4;
+  if ( __n >= (unsigned int)v4 )
+    p_n = (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > **)&__n;
+  result = (unsigned int)&v4->_M_buffers._M_static_buf[(_DWORD)*p_n + 1];
+  if ( result == -1 || result < (unsigned int)v4 )
+    return -2;
+  return result;
 }
 
 
@@ -26,19 +26,19 @@ unsigned int __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,
         unsigned int __n)
 {
   unsigned int v2; // edx
-  unsigned int *p_size; // eax
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > **p_n; // eax
   unsigned int result; // eax
-  unsigned int __size; // [esp+0h] [ebp-4h] BYREF
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *v5; // [esp+0h] [ebp-4h] BYREF
 
-  __size = (unsigned int)this;
+  v5 = this;
   v2 = this->_M_finish - this->_M_start_of_storage._M_data;
-  __size = v2;
+  v5 = (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *)v2;
   if ( __n > -2 - v2 )
     stlp_std::__stl_throw_length_error("basic_string");
-  p_size = &__size;
+  p_n = &v5;
   if ( __n >= v2 )
-    p_size = &__n;
-  result = *p_size + v2 + 1;
+    p_n = (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > **)&__n;
+  result = (unsigned int)&(*p_n)->_M_buffers._M_static_buf[v2 + 1];
   if ( result == -1 || result < v2 )
     return -2;
   return result;
@@ -50,19 +50,19 @@ unsigned int __thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wch
         unsigned int __n)
 {
   unsigned int v2; // edx
-  unsigned int *p_size; // eax
+  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > **p_n; // eax
   unsigned int result; // eax
-  unsigned int __size; // [esp+0h] [ebp-4h] BYREF
+  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *v5; // [esp+0h] [ebp-4h] BYREF
 
-  __size = (unsigned int)this;
+  v5 = this;
   v2 = this->_M_finish - this->_M_start_of_storage._M_data;
-  __size = v2;
+  v5 = (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *)v2;
   if ( __n > 2147483646 - v2 )
     stlp_std::__stl_throw_length_error("basic_string");
-  p_size = &__size;
+  p_n = &v5;
   if ( __n >= v2 )
-    p_size = &__n;
-  result = *p_size + v2 + 1;
+    p_n = (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > **)&__n;
+  result = (unsigned int)(*p_n)->_M_buffers._M_static_buf + v2 + 1;
   if ( result > 0x7FFFFFFE || result < v2 )
     return 2147483646;
   return result;
@@ -74,19 +74,19 @@ unsigned int __thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wch
         unsigned int __n)
 {
   unsigned int v2; // edx
-  unsigned int *p_size; // eax
+  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > **p_n; // eax
   unsigned int result; // eax
-  unsigned int __size; // [esp+0h] [ebp-4h] BYREF
+  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *v5; // [esp+0h] [ebp-4h] BYREF
 
-  __size = (unsigned int)this;
+  v5 = this;
   v2 = this->_M_finish - this->_M_start_of_storage._M_data;
-  __size = v2;
+  v5 = (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *)v2;
   if ( __n > 2147483646 - v2 )
     stlp_std::__stl_throw_length_error("basic_string");
-  p_size = &__size;
+  p_n = &v5;
   if ( __n >= v2 )
-    p_size = &__n;
-  result = *p_size + v2 + 1;
+    p_n = (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > **)&__n;
+  result = (unsigned int)(*p_n)->_M_buffers._M_static_buf + v2 + 1;
   if ( result > 0x7FFFFFFE || result < v2 )
     return 2147483646;
   return result;

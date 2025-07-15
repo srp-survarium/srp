@@ -1,15 +1,20 @@
-int __cdecl aes_init_key(evp_cipher_ctx_st *ctx, const unsigned __int8 *key, const unsigned __int8 *iv, int enc)
+int __usercall aes_init_key@<eax>(
+        int a1@<ebx>,
+        evp_cipher_ctx_st *ctx,
+        const unsigned __int8 *key,
+        const unsigned __int8 *iv,
+        int enc)
 {
-  unsigned int v4; // ecx
-  int v5; // eax
+  unsigned int v5; // ecx
+  int v6; // eax
 
-  v4 = (unsigned int)&loc_F0007 & ctx->cipher->flags;
-  if ( v4 == 3 || v4 == 4 || enc )
-    v5 = AES_set_encrypt_key(key, 8 * ctx->key_len, ctx->cipher_data);
+  v5 = ctx->cipher->flags & 0xF0007;
+  if ( v5 == 3 || v5 == 4 || enc )
+    v6 = AES_set_encrypt_key(key, 8 * ctx->key_len, ctx->cipher_data);
   else
-    v5 = AES_set_decrypt_key(key, 8 * ctx->key_len, ctx->cipher_data);
-  if ( v5 >= 0 )
+    v6 = AES_set_decrypt_key(key, 8 * ctx->key_len, ctx->cipher_data);
+  if ( v6 >= 0 )
     return 1;
-  ERR_put_error(6u, 133, 143, ".\\crypto\\evp\\e_aes.c", 113);
+  ERR_put_error(a1, 6u, 133, 143, ".\\crypto\\evp\\e_aes.c", 113);
   return 0;
 }

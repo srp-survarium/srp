@@ -1,15 +1,15 @@
-btDefaultCollisionConfiguration *__thiscall btDefaultCollisionConfiguration::btDefaultCollisionConfiguration(
-        btDefaultCollisionConfiguration *this,
-        int constructionInfo,
-        const btDefaultCollisionConstructionInfo *constructionInfoa)
+btDefaultCollisionConfiguration *__userpurge btDefaultCollisionConfiguration::btDefaultCollisionConfiguration@<eax>(
+        btDefaultCollisionConfiguration *this@<ecx>,
+        btDefaultCollisionConfiguration *a2@<edi>,
+        const btDefaultCollisionConstructionInfo *constructionInfo)
 {
-  btDefaultCollisionConfiguration *v3; // ebp
-  float *v4; // eax
-  const btDefaultCollisionConstructionInfo *v5; // edi
-  btConvexPenetrationDepthSolver *v6; // eax
-  btCollisionAlgorithmCreateFunc *v7; // eax
+  float *v3; // eax
+  btConvexPenetrationDepthSolver *v4; // eax
+  btCollisionAlgorithmCreateFunc *v5; // eax
   btConvexPenetrationDepthSolver *m_pdSolver; // ecx
   btVoronoiSimplexSolver *m_simplexSolver; // edx
+  btCollisionAlgorithmCreateFunc *v8; // eax
+  btCollisionAlgorithmCreateFunc *v9; // eax
   btCollisionAlgorithmCreateFunc *v10; // eax
   btCollisionAlgorithmCreateFunc *v11; // eax
   btCollisionAlgorithmCreateFunc *v12; // eax
@@ -19,295 +19,278 @@ btDefaultCollisionConfiguration *__thiscall btDefaultCollisionConfiguration::btD
   btCollisionAlgorithmCreateFunc *v16; // eax
   btCollisionAlgorithmCreateFunc *v17; // eax
   btCollisionAlgorithmCreateFunc *v18; // eax
-  btCollisionAlgorithmCreateFunc *v19; // eax
-  btCollisionAlgorithmCreateFunc *v20; // eax
-  bool v21; // cc
+  const btDefaultCollisionConstructionInfo *v19; // esi
   int *p_m_customCollisionAlgorithmMaxElementSize; // eax
-  int *p_constructionInfo; // eax
-  int *p_maxSize3; // eax
-  btStackAlloc *v25; // eax
-  btStackAlloc *v26; // esi
-  unsigned int m_defaultStackAllocatorSize; // edi
-  btPoolAllocator *v28; // esi
-  btPoolAllocator *v29; // eax
-  btPoolAllocator *v31; // esi
-  btPoolAllocator *v32; // eax
-  int maxSize2; // [esp+10h] [ebp-8h] BYREF
-  int maxSize3; // [esp+14h] [ebp-4h] BYREF
+  bool v21; // cc
+  int *v22; // eax
+  int *v23; // eax
+  btStackAlloc *v24; // esi
+  btPoolAllocator *m_persistentManifoldPool; // eax
+  btPoolAllocator *v26; // edx
+  btPoolAllocator *m_collisionAlgorithmPool; // eax
+  btPoolAllocator *v28; // edx
+  btStackAlloc *v30; // [esp-4h] [ebp-1Ch]
+  int v31; // [esp+8h] [ebp-10h] BYREF
+  int v32; // [esp+Ch] [ebp-Ch] BYREF
+  unsigned int m_defaultStackAllocatorSize; // [esp+10h] [ebp-8h] BYREF
+  int v34; // [esp+14h] [ebp-4h] BYREF
 
-  v3 = (btDefaultCollisionConfiguration *)constructionInfo;
-  ++gNumAlignedAllocs;
-  *(_DWORD *)constructionInfo = &btDefaultCollisionConfiguration::`vftable';
-  v4 = (float *)sAlignedAllocFunc(0x190u, 16);
-  if ( v4 )
+  a2->__vftable = (btDefaultCollisionConfiguration_vtbl *)&btDefaultCollisionConfiguration::`vftable';
+  v3 = (float *)btAlignedAllocInternal(0x190u);
+  if ( v3 )
   {
-    v4[80] = FLOAT_0_000099999997;
-    *((_WORD *)v4 + 176) &= 0xFFF0u;
+    v3[80] = FLOAT_0_000099999997;
+    *((_WORD *)v3 + 176) &= 0xFFF0u;
   }
   else
   {
-    v4 = 0;
+    v3 = 0;
   }
-  v5 = constructionInfoa;
-  ++gNumAlignedAllocs;
-  v3->m_simplexSolver = (btVoronoiSimplexSolver *)v4;
-  if ( v5->m_useEpaPenetrationAlgorithm )
+  a2->m_simplexSolver = (btVoronoiSimplexSolver *)v3;
+  if ( constructionInfo->m_useEpaPenetrationAlgorithm )
   {
-    v6 = (btConvexPenetrationDepthSolver *)sAlignedAllocFunc(4u, 16);
-    if ( v6 )
+    v4 = (btConvexPenetrationDepthSolver *)btAlignedAllocInternal(4u);
+    if ( v4 )
     {
-      v6->__vftable = (btConvexPenetrationDepthSolver_vtbl *)&btGjkEpaPenetrationDepthSolver::`vftable';
+      v4->__vftable = (btConvexPenetrationDepthSolver_vtbl *)&btGjkEpaPenetrationDepthSolver::`vftable';
       goto LABEL_10;
     }
   }
   else
   {
-    v6 = (btConvexPenetrationDepthSolver *)sAlignedAllocFunc(4u, 16);
-    if ( v6 )
+    v4 = (btConvexPenetrationDepthSolver *)btAlignedAllocInternal(4u);
+    if ( v4 )
     {
-      v6->__vftable = (btConvexPenetrationDepthSolver_vtbl *)&btMinkowskiPenetrationDepthSolver::`vftable';
+      v4->__vftable = (btConvexPenetrationDepthSolver_vtbl *)&btMinkowskiPenetrationDepthSolver::`vftable';
       goto LABEL_10;
     }
   }
-  v6 = 0;
+  v4 = 0;
 LABEL_10:
-  ++gNumAlignedAllocs;
-  v3->m_pdSolver = v6;
-  v7 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(0x18u, 16);
-  if ( v7 )
+  a2->m_pdSolver = v4;
+  v5 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(0x18u);
+  if ( v5 )
   {
-    m_pdSolver = v3->m_pdSolver;
-    m_simplexSolver = v3->m_simplexSolver;
-    v7->m_swapped = 0;
-    v7->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConvexAlgorithm::CreateFunc::`vftable';
-    v7[2].__vftable = 0;
-    *(_DWORD *)&v7[2].m_swapped = 3;
-    *(_DWORD *)&v7[1].m_swapped = m_simplexSolver;
-    v7[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)m_pdSolver;
+    m_pdSolver = a2->m_pdSolver;
+    m_simplexSolver = a2->m_simplexSolver;
+    v5->m_swapped = 0;
+    v5->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConvexAlgorithm::CreateFunc::`vftable';
+    v5[2].__vftable = 0;
+    *(_DWORD *)&v5[2].m_swapped = 3;
+    *(_DWORD *)&v5[1].m_swapped = m_simplexSolver;
+    v5[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)m_pdSolver;
   }
   else
   {
-    v7 = 0;
+    v5 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_convexConvexCreateFunc = v7;
-  v10 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_convexConvexCreateFunc = v5;
+  v8 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
+  if ( v8 )
+  {
+    v8->m_swapped = 0;
+    v8->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConcaveCollisionAlgorithm::CreateFunc::`vftable';
+  }
+  else
+  {
+    v8 = 0;
+  }
+  a2->m_convexConcaveCreateFunc = v8;
+  v9 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
+  if ( v9 )
+  {
+    v9->m_swapped = 0;
+    v9->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConcaveCollisionAlgorithm::SwappedCreateFunc::`vftable';
+  }
+  else
+  {
+    v9 = 0;
+  }
+  a2->m_swappedConvexConcaveCreateFunc = v9;
+  v10 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v10 )
   {
     v10->m_swapped = 0;
-    v10->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConcaveCollisionAlgorithm::CreateFunc::`vftable';
+    v10->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btCompoundCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v10 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_convexConcaveCreateFunc = v10;
-  v11 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_compoundCreateFunc = v10;
+  v11 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v11 )
   {
     v11->m_swapped = 0;
-    v11->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexConcaveCollisionAlgorithm::SwappedCreateFunc::`vftable';
+    v11->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btCompoundCollisionAlgorithm::SwappedCreateFunc::`vftable';
   }
   else
   {
     v11 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_swappedConvexConcaveCreateFunc = v11;
-  v12 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_swappedCompoundCreateFunc = v11;
+  v12 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v12 )
   {
     v12->m_swapped = 0;
-    v12->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btCompoundCollisionAlgorithm::CreateFunc::`vftable';
+    v12->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btEmptyAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v12 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_compoundCreateFunc = v12;
-  v13 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_emptyCreateFunc = v12;
+  v13 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v13 )
   {
     v13->m_swapped = 0;
-    v13->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btCompoundCollisionAlgorithm::SwappedCreateFunc::`vftable';
+    v13->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereSphereCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v13 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_swappedCompoundCreateFunc = v13;
-  v14 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_sphereSphereCF = v13;
+  v14 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v14 )
   {
     v14->m_swapped = 0;
-    v14->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btEmptyAlgorithm::CreateFunc::`vftable';
+    v14->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereTriangleCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v14 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_emptyCreateFunc = v14;
-  v15 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_sphereTriangleCF = v14;
+  v15 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v15 )
   {
     v15->m_swapped = 0;
-    v15->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereSphereCollisionAlgorithm::CreateFunc::`vftable';
+    v15->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereTriangleCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v15 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_sphereSphereCF = v15;
-  v16 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_triangleSphereCF = v15;
+  v15->m_swapped = 1;
+  v16 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v16 )
   {
     v16->m_swapped = 0;
-    v16->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereTriangleCollisionAlgorithm::CreateFunc::`vftable';
+    v16->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btBoxBoxCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v16 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_sphereTriangleCF = v16;
-  v17 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_boxBoxCF = v16;
+  v17 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(0x10u);
   if ( v17 )
   {
     v17->m_swapped = 0;
-    v17->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSphereTriangleCollisionAlgorithm::CreateFunc::`vftable';
+    v17->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexPlaneCollisionAlgorithm::CreateFunc::`vftable';
+    v17[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)1;
+    *(_DWORD *)&v17[1].m_swapped = 0;
   }
   else
   {
     v17 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_triangleSphereCF = v17;
-  v17->m_swapped = 1;
-  v18 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_convexPlaneCF = v17;
+  v18 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(0x10u);
   if ( v18 )
   {
     v18->m_swapped = 0;
-    v18->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btBoxBoxCollisionAlgorithm::CreateFunc::`vftable';
+    v18->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexPlaneCollisionAlgorithm::CreateFunc::`vftable';
+    v18[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)1;
+    *(_DWORD *)&v18[1].m_swapped = 0;
   }
   else
   {
     v18 = 0;
   }
-  ++gNumAlignedAllocs;
-  v3->m_boxBoxCF = v18;
-  v19 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(0x10u, 16);
-  if ( v19 )
-  {
-    v19->m_swapped = 0;
-    v19->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexPlaneCollisionAlgorithm::CreateFunc::`vftable';
-    v19[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)1;
-    *(_DWORD *)&v19[1].m_swapped = 0;
-  }
-  else
-  {
-    v19 = 0;
-  }
-  ++gNumAlignedAllocs;
-  v3->m_convexPlaneCF = v19;
-  v20 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(0x10u, 16);
-  if ( v20 )
-  {
-    v20->m_swapped = 0;
-    v20->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btConvexPlaneCollisionAlgorithm::CreateFunc::`vftable';
-    v20[1].__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)1;
-    *(_DWORD *)&v20[1].m_swapped = 0;
-  }
-  else
-  {
-    v20 = 0;
-  }
-  v3->m_planeConvexCF = v20;
-  v20->m_swapped = 1;
-  v21 = v5->m_customCollisionAlgorithmMaxElementSize < 36;
-  p_m_customCollisionAlgorithmMaxElementSize = &v5->m_customCollisionAlgorithmMaxElementSize;
-  constructionInfo = 36;
-  maxSize2 = 96;
-  maxSize3 = 44;
+  v19 = constructionInfo;
+  a2->m_planeConvexCF = v18;
+  v18->m_swapped = 1;
+  p_m_customCollisionAlgorithmMaxElementSize = &constructionInfo->m_customCollisionAlgorithmMaxElementSize;
+  v21 = constructionInfo->m_customCollisionAlgorithmMaxElementSize < 36;
+  m_defaultStackAllocatorSize = 36;
+  v32 = 96;
+  v31 = 44;
   if ( v21 )
-    p_m_customCollisionAlgorithmMaxElementSize = &constructionInfo;
-  constructionInfo = *p_m_customCollisionAlgorithmMaxElementSize;
-  p_constructionInfo = &constructionInfo;
-  if ( constructionInfo <= 96 )
-    p_constructionInfo = &maxSize2;
-  constructionInfo = *p_constructionInfo;
-  p_maxSize3 = &constructionInfo;
-  if ( constructionInfo <= 44 )
-    p_maxSize3 = &maxSize3;
-  constructionInfo = *p_maxSize3;
-  if ( v5->m_stackAlloc )
+    p_m_customCollisionAlgorithmMaxElementSize = (int *)&m_defaultStackAllocatorSize;
+  v34 = *p_m_customCollisionAlgorithmMaxElementSize;
+  v22 = &v34;
+  if ( v34 <= 96 )
+    v22 = &v32;
+  v34 = *v22;
+  v23 = &v34;
+  if ( v34 <= 44 )
+    v23 = &v31;
+  v34 = *v23;
+  if ( constructionInfo->m_stackAlloc )
   {
-    v3->m_ownsStackAllocator = 0;
-    v3->m_stackAlloc = v5->m_stackAlloc;
+    a2->m_ownsStackAllocator = 0;
+    a2->m_stackAlloc = constructionInfo->m_stackAlloc;
   }
   else
   {
-    ++gNumAlignedAllocs;
-    v3->m_ownsStackAllocator = 1;
-    v25 = (btStackAlloc *)sAlignedAllocFunc(0x14u, 16);
-    v26 = v25;
-    if ( v25 )
+    a2->m_ownsStackAllocator = 1;
+    v24 = (btStackAlloc *)btAlignedAllocInternal(0x14u);
+    if ( v24 )
     {
-      m_defaultStackAllocatorSize = v5->m_defaultStackAllocatorSize;
-      v25->data = 0;
-      v25->totalsize = 0;
-      v25->usedsize = 0;
-      v25->current = 0;
-      v25->ischild = 0;
-      btStackAlloc::create(v25, m_defaultStackAllocatorSize);
-      v5 = constructionInfoa;
+      m_defaultStackAllocatorSize = constructionInfo->m_defaultStackAllocatorSize;
+      v24->data = 0;
+      v24->totalsize = 0;
+      v24->usedsize = 0;
+      v24->current = 0;
+      v24->ischild = 0;
+      btStackAlloc::destroy(v30, (int)v24);
+      v24->data = (unsigned __int8 *)btAlignedAllocInternal(m_defaultStackAllocatorSize);
+      v24->totalsize = m_defaultStackAllocatorSize;
     }
     else
     {
-      v26 = 0;
+      v24 = 0;
     }
-    v3->m_stackAlloc = v26;
+    a2->m_stackAlloc = v24;
+    v19 = constructionInfo;
   }
-  if ( v5->m_persistentManifoldPool )
+  if ( v19->m_persistentManifoldPool )
   {
-    v3->m_ownsPersistentManifoldPool = 0;
-    v3->m_persistentManifoldPool = v5->m_persistentManifoldPool;
+    a2->m_ownsPersistentManifoldPool = 0;
+    m_persistentManifoldPool = v19->m_persistentManifoldPool;
   }
   else
   {
-    ++gNumAlignedAllocs;
-    v3->m_ownsPersistentManifoldPool = 1;
-    v28 = (btPoolAllocator *)sAlignedAllocFunc(0x14u, 16);
+    a2->m_ownsPersistentManifoldPool = 1;
+    v26 = (btPoolAllocator *)btAlignedAllocInternal(0x14u);
+    if ( v26 )
+    {
+      btPoolAllocator::btPoolAllocator(v26, 1280, v19->m_defaultMaxPersistentManifoldPoolSize);
+      v19 = constructionInfo;
+    }
+    else
+    {
+      m_persistentManifoldPool = 0;
+    }
+  }
+  a2->m_persistentManifoldPool = m_persistentManifoldPool;
+  if ( v19->m_collisionAlgorithmPool )
+  {
+    a2->m_ownsCollisionAlgorithmPool = 0;
+    m_collisionAlgorithmPool = v19->m_collisionAlgorithmPool;
+  }
+  else
+  {
+    a2->m_ownsCollisionAlgorithmPool = 1;
+    v28 = (btPoolAllocator *)btAlignedAllocInternal(0x14u);
     if ( v28 )
-      btPoolAllocator::btPoolAllocator(v28, 1280, v5->m_defaultMaxPersistentManifoldPoolSize);
+      btPoolAllocator::btPoolAllocator(v28, v34, v19->m_defaultMaxCollisionAlgorithmPoolSize);
     else
-      v29 = 0;
-    v3->m_persistentManifoldPool = v29;
+      m_collisionAlgorithmPool = 0;
   }
-  if ( v5->m_collisionAlgorithmPool )
-  {
-    v3->m_ownsCollisionAlgorithmPool = 0;
-    v3->m_collisionAlgorithmPool = v5->m_collisionAlgorithmPool;
-    return v3;
-  }
-  else
-  {
-    ++gNumAlignedAllocs;
-    v3->m_ownsCollisionAlgorithmPool = 1;
-    v31 = (btPoolAllocator *)sAlignedAllocFunc(0x14u, 16);
-    if ( v31 )
-    {
-      btPoolAllocator::btPoolAllocator(v31, constructionInfo, v5->m_defaultMaxCollisionAlgorithmPoolSize);
-      v3->m_collisionAlgorithmPool = v32;
-    }
-    else
-    {
-      v3->m_collisionAlgorithmPool = 0;
-    }
-    return v3;
-  }
+  a2->m_collisionAlgorithmPool = m_collisionAlgorithmPool;
+  return a2;
 }

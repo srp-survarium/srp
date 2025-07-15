@@ -17,7 +17,7 @@ void __cdecl Scaleform::GFx::AS2::GAS_SetIMECandidateListStyle(const Scaleform::
   Scaleform::GFx::ASStringNode *v15; // eax
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v16; // ecx
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *v_4; // [esp+80h] [ebp-84h]
+  Scaleform::GFx::AS2::Environment *Env; // [esp+80h] [ebp-84h]
   bool v19; // [esp+B2h] [ebp-52h]
   bool v20; // [esp+B2h] [ebp-52h]
   bool v21; // [esp+B2h] [ebp-52h]
@@ -27,252 +27,252 @@ void __cdecl Scaleform::GFx::AS2::GAS_SetIMECandidateListStyle(const Scaleform::
   bool v25; // [esp+B2h] [ebp-52h]
   bool v26; // [esp+B2h] [ebp-52h]
   bool v27; // [esp+B2h] [ebp-52h]
-  long double n; // [esp+B4h] [ebp-50h] BYREF
-  Scaleform::Ptr<Scaleform::GFx::IMEManagerBase> pimeMgr; // [esp+C0h] [ebp-44h]
+  Scaleform::GFx::ASStringNode *v28[3]; // [esp+B4h] [ebp-50h] BYREF
+  Scaleform::RefCountVImpl *v29; // [esp+C0h] [ebp-44h]
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v30; // [esp+C4h] [ebp-40h]
-  Scaleform::GFx::AS2::Value val; // [esp+C8h] [ebp-3Ch] BYREF
-  Scaleform::GFx::IMECandidateListStyle st; // [esp+D8h] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS2::Value v31; // [esp+C8h] [ebp-3Ch] BYREF
+  Scaleform::GFx::IMECandidateListStyle v32; // [esp+D8h] [ebp-2Ch] BYREF
 
   if ( fn->NArgs >= 1 )
   {
     pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
-    pimeMgr.pObject = (Scaleform::GFx::IMEManagerBase *)pMovieImpl->GetStateAddRef(
-                                                          &pMovieImpl->Scaleform::GFx::StateBag,
-                                                          State_IMEManager);
-    if ( pimeMgr.pObject )
+    v29 = (Scaleform::RefCountVImpl *)pMovieImpl->GetStateAddRef(
+                                        &pMovieImpl->Scaleform::GFx::StateBag,
+                                        State_IMEManager);
+    if ( v29 )
     {
-      v_4 = fn->Env;
+      Env = fn->Env;
       v2 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      v3 = Scaleform::GFx::AS2::Value::ToObject(v2, v_4);
+      v3 = Scaleform::GFx::AS2::Value::ToObject(v2, Env);
       v30 = v3;
       if ( v3 )
       {
         v3->RefCount = (v3->RefCount + 1) & 0x8FFFFFFF;
-        st.Flags = 0;
-        val.T.Type = 0;
+        v32.Flags = 0;
+        v31.T.Type = 0;
         v4 = &v3->Scaleform::GFx::AS2::ObjectInterface;
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "textColor",
-                       9u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v19 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v5 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "textColor",
+                   9u,
+                   0);
+        ++v28[0]->RefCount;
+        v19 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v5 = v28[0];
+        --v28[0]->RefCount;
         if ( !v5->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v5);
         if ( v19 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 1u;
-            *(_QWORD *)&n = (__int64)n;
-            st.TextColor = LODWORD(n);
+            v32.Flags |= 1u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.TextColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "backgroundColor",
-                       0xFu,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v20 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v6 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "backgroundColor",
+                   0xFu,
+                   0);
+        ++v28[0]->RefCount;
+        v20 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v6 = v28[0];
+        --v28[0]->RefCount;
         if ( !v6->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v6);
         if ( v20 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 2u;
-            *(_QWORD *)&n = (__int64)n;
-            st.BackgroundColor = LODWORD(n);
+            v32.Flags |= 2u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.BackgroundColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "indexBackgroundColor",
-                       0x14u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v21 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v7 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "indexBackgroundColor",
+                   0x14u,
+                   0);
+        ++v28[0]->RefCount;
+        v21 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v7 = v28[0];
+        --v28[0]->RefCount;
         if ( !v7->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v7);
         if ( v21 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 4u;
-            *(_QWORD *)&n = (__int64)n;
-            st.IndexBackgroundColor = LODWORD(n);
+            v32.Flags |= 4u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.IndexBackgroundColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "selectedTextColor",
-                       0x11u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v22 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v8 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "selectedTextColor",
+                   0x11u,
+                   0);
+        ++v28[0]->RefCount;
+        v22 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v8 = v28[0];
+        --v28[0]->RefCount;
         if ( !v8->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v8);
         if ( v22 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 8u;
-            *(_QWORD *)&n = (__int64)n;
-            st.SelectedTextColor = LODWORD(n);
+            v32.Flags |= 8u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.SelectedTextColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "selectedTextBackgroundColor",
-                       0x1Bu,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v23 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v9 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "selectedTextBackgroundColor",
+                   0x1Bu,
+                   0);
+        ++v28[0]->RefCount;
+        v23 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v9 = v28[0];
+        --v28[0]->RefCount;
         if ( !v9->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v9);
         if ( v23 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x10u;
-            *(_QWORD *)&n = (__int64)n;
-            st.SelectedBackgroundColor = LODWORD(n);
+            v32.Flags |= 0x10u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.SelectedBackgroundColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "selectedIndexBackgroundColor",
-                       0x1Cu,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v24 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v10 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "selectedIndexBackgroundColor",
+                   0x1Cu,
+                   0);
+        ++v28[0]->RefCount;
+        v24 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v10 = v28[0];
+        --v28[0]->RefCount;
         if ( !v10->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v10);
         if ( v24 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x20u;
-            *(_QWORD *)&n = (__int64)n;
-            st.SelectedIndexBackgroundColor = LODWORD(n);
+            v32.Flags |= 0x20u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.SelectedIndexBackgroundColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "fontSize",
-                       8u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v25 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v11 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "fontSize",
+                   8u,
+                   0);
+        ++v28[0]->RefCount;
+        v25 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v11 = v28[0];
+        --v28[0]->RefCount;
         if ( !v11->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v11);
         if ( v25 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x40u;
-            *(_QWORD *)&n = (__int64)n;
-            st.FontSize = LODWORD(n);
+            v32.Flags |= 0x40u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.FontSize = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "readingWindowTextColor",
-                       0x16u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v26 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v12 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "readingWindowTextColor",
+                   0x16u,
+                   0);
+        ++v28[0]->RefCount;
+        v26 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v12 = v28[0];
+        --v28[0]->RefCount;
         if ( !v12->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v12);
         if ( v26 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x80u;
-            *(_QWORD *)&n = (__int64)n;
-            st.ReadingWindowTextColor = LODWORD(n);
+            v32.Flags |= 0x80u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.ReadingWindowTextColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "readingWindowBackgroundColor",
-                       0x1Cu,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v27 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v13 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "readingWindowBackgroundColor",
+                   0x1Cu,
+                   0);
+        ++v28[0]->RefCount;
+        v27 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v13 = v28[0];
+        --v28[0]->RefCount;
         if ( !v13->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v13);
         if ( v27 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x100u;
-            *(_QWORD *)&n = (__int64)n;
-            st.ReadingWindowBackgroundColor = LODWORD(n);
+            v32.Flags |= 0x100u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.ReadingWindowBackgroundColor = (unsigned int)v28[0];
           }
         }
-        LODWORD(n) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                       (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                       "readingWindowFontSize",
-                       0x15u,
-                       0);
-        ++*(_DWORD *)(LODWORD(n) + 12);
-        v14 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)&n, &val);
-        v15 = (Scaleform::GFx::ASStringNode *)LODWORD(n);
-        --*(_DWORD *)(LODWORD(n) + 12);
+        v28[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                   (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                   "readingWindowFontSize",
+                   0x15u,
+                   0);
+        ++v28[0]->RefCount;
+        v14 = v4->GetMember(v4, fn->Env, (const Scaleform::GFx::ASString *)v28, &v31);
+        v15 = v28[0];
+        --v28[0]->RefCount;
         if ( !v15->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v15);
         if ( v14 )
         {
-          n = Scaleform::GFx::AS2::Value::ToNumber(&val, fn->Env);
-          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(n) )
+          *(double *)v28 = Scaleform::GFx::AS2::Value::ToNumber(&v31, fn->Env);
+          if ( !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(*(long double *)v28) )
           {
-            st.Flags |= 0x200u;
-            *(_QWORD *)&n = (__int64)n;
-            st.ReadingWindowFontSize = LODWORD(n);
+            v32.Flags |= 0x200u;
+            *(_QWORD *)v28 = (__int64)*(double *)v28;
+            v32.ReadingWindowFontSize = (unsigned int)v28[0];
           }
         }
-        Scaleform::GFx::IMEManagerBase::SetCandidateListStyle(pimeMgr.pObject, &st);
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+        Scaleform::GFx::IMEManagerBase::SetCandidateListStyle((Scaleform::GFx::IMEManagerBase *)v29, &v32);
+        if ( v31.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v31);
         v16 = v30;
         RefCount = v30->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v30->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);
         }
       }
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pimeMgr.pObject);
+      Scaleform::RefCountImpl::Release(v29);
     }
   }
 }

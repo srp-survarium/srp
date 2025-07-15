@@ -19,9 +19,9 @@ void __usercall Scaleform::GFx::AS2::AvmSprite::SpriteGlobalToLocal(int a1@<edi>
   Scaleform::GFx::AS2::GlobalContext *v19; // ecx
   bool v20; // cf
   Scaleform::GFx::AS2::Value result; // [esp+38h] [ebp-38h] BYREF
-  Scaleform::Render::Point<float> pt; // [esp+48h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::Value xval; // [esp+50h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value yval; // [esp+60h] [ebp-10h] BYREF
+  Scaleform::Render::Point<float> ptIn; // [esp+48h] [ebp-28h] BYREF
+  Scaleform::GFx::AS2::Value v24; // [esp+50h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v25; // [esp+60h] [ebp-10h] BYREF
 
   v3 = (Scaleform::GFx::AS2::FnCall *)LODWORD(fn);
   v4 = *(Scaleform::GFx::AS2::Value **)(LODWORD(fn) + 4);
@@ -61,34 +61,37 @@ void __usercall Scaleform::GFx::AS2::AvmSprite::SpriteGlobalToLocal(int a1@<edi>
     }
     if ( v12 )
     {
-      xval.T.Type = 0;
-      yval.T.Type = 0;
+      v24.T.Type = 0;
+      v25.T.Type = 0;
       v12->GetMemberRaw(
         v12,
         p_StringContext,
         (const Scaleform::GFx::ASString *)&p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject[34],
-        &xval);
+        &v24);
       v12->GetMemberRaw(
         v12,
         p_StringContext,
         (const Scaleform::GFx::ASString *)&p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject[34].RefCount,
-        &yval);
-      Type = xval.T.Type;
-      if ( (xval.T.Type == 3 || xval.T.Type == 4) && (yval.T.Type == 3 || yval.T.Type == 4) )
+        &v25);
+      Type = v24.T.Type;
+      if ( (v24.T.Type == 3 || v24.T.Type == 4) && (v25.T.Type == 3 || v25.T.Type == 4) )
       {
-        *(float *)&result.T.Type = Scaleform::GFx::AS2::Value::ToNumber(&yval, v3->Env);
-        fn = Scaleform::GFx::AS2::Value::ToNumber(&xval, v3->Env);
-        pt.x = fn * 20.0;
-        pt.y = 20.0 * *(float *)&result.T.Type;
-        v15 = Scaleform::GFx::DisplayObjectBase::GlobalToLocal(Target, (Scaleform::Render::Point<float> *)&result, &pt);
+        *(float *)&result.T.Type = Scaleform::GFx::AS2::Value::ToNumber(&v25, v3->Env);
+        fn = Scaleform::GFx::AS2::Value::ToNumber(&v24, v3->Env);
+        ptIn.x = fn * 20.0;
+        ptIn.y = 20.0 * *(float *)&result.T.Type;
+        v15 = Scaleform::GFx::DisplayObjectBase::GlobalToLocal(
+                Target,
+                (Scaleform::Render::Point<float> *)&result,
+                &ptIn);
         fn = v15->y;
-        pt.x = v15->x;
-        pt.y = fn;
+        ptIn.x = v15->x;
+        ptIn.y = fn;
         pContext = p_StringContext->pContext;
         SetMemberRaw = v12->SetMemberRaw;
         result.T.Type = 3;
         LOBYTE(fn) = 0;
-        result.NV.NumberValue = pt.x * 0.05;
+        result.NV.NumberValue = ptIn.x * 0.05;
         ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::ASMovieRootBase *, Scaleform::GFx::AS2::Value *, float *, int))SetMemberRaw)(
           v12,
           p_StringContext,
@@ -100,7 +103,7 @@ void __usercall Scaleform::GFx::AS2::AvmSprite::SpriteGlobalToLocal(int a1@<edi>
           Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&result.NV.4);
         v18 = v12->__vftable;
         v19 = p_StringContext->pContext;
-        *(double *)((char *)&result.NV.NumberValue + 4) = *(float *)&xval.T.Type * 0.05;
+        *(double *)((char *)&result.NV.NumberValue + 4) = *(float *)&v24.T.Type * 0.05;
         result.V.BooleanValue = 3;
         a3 = 0;
         ((void (__thiscall *)(Scaleform::GFx::AS2::ObjectInterface *, Scaleform::GFx::AS2::ASStringContext *, volatile int *, $B8BD913BABC9324639AA48504BEFB2FC *))v18->SetMemberRaw)(
@@ -110,21 +113,21 @@ void __usercall Scaleform::GFx::AS2::AvmSprite::SpriteGlobalToLocal(int a1@<edi>
           &result.NV.4);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
-        if ( yval.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&yval);
-        v20 = xval.T.Type < 5u;
+        if ( v25.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v25);
+        v20 = v24.T.Type < 5u;
       }
       else
       {
-        if ( yval.T.Type >= 5u )
+        if ( v25.T.Type >= 5u )
         {
-          Scaleform::GFx::AS2::Value::DropRefs(&yval);
-          Type = xval.T.Type;
+          Scaleform::GFx::AS2::Value::DropRefs(&v25);
+          Type = v24.T.Type;
         }
         v20 = Type < 5u;
       }
       if ( !v20 )
-        Scaleform::GFx::AS2::Value::DropRefs(&xval);
+        Scaleform::GFx::AS2::Value::DropRefs(&v24);
     }
   }
 }

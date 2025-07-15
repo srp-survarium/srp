@@ -1,26 +1,25 @@
 PPM_CONTEXT *__thiscall PPM_CONTEXT::removeBinConts(PPM_CONTEXT *this, ppmd_compressor_impl *impl, int Order)
 {
   PPM_CONTEXT *Suffix; // eax
-  int v5; // eax
-  PPM_CONTEXT *v6; // ecx
   PPM_CONTEXT::STATE *Stats; // eax
-  PPM_CONTEXT::STATE *v9; // edi
+  PPM_CONTEXT::STATE *v7; // esi
+  unsigned int v8; // [esp+0h] [ebp-8h]
 
   if ( this->NumStats )
   {
     Stats = this->Stats;
-    v9 = &Stats[this->NumStats];
-    if ( v9 >= Stats )
+    v7 = &Stats[this->NumStats];
+    if ( v7 >= Stats )
     {
       do
       {
-        if ( v9->Successor < (PPM_CONTEXT *)impl->m_allocator.UnitsStart || Order >= impl->MaxOrder )
-          v9->Successor = 0;
+        if ( v7->Successor < (PPM_CONTEXT *)impl->m_allocator.UnitsStart || Order >= impl->MaxOrder )
+          v7->Successor = 0;
         else
-          v9->Successor = PPM_CONTEXT::removeBinConts(v9->Successor, impl, Order + 1);
-        --v9;
+          v7->Successor = PPM_CONTEXT::removeBinConts(v7->Successor, impl, Order + 1);
+        --v7;
       }
-      while ( v9 >= this->Stats );
+      while ( v7 >= this->Stats );
     }
   }
   else
@@ -34,13 +33,7 @@ PPM_CONTEXT *__thiscall PPM_CONTEXT::removeBinConts(PPM_CONTEXT *this, ppmd_comp
       Suffix = this->Suffix;
       if ( !Suffix->NumStats || Suffix->Flags == 0xFF )
       {
-        v5 = impl->m_allocator.Units2Indx[0];
-        v6 = (PPM_CONTEXT *)impl->m_allocator.Indx2Units[v5];
-        this->Stats = (PPM_CONTEXT::STATE *)impl->m_allocator.BList[v5].next;
-        impl->m_allocator.BList[v5].next = (BLK_NODE *)this;
-        *(_DWORD *)&this->NumStats = -1;
-        this->Suffix = v6;
-        ++impl->m_allocator.BList[v5].Stamp;
+        ppmd_allocator::FreeUnits((ppmd_allocator *)this, (int)&impl->m_allocator, (unsigned __int8 *)1, v8);
         return 0;
       }
     }

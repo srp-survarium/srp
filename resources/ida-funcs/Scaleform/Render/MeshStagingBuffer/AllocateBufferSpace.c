@@ -48,8 +48,8 @@ char __thiscall Scaleform::Render::MeshStagingBuffer::AllocateBufferSpace(
       if ( v10 )
       {
         memmove(
-          &this->pBuffer[pPrev->StagingBufferOffset - v10],
-          &this->pBuffer[pPrev->StagingBufferOffset],
+          (int)&this->pBuffer[pPrev->StagingBufferOffset - v10],
+          (const __m128i *)&this->pBuffer[pPrev->StagingBufferOffset],
           pPrev->StagingBufferSize);
         pPrev->StagingBufferIndexOffset -= v10;
         pPrev->StagingBufferOffset -= v10;

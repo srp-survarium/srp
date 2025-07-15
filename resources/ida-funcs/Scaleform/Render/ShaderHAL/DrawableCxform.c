@@ -2,41 +2,38 @@ void __thiscall Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderMan
         Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface> *this,
         Scaleform::Render::Texture **tex,
         Scaleform::Render::Texture **texgen,
-        const Scaleform::Render::Matrix2x4<float> *cx)
+        Scaleform::Render::Cxform *cx)
 {
-  Scaleform::Render::RenderEvent *v5; // ebx
-  Scaleform::Render::RenderEvent_vtbl *v6; // edi
-  unsigned int v7; // ecx
-  void *v8; // edi
+  Scaleform::Render::RenderEvent *v5; // eax
   Scaleform::Render::RenderTarget *pObject; // eax
-  Scaleform::Render::Size<int> v10; // [esp-Ch] [ebp-1Ch]
-  Scaleform::String v11[4]; // [esp-4h] [ebp-14h] BYREF
-  Scaleform::String src; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *v7; // edx
+  Scaleform::String v8; // [esp-8h] [ebp-18h] BYREF
+  BOOL v9; // [esp-4h] [ebp-14h]
+  unsigned int v10; // [esp+0h] [ebp-10h]
+  Scaleform::Render::ScopedRenderEvent v11; // [esp+Ch] [ebp-4h] BYREF
 
+  v9 = 1;
+  v8.pData = (Scaleform::String::DataDesc *)this;
   Scaleform::String::String(
-    &src,
+    &v8,
     "Scaleform::Render::ShaderHAL<class Scaleform::Render::D3D1x::ShaderManager,class Scaleform::Render::D3D1x::ShaderInt"
     "erface>::DrawableCxform");
   v5 = this->GetEvent(this, 15);
-  v6 = v5->__vftable;
-  v11[0].HeapTypeBits = v7;
-  Scaleform::String::String(v11, &src);
-  ((void (__thiscall *)(Scaleform::Render::RenderEvent *, unsigned int))v6->Begin)(v5, v11[0].HeapTypeBits);
-  v8 = (void *)(src.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((src.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
+  Scaleform::Render::ScopedRenderEvent::ScopedRenderEvent(&v11, v5, v8, v9);
   pObject = this->RenderTargetStack.Data.Data[this->RenderTargetStack.Data.Size - 1].pRenderTarget.pObject;
-  v10.Height = pObject->ViewRect.x2 - pObject->ViewRect.x1;
-  v10.Width = 0;
+  v7 = (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)(pObject->ViewRect.y2 - pObject->ViewRect.y1);
+  v8.pData = (Scaleform::String::DataDesc *)(pObject->ViewRect.x2 - pObject->ViewRect.x1);
+  v9 = (BOOL)v7;
   Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::SetDrawableCxform(
+    &this->ShaderData,
+    (Scaleform::Render::D3D1x::ShaderInterface *)v8.pData,
     (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)tex,
     texgen,
     cx,
-    v10,
-    (const Scaleform::Render::Cxform *)(pObject->ViewRect.y2 - pObject->ViewRect.y1),
-    this->MappedXY16iAlphaTexture[0],
-    &this->ShaderData,
-    v11[1].HeapTypeBits);
+    (const Scaleform::Render::Size<int>)(unsigned int)this->MappedXY16iAlphaTexture[0],
+    (Scaleform::Render::D3D1x::ShaderInterface *)v8.pData,
+    v7,
+    v10);
   this->drawScreenQuad(this);
-  v5->End(v5);
+  v11.EventObj->End(v11.EventObj);
 }

@@ -1,43 +1,42 @@
 void __usercall btSoftRigidDynamicsWorld::rayTestSingle(
         btSoftBody *rayFromTrans@<ecx>,
-        btBvhTriangleMeshShape *collisionShape@<eax>,
+        btVoronoiSimplexSolver *collisionShape@<eax>,
         const btTransform *rayToTrans,
-        btSoftBody *collisionObject,
+        btCollisionObject *collisionObject,
         const btTransform *colObjWorldTransform,
         btCollisionWorld::RayResultCallback *resultCallback)
 {
-  float v6; // xmm0_4
-  float v7; // xmm1_4
-  float v8; // xmm2_4
-  int index; // esi
-  float v10; // xmm2_4
+  btSoftBody *v6; // edi
+  float v7; // xmm0_4
+  float v8; // xmm1_4
+  float v9; // xmm3_4
+  float v10; // xmm0_4
   float v11; // xmm1_4
-  int m_data; // ecx
-  int v13; // esi
-  __int64 v14; // xmm5_8
-  __int64 v15; // xmm4_8
-  float (__thiscall *addSingleResult)(btCollisionWorld::RayResultCallback *, btCollisionWorld::LocalRayResult *, bool); // eax
-  btVector3 *v17; // [esp+19Ch] [ebp-70h]
-  float v18; // [esp+19Ch] [ebp-70h]
-  _DWORD v19[2]; // [esp+1A0h] [ebp-6Ch] BYREF
-  char v20; // [esp+1A8h] [ebp-64h]
-  __int64 v21; // [esp+1ACh] [ebp-60h]
-  __int64 v22; // [esp+1B4h] [ebp-58h]
-  __int64 v23; // [esp+1BCh] [ebp-50h]
-  __int64 v24; // [esp+1C4h] [ebp-48h]
-  btSoftBody::sRayCast results; // [esp+1CCh] [ebp-40h] BYREF
-  _DWORD v26[4]; // [esp+1DCh] [ebp-30h] BYREF
-  __int64 v27; // [esp+1ECh] [ebp-20h]
-  __int64 v28; // [esp+1F4h] [ebp-18h]
-  float fraction; // [esp+1FCh] [ebp-10h]
+  float v12; // xmm5_4
+  btSoftBody::Face *m_data; // edx
+  btCollisionWorld::RayResultCallback_vtbl *v14; // eax
+  btVector3 *v15; // [esp+10h] [ebp-70h]
+  _DWORD v16[2]; // [esp+14h] [ebp-6Ch] BYREF
+  char v17; // [esp+1Ch] [ebp-64h]
+  float v18; // [esp+20h] [ebp-60h]
+  float v19; // [esp+24h] [ebp-5Ch]
+  float v20; // [esp+28h] [ebp-58h]
+  int v21; // [esp+2Ch] [ebp-54h]
+  float v22; // [esp+30h] [ebp-50h]
+  int v23; // [esp+34h] [ebp-4Ch]
+  float v24; // [esp+38h] [ebp-48h]
+  int v25; // [esp+3Ch] [ebp-44h]
+  btSoftBody::sRayCast results; // [esp+40h] [ebp-40h] BYREF
+  _DWORD v27[12]; // [esp+50h] [ebp-30h] BYREF
 
-  if ( collisionShape->m_shapeType == 32 )
+  if ( *(&collisionShape->m_numVertices + 1) == 32 )
   {
-    if ( collisionObject->m_internalType == 8 )
+    v6 = collisionObject->m_internalType == 8 ? (btSoftBody *)collisionObject : 0;
+    if ( v6 )
     {
-      v17 = &rayFromTrans->m_worldTransform.m_basis.m_el[2];
+      v15 = &rayFromTrans->m_worldTransform.m_basis.m_el[2];
       if ( btSoftBody::rayTest(
-             collisionObject,
+             v6,
              &results,
              rayFromTrans,
              &rayFromTrans->m_worldTransform.m_basis.m_el[2],
@@ -45,57 +44,52 @@ void __usercall btSoftRigidDynamicsWorld::rayTestSingle(
       {
         if ( resultCallback->m_closestHitFraction >= results.fraction )
         {
-          v6 = rayToTrans->m_origin.mVec128.m128_f32[0];
-          v7 = rayToTrans->m_origin.mVec128.m128_f32[1];
-          v8 = rayToTrans->m_origin.mVec128.m128_f32[2];
-          index = results.index;
-          v19[0] = 0;
-          v20 = 0;
-          v10 = v8 - v17->mVec128.m128_f32[2];
-          v11 = v7 - v17->mVec128.m128_f32[1];
-          *(float *)&v23 = v6 - v17->mVec128.m128_f32[0];
-          *(float *)&v24 = v10;
-          *((float *)&v23 + 1) = v11;
-          v22 = COERCE_UNSIGNED_INT(-v10);
-          v19[1] = results.index;
-          v18 = 1.0
-              / sqrtf(
-                  (float)((float)((float)-v10 * (float)-v10) + (float)((float)-*(float *)&v23 * (float)-*(float *)&v23))
-                + (float)((float)-v11 * (float)-v11));
-          *(float *)&v21 = (float)-*(float *)&v23 * v18;
-          *((float *)&v21 + 1) = v18 * (float)-v11;
-          *(float *)&v22 = (float)-v10 * v18;
-          if ( results.feature == SContacts )
+          v7 = rayToTrans->m_origin.mVec128.m128_f32[0] - v15->mVec128.m128_f32[0];
+          v8 = rayToTrans->m_origin.mVec128.m128_f32[2] - v15->mVec128.m128_f32[2];
+          v9 = rayToTrans->m_origin.mVec128.m128_f32[1] - v15->mVec128.m128_f32[1];
+          v16[0] = 0;
+          v22 = v7;
+          LODWORD(v10) = LODWORD(v7) ^ _mask__NegFloat_;
+          v24 = v8;
+          LODWORD(v11) = LODWORD(v8) ^ _mask__NegFloat_;
+          v12 = s_bm_current_air_resistance
+              / fsqrt(
+                  (float)((float)(v11 * v11) + (float)(v10 * v10))
+                + (float)(COERCE_FLOAT(LODWORD(v9) ^ _mask__NegFloat_) * COERCE_FLOAT(LODWORD(v9) ^ _mask__NegFloat_)));
+          v18 = v10 * v12;
+          v16[1] = results.index;
+          v17 = 0;
+          v21 = 0;
+          v19 = v12 * COERCE_FLOAT(LODWORD(v9) ^ _mask__NegFloat_);
+          v20 = v11 * v12;
+          if ( results.feature == 3 )
           {
-            m_data = (int)collisionObject->m_faces.m_data;
-            v13 = index << 6;
-            v14 = *(_QWORD *)(m_data + v13 + 32);
-            v15 = *(_QWORD *)(m_data + v13 + 40);
-            v21 = v14;
-            v22 = v15;
-            if ( (float)((float)((float)(*(float *)&v15 * *(float *)&v24) + (float)(*(float *)&v14 * *(float *)&v23))
-                       + (float)(*((float *)&v23 + 1) * *((float *)&v14 + 1))) > 0.0 )
+            m_data = v6->m_faces.m_data;
+            v18 = m_data[results.index].m_normal.mVec128.m128_f32[0];
+            v19 = m_data[results.index].m_normal.mVec128.m128_f32[1];
+            v20 = m_data[results.index].m_normal.mVec128.m128_f32[2];
+            v21 = m_data[results.index].m_normal.mVec128.m128_i32[3];
+            if ( (float)((float)((float)(v20 * v24) + (float)(v18 * v22)) + (float)(v9 * v19)) > 0.0 )
             {
-              *(float *)&v23 = -*(float *)&v14;
-              *((float *)&v23 + 1) = -*((float *)&v14 + 1);
-              v14 = v23;
-              *(float *)&v24 = -*(float *)&v15;
-              HIDWORD(v24) = 0;
-              v15 = v24;
+              v25 = 0;
+              LODWORD(v22) = LODWORD(v18) ^ _mask__NegFloat_;
+              v23 = LODWORD(v19) ^ _mask__NegFloat_;
+              LODWORD(v24) = LODWORD(v20) ^ _mask__NegFloat_;
+              LODWORD(v18) ^= _mask__NegFloat_;
+              LODWORD(v19) ^= _mask__NegFloat_;
+              LODWORD(v20) ^= _mask__NegFloat_;
+              v21 = 0;
             }
           }
-          else
-          {
-            v15 = v22;
-            v14 = v21;
-          }
-          addSingleResult = resultCallback->addSingleResult;
-          v26[1] = v19;
-          v26[0] = collisionObject;
-          v27 = v14;
-          v28 = v15;
-          fraction = results.fraction;
-          addSingleResult(resultCallback, (btCollisionWorld::LocalRayResult *)v26, 1);
+          v27[0] = collisionObject;
+          v27[1] = v16;
+          v14 = resultCallback->__vftable;
+          *(float *)&v27[4] = v18;
+          *(float *)&v27[5] = v19;
+          *(float *)&v27[6] = v20;
+          v27[7] = v21;
+          v27[8] = LODWORD(results.fraction);
+          ((void (__stdcall *)(_DWORD *, int))v14->addSingleResult)(v27, 1);
         }
       }
     }
@@ -104,10 +98,10 @@ void __usercall btSoftRigidDynamicsWorld::rayTestSingle(
   {
     btCollisionWorld::rayTestSingle(
       (const btTransform *)rayFromTrans,
-      colObjWorldTransform,
       rayToTrans,
       collisionObject,
       collisionShape,
+      colObjWorldTransform,
       resultCallback);
   }
 }

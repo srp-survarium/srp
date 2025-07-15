@@ -40,56 +40,56 @@ void __thiscall Scaleform::Render::StrokerAA::calcJoinParam(
   float cya; // [esp+14h] [ebp-34h]
   float v41; // [esp+18h] [ebp-30h]
   float v42; // [esp+18h] [ebp-30h]
-  float x1; // [esp+1Ch] [ebp-2Ch]
-  float x1a; // [esp+1Ch] [ebp-2Ch]
-  float dya; // [esp+3Ch] [ebp-Ch]
-  float dyb; // [esp+3Ch] [ebp-Ch]
-  float dyc; // [esp+3Ch] [ebp-Ch]
-  float dyd; // [esp+3Ch] [ebp-Ch]
-  float dy; // [esp+3Ch] [ebp-Ch]
+  float dy; // [esp+1Ch] [ebp-2Ch]
+  float dya; // [esp+1Ch] [ebp-2Ch]
+  float v45; // [esp+3Ch] [ebp-Ch]
+  float v46; // [esp+3Ch] [ebp-Ch]
+  float v47; // [esp+3Ch] [ebp-Ch]
+  float v48; // [esp+3Ch] [ebp-Ch]
+  float v49; // [esp+3Ch] [ebp-Ch]
   bool v50; // [esp+40h] [ebp-8h]
-  float v2c; // [esp+50h] [ebp+8h]
-  float v2d; // [esp+50h] [ebp+8h]
-  float v2e; // [esp+50h] [ebp+8h]
-  float v2f; // [esp+50h] [ebp+8h]
-  float v2g; // [esp+50h] [ebp+8h]
-  float v2h; // [esp+50h] [ebp+8h]
-  float v2i; // [esp+50h] [ebp+8h]
-  float v2j; // [esp+50h] [ebp+8h]
-  float v2k; // [esp+50h] [ebp+8h]
-  float v2l; // [esp+50h] [ebp+8h]
-  float v2m; // [esp+50h] [ebp+8h]
-  float v2n; // [esp+50h] [ebp+8h]
-  float v2o; // [esp+50h] [ebp+8h]
-  float v2p; // [esp+50h] [ebp+8h]
-  float v2q; // [esp+50h] [ebp+8h]
-  float v2r; // [esp+50h] [ebp+8h]
-  float v2s; // [esp+50h] [ebp+8h]
-  float v2t; // [esp+50h] [ebp+8h]
-  float v2u; // [esp+50h] [ebp+8h]
-  float v2v; // [esp+50h] [ebp+8h]
-  float v2w; // [esp+50h] [ebp+8h]
-  float v2x; // [esp+50h] [ebp+8h]
-  float v2y; // [esp+50h] [ebp+8h]
-  float v2z; // [esp+50h] [ebp+8h]
-  float v2ba; // [esp+50h] [ebp+8h]
-  float v2bb; // [esp+50h] [ebp+8h]
-  float v2bc; // [esp+50h] [ebp+8h]
-  float v2bd; // [esp+50h] [ebp+8h]
-  float v2a; // [esp+50h] [ebp+8h]
-  float v2b; // [esp+50h] [ebp+8h]
-  float v3a; // [esp+54h] [ebp+Ch]
-  float v3b; // [esp+54h] [ebp+Ch]
+  float v51; // [esp+50h] [ebp+8h]
+  float v52; // [esp+50h] [ebp+8h]
+  float v53; // [esp+50h] [ebp+8h]
+  float v54; // [esp+50h] [ebp+8h]
+  float v55; // [esp+50h] [ebp+8h]
+  float v56; // [esp+50h] [ebp+8h]
+  float v57; // [esp+50h] [ebp+8h]
+  float v58; // [esp+50h] [ebp+8h]
+  float v59; // [esp+50h] [ebp+8h]
+  float v60; // [esp+50h] [ebp+8h]
+  float v61; // [esp+50h] [ebp+8h]
+  float v62; // [esp+50h] [ebp+8h]
+  float v63; // [esp+50h] [ebp+8h]
+  float v64; // [esp+50h] [ebp+8h]
+  float v65; // [esp+50h] [ebp+8h]
+  float v66; // [esp+50h] [ebp+8h]
+  float v67; // [esp+50h] [ebp+8h]
+  float v68; // [esp+50h] [ebp+8h]
+  float v69; // [esp+50h] [ebp+8h]
+  float v70; // [esp+50h] [ebp+8h]
+  float v71; // [esp+50h] [ebp+8h]
+  float v72; // [esp+50h] [ebp+8h]
+  float v73; // [esp+50h] [ebp+8h]
+  float v74; // [esp+50h] [ebp+8h]
+  float v75; // [esp+50h] [ebp+8h]
+  float v76; // [esp+50h] [ebp+8h]
+  float v77; // [esp+50h] [ebp+8h]
+  float v78; // [esp+50h] [ebp+8h]
+  float v79; // [esp+50h] [ebp+8h]
+  float v80; // [esp+50h] [ebp+8h]
+  float v81; // [esp+54h] [ebp+Ch]
+  float v82; // [esp+54h] [ebp+Ch]
   float epsilon; // [esp+58h] [ebp+10h]
-  char intersectionFailed; // [esp+5Ch] [ebp+14h]
-  float intersectionFaileda; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedb; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedc; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedd; // [esp+5Ch] [ebp+14h]
-  float intersectionFailede; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedf; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedg; // [esp+5Ch] [ebp+14h]
-  float intersectionFailedh; // [esp+5Ch] [ebp+14h]
+  char v84; // [esp+5Ch] [ebp+14h]
+  float v85; // [esp+5Ch] [ebp+14h]
+  float v86; // [esp+5Ch] [ebp+14h]
+  float v87; // [esp+5Ch] [ebp+14h]
+  float v88; // [esp+5Ch] [ebp+14h]
+  float v89; // [esp+5Ch] [ebp+14h]
+  float v90; // [esp+5Ch] [ebp+14h]
+  float v91; // [esp+5Ch] [ebp+14h]
+  float v92; // [esp+5Ch] [ebp+14h]
 
   p->dx1SolidL = p->dx2SolidL;
   p->dy1SolidL = p->dy2SolidL;
@@ -107,16 +107,16 @@ void __thiscall Scaleform::Render::StrokerAA::calcJoinParam(
   p->dy2TotalL = p->dy3TotalL;
   p->dx2TotalR = p->dx3TotalR;
   p->dy2TotalR = p->dy3TotalR;
-  v2c = (v3->y - v2->y) / v2->dist;
-  dya = (v2->x - v3->x) / v2->dist;
-  p->dx3SolidL = w->solidWidthL * v2c;
-  p->dy3SolidL = w->solidWidthL * dya;
-  p->dx3SolidR = w->solidWidthR * v2c;
-  p->dy3SolidR = w->solidWidthR * dya;
-  p->dx3TotalL = w->totalWidthL * v2c;
-  p->dy3TotalL = w->totalWidthL * dya;
-  p->dx3TotalR = v2c * w->totalWidthR;
-  p->dy3TotalR = dya * w->totalWidthR;
+  v51 = (v3->y - v2->y) / v2->dist;
+  v45 = (v2->x - v3->x) / v2->dist;
+  p->dx3SolidL = w->solidWidthL * v51;
+  p->dy3SolidL = w->solidWidthL * v45;
+  p->dx3SolidR = w->solidWidthR * v51;
+  p->dy3SolidR = w->solidWidthR * v45;
+  p->dx3TotalL = w->totalWidthL * v51;
+  p->dy3TotalL = w->totalWidthL * v45;
+  p->dx3TotalR = v51 * w->totalWidthR;
+  p->dy3TotalR = v45 * w->totalWidthR;
   p->xMiterPrevL = p->xMiterThisL;
   p->yMiterPrevL = p->yMiterThisL;
   xMiterThisR = p->xMiterThisR;
@@ -136,7 +136,7 @@ void __thiscall Scaleform::Render::StrokerAA::calcJoinParam(
   p->xMiterThisR = p->xMiterNextR;
   p->badMiterThisR = badMiterNextR;
   yMiterNextR = p->yMiterNextR;
-  intersectionFailed = 1;
+  v84 = 1;
   p->yMiterThisR = yMiterNextR;
   p->dMiterThisL = p->dMiterNextL;
   p->dMiterThisR = p->dMiterNextR;
@@ -144,101 +144,101 @@ void __thiscall Scaleform::Render::StrokerAA::calcJoinParam(
   epsilon = (v3->dist + v2->dist) * this->IntersectionEpsilon;
   if ( v15 )
   {
-    v2q = (p->dx2TotalL + p->dx1TotalL) * 0.5;
-    dyc = 0.5 * (p->dy1TotalL + p->dy2TotalL);
-    v2r = dyc * dyc + v2q * v2q;
-    v2s = sqrt(v2r);
-    p->dbTotalL = v2s;
-    p->dbSolidL = v2s * w->solidCoeffL;
-    v2t = p->dbTotalL * w->widthCoeff;
-    p->dbTotalR = v2t;
-    p->dbSolidR = v2t * w->solidCoeffR;
-    v2u = v3->y - p->dy3TotalL;
-    x1a = v2u;
-    v2v = v3->x - p->dx3TotalL;
-    v42 = v2v;
-    v2w = v2->y - p->dy3TotalL;
-    cya = v2w;
-    v2x = v2->x - p->dx3TotalL;
-    v38 = v2x;
-    v2y = v2->y - p->dy2TotalL;
-    bya = v2y;
-    v2z = v2->x - p->dx2TotalL;
-    v34 = v2z;
-    v2ba = v1->y - p->dy2TotalL;
-    aya = v2ba;
-    v2bb = v1->x - p->dx2TotalL;
+    v65 = (p->dx2TotalL + p->dx1TotalL) * 0.5;
+    v47 = 0.5 * (p->dy1TotalL + p->dy2TotalL);
+    v66 = v47 * v47 + v65 * v65;
+    v67 = sqrt(v66);
+    p->dbTotalL = v67;
+    p->dbSolidL = v67 * w->solidCoeffL;
+    v68 = p->dbTotalL * w->widthCoeff;
+    p->dbTotalR = v68;
+    p->dbSolidR = v68 * w->solidCoeffR;
+    v69 = v3->y - p->dy3TotalL;
+    dya = v69;
+    v70 = v3->x - p->dx3TotalL;
+    v42 = v70;
+    v71 = v2->y - p->dy3TotalL;
+    cya = v71;
+    v72 = v2->x - p->dx3TotalL;
+    v38 = v72;
+    v73 = v2->y - p->dy2TotalL;
+    bya = v73;
+    v74 = v2->x - p->dx2TotalL;
+    v34 = v74;
+    v75 = v1->y - p->dy2TotalL;
+    aya = v75;
+    v76 = v1->x - p->dx2TotalL;
     if ( !Scaleform::Render::Math2D::Intersection(
-            v2bb,
+            v76,
             aya,
             v34,
             bya,
             v38,
             cya,
             v42,
-            x1a,
+            dya,
             &p->xMiterNextL,
             &p->yMiterNextL,
             epsilon) )
       goto LABEL_7;
-    v2bc = *p_xMiterNextL - v2->x;
-    intersectionFailedd = p->yMiterNextL - v2->y;
-    intersectionFailede = intersectionFailedd * intersectionFailedd + v2bc * v2bc;
-    intersectionFailedf = sqrt(intersectionFailede);
-    p->dMiterNextL = intersectionFailedf;
-    p->dMiterNextR = intersectionFailedf * w->widthCoeff;
+    v77 = *p_xMiterNextL - v2->x;
+    v88 = p->yMiterNextL - v2->y;
+    v89 = v88 * v88 + v77 * v77;
+    v90 = sqrt(v89);
+    p->dMiterNextL = v90;
+    p->dMiterNextR = v90 * w->widthCoeff;
     p->xMiterNextR = v2->x - (*p_xMiterNextL - v2->x) * w->widthCoeff;
     p->yMiterNextR = v2->y - (p->yMiterNextL - v2->y) * w->widthCoeff;
   }
   else
   {
-    v2d = (p->dx1TotalR + p->dx2TotalR) * 0.5;
-    dyb = 0.5 * (p->dy1TotalR + p->dy2TotalR);
-    v2e = dyb * dyb + v2d * v2d;
-    v2f = sqrt(v2e);
-    p->dbTotalR = v2f;
-    p->dbSolidR = v2f * w->solidCoeffR;
-    v2g = v2f * w->widthCoeff;
-    p->dbTotalL = v2g;
-    p->dbSolidL = v2g * w->solidCoeffL;
-    v2h = v3->y + p->dy3TotalR;
-    x1 = v2h;
-    v2i = v3->x + p->dx3TotalR;
-    v41 = v2i;
-    v2j = v2->y + p->dy3TotalR;
-    cy = v2j;
-    v2k = v2->x + p->dx3TotalR;
-    v37 = v2k;
-    v2l = v2->y + p->dy2TotalR;
-    by = v2l;
-    v2m = v2->x + p->dx2TotalR;
-    v33 = v2m;
-    v2n = v1->y + p->dy2TotalR;
-    ay = v2n;
-    v2o = v1->x + p->dx2TotalR;
+    v52 = (p->dx1TotalR + p->dx2TotalR) * 0.5;
+    v46 = 0.5 * (p->dy1TotalR + p->dy2TotalR);
+    v53 = v46 * v46 + v52 * v52;
+    v54 = sqrt(v53);
+    p->dbTotalR = v54;
+    p->dbSolidR = v54 * w->solidCoeffR;
+    v55 = v54 * w->widthCoeff;
+    p->dbTotalL = v55;
+    p->dbSolidL = v55 * w->solidCoeffL;
+    v56 = v3->y + p->dy3TotalR;
+    dy = v56;
+    v57 = v3->x + p->dx3TotalR;
+    v41 = v57;
+    v58 = v2->y + p->dy3TotalR;
+    cy = v58;
+    v59 = v2->x + p->dx3TotalR;
+    v37 = v59;
+    v60 = v2->y + p->dy2TotalR;
+    by = v60;
+    v61 = v2->x + p->dx2TotalR;
+    v33 = v61;
+    v62 = v1->y + p->dy2TotalR;
+    ay = v62;
+    v63 = v1->x + p->dx2TotalR;
     if ( !Scaleform::Render::Math2D::Intersection(
-            v2o,
+            v63,
             ay,
             v33,
             by,
             v37,
             cy,
             v41,
-            x1,
+            dy,
             &p->xMiterNextR,
             &p->yMiterNextR,
             epsilon) )
       goto LABEL_7;
-    v2p = p->xMiterNextR - v2->x;
-    intersectionFaileda = p->yMiterNextR - v2->y;
-    intersectionFailedb = intersectionFaileda * intersectionFaileda + v2p * v2p;
-    intersectionFailedc = sqrt(intersectionFailedb);
-    p->dMiterNextR = intersectionFailedc;
-    p->dMiterNextL = intersectionFailedc * w->widthCoeff;
+    v64 = p->xMiterNextR - v2->x;
+    v85 = p->yMiterNextR - v2->y;
+    v86 = v85 * v85 + v64 * v64;
+    v87 = sqrt(v86);
+    p->dMiterNextR = v87;
+    p->dMiterNextL = v87 * w->widthCoeff;
     *p_xMiterNextL = v2->x - (p->xMiterNextR - v2->x) * w->widthCoeff;
     p->yMiterNextL = v2->y - (p->yMiterNextR - v2->y) * w->widthCoeff;
   }
-  intersectionFailed = 0;
+  v84 = 0;
   p->badMiterNextL = 0;
   p->badMiterNextR = 0;
 LABEL_7:
@@ -246,10 +246,10 @@ LABEL_7:
   p->rightTurnPrev = p->rightTurnThis;
   p->rightTurnThis = rightTurnNext;
   v17 = v1;
-  v2bd = (v3->x - v2->x) * (v2->y - v1->y) - (v3->y - v2->y) * (v2->x - v1->x);
-  v50 = v2bd > 0.0;
+  v78 = (v3->x - v2->x) * (v2->y - v1->y) - (v3->y - v2->y) * (v2->x - v1->x);
+  v50 = v78 > 0.0;
   p->rightTurnNext = v50;
-  if ( intersectionFailed )
+  if ( v84 )
   {
     rightSideCalc = w->rightSideCalc;
     x = v2->x;
@@ -257,17 +257,17 @@ LABEL_7:
       v20 = x + p->dx2TotalR;
     else
       v20 = x - p->dx2TotalL;
-    v2a = v20;
+    v79 = v20;
     y = v2->y;
     if ( rightSideCalc )
       v22 = y + p->dy2TotalR;
     else
       v22 = y - p->dy2TotalL;
-    dyd = v22;
-    intersectionFailedg = (v2a - v2->x) * (v2->y - v1->y) - (dyd - v2->y) * (v2->x - v1->x);
-    v23 = intersectionFailedg < 0.0;
-    intersectionFailedh = (v2a - v3->x) * (v3->y - v2->y) - (v3->x - v2->x) * (dyd - v3->y);
-    if ( v23 == intersectionFailedh < 0.0 )
+    v48 = v22;
+    v91 = (v79 - v2->x) * (v2->y - v1->y) - (v48 - v2->y) * (v2->x - v1->x);
+    v23 = v91 < 0.0;
+    v92 = (v79 - v3->x) * (v3->y - v2->y) - (v3->x - v2->x) * (v48 - v3->y);
+    if ( v23 == v92 < 0.0 )
     {
       *p_xMiterNextL = v2->x - p->dx2TotalL;
       p->yMiterNextL = v2->y - p->dy2TotalL;
@@ -281,8 +281,8 @@ LABEL_7:
     }
     else
     {
-      v2b = v2->x - (v1->x + v3->x) * 0.5;
-      dy = v2->y - 0.5 * (v1->y + v3->y);
+      v80 = v2->x - (v1->x + v3->x) * 0.5;
+      v49 = v2->y - 0.5 * (v1->y + v3->y);
       v25 = v2->x;
       if ( v50 )
       {
@@ -291,10 +291,10 @@ LABEL_7:
         v26 = w->totalLimitR;
         p->badMiterNextR = 1;
         p->dMiterNextR = v26;
-        *p_xMiterNextL = v2b * 1024.0 + v2->x;
-        v3a = 1024.0 * dy + v2->y;
-        p->yMiterNextL = v3a;
-        v27 = Scaleform::Render::Math2D::Distance(v2->x, v2->y, *p_xMiterNextL, v3a);
+        *p_xMiterNextL = v80 * 1024.0 + v2->x;
+        v81 = 1024.0 * v49 + v2->y;
+        p->yMiterNextL = v81;
+        v27 = Scaleform::Render::Math2D::Distance(v2->x, v2->y, *p_xMiterNextL, v81);
         v17 = v1;
         p->dMiterNextL = v27;
         p->badMiterNextL = 0;
@@ -306,10 +306,10 @@ LABEL_7:
         totalLimitL = w->totalLimitL;
         p->badMiterNextL = 1;
         p->dMiterNextL = totalLimitL;
-        p->xMiterNextR = v2b * 1024.0 + v2->x;
-        v3b = 1024.0 * dy + v2->y;
-        p->yMiterNextR = v3b;
-        v29 = Scaleform::Render::Math2D::Distance(v2->x, v2->y, p->xMiterNextR, v3b);
+        p->xMiterNextR = v80 * 1024.0 + v2->x;
+        v82 = 1024.0 * v49 + v2->y;
+        p->yMiterNextR = v82;
+        v29 = Scaleform::Render::Math2D::Distance(v2->x, v2->y, p->xMiterNextR, v82);
         v17 = v1;
         p->dMiterNextR = v29;
         p->badMiterNextR = 0;

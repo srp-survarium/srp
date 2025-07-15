@@ -5,13 +5,13 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::Resize(Scaleform::GFx::AS2::Ar
   unsigned int i; // ebx
   Scaleform::GFx::AS2::Value **Data; // ecx
   Scaleform::GFx::AS2::Value *v7; // edi
-  unsigned int oldSize; // [esp+14h] [ebp+4h]
+  unsigned int v8; // [esp+14h] [ebp+4h]
 
   v2 = size;
   if ( size < 0 )
     v2 = 0;
   v4 = this->Elements.Data.Size;
-  oldSize = v4;
+  v8 = v4;
   for ( i = v2; i < v4; ++i )
   {
     Data = this->Elements.Data.Data;
@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::Resize(Scaleform::GFx::AS2::Ar
       if ( v7->T.Type >= 5u )
         Scaleform::GFx::AS2::Value::DropRefs(Data[i]);
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
-      v4 = oldSize;
+      v4 = v8;
     }
   }
   if ( v2 >= this->Elements.Data.Size )
@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::Resize(Scaleform::GFx::AS2::Ar
       &this->Elements,
       v2);
   }
-  v4 = oldSize;
+  v4 = v8;
 LABEL_15:
   for ( this->Elements.Data.Size = v2; v4 < v2; ++v4 )
     this->Elements.Data.Data[v4] = 0;

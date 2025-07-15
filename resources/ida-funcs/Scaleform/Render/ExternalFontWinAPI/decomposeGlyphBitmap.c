@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::decomposeGlyphBitmap(
   int v11; // edx
   const unsigned __int8 *v12; // ecx
   unsigned __int8 v13; // al
-  Scaleform::Render::GlyphRaster *rastera; // [esp+28h] [ebp+18h]
+  int v14; // [esp+28h] [ebp+18h]
 
   v7 = h * w;
   p_Raster = &raster->Raster;
@@ -40,7 +40,7 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::decomposeGlyphBitmap(
   v9 = p_Raster->Data.Data;
   if ( h > 0 )
   {
-    rastera = (Scaleform::Render::GlyphRaster *)h;
+    v14 = h;
     do
     {
       v11 = w;
@@ -62,8 +62,8 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::decomposeGlyphBitmap(
         while ( v11 );
       }
       data += ((w + 31) >> 3) & 0xFFFFFFFC;
-      rastera = (Scaleform::Render::GlyphRaster *)((char *)rastera - 1);
+      --v14;
     }
-    while ( rastera );
+    while ( v14 );
   }
 }

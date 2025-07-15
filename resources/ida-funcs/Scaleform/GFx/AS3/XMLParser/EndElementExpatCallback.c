@@ -39,7 +39,7 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::EndElementExpatCallback(
           else
           {
             RefCount = v7->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               v7->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);
@@ -53,7 +53,7 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::EndElementExpatCallback(
         if ( ((unsigned __int8)v5 & 1) == 0 )
         {
           v10 = v5->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v10) != 0 )
+          if ( (v10 & 0x3FFFFF) != 0 )
           {
             v5->RefCount = v10 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);
@@ -64,7 +64,7 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::EndElementExpatCallback(
       if ( ((unsigned __int8)v5 & 1) == 0 )
       {
         v9 = v5->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+        if ( (v9 & 0x3FFFFF) != 0 )
         {
           v5->RefCount = v9 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);

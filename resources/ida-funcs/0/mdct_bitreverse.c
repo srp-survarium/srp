@@ -1,70 +1,70 @@
-void __usercall mdct_bitreverse(mdct_lookup *init@<eax>, float *x@<edx>)
+void __usercall mdct_bitreverse(mdct_lookup *init@<eax>, float *x@<ecx>)
 {
   int *bitrev; // esi
-  float *v3; // ebp
-  float *v4; // eax
-  float *v5; // ecx
-  int v6; // ebx
-  double v7; // st6
-  float *v8; // edi
-  float *v9; // ebx
-  int v10; // edi
-  int v11; // ebx
-  double v12; // st6
-  float *v13; // edi
-  float *v14; // ebx
-  float r0; // [esp+10h] [ebp-10h]
-  float r0a; // [esp+10h] [ebp-10h]
-  float r0b; // [esp+10h] [ebp-10h]
-  float r0c; // [esp+10h] [ebp-10h]
-  float r1; // [esp+14h] [ebp-Ch]
-  float r1a; // [esp+14h] [ebp-Ch]
-  float r1b; // [esp+14h] [ebp-Ch]
-  float r1c; // [esp+14h] [ebp-Ch]
-  float r2; // [esp+18h] [ebp-8h]
-  float r2a; // [esp+18h] [ebp-8h]
-  float r3; // [esp+1Ch] [ebp-4h]
-  float r3a; // [esp+1Ch] [ebp-4h]
+  float *v3; // edi
+  float *v4; // ecx
+  float *v5; // edx
+  float *v6; // eax
+  float v7; // xmm1_4
+  float v8; // xmm6_4
+  float v9; // xmm7_4
+  float v10; // xmm3_4
+  float v11; // xmm2_4
+  float v12; // xmm5_4
+  float v13; // xmm1_4
+  float v14; // xmm2_4
+  float v15; // xmm4_4
+  float v16; // xmm1_4
+  float v17; // xmm7_4
+  float v18; // xmm3_4
+  float v19; // xmm5_4
+  float v20; // xmm1_4
+  float v21; // xmm2_4
+  float v22; // [esp+0h] [ebp-10h]
+  float *v23; // [esp+8h] [ebp-8h]
+  float *v24; // [esp+8h] [ebp-8h]
+  float *v25; // [esp+Ch] [ebp-4h]
+  float *v26; // [esp+Ch] [ebp-4h]
 
   bitrev = init->bitrev;
-  v3 = &x[init->n >> 1];
-  v4 = &init->trig[init->n];
-  v5 = v3 + 3;
+  v3 = x;
+  v4 = &x[init->n >> 1];
+  v5 = &init->trig[init->n];
+  v6 = v4 + 3;
   do
   {
-    v6 = bitrev[1];
-    v7 = v3[*bitrev + 1] - v3[v6 + 1];
-    v8 = &v3[*bitrev];
-    v9 = &v3[v6];
-    v5 -= 4;
-    r0 = v7;
-    r1 = *v9 + *v8;
-    r2 = *v4 * r1 + r0 * v4[1];
-    r3 = r1 * v4[1] - r0 * *v4;
-    r0a = (v9[1] + v8[1]) * 0.5;
-    r1a = (*v8 - *v9) * 0.5;
-    *x = r2 + r0a;
-    *(v5 - 1) = r0a - r2;
-    x[1] = r3 + r1a;
-    *v5 = r3 - r1a;
-    v10 = bitrev[2];
-    v11 = bitrev[3];
-    v12 = v3[v10 + 1] - v3[v11 + 1];
-    v13 = &v3[v10];
-    v14 = &v3[v11];
-    r0b = v12;
-    r1b = *v14 + *v13;
-    r2a = v4[2] * r1b + v4[3] * r0b;
-    r3a = r1b * v4[3] - r0b * v4[2];
-    r0c = (v14[1] + v13[1]) * 0.5;
-    x += 4;
-    v4 += 4;
+    v25 = &v4[*bitrev];
+    v23 = &v4[bitrev[1]];
+    v7 = v23[1];
+    v8 = v25[1] - v7;
+    v9 = v5[1];
+    v10 = (float)(v9 * (float)(*v25 + *v23)) - (float)(*v5 * v8);
+    v11 = *v25 - *v23;
+    v12 = (float)(*v5 * (float)(*v25 + *v23)) + (float)(v9 * v8);
+    v13 = (float)(v7 + v25[1]) * 0.5;
+    *v3 = v12 + v13;
+    *(v6 - 5) = v13 - v12;
+    v6 -= 4;
+    v14 = v11 * 0.5;
+    v3[1] = v10 + v14;
+    *v6 = v10 - v14;
+    v15 = v5[2];
+    v26 = &v4[bitrev[2]];
+    v24 = &v4[bitrev[3]];
+    v16 = v24[1];
+    v17 = *v26 + *v24;
+    v22 = v26[1] - v16;
+    v18 = (float)(v5[3] * v17) - (float)(v15 * v22);
+    v19 = (float)(v5[3] * v22) + (float)(v15 * v17);
+    v20 = (float)(v16 + v26[1]) * 0.5;
+    v21 = (float)(*v26 - *v24) * 0.5;
+    v3[2] = v19 + v20;
+    *(v6 - 3) = v20 - v19;
+    v3[3] = v18 + v21;
+    v3 += 4;
+    v5 += 4;
     bitrev += 4;
-    r1c = (*v13 - *v14) * 0.5;
-    *(x - 2) = r2a + r0c;
-    *(v5 - 3) = r0c - r2a;
-    *(x - 1) = r3a + r1c;
-    *(v5 - 2) = r3a - r1c;
+    *(v6 - 2) = v18 - v21;
   }
-  while ( x < v5 - 3 );
+  while ( v3 < v6 - 3 );
 }

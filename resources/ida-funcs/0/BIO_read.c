@@ -1,6 +1,6 @@
 unsigned int __cdecl bio_read(bio_st *bio, char *buf, unsigned int size_)
 {
-  unsigned __int8 *v4; // ebp
+  char *v4; // ebp
   _DWORD *v5; // esi
   unsigned int v6; // eax
   unsigned int v7; // eax
@@ -13,7 +13,7 @@ unsigned int __cdecl bio_read(bio_st *bio, char *buf, unsigned int size_)
   BIO_clear_flags(bio, 15);
   if ( !bio->init )
     return 0;
-  v4 = (unsigned __int8 *)buf;
+  v4 = buf;
   v5 = *(_DWORD **)(*(_DWORD *)bio->ptr + 32);
   v5[6] = 0;
   if ( !buf || !size_ )
@@ -44,7 +44,7 @@ unsigned int __cdecl bio_read(bio_st *bio, char *buf, unsigned int size_)
       v11 = v10 - v9;
     else
       v11 = v8;
-    memcpy(v4, (unsigned __int8 *)(v9 + v5[5]), v11);
+    memcpy((int)v4, (const __m128i *)(v9 + v5[5]), v11);
     v12 = v5[2] == v11;
     v5[2] -= v11;
     if ( v12 )

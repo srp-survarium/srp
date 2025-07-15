@@ -6,41 +6,41 @@ void __thiscall Scaleform::Render::Text::GFxLineCursor::TrackFontParams(
   double v4; // st7
   double v5; // st6
   double v6; // st6
-  float descent; // [esp+0h] [ebp-8h]
+  float Descent; // [esp+0h] [ebp-8h]
   float MaxFontAscent; // [esp+4h] [ebp-4h]
-  float ascent; // [esp+Ch] [ebp+4h]
-  float ascentb; // [esp+Ch] [ebp+4h]
-  float ascentc; // [esp+Ch] [ebp+4h]
-  float ascentd; // [esp+Ch] [ebp+4h]
-  float ascente; // [esp+Ch] [ebp+4h]
-  float ascenta; // [esp+Ch] [ebp+4h]
-  float scalea; // [esp+10h] [ebp+8h]
-  float scaleb; // [esp+10h] [ebp+8h]
+  float Ascent; // [esp+Ch] [ebp+4h]
+  float v10; // [esp+Ch] [ebp+4h]
+  float v11; // [esp+Ch] [ebp+4h]
+  float v12; // [esp+Ch] [ebp+4h]
+  float v13; // [esp+Ch] [ebp+4h]
+  float v14; // [esp+Ch] [ebp+4h]
+  float MaxFontDescent; // [esp+10h] [ebp+8h]
+  float MaxFontLeading; // [esp+10h] [ebp+8h]
 
-  ascent = pfont->Ascent;
-  descent = pfont->Descent;
-  if ( 0.0 == ascent )
-    ascent = 960.0;
-  if ( 0.0 == descent )
-    descent = 64.0;
+  Ascent = pfont->Ascent;
+  Descent = pfont->Descent;
+  if ( 0.0 == Ascent )
+    Ascent = 960.0;
+  if ( 0.0 == Descent )
+    Descent = 64.0;
   MaxFontAscent = this->MaxFontAscent;
   v4 = scale;
-  ascentb = ascent * scale;
-  v5 = ascentb;
-  if ( MaxFontAscent > (double)ascentb )
+  v10 = Ascent * scale;
+  v5 = v10;
+  if ( MaxFontAscent > (double)v10 )
     v5 = MaxFontAscent;
-  ascentc = v5;
-  this->MaxFontAscent = ascentc;
-  scalea = this->MaxFontDescent;
-  ascentd = descent * v4;
-  v6 = ascentd;
-  if ( scalea > (double)ascentd )
-    v6 = scalea;
-  ascente = v6;
-  this->MaxFontDescent = ascente;
-  scaleb = this->MaxFontLeading;
-  ascenta = v4 * pfont->Leading;
-  if ( scaleb > (double)ascenta )
-    ascenta = scaleb;
-  this->MaxFontLeading = ascenta;
+  v11 = v5;
+  this->MaxFontAscent = v11;
+  MaxFontDescent = this->MaxFontDescent;
+  v12 = Descent * v4;
+  v6 = v12;
+  if ( MaxFontDescent > (double)v12 )
+    v6 = MaxFontDescent;
+  v13 = v6;
+  this->MaxFontDescent = v13;
+  MaxFontLeading = this->MaxFontLeading;
+  v14 = v4 * pfont->Leading;
+  if ( MaxFontLeading > (double)v14 )
+    v14 = MaxFontLeading;
+  this->MaxFontLeading = v14;
 }

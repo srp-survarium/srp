@@ -9,16 +9,16 @@ void __thiscall Scaleform::GFx::MovieImpl::SetViewport(
   int Height; // eax
   Scaleform::GFx::Movie::ScaleModeType ViewScaleMode; // ecx
   double v9; // st7
-  int v10; // [esp+DCh] [ebp-28h]
-  int v11; // [esp+E0h] [ebp-24h]
-  float AspectRatio; // [esp+E4h] [ebp-20h]
-  int Left; // [esp+E8h] [ebp-1Ch]
-  int Top; // [esp+ECh] [ebp-18h]
-  float Scale; // [esp+F0h] [ebp-14h]
-  float x1; // [esp+F4h] [ebp-10h]
-  float y1; // [esp+F8h] [ebp-Ch]
-  float x2; // [esp+FCh] [ebp-8h]
-  float y2; // [esp+100h] [ebp-4h]
+  int v10; // [esp+18h] [ebp-28h]
+  int v11; // [esp+1Ch] [ebp-24h]
+  float AspectRatio; // [esp+20h] [ebp-20h]
+  int Left; // [esp+24h] [ebp-1Ch]
+  int Top; // [esp+28h] [ebp-18h]
+  float Scale; // [esp+2Ch] [ebp-14h]
+  float x1; // [esp+30h] [ebp-10h]
+  float y1; // [esp+34h] [ebp-Ch]
+  float x2; // [esp+38h] [ebp-8h]
+  float y2; // [esp+3Ch] [ebp-4h]
 
   p_mViewport = &this->mViewport;
   v4 = 52;

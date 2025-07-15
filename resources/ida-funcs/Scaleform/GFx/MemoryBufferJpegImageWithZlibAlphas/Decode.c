@@ -19,7 +19,7 @@ bool __thiscall Scaleform::GFx::MemoryBufferJpegImageWithZlibAlphas::Decode(
   return Scaleform::GFx::JpegAlphaDecodeHelper(
            this->Format,
            v8,
-           (unsigned __int8 *)&pInverseMatrix[this->ZlibAlphaOffset],
+           &pInverseMatrix[this->ZlibAlphaOffset],
            v7 - this->ZlibAlphaOffset,
            pdest,
            copyScanline,

@@ -1,4 +1,5 @@
-int __cdecl CMS_RecipientInfo_ktri_get0_algs(
+int __usercall CMS_RecipientInfo_ktri_get0_algs@<eax>(
+        int a1@<ebx>,
         CMS_RecipientInfo_st *ri,
         evp_pkey_st **pk,
         x509_st **recip,
@@ -8,7 +9,7 @@ int __cdecl CMS_RecipientInfo_ktri_get0_algs(
 
   if ( ri->type )
   {
-    ERR_put_error(0x2Eu, 142, 124, ".\\crypto\\cms\\cms_env.c", 244);
+    ERR_put_error(a1, 0x2Eu, 142, 124, ".\\crypto\\cms\\cms_env.c", 244);
     return 0;
   }
   else

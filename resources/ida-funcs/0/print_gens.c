@@ -9,10 +9,10 @@ int __usercall print_gens@<eax>(bio_st *out@<edi>, stack_st_GENERAL_NAME *gens@<
   {
     do
     {
-      BIO_printf(out, "%*s", indent + 2, (const char *)&buf);
+      BIO_printf(out, "%*s", indent + 2, uri);
       v4 = sk_value(&gens->stack, v3);
       GENERAL_NAME_print(out, (GENERAL_NAME_st *)v4);
-      BIO_puts(out, "\n");
+      BIO_puts((int)gens, out, "\n");
       ++v3;
     }
     while ( v3 < sk_num(&gens->stack) );

@@ -1,4 +1,4 @@
-void __cdecl BN_CTX_start(bignum_ctx *ctx)
+void __usercall BN_CTX_start(int a1@<ebx>, bignum_ctx *ctx)
 {
   int err_stack; // eax
 
@@ -9,7 +9,7 @@ void __cdecl BN_CTX_start(bignum_ctx *ctx)
   }
   else if ( !BN_STACK_push(&ctx->stack, ctx->used) )
   {
-    ERR_put_error(3u, 129, 109, ".\\crypto\\bn\\bn_ctx.c", 264);
+    ERR_put_error(a1, 3u, 129, 109, ".\\crypto\\bn\\bn_ctx.c", 264);
     ++ctx->err_stack;
   }
 }

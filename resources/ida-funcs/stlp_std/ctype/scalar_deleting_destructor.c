@@ -4,6 +4,6 @@ stlp_std::ctype<wchar_t> *__thiscall stlp_std::ctype<wchar_t>::`scalar deleting 
 {
   stlp_std::ctype<wchar_t>::~ctype<wchar_t>(this);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

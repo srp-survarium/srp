@@ -57,7 +57,7 @@ LABEL_36:
     }
     while ( 1 )
     {
-      if ( Scaleform::GFx::AMP::Socket::CheckAbort(&this->Sock) )
+      if ( (unsigned __int8)Scaleform::GFx::AMP::Socket::CheckAbort(&this->Sock) )
         goto LABEL_36;
       actionPerformed = 0;
       EnterCriticalSection(&this->SendingBufferLock.cs);

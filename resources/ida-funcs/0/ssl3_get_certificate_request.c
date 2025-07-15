@@ -11,14 +11,14 @@ int __cdecl ssl3_get_certificate_request(ssl_st *s)
   unsigned int v10; // ebx
   unsigned __int8 *v11; // esi
   unsigned int v12; // eax
-  int v13; // edi
+  const unsigned __int8 *v13; // edi
   unsigned __int8 *v14; // esi
   char *v15; // eax
   ssl3_state_st *v16; // ecx
   ssl3_state_st *v17; // ecx
   int max_cert_list; // [esp-8h] [ebp-28h]
   stack_st *st; // [esp+Ch] [ebp-14h]
-  unsigned __int8 *in; // [esp+10h] [ebp-10h] BYREF
+  unsigned __int8 *v20; // [esp+10h] [ebp-10h] BYREF
   int v21; // [esp+14h] [ebp-Ch]
   int v22; // [esp+18h] [ebp-8h] BYREF
   unsigned int v23; // [esp+1Ch] [ebp-4h]
@@ -43,7 +43,7 @@ int __cdecl ssl3_get_certificate_request(ssl_st *s)
       if ( s->version > 768 && (s3->tmp.new_cipher->algorithm_auth & 4) != 0 )
       {
         ssl3_send_alert(s, 2, 10);
-        ERR_put_error(0x14u, 135, 232, ".\\ssl\\s3_clnt.c", 1702);
+        ERR_put_error(0, 0x14u, 135, 232, ".\\ssl\\s3_clnt.c", 1702);
         return v21;
       }
       else
@@ -67,46 +67,46 @@ int __cdecl ssl3_get_certificate_request(ssl_st *s)
           if ( v10 + v7 + 3 != v4 )
           {
             ssl3_send_alert(s, 2, 50);
-            ERR_put_error(0x14u, 135, 159, ".\\ssl\\s3_clnt.c", 1737);
-            goto err_223;
+            ERR_put_error(v10, 0x14u, 135, 159, ".\\ssl\\s3_clnt.c", 1737);
+            goto err_225;
           }
           v12 = 0;
           if ( v10 )
           {
             while ( 1 )
             {
-              v13 = v11[1] | (*v11 << 8);
+              v13 = (const unsigned __int8 *)(v11[1] | (*v11 << 8));
               v14 = v11 + 2;
-              v23 = v13 + v12 + 2;
+              v23 = (unsigned int)&v13[v12 + 2];
               if ( v23 > v10 )
                 break;
-              in = v14;
-              v15 = (char *)d2i_X509_NAME(0, (const unsigned __int8 **)&in, v13);
+              v20 = v14;
+              v15 = (char *)d2i_X509_NAME(0, &v20, v13);
               if ( !v15 )
               {
                 if ( (s->options & 0x20000000) == 0 )
                 {
                   ssl3_send_alert(s, 2, 50);
-                  ERR_put_error(0x14u, 135, 13, ".\\ssl\\s3_clnt.c", 1763);
-                  goto err_223;
+                  ERR_put_error(v10, 0x14u, 135, 13, ".\\ssl\\s3_clnt.c", 1763);
+                  goto err_225;
                 }
 cont:
-                ERR_clear_error();
+                ERR_clear_error(v10);
 LABEL_28:
                 v7 = sa;
                 goto LABEL_29;
               }
-              v11 = &v14[v13];
-              if ( in != v11 )
+              v11 = &v14[(_DWORD)v13];
+              if ( v20 != v11 )
               {
                 ssl3_send_alert(s, 2, 50);
-                ERR_put_error(0x14u, 135, 131, ".\\ssl\\s3_clnt.c", 1771);
-                goto err_223;
+                ERR_put_error(v10, 0x14u, 135, 131, ".\\ssl\\s3_clnt.c", 1771);
+                goto err_225;
               }
               if ( !sk_push(st, v15) )
               {
-                ERR_put_error(0x14u, 135, 65, ".\\ssl\\s3_clnt.c", 1776);
-                goto err_223;
+                ERR_put_error(v10, 0x14u, 135, 65, ".\\ssl\\s3_clnt.c", 1776);
+                goto err_225;
               }
               v12 = v23;
               if ( v23 >= v10 )
@@ -115,8 +115,8 @@ LABEL_28:
             if ( (s->options & 0x20000000) == 0 )
             {
               ssl3_send_alert(s, 2, 50);
-              ERR_put_error(0x14u, 135, 132, ".\\ssl\\s3_clnt.c", 1749);
-              goto err_223;
+              ERR_put_error(v10, 0x14u, 135, 132, ".\\ssl\\s3_clnt.c", 1749);
+              goto err_225;
             }
             goto cont;
           }
@@ -133,8 +133,8 @@ LABEL_29:
         }
         else
         {
-          ERR_put_error(0x14u, 135, 65, ".\\ssl\\s3_clnt.c", 1711);
-err_223:
+          ERR_put_error(0, 0x14u, 135, 65, ".\\ssl\\s3_clnt.c", 1711);
+err_225:
           if ( st )
             sk_pop_free(st, (void (__cdecl *)(void *))X509_NAME_free);
           return v21;
@@ -144,7 +144,7 @@ err_223:
     else
     {
       ssl3_send_alert(s, 2, 10);
-      ERR_put_error(0x14u, 135, 262, ".\\ssl\\s3_clnt.c", 1692);
+      ERR_put_error(0, 0x14u, 135, 262, ".\\ssl\\s3_clnt.c", 1692);
       return v21;
     }
   }

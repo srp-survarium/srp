@@ -91,7 +91,7 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeType(
       else
       {
         RefCount = v11->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v11->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);
@@ -214,7 +214,7 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeType(
     {
       GetQualifiedName = tr->GetQualifiedName;
       parent = (const Scaleform::GFx::AS3::Traits *)2;
-      p_vm = GetQualifiedName((Scaleform::GFx::AS3::Traits *)tr, (Scaleform::GFx::ASString *)&result, qnfWithColons);
+      p_vm = GetQualifiedName(tr, (Scaleform::GFx::ASString *)&result, qnfWithColons);
     }
     else
     {
@@ -222,7 +222,7 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeType(
       parent = (const Scaleform::GFx::AS3::Traits *)1;
       vm = (Scaleform::GFx::AS3::VM *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                         pStringManager,
-                                        (char *)&stru_96A440.m_projection.lines[0].elements[1],
+                                        "null",
                                         4u,
                                         0);
       ++vm->StringManagerRef;

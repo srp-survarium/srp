@@ -13,31 +13,31 @@ Scaleform::Render::Image *__thiscall Scaleform::GFx::ImageCreator::LoadExportedI
   Scaleform::Render::Image *v11; // edi
   void *v12; // esi
   Scaleform::String v13; // [esp+Ch] [ebp-Ch] BYREF
-  Scaleform::String v14; // [esp+10h] [ebp-8h] BYREF
-  Scaleform::Render::Image *result; // [esp+14h] [ebp-4h]
+  Scaleform::String result; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::Render::Image *v15; // [esp+14h] [ebp-4h]
 
   pData = (Scaleform::String *)url.pData;
   v5 = this->LoadImageFile(this, info, url.pData);
-  result = v5;
+  v15 = v5;
   if ( !v5 )
   {
-    if ( Scaleform::String::HasExtension((const char *)((pData->HeapTypeBits & 0xFFFFFFFC) + 8)) )
+    if ( Scaleform::String::HasExtension((char *)((pData->HeapTypeBits & 0xFFFFFFFC) + 8)) )
     {
-      Extension = Scaleform::String::GetExtension(pData, &v14);
+      Extension = Scaleform::String::GetExtension(pData, &result);
       v7 = Scaleform::String::ToLower(Extension, &v13);
       v8 = Scaleform::String::operator!=(v7, ".dds");
       v9 = (void *)(v13.HeapTypeBits & 0xFFFFFFFC);
       LOBYTE(url.pData) = v8;
       if ( InterlockedExchangeAdd((volatile LONG *)((v13.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
-      v10 = (void *)(v14.HeapTypeBits & 0xFFFFFFFC);
-      if ( InterlockedExchangeAdd((volatile LONG *)((v14.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+      v10 = (void *)(result.HeapTypeBits & 0xFFFFFFFC);
+      if ( InterlockedExchangeAdd((volatile LONG *)((result.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v10);
       if ( LOBYTE(url.pData) )
       {
         Scaleform::String::String(&url, pData);
         Scaleform::String::StripExtension(&url);
-        Scaleform::String::AppendString(&url, ".dds", 0xFFFFFFFF);
+        Scaleform::String::AppendString(&url, (const __m128i *)".dds", 0xFFFFFFFF);
         v11 = this->LoadImageFile(this, info, &url);
         v12 = (void *)(url.HeapTypeBits & 0xFFFFFFFC);
         if ( InterlockedExchangeAdd((volatile LONG *)((url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
@@ -46,7 +46,7 @@ Scaleform::Render::Image *__thiscall Scaleform::GFx::ImageCreator::LoadExportedI
       }
       else
       {
-        return result;
+        return v15;
       }
     }
     else

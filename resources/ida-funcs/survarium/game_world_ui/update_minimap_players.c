@@ -1,261 +1,126 @@
 void __thiscall survarium::game_world_ui::update_minimap_players(
         survarium::game_world_ui *this,
-        survarium::game_world_ui *thisa)
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> a2)
 {
-  survarium::base_network_client *m_network_client; // edi
-  survarium::player *m_object; // esi
-  survarium::flash_movie_resource *v4; // ecx
-  survarium::player *v5; // ecx
-  int v6; // edi
-  bool v7; // zf
-  survarium::flash_movie_resource *v8; // eax
-  float v9; // xmm0_4
-  Scaleform::GFx::Movie *m_movie; // ecx
-  survarium::flash_movie_resource *v11; // eax
-  vostok::math::float4x4 *v12; // ecx
-  survarium::game_team_id v13; // esi
-  unsigned int v14; // esi
-  vostok::resources::unmanaged_resource *v15; // eax
-  vostok::math::float3 *v16; // [esp+A4h] [ebp-88h]
-  vostok::math::axis_rotation_order v17; // [esp+A8h] [ebp-84h]
-  bool v18; // [esp+B3h] [ebp-79h]
-  vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> current_player; // [esp+B4h] [ebp-78h] BYREF
-  int i; // [esp+B8h] [ebp-74h]
-  int v21; // [esp+BCh] [ebp-70h]
-  unsigned int in_array_index; // [esp+C0h] [ebp-6Ch] BYREF
-  __int64 client; // [esp+C4h] [ebp-68h]
-  float position_y; // [esp+CCh] [ebp-60h]
-  float y; // [esp+D0h] [ebp-5Ch]
-  survarium::player *v26; // [esp+D4h] [ebp-58h]
-  survarium::flash_value player_descr_value_property; // [esp+E4h] [ebp-48h] BYREF
-  survarium::flash_value player_descr_value; // [esp+FCh] [ebp-30h] BYREF
-  survarium::flash_value players_array; // [esp+114h] [ebp-18h] BYREF
+  vostok::particle::particle_system_instance_impl *m_object; // ebx
+  survarium::base_network_client *v3; // edi
+  volatile int m_flags; // eax
+  int v5; // edx
+  double v6; // st7
+  int v7; // eax
+  volatile int v8; // eax
+  survarium::flash_movie *v9; // ecx
+  volatile int v10; // eax
+  survarium::flash_movie *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  survarium::flash_value *v17; // ecx
+  vostok::math::float4x4 *v18; // ecx
+  vostok::math::float3 *angles; // eax
+  survarium::flash_value *v20; // ecx
+  survarium::flash_value *v21; // ecx
+  survarium::flash_value *v22; // ecx
+  survarium::flash_value *v23; // ecx
+  survarium::flash_value *v24; // ecx
+  survarium::flash_value *v25; // ecx
+  vostok::math::float3 *v26; // [esp+Ch] [ebp-84h]
+  vostok::math::axis_rotation_order v27; // [esp+10h] [ebp-80h]
+  Scaleform::GFx::Value pvalue; // [esp+18h] [ebp-78h] BYREF
+  Scaleform::GFx::Value v29; // [esp+30h] [ebp-60h] BYREF
+  survarium::flash_value v30; // [esp+48h] [ebp-48h] BYREF
+  survarium::base_network_client *v31; // [esp+6Ch] [ebp-24h]
+  bool v32[4]; // [esp+70h] [ebp-20h]
+  float v33; // [esp+74h] [ebp-1Ch]
+  float v34; // [esp+78h] [ebp-18h]
+  unsigned int value; // [esp+7Ch] [ebp-14h]
+  unsigned int v36; // [esp+80h] [ebp-10h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v37; // [esp+84h] [ebp-Ch] BYREF
+  int v38; // [esp+88h] [ebp-8h]
 
-  m_network_client = thisa->m_game_world->m_game->m_network_client;
-  m_object = m_network_client->m_current_player.m_object;
-  LODWORD(client) = m_network_client;
-  in_array_index = 0;
-  v26 = m_object;
-  if ( !m_object )
+  m_object = a2.m_object;
+  v3 = *(survarium::base_network_client **)(*(_DWORD *)(HIDWORD(a2.m_object->m_reconstruction_info_actuality_tick) + 160)
+                                          + 13912);
+  v31 = v3;
+  survarium::base_network_client::get_current_player(v3, &v37);
+  if ( v37.m_object )
   {
-    vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> *)&in_array_index);
-    return;
-  }
-  _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  v4 = thisa->m_game_hud_ui.m_object;
-  *(_DWORD *)players_array.body = 0;
-  *(_DWORD *)&players_array.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(v4->movie->m_movie, (Scaleform::GFx::Value *)&players_array);
-  in_array_index = 0;
-  LOBYTE(i) = 0;
-  v21 = 0;
-  do
-  {
-    m_network_client->get_player(m_network_client, &current_player, i);
-    v5 = current_player.m_object;
-    if ( !current_player.m_object )
-      goto LABEL_31;
-    if ( current_player.m_object->m_has_been_inserted )
+    m_flags = m_object->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+    pvalue.pObjectInterface = 0;
+    pvalue.Type = VT_Undefined;
+    Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(m_flags + 264) + 4), &pvalue);
+    v36 = 0;
+    LOBYTE(v38) = 0;
+    value = 0;
+    do
     {
-      v6 = ((int (*)(void))current_player.m_object->team)();
-      if ( m_object->team(m_object) == v6 )
+      v3->get_active_player(
+        v3,
+        (vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> *)&a2,
+        v38);
+      if ( a2.m_object
+        && HIBYTE(a2.m_object->m_skeleton_model.m_object)
+        && *(_DWORD *)(v37.m_object[88].m_is_playing + 440) == *(_DWORD *)(a2.m_object[88].m_is_playing + 440)
+        && LOBYTE(a2.m_object->m_skeleton_model.m_object) )
       {
-        v7 = current_player.m_object->m_inventory.m_object->m_victory_item == 0;
-        HIDWORD(client) = LODWORD(current_player.m_object->m_current.transform.c.x);
-        v8 = thisa->m_game_hud_ui.m_object;
-        v9 = -current_player.m_object->m_current.transform.c.z;
-        *(_DWORD *)player_descr_value.body = 0;
-        *(_DWORD *)&player_descr_value.body[4] = 0;
-        m_movie = v8->movie->m_movie;
-        v18 = !v7;
-        position_y = v9;
-        Scaleform::GFx::Movie::CreateObject(m_movie, (Scaleform::GFx::Value *)&player_descr_value, 0, 0, 0);
-        v11 = thisa->m_game_hud_ui.m_object;
-        *(_DWORD *)player_descr_value_property.body = 0;
-        *(_DWORD *)&player_descr_value_property.body[4] = 0;
-        Scaleform::GFx::Movie::CreateObject(
-          v11->movie->m_movie,
-          (Scaleform::GFx::Value *)&player_descr_value_property,
-          0,
-          0,
-          0);
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[8] = v21;
-        *(_DWORD *)&player_descr_value_property.body[4] = 4;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "player_id",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[4] = 5;
-        *(double *)&player_descr_value_property.body[8] = *((float *)&client + 1);
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "player_pos_x",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[4] = 5;
-        *(double *)&player_descr_value_property.body[8] = position_y;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "player_pos_y",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        y = vostok::math::float4x4::get_angles(v12, v16, v17)->y;
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[4] = 5;
-        *(double *)&player_descr_value_property.body[8] = y;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "player_rotation_in_rad",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        v13 = current_player.m_object->team(current_player.m_object);
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[4] = 4;
-        *(_DWORD *)&player_descr_value_property.body[8] = v13;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "team",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        player_descr_value_property.body[8] = v18;
-        *(_DWORD *)&player_descr_value_property.body[4] = 2;
-        (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_descr_value.body
-                                                                                             + 20))(
-          *(_DWORD *)player_descr_value.body,
-          *(_DWORD *)&player_descr_value.body[8],
-          "is_carrying_item",
-          &player_descr_value_property,
-          (player_descr_value.body[4] & 0x8F) == 10);
-        v14 = in_array_index;
-        (*(void (__thiscall **)(_DWORD, _DWORD, unsigned int, survarium::flash_value *))(**(_DWORD **)players_array.body
-                                                                                       + 52))(
-          *(_DWORD *)players_array.body,
-          *(_DWORD *)&players_array.body[8],
-          in_array_index,
-          &player_descr_value);
-        in_array_index = v14 + 1;
-        if ( (player_descr_value_property.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value_property.body
-                                                                           + 8))(
-            *(_DWORD *)player_descr_value_property.body,
-            &player_descr_value_property,
-            *(_DWORD *)&player_descr_value_property.body[8]);
-          *(_DWORD *)player_descr_value_property.body = 0;
-        }
-        *(_DWORD *)&player_descr_value_property.body[4] = 0;
-        if ( (player_descr_value.body[4] & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_descr_value.body + 8))(
-            *(_DWORD *)player_descr_value.body,
-            &player_descr_value,
-            *(_DWORD *)&player_descr_value.body[8]);
-          *(_DWORD *)player_descr_value.body = 0;
-        }
-        *(_DWORD *)&player_descr_value.body[4] = 0;
-        vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>(&current_player);
-        m_object = v26;
-        m_network_client = (survarium::base_network_client *)client;
-        goto LABEL_31;
+        v5 = *(_DWORD *)&a2.m_object->m_lods[0].m_emitter_instance_list.gap4;
+        v32[0] = *(_DWORD *)(a2.m_object->m_lods[0].m_emitter_instance_list.m_size + 380) != 0;
+        v6 = *(float *)((*(int (__thiscall **)(_BYTE *))(v5 + 4))(&a2.m_object->m_lods[0].m_emitter_instance_list.gap4)
+                      + 48);
+        v7 = *(_DWORD *)&a2.m_object->m_lods[0].m_emitter_instance_list.gap4;
+        v34 = v6;
+        v33 = -*(float *)((*(int (__thiscall **)(_BYTE *))(v7 + 4))(&a2.m_object->m_lods[0].m_emitter_instance_list.gap4)
+                        + 56);
+        v8 = m_object->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+        v29.pObjectInterface = 0;
+        v29.Type = VT_Undefined;
+        survarium::flash_movie::CreateObject(v9, *(survarium::flash_value **)(v8 + 264), &v29);
+        v10 = m_object->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+        *(_DWORD *)v30.body = 0;
+        *(_DWORD *)&v30.body[4] = 0;
+        survarium::flash_movie::CreateObject(
+          v11,
+          *(survarium::flash_value **)(v10 + 264),
+          (Scaleform::GFx::Value *)&v30);
+        survarium::flash_value::SetUInt(v12, (int)&v30, value);
+        survarium::flash_value::SetMember(v13, &v29, "player_id", &v30);
+        survarium::flash_value::SetNumber(v14, (int)&v30, v34);
+        survarium::flash_value::SetMember(v15, &v29, "player_pos_x", &v30);
+        survarium::flash_value::SetNumber(v16, (int)&v30, v33);
+        survarium::flash_value::SetMember(v17, &v29, "player_pos_y", &v30);
+        (*(void (__thiscall **)(_BYTE *))(*(_DWORD *)&a2.m_object->m_lods[0].m_emitter_instance_list.gap4 + 4))(&a2.m_object->m_lods[0].m_emitter_instance_list.gap4);
+        angles = vostok::math::float4x4::get_angles(v18, v26, v27);
+        survarium::flash_value::SetNumber(v20, (int)&v30, angles->y);
+        survarium::flash_value::SetMember(v21, &v29, "player_rotation_in_rad", &v30);
+        survarium::flash_value::SetUInt(v22, (int)&v30, *(_DWORD *)(a2.m_object[88].m_is_playing + 440));
+        survarium::flash_value::SetMember(v23, &v29, "team", &v30);
+        survarium::flash_value::SetBoolean(v24, (int)&v30, v32[0]);
+        survarium::flash_value::SetMember(v25, &v29, "is_carrying_item", &v30);
+        pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v36++, &v29);
+        Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v30);
+        Scaleform::GFx::Value::~Value(&v29);
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&a2);
+        v3 = v31;
       }
-      v5 = current_player.m_object;
-      m_network_client = (survarium::base_network_client *)client;
-    }
-    if ( v5 && !_InterlockedExchangeAdd(&v5->m_reference_count, 0xFFFFFFFF) )
-    {
-      if ( current_player.m_object )
-        v15 = &current_player.m_object->vostok::resources::unmanaged_resource;
       else
-        v15 = 0;
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &current_player.m_object->vostok::resources::unmanaged_intrusive_base,
-        v15);
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&a2);
+      }
+      LOBYTE(v38) = v38 + 1;
+      ++value;
     }
-LABEL_31:
-    ++v21;
-    LOBYTE(i) = i + 1;
+    while ( (unsigned __int8)v38 < 0x14u );
+    Scaleform::GFx::Movie::Invoke(
+      *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags
+                                            + 264)
+                                + 4),
+      "root.update_players",
+      0,
+      &pvalue,
+      1u);
+    Scaleform::GFx::Value::~Value(&pvalue);
   }
-  while ( (unsigned __int8)i < 0x14u );
-  Scaleform::GFx::Movie::Invoke(
-    thisa->m_game_hud_ui.m_object->movie->m_movie,
-    "root.update_players",
-    0,
-    (const Scaleform::GFx::Value *)&players_array,
-    1u);
-  if ( (players_array.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)players_array.body + 8))(
-      *(_DWORD *)players_array.body,
-      &players_array,
-      *(_DWORD *)&players_array.body[8]);
-    *(_DWORD *)players_array.body = 0;
-  }
-  *(_DWORD *)&players_array.body[4] = 0;
-  if ( !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &m_object->vostok::resources::unmanaged_intrusive_base,
-      &m_object->vostok::resources::unmanaged_resource);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v37);
 }

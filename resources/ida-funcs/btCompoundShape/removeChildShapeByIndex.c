@@ -1,32 +1,21 @@
-void __userpurge btCompoundShape::removeChildShapeByIndex(
-        btCompoundShape *this@<ecx>,
-        int a2@<esi>,
-        int childShapeIndex)
+void __thiscall btCompoundShape::removeChildShapeByIndex(btCompoundShape *this, _DWORD *childShapeIndex, int a3)
 {
-  int v3; // edi
-  btDbvtNode *v4; // ebp
-  void *v5; // eax
+  btDbvt *v3; // esi
+  int v4; // edi
+  btCompoundShapeChild v5; // [esp+10h] [ebp-50h] BYREF
 
-  ++*(_DWORD *)(a2 + 68);
-  v3 = *(_DWORD *)(a2 + 64);
+  ++childShapeIndex[17];
+  v3 = (btDbvt *)childShapeIndex[16];
   if ( v3 )
-  {
-    v4 = *(btDbvtNode **)(80 * childShapeIndex + *(_DWORD *)(a2 + 24) + 76);
-    removeleaf(v4, *(btDbvt **)(a2 + 64));
-    v5 = *(void **)(v3 + 4);
-    if ( v5 )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v5);
-    }
-    --*(_DWORD *)(v3 + 12);
-    *(_DWORD *)(v3 + 4) = v4;
-  }
-  btAlignedObjectArray<btCompoundShapeChild>::swap(
-    childShapeIndex,
-    *(_DWORD *)(a2 + 16) - 1,
-    (btAlignedObjectArray<btCompoundShapeChild> *)(a2 + 12));
-  if ( *(_DWORD *)(a2 + 64) )
-    *(_DWORD *)(*(_DWORD *)(80 * childShapeIndex + *(_DWORD *)(a2 + 24) + 76) + 36) = childShapeIndex;
-  --*(_DWORD *)(a2 + 16);
+    btDbvt::remove(v3, *(btDbvtNode **)(80 * a3 + childShapeIndex[6] + 76));
+  v4 = childShapeIndex[4] - 1;
+  btCompoundShapeChild::btCompoundShapeChild((btCompoundShapeChild *)(80 * a3 + childShapeIndex[6]), &v5);
+  v4 *= 80;
+  btCompoundShapeChild::btCompoundShapeChild(
+    (btCompoundShapeChild *)(childShapeIndex[6] + v4),
+    (btCompoundShapeChild *)(80 * a3 + childShapeIndex[6]));
+  btCompoundShapeChild::btCompoundShapeChild(&v5, (btCompoundShapeChild *)(v4 + childShapeIndex[6]));
+  if ( childShapeIndex[16] )
+    *(_DWORD *)(*(_DWORD *)(childShapeIndex[6] + 80 * a3 + 76) + 36) = a3;
+  --childShapeIndex[4];
 }

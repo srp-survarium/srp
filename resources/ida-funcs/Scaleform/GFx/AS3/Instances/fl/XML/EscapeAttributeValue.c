@@ -15,25 +15,25 @@ void __cdecl Scaleform::GFx::AS3::Instances::fl::XML::EscapeAttributeValue(
     switch ( Char_Advance0 )
     {
       case 9u:
-        Scaleform::StringBuffer::AppendString(buf, "&#x9;", 5u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&#x9;", 5u);
         break;
       case 0xAu:
-        Scaleform::StringBuffer::AppendString(buf, "&#xA;", 5u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&#xA;", 5u);
         break;
       case 0xDu:
-        Scaleform::StringBuffer::AppendString(buf, "&#xD;", 5u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&#xD;", 5u);
         break;
       case 0x22u:
-        Scaleform::StringBuffer::AppendString(buf, aQuo, 6u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aQuo, 6u);
         break;
       case 0x26u:
-        Scaleform::StringBuffer::AppendString(buf, aAmp_0, 5u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aAmp_3, 5u);
         break;
       case 0x27u:
-        Scaleform::StringBuffer::AppendString(buf, aApo, 6u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aApo, 6u);
         break;
       case 0x3Cu:
-        Scaleform::StringBuffer::AppendString(buf, "&lt;", 4u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&lt;", 4u);
         break;
       default:
         Scaleform::StringBuffer::AppendChar(buf, Char_Advance0);

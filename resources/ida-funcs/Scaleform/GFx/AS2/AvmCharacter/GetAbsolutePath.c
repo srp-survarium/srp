@@ -9,8 +9,8 @@ const char *__thiscall Scaleform::GFx::AS2::AvmCharacter::GetAbsolutePath(
   Scaleform::GFx::AS2::AvmCharacter *v8; // eax
   int v9; // eax
   Scaleform::String *v10; // esi
-  int v1; // [esp+8h] [ebp-10h] BYREF
-  Scaleform::MsgFormat::Sink result; // [esp+Ch] [ebp-Ch] BYREF
+  int v11; // [esp+8h] [ebp-10h] BYREF
+  Scaleform::MsgFormat::Sink v12; // [esp+Ch] [ebp-Ch] BYREF
 
   pDispObj = this->pDispObj;
   pParent = pDispObj->pParent;
@@ -18,12 +18,9 @@ const char *__thiscall Scaleform::GFx::AS2::AvmCharacter::GetAbsolutePath(
   {
     v5 = ppath;
     Scaleform::GFx::DisplayObject::GetAbsolutePath(pParent, ppath);
-    Scaleform::String::AppendString(
-      v5,
-      (char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
-      0xFFFFFFFF);
+    Scaleform::String::AppendString(v5, (const __m128i *)".", 0xFFFFFFFF);
     Scaleform::GFx::DisplayObject::GetName(this->pDispObj, (Scaleform::GFx::ASString *)&ppath);
-    Scaleform::String::AppendString(v5, (char *)ppath->pData, 0xFFFFFFFF);
+    Scaleform::String::AppendString(v5, (const __m128i *)ppath->pData, 0xFFFFFFFF);
     v6 = (Scaleform::GFx::ASStringNode *)ppath;
     --ppath[3].HeapTypeBits;
     if ( !v6->RefCount )
@@ -45,9 +42,9 @@ const char *__thiscall Scaleform::GFx::AS2::AvmCharacter::GetAbsolutePath(
     v8 = 0;
   v9 = (int)v8[1].GetASEnvironment(v8 + 1);
   v10 = ppath;
-  v1 = v9;
-  result.Type = tStr;
-  result.SinkData.pStr = ppath;
-  Scaleform::Format<long>(&result, "_level{0}", &v1);
+  v11 = v9;
+  v12.Type = tStr;
+  v12.SinkData.pStr = ppath;
+  Scaleform::Format<long>(&v12, "_level{0}", &v11);
   return (const char *)((v10->HeapTypeBits & 0xFFFFFFFC) + 8);
 }

@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskArray(
         Scaleform::GFx::DisplayObjContainer *this,
-        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *phitTest,
+        Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *phitTest,
         const Scaleform::Render::Point<float> *pt,
         bool testShape)
 {
@@ -9,14 +9,14 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskA
   Scaleform::GFx::DisplayObjectBase *pCharacter; // edi
   int *v7; // ecx
   float *v8; // eax
-  unsigned __int8 *v9; // edi
+  char *v9; // edi
   unsigned int v10; // eax
   int v11; // edi
   Scaleform::GFx::DisplayObjectBase *v12; // ecx
-  unsigned __int16 *v13; // [esp+88h] [ebp-30h]
-  Scaleform::GFx::DisplayObjContainer *i; // [esp+8Ch] [ebp-2Ch]
-  Scaleform::Render::Point<float> result; // [esp+90h] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> v16; // [esp+98h] [ebp-20h] BYREF
+  unsigned __int16 *v13; // [esp+10h] [ebp-30h]
+  Scaleform::GFx::DisplayObjContainer *i; // [esp+14h] [ebp-2Ch]
+  Scaleform::Render::Point<float> result; // [esp+18h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> v16; // [esp+20h] [ebp-20h] BYREF
 
   Size = this->mDisplayList.DisplayObjectArray.Data.Size;
   v5 = 0;
@@ -27,18 +27,18 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskA
     if ( pCharacter->ClipDepth )
     {
       v7 = (int *)phitTest;
-      if ( !phitTest->Data.Size )
+      if ( !phitTest->Size )
       {
-        if ( Size >= phitTest->Data.Policy.Capacity )
+        if ( Size >= phitTest->Policy.Capacity )
         {
           Scaleform::ArrayDataBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)phitTest,
+            phitTest,
             phitTest,
             Size + (Size >> 2));
           v7 = (int *)phitTest;
         }
         v7[1] = Size;
-        memset(*v7, (unsigned __int8 *)1, Size);
+        memset(*v7, 1, Size);
       }
       v8 = (float *)pCharacter->GetMatrix(pCharacter);
       v16.M[0][0] = *v8;
@@ -50,7 +50,7 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskA
       v16.M[1][2] = v8[6];
       v16.M[1][3] = v8[7];
       Scaleform::Render::Matrix2x4<float>::TransformByInverse(&v16, &result, pt);
-      v9 = &phitTest->Data.Data[v5];
+      v9 = &phitTest->Data[v5];
       *v9 = (*(int (__thiscall **)(unsigned __int16 *, Scaleform::Render::Point<float> *, int))(*(_DWORD *)v13 + 244))(
               v13,
               &result,
@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskA
           v12 = i->mDisplayList.DisplayObjectArray.Data.Data[v11].pCharacter;
           if ( v12 && v12->Depth > v13[30] )
             break;
-          phitTest->Data.Data[v10++] = phitTest->Data.Data[v5];
+          phitTest->Data[v10++] = phitTest->Data[v5];
           ++v11;
         }
         while ( v10 < Size );

@@ -15,15 +15,15 @@ int __usercall ssl_set_pkey@<eax>(cert_st *c@<esi>, evp_pkey_st *pkey@<edi>)
     v6 = &c->pkeys[v3];
     if ( !x509
       || (x = X509_get_pubkey(x509),
-          EVP_PKEY_copy_parameters(x, pkey),
-          EVP_PKEY_free(x),
-          ERR_clear_error(),
+          EVP_PKEY_copy_parameters(v3, x, pkey),
+          EVP_PKEY_free((int)pkey, x),
+          ERR_clear_error(v3),
           pkey->type == 6)
       && ((unsigned __int8)RSA_flags(pkey->pkey.rsa) & 1) != 0
-      || X509_check_private_key(v6->x509, pkey) )
+      || X509_check_private_key(v3, v6->x509, pkey) )
     {
       if ( c->pkeys[v3].privatekey )
-        EVP_PKEY_free(c->pkeys[v3].privatekey);
+        EVP_PKEY_free((int)pkey, c->pkeys[v3].privatekey);
       CRYPTO_add_lock(&pkey->references, 1, 10, ".\\ssl\\ssl_rsa.c", 219);
       c->pkeys[v3].privatekey = pkey;
       c->key = v6;
@@ -39,7 +39,7 @@ int __usercall ssl_set_pkey@<eax>(cert_st *c@<esi>, evp_pkey_st *pkey@<edi>)
   }
   else
   {
-    ERR_put_error(0x14u, 193, 247, ".\\ssl\\ssl_rsa.c", 189);
+    ERR_put_error(v2, 0x14u, 193, 247, ".\\ssl\\ssl_rsa.c", 189);
     return 0;
   }
 }

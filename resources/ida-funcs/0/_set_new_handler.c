@@ -1,6 +1,6 @@
 int (__cdecl *__cdecl _set_new_handler(int (__cdecl *pnh)(unsigned int)))(unsigned int)
 {
-  void *v1; // esi
+  PVOID v1; // esi
 
   _lock(4);
   v1 = _decode_pointer(_pnhHeap);

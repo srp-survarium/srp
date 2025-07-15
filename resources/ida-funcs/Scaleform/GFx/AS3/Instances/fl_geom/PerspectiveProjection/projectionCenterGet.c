@@ -21,8 +21,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::
   pObject = this->pTraits.pObject;
   params[0].Flags = 4;
   params[1].Flags = 4;
-  (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, Scaleform::GFx::AS3::Value *, int))(*(_DWORD *)pObject->pVM[1].ScopeStack.Data.Size + 36))(
-    pObject->pVM[1].ScopeStack.Data.Size,
+  (*(void (__thiscall **)(Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Value *, int, Scaleform::GFx::AS3::Value *, int))(pObject->pVM[1].ScopeStack.Data.Data->Flags + 48))(
+    pObject->pVM[1].ScopeStack.Data.Data,
     &r,
     2,
     params,

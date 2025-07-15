@@ -1,78 +1,85 @@
 void __thiscall vostok::fs_new::windows_hdd_file_system::setvbuf(
         vostok::fs_new::windows_hdd_file_system *this,
-        void *handle,
+        int handle,
         char *buffer,
         int mode,
         unsigned __int64 size)
 {
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
-  char v7; // [esp+18h] [ebp-4Ch]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v8; // [esp+1Ch] [ebp-48h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+3Ch] [ebp-28h] BYREF
-  int os_handle; // [esp+5Ch] [ebp-8h]
-  _iobuf *fp; // [esp+60h] [ebp-4h]
+  char v5; // bl
+  int v6; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // ecx
+  bool has_passed_filters; // al
+  bool v9; // zf
+  _iobuf *v10; // eax
+  bool v11; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v12; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v13; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v14; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v15; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
 
-  v7 = 0;
-  os_handle = _open_osfhandle(handle, 0);
-  if ( os_handle == -1 )
+  v5 = 0;
+  v6 = _open_osfhandle(handle, 0);
+  v7 = v12;
+  if ( v6 == -1 )
   {
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(
-           vostok::core::g_log_filter_tree,
-           (const char *)&stru_955E40.m_next_in_global_list,
-           error) )
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)&stru_7FC1E4,
+                                 (const char *)2),
+          v7 = v13,
+          has_passed_filters) )
     {
-      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(v5);
-      v7 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v7,
+        &log_callback);
+      v5 = 1;
       vostok::logging::append(
         &log_callback,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\windows_hdd_file_system.cpp",
-        0x8Au,
+        0xABu,
         "void __thiscall vostok::fs_new::windows_hdd_file_system::setvbuf(void *,char *,int,unsigned __int64)",
-        (const char *)&stru_955E40.m_next_in_global_list,
+        (char *)&stru_7FC1E4,
         error,
-        (const char *)&stru_955E40.m_bones_count);
+        "_open_osfhandle: failed");
     }
-    if ( (v7 & 1) != 0 )
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v5,
-        (int *)&log_callback);
+    v9 = (v5 & 1) == 0;
   }
   else
   {
-    fp = _fdopen(os_handle, "r+b");
-    if ( fp )
+    v10 = _fdopen(v6, "r+b");
+    v7 = v14;
+    if ( v10 )
     {
-      setvbuf(fp, buffer, mode, size);
+      setvbuf(v10, buffer, mode, size);
+      return;
     }
-    else
+    if ( !vostok::core::g_log_filter_tree
+      || (v11 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)&stru_7FC1E4, (const char *)2),
+          v7 = v15,
+          v11) )
     {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(
-             vostok::core::g_log_filter_tree,
-             (const char *)&stru_955E40.m_next_in_global_list,
-             error) )
-      {
-        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(v6);
-        v7 = 2;
-        vostok::logging::append(
-          &v8,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\windows_hdd_file_system.cpp",
-          0x91u,
-          "void __thiscall vostok::fs_new::windows_hdd_file_system::setvbuf(void *,char *,int,unsigned __int64)",
-          (const char *)&stru_955E40.m_next_in_global_list,
-          error,
-          "_fdopen: failed");
-      }
-      if ( (v7 & 2) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v6,
-          (int *)&v8);
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v7,
+        &log_callback);
+      v5 = 2;
+      vostok::logging::append(
+        &log_callback,
+        (void *const)vostok::core::g_log_flags,
+        &vostok::core::g_log_format,
+        ".\\windows_hdd_file_system.cpp",
+        0xB2u,
+        "void __thiscall vostok::fs_new::windows_hdd_file_system::setvbuf(void *,char *,int,unsigned __int64)",
+        (char *)&stru_7FC1E4,
+        error,
+        "_fdopen: failed");
     }
+    v9 = (v5 & 2) == 0;
   }
+  if ( !v9 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v7,
+      (int *)&log_callback);
 }

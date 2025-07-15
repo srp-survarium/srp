@@ -1,56 +1,54 @@
-void __thiscall Scaleform::GFx::AS2::GASSharedObjectLoader::AddProperty(
-        Scaleform::GFx::AS2::GASSharedObjectLoader *this,
+void __userpurge Scaleform::GFx::AS2::GASSharedObjectLoader::AddProperty(
+        Scaleform::GFx::AS2::GASSharedObjectLoader *this@<ecx>,
+        int a2@<edi>,
         const Scaleform::String *name,
         const Scaleform::String *value,
         Scaleform::GFx::ASStringNode *type)
 {
-  Scaleform::GFx::AS2::ArrayObject *v5; // ebp
+  Scaleform::GFx::AS2::ArrayObject *v6; // ebp
   Scaleform::GFx::ASStringNode *StringNode; // edi
-  bool v7; // zf
+  bool v8; // zf
   Scaleform::GFx::AS2::Environment *pEnv; // eax
-  Scaleform::GFx::ASStringNode *v9; // eax
-  long double v10; // [esp+10h] [ebp-18h]
-  Scaleform::GFx::AS2::Value v; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v10; // eax
+  long double v11; // [esp+10h] [ebp-18h]
+  Scaleform::GFx::AS2::Value val; // [esp+18h] [ebp-10h] BYREF
 
-  v5 = (Scaleform::GFx::AS2::ArrayObject *)this->ObjectStack.Data.Data[this->ObjectStack.Data.Size - 1];
-  v.T.Type = 0;
+  v6 = (Scaleform::GFx::AS2::ArrayObject *)this->ObjectStack.Data.Data[this->ObjectStack.Data.Size - 1];
+  val.T.Type = 0;
   switch ( (unsigned int)type )
   {
     case 0u:
-      Scaleform::GFx::AS2::Value::DropRefs(&v);
-      v.T.Type = 0;
+      Scaleform::GFx::AS2::Value::DropRefs(&val);
+      val.T.Type = 0;
       break;
     case 1u:
-      Scaleform::GFx::AS2::Value::DropRefs(&v);
-      v.T.Type = 1;
+      Scaleform::GFx::AS2::Value::DropRefs(&val);
+      val.T.Type = 1;
       break;
     case 2u:
-      LOBYTE(value) = strncmp(
-                        (const char *)((value->HeapTypeBits & 0xFFFFFFFC) + 8),
-                        (const char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1],
-                        4u) == 0;
-      Scaleform::GFx::AS2::Value::DropRefs(&v);
-      v.T.Type = 2;
-      v.V.BooleanValue = (char)value;
+      LOBYTE(value) = strncmp((const char *)((value->HeapTypeBits & 0xFFFFFFFC) + 8), "true", 4u) == 0;
+      Scaleform::GFx::AS2::Value::DropRefs(&val);
+      val.T.Type = 2;
+      val.V.BooleanValue = (char)value;
       break;
     case 5u:
-      v10 = atof((char *)((value->HeapTypeBits & 0xFFFFFFFC) + 8));
-      v.T.Type = 3;
-      v.NV.NumberValue = v10;
+      v11 = atof(a2, (char *)((value->HeapTypeBits & 0xFFFFFFFC) + 8));
+      val.T.Type = 3;
+      val.NV.NumberValue = v11;
       break;
     case 6u:
       StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                      (Scaleform::GFx::ASStringManager *)this->pEnv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                     (char *)((value->HeapTypeBits & 0xFFFFFFFC) + 8),
+                     (__m128i *)((value->HeapTypeBits & 0xFFFFFFFC) + 8),
                      *(_DWORD *)(value->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       ++StringNode->RefCount;
-      if ( v.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&v);
-      v.T.Type = 5;
-      v.NV.Int32Value = (int)StringNode;
-      v7 = ++StringNode->RefCount == 1;
+      if ( val.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&val);
+      val.T.Type = 5;
+      val.NV.Int32Value = (int)StringNode;
+      v8 = ++StringNode->RefCount == 1;
       --StringNode->RefCount;
-      if ( v7 )
+      if ( v8 )
         Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
       break;
     default:
@@ -58,7 +56,7 @@ void __thiscall Scaleform::GFx::AS2::GASSharedObjectLoader::AddProperty(
   }
   if ( this->bArrayIsTop )
   {
-    Scaleform::GFx::AS2::ArrayObject::PushBack(v5, &v);
+    Scaleform::GFx::AS2::ArrayObject::PushBack(v6, &val);
   }
   else
   {
@@ -66,20 +64,20 @@ void __thiscall Scaleform::GFx::AS2::GASSharedObjectLoader::AddProperty(
     LOBYTE(value) = 0;
     type = Scaleform::GFx::ASStringManager::CreateStringNode(
              (Scaleform::GFx::ASStringManager *)pEnv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-             (char *)((name->HeapTypeBits & 0xFFFFFFFC) + 8),
+             (__m128i *)((name->HeapTypeBits & 0xFFFFFFFC) + 8),
              *(_DWORD *)(name->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++type->RefCount;
-    v5->SetMember(
-      &v5->Scaleform::GFx::AS2::ObjectInterface,
+    v6->SetMember(
+      &v6->Scaleform::GFx::AS2::ObjectInterface,
       this->pEnv,
       (const Scaleform::GFx::ASString *)&type,
-      &v,
+      &val,
       (const Scaleform::GFx::AS2::PropFlags *)&value);
-    v9 = type;
+    v10 = type;
     --type->RefCount;
-    if ( !v9->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+    if ( !v10->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v10);
   }
-  if ( v.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&v);
+  if ( val.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&val);
 }

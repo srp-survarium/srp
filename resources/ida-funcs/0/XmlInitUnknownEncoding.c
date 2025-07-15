@@ -7,10 +7,10 @@ _DWORD *__cdecl XmlInitUnknownEncoding(_DWORD *a1, int a2, int a3, int a4)
   int k; // [esp+Ch] [ebp-4h]
 
   for ( i = 0; i < 368; ++i )
-    *((_BYTE *)a1 + i) = *((_BYTE *)off_88B138 + i);
+    *((_BYTE *)a1 + i) = *((_BYTE *)off_72EBB0 + i);
   for ( j = 0; j < 128; ++j )
   {
-    if ( byte_88B184[j] != 28 && byte_88B184[j] && *(_DWORD *)(a2 + 4 * j) != j )
+    if ( byte_72EBFC[j] != 28 && byte_72EBFC[j] && *(_DWORD *)(a2 + 4 * j) != j )
       return 0;
   }
   for ( k = 0; k < 256; ++k )
@@ -27,16 +27,16 @@ _DWORD *__cdecl XmlInitUnknownEncoding(_DWORD *a1, int a2, int a3, int a4)
     {
       if ( v6 >= 128 )
       {
-        if ( sub_53FD00(v6) >= 0 )
+        if ( sub_65B090(v6) >= 0 )
         {
           if ( v6 > 0xFFFF )
             return 0;
-          if ( (dword_88A300[8 * (unsigned __int8)byte_88A800[v6 >> 8] + ((int)(unsigned __int8)v6 >> 5)]
+          if ( (dword_72DD78[8 * (unsigned __int8)byte_72E278[v6 >> 8] + ((int)(unsigned __int8)v6 >> 5)]
               & (1 << (v6 & 0x1F))) != 0 )
           {
             *((_BYTE *)a1 + k + 76) = 22;
           }
-          else if ( (dword_88A300[8 * (unsigned __int8)byte_88A900[v6 >> 8] + ((int)(unsigned __int8)v6 >> 5)]
+          else if ( (dword_72DD78[8 * (unsigned __int8)byte_72E378[v6 >> 8] + ((int)(unsigned __int8)v6 >> 5)]
                    & (1 << (v6 & 0x1F))) != 0 )
           {
             *((_BYTE *)a1 + k + 76) = 26;
@@ -58,9 +58,9 @@ _DWORD *__cdecl XmlInitUnknownEncoding(_DWORD *a1, int a2, int a3, int a4)
       }
       else
       {
-        if ( byte_88B184[v6] != 28 && byte_88B184[v6] && v6 != k )
+        if ( byte_72EBFC[v6] != 28 && byte_72EBFC[v6] && v6 != k )
           return 0;
-        *((_BYTE *)a1 + k + 76) = byte_88B184[v6];
+        *((_BYTE *)a1 + k + 76) = byte_72EBFC[v6];
         LOBYTE(a1[k + 222]) = 1;
         BYTE1(a1[k + 222]) = v6;
         if ( v6 )
@@ -83,17 +83,17 @@ _DWORD *__cdecl XmlInitUnknownEncoding(_DWORD *a1, int a2, int a3, int a4)
   a1[92] = a3;
   if ( a3 )
   {
-    a1[83] = sub_540250;
-    a1[84] = sub_540250;
-    a1[85] = sub_540250;
-    a1[86] = sub_5402D0;
-    a1[87] = sub_5402D0;
-    a1[88] = sub_5402D0;
-    a1[89] = sub_540350;
-    a1[90] = sub_540350;
-    a1[91] = sub_540350;
+    a1[83] = sub_65B5E0;
+    a1[84] = sub_65B5E0;
+    a1[85] = sub_65B5E0;
+    a1[86] = sub_65B660;
+    a1[87] = sub_65B660;
+    a1[88] = sub_65B660;
+    a1[89] = sub_65B6E0;
+    a1[90] = sub_65B6E0;
+    a1[91] = sub_65B6E0;
   }
-  a1[15] = sub_5403B0;
-  a1[16] = sub_5404C0;
+  a1[15] = sub_65B740;
+  a1[16] = sub_65B850;
   return a1;
 }

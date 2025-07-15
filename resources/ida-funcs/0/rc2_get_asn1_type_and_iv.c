@@ -14,11 +14,11 @@ int __cdecl rc2_get_asn1_type_and_iv(x509_st *c, asn1_type_st *type)
     issuer_name = X509_get_issuer_name(c);
     v4 = issuer_name;
     if ( (unsigned int)issuer_name > 0x10 )
-      OpenSSLDie((unsigned int)issuer_name, (unsigned int)c, ".\\crypto\\evp\\e_rc2.c", 179, "l <= sizeof(iv)");
+      OpenSSLDie((int)issuer_name, (int)c, (int)type, ".\\crypto\\evp\\e_rc2.c", 179, "l <= sizeof(iv)");
     int_octetstring = ASN1_TYPE_get_int_octetstring(type, &num, data, (int)issuer_name);
     if ( (X509_name_st *)int_octetstring != v4 )
       return -1;
-    v6 = rc2_magic_to_meth(num);
+    v6 = rc2_magic_to_meth((int)type, num);
     if ( !v6 )
       return -1;
     if ( int_octetstring > 0 )

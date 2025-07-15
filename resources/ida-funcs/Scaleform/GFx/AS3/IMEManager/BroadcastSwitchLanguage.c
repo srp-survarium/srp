@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS3::IMEManager::BroadcastSwitchLanguage(
         Scaleform::GFx::AS3::IMEManager *this,
-        char *pString)
+        Scaleform::GFx::ASStringNode *pString)
 {
-  Scaleform::GFx::AS3::IMEManager::DispatchEvent(this, pString, "SetCurrentLanguage", "StatusWindow");
+  Scaleform::GFx::AS3::IMEManager::DispatchEvent(this, pString, (__m128i *)"SetCurrentLanguage", "StatusWindow");
 }

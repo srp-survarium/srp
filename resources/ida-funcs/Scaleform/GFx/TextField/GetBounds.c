@@ -1,6 +1,6 @@
-Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::TextField::GetBounds(
+__m128 *__thiscall Scaleform::GFx::TextField::GetBounds(
         Scaleform::GFx::TextField *this,
-        Scaleform::Render::Rect<float> *result,
+        __m128 *result,
         Scaleform::Render::Matrix2x4<float> *t)
 {
   __m128 *ViewRect; // eax

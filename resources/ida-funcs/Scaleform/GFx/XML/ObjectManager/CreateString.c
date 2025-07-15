@@ -1,7 +1,7 @@
 Scaleform::GFx::XML::DOMString *__thiscall Scaleform::GFx::XML::ObjectManager::CreateString(
         Scaleform::GFx::XML::ObjectManager *this,
         Scaleform::GFx::XML::DOMString *result,
-        const char *str,
+        char *str,
         unsigned int len)
 {
   Scaleform::GFx::XML::DOMStringNode *StringNode; // eax

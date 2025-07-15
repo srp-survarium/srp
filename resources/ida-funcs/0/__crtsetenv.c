@@ -1,48 +1,51 @@
-int __usercall __crtsetenv@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, char **poption, int primary)
+int __usercall __crtsetenv@<eax>(int a1@<edi>, float *a2@<esi>, char **poption, const int primary)
 {
-  const unsigned __int8 *v5; // esi
-  const unsigned __int8 *v6; // eax
-  const unsigned __int8 *v7; // edi
+  char *v5; // esi
+  int v6; // eax
+  int v7; // edi
   char **v8; // eax
   char **v9; // eax
   unsigned __int16 **v10; // eax
   char **v11; // esi
   int v12; // eax
-  unsigned int v13; // edi
-  char **v14; // esi
+  int v13; // edi
+  int v14; // esi
   char **v15; // eax
-  char **v16; // ecx
+  unsigned __int8 **v16; // ecx
   int v17; // eax
-  char *v18; // edi
+  unsigned __int8 *v18; // edi
   int v19; // eax
-  const char *v20; // eax
-  const char *equal; // [esp+4h] [ebp-14h]
-  char **env; // [esp+8h] [ebp-10h]
-  int retval; // [esp+Ch] [ebp-Ch]
-  BOOL remove; // [esp+10h] [ebp-8h]
-  char *option; // [esp+14h] [ebp-4h]
+  char *v20; // eax
+  survarium::empty_hands *v21; // [esp-Ch] [ebp-24h]
+  survarium::empty_hands *v22; // [esp-Ch] [ebp-24h]
+  vostok::collision::ray_triangle_result *v25; // [esp+0h] [ebp-18h]
+  const fastdelegate::FastDelegate<bool __cdecl(vostok::collision::ray_triangle_result const &)> *v26; // [esp+4h] [ebp-14h]
+  char **v27; // [esp+8h] [ebp-10h]
+  int v28; // [esp+Ch] [ebp-Ch]
+  BOOL v29; // [esp+10h] [ebp-8h]
+  unsigned __int8 *buf; // [esp+14h] [ebp-4h]
 
-  retval = 0;
+  v28 = 0;
   if ( !poption )
   {
     *_errno() = 22;
-    _invalid_parameter(0, a1, a2);
+    _invalid_parameter(0, a1, (int)a2);
     return -1;
   }
-  v5 = (const unsigned __int8 *)*poption;
-  option = *poption;
+  v5 = *poption;
+  buf = (unsigned __int8 *)*poption;
   if ( !*poption )
     goto LABEL_12;
-  v6 = _mbschr(v5, 0x3Du);
+  _mbschr(a1, (int)v5, v5, 0x3Du);
   v7 = v6;
-  equal = (const char *)v6;
-  if ( !v6 || v5 == v6 )
+  v26 = (const fastdelegate::FastDelegate<bool __cdecl(vostok::collision::ray_triangle_result const &)> *)v6;
+  if ( !v6 || v5 == (char *)v6 )
     goto LABEL_12;
-  remove = v6[1] == 0;
+  v29 = *(_BYTE *)(v6 + 1) == 0;
   v8 = _environ;
   if ( _environ == __initenv )
   {
-    v8 = copy_environ((const char **)_environ);
+    v8 = copy_environ(_environ);
     _environ = v8;
   }
   if ( !v8 )
@@ -58,7 +61,7 @@ LABEL_12:
     }
     else
     {
-      if ( remove )
+      if ( v29 )
         return 0;
       v9 = (char **)_malloc_crt(4u);
       _environ = v9;
@@ -76,50 +79,68 @@ LABEL_12:
     }
   }
   v11 = _environ;
-  env = _environ;
+  v27 = _environ;
   if ( !_environ )
     return -1;
-  v12 = findenv(v7 - (const unsigned __int8 *)option, option);
+  v12 = findenv((const char *)(v7 - (_DWORD)buf), (char *)buf);
   v13 = v12;
   if ( v12 < 0 || !*v11 )
   {
-    if ( !remove )
+    if ( !v29 )
     {
       if ( v12 < 0 )
         v13 = -v12;
-      if ( (int)(v13 + 2) <= (int)v13 )
+      if ( v13 + 2 <= v13 )
         return -1;
-      if ( v13 + 2 >= 0x3FFFFFFF )
+      if ( (unsigned int)(v13 + 2) >= 0x3FFFFFFF )
         return -1;
-      v15 = (char **)_recalloc_crt(_environ, 4u, v13 + 2);
+      _recalloc_crt(
+        v21,
+        (int)v11,
+        (const vostok::collision::object *)_environ,
+        (const vostok::math::float3 *)4,
+        (const vostok::math::float3 *)(v13 + 2),
+        *(float *)&a1,
+        a2,
+        v25,
+        v26);
       if ( !v15 )
         return -1;
-      v16 = &v15[v13];
-      *v16 = option;
+      v16 = (unsigned __int8 **)&v15[v13];
+      *v16 = buf;
       v16[1] = 0;
       *poption = 0;
       goto LABEL_36;
     }
-    free(option);
+    free(buf);
     *poption = 0;
     return 0;
   }
-  v14 = &v11[v12];
-  free(*v14);
-  if ( !remove )
+  v14 = (int)&v11[v12];
+  free(*(void **)v14);
+  if ( !v29 )
   {
-    *v14 = option;
+    *(_DWORD *)v14 = buf;
     *poption = 0;
     goto LABEL_37;
   }
-  while ( *v14 )
+  while ( *(_DWORD *)v14 )
   {
-    *v14 = v14[1];
-    v14 = &env[++v13];
+    *(_DWORD *)v14 = *(_DWORD *)(v14 + 4);
+    v14 = (int)&v27[++v13];
   }
-  if ( v13 >= 0x3FFFFFFF )
+  if ( (unsigned int)v13 >= 0x3FFFFFFF )
     goto LABEL_37;
-  v15 = (char **)_recalloc_crt(_environ, v13, 4u);
+  _recalloc_crt(
+    v22,
+    v14,
+    (const vostok::collision::object *)_environ,
+    (const vostok::math::float3 *)v13,
+    (const vostok::math::float3 *)4,
+    *(float *)&a1,
+    a2,
+    v25,
+    v26);
   if ( !v15 )
     goto LABEL_37;
 LABEL_36:
@@ -127,27 +148,27 @@ LABEL_36:
 LABEL_37:
   if ( primary )
   {
-    strlen((unsigned __int8 *)option);
-    v18 = (char *)_calloc_crt(v17 + 2, 1u);
+    strlen(buf);
+    v18 = _calloc_crt(v17 + 2, 1u);
     if ( v18 )
     {
-      strlen((unsigned __int8 *)option);
-      if ( strcpy_s(v18, v19 + 2, option) )
-        _invoke_watson(0, (unsigned int)v18, (unsigned int)option);
-      v20 = &equal[v18 - option];
+      strlen(buf);
+      if ( strcpy_s((int)v18, (char *)v18, v19 + 2, (const char *)buf) )
+        _invoke_watson(0, (int)v18, (int)buf);
+      v20 = (char *)v26 + v18 - buf;
       *v20 = 0;
-      if ( !SetEnvironmentVariableA(v18, !remove ? v20 + 1 : 0) )
+      if ( !SetEnvironmentVariableA((LPCSTR)v18, !v29 ? v20 + 1 : 0) )
       {
-        retval = -1;
+        v28 = -1;
         *_errno() = 42;
       }
       free(v18);
     }
   }
-  if ( remove )
+  if ( v29 )
   {
-    free(option);
+    free(buf);
     *poption = 0;
   }
-  return retval;
+  return v28;
 }

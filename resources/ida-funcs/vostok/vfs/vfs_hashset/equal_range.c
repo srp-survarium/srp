@@ -1,71 +1,67 @@
-stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *__thiscall vostok::vfs::vfs_hashset::equal_range(
-        vostok::vfs::vfs_hashset *this,
-        stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *result,
-        const char *path,
-        unsigned int hash,
-        vostok::vfs::lock_type_enum lock_type)
+stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *__userpurge vostok::vfs::vfs_hashset::equal_range@<eax>(
+        vostok::vfs::vfs_hashset *this@<ecx>,
+        __int16 hash@<ax>,
+        stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *path,
+        char *lock_type,
+        vostok::vfs::lock_type_enum a5)
 {
-  vostok::threading::lock_type_enum v5; // eax
-  vostok::threading::reader_writer_lock *v6; // ecx
-  vostok::vfs::vfs_iterator *v7; // eax
-  vostok::vfs::base_node<1> *v8; // eax
-  vostok::threading::lock_type_enum v9; // eax
-  vostok::threading::reader_writer_lock *v10; // ecx
-  vostok::vfs::base_node<1> *node; // [esp+18h] [ebp-3Ch]
-  vostok::threading::reader_writer_lock *hashset_lock; // [esp+20h] [ebp-34h]
-  vostok::hash_multiset<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,16,vostok::detail::fixed_size_policy<32768>,vostok::detail::null_hash<vostok::vfs::base_node<1> >,vostok::detail::null_equal<vostok::vfs::base_node<1> >,vostok::threading::single_threading_policy>::iterator v15; // [esp+34h] [ebp-20h] BYREF
-  vostok::threading::reader_writer_lock *lock; // [esp+40h] [ebp-14h]
-  vostok::vfs::overlapped_node_initializer begin; // [esp+44h] [ebp-10h] BYREF
+  unsigned int *p_readers_count; // ebx
+  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *result; // eax
+  vostok::threading::reader_writer_lock *v9; // [esp-4h] [ebp-40h]
+  vostok::vfs::base_node<1> *v10; // [esp+10h] [ebp-2Ch]
+  vostok::threading::reader_writer_lock *v11; // [esp+18h] [ebp-24h]
+  vostok::vfs::base_node<1> *node; // [esp+24h] [ebp-18h]
 
-  lock = &this->m_hashlocks[hash % 0x20];
-  v5 = vostok::vfs::to_threading_lock_type(lock_type);
-  vostok::threading::reader_writer_lock::lock(v6, (unsigned int *)&lock->m_readers_writers_counter.readers_count, v5);
-  memset(&begin, 0, sizeof(begin));
-  v7 = (vostok::vfs::vfs_iterator *)vostok::hash_multiset<vostok::vfs::base_node<1>,vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper,16,vostok::detail::fixed_size_policy<32768>,vostok::detail::null_hash<vostok::vfs::base_node<1>>,vostok::detail::null_equal<vostok::vfs::base_node<1>>,vostok::threading::single_threading_policy>::find(
-                                      &this->m_hashset,
-                                      &v15,
-                                      hash);
-  v8 = vostok::mutable_buffer::size(v7);
-  begin.node = vostok::vfs::vfs_hashset::skip_nodes_with_wrong_path(v8, path);
-  vostok::vfs::vfs_hashset::check_consistency(this, begin.node, path);
-  if ( begin.node )
-  {
-    begin.hashset_lock = lock;
-  }
+  p_readers_count = (unsigned int *)&this->m_hashlocks[hash & 0x1F].m_readers_writers_counter.readers_count;
+  vostok::threading::reader_writer_lock::lock(
+    this->m_hashlocks,
+    p_readers_count,
+    (vostok::threading::lock_type_enum)((a5 != lock_type_read) + 1));
+  v11 = 0;
+  if ( this->m_hashset.m_buffer[hash & 0x7FFF] )
+    node = this->m_hashset.m_buffer[hash & 0x7FFF];
   else
-  {
-    v9 = vostok::vfs::to_threading_lock_type(lock_type);
-    vostok::threading::reader_writer_lock::unlock(v10, &lock->m_readers_writers_counter, v9);
-  }
-  node = begin.node;
-  hashset_lock = begin.hashset_lock;
-  result->first.path = path;
-  result->first.node = node;
-  result->first.lock_type = lock_type;
-  result->first.hashset_lock = hashset_lock;
-  result->second.path = 0;
-  result->second.node = 0;
-  result->second.lock_type = lock_type_uninitialized;
-  result->second.hashset_lock = 0;
+    node = 0;
+  v10 = vostok::vfs::vfs_hashset::skip_nodes_with_wrong_path(node, lock_type);
+  if ( v10 )
+    v11 = (vostok::threading::reader_writer_lock *)p_readers_count;
+  else
+    vostok::threading::reader_writer_lock::unlock(
+      v9,
+      (volatile signed __int64 *)p_readers_count,
+      (vostok::threading::lock_type_enum)((a5 != lock_type_read) + 1));
+  result = path;
+  path->first.path = lock_type;
+  path->first.node = v10;
+  path->first.lock_type = a5;
+  path->first.hashset_lock = v11;
+  path->second.path = 0;
+  path->second.node = 0;
+  path->second.lock_type = lock_type_uninitialized;
+  path->second.hashset_lock = 0;
   return result;
 }
 
 
 stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *__thiscall vostok::vfs::vfs_hashset::equal_range(
         vostok::vfs::vfs_hashset *this,
-        stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *result,
-        const char *path,
-        vostok::vfs::lock_type_enum lock_type)
+        vostok::vfs::vfs_hashset *result,
+        char *path,
+        char *lock_type,
+        vostok::vfs::lock_type_enum a5)
 {
-  const char *v4; // eax
-  unsigned int v6; // [esp-8h] [ebp-124h]
-  vostok::fs_new::path_string_impl v8; // [esp+4h] [ebp-118h] BYREF
-  unsigned int hash; // [esp+118h] [ebp-4h]
+  __int16 v5; // ax
+  vostok::buffer_string v7; // [esp+4h] [ebp-114h] BYREF
+  char v8; // [esp+114h] [ebp-4h]
 
-  vostok::fs_new::path_string_impl::path_string_impl(&v8, 47, &path);
-  v6 = vostok::fs_new::path_string_impl::length(&v8);
-  v4 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v8);
-  hash = vostok::fs_new::path_crc32(v4, v6, 0);
-  vostok::vfs::vfs_hashset::equal_range(this, result, path, hash, lock_type);
-  return result;
+  vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)this, &v7, lock_type);
+  v8 = 47;
+  v5 = vostok::fs_new::path_crc32(v7.m_begin, v7.m_end - v7.m_begin, 0);
+  vostok::vfs::vfs_hashset::equal_range(
+    result,
+    v5,
+    (stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *)path,
+    lock_type,
+    a5);
+  return (stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> *)path;
 }

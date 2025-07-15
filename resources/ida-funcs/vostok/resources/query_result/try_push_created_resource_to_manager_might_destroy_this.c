@@ -2,20 +2,26 @@ char __usercall vostok::resources::query_result::try_push_created_resource_to_ma
         vostok::resources::query_result *this@<ecx>,
         int a2@<eax>)
 {
-  vostok::resources::resources_manager *m_variable; // edi
-  bool *v4; // [esp+0h] [ebp-Ch]
+  vostok::resources::query_result *v2; // ecx
+  vostok::resources::query_result *v3; // eax
+  vostok::threading::mutex *v4; // ecx
+  vostok::resources::resources_manager *v6; // [esp+0h] [ebp-Ch]
 
-  if ( _InterlockedExchangeAdd((volatile signed __int32 *)(a2 + 712), 0xFFFFFFFF) )
+  v2 = (vostok::resources::query_result *)(a2 + 728);
+  if ( _InterlockedExchangeAdd((volatile signed __int32 *)(a2 + 728), 0xFFFFFFFF) )
     return 0;
-  m_variable = vostok::resources::g_resources_manager.m_variable;
   if ( *(_DWORD *)(a2 + 260) == 4 )
-    vostok::resources::query_result::requery(0, a2);
+  {
+    vostok::resources::query_result::prepare_requery(v2, a2);
+    vostok::resources::resources_manager::push_new_query(v3, v4, v6);
+  }
   else
-    vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
-      0,
-      (void (__usercall *)(const boost::detail::function::function_buffer *@<edi>, boost::detail::function::function_buffer *@<esi>, unsigned int@<eax>))((char *)boost::detail::function::functor_manager_common<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *>>>>::manage_small + (unsigned int)vostok::resources::g_resources_manager.m_variable),
+  {
+    vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,624,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
+      &s_resources_manager_buffer.m_created_resources,
       (vostok::resources::query_result *)a2,
-      v4);
-  SetEvent(*(HANDLE *)((char *)&dword_203D0 + (_DWORD)m_variable));
+      (vostok::threading::mutex *)v2);
+  }
+  SetEvent(*(HANDLE *)s_resources_manager_buffer.m_resources_wakeup_event.m_event.m_event);
   return 1;
 }

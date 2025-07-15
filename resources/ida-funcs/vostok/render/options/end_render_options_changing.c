@@ -1,106 +1,45 @@
-int __userpurge vostok::render::options::end_render_options_changing@<eax>(
-        vostok::render::options *this@<ecx>,
-        int a2@<eax>,
-        vostok::render::vector<vostok::fs_new::virtual_path_string> *out_changed_defines)
+int __thiscall vostok::render::options::end_render_options_changing(
+        vostok::render::options *this,
+        vostok::buffer_vector<vostok::fs_new::virtual_path_string> *out_changed_defines,
+        int save_settings,
+        char a4)
 {
-  unsigned int y; // edx
-  int v5; // ecx
-  bool v6; // zf
-  int v7; // eax
-  int v8; // eax
-  int v9; // eax
-  int v10; // eax
-  _DWORD *v11; // esi
-  int v12; // ebp
-  stlp_std::priv::_Impl_vector<vostok::fs_new::virtual_path_string,vostok::render::std_allocator<vostok::fs_new::virtual_path_string> > *v13; // ecx
-  const char *v14; // eax
-  vostok::console_commands::command_type v16; // [esp+0h] [ebp-130h]
-  vostok::memory::base_allocator *v17; // [esp+4h] [ebp-12Ch]
-  vostok::math::uint2 res_str; // [esp+14h] [ebp-11Ch] BYREF
-  vostok::fs_new::virtual_path_string __x; // [esp+1Ch] [ebp-114h] BYREF
+  vostok::fs_new::virtual_path_string *m_begin; // esi
+  vostok::fixed_string<260> *v6; // ecx
+  vostok::buffer_vector<vostok::fs_new::virtual_path_string> *v7; // ecx
+  char *m_max_end; // [esp-4h] [ebp-130h]
+  vostok::fs_new::virtual_path_string v10; // [esp+Ch] [ebp-120h] BYREF
+  vostok::fs_new::virtual_path_string *v11; // [esp+120h] [ebp-Ch] BYREF
+  int v12; // [esp+124h] [ebp-8h]
+  vostok::fs_new::virtual_path_string *m_end; // [esp+134h] [ebp+8h]
 
-  vostok::render::parse_resolution(s_r_resolution_value.m_begin, (int *)&res_str);
-  y = res_str.y;
-  v6 = *(_DWORD *)(a2 + 196) == 0;
-  *(_DWORD *)(a2 + 232) = res_str.x;
-  v5 = *(_DWORD *)(a2 + 128);
-  *(_DWORD *)(a2 + 236) = y;
-  *(_BYTE *)(a2 + 267) = !v6;
-  v6 = v5 == 0;
-  if ( v5 )
-  {
-    v7 = *(_DWORD *)(a2 + 220);
-    if ( v7 )
-    {
-      v8 = v7 - 1;
-      if ( v8 )
-      {
-        if ( v8 == 1 )
-          *(_BYTE *)(a2 + 293) = 1;
-      }
-      else
-      {
-        *(_BYTE *)(a2 + 269) = 1;
-        *(_BYTE *)(a2 + 272) = 1;
-        *(_BYTE *)(a2 + 293) = 0;
-      }
-    }
-    v6 = v5 == 0;
-  }
-  if ( v6 )
-  {
-    *(_BYTE *)(a2 + 301) = 0;
-    *(_DWORD *)(a2 + 172) = 512;
-  }
-  else if ( (unsigned int)(v5 - 1) <= 2 )
-  {
-    *(_BYTE *)(a2 + 301) = 1;
-    *(_DWORD *)(a2 + 172) = 1024;
-  }
-  v9 = *(_DWORD *)(a2 + 216);
-  if ( v9 )
-  {
-    if ( (unsigned int)(v9 - 1) <= 2 )
-      *(_BYTE *)(a2 + 250) = 1;
-  }
-  else
-  {
-    *(_BYTE *)(a2 + 250) = 0;
-  }
-  v10 = *(_DWORD *)(a2 + 208);
-  if ( v10 )
-  {
-    if ( (unsigned int)(v10 - 1) <= 2 )
-      *(_BYTE *)(a2 + 294) = 1;
-  }
-  else
-  {
-    *(_BYTE *)(a2 + 294) = 0;
-  }
-  if ( !*(_DWORD *)(a2 + 200) )
-    *(_BYTE *)(a2 + 292) = 0;
-  v11 = *(_DWORD **)a2;
+  survarium::parse_resolution(s_r_resolution_value.m_begin, (int *)&v11);
+  m_begin = out_changed_defines->m_begin;
+  out_changed_defines[21].m_begin = v11;
+  out_changed_defines[21].m_end = (vostok::fs_new::virtual_path_string *)v12;
   v12 = 1;
-  if ( *(_DWORD *)a2 )
+  m_end = m_begin;
+  if ( m_begin )
   {
-    do
+    while ( 1 )
     {
-      if ( (*(unsigned __int8 (__thiscall **)(_DWORD *))(*v11 + 4))(v11) )
+      if ( (*((unsigned __int8 (__thiscall **)(vostok::fs_new::virtual_path_string *))m_begin->m_string.m_begin + 1))(m_begin) )
       {
-        v12 |= v11[3];
-        res_str.x = v11[2];
-        vostok::fs_new::virtual_path_string::virtual_path_string(&__x, (const char **)&res_str);
-        stlp_std::priv::_Impl_vector<vostok::fs_new::virtual_path_string,vostok::render::std_allocator<vostok::fs_new::virtual_path_string>>::push_back(
-          (const stlp_std::__false_type *)&__x,
-          v13,
-          &out_changed_defines->_M_impl);
+        m_max_end = m_begin->m_string.m_max_end;
+        v12 |= *(_DWORD *)m_begin->m_string.m_buffer;
+        vostok::fixed_string<260>::fixed_string<260>(v6, &v10.m_string, m_max_end);
+        v10.m_separator = 47;
+        vostok::buffer_vector<vostok::fs_new::virtual_path_string>::push_back(v7, save_settings, &v10);
+        m_begin = m_end;
       }
-      v11 = (_DWORD *)v11[1];
+      m_end = (vostok::fs_new::virtual_path_string *)m_begin->m_string.m_end;
+      if ( !m_end )
+        break;
+      m_begin = (vostok::fs_new::virtual_path_string *)m_begin->m_string.m_end;
     }
-    while ( v11 );
   }
-  qmemcpy((void *)(a2 + 308), (const void *)(a2 + 12), 0x128u);
-  v14 = s_engine_0->get_user_data_directory(s_engine_0);
-  vostok::console_commands::save("user.cfg", v14, v16, v17);
+  qmemcpy(&out_changed_defines[25].m_max_end, &out_changed_defines[1], 0x128u);
+  if ( a4 )
+    vostok::console_commands::save(command_type_user_specific, 0);
   return v12;
 }

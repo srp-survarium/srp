@@ -4,7 +4,7 @@ Scaleform::RefCountVImpl **__userpurge Scaleform::GFx::TextField::CreateEditorKi
         int result)
 {
   Scaleform::Render::Text::DocView *pObject; // eax
-  Scaleform::GFx::Text::EditorKit *v5; // edi
+  Scaleform::RefCountVImpl_vtbl *v5; // edi
   Scaleform::RefCountVImpl **v6; // ebp
   Scaleform::GFx::Text::EditorKit *v7; // eax
   int v8; // eax
@@ -18,12 +18,12 @@ Scaleform::RefCountVImpl **__userpurge Scaleform::GFx::TextField::CreateEditorKi
   Scaleform::GFx::StateBag *v16; // ecx
   int v17; // eax
   Scaleform::GFx::Resource *v18; // eax
-  Scaleform::GFx::Text::EditorKit *v19; // edi
+  Scaleform::RefCountVImpl *v19; // edi
   Scaleform::RefCountVImpl *v20; // ecx
   Scaleform::RefCountVImpl *v21; // eax
 
   pObject = this->pDocument.pObject;
-  v5 = (Scaleform::GFx::Text::EditorKit *)pObject->pEditorKit.pObject;
+  v5 = (Scaleform::RefCountVImpl_vtbl *)pObject->pEditorKit.pObject;
   if ( v5 )
     Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject->pEditorKit.pObject);
   v6 = (Scaleform::RefCountVImpl **)result;
@@ -38,7 +38,7 @@ Scaleform::RefCountVImpl **__userpurge Scaleform::GFx::TextField::CreateEditorKi
                                             &result);
   if ( v7 )
   {
-    Scaleform::GFx::Text::EditorKit::EditorKit(v7, this->pDocument.pObject);
+    Scaleform::GFx::Text::EditorKit::EditorKit(v7, (Scaleform::GFx::Resource *)this->pDocument.pObject);
     v9 = v8;
   }
   else
@@ -68,7 +68,7 @@ Scaleform::RefCountVImpl **__userpurge Scaleform::GFx::TextField::CreateEditorKi
   v16 = &this->pASRoot->pMovieImpl->Scaleform::GFx::StateBag;
   v17 = v16->GetStateBagImpl(v16);
   v18 = (Scaleform::GFx::Resource *)(*(int (__thiscall **)(int, int))(*(_DWORD *)v17 + 12))(v17, 23);
-  v19 = (Scaleform::GFx::Text::EditorKit *)v18;
+  v19 = (Scaleform::RefCountVImpl *)v18;
   result = (int)*v6;
   if ( v18 )
     Scaleform::RefCountImpl::AddRef(v18);
@@ -82,7 +82,7 @@ Scaleform::RefCountVImpl **__userpurge Scaleform::GFx::TextField::CreateEditorKi
   else
     LOWORD(v21[16].__vftable) &= ~4u;
   if ( v19 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v19);
+    Scaleform::RefCountImpl::Release(v19);
   if ( v14 )
     Scaleform::RefCountImpl::Release(v14);
   return v6;

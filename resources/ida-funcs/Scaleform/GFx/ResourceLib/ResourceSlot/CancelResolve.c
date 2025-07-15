@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::ResourceLib::ResourceSlot::CancelResolve(
         Scaleform::GFx::ResourceLib::ResourceSlot *this,
-        char *perrorMessage)
+        const __m128i *perrorMessage)
 {
   Scaleform::Lock *p_ResourceLock; // edi
 

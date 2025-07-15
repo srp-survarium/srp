@@ -1,6 +1,6 @@
-int __cdecl BN_asc2bn(bignum_st **bn, const char *a)
+int __cdecl BN_asc2bn(bignum_st **bn, char *a)
 {
-  const char *v2; // eax
+  char *v2; // eax
   char v3; // cl
   bignum_st **v4; // edi
   int result; // eax

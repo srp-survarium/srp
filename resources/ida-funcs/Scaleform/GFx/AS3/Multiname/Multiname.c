@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
         const Scaleform::GFx::AS3::Value *name)
 {
   this->Kind = MN_QName;
-  this->Obj.pObject = ns;
+  this->Obj.pObject = &ns->Scaleform::GFx::AS3::GASRefCountBase;
   if ( ns )
     ns->RefCount = (ns->RefCount + 1) & 0x8FBFFFFF;
   this->Name.Flags = 0;
@@ -58,7 +58,8 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   Scaleform::GFx::AS3::VM *v9; // edi
   const Scaleform::GFx::AS3::VM::Error *v10; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v12; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v12[3]; // [esp-8h] [ebp-20h] BYREF
+  Scaleform::GFx::AS3::VM::Error v13; // [esp+10h] [ebp-8h] BYREF
 
   v3 = vm;
   v5 = v;
@@ -88,23 +89,25 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
     }
     if ( (unsigned int)(v6 - 12) > 3 )
     {
+      Scaleform::StringDataPtr::StringDataPtr(v12, "Multiname");
       v9 = vm;
-      Scaleform::GFx::AS3::VM::Error::Error(&v12, eInvalidArgumentError, vm);
+      Scaleform::GFx::AS3::VM::Error::Error(&v13, eInvalidArgumentError, (Scaleform::String)vm, v12[0]);
 LABEL_11:
       Scaleform::GFx::AS3::VM::ThrowErrorInternal(
         v9,
         v10,
         (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::TypeErrorTI);
-      pNode = v12.Message.pNode;
-      --v12.Message.pNode->RefCount;
+      pNode = v13.Message.pNode;
+      --v13.Message.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
       return;
     }
     if ( !v5->value.VS._1.VInt )
     {
+      Scaleform::StringDataPtr::StringDataPtr(v12, "Multiname");
       v9 = vm;
-      Scaleform::GFx::AS3::VM::Error::Error(&v12, eNotImplementedError, vm);
+      Scaleform::GFx::AS3::VM::Error::Error(&v13, eNotImplementedError, (Scaleform::String)vm, v12[0]);
       goto LABEL_11;
     }
     Scaleform::GFx::AS3::Value::operator=(&this->Name, v5);
@@ -241,9 +244,9 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   if ( uri.pNode->Size )
   {
     pObject = (Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *)v5->TraitsNamespace.pObject->ITraits.pObject;
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -279,7 +282,7 @@ LABEL_8:
       else
       {
         RefCount = v10->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v10->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -317,7 +320,7 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   int LastChar; // eax
   unsigned int Size; // ecx
   unsigned int v8; // edx
-  char *pStr; // esi
+  __m128i *pStr; // esi
   const Scaleform::GFx::AS3::VM *v10; // edi
   const Scaleform::GFx::AS3::VM *v11; // eax
   Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *pObject; // esi
@@ -326,7 +329,7 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   unsigned int RefCount; // eax
   Scaleform::GFx::ASStringNode *v16; // eax
   Scaleform::GFx::AS3::VM *StringNode; // esi
-  char *name; // [esp+14h] [ebp-8h]
+  __m128i *name; // [esp+14h] [ebp-8h]
   unsigned int name_4; // [esp+18h] [ebp-4h]
 
   v3 = (Scaleform::StringDataPtr *)qname;
@@ -346,8 +349,8 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   v8 = LastChar + 1;
   if ( Size < LastChar + 1 )
     v8 = v3->Size;
-  pStr = (char *)v3->pStr;
-  name = &pStr[v8];
+  pStr = (__m128i *)v3->pStr;
+  name = (__m128i *)((char *)pStr + v8);
   name_4 = Size - v8;
   if ( LastChar <= 0 )
   {
@@ -365,9 +368,9 @@ void __thiscall Scaleform::GFx::AS3::Multiname::Multiname(
   if ( qname->Size )
   {
     pObject = (Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *)v10->TraitsNamespace.pObject->ITraits.pObject;
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -402,7 +405,7 @@ LABEL_14:
       else
       {
         RefCount = v13.pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v13.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13.pObject);

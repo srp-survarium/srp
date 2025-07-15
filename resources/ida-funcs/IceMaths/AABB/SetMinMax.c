@@ -3,19 +3,19 @@ void __userpurge IceMaths::AABB::SetMinMax(
         const IceMaths::Point *max@<eax>,
         IceMaths::AABB *this)
 {
-  float v3; // xmm1_4
-  float v4; // xmm2_4
-  float v5; // xmm2_4
-  float v6; // xmm1_4
+  float v3; // [esp+4h] [ebp-8h]
+  float v4; // [esp+4h] [ebp-8h]
+  float v5; // [esp+8h] [ebp-4h]
+  float v6; // [esp+8h] [ebp-4h]
 
-  v3 = min->y + max->y;
-  v4 = max->z + min->z;
+  v3 = (float)(min->y + max->y) * 0.5;
+  v5 = (float)(max->z + min->z) * 0.5;
   this->mCenter.x = (float)(min->x + max->x) * 0.5;
-  this->mCenter.y = v3 * 0.5;
-  this->mCenter.z = v4 * 0.5;
-  v5 = max->z - min->z;
-  v6 = (float)(max->y - min->y) * 0.5;
+  this->mCenter.y = v3;
+  this->mCenter.z = v5;
+  v4 = (float)(max->y - min->y) * 0.5;
+  v6 = (float)(max->z - min->z) * 0.5;
   this->mExtents.x = (float)(max->x - min->x) * 0.5;
-  this->mExtents.y = v6;
-  this->mExtents.z = v5 * 0.5;
+  this->mExtents.y = v4;
+  this->mExtents.z = v6;
 }

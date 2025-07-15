@@ -1,4 +1,6 @@
-BOOL __thiscall survarium::network_client::is_player_local(survarium::network_client *this, unsigned __int8 player_id)
+BOOL __thiscall survarium::network_client::is_player_local(
+        survarium::network_client *this,
+        const unsigned __int8 player_id)
 {
   survarium::player *m_object; // eax
 

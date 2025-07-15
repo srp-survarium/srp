@@ -11,9 +11,9 @@ void __thiscall Scaleform::Render::RectPacker::Pack(Scaleform::Render::RectPacke
   unsigned int v10; // edi
   Scaleform::Render::RectPacker::PackType *v11; // edi
   unsigned int v12; // eax
-  unsigned int prevPacked; // [esp+8h] [ebp-28h]
-  unsigned int pack_4; // [esp+10h] [ebp-20h]
-  Scaleform::Render::RectPacker::NodeType rootNode; // [esp+14h] [ebp-1Ch] BYREF
+  unsigned int v13; // [esp+8h] [ebp-28h]
+  unsigned int v14; // [esp+10h] [ebp-20h]
+  _DWORD v15[7]; // [esp+14h] [ebp-1Ch] BYREF
 
   this->PackedRects.Size = 0;
   this->Packs.Size = 0;
@@ -36,35 +36,35 @@ void __thiscall Scaleform::Render::RectPacker::Pack(Scaleform::Render::RectPacke
       Width = this->Width;
       Height = this->Height;
       this->PackTree.Size = 0;
-      rootNode.x = 0;
-      rootNode.y = 0;
-      prevPacked = NumPacked;
+      v15[0] = 0;
+      v15[1] = 0;
+      v13 = NumPacked;
       v7 = this->PackTree.Size >> 8;
-      rootNode.Width = Width;
-      rootNode.Height = Height;
-      memset(&rootNode.Id, 255, 12);
+      v15[2] = Width;
+      v15[3] = Height;
+      memset(&v15[4], 255, 12);
       if ( v7 >= this->PackTree.NumPages )
         Scaleform::ArrayPagedBase<Scaleform::Render::RectPacker::NodeType,8,64,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::RectPacker::NodeType,2>>::allocatePage(
           &this->PackTree,
           v7);
       qmemcpy(
         &this->PackTree.Pages[v7][(unsigned __int8)this->PackTree.Size++],
-        &rootNode,
+        v15,
         sizeof(this->PackTree.Pages[v7][(unsigned __int8)this->PackTree.Size++]));
       Scaleform::Render::RectPacker::packRects(this, 0, 0);
-      if ( this->NumPacked > prevPacked )
+      if ( this->NumPacked > v13 )
       {
         Size = this->PackedRects.Size;
         Scaleform::Render::RectPacker::emitPacked(this);
         v9 = this->PackedRects.Size - Size;
         v10 = this->Packs.Size >> 4;
-        pack_4 = v9;
+        v14 = v9;
         if ( v10 >= this->Packs.NumPages )
         {
           Scaleform::ArrayPagedBase<Scaleform::Render::RectPacker::PackType,4,16,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::RectPacker::PackType,2>>::allocatePage(
             &this->Packs,
             v10);
-          v9 = pack_4;
+          v9 = v14;
         }
         v11 = this->Packs.Pages[v10];
         v12 = this->Packs.Size & 0xF;

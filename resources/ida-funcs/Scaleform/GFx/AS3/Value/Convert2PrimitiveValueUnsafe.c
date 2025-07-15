@@ -34,7 +34,7 @@ LABEL_11:
         break;
       default:
         Scaleform::GFx::AS3::Object::GetDefaultValueUnsafe(this->value.VS._1.VObj, resulta, hint);
-        if ( !*(_BYTE *)(*(_DWORD *)(*(_DWORD *)(this->value.VS._1.VInt + 20) + 64) + 92) )
+        if ( !*(_BYTE *)(*(_DWORD *)(*(_DWORD *)(this->value.VS._1.VInt + 20) + 64) + 96) )
           goto LABEL_11;
         v6 = result;
         result->Result = 0;

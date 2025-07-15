@@ -15,11 +15,11 @@ void __usercall Scaleform::GFx::AS2::TextFieldProto::SetIMECompositionStringStyl
   bool v12; // zf
   unsigned int RefCount; // eax
   const Scaleform::GFx::Text::IMEStyle *IMECompositionStringStyles; // ebp
-  Scaleform::Render::Text::HighlightInfo *v15; // eax
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v15; // eax
   Scaleform::GFx::ASStringNode *v16; // ecx
   unsigned int v17; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-7Ch]
-  Scaleform::Render::Text::HighlightInfo result; // [esp+4h] [ebp-64h] BYREF
+  Scaleform::GFx::AS2::RefCountBaseGC<323> v21; // [esp+4h] [ebp-64h] BYREF
   Scaleform::GFx::Text::IMEStyle imeStyles; // [esp+14h] [ebp-54h] BYREF
 
   v3 = fn;
@@ -69,7 +69,7 @@ void __usercall Scaleform::GFx::AS2::TextFieldProto::SetIMECompositionStringStyl
           if ( v12 )
             Scaleform::GFx::ASStringNode::ReleaseNode(v11);
           RefCount = v7->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v7->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);
@@ -83,13 +83,13 @@ void __usercall Scaleform::GFx::AS2::TextFieldProto::SetIMECompositionStringStyl
         v15 = Scaleform::GFx::AS2::TextFieldProto::ParseStyle(
                 (int)v3,
                 v10,
-                &result,
+                &v21,
                 v3,
                 1u,
                 (Scaleform::GFx::ASStringNode *)&imeStyles.HighlightStyles[v10],
                 a1,
                 a2);
-        Scaleform::GFx::Text::IMEStyle::SetElement(&imeStyles, v10, v15);
+        Scaleform::GFx::Text::IMEStyle::SetElement(&imeStyles, v10, (const Scaleform::Render::Text::HighlightInfo *)v15);
         Scaleform::GFx::AS2::TextFieldObject::SetIMECompositionStringStyles(v7, &imeStyles);
         v16 = (Scaleform::GFx::ASStringNode *)fn;
         v12 = fn->ThisFunctionRef.Function-- == (Scaleform::GFx::AS2::FunctionObject *)1;
@@ -97,7 +97,7 @@ void __usercall Scaleform::GFx::AS2::TextFieldProto::SetIMECompositionStringStyl
           Scaleform::GFx::ASStringNode::ReleaseNode(v16);
       }
       v17 = v7->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v17) != 0 )
+      if ( (v17 & 0x3FFFFFF) != 0 )
       {
         v7->RefCount = v17 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);

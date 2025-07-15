@@ -1,4 +1,4 @@
-int __cdecl _set_new_mode(unsigned int nhm)
+int __usercall _set_new_mode@<eax>(int a1@<ebx>, int a2@<edi>, unsigned int nhm)
 {
   int result; // eax
 
@@ -10,7 +10,7 @@ int __cdecl _set_new_mode(unsigned int nhm)
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, a2, 0);
     return -1;
   }
   return result;

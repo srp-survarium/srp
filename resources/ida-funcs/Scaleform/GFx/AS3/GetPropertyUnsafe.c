@@ -17,7 +17,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::GetPropertyUnsafe
          (*(_BYTE *)(v6 + 56) & 1) != 0)
      || (v7 == 13 || v7 == 14) && (*(_DWORD *)(v6 + 56) & 0x20) == 0) )
   {
-    (*(void (__thiscall **)(_DWORD *, Scaleform::GFx::AS3::CheckResult *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *, Scaleform::GFx::AS3::Value *))(*VInt + 16))(
+    (*(void (__thiscall **)(_DWORD *, Scaleform::GFx::AS3::CheckResult *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *, Scaleform::GFx::AS3::Value *))(*VInt + 28))(
       VInt,
       result,
       prop_name,

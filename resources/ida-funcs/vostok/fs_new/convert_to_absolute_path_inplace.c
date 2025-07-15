@@ -1,19 +1,17 @@
-char __cdecl vostok::fs_new::convert_to_absolute_path_inplace(
-        vostok::fs_new::native_path_string *in_out_path,
-        assert_on_fail_bool assert_on_fail)
+char __usercall vostok::fs_new::convert_to_absolute_path_inplace@<al>(
+        vostok::fs_new::native_path_string *in_out_path@<eax>,
+        char *a2@<esi>)
 {
-  vostok::fs_new::native_path_string absolute_path; // [esp+1Ch] [ebp-118h] BYREF
+  vostok::fs_new::native_path_string v4; // [esp+8h] [ebp-120h] BYREF
 
-  vostok::fs_new::native_path_string::native_path_string(&absolute_path);
+  vostok::fs_new::native_path_string::native_path_string(&v4);
   if ( !vostok::fs_new::convert_to_absolute_path<vostok::fs_new::native_path_string>(
-          (vostok::fixed_string<32> *)&absolute_path,
           in_out_path,
-          assert_on_fail) )
+          a2,
+          &v4,
+          assert_on_fail_true) )
     return 0;
-  if ( in_out_path != &absolute_path )
-    vostok::buffer_string::operator=(
-      (vostok::fixed_string<32> *)&absolute_path,
-      (vostok::fixed_string<32> *)in_out_path);
-  vostok::fs_new::path_string_impl::verify_self(in_out_path);
+  if ( in_out_path != &v4 )
+    vostok::buffer_string::operator=(&v4.m_string, &in_out_path->m_string);
   return 1;
 }

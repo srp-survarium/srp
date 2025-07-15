@@ -4,7 +4,7 @@ void __thiscall Scaleform::HeapPT::FreeBin::Pull(Scaleform::HeapPT::FreeBin *thi
   Scaleform::HeapPT::BinTNode *v4; // esi
   unsigned int v5; // ecx
   Scaleform::HeapPT::BinLNode *v6; // edi
-  Scaleform::HeapPT::BinLNode *v7; // esi
+  Scaleform::HeapPT::BinTNode *v7; // esi
   unsigned int v8; // ecx
   Scaleform::HeapPT::BinLNode *pNext; // edi
 
@@ -20,7 +20,7 @@ void __thiscall Scaleform::HeapPT::FreeBin::Pull(Scaleform::HeapPT::FreeBin *thi
     }
     else
     {
-      v7 = this->ListBin1.Roots[ShortSize];
+      v7 = (Scaleform::HeapPT::BinTNode *)this->ListBin1.Roots[ShortSize];
       v8 = ShortSize - 33;
       if ( node != v7 )
         goto LABEL_7;

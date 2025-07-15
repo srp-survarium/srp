@@ -16,7 +16,7 @@ Scaleform::GFx::MovieImpl::IndirectTransPair *__thiscall Scaleform::GFx::MovieIm
   Scaleform::GFx::DisplayObjContainer *v13; // esi
   Scaleform::GFx::DisplayObjectBase *v14; // ebp
   Scaleform::GFx::DisplayObjContainer *v15; // esi
-  int e_12; // [esp+1Ch] [ebp-4h]
+  int OrigParentDepth; // [esp+1Ch] [ebp-4h]
 
   Size = this->IndirectTransformPairs.Data.Size;
   v4 = 0;
@@ -45,7 +45,7 @@ Scaleform::GFx::MovieImpl::IndirectTransPair *__thiscall Scaleform::GFx::MovieIm
     if ( v13 )
       ++v13->RefCount;
     v15 = v10->OriginalParent.pObject;
-    e_12 = v10->OrigParentDepth;
+    OrigParentDepth = v10->OrigParentDepth;
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::MovieImpl::IndirectTransPair,Scaleform::AllocatorLH<Scaleform::GFx::MovieImpl::IndirectTransPair,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
       p_IndirectTransformPairs,
       v4);
@@ -58,7 +58,7 @@ Scaleform::GFx::MovieImpl::IndirectTransPair *__thiscall Scaleform::GFx::MovieIm
     if ( v15 )
       ++v15->RefCount;
     result->OriginalParent.pObject = v15;
-    result->OrigParentDepth = e_12;
+    result->OrigParentDepth = OrigParentDepth;
     if ( v15 )
       Scaleform::RefCountNTSImpl::Release(v15);
     if ( v14 )

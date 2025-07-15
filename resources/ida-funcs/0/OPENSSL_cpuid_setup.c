@@ -1,4 +1,4 @@
-void __usercall OPENSSL_cpuid_setup(unsigned int a1@<ebx>, unsigned int a2@<edi>)
+void __usercall OPENSSL_cpuid_setup(int a1@<ebx>, int a2@<edi>)
 {
   char *v2; // eax
 

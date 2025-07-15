@@ -15,9 +15,9 @@ int __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_und
   char *v13; // ecx
   char *v15; // eax
   char *v16; // ecx
-  int __n; // [esp+1Ch] [ebp-Ch]
-  char *__inext; // [esp+20h] [ebp-8h] BYREF
-  const char *__enext; // [esp+24h] [ebp-4h] BYREF
+  int v17; // [esp+1Ch] [ebp-Ch]
+  char *v18; // [esp+20h] [ebp-8h] BYREF
+  char *v19; // [esp+24h] [ebp-4h] BYREF
 
   M_end_state = this->_M_end_state;
   M_ext_buf_converted = (unsigned __int8 *)this->_M_ext_buf_converted;
@@ -46,7 +46,7 @@ int __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_und
          &this->_M_base,
          this->_M_ext_buf_end,
          this->_M_ext_buf_EOS - this->_M_ext_buf_end);
-  __n = v9;
+  v17 = v9;
   if ( v9 >= 0 )
   {
     while ( 1 )
@@ -56,14 +56,14 @@ int __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_und
       if ( this->_M_ext_buf == v10 )
         break;
       v11 = this->_M_codecvt->do_in(
-              this->_M_codecvt,
+              (stlp_std::codecvt<char,char,int> *)this->_M_codecvt,
               &this->_M_end_state,
               this->_M_ext_buf,
               v10,
-              &__enext,
+              (const char **)&v19,
               this->_M_int_buf,
               this->_M_int_buf_EOS,
-              &__inext);
+              &v18);
       if ( v11 == warning )
       {
         v15 = this->_M_ext_buf;
@@ -77,31 +77,31 @@ int __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_und
       if ( v11 == error )
         return stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_input_error(this);
       M_int_buf = this->_M_int_buf;
-      v13 = __inext;
-      if ( __inext != M_int_buf && __enext == this->_M_ext_buf )
+      v13 = v18;
+      if ( v18 != M_int_buf && v19 == this->_M_ext_buf )
         return stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_input_error(this);
-      if ( this->_M_constant_width && this->_M_width * (__inext - M_int_buf) != __enext - this->_M_ext_buf )
+      if ( this->_M_constant_width && this->_M_width * (v18 - M_int_buf) != v19 - this->_M_ext_buf )
         return stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_input_error(this);
-      if ( __inext != M_int_buf )
+      if ( v18 != M_int_buf )
         goto LABEL_21;
-      if ( __enext - this->_M_ext_buf >= this->_M_max_width )
+      if ( v19 - this->_M_ext_buf >= this->_M_max_width )
         return stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_input_error(this);
-      if ( __inext != M_int_buf )
+      if ( v18 != M_int_buf )
       {
 LABEL_21:
-        this->_M_ext_buf_converted = (char *)__enext;
+        this->_M_ext_buf_converted = v19;
         this->_M_gbegin = M_int_buf;
         this->_M_gnext = M_int_buf;
         this->_M_gend = v13;
         return (unsigned __int8)*M_int_buf;
       }
-      if ( __n > 0 )
+      if ( v17 > 0 )
       {
         v9 = stlp_std::_Filebuf_base::_M_read(
                &this->_M_base,
                this->_M_ext_buf_end,
                this->_M_ext_buf_EOS - this->_M_ext_buf_end);
-        __n = v9;
+        v17 = v9;
         if ( v9 >= 0 )
           continue;
       }
@@ -130,9 +130,9 @@ wchar_t __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t
   stlp_std::codecvt_base::result v11; // eax
   wchar_t *M_int_buf; // eax
   wchar_t *v13; // ecx
-  int __n; // [esp+1Ch] [ebp-Ch]
-  wchar_t *__inext; // [esp+20h] [ebp-8h] BYREF
-  const char *__enext; // [esp+24h] [ebp-4h] BYREF
+  int v15; // [esp+1Ch] [ebp-Ch]
+  wchar_t *v16; // [esp+20h] [ebp-8h] BYREF
+  char *v17; // [esp+24h] [ebp-4h] BYREF
 
   M_end_state = this->_M_end_state;
   M_ext_buf_converted = (unsigned __int8 *)this->_M_ext_buf_converted;
@@ -161,7 +161,7 @@ wchar_t __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t
          &this->_M_base,
          this->_M_ext_buf_end,
          this->_M_ext_buf_EOS - this->_M_ext_buf_end);
-  __n = v9;
+  v15 = v9;
   if ( v9 >= 0 )
   {
     while ( 1 )
@@ -171,44 +171,44 @@ wchar_t __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t
       if ( this->_M_ext_buf == v10 )
         break;
       v11 = this->_M_codecvt->do_in(
-              this->_M_codecvt,
+              (stlp_std::codecvt<wchar_t,char,int> *)this->_M_codecvt,
               &this->_M_end_state,
               this->_M_ext_buf,
               v10,
-              &__enext,
+              (const char **)&v17,
               this->_M_int_buf,
               this->_M_int_buf_EOS,
-              &__inext);
+              &v16);
       if ( v11 == warning )
         return -1;
       if ( v11 == error )
         return stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::_M_input_error(this);
       M_int_buf = this->_M_int_buf;
-      v13 = __inext;
-      if ( __inext != M_int_buf && __enext == this->_M_ext_buf )
+      v13 = v16;
+      if ( v16 != M_int_buf && v17 == this->_M_ext_buf )
         return stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::_M_input_error(this);
-      if ( this->_M_constant_width && this->_M_width * (__inext - M_int_buf) != __enext - this->_M_ext_buf )
+      if ( this->_M_constant_width && this->_M_width * (v16 - M_int_buf) != v17 - this->_M_ext_buf )
         return stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::_M_input_error(this);
-      if ( __inext != M_int_buf )
+      if ( v16 != M_int_buf )
         goto LABEL_21;
-      if ( __enext - this->_M_ext_buf >= this->_M_max_width )
+      if ( v17 - this->_M_ext_buf >= this->_M_max_width )
         return stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::_M_input_error(this);
-      if ( __inext != M_int_buf )
+      if ( v16 != M_int_buf )
       {
 LABEL_21:
-        this->_M_ext_buf_converted = (char *)__enext;
+        this->_M_ext_buf_converted = v17;
         this->_M_gbegin = M_int_buf;
         this->_M_gnext = M_int_buf;
         this->_M_gend = v13;
         return *M_int_buf;
       }
-      if ( __n > 0 )
+      if ( v15 > 0 )
       {
         v9 = stlp_std::_Filebuf_base::_M_read(
                &this->_M_base,
                this->_M_ext_buf_end,
                this->_M_ext_buf_EOS - this->_M_ext_buf_end);
-        __n = v9;
+        v15 = v9;
         if ( v9 >= 0 )
           continue;
       }

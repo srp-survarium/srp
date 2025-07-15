@@ -56,14 +56,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::replaceText(
       if ( Length >= 0x400 )
       {
         v12 = (wchar_t *)Scaleform::Memory::Alloc(2 * Length + 2);
-        Scaleform::UTF8Util::DecodeString(v12, newText->pNode->pData, -1);
+        Scaleform::UTF8Util::DecodeString(v12, (char *)newText->pNode->pData, -1);
         Scaleform::GFx::TextField::ReplaceTextA(pObject, v12, beginIndex, endIndex, 0xFFFFFFFF);
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
         Length = len;
       }
       else
       {
-        Scaleform::UTF8Util::DecodeString(buf, newText->pNode->pData, -1);
+        Scaleform::UTF8Util::DecodeString(buf, (char *)newText->pNode->pData, -1);
         Scaleform::GFx::TextField::ReplaceTextA(pObject, buf, beginIndex, endIndex, 0xFFFFFFFF);
       }
       v13 = (Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain *)pObject->pDocument.pObject->pEditorKit.pObject;

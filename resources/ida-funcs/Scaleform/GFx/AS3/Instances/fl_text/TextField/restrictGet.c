@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::restrictGet(
   {
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                   (char *)((Restrict->HeapTypeBits & 0xFFFFFFFC) + 8),
+                   (__m128i *)((Restrict->HeapTypeBits & 0xFFFFFFFC) + 8),
                    *(_DWORD *)(Restrict->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     StringNode->RefCount += 2;
     pNode = result->pNode;

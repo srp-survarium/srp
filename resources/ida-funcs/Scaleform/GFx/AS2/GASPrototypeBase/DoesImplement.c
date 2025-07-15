@@ -11,14 +11,14 @@ char __thiscall Scaleform::GFx::AS2::GASPrototypeBase::DoesImplement(
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v9; // esi
   bool v10; // zf
   unsigned int RefCount; // eax
-  unsigned int n; // [esp+10h] [ebp-4h]
+  unsigned int Size; // [esp+10h] [ebp-4h]
 
   pInterfaces = this->pInterfaces;
   if ( !pInterfaces )
     return 0;
   v5 = 0;
-  n = pInterfaces->Data.Size;
-  if ( !n )
+  Size = pInterfaces->Data.Size;
+  if ( !Size )
     return 0;
   while ( 1 )
   {
@@ -38,16 +38,16 @@ char __thiscall Scaleform::GFx::AS2::GASPrototypeBase::DoesImplement(
     RefCount = v9->RefCount;
     if ( !v10 )
       break;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v9->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
     }
 LABEL_9:
-    if ( ++v5 >= n )
+    if ( ++v5 >= Size )
       return 0;
   }
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
     v9->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

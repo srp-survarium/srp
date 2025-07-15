@@ -1,101 +1,157 @@
-void __thiscall vostok::network::network_world::network_world(
-        vostok::network::network_world *this,
+void __userpurge vostok::network::network_world::network_world(
+        vostok::network::network_world *this@<ecx>,
+        int a2@<edi>,
         vostok::network::engine *engine,
         vostok::memory::base_allocator *orders_allocator)
 {
-  survarium::game_camera *v3; // ecx
-  vostok::memory::doug_lea_allocator *v4; // eax
-  boost::asio::io_service *v5; // eax
-  survarium::game_camera *v6; // ecx
-  vostok::memory::doug_lea_allocator *v7; // eax
-  survarium::game_camera *v8; // ecx
-  vostok::memory::doug_lea_allocator *v9; // eax
-  vostok::network::response *backward_queue_initial_value; // [esp+4h] [ebp-84h]
-  boost::asio::io_service *v11; // [esp+8h] [ebp-80h]
-  void *v13; // [esp+10h] [ebp-78h]
-  void *v14; // [esp+18h] [ebp-70h]
-  vostok::memory::doug_lea_allocator *owner_allocator; // [esp+20h] [ebp-68h]
-  void *_Where; // [esp+2Ch] [ebp-5Ch]
-  char v17; // [esp+34h] [ebp-54h]
-  boost::function<void __cdecl(void)> v18; // [esp+38h] [ebp-50h] BYREF
-  vostok::network::response *v19; // [esp+5Ch] [ebp-2Ch]
-  boost::function<void __cdecl(void)> f; // [esp+60h] [ebp-28h] BYREF
-  char *v21; // [esp+80h] [ebp-8h]
-  boost::asio::io_service *v22; // [esp+84h] [ebp-4h]
+  vostok::memory::doug_lea_allocator *v4; // esi
+  char *v5; // eax
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  char *v7; // eax
+  boost::asio::io_service *v8; // ecx
+  int v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // esi
+  char *v11; // eax
+  vostok::memory::doug_lea_allocator *v12; // ecx
+  char *v13; // esi
+  int v14; // eax
+  char *v15; // eax
+  boost::function<void __cdecl(void)> *v16; // ecx
+  boost::function<void __cdecl(void)> *v17; // ecx
+  char *v18; // esi
+  DWORD CurrentThreadId; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v20; // ecx
+  const char *v21; // [esp+0h] [ebp-58h]
+  const char *v22; // [esp+0h] [ebp-58h]
+  const char *v23; // [esp+0h] [ebp-58h]
+  const char *v24; // [esp+0h] [ebp-58h]
+  int v25; // [esp+0h] [ebp-58h]
+  const char *v26; // [esp+4h] [ebp-54h]
+  const char *v27; // [esp+4h] [ebp-54h]
+  const char *v28; // [esp+4h] [ebp-54h]
+  const char *v29; // [esp+4h] [ebp-54h]
+  unsigned int v30; // [esp+8h] [ebp-50h]
+  unsigned int v31; // [esp+8h] [ebp-50h]
+  unsigned int v32; // [esp+8h] [ebp-50h]
+  unsigned int v33; // [esp+8h] [ebp-50h]
+  char v34; // [esp+Ch] [ebp-4Ch]
+  char *v35; // [esp+10h] [ebp-48h]
+  char *v36; // [esp+14h] [ebp-44h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v37; // [esp+18h] [ebp-40h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v38; // [esp+38h] [ebp-20h] BYREF
 
-  v17 = 0;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_io_service);
-  this->__vftable = (vostok::network::network_world_vtbl *)&vostok::network::network_world::`vftable';
-  survarium::weapon_user_dead_state::finalize(v3);
-  _Where = vostok::memory::doug_lea_allocator::malloc_impl(v4, 0xCu);
-  v22 = (boost::asio::io_service *)operator new(0xCu, _Where);
-  if ( v22 )
+  v4 = vostok::network::g_allocator;
+  v34 = 0;
+  *(_DWORD *)a2 = &vostok::network::network_world::`vftable';
+  v5 = type_info::raw_name(&boost::asio::io_service `RTTI Type Descriptor');
+  v7 = vostok::memory::doug_lea_allocator::malloc_impl(v6, (int)v4, 0xCu, v5, v21, v26, v30);
+  if ( v7 )
+    boost::asio::io_service::io_service(v8, (_RTL_CRITICAL_SECTION_DEBUG *)v7);
+  else
+    v9 = 0;
+  v10 = vostok::network::g_allocator;
+  *(_DWORD *)(a2 + 4) = v9;
+  v11 = type_info::raw_name(&boost::asio::io_service::work `RTTI Type Descriptor');
+  v13 = vostok::memory::doug_lea_allocator::malloc_impl(v12, (int)v10, 4u, v11, v22, v27, v31);
+  if ( v13 )
   {
-    boost::asio::io_service::io_service(v22);
-    v11 = v5;
+    v14 = *(_DWORD *)(*(_DWORD *)(a2 + 4) + 8);
+    *(_DWORD *)v13 = v14;
+    InterlockedIncrement((volatile LONG *)(v14 + 24));
+    v15 = v13;
   }
   else
   {
-    v11 = 0;
+    v15 = 0;
   }
-  this->m_io_service = v11;
-  owner_allocator = vostok::network::g_allocator;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_channel);
-  vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>(
-    &this->m_channel.responses,
-    owner_allocator);
-  vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>(
-    (vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4> > *)&this->m_channel.orders,
-    orders_allocator);
-  this->m_engine = engine;
-  vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::order,vostok::network::order,4>,vostok::intrusive_spsc_queue<vostok::network::order,vostok::network::order,4>>::user_initialize((vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4> > *)&this->m_channel.orders);
-  survarium::weapon_user_dead_state::finalize(v6);
-  v14 = vostok::memory::doug_lea_allocator::malloc_impl(v7, 0x28u);
-  v21 = (char *)operator new(0x28u, v14);
-  if ( v21 )
+  *(_DWORD *)(a2 + 8) = v15;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 76) = 0;
+  *(_DWORD *)(a2 + 16) = -1;
+  *(_DWORD *)(a2 + 20) = -1;
+  *(_DWORD *)(a2 + 80) = 0;
+  *(_DWORD *)(a2 + 84) = -1;
+  *(_DWORD *)(a2 + 144) = 0;
+  *(_DWORD *)(a2 + 88) = -1;
+  *(_DWORD *)(a2 + 148) = 0;
+  *(_DWORD *)(a2 + 152) = -1;
+  *(_DWORD *)(a2 + 212) = 0;
+  *(_DWORD *)(a2 + 156) = -1;
+  *(_DWORD *)(a2 + 216) = 0;
+  *(_DWORD *)(a2 + 220) = -1;
+  *(_DWORD *)(a2 + 280) = 0;
+  *(_DWORD *)(a2 + 224) = -1;
+  *(_DWORD *)(a2 + 284) = orders_allocator;
+  *(_DWORD *)(a2 + 288) = engine;
+  *(_DWORD *)(a2 + 296) = 0;
+  _InterlockedExchange((volatile __int32 *)(a2 + 156), GetCurrentThreadId());
+  _InterlockedExchange((volatile __int32 *)(a2 + 220), GetCurrentThreadId());
+  v35 = (char *)vostok::memory::new_helper<vostok::network::functor_response>::call<vostok::memory::doug_lea_allocator>(
+                  vostok::network::g_allocator,
+                  v23,
+                  v28,
+                  v32);
+  if ( v35 )
   {
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(&f, empty_function);
-    v17 = 1;
-    *(_DWORD *)v21 = &vostok::network::response::`vftable';
-    *(_DWORD *)v21 = &vostok::network::functor_response::`vftable';
     boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-      (boost::function<void __cdecl(void)> *)(v21 + 8),
-      &f);
-    backward_queue_initial_value = (vostok::network::response *)v21;
+      v16,
+      &v38,
+      (void (__cdecl *)())vostok::memory::process_allocator::finalize_impl,
+      (int)v24);
+    *((_DWORD *)v35 + 1) = vostok::network::g_allocator;
+    v34 = 1;
+    *(_DWORD *)v35 = &vostok::network::functor_response::`vftable';
+    boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+      &v38,
+      (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)(v35 + 16));
   }
   else
   {
-    backward_queue_initial_value = 0;
+    v35 = 0;
   }
-  survarium::weapon_user_dead_state::finalize(v8);
-  v13 = vostok::memory::doug_lea_allocator::malloc_impl(v9, 0x28u);
-  v19 = (vostok::network::response *)operator new(0x28u, v13);
-  if ( v19 )
+  v36 = (char *)vostok::memory::new_helper<vostok::network::functor_response>::call<vostok::memory::doug_lea_allocator>(
+                  vostok::network::g_allocator,
+                  v24,
+                  v29,
+                  v33);
+  if ( v36 )
   {
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(&v18, empty_function);
-    v17 |= 2u;
-    v19->__vftable = (vostok::network::response_vtbl *)&vostok::network::response::`vftable';
-    v19->__vftable = (vostok::network::response_vtbl *)&vostok::network::functor_response::`vftable';
     boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-      (boost::function<void __cdecl(void)> *)&v19[1],
-      &v18);
-    vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>::owner_initialize(
-      &this->m_channel.responses,
-      v19,
-      backward_queue_initial_value);
+      v17,
+      &v37,
+      (void (__cdecl *)())vostok::memory::process_allocator::finalize_impl,
+      v25);
+    v18 = v36;
+    v34 |= 2u;
+    *((_DWORD *)v36 + 1) = vostok::network::g_allocator;
+    *(_DWORD *)v36 = &vostok::network::functor_response::`vftable';
+    boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+      &v37,
+      (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)(v36 + 16));
   }
   else
   {
-    vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>>::owner_initialize(
-      &this->m_channel.responses,
-      0,
-      backward_queue_initial_value);
+    v18 = 0;
   }
-  if ( (v17 & 2) != 0 )
+  _InterlockedExchange((volatile __int32 *)(a2 + 16), GetCurrentThreadId());
+  *((_DWORD *)v35 + 2) = 0;
+  *(_DWORD *)(a2 + 76) = v35;
+  *(_DWORD *)(a2 + 12) = v35;
+  CurrentThreadId = GetCurrentThreadId();
+  v20 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)(a2 + 88);
+  _InterlockedExchange((volatile __int32 *)(a2 + 88), CurrentThreadId);
+  *((_DWORD *)v18 + 2) = 0;
+  *(_DWORD *)(a2 + 144) = v18;
+  *(_DWORD *)(a2 + 80) = v18;
+  if ( (v34 & 2) != 0 )
   {
-    v17 &= ~2u;
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&v18);
+    v34 &= ~2u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v20,
+      (int *)&v37);
   }
-  if ( (v17 & 1) != 0 )
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&f);
+  if ( (v34 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v20,
+      (int *)&v38);
 }

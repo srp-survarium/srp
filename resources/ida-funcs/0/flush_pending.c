@@ -11,7 +11,7 @@ void __usercall flush_pending(z_stream_s *strm@<eax>)
     dummy = strm->avail_out;
   if ( dummy )
   {
-    memcpy(strm->next_out, (unsigned __int8 *)state[4].dummy, dummy);
+    memcpy((int)strm->next_out, (const __m128i *)state[4].dummy, dummy);
     v4 = strm->state;
     strm->next_out += dummy;
     v4[4].dummy += dummy;

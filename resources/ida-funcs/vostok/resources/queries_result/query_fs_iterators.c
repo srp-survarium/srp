@@ -1,69 +1,67 @@
 void __thiscall vostok::resources::queries_result::query_fs_iterators(
         vostok::resources::queries_result *this,
-        vostok::resources::queries_result *thisa)
+        _DWORD *a2)
 {
-  vostok::resources::class_id_enum *p_m_class_id; // edi
-  vostok::resources::class_id_enum v3; // eax
-  const char *v4; // ecx
-  vostok::resources::recursive_bool v5; // esi
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  unsigned int m_size; // [esp+Ch] [ebp-154h]
-  const char *request_path; // [esp+10h] [ebp-150h] BYREF
-  __int64 v9; // [esp+14h] [ebp-14Ch]
-  vostok::resources::class_id_enum *v10; // [esp+1Ch] [ebp-144h]
-  boost::function<void __cdecl(vostok::vfs::vfs_locked_iterator const &)> callback; // [esp+20h] [ebp-140h] BYREF
-  __int64 v12; // [esp+40h] [ebp-120h]
-  vostok::fs_new::virtual_path_string path; // [esp+4Ch] [ebp-114h] BYREF
+  vostok::resources::query_result *p_m_name_registry_entry; // ecx
+  vostok::resources::query_result_for_user *v3; // ecx
+  int v4; // ecx
+  bool v5; // zf
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  vostok::resources::query_result_for_cook *v7; // [esp-4h] [ebp-174h]
+  vostok::resources::query_result_for_user *v8; // [esp+10h] [ebp-160h]
+  int v9; // [esp+14h] [ebp-15Ch]
+  vostok::resources::recursive_bool recursive; // [esp+18h] [ebp-158h]
+  char *requested_path; // [esp+1Ch] [ebp-154h]
+  __int64 v12; // [esp+2Ch] [ebp-144h] BYREF
+  void *v13; // [esp+34h] [ebp-13Ch]
+  boost::function<void __cdecl(vostok::vfs::vfs_locked_iterator const &)> callback; // [esp+38h] [ebp-138h] BYREF
+  vostok::fs_new::virtual_path_string path; // [esp+5Ch] [ebp-114h] BYREF
 
-  thisa->m_fs_iterator_requests_left = vostok::resources::queries_result::calculate_fs_iterator_requests_count(
-                                         this,
-                                         (int)thisa);
-  if ( thisa->m_size )
+  a2[13] = vostok::resources::queries_result::calculate_fs_iterator_requests_count(this, (int)a2);
+  if ( a2[14] )
   {
-    p_m_class_id = &thisa->m_queries[0].m_class_id;
-    m_size = thisa->m_size;
+    p_m_name_registry_entry = (vostok::resources::query_result *)(a2 + 20);
+    v8 = (vostok::resources::query_result_for_user *)(a2 + 20);
+    v9 = a2[14];
     do
     {
-      v3 = *p_m_class_id;
-      if ( *p_m_class_id == fs_iterator_class || v3 == fs_iterator_recursive_class )
+      if ( vostok::resources::query_result::is_fs_iterator_query(p_m_name_registry_entry, (int)p_m_name_registry_entry) )
       {
-        v4 = (const char *)*((_DWORD *)p_m_class_id + 30);
-        if ( !v4 )
-          v4 = (const char *)*((_DWORD *)p_m_class_id + 29);
-        request_path = v4;
+        requested_path = (char *)vostok::resources::query_result_for_user::get_requested_path(v3);
+        v5 = *(_DWORD *)(v4 + 132) == 2;
         LODWORD(v12) = vostok::resources::queries_result::on_fs_iterator_ready;
-        HIDWORD(v12) = thisa;
-        v5 = v3 == fs_iterator_recursive_class;
-        v9 = v12;
-        v10 = p_m_class_id - 33;
-        if ( survarium::generate_shaders_world::is_loading() )
+        HIDWORD(v12) = a2;
+        recursive = v5;
+        v13 = (void *)v4;
+        if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *)v4) )
         {
           callback.vtable = 0;
         }
         else
         {
-          *(_QWORD *)&callback.functor.obj_ptr = v9;
-          callback.functor.vostok_pointer_size_alignment[2] = v10;
+          *(_QWORD *)&callback.functor.obj_ptr = v12;
+          callback.functor.vostok_pointer_size_alignment[2] = v13;
           callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::vfs::vfs_locked_iterator const &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::queries_result,vostok::vfs::vfs_locked_iterator const &,vostok::resources::query_result *>,boost::_bi::list3<boost::_bi::value<vostok::resources::queries_result *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result *>>>>'::`2'::stored_vtable
                                                                    + 1);
         }
-        vostok::fs_new::virtual_path_string::virtual_path_string(&path, &request_path);
+        vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)&v12, &path.m_string, requested_path);
+        v7 = (vostok::resources::query_result_for_cook *)a2[8];
+        path.m_separator = 47;
         vostok::resources::query_vfs_iterator(
           &path,
-          &callback,
+          (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&callback,
           &vostok::memory::g_mt_allocator,
-          v5,
-          thisa->m_parent_query);
-        if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-        {
-          v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-          if ( v6 )
-            v6(&callback.functor, &callback.functor, 2);
-        }
+          recursive,
+          v7);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v6,
+          (int *)&callback);
+        v3 = v8;
       }
-      p_m_class_id += 180;
-      --m_size;
+      p_m_name_registry_entry = (vostok::resources::query_result *)&v3[2].m_name_registry_entry;
+      v5 = v9-- == 1;
+      v8 = p_m_name_registry_entry;
     }
-    while ( m_size );
+    while ( !v5 );
   }
 }

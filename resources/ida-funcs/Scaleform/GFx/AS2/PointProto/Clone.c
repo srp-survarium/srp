@@ -10,7 +10,8 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Clone(const Scaleform::GFx::AS2::F
   Scaleform::GFx::AS2::Value *v8; // esi
   int i; // edi
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Value params[2]; // [esp+8h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+8h] [ebp-20h] BYREF
+  char v12; // [esp+18h] [ebp-10h]
   _UNKNOWN *retaddr; // [esp+28h] [ebp+0h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Point )
@@ -32,10 +33,10 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Clone(const Scaleform::GFx::AS2::F
       v6 = 0;
     }
     p_StringContext = &fn->Env->StringContext;
-    params[0].T.Type = 0;
-    params[1].T.Type = 0;
-    Scaleform::GFx::AS2::PointObject::GetProperties(p_pProto, p_StringContext, params);
-    Scaleform::GFx::AS2::PointObject::SetProperties(v6, p_StringContext, params);
+    params.T.Type = 0;
+    v12 = 0;
+    Scaleform::GFx::AS2::PointObject::GetProperties(p_pProto, p_StringContext, &params);
+    Scaleform::GFx::AS2::PointObject::SetProperties(v6, p_StringContext, &params);
     Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v6);
     v8 = (Scaleform::GFx::AS2::Value *)&retaddr;
     for ( i = 1; i >= 0; --i )
@@ -47,7 +48,7 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Clone(const Scaleform::GFx::AS2::F
     if ( v6 )
     {
       RefCount = v6->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v6->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

@@ -1,4 +1,4 @@
-void *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
+unsigned __int8 *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
         Scaleform::HeapMH::AllocEngineMH *this,
         unsigned int size,
         unsigned int alignSize,
@@ -6,7 +6,7 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
         bool globalLocked)
 {
   Scaleform::HeapMH::AllocBitSet2MH *p_Allocator; // ebp
-  void *result; // eax
+  unsigned __int8 *result; // eax
   Scaleform::HeapMH::PageMH *Page; // ebx
   bool limHandlerOK; // [esp+13h] [ebp-1Dh] BYREF
   Scaleform::HeapMH::MagicHeadersInfo headers; // [esp+14h] [ebp-1Ch] BYREF
@@ -39,14 +39,14 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
 }
 
 
-void *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
+Scaleform::HeapMH::BinNodeMH *__thiscall Scaleform::HeapMH::AllocEngineMH::allocFromPage(
         Scaleform::HeapMH::AllocEngineMH *this,
         unsigned int size,
         Scaleform::HeapMH::PageInfoMH *info,
         bool globalLocked)
 {
   Scaleform::HeapMH::AllocBitSet2MH *p_Allocator; // ebp
-  void *result; // eax
+  Scaleform::HeapMH::BinNodeMH *result; // eax
   Scaleform::HeapMH::PageMH *Page; // ebp
   bool limHandlerOK; // [esp+Fh] [ebp-1Dh] BYREF
   Scaleform::HeapMH::MagicHeadersInfo headers; // [esp+10h] [ebp-1Ch] BYREF

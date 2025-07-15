@@ -17,7 +17,7 @@ double __cdecl _strtod_l(char *nptr, char **endptr, localeinfo_struct *plocinfo)
   if ( !nptr )
   {
     *_errno() = 22;
-    _invalid_parameter(0, (unsigned int)endptr, 0);
+    _invalid_parameter(0, (int)endptr, 0);
     if ( _loc_update.updated )
       _loc_update.ptd->_ownlocale &= ~2u;
     return 0.0;
@@ -27,7 +27,7 @@ double __cdecl _strtod_l(char *nptr, char **endptr, localeinfo_struct *plocinfo)
         : _isctype_l(*v3, 8, &_loc_update.localeinfo) )
     ++v3;
   strlen(v3);
-  v7 = _fltin2(&answerstruct, (const char *)v3, v6, 0, 0, &_loc_update.localeinfo);
+  v7 = _fltin2(&answerstruct, (char *)v3, v6, 0, 0, &_loc_update.localeinfo);
   v8 = v7;
   if ( endptr )
     *endptr = (char *)&v3[v7->nbytes];

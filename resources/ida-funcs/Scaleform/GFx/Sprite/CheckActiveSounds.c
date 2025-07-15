@@ -3,42 +3,42 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
   Scaleform::GFx::Sprite *v1; // edi
   Scaleform::GFx::Sprite::ActiveSounds *pActiveSounds; // eax
   unsigned int v3; // ebx
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *Data; // ebp
+  Scaleform::GFx::AS3::Instances::fl::Object **Data; // ebp
   unsigned int v5; // edx
   unsigned int v6; // esi
-  Scaleform::RefCountNTSImpl **p_pObject; // edi
+  Scaleform::RefCountNTSImpl **v7; // edi
   int v8; // ebp
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v9; // ecx
+  Scaleform::GFx::AS3::Instances::fl::Object **v9; // ecx
   unsigned int Size; // ebp
   unsigned int v11; // edi
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v12; // ebx
-  Scaleform::GFx::Sprite::ActiveSoundItem *pObject; // esi
-  Scaleform::GFx::ASSoundIntf *pSoundObject; // ecx
+  Scaleform::GFx::AS3::Instances::fl::Object **v12; // ebx
+  Scaleform::GFx::AS3::Instances::fl::Object *v13; // esi
+  const Scaleform::GFx::AS3::RefCountBaseGC<328> *pPrev; // ecx
   unsigned int v15; // esi
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v16; // edi
+  Scaleform::RefCountNTSImpl **v16; // edi
   int v17; // ebp
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v18; // ecx
+  Scaleform::GFx::AS3::Instances::fl::Object **v18; // ecx
   unsigned int Flags; // eax
   bool v20; // al
   int v21; // eax
   unsigned int v22; // ebx
   Scaleform::GFx::Sprite::ActiveSounds *v23; // esi
   unsigned int v24; // edi
-  Scaleform::GFx::Sprite::ActiveSoundItem **v25; // eax
-  Scaleform::RefCountNTSImpl **v26; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object **v25; // eax
+  Scaleform::RefCountNTSImpl **p_pObject; // edi
   int v27; // ebp
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v28; // ebx
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v29; // esi
+  Scaleform::GFx::AS3::Instances::fl::Object **v28; // ebx
+  Scaleform::RefCountNTSImpl **v29; // esi
   unsigned int v30; // edi
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v31; // ebx
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *v32; // esi
+  Scaleform::GFx::AS3::Instances::fl::Object **v31; // ebx
+  Scaleform::RefCountNTSImpl **v32; // esi
   unsigned int v33; // edi
+  int v34; // [esp+8h] [ebp-24h]
+  unsigned int v35; // [esp+8h] [ebp-24h]
   unsigned int i; // [esp+8h] [ebp-24h]
-  unsigned int ia; // [esp+8h] [ebp-24h]
-  unsigned int ib; // [esp+8h] [ebp-24h]
-  Scaleform::RefCountNTSImpl *psi; // [esp+10h] [ebp-1Ch]
-  Scaleform::Array<Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem>,2,Scaleform::ArrayDefaultPolicy> sounds; // [esp+14h] [ebp-18h] BYREF
-  Scaleform::Array<Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem>,2,Scaleform::ArrayDefaultPolicy> completeSounds; // [esp+20h] [ebp-Ch] BYREF
+  Scaleform::RefCountNTSImpl *v38; // [esp+10h] [ebp-1Ch]
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+14h] [ebp-18h] BYREF
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> v40; // [esp+20h] [ebp-Ch] BYREF
 
   v1 = this;
   pActiveSounds = this->pActiveSounds;
@@ -47,154 +47,154 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
   {
     Data = 0;
     v5 = 0;
-    memset(&sounds, 0, sizeof(sounds));
+    memset(&pheapAddr, 0, sizeof(pheapAddr));
     if ( pActiveSounds->Sounds.Data.Size )
     {
       do
       {
         v6 = v5 + 1;
-        i = (unsigned int)&v1->pActiveSounds->Sounds.Data.Data[v3];
+        v34 = (int)&v1->pActiveSounds->Sounds.Data.Data[v3];
         if ( v5 + 1 >= v5 )
         {
-          if ( v6 >= sounds.Data.Policy.Capacity )
+          if ( v6 >= pheapAddr.Policy.Capacity )
             Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&sounds,
-              &sounds,
+              &pheapAddr,
+              &pheapAddr,
               v6 + (v6 >> 2));
         }
         else
         {
-          p_pObject = &Data[v5 - 1].pObject;
+          v7 = (Scaleform::RefCountNTSImpl **)&Data[v5 - 1];
           v8 = -1;
           do
           {
-            if ( *p_pObject )
-              Scaleform::RefCountNTSImpl::Release(*p_pObject);
-            --p_pObject;
+            if ( *v7 )
+              Scaleform::RefCountNTSImpl::Release(*v7);
+            --v7;
             --v8;
           }
           while ( v8 );
-          if ( v6 < sounds.Data.Policy.Capacity >> 1 )
+          if ( v6 < pheapAddr.Policy.Capacity >> 1 )
             Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&sounds,
-              &sounds,
+              &pheapAddr,
+              &pheapAddr,
               v6);
           v1 = this;
         }
-        Data = sounds.Data.Data;
-        v9 = &sounds.Data.Data[v6 - 1];
+        Data = pheapAddr.Data;
+        v9 = &pheapAddr.Data[v6 - 1];
         v5 = v6;
-        sounds.Data.Size = v6;
-        if ( &sounds.Data.Data[v6] != (Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *)4 )
+        pheapAddr.Size = v6;
+        if ( &pheapAddr.Data[v6] != (Scaleform::GFx::AS3::Instances::fl::Object **)4 )
         {
-          if ( *(_DWORD *)i )
-            ++*(_DWORD *)(*(_DWORD *)i + 4);
-          v9->pObject = *(Scaleform::GFx::Sprite::ActiveSoundItem **)i;
+          if ( *(_DWORD *)v34 )
+            ++*(_DWORD *)(*(_DWORD *)v34 + 4);
+          *v9 = *(Scaleform::GFx::AS3::Instances::fl::Object **)v34;
         }
         ++v3;
       }
       while ( v3 < v1->pActiveSounds->Sounds.Data.Size );
     }
-    memset(&completeSounds, 0, sizeof(completeSounds));
-    ia = 0;
+    memset(&v40, 0, sizeof(v40));
+    v35 = 0;
     if ( v5 )
     {
-      Size = sounds.Data.Size;
+      Size = pheapAddr.Size;
       v11 = 0;
       do
       {
-        v12 = &sounds.Data.Data[ia];
-        if ( v12->pObject )
-          ++v12->pObject->RefCount;
-        pObject = v12->pObject;
-        psi = v12->pObject;
-        if ( v12->pObject->pChannel.pObject->IsPlaying(v12->pObject->pChannel.pObject) )
+        v12 = &pheapAddr.Data[v35];
+        if ( *v12 )
+          ++(*v12)->pRCCRaw;
+        v13 = *v12;
+        v38 = (Scaleform::RefCountNTSImpl *)*v12;
+        if ( ((unsigned __int8 (__thiscall *)(const Scaleform::GFx::AS3::RefCountBaseGC<328> *))(*v12)->pNext->Finalize_GC)((*v12)->pNext) )
         {
-          ++ia;
+          ++v35;
         }
         else
         {
-          pSoundObject = pObject->pSoundObject;
-          if ( pSoundObject )
-            pSoundObject->ExecuteOnSoundComplete(pSoundObject);
+          pPrev = v13->pPrev;
+          if ( pPrev )
+            pPrev->GetAS3ObjectType(pPrev);
           v15 = v11 + 1;
           if ( v11 + 1 >= v11 )
           {
-            if ( v15 >= completeSounds.Data.Policy.Capacity )
+            if ( v15 >= v40.Policy.Capacity )
               Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&completeSounds,
-                &completeSounds,
+                &v40,
+                &v40,
                 v15 + (v15 >> 2));
           }
           else
           {
-            v16 = &completeSounds.Data.Data[v11 - 1];
+            v16 = (Scaleform::RefCountNTSImpl **)&v40.Data[v11 - 1];
             v17 = -1;
             do
             {
-              if ( v16->pObject )
-                Scaleform::RefCountNTSImpl::Release(v16->pObject);
+              if ( *v16 )
+                Scaleform::RefCountNTSImpl::Release(*v16);
               --v16;
               --v17;
             }
             while ( v17 );
-            if ( v15 < completeSounds.Data.Policy.Capacity >> 1 )
+            if ( v15 < v40.Policy.Capacity >> 1 )
               Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&completeSounds,
-                &completeSounds,
+                &v40,
+                &v40,
                 v15);
-            Size = sounds.Data.Size;
+            Size = pheapAddr.Size;
           }
-          v18 = &completeSounds.Data.Data[v15 - 1];
+          v18 = &v40.Data[v15 - 1];
           v11 = v15;
-          completeSounds.Data.Size = v15;
-          if ( &completeSounds.Data.Data[v15] != (Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *)4 )
+          v40.Size = v15;
+          if ( &v40.Data[v15] != (Scaleform::GFx::AS3::Instances::fl::Object **)4 )
           {
-            if ( v12->pObject )
-              ++v12->pObject->RefCount;
-            v18->pObject = v12->pObject;
+            if ( *v12 )
+              ++(*v12)->pRCCRaw;
+            *v18 = *v12;
           }
           if ( Size == 1 )
           {
-            if ( sounds.Data.Data->pObject )
-              Scaleform::RefCountNTSImpl::Release(sounds.Data.Data->pObject);
-            if ( (sounds.Data.Policy.Capacity & 0xFFFFFFFE) != 0 )
+            if ( *pheapAddr.Data )
+              Scaleform::RefCountNTSImpl::Release(*(Scaleform::RefCountNTSImpl **)pheapAddr.Data);
+            if ( (pheapAddr.Policy.Capacity & 0xFFFFFFFE) != 0 )
             {
-              if ( sounds.Data.Data )
+              if ( pheapAddr.Data )
               {
-                Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, sounds.Data.Data);
-                sounds.Data.Data = 0;
+                Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pheapAddr.Data);
+                pheapAddr.Data = 0;
               }
-              sounds.Data.Policy.Capacity = 0;
+              pheapAddr.Policy.Capacity = 0;
             }
             Size = 0;
           }
           else
           {
-            if ( v12->pObject )
-              Scaleform::RefCountNTSImpl::Release(v12->pObject);
-            memmove((unsigned __int8 *)v12, (unsigned __int8 *)&v12[1], 4 * (Size - ia) - 4);
+            if ( *v12 )
+              Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)*v12);
+            memmove((int)v12, (const __m128i *)(v12 + 1), 4 * (Size - v35) - 4);
             --Size;
           }
           Flags = this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags;
-          sounds.Data.Size = Size;
+          pheapAddr.Size = Size;
           v20 = (Flags & 0x200000) != 0 && (Flags & 0x400000) == 0;
           v21 = Scaleform::GFx::Sprite::CheckAdvanceStatus(this, v20);
           if ( v21 == -1 )
           {
-            this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+            this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
           }
           else if ( v21 == 1 )
           {
             Scaleform::GFx::InteractiveObject::AddToOptimizedPlayList(this);
           }
         }
-        Scaleform::RefCountNTSImpl::Release(psi);
+        Scaleform::RefCountNTSImpl::Release(v38);
       }
-      while ( ia < Size );
+      while ( v35 < Size );
     }
     v22 = 0;
-    for ( ib = 0; v22 < completeSounds.Data.Size; ib = v22 )
+    for ( i = 0; v22 < v40.Size; i = v22 )
     {
       v23 = this->pActiveSounds;
       if ( v23 )
@@ -202,8 +202,8 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
         v24 = 0;
         if ( v23->Sounds.Data.Size )
         {
-          v25 = &v23->Sounds.Data.Data->pObject;
-          while ( *v25 != completeSounds.Data.Data[v22].pObject )
+          v25 = (Scaleform::GFx::AS3::Instances::fl::Object **)v23->Sounds.Data.Data;
+          while ( *v25 != v40.Data[v22] )
           {
             ++v24;
             ++v25;
@@ -214,13 +214,13 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
           {
             if ( v23->Sounds.Data.Size == 1 )
             {
-              v26 = &v23->Sounds.Data.Data->pObject;
+              p_pObject = &v23->Sounds.Data.Data->pObject;
               v27 = 1;
               do
               {
-                if ( *v26 )
-                  Scaleform::RefCountNTSImpl::Release(*v26);
-                --v26;
+                if ( *p_pObject )
+                  Scaleform::RefCountNTSImpl::Release(*p_pObject);
+                --p_pObject;
                 --v27;
               }
               while ( v27 );
@@ -234,15 +234,15 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
                 v23->Sounds.Data.Policy.Capacity = 0;
               }
               v23->Sounds.Data.Size = 0;
-              v22 = ib;
+              v22 = i;
             }
             else
             {
               if ( v23->Sounds.Data.Data[v24].pObject )
                 Scaleform::RefCountNTSImpl::Release(v23->Sounds.Data.Data[v24].pObject);
               memmove(
-                (unsigned __int8 *)&v23->Sounds.Data.Data[v24],
-                (unsigned __int8 *)&v23->Sounds.Data.Data[v24 + 1],
+                (int)&v23->Sounds.Data.Data[v24],
+                (const __m128i *)&v23->Sounds.Data.Data[v24 + 1],
                 4 * (v23->Sounds.Data.Size - v24) - 4);
               --v23->Sounds.Data.Size;
             }
@@ -252,15 +252,15 @@ void __thiscall Scaleform::GFx::Sprite::CheckActiveSounds(Scaleform::GFx::Sprite
 LABEL_81:
       ++v22;
     }
-    v28 = completeSounds.Data.Data;
-    v29 = &completeSounds.Data.Data[completeSounds.Data.Size - 1];
-    if ( completeSounds.Data.Size )
+    v28 = v40.Data;
+    v29 = (Scaleform::RefCountNTSImpl **)&v40.Data[v40.Size - 1];
+    if ( v40.Size )
     {
-      v30 = completeSounds.Data.Size;
+      v30 = v40.Size;
       do
       {
-        if ( v29->pObject )
-          Scaleform::RefCountNTSImpl::Release(v29->pObject);
+        if ( *v29 )
+          Scaleform::RefCountNTSImpl::Release(*v29);
         --v29;
         --v30;
       }
@@ -268,15 +268,15 @@ LABEL_81:
     }
     if ( v28 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v28);
-    v31 = sounds.Data.Data;
-    v32 = &sounds.Data.Data[sounds.Data.Size - 1];
-    if ( sounds.Data.Size )
+    v31 = pheapAddr.Data;
+    v32 = (Scaleform::RefCountNTSImpl **)&pheapAddr.Data[pheapAddr.Size - 1];
+    if ( pheapAddr.Size )
     {
-      v33 = sounds.Data.Size;
+      v33 = pheapAddr.Size;
       do
       {
-        if ( v32->pObject )
-          Scaleform::RefCountNTSImpl::Release(v32->pObject);
+        if ( *v32 )
+          Scaleform::RefCountNTSImpl::Release(*v32);
         --v32;
         --v33;
       }

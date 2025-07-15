@@ -1,113 +1,52 @@
 void __usercall vostok::resources::query_resources_and_wait(
         const vostok::resources::query_resource_params *in_params@<eax>)
 {
-  vostok::resources::query_resource_params *v2; // ecx
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::resources::resources_manager *m_initialized; // ecx
-  vostok::command_line::key::type_enum m_type; // eax
-  vostok::resources::resources_manager *v6; // ecx
-  vostok::command_line::key::type_enum v7; // eax
-  vostok::resources::resources_manager *v8; // ecx
-  void (__cdecl *v9)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v10)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::query_resources_and_wait_callback_proxy_pred,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::resources::query_resources_and_wait_callback_proxy_pred *>,boost::arg<1> > > v11; // [esp-8h] [ebp-D8h]
-  vostok::resources::query_result *v12; // [esp+0h] [ebp-D0h]
-  vostok::resources::query_resources_and_wait_callback_proxy_pred callback_proxy; // [esp+20h] [ebp-B0h] BYREF
-  boost::function4<void,unsigned int,float,float,char const *> v14; // [esp+48h] [ebp-88h] BYREF
-  vostok::resources::query_resource_params params; // [esp+68h] [ebp-68h] BYREF
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  vostok::resources::resources_manager *v4; // ecx
+  vostok::command_line::key *v5; // ecx
+  vostok::command_line::key *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  vostok::resources::query_resource_params params; // [esp+8h] [ebp-B8h] BYREF
+  char v9; // [esp+70h] [ebp-50h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v10; // [esp+78h] [ebp-48h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+98h] [ebp-28h] BYREF
+  __int64 v12; // [esp+B8h] [ebp-8h]
 
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)&in_params->callback,
-    (int)&v14);
-  callback_proxy.receieved_callback_ = 0;
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    &v14,
-    (int)&callback_proxy.callback_);
-  if ( v14.vtable )
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&in_params->callback,
+    &f);
+  v9 = 0;
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(&f, &v10);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v2, (int *)&f);
+  vostok::resources::query_resource_params::query_resource_params(&params, in_params);
+  HIDWORD(v12) = &v9;
+  LODWORD(v12) = vostok::resources::query_resources_and_wait_callback_proxy_pred::callback;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *)vostok::resources::query_resources_and_wait_callback_proxy_pred::callback) )
   {
-    if ( ((int)v14.vtable & 1) == 0 )
-    {
-      v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v14.vtable & 0xFFFFFFFE);
-      if ( v3 )
-        v3(&v14.functor, &v14.functor, 2);
-    }
+    f.vtable = 0;
   }
-  vostok::resources::query_resource_params::query_resource_params(v2, &params.requests, in_params);
-  v11.l_.a1_.t_ = &callback_proxy;
-  v11.f_.f_ = vostok::resources::query_resources_and_wait_callback_proxy_pred::callback;
-  boost::function<void __cdecl (vostok::resources::queries_result &)>::operator=<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::query_resources_and_wait_callback_proxy_pred,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::resources::query_resources_and_wait_callback_proxy_pred *>,boost::arg<1>>>>(
-    (boost::function<void __cdecl(vostok::resources::queries_result &)> *)&callback_proxy,
-    &params.callback,
-    v11);
-  vostok::resources::resources_manager::query_resources_impl(
-    vostok::resources::g_resources_manager.m_variable,
-    vostok::resources::g_resources_manager.m_variable,
-    (vostok::resources::query_result **)&params,
-    v12);
-  while ( !callback_proxy.receieved_callback_ )
+  else
   {
-    m_type = vostok::threading::g_debug_single_thread.m_type;
-    if ( vostok::threading::g_debug_single_thread.m_type == type_unset )
-    {
-      vostok::threading::g_debug_single_thread.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-      m_type = vostok::threading::g_debug_single_thread.m_type;
-    }
-    if ( m_type != type_recursive )
-    {
-      if ( m_type == type_unset )
-      {
-        vostok::threading::g_debug_single_thread.m_type = type_recursive;
-        vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-        m_type = vostok::threading::g_debug_single_thread.m_type;
-      }
-      if ( m_type != type_recursive )
-      {
-        vostok::resources::resources_manager::resources_thread_tick(m_initialized);
-        vostok::resources::resources_manager::cooker_thread_tick(v6);
-      }
-    }
-    m_initialized = (vostok::resources::resources_manager *)vostok::resources::g_resources_manager.m_initialized;
-    if ( vostok::resources::g_resources_manager.m_initialized )
-    {
-      v7 = vostok::threading::g_debug_single_thread.m_type;
-      if ( vostok::threading::g_debug_single_thread.m_type == type_unset )
-      {
-        vostok::threading::g_debug_single_thread.m_type = type_recursive;
-        vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-        v7 = vostok::threading::g_debug_single_thread.m_type;
-      }
-      if ( v7 != type_recursive )
-      {
-        if ( v7 == type_unset )
-        {
-          vostok::threading::g_debug_single_thread.m_type = type_recursive;
-          vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-          v7 = vostok::threading::g_debug_single_thread.m_type;
-        }
-        if ( v7 != type_recursive )
-        {
-          vostok::resources::resources_manager::resources_thread_tick(m_initialized);
-          vostok::resources::resources_manager::cooker_thread_tick(v8);
-        }
-      }
-      vostok::resources::resources_manager::dispatch_callbacks(vostok::resources::g_resources_manager.m_variable, 0);
-    }
+    *(_QWORD *)&f.functor.obj_ptr = v12;
+    f.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::query_resources_and_wait_callback_proxy_pred,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::resources::query_resources_and_wait_callback_proxy_pred *>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                      + 1);
   }
-  if ( params.callback.vtable )
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(
+    (boost::function1<void,vostok::physics::contact_point const &> *)&params.callback,
+    (boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> *)&f);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v3, (int *)&f);
+  vostok::resources::resources_manager::query_resources_impl(v4, &params);
+  while ( !v9 )
   {
-    if ( ((int)params.callback.vtable & 1) == 0 )
-    {
-      v9 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)params.callback.vtable & 0xFFFFFFFE);
-      if ( v9 )
-        v9(&params.callback.functor, &params.callback.functor, 2);
-    }
-    params.callback.vtable = 0;
+    if ( vostok::command_line::key::is_set(v5, (int)&vostok::threading::g_debug_single_thread) )
+      vostok::resources::tick(v6);
+    vostok::resources::dispatch_callbacks(v6);
   }
-  if ( callback_proxy.callback_.vtable && ((int)callback_proxy.callback_.vtable & 1) == 0 )
-  {
-    v10 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback_proxy.callback_.vtable & 0xFFFFFFFE);
-    if ( v10 )
-      v10(&callback_proxy.callback_.functor, &callback_proxy.callback_.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v5,
+    (int *)&params.callback);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&v10);
 }

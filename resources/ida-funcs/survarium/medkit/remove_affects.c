@@ -1,20 +1,31 @@
-void __thiscall survarium::medkit::remove_affects(survarium::medkit *this)
+void __userpurge survarium::medkit::remove_affects(
+        survarium::medkit *this@<ecx>,
+        int a2@<edi>,
+        unsigned int current_time_ms)
 {
-  int v1; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v2; // ecx
-  const vostok::variant<32> **v3; // eax
-  survarium::hit_affects_type_enum type; // [esp-4h] [ebp-18h]
-  survarium::inventory_holder *v5; // [esp+0h] [ebp-14h]
-  const survarium::medkit::affect *affct; // [esp+Ch] [ebp-8h]
-  unsigned int i; // [esp+10h] [ebp-4h]
+  unsigned int v3; // ebx
+  int v4; // esi
+  int *v5; // eax
+  survarium::damage_model *v6; // ecx
+  int v7; // [esp+4h] [ebp-4h]
 
-  for ( i = 0; i < this->m_affects_count; ++i )
+  v3 = 0;
+  if ( *(_BYTE *)(a2 + 316) )
   {
-    affct = &this->m_affects[i];
-    v5 = survarium::inventory::holder((survarium::inventory *)this, (int)this->m_inventory);
-    type = affct->type;
-    v1 = (int)v5->damage_model(v5);
-    v3 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v2, v1);
-    survarium::damage_model::cancel_affect((survarium::damage_model *)v3, affct->body_part_name, type);
+    v7 = 0;
+    do
+    {
+      v4 = v7 + *(_DWORD *)(a2 + 312);
+      v5 = (int *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 272) + 376) + 8))(*(_DWORD *)(*(_DWORD *)(a2 + 272) + 376));
+      survarium::damage_model::cancel_affect(
+        v6,
+        *v5,
+        current_time_ms,
+        (char *)v4,
+        *(const survarium::hit_affects_type_enum *)(v4 + 16));
+      v7 += 20;
+      ++v3;
+    }
+    while ( v3 < *(unsigned __int8 *)(a2 + 316) );
   }
 }

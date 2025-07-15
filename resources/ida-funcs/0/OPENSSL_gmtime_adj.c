@@ -11,18 +11,18 @@ int __cdecl OPENSSL_gmtime_adj(tm *tm, int off_day, int offset_sec)
   v3 = off_day + offset_sec / 86400;
   v4 = tm;
   v5 = tm->tm_sec + 60 * (tm->tm_min + 60 * tm->tm_hour) + offset_sec % 86400;
-  if ( v5 < 86400 )
+  if ( v5 < (int) __thiscall vostok::sound::world::`vcall'{12,{flat}} )
   {
     if ( v5 < 0 )
     {
       --v3;
-      v5 += 86400;
+      v5 += (int) __thiscall vostok::sound::world::`vcall'{12,{flat}};
     }
   }
   else
   {
     ++v3;
-    v5 -= 86400;
+    v5 -= (int) __thiscall vostok::sound::world::`vcall'{12,{flat}};
   }
   v6 = tm->tm_mon + 1;
   tm_mday = (tm *)tm->tm_mday;

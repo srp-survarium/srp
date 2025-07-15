@@ -31,7 +31,7 @@ Scaleform::GFx::AS3::STPtr *__thiscall Scaleform::GFx::AS3::STPtr::SetValue(
     else
     {
       v9 = *(_DWORD *)(((unsigned int)pObject & 0xFFFFFFF9) + 0x10);
-      if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

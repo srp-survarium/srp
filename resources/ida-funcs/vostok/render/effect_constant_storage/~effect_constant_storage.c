@@ -1,17 +1,27 @@
-void __usercall vostok::render::effect_constant_storage::~effect_constant_storage(
-        vostok::render::effect_constant_storage *this@<ecx>,
-        vostok::render::effect_constant_storage *a2@<eax>)
+void __thiscall vostok::render::effect_constant_storage::~effect_constant_storage(
+        vostok::render::effect_constant_storage *this,
+        _DWORD *a2)
 {
-  vostok::render::data_indexer *M_start; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
+  char *v2; // edi
+  char *v3; // eax
+  const char *v4; // [esp+0h] [ebp-10h]
+  const char *v5; // [esp+4h] [ebp-Ch]
+  unsigned int v6; // [esp+8h] [ebp-8h]
 
-  vostok::render::effect_constant_storage::clear(this, a2);
-  M_start = a2->m_indexers._M_impl._M_start;
-  if ( a2->m_indexers._M_impl._M_start )
+  v2 = (char *)a2[4099];
+  while ( v2 )
   {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, M_start);
+    v3 = v2;
+    v2 = *(char **)v2;
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)vostok::render::g_allocator,
+      v3,
+      v4,
+      v5,
+      v6);
   }
-  vostok::quasi_singleton<vostok::render::effect_constant_storage>::pinst = 0;
+  a2[4099] = 0;
+  vostok::quasi_singleton<vostok::render::effect_constant_storage>::pinst.x = 0.0;
+  a2[1] = *a2;
 }

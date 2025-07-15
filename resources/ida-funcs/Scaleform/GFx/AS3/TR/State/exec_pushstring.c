@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::TR::State::exec_pushstring(Scaleform::GFx::
     (Scaleform::StringDataPtr *)&result);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTracer->CF->pFile->VMRef->StringManagerRef->pStringManager,
-                 (char *)result.Flags,
+                 (__m128i *)result.Flags,
                  (unsigned int)result.Bonus.pWeakProxy);
   pManager = StringNode->pManager;
   ++StringNode->RefCount;

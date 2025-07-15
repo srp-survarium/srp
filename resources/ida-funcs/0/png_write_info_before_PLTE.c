@@ -1,7 +1,7 @@
 void __cdecl png_write_info_before_PLTE(_DWORD *a1, int a2)
 {
   int v2; // [esp+0h] [ebp-8h]
-  char *lhs; // [esp+4h] [ebp-4h]
+  unsigned int i; // [esp+4h] [ebp-4h]
 
   if ( a1 && a2 && (a1[27] & 0x400) == 0 )
   {
@@ -41,19 +41,19 @@ void __cdecl png_write_info_before_PLTE(_DWORD *a1, int a2)
         *(_DWORD *)(a2 + 156));
     if ( *(_DWORD *)(a2 + 192) )
     {
-      for ( lhs = *(char **)(a2 + 188); (unsigned int)lhs < *(_DWORD *)(a2 + 188) + 20 * *(_DWORD *)(a2 + 192); lhs += 20 )
+      for ( i = *(_DWORD *)(a2 + 188); i < *(_DWORD *)(a2 + 188) + 20 * *(_DWORD *)(a2 + 192); i += 20 )
       {
-        v2 = png_handle_as_unknown((int)a1, (unsigned __int8 *)lhs);
+        v2 = png_handle_as_unknown((int)a1, (unsigned __int8 *)i);
         if ( v2 != 1
-          && lhs[16]
-          && (lhs[16] & 2) == 0
-          && (lhs[16] & 4) == 0
-          && (lhs[16] & 8) == 0
-          && ((lhs[3] & 0x20) != 0 || v2 == 3 || ((unsigned int)&_sbh_sizeHeaderList & a1[28]) != 0) )
+          && *(_BYTE *)(i + 16)
+          && (*(_BYTE *)(i + 16) & 2) == 0
+          && (*(_BYTE *)(i + 16) & 4) == 0
+          && (*(_BYTE *)(i + 16) & 8) == 0
+          && ((*(_BYTE *)(i + 3) & 0x20) != 0 || v2 == 3 || ((unsigned int)&_sbh_sizeHeaderList & a1[28]) != 0) )
         {
-          if ( !*((_DWORD *)lhs + 3) )
+          if ( !*(_DWORD *)(i + 12) )
             png_warning((int)a1, "Writing zero-length unknown chunk");
-          png_write_chunk((int)a1, (int)lhs, *((unsigned __int8 **)lhs + 2), *((_DWORD *)lhs + 3));
+          png_write_chunk((int)a1, i, *(unsigned __int8 **)(i + 8), *(_DWORD *)(i + 12));
         }
       }
     }

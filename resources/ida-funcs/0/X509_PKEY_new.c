@@ -1,35 +1,35 @@
-private_key_st *__cdecl X509_PKEY_new()
+private_key_st *__usercall X509_PKEY_new@<eax>(int a1@<ebx>)
 {
-  _DWORD *v0; // eax
-  _DWORD *v1; // esi
-  X509_algor_st *v3; // eax
-  asn1_string_st *v4; // eax
+  _DWORD *v1; // eax
+  _DWORD *v2; // esi
+  X509_algor_st *v4; // eax
+  asn1_string_st *v5; // eax
 
-  v0 = CRYPTO_malloc(52, ".\\crypto\\asn1\\x_pkey.c", 112);
-  v1 = v0;
-  if ( !v0 )
+  v1 = CRYPTO_malloc(52, ".\\crypto\\asn1\\x_pkey.c", 112);
+  v2 = v1;
+  if ( !v1 )
   {
-    ERR_put_error(0xDu, 173, 65, ".\\crypto\\asn1\\x_pkey.c", 112);
+    ERR_put_error(a1, 0xDu, 173, 65, ".\\crypto\\asn1\\x_pkey.c", 112);
     return 0;
   }
-  *v0 = 0;
-  v3 = X509_ALGOR_new();
-  v1[1] = v3;
-  if ( !v3 )
-    return 0;
-  v4 = ASN1_STRING_type_new(4);
-  v1[2] = v4;
+  *v1 = 0;
+  v4 = X509_ALGOR_new();
+  v2[1] = v4;
   if ( !v4 )
     return 0;
-  v1[3] = 0;
-  v1[4] = 0;
-  v1[5] = 0;
-  v1[6] = 0;
-  v1[7] = 0;
-  v1[8] = 0;
-  v1[9] = 0;
-  v1[10] = 0;
-  v1[11] = 0;
-  v1[12] = 1;
-  return (private_key_st *)v1;
+  v5 = ASN1_STRING_type_new(a1, 4);
+  v2[2] = v5;
+  if ( !v5 )
+    return 0;
+  v2[3] = 0;
+  v2[4] = 0;
+  v2[5] = 0;
+  v2[6] = 0;
+  v2[7] = 0;
+  v2[8] = 0;
+  v2[9] = 0;
+  v2[10] = 0;
+  v2[11] = 0;
+  v2[12] = 1;
+  return (private_key_st *)v2;
 }

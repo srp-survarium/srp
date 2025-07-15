@@ -1,7 +1,7 @@
-unsigned int __usercall vostok::math::align_up<unsigned int>@<eax>(
-        unsigned int value@<ecx>,
-        unsigned int align_on@<esi>)
+unsigned int __cdecl vostok::math::align_up<unsigned long>(unsigned int align_on)
 {
+  unsigned int value; // ecx
+
   if ( value % align_on )
     return align_on + value - value % align_on;
   return value;

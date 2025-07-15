@@ -12,13 +12,13 @@ void __thiscall Scaleform::GFx::AS2::DateObject::SetDate(Scaleform::GFx::AS2::Da
   int v11; // ecx
   bool v12; // al
   __int64 v13; // rax
-  int qcdays; // [esp+14h] [ebp-8h]
+  int v15; // [esp+14h] [ebp-8h]
 
   v2 = this;
   this->Time = val % 86400000;
   v3 = val / 86400000 % 146097;
   v4 = (unsigned __int64)(val / 86400000 % 146097) >> 32;
-  qcdays = v3;
+  v15 = v3;
   this->Year = 400 * (val / 86400000 / 146097) + 1970;
   if ( val < 0 )
   {
@@ -42,12 +42,12 @@ void __thiscall Scaleform::GFx::AS2::DateObject::SetDate(Scaleform::GFx::AS2::Da
       v12 = !((Year - 1) % 4) && (v11 % 100 || !(v11 % 400));
       v2 = this;
       v13 = v12 + 365;
-      v3 = v13 + qcdays;
-      v4 = (v13 + __PAIR64__(v4, qcdays)) >> 32;
-      qcdays += v13;
+      v3 = v13 + v15;
+      v4 = (v13 + __PAIR64__(v4, v15)) >> 32;
+      v15 += v13;
     }
     v2 = this;
-    v3 = qcdays;
+    v3 = v15;
   }
   else
   {

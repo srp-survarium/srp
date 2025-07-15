@@ -35,27 +35,26 @@ int __cdecl ssl3_accept(ssl_st *s)
   int v34; // eax
   const ssl_method_st *method; // ecx
   buf_mem_st *v36; // eax
-  buf_mem_st *v37; // edi
   ssl3_state_st *s3; // eax
-  ssl_ctx_st *v39; // eax
-  int v40; // edi
-  int v41; // [esp-4h] [ebp-20h]
-  void (__cdecl *v42)(const ssl_st *, int, int); // [esp+10h] [ebp-Ch]
-  int v43; // [esp+14h] [ebp-8h]
-  int v44; // [esp+18h] [ebp-4h] BYREF
+  ssl_ctx_st *v38; // eax
+  int v39; // edi
+  int v40; // [esp-4h] [ebp-20h]
+  void (__cdecl *v41)(const ssl_st *, int, int); // [esp+10h] [ebp-Ch]
+  int v42; // [esp+14h] [ebp-8h]
+  int v43; // [esp+18h] [ebp-4h] BYREF
   int buf; // [esp+20h] [ebp+4h]
 
   v1 = 0;
-  v42 = (void (__cdecl *)(const ssl_st *, int, int))_time64(0);
+  v41 = (void (__cdecl *)(const ssl_st *, int, int))_time64(0);
   info_callback = 0;
   v3 = alloca(8);
-  RAND_add(&v44, 4, 0.0);
-  ERR_clear_error();
+  RAND_add(0, &v43, 4, 0.0);
+  ERR_clear_error(0);
   SetLastError(0);
   if ( s->info_callback )
   {
     info_callback = s->info_callback;
-    v42 = info_callback;
+    v41 = info_callback;
   }
   else
   {
@@ -63,15 +62,15 @@ int __cdecl ssl3_accept(ssl_st *s)
     if ( ctx->info_callback )
     {
       info_callback = ctx->info_callback;
-      v42 = info_callback;
+      v41 = info_callback;
     }
   }
   ++s->in_handshake;
   if ( (SSL_state(s) & 0x3000) == 0 || (SSL_state(s) & 0x4000) != 0 )
-    SSL_clear(s);
+    SSL_clear(0, s);
   if ( !s->cert )
   {
-    ERR_put_error(0x14u, 128, 179, ".\\ssl\\s3_srvr.c", 210);
+    ERR_put_error(0, 0x14u, 128, 179, ".\\ssl\\s3_srvr.c", 210);
     return -1;
   }
   while ( 1 )
@@ -88,7 +87,7 @@ int __cdecl ssl3_accept(ssl_st *s)
         ssl3_cleanup_key_block(s);
         BUF_MEM_free(s->init_buf);
         s->init_buf = 0;
-        ssl_free_wbio_buffer((unsigned int)info_callback, s);
+        ssl_free_wbio_buffer((int)info_callback, 0, s);
         v10 = s->new_session == 2;
         s->init_num = 0;
         if ( v10 )
@@ -111,7 +110,7 @@ LABEL_99:
       if ( !v10 )
       {
 LABEL_127:
-        ERR_put_error(0x14u, 128, 255, ".\\ssl\\s3_srvr.c", 698);
+        ERR_put_error(0, 0x14u, 128, 255, ".\\ssl\\s3_srvr.c", 698);
         goto LABEL_130;
       }
 LABEL_100:
@@ -120,17 +119,17 @@ LABEL_100:
         info_callback(s, 16, 1);
       if ( (s->version & 0xFFFFFF00) != 0x300 )
       {
-        ERR_put_error(0x14u, 128, 68, ".\\ssl\\s3_srvr.c", 234);
+        ERR_put_error(0, 0x14u, 128, 68, ".\\ssl\\s3_srvr.c", 234);
         return -1;
       }
       s->type = 0x2000;
       if ( s->init_buf )
         goto LABEL_107;
-      v36 = BUF_MEM_new();
-      v37 = v36;
+      v36 = BUF_MEM_new(0);
+      info_callback = (void (__cdecl *)(const ssl_st *, int, int))v36;
       if ( v36 && BUF_MEM_grow(v36, 0x4000u) )
       {
-        s->init_buf = v37;
+        s->init_buf = (buf_mem_st *)info_callback;
 LABEL_107:
         if ( ssl3_setup_buffers(s) )
         {
@@ -145,15 +144,15 @@ LABEL_107:
               s->state = 8480;
               goto LABEL_114;
             }
-            ERR_put_error(0x14u, 128, 338, ".\\ssl\\s3_srvr.c", 281);
+            ERR_put_error(0, 0x14u, 128, 338, ".\\ssl\\s3_srvr.c", 281);
             ssl3_send_alert(s, 2, 40);
           }
-          else if ( ssl_init_wbio_buffer(s, 1) )
+          else if ( ssl_init_wbio_buffer(0, s, 1) )
           {
-            ssl3_init_finished_mac(s);
-            v39 = s->ctx;
+            ssl3_init_finished_mac((int)info_callback, s);
+            v38 = s->ctx;
             s->state = 8464;
-            ++v39->stats.sess_accept;
+            ++v38->stats.sess_accept;
             goto LABEL_114;
           }
         }
@@ -162,39 +161,39 @@ LABEL_130:
       client_hello = -1;
 end_19:
       --s->in_handshake;
-      if ( v42 )
-        v42(s, 8194, client_hello);
+      if ( v41 )
+        v41(s, 8194, client_hello);
       return client_hello;
     }
     wbio = s->wbio;
     s->rwstate = 2;
-    if ( BIO_ctrl(wbio, 11, 0, 0) <= 0 )
+    if ( BIO_ctrl(0, wbio, 11, 0, 0) <= 0 )
       goto LABEL_130;
     v12 = s->s3;
     s->rwstate = 1;
     s->state = v12->tmp.next_state;
 LABEL_114:
-    if ( !s->s3->tmp.reuse_message && !v43 )
+    if ( !s->s3->tmp.reuse_message && !v42 )
     {
       if ( s->debug )
       {
-        client_hello = BIO_ctrl(s->wbio, 11, 0, 0);
+        client_hello = BIO_ctrl(0, s->wbio, 11, 0, 0);
         if ( client_hello <= 0 )
           goto end_19;
       }
-      if ( v42 )
+      if ( v41 )
       {
-        v40 = s->state;
-        if ( v40 != buf )
+        v39 = s->state;
+        if ( v39 != buf )
         {
           s->state = buf;
-          v42(s, 8193, 1);
-          s->state = v40;
+          v41(s, 8193, 1);
+          s->state = v39;
         }
       }
     }
-    info_callback = v42;
-    v43 = 0;
+    info_callback = v41;
+    v42 = 0;
   }
   if ( state > 12292 )
   {
@@ -230,7 +229,7 @@ LABEL_114:
       s->s3->tmp.next_state = 8482;
       s->state = 8448;
       s->init_num = 0;
-      ssl3_init_finished_mac(s);
+      ssl3_init_finished_mac(client_hello, s);
       goto LABEL_114;
     case 8482:
       s->state = 3;
@@ -251,13 +250,13 @@ LABEL_114:
       new_cipher = s->s3->tmp.new_cipher;
       if ( (new_cipher->algorithm_auth & 0x24) != 0 || (new_cipher->algorithm_mkey & 0x100) != 0 )
       {
-        v43 = 1;
+        v42 = 1;
         s->state = 8528;
         s->init_num = 0;
       }
       else
       {
-        client_hello = ssl3_send_server_certificate(s);
+        client_hello = ssl3_send_server_certificate(0, s);
         if ( client_hello <= 0 )
           goto end_19;
         s->state = s->tlsext_status_expected != 0 ? 8704 : 8528;
@@ -286,7 +285,7 @@ LABEL_114:
       }
       else
       {
-        v43 = 1;
+        v42 = 1;
         s->state = 8544;
         s->init_num = 0;
       }
@@ -302,7 +301,7 @@ LABEL_114:
         || (v21->algorithm_mkey & 0x100) != 0 )
       {
         s->s3->tmp.cert_request = 0;
-        v43 = 1;
+        v42 = 1;
         s->state = 8560;
       }
       else
@@ -328,7 +327,7 @@ LABEL_114:
       goto LABEL_114;
     case 8576:
     case 8577:
-      v24 = ssl3_check_client_hello((unsigned int)info_callback, s);
+      v24 = ssl3_check_client_hello((int)info_callback, 0, s);
       client_hello = v24;
       if ( v24 <= 0 )
         goto end_19;
@@ -371,13 +370,13 @@ LABEL_114:
           v29 = (ui_string_st **)&v28->handshake_dgst[v27];
           if ( *v29 )
           {
-            v41 = (int)&v28->tmp.cert_verify_md[v1];
+            v40 = (int)&v28->tmp.cert_verify_md[v1];
             p_cert_verify_mac = &s->method->ssl3_enc->cert_verify_mac;
             object = X509_EXTENSION_get_object(*v29);
             v32 = EVP_CIPHER_CTX_cipher((const ssl_st *)object);
-            (*p_cert_verify_mac)(s, v32, (unsigned __int8 *)v41);
+            (*p_cert_verify_mac)(s, v32, (unsigned __int8 *)v40);
             v33 = X509_EXTENSION_get_object((ui_string_st *)s->s3->handshake_dgst[v27]);
-            v34 = EVP_MD_size((const env_md_st *)v33);
+            v34 = EVP_MD_size(v1, (const env_md_st *)v33);
             if ( v34 < 0 )
             {
               client_hello = -1;

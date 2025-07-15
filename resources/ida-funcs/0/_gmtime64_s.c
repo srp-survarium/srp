@@ -1,4 +1,4 @@
-int __usercall _gmtime64_s@<eax>(unsigned int a1@<ebx>, tm *ptm, const __int64 *timp)
+int __usercall _gmtime64_s@<eax>(int a1@<ebx>, tm *ptm, const __int64 *timp)
 {
   unsigned int v5; // ecx
   unsigned int v6; // eax
@@ -6,90 +6,94 @@ int __usercall _gmtime64_s@<eax>(unsigned int a1@<ebx>, tm *ptm, const __int64 *
   __int64 v8; // rax
   unsigned int v9; // edi
   int v10; // eax
-  unsigned int v11; // et0
-  int v12; // et0
-  unsigned int v13; // edi
-  unsigned int v14; // et0
-  int *v15; // edx
+  int v11; // et0
+  unsigned int v12; // et0
+  __int64 v13; // rax
+  unsigned int v14; // edi
+  unsigned int v15; // et0
+  int *v16; // edx
   int tm_yday; // eax
   int i; // ecx
-  int v18; // ecx
-  signed __int64 v19; // kr28_8
-  __int64 caltim; // [esp+8h] [ebp-10h]
-  unsigned int caltim_4; // [esp+Ch] [ebp-Ch]
-  int v22; // [esp+10h] [ebp-8h]
-  int islpyr; // [esp+14h] [ebp-4h]
-  int tmptim; // [esp+20h] [ebp+8h]
+  int v19; // ecx
+  signed __int64 v20; // kr28_8
+  __int64 v21; // [esp+8h] [ebp-10h]
+  unsigned int v22; // [esp+Ch] [ebp-Ch]
+  int v23; // [esp+10h] [ebp-8h]
+  int v24; // [esp+14h] [ebp-4h]
+  int v25; // [esp+20h] [ebp+8h]
 
-  islpyr = 0;
-  if ( !ptm || (memset((int)ptm, (unsigned __int8 *)0xFF, sizeof(tm)), !timp) )
+  v24 = 0;
+  if ( !ptm || (memset((int)ptm, 255, sizeof(tm)), !timp) )
   {
     *_errno() = 22;
-    _invalid_parameter(a1, 0, 0x16u);
+    _invalid_parameter(a1, 0, 22);
     return 22;
   }
   v5 = *(_DWORD *)timp;
   v6 = *((_DWORD *)timp + 1);
-  LODWORD(caltim) = *(_DWORD *)timp;
+  LODWORD(v21) = *(_DWORD *)timp;
   if ( *timp < -43200 || __SPAIR64__(v6, v5) > 0x7934126CFLL )
   {
     *_errno() = 22;
     return 22;
   }
-  v7 = __SPAIR64__(v6, v5) / (unsigned int)&vostok::memory::s_CRT_arena[20332984];
-  v22 = v7 + 69;
-  tmptim = v7 + 70;
-  v8 = 86400 * (-365LL * (int)v7 - (((int)v7 + 369) / 400 - ((int)v7 + 69) / 100 + ((int)v7 + 69) / 4 - 17));
-  HIDWORD(caltim) = *((_DWORD *)timp + 1);
-  v9 = v8 + caltim;
-  HIDWORD(caltim) = (unsigned __int64)(v8 + caltim) >> 32;
-  if ( caltim >= 0 )
+  v7 = __SPAIR64__(v6, v5) / 31536000;
+  v23 = v7 + 69;
+  v25 = v7 + 70;
+  v8 = (-365LL * (int)v7 - (((int)v7 + 369) / 400 - ((int)v7 + 69) / 100 + ((int)v7 + 69) / 4 - 17))
+     * (unsigned int) __thiscall vostok::sound::world::`vcall'{12,{flat}};
+  HIDWORD(v21) = *((_DWORD *)timp + 1);
+  v9 = v8 + v21;
+  HIDWORD(v21) = (unsigned __int64)(v8 + v21) >> 32;
+  if ( v21 >= 0 )
   {
-    if ( (tmptim % 4 || !(tmptim % 100)) && (tmptim + 1900) % 400 )
+    if ( (v25 % 4 || !(v25 % 100)) && (v25 + 1900) % 400 )
       goto LABEL_18;
     goto LABEL_17;
   }
-  v10 = v22;
-  v11 = (unsigned int)&vostok::memory::s_CRT_arena[__PAIR64__(HIDWORD(caltim), v9) + 20332984] >> 32;
-  v9 += (unsigned int)&vostok::memory::s_CRT_arena[20332984];
-  HIDWORD(caltim) = v11;
-  tmptim = v22;
-  if ( !(v22 % 4) )
+  v10 = v23;
+  v11 = (__PAIR64__(HIDWORD(v21), v9) + 31536000) >> 32;
+  v9 += 31536000;
+  HIDWORD(v21) = v11;
+  v25 = v23;
+  if ( !(v23 % 4) )
   {
-    if ( v22 % 100 )
+    if ( v23 % 100 )
     {
 LABEL_13:
-      v12 = (__PAIR64__(HIDWORD(caltim), v9) + 86400) >> 32;
-      v9 += 86400;
-      HIDWORD(caltim) = v12;
+      v12 = (unsigned int)((unsigned int) __thiscall vostok::sound::world::`vcall'{12,{flat}}
+                         + __PAIR64__(HIDWORD(v21), v9)) >> 32;
+      v9 += (unsigned int) __thiscall vostok::sound::world::`vcall'{12,{flat}};
+      HIDWORD(v21) = v12;
 LABEL_17:
-      islpyr = 1;
+      v24 = 1;
       goto LABEL_18;
     }
-    v10 = v22;
+    v10 = v23;
   }
   if ( !((v10 + 1900) % 400) )
     goto LABEL_13;
 LABEL_18:
-  ptm->tm_year = tmptim;
-  ptm->tm_yday = __SPAIR64__(HIDWORD(caltim), v9) / 86400;
-  v14 = (-86400LL * (int)(__SPAIR64__(HIDWORD(caltim), v9) / 86400) + __PAIR64__(HIDWORD(caltim), v9)) >> 32;
-  v13 = __SPAIR64__(HIDWORD(caltim), v9) % 86400;
-  caltim_4 = v14;
-  v15 = _lpdays;
-  if ( !islpyr )
-    v15 = _days;
+  ptm->tm_year = v25;
+  v13 = __SPAIR64__(HIDWORD(v21), v9) / (unsigned int) __thiscall vostok::sound::world::`vcall'{12,{flat}};
+  ptm->tm_yday = v13;
+  v15 = (-86400LL * (int)v13 + __PAIR64__(HIDWORD(v21), v9)) >> 32;
+  v14 = -86400 * v13 + v9;
+  v22 = v15;
+  v16 = _lpdays;
+  if ( !v24 )
+    v16 = _days;
   tm_yday = ptm->tm_yday;
-  for ( i = 1; v15[i] < tm_yday; ++i )
+  for ( i = 1; v16[i] < tm_yday; ++i )
     ;
-  v18 = i - 1;
-  ptm->tm_mon = v18;
-  ptm->tm_mday = tm_yday - v15[v18];
-  ptm->tm_wday = (int)(*timp / 86400 + 4) % 7;
-  ptm->tm_hour = __SPAIR64__(caltim_4, v13) / 3600;
-  v19 = -3600LL * (int)(__SPAIR64__(caltim_4, v13) / 3600) + __PAIR64__(caltim_4, v13);
-  ptm->tm_min = v19 / 60;
+  v19 = i - 1;
+  ptm->tm_mon = v19;
+  ptm->tm_mday = tm_yday - v16[v19];
+  ptm->tm_wday = (int)(*timp / (unsigned int) __thiscall vostok::sound::world::`vcall'{12,{flat}} + 4) % 7;
+  ptm->tm_hour = __SPAIR64__(v22, v14) / 3600;
+  v20 = -3600LL * (int)(__SPAIR64__(v22, v14) / 3600) + __PAIR64__(v22, v14);
+  ptm->tm_min = v20 / 60;
   ptm->tm_isdst = 0;
-  ptm->tm_sec = v19 % 60;
+  ptm->tm_sec = v20 % 60;
   return 0;
 }

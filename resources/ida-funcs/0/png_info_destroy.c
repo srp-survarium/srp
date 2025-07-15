@@ -7,5 +7,5 @@ void __cdecl png_info_destroy(int a1, int a2)
     *(_DWORD *)(a1 + 588) = 0;
     *(_DWORD *)(a1 + 584) = 0;
   }
-  png_info_init_3((unsigned __int8 **)&a2, 0xECu);
+  png_info_init_3((void **)&a2, 0xECu);
 }

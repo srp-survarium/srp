@@ -8,7 +8,7 @@ void __cdecl jinit_inverse_dct(int a1)
 
   v1 = (int (__cdecl **)(int *))(**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 84);
   *(_DWORD *)(a1 + 428) = v1;
-  *v1 = sub_3797B0;
+  *v1 = sub_486470;
   v2 = 0;
   if ( *(int *)(a1 + 36) > 0 )
   {
@@ -18,7 +18,7 @@ void __cdecl jinit_inverse_dct(int a1)
     {
       v5 = (**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 256);
       *v3 = v5;
-      memset(v5, 0, 0x100u);
+      memset(v5, 0, 256);
       *v4 = -1;
       ++v2;
       ++v4;

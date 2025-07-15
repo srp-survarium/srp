@@ -1,5 +1,5 @@
-void __cdecl dynamic_atexit_destructor_for__g_threads__()
+// attributes: thunk
+void __thiscall dynamic_atexit_destructor_for__g_threads__(vostok::buffer_vector<vostok::apc::callback> *this)
 {
-  vostok::buffer_vector<vostok::apc::callback>::destroy(g_threads.m_begin, &g_threads.m_end);
-  g_threads.m_end = g_threads.m_begin;
+  vostok::buffer_vector<vostok::apc::callback>::~buffer_vector<vostok::apc::callback>(this);
 }

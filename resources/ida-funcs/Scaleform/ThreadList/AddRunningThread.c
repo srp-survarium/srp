@@ -7,9 +7,9 @@ void __cdecl Scaleform::ThreadList::AddRunningThread(Scaleform::Thread *pthread)
   Scaleform::MutexImpl *pImpl; // ebx
   Scaleform::Mutex *p_ThreadMutex; // edi
   void *hMutexOrSemaphore; // [esp-10h] [ebp-1Ch]
-  Scaleform::Thread *key; // [esp+8h] [ebp-4h] BYREF
+  Scaleform::Thread *v8; // [esp+8h] [ebp-4h] BYREF
 
-  key = v1;
+  v8 = v1;
   if ( !Scaleform::ThreadList::pRunningThreads )
   {
     v2 = (Scaleform::ThreadList *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
@@ -23,13 +23,13 @@ void __cdecl Scaleform::ThreadList::AddRunningThread(Scaleform::Thread *pthread)
   pImpl = Scaleform::ThreadList::pRunningThreads->ThreadMutex.pImpl;
   p_ThreadMutex = &Scaleform::ThreadList::pRunningThreads->ThreadMutex;
   hMutexOrSemaphore = pImpl->hMutexOrSemaphore;
-  key = pthread;
+  v8 = pthread;
   if ( !WaitForSingleObject(hMutexOrSemaphore, 0xFFFFFFFF) )
     ++pImpl->LockCount;
   Scaleform::HashSetBase<Scaleform::Thread *,Scaleform::ThreadList::ThreadHashOp,Scaleform::ThreadList::ThreadHashOp,Scaleform::AllocatorGH<Scaleform::Thread *,2>,Scaleform::HashsetCachedEntry<Scaleform::Thread *,Scaleform::ThreadList::ThreadHashOp>>::add<Scaleform::Thread *>(
     &v4->ThreadSet,
     v4,
-    &key,
+    &v8,
     (unsigned int)pthread ^ ((unsigned int)pthread >> 6));
   Scaleform::MutexImpl::Unlock(p_ThreadMutex->pImpl, p_ThreadMutex);
 }

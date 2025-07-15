@@ -1,4 +1,4 @@
-x509_st *__cdecl ssl_get_server_send_cert(ssl_st *s)
+x509_st *__usercall ssl_get_server_send_cert@<eax>(int a1@<ebx>, ssl_st *s)
 {
   cert_st *cert; // edi
   const ssl_cipher_st *new_cipher; // eax
@@ -26,7 +26,7 @@ x509_st *__cdecl ssl_get_server_send_cert(ssl_st *s)
       return cert->pkeys[6].x509;
     if ( (algorithm_auth & 0x200) != 0 )
       return cert->pkeys[7].x509;
-    ERR_put_error(0x14u, 182, 68, ".\\ssl\\ssl_lib.c", 2165);
+    ERR_put_error(a1, 0x14u, 182, 68, ".\\ssl\\ssl_lib.c", 2165);
   }
   return 0;
 }

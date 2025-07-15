@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::FilterSet::AddFilter(
   Scaleform::RefCountVImpl **Data; // edi
   unsigned int Size; // ecx
   Scaleform::Array<Scaleform::Ptr<Scaleform::Render::Filter>,2,Scaleform::ArrayDefaultPolicy> *p_Filters; // esi
-  _DWORD *p_pObject; // esi
+  Scaleform::Ptr<Scaleform::Render::Filter> *v6; // esi
 
   if ( this->Filters.Data.Size == 1
     && (Data = (Scaleform::RefCountVImpl **)this->Filters.Data.Data,
@@ -27,12 +27,12 @@ void __thiscall Scaleform::Render::FilterSet::AddFilter(
       &p_Filters->Data,
       p_Filters,
       Size + 1);
-    p_pObject = &p_Filters->Data.Data[p_Filters->Data.Size - 1].pObject;
-    if ( p_pObject )
+    v6 = &p_Filters->Data.Data[p_Filters->Data.Size - 1];
+    if ( v6 )
     {
       if ( filter )
         Scaleform::RefCountImpl::AddRef(filter);
-      *p_pObject = filter;
+      v6->pObject = (Scaleform::Render::Filter *)filter;
     }
     if ( filter )
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)filter);

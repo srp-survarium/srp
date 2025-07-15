@@ -1,28 +1,39 @@
-void __thiscall survarium::weapon_core_shotgun_reload_state::~weapon_core_shotgun_reload_state(
-        survarium::weapon_core_shotgun_reload_state *this)
+void __usercall survarium::weapon_core_shotgun_reload_state::~weapon_core_shotgun_reload_state(
+        survarium::weapon_core_shotgun_reload_state *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::memory::doug_lea_allocator *v1; // eax
-  vostok::memory::doug_lea_allocator *v2; // eax
-  vostok::ai::fsm_state *state; // [esp+28h] [ebp-4h] BYREF
+  bool v3; // zf
+  vostok::resources::unmanaged_resource *v4; // ebx
+  vostok::ai::fsm *v5; // ecx
+  vostok::ai::fsm *v6; // [esp-4h] [ebp-14h]
+  const char *v7; // [esp+0h] [ebp-10h]
+  const char *v8; // [esp+4h] [ebp-Ch]
+  unsigned int v9; // [esp+8h] [ebp-8h]
+  vostok::ai::fsm_state *pointer; // [esp+Ch] [ebp-4h] BYREF
 
-  this->survarium::weapon_core_base_state::vostok::ai::fsm_state::__vftable = (survarium::weapon_core_shotgun_reload_state_vtbl *)&survarium::weapon_core_shotgun_reload_state::`vftable'{for `vostok::ai::fsm_state'};
-  this->survarium::weapon_core_base_state::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable = (vostok::resources::unmanaged_resource_vtbl *)&survarium::weapon_core_shotgun_reload_state::`vftable'{for `vostok::resources::unmanaged_resource'};
-  if ( this->m_delete_substates_on_destruction )
+  v3 = *(_BYTE *)(a2 + 308) == 0;
+  v4 = (vostok::resources::unmanaged_resource *)(a2 + 24);
+  *(_DWORD *)a2 = &survarium::weapon_core_shotgun_reload_state::`vftable'{for `vostok::ai::fsm_state'};
+  *(_DWORD *)(a2 + 24) = &survarium::weapon_core_shotgun_reload_state::`vftable'{for `vostok::resources::unmanaged_resource'};
+  if ( !v3 )
   {
+    vostok::ai::fsm::clear_transitions((vostok::ai::fsm *)this, *(_DWORD *)(a2 + 304));
     while ( 1 )
     {
-      state = vostok::ai::fsm::pop_state(this->m_logic);
-      if ( !state )
+      pointer = vostok::ai::fsm::pop_state(v5, *(_DWORD **)(a2 + 304));
+      if ( !pointer )
         break;
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,survarium::inventory,vostok::memory::detail::call_destructor_predicate>(
-        v1,
-        (vostok::sound::sound_scene **)&state);
+      vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::scene_view>(
+        survarium::g_allocator,
+        &pointer,
+        v7,
+        v8,
+        v9);
+      v5 = v6;
     }
   }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::ai::fsm,vostok::memory::detail::call_destructor_predicate>(
-    v2,
-    &this->m_logic);
-  survarium::weapon_core_base_state::~weapon_core_base_state(this);
+  vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::ai::fsm>(
+    survarium::g_allocator,
+    (vostok::ai::fsm **)(a2 + 304));
+  vostok::resources::unmanaged_resource::~unmanaged_resource(v4);
 }

@@ -1,4 +1,4 @@
-void __cdecl stlp_std::_dynamic_atexit_destructor_for___Nameless__()
+void stlp_std::_dynamic_atexit_destructor_for___Nameless__()
 {
   if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)Nameless._M_start_of_storage._M_data != &Nameless
     && Nameless._M_start_of_storage._M_data )

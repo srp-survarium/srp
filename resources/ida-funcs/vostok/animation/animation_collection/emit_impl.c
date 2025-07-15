@@ -1,116 +1,115 @@
-vostok::animation::mixing::expression *__userpurge vostok::animation::animation_collection::emit_impl@<eax>(
-        vostok::animation::animation_collection *this@<ecx>,
-        int a2@<eax>,
+vostok::animation::mixing::expression *__thiscall vostok::animation::animation_collection::emit_impl(
+        vostok::animation::animation_collection *this,
         vostok::animation::mixing::expression *result,
-        vostok::mutable_buffer *buffer,
+        vostok::animation::mixing::expression *buffer,
         vostok::animation::mixing::animation_lexeme *const driving_animation,
-        bool *is_last_animation)
+        bool *is_last_animation,
+        bool *a6)
 {
-  unsigned int v7; // ecx
-  unsigned int v8; // edx
-  bool v9; // zf
-  bool *v10; // ebx
-  int v11; // edi
-  int v12; // eax
-  int v13; // ebx
-  int v14; // eax
-  unsigned __int64 v15; // rax
-  int v16; // edx
-  int v17; // eax
-  vostok::resources::unmanaged_resource *v18; // edi
-  vostok::resources::unmanaged_resource_vtbl *v19; // edx
-  _BYTE *v20; // esi
-  bool v21; // al
-  vostok::animation::mixing::binary_tree_base_node *m_object; // eax
-  vostok::animation::mixing::expression ret_expression; // [esp+10h] [ebp-8h] BYREF
+  unsigned int v6; // ecx
+  unsigned int v7; // edx
+  bool v8; // zf
+  bool v9; // al
+  int v10; // esi
+  vostok::animation::mixing::base_lexeme *v11; // eax
+  vostok::animation::mixing::binary_tree_base_node *m_object; // edi
+  vostok::animation::mixing::base_lexeme *v13; // eax
+  unsigned __int64 v14; // rax
+  vostok::particle::particle_system_instance_impl_vtbl *v15; // eax
+  _BYTE *v16; // ebx
+  bool v17; // cl
+  bool v18; // cl
+  vostok::animation::mixing::binary_tree_base_node *v19; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v21; // [esp+14h] [ebp-Ch] BYREF
+  vostok::animation::mixing::expression v22; // [esp+18h] [ebp-8h] BYREF
 
-  if ( !*(_DWORD *)(a2 + 280) )
+  if ( result[35].m_lexeme )
   {
-    *is_last_animation = *(_BYTE *)(a2 + 284) == 0;
-    v11 = (*(_DWORD *)(a2 + 268) - *(_DWORD *)(a2 + 264)) >> 2;
-    if ( *(_BYTE *)(a2 + 285) )
+    if ( BYTE2(result[36].m_node.m_object) )
     {
-      v12 = 134775813 * *(_DWORD *)(a2 + 272) + 1;
-      *(_DWORD *)(a2 + 272) = v12;
-      *(_DWORD *)(a2 + 276) = ((unsigned int)v11 * (unsigned __int64)(unsigned int)v12) >> 32;
-      v10 = is_last_animation;
-      goto LABEL_12;
+      v6 = ((char *)result[33].m_lexeme - (char *)result[33].m_node.m_object) >> 2;
+      v7 = ((unsigned int)&result[35].m_node.m_object->__vftable + 1) % v6;
+      v8 = LOBYTE(result[36].m_node.m_object) == 0;
+      result[35].m_node.m_object = (vostok::animation::mixing::binary_tree_base_node *)v7;
+      v9 = v8 && v7 == v6 - 1;
+      *a6 = v9;
     }
-    v13 = *(_DWORD *)(a2 + 276);
-    do
-    {
-      v14 = 134775813 * *(_DWORD *)(a2 + 272) + 1;
-      *(_DWORD *)(a2 + 272) = v14;
-      v15 = ((unsigned int)v14 * (unsigned __int64)(unsigned int)v11) >> 32;
-      *(_DWORD *)(a2 + 276) = v15;
-    }
-    while ( v13 == (_DWORD)v15 );
-    goto LABEL_11;
-  }
-  if ( !*(_BYTE *)(a2 + 286) )
-  {
-LABEL_11:
-    v10 = is_last_animation;
-    goto LABEL_12;
-  }
-  v7 = (*(_DWORD *)(a2 + 268) - *(_DWORD *)(a2 + 264)) >> 2;
-  v8 = (*(_DWORD *)(a2 + 276) + 1) % v7;
-  v9 = *(_BYTE *)(a2 + 284) == 0;
-  *(_DWORD *)(a2 + 276) = v8;
-  if ( v9 && v8 == v7 - 1 )
-  {
-    v10 = is_last_animation;
-    *is_last_animation = 1;
   }
   else
   {
-    v10 = is_last_animation;
-    *is_last_animation = 0;
+    *a6 = LOBYTE(result[36].m_node.m_object) == 0;
+    v10 = ((char *)result[33].m_lexeme - (char *)result[33].m_node.m_object) >> 2;
+    if ( BYTE1(result[36].m_node.m_object) )
+    {
+      v11 = (vostok::animation::mixing::base_lexeme *)(134775813 * (int)result[34].m_lexeme + 1);
+      result[34].m_lexeme = v11;
+      result[35].m_node.m_object = (vostok::animation::mixing::binary_tree_base_node *)(((unsigned int)v10
+                                                                                       * (unsigned __int64)(unsigned int)v11) >> 32);
+    }
+    else
+    {
+      m_object = result[35].m_node.m_object;
+      do
+      {
+        v13 = (vostok::animation::mixing::base_lexeme *)(134775813 * (int)result[34].m_lexeme + 1);
+        result[34].m_lexeme = v13;
+        v14 = ((unsigned int)v13 * (unsigned __int64)(unsigned int)v10) >> 32;
+        result[35].m_node.m_object = (vostok::animation::mixing::binary_tree_base_node *)v14;
+      }
+      while ( m_object == (vostok::animation::mixing::binary_tree_base_node *)v14 );
+    }
   }
-LABEL_12:
-  v16 = *(_DWORD *)(a2 + 276);
-  v17 = *(_DWORD *)(*(_DWORD *)(a2 + 264) + 4 * v16);
-  v18 = 0;
-  if ( v17 )
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &v21,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result[33].m_node.m_object->__vftable
+  + (int)result[35].m_node.m_object);
+  v15 = v21.m_object->__vftable;
+  v16 = (char *)&result[36].m_node.m_object + 2;
+  if ( is_last_animation )
   {
-    v18 = *(vostok::resources::unmanaged_resource **)(*(_DWORD *)(a2 + 264) + 4 * v16);
-    _InterlockedExchangeAdd((volatile signed __int32 *)(v17 + 208), 1u);
-  }
-  v19 = v18->__vftable;
-  v20 = (_BYTE *)(a2 + 286);
-  if ( driving_animation )
-    ((void (__thiscall *)(vostok::resources::unmanaged_resource *, vostok::animation::mixing::expression *, vostok::mutable_buffer *, vostok::animation::mixing::animation_lexeme *const, _BYTE *))v19[1].~vostok::resources::resource_base)(
-      v18,
-      &ret_expression,
-      buffer,
+    ((void (__stdcall *)(vostok::animation::mixing::expression *, vostok::animation::mixing::animation_lexeme *const, bool *, _BYTE *))v15->is_finished)(
+      &v22,
       driving_animation,
-      v20);
+      is_last_animation,
+      v16);
+    v17 = *a6 && *v16;
+    *a6 = v17;
+    vostok::animation::mixing::expression::expression(buffer, &v22);
+    if ( v22.m_node.m_object )
+    {
+      v8 = v22.m_node.m_object->m_reference_count-- == 1;
+      if ( v8 )
+        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_base_node *, _DWORD))v22.m_node.m_object->~vostok::animation::mixing::binary_tree_base_node)(
+          v22.m_node.m_object,
+          0);
+    }
+  }
   else
-    ((void (__thiscall *)(vostok::resources::unmanaged_resource *, vostok::animation::mixing::expression *, vostok::mutable_buffer *, _BYTE *))v19[1].log_string)(
-      v18,
-      &ret_expression,
-      buffer,
-      v20);
-  v21 = *v10 && *v20;
-  *v10 = v21;
-  m_object = ret_expression.m_node.m_object;
-  result->m_node.m_object = 0;
-  if ( m_object )
   {
-    ++m_object->m_reference_count;
-    result->m_node.m_object = m_object;
-    m_object = ret_expression.m_node.m_object;
+    ((void (__stdcall *)(vostok::animation::mixing::expression *, vostok::animation::mixing::animation_lexeme *const, _BYTE *))v15[1].~vostok::particle::particle_system_instance)(
+      &v22,
+      driving_animation,
+      v16);
+    v18 = *a6 && *v16;
+    *a6 = v18;
+    v19 = v22.m_node.m_object;
+    buffer->m_node.m_object = 0;
+    if ( v19 )
+    {
+      buffer->m_node.m_object = v19;
+      ++v19->m_reference_count;
+      v19 = v22.m_node.m_object;
+    }
+    buffer->m_lexeme = v22.m_lexeme;
+    if ( v19 )
+    {
+      v8 = v19->m_reference_count-- == 1;
+      if ( v8 )
+        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_base_node *, _DWORD))v22.m_node.m_object->~vostok::animation::mixing::binary_tree_base_node)(
+          v22.m_node.m_object,
+          0);
+    }
   }
-  result->m_lexeme = ret_expression.m_lexeme;
-  if ( m_object )
-  {
-    v9 = m_object->m_reference_count-- == 1;
-    if ( v9 )
-      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_base_node *, _DWORD))ret_expression.m_node.m_object->~vostok::animation::mixing::binary_tree_base_node)(
-        ret_expression.m_node.m_object,
-        0);
-  }
-  if ( !_InterlockedExchangeAdd(&v18->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v18->vostok::resources::unmanaged_intrusive_base, v18);
-  return result;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v21);
+  return buffer;
 }

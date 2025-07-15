@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::Sprite::SetIMECandidateListFont(
               v17,
               0,
               *(Scaleform::GFx::Resource **)(v15 + 24),
-              "$IMECandidateListFont",
+              (__m128i *)"$IMECandidateListFont",
               0,
               *(Scaleform::GFx::MovieDef **)(v15 + 28));
           else
@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::Sprite::SetIMECandidateListFont(
               v10,
               0,
               (Scaleform::GFx::Resource *)pfont->pFont.pObject,
-              "$IMECandidateListFont",
+              (__m128i *)"$IMECandidateListFont",
               0,
               pOwnerDefImpl);
             v12 = v11;

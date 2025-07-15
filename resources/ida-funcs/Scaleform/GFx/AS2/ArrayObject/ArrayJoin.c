@@ -6,11 +6,11 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArrayJoin(const Scaleform::GFx::A
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::ASStringNode *v5; // esi
   bool v6; // zf
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::AS2::Value *Result; // edi
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-30h]
-  Scaleform::StringBuffer sbuffer; // [esp+4h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v11; // [esp+4h] [ebp-18h] BYREF
 
   v1 = fn;
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Array )
@@ -21,29 +21,29 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArrayJoin(const Scaleform::GFx::A
     else
       p_pProto = 0;
     p_pProto->LengthValueOverriden = 0;
-    Scaleform::StringBuffer::StringBuffer(&sbuffer, v1->Env->StringContext.pContext->pHeap);
+    Scaleform::StringBuffer::StringBuffer(&v11, v1->Env->StringContext.pContext->pHeap);
     if ( v1->NArgs )
     {
       Env = v1->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
       Scaleform::GFx::AS2::Value::ToStringImpl(v4, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
       v5 = (Scaleform::GFx::ASStringNode *)fn;
-      Scaleform::GFx::AS2::ArrayObject::JoinToString(p_pProto, v1->Env, &sbuffer, (char *)fn->__vftable);
+      Scaleform::GFx::AS2::ArrayObject::JoinToString(p_pProto, v1->Env, &v11, (const __m128i *)fn->__vftable);
       v6 = v5->RefCount-- == 1;
       if ( v6 )
         Scaleform::GFx::ASStringNode::ReleaseNode(v5);
     }
     else
     {
-      Scaleform::GFx::AS2::ArrayObject::JoinToString(p_pProto, v1->Env, &sbuffer, ",");
+      Scaleform::GFx::AS2::ArrayObject::JoinToString(p_pProto, v1->Env, &v11, (const __m128i *)",");
     }
-    pData = sbuffer.pData;
-    if ( !sbuffer.pData )
-      pData = (char *)&buf;
+    pData = (__m128i *)v11.pData;
+    if ( !v11.pData )
+      pData = (__m128i *)uri;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v1->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                    pData,
-                   sbuffer.Size);
+                   v11.Size);
     ++StringNode->RefCount;
     Result = v1->Result;
     if ( Result->T.Type >= 5u )
@@ -54,7 +54,7 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArrayJoin(const Scaleform::GFx::A
     --StringNode->RefCount;
     if ( v6 )
       Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&sbuffer);
+    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v11);
   }
   else
   {

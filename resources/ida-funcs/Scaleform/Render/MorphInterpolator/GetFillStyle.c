@@ -1,26 +1,23 @@
 void __thiscall Scaleform::Render::MorphInterpolator::GetFillStyle(
         Scaleform::Render::MorphInterpolator *this,
         unsigned int idx,
-        Scaleform::Render::Color *f1)
+        Scaleform::Render::FillStyleType *f1)
 {
   Scaleform::Render::Color *v3; // esi
   Scaleform::Render::MorphShapeData *pObject; // ecx
-  Scaleform::Render::FillStyleType f2; // [esp+20h] [ebp-8h] BYREF
+  Scaleform::Render::Color c1; // [esp+20h] [ebp-8h] BYREF
+  Scaleform::RefCountVImpl *v7; // [esp+24h] [ebp-4h]
 
-  v3 = f1;
-  this->pShapeData.pObject->GetFillStyle(this->pShapeData.pObject, idx, (Scaleform::Render::FillStyleType *)f1);
+  v3 = (Scaleform::Render::Color *)f1;
+  this->pShapeData.pObject->GetFillStyle(this->pShapeData.pObject, idx, f1);
   pObject = this->pMorphData.pObject;
   if ( pObject && 0.0 != this->MorphRatio )
   {
-    f2.pFill.pObject = 0;
-    pObject->pMorphTo.pObject->GetFillStyle(pObject->pMorphTo.pObject, idx, &f2);
+    v7 = 0;
+    pObject->pMorphTo.pObject->GetFillStyle(pObject->pMorphTo.pObject, idx, (Scaleform::Render::FillStyleType *)&c1);
     if ( !v3[1].Raw )
-      *v3 = *Scaleform::Render::Color::Blend(
-               (Scaleform::Render::Color *)&f1,
-               *v3,
-               (Scaleform::Render::Color)f2.Color,
-               this->MorphRatio);
-    if ( f2.pFill.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)f2.pFill.pObject);
+      *v3 = *Scaleform::Render::Color::Blend((Scaleform::Render::Color *)&f1, *v3, c1, this->MorphRatio);
+    if ( v7 )
+      Scaleform::RefCountImpl::Release(v7);
   }
 }

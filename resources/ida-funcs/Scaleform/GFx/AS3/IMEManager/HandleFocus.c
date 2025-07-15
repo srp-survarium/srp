@@ -170,28 +170,32 @@ LABEL_60:
     v10 = currItem;
   }
   AS3Root = Scaleform::GFx::AS3::AvmDisplayObj::GetAS3Root(v12);
-  v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(AS3Root->BuiltinsMgr.pStringManager, "IsCandidateList");
+  v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+              AS3Root->BuiltinsMgr.pStringManager,
+              (__m128i *)"IsCandidateList");
   ++v.pNode->RefCount;
   Scaleform::GFx::AS3::Value::Value(&name, &v);
   v5 |= 0xFu;
   AVM = Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(v12);
-  v17 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 16);
+  v17 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 28);
   Scaleform::GFx::AS3::Multiname::Multiname(
     &v49,
-    (Scaleform::GFx::AS3::Instances::fl::Namespace *)AVM[1].CheckAvm,
+    (Scaleform::GFx::AS3::Instances::fl::Namespace *)AVM[1].GenerateTouchEvents,
     &name);
   if ( *(_BYTE *)(*v17)(v32, (char *)&v34 + 3, v18, &result) )
     goto LABEL_17;
   v19 = Scaleform::GFx::AS3::AvmDisplayObj::GetAS3Root(v12);
-  v40.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v19->BuiltinsMgr.pStringManager, "IsStatusWindow");
+  v40.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                v19->BuiltinsMgr.pStringManager,
+                (__m128i *)"IsStatusWindow");
   ++v40.pNode->RefCount;
   Scaleform::GFx::AS3::Value::Value(&v43, &v40);
   v5 |= 0xF0u;
   v20 = Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(v12);
-  v21 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 16);
+  v21 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 28);
   Scaleform::GFx::AS3::Multiname::Multiname(
     &v47,
-    (Scaleform::GFx::AS3::Instances::fl::Namespace *)v20[1].CheckAvm,
+    (Scaleform::GFx::AS3::Instances::fl::Namespace *)v20[1].GenerateTouchEvents,
     &v43);
   if ( *(_BYTE *)(*v21)(v32, (char *)&v36 + 3, v22, &result) )
     goto LABEL_17;
@@ -199,14 +203,14 @@ LABEL_60:
   v24 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
           &v23->BuiltinsMgr,
           &v39,
-          "IsLangBar");
+          (__m128i *)"IsLangBar");
   Scaleform::GFx::AS3::Value::Value(&v44, v24);
   v5 |= 0xF00u;
   v25 = Scaleform::GFx::AS3::AvmDisplayObj::GetAVM(v12);
-  v26 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 16);
+  v26 = (int (__thiscall **)(_DWORD *, char *, int, Scaleform::GFx::AS3::Value *))(*v32 + 28);
   Scaleform::GFx::AS3::Multiname::Multiname(
     &v48,
-    (Scaleform::GFx::AS3::Instances::fl::Namespace *)v25[1].CheckAvm,
+    (Scaleform::GFx::AS3::Instances::fl::Namespace *)v25[1].GenerateTouchEvents,
     &v44);
   v31 = 0;
   if ( *(_BYTE *)(*v26)(v32, (char *)&v34 + 2, v27, &result) )

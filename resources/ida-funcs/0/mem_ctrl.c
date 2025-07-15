@@ -13,7 +13,7 @@ int __cdecl mem_ctrl(bio_st *b, int cmd, int num, int **ptr)
     case 1:
       v6 = v4[1];
       if ( !v6 )
-        goto $LN18_24;
+        goto $LN18_30;
       v7 = v4[2];
       if ( (b->flags & 0x200) != 0 )
       {
@@ -31,7 +31,7 @@ int __cdecl mem_ctrl(bio_st *b, int cmd, int num, int **ptr)
     case 3:
       v5 = *v4;
       if ( !ptr )
-        goto $LN18_24;
+        goto $LN18_30;
       *ptr = (int *)v4[1];
       return v5;
     case 8:
@@ -43,7 +43,7 @@ int __cdecl mem_ctrl(bio_st *b, int cmd, int num, int **ptr)
       return *v4;
     case 11:
     case 12:
-      goto $LN18_24;
+      goto $LN18_30;
     case 114:
       mem_free(b);
       b->ptr = ptr;
@@ -51,7 +51,7 @@ int __cdecl mem_ctrl(bio_st *b, int cmd, int num, int **ptr)
       return 1;
     case 115:
       if ( !ptr )
-        goto $LN18_24;
+        goto $LN18_30;
       *ptr = v4;
       result = 1;
       break;
@@ -60,7 +60,7 @@ int __cdecl mem_ctrl(bio_st *b, int cmd, int num, int **ptr)
       return 1;
     default:
       v5 = 0;
-$LN18_24:
+$LN18_30:
       result = v5;
       break;
   }

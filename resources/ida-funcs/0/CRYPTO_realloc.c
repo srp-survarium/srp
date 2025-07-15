@@ -1,7 +1,7 @@
-void *__cdecl CRYPTO_realloc(void *str, int num, const char *file, int line)
+void *__cdecl CRYPTO_realloc(void *str, int num, char *file, int line)
 {
   void *result; // eax
-  void *ret; // [esp+8h] [ebp+4h]
+  void *v6; // [esp+8h] [ebp+4h]
 
   if ( !str )
     return CRYPTO_malloc(num, file, line);
@@ -10,11 +10,11 @@ void *__cdecl CRYPTO_realloc(void *str, int num, const char *file, int line)
   if ( realloc_debug_func )
     realloc_debug_func(str, 0, num, file, line, 0);
   result = realloc_ex_func(str, num, file, line);
-  ret = result;
+  v6 = result;
   if ( realloc_debug_func )
   {
     realloc_debug_func(str, result, num, file, line, 1);
-    return ret;
+    return v6;
   }
   return result;
 }

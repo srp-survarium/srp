@@ -12,12 +12,12 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::Render::Rect<float>::Expan
   double v9; // st7
   Scaleform::Render::Rect<float> *result; // eax
   float x1; // [esp+0h] [ebp-4h]
-  float xd; // [esp+8h] [ebp+4h]
-  float xa; // [esp+8h] [ebp+4h]
-  float xe; // [esp+8h] [ebp+4h]
-  float xb; // [esp+8h] [ebp+4h]
-  float xf; // [esp+8h] [ebp+4h]
-  float xc; // [esp+8h] [ebp+4h]
+  float v12; // [esp+8h] [ebp+4h]
+  float y1; // [esp+8h] [ebp+4h]
+  float v14; // [esp+8h] [ebp+4h]
+  float x2; // [esp+8h] [ebp+4h]
+  float v16; // [esp+8h] [ebp+4h]
+  float y2; // [esp+8h] [ebp+4h]
 
   x1 = this->x1;
   v3 = x;
@@ -30,33 +30,33 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::Render::Rect<float>::Expan
     v3 = x1;
     v4 = x;
   }
-  xd = v3;
-  this->x1 = xd;
-  xa = this->y1;
+  v12 = v3;
+  this->x1 = v12;
+  y1 = this->y1;
   v5 = y;
-  if ( y <= (double)xa )
+  if ( y <= (double)y1 )
   {
     v6 = y;
   }
   else
   {
-    v5 = xa;
+    v5 = y1;
     v6 = y;
   }
-  xe = v5;
-  this->y1 = xe;
-  xb = this->x2;
-  if ( xb > v4 )
-    v4 = xb;
+  v14 = v5;
+  this->y1 = v14;
+  x2 = this->x2;
+  if ( x2 > v4 )
+    v4 = x2;
   v7 = v6;
   v8 = v4;
   v9 = v7;
-  xf = v8;
-  this->x2 = xf;
-  xc = this->y2;
+  v16 = v8;
+  this->x2 = v16;
+  y2 = this->y2;
   result = this;
-  if ( xc <= v7 )
-    xc = v9;
-  this->y2 = xc;
+  if ( y2 <= v7 )
+    y2 = v9;
+  this->y2 = y2;
   return result;
 }

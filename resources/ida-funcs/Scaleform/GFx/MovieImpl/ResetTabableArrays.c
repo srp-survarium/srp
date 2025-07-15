@@ -4,11 +4,11 @@ void __thiscall Scaleform::GFx::MovieImpl::ResetTabableArrays(Scaleform::GFx::Mo
   unsigned int *v2; // edi
   Scaleform::RefCountNTSImpl **v3; // esi
   unsigned int v4; // ebx
-  unsigned int i; // [esp+0h] [ebp-8h]
+  unsigned int v5; // [esp+0h] [ebp-8h]
   Scaleform::GFx::MovieImpl *v6; // [esp+4h] [ebp-4h]
 
   v6 = this;
-  i = 0;
+  v5 = 0;
   if ( this->FocusGroupsCnt )
   {
     p_Size = &this->FocusGroups[0].TabableArray.Data.Size;
@@ -51,8 +51,8 @@ void __thiscall Scaleform::GFx::MovieImpl::ResetTabableArrays(Scaleform::GFx::Mo
         *((_BYTE *)p_Size + 41) = 0;
       }
       p_Size += 16;
-      ++i;
+      ++v5;
     }
-    while ( i < this->FocusGroupsCnt );
+    while ( v5 < this->FocusGroupsCnt );
   }
 }

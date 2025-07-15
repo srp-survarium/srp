@@ -8,7 +8,7 @@ Scaleform::GFx::AS3::AbsoluteIndex *__thiscall Scaleform::GFx::AS3::Slots::FindS
   int Prev; // esi
   int v7; // ebx
   Scaleform::GFx::AS3::SlotInfo *v8; // eax
-  const Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // eax
+  const Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // ecx
   Scaleform::GFx::AS3::AbsoluteIndex *v11; // eax
 
   SlotValues = Scaleform::GFx::AS3::Slots::FindSlotValues(this, name);

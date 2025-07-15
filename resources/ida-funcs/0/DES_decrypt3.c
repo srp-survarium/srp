@@ -11,7 +11,7 @@ int __cdecl DES_decrypt3(_DWORD *a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
   int v12; // edi
   int v13; // esi
   int v14; // edi
-  unsigned int v15; // edx
+  int v15; // edx
   int v16; // esi
   int v17; // edx
   unsigned int v18; // edi
@@ -20,7 +20,7 @@ int __cdecl DES_decrypt3(_DWORD *a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
   unsigned int v21; // edi
   int v22; // esi
   int v23; // edi
-  unsigned int v24; // eax
+  int v24; // eax
   int v25; // esi
   int v26; // eax
   int v27; // edi
@@ -43,7 +43,7 @@ int __cdecl DES_decrypt3(_DWORD *a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
   v12 = (v10 ^ v11) & 0x33333333;
   v13 = v12 ^ v11;
   v14 = __ROL4__(v12 ^ v10, 22);
-  v15 = (unsigned int)&vostok::memory::s_CRT_arena[55644724] & (v13 ^ v14);
+  v15 = (v13 ^ v14) & 0x3FC03FC;
   v16 = v15 ^ v13;
   v17 = __ROL4__(v15 ^ v14, 9);
   v18 = (v16 ^ v17) & 0xAAAAAAAA;
@@ -57,7 +57,7 @@ int __cdecl DES_decrypt3(_DWORD *a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
   v21 = (v19 ^ v20) & 0xAAAAAAAA;
   v22 = v21 ^ v19;
   v23 = __ROL4__(v21 ^ v20, 23);
-  v24 = (unsigned int)&vostok::memory::s_CRT_arena[55644724] & (v22 ^ v23);
+  v24 = (v22 ^ v23) & 0x3FC03FC;
   v25 = v24 ^ v22;
   v26 = __ROL4__(v24 ^ v23, 10);
   v27 = (v25 ^ v26) & 0x33333333;

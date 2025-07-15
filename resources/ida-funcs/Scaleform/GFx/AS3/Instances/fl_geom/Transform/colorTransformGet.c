@@ -78,7 +78,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::colorTransfo
   {
     RefCount = pcolorTransform.pObject->RefCount;
     v10 = pcolorTransform.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       pcolorTransform.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

@@ -1,210 +1,243 @@
 void __thiscall vostok::animation::mixing::n_ary_tree_converter::compute_buffer_size(
         vostok::animation::mixing::n_ary_tree_converter *this,
-        vostok::animation::mixing::n_ary_tree_converter *thisa)
+        survarium::single_game_effect **__comp)
 {
-  vostok::animation::mixing::binary_tree_animation_node *v2; // esi
-  vostok::animation::mixing::n_ary_tree_converter *v3; // edi
-  vostok::animation::mixing::binary_tree_animation_node *m_animations_root; // eax
-  vostok::animation::mixing::binary_tree_animation_node *m_time_driving_animation; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v6; // ecx
-  char v7; // bl
-  bool v8; // zf
+  survarium::single_game_effect **v2; // ebx
+  vostok::animation::mixing::binary_tree_weight_node *v3; // edi
+  vostok::animation::mixing::binary_tree_weight_node *v4; // eax
+  vostok::animation::mixing::binary_tree_weight_node *v5; // esi
+  unsigned int m_reference_count; // eax
+  unsigned int v7; // ecx
+  float m_weight; // xmm0_4
+  bool v9; // zf
   vostok::animation::mixing::binary_tree_base_node *i; // edi
-  vostok::animation::mixing::binary_tree_animation_node *m_object; // ecx
-  vostok::animation::mixing::binary_tree_animation_node *v11; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v12; // ecx
-  unsigned int m_animations_count; // esi
-  void *v14; // esp
-  vostok::animation::mixing::binary_tree_animation_node *v15; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v16; // esi
-  vostok::animation::mixing::binary_tree_animation_node *v17; // ecx
-  vostok::animation::mixing::binary_tree_animation_node *v18; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v19; // ecx
-  const void **m_begin; // edx
-  const void **m_end; // esi
-  void **v22; // eax
-  const void **v23; // eax
-  const void **v24; // eax
-  int v25; // eax
-  const void *v26; // [esp+0h] [ebp-34h] BYREF
-  vostok::animation::mixing::n_ary_tree_size_calculator calculator; // [esp+10h] [ebp-24h] BYREF
-  vostok::buffer_vector<void const *> animated_objects; // [esp+20h] [ebp-14h] BYREF
-  void **end; // [esp+28h] [ebp-Ch] BYREF
-  void *value[2]; // [esp+2Ch] [ebp-8h] BYREF
+  int v11; // esi
+  int v12; // eax
+  void *v13; // esp
+  vostok::animation::mixing::binary_tree_weight_node *v14; // eax
+  unsigned __int8 *v15; // edi
+  survarium::single_game_effect **v16; // edx
+  int v17; // esi
+  int v18; // ecx
+  int v19; // eax
+  survarium::single_game_effect **v20; // esi
+  unsigned __int8 *v21; // ecx
+  unsigned int v22; // esi
+  unsigned __int8 *v23; // edx
+  unsigned __int8 *j; // eax
+  unsigned __int8 *v25; // ecx
+  unsigned __int8 *v26; // ecx
+  unsigned __int8 *k; // eax
+  unsigned __int8 *m; // eax
+  int v29; // edi
+  _BYTE v30[16]; // [esp+0h] [ebp-3Ch] BYREF
+  _DWORD v31[3]; // [esp+10h] [ebp-2Ch] BYREF
+  int v32; // [esp+1Ch] [ebp-20h]
+  survarium::single_game_effect **__first; // [esp+20h] [ebp-1Ch] BYREF
+  survarium::single_game_effect **__last; // [esp+24h] [ebp-18h]
+  _BYTE *v35; // [esp+28h] [ebp-14h]
+  vostok::animation::mixing::binary_tree_weight_node *v36; // [esp+2Ch] [ebp-10h] BYREF
+  unsigned int m_next_unique_interpolator; // [esp+30h] [ebp-Ch] BYREF
+  char v38; // [esp+37h] [ebp-5h]
 
-  v2 = 0;
-  value[0] = 0;
-  v3 = thisa;
-  m_animations_root = thisa->m_animations_root;
-  calculator.vostok::animation::mixing::binary_tree_visitor::__vftable = (vostok::animation::mixing::n_ary_tree_size_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::binary_tree_visitor'};
-  calculator.vostok::animation::mixing::n_ary_tree_visitor::__vftable = (vostok::animation::mixing::n_ary_tree_visitor_vtbl *)&vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::n_ary_tree_visitor'};
-  calculator.m_comparer = 0;
-  calculator.m_size = 0;
-  if ( m_animations_root )
+  v2 = __comp;
+  v3 = 0;
+  m_next_unique_interpolator = 0;
+  v4 = (vostok::animation::mixing::binary_tree_weight_node *)__comp[19];
+  v5 = 0;
+  v31[0] = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::binary_tree_visitor'};
+  v31[1] = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::n_ary_tree_visitor'};
+  v31[2] = 0;
+  v32 = 0;
+  v36 = 0;
+  if ( v4 )
   {
-    ++m_animations_root->m_reference_count;
-    v2 = m_animations_root;
+    ++v4->m_reference_count;
+    v5 = v4;
+    v36 = v4;
   }
-  while ( v2 )
+  while ( v5 )
   {
     if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
     {
-      v8 = v2->m_reference_count-- == 1;
-      if ( v8 )
-        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v2->~vostok::animation::mixing::binary_tree_base_node)(
-          v2,
+      v9 = v5->m_reference_count-- == 1;
+      if ( v9 )
+        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_weight_node *, _DWORD))v5->~vostok::animation::mixing::binary_tree_base_node)(
+          v5,
           0);
       break;
     }
-    if ( v2->m_null_weight_found )
+    if ( LOBYTE(v5[3].m_interpolator) )
     {
-      --v3->m_animations_count;
-      goto LABEL_21;
+      __comp[26] = (survarium::single_game_effect *)((char *)__comp[26] - 1);
+      goto LABEL_22;
     }
-    fill_weights(v2);
-    v2->accept(v2, &calculator);
-    m_time_driving_animation = v2->m_time_driving_animation;
-    value[0] = (void *)((int)value[0] | 1);
-    v6 = 0;
-    if ( m_time_driving_animation )
+    fill_weights((vostok::animation::mixing::binary_tree_animation_node *)v5);
+    v5->accept(v5, (vostok::animation::mixing::binary_tree_visitor *)v31);
+    m_reference_count = v5[1].m_reference_count;
+    m_next_unique_interpolator |= 1u;
+    v7 = 0;
+    if ( m_reference_count )
     {
-      ++m_time_driving_animation->m_reference_count;
-      v6 = m_time_driving_animation;
-LABEL_9:
-      v7 = 0;
-      goto LABEL_10;
+      ++*(_DWORD *)(m_reference_count + 16);
+      v7 = m_reference_count;
     }
-    if ( v2->m_time_scale == *(float *)&clear_value )
-      goto LABEL_9;
-    v7 = 1;
-LABEL_10:
-    if ( ((int)value[0] & 1) != 0 )
+    else
     {
-      value[0] = (void *)((int)value[0] & ~1u);
-      if ( v6 )
+      m_weight = v5[2].m_weight;
+      v38 = 1;
+      if ( m_weight != s_bm_current_air_resistance )
+        goto LABEL_11;
+    }
+    v38 = 0;
+LABEL_11:
+    if ( (m_next_unique_interpolator & 1) != 0 )
+    {
+      m_next_unique_interpolator &= ~1u;
+      if ( v7 )
       {
-        v8 = v6->m_reference_count-- == 1;
-        if ( v8 )
-          ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v6->~vostok::animation::mixing::binary_tree_base_node)(
-            v6,
-            0);
+        v9 = (*(_DWORD *)(v7 + 16))-- == 1;
+        if ( v9 )
+          (**(void (__thiscall ***)(unsigned int, _DWORD))v7)(v7, 0);
       }
     }
-    if ( v7 )
-      v3->m_buffer_size += 24;
-    for ( i = v2->m_next_weight; i; i = i->m_next_weight )
+    if ( v38 )
+      __comp[29] = (survarium::single_game_effect *)((char *)__comp[29] + 24);
+    for ( i = v5->m_next_weight; i; i = i->m_next_weight )
     {
       if ( !i->m_same_weight )
-        i->accept(i, &calculator);
+        i->accept(i, (vostok::animation::mixing::binary_tree_visitor *)v31);
     }
-    v3 = thisa;
-LABEL_21:
-    ++v3->m_animations_count;
-    m_object = v2->m_next_weight_animation.m_object;
-    v11 = 0;
-    if ( m_object )
-    {
-      v11 = v2->m_next_weight_animation.m_object;
-      ++m_object->m_reference_count;
-    }
-    v12 = v2;
-    v2 = v11;
-    v8 = v12->m_reference_count-- == 1;
-    if ( v8 )
-      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v12->~vostok::animation::mixing::binary_tree_base_node)(
-        v12,
-        0);
+LABEL_22:
+    __comp[26] = (survarium::single_game_effect *)((char *)__comp[26] + 1);
+    vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)&v5[1].m_simplified_weight,
+      &v36);
+    v5 = v36;
+    v3 = 0;
   }
-  m_animations_count = v3->m_animations_count;
-  v3->m_buffer_size += calculator.m_size + 184 * m_animations_count;
-  v14 = alloca(136 * m_animations_count);
-  vostok::buffer_vector<void const *>::buffer_vector<void const *>(&animated_objects, &v26, m_animations_count, 0);
-  v15 = v3->m_animations_root;
-  v16 = 0;
-  if ( v15 )
+  v11 = (int)__comp[26];
+  v12 = 176 * v11;
+  v11 *= 4;
+  __comp[29] = (survarium::single_game_effect *)((char *)__comp[29] + v32 + v11 + v12);
+  v13 = alloca(v11);
+  __first = (survarium::single_game_effect **)v30;
+  __last = (survarium::single_game_effect **)v30;
+  v14 = (vostok::animation::mixing::binary_tree_weight_node *)__comp[19];
+  v35 = &v30[v11];
+  v36 = 0;
+  if ( v14 )
   {
-    ++v15->m_reference_count;
-    v16 = v15;
+    ++v14->m_reference_count;
+    v3 = v14;
+    v36 = v14;
   }
-  while ( v16 )
+  while ( v3 )
   {
     if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
     {
-      v8 = v16->m_reference_count-- == 1;
-      if ( v8 )
-        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v16->~vostok::animation::mixing::binary_tree_base_node)(
-          v16,
+      v9 = v3->m_reference_count-- == 1;
+      if ( v9 )
+        ((void (__thiscall *)(vostok::animation::mixing::binary_tree_weight_node *, _DWORD))v3->~vostok::animation::mixing::binary_tree_base_node)(
+          v3,
           0);
       break;
     }
-    if ( !v16->m_null_weight_found )
+    if ( !LOBYTE(v3[3].m_interpolator) )
     {
-      value[0] = (void *)v16->m_animated_object;
-      vostok::buffer_vector<enum vostok::logging::format_specifier_enum>::push_back(
-        &animated_objects,
-        (const void **)value);
+      m_next_unique_interpolator = (unsigned int)v3[1].m_next_unique_interpolator;
+      vostok::buffer_vector<void const *>::push_back(
+        (vostok::buffer_vector<void const *> *)this,
+        (int)&__first,
+        (const void **)&m_next_unique_interpolator);
     }
-    v17 = v16->m_next_weight_animation.m_object;
-    v18 = 0;
-    if ( v17 )
-    {
-      v18 = v16->m_next_weight_animation.m_object;
-      ++v17->m_reference_count;
-    }
-    v19 = v16;
-    v16 = v18;
-    v8 = v19->m_reference_count-- == 1;
-    if ( v8 )
-      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v19->~vostok::animation::mixing::binary_tree_base_node)(
-        v19,
-        0);
+    vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)&v3[1].m_simplified_weight,
+      &v36);
+    v3 = v36;
   }
-  stlp_std::sort<void const * *>(animated_objects.m_begin, animated_objects.m_end);
-  m_begin = animated_objects.m_begin;
-  value[0] = animated_objects.m_end;
-  m_end = animated_objects.m_end;
-  if ( animated_objects.m_begin == animated_objects.m_end
-    || (v23 = animated_objects.m_begin + 1, animated_objects.m_begin + 1 == animated_objects.m_end) )
+  v15 = (unsigned __int8 *)__last;
+  v16 = __first;
+  if ( __first != __last )
   {
-    v22 = (void **)animated_objects.m_end;
-  }
-  else
-  {
-    while ( *m_begin != *v23 )
+    v17 = __last - __first;
+    v18 = v17;
+    v19 = 0;
+    while ( v18 != 1 )
     {
-      m_begin = v23++;
-      if ( v23 == animated_objects.m_end )
-      {
-        v22 = (void **)animated_objects.m_end;
-        goto LABEL_55;
-      }
+      ++v19;
+      v18 >>= 1;
     }
-    v22 = (void **)m_begin;
-    if ( m_begin != animated_objects.m_end )
+    stlp_std::priv::__introsort_loop<void const * *,void const *,int,stlp_std::less<void const *>>(
+      (stlp_std::less<survarium::single_game_effect *>)__last,
+      __first,
+      __last,
+      0,
+      2 * v19,
+      __comp);
+    if ( v17 <= 16 )
     {
-      v24 = m_begin + 1;
-      if ( m_begin + 1 != animated_objects.m_end )
+      stlp_std::priv::__insertion_sort<unsigned int *,unsigned int,stlp_std::less<unsigned int>>(
+        (unsigned __int8 *)__first,
+        v15);
+    }
+    else
+    {
+      v20 = __first + 16;
+      stlp_std::priv::__insertion_sort<unsigned int *,unsigned int,stlp_std::less<unsigned int>>(
+        (unsigned __int8 *)__first,
+        (unsigned __int8 *)__first + 64);
+      v21 = (unsigned __int8 *)v20;
+      if ( v20 != (survarium::single_game_effect **)v15 )
       {
         do
         {
-          if ( *m_begin != *v24 )
-            *++m_begin = *v24;
-          ++v24;
+          v22 = *(_DWORD *)v21;
+          v23 = v21;
+          for ( j = v21 - 4; v22 < *(_DWORD *)j; j -= 4 )
+          {
+            *(_DWORD *)v23 = *(_DWORD *)j;
+            v23 = j;
+          }
+          v21 += 4;
+          *(_DWORD *)v23 = v22;
         }
-        while ( v24 != m_end );
+        while ( v21 != v15 );
+        v2 = __comp;
       }
-      v22 = (void **)(m_begin + 1);
     }
+    v16 = __first;
   }
-LABEL_55:
-  end = v22;
-  vostok::buffer_vector<void const *>::erase(
-    &animated_objects,
-    &animated_objects,
-    (const void ***)&end,
-    (const void **const *)value);
-  v25 = vostok::buffer_vector<void const *>::size(&animated_objects);
-  thisa->m_animated_objects_count = v25;
-  thisa->m_buffer_size += 136 * v25;
-  vostok::buffer_vector<char const *>::~buffer_vector<char const *>(&animated_objects);
+  v25 = (unsigned __int8 *)v16;
+  if ( v16 == (survarium::single_game_effect **)v15 )
+  {
+    v26 = v15;
+    goto LABEL_61;
+  }
+  for ( k = (unsigned __int8 *)(v16 + 1); k != v15; k += 4 )
+  {
+    if ( *(_DWORD *)v25 == *(_DWORD *)k )
+      goto LABEL_54;
+    v25 = k;
+  }
+  v25 = v15;
+LABEL_54:
+  if ( v25 != v15 )
+  {
+    for ( m = v25 + 4; m != v15; m += 4 )
+    {
+      if ( *(_DWORD *)v25 != *(_DWORD *)m )
+      {
+        v25 += 4;
+        *(_DWORD *)v25 = *(_DWORD *)m;
+      }
+    }
+    v26 = v25 + 4;
+LABEL_61:
+    if ( v26 != v15 )
+      v15 = (unsigned __int8 *)&v16[((v15 - (unsigned __int8 *)v16) >> 2) - ((v15 - v26) >> 2)];
+  }
+  v29 = (v15 - (unsigned __int8 *)v16) >> 2;
+  v2[27] = (survarium::single_game_effect *)v29;
+  v2[29] = (survarium::single_game_effect *)((char *)v2[29] + 136 * v29 + 60);
 }

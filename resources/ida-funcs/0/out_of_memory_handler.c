@@ -1,5 +1,5 @@
-int __thiscall out_of_memory_handler(survarium::game_camera *this)
+int __cdecl out_of_memory_handler()
 {
-  handler_base(this);
+  handler_base("out of memory");
   return 0;
 }

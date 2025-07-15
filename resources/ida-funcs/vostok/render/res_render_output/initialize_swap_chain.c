@@ -1,22 +1,71 @@
 void __usercall vostok::render::res_render_output::initialize_swap_chain(
         vostok::render::res_render_output *this@<ecx>,
-        int a2@<esi>)
+        int a2@<eax>)
 {
-  vostok::render::res_render_output *v2; // ecx
-  IDXGIDevice *pDXGIDevice; // [esp+1Ch] [ebp-Ch] BYREF
-  IDXGIAdapter *pDXGIAdapter; // [esp+20h] [ebp-8h] BYREF
-  IDXGIFactory *dxgi_factory; // [esp+24h] [ebp-4h] BYREF
+  int MessageA; // eax
+  IDXGIFactory_vtbl *v4; // edx
+  HRESULT v5; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
+  bool *d3d11_error_string; // eax
+  vostok::render::res_render_output *v8; // ecx
+  IDXGIFactory *m_dxgi_factory; // [esp-1Ch] [ebp-4Ch]
+  ID3D11Device *m_device; // [esp-18h] [ebp-48h]
+  MSG Msg; // [esp+10h] [ebp-20h] BYREF
+  char v12; // [esp+2Fh] [ebp-1h] BYREF
 
-  (**(void (__stdcall ***)(int, GUID *, IDXGIDevice **))`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x)(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-    &_GUID_54ec77fa_1377_44e6_8c32_88fd5f44c84c,
-    &pDXGIDevice);
-  pDXGIDevice->GetParent(pDXGIDevice, &_GUID_2411e7e1_12ac_4ccf_bd14_9798e8534dc0, (void **)&pDXGIAdapter);
-  pDXGIAdapter->GetParent(pDXGIAdapter, &_GUID_7b7166ec_21c7_44ae_b21a_c9ae321ae369, (void **)&dxgi_factory);
-  dxgi_factory->CreateSwapChain(
-    dxgi_factory,
-    (IUnknown *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-    (DXGI_SWAP_CHAIN_DESC *)(a2 + 144),
-    (IDXGISwapChain **)(a2 + 204));
-  vostok::render::res_render_output::update_targets(v2, a2);
+  if ( vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory->CreateSwapChain(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory,
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         (DXGI_SWAP_CHAIN_DESC *)(a2 + 152),
+         (IDXGISwapChain **)(a2 + 212)) )
+  {
+    SetFocus(*(HWND *)(a2 + 196));
+    while ( 1 )
+    {
+      MessageA = GetMessageA(&Msg, 0, 0, 0);
+      if ( !MessageA )
+        break;
+      if ( MessageA != -1 )
+      {
+        TranslateMessage(&Msg);
+        DispatchMessageA(&Msg);
+      }
+    }
+    if ( !ignore_always_22
+      && vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory->CreateSwapChain(
+           vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory,
+           vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+           (DXGI_SWAP_CHAIN_DESC *)(a2 + 152),
+           (IDXGISwapChain **)(a2 + 212)) < 0 )
+    {
+      v4 = vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory->lpVtbl;
+      m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+      m_dxgi_factory = vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory;
+      v12 = 1;
+      v5 = v4->CreateSwapChain(
+             m_dxgi_factory,
+             m_device,
+             (DXGI_SWAP_CHAIN_DESC *)(a2 + 152),
+             (IDXGISwapChain **)(a2 + 212));
+      d3d11_error_string = (bool *)make_d3d11_error_string(v5, v6);
+      vostok::debug::on_error(
+        (bool *)&v12,
+        process_error_true,
+        d3d11_error_string,
+        ".\\res_render_output.cpp",
+        "vostok::render::res_render_output::initialize_swap_chain",
+        (const char *)0x8B);
+      if ( vostok::debug::is_debugger_present() || v12 )
+        __debugbreak();
+    }
+  }
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory->MakeWindowAssociation(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory,
+    *(HWND__ **)(a2 + 228),
+    2u);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory->MakeWindowAssociation(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_dxgi_factory,
+    *(HWND__ **)(a2 + 228),
+    1u);
+  vostok::render::res_render_output::update_targets(v8, a2);
 }

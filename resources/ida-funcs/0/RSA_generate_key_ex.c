@@ -1,4 +1,4 @@
-int __cdecl RSA_generate_key_ex(rsa_st *rsa, int bits, bignum_st *e_value, bn_gencb_st *cb)
+int __usercall RSA_generate_key_ex@<eax>(int a1@<ebx>, rsa_st *rsa, int bits, bignum_st *e_value, bn_gencb_st *cb)
 {
   int (*rsa_keygen)(void); // eax
 
@@ -6,5 +6,5 @@ int __cdecl RSA_generate_key_ex(rsa_st *rsa, int bits, bignum_st *e_value, bn_ge
   if ( rsa_keygen )
     return rsa_keygen();
   else
-    return rsa_builtin_keygen(bits, rsa, e_value, cb);
+    return rsa_builtin_keygen(bits, rsa, a1, e_value, cb);
 }

@@ -36,7 +36,7 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::OnEventLoad(Scaleform::GFx::A
   v9 = v7->CheckAdvanceStatus(v7, Flags);
   if ( v9 == -1 )
   {
-    v7->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    v7->Flags |= (unsigned int)&loc_400000;
   }
   else if ( v9 == 1 )
   {

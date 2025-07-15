@@ -19,26 +19,26 @@ bool __cdecl Scaleform::Render::SegmentLineIntersection(
   bool result; // al
   double v17; // st3
   float v18; // [esp+4h] [ebp+4h]
-  float den; // [esp+Ch] [ebp+Ch]
-  float uaa; // [esp+18h] [ebp+18h]
-  float ua; // [esp+18h] [ebp+18h]
+  float v19; // [esp+Ch] [ebp+Ch]
+  float v20; // [esp+18h] [ebp+18h]
+  float v21; // [esp+18h] [ebp+18h]
 
   v11 = ax;
   v12 = bx - ax;
   v13 = dy - cy;
   v14 = by - ay;
   v15 = dx - cx;
-  den = v13 * v12 - v15 * v14;
-  v18 = fabs(den);
+  v19 = v13 * v12 - v15 * v14;
+  v18 = fabs(v19);
   if ( epsilon > (double)v18 )
     return 0;
-  uaa = v15 * (ay - cy) - v13 * (v11 - cx);
-  ua = uaa / den;
-  v17 = ua;
-  if ( ua < -0.0000099999997 || v17 > 1.00001 )
+  v20 = v15 * (ay - cy) - v13 * (v11 - cx);
+  v21 = v20 / v19;
+  v17 = v21;
+  if ( v21 < -0.0000099999997 || v17 > 1.00001 )
     return 0;
   *x = v11 + v12 * v17;
   result = 1;
-  *y = ay + v14 * ua;
+  *y = ay + v14 * v21;
   return result;
 }

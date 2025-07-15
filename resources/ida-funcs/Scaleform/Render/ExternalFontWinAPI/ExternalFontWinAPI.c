@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
         Scaleform::Render::ExternalFontWinAPI *this,
         Scaleform::GFx::Resource *pprovider,
         Scaleform::Render::FontSysDataWinAPI *sysData,
-        const char *name,
+        char *name,
         unsigned int fontFlags,
         Scaleform::Lock *fontLock)
 {
@@ -19,9 +19,9 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
   HFONT__ *FontW; // eax
   HDC__ *WinHDC; // edi
   HGDIOBJ v19; // ebp
-  bool found; // [esp+13h] [ebp-99h] BYREF
-  tagTEXTMETRICW tm; // [esp+14h] [ebp-98h] BYREF
-  tagLOGFONTW lf; // [esp+50h] [ebp-5Ch] BYREF
+  char lParam; // [esp+13h] [ebp-99h] BYREF
+  tagTEXTMETRICW lParam_1; // [esp+14h] [ebp-98h] BYREF
+  tagLOGFONTW Logfont; // [esp+50h] [ebp-5Ch] BYREF
 
   this->Ascent = 0.0;
   this->__vftable = (Scaleform::Render::ExternalFontWinAPI_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -75,7 +75,7 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
       v8 + 1);
   }
   this->Name.Data.Size = v9;
-  strcpy_s(this->Name.Data.Data, strlen(name) + 1, name);
+  strcpy_s((int)&this->Name, this->Name.Data.Data, strlen(name) + 1, name);
   Length = Scaleform::UTF8Util::GetLength(name, -1);
   v11 = Length + 1;
   if ( Length + 1 >= this->NameW.Data.Size )
@@ -95,9 +95,9 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
   }
   this->NameW.Data.Size = v11;
   Scaleform::UTF8Util::DecodeString(p_NameW->Data.Data, name, -1);
-  lfFaceName = lf.lfFaceName;
+  lfFaceName = Logfont.lfFaceName;
   v13 = 32;
-  v14 = (char *)p_NameW->Data.Data - (char *)lf.lfFaceName;
+  v14 = (char *)p_NameW->Data.Data - (char *)Logfont.lfFaceName;
   while ( v13 != -2147483614 )
   {
     v15 = *(wchar_t *)((char *)lfFaceName + v14);
@@ -111,11 +111,16 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
     }
   }
   *lfFaceName = 0;
-  found = 0;
+  lParam = 0;
   pSysData = this->pSysData;
-  lf.lfCharSet = 1;
-  EnumFontFamiliesExW(pSysData->WinHDC, &lf, (FONTENUMPROCW)Scaleform::Render::EnumFontFamExProc, (LPARAM)&found, 0);
-  if ( found || !strcmp(name, "_sans") || !strcmp(name, "_typewriter") || !strcmp(name, "_serif") )
+  Logfont.lfCharSet = 1;
+  EnumFontFamiliesExW(
+    pSysData->WinHDC,
+    &Logfont,
+    (FONTENUMPROCW)Scaleform::Render::EnumFontFamExProc,
+    (LPARAM)&lParam,
+    0);
+  if ( lParam || !strcmp(name, "_sans") || !strcmp(name, "_typewriter") || !strcmp(name, "_serif") )
   {
     FontW = CreateFontW(
               -240,
@@ -137,11 +142,11 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::ExternalFontWinAPI(
     {
       WinHDC = this->pSysData->WinHDC;
       v19 = SelectObject(WinHDC, FontW);
-      if ( GetTextMetricsW(this->pSysData->WinHDC, &tm) )
+      if ( GetTextMetricsW(this->pSysData->WinHDC, &lParam_1) )
       {
-        this->Leading = (double)tm.tmExternalLeading * this->Scale1024;
-        this->Ascent = (double)tm.tmAscent * this->Scale1024;
-        this->Descent = (double)tm.tmDescent * this->Scale1024;
+        this->Leading = (double)lParam_1.tmExternalLeading * this->Scale1024;
+        this->Ascent = (double)lParam_1.tmAscent * this->Scale1024;
+        this->Descent = (double)lParam_1.tmDescent * this->Scale1024;
         Scaleform::Render::ExternalFontWinAPI::loadKerningPairs(this);
       }
       SelectObject(WinHDC, v19);

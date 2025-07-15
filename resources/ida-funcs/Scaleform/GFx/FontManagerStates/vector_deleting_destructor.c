@@ -27,7 +27,9 @@ Scaleform::GFx::FontManagerStates *__thiscall Scaleform::GFx::FontManagerStates:
 }
 
 
-void *__thiscall Scaleform::GFx::FontManagerStates::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::FontManagerStates *__thiscall Scaleform::GFx::FontManagerStates::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::FontManagerStates::`vector deleting destructor'(
            (Scaleform::GFx::FontManagerStates *)(this - 8),

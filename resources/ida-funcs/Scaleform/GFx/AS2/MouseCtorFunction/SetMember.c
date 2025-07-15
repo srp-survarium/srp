@@ -32,7 +32,7 @@ char __thiscall Scaleform::GFx::AS2::MouseCtorFunction::SetMember(
         {
           RefCount = result.Function->RefCount;
           Function = result.Function;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             result.Function->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -46,7 +46,7 @@ char __thiscall Scaleform::GFx::AS2::MouseCtorFunction::SetMember(
         {
           v12 = result.pLocalFrame->RefCount;
           pLocalFrame = result.pLocalFrame;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+          if ( (v12 & 0x3FFFFFF) != 0 )
           {
             result.pLocalFrame->RefCount = v12 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

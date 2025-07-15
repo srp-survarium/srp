@@ -40,7 +40,7 @@ char __thiscall Scaleform::GFx::AS3::InstanceTraits::UserDefined::SupportsInterf
     v6 = this->Script.pObject;
     v7 = (const Scaleform::GFx::AS3::Abc::Multiname *)(*(_DWORD *)(*(_DWORD *)(v6->pTraits.pObject[1].FirstOwnSlotNum
                                                                              + 60)
-                                                                 + 88)
+                                                                 + 96)
                                                      + 16 * p_implemented_interfaces->info.Data.Data[i]);
     if ( !v6->Initialized )
     {
@@ -87,7 +87,7 @@ LABEL_14:
     if ( interfaceMN.Obj.pObject && ((int)interfaceMN.Obj.pObject & 1) == 0 )
     {
       RefCount = interfaceMN.Obj.pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v14 = interfaceMN.Obj.pObject;
         interfaceMN.Obj.pObject->RefCount = RefCount - 1;
@@ -110,7 +110,7 @@ LABEL_14:
     {
       v16 = interfaceMN.Obj.pObject->RefCount;
       v17 = interfaceMN.Obj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+      if ( (v16 & 0x3FFFFF) != 0 )
       {
         interfaceMN.Obj.pObject->RefCount = v16 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);

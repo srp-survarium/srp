@@ -14,11 +14,11 @@ long double __thiscall Scaleform::GFx::AS2::Value::ToNumber(
   bool v13; // cf
   long double v14; // st7
   char *v15; // eax
-  double retVal; // [esp+18h] [ebp-58h] BYREF
-  Scaleform::GFx::AS2::FunctionRef func; // [esp+20h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value toValueFunc; // [esp+2Ch] [ebp-44h] BYREF
-  Scaleform::GFx::AS2::Value result; // [esp+3Ch] [ebp-34h] BYREF
-  Scaleform::GFx::AS2::FnCall fnCall; // [esp+4Ch] [ebp-24h] BYREF
+  double v16; // [esp+18h] [ebp-58h] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+20h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+2Ch] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value ResIn; // [esp+3Ch] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FnCall v20; // [esp+4Ch] [ebp-24h] BYREF
 
   Type = this->T.Type;
   if ( this->T.Type == 3 )
@@ -28,8 +28,8 @@ long double __thiscall Scaleform::GFx::AS2::Value::ToNumber(
     case 4u:
       return (double)this->NV.Int32Value;
     case 5u:
-      if ( Scaleform::GFx::AS2::StringToNumber((char *)this->V.pStringNode->pData, &retVal) )
-        return retVal;
+      if ( Scaleform::GFx::AS2::StringToNumber((char *)this->V.pStringNode->pData, (int)this, &v16) )
+        return v16;
       return Scaleform::GFx::NumberUtil::NaN();
     case 1u:
       if ( penv->StringContext.SWFVersion <= 6u )
@@ -48,7 +48,7 @@ long double __thiscall Scaleform::GFx::AS2::Value::ToNumber(
       return 0.0;
     return Scaleform::GFx::NumberUtil::NaN();
   }
-  toValueFunc.T.Type = 0;
+  v18.T.Type = 0;
   v5 = Scaleform::GFx::AS2::Value::ToObjectInterface(this, penv);
   v6 = v5;
   if ( penv
@@ -56,80 +56,84 @@ long double __thiscall Scaleform::GFx::AS2::Value::ToNumber(
          v5,
          &penv->StringContext,
          (const Scaleform::GFx::ASString *)&penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[25].pASSupport,
-         &toValueFunc) )
+         &v18) )
   {
     FuncCallNestingLevel = penv->FuncCallNestingLevel;
     penv->FuncCallNestingLevel = FuncCallNestingLevel + 1;
     if ( FuncCallNestingLevel >= 0xFFu )
     {
-      retVal = Scaleform::GFx::NumberUtil::NaN();
+      v16 = Scaleform::GFx::NumberUtil::NaN();
+      if ( penv->IsVerboseActionErrors(penv) )
+        Scaleform::GFx::AS2::Environment::LogScriptError(
+          penv,
+          "Stack overflow, max level of 255 nested calls of valueOf is reached.");
     }
     else
     {
-      result.T.Type = 0;
-      Scaleform::GFx::AS2::Value::ToFunction(&toValueFunc, &func, penv);
-      Function = func.Function;
-      pLocalFrame = func.pLocalFrame;
-      if ( func.Function )
+      ResIn.T.Type = 0;
+      Scaleform::GFx::AS2::Value::ToFunction(&v18, &result, penv);
+      Function = result.Function;
+      pLocalFrame = result.pLocalFrame;
+      if ( result.Function )
       {
-        Scaleform::GFx::AS2::FnCall::FnCall(&fnCall, &result, v6, penv, 0, 0);
-        Function->Invoke(Function, &fnCall, pLocalFrame, 0);
-        Scaleform::GFx::AS2::FnCall::~FnCall(&fnCall);
+        Scaleform::GFx::AS2::FnCall::FnCall(&v20, &ResIn, v6, penv, 0, 0);
+        Function->Invoke(Function, &v20, pLocalFrame, 0);
+        Scaleform::GFx::AS2::FnCall::~FnCall(&v20);
       }
-      if ( Scaleform::GFx::AS2::Value::IsPrimitive(&result) )
-        v10 = Scaleform::GFx::AS2::Value::ToNumber(&result, penv);
+      if ( Scaleform::GFx::AS2::Value::IsPrimitive(&ResIn) )
+        v10 = Scaleform::GFx::AS2::Value::ToNumber(&ResIn, penv);
       else
         v10 = Scaleform::GFx::NumberUtil::NaN();
-      retVal = v10;
-      if ( (func.Flags & 2) == 0 )
+      v16 = v10;
+      if ( (result.Flags & 2) == 0 )
       {
         if ( Function )
         {
           RefCount = Function->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             Function->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
           }
         }
       }
-      if ( (func.Flags & 1) == 0 )
+      if ( (result.Flags & 1) == 0 )
       {
         if ( pLocalFrame )
         {
           v12 = pLocalFrame->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+          if ( (v12 & 0x3FFFFFF) != 0 )
           {
             pLocalFrame->RefCount = v12 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
           }
         }
       }
-      if ( result.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&result);
+      if ( ResIn.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&ResIn);
     }
     --penv->FuncCallNestingLevel;
-    v13 = toValueFunc.T.Type < 5u;
-    goto LABEL_41;
+    v13 = v18.T.Type < 5u;
+    goto LABEL_42;
   }
   if ( this->T.Type == 7 )
   {
     v14 = Scaleform::GFx::NumberUtil::NaN();
-LABEL_40:
-    v13 = toValueFunc.T.Type < 5u;
-    retVal = v14;
 LABEL_41:
+    v13 = v18.T.Type < 5u;
+    v16 = v14;
+LABEL_42:
     if ( !v13 )
-      Scaleform::GFx::AS2::Value::DropRefs(&toValueFunc);
-    return retVal;
+      Scaleform::GFx::AS2::Value::DropRefs(&v18);
+    return v16;
   }
   v15 = (char *)v6->GetTextValue(v6, penv);
   if ( v15 )
   {
-    v14 = atof(v15);
-    goto LABEL_40;
+    v14 = atof((int)this, v15);
+    goto LABEL_41;
   }
-  if ( toValueFunc.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&toValueFunc);
+  if ( v18.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v18);
   return 0.0;
 }

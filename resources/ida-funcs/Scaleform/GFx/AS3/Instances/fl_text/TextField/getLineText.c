@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getLineText(
         Scaleform::GFx::AS3::Instances::fl_text::TextField *this,
         Scaleform::GFx::ASString *result,
-        int lineIndex)
+        unsigned int lineIndex)
 {
   Scaleform::GFx::DisplayObject *pObject; // eax
   wchar_t *LineText; // edi
@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getLineText(
     Scaleform::String::AppendString((Scaleform::String *)&lineIndex, LineText, len);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                   (char *)((lineIndex & 0xFFFFFFFC) + 8),
+                   (__m128i *)((lineIndex & 0xFFFFFFFC) + 8),
                    *(_DWORD *)(lineIndex & 0xFFFFFFFC) & 0x7FFFFFFF);
     StringNode->RefCount += 2;
     pNode = result->pNode;
@@ -44,7 +44,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getLineText(
   {
     ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                         this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                        (char *)&buf,
+                        (char *)uri,
                         0,
                         0);
     ConstStringNode->RefCount += 2;

@@ -1,78 +1,88 @@
-void __thiscall survarium::scheduler::on_frame(
-        survarium::scheduler *this,
-        survarium::scheduler::record *record,
-        unsigned int frame_delta,
-        unsigned int current_time)
+void __userpurge survarium::scheduler::on_frame(
+        survarium::scheduler *this@<ecx>,
+        int a2@<eax>,
+        vostok::math::float4x4 *record,
+        survarium::scheduler::record *frame_delta,
+        const unsigned int current_time)
 {
-  survarium::game_camera *v4; // ecx
-  survarium::scheduler::identifier *v5; // ecx
-  float value; // [esp+0h] [ebp-2C8h]
-  int i; // [esp+28Ch] [ebp-3Ch]
-  boost::function<void __cdecl(unsigned int,unsigned int)> callback; // [esp+290h] [ebp-38h] BYREF
-  unsigned int update_delta; // [esp+2B4h] [ebp-14h]
-  unsigned int time_delta; // [esp+2B8h] [ebp-10h]
-  unsigned int last_update_time; // [esp+2BCh] [ebp-Ch]
-  int count; // [esp+2C0h] [ebp-8h]
-  survarium::scheduler::identifier *id; // [esp+2C4h] [ebp-4h]
+  survarium::scheduler::record *M_start; // edi
+  signed int m_current_index; // eax
+  int v9; // eax
+  signed int v10; // eax
+  survarium::scheduler::record *v11; // ecx
+  survarium::scheduler::record *v12; // edi
+  boost::function2<void,vostok::math::float4x4 *,unsigned int> *v13; // ecx
+  int i; // esi
+  float v15; // [esp+0h] [ebp-34h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+14h] [ebp-20h] BYREF
+  vostok::math::float4x4 *a0; // [esp+3Ch] [ebp+8h]
+  unsigned int a1; // [esp+40h] [ebp+Ch]
 
-  last_update_time = record->m_last_update_time;
-  if ( current_time > last_update_time )
+  *(_DWORD *)(a2 + 44) = frame_delta;
+  M_start = this[1].m_inactive_objects._M_impl._M_start;
+  if ( frame_delta > M_start )
   {
-    if ( *(_DWORD *)&record->survarium::scheduler::scheduler_record < 0 )
+    m_current_index = this->m_current_index;
+    if ( m_current_index < 0 )
     {
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)(*(_DWORD *)&record->survarium::scheduler::scheduler_record >> 31));
-      update_delta = *(_DWORD *)&record->survarium::scheduler::scheduler_record & 0x7FFFFFFF;
-      if ( current_time >= update_delta + last_update_time )
+      v9 = m_current_index & 0x7FFFFFFF;
+      a1 = v9;
+      if ( frame_delta >= (survarium::scheduler::record *)((char *)M_start + v9) )
       {
-        time_delta = current_time - last_update_time;
-        value = (double)(current_time - last_update_time) / (double)update_delta;
-        count = vostok::math::floor(value);
-        record->m_last_update_time += update_delta * count;
-        count = vostok::math::min(count, record->m_max_update_count);
-        survarium::weapon_user_dead_state::finalize(v4);
-        id = record->m_id;
-        boost::function<void __cdecl (unsigned int,float,float,char const *)>::function<void __cdecl (unsigned int,float,float,char const *)>((boost::function<void __cdecl(unsigned int,float,float,char const *)> *)&record->m_callback);
-        for ( i = 0; i < count; ++i )
+        v15 = (double)(unsigned int)((char *)frame_delta - (char *)M_start) / (double)(unsigned int)v9;
+        v10 = vostok::math::floor(v15);
+        v11 = (survarium::scheduler::record *)((char *)M_start + a1 * v10);
+        v12 = this->m_inactive_objects._M_impl._M_start;
+        this[1].m_inactive_objects._M_impl._M_start = v11;
+        a0 = (vostok::math::float4x4 *)(this->m_last_tick_time_ms
+                                      + (v10 < (signed int)this->m_last_tick_time_ms
+                                       ? v10 - this->m_last_tick_time_ms
+                                       : 0));
+        boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+          (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&this->m_inactive_objects._M_impl._M_end_of_storage,
+          &f);
+        for ( i = 0; i < (int)a0; ++i )
         {
-          v5 = id;
-          if ( *(_DWORD *)id >= 0 )
+          if ( (int)v12->m_id >= 0 )
             break;
-          boost::function2<void,unsigned int,unsigned int>::operator()(&callback, update_delta, current_time);
+          boost::function1<void,boost::system::error_code>::operator()(
+            v13,
+            &f,
+            (vostok::math::float4x4 *)a1,
+            (unsigned int)frame_delta);
         }
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v5,
-          (int *)&callback);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v13,
+          (int *)&f);
       }
     }
     else
     {
-      record->m_last_update_time = current_time;
-      boost::function2<void,unsigned int,unsigned int>::operator()(&record->m_callback, frame_delta, current_time);
+      this[1].m_inactive_objects._M_impl._M_start = frame_delta;
+      boost::function1<void,boost::system::error_code>::operator()(
+        (boost::function2<void,vostok::math::float4x4 *,unsigned int> *)this,
+        &this->m_inactive_objects._M_impl._M_end_of_storage.m_allocator,
+        record,
+        (unsigned int)frame_delta);
     }
   }
 }
 
 
-void __thiscall survarium::scheduler::on_frame(
-        survarium::scheduler *this,
-        unsigned int frame_delta,
-        unsigned int current_time)
+void __userpurge survarium::scheduler::on_frame(
+        survarium::scheduler *this@<ecx>,
+        _DWORD *a2@<esi>,
+        vostok::math::float4x4 *frame_delta,
+        survarium::scheduler::record *current_time)
 {
-  survarium::scheduler::record *v3; // eax
-  survarium::scheduler *thisa; // [esp+0h] [ebp-274h]
+  unsigned int savedregs; // [esp+0h] [ebp+0h]
 
-  thisa = this;
-  this->m_current_index = 0;
-  while ( thisa->m_current_index < vostok::vectora<survarium::scheduler::record>::size(
-                                     &this->m_inactive_objects,
-                                     &thisa->m_active_objects._M_impl._M_start) )
-  {
-    v3 = stlp_std::vector<survarium::scheduler::record,vostok::vectora_allocator<void *>>::operator[](
-           &thisa->m_active_objects,
-           thisa->m_current_index);
-    survarium::scheduler::on_frame(thisa, v3, frame_delta, current_time);
-    this = thisa;
-    ++thisa->m_current_index;
-  }
-  thisa->m_current_index = -1;
+  for ( a2[10] = 0; a2[10] < (unsigned int)((a2[5] - a2[4]) / 56); ++a2[10] )
+    survarium::scheduler::on_frame(
+      (survarium::scheduler *)(a2[4] + 56 * a2[10]),
+      (int)a2,
+      frame_delta,
+      current_time,
+      savedregs);
+  a2[10] = -1;
 }

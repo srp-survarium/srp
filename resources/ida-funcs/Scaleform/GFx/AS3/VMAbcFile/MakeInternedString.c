@@ -11,7 +11,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::VMAbcFile::MakeInterne
     &v6);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->VMRef->StringManagerRef->pStringManager,
-                 (char *)v6.pStr,
+                 (__m128i *)v6.pStr,
                  v6.Size);
   ++StringNode->RefCount;
   result->pNode = StringNode;

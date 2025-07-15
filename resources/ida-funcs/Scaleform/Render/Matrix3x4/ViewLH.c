@@ -5,16 +5,16 @@ void __thiscall Scaleform::Render::Matrix3x4<float>::ViewLH(
         const Scaleform::Render::Point3<float> *upVec)
 {
   Scaleform::Render::Point3<float> zAxis; // [esp+8h] [ebp-Ch] BYREF
-  float lookAtPta; // [esp+1Ch] [ebp+8h]
-  float lookAtPtb; // [esp+1Ch] [ebp+8h]
+  float v5; // [esp+1Ch] [ebp+8h]
+  float v6; // [esp+1Ch] [ebp+8h]
 
   zAxis.x = lookAtPt->x - eyePt->x;
   zAxis.y = lookAtPt->y - eyePt->y;
   zAxis.z = lookAtPt->z - eyePt->z;
-  lookAtPta = zAxis.x * zAxis.x + zAxis.y * zAxis.y + zAxis.z * zAxis.z;
-  lookAtPtb = sqrt(lookAtPta);
-  zAxis.x = zAxis.x / lookAtPtb;
-  zAxis.y = zAxis.y / lookAtPtb;
-  zAxis.z = zAxis.z / lookAtPtb;
+  v5 = zAxis.x * zAxis.x + zAxis.y * zAxis.y + zAxis.z * zAxis.z;
+  v6 = sqrt(v5);
+  zAxis.x = zAxis.x / v6;
+  zAxis.y = zAxis.y / v6;
+  zAxis.z = zAxis.z / v6;
   Scaleform::Render::Matrix3x4<float>::View(this, eyePt, &zAxis, upVec);
 }

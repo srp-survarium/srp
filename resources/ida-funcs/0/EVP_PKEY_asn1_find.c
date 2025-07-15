@@ -5,7 +5,7 @@ engine_st *__cdecl EVP_PKEY_asn1_find(engine_st **pe, void *type)
   engine_st *pkey_asn1_meth_engine; // eax
 
   pkey_base_id = type;
-  for ( i = pkey_asn1_find(type); i; i = pkey_asn1_find(pkey_base_id) )
+  for ( i = pkey_asn1_find(type, (int)type); i; i = pkey_asn1_find(pkey_base_id, (int)pkey_base_id) )
   {
     if ( (i->pkey_flags & 1) == 0 )
       break;
@@ -17,7 +17,7 @@ engine_st *__cdecl EVP_PKEY_asn1_find(engine_st **pe, void *type)
     if ( pkey_asn1_meth_engine )
     {
       *pe = pkey_asn1_meth_engine;
-      return ENGINE_get_pkey_asn1_meth((evp_pkey_asn1_method_st *)pkey_asn1_meth_engine, (int)pkey_base_id);
+      return ENGINE_get_pkey_asn1_meth((int)pe, pkey_asn1_meth_engine, (int)pkey_base_id);
     }
     *pe = 0;
   }

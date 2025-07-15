@@ -1,4 +1,6 @@
-void __thiscall vostok::memory::writer::writer(vostok::memory::writer *this, vostok::memory::base_allocator *allocator)
+void __usercall vostok::memory::writer::writer(
+        vostok::memory::writer *this@<eax>,
+        vostok::memory::base_allocator *allocator@<edx>)
 {
   this->m_allocator = allocator;
   this->m_chunk_pos._M_impl._M_start = 0;

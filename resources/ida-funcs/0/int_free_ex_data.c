@@ -1,4 +1,4 @@
-void __cdecl int_free_ex_data(int class_index, void *obj, crypto_ex_data_st *ad)
+void __cdecl int_free_ex_data(void *class_index, void *obj, crypto_ex_data_st *ad)
 {
   _DWORD *v3; // edi
   st_ex_class_item *v4; // ebx
@@ -7,13 +7,13 @@ void __cdecl int_free_ex_data(int class_index, void *obj, crypto_ex_data_st *ad)
   int i; // esi
   int j; // esi
   int v9; // eax
-  stack_st_void *sk; // eax
+  void *sk; // eax
 
   v3 = 0;
   v4 = def_get_class(class_index, 0);
   if ( v4 )
   {
-    CRYPTO_lock(0, 5, 2, ".\\crypto\\ex_data.c", 500);
+    CRYPTO_lock(0, (int)v4, 5, 2, ".\\crypto\\ex_data.c", 500);
     v5 = sk_num(&v4->meth->stack);
     v6 = v5;
     if ( v5 > 0 )
@@ -25,7 +25,7 @@ void __cdecl int_free_ex_data(int class_index, void *obj, crypto_ex_data_st *ad)
           v3[i] = sk_value(&v4->meth->stack, i);
       }
     }
-    CRYPTO_lock((unsigned int)v3, 6, 2, ".\\crypto\\ex_data.c", 511);
+    CRYPTO_lock((int)v3, (int)v4, 6, 2, ".\\crypto\\ex_data.c", 511);
     if ( v6 <= 0 || v3 )
     {
       for ( j = 0; j < v6; ++j )
@@ -37,11 +37,11 @@ void __cdecl int_free_ex_data(int class_index, void *obj, crypto_ex_data_st *ad)
           if ( ad->sk )
           {
             if ( j < sk_num(&ad->sk->stack) )
-              sk = (stack_st_void *)sk_value(&ad->sk->stack, j);
+              sk = sk_value(&ad->sk->stack, j);
             else
               sk = 0;
           }
-          (*(void (__cdecl **)(void *, stack_st_void *, crypto_ex_data_st *, int, _DWORD, _DWORD))(v3[j] + 12))(
+          (*(void (__cdecl **)(void *, void *, crypto_ex_data_st *, int, _DWORD, _DWORD))(v3[j] + 12))(
             obj,
             sk,
             ad,
@@ -60,7 +60,7 @@ void __cdecl int_free_ex_data(int class_index, void *obj, crypto_ex_data_st *ad)
     }
     else
     {
-      ERR_put_error(0xFu, 107, 65, ".\\crypto\\ex_data.c", 514);
+      ERR_put_error((int)v4, 0xFu, 107, 65, ".\\crypto\\ex_data.c", 514);
     }
   }
 }

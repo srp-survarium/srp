@@ -2,7 +2,7 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
 {
   int (__cdecl *verify_cb)(int, x509_store_ctx_st *); // edi
   int v3; // ebp
-  x509_st *v4; // ebx
+  char *v4; // ebx
   x509_st *v5; // edi
   int result; // eax
   evp_pkey_st *pubkey; // eax
@@ -20,17 +20,17 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
   v8 = ctx->chain;
   ctx->error_depth = v3;
   v11 = v3;
-  v4 = (x509_st *)sk_value(&v8->stack, v3);
-  if ( ctx->check_issued(ctx, v4, v4) )
+  v4 = sk_value(&v8->stack, v3);
+  if ( ctx->check_issued(ctx, (x509_st *)v4, (x509_st *)v4) )
   {
-    v5 = v4;
+    v5 = (x509_st *)v4;
   }
   else
   {
     if ( v3 <= 0 )
     {
       ctx->error = 21;
-      ctx->current_cert = v4;
+      ctx->current_cert = (x509_st *)v4;
       return verify_cb(0, ctx);
     }
     --v3;
@@ -44,9 +44,9 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
     while ( 1 )
     {
       ctx->error_depth = v3;
-      if ( !v5->valid && (v5 != v4 || (ctx->param->flags & 0x4000) != 0) )
+      if ( !v5->valid && (v5 != (x509_st *)v4 || (ctx->param->flags & 0x4000) != 0) )
       {
-        pubkey = X509_get_pubkey(v4);
+        pubkey = X509_get_pubkey((x509_st *)v4);
         x = pubkey;
         if ( pubkey )
         {
@@ -65,7 +65,7 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
         else
         {
           ctx->error = 6;
-          ctx->current_cert = v4;
+          ctx->current_cert = (x509_st *)v4;
           result = ((int (__cdecl *)(_DWORD, x509_store_ctx_st *))ctxa)(0, ctx);
           if ( !result )
             return result;
@@ -76,7 +76,7 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
       result = check_cert_time(ctx, v5);
       if ( !result )
         return result;
-      ctx->current_issuer = v4;
+      ctx->current_issuer = (x509_st *)v4;
       ctx->current_cert = v5;
       result = ((int (__cdecl *)(int, x509_store_ctx_st *))ctxa)(1, ctx);
       if ( !result )
@@ -84,7 +84,7 @@ int __cdecl internal_verify(x509_store_ctx_st *ctx)
       v11 = --v3;
       if ( v3 < 0 )
         return 1;
-      v4 = v5;
+      v4 = (char *)v5;
       v5 = (x509_st *)sk_value(&ctx->chain->stack, v3);
     }
   }

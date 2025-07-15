@@ -1,4 +1,4 @@
-vostok::render::ui::renderer *__thiscall Scaleform::Render::HAL::GetDisplayPass(vostok::ui::ui_world *this)
+int __thiscall Scaleform::Render::HAL::GetDisplayPass(btCollisionDispatcher *this)
 {
-  return this->m_renderer;
+  return this->m_manifoldsPtr.m_size;
 }

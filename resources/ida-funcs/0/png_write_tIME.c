@@ -17,5 +17,5 @@ int __cdecl png_write_tIME(_DWORD *a1, int a2)
   buf[4] = *(_BYTE *)(a2 + 4);
   buf[5] = *(_BYTE *)(a2 + 5);
   buf[6] = *(_BYTE *)(a2 + 6);
-  return sub_36AEC0(a1, 1950960965, buf, 7);
+  return sub_477B80(a1, 1950960965, buf, 7);
 }

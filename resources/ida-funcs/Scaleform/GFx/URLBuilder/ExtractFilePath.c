@@ -1,6 +1,6 @@
 BOOL __cdecl Scaleform::GFx::URLBuilder::ExtractFilePath(Scaleform::String *ppath)
 {
-  signed int v1; // esi
+  int v1; // esi
   unsigned int CharAt; // eax
   const Scaleform::String *v4; // eax
   void *v5; // edi

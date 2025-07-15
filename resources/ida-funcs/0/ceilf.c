@@ -1,4 +1,4 @@
 double __cdecl ceilf(float _X)
 {
-  return (float)ceil(_X);
+  return ceil(_X);
 }

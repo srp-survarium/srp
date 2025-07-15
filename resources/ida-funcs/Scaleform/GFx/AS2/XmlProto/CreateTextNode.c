@@ -17,7 +17,7 @@ void __cdecl Scaleform::GFx::AS2::XmlProto::CreateTextNode(const Scaleform::GFx:
   int v15; // ebx
   unsigned int RefCount; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASString classname; // [esp+4h] [ebp-4h] BYREF
+  Scaleform::GFx::ASString className; // [esp+4h] [ebp-4h] BYREF
 
   if ( Scaleform::GFx::AS2::FnCall::CheckThisPtr(fn, 0x1Cu) )
   {
@@ -45,16 +45,16 @@ void __cdecl Scaleform::GFx::AS2::XmlProto::CreateTextNode(const Scaleform::GFx:
         pCurrent->NV.Int32Value = 3;
       }
       StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(fn->Env->StringContext.pContext);
-      classname.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+      className.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                           StringManager->pStringManager,
                           "XMLNode",
                           7u,
                           0);
-      ++classname.pNode->RefCount;
+      ++className.pNode->RefCount;
       v11 = Scaleform::GFx::AS2::Environment::OperatorNew(
               fn->Env,
               fn->Env->StringContext.pContext->pGlobal.pObject,
-              &classname,
+              &className,
               2,
               -1);
       Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v11);
@@ -82,14 +82,14 @@ void __cdecl Scaleform::GFx::AS2::XmlProto::CreateTextNode(const Scaleform::GFx:
       if ( v11 )
       {
         RefCount = v11->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v11->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
         }
       }
-      pNode = classname.pNode;
-      --classname.pNode->RefCount;
+      pNode = className.pNode;
+      --className.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     }

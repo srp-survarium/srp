@@ -10,8 +10,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readInt(
     *result = *(_DWORD *)&this->Data.Data.Data[Position];
     this->Position += 4;
     if ( (*((_DWORD *)this + 8) & 0x18) != 8 )
-      *result = (((*result << 16) | *result & 0xFF00) << 8)
-              | ((HIWORD(*result) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & *result) >> 8);
+      *result = (((*result << 16) | *result & 0xFF00) << 8) | ((HIWORD(*result) | *result & 0xFF0000) >> 8);
   }
   else
   {

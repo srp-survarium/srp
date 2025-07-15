@@ -1,4 +1,3 @@
-// local variable allocation has failed, the output may be wrong!
 char __thiscall Scaleform::Render::TGA::TGAFileImageSource::ReadHeader(
         Scaleform::Render::TGA::TGAFileImageSource *this,
         Scaleform::MemoryHeap *pheap)
@@ -54,7 +53,7 @@ char __thiscall Scaleform::Render::TGA::TGAFileImageSource::ReadHeader(
   char v52; // [esp+80h] [ebp-Eh] BYREF
   char v53; // [esp+81h] [ebp-Dh] BYREF
   int v54; // [esp+82h] [ebp-Ch] BYREF
-  int colorMapHasAlpha; // [esp+86h] [ebp-8h] OVERLAPPED BYREF
+  bool hasAlpha[4]; // [esp+86h] [ebp-8h] BYREF
   int v56; // [esp+8Ah] [ebp-4h] BYREF
 
   pObject = this->pFile.pObject;
@@ -87,26 +86,26 @@ char __thiscall Scaleform::Render::TGA::TGAFileImageSource::ReadHeader(
     return 0;
   v17 = this->pFile.pObject;
   v18 = v17->Read;
-  colorMapHasAlpha = 0;
-  v18(v17, (unsigned __int8 *)&colorMapHasAlpha, 2);
+  *(_DWORD *)hasAlpha = 0;
+  v18(v17, (unsigned __int8 *)hasAlpha, 2);
   v19 = this->pFile.pObject;
   v20 = v19->Read;
-  colorMapHasAlpha = 0;
-  v20(v19, (unsigned __int8 *)&colorMapHasAlpha, 2);
+  *(_DWORD *)hasAlpha = 0;
+  v20(v19, (unsigned __int8 *)hasAlpha, 2);
   v21 = this->pFile.pObject;
   v22 = v21->Read;
   v54 = 0;
   v22(v21, (unsigned __int8 *)&v54, 2);
   v23 = this->pFile.pObject;
   v24 = v23->Read;
-  colorMapHasAlpha = 0;
-  v24(v23, (unsigned __int8 *)&colorMapHasAlpha, 2);
+  *(_DWORD *)hasAlpha = 0;
+  v24(v23, (unsigned __int8 *)hasAlpha, 2);
   v25 = this->pFile.pObject;
   v26 = v25->Read;
   v53 = 0;
   v26(v25, (unsigned __int8 *)&v53, 1);
   v27 = v50;
-  v28 = (unsigned __int16)colorMapHasAlpha;
+  v28 = *(unsigned __int16 *)hasAlpha;
   this->Size.Width = (unsigned __int16)v54;
   this->Size.Height = v28;
   if ( v27 )
@@ -150,7 +149,7 @@ char __thiscall Scaleform::Render::TGA::TGAFileImageSource::ReadHeader(
   if ( v50 == 1 )
   {
     v34 = (unsigned __int16)v56;
-    LOBYTE(colorMapHasAlpha) = v16 == 32;
+    hasAlpha[0] = v16 == 32;
     v35 = (Scaleform::MemoryHeap *)Scaleform::Render::Palette::Create((unsigned __int16)v56, v16 == 32, pheap);
     v36 = this->pColorMap.pObject;
     pheap = v35;
@@ -185,7 +184,7 @@ char __thiscall Scaleform::Render::TGA::TGAFileImageSource::ReadHeader(
         v41[1] = v46;
         *v41 = v47;
         v41[3] = -1;
-        if ( (_BYTE)colorMapHasAlpha )
+        if ( hasAlpha[0] )
         {
           v48 = this->pFile.pObject;
           v49 = v48->Read;

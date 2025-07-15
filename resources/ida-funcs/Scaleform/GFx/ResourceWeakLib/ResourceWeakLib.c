@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::ResourceWeakLib::ResourceWeakLib(
   Scaleform::MemoryHeap *v4; // eax
   Scaleform::MemoryHeap *pObject; // ecx
   Scaleform::MemoryHeap *v6; // edi
-  Scaleform::MemoryHeap::HeapDesc desc; // [esp+Ch] [ebp-20h] BYREF
+  _DWORD v7[8]; // [esp+Ch] [ebp-20h] BYREF
 
   this->__vftable = (Scaleform::GFx::ResourceWeakLib_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -19,15 +19,15 @@ void __thiscall Scaleform::GFx::ResourceWeakLib::ResourceWeakLib(
     v3 = 4096;
   else
     v3 = 0;
-  desc.Flags = v3 | 4;
-  desc.Arena = 0;
-  desc.MinAlign = 64;
-  desc.Granularity = 4096;
-  desc.Reserve = 0;
-  desc.Threshold = -1;
-  desc.Limit = 0;
-  desc.HeapId = 5;
-  v4 = Scaleform::Memory::pGlobalHeap->CreateHeap(Scaleform::Memory::pGlobalHeap, "_ResourceLib_Images", &desc);
+  v7[0] = v3 | 4;
+  v7[7] = 0;
+  v7[1] = 64;
+  v7[2] = 4096;
+  v7[3] = 0;
+  v7[4] = -1;
+  v7[5] = 0;
+  v7[6] = 5;
+  v4 = Scaleform::Memory::pGlobalHeap->CreateHeap(Scaleform::Memory::pGlobalHeap, "_ResourceLib_Images", v7);
   pObject = this->pImageHeap.pObject;
   v6 = v4;
   if ( pObject )

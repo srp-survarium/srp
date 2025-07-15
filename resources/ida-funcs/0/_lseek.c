@@ -1,4 +1,4 @@
-DWORD __usercall _lseek@<eax>(stlp_std::ioinfo **a1@<ebx>, unsigned int a2@<esi>, int fh, LONG pos, DWORD mthd)
+DWORD __usercall _lseek@<eax>(stlp_std::ioinfo **a1@<ebx>, int a2@<esi>, int fh, LONG pos, DWORD mthd)
 {
   DWORD r; // [esp+14h] [ebp-1Ch]
 
@@ -12,13 +12,13 @@ DWORD __usercall _lseek@<eax>(stlp_std::ioinfo **a1@<ebx>, unsigned int a2@<esi>
   {
     *__doserrno() = 0;
     *_errno() = 9;
-    _invalid_parameter((unsigned int)a1, 0, a2);
+    _invalid_parameter((int)a1, 0, a2);
     return -1;
   }
   __lock_fhandle(fh);
   if ( (*(&(*a1)->osfile + a2) & 1) != 0 )
   {
-    r = _lseek_nolock(fh, pos, mthd);
+    r = _lseek_nolock((int)a1, 0, fh, pos, mthd);
   }
   else
   {

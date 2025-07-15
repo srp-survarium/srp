@@ -4,14 +4,14 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::DisplayObject::CreateNewIns
 {
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASStringNode *v3; // eax
-  Scaleform::GFx::ASString v5; // [esp+0h] [ebp-4h] BYREF
+  Scaleform::GFx::ASString resulta; // [esp+0h] [ebp-4h] BYREF
 
-  v5.pNode = (Scaleform::GFx::ASStringNode *)this;
-  pNode = Scaleform::GFx::MovieImpl::CreateNewInstanceName(this->pASRoot->pMovieImpl, &v5)->pNode;
+  resulta.pNode = (Scaleform::GFx::ASStringNode *)this;
+  pNode = Scaleform::GFx::MovieImpl::CreateNewInstanceName(this->pASRoot->pMovieImpl, &resulta)->pNode;
   ++pNode->RefCount;
   result->pNode = pNode;
-  v3 = v5.pNode;
-  --v5.pNode->RefCount;
+  v3 = resulta.pNode;
+  --resulta.pNode->RefCount;
   if ( !v3->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v3);
   return result;

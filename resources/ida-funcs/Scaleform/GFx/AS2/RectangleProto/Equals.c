@@ -11,8 +11,8 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Equals(const Scaleform::GFx::A
   Scaleform::GFx::AS2::Environment *v9; // edx
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Value *Result; // esi
-  Scaleform::Render::Rect<double> r2; // [esp+Ch] [ebp-40h] BYREF
-  Scaleform::Render::Rect<double> r1; // [esp+2Ch] [ebp-20h] BYREF
+  Scaleform::Render::Rect<double> v12; // [esp+Ch] [ebp-40h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+2Ch] [ebp-20h] BYREF
 
   v1 = 0;
   if ( fn->NArgs > 0 )
@@ -42,22 +42,22 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Equals(const Scaleform::GFx::A
         else
           p_pProto = 0;
         v8 = v5->RefCount + 1;
-        r1.x1 = 0.0;
-        r1.y1 = 0.0;
-        r1.x2 = 0.0;
-        r1.y2 = 0.0;
+        r.x1 = 0.0;
+        r.y1 = 0.0;
+        r.x2 = 0.0;
+        r.y2 = 0.0;
         v5->RefCount = v8 & 0x8FFFFFFF;
         v9 = fn->Env;
-        r2.x1 = 0.0;
-        r2.y1 = 0.0;
-        r2.x2 = 0.0;
-        r2.y2 = 0.0;
-        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v9, &r1);
-        Scaleform::GFx::AS2::RectangleObject::GetProperties(v5, fn->Env, &r2);
-        if ( Scaleform::GFx::AS2::IsRectValid(&r1) && Scaleform::GFx::AS2::IsRectValid(&r2) )
-          v1 = Scaleform::Render::Rect<double>::operator==(&r1, &r2);
+        v12.x1 = 0.0;
+        v12.y1 = 0.0;
+        v12.x2 = 0.0;
+        v12.y2 = 0.0;
+        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v9, &r);
+        Scaleform::GFx::AS2::RectangleObject::GetProperties(v5, fn->Env, &v12);
+        if ( Scaleform::GFx::AS2::IsRectValid(&r) && Scaleform::GFx::AS2::IsRectValid(&v12) )
+          v1 = Scaleform::Render::Rect<double>::operator==(&r, &v12);
         RefCount = v5->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v5->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

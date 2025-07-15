@@ -16,7 +16,7 @@ LABEL_5:
     _nstream = v0;
     goto LABEL_6;
   }
-  if ( (int)_nstream < 20 )
+  if ( _nstream < 20 )
   {
     v0 = 20;
     goto LABEL_5;
@@ -42,7 +42,7 @@ LABEL_6:
     v1 = __piob;
   }
   v5 = 0;
-  v6 = &unk_9AE040;
+  v6 = &unk_86F0F0;
   do
   {
     v7 = *(&__pioinfo[v5 >> 5]->osfhnd + 16 * (v5 & 0x1F));
@@ -51,6 +51,6 @@ LABEL_6:
     v6 += 8;
     ++v5;
   }
-  while ( (int)v6 < (int)dword_9AE0A0 );
+  while ( (int)v6 < (int)dword_86F150 );
   return 0;
 }

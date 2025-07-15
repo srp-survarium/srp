@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::DisplayList::AddEntryAtIndex(
         Scaleform::GFx::DisplayList *this,
         Scaleform::GFx::DisplayObjectBase *owner,
-        unsigned int index,
+        Scaleform::GFx::DisplayObjectBase *index,
         Scaleform::GFx::DisplayObjectBase *ch)
 {
   unsigned __int8 Flags; // al
@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::DisplayList::AddEntryAtIndex(
     ++ch->RefCount;
   Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::DisplayList::DisplayEntry,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DisplayEntry,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
     &this->DisplayObjectArray,
-    index,
+    (unsigned int)index,
     &val);
   Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, index);
   Flags = this->Flags;

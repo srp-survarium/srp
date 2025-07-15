@@ -1,4 +1,4 @@
-int __cdecl X509V3_NAME_from_section(X509_name_st *nm, stack_st_CONF_VALUE *dn_sk, unsigned int chtype)
+int __cdecl X509V3_NAME_from_section(X509_name_st *nm, stack_st_CONF_VALUE *dn_sk, int chtype)
 {
   int v4; // edi
   char *v5; // eax
@@ -41,7 +41,7 @@ LABEL_12:
     {
       v10 = 0;
     }
-    if ( !X509_NAME_add_entry_by_txt(nm, v6, chtype, *((unsigned __int8 **)v5 + 2), -1, -1, v10) )
+    if ( !X509_NAME_add_entry_by_txt((int)dn_sk, nm, v6, chtype, *((__m128i **)v5 + 2), -1, -1, v10) )
       return 0;
     if ( ++v4 >= sk_num(&dn_sk->stack) )
       return 1;

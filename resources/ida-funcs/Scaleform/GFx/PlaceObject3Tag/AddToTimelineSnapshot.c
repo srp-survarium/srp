@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::PlaceObject3Tag::AddToTimelineSnapshot(
   char v15; // al
   unsigned int Size; // [esp-Ch] [ebp-20h]
   char v17; // [esp+Ch] [ebp-8h]
-  int val; // [esp+10h] [ebp-4h] BYREF
+  int v18; // [esp+10h] [ebp-4h] BYREF
 
   this->Trace(this, "\n");
   v4 = 1;
@@ -41,12 +41,12 @@ LABEL_8:
   p_SnapshotSortedArray = &psnapshot->SnapshotSortedArray;
   Size = psnapshot->SnapshotSortedArray.Data.Size;
   v8 = v5;
-  val = v5;
+  v18 = v5;
   v9 = Scaleform::Alg::UpperBoundSliced<Scaleform::ArrayDH_POD<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,2,Scaleform::ArrayDefaultPolicy>,int,int (__cdecl *)(int,Scaleform::GFx::TimelineSnapshot::SnapshotElement const *)>(
          &psnapshot->SnapshotSortedArray,
          0,
          Size,
-         &val,
+         &v18,
          Scaleform::GFx::TimelineSnapshot::DepthLess);
   if ( v9 && (v10 = p_SnapshotSortedArray->Data.Data[v9 - 1], v10->Depth == v8) && v10 && (v10->Flags & 2) == 0 )
   {

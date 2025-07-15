@@ -5,7 +5,7 @@ int __usercall do_indent@<eax>(void *arg@<ebx>, int indent@<edi>, int (__cdecl *
   v3 = 0;
   if ( indent <= 0 )
     return 1;
-  while ( io_ch(arg, &stru_95AF78, 1) )
+  while ( io_ch(arg, " ", 1) )
   {
     if ( ++v3 >= indent )
       return 1;

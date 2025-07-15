@@ -1,13 +1,13 @@
-unsigned int __usercall stlp_std::priv::__format_float@<eax>(
+int __usercall stlp_std::priv::__format_float@<eax>(
         char *bp@<eax>,
         __int16 flags@<di>,
         int precision@<ecx>,
         stlp_std::priv::__basic_iostring<char> *buf,
         int decpt,
-        int sign,
+        unsigned int sign,
         bool is_zero)
 {
-  int v7; // edx
+  unsigned int v7; // edx
   int v8; // ebp
   int v10; // eax
   unsigned int v11; // edx

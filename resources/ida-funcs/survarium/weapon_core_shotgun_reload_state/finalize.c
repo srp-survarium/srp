@@ -1,8 +1,14 @@
 void __thiscall survarium::weapon_core_shotgun_reload_state::finalize(
         survarium::weapon_core_shotgun_reload_state *this)
 {
-  vostok::animation::animation_playback_state::reset(
-    (vostok::animation::animation_playback_state *)this,
-    &this->m_animation_playback_state.interval_id);
-  vostok::ai::fsm::set_initial_state(this->m_logic, 0);
+  vostok::ai::fsm *m_logic; // esi
+  vostok::ai::fsm_state *m_current_state; // ecx
+
+  m_logic = this->m_logic;
+  m_current_state = m_logic->m_current_state;
+  if ( m_current_state )
+  {
+    m_current_state->finalize(m_current_state);
+    m_logic->m_current_state = 0;
+  }
 }

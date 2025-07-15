@@ -1,4 +1,4 @@
-void __usercall rewind(unsigned int a1@<edi>, _iobuf *str)
+void __usercall rewind(int a1@<edi>, _iobuf *str)
 {
   int v2; // edi
   ioinfo *v3; // eax
@@ -18,7 +18,7 @@ void __usercall rewind(unsigned int a1@<edi>, _iobuf *str)
     flag = str->_flag;
     if ( (flag & 0x80u) != 0 )
       str->_flag = flag & 0xFFFFFFFC;
-    if ( _lseek(0, (unsigned int)str, v2, 0, 0) == -1 )
+    if ( _lseek(0, (int)str, v2, 0, 0) == -1 )
       str->_flag |= 0x20u;
     _unlock_file(str);
   }

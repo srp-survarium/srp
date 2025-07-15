@@ -1,83 +1,76 @@
 char __userpurge btSoftBody::checkContact@<al>(
-        btSoftBody *this@<edx>,
-        btSoftBody::sCti *cti@<edi>,
+        btSoftBody *this@<ecx>,
+        float a2@<xmm10>,
         btCollisionObject *colObj,
         const btVector3 *x,
-        float margin)
+        float *margin,
+        btSoftBody::sCti *cti,
+        btVector3 *a6)
 {
-  btCollisionShape *m_collisionShape; // eax
-  float v6; // xmm0_4
-  float v7; // xmm2_4
-  int v8; // xmm5_4
-  float v9; // xmm1_4
-  float v10; // xmm6_4
-  float v11; // xmm7_4
+  btVector3 *v7; // esi
+  int v8; // ecx
+  float v9; // xmm0_4
+  float v10; // xmm3_4
+  float v11; // xmm2_4
   float v12; // xmm3_4
-  int v13; // xmm4_4
-  int v14; // xmm5_4
-  float v15; // xmm4_4
-  float v16; // xmm5_4
-  btSparseSdf<3> *p_m_sparsesdf; // ecx
-  float v18; // xmm0_4
-  float v19; // xmm1_4
-  float v20; // xmm2_4
-  float v21; // xmm6_4
-  unsigned int v22; // xmm5_4
-  btVector3 v24; // [esp+48h] [ebp-50h] BYREF
-  btVector3 normal; // [esp+58h] [ebp-40h] BYREF
-  float v26; // [esp+78h] [ebp-20h]
-  float v27; // [esp+7Ch] [ebp-1Ch]
-  float v28; // [esp+88h] [ebp-10h]
-  float v29; // [esp+8Ch] [ebp-Ch]
+  btCollisionShape *shape; // [esp+20h] [ebp-54h]
+  btVector3 normal; // [esp+24h] [ebp-50h] BYREF
+  btVector3 xa; // [esp+34h] [ebp-40h]
+  btMatrix3x3 v17; // [esp+44h] [ebp-30h] BYREF
 
-  m_collisionShape = colObj->m_collisionShape;
-  v6 = x->mVec128.m128_f32[0] - colObj->m_worldTransform.m_origin.mVec128.m128_f32[0];
-  v7 = x->mVec128.m128_f32[2] - colObj->m_worldTransform.m_origin.mVec128.m128_f32[2];
-  v8 = colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_i32[2];
-  v9 = x->mVec128.m128_f32[1] - colObj->m_worldTransform.m_origin.mVec128.m128_f32[1];
-  v10 = colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0];
-  v11 = colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0];
-  v12 = colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[0] * v7;
-  v26 = colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1];
-  v13 = colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[1];
-  v28 = *(float *)&v8;
-  v14 = colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[2];
-  v27 = *(float *)&v13;
-  v15 = colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[1];
-  v29 = *(float *)&v14;
-  v16 = colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v7;
-  v24.mVec128.m128_f32[0] = (float)(v12 + (float)(v10 * v6)) + (float)(v11 * v9);
-  p_m_sparsesdf = &this->m_worldInfo->m_sparsesdf;
-  v24.mVec128.m128_f32[1] = (float)((float)(v15 * v7) + (float)(v26 * v6)) + (float)(v27 * v9);
-  v24.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT((float)(v16 + (float)(v28 * v6)) + (float)(v29 * v9));
-  v18 = btSparseSdf<3>::Evaluate(p_m_sparsesdf, &v24, m_collisionShape, &normal, margin);
-  if ( v18 >= 0.0 )
+  shape = (btCollisionShape *)x[12].mVec128.m128_i32[3];
+  if ( ((x[15].mVec128.m128_i8[4] & 2) != 0 ? (unsigned int)x : 0) != 0 )
+    v7 = (x[15].mVec128.m128_i8[4] & 2) != 0 ? (btVector3 *)&x[1] : (btVector3 *)16;
+  else
+    v7 = (btVector3 *)&x[1];
+  normal.mVec128.m128_f32[0] = *margin - v7[3].mVec128.m128_f32[0];
+  normal.mVec128.m128_f32[1] = margin[1] - v7[3].mVec128.m128_f32[1];
+  normal.mVec128.m128_f32[2] = margin[2] - v7[3].mVec128.m128_f32[2];
+  btMatrix3x3::btMatrix3x3(
+    (btMatrix3x3 *)v7,
+    &v17,
+    v7[1].mVec128.m128_f32,
+    v7[2].mVec128.m128_f32,
+    &v7->mVec128.m128_f32[1],
+    &v7[1].mVec128.m128_f32[1],
+    &v7[2].mVec128.m128_f32[1],
+    &v7->mVec128.m128_f32[2],
+    &v7[1].mVec128.m128_f32[2],
+    &v7[2].mVec128.m128_f32[2]);
+  xa.mVec128.m128_f32[0] = (float)((float)(v17.m_el[0].mVec128.m128_f32[2] * normal.mVec128.m128_f32[2])
+                                 + (float)(v17.m_el[0].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]))
+                         + (float)(v17.m_el[0].mVec128.m128_f32[1] * normal.mVec128.m128_f32[1]);
+  xa.mVec128.m128_f32[1] = (float)((float)(v17.m_el[1].mVec128.m128_f32[2] * normal.mVec128.m128_f32[2])
+                                 + (float)(v17.m_el[1].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]))
+                         + (float)(v17.m_el[1].mVec128.m128_f32[1] * normal.mVec128.m128_f32[1]);
+  v8 = colObj[2].m_interpolationLinearVelocity.mVec128.m128_i32[1];
+  xa.mVec128.m128_f32[2] = (float)((float)(v17.m_el[2].mVec128.m128_f32[2] * normal.mVec128.m128_f32[2])
+                                 + (float)(v17.m_el[2].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]))
+                         + (float)(v17.m_el[2].mVec128.m128_f32[1] * normal.mVec128.m128_f32[1]);
+  xa.mVec128.m128_i32[3] = 0;
+  v9 = btSparseSdf<3>::Evaluate((btSparseSdf<3> *)(v8 + 64), a2, shape, &normal, *(float *)&cti);
+  if ( v9 >= 0.0 )
     return 0;
-  v19 = normal.mVec128.m128_f32[1];
-  v20 = normal.mVec128.m128_f32[2];
-  cti->m_colObj = colObj;
-  v21 = colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2];
-  v24.mVec128.m128_f32[0] = (float)((float)(colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v19)
-                                  + (float)(colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v20))
-                          + (float)(colObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0]
-                                  * normal.mVec128.m128_f32[0]);
-  v24.mVec128.m128_f32[1] = (float)((float)(colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v19)
-                                  + (float)(v21 * v20))
-                          + (float)(colObj->m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0]
-                                  * normal.mVec128.m128_f32[0]);
-  *(float *)&v22 = (float)((float)(colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v19)
-                         + (float)(colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v20))
-                 + (float)(colObj->m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]);
-  cti->m_normal.mVec128.m128_u64[0] = v24.mVec128.m128_u64[0];
-  v24.mVec128.m128_u64[1] = v22;
-  cti->m_normal.mVec128.m128_u64[1] = v22;
-  cti->m_offset = -(float)((float)((float)(cti->m_normal.mVec128.m128_f32[2]
-                                         * (float)(x->mVec128.m128_f32[2]
-                                                 - (float)(cti->m_normal.mVec128.m128_f32[2] * v18)))
-                                 + (float)(cti->m_normal.mVec128.m128_f32[1]
-                                         * (float)(x->mVec128.m128_f32[1]
-                                                 - (float)(cti->m_normal.mVec128.m128_f32[1] * v18))))
-                         + (float)((float)(x->mVec128.m128_f32[0] - (float)(cti->m_normal.mVec128.m128_f32[0] * v18))
-                                 * cti->m_normal.mVec128.m128_f32[0]));
+  a6->mVec128.m128_i32[0] = (int)x;
+  v10 = v7[1].mVec128.m128_f32[2] * normal.mVec128.m128_f32[2];
+  xa.mVec128.m128_f32[0] = (float)((float)(v7->mVec128.m128_f32[1] * normal.mVec128.m128_f32[1])
+                                 + (float)(v7->mVec128.m128_f32[2] * normal.mVec128.m128_f32[2]))
+                         + (float)(v7->mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]);
+  v11 = (float)((float)(v7[1].mVec128.m128_f32[1] * normal.mVec128.m128_f32[1]) + v10)
+      + (float)(v7[1].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]);
+  v12 = v7[2].mVec128.m128_f32[2] * normal.mVec128.m128_f32[2];
+  xa.mVec128.m128_f32[1] = v11;
+  xa.mVec128.m128_f32[2] = (float)((float)(v7[2].mVec128.m128_f32[1] * normal.mVec128.m128_f32[1]) + v12)
+                         + (float)(v7[2].mVec128.m128_f32[0] * normal.mVec128.m128_f32[0]);
+  xa.mVec128.m128_i32[3] = 0;
+  a6[1] = (btVector3)xa.mVec128;
+  a6[2].mVec128.m128_i32[0] = COERCE_UNSIGNED_INT(
+                                (float)((float)(a6[1].mVec128.m128_f32[2]
+                                              * (float)(margin[2] - (float)(a6[1].mVec128.m128_f32[2] * v9)))
+                                      + (float)(a6[1].mVec128.m128_f32[1]
+                                              * (float)(margin[1] - (float)(a6[1].mVec128.m128_f32[1] * v9))))
+                              + (float)((float)(*margin - (float)(a6[1].mVec128.m128_f32[0] * v9))
+                                      * a6[1].mVec128.m128_f32[0]))
+                            ^ _mask__NegFloat_;
   return 1;
 }

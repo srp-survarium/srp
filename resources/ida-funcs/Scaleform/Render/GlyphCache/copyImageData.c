@@ -1,7 +1,7 @@
 void __thiscall Scaleform::Render::GlyphCache::copyImageData(
         Scaleform::Render::GlyphCache *this,
         Scaleform::Render::ImagePlane *pl,
-        unsigned __int8 *data,
+        const __m128i *data,
         unsigned int pitch,
         unsigned int dstX,
         unsigned int dstY,
@@ -12,7 +12,7 @@ void __thiscall Scaleform::Render::GlyphCache::copyImageData(
 
   for ( i = 0; i < h; ++i )
   {
-    memcpy(&pl->pData[pl->Pitch * (i + dstY) + dstX], data, w);
-    data += pitch;
+    memcpy((int)&pl->pData[pl->Pitch * (i + dstY) + dstX], data, w);
+    data = (const __m128i *)((char *)data + pitch);
   }
 }

@@ -1,50 +1,39 @@
-void __thiscall vostok::vfs::base_node<1>::get_full_path(
-        vostok::vfs::base_node<1> *this,
-        vostok::fs_new::native_path_string *out_string)
+void __usercall vostok::vfs::base_node<1>::get_full_path(
+        vostok::vfs::base_node<1> *this@<ecx>,
+        vostok::fs_new::virtual_path_string *out_string@<eax>)
 {
-  void *v2; // esp
-  vostok::vfs::base_node_list_node<1> *v3; // eax
-  _DWORD v4[3]; // [esp-8h] [ebp-3Ch] BYREF
-  const vostok::vfs::base_node<1> *p_base; // [esp+4h] [ebp-30h]
-  const vostok::vfs::base_node<1> *thisa; // [esp+8h] [ebp-2Ch]
-  vostok::vfs::base_folder_node<1> *pointer; // [esp+14h] [ebp-20h]
-  char s; // [esp+1Fh] [ebp-15h] BYREF
-  char *c_string; // [esp+20h] [ebp-14h]
-  vostok::vfs::base_node_list_node<1> *it_list_node; // [esp+24h] [ebp-10h]
-  vostok::vfs::base_node_list_node<1> *new_root; // [esp+28h] [ebp-Ch]
-  const vostok::vfs::base_node<1> *it_node; // [esp+2Ch] [ebp-8h]
-  vostok::vfs::base_node_list_node<1> *root; // [esp+30h] [ebp-4h]
+  char *m_begin; // eax
+  vostok::vfs::base_node<1> *p_base; // edi
+  _DWORD *v5; // ebx
+  void *v6; // esp
+  vostok::vfs::base_folder_node<1> *pointer; // edi
+  _DWORD *i; // edi
+  _DWORD v9[5]; // [esp-8h] [ebp-14h] BYREF
 
-  thisa = this;
-  vostok::fs_new::path_string_impl::clear(&out_string->m_string);
-  root = 0;
-  for ( it_node = thisa; it_node && it_node->m_name[0]; it_node = p_base )
+  m_begin = out_string->m_string.m_begin;
+  out_string->m_string.m_end = m_begin;
+  p_base = this;
+  *m_begin = 0;
+  v5 = 0;
+  while ( p_base && p_base->m_name[0] )
   {
-    v2 = alloca(8);
-    v4[2] = v4;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)it_node);
-    new_root = v3;
-    v3->next = root;
-    new_root->node = it_node;
-    root = new_root;
-    if ( it_node->m_parent.pointer )
-    {
-      pointer = it_node->m_parent.pointer;
+    v6 = alloca(8);
+    v9[1] = v5;
+    v9[0] = p_base;
+    pointer = p_base->m_parent.pointer;
+    v5 = v9;
+    if ( pointer )
       p_base = &pointer->base;
-    }
     else
-    {
       p_base = 0;
-    }
   }
-  for ( it_list_node = root; it_list_node; it_list_node = it_list_node->next )
+  for ( i = v5; i; i = (_DWORD *)i[1] )
   {
-    c_string = it_list_node->node->m_name;
-    vostok::buffer_string::append(&out_string->m_string, c_string);
-    if ( it_list_node->next )
+    vostok::buffer_string::append((vostok::buffer_string *)this, (int)out_string, (char *)(*i + 51));
+    if ( i[1] )
     {
-      s = 47;
-      vostok::fs_new::path_string_impl::operator+=<char>(out_string, &s);
+      *out_string->m_string.m_end++ = 47;
+      *out_string->m_string.m_end = 0;
     }
   }
 }

@@ -1,52 +1,64 @@
 vostok::math::float4x4 *__usercall vostok::physics::from_bullet@<eax>(
-        const btTransform *m@<eax>,
-        btMatrix3x3 *a2@<ecx>,
-        vostok::math::float4x4 *a3@<edi>)
+        long double m@<esi:edi>,
+        vostok::math::float4x4 *a2)
 {
-  const vostok::math::float4x4 *v4; // eax
-  btQuaternion q; // [esp+150h] [ebp-B0h] BYREF
-  vostok::math::float3 position; // [esp+164h] [ebp-9Ch] BYREF
-  vostok::math::quaternion v8; // [esp+170h] [ebp-90h] BYREF
-  vostok::math::float4x4 left; // [esp+180h] [ebp-80h] BYREF
-  vostok::math::float4x4 result; // [esp+1C0h] [ebp-40h] BYREF
+  btQuaternion *v2; // ecx
+  vostok::math::float4x4 *v3; // eax
+  btQuaternion q; // [esp+0h] [ebp-B0h] BYREF
+  vostok::math::float3 position; // [esp+14h] [ebp-9Ch] BYREF
+  vostok::math::quaternion v7; // [esp+20h] [ebp-90h] BYREF
+  vostok::math::float4x4 left; // [esp+30h] [ebp-80h] BYREF
+  vostok::math::float4x4 v9; // [esp+70h] [ebp-40h] BYREF
 
-  btMatrix3x3::getRotation(a2, (float *)m, &q);
-  vostok::physics::from_bullet(&q, (btQuaternion *)&v8, &v8);
-  LODWORD(q.m_floats[0]) = m->m_origin.mVec128.m128_i32[0];
-  LODWORD(q.m_floats[1]) = m->m_origin.mVec128.m128_i32[1];
-  q.m_floats[2] = -m->m_origin.mVec128.m128_f32[2];
+  btMatrix3x3::getRotation((btMatrix3x3 *)HIDWORD(m), &q);
+  vostok::physics::from_bullet(&q, v2, m, (const struct vostok::math::float3 *)&v7);
+  *(_QWORD *)q.m_floats = *(_QWORD *)(HIDWORD(m) + 48);
+  LODWORD(q.m_floats[2]) = *(_DWORD *)(HIDWORD(m) + 56) ^ _mask__NegFloat_;
   memset(&position, 0, sizeof(position));
-  vostok::math::create_matrix(&v8, &position);
-  v4 = vostok::math::create_translation(&result, (const vostok::math::float3 *)&q);
-  vostok::math::mul4x3(a3, &left, v4);
-  return a3;
+  vostok::math::create_matrix(&v7, &position, &left);
+  v3 = vostok::math::create_translation((const vostok::math::float3 *)&q, &v9);
+  vostok::math::mul4x3(v3, &left, a2);
+  return a2;
 }
 
 
 vostok::math::quaternion *__usercall vostok::physics::from_bullet@<eax>(
         const btQuaternion *from@<eax>,
         btQuaternion *a2@<ecx>,
-        vostok::math::quaternion *a3)
+        long double a3@<esi:edi>,
+        const struct vostok::math::float3 *a4)
 {
-  int v3; // xmm1_4
-  float v4; // xmm0_4
-  btVector3 *Axis; // eax
-  double v6; // st7
-  float _X; // [esp+0h] [ebp-34h]
-  float v9; // [esp+14h] [ebp-20h]
-  vostok::math::float3 direction; // [esp+18h] [ebp-1Ch] BYREF
-  btVector3 v11; // [esp+24h] [ebp-10h] BYREF
+  float v4; // xmm1_4
+  float v5; // xmm1_4
+  float v6; // xmm2_4
+  float v7; // xmm3_4
+  float v8; // xmm4_4
+  float v9; // xmm1_4
+  float v10; // xmm0_4
+  vostok::math::quaternion *v11; // ecx
+  float v13; // [esp-4h] [ebp-10h]
+  float v14[3]; // [esp+0h] [ebp-Ch] BYREF
 
-  v3 = -1082130432;
-  v4 = from->m_floats[3];
-  v9 = v4;
-  if ( v4 < -1.0 || (v3 = (int)clear_value, v4 > *(float *)&clear_value) )
-    v9 = *(float *)&v3;
-  Axis = btQuaternion::getAxis(a2, from->m_floats, &v11);
-  *(_QWORD *)&direction.x = Axis->mVec128.m128_u64[0];
-  direction.z = -Axis->mVec128.m128_f32[2];
-  v6 = acosf(v9);
-  _X = v6 + v6;
-  vostok::math::quaternion::quaternion(a3, &direction, _X);
-  return a3;
+  v4 = s_bm_current_air_resistance - (float)(from->m_floats[3] * from->m_floats[3]);
+  if ( v4 >= 0.0000011920929 )
+  {
+    v8 = s_bm_current_air_resistance / fsqrt(v4);
+    v6 = from->m_floats[0] * v8;
+    v7 = from->m_floats[1] * v8;
+    v5 = from->m_floats[2] * v8;
+  }
+  else
+  {
+    v5 = 0.0;
+    v6 = s_bm_current_air_resistance;
+    v7 = 0.0;
+  }
+  LODWORD(v9) = LODWORD(v5) ^ _mask__NegFloat_;
+  v10 = s_bm_current_air_resistance / fsqrt((float)((float)(v9 * v9) + (float)(v6 * v6)) + (float)(v7 * v7));
+  v14[0] = v10 * v6;
+  v14[1] = v10 * v7;
+  v14[2] = v9 * v10;
+  btQuaternion::getAngle(a2);
+  vostok::math::quaternion::quaternion(v11, v14, a3, v10, a4, v13);
+  return (vostok::math::quaternion *)a4;
 }

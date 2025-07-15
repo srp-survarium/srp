@@ -13,8 +13,8 @@ void __thiscall Scaleform::Render::Hairliner::emitEdge(
   int v11; // eax
   unsigned int v12; // edi
   int v13; // eax
-  float e_8a; // [esp+28h] [ebp-4h]
-  float e_8; // [esp+28h] [ebp-4h]
+  float v14; // [esp+28h] [ebp-4h]
+  float v15; // [esp+28h] [ebp-4h]
 
   Pages = this->OutVertices.Pages;
   p_x = &Pages[v1 >> 4][v1 & 0xF].x;
@@ -25,15 +25,15 @@ void __thiscall Scaleform::Render::Hairliner::emitEdge(
   if ( v9 >= p_FanEdges->NumPages )
     Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::FanEdgeType,4,16>::allocPage(p_FanEdges, v9);
   v10 = v6;
-  e_8a = v6;
-  e_8 = e_8a - 1.0;
+  v14 = v6;
+  v15 = v14 - 1.0;
   v11 = (int)&p_FanEdges->Pages[v9][p_FanEdges->Size & 0xF];
   *(_DWORD *)v11 = v1;
   *(_DWORD *)(v11 + 4) = v2;
   *(float *)(v11 + 8) = v10;
   ++p_FanEdges->Size;
-  if ( e_8 < -1.0 )
-    e_8 = e_8 + 2.0;
+  if ( v15 < -1.0 )
+    v15 = v15 + 2.0;
   v12 = p_FanEdges->Size >> 4;
   if ( v12 >= p_FanEdges->NumPages )
     Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::FanEdgeType,4,16>::allocPage(
@@ -42,6 +42,6 @@ void __thiscall Scaleform::Render::Hairliner::emitEdge(
   v13 = (int)&p_FanEdges->Pages[v12][p_FanEdges->Size & 0xF];
   *(_DWORD *)v13 = v2;
   *(_DWORD *)(v13 + 4) = v1;
-  *(float *)(v13 + 8) = e_8;
+  *(float *)(v13 + 8) = v15;
   ++p_FanEdges->Size;
 }

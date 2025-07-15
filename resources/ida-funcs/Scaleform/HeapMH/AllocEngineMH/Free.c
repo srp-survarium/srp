@@ -27,14 +27,14 @@ void __thiscall Scaleform::HeapMH::AllocEngineMH::Free(
 void __thiscall Scaleform::HeapMH::AllocEngineMH::Free(
         Scaleform::HeapMH::AllocEngineMH *this,
         Scaleform::HeapMH::PageMH *page,
-        unsigned int ptr,
+        unsigned __int8 *ptr,
         bool globalLocked)
 {
   int v5; // eax
   Scaleform::HeapMH::MagicHeadersInfo headers; // [esp+8h] [ebp-1Ch] BYREF
 
-  Scaleform::HeapMH::AllocBitSet2MH::Free(&this->Allocator, page, (void *)ptr, &headers, &ptr);
-  this->UsedSpace -= ptr;
+  Scaleform::HeapMH::AllocBitSet2MH::Free(&this->Allocator, page, ptr, &headers, (unsigned int *)&ptr);
+  this->UsedSpace -= (unsigned int)ptr;
   v5 = 0;
   if ( headers.Header1 )
     v5 = --headers.Header1->UseCount;

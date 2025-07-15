@@ -13,46 +13,46 @@ Scaleform::Render::Matrix3x4<float> *__thiscall Scaleform::Render::Matrix3x4<flo
   double v11; // st3
   double v12; // st2
   double v13; // st7
-  float v14; // [esp+CD4h] [ebp-98h]
-  float v15; // [esp+CD4h] [ebp-98h]
-  float v16; // [esp+CD4h] [ebp-98h]
-  float v17; // [esp+CD4h] [ebp-98h]
-  float v18; // [esp+CD4h] [ebp-98h]
-  float v19; // [esp+CD4h] [ebp-98h]
-  float v20; // [esp+CD4h] [ebp-98h]
-  float v21; // [esp+CD8h] [ebp-94h]
-  float v22; // [esp+CD8h] [ebp-94h]
-  float v23; // [esp+CD8h] [ebp-94h]
-  float v24; // [esp+CDCh] [ebp-90h]
-  float v25; // [esp+CDCh] [ebp-90h]
-  float v26; // [esp+CDCh] [ebp-90h]
-  float v27; // [esp+CE0h] [ebp-8Ch]
-  float v28; // [esp+CE0h] [ebp-8Ch]
-  float v29; // [esp+CE0h] [ebp-8Ch]
-  float v30; // [esp+CE4h] [ebp-88h]
-  float v31; // [esp+CE8h] [ebp-84h]
-  float v32; // [esp+CECh] [ebp-80h]
-  float v33; // [esp+CF0h] [ebp-7Ch]
-  float v34; // [esp+CF4h] [ebp-78h]
-  float v35; // [esp+CF8h] [ebp-74h]
-  float v36; // [esp+CF8h] [ebp-74h]
-  float v37; // [esp+CFCh] [ebp-70h]
-  float v38; // [esp+CFCh] [ebp-70h]
-  float v39; // [esp+D00h] [ebp-6Ch]
-  float v40; // [esp+D04h] [ebp-68h]
-  float v41; // [esp+D08h] [ebp-64h]
-  float v42; // [esp+D08h] [ebp-64h]
-  float v43; // [esp+D0Ch] [ebp-60h]
-  float v44; // [esp+D10h] [ebp-5Ch]
-  float v45; // [esp+D14h] [ebp-58h]
-  float v46; // [esp+D14h] [ebp-58h]
-  float v47; // [esp+D18h] [ebp-54h]
-  double v48; // [esp+D1Ch] [ebp-50h]
-  float v49; // [esp+D28h] [ebp-44h]
-  float v50; // [esp+D2Ch] [ebp-40h]
-  float v51; // [esp+D30h] [ebp-3Ch]
-  double v52; // [esp+D34h] [ebp-38h]
-  unsigned __int8 dst[48]; // [esp+D3Ch] [ebp-30h] BYREF
+  float v14; // [esp+8h] [ebp-98h]
+  float v15; // [esp+8h] [ebp-98h]
+  float v16; // [esp+8h] [ebp-98h]
+  float v17; // [esp+8h] [ebp-98h]
+  float v18; // [esp+8h] [ebp-98h]
+  float v19; // [esp+8h] [ebp-98h]
+  float v20; // [esp+8h] [ebp-98h]
+  float v21; // [esp+Ch] [ebp-94h]
+  float v22; // [esp+Ch] [ebp-94h]
+  float v23; // [esp+Ch] [ebp-94h]
+  float v24; // [esp+10h] [ebp-90h]
+  float v25; // [esp+10h] [ebp-90h]
+  float v26; // [esp+10h] [ebp-90h]
+  float v27; // [esp+14h] [ebp-8Ch]
+  float v28; // [esp+14h] [ebp-8Ch]
+  float v29; // [esp+14h] [ebp-8Ch]
+  float v30; // [esp+18h] [ebp-88h]
+  float v31; // [esp+1Ch] [ebp-84h]
+  float v32; // [esp+20h] [ebp-80h]
+  float v33; // [esp+24h] [ebp-7Ch]
+  float v34; // [esp+28h] [ebp-78h]
+  float v35; // [esp+2Ch] [ebp-74h]
+  float v36; // [esp+2Ch] [ebp-74h]
+  float v37; // [esp+30h] [ebp-70h]
+  float v38; // [esp+30h] [ebp-70h]
+  float v39; // [esp+34h] [ebp-6Ch]
+  float v40; // [esp+38h] [ebp-68h]
+  float v41; // [esp+3Ch] [ebp-64h]
+  float v42; // [esp+3Ch] [ebp-64h]
+  float v43; // [esp+40h] [ebp-60h]
+  float v44; // [esp+44h] [ebp-5Ch]
+  float v45; // [esp+48h] [ebp-58h]
+  float v46; // [esp+48h] [ebp-58h]
+  float v47; // [esp+4Ch] [ebp-54h]
+  double v48; // [esp+50h] [ebp-50h]
+  float v49; // [esp+5Ch] [ebp-44h]
+  float v50; // [esp+60h] [ebp-40h]
+  float v51; // [esp+64h] [ebp-3Ch]
+  double v52; // [esp+68h] [ebp-38h]
+  unsigned __int8 src[48]; // [esp+70h] [ebp-30h] BYREF
 
   v31 = this->M[0][0];
   v32 = this->M[0][1];
@@ -83,14 +83,14 @@ Scaleform::Render::Matrix3x4<float> *__thiscall Scaleform::Render::Matrix3x4<flo
   v14 = v45 * v9 + v40 * v32 + v49 * v31 + v43 * v30;
   if ( v14 == 0.0 )
   {
-    memset((int)dst, 0, sizeof(dst));
-    *(float *)dst = 1.0;
-    *(float *)&dst[20] = 1.0;
-    *(float *)&dst[40] = 1.0;
-    *(float *)&dst[12] = -this->M[0][3];
-    *(float *)&dst[28] = -this->M[1][3];
-    *(float *)&dst[44] = -this->M[2][3];
-    memcpy((unsigned __int8 *)result, dst, sizeof(Scaleform::Render::Matrix3x4<float>));
+    memset((int)src, 0, sizeof(src));
+    *(float *)src = 1.0;
+    *(float *)&src[20] = 1.0;
+    *(float *)&src[40] = 1.0;
+    *(float *)&src[12] = -this->M[0][3];
+    *(float *)&src[28] = -this->M[1][3];
+    *(float *)&src[44] = -this->M[2][3];
+    memcpy((int)result, (const __m128i *)src, sizeof(Scaleform::Render::Matrix3x4<float>));
     return result;
   }
   else

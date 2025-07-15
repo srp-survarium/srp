@@ -1,11 +1,32 @@
-void __thiscall survarium::base_player::on_player_death(survarium::base_player *this)
+void __thiscall survarium::base_player::on_player_death(
+        survarium::base_player *this,
+        const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *current_time_in_ms)
 {
-  vostok::intrusive_list<survarium::player_death_subscriber,survarium::player_death_subscriber *,32,vostok::threading::single_threading_policy,vostok::no_size_policy,vostok::no_debug_policy>::void_predicate_ref<void __cdecl(survarium::player_death_subscriber const *)> pred; // [esp+10h] [ebp-4h] BYREF
+  survarium::player_death_subscriber *m_first; // eax
+  survarium::player_death_subscriber *next; // edi
+  int v5; // ecx
+  survarium::usable_object *current_object; // ecx
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&pred);
-  pred.m_predicate_ref = (void (__cdecl *)(const survarium::player_death_subscriber *))survarium::call_player_death_subscriber_callback;
-  vostok::intrusive_list<survarium::player_death_subscriber,survarium::player_death_subscriber *,32,vostok::threading::single_threading_policy,vostok::no_size_policy,vostok::no_debug_policy>::for_each<vostok::intrusive_list<survarium::player_death_subscriber,survarium::player_death_subscriber *,32,vostok::threading::single_threading_policy,vostok::no_size_policy,vostok::no_debug_policy>::void_predicate_ref<void __cdecl (survarium::player_death_subscriber const *)>>(
-    &this->m_player_death_subscribers,
-    &pred);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&pred);
+  m_first = this->m_player_death_subscribers.m_first;
+  if ( m_first )
+  {
+    do
+    {
+      next = m_first->next;
+      v5 = -(m_first->subscription_callback.vtable != 0);
+      if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v5) != 0 )
+        boost::function1<void,vostok::collision::object const &>::operator()(
+          (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)v5,
+          m_first,
+          current_time_in_ms);
+      m_first = next;
+    }
+    while ( next );
+  }
+  current_object = this->m_usable_object_user_data.current_object;
+  if ( current_object )
+  {
+    this->m_usable_object_user_data.current_time_ms = (unsigned int)current_time_in_ms;
+    current_object->use_finalize(current_object, &this->m_usable_object_user_data);
+  }
 }

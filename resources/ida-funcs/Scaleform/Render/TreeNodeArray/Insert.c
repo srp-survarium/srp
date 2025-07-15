@@ -67,13 +67,13 @@ LABEL_17:
       v13 = index;
       if ( index )
       {
-        memcpy((unsigned __int8 *)(v12 + 8), (unsigned __int8 *)(v7 + 8), 4 * index);
+        memcpy(v12 + 8, (const __m128i *)(v7 + 8), 4 * index);
         v13 = index;
       }
       *(_DWORD *)(v12 + 4 * v13 + 8) = node;
       v14 = *(_DWORD *)(v7 + 4);
       if ( v13 < v14 )
-        memcpy((unsigned __int8 *)(v12 + 4 * v13 + 12), (unsigned __int8 *)(v7 + 4 * v13 + 8), 4 * (v14 - v13));
+        memcpy(v12 + 4 * v13 + 12, (const __m128i *)(v7 + 4 * v13 + 8), 4 * (v14 - v13));
       Scaleform::Render::TreeNodeArray::ArrayData::Release((Scaleform::Render::TreeNodeArray::ArrayData *)v7);
       this->pData[0] = v12 | 1;
       this->pData[1] = v11;

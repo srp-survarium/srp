@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::StageOrientationEvent
   unsigned int Flags; // edx
   Scaleform::GFx::AS3::Value::V2U v11; // [esp+14h] [ebp-4h]
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   pObject = this->pTraits.pObject;
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_events::StageOrientationEvent_vtbl *)&Scaleform::GFx::AS3::Instances::fl_events::Event::`vftable';
   p_EmptyStringNode = &pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;

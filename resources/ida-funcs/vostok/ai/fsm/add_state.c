@@ -1,8 +1,10 @@
-void __thiscall vostok::ai::fsm::add_state(vostok::ai::fsm *this, vostok::ai::fsm_state *state)
+void __usercall vostok::ai::fsm::add_state(vostok::ai::fsm *this@<ecx>, _DWORD *a2@<eax>)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::intrusive_list<vostok::ai::fsm_state,vostok::ai::fsm_state *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-    &this->m_states,
-    state,
-    0);
+  *(_DWORD *)&this->m_states.gap4 = 0;
+  ++*a2;
+  if ( a2[2] )
+    *(_DWORD *)(a2[3] + 4) = this;
+  else
+    a2[2] = this;
+  a2[3] = this;
 }

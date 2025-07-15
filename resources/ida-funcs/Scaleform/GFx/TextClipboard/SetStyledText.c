@@ -37,9 +37,9 @@ void __userpurge Scaleform::GFx::TextClipboard::SetStyledText(
   this->pStyledText = v10;
   Scaleform::Render::Text::StyledText::CopyStyledText(
     pstyledText,
-    (Scaleform::Render::Text::Paragraph *)v10,
+    v10,
     0,
-    (Scaleform::Render::Text::Paragraph *)0xFFFFFFFF);
+    (const Scaleform::Render::Text::Paragraph *)0xFFFFFFFF);
   if ( v8 )
     Scaleform::RefCountNTSImpl::Release(v8);
 }

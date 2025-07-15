@@ -1,12 +1,12 @@
 void __cdecl mdc2_body(mdc2_ctx_st *c, unsigned int len)
 {
-  const unsigned __int8 *in; // ecx
-  const unsigned __int8 *v3; // esi
+  unsigned __int8 *v2; // ecx
+  unsigned __int8 *v3; // esi
   unsigned __int8 *h; // edi
   unsigned __int8 *hh; // ebp
   int v6; // ebx
   int v7; // eax
-  const unsigned __int8 *v8; // esi
+  unsigned __int8 *v8; // esi
   int v9; // ecx
   int v10; // edx
   int v11; // ebx
@@ -28,7 +28,7 @@ void __cdecl mdc2_body(mdc2_ctx_st *c, unsigned int len)
   int v27; // [esp+20h] [ebp-88h]
   DES_ks schedule; // [esp+24h] [ebp-84h] BYREF
 
-  v3 = in;
+  v3 = v2;
   if ( len )
   {
     h = c->h;

@@ -1,236 +1,135 @@
-void __cdecl vorbis_dsp_clear(vostok::memory::doug_lea_mt_allocator *v)
+void __cdecl vorbis_dsp_clear(vorbis_dsp_state *v)
 {
-  vostok::memory::doug_lea_mt_allocator *v1; // ecx
-  vorbis_info *m_arena_start; // ebx
-  _DWORD *codec_setup; // ebp
-  char *v4; // edi
-  vostok::memory::doug_lea_mt_allocator *v5; // ecx
-  envelope_lookup *v6; // esi
-  mdct_lookup **v7; // eax
-  vostok::memory::doug_lea_mt_allocator *v8; // ecx
-  void *v9; // esi
-  vostok::memory::doug_lea_mt_allocator *v10; // ecx
-  void *v11; // esi
-  mdct_lookup **v12; // eax
-  vostok::memory::doug_lea_mt_allocator *v13; // ecx
-  vostok::memory::doug_lea_mt_allocator_vtbl *v14; // esi
-  vostok::memory::doug_lea_mt_allocator *v15; // ecx
-  void *v16; // esi
-  int v17; // esi
-  _DWORD *v18; // ebx
-  void *v19; // esi
-  int v20; // esi
-  _DWORD *v21; // ebx
-  void *v22; // esi
-  int v23; // esi
-  int v24; // ebx
-  void *v25; // esi
-  _DWORD *v26; // esi
-  vostok::memory::doug_lea_mt_allocator *v27; // ecx
-  vostok::memory::doug_lea_mt_allocator *v28; // ecx
-  int i; // esi
-  void **v30; // eax
-  void *v31; // ebp
-  void *m_arena_end; // esi
-  vostok::memory::doug_lea_mt_allocator *v33; // ecx
-  float **m_arena_id; // esi
-  void *v35; // esi
-  void *v36; // esi
-  void *v37; // esi
-  vostok::memory *v38; // [esp+0h] [ebp-18h]
-  vorbis_info *vi; // [esp+14h] [ebp-4h]
+  vorbis_info *vi; // eax
+  _DWORD *codec_setup; // edi
+  char *backend_state; // ebx
+  mdct_lookup **v4; // eax
+  mdct_lookup **v5; // eax
+  int v6; // esi
+  int v7; // esi
+  void *v8; // edx
+  int v9; // esi
+  void **v10; // eax
+  void *v11; // [esp-4h] [ebp-20h]
+  vorbis_info *v12; // [esp+10h] [ebp-Ch]
+  int v13; // [esp+14h] [ebp-8h]
+  _DWORD *v14; // [esp+18h] [ebp-4h]
+  _DWORD *v15; // [esp+18h] [ebp-4h]
+  int v16; // [esp+18h] [ebp-4h]
 
-  v1 = v;
   if ( v )
   {
-    m_arena_start = (vorbis_info *)v->m_arena_start;
-    vi = m_arena_start;
-    if ( m_arena_start )
-      codec_setup = m_arena_start->codec_setup;
+    vi = v->vi;
+    v12 = vi;
+    if ( vi )
+      codec_setup = vi->codec_setup;
     else
       codec_setup = 0;
-    v4 = *(char **)&v->m_is_tasks_aware;
-    if ( v4 )
+    backend_state = (char *)v->backend_state;
+    if ( backend_state )
     {
-      if ( *(_DWORD *)v4 )
+      if ( *(_DWORD *)backend_state )
       {
-        _ve_envelope_clear(*(envelope_lookup **)v4);
-        v6 = *(envelope_lookup **)v4;
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v5, v6);
+        _ve_envelope_clear(*(envelope_lookup **)backend_state);
+        ogg_free_impl(*(void **)backend_state);
       }
-      v7 = (mdct_lookup **)*((_DWORD *)v4 + 3);
-      if ( v7 )
+      v4 = (mdct_lookup **)*((_DWORD *)backend_state + 3);
+      if ( v4 )
       {
-        mdct_clear(*v7, v1);
-        v9 = (void *)**((_DWORD **)v4 + 3);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v8, v9);
-        v11 = (void *)*((_DWORD *)v4 + 3);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v10, v11);
+        mdct_clear(*v4);
+        ogg_free_impl(**((void ***)backend_state + 3));
+        ogg_free_impl(*((void **)backend_state + 3));
       }
-      v12 = (mdct_lookup **)*((_DWORD *)v4 + 4);
-      if ( v12 )
+      v5 = (mdct_lookup **)*((_DWORD *)backend_state + 4);
+      if ( v5 )
       {
-        mdct_clear(*v12, v1);
-        v13 = (vostok::memory::doug_lea_mt_allocator *)*((_DWORD *)v4 + 4);
-        v14 = v13->__vftable;
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v13, v14);
-        v16 = (void *)*((_DWORD *)v4 + 4);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v15, v16);
+        mdct_clear(*v5);
+        ogg_free_impl(**((void ***)backend_state + 4));
+        ogg_free_impl(*((void **)backend_state + 4));
       }
-      if ( *((_DWORD *)v4 + 12) )
+      v6 = 0;
+      if ( *((_DWORD *)backend_state + 12) )
       {
-        if ( codec_setup )
+        if ( codec_setup && (int)codec_setup[4] > 0 )
         {
-          v17 = 0;
-          if ( (int)codec_setup[4] > 0 )
-          {
-            v18 = codec_setup + 200;
-            do
-              _floor_P[*v18++]->free_look(*(void **)(*((_DWORD *)v4 + 12) + 4 * v17++));
-            while ( v17 < codec_setup[4] );
-            m_arena_start = vi;
-          }
+          v14 = codec_setup + 200;
+          do
+            _floor_P[*v14++]->free_look(*(void **)(*((_DWORD *)backend_state + 12) + 4 * v6++));
+          while ( v6 < codec_setup[4] );
         }
-        v19 = (void *)*((_DWORD *)v4 + 12);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v19);
+        ogg_free_impl(*((void **)backend_state + 12));
       }
-      if ( *((_DWORD *)v4 + 13) )
+      v7 = 0;
+      if ( *((_DWORD *)backend_state + 13) )
       {
-        if ( codec_setup )
+        if ( codec_setup && (int)codec_setup[5] > 0 )
         {
-          v20 = 0;
-          if ( (int)codec_setup[5] > 0 )
-          {
-            v21 = codec_setup + 328;
-            do
-              _residue_P[*v21++]->free_look(*(void **)(*((_DWORD *)v4 + 13) + 4 * v20++));
-            while ( v20 < codec_setup[5] );
-            m_arena_start = vi;
-          }
+          v15 = codec_setup + 328;
+          do
+            _residue_P[*v15++]->free_look(*(void **)(*((_DWORD *)backend_state + 13) + 4 * v7++));
+          while ( v7 < codec_setup[5] );
         }
-        v22 = (void *)*((_DWORD *)v4 + 13);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v22);
+        ogg_free_impl(*((void **)backend_state + 13));
       }
-      if ( *((_DWORD *)v4 + 14) )
+      if ( *((_DWORD *)backend_state + 14) )
       {
         if ( codec_setup )
         {
-          v23 = 0;
+          v13 = 0;
           if ( (int)codec_setup[7] > 0 )
           {
-            v24 = 0;
+            v16 = 0;
             do
             {
-              _vp_psy_clear((vostok::memory::doug_lea_mt_allocator **)(v24 + *((_DWORD *)v4 + 14)));
-              ++v23;
-              v24 += 52;
+              _vp_psy_clear((vorbis_look_psy *)(v16 + *((_DWORD *)backend_state + 14)));
+              ++v13;
+              v16 += 52;
             }
-            while ( v23 < codec_setup[7] );
-            m_arena_start = vi;
+            while ( v13 < codec_setup[7] );
           }
         }
-        v25 = (void *)*((_DWORD *)v4 + 14);
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v25);
+        ogg_free_impl(*((void **)backend_state + 14));
       }
-      v26 = (_DWORD *)*((_DWORD *)v4 + 15);
-      if ( v26 )
+      v8 = (void *)*((_DWORD *)backend_state + 15);
+      if ( v8 )
       {
-        *v26 = 0;
-        v26[1] = 0;
-        v26[2] = 0;
-        v26[3] = 0;
-        v26[4] = 0;
-        v26[5] = 0;
-        v26[6] = 0;
-        v26[7] = 0;
-        v26[8] = 0;
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v26);
+        v11 = (void *)*((_DWORD *)backend_state + 15);
+        memset(v8, 0, 0x24u);
+        ogg_free_impl(v11);
       }
-      memset((int)(v4 + 80), 0, 0x30u);
-      drft_clear((drft_lookup *)(v4 + 20), v27);
-      drft_clear((drft_lookup *)(v4 + 32), v28);
-      v1 = v;
+      memset((int)(backend_state + 80), 0, 0x30u);
+      drft_clear((drft_lookup *)(backend_state + 20));
+      drft_clear((drft_lookup *)(backend_state + 32));
+      vi = v12;
     }
-    if ( v1->m_arena_end )
+    v9 = 0;
+    if ( v->pcm )
     {
-      if ( m_arena_start )
+      if ( vi && v12->channels > 0 )
       {
-        for ( i = 0; i < m_arena_start->channels; ++i )
+        do
         {
-          v30 = (void **)((char *)v1->m_arena_end + 4 * i);
-          if ( *v30 )
-          {
-            v31 = *v30;
-            if ( !vostok::memory::g_crt_allocator.__vftable )
-              vostok::memory::initialize_crt_allocator(v38);
-            vostok::memory::doug_lea_mt_allocator::free_impl(v1, v31);
-            v1 = v;
-          }
+          v10 = (void **)&v->pcm[v9];
+          if ( *v10 )
+            ogg_free_impl(*v10);
+          ++v9;
         }
+        while ( v9 < v12->channels );
       }
-      m_arena_end = v1->m_arena_end;
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-        vostok::memory::initialize_crt_allocator(v38);
-      vostok::memory::doug_lea_mt_allocator::free_impl(v1, m_arena_end);
-      m_arena_id = (float **)v->m_arena_id;
-      if ( m_arena_id )
-      {
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v33, m_arena_id);
-        v1 = v;
-      }
-      else
-      {
-        v1 = v;
-      }
+      ogg_free_impl(v->pcm);
+      if ( v->pcmret )
+        ogg_free_impl(v->pcmret);
     }
-    if ( v4 )
+    if ( backend_state )
     {
-      v35 = (void *)*((_DWORD *)v4 + 16);
-      if ( v35 )
-      {
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v35);
-      }
-      v36 = (void *)*((_DWORD *)v4 + 17);
-      if ( v36 )
-      {
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v36);
-      }
-      v37 = (void *)*((_DWORD *)v4 + 18);
-      if ( v37 )
-      {
-        if ( !vostok::memory::g_crt_allocator.__vftable )
-          vostok::memory::initialize_crt_allocator(v38);
-        vostok::memory::doug_lea_mt_allocator::free_impl(v1, v37);
-      }
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-        vostok::memory::initialize_crt_allocator(v38);
-      vostok::memory::doug_lea_mt_allocator::free_impl(v1, v4);
-      v1 = v;
+      if ( *((_DWORD *)backend_state + 16) )
+        ogg_free_impl(*((void **)backend_state + 16));
+      if ( *((_DWORD *)backend_state + 17) )
+        ogg_free_impl(*((void **)backend_state + 17));
+      if ( *((_DWORD *)backend_state + 18) )
+        ogg_free_impl(*((void **)backend_state + 18));
+      ogg_free_impl(backend_state);
     }
-    memset((int)v1, 0, sizeof(vostok::memory::doug_lea_mt_allocator));
+    memset((int)v, 0, sizeof(vorbis_dsp_state));
   }
 }

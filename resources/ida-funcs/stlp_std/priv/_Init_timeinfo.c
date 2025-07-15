@@ -16,7 +16,7 @@ void __usercall stlp_std::priv::_Init_timeinfo(stlp_std::priv::_Time_Info *table
     v1 += 14;
     ++M_dayname;
   }
-  while ( (int)v1 < (int)byte_816D5C );
+  while ( (int)v1 < (int)byte_6B3EE4 );
   v3 = (char *)default_monthname[0];
   M_monthname = table->_M_monthname;
   do

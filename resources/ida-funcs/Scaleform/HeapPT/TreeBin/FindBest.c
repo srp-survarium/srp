@@ -12,12 +12,12 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::TreeBin::FindBest(
   unsigned int v10; // ecx
   Scaleform::HeapPT::BinTNode *v11; // ecx
   unsigned int v12; // ecx
-  Scaleform::HeapPT::BinTNode *best; // [esp+10h] [ebp-8h]
-  Scaleform::HeapPT::BinTNode *rst; // [esp+1Ch] [ebp+4h]
+  Scaleform::HeapPT::BinTNode *v14; // [esp+10h] [ebp-8h]
+  Scaleform::HeapPT::BinTNode *v16; // [esp+1Ch] [ebp+4h]
 
   v3 = 0;
   v4 = -size;
-  best = 0;
+  v14 = 0;
   if ( size >> 5 )
   {
     if ( size >> 5 <= 0xFFFF )
@@ -38,7 +38,7 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::TreeBin::FindBest(
   LOBYTE(v8) = 0;
   if ( v7 )
   {
-    rst = 0;
+    v16 = 0;
     if ( v5 < 0x1F )
       v8 = 28 - (v5 >> 1);
     for ( i = size << v8; ; i *= 2 )
@@ -47,7 +47,7 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::TreeBin::FindBest(
       if ( v10 < v4 )
       {
         v3 = v7;
-        best = v7;
+        v14 = v7;
         v4 = v7->Size - size;
         if ( !v10 )
           break;
@@ -55,11 +55,11 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::TreeBin::FindBest(
       v11 = v7->Child[1];
       v7 = v7->Child[i >> 31];
       if ( v11 && v11 != v7 )
-        rst = v11;
+        v16 = v11;
       if ( !v7 )
       {
-        v7 = rst;
-        v3 = best;
+        v7 = v16;
+        v3 = v14;
         break;
       }
     }

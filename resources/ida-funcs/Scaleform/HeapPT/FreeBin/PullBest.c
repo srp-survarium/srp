@@ -4,10 +4,10 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
 {
   unsigned int v3; // ecx
   Scaleform::HeapPT::BinTNode *result; // eax
-  Scaleform::HeapPT::BinLNode *pNext; // edx
+  Scaleform::HeapPT::BinTNode *pNext; // edx
   int v6; // edi
   int v7; // ecx
-  unsigned __int8 *v8; // edx
+  Scaleform::HeapPT::BinTNode *v8; // edx
   Scaleform::HeapPT::BinTNode *Best; // eax
   Scaleform::HeapPT::BinTNode *v10; // edi
 
@@ -23,7 +23,7 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
     {
       v3 = blocks - 1 + (unsigned __int8)Scaleform::Alg::LowerBit(this->ListBin1.Mask >> (blocks - 1));
       result = (Scaleform::HeapPT::BinTNode *)this->ListBin1.Roots[v3];
-      pNext = result->pNext;
+      pNext = (Scaleform::HeapPT::BinTNode *)result->pNext;
       if ( result == pNext )
       {
         this->ListBin1.Roots[v3] = 0;
@@ -46,10 +46,10 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
   if ( this->ListBin2.Mask >> v6
     && ((v7 = v6 + (unsigned __int8)Scaleform::Alg::LowerBit(this->ListBin2.Mask >> v6),
          result = (Scaleform::HeapPT::BinTNode *)this->ListBin2.Roots[v7],
-         v8 = (unsigned __int8 *)result->pNext,
-         result == (Scaleform::HeapPT::BinTNode *)v8)
+         v8 = (Scaleform::HeapPT::BinTNode *)result->pNext,
+         result == v8)
       ? (Scaleform::HeapPT::BinLNode *)(this->ListBin2.Roots[v7] = 0, this->ListBin2.Mask &= ~(1 << v7))
-      : (this->ListBin2.Roots[v7] = (Scaleform::HeapPT::BinLNode *)v8,
+      : (this->ListBin2.Roots[v7] = v8,
          result->pPrev->pNext = result->pNext,
          result->pNext->Scaleform::HeapPT::BinLNode::pPrev = result->pPrev),
         result) )
@@ -74,19 +74,19 @@ LABEL_17:
 }
 
 
-Scaleform::HeapPT::BinLNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
+Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
         Scaleform::HeapPT::FreeBin *this,
         unsigned int blocks,
         char shift,
         unsigned int alignMask)
 {
-  Scaleform::HeapPT::BinLNode *result; // eax
+  Scaleform::HeapPT::BinTNode *result; // eax
   unsigned int v7; // eax
   Scaleform::HeapPT::BinTNode *Best; // esi
   unsigned int v9; // eax
   unsigned int v10; // ecx
   unsigned int ShortSize; // edx
-  Scaleform::HeapPT::BinTNode *head; // [esp+18h] [ebp+4h]
+  unsigned int size; // [esp+18h] [ebp+4h]
 
   if ( blocks > 0x40 )
     goto LABEL_9;
@@ -96,7 +96,12 @@ Scaleform::HeapPT::BinLNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
   }
   else
   {
-    result = Scaleform::HeapPT::ListBin::PullBest(&this->ListBin1, blocks - 1, blocks, shift, alignMask);
+    result = (Scaleform::HeapPT::BinTNode *)Scaleform::HeapPT::ListBin::PullBest(
+                                              &this->ListBin1,
+                                              blocks - 1,
+                                              blocks,
+                                              shift,
+                                              alignMask);
     if ( result )
     {
       this->FreeBlocks -= result->ShortSize;
@@ -104,16 +109,21 @@ Scaleform::HeapPT::BinLNode *__thiscall Scaleform::HeapPT::FreeBin::PullBest(
     }
     v7 = 0;
   }
-  result = Scaleform::HeapPT::ListBin::PullBest(&this->ListBin2, v7, blocks, shift, alignMask);
+  result = (Scaleform::HeapPT::BinTNode *)Scaleform::HeapPT::ListBin::PullBest(
+                                            &this->ListBin2,
+                                            v7,
+                                            blocks,
+                                            shift,
+                                            alignMask);
   if ( result )
   {
-    this->FreeBlocks -= (unsigned int)result[1].pPrev;
+    this->FreeBlocks -= result->Size;
   }
   else
   {
 LABEL_9:
     Best = Scaleform::HeapPT::TreeBin::FindBest(&this->TreeBin1, blocks);
-    head = Best;
+    size = (unsigned int)Best;
     if ( Best )
     {
       while ( 1 )
@@ -137,10 +147,10 @@ LABEL_9:
         if ( (blocks << shift) + v9 <= (unsigned int)Best + (ShortSize << shift) )
           break;
         Best = (Scaleform::HeapPT::BinTNode *)Best->pNext;
-        if ( Best == head )
+        if ( Best == (Scaleform::HeapPT::BinTNode *)size )
         {
           Best = Scaleform::HeapPT::TreeBin::FindBest(&this->TreeBin1, Best->Size + 1);
-          head = Best;
+          size = (unsigned int)Best;
           if ( !Best )
             return 0;
         }

@@ -1,22 +1,28 @@
-unsigned int __cdecl __dtoxmode(char attr, const char *name)
+unsigned int __usercall __dtoxmode@<eax>(int a1@<ebx>, char attr, const char *name)
 {
-  const char *v2; // ecx
-  char v3; // dl
-  int v4; // edi
-  unsigned int v5; // edi
-  const unsigned __int8 *v6; // eax
-  const unsigned __int8 *v7; // esi
+  const char *v3; // ecx
+  char v4; // dl
+  int v5; // edi
+  unsigned int v6; // edi
+  char *v7; // eax
+  char *v8; // esi
 
-  v2 = name;
+  v3 = name;
   if ( name[1] == 58 )
-    v2 = name + 2;
-  v3 = *v2;
-  if ( (*v2 == 92 || v3 == 47) && !v2[1] || (attr & 0x10) != 0 || (v4 = 0x8000, !v3) )
-    v4 = 16448;
-  v5 = ~(attr << 7) & 0x80 | 0x100 | v4;
-  v6 = _mbsrchr((const unsigned __int8 *)name, 0x2Eu);
-  v7 = v6;
-  if ( v6 && (!_mbsicmp(v6, ".exe") || !_mbsicmp(v7, ".cmd") || !_mbsicmp(v7, ".bat") || !_mbsicmp(v7, ".com")) )
-    v5 |= 0x40u;
-  return (v5 >> 3) & 0x38 | v5 | (((v5 >> 3) & 0x38 | v5) >> 6) & 7;
+    v3 = name + 2;
+  v4 = *v3;
+  if ( (*v3 == 92 || v4 == 47) && !v3[1] || (attr & 0x10) != 0 || (v5 = 0x8000, !v4) )
+    v5 = 16448;
+  v6 = ~(attr << 7) & 0x80 | 0x100 | v5;
+  _mbsrchr(v6, (int)name, name, 0x2Eu);
+  v8 = v7;
+  if ( v7
+    && (!_mbsicmp(a1, v6, v7, ".exe")
+     || !_mbsicmp(a1, v6, v8, ".cmd")
+     || !_mbsicmp(a1, v6, v8, ".bat")
+     || !_mbsicmp(a1, v6, v8, ".com")) )
+  {
+    v6 |= 0x40u;
+  }
+  return (v6 >> 3) & 0x38 | v6 | (((v6 >> 3) & 0x38 | v6) >> 6) & 7;
 }

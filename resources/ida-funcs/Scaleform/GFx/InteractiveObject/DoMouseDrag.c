@@ -10,11 +10,11 @@ void __thiscall Scaleform::GFx::InteractiveObject::DoMouseDrag(
   double v8; // st7
   double y; // st7
   double v10; // st7
-  Scaleform::Render::Point<float> p; // [esp+174h] [ebp-80h] BYREF
-  Scaleform::Render::Point<float> result; // [esp+17Ch] [ebp-78h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+184h] [ebp-70h] BYREF
-  Scaleform::Render::Matrix2x4<float> v14; // [esp+1A4h] [ebp-50h] BYREF
-  Scaleform::GFx::MovieImpl::DragState st; // [esp+1D0h] [ebp-24h] BYREF
+  Scaleform::Render::Point<float> p; // [esp+24h] [ebp-80h] BYREF
+  Scaleform::Render::Point<float> result; // [esp+2Ch] [ebp-78h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+34h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix2x4<float> v14; // [esp+54h] [ebp-50h] BYREF
+  Scaleform::GFx::MovieImpl::DragState st; // [esp+80h] [ebp-24h] BYREF
 
   st.BoundLT.y = 0.0;
   st.BoundLT.x = 0.0;

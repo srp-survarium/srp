@@ -6,7 +6,7 @@ x509_object_st *__cdecl X509_OBJECT_retrieve_match(stack_st_X509_OBJECT *h, x509
   unsigned int v6; // eax
   int v7; // eax
 
-  v2 = sk_find(&h->stack, (char *)x);
+  v2 = sk_find((int)x, &h->stack, (char *)x);
   if ( v2 == -1 )
     return 0;
   if ( x->type != 1 && x->type != 2 )
@@ -31,7 +31,7 @@ x509_object_st *__cdecl X509_OBJECT_retrieve_match(stack_st_X509_OBJECT *h, x509
 LABEL_13:
     if ( x->type == 1 )
     {
-      v7 = X509_cmp((unsigned int)x, *((x509_st **)v5 + 1), x->data.x509);
+      v7 = X509_cmp((int)x, i, *((x509_st **)v5 + 1), x->data.x509);
     }
     else
     {

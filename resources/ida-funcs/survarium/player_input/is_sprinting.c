@@ -1,4 +1,7 @@
-bool __thiscall survarium::player_input::is_sprinting(survarium::player_input *this)
+BOOL __usercall survarium::player_input::is_sprinting@<eax>(survarium::player_input *this@<ecx>, int a2@<eax>)
 {
-  return (this->actions_mask & 0x200) != 0 && (this->actions_mask & 1) != 0 && (this->actions_mask & 0x16E) == 0;
+  int v2; // eax
+
+  v2 = *(_DWORD *)(a2 + 8);
+  return (v2 & 0x400) != 0 && (v2 & 1) != 0 && (v2 & 0x222) == 0;
 }

@@ -2,17 +2,33 @@ int __thiscall boost::asio::basic_streambuf<stlp_std::allocator<char>>::overflow
         boost::asio::basic_streambuf<stlp_std::allocator<char> > *this,
         int c)
 {
-  unsigned int buffer_size; // [esp+330h] [ebp-4h]
+  char *M_pnext; // eax
+  unsigned int v4; // eax
+  boost::asio::basic_streambuf<stlp_std::allocator<char> > *max_size; // ecx
 
   if ( c == -1 )
     return 0;
-  if ( this->_M_pnext == this->_M_pend )
+  M_pnext = this->_M_pnext;
+  if ( M_pnext == this->_M_pend )
   {
-    buffer_size = this->_M_pnext - this->_M_gnext;
-    if ( buffer_size >= this->max_size_ || this->max_size_ - buffer_size >= 0x80 )
-      boost::asio::basic_streambuf<stlp_std::allocator<char>>::reserve(this, 0x80u);
+    v4 = M_pnext - this->_M_gnext;
+    max_size = (boost::asio::basic_streambuf<stlp_std::allocator<char> > *)this->max_size_;
+    if ( v4 >= (unsigned int)max_size
+      || (max_size = (boost::asio::basic_streambuf<stlp_std::allocator<char> > *)((char *)max_size - v4),
+          (unsigned int)max_size >= 0x80) )
+    {
+      boost::asio::basic_streambuf<stlp_std::allocator<char>>::reserve(
+        max_size,
+        (stlp_std::vector<char,stlp_std::allocator<char> > *)this,
+        0x80u);
+    }
     else
-      boost::asio::basic_streambuf<stlp_std::allocator<char>>::reserve(this, this->max_size_ - buffer_size);
+    {
+      boost::asio::basic_streambuf<stlp_std::allocator<char>>::reserve(
+        max_size,
+        (stlp_std::vector<char,stlp_std::allocator<char> > *)this,
+        (unsigned int)max_size);
+    }
   }
   *this->_M_pnext++ = c;
   return c;

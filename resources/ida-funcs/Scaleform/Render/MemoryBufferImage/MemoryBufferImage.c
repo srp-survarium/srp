@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::MemoryBufferImage::MemoryBufferImage(
 {
   unsigned int Width; // eax
   unsigned int v10; // ebx
-  char *v11; // eax
+  const __m128i *v11; // eax
 
   this->__vftable = (Scaleform::Render::MemoryBufferImage_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -57,8 +57,9 @@ void __thiscall Scaleform::Render::MemoryBufferImage::MemoryBufferImage(
             0),
           file->Read(file, this->FileData.Data.Data, v10) >= (int)v10) )
     {
-      v11 = (char *)file->GetFilePath(file);
+      v11 = (const __m128i *)file->GetFilePath(file);
       Scaleform::String::operator=(&this->FilePath, v11);
+      this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
     }
     else
     {

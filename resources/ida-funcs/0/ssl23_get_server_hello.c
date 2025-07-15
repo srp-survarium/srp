@@ -1,6 +1,6 @@
-int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
+unsigned int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
 {
-  int result; // eax
+  unsigned int result; // eax
   unsigned __int8 *packet; // edi
   int v3; // ebx
   __int16 v4; // bp
@@ -18,7 +18,7 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
   unsigned __int8 *buf; // eax
   unsigned __int8 v17; // [esp+6h] [ebp-6h]
 
-  result = ssl23_read_bytes(s, 7);
+  result = ssl23_read_bytes(s, 7u);
   if ( result == 7 )
   {
     packet = s->packet;
@@ -27,9 +27,9 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
     v17 = packet[6];
     if ( (*(_DWORD *)packet & 0x80u) != 0 && packet[2] == 4 && !packet[5] && packet[6] == 2 )
     {
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[5574200] & s->options) != 0 )
+      if ( (s->options & 0x1000000) != 0 )
       {
-        ERR_put_error(0x14u, 119, 258, ".\\ssl\\s23_clnt.c", 553);
+        ERR_put_error(v3, 0x14u, 119, 258, ".\\ssl\\s23_clnt.c", 553);
         return -1;
       }
       if ( s->s2 )
@@ -42,12 +42,12 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
       }
       v5 = (s->options & 2) != 0 ? 16 : 32;
       s->s2->challenge_length = v5;
-      memcpy(s->s2->challenge, &s->s3->client_random[-v5 + 32], v5);
+      memcpy((int)s->s2->challenge, (const __m128i *)&s->s3->client_random[-v5 + 32], v5);
       if ( s->s3 )
-        ssl3_free(s);
+        ssl3_free((int)packet, s);
       if ( !BUF_MEM_grow_clean(s->init_buf, 0x3FFFu) )
       {
-        ERR_put_error(0x14u, 119, 7, ".\\ssl\\s23_clnt.c", 585);
+        ERR_put_error(v3, 0x14u, 119, 7, ".\\ssl\\s23_clnt.c", 585);
         return -1;
       }
       v6 = s->client_version == 2;
@@ -75,14 +75,14 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
         || (v10 = packet[2], v10 > 1u)
         || ((_BYTE)v3 != 22 || packet[5] != 2) && ((_BYTE)v3 != 21 || packet[3] || packet[4] != 2) )
       {
-        ERR_put_error(0x14u, 119, 252, ".\\ssl\\s23_clnt.c", 683);
+        ERR_put_error(v3, 0x14u, 119, 252, ".\\ssl\\s23_clnt.c", 683);
         return -1;
       }
-      if ( v10 || ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & s->options) != 0 )
+      if ( v10 || (s->options & 0x2000000) != 0 )
       {
-        if ( v10 != 1 || ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & s->options) != 0 )
+        if ( v10 != 1 || (s->options & 0x4000000) != 0 )
         {
-          ERR_put_error(0x14u, 119, 258, ".\\ssl\\s23_clnt.c", 631);
+          ERR_put_error(v3, 0x14u, 119, 258, ".\\ssl\\s23_clnt.c", 631);
           return -1;
         }
         s->version = 769;
@@ -106,11 +106,11 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
           if ( msg_callback )
             msg_callback(0, s->version, 21, packet + 5, 2u, s, s->msg_callback_arg);
           s->rwstate = 1;
-          ERR_put_error(0x14u, 119, packet[6] + 1000, ".\\ssl\\s23_clnt.c", 658);
+          ERR_put_error(v3, 0x14u, 119, packet[6] + 1000, ".\\ssl\\s23_clnt.c", 658);
           return -1;
         }
       }
-      if ( !ssl_init_wbio_buffer(s, 1) )
+      if ( !ssl_init_wbio_buffer(v3, s, 1) )
         return -1;
       s3 = s->s3;
       s->state = 4384;
@@ -129,7 +129,7 @@ int __usercall ssl23_get_server_hello@<eax>(ssl_st *s@<esi>)
     }
     s->init_num = 0;
     if ( ssl_get_new_session(s, 0) )
-      return SSL_connect(s);
+      return SSL_connect(v3, s);
     return -1;
   }
   return result;

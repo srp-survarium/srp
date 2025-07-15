@@ -1,97 +1,81 @@
-void __thiscall btDiscreteDynamicsWorld::updateActivationState(
-        btDiscreteDynamicsWorld *this,
-        float timeStep,
-        float timeStepa)
+void __thiscall btDiscreteDynamicsWorld::updateActivationState(btDiscreteDynamicsWorld *this, float timeStep, float a3)
 {
-  CProfileNode *Sub_Node; // esi
-  int RecursionCounter; // ecx
-  int v5; // edi
-  bool v6; // al
-  int v7; // edx
-  int v8; // edx
-  bool v9; // zf
-  int *p_RecursionCounter; // edi
+  btCollisionObject *v3; // ecx
+  int v4; // esi
+  int v5; // eax
+  int v6; // edx
+  int v7; // eax
+  int i; // [esp+Ch] [ebp-24h]
+  btVector3 v9; // [esp+10h] [ebp-20h] BYREF
+  int v10; // [esp+20h] [ebp-10h]
+  int v11; // [esp+24h] [ebp-Ch]
+  int v12; // [esp+28h] [ebp-8h]
+  int v13; // [esp+2Ch] [ebp-4h]
 
-  Sub_Node = CProfileManager::CurrentNode;
-  if ( CProfileManager::CurrentNode->Name != "updateActivationState" )
+  for ( i = 0; i < *(_DWORD *)(LODWORD(timeStep) + 208); ++i )
   {
-    Sub_Node = CProfileNode::Get_Sub_Node((const char *)this);
-    CProfileManager::CurrentNode = Sub_Node;
-  }
-  RecursionCounter = Sub_Node->RecursionCounter;
-  ++Sub_Node->TotalCalls;
-  Sub_Node->RecursionCounter = RecursionCounter + 1;
-  if ( !RecursionCounter )
-  {
-    Sub_Node->StartTime = btClock::getTimeMicroseconds(0);
-    Sub_Node = CProfileManager::CurrentNode;
-  }
-  v5 = 0;
-  if ( *(int *)(LODWORD(timeStep) + 204) > 0 )
-  {
-    v6 = gDisableDeactivation;
-    do
+    v3 = (btCollisionObject *)i;
+    v4 = *(_DWORD *)(*(_DWORD *)(LODWORD(timeStep) + 216) + 4 * i);
+    if ( v4 )
     {
-      RecursionCounter = *(_DWORD *)(*(_DWORD *)(LODWORD(timeStep) + 212) + 4 * v5);
-      if ( RecursionCounter )
+      v5 = *(_DWORD *)(v4 + 228);
+      v6 = 2;
+      if ( v5 != 2 && v5 != 4 )
       {
-        v7 = *(_DWORD *)(RecursionCounter + 228);
-        if ( v7 != 2 && v7 != 4 )
+        if ( (float)(*(float *)(v4 + 492) * *(float *)(v4 + 492)) <= (float)((float)((float)(*(float *)(v4 + 328)
+                                                                                           * *(float *)(v4 + 328))
+                                                                                   + (float)(*(float *)(v4 + 320)
+                                                                                           * *(float *)(v4 + 320)))
+                                                                           + (float)(*(float *)(v4 + 324)
+                                                                                   * *(float *)(v4 + 324)))
+          || (float)(*(float *)(v4 + 496) * *(float *)(v4 + 496)) <= (float)((float)((float)(*(float *)(v4 + 336)
+                                                                                           * *(float *)(v4 + 336))
+                                                                                   + (float)(*(float *)(v4 + 340)
+                                                                                           * *(float *)(v4 + 340)))
+                                                                           + (float)(*(float *)(v4 + 344)
+                                                                                   * *(float *)(v4 + 344))) )
         {
-          if ( (float)(*(float *)(RecursionCounter + 492) * *(float *)(RecursionCounter + 492)) <= (float)((float)((float)(*(float *)(RecursionCounter + 320) * *(float *)(RecursionCounter + 320)) + (float)(*(float *)(RecursionCounter + 324) * *(float *)(RecursionCounter + 324))) + (float)(*(float *)(RecursionCounter + 328) * *(float *)(RecursionCounter + 328)))
-            || (float)(*(float *)(RecursionCounter + 496) * *(float *)(RecursionCounter + 496)) <= (float)((float)((float)(*(float *)(RecursionCounter + 336) * *(float *)(RecursionCounter + 336)) + (float)(*(float *)(RecursionCounter + 340) * *(float *)(RecursionCounter + 340))) + (float)(*(float *)(RecursionCounter + 344) * *(float *)(RecursionCounter + 344))) )
+          *(_DWORD *)(v4 + 232) = 0;
+          btCollisionObject::setActivationState((btCollisionObject *)i, v4, 0);
+        }
+        else
+        {
+          *(float *)(v4 + 232) = *(float *)(v4 + 232) + a3;
+        }
+      }
+      v7 = *(_DWORD *)(v4 + 228);
+      if ( v7 != 4 )
+      {
+        if ( !gDisableDeactivation && (v7 == v6 || v7 == 3 || *(float *)(v4 + 232) > 2.0) )
+        {
+          if ( (*(_BYTE *)(v4 + 216) & 3) != 0 )
           {
-            *(_DWORD *)(RecursionCounter + 232) = 0;
-            if ( v7 != 5 )
-              *(_DWORD *)(RecursionCounter + 228) = 0;
+            btCollisionObject::setActivationState(v3, v4, v6);
           }
           else
           {
-            *(float *)(RecursionCounter + 232) = *(float *)(RecursionCounter + 232) + timeStepa;
+            if ( v7 == 1 )
+              btCollisionObject::setActivationState(v3, v4, 3);
+            if ( *(_DWORD *)(v4 + 228) == v6 )
+            {
+              memset(&v9, 0, sizeof(v9));
+              btRigidBody::setAngularVelocity((btRigidBody *)v4, &v9);
+              v10 = 0;
+              v11 = 0;
+              v12 = 0;
+              v13 = 0;
+              *(_DWORD *)(v4 + 320) = 0;
+              *(_DWORD *)(v4 + 324) = v11;
+              *(_DWORD *)(v4 + 328) = v12;
+              *(_DWORD *)(v4 + 332) = v13;
+            }
           }
         }
-        v8 = *(_DWORD *)(RecursionCounter + 228);
-        if ( v8 != 4 )
+        else
         {
-          if ( !v6 && (v8 == 2 || v8 == 3 || *(float *)(RecursionCounter + 232) > 2.0) )
-          {
-            if ( (*(_BYTE *)(RecursionCounter + 216) & 3) != 0 )
-            {
-              if ( v8 != 5 )
-                *(_DWORD *)(RecursionCounter + 228) = 2;
-            }
-            else
-            {
-              if ( v8 == 1 )
-                *(_DWORD *)(RecursionCounter + 228) = 3;
-              if ( *(_DWORD *)(RecursionCounter + 228) == 2 )
-              {
-                *(_QWORD *)(RecursionCounter + 336) = 0;
-                *(_QWORD *)(RecursionCounter + 344) = 0;
-                *(_QWORD *)(RecursionCounter + 320) = 0;
-                *(_QWORD *)(RecursionCounter + 328) = 0;
-              }
-            }
-          }
-          else if ( v8 != 5 )
-          {
-            *(_DWORD *)(RecursionCounter + 228) = 1;
-          }
+          btCollisionObject::setActivationState(v3, v4, 1);
         }
       }
-      ++v5;
     }
-    while ( v5 < *(_DWORD *)(LODWORD(timeStep) + 204) );
   }
-  v9 = Sub_Node->RecursionCounter-- == 1;
-  p_RecursionCounter = &Sub_Node->RecursionCounter;
-  if ( v9 && Sub_Node->TotalCalls )
-  {
-    Sub_Node->TotalTime = (double)(btClock::getTimeMicroseconds((btClock *)RecursionCounter) - Sub_Node->StartTime)
-                        * 0.001
-                        + Sub_Node->TotalTime;
-    Sub_Node = CProfileManager::CurrentNode;
-  }
-  if ( !*p_RecursionCounter )
-    CProfileManager::CurrentNode = Sub_Node->Parent;
 }

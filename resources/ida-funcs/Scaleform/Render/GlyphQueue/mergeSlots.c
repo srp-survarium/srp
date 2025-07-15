@@ -19,7 +19,7 @@ void __thiscall Scaleform::Render::GlyphQueue::mergeSlots(
       pRoot->pNext = this->Glyphs.FirstEmptySlot;
       this->Glyphs.FirstEmptySlot = pRoot;
       i->pPrev->pNext = i->pNext;
-      i->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = i->pPrev;
+      i->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = i->pPrev;
       --this->SlotQueueSize;
       if ( (i->TextureId & 0x8000u) == 0 )
       {
@@ -38,7 +38,7 @@ void __thiscall Scaleform::Render::GlyphQueue::mergeSlots(
   from->w = w;
   v8->mRect.w = w;
   from->pPrev->pNext = from->pNext;
-  from->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = from->pPrev;
+  from->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = from->pPrev;
   from->pNext = this->SlotQueue.Root.pNext;
   from->pPrev = (Scaleform::Render::GlyphSlot *)&this->SlotQueue;
   this->SlotQueue.Root.pNext->pPrev = from;

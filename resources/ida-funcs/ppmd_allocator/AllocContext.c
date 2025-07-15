@@ -1,29 +1,28 @@
-BLK_NODE *__usercall ppmd_allocator::AllocContext@<eax>(ppmd_allocator *this@<ecx>, ppmd_allocator *a2@<eax>)
+unsigned __int8 *__thiscall ppmd_allocator::AllocContext(ppmd_allocator *this)
 {
   unsigned __int8 *HiUnit; // eax
-  BLK_NODE *result; // eax
-  BLK_NODE *next; // ecx
-  unsigned int v6; // [esp+0h] [ebp-4h]
+  unsigned __int8 *result; // eax
+  BLK_NODE *v3; // edx
 
-  HiUnit = a2->HiUnit;
-  if ( HiUnit == a2->LoUnit )
+  HiUnit = this->HiUnit;
+  if ( HiUnit == this->LoUnit )
   {
-    if ( a2->BList[0].next )
+    if ( this->BList[0].next )
     {
-      result = a2->BList[0].next;
-      next = result->next;
-      --a2->BList[0].Stamp;
-      a2->BList[0].next = next;
+      result = (unsigned __int8 *)this->BList[0].next;
+      v3 = (BLK_NODE *)*((_DWORD *)result + 1);
+      --this->BList[0].Stamp;
+      this->BList[0].next = v3;
     }
     else
     {
-      return ppmd_allocator::AllocUnitsRare(a2, 0, v6);
+      return ppmd_allocator::AllocUnitsRare(this, 0);
     }
   }
   else
   {
-    result = (BLK_NODE *)(HiUnit - 12);
-    a2->HiUnit = (unsigned __int8 *)result;
+    result = HiUnit - 12;
+    this->HiUnit = result;
   }
   return result;
 }

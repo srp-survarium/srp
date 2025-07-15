@@ -4,42 +4,40 @@ void __userpurge btQuantizedBvh::walkStacklessQuantizedTreeCacheFriendly(
         btQuantizedBvh *this,
         btNodeOverlapCallback *nodeCallback)
 {
-  int v5; // ebx
-  bool v6; // cc
-  btBvhSubtreeInfo *v7; // ecx
-  int i; // [esp+Ch] [ebp+4h]
+  btBvhSubtreeInfo *v5; // ecx
+  int v6; // [esp+4h] [ebp-4h]
+  int v7; // [esp+10h] [ebp+8h]
 
-  v5 = 0;
-  v6 = this->m_SubtreeHeaders.m_size <= 0;
-  i = 0;
-  if ( !v6 )
+  v6 = 0;
+  if ( this->m_SubtreeHeaders.m_size > 0 )
   {
+    v7 = 0;
     do
     {
-      v7 = &this->m_SubtreeHeaders.m_data[v5];
-      if ( (*quantizedQueryAabbMax >= v7->m_quantizedAabbMin[0]
-         && v7->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
-         && quantizedQueryAabbMax[1] >= v7->m_quantizedAabbMin[1]
-         && quantizedQueryAabbMax[2] >= v7->m_quantizedAabbMin[2]
-         && v7->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
-         && v7->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2]
+      v5 = &this->m_SubtreeHeaders.m_data[v7];
+      if ( (*quantizedQueryAabbMax >= v5->m_quantizedAabbMin[0]
+         && v5->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
+         && quantizedQueryAabbMax[1] >= v5->m_quantizedAabbMin[1]
+         && quantizedQueryAabbMax[2] >= v5->m_quantizedAabbMin[2]
+         && v5->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
+         && v5->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2]
           ? -1
-          : *quantizedQueryAabbMax >= v7->m_quantizedAabbMin[0]
-         && v7->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
-         && quantizedQueryAabbMax[1] >= v7->m_quantizedAabbMin[1]
-         && quantizedQueryAabbMax[2] >= v7->m_quantizedAabbMin[2]
-         && v7->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
-         && v7->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2]) < 0 )
+          : *quantizedQueryAabbMax >= v5->m_quantizedAabbMin[0]
+         && v5->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
+         && quantizedQueryAabbMax[1] >= v5->m_quantizedAabbMin[1]
+         && quantizedQueryAabbMax[2] >= v5->m_quantizedAabbMin[2]
+         && v5->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
+         && v5->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2]) < 0 )
         btQuantizedBvh::walkStacklessQuantizedTree(
           this,
-          v7->m_rootNodeIndex,
+          v5->m_rootNodeIndex,
           nodeCallback,
           quantizedQueryAabbMin,
           quantizedQueryAabbMax,
-          v7->m_rootNodeIndex + v7->m_subtreeSize);
-      ++v5;
-      ++i;
+          v5->m_rootNodeIndex + v5->m_subtreeSize);
+      ++v6;
+      ++v7;
     }
-    while ( i < this->m_SubtreeHeaders.m_size );
+    while ( v6 < this->m_SubtreeHeaders.m_size );
   }
 }

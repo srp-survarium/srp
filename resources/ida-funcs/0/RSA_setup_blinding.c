@@ -3,7 +3,7 @@ bignum_ctx *__cdecl RSA_setup_blinding(rsa_st *rsa, bignum_ctx *in_ctx)
   bignum_ctx *v2; // esi
   bn_blinding_st *v3; // ebp
   bignum_ctx *result; // eax
-  bignum_st *e; // ebx
+  bignum_pool_item *e; // ebx
   bignum_st *d; // eax
   void *v7; // esp
   bignum_st *v8; // eax
@@ -20,10 +20,10 @@ bignum_ctx *__cdecl RSA_setup_blinding(rsa_st *rsa, bignum_ctx *in_ctx)
     e = BN_CTX_get(v2);
     if ( e )
     {
-      e = rsa->e;
-      if ( e || (e = rsa_get_public_exp(v2, rsa->d, rsa->p, rsa->q)) != 0 )
+      e = (bignum_pool_item *)rsa->e;
+      if ( e || (e = (bignum_pool_item *)rsa_get_public_exp(v2, rsa->d, rsa->p, rsa->q)) != 0 )
       {
-        if ( !RAND_status() )
+        if ( !RAND_status((int)rsa) )
         {
           d = rsa->d;
           if ( d )
@@ -31,7 +31,7 @@ bignum_ctx *__cdecl RSA_setup_blinding(rsa_st *rsa, bignum_ctx *in_ctx)
             if ( d->d )
             {
               v7 = alloca(8);
-              RAND_add(rsa->d->d, 4 * rsa->d->dmax, 0.0);
+              RAND_add((int)rsa, rsa->d->d, 4 * rsa->d->dmax, 0.0);
             }
           }
         }
@@ -49,7 +49,7 @@ bignum_ctx *__cdecl RSA_setup_blinding(rsa_st *rsa, bignum_ctx *in_ctx)
           n = &m;
           m.flags = m.flags & 1 | v8->flags & 0xFFFFFFFE | 6;
         }
-        param = BN_BLINDING_create_param(0, e, n, v2, rsa->meth->bn_mod_exp, rsa->_method_mod_n);
+        param = BN_BLINDING_create_param(0, e->vals, n, v2, rsa->meth->bn_mod_exp, rsa->_method_mod_n);
         v3 = param;
         if ( param )
         {
@@ -58,23 +58,23 @@ bignum_ctx *__cdecl RSA_setup_blinding(rsa_st *rsa, bignum_ctx *in_ctx)
         }
         else
         {
-          ERR_put_error(4u, 136, 3, ".\\crypto\\rsa\\rsa_lib.c", 426);
+          ERR_put_error((int)e, 4u, 136, 3, ".\\crypto\\rsa\\rsa_lib.c", 426);
         }
       }
       else
       {
-        ERR_put_error(4u, 136, 140, ".\\crypto\\rsa\\rsa_lib.c", 398);
+        ERR_put_error(0, 4u, 136, 140, ".\\crypto\\rsa\\rsa_lib.c", 398);
       }
     }
     else
     {
-      ERR_put_error(4u, 136, 65, ".\\crypto\\rsa\\rsa_lib.c", 389);
+      ERR_put_error(0, 4u, 136, 65, ".\\crypto\\rsa\\rsa_lib.c", 389);
     }
     BN_CTX_end(v2);
     if ( !in_ctx )
       BN_CTX_free(v2);
     if ( !rsa->e )
-      BN_free(e);
+      BN_free(e->vals);
     return (bignum_ctx *)v3;
   }
   return result;

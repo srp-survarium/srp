@@ -1,8 +1,11 @@
-void __thiscall survarium::game_material_manager::game_material_manager(survarium::game_material_manager *this)
+void __usercall survarium::game_material_manager::game_material_manager(
+        survarium::game_material_manager *this@<ecx>,
+        _DWORD *a2@<esi>)
 {
-  vostok::resources::unmanaged_resource::unmanaged_resource(this, 1u);
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_materials);
-  this->__vftable = (survarium::game_material_manager_vtbl *)&survarium::game_material_manager::`vftable';
-  stlp_std::map<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>,stlp_std::less<vostok::ai::npc *>,vostok::ai::std_allocator<stlp_std::pair<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>>>>::map<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>,stlp_std::less<vostok::ai::npc *>,vostok::ai::std_allocator<stlp_std::pair<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>>>>((stlp_std::map<char const *,unsigned int,stlp_std::less<char const *>,vostok::ai::std_allocator<stlp_std::pair<char const *,unsigned int> > > *)&this->m_materials);
-  stlp_std::map<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>,stlp_std::less<vostok::ai::npc *>,vostok::ai::std_allocator<stlp_std::pair<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>>>>::map<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>,stlp_std::less<vostok::ai::npc *>,vostok::ai::std_allocator<stlp_std::pair<vostok::ai::npc *,vostok::intrusive_list<vostok::ai::sensors::sound_subscriber,vostok::ai::sensors::sound_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>>>>((stlp_std::map<char const *,unsigned int,stlp_std::less<char const *>,vostok::ai::std_allocator<stlp_std::pair<char const *,unsigned int> > > *)&this->m_pairs);
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, a2, fs_iterator_class);
+  *(int *)((char *)&dword_10308 + (_DWORD)a2) = 0;
+  *(_WORD *)((char *)&off_1030C + (_DWORD)a2) = 11;
+  *a2 = &survarium::game_material_manager::`vftable';
+  memset((int)(a2 + 66), 0, 0x200u);
+  memset((int)(a2 + 194), 0, (unsigned int)&_sbh_sizeHeaderList);
 }

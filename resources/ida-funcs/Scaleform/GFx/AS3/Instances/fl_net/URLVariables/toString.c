@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::toString(
   void *v13; // esi
   unsigned int SizeMask; // eax
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *v15; // ecx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringNode *v18; // ecx
   bool v19; // zf
@@ -65,13 +65,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::toString(
         Scaleform::StringBuffer::AppendChar(&sbuf, 0x26u);
       Scaleform::String::String(&res);
       Scaleform::GFx::ASUtils::AS3::EncodeURIComponent(
-        *(const char **)v10[2].SizeMask,
+        *(char **)v10[2].SizeMask,
         *(_DWORD *)(v10[2].SizeMask + 20),
         &res,
         1);
       Scaleform::StringBuffer::AppendString(
         &sbuf,
-        (char *)((res.HeapTypeBits & 0xFFFFFFFC) + 8),
+        (const __m128i *)((res.HeapTypeBits & 0xFFFFFFFC) + 8),
         *(_DWORD *)(res.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       Scaleform::StringBuffer::AppendChar(&sbuf, 0x3Du);
       pStringManager = v23->pTraits.pObject->pVM->StringManagerRef->pStringManager;
@@ -80,10 +80,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::toString(
       if ( Scaleform::GFx::AS3::Value::Convert2String((Scaleform::GFx::AS3::Value *)&v10[3], &v20, &valueStr)->Result )
       {
         Scaleform::String::Clear(&res);
-        Scaleform::GFx::ASUtils::AS3::EncodeVar(valueStr.pNode->pData, valueStr.pNode->Size, &res, 1);
+        Scaleform::GFx::ASUtils::AS3::EncodeVar((char *)valueStr.pNode->pData, valueStr.pNode->Size, &res, 1);
         Scaleform::StringBuffer::AppendString(
           &sbuf,
-          (char *)((res.HeapTypeBits & 0xFFFFFFFC) + 8),
+          (const __m128i *)((res.HeapTypeBits & 0xFFFFFFFC) + 8),
           *(_DWORD *)(res.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       }
       pNode = valueStr.pNode;
@@ -109,9 +109,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::toString(
     }
     v2 = v23;
   }
-  pData = sbuf.pData;
+  pData = (__m128i *)sbuf.pData;
   if ( !sbuf.pData )
-    pData = (char *)&buf;
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  v2->pTraits.pObject->pVM->StringManagerRef->pStringManager,
                  pData);

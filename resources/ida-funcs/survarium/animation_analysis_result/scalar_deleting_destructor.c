@@ -2,7 +2,7 @@ survarium::animation_analysis_result *__thiscall survarium::animation_analysis_r
         survarium::animation_analysis_result *this,
         char a2)
 {
-  survarium::animation_analysis_result::~animation_analysis_result(this);
+  survarium::animation_analysis_result::~animation_analysis_result(this, (const char *)this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

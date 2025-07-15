@@ -5,20 +5,16 @@ vostok::render::effect_compiler *__userpurge vostok::render::effect_compiler::se
         bool write_enable,
         D3D11_COMPARISON_FUNC cmp_func)
 {
-  if ( !*(_BYTE *)(a2 + 37008) )
+  char *v5; // eax
+
+  if ( !byte_61F4C[a2]
+    && !vostok::command_line::key::is_set((vostok::command_line::key *)this, (int)&s_no_effect_result) )
   {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      *(_DWORD *)(a2 + 100) = enable;
-      *(_DWORD *)(a2 + 108) = cmp_func;
-      *(_BYTE *)(a2 + 421) = 1;
-      *(_DWORD *)(a2 + 104) = write_enable;
-    }
+    v5 = (char *)&loc_5033B + a2 + 1;
+    *((_DWORD *)v5 + 10) = enable;
+    *((_DWORD *)v5 + 12) = 4;
+    v5[361] = 1;
+    *((_DWORD *)v5 + 11) = write_enable;
   }
   return (vostok::render::effect_compiler *)a2;
 }

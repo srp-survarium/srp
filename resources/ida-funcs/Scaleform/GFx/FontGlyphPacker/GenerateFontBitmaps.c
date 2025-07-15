@@ -18,12 +18,12 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::GenerateFontBitmaps(
   int v16; // ebx
   Scaleform::Render::Font *v17; // ecx
   unsigned int v18; // eax
-  unsigned int totalNumGlyphs; // [esp+10h] [ebp-10h]
-  Scaleform::Array<Scaleform::GFx::FontGlyphPacker::GlyphInfo,2,Scaleform::ArrayDefaultPolicy> glyphInfo; // [esp+14h] [ebp-Ch] BYREF
+  unsigned int v19; // [esp+10h] [ebp-10h]
+  Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+14h] [ebp-Ch] BYREF
 
   v2 = 0;
   v3 = 0;
-  totalNumGlyphs = 0;
+  v19 = 0;
   if ( fonts->Data.Size )
   {
     do
@@ -36,20 +36,20 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::GenerateFontBitmaps(
           || (v7 = fonts->Data.Data[v2]->pFont.pObject, (int)v7->GetGlyphShapeCount(v7) <= GlyphCountLimit) )
         {
           v8 = fonts->Data.Data[v2]->pFont.pObject;
-          totalNumGlyphs += v8->GetGlyphShapeCount(v8);
+          v19 += v8->GetGlyphShapeCount(v8);
         }
       }
       ++v2;
     }
     while ( v2 < fonts->Data.Size );
-    v3 = totalNumGlyphs;
+    v3 = v19;
     v2 = 0;
   }
-  memset(&glyphInfo, 0, sizeof(glyphInfo));
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
   if ( v3 )
     Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      (Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy> *)&glyphInfo,
-      &glyphInfo,
+      &pheapAddr,
+      &pheapAddr,
       v3);
   pTable = this->GlyphGeometryHash.mHash.pTable;
   if ( pTable )
@@ -79,14 +79,22 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::GenerateFontBitmaps(
       {
         v16 = this->pFontPackParams->GlyphCountLimit;
         if ( !v16 || (v17 = fonts->Data.Data[v2]->pFont.pObject, (int)v17->GetGlyphShapeCount(v17) <= v16) )
-          Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(this, &glyphInfo, fonts->Data.Data[v2]);
+          Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
+            this,
+            (Scaleform::Array<Scaleform::GFx::FontGlyphPacker::GlyphInfo,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr,
+            fonts->Data.Data[v2]);
       }
       ++v2;
     }
     while ( v2 < fonts->Data.Size );
   }
-  v18 = Scaleform::GFx::FontGlyphPacker::packGlyphRects(this, &glyphInfo);
-  Scaleform::GFx::FontGlyphPacker::generateTextures(this, &glyphInfo, v18);
-  if ( glyphInfo.Data.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, glyphInfo.Data.Data);
+  v18 = Scaleform::GFx::FontGlyphPacker::packGlyphRects(
+          this,
+          (Scaleform::Array<Scaleform::GFx::FontGlyphPacker::GlyphInfo,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr);
+  Scaleform::GFx::FontGlyphPacker::generateTextures(
+    this,
+    (Scaleform::Array<Scaleform::GFx::FontGlyphPacker::GlyphInfo,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr,
+    v18);
+  if ( pheapAddr.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)pheapAddr.Data);
 }

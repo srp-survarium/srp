@@ -1,4 +1,4 @@
-int __cdecl png_write_row(int a1, unsigned __int8 *src)
+int __cdecl png_write_row(int a1, const __m128i *src)
 {
   int result; // eax
   int v3; // [esp+0h] [ebp-14h]
@@ -66,7 +66,7 @@ LABEL_31:
       else
         v3 = v4[0] * (v8 >> 3);
       v4[1] = v3;
-      memcpy((unsigned __int8 *)(*(_DWORD *)(a1 + 264) + 1), src, v3);
+      memcpy(*(_DWORD *)(a1 + 264) + 1, src, v3);
       if ( *(_BYTE *)(a1 + 312)
         && *(unsigned __int8 *)(a1 + 313) < 6u
         && (*(_DWORD *)(a1 + 116) & 2) != 0

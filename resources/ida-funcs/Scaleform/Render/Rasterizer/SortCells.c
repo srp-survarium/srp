@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::Rasterizer::SortCells(Scaleform::Render::Rast
   unsigned int Count; // ecx
   unsigned int v16; // eax
   Scaleform::Render::Rasterizer::Cell **v17; // edx
-  Scaleform::Alg::ArrayAdaptor<Scaleform::Render::Rasterizer::Cell *> sortedCells; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Alg::ArrayAdaptor<Scaleform::Render::Rasterizer::Cell *> arr; // [esp+8h] [ebp-8h] BYREF
 
   if ( *(_QWORD *)&this->CurrCell.Cover )
     Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16>::PushBack(
@@ -64,10 +64,10 @@ char __thiscall Scaleform::Render::Rasterizer::SortCells(Scaleform::Render::Rast
       {
         v16 = v14[m].Start;
         v17 = this->SortedCells.Array;
-        sortedCells.Size = Count;
-        sortedCells.Data = &v17[v16];
+        arr.Size = Count;
+        arr.Data = &v17[v16];
         Scaleform::Alg::QuickSortSliced<Scaleform::Alg::ArrayAdaptor<Scaleform::Render::Rasterizer::Cell *>,bool (__cdecl *)(Scaleform::Render::Rasterizer::Cell const *,Scaleform::Render::Rasterizer::Cell const *)>(
-          &sortedCells,
+          &arr,
           0,
           Count,
           (bool (__cdecl *)(const Scaleform::Render::Rasterizer::Cell *, const Scaleform::Render::Rasterizer::Cell *))Scaleform::Render::Rasterizer::cellXLess);

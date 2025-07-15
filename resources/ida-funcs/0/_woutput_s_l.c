@@ -1,237 +1,224 @@
-int __cdecl _woutput_s_l(_iobuf *stream, const wchar_t *format, localeinfo_struct *plocinfo, char *argptr)
+int __cdecl _woutput_s_l(_iobuf *stream, const wchar_t *format, localeinfo_struct *plocinfo, ioinfo *argptr)
 {
-  char *v4; // ebx
-  unsigned int v5; // esi
-  const wchar_t *v6; // edi
+  ioinfo *OwningThread; // ebx
+  int v5; // esi
+  int v6; // edi
   int v8; // ecx
   int v9; // eax
-  STATE v10; // eax
-  int v11; // eax
+  int v10; // eax
+  int osfhnd; // eax
   int v12; // eax
-  wchar_t v13; // ax
-  _woutput_s_l::__l2::<unnamed_type_buffer> *p_buffer; // esi
-  int v15; // edi
-  _woutput_s_l::__l2::<unnamed_type_text> v16; // ebx
+  __int16 v13; // ax
+  unsigned __int8 *v14; // esi
+  unsigned int v15; // ebx
   unsigned __int8 *i; // esi
-  int v18; // eax
-  __int16 *v19; // eax
-  _woutput_s_l::__l2::<unnamed_type_text> v20; // ecx
+  int osfhnd_low; // eax
+  __int16 *v18; // eax
+  unsigned int v19; // ecx
+  int v20; // eax
   int v21; // eax
-  int v22; // eax
-  char *v23; // ebx
-  __int64 v24; // rax
-  int v25; // edi
-  char *v26; // eax
-  int v27; // eax
-  char *v28; // ebx
-  void (__cdecl *v29)(_CRT_DOUBLE *, _woutput_s_l::__l2::<unnamed_type_buffer> *, int, int, int, int, _LocaleUpdate *); // eax
-  int v30; // ebx
-  void (__cdecl *v31)(_woutput_s_l::__l2::<unnamed_type_buffer> *, _LocaleUpdate *); // eax
-  void (__cdecl *v32)(_woutput_s_l::__l2::<unnamed_type_buffer> *, _LocaleUpdate *); // eax
-  unsigned int v33; // ebx
-  unsigned int v34; // edi
-  char *j; // esi
-  int v36; // eax
-  int v37; // ecx
-  unsigned __int64 v38; // kr00_8
-  char *v39; // eax
-  _BYTE *v40; // esi
-  char *sz; // eax
-  int v42; // esi
-  int v43; // ebx
-  _iobuf *v44; // edi
-  const char *v45; // edi
-  int v46; // eax
-  int v47; // [esp-14h] [ebp-494h]
-  int v48; // [esp-10h] [ebp-490h]
-  int v49; // [esp-Ch] [ebp-48Ch]
-  int v50; // [esp-8h] [ebp-488h]
-  wchar_t v51; // [esp-4h] [ebp-484h]
-  int retval; // [esp+10h] [ebp-470h]
-  _CRT_DOUBLE tmp; // [esp+14h] [ebp-46Ch] BYREF
-  int wchar; // [esp+1Ch] [ebp-464h] BYREF
-  const wchar_t *v55; // [esp+20h] [ebp-460h]
-  int capexp; // [esp+24h] [ebp-45Ch]
-  char *heapbuf; // [esp+28h] [ebp-458h]
-  int hexadd; // [esp+2Ch] [ebp-454h]
-  int no_output; // [esp+30h] [ebp-450h]
-  _LocaleUpdate _loc_update; // [esp+34h] [ebp-44Ch] BYREF
-  _iobuf *f; // [esp+44h] [ebp-43Ch]
-  char tempchar[4]; // [esp+48h] [ebp-438h] BYREF
-  STATE state; // [esp+4Ch] [ebp-434h]
-  wchar_t prefix[2]; // [esp+50h] [ebp-430h] BYREF
-  int fldwidth; // [esp+54h] [ebp-42Ch]
-  int bufferiswide; // [esp+58h] [ebp-428h]
-  int prefixlen; // [esp+5Ch] [ebp-424h]
-  int charsout; // [esp+60h] [ebp-420h] BYREF
-  int count; // [esp+64h] [ebp-41Ch]
-  char *v70; // [esp+68h] [ebp-418h]
-  int textlen; // [esp+6Ch] [ebp-414h]
-  _woutput_s_l::__l2::<unnamed_type_text> text; // [esp+70h] [ebp-410h]
-  int precision; // [esp+74h] [ebp-40Ch]
-  int flags; // [esp+78h] [ebp-408h]
-  _woutput_s_l::__l2::<unnamed_type_buffer> buffer; // [esp+7Ch] [ebp-404h] BYREF
+  __int16 *p_osfile; // ebx
+  __int64 v23; // rax
+  void *v24; // eax
+  int v25; // eax
+  int *p_lockinitflag; // ebx
+  void (__cdecl *v27)(_DWORD *, unsigned __int8 *, void *, int, int, int, _LocaleUpdate *); // eax
+  int v28; // ebx
+  void (__cdecl *v29)(unsigned __int8 *, _LocaleUpdate *); // eax
+  void (__cdecl *v30)(unsigned __int8 *, _LocaleUpdate *); // eax
+  unsigned int v31; // ebx
+  _BYTE *j; // esi
+  int v33; // eax
+  int v34; // ecx
+  unsigned __int64 v35; // kr00_8
+  _BYTE *v36; // eax
+  _BYTE *v37; // esi
+  _WORD *SpinCount; // eax
+  void *v39; // esi
+  ioinfo *v40; // ebx
+  stlp_std::ioinfo **v41; // edi
+  int v42; // eax
+  void *LockSemaphore; // [esp-14h] [ebp-494h]
+  int v44; // [esp-10h] [ebp-490h]
+  int v45; // [esp-Ch] [ebp-48Ch]
+  int v46; // [esp-8h] [ebp-488h]
+  __int16 v47; // [esp-4h] [ebp-484h]
+  int v48; // [esp+10h] [ebp-470h]
+  _DWORD v49[2]; // [esp+14h] [ebp-46Ch] BYREF
+  int v50; // [esp+1Ch] [ebp-464h] BYREF
+  int v51; // [esp+20h] [ebp-460h]
+  int v52; // [esp+24h] [ebp-45Ch]
+  void *pointer; // [esp+28h] [ebp-458h]
+  int v54; // [esp+2Ch] [ebp-454h]
+  int v55; // [esp+30h] [ebp-450h]
+  _LocaleUpdate v56; // [esp+34h] [ebp-44Ch] BYREF
+  _iobuf *v57; // [esp+44h] [ebp-43Ch]
+  char v58[4]; // [esp+48h] [ebp-438h] BYREF
+  int v59; // [esp+4Ch] [ebp-434h]
+  ioinfo v60[8]; // [esp+50h] [ebp-430h] BYREF
+  _BYTE v61[513]; // [esp+27Bh] [ebp-205h] BYREF
 
-  v4 = argptr;
-  v5 = (unsigned int)stream;
-  v6 = format;
-  f = stream;
-  v70 = argptr;
-  hexadd = 0;
-  flags = 0;
-  fldwidth = 0;
-  precision = 0;
-  prefixlen = 0;
-  no_output = 0;
-  bufferiswide = 0;
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  OwningThread = argptr;
+  v5 = (int)stream;
+  v6 = (int)format;
+  v57 = stream;
+  v60[0].lock.OwningThread = argptr;
+  v54 = 0;
+  LODWORD(v60[0].startpos) = 0;
+  *(_DWORD *)&v60[0].osfile = 0;
+  *((_DWORD *)v60 + 9) = 0;
+  v60[0].lock.DebugInfo = 0;
+  v55 = 0;
+  v60[0].lockinitflag = 0;
+  _LocaleUpdate::_LocaleUpdate(&v56, plocinfo);
   if ( !stream )
     goto LABEL_2;
   v5 = 0;
   if ( !format )
     goto LABEL_2;
   v8 = *format;
-  charsout = 0;
-  textlen = 0;
-  state = ST_NORMAL;
-  heapbuf = 0;
-  count = v8;
+  v60[0].lock.LockCount = 0;
+  v60[0].lock.LockSemaphore = 0;
+  v59 = 0;
+  pointer = 0;
+  v60[0].lock.RecursionCount = v8;
   if ( !(_WORD)v8 )
     goto LABEL_213;
   while ( 1 )
   {
-    v55 = ++v6;
-    if ( charsout < 0 )
+    v6 += 2;
+    v51 = v6;
+    if ( v60[0].lock.LockCount < 0 )
       break;
     if ( (unsigned __int16)(v8 - 32) > 0x58u )
       v9 = 0;
     else
-      v9 = byte_81EEA0[(unsigned __int16)v8] & 0xF;
-    v10 = __lookuptable_s[9 * v9 + state] >> 4;
+      v9 = byte_6B6FF0[(unsigned __int16)v8] & 0xF;
+    v10 = __lookuptable_s[9 * v9 + v59] >> 4;
     v5 = 8;
-    state = v10;
+    v59 = v10;
     if ( v10 == 8 )
       goto LABEL_2;
     switch ( v10 )
     {
-      case ST_NORMAL:
-        goto NORMAL_STATE_2;
-      case ST_PERCENT:
-        precision = -1;
-        capexp = 0;
-        no_output = 0;
-        fldwidth = 0;
-        prefixlen = 0;
-        flags = 0;
-        bufferiswide = 0;
+      case 0:
+        goto NORMAL_STATE_1;
+      case 1:
+        *((_DWORD *)v60 + 9) = -1;
+        v52 = 0;
+        v55 = 0;
+        *(_DWORD *)&v60[0].osfile = 0;
+        v60[0].lock.DebugInfo = 0;
+        LODWORD(v60[0].startpos) = 0;
+        v60[0].lockinitflag = 0;
         goto LABEL_209;
-      case ST_FLAG:
+      case 2:
         switch ( (unsigned __int16)v8 )
         {
           case ' ':
-            flags |= 2u;
+            LODWORD(v60[0].startpos) |= 2u;
             break;
           case '#':
-            flags |= 0x80u;
+            LODWORD(v60[0].startpos) |= 0x80u;
             break;
           case '+':
-            flags |= 1u;
+            LODWORD(v60[0].startpos) |= 1u;
             break;
           case '-':
-            flags |= 4u;
+            LODWORD(v60[0].startpos) |= 4u;
             break;
           case '0':
-            flags |= 8u;
+            LODWORD(v60[0].startpos) |= 8u;
             break;
           default:
             goto LABEL_208;
         }
         goto LABEL_209;
-      case ST_WIDTH:
+      case 3:
         if ( (_WORD)v8 == 42 )
         {
-          v11 = *(_DWORD *)v4;
-          v4 += 4;
-          v70 = v4;
-          fldwidth = v11;
-          if ( v11 < 0 )
+          osfhnd = OwningThread->osfhnd;
+          OwningThread = (ioinfo *)((char *)OwningThread + 4);
+          v60[0].lock.OwningThread = OwningThread;
+          *(_DWORD *)&v60[0].osfile = osfhnd;
+          if ( osfhnd < 0 )
           {
-            flags |= 4u;
-            fldwidth = -fldwidth;
+            LODWORD(v60[0].startpos) |= 4u;
+            *(_DWORD *)&v60[0].osfile = -*(_DWORD *)&v60[0].osfile;
           }
         }
         else
         {
-          fldwidth = 10 * fldwidth + (unsigned __int16)v8 - 48;
+          *(_DWORD *)&v60[0].osfile = 10 * *(_DWORD *)&v60[0].osfile + (unsigned __int16)v8 - 48;
         }
         goto LABEL_209;
-      case ST_DOT:
-        precision = 0;
+      case 4:
+        *((_DWORD *)v60 + 9) = 0;
         goto LABEL_209;
-      case ST_PRECIS:
+      case 5:
         if ( (_WORD)v8 == 42 )
         {
-          v12 = *(_DWORD *)v4;
-          v4 += 4;
-          v70 = v4;
-          precision = v12;
+          v12 = OwningThread->osfhnd;
+          OwningThread = (ioinfo *)((char *)OwningThread + 4);
+          v60[0].lock.OwningThread = OwningThread;
+          *((_DWORD *)v60 + 9) = v12;
           if ( v12 < 0 )
-            precision = -1;
+            *((_DWORD *)v60 + 9) = -1;
         }
         else
         {
-          precision = 10 * precision + (unsigned __int16)v8 - 48;
+          *((_DWORD *)v60 + 9) = 10 * *((_DWORD *)v60 + 9) + (unsigned __int16)v8 - 48;
         }
         goto LABEL_209;
-      case ST_SIZE:
+      case 6:
         switch ( (unsigned __int16)v8 )
         {
           case 'I':
-            v13 = *v6;
-            if ( *v6 == 54 && v6[1] == 52 )
+            v13 = *(_WORD *)v6;
+            if ( *(_WORD *)v6 == 54 && *(_WORD *)(v6 + 2) == 52 )
             {
-              v6 += 2;
-              flags |= 0x8000u;
+              v6 += 4;
+              LODWORD(v60[0].startpos) |= 0x8000u;
             }
-            else if ( v13 == 51 && v6[1] == 50 )
+            else if ( v13 == 51 && *(_WORD *)(v6 + 2) == 50 )
             {
-              v6 += 2;
-              flags &= ~0x8000u;
+              v6 += 4;
+              LODWORD(v60[0].startpos) &= ~0x8000u;
             }
             else if ( v13 != 100 && v13 != 105 && v13 != 111 && v13 != 117 && v13 != 120 && v13 != 88 )
             {
-              state = ST_NORMAL;
-NORMAL_STATE_2:
-              bufferiswide = 1;
-              write_char_0(f, &charsout, v8);
+              v59 = 0;
+NORMAL_STATE_1:
+              v60[0].lockinitflag = 1;
+              write_char_0(v57, &v60[0].lock.LockCount, OwningThread, (stlp_std::ioinfo **)v6, v8);
             }
             break;
           case 'h':
-            flags |= 0x20u;
+            LODWORD(v60[0].startpos) |= 0x20u;
             break;
           case 'l':
-            if ( *v6 == 108 )
+            if ( *(_WORD *)v6 == 108 )
             {
-              ++v6;
-              flags |= 0x1000u;
+              v6 += 2;
+              LODWORD(v60[0].startpos) |= 0x1000u;
             }
             else
             {
-              flags |= 0x10u;
+              LODWORD(v60[0].startpos) |= 0x10u;
             }
             break;
           case 'w':
-            flags |= 0x800u;
+            LODWORD(v60[0].startpos) |= 0x800u;
             break;
         }
         goto LABEL_209;
-      case ST_TYPE:
+      case 7:
         if ( (unsigned __int16)v8 <= 0x64u )
         {
           if ( (unsigned __int16)v8 == 100 )
           {
 LABEL_112:
-            flags |= 0x40u;
+            LODWORD(v60[0].startpos) |= 0x40u;
             goto LABEL_113;
           }
           if ( (unsigned __int16)v8 > 0x53u )
@@ -240,23 +227,23 @@ LABEL_112:
               goto LABEL_134;
             if ( (unsigned __int16)v8 == 90 )
             {
-              v19 = *(__int16 **)v4;
-              v70 = v4 + 4;
-              if ( !v19 || (v20.sz = *(char **)(v19 + 2)) == 0 )
+              v18 = (__int16 *)OwningThread->osfhnd;
+              v60[0].lock.OwningThread = &OwningThread->osfile;
+              if ( !v18 || (v19 = *((_DWORD *)v18 + 1)) == 0 )
               {
-                text.sz = __nullstring;
+                v60[0].lock.SpinCount = (unsigned int)__nullstring;
                 strlen((unsigned __int8 *)__nullstring);
                 goto LABEL_180;
               }
-              v21 = *v19;
-              text.sz = v20.sz;
-              if ( (flags & 0x800) == 0 )
+              v20 = *v18;
+              v60[0].lock.SpinCount = v19;
+              if ( (v60[0].startpos & 0x800) == 0 )
               {
-                bufferiswide = 0;
+                v60[0].lockinitflag = 0;
                 goto LABEL_180;
               }
-              v22 = v21 - (v21 >> 31);
-              bufferiswide = 1;
+              v21 = v20 - (v20 >> 31);
+              v60[0].lockinitflag = 1;
               goto LABEL_179;
             }
             if ( (unsigned __int16)v8 != 97 )
@@ -270,8 +257,8 @@ LABEL_112:
           {
             if ( (unsigned __int16)v8 == 83 )
             {
-              if ( (flags & 0x830) == 0 )
-                flags |= 0x20u;
+              if ( (v60[0].startpos & 0x830) == 0 )
+                LODWORD(v60[0].startpos) |= 0x20u;
               goto LABEL_72;
             }
             if ( (unsigned __int16)v8 != 65 )
@@ -282,104 +269,103 @@ LABEL_112:
                   goto LABEL_181;
                 goto LABEL_65;
               }
-              if ( (flags & 0x830) == 0 )
-                flags |= 0x20u;
+              if ( (v60[0].startpos & 0x830) == 0 )
+                LODWORD(v60[0].startpos) |= 0x20u;
 LABEL_87:
-              v18 = *(unsigned __int16 *)v4;
-              bufferiswide = 1;
-              v70 = v4 + 4;
-              wchar = v18;
-              if ( (flags & 0x20) != 0 )
+              osfhnd_low = LOWORD(OwningThread->osfhnd);
+              v60[0].lockinitflag = 1;
+              v60[0].lock.OwningThread = &OwningThread->osfile;
+              v50 = osfhnd_low;
+              if ( (v60[0].startpos & 0x20) != 0 )
               {
-                tempchar[0] = v18;
-                tempchar[1] = 0;
+                v58[0] = osfhnd_low;
+                v58[1] = 0;
                 if ( _mbtowc_l(
-                       (wchar_t *)&buffer,
-                       tempchar,
-                       _loc_update.localeinfo.locinfo->mb_cur_max,
-                       &_loc_update.localeinfo) < 0 )
-                  no_output = 1;
+                       (wchar_t *)&v60[0].startpos + 2,
+                       v58,
+                       v56.localeinfo.locinfo->mb_cur_max,
+                       &v56.localeinfo) < 0 )
+                  v55 = 1;
               }
               else
               {
-                buffer.wz[0] = v18;
+                WORD2(v60[0].startpos) = osfhnd_low;
               }
-              text.sz = (char *)&buffer;
-              textlen = 1;
+              v60[0].lock.SpinCount = (unsigned int)&v60[0].startpos + 4;
+              v60[0].lock.LockSemaphore = (void *)1;
               goto LABEL_181;
             }
 LABEL_65:
             v8 += 32;
-            capexp = 1;
-            count = v8;
+            v52 = 1;
+            v60[0].lock.RecursionCount = v8;
           }
 LABEL_66:
-          flags |= 0x40u;
-          p_buffer = &buffer;
-          text.sz = (char *)&buffer;
-          textlen = 512;
-          if ( precision >= 0 )
+          LODWORD(v60[0].startpos) |= 0x40u;
+          v14 = (unsigned __int8 *)&v60[0].startpos + 4;
+          v60[0].lock.SpinCount = (unsigned int)&v60[0].startpos + 4;
+          v60[0].lock.LockSemaphore = (void *)512;
+          if ( *((int *)v60 + 9) >= 0 )
           {
-            if ( precision )
+            if ( *((_DWORD *)v60 + 9) )
             {
-              if ( precision > 512 )
-                precision = 512;
-              if ( precision > 163 )
+              if ( *((int *)v60 + 9) > 512 )
+                *((_DWORD *)v60 + 9) = 512;
+              if ( *((int *)v60 + 9) > 163 )
               {
-                v25 = precision + 349;
-                v26 = (char *)_malloc_crt(precision + 349);
-                LOBYTE(v8) = count;
-                heapbuf = v26;
-                if ( v26 )
+                v6 = *((_DWORD *)v60 + 9) + 349;
+                v24 = _malloc_crt(*((_DWORD *)v60 + 9) + 349);
+                LOBYTE(v8) = v60[0].lock.RecursionCount;
+                pointer = v24;
+                if ( v24 )
                 {
-                  text.sz = v26;
-                  textlen = v25;
-                  p_buffer = (_woutput_s_l::__l2::<unnamed_type_buffer> *)v26;
+                  v60[0].lock.SpinCount = (unsigned int)v24;
+                  v60[0].lock.LockSemaphore = (void *)v6;
+                  v14 = (unsigned __int8 *)v24;
                 }
                 else
                 {
-                  precision = 163;
+                  *((_DWORD *)v60 + 9) = 163;
                 }
               }
             }
             else
             {
-              precision = (_WORD)v8 == 103;
+              *((_DWORD *)v60 + 9) = (_WORD)v8 == 103;
             }
           }
           else
           {
-            precision = 6;
+            *((_DWORD *)v60 + 9) = 6;
           }
-          v27 = *(_DWORD *)v4;
-          v28 = v4 + 8;
-          LODWORD(tmp.x) = v27;
-          HIDWORD(tmp.x) = *((_DWORD *)v28 - 1);
-          v50 = capexp;
-          v49 = precision;
-          v70 = v28;
-          v48 = (char)v8;
-          v47 = textlen;
-          v29 = (void (__cdecl *)(_CRT_DOUBLE *, _woutput_s_l::__l2::<unnamed_type_buffer> *, int, int, int, int, _LocaleUpdate *))_decode_pointer(codedptr);
-          v29(&tmp, p_buffer, v47, v48, v49, v50, &_loc_update);
-          v30 = flags & 0x80;
-          if ( (flags & 0x80) != 0 && !precision )
+          v25 = OwningThread->osfhnd;
+          p_lockinitflag = &OwningThread->lockinitflag;
+          v49[0] = v25;
+          v49[1] = *(p_lockinitflag - 1);
+          v46 = v52;
+          v45 = *((_DWORD *)v60 + 9);
+          v60[0].lock.OwningThread = p_lockinitflag;
+          v44 = (char)v8;
+          LockSemaphore = v60[0].lock.LockSemaphore;
+          v27 = (void (__cdecl *)(_DWORD *, unsigned __int8 *, void *, int, int, int, _LocaleUpdate *))_decode_pointer(codedptr);
+          v27(v49, v14, LockSemaphore, v44, v45, v46, &v56);
+          v28 = v60[0].startpos & 0x80;
+          if ( (v60[0].startpos & 0x80) != 0 && !*((_DWORD *)v60 + 9) )
           {
-            v31 = (void (__cdecl *)(_woutput_s_l::__l2::<unnamed_type_buffer> *, _LocaleUpdate *))_decode_pointer(off_9AEB3C);
-            v31(p_buffer, &_loc_update);
+            v29 = (void (__cdecl *)(unsigned __int8 *, _LocaleUpdate *))_decode_pointer(off_86F6AC);
+            v29(v14, &v56);
           }
-          if ( (_WORD)count == 103 && !v30 )
+          if ( LOWORD(v60[0].lock.RecursionCount) == 103 && !v28 )
           {
-            v32 = (void (__cdecl *)(_woutput_s_l::__l2::<unnamed_type_buffer> *, _LocaleUpdate *))_decode_pointer(off_9AEB38);
-            v32(p_buffer, &_loc_update);
+            v30 = (void (__cdecl *)(unsigned __int8 *, _LocaleUpdate *))_decode_pointer(off_86F6A8);
+            v30(v14, &v56);
           }
-          if ( p_buffer->sz[0] == 45 )
+          if ( *v14 == 45 )
           {
-            flags |= 0x100u;
-            p_buffer = (_woutput_s_l::__l2::<unnamed_type_buffer> *)((char *)p_buffer + 1);
-            text.sz = (char *)p_buffer;
+            LODWORD(v60[0].startpos) |= 0x100u;
+            v60[0].lock.SpinCount = (unsigned int)++v14;
           }
-          strlen((unsigned __int8 *)p_buffer);
+          strlen(v14);
           goto LABEL_180;
         }
         if ( (unsigned __int16)v8 > 0x70u )
@@ -390,67 +376,69 @@ LABEL_66:
             {
               if ( (unsigned __int16)v8 != 120 )
                 goto LABEL_181;
-              hexadd = 39;
-              goto COMMON_HEX_2;
+              v54 = 39;
+              goto COMMON_HEX_1;
             }
 LABEL_113:
-            count = 10;
-            goto COMMON_INT_2;
+            v60[0].lock.RecursionCount = 10;
+            goto COMMON_INT_1;
           }
 LABEL_72:
-          v15 = precision;
-          if ( precision == -1 )
-            v15 = 0x7FFFFFFF;
-          v70 = v4 + 4;
-          v16.sz = *(char **)v4;
-          text.sz = v16.sz;
-          if ( (flags & 0x20) != 0 )
+          v6 = *((_DWORD *)v60 + 9);
+          if ( *((_DWORD *)v60 + 9) == -1 )
+            v6 = 0x7FFFFFFF;
+          v60[0].lock.OwningThread = &OwningThread->osfile;
+          v15 = OwningThread->osfhnd;
+          v60[0].lock.SpinCount = v15;
+          if ( (v60[0].startpos & 0x20) != 0 )
           {
-            if ( !v16.sz )
-              text.sz = __nullstring;
-            textlen = 0;
-            for ( i = (unsigned __int8 *)text.sz; textlen < v15; ++textlen )
+            if ( !v15 )
+              v60[0].lock.SpinCount = (unsigned int)__nullstring;
+            v60[0].lock.LockSemaphore = 0;
+            for ( i = (unsigned __int8 *)v60[0].lock.SpinCount;
+                  (int)v60[0].lock.LockSemaphore < v6;
+                  ++v60[0].lock.LockSemaphore )
             {
               if ( !*i )
                 break;
-              if ( _isleadbyte_l(*i, &_loc_update.localeinfo) )
+              if ( _isleadbyte_l(*i, &v56.localeinfo) )
                 ++i;
               ++i;
             }
             goto LABEL_181;
           }
-          if ( !v16.sz )
-            text.sz = (char *)__wnullstring;
-          sz = text.sz;
-          bufferiswide = 1;
-          while ( v15 )
+          if ( !v15 )
+            v60[0].lock.SpinCount = (unsigned int)__wnullstring;
+          SpinCount = (_WORD *)v60[0].lock.SpinCount;
+          v60[0].lockinitflag = 1;
+          while ( v6 )
           {
-            --v15;
-            if ( !*(_WORD *)sz )
+            --v6;
+            if ( !*SpinCount )
               break;
-            sz += 2;
+            ++SpinCount;
           }
-          v22 = sz - text.sz;
+          v21 = (int)SpinCount - v60[0].lock.SpinCount;
 LABEL_179:
-          v21 = v22 >> 1;
+          v20 = v21 >> 1;
 LABEL_180:
-          textlen = v21;
+          v60[0].lock.LockSemaphore = (void *)v20;
           goto LABEL_181;
         }
         if ( (unsigned __int16)v8 == 112 )
         {
-          precision = 8;
+          *((_DWORD *)v60 + 9) = 8;
 LABEL_134:
-          hexadd = 7;
-COMMON_HEX_2:
-          count = 16;
-          if ( (flags & 0x80u) != 0 )
+          v54 = 7;
+COMMON_HEX_1:
+          v60[0].lock.RecursionCount = 16;
+          if ( SLOBYTE(v60[0].startpos) < 0 )
           {
-            prefix[0] = 48;
-            prefix[1] = hexadd + 81;
-            prefixlen = 2;
+            LOWORD(v60[0].osfhnd) = 48;
+            HIWORD(v60[0].osfhnd) = v54 + 81;
+            v60[0].lock.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)2;
           }
-          goto COMMON_INT_2;
+          goto COMMON_INT_1;
         }
         if ( (unsigned __int16)v8 < 0x65u )
           goto LABEL_181;
@@ -462,187 +450,197 @@ COMMON_HEX_2:
         {
           if ( (unsigned __int16)v8 != 111 )
             goto LABEL_181;
-          count = 8;
-          if ( (flags & 0x80u) != 0 )
-            flags |= 0x200u;
-COMMON_INT_2:
-          if ( (flags & 0x8000) != 0 || (flags & 0x1000) != 0 )
+          v60[0].lock.RecursionCount = 8;
+          if ( SLOBYTE(v60[0].startpos) < 0 )
+            LODWORD(v60[0].startpos) |= 0x200u;
+COMMON_INT_1:
+          if ( (v60[0].startpos & 0x8000) != 0 || (v60[0].startpos & 0x1000) != 0 )
           {
-            v23 = v4 + 8;
-            v24 = *((_QWORD *)v23 - 1);
+            p_osfile = (__int16 *)&OwningThread->lockinitflag;
+            v23 = *((_QWORD *)p_osfile - 1);
           }
           else
           {
-            v23 = v4 + 4;
-            if ( (flags & 0x20) != 0 )
+            p_osfile = (__int16 *)&OwningThread->osfile;
+            if ( (v60[0].startpos & 0x20) != 0 )
             {
-              v70 = v23;
-              if ( (flags & 0x40) != 0 )
-                LODWORD(v24) = *((__int16 *)v23 - 2);
+              v60[0].lock.OwningThread = p_osfile;
+              if ( (v60[0].startpos & 0x40) != 0 )
+                LODWORD(v23) = *(p_osfile - 2);
               else
-                LODWORD(v24) = *((unsigned __int16 *)v23 - 2);
-              v24 = (int)v24;
+                LODWORD(v23) = (unsigned __int16)*(p_osfile - 2);
+              v23 = (int)v23;
 LABEL_151:
-              if ( (flags & 0x40) != 0 && v24 < 0 )
+              if ( (v60[0].startpos & 0x40) != 0 && v23 < 0 )
               {
-                v24 = -v24;
-                flags |= 0x100u;
+                v23 = -v23;
+                LODWORD(v60[0].startpos) |= 0x100u;
               }
-              v33 = HIDWORD(v24);
-              v34 = v24;
-              if ( (flags & 0x9000) == 0 )
-                v33 = 0;
-              if ( precision >= 0 )
+              v31 = HIDWORD(v23);
+              v6 = v23;
+              if ( (v60[0].startpos & 0x9000) == 0 )
+                v31 = 0;
+              if ( *((int *)v60 + 9) >= 0 )
               {
-                flags &= ~8u;
-                if ( precision > 512 )
-                  precision = 512;
+                LODWORD(v60[0].startpos) &= ~8u;
+                if ( *((int *)v60 + 9) > 512 )
+                  *((_DWORD *)v60 + 9) = 512;
               }
               else
               {
-                precision = 1;
+                *((_DWORD *)v60 + 9) = 1;
               }
-              if ( !(v33 | (unsigned int)v24) )
-                prefixlen = 0;
-              for ( j = &buffer.sz[511]; ; --j )
+              if ( !(v31 | (unsigned int)v23) )
+                v60[0].lock.DebugInfo = 0;
+              for ( j = v61; ; --j )
               {
-                v36 = precision--;
-                if ( v36 <= 0 && !(v33 | v34) )
+                v33 = (*((_DWORD *)v60 + 9))--;
+                if ( v33 <= 0 && !(v31 | v6) )
                   break;
-                v37 = __PAIR64__(v33, v34) % count + 48;
-                v38 = __PAIR64__(v33, v34) / count;
-                v33 = HIDWORD(v38);
-                v34 = v38;
-                if ( v37 > 57 )
-                  LOBYTE(v37) = hexadd + v37;
-                *j = v37;
+                v34 = __PAIR64__(v31, v6) % v60[0].lock.RecursionCount + 48;
+                v35 = __PAIR64__(v31, v6) / v60[0].lock.RecursionCount;
+                v31 = HIDWORD(v35);
+                v6 = v35;
+                if ( v34 > 57 )
+                  LOBYTE(v34) = v54 + v34;
+                *j = v34;
               }
-              v39 = (char *)((char *)&buffer.wz[255] + 1 - j);
-              v40 = j + 1;
-              textlen = (int)v39;
-              text.sz = v40;
-              if ( (flags & 0x200) != 0 && (!v39 || *v40 != 48) )
+              v36 = (_BYTE *)(v61 - j);
+              v37 = j + 1;
+              v60[0].lock.LockSemaphore = v36;
+              v60[0].lock.SpinCount = (unsigned int)v37;
+              if ( (v60[0].startpos & 0x200) != 0 && (!v36 || *v37 != 48) )
               {
-                *--text.sz = 48;
-                v21 = (int)(v39 + 1);
+                *(_BYTE *)--v60[0].lock.SpinCount = 48;
+                v20 = (int)(v36 + 1);
                 goto LABEL_180;
               }
 LABEL_181:
-              if ( no_output )
+              if ( v55 )
                 goto LABEL_206;
-              if ( (flags & 0x40) != 0 )
+              if ( (v60[0].startpos & 0x40) != 0 )
               {
-                if ( (flags & 0x100) != 0 )
+                if ( (v60[0].startpos & 0x100) != 0 )
                 {
-                  v51 = 45;
+                  v47 = 45;
                   goto LABEL_189;
                 }
-                if ( (flags & 1) != 0 )
+                if ( (v60[0].startpos & 1) != 0 )
                 {
-                  v51 = 43;
+                  v47 = 43;
                   goto LABEL_189;
                 }
-                if ( (flags & 2) != 0 )
+                if ( (v60[0].startpos & 2) != 0 )
                 {
-                  v51 = 32;
+                  v47 = 32;
 LABEL_189:
-                  prefix[0] = v51;
-                  prefixlen = 1;
+                  LOWORD(v60[0].osfhnd) = v47;
+                  v60[0].lock.DebugInfo = (_RTL_CRITICAL_SECTION_DEBUG *)1;
                 }
               }
-              v42 = textlen;
-              v43 = fldwidth - textlen - prefixlen;
-              if ( (flags & 0xC) == 0 )
-                write_multi_char_0(&charsout, 0x20u, fldwidth - textlen - prefixlen, f);
-              v44 = f;
-              write_string_0(prefix, f, &charsout, prefixlen);
-              if ( (flags & 8) != 0 && (flags & 4) == 0 )
-                write_multi_char_0(&charsout, 0x30u, v43, v44);
-              if ( bufferiswide || v42 <= 0 )
+              v39 = v60[0].lock.LockSemaphore;
+              v40 = (ioinfo *)(*(_DWORD *)&v60[0].osfile
+                             - (unsigned int)v60[0].lock.LockSemaphore
+                             - (unsigned int)v60[0].lock.DebugInfo);
+              if ( (v60[0].startpos & 0xC) == 0 )
+                write_multi_char_0(
+                  &v60[0].lock.LockCount,
+                  v40,
+                  (stlp_std::ioinfo **)v6,
+                  0x20u,
+                  *(_DWORD *)&v60[0].osfile
+                - (unsigned int)v60[0].lock.LockSemaphore
+                - (unsigned int)v60[0].lock.DebugInfo,
+                  v57);
+              v41 = (stlp_std::ioinfo **)v57;
+              write_string_0(v60, v57, &v60[0].lock.LockCount, (int)v60[0].lock.DebugInfo);
+              if ( (v60[0].startpos & 8) != 0 && (v60[0].startpos & 4) == 0 )
+                write_multi_char_0(&v60[0].lock.LockCount, v40, v41, 0x30u, (int)v40, (_iobuf *)v41);
+              if ( v60[0].lockinitflag || (int)v39 <= 0 )
               {
-                write_string_0(text.wz, v44, &charsout, v42);
+                write_string_0((ioinfo *)v60[0].lock.SpinCount, (_iobuf *)v41, &v60[0].lock.LockCount, (int)v39);
               }
               else
               {
-                v45 = text.sz;
-                count = v42;
+                v41 = (stlp_std::ioinfo **)v60[0].lock.SpinCount;
+                v60[0].lock.RecursionCount = (int)v39;
                 while ( 1 )
                 {
-                  --count;
-                  retval = _mbtowc_l(
-                             (wchar_t *)&wchar,
-                             v45,
-                             _loc_update.localeinfo.locinfo->mb_cur_max,
-                             &_loc_update.localeinfo);
-                  if ( retval <= 0 )
+                  --v60[0].lock.RecursionCount;
+                  v48 = _mbtowc_l(
+                          (wchar_t *)&v50,
+                          (const char *)v41,
+                          v56.localeinfo.locinfo->mb_cur_max,
+                          &v56.localeinfo);
+                  if ( v48 <= 0 )
                     break;
-                  write_char_0(f, &charsout, wchar);
-                  v45 += retval;
-                  if ( count <= 0 )
+                  write_char_0(v57, &v60[0].lock.LockCount, v40, v41, v50);
+                  v41 = (stlp_std::ioinfo **)((char *)v41 + v48);
+                  if ( v60[0].lock.RecursionCount <= 0 )
                     goto LABEL_203;
                 }
-                charsout = -1;
+                v60[0].lock.LockCount = -1;
               }
 LABEL_203:
-              if ( charsout >= 0 && (flags & 4) != 0 )
-                write_multi_char_0(&charsout, 0x20u, v43, f);
+              if ( v60[0].lock.LockCount >= 0 && (v60[0].startpos & 4) != 0 )
+                write_multi_char_0(&v60[0].lock.LockCount, v40, v41, 0x20u, (int)v40, v57);
               goto LABEL_206;
             }
-            LODWORD(v24) = *((_DWORD *)v23 - 1);
-            if ( (flags & 0x40) != 0 )
-              v24 = (int)v24;
+            LODWORD(v23) = *((_DWORD *)p_osfile - 1);
+            if ( (v60[0].startpos & 0x40) != 0 )
+              v23 = (int)v23;
             else
-              HIDWORD(v24) = 0;
+              HIDWORD(v23) = 0;
           }
-          v70 = v23;
+          v60[0].lock.OwningThread = p_osfile;
           goto LABEL_151;
         }
-        v5 = *(_DWORD *)v4;
-        v4 += 4;
-        v70 = v4;
+        v5 = OwningThread->osfhnd;
+        OwningThread = (ioinfo *)((char *)OwningThread + 4);
+        v60[0].lock.OwningThread = OwningThread;
         if ( !_get_printf_count_output() )
           goto LABEL_2;
-        if ( (flags & 0x20) != 0 )
-          *(_WORD *)v5 = charsout;
+        if ( (v60[0].startpos & 0x20) != 0 )
+          *(_WORD *)v5 = v60[0].lock.LockCount;
         else
-          *(_DWORD *)v5 = charsout;
-        no_output = 1;
+          *(_DWORD *)v5 = v60[0].lock.LockCount;
+        v55 = 1;
 LABEL_206:
-        if ( heapbuf )
+        if ( pointer )
         {
-          free(heapbuf);
-          heapbuf = 0;
+          free(pointer);
+          pointer = 0;
         }
 LABEL_208:
-        v6 = v55;
-        v4 = v70;
+        v6 = v51;
+        OwningThread = (ioinfo *)v60[0].lock.OwningThread;
 LABEL_209:
-        v46 = *v6;
+        v42 = *(unsigned __int16 *)v6;
         v5 = 0;
-        count = v46;
-        if ( !(_WORD)v46 )
+        v60[0].lock.RecursionCount = v42;
+        if ( !(_WORD)v42 )
           goto LABEL_211;
-        v8 = v46;
+        v8 = v42;
         break;
       default:
         goto LABEL_208;
     }
   }
 LABEL_211:
-  if ( state == ST_NORMAL || state == ST_TYPE )
+  if ( !v59 || v59 == 7 )
   {
 LABEL_213:
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return charsout;
+    if ( v56.updated )
+      v56.ptd->_ownlocale &= ~2u;
+    return v60[0].lock.LockCount;
   }
   else
   {
 LABEL_2:
     *_errno() = 22;
-    _invalid_parameter((unsigned int)v4, (unsigned int)v6, v5);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
+    _invalid_parameter((int)OwningThread, v6, v5);
+    if ( v56.updated )
+      v56.ptd->_ownlocale &= ~2u;
     return -1;
   }
 }

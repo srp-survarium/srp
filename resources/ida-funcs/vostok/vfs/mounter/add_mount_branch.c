@@ -1,70 +1,56 @@
 void __thiscall vostok::vfs::mounter::add_mount_branch(
         vostok::vfs::mounter *this,
-        vostok::buffer_vector<vostok::vfs::mount_helper_node<1> *> *helper_nodes,
+        vostok::vfs::mounter *helper_nodes,
         vostok::vfs::base_node<1> **out_branch,
         vostok::vfs::base_node<1> **in_out_lock,
-        unsigned int *out_node_hash)
+        vostok::vfs::base_node<1> **out_node_hash,
+        unsigned int *a6)
 {
-  const char *v5; // eax
-  const char *v6; // eax
-  BOOL v7; // ecx
-  unsigned int v8; // [esp-8h] [ebp-4C0h]
-  unsigned int v9; // [esp-8h] [ebp-4C0h]
-  unsigned int v10; // [esp-4h] [ebp-4BCh]
-  bool v12; // [esp+6h] [ebp-4B2h]
-  vostok::fs_new::path_string_impl v14; // [esp+138h] [ebp-380h] BYREF
-  char v15; // [esp+24Fh] [ebp-269h]
-  vostok::fs_new::virtual_path_string path_part; // [esp+250h] [ebp-268h] BYREF
-  vostok::fs_new::path_part_iterator it_end; // [esp+368h] [ebp-150h] BYREF
-  vostok::fs_new::path_part_iterator it; // [esp+380h] [ebp-138h] BYREF
-  unsigned int partial_path_hash; // [esp+398h] [ebp-120h]
-  int index; // [esp+39Ch] [ebp-11Ch]
-  vostok::fs_new::virtual_path_string partial_path; // [esp+3A0h] [ebp-118h] BYREF
+  int v7; // eax
+  vostok::fs_new::virtual_path_string *v8; // ecx
+  vostok::fs_new::path_part_iterator *v9; // [esp-4h] [ebp-280h]
+  vostok::fs_new::virtual_path_string v10; // [esp+10h] [ebp-26Ch] BYREF
+  vostok::fs_new::virtual_path_string v11; // [esp+128h] [ebp-154h] BYREF
+  vostok::fs_new::path_part_iterator v12; // [esp+244h] [ebp-38h] BYREF
+  vostok::fs_new::path_part_iterator v13; // [esp+25Ch] [ebp-20h] BYREF
+  int v14; // [esp+274h] [ebp-8h]
+  unsigned int v15; // [esp+284h] [ebp+8h]
 
-  v15 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::fs_new::virtual_path_string::virtual_path_string(&partial_path);
-  vostok::fs_new::path_string_impl::path_string_impl(&v14, 47, (const char (*)[1])&buf);
-  v8 = vostok::fs_new::path_string_impl::length(&v14);
-  v5 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v14);
-  partial_path_hash = vostok::fs_new::path_crc32(v5, v8, 0);
-  index = 0;
-  vostok::fs_new::path_string_impl::begin_part(&this->m_args.virtual_path, &it, include_empty_string_in_iteration_true);
-  vostok::fs_new::path_part_iterator::end(&it_end);
-  while ( it.m_include_empty_string_in_iteration != it_end.m_include_empty_string_in_iteration
-       || it.m_cur_str != it_end.m_cur_str )
+  v10.m_string.m_begin = v10.m_string.m_buffer;
+  v10.m_string.m_end = v10.m_string.m_buffer;
+  v10.m_string.m_max_end = &v10.m_separator;
+  v10.m_string.m_buffer[0] = 0;
+  v10.m_separator = 47;
+  vostok::fs_new::virtual_path_string::virtual_path_string((vostok::fs_new::virtual_path_string *)this, (int)&v11);
+  v15 = vostok::fs_new::path_crc32(*(const char **)v7, *(_DWORD *)(v7 + 4) - *(_DWORD *)v7, 0);
+  vostok::fs_new::path_string_impl::begin_part(&helper_nodes->m_args.virtual_path, (int)&v13);
+  vostok::fs_new::path_part_iterator::path_part_iterator(&v12, 0, include_empty_string_in_iteration_false, 0);
+  if ( vostok::fs_new::path_part_iterator::operator!=(&v13, &v12) )
   {
-    vostok::fs_new::virtual_path_string::virtual_path_string(&path_part);
-    vostok::fs_new::path_string_impl::clear(&path_part.m_string);
-    vostok::fs_new::path_part_iterator::append_to_string<vostok::fs_new::virtual_path_string>(&it, &path_part);
-    vostok::fs_new::path_string_impl::append_path<vostok::fixed_string<260>>(&partial_path, &path_part.m_string);
-    v10 = partial_path_hash;
-    v9 = vostok::fs_new::path_string_impl::length(&path_part);
-    v6 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&path_part);
-    partial_path_hash = vostok::fs_new::path_crc32(v6, v9, v10);
-    vostok::fs_new::path_part_iterator::operator++(&it);
-    if ( it.m_include_empty_string_in_iteration == it_end.m_include_empty_string_in_iteration )
+    v14 = 0;
+    do
     {
-      v7 = it.m_cur_str == it_end.m_cur_str;
-      v12 = it.m_cur_str == it_end.m_cur_str;
+      v11.m_string.m_begin = v11.m_string.m_buffer;
+      v11.m_string.m_end = v11.m_string.m_buffer;
+      v11.m_string.m_max_end = &v11.m_separator;
+      v11.m_string.m_buffer[0] = 0;
+      v11.m_separator = 47;
+      vostok::fs_new::path_part_iterator::assign_to_string<vostok::fs_new::virtual_path_string>(&v13, &v11);
+      vostok::fs_new::virtual_path_string::append_path(v8, (int)&v10, &v11);
+      v15 = vostok::fs_new::path_crc32(v11.m_string.m_begin, v11.m_string.m_end - v11.m_string.m_begin, v15);
+      vostok::fs_new::path_part_iterator::operator++(v9, (int)&v13);
+      if ( vostok::fs_new::path_part_iterator::operator!=(&v13, &v12) )
+        vostok::vfs::mounter::add_mount_helper_node(
+          *(vostok::vfs::mount_helper_node<1> **)((char *)&(*out_branch)->m_mount_helper_parent.pointer + v14),
+          helper_nodes,
+          &v10,
+          v15,
+          in_out_lock,
+          out_node_hash);
+      v14 += 4;
     }
-    else
-    {
-      v12 = 0;
-    }
-    if ( !v12 )
-    {
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v7);
-      vostok::vfs::mounter::add_mount_helper_node(
-        this,
-        helper_nodes->m_begin[index],
-        &partial_path,
-        partial_path_hash,
-        out_branch,
-        in_out_lock);
-    }
-    ++index;
+    while ( vostok::fs_new::path_part_iterator::operator!=(&v13, &v12) );
   }
-  if ( out_node_hash )
-    *out_node_hash = partial_path_hash;
+  if ( a6 )
+    *a6 = v15;
 }

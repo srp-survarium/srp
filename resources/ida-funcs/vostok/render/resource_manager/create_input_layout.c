@@ -1,57 +1,65 @@
-D3D11_INPUT_ELEMENT_DESC *__thiscall vostok::render::resource_manager::create_input_layout(
+stlp_std::priv::_Rb_tree_node_base *__thiscall vostok::render::resource_manager::create_input_layout(
         vostok::render::resource_manager *this,
-        vostok::render::resource_manager *decl,
+        stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<vostok::render::res_input_layout *,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *> >,bool> *decl,
         const vostok::render::res_declaration *signature,
-        vostok::render::res_input_layout *new_layout)
+        const vostok::render::res_signature *signaturea)
 {
-  vostok::render::res_input_layout *v4; // ebx
-  const vostok::render::res_declaration *v5; // eax
-  vostok::render::res_input_layout *v6; // ecx
-  D3D11_INPUT_ELEMENT_DESC *M_start; // edi
-  vostok::render::res_input_layout *v9; // esi
-  vostok::render::res_input_layout *v10; // eax
-  vostok::render::res_input_layout *v11; // esi
-  vostok::render::res_input_layout *__val; // [esp+14h] [ebp-1Ch] BYREF
-  vostok::render::res_input_layout descriptor; // [esp+1Ch] [ebp-14h] BYREF
+  stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<vostok::render::res_input_layout *,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *> >,bool> *v4; // edi
+  vostok::render::res_input_layout *v5; // ecx
+  stlp_std::priv::_Rb_tree_node_base *M_node; // edi
+  vostok::memory::doug_lea_allocator *v8; // esi
+  char *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  stlp_std::set<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::std_allocator<vostok::render::res_input_layout *> > *v11; // ecx
+  char *v12; // esi
+  const vostok::render::res_signature *v13; // eax
+  const vostok::render::res_signature *v14; // esi
+  const char *v15; // [esp+0h] [ebp-2Ch]
+  const char *v16; // [esp+4h] [ebp-28h]
+  unsigned int v17; // [esp+8h] [ebp-24h]
+  vostok::render::res_input_layout v18; // [esp+Ch] [ebp-20h] BYREF
+  char v19[4]; // [esp+20h] [ebp-Ch] BYREF
+  vostok::render::res_input_layout *__x; // [esp+24h] [ebp-8h] BYREF
 
-  v4 = new_layout;
-  vostok::render::res_input_layout::res_input_layout(
-    &descriptor,
-    signature,
-    (const vostok::render::res_signature *)new_layout);
-  new_layout = &descriptor;
-  v5 = (const vostok::render::res_declaration *)stlp_std::priv::_Rb_tree<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::res_input_layout *,stlp_std::priv::_Identity<vostok::render::res_input_layout *>,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *>,vostok::render::std_allocator<vostok::render::res_input_layout *>>::_M_find<vostok::render::res_input_layout const *>(
-                                                  (stlp_std::priv::_Rb_tree<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::res_input_layout *,stlp_std::priv::_Identity<vostok::render::res_input_layout *>,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *>,vostok::render::std_allocator<vostok::render::res_input_layout *> > *)&new_layout,
-                                                  (vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout> *)&decl->m_input_layouts,
-                                                  (vostok::render::res_input_layout *const *)&decl->m_input_layouts);
-  if ( v5 == (const vostok::render::res_declaration *)&decl->m_input_layouts )
+  vostok::render::res_input_layout::res_input_layout(&v18, signature, signaturea);
+  __x = &v18;
+  v4 = (stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<vostok::render::res_input_layout *,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *> >,bool> *)((char *)decl + (_DWORD)&loc_93914 + 4);
+  stlp_std::set<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::std_allocator<vostok::render::res_input_layout *>>::find<vostok::render::res_input_layout *>(
+    &__x,
+    (stlp_std::set<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::std_allocator<vostok::render::res_input_layout *> > *)((char *)decl + (_DWORD)&loc_93914 + 4),
+    (stlp_std::priv::_Rb_tree_iterator<vostok::render::res_input_layout *,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *> > *)&decl);
+  if ( decl == v4 )
   {
-    vostok::render::res_input_layout::~res_input_layout(v6);
-    v9 = (vostok::render::res_input_layout *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                               (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                               0x14u);
-    if ( v9 )
+    vostok::render::res_input_layout::~res_input_layout(
+      v5,
+      (vostok::intrusive_ptr<vostok::render::res_signature const ,vostok::render::res_signature const ,vostok::threading::single_threading_policy> *)&v18);
+    v8 = vostok::render::g_allocator;
+    v9 = type_info::raw_name(&vostok::render::res_input_layout `RTTI Type Descriptor');
+    v12 = vostok::memory::doug_lea_allocator::malloc_impl(v10, (int)v8, 0x14u, v9, v15, v16, v17);
+    if ( v12 )
     {
-      vostok::render::res_input_layout::res_input_layout(v9, signature, (const vostok::render::res_signature *)v4);
-      v11 = v10;
+      vostok::render::res_input_layout::res_input_layout((vostok::render::res_input_layout *)v12, signature, signaturea);
+      signaturea = v13;
     }
     else
     {
-      v11 = 0;
+      signaturea = 0;
     }
-    new_layout = v11;
-    v11->m_is_registered = 1;
-    stlp_std::priv::_Rb_tree<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::res_input_layout *,stlp_std::priv::_Identity<vostok::render::res_input_layout *>,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *>,vostok::render::std_allocator<vostok::render::res_input_layout *>>::insert_unique(
-      (stlp_std::priv::_Rb_tree<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::res_input_layout *,stlp_std::priv::_Identity<vostok::render::res_input_layout *>,stlp_std::priv::_SetTraitsT<vostok::render::res_input_layout *>,vostok::render::std_allocator<vostok::render::res_input_layout *> > *)&new_layout,
-      &decl->m_input_layouts._M_t,
-      &__val,
-      &new_layout);
-    return (D3D11_INPUT_ELEMENT_DESC *)v11;
+    v14 = signaturea;
+    LOBYTE(signaturea[1].m_signature) = 1;
+    stlp_std::set<vostok::render::res_input_layout *,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>,vostok::render::std_allocator<vostok::render::res_input_layout *>>::insert(
+      v11,
+      (int)v19,
+      v4,
+      (vostok::render::res_input_layout **)&signaturea);
+    return (stlp_std::priv::_Rb_tree_node_base *)v14;
   }
   else
   {
-    M_start = v5->dcl_code._M_impl._M_start;
-    vostok::render::res_input_layout::~res_input_layout(v6);
-    return M_start;
+    M_node = decl[2].first._M_node;
+    vostok::render::res_input_layout::~res_input_layout(
+      v5,
+      (vostok::intrusive_ptr<vostok::render::res_signature const ,vostok::render::res_signature const ,vostok::threading::single_threading_policy> *)&v18);
+    return M_node;
   }
 }

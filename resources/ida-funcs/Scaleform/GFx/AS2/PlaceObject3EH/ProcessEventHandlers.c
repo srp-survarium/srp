@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS2::PlaceObject3EH::ProcessEventHandlers(
   Scaleform::ArrayLH<Scaleform::GFx::SwfEvent *,260,Scaleform::ArrayDefaultPolicy> *v7; // ebp
   unsigned int CurByteIndex; // ecx
   const unsigned __int8 *v9; // eax
-  unsigned int v10; // esi
+  Scaleform::GFx::AS2::ActionBufferData *v10; // esi
   Scaleform::GFx::AS2::AvmSwfEvent *v11; // eax
   unsigned int v12; // esi
   Scaleform::GFx::AS2::AvmSwfEvent **v13; // eax
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS2::PlaceObject3EH::ProcessEventHandlers(
       CurByteIndex = sc->CurByteIndex;
       v9 = &sc->pData[CurByteIndex];
       sc->CurBitIndex = 0;
-      v10 = *v9 | ((v9[1] | (*((unsigned __int16 *)v9 + 1) << 8)) << 8);
+      v10 = (Scaleform::GFx::AS2::ActionBufferData *)(*v9 | ((v9[1] | (*((unsigned __int16 *)v9 + 1) << 8)) << 8));
       sc->CurByteIndex = CurByteIndex + 4;
       if ( !v10 )
         break;

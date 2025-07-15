@@ -39,7 +39,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::Domain::getClass(
     {
       RefCount = v13.Obj.pObject->RefCount;
       pObject = v13.Obj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v13.Obj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

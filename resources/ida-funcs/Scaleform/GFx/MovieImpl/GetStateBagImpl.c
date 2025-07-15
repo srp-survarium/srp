@@ -1,4 +1,4 @@
-$5EBB39F6624EA584C7A73E93BEC150A9 *__thiscall Scaleform::GFx::MovieImpl::GetStateBagImpl(
+$6B4E7A01DD3034A6D235E05482AD75A2 *__thiscall Scaleform::GFx::MovieImpl::GetStateBagImpl(
         Scaleform::GFx::MovieImpl *this)
 {
   Scaleform::GFx::MovieDefRootNode *pPrev; // eax

@@ -1,42 +1,50 @@
-void __thiscall vostok::vfs::async_callbacks_data::finish_tree_may_destroy_this(
-        vostok::vfs::async_callbacks_data *this)
+void __usercall vostok::vfs::async_callbacks_data::finish_tree_may_destroy_this(
+        vostok::vfs::async_callbacks_data *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::vfs::vfs_locked_iterator v2; // [esp+264h] [ebp-2Ch] BYREF
-  vostok::vfs::vfs_locked_iterator out_iterator; // [esp+278h] [ebp-18h] BYREF
+  vostok::vfs::async_callbacks_data *v3; // ecx
+  vostok::vfs::vfs_locked_iterator *v4; // ecx
+  boost::function2<unsigned short,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &> *v5; // ecx
+  vostok::vfs::async_callbacks_data *v6; // ecx
+  boost::function2<unsigned short,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &> *v7; // [esp-4h] [ebp-24h]
+  const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *v8; // [esp-4h] [ebp-24h]
+  vostok::vfs::vfs_locked_iterator out_iterator; // [esp+Ch] [ebp-14h] BYREF
 
-  if ( this->result == result_error )
+  if ( *(_DWORD *)(a2 + 96) == 1 )
   {
-    if ( this->nodes_to_expand.m_first != 0 )
+    if ( *(_DWORD *)(a2 + 108) )
     {
-      vostok::vfs::upgrade_branch(this->env.node, lock_type_write, lock_type_read);
-      vostok::vfs::async_callbacks_data::continue_find_tree(this);
+      vostok::vfs::upgrade_branch(*(vostok::vfs::base_node<1> **)(a2 + 72), lock_type_write, lock_operation_try_lock);
+      vostok::vfs::async_callbacks_data::continue_find_tree(v3, (vostok::vfs::async_callbacks_data *)a2);
       return;
     }
-    vostok::vfs::vfs_iterator::vfs_iterator(&out_iterator);
-    out_iterator.mount_operation_id = 0;
-    vostok::vfs::make_iterator(&out_iterator, &this->env);
-    boost::function2<void,vostok::ai::brain_unit const *,vostok::ai::animation_item const *>::operator()(
-      (boost::function2<void,char const *,vostok::network_core::udp_match_packet const *> *)&this->env.callback,
-      (const char *)&out_iterator,
-      (const vostok::network_core::udp_match_packet *)1);
-    vostok::vfs::vfs_locked_iterator::~vfs_locked_iterator(&out_iterator);
+    memset(&out_iterator, 0, sizeof(out_iterator));
+    vostok::vfs::make_iterator((vostok::vfs::find_environment *)(a2 + 16), &out_iterator);
+    boost::function2<void,vostok::vfs::vfs_locked_iterator const &,enum vostok::vfs::result_enum>::operator()(
+      v7,
+      (_DWORD *)(a2 + 40),
+      (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&out_iterator,
+      (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)1);
   }
   else
   {
-    vostok::vfs::free_nodes_to_expand(&this->nodes_to_expand);
+    vostok::vfs::free_nodes_to_expand(
+      (vostok::intrusive_list<vostok::vfs::node_to_expand,vostok::vfs::node_to_expand *,8,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)(a2 + 100),
+      *(vostok::memory::base_allocator **)(a2 + 88));
     vostok::vfs::unlock_and_decref_recursively(
-      this->env.node,
+      *(vostok::vfs::base_node<1> **)(a2 + 72),
       lock_type_write,
-      (vostok::vfs::find_enum)this->env.find_flags.m_flags,
-      &this->env.file_system->hashset,
-      this->env.mount_operation_id);
-    vostok::vfs::vfs_iterator::vfs_iterator(&v2);
-    v2.mount_operation_id = 0;
-    boost::function2<void,vostok::ai::brain_unit const *,vostok::ai::animation_item const *>::operator()(
-      (boost::function2<void,char const *,vostok::network_core::udp_match_packet const *> *)&this->env.callback,
-      (const char *)&v2,
-      (const vostok::network_core::udp_match_packet *)this->result);
-    vostok::vfs::vfs_locked_iterator::~vfs_locked_iterator(&v2);
+      *(vostok::vfs::find_enum *)(a2 + 80),
+      (vostok::vfs::vfs_hashset *)(*(_DWORD *)(a2 + 84) + 24),
+      *(_DWORD *)(a2 + 92));
+    v8 = *(const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> **)(a2 + 96);
+    memset(&out_iterator, 0, sizeof(out_iterator));
+    boost::function2<void,vostok::vfs::vfs_locked_iterator const &,enum vostok::vfs::result_enum>::operator()(
+      v5,
+      (_DWORD *)(a2 + 40),
+      (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&out_iterator,
+      v8);
   }
-  vostok::vfs::async_callbacks_data::delete_this(this);
+  vostok::vfs::vfs_locked_iterator::clear(v4, (int)&out_iterator);
+  vostok::vfs::async_callbacks_data::delete_this(v6, a2);
 }

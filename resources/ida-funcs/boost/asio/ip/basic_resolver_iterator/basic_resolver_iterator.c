@@ -1,10 +1,13 @@
-void __thiscall boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>::basic_resolver_iterator<boost::asio::ip::tcp>(
-        boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *this,
-        const boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *__that)
+void __usercall boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>::basic_resolver_iterator<boost::asio::ip::tcp>(
+        boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *this@<eax>,
+        const boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *__that@<edx>)
 {
+  boost::detail::sp_counted_base *pi; // ecx
+
   this->values_.px = __that->values_.px;
-  this->values_.pn.pi_ = __that->values_.pn.pi_;
-  if ( this->values_.pn.pi_ )
-    _InterlockedExchangeAdd(&this->values_.pn.pi_->use_count_, 1u);
+  pi = __that->values_.pn.pi_;
+  this->values_.pn.pi_ = pi;
+  if ( pi )
+    _InterlockedExchangeAdd(&pi->use_count_, 1u);
   this->index_ = __that->index_;
 }

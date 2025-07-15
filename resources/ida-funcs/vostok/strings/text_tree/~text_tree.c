@@ -1,12 +1,11 @@
-void __thiscall vostok::strings::text_tree::~text_tree(vostok::strings::text_tree *this)
+void __usercall vostok::strings::text_tree::~text_tree(vostok::strings::text_tree *this@<ecx>, _DWORD *a2@<edi>)
 {
-  vostok::memory::stack_allocator *p_m_allocator; // esi
+  vostok::strings::text_tree_item *v2; // ecx
 
-  p_m_allocator = &this->m_allocator;
-  this->m_allocator.finalize_impl(&this->m_allocator);
-  p_m_allocator->m_arena_start = 0;
-  p_m_allocator->m_arena_end = 0;
-  p_m_allocator->m_arena_id = 0;
-  p_m_allocator->__vftable = (vostok::memory::stack_allocator_vtbl *)&vostok::memory::base_allocator::`vftable';
-  vostok::strings::text_tree_item::~text_tree_item(&this->m_root);
+  (*(void (__thiscall **)(_DWORD *))(a2[30] + 36))(a2 + 30);
+  a2[31] = 0;
+  a2[32] = 0;
+  a2[33] = 0;
+  a2[30] = &vostok::memory::base_allocator::`vftable';
+  vostok::strings::text_tree_item::~text_tree_item(v2, (int)a2);
 }

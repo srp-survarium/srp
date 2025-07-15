@@ -21,7 +21,7 @@ int __usercall def_add_index@<eax>(
     v7[2] = new_func;
     v7[4] = dup_func;
     v7[3] = free_func;
-    CRYPTO_lock((unsigned int)item, 9, 2, ".\\crypto\\ex_data.c", 350);
+    CRYPTO_lock((int)item, -1, 9, 2, ".\\crypto\\ex_data.c", 350);
     if ( sk_num(&item->meth->stack) > item->meth_num )
     {
 LABEL_6:
@@ -37,15 +37,15 @@ LABEL_6:
         if ( sk_num(&item->meth->stack) > item->meth_num )
           goto LABEL_6;
       }
-      ERR_put_error(0xFu, 104, 65, ".\\crypto\\ex_data.c", 355);
+      ERR_put_error(-1, 0xFu, 104, 65, ".\\crypto\\ex_data.c", 355);
       CRYPTO_free(v8);
     }
-    CRYPTO_lock((unsigned int)item, 10, 2, ".\\crypto\\ex_data.c", 363);
+    CRYPTO_lock((int)item, meth_num, 10, 2, ".\\crypto\\ex_data.c", 363);
     return meth_num;
   }
   else
   {
-    ERR_put_error(0xFu, 104, 65, ".\\crypto\\ex_data.c", 342);
+    ERR_put_error(-1, 0xFu, 104, 65, ".\\crypto\\ex_data.c", 342);
     return -1;
   }
 }

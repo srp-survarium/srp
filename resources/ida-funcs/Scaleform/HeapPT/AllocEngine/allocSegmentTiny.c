@@ -11,9 +11,9 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::allocSegmentTiny(
   Scaleform::HeapPT::AllocEngine::TinyBlock *pData; // ecx
   Scaleform::List<Scaleform::HeapPT::AllocEngine::TinyBlock,Scaleform::HeapPT::AllocEngine::TinyBlock> *i; // edx
   unsigned __int8 *v11; // esi
-  Scaleform::LockSafe *rl; // [esp+10h] [ebp-4h]
+  Scaleform::LockSafe *lpCriticalSection; // [esp+10h] [ebp-4h]
 
-  rl = &Scaleform::HeapPT::GlobalRoot->RootLock;
+  lpCriticalSection = &Scaleform::HeapPT::GlobalRoot->RootLock;
   EnterCriticalSection(&Scaleform::HeapPT::GlobalRoot->RootLock.mLock.cs);
   v3 = sizeIdx;
   v4 = (sizeIdx + 1) << this->MinAlignShift;
@@ -43,12 +43,12 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::allocSegmentTiny(
     }
     this->TinyFreeSpace += v7->DataSize;
     v11 = v7->pData;
-    LeaveCriticalSection(&rl->mLock.cs);
+    LeaveCriticalSection(&lpCriticalSection->mLock.cs);
     return v11;
   }
   else
   {
-    LeaveCriticalSection(&rl->mLock.cs);
+    LeaveCriticalSection(&lpCriticalSection->mLock.cs);
     return 0;
   }
 }

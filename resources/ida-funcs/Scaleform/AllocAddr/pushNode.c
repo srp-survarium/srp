@@ -18,7 +18,7 @@ void __thiscall Scaleform::AllocAddr::pushNode(
     node->pNext = v5->pNext;
     node->pPrev = v5;
     v5->pNext = node;
-    node->pNext->Scaleform::ListNode<Scaleform::AllocAddrNode>::$DB72A02B443B71C4F9F3C79864B49E88::pPrev = node;
+    node->pNext->Scaleform::ListNode<Scaleform::AllocAddrNode>::$EDDFB6E6111D817B2CB971CA9EC17793::pPrev = node;
   }
   Scaleform::RadixTree<Scaleform::AllocAddrNode,Scaleform::AllocAddr::AddrAccessor>::Insert(&this->AddrTree, node);
 }

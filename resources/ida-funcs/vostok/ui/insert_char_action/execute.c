@@ -2,64 +2,61 @@ char __thiscall vostok::ui::insert_char_action::execute(
         vostok::ui::insert_char_action *this,
         vostok::input::enum_keyboard_action action)
 {
-  vostok::ui::insert_char_action *v2; // edi
-  int v3; // eax
-  int v4; // eax
-  unsigned __int16 v5; // ax
-  vostok::ui::ui_text_edit *v6; // ecx
-  char c; // [esp+Ch] [ebp-84h]
-  char buff[128]; // [esp+10h] [ebp-80h] BYREF
+  vostok::ui::insert_char_action *v2; // esi
+  char m_char_shift; // al
+  bool v4; // zf
+  int v5; // eax
+  int v6; // eax
+  const unsigned __int16 *pctype; // eax
+  vostok::ui::ui_text_edit *v8; // ecx
+  char string[128]; // [esp+4h] [ebp-84h] BYREF
+  int v11; // [esp+84h] [ebp-4h]
 
   v2 = this;
   if ( (this->m_parent->m_shift_state.m_data.dummy & 0x30) != 0 )
-  {
-    c = this->m_char_shift;
-  }
+    m_char_shift = this->m_char_shift;
   else
+    m_char_shift = this->m_char;
+  v4 = !this->m_b_translate;
+  LOBYTE(v11) = m_char_shift;
+  if ( !v4 && this->m_input_world )
   {
-    LOBYTE(this) = this->m_char;
-    c = v2->m_char;
-  }
-  if ( v2->m_b_translate && v2->m_input_world )
-  {
-    if ( (_S3_8 & 1) == 0 )
+    if ( (_S5_6 & 1) == 0 )
     {
-      _S3_8 |= 1u;
-      current_locale = (localeinfo_struct *)_create_locale(0, (char *)&buf);
+      _S5_6 |= 1u;
+      current_locale = (localeinfo_struct *)_create_locale(0, (char *)uri);
     }
-    v3 = (int)v2->m_input_world->get_keyboard(v2->m_input_world);
-    if ( (*(unsigned __int8 (__thiscall **)(int, vostok::input::enum_keyboard, char *, int))(*(_DWORD *)v3 + 4))(
-           v3,
+    v5 = (int)v2->m_input_world->get_keyboard(v2->m_input_world);
+    if ( (*(unsigned __int8 (__thiscall **)(int, vostok::input::enum_keyboard, char *, int))(*(_DWORD *)v5 + 4))(
+           v5,
            v2->m_key,
-           buff,
+           string,
            128) )
     {
-      this = (vostok::ui::insert_char_action *)current_locale;
       if ( current_locale )
       {
         if ( current_locale->locinfo->mb_cur_max > 1 )
         {
-          v4 = _isctype_l(buff[0], 259, current_locale);
-          this = (vostok::ui::insert_char_action *)current_locale;
+          v6 = _isctype_l(string[0], 259, current_locale);
           goto LABEL_15;
         }
-        v5 = current_locale->locinfo->pctype[buff[0]];
+        pctype = current_locale->locinfo->pctype;
       }
       else
       {
-        v5 = __pctype_func()[buff[0]];
-        this = (vostok::ui::insert_char_action *)current_locale;
+        pctype = __pctype_func();
       }
-      v4 = v5 & 0x103;
+      this = (vostok::ui::insert_char_action *)string[0];
+      v6 = pctype[string[0]] & 0x103;
 LABEL_15:
-      if ( v4 )
+      if ( v6 )
       {
-        _strlwr_s_l(buff, 0x80u, (localeinfo_struct *)this);
-        c = buff[0];
+        _strlwr_s_l(string, 0x80u, current_locale);
+        LOBYTE(v11) = string[0];
       }
     }
   }
-  vostok::ui::ui_text_edit::delete_selection((vostok::ui::ui_text_edit *)this);
-  vostok::ui::ui_text_edit::insert_character(v6, c);
+  vostok::ui::ui_text_edit::delete_selection((vostok::ui::ui_text_edit *)this, (int)v2->m_parent);
+  vostok::ui::ui_text_edit::insert_character(v8, (int)v2->m_parent, v11);
   return 1;
 }

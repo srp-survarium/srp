@@ -46,7 +46,7 @@ char __usercall Scaleform::GFx::AS2::AsBroadcaster::InitializeInstance@<al>(
   if ( v9 )
   {
     RefCount = v9->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v9->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

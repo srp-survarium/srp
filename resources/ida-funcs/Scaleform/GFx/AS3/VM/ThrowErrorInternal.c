@@ -60,7 +60,7 @@ void __thiscall Scaleform::GFx::AS3::VM::ThrowErrorInternal(
   argv[1].Flags = 2;
   argv[1].Bonus.pWeakProxy = 0;
   (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int, Scaleform::GFx::AS3::Value *))(*(_DWORD *)obj.value.VS._1.VInt
-                                                                                             + 32))(
+                                                                                             + 44))(
     obj.value.VS._1,
     2,
     argv);

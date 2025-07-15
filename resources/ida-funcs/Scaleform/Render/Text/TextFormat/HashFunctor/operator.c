@@ -12,13 +12,16 @@ unsigned int __thiscall Scaleform::Render::Text::TextFormat::HashFunctor::operat
   int v9; // ecx
   unsigned int v10; // esi
   char v12; // [esp+7h] [ebp-11h]
-  unsigned int v[4]; // [esp+8h] [ebp-10h]
+  int v13; // [esp+8h] [ebp-10h]
+  int v14; // [esp+Ch] [ebp-Ch]
+  int v15; // [esp+10h] [ebp-8h]
+  unsigned int Hash; // [esp+14h] [ebp-4h]
 
   LetterSpacing = 0;
   ColorV = 0;
   v4 = (data->PresentMask & 1) == 0;
-  v[2] = 0;
-  v[3] = 0;
+  v15 = 0;
+  Hash = 0;
   if ( !v4 || (data->PresentMask & 0x400) != 0 )
     ColorV = data->ColorV;
   PresentMask = data->PresentMask;
@@ -27,15 +30,15 @@ unsigned int __thiscall Scaleform::Render::Text::TextFormat::HashFunctor::operat
   if ( (PresentMask & 8) != 0 )
     LetterSpacing |= data->FontSize << 16;
   v4 = data->pFontHandle.pObject == 0;
-  v[0] = (data->FormatFlags << 24) | ColorV;
-  v[1] = (PresentMask << 24) | LetterSpacing;
+  v13 = (data->FormatFlags << 24) | ColorV;
+  v14 = (PresentMask << 24) | LetterSpacing;
   if ( !v4 )
-    v[2] = 1;
+    v15 = 1;
   if ( (PresentMask & 0x200) != 0 )
   {
     pObject = data->pImageDesc.pObject;
     if ( pObject )
-      v[3] = Scaleform::Render::Text::HTMLImageTagDesc::GetHash(pObject);
+      Hash = Scaleform::Render::Text::HTMLImageTagDesc::GetHash(pObject);
   }
   v7 = 16;
   v8 = 5381;

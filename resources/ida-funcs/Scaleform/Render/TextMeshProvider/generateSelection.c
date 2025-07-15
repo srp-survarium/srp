@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::TextMeshProvider::generateSelection(
+bool __thiscall Scaleform::Render::TextMeshProvider::generateSelection(
         Scaleform::Render::TextMeshProvider *this,
         Scaleform::Render::Renderer2DImpl *ren,
         Scaleform::Render::VertexOutput *verOut,
@@ -18,22 +18,22 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateSelection(
   void (__thiscall *v15)(struct Scaleform::Render::Tessellator *, float, float); // eax
   int v16; // eax
   bool (__thiscall *BeginOutput)(Scaleform::Render::VertexOutput *, const Scaleform::Render::VertexOutput::Fill *, unsigned int, const Scaleform::Render::Matrix2x4<float> *); // edx
-  unsigned int param_60; // [esp+64Ah] [ebp-104h]
-  unsigned int param_60a; // [esp+64Ah] [ebp-104h]
-  unsigned int param_60b; // [esp+64Ah] [ebp-104h]
-  unsigned int param_60c; // [esp+64Ah] [ebp-104h]
-  char NullVectorMesh; // [esp+65Dh] [ebp-F1h]
-  Scaleform::Render::TextMeshProvider::VertexCountType v24; // [esp+65Eh] [ebp-F0h] BYREF
-  float v25; // [esp+666h] [ebp-E8h]
-  Scaleform::Render::TextMeshProvider *v26; // [esp+66Ah] [ebp-E4h]
-  Scaleform::Render::Rect<float> v27; // [esp+66Eh] [ebp-E0h] BYREF
-  int v28; // [esp+67Eh] [ebp-D0h]
-  int v29; // [esp+682h] [ebp-CCh]
-  int v30; // [esp+686h] [ebp-C8h]
-  Scaleform::Render::MeshGenerator *p_MeshGen; // [esp+69Ah] [ebp-B4h]
-  Scaleform::Render::Matrix2x4<float> v32; // [esp+69Eh] [ebp-B0h] BYREF
-  Scaleform::ArrayStaticBuffPOD<unsigned long,16,2> v33; // [esp+6BEh] [ebp-90h] BYREF
-  float v34[16]; // [esp+70Eh] [ebp-40h] BYREF
+  unsigned int w; // [esp+2Ah] [ebp-104h]
+  unsigned int wa; // [esp+2Ah] [ebp-104h]
+  unsigned int wb; // [esp+2Ah] [ebp-104h]
+  unsigned int wc; // [esp+2Ah] [ebp-104h]
+  bool NullVectorMesh; // [esp+3Dh] [ebp-F1h]
+  Scaleform::Render::TextMeshProvider::VertexCountType verCount; // [esp+3Eh] [ebp-F0h] BYREF
+  float v25; // [esp+46h] [ebp-E8h]
+  Scaleform::Render::TextMeshProvider *v26; // [esp+4Ah] [ebp-E4h]
+  Scaleform::Render::Rect<float> v27; // [esp+4Eh] [ebp-E0h] BYREF
+  int v28; // [esp+5Eh] [ebp-D0h]
+  int v29; // [esp+62h] [ebp-CCh]
+  int v30; // [esp+66h] [ebp-C8h]
+  Scaleform::Render::MeshGenerator *p_MeshGen; // [esp+7Ah] [ebp-B4h]
+  Scaleform::Render::Matrix2x4<float> v32; // [esp+7Eh] [ebp-B0h] BYREF
+  Scaleform::ArrayStaticBuffPOD<unsigned long,16,2> v33; // [esp+9Eh] [ebp-90h] BYREF
+  float v34[16]; // [esp+EEh] [ebp-40h] BYREF
 
   v26 = this;
   p_MeshGen = &ren->MeshGen;
@@ -77,37 +77,37 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateSelection(
         if ( v27.y2 > (double)v27.y1 )
         {
           AddVertex = p_mTess->AddVertex;
-          *(float *)&v24.VStart = mtx->M[1][1] * y1 + mtx->M[1][0] * x1 + mtx->M[1][3];
-          param_60 = v24.VStart;
-          *(float *)&v24.VStart = x1 * mtx->M[0][0] + y1 * mtx->M[0][1] + mtx->M[0][3];
+          *(float *)&verCount.VStart = mtx->M[1][1] * y1 + mtx->M[1][0] * x1 + mtx->M[1][3];
+          w = verCount.VStart;
+          *(float *)&verCount.VStart = x1 * mtx->M[0][0] + y1 * mtx->M[0][1] + mtx->M[0][3];
           ((void (__thiscall *)(Scaleform::Render::Tessellator *, unsigned int, unsigned int))AddVertex)(
             p_mTess,
-            v24.VStart,
-            param_60);
+            verCount.VStart,
+            w);
           v13 = p_mTess->AddVertex;
-          *(float *)&v24.VStart = mtx->M[1][0] * v27.x2 + mtx->M[1][1] * v27.y1 + mtx->M[1][3];
-          param_60a = v24.VStart;
-          *(float *)&v24.VStart = v27.x2 * mtx->M[0][0] + v27.y1 * mtx->M[0][1] + mtx->M[0][3];
+          *(float *)&verCount.VStart = mtx->M[1][0] * v27.x2 + mtx->M[1][1] * v27.y1 + mtx->M[1][3];
+          wa = verCount.VStart;
+          *(float *)&verCount.VStart = v27.x2 * mtx->M[0][0] + v27.y1 * mtx->M[0][1] + mtx->M[0][3];
           ((void (__thiscall *)(Scaleform::Render::Tessellator *, unsigned int, unsigned int))v13)(
             p_mTess,
-            v24.VStart,
-            param_60a);
+            verCount.VStart,
+            wa);
           v14 = p_mTess->AddVertex;
-          *(float *)&v24.VStart = mtx->M[1][0] * v27.x2 + mtx->M[1][1] * v27.y2 + mtx->M[1][3];
-          param_60b = v24.VStart;
-          *(float *)&v24.VStart = v27.x2 * mtx->M[0][0] + v27.y2 * mtx->M[0][1] + mtx->M[0][3];
+          *(float *)&verCount.VStart = mtx->M[1][0] * v27.x2 + mtx->M[1][1] * v27.y2 + mtx->M[1][3];
+          wb = verCount.VStart;
+          *(float *)&verCount.VStart = v27.x2 * mtx->M[0][0] + v27.y2 * mtx->M[0][1] + mtx->M[0][3];
           ((void (__thiscall *)(Scaleform::Render::Tessellator *, unsigned int, unsigned int))v14)(
             p_mTess,
-            v24.VStart,
-            param_60b);
+            verCount.VStart,
+            wb);
           v15 = p_mTess->AddVertex;
-          *(float *)&v24.VStart = mtx->M[1][0] * v27.x1 + mtx->M[1][1] * v27.y2 + mtx->M[1][3];
-          param_60c = v24.VStart;
-          *(float *)&v24.VStart = v27.x1 * mtx->M[0][0] + v27.y2 * mtx->M[0][1] + mtx->M[0][3];
+          *(float *)&verCount.VStart = mtx->M[1][0] * v27.x1 + mtx->M[1][1] * v27.y2 + mtx->M[1][3];
+          wc = verCount.VStart;
+          *(float *)&verCount.VStart = v27.x1 * mtx->M[0][0] + v27.y2 * mtx->M[0][1] + mtx->M[0][3];
           ((void (__thiscall *)(Scaleform::Render::Tessellator *, unsigned int, unsigned int))v15)(
             p_mTess,
-            v24.VStart,
-            param_60c);
+            verCount.VStart,
+            wc);
         }
       }
       Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(&v33, &v8->mColor);
@@ -153,9 +153,9 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateSelection(
                        (const Scaleform::Render::Matrix2x4<float> *)v34);
     if ( NullVectorMesh )
     {
-      v24.VStart = 0;
-      v24.IStart = 0;
-      Scaleform::Render::TextMeshProvider::setMeshData(v26, p_mTess, verOut, v33.Data, &v24);
+      verCount.VStart = 0;
+      verCount.IStart = 0;
+      Scaleform::Render::TextMeshProvider::setMeshData(v26, p_mTess, verOut, v33.Data, &verCount);
       verOut->EndOutput(verOut);
     }
   }

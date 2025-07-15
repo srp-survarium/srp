@@ -1,58 +1,62 @@
 void __userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::change_weight_synchronization_group(
-        vostok::animation::mixing::n_ary_tree_animation_node *from_end@<eax>,
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *to_begin@<esi>,
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this,
+        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this@<edi>,
+        vostok::animation::mixing::n_ary_tree_subtraction_node *to_begin@<esi>,
+        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *a3@<ecx>,
         vostok::animation::mixing::n_ary_tree_animation_node *from_begin,
+        vostok::animation::mixing::n_ary_tree_animation_node *from_end,
         vostok::animation::mixing::n_ary_tree_animation_node *to_end)
 {
   vostok::animation::mixing::n_ary_tree_animation_node *animation; // eax
   vostok::animation::mixing::n_ary_tree_animation_node *v7; // ebx
   vostok::animation::mixing::n_ary_tree_animation_node *v8; // eax
   int v9; // ecx
-  vostok::animation::mixing::n_ary_tree_animation_node *v10; // [esp+0h] [ebp-10h]
-  vostok::animation::mixing::n_ary_tree_animation_node *v11; // [esp+4h] [ebp-Ch]
+  fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> v10; // [esp-4h] [ebp-Ch]
+  vostok::animation::mixing::n_ary_tree_animation_node *v11; // [esp+4h] [ebp-4h]
 
   if ( from_begin->m_weight_synchronization_group_id == -1 )
   {
     vostok::animation::mixing::n_ary_tree_transition_tree_constructor::merge_weight_asynchronous_groups(
       from_begin,
+      a3,
+      (const vostok::animation::base_interpolator *)this,
       to_begin,
-      this,
-      v10,
+      (vostok::animation::mixing::n_ary_tree_animation_node *const)v10.m_Closure.m_pFunction,
       v11);
-    return;
   }
-  animation = vostok::animation::mixing::find_animation(
-                from_begin,
-                from_end,
-                (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin);
-  v7 = animation;
-  if ( !animation )
+  else
   {
-    v8 = vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_weight_driving_animation(
-           this,
-           this,
-           (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin);
-    goto LABEL_7;
+    animation = vostok::animation::mixing::find_animation(
+                  this->m_animated_object_resolver,
+                  from_begin,
+                  from_end,
+                  (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin);
+    v7 = animation;
+    if ( animation )
+    {
+      v10.m_Closure.m_pthis = (fastdelegate::detail::GenericClass *)to_begin;
+      v8 = vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_weight_driving_animation(
+             this,
+             animation,
+             v10);
+    }
+    else
+    {
+      v10.m_Closure.m_pthis = (fastdelegate::detail::GenericClass *)this;
+      v8 = vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_weight_driving_animation(
+             (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin,
+             v10);
+    }
+    if ( !v7 || v7->m_is_transitting_to_zero )
+      v9 = 1;
+    else
+      LOBYTE(v9) = 0;
+    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::merge_weight_synchronization_groups(
+      (vostok::animation::mixing::n_ary_tree_transition_tree_constructor *)v9,
+      (const vostok::animation::base_interpolator *)this,
+      from_begin,
+      from_end,
+      (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin[5].__vftable,
+      to_end,
+      __SPAIR64__(v9, (unsigned int)v8));
   }
-  v8 = vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_weight_driving_animation(
-         this,
-         animation,
-         (vostok::animation::mixing::n_ary_tree_base_node **)to_begin);
-  if ( v7->m_is_transitting_to_zero )
-  {
-LABEL_7:
-    v9 = 1;
-    goto LABEL_8;
-  }
-  LOBYTE(v9) = 0;
-LABEL_8:
-  vostok::animation::mixing::n_ary_tree_transition_tree_constructor::merge_weight_synchronization_groups(
-    from_begin,
-    this,
-    from_end,
-    (vostok::animation::mixing::n_ary_tree_animation_node *)to_begin->m_cloner.m_constructor,
-    to_end,
-    v8,
-    (vostok::animation::mixing::n_ary_tree_base_node **)v9);
 }

@@ -17,20 +17,20 @@ void __thiscall Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(
   Scaleform::GFx::ASStringNode *v14; // edx
   int *v15; // eax
   Scaleform::GFx::ASStringNode *v16; // eax
-  int v17; // [esp+298h] [ebp-B0h]
-  int v18; // [esp+29Ch] [ebp-ACh]
-  int v19; // [esp+2A0h] [ebp-A8h]
-  int v20; // [esp+2A4h] [ebp-A4h]
-  int v21; // [esp+2A8h] [ebp-A0h]
-  Scaleform::GFx::ASStringNode *v22; // [esp+2ACh] [ebp-9Ch] BYREF
-  Scaleform::GFx::ASStringNode *v23; // [esp+2B0h] [ebp-98h] BYREF
-  Scaleform::GFx::ASStringNode *v24; // [esp+2B4h] [ebp-94h] BYREF
-  Scaleform::GFx::ASStringNode *v25; // [esp+2B8h] [ebp-90h] BYREF
-  Scaleform::List<Scaleform::GFx::TimelineSnapshot::SnapshotElement,Scaleform::GFx::TimelineSnapshot::SnapshotElement> *p_SnapshotList; // [esp+2BCh] [ebp-8Ch]
-  Scaleform::GFx::ASStringNode *v27; // [esp+2C0h] [ebp-88h] BYREF
-  Scaleform::GFx::ASStringNode *v28; // [esp+2C4h] [ebp-84h] BYREF
-  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData v29; // [esp+2C8h] [ebp-80h] BYREF
-  _BYTE v30[4]; // [esp+344h] [ebp-4h] BYREF
+  int v17; // [esp+0h] [ebp-B0h]
+  int v18; // [esp+4h] [ebp-ACh]
+  int v19; // [esp+8h] [ebp-A8h]
+  int v20; // [esp+Ch] [ebp-A4h]
+  int v21; // [esp+10h] [ebp-A0h]
+  Scaleform::GFx::ASStringNode *v22; // [esp+14h] [ebp-9Ch] BYREF
+  Scaleform::GFx::ASStringNode *v23; // [esp+18h] [ebp-98h] BYREF
+  Scaleform::GFx::ASStringNode *v24; // [esp+1Ch] [ebp-94h] BYREF
+  Scaleform::GFx::ASStringNode *v25; // [esp+20h] [ebp-90h] BYREF
+  Scaleform::List<Scaleform::GFx::TimelineSnapshot::SnapshotElement,Scaleform::GFx::TimelineSnapshot::SnapshotElement> *p_SnapshotList; // [esp+24h] [ebp-8Ch]
+  Scaleform::GFx::ASStringNode *v27; // [esp+28h] [ebp-88h] BYREF
+  Scaleform::GFx::ASStringNode *v28; // [esp+2Ch] [ebp-84h] BYREF
+  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData v29; // [esp+30h] [ebp-80h] BYREF
+  _BYTE v30[4]; // [esp+ACh] [ebp-4h] BYREF
 
   v2 = 0;
   p_SnapshotList = &this->SnapshotList;
@@ -76,7 +76,7 @@ void __thiscall Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(
           if ( v29.Name )
           {
             v2 |= 2u;
-            StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, (char *)v29.Name);
+            StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, (__m128i *)v29.Name);
             p_EmptyStringNode = v22;
             v5 = StringNode;
             ++StringNode->RefCount;
@@ -196,7 +196,7 @@ void __thiscall Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(
           if ( v29.Name )
           {
             v2 |= 8u;
-            v16 = Scaleform::GFx::ASStringManager::CreateStringNode(v12, (char *)v29.Name);
+            v16 = Scaleform::GFx::ASStringManager::CreateStringNode(v12, (__m128i *)v29.Name);
             v14 = v23;
             v13 = v16;
             ++v16->RefCount;

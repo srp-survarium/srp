@@ -2,17 +2,17 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D> *__cdecl 
         Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D> *result,
         Scaleform::GFx::AS3::InstanceTraits::fl_geom::Matrix3D *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Catch *v2; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v3; // esi
+  Scaleform::GFx::AS3::Instances::fl::Object *v2; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v3; // esi
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D> *v4; // eax
 
-  v2 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(t);
+  v2 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(t);
   v3 = v2;
   if ( v2 )
   {
     Scaleform::GFx::AS3::Instances::fl::Object::Object(v2, t);
-    v3->__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::`vftable';
-    memset((int)&v3[1], 0, 0x80u);
+    v3->__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::`vftable';
+    memset((int)&v3[1], 0, 128);
     v4 = result;
     *(double *)&v3[1].__vftable = 1.0;
     *(double *)&v3[2].pNext = 1.0;

@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::DrawableImageContext::AddTreeRootToKillList(
         Scaleform::Render::DrawableImageContext *this,
-        Scaleform::Render::TreeRoot *proot)
+        Scaleform::GFx::AS3::ClassTraits::Traits *proot)
 {
   Scaleform::Lock *p_TreeRootKillListLock; // ebx
   Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *p_TreeRootKillList; // edi
@@ -29,6 +29,6 @@ void __thiscall Scaleform::Render::DrawableImageContext::AddTreeRootToKillList(
   v6 = &p_TreeRootKillList->Data[v5 - 1];
   p_TreeRootKillList->Size = v5;
   if ( v6 )
-    v6->pObject = (Scaleform::GFx::AS3::ClassTraits::Traits *)proot;
+    v6->pObject = proot;
   LeaveCriticalSection(&p_TreeRootKillListLock->cs);
 }

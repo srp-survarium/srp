@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::trans
   {
     RefCount = ptransform.pObject->RefCount;
     pObject = ptransform.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       ptransform.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

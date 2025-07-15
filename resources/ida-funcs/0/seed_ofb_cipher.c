@@ -1,4 +1,4 @@
-int __cdecl seed_ofb_cipher(evp_cipher_ctx_st *ctx, unsigned __int8 *out, const unsigned __int8 *in, unsigned int inl)
+int __cdecl seed_ofb_cipher(evp_cipher_ctx_st *ctx, unsigned __int8 *out, unsigned __int8 *in, unsigned int inl)
 {
   unsigned int v4; // ebp
   unsigned int v7; // ebp

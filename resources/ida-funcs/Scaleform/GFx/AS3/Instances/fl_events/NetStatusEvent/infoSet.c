@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoS
 
   pLower = (Scaleform::GFx::AS3::Value::V1U)value->pLower;
   StringManagerRef = this->pTraits.pObject->pVM->StringManagerRef;
-  value = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "code");
+  value = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, (__m128i *)"code");
   ++value->RefCount;
   Scaleform::GFx::AS3::Value::Value(&name, (const Scaleform::GFx::ASString *)&value);
   Scaleform::GFx::AS3::Multiname::Multiname(&mnCode, this->pTraits.pObject->pVM->PublicNamespace.pObject, &name);
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoS
   --value->RefCount;
   if ( !v6->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v6);
-  value = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "level");
+  value = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, (__m128i *)"level");
   ++value->RefCount;
   Scaleform::GFx::AS3::Value::Value(&name, (const Scaleform::GFx::ASString *)&value);
   Scaleform::GFx::AS3::Multiname::Multiname(&mnLevel, this->pTraits.pObject->pVM->PublicNamespace.pObject, &name);
@@ -50,13 +50,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoS
     Scaleform::GFx::ASStringNode::ReleaseNode(v7);
   prop.Flags = 0;
   prop.Bonus.pWeakProxy = 0;
-  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)pLower.VInt + 16))(
+  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)pLower.VInt + 28))(
                    pLower,
                    &value,
                    &mnCode,
                    &prop) )
     Scaleform::GFx::AS3::Value::Convert2String(&prop, (Scaleform::GFx::AS3::CheckResult *)&value, &this->Code);
-  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)pLower.VInt + 16))(
+  if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)pLower.VInt + 28))(
                    pLower,
                    &value,
                    &mnLevel,
@@ -86,7 +86,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoS
     {
       RefCount = mnLevel.Obj.pObject->RefCount;
       pObject = mnLevel.Obj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         mnLevel.Obj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -104,7 +104,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoS
   {
     v10 = mnCode.Obj.pObject->RefCount;
     v11 = mnCode.Obj.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & v10) != 0 )
+    if ( (v10 & 0x3FFFFF) != 0 )
     {
       mnCode.Obj.pObject->RefCount = v10 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);

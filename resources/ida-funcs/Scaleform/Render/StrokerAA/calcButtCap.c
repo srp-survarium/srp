@@ -6,13 +6,13 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
         const Scaleform::Render::StrokerAA::WidthsType *w,
         bool endFlag)
 {
-  double totalWidthR; // st7
+  double totalWidthL; // st7
   double v10; // st7
   double v11; // st4
   double v12; // st4
   double v13; // st5
-  bool v14; // cl
-  bool v15; // al
+  bool aaFlagR; // cl
+  bool aaFlagL; // al
   unsigned int v16; // eax
   unsigned int v17; // ebx
   unsigned int v18; // eax
@@ -25,143 +25,143 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
   unsigned int v25; // ebx
   unsigned int v26; // ebp
   Scaleform::Render::StrokerAA::TriangleType *v27; // eax
-  float y; // [esp+4h] [ebp-58h]
-  float ya; // [esp+4h] [ebp-58h]
-  float yb; // [esp+4h] [ebp-58h]
-  float yc; // [esp+4h] [ebp-58h]
-  float yd; // [esp+4h] [ebp-58h]
-  float ye; // [esp+4h] [ebp-58h]
-  float yf; // [esp+4h] [ebp-58h]
-  float yg; // [esp+4h] [ebp-58h]
-  unsigned int buttSolidR; // [esp+20h] [ebp-3Ch]
-  float dyTotalL; // [esp+24h] [ebp-38h]
-  float dxTotalL; // [esp+28h] [ebp-34h]
-  float dySolidR; // [esp+2Ch] [ebp-30h]
-  float dxSolidR; // [esp+30h] [ebp-2Ch]
-  float dyTotalR; // [esp+34h] [ebp-28h]
-  float dxTotalR; // [esp+38h] [ebp-24h]
-  float buttTotalLa; // [esp+3Ch] [ebp-20h]
-  unsigned int buttTotalL; // [esp+3Ch] [ebp-20h]
-  float totalWidthL; // [esp+40h] [ebp-1Ch]
-  unsigned int totalWidthLa; // [esp+40h] [ebp-1Ch]
-  float solidWidthR; // [esp+44h] [ebp-18h]
-  unsigned int solidWidthRa; // [esp+44h] [ebp-18h]
-  float solidWidthRb; // [esp+44h] [ebp-18h]
-  float solidWidthRc; // [esp+44h] [ebp-18h]
-  float solidWidthRd; // [esp+44h] [ebp-18h]
-  float solidWidthRe; // [esp+44h] [ebp-18h]
-  float solidWidthRf; // [esp+44h] [ebp-18h]
-  float solidWidthRg; // [esp+44h] [ebp-18h]
-  float dySolidL; // [esp+48h] [ebp-14h]
-  float dxSolidL; // [esp+4Ch] [ebp-10h]
+  float v28; // [esp+4h] [ebp-58h]
+  float v29; // [esp+4h] [ebp-58h]
+  float v30; // [esp+4h] [ebp-58h]
+  float v31; // [esp+4h] [ebp-58h]
+  float v32; // [esp+4h] [ebp-58h]
+  float v33; // [esp+4h] [ebp-58h]
+  float v34; // [esp+4h] [ebp-58h]
+  float v35; // [esp+4h] [ebp-58h]
+  unsigned int v36; // [esp+20h] [ebp-3Ch]
+  float v37; // [esp+24h] [ebp-38h]
+  float v38; // [esp+28h] [ebp-34h]
+  float v39; // [esp+2Ch] [ebp-30h]
+  float v40; // [esp+30h] [ebp-2Ch]
+  float v41; // [esp+34h] [ebp-28h]
+  float v42; // [esp+38h] [ebp-24h]
+  float v3a; // [esp+3Ch] [ebp-20h]
+  unsigned int v3; // [esp+3Ch] [ebp-20h]
+  float totalWidthR; // [esp+40h] [ebp-1Ch]
+  unsigned int v46; // [esp+40h] [ebp-1Ch]
+  float v2; // [esp+44h] [ebp-18h]
+  unsigned int v2a; // [esp+44h] [ebp-18h]
+  float v2b; // [esp+44h] [ebp-18h]
+  float v2c; // [esp+44h] [ebp-18h]
+  float v2d; // [esp+44h] [ebp-18h]
+  float v2e; // [esp+44h] [ebp-18h]
+  float v2f; // [esp+44h] [ebp-18h]
+  float v2g; // [esp+44h] [ebp-18h]
+  float v55; // [esp+48h] [ebp-14h]
+  float v56; // [esp+4Ch] [ebp-10h]
   unsigned int SolidR; // [esp+58h] [ebp-4h]
-  bool aaFlagR; // [esp+60h] [ebp+4h]
-  float dya; // [esp+64h] [ebp+8h]
-  float dy; // [esp+64h] [ebp+8h]
-  float dyb; // [esp+64h] [ebp+8h]
-  float dyc; // [esp+64h] [ebp+8h]
-  float lenb; // [esp+68h] [ebp+Ch]
-  float lena; // [esp+68h] [ebp+Ch]
-  float aaFlagL; // [esp+6Ch] [ebp+10h]
-  bool aaFlagLa; // [esp+6Ch] [ebp+10h]
-  float endFlaga; // [esp+70h] [ebp+14h]
-  float endFlagb; // [esp+70h] [ebp+14h]
-  float endFlagc; // [esp+70h] [ebp+14h]
-  float endFlagd; // [esp+70h] [ebp+14h]
-  float endFlage; // [esp+70h] [ebp+14h]
-  float endFlagf; // [esp+70h] [ebp+14h]
-  float endFlagg; // [esp+70h] [ebp+14h]
-  float endFlagh; // [esp+70h] [ebp+14h]
+  bool v58; // [esp+60h] [ebp+4h]
+  float v59; // [esp+64h] [ebp+8h]
+  float v60; // [esp+64h] [ebp+8h]
+  float v61; // [esp+64h] [ebp+8h]
+  float v62; // [esp+64h] [ebp+8h]
+  float v63; // [esp+68h] [ebp+Ch]
+  float v64; // [esp+68h] [ebp+Ch]
+  float solidWidthR; // [esp+6Ch] [ebp+10h]
+  bool v66; // [esp+6Ch] [ebp+10h]
+  float v67; // [esp+70h] [ebp+14h]
+  float v68; // [esp+70h] [ebp+14h]
+  float v69; // [esp+70h] [ebp+14h]
+  float v70; // [esp+70h] [ebp+14h]
+  float v71; // [esp+70h] [ebp+14h]
+  float v72; // [esp+70h] [ebp+14h]
+  float v73; // [esp+70h] [ebp+14h]
+  float v74; // [esp+70h] [ebp+14h]
 
   if ( endFlag )
   {
-    aaFlagL = w->solidWidthR;
-    solidWidthR = w->solidWidthL;
-    totalWidthL = w->totalWidthR;
-    totalWidthR = w->totalWidthL;
+    solidWidthR = w->solidWidthR;
+    v2 = w->solidWidthL;
+    totalWidthR = w->totalWidthR;
+    totalWidthL = w->totalWidthL;
   }
   else
   {
-    aaFlagL = w->solidWidthL;
-    solidWidthR = w->solidWidthR;
-    totalWidthL = w->totalWidthL;
-    totalWidthR = w->totalWidthR;
+    solidWidthR = w->solidWidthL;
+    v2 = w->solidWidthR;
+    totalWidthR = w->totalWidthL;
+    totalWidthL = w->totalWidthR;
   }
-  buttTotalLa = totalWidthR;
-  buttSolidR = 0;
+  v3a = totalWidthL;
+  v36 = 0;
   v10 = len;
-  lenb = (v1->y - v0->y) / len;
-  dya = (v0->x - v1->x) / v10;
-  dxSolidL = lenb * aaFlagL;
-  dySolidL = aaFlagL * dya;
-  v11 = solidWidthR;
-  solidWidthRa = 0;
-  dxSolidR = lenb * v11;
-  dySolidR = v11 * dya;
-  v12 = totalWidthL;
-  totalWidthLa = 0;
-  dxTotalL = lenb * v12;
-  dyTotalL = v12 * dya;
-  v13 = buttTotalLa;
-  buttTotalL = 0;
-  dxTotalR = lenb * v13;
-  dyTotalR = v13 * dya;
-  lena = (dyTotalL - dySolidL + dyTotalR - dySolidR) * 0.5;
-  dy = 0.5 * (dxSolidR - dxTotalR + dxSolidL - dxTotalL);
+  v63 = (v1->y - v0->y) / len;
+  v59 = (v0->x - v1->x) / v10;
+  v56 = v63 * solidWidthR;
+  v55 = solidWidthR * v59;
+  v11 = v2;
+  v2a = 0;
+  v40 = v63 * v11;
+  v39 = v11 * v59;
+  v12 = totalWidthR;
+  v46 = 0;
+  v38 = v63 * v12;
+  v37 = v12 * v59;
+  v13 = v3a;
+  v3 = 0;
+  v42 = v63 * v13;
+  v41 = v13 * v59;
+  v64 = (v37 - v55 + v41 - v39) * 0.5;
+  v60 = 0.5 * (v40 - v42 + v56 - v38);
   if ( endFlag )
   {
-    v14 = w->aaFlagR;
-    v15 = w->aaFlagL;
-    aaFlagLa = v14;
-    aaFlagR = v15;
+    aaFlagR = w->aaFlagR;
+    aaFlagL = w->aaFlagL;
+    v66 = aaFlagR;
+    v58 = aaFlagL;
   }
   else
   {
-    v15 = w->aaFlagL;
-    v14 = w->aaFlagR;
-    aaFlagLa = v15;
-    aaFlagR = v14;
+    aaFlagL = w->aaFlagL;
+    aaFlagR = w->aaFlagR;
+    v66 = aaFlagL;
+    v58 = aaFlagR;
   }
-  if ( v15 || v14 )
+  if ( aaFlagL || aaFlagR )
   {
-    solidWidthRb = v0->y - dySolidL + dy;
-    y = solidWidthRb;
-    solidWidthRc = v0->x - dxSolidL + lena;
-    v16 = Scaleform::Render::StrokerAA::addVertex(this, solidWidthRc, y, this->StyleLeft, 0);
+    v2b = v0->y - v55 + v60;
+    v28 = v2b;
+    v2c = v0->x - v56 + v64;
+    v16 = Scaleform::Render::StrokerAA::addVertex(this, v2c, v28, this->StyleLeft, 0);
     v17 = v16;
-    totalWidthLa = v16;
+    v46 = v16;
     if ( w->solidFlag )
     {
-      solidWidthRd = dySolidR + v0->y + dy;
-      ya = solidWidthRd;
-      solidWidthRe = v0->x + dxSolidR + lena;
-      buttSolidR = Scaleform::Render::StrokerAA::addVertex(this, solidWidthRe, ya, this->StyleRight, 0);
+      v2d = v39 + v0->y + v60;
+      v29 = v2d;
+      v2e = v0->x + v40 + v64;
+      v36 = Scaleform::Render::StrokerAA::addVertex(this, v2e, v29, this->StyleRight, 0);
     }
     else
     {
-      buttSolidR = v16;
+      v36 = v16;
     }
-    if ( aaFlagLa )
+    if ( v66 )
     {
-      solidWidthRf = v0->y - dyTotalL + dy;
-      yb = solidWidthRf;
-      solidWidthRg = v0->x - dxTotalL + lena;
-      buttTotalL = Scaleform::Render::StrokerAA::addVertex(this, solidWidthRg, yb, this->StyleLeft, 0);
-    }
-    else
-    {
-      buttTotalL = v17;
-    }
-    if ( aaFlagR )
-    {
-      dyb = dyTotalR + v0->y + dy;
-      yc = dyb;
-      dyc = v0->x + dxTotalR + lena;
-      solidWidthRa = Scaleform::Render::StrokerAA::addVertex(this, dyc, yc, this->StyleRight, 0);
+      v2f = v0->y - v37 + v60;
+      v30 = v2f;
+      v2g = v0->x - v38 + v64;
+      v3 = Scaleform::Render::StrokerAA::addVertex(this, v2g, v30, this->StyleLeft, 0);
     }
     else
     {
-      solidWidthRa = buttSolidR;
+      v3 = v17;
+    }
+    if ( v58 )
+    {
+      v61 = v41 + v0->y + v60;
+      v31 = v61;
+      v62 = v0->x + v42 + v64;
+      v2a = Scaleform::Render::StrokerAA::addVertex(this, v62, v31, this->StyleRight, 0);
+    }
+    else
+    {
+      v2a = v36;
     }
   }
   if ( endFlag )
@@ -175,25 +175,25 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
   }
   else
   {
-    endFlaga = v0->y - dySolidL;
-    yd = endFlaga;
-    endFlagb = v0->x - dxSolidL;
-    v18 = Scaleform::Render::StrokerAA::addVertex(this, endFlagb, yd, this->StyleLeft, 1);
+    v67 = v0->y - v55;
+    v32 = v67;
+    v68 = v0->x - v56;
+    v18 = Scaleform::Render::StrokerAA::addVertex(this, v68, v32, this->StyleLeft, 1);
     this->SolidL = v18;
     if ( w->aaFlagL )
     {
-      endFlagc = v0->y - dyTotalL;
-      ye = endFlagc;
-      endFlagd = v0->x - dxTotalL;
-      v18 = Scaleform::Render::StrokerAA::addVertex(this, endFlagd, ye, this->StyleLeft, 0);
+      v69 = v0->y - v37;
+      v33 = v69;
+      v70 = v0->x - v38;
+      v18 = Scaleform::Render::StrokerAA::addVertex(this, v70, v33, this->StyleLeft, 0);
     }
     this->TotalL = v18;
     if ( w->solidFlag )
     {
-      endFlage = dySolidR + v0->y;
-      yf = endFlage;
-      endFlagf = v0->x + dxSolidR;
-      v19 = Scaleform::Render::StrokerAA::addVertex(this, endFlagf, yf, this->StyleRight, 1);
+      v71 = v39 + v0->y;
+      v34 = v71;
+      v72 = v0->x + v40;
+      v19 = Scaleform::Render::StrokerAA::addVertex(this, v72, v34, this->StyleRight, 1);
     }
     else
     {
@@ -202,10 +202,10 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
     this->SolidR = v19;
     if ( w->aaFlagR )
     {
-      endFlagg = dyTotalR + v0->y;
-      yg = endFlagg;
-      endFlagh = v0->x + dxTotalR;
-      v19 = Scaleform::Render::StrokerAA::addVertex(this, endFlagh, yg, this->StyleRight, 0);
+      v73 = v41 + v0->y;
+      v35 = v73;
+      v74 = v0->x + v42;
+      v19 = Scaleform::Render::StrokerAA::addVertex(this, v74, v35, this->StyleRight, 0);
     }
     this->TotalR = v19;
   }
@@ -218,8 +218,8 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
         (Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType,4,16> *)&this->Triangles,
         this->Triangles.Size >> 4);
     v24 = &this->Triangles.Pages[v23][this->Triangles.Size & 0xF];
-    v24->v1 = totalWidthLa;
-    v24->v2 = buttSolidR;
+    v24->v1 = v46;
+    v24->v2 = v36;
     v24->v3 = v22;
     ++this->Triangles.Size;
     v25 = this->SolidL;
@@ -231,18 +231,18 @@ void __thiscall Scaleform::Render::StrokerAA::calcButtCap(
         v26);
     v27 = &this->Triangles.Pages[v26][this->Triangles.Size & 0xF];
     v27->v1 = v25;
-    v27->v2 = buttSolidR;
+    v27->v2 = v36;
     v27->v3 = SolidR;
     ++this->Triangles.Size;
   }
-  if ( aaFlagLa )
+  if ( v66 )
   {
-    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, this->TotalL, buttTotalL);
-    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, buttTotalL, totalWidthLa);
+    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, this->TotalL, v3);
+    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, v3, v46);
   }
-  if ( aaFlagR )
+  if ( v58 )
   {
-    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, solidWidthRa, this->TotalR);
-    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, buttSolidR, solidWidthRa);
+    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v2a, this->TotalR);
+    Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v36, v2a);
   }
 }

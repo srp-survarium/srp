@@ -1,263 +1,213 @@
 void __thiscall vostok::render::sliced_cube_geometry::sliced_cube_geometry(
         vostok::render::sliced_cube_geometry *this,
-        vostok::render::sliced_cube_geometry *in_num_cells,
-        unsigned int in_num_cellsa)
+        vostok::render::resource_manager *in_num_cells)
 {
-  vostok::render::sliced_cube_geometry *v3; // ebx
-  void *v4; // esp
-  _QWORD *v5; // esi
-  void *v6; // esp
-  unsigned int v7; // edi
-  _WORD *v8; // eax
-  const vostok::math::float4x4 *v9; // xmm0_4
-  __int64 v10; // xmm4_8
-  __int64 v11; // xmm5_8
-  __int64 v12; // xmm6_8
-  char *v13; // ecx
-  double v14; // st7
-  double v15; // st6
-  __int64 v16; // xmm7_8
-  _QWORD *v17; // esi
-  _QWORD *v18; // ecx
-  float v19; // xmm2_4
-  __int64 v20; // xmm2_8
-  __int64 v21; // xmm2_8
-  _WORD *v22; // eax
+  vostok::render::resource_manager *v2; // esi
+  void *v3; // esp
+  _BYTE *v4; // ebx
+  void *v5; // esp
+  float v6; // xmm0_4
+  _WORD *v7; // eax
+  float *v8; // edx
+  double v9; // st7
+  int cb_created; // ecx
+  double v11; // st6
+  double v12; // st6
+  _BYTE *v13; // ebx
+  float *v14; // edx
+  float v15; // xmm2_4
+  float v16; // xmm3_4
+  float *v17; // edi
+  __int16 v18; // cx
+  _WORD *v19; // eax
   vostok::render::res_declaration *declaration; // eax
-  vostok::render::res_declaration *v24; // ecx
-  vostok::render::res_declaration *m_object; // eax
-  bool v26; // zf
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::render::untyped_buffer *v28; // ecx
-  vostok::render::res_state *v29; // edi
-  ID3D11RasterizerState *m_rasterizer_state; // eax
-  vostok::render::grass_render_model *v31; // esi
-  vostok::render::untyped_buffer *v32; // eax
-  vostok::render::untyped_buffer *v33; // ecx
-  vostok::render::res_state *v34; // edi
-  ID3D11RasterizerState *v35; // eax
-  vostok::render::grass_render_model *v36; // esi
-  _BYTE v37[12]; // [esp+0h] [ebp-A0h] BYREF
-  __int64 v38; // [esp+Ch] [ebp-94h] BYREF
-  __int64 v39; // [esp+14h] [ebp-8Ch]
-  __int64 v40; // [esp+1Ch] [ebp-84h]
-  __int64 v41; // [esp+24h] [ebp-7Ch]
-  __int64 v42; // [esp+2Ch] [ebp-74h]
-  __int64 v43; // [esp+34h] [ebp-6Ch]
-  __int64 v44; // [esp+3Ch] [ebp-64h]
-  __int64 v45; // [esp+44h] [ebp-5Ch]
-  __int64 v46; // [esp+4Ch] [ebp-54h]
-  __int64 v47; // [esp+54h] [ebp-4Ch]
-  __int64 v48; // [esp+5Ch] [ebp-44h]
-  __int64 v49; // [esp+64h] [ebp-3Ch]
-  __int64 v50; // [esp+6Ch] [ebp-34h]
-  __int64 v51; // [esp+74h] [ebp-2Ch]
-  __int64 v52; // [esp+7Ch] [ebp-24h]
-  __int64 v53; // [esp+84h] [ebp-1Ch]
-  unsigned int size; // [esp+8Ch] [ebp-14h]
-  _BYTE *v55; // [esp+90h] [ebp-10h]
-  void *data; // [esp+94h] [ebp-Ch]
-  unsigned int num_vertices; // [esp+98h] [ebp-8h]
-  float slice_z; // [esp+9Ch] [ebp-4h]
-  float in_num_cellsd; // [esp+ACh] [ebp+Ch]
-  survarium::options_tab *in_num_cellsb; // [esp+ACh] [ebp+Ch]
-  survarium::options_tab *in_num_cellsc; // [esp+ACh] [ebp+Ch]
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v22; // eax
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v23; // eax
+  _BYTE v24[192]; // [esp-8C0h] [ebp-964h] BYREF
+  _BYTE v25[16]; // [esp-800h] [ebp-8A4h] BYREF
+  int v26; // [esp-7F0h] [ebp-894h] BYREF
+  float v27; // [esp+Ch] [ebp-98h]
+  float v28; // [esp+10h] [ebp-94h]
+  int v29; // [esp+14h] [ebp-90h]
+  float v30; // [esp+18h] [ebp-8Ch]
+  float v31; // [esp+1Ch] [ebp-88h]
+  int v32; // [esp+20h] [ebp-84h]
+  float v33; // [esp+24h] [ebp-80h]
+  float v34; // [esp+28h] [ebp-7Ch]
+  int v35; // [esp+2Ch] [ebp-78h]
+  float v36; // [esp+30h] [ebp-74h]
+  float v37; // [esp+34h] [ebp-70h]
+  float v38; // [esp+38h] [ebp-6Ch]
+  float v39; // [esp+3Ch] [ebp-68h]
+  float v40; // [esp+40h] [ebp-64h]
+  int v41; // [esp+44h] [ebp-60h]
+  float v42; // [esp+48h] [ebp-5Ch]
+  float v43; // [esp+4Ch] [ebp-58h]
+  float v44; // [esp+50h] [ebp-54h]
+  int v45; // [esp+54h] [ebp-50h]
+  float v46; // [esp+58h] [ebp-4Ch]
+  int v47; // [esp+5Ch] [ebp-48h]
+  int v48; // [esp+60h] [ebp-44h]
+  float v49; // [esp+64h] [ebp-40h]
+  float v50; // [esp+68h] [ebp-3Ch]
+  float v51; // [esp+6Ch] [ebp-38h]
+  float v52; // [esp+70h] [ebp-34h]
+  float v53; // [esp+74h] [ebp-30h]
+  float v54; // [esp+78h] [ebp-2Ch]
+  float v55; // [esp+7Ch] [ebp-28h]
+  float v56; // [esp+80h] [ebp-24h]
+  int v57; // [esp+84h] [ebp-20h]
+  float v58; // [esp+88h] [ebp-1Ch]
+  void *v59; // [esp+8Ch] [ebp-18h]
+  float v60; // [esp+90h] [ebp-14h]
+  void *data; // [esp+94h] [ebp-10h]
+  float v62; // [esp+98h] [ebp-Ch]
+  unsigned int v63; // [esp+9Ch] [ebp-8h]
 
-  v3 = in_num_cells;
-  in_num_cells->m_vertext_declaration.m_object = 0;
-  in_num_cells->m_vertex_buffer.m_object = 0;
-  in_num_cells->m_index_buffer.m_object = 0;
-  in_num_cells->m_slices = in_num_cellsa;
-  num_vertices = 4 * in_num_cellsa;
-  in_num_cells->m_stride = 32;
-  v4 = alloca(in_num_cellsa << 7);
-  v5 = v37;
-  v55 = v37;
-  size = 12 * in_num_cellsa;
-  v6 = alloca(12 * in_num_cellsa);
-  v7 = 0;
-  v8 = v37;
-  data = v37;
-  if ( in_num_cellsa )
+  v2 = in_num_cells;
+  in_num_cells->sh_created = 0;
+  in_num_cells->sh_returned = 0;
+  in_num_cells->tl_created = 0;
+  in_num_cells->cb_created = 16;
+  in_num_cells->sl_created = 32;
+  v3 = alloca(2048);
+  v4 = v25;
+  v5 = alloca(192);
+  v6 = s_bm_current_air_resistance;
+  v7 = v24;
+  v47 = 0;
+  v48 = 0;
+  v57 = 0;
+  v32 = 0;
+  v41 = 0;
+  v45 = 0;
+  v35 = 0;
+  v29 = 0;
+  data = v25;
+  v59 = v24;
+  v63 = 0;
+  v58 = s_bm_current_air_resistance;
+  v31 = s_bm_current_air_resistance;
+  v42 = s_bm_current_air_resistance;
+  v51 = s_bm_current_air_resistance;
+  v52 = s_bm_current_air_resistance;
+  v46 = s_bm_current_air_resistance;
+  v36 = s_bm_current_air_resistance;
+  v30 = s_bm_current_air_resistance;
+  v8 = (float *)&v26;
+  while ( 1 )
   {
-    v9 = clear_value;
-    v48 = 0;
-    LODWORD(v53) = 0;
-    LODWORD(v45) = 0;
-    HIDWORD(v53) = clear_value;
-    v10 = v53;
-    v40 = (unsigned int)clear_value;
-    v11 = (unsigned int)clear_value;
-    HIDWORD(v45) = clear_value;
-    v12 = v45;
-    LODWORD(v47) = 0;
-    LODWORD(v42) = 0;
-    LODWORD(v39) = 0;
-    LODWORD(v50) = clear_value;
-    HIDWORD(v50) = clear_value;
-    HIDWORD(v47) = clear_value;
-    HIDWORD(v42) = clear_value;
-    HIDWORD(v39) = clear_value;
-    v13 = (char *)&v38 + 4;
-    do
-    {
-      v14 = (double)v7;
-      v15 = v14 / (double)v3->m_slices;
-      *v5 = 0;
-      v16 = v50;
-      v17 = v5 + 12;
-      v18 = v13 + 96;
-      slice_z = v15;
-      *(float *)&v49 = v15;
-      *((float *)&v49 + 1) = v14;
-      *(float *)&v41 = v15;
-      *(v17 - 11) = v49;
-      v19 = *((float *)v17 - 24);
-      *((float *)&v41 + 1) = v14;
-      *(float *)&v52 = (float)(v19 * 2.0) - *(float *)&v9;
-      *(float *)&v51 = v15;
-      *((float *)&v52 + 1) = (float)((float)(*(float *)&v9 - *((float *)v17 - 23)) * 2.0) - *(float *)&v9;
-      *(v18 - 12) = v52;
-      v20 = v41;
-      *(v18 - 11) = v10;
-      *(v17 - 8) = v11;
-      *(v17 - 7) = v20;
-      *(float *)&v44 = (float)(*((float *)v17 - 16) * 2.0) - *(float *)&v9;
-      *((float *)&v44 + 1) = (float)((float)(*(float *)&v9 - *((float *)v17 - 15)) * 2.0) - *(float *)&v9;
-      *(v18 - 8) = v44;
-      *(v18 - 7) = v12;
-      *(v17 - 4) = v16;
-      *((float *)&v51 + 1) = v14;
-      *(v17 - 3) = v51;
-      *(float *)&v46 = (float)(*((float *)v17 - 8) * 2.0) - *(float *)&v9;
-      *(float *)&v16 = (float)((float)(*(float *)&v9 - *((float *)v17 - 7)) * 2.0) - *(float *)&v9;
-      in_num_cellsd = v14;
-      *((float *)&v43 + 1) = in_num_cellsd;
-      v21 = v42;
-      HIDWORD(v46) = v16;
-      *(v18 - 4) = v46;
-      *(v18 - 3) = v47;
-      *(float *)&v16 = slice_z;
-      *v17 = v21;
-      LODWORD(v43) = v16;
-      v17[1] = v43;
-      *(float *)&v38 = (float)(*(float *)v17 * 2.0) - *(float *)&v9;
-      *((float *)&v38 + 1) = (float)((float)(*(float *)&v9 - *((float *)v17 + 1)) * 2.0) - *(float *)&v9;
-      *v18 = v38;
-      v18[1] = v39;
-      *v8 = 4 * v7;
-      v22 = v8 + 1;
-      *v22++ = 4 * v7 + 1;
-      *v22++ = 4 * v7 + 2;
-      *v22++ = 4 * v7;
-      *v22 = 4 * v7 + 2;
-      v3 = in_num_cells;
-      *++v22 = 4 * v7++ + 3;
-      v5 = v17 + 4;
-      v13 = (char *)(v18 + 4);
-      v8 = v22 + 1;
-    }
-    while ( v7 < in_num_cells->m_slices );
-    v5 = v55;
+    v9 = (double)v63;
+    cb_created = v2->cb_created;
+    v60 = v9;
+    v11 = (double)(int)v2->cb_created;
+    if ( cb_created < 0 )
+      v11 = v11 + 4294967300.0;
+    v12 = v9 / v11;
+    v62 = v12;
+    v49 = v12;
+    v50 = v9;
+    *(_DWORD *)v4 = v47;
+    v33 = v12;
+    *((_DWORD *)v4 + 1) = v48;
+    v34 = v9;
+    *((float *)v4 + 2) = v49;
+    v53 = v12;
+    *((float *)v4 + 3) = v50;
+    v55 = (float)(*(float *)v4 * 2.0) - v6;
+    v56 = (float)((float)(v6 - *((float *)v4 + 1)) * 2.0) - v6;
+    *v8 = v55;
+    v8[1] = v56;
+    *((_DWORD *)v8 + 2) = v57;
+    v8[3] = v58;
+    v13 = v4 + 32;
+    *(float *)v13 = v31;
+    *((_DWORD *)v13 + 1) = v32;
+    *((float *)v13 + 2) = v33;
+    *((float *)v13 + 3) = v34;
+    v39 = (float)(*(float *)v13 * 2.0) - v6;
+    v14 = v8 + 8;
+    v40 = (float)((float)(v6 - *((float *)v13 + 1)) * 2.0) - v6;
+    v15 = v60;
+    *v14 = v39;
+    v14[1] = v40;
+    *((_DWORD *)v14 + 2) = v41;
+    v14[3] = v42;
+    v13 += 32;
+    v54 = v15;
+    *(float *)v13 = v51;
+    *((float *)v13 + 1) = v52;
+    *((float *)v13 + 2) = v53;
+    *((float *)v13 + 3) = v54;
+    v43 = (float)(*(float *)v13 * 2.0) - v6;
+    v14 += 8;
+    v44 = (float)((float)(v6 - *((float *)v13 + 1)) * 2.0) - v6;
+    *v14 = v43;
+    v14[1] = v44;
+    *((_DWORD *)v14 + 2) = v45;
+    v16 = v62;
+    v14[3] = v46;
+    v13 += 32;
+    v38 = v15;
+    v37 = v16;
+    *(_DWORD *)v13 = v35;
+    *((float *)v13 + 1) = v36;
+    *((float *)v13 + 2) = v37;
+    *((float *)v13 + 3) = v38;
+    v14 += 8;
+    v27 = (float)(*(float *)v13 * 2.0) - v6;
+    v28 = (float)((float)(v6 - *((float *)v13 + 1)) * 2.0) - v6;
+    *v14 = v27;
+    v14[1] = v28;
+    *((_DWORD *)v14 + 2) = v29;
+    v17 = v14 + 3;
+    v4 = v13 + 32;
+    v8 = v14 + 8;
+    v18 = v63;
+    *v17 = v30;
+    v18 *= 4;
+    *v7 = v18;
+    v19 = v7 + 1;
+    *v19++ = v18 + 1;
+    *v19++ = v18 + 2;
+    *v19++ = v18;
+    *v19++ = v18 + 2;
+    *v19 = v18 + 3;
+    v7 = v19 + 1;
+    if ( ++v63 >= in_num_cells->cb_created )
+      break;
+    v2 = in_num_cells;
   }
   declaration = vostok::render::resource_manager::create_declaration(
-                  2u,
-                  (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                  (stlp_std::forward_iterator_tag *)sliced_cube_vertex_layout);
-  v24 = 0;
-  if ( declaration )
-  {
-    ++declaration->m_reference_count;
-    v24 = declaration;
-  }
-  m_object = v3->m_vertext_declaration.m_object;
-  v3->m_vertext_declaration.m_object = v24;
-  if ( m_object )
-  {
-    v26 = m_object->m_reference_count-- == 1;
-    if ( v26 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        m_object);
-  }
-  buffer = vostok::render::resource_manager::create_buffer(
-             num_vertices * v3->m_stride,
-             v7,
-             (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-             v5,
-             enum_buffer_type_vertex,
-             0,
-             0);
-  v28 = 0;
-  if ( buffer )
-  {
-    ++buffer->m_reference_count;
-    v28 = buffer;
-  }
-  v29 = (vostok::render::res_state *)v3->m_vertex_buffer.m_object;
-  v3->m_vertex_buffer.m_object = v28;
-  if ( v29 )
-  {
-    v26 = v29->m_reference_count-- == 1;
-    if ( v26 )
-    {
-      in_num_cellsb = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-      if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-             (vostok::render::vector<vostok::render::res_state *> *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][10].m_game,
-             v29) )
-      {
-        in_num_cellsb[2].m_options = (survarium::options_item_base **)((char *)in_num_cellsb[2].m_options
-                                                                     - (unsigned int)v29->m_depth_stencil_state);
-        m_rasterizer_state = v29->m_rasterizer_state;
-        v31 = vostok::render::g_allocator.m_object;
-        if ( m_rasterizer_state )
-        {
-          m_rasterizer_state->Release(v29->m_rasterizer_state);
-          v29->m_rasterizer_state = 0;
-        }
-        BYTE2(v31->m_children_resources.m_lock) = 0;
-        vostok_mspace_free((void *)HIDWORD(v31->m_reconstruction_info_actuality_tick), v29);
-      }
-    }
-  }
-  v32 = vostok::render::resource_manager::create_buffer(
-          size,
-          (bool)v29,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          data,
-          enum_buffer_type_index,
-          0,
-          0);
-  v33 = 0;
-  if ( v32 )
-  {
-    ++v32->m_reference_count;
-    v33 = v32;
-  }
-  v34 = (vostok::render::res_state *)v3->m_index_buffer.m_object;
-  v3->m_index_buffer.m_object = v33;
-  if ( v34 )
-  {
-    v26 = v34->m_reference_count-- == 1;
-    if ( v26 )
-    {
-      in_num_cellsc = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-      if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-             (vostok::render::vector<vostok::render::res_state *> *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][10].m_game,
-             v34) )
-      {
-        in_num_cellsc[2].m_options = (survarium::options_item_base **)((char *)in_num_cellsc[2].m_options
-                                                                     - (unsigned int)v34->m_depth_stencil_state);
-        v35 = v34->m_rasterizer_state;
-        v36 = vostok::render::g_allocator.m_object;
-        if ( v35 )
-        {
-          v35->Release(v34->m_rasterizer_state);
-          v34->m_rasterizer_state = 0;
-        }
-        BYTE2(v36->m_children_resources.m_lock) = 0;
-        vostok_mspace_free((void *)HIDWORD(v36->m_reconstruction_info_actuality_tick), v34);
-      }
-    }
-  }
+                  in_num_cells,
+                  (const D3D11_INPUT_ELEMENT_DESC *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                  sliced_cube_vertex_layout,
+                  2u);
+  vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)in_num_cells,
+    declaration);
+  vostok::render::resource_manager::create_buffer(
+    in_num_cells->sl_created << 6,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)in_num_cells->sl_created,
+    (vostok::render::enum_buffer_type)data,
+    0,
+    0,
+    0);
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    v22,
+    (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&in_num_cells->sh_returned,
+    (vostok::render::hw_buffer_pool *)in_num_cells);
+  vostok::render::resource_manager::create_buffer(
+    0xC0u,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)2,
+    (vostok::render::enum_buffer_type)v59,
+    1,
+    0,
+    0);
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    v23,
+    (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&in_num_cells->tl_created,
+    (vostok::render::hw_buffer_pool *)in_num_cells);
 }

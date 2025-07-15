@@ -1,19 +1,20 @@
-int __usercall client_certificate@<eax>(ssl_st *s@<esi>)
+int __usercall client_certificate@<eax>(ssl_st *s@<esi>, int a2@<ebx>)
 {
   unsigned __int8 *data; // edi
-  int v2; // eax
+  int v3; // eax
   int init_num; // ecx
-  int v5; // eax
+  int v6; // eax
   void (__cdecl *msg_callback)(int, int, int, const void *, unsigned int, ssl_st *, void *); // ecx
   cert_st *cert; // eax
   cert_pkey_st *key; // eax
-  ssl_ctx_st *v9; // eax
-  x509_st *v10; // ecx
-  evp_pkey_st *v11; // edx
+  engine_st *v10; // ebx
+  ssl_ctx_st *v11; // eax
+  x509_st *v12; // ecx
+  evp_pkey_st *v13; // edx
   int (__cdecl *client_cert_cb)(ssl_st *, x509_st **, evp_pkey_st **); // eax
-  int v13; // ebp
-  cert_st *v14; // ecx
-  unsigned __int8 *v15; // eax
+  int v15; // ebp
+  cert_st *v16; // ecx
+  unsigned __int8 *v17; // eax
   unsigned __int8 *out; // [esp+8h] [ebp-2Ch] BYREF
   evp_pkey_st *pkey; // [esp+Ch] [ebp-28h] BYREF
   unsigned int siglen; // [esp+10h] [ebp-24h] BYREF
@@ -24,19 +25,19 @@ int __usercall client_certificate@<eax>(ssl_st *s@<esi>)
   data = (unsigned __int8 *)s->init_buf->data;
   if ( s->state == 4176 )
   {
-    v2 = ssl2_read(s, &data[s->init_num], 34 - s->init_num);
+    v3 = ssl2_read(s, &data[s->init_num], 34 - s->init_num);
     init_num = s->init_num;
-    if ( v2 < 18 - init_num )
-      return ssl2_part_read(s, 0x64u, v2);
-    v5 = init_num + v2;
+    if ( v3 < 18 - init_num )
+      return ssl2_part_read(s, 100, v3);
+    v6 = init_num + v3;
     msg_callback = s->msg_callback;
-    s->init_num = v5;
+    s->init_num = v6;
     if ( msg_callback )
-      msg_callback(0, s->version, 0, data, v5, s, s->msg_callback_arg);
+      msg_callback(0, s->version, 0, data, v6, s, s->msg_callback_arg);
     if ( data[1] != 1 )
     {
       ssl2_return_error(s, 6);
-      ERR_put_error(0x14u, 100, 102, ".\\ssl\\s2_clnt.c", 775);
+      ERR_put_error(a2, 0x14u, 100, 102, ".\\ssl\\s2_clnt.c", 775);
       return -1;
     }
     cert = s->cert;
@@ -45,58 +46,59 @@ int __usercall client_certificate@<eax>(ssl_st *s@<esi>)
     else
       s->state = 4240;
   }
+  v10 = (engine_st *)(s->init_num - 2);
   if ( s->state != 4240 )
     goto LABEL_27;
-  v9 = s->ctx;
-  v10 = 0;
-  v11 = 0;
+  v11 = s->ctx;
+  v12 = 0;
+  v13 = 0;
   a = 0;
   pkey = 0;
-  client_cert_cb = v9->client_cert_cb;
-  v13 = 0;
+  client_cert_cb = v11->client_cert_cb;
+  v15 = 0;
   if ( client_cert_cb )
   {
-    v13 = client_cert_cb(s, &a, &pkey);
-    if ( v13 < 0 )
+    v15 = client_cert_cb(s, &a, &pkey);
+    if ( v15 < 0 )
     {
       s->rwstate = 4;
       return -1;
     }
-    v10 = a;
-    v11 = pkey;
+    v12 = a;
+    v13 = pkey;
   }
   s->rwstate = 1;
-  if ( v13 == 1 )
+  if ( v15 == 1 )
   {
-    if ( v11 )
+    if ( v13 )
     {
-      if ( v10 )
+      if ( v12 )
       {
         s->state = 4178;
-        if ( !SSL_use_certificate(s, v10) || !SSL_use_PrivateKey(s, pkey) )
-          v13 = 0;
+        if ( !SSL_use_certificate(s, v12) || !SSL_use_PrivateKey(s, pkey) )
+          v15 = 0;
         X509_free(a);
-        EVP_PKEY_free(pkey);
+        EVP_PKEY_free((int)data, pkey);
         goto LABEL_25;
       }
     }
     else
     {
-      if ( !v10 )
+      if ( !v12 )
       {
 LABEL_36:
-        ERR_put_error(0x14u, 100, 106, ".\\ssl\\s2_clnt.c", 831);
+        ERR_put_error((int)v10, 0x14u, 100, 106, ".\\ssl\\s2_clnt.c", 831);
         goto LABEL_26;
       }
-      X509_free(v10);
-      v11 = pkey;
+      X509_free(v12);
+      v13 = pkey;
     }
-    if ( v11 )
-      EVP_PKEY_free(v11);
+    if ( v13 )
+      EVP_PKEY_free((int)data, v13);
     goto LABEL_36;
   }
 LABEL_25:
-  if ( !v13 )
+  if ( !v15 )
   {
 LABEL_26:
     out = data;
@@ -113,7 +115,7 @@ LABEL_27:
   {
     out = data;
     EVP_MD_CTX_init(&ctx);
-    EVP_DigestInit_ex(&ctx, s->ctx->rsa_md5, 0);
+    EVP_DigestInit_ex(v10, &ctx, s->ctx->rsa_md5, 0);
     EVP_DigestUpdate(&ctx);
     EVP_DigestUpdate(&ctx);
     if ( i2d_X509(s->session->sess_cert->peer_key->x509, &out) > 0 )
@@ -126,17 +128,17 @@ LABEL_27:
     siglen = i2d_X509(s->cert->key->x509, &sigret);
     *out = BYTE1(siglen);
     out[1] = siglen;
-    v14 = s->cert;
+    v16 = s->cert;
     out += 2;
-    EVP_SignFinal(&ctx, sigret, &siglen, v14->key->privatekey);
-    EVP_MD_CTX_cleanup((unsigned int)data, &ctx);
+    EVP_SignFinal(&ctx, sigret, &siglen, v16->key->privatekey);
+    EVP_MD_CTX_cleanup((int)data, 2, &ctx);
     *out = BYTE1(siglen);
     out[1] = siglen;
     out += 2;
     sigret += siglen;
-    v15 = (unsigned __int8 *)(sigret - data);
+    v17 = (unsigned __int8 *)(sigret - data);
     s->state = 4179;
-    s->init_num = (int)v15;
+    s->init_num = (int)v17;
     s->init_off = 0;
   }
   return ssl2_do_write(s);

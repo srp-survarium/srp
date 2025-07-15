@@ -1,4 +1,4 @@
-void __thiscall termination_handler(survarium::game_camera *this)
+void __cdecl termination_handler()
 {
-  handler_base(this);
+  handler_base("termination with exit code 3");
 }

@@ -1,121 +1,89 @@
 void __userpurge vostok::render::stage_lights::make_plane_spot_light_shadowmap(
-        vostok::render::light *l@<edi>,
-        float a2@<esi>,
-        vostok::render::stage_lights *this,
-        unsigned int shadow_quality)
+        vostok::render::stage_lights *this@<ecx>,
+        long double a2@<esi:edi>,
+        vostok::render::light *shadow_quality,
+        vostok::render::light *l)
 {
-  float spot_umbra_angle; // xmm0_4
-  float x; // xmm1_4
-  float z; // xmm2_4
-  long double v7; // st7
-  float v8; // xmm6_4
-  float y; // xmm7_4
-  float v10; // xmm4_4
-  float v11; // xmm2_4
-  float v12; // xmm0_4
-  float v13; // xmm3_4
-  float v14; // eax
-  float v15; // xmm2_4
-  __int64 v16; // xmm3_8
-  float v17; // xmm0_4
-  float v18; // xmm1_4
+  float v4; // xmm4_4
+  float x; // xmm3_4
+  float y; // xmm5_4
+  float v7; // xmm7_4
+  float v8; // xmm2_4
+  float v9; // xmm5_4
+  float v10; // xmm3_4
+  float v11; // xmm0_4
+  float v12; // xmm1_4
+  float v13; // xmm2_4
+  float v14; // xmm0_4
+  float v15; // xmm0_4
+  float v16; // xmm0_4
   float range; // xmm0_4
-  float v20; // xmm1_4
-  float v21; // xmm2_4
-  unsigned int shadow_map_size_index; // eax
-  unsigned int v23; // eax
-  const vostok::math::float4x4 *v24; // [esp+10h] [ebp-C8h]
-  float inv_distance; // [esp+14h] [ebp-C4h]
-  float inv_distanceb; // [esp+14h] [ebp-C4h]
-  unsigned int inv_distancea; // [esp+14h] [ebp-C4h]
-  float v28; // [esp+18h] [ebp-C0h]
-  float v29; // [esp+18h] [ebp-C0h]
-  float v30; // [esp+18h] [ebp-C0h]
-  vostok::math::float3 at; // [esp+1Ch] [ebp-BCh] BYREF
-  float max_angle; // [esp+28h] [ebp-B0h]
-  float v33; // [esp+2Ch] [ebp-ACh]
-  float v34; // [esp+30h] [ebp-A8h]
-  float v35; // [esp+34h] [ebp-A4h]
-  float v36; // [esp+38h] [ebp-A0h]
-  float v37; // [esp+3Ch] [ebp-9Ch]
-  vostok::math::float3 new_position; // [esp+40h] [ebp-98h] BYREF
-  vostok::math::float3 up; // [esp+4Ch] [ebp-8Ch]
-  vostok::math::float4x4 projection_matrix; // [esp+58h] [ebp-80h] BYREF
-  vostok::math::float4x4 view_matrix; // [esp+98h] [ebp-40h] BYREF
+  long double v18; // rdi
+  unsigned int v19; // [esp+18h] [ebp-D0h]
+  float z; // [esp+30h] [ebp-B8h]
+  float spot_penumbra_angle; // [esp+34h] [ebp-B4h]
+  vostok::math::float3 v22; // [esp+38h] [ebp-B0h] BYREF
+  int v23; // [esp+44h] [ebp-A4h]
+  int v24; // [esp+48h] [ebp-A0h]
+  float v25; // [esp+4Ch] [ebp-9Ch]
+  vostok::math::float3 v26; // [esp+50h] [ebp-98h] BYREF
+  vostok::math::float3 v27; // [esp+5Ch] [ebp-8Ch] BYREF
+  vostok::math::float4x4 projection_matrix; // [esp+68h] [ebp-80h] BYREF
+  vostok::math::float4x4 view_matrix; // [esp+A8h] [ebp-40h] BYREF
 
-  spot_umbra_angle = l->spot_umbra_angle;
-  if ( spot_umbra_angle <= l->spot_penumbra_angle )
-    spot_umbra_angle = l->spot_penumbra_angle;
-  x = l->scale.x;
-  z = l->scale.z;
-  max_angle = spot_umbra_angle;
-  if ( x <= z )
-    inv_distance = z;
+  if ( l->spot_umbra_angle <= l->spot_penumbra_angle )
+    spot_penumbra_angle = l->spot_penumbra_angle;
   else
-    inv_distance = x;
-  v7 = tanf(spot_umbra_angle * 0.5);
-  v8 = l->direction.z;
-  y = l->right.y;
-  v10 = l->direction.y;
-  v11 = l->direction.x;
-  v12 = (float)(l->right.z * v10) - (float)(y * v8);
-  v13 = l->right.x * v10;
-  at.y = (float)(l->right.x * v8) - (float)(v11 * l->right.z);
-  at.x = v12;
-  at.z = (float)(v11 * y) - v13;
-  inv_distanceb = inv_distance / v7;
-  v28 = sqrtf((float)((float)(at.y * at.y) + (float)(at.z * at.z)) + (float)(v12 * v12));
-  v14 = l->direction.z;
-  v15 = -(float)((float)(*(float *)&clear_value / v28) * at.y);
-  v16 = *(_QWORD *)&l->direction.x;
-  v35 = -(float)((float)(*(float *)&clear_value / v28) * at.z);
-  v17 = l->position.x;
-  v36 = -(float)((float)(*(float *)&clear_value / v28) * at.x);
-  *(_QWORD *)&up.x = v16;
-  v18 = l->position.y;
-  v29 = v17 - (float)(v36 * inv_distanceb);
-  new_position.x = v29;
+    spot_penumbra_angle = l->spot_umbra_angle;
+  if ( l->scale.x <= l->scale.z )
+    z = l->scale.z;
+  else
+    z = l->scale.x;
+  __libm_sse2_tan(a2);
+  v4 = z / (float)(spot_penumbra_angle * 0.5);
+  x = l->right.x;
+  y = l->direction.y;
+  v7 = l->direction.z;
+  v8 = (float)(l->right.z * y) - (float)(l->right.y * v7);
+  v9 = (float)(l->direction.x * l->right.y) - (float)(x * y);
+  v10 = (float)(x * v7) - (float)(l->direction.x * l->right.z);
+  v11 = s_bm_current_air_resistance / fsqrt((float)((float)(v9 * v9) + (float)(v10 * v10)) + (float)(v8 * v8));
+  v12 = v11 * v8;
+  v13 = v11 * v10;
+  LODWORD(v25) = COERCE_UNSIGNED_INT(v11 * v9) ^ _mask__NegFloat_;
+  v14 = l->position.x;
+  v23 = LODWORD(v12) ^ _mask__NegFloat_;
+  v22.x = v14 - (float)(COERCE_FLOAT(LODWORD(v12) ^ _mask__NegFloat_) * v4);
+  v15 = l->position.y;
+  v24 = LODWORD(v13) ^ _mask__NegFloat_;
+  v22.y = v15 - (float)(COERCE_FLOAT(LODWORD(v13) ^ _mask__NegFloat_) * v4);
+  v16 = l->position.z;
+  v27.x = l->direction.x;
+  v22.z = v16 - (float)(v25 * v4);
   range = l->range;
-  v37 = v15;
-  v20 = v18 - (float)(v15 * inv_distanceb);
-  v21 = l->position.z;
-  up.z = v14;
-  v34 = v20;
-  v33 = v21 - (float)(v35 * inv_distanceb);
-  new_position.y = v20;
-  new_position.z = v33;
+  *(_QWORD *)&v27.elements[1] = *(_QWORD *)&l->direction.elements[1];
+  HIDWORD(v18) = &l->previous_direction;
+  LODWORD(v18) = &projection_matrix;
   vostok::math::create_perspective_projection(
-    COERCE_VOSTOK_MATH_(1.0),
-    (struct vostok::math::float4x4 *)LODWORD(inv_distanceb),
-    range + inv_distanceb,
-    a2,
-    inv_distanceb,
-    v29);
-  at.x = v30 + v36;
-  at.y = v20 + v37;
-  at.z = v33 + v35;
-  vostok::math::create_camera_at(&new_position, &at, (const vostok::math::float3 *)&view_matrix);
-  shadow_map_size_index = l->shadow_map_size_index;
-  if ( shadow_map_size_index )
-  {
-    if ( shadow_map_size_index == 1 )
-      v23 = 512;
-    else
-      v23 = 256;
-  }
-  else
-  {
-    v23 = 1024;
-  }
+    v18,
+    spot_penumbra_angle,
+    (vostok::math *)&projection_matrix,
+    COERCE_STRUCT_VOSTOK_MATH_FLOAT4X4_(1.0),
+    v4,
+    range + v4);
+  v26.x = v22.x + COERCE_FLOAT(LODWORD(v12) ^ _mask__NegFloat_);
+  v26.y = v22.y + COERCE_FLOAT(LODWORD(v13) ^ _mask__NegFloat_);
+  v26.z = v22.z + v25;
+  vostok::math::create_camera_at(&v22, &v26, &view_matrix, &v27);
   vostok::render::stage_lights::render_to_hw_shadowmap(
-    v23,
-    (vostok::render::backend *)this,
-    this,
-    l,
+    (vostok::render::stage_lights *)l->m_quality_shadow_map_size_index,
+    shadow_quality,
+    (unsigned int)l,
     l->shadow_z_bias,
-    *(float *)&l->shadow_map_size_index,
+    (const vostok::math::float4x4 *)(1024 >> l->m_quality_shadow_map_size_index),
+    (vostok::render::render_surface_instance **)l->m_quality_shadow_map_size_index,
     &view_matrix,
-    (vostok::render::renderer_context *)&projection_matrix,
-    v24,
-    inv_distancea);
+    &projection_matrix,
+    0,
+    v19);
 }

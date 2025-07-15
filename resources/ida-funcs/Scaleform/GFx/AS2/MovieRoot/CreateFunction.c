@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::CreateFunction(
   unsigned int RefCount; // eax
   unsigned int v12; // eax
   Scaleform::GFx::AS2::FunctionRefBase func; // [esp+Ch] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::Value asval; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value value; // [esp+18h] [ebp-10h] BYREF
 
   v5 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(char *))(*((_DWORD *)&this->pMovieImpl->pMainMovie->__vftable
                                                                            + this->pMovieImpl->pMainMovie->AvmObjOffset)
@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::CreateFunction(
                                            + 4 * this->pMovieImpl->pMainMovie->AvmObjOffset);
   pHeap = v5->StringContext.pContext->pHeap;
   Alloc = pHeap->Alloc;
-  asval.T.Type = 0;
+  value.T.Type = 0;
   v8 = (Scaleform::GFx::AS2::UserDefinedFunctionObject *)Alloc(pHeap, 60u, 0);
   if ( v8 )
   {
@@ -38,26 +38,26 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::CreateFunction(
   if ( v10 )
     v10->RefCount = (v10->RefCount + 1) & 0x8FFFFFFF;
   func.pLocalFrame = 0;
-  Scaleform::GFx::AS2::Value::SetAsFunction(&asval, &func);
+  Scaleform::GFx::AS2::Value::SetAsFunction(&value, &func);
   if ( v10 )
   {
     RefCount = v10->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v10->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);
     }
   }
-  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this, v5, &asval, pvalue);
+  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this, v5, &value, pvalue);
   if ( v10 )
   {
     v12 = v10->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+    if ( (v12 & 0x3FFFFFF) != 0 )
     {
       v10->RefCount = v12 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);
     }
   }
-  if ( asval.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&asval);
+  if ( value.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&value);
 }

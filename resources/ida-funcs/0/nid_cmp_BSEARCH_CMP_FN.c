@@ -1,4 +1,4 @@
-int __cdecl nid_cmp_BSEARCH_CMP_FN(_DWORD *a_, _DWORD *b_)
+int __cdecl nid_cmp_BSEARCH_CMP_FN(_DWORD *a1, _DWORD *a2)
 {
-  return *a_ - *b_;
+  return *a1 - *a2;
 }

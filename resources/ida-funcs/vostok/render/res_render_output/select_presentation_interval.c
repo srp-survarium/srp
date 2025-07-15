@@ -1,6 +1,6 @@
 BOOL __thiscall vostok::render::res_render_output::select_presentation_interval(
-        vostok::render::res_render_output *this)
+        vostok::render::res_render_output *this,
+        bool force_vsync)
 {
-  return *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-         + 241) != 0;
+  return vostok::quasi_singleton<vostok::render::options>::pinst->current.m_vsync || force_vsync;
 }

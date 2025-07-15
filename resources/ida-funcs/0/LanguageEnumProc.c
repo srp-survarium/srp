@@ -1,37 +1,41 @@
-BOOL __stdcall LanguageEnumProc(char *lpLcidString)
+BOOL __userpurge LanguageEnumProc@<eax>(int a1@<ebx>, char *a2)
 {
   setloc_struct *p_setloc_data; // esi
-  int v2; // ecx
-  LCID v3; // edi
-  BOOL v5; // eax
-  char rgcInfo[120]; // [esp+8h] [ebp-7Ch] BYREF
+  int v3; // ecx
+  int v4; // edi
+  BOOL v6; // eax
+  char LCData[120]; // [esp+8h] [ebp-7Ch] BYREF
 
   p_setloc_data = &_getptd()->_setloc_data;
-  v3 = LcidFromHexString(v2, lpLcidString);
-  if ( !GetLocaleInfoA(v3, p_setloc_data->bAbbrevLanguage != 0 ? 3 : 4097, rgcInfo, 120) )
+  v4 = LcidFromHexString(v3, a2);
+  if ( !GetLocaleInfoA(v4, p_setloc_data->bAbbrevLanguage != 0 ? 3 : 4097, LCData, 120) )
   {
     p_setloc_data->iLcidState = 0;
     return 1;
   }
-  if ( !_stricmp(p_setloc_data->pchLanguage, rgcInfo) )
+  if ( !_stricmp(a1, v4, p_setloc_data->pchLanguage, LCData) )
   {
     if ( p_setloc_data->bAbbrevLanguage )
     {
 LABEL_11:
       p_setloc_data->iLcidState |= 4u;
-      p_setloc_data->lcidLanguage = v3;
-      p_setloc_data->lcidCountry = v3;
+      p_setloc_data->lcidLanguage = v4;
+      p_setloc_data->lcidCountry = v4;
       return (p_setloc_data->iLcidState & 4) == 0;
     }
-    v5 = TestDefaultLanguage(v3, 1);
+    v6 = TestDefaultLanguage(v4, 1);
   }
   else
   {
-    if ( p_setloc_data->bAbbrevLanguage || !p_setloc_data->iPrimaryLen || _stricmp(p_setloc_data->pchLanguage, rgcInfo) )
+    if ( p_setloc_data->bAbbrevLanguage
+      || !p_setloc_data->iPrimaryLen
+      || _stricmp(a1, v4, p_setloc_data->pchLanguage, LCData) )
+    {
       return (p_setloc_data->iLcidState & 4) == 0;
-    v5 = TestDefaultLanguage(v3, 0);
+    }
+    v6 = TestDefaultLanguage(v4, 0);
   }
-  if ( v5 )
+  if ( v6 )
     goto LABEL_11;
   return (p_setloc_data->iLcidState & 4) == 0;
 }

@@ -179,7 +179,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v113.pNode->RefCount;
   v111.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v111.pNode->RefCount;
@@ -196,7 +196,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v109.pNode->RefCount;
   v107.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v107.pNode->RefCount;
@@ -211,7 +211,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v105.pNode->RefCount;
   v103.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v103.pNode->RefCount;
@@ -226,7 +226,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v101.pNode->RefCount;
   v100.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v100.pNode->RefCount;
@@ -243,7 +243,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v114.pNode->RefCount;
   v106.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v106.pNode->RefCount;
@@ -258,7 +258,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v110.pNode->RefCount;
   v104.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)&stru_95AF78.m_key_bindings[32],
+                 ", ",
                  2u,
                  0);
   ++v104.pNode->RefCount;
@@ -273,7 +273,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform::toStrin
   ++v112.pNode->RefCount;
   str.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++str.pNode->RefCount;

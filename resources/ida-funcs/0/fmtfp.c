@@ -1,5 +1,5 @@
 void __fastcall fmtfp(
-        char **sbuffer,
+        const __m128i **sbuffer,
         char **buffer,
         unsigned int *currlen,
         unsigned int *maxlen,
@@ -8,13 +8,13 @@ void __fastcall fmtfp(
         int max,
         char flags)
 {
-  long double v10; // st7
+  double v10; // st7
   int v11; // ebp
   int v12; // eax
   double v13; // st6
   double i; // st5
   int j; // eax
-  long double v16; // st6
+  double v16; // st6
   int v17; // ecx
   int v18; // edx
   int v19; // ebp
@@ -26,10 +26,10 @@ void __fastcall fmtfp(
   int v25; // [esp+14h] [ebp-40h]
   int v26; // [esp+1Ch] [ebp-38h]
   int v27; // [esp+1Ch] [ebp-38h]
-  int c; // [esp+20h] [ebp-34h]
+  int v28; // [esp+20h] [ebp-34h]
   _DWORD v29[11]; // [esp+24h] [ebp-30h]
 
-  c = 0;
+  v28 = 0;
   v25 = 0;
   v24 = 0;
   if ( max < 0 )
@@ -39,16 +39,16 @@ void __fastcall fmtfp(
     v10 = fvalue;
     if ( (flags & 2) != 0 )
     {
-      c = 43;
+      v28 = 43;
     }
     else if ( (flags & 4) != 0 )
     {
-      c = 32;
+      v28 = 32;
     }
   }
   else
   {
-    c = 45;
+    v28 = 45;
     v10 = -fvalue;
   }
   v11 = (int)v10;
@@ -102,7 +102,7 @@ void __fastcall fmtfp(
   if ( v19 == 20 )
     v24 = 19;
   *((_BYTE *)&v29[6] + v24) = 0;
-  v20 = min - (c != 0) - v25 - max - 1;
+  v20 = min - (v28 != 0) - v25 - max - 1;
   v27 = max - v24;
   if ( max - v24 < 0 )
     v27 = 0;
@@ -114,11 +114,11 @@ void __fastcall fmtfp(
   {
     if ( v20 > 0 )
     {
-      if ( c )
+      if ( v28 )
       {
-        doapr_outch(sbuffer, buffer, maxlen, currlen, c);
+        doapr_outch(sbuffer, buffer, maxlen, currlen, v28);
         --v20;
-        c = 0;
+        v28 = 0;
       }
       for ( ; v20 > 0; --v20 )
         doapr_outch(sbuffer, buffer, maxlen, currlen, 48);
@@ -129,8 +129,8 @@ void __fastcall fmtfp(
     for ( ; v20 > 0; --v20 )
       doapr_outch(sbuffer, buffer, maxlen, currlen, 32);
   }
-  if ( c )
-    doapr_outch(sbuffer, buffer, maxlen, currlen, c);
+  if ( v28 )
+    doapr_outch(sbuffer, buffer, maxlen, currlen, v28);
   while ( v25 > 0 )
   {
     v21 = *((_BYTE *)v29 + v25-- + 3);

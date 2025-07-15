@@ -6,7 +6,7 @@ char __thiscall Scaleform::GFx::AS2::ArrayObject::GetMemberRaw(
 {
   const char *pData; // ecx
   char v6; // al
-  int v7; // eax
+  signed int v7; // eax
   int v8; // ecx
   const Scaleform::GFx::AS2::Value **v9; // eax
   volatile int *p_RefCount; // esi
@@ -26,7 +26,7 @@ char __thiscall Scaleform::GFx::AS2::ArrayObject::GetMemberRaw(
   if ( !*pData )
   {
 LABEL_7:
-    v7 = atoi(name->pNode->pData);
+    v7 = atoi((int)name, (char *)name->pNode->pData);
     if ( v7 >= 0 )
     {
       if ( v7 >= (int)this->pWatchpoints

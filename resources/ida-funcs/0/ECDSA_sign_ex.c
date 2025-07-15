@@ -10,14 +10,14 @@ int __cdecl ECDSA_sign_ex(
 {
   ec_key_st *v8; // ebx
   ecdsa_data_st *v9; // eax
-  const ECDSA_SIG_st *v10; // eax
+  ECDSA_SIG_st *v10; // eax
   ECDSA_SIG_st *v11; // esi
   unsigned int v13; // eax
 
-  RAND_seed();
+  RAND_seed((int)dgst);
   v8 = eckey;
-  v9 = ecdsa_check(eckey);
-  if ( v9 && (v10 = v9->meth->ecdsa_do_sign(dgst, dlen, kinv, r, v8), (v11 = (ECDSA_SIG_st *)v10) != 0) )
+  v9 = ecdsa_check((int)dgst, eckey);
+  if ( v9 && (v10 = v9->meth->ecdsa_do_sign(dgst, dlen, kinv, r, v8), (v11 = v10) != 0) )
   {
     v13 = i2d_ECDSA_SIG(v10, &sig);
     *siglen = v13;

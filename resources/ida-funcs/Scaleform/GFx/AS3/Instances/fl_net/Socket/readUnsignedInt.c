@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::readUnsignedInt(
         *result = readValue;
       else
         *result = (((readValue << 16) | readValue & 0xFF00) << 8)
-                | ((HIWORD(readValue) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & readValue) >> 8);
+                | ((unsigned int)(HIWORD(readValue) | readValue & 0xFF0000) >> 8);
     }
     else
     {

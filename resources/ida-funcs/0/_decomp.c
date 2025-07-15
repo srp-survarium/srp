@@ -11,7 +11,7 @@ long double __cdecl _decomp(long double x, int *pexp)
   {
     v3 = 0;
   }
-  else if ( (HIWORD(x) & 0x7FF0) == 0 && (((unsigned int)&loc_FFFFF & HIDWORD(x)) != 0 || LODWORD(x)) )
+  else if ( (HIWORD(x) & 0x7FF0) == 0 && ((HIDWORD(x) & 0xFFFFF) != 0 || LODWORD(x)) )
   {
     v4 = -1021;
     v5 = x < 0.0;

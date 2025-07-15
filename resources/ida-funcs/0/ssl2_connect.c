@@ -1,30 +1,28 @@
 // positive sp value has been detected, the output may be wrong!
-int __cdecl ssl2_connect(ssl_st *s)
+int __usercall ssl2_connect@<eax>(int server_hello@<edi>, ssl_st *s)
 {
   buf_mem_st *init_buf; // ebp
-  void *v2; // esp
+  void *v3; // esp
   void (__cdecl *info_callback)(const ssl_st *, int, int); // eax
   int state; // eax
-  int server_hello; // edi
   int v7; // eax
   ssl_ctx_st *ctx; // eax
-  int v9; // edi
-  void (__cdecl *v11)(const ssl_st *, int, int); // [esp+10h] [ebp-8h]
-  int v12; // [esp+14h] [ebp-4h] BYREF
+  void (__cdecl *v10)(const ssl_st *, int, int); // [esp+10h] [ebp-8h]
+  int v11; // [esp+14h] [ebp-4h] BYREF
   int buf; // [esp+1Ch] [ebp+4h]
 
   _time64(0);
   init_buf = 0;
-  v2 = alloca(8);
-  RAND_add(&v12, 4, 0.0);
-  ERR_clear_error();
+  v3 = alloca(8);
+  RAND_add(server_hello, &v11, 4, 0.0);
+  ERR_clear_error(0);
   SetLastError(0);
   info_callback = s->info_callback;
   if ( info_callback || (info_callback = s->ctx->info_callback) != 0 )
-    v11 = info_callback;
+    v10 = info_callback;
   ++s->in_handshake;
   if ( (SSL_state(s) & 0x3000) == 0 || (SSL_state(s) & 0x4000) != 0 )
-    SSL_clear(s);
+    SSL_clear(0, s);
   while ( 1 )
   {
     state = s->state;
@@ -41,11 +39,11 @@ int __cdecl ssl2_connect(ssl_st *s)
       switch ( state )
       {
         case 4099:
-          goto $LN31_9;
+          goto $LN31_10;
         case 4112:
         case 4113:
           s->shutdown = 0;
-          server_hello = client_hello(s);
+          server_hello = client_hello(0, s);
           if ( server_hello <= 0 )
             goto end_14;
           s->init_num = 0;
@@ -62,7 +60,7 @@ int __cdecl ssl2_connect(ssl_st *s)
           break;
         case 4144:
         case 4145:
-          server_hello = client_master_key(s);
+          server_hello = client_master_key(0, s);
           if ( server_hello <= 0 )
             goto end_14;
           s->init_num = 0;
@@ -70,7 +68,7 @@ int __cdecl ssl2_connect(ssl_st *s)
           break;
         case 4160:
         case 4161:
-          server_hello = client_finished(s);
+          server_hello = client_finished(s, 0);
           if ( server_hello <= 0 )
             goto end_14;
           s->init_num = 0;
@@ -81,7 +79,7 @@ int __cdecl ssl2_connect(ssl_st *s)
         case 4178:
         case 4179:
         case 4240:
-          server_hello = client_certificate(s);
+          server_hello = client_certificate(s, 0);
           if ( server_hello <= 0 )
             goto end_14;
           s->init_num = 0;
@@ -89,7 +87,7 @@ int __cdecl ssl2_connect(ssl_st *s)
           break;
         case 4192:
         case 4193:
-          server_hello = get_server_verify(s);
+          server_hello = get_server_verify(s, 0);
           if ( server_hello <= 0 )
             goto end_14;
           s->init_num = 0;
@@ -97,12 +95,12 @@ int __cdecl ssl2_connect(ssl_st *s)
           break;
         case 4208:
         case 4209:
-          server_hello = get_server_finished(s);
+          server_hello = get_server_finished(s, 0);
           if ( server_hello > 0 )
             goto LABEL_42;
           goto end_14;
         case 4224:
-          if ( !ssl2_enc_init(s, 1) )
+          if ( !ssl2_enc_init(server_hello, s, 1) )
             goto LABEL_48;
           s->s2->clear_text = 0;
           s->state = 4160;
@@ -112,16 +110,16 @@ int __cdecl ssl2_connect(ssl_st *s)
       }
       goto LABEL_42;
     }
-$LN31_9:
+$LN31_10:
     s->server = 0;
-    if ( v11 )
-      v11(s, 16, 1);
+    if ( v10 )
+      v10(s, 16, 1);
     init_buf = s->init_buf;
     s->version = 2;
     s->type = 4096;
     if ( !init_buf )
     {
-      init_buf = BUF_MEM_new();
+      init_buf = BUF_MEM_new(0);
       if ( !init_buf )
         goto LABEL_48;
     }
@@ -141,23 +139,23 @@ LABEL_48:
     ++ctx->stats.sess_connect;
     s->handshake_func = ssl2_connect;
 LABEL_42:
-    if ( v11 )
+    if ( v10 )
     {
-      v9 = s->state;
-      if ( v9 != buf )
+      server_hello = s->state;
+      if ( server_hello != buf )
       {
         s->state = buf;
-        v11(s, 4097, 1);
-        s->state = v9;
+        v10(s, 4097, 1);
+        s->state = server_hello;
       }
     }
   }
   if ( state == 4096 )
-    goto $LN31_9;
+    goto $LN31_10;
   if ( state != 3 )
   {
 LABEL_45:
-    ERR_put_error(0x14u, 123, 255, ".\\ssl\\s2_clnt.c", 310);
+    ERR_put_error(0, 0x14u, 123, 255, ".\\ssl\\s2_clnt.c", 310);
     return -1;
   }
   if ( s->init_buf )
@@ -171,13 +169,13 @@ LABEL_45:
   if ( s->hit )
     ++s->ctx->stats.sess_hit;
   ++s->ctx->stats.sess_connect_good;
-  if ( v11 )
-    v11(s, 32, 1);
+  if ( v10 )
+    v10(s, 32, 1);
 end_14:
   --s->in_handshake;
   if ( init_buf )
     BUF_MEM_free(init_buf);
-  if ( v11 )
-    v11(s, 4098, server_hello);
+  if ( v10 )
+    v10(s, 4098, server_hello);
   return server_hello;
 }

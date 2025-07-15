@@ -1,13 +1,16 @@
-int dynamic_initializer_for__s_visible_surfaces_limut__()
+int __thiscall dynamic_initializer_for__s_visible_surfaces_limut__(vostok::console_commands::console_command *this)
 {
-  s_visible_surfaces_limut.m_prev = vostok::console_commands::s_console_command_root;
-  if ( vostok::console_commands::s_console_command_root )
-    vostok::console_commands::s_console_command_root->m_next = &s_visible_surfaces_limut;
-  vostok::console_commands::s_console_command_root = &s_visible_surfaces_limut;
-  s_visible_surfaces_limut.m_value = (unsigned int *)&blend_alpha.z;
+  vostok::console_commands::console_command::console_command(
+    this,
+    (int)&s_visible_surfaces_limut,
+    "visible_surfaces_limut",
+    0,
+    command_type_engine_internal,
+    execution_filter_general);
   s_visible_surfaces_limut.m_min = 0;
-  s_visible_surfaces_limut.m_max = (unsigned int)&loc_186A0;
+  s_visible_surfaces_limut.m_value = &s_visible_surfaces_limit_value;
+  s_visible_surfaces_limut.m_max = (unsigned int)&loc_1869F + 1;
   s_visible_surfaces_limut.m_need_args = 1;
-  s_visible_surfaces_limut.__vftable = (vostok::console_commands::cc_u32_vtbl *)&stru_95AF78.m_key_bindings[50].m_keyboard[1];
+  s_visible_surfaces_limut.__vftable = (vostok::console_commands::cc_u32_vtbl *)&vostok::console_commands::cc_u32::`vftable';
   return atexit(dynamic_atexit_destructor_for__s_visible_surfaces_limut__);
 }

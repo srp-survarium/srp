@@ -6,11 +6,11 @@ char *__cdecl stlp_std::priv::__write_decimal_backward<long>(char *__ptr, int __
   unsigned __int64 v7; // rcx
   char *v8; // esi
   unsigned __int64 v10; // [esp-10h] [ebp-20h]
-  bool __negative; // [esp+18h] [ebp+8h]
+  bool v11; // [esp+18h] [ebp+8h]
 
   LODWORD(v4) = __x;
   v3 = __x < 0;
-  __negative = v3;
+  v11 = v3;
   v4 = (int)v4;
   if ( v3 )
     v4 = -(__int64)(int)v4;
@@ -27,7 +27,7 @@ char *__cdecl stlp_std::priv::__write_decimal_backward<long>(char *__ptr, int __
       v6 = (v10 / 0xA) >> 32;
     }
     while ( v10 / 0xA );
-    v3 = __negative;
+    v3 = v11;
   }
   if ( v3 )
   {

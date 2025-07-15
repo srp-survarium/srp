@@ -5,6 +5,6 @@ vostok::math::aabb *__thiscall vostok::physics::bullet_physics_world::get_world_
   vostok::math::aabb *v2; // eax
 
   v2 = result;
-  *result = this->m_world_aabb;
+  qmemcpy(result, &this->m_world_aabb, sizeof(vostok::math::aabb));
   return v2;
 }

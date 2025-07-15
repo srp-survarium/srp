@@ -1,42 +1,35 @@
 void __thiscall vostok::vfs::query_mount_arguments::convert_pathes_to_absolute(
-        vostok::vfs::query_mount_arguments *this)
+        vostok::vfs::query_mount_arguments *this,
+        int a2)
 {
-  vostok::buffer_string *v1; // ecx
-  vostok::fs_new::native_path_string *p_archive_physical_path; // [esp+248h] [ebp-138h]
-  vostok::fs_new::native_path_string *p_fat_physical_path; // [esp+254h] [ebp-12Ch]
+  vostok::fs_new::path_string_impl *v2; // ecx
+  vostok::fs_new::native_path_string *v3; // esi
+  vostok::fs_new::path_string_impl *v4; // ecx
 
-  vostok::buffer_string::make_lowercase(&this->virtual_path.m_string, (int)this);
-  if ( this->type == mount_type_physical_path )
+  vostok::fs_new::path_string_impl::make_lowercase(&this->virtual_path, a2);
+  if ( *(_DWORD *)(a2 + 1148) == 1 )
   {
-    vostok::buffer_string::make_lowercase(&this->physical_path.m_string, (int)&this->physical_path);
-    vostok::fs_new::convert_to_absolute_path_inplace(&this->physical_path, assert_on_fail_true);
+    v3 = (vostok::fs_new::native_path_string *)(a2 + 276);
+    vostok::fs_new::path_string_impl::make_lowercase(v2, a2 + 276);
   }
   else
   {
-    vostok::buffer_string::make_lowercase(&this->archive_physical_path.m_string, (int)&this->archive_physical_path);
-    vostok::buffer_string::make_lowercase(v1, (int)&this->fat_physical_path);
-    if ( vostok::fs_new::path_string_impl::length(&this->fat_physical_path) )
+    vostok::fs_new::path_string_impl::make_lowercase(v2, a2 + 552);
+    v3 = (vostok::fs_new::native_path_string *)(a2 + 828);
+    vostok::fs_new::path_string_impl::make_lowercase(v4, a2 + 828);
+    if ( *(_DWORD *)(a2 + 832) == *(_DWORD *)(a2 + 828) )
     {
-      if ( !vostok::fs_new::path_string_impl::length(&this->archive_physical_path) )
-      {
-        p_archive_physical_path = &this->archive_physical_path;
-        if ( &this->archive_physical_path != &this->fat_physical_path )
-          vostok::buffer_string::operator=(
-            (vostok::fixed_string<32> *)&this->fat_physical_path,
-            (vostok::fixed_string<32> *)p_archive_physical_path);
-        vostok::fs_new::path_string_impl::verify_self(p_archive_physical_path);
-      }
+      vostok::fixed_string<260>::operator=(
+        (vostok::fixed_string<260> *)(a2 + 552),
+        (const vostok::fixed_string<260> *)(a2 + 828));
     }
-    else
+    else if ( *(_DWORD *)(a2 + 556) == *(_DWORD *)(a2 + 552) )
     {
-      p_fat_physical_path = &this->fat_physical_path;
-      if ( &this->fat_physical_path != &this->archive_physical_path )
-        vostok::buffer_string::operator=(
-          (vostok::fixed_string<32> *)&this->archive_physical_path,
-          (vostok::fixed_string<32> *)p_fat_physical_path);
-      vostok::fs_new::path_string_impl::verify_self(p_fat_physical_path);
+      vostok::fixed_string<260>::operator=(
+        (vostok::fixed_string<260> *)(a2 + 828),
+        (const vostok::fixed_string<260> *)(a2 + 552));
     }
-    vostok::fs_new::convert_to_absolute_path_inplace(&this->archive_physical_path, assert_on_fail_true);
-    vostok::fs_new::convert_to_absolute_path_inplace(&this->fat_physical_path, assert_on_fail_true);
+    vostok::fs_new::convert_to_absolute_path_inplace((vostok::fs_new::native_path_string *)(a2 + 552));
   }
+  vostok::fs_new::convert_to_absolute_path_inplace(v3);
 }

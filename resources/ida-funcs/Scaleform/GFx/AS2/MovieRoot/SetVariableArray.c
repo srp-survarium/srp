@@ -1,9 +1,9 @@
 char __thiscall Scaleform::GFx::AS2::MovieRoot::SetVariableArray(
         Scaleform::GFx::AS2::MovieRoot *this,
         Scaleform::GFx::Movie::SetArrayType type,
-        char *ppathToVar,
-        unsigned int index,
-        const Scaleform::GFx::Value *pdata,
+        __m128i *ppathToVar,
+        int index,
+        Scaleform::GFx::Value *pdata,
         unsigned int count,
         Scaleform::GFx::Movie::SetVarType setType)
 {
@@ -30,42 +30,43 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::SetVariableArray(
   Scaleform::GFx::MovieImpl::LevelInfo *v29; // ecx
   Scaleform::GFx::InteractiveObject *v30; // eax
   Scaleform::GFx::AS2::Environment *v31; // eax
+  int v32; // ebx
   unsigned int j; // esi
-  int v33; // edx
+  int v34; // edx
   unsigned int m; // esi
   unsigned int k; // esi
-  unsigned int v36; // esi
-  const Scaleform::GFx::Value *v37; // ebp
+  unsigned int v37; // esi
+  const Scaleform::GFx::Value *v38; // ebp
   unsigned int n; // ebp
-  Scaleform::GFx::ASStringNode *StringNode; // esi
-  bool v40; // zf
+  Scaleform::GFx::ASStringNode *v40; // esi
+  bool v41; // zf
   unsigned int ii; // ebp
-  Scaleform::GFx::ASStringNode *v42; // esi
-  Scaleform::GFx::MovieImpl *v43; // edx
-  unsigned int v44; // ecx
-  unsigned int v45; // eax
-  Scaleform::GFx::MovieImpl::LevelInfo *v46; // esi
-  Scaleform::GFx::MovieImpl::LevelInfo *v47; // edx
-  Scaleform::GFx::InteractiveObject *v48; // eax
-  Scaleform::GFx::Movie::SetVarType v49; // esi
-  int v50; // ecx
-  Scaleform::GFx::AS2::Environment *v51; // eax
-  char v52; // bl
+  Scaleform::GFx::ASStringNode *v43; // esi
+  Scaleform::GFx::MovieImpl *v44; // edx
+  unsigned int v45; // ecx
+  unsigned int v46; // eax
+  Scaleform::GFx::MovieImpl::LevelInfo *v47; // esi
+  Scaleform::GFx::MovieImpl::LevelInfo *v48; // edx
+  Scaleform::GFx::InteractiveObject *v49; // eax
+  Scaleform::GFx::Movie::SetVarType v50; // esi
+  int v51; // ecx
+  Scaleform::GFx::AS2::Environment *v52; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  bool v55; // [esp-Ch] [ebp-54h]
-  Scaleform::GFx::AS2::MovieRoot *v56; // [esp+8h] [ebp-40h]
-  Scaleform::GFx::ASString path; // [esp+Ch] [ebp-3Ch] BYREF
-  Scaleform::GFx::DoublePrecisionGuard dpg; // [esp+10h] [ebp-38h] BYREF
-  unsigned int _CurrentState; // [esp+14h] [ebp-34h] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+18h] [ebp-30h] BYREF
-  Scaleform::GFx::AS2::Value retVal; // [esp+28h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value asVal; // [esp+38h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v54; // eax
+  __int64 v55; // [esp-1Ch] [ebp-64h]
+  bool v56; // [esp-Ch] [ebp-54h]
+  Scaleform::GFx::AS2::MovieRoot *v57; // [esp+8h] [ebp-40h]
+  Scaleform::GFx::ASStringNode *StringNode; // [esp+Ch] [ebp-3Ch] BYREF
+  unsigned int _CurrentState; // [esp+10h] [ebp-38h] BYREF
+  unsigned int v60; // [esp+14h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::Value v61; // [esp+18h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v62; // [esp+28h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value val; // [esp+38h] [ebp-10h] BYREF
 
   pMovieImpl = this->pMovieImpl;
   Size = pMovieImpl->MovieLevels.Data.Size;
   v10 = 0;
-  v56 = this;
+  v57 = this;
   if ( !Size )
     return 0;
   Data = pMovieImpl->MovieLevels.Data.Data;
@@ -76,8 +77,8 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::SetVariableArray(
   }
   if ( !Data[v10].pSprite.pObject )
     return 0;
-  _controlfp_s(&dpg.fpc, 0, 0);
-  _controlfp_s(&_CurrentState, (unsigned int)&_sbh_sizeHeaderList, 0x30000u);
+  _controlfp_s((int)this, &_CurrentState, 0, 0);
+  _controlfp_s((int)this, &v60, (unsigned int)&_sbh_sizeHeaderList, (unsigned int)&loc_30000);
   v14 = this->pMovieImpl;
   v15 = v14->MovieLevels.Data.Size;
   v16 = 0;
@@ -101,14 +102,16 @@ LABEL_12:
   }
   v20 = (int)pObject + 4 * pObject->AvmObjOffset;
   v21 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v20 + 124))(v20);
-  path.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+  HIDWORD(v55) = &v62;
+  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)v21->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                  ppathToVar);
-  ++path.pNode->RefCount;
-  retVal.T.Type = 0;
-  if ( Scaleform::GFx::AS2::Environment::GetVariable(v21, &path, &retVal, 0, 0, 0, 0)
-    && retVal.T.Type == 6
-    && (v22 = Scaleform::GFx::AS2::Value::ToObject(&retVal, v21), (v23 = (Scaleform::GFx::AS2::ArrayObject *)v22) != 0)
+  ++StringNode->RefCount;
+  LODWORD(v55) = &StringNode;
+  v62.T.Type = 0;
+  if ( Scaleform::GFx::AS2::Environment::GetVariable(v21, v55, 0, 0, 0)
+    && v62.T.Type == 6
+    && (v22 = Scaleform::GFx::AS2::Value::ToObject(&v62, v21), (v23 = (Scaleform::GFx::AS2::ArrayObject *)v22) != 0)
     && v22->GetObjectType(&v22->Scaleform::GFx::AS2::ObjectInterface) == Object_Array )
   {
     v23->RefCount = (v23->RefCount + 1) & 0x8FFFFFFF;
@@ -146,6 +149,7 @@ LABEL_24:
     }
     v23 = (Scaleform::GFx::AS2::ArrayObject *)v25;
   }
+  v32 = index;
   if ( index + count > v23->Elements.Data.Size )
     Scaleform::GFx::AS2::ArrayObject::Resize(v23, index + count);
   switch ( type )
@@ -153,136 +157,142 @@ LABEL_24:
     case SA_Int:
       for ( j = 0; j < count; ++j )
       {
-        v33 = *((_DWORD *)&pdata->pObjectInterface + j);
-        asVal.T.Type = 4;
-        asVal.NV.Int32Value = v33;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, j + index, &asVal);
-        if ( asVal.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&asVal);
+        v34 = *((_DWORD *)&pdata->pObjectInterface + j);
+        val.T.Type = 4;
+        val.NV.Int32Value = v34;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, j + index, &val);
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
       }
       break;
     case SA_Double:
       for ( k = 0; k < count; ++k )
       {
-        asVal.NV.NumberValue = *(double *)&(&pdata->pObjectInterface)[2 * k];
-        asVal.T.Type = 3;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, k + index, &asVal);
-        if ( asVal.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&asVal);
+        val.NV.NumberValue = *(double *)&(&pdata->pObjectInterface)[2 * k];
+        val.T.Type = 3;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, k + index, &val);
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
       }
       break;
     case SA_Float:
       for ( m = 0; m < count; ++m )
       {
-        asVal.NV.NumberValue = *((float *)&pdata->pObjectInterface + m);
-        asVal.T.Type = 3;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, m + index, &asVal);
-        if ( asVal.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&asVal);
+        val.NV.NumberValue = *((float *)&pdata->pObjectInterface + m);
+        val.T.Type = 3;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, m + index, &val);
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
       }
       break;
     case SA_String:
       for ( n = 0; n < count; ++n )
       {
-        StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                       this->BuiltinsMgr.pStringManager,
-                       *((char **)&pdata->pObjectInterface + n));
-        ++StringNode->RefCount;
-        ++StringNode->RefCount;
-        asVal.T.Type = 5;
-        asVal.NV.Int32Value = (int)StringNode;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, index + n, &asVal);
-        if ( asVal.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&asVal);
-        v40 = StringNode->RefCount-- == 1;
-        if ( v40 )
-          Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
+        v40 = Scaleform::GFx::ASStringManager::CreateStringNode(
+                v57->BuiltinsMgr.pStringManager,
+                *((__m128i **)&pdata->pObjectInterface + n));
+        ++v40->RefCount;
+        ++v40->RefCount;
+        val.T.Type = 5;
+        val.NV.Int32Value = (int)v40;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, index + n, &val);
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
+        v41 = v40->RefCount-- == 1;
+        if ( v41 )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v40);
       }
       break;
     case SA_StringW:
       for ( ii = 0; ii < count; ++ii )
       {
-        v42 = Scaleform::GFx::ASStringManager::CreateStringNode(
-                this->BuiltinsMgr.pStringManager,
-                *((const wchar_t **)&pdata->pObjectInterface + ii),
+        v43 = Scaleform::GFx::ASStringManager::CreateStringNode(
+                v57->BuiltinsMgr.pStringManager,
+                *((wchar_t **)&pdata->pObjectInterface + ii),
                 -1);
-        ++v42->RefCount;
-        ++v42->RefCount;
-        asVal.T.Type = 5;
-        asVal.NV.Int32Value = (int)v42;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, index + ii, &asVal);
-        if ( asVal.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&asVal);
-        v40 = v42->RefCount-- == 1;
-        if ( v40 )
-          Scaleform::GFx::ASStringNode::ReleaseNode(v42);
+        ++v43->RefCount;
+        ++v43->RefCount;
+        val.T.Type = 5;
+        val.NV.Int32Value = (int)v43;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v23, index + ii, &val);
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
+        v41 = v43->RefCount-- == 1;
+        if ( v41 )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v43);
       }
       break;
     case SA_Value:
-      v36 = 0;
+      v37 = 0;
       if ( count )
       {
-        v37 = pdata;
+        v38 = pdata;
         do
         {
-          asVal.T.Type = 0;
-          Scaleform::GFx::AS2::MovieRoot::Value2ASValue(this, v37, &asVal);
-          Scaleform::GFx::AS2::ArrayObject::SetElement(v23, v36 + index, &asVal);
-          if ( asVal.T.Type >= 5u )
-            Scaleform::GFx::AS2::Value::DropRefs(&asVal);
-          ++v36;
+          val.T.Type = 0;
+          Scaleform::GFx::AS2::MovieRoot::Value2ASValue(v57, v38, &val);
+          Scaleform::GFx::AS2::ArrayObject::SetElement(v23, v37 + index, &val);
+          if ( val.T.Type >= 5u )
+            Scaleform::GFx::AS2::Value::DropRefs(&val);
           ++v37;
+          ++v38;
         }
-        while ( v36 < count );
+        while ( v37 < count );
       }
       break;
     default:
       break;
   }
-  val.T.Type = 0;
-  Scaleform::GFx::AS2::Value::SetAsObject(&val, v23);
-  v43 = this->pMovieImpl;
-  v44 = v43->MovieLevels.Data.Size;
-  v45 = 0;
-  if ( v44 )
+  v61.T.Type = 0;
+  Scaleform::GFx::AS2::Value::SetAsObject(&v61, v23);
+  v44 = v57->pMovieImpl;
+  v45 = v44->MovieLevels.Data.Size;
+  v46 = 0;
+  if ( v45 )
   {
-    v46 = v43->MovieLevels.Data.Data;
-    v47 = v46;
-    while ( v47->Level )
+    v47 = v44->MovieLevels.Data.Data;
+    v48 = v47;
+    while ( v48->Level )
     {
-      ++v45;
-      ++v47;
-      if ( v45 >= v44 )
+      ++v46;
+      ++v48;
+      if ( v46 >= v45 )
         goto LABEL_69;
     }
-    v48 = v46[v45].pSprite.pObject;
+    v49 = v47[v46].pSprite.pObject;
   }
   else
   {
 LABEL_69:
-    v48 = 0;
+    v49 = 0;
   }
-  v49 = setType;
-  v50 = (int)v48 + 4 * v48->AvmObjOffset;
-  v55 = setType == SV_Normal;
-  v51 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v50 + 124))(v50);
-  v52 = Scaleform::GFx::AS2::Environment::SetVariable(v51, (int)this, &path, &val, 0, v55);
-  if ( !v52 && v49 || v49 == SV_Permanent )
-    Scaleform::GFx::AS2::MovieRoot::AddStickyVariable(v56, &path, &val, v49);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  if ( retVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&retVal);
+  v50 = setType;
+  v51 = (int)v49 + 4 * v49->AvmObjOffset;
+  v56 = setType == SV_Normal;
+  v52 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v51 + 124))(v51);
+  LOBYTE(v32) = Scaleform::GFx::AS2::Environment::SetVariable(
+                  v52,
+                  (const Scaleform::GFx::ASString *)v57,
+                  (Scaleform::GFx::ASStringNode *)&StringNode,
+                  &v61,
+                  0,
+                  v56);
+  if ( !(_BYTE)v32 && v50 || v50 == SV_Permanent )
+    Scaleform::GFx::AS2::MovieRoot::AddStickyVariable(v57, (Scaleform::GFx::ASStringNode *)&StringNode, &v61, v50);
+  if ( v61.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v61);
+  if ( v62.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v62);
   RefCount = v23->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
     v23->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v23);
   }
-  pNode = path.pNode;
-  --path.pNode->RefCount;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  _controlfp_s(&count, dpg.fpc, 0x30000u);
-  return v52;
+  v54 = StringNode;
+  --StringNode->RefCount;
+  if ( !v54->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v54);
+  _controlfp_s(v32, &count, _CurrentState, (unsigned int)&loc_30000);
+  return v32;
 }

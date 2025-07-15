@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::setFocusGrou
         Scaleform::GFx::AS3::Instances::fl_display::InteractiveObject *obj,
         unsigned int mask)
 {
-  if ( LOBYTE(this->pTraits.pObject->pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&this->pTraits.pObject->pVM[1].HandleException + 4) )
   {
     if ( obj )
       ((void (__thiscall *)(Scaleform::GFx::DisplayObject *, unsigned int))obj->pDispObj.pObject->Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::__vftable[1].SetY)(

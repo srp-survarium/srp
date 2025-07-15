@@ -36,10 +36,7 @@ void __thiscall Scaleform::Render::Bundle::RemoveEntries(
   Size = v3->Entries.Data.Size;
   if ( Size != count )
   {
-    memmove(
-      (unsigned __int8 *)&p_Entries->Data[index],
-      (unsigned __int8 *)&p_Entries->Data[index + count],
-      4 * (Size - index - count));
+    memmove((int)&p_Entries->Data[index], (const __m128i *)&p_Entries->Data[index + count], 4 * (Size - index - count));
     p_Entries->Size -= count;
     return;
   }

@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayList(Scale
   v3 = this->CheckAdvanceStatus(this, Flags);
   if ( v3 == -1 )
   {
-    this->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    this->Flags |= (unsigned int)&loc_400000;
   }
   else if ( v3 == 1 )
   {

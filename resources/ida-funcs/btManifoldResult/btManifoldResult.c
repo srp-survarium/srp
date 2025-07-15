@@ -1,16 +1,18 @@
-void __stdcall btManifoldResult::btManifoldResult(btManifoldResult *this)
+btManifoldResult *__userpurge btManifoldResult::btManifoldResult@<eax>(
+        btManifoldResult *this@<ecx>,
+        btManifoldResult *result@<eax>,
+        btCollisionObject *body0,
+        btCollisionObject *body1)
 {
-  btCollisionObject *body0; // edx
-  btCollisionObject *body1; // ecx
-
-  this->m_body0 = body0;
-  this->m_body1 = body1;
-  this->__vftable = (btManifoldResult_vtbl *)&btManifoldResult::`vftable';
-  this->m_manifoldPtr = 0;
-  this->m_partId0 = -1;
-  this->m_partId1 = -1;
-  this->m_index0 = -1;
-  this->m_index1 = -1;
-  this->m_rootTransA = body0->m_worldTransform;
-  this->m_rootTransB = body1->m_worldTransform;
+  result->m_manifoldPtr = 0;
+  result->m_body0 = (btCollisionObject *)this;
+  result->__vftable = (btManifoldResult_vtbl *)&btManifoldResult::`vftable';
+  result->m_body1 = body0;
+  result->m_partId0 = -1;
+  result->m_partId1 = -1;
+  result->m_index0 = -1;
+  result->m_index1 = -1;
+  result->m_rootTransA = this->m_rootTransA;
+  result->m_rootTransB = body0->m_worldTransform;
+  return result;
 }

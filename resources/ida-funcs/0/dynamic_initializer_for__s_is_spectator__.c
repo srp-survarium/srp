@@ -1,6 +1,4 @@
-void dynamic_initializer_for__s_is_spectator__()
+void __thiscall dynamic_initializer_for__s_is_spectator__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_is_spectator);
+  vostok::command_line::key::key(this, &s_is_spectator, "spectator", uri, uri, "connect as spectator", uri);
 }

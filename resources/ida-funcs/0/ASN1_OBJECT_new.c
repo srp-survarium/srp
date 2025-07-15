@@ -1,4 +1,4 @@
-asn1_object_st *__cdecl ASN1_OBJECT_new()
+asn1_object_st *__usercall ASN1_OBJECT_new@<eax>(int a1@<ebx>)
 {
   asn1_object_st *result; // eax
 
@@ -14,7 +14,7 @@ asn1_object_st *__cdecl ASN1_OBJECT_new()
   }
   else
   {
-    ERR_put_error(0xDu, 123, 65, ".\\crypto\\asn1\\a_object.c", 354);
+    ERR_put_error(a1, 0xDu, 123, 65, ".\\crypto\\asn1\\a_object.c", 354);
     return 0;
   }
   return result;

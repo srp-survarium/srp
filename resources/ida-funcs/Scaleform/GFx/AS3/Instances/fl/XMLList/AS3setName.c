@@ -5,6 +5,6 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3setName(
 {
   Scaleform::GFx::AS3::CheckResult v4; // [esp+7h] [ebp-1h] BYREF
 
-  if ( Scaleform::GFx::AS3::Instances::fl::XMLList::HasOneItem(this, &v4)->Result )
+  if ( Scaleform::GFx::AS3::Instances::fl::XMLList::HasOneItem(this, &v4, "setName")->Result )
     Scaleform::GFx::AS3::Instances::fl::XML::AS3setName(this->List.Data.Data->pObject, result, name);
 }

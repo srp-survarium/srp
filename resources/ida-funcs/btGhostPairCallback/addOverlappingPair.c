@@ -6,8 +6,8 @@ btBroadphasePair *__thiscall btGhostPairCallback::addOverlappingPair(
   void *v3; // ecx
   void *v4; // esi
 
-  v3 = *((_DWORD *)proxy0->m_clientObject + 61) != 4 ? 0 : proxy0->m_clientObject;
-  v4 = *((_DWORD *)proxy1->m_clientObject + 61) != 4 ? 0 : proxy1->m_clientObject;
+  v3 = *((_DWORD *)proxy0->m_clientObject + 61) == 4 ? proxy0->m_clientObject : 0;
+  v4 = *((_DWORD *)proxy1->m_clientObject + 61) == 4 ? proxy1->m_clientObject : 0;
   if ( v3 )
     (*(void (__thiscall **)(void *, btBroadphaseProxy *, btBroadphaseProxy *))(*(_DWORD *)v3 + 24))(v3, proxy1, proxy0);
   if ( v4 )

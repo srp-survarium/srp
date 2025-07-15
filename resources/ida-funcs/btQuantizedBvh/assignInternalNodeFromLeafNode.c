@@ -3,17 +3,21 @@ void __fastcall btQuantizedBvh::assignInternalNodeFromLeafNode(
         int internalNode,
         btQuantizedBvh *this)
 {
-  __int64 v3; // xmm0_8
-  btQuantizedBvhNode *v4; // eax
-  btQuantizedBvhNode *v5; // ecx
+  btQuantizedBvhNode *v3; // esi
+  btQuantizedBvhNode *v4; // edi
 
   if ( this->m_useQuantization )
   {
-    v3 = *(_QWORD *)this->m_quantizedLeafNodes.m_data[leafNodeIndex].m_quantizedAabbMin;
-    v4 = &this->m_quantizedLeafNodes.m_data[leafNodeIndex];
-    v5 = &this->m_quantizedContiguousNodes.m_data[internalNode];
-    *(_QWORD *)v5->m_quantizedAabbMin = v3;
-    *(_QWORD *)&v5->m_quantizedAabbMax[1] = *(_QWORD *)&v4->m_quantizedAabbMax[1];
+    v3 = &this->m_quantizedLeafNodes.m_data[leafNodeIndex];
+    v4 = &this->m_quantizedContiguousNodes.m_data[internalNode];
+    *(_DWORD *)v4->m_quantizedAabbMin = *(_DWORD *)v3->m_quantizedAabbMin;
+    v3 = (btQuantizedBvhNode *)((char *)v3 + 4);
+    v4 = (btQuantizedBvhNode *)((char *)v4 + 4);
+    *(_DWORD *)v4->m_quantizedAabbMin = *(_DWORD *)v3->m_quantizedAabbMin;
+    v3 = (btQuantizedBvhNode *)((char *)v3 + 4);
+    v4 = (btQuantizedBvhNode *)((char *)v4 + 4);
+    *(_DWORD *)v4->m_quantizedAabbMin = *(_DWORD *)v3->m_quantizedAabbMin;
+    *(_DWORD *)&v4->m_quantizedAabbMin[2] = *(_DWORD *)&v3->m_quantizedAabbMin[2];
   }
   else
   {

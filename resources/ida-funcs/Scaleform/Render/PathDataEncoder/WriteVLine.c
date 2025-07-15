@@ -190,12 +190,12 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
     LOBYTE(y) = (16 * y) | 2;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       this->Data,
-      (const unsigned __int8 *)&y);
+      (unsigned __int8 *)&y);
     Data = this->Data;
     LOBYTE(y) = v2 >> 4;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       Data,
-      (const unsigned __int8 *)&y);
+      (unsigned __int8 *)&y);
     return 2;
   }
   v6 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)this->Data;

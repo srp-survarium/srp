@@ -5,12 +5,14 @@ void __thiscall Scaleform::GFx::LoadProcess::~LoadProcess(Scaleform::GFx::LoadPr
   Scaleform::GFx::LoadUpdateSync *v4; // edi
   Scaleform::RefCountVImpl *v5; // ecx
   Scaleform::RefCountVImpl *v6; // ecx
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::RefCountVImpl *v8; // ecx
   Scaleform::Array<Scaleform::GFx::ExecuteTag *,2,Scaleform::ArrayConstPolicy<32,16,0> > *p_InitActionTags; // edi
   int i; // ebx
   Scaleform::GFx::ExecuteTag **Data; // eax
-  Scaleform::RefCountVImpl *v10; // ecx
-  Scaleform::RefCountVImpl *v11; // ecx
   Scaleform::RefCountVImpl *v12; // ecx
+  Scaleform::RefCountVImpl *v13; // ecx
+  Scaleform::RefCountVImpl *v14; // ecx
 
   this->Scaleform::GFx::LoaderTask::Scaleform::GFx::Task::Scaleform::RefCountBase<Scaleform::GFx::Task,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::GFx::LoadProcess_vtbl *)&Scaleform::GFx::LoadProcess::`vftable'{for `Scaleform::GFx::LoaderTask'};
   this->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::__vftable = (Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>_vtbl *)&Scaleform::GFx::LoadProcess::`vftable'{for `Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>'};
@@ -37,8 +39,14 @@ void __thiscall Scaleform::GFx::LoadProcess::~LoadProcess(Scaleform::GFx::LoadPr
     v4->LoadFinished = 1;
     Scaleform::WaitCondition::NotifyAll(&v4->WC);
     Scaleform::Mutex::Unlock(&v4->mMutex);
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
   }
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->RemoveLoadProcess(Instance, this);
+  if ( v4 )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
+  v8 = (Scaleform::RefCountVImpl *)this->LoadProcessStats.pObject;
+  if ( v8 )
+    Scaleform::RefCountImpl::Release(v8);
   if ( this->InitActionTags.Data.Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->InitActionTags.Data.Data);
   p_InitActionTags = &this->InitActionTags;
@@ -49,17 +57,17 @@ void __thiscall Scaleform::GFx::LoadProcess::~LoadProcess(Scaleform::GFx::LoadPr
     if ( Data )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
   }
-  v10 = (Scaleform::RefCountVImpl *)this->pJpegTables.pObject;
-  if ( v10 )
-    Scaleform::RefCountImpl::Release(v10);
-  Scaleform::GFx::ExporterInfoImpl::~ExporterInfoImpl(&this->ProcessInfo.Header.mExporterInfo);
-  Scaleform::GFx::Stream::~Stream(&this->ProcessInfo.Stream);
-  v11 = (Scaleform::RefCountVImpl *)this->pLoadData.pObject;
-  if ( v11 )
-    Scaleform::RefCountImpl::Release(v11);
-  v12 = (Scaleform::RefCountVImpl *)this->pBindProcess.pObject;
+  v12 = (Scaleform::RefCountVImpl *)this->pJpegTables.pObject;
   if ( v12 )
     Scaleform::RefCountImpl::Release(v12);
+  Scaleform::GFx::ExporterInfoImpl::~ExporterInfoImpl(&this->ProcessInfo.Header.mExporterInfo);
+  Scaleform::GFx::Stream::~Stream(&this->ProcessInfo.Stream);
+  v13 = (Scaleform::RefCountVImpl *)this->pLoadData.pObject;
+  if ( v13 )
+    Scaleform::RefCountImpl::Release(v13);
+  v14 = (Scaleform::RefCountVImpl *)this->pBindProcess.pObject;
+  if ( v14 )
+    Scaleform::RefCountImpl::Release(v14);
   this->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::__vftable = (Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>_vtbl *)&Scaleform::GFx::LogBase<Scaleform::GFx::AS2::ActionLogger>::`vftable';
   Scaleform::GFx::LoaderTask::~LoaderTask(this);
 }

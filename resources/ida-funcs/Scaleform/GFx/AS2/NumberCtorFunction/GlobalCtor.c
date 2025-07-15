@@ -9,11 +9,11 @@ void __cdecl Scaleform::GFx::AS2::NumberCtorFunction::GlobalCtor(const Scaleform
   Scaleform::GFx::AS2::Value *v7; // ecx
   Scaleform::GFx::AS2::Value *Result; // esi
   long double v9; // st7
-  Scaleform::GFx::AS2::Value retVal; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+Ch] [ebp-20h] BYREF
   Scaleform::GFx::AS2::Value v11; // [esp+1Ch] [ebp-10h] BYREF
 
   v1 = 0;
-  *(_DWORD *)&retVal.T.Type = 0;
+  *(_DWORD *)&v.T.Type = 0;
   if ( fn->ThisPtr
     && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Number
     && !fn->ThisPtr->IsBuiltinPrototype(fn->ThisPtr) )
@@ -33,16 +33,16 @@ void __cdecl Scaleform::GFx::AS2::NumberCtorFunction::GlobalCtor(const Scaleform
     {
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
     }
-    Scaleform::GFx::AS2::Value::Value(&retVal, v4);
+    Scaleform::GFx::AS2::Value::Value(&v, v4);
     if ( (v1 & 1) != 0 && v11.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&v11);
     ((void (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::Object> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Value *))p_pProto->pObject->RefCount)(
       p_pProto,
       fn->Env,
-      &retVal);
-    Scaleform::GFx::AS2::Value::operator=(fn->Result, &retVal);
-    if ( retVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&retVal);
+      &v);
+    Scaleform::GFx::AS2::Value::operator=(fn->Result, &v);
+    if ( v.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v);
   }
   else
   {
@@ -62,10 +62,10 @@ void __cdecl Scaleform::GFx::AS2::NumberCtorFunction::GlobalCtor(const Scaleform
       v5 = 0.0;
     }
     Result = fn->Result;
-    *(double *)&retVal.T.Type = v5;
+    *(double *)&v.T.Type = v5;
     if ( Result->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(Result);
-    v9 = *(double *)&retVal.T.Type;
+    v9 = *(double *)&v.T.Type;
     Result->T.Type = 3;
     Result->NV.NumberValue = v9;
   }

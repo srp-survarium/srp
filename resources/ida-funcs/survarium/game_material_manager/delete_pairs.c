@@ -1,52 +1,57 @@
-void __thiscall survarium::game_material_manager::delete_pairs(survarium::game_material_manager *this)
+void __thiscall survarium::game_material_manager::delete_pairs(survarium::game_material_manager *this, int a2)
 {
-  boost::_bi::list1<vostok::network_core::packet_reader &> *v2[4]; // [esp+14h] [ebp-38h] BYREF
-  boost::_bi::list1<vostok::network_core::packet_reader &> *M_right; // [esp+24h] [ebp-28h]
-  boost::_bi::list1<vostok::network_core::packet_reader &> *v4[2]; // [esp+28h] [ebp-24h] BYREF
-  boost::_bi::list1<vostok::network_core::packet_reader &> *M_left; // [esp+30h] [ebp-1Ch]
-  stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<unsigned short const ,survarium::material_pair const *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned short const ,survarium::material_pair const *> > > internail_it; // [esp+3Ch] [ebp-10h] BYREF
-  stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<unsigned short const ,survarium::material_pair const *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned short const ,survarium::material_pair const *> > > internail_end; // [esp+40h] [ebp-Ch] BYREF
-  stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<unsigned short const ,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short> > >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned short const ,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short> > > > > end; // [esp+44h] [ebp-8h] BYREF
-  stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<unsigned short const ,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short> > >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned short const ,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short> > > > > it; // [esp+48h] [ebp-4h] BYREF
+  int *v2; // ebx
+  int v3; // edi
+  stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> > > *v4; // ecx
+  stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> > > *v5; // ecx
+  stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> > > *v6; // ecx
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  const char *v8; // [esp+0h] [ebp-14h]
+  const char *v9; // [esp+4h] [ebp-10h]
+  unsigned int v10; // [esp+8h] [ebp-Ch]
+  vostok::memory::doug_lea_allocator *v11; // [esp+Ch] [ebp-8h]
+  int v12; // [esp+10h] [ebp-4h]
+  int v13; // [esp+1Ch] [ebp+8h]
 
-  M_left = (boost::_bi::list1<vostok::network_core::packet_reader &> *)this->m_pairs._M_t._M_header._M_data._M_left;
-  stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-    M_left,
-    (boost::_bi::list1<vostok::network_core::packet_reader &> **)&it);
-  stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-    (boost::_bi::list1<vostok::network_core::packet_reader &> *)&this->m_pairs,
-    (boost::_bi::list1<vostok::network_core::packet_reader &> **)&end);
-  while ( 1 )
+  v2 = (int *)(a2 + 776);
+  v12 = 128;
+  do
   {
-    v4[1] = (boost::_bi::list1<vostok::network_core::packet_reader &> *)v4;
-    stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-      (boost::_bi::list1<vostok::network_core::packet_reader &> *)end._M_node,
-      v4);
-    if ( (boost::_bi::list1<vostok::network_core::packet_reader &> *)it._M_node == v4[0] )
-      break;
-    v2[3] = (boost::_bi::list1<vostok::network_core::packet_reader &> *)&it._M_node[1]._M_parent;
-    M_right = (boost::_bi::list1<vostok::network_core::packet_reader &> *)it._M_node[1]._M_right;
-    stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-      M_right,
-      (boost::_bi::list1<vostok::network_core::packet_reader &> **)&internail_it);
-    v2[2] = (boost::_bi::list1<vostok::network_core::packet_reader &> *)&it._M_node[1]._M_parent;
-    stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-      (boost::_bi::list1<vostok::network_core::packet_reader &> *)&it._M_node[1]._M_parent,
-      (boost::_bi::list1<vostok::network_core::packet_reader &> **)&internail_end);
-    while ( 1 )
+    v13 = 128;
+    do
     {
-      v2[1] = (boost::_bi::list1<vostok::network_core::packet_reader &> *)v2;
-      stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-        (boost::_bi::list1<vostok::network_core::packet_reader &> *)internail_end._M_node,
-        v2);
-      if ( (boost::_bi::list1<vostok::network_core::packet_reader &> *)internail_it._M_node == v2[0] )
-        break;
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,survarium::material_pair,vostok::memory::detail::call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-        (survarium::material_pair **)&internail_it._M_node[1]._M_parent);
-      internail_it._M_node = stlp_std::priv::_Rb_global<bool>::_M_increment(internail_it._M_node);
+      if ( *v2 )
+      {
+        v3 = *v2;
+        v11 = survarium::g_allocator;
+        stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>::~_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>(
+          (stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> > > *)this,
+          (int *)(*v2 + 84));
+        stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>::~_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>(
+          v4,
+          (int *)(v3 + 68));
+        stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>::~_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>(
+          v5,
+          (int *)(v3 + 52));
+        stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>::~_Impl_vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>,vostok::vectora_allocator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>>>(
+          v6,
+          (int *)(v3 + 36));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 32));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 28));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 24));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 20));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 16));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 12));
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(v3 + 8));
+        vostok::memory::doug_lea_allocator::free_impl(v7, (int)v11, (char *)v3, v8, v9, v10);
+        *v2 = 0;
+        *v2 = 0;
+      }
+      ++v2;
+      --v13;
     }
-    it._M_node = stlp_std::priv::_Rb_global<bool>::_M_increment(it._M_node);
+    while ( v13 );
+    --v12;
   }
-  stlp_std::priv::_Rb_tree<unsigned short,stlp_std::less<unsigned short>,stlp_std::pair<unsigned short const,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short>>>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned short const,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short>>>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned short const,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short>>>>,survarium::std_allocator<stlp_std::pair<unsigned short,survarium::map<unsigned short,survarium::material_pair const *,stlp_std::less<unsigned short>>>>>::clear(&this->m_pairs._M_t);
+  while ( v12 );
 }

@@ -1,6 +1,4 @@
-void vostok::animation::_dynamic_initializer_for__test_animation__()
+void __thiscall vostok::animation::_dynamic_initializer_for__test_animation__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &vostok::animation::test_animation);
+  vostok::command_line::key::key(this, &vostok::animation::test_animation, "test_animation", uri, "animation", uri, uri);
 }

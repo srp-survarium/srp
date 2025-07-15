@@ -2,9 +2,6 @@ btCollisionObject *__thiscall btCollisionObject::`scalar deleting destructor'(bt
 {
   this->__vftable = (btCollisionObject_vtbl *)&btCollisionObject::`vftable';
   if ( (a2 & 1) != 0 )
-  {
-    ++gNumAlignedFree;
-    sAlignedFreeFunc(this);
-  }
+    btAlignedFreeInternal(this);
   return this;
 }

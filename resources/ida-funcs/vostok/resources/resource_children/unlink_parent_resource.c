@@ -1,49 +1,50 @@
-void __userpurge vostok::resources::resource_children::unlink_parent_resource(
+void __usercall vostok::resources::resource_children::unlink_parent_resource(
         vostok::resources::resource_children *this@<ecx>,
-        unsigned int a2@<ebx>,
-        vostok::resources::resource_base *parent)
+        vostok::resources::resource_base *parent@<eax>)
 {
-  unsigned int v3; // eax
-  vostok::resources::find_resource_link_predicate erase_predicate; // [esp+8h] [ebp-8h] BYREF
+  unsigned int v2; // eax
+  bool do_debug_break; // [esp+Bh] [ebp-Dh] BYREF
+  vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::bool_predicate_ref<vostok::resources::find_resource_link_predicate> predicate; // [esp+Ch] [ebp-Ch] BYREF
+  vostok::resources::resource_base *v5; // [esp+10h] [ebp-8h] BYREF
+  void *v6; // [esp+14h] [ebp-4h]
 
-  erase_predicate.resource_ = parent;
-  erase_predicate.found_link_ = 0;
-  if ( !debug_macro_helper_ignore_always_10 )
+  v5 = parent;
+  v6 = 0;
+  if ( !debug_macro_helper_ignore_always_11 )
   {
-    parent = (vostok::resources::resource_base *)&erase_predicate;
+    predicate.m_predicate_ref = (vostok::resources::find_resource_link_predicate *)&v5;
     if ( vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::remove_if<vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::bool_predicate_ref<vostok::resources::find_resource_link_predicate>>(
            (vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *)this,
            (int)&this->m_parent_resources,
-           (const vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::bool_predicate_ref<vostok::resources::find_resource_link_predicate> *)&parent) )
+           &predicate) )
     {
-      if ( erase_predicate.found_link_ )
+      if ( v6 )
         vostok::memory::g_resources_links_allocator.call_free(
           &vostok::memory::g_resources_links_allocator,
-          erase_predicate.found_link_);
+          v6,
+          "vostok::resources::resource_children::unlink_parent_resource",
+          ".\\resources_resource_children.cpp",
+          69u);
     }
     else
     {
-      v3 = occurances_left_10;
+      v2 = occurances_left_10;
       if ( occurances_left_10 == -1 )
-        v3 = 10;
-      occurances_left_10 = v3 - 1;
-      if ( v3 )
+        v2 = 10;
+      occurances_left_10 = v2 - 1;
+      if ( v2 )
       {
-        if ( !debug_macro_helper_ignore_always_10 )
+        if ( !debug_macro_helper_ignore_always_11 )
         {
-          LOBYTE(parent) = 0;
+          do_debug_break = 0;
           vostok::debug::on_error(
-            a2,
-            (bool *)&parent,
+            &do_debug_break,
             process_error_false,
-            &debug_macro_helper_ignore_always_10,
-            assert_untyped,
-            "assertion_failed",
-            "m_parent_resources.remove_if(erase_predicate)",
+            (bool *)"m_parent_resources.remove_if(erase_predicate)",
             ".\\resources_resource_children.cpp",
             "vostok::resources::resource_children::unlink_parent_resource",
-            0x42u);
-          if ( vostok::debug::is_debugger_present() || (_BYTE)parent )
+            (const char *)0x42);
+          if ( vostok::debug::is_debugger_present() || do_debug_break )
             __debugbreak();
         }
       }

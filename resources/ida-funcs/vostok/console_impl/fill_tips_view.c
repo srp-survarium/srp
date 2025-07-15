@@ -1,80 +1,84 @@
-void __userpurge vostok::console_impl::fill_tips_view(
+// bad sp value at call has been detected, the output may be wrong!
+void __usercall vostok::console_impl::fill_tips_view(
         vostok::console_impl *this@<ecx>,
-        int a2@<ebx>,
-        int a3@<edi>,
-        int a4@<esi>,
-        vostok::console_impl *thisa,
-        int a6,
-        int a7,
-        int a8,
-        int a9,
-        int a10,
-        void *a11)
+        int a2@<eax>,
+        int a3@<ebx>,
+        int a4@<edi>,
+        int a5@<esi>)
 {
-  int v11; // eax
+  int *v6; // ecx
+  int v7; // eax
+  int v8; // eax
+  int v9; // esi
+  int v10; // esi
+  int v11; // ebx
   int v12; // esi
-  const void *v13; // edi
-  int v14; // esi
-  float v15; // xmm0_4
+  float v13; // xmm0_4
+  int v14; // eax
+  void (__thiscall ***v15)(_DWORD, float *); // eax
   int v16; // eax
-  void (__thiscall ***v17)(_DWORD, _DWORD *); // eax
-  int v18; // eax
-  void (__thiscall **p_add_child)(_DWORD, int); // edi
+  _DWORD *v17; // eax
+  int v18; // ebx
+  int v19; // eax
   int v20; // eax
   int v21; // eax
-  int v22; // eax
-  float v23; // [esp+34h] [ebp-1Ch]
-  unsigned int line_size; // [esp+38h] [ebp-18h]
-  unsigned int line_size_4; // [esp+3Ch] [ebp-14h]
-  vostok::ui::window *v26; // [esp+40h] [ebp-10h]
-  float v27[2]; // [esp+44h] [ebp-Ch] BYREF
-  _DWORD var4[2]; // [esp+4Ch] [ebp-4h] BYREF
-  void *retaddr; // [esp+54h] [ebp+4h] BYREF
+  char v23[8]; // [esp+4h] [ebp-28h] BYREF
+  float v24; // [esp+Ch] [ebp-20h] BYREF
+  float v25; // [esp+10h] [ebp-1Ch]
+  float v26; // [esp+14h] [ebp-18h] BYREF
+  float v27; // [esp+18h] [ebp-14h]
+  _DWORD *v28; // [esp+1Ch] [ebp-10h]
+  unsigned int v29; // [esp+20h] [ebp-Ch]
+  float v30; // [esp+24h] [ebp-8h]
+  unsigned int v31; // [esp+28h] [ebp-4h]
 
-  v11 = ((int (__thiscall *)(vostok::ui::image *, int, int, int))thisa->m_ui_tips_view->w)(
-          thisa->m_ui_tips_view,
-          a3,
-          a4,
-          a2);
-  (*(void (__thiscall **)(int))(*(_DWORD *)v11 + 72))(v11);
-  line_size = 0;
-  v12 = thisa->m_tips._M_impl._M_finish - thisa->m_tips._M_impl._M_start;
-  line_size_4 = v12;
-  if ( v12 )
+  v6 = *(int **)(a2 + 56);
+  v26 = s_spot_max_distance;
+  v27 = FLOAT_20_0;
+  v7 = *v6;
+  v30 = 0.0;
+  v8 = (*(int (__thiscall **)(int *, int, int, int))(v7 + 8))(v6, a4, a5, a3);
+  (*(void (__thiscall **)(int))(*(_DWORD *)v8 + 72))(v8);
+  v9 = *(_DWORD *)(a2 + 596) - *(_DWORD *)(a2 + 592);
+  v31 = 0;
+  v10 = v9 >> 2;
+  v29 = v10;
+  if ( v10 )
   {
     do
     {
-      v13 = thisa->m_tips._M_impl._M_start[line_size];
-      v14 = (int)thisa->m_ui_world->create_text(thisa->m_ui_world);
-      (*(void (__thiscall **)(int, const void *))(*(_DWORD *)v14 + 8))(v14, v13);
-      (**(void (__thiscall ***)(int, _DWORD))v14)(v14, 0);
-      (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v14 + 20))(v14, 0);
-      v15 = *(float *)(*(int (__thiscall **)(int, void **))(*(_DWORD *)v14 + 24))(v14, &retaddr);
-      if ( v27[0] <= v15 )
-        v27[0] = v15;
-      v16 = (*(int (__thiscall **)(int))(*(_DWORD *)v14 + 28))(v14);
-      (*(void (__thiscall **)(int, float *))(*(_DWORD *)v16 + 8))(v16, v27);
-      v17 = (void (__thiscall ***)(_DWORD, _DWORD *))(*(int (__thiscall **)(int))(*(_DWORD *)v14 + 28))(v14);
-      var4[0] = 0;
-      *(float *)&var4[1] = v23;
-      (**v17)(v17, var4);
-      v18 = (*(int (__thiscall **)(int))(*(_DWORD *)v14 + 28))(v14);
-      (*(void (__thiscall **)(int, int))(*(_DWORD *)v18 + 16))(v18, 1);
-      (*(void (__thiscall **)(int, int))(*(_DWORD *)v14 + 4))(v14, -16711936);
-      v26 = thisa->m_ui_tips_view->w(thisa->m_ui_tips_view);
-      p_add_child = (void (__thiscall **)(_DWORD, int))&v26->add_child;
-      v20 = (*(int (__thiscall **)(int, int))(*(_DWORD *)v14 + 28))(v14, 1);
-      (*p_add_child)(LODWORD(v27[0]), v20);
-      v23 = v27[1] + v23;
-      ++line_size;
+      v11 = *(_DWORD *)(*(_DWORD *)(a2 + 592) + 4 * v31);
+      v12 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 32) + 16))(*(_DWORD *)(a2 + 32));
+      (*(void (__thiscall **)(int, int))(*(_DWORD *)v12 + 8))(v12, v11);
+      (**(void (__thiscall ***)(int, _DWORD))v12)(v12, 0);
+      (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v12 + 20))(v12, 0);
+      v13 = *(float *)(*(int (__thiscall **)(int, char *))(*(_DWORD *)v12 + 24))(v12, v23);
+      if ( v26 <= v13 )
+        v26 = v13;
+      v14 = (*(int (__thiscall **)(int))(*(_DWORD *)v12 + 28))(v12);
+      (*(void (__thiscall **)(int, float *))(*(_DWORD *)v14 + 8))(v14, &v26);
+      v15 = (void (__thiscall ***)(_DWORD, float *))(*(int (__thiscall **)(int))(*(_DWORD *)v12 + 28))(v12);
+      v24 = 0.0;
+      v25 = v30;
+      (**v15)(v15, &v24);
+      v16 = (*(int (__thiscall **)(int))(*(_DWORD *)v12 + 28))(v12);
+      (*(void (__thiscall **)(int, int))(*(_DWORD *)v16 + 16))(v16, 1);
+      (*(void (__thiscall **)(int, int))(*(_DWORD *)v12 + 4))(v12, -16711936);
+      v17 = (_DWORD *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 56) + 8))(*(_DWORD *)(a2 + 56));
+      v18 = *v17;
+      v28 = v17;
+      v19 = (*(int (__thiscall **)(int, int))(*(_DWORD *)v12 + 28))(v12, 1);
+      (*(void (__thiscall **)(_DWORD *, int))(v18 + 64))(v28, v19);
+      ++v31;
+      v30 = v27 + v30;
     }
-    while ( line_size < line_size_4 );
-    v12 = line_size_4;
+    while ( v31 < v29 );
+    v10 = v29;
   }
-  v21 = (int)thisa->m_ui_tips_view->w(thisa->m_ui_tips_view);
-  a10 = a8;
-  a11 = retaddr;
-  (*(void (__thiscall **)(int, int *))(*(_DWORD *)v21 + 8))(v21, &a10);
-  v22 = (int)thisa->m_ui_tips_view->w(thisa->m_ui_tips_view);
-  (*(void (__thiscall **)(int, bool))(*(_DWORD *)v22 + 16))(v22, v12 != 0);
+  v20 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 56) + 8))(*(_DWORD *)(a2 + 56));
+  v24 = v26;
+  v25 = v30;
+  (*(void (__thiscall **)(int, float *))(*(_DWORD *)v20 + 8))(v20, &v24);
+  v21 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 56) + 8))(*(_DWORD *)(a2 + 56));
+  (*(void (__thiscall **)(int, bool))(*(_DWORD *)v21 + 16))(v21, v10 != 0);
 }

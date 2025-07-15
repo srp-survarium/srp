@@ -498,57 +498,57 @@ LABEL_426:
     case 1u:
       goto $LN103;
     case 2u:
-      goto $LN88_1;
+      goto $LN88_2;
     case 3u:
-      goto $LN73;
+      goto $LN73_1;
     case 4u:
-      goto $LN120;
+      goto $LN120_1;
     case 5u:
       goto $LN105;
     case 6u:
-      goto $LN90;
+      goto $LN90_2;
     case 7u:
-      goto $LN75;
+      goto $LN75_1;
     case 8u:
-      goto $LN122_0;
+      goto $LN122_1;
     case 9u:
       goto $LN107;
     case 0xAu:
-      goto $LN92_5;
+      goto $LN92;
     case 0xBu:
-      goto $LN77;
+      goto $LN77_0;
     case 0xCu:
-      goto $LN124;
+      goto $LN124_0;
     case 0xDu:
-      goto $LN109;
+      goto $LN109_0;
     case 0xEu:
-      goto $LN94;
+      goto $LN94_0;
     case 0xFu:
       goto $LN79;
     case 0x10u:
       goto $LN126;
     case 0x11u:
-      goto $LN111;
+      goto $LN111_1;
     case 0x12u:
-      goto $LN96_0;
+      goto $LN96_1;
     case 0x13u:
       goto $LN81;
     case 0x14u:
-      goto $LN128;
+      goto $LN128_1;
     case 0x15u:
-      goto $LN113_0;
+      goto $LN113_1;
     case 0x16u:
-      goto $LN98;
+      goto $LN98_1;
     case 0x17u:
-      goto $LN83;
+      goto $LN83_0;
     case 0x18u:
-      goto $LN130_2;
+      goto $LN130_4;
     case 0x19u:
       goto $LN115;
     case 0x1Au:
-      goto $LN100;
+      goto $LN100_5;
     case 0x1Bu:
-      goto $LN85;
+      goto $LN85_0;
     case 0x1Cu:
       v34 = *((_DWORD *)v31 - 7);
       if ( v34 == *((_DWORD *)v32 - 7) )
@@ -584,7 +584,7 @@ LABEL_426:
       }
       if ( v7 )
         return v7;
-$LN130_2:
+$LN130_4:
       v38 = *((_DWORD *)v31 - 6);
       if ( v38 == *((_DWORD *)v32 - 6) )
       {
@@ -619,7 +619,7 @@ $LN130_2:
       }
       if ( v7 )
         return v7;
-$LN128:
+$LN128_1:
       v42 = *((_DWORD *)v31 - 5);
       if ( v42 == *((_DWORD *)v32 - 5) )
       {
@@ -689,7 +689,7 @@ $LN126:
       }
       if ( v7 )
         return v7;
-$LN124:
+$LN124_0:
       if ( *((_DWORD *)v31 - 3) == *((_DWORD *)v32 - 3) )
       {
         v7 = 0;
@@ -723,7 +723,7 @@ $LN124:
       }
       if ( v7 )
         return v7;
-$LN122_0:
+$LN122_1:
       v53 = *((_DWORD *)v31 - 2);
       if ( v53 == *((_DWORD *)v32 - 2) )
       {
@@ -758,7 +758,7 @@ $LN122_0:
       }
       if ( v7 )
         return v7;
-$LN120:
+$LN120_1:
       v57 = *((_DWORD *)v31 - 1);
       if ( v57 == *((_DWORD *)v32 - 1) )
       {
@@ -853,7 +853,7 @@ $LN115:
       }
       if ( v7 )
         return v7;
-$LN113_0:
+$LN113_1:
       v70 = *(_DWORD *)(v31 - 21);
       if ( v70 == *(_DWORD *)(v32 - 21) )
       {
@@ -888,7 +888,7 @@ $LN113_0:
       }
       if ( v7 )
         return v7;
-$LN111:
+$LN111_1:
       v74 = *(_DWORD *)(v31 - 17);
       if ( v74 == *(_DWORD *)(v32 - 17) )
       {
@@ -923,7 +923,7 @@ $LN111:
       }
       if ( v7 )
         return v7;
-$LN109:
+$LN109_0:
       v78 = *(_DWORD *)(v31 - 13);
       if ( v78 == *(_DWORD *)(v32 - 13) )
       {
@@ -1063,7 +1063,7 @@ $LN105:
       }
       if ( v7 )
         return v7;
-$LN100:
+$LN100_5:
       v93 = *(_DWORD *)(v31 - 26);
       if ( v93 == *(_DWORD *)(v32 - 26) )
       {
@@ -1098,7 +1098,7 @@ $LN100:
       }
       if ( v7 )
         return v7;
-$LN98:
+$LN98_1:
       v97 = *(_DWORD *)(v31 - 22);
       if ( v97 == *(_DWORD *)(v32 - 22) )
       {
@@ -1133,7 +1133,7 @@ $LN98:
       }
       if ( v7 )
         return v7;
-$LN96_0:
+$LN96_1:
       v101 = *(_DWORD *)(v31 - 18);
       if ( v101 == *(_DWORD *)(v32 - 18) )
       {
@@ -1168,7 +1168,7 @@ $LN96_0:
       }
       if ( v7 )
         return v7;
-$LN94:
+$LN94_0:
       v105 = *(_DWORD *)(v31 - 14);
       if ( v105 == *(_DWORD *)(v32 - 14) )
       {
@@ -1203,7 +1203,7 @@ $LN94:
       }
       if ( v7 )
         return v7;
-$LN92_5:
+$LN92:
       if ( *(_DWORD *)(v31 - 10) == *(_DWORD *)(v32 - 10) )
       {
         v7 = 0;
@@ -1237,7 +1237,7 @@ $LN92_5:
       }
       if ( v7 )
         return v7;
-$LN90:
+$LN90_2:
       v112 = *(_DWORD *)(v31 - 6);
       if ( v112 == *(_DWORD *)(v32 - 6) )
       {
@@ -1272,7 +1272,7 @@ $LN90:
       }
       if ( v7 )
         return v7;
-$LN88_1:
+$LN88_2:
       if ( *((_WORD *)v31 - 1) == *((_WORD *)v32 - 1) )
         return 0;
       goto LABEL_336;
@@ -1310,7 +1310,7 @@ $LN88_1:
       }
       if ( v7 )
         return v7;
-$LN85:
+$LN85_0:
       v121 = *(_DWORD *)(v31 - 27);
       if ( v121 == *(_DWORD *)(v32 - 27) )
       {
@@ -1345,7 +1345,7 @@ $LN85:
       }
       if ( v7 )
         return v7;
-$LN83:
+$LN83_0:
       v125 = *(_DWORD *)(v31 - 23);
       if ( v125 == *(_DWORD *)(v32 - 23) )
       {
@@ -1449,7 +1449,7 @@ $LN79:
       }
       if ( v7 )
         return v7;
-$LN77:
+$LN77_0:
       v136 = *(_DWORD *)(v31 - 11);
       if ( v136 == *(_DWORD *)(v32 - 11) )
       {
@@ -1484,7 +1484,7 @@ $LN77:
       }
       if ( v7 )
         return v7;
-$LN75:
+$LN75_1:
       v140 = *(_DWORD *)(v31 - 7);
       if ( v140 != *(_DWORD *)(v32 - 7) )
       {
@@ -1510,7 +1510,7 @@ $LN75:
 LABEL_415:
       if ( v7 )
         return v7;
-$LN73:
+$LN73_1:
       v144 = *(v31 - 3) - *(v32 - 3);
       if ( v144 )
       {

@@ -3,7 +3,7 @@ int __usercall BN_STACK_push@<eax>(bignum_ctx_stack *st@<esi>, unsigned int idx)
   unsigned int size; // eax
   unsigned int v3; // ebx
   int result; // eax
-  unsigned __int8 *v5; // edi
+  unsigned int *v5; // edi
   unsigned int depth; // eax
 
   size = st->size;
@@ -20,15 +20,15 @@ LABEL_11:
   else
     v3 = 32;
   result = (int)CRYPTO_malloc(4 * v3, ".\\crypto\\bn\\bn_ctx.c", 338);
-  v5 = (unsigned __int8 *)result;
+  v5 = (unsigned int *)result;
   if ( result )
   {
     depth = st->depth;
     if ( depth )
-      memcpy(v5, (unsigned __int8 *)st->indexes, 4 * depth);
+      memcpy((int)v5, (const __m128i *)st->indexes, 4 * depth);
     if ( st->size )
       CRYPTO_free(st->indexes);
-    st->indexes = (unsigned int *)v5;
+    st->indexes = v5;
     st->size = v3;
     goto LABEL_11;
   }

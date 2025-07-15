@@ -1,7 +1,4 @@
-bool __cdecl vostok::strings::less(const char *left, const char *right)
+BOOL __cdecl vostok::strings::less(char *left, char *right)
 {
-  int v2; // kr00_4
-
-  v2 = strcmp(left, right);
-  return v2 && -(v2 < 0) - ((v2 < 0) - 1) == -1;
+  return vostok::strings::compare(left, right) == -1;
 }

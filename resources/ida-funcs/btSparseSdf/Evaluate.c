@@ -1,215 +1,172 @@
 float __userpurge btSparseSdf<3>::Evaluate@<xmm0>(
         btSparseSdf<3> *this@<ecx>,
-        const btVector3 *x@<eax>,
+        float *eax0@<eax>,
         btCollisionShape *shape,
         btVector3 *normal,
         float margin)
 {
-  float v6; // xmm0_4
-  float v7; // xmm2_4
-  float v8; // xmm1_4
-  float v9; // xmm3_4
-  int v10; // eax
-  float v11; // xmm0_4
-  int v12; // esi
-  float v13; // xmm0_4
-  btSparseSdf<3> *v14; // esi
-  float v15; // xmm1_4
+  float v6; // xmm1_4
+  float v8; // xmm0_4
+  unsigned int v9; // ecx
+  btGjkEpaSolver2::sResults *v10; // ebx
+  btSparseSdf<3>::Cell *status; // edi
+  btSparseSdf<3>::Cell *v12; // eax
+  btMatrix3x3 *v13; // ecx
+  int i; // ecx
+  int v15; // edx
   int v16; // eax
-  float v17; // xmm0_4
-  int v18; // edx
-  float v19; // xmm0_4
-  int v20; // edx
-  float v21; // xmm3_4
-  int v22; // eax
-  float v23; // xmm0_4
-  int v24; // ebx
+  float v17; // xmm1_4
+  float v18; // xmm4_4
+  float v19; // xmm7_4
+  float v20; // xmm6_4
+  float v21; // xmm2_4
+  float v22; // xmm5_4
+  float v23; // xmm1_4
+  float v24; // xmm4_4
   float v25; // xmm0_4
-  unsigned int v26; // ecx
-  int v27; // edx
-  btSparseSdf<3>::Cell **m_data; // eax
-  unsigned __int8 *v29; // esi
-  unsigned __int8 *v30; // eax
-  btSparseSdf<3> *v31; // ecx
-  float v32; // eax
-  int v33; // edx
-  int v34; // edx
-  int v35; // ecx
-  int v36; // eax
-  float v37; // xmm7_4
-  float v38; // xmm6_4
-  float v39; // xmm4_4
-  float v40; // xmm2_4
-  float v41; // xmm3_4
-  float v42; // xmm0_4
-  float v43; // xmm3_4
-  long double v44; // st7
-  float v45; // xmm4_4
-  float v46; // xmm1_4
-  float v47; // xmm2_4
-  btSparseSdf<3>::Cell **v49; // [esp+2D0h] [ebp-94h]
-  float v50; // [esp+2D0h] [ebp-94h]
-  btVector3 pdata; // [esp+2D4h] [ebp-90h] BYREF
-  float v52; // [esp+2E4h] [ebp-80h]
-  int v53; // [esp+2E8h] [ebp-7Ch]
-  int v54; // [esp+2ECh] [ebp-78h]
-  float v55; // [esp+2F0h] [ebp-74h]
-  btSparseSdf<3> *v56; // [esp+2F4h] [ebp-70h]
-  int v57; // [esp+2F8h] [ebp-6Ch]
-  float v58; // [esp+2FCh] [ebp-68h]
-  float d[8]; // [esp+300h] [ebp-64h]
-  float v60; // [esp+320h] [ebp-44h]
-  int v61; // [esp+328h] [ebp-3Ch]
-  float v62; // [esp+32Ch] [ebp-38h]
-  float v63; // [esp+330h] [ebp-34h]
-  float v64; // [esp+334h] [ebp-30h]
-  float v65; // [esp+338h] [ebp-2Ch]
-  float v66; // [esp+33Ch] [ebp-28h]
-  float v67; // [esp+340h] [ebp-24h]
-  float v68; // [esp+344h] [ebp-20h]
-  float v69; // [esp+34Ch] [ebp-18h]
-  float v70; // [esp+35Ch] [ebp-8h]
+  float v26; // xmm5_4
+  float v27; // xmm3_4
+  float f; // xmm7_4
+  float v29; // xmm6_4
+  float v30; // xmm2_4
+  float v31; // xmm5_4
+  float v32; // xmm0_4
+  float v33; // xmm2_4
+  float v34; // xmm0_4
+  float v35; // xmm3_4
+  float v36; // xmm1_4
+  float v37; // xmm0_4
+  btMatrix3x3 *v39; // [esp-10h] [ebp-94h]
+  btSparseSdf<3>::Cell *v40; // [esp+8h] [ebp-7Ch]
+  unsigned int v41; // [esp+Ch] [ebp-78h]
+  float v42; // [esp+Ch] [ebp-78h]
+  btSparseSdf<3>::IntFrac y; // [esp+10h] [ebp-74h] BYREF
+  btSparseSdf<3>::IntFrac z; // [esp+1Ch] [ebp-68h] BYREF
+  btSparseSdf<3>::IntFrac v45; // [esp+28h] [ebp-5Ch] BYREF
+  float v46; // [esp+34h] [ebp-50h]
+  float v47; // [esp+38h] [ebp-4Ch]
+  float v48; // [esp+3Ch] [ebp-48h]
+  float v49; // [esp+40h] [ebp-44h]
+  float v50; // [esp+54h] [ebp-30h]
+  float v51; // [esp+58h] [ebp-2Ch]
+  float v52; // [esp+5Ch] [ebp-28h]
+  int v53; // [esp+60h] [ebp-24h]
+  float v54; // [esp+64h] [ebp-20h]
+  float v55; // [esp+70h] [ebp-14h]
+  float v56; // [esp+74h] [ebp-10h]
+  float v57; // [esp+78h] [ebp-Ch]
+  float v58; // [esp+7Ch] [ebp-8h]
+  float v59; // [esp+80h] [ebp-4h]
 
-  v6 = *(float *)&clear_value / this->voxelsz;
-  v7 = (float)(x->mVec128.m128_f32[0] * v6) * 0.33333334;
-  v8 = x->mVec128.m128_f32[1] * v6;
-  v9 = x->mVec128.m128_f32[2] * v6;
-  if ( v7 >= 0.0 )
-    v10 = 0;
-  else
-    v10 = (int)(float)(*(float *)&clear_value - v7);
-  v11 = (float)v10 + v7;
-  v12 = (int)v11;
-  v13 = (float)(v11 - (float)(int)v11) * 3.0;
-  v14 = (btSparseSdf<3> *)(v12 - v10);
-  v15 = v8 * 0.33333334;
-  v57 = (int)v13;
-  v58 = v13 - (float)(int)v13;
-  v56 = v14;
-  if ( v15 >= 0.0 )
-    v16 = 0;
-  else
-    v16 = (int)(float)(*(float *)&clear_value - v15);
-  v17 = (float)v16 + v15;
-  v18 = (int)v17;
-  v19 = (float)(v17 - (float)(int)v17) * 3.0;
-  v20 = v18 - v16;
-  v21 = v9 * 0.33333334;
-  v54 = (int)v19;
-  v55 = v19 - (float)(int)v19;
-  v53 = v20;
-  if ( v21 >= 0.0 )
-    v22 = 0;
-  else
-    v22 = (int)(float)(*(float *)&clear_value - v21);
-  v23 = (float)v22 + v21;
-  v24 = (int)v23 - v22;
-  v25 = (float)(v23 - (float)(int)v23) * 3.0;
-  v61 = (int)v25;
-  v62 = v25 - (float)(int)v25;
-  pdata.mVec128.m128_u64[0] = __PAIR64__(v20, (unsigned int)v14);
-  pdata.mVec128.m128_u64[1] = __PAIR64__((unsigned int)shape, v24);
-  *(float *)&v26 = COERCE_FLOAT(HsiehHash<4>(&pdata));
-  v27 = v26 % this->cells.m_size;
-  m_data = this->cells.m_data;
-  v29 = (unsigned __int8 *)m_data[v27];
-  v52 = *(float *)&v26;
-  v49 = &m_data[v27];
+  v6 = *eax0;
+  v8 = s_bm_current_air_resistance / this->voxelsz;
+  v51 = eax0[1] * v8;
+  v52 = eax0[2] * v8;
+  btSparseSdf<3>::Decompose(&v45, v6 * v8);
+  btSparseSdf<3>::Decompose(&y, v51);
+  btSparseSdf<3>::Decompose(&z, v52);
+  v9 = btSparseSdf<3>::Hash(v45.b, y.b, z.b, shape);
+  v41 = v9;
+  v10 = (btGjkEpaSolver2::sResults *)&this->cells.m_data[v9 % this->cells.m_size];
+  status = (btSparseSdf<3>::Cell *)v10->status;
   ++this->nqueries;
-  if ( v29 )
+  if ( !status )
+    goto LABEL_9;
+  do
   {
-    while ( 1 )
+    ++this->nprobes;
+    if ( status->hash == v9
+      && status->c[0] == v45.b
+      && status->c[1] == y.b
+      && status->c[2] == z.b
+      && status->pclient == shape )
     {
-      ++this->nprobes;
-      if ( *((_DWORD *)v29 + 68) == v26
-        && *((btSparseSdf<3> **)v29 + 64) == v56
-        && *((_DWORD *)v29 + 65) == v53
-        && *((_DWORD *)v29 + 66) == v24
-        && *((btCollisionShape **)v29 + 69) == shape )
-      {
-        break;
-      }
-      v29 = (unsigned __int8 *)*((_DWORD *)v29 + 70);
-      if ( !v29 )
-        goto LABEL_17;
+      break;
     }
+    status = status->next;
   }
-  else
+  while ( status );
+  if ( !status )
   {
-LABEL_17:
+LABEL_9:
     ++this->nprobes;
     ++this->ncells;
-    v30 = (unsigned __int8 *)operator new(0x11Cu);
-    v29 = v30;
-    if ( v30 )
-      memset(v30, 0, 0x11Cu);
+    v12 = (btSparseSdf<3>::Cell *)operator new(0x11Cu);
+    v13 = v39;
+    v40 = v12;
+    if ( v12 )
+    {
+      memset((int)v12, 0, sizeof(btSparseSdf<3>::Cell));
+      status = v40;
+    }
     else
-      v29 = 0;
-    *((_DWORD *)v29 + 70) = *v49;
-    v31 = v56;
-    *v49 = (btSparseSdf<3>::Cell *)v29;
-    v32 = v52;
-    *((_DWORD *)v29 + 69) = shape;
-    v33 = v53;
-    *((float *)v29 + 68) = v32;
-    *((_DWORD *)v29 + 64) = v31;
-    *((_DWORD *)v29 + 65) = v33;
-    *((_DWORD *)v29 + 66) = v24;
-    btSparseSdf<3>::BuildCell(v31, (btSparseSdf<3>::Cell *)this);
+    {
+      status = 0;
+    }
+    status->next = (btSparseSdf<3>::Cell *)v10->status;
+    v10->status = (btGjkEpaSolver2::sResults::eStatus)status;
+    status->pclient = shape;
+    status->hash = v41;
+    status->c[0] = v45.b;
+    status->c[1] = y.b;
+    status->c[2] = z.b;
+    btSparseSdf<3>::BuildCell(this, status, v13, v10);
   }
-  v34 = v57;
-  v35 = v54;
-  *((_DWORD *)v29 + 67) = this->puid;
-  v36 = v61 + 4 * (v35 + 4 * v34);
-  v37 = *(float *)&v29[4 * v36];
-  v38 = *(float *)&v29[4 * v36 + 4];
-  v39 = *(float *)&v29[4 * v36 + 68];
-  v40 = *(float *)&v29[4 * v36 + 84];
-  v41 = *(float *)&v29[4 * v36 + 20];
-  d[3] = *(float *)&v29[4 * v36 + 16];
-  v42 = *(float *)&v29[4 * v36 + 64];
-  pdata.mVec128.m128_f32[0] = v42 - v37;
-  v65 = v42 - v37;
-  d[7] = v41;
-  pdata.mVec128.m128_f32[2] = v39 - v38;
-  v66 = v39 - v38;
-  d[1] = v42;
-  v68 = d[3] - v37;
-  d[2] = *(float *)&v29[4 * v36 + 80];
-  d[0] = v37;
-  d[4] = v38;
-  v60 = v40 - v41;
-  v70 = v41 - d[3];
-  v63 = d[2] - d[3];
-  v69 = v41 - v38;
-  v43 = (float)((float)((float)(d[2] - v42) - (float)(d[3] - v37)) * v58) + (float)(d[3] - v37);
-  v50 = (float)((float)((float)((float)((float)(v60 - pdata.mVec128.m128_f32[2]) * v55) + pdata.mVec128.m128_f32[2])
-                      - (float)((float)((float)((float)(d[2] - d[3]) - pdata.mVec128.m128_f32[0]) * v55)
-                              + pdata.mVec128.m128_f32[0]))
-              * v62)
-      + (float)((float)((float)((float)(d[2] - d[3]) - pdata.mVec128.m128_f32[0]) * v55) + pdata.mVec128.m128_f32[0]);
-  v67 = (float)((float)((float)((float)((float)((float)(v40 - v39) - v69) * v58) + v69) - v43) * v62) + v43;
-  v64 = (float)((float)((float)((float)((float)((float)(v40 - d[2]) - (float)(d[7] - d[3])) * v58) + (float)(d[7] - d[3]))
-                      - (float)((float)((float)((float)(v39 - d[1]) - (float)(v38 - v37)) * v58) + (float)(v38 - v37)))
-              * v55)
-      + (float)((float)((float)((float)(v39 - d[1]) - (float)(v38 - v37)) * v58) + (float)(v38 - v37));
-  v44 = sqrtf((float)((float)(v64 * v64) + (float)(v67 * v67)) + (float)(v50 * v50));
-  v45 = v55;
-  v52 = 1.0 / v44;
-  pdata.mVec128.m128_f32[0] = v50 * v52;
-  pdata.mVec128.m128_f32[1] = v67 * v52;
-  v46 = v58;
-  pdata.mVec128.m128_f32[2] = v64 * v52;
-  pdata.mVec128.m128_i32[3] = 0;
-  *normal = (btVector3)pdata.mVec128;
-  v47 = (float)((float)((float)((float)(v63 * v46) + d[3]) - (float)((float)(v65 * v46) + d[0])) * v45)
-      + (float)((float)(v65 * v46) + d[0]);
-  return (float)((float)((float)((float)((float)((float)((float)((float)(v60 * v46) + d[7])
-                                                       - (float)((float)(v66 * v46) + d[4]))
-                                               * v45)
-                                       + (float)((float)(v66 * v46) + d[4]))
-                               - v47)
-                       * v62)
-               + v47)
-       - margin;
+  i = y.i;
+  v15 = z.i;
+  status->puid = this->puid;
+  v16 = v15 + 4 * (i + 4 * v45.i);
+  v17 = status->d[1][1][v16 + 1];
+  v18 = status->d[0][1][v16];
+  v19 = status->d[0][0][v16];
+  v20 = status->d[0][0][v16 + 1];
+  v57 = status->d[1][0][v16 + 1];
+  v58 = v17;
+  v21 = status->d[1][0][v16];
+  v59 = status->d[0][1][v16 + 1];
+  v56 = v20;
+  v22 = status->d[1][1][v16];
+  v55 = v18;
+  v23 = v22 - v18;
+  v50 = v18 - v19;
+  v52 = v59 - v20;
+  v46 = v20 - v19;
+  v47 = v57 - v21;
+  v24 = v57 - v20;
+  v48 = v59 - v55;
+  v25 = v58 - v22;
+  v26 = (float)(v22 - v21) - (float)(v55 - v19);
+  v42 = v58 - v59;
+  v49 = v25;
+  v27 = v21 - v19;
+  v54 = v19;
+  f = v45.f;
+  v29 = (float)((float)((float)((float)((float)((float)(v58 - v59) - v24) * y.f) + v24)
+                      - (float)((float)((float)(v23 - v27) * y.f) + v27))
+              * z.f)
+      + (float)((float)((float)(v23 - v27) * y.f) + v27);
+  v30 = (float)((float)((float)((float)((float)((float)(v58 - v57) - v52) * v45.f) + v52)
+                      - (float)((float)(v26 * v45.f) + v50))
+              * z.f)
+      + (float)((float)(v26 * v45.f) + v50);
+  normal->mVec128.m128_f32[0] = v29;
+  normal->mVec128.m128_f32[1] = v30;
+  v31 = (float)((float)((float)((float)((float)(v49 - v48) * f) + v48) - (float)((float)((float)(v47 - v46) * f) + v46))
+              * y.f)
+      + (float)((float)((float)(v47 - v46) * f) + v46);
+  v32 = s_bm_current_air_resistance / fsqrt((float)((float)(v31 * v31) + (float)(v30 * v30)) + (float)(v29 * v29));
+  normal->mVec128.m128_f32[2] = v31;
+  v53 = 0;
+  v51 = v30 * v32;
+  v33 = v45.f;
+  v52 = v31 * v32;
+  normal->mVec128.m128_f32[0] = v29 * v32;
+  normal->mVec128.m128_f32[1] = v51;
+  v34 = (float)(v42 * v33) + v59;
+  normal->mVec128.m128_f32[2] = v52;
+  v35 = (float)(v27 * v33) + v54;
+  v36 = (float)((float)((float)(v23 * v33) + v55) - v35) * y.f;
+  v37 = (float)((float)(v34 - (float)((float)(v24 * v33) + v56)) * y.f) + (float)((float)(v24 * v33) + v56);
+  normal->mVec128.m128_i32[3] = v53;
+  return (float)((float)((float)(v37 - (float)(v36 + v35)) * z.f) + (float)(v36 + v35)) - margin;
 }

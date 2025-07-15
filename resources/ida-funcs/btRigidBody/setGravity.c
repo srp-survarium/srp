@@ -1,18 +1,21 @@
 void __fastcall btRigidBody::setGravity(btRigidBody *this, int a2)
 {
-  float v2; // xmm1_4
-  unsigned int v3; // xmm1_4
-  __int64 v4; // [esp+0h] [ebp-10h]
+  float v2; // xmm2_4
+  float v3; // [esp+4h] [ebp-Ch]
+  float v4; // [esp+8h] [ebp-8h]
 
   v2 = *(float *)(a2 + 352);
   if ( v2 != 0.0 )
   {
-    *(float *)&v4 = *(float *)&this->__vftable * (float)(*(float *)&clear_value / v2);
-    *((float *)&v4 + 1) = *((float *)&this->__vftable + 1) * (float)(*(float *)&clear_value / v2);
-    *(float *)&v3 = *((float *)&this->__vftable + 2) * (float)(*(float *)&clear_value / v2);
-    *(_QWORD *)(a2 + 384) = v4;
-    *(_QWORD *)(a2 + 392) = v3;
+    v3 = *((float *)&this->__vftable + 1) * (float)(s_bm_current_air_resistance / v2);
+    v4 = *((float *)&this->__vftable + 2) * (float)(s_bm_current_air_resistance / v2);
+    *(float *)(a2 + 384) = *(float *)&this->__vftable * (float)(s_bm_current_air_resistance / v2);
+    *(float *)(a2 + 388) = v3;
+    *(float *)(a2 + 392) = v4;
+    *(_DWORD *)(a2 + 396) = 0;
   }
-  *(_QWORD *)(a2 + 400) = *(_QWORD *)&this->__vftable;
-  *(_QWORD *)(a2 + 408) = *((_QWORD *)&this->__vftable + 1);
+  *(_DWORD *)(a2 + 400) = this->__vftable;
+  *(_DWORD *)(a2 + 404) = *((_DWORD *)&this->__vftable + 1);
+  *(_DWORD *)(a2 + 408) = *((_DWORD *)&this->__vftable + 2);
+  *(_DWORD *)(a2 + 412) = *((_DWORD *)&this->__vftable + 3);
 }

@@ -1,9 +1,9 @@
-char __thiscall Scaleform::Render::TextMeshProvider::generateRectangle(
+bool __thiscall Scaleform::Render::TextMeshProvider::generateRectangle(
         Scaleform::Render::TextMeshProvider *this,
         Scaleform::Render::Renderer2DImpl *ren,
         Scaleform::Render::VertexOutput *verOut,
         const Scaleform::Render::Matrix2x4<float> *mtx,
-        const float *coord,
+        float *coord,
         unsigned int fillColor,
         unsigned int borderColor,
         char meshGenFlags)
@@ -11,23 +11,23 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRectangle(
   Scaleform::Render::Tessellator *p_mTess; // ebx
   double v9; // st7
   const Scaleform::Render::Matrix2x4<float> *v10; // esi
-  float w; // [esp+782h] [ebp-BCh] BYREF
-  float v13; // [esp+786h] [ebp-B8h] BYREF
-  bool v14; // [esp+78Dh] [ebp-B1h]
-  Scaleform::Render::CornerVertex v15; // [esp+78Eh] [ebp-B0h] BYREF
-  Scaleform::Render::CornerVertex v16; // [esp+796h] [ebp-A8h]
-  Scaleform::Render::CornerVertex v0; // [esp+79Eh] [ebp-A0h]
-  Scaleform::Render::CornerVertex v18; // [esp+7A6h] [ebp-98h]
-  Scaleform::Render::Matrix2x4<float> v19[2]; // [esp+7AEh] [ebp-90h] BYREF
-  Scaleform::Render::TextMeshProvider *v20; // [esp+7F2h] [ebp-4Ch]
-  Scaleform::Render::MeshGenerator *p_MeshGen; // [esp+7F6h] [ebp-48h]
-  unsigned int v22[2]; // [esp+7FAh] [ebp-44h] BYREF
-  _DWORD v23[7]; // [esp+802h] [ebp-3Ch] BYREF
-  _BYTE v24[32]; // [esp+81Eh] [ebp-20h] BYREF
+  float w; // [esp+B8h] [ebp-BCh] BYREF
+  float v13; // [esp+BCh] [ebp-B8h] BYREF
+  bool v14; // [esp+C3h] [ebp-B1h]
+  Scaleform::Render::TextMeshProvider::VertexCountType verCount; // [esp+C4h] [ebp-B0h] BYREF
+  Scaleform::Render::CornerVertex v16; // [esp+CCh] [ebp-A8h]
+  Scaleform::Render::CornerVertex v17; // [esp+D4h] [ebp-A0h]
+  Scaleform::Render::CornerVertex v18; // [esp+DCh] [ebp-98h]
+  Scaleform::Render::Matrix2x4<float> v19[2]; // [esp+E4h] [ebp-90h] BYREF
+  Scaleform::Render::TextMeshProvider *v20; // [esp+128h] [ebp-4Ch]
+  Scaleform::Render::MeshGenerator *p_MeshGen; // [esp+12Ch] [ebp-48h]
+  unsigned int colors[2]; // [esp+130h] [ebp-44h] BYREF
+  _DWORD v23[7]; // [esp+138h] [ebp-3Ch] BYREF
+  _BYTE v24[32]; // [esp+154h] [ebp-20h] BYREF
 
   v20 = this;
-  v22[1] = borderColor;
-  v22[0] = fillColor;
+  colors[1] = borderColor;
+  colors[0] = fillColor;
   p_MeshGen = &ren->MeshGen;
   Scaleform::Render::MeshGenerator::Clear(&ren->MeshGen);
   p_mTess = &ren->MeshGen.mTess;
@@ -104,34 +104,52 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRectangle(
     p_mTess->FinalizePath(p_mTess, 0, 2u, 0, 0);
     v16.x = v19[0].M[0][0];
     v16.y = v19[0].M[0][1];
-    v0.x = v19[0].M[0][2];
-    v0.y = v19[0].M[0][3];
-    v15.x = v19[0].M[1][0];
-    v15.y = v19[0].M[1][1];
+    v17.x = v19[0].M[0][2];
+    v17.y = v19[0].M[0][3];
+    *(float *)&verCount.VStart = v19[0].M[1][0];
+    *(float *)&verCount.IStart = v19[0].M[1][1];
     v18.x = v19[0].M[1][2];
     v18.y = v19[0].M[1][3];
     Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(
       &w,
       &v13,
-      *(Scaleform::Render::CornerVertex *)&v19[0].M[0][2],
+      *(const Scaleform::Render::CornerVertex *)&v19[0].M[0][2],
       *(Scaleform::Render::CornerVertex *)&v19[0].M[0][0],
-      *(Scaleform::Render::CornerVertex *)&v19[0].M[1][2],
+      *(const Scaleform::Render::CornerVertex *)&v19[0].M[1][2],
       1.0);
     ((void (__thiscall *)(Scaleform::Render::Tessellator *, float, _DWORD))p_mTess->AddVertex)(
       p_mTess,
       COERCE_FLOAT(LODWORD(w)),
       LODWORD(v13));
-    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(&w, &v13, v16, v18, v15, 1.0);
+    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(
+      &w,
+      &v13,
+      v16,
+      v18,
+      (const Scaleform::Render::CornerVertex)verCount,
+      1.0);
     ((void (__thiscall *)(Scaleform::Render::Tessellator *, float, _DWORD))p_mTess->AddVertex)(
       p_mTess,
       COERCE_FLOAT(LODWORD(w)),
       LODWORD(v13));
-    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(&w, &v13, v18, v15, v0, 1.0);
+    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(
+      &w,
+      &v13,
+      v18,
+      (Scaleform::Render::CornerVertex)verCount,
+      v17,
+      1.0);
     ((void (__thiscall *)(Scaleform::Render::Tessellator *, float, _DWORD))p_mTess->AddVertex)(
       p_mTess,
       COERCE_FLOAT(LODWORD(w)),
       LODWORD(v13));
-    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(&w, &v13, v15, v0, v16, 1.0);
+    Scaleform::Render::calcMiter_Scaleform::Render::CornerVertex_(
+      &w,
+      &v13,
+      (const Scaleform::Render::CornerVertex)verCount,
+      v17,
+      v16,
+      1.0);
     ((void (__thiscall *)(Scaleform::Render::Tessellator *, float, _DWORD))p_mTess->AddVertex)(
       p_mTess,
       COERCE_FLOAT(LODWORD(w)),
@@ -171,14 +189,9 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRectangle(
           (const Scaleform::Render::Matrix2x4<float> *)v24);
   if ( v14 )
   {
-    v15.x = 0.0;
-    v15.y = 0.0;
-    Scaleform::Render::TextMeshProvider::setMeshData(
-      v20,
-      p_mTess,
-      verOut,
-      v22,
-      (Scaleform::Render::TextMeshProvider::VertexCountType *)&v15);
+    verCount.VStart = 0;
+    verCount.IStart = 0;
+    Scaleform::Render::TextMeshProvider::setMeshData(v20, p_mTess, verOut, colors, &verCount);
     verOut->EndOutput(verOut);
   }
   Scaleform::Render::MeshGenerator::Clear(p_MeshGen);

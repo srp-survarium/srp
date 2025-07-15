@@ -1,7 +1,7 @@
 void __thiscall Scaleform::Render::MeshCacheListSet::EvictAll(Scaleform::Render::MeshCacheListSet *this)
 {
   unsigned int v2; // ebp
-  $181941B0ECCE92AAF0AD80025FE0C204 *v3; // esi
+  $91FE2188799D963DDDCE23AE0AD4A8E3 *v3; // esi
   Scaleform::Render::MeshCacheListSet::ListSlot *v4; // ebx
   Scaleform::Render::MeshCacheItem *i; // esi
   Scaleform::Render::Fence *pObject; // eax
@@ -11,11 +11,11 @@ void __thiscall Scaleform::Render::MeshCacheListSet::EvictAll(Scaleform::Render:
   v3 = &this->Slots[0].Root.4;
   do
   {
-    if ( v2 != 5 && ($181941B0ECCE92AAF0AD80025FE0C204 *)v3->pNext != &v3[-1] )
+    if ( v2 != 5 && ($91FE2188799D963DDDCE23AE0AD4A8E3 *)v3->pNext != &v3[-1] )
     {
       do
         this->pCache->Evict(this->pCache, v3->pNext, 0, 0);
-      while ( ($181941B0ECCE92AAF0AD80025FE0C204 *)v3->pNext != &v3[-1] );
+      while ( ($91FE2188799D963DDDCE23AE0AD4A8E3 *)v3->pNext != &v3[-1] );
     }
     ++v2;
     v3 += 3;

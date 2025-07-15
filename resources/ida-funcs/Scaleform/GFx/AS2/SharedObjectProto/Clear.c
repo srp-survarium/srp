@@ -1,63 +1,72 @@
 void __usercall Scaleform::GFx::AS2::SharedObjectProto::Clear(
         Scaleform::GFx::ASStringNode *a1@<ebx>,
         int a2@<ebp>,
-        const Scaleform::GFx::AS2::FnCall *fn)
+        Scaleform::RefCountNTSImpl *fn)
 {
-  Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // edi
-  Scaleform::GFx::AS2::SharedObject *p_pProto; // edi
-  Scaleform::GFx::AS2::Object *pObject; // ebp
-  Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
+  Scaleform::RefCountNTSImpl_vtbl *v4; // edi
+  Scaleform::GFx::AS2::SharedObject *v5; // edi
+  Scaleform::GFx::AS2::Object *v6; // ebp
+  int v7; // ecx
   Scaleform::RefCountVImpl *v8; // ebx
-  Scaleform::GFx::MovieImpl *v9; // ecx
+  int v9; // ecx
   Scaleform::RefCountVImpl *v10; // ebp
   unsigned int RefCount; // eax
-  Scaleform::Ptr<Scaleform::GFx::AS2::Object> pdataObj; // [esp+14h] [ebp-4h]
-  Scaleform::GFx::ASStringNode *pwriter; // [esp+1Ch] [ebp+4h]
+  Scaleform::GFx::AS2::Object *v14; // [esp+14h] [ebp-4h]
+  Scaleform::RefCountNTSImpl *v15; // [esp+1Ch] [ebp+4h]
 
-  if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_SharedObject )
+  if ( fn[1].__vftable
+    && (*((int (__thiscall **)(Scaleform::RefCountNTSImpl_vtbl *))fn[1].~Scaleform::RefCountNTSImpl + 2))(fn[1].__vftable) == 44 )
   {
-    ThisPtr = fn->ThisPtr;
-    if ( ThisPtr )
+    v4 = fn[1].__vftable;
+    if ( v4 )
     {
-      p_pProto = (Scaleform::GFx::AS2::SharedObject *)&ThisPtr[-2].pProto;
-      if ( p_pProto )
+      v5 = (Scaleform::GFx::AS2::SharedObject *)&v4[-4];
+      if ( v5 )
       {
-        pObject = Scaleform::GFx::AS2::Environment::OperatorNew(
-                    fn->Env,
-                    fn->Env->StringContext.pContext->pGlobal.pObject,
-                    (const Scaleform::GFx::ASString *)&fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[8].pMovieImpl,
-                    0,
-                    -1);
-        pdataObj.pObject = pObject;
-        Scaleform::GFx::AS2::SharedObject::SetDataObject(p_pProto, fn->Env, pObject);
-        pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
-        v8 = (Scaleform::RefCountVImpl *)pMovieImpl->GetStateAddRef(
-                                           &pMovieImpl->Scaleform::GFx::StateBag,
-                                           State_SharedObject);
+        v6 = Scaleform::GFx::AS2::Environment::OperatorNew(
+               (Scaleform::GFx::AS2::Environment *)fn[3].__vftable,
+               *((Scaleform::GFx::AS2::Object **)fn[3].__vftable[29].~Scaleform::RefCountNTSImpl + 12),
+               (const Scaleform::GFx::ASString *)(*(_DWORD *)(*((_DWORD *)fn[3].__vftable[29].~Scaleform::RefCountNTSImpl
+                                                              + 5)
+                                                            + 12)
+                                                + 168),
+               0,
+               -1);
+        v14 = v6;
+        Scaleform::GFx::AS2::SharedObject::SetDataObject(v5, (Scaleform::GFx::ASStringNode *)fn[3].__vftable, v6);
+        v7 = *(_DWORD *)(*((_DWORD *)fn[3].__vftable[28].~Scaleform::RefCountNTSImpl + 4) + 8);
+        v8 = (Scaleform::RefCountVImpl *)(*(int (__thiscall **)(int, int))(*(_DWORD *)(v7 + 8) + 12))(v7 + 8, 32);
         if ( v8 )
         {
-          v9 = fn->Env->Target->pASRoot->pMovieImpl;
-          v10 = (Scaleform::RefCountVImpl *)v9->GetStateAddRef(&v9->Scaleform::GFx::StateBag, State_FileOpener);
-          pwriter = (Scaleform::GFx::ASStringNode *)((int (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::String *, Scaleform::String *, Scaleform::RefCountVImpl *))v8->Release)(
-                                                      v8,
-                                                      &p_pProto->Name,
-                                                      &p_pProto->LocalPath,
-                                                      v10);
+          v9 = *(_DWORD *)(*((_DWORD *)fn[3].__vftable[28].~Scaleform::RefCountNTSImpl + 4) + 8);
+          v10 = (Scaleform::RefCountVImpl *)(*(int (__thiscall **)(int, int))(*(_DWORD *)(v9 + 8) + 12))(v9 + 8, 9);
+          v15 = (Scaleform::RefCountNTSImpl *)((int (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::String *, Scaleform::String *, Scaleform::RefCountVImpl *))v8->Release)(
+                                                v8,
+                                                &v5->Name,
+                                                &v5->LocalPath,
+                                                v10);
           if ( v10 )
             Scaleform::RefCountImpl::Release(v10);
-          Scaleform::GFx::AS2::SharedObject::Flush(p_pProto, (int)v10, (int)fn, fn->Env, pwriter, a2, a1);
-          if ( pwriter )
-            Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)pwriter);
+          Scaleform::GFx::AS2::SharedObject::Flush(
+            v5,
+            (int)v10,
+            (int)fn,
+            (Scaleform::GFx::AS2::Environment *)fn[3].__vftable,
+            (Scaleform::GFx::ASStringNode *)v15,
+            a2,
+            a1);
+          if ( v15 )
+            Scaleform::RefCountNTSImpl::Release(v15);
           Scaleform::RefCountImpl::Release(v8);
-          pObject = pdataObj.pObject;
+          v6 = v14;
         }
-        if ( pObject )
+        if ( v6 )
         {
-          RefCount = pObject->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          RefCount = v6->RefCount;
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
-            pObject->RefCount = RefCount - 1;
-            Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
+            v6->RefCount = RefCount - 1;
+            Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
           }
         }
       }
@@ -66,7 +75,7 @@ void __usercall Scaleform::GFx::AS2::SharedObjectProto::Clear(
   else
   {
     Scaleform::GFx::AS2::Environment::LogScriptError(
-      fn->Env,
+      (Scaleform::GFx::AS2::Environment *)fn[3].__vftable,
       "Error: Null or invalid 'this' is used for a method of %s class.\n",
       "SharedObject");
   }

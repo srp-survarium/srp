@@ -1,23 +1,56 @@
-void __thiscall survarium::collision_geometry::unsubscribe(
-        survarium::collision_geometry *this,
-        survarium::collision_geometry_subscriber *subscriber)
+void __usercall survarium::collision_geometry::unsubscribe(
+        survarium::collision_geometry *this@<esi>,
+        survarium::collision_geometry_subscriber *subscriber@<edx>)
 {
-  survarium::collision_geometry_subscriber **v2; // eax
-  survarium::collision_geometry_subscriber **__first; // [esp+24h] [ebp-14h]
-  boost::arg<1> *v5; // [esp+28h] [ebp-10h]
-  survarium::collision_geometry_subscriber **__last; // [esp+2Ch] [ebp-Ch]
+  void **M_finish; // ebx
+  void **M_start; // eax
+  int i; // ecx
+  stlp_std::__false_type __formal; // [esp+Bh] [ebp-1h] BYREF
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  __last = (survarium::collision_geometry_subscriber **)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref((boost::arg<1> *)this->m_subscribers._M_impl._M_finish);
-  v5 = (boost::arg<1> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_subscribers);
-  __first = (survarium::collision_geometry_subscriber **)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(v5);
-  v2 = stlp_std::find<vostok::physics::base_physics_object * const *,vostok::physics::base_physics_object *>(
-         __first,
-         __last,
-         &subscriber);
-  stlp_std::vector<survarium::collision_geometry_subscriber *,stlp_std::allocator<survarium::collision_geometry_subscriber *>>::erase(
-    &this->m_subscribers,
-    v2);
+  M_finish = this->m_subscribers._M_impl._M_finish;
+  M_start = this->m_subscribers._M_impl._M_start;
+  for ( i = ((char *)M_finish - (char *)M_start) >> 4; i > 0; --i )
+  {
+    if ( *M_start == subscriber )
+      goto LABEL_17;
+    if ( *++M_start == subscriber )
+      goto LABEL_17;
+    if ( *++M_start == subscriber )
+      goto LABEL_17;
+    if ( *++M_start == subscriber )
+      goto LABEL_17;
+    ++M_start;
+  }
+  switch ( M_finish - M_start )
+  {
+    case 1:
+      goto LABEL_15;
+    case 2:
+LABEL_13:
+      if ( *M_start == subscriber )
+        goto LABEL_17;
+      ++M_start;
+LABEL_15:
+      if ( *M_start == subscriber )
+        goto LABEL_17;
+      break;
+    case 3:
+      if ( *M_start == subscriber )
+        goto LABEL_17;
+      ++M_start;
+      goto LABEL_13;
+  }
+  M_start = this->m_subscribers._M_impl._M_finish;
+LABEL_17:
+  stlp_std::priv::_Impl_vector<void *,stlp_std::allocator<void *>>::_M_erase(
+    &this->m_subscribers._M_impl,
+    M_start,
+    &__formal);
   if ( this->m_subscribers._M_impl._M_start == this->m_subscribers._M_impl._M_finish )
-    survarium::collision_geometry::remove(this);
+  {
+    this->m_ghost_object->m_physics_world->m_dynamicsWorld->removeCollisionObject(
+      this->m_ghost_object->m_physics_world->m_dynamicsWorld,
+      this->m_ghost_object->m_bt_object);
+    this->m_physics_world = 0;
+  }
 }

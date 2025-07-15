@@ -1,13 +1,8 @@
-int boost::asio::detail::_dynamic_initializer_for__winsock_init_instance__()
+void boost::asio::detail::_dynamic_initializer_for__winsock_init_instance__()
 {
-  int result; // eax
+  boost::asio::detail::winsock_init<2,0> *v0; // [esp-4h] [ebp-8h]
 
-  atexit(dynamic_atexit_destructor_for___S3__);
-  boost::asio::detail::winsock_init_base::startup(
-    (boost::asio::detail::winsock_init_base::data *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.survarium::flash_external_handler,
-    2u,
-    0);
-  result = 0;
-  winsock_init_instance = &_S3_0;
-  return result;
+  atexit((int (__cdecl *)())dynamic_atexit_destructor_for___S5__);
+  boost::asio::detail::winsock_init<2,0>::winsock_init<2,0>(v0, (bool)&_S5_0, 0);
+  winsock_init_instance = &_S5_0;
 }

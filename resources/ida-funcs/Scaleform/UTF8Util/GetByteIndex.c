@@ -1,8 +1,8 @@
-const char *__stdcall Scaleform::UTF8Util::GetByteIndex(int index, const char *putf8str, int length)
+char *__stdcall Scaleform::UTF8Util::GetByteIndex(int index, char *putf8str, int length)
 {
-  const char *v3; // ebx
+  char *v3; // ebx
   int v4; // edi
-  const char *v5; // eax
+  char *v5; // eax
   int i; // esi
   int v8; // esi
 
@@ -16,7 +16,7 @@ const char *__stdcall Scaleform::UTF8Util::GetByteIndex(int index, const char *p
     {
       do
         --v8;
-      while ( Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str) && v8 > 0 );
+      while ( Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str) && v8 > 0 );
       v5 = putf8str;
     }
   }
@@ -24,11 +24,11 @@ const char *__stdcall Scaleform::UTF8Util::GetByteIndex(int index, const char *p
   {
     for ( i = index; i > 0; --i )
     {
-      Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
+      Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
       v5 = putf8str;
       if ( putf8str - v3 >= v4 )
-        return (const char *)(putf8str - v3);
+        return (char *)(putf8str - v3);
     }
   }
-  return (const char *)(v5 - v3);
+  return (char *)(v5 - v3);
 }

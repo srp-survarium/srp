@@ -1,253 +1,211 @@
 void __thiscall vostok::render::environment_probe::set_properties(
         vostok::render::environment_probe *this,
-        vostok::render::environment_probe *in_properties,
-        vostok::render::environment_probe_properties *in_propertiesa)
+        vostok::collision::geometry_instance *in_properties,
+        int a3)
 {
-  vostok::render::res_texture *v3; // ecx
-  const vostok::render::res_texture *m_object; // esi
-  bool v5; // zf
-  const vostok::render::res_texture *v6; // esi
-  stlp_std::priv::_Rb_tree_node_base *texture; // eax
-  vostok::render::res_texture *v8; // ecx
-  const vostok::render::res_texture *v9; // esi
-  stlp_std::priv::_Rb_tree_node_base *v10; // eax
-  const vostok::render::res_texture *v11; // esi
-  void (__thiscall *decrease_quality)(struct vostok::resources::resource_base *, unsigned int); // eax
-  int v13; // eax
-  vostok::collision::geometry_instance *v14; // edi
-  int v15; // eax
-  vostok::collision::object *v16; // ecx
-  vostok::collision::object *v17; // esi
-  vostok::math::float4x4 *v18; // esi
-  float radius; // xmm0_4
-  const vostok::math::float4x4 *v20; // esi
-  vostok::collision::box_geometry_instance *v21; // eax
-  int v22; // ecx
+  float v3; // xmm0_4
+  vostok::render::resource_manager *v4; // ecx
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  vostok::resources::query_result_for_cook *v6; // eax
+  vostok::render::res_texture *texture; // esi
+  const unsigned int *(__thiscall *v8)(vostok::collision::geometry_instance *); // xmm0_4
+  int v9; // ecx
+  const char *v10; // edi
+  char *v11; // esi
+  bool v12; // cf
+  bool v13; // zf
+  vostok::render::res_texture *v14; // eax
+  vostok::render::resource_manager *v15; // esi
+  float v16; // xmm0_4
+  vostok::math::float4x4 *v17; // ecx
+  vostok::memory::base_allocator *v18; // eax
+  vostok::collision::geometry_instance *v19; // eax
+  vostok::math::float4x4 *v20; // esi
+  float v21; // xmm0_4
+  vostok::math::float4x4 *v22; // eax
   vostok::collision::geometry_instance *v23; // eax
-  vostok::collision::geometry_instance *v24; // edi
-  int v25; // eax
-  vostok::collision::object *v26; // ecx
-  vostok::collision::object *v27; // esi
-  vostok::collision::object *v28; // eax
-  vostok::collision::space_partitioning_tree *m_collision_tree; // ecx
-  long double v30; // st7
-  float z; // xmm0_4
-  float v32; // ecx
-  __int64 v33; // xmm0_8
-  const vostok::math::float4x4 *_X_4; // [esp+14h] [ebp-1C0h]
-  vostok::math::float3 probe_scale3; // [esp+20h] [ebp-1B4h] BYREF
-  __int128 v36; // [esp+34h] [ebp-1A0h]
-  vostok::math::float4x4 dst; // [esp+44h] [ebp-190h] BYREF
-  vostok::math::float4x4 new_transform; // [esp+84h] [ebp-150h] BYREF
-  vostok::fixed_string<260> depth_texture_name; // [esp+C4h] [ebp-110h] BYREF
-  char vars0; // [esp+1D4h] [ebp+0h] BYREF
+  vostok::collision::object *v24; // eax
+  vostok::collision::geometry_instance_vtbl *v25; // ecx
+  const char *v26; // [esp-4h] [ebp-1C4h]
+  int v27; // [esp-4h] [ebp-1C4h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v28; // [esp+Ch] [ebp-1B4h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v29; // [esp+10h] [ebp-1B0h] BYREF
+  char *texture_name; // [esp+14h] [ebp-1ACh]
+  vostok::math::aabb scale; // [esp+18h] [ebp-1A8h] BYREF
+  vostok::math::float4x4 v32; // [esp+30h] [ebp-190h] BYREF
+  vostok::math::float4x4 v33; // [esp+70h] [ebp-150h] BYREF
+  char *name[3]; // [esp+B0h] [ebp-110h] BYREF
+  _BYTE v35[260]; // [esp+BCh] [ebp-104h] BYREF
+  char vars0; // [esp+1C0h] [ebp+0h] BYREF
 
   vostok::render::environment_probe_properties::operator=(
     (vostok::render::environment_probe_properties *)this,
-    &in_properties->m_properties,
-    in_propertiesa);
-  in_properties->m_num_mips = vostok::render::calc_mip_map_count(in_propertiesa->cubemap_resolution);
-  if ( in_propertiesa->texture_invalidated )
+    (const vostok::render::environment_probe_properties *)&in_properties->m_delete_by_collision_object,
+    a3);
+  v3 = *(float *)&in_properties[76].m_delete_by_collision_object;
+  *(float *)&in_properties[65].m_delete_by_collision_object = v3
+                                                            + *(float *)&in_properties[65].m_delete_by_collision_object;
+  *(float *)&in_properties[65].__vftable = v3 + *(float *)&in_properties[65].__vftable;
+  *(_DWORD *)&in_properties[72].m_delete_by_collision_object = (unsigned __int64)(__FYL2X__(
+                                                                                    (double)*(unsigned int *)(a3 + 536),
+                                                                                    0.6931471805599453094)
+                                                                                / __FYL2X__(2.0, 0.6931471805599453094))
+                                                             + 1;
+  vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::render::grass_render_model,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)&in_properties[1],
+    &v28);
+  vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::render::grass_render_model,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)&in_properties->m_delete_by_collision_object,
+    &v29);
+  m_object = v28.m_object;
+  if ( v28.m_object
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
+    && v29.m_object )
   {
-    m_object = in_properties->m_texture.m_object;
-    in_properties->m_texture.m_object = 0;
-    if ( m_object )
-    {
-      v5 = m_object->m_reference_count-- == 1;
-      if ( v5 )
-        vostok::render::res_texture::destroy_impl(v3, m_object);
-    }
-    v6 = in_properties->m_texture_depth.m_object;
-    in_properties->m_texture_depth.m_object = 0;
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)v29.m_object->m_lods,
+      (vostok::render::res_texture *)&in_properties[75]);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)m_object->m_lods,
+      (vostok::render::res_texture *)&in_properties[74].m_delete_by_collision_object);
+  }
+  else if ( *(_BYTE *)(a3 + 540) )
+  {
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)&in_properties[75]);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)&in_properties[74].m_delete_by_collision_object);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)&in_properties[75].m_delete_by_collision_object);
+    v6 = *(vostok::resources::query_result_for_cook **)&in_properties[1].m_delete_by_collision_object;
     if ( v6 )
     {
-      v5 = v6->m_reference_count-- == 1;
-      if ( v5 )
-        vostok::render::res_texture::destroy_impl(v3, v6);
-    }
-    texture = vostok::render::resource_manager::create_texture(
-                (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                in_properties->m_properties.texture_name.m_buffer,
-                0,
-                0,
-                0,
-                1,
-                1,
-                0xFFFFFFFF);
-    v8 = 0;
-    if ( texture )
-    {
-      ++texture->_M_parent;
-      v8 = (vostok::render::res_texture *)texture;
-    }
-    v9 = in_properties->m_texture.m_object;
-    in_properties->m_texture.m_object = v8;
-    if ( v9 )
-    {
-      v5 = v9->m_reference_count-- == 1;
-      if ( v5 )
-        vostok::render::res_texture::destroy_impl(v8, v9);
-    }
-    v3 = (vostok::render::res_texture *)in_propertiesa;
-    if ( in_propertiesa->with_shadows )
-    {
-      depth_texture_name.m_begin = depth_texture_name.m_buffer;
-      depth_texture_name.m_end = depth_texture_name.m_buffer;
-      depth_texture_name.m_max_end = &vars0;
-      depth_texture_name.m_buffer[0] = 0;
-      vostok::buffer_string::assignf(&depth_texture_name, "%s_depth", in_properties->m_properties.texture_name.m_buffer);
-      v10 = vostok::render::resource_manager::create_texture(
-              (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-              depth_texture_name.m_buffer,
-              0,
-              0,
-              0,
-              1,
-              1,
-              0xFFFFFFFF);
-      v3 = 0;
-      if ( v10 )
+      v4 = *(vostok::render::resource_manager **)&in_properties[1].m_delete_by_collision_object;
+      if ( v6 != (vostok::resources::query_result_for_cook *)in_properties[2].__vftable )
       {
-        ++v10->_M_parent;
-        v3 = (vostok::render::res_texture *)v10;
-      }
-      v11 = in_properties->m_texture_depth.m_object;
-      in_properties->m_texture_depth.m_object = v3;
-      if ( v11 )
-      {
-        v5 = v11->m_reference_count-- == 1;
-        if ( v5 )
-          vostok::render::res_texture::destroy_impl(v3, v11);
+        texture = vostok::render::resource_manager::create_texture(
+                    v4,
+                    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                    v6,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0xFFFFFFFF,
+                    1,
+                    0,
+                    0);
+        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+          texture,
+          (vostok::render::res_texture *)&in_properties[75]);
+        v4 = (vostok::render::resource_manager *)in_properties[75].__vftable;
+        if ( v4 )
+        {
+          if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+          {
+            v8 = (const unsigned int *(__thiscall *)(vostok::collision::geometry_instance *))LODWORD(s_bm_current_air_resistance);
+            v4->available_memory = 0;
+            in_properties[75].indices = v8;
+            v26 = *(const char **)&in_properties[1].m_delete_by_collision_object;
+            name[0] = v35;
+            name[1] = v35;
+            name[2] = &vars0;
+            v35[0] = 0;
+            vostok::fs_new::path_string_impl::assignf(
+              name,
+              (vostok::buffer_string *)v4,
+              (vostok::buffer_string *)"%s_diffuse",
+              v26);
+            v9 = v27;
+            texture_name = name[0];
+            if ( !name[0] )
+              goto LABEL_17;
+            v10 = "null";
+            v11 = name[0];
+            v9 = 5;
+            v14 = 0;
+            v12 = 0;
+            v13 = 1;
+            do
+            {
+              if ( !v9 )
+                break;
+              v12 = (unsigned __int8)*v11 < (unsigned int)*v10;
+              v13 = *v11++ == *v10++;
+              --v9;
+            }
+            while ( v13 );
+            if ( !v13 )
+              v14 = (vostok::render::res_texture *)(-v12 - (v12 - 1));
+            if ( v14 )
+            {
+LABEL_17:
+              v15 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+              v14 = (vostok::render::res_texture *)vostok::render::resource_manager::find_texture(
+                                                     (vostok::render::resource_manager *)v9,
+                                                     (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                                                     name[0]);
+              if ( !v14 )
+                v14 = vostok::render::resource_manager::load_texture(v15, texture_name, 0, 0, 0, 0, 1, 0xFFFFFFFF, 1, 0);
+            }
+            vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+              v14,
+              (vostok::render::res_texture *)&in_properties[74].m_delete_by_collision_object);
+            v16 = s_bm_current_air_resistance;
+            *(_BYTE *)(*(_DWORD *)&in_properties[74].m_delete_by_collision_object + 60) = 0;
+            v4 = *(vostok::render::resource_manager **)&in_properties[74].m_delete_by_collision_object;
+            v4->available_memory = 0;
+            *(float *)(*(_DWORD *)&in_properties[74].m_delete_by_collision_object + 24) = v16;
+          }
+        }
       }
     }
   }
-  vostok::render::environment_probe::remove_collision((vostok::render::environment_probe *)v3, (int)in_properties);
-  if ( in_properties->m_properties.geometry )
+  vostok::render::environment_probe::remove_collision((vostok::render::environment_probe *)v4, (int)in_properties);
+  if ( *(_DWORD *)&in_properties[68].m_delete_by_collision_object )
   {
-    v20 = vostok::math::float4x4::identity(&dst);
-    v21 = (vostok::collision::box_geometry_instance *)((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-                                                        vostok::render::g_allocator.m_object,
-                                                        136);
-    if ( v21 )
-    {
-      vostok::collision::box_geometry_instance::box_geometry_instance(v22, v20, v21);
-      v24 = v23;
-    }
-    else
-    {
-      v24 = 0;
-    }
-    in_properties->m_collision_geometry = v24;
-    v25 = ((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-            vostok::render::g_allocator.m_object,
-            52);
-    v27 = (vostok::collision::object *)v25;
-    if ( v25 )
-    {
-      vostok::collision::object::object(v26, v25);
-      v27->__vftable = (vostok::collision::object_vtbl *)&vostok::collision::collision_object::`vftable';
-      v27[1].__vftable = (vostok::collision::object_vtbl *)v24;
-      v27->m_user_data = in_properties;
-      v27->m_type = 1;
-      v28 = v27;
-    }
-    else
-    {
-      v28 = 0;
-    }
-    qmemcpy((void *)&new_transform, &in_properties->m_properties.transform, sizeof(new_transform));
-    m_collision_tree = in_properties->m_collision_tree;
-    in_properties->m_collision_object = v28;
-    m_collision_tree->insert(m_collision_tree, v28, &new_transform);
-    probe_scale3.x = sqrtf(
-                       (float)((float)(in_properties->m_properties.transform.i.z
-                                     * in_properties->m_properties.transform.i.z)
-                             + (float)(in_properties->m_properties.transform.i.x
-                                     * in_properties->m_properties.transform.i.x))
-                     + (float)(in_properties->m_properties.transform.i.y * in_properties->m_properties.transform.i.y));
-    probe_scale3.y = sqrtf(
-                       (float)((float)(in_properties->m_properties.transform.j.y
-                                     * in_properties->m_properties.transform.j.y)
-                             + (float)(in_properties->m_properties.transform.j.z
-                                     * in_properties->m_properties.transform.j.z))
-                     + (float)(in_properties->m_properties.transform.j.x * in_properties->m_properties.transform.j.x));
-    v30 = sqrtf(
-            (float)((float)(in_properties->m_properties.transform.k.x * in_properties->m_properties.transform.k.x)
-                  + (float)(in_properties->m_properties.transform.k.y * in_properties->m_properties.transform.k.y))
-          + (float)(in_properties->m_properties.transform.k.z * in_properties->m_properties.transform.k.z));
-    probe_scale3.z = v30;
-    if ( probe_scale3.y <= v30 )
-      z = probe_scale3.z;
-    else
-      z = probe_scale3.y;
-    if ( probe_scale3.x > z )
-      z = probe_scale3.x;
-    v32 = in_properties->m_properties.transform.c.z;
-    *(_QWORD *)&in_properties->m_properties.location.x = *(_QWORD *)&in_properties->m_properties.transform.lines[3].x;
-    in_properties->m_properties.location.z = v32;
-    in_properties->m_properties.radius = z * 0.75;
+    v22 = vostok::math::float4x4::identity(v17, &v33);
+    v23 = vostok::collision::new_box_geometry_instance(vostok::render::g_allocator, v22);
+    *(_DWORD *)&in_properties[73].m_delete_by_collision_object = v23;
+    v24 = vostok::collision::new_collision_object(vostok::render::g_allocator, (unsigned int)v23, in_properties);
+    qmemcpy(&v32, &in_properties[35].m_delete_by_collision_object, sizeof(v32));
+    v25 = in_properties[73].__vftable;
+    in_properties[74].__vftable = (vostok::collision::geometry_instance_vtbl *)v24;
+    (*(void (__thiscall **)(vostok::collision::geometry_instance_vtbl *, vostok::collision::object *, vostok::math::float4x4 *))v25->destroy)(
+      v25,
+      v24,
+      &v32);
   }
   else
   {
-    memset((int)&dst, 0, sizeof(dst));
-    decrease_quality = vostok::render::g_allocator.m_object->decrease_quality;
-    LODWORD(dst.i.x) = clear_value;
-    LODWORD(dst.j.y) = clear_value;
-    LODWORD(dst.k.z) = clear_value;
-    LODWORD(dst.c.w) = clear_value;
-    v13 = ((int (__thiscall *)(vostok::render::grass_render_model *, int))decrease_quality)(
-            vostok::render::g_allocator.m_object,
-            72);
-    if ( v13 )
-    {
-      qmemcpy((void *)(v13 + 8), &dst, 0x40u);
-      *(_BYTE *)(v13 + 4) = 1;
-      *(_DWORD *)v13 = &vostok::collision::sphere_geometry_instance::`vftable';
-      v14 = (vostok::collision::geometry_instance *)v13;
-    }
-    else
-    {
-      v14 = 0;
-    }
-    in_properties->m_collision_geometry = v14;
-    v15 = ((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-            vostok::render::g_allocator.m_object,
-            52);
-    v17 = (vostok::collision::object *)v15;
-    if ( v15 )
-    {
-      vostok::collision::object::object(v16, v15);
-      v17->__vftable = (vostok::collision::object_vtbl *)&vostok::collision::collision_object::`vftable';
-      v17[1].__vftable = (vostok::collision::object_vtbl *)v14;
-      v17->m_user_data = in_properties;
-      v17->m_type = 1;
-    }
-    else
-    {
-      v17 = 0;
-    }
-    in_properties->m_collision_object = v17;
-    v18 = vostok::math::create_translation(&dst, &in_propertiesa->location);
-    radius = in_propertiesa->radius;
-    qmemcpy((void *)&new_transform, v18, sizeof(new_transform));
-    probe_scale3.x = radius;
-    probe_scale3.y = radius;
-    probe_scale3.z = radius;
-    vostok::math::float4x4::set_scale(&new_transform, &probe_scale3);
-    in_properties->m_collision_tree->insert(
-      in_properties->m_collision_tree,
-      in_properties->m_collision_object,
-      &new_transform);
+    scale.min.x = s_bm_current_air_resistance;
+    scale.min.y = s_bm_current_air_resistance;
+    scale.min.z = s_bm_current_air_resistance;
+    v18 = (vostok::memory::base_allocator *)vostok::math::create_scale(&scale.min, &v33);
+    v19 = vostok::collision::new_sphere_geometry_instance(v18);
+    *(_DWORD *)&in_properties[73].m_delete_by_collision_object = v19;
+    in_properties[74].__vftable = (vostok::collision::geometry_instance_vtbl *)vostok::collision::new_collision_object(
+                                                                                 vostok::render::g_allocator,
+                                                                                 (unsigned int)v19,
+                                                                                 in_properties);
+    v20 = vostok::math::create_translation((const vostok::math::float3 *)(a3 + 504), &v33);
+    v21 = *(float *)(a3 + 516);
+    qmemcpy(&v32, v20, sizeof(v32));
+    scale.min.x = v21;
+    scale.min.y = v21;
+    scale.min.z = v21;
+    vostok::math::float4x4::set_scale(&v32, &scale.min);
+    (*(void (__thiscall **)(vostok::collision::geometry_instance_vtbl *, vostok::collision::geometry_instance_vtbl *, vostok::math::float4x4 *))in_properties[73].destroy)(
+      in_properties[73].__vftable,
+      in_properties[74].__vftable,
+      &v32);
   }
-  LODWORD(probe_scale3.z) = clear_value;
-  LODWORD(probe_scale3.x) = clear_value;
-  LODWORD(probe_scale3.y) = clear_value;
-  HIDWORD(v36) = clear_value;
-  *(_QWORD *)((char *)&v36 + 4) = *(_QWORD *)&probe_scale3.x;
-  LODWORD(v36) = -1082130432;
-  v33 = v36;
-  *(_QWORD *)&in_properties->m_aabb.min.x = 0xBF800000BF800000uLL;
-  *(_QWORD *)&in_properties->m_aabb.min.elements[2] = v33;
-  *(_QWORD *)&in_properties->m_aabb.max.elements[1] = *((_QWORD *)&v36 + 1);
-  vostok::math::aabb::modify((vostok::math::aabb *)&new_transform, _X_4);
+  qmemcpy(&in_properties[69], vostok::math::create_identity_aabb(&scale), 0x18u);
+  vostok::math::aabb::modify((vostok::math::aabb *)&v32, (vostok::math::aabb *)&in_properties[69]);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v29);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v28);
 }

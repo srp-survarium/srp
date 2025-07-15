@@ -23,7 +23,7 @@ char __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnEvent(
   Scaleform::GFx::AS3::MovieRoot::ActionLevel v22; // [esp-4h] [ebp-14h]
 
   v2 = id->Id;
-  if ( id->Id > (unsigned int)&vostok::memory::s_CRT_arena[5574219] )
+  if ( id->Id > 0x1000013 )
   {
     if ( v2 - 16777237 > 1 )
       return 0;
@@ -34,7 +34,7 @@ char __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnEvent(
     }
     return 1;
   }
-  if ( (unsigned __int8 *)id->Id == &vostok::memory::s_CRT_arena[5574219] )
+  if ( id->Id == 16777235 )
   {
     if ( this->pAS3RawPtr || this->pAS3CollectiblePtr.pObject )
     {
@@ -70,7 +70,7 @@ LABEL_34:
         else
         {
           RefCount = v17->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v17->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);
@@ -138,7 +138,7 @@ LABEL_34:
       else
       {
         v8 = v7->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+        if ( (v8 & 0x3FFFFF) != 0 )
         {
           v7->RefCount = v8 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

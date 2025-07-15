@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::CharacterHandle::ChangeName(
         Scaleform::String name,
         Scaleform::GFx::DisplayObject *pparent)
 {
-  const Scaleform::GFx::ASString *pData; // ebp
+  Scaleform::String::DataDesc *pData; // ebp
   Scaleform::GFx::ASStringNode *Size; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v7; // zf
@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::CharacterHandle::ChangeName(
   Scaleform::GFx::ASStringNode *v11; // ecx
   void *v12; // esi
 
-  pData = (const Scaleform::GFx::ASString *)name.pData;
+  pData = name.pData;
   Size = (Scaleform::GFx::ASStringNode *)name.pData->Size;
   ++*(_DWORD *)(*(_DWORD *)name.HeapTypeBits + 12);
   pNode = this->Name.pNode;
@@ -32,14 +32,11 @@ void __thiscall Scaleform::GFx::CharacterHandle::ChangeName(
                                                        + 24))(
         (int)v8 + 4 * AvmObjOffset,
         &name);
-    Scaleform::String::AppendString(
-      &name,
-      (char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
-      0xFFFFFFFF);
-    Scaleform::String::AppendString(&name, (char *)this->Name.pNode->pData, 0xFFFFFFFF);
+    Scaleform::String::AppendString(&name, (const __m128i *)".", 0xFFFFFFFF);
+    Scaleform::String::AppendString(&name, (const __m128i *)this->Name.pNode->pData, 0xFFFFFFFF);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                   pData->pNode->pManager,
-                   (char *)((name.HeapTypeBits & 0xFFFFFFFC) + 8),
+                   *(Scaleform::GFx::ASStringManager **)(pData->Size + 4),
+                   (__m128i *)((name.HeapTypeBits & 0xFFFFFFFC) + 8),
                    *(_DWORD *)(name.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     StringNode->RefCount += 2;
     v11 = this->NamePath.pNode;

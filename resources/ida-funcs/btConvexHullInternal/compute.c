@@ -1,337 +1,317 @@
 void __userpurge btConvexHullInternal::compute(
         btConvexHullInternal *this@<ecx>,
-        btConvexHullInternal *a2@<esi>,
-        char *coords,
+        btConvexHullInternal *coords,
         int doubleCoords,
         int stride,
         int count)
 {
-  float v6; // xmm3_4
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v5; // ecx
+  float v6; // xmm7_4
   float v7; // xmm6_4
-  float v8; // xmm5_4
-  float v9; // xmm1_4
-  float v10; // xmm7_4
-  int v11; // ecx
-  float *v12; // eax
-  float v13; // xmm0_4
-  float v14; // xmm2_4
-  float v15; // xmm4_4
+  float v8; // xmm4_4
+  float *v9; // eax
+  int v10; // edx
+  float v11; // xmm0_4
+  float v12; // xmm1_4
+  float v13; // xmm2_4
+  float v14; // xmm3_4
+  float v15; // xmm0_4
   float v16; // xmm1_4
-  float v17; // xmm0_4
-  float v18; // xmm2_4
-  int v19; // ecx
-  int v20; // eax
-  int v21; // eax
-  float v22; // xmm0_4
-  float v23; // xmm2_4
-  float v24; // xmm4_4
-  float v25; // xmm6_4
-  float v26; // xmm5_4
-  float v27; // xmm7_4
-  __int64 v28; // xmm0_8
-  __int64 v29; // xmm1_8
-  int v30; // ecx
-  int v31; // edx
-  btConvexHullInternal::Point32 *v32; // eax
-  int m_size; // eax
-  int v34; // edx
-  int v35; // eax
-  float *v36; // ecx
-  int medAxis; // edi
-  unsigned int v38; // xmm1_4
-  unsigned int v39; // xmm2_4
-  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *arrays; // ecx
-  int v41; // ebx
-  int v42; // edx
-  int v43; // eax
-  btConvexHullInternal::Vertex **m_data; // eax
-  int i; // eax
-  int v46; // ebx
-  btConvexHullInternal::Vertex *v47; // eax
-  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v48; // [esp+154h] [ebp-58h]
-  int v49; // [esp+154h] [ebp-58h]
-  int v50; // [esp+158h] [ebp-54h]
-  __m128i v51; // [esp+15Ch] [ebp-50h]
-  __m128i v52; // [esp+16Ch] [ebp-40h] BYREF
-  btConvexHullInternal::IntermediateHull result; // [esp+17Ch] [ebp-30h] BYREF
-  btAlignedObjectArray<btConvexHullInternal::Point32> v54; // [esp+198h] [ebp-14h] BYREF
+  int v17; // eax
+  int v18; // esi
+  btConvexHullInternal::Vertex *v19; // eax
+  float v20; // xmm3_4
+  float v21; // xmm0_4
+  int v22; // eax
+  int v23; // edx
+  btConvexHullInternal::Point32 *v24; // edi
+  float *p_y; // edi
+  int v26; // edx
+  int v27; // eax
+  float v28; // xmm1_4
+  float v29; // xmm2_4
+  float v30; // xmm0_4
+  float v31; // xmm1_4
+  float v32; // xmm2_4
+  btConvexHullInternal::Vertex *v33; // eax
+  btConvexHullInternal::Vertex *v34; // esi
+  btConvexHullInternal::Vertex *m_size; // edi
+  btConvexHullInternal::Vertex *v36; // edx
+  btConvexHullInternal::Vertex *v37; // eax
+  btConvexHullInternal::Vertex *i; // edx
+  btConvexHullInternal::Vertex *v39; // eax
+  int v40; // edx
+  _DWORD *v41; // esi
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v42; // [esp-10h] [ebp-84h]
+  int v43; // [esp+Ch] [ebp-68h]
+  btConvexHullInternal::Vertex *v44; // [esp+10h] [ebp-64h]
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v45; // [esp+10h] [ebp-64h]
+  float v46; // [esp+14h] [ebp-60h]
+  float v47; // [esp+18h] [ebp-5Ch]
+  float v48; // [esp+1Ch] [ebp-58h]
+  float v49; // [esp+24h] [ebp-50h]
+  float v50; // [esp+28h] [ebp-4Ch]
+  float v51; // [esp+2Ch] [ebp-48h]
+  int v52; // [esp+30h] [ebp-44h]
+  btConvexHullInternal::IntermediateHull result; // [esp+34h] [ebp-40h] BYREF
+  float v54; // [esp+44h] [ebp-30h]
+  float v55; // [esp+48h] [ebp-2Ch]
+  float v56; // [esp+4Ch] [ebp-28h]
+  int v57; // [esp+50h] [ebp-24h]
+  btAlignedObjectArray<btConvexHullInternal::Point32> v58; // [esp+60h] [ebp-14h] BYREF
 
-  v6 = 1.0e30;
-  v7 = 1.0e30;
-  v8 = -1.0e30;
-  v9 = -1.0e30;
-  v52.m128i_i64[0] = 0x7149F2CA7149F2CALL;
-  v52.m128i_i32[2] = 1900671690;
-  result.minXy = (btConvexHullInternal::Vertex *)-246811958;
-  result.maxXy = (btConvexHullInternal::Vertex *)-246811958;
-  v10 = -1.0e30;
-  if ( doubleCoords > 0 )
+  v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)stride;
+  v49 = FLOAT_1_0e30;
+  v50 = FLOAT_1_0e30;
+  v51 = FLOAT_1_0e30;
+  v6 = FLOAT_N1_0e30;
+  v7 = FLOAT_N1_0e30;
+  v8 = FLOAT_N1_0e30;
+  if ( stride > 0 )
   {
-    v11 = doubleCoords;
-    v12 = (float *)(coords + 8);
+    v9 = (float *)(doubleCoords + 8);
+    v10 = stride;
     do
     {
-      v13 = *(v12 - 2);
-      v14 = *(v12 - 1);
-      v15 = *v12;
-      v12 += 4;
-      if ( v6 > v13 )
-        v6 = v13;
-      if ( *(float *)&v52.m128i_i32[1] > v14 )
-        *(float *)&v52.m128i_i32[1] = v14;
-      v7 = *(float *)&v52.m128i_i32[2];
-      if ( *(float *)&v52.m128i_i32[2] > v15 )
-      {
-        v7 = v15;
-        *(float *)&v52.m128i_i32[2] = v15;
-      }
+      v11 = *(v9 - 2);
+      v12 = *(v9 - 1);
+      v13 = *v9;
+      v9 += 4;
+      if ( v49 > v11 )
+        v49 = v11;
+      if ( v50 > v12 )
+        v50 = v12;
+      if ( v51 > v13 )
+        v51 = v13;
+      if ( v11 > v6 )
+        v6 = v11;
+      if ( v12 > v7 )
+        v7 = v12;
       if ( v13 > v8 )
         v8 = v13;
-      if ( v14 > v9 )
-        v9 = v14;
-      if ( v15 > v10 )
-        v10 = v15;
-      --v11;
+      --v10;
     }
-    while ( v11 );
-    *(float *)&result.maxXy = v9;
-    *(float *)&result.minXy = v8;
-    *(float *)v52.m128i_i32 = v6;
+    while ( v10 );
   }
-  v16 = v9 - *(float *)&v52.m128i_i32[1];
-  v17 = v8 - v6;
-  v18 = v10 - v7;
-  v51.m128i_i32[3] = 0;
-  if ( v16 <= (float)(v8 - v6) )
+  v14 = v6 - v49;
+  v15 = v7 - v50;
+  v16 = v8 - v51;
+  v17 = 2;
+  if ( (float)(v7 - v50) > (float)(v6 - v49) )
   {
-    if ( v18 <= v17 )
-      v19 = 0;
-    else
-      v19 = 2;
+    if ( v16 <= v15 )
+    {
+      v18 = 1;
+      goto LABEL_22;
+    }
+    goto LABEL_20;
   }
-  else if ( v18 <= v16 )
+  if ( v16 > v14 )
   {
-    v19 = 1;
+LABEL_20:
+    v18 = 2;
+    goto LABEL_22;
   }
-  else
+  v18 = 0;
+LABEL_22:
+  coords->maxAxis = v18;
+  if ( v15 <= v14 )
   {
-    v19 = 2;
+    if ( v16 > v15 )
+      v17 = 1;
   }
-  a2->maxAxis = v19;
-  if ( v16 <= v17 )
+  else if ( v16 > v14 )
   {
-    v20 = 1;
-    if ( v18 > v16 )
-      goto LABEL_29;
+    v17 = 0;
   }
-  else if ( v18 > v17 )
+  coords->minAxis = v17;
+  if ( v17 == v18 )
+    coords->minAxis = (v18 + 1) % 3;
+  v19 = (btConvexHullInternal::Vertex *)(3 - coords->minAxis - v18);
+  coords->medAxis = (int)v19;
+  v46 = v14 * 0.00009788567;
+  v20 = v16 * 0.00009788567;
+  v47 = v15 * 0.00009788567;
+  v48 = v16 * 0.00009788567;
+  if ( ((int)&v19->next + 1) % 3 != v18 )
   {
-    v20 = 0;
-    goto LABEL_29;
+    v46 = v46 * -1.0;
+    v20 = v20 * -1.0;
+    v47 = v47 * -1.0;
+    v48 = v20;
   }
-  v20 = 2;
-LABEL_29:
-  a2->minAxis = v20;
-  if ( v20 == v19 )
-    a2->minAxis = (v19 + 1) % 3;
-  v21 = 3 - a2->minAxis - v19;
-  a2->medAxis = v21;
-  v22 = v17 * 0.00009788567;
-  v23 = v18 * 0.00009788567;
-  v24 = v22;
-  v25 = v16 * 0.00009788567;
-  v26 = v23;
-  *(float *)v51.m128i_i32 = v22;
-  *(float *)&v51.m128i_i32[1] = v16 * 0.00009788567;
-  *(float *)&v51.m128i_i32[2] = v23;
-  if ( (v21 + 1) % 3 != v19 )
-  {
-    v24 = v22 * -1.0;
-    v25 = v25 * -1.0;
-    v26 = v23 * -1.0;
-    *(float *)v51.m128i_i32 = v22 * -1.0;
-    *(float *)&v51.m128i_i32[1] = v25;
-    *(float *)&v51.m128i_i32[2] = v23 * -1.0;
-  }
-  a2->scaling = (btVector3)v51;
-  if ( v24 != 0.0 )
-  {
-    v24 = *(float *)&clear_value / v24;
-    *(float *)v51.m128i_i32 = v24;
-  }
-  if ( v25 != 0.0 )
-  {
-    v25 = *(float *)&clear_value / v25;
-    *(float *)&v51.m128i_i32[1] = v25;
-  }
-  if ( v26 != 0.0 )
-  {
-    v26 = *(float *)&clear_value / v26;
-    *(float *)&v51.m128i_i32[2] = v26;
-  }
-  v27 = v10 + *(float *)&v52.m128i_i32[2];
-  *(float *)&result.minXy = (float)(*(float *)&result.minXy + *(float *)v52.m128i_i32) * 0.5;
+  v21 = s_bm_current_air_resistance;
+  coords->scaling.mVec128.m128_f32[0] = v46;
+  coords->scaling.mVec128.m128_f32[1] = v47;
+  coords->scaling.mVec128.m128_f32[2] = v48;
+  coords->scaling.mVec128.m128_i32[3] = 0;
+  if ( v46 != 0.0 )
+    v46 = v21 / v46;
+  if ( v47 != 0.0 )
+    v47 = v21 / v47;
+  if ( v20 != 0.0 )
+    v48 = v21 / v20;
   result.maxYx = 0;
-  *(float *)&result.maxXy = (float)(*(float *)&result.maxXy + *(float *)&v52.m128i_i32[1]) * 0.5;
-  a2->center.mVec128.m128_u64[0] = *(_QWORD *)&result.minXy;
-  *(float *)&result.minYx = v27 * 0.5;
-  a2->center.mVec128.m128_u64[1] = *(_QWORD *)&result.minYx;
-  v54.m_ownsMemory = 1;
-  memset(&v54.m_size, 0, 12);
-  if ( doubleCoords > 0 )
+  *(float *)&result.minXy = (float)(v6 + v49) * 0.5;
+  *(float *)&result.maxXy = (float)(v7 + v50) * 0.5;
+  *(float *)&result.minYx = (float)(v8 + v51) * 0.5;
+  coords->center = (btVector3)result;
+  v58.m_ownsMemory = 1;
+  memset(&v58.m_size, 0, 12);
+  if ( stride > 0 )
   {
-    ++gNumAlignedAllocs;
-    v26 = *(float *)&v51.m128i_i32[2];
-    v25 = *(float *)&v51.m128i_i32[1];
-    v24 = *(float *)v51.m128i_i32;
-    v54.m_ownsMemory = 1;
-    v54.m_data = (btConvexHullInternal::Point32 *)sAlignedAllocFunc(16 * doubleCoords, 16);
-    v54.m_capacity = doubleCoords;
-    v28 = *(_QWORD *)&result.minYx;
-    v29 = *(_QWORD *)&result.minXy;
-    v30 = 0;
-    v31 = doubleCoords;
+    v58.m_data = (btConvexHullInternal::Point32 *)btAlignedAllocInternal(16 * stride);
+    v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)stride;
+    v58.m_ownsMemory = 1;
+    v58.m_capacity = stride;
+    v22 = 0;
+    v23 = stride;
     do
     {
-      v32 = &v54.m_data[v30];
-      if ( &v54.m_data[v30] )
+      v24 = &v58.m_data[v22];
+      if ( &v58.m_data[v22] )
       {
-        *(_QWORD *)&v32->x = v29;
-        *(_QWORD *)&v32->z = v28;
+        *(float *)&v24->x = v54;
+        p_y = (float *)&v24->y;
+        *p_y++ = v55;
+        *p_y = v56;
+        *((_DWORD *)p_y + 1) = v57;
       }
-      ++v30;
-      --v31;
+      ++v22;
+      --v23;
     }
-    while ( v31 );
+    while ( v23 );
   }
-  m_size = doubleCoords;
-  v34 = 0;
-  v54.m_size = doubleCoords;
-  if ( doubleCoords > 0 )
+  v26 = 0;
+  v58.m_size = (int)v5;
+  if ( (int)v5 > 0 )
   {
-    v35 = 0;
-    v52.m128i_i32[3] = 0;
-    v36 = (float *)(coords + 8);
+    v27 = 0;
+    v57 = 0;
+    v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)(doubleCoords + 8);
     do
     {
-      medAxis = a2->medAxis;
-      *(float *)&v38 = (float)(*(v36 - 1) - a2->center.mVec128.m128_f32[1]) * v25;
-      *(float *)&v39 = (float)(*v36 - a2->center.mVec128.m128_f32[2]) * v26;
-      *(float *)v52.m128i_i32 = (float)(*(v36 - 2) - a2->center.mVec128.m128_f32[0]) * v24;
-      *(__int64 *)((char *)v52.m128i_i64 + 4) = __PAIR64__(v39, v38);
-      v51 = _mm_load_si128(&v52);
-      v54.m_data[v35].x = (int)*(float *)&v51.m128i_i32[medAxis];
-      v54.m_data[v35].y = (int)*(float *)&v51.m128i_i32[a2->maxAxis];
-      v54.m_data[v35].z = (int)*(float *)&v51.m128i_i32[a2->minAxis];
-      v54.m_data[v35].index = v34++;
-      v36 += 4;
-      ++v35;
+      v28 = *(float *)&v5[-1].arraySize;
+      v29 = *(float *)&v5->arrays;
+      v49 = *(float *)&v5[-1].freeObjects;
+      v30 = (float)(v49 - coords->center.mVec128.m128_f32[0]) * v46;
+      v50 = v28;
+      v31 = (float)(v28 - coords->center.mVec128.m128_f32[1]) * v47;
+      v51 = v29;
+      v32 = (float)(v29 - coords->center.mVec128.m128_f32[2]) * v48;
+      v54 = v30;
+      v55 = v31;
+      v56 = v32;
+      v49 = v30;
+      v50 = v31;
+      v51 = v32;
+      v52 = v57;
+      v58.m_data[v27].x = (int)*(&v49 + coords->medAxis);
+      v58.m_data[v27].y = (int)*(&v49 + coords->maxAxis);
+      v58.m_data[v27].z = (int)*(&v49 + coords->minAxis);
+      ++v5;
+      v58.m_data[v27++].index = v26++;
     }
-    while ( v34 < doubleCoords );
-    m_size = v54.m_size;
+    while ( v26 < stride );
   }
-  if ( m_size > 1 )
+  if ( v58.m_size > 1 )
     btAlignedObjectArray<btConvexHullInternal::Point32>::quickSortInternal<bool (__cdecl *)(btConvexHullInternal::Point32 const &,btConvexHullInternal::Point32 const &)>(
-      &v54,
+      &v58,
       (bool (__cdecl *)(const btConvexHullInternal::Point32 *, const btConvexHullInternal::Point32 *))pointCmp,
       0,
-      m_size - 1);
-  arrays = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)a2->vertexPool.arrays;
-  a2->vertexPool.nextArray = (btConvexHullInternal::PoolArray<btConvexHullInternal::Vertex> *)arrays;
-  a2->vertexPool.freeObjects = 0;
-  a2->vertexPool.arraySize = doubleCoords;
-  v41 = a2->originalVertices.m_size;
-  v50 = v41;
-  if ( doubleCoords >= v41 )
+      v58.m_size - 1);
+  coords->vertexPool.nextArray = coords->vertexPool.arrays;
+  v33 = (btConvexHullInternal::Vertex *)stride;
+  v34 = 0;
+  coords->vertexPool.freeObjects = 0;
+  coords->vertexPool.arraySize = stride;
+  m_size = (btConvexHullInternal::Vertex *)coords->originalVertices.m_size;
+  v44 = m_size;
+  if ( stride >= (int)m_size )
   {
-    if ( doubleCoords > v41 && a2->originalVertices.m_capacity < doubleCoords )
+    if ( stride > (int)m_size && coords->originalVertices.m_capacity < stride )
     {
-      if ( doubleCoords )
+      if ( stride )
+        v34 = (btConvexHullInternal::Vertex *)btAlignedAllocInternal(4 * stride);
+      v36 = (btConvexHullInternal::Vertex *)coords->originalVertices.m_size;
+      v5 = 0;
+      if ( (int)v36 > 0 )
       {
-        ++gNumAlignedAllocs;
-        v48 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)sAlignedAllocFunc(4 * doubleCoords, 16);
-      }
-      else
-      {
-        v48 = 0;
-      }
-      v42 = a2->originalVertices.m_size;
-      v43 = 0;
-      if ( v42 > 0 )
-      {
-        arrays = v48;
+        v37 = v34;
         do
         {
-          if ( arrays )
+          if ( v37 )
           {
-            arrays->arrays = (btConvexHullInternal::PoolArray<btConvexHullInternal::Vertex> *)a2->originalVertices.m_data[v43];
-            v41 = v50;
+            v37->next = coords->originalVertices.m_data[(_DWORD)v5];
+            m_size = v44;
           }
-          ++v43;
-          arrays = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)((char *)arrays + 4);
+          v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)((char *)v5 + 1);
+          v37 = (btConvexHullInternal::Vertex *)((char *)v37 + 4);
         }
-        while ( v43 < v42 );
+        while ( (int)v5 < (int)v36 );
       }
-      m_data = a2->originalVertices.m_data;
-      if ( m_data )
+      if ( coords->originalVertices.m_data )
       {
-        if ( a2->originalVertices.m_ownsMemory )
+        if ( coords->originalVertices.m_ownsMemory )
         {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
+          btAlignedFreeInternal(coords->originalVertices.m_data);
+          v5 = v42;
         }
-        a2->originalVertices.m_data = 0;
+        coords->originalVertices.m_data = 0;
       }
-      a2->originalVertices.m_ownsMemory = 1;
-      a2->originalVertices.m_data = (btConvexHullInternal::Vertex **)v48;
-      a2->originalVertices.m_capacity = doubleCoords;
+      v33 = (btConvexHullInternal::Vertex *)stride;
+      coords->originalVertices.m_ownsMemory = 1;
+      coords->originalVertices.m_data = &v34->next;
+      coords->originalVertices.m_capacity = stride;
     }
-    for ( i = v41; i < doubleCoords; ++i )
+    for ( i = m_size; (int)i < (int)v33; i = (btConvexHullInternal::Vertex *)((char *)i + 1) )
     {
-      arrays = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)&a2->originalVertices.m_data[i];
-      if ( arrays )
-        arrays->arrays = 0;
+      v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)&coords->originalVertices.m_data[(_DWORD)i];
+      if ( v5 )
+        v5->arrays = 0;
     }
   }
-  v46 = 0;
-  a2->originalVertices.m_size = doubleCoords;
-  if ( doubleCoords > 0 )
+  v45 = 0;
+  coords->originalVertices.m_size = (int)v33;
+  if ( (int)v33 > 0 )
   {
-    v49 = 0;
+    v43 = 0;
     do
     {
-      v47 = btConvexHullInternal::Pool<btConvexHullInternal::Vertex>::newObject(arrays, (int)&a2->vertexPool);
-      v47->edges = 0;
-      v47->point = v54.m_data[v49];
-      v47->copy = -1;
-      arrays = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)a2->originalVertices.m_data;
-      *((_DWORD *)&arrays->arrays + v46++) = v47;
-      ++v49;
+      v39 = btConvexHullInternal::Pool<btConvexHullInternal::Vertex>::newObject(
+              v5,
+              (btConvexHullInternal::Vertex ***)&coords->vertexPool);
+      v39->edges = 0;
+      v40 = v43;
+      v43 += 16;
+      v41 = (int *)((char *)&v58.m_data->x + v40);
+      v39->point.x = *(int *)((char *)&v58.m_data->x + v40);
+      v39->point.y = *++v41;
+      v39->point.z = *++v41;
+      v39->point.index = v41[1];
+      v39->copy = -1;
+      coords->originalVertices.m_data[(_DWORD)v45] = v39;
+      v5 = (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)((char *)&v45->arrays + 1);
+      v45 = v5;
     }
-    while ( v46 < doubleCoords );
+    while ( (int)v5 < stride );
   }
-  if ( v54.m_data && v54.m_ownsMemory )
-  {
-    ++gNumAlignedFree;
-    sAlignedFreeFunc(v54.m_data);
-  }
-  a2->edgePool.nextArray = a2->edgePool.arrays;
-  a2->edgePool.freeObjects = 0;
-  a2->edgePool.arraySize = 6 * doubleCoords;
-  v54.m_ownsMemory = 1;
-  memset(&v54.m_size, 0, 12);
-  a2->usedEdgePairs = 0;
-  a2->maxUsedEdgePairs = 0;
-  a2->mergeStamp = -3;
+  if ( v58.m_data && v58.m_ownsMemory )
+    btAlignedFreeInternal(v58.m_data);
+  coords->edgePool.nextArray = coords->edgePool.arrays;
+  coords->edgePool.freeObjects = 0;
+  coords->edgePool.arraySize = 6 * stride;
+  v58.m_ownsMemory = 1;
+  memset(&v58.m_size, 0, 12);
+  coords->usedEdgePairs = 0;
+  coords->maxUsedEdgePairs = 0;
+  coords->mergeStamp = -3;
   memset(&result, 0, sizeof(result));
-  btConvexHullInternal::computeInternal(a2, 0, doubleCoords, &result);
-  a2->vertexList = result.minXy;
-  if ( v54.m_data )
+  btConvexHullInternal::computeInternal(coords, 0, stride, &result);
+  coords->vertexList = result.minXy;
+  if ( v58.m_data )
   {
-    if ( v54.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v54.m_data);
-    }
+    if ( v58.m_ownsMemory )
+      btAlignedFreeInternal(v58.m_data);
   }
 }

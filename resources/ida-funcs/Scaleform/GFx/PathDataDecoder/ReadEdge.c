@@ -22,7 +22,7 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_
   unsigned __int8 v19; // al
   int v20; // edi
   unsigned int v21; // ecx
-  signed __int8 v22; // al
+  char v22; // al
   char v23; // bl
   unsigned __int8 v24; // al
   char v25; // bl
@@ -71,22 +71,31 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_
   int v68; // edi
   int v69; // ecx
   int v70; // ecx
-  unsigned __int8 buff[12]; // [esp+4h] [ebp-Ch] BYREF
+  unsigned __int8 dataa; // [esp+4h] [ebp-Ch] BYREF
+  unsigned __int8 v72; // [esp+5h] [ebp-Bh]
+  unsigned __int8 v73; // [esp+6h] [ebp-Ah]
+  unsigned __int8 v74; // [esp+7h] [ebp-9h]
+  unsigned __int8 v75; // [esp+8h] [ebp-8h]
+  unsigned __int8 v76; // [esp+9h] [ebp-7h]
+  unsigned __int8 v77; // [esp+Ah] [ebp-6h]
+  unsigned __int8 v78; // [esp+Bh] [ebp-5h]
+  unsigned __int8 v79; // [esp+Ch] [ebp-4h]
+  char v80; // [esp+Dh] [ebp-3h]
 
   result = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadRawEdge(
              this,
              pos,
-             buff);
-  v4 = buff[0];
+             &dataa);
+  v4 = dataa;
   v5 = result;
-  switch ( buff[0] & 0xF )
+  switch ( dataa & 0xF )
   {
     case 0:
       v6 = data;
       *data = 0;
       goto LABEL_3;
     case 1:
-      v8 = (buff[0] >> 4) | (16 * (buff[1] | ((char)buff[2] << 8)));
+      v8 = (dataa >> 4) | (16 * (v72 | ((char)v73 << 8)));
       *data = 0;
       data[1] = v8;
       return result;
@@ -94,52 +103,52 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_
       v6 = data;
       *data = 1;
 LABEL_3:
-      v7 = (char)buff[1];
+      v7 = (char)v72;
       goto LABEL_4;
     case 3:
-      v9 = buff[1];
+      v9 = v72;
       v6 = data;
-      v10 = (char)buff[2] << 8;
+      v10 = (char)v73 << 8;
       *data = 1;
       v7 = v9 | v10;
 LABEL_4:
       v6[1] = (v4 >> 4) | (16 * v7);
       return v5;
     case 4:
-      v11 = (char)buff[1];
-      data[1] = ((buff[0] >> 2) | (char)(buff[1] << 6)) >> 2;
+      v11 = (char)v72;
+      data[1] = ((dataa >> 2) | (char)(v72 << 6)) >> 2;
       *data = 2;
       data[2] = v11 >> 2;
       return result;
     case 5:
-      v12 = buff[1];
-      v13 = 2 * (char)buff[2];
-      data[1] = (buff[0] >> 4) | (4 * (char)(4 * buff[1]));
+      v12 = v72;
+      v13 = 2 * (char)v73;
+      data[1] = (dataa >> 4) | (4 * (char)(4 * v72));
       *data = 2;
       data[2] = (2 * v13) | (v12 >> 6);
       return result;
     case 6:
-      v14 = (char)buff[3];
-      v15 = buff[2];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (4 * (char)(buff[2] << 6))));
+      v14 = (char)v74;
+      v15 = v73;
+      data[1] = (dataa >> 4) | (16 * (v72 | (4 * (char)(v73 << 6))));
       *data = 2;
       data[2] = (v14 << 6) | (v15 >> 2);
       return result;
     case 7:
-      v16 = buff[2];
-      v17 = (char)buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | ((char)(4 * buff[2]) << 6)));
-      v18 = (v16 >> 6) | (4 * (buff[3] | (v17 << 8)));
+      v16 = v73;
+      v17 = (char)v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | ((char)(4 * v73) << 6)));
+      v18 = (v16 >> 6) | (4 * (v74 | (v17 << 8)));
       *data = 2;
       data[2] = v18;
       return result;
     case 8:
-      v19 = buff[1];
-      v20 = (buff[0] >> 1) | (char)(buff[1] << 7);
-      data[2] = (char)(4 * buff[1]) >> 3;
+      v19 = v72;
+      v20 = (dataa >> 1) | (char)(v72 << 7);
+      data[2] = (char)(4 * v72) >> 3;
       v21 = v19;
-      v22 = buff[2];
-      v23 = 32 * buff[2];
+      v22 = v73;
+      v23 = 32 * v73;
       data[1] = v20 >> 3;
       data[4] = v22 >> 3;
       result = v5;
@@ -147,104 +156,104 @@ LABEL_4:
       data[3] = (int)(v23 | (v21 >> 3)) >> 3;
       return result;
     case 9:
-      v24 = buff[2];
-      v25 = buff[2] << 6;
-      v26 = buff[1] >> 2;
-      data[1] = ((buff[0] >> 3) | (char)(32 * buff[1])) >> 1;
+      v24 = v73;
+      v25 = v73 << 6;
+      v26 = v72 >> 2;
+      data[1] = ((dataa >> 3) | (char)(32 * v72)) >> 1;
       data[2] = (v25 | v26) >> 1;
-      v27 = ((char)(buff[3] << 7) | (v24 >> 1)) >> 1;
-      data[4] = (char)buff[3] >> 1;
+      v27 = ((char)(v74 << 7) | (v24 >> 1)) >> 1;
+      data[4] = (char)v74 >> 1;
       result = v5;
       *data = 3;
       data[3] = v27;
       return result;
     case 0xA:
-      v28 = buff[1];
-      v29 = buff[2];
-      v30 = 2 * buff[2];
-      data[1] = (buff[0] >> 4) | (2 * (char)(8 * buff[1]));
+      v28 = v72;
+      v29 = v73;
+      v30 = 2 * v73;
+      data[1] = (dataa >> 4) | (2 * (char)(8 * v72));
       v31 = (v28 >> 5) | (2 * (char)(2 * v30));
-      v32 = buff[3];
-      v33 = buff[3];
+      v32 = v74;
+      v33 = v74;
       data[2] = v31;
       v34 = (v29 >> 6) | (2 * (char)(2 * v33));
-      v35 = 2 * (char)buff[4];
+      v35 = 2 * (char)v75;
       data[3] = v34;
       data[4] = v35 | (v32 >> 7);
       result = v5;
       *data = 3;
       return result;
     case 0xB:
-      v36 = buff[1];
-      v37 = buff[3];
-      data[1] = (buff[0] >> 4) | (8 * (char)(2 * buff[1]));
-      v38 = (v36 >> 7) | (2 * (buff[2] | (4 * (char)(v37 << 6))));
-      v39 = buff[4];
-      v40 = 2 * buff[4];
+      v36 = v72;
+      v37 = v74;
+      data[1] = (dataa >> 4) | (8 * (char)(2 * v72));
+      v38 = (v36 >> 7) | (2 * (v73 | (4 * (char)(v37 << 6))));
+      v39 = v75;
+      v40 = 2 * v75;
       data[2] = v38;
       v41 = (v37 >> 2) | (8 * (char)(4 * v40));
-      v42 = 8 * (char)buff[5];
+      v42 = 8 * (char)v76;
       data[3] = v41;
       data[4] = v42 | (v39 >> 5);
       result = v5;
       *data = 3;
       return result;
     case 0xC:
-      v43 = buff[2];
-      v44 = buff[3];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (2 * (char)(buff[2] << 7))));
+      v43 = v73;
+      v44 = v74;
+      data[1] = (dataa >> 4) | (16 * (v72 | (2 * (char)(v73 << 7))));
       v45 = (v43 >> 1) | (32 * (char)(4 * v44));
-      v46 = buff[5];
+      v46 = v76;
       data[2] = v45;
-      v47 = (v44 >> 6) | (4 * (buff[4] | (8 * (char)(32 * v46))));
-      v48 = 32 * (char)buff[6];
+      v47 = (v44 >> 6) | (4 * (v75 | (8 * (char)(32 * v46))));
+      v48 = 32 * (char)v77;
       data[3] = v47;
       data[4] = v48 | (v46 >> 3);
       result = v5;
       *data = 3;
       return result;
     case 0xD:
-      v49 = buff[2];
-      v50 = buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (8 * (char)(32 * buff[2]))));
-      v51 = (v49 >> 3) | (32 * (buff[3] | (4 * (char)(v50 << 6))));
-      v52 = buff[6];
-      v53 = buff[6];
+      v49 = v73;
+      v50 = v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | (8 * (char)(32 * v73))));
+      v51 = (v49 >> 3) | (32 * (v74 | (4 * (char)(v50 << 6))));
+      v52 = v77;
+      v53 = v77;
       data[2] = v51;
-      v54 = (v50 >> 2) | ((buff[5] | (2 * (char)(v53 << 7))) << 6);
-      v55 = (char)buff[7] << 7;
+      v54 = (v50 >> 2) | ((v76 | (2 * (char)(v53 << 7))) << 6);
+      v55 = (char)v78 << 7;
       data[3] = v54;
       data[4] = v55 | (v52 >> 1);
       result = v5;
       *data = 3;
       return result;
     case 0xE:
-      v56 = buff[2];
-      v57 = buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (32 * (char)(8 * buff[2]))));
-      v58 = (v56 >> 5) | (8 * (buff[3] | ((char)(4 * v57) << 6)));
-      v59 = buff[6];
+      v56 = v73;
+      v57 = v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | (32 * (char)(8 * v73))));
+      v58 = (v56 >> 5) | (8 * (v74 | ((char)(4 * v57) << 6)));
+      v59 = v77;
       data[2] = v58;
-      v60 = (v57 >> 6) | (4 * (buff[5] | ((char)(2 * v59) << 7)));
-      v61 = (char)buff[8];
+      v60 = (v57 >> 6) | (4 * (v76 | ((char)(2 * v59) << 7)));
+      v61 = (char)v79;
       data[3] = v60;
-      v62 = (v59 >> 7) | (2 * (buff[7] | (v61 << 8)));
+      v62 = (v59 >> 7) | (2 * (v78 | (v61 << 8)));
       result = v5;
       *data = 3;
       data[4] = v62;
       return result;
     case 0xF:
-      v63 = buff[2];
-      v64 = buff[5];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | ((char)(2 * buff[2]) << 7)));
-      v65 = (v63 >> 7) | (2 * (buff[3] | ((buff[4] | (4 * (char)(v64 << 6))) << 8)));
-      v66 = buff[7];
-      v67 = 2 * buff[7];
+      v63 = v73;
+      v64 = v76;
+      data[1] = (dataa >> 4) | (16 * (v72 | ((char)(2 * v73) << 7)));
+      v65 = (v63 >> 7) | (2 * (v74 | ((v75 | (4 * (char)(v64 << 6))) << 8)));
+      v66 = v78;
+      v67 = 2 * v78;
       data[2] = v65;
-      v68 = (v64 >> 2) | ((buff[6] | (32 * (char)(4 * v67))) << 6);
-      v69 = (char)buff[9] << 8;
+      v68 = (v64 >> 2) | ((v77 | (32 * (char)(4 * v67))) << 6);
+      v69 = v80 << 8;
       data[3] = v68;
-      v70 = (v66 >> 5) | (8 * (buff[8] | v69));
+      v70 = (v66 >> 5) | (8 * (v79 | v69));
       *data = 3;
       data[4] = v70;
       return v5;
@@ -278,7 +287,7 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayUnsafeLH
   unsigned __int8 v19; // al
   int v20; // edi
   unsigned int v21; // ecx
-  signed __int8 v22; // al
+  char v22; // al
   char v23; // bl
   unsigned __int8 v24; // al
   char v25; // bl
@@ -327,22 +336,31 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayUnsafeLH
   int v68; // edi
   int v69; // ecx
   int v70; // ecx
-  unsigned __int8 buff[12]; // [esp+4h] [ebp-Ch] BYREF
+  unsigned __int8 dataa; // [esp+4h] [ebp-Ch] BYREF
+  unsigned __int8 v72; // [esp+5h] [ebp-Bh]
+  unsigned __int8 v73; // [esp+6h] [ebp-Ah]
+  unsigned __int8 v74; // [esp+7h] [ebp-9h]
+  unsigned __int8 v75; // [esp+8h] [ebp-8h]
+  unsigned __int8 v76; // [esp+9h] [ebp-7h]
+  unsigned __int8 v77; // [esp+Ah] [ebp-6h]
+  unsigned __int8 v78; // [esp+Bh] [ebp-5h]
+  unsigned __int8 v79; // [esp+Ch] [ebp-4h]
+  char v80; // [esp+Dh] [ebp-3h]
 
   result = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayUnsafeLH_POD<unsigned char,261>>::ReadRawEdge(
              this,
              pos,
-             buff);
-  v4 = buff[0];
+             &dataa);
+  v4 = dataa;
   v5 = result;
-  switch ( buff[0] & 0xF )
+  switch ( dataa & 0xF )
   {
     case 0:
       v6 = data;
       *data = 0;
       goto LABEL_3;
     case 1:
-      v8 = (buff[0] >> 4) | (16 * (buff[1] | ((char)buff[2] << 8)));
+      v8 = (dataa >> 4) | (16 * (v72 | ((char)v73 << 8)));
       *data = 0;
       data[1] = v8;
       return result;
@@ -350,52 +368,52 @@ unsigned int __thiscall Scaleform::GFx::PathDataDecoder<Scaleform::ArrayUnsafeLH
       v6 = data;
       *data = 1;
 LABEL_3:
-      v7 = (char)buff[1];
+      v7 = (char)v72;
       goto LABEL_4;
     case 3:
-      v9 = buff[1];
+      v9 = v72;
       v6 = data;
-      v10 = (char)buff[2] << 8;
+      v10 = (char)v73 << 8;
       *data = 1;
       v7 = v9 | v10;
 LABEL_4:
       v6[1] = (v4 >> 4) | (16 * v7);
       return v5;
     case 4:
-      v11 = (char)buff[1];
-      data[1] = ((buff[0] >> 2) | (char)(buff[1] << 6)) >> 2;
+      v11 = (char)v72;
+      data[1] = ((dataa >> 2) | (char)(v72 << 6)) >> 2;
       *data = 2;
       data[2] = v11 >> 2;
       return result;
     case 5:
-      v12 = buff[1];
-      v13 = 2 * (char)buff[2];
-      data[1] = (buff[0] >> 4) | (4 * (char)(4 * buff[1]));
+      v12 = v72;
+      v13 = 2 * (char)v73;
+      data[1] = (dataa >> 4) | (4 * (char)(4 * v72));
       *data = 2;
       data[2] = (2 * v13) | (v12 >> 6);
       return result;
     case 6:
-      v14 = (char)buff[3];
-      v15 = buff[2];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (4 * (char)(buff[2] << 6))));
+      v14 = (char)v74;
+      v15 = v73;
+      data[1] = (dataa >> 4) | (16 * (v72 | (4 * (char)(v73 << 6))));
       *data = 2;
       data[2] = (v14 << 6) | (v15 >> 2);
       return result;
     case 7:
-      v16 = buff[2];
-      v17 = (char)buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | ((char)(4 * buff[2]) << 6)));
-      v18 = (v16 >> 6) | (4 * (buff[3] | (v17 << 8)));
+      v16 = v73;
+      v17 = (char)v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | ((char)(4 * v73) << 6)));
+      v18 = (v16 >> 6) | (4 * (v74 | (v17 << 8)));
       *data = 2;
       data[2] = v18;
       return result;
     case 8:
-      v19 = buff[1];
-      v20 = (buff[0] >> 1) | (char)(buff[1] << 7);
-      data[2] = (char)(4 * buff[1]) >> 3;
+      v19 = v72;
+      v20 = (dataa >> 1) | (char)(v72 << 7);
+      data[2] = (char)(4 * v72) >> 3;
       v21 = v19;
-      v22 = buff[2];
-      v23 = 32 * buff[2];
+      v22 = v73;
+      v23 = 32 * v73;
       data[1] = v20 >> 3;
       data[4] = v22 >> 3;
       result = v5;
@@ -403,104 +421,104 @@ LABEL_4:
       data[3] = (int)(v23 | (v21 >> 3)) >> 3;
       return result;
     case 9:
-      v24 = buff[2];
-      v25 = buff[2] << 6;
-      v26 = buff[1] >> 2;
-      data[1] = ((buff[0] >> 3) | (char)(32 * buff[1])) >> 1;
+      v24 = v73;
+      v25 = v73 << 6;
+      v26 = v72 >> 2;
+      data[1] = ((dataa >> 3) | (char)(32 * v72)) >> 1;
       data[2] = (v25 | v26) >> 1;
-      v27 = ((char)(buff[3] << 7) | (v24 >> 1)) >> 1;
-      data[4] = (char)buff[3] >> 1;
+      v27 = ((char)(v74 << 7) | (v24 >> 1)) >> 1;
+      data[4] = (char)v74 >> 1;
       result = v5;
       *data = 3;
       data[3] = v27;
       return result;
     case 0xA:
-      v28 = buff[1];
-      v29 = buff[2];
-      v30 = 2 * buff[2];
-      data[1] = (buff[0] >> 4) | (2 * (char)(8 * buff[1]));
+      v28 = v72;
+      v29 = v73;
+      v30 = 2 * v73;
+      data[1] = (dataa >> 4) | (2 * (char)(8 * v72));
       v31 = (v28 >> 5) | (2 * (char)(2 * v30));
-      v32 = buff[3];
-      v33 = buff[3];
+      v32 = v74;
+      v33 = v74;
       data[2] = v31;
       v34 = (v29 >> 6) | (2 * (char)(2 * v33));
-      v35 = 2 * (char)buff[4];
+      v35 = 2 * (char)v75;
       data[3] = v34;
       data[4] = v35 | (v32 >> 7);
       result = v5;
       *data = 3;
       return result;
     case 0xB:
-      v36 = buff[1];
-      v37 = buff[3];
-      data[1] = (buff[0] >> 4) | (8 * (char)(2 * buff[1]));
-      v38 = (v36 >> 7) | (2 * (buff[2] | (4 * (char)(v37 << 6))));
-      v39 = buff[4];
-      v40 = 2 * buff[4];
+      v36 = v72;
+      v37 = v74;
+      data[1] = (dataa >> 4) | (8 * (char)(2 * v72));
+      v38 = (v36 >> 7) | (2 * (v73 | (4 * (char)(v37 << 6))));
+      v39 = v75;
+      v40 = 2 * v75;
       data[2] = v38;
       v41 = (v37 >> 2) | (8 * (char)(4 * v40));
-      v42 = 8 * (char)buff[5];
+      v42 = 8 * (char)v76;
       data[3] = v41;
       data[4] = v42 | (v39 >> 5);
       result = v5;
       *data = 3;
       return result;
     case 0xC:
-      v43 = buff[2];
-      v44 = buff[3];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (2 * (char)(buff[2] << 7))));
+      v43 = v73;
+      v44 = v74;
+      data[1] = (dataa >> 4) | (16 * (v72 | (2 * (char)(v73 << 7))));
       v45 = (v43 >> 1) | (32 * (char)(4 * v44));
-      v46 = buff[5];
+      v46 = v76;
       data[2] = v45;
-      v47 = (v44 >> 6) | (4 * (buff[4] | (8 * (char)(32 * v46))));
-      v48 = 32 * (char)buff[6];
+      v47 = (v44 >> 6) | (4 * (v75 | (8 * (char)(32 * v46))));
+      v48 = 32 * (char)v77;
       data[3] = v47;
       data[4] = v48 | (v46 >> 3);
       result = v5;
       *data = 3;
       return result;
     case 0xD:
-      v49 = buff[2];
-      v50 = buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (8 * (char)(32 * buff[2]))));
-      v51 = (v49 >> 3) | (32 * (buff[3] | (4 * (char)(v50 << 6))));
-      v52 = buff[6];
-      v53 = buff[6];
+      v49 = v73;
+      v50 = v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | (8 * (char)(32 * v73))));
+      v51 = (v49 >> 3) | (32 * (v74 | (4 * (char)(v50 << 6))));
+      v52 = v77;
+      v53 = v77;
       data[2] = v51;
-      v54 = (v50 >> 2) | ((buff[5] | (2 * (char)(v53 << 7))) << 6);
-      v55 = (char)buff[7] << 7;
+      v54 = (v50 >> 2) | ((v76 | (2 * (char)(v53 << 7))) << 6);
+      v55 = (char)v78 << 7;
       data[3] = v54;
       data[4] = v55 | (v52 >> 1);
       result = v5;
       *data = 3;
       return result;
     case 0xE:
-      v56 = buff[2];
-      v57 = buff[4];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | (32 * (char)(8 * buff[2]))));
-      v58 = (v56 >> 5) | (8 * (buff[3] | ((char)(4 * v57) << 6)));
-      v59 = buff[6];
+      v56 = v73;
+      v57 = v75;
+      data[1] = (dataa >> 4) | (16 * (v72 | (32 * (char)(8 * v73))));
+      v58 = (v56 >> 5) | (8 * (v74 | ((char)(4 * v57) << 6)));
+      v59 = v77;
       data[2] = v58;
-      v60 = (v57 >> 6) | (4 * (buff[5] | ((char)(2 * v59) << 7)));
-      v61 = (char)buff[8];
+      v60 = (v57 >> 6) | (4 * (v76 | ((char)(2 * v59) << 7)));
+      v61 = (char)v79;
       data[3] = v60;
-      v62 = (v59 >> 7) | (2 * (buff[7] | (v61 << 8)));
+      v62 = (v59 >> 7) | (2 * (v78 | (v61 << 8)));
       result = v5;
       *data = 3;
       data[4] = v62;
       return result;
     case 0xF:
-      v63 = buff[2];
-      v64 = buff[5];
-      data[1] = (buff[0] >> 4) | (16 * (buff[1] | ((char)(2 * buff[2]) << 7)));
-      v65 = (v63 >> 7) | (2 * (buff[3] | ((buff[4] | (4 * (char)(v64 << 6))) << 8)));
-      v66 = buff[7];
-      v67 = 2 * buff[7];
+      v63 = v73;
+      v64 = v76;
+      data[1] = (dataa >> 4) | (16 * (v72 | ((char)(2 * v73) << 7)));
+      v65 = (v63 >> 7) | (2 * (v74 | ((v75 | (4 * (char)(v64 << 6))) << 8)));
+      v66 = v78;
+      v67 = 2 * v78;
       data[2] = v65;
-      v68 = (v64 >> 2) | ((buff[6] | (32 * (char)(4 * v67))) << 6);
-      v69 = (char)buff[9] << 8;
+      v68 = (v64 >> 2) | ((v77 | (32 * (char)(4 * v67))) << 6);
+      v69 = v80 << 8;
       data[3] = v68;
-      v70 = (v66 >> 5) | (8 * (buff[8] | v69));
+      v70 = (v66 >> 5) | (8 * (v79 | v69));
       *data = 3;
       data[4] = v70;
       return v5;

@@ -5,12 +5,12 @@ void __thiscall Scaleform::Render::TextLayout::Create(
   unsigned int Size; // edi
   unsigned int v5; // edi
   unsigned int v6; // eax
-  Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *p_Data; // esi
+  int *p_Data; // esi
   unsigned int v8; // eax
   unsigned int v9; // eax
-  unsigned __int8 *pFonts; // eax
-  unsigned __int8 *pImages; // eax
-  unsigned __int8 *pRefCntData; // eax
+  Scaleform::Render::Font **pFonts; // eax
+  Scaleform::Render::Image **pImages; // eax
+  Scaleform::RefCountImpl **pRefCntData; // eax
   unsigned int i; // esi
   unsigned int j; // esi
   Scaleform::Render::Image *v15; // ecx
@@ -19,9 +19,9 @@ void __thiscall Scaleform::Render::TextLayout::Create(
   float v18; // [esp+8h] [ebp-8h]
   float y2; // [esp+Ch] [ebp-4h]
   float v20; // [esp+Ch] [ebp-4h]
-  float totala; // [esp+14h] [ebp+4h]
-  float totalb; // [esp+14h] [ebp+4h]
-  unsigned int total; // [esp+14h] [ebp+4h]
+  float y1; // [esp+14h] [ebp+4h]
+  float v22; // [esp+14h] [ebp+4h]
+  unsigned int v23; // [esp+14h] [ebp+4h]
 
   this->pFonts = 0;
   this->FontCount = 0;
@@ -29,18 +29,18 @@ void __thiscall Scaleform::Render::TextLayout::Create(
   this->ImageCount = 0;
   this->pRefCntData = 0;
   this->RefCntCount = 0;
-  totala = builder->Bounds.y1;
+  y1 = builder->Bounds.y1;
   x2 = builder->Bounds.x2;
   y2 = builder->Bounds.y2;
   this->Bounds.x1 = builder->Bounds.x1;
-  this->Bounds.y1 = totala;
+  this->Bounds.y1 = y1;
   this->Bounds.x2 = x2;
   this->Bounds.y2 = y2;
-  totalb = builder->ClipBox.y1;
+  v22 = builder->ClipBox.y1;
   v20 = builder->ClipBox.x2;
   v18 = builder->ClipBox.y2;
   this->ClipBox.x1 = builder->ClipBox.x1;
-  this->ClipBox.y1 = totalb;
+  this->ClipBox.y1 = v22;
   this->ClipBox.x2 = v20;
   this->ClipBox.y2 = v18;
   qmemcpy(&this->Param, builder, sizeof(this->Param));
@@ -48,8 +48,8 @@ void __thiscall Scaleform::Render::TextLayout::Create(
   this->DataSize = Size;
   v5 = (Size + 3) & 0xFFFFFFFC;
   v6 = v5 + 4 * (builder->RefCntData.Size + builder->Fonts.Size + builder->Images.Size);
-  p_Data = &this->Data;
-  total = v6;
+  p_Data = (int *)&this->Data;
+  v23 = v6;
   if ( v6 >= this->Data.Data.Size )
   {
     if ( v6 < this->Data.Data.Policy.Capacity )
@@ -68,39 +68,39 @@ void __thiscall Scaleform::Render::TextLayout::Create(
       &this->Data,
       v6);
   }
-  v6 = total;
+  v6 = v23;
 LABEL_7:
   this->Data.Data.Size = v6;
   if ( builder->Fonts.Size )
   {
-    this->pFonts = (Scaleform::Render::Font **)&p_Data->Data.Data[v5];
+    this->pFonts = (Scaleform::Render::Font **)(v5 + *p_Data);
     v8 = builder->Fonts.Size;
     this->FontCount = v8;
     v5 += 4 * v8;
   }
   if ( builder->Images.Size )
   {
-    this->pImages = (Scaleform::Render::Image **)&p_Data->Data.Data[v5];
+    this->pImages = (Scaleform::Render::Image **)(v5 + *p_Data);
     v9 = builder->Images.Size;
     this->ImageCount = v9;
     v5 += 4 * v9;
   }
   if ( builder->RefCntData.Size )
   {
-    this->pRefCntData = (Scaleform::RefCountImpl **)&p_Data->Data.Data[v5];
+    this->pRefCntData = (Scaleform::RefCountImpl **)(v5 + *p_Data);
     this->RefCntCount = builder->RefCntData.Size;
   }
   if ( builder->Data.Size )
-    memcpy(p_Data->Data.Data, builder->Data.Data, this->DataSize);
-  pFonts = (unsigned __int8 *)this->pFonts;
+    memcpy(*p_Data, (const __m128i *)builder->Data.Data, this->DataSize);
+  pFonts = this->pFonts;
   if ( pFonts )
-    memcpy(pFonts, (unsigned __int8 *)builder->Fonts.Data, 4 * this->FontCount);
-  pImages = (unsigned __int8 *)this->pImages;
+    memcpy((int)pFonts, (const __m128i *)builder->Fonts.Data, 4 * this->FontCount);
+  pImages = this->pImages;
   if ( pImages )
-    memcpy(pImages, (unsigned __int8 *)builder->Images.Data, 4 * this->ImageCount);
-  pRefCntData = (unsigned __int8 *)this->pRefCntData;
+    memcpy((int)pImages, (const __m128i *)builder->Images.Data, 4 * this->ImageCount);
+  pRefCntData = this->pRefCntData;
   if ( pRefCntData )
-    memcpy(pRefCntData, (unsigned __int8 *)builder->RefCntData.Data, 4 * this->RefCntCount);
+    memcpy((int)pRefCntData, (const __m128i *)builder->RefCntData.Data, 4 * this->RefCntCount);
   for ( i = 0; i < this->FontCount; ++i )
     Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)this->pFonts[i]);
   for ( j = 0; j < this->ImageCount; ++j )

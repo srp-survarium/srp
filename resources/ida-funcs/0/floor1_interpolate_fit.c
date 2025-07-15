@@ -1,41 +1,49 @@
 char *__usercall floor1_interpolate_fit@<eax>(
+        vorbis_block *vb@<ecx>,
         vorbis_look_floor1 *look@<eax>,
-        char *A@<ecx>,
-        vorbis_block *vb,
-        int *B,
+        char *A,
+        char *B,
         int del)
 {
-  int posts; // ebp
-  char *result; // eax
-  int v8; // esi
-  int *v9; // ecx
-  int v10; // edi
-  int v11; // edx
+  int posts; // edi
+  char *v6; // edx
+  int v7; // eax
+  char *v8; // ecx
+  int v9; // edx
+  int v11; // [esp+8h] [ebp-10h]
+  int v12; // [esp+Ch] [ebp-Ch]
+  char *v13; // [esp+14h] [ebp-4h]
+  int v14; // [esp+20h] [ebp+8h]
 
+  v13 = 0;
   posts = look->posts;
-  result = 0;
   if ( A )
   {
     if ( B )
     {
-      result = (char *)_vorbis_block_alloc(vb, 4 * posts);
+      v13 = _vorbis_block_alloc(vb, 4 * posts);
       if ( posts > 0 )
       {
-        v8 = A - (char *)B;
-        v9 = B;
-        v10 = result - (char *)B;
-        do
+        v6 = (char *)&_sbh_sizeHeaderList - del;
+        v7 = A - B;
+        v12 = v13 - B;
+        v14 = posts;
+        v8 = B;
+        v11 = v7;
+        while ( 1 )
         {
-          v11 = (del * (*v9 & 0x7FFF) + ((int)&_sbh_sizeHeaderList - del) * (*(int *)((char *)v9 + v8) & 0x7FFF) + 0x8000) >> 16;
-          *(int *)((char *)v9 + v10) = v11;
-          if ( (*(int *)((char *)v9 + v8) & 0x8000) != 0 && (*v9 & 0x8000) != 0 )
-            *(int *)((char *)v9 + v10) = v11 | 0x8000;
-          ++v9;
-          --posts;
+          v9 = (del * (*(_DWORD *)v8 & 0x7FFF) + (int)v6 * (*(_DWORD *)&v8[v7] & 0x7FFF) + 0x8000) >> 16;
+          v7 = v11;
+          *(_DWORD *)&v8[v12] = v9;
+          if ( (*(_DWORD *)&v8[v11] & 0x8000) != 0 && (*(_DWORD *)v8 & 0x8000) != 0 )
+            *(_DWORD *)&v8[v12] = v9 | 0x8000;
+          v8 += 4;
+          if ( !--v14 )
+            break;
+          v6 = (char *)&_sbh_sizeHeaderList - del;
         }
-        while ( posts );
       }
     }
   }
-  return result;
+  return v13;
 }

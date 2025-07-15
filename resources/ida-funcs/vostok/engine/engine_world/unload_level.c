@@ -1,53 +1,34 @@
 void __thiscall vostok::engine::engine_world::unload_level(vostok::engine::engine_world *this)
 {
-  vostok::apc::callback *v2; // esi
-  vostok::apc::callback *v3; // esi
-  void (__cdecl *v4)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::engine_user::world,char const *,bool>,boost::_bi::list3<boost::_bi::value<vostok::engine_user::world *>,boost::_bi::value<char const *>,boost::_bi::value<bool> > > v5; // [esp-10h] [ebp-48h]
-  int v6; // [esp+0h] [ebp-38h]
-  __int64 v7; // [esp+Ch] [ebp-2Ch]
-  boost::function0<void> *v8; // [esp+14h] [ebp-24h]
-  boost::function0<void> v9; // [esp+18h] [ebp-20h] BYREF
+  boost::function<void __cdecl(void)> *v2; // ecx
+  boost::detail::function::vtable_base *m_sound_world; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::engine_user::world,char const *,bool>,boost::_bi::list3<boost::_bi::value<vostok::engine_user::world *>,boost::_bi::value<char const *>,boost::_bi::value<bool> > > v5; // [esp-14h] [ebp-4Ch]
+  void *v6; // [esp+14h] [ebp-24h]
+  boost::function<void __cdecl(void)> f; // [esp+18h] [ebp-20h] BYREF
 
-  if ( (*(unsigned __int8 (__thiscall **)(float *))(LODWORD(this[-1].m_timer.m_time_factor) + 100))(&this[-1].m_timer.m_time_factor) )
+  if ( (*(unsigned __int8 (__thiscall **)(float *))(LODWORD(this[-1].m_timer.m_time_factor) + 104))(&this[-1].m_timer.m_time_factor) )
   {
-    ((void (__thiscall *)(vostok::sound::world *volatile, const survarium::flash_text *, _DWORD))this->m_sound_world->set_calculation_type)(
+    ((void (__thiscall *)(vostok::sound::world *volatile, const char *, _DWORD))this->m_sound_world->__vftable[1].clear_resources)(
       this->m_sound_world,
-      &buf,
+      uri,
       0);
   }
   else
   {
-    LODWORD(v7) = this->m_sound_world;
-    HIDWORD(v7) = &buf;
-    *(_QWORD *)&(&v9.vtable)[1] = v7;
-    LOBYTE(v8) = 0;
-    v9.vtable = (boost::detail::function::vtable_base *) __thiscall vostok::engine_user::world::`vcall'{20,{flat}};
-    *(_QWORD *)&v5.f_.f_ = *(_QWORD *)&v9.vtable;
-    v9.functor.vostok_pointer_size_alignment[1] = v8;
-    *(_QWORD *)&v5.l_.a2_.t_ = *(_QWORD *)&v9.functor.obj_ptr;
-    boost::function0<void>::function0<void>(v8, (int)&v9, (int)this, v5, v6);
-    v2 = g_threads.m_begin + 1;
-    if ( v2->m_thread_id == GetCurrentThreadId() )
-    {
-      boost::function0<void>::operator()(&v9);
-    }
-    else
-    {
-      vostok::apc::wait(logic);
-      v3 = g_threads.m_begin + 1;
-      boost::function<void __cdecl (void)>::operator=(
-        &g_threads.m_begin[1].m_callback,
-        (const boost::function<void __cdecl(void)> *)&v9);
-      v3->m_break_parameters = continue_process_loop;
-      _InterlockedExchange(&v3->m_pending, 1);
-      vostok::apc::wait(logic);
-    }
-    if ( v9.vtable && ((int)v9.vtable & 1) == 0 )
-    {
-      v4 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v9.vtable & 0xFFFFFFFE);
-      if ( v4 )
-        v4(&v9.functor, &v9.functor, 2);
-    }
+    m_sound_world = (boost::detail::function::vtable_base *)this->m_sound_world;
+    f.vtable = (boost::detail::function::vtable_base *) __thiscall vostok::engine_user::world::`vcall'{28,{flat}};
+    LOBYTE(v6) = 0;
+    (&f.vtable)[1] = m_sound_world;
+    f.functor.obj_ptr = (void *)uri;
+    f.functor.vostok_pointer_size_alignment[1] = v6;
+    v5.l_.a1_.t_ = (vostok::engine_user::world *) __thiscall vostok::engine_user::world::`vcall'{28,{flat}};
+    *(_QWORD *)&v5.l_.a2_.t_ = __PAIR64__(uri, (unsigned int)m_sound_world);
+    v5.f_.f_ = (void (__thiscall *)(vostok::engine_user::world *, const char *, bool))&f;
+    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v2, v5, (int)v6);
+    run(logic, &f, continue_process_loop, wait_for_completion, 0);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v4,
+      (int *)&f);
   }
 }

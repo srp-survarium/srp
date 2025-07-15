@@ -1,4 +1,6 @@
-void __thiscall Scaleform::GFx::ZlibSupport::CreateZlibFile(Scaleform::GFx::ZlibSupport *this, Scaleform::File *in)
+void __thiscall Scaleform::GFx::ZlibSupport::CreateZlibFile(
+        Scaleform::GFx::ZlibSupport *this,
+        Scaleform::GFx::Resource *in)
 {
   Scaleform::GFx::ZLibFile *v2; // eax
   int v3; // [esp+4h] [ebp-4h] BYREF

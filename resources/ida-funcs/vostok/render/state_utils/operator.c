@@ -54,39 +54,3 @@ bool __usercall vostok::render::state_utils::operator==@<al>(
       && desc1->BackFace.StencilPassOp == desc2->BackFace.StencilPassOp
       && desc1->BackFace.StencilFunc == desc2->BackFace.StencilFunc;
 }
-
-
-bool __fastcall vostok::render::state_utils::operator==(
-        const D3D11_RASTERIZER_DESC *desc2,
-        const D3D11_RASTERIZER_DESC *desc1)
-{
-  return desc1->FillMode == desc2->FillMode
-      && desc1->CullMode == desc2->CullMode
-      && desc1->FrontCounterClockwise == desc2->FrontCounterClockwise
-      && desc1->DepthBias == desc2->DepthBias
-      && desc1->DepthBiasClamp == desc2->DepthBiasClamp
-      && desc1->SlopeScaledDepthBias == desc2->SlopeScaledDepthBias
-      && desc1->DepthClipEnable == desc2->DepthClipEnable
-      && desc1->ScissorEnable == desc2->ScissorEnable
-      && desc1->MultisampleEnable == desc2->MultisampleEnable
-      && desc1->AntialiasedLineEnable == desc2->AntialiasedLineEnable;
-}
-
-
-bool __fastcall vostok::render::state_utils::operator==(
-        const D3D11_SAMPLER_DESC *desc2,
-        const D3D11_SAMPLER_DESC *desc1)
-{
-  return desc1->Filter == desc2->Filter
-      && desc1->AddressU == desc2->AddressU
-      && desc1->AddressV == desc2->AddressV
-      && desc1->AddressW == desc2->AddressW
-      && desc1->MipLODBias == desc2->MipLODBias
-      && desc1->ComparisonFunc == desc2->ComparisonFunc
-      && desc1->BorderColor[0] == desc2->BorderColor[0]
-      && desc1->BorderColor[1] == desc2->BorderColor[1]
-      && desc1->BorderColor[2] == desc2->BorderColor[2]
-      && desc1->BorderColor[3] == desc2->BorderColor[3]
-      && desc1->MinLOD == desc2->MinLOD
-      && desc1->MaxLOD == desc2->MaxLOD;
-}

@@ -1,75 +1,57 @@
-malloc_arena *__usercall arena_get2@<eax>(malloc_arena *a_tsd@<edx>, const void *a2@<edi>, unsigned int size)
+malloc_arena *__usercall arena_get2@<eax>(malloc_arena *a_tsd@<edx>, unsigned int size)
 {
   malloc_arena *next; // esi
-  volatile __int32 *p_mutex; // ecx
+  malloc_arena *v3; // edx
+  malloc_arena *v4; // edx
   malloc_arena *result; // eax
   malloc_arena *v6; // esi
-  volatile __int32 *v7; // ecx
-  malloc_arena *a; // [esp+4h] [ebp-20h]
-  malloc_arena *aa; // [esp+4h] [ebp-20h]
+  int v7; // edx
 
   if ( !a_tsd )
   {
-    a_tsd = &main_arena;
     next = &main_arena;
-LABEL_3:
-    a = next;
     goto repeat;
   }
   next = a_tsd->next;
-  a = next;
   if ( next )
   {
-    do
+    while ( 1 )
     {
-repeat:
-      p_mutex = &a->mutex;
-      _mm_pause();
-      if ( !_InterlockedExchange(p_mutex, 1) )
+      do
       {
-        TlsSetValue(arena_key, next);
-        return next;
+repeat:
+        if ( !sltrywait(&next->mutex) )
+        {
+          TlsSetValue(arena_key, next);
+          return next;
+        }
+        next = next->next;
       }
-      next = next->next;
-      a = next;
-    }
-    while ( next != a_tsd );
-    _mm_pause();
-    if ( _InterlockedExchange(&list_lock, 1) )
-    {
-      next = a_tsd;
-      goto LABEL_3;
+      while ( next != v3 );
+      if ( !sltrywait(&list_lock) )
+        break;
+      next = v4;
     }
     _mm_pause();
     _InterlockedExchange(&list_lock, 0);
-    result = (malloc_arena *)int_new_arena(size, a2);
+    result = int_new_arena(size);
     v6 = result;
-    aa = result;
     if ( result )
     {
       TlsSetValue(arena_key, result);
       v6->mutex = 0;
-      do
-      {
-        v7 = &aa->mutex;
-        _mm_pause();
-      }
-      while ( _InterlockedExchange(v7, 1) );
-      do
-        _mm_pause();
-      while ( _InterlockedExchange(&list_lock, 1) );
+      slwait(&v6->mutex);
+      slwait(&list_lock);
       v6->next = main_arena.next;
       main_arena.next = v6;
       _mm_pause();
       _InterlockedExchange(&list_lock, 0);
-      return v6;
+      return v7 == 0 ? v6 : 0;
     }
   }
   else
   {
-    do
-      _mm_pause();
-    while ( _InterlockedExchange(&main_arena.mutex, 1) );
+    slwait(&main_arena.mutex);
     return &main_arena;
   }
   return result;

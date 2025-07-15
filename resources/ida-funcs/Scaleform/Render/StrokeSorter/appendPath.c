@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::StrokeSorter::appendPath(
   unsigned int v7; // ebx
   _DWORD *p_x; // edi
   _DWORD *v9; // eax
-  unsigned int n; // [esp+10h] [ebp-4h]
+  unsigned int v11; // [esp+10h] [ebp-4h]
 
   v3 = this;
   if ( !dst->numVer )
@@ -23,7 +23,7 @@ void __thiscall Scaleform::Render::StrokeSorter::appendPath(
   }
   v4 = src->numVer & 0xFFFFFFF;
   v5 = 1;
-  n = v4;
+  v11 = v4;
   if ( v4 > 1 )
   {
     p_OutVertices = &v3->OutVertices;
@@ -36,7 +36,7 @@ void __thiscall Scaleform::Render::StrokeSorter::appendPath(
         Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16>::allocPage(
           p_OutVertices,
           p_OutVertices->Size >> 4);
-        v4 = n;
+        v4 = v11;
       }
       v9 = (_DWORD *)&p_OutVertices->Pages[v7][p_OutVertices->Size & 0xF].x;
       *v9 = *p_x;

@@ -17,21 +17,21 @@ int __cdecl ssl_cipher_process_rulestr(
   unsigned int algorithm_auth; // eax
   unsigned int algorithm_enc; // eax
   unsigned int algorithm_mac; // eax
-  unsigned int v18; // eax
+  unsigned int algo_strength; // eax
   unsigned int v19; // edx
   unsigned int algorithm_ssl; // edi
   char v21; // al
   int v22; // [esp+4h] [ebp-28h]
-  unsigned int algo_strength; // [esp+8h] [ebp-24h]
-  unsigned int alg_mac; // [esp+Ch] [ebp-20h]
-  unsigned int alg_enc; // [esp+10h] [ebp-1Ch]
-  unsigned int alg_auth; // [esp+14h] [ebp-18h]
-  unsigned int alg_mkey; // [esp+18h] [ebp-14h]
-  unsigned int cipher_id; // [esp+1Ch] [ebp-10h]
+  unsigned int v23; // [esp+8h] [ebp-24h]
+  unsigned int v24; // [esp+Ch] [ebp-20h]
+  unsigned int v25; // [esp+10h] [ebp-1Ch]
+  unsigned int v26; // [esp+14h] [ebp-18h]
+  unsigned int v27; // [esp+18h] [ebp-14h]
+  unsigned int v28; // [esp+1Ch] [ebp-10h]
   unsigned int count; // [esp+20h] [ebp-Ch]
   int v30; // [esp+24h] [ebp-8h]
   char *first; // [esp+28h] [ebp-4h]
-  unsigned int alg_ssl; // [esp+30h] [ebp+4h]
+  unsigned int v32; // [esp+30h] [ebp+4h]
 
   v4 = rule_str;
   v5 = *rule_str;
@@ -43,19 +43,19 @@ int __cdecl ssl_cipher_process_rulestr(
       switch ( v5 )
       {
         case '+':
-          algo_strength = 4;
+          v23 = 4;
           ++v4;
           goto LABEL_14;
         case '!':
-          algo_strength = 2;
+          v23 = 2;
           ++v4;
           goto LABEL_14;
         case '@':
-          algo_strength = 5;
+          v23 = 5;
           ++v4;
           goto LABEL_14;
       }
-      algo_strength = 1;
+      v23 = 1;
       if ( v5 != 58 && v5 != 32 && v5 != 59 && v5 != 44 )
         goto LABEL_14;
       ++v4;
@@ -64,16 +64,16 @@ LABEL_99:
       if ( !*v4 )
         return v22;
     }
-    algo_strength = 3;
+    v23 = 3;
     ++v4;
 LABEL_14:
     v6 = 0;
-    cipher_id = 0;
-    alg_mkey = 0;
-    alg_auth = 0;
-    alg_enc = 0;
-    alg_mac = 0;
-    alg_ssl = 0;
+    v28 = 0;
+    v27 = 0;
+    v26 = 0;
+    v25 = 0;
+    v24 = 0;
+    v32 = 0;
     while ( 1 )
     {
       first = (char *)v4;
@@ -87,7 +87,7 @@ LABEL_14:
       count = i;
       if ( !i )
         break;
-      if ( algo_strength == 5 )
+      if ( v23 == 5 )
         goto LABEL_40;
       if ( v8 == 43 )
       {
@@ -113,87 +113,87 @@ LABEL_14:
       v9 = 1;
       if ( algorithm_mkey )
       {
-        if ( cipher_id )
+        if ( v28 )
         {
-          cipher_id &= algorithm_mkey;
-          if ( !cipher_id )
+          v28 &= algorithm_mkey;
+          if ( !v28 )
             goto LABEL_38;
         }
         else
         {
-          cipher_id = v11->algorithm_mkey;
+          v28 = v11->algorithm_mkey;
         }
       }
       algorithm_auth = v11->algorithm_auth;
       if ( algorithm_auth )
       {
-        if ( alg_mkey )
+        if ( v27 )
         {
-          alg_mkey &= algorithm_auth;
-          if ( !alg_mkey )
+          v27 &= algorithm_auth;
+          if ( !v27 )
             goto LABEL_38;
         }
         else
         {
-          alg_mkey = v11->algorithm_auth;
+          v27 = v11->algorithm_auth;
         }
       }
       algorithm_enc = v11->algorithm_enc;
       if ( algorithm_enc )
       {
-        if ( alg_auth )
+        if ( v26 )
         {
-          alg_auth &= algorithm_enc;
-          if ( !alg_auth )
+          v26 &= algorithm_enc;
+          if ( !v26 )
             goto LABEL_38;
         }
         else
         {
-          alg_auth = v11->algorithm_enc;
+          v26 = v11->algorithm_enc;
         }
       }
       algorithm_mac = v11->algorithm_mac;
       if ( algorithm_mac )
       {
-        if ( alg_enc )
+        if ( v25 )
         {
-          alg_enc &= algorithm_mac;
-          if ( !alg_enc )
+          v25 &= algorithm_mac;
+          if ( !v25 )
             goto LABEL_38;
         }
         else
         {
-          alg_enc = v11->algorithm_mac;
+          v25 = v11->algorithm_mac;
         }
       }
-      v18 = v11->algo_strength;
-      LOWORD(v19) = alg_ssl;
-      if ( (v18 & 3) != 0 )
+      algo_strength = v11->algo_strength;
+      LOWORD(v19) = v32;
+      if ( (algo_strength & 3) != 0 )
       {
-        if ( (alg_ssl & 3) != 0 )
+        if ( (v32 & 3) != 0 )
         {
-          v19 = (v18 | 0xFFFFFFFC) & alg_ssl;
-          alg_ssl = v19;
+          v19 = (algo_strength | 0xFFFFFFFC) & v32;
+          v32 = v19;
           if ( (v19 & 3) == 0 )
             goto LABEL_38;
         }
         else
         {
-          v19 = v11->algo_strength & 3 | alg_ssl;
-          alg_ssl = v19;
+          v19 = v11->algo_strength & 3 | v32;
+          v32 = v19;
         }
       }
-      if ( (v18 & 0x1FC) != 0 )
+      if ( (algo_strength & 0x1FC) != 0 )
       {
         if ( (v19 & 0x1FC) != 0 )
         {
-          alg_ssl &= v18 | 0xFFFFFE03;
-          if ( (alg_ssl & 0x1FC) == 0 )
+          v32 &= algo_strength | 0xFFFFFE03;
+          if ( (v32 & 0x1FC) == 0 )
             goto LABEL_38;
         }
         else
         {
-          alg_ssl |= v18 & 0x1FC;
+          v32 |= algo_strength & 0x1FC;
         }
       }
       if ( !v11->valid )
@@ -201,10 +201,10 @@ LABEL_14:
         algorithm_ssl = v11->algorithm_ssl;
         if ( algorithm_ssl )
         {
-          if ( alg_mac )
+          if ( v24 )
           {
-            alg_mac &= algorithm_ssl;
-            if ( !alg_mac )
+            v24 &= algorithm_ssl;
+            if ( !v24 )
             {
 LABEL_38:
               v9 = 0;
@@ -213,7 +213,7 @@ LABEL_38:
           }
           else
           {
-            alg_mac = algorithm_ssl;
+            v24 = algorithm_ssl;
           }
         }
       }
@@ -221,26 +221,16 @@ LABEL_38:
         goto LABEL_39;
       v6 = 0;
     }
-    ERR_put_error(0x14u, 230, 280, ".\\ssl\\ssl_ciph.c", 1094);
+    ERR_put_error((int)v4, 0x14u, 230, 280, ".\\ssl\\ssl_ciph.c", 1094);
     v9 = 0;
     v22 = 0;
     ++v4;
 LABEL_39:
-    if ( algo_strength != 5 )
+    if ( v23 != 5 )
     {
       if ( v9 )
       {
-        ssl_cipher_apply_rule(
-          cipher_id,
-          alg_mkey,
-          alg_auth,
-          alg_enc,
-          alg_mac,
-          alg_ssl,
-          algo_strength,
-          -1,
-          head_p,
-          tail_p);
+        ssl_cipher_apply_rule(v28, v27, v26, v25, v24, v32, v23, -1, head_p, tail_p);
       }
       else
       {
@@ -279,7 +269,7 @@ LABEL_89:
     }
     else
     {
-      ERR_put_error(0x14u, 230, 280, ".\\ssl\\ssl_ciph.c", 1247);
+      ERR_put_error((int)v4, 0x14u, 230, 280, ".\\ssl\\ssl_ciph.c", 1247);
     }
     v22 = 0;
     goto LABEL_44;

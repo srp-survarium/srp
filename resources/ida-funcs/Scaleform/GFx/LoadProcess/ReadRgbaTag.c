@@ -1,12 +1,12 @@
 void __thiscall Scaleform::GFx::LoadProcess::ReadRgbaTag(
         Scaleform::GFx::LoadProcess *this,
         Scaleform::Render::Color *pc,
-        Scaleform::GFx::TagType tagType)
+        int tagType)
 {
   Scaleform::GFx::SWFProcessInfo *pAltStream; // eax
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)this->pAltStream;
-  if ( tagType > Tag_DefineShape2 )
+  if ( tagType > 22 )
   {
     if ( !pAltStream )
       pAltStream = &this->ProcessInfo;

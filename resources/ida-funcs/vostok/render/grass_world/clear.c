@@ -1,69 +1,36 @@
-void __thiscall vostok::render::grass_world::clear(
-        vostok::render::grass_world *this,
-        vostok::render::grass_world *thisa)
+void __usercall vostok::render::grass_world::clear(vostok::render::grass_world *this@<ecx>, _DWORD *a2@<esi>)
 {
-  vostok::render::grass_world *v2; // edi
-  vostok::render::grass_template **M_start; // eax
-  vostok::render::grass_template *v4; // ebp
-  void **v5; // edi
-  void **i; // ebx
-  void *v7; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void **M_finish; // eax
-  vostok::render::grass_template *v10; // ecx
-  void **v11; // esi
-  vostok::render::grass_render_model *m_object; // esi
-  void **v13; // eax
-  void **v14; // ecx
-  void **v15; // esi
-  vostok::render::grass_template **it_t; // [esp+Ch] [ebp-8h]
-  vostok::render::grass_template **end_t; // [esp+10h] [ebp-4h]
+  vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *v2; // ebx
+  vostok::render::grass_instance *m_first; // edi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v4; // edi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **v5; // ebx
+  vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *i; // [esp+Ch] [ebp-4h]
 
-  v2 = thisa;
-  vostok::render::grass_world::remove_patches(this, thisa);
-  M_start = (vostok::render::grass_template **)thisa->m_templates._M_impl._M_start;
-  it_t = M_start;
-  end_t = (vostok::render::grass_template **)thisa->m_templates._M_impl._M_finish;
-  if ( M_start != end_t )
+  vostok::render::grass_world::remove_patches(this, a2);
+  v2 = (vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)a2[67];
+  for ( i = (vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)a2[68];
+        v2 != i;
+        v2 = (vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)((char *)v2 + 36) )
   {
     while ( 1 )
     {
-      v4 = *M_start;
-      v5 = (*M_start)->m_instances._M_impl._M_start;
-      for ( i = (*M_start)->m_instances._M_impl._M_finish; v5 != i; ++v5 )
-      {
-        v7 = *v5;
-        if ( *v5 )
-        {
-          m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v7);
-        }
-      }
-      M_finish = v4->m_instances._M_impl._M_finish;
-      v10 = (vostok::render::grass_template *)v4->m_instances._M_impl._M_start;
-      if ( v10 != (vostok::render::grass_template *)M_finish )
-      {
-        v11 = stlp_std::priv::__copy_ptrs<void * *,void * *>(M_finish, M_finish, (void **)&v10->m_render_model.m_object);
-        stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-        v4->m_instances._M_impl._M_finish = v11;
-      }
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::grass_template::~grass_template(v10);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), v4);
-      if ( ++it_t == end_t )
+      m_first = v2->m_first;
+      if ( !m_first )
         break;
-      M_start = it_t;
+      vostok::intrusive_list<vostok::render::grass_instance,vostok::render::grass_instance *,4,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::erase(
+        v2,
+        v2->m_first);
+      m_first->template_ = (vostok::render::grass_template *)a2[78];
+      a2[78] = m_first;
+      --a2[79];
     }
-    v2 = thisa;
   }
-  v13 = v2->m_templates._M_impl._M_finish;
-  v14 = v2->m_templates._M_impl._M_start;
-  if ( v14 != v13 )
+  v4 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)a2[67];
+  v5 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 68);
+  while ( v4 != *v5 )
   {
-    v15 = stlp_std::priv::__copy_ptrs<void * *,void * *>(v13, v13, v14);
-    stlp_std::_Destroy<vostok::fs_new::virtual_path_string>();
-    thisa->m_templates._M_impl._M_finish = v15;
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(v4 + 4);
+    v4 += 9;
   }
+  *v5 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)a2[67];
 }

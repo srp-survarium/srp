@@ -1,38 +1,61 @@
-ppmd_allocator *__usercall ppmd_allocator::ShrinkUnits@<eax>(
-        ppmd_allocator *this@<esi>,
-        ppmd_allocator *OldPtr@<edi>,
-        unsigned int OldNU@<eax>,
-        unsigned int NewNU@<edx>,
-        void *a5@<ebp>)
+char *__userpurge ppmd_allocator::ShrinkUnits@<eax>(
+        ppmd_allocator *this@<eax>,
+        unsigned int OldNU@<ecx>,
+        char *OldPtr,
+        unsigned int NewNU)
 {
-  unsigned int v5; // ecx
-  int v6; // ebx
-  BLK_NODE *next; // ebp
-  BLK_NODE *v8; // eax
-  BLK_NODE *v9; // eax
-  ppmd_allocator *result; // eax
+  unsigned int v4; // ecx
+  unsigned int v6; // esi
+  char *v7; // edx
+  int v8; // esi
+  int v9; // edi
+  char *v10; // edx
+  _DWORD *v11; // edi
+  bool v12; // zf
+  _DWORD *v13; // esi
+  int v14; // edx
+  BLK_NODE *v15; // ecx
+  char *result; // eax
+  char *v17; // [esp+8h] [ebp-4h]
+  unsigned int v18; // [esp+14h] [ebp+8h]
+  _DWORD *v19; // [esp+18h] [ebp+Ch]
 
-  v5 = this->Indx2Units[NewNU + 37];
-  v6 = this->Indx2Units[OldNU + 37];
-  if ( v6 != v5 )
+  v4 = this->Indx2Units[OldNU + 37];
+  v6 = this->Indx2Units[NewNU + 37];
+  if ( v4 == v6 )
+    return OldPtr;
+  v7 = (char *)this + 8 * v6;
+  if ( !*((_DWORD *)v7 + 2) )
   {
-    if ( this->BList[v5].next )
-    {
-      next = this->BList[v5].next;
-      v8 = next->next;
-      --this->BList[v5].Stamp;
-      this->BList[v5].next = v8;
-      ppmd_allocator::UnitsCpy((char *)next, NewNU, OldPtr, a5);
-      v9 = (BLK_NODE *)this->Indx2Units[v6];
-      OldPtr->BList[0].Stamp = (unsigned int)this->BList[v6].next;
-      this->BList[v6].next = (BLK_NODE *)OldPtr;
-      OldPtr->BList[0].next = v9;
-      result = (ppmd_allocator *)next;
-      OldPtr->m_allocator = (vostok::memory::base_allocator *)-1;
-      ++this->BList[v6].Stamp;
-      return result;
-    }
-    ppmd_allocator::SplitBlock(this, v5, (char *)OldPtr, this->Indx2Units[OldNU + 37]);
+    ppmd_allocator::SplitBlock(this, v6, OldPtr, v4);
+    return OldPtr;
   }
-  return OldPtr;
+  v8 = *((_DWORD *)v7 + 2);
+  v9 = *(_DWORD *)(v8 + 4);
+  --*((_DWORD *)v7 + 1);
+  *((_DWORD *)v7 + 2) = v9;
+  v18 = NewNU;
+  v17 = (char *)v8;
+  v19 = (_DWORD *)v8;
+  v10 = &OldPtr[-v8];
+  do
+  {
+    v11 = v19;
+    v19 += 3;
+    v12 = v18-- == 1;
+    *v11 = *(_DWORD *)((char *)v11 + (_DWORD)v10);
+    v13 = (_DWORD *)((char *)v11++ + (_DWORD)v10 + 4);
+    *v11 = *v13;
+    v11[1] = v13[1];
+  }
+  while ( !v12 );
+  v14 = this->Indx2Units[v4];
+  v15 = &this->BList[v4];
+  *((_DWORD *)OldPtr + 1) = v15->next;
+  result = v17;
+  v15->next = (BLK_NODE *)OldPtr;
+  *(_DWORD *)OldPtr = -1;
+  *((_DWORD *)OldPtr + 2) = v14;
+  ++v15->Stamp;
+  return result;
 }

@@ -21,7 +21,7 @@ Scaleform::Render::DIQueuePage *__thiscall Scaleform::Render::DICommandQueue::al
   {
     result = this->Queues[3].Root.pNext;
     result->pPrev->pNext = result->pNext;
-    result->pNext->Scaleform::ListNode<Scaleform::Render::DIQueuePage>::$DED4EEDCED8B039708BE169F5A3A1451::pPrev = result->pPrev;
+    result->pNext->Scaleform::ListNode<Scaleform::Render::DIQueuePage>::$635FA6BA164E16D24CB31804A66DEDAF::pPrev = result->pPrev;
     --this->FreePageCount;
   }
   if ( result )

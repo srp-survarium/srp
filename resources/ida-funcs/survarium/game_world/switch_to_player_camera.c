@@ -1,33 +1,21 @@
-void __userpurge survarium::game_world::switch_to_player_camera(
-        survarium::game_world *this@<ecx>,
-        int a2@<esi>,
-        bool first_person_view)
+void __thiscall survarium::game_world::switch_to_player_camera(
+        survarium::game_world *this,
+        int first_person_view,
+        char a4)
 {
-  int v3; // eax
-  int v4; // ecx
-  bool v5; // dl
-  survarium::camera_director *v6; // ecx
-  int v7; // eax
+  survarium::player_input_handler *v4; // ecx
+  int v5; // eax
+  survarium::game_camera *v6; // edi
 
-  v3 = *(_DWORD *)(a2 + 568);
-  if ( v3 )
+  v4 = *(survarium::player_input_handler **)(first_person_view + 13616);
+  if ( v4 )
   {
-    v4 = first_person_view ? 0 : 2;
-    *(_DWORD *)(a2 + 700) = v4;
-    v5 = *(_BYTE *)(v3 + 412) || *(_DWORD *)(v3 + 408) != v4;
-    *(_DWORD *)(v3 + 408) = v4;
-    *(_BYTE *)(v3 + 412) = v5;
-    v6 = (survarium::camera_director *)"First Person View";
-    if ( !first_person_view )
-      v6 = (survarium::camera_director *)&stru_96A440;
-    v7 = *(_DWORD *)(a2 + 568);
-    if ( v7 )
-      survarium::camera_director::switch_to_camera(
-        v6,
-        *(survarium::camera_director **)(a2 + 160),
-        (survarium::game_camera *)(v7 + 4),
-        (const char *)v6);
+    survarium::player_input_handler::set_input_mode(v4, a4 != 0 ? first_person_mode : third_person_mode);
+    v5 = *(_DWORD *)(first_person_view + 13616);
+    if ( v5 )
+      v6 = (survarium::game_camera *)(v5 + 4);
     else
-      survarium::camera_director::switch_to_camera(v6, *(survarium::camera_director **)(a2 + 160), 0, (const char *)v6);
+      v6 = 0;
+    survarium::camera_director::switch_to_camera(*(survarium::camera_director **)(first_person_view + 152), v6);
   }
 }

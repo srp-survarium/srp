@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Classes::fl_system::Capabilities::screenColorGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Classes::fl_system::Capabilities,21,Scaleform::GFx::ASString>::Method) = Scaleform::GFx::AS3::Classes::fl_system::Capabilities::screenColorGet;
-  dword_AAE9E4 = 0;
+  dword_8F319C = 0;
   return result;
 }

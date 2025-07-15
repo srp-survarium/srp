@@ -7,7 +7,7 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
   Scaleform::Render::PathBasic *v7; // edx
   int v8; // esi
   unsigned int Count; // ebp
-  const Scaleform::Render::PathBasic *v10; // edx
+  Scaleform::Render::PathBasic *v10; // edx
   unsigned int v11; // esi
   Scaleform::Render::VertexBasic **Pages; // edi
   unsigned int v13; // esi
@@ -60,32 +60,32 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
   double v60; // st3
   double v61; // st7
   double v62; // st4
-  int styleCount; // [esp+0h] [ebp-30h]
-  unsigned int i; // [esp+4h] [ebp-2Ch]
+  int v64; // [esp+0h] [ebp-30h]
+  unsigned int v65; // [esp+4h] [ebp-2Ch]
   float v66; // [esp+Ch] [ebp-24h]
   float v67; // [esp+Ch] [ebp-24h]
   float v68; // [esp+Ch] [ebp-24h]
   float v69; // [esp+Ch] [ebp-24h]
   unsigned int v70; // [esp+10h] [ebp-20h]
-  unsigned int j; // [esp+14h] [ebp-1Ch]
-  const Scaleform::Render::PathBasic *p; // [esp+18h] [ebp-18h]
-  float pa; // [esp+18h] [ebp-18h]
+  int v71; // [esp+14h] [ebp-1Ch]
+  Scaleform::Render::PathBasic *v72; // [esp+18h] [ebp-18h]
+  float v73; // [esp+18h] [ebp-18h]
   unsigned int Size; // [esp+1Ch] [ebp-14h]
-  float p2; // [esp+20h] [ebp-10h]
-  float p2a; // [esp+20h] [ebp-10h]
-  float p2b; // [esp+20h] [ebp-10h]
-  float p2c; // [esp+20h] [ebp-10h]
-  float p2d; // [esp+20h] [ebp-10h]
-  float p1; // [esp+28h] [ebp-8h]
-  float p1a; // [esp+28h] [ebp-8h]
-  float p1b; // [esp+28h] [ebp-8h]
-  float p1c; // [esp+28h] [ebp-8h]
-  float p1d; // [esp+28h] [ebp-8h]
+  float v75; // [esp+20h] [ebp-10h]
+  float v76; // [esp+20h] [ebp-10h]
+  float v77; // [esp+20h] [ebp-10h]
+  float v78; // [esp+20h] [ebp-10h]
+  float v79; // [esp+20h] [ebp-10h]
+  float v80; // [esp+28h] [ebp-8h]
+  float v81; // [esp+28h] [ebp-8h]
+  float v82; // [esp+28h] [ebp-8h]
+  float v83; // [esp+28h] [ebp-8h]
+  float v84; // [esp+28h] [ebp-8h]
 
   v3 = path;
   v4 = 0;
-  styleCount = 0;
-  i = 0;
+  v64 = 0;
+  v65 = 0;
   Size = path->Paths.Size;
   if ( Size )
   {
@@ -98,7 +98,7 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
       Count = v7[v8].Count;
       v10 = &v7[v8];
       v11 = 1;
-      p = v10;
+      v72 = v10;
       v70 = Count;
       if ( Count > 1 )
       {
@@ -107,27 +107,27 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
           Pages = v3->Vertices.Pages;
           v13 = v10->Start + 1;
           v14 = ((Count - 5) >> 2) + 1;
-          j = 4 * v14 + 1;
+          v71 = 4 * v14 + 1;
           do
           {
             v15 = Pages[(v13 - 1) >> 4];
             v16 = ((_BYTE)v13 - 1) & 0xF;
             v17 = v15[v16].x;
             p_x = &v15[v16].x;
-            p1 = v17;
+            v80 = v17;
             v19 = p_x[1];
             v20 = &Pages[v13 >> 4][v13 & 0xF].x;
-            p2 = *v20;
+            v75 = *v20;
             v21 = v20[1];
             if ( v21 != v19 )
             {
               v22 = 1;
               if ( v21 < v19 )
               {
-                p1 = *v20;
+                v80 = *v20;
                 v19 = v20[1];
                 v21 = p_x[1];
-                p2 = *p_x;
+                v75 = *p_x;
                 v22 = -1;
               }
               v23 = v21;
@@ -139,27 +139,27 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
               }
               else
               {
-                v26 = (v6 - p2) * (v25 - v19) - (v24 - v25) * (p2 - p1);
+                v26 = (v6 - v75) * (v25 - v19) - (v24 - v25) * (v75 - v80);
                 v5 = v24;
                 v66 = v26;
                 if ( v66 > 0.0 )
-                  styleCount += v22;
+                  v64 += v22;
               }
             }
-            p1a = *v20;
+            v81 = *v20;
             v27 = v20[1];
             v28 = &Pages[(v13 + 1) >> 4][(v13 + 1) & 0xF].x;
-            p2a = *v28;
+            v76 = *v28;
             v29 = v28[1];
             if ( v29 != v27 )
             {
               v30 = 1;
               if ( v29 < v27 )
               {
-                p1a = *v28;
+                v81 = *v28;
                 v27 = v28[1];
                 v29 = v20[1];
-                p2a = *v20;
+                v76 = *v20;
                 v30 = -1;
               }
               v31 = v29;
@@ -171,27 +171,27 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
               }
               else
               {
-                v34 = (v6 - p2a) * (v33 - v27) - (v32 - v33) * (p2a - p1a);
+                v34 = (v6 - v76) * (v33 - v27) - (v32 - v33) * (v76 - v81);
                 v5 = v32;
                 v67 = v34;
                 if ( v67 > 0.0 )
-                  styleCount += v30;
+                  v64 += v30;
               }
             }
-            p1b = *v28;
+            v82 = *v28;
             v35 = v28[1];
             v36 = &Pages[(v13 + 2) >> 4][(v13 + 2) & 0xF].x;
-            p2b = *v36;
+            v77 = *v36;
             v37 = v36[1];
             if ( v37 != v35 )
             {
               v38 = 1;
               if ( v37 < v35 )
               {
-                p1b = *v36;
+                v82 = *v36;
                 v35 = v36[1];
                 v37 = v28[1];
-                p2b = *v28;
+                v77 = *v28;
                 v38 = -1;
               }
               v39 = v37;
@@ -203,27 +203,27 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
               }
               else
               {
-                v42 = (v6 - p2b) * (v41 - v35) - (v40 - v41) * (p2b - p1b);
+                v42 = (v6 - v77) * (v41 - v35) - (v40 - v41) * (v77 - v82);
                 v5 = v40;
                 v68 = v42;
                 if ( v68 > 0.0 )
-                  styleCount += v38;
+                  v64 += v38;
               }
             }
-            p1c = *v36;
+            v83 = *v36;
             v43 = v36[1];
             v44 = &Pages[(v13 + 3) >> 4][(v13 + 3) & 0xF].x;
-            p2c = *v44;
+            v78 = *v44;
             v45 = v44[1];
             if ( v45 != v43 )
             {
               v46 = 1;
               if ( v45 < v43 )
               {
-                p1c = *v44;
+                v83 = *v44;
                 v43 = v44[1];
                 v45 = v36[1];
-                p2c = *v36;
+                v78 = *v36;
                 v46 = -1;
               }
               v47 = v45;
@@ -235,11 +235,11 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
               }
               else
               {
-                v50 = (v6 - p2c) * (v49 - v43) - (v48 - v49) * (p2c - p1c);
+                v50 = (v6 - v78) * (v49 - v43) - (v48 - v49) * (v78 - v83);
                 v5 = v48;
                 v69 = v50;
                 if ( v69 > 0.0 )
-                  styleCount += v46;
+                  v64 += v46;
               }
             }
             v13 += 4;
@@ -247,10 +247,10 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
           }
           while ( v14 );
           v3 = path;
-          v4 = i;
+          v4 = v65;
           Count = v70;
-          v11 = j;
-          v10 = p;
+          v11 = v71;
+          v10 = v72;
         }
         if ( v11 < Count )
         {
@@ -260,20 +260,20 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
           do
           {
             v54 = &v51[(v52 - 1) >> 4][((_BYTE)v52 - 1) & 0xF].x;
-            p1d = *v54;
+            v84 = *v54;
             v55 = v54[1];
             v56 = &v51[v52 >> 4][v52 & 0xF].x;
-            p2d = *v56;
+            v79 = *v56;
             v57 = v56[1];
             if ( v57 != v55 )
             {
               v58 = 1;
               if ( v57 < v55 )
               {
-                p1d = *v56;
+                v84 = *v56;
                 v55 = v56[1];
                 v57 = v54[1];
-                p2d = *v54;
+                v79 = *v54;
                 v58 = -1;
               }
               v59 = v57;
@@ -285,11 +285,11 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
               }
               else
               {
-                v62 = (v6 - p2d) * (v61 - v55) - (v60 - v61) * (p2d - p1d);
+                v62 = (v6 - v79) * (v61 - v55) - (v60 - v61) * (v79 - v84);
                 v5 = v60;
-                pa = v62;
-                if ( pa > 0.0 )
-                  styleCount += v58;
+                v73 = v62;
+                if ( v73 > 0.0 )
+                  v64 += v58;
               }
             }
             ++v52;
@@ -297,12 +297,12 @@ BOOL __cdecl Scaleform::Render::HitTestGeneralStroke(const Scaleform::Render::Ve
           }
           while ( v53 );
           v3 = path;
-          v4 = i;
+          v4 = v65;
         }
       }
-      i = ++v4;
+      v65 = ++v4;
     }
     while ( v4 < Size );
   }
-  return styleCount != 0;
+  return v64 != 0;
 }

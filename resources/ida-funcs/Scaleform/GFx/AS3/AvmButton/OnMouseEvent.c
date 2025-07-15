@@ -19,7 +19,7 @@ char __thiscall Scaleform::GFx::AS3::AvmButton::OnMouseEvent(
     *(_DWORD *)&e.RollOverCnt = *(_DWORD *)&evt->RollOverCnt;
     pDispObj = (Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher *)this[-1].pDispObj;
     e.TouchID = TouchID;
-    e.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574212];
+    e.Id = 16777228;
     if ( !pDispObj )
       pDispObj = this[-1].pAS3RawPtr;
     if ( ((unsigned __int8)pDispObj & 1) != 0 )

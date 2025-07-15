@@ -4,7 +4,7 @@ void __thiscall Scaleform::Render::Text::LineBuffer::CreateVisibleTextLayout(
         Scaleform::Render::Text::Highlighter *phighlighter,
         const Scaleform::Render::TextFieldParam *textFieldParam)
 {
-  int FirstVisibleLinePos; // eax
+  signed int FirstVisibleLinePos; // eax
   int v6; // ecx
   unsigned int Size; // edx
   double v8; // st7
@@ -38,88 +38,88 @@ void __thiscall Scaleform::Render::Text::LineBuffer::CreateVisibleTextLayout(
   unsigned int Delta; // eax
   Scaleform::Render::TextUnderlineStyle v37; // eax
   Scaleform::Render::Text::LineBuffer *v38; // esi
-  float scaleX; // [esp+1D2Ah] [ebp-190h]
-  float scaleXa; // [esp+1D2Ah] [ebp-190h]
-  float scaleXb; // [esp+1D2Ah] [ebp-190h]
-  float scaleY; // [esp+1D2Eh] [ebp-18Ch]
-  float scaleYa; // [esp+1D2Eh] [ebp-18Ch]
-  float scaleYb; // [esp+1D2Eh] [ebp-18Ch]
-  float y; // [esp+1D36h] [ebp-184h]
-  bool HasUnderlineHighlight; // [esp+1D51h] [ebp-169h]
-  float y2; // [esp+1D52h] [ebp-168h]
-  float v48; // [esp+1D52h] [ebp-168h]
-  float v49; // [esp+1D52h] [ebp-168h]
-  float v50; // [esp+1D52h] [ebp-168h]
-  float v51; // [esp+1D52h] [ebp-168h]
-  float v52; // [esp+1D52h] [ebp-168h]
-  float v53; // [esp+1D52h] [ebp-168h]
-  unsigned int Height; // [esp+1D52h] [ebp-168h]
-  float v55; // [esp+1D52h] [ebp-168h]
-  float v56; // [esp+1D52h] [ebp-168h]
-  char v57; // [esp+1D61h] [ebp-159h]
-  signed int OffsetY; // [esp+1D62h] [ebp-158h]
-  float v59; // [esp+1D62h] [ebp-158h]
-  unsigned int v60; // [esp+1D62h] [ebp-158h]
-  float v61; // [esp+1D66h] [ebp-154h]
-  float v62; // [esp+1D66h] [ebp-154h]
-  float v63; // [esp+1D66h] [ebp-154h]
-  float y1; // [esp+1D66h] [ebp-154h]
-  float x1; // [esp+1D6Ah] [ebp-150h]
-  int BaseLineOffset; // [esp+1D6Ah] [ebp-150h]
-  int v67; // [esp+1D6Ah] [ebp-150h]
-  float v68; // [esp+1D6Ah] [ebp-150h]
-  char v69; // [esp+1D71h] [ebp-149h]
-  Scaleform::Render::Text::LineBuffer *id; // [esp+1D72h] [ebp-148h]
-  signed int glyphIndex; // [esp+1D76h] [ebp-144h]
-  unsigned int glyphIndexa; // [esp+1D76h] [ebp-144h]
-  int v73; // [esp+1D7Ah] [ebp-140h]
-  float OffsetX; // [esp+1D7Eh] [ebp-13Ch]
-  float v75; // [esp+1D7Eh] [ebp-13Ch]
-  float v76; // [esp+1D82h] [ebp-138h]
-  float v77; // [esp+1D82h] [ebp-138h]
-  float v78; // [esp+1D82h] [ebp-138h]
-  float v79; // [esp+1D86h] [ebp-134h]
-  float x; // [esp+1D86h] [ebp-134h]
-  float v81; // [esp+1D86h] [ebp-134h]
-  unsigned int color; // [esp+1D8Ah] [ebp-130h]
-  Scaleform::Render::Text::HighlightInfo::UnderlineStyle UnderlineStyle; // [esp+1D8Eh] [ebp-12Ch]
-  int v84; // [esp+1D92h] [ebp-128h]
-  float v85; // [esp+1D96h] [ebp-124h]
-  Scaleform::Render::Rect<float> v86; // [esp+1D9Ah] [ebp-120h] BYREF
-  float v87; // [esp+1DAEh] [ebp-10Ch]
-  float v88; // [esp+1DB2h] [ebp-108h]
-  float v89; // [esp+1DB6h] [ebp-104h]
-  float v90; // [esp+1DBAh] [ebp-100h]
-  float v91; // [esp+1DBEh] [ebp-FCh]
-  float v92; // [esp+1DC2h] [ebp-F8h]
-  float v93; // [esp+1DC6h] [ebp-F4h]
-  double v94; // [esp+1DCAh] [ebp-F0h]
-  Scaleform::Render::Font *v95; // [esp+1DD6h] [ebp-E4h]
-  unsigned int v96; // [esp+1DDAh] [ebp-E0h]
-  unsigned __int16 *p_Flags; // [esp+1DDEh] [ebp-DCh]
-  Scaleform::Render::Text::LineBuffer::Line *v98[2]; // [esp+1DE2h] [ebp-D8h]
-  double v99; // [esp+1DEAh] [ebp-D0h]
-  Scaleform::Render::Text::LineBuffer::GlyphIterator result; // [esp+1DF2h] [ebp-C8h] BYREF
-  unsigned int lineIndex; // [esp+1E5Eh] [ebp-5Ch]
-  float v102; // [esp+1E66h] [ebp-54h]
-  Scaleform::Render::Rect<float> r; // [esp+1E6Ah] [ebp-50h] BYREF
-  float v104[6]; // [esp+1E7Ah] [ebp-40h] BYREF
-  float HScrollOffset; // [esp+1E92h] [ebp-28h]
-  float v106; // [esp+1E9Ah] [ebp-20h]
-  float v107; // [esp+1EA2h] [ebp-18h]
-  float v108; // [esp+1EAEh] [ebp-Ch]
-  float v109; // [esp+1EB2h] [ebp-8h]
+  float scaleX; // [esp+Ch] [ebp-190h]
+  float scaleXa; // [esp+Ch] [ebp-190h]
+  float scaleXb; // [esp+Ch] [ebp-190h]
+  float scaleY; // [esp+10h] [ebp-18Ch]
+  float scaleYa; // [esp+10h] [ebp-18Ch]
+  float scaleYb; // [esp+10h] [ebp-18Ch]
+  float y; // [esp+18h] [ebp-184h]
+  bool HasUnderlineHighlight; // [esp+33h] [ebp-169h]
+  float y2; // [esp+34h] [ebp-168h]
+  float v48; // [esp+34h] [ebp-168h]
+  float v49; // [esp+34h] [ebp-168h]
+  float v50; // [esp+34h] [ebp-168h]
+  float v51; // [esp+34h] [ebp-168h]
+  float v52; // [esp+34h] [ebp-168h]
+  float v53; // [esp+34h] [ebp-168h]
+  unsigned int Height; // [esp+34h] [ebp-168h]
+  float v55; // [esp+34h] [ebp-168h]
+  float v56; // [esp+34h] [ebp-168h]
+  char v57; // [esp+43h] [ebp-159h]
+  signed int OffsetY; // [esp+44h] [ebp-158h]
+  float v59; // [esp+44h] [ebp-158h]
+  unsigned int v60; // [esp+44h] [ebp-158h]
+  float v61; // [esp+48h] [ebp-154h]
+  float v62; // [esp+48h] [ebp-154h]
+  float v63; // [esp+48h] [ebp-154h]
+  float y1; // [esp+48h] [ebp-154h]
+  float x1; // [esp+4Ch] [ebp-150h]
+  int BaseLineOffset; // [esp+4Ch] [ebp-150h]
+  int v67; // [esp+4Ch] [ebp-150h]
+  float v68; // [esp+4Ch] [ebp-150h]
+  char v69; // [esp+53h] [ebp-149h]
+  Scaleform::Render::Text::LineBuffer *v70; // [esp+54h] [ebp-148h]
+  signed int glyphIndex; // [esp+58h] [ebp-144h]
+  unsigned int glyphIndexa; // [esp+58h] [ebp-144h]
+  int v73; // [esp+5Ch] [ebp-140h]
+  float OffsetX; // [esp+60h] [ebp-13Ch]
+  float v75; // [esp+60h] [ebp-13Ch]
+  float v76; // [esp+64h] [ebp-138h]
+  float v77; // [esp+64h] [ebp-138h]
+  float v78; // [esp+64h] [ebp-138h]
+  float v79; // [esp+68h] [ebp-134h]
+  float x; // [esp+68h] [ebp-134h]
+  float v81; // [esp+68h] [ebp-134h]
+  unsigned int color; // [esp+6Ch] [ebp-130h]
+  Scaleform::Render::Text::HighlightInfo::UnderlineStyle UnderlineStyle; // [esp+70h] [ebp-12Ch]
+  int v84; // [esp+74h] [ebp-128h]
+  float v85; // [esp+78h] [ebp-124h]
+  Scaleform::Render::Rect<float> v86; // [esp+7Ch] [ebp-120h] BYREF
+  float v87; // [esp+90h] [ebp-10Ch]
+  float v88; // [esp+94h] [ebp-108h]
+  float v89; // [esp+98h] [ebp-104h]
+  float v90; // [esp+9Ch] [ebp-100h]
+  float v91; // [esp+A0h] [ebp-FCh]
+  float v92; // [esp+A4h] [ebp-F8h]
+  float v93; // [esp+A8h] [ebp-F4h]
+  double v94; // [esp+ACh] [ebp-F0h]
+  Scaleform::Render::Font *v95; // [esp+B8h] [ebp-E4h]
+  unsigned int v96; // [esp+BCh] [ebp-E0h]
+  unsigned __int16 *p_Flags; // [esp+C0h] [ebp-DCh]
+  Scaleform::Render::Text::LineBuffer::Line *v98[2]; // [esp+C4h] [ebp-D8h]
+  double v99; // [esp+CCh] [ebp-D0h]
+  Scaleform::Render::Text::LineBuffer::GlyphIterator result; // [esp+D4h] [ebp-C8h] BYREF
+  signed int v101; // [esp+140h] [ebp-5Ch]
+  float v102; // [esp+148h] [ebp-54h]
+  Scaleform::Render::Rect<float> r; // [esp+14Ch] [ebp-50h] BYREF
+  float v104[6]; // [esp+15Ch] [ebp-40h] BYREF
+  float HScrollOffset; // [esp+174h] [ebp-28h]
+  float v106; // [esp+17Ch] [ebp-20h]
+  float v107; // [esp+184h] [ebp-18h]
+  float v108; // [esp+190h] [ebp-Ch]
+  float v109; // [esp+194h] [ebp-8h]
 
   FirstVisibleLinePos = this->Geom.FirstVisibleLinePos;
   v6 = 0;
-  id = this;
+  v70 = this;
   if ( FirstVisibleLinePos )
   {
     Size = this->Lines.Data.Size;
     if ( FirstVisibleLinePos < Size && FirstVisibleLinePos >= 0 && Size )
       v6 = this->Lines.Data.Data[FirstVisibleLinePos]->Data32.OffsetY - (*this->Lines.Data.Data)->Data32.OffsetY;
   }
-  lineIndex = FirstVisibleLinePos;
+  v101 = FirstVisibleLinePos;
   v87 = -(double)(unsigned int)v6;
   v8 = 0.0;
   v9 = this->Geom.Flags >> 2;
@@ -149,11 +149,11 @@ void __thiscall Scaleform::Render::Text::LineBuffer::CreateVisibleTextLayout(
     v57 = 1;
   }
 LABEL_12:
-  v12 = lineIndex;
-  v13 = id;
-  if ( lineIndex < id->Lines.Data.Size
-    && (lineIndex & 0x80000000) == 0
-    && (LOBYTE(v102) || Scaleform::Render::Text::LineBuffer::IsLineVisible(id, lineIndex, v87)) )
+  v12 = v101;
+  v13 = v70;
+  if ( v101 < v70->Lines.Data.Size
+    && v101 >= 0
+    && (LOBYTE(v102) || Scaleform::Render::Text::LineBuffer::IsLineVisible(v70, v101, v87)) )
   {
     v14 = v13->Lines.Data.Data[v12];
     MemSize = v14->MemSize;
@@ -225,16 +225,16 @@ LABEL_110:
               v37 = TextUnderline_Single;
               break;
           }
-          v38 = id;
+          v38 = v70;
           v55 = v68 * 0.5 + v89;
           scaleXb = v55;
-          v56 = v88 - (double)id->Geom.HScrollOffset;
+          v56 = v88 - (double)v70->Geom.HScrollOffset;
           scaleYb = (float)v84;
           Scaleform::Render::TextLayout::Builder::AddUnderline(v11, v56, scaleXb, scaleYb, v37, color);
         }
         else
         {
-          v38 = id;
+          v38 = v70;
         }
         if ( v60 )
         {
@@ -250,8 +250,8 @@ LABEL_110:
           Scaleform::RefCountNTSImpl::Release(result.pImage.pObject);
         if ( result.pFontHandle.pObject )
           Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pFontHandle.pObject);
-        if ( lineIndex < v38->Lines.Data.Size )
-          ++lineIndex;
+        if ( v101 < v38->Lines.Data.Size )
+          ++v101;
         goto LABEL_12;
       }
       v20 = pGlyphs->Flags;
@@ -286,7 +286,7 @@ LABEL_110:
           v23 = result.pFontHandle.pObject->pFont.pObject;
         else
           v23 = 0;
-        if ( (id->Geom.Flags & 4) == 0 )
+        if ( (v70->Geom.Flags & 4) == 0 )
         {
           v79 = v85 * 0.0009765625;
           ScreenWidth = v23->GetGlyphBounds(v23, glyphIndexa, (Scaleform::Render::Rect<float> *)v104)->x2 * v79;
@@ -294,15 +294,15 @@ LABEL_110:
         }
       }
       v63 = ScreenWidth;
-      x = v75 - (double)id->Geom.HScrollOffset;
+      x = v75 - (double)v70->Geom.HScrollOffset;
       v26 = v63;
       v27 = x;
-      if ( (id->Geom.Flags & 4) == 0 )
+      if ( (v70->Geom.Flags & 4) == 0 )
       {
-        if ( glyphIndexa != -1 && id->Geom.VisibleRect.x1 >= v27 + v26 )
+        if ( glyphIndexa != -1 && v70->Geom.VisibleRect.x1 >= v27 + v26 )
           goto LABEL_100;
         v11 = bld;
-        if ( (int)v27 >= (int)id->Geom.VisibleRect.x2 )
+        if ( (int)v27 >= (int)v70->Geom.VisibleRect.x2 )
           goto LABEL_110;
       }
       if ( result.UnderlineStyle )
@@ -322,15 +322,15 @@ LABEL_110:
         v27 = x;
       }
       if ( !v57
-        && (id->Geom.Flags & 0x24) == 0
-        && (id->Geom.VisibleRect.x1 > v27 && id->Geom.VisibleRect.x1 < v27 + v26
-         || id->Geom.VisibleRect.x2 > v27 && id->Geom.VisibleRect.x2 < v26 + v27) )
+        && (v70->Geom.Flags & 0x24) == 0
+        && (v70->Geom.VisibleRect.x1 > v27 && v70->Geom.VisibleRect.x1 < v27 + v26
+         || v70->Geom.VisibleRect.x2 > v27 && v70->Geom.VisibleRect.x2 < v26 + v27) )
       {
         v57 = 1;
-        v81 = id->Geom.VisibleRect.x1;
-        y1 = id->Geom.VisibleRect.y1;
-        *(float *)&v99 = id->Geom.VisibleRect.x2;
-        y2 = id->Geom.VisibleRect.y2;
+        v81 = v70->Geom.VisibleRect.x1;
+        y1 = v70->Geom.VisibleRect.y1;
+        *(float *)&v99 = v70->Geom.VisibleRect.x2;
+        y2 = v70->Geom.VisibleRect.y2;
         v11->ClipBox.x1 = v81;
         v11->ClipBox.y1 = y1;
         v11->ClipBox.x2 = *(float *)&v99;
@@ -355,7 +355,9 @@ LABEL_110:
         }
         else
         {
-          Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "An image in TextLayout is NULL");
+          Scaleform::LogDebugMessage(
+            (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+            "An image in TextLayout is NULL");
         }
         pGlyphs = result.pGlyphs;
       }
@@ -401,7 +403,7 @@ LABEL_110:
             }
             v52 = v68 * 0.5 + v89;
             scaleX = v52;
-            v53 = v88 - (double)id->Geom.HScrollOffset;
+            v53 = v88 - (double)v70->Geom.HScrollOffset;
             scaleYa = (float)v84;
             Scaleform::Render::TextLayout::Builder::AddUnderline(v11, v53, scaleX, scaleYa, v32, color);
           }
@@ -430,7 +432,7 @@ LABEL_110:
           {
             if ( v60 )
             {
-              v107 = (float)id->Geom.HScrollOffset;
+              v107 = (float)v70->Geom.HScrollOffset;
               v11 = bld;
               v109 = -v107;
               r.x1 = v109 + v86.x1;

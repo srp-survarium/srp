@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::urlGet(
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *pObject; // eax
   int v4; // eax
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // esi
-  char *v6; // eax
+  __m128i *v6; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v9; // zf
@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::urlGet(
   {
     v4 = (int)pObject->pDispObj.pObject->GetResourceMovieDef(pObject->pDispObj.pObject);
     StringManagerRef = this->pTraits.pObject->pVM->StringManagerRef;
-    v6 = (char *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 48))(v4);
+    v6 = (__m128i *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 48))(v4);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, v6);
   }
   else

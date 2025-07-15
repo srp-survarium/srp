@@ -1,27 +1,19 @@
-void __thiscall vostok::network::http_client::get_impl(
-        vostok::network::http_client *this,
-        char *server,
-        const char *path)
+void __thiscall vostok::network::http_client::get_impl(vostok::network::http_client *this, char *server, char *path)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v3; // ecx
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::jump_logic_state_landing,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::jump_logic_state_landing *>,boost::arg<1> > > f; // [esp+4h] [ebp-54h]
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > result; // [esp+30h] [ebp-28h] BYREF
-  boost::function<void __cdecl(void)> callback; // [esp+38h] [ebp-20h] BYREF
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::http_client>,boost::_bi::list1<boost::_bi::value<vostok::network::http_client *> > > v5; // [esp-8h] [ebp-30h]
+  int v6; // [esp+0h] [ebp-28h]
+  boost::function<void __cdecl(void)> callback; // [esp+8h] [ebp-20h] BYREF
 
-  f = (boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::jump_logic_state_landing,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::jump_logic_state_landing *>,boost::arg<1> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&result, (void (__thiscall *)(vostok::sound::sound_debug_stats *))vostok::network::http_client::on_content_downloaded, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v3, &callback);
-  if ( boost::detail::function::basic_vtable1<void,boost::system::error_code>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::network::http_client,boost::system::error_code>,boost::_bi::list2<boost::_bi::value<vostok::network::http_client *>,boost::arg<1>>>>(
-         (boost::detail::function::basic_vtable1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &> *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::http_client>,boost::_bi::list1<boost::_bi::value<vostok::network::http_client *>>>>'::`2'::stored_vtable,
-         f,
-         &callback.functor) )
-  {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::http_client>,boost::_bi::list1<boost::_bi::value<vostok::network::http_client *>>>>'::`2'::stored_vtable.base.manager
-                                                             + 1);
-  }
-  else
-  {
-    callback.vtable = 0;
-  }
-  vostok::network_core::http_client::get(this->m_client, server, path, &callback);
-  boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&callback);
+  v5.l_.a1_.t_ = this;
+  v5.f_.f_ = vostok::network::http_client::on_content_downloaded;
+  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+    (boost::function<void __cdecl(void)> *)this,
+    (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::http_client>,boost::_bi::list1<boost::_bi::value<vostok::network::http_client *> > > *)&callback,
+    v5,
+    v6);
+  vostok::network_core::http_client::get(server, this->m_client, path, &callback);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v4,
+    (int *)&callback);
 }

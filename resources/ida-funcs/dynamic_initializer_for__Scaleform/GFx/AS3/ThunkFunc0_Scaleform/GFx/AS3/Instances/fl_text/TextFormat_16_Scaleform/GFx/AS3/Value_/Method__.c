@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::TextFormat::kerningGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_text::TextFormat,16,Scaleform::GFx::AS3::Value>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextFormat::kerningGet;
-  dword_AAD004 = 0;
+  dword_8F17BC = 0;
   return result;
 }

@@ -8,8 +8,8 @@ Scaleform::GFx::AS2::FunctionRef *__thiscall Scaleform::GFx::AS2::Environment::G
   unsigned __int8 Type; // al
   Scaleform::GFx::AS2::FunctionRef *v7; // esi
   bool v8; // cf
-  Scaleform::GFx::AS2::Environment *ctor; // [esp+0h] [ebp-10h]
-  Scaleform::GFx::AS2::Value v11; // [esp+10h] [ebp+0h] BYREF
+  Scaleform::GFx::AS2::Environment *v10; // [esp-4h] [ebp-10h]
+  Scaleform::GFx::AS2::Value v11; // [esp+Ch] [ebp+0h] BYREF
 
   pContext = this->StringContext.pContext;
   v11.T.Type = 0;
@@ -21,9 +21,9 @@ Scaleform::GFx::AS2::FunctionRef *__thiscall Scaleform::GFx::AS2::Environment::G
   Type = v11.T.Type;
   if ( !v5 && (v11.T.Type == 8 || v11.T.Type == 11) )
   {
-    ctor = this;
+    v10 = this;
     v7 = result;
-    Scaleform::GFx::AS2::Value::ToFunction(&v11, result, ctor);
+    Scaleform::GFx::AS2::Value::ToFunction(&v11, result, v10);
     v8 = v11.T.Type < 5u;
   }
   else

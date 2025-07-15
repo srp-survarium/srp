@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObjContainer::SetScale9Grid(
         Scaleform::GFx::DisplayObjContainer *this,
-        const Scaleform::Render::Rect<float> *rect)
+        Scaleform::Render::Rect<float> *rect)
 {
   Scaleform::Render::Rect<float> *Scale9Grid; // ecx
   bool v4; // bl

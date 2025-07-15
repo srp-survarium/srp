@@ -1,6 +1,4 @@
-void __thiscall Scaleform::Render::TreeNode::SetMatrix3D(
-        Scaleform::Render::TreeNode *this,
-        Scaleform::Render::Matrix3x4<float> *m)
+void __thiscall Scaleform::Render::TreeNode::SetMatrix3D(Scaleform::Render::TreeNode *this, const __m128i *m)
 {
   unsigned int v3; // ebx
   Scaleform::Render::ContextImpl::EntryData *WritableData; // esi
@@ -13,7 +11,7 @@ void __thiscall Scaleform::Render::TreeNode::SetMatrix3D(
       & 0x200) == 0 )
     v3 = 8193;
   WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, v3);
-  memcpy((unsigned __int8 *)&WritableData[2], (unsigned __int8 *)m, 0x30u);
+  memcpy((int)&WritableData[2], m, 0x30u);
   WritableData->Flags |= 0x200u;
   if ( !this->PNode.Scaleform::Render::ContextImpl::Entry::pPrev )
     Scaleform::Render::ContextImpl::Entry::addToPropagateImpl(this);

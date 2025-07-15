@@ -11,5 +11,5 @@ int __cdecl png_warning(int a1, _BYTE *a2)
   if ( a1 && *(_DWORD *)(a1 + 72) )
     return (*(int (__cdecl **)(int, _BYTE *))(a1 + 72))(a1, &a2[i]);
   else
-    return sub_355E80(a1, &a2[i]);
+    return sub_462B40(a1, &a2[i]);
 }

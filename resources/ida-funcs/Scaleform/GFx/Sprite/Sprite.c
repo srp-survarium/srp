@@ -11,10 +11,10 @@ void __thiscall Scaleform::GFx::Sprite::Sprite(
   bool v9; // dl
   unsigned __int8 v10; // al
   unsigned __int8 v11; // al
-  float v12; // [esp+30h] [ebp-1Ch]
-  float v13; // [esp+34h] [ebp-18h]
-  float v14; // [esp+38h] [ebp-14h]
-  Scaleform::Render::Rect<float> rect; // [esp+3Ch] [ebp-10h] BYREF
+  float v12; // [esp+14h] [ebp-1Ch]
+  float v13; // [esp+18h] [ebp-18h]
+  float v14; // [esp+1Ch] [ebp-14h]
+  Scaleform::Render::Rect<float> rect; // [esp+20h] [ebp-10h] BYREF
 
   Scaleform::GFx::DisplayObjContainer::DisplayObjContainer(this, pdefImpl, pr, pparent, id);
   this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable = (Scaleform::GFx::Sprite_vtbl *)&Scaleform::GFx::Sprite::`vftable'{for `Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>'};

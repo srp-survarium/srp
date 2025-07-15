@@ -1,6 +1,6 @@
 int png_XYZ_from_xy_checked(int a1, int a2, ...)
 {
-  int v3[8]; // [esp+0h] [ebp-2Ch] BYREF
+  unsigned int v3[8]; // [esp+0h] [ebp-2Ch] BYREF
   int v4; // [esp+28h] [ebp-4h]
   int v5; // [esp+3Ch] [ebp+10h] BYREF
   va_list va; // [esp+3Ch] [ebp+10h]

@@ -1,27 +1,23 @@
-int __cdecl _local_unwind4(_DWORD *a1, int a2, unsigned int a3)
+int __usercall _local_unwind4@<eax>(unsigned int ebp0@<ebp>, _DWORD *a1, int a2, unsigned int a3)
 {
   int result; // eax
-  unsigned int v4; // esi
-  int v5; // esi
-  int v6; // ebx
-  _EXCEPTION_REGISTRATION_RECORD *ExceptionList; // [esp-8h] [ebp-28h]
-  int (__cdecl *v8)(int, int, int, int); // [esp-4h] [ebp-24h]
+  unsigned int v5; // esi
+  int v6; // esi
+  int v7; // ebx
 
-  v8 = unwind_handler4;
-  ExceptionList = NtCurrentTeb()->NtTib.ExceptionList;
   while ( 1 )
   {
     result = a2;
-    v4 = *(_DWORD *)(a2 + 12);
-    if ( v4 == -2 || a3 != -2 && v4 <= a3 )
+    v5 = *(_DWORD *)(a2 + 12);
+    if ( v5 == -2 || a3 != -2 && v5 <= a3 )
       break;
-    v5 = 3 * v4;
-    v6 = (*a1 ^ *(_DWORD *)(a2 + 8)) + 4 * v5 + 16;
-    *(_DWORD *)(a2 + 12) = *(_DWORD *)((*a1 ^ *(_DWORD *)(a2 + 8)) + 4 * v5 + 0x10);
-    if ( !*(_DWORD *)(v6 + 4) )
+    v6 = 3 * v5;
+    v7 = (*a1 ^ *(_DWORD *)(a2 + 8)) + 4 * v6 + 16;
+    *(_DWORD *)(a2 + 12) = *(_DWORD *)((*a1 ^ *(_DWORD *)(a2 + 8)) + 4 * v6 + 0x10);
+    if ( !*(_DWORD *)(v7 + 4) )
     {
-      _NLG_Notify(257);
-      _NLG_Call(1, ExceptionList, v8);
+      _NLG_Notify(*(_DWORD *)(v7 + 8), ebp0, 0x101u);
+      _NLG_Call(*(int (**)(void))(v7 + 8));
     }
   }
   return result;

@@ -1,110 +1,119 @@
 char __usercall btConvexPolyhedron::testContainment@<al>(btConvexPolyhedron *this@<ecx>, int a2@<eax>)
 {
-  int v2; // edi
-  int v3; // esi
+  int v2; // ebx
+  int v3; // edx
   float v4; // xmm4_4
   float v5; // xmm5_4
-  unsigned int v6; // xmm2_4
-  __m128i v7; // xmm2
-  float v8; // xmm2_4
+  float v6; // xmm2_4
+  float *v7; // esi
+  int v8; // xmm2_4
   float v9; // xmm5_4
-  unsigned int v10; // xmm3_4
-  float v11; // xmm3_4
+  float v10; // xmm3_4
+  int v11; // xmm3_4
   float v12; // xmm4_4
-  int v13; // xmm4_4
-  unsigned int v14; // xmm2_4
+  float v13; // xmm4_4
+  float v14; // xmm2_4
   float v15; // xmm4_4
   float v16; // xmm5_4
-  unsigned int v17; // xmm2_4
-  float v18; // xmm3_4
+  float v17; // xmm2_4
+  int v18; // xmm3_4
   float v19; // xmm5_4
-  unsigned int v20; // xmm2_4
-  float v21; // xmm3_4
+  float v20; // xmm2_4
+  int v21; // xmm3_4
   float v22; // xmm4_4
-  float v23; // xmm4_4
+  int v23; // xmm4_4
   float v24; // xmm5_4
-  unsigned int v25; // xmm2_4
-  int v26; // edx
+  float v25; // xmm2_4
+  float *v26; // esi
   float *v27; // ecx
-  btVector3 LocalPt; // [esp+0h] [ebp-90h]
-  __m128i v30; // [esp+10h] [ebp-80h] BYREF
-  __m128i v31; // [esp+20h] [ebp-70h] BYREF
-  __m128i v32; // [esp+30h] [ebp-60h] BYREF
-  __m128i v33; // [esp+40h] [ebp-50h] BYREF
-  __m128i v34; // [esp+50h] [ebp-40h] BYREF
-  __m128i v35; // [esp+60h] [ebp-30h] BYREF
-  __m128i v36; // [esp+70h] [ebp-20h] BYREF
-  __m128i v37; // [esp+80h] [ebp-10h] BYREF
+  int v29; // [esp+0h] [ebp-94h]
+  float v30; // [esp+4h] [ebp-90h]
+  float v31; // [esp+8h] [ebp-8Ch]
+  float v32; // [esp+Ch] [ebp-88h]
+  float v33[4]; // [esp+14h] [ebp-80h] BYREF
+  _DWORD v34[4]; // [esp+24h] [ebp-70h] BYREF
+  _DWORD v35[4]; // [esp+34h] [ebp-60h] BYREF
+  _DWORD v36[4]; // [esp+44h] [ebp-50h] BYREF
+  float v37[4]; // [esp+54h] [ebp-40h] BYREF
+  float v38[4]; // [esp+64h] [ebp-30h] BYREF
+  _DWORD v39[4]; // [esp+74h] [ebp-20h] BYREF
+  _DWORD v40[4]; // [esp+84h] [ebp-10h] BYREF
 
-  v2 = *(_DWORD *)(a2 + 40);
-  v3 = 0;
+  v2 = 0;
+  v29 = *(_DWORD *)(a2 + 40);
   while ( 1 )
   {
-    if ( v3 )
+    v3 = 0;
+    if ( v2 )
     {
-      switch ( v3 )
+      switch ( v2 )
       {
         case 1:
-          v8 = *(float *)(a2 + 104);
+          v8 = *(_DWORD *)(a2 + 104);
           v9 = *(float *)(a2 + 80) + *(float *)(a2 + 96);
-          *(float *)&v32.m128i_i32[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
-          *(float *)&v10 = *(float *)(a2 + 88) - v8;
-          *(float *)v32.m128i_i32 = v9;
-          v32.m128i_i64[1] = v10;
-          v7 = _mm_load_si128(&v32);
+          *(float *)&v35[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
+          v10 = *(float *)(a2 + 88) + COERCE_FLOAT(v8 ^ _mask__NegFloat_);
+          *(float *)v35 = v9;
+          *(float *)&v35[2] = v10;
+          v35[3] = 0;
+          v7 = (float *)v35;
           break;
         case 2:
-          v11 = *(float *)(a2 + 100);
+          v11 = *(_DWORD *)(a2 + 100);
           v12 = *(float *)(a2 + 104);
-          *(float *)v36.m128i_i32 = *(float *)(a2 + 96) + *(float *)(a2 + 80);
-          *(float *)&v36.m128i_i32[1] = *(float *)(a2 + 84) - v11;
-          *(float *)&v36.m128i_i32[2] = *(float *)(a2 + 88) + v12;
-          v36.m128i_i32[3] = 0;
-          v7 = _mm_load_si128(&v36);
+          v33[0] = *(float *)(a2 + 96) + *(float *)(a2 + 80);
+          v33[1] = *(float *)(a2 + 84) + COERCE_FLOAT(v11 ^ _mask__NegFloat_);
+          v33[2] = *(float *)(a2 + 88) + v12;
+          v33[3] = 0.0;
+          v7 = v33;
           break;
         case 3:
-          *(float *)&v13 = *(float *)(a2 + 84) - *(float *)(a2 + 100);
-          *(float *)&v14 = *(float *)(a2 + 88) - *(float *)(a2 + 104);
-          *(float *)v30.m128i_i32 = *(float *)(a2 + 80) + *(float *)(a2 + 96);
-          v30.m128i_i32[1] = v13;
-          v30.m128i_i64[1] = v14;
-          v7 = _mm_load_si128(&v30);
+          v13 = *(float *)(a2 + 84) + COERCE_FLOAT(*(_DWORD *)(a2 + 100) ^ _mask__NegFloat_);
+          v14 = *(float *)(a2 + 88) + COERCE_FLOAT(*(_DWORD *)(a2 + 104) ^ _mask__NegFloat_);
+          v37[0] = *(float *)(a2 + 80) + *(float *)(a2 + 96);
+          v37[1] = v13;
+          v37[2] = v14;
+          v37[3] = 0.0;
+          v7 = v37;
           break;
         case 4:
           v15 = *(float *)(a2 + 104);
-          v16 = *(float *)(a2 + 80) - *(float *)(a2 + 96);
-          *(float *)&v31.m128i_i32[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
-          *(float *)&v17 = *(float *)(a2 + 88) + v15;
-          *(float *)v31.m128i_i32 = v16;
-          v31.m128i_i64[1] = v17;
-          v7 = _mm_load_si128(&v31);
+          v16 = *(float *)(a2 + 80) + COERCE_FLOAT(*(_DWORD *)(a2 + 96) ^ _mask__NegFloat_);
+          *(float *)&v34[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
+          v17 = *(float *)(a2 + 88) + v15;
+          *(float *)v34 = v16;
+          *(float *)&v34[2] = v17;
+          v34[3] = 0;
+          v7 = (float *)v34;
           break;
         case 5:
-          v18 = *(float *)(a2 + 104);
-          v19 = *(float *)(a2 + 80) - *(float *)(a2 + 96);
-          *(float *)&v33.m128i_i32[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
-          *(float *)&v20 = *(float *)(a2 + 88) - v18;
-          *(float *)v33.m128i_i32 = v19;
-          v33.m128i_i64[1] = v20;
-          v7 = _mm_load_si128(&v33);
+          v18 = *(_DWORD *)(a2 + 104);
+          v19 = *(float *)(a2 + 80) + COERCE_FLOAT(*(_DWORD *)(a2 + 96) ^ _mask__NegFloat_);
+          *(float *)&v36[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
+          v20 = *(float *)(a2 + 88) + COERCE_FLOAT(v18 ^ _mask__NegFloat_);
+          *(float *)v36 = v19;
+          *(float *)&v36[2] = v20;
+          v36[3] = 0;
+          v7 = (float *)v36;
           break;
         case 6:
-          v21 = *(float *)(a2 + 100);
+          v21 = *(_DWORD *)(a2 + 100);
           v22 = *(float *)(a2 + 104);
-          *(float *)v35.m128i_i32 = *(float *)(a2 + 80) - *(float *)(a2 + 96);
-          *(float *)&v35.m128i_i32[1] = *(float *)(a2 + 84) - v21;
-          *(float *)&v35.m128i_i32[2] = *(float *)(a2 + 88) + v22;
-          v35.m128i_i32[3] = 0;
-          v7 = _mm_load_si128(&v35);
+          v38[0] = COERCE_FLOAT(*(_DWORD *)(a2 + 96) ^ _mask__NegFloat_) + *(float *)(a2 + 80);
+          v38[1] = *(float *)(a2 + 84) + COERCE_FLOAT(v21 ^ _mask__NegFloat_);
+          v38[2] = *(float *)(a2 + 88) + v22;
+          v38[3] = 0.0;
+          v7 = v38;
           break;
         case 7:
-          v23 = *(float *)(a2 + 104);
-          v24 = *(float *)(a2 + 80) - *(float *)(a2 + 96);
-          *(float *)&v37.m128i_i32[1] = *(float *)(a2 + 84) - *(float *)(a2 + 100);
-          *(float *)&v25 = *(float *)(a2 + 88) - v23;
-          *(float *)v37.m128i_i32 = v24;
-          v37.m128i_i64[1] = v25;
-          v7 = _mm_load_si128(&v37);
+          v23 = *(_DWORD *)(a2 + 104);
+          v24 = *(float *)(a2 + 80) + COERCE_FLOAT(*(_DWORD *)(a2 + 96) ^ _mask__NegFloat_);
+          *(float *)&v40[1] = *(float *)(a2 + 84) + COERCE_FLOAT(*(_DWORD *)(a2 + 100) ^ _mask__NegFloat_);
+          v25 = *(float *)(a2 + 88) + COERCE_FLOAT(v23 ^ _mask__NegFloat_);
+          *(float *)v40 = v24;
+          *(float *)&v40[2] = v25;
+          v40[3] = 0;
+          v7 = (float *)v40;
           break;
         default:
           goto LABEL_19;
@@ -114,30 +123,30 @@ char __usercall btConvexPolyhedron::testContainment@<al>(btConvexPolyhedron *thi
     {
       v4 = *(float *)(a2 + 104);
       v5 = *(float *)(a2 + 80) + *(float *)(a2 + 96);
-      *(float *)&v34.m128i_i32[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
-      *(float *)&v6 = *(float *)(a2 + 88) + v4;
-      *(float *)v34.m128i_i32 = v5;
-      v34.m128i_i64[1] = v6;
-      v7 = _mm_load_si128(&v34);
+      *(float *)&v39[1] = *(float *)(a2 + 84) + *(float *)(a2 + 100);
+      v6 = *(float *)(a2 + 88) + v4;
+      *(float *)v39 = v5;
+      *(float *)&v39[2] = v6;
+      v39[3] = 0;
+      v7 = (float *)v39;
     }
-    LocalPt.mVec128 = (__m128)v7;
+    v30 = *v7;
+    v26 = v7 + 1;
+    v31 = *v26;
+    v32 = v26[1];
 LABEL_19:
-    v26 = 0;
-    if ( v2 > 0 )
+    if ( v29 > 0 )
       break;
 LABEL_23:
-    if ( ++v3 >= 8 )
+    if ( ++v2 >= 8 )
       return 1;
   }
   v27 = (float *)(*(_DWORD *)(a2 + 48) + 24);
-  while ( (float)((float)((float)((float)(LocalPt.mVec128.m128_f32[2] * v27[1])
-                                + (float)(LocalPt.mVec128.m128_f32[1] * *v27))
-                        + (float)(LocalPt.mVec128.m128_f32[0] * *(v27 - 1)))
-                + v27[2]) <= 0.0 )
+  while ( (float)((float)((float)((float)(v32 * v27[1]) + (float)(v31 * *v27)) + (float)(v30 * *(v27 - 1))) + v27[2]) <= 0.0 )
   {
-    ++v26;
+    ++v3;
     v27 += 9;
-    if ( v26 >= v2 )
+    if ( v3 >= v29 )
       goto LABEL_23;
   }
   return 0;

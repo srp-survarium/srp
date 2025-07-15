@@ -1,5 +1,8 @@
-void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
-        Scaleform::Render::ShapeMeshProvider *this,
+void __userpurge Scaleform::Render::ShapeMeshProvider::addStroke(
+        Scaleform::Render::ShapeMeshProvider *this@<ecx>,
+        int a2@<ebp>,
+        Scaleform::Render::TessBase *a3@<edi>,
+        int a4@<esi>,
         Scaleform::Render::MeshGenerator *gen,
         const Scaleform::Render::ToleranceParams *param,
         Scaleform::Render::TransformerBase *tr,
@@ -8,38 +11,42 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
         float snapOffset,
         float morphRatio)
 {
-  unsigned int v8; // ebx
-  int v9; // ebp
-  int v10; // edx
-  unsigned int v11; // esi
-  int v12; // eax
-  int v13; // ecx
-  _DWORD *v14; // eax
-  unsigned int v15; // ecx
-  unsigned int v16; // ebx
-  Scaleform::Render::StrokeSorter::VertexType *v17; // ebx
-  int v18; // eax
-  int v19; // ecx
-  _DWORD *v20; // eax
-  unsigned int v21; // ecx
-  unsigned int v22; // edx
-  Scaleform::Render::StrokeSorter::VertexType *v23; // eax
-  _DWORD *v24; // ecx
-  unsigned int v25; // esi
-  unsigned int v26; // edx
-  unsigned int v27; // ebp
-  Scaleform::Render::StrokeSorter::VertexType *v28; // ecx
-  int v29; // eax
-  int v30; // ecx
-  _DWORD *v31; // eax
-  unsigned int v32; // ecx
-  unsigned int v33; // edx
-  Scaleform::Render::StrokeSorter::VertexType *v34; // eax
-  unsigned int n; // [esp+38h] [ebp+10h]
+  unsigned int v11; // ebx
+  int v12; // ebp
+  int v13; // edx
+  unsigned int v14; // esi
+  int v15; // eax
+  int v16; // ecx
+  _DWORD *v17; // eax
+  unsigned int v18; // ecx
+  unsigned int v19; // ebx
+  Scaleform::Render::StrokeSorter::VertexType *v20; // ebx
+  int v21; // eax
+  int v22; // ecx
+  _DWORD *v23; // eax
+  unsigned int v24; // ecx
+  unsigned int v25; // edx
+  Scaleform::Render::StrokeSorter::VertexType *v26; // eax
+  _DWORD *v27; // ecx
+  unsigned int v28; // esi
+  unsigned int v29; // edx
+  unsigned int v30; // ebp
+  Scaleform::Render::StrokeSorter::VertexType *v31; // ecx
+  int v32; // eax
+  int v33; // ecx
+  _DWORD *v34; // eax
+  unsigned int v35; // ecx
+  unsigned int v36; // edx
+  Scaleform::Render::StrokeSorter::VertexType *v37; // eax
+  int snapOffseta; // [esp+18h] [ebp-10h]
+  int morphRatioa; // [esp+1Ch] [ebp-Ch]
+  Scaleform::Render::TessBase *v40; // [esp+20h] [ebp-8h]
+  unsigned int startPosa; // [esp+38h] [ebp+10h]
   unsigned int strokeStyleIdxa; // [esp+3Ch] [ebp+14h]
-  unsigned int i; // [esp+40h] [ebp+18h]
-  int morphRatioa; // [esp+44h] [ebp+1Ch]
+  unsigned int v43; // [esp+40h] [ebp+18h]
+  int v44; // [esp+44h] [ebp+1Ch]
 
+  v40 = a3;
   Scaleform::Render::ShapeMeshProvider::addToStrokeSorter(
     this,
     gen,
@@ -50,85 +57,95 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
     snapOffset,
     morphRatio);
   gen->mStroker.Clear(&gen->mStroker);
-  v8 = 0;
-  i = 0;
+  v11 = 0;
+  v43 = 0;
   if ( !gen->mStrokeSorter.OutPaths.Size )
     return;
+  morphRatioa = a2;
+  snapOffseta = a4;
   do
   {
-    v9 = 4 * (v8 >> 4);
-    v10 = 8 * (v8 & 0xF);
-    strokeStyleIdxa = v9;
-    morphRatioa = v10;
-    n = *(unsigned int *)((_BYTE *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
-                                                                                   + v9))->numVer
-                        + v10)
-      & 0xFFFFFFF;
-    v11 = 0;
-    if ( !n )
-      goto LABEL_20;
+    v12 = 4 * (v11 >> 4);
+    v13 = 8 * (v11 & 0xF);
+    strokeStyleIdxa = v12;
+    v44 = v13;
+    startPosa = *(unsigned int *)((_BYTE *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
+                                                                                           + v12))->numVer
+                                + v13)
+              & 0xFFFFFFF;
+    v14 = 0;
+    if ( !startPosa )
+      goto LABEL_21;
     do
     {
-      v12 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v9);
-      v13 = *(_DWORD *)(v12 + v10 + 4);
-      v14 = (_DWORD *)(v10 + v12);
-      v15 = v13 & 0xFFFFFFF;
-      v16 = v11;
-      if ( v11 >= v15 )
-        v16 = v11 - v15;
-      ++v11;
-      v17 = &gen->mStrokeSorter.OutVertices.Pages[(v16 + *v14) >> 4][(v16 + *v14) & 0xF];
-      switch ( v17->segType )
+      v15 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v12);
+      v16 = *(_DWORD *)(v15 + v13 + 4);
+      v17 = (_DWORD *)(v13 + v15);
+      v18 = v16 & 0xFFFFFFF;
+      v19 = v14;
+      if ( v14 >= v18 )
+        v19 = v14 - v18;
+      ++v14;
+      v20 = &gen->mStrokeSorter.OutVertices.Pages[(v19 + *v17) >> 4][(v19 + *v17) & 0xF];
+      switch ( v20->segType )
       {
         case 1u:
-          ((void (__thiscall *)(_DWORD, _DWORD, _DWORD))gen->mStroker.AddVertex)(&gen->mStroker, v17->x, v17->y);
+          ((void (__thiscall *)(_DWORD, _DWORD, _DWORD))gen->mStroker.AddVertex)(&gen->mStroker, v20->x, v20->y);
           break;
         case 2u:
-          v29 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v9);
-          v30 = *(_DWORD *)(v29 + v10 + 4);
-          v31 = (_DWORD *)(v10 + v29);
-          v32 = v30 & 0xFFFFFFF;
-          v33 = v11;
-          if ( v11 >= v32 )
-            v33 = v11 - v32;
-          v34 = &gen->mStrokeSorter.OutVertices.Pages[(v33 + *v31) >> 4][(v33 + *v31) & 0xF];
-          ++v11;
-          Scaleform::Render::TessellateQuadCurve(&gen->mStroker, param, v17->x, v17->y, v34->x, v34->y);
+          v32 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v12);
+          v33 = *(_DWORD *)(v32 + v13 + 4);
+          v34 = (_DWORD *)(v13 + v32);
+          v35 = v33 & 0xFFFFFFF;
+          v36 = v14;
+          if ( v14 >= v35 )
+            v36 = v14 - v35;
+          v37 = &gen->mStrokeSorter.OutVertices.Pages[(v36 + *v34) >> 4][(v36 + *v34) & 0xF];
+          ++v14;
+          Scaleform::Render::TessellateQuadCurve(&gen->mStroker, param, v20->x, v20->y, v37->x, v37->y);
           break;
         case 3u:
-          v18 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v9);
-          v19 = *(_DWORD *)(v18 + v10 + 4);
-          v20 = (_DWORD *)(v10 + v18);
-          v21 = v19 & 0xFFFFFFF;
-          v22 = v11;
-          if ( v11 >= v21 )
-            v22 = v11 - v21;
-          v23 = &gen->mStrokeSorter.OutVertices.Pages[(v22 + *v20) >> 4][(v22 + *v20) & 0xF];
-          v24 = (unsigned int *)((char *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
-                                                                                         + v9))->start
-                               + morphRatioa);
-          v25 = v11 + 1;
-          v26 = v24[1] & 0xFFFFFFF;
-          v27 = v25;
-          if ( v25 >= v26 )
-            v27 = v25 - v26;
-          v28 = &gen->mStrokeSorter.OutVertices.Pages[(v27 + *v24) >> 4][(v27 + *v24) & 0xF];
-          v11 = v25 + 1;
-          Scaleform::Render::TessellateCubicCurve(&gen->mStroker, param, v17->x, v17->y, v23->x, v23->y, v28->x, v28->y);
-          v9 = strokeStyleIdxa;
+          v21 = *(int *)((char *)gen->mStrokeSorter.OutPaths.Pages + v12);
+          v22 = *(_DWORD *)(v21 + v13 + 4);
+          v23 = (_DWORD *)(v13 + v21);
+          v24 = v22 & 0xFFFFFFF;
+          v25 = v14;
+          if ( v14 >= v24 )
+            v25 = v14 - v24;
+          v26 = &gen->mStrokeSorter.OutVertices.Pages[(v25 + *v23) >> 4][(v25 + *v23) & 0xF];
+          v27 = (unsigned int *)((char *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
+                                                                                         + v12))->start
+                               + v44);
+          v28 = v14 + 1;
+          v29 = v27[1] & 0xFFFFFFF;
+          v30 = v28;
+          if ( v28 >= v29 )
+            v30 = v28 - v29;
+          v31 = &gen->mStrokeSorter.OutVertices.Pages[(v30 + *v27) >> 4][(v30 + *v27) & 0xF];
+          v14 = v28 + 1;
+          Scaleform::Render::TessellateCubicCurve(&gen->mStroker, param, v20->x, v20->y, v26->x, v26->y, v31->x, v31->y);
+          v12 = strokeStyleIdxa;
           break;
         default:
           continue;
       }
-      v10 = morphRatioa;
+      v13 = v44;
     }
-    while ( v11 < n );
-    v8 = i;
-LABEL_20:
-    Scaleform::Render::Stroker::GenerateStroke(&gen->mStroker, &gen->mTess);
-    i = ++v8;
+    while ( v14 < startPosa );
+    v11 = v43;
+LABEL_21:
+    Scaleform::Render::Stroker::GenerateStroke(
+      &gen->mStroker,
+      v11++,
+      v12,
+      *(float *)&gen,
+      &gen->mTess,
+      snapOffseta,
+      morphRatioa,
+      v40);
+    v43 = v11;
   }
-  while ( v8 < gen->mStrokeSorter.OutPaths.Size );
+  while ( v11 < gen->mStrokeSorter.OutPaths.Size );
 }
 
 
@@ -170,10 +187,10 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
   unsigned int v33; // ecx
   unsigned int v34; // edx
   Scaleform::Render::StrokeSorter::VertexType *v35; // eax
-  unsigned int n; // [esp+3Ch] [ebp+14h]
+  unsigned int startPosa; // [esp+3Ch] [ebp+14h]
   unsigned int strokeStyleIdxa; // [esp+40h] [ebp+18h]
-  unsigned int i; // [esp+44h] [ebp+1Ch]
-  int morphRatioa; // [esp+48h] [ebp+20h]
+  unsigned int v38; // [esp+44h] [ebp+1Ch]
+  int v39; // [esp+48h] [ebp+20h]
 
   Scaleform::Render::ShapeMeshProvider::addToStrokeSorter(
     this,
@@ -186,7 +203,7 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
     morphRatio);
   stroker->Clear(stroker);
   v9 = 0;
-  i = 0;
+  v38 = 0;
   if ( !gen->mStrokeSorter.OutPaths.Size )
     return;
   do
@@ -194,13 +211,13 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
     v10 = 4 * (v9 >> 4);
     v11 = 8 * (v9 & 0xF);
     strokeStyleIdxa = v10;
-    morphRatioa = v11;
-    n = *(unsigned int *)((_BYTE *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
-                                                                                   + v10))->numVer
-                        + v11)
-      & 0xFFFFFFF;
+    v39 = v11;
+    startPosa = *(unsigned int *)((_BYTE *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
+                                                                                           + v10))->numVer
+                                + v11)
+              & 0xFFFFFFF;
     v12 = 0;
-    if ( !n )
+    if ( !startPosa )
       goto LABEL_20;
     do
     {
@@ -241,7 +258,7 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
           v24 = &gen->mStrokeSorter.OutVertices.Pages[(v23 + *v21) >> 4][(v23 + *v21) & 0xF];
           v25 = (unsigned int *)((char *)&(*(Scaleform::Render::StrokeSorter::PathType **)((char *)gen->mStrokeSorter.OutPaths.Pages
                                                                                          + v10))->start
-                               + morphRatioa);
+                               + v39);
           v26 = v12 + 1;
           v27 = v25[1] & 0xFFFFFFF;
           v28 = v26;
@@ -255,13 +272,13 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::addStroke(
         default:
           continue;
       }
-      v11 = morphRatioa;
+      v11 = v39;
     }
-    while ( v12 < n );
-    v9 = i;
+    while ( v12 < startPosa );
+    v9 = v38;
 LABEL_20:
     stroker->FinalizePath(stroker, 0, 0, 0, 0);
-    i = ++v9;
+    v38 = ++v9;
   }
   while ( v9 < gen->mStrokeSorter.OutPaths.Size );
 }

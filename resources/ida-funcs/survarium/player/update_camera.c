@@ -1,81 +1,80 @@
-void __thiscall survarium::player::update_camera(survarium::player *this, int time)
+void __thiscall survarium::player::update_camera(survarium::player *this, int a2)
 {
-  survarium::player_input_handler *v3; // ecx
-  float v4; // xmm0_4
-  double v5; // st7
-  float v6; // xmm1_4
+  int v2; // eax
+  int *v3; // esi
+  int v4; // ecx
+  int v5; // eax
+  int v6; // ecx
   float v7; // xmm0_4
-  bool v8; // zf
-  int v9; // eax
-  int v10; // eax
-  float v11; // xmm1_4
+  float v8; // xmm1_4
+  float v9; // xmm0_4
+  float v10; // xmm0_4
+  float *v11; // eax
   float v12; // xmm2_4
-  float v13; // xmm0_4
-  float current_transition_time; // [esp+0h] [ebp-5Ch]
-  vostok::animation::linear_interpolator v15; // [esp+10h] [ebp-4Ch] BYREF
-  float interpolation_time; // [esp+18h] [ebp-44h]
-  vostok::math::float4x4 transform; // [esp+1Ch] [ebp-40h] BYREF
-  float timea; // [esp+60h] [ebp+4h]
+  float v13; // xmm3_4
+  float v14; // xmm0_4
+  float v15[16]; // [esp+10h] [ebp-40h] BYREF
 
-  v3 = *(survarium::player_input_handler **)((char *)&dword_10EF4 + time);
-  if ( v3 )
+  v2 = *(_DWORD *)((char *)&loc_11403 + a2 + 5);
+  if ( v2 )
   {
-    v4 = *(float *)((char *)&dword_10F18 + time);
-    if ( *(float *)((char *)&dword_10F1C + time) == v4 )
+    if ( *(_DWORD *)(v2 + 864) )
     {
-      v3->m_fov_factor = v4;
+      *(float *)(v2 + 148) = s_bm_current_air_resistance;
+      *(float *)(*(_DWORD *)((char *)&loc_11403 + a2 + 5) + 140) = satisfaction_equality_tolerance;
+      v12 = *(float *)(a2 + 69940);
+      v13 = *(float *)(a2 + 69944);
+      v14 = *(float *)(a2 + 69936) * 1.4;
+      qmemcpy(v15, (char *)&locret_1111E + a2 + 2, sizeof(v15));
+      v4 = 0;
+      v15[12] = v14 + v15[12];
+      v15[13] = v15[13] + (float)(v12 * 1.4);
+      v15[14] = v15[14] + (float)(v13 * 1.4);
+      v11 = v15;
     }
     else
     {
-      v5 = (double)(unsigned int)(*(int *)((char *)&dword_10F0C + time) - *(int *)((char *)&dword_10F28 + time)) * 0.001;
-      v6 = *(float *)((char *)&dword_10F24 + time);
-      interpolation_time = v6;
-      timea = v5;
-      if ( timea < v6 )
+      v3 = (int *)(a2 + 320);
+      if ( (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 320) + 96))(*(_DWORD *)(a2 + 320)) )
       {
-        current_transition_time = v5;
-        v15.__vftable = (vostok::animation::linear_interpolator_vtbl *)&vostok::animation::linear_interpolator::`vftable';
-        v15.m_total_transition_time = v6;
-        *(float *)&v15.__vftable = vostok::animation::linear_interpolator::`vftable'(&v15, current_transition_time);
-        v4 = (float)((float)(*(float *)((char *)&dword_10F18 + time) - *(float *)((char *)&dword_10F1C + time))
-                   * *(float *)&v15.__vftable)
-           + *(float *)((char *)&dword_10F1C + time);
-        v6 = interpolation_time;
-      }
-      v3 = *(survarium::player_input_handler **)((char *)&dword_10EF4 + time);
-      *(float *)((char *)&dword_10F20 + time) = v4;
-      v3->m_fov_factor = v4;
-      if ( timea >= v6 )
-      {
-        v7 = *(float *)((char *)&dword_10F18 + time);
-        v8 = v7 == *(float *)&clear_value;
-        *(float *)((char *)&dword_10F1C + time) = v7;
-        if ( v8 )
+        v5 = *v3;
+        v6 = *(_DWORD *)(*v3 + 1668);
+        if ( v6
+          && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
         {
-          v9 = *(int *)((char *)&dword_10EF4 + time);
-          if ( v9 )
-            *(float *)(v9 + 76) = satisfaction_equality_tolerance;
+          v7 = *(float *)(v6 + 276);
         }
+        else
+        {
+          v7 = *(float *)(v5 + 1052);
+        }
+        v8 = s_bm_current_air_resistance;
+        *(float *)(*(_DWORD *)((char *)&loc_11403 + a2 + 5) + 148) = (float)((float)(v7 - s_bm_current_air_resistance)
+                                                                           * *(float *)(v5 + 1124))
+                                                                   + s_bm_current_air_resistance;
+        v4 = *(_DWORD *)(v5 + 1668);
+        if ( v4
+          && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+        {
+          v9 = *(float *)(v4 + 280);
+        }
+        else
+        {
+          v9 = *(float *)(v5 + 1056);
+        }
+        v10 = (float)((float)((float)(v9 - v8) * *(float *)(v5 + 1124)) + v8) * 0.050000001;
       }
+      else
+      {
+        *(float *)(*(_DWORD *)((char *)&loc_11403 + a2 + 5) + 148) = s_bm_current_air_resistance;
+        v10 = satisfaction_equality_tolerance;
+      }
+      *(float *)(*(_DWORD *)((char *)&loc_11403 + a2 + 5) + 140) = v10;
+      v11 = (float *)((char *)&loc_11160 + a2);
     }
-    v10 = *(int *)((char *)&dword_10EF4 + time);
-    if ( *(_DWORD *)(v10 + 408) )
-    {
-      v11 = *(float *)((char *)&dword_10DE4 + time);
-      v12 = *(float *)((char *)&dword_10DE8 + time);
-      v13 = *(float *)((char *)&dword_10DE0 + time) * 1.4;
-      qmemcpy((void *)&transform, (char *)&unk_10DD0 + time, sizeof(transform));
-      transform.c.x = v13 + transform.c.x;
-      transform.c.y = transform.c.y + (float)(v11 * 1.4);
-      transform.c.z = transform.c.z + (float)(v12 * 1.4);
-      survarium::player_input_handler::update_inverted_view(0, (survarium::player_input_handler *)v10, &transform);
-    }
-    else
-    {
-      survarium::player_input_handler::update_inverted_view(
-        v3,
-        (survarium::player_input_handler *)v10,
-        (const vostok::math::float4x4 *)(time + 72));
-    }
+    survarium::player_input_handler::update_inverted_view(
+      (survarium::player_input_handler *)v4,
+      *(const vostok::math::float4x4 **)((char *)&loc_11403 + a2 + 5),
+      v11);
   }
 }

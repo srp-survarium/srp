@@ -74,7 +74,7 @@ int __cdecl UTF8_getc(const unsigned __int8 *str, int len, unsigned int *val)
           | ((str[2] & 0x3F) << 12)
           | ((str[1] & 0x3F) << 18)
           | ((v4 & 3) << 24);
-      if ( v11 >= 0x200000 )
+      if ( v11 >= (unsigned int)&loc_200000 )
       {
         result = 5;
         *val = v11;
@@ -103,7 +103,7 @@ int __cdecl UTF8_getc(const unsigned __int8 *str, int len, unsigned int *val)
           | ((v12[1] & 0x3F) << 18)
           | ((*v12 & 0x3F) << 24)
           | ((v4 & 1) << 30);
-      if ( v14 >= (unsigned int)&vostok::memory::s_CRT_arena[55905848] )
+      if ( v14 >= 0x4000000 )
       {
         result = 6;
         *val = v14;

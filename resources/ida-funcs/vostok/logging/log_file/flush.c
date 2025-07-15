@@ -1,76 +1,47 @@
-void __thiscall vostok::logging::log_file::flush(vostok::logging::log_file *this, char *in_file_name)
+void __thiscall vostok::logging::log_file::flush(vostok::logging::log_file *in_file_name)
 {
-  const char *v2; // eax
-  survarium::game_camera *v3; // ecx
-  _BYTE *v4; // eax
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  survarium::game_camera *v7; // ecx
-  unsigned __int64 size; // [esp+140h] [ebp-1130h]
-  vostok::fs_new::open_file_cache path[15]; // [esp+148h] [ebp-1128h] BYREF
-  bool v11; // [esp+1267h] [ebp-9h]
-  vostok::fs_new::file_type_pointer v12; // [esp+1268h] [ebp-8h] BYREF
+  vostok::logging::log_file *v1; // esi
+  vostok::logging::log_file *v3; // ecx
+  int v4; // eax
+  int v5; // edi
+  int v6; // eax
+  vostok::logging::log_file *v7; // [esp+20h] [ebp-1014h]
+  int v8; // [esp+30h] [ebp-1004h]
+  _BYTE v9[4096]; // [esp+34h] [ebp-1000h] BYREF
 
-  if ( this->m_file )
+  v1 = vostok::core::g_log_file;
+  if ( vostok::core::g_log_file->m_file )
   {
-    vostok::fs_new::device_file_system_proxy_base::flush(&this->m_device.m_device, this->m_file);
+    vostok::logging::log_file::start_transaction(in_file_name, (int)vostok::core::g_log_file);
+    v1->m_file->flush(v1->m_file);
     if ( in_file_name )
     {
-      v2 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_file_name);
-      if ( vostok::strings::compare_insensitive(v2, in_file_name) )
+      v4 = _stricmp(v1->m_file_name, in_file_name->m_cache);
+      v3 = v7;
+      if ( v4 )
       {
-        v11 = vostok::fs_new::device_file_system_proxy_base::seek(
-                &this->m_device.m_device,
-                this->m_file,
-                0,
-                seek_file_begin);
-        survarium::weapon_user_dead_state::finalize(v3);
-        if ( *v4 )
-          survarium::weapon_user_dead_state::finalize((survarium::game_camera *)(unsigned __int8)*v4);
-        vostok::fs_new::native_path_string::convert(in_file_name, &path[0].name);
-        vostok::fs_new::create_folder_r(&this->m_device, &path[0].name, 0);
-        survarium::weapon_user_dead_state::finalize(v5);
-        v12.device = &this->m_device;
-        vostok::fs_new::open_cached_file(
-          &this->m_device,
-          &v12.file,
-          path,
-          create_always,
-          write,
-          assert_on_fail_false,
-          notify_watcher_false,
-          use_buffering_true);
-        if ( v12.file )
+        ((void (__thiscall *)(vostok::logging::base_fs_file *volatile, _DWORD, _DWORD, _DWORD))v1->m_file->seek)(
+          v1->m_file,
+          0,
+          0,
+          0);
+        v1->m_device->create_folder_r(v1->m_device, in_file_name->m_cache, dont_create_last);
+        v5 = (int)v1->m_device->open_file(v1->m_device, in_file_name->m_cache, create_always_mode, write_access);
+        if ( v5 )
         {
-          while ( 1 )
+          do
           {
-            size = vostok::fs_new::device_file_system_proxy_base::read(
-                     &this->m_device.m_device,
-                     this->m_file,
-                     &path[0].mode,
-                     0x1000u);
-            if ( size != 4096 )
-              break;
-            vostok::fs_new::device_file_system_no_watcher_proxy::write(
-              &this->m_device.m_device,
-              v12.file,
-              &path[0].mode,
-              0x1000u);
+            v6 = v1->m_file->read(v1->m_file, v9, 4096u);
+            v8 = v6;
+            if ( v6 )
+              (*(void (__thiscall **)(int, _BYTE *, int))(*(_DWORD *)v5 + 12))(v5, v9, v6);
           }
-          vostok::fs_new::device_file_system_no_watcher_proxy::write(
-            &this->m_device.m_device,
-            v12.file,
-            &path[0].mode,
-            size);
-          vostok::fs_new::file_type_pointer::close(&v12);
-          survarium::weapon_user_dead_state::finalize(v7);
-        }
-        else
-        {
-          vostok::fs_new::file_type_pointer::close(&v12);
-          survarium::weapon_user_dead_state::finalize(v6);
+          while ( v8 == 4096 );
+          (*(void (__thiscall **)(int))(*(_DWORD *)v5 + 16))(v5);
+          v1->m_device->close_file(v1->m_device, (vostok::logging::base_fs_file *)v5);
         }
       }
     }
+    vostok::logging::log_file::end_transaction(v3, (int)v1);
   }
 }

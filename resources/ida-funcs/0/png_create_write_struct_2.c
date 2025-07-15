@@ -31,7 +31,7 @@ _DWORD *__cdecl png_create_write_struct_2(char *a1, int a2, int a3, int a4, int 
   else
   {
     png_set_write_fn(pointer, 0, 0, 0);
-    sub_3624D0(pointer);
+    sub_46F190(pointer);
     return pointer;
   }
 }

@@ -1,14 +1,14 @@
 void __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(
         Scaleform::GFx::ASUtils::AS3::Formatter *this,
-        const char *psrc,
-        unsigned int length,
+        char *psrc,
+        int length,
         Scaleform::String *escapedStr,
         const unsigned int *escapeMask,
         bool useUtf8)
 {
-  const char *v6; // ebp
-  const char *v7; // eax
-  int v9; // ebx
+  char *v6; // ebp
+  char *v7; // eax
+  int Char_Advance0; // ebx
   char *pBuf; // eax
   Scaleform::String *v11; // ecx
   char v12; // cl
@@ -21,32 +21,32 @@ void __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(
   unsigned __int8 v19; // bl
   char v20; // al
   Scaleform::String *v21; // ecx
-  const char *end; // [esp+8h] [ebp-4h]
+  char *v22; // [esp+8h] [ebp-4h]
 
   v6 = psrc;
   v7 = &psrc[length];
-  end = &psrc[length];
+  v22 = &psrc[length];
   this->pBuf = (char *)this;
   if ( v6 < v7 )
   {
     do
     {
-      v9 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&psrc);
+      Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&psrc);
       pBuf = this->pBuf;
       if ( pBuf + 7 >= this->Endp )
       {
         v11 = escapedStr;
         *pBuf = 0;
-        Scaleform::String::AppendString(v11, this->Buf, 0xFFFFFFFF);
+        Scaleform::String::AppendString(v11, (const __m128i *)this, 0xFFFFFFFF);
         this->pBuf = (char *)this;
       }
-      if ( v9 < 128 && (length = 1 << (v9 % 32), (length & escapeMask[v9 / 32]) != 0) )
+      if ( Char_Advance0 < 128 && (length = 1 << (Char_Advance0 % 32), (length & escapeMask[Char_Advance0 / 32]) != 0) )
       {
-        *this->pBuf = v9;
+        *this->pBuf = Char_Advance0;
       }
       else
       {
-        if ( (v9 & 0xFF00) != 0 )
+        if ( (Char_Advance0 & 0xFF00) != 0 )
         {
           if ( useUtf8 )
           {
@@ -72,18 +72,18 @@ void __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(
           {
             *this->pBuf++ = 37;
             *this->pBuf++ = 117;
-            Scaleform::GFx::ASUtils::AS3::Formatter::WriteHexWord(this, v9);
+            Scaleform::GFx::ASUtils::AS3::Formatter::WriteHexWord(this, Char_Advance0);
           }
           goto LABEL_27;
         }
         *this->pBuf++ = 37;
-        v17 = (unsigned __int8)v9 >> 4;
-        if ( (unsigned __int8)((unsigned __int8)v9 >> 4) >= 0xAu )
+        v17 = (unsigned __int8)Char_Advance0 >> 4;
+        if ( (unsigned __int8)((unsigned __int8)Char_Advance0 >> 4) >= 0xAu )
           v18 = v17 + 55;
         else
           v18 = v17 + 48;
         *this->pBuf++ = v18;
-        v19 = v9 & 0xF;
+        v19 = Char_Advance0 & 0xF;
         if ( v19 >= 0xAu )
           v20 = v19 + 55;
         else
@@ -94,9 +94,9 @@ void __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::EscapeWithMask(
 LABEL_27:
       v6 = psrc;
     }
-    while ( psrc < end );
+    while ( psrc < v22 );
   }
   v21 = escapedStr;
   *this->pBuf = 0;
-  Scaleform::String::AppendString(v21, this->Buf, 0xFFFFFFFF);
+  Scaleform::String::AppendString(v21, (const __m128i *)this, 0xFFFFFFFF);
 }

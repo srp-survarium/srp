@@ -40,7 +40,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::MovieClip::scenesGet
       else
       {
         RefCount = v6->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v6->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v6);
@@ -91,7 +91,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::MovieClip::scenesGet
         {
           v14 = scene.pObject->RefCount;
           v15 = scene.pObject;
-          if ( ((unsigned int)&byte_3FFFFF & v14) != 0 )
+          if ( (v14 & 0x3FFFFF) != 0 )
           {
             scene.pObject->RefCount = v14 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);
@@ -125,7 +125,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::MovieClip::scenesGet
       {
         v16 = *(_DWORD *)(i + 16);
         v17 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)i;
-        if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+        if ( (v16 & 0x3FFFFF) != 0 )
         {
           *(_DWORD *)(i + 16) = v16 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);

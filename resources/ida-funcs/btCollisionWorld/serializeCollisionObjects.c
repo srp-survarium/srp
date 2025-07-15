@@ -3,58 +3,62 @@ void __userpurge btCollisionWorld::serializeCollisionObjects(
         int a2@<eax>,
         btSerializer *serializer)
 {
-  int v4; // ebx
-  int i; // edi
-  bool v6; // cc
-  btCollisionShape *v7; // edi
+  int i; // ebx
+  bool v5; // cc
+  btCollisionShape *v6; // ebx
   int Index; // eax
-  btCollisionShape *shape; // [esp+Ch] [ebp-64h] BYREF
-  btHashPtr key; // [esp+10h] [ebp-60h] BYREF
-  btHashPtr v11; // [esp+18h] [ebp-58h] BYREF
-  btHashMap<btHashPtr,btCollisionShape *> serializedShapes; // [esp+20h] [ebp-50h] BYREF
+  btAlignedObjectArray<GrahamVector2> *v8; // ecx
+  btAlignedObjectArray<GrahamVector2> *v9; // ecx
+  btAlignedObjectArray<GrahamVector2> *v10; // ecx
+  int v11; // [esp+10h] [ebp-68h]
+  btCollisionShape *value; // [esp+14h] [ebp-64h] BYREF
+  btHashPtr key; // [esp+18h] [ebp-60h] BYREF
+  btHashPtr v14; // [esp+20h] [ebp-58h] BYREF
+  btHashMap<btHashPtr,btCollisionShape *> v15; // [esp+28h] [ebp-50h] BYREF
 
-  v4 = 0;
   for ( i = 0; i < *(_DWORD *)(a2 + 8); ++i )
   {
     this = *(btCollisionWorld **)(*(_DWORD *)(a2 + 16) + 4 * i);
     if ( this[2].m_dispatchInfo.m_stackAllocator == (btStackAlloc *)1 )
-    {
       ((void (__thiscall *)(btCollisionWorld *, btSerializer *))this->debugDrawObject)(this, serializer);
-      v4 = 0;
-    }
   }
-  v6 = *(_DWORD *)(a2 + 8) <= 0;
-  serializedShapes.m_hashTable.m_ownsMemory = 1;
-  memset(&serializedShapes.m_hashTable.m_size, 0, 12);
-  serializedShapes.m_next.m_ownsMemory = 1;
-  memset(&serializedShapes.m_next.m_size, 0, 12);
-  serializedShapes.m_valueArray.m_ownsMemory = 1;
-  memset(&serializedShapes.m_valueArray.m_size, 0, 12);
-  serializedShapes.m_keyArray.m_ownsMemory = 1;
-  memset(&serializedShapes.m_keyArray.m_size, 0, 12);
-  if ( !v6 )
+  v5 = *(_DWORD *)(a2 + 8) <= 0;
+  v15.m_hashTable.m_ownsMemory = 1;
+  memset(&v15.m_hashTable.m_size, 0, 12);
+  v15.m_next.m_ownsMemory = 1;
+  memset(&v15.m_next.m_size, 0, 12);
+  v15.m_valueArray.m_ownsMemory = 1;
+  memset(&v15.m_valueArray.m_size, 0, 12);
+  v15.m_keyArray.m_ownsMemory = 1;
+  memset(&v15.m_keyArray.m_size, 0, 12);
+  v11 = 0;
+  if ( !v5 )
   {
     do
     {
-      v7 = *(btCollisionShape **)(*(_DWORD *)(*(_DWORD *)(a2 + 16) + 4 * v4) + 204);
-      shape = v7;
-      key.m_hashValues[0] = (int)v7;
-      Index = btHashMap<btHashPtr,int>::findIndex((btHashMap<btHashPtr,int> *)&serializedShapes, &key);
-      if ( Index == -1 || !&serializedShapes.m_valueArray.m_data[Index] )
+      v6 = *(btCollisionShape **)(*(_DWORD *)(*(_DWORD *)(a2 + 16) + 4 * v11) + 204);
+      value = v6;
+      key.m_hashValues[0] = (int)v6;
+      Index = btHashMap<btHashPtr,btCollisionShape *>::findIndex(&v15, &key);
+      if ( Index == -1 || (this = (btCollisionWorld *)v15.m_valueArray.m_data, !&v15.m_valueArray.m_data[Index]) )
       {
-        v11.m_hashValues[0] = (int)v7;
+        v14.m_hashValues[0] = (int)v6;
         btHashMap<btHashPtr,btCollisionShape *>::insert(
-          (btHashMap<btHashPtr,int> *)&v11,
-          (btHashMap<btHashPtr,int> *)&serializedShapes,
-          &v11,
-          (int *)&shape);
-        shape->serializeSingleShape(shape, serializer);
+          (btHashMap<btHashPtr,btCollisionShape *> *)this,
+          &v15,
+          (const btHashPtr *)v6,
+          &v14,
+          &value);
+        value->serializeSingleShape(value, serializer);
       }
-      ++v4;
+      ++v11;
     }
-    while ( v4 < *(_DWORD *)(a2 + 8) );
+    while ( v11 < *(_DWORD *)(a2 + 8) );
   }
-  btHashMap<btHashPtr,int>::~btHashMap<btHashPtr,int>(
-    (btHashMap<btInternalVertexPair,btInternalEdge> *)this,
-    (int)&serializedShapes);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+    (btAlignedObjectArray<GrahamVector2> *)this,
+    (int)&v15.m_keyArray);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v8, (int)&v15.m_valueArray);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v9, (int)&v15.m_next);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v10, (int)&v15);
 }

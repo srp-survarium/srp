@@ -1,149 +1,130 @@
-void __thiscall btDbvtBroadphase::performDeferredRemoval(
-        btDbvtBroadphase *this,
-        btDbvtBroadphase *dispatcher,
-        btDispatcher *dispatchera)
+void __thiscall btDbvtBroadphase::performDeferredRemoval(btDbvtBroadphase *this, btDispatcher *dispatcher, int a3)
 {
-  btAlignedObjectArray<btBroadphasePair> *v3; // edi
-  int m_size; // eax
-  __int64 v5; // rax
-  int v6; // ebx
-  btBroadphasePair *m_data; // esi
-  btBroadphaseProxy *m_pProxy0; // ecx
-  btBroadphasePair *v9; // esi
-  int v10; // eax
-  int v11; // ebx
-  int v12; // esi
+  btAlignedObjectArray<btBroadphasePair> *v3; // ebx
+  btBroadphasePair *v4; // eax
+  bool v5; // cl
+  int m_size; // esi
+  int v7; // edi
   btCollisionAlgorithm **p_m_algorithm; // ecx
-  int v14; // eax
-  btCollisionAlgorithm *v15; // ebx
-  _DWORD *v16; // eax
-  btBroadphasePair *v17; // eax
-  int v18; // ecx
-  int v19; // edx
-  btBroadphasePair *v20; // eax
-  int v21; // [esp+88h] [ebp-2Ch]
-  btBroadphasePair *v22; // [esp+88h] [ebp-2Ch]
-  btBroadphasePairSortPredicate CompareFunc[4]; // [esp+8Ch] [ebp-28h]
-  btBroadphasePairSortPredicate CompareFunca[4]; // [esp+8Ch] [ebp-28h]
-  int v25; // [esp+90h] [ebp-24h]
-  __int64 v26; // [esp+94h] [ebp-20h]
-  __m128 v27; // [esp+A4h] [ebp-10h]
+  btCollisionAlgorithm **v9; // eax
+  int v10; // ecx
+  int v11; // edx
+  btBroadphasePair *v12; // eax
+  int v13; // [esp+10h] [ebp-30h]
+  btBroadphasePair *v14; // [esp+10h] [ebp-30h]
+  int v15; // [esp+14h] [ebp-2Ch]
+  btBroadphasePairSortPredicate CompareFunc[4]; // [esp+18h] [ebp-28h]
+  btBroadphasePairSortPredicate CompareFunca[4]; // [esp+18h] [ebp-28h]
+  btBroadphasePair *v18; // [esp+1Ch] [ebp-24h]
+  btBroadphasePairSortPredicate v19[4]; // [esp+1Ch] [ebp-24h]
+  btBroadphaseProxy *m_pProxy0; // [esp+20h] [ebp-20h]
+  btBroadphaseProxy *m_pProxy1; // [esp+24h] [ebp-1Ch]
+  __m128 v22; // [esp+30h] [ebp-10h]
 
-  if ( dispatcher->m_paircache->hasDeferredRemoval(dispatcher->m_paircache) )
+  if ( (*((unsigned __int8 (__thiscall **)(btDispatcher_vtbl *))dispatcher[24].~btDispatcher + 13))(dispatcher[24].__vftable) )
   {
-    v3 = dispatcher->m_paircache->getOverlappingPairArray(dispatcher->m_paircache);
-    m_size = v3->m_size;
-    if ( m_size > 1 )
-      btAlignedObjectArray<btBroadphasePair>::quickSortInternal<btBroadphasePairSortPredicate>(v3, 0, 0, m_size - 1);
-    v5 = 0;
-    v21 = 0;
+    v3 = (btAlignedObjectArray<btBroadphasePair> *)(*((int (__thiscall **)(btDispatcher_vtbl *))dispatcher[24].~btDispatcher
+                                                    + 6))(dispatcher[24].__vftable);
+    btAlignedObjectArray<btBroadphasePair>::quickSort<btBroadphasePairSortPredicate>(v3, 0);
     *(_DWORD *)CompareFunc = 0;
+    m_pProxy0 = 0;
+    m_pProxy1 = 0;
+    v15 = 0;
     if ( v3->m_size > 0 )
     {
-      v6 = 0;
-      while ( 1 )
+      v13 = 0;
+      do
       {
-        m_data = v3->m_data;
-        m_pProxy0 = m_data[v6].m_pProxy0;
-        v9 = &m_data[v6];
-        v26 = *(_QWORD *)&v9->m_pProxy0;
-        if ( __PAIR64__(v9->m_pProxy1, (unsigned int)m_pProxy0) == v5
-          || (v27 = _mm_or_ps(
+        v4 = &v3->m_data[v13];
+        v18 = v4;
+        v5 = v4->m_pProxy0 == m_pProxy0 && v4->m_pProxy1 == m_pProxy1;
+        m_pProxy0 = v4->m_pProxy0;
+        m_pProxy1 = v4->m_pProxy1;
+        if ( v5
+          || (v22 = _mm_or_ps(
                       _mm_cmplt_ps(
-                        *((__m128 *)m_pProxy0[1].m_clientObject + 1),
-                        *(__m128 *)v9->m_pProxy1[1].m_clientObject),
+                        *((__m128 *)v4->m_pProxy0[1].m_clientObject + 1),
+                        *(__m128 *)v4->m_pProxy1[1].m_clientObject),
                       _mm_cmplt_ps(
-                        *((__m128 *)v9->m_pProxy1[1].m_clientObject + 1),
-                        *(__m128 *)m_pProxy0[1].m_clientObject)),
-              v27.m128_i32[2] | v27.m128_i32[1] | v27.m128_i32[0]) )
+                        *((__m128 *)v4->m_pProxy1[1].m_clientObject + 1),
+                        *(__m128 *)v4->m_pProxy0[1].m_clientObject)),
+              v22.m128_i32[2] | v22.m128_i32[1] | v22.m128_i32[0]) )
         {
-          dispatcher->m_paircache->cleanOverlappingPair(dispatcher->m_paircache, v9, dispatchera);
-          ++v21;
-          v9->m_pProxy0 = 0;
-          v9->m_pProxy1 = 0;
+          (*((void (__thiscall **)(btDispatcher_vtbl *, btBroadphasePair *, int))dispatcher[24].~btDispatcher + 7))(
+            dispatcher[24].__vftable,
+            v4,
+            a3);
+          v18->m_pProxy0 = 0;
+          v18->m_pProxy1 = 0;
+          ++*(_DWORD *)CompareFunc;
         }
-        ++v6;
-        ++*(_DWORD *)CompareFunc;
-        if ( *(int *)CompareFunc >= v3->m_size )
-          break;
-        v5 = v26;
+        ++v15;
+        ++v13;
       }
+      while ( v15 < v3->m_size );
     }
-    v10 = v3->m_size;
-    if ( v10 > 1 )
-      btAlignedObjectArray<btBroadphasePair>::quickSortInternal<btBroadphasePairSortPredicate>(v3, 0, 0, v10 - 1);
-    v11 = v3->m_size;
-    v12 = v11 - v21;
-    v25 = v11;
-    if ( v11 - v21 >= v11 )
+    btAlignedObjectArray<btBroadphasePair>::quickSort<btBroadphasePairSortPredicate>(v3, 0);
+    m_size = v3->m_size;
+    v7 = m_size - *(_DWORD *)CompareFunc;
+    *(_DWORD *)v19 = m_size;
+    if ( m_size - *(_DWORD *)CompareFunc >= m_size )
     {
-      if ( v12 > v11 && v3->m_capacity < v12 )
+      if ( v7 > m_size && v3->m_capacity < v7 )
       {
-        if ( v12 )
-        {
-          ++gNumAlignedAllocs;
-          v22 = (btBroadphasePair *)sAlignedAllocFunc(16 * v12, 16);
-        }
+        if ( v7 )
+          v14 = (btBroadphasePair *)btAlignedAllocInternal(16 * v7);
         else
-        {
-          v22 = 0;
-        }
+          v14 = 0;
         if ( v3->m_size > 0 )
         {
-          p_m_algorithm = &v22->m_algorithm;
+          p_m_algorithm = &v14->m_algorithm;
           *(_DWORD *)CompareFunca = v3->m_size;
           do
           {
             if ( p_m_algorithm != (btCollisionAlgorithm **)8 )
             {
-              v14 = (int)v3->m_data - 8 - (_DWORD)v22;
-              v15 = *(btCollisionAlgorithm **)((char *)p_m_algorithm + v14);
-              v16 = (btCollisionAlgorithm **)((char *)p_m_algorithm + v14);
-              *(p_m_algorithm - 2) = v15;
-              *(p_m_algorithm - 1) = (btCollisionAlgorithm *)v16[1];
-              *p_m_algorithm = (btCollisionAlgorithm *)v16[2];
-              p_m_algorithm[1] = (btCollisionAlgorithm *)v16[3];
+              v9 = (btCollisionAlgorithm **)((char *)p_m_algorithm + (unsigned int)v3->m_data - 8 - (_DWORD)v14);
+              *(p_m_algorithm - 2) = *v9;
+              *(p_m_algorithm - 1) = v9[1];
+              *p_m_algorithm = v9[2];
+              m_size = *(_DWORD *)v19;
+              p_m_algorithm[1] = v9[3];
             }
             p_m_algorithm += 4;
             --*(_DWORD *)CompareFunca;
           }
           while ( *(_DWORD *)CompareFunca );
-          v11 = v25;
         }
-        v17 = v3->m_data;
-        if ( v17 )
+        if ( v3->m_data )
         {
           if ( v3->m_ownsMemory )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v17);
-          }
+            btAlignedFreeInternal(v3->m_data);
           v3->m_data = 0;
         }
         v3->m_ownsMemory = 1;
-        v3->m_data = v22;
-        v3->m_capacity = v12;
+        v3->m_data = v14;
+        v3->m_capacity = v7;
       }
-      if ( v11 < v12 )
+      if ( m_size < v7 )
       {
-        v18 = v11;
-        v19 = v12 - v11;
+        v10 = m_size;
+        v11 = v7 - m_size;
         do
         {
-          v20 = &v3->m_data[v18];
-          if ( v20 )
+          v12 = &v3->m_data[v10];
+          if ( v12 )
           {
-            v20->m_pProxy0 = 0;
-            v20->m_pProxy1 = 0;
-            v20->m_algorithm = 0;
-            v20->m_internalTmpValue = 0;
+            v12->m_pProxy0 = 0;
+            v12->m_pProxy1 = 0;
+            v12->m_algorithm = 0;
+            v12->m_internalTmpValue = 0;
           }
-          ++v18;
-          --v19;
+          ++v10;
+          --v11;
         }
-        while ( v19 );
+        while ( v11 );
       }
     }
-    v3->m_size = v12;
+    v3->m_size = v7;
   }
 }

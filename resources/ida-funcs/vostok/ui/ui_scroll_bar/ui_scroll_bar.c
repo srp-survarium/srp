@@ -1,164 +1,58 @@
-void __fastcall vostok::ui::ui_scroll_bar::ui_scroll_bar(
-        int a1,
-        vostok::memory::base_allocator *a,
-        vostok::ui::ui_scroll_bar *this)
+void __usercall vostok::ui::ui_scroll_bar::ui_scroll_bar(
+        vostok::ui::ui_scroll_bar *this@<edi>,
+        vostok::memory::base_allocator *a@<edx>)
 {
-  vostok::ui::ui_scroll_bar *v3; // ebp
+  vostok::memory::base_allocator *v2; // edx
+  vostok::memory::base_allocator *v3; // edx
   vostok::memory::base_allocator *v4; // edx
-  vostok::memory::base_allocator *v5; // edx
-  vostok::ui::ui_window *p_m_btn_rb; // edi
-  void (__thiscall *set_visible)(struct vostok::ui::ui_window *, bool); // edx
-  void (__thiscall *set_size)(struct vostok::ui::ui_window *, const vostok::math::float2 *); // edx
-  void (__thiscall *v9)(struct vostok::ui::ui_window *, const vostok::math::float2 *); // edx
-  void (__thiscall *v10)(struct vostok::ui::ui_window *, const vostok::math::float2 *); // eax
-  void (__thiscall *set_parent)(struct vostok::ui::ui_window *, vostok::ui::window *); // eax
-  stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *M_finish; // ecx
-  void (__thiscall *v13)(struct vostok::ui::ui_window *, vostok::ui::window *); // edx
-  void **v14; // eax
-  vostok::ui::ui_scroll_bar *v15; // edi
-  void (__thiscall *set_color)(struct vostok::ui::ui_scroll_bar *, unsigned int); // eax
-  void **v17; // eax
-  const stlp_std::__true_type *v18; // [esp+20h] [ebp-18h]
-  unsigned int v19; // [esp+24h] [ebp-14h]
-  bool v20; // [esp+28h] [ebp-10h]
-  unsigned int __x; // [esp+30h] [ebp-8h] BYREF
-  int v22; // [esp+34h] [ebp-4h]
+  vostok::ui::ui_window_vtbl *v5; // eax
+  vostok::ui::ui_window_vtbl *v6; // eax
+  vostok::ui::ui_window_vtbl *v7; // eax
+  vostok::ui::ui_window_vtbl *v8; // eax
+  stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *> > v9; // [esp-8h] [ebp-18h]
+  stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *> > v10; // [esp-8h] [ebp-18h]
+  stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *> > v11; // [esp-8h] [ebp-18h]
+  float v12; // [esp+8h] [ebp-8h] BYREF
+  float v13; // [esp+Ch] [ebp-4h]
 
-  v3 = this;
   vostok::ui::ui_image::ui_image(this, a);
-  v3->vostok::ui::ui_image::vostok::ui::image::__vftable = (vostok::ui::ui_scroll_bar_vtbl *)&vostok::ui::ui_scroll_bar::`vftable'{for `vostok::ui::image'};
-  v3->vostok::ui::ui_image::vostok::ui::ui_window::vostok::ui::window::__vftable = (vostok::ui::ui_window_vtbl *)&vostok::ui::ui_scroll_bar::`vftable'{for `vostok::ui::ui_window'};
-  this = (vostok::ui::ui_scroll_bar *)&v3->m_track_button;
-  vostok::ui::ui_image::ui_image(&v3->m_track_button, v4);
-  v3->m_source = 0;
-  v3->m_btn_lt.m_allocator = v5;
-  v3->m_btn_lt.__vftable = (vostok::ui::ui_window_vtbl *)&vostok::ui::ui_window::`vftable';
-  v3->m_btn_lt.m_position.x = 0.0;
-  v3->m_btn_lt.m_position.y = 0.0;
-  v3->m_btn_lt.m_size.x = 0.0;
-  v3->m_btn_lt.m_size.y = 0.0;
-  v3->m_btn_lt.m_parent = 0;
-  v3->m_btn_lt.m_event_manager._M_impl._M_start = 0;
-  v3->m_btn_lt.m_event_manager._M_impl._M_finish = 0;
-  v3->m_btn_lt.m_event_manager._M_impl._M_end_of_storage.m_allocator = v5;
-  v3->m_btn_lt.m_event_manager._M_impl._M_end_of_storage._M_data = 0;
-  v3->m_btn_lt.m_b_visible = 0;
-  v3->m_btn_lt.m_b_orphan = 1;
-  v3->m_btn_lt.m_b_focused = 0;
-  v3->m_btn_lt.m_b_tab_stop = 0;
-  v3->m_btn_lt.m_children._M_impl._M_start = 0;
-  v3->m_btn_lt.m_children._M_impl._M_finish = 0;
-  p_m_btn_rb = &v3->m_btn_rb;
-  v3->m_btn_lt.m_children._M_impl._M_end_of_storage.m_allocator = v5;
-  v3->m_btn_lt.m_children._M_impl._M_end_of_storage._M_data = 0;
-  v3->m_btn_rb.m_allocator = v5;
-  v3->m_btn_rb.__vftable = (vostok::ui::ui_window_vtbl *)&vostok::ui::ui_window::`vftable';
-  v3->m_btn_rb.m_position.x = 0.0;
-  v3->m_btn_rb.m_position.y = 0.0;
-  v3->m_btn_rb.m_size.x = 0.0;
-  v3->m_btn_rb.m_size.y = 0.0;
-  v3->m_btn_rb.m_parent = 0;
-  v3->m_btn_rb.m_event_manager._M_impl._M_start = 0;
-  v3->m_btn_rb.m_event_manager._M_impl._M_finish = 0;
-  v3->m_btn_rb.m_event_manager._M_impl._M_end_of_storage.m_allocator = v5;
-  v3->m_btn_rb.m_event_manager._M_impl._M_end_of_storage._M_data = 0;
-  v3->m_btn_rb.m_b_visible = 0;
-  v3->m_btn_rb.m_b_orphan = 1;
-  v3->m_btn_rb.m_b_focused = 0;
-  v3->m_btn_rb.m_b_tab_stop = 0;
-  v3->m_btn_rb.m_children._M_impl._M_start = 0;
-  v3->m_btn_rb.m_children._M_impl._M_finish = 0;
-  v3->m_btn_rb.m_children._M_impl._M_end_of_storage.m_allocator = v5;
-  v3->m_btn_rb.m_children._M_impl._M_end_of_storage._M_data = 0;
-  set_visible = v3->m_btn_lt.set_visible;
-  v3->m_vertical = 1;
-  set_visible(&v3->m_btn_lt, 1);
-  v3->m_btn_rb.set_visible(&v3->m_btn_rb, 1);
-  v3->m_track_button.set_visible(&v3->m_track_button.vostok::ui::ui_window, 1);
-  set_size = v3->m_btn_lt.set_size;
-  __x = 1101004800;
-  v22 = 1101004800;
-  set_size(&v3->m_btn_lt, (const vostok::math::float2 *)&__x);
-  v9 = v3->m_btn_rb.set_size;
-  __x = 1101004800;
-  v22 = 1101004800;
-  v9(&v3->m_btn_rb, (const vostok::math::float2 *)&__x);
-  v10 = v3->m_track_button.set_size;
-  __x = 1101004800;
-  v22 = 1101004800;
-  v10(&v3->m_track_button.vostok::ui::ui_window, (const vostok::math::float2 *)&__x);
-  this->init_texture(this, "ui_rect");
-  this->set_color(this, -13027015u);
-  set_parent = v3->m_btn_lt.set_parent;
-  __x = (unsigned int)&v3->m_btn_lt;
-  set_parent(&v3->m_btn_lt, &v3->vostok::ui::ui_window);
-  v3->m_btn_lt.set_orphan(&v3->m_btn_lt, 0);
-  M_finish = (stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *)v3->m_children._M_impl._M_finish;
-  if ( M_finish == (stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *)v3->m_children._M_impl._M_end_of_storage._M_data )
-  {
-    stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int>>::_M_insert_overflow(
-      M_finish,
-      (unsigned __int8 **)&v3->m_children,
-      (int)M_finish,
-      &__x,
-      v18,
-      v19,
-      v20);
-  }
-  else
-  {
-    M_finish->_M_start = (unsigned int *)&v3->m_btn_lt;
-    ++v3->m_children._M_impl._M_finish;
-  }
-  v13 = p_m_btn_rb->set_parent;
-  __x = (unsigned int)&v3->m_btn_rb;
-  v13(&v3->m_btn_rb, &v3->vostok::ui::ui_window);
-  p_m_btn_rb->set_orphan(&v3->m_btn_rb, 0);
-  v14 = v3->m_children._M_impl._M_finish;
-  if ( v14 == v3->m_children._M_impl._M_end_of_storage._M_data )
-  {
-    stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int>>::_M_insert_overflow(
-      (stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *)&__x,
-      (unsigned __int8 **)&v3->m_children,
-      (int)v14,
-      &__x,
-      v18,
-      v19,
-      v20);
-  }
-  else
-  {
-    *v14 = p_m_btn_rb;
-    ++v3->m_children._M_impl._M_finish;
-  }
-  v15 = this != 0 ? (vostok::ui::ui_scroll_bar *)&v3->m_track_button.vostok::ui::ui_window : 0;
-  set_color = v15->vostok::ui::ui_image::vostok::ui::image::__vftable[2].set_color;
-  this = v15;
-  set_color(v15, (unsigned int)&v3->vostok::ui::ui_window);
-  v15->vostok::ui::ui_image::vostok::ui::image::__vftable[3].init_texture(v15, 0);
-  v17 = v3->m_children._M_impl._M_finish;
-  if ( v17 == v3->m_children._M_impl._M_end_of_storage._M_data )
-  {
-    stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int>>::_M_insert_overflow(
-      (stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *)&this,
-      (unsigned __int8 **)&v3->m_children,
-      (int)v17,
-      (const unsigned int *)&this,
-      v18,
-      v19,
-      v20);
-  }
-  else
-  {
-    *v17 = v15;
-    ++v3->m_children._M_impl._M_finish;
-  }
+  this->vostok::ui::ui_image::vostok::ui::image::__vftable = (vostok::ui::ui_scroll_bar_vtbl *)&vostok::ui::ui_scroll_bar::`vftable'{for `vostok::ui::image'};
+  this->vostok::ui::ui_image::vostok::ui::ui_window::vostok::ui::window::__vftable = (vostok::ui::ui_window_vtbl *)&vostok::ui::ui_scroll_bar::`vftable'{for `vostok::ui::ui_window'};
+  vostok::ui::ui_image::ui_image(&this->m_track_button, v2);
+  this->m_source = 0;
+  vostok::ui::ui_window::ui_window(&this->m_btn_lt, v3);
+  vostok::ui::ui_window::ui_window(&this->m_btn_rb, v4);
+  v5 = this->m_btn_lt.__vftable;
+  this->m_vertical = 1;
+  v5->set_visible(&this->m_btn_lt, 1);
+  this->m_btn_rb.set_visible(&this->m_btn_rb, 1);
+  this->m_track_button.set_visible(&this->m_track_button.vostok::ui::ui_window, 1);
+  v6 = this->m_btn_lt.__vftable;
+  v12 = FLOAT_20_0;
+  v13 = FLOAT_20_0;
+  v6->set_size(&this->m_btn_lt, (const vostok::math::float2 *)&v12);
+  v7 = this->m_btn_rb.__vftable;
+  v12 = FLOAT_20_0;
+  v13 = FLOAT_20_0;
+  v7->set_size(&this->m_btn_rb, (const vostok::math::float2 *)&v12);
+  v8 = this->m_track_button.__vftable;
+  v12 = FLOAT_20_0;
+  v13 = FLOAT_20_0;
+  v8->set_size(&this->m_track_button.vostok::ui::ui_window, (const vostok::math::float2 *)&v12);
+  this->m_track_button.init_texture(&this->m_track_button, "ui_rect");
+  this->m_track_button.set_color(&this->m_track_button, -13027015u);
+  *(_QWORD *)&v9._M_start = (unsigned int)&this->m_btn_lt;
+  vostok::ui::ui_window::add_child(&this->vostok::ui::ui_window, v9);
+  *(_QWORD *)&v10._M_start = (unsigned int)&this->m_btn_rb;
+  vostok::ui::ui_window::add_child(&this->vostok::ui::ui_window, v10);
+  *(_QWORD *)&v11._M_start = &this->m_track_button != 0 ? (unsigned int)&this->m_track_button.vostok::ui::ui_window : 0;
+  vostok::ui::ui_window::add_child(&this->vostok::ui::ui_window, v11);
   vostok::ui::ui_window::subscribe_event(
-    &v3->vostok::ui::ui_window,
+    &this->vostok::ui::ui_window,
     ev_size_changed,
     (fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)>)__PAIR64__(
                                                                               vostok::ui::ui_scroll_bar::on_self_size_changed,
-                                                                              (unsigned int)v3));
-  vostok::ui::ui_image::init_texture(v3, "ui_rect");
-  v3->m_color = -13619152;
+                                                                              (unsigned int)this));
+  vostok::ui::ui_image::init_texture(this, "ui_rect");
+  this->m_color = -13619152;
 }

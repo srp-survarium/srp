@@ -11,12 +11,12 @@ Scaleform::MemoryHeapMH *__thiscall Scaleform::HeapMH::RootMH::CreateHeap(
   Scaleform::MemoryHeapMH *v9; // ebx
   Scaleform::HeapMH::AllocEngineMH *v10; // eax
   unsigned int Flags; // ecx
-  unsigned __int8 *heapBuf; // [esp+Ch] [ebp-4h]
+  Scaleform::MemoryHeapMH *v12; // [esp+Ch] [ebp-4h]
 
   v5 = strlen(name);
   result = (Scaleform::MemoryHeapMH *)this->pSysAlloc->Alloc(this->pSysAlloc, (v5 + 300) & 0xFFFFFFF0, 4);
   v7 = result;
-  heapBuf = (unsigned __int8 *)result;
+  v12 = result;
   if ( result )
   {
     Scaleform::MemoryHeapMH::MemoryHeapMH(result);
@@ -35,12 +35,12 @@ Scaleform::MemoryHeapMH *__thiscall Scaleform::HeapMH::RootMH::CreateHeap(
     v9->pAutoRelease = 0;
     qmemcpy(&v9->Info, desc, 0x20u);
     v9->Info.pParent = parent;
-    v9->Info.pName = (char *)(heapBuf + 284);
+    v9->Info.pName = (char *)&v12[2].Info.pParent;
     v9->UseLocks = (desc->Flags & 1) == 0;
     Flags = desc->Flags;
     v9->pEngine = v10;
     v9->TrackDebugInfo = (Flags & 0x10) == 0;
-    strcpy((char *)heapBuf + 284, name);
+    strcpy((char *)&v12[2].Info.pParent, name);
     return v9;
   }
   return result;

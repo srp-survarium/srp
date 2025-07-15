@@ -1,4 +1,4 @@
-int __usercall fputs@<eax>(unsigned int a1@<ebx>, _iobuf *a2@<edi>, char *string, _iobuf *stream)
+int __usercall fputs@<eax>(int a1@<ebx>, _iobuf *a2@<edi>, __m128i *string, _iobuf *stream)
 {
   int v5; // eax
   ioinfo *v6; // ecx
@@ -11,7 +11,7 @@ int __usercall fputs@<eax>(unsigned int a1@<ebx>, _iobuf *a2@<edi>, char *string
   if ( string
     && (a2 = stream) != 0
     && ((stream->_flag & 0x40) != 0
-     || ((v5 = _fileno(a1, (unsigned int)stream, stream), v5 == -1) || v5 == -2
+     || ((v5 = _fileno(a1, (int)stream, stream), v5 == -1) || v5 == -2
        ? (v6 = &__badioinfo)
        : (v6 = (ioinfo *)((char *)__pioinfo[v5 >> 5] + 64 * (v5 & 0x1F))),
          (*((_BYTE *)v6 + 36) & 0x7F) == 0
@@ -21,8 +21,8 @@ int __usercall fputs@<eax>(unsigned int a1@<ebx>, _iobuf *a2@<edi>, char *string
     strlen((unsigned __int8 *)string);
     length = v8;
     _lock_file(stream);
-    v9 = _stbuf(stream);
-    ndone = _fwrite_nolock(a1, (unsigned __int8 *)string, 1u, length, stream);
+    v9 = _stbuf(a1, (int)stream, stream);
+    ndone = _fwrite_nolock(a1, string, 1u, length, stream);
     _ftbuf(v9, stream);
     _unlock_file(stream);
     return (ndone == length) - 1;
@@ -30,7 +30,7 @@ int __usercall fputs@<eax>(unsigned int a1@<ebx>, _iobuf *a2@<edi>, char *string
   else
   {
     *_errno() = 22;
-    _invalid_parameter(a1, (unsigned int)a2, 0);
+    _invalid_parameter(a1, (int)a2, 0);
     return -1;
   }
 }

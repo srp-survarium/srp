@@ -1,72 +1,51 @@
-void __usercall vostok::physics::bullet_character_controller::setup_crouch_state(
-        vostok::physics::bullet_character_controller *this@<ecx>,
-        bool crouch@<al>,
-        int a3@<esi>)
+void __thiscall vostok::physics::bullet_character_controller::setup_crouch_state(
+        vostok::physics::bullet_character_controller *this,
+        int crouch,
+        char a3)
 {
-  unsigned __int64 v4; // xmm0_8
-  float y; // ecx
-  float x; // xmm0_4
-  float v7; // xmm1_4
-  float v8; // eax
-  float v9; // xmm0_4
-  btPairCachingGhostObject *m_ghost_object; // eax
-  btDynamicsWorld *m_collision_world; // eax
-  unsigned __int64 v13; // [esp+3Ch] [ebp-20h]
-  unsigned __int64 v14; // [esp+3Ch] [ebp-20h]
-  unsigned __int64 v15; // [esp+3Ch] [ebp-20h]
-  unsigned __int64 v16; // [esp+44h] [ebp-18h]
-  unsigned __int64 v17; // [esp+4Ch] [ebp-10h]
-  float v18; // [esp+54h] [ebp-8h]
+  const btCapsuleShape *v3; // esi
+  int v4; // edi
+  btQuaternion q; // [esp+10h] [ebp-60h] BYREF
+  _DWORD v6[4]; // [esp+20h] [ebp-50h] BYREF
+  btMatrix3x3 v7; // [esp+30h] [ebp-40h] BYREF
+  int v8; // [esp+60h] [ebp-10h]
+  int v9; // [esp+64h] [ebp-Ch]
+  int v10; // [esp+68h] [ebp-8h]
+  int v11; // [esp+6Ch] [ebp-4h]
 
-  v17 = this->m_shape_offset.mVec128.m128_u64[0];
-  v4 = this->m_shape_offset.mVec128.m128_u64[1];
-  this->m_in_crouch = crouch;
-  v18 = *(float *)&v4;
-  if ( crouch )
+  v3 = (const btCapsuleShape *)(crouch + 416);
+  v4 = crouch + 160;
+  *(_BYTE *)(crouch + 499) = a3;
+  vostok::physics::capsule_center_to_bottom_position(
+    (const btVector3 *)(crouch + 160),
+    (const btCapsuleShape *)(crouch + 416),
+    (int)&q);
+  if ( a3 )
   {
-    y = this->m_crouch_shape_dim.y;
-    this->m_current_shape_dim.x = this->m_crouch_shape_dim.x;
-    this->m_current_shape_dim.y = y;
-    x = this->m_current_shape_dim.x;
-    *(float *)&v13 = x * 0.5;
-    *((float *)&v13 + 1) = (float)(this->m_current_shape_dim.y - x) * 0.5;
-    this->m_shape.m_implicitShapeDimensions.mVec128.m128_u64[0] = v13;
-    this->m_shape.m_implicitShapeDimensions.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(x * 0.5);
-    v7 = this->m_crouch_shape_dim.y;
+    vostok::physics::bullet_character_controller::setup_shape_dim(
+      (const vostok::math::float2 *)(crouch + 88),
+      crouch,
+      v4,
+      (int)v3,
+      (vostok::physics::bullet_character_controller *)crouch);
+    *(_BYTE *)(crouch + 498) = 0;
   }
   else
   {
-    v8 = this->m_stand_shape_dim.y;
-    this->m_current_shape_dim.x = this->m_stand_shape_dim.x;
-    this->m_current_shape_dim.y = v8;
-    v9 = this->m_current_shape_dim.x;
-    *(float *)&v14 = v9 * 0.5;
-    *((float *)&v14 + 1) = (float)(this->m_current_shape_dim.y - v9) * 0.5;
-    this->m_shape.m_implicitShapeDimensions.mVec128.m128_u64[0] = v14;
-    this->m_shape.m_implicitShapeDimensions.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(v9 * 0.5);
-    v7 = this->m_stand_shape_dim.y;
+    vostok::physics::bullet_character_controller::setup_shape_dim(
+      (const vostok::math::float2 *)(crouch + 80),
+      crouch,
+      v4,
+      (int)v3,
+      (vostok::physics::bullet_character_controller *)crouch);
+    *(_BYTE *)(crouch + 498) = 1;
   }
-  this->m_shape_offset.mVec128.m128_i32[3] = 0;
-  this->m_shape_offset.mVec128.m128_i32[2] = 0;
-  this->m_shape_offset.mVec128.m128_f32[1] = v7 * 0.5;
-  this->m_shape_offset.mVec128.m128_i32[0] = 0;
-  m_ghost_object = this->m_ghost_object;
-  v15 = m_ghost_object->m_worldTransform.m_origin.mVec128.m128_u64[0];
-  v16 = m_ghost_object->m_worldTransform.m_origin.mVec128.m128_u64[1];
-  *((float *)&v15 + 1) = *((float *)&v15 + 1) - (float)(*((float *)&v17 + 1) - this->m_shape_offset.mVec128.m128_f32[1]);
-  *(float *)&v16 = *(float *)&v16 - (float)(v18 - this->m_shape_offset.mVec128.m128_f32[2]);
-  *(float *)&v15 = *(float *)&v15 - (float)(*(float *)&v17 - this->m_shape_offset.mVec128.m128_f32[0]);
-  m_ghost_object->m_worldTransform.m_origin.mVec128.m128_u64[0] = v15;
-  m_ghost_object->m_worldTransform.m_origin.mVec128.m128_u64[1] = v16;
-  btCollisionObject::setInterpolationWorldTransform(this->m_ghost_object, &this->m_ghost_object->m_worldTransform);
-  ((void (__thiscall *)(btPairCachingGhostObject *, btCapsuleShape *, int))this->m_ghost_object->setCollisionShape)(
-    this->m_ghost_object,
-    &this->m_shape,
-    a3);
-  m_collision_world = this->m_collision_world;
-  if ( m_collision_world )
-    this->m_ghost_object->m_hashPairCache->cleanProxyFromPairs(
-      this->m_ghost_object->m_hashPairCache,
-      this->m_ghost_object->m_broadphaseHandle,
-      m_collision_world->m_dispatcher1);
+  vostok::physics::capsule_bottom_to_center_position((const btVector3 *)&q, v3, (int)v6);
+  btMatrix3x3::getRotation((btMatrix3x3 *)(crouch + 112), &q);
+  btMatrix3x3::setRotation(&q, &v7);
+  v8 = v6[0];
+  v9 = v6[1];
+  v10 = v6[2];
+  v11 = v6[3];
+  btCollisionObject::setWorldTransform((btCollisionObject *)&v7, (btVector3 *)(crouch + 96));
 }

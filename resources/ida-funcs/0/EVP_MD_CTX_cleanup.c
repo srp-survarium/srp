@@ -1,4 +1,4 @@
-int __usercall EVP_MD_CTX_cleanup@<eax>(unsigned int a1@<edi>, env_md_ctx_st *ctx)
+int __usercall EVP_MD_CTX_cleanup@<eax>(int a1@<edi>, int a2@<ebx>, env_md_ctx_st *ctx)
 {
   if ( ctx->digest )
   {
@@ -11,9 +11,9 @@ int __usercall EVP_MD_CTX_cleanup@<eax>(unsigned int a1@<edi>, env_md_ctx_st *ct
     }
   }
   if ( ctx->pctx )
-    EVP_PKEY_CTX_free(ctx->pctx);
+    EVP_PKEY_CTX_free(a1, ctx->pctx);
   if ( ctx->engine )
-    ENGINE_finish(a1, ctx->engine);
+    ENGINE_finish(a1, a2, ctx->engine);
   ctx->digest = 0;
   ctx->engine = 0;
   ctx->flags = 0;

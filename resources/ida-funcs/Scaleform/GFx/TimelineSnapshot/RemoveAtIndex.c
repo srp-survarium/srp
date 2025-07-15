@@ -16,8 +16,8 @@ void __thiscall Scaleform::GFx::TimelineSnapshot::RemoveAtIndex(
   else
   {
     memmove(
-      (unsigned __int8 *)&this->SnapshotSortedArray.Data.Data[idx],
-      (unsigned __int8 *)&this->SnapshotSortedArray.Data.Data[idx + 1],
+      (int)&this->SnapshotSortedArray.Data.Data[idx],
+      (const __m128i *)&this->SnapshotSortedArray.Data.Data[idx + 1],
       4 * (Size - idx) - 4);
     --this->SnapshotSortedArray.Data.Size;
   }

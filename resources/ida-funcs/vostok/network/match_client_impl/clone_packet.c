@@ -1,31 +1,30 @@
-vostok::network_core::udp_match_packet *__thiscall vostok::network::match_client_impl::clone_packet(
-        vostok::network::match_client_impl *this,
-        vostok::network_core::udp_match_packet *packet)
+vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy>::node *__usercall vostok::network::match_client_impl::clone_packet@<eax>(
+        vostok::network::match_client_impl *this@<eax>,
+        const vostok::network_core::udp_match_packet *packet@<edi>)
 {
-  _BYTE *v2; // eax
-  vostok::network_core::packet_reader *v3; // ecx
-  unsigned int v4; // esi
-  stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object> > *v5; // ecx
-  unsigned __int8 *v6; // eax
-  vostok::network_core::udp_match_packet *result; // [esp+28h] [ebp-Ch]
-  vostok::network_core::packet_reader reader; // [esp+2Ch] [ebp-8h] BYREF
+  vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy>::node *matched; // eax
+  unsigned __int8 *m_buffer; // edx
+  unsigned int m_size; // ebx
+  vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy>::node *v5; // esi
+  char v6; // cl
+  vostok::network_core::buffer_writer *v7; // ecx
 
-  result = vostok::network_core::new_udp_match_packet((vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy> *)((char *)this + (_DWORD)&loc_257FFD + 3));
-  reader.m_packet = packet;
-  reader.m_pointer = (const unsigned __int8 *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                (stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *)packet,
-                                                (int)packet);
-  result->message_type = packet->message_type;
-  *((_BYTE *)result + 42) = *((_BYTE *)packet + 42) & 0x3F | *((_BYTE *)result + 42) & 0xC0;
-  *((_BYTE *)result + 42) = (((*((_BYTE *)packet + 42) & 0x40) != 0) << 6) | *((_BYTE *)result + 42) & 0xBF;
-  *((_BYTE *)result + 42) = (*((_BYTE *)packet + 42) >> 7 << 7) | *((_BYTE *)result + 42) & 0x7F;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)result);
-  LOBYTE(v3) = *v2;
-  result->m_buffer.elems[0] = *v2;
-  v4 = vostok::network_core::packet_reader::size_to_eof(v3, &reader);
-  v6 = (unsigned __int8 *)stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object>>::end(
-                            v5,
-                            (int)&reader);
-  vostok::network_core::packet<vostok::network_core::udp_match_packet>::append(v4, result, v6);
-  return result;
+  matched = vostok::network_core::new_udp_match_packet((vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> *)((char *)this + (_DWORD)&loc_553FD + 3));
+  m_buffer = packet->m_buffer.m_buffer;
+  m_size = packet->m_buffer.m_size;
+  v5 = matched;
+  *(_WORD *)&matched->data[104] = packet->specific_port;
+  matched->data[102] = packet->message_type;
+  matched->data[107] ^= (*((_BYTE *)packet + 107) ^ matched->data[107]) & 0x3F;
+  v6 = matched->data[107] ^ (matched->data[107] ^ *((_BYTE *)packet + 107)) & 0x40;
+  matched->data[107] = v6;
+  LOBYTE(matched) = *((_BYTE *)packet + 107) ^ (v6 ^ *((_BYTE *)packet + 107)) & 0x7F;
+  v5->data[107] = (char)matched;
+  v5->data[107] = *((_BYTE *)packet + 107) ^ ((unsigned __int8)matched ^ *((_BYTE *)packet + 107)) & 0x7F;
+  v7 = *(vostok::network_core::buffer_writer **)&v5->data[1328];
+  v5->data[16] = packet->message_part_id;
+  v5->data[103] = packet->message_parts_count;
+  LOBYTE(v7->serialization_operations_descriptors.m_size) = *packet->m_buffer.m_buffer;
+  vostok::network_core::buffer_writer::w(v7, &v5->data[1340], m_buffer + 12, m_size - 12);
+  return v5;
 }

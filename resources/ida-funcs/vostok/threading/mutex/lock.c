@@ -1,28 +1,23 @@
-void __thiscall vostok::threading::mutex::lock(vostok::threading::mutex *this)
+void __thiscall vostok::threading::mutex::lock(
+        vostok::threading::mutex *this,
+        _RTL_CRITICAL_SECTION *lpCriticalSection)
 {
-  int v1; // esi
-  vostok::tasks::thread_pool *v3; // ecx
-  vostok::tasks::thread_pool *v4; // ecx
+  int v2; // esi
 
-  v1 = 0;
+  v2 = 0;
   if ( s_spin_count.m_begin )
   {
-    while ( !TryEnterCriticalSection((LPCRITICAL_SECTION)this) )
+    while ( !TryEnterCriticalSection(lpCriticalSection) )
     {
-      if ( (vostok::tasks::thread_tls *)++v1 >= s_spin_count.m_begin )
+      if ( (vostok::tasks::thread_tls *)++v2 >= s_spin_count.m_begin )
         goto LABEL_4;
     }
   }
   else
   {
 LABEL_4:
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_locks(v3, s_thread_pool.m_variable);
-    EnterCriticalSection((LPCRITICAL_SECTION)this);
-    if ( s_thread_pool.m_initialized )
-    {
-      if ( TlsGetValue(s_thread_affinity_tls_key) )
-        vostok::tasks::thread_pool::on_current_thread_unlocks(v4, s_thread_pool.m_variable);
-    }
+    vostok::tasks::on_current_thread_locks();
+    EnterCriticalSection(lpCriticalSection);
+    vostok::tasks::on_current_thread_unlocks();
   }
 }

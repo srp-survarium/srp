@@ -1,42 +1,44 @@
-_DWORD *__usercall pt3malloc@<eax>(char *bytes@<eax>)
+malloc_chunk **__cdecl pt3malloc(unsigned int bytes)
 {
-  char *v1; // edi
-  malloc_arena *Value; // esi
-  _DWORD *v4; // eax
-  _DWORD *v5; // edx
-  int v6; // eax
-  int v7; // ecx
+  unsigned int v1; // ebx
+  volatile int *Value; // eax
+  malloc_arena *v4; // esi
+  malloc_chunk **v5; // eax
+  malloc_chunk **v6; // edx
+  int v7; // eax
+  int v8; // ecx
   volatile __int32 *p_mutex; // ecx
-  malloc_arena *ar_ptr; // [esp+4h] [ebp-8h]
+  malloc_arena *v10; // [esp+8h] [ebp-4h]
 
   v1 = bytes;
   if ( __malloc_hook )
-    return __malloc_hook((unsigned int)bytes, 0);
-  Value = (malloc_arena *)TlsGetValue(arena_key);
-  ar_ptr = Value;
-  if ( !Value || (_mm_pause(), _InterlockedExchange(&Value->mutex, 1)) )
+    return (malloc_chunk **)__malloc_hook(bytes, 0);
+  Value = (volatile int *)TlsGetValue(arena_key);
+  v4 = (malloc_arena *)Value;
+  v10 = (malloc_arena *)Value;
+  if ( !Value || sltrywait(Value) )
   {
-    Value = arena_get2(Value, v1, (unsigned int)(v1 + 4));
-    ar_ptr = Value;
+    v4 = arena_get2(v4, bytes + 4);
+    v10 = v4;
   }
-  if ( !Value )
+  if ( !v4 )
     return 0;
-  if ( Value != &main_arena )
-    v1 += 4;
-  v4 = vostok_mspace_malloc(&Value->buf_[8], (unsigned int)v1);
-  v5 = v4;
-  if ( v4 && Value != &main_arena )
+  if ( v4 != &main_arena )
+    v1 = bytes + 4;
+  v5 = vostok_mspace_malloc((malloc_state *)&v4->buf_[8], v1);
+  v6 = v5;
+  if ( v5 && v4 != &main_arena )
   {
-    v6 = *(v4 - 1);
-    if ( (v6 & 1) != 0 || (*(_BYTE *)(v5 - 2) & 1) == 0 )
-      v7 = 0;
+    v7 = (int)*(v5 - 1);
+    if ( (v7 & 1) != 0 || (*(_BYTE *)(v6 - 2) & 1) == 0 )
+      v8 = 0;
     else
-      v7 = 4;
-    *(_DWORD *)((char *)v5 + (v6 & 0xFFFFFFF8) - v7 - 8) = Value;
-    *(v5 - 1) |= 4u;
+      v8 = 4;
+    *(malloc_chunk **)((char *)v6 + (v7 & 0xFFFFFFF8) - v8 - 8) = (malloc_chunk *)v4;
+    *(v6 - 1) = (malloc_chunk *)((unsigned int)*(v6 - 1) | 4);
   }
-  p_mutex = &ar_ptr->mutex;
+  p_mutex = &v10->mutex;
   _mm_pause();
   _InterlockedExchange(p_mutex, 0);
-  return v5;
+  return v6;
 }

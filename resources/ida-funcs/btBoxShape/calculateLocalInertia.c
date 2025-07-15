@@ -1,11 +1,11 @@
 void __thiscall btBoxShape::calculateLocalInertia(btBoxShape *this, float mass, btVector3 *inertia)
 {
-  float v3; // xmm1_4
-  float v4; // xmm2_4
+  float v3; // xmm2_4
+  float v4; // xmm3_4
   float v5; // xmm0_4
-  btVector3 v6; // [esp+20h] [ebp-10h] BYREF
+  btVector3 v6; // [esp+0h] [ebp-10h] BYREF
 
-  btBoxShape::getHalfExtentsWithMargin((btCylinderShape *)this, this, &v6);
+  btBoxShape::getHalfExtentsWithMargin(this, (btVector3 *)this, &v6);
   v3 = (float)(v6.mVec128.m128_f32[1] * 2.0) * (float)(v6.mVec128.m128_f32[1] * 2.0);
   v4 = (float)(v6.mVec128.m128_f32[2] * 2.0) * (float)(v6.mVec128.m128_f32[2] * 2.0);
   v5 = (float)(v6.mVec128.m128_f32[0] * 2.0) * (float)(v6.mVec128.m128_f32[0] * 2.0);

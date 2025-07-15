@@ -11,9 +11,9 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineIndexAtPoint(const Scalef
   Scaleform::GFx::AS2::Environment *y; // [esp+4h] [ebp-14h]
   Scaleform::GFx::AS2::Environment *ya; // [esp+4h] [ebp-14h]
   float yb; // [esp+4h] [ebp-14h]
-  long double x; // [esp+10h] [ebp-8h]
-  float fna; // [esp+1Ch] [ebp+4h]
-  float fnb; // [esp+1Ch] [ebp+4h]
+  long double v13; // [esp+10h] [ebp-8h]
+  float v14; // [esp+1Ch] [ebp+4h]
+  float x; // [esp+1Ch] [ebp+4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextField )
   {
@@ -23,15 +23,15 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineIndexAtPoint(const Scalef
     {
       y = fn->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      x = Scaleform::GFx::AS2::Value::ToNumber(v4, y);
+      v13 = Scaleform::GFx::AS2::Value::ToNumber(v4, y);
       ya = fn->Env;
       v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-      fna = Scaleform::GFx::AS2::Value::ToNumber(v5, ya) * 20.0;
-      yb = fna;
-      fnb = 20.0 * x;
+      v14 = Scaleform::GFx::AS2::Value::ToNumber(v5, ya) * 20.0;
+      yb = v14;
+      x = 20.0 * v13;
       LineIndexAtPoint = Scaleform::Render::Text::DocView::GetLineIndexAtPoint(
                            (Scaleform::Render::Text::DocView *)v3[1].GetMemberRaw,
-                           fnb,
+                           x,
                            yb);
       Result = fn->Result;
       v8 = LineIndexAtPoint;

@@ -1,20 +1,17 @@
-void __usercall vostok::render::vs_data::~vs_data(vostok::render::vs_data *this@<ecx>, int a2@<esi>)
+void __usercall vostok::render::vs_data::~vs_data(vostok::render::vs_data *this@<ecx>, int a2@<eax>)
 {
-  _DWORD *v2; // eax
-  vostok::render::shader_constant_table *v4; // ecx
+  vostok::fixed_vector<vostok::render::buffer_slot,128> *v3; // ecx
+  vostok::fixed_vector<vostok::render::texture_slot,128> *v4; // ecx
+  vostok::render::shader_constant_table *v5; // ecx
 
-  v2 = *(_DWORD **)(a2 + 12152);
-  if ( v2 )
-  {
-    if ( (*v2)-- == 1 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        *(const vostok::render::res_signature **)(a2 + 12152));
-  }
-  vostok::buffer_vector<vostok::render::texture_slot>::destroy(
-    *(vostok::render::texture_slot **)(a2 + 1392),
-    (vostok::render::texture_slot *const *)(a2 + 1396));
-  *(_DWORD *)(a2 + 1396) = *(_DWORD *)(a2 + 1392);
-  *(_DWORD *)(a2 + 44) = *(_DWORD *)(a2 + 40);
-  vostok::render::shader_constant_table::~shader_constant_table(v4);
+  vostok::intrusive_ptr<vostok::render::res_signature const,vostok::render::res_signature const,vostok::threading::single_threading_policy>::dec((vostok::intrusive_ptr<vostok::render::res_signature const ,vostok::render::res_signature const ,vostok::threading::single_threading_policy> *)(a2 + 23820));
+  vostok::fixed_vector<vostok::render::buffer_slot,128>::~fixed_vector<vostok::render::buffer_slot,128>(
+    v3,
+    (vostok::intrusive_ptr<vostok::render::shader_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 13056));
+  vostok::fixed_vector<vostok::render::texture_slot,128>::~fixed_vector<vostok::render::texture_slot,128>(
+    v4,
+    (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 2292));
+  v5 = *(vostok::render::shader_constant_table **)(a2 + 936);
+  *(_DWORD *)(a2 + 940) = v5;
+  vostok::render::shader_constant_table::~shader_constant_table(v5, a2 + 8);
 }

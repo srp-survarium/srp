@@ -9,9 +9,9 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::SetLineStyle(
         float miterLimit)
 {
   Scaleform::GFx::DrawingContext *v8; // eax
-  float miterLimita; // [esp+38h] [ebp+1Ch]
+  float v10; // [esp+38h] [ebp+1Ch]
 
   v8 = this->pDispObj->GetDrawingContext(this->pDispObj);
-  miterLimita = lineWidth * 20.0;
-  Scaleform::GFx::DrawingContext::ChangeLineStyle(v8, miterLimita, rgba, hinting, scaling, caps, joins, miterLimit);
+  v10 = lineWidth * 20.0;
+  Scaleform::GFx::DrawingContext::ChangeLineStyle(v8, v10, rgba, hinting, scaling, caps, joins, miterLimit);
 }

@@ -26,48 +26,48 @@ Scaleform::Render::Viewport *__thiscall Scaleform::Render::MatrixState::SetOrien
   double v24; // st7
   double v25; // st7
   int v26; // edx
-  float v28; // [esp+1A0h] [ebp-54h]
-  float v29; // [esp+1A0h] [ebp-54h]
-  float v30; // [esp+1A0h] [ebp-54h]
-  float v31; // [esp+1A0h] [ebp-54h]
-  float v32; // [esp+1A0h] [ebp-54h]
-  float v33; // [esp+1A0h] [ebp-54h]
-  float v34; // [esp+1A4h] [ebp-50h]
-  float v35; // [esp+1A4h] [ebp-50h]
-  float v36; // [esp+1A4h] [ebp-50h]
-  float v37; // [esp+1A4h] [ebp-50h]
-  float BufferWidth; // [esp+1A8h] [ebp-4Ch]
-  float v39; // [esp+1A8h] [ebp-4Ch]
-  float v40; // [esp+1A8h] [ebp-4Ch]
-  float v41; // [esp+1A8h] [ebp-4Ch]
-  float v42; // [esp+1A8h] [ebp-4Ch]
-  float v43; // [esp+1ACh] [ebp-48h]
-  float v44; // [esp+1ACh] [ebp-48h]
-  float v45; // [esp+1ACh] [ebp-48h]
-  float v46; // [esp+1ACh] [ebp-48h]
-  float BufferHeight; // [esp+1B0h] [ebp-44h]
-  float v48; // [esp+1B0h] [ebp-44h]
-  float v49; // [esp+1B0h] [ebp-44h]
-  float v50; // [esp+1B0h] [ebp-44h]
-  float v51; // [esp+1B0h] [ebp-44h]
-  float v52; // [esp+1B0h] [ebp-44h]
-  float v53; // [esp+1B0h] [ebp-44h]
-  float v54; // [esp+1B0h] [ebp-44h]
-  float v55; // [esp+1B0h] [ebp-44h]
-  float v56; // [esp+1B0h] [ebp-44h]
-  float v57; // [esp+1B0h] [ebp-44h]
-  float v58; // [esp+1B0h] [ebp-44h]
-  float v59; // [esp+1B0h] [ebp-44h]
-  float v60; // [esp+1B0h] [ebp-44h]
-  float v61; // [esp+1B0h] [ebp-44h]
-  float v62; // [esp+1B0h] [ebp-44h]
-  float v63; // [esp+1B0h] [ebp-44h]
-  float v64; // [esp+1B0h] [ebp-44h]
-  float v65; // [esp+1B0h] [ebp-44h]
-  float v66; // [esp+1B0h] [ebp-44h]
-  float v67; // [esp+1B0h] [ebp-44h]
-  Scaleform::Render::Matrix2x4<float> v68; // [esp+1B4h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v69; // [esp+1D4h] [ebp-20h] BYREF
+  float v28; // [esp+14h] [ebp-54h]
+  float v29; // [esp+14h] [ebp-54h]
+  float v30; // [esp+14h] [ebp-54h]
+  float v31; // [esp+14h] [ebp-54h]
+  float v32; // [esp+14h] [ebp-54h]
+  float v33; // [esp+14h] [ebp-54h]
+  float v34; // [esp+18h] [ebp-50h]
+  float v35; // [esp+18h] [ebp-50h]
+  float v36; // [esp+18h] [ebp-50h]
+  float v37; // [esp+18h] [ebp-50h]
+  float BufferWidth; // [esp+1Ch] [ebp-4Ch]
+  float v39; // [esp+1Ch] [ebp-4Ch]
+  float v40; // [esp+1Ch] [ebp-4Ch]
+  float v41; // [esp+1Ch] [ebp-4Ch]
+  float v42; // [esp+1Ch] [ebp-4Ch]
+  float v43; // [esp+20h] [ebp-48h]
+  float v44; // [esp+20h] [ebp-48h]
+  float v45; // [esp+20h] [ebp-48h]
+  float v46; // [esp+20h] [ebp-48h]
+  float BufferHeight; // [esp+24h] [ebp-44h]
+  float v48; // [esp+24h] [ebp-44h]
+  float v49; // [esp+24h] [ebp-44h]
+  float v50; // [esp+24h] [ebp-44h]
+  float v51; // [esp+24h] [ebp-44h]
+  float v52; // [esp+24h] [ebp-44h]
+  float v53; // [esp+24h] [ebp-44h]
+  float v54; // [esp+24h] [ebp-44h]
+  float v55; // [esp+24h] [ebp-44h]
+  float v56; // [esp+24h] [ebp-44h]
+  float v57; // [esp+24h] [ebp-44h]
+  float v58; // [esp+24h] [ebp-44h]
+  float v59; // [esp+24h] [ebp-44h]
+  float v60; // [esp+24h] [ebp-44h]
+  float v61; // [esp+24h] [ebp-44h]
+  float v62; // [esp+24h] [ebp-44h]
+  float v63; // [esp+24h] [ebp-44h]
+  float v64; // [esp+24h] [ebp-44h]
+  float v65; // [esp+24h] [ebp-44h]
+  float v66; // [esp+24h] [ebp-44h]
+  float v67; // [esp+24h] [ebp-44h]
+  Scaleform::Render::Matrix2x4<float> resulta; // [esp+28h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v69; // [esp+48h] [ebp-20h] BYREF
 
   this->OrientationSet = 0;
   this->UVPOChanged = 1;
@@ -124,7 +124,7 @@ Scaleform::Render::Viewport *__thiscall Scaleform::Render::MatrixState::SetOrien
     this->Orient3D.M[2][2] = 1.0;
     this->Orient3D.M[3][3] = 1.0;
   }
-  v8 = Scaleform::Render::operator*(&v68, &this->User, &this->Orient2D);
+  v8 = Scaleform::Render::operator*(&resulta, &this->User, &this->Orient2D);
   this->UserView = *Scaleform::Render::operator*(&v69, &this->View2D, v8);
   result->BufferWidth = 0;
   result->BufferHeight = 0;

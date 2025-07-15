@@ -15,7 +15,7 @@ void __cdecl CRYPTO_cfb128_encrypt(
   unsigned __int8 *v12; // eax
   unsigned int v13; // ecx
   unsigned __int8 *v14; // eax
-  int v15; // esi
+  unsigned int v15; // esi
   unsigned int v16; // ebp
   const unsigned __int8 *v17; // ebx
   unsigned __int8 v18; // al

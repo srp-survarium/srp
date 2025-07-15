@@ -63,7 +63,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3namespaceDeclaration
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -83,7 +83,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3namespaceDeclaration
     {
       do
       {
-        v10 = (*(int (__thiscall **)(_DWORD *))(*v9 + 68))(v9);
+        v10 = (*(int (__thiscall **)(_DWORD *))(*v9 + 80))(v9);
         v11 = (_DWORD *)v10;
         if ( v10 )
         {

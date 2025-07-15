@@ -25,14 +25,14 @@ void __thiscall Scaleform::Render::TextMeshProvider::createVectorGlyph(
   Scaleform::Render::Mesh *v23; // esi
   Scaleform::RefCountVImpl *v24; // ecx
   Scaleform::Render::MeshProvider *v25; // ecx
-  float v26; // [esp+6B4h] [ebp-160h] BYREF
-  Scaleform::Render::MeshProvider_KeySupport *provider; // [esp+6B8h] [ebp-15Ch]
-  float v28; // [esp+6BCh] [ebp-158h]
-  Scaleform::Render::MeshProvider *v29; // [esp+6C0h] [ebp-154h]
-  Scaleform::Render::Matrix2x4<float> scalingMtx; // [esp+6C4h] [ebp-150h] BYREF
-  unsigned __int16 Flags; // [esp+6ECh] [ebp-128h]
-  Scaleform::Render::GlyphRunData v32; // [esp+6F4h] [ebp-120h] BYREF
-  float v33[20]; // [esp+7C4h] [ebp-50h] BYREF
+  float v26; // [esp+28h] [ebp-160h] BYREF
+  Scaleform::Render::VectorGlyphShape *v27; // [esp+2Ch] [ebp-15Ch]
+  float v28; // [esp+30h] [ebp-158h]
+  Scaleform::Render::MeshProvider *v29; // [esp+34h] [ebp-154h]
+  Scaleform::Render::Matrix2x4<float> viewMatrix; // [esp+38h] [ebp-150h] BYREF
+  unsigned __int16 Flags; // [esp+60h] [ebp-128h]
+  Scaleform::Render::GlyphRunData v32; // [esp+68h] [ebp-120h] BYREF
+  float v33[20]; // [esp+138h] [ebp-50h] BYREF
 
   v6 = &this->Layers.Data.Data[layerIdx];
   v7 = &this->Entries.Data.Data[v6->Start];
@@ -57,30 +57,30 @@ void __thiscall Scaleform::Render::TextMeshProvider::createVectorGlyph(
   v32.GlyphBounds.y2 = 0.0;
   v32.HeightRatio = this->HeightRatio;
   Flags = v7->EntryData.VectorData.Flags;
-  provider = Scaleform::Render::GlyphCache::CreateGlyphShape(
-               this->pCache,
-               &v32,
-               v7->EntryData.VectorData.GlyphIndex,
-               0.0,
-               (Flags & 8) != 0,
-               (Flags & 0x10) != 0,
-               Flags >> 12,
-               1);
-  v32.HintedNomHeight = (unsigned int)provider[2].Scaleform::Render::MeshProvider_RCImpl::Scaleform::RefCountBase<Scaleform::Render::MeshProvider_RCImpl,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable[16].~Scaleform::Render::MeshProvider_KeySupport;
+  v27 = Scaleform::Render::GlyphCache::CreateGlyphShape(
+          this->pCache,
+          &v32,
+          v7->EntryData.VectorData.GlyphIndex,
+          0.0,
+          (Flags & 8) != 0,
+          (Flags & 0x10) != 0,
+          Flags >> 12,
+          1);
+  v32.HintedNomHeight = v27->pShape.pObject->HintedSize;
   v28 = v32.FontSize / v32.NomHeight;
   v26 = this->HeightRatio * v28;
-  scalingMtx.M[0][0] = v26;
-  scalingMtx.M[0][1] = 0.0;
-  scalingMtx.M[0][2] = 0.0;
-  scalingMtx.M[0][3] = 0.0;
-  scalingMtx.M[1][0] = 0.0;
-  scalingMtx.M[1][2] = 0.0;
-  scalingMtx.M[1][3] = 0.0;
-  scalingMtx.M[1][1] = v26;
-  v10 = Scaleform::Render::TextMeshProvider::CalcVectorParams(v6, v7, &scalingMtx, v28, m, ren, meshGenFlags, v33);
+  viewMatrix.M[0][0] = v26;
+  viewMatrix.M[0][1] = 0.0;
+  viewMatrix.M[0][2] = 0.0;
+  viewMatrix.M[0][3] = 0.0;
+  viewMatrix.M[1][0] = 0.0;
+  viewMatrix.M[1][2] = 0.0;
+  viewMatrix.M[1][3] = 0.0;
+  viewMatrix.M[1][1] = v26;
+  v10 = Scaleform::Render::TextMeshProvider::CalcVectorParams(v6, v7, &viewMatrix, v28, m, ren, meshGenFlags, v33);
   MatchingKey = Scaleform::Render::MeshKeyManager::CreateMatchingKey(
                   ren->pMeshKeyManager.pObject,
-                  provider,
+                  v27,
                   0,
                   v10,
                   v33,
@@ -90,14 +90,14 @@ void __thiscall Scaleform::Render::TextMeshProvider::createVectorGlyph(
   if ( pObject )
     Scaleform::Render::MeshKey::Release(pObject);
   *(float *)&v6->pMeshKey.pObject = v26;
-  AddRef = (void (*)(void))provider->AddRef;
-  v29 = &provider->Scaleform::Render::MeshProvider;
+  AddRef = (void (*)(void))v27->AddRef;
+  v29 = &v27->Scaleform::Render::MeshProvider;
   AddRef();
   v14 = v6->pShape.pObject;
   if ( v14 )
     v14->Release(&v14->Scaleform::Render::MeshProvider);
   v15 = v28;
-  v6->pShape.pObject = (Scaleform::Render::VectorGlyphShape *)provider;
+  v6->pShape.pObject = v27;
   v6->SizeScale = v15;
   if ( !v6->pMeshKey.pObject->pMesh.pObject )
   {
@@ -109,7 +109,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::createVectorGlyph(
                                        &v26);
     if ( v16 )
     {
-      Scaleform::Render::Mesh::Mesh(v16, ren, v6->pMeshKey.pObject->pKeySet, &scalingMtx, 0.0, 0, meshGenFlags);
+      Scaleform::Render::Mesh::Mesh(v16, ren, v6->pMeshKey.pObject->pKeySet, &viewMatrix, 0.0, 0, meshGenFlags);
       v18 = v17;
     }
     else

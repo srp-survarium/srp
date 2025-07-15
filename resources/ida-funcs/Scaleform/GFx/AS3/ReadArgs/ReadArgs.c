@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::ReadArgs::ReadArgs(
         unsigned int arg_count)
 {
   const Scaleform::MemoryHeap *MHeap; // edx
-  unsigned __int8 **p_CallArgs; // edi
+  int *p_CallArgs; // edi
   Scaleform::GFx::AS3::ValueStack *opstack; // [esp+Ch] [ebp+4h]
 
   this->VMRef = vm;
@@ -27,7 +27,7 @@ void __thiscall Scaleform::GFx::AS3::ReadArgs::ReadArgs(
   this->FixedArr[7].Flags = 0;
   this->FixedArr[7].Bonus.pWeakProxy = 0;
   MHeap = vm->MHeap;
-  p_CallArgs = (unsigned __int8 **)&this->CallArgs;
+  p_CallArgs = (int *)&this->CallArgs;
   this->CallArgs.Data.Data = 0;
   this->CallArgs.Data.Size = 0;
   this->CallArgs.Data.Policy.Capacity = 0;
@@ -40,13 +40,13 @@ void __thiscall Scaleform::GFx::AS3::ReadArgs::ReadArgs(
       Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::Resize(
         &this->CallArgs.Data,
         arg_count);
-      memcpy(*p_CallArgs, (unsigned __int8 *)&opstack->pCurrent[-(unsigned __int16)(arg_count - 1)], 16 * arg_count);
+      memcpy(*p_CallArgs, (const __m128i *)&opstack->pCurrent[-(unsigned __int16)(arg_count - 1)], 16 * arg_count);
     }
     else
     {
       memcpy(
-        (unsigned __int8 *)this->FixedArr,
-        (unsigned __int8 *)&this->OpStack->pCurrent[-(unsigned __int16)(arg_count - 1)],
+        (int)this->FixedArr,
+        (const __m128i *)&this->OpStack->pCurrent[-(unsigned __int16)(arg_count - 1)],
         16 * arg_count);
     }
     opstack->pCurrent -= arg_count;

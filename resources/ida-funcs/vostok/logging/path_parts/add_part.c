@@ -1,9 +1,9 @@
-void __thiscall vostok::logging::path_parts::add_part(vostok::logging::path_parts *this, const char *part)
+void __userpurge vostok::logging::path_parts::add_part(
+        vostok::logging::path_parts *this@<ecx>,
+        _DWORD *a2@<eax>,
+        char *part)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( this->m_parts.m_begin == this->m_parts.m_end )
-    this->m_current_element = part;
-  vostok::buffer_vector<enum vostok::logging::format_specifier_enum>::push_back(
-    (vostok::buffer_vector<void const *> *)this,
-    (const void **)&part);
+  if ( *a2 == a2[1] )
+    a2[7] = part;
+  vostok::buffer_vector<char const *>::push_back(&this->m_parts, (int)a2, (const char **)&part);
 }

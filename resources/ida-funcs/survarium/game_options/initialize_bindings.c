@@ -1,152 +1,63 @@
-void __thiscall survarium::game_options::initialize_bindings(
-        survarium::game_options *this,
-        survarium::game_options *thisa)
+void __thiscall survarium::game_options::initialize_bindings(survarium::game_options *this, int is_default)
 {
-  survarium::flash_movie_resource *m_object; // ecx
-  survarium::action_type *p_type; // esi
-  survarium::flash_movie_resource *v4; // ecx
-  int v5; // edi
-  int v6; // edi
-  survarium::action_type v7; // edi
-  int v8; // ecx
-  survarium::game_options *v9; // ecx
-  survarium::flash_value keybinds_value_prop; // [esp+80h] [ebp-464h] BYREF
-  survarium::flash_value keybinds_value; // [esp+98h] [ebp-44Ch] BYREF
-  int v12; // [esp+B0h] [ebp-434h]
-  survarium::flash_value keybinds_array; // [esp+B4h] [ebp-430h] BYREF
-  int v14; // [esp+CCh] [ebp-418h] BYREF
-  int v15; // [esp+D0h] [ebp-414h]
-  wchar_t *v16; // [esp+D4h] [ebp-410h]
-  wchar_t label_txt[512]; // [esp+E4h] [ebp-400h] BYREF
+  int v2; // edi
+  int v3; // eax
+  survarium::flash_movie *v4; // ecx
+  unsigned int *p_type; // ebx
+  int v6; // eax
+  survarium::flash_value *v7; // ecx
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  survarium::text_translator *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::game_options *v15; // ecx
+  char v16[516]; // [esp+10h] [ebp-254h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+214h] [ebp-50h] BYREF
+  Scaleform::GFx::Value v18; // [esp+22Ch] [ebp-38h] BYREF
+  survarium::flash_value value; // [esp+244h] [ebp-20h] BYREF
+  int v20; // [esp+25Ch] [ebp-8h]
 
-  m_object = thisa->m_options_ui.m_object;
-  *(_DWORD *)keybinds_array.body = 0;
-  *(_DWORD *)&keybinds_array.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&keybinds_array);
-  *(_DWORD *)keybinds_value_prop.body = 0;
-  *(_DWORD *)&keybinds_value_prop.body[4] = 0;
-  p_type = &survarium::key_bind_descriptions[0].type;
-  v12 = 33;
-  do
+  v2 = is_default;
+  v3 = *(_DWORD *)(is_default + 12);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v3 + 264) + 4), &pvalue);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  p_type = (unsigned int *)&survarium::key_bind_descriptions[0].type;
+  v20 = 41;
+  while ( 1 )
   {
-    v4 = thisa->m_options_ui.m_object;
-    *(_DWORD *)keybinds_value.body = 0;
-    *(_DWORD *)&keybinds_value.body[4] = 0;
-    Scaleform::GFx::Movie::CreateObject(v4->movie->m_movie, (Scaleform::GFx::Value *)&keybinds_value, 0, 0, 0);
-    v5 = *((_DWORD *)p_type - 3);
-    if ( (keybinds_value_prop.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value_prop.body + 8))(
-        *(_DWORD *)keybinds_value_prop.body,
-        &keybinds_value_prop,
-        *(_DWORD *)&keybinds_value_prop.body[8]);
-      *(_DWORD *)keybinds_value_prop.body = 0;
-    }
-    *(_DWORD *)&keybinds_value_prop.body[4] = 4;
-    *(_DWORD *)&keybinds_value_prop.body[8] = v5;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)keybinds_value.body
-                                                                                         + 20))(
-      *(_DWORD *)keybinds_value.body,
-      *(_DWORD *)&keybinds_value.body[8],
-      "action_id",
-      &keybinds_value_prop,
-      (keybinds_value.body[4] & 0x8F) == 10);
-    v6 = *((_DWORD *)p_type - 1);
-    if ( (keybinds_value_prop.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value_prop.body + 8))(
-        *(_DWORD *)keybinds_value_prop.body,
-        &keybinds_value_prop,
-        *(_DWORD *)&keybinds_value_prop.body[8]);
-      *(_DWORD *)keybinds_value_prop.body = 0;
-    }
-    *(_DWORD *)&keybinds_value_prop.body[4] = 4;
-    *(_DWORD *)&keybinds_value_prop.body[8] = v6;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)keybinds_value.body
-                                                                                         + 20))(
-      *(_DWORD *)keybinds_value.body,
-      *(_DWORD *)&keybinds_value.body[8],
-      "group_id",
-      &keybinds_value_prop,
-      (keybinds_value.body[4] & 0x8F) == 10);
-    v7 = *p_type;
-    if ( (keybinds_value_prop.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value_prop.body + 8))(
-        *(_DWORD *)keybinds_value_prop.body,
-        &keybinds_value_prop,
-        *(_DWORD *)&keybinds_value_prop.body[8]);
-      *(_DWORD *)keybinds_value_prop.body = 0;
-    }
-    *(_DWORD *)&keybinds_value_prop.body[4] = 4;
-    *(_DWORD *)&keybinds_value_prop.body[8] = v7;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)keybinds_value.body
-                                                                                         + 20))(
-      *(_DWORD *)keybinds_value.body,
-      *(_DWORD *)&keybinds_value.body[8],
-      "type",
-      &keybinds_value_prop,
-      (keybinds_value.body[4] & 0x8F) == 10);
-    survarium::text_translator::translate_text(
-      &thisa->m_game->m_text_translator,
-      *((const char **)p_type - 2),
-      label_txt);
-    v8 = 0;
-    v14 = 0;
-    v15 = 7;
-    v16 = label_txt;
-    if ( (keybinds_value_prop.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value_prop.body + 8))(
-        *(_DWORD *)keybinds_value_prop.body,
-        &keybinds_value_prop,
-        *(_DWORD *)&keybinds_value_prop.body[8]);
-      v8 = v14;
-      *(_DWORD *)keybinds_value_prop.body = 0;
-    }
-    *(_DWORD *)&keybinds_value_prop.body[4] = 7;
-    *(_DWORD *)&keybinds_value_prop.body[8] = label_txt;
-    if ( (v15 & 0x40) != 0 )
-      (*(void (__thiscall **)(int, int *, wchar_t *))(*(_DWORD *)v8 + 8))(v8, &v14, v16);
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)keybinds_value.body
-                                                                                         + 20))(
-      *(_DWORD *)keybinds_value.body,
-      *(_DWORD *)&keybinds_value.body[8],
-      "label",
-      &keybinds_value_prop,
-      (keybinds_value.body[4] & 0x8F) == 10);
-    (*(void (__thiscall **)(_DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)keybinds_array.body + 60))(
-      *(_DWORD *)keybinds_array.body,
-      *(_DWORD *)&keybinds_array.body[8],
-      &keybinds_value);
-    if ( (keybinds_value.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value.body + 8))(
-        *(_DWORD *)keybinds_value.body,
-        &keybinds_value,
-        *(_DWORD *)&keybinds_value.body[8]);
+    v6 = *(_DWORD *)(v2 + 12);
+    v18.pObjectInterface = 0;
+    v18.Type = VT_Undefined;
+    survarium::flash_movie::CreateObject(v4, *(survarium::flash_value **)(v6 + 264), &v18);
+    survarium::flash_value::SetUInt(v7, (int)&value, *(p_type - 3));
+    survarium::flash_value::SetMember(v8, &v18, "action_id", &value);
+    survarium::flash_value::SetUInt(v9, (int)&value, *(p_type - 1));
+    survarium::flash_value::SetMember(v10, &v18, "group_id", &value);
+    survarium::flash_value::SetUInt(v11, (int)&value, *p_type);
+    survarium::flash_value::SetMember(v12, &v18, "type", &value);
+    survarium::text_translator::translate_text(v13, *(_DWORD *)(v2 + 52) + 13944, (char *)*(p_type - 2), v16);
+    survarium::flash_value::SetString(&value, v16);
+    survarium::flash_value::SetMember(v14, &v18, "label", &value);
+    pvalue.pObjectInterface->PushBack(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, &v18);
+    Scaleform::GFx::Value::~Value(&v18);
     p_type += 26;
-    --v12;
+    if ( !--v20 )
+      break;
+    v2 = is_default;
   }
-  while ( v12 );
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_options_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(is_default + 12) + 264) + 4),
     "root.set_keybindings",
     0,
-    (const Scaleform::GFx::Value *)&keybinds_array,
+    &pvalue,
     1u);
-  survarium::game_options::reset_bindings(v9, thisa, 1);
-  if ( (keybinds_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_value_prop.body + 8))(
-      *(_DWORD *)keybinds_value_prop.body,
-      &keybinds_value_prop,
-      *(_DWORD *)&keybinds_value_prop.body[8]);
-    *(_DWORD *)keybinds_value_prop.body = 0;
-  }
-  *(_DWORD *)&keybinds_value_prop.body[4] = 0;
-  if ( (keybinds_array.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)keybinds_array.body + 8))(
-      *(_DWORD *)keybinds_array.body,
-      &keybinds_array,
-      *(_DWORD *)&keybinds_array.body[8]);
+  survarium::game_options::reset_bindings(v15, is_default, 1);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

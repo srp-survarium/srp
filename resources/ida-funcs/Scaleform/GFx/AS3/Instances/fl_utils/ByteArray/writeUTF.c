@@ -4,21 +4,23 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeUTF(
         const Scaleform::GFx::ASString *value)
 {
   unsigned int Size; // eax
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  unsigned __int16 v8; // di
-  unsigned __int8 *pData; // ebx
+  unsigned __int16 v7; // di
+  unsigned int Position; // ecx
+  const __m128i *pData; // ebx
   unsigned int v10; // eax
-  Scaleform::GFx::AS3::VM::Error v11; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v11; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v12; // [esp+Ch] [ebp-8h] BYREF
 
   Size = value->pNode->Size;
   if ( Size <= 0xFFFF )
   {
-    v8 = value->pNode->Size;
+    v7 = value->pNode->Size;
     Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(this, Size);
-    pData = (unsigned __int8 *)value->pNode->pData;
-    v10 = v8 + this->Position;
+    Position = this->Position;
+    pData = (const __m128i *)value->pNode->pData;
+    v10 = Position + v7;
     if ( v10 < this->Data.Data.Size )
     {
       if ( v10 >= this->Length )
@@ -26,18 +28,19 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeUTF(
     }
     else
     {
-      Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Resize(this, v8 + this->Position);
+      Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Resize(this, Position + v7);
     }
-    memcpy(&this->Data.Data.Data[this->Position], pData, v8);
-    this->Position += v8;
+    memcpy((int)&this->Data.Data.Data[this->Position], pData, v7);
+    this->Position += v7;
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v11, eNotImplementedError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(pVM, v6);
-    pNode = v11.Message.pNode;
-    --v11.Message.pNode->RefCount;
+    v11.pStr = "ByteArray::writeUTF";
+    v11.Size = 19;
+    Scaleform::GFx::AS3::VM::Error::Error(&v12, eNotImplementedError, this->pTraits.pObject->pVM, v11);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(this->pTraits.pObject->pVM, v5);
+    pNode = v12.Message.pNode;
+    --v12.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

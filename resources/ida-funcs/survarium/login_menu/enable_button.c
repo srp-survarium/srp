@@ -1,20 +1,14 @@
-void __usercall survarium::login_menu::enable_button(survarium::login_menu *this@<edx>, char value@<al>)
+void __thiscall survarium::login_menu::enable_button(survarium::login_menu *this, int value, bool valuea)
 {
-  survarium::flash_movie_resource *m_object; // eax
-  survarium::flash_value sign_in_button_enable; // [esp+0h] [ebp-18h] BYREF
+  Scaleform::GFx::Value v3; // [esp+8h] [ebp-18h] BYREF
 
-  sign_in_button_enable.body[8] = value;
-  m_object = this->m_login_menu_ui.m_object;
-  *(_DWORD *)sign_in_button_enable.body = 0;
-  *(_DWORD *)&sign_in_button_enable.body[4] = 2;
+  v3.pObjectInterface = 0;
+  v3.Type = VT_Undefined;
+  survarium::flash_value::SetBoolean((survarium::flash_value *)this, (int)&v3, valuea);
   Scaleform::GFx::Movie::SetVariable(
-    m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(value + 252) + 264) + 4),
     "root.sign_in_btn.enabled",
-    (const Scaleform::GFx::Value *)&sign_in_button_enable,
+    &v3,
     SV_Sticky);
-  if ( (sign_in_button_enable.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)sign_in_button_enable.body + 8))(
-      *(_DWORD *)sign_in_button_enable.body,
-      &sign_in_button_enable,
-      *(_DWORD *)&sign_in_button_enable.body[8]);
+  Scaleform::GFx::Value::~Value(&v3);
 }

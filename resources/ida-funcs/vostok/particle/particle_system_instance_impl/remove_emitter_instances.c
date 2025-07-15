@@ -1,25 +1,44 @@
 void __thiscall vostok::particle::particle_system_instance_impl::remove_emitter_instances(
-        vostok::particle::particle_system_instance_impl *this)
+        vostok::particle::particle_system_instance_impl *this,
+        int a2)
 {
-  vostok::particle::particle_emitter_instance *v1; // ecx
-  vostok::memory::pthreads3_allocator *v2; // eax
-  vostok::particle::particle_emitter_instance *to_del; // [esp+18h] [ebp-Ch] BYREF
-  vostok::particle::particle_emitter_instance *instance; // [esp+1Ch] [ebp-8h]
-  unsigned int i; // [esp+20h] [ebp-4h]
+  int v2; // eax
+  _DWORD *v3; // edi
+  _DWORD *i; // esi
+  int v5; // ebx
+  void **v6; // [esp-10h] [ebp-1Ch]
+  _BYTE *v7; // [esp+0h] [ebp-Ch]
+  void (__thiscall ***inptr)(void *, _DWORD); // [esp+4h] [ebp-8h]
+  unsigned int v9; // [esp+8h] [ebp-4h]
 
-  for ( i = 0; i < this->m_num_lods; ++i )
+  v2 = a2;
+  v9 = 0;
+  if ( *(_DWORD *)(a2 + 740) )
   {
-    instance = this->m_lods[i].m_emitter_instance_list.m_first;
-    while ( instance )
+    v3 = (_DWORD *)(a2 + 280);
+    do
     {
-      to_del = instance;
-      v1 = instance;
-      instance = instance->m_next;
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v1);
-      vostok::memory::detail::delete_helper_impl<vostok::memory::pthreads3_allocator,vostok::particle::particle_system_instance,vostok::memory::detail::call_destructor_predicate>(
-        v2,
-        (vostok::sound::sound_order **)&to_del);
+      for ( i = (_DWORD *)*(v3 - 1); i; v2 = a2 )
+      {
+        v5 = *(_DWORD *)(v2 + 720);
+        inptr = (void (__thiscall ***)(void *, _DWORD))i;
+        v6 = (void **)i;
+        i = (_DWORD *)i[123];
+        v7 = __RTCastToVoid(v6);
+        (**inptr)(inptr, 0);
+        (*(void (__thiscall **)(int, _BYTE *, const char *, const char *, int))(*(_DWORD *)v5 + 24))(
+          v5,
+          v7,
+          "vostok::particle::particle_system_instance_impl::remove_emitter_instances",
+          ".\\particle_system_instance_impl.cpp",
+          319);
+      }
+      ++v9;
+      *(v3 - 1) = 0;
+      *v3 = 0;
+      *(v3 - 3) = 0;
+      v3 += 8;
     }
-    vostok::intrusive_list<vostok::particle::particle_emitter_instance,vostok::particle::particle_emitter_instance *,224,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::clear(&this->m_lods[i].m_emitter_instance_list);
+    while ( v9 < *(_DWORD *)(v2 + 740) );
   }
 }

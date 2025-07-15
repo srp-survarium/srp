@@ -17,12 +17,12 @@ void __cdecl SSL_set_bio(ssl_st *s, bio_st *rbio, bio_st *wbio)
   }
   v5 = s->rbio;
   if ( v5 && v5 != rbio )
-    BIO_free_all(s->rbio);
+    BIO_free_all((int)rbio, s->rbio);
   v6 = s->wbio;
   if ( v6 )
   {
     if ( v6 != wbio && s->rbio != v6 )
-      BIO_free_all(v6);
+      BIO_free_all((int)rbio, v6);
     s->wbio = wbio;
     s->rbio = rbio;
   }

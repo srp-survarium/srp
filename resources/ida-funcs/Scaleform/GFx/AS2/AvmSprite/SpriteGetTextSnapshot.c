@@ -40,7 +40,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteGetTextSnapshot(const Scalefo
     if ( v7 )
     {
       v8 = *(_DWORD *)(v7 + 12);
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+      if ( (v8 & 0x3FFFFFF) != 0 )
       {
         *(_DWORD *)(v7 + 12) = v8 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)v7);

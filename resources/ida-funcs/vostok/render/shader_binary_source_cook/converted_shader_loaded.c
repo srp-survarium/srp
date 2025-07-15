@@ -3,95 +3,88 @@ void __thiscall vostok::render::shader_binary_source_cook::converted_shader_load
         vostok::render::conveted_shader_loaded_data *data,
         vostok::resources::queries_result *result)
 {
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *p_m_managed_resource; // esi
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *p_shader_source; // eax
-  vostok::resources::managed_resource *m_object; // ecx
-  vostok::resources::queries_result *v6; // edx
-  int v7; // eax
-  unsigned int v8; // ecx
-  vostok::render::enum_shader_type shader_type; // ecx
-  vostok::render::binary_shader_source *new_resource; // eax
-  vostok::resources::query_result_for_cook *v11; // ecx
-  vostok::render::binary_shader_cook_data *cook_data; // eax
-  vostok::render::grass_render_model *v13; // ecx
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void *v15; // esi
-  vostok::configs::binary_config *v16; // [esp-10h] [ebp-34h]
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v17; // [esp-Ch] [ebp-30h] BYREF
-  const vostok::resources::memory_type *v18; // [esp-8h] [ebp-2Ch]
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v19; // [esp-4h] [ebp-28h] BYREF
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v20; // [esp+14h] [ebp-10h] BYREF
-  vostok::resources::pinned_ptr_const<unsigned char> ptr_managed; // [esp+18h] [ebp-Ch] BYREF
+  vostok::resources::query_result *m_queries; // esi
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *managed_resource; // eax
+  vostok::resources::managed_resource *new_resource; // ecx
+  vostok::resources::pinned_ptr_mutable<unsigned char> *v6; // ecx
+  int v7; // ecx
+  int v8; // eax
+  vostok::render::binary_shader_cook_data *cook_data; // esi
+  vostok::render::shader_configuration *p_configuration; // edi
+  survarium::pure_game_effect_emitter_base *v11; // ecx
+  vostok::render::enum_shader_type shader_type; // eax
+  vostok::resources::query_result_for_cook *v13; // ecx
+  vostok::resources::query_result_for_cook *v14; // ecx
+  vostok::memory::doug_lea_allocator *v15; // ecx
+  vostok::resources::pinned_ptr_const<unsigned char> *v16; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v17; // [esp-Ch] [ebp-24h] BYREF
+  const vostok::resources::memory_type *v18; // [esp-8h] [ebp-20h]
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v19[4]; // [esp-4h] [ebp-1Ch] BYREF
+  _BYTE v20[4]; // [esp+Ch] [ebp-Ch] BYREF
+  _DWORD *v21; // [esp+10h] [ebp-8h]
+  int v22; // [esp+14h] [ebp-4h]
 
-  p_m_managed_resource = &result->m_queries[0].m_managed_resource;
-  v20.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    &v20,
-    &result->m_queries[0].m_managed_resource);
-  p_shader_source = &data->new_resource->shader_source;
-  m_object = 0;
-  if ( v20.m_object )
-  {
-    m_object = v20.m_object;
-    _InterlockedExchangeAdd(&v20.m_object->m_reference_count, 1u);
-  }
-  v6 = (vostok::resources::queries_result *)p_shader_source->m_object;
-  p_shader_source->m_object = m_object;
-  result = v6;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result);
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v20);
-  if ( !data->new_resource->shader_source.m_object )
-    vostok::debug::debug_message_box("data->new_resource->shader_source == 0");
-  result = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result,
-    p_m_managed_resource);
-  v19.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    &v19,
-    (const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result);
-  vostok::resources::pinned_ptr_base<unsigned char const>::pinned_ptr_base<unsigned char const>(
-    &ptr_managed,
-    (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>)v19.m_object);
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result);
-  v7 = 264 * *(_DWORD *)ptr_managed.m_data + 4;
-  v8 = ptr_managed.m_size - v7;
-  data->new_resource->m_shader_byte_code = (void *)&ptr_managed.m_data[v7];
-  data->new_resource->m_shader_byte_code_size = v8;
-  data->new_resource->configuration = data->cook_data->configuration;
-  vostok::fs_new::virtual_path_string::operator=(&data->new_resource->shader_name, &data->cook_data->shader_name);
-  shader_type = data->cook_data->shader_type;
-  new_resource = data->new_resource;
-  v19.m_object = (vostok::resources::managed_resource *)584;
-  v18 = &vostok::resources::nocache_memory;
-  new_resource->shader_type = shader_type;
-  v16 = (vostok::configs::binary_config *)data->new_resource;
-  v17.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &v17,
-    v16);
-  vostok::resources::query_result_for_cook::set_unmanaged_resource(
-    data->in_out_query,
-    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v17.m_object,
-    v18,
-    (unsigned int)v19.m_object);
-  vostok::resources::query_result_for_cook::finish_query_impl(
-    v11,
-    result_success,
-    assert_on_fail_true,
-    error_type_unset);
+  m_queries = result->m_queries;
+  managed_resource = vostok::resources::query_result_for_user::get_managed_resource(
+                       &result->m_queries[0],
+                       (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result);
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::operator=(
+    managed_resource,
+    &data->new_resource->shader_source);
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&result);
+  new_resource = (vostok::resources::managed_resource *)data->new_resource;
+  if ( !new_resource[1].m_children_resources.m_lock )
+    MessageBoxA(0, "data->new_resource->shader_source == 0", "Debug Break", 0);
+  v19[0].m_object = new_resource;
+  vostok::resources::query_result_for_user::get_managed_resource(m_queries, v19);
+  vostok::resources::pinned_ptr_const<unsigned char>::pinned_ptr_const<unsigned char>(
+    v6,
+    (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>)v20,
+    v19[0]);
+  v7 = v22;
+  v8 = 264 * *v21 + 4;
+  data->new_resource->m_shader_byte_code = (char *)v21 + v8;
+  data->new_resource->m_shader_byte_code_size = v7 - v8;
   cook_data = data->cook_data;
-  v13 = vostok::render::g_allocator.m_object;
-  if ( cook_data )
-  {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, cook_data);
-    data->cook_data = 0;
-    v13 = vostok::render::g_allocator.m_object;
-  }
-  v15 = (void *)HIDWORD(v13->m_reconstruction_info_actuality_tick);
-  BYTE2(v13->m_children_resources.m_lock) = 0;
-  vostok_mspace_free(v15, data);
-  vostok::resources::pinned_ptr_base<unsigned char const>::~pinned_ptr_base<unsigned char const>((vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *)&ptr_managed);
+  p_configuration = &data->new_resource->configuration;
+  *(_DWORD *)&p_configuration->0 = cook_data->configuration.0;
+  cook_data = (vostok::render::binary_shader_cook_data *)((char *)cook_data + 4);
+  p_configuration = (vostok::render::shader_configuration *)((char *)p_configuration + 4);
+  *(_DWORD *)&p_configuration->0 = cook_data->configuration.0;
+  cook_data = (vostok::render::binary_shader_cook_data *)((char *)cook_data + 4);
+  p_configuration = (vostok::render::shader_configuration *)((char *)p_configuration + 4);
+  *(_DWORD *)&p_configuration->0 = cook_data->configuration.0;
+  HIDWORD(p_configuration->configuration[0]) = HIDWORD(cook_data->configuration.configuration[0]);
+  vostok::shared_string::operator=(&data->new_resource->shader_name, &data->cook_data->shader_name);
+  v11 = (survarium::pure_game_effect_emitter_base *)data->new_resource;
+  shader_type = data->cook_data->shader_type;
+  v19[0].m_object = (vostok::resources::managed_resource *)312;
+  v18 = &vostok::resources::nocache_memory;
+  v17.m_object = v11;
+  v11[1].m_children_resources.m_lock = shader_type;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    &v17,
+    (survarium::pure_game_effect_emitter_base *)data->new_resource);
+  vostok::resources::query_result_for_cook::set_unmanaged_resource(
+    v13,
+    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)data->in_out_query,
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)v17.m_object,
+    v18,
+    (unsigned int)v19[0].m_object);
+  vostok::resources::query_result_for_cook::finish_query_impl(
+    v14,
+    (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)data->in_out_query,
+    result_out_of_memory,
+    assert_on_fail_true,
+    result_fail);
+  vostok::memory::doug_lea_allocator::free_impl(
+    v15,
+    (int)vostok::render::g_allocator,
+    (char *)data,
+    (const char *const)v19[1].m_object,
+    (const char *const)v19[2].m_object,
+    (const unsigned int)v19[3].m_object);
+  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>::~pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>(
+    v16,
+    (int)v20);
 }

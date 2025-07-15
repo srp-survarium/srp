@@ -7,7 +7,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringManager::CreateStri
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this,
-                 (char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(str->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   ++StringNode->RefCount;
   result->pNode = StringNode;

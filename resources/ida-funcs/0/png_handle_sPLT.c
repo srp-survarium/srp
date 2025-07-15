@@ -114,7 +114,7 @@ LABEL_6:
               }
               else
               {
-                return png_warning(a1, "sPLT chunk requires too much memory");
+                return png_warning(a1, aSpltChunkRequi);
               }
             }
             else

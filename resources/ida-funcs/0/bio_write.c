@@ -1,4 +1,4 @@
-int __cdecl BIO_write(bio_st *b, const char *in, int inl)
+int __usercall BIO_write@<eax>(int a1@<ebx>, bio_st *b, const char *in, int inl)
 {
   int result; // eax
   int (__cdecl *callback)(bio_st *, int, const char *, int, int, int); // edi
@@ -20,14 +20,14 @@ int __cdecl BIO_write(bio_st *b, const char *in, int inl)
       }
       else
       {
-        ERR_put_error(0x20u, 113, 120, ".\\crypto\\bio\\bio_lib.c", 243);
+        ERR_put_error(inl, 0x20u, 113, 120, ".\\crypto\\bio\\bio_lib.c", 243);
         return -2;
       }
     }
   }
   else
   {
-    ERR_put_error(0x20u, 113, 121, ".\\crypto\\bio\\bio_lib.c", 233);
+    ERR_put_error(a1, 0x20u, 113, 121, ".\\crypto\\bio\\bio_lib.c", 233);
     return -2;
   }
   return result;

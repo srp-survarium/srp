@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
   Scaleform::Render::TextMeshLayer *v9; // eax
   unsigned int v10; // esi
   Scaleform::Render::TextMeshProvider *v11; // [esp+10h] [ebp-2Ch]
-  Scaleform::Render::TextMeshLayer layer; // [esp+18h] [ebp-24h] BYREF
+  Scaleform::Render::TextMeshLayer v12; // [esp+18h] [ebp-24h] BYREF
   unsigned __int16 storagea; // [esp+40h] [ebp+4h]
 
   v4 = start;
@@ -35,9 +35,9 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
     }
     LayerType = storagea;
   }
-  memset(&layer.pMesh, 0, 12);
-  layer.M.pHandle = &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle;
-  layer.pFill.pObject = 0;
+  memset(&v12.pMesh, 0, 12);
+  v12.M.pHandle = &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle;
+  v12.pFill.pObject = 0;
   if ( LayerType == 8 || LayerType == 12 )
   {
     if ( v4 < end )
@@ -69,7 +69,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
         this = v11;
       }
     }
-    Scaleform::Render::TextMeshLayer::~TextMeshLayer(&layer);
+    Scaleform::Render::TextMeshLayer::~TextMeshLayer(&v12);
   }
   else
   {
@@ -79,7 +79,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
       (Scaleform::Render::TextLayerType)LayerType,
       v4,
       end - v4);
-    Scaleform::Render::TextMeshLayer::~TextMeshLayer(&layer);
+    Scaleform::Render::TextMeshLayer::~TextMeshLayer(&v12);
   }
 }
 
@@ -95,7 +95,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
   unsigned int v7; // ebx
   unsigned int v8; // edi
   Scaleform::Render::TmpTextMeshLayer *v9; // eax
-  Scaleform::Render::PrimitiveFill *layer_12; // [esp+1Ch] [ebp-4h]
+  Scaleform::Render::PrimitiveFill *pFill; // [esp+1Ch] [ebp-4h]
 
   do
   {
@@ -104,7 +104,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
     if ( count >= 0x3FFE )
       v7 = 16382;
     v8 = storage->Layers.Size >> 4;
-    layer_12 = storage->Entries.Pages[start >> 6][start & 0x3F].pFill;
+    pFill = storage->Entries.Pages[start >> 6][start & 0x3F].pFill;
     if ( v8 >= storage->Layers.NumPages )
     {
       Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::PathType,4,4>::allocPage(&storage->Layers, v8);
@@ -114,7 +114,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::addLayer(
     v9->Type = type;
     v9->Start = start;
     v9->Count = v7;
-    v9->pFill = layer_12;
+    v9->pFill = pFill;
     ++storage->Layers.Size;
     start += v7;
     count = v6 - v7;

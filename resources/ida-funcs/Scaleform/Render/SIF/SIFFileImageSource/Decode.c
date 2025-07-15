@@ -40,7 +40,7 @@ bool __thiscall Scaleform::Render::SIF::SIFFileImageSource::Decode(
   Scaleform::File *v38; // ecx
   int (__thiscall *v39)(Scaleform::File *, unsigned __int8 *, int); // eax
   Scaleform::Render::Palette *v40; // esi
-  int i; // [esp+58h] [ebp-8h] BYREF
+  int v41; // [esp+58h] [ebp-8h] BYREF
   int v42; // [esp+5Ch] [ebp-4h] BYREF
 
   result = Scaleform::Render::FileImageSource::seekFileToDecodeStart(this);
@@ -51,15 +51,15 @@ bool __thiscall Scaleform::Render::SIF::SIFFileImageSource::Decode(
     pObject = this->pFile.pObject;
     Read = pObject->Read;
     v9 = 0;
-    i = 0;
-    Read(pObject, (unsigned __int8 *)&i, 4);
+    v41 = 0;
+    Read(pObject, (unsigned __int8 *)&v41, 4);
     v10 = this->pFile.pObject;
     v11 = v10->Read;
     pdest = 0;
     v11(v10, (unsigned __int8 *)&pdest, 4);
     pPlanes = v6->pPlanes;
     DataSize = (Scaleform::Render::ImageData *)pPlanes->DataSize;
-    if ( DataSize != pdest || pPlanes->Pitch != i )
+    if ( DataSize != pdest || pPlanes->Pitch != v41 )
       return 0;
     v14 = 0;
     if ( DataSize )
@@ -74,16 +74,16 @@ bool __thiscall Scaleform::Render::SIF::SIFFileImageSource::Decode(
       }
       while ( v14 < v6->pPlanes->DataSize );
     }
-    i = 1;
+    v41 = 1;
     if ( v6->RawPlaneCount <= 1u )
     {
 LABEL_12:
       v29 = this->pFile.pObject;
       v30 = v29->Read;
-      i = 0;
-      v30(v29, (unsigned __int8 *)&i, 2);
-      v31 = i;
-      if ( (_WORD)i )
+      v41 = 0;
+      v30(v29, (unsigned __int8 *)&v41, 2);
+      v31 = v41;
+      if ( (_WORD)v41 )
       {
         v32 = this->pFile.pObject;
         v33 = v32->Read;
@@ -99,7 +99,7 @@ LABEL_12:
         if ( v36 && InterlockedExchangeAdd((volatile LONG *)v36, -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pdest);
         v6->pPalette.pObject = v35;
-        if ( (_WORD)i )
+        if ( (_WORD)v41 )
         {
           v37 = 8;
           do
@@ -146,7 +146,7 @@ LABEL_12:
       v25 = v6->pPlanes;
       if ( (Scaleform::Render::ImageData *)v25->DataSize != pdest || v25->Pitch != v42 )
         return 0;
-      v26 = (unsigned __int16)i;
+      v26 = (unsigned __int16)v41;
       if ( v25[v26].DataSize )
       {
         do
@@ -160,7 +160,7 @@ LABEL_12:
         while ( v9 < v6->pPlanes[v26].DataSize );
       }
       v9 = 0;
-      if ( (unsigned __int16)++i >= v6->RawPlaneCount )
+      if ( (unsigned __int16)++v41 >= v6->RawPlaneCount )
         goto LABEL_12;
     }
   }

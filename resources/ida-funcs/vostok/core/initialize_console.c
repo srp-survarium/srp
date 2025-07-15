@@ -1,8 +1,8 @@
 char __cdecl vostok::core::initialize_console()
 {
   char v0; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v2; // ecx
-  void (__cdecl *v3)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v2; // ecx
+  bool has_passed_filters; // al
   HANDLE StdHandle; // eax
   int v5; // eax
   _iobuf *v6; // eax
@@ -12,81 +12,72 @@ char __cdecl vostok::core::initialize_console()
   HANDLE v10; // eax
   int v11; // eax
   _iobuf *v12; // eax
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v13; // [esp-4h] [ebp-3Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+18h] [ebp-20h] BYREF
 
   v0 = 0;
-  if ( s_tried_to_initialize_console )
-    return s_console_initialized;
-  s_tried_to_initialize_console = 1;
+  if ( BYTE2(s_command_line_keys_creation.m_mutex[1]) )
+    return BYTE1(s_command_line_keys_creation.m_mutex[1]);
+  BYTE2(s_command_line_keys_creation.m_mutex[1]) = 1;
   if ( GetConsoleWindow() )
-    goto LABEL_22;
+    goto LABEL_17;
   if ( AttachConsole(0xFFFFFFFF) || AllocConsole() )
   {
     StdHandle = GetStdHandle(0xFFFFFFF6);
-    v5 = _open_osfhandle(StdHandle, 0x4000);
+    v5 = _open_osfhandle((int)StdHandle, 0x4000);
     if ( v5 != -1 )
     {
-      log_callback = *(boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)_fdopen(v5, "rt");
-      __iob_func()[2] = (_iobuf)log_callback;
+      qmemcpy(&log_callback, _fdopen(v5, "rt"), sizeof(log_callback));
+      qmemcpy(&__iob_func()[2], &log_callback, sizeof(_iobuf));
       v6 = __iob_func();
       setvbuf(v6, 0, 4, 0);
     }
     v7 = GetStdHandle(0xFFFFFFF5);
-    v8 = _open_osfhandle(v7, 0x4000);
-    log_callback = *(boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)_fdopen(v8, "wt");
-    __iob_func()[1] = (_iobuf)log_callback;
+    v8 = _open_osfhandle((int)v7, 0x4000);
+    qmemcpy(&log_callback, _fdopen(v8, "wt"), sizeof(log_callback));
+    qmemcpy(&__iob_func()[1], &log_callback, sizeof(_iobuf));
     v9 = __iob_func();
     setvbuf(v9 + 1, 0, 4, 0);
     v10 = GetStdHandle(0xFFFFFFF4);
-    v11 = _open_osfhandle(v10, 0x4000);
+    v11 = _open_osfhandle((int)v10, 0x4000);
     if ( v11 != -1 )
     {
-      log_callback = *(boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)_fdopen(v11, "wt");
-      __iob_func()[2] = (_iobuf)log_callback;
+      qmemcpy(&log_callback, _fdopen(v11, "wt"), sizeof(log_callback));
+      qmemcpy(&__iob_func()[2], &log_callback, sizeof(_iobuf));
       v12 = __iob_func();
       setvbuf(v12 + 2, 0, 4, 0);
     }
     stlp_std::ios_base::sync_with_stdio(1);
-LABEL_22:
-    s_console_initialized = 1;
+LABEL_17:
+    BYTE1(s_command_line_keys_creation.m_mutex[1]) = 1;
     return 1;
   }
   if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "core:", warning) )
+    || (has_passed_filters = vostok::logging::has_passed_filters(
+                               (vostok::logging::filter_tree *)&stru_802D94,
+                               (const char *)3),
+        v2 = v13,
+        has_passed_filters) )
   {
-    v3 = vostok::core::g_log_callback;
-    log_callback.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &log_callback.functor,
-        &log_callback.functor,
-        destroy_functor_tag);
-    if ( v3 )
-    {
-      log_callback.functor.obj_ptr = v3;
-      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                   + 1);
-    }
-    else
-    {
-      log_callback.vtable = 0;
-    }
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      v2,
+      &log_callback);
     v0 = 1;
     vostok::logging::append(
       &log_callback,
       (void *const)vostok::core::g_log_flags,
       &vostok::core::g_log_format,
       ".\\logging_extensions.cpp",
-      0x12Du,
+      0x152u,
       "bool __cdecl vostok::core::initialize_console(void)",
-      "core:",
+      (char *)&stru_802D94,
       warning,
       "cannot neither attach parent console, nor create new");
   }
   if ( (v0 & 1) != 0 )
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      v2,
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v2,
       (int *)&log_callback);
-  s_console_initialized = 0;
+  BYTE1(s_command_line_keys_creation.m_mutex[1]) = 0;
   return 0;
 }

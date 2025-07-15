@@ -1,4 +1,4 @@
-int __cdecl buffer_write(bio_st *b, char *in, int inl)
+int __cdecl buffer_write(bio_st *b, const __m128i *in, int inl)
 {
   int v3; // ebx
   _DWORD *ptr; // esi
@@ -24,7 +24,7 @@ int __cdecl buffer_write(bio_st *b, char *in, int inl)
   if ( v5 >= inl )
   {
 LABEL_20:
-    memcpy((unsigned __int8 *)(ptr[6] + ptr[7] + ptr[5]), (unsigned __int8 *)in, v3);
+    memcpy(ptr[6] + ptr[7] + ptr[5], in, v3);
     ptr[6] += v3;
     return v11 + v3;
   }
@@ -37,15 +37,15 @@ LABEL_20:
       {
         if ( v5 > 0 )
         {
-          memcpy((unsigned __int8 *)(v6 + ptr[7] + ptr[5]), (unsigned __int8 *)in, v5);
-          in += v5;
+          memcpy(v6 + ptr[7] + ptr[5], in, v5);
+          in = (const __m128i *)((char *)in + v5);
           v11 += v5;
           v3 -= v5;
           ptr[6] += v5;
         }
         while ( 1 )
         {
-          v7 = BIO_write(b->next_bio, (const char *)(ptr[5] + ptr[7]), ptr[6]);
+          v7 = BIO_write(v3, b->next_bio, (const char *)(ptr[5] + ptr[7]), ptr[6]);
           if ( v7 <= 0 )
             break;
           ptr[7] += v7;
@@ -71,11 +71,11 @@ LABEL_19:
     }
     while ( 1 )
     {
-      v7 = BIO_write(b->next_bio, in, v3);
+      v7 = BIO_write(v3, b->next_bio, in->m128i_i8, v3);
       if ( v7 <= 0 )
         break;
       v11 += v7;
-      in += v7;
+      in = (const __m128i *)((char *)in + v7);
       v3 -= v7;
       if ( !v3 )
         return v11;

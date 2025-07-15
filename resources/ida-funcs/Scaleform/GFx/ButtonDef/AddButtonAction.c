@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::ButtonDef::AddButtonAction(
 {
   unsigned int Size; // eax
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::AS2::ActionBufferData>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::AS2::ActionBufferData>,258>,Scaleform::ArrayDefaultPolicy> *p_ButtonActions; // esi
-  _DWORD *p_pObject; // esi
+  Scaleform::Ptr<Scaleform::GFx::AS2::ActionBufferData> *v5; // esi
 
   if ( act )
     Scaleform::RefCountImpl::AddRef(act);
@@ -14,12 +14,12 @@ void __thiscall Scaleform::GFx::ButtonDef::AddButtonAction(
     p_ButtonActions,
     p_ButtonActions,
     Size + 1);
-  p_pObject = &p_ButtonActions->Data[p_ButtonActions->Size - 1].pObject;
-  if ( p_pObject )
+  v5 = &p_ButtonActions->Data[p_ButtonActions->Size - 1];
+  if ( v5 )
   {
     if ( act )
       Scaleform::RefCountImpl::AddRef(act);
-    *p_pObject = act;
+    v5->pObject = (Scaleform::GFx::AS2::ActionBufferData *)act;
   }
   if ( act )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)act);

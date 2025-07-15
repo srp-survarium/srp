@@ -12,12 +12,12 @@ void __thiscall Scaleform::LongFormatter::Convert(Scaleform::LongFormatter *this
   int v11; // ecx
   char v12; // al
   bool v13; // zf
-  char *ValueStr; // ecx
+  const __m128i *ValueStr; // ecx
   char *v15; // ebp
   unsigned int v16; // eax
-  unsigned __int8 *v17; // edi
+  char *v17; // edi
   int v18; // eax
-  unsigned __int8 *v19; // edi
+  char *v19; // edi
   char v20; // cl
 
   if ( this->IsConverted )
@@ -113,8 +113,8 @@ void __thiscall Scaleform::LongFormatter::Convert(Scaleform::LongFormatter *this
     if ( !v13 && this->Value >= 0 )
       *--this->ValueStr = 32;
   }
-  ValueStr = this->ValueStr;
-  v15 = (char *)((char *)this - ValueStr + 76);
+  ValueStr = (const __m128i *)this->ValueStr;
+  v15 = (char *)((char *)this - (char *)ValueStr + 76);
   v16 = (*(_DWORD *)v2 >> 5) & 0x1F;
   if ( (*((_BYTE *)&this->Scaleform::NumericBase + 6) & 4) == 0 )
   {
@@ -131,10 +131,10 @@ void __thiscall Scaleform::LongFormatter::Convert(Scaleform::LongFormatter *this
     goto LABEL_48;
   }
   if ( (unsigned int)v15 >= v16
-    || (v17 = (unsigned __int8 *)&this->Buff[-v16 + 28],
-        memmove(v17, (unsigned __int8 *)ValueStr, (char *)this - ValueStr + 76),
+    || (v17 = &this->Buff[-v16 + 28],
+        memmove((int)v17, ValueStr, (char *)this - (char *)ValueStr + 76),
         v18 = *(_DWORD *)v2 >> 5,
-        this->ValueStr = (char *)v17,
+        this->ValueStr = v17,
         v19 = &v17[(_DWORD)v15],
         (unsigned int)v15 >= (v18 & 0x1Fu)) )
   {

@@ -3,7 +3,10 @@ boost::system::error_condition *__thiscall boost::system::error_category::defaul
         boost::system::error_condition *result,
         int ev)
 {
+  boost::system::error_condition *v3; // eax
+
+  v3 = result;
   result->m_val = ev;
   result->m_cat = this;
-  return result;
+  return v3;
 }

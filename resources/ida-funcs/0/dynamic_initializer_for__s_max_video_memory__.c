@@ -1,6 +1,11 @@
-void dynamic_initializer_for__s_max_video_memory__()
+void __thiscall dynamic_initializer_for__s_max_video_memory__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_max_video_memory);
+  vostok::command_line::key::key(
+    this,
+    &s_max_video_memory,
+    "max_video_memory",
+    uri,
+    "memory",
+    "set maximum video memory limit, Mb",
+    uri);
 }

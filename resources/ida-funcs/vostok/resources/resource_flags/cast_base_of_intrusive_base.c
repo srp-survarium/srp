@@ -1,10 +1,13 @@
-vostok::resources::base_of_intrusive_base *__usercall vostok::resources::resource_flags::cast_base_of_intrusive_base@<eax>(
-        vostok::resources::resource_flags *this@<ecx>,
-        int a2@<eax>)
+vostok::resources::base_of_intrusive_base *__thiscall vostok::resources::resource_flags::cast_base_of_intrusive_base(
+        vostok::resources::resource_flags *this)
 {
-  if ( (*(_DWORD *)(a2 + 8) & 1) != 0 && a2 )
-    return (vostok::resources::base_of_intrusive_base *)(a2 + 220);
-  if ( (*(_DWORD *)(a2 + 8) & 4) != 0 && a2 )
-    return (vostok::resources::base_of_intrusive_base *)(a2 + 208);
+  if ( ((unsigned __int8)((this->m_flags.m_flags & 1) - 1) == 0 ? (unsigned int)this : 0) != 0 )
+    return (unsigned __int8)((this->m_flags.m_flags & 1) - 1) == 0
+         ? (vostok::resources::base_of_intrusive_base *)&this[18].type
+         : (vostok::resources::base_of_intrusive_base *)220;
+  if ( ((unsigned __int8)((this->m_flags.m_flags & 4) - 4) == 0 ? (unsigned int)this : 0) != 0 )
+    return (unsigned __int8)((this->m_flags.m_flags & 4) - 4) == 0
+         ? (vostok::resources::base_of_intrusive_base *)&this[17].type
+         : (vostok::resources::base_of_intrusive_base *)208;
   return 0;
 }

@@ -1,192 +1,135 @@
 void __thiscall btOptimizedBvh::build_::_2_::NodeTriangleCallback::internalProcessTriangleIndex(
         btOptimizedBvh::build::__l2::NodeTriangleCallback *this,
         btVector3 *triangle,
-        unsigned int partId,
-        unsigned int triangleIndex)
+        int partId,
+        int triangleIndex)
 {
-  float v4; // xmm2_4
-  float v5; // xmm5_4
-  float v6; // xmm6_4
-  float v7; // xmm7_4
-  float v8; // xmm2_4
-  float v9; // xmm1_4
   btAlignedObjectArray<btOptimizedBvhNode> *m_triangleNodes; // ebx
-  __m128i v11; // xmm0
   int m_capacity; // ecx
   int m_size; // eax
-  int v14; // esi
-  btOptimizedBvhNode *v15; // eax
-  int v16; // edx
-  btOptimizedBvhNode *m_data; // eax
-  btOptimizedBvhNode *v18; // edi
-  int v19; // [esp+F8h] [ebp-6Ch]
-  btOptimizedBvhNode *v20; // [esp+FCh] [ebp-68h]
-  int v21; // [esp+100h] [ebp-64h]
-  __m128i v22; // [esp+104h] [ebp-60h] BYREF
-  __m128i v23; // [esp+114h] [ebp-50h] BYREF
-  _OWORD v24[4]; // [esp+124h] [ebp-40h] BYREF
+  int v7; // eax
+  btOptimizedBvhNode *v8; // edx
+  btOptimizedBvhNode *v9; // edi
+  int v10; // [esp+8h] [ebp-6Ch]
+  int v11; // [esp+Ch] [ebp-68h]
+  btOptimizedBvhNode *v12; // [esp+10h] [ebp-64h]
+  float v13; // [esp+14h] [ebp-60h]
+  float v14; // [esp+18h] [ebp-5Ch]
+  float v15; // [esp+1Ch] [ebp-58h]
+  float v16; // [esp+20h] [ebp-54h]
+  float v17; // [esp+24h] [ebp-50h]
+  float v18; // [esp+28h] [ebp-4Ch]
+  float v19; // [esp+2Ch] [ebp-48h]
+  float v20; // [esp+30h] [ebp-44h]
+  _DWORD v21[16]; // [esp+34h] [ebp-40h] BYREF
 
-  v4 = triangle->mVec128.m128_f32[0];
-  v5 = 9.9999998e17;
-  v6 = 9.9999998e17;
-  v7 = 9.9999998e17;
-  strcpy(v23.m128i_i8, "k\v^]k\v^]k\v^]");
-  v23.m128i_i8[13] = 0;
-  v23.m128i_i16[7] = 0;
-  v22.m128i_i64[0] = 0xDD5E0B6BDD5E0B6BuLL;
-  v22.m128i_i64[1] = 3713928043LL;
-  if ( v4 < 9.9999998e17 )
-  {
-    v5 = v4;
-    *(float *)v23.m128i_i32 = v4;
-  }
+  v13 = FLOAT_9_9999998e17;
+  v14 = FLOAT_9_9999998e17;
+  v15 = FLOAT_9_9999998e17;
+  v16 = 0.0;
+  v17 = FLOAT_N9_9999998e17;
+  v18 = FLOAT_N9_9999998e17;
+  v19 = FLOAT_N9_9999998e17;
+  v20 = 0.0;
+  if ( triangle->mVec128.m128_f32[0] < 9.9999998e17 )
+    v13 = triangle->mVec128.m128_f32[0];
   if ( triangle->mVec128.m128_f32[1] < 9.9999998e17 )
-  {
-    v6 = triangle->mVec128.m128_f32[1];
-    *(float *)&v23.m128i_i32[1] = v6;
-  }
+    v14 = triangle->mVec128.m128_f32[1];
   if ( triangle->mVec128.m128_f32[2] < 9.9999998e17 )
-  {
-    v7 = triangle->mVec128.m128_f32[2];
-    *(float *)&v23.m128i_i32[2] = v7;
-  }
+    v15 = triangle->mVec128.m128_f32[2];
   if ( triangle->mVec128.m128_f32[3] < 0.0 )
-    v23.m128i_i32[3] = triangle->mVec128.m128_i32[3];
-  if ( v4 > -9.9999998e17 )
-    *(float *)v22.m128i_i32 = v4;
+    v16 = triangle->mVec128.m128_f32[3];
+  if ( triangle->mVec128.m128_f32[0] > -9.9999998e17 )
+    v17 = triangle->mVec128.m128_f32[0];
   if ( triangle->mVec128.m128_f32[1] > -9.9999998e17 )
-    v22.m128i_i32[1] = triangle->mVec128.m128_i32[1];
-  if ( triangle->mVec128.m128_f32[2] <= -9.9999998e17 )
-  {
-    v8 = *(float *)&v22.m128i_i32[2];
-  }
-  else
-  {
-    v8 = triangle->mVec128.m128_f32[2];
-    *(float *)&v22.m128i_i32[2] = v8;
-  }
-  if ( triangle->mVec128.m128_f32[3] <= 0.0 )
-  {
-    v9 = *(float *)&v22.m128i_i32[3];
-  }
-  else
-  {
-    v9 = triangle->mVec128.m128_f32[3];
-    *(float *)&v22.m128i_i32[3] = v9;
-  }
-  if ( v5 > triangle[1].mVec128.m128_f32[0] )
-  {
-    v5 = triangle[1].mVec128.m128_f32[0];
-    *(float *)v23.m128i_i32 = v5;
-  }
-  if ( v6 > triangle[1].mVec128.m128_f32[1] )
-  {
-    v6 = triangle[1].mVec128.m128_f32[1];
-    *(float *)&v23.m128i_i32[1] = v6;
-  }
-  if ( v7 > triangle[1].mVec128.m128_f32[2] )
-  {
-    v7 = triangle[1].mVec128.m128_f32[2];
-    *(float *)&v23.m128i_i32[2] = v7;
-  }
-  if ( *(float *)&v23.m128i_i32[3] > triangle[1].mVec128.m128_f32[3] )
-    v23.m128i_i32[3] = triangle[1].mVec128.m128_i32[3];
-  if ( triangle[1].mVec128.m128_f32[0] > *(float *)v22.m128i_i32 )
-    v22.m128i_i32[0] = triangle[1].mVec128.m128_i32[0];
-  if ( triangle[1].mVec128.m128_f32[1] > *(float *)&v22.m128i_i32[1] )
-    v22.m128i_i32[1] = triangle[1].mVec128.m128_i32[1];
-  if ( triangle[1].mVec128.m128_f32[2] > v8 )
-  {
-    v8 = triangle[1].mVec128.m128_f32[2];
-    *(float *)&v22.m128i_i32[2] = v8;
-  }
-  if ( triangle[1].mVec128.m128_f32[3] > v9 )
-  {
-    v9 = triangle[1].mVec128.m128_f32[3];
-    *(float *)&v22.m128i_i32[3] = v9;
-  }
-  if ( v5 > triangle[2].mVec128.m128_f32[0] )
-    v23.m128i_i32[0] = triangle[2].mVec128.m128_i32[0];
-  if ( v6 > triangle[2].mVec128.m128_f32[1] )
-    v23.m128i_i32[1] = triangle[2].mVec128.m128_i32[1];
-  if ( v7 > triangle[2].mVec128.m128_f32[2] )
-    v23.m128i_i32[2] = triangle[2].mVec128.m128_i32[2];
-  if ( *(float *)&v23.m128i_i32[3] > triangle[2].mVec128.m128_f32[3] )
-    v23.m128i_i32[3] = triangle[2].mVec128.m128_i32[3];
-  if ( triangle[2].mVec128.m128_f32[0] > *(float *)v22.m128i_i32 )
-    v22.m128i_i32[0] = triangle[2].mVec128.m128_i32[0];
-  if ( triangle[2].mVec128.m128_f32[1] > *(float *)&v22.m128i_i32[1] )
-    v22.m128i_i32[1] = triangle[2].mVec128.m128_i32[1];
-  if ( triangle[2].mVec128.m128_f32[2] > v8 )
-    v22.m128i_i32[2] = triangle[2].mVec128.m128_i32[2];
-  if ( triangle[2].mVec128.m128_f32[3] > v9 )
-    v22.m128i_i32[3] = triangle[2].mVec128.m128_i32[3];
+    v18 = triangle->mVec128.m128_f32[1];
+  if ( triangle->mVec128.m128_f32[2] > -9.9999998e17 )
+    v19 = triangle->mVec128.m128_f32[2];
+  if ( triangle->mVec128.m128_f32[3] > 0.0 )
+    v20 = triangle->mVec128.m128_f32[3];
+  if ( v13 > triangle[1].mVec128.m128_f32[0] )
+    v13 = triangle[1].mVec128.m128_f32[0];
+  if ( v14 > triangle[1].mVec128.m128_f32[1] )
+    v14 = triangle[1].mVec128.m128_f32[1];
+  if ( v15 > triangle[1].mVec128.m128_f32[2] )
+    v15 = triangle[1].mVec128.m128_f32[2];
+  if ( v16 > triangle[1].mVec128.m128_f32[3] )
+    v16 = triangle[1].mVec128.m128_f32[3];
+  if ( triangle[1].mVec128.m128_f32[0] > v17 )
+    v17 = triangle[1].mVec128.m128_f32[0];
+  if ( triangle[1].mVec128.m128_f32[1] > v18 )
+    v18 = triangle[1].mVec128.m128_f32[1];
+  if ( triangle[1].mVec128.m128_f32[2] > v19 )
+    v19 = triangle[1].mVec128.m128_f32[2];
+  if ( triangle[1].mVec128.m128_f32[3] > v20 )
+    v20 = triangle[1].mVec128.m128_f32[3];
+  if ( v13 > triangle[2].mVec128.m128_f32[0] )
+    v13 = triangle[2].mVec128.m128_f32[0];
+  if ( v14 > triangle[2].mVec128.m128_f32[1] )
+    v14 = triangle[2].mVec128.m128_f32[1];
+  if ( v15 > triangle[2].mVec128.m128_f32[2] )
+    v15 = triangle[2].mVec128.m128_f32[2];
+  if ( v16 > triangle[2].mVec128.m128_f32[3] )
+    v16 = triangle[2].mVec128.m128_f32[3];
+  if ( triangle[2].mVec128.m128_f32[0] > v17 )
+    v17 = triangle[2].mVec128.m128_f32[0];
+  if ( triangle[2].mVec128.m128_f32[1] > v18 )
+    v18 = triangle[2].mVec128.m128_f32[1];
+  if ( triangle[2].mVec128.m128_f32[2] > v19 )
+    v19 = triangle[2].mVec128.m128_f32[2];
+  if ( triangle[2].mVec128.m128_f32[3] > v20 )
+    v20 = triangle[2].mVec128.m128_f32[3];
+  *(float *)v21 = v13;
+  *(float *)&v21[1] = v14;
+  *(float *)&v21[2] = v15;
   m_triangleNodes = this->m_triangleNodes;
-  v11 = _mm_load_si128(&v23);
   m_capacity = m_triangleNodes->m_capacity;
-  *(_QWORD *)((char *)&v24[2] + 4) = __PAIR64__(triangleIndex, partId);
+  *(float *)&v21[3] = v16;
+  *(float *)&v21[4] = v17;
+  *(float *)&v21[5] = v18;
+  *(float *)&v21[6] = v19;
+  *(float *)&v21[7] = v20;
+  v21[8] = -1;
+  v21[9] = partId;
+  v21[10] = triangleIndex;
   m_size = m_triangleNodes->m_size;
-  v24[0] = v11;
-  v24[1] = _mm_load_si128(&v22);
-  LODWORD(v24[2]) = -1;
   if ( m_size == m_capacity )
   {
-    if ( m_size )
+    v10 = m_size ? 2 * m_size : 1;
+    if ( m_capacity < v10 )
     {
-      v14 = 2 * m_size;
-      v19 = 2 * m_size;
-    }
-    else
-    {
-      v19 = 1;
-      v14 = 1;
-    }
-    if ( m_capacity < v14 )
-    {
-      if ( v14 )
-      {
-        ++gNumAlignedAllocs;
-        v20 = (btOptimizedBvhNode *)sAlignedAllocFunc(v14 << 6, 16);
-      }
+      if ( v10 )
+        v12 = (btOptimizedBvhNode *)btAlignedAllocInternal(v10 << 6);
       else
+        v12 = 0;
+      v7 = m_triangleNodes->m_size;
+      if ( v7 > 0 )
       {
-        v20 = 0;
-      }
-      if ( m_triangleNodes->m_size > 0 )
-      {
-        v15 = v20;
-        v16 = 0;
-        v21 = m_triangleNodes->m_size;
+        v8 = v12;
+        v11 = 0;
         do
         {
-          if ( v15 )
-          {
-            qmemcpy(v15, &m_triangleNodes->m_data[v16], sizeof(btOptimizedBvhNode));
-            v14 = v19;
-          }
-          ++v16;
-          ++v15;
-          --v21;
+          if ( v8 )
+            qmemcpy(v8, &m_triangleNodes->m_data[v11], sizeof(btOptimizedBvhNode));
+          ++v11;
+          ++v8;
+          --v7;
         }
-        while ( v21 );
+        while ( v7 );
       }
-      m_data = m_triangleNodes->m_data;
-      if ( m_data )
+      if ( m_triangleNodes->m_data )
       {
         if ( m_triangleNodes->m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
+          btAlignedFreeInternal(m_triangleNodes->m_data);
         m_triangleNodes->m_data = 0;
       }
+      m_triangleNodes->m_data = v12;
       m_triangleNodes->m_ownsMemory = 1;
-      m_triangleNodes->m_data = v20;
-      m_triangleNodes->m_capacity = v14;
+      m_triangleNodes->m_capacity = v10;
     }
   }
-  v18 = &m_triangleNodes->m_data[m_triangleNodes->m_size];
-  if ( v18 )
-    qmemcpy(v18, v24, sizeof(btOptimizedBvhNode));
+  v9 = &m_triangleNodes->m_data[m_triangleNodes->m_size];
+  if ( v9 )
+    qmemcpy(v9, v21, sizeof(btOptimizedBvhNode));
   ++m_triangleNodes->m_size;
 }

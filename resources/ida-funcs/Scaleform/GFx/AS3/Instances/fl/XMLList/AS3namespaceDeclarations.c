@@ -4,6 +4,6 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3namespaceDeclara
 {
   Scaleform::GFx::AS3::CheckResult v3; // [esp+7h] [ebp-1h] BYREF
 
-  if ( Scaleform::GFx::AS3::Instances::fl::XMLList::HasOneItem(this, &v3)->Result )
+  if ( Scaleform::GFx::AS3::Instances::fl::XMLList::HasOneItem(this, &v3, "namespaceDeclarations")->Result )
     Scaleform::GFx::AS3::Instances::fl::XML::AS3namespaceDeclarations(this->List.Data.Data->pObject, result);
 }

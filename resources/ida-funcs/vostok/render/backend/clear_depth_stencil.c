@@ -1,16 +1,20 @@
-void __usercall vostok::render::backend::clear_depth_stencil(vostok::render::backend *this@<ecx>, int a2@<eax>)
+void __userpurge vostok::render::backend::clear_depth_stencil(
+        vostok::render::backend *this@<ecx>,
+        int a2@<eax>,
+        unsigned int flags,
+        float z_value,
+        unsigned __int8 stencil_value)
 {
-  int v2; // ecx
+  int v5; // ecx
 
   if ( s_debug_enabled_ds_clearing_value )
   {
-    v2 = *(_DWORD *)(a2 + 2156);
-    if ( v2 )
-      (*(void (__stdcall **)(int, int, int, _DWORD, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                           + 212))(
-        `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-        v2,
-        3,
+    v5 = *(_DWORD *)(a2 + 7384);
+    if ( v5 )
+      ((void (__stdcall *)(ID3D11DeviceContext *, int, unsigned int, _DWORD, _DWORD))vostok::quasi_singleton<vostok::render::device>::pinst->m_context->ClearDepthStencilView)(
+        vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+        v5,
+        flags,
         1.0,
         0);
   }

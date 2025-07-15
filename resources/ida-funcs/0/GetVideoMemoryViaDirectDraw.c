@@ -1,47 +1,48 @@
-HRESULT __usercall GetVideoMemoryViaDirectDraw@<eax>(unsigned __int64 *pdwAvailableVidMem@<edi>, HMONITOR__ *hMonitor)
+HRESULT __usercall GetVideoMemoryViaDirectDraw@<eax>(unsigned __int64 *pdwAvailableVidMem@<esi>, HMONITOR__ *hMonitor)
 {
-  HMODULE LibraryA; // esi
-  FARPROC ProcAddress; // eax
-  FARPROC v4; // eax
-  int v5; // eax
-  bool bGotMemory; // [esp+39h] [ebp-235h]
-  IDirectDraw7 *pDDraw7; // [esp+3Ah] [ebp-234h] BYREF
-  IDirectDraw *pDDraw; // [esp+3Eh] [ebp-230h] BYREF
-  unsigned int temp; // [esp+42h] [ebp-22Ch] BYREF
-  _DDSCAPS2 ddscaps; // [esp+46h] [ebp-228h] BYREF
-  DDRAW_MATCH match; // [esp+56h] [ebp-218h] BYREF
+  HRESULT (__stdcall *DirectDrawEnumerateExA)(LPDDENUMCALLBACKEXA, LPVOID, DWORD); // eax
+  HRESULT (__stdcall *DirectDrawCreate)(GUID *, LPDIRECTDRAW *, IUnknown *); // eax
+  int v4; // eax
+  unsigned __int8 dst[540]; // [esp+8h] [ebp-244h] BYREF
+  _DWORD v7[4]; // [esp+224h] [ebp-28h] BYREF
+  unsigned int v8; // [esp+234h] [ebp-18h] BYREF
+  int (__stdcall ***v9)(_DWORD, GUID *, int *); // [esp+238h] [ebp-14h] BYREF
+  int v10; // [esp+23Ch] [ebp-10h] BYREF
+  HMODULE hModule; // [esp+240h] [ebp-Ch]
+  char v12; // [esp+247h] [ebp-5h]
 
-  pDDraw = 0;
-  bGotMemory = 0;
+  v9 = 0;
+  v12 = 0;
   *pdwAvailableVidMem = 0;
-  LibraryA = LoadLibraryA(&stru_95DC74.m_buffer[52]);
-  if ( !LibraryA )
+  hModule = LoadLibraryA("ddraw.dll");
+  if ( !hModule )
     return -2147467259;
-  memset((int)&match, 0, sizeof(match));
-  match.hMonitor = hMonitor;
-  ProcAddress = GetProcAddress(LibraryA, &stru_95DC74.m_buffer[64]);
-  if ( ProcAddress )
-    ((void (__stdcall *)(int (__stdcall *)(_GUID *, char *, char *, _BYTE *, HMONITOR__ *), DDRAW_MATCH *, int))ProcAddress)(
-      DDEnumCallbackEx,
-      &match,
-      1);
-  v4 = GetProcAddress(LibraryA, &stru_95DC74.m_buffer[252]);
-  if ( v4 )
+  memset((int)dst, 0, 0x218u);
+  *(_DWORD *)&dst[16] = hMonitor;
+  DirectDrawEnumerateExA = (HRESULT (__stdcall *)(LPDDENUMCALLBACKEXA, LPVOID, DWORD))GetProcAddress(
+                                                                                        hModule,
+                                                                                        "DirectDrawEnumerateExA");
+  if ( DirectDrawEnumerateExA )
+    DirectDrawEnumerateExA((LPDDENUMCALLBACKEXA)DDEnumCallbackEx, dst, 1);
+  DirectDrawCreate = (HRESULT (__stdcall *)(GUID *, LPDIRECTDRAW *, IUnknown *))GetProcAddress(
+                                                                                  hModule,
+                                                                                  "DirectDrawCreate");
+  if ( DirectDrawCreate )
   {
-    ((void (__stdcall *)(DDRAW_MATCH *, IDirectDraw **, _DWORD))v4)(&match, &pDDraw, 0);
-    if ( pDDraw->QueryInterface(pDDraw, &IID_IDirectDraw7, (void **)&pDDraw7) >= 0 )
+    DirectDrawCreate((GUID *)dst, (LPDIRECTDRAW *)&v9, 0);
+    if ( (**v9)(v9, &IID_IDirectDraw7, &v10) >= 0 )
     {
-      memset(&ddscaps.dwCaps2, 0, 12);
-      ddscaps.dwCaps = 268451840;
-      v5 = pDDraw7->GetAvailableVidMem(pDDraw7, &ddscaps, &temp, 0);
-      *pdwAvailableVidMem = temp;
-      if ( v5 >= 0 )
-        bGotMemory = 1;
-      pDDraw7->Release(pDDraw7);
+      memset(&v7[1], 0, 12);
+      v7[0] = 268451840;
+      v4 = (*(int (__stdcall **)(int, _DWORD *, unsigned int *, _DWORD))(*(_DWORD *)v10 + 92))(v10, v7, &v8, 0);
+      *pdwAvailableVidMem = v8;
+      if ( v4 >= 0 )
+        v12 = 1;
+      (*(void (__stdcall **)(int))(*(_DWORD *)v10 + 8))(v10);
     }
   }
-  FreeLibrary(LibraryA);
-  if ( bGotMemory )
+  FreeLibrary(hModule);
+  if ( v12 )
     return 0;
   else
     return -2147467259;

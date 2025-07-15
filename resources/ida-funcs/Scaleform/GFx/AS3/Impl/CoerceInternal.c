@@ -12,6 +12,6 @@ void __cdecl Scaleform::GFx::AS3::Impl::CoerceInternal(
   else
     AppDomain = vm->CurrentDomain;
   v5 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(vm, ti, AppDomain);
-  if ( !v5 || !v5->Coerce(v5, from, to) )
+  if ( !v5 || !v5->Coerce((Scaleform::GFx::AS3::ClassTraits::Traits *)v5, from, to) )
     Scaleform::GFx::AS3::Value::Assign(to, from);
 }

@@ -3,10 +3,10 @@ int __thiscall Scaleform::GFx::ASString::LocaleCompare_CaseCheck(
         const Scaleform::GFx::ASString *str,
         bool caseSensitive)
 {
-  const char *pData; // edi
+  char *pData; // edi
   unsigned int Length; // eax
 
-  pData = str->pNode->pData;
+  pData = (char *)str->pNode->pData;
   Length = Scaleform::GFx::ASConstString::GetLength(&str->Scaleform::GFx::ASConstString);
   return Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(this, pData, Length, caseSensitive);
 }

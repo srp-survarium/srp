@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::AS2::TransformCtorFunction::GlobalCtor(const Scaleform::GFx::AS2::FnCall *fn)
 {
   Scaleform::GFx::AS2::Environment *Env; // ecx
-  Scaleform::GFx::AS2::Value *v2; // edx
+  Scaleform::GFx::ASStringNode *v2; // edx
   Scaleform::GFx::InteractiveObject *TargetByValue; // ebx
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
@@ -16,8 +16,7 @@ void __cdecl Scaleform::GFx::AS2::TransformCtorFunction::GlobalCtor(const Scalef
     Env = fn->Env;
     v2 = 0;
     if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
-      v2 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
-                                                                                         & 0x1F];
+      v2 = (Scaleform::GFx::ASStringNode *)&Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
     TargetByValue = Scaleform::GFx::AS2::Environment::FindTargetByValue(Env, v2);
     if ( TargetByValue )
     {
@@ -52,7 +51,7 @@ void __cdecl Scaleform::GFx::AS2::TransformCtorFunction::GlobalCtor(const Scalef
       if ( p_pProto )
       {
         RefCount = p_pProto->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           p_pProto->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);

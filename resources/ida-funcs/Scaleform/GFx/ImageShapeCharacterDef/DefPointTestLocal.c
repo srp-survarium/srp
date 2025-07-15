@@ -1,10 +1,10 @@
-char __thiscall Scaleform::GFx::ImageShapeCharacterDef::DefPointTestLocal(
+bool __thiscall Scaleform::GFx::ImageShapeCharacterDef::DefPointTestLocal(
         Scaleform::GFx::ImageShapeCharacterDef *this,
         const Scaleform::Render::Point<float> *pt,
         bool testShape,
         const Scaleform::GFx::DisplayObjectBase *pinst)
 {
-  float v6[4]; // [esp+20h] [ebp-10h] BYREF
+  float v6[4]; // [esp+1Ch] [ebp-10h] BYREF
 
   this->pShapeMeshProvider.pObject->GetIdentityBounds(
     &this->pShapeMeshProvider.pObject->Scaleform::Render::MeshProvider,

@@ -1,21 +1,19 @@
-struct btDbvtAabbMm *__usercall btDbvtAabbMm::FromCR@<eax>(
-        struct btDbvtAabbMm *result@<eax>,
-        float *a2@<ecx>,
-        float a3@<xmm0>)
+int __usercall btDbvtAabbMm::FromCR@<eax>(int result@<eax>, float *a2@<ecx>, float a3@<xmm4>)
 {
-  float v3; // xmm1_4
-  unsigned int v4; // xmm2_4
-  unsigned __int64 v5; // [esp+0h] [ebp-10h]
+  float v3; // xmm0_4
+  float v4; // xmm1_4
+  float v5; // xmm2_4
 
-  *(float *)&v5 = *a2 - a3;
-  *((float *)&v5 + 1) = a2[1] - a3;
-  v3 = a2[2];
-  result->mi.mVec128.m128_u64[0] = v5;
-  result->mi.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(v3 - a3);
-  *(float *)&v5 = *a2 + a3;
-  *((float *)&v5 + 1) = a2[1] + a3;
-  *(float *)&v4 = a2[2] + a3;
-  result->mx.mVec128.m128_u64[0] = v5;
-  result->mx.mVec128.m128_u64[1] = v4;
+  v3 = *a2;
+  v4 = a2[1];
+  v5 = a2[2];
+  *(float *)result = *a2 - a3;
+  *(float *)(result + 4) = v4 - a3;
+  *(float *)(result + 8) = v5 - a3;
+  *(_DWORD *)(result + 12) = 0;
+  *(float *)(result + 16) = v3 + a3;
+  *(float *)(result + 20) = v4 + a3;
+  *(float *)(result + 24) = v5 + a3;
+  *(_DWORD *)(result + 28) = 0;
   return result;
 }

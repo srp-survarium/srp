@@ -1,10 +1,4 @@
-BOOL __usercall by_file_ctrl@<eax>(
-        unsigned int a1@<ebx>,
-        unsigned int a2@<edi>,
-        x509_lookup_st *ctx,
-        int cmd,
-        char *argp,
-        int argl)
+BOOL __usercall by_file_ctrl@<eax>(int a1@<ebx>, int a2@<edi>, x509_lookup_st *ctx, int cmd, char *argp, int argl)
 {
   BOOL result; // eax
   char *default_cert_file_env; // eax
@@ -22,21 +16,21 @@ BOOL __usercall by_file_ctrl@<eax>(
       v8 = getenv(a1, a2, default_cert_file_env);
       if ( v8 )
       {
-        cert_crl_file = X509_load_cert_crl_file(ctx, v8, 1);
+        cert_crl_file = X509_load_cert_crl_file(a1, ctx, v8, 1);
       }
       else
       {
         default_cert_file = (char *)X509_get_default_cert_file();
-        cert_crl_file = X509_load_cert_crl_file(ctx, default_cert_file, 1);
+        cert_crl_file = X509_load_cert_crl_file(a1, ctx, default_cert_file, 1);
       }
       v10 = cert_crl_file != 0;
       if ( !cert_crl_file )
-        ERR_put_error(0xBu, 101, 104, ".\\crypto\\x509\\by_file.c", 114);
+        ERR_put_error(a1, 0xBu, 101, 104, ".\\crypto\\x509\\by_file.c", 114);
       return v10;
     }
     else if ( argl == 1 )
     {
-      return X509_load_cert_crl_file(ctx, argp, 1) != 0;
+      return X509_load_cert_crl_file(a1, ctx, argp, 1) != 0;
     }
     else
     {

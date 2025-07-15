@@ -6,15 +6,17 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::VisitMembers(
         const Scaleform::GFx::AS2::ObjectInterface *__formal)
 {
   Scaleform::GFx::DisplayList *p_pUserDataHolder; // ecx
-  Scaleform::GFx::AS2::AvmSprite::VisitMembers::__l5::Visitor dispListVisitor; // [esp+Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::DisplayList::MemberVisitor pvisitora; // [esp+Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::AS2::ObjectInterface::MemberVisitor *v8; // [esp+10h] [ebp-8h]
+  unsigned int v9; // [esp+14h] [ebp-4h]
 
   if ( (visitFlags & 2) != 0 )
   {
     p_pUserDataHolder = (Scaleform::GFx::DisplayList *)&this->pProto.pObject[2].pUserDataHolder;
-    dispListVisitor.__vftable = (Scaleform::GFx::AS2::AvmSprite::VisitMembers::__l5::Visitor_vtbl *)&`Scaleform::GFx::AS2::AvmSprite::VisitMembers'::`5'::Visitor::`vftable';
-    dispListVisitor.pVisitor = pvisitor;
-    dispListVisitor.VisitFlags = visitFlags;
-    Scaleform::GFx::DisplayList::VisitMembers(p_pUserDataHolder, &dispListVisitor);
+    pvisitora.__vftable = (Scaleform::GFx::DisplayList::MemberVisitor_vtbl *)&`Scaleform::GFx::AS2::AvmSprite::VisitMembers'::`5'::Visitor::`vftable';
+    v8 = pvisitor;
+    v9 = visitFlags;
+    Scaleform::GFx::DisplayList::VisitMembers(p_pUserDataHolder, &pvisitora);
   }
   Scaleform::GFx::AS2::AvmCharacter::VisitMembers(
     this,

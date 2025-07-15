@@ -5,14 +5,14 @@ Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider> *__thiscall Scaleform::GFx:
 {
   Scaleform::GFx::Resource *v4; // edi
   Scaleform::GFx::ShapeDataBase *v5; // eax
-  const Scaleform::GFx::ResourceBinding *v6; // ebp
+  int v6; // ebp
   Scaleform::GFx::Resource *v7; // ebx
   Scaleform::Render::ShapeMeshProvider *v8; // eax
   Scaleform::Render::ShapeMeshProvider *v9; // eax
 
   v4 = (Scaleform::GFx::Resource *)this->pShape1.pObject->Clone(this->pShape1.pObject);
   v5 = this->pShape2.pObject->Clone(this->pShape2.pObject);
-  v6 = (const Scaleform::GFx::ResourceBinding *)resourceBinding;
+  v6 = resourceBinding;
   v7 = (Scaleform::GFx::Resource *)v5;
   v4->__vftable[4].GetKey(v4, (Scaleform::GFx::ResourceKey *)resourceBinding);
   v7->__vftable[4].GetKey(v7, (Scaleform::GFx::ResourceKey *)v6);

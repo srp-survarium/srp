@@ -64,7 +64,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3match(
               if ( ((int)pre.pObject & 1) == 0 )
               {
                 RefCount = pre.pObject->RefCount;
-                if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+                if ( (RefCount & 0x3FFFFF) != 0 )
                 {
                   pre.pObject->RefCount = RefCount - 1;
                   Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);
@@ -122,7 +122,7 @@ LABEL_27:
               if ( ((unsigned __int8)v19 & 1) == 0 )
               {
                 v21 = v19->RefCount;
-                if ( ((unsigned int)&byte_3FFFFF & v21) != 0 )
+                if ( (v21 & 0x3FFFFF) != 0 )
                 {
                   v19->RefCount = v21 - 1;
                   Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v19);

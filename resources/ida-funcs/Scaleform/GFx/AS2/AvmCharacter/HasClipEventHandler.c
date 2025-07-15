@@ -11,33 +11,32 @@ bool __thiscall Scaleform::GFx::AS2::AvmCharacter::HasClipEventHandler(
   int v8; // eax
   signed int v9; // eax
   int v10; // eax
-  Scaleform::GFx::EventId key; // [esp+Ch] [ebp-14h] BYREF
+  Scaleform::GFx::EventId v12; // [esp+Ch] [ebp-14h] BYREF
 
   if ( id->Id == 64 || id->Id == 128 )
   {
     v3 = id->Id;
-    key.WcharCode = 0;
+    v12.WcharCode = 0;
     KeyCode = 0;
-    key.AsciiCode = 0;
-    key.RollOverCnt = 0;
-    key.KeysState.States = 0;
-    key.MouseWheelDelta = 0;
-    key.ControllerIndex = -1;
+    v12.AsciiCode = 0;
+    v12.RollOverCnt = 0;
+    v12.MouseWheelDelta = 0;
+    *(_WORD *)&v12.ControllerIndex = 255;
   }
   else
   {
     TouchID = id->TouchID;
     v3 = id->Id;
-    key.WcharCode = id->WcharCode;
+    v12.WcharCode = id->WcharCode;
     KeyCode = id->KeyCode;
     v5 = *(_DWORD *)&id->RollOverCnt;
-    key.TouchID = TouchID;
-    *(_DWORD *)&key.RollOverCnt = v5;
+    v12.TouchID = TouchID;
+    *(_DWORD *)&v12.RollOverCnt = v5;
   }
   pTable = this->EventHandlers.mHash.pTable;
   p_EventHandlers = &this->EventHandlers;
-  key.KeyCode = KeyCode;
-  key.Id = v3;
+  v12.KeyCode = KeyCode;
+  v12.Id = v3;
   if ( !pTable )
     return 0;
   v8 = v3;
@@ -45,7 +44,7 @@ bool __thiscall Scaleform::GFx::AS2::AvmCharacter::HasClipEventHandler(
     v8 = v3 ^ KeyCode;
   v9 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::EventId,323>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::EventId>(
          &p_EventHandlers->mHash,
-         &key,
+         &v12,
          v8 & pTable->SizeMask);
   return v9 >= 0 && (v10 = (int)&pTable[5 * v9 + 2]) != 0 && v10 != -20;
 }

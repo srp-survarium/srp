@@ -91,7 +91,7 @@ int __cdecl png_write_IHDR(int a1, int a2, int a3, int a4, int a5, int a6, int a
   v11[6] = a6;
   v11[7] = a7;
   v11[8] = a8;
-  sub_36AEC0((_DWORD *)a1, 1229472850, buf, 13);
+  sub_477B80((_DWORD *)a1, 1229472850, buf, 13);
   *(_DWORD *)(a1 + 152) = png_zalloc;
   *(_DWORD *)(a1 + 156) = png_zfree;
   *(_DWORD *)(a1 + 160) = a1;

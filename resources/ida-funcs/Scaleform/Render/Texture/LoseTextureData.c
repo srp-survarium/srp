@@ -13,6 +13,6 @@ void __thiscall Scaleform::Render::Texture::LoseTextureData(Scaleform::Render::T
   v4 = this->pImage;
   this->State = State_Dead|State_Valid;
   if ( v4 )
-    ((void (__thiscall *)(Scaleform::Render::ImageBase *, int))v4->__vftable[2].Release)(v4, 1);
+    ((void (__thiscall *)(Scaleform::Render::ImageBase *, int))v4->__vftable[1].GetBaseImageId)(v4, 1);
   LeaveCriticalSection(&p_ImageLock->cs);
 }

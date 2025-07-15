@@ -1,307 +1,181 @@
-void __userpurge survarium::generic_anomaly_core::load(
-        survarium::generic_anomaly_core *this@<ecx>,
-        float a2@<xmm0>,
-        vostok::configs::binary_config_value *config)
+void __thiscall survarium::generic_anomaly_core::load(
+        survarium::generic_anomaly_core *this,
+        const vostok::configs::binary_config_value *config)
 {
-  vostok::configs::binary_config_value *v3; // eax
+  vostok::configs::binary_config_value *v2; // esi
   const vostok::configs::binary_config_value *v4; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v5; // ecx
-  const vostok::configs::binary_config_value *v6; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v7; // ecx
-  vostok::configs::binary_config_value *v8; // eax
-  survarium::game_camera *v9; // ecx
-  void *const *v10; // eax
-  vostok::configs::binary_config_value *v11; // eax
-  vostok::configs::binary_config_value *v12; // ecx
-  const vostok::configs::binary_config_value *v13; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v14; // ecx
-  const vostok::configs::binary_config_value *v15; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v16; // ecx
+  float pointer; // xmm0_4
+  bool v6; // zf
+  int v7; // eax
+  const vostok::configs::binary_config_value *v8; // eax
+  float v9; // xmm0_4
+  unsigned int v10; // eax
+  const vostok::configs::binary_config_value *v11; // eax
+  vostok::memory::doug_lea_allocator *v12; // esi
+  char *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // ecx
+  char *v15; // eax
+  _BYTE *v16; // esi
   const vostok::configs::binary_config_value *v17; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v18; // ecx
-  const vostok::configs::binary_config_value *v19; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v20; // ecx
-  const vostok::configs::binary_config_value *v21; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v22; // ecx
-  const vostok::configs::binary_config_value *v23; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v24; // ecx
-  const vostok::configs::binary_config_value *v25; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v26; // ecx
-  const vostok::configs::binary_config_value *v27; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v28; // ecx
-  const vostok::configs::binary_config_value *v29; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v30; // ecx
-  const vostok::configs::binary_config_value *v31; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v32; // ecx
-  vostok::configs::binary_config_value *v33; // eax
-  void *const *v34; // eax
-  vostok::configs::binary_config_value *v35; // eax
-  vostok::memory::doug_lea_allocator *v36; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v37; // ecx
-  const vostok::variant<32> **v38; // eax
-  boost::arg<1> *v39; // eax
-  vostok::configs::binary_config_value *v40; // eax
-  bool v41; // al
-  const vostok::configs::binary_config_value *v42; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v43; // ecx
-  const vostok::variant<32> **v44; // eax
-  vostok::configs::binary_config_value *v45; // eax
-  bool v46; // al
-  vostok::configs::binary_config_value *v47; // eax
-  bool v48; // al
-  const vostok::configs::binary_config_value *v49; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v50; // ecx
-  const vostok::variant<32> **v51; // eax
-  const vostok::configs::binary_config_value *v52; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v53; // ecx
-  const vostok::variant<32> **v54; // eax
-  const vostok::configs::binary_config_value *v55; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v56; // ecx
-  const vostok::variant<32> **v57; // eax
-  vostok::configs::binary_config_value *v58; // eax
-  void *const *v59; // eax
-  vostok::configs::binary_config_value *v60; // eax
-  vostok::memory::doug_lea_allocator *v61; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v62; // ecx
-  const vostok::variant<32> **v63; // eax
-  boost::arg<1> *v64; // eax
-  vostok::configs::binary_config_value *v65; // eax
-  bool v66; // al
-  const vostok::configs::binary_config_value *v67; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v68; // ecx
-  const vostok::variant<32> **v69; // eax
-  const vostok::configs::binary_config_value *v70; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v71; // ecx
-  const vostok::variant<32> **v72; // eax
-  vostok::configs::binary_config_value *v73; // eax
-  survarium::game_camera *v74; // [esp+4h] [ebp-118h]
-  survarium::game_camera *v75; // [esp+8h] [ebp-114h]
-  vostok::ai::std_allocator<vostok::ai::planning::specified_action> v77; // [esp+63h] [ebp-B9h] BYREF
-  void *v78; // [esp+64h] [ebp-B8h]
-  vostok::memory::doug_lea_allocator *v79; // [esp+68h] [ebp-B4h]
-  boost::arg<1> *v80; // [esp+8Ch] [ebp-90h]
-  char v81; // [esp+93h] [ebp-89h]
-  stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *> > *v82; // [esp+94h] [ebp-88h]
-  survarium::std_allocator<survarium::zone_group *> __a; // [esp+9Bh] [ebp-81h] BYREF
-  void *_Where; // [esp+9Ch] [ebp-80h]
-  vostok::memory::doug_lea_allocator *v85; // [esp+A0h] [ebp-7Ch]
-  survarium::zone_group::zone_wrapper __x; // [esp+B0h] [ebp-6Ch] BYREF
-  stlp_std::priv::_Vector_base<vostok::ai::planning::specified_action,vostok::ai::std_allocator<vostok::ai::planning::specified_action> > *v87; // [esp+B8h] [ebp-64h]
-  boost::arg<1> v88[4]; // [esp+BCh] [ebp-60h] BYREF
-  char *v89; // [esp+C0h] [ebp-5Ch]
-  boost::arg<1> result[4]; // [esp+C4h] [ebp-58h] BYREF
-  int v91; // [esp+C8h] [ebp-54h]
-  survarium::zone_group *group; // [esp+CCh] [ebp-50h]
-  unsigned int zones_count; // [esp+D0h] [ebp-4Ch]
-  vostok::configs::binary_config_value current_group; // [esp+D4h] [ebp-48h] BYREF
-  unsigned int g; // [esp+ECh] [ebp-30h]
-  survarium::anomaly_state *state; // [esp+F0h] [ebp-2Ch]
-  vostok::configs::binary_config_value current_state; // [esp+F4h] [ebp-28h] BYREF
-  unsigned int groups_count; // [esp+10Ch] [ebp-10h]
-  unsigned int s; // [esp+110h] [ebp-Ch]
-  unsigned int artefact_containers_count; // [esp+114h] [ebp-8h]
-  unsigned int states_count; // [esp+118h] [ebp-4h]
+  vostok::memory::doug_lea_allocator *v18; // esi
+  char *v19; // eax
+  vostok::memory::doug_lea_allocator *v20; // ecx
+  char *v21; // eax
+  char *v22; // esi
+  unsigned int v23; // edi
+  const char *v24; // [esp+0h] [ebp-50h]
+  const char *v25; // [esp+4h] [ebp-4Ch]
+  unsigned int v26; // [esp+8h] [ebp-48h]
+  vostok::configs::binary_config_value *v27; // [esp+Ch] [ebp-44h]
+  char *v28; // [esp+10h] [ebp-40h]
+  unsigned int v29; // [esp+14h] [ebp-3Ch]
+  unsigned int v30; // [esp+18h] [ebp-38h]
+  int v31; // [esp+1Ch] [ebp-34h]
+  unsigned int __new_size; // [esp+20h] [ebp-30h]
+  void *v33; // [esp+24h] [ebp-2Ch] BYREF
+  void *__x; // [esp+28h] [ebp-28h] BYREF
+  void *v35; // [esp+2Ch] [ebp-24h] BYREF
+  void *v36[2]; // [esp+30h] [ebp-20h] BYREF
+  vostok::configs::binary_config_value v37; // [esp+38h] [ebp-18h] BYREF
 
-  v3 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                 config,
-                                                 "artefacts_enabled");
-  this->artefacts_enabled = vostok::configs::binary_config_value::operator bool(v3);
-  v4 = vostok::configs::binary_config_value::operator[](config, "artefacts_max_count");
-  this->artefacts_max_count = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                              v5,
-                                              (int)v4);
-  v6 = vostok::configs::binary_config_value::operator[](config, "artefacts_respawn_time_sec");
-  this->artefacts_respawn_time_sec = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                     v7,
-                                                     (int)v6);
-  if ( this->artefacts_enabled )
+  v2 = config;
+  this->artefacts_enabled = vostok::configs::binary_config_value::operator[](config, "artefacts_enabled")->data.pointer != 0;
+  this->artefacts_respawn_time_sec = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                                     config,
+                                                     "artefacts_respawn_time_sec")->data.pointer;
+  v4 = vostok::configs::binary_config_value::operator[](config, "artefacts_respawn_chance");
+  if ( v4->type == 2 )
+    pointer = *(float *)&v4->data.pointer;
+  else
+    pointer = (float)(int)v4->data.pointer;
+  v6 = !this->artefacts_enabled;
+  this->artefacts_respawn_chance = pointer;
+  if ( !v6 )
   {
-    v8 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                   config,
-                                                   "artefact_containers");
-    artefact_containers_count = vostok::configs::binary_config_value::size(v8);
-    v91 = 0;
-    survarium::weapon_user_dead_state::finalize(v9);
+    v7 = 24 * vostok::configs::binary_config_value::operator[](config, "artefact_containers")->count;
+    __x = 0;
     stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(
       &this->m_artefact_containers._M_impl,
-      artefact_containers_count,
-      v10);
-    this->artefacts_max_count = vostok::math::min(this->artefacts_max_count, artefact_containers_count);
+      v7 / 24,
+      &__x);
   }
-  v11 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
+  this->energy_enabled = vostok::configs::binary_config_value::operator[](config, "energy_enabled")->data.pointer != 0;
+  v8 = vostok::configs::binary_config_value::operator[](config, "energy_initial");
+  if ( v8->type == 2 )
+    v9 = *(float *)&v8->data.pointer;
+  else
+    v9 = (float)(int)v8->data.pointer;
+  this->m_energy_current = v9;
+  this->energy_decrease_speed = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                                config,
+                                                "energy_decrease_speed")->data.pointer;
+  this->energy_af_container_use = (unsigned int)vostok::configs::binary_config_value::operator[](
                                                   config,
-                                                  "energy_enabled");
-  this->energy_enabled = vostok::configs::binary_config_value::operator bool(v11);
-  vostok::configs::binary_config_value::operator[](config, "energy_initial");
-  vostok::configs::binary_config_value::operator float(v12);
-  this->m_energy_current = a2;
-  v13 = vostok::configs::binary_config_value::operator[](config, "energy_decrease_speed");
-  this->energy_decrease_speed = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                v14,
-                                                (int)v13);
-  v15 = vostok::configs::binary_config_value::operator[](config, "energy_af_container_use");
-  this->energy_af_container_use = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                  v16,
-                                                  (int)v15);
-  v17 = vostok::configs::binary_config_value::operator[](config, "energy_on_walk");
-  this->energy_on_walk = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                         v18,
-                                         (int)v17);
-  v19 = vostok::configs::binary_config_value::operator[](config, "energy_on_run");
-  this->energy_on_run = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                        v20,
-                                        (int)v19);
-  v21 = vostok::configs::binary_config_value::operator[](config, "energy_on_sprint");
-  this->energy_on_sprint = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                           v22,
-                                           (int)v21);
-  v23 = vostok::configs::binary_config_value::operator[](config, "energy_on_jump");
-  this->energy_on_jump = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                         v24,
-                                         (int)v23);
-  v25 = vostok::configs::binary_config_value::operator[](config, "energy_on_shoot");
-  this->energy_on_shoot = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                          v26,
-                                          (int)v25);
-  v27 = vostok::configs::binary_config_value::operator[](config, "energy_on_character_hit");
-  this->energy_on_character_hit = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                  v28,
-                                                  (int)v27);
-  v29 = vostok::configs::binary_config_value::operator[](config, "energy_on_explosion");
-  this->energy_on_explosion = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                              v30,
-                                              (int)v29);
-  v31 = vostok::configs::binary_config_value::operator[](config, "energy_on_character_kill");
-  this->energy_on_character_kill = (unsigned int)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                   v32,
-                                                   (int)v31);
-  v33 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](config, "states");
-  states_count = vostok::configs::binary_config_value::size(v33);
-  *(_DWORD *)result = 0;
-  v34 = (void *const *)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(result);
-  stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(
-    &this->m_states._M_impl,
-    states_count,
-    v34);
-  for ( s = 0; s < states_count; ++s )
+                                                  "energy_af_container_use")->data.pointer;
+  this->energy_on_walk = (unsigned int)vostok::configs::binary_config_value::operator[](config, "energy_on_walk")->data.pointer;
+  this->energy_on_run = (unsigned int)vostok::configs::binary_config_value::operator[](config, "energy_on_run")->data.pointer;
+  this->energy_on_sprint = (unsigned int)vostok::configs::binary_config_value::operator[](config, "energy_on_sprint")->data.pointer;
+  this->energy_on_jump = (unsigned int)vostok::configs::binary_config_value::operator[](config, "energy_on_jump")->data.pointer;
+  this->energy_on_shoot = (unsigned int)vostok::configs::binary_config_value::operator[](config, "energy_on_shoot")->data.pointer;
+  this->energy_on_character_hit = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                                  config,
+                                                  "energy_on_character_hit")->data.pointer;
+  this->energy_on_explosion = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                              config,
+                                              "energy_on_explosion")->data.pointer;
+  this->energy_on_character_kill = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                                   config,
+                                                   "energy_on_character_kill")->data.pointer;
+  v10 = 24 * vostok::configs::binary_config_value::operator[](config, "states")->count / 24;
+  v33 = 0;
+  __x = (void *)v10;
+  stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(&this->m_states._M_impl, v10, &v33);
+  v30 = 0;
+  if ( __x )
   {
-    v35 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](config, "states");
-    current_state = *vostok::configs::binary_config_value::operator[](v35, s);
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)HIDWORD(current_state.id.max_storage));
-    v85 = v36;
-    _Where = vostok::memory::doug_lea_allocator::malloc_impl(v36, 0x30u);
-    v89 = (char *)operator new(0x30u, _Where);
-    if ( v89 )
+    v35 = 0;
+    v33 = 0;
+    while ( 1 )
     {
-      v82 = (stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *> > *)(v89 + 28);
-      stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *>>::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *>>(
-        (stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *> > *)(v89 + 28),
-        &__a);
-      *((_DWORD *)v89 + 10) = this;
-      v75 = (survarium::game_camera *)v89;
-    }
-    else
-    {
-      v75 = 0;
-    }
-    state = (survarium::anomaly_state *)v75;
-    v81 = 0;
-    survarium::weapon_user_dead_state::finalize(v75);
-    v38 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-            v37,
-            (int)&this->m_states);
-    v80 = (boost::arg<1> *)&v38[s];
-    v39 = stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(v80);
-    *(_DWORD *)v39 = state;
-    state->debug_idx = s;
-    v40 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &current_state,
-                                                    "enabled");
-    v41 = vostok::configs::binary_config_value::operator bool(v40);
-    state->enabled = v41;
-    v42 = vostok::configs::binary_config_value::operator[](&current_state, "energy_threshold");
-    v44 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v43, (int)v42);
-    state->energy_threshold = (unsigned int)v44;
-    v45 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &current_state,
-                                                    "shoot_trigger");
-    v46 = vostok::configs::binary_config_value::operator bool(v45);
-    state->shoot_trigger = v46;
-    v47 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &current_state,
-                                                    "zone_activity_trigger");
-    v48 = vostok::configs::binary_config_value::operator bool(v47);
-    state->zone_activity_trigger = v48;
-    v49 = vostok::configs::binary_config_value::operator[](&current_state, "active_time_sec");
-    v51 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v50, (int)v49);
-    state->active_time_sec = (unsigned int)v51;
-    v52 = vostok::configs::binary_config_value::operator[](&current_state, "energy_on_exit");
-    v54 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v53, (int)v52);
-    state->energy_on_exit = (unsigned int)v54;
-    v55 = vostok::configs::binary_config_value::operator[](&current_state, "select_priority");
-    v57 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v56, (int)v55);
-    state->select_priority = (unsigned int)v57;
-    v58 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &current_state,
-                                                    "groups");
-    groups_count = vostok::configs::binary_config_value::size(v58);
-    *(_DWORD *)v88 = 0;
-    v59 = (void *const *)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(v88);
-    stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(
-      &state->groups._M_impl,
-      groups_count,
-      v59);
-    for ( g = 0; g < groups_count; ++g )
-    {
-      v60 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      &current_state,
-                                                      "groups");
-      current_group = *vostok::configs::binary_config_value::operator[](v60, g);
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)HIDWORD(current_group.id.max_storage));
-      v79 = v61;
-      v78 = vostok::memory::doug_lea_allocator::malloc_impl(v61, 0x24u);
-      v87 = (stlp_std::priv::_Vector_base<vostok::ai::planning::specified_action,vostok::ai::std_allocator<vostok::ai::planning::specified_action> > *)operator new(0x24u, v78);
-      if ( v87 )
+      v11 = vostok::configs::binary_config_value::operator[](v2, "states");
+      qmemcpy((void *)&v37, (char *)v33 + (unsigned int)v11->data.pointer, sizeof(v37));
+      v12 = survarium::g_allocator;
+      v13 = type_info::raw_name(&survarium::anomaly_state `RTTI Type Descriptor');
+      v15 = vostok::memory::doug_lea_allocator::malloc_impl(v14, (int)v12, 0x30u, v13, v24, v25, v26);
+      if ( v15 )
       {
-        stlp_std::priv::_Impl_vector<vostok::variant<32>,survarium::std_allocator<vostok::variant<32>>>::_Impl_vector<vostok::variant<32>,survarium::std_allocator<vostok::variant<32>>>(
-          v87 + 1,
-          &v77);
-        v87[2]._M_start = (vostok::ai::planning::specified_action *)state;
-        v74 = (survarium::game_camera *)v87;
+        *((_DWORD *)v15 + 7) = 0;
+        *((_DWORD *)v15 + 8) = 0;
+        v16 = v15;
+        *((_DWORD *)v15 + 9) = 0;
+        *((_DWORD *)v15 + 10) = this;
+        v28 = v15;
       }
       else
       {
-        v74 = 0;
+        v28 = 0;
+        v16 = 0;
       }
-      group = (survarium::zone_group *)v74;
-      survarium::weapon_user_dead_state::finalize(v74);
-      v63 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-              v62,
-              (int)&state->groups);
-      v64 = stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref((boost::arg<1> *)&v63[g]);
-      *(_DWORD *)v64 = group;
-      v65 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      &current_group,
-                                                      "enabled");
-      v66 = vostok::configs::binary_config_value::operator bool(v65);
-      group->enabled = v66;
-      v67 = vostok::configs::binary_config_value::operator[](&current_group, "max_charged_count");
-      v69 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v68, (int)v67);
-      group->max_charged_count = (unsigned int)v69;
-      v70 = vostok::configs::binary_config_value::operator[](&current_group, "recharge_time_sec");
-      v72 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v71, (int)v70);
-      group->recharge_time_sec = (unsigned int)v72;
-      v73 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      &current_group,
-                                                      "zones");
-      zones_count = vostok::configs::binary_config_value::size(v73);
-      __x.zone = 0;
-      *(_DWORD *)&__x.active = 0;
-      stlp_std::priv::_Impl_vector<survarium::zone_group::zone_wrapper,survarium::std_allocator<survarium::zone_group::zone_wrapper>>::resize(
-        &group->zones._M_impl,
-        zones_count,
-        &__x);
-      vostok::math::clamp<unsigned int>(&group->max_charged_count, 0, zones_count);
+      this->m_states._M_impl._M_start[v30] = v16;
+      *((_DWORD *)v16 + 1) = v30;
+      *v16 = vostok::configs::binary_config_value::operator[](&v37, "enabled")->data.pointer != 0;
+      *((_DWORD *)v16 + 2) = vostok::configs::binary_config_value::operator[](&v37, "energy_threshold")->data.pointer;
+      v16[12] = vostok::configs::binary_config_value::operator[](&v37, "shoot_trigger")->data.pointer != 0;
+      v16[13] = vostok::configs::binary_config_value::operator[](&v37, "zone_activity_trigger")->data.pointer != 0;
+      *((_DWORD *)v16 + 4) = vostok::configs::binary_config_value::operator[](&v37, "active_time_sec")->data.pointer;
+      *((_DWORD *)v16 + 5) = vostok::configs::binary_config_value::operator[](&v37, "energy_on_exit")->data.pointer;
+      *((_DWORD *)v16 + 6) = vostok::configs::binary_config_value::operator[](&v37, "select_priority")->data.pointer;
+      __new_size = 24 * vostok::configs::binary_config_value::operator[](&v37, "groups")->count / 24;
+      stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(
+        (stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *> > *)(v16 + 28),
+        __new_size,
+        &v35);
+      v29 = 0;
+      if ( __new_size )
+      {
+        v36[0] = 0;
+        v31 = 0;
+        do
+        {
+          v17 = vostok::configs::binary_config_value::operator[](&v37, "groups");
+          v18 = survarium::g_allocator;
+          v27 = (vostok::configs::binary_config_value *)((char *)v17->data.pointer + v31);
+          v19 = type_info::raw_name(&survarium::zone_group `RTTI Type Descriptor');
+          v21 = vostok::memory::doug_lea_allocator::malloc_impl(v20, (int)v18, 0x28u, v19, v24, v25, v26);
+          v22 = 0;
+          if ( v21 )
+          {
+            *((_DWORD *)v21 + 5) = 0;
+            *((_DWORD *)v21 + 6) = 0;
+            *((_DWORD *)v21 + 7) = 0;
+            *((_DWORD *)v21 + 8) = v28;
+            v22 = v21;
+          }
+          *(_DWORD *)(*((_DWORD *)v28 + 7) + 4 * v29) = v22;
+          *v22 = vostok::configs::binary_config_value::operator[](v27, "enabled")->data.pointer != 0;
+          v22[1] = vostok::configs::binary_config_value::operator[](v27, "keep_all_zones_active")->data.pointer != 0;
+          v22[2] = vostok::configs::binary_config_value::operator[](v27, "sequential_activation")->data.pointer != 0;
+          *((_DWORD *)v22 + 1) = vostok::configs::binary_config_value::operator[](v27, "min_active_time_sec")->data.pointer;
+          *((_DWORD *)v22 + 2) = vostok::configs::binary_config_value::operator[](v27, "max_active_time_sec")->data.pointer;
+          *((_DWORD *)v22 + 3) = vostok::configs::binary_config_value::operator[](v27, "max_charged_count")->data.pointer;
+          v36[1] = v22 + 12;
+          *((_DWORD *)v22 + 4) = vostok::configs::binary_config_value::operator[](v27, "recharge_time_sec")->data.pointer;
+          v23 = 24 * vostok::configs::binary_config_value::operator[](v27, "zones")->count / 24;
+          stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::resize(
+            (stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *> > *)(v22 + 20),
+            v23,
+            v36);
+          vostok::math::clamp<unsigned int>(0, v23);
+          ++v29;
+          v31 += 24;
+        }
+        while ( v29 < __new_size );
+      }
+      ++v30;
+      v33 = (char *)v33 + 24;
+      if ( v30 >= (unsigned int)__x )
+        break;
+      v2 = config;
     }
   }
 }

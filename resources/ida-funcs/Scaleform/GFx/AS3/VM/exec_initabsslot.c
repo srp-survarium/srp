@@ -6,8 +6,13 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_initabsslot(Scaleform::GFx::AS3::V
 
   args.VMRef = this;
   args.OpStack = &this->OpStack;
-  args.ArgValue = *this->OpStack.pCurrent--;
-  args.ArgObject = *(const Scaleform::GFx::AS3::Value *)*(_DWORD *)args.OpStack;
+  args.ArgValue.Flags = this->OpStack.pCurrent->Flags;
+  args.ArgValue.Bonus.pWeakProxy = this->OpStack.pCurrent->Bonus.pWeakProxy;
+  args.ArgValue.value.VNumber = this->OpStack.pCurrent->value.VNumber;
+  --this->OpStack.pCurrent;
+  args.ArgObject.Flags = args.OpStack->pCurrent->Flags;
+  args.ArgObject.Bonus.pWeakProxy = args.OpStack->pCurrent->Bonus.pWeakProxy;
+  args.ArgObject.value.VNumber = args.OpStack->pCurrent->value.VNumber;
   --args.OpStack->pCurrent;
   Scaleform::GFx::AS3::StackReader::CheckObject(&args, &args.ArgObject);
   if ( !this->HandleException )

@@ -9,42 +9,42 @@ void __cdecl Scaleform::Render::Math2D::CubicCurveExtremum(
   double v6; // st5
   long double v7; // st4
   double v8; // st5
-  float x1a; // [esp+4h] [ebp+4h]
-  float a; // [esp+8h] [ebp+8h]
-  float b; // [esp+Ch] [ebp+Ch]
-  float ba; // [esp+Ch] [ebp+Ch]
-  float d; // [esp+10h] [ebp+10h]
-  float da; // [esp+10h] [ebp+10h]
-  float db; // [esp+10h] [ebp+10h]
+  float v9; // [esp+4h] [ebp+4h]
+  float v10; // [esp+8h] [ebp+8h]
+  float v11; // [esp+Ch] [ebp+Ch]
+  float v12; // [esp+Ch] [ebp+Ch]
+  float v13; // [esp+10h] [ebp+10h]
+  float v14; // [esp+10h] [ebp+10h]
+  float v15; // [esp+10h] [ebp+10h]
 
   v6 = x2;
-  a = 3.0 * x2 + x4 - x3 * 3.0 - x1;
-  b = x3 - v6 * 2.0 + x1;
-  d = v6 - x1;
+  v10 = 3.0 * x2 + x4 - x3 * 3.0 - x1;
+  v11 = x3 - v6 * 2.0 + x1;
+  v13 = v6 - x1;
   *t1 = -1.0;
   *t2 = -1.0;
-  x1a = fabs(a);
-  if ( x1a <= 0.001 )
+  v9 = fabs(v10);
+  if ( v9 <= 0.001 )
   {
-    v8 = b;
-    ba = fabs(b);
-    if ( ba > 0.001 )
-      *t1 = -d / (2.0 * v8);
+    v8 = v11;
+    v12 = fabs(v11);
+    if ( v12 > 0.001 )
+      *t1 = -v13 / (2.0 * v8);
   }
   else
   {
-    da = b * b - d * a;
-    v7 = da;
-    if ( da <= 0.0 )
+    v14 = v11 * v11 - v13 * v10;
+    v7 = v14;
+    if ( v14 <= 0.0 )
     {
       if ( v7 == 0.0 )
-        *t1 = -b / a;
+        *t1 = -v11 / v10;
     }
     else
     {
-      db = sqrt(v7);
-      *t1 = -((b - db) / a);
-      *t2 = -((b + db) / a);
+      v15 = sqrt(v7);
+      *t1 = -((v11 - v15) / v10);
+      *t2 = -((v11 + v15) / v10);
     }
   }
 }

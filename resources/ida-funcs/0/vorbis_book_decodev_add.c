@@ -1,89 +1,71 @@
 int __cdecl vorbis_book_decodev_add(codebook *book, float *a, oggpack_buffer *b, int n)
 {
   int v4; // esi
-  int v5; // eax
-  float *v6; // edx
-  int i; // eax
-  double v8; // st7
-  double v9; // st7
-  int v11; // eax
-  float *v12; // ecx
-  int v13; // eax
-  double v14; // st7
-  double v15; // st7
-  double v16; // st7
-  double v17; // st7
-  double v18; // st7
-  double v19; // st7
-  double v20; // st7
-  double v21; // st7
-  double v22; // st7
-  double v23; // st7
-  double v24; // st7
-  double v25; // st7
-  double v26; // st7
+  int v5; // edi
+  int v6; // eax
+  float *v7; // edx
+  int i; // ecx
+  float *v9; // eax
+  float v10; // xmm0_4
+  int v12; // eax
+  float *v13; // ecx
+  int v14; // eax
 
+  v4 = 0;
   if ( book->used_entries > 0 )
   {
-    v4 = 0;
     if ( book->dim <= 8 )
     {
       if ( n > 0 )
       {
         while ( 1 )
         {
-          v11 = decode_packed_entry_number(book, b);
-          if ( v11 == -1 )
+          v12 = decode_packed_entry_number(book, b);
+          if ( v12 == -1 )
             return -1;
-          v12 = &book->valuelist[v11 * book->dim];
-          v13 = 0;
+          v13 = &book->valuelist[v12 * book->dim];
+          v14 = 0;
           switch ( book->dim )
           {
             case 1:
-              goto $LN37_13;
+              goto $LN2;
             case 2:
-              goto $LN36_22;
+              goto $LN3;
             case 3:
-              goto $LN35_20;
+              goto $LN4;
             case 4:
-              goto $LN34_17;
+              goto $LN5_0;
             case 5:
-              goto $LN33_8;
+              goto $LN6_0;
             case 6:
-              goto $LN32_18;
+              goto $LN7_0;
             case 7:
-              goto $LN31_25;
+              goto $LN8_1;
             case 8:
-              v13 = 1;
-              v14 = *v12 + a[v4++];
-              a[v4 - 1] = v14;
-$LN31_25:
-              v15 = v12[v13++];
-              v16 = v15 + a[v4++];
-              a[v4 - 1] = v16;
-$LN32_18:
-              v17 = v12[v13++];
-              v18 = v17 + a[v4++];
-              a[v4 - 1] = v18;
-$LN33_8:
-              v19 = v12[v13++];
-              v20 = v19 + a[v4++];
-              a[v4 - 1] = v20;
-$LN34_17:
-              v21 = v12[v13++];
-              v22 = v21 + a[v4++];
-              a[v4 - 1] = v22;
-$LN35_20:
-              v23 = v12[v13++];
-              v24 = v23 + a[v4++];
-              a[v4 - 1] = v24;
-$LN36_22:
-              v25 = v12[v13++];
-              v26 = v25 + a[v4++];
-              a[v4 - 1] = v26;
-$LN37_13:
+              a[v4] = *v13 + a[v4];
+              v14 = 1;
               ++v4;
-              a[v4 - 1] = v12[v13] + a[v4 - 1];
+$LN8_1:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN7_0:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN6_0:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN5_0:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN4:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN3:
+              a[v4] = v13[v14++] + a[v4];
+              ++v4;
+$LN2:
+              a[v4] = v13[v14] + a[v4];
+              ++v4;
               break;
             default:
               break;
@@ -93,23 +75,28 @@ $LN37_13:
         }
       }
     }
-    else if ( n > 0 )
+    else
     {
-      while ( 1 )
+      v5 = 0;
+      if ( n > 0 )
       {
-        v5 = decode_packed_entry_number(book, b);
-        if ( v5 == -1 )
-          break;
-        v6 = &book->valuelist[v5 * book->dim];
-        for ( i = 0; i < book->dim; a[v4 - 1] = v9 )
+        while ( 1 )
         {
-          v8 = v6[i++];
-          v9 = v8 + a[v4++];
+          v6 = decode_packed_entry_number(book, b);
+          if ( v6 == -1 )
+            break;
+          v7 = &book->valuelist[v6 * book->dim];
+          for ( i = 0; i < book->dim; ++v5 )
+          {
+            v9 = &a[v5];
+            v10 = v7[i++] + *v9;
+            *v9 = v10;
+          }
+          if ( v5 >= n )
+            return 0;
         }
-        if ( v4 >= n )
-          return 0;
+        return -1;
       }
-      return -1;
     }
   }
   return 0;

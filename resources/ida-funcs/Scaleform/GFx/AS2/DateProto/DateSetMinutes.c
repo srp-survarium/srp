@@ -21,7 +21,7 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateSetMinutes(const Scaleform::GFx
       v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
       v4 = Scaleform::GFx::AS2::Value::ToNumber(v3, Env);
       LTime = p_pProto->LTime;
-      v6 = 60000 * ((int)v4 - LTime % ((int)&loc_36EE7F + 1) / 60000);
+      v6 = 60000 * ((int)v4 - LTime % 3600000 / 60000);
       p_pProto->LDate += v6;
       p_pProto->LTime = v6 + LTime;
       Scaleform::GFx::AS2::DateObject::UpdateGMT(p_pProto);

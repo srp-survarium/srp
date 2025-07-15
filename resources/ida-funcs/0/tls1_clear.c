@@ -1,5 +1,5 @@
-void __cdecl tls1_clear(ssl_st *s)
+void __usercall tls1_clear(int a1@<ebx>, ssl_st *s)
 {
-  ssl3_clear(s);
+  ssl3_clear(a1, s);
   s->version = 769;
 }

@@ -1,5 +1,6 @@
-bool __thiscall vostok::particle::particle_emitter_instance::get_visible(
-        vostok::particle::particle_emitter_instance *this)
+BOOL __usercall vostok::particle::particle_emitter_instance::get_visible@<eax>(
+        vostok::particle::particle_emitter_instance *this@<ecx>,
+        int a2@<eax>)
 {
-  return this->m_visible && this->m_emitter->m_visibility;
+  return *(_BYTE *)(a2 + 559) && *(_BYTE *)(*(_DWORD *)(a2 + 488) + 370);
 }

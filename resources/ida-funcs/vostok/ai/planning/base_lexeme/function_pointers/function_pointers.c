@@ -1,41 +1,41 @@
-void __thiscall vostok::ai::planning::base_lexeme::function_pointers::function_pointers(
-        vostok::ai::planning::base_lexeme::function_pointers *this,
-        vostok::ai::planning::base_lexeme::operation_type_enum operation_type)
+void __usercall vostok::ai::planning::base_lexeme::function_pointers::function_pointers(
+        vostok::ai::planning::base_lexeme::function_pointers *this@<ecx>,
+        _DWORD *a2@<eax>)
 {
-  switch ( operation_type )
+  if ( this )
   {
-    case operation_type_and:
-      goto LABEL_4;
-    case operation_type_or:
-      this->m_value_invertor = vostok::ai::planning::base_lexeme::invert_value_as_or;
-      this->m_operands_counter = vostok::ai::planning::base_lexeme::count_operands_as_or;
-      this->m_brackets_opener1 = vostok::ai::planning::base_lexeme::expand_brackets_as_or;
-      this->m_brackets_opener2 = vostok::ai::planning::base_lexeme::expand_brackets_as_or;
-      this->m_generator = vostok::ai::planning::base_lexeme::generate_permutations_as_or;
-      this->m_world_state_filler = vostok::ai::planning::base_lexeme::add_to_target_world_state_as_or;
-      this->m_preconditions_filler = vostok::ai::planning::base_lexeme::add_to_preconditions_as_or;
-      this->m_effects_filler = vostok::ai::planning::base_lexeme::add_to_effects_as_or;
-      break;
-    case operation_type_predicate:
-      this->m_value_invertor = vostok::ai::planning::base_lexeme::invert_value_as_predicate;
-      this->m_operands_counter = vostok::ai::planning::base_lexeme::count_operands_as_predicate;
-      this->m_brackets_opener1 = vostok::ai::planning::base_lexeme::expand_brackets_as_predicate;
-      this->m_brackets_opener2 = (vostok::ai::planning::base_lexeme_ptr *(__thiscall *)(vostok::ai::planning::base_lexeme *, vostok::ai::planning::base_lexeme_ptr *, vostok::memory::stack_allocator *, const vostok::ai::planning::base_lexeme *))vostok::ai::planning::base_lexeme::expand_brackets_as_predicate;
-      this->m_generator = vostok::ai::planning::base_lexeme::generate_permutations_as_predicate;
-      this->m_world_state_filler = (void (__thiscall *)(vostok::ai::planning::base_lexeme *, vostok::ai::planning::specified_problem *, unsigned int *)) __thiscall vostok::ai::perceptors::enemy_perceptor::`vcall'{4,{flat}};
-      this->m_preconditions_filler = (void (__thiscall *)(vostok::ai::planning::base_lexeme *, vostok::ai::planning::generalized_action *)) __thiscall vostok::ai::planning::base_lexeme::`vcall'{8,{flat}};
-      this->m_effects_filler = (void (__thiscall *)(vostok::ai::planning::base_lexeme *, vostok::ai::planning::generalized_action *)) __thiscall vostok::sound::world::`vcall'{12,{flat}};
-      break;
-    default:
-LABEL_4:
-      this->m_value_invertor = vostok::ai::planning::base_lexeme::invert_value_as_and;
-      this->m_operands_counter = vostok::ai::planning::base_lexeme::count_operands_as_and;
-      this->m_brackets_opener1 = vostok::ai::planning::base_lexeme::expand_brackets_as_and;
-      this->m_brackets_opener2 = (vostok::ai::planning::base_lexeme_ptr *(__thiscall *)(vostok::ai::planning::base_lexeme *, vostok::ai::planning::base_lexeme_ptr *, vostok::memory::stack_allocator *, const vostok::ai::planning::base_lexeme *))vostok::ai::planning::base_lexeme::expand_brackets_as_and;
-      this->m_generator = vostok::ai::planning::base_lexeme::generate_permutations_as_and;
-      this->m_world_state_filler = vostok::ai::planning::base_lexeme::add_to_target_world_state_as_and;
-      this->m_preconditions_filler = vostok::ai::planning::base_lexeme::add_to_preconditions_as_and;
-      this->m_effects_filler = vostok::ai::planning::base_lexeme::add_to_effects_as_and;
-      return;
+    if ( this == (vostok::ai::planning::base_lexeme::function_pointers *)1 )
+    {
+      *a2 = vostok::ai::planning::base_lexeme::invert_value_as_or;
+      a2[1] = vostok::ai::planning::base_lexeme::count_operands_as_or;
+      a2[2] = vostok::ai::planning::base_lexeme::expand_brackets_as_or;
+      a2[3] = vostok::ai::planning::base_lexeme::expand_brackets_as_or;
+      a2[4] = vostok::ai::planning::base_lexeme::generate_permutations_as_or;
+      a2[5] = vostok::ai::planning::base_lexeme::add_to_target_world_state_as_or;
+      a2[6] = vostok::ai::planning::base_lexeme::add_to_preconditions_as_or;
+      a2[7] = vostok::animation::mixing::binary_tree_null_weight_searcher::visit;
+    }
+    else
+    {
+      *a2 = vostok::ai::planning::base_lexeme::invert_value_as_predicate;
+      a2[1] = vostok::ai::planning::base_lexeme::count_operands_as_predicate;
+      a2[2] = vostok::ai::planning::base_lexeme::expand_brackets_as_or;
+      a2[3] = vostok::ai::planning::base_lexeme::expand_brackets_as_predicate;
+      a2[4] = vostok::ai::planning::base_lexeme::generate_permutations_as_and;
+      a2[5] =  __thiscall survarium::collision_geometry_subscriber::`vcall'{4,{flat}};
+      a2[6] =  __thiscall vostok::engine::engine_world::`vcall'{8,{flat}};
+      a2[7] =  __thiscall vostok::sound::world::`vcall'{12,{flat}};
+    }
+  }
+  else
+  {
+    *a2 = vostok::ai::planning::base_lexeme::invert_value_as_and;
+    a2[1] = vostok::ai::planning::base_lexeme::count_operands_as_and;
+    a2[2] = vostok::ai::planning::base_lexeme::expand_brackets_as_and;
+    a2[3] = vostok::ai::planning::base_lexeme::expand_brackets_as_predicate;
+    a2[4] = vostok::ai::planning::base_lexeme::generate_permutations_as_and;
+    a2[5] = vostok::ai::planning::base_lexeme::add_to_target_world_state_as_and;
+    a2[6] = vostok::ai::planning::base_lexeme::add_to_preconditions_as_and;
+    a2[7] = vostok::ai::planning::base_lexeme::add_to_effects_as_and;
   }
 }

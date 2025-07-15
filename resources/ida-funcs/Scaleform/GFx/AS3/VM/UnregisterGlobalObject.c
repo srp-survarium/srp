@@ -31,8 +31,8 @@ void __thiscall Scaleform::GFx::AS3::VM::UnregisterGlobalObject(
     else
     {
       memmove(
-        (unsigned __int8 *)&this->GlobalObjects.Data.Data[v4],
-        (unsigned __int8 *)&this->GlobalObjects.Data.Data[v4 + 1],
+        (int)&this->GlobalObjects.Data.Data[v4],
+        (const __m128i *)&this->GlobalObjects.Data.Data[v4 + 1],
         4 * (Size - v4) - 4);
       --this->GlobalObjects.Data.Size;
     }

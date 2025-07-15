@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Matrix2x4<float>::EncloseTransform(
         Scaleform::Render::Matrix2x4<float> *this,
-        Scaleform::Render::Rect<float> *pr,
+        __m128 *pr,
         __m128 *r)
 {
   __m128 v3; // xmm3
@@ -28,19 +28,19 @@ void __thiscall Scaleform::Render::Matrix2x4<float>::EncloseTransform(
   v12 = _mm_add_ps(_mm_shuffle_ps(v9, v9, 177), v10);
   v13 = _mm_min_ps(v11, v12);
   v14 = _mm_max_ps(v11, v12);
-  *(__m128 *)pr = _mm_add_ps(
-                    _mm_shuffle_ps(
-                      _mm_min_ps(v13, _mm_shuffle_ps(v13, v13, 177)),
-                      _mm_max_ps(v14, _mm_shuffle_ps(v14, v14, 177)),
-                      136),
-                    _mm_shuffle_ps(v5, v5, 136));
+  *pr = _mm_add_ps(
+          _mm_shuffle_ps(
+            _mm_min_ps(v13, _mm_shuffle_ps(v13, v13, 177)),
+            _mm_max_ps(v14, _mm_shuffle_ps(v14, v14, 177)),
+            136),
+          _mm_shuffle_ps(v5, v5, 136));
 }
 
 
-Scaleform::Render::Rect<float> *__thiscall Scaleform::Render::Matrix2x4<float>::EncloseTransform(
+__m128 *__thiscall Scaleform::Render::Matrix2x4<float>::EncloseTransform(
         Scaleform::Render::Matrix2x4<float> *this,
-        Scaleform::Render::Rect<float> *result,
-        const Scaleform::Render::Rect<float> *r)
+        __m128 *result,
+        __m128 *r)
 {
   Scaleform::Render::Matrix2x4<float>::EncloseTransform(this, result, r);
   return result;

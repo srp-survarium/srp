@@ -11,7 +11,7 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::SetSelected(const Scaleform
   Scaleform::GFx::AS2::Environment *Env; // [esp-10h] [ebp-14h]
   Scaleform::GFx::AS2::Environment *v10; // [esp-10h] [ebp-14h]
   Scaleform::GFx::AS2::Environment *v11; // [esp-10h] [ebp-14h]
-  char bselect; // [esp+8h] [ebp+4h]
+  bool v12; // [esp+8h] [ebp+4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextSnapshot )
   {
@@ -30,14 +30,14 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::SetSelected(const Scaleform
         v7 = Scaleform::GFx::AS2::Value::ToUInt32(v6, v10);
         v11 = fn->Env;
         v8 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-        bselect = Scaleform::GFx::AS2::Value::ToBool(v8, v11);
+        v12 = Scaleform::GFx::AS2::Value::ToBool(v8, v7, v11);
         if ( v7 <= v5 )
           v7 = v5 + 1;
         Scaleform::GFx::StaticTextSnapshotData::SetSelected(
           (Scaleform::GFx::StaticTextSnapshotData *)&p_pProto[13],
           v5,
           v7,
-          bselect);
+          v12);
       }
     }
   }

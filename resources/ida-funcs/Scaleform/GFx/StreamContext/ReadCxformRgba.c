@@ -20,14 +20,14 @@ void __thiscall Scaleform::GFx::StreamContext::ReadCxformRgba(
   unsigned int v18; // eax
   unsigned int v19; // eax
   int v20; // [esp+10h] [ebp-8h]
-  unsigned int hasAdd; // [esp+14h] [ebp-4h]
-  Scaleform::Render::Cxform *pcxforma; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxformb; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxformc; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxformd; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxforme; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxformf; // [esp+1Ch] [ebp+4h]
-  Scaleform::Render::Cxform *pcxformg; // [esp+1Ch] [ebp+4h]
+  BOOL v21; // [esp+14h] [ebp-4h]
+  Scaleform::Render::Cxform *v22; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v23; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v24; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v25; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v26; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v27; // [esp+1Ch] [ebp+4h]
+  Scaleform::Render::Cxform *v28; // [esp+1Ch] [ebp+4h]
 
   if ( this->CurBitIndex )
     ++this->CurByteIndex;
@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::StreamContext::ReadCxformRgba(
   this->CurBitIndex = 0;
   v4 = (*v3 & 0x80) != 0;
   this->CurBitIndex = 1;
-  hasAdd = v4;
+  v21 = v4;
   v5 = *v3 & 0x40;
   this->CurBitIndex = 2;
   UInt = Scaleform::GFx::StreamContext::ReadUInt(this, 4u);
@@ -50,20 +50,20 @@ void __thiscall Scaleform::GFx::StreamContext::ReadCxformRgba(
     v10 = pcxform;
     pcxform->M[0][0] = (double)v20 * 0.00390625;
     v11 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxforma = (Scaleform::Render::Cxform *)v11;
+    v22 = (Scaleform::Render::Cxform *)v11;
     if ( (v9 & v11) != 0 )
-      pcxforma = (Scaleform::Render::Cxform *)((-1 << v7) | v11);
-    v10->M[0][1] = (double)(int)pcxforma * 0.00390625;
+      v22 = (Scaleform::Render::Cxform *)((-1 << v7) | v11);
+    v10->M[0][1] = (double)(int)v22 * 0.00390625;
     v12 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxformb = (Scaleform::Render::Cxform *)v12;
+    v23 = (Scaleform::Render::Cxform *)v12;
     if ( (v9 & v12) != 0 )
-      pcxformb = (Scaleform::Render::Cxform *)((-1 << v7) | v12);
-    v10->M[0][2] = (double)(int)pcxformb * 0.00390625;
+      v23 = (Scaleform::Render::Cxform *)((-1 << v7) | v12);
+    v10->M[0][2] = (double)(int)v23 * 0.00390625;
     v13 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxformc = (Scaleform::Render::Cxform *)v13;
+    v24 = (Scaleform::Render::Cxform *)v13;
     if ( (v9 & v13) != 0 )
-      pcxformc = (Scaleform::Render::Cxform *)((-1 << v7) | v13);
-    v14 = 0.00390625 * (double)(int)pcxformc;
+      v24 = (Scaleform::Render::Cxform *)((-1 << v7) | v13);
+    v14 = 0.00390625 * (double)(int)v24;
   }
   else
   {
@@ -74,29 +74,29 @@ void __thiscall Scaleform::GFx::StreamContext::ReadCxformRgba(
     pcxform->M[0][2] = 1.0;
   }
   v10->M[0][3] = v14;
-  if ( hasAdd )
+  if ( v21 )
   {
     v15 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
     v16 = 1 << (v7 - 1);
-    pcxformd = (Scaleform::Render::Cxform *)v15;
+    v25 = (Scaleform::Render::Cxform *)v15;
     if ( (v16 & v15) != 0 )
-      pcxformd = (Scaleform::Render::Cxform *)((-1 << v7) | v15);
-    v10->M[1][0] = (float)(int)pcxformd;
+      v25 = (Scaleform::Render::Cxform *)((-1 << v7) | v15);
+    v10->M[1][0] = (float)(int)v25;
     v17 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxforme = (Scaleform::Render::Cxform *)v17;
+    v26 = (Scaleform::Render::Cxform *)v17;
     if ( (v16 & v17) != 0 )
-      pcxforme = (Scaleform::Render::Cxform *)((-1 << v7) | v17);
-    v10->M[1][1] = (float)(int)pcxforme;
+      v26 = (Scaleform::Render::Cxform *)((-1 << v7) | v17);
+    v10->M[1][1] = (float)(int)v26;
     v18 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxformf = (Scaleform::Render::Cxform *)v18;
+    v27 = (Scaleform::Render::Cxform *)v18;
     if ( (v16 & v18) != 0 )
-      pcxformf = (Scaleform::Render::Cxform *)((-1 << v7) | v18);
-    v10->M[1][2] = (float)(int)pcxformf;
+      v27 = (Scaleform::Render::Cxform *)((-1 << v7) | v18);
+    v10->M[1][2] = (float)(int)v27;
     v19 = Scaleform::GFx::StreamContext::ReadUInt(this, v7);
-    pcxformg = (Scaleform::Render::Cxform *)v19;
+    v28 = (Scaleform::Render::Cxform *)v19;
     if ( (v16 & v19) != 0 )
-      pcxformg = (Scaleform::Render::Cxform *)((-1 << v7) | v19);
-    v10->M[1][3] = (float)(int)pcxformg;
+      v28 = (Scaleform::Render::Cxform *)((-1 << v7) | v19);
+    v10->M[1][3] = (float)(int)v28;
     Scaleform::Render::Cxform::Normalize(v10);
   }
   else

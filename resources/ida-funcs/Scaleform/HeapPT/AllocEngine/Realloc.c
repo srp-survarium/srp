@@ -1,7 +1,7 @@
-unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::Realloc(
+__m128i *__thiscall Scaleform::HeapPT::AllocEngine::Realloc(
         Scaleform::HeapPT::AllocEngine *this,
         Scaleform::Heap::HeapSegment *seg,
-        void *oldPtr,
+        __m128i *oldPtr,
         unsigned int newSize)
 {
   unsigned int v5; // ecx
@@ -10,7 +10,7 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::Realloc(
   unsigned int MinAlignShift; // ecx
   int v9; // edx
   unsigned int v10; // eax
-  unsigned __int8 *result; // eax
+  __m128i *result; // eax
   char AlignShift; // al
   unsigned int oldSize; // [esp+Ch] [ebp-4h] BYREF
 
@@ -24,31 +24,25 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::Realloc(
   {
     if ( SegType == 10 )
     {
-      result = (unsigned __int8 *)Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
-                                    &this->Allocator,
-                                    seg,
-                                    oldPtr,
-                                    v6,
-                                    &oldSize);
+      result = (__m128i *)Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
+                            &this->Allocator,
+                            seg,
+                            oldPtr->m128i_i8,
+                            v6,
+                            &oldSize);
       if ( !result )
       {
-        AlignShift = Scaleform::HeapPT::AllocBitSet2::GetAlignShift(&this->Allocator, seg, oldPtr, oldSize);
-        return Scaleform::HeapPT::AllocEngine::reallocGeneral(
-                 this,
-                 seg,
-                 (unsigned __int8 *)oldPtr,
-                 oldSize,
-                 v6,
-                 AlignShift);
+        AlignShift = Scaleform::HeapPT::AllocBitSet2::GetAlignShift(&this->Allocator, seg, (int)oldPtr, oldSize);
+        return (__m128i *)Scaleform::HeapPT::AllocEngine::reallocGeneral(this, seg, oldPtr, oldSize, v6, AlignShift);
       }
     }
     else
     {
-      return Scaleform::HeapPT::AllocEngine::reallocSysDirect(
-               this,
-               seg,
-               (unsigned __int8 *)oldPtr,
-               ~this->MinAlignMask & (this->MinAlignMask + v5));
+      return (__m128i *)Scaleform::HeapPT::AllocEngine::reallocSysDirect(
+                          this,
+                          seg,
+                          oldPtr,
+                          (LPCRITICAL_SECTION)(~this->MinAlignMask & (this->MinAlignMask + v5)));
     }
   }
   else
@@ -58,15 +52,15 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::Realloc(
     v10 = (SegType + 1) << MinAlignShift;
     oldSize = v10;
     if ( v6 > v10 )
-      return Scaleform::HeapPT::AllocEngine::reallocGeneral(
-               this,
-               seg,
-               (unsigned __int8 *)oldPtr,
-               v10,
-               v6,
-               MinAlignShift + TinyPow2AllocType[v9]);
+      return (__m128i *)Scaleform::HeapPT::AllocEngine::reallocGeneral(
+                          this,
+                          seg,
+                          oldPtr,
+                          v10,
+                          v6,
+                          MinAlignShift + TinyPow2AllocType[v9]);
     else
-      return (unsigned __int8 *)oldPtr;
+      return oldPtr;
   }
   return result;
 }

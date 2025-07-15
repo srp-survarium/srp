@@ -18,8 +18,8 @@ bool __thiscall Scaleform::GFx::AS2::AvmSprite::GetMember(
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Environment *v17; // eax
   Scaleform::GFx::ASStringNode *ConstStringNode; // esi
-  long double v19; // st7
-  unsigned __int8 *v20; // eax
+  long double val; // st7
+  const __m128i *v20; // eax
   Scaleform::GFx::AS2::ArrayObject *v21; // edi
   Scaleform::GFx::AS2::Environment *v22; // eax
   Scaleform::GFx::AS2::ArrayObject *v23; // eax
@@ -41,12 +41,12 @@ bool __thiscall Scaleform::GFx::AS2::AvmSprite::GetMember(
   Scaleform::GFx::AS2::Object *v39; // ebx
   Scaleform::GFx::AS2::ObjectInterface_vtbl *v40; // edx
   Scaleform::GFx::AS2::ObjectInterface *v41; // ecx
-  Scaleform::GFx::InteractiveObject *mat4_60; // [esp+20Eh] [ebp-94h]
-  Scaleform::GFx::Bool3W v43; // [esp+229h] [ebp-79h] BYREF
-  Scaleform::GFx::ASString str; // [esp+22Ah] [ebp-78h] BYREF
-  Scaleform::Ptr<Scaleform::GFx::AS2::Object> result; // [esp+22Eh] [ebp-74h] BYREF
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+232h] [ebp-70h] BYREF
-  Scaleform::Render::Matrix4x4<float> v47; // [esp+262h] [ebp-40h] BYREF
+  Scaleform::GFx::InteractiveObject *val_4; // [esp+16h] [ebp-94h]
+  Scaleform::GFx::Bool3W v43; // [esp+31h] [ebp-79h] BYREF
+  Scaleform::GFx::ASString str; // [esp+32h] [ebp-78h] BYREF
+  Scaleform::Ptr<Scaleform::GFx::AS2::Object> result; // [esp+36h] [ebp-74h] BYREF
+  Scaleform::Render::Matrix3x4<float> dst; // [esp+3Ah] [ebp-70h] BYREF
+  Scaleform::Render::Matrix4x4<float> v47; // [esp+6Ah] [ebp-40h] BYREF
 
   if ( (name->pNode->HashFlags & 0x20000000) != 0 )
   {
@@ -64,9 +64,9 @@ LABEL_7:
                                                           0);
           if ( v12 )
           {
-            mat4_60 = this->pDispObj;
+            val_4 = this->pDispObj;
             v13 = this->GetASEnvironment(this);
-            Scaleform::GFx::AS2::TransformObject::TransformObject(v12, v13, mat4_60);
+            Scaleform::GFx::AS2::TransformObject::TransformObject(v12, v13, val_4);
             v15 = v14;
           }
           else
@@ -77,7 +77,7 @@ LABEL_7:
           if ( v15 )
           {
             RefCount = v15->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFFF) != 0 )
             {
               v15->RefCount = RefCount - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v15);
@@ -85,20 +85,20 @@ LABEL_7:
           }
           return 1;
         case M_z:
-          v19 = this->pDispObj->GetZ(this->pDispObj);
+          val = this->pDispObj->GetZ(this->pDispObj);
           goto LABEL_28;
         case M_zscale:
-          v19 = this->pDispObj->GetZScale(this->pDispObj);
+          val = this->pDispObj->GetZScale(this->pDispObj);
           goto LABEL_28;
         case M_xrotation:
-          v19 = this->pDispObj->GetXRotation(this->pDispObj);
+          val = this->pDispObj->GetXRotation(this->pDispObj);
           goto LABEL_28;
         case M_yrotation:
-          v19 = this->pDispObj->GetYRotation(this->pDispObj);
+          val = this->pDispObj->GetYRotation(this->pDispObj);
           goto LABEL_28;
         case M_matrix3d:
-          v20 = (unsigned __int8 *)this->pDispObj->GetMatrix3D(this->pDispObj);
-          memcpy((unsigned __int8 *)&dst, v20, sizeof(dst));
+          v20 = (const __m128i *)this->pDispObj->GetMatrix3D(this->pDispObj);
+          memcpy((int)&dst, v20, sizeof(dst));
           Scaleform::Render::Matrix4x4<float>::Matrix4x4<float>(&v47, &dst);
           Scaleform::Render::Matrix4x4<float>::Transpose(&v47);
           v21 = (Scaleform::GFx::AS2::ArrayObject *)penv->StringContext.pContext->pHeap->Alloc(
@@ -128,15 +128,15 @@ LABEL_7:
           if ( !v24 )
             return 1;
           v26 = v24->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v26) == 0 )
+          if ( (v26 & 0x3FFFFFF) == 0 )
             return 1;
           v24->RefCount = v26 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v24);
           return 1;
         case M_fov:
-          v19 = this->pDispObj->GetFOV(this->pDispObj);
+          val = this->pDispObj->GetFOV(this->pDispObj);
 LABEL_28:
-          Scaleform::GFx::AS2::Value::SetNumber(pval, v19);
+          Scaleform::GFx::AS2::Value::SetNumber(pval, val);
           return 1;
         case M__version:
           if ( !this->IsLevelMovie(&this->Scaleform::GFx::AvmSpriteBase) )
@@ -197,7 +197,7 @@ LABEL_11:
     if ( v29 )
     {
       v31 = v29->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v31) != 0 )
+      if ( (v31 & 0x3FFFFFF) != 0 )
       {
         v30->RefCount = v31 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v30);
@@ -229,7 +229,7 @@ LABEL_11:
     if ( result.pObject )
     {
       v34 = result.pObject->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v34) != 0 )
+      if ( (v34 & 0x3FFFFFF) != 0 )
       {
         result.pObject->RefCount = v34 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v33);
@@ -241,7 +241,7 @@ LABEL_11:
       if ( !str.pNode )
         return 1;
       v36 = str.pNode->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v36) == 0 )
+      if ( (v36 & 0x3FFFFFF) == 0 )
         return 1;
       str.pNode->RefCount = v36 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pNode);
@@ -250,7 +250,7 @@ LABEL_11:
     if ( str.pNode )
     {
       v37 = str.pNode->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v37) != 0 )
+      if ( (v37 & 0x3FFFFFF) != 0 )
       {
         str.pNode->RefCount = v37 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pNode);

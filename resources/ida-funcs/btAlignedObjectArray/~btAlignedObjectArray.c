@@ -1,55 +1,49 @@
-void __thiscall btAlignedObjectArray<btFace>::~btAlignedObjectArray<btFace>(
-        btAlignedObjectArray<btFace> *this,
-        btAlignedObjectArray<btFace> *thisa)
+void __usercall btAlignedObjectArray<btFace>::~btAlignedObjectArray<btFace>(
+        btAlignedObjectArray<btFace> *this@<ecx>,
+        int a2@<edi>)
 {
-  int v3; // edi
-  btFace *m_data; // esi
-  int *v5; // eax
-  btFace *v6; // esi
-  bool v7; // zf
-  btFace *v8; // eax
-  btAlignedObjectArray<btFace> *thisb; // [esp+Ch] [ebp+4h]
+  int v2; // ebp
+  int v3; // ebx
 
-  if ( thisa->m_size > 0 )
+  if ( *(int *)(a2 + 4) > 0 )
   {
-    v3 = 0;
-    thisb = (btAlignedObjectArray<btFace> *)thisa->m_size;
+    v2 = 0;
+    v3 = *(_DWORD *)(a2 + 4);
     do
     {
-      m_data = thisa->m_data;
-      v5 = m_data[v3].m_indices.m_data;
-      v6 = &m_data[v3];
-      if ( v5 )
-      {
-        if ( v6->m_indices.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v5);
-        }
-        v6->m_indices.m_data = 0;
-      }
-      ++v3;
-      v7 = thisb == (btAlignedObjectArray<btFace> *)1;
-      thisb = (btAlignedObjectArray<btFace> *)((char *)thisb - 1);
-      v6->m_indices.m_ownsMemory = 1;
-      v6->m_indices.m_data = 0;
-      v6->m_indices.m_size = 0;
-      v6->m_indices.m_capacity = 0;
+      btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+        (btAlignedObjectArray<GrahamVector2> *)this,
+        v2 + *(_DWORD *)(a2 + 12));
+      v2 += 36;
+      --v3;
     }
-    while ( !v7 );
+    while ( v3 );
   }
-  v8 = thisa->m_data;
-  if ( v8 )
+  if ( *(_DWORD *)(a2 + 12) )
   {
-    if ( thisa->m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v8);
-    }
-    thisa->m_data = 0;
+    if ( *(_BYTE *)(a2 + 16) )
+      btAlignedFreeInternal(*(void **)(a2 + 12));
+    *(_DWORD *)(a2 + 12) = 0;
   }
-  thisa->m_data = 0;
-  thisa->m_size = 0;
-  thisa->m_capacity = 0;
-  thisa->m_ownsMemory = 1;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_BYTE *)(a2 + 16) = 1;
+}
+
+
+void __usercall btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+        btAlignedObjectArray<GrahamVector2> *this@<ecx>,
+        int a2@<esi>)
+{
+  if ( *(_DWORD *)(a2 + 12) )
+  {
+    if ( *(_BYTE *)(a2 + 16) )
+      btAlignedFreeInternal(*(void **)(a2 + 12));
+    *(_DWORD *)(a2 + 12) = 0;
+  }
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_BYTE *)(a2 + 16) = 1;
 }

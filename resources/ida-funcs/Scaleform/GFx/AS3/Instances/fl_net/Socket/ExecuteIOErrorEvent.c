@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::ExecuteIOErrorEv
 
   Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::CreateIOErrorEventObject(
     this,
-    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&errorStr,
+    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::IOErrorEvent> *)&errorStr,
     errorStr);
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::InteractiveObject>::SetPtr(
     (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)errorStr + 10,
@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::ExecuteIOErrorEv
   {
     v3 = *((_DWORD *)errorStr + 4);
     v4 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)errorStr;
-    if ( ((unsigned int)&byte_3FFFFF & v3) != 0 )
+    if ( (v3 & 0x3FFFFF) != 0 )
     {
       *((_DWORD *)errorStr + 4) = v3 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);

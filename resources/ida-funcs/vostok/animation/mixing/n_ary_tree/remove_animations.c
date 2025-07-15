@@ -1,203 +1,213 @@
 void __thiscall vostok::animation::mixing::n_ary_tree::remove_animations(
         vostok::animation::mixing::n_ary_tree *this,
-        _DWORD *target_time_in_ms,
-        vostok::animation::mixing::animation_state **__comp)
+        const unsigned int target_time_in_ms,
+        int a3)
 {
-  _DWORD *v3; // esi
-  unsigned int v4; // edi
+  int v4; // esi
   void *v5; // esp
-  vostok::animation::mixing::n_ary_tree_animation_node *v6; // ebx
-  vostok::animation::mixing::animation_state *v7; // eax
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v8; // eax
-  survarium::flash_movie_resource *m_animation_state; // ebx
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v10; // esi
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v11; // eax
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v12; // edx
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *k; // eax
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *m_end; // esi
-  vostok::animation::mixing::animation_state *v15; // esi
-  vostok::animation::mixing::animation_state *v16; // ebx
-  int v17; // eax
-  _DWORD *v18; // edx
-  int m; // ecx
-  vostok::animation::mixing::animation_state **v20; // esi
-  int v21; // edx
-  vostok::animation::mixing::animation_state **v22; // edi
-  int v23; // eax
-  int n; // ecx
-  int v25; // eax
-  int v26; // edi
-  const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v27; // ebx
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v28; // esi
-  const void *v29; // [esp+0h] [ebp-30h] BYREF
-  vostok::buffer_vector<void const *> v30; // [esp+10h] [ebp-20h] BYREF
-  void *value; // [esp+18h] [ebp-18h] BYREF
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> __val; // [esp+1Ch] [ebp-14h] BYREF
-  vostok::animation::mixing::n_ary_tree_animation_node *j; // [esp+20h] [ebp-10h] BYREF
-  vostok::animation::mixing::animation_state *v34; // [esp+24h] [ebp-Ch]
-  vostok::animation::mixing::n_ary_tree_animation_node *i; // [esp+28h] [ebp-8h] BYREF
-  vostok::animation::mixing::animation_state *__that; // [esp+2Ch] [ebp-4h]
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *__compa; // [esp+3Ch] [ebp+Ch]
+  int v6; // eax
+  vostok::animation::mixing::animation_state *v7; // esi
+  int v8; // ecx
+  _DWORD *v9; // edx
+  int v10; // eax
+  int v11; // edi
+  _DWORD *v12; // ecx
+  int *v13; // edi
+  int v14; // eax
+  char *v15; // eax
+  vostok::animation::mixing::bone_matrices_computer_data *v16; // edi
+  double weight; // st7
+  float *p_animation_interval_id; // esi
+  int v19; // ecx
+  _DWORD *v20; // edx
+  int v21; // eax
+  vostok::resources::pinned_ptr_const<unsigned char> *v22; // ecx
+  vostok::animation::mixing::animation_state *v23; // edi
+  int v24; // eax
+  int v25; // ecx
+  int *v26; // esi
+  char *v27; // eax
+  vostok::buffer_vector<void const *> *v28; // [esp-4h] [ebp-34h]
+  vostok::resources::pinned_ptr_const<unsigned char> *v29; // [esp-4h] [ebp-34h]
+  _BYTE v30[16]; // [esp+0h] [ebp-30h] BYREF
+  char *v31; // [esp+10h] [ebp-20h] BYREF
+  char *v32; // [esp+14h] [ebp-1Ch]
+  _BYTE *v33; // [esp+18h] [ebp-18h]
+  int *v34; // [esp+1Ch] [ebp-14h] BYREF
+  void **v35; // [esp+20h] [ebp-10h] BYREF
+  int *v36; // [esp+24h] [ebp-Ch] BYREF
+  vostok::animation::mixing::animation_state *__val; // [esp+28h] [ebp-8h] BYREF
+  vostok::animation::mixing::bone_matrices_computer_data *p_bone_matrices_computer; // [esp+2Ch] [ebp-4h]
+  int v39; // [esp+38h] [ebp+8h]
+  int *v40; // [esp+38h] [ebp+8h]
+  int *v41; // [esp+3Ch] [ebp+Ch]
 
-  v3 = target_time_in_ms;
-  v4 = target_time_in_ms[8];
-  v5 = alloca(4 * v4);
-  vostok::buffer_vector<void const *>::buffer_vector<void const *>(&v30, &v29, v4, 0);
-  v6 = (vostok::animation::mixing::n_ary_tree_animation_node *)target_time_in_ms[1];
-  v7 = (vostok::animation::mixing::animation_state *)target_time_in_ms[4];
-  __that = v7;
-  v34 = v7;
-  j = 0;
-  i = v6;
+  v4 = 4 * *(_DWORD *)(target_time_in_ms + 36);
+  v5 = alloca(v4);
+  v36 = 0;
+  v31 = v30;
+  v32 = v30;
+  v6 = *(_DWORD *)(target_time_in_ms + 4);
+  v33 = &v30[v4];
+  v7 = *(vostok::animation::mixing::animation_state **)(target_time_in_ms + 16);
+  __val = v7;
+  p_bone_matrices_computer = &v7->bone_matrices_computer;
+  v39 = v6;
   if ( v6 )
   {
-    while ( 1 )
+    do
     {
-      if ( (vostok::animation::mixing::animation_state **)v7->event_iterator.m_value.event_time_in_ms == __comp
-        && (v7->event_iterator.m_value.event_type & 2) != 0 )
+      if ( v7->event_iterator.m_value.event_time_in_ms == a3 && (v7->event_iterator.m_value.event_type & 2) != 0 )
       {
-        v8 = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v3[5];
-        m_animation_state = (survarium::flash_movie_resource *)v6->m_animation_state;
-        v10 = &v8[v3[7]];
-        __val.m_object = m_animation_state;
-        v11 = stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-                v8,
-                v10,
-                &__val);
-        if ( v11 != v10 )
+        v8 = *(_DWORD *)(target_time_in_ms + 32);
+        __val = *(vostok::animation::mixing::animation_state **)(v6 + 28);
+        stlp_std::remove<vostok::animation::mixing::animation_state * *,vostok::animation::mixing::animation_state *>(
+          *(vostok::animation::mixing::animation_state ***)(target_time_in_ms + 20),
+          &__val,
+          (vostok::animation::mixing::animation_state **)(*(_DWORD *)(target_time_in_ms + 20) + 4 * v8));
+        v9 = (_DWORD *)(target_time_in_ms + 8);
+        v10 = *(_DWORD *)(target_time_in_ms + 8);
+        v11 = 0;
+        if ( v10 )
         {
-          v12 = v11;
-          for ( k = v11 + 1; k != v10; ++k )
+          while ( 1 )
           {
-            if ( k->m_object != m_animation_state )
-            {
-              v12->m_object = k->m_object;
-              ++v12;
-            }
+            v12 = (_DWORD *)v39;
+            if ( v10 == v39 )
+              break;
+            v11 = v10;
+            v10 = *(_DWORD *)(v10 + 44);
+            if ( !v10 )
+              goto LABEL_12;
           }
+          if ( v11 )
+            v9 = (_DWORD *)(v11 + 44);
+          *v9 = *(_DWORD *)(v10 + 44);
         }
-        vostok::animation::mixing::n_ary_tree::remove_animation(
-          (vostok::animation::mixing::n_ary_tree *)&i,
-          target_time_in_ms,
-          &i,
-          j);
-        v6 = i;
+        else
+        {
+          v12 = (_DWORD *)v39;
+        }
+LABEL_12:
+        v13 = v36;
+        v14 = v12[10];
+        if ( v36 )
+          v36[10] = v14;
+        else
+          *(_DWORD *)(target_time_in_ms + 4) = v14;
+        v35 = &vostok::animation::mixing::n_ary_tree_destroyer::`vftable';
+        (*(void (__thiscall **)(_DWORD *, void ***))(*v12 + 8))(v12, &v35);
+        if ( v13 )
+          v6 = v13[10];
+        else
+          v6 = *(_DWORD *)(target_time_in_ms + 4);
+        --*(_DWORD *)(target_time_in_ms + 32);
       }
       else
       {
-        m_end = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_end;
-        j = (vostok::animation::mixing::n_ary_tree_animation_node *)v6->m_animated_object;
-        if ( stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-               (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_begin,
-               (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_end,
-               (const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)&j) == m_end )
+        v34 = *(int **)(v6 + 36);
+        v36 = v34;
+        v15 = stlp_std::find<vostok::render::render_output_window * *,vostok::render::render_output_window *>(
+                v31,
+                (int *)&v36,
+                v32);
+        if ( v15 == v32 )
         {
-          value = (void *)v6->m_animated_object;
-          vostok::buffer_vector<enum vostok::logging::format_specifier_enum>::push_back(&v30, (const void **)&value);
+          vostok::buffer_vector<void const *>::push_back(v28, (int)&v31, (const void **)&v34);
+          v7 = __val;
         }
-        v15 = v34;
-        if ( __that != v34 )
+        v16 = p_bone_matrices_computer;
+        if ( v7 != (vostok::animation::mixing::animation_state *)p_bone_matrices_computer )
         {
-          vostok::animation::mixing::animation_state::operator=(__that, v34);
-          v6->m_animation_state = v15;
+          vostok::animation::mixing::bone_matrices_computer_data::operator=(
+            &v7->bone_matrices_computer,
+            p_bone_matrices_computer);
+          LODWORD(v16[1].previous_object_movement.rotation.x) = v7->animation_interval_id;
+          LODWORD(v16[1].previous_object_movement.rotation.y) = v7->previous_animation_interval_id;
+          v16[1].previous_object_movement.rotation.z = v7->animation_interval_time;
+          weight = v7->weight;
+          p_animation_interval_id = (float *)&v7->event_iterator.m_animation_event_iterator.m_value.animation_interval_id;
+          v16[1].previous_object_movement.rotation.w = weight;
+          v16[1].previous_object_movement.translation.x = *(p_animation_interval_id - 3);
+          v16[1].previous_object_movement.translation.y = *(p_animation_interval_id - 2);
+          LOBYTE(v16[1].previous_object_movement.translation.elements[2]) = *((_BYTE *)p_animation_interval_id - 4);
+          BYTE1(v16[1].previous_object_movement.translation.elements[2]) = *((_BYTE *)p_animation_interval_id - 3);
+          qmemcpy(&v16[1].previous_object_movement.scale, p_animation_interval_id, 0x38u);
+          v7 = __val;
+          *(_DWORD *)(v39 + 28) = v16;
         }
-        j = v6;
-        v6 = v6->m_next_weight_animation;
-        v34 = v15 + 1;
-        i = v6;
+        v36 = (int *)v39;
+        v6 = *(_DWORD *)(v39 + 40);
+        p_bone_matrices_computer = (vostok::animation::mixing::bone_matrices_computer_data *)((char *)v16 + 176);
       }
-      ++__that;
-      if ( !v6 )
-        break;
-      v3 = target_time_in_ms;
-      v7 = __that;
+      ++v7;
+      v39 = v6;
+      __val = v7;
     }
-    v16 = v34;
-    if ( v34 != __that )
+    while ( v6 );
+    if ( p_bone_matrices_computer != (vostok::animation::mixing::bone_matrices_computer_data *)v7 )
     {
-      v17 = target_time_in_ms[4];
-      v18 = (_DWORD *)target_time_in_ms[5];
-      for ( m = v17 + 180 * target_time_in_ms[7]; v17 != m; ++v18 )
+      v19 = *(_DWORD *)(target_time_in_ms + 16);
+      v20 = *(_DWORD **)(target_time_in_ms + 20);
+      v21 = v19 + 176 * *(_DWORD *)(target_time_in_ms + 32);
+      while ( v19 != v21 )
       {
-        *v18 = v17;
-        v17 += 180;
+        *v20 = v19;
+        v19 += 176;
+        ++v20;
       }
-      v20 = (vostok::animation::mixing::animation_state **)target_time_in_ms[5];
-      v21 = target_time_in_ms[7];
-      v22 = &v20[v21];
-      LOBYTE(__comp) = 0;
-      if ( v20 != v22 )
-      {
-        v23 = (4 * v21) >> 2;
-        for ( n = 0; v23 != 1; ++n )
-          v23 >>= 1;
-        stlp_std::priv::__introsort_loop<vostok::animation::mixing::animation_state * *,vostok::animation::mixing::animation_state *,int,event_iterator_predicate>(
-          (event_iterator_predicate)v22,
-          v20,
-          &v20[v21],
-          0,
-          2 * n,
-          __comp);
-        stlp_std::priv::__final_insertion_sort<vostok::animation::mixing::animation_state * *,event_iterator_predicate>(
-          v20,
-          (event_iterator_predicate)v20,
-          v22,
-          0);
-      }
+      stlp_std::sort<vostok::animation::mixing::animation_state * *,event_iterator_predicate>(
+        *(vostok::animation::mixing::animation_state ***)(target_time_in_ms + 20),
+        (vostok::animation::mixing::animation_state **)(*(_DWORD *)(target_time_in_ms + 20)
+                                                      + 4 * *(_DWORD *)(target_time_in_ms + 32)),
+        *(event_iterator_predicate *)(target_time_in_ms + 28));
+      v22 = v29;
       do
       {
-        if ( v16->bone_matrices_computer.pinned_animation.m_resource.m_object )
+        v23 = (vostok::animation::mixing::animation_state *)p_bone_matrices_computer;
+        vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>::~pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>(
+          v22,
+          (int)&p_bone_matrices_computer->pinned_animation);
+        p_bone_matrices_computer = &v23[1].bone_matrices_computer;
+      }
+      while ( &v23[1] != __val );
+    }
+  }
+  v24 = *(_DWORD *)(target_time_in_ms + 36);
+  v25 = (v32 - v31) >> 2;
+  v35 = (void **)v25;
+  if ( v24 != v25 )
+  {
+    v26 = *(int **)(target_time_in_ms + 24);
+    v41 = v26;
+    v40 = v26;
+    v34 = &v26[34 * v24];
+    if ( v26 != v34 )
+    {
+      do
+      {
+        v27 = stlp_std::find<vostok::render::render_output_window * *,vostok::render::render_output_window *>(
+                v31,
+                v26 + 32,
+                v32);
+        if ( v27 != v32 )
         {
-          if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+          if ( v26 != v40 )
           {
-            v25 = (int)(v16->bone_matrices_computer.pinned_animation.m_data - 52);
-            _InterlockedExchangeAdd((volatile signed __int32 *)(v25 + 44), 0xFFFFFFFF);
-            if ( *(_DWORD *)(v25 + 16) )
+            if ( v40 )
             {
-              if ( !*(_DWORD *)(v25 + 44) )
-              {
-                _InterlockedExchangeAdd((volatile signed __int32 *)(*(_DWORD *)(v25 + 16) + 40), 1u);
-                *(_DWORD *)(v25 + 16) = 0;
-              }
+              qmemcpy(v40, v26, 0x88u);
+              v26 = v41;
             }
           }
+          v40 += 34;
         }
-        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v16->bone_matrices_computer.pinned_animation.m_resource);
-        ++v16;
+        v26 += 34;
+        v41 = v26;
       }
-      while ( v16 != __that );
+      while ( v26 != v34 );
+      v25 = (int)v35;
     }
-    v3 = target_time_in_ms;
+    *(_DWORD *)(target_time_in_ms + 36) = v25;
   }
-  v26 = v3[8];
-  if ( v26 != vostok::buffer_vector<void const *>::size(&v30) )
-  {
-    v27 = (const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v3[6];
-    __compa = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v27;
-    value = (void *)&v27[34 * v26];
-    if ( v27 != value )
-    {
-      v28 = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_end;
-      do
-      {
-        if ( stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-               (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_begin,
-               v28,
-               v27 + 32) != v28 )
-        {
-          if ( v27 != __compa && __compa )
-          {
-            qmemcpy(__compa, v27, 0x88u);
-            v28 = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)v30.m_end;
-          }
-          __compa += 34;
-        }
-        v27 += 34;
-      }
-      while ( v27 != value );
-      v3 = target_time_in_ms;
-    }
-    v3[8] = vostok::buffer_vector<void const *>::size(&v30);
-  }
-  vostok::buffer_vector<char const *>::~buffer_vector<char const *>(&v30);
 }

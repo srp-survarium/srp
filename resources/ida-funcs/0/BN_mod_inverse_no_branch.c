@@ -8,7 +8,7 @@ bignum_st *__usercall BN_mod_inverse_no_branch@<eax>(
   bignum_pool_item *v5; // edi
   bignum_pool_item *v6; // ebp
   bignum_st *v7; // eax
-  bignum_st *v8; // ebp
+  bignum_pool_item *v8; // ebp
   bignum_pool_item *v9; // edx
   int v10; // eax
   const bignum_st *v11; // edi
@@ -24,24 +24,24 @@ bignum_st *__usercall BN_mod_inverse_no_branch@<eax>(
   bignum_st num; // [esp+40h] [ebp-14h] BYREF
 
   r = 0;
-  BN_CTX_start(v14);
-  v4 = BN_CTX_get(ctx);
-  v5 = BN_CTX_get(ctx);
-  aa = BN_CTX_get(ctx);
-  dv = BN_CTX_get(ctx);
-  rm = BN_CTX_get(ctx);
-  v6 = BN_CTX_get(ctx);
+  BN_CTX_start((int)ctx, v14);
+  v4 = BN_CTX_get((int)ctx, ctx);
+  v5 = BN_CTX_get((int)ctx, ctx);
+  aa = BN_CTX_get((int)ctx, ctx);
+  dv = BN_CTX_get((int)ctx, ctx);
+  rm = BN_CTX_get((int)ctx, ctx);
+  v6 = BN_CTX_get((int)ctx, ctx);
   v16 = (bignum_st *)v6;
-  if ( BN_CTX_get(ctx) )
+  if ( BN_CTX_get((int)ctx, ctx) )
   {
     v7 = in;
     if ( !in )
-      v7 = BN_new();
+      v7 = BN_new((int)ctx);
     r = v7;
     if ( v7 )
     {
-      BN_set_word(aa->vals, 1u);
-      BN_set_word(v6->vals, 0);
+      BN_set_word((int)ctx, aa->vals, 1u);
+      BN_set_word((int)ctx, v6->vals, 0);
       if ( BN_copy(v5->vals, a) )
       {
         if ( BN_copy(v4->vals, n) )
@@ -64,18 +64,18 @@ bignum_st *__usercall BN_mod_inverse_no_branch@<eax>(
                 num.dmax = v4->vals[0].dmax;
                 num.neg = v4->vals[0].neg;
                 num.flags = num.flags & 1 | v4->vals[0].flags & 0xFFFFFFFE | 6;
-                if ( !BN_div(dv->vals, rm->vals, &num, v5->vals, ctx) )
+                if ( !BN_div(dv, rm->vals, &num, v5->vals, ctx) )
                   break;
-                v8 = (bignum_st *)v4;
+                v8 = v4;
                 v4 = v5;
                 v5 = rm;
-                if ( !BN_mul(v8, dv->vals, aa->vals, ctx) || !BN_add(v8, v8, v16) )
+                if ( !BN_mul(v8, dv, aa, ctx) || !BN_add(v8->vals, v8->vals, v16) )
                   break;
                 v9 = aa;
                 v10 = -v19;
                 rm = (bignum_pool_item *)v16;
                 v16 = (bignum_st *)aa;
-                aa = (bignum_pool_item *)v8;
+                aa = v8;
                 v19 = -v19;
                 if ( !v5->vals[0].top )
                 {
@@ -108,7 +108,7 @@ LABEL_19:
                 }
                 else
                 {
-                  ERR_put_error(3u, 139, 108, ".\\crypto\\bn\\bn_gcd.c", 645);
+                  ERR_put_error((int)ctx, 3u, 139, 108, ".\\crypto\\bn\\bn_gcd.c", 645);
                 }
               }
             }

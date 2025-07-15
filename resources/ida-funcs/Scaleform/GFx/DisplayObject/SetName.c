@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObject::SetName(Scaleform::GFx::DisplayObject *this, int name)
 {
-  const Scaleform::GFx::ASString *v2; // esi
+  Scaleform::String v2; // esi
   Scaleform::GFx::CharacterHandle *pObject; // ecx
   Scaleform::GFx::CharacterHandle *v5; // eax
   Scaleform::GFx::CharacterHandle *v6; // eax
@@ -11,13 +11,13 @@ void __thiscall Scaleform::GFx::DisplayObject::SetName(Scaleform::GFx::DisplayOb
   Scaleform::GFx::ASStringNode *v11; // ecx
   Scaleform::GFx::ASStringNode *v12; // ecx
 
-  v2 = (const Scaleform::GFx::ASString *)name;
+  v2.pData = (Scaleform::String::DataDesc *)name;
   if ( *(_DWORD *)(*(_DWORD *)name + 20) )
     this->Flags &= ~2u;
   pObject = this->pNameHandle.pObject;
   if ( pObject )
   {
-    Scaleform::GFx::CharacterHandle::ChangeName(pObject, (Scaleform::String)v2, this->pParent);
+    Scaleform::GFx::CharacterHandle::ChangeName(pObject, v2, this->pParent);
   }
   else
   {
@@ -29,7 +29,7 @@ void __thiscall Scaleform::GFx::DisplayObject::SetName(Scaleform::GFx::DisplayOb
                                               &name);
     if ( v5 )
     {
-      Scaleform::GFx::CharacterHandle::CharacterHandle(v5, (Scaleform::String)v2, this->pParent, this);
+      Scaleform::GFx::CharacterHandle::CharacterHandle(v5, v2, this->pParent, this);
       v7 = v6;
     }
     else

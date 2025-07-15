@@ -10,7 +10,7 @@ int __cdecl _fclose_nolock(_iobuf *str)
     {
       v1 = _flush(str);
       _freebuf(str);
-      v3 = _fileno(str);
+      v3 = _fileno(v1, 0, str);
       if ( _close(v3) >= 0 )
       {
         if ( str->_tmpfname )
@@ -30,7 +30,7 @@ int __cdecl _fclose_nolock(_iobuf *str)
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(-1, 0, 0);
     return -1;
   }
 }

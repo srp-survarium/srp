@@ -1,19 +1,18 @@
-void __thiscall survarium::bullet_manager::destroy_bullet(
-        survarium::bullet_manager *this,
-        survarium::bullet ***destroying_bullet_iterator)
+void __userpurge survarium::bullet_manager::destroy_bullet(
+        survarium::bullet_manager *this@<esi>,
+        vostok::render::ambient_light ***destroying_bullet_iterator@<eax>,
+        bool notification_needed)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::ai::planning::action_parameter **end; // [esp+38h] [ebp-8h] BYREF
-  survarium::bullet *destroying_bullet; // [esp+3Ch] [ebp-4h] BYREF
+  vostok::render::ambient_light **v4; // eax
+  survarium::bullet *v5; // ebx
+  vostok::render::ambient_light **end; // [esp+8h] [ebp-4h] BYREF
 
-  destroying_bullet = **destroying_bullet_iterator;
-  end = (vostok::ai::planning::action_parameter **)(*destroying_bullet_iterator + 1);
-  vostok::buffer_vector<vostok::ai::planning::action_parameter *>::erase(
-    (vostok::buffer_vector<vostok::ai::planning::action_parameter *> *)this,
-    (vostok::ai::planning::action_parameter ***)destroying_bullet_iterator,
+  v4 = *destroying_bullet_iterator;
+  v5 = (survarium::bullet *)*v4;
+  end = v4 + 1;
+  vostok::buffer_vector<vostok::particle::render_particle_emitter_instance *>::erase(
+    (vostok::buffer_vector<vostok::render::ambient_light *> *)&this->m_bullets,
+    destroying_bullet_iterator,
     &end);
-  survarium::weapon_user_dead_state::finalize(v2);
-  vostok::memory::detail::delete_helper_impl<vostok::memory::single_size_buffer_allocator<128,vostok::threading::simple_lock>,survarium::bullet,vostok::memory::detail::call_destructor_predicate>(
-    this->m_bullets_allocator_ref.m_variable,
-    &destroying_bullet);
+  survarium::bullet_manager::free_bullet(this, v5, notification_needed);
 }

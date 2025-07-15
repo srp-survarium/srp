@@ -25,13 +25,13 @@ Scaleform::GFx::AS3::Class *__thiscall Scaleform::GFx::AS3::VM::GetClass(
   v3 = 0;
   if ( !gname->pManager )
     return 0;
-  if ( (_S15 & 1) != 0 )
+  if ( (_S20 & 1) != 0 )
   {
     Size = vecPref.Size;
   }
   else
   {
-    _S15 |= 1u;
+    _S20 |= 1u;
     Size = 8;
     vecPref.pStr = "Vector.<";
     vecPref.Size = 8;
@@ -52,12 +52,12 @@ LABEL_16:
     v19 = v18;
     if ( v18 )
     {
-      ((void (__thiscall *)(Scaleform::GFx::ASString *))v18->pNode[1].Size)(v18);
+      ((void (__thiscall *)(Scaleform::GFx::ASString *))v18->pNode[2].pLower)(v18);
       if ( !this->HandleException )
       {
         pNode = v19[25].pNode;
         if ( !pNode[2].Size )
-          (*((void (__thiscall **)(Scaleform::GFx::ASStringNode *))pNode->pData + 11))(pNode);
+          (*((void (__thiscall **)(Scaleform::GFx::ASStringNode *))pNode->pData + 14))(pNode);
         v3 = pNode[2].Size;
       }
     }

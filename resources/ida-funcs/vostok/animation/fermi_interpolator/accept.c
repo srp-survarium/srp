@@ -1,15 +1,7 @@
 void __thiscall vostok::animation::fermi_interpolator::accept(
-        vostok::animation::fermi_interpolator *this,
-        vostok::animation::interpolator_visitor *visitor)
+        vostok::animation::mixing::n_ary_tree_weight_transition_node *this,
+        vostok::animation::mixing::n_ary_tree_double_dispatcher *dispatcher,
+        vostok::animation::mixing::n_ary_tree_base_node *node)
 {
-  visitor->visit(visitor, this);
-}
-
-
-void __thiscall vostok::animation::fermi_interpolator::accept(
-        vostok::animation::fermi_interpolator *this,
-        vostok::animation::interpolator_comparer *dispatcher,
-        const vostok::animation::base_interpolator *interpolator)
-{
-  interpolator->visit(interpolator, dispatcher, this);
+  node->visit(node, dispatcher, this);
 }

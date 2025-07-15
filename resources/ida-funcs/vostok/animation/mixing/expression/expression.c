@@ -1,83 +1,63 @@
-void __thiscall vostok::animation::mixing::expression::expression(
-        vostok::animation::mixing::expression *this,
-        vostok::animation::mixing::expression *lexeme)
+void __usercall vostok::animation::mixing::expression::expression(
+        vostok::animation::mixing::expression *this@<ecx>,
+        vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> **a2@<eax>)
 {
-  vostok::animation::mixing::expression *m_buffer; // esi
-  vostok::animation::mixing::base_lexeme *m_lexeme; // eax
-  vostok::animation::mixing::addition_lexeme_vtbl *v4; // eax
-  vostok::animation::mixing::addition_lexeme_vtbl *m_object; // ecx
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *v3; // edi
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *v4; // eax
 
-  lexeme->m_node.m_object = 0;
-  if ( LOBYTE(this[4].m_node.m_object) )
-  {
-    m_buffer = this;
-  }
+  *a2 = 0;
+  v3 = (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)vostok::animation::mixing::addition_lexeme::cloned_in_buffer((vostok::animation::mixing::addition_lexeme *)this);
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+    v3,
+    a2);
+  if ( v3 )
+    v4 = v3 + 7;
   else
-  {
-    m_lexeme = this[3].m_lexeme;
-    m_buffer = (vostok::animation::mixing::expression *)m_lexeme->m_buffer;
-    *(_DWORD *)&m_lexeme->m_cloned -= 36;
-    m_lexeme->m_buffer = (vostok::mutable_buffer *)&m_buffer[4].m_lexeme;
-    if ( m_buffer )
-      vostok::animation::mixing::addition_lexeme::addition_lexeme(
-        (vostok::animation::mixing::addition_lexeme *)m_buffer,
-        (const vostok::animation::mixing::addition_lexeme *)this);
-    LOBYTE(m_buffer[4].m_node.m_object) = 1;
-  }
-  v4 = 0;
-  if ( m_buffer )
-  {
-    ++m_buffer[2].m_node.m_object;
-    v4 = (vostok::animation::mixing::addition_lexeme_vtbl *)m_buffer;
-  }
-  m_object = (vostok::animation::mixing::addition_lexeme_vtbl *)lexeme->m_node.m_object;
-  lexeme->m_node.m_object = (vostok::animation::mixing::binary_tree_base_node *)v4;
-  if ( m_object )
-  {
-    if ( m_object[1].accept-- == (void (__thiscall *)(vostok::animation::mixing::binary_tree_base_node *, vostok::animation::mixing::binary_tree_visitor *))1 )
-      (*(void (__thiscall **)(vostok::animation::mixing::addition_lexeme_vtbl *, _DWORD))m_object->~vostok::animation::mixing::binary_tree_base_node)(
-        m_object,
-        0);
-  }
-  if ( m_buffer )
-    lexeme->m_lexeme = (vostok::animation::mixing::base_lexeme *)&m_buffer[3].m_lexeme;
+    v4 = 0;
+  a2[1] = v4;
+}
+
+
+void __userpurge vostok::animation::mixing::expression::expression(
+        vostok::animation::mixing::expression *this@<ecx>,
+        vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> **a2@<eax>,
+        vostok::animation::mixing::animation_lexeme *lexeme)
+{
+  vostok::animation::mixing::animation_lexeme *v4; // edi
+  vostok::animation::mixing::base_lexeme *v5; // eax
+
+  *a2 = 0;
+  v4 = vostok::animation::mixing::animation_lexeme::cloned_in_buffer(
+         (vostok::animation::mixing::animation_lexeme *)this,
+         lexeme);
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)v4,
+    a2);
+  if ( v4 )
+    v5 = &v4->vostok::animation::mixing::base_lexeme;
   else
-    lexeme->m_lexeme = 0;
+    v5 = 0;
+  a2[1] = (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)v5;
 }
 
 
 void __usercall vostok::animation::mixing::expression::expression(
-        vostok::animation::mixing::expression *this@<edi>,
-        vostok::animation::mixing::base_lexeme *lexeme@<eax>,
-        vostok::animation::mixing::animation_lexeme *a3@<ecx>)
+        vostok::animation::mixing::expression *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::animation::mixing::base_lexeme *v3; // esi
-  vostok::animation::mixing::binary_tree_base_node *v4; // eax
-  vostok::animation::mixing::binary_tree_base_node *m_object; // ecx
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *v3; // edi
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *v4; // eax
 
-  this->m_node.m_object = 0;
-  v3 = (vostok::animation::mixing::base_lexeme *)vostok::animation::mixing::animation_lexeme::cloned_in_buffer(
-                                                   a3,
-                                                   lexeme);
-  v4 = 0;
+  *(_DWORD *)a2 = 0;
+  v3 = (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)vostok::animation::mixing::weight_lexeme::cloned_in_buffer((vostok::animation::mixing::weight_lexeme *)this);
+  vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+    v3,
+    (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> **)a2);
   if ( v3 )
-  {
-    ++v3[2].m_buffer;
-    v4 = (vostok::animation::mixing::binary_tree_base_node *)v3;
-  }
-  m_object = this->m_node.m_object;
-  this->m_node.m_object = v4;
-  if ( m_object )
-  {
-    if ( m_object->m_reference_count-- == 1 )
-      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_base_node *, _DWORD))m_object->~vostok::animation::mixing::binary_tree_base_node)(
-        m_object,
-        0);
-  }
-  if ( v3 )
-    this->m_lexeme = v3 + 15;
+    v4 = v3 + 8;
   else
-    this->m_lexeme = 0;
+    v4 = 0;
+  *(_DWORD *)(a2 + 4) = v4;
 }
 
 

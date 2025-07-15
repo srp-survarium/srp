@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::TextField::ReplaceTextA(
         Scaleform::GFx::TextField *this,
-        const wchar_t *ptext,
+        wchar_t *ptext,
         unsigned int beginPos,
         unsigned int endPos,
         unsigned int textLen)

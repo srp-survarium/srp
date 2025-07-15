@@ -1,76 +1,80 @@
-void __usercall Scaleform::GFx::AS2::PointCtorFunction::Polar(char a1@<bpl>, const Scaleform::GFx::AS2::FnCall *fn)
+void __usercall Scaleform::GFx::AS2::PointCtorFunction::Polar(char a1@<bpl>, int fn)
 {
-  Scaleform::MemoryHeap *pHeap; // ecx
+  int v2; // ecx
   Scaleform::GFx::AS2::PointObject *v3; // eax
   Scaleform::GFx::AS2::PointObject *v4; // eax
   Scaleform::GFx::AS2::PointObject *v5; // edi
-  Scaleform::GFx::AS2::Environment *Env; // eax
+  int v6; // eax
   int v7; // ebx
-  Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // eax
+  int v8; // eax
   const Scaleform::GFx::AS2::Value *v9; // edx
-  Scaleform::GFx::AS2::Environment *v10; // ecx
+  _DWORD *v10; // ecx
   int v11; // ebx
-  unsigned int Size; // ebp
-  Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *v13; // ecx
+  int v12; // ebp
+  _DWORD *v13; // ecx
   unsigned int v14; // eax
   const Scaleform::GFx::AS2::Value *v15; // edx
   Scaleform::GFx::AS2::Environment *v16; // edx
   unsigned int RefCount; // eax
-  long double l; // [esp+8h] [ebp-40h]
-  long double a; // [esp+10h] [ebp-38h]
-  Scaleform::GFx::AS2::Value angle; // [esp+18h] [ebp-30h] BYREF
-  Scaleform::GFx::AS2::Value length; // [esp+28h] [ebp-20h] BYREF
-  Scaleform::Render::Point<double> pt; // [esp+38h] [ebp-10h] BYREF
+  long double v19; // [esp+8h] [ebp-40h]
+  long double v20; // [esp+10h] [ebp-38h]
+  Scaleform::GFx::AS2::Value v21; // [esp+18h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v22; // [esp+28h] [ebp-20h] BYREF
+  Scaleform::Render::Point<double> v23; // [esp+38h] [ebp-10h] BYREF
 
-  pHeap = fn->Env->StringContext.pContext->pHeap;
-  v3 = (Scaleform::GFx::AS2::PointObject *)pHeap->Alloc(pHeap, 52u, 0);
+  v2 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(fn + 24) + 116) + 24);
+  v3 = (Scaleform::GFx::AS2::PointObject *)(*(int (__thiscall **)(int, int, _DWORD))(*(_DWORD *)v2 + 40))(v2, 52, 0);
   if ( v3 )
   {
-    Scaleform::GFx::AS2::PointObject::PointObject(v3, fn->Env);
+    Scaleform::GFx::AS2::PointObject::PointObject(v3, *(Scaleform::GFx::AS2::Environment **)(fn + 24));
     v5 = v4;
   }
   else
   {
     v5 = 0;
   }
-  Env = fn->Env;
-  if ( fn->NArgs <= 1 )
+  v6 = *(_DWORD *)(fn + 24);
+  if ( *(int *)(fn + 28) <= 1 )
   {
-    Scaleform::GFx::AS2::PointObject::SetProperties(v5, &Env->StringContext, Point_NanParams);
+    Scaleform::GFx::AS2::PointObject::SetProperties(
+      v5,
+      (Scaleform::GFx::AS2::ASStringContext *)(v6 + 116),
+      Point_NanParams);
   }
   else
   {
-    v7 = (char *)Env->Stack.pCurrent - (char *)Env->Stack.pPageStart;
-    p_Stack = &Env->Stack;
+    v7 = *(_DWORD *)(v6 + 4) - *(_DWORD *)(v6 + 8);
+    v8 = v6 + 4;
     v9 = 0;
-    if ( fn->FirstArgBottomIndex <= 32 * (p_Stack->Pages.Data.Size - 1) + (v7 >> 4) )
-      v9 = &p_Stack->Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-    Scaleform::GFx::AS2::Value::Value(&length, v9);
-    v10 = fn->Env;
-    v11 = (char *)v10->Stack.pCurrent - (char *)v10->Stack.pPageStart;
-    Size = v10->Stack.Pages.Data.Size;
-    v13 = &v10->Stack;
-    v14 = fn->FirstArgBottomIndex - 1;
+    if ( *(_DWORD *)(fn + 32) <= (unsigned int)(32 * (*(_DWORD *)(v8 + 20) - 1) + (v7 >> 4)) )
+      v9 = (const Scaleform::GFx::AS2::Value *)(*(_DWORD *)(*(_DWORD *)(v8 + 16) + 4 * (*(_DWORD *)(fn + 32) >> 5))
+                                              + 16 * (*(_DWORD *)(fn + 32) & 0x1F));
+    Scaleform::GFx::AS2::Value::Value(&v22, v9);
+    v10 = *(_DWORD **)(fn + 24);
+    v11 = v10[1] - v10[2];
+    v12 = v10[6];
+    v13 = v10 + 1;
+    v14 = *(_DWORD *)(fn + 32) - 1;
     v15 = 0;
-    if ( v14 <= 32 * (Size - 1) + (v11 >> 4) )
-      v15 = &v13->Pages.Data.Data[v14 >> 5]->Values[v14 & 0x1F];
-    Scaleform::GFx::AS2::Value::Value(&angle, v15);
-    l = Scaleform::GFx::AS2::Value::ToNumber(&length, fn->Env);
-    a = Scaleform::GFx::AS2::Value::ToNumber(&angle, fn->Env);
-    pt.x = cos(a) * l;
-    v16 = fn->Env;
-    pt.y = sin(a) * l;
-    Scaleform::GFx::AS2::PointObject::SetProperties(v5, (int)v5, (int)fn, v16, &pt, a1);
-    if ( angle.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&angle);
-    if ( length.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&length);
+    if ( v14 <= 32 * (v12 - 1) + (v11 >> 4) )
+      v15 = (const Scaleform::GFx::AS2::Value *)(*(_DWORD *)(v13[4] + 4 * (v14 >> 5)) + 16 * (v14 & 0x1F));
+    Scaleform::GFx::AS2::Value::Value(&v21, v15);
+    v19 = Scaleform::GFx::AS2::Value::ToNumber(&v22, (Scaleform::GFx::AS2::Environment *)*(_DWORD *)(fn + 24));
+    v20 = Scaleform::GFx::AS2::Value::ToNumber(&v21, (Scaleform::GFx::AS2::Environment *)*(_DWORD *)(fn + 24));
+    v23.x = cos(v20) * v19;
+    v16 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
+    v23.y = sin(v20) * v19;
+    Scaleform::GFx::AS2::PointObject::SetProperties(v5, (int)v5, fn, v16, &v23, a1);
+    if ( v21.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v21);
+    if ( v22.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v22);
   }
-  Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v5);
+  Scaleform::GFx::AS2::Value::SetAsObject(*(Scaleform::GFx::AS2::Value **)(fn + 4), v5);
   if ( v5 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

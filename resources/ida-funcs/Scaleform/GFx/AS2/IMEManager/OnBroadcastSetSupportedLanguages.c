@@ -11,7 +11,9 @@ void __cdecl Scaleform::GFx::AS2::IMEManager::OnBroadcastSetSupportedLanguages(c
   {
     v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
     Scaleform::GFx::AS2::Value::ToStringImpl(v3, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
-    Scaleform::GFx::AS2::GASIme::BroadcastOnSetSupportedLanguages(v1->Env, (const Scaleform::GFx::ASString *)&fn);
+    Scaleform::GFx::AS2::GASIme::BroadcastOnSetSupportedLanguages(
+      (Scaleform::GFx::ASStringNode *)v1->Env,
+      (const Scaleform::GFx::ASString *)&fn);
     v4 = (Scaleform::GFx::ASStringNode *)fn;
     --fn->ThisFunctionRef.Function;
     if ( !v4->RefCount )

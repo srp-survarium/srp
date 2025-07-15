@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Tessellator *this)
 {
-  unsigned int j; // ebx
+  unsigned int i; // ebx
   unsigned int v3; // ebp
   unsigned int v4; // edx
   unsigned int v5; // ebx
@@ -11,13 +11,13 @@ void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Te
   unsigned int v10; // eax
   double y; // st6
   Scaleform::Render::Tessellator::SrcVertexType *v12; // edi
-  unsigned int k; // edi
+  unsigned int j; // edi
   unsigned int Size; // eax
-  unsigned int v15; // ebx
+  int v15; // ebx
   unsigned __int8 *v16; // ebp
-  unsigned __int8 *Array; // eax
+  Scaleform::Render::Tessellator::MonoChainType **Array; // eax
   unsigned int v18; // ecx
-  unsigned int m; // eax
+  unsigned int k; // eax
   unsigned int v20; // eax
   unsigned int v21; // ebp
   unsigned int v22; // edi
@@ -32,28 +32,28 @@ void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Te
   unsigned int v31; // eax
   Scaleform::Render::Tessellator::MonoChainType ***Pages; // ecx
   Scaleform::Render::Tessellator::MonoChainType *v33; // edx
-  unsigned int i; // [esp+20h] [ebp-10h]
-  float ia; // [esp+20h] [ebp-10h]
-  float y1; // [esp+24h] [ebp-Ch]
-  unsigned int pos; // [esp+28h] [ebp-8h]
-  unsigned int posa; // [esp+28h] [ebp-8h]
-  float sbb; // [esp+2Ch] [ebp-4h]
-  unsigned int sb; // [esp+2Ch] [ebp-4h]
-  unsigned int sba; // [esp+2Ch] [ebp-4h]
+  unsigned int v34; // [esp+20h] [ebp-10h]
+  float yTop; // [esp+20h] [ebp-10h]
+  float yb; // [esp+24h] [ebp-Ch]
+  int v37; // [esp+28h] [ebp-8h]
+  int m; // [esp+28h] [ebp-8h]
+  float v39; // [esp+2Ch] [ebp-4h]
+  unsigned int v40; // [esp+2Ch] [ebp-4h]
+  unsigned int v41; // [esp+2Ch] [ebp-4h]
 
   if ( this->SrcVertices.Size )
   {
     Scaleform::Render::ArrayUnsafe<Scaleform::Render::Rasterizer::Cell *>::Resize(
       &this->StyleCounts,
       this->MaxStyle + 1);
-    for ( j = 0; j < this->SrcVertices.Size; ++j )
+    for ( i = 0; i < this->SrcVertices.Size; ++i )
     {
       v3 = this->Scanbeams.Size >> 4;
       if ( v3 >= this->Scanbeams.NumPages )
         Scaleform::Render::ArrayPaged<Scaleform::Render::GlyphFitter::VertexType,4,16>::allocPage(
           &this->Scanbeams,
           this->Scanbeams.Size >> 4);
-      this->Scanbeams.Pages[v3][this->Scanbeams.Size++ & 0xF] = j;
+      this->Scanbeams.Pages[v3][this->Scanbeams.Size++ & 0xF] = i;
     }
     Scaleform::Alg::QuickSortSliced<Scaleform::Render::ArrayPaged<unsigned int,4,16>,Scaleform::Render::Tessellator::CmpScanbeams>(
       &this->Scanbeams,
@@ -62,8 +62,8 @@ void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Te
       (Scaleform::Render::Tessellator::CmpScanbeams)&this->SrcVertices);
     v4 = 0;
     v5 = 0;
-    pos = 0;
-    i = 0;
+    v37 = 0;
+    v34 = 0;
     if ( this->Scanbeams.Size )
     {
       v6 = (float)-1.0e30;
@@ -75,8 +75,8 @@ void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Te
         v10 = this->Scanbeams.Pages[v7][v8] & 0xF;
         y = v9[v10].y;
         v12 = &v9[v10];
-        sbb = fabs(v12->y);
-        if ( sbb * this->Epsilon >= y - v6 )
+        v39 = fabs(v12->y);
+        if ( v39 * this->Epsilon >= y - v6 )
         {
           v12->y = v6;
         }
@@ -84,54 +84,54 @@ void __thiscall Scaleform::Render::Tessellator::monotonize(Scaleform::Render::Te
         {
           this->Scanbeams.Pages[v5 >> 4][v5 & 0xF] = this->Scanbeams.Pages[v7][v8];
           v6 = v12->y;
-          v5 = ++pos;
+          v5 = ++v37;
         }
-        v4 = i + 1;
-        i = v4;
+        v4 = v34 + 1;
+        v34 = v4;
       }
       while ( v4 < this->Scanbeams.Size );
     }
     if ( v5 < this->Scanbeams.Size )
       this->Scanbeams.Size = v5;
-    for ( k = 0; k < this->Paths.Size; ++k )
-      Scaleform::Render::Tessellator::decomposePath(this, &this->Paths.Pages[k >> 4][k & 0xF]);
+    for ( j = 0; j < this->Paths.Size; ++j )
+      Scaleform::Render::Tessellator::decomposePath(this, &this->Paths.Pages[j >> 4][j & 0xF]);
     Size = this->MonoChains.Size;
-    sb = Size;
+    v40 = Size;
     if ( Size > this->MonoChainsSorted.Size )
     {
       v15 = 4 * Size;
       v16 = Scaleform::Render::LinearHeap::Alloc(this->MonoChainsSorted.pHeap, 4 * Size);
       memset((int)v16, 0, v15);
-      Array = (unsigned __int8 *)this->MonoChainsSorted.Array;
+      Array = this->MonoChainsSorted.Array;
       if ( Array )
       {
         v18 = this->MonoChainsSorted.Size;
         if ( v18 )
-          memcpy(v16, Array, 4 * v18);
+          memcpy((int)v16, (const __m128i *)Array, 4 * v18);
       }
-      Size = sb;
+      Size = v40;
       this->MonoChainsSorted.Array = (Scaleform::Render::Tessellator::MonoChainType **)v16;
     }
     this->MonoChainsSorted.Size = Size;
-    for ( m = 0; m < this->MonoChains.Size; ++m )
-      this->MonoChainsSorted.Array[m] = &this->MonoChains.Pages[m >> 4][m & 0xF];
+    for ( k = 0; k < this->MonoChains.Size; ++k )
+      this->MonoChainsSorted.Array[k] = &this->MonoChains.Pages[k >> 4][k & 0xF];
     Scaleform::Alg::QuickSortSliced<Scaleform::Render::ArrayUnsafe<Scaleform::Render::Tessellator::MonoChainType *>,bool (__cdecl *)(Scaleform::Render::Tessellator::MonoChainType const *,Scaleform::Render::Tessellator::MonoChainType const *)>(
       &this->MonoChainsSorted,
       0,
       this->MonoChainsSorted.Size,
       (bool (__cdecl *)(const Scaleform::Render::Tessellator::MonoChainType *, const Scaleform::Render::Tessellator::MonoChainType *))Scaleform::Render::Tessellator::cmpMonoChains);
     v20 = this->Scanbeams.Size;
-    ia = this->SrcVertices.Pages[**this->Scanbeams.Pages >> 4][**this->Scanbeams.Pages & 0xF].y;
+    yTop = this->SrcVertices.Pages[**this->Scanbeams.Pages >> 4][**this->Scanbeams.Pages & 0xF].y;
     v21 = 0;
     v22 = 0;
-    for ( y1 = ia; v21 < v20; y1 = ia )
+    for ( yb = yTop; v21 < v20; yb = yTop )
     {
-      sba = ++v21;
+      v41 = ++v21;
       if ( v21 < v20 )
-        ia = this->SrcVertices.Pages[this->Scanbeams.Pages[v21 >> 4][v21 & 0xF] >> 4][this->Scanbeams.Pages[v21 >> 4][v21 & 0xF]
-                                                                                    & 0xF].y;
+        yTop = this->SrcVertices.Pages[this->Scanbeams.Pages[v21 >> 4][v21 & 0xF] >> 4][this->Scanbeams.Pages[v21 >> 4][v21 & 0xF]
+                                                                                      & 0xF].y;
       v23 = this->MonoChainsSorted.Size;
-      v24 = y1;
+      v24 = yb;
       v25 = v22;
       if ( v22 < v23 )
       {
@@ -178,32 +178,32 @@ LABEL_34:
           }
         }
       }
-      Scanbeam = Scaleform::Render::Tessellator::nextScanbeam(this, y1, ia, v25, v22 - v25);
+      Scanbeam = Scaleform::Render::Tessellator::nextScanbeam(this, yb, yTop, v25, v22 - v25);
       v29 = Scanbeam;
       if ( this->Intersections.Size )
       {
-        Scaleform::Render::Tessellator::processInterior(this, y1, ia, Scanbeam);
+        Scaleform::Render::Tessellator::processInterior(this, yb, yTop, Scanbeam);
       }
       else
       {
         if ( Scanbeam )
           Scaleform::Render::Tessellator::perceiveStyles(this, &this->ActiveChains);
-        Scaleform::Render::Tessellator::sweepScanbeam(this, &this->ActiveChains, y1);
+        Scaleform::Render::Tessellator::sweepScanbeam(this, &this->ActiveChains, yb);
       }
       if ( (v29 & 2) != 0 )
       {
         v30 = 0;
         v31 = 0;
-        for ( posa = 0; v31 < this->ActiveChains.Size; ++v31 )
+        for ( m = 0; v31 < this->ActiveChains.Size; ++v31 )
         {
           Pages = this->ActiveChains.Pages;
           v33 = Pages[v31 >> 4][v31 & 0xF];
           if ( (v33->flags & 2) == 0 )
           {
             Pages[v30 >> 4][v30 & 0xF] = v33;
-            v30 = ++posa;
+            v30 = ++m;
           }
-          v21 = sba;
+          v21 = v41;
         }
         if ( v30 < this->ActiveChains.Size )
           this->ActiveChains.Size = v30;

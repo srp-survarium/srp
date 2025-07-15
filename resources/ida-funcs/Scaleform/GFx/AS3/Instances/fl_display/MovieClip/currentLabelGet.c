@@ -24,7 +24,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::MovieClip::currentLa
   {
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    pVM->StringManagerRef->pStringManager,
-                   (char *)((*v4 & 0xFFFFFFFC) + 8));
+                   (__m128i *)((*v4 & 0xFFFFFFFC) + 8));
     StringNode->RefCount += 2;
     pNode = result->pNode;
     v7 = result->pNode->RefCount-- == 1;

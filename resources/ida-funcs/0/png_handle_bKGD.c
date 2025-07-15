@@ -8,7 +8,7 @@ int __cdecl png_handle_bKGD(int a1, int a2, unsigned int a3)
   unsigned __int8 v8; // [esp+7h] [ebp-15h]
   unsigned __int8 v9; // [esp+8h] [ebp-14h]
   unsigned __int8 v10; // [esp+9h] [ebp-13h]
-  unsigned __int8 src[2]; // [esp+10h] [ebp-Ch] BYREF
+  unsigned __int8 src; // [esp+10h] [ebp-Ch] BYREF
   __int16 v12; // [esp+12h] [ebp-Ah]
   __int16 v13; // [esp+14h] [ebp-8h]
   __int16 v14; // [esp+16h] [ebp-6h]
@@ -54,7 +54,7 @@ int __cdecl png_handle_bKGD(int a1, int a2, unsigned int a3)
   {
     if ( *(_BYTE *)(a1 + 315) == 3 )
     {
-      src[0] = buf;
+      src = buf;
       if ( a2 && *(_WORD *)(a2 + 20) )
       {
         if ( buf >= (int)*(unsigned __int16 *)(a2 + 20) )
@@ -73,7 +73,7 @@ int __cdecl png_handle_bKGD(int a1, int a2, unsigned int a3)
     }
     else if ( (*(_BYTE *)(a1 + 315) & 2) != 0 )
     {
-      src[0] = 0;
+      src = 0;
       v12 = v6 + (buf << 8);
       v13 = v8 + (v7 << 8);
       v14 = v10 + (v9 << 8);
@@ -81,13 +81,13 @@ int __cdecl png_handle_bKGD(int a1, int a2, unsigned int a3)
     }
     else
     {
-      src[0] = 0;
+      src = 0;
       v15 = v6 + (buf << 8);
       v14 = v15;
       v13 = v15;
       v12 = v15;
     }
-    return png_set_bKGD(a1, a2, src);
+    return png_set_bKGD(a1, a2, (const __m128i *)&src);
   }
   return result;
 }

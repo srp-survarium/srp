@@ -5,7 +5,7 @@ int __cdecl cms_SignedData_final(CMS_ContentInfo_st *cms, bio_st *chain)
   int v4; // edi
   char *v5; // eax
 
-  if ( OBJ_obj2nid(cms->contentType) == 22 )
+  if ( OBJ_obj2nid(cms->contentType) == (void *)22 )
   {
     data = cms->d.data;
     if ( data )
@@ -15,7 +15,7 @@ int __cdecl cms_SignedData_final(CMS_ContentInfo_st *cms, bio_st *chain)
   }
   else
   {
-    ERR_put_error(0x2Eu, 133, 108, ".\\crypto\\cms\\cms_sd.c", 71);
+    ERR_put_error((int)cms, 0x2Eu, 133, 108, ".\\crypto\\cms\\cms_sd.c", 71);
     type = 0;
   }
   v4 = 0;

@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS2::IMEManager::BroadcastSwitchLanguage(
         Scaleform::GFx::AS2::IMEManager *this,
-        char *pString)
+        __m128i *pString)
 {
   Scaleform::GFx::Movie *pMovie; // eax
   Scaleform::GFx::AS2::MovieRoot *pObject; // edi
@@ -13,11 +13,11 @@ void __thiscall Scaleform::GFx::AS2::IMEManager::BroadcastSwitchLanguage(
   Scaleform::GFx::AS2::MovieRoot::ActionEntry *v10; // edi
   Scaleform::RefCountNTSImpl *v11; // ecx
   Scaleform::RefCountNTSImpl *v12; // ecx
-  Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy> params; // [esp+4h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy> > a; // [esp+4h] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+10h] [ebp-10h] BYREF
 
   pMovie = this->pMovie;
-  memset(&params, 0, sizeof(params));
+  memset(&a, 0, sizeof(a));
   if ( pMovie )
   {
     pObject = (Scaleform::GFx::AS2::MovieRoot *)pMovie->pASMovieRoot.pObject;
@@ -28,15 +28,15 @@ void __thiscall Scaleform::GFx::AS2::IMEManager::BroadcastSwitchLanguage(
     StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(*(Scaleform::GFx::AS2::GlobalContext **)(v5 + 116));
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, pString);
     ++StringNode->RefCount;
-    val.T.Type = 5;
-    val.NV.Int32Value = (int)StringNode;
+    v.T.Type = 5;
+    v.NV.Int32Value = (int)StringNode;
     ++StringNode->RefCount;
     Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-      &params.Data,
-      &params,
+      &a.Data,
+      &a,
       1u);
-    if ( &params.Data.Data[params.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
-      Scaleform::GFx::AS2::Value::Value(&params.Data.Data[params.Data.Size - 1], &val);
+    if ( &a.Data.Data[a.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
+      Scaleform::GFx::AS2::Value::Value(&a.Data.Data[a.Data.Size - 1], &v);
     pMainMovie = pObject->pMovieImpl->pMainMovie;
     inserted = Scaleform::GFx::AS2::MovieRoot::ActionQueueType::InsertEntry(&pObject->ActionQueue, AP_Frame);
     v10 = inserted;
@@ -54,10 +54,10 @@ void __thiscall Scaleform::GFx::AS2::IMEManager::BroadcastSwitchLanguage(
     v10->CFunction = Scaleform::GFx::AS2::IMEManager::OnBroadcastSwitchLanguage;
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>>::operator=(
       &v10->FunctionParams,
-      &params);
-    Scaleform::GFx::AS2::Value::~Value(&val);
+      &a);
+    Scaleform::GFx::AS2::Value::~Value(&v);
     if ( StringNode->RefCount-- == 1 )
       Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
   }
-  Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy>::~Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy>(&params);
+  Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy>::~Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy> *)&a);
 }

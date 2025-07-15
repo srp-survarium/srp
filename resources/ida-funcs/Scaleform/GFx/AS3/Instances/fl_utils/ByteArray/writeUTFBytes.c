@@ -4,10 +4,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeUTFByt
         Scaleform::GFx::AS3::Value *value)
 {
   Scaleform::GFx::AS3::Value *v4; // ecx
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASStringManager *pStringManager; // eax
+  Scaleform::StringDataPtr v8; // [esp-8h] [ebp-18h]
   Scaleform::GFx::ASString str; // [esp+4h] [ebp-Ch] BYREF
   Scaleform::GFx::AS3::VM::Error v10; // [esp+8h] [ebp-8h] BYREF
 
@@ -20,15 +20,16 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeUTFByt
     if ( Scaleform::GFx::AS3::Value::Convert2String(v4, (Scaleform::GFx::AS3::CheckResult *)&value, &str)->Result )
       Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(
         this,
-        (unsigned __int8 *)str.pNode->pData,
+        (const __m128i *)str.pNode->pData,
         str.pNode->Size);
     pNode = str.pNode;
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v10, eNullArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v6);
+    v8.pStr = "value";
+    v8.Size = 5;
+    Scaleform::GFx::AS3::VM::Error::Error(&v10, eNullArgumentError, this->pTraits.pObject->pVM, v8);
+    Scaleform::GFx::AS3::VM::ThrowTypeError(this->pTraits.pObject->pVM, v5);
     pNode = v10.Message.pNode;
   }
   if ( !--pNode->RefCount )

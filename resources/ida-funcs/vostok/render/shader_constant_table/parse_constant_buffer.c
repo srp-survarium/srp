@@ -1,187 +1,178 @@
-char __userpurge vostok::render::shader_constant_table::parse_constant_buffer@<al>(
-        vostok::render::shader_constant_table *this@<ecx>,
-        unsigned int a2@<ebx>,
-        vostok::render::shader_constant_table *src_table,
-        ID3D11ShaderReflectionConstantBuffer *buffer_index,
-        unsigned __int16 buffer_indexa)
+char __thiscall vostok::render::shader_constant_table::parse_constant_buffer(
+        vostok::render::shader_constant_table *this,
+        ID3D11ShaderReflectionConstantBuffer *src_table,
+        int (__stdcall ***buffer_index)(_DWORD, _BYTE *),
+        unsigned __int16 a4)
 {
-  unsigned int v5; // esi
-  HRESULT v6; // eax
-  const char *d3d11_error_string; // eax
-  unsigned int v8; // eax
-  int v9; // esi
-  void (__stdcall ***v10)(_DWORD, _D3D11_SHADER_TYPE_DESC *); // eax
-  vostok::render::enum_constant_type v11; // ebp
-  unsigned __int16 Elements; // bx
-  unsigned __int16 v13; // di
-  vostok::strings::shared::profile *v14; // eax
+  int (__stdcall ***v4)(_DWORD, _BYTE *); // esi
+  HRESULT v5; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
+  bool *d3d11_error_string; // eax
+  int v8; // esi
+  void (__stdcall ***v9)(_DWORD, int *); // eax
+  vostok::render::shader_constant_table *v10; // ecx
+  char *v11; // esi
+  unsigned __int16 v12; // di
+  unsigned __int16 v13; // bx
+  vostok::shared_string *v14; // ecx
   vostok::render::backend *v15; // ecx
-  volatile signed __int32 *p_m_reference_count; // esi
-  vostok::render::shader_constant_host *v17; // ebp
-  vostok::render::shader_constant *M_finish; // eax
-  unsigned int v20; // [esp+Ch] [ebp-98h]
-  bool v21; // [esp+10h] [ebp-94h]
-  bool do_debug_break[4]; // [esp+20h] [ebp-84h] BYREF
-  vostok::shared_string name; // [esp+24h] [ebp-80h] BYREF
-  unsigned int i; // [esp+28h] [ebp-7Ch]
-  int r_index; // [esp+2Ch] [ebp-78h]
-  _D3D11_SHADER_BUFFER_DESC shader_buffer_desc; // [esp+30h] [ebp-74h] BYREF
-  vostok::render::shader_constant new_const; // [esp+44h] [ebp-60h] BYREF
-  _D3D11_SHADER_TYPE_DESC reflection_type_desc; // [esp+60h] [ebp-44h] BYREF
-  _D3D11_SHADER_VARIABLE_DESC variable_desc; // [esp+80h] [ebp-24h] BYREF
+  vostok::render::shader_constant_host *v16; // esi
+  unsigned __int16 v17; // ax
+  __int16 v19; // [esp-4h] [ebp-A0h]
+  char *v20; // [esp+10h] [ebp-8Ch] BYREF
+  unsigned __int16 v21; // [esp+14h] [ebp-88h]
+  char v22; // [esp+1Ch] [ebp-80h]
+  _BYTE v23[8]; // [esp+34h] [ebp-68h] BYREF
+  unsigned int v24; // [esp+3Ch] [ebp-60h]
+  int v25; // [esp+48h] [ebp-54h] BYREF
+  int v26; // [esp+4Ch] [ebp-50h]
+  int v27; // [esp+50h] [ebp-4Ch]
+  int v28; // [esp+54h] [ebp-48h]
+  unsigned __int16 v29; // [esp+58h] [ebp-44h]
+  vostok::render::shader_constant value; // [esp+68h] [ebp-34h] BYREF
+  int v31; // [esp+84h] [ebp-18h]
+  _BYTE *v32; // [esp+88h] [ebp-14h]
+  vostok::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock> v33; // [esp+8Ch] [ebp-10h] BYREF
+  int v34; // [esp+90h] [ebp-Ch]
+  char v35; // [esp+97h] [ebp-5h] BYREF
 
-  v5 = (unsigned int)buffer_index;
-  v6 = buffer_index->GetDesc(buffer_index, &shader_buffer_desc);
-  if ( !ignore_always_32 && v6 < 0 )
+  v4 = buffer_index;
+  v5 = (**buffer_index)(buffer_index, v23);
+  if ( !ignore_always_36 && v5 < 0 )
   {
-    do_debug_break[3] = 1;
-    d3d11_error_string = make_d3d11_error_string(v6);
+    v35 = 1;
+    d3d11_error_string = (bool *)make_d3d11_error_string(v5, v6);
     vostok::debug::on_error(
-      a2,
-      &do_debug_break[3],
+      (bool *)&v35,
       process_error_true,
-      &ignore_always_32,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\shader_constant_table.cpp",
       "vostok::render::shader_constant_table::parse_constant_buffer",
-      0x51u);
-    if ( vostok::debug::is_debugger_present() || do_debug_break[3] )
+      (const char *)0x51);
+    if ( vostok::debug::is_debugger_present() || v35 )
       __debugbreak();
   }
-  v8 = 0;
-  i = 0;
-  if ( shader_buffer_desc.Variables )
+  v32 = 0;
+  if ( v24 )
   {
     while ( 1 )
     {
-      v9 = (*(int (__stdcall **)(unsigned int, unsigned int))(*(_DWORD *)v5 + 4))(v5, v8);
-      (**(void (__stdcall ***)(int, _D3D11_SHADER_VARIABLE_DESC *))v9)(v9, &variable_desc);
-      if ( (variable_desc.uFlags & 2) != 0 )
+      v8 = (*v4)[1](v4, v32);
+      (**(void (__stdcall ***)(int, char **))v8)(v8, &v20);
+      if ( (v22 & 2) == 0 )
+        goto LABEL_48;
+      v9 = (void (__stdcall ***)(_DWORD, int *))(*(int (__stdcall **)(int))(*(_DWORD *)v8 + 4))(v8);
+      (**v9)(v9, &v25);
+      v11 = v20;
+      v12 = -1;
+      v34 = 0xFFFF;
+      switch ( v26 )
       {
-        v10 = (void (__stdcall ***)(_DWORD, _D3D11_SHADER_TYPE_DESC *))(*(int (__stdcall **)(int))(*(_DWORD *)v9 + 4))(v9);
-        (**v10)(v10, &reflection_type_desc);
-        v11 = rc_INVALID;
-        switch ( reflection_type_desc.Type )
-        {
-          case D3D_SVT_BOOL:
-            v11 = rc_bool;
-            break;
-          case D3D_SVT_INT:
-            v11 = rc_int;
-            break;
-          case D3D_SVT_FLOAT:
-            v11 = rc_float;
-            break;
-        }
-        Elements = reflection_type_desc.Elements;
-        r_index = LOWORD(variable_desc.StartOffset);
-        v13 = -1;
-        switch ( reflection_type_desc.Class )
-        {
-          case D3D_SVC_SCALAR:
-            v13 = 4;
-            goto $LN210_1;
-          case D3D_SVC_VECTOR:
-            switch ( reflection_type_desc.Columns )
-            {
-              case 2u:
-                v13 = 8;
-                break;
-              case 3u:
-                v13 = 12;
-                break;
-              case 4u:
-                v13 = 16;
-                break;
-            }
-            goto $LN210_1;
-          case D3D_SVC_MATRIX_ROWS:
-            if ( reflection_type_desc.Columns == 4 )
-            {
-              switch ( reflection_type_desc.Rows )
-              {
-                case 2u:
-                  v13 = 288;
-                  break;
-                case 3u:
-                  v13 = 304;
-                  break;
-                case 4u:
-                  v13 = 320;
-                  break;
-              }
-            }
-            goto $LN210_1;
-          case D3D_SVC_MATRIX_COLUMNS:
-          case D3D_SVC_STRUCT:
-$LN210_1:
-            vostok::render::shader_constant_table::get(
-              (vostok::render::shader_constant_table *)variable_desc.Name,
-              (int)src_table,
-              variable_desc.Name);
-            v14 = vostok::strings::shared::manager::string(s_manager.m_variable, (const char *)s_manager.m_variable);
-            p_m_reference_count = 0;
-            name.m_pointer.m_object = 0;
-            if ( v14 )
-            {
-              p_m_reference_count = &v14->m_reference_count;
-              name.m_pointer.m_object = v14;
-              _InterlockedExchangeAdd(&v14->m_reference_count, 1u);
-            }
-            v17 = vostok::render::backend::register_constant_host(
-                    v15,
-                    (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-                    &name,
-                    v11);
-            if ( p_m_reference_count && !_InterlockedExchangeAdd(p_m_reference_count, 0xFFFFFFFF) )
-              vostok::strings::shared::manager::remove(
-                s_manager.m_variable,
-                (vostok::strings::shared::profile *)s_manager.m_variable);
-            new_const.m_source.m_pointer = 0;
-            new_const.m_source.m_size = 0;
-            new_const.m_host = v17;
-            new_const.m_slot.m_class_id = v13;
-            new_const.m_slot.m_buffer_index = buffer_indexa;
-            new_const.m_slot.m_slot_index = r_index;
-            if ( Elements )
-              new_const.m_slot.m_array_size = Elements;
-            else
-              new_const.m_slot.m_array_size = 1;
-            M_finish = src_table->m_table._M_impl._M_finish;
-            if ( M_finish == src_table->m_table._M_impl._M_end_of_storage._M_data )
-            {
-              stlp_std::priv::_Impl_vector<vostok::render::shader_constant,vostok::render::std_allocator<vostok::render::shader_constant>>::_M_insert_overflow_aux(
-                &src_table->m_table._M_impl,
-                (vostok::render::shader_constant *)&src_table->m_table,
-                M_finish,
-                &new_const,
-                v20,
-                v21);
-            }
-            else
-            {
-              if ( M_finish )
-              {
-                M_finish->m_slot.m_value = new_const.m_slot.m_value;
-                M_finish->m_source.m_pointer = 0;
-                M_finish->m_source.m_size = 0;
-                M_finish->m_host = v17;
-              }
-              ++src_table->m_table._M_impl._M_finish;
-            }
-            break;
-          default:
-            break;
-        }
+        case 1:
+          v34 = 2;
+          break;
+        case 2:
+          v34 = 1;
+          break;
+        case 3:
+          v34 = 0;
+          break;
+        default:
+          vostok::render::shader_constant_table::fatal(v10, "R_constant_table::parse: unexpected shader variable type.");
+          break;
       }
-      v8 = i + 1;
-      i = v8;
-      if ( v8 >= shader_buffer_desc.Variables )
+      v13 = v21;
+      v31 = v29;
+      if ( !v25 )
         break;
-      v5 = (unsigned int)buffer_index;
+      switch ( v25 )
+      {
+        case 1:
+          switch ( v28 )
+          {
+            case 2:
+              v19 = 8;
+              break;
+            case 3:
+              v19 = 12;
+              break;
+            case 4:
+              v19 = 16;
+              break;
+            default:
+              vostok::render::shader_constant_table::fatal(
+                v10,
+                "Vector: 1 components is scalar - there is special case for this!!!!!");
+              goto LABEL_42;
+          }
+          goto LABEL_41;
+        case 2:
+          if ( v28 == 4 )
+          {
+            switch ( v27 )
+            {
+              case 2:
+                v12 = 288;
+                break;
+              case 3:
+                v12 = 304;
+                break;
+              case 4:
+                v12 = 320;
+                break;
+              default:
+                vostok::render::shader_constant_table::fatal(v10, "MATRIX_ROWS: unsupported number of Rows");
+                break;
+            }
+          }
+          else
+          {
+            vostok::render::shader_constant_table::fatal(v10, "MATRIX_ROWS: unsupported number of Columns");
+          }
+          break;
+        case 3:
+          vostok::render::shader_constant_table::fatal(v10, "Pclass MATRIX_COLUMNS unsupported");
+          break;
+        case 5:
+          vostok::render::shader_constant_table::fatal(v10, "Pclass D3DXPC_STRUCT unsupported");
+          break;
+        default:
+          goto LABEL_48;
+      }
+LABEL_42:
+      vostok::render::shader_constant_table::get(v10, (int)src_table, v11);
+      vostok::shared_string::shared_string(v14, &v33, v11);
+      v16 = vostok::render::backend::register_constant_host(
+              v15,
+              SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+              (const vostok::shared_string *)&v33,
+              (vostok::strings::shared::profile *)v34);
+      if ( v33.m_object && !_InterlockedExchangeAdd(&v33.m_object->m_reference_count, 0xFFFFFFFF) )
+        vostok::strings::shared::detail::intrusive_base::destroy(
+          0,
+          (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)v33.m_object);
+      value.m_source.m_pointer = 0;
+      value.m_source.m_size = 0;
+      value.m_slot.m_buffer_index = a4;
+      v17 = v31;
+      value.m_host = v16;
+      value.m_slot.m_class_id = v12;
+      value.m_slot.m_slot_index = v13;
+      if ( !(_WORD)v31 )
+        v17 = 1;
+      value.m_slot.m_array_size = v17;
+      vostok::buffer_vector<vostok::render::shader_constant>::push_back(
+        (vostok::buffer_vector<vostok::render::shader_constant> *)&src_table[1],
+        &value);
+LABEL_48:
+      if ( (unsigned int)++v32 >= v24 )
+        return 1;
+      v4 = buffer_index;
     }
+    v19 = 4;
+LABEL_41:
+    v12 = v19;
+    goto LABEL_42;
   }
   return 1;
 }

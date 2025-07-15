@@ -56,27 +56,12 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::HAL::MaskStackEntry>::
         char *p,
         unsigned int count)
 {
-  unsigned int v2; // ecx
-  _DWORD *v3; // eax
+  unsigned int i; // edi
 
-  v2 = count;
-  if ( count )
+  for ( i = count; i; --i )
   {
-    v3 = p + 16;
-    do
-    {
-      if ( v3 != (_DWORD *)16 )
-      {
-        *(v3 - 4) = 0;
-        *(v3 - 2) = 0;
-        *(v3 - 1) = 0;
-        *v3 = 0;
-        v3[1] = 0;
-      }
-      v3 += 6;
-      --v2;
-    }
-    while ( v2 );
+    Scaleform::ConstructorMov<Scaleform::Render::HAL::MaskStackEntry>::Construct(p);
+    p += 24;
   }
 }
 
@@ -232,6 +217,34 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS2::ArraySortFunctor>::C
 }
 
 
+void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::ASString>::ConstructArray(
+        Scaleform::GFx::ASString *p,
+        unsigned int count,
+        const Scaleform::GFx::ASString *psource)
+{
+  unsigned int v5; // esi
+  Scaleform::GFx::ASStringNode *pNode; // eax
+
+  if ( count )
+  {
+    v5 = count;
+    do
+    {
+      if ( p )
+      {
+        pNode = psource->pNode;
+        p->pNode = psource->pNode;
+        ++pNode->RefCount;
+      }
+      ++psource;
+      ++p;
+      --v5;
+    }
+    while ( v5 );
+  }
+}
+
+
 void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::ButtonRecord>::ConstructArray(char *p, unsigned int count)
 {
   unsigned int v2; // edi
@@ -326,6 +339,23 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::Abc::NamespaceInfo>:
       p[2] = 0;
     }
     p += 3;
+  }
+}
+
+
+void __cdecl Scaleform::ConstructorMov<Scaleform::String>::ConstructArray(
+        Scaleform::String *p,
+        unsigned int count,
+        const Scaleform::String *psource)
+{
+  unsigned int i; // ebx
+
+  for ( i = count; i; --i )
+  {
+    if ( p )
+      Scaleform::String::String(p, psource);
+    ++psource;
+    ++p;
   }
 }
 
@@ -432,7 +462,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::Matrix3x4<float>>::Con
     {
       if ( p )
       {
-        memset((int)p, 0, 0x30u);
+        memset((int)p, 0, 48);
         *p = 1.0;
         p[5] = 1.0;
         p[10] = 1.0;
@@ -458,7 +488,7 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::Matrix4x4<float>>::Con
     {
       if ( p )
       {
-        memset((int)p, 0, 0x40u);
+        memset((int)p, 0, 64);
         *p = 1.0;
         p[5] = 1.0;
         p[10] = 1.0;
@@ -472,42 +502,12 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::Render::Matrix4x4<float>>::Con
 }
 
 
-void __cdecl Scaleform::ConstructorMov<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>>::ConstructArray(
-        char *p,
-        unsigned int count)
-{
-  unsigned int v2; // ecx
-  _DWORD *v3; // eax
-
-  v2 = count;
-  if ( count )
-  {
-    v3 = p + 16;
-    do
-    {
-      if ( v3 != (_DWORD *)16 )
-      {
-        *(v3 - 4) = 0;
-        *(v3 - 3) = 0;
-        *(v3 - 2) = 0;
-        *(v3 - 1) = 0;
-        *v3 = 0;
-      }
-      v3 += 5;
-      --v2;
-    }
-    while ( v2 );
-  }
-}
-
-
-void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>>::ConstructArray(
-        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML> *p,
+void __cdecl Scaleform::ConstructorMov<Scaleform::Ptr<Scaleform::GFx::AMP::FuncTreeItem>>::ConstructArray(
+        Scaleform::Ptr<Scaleform::GFx::AMP::FuncTreeItem> *p,
         unsigned int count,
-        const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML> *psource)
+        const Scaleform::Ptr<Scaleform::GFx::AMP::FuncTreeItem> *psource)
 {
-  unsigned int v5; // esi
-  Scaleform::GFx::AS3::Instances::fl::XML *pObject; // eax
+  unsigned int v5; // ebx
 
   if ( count )
   {
@@ -516,15 +516,43 @@ void __cdecl Scaleform::ConstructorMov<Scaleform::GFx::AS3::SPtr<Scaleform::GFx:
     {
       if ( p )
       {
-        pObject = psource->pObject;
+        if ( psource->pObject )
+          Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)psource->pObject);
         p->pObject = psource->pObject;
-        if ( pObject )
-          pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
       }
       ++psource;
       ++p;
       --v5;
     }
     while ( v5 );
+  }
+}
+
+
+void __cdecl Scaleform::ConstructorMov<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>>::ConstructArray(
+        char *p,
+        unsigned int count)
+{
+  unsigned int v2; // ecx
+  char *v3; // eax
+
+  v2 = count;
+  if ( count )
+  {
+    v3 = p + 16;
+    do
+    {
+      if ( v3 != (char *)16 )
+      {
+        *((_DWORD *)v3 - 4) = 0;
+        *((_DWORD *)v3 - 3) = 0;
+        *((_DWORD *)v3 - 2) = 0;
+        *((_DWORD *)v3 - 1) = 0;
+        *(_DWORD *)v3 = 0;
+      }
+      v3 += 20;
+      --v2;
+    }
+    while ( v2 );
   }
 }

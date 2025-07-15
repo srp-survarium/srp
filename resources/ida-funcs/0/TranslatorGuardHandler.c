@@ -4,7 +4,7 @@ int __usercall TranslatorGuardHandler@<eax>(
         EHRegistrationNode *pRN,
         _CONTEXT *pContext)
 {
-  void *pContinue; // [esp+4h] [ebp-4h] BYREF
+  int (*v5)(void); // [esp+4h] [ebp-4h] BYREF
 
   if ( (pExcept->ExceptionFlags & 0x66) != 0 )
   {
@@ -24,7 +24,7 @@ int __usercall TranslatorGuardHandler@<eax>(
       1u);
     if ( !pRN[3].pNext )
       _UnwindNestedFrames(a1, pRN, (_EXCEPTION_RECORD *)pExcept);
-    _CallSETranslator((EHExceptionRecord *)0x123, (EHRegistrationNode *)&pContinue, 0, 0, 0, 0, 0);
-    return ((int (*)(void))pContinue)();
+    _CallSETranslator((EHExceptionRecord *)0x123, (EHRegistrationNode *)&v5, 0, 0, 0, 0, 0);
+    return v5();
   }
 }

@@ -26,9 +26,9 @@ void __usercall ssl_cipher_get_disabled(
   *auth |= 8u;
   *mkey |= 0x10u;
   *auth |= 0x20u;
-  if ( !get_optional_pkey_id((unsigned int)mac, "gost94") )
+  if ( !get_optional_pkey_id((int)mac, (int)auth, "gost94") )
     *auth |= 0x100u;
-  if ( !get_optional_pkey_id((unsigned int)mac, "gost2001") )
+  if ( !get_optional_pkey_id((int)mac, (int)auth, "gost2001") )
     *auth |= 0x200u;
   if ( (*auth & 0x300) == 0x300 )
     *mkey |= 0x200u;

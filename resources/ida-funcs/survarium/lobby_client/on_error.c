@@ -3,59 +3,45 @@ void __thiscall survarium::lobby_client::on_error(
         vostok::network_core::client_error_codes_enum __formal,
         boost::system::error_code a3)
 {
-  char v3; // bl
-  survarium::lobby_client *v5; // ecx
-  void (__cdecl *v6)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v7)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  survarium::lobby_client *v3; // edi
+  bool has_passed_filters; // al
+  survarium::lobby_client *v5; // [esp-4h] [ebp-34h]
+  char v6; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v7; // [esp+10h] [ebp-20h] BYREF
 
-  v3 = 0;
+  v6 = 0;
+  v3 = this;
   if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
+    || (has_passed_filters = vostok::logging::has_passed_filters(
+                               (vostok::logging::filter_tree *)"game",
+                               (const char *)2),
+        this = v5,
+        has_passed_filters) )
   {
-    v6 = vostok::core::g_log_callback;
-    log_callback.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &log_callback.functor,
-        &log_callback.functor,
-        destroy_functor_tag);
-    if ( v6 )
-    {
-      log_callback.functor.obj_ptr = v6;
-      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                   + 1);
-    }
-    else
-    {
-      log_callback.vtable = 0;
-    }
-    v3 = 1;
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+      &v7);
+    v6 = 1;
     vostok::logging::append(
-      &log_callback,
+      &v7,
       (void *const)vostok::core::g_log_flags,
       &vostok::core::g_log_format,
       ".\\lobby_client.cpp",
-      0x6Cu,
+      0x73u,
       "void __thiscall survarium::lobby_client::on_error(enum vostok::network_core::client_error_codes_enum,class boost::"
       "system::error_code)",
-      "game:",
+      "game",
       error,
       "lobby client error. reconnecting...");
   }
-  if ( (v3 & 1) != 0 )
+  if ( (v6 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+      (int *)&v7);
+  survarium::lobby_client::disconnect(this, (int)v3);
+  if ( v3->m_status <= (unsigned int)in_match_making )
   {
-    if ( log_callback.vtable )
-    {
-      if ( ((int)log_callback.vtable & 1) == 0 )
-      {
-        v7 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-        if ( v7 )
-          v7(&log_callback.functor, &log_callback.functor, 2);
-      }
-    }
+    ++v3->m_connection_info.connection_error_count;
+    v3->m_connection_info.need_resolve = 1;
   }
-  survarium::lobby_client::disconnect(v5, (int)this);
-  ++this->m_connection_info.connection_error_count;
-  this->m_connection_info.need_resolve = 1;
 }

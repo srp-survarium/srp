@@ -7,5 +7,5 @@ double __thiscall vostok::sound::encoded_sound_with_qualities_cook::satisfaction
   if ( quality_level == -1 )
     return 0.0;
   else
-    return (double)(2 - quality_level) / 2.0;
+    return (double)(2 - quality_level) * 0.5;
 }

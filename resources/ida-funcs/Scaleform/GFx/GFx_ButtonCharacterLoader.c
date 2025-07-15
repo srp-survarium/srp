@@ -5,7 +5,7 @@ void __stdcall Scaleform::GFx::GFx_ButtonCharacterLoader(
   Scaleform::GFx::SWFProcessInfo *pAltStream; // esi
   int v3; // eax
   unsigned int Pos; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v5; // ecx
+  unsigned __int16 v5; // cx
   Scaleform::GFx::ResourceId v6; // esi
   Scaleform::GFx::ButtonDef *v7; // eax
   Scaleform::GFx::ButtonDef *v8; // eax
@@ -19,10 +19,13 @@ void __stdcall Scaleform::GFx::GFx_ButtonCharacterLoader(
   if ( v3 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   Pos = pAltStream->Stream.Pos;
-  v5 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
+  v5 = *(_WORD *)&pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
-  v6.Id = (unsigned __int16)v5;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v5);
+  v6.Id = v5;
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  button GFxCharacter loader: CharId = %d\n",
+    v5);
   v7 = (Scaleform::GFx::ButtonDef *)p->pLoadData.pObject->pHeap->Alloc(p->pLoadData.pObject->pHeap, 52, 0);
   if ( v7 )
   {

@@ -2,14 +2,15 @@ void __thiscall Scaleform::GFx::AS3::VTable::SetMethod(
         Scaleform::GFx::AS3::VTable *this,
         Scaleform::GFx::AS3::AbsoluteIndex ind,
         const Scaleform::GFx::AS3::Value *m,
-        Scaleform::GFx::AS3::SlotInfo::BindingType dt)
+        Scaleform::GFx::AS3::SlotInfo::BindingType dt,
+        const Scaleform::GFx::ASString *name)
 {
-  Scaleform::GFx::AS3::Value *v5; // ecx
-  int Index; // ecx
-  Scaleform::GFx::AS3::Value::V1U v7; // edx
-  Scaleform::GFx::AS3::Value other; // [esp+0h] [ebp-10h] BYREF
+  Scaleform::GFx::AS3::Value *v6; // esi
+  int Index; // esi
+  long double v8; // rax
+  Scaleform::GFx::AS3::Value other; // [esp+8h] [ebp-10h] BYREF
 
-  v5 = 0;
+  v6 = 0;
   if ( dt < BT_Code )
     goto LABEL_7;
   if ( dt <= BT_Get )
@@ -22,20 +23,21 @@ void __thiscall Scaleform::GFx::AS3::VTable::SetMethod(
       goto LABEL_7;
     Index = ind.Index + 1;
   }
-  v5 = &this->VTMethods.Data.Data[Index];
+  v6 = &this->VTMethods.Data.Data[Index];
 LABEL_7:
+  Scaleform::GFx::AS3::VTable::SetMethodName(this, ind, dt, name);
   if ( (m->Flags & 0x1F) == 2 )
   {
-    v7 = m->value.VS._1;
-    other.value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)this->pTraits;
+    HIDWORD(v8) = this->pTraits;
+    LODWORD(v8) = m->value.VS._1.VInt;
     other.Flags = 6;
     other.Bonus.pWeakProxy = 0;
-    other.value.VS._1 = v7;
-    Scaleform::GFx::AS3::Value::Assign(v5, &other);
+    other.value.VNumber = v8;
+    Scaleform::GFx::AS3::Value::Assign(v6, &other);
     Scaleform::GFx::AS3::Value::~Value(&other);
   }
   else
   {
-    Scaleform::GFx::AS3::Value::Assign(v5, m);
+    Scaleform::GFx::AS3::Value::Assign(v6, m);
   }
 }

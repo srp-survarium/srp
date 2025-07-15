@@ -9,14 +9,14 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::FontData::GetGlyphBou
   bool v7; // zf
   double x1; // st7
   double y1; // st6
-  float v10; // [esp+54h] [ebp-1Ch]
-  float v11; // [esp+54h] [ebp-1Ch]
-  float Advance; // [esp+54h] [ebp-1Ch]
-  float v13; // [esp+5Ch] [ebp-14h]
-  float v14; // [esp+5Ch] [ebp-14h]
-  float v15; // [esp+5Ch] [ebp-14h]
-  float v16; // [esp+5Ch] [ebp-14h]
-  Scaleform::Render::Rect<float> r; // [esp+60h] [ebp-10h] BYREF
+  float v10; // [esp+14h] [ebp-1Ch]
+  float v11; // [esp+14h] [ebp-1Ch]
+  float Advance; // [esp+14h] [ebp-1Ch]
+  float v13; // [esp+1Ch] [ebp-14h]
+  float v14; // [esp+1Ch] [ebp-14h]
+  float v15; // [esp+1Ch] [ebp-14h]
+  float v16; // [esp+1Ch] [ebp-14h]
+  Scaleform::Render::Rect<float> r; // [esp+20h] [ebp-10h] BYREF
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
   {

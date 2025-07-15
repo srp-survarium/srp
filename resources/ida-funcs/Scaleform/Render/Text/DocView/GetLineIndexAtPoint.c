@@ -4,9 +4,9 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetLineIndexAtPoint(
         float y)
 {
   Scaleform::Render::Text::LineBuffer *p_mLineBuffer; // esi
-  unsigned int result; // eax
-  Scaleform::Render::Text::LineBuffer::Iterator it; // [esp+Ch] [ebp-14h] BYREF
-  float ya; // [esp+28h] [ebp+8h]
+  unsigned int CurrentPos; // eax
+  Scaleform::Render::Text::LineBuffer::Iterator result; // [esp+Ch] [ebp-14h] BYREF
+  int yoff; // [esp+28h] [ebp+8h]
 
   if ( (this->RTFlags & 3) != 0 )
   {
@@ -14,12 +14,12 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetLineIndexAtPoint(
     this->RTFlags &= 0xFCu;
   }
   p_mLineBuffer = &this->mLineBuffer;
-  ya = (double)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(p_mLineBuffer) + y;
-  Scaleform::Render::Text::LineBuffer::FindLineAtYOffset(p_mLineBuffer, &it, ya);
-  if ( !it.pLineBuffer )
+  *(float *)&yoff = (double)(unsigned int)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(p_mLineBuffer) + y;
+  Scaleform::Render::Text::LineBuffer::FindLineAtYOffset(p_mLineBuffer, &result, yoff);
+  if ( !result.pLineBuffer )
     return -1;
-  result = it.CurrentPos;
-  if ( it.CurrentPos >= it.pLineBuffer->Lines.Data.Size || (it.CurrentPos & 0x80000000) != 0 )
+  CurrentPos = result.CurrentPos;
+  if ( result.CurrentPos >= result.pLineBuffer->Lines.Data.Size || (result.CurrentPos & 0x80000000) != 0 )
     return -1;
-  return result;
+  return CurrentPos;
 }

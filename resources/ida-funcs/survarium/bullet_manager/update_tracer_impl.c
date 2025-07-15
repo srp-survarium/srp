@@ -1,13 +1,12 @@
 void __thiscall survarium::bullet_manager::update_tracer_impl(
         survarium::bullet_manager *this,
-        unsigned __int16 tracer_idx,
+        survarium::bullet *bullet,
         const vostok::math::float3 *position,
         const vostok::math::float3 *direction,
-        float length)
+        const float length)
 {
-  ((void (__thiscall *)(survarium::bullet_manager_engine *, _DWORD, const vostok::math::float3 *, const vostok::math::float3 *, _DWORD))this->m_engine->update_tracer)(
-    this->m_engine,
-    tracer_idx,
+  ((void (__stdcall *)(survarium::bullet *, const vostok::math::float3 *, const vostok::math::float3 *, _DWORD))this->m_engine->update_tracer)(
+    bullet,
     position,
     direction,
     LODWORD(length));

@@ -9,20 +9,20 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> *v8; // esi
   unsigned int v9; // edi
   unsigned int v10; // ebx
-  unsigned __int8 va; // [esp+14h] [ebp+4h]
+  unsigned __int8 v11; // [esp+14h] [ebp+4h]
 
   Data = this->Data;
   v5 = this->Data->Size >> 12;
   if ( v > 0x7F )
   {
     v7 = (2 * v) | 1;
-    va = v7;
+    v11 = v7;
     if ( v5 >= Data->NumPages )
     {
       Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
         Data,
         v5);
-      v7 = va;
+      v7 = v11;
     }
     Data->Pages[v5][Data->Size++ & 0xFFF] = v7;
     v8 = this->Data;

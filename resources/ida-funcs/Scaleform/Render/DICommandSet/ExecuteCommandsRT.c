@@ -30,7 +30,7 @@ void __thiscall Scaleform::Render::DICommandSet::ExecuteCommandsRT(
   double v27; // st7
   int v28; // eax
   bool (__thiscall *v29)(Scaleform::Render::HAL *); // eax
-  Scaleform::Render::Size<unsigned long> *(__thiscall *GetSize)(struct Scaleform::Render::Image *, Scaleform::Render::Size<unsigned long> *); // edx
+  Scaleform::Render::Size<unsigned long> *(__thiscall *GetSize)(struct Scaleform::Render::DrawableImage *, Scaleform::Render::Size<unsigned long> *); // edx
   int *v31; // eax
   int v32; // ecx
   int v33; // edx
@@ -64,34 +64,34 @@ void __thiscall Scaleform::Render::DICommandSet::ExecuteCommandsRT(
   int v61; // eax
   Scaleform::Render::DICommandSet *v62; // ebx
   Scaleform::Render::DICommandQueue *pQueue; // ecx
-  Scaleform::String v64[4]; // [esp+5E4h] [ebp-C4h] BYREF
-  char v65; // [esp+5F5h] [ebp-B3h]
-  bool v66; // [esp+5F6h] [ebp-B2h]
-  char v67; // [esp+5F7h] [ebp-B1h]
-  int v68; // [esp+5F8h] [ebp-B0h]
-  Scaleform::Render::DICommand *v69; // [esp+5FCh] [ebp-ACh]
-  int p_PushRenderTarget; // [esp+600h] [ebp-A8h]
-  void (__thiscall **v71)(Scaleform::Render::HAL *, float *, int); // [esp+604h] [ebp-A4h]
-  __int16 v72; // [esp+608h] [ebp-A0h]
-  char v73; // [esp+60Ah] [ebp-9Eh]
-  Scaleform::Render::DICommandSet *v74; // [esp+60Ch] [ebp-9Ch]
-  Scaleform::Render::DICommand *v75; // [esp+610h] [ebp-98h]
-  int v76; // [esp+614h] [ebp-94h]
-  float v77; // [esp+618h] [ebp-90h]
-  float v78; // [esp+61Ch] [ebp-8Ch] BYREF
-  float v79; // [esp+620h] [ebp-88h]
-  float v80; // [esp+624h] [ebp-84h]
-  float v81; // [esp+628h] [ebp-80h]
-  float v82; // [esp+62Ch] [ebp-7Ch] BYREF
-  float v83; // [esp+630h] [ebp-78h]
-  float v84; // [esp+634h] [ebp-74h]
-  Scaleform::Render::Viewport vpin; // [esp+63Ch] [ebp-6Ch] BYREF
-  Scaleform::Render::Size<unsigned long> v86; // [esp+668h] [ebp-40h] BYREF
-  int v87; // [esp+670h] [ebp-38h]
-  Scaleform::Render::Size<unsigned long> v88; // [esp+680h] [ebp-28h] BYREF
-  int v89; // [esp+688h] [ebp-20h]
-  Scaleform::Render::Size<unsigned long> v90; // [esp+698h] [ebp-10h] BYREF
-  Scaleform::Render::Size<unsigned long> v91; // [esp+6A0h] [ebp-8h] BYREF
+  Scaleform::String v64[4]; // [esp+22h] [ebp-C4h] BYREF
+  char v65; // [esp+33h] [ebp-B3h]
+  bool v66; // [esp+34h] [ebp-B2h]
+  char v67; // [esp+35h] [ebp-B1h]
+  int v68; // [esp+36h] [ebp-B0h]
+  Scaleform::Render::DICommand *v69; // [esp+3Ah] [ebp-ACh]
+  int p_PushRenderTarget; // [esp+3Eh] [ebp-A8h]
+  void (__thiscall **v71)(Scaleform::Render::HAL *, float *, int); // [esp+42h] [ebp-A4h]
+  __int16 v72; // [esp+46h] [ebp-A0h]
+  char v73; // [esp+48h] [ebp-9Eh]
+  Scaleform::Render::DICommandSet *v74; // [esp+4Ah] [ebp-9Ch]
+  Scaleform::Render::DICommand *v75; // [esp+4Eh] [ebp-98h]
+  int v76; // [esp+52h] [ebp-94h]
+  float v77; // [esp+56h] [ebp-90h]
+  float v78; // [esp+5Ah] [ebp-8Ch] BYREF
+  float v79; // [esp+5Eh] [ebp-88h]
+  float v80; // [esp+62h] [ebp-84h]
+  float v81; // [esp+66h] [ebp-80h]
+  float v82; // [esp+6Ah] [ebp-7Ch] BYREF
+  float v83; // [esp+6Eh] [ebp-78h]
+  float v84; // [esp+72h] [ebp-74h]
+  Scaleform::Render::Viewport vpin; // [esp+7Ah] [ebp-6Ch] BYREF
+  Scaleform::Render::Size<unsigned long> v86; // [esp+A6h] [ebp-40h] BYREF
+  int v87; // [esp+AEh] [ebp-38h]
+  Scaleform::Render::Size<unsigned long> v88; // [esp+BEh] [ebp-28h] BYREF
+  int v89; // [esp+C6h] [ebp-20h]
+  Scaleform::Render::Size<unsigned long> v90; // [esp+D6h] [ebp-10h] BYREF
+  Scaleform::Render::Size<unsigned long> v91; // [esp+DEh] [ebp-8h] BYREF
 
   pHAL = context->pHAL;
   v3 = this;
@@ -117,7 +117,7 @@ void __thiscall Scaleform::Render::DICommandSet::ExecuteCommandsRT(
         v10 = v9->__vftable;
         v64[0].HeapTypeBits = v11;
         v69 = v9;
-        Scaleform::String::String(v64, "Scaleform::Render::DrawableImage");
+        Scaleform::String::String(v64, (const __m128i *)"Scaleform::Render::DrawableImage");
         ((void (__thiscall *)(Scaleform::Render::DICommand *, unsigned int))v10->GetCPUCaps)(v69, v64[0].HeapTypeBits);
         v67 = 1;
       }
@@ -246,7 +246,7 @@ LABEL_28:
         v39 = v38->__vftable;
         v64[0].HeapTypeBits = v40;
         v68 = (int)v38;
-        Scaleform::String::String(v64, "Scaleform::Render::DrawableImage");
+        Scaleform::String::String(v64, (const __m128i *)"Scaleform::Render::DrawableImage");
         ((void (__thiscall *)(int, unsigned int))v39->Begin)(v68, v64[0].HeapTypeBits);
         if ( !v66 )
           goto LABEL_60;

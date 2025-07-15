@@ -12,7 +12,7 @@ void __usercall Scaleform::GFx::AddSearchInfo_4(
   unsigned int v10; // esi
   Scaleform::String::DataDesc *v11; // ecx
   Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor> >::TableType *pTable; // eax
-  const Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor> > *pHash; // ebx
+  const Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> > *pHash; // ebx
   int Index; // esi
   const Scaleform::HashSetBase<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeAltHashF,Scaleform::AllocatorGH<unsigned long,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> >::ConstIterator *v15; // eax
   Scaleform::String *v16; // eax
@@ -21,169 +21,169 @@ void __usercall Scaleform::GFx::AddSearchInfo_4(
   Scaleform::String::DataDesc *v19; // eax
   bool v20; // zf
   Scaleform::String::DataDesc *v21; // ecx
-  const char *v22; // [esp-Ch] [ebp-43Ch]
+  char *v22; // [esp-Ch] [ebp-43Ch]
   const Scaleform::String *v23; // [esp-Ch] [ebp-43Ch]
-  const char **p_tmp; // [esp-4h] [ebp-434h]
-  Scaleform::String tmp; // [esp+Ch] [ebp-424h] BYREF
-  Scaleform::MsgFormat::Sink result; // [esp+10h] [ebp-420h] BYREF
+  const char **v24; // [esp-4h] [ebp-434h]
+  Scaleform::String v25; // [esp+Ch] [ebp-424h] BYREF
+  Scaleform::MsgFormat::Sink v26; // [esp+10h] [ebp-420h] BYREF
   Scaleform::String v27; // [esp+1Ch] [ebp-414h] BYREF
   Scaleform::String v28; // [esp+20h] [ebp-410h] BYREF
-  Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor> >::ConstIterator it; // [esp+24h] [ebp-40Ch] BYREF
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> >::ConstIterator result; // [esp+24h] [ebp-40Ch] BYREF
   Scaleform::String v30; // [esp+2Ch] [ebp-404h] BYREF
-  char buff[1024]; // [esp+30h] [ebp-400h] BYREF
+  __m128i v31[64]; // [esp+30h] [ebp-400h] BYREF
 
   if ( psearchInfo )
   {
     v6 = resSearchInfo;
     Status = resSearchInfo->Status;
-    if ( resSearchInfo->Status == FoundInResources )
+    if ( resSearchInfo->Status == StaticFunction )
     {
-      tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
-      result.SinkData.pStr = (Scaleform::String *)buff;
-      result.Type = tDataPtr;
-      result.SinkData.DataPtr.Size = 1024;
+      v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
+      v26.SinkData.pStr = (Scaleform::String *)v31;
+      v26.Type = tDataPtr;
+      v26.SinkData.DataPtr.Size = 1024;
       Scaleform::Format<char const *,char const *>(
-        &result,
+        &v26,
         "Movie resource: \"{0}\" {1} found.",
         &pfontname,
-        (const char **)&tmp);
-      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)buff, buff);
+        (const char **)&v25);
+      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)v31, v31);
       return;
     }
-    if ( Status == FoundInResourcesNeedFaux )
+    if ( Status == (NonStaticFunction|StaticFunction) )
     {
-      tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
-      p_tmp = (const char **)&tmp;
+      v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
+      v24 = (const char **)&v25;
       v22 = "Movie resource: \"{0}\" {1} found, requires faux";
 LABEL_6:
-      result.SinkData.DataPtr.Size = 1024;
-      result.Type = tDataPtr;
+      v26.SinkData.DataPtr.Size = 1024;
+      v26.Type = tDataPtr;
 LABEL_7:
-      result.SinkData.pStr = (Scaleform::String *)buff;
-      Scaleform::Format<char const *,char const *>(&result, v22, &pfontname, p_tmp);
-      Scaleform::GFx::AddSearchInfo(psearchInfo, v8, buff);
+      v26.SinkData.pStr = (Scaleform::String *)v31;
+      Scaleform::Format<char const *,char const *>(&v26, v22, &pfontname, v24);
+      Scaleform::GFx::AddSearchInfo(psearchInfo, v8, v31);
       return;
     }
-    if ( Status == FoundInResourcesNoGlyphs )
+    if ( Status == NonStaticFunction )
     {
-      tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
-      result.SinkData.pStr = (Scaleform::String *)buff;
-      result.Type = tDataPtr;
-      result.SinkData.DataPtr.Size = 1024;
+      v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
+      v26.SinkData.pStr = (Scaleform::String *)v31;
+      v26.Type = tDataPtr;
+      v26.SinkData.DataPtr.Size = 1024;
       Scaleform::Format<char const *,char const *>(
-        &result,
+        &v26,
         "Movie resource: \"{0}\" {1} ref found, requires FontLib/Map/Provider.",
         &pfontname,
-        (const char **)&tmp);
-      Scaleform::GFx::AddSearchInfo(psearchInfo, v9, buff);
+        (const char **)&v25);
+      Scaleform::GFx::AddSearchInfo(psearchInfo, v9, v31);
       return;
     }
     v10 = flags;
-    tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
-    result.SinkData.pStr = (Scaleform::String *)buff;
-    result.Type = tDataPtr;
-    result.SinkData.DataPtr.Size = 1024;
+    v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(flags);
+    v26.SinkData.pStr = (Scaleform::String *)v31;
+    v26.Type = tDataPtr;
+    v26.SinkData.DataPtr.Size = 1024;
     Scaleform::Format<char const *,char const *>(
-      &result,
+      &v26,
       "Movie resource: \"{0}\" {1} not found.",
       &pfontname,
-      (const char **)&tmp);
-    Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)buff, buff);
-    if ( v6->Status == FoundInImports )
+      (const char **)&v25);
+    Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)v31, v31);
+    if ( v6->Status == 4 )
       goto LABEL_28;
-    if ( v6->Status == FoundInImportsFontLib )
+    if ( v6->Status == 5 )
     {
       if ( fontlib_installed )
       {
-        tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
-        p_tmp = (const char **)&tmp;
+        v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
+        v24 = (const char **)&v25;
         v22 = "Imports       : \"{0}\" {1} import delegates to font library.";
         goto LABEL_6;
       }
 LABEL_28:
       v27.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
-      result.SinkData.pStr = (Scaleform::String *)buff;
-      result.Type = tDataPtr;
-      result.SinkData.DataPtr.Size = 1024;
+      v26.SinkData.pStr = (Scaleform::String *)v31;
+      v26.Type = tDataPtr;
+      v26.SinkData.DataPtr.Size = 1024;
       Scaleform::Format<char const *,char const *,Scaleform::String>(
-        &result,
+        &v26,
         "Imports       : \"{0}\" {1} found in \"{2}\".",
         &pfontname,
         (const char **)&v27,
-        (const Scaleform::StringLH *)&v6->ImportFoundUrl);
-      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)buff, buff);
+        (Scaleform::StringLH *)&v6->ImportFoundUrl);
+      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)v31, v31);
       return;
     }
-    tmp.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
-    result.SinkData.pStr = (Scaleform::String *)buff;
-    result.Type = tDataPtr;
-    result.SinkData.DataPtr.Size = 1024;
+    v25.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
+    v26.SinkData.pStr = (Scaleform::String *)v31;
+    v26.Type = tDataPtr;
+    v26.SinkData.DataPtr.Size = 1024;
     Scaleform::Format<char const *,char const *>(
-      &result,
+      &v26,
       "Imports       : \"{0}\" {1} not found.",
       &pfontname,
-      (const char **)&tmp);
-    Scaleform::GFx::AddSearchInfo(psearchInfo, v11, buff);
+      (const char **)&v25);
+    Scaleform::GFx::AddSearchInfo(psearchInfo, v11, v31);
     v28.pData = (Scaleform::String::DataDesc *)&v6->ImportSearchUrls;
     pTable = v6->ImportSearchUrls.pTable;
     if ( pTable && pTable->EntryCount )
     {
-      Scaleform::String::String(&tmp);
+      Scaleform::String::String(&v25);
       Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::Begin(
         (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> > *)v28.pData,
-        (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> >::ConstIterator *)&it);
+        &result);
       while ( 1 )
       {
-        pHash = it.pHash;
-        if ( !it.pHash || !it.pHash->pTable )
+        pHash = result.pHash;
+        if ( !result.pHash || !result.pHash->pTable )
           break;
-        Index = it.Index;
-        if ( it.Index > (signed int)it.pHash->pTable->SizeMask )
+        Index = result.Index;
+        if ( result.Index > (signed int)result.pHash->pTable->SizeMask )
         {
           v10 = flags;
           break;
         }
-        v15 = (const Scaleform::HashSetBase<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeAltHashF,Scaleform::AllocatorGH<unsigned long,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> >::ConstIterator *)Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::Begin((Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> > *)&resSearchInfo->ImportSearchUrls, (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> >::ConstIterator *)&result);
-        if ( !Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::ConstIterator::operator==(
-                (Scaleform::HashSetBase<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeAltHashF,Scaleform::AllocatorGH<unsigned long,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> >::ConstIterator *)&it,
+        v15 = (const Scaleform::HashSetBase<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeAltHashF,Scaleform::AllocatorGH<unsigned long,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> >::ConstIterator *)Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::Begin((Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> > *)&resSearchInfo->ImportSearchUrls, (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,333>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>,Scaleform::HashNode<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,unsigned long,Scaleform::GFx::AS3::ASStringNodePtrHashFunc>::NodeHashF> >::ConstIterator *)&v26);
+        if ( !Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,Scaleform::GFx::AMP::ViewStats::AmpFunctionStats,Scaleform::FixedSizeHash<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair>>,Scaleform::HashNode<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,Scaleform::GFx::AMP::ViewStats::AmpFunctionStats,Scaleform::FixedSizeHash<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair>>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,Scaleform::GFx::AMP::ViewStats::AmpFunctionStats,Scaleform::FixedSizeHash<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair>>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,Scaleform::GFx::AMP::ViewStats::AmpFunctionStats,Scaleform::FixedSizeHash<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair>>,Scaleform::HashNode<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair,Scaleform::GFx::AMP::ViewStats::AmpFunctionStats,Scaleform::FixedSizeHash<Scaleform::GFx::AMP::ViewStats::ParentChildFunctionPair>>::NodeHashF>>::ConstIterator::operator==(
+                (Scaleform::HashSetBase<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeAltHashF,Scaleform::AllocatorGH<unsigned long,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::String,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> >::ConstIterator *)&result,
                 v15) )
-          Scaleform::String::AppendString(&tmp, (char *)&stru_95AF78.m_key_bindings[32], 0xFFFFFFFF);
+          Scaleform::String::AppendString(&v25, (const __m128i *)", ", 0xFFFFFFFF);
         v23 = (const Scaleform::String *)&pHash->pTable[2] + 3 * Index;
-        Scaleform::String::String(&v27, "\"");
+        Scaleform::String::String(&v27, (const __m128i *)"\"");
         v17 = Scaleform::String::operator+(v16, &v30, v23);
-        v18 = Scaleform::String::operator+(v17, &v28, "\"");
-        Scaleform::String::operator+=(&tmp, v18);
+        v18 = Scaleform::String::operator+(v17, &v28, (const __m128i *)"\"");
+        Scaleform::String::operator+=(&v25, v18);
         Scaleform::String::~String(&v28);
         Scaleform::String::~String(&v30);
         Scaleform::String::~String(&v27);
-        Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::ConstIterator::operator++(&it);
+        Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor>>::ConstIterator::operator++((Scaleform::HashSetBase<Scaleform::String,Scaleform::String::NoCaseHashFunctor,Scaleform::String::NoCaseHashFunctor,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedEntry<Scaleform::String,Scaleform::String::NoCaseHashFunctor> >::ConstIterator *)&result);
         v10 = flags;
       }
-      result.Type = tDataPtr;
-      result.SinkData.pStr = (Scaleform::String *)buff;
-      result.SinkData.DataPtr.Size = 1024;
-      Scaleform::Format<Scaleform::String>(&result, "              : {0}.", (const Scaleform::StringLH *)&tmp);
-      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)buff, buff);
-      Scaleform::String::~String(&tmp);
+      v26.Type = tDataPtr;
+      v26.SinkData.pStr = (Scaleform::String *)v31;
+      v26.SinkData.DataPtr.Size = 1024;
+      Scaleform::Format<Scaleform::String>(&v26, "              : {0}.", (Scaleform::StringLH *)&v25);
+      Scaleform::GFx::AddSearchInfo(psearchInfo, (Scaleform::String::DataDesc *)v31, v31);
+      Scaleform::String::~String(&v25);
       v6 = resSearchInfo;
     }
     v19 = (Scaleform::String::DataDesc *)Scaleform::GFx::FontFlagsToString(v10);
-    v20 = v6->Status == FoundInExports;
+    v20 = v6->Status == 6;
     v27.pData = v19;
-    result.Type = tDataPtr;
-    result.SinkData.DataPtr.Size = 1024;
+    v26.Type = tDataPtr;
+    v26.SinkData.DataPtr.Size = 1024;
     if ( v20 )
     {
-      p_tmp = (const char **)&v27;
+      v24 = (const char **)&v27;
       v22 = "Exported      : \"{0}\" {1} found.";
       goto LABEL_7;
     }
-    result.SinkData.pStr = (Scaleform::String *)buff;
+    v26.SinkData.pStr = (Scaleform::String *)v31;
     Scaleform::Format<char const *,char const *>(
-      &result,
+      &v26,
       "Exported      : \"{0}\" {1} not found.",
       &pfontname,
       (const char **)&v27);
-    Scaleform::GFx::AddSearchInfo(psearchInfo, v21, buff);
+    Scaleform::GFx::AddSearchInfo(psearchInfo, v21, v31);
   }
 }

@@ -1,6 +1,6 @@
-void *__thiscall btCollisionAlgorithmCreateFunc::CreateCollisionAlgorithm(
-        btNullPairCache *this,
-        btBroadphaseProxy *__formal,
+btCollisionAlgorithm *__thiscall btCollisionAlgorithmCreateFunc::CreateCollisionAlgorithm(
+        btCollisionAlgorithmCreateFunc *this,
+        btCollisionAlgorithmConstructionInfo *__formal,
         btCollisionObject *body0,
         btCollisionObject *body1)
 {

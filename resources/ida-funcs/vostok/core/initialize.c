@@ -1,194 +1,137 @@
-void __cdecl vostok::core::initialize(char *lua_config_device_folder_to_save_to, const char *debug_thread_id)
+void __usercall vostok::core::initialize(
+        const char *a1@<edi>,
+        char *lua_config_device_folder_to_save_to,
+        const char *debug_thread_id)
 {
-  char v2; // bl
-  void (__cdecl *v3)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v3; // ecx
+  bool has_passed_filters; // al
   const vostok::fs_new::native_path_string *current_directory; // eax
-  void (__cdecl *v5)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v6)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  const char *v7; // eax
-  void (__cdecl *v8)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  const char *v9; // eax
-  char *m_buffer; // ecx
-  unsigned int v11; // eax
-  unsigned int v12; // esi
-  vostok::tasks::thread_pool *v13; // ecx
-  vostok::threading *v14; // [esp+0h] [ebp-174h]
-  vostok::command_line *v15; // [esp+0h] [ebp-174h]
-  vostok::math *v16; // [esp+0h] [ebp-174h]
-  vostok::tasks::execute_while_wait_for_children_enum v17; // [esp+4h] [ebp-170h]
-  vostok::tasks::do_logging_bool v18; // [esp+8h] [ebp-16Ch]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+18h] [ebp-15Ch] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v20; // [esp+38h] [ebp-13Ch] BYREF
-  vostok::fs_new::native_path_string replication_folder_string; // [esp+58h] [ebp-11Ch] BYREF
+  bool v6; // al
+  vostok::core::engine_vtbl *v7; // eax
+  const char *v8; // eax
+  vostok::command_line::key *v9; // ecx
+  vostok::threading::mutex_tasks_unaware *v10; // ecx
+  char *v11; // eax
+  vostok::fixed_string<260> *v12; // ecx
+  char *m_end; // edi
+  vostok::buffer_string *v14; // ecx
+  void *v15; // ecx
+  unsigned int v16; // esi
+  void *v17; // ecx
+  unsigned int v18; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v19; // [esp-4h] [ebp-174h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v20; // [esp-4h] [ebp-174h]
+  char *v21; // [esp+0h] [ebp-170h]
+  vostok::tasks::execute_while_wait_for_children_enum v22; // [esp+0h] [ebp-170h]
+  vostok::tasks::do_logging_bool v23; // [esp+4h] [ebp-16Ch]
+  vostok::buffer_string v24[22]; // [esp+10h] [ebp-160h] BYREF
+  char v25; // [esp+120h] [ebp-50h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v26; // [esp+128h] [ebp-48h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+148h] [ebp-28h] BYREF
+  int v28; // [esp+16Ch] [ebp-4h]
 
-  v2 = 0;
+  v28 = 0;
   if ( debug_thread_id == (const char *)1 )
-    vostok::debug::postinitialize();
-  setlocale(2u, (char *)&buf);
-  TlsSetValue(s_thread_logging_name_tls_key, lua_config_device_folder_to_save_to);
+    vostok::debug::bugtrap::initialize(a1);
+  vostok::threading::tls_set_value(s_thread_logging_name_tls_key, lua_config_device_folder_to_save_to);
   vostok::debug::is_debugger_present();
   if ( !s_logical_to_physical_core_index )
-    vostok::threading::initialize_core_affinity(v14);
+    vostok::threading::initialize_core_affinity();
   if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "core:", info) )
+    || (has_passed_filters = vostok::logging::has_passed_filters(
+                               (vostok::logging::filter_tree *)&stru_802D94,
+                               (const char *)4),
+        v3 = v19,
+        has_passed_filters) )
   {
-    v3 = vostok::core::g_log_callback;
-    log_callback.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &log_callback.functor,
-        &log_callback.functor,
-        destroy_functor_tag);
-    if ( v3 )
-    {
-      log_callback.functor.obj_ptr = v3;
-      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                   + 1);
-    }
-    else
-    {
-      log_callback.vtable = 0;
-    }
-    v2 = 1;
-    current_directory = vostok::fs_new::get_current_directory();
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      v3,
+      &log_callback);
+    v28 = 1;
+    current_directory = vostok::fs_new::get_current_directory((char *)&log_callback);
     vostok::logging::append(
       &log_callback,
       (void *const)vostok::core::g_log_flags,
       &vostok::core::g_log_format,
       ".\\core_entry_point.cpp",
-      0xA2u,
-      "void __cdecl vostok::core::initialize(const char *,const char *,enum vostok::core::debug_initialization_enum,const bool)",
-      "core:",
+      0xAFu,
+      "void __cdecl vostok::core::initialize(const char *,const char *,enum vostok::core::debug_initialization_enum,const bool,bool)",
+      (char *)&stru_802D94,
       info,
       "working directory: '%s'",
       current_directory->m_string.m_begin);
   }
-  if ( (v2 & 1) != 0 )
+  if ( (v28 & 1) != 0 )
   {
-    v2 &= ~1u;
-    if ( log_callback.vtable )
-    {
-      if ( ((int)log_callback.vtable & 1) == 0 )
-      {
-        v5 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-        if ( v5 )
-          v5(&log_callback.functor, &log_callback.functor, 2);
-      }
-      log_callback.vtable = 0;
-    }
+    v28 &= ~1u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v3,
+      (int *)&log_callback);
   }
-  if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "core:", info) )
+  if ( vostok::memory::g_use_resources_manager )
   {
-    v6 = vostok::core::g_log_callback;
-    v20.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &v20.functor,
-        &v20.functor,
-        destroy_functor_tag);
-    if ( v6 )
+    if ( !vostok::core::g_log_filter_tree
+      || (v6 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)&stru_802D94, (const char *)4),
+          v3 = v20,
+          v6) )
     {
-      v20.functor.obj_ptr = v6;
-      v20.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                          + 1);
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v3,
+        &v26);
+      v7 = s_engine_0->__vftable;
+      v28 |= 2u;
+      v8 = v7->get_resources_path(s_engine_0);
+      vostok::logging::append(
+        &v26,
+        (void *const)vostok::core::g_log_flags,
+        &vostok::core::g_log_format,
+        ".\\core_entry_point.cpp",
+        0xB1u,
+        "void __cdecl vostok::core::initialize(const char *,const char *,enum vostok::core::debug_initialization_enum,const bool,bool)",
+        (char *)&stru_802D94,
+        info,
+        "resources directory: '%s'",
+        v8);
     }
-    else
-    {
-      v20.vtable = 0;
-    }
-    v2 |= 2u;
-    v7 = s_engine_0->get_resources_path(s_engine_0);
-    vostok::logging::append(
-      &v20,
-      (void *const)vostok::core::g_log_flags,
-      &vostok::core::g_log_format,
-      ".\\core_entry_point.cpp",
-      0xA3u,
-      "void __cdecl vostok::core::initialize(const char *,const char *,enum vostok::core::debug_initialization_enum,const bool)",
-      "core:",
-      info,
-      "resources directory: '%s'",
-      v7);
+    if ( (v28 & 2) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v3,
+        (int *)&v26);
   }
-  if ( (v2 & 2) != 0 )
-  {
-    if ( v20.vtable )
-    {
-      if ( ((int)v20.vtable & 1) == 0 )
-      {
-        v8 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v20.vtable & 0xFFFFFFFE);
-        if ( v8 )
-          v8(&v20.functor, &v20.functor, 2);
-      }
-    }
-  }
-  vostok::command_line::check_keys(v14);
-  if ( vostok::command_line::s_show_help.m_type == type_unset )
-  {
-    vostok::command_line::s_show_help.m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-  }
-  if ( vostok::command_line::s_show_help.m_type != type_recursive )
-    vostok::command_line::show_help_and_exit(v15);
+  vostok::command_line::check_keys(v3);
+  if ( vostok::command_line::key::is_set(v9, (int)&vostok::command_line::s_show_help) )
+    vostok::command_line::show_help_and_exit();
   timeBeginPeriod(1u);
   __FUnloadDelayLoadedDLL2("winmm.dll");
-  QueryPerformanceFrequency(&vostok::timing::g_qpc_per_second);
-  vostok::timing::g_cpu_supports_time_stamp = 0;
+  BYTE3(s_command_line_keys_creation.m_mutex[1]) = 0;
   vostok::build::initialize();
-  InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)&s_manager, 0x2710u);
-  *(_DWORD *)&s_manager.m_static_memory[131100] = 0;
-  memset((int)&s_manager.m_static_memory[28], 0, (unsigned int)&loc_20000);
-  _InterlockedExchange(&s_manager.m_initialized, 1);
-  v9 = s_engine_0->get_user_data_directory(s_engine_0);
-  m_buffer = replication_folder_string.m_string.m_buffer;
-  replication_folder_string.m_string.m_begin = replication_folder_string.m_string.m_buffer;
-  replication_folder_string.m_string.m_end = replication_folder_string.m_string.m_buffer;
-  replication_folder_string.m_string.m_max_end = &replication_folder_string.m_separator;
-  replication_folder_string.m_string.m_buffer[0] = 0;
-  if ( v9 )
-  {
-    for ( ; *v9; ++replication_folder_string.m_string.m_end )
-    {
-      if ( m_buffer >= replication_folder_string.m_string.m_max_end )
-        break;
-      *m_buffer = *v9;
-      m_buffer = replication_folder_string.m_string.m_end + 1;
-      ++v9;
-    }
-    *m_buffer = 0;
-  }
-  replication_folder_string.m_separator = 92;
-  vostok::fs_new::path_string_impl::append_with_conversion<char const [13]>(
-    (vostok::fs_new::path_string_impl *)m_buffer,
-    &replication_folder_string);
-  v11 = s_logical_core_count;
-  if ( !s_logical_core_count )
-  {
-    vostok::threading::initialize_core_count(v15);
-    v11 = s_logical_core_count;
-  }
-  v12 = v11;
-  if ( !v11 )
-  {
-    vostok::threading::initialize_core_count(v15);
-    v11 = s_logical_core_count;
-  }
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(v10, &s_manager_buffer);
+  dword_A2DC34 = 0;
+  memset((int)&result.m_value, 0, (unsigned int)&loc_20000);
+  v11 = (char *)s_engine_0->get_user_data_directory(s_engine_0);
+  vostok::fixed_string<260>::fixed_string<260>(v12, v24, v11);
+  m_end = v24[0].m_end;
+  v25 = 92;
+  vostok::buffer_string::append(v14, (int)v24, "/replication");
+  vostok::fs_new::path_string_impl::convert(
+    (vostok::fs_new::path_string_impl *)m_end,
+    (int)v24,
+    (vostok::fs_new::path_string_impl *)v24[0].m_end,
+    v21);
+  v16 = vostok::threading::core_count(v15);
+  v18 = vostok::threading::core_count(v17);
   vostok::tasks::thread_pool::thread_pool(
-    (vostok::tasks::thread_pool *)(16 - v11),
-    (int)&s_thread_pool,
-    2 * (v11 + (v11 > 0x10 ? 16 - v11 : 0)),
-    v12,
-    (unsigned int)v15,
-    v17,
-    v18);
+    (vostok::tasks::thread_pool *)(32 - v16),
+    &s_thread_pool,
+    2 * (v16 + (v16 > 0x20 ? 32 - v16 : 0)),
+    v18,
+    v22,
+    v23);
   _InterlockedExchange(&s_thread_pool.m_initialized, 1);
-  vostok::tasks::thread_pool::initialize(v13, s_thread_pool.m_variable);
+  vostok::tasks::thread_pool::initialize(
+    (vostok::tasks::thread_pool *)&s_thread_pool.m_initialized,
+    s_thread_pool.m_variable);
   vostok::threading::set_current_thread_affinity(0);
-  vostok::math::on_thread_spawn(v16);
-  if ( s_thread_pool.m_initialized )
-    vostok::tasks::thread_pool::register_current_thread_as_core_user(
-      (vostok::tasks::thread_pool *)s_thread_pool.m_initialized,
-      (DWORD *)s_thread_pool.m_variable);
-  s_initialized_1 = 1;
+  vostok::threading::on_thread_spawn(tasks_aware);
+  s_initialized_0 = 1;
 }

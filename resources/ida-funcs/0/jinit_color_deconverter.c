@@ -42,14 +42,14 @@ LABEL_9:
       switch ( result )
       {
         case 3:
-          v1[1] = sub_37A660;
-          result = sub_37A590(a1);
+          v1[1] = sub_487320;
+          result = sub_487250(a1);
           goto LABEL_33;
         case 1:
-          v1[1] = sub_37A9E0;
+          v1[1] = sub_4876A0;
           goto LABEL_33;
         case 2:
-          v1[1] = sub_37A8A0;
+          v1[1] = sub_487560;
           goto LABEL_33;
       }
     }
@@ -62,20 +62,20 @@ LABEL_9:
         *(_DWORD *)(a1 + 100) = 4;
         if ( result == 5 )
         {
-          v1[1] = sub_37AA40;
-          result = sub_37A590(a1);
+          v1[1] = sub_487700;
+          result = sub_487250(a1);
           goto LABEL_33;
         }
         if ( result == 4 )
         {
-          v1[1] = sub_37A920;
+          v1[1] = sub_4875E0;
           goto LABEL_33;
         }
       }
       else if ( *(_DWORD *)(a1 + 44) == *(_DWORD *)(a1 + 40) )
       {
         *(_DWORD *)(a1 + 100) = *(_DWORD *)(a1 + 36);
-        v1[1] = sub_37A920;
+        v1[1] = sub_4875E0;
         goto LABEL_33;
       }
     }
@@ -90,13 +90,13 @@ LABEL_29:
   {
     if ( v3 == 2 )
     {
-      v1[1] = sub_37A7E0;
-      result = (int)sub_37A780(a1);
+      v1[1] = sub_4874A0;
+      result = (int)sub_487440(a1);
       goto LABEL_33;
     }
     goto LABEL_29;
   }
-  v1[1] = sub_37A9B0;
+  v1[1] = sub_487670;
   result = 1;
   if ( *(int *)(a1 + 36) > 1 )
   {

@@ -1,8 +1,8 @@
-bool __thiscall Scaleform::FILEFile::Close(Scaleform::FILEFile *this)
+bool __usercall Scaleform::FILEFile::Close@<al>(Scaleform::FILEFile *this@<ecx>, int a2@<ebx>)
 {
   bool result; // al
 
-  if ( fclose(this->fs) )
+  if ( fclose(a2, this->fs) )
   {
     if ( *_errno() == 2 )
     {

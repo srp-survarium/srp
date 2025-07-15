@@ -3,32 +3,23 @@ void __userpurge survarium::messaging_client::add_to_friend_list(
         int a2@<esi>,
         unsigned int account_id)
 {
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v3; // ecx
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v4; // ecx
-  unsigned __int8 buffer; // [esp+4h] [ebp-14h] BYREF
-  vostok::network_core::tcp_packet packet; // [esp+8h] [ebp-10h] BYREF
+  survarium::account_list_item *v3; // ebx
+  survarium::account_list_item *v4; // eax
+  survarium::messaging_client *v5; // [esp-4h] [ebp-Ch]
 
   if ( *(_DWORD *)(a2 + 136) == 3 )
   {
-    vostok::network_core::tcp_packet::tcp_packet(&packet, &vostok::memory::g_mt_allocator);
-    buffer = -60;
-    vostok::network_core::packet<vostok::network_core::tcp_packet>::append(v3, (int)&packet, &buffer, 1u);
-    buffer = 0;
-    vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-      (vostok::network_core::packet<vostok::network_core::tcp_packet> *)&buffer,
-      (int)&packet,
-      &buffer,
-      1u);
-    vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-      v4,
-      (int)&packet,
-      (unsigned __int8 *)&account_id,
-      4u);
-    vostok::network::tcp_packet_client::send((vostok::network::tcp_packet_client *)(a2 + 144), &packet);
-    if ( packet.m_buffer )
-    {
-      if ( packet.m_buffer != (unsigned __int8 *)3 )
-        packet.m_allocator->call_free(packet.m_allocator, packet.m_buffer - 3);
-    }
+    v3 = *(survarium::account_list_item **)(a2 + 388);
+    v4 = stlp_std::find<survarium::account_list_item *,unsigned int>(
+           *(survarium::account_list_item **)(a2 + 384),
+           &account_id,
+           v3);
+    if ( v4 != v3 )
+      survarium::messaging_client::send_important_message(
+        v5,
+        (const char (*)[64])a2,
+        (int)v4->account_name,
+        0,
+        (char *)uri);
   }
 }

@@ -12,48 +12,44 @@ void __cdecl Scaleform::GFx::AS3::Instances::fl::Object::AS3isPrototypeOf(
   const Scaleform::GFx::AS3::VM::Error *v9; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::AS3::Object *VObj; // edi
-  Scaleform::GFx::AS3::Traits *ValueTraits; // esi
+  Scaleform::GFx::AS3::Traits *pObject; // esi
   Scaleform::GFx::AS3::Class *Constructor; // eax
-  Scaleform::GFx::AS3::VM::Error v14; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v14; // [esp-14h] [ebp-24h]
+  Scaleform::GFx::AS3::VM::Error v15; // [esp+8h] [ebp-8h] BYREF
 
   if ( (_this->Flags & 0x1F) != 0 && ((_this->Flags & 0x1F) - 12 > 3 || _this->value.VS._1.VInt) )
   {
     if ( argc )
     {
-      if ( (argv->Flags & 0x1F) != 0 && ((argv->Flags & 0x1F) - 12 > 3 || argv->value.VS._1.VInt) )
+      if ( (argv->Flags & 0x1F) != 0
+        && ((argv->Flags & 0x1F) - 12 > 3 || argv->value.VS._1.VInt)
+        && (VObj = _this->value.VS._1.VObj, (pObject = Scaleform::GFx::AS3::VM::GetValueTraits(vm, argv)) != 0) )
       {
-        VObj = _this->value.VS._1.VObj;
-        ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(vm, argv);
-        if ( ValueTraits )
+        while ( 1 )
         {
-          while ( 1 )
-          {
-            Constructor = Scaleform::GFx::AS3::Traits::GetConstructor(ValueTraits);
-            if ( Scaleform::GFx::AS3::Class::GetPrototype(Constructor) == VObj )
-              break;
-            ValueTraits = (Scaleform::GFx::AS3::Traits *)ValueTraits->pParent.pObject;
-            if ( !ValueTraits )
-              goto LABEL_16;
-          }
-          Scaleform::GFx::AS3::Value::SetBool(result, 1);
+          Constructor = Scaleform::GFx::AS3::Traits::GetConstructor(pObject);
+          if ( Scaleform::GFx::AS3::Class::GetPrototype(Constructor) == VObj )
+            break;
+          pObject = pObject->pParent.pObject;
+          if ( !pObject )
+            goto LABEL_15;
         }
-        else
-        {
-LABEL_16:
-          Scaleform::GFx::AS3::Value::SetBool(result, 0);
-        }
+        Scaleform::GFx::AS3::Value::SetBool(result, 1);
       }
       else
       {
+LABEL_15:
         Scaleform::GFx::AS3::Value::SetBool(result, 0);
       }
     }
     else
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v14, eWrongArgumentCountError, vm);
+      v14.pStr = "Object::AS3isPrototypeOf";
+      v14.Size = 24;
+      Scaleform::GFx::AS3::VM::Error::Error(&v15, eWrongArgumentCountError, vm, v14, 1, 1, 0);
       Scaleform::GFx::AS3::VM::ThrowArgumentError(vm, v9);
-      pNode = v14.Message.pNode;
-      --v14.Message.pNode->RefCount;
+      pNode = v15.Message.pNode;
+      --v15.Message.pNode->RefCount;
       v8 = pNode;
       if ( !pNode->RefCount )
         goto LABEL_5;
@@ -61,10 +57,10 @@ LABEL_16:
   }
   else
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v14, eConvertNullToObjectError, vm);
+    Scaleform::GFx::AS3::VM::Error::Error(&v15, eConvertNullToObjectError, vm);
     Scaleform::GFx::AS3::VM::ThrowTypeError(vm, v6);
-    v7 = v14.Message.pNode;
-    --v14.Message.pNode->RefCount;
+    v7 = v15.Message.pNode;
+    --v15.Message.pNode->RefCount;
     v8 = v7;
     if ( !v7->RefCount )
 LABEL_5:

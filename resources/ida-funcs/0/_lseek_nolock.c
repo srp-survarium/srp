@@ -1,11 +1,11 @@
-DWORD __cdecl _lseek_nolock(int fh, LONG pos, DWORD mthd)
+DWORD __usercall _lseek_nolock@<eax>(int a1@<ebx>, int a2@<edi>, int fh, LONG pos, DWORD mthd)
 {
   void *osfhandle; // eax
-  DWORD v5; // edi
+  DWORD v7; // edi
   DWORD LastError; // eax
-  char *v7; // eax
+  char *v9; // eax
 
-  osfhandle = (void *)_get_osfhandle(fh);
+  osfhandle = (void *)_get_osfhandle(a1, a2, fh);
   if ( osfhandle == (void *)-1 )
   {
     *_errno() = 9;
@@ -13,8 +13,8 @@ DWORD __cdecl _lseek_nolock(int fh, LONG pos, DWORD mthd)
   }
   else
   {
-    v5 = SetFilePointer(osfhandle, pos, 0, mthd);
-    if ( v5 == -1 )
+    v7 = SetFilePointer(osfhandle, pos, 0, mthd);
+    if ( v7 == -1 )
       LastError = GetLastError();
     else
       LastError = 0;
@@ -25,9 +25,9 @@ DWORD __cdecl _lseek_nolock(int fh, LONG pos, DWORD mthd)
     }
     else
     {
-      v7 = &__pioinfo[fh >> 5]->osfile + 64 * (fh & 0x1F);
-      *v7 &= ~2u;
-      return v5;
+      v9 = &__pioinfo[fh >> 5]->osfile + 64 * (fh & 0x1F);
+      *v9 &= ~2u;
+      return v7;
     }
   }
 }

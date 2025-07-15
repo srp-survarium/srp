@@ -2,8 +2,8 @@ Scaleform::GFx::ResourceHandle *__cdecl Scaleform::GFx::GFx_CreateImageFileResou
         Scaleform::GFx::ResourceHandle *result,
         Scaleform::GFx::LoadProcess *p,
         Scaleform::GFx::ResourceId rid,
-        char *pimageFileName,
-        char *pimageExportName,
+        const __m128i *pimageFileName,
+        const __m128i *pimageExportName,
         unsigned __int16 bitmapFormat,
         unsigned __int16 targetWidth,
         unsigned __int16 targetHeight)
@@ -20,7 +20,7 @@ Scaleform::GFx::ResourceHandle *__cdecl Scaleform::GFx::GFx_CreateImageFileResou
   bool v17; // zf
   unsigned int BindIndex; // ecx
   Scaleform::GFx::ResourceHandle v20; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::GFx::ResourceData v21; // [esp+18h] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceData resulta; // [esp+18h] [ebp-8h] BYREF
 
   v8 = Scaleform::Memory::pGlobalHeap;
   Alloc = Scaleform::Memory::pGlobalHeap->Alloc;
@@ -44,10 +44,10 @@ Scaleform::GFx::ResourceHandle *__cdecl Scaleform::GFx::GFx_CreateImageFileResou
     v11->Format = bitmapFormat;
     LOWORD(v11[1].__vftable) = targetWidth;
     HIWORD(v11[1].__vftable) = targetHeight;
-    if ( (int *)(rid.Id & 0xFFF0000) == &dword_60000 )
+    if ( (_UNKNOWN *)(rid.Id & 0xFFF0000) == &loc_60000 )
       v11[1].RefCount = 3;
     v12 = Scaleform::GFx::ImageFileResourceCreator::CreateImageFileResourceData(
-            &v21,
+            &resulta,
             (Scaleform::GFx::ImageFileInfo *)v11);
     v13 = Scaleform::GFx::LoadProcess::AddDataResource(p, &v20, rid, v12);
     v14 = v13;
@@ -69,8 +69,8 @@ Scaleform::GFx::ResourceHandle *__cdecl Scaleform::GFx::GFx_CreateImageFileResou
     result->BindIndex = BindIndex;
     if ( v17 && v20.BindIndex )
       Scaleform::GFx::Resource::Release(v20.pResource);
-    if ( v21.pInterface )
-      v21.pInterface->Release(v21.pInterface, v21.hData);
+    if ( resulta.pInterface )
+      resulta.pInterface->Release(resulta.pInterface, resulta.hData);
     Scaleform::RefCountNTSImpl::Release(v11);
   }
   return result;

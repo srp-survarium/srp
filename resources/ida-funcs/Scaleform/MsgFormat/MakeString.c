@@ -20,15 +20,15 @@ void __thiscall Scaleform::MsgFormat::MakeString(Scaleform::MsgFormat *this)
   char *v19; // eax
   int v20; // eax
   int v21; // ecx
-  unsigned int data_size; // [esp+10h] [ebp-Ch]
-  unsigned int data_sizea; // [esp+10h] [ebp-Ch]
-  Scaleform::StringDataPtr r; // [esp+14h] [ebp-8h] BYREF
+  unsigned int i; // [esp+10h] [ebp-Ch]
+  unsigned int v23; // [esp+10h] [ebp-Ch]
+  const __m128i *v24[2]; // [esp+14h] [ebp-8h] BYREF
 
   Size = this->Data.Size;
   v3 = 0;
   v4 = 0;
   this->StrSize = 0;
-  for ( data_size = Size; v4 < data_size; ++v3 )
+  for ( i = Size; v4 < i; ++v3 )
   {
     if ( v4 >= 0x10 )
       v5 = (char *)&this->Data.DynamicArray.Data.Data[v3 - 16];
@@ -76,7 +76,7 @@ void __thiscall Scaleform::MsgFormat::MakeString(Scaleform::MsgFormat *this)
     {
       pStrBuffer = this->Result.SinkData.pStrBuffer;
       v15 = this->Data.Size;
-      data_sizea = v15;
+      v23 = v15;
       Scaleform::StringBuffer::Reserve(pStrBuffer, this->StrSize + pStrBuffer->Size);
       v16 = 0;
       if ( v15 )
@@ -100,19 +100,19 @@ void __thiscall Scaleform::MsgFormat::MakeString(Scaleform::MsgFormat *this)
               v21 = *((_DWORD *)v18 + 1);
               if ( v21 )
               {
-                (*(void (__thiscall **)(int, Scaleform::StringDataPtr *))(*(_DWORD *)v21 + 16))(v21, &r);
-                Scaleform::StringBuffer::AppendString(pStrBuffer, (char *)r.pStr, r.Size);
+                (*(void (__thiscall **)(int, const __m128i **))(*(_DWORD *)v21 + 16))(v21, v24);
+                Scaleform::StringBuffer::AppendString(pStrBuffer, v24[0], (unsigned int)v24[1]);
               }
             }
           }
           else
           {
-            Scaleform::StringBuffer::AppendString(pStrBuffer, *((char **)v18 + 1), (unsigned __int8)v18[8]);
+            Scaleform::StringBuffer::AppendString(pStrBuffer, *((const __m128i **)v18 + 1), (unsigned __int8)v18[8]);
           }
           ++v16;
           ++v17;
         }
-        while ( v16 < data_sizea );
+        while ( v16 < v23 );
       }
     }
   }

@@ -8,15 +8,15 @@ int __cdecl ec_GF2m_simple_point_get_affine_coordinates(
   const bignum_st *v6; // eax
 
   v4 = 0;
-  if ( EC_POINT_is_at_infinity(group, point) )
+  if ( EC_POINT_is_at_infinity(0, group, point) )
   {
-    ERR_put_error(0x10u, 162, 106, ".\\crypto\\ec\\ec2_smpl.c", 383);
+    ERR_put_error(0, 0x10u, 162, 106, ".\\crypto\\ec\\ec2_smpl.c", 383);
     return 0;
   }
   v6 = BN_value_one();
   if ( BN_cmp(&point->Z, v6) )
   {
-    ERR_put_error(0x10u, 162, 66, ".\\crypto\\ec\\ec2_smpl.c", 389);
+    ERR_put_error(0, 0x10u, 162, 66, ".\\crypto\\ec\\ec2_smpl.c", 389);
     return 0;
   }
   if ( x )

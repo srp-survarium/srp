@@ -1,24 +1,22 @@
-double __usercall Wm4::Vector2<float>::Normalize@<st0>(Wm4::Vector2<float> *this@<ecx>, float *a2@<esi>)
+void __usercall Wm4::Vector2<float>::Normalize(Wm4::Vector2<float> *this@<ecx>, float *a2@<eax>)
 {
-  double result; // st7
-  float fInvLength; // [esp+0h] [ebp-4h]
-  float fInvLengtha; // [esp+0h] [ebp-4h]
-  float fInvLengthb; // [esp+0h] [ebp-4h]
+  float v2; // xmm1_4
+  float v3; // xmm2_4
+  float v4; // xmm0_4
+  float v5; // xmm1_4
 
-  fInvLength = a2[1] * a2[1] + *a2 * *a2;
-  fInvLengtha = sqrt(fInvLength);
-  result = fInvLengtha;
-  if ( fInvLengtha <= 0.000001 )
+  v2 = a2[1];
+  v3 = *a2;
+  v4 = fsqrt((float)(v3 * v3) + (float)(v2 * v2));
+  if ( v4 <= 0.000001 )
   {
     *a2 = 0.0;
     a2[1] = 0.0;
-    return (float)0.0;
   }
   else
   {
-    fInvLengthb = 1.0 / result;
-    *a2 = *a2 * fInvLengthb;
-    a2[1] = fInvLengthb * a2[1];
+    v5 = v2 * (float)(s_bm_current_air_resistance / v4);
+    *a2 = v3 * (float)(s_bm_current_air_resistance / v4);
+    a2[1] = v5;
   }
-  return result;
 }

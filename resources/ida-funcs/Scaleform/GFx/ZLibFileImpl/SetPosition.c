@@ -2,7 +2,7 @@ int __thiscall Scaleform::GFx::ZLibFileImpl::SetPosition(Scaleform::GFx::ZLibFil
 {
   int LogicalStreamPos; // eax
   int v5; // eax
-  unsigned __int8 dst[4096]; // [esp+8h] [ebp-1000h] BYREF
+  unsigned __int8 v6[4096]; // [esp+8h] [ebp-1000h] BYREF
 
   LogicalStreamPos = this->LogicalStreamPos;
   if ( offset >= LogicalStreamPos )
@@ -27,7 +27,7 @@ int __thiscall Scaleform::GFx::ZLibFileImpl::SetPosition(Scaleform::GFx::ZLibFil
       if ( v5 >= 4096 )
         v5 = 4096;
     }
-    while ( Scaleform::GFx::ZLibFileImpl::Inflate(this, dst, v5) && this->UserPos < offset );
+    while ( Scaleform::GFx::ZLibFileImpl::Inflate(this, (__m128i *)v6, v5) && this->UserPos < offset );
   }
   return this->UserPos;
 }

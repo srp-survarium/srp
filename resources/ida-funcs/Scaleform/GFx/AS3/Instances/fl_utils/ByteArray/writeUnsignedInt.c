@@ -9,8 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeUnsign
   if ( (*((_DWORD *)this + 8) & 0x18) == 8 )
     v4 = value;
   else
-    v4 = (((value << 16) | value & 0xFF00) << 8)
-       | ((((unsigned __int64)value >> 16) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & value) >> 8);
+    v4 = (((value << 16) | value & 0xFF00) << 8) | ((((unsigned __int64)value >> 16) | value & 0xFF0000) >> 8);
   v5 = this->Position + 4;
   if ( v5 < this->Data.Data.Size )
   {

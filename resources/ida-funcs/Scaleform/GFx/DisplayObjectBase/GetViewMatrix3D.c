@@ -13,10 +13,7 @@ bool __thiscall Scaleform::GFx::DisplayObjectBase::GetViewMatrix3D(
                  + 6)
       & 0x800) != 0 )
   {
-    memcpy(
-      (unsigned __int8 *)m,
-      (unsigned __int8 *)&this->pPerspectiveData->ViewMatrix3D,
-      sizeof(Scaleform::Render::Matrix3x4<float>));
+    memcpy((int)m, (const __m128i *)&this->pPerspectiveData->ViewMatrix3D, sizeof(Scaleform::Render::Matrix3x4<float>));
     return 1;
   }
   else

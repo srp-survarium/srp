@@ -1,70 +1,107 @@
-void __cdecl vorbis_lsp_to_curve(float *curve, int *map, int n, int ln, float *lsp, int m, float amp, float ampoffset)
+void __usercall vorbis_lsp_to_curve(
+        int a1@<edi>,
+        int a2@<esi>,
+        __int128 a3@<xmm2>,
+        float *curve,
+        int *map,
+        int n,
+        int ln,
+        float *lsp,
+        int m,
+        float amp,
+        float ampoffset)
 {
-  int v8; // esi
-  long double v9; // st7
-  int v10; // edi
-  int j; // eax
-  int v12; // esi
-  int v13; // ebp
-  long double v14; // st6
-  int v15; // eax
-  double i; // st6
-  double v17; // st5
-  double v18; // st7
-  float p; // [esp+4h] [ebp-18h]
-  float pa; // [esp+4h] [ebp-18h]
-  float w; // [esp+8h] [ebp-14h]
-  float wdel; // [esp+14h] [ebp-8h]
-  float q; // [esp+2Ch] [ebp+10h]
-  float qb; // [esp+2Ch] [ebp+10h]
-  float qc; // [esp+2Ch] [ebp+10h]
-  float qa; // [esp+2Ch] [ebp+10h]
+  int v11; // esi
+  float v12; // xmm0_4
+  float *v13; // edi
+  double v14; // xmm0_8
+  int v15; // esi
+  int v16; // edi
+  int v17; // eax
+  double v18; // xmm0_8
+  int i; // eax
+  int v20; // eax
+  __int128 v21; // xmm0
+  float v22; // xmm3_4
+  float v23; // xmm1_4
+  float v24; // xmm0_4
+  float *v25; // eax
+  float v26; // xmm1_4
+  long double v27; // [esp-Ch] [ebp-18h]
+  long double v28; // [esp-Ch] [ebp-18h]
+  int v29; // [esp+0h] [ebp-Ch]
+  float v30; // [esp+4h] [ebp-8h]
+  float v31; // [esp+8h] [ebp-4h]
+  float v32; // [esp+20h] [ebp+14h]
 
-  v8 = 0;
-  for ( wdel = 3.141592741012573 / (double)ln; v8 < m; lsp[v8 - 1] = v9 + v9 )
-    v9 = cos(lsp[v8++]);
-  v10 = 0;
-  if ( n > 0 )
+  HIDWORD(v27) = a2;
+  v11 = 0;
+  v12 = 3.1415927 / (float)ln;
+  LODWORD(v27) = a1;
+  v30 = v12;
+  if ( m > 0 )
   {
-    j = *map;
-    v12 = 0;
     do
     {
-      v13 = j;
-      p = 0.5;
-      q = 0.5;
-      v14 = cos((double)j * wdel) * 2.0;
-      v15 = 1;
-      w = v14;
-      for ( i = w; v15 < m; p = (i - lsp[v15 - 2]) * p )
+      v13 = &lsp[v11];
+      v14 = *v13;
+      __libm_sse2_cos(v27);
+      ++v11;
+      *(float *)&v14 = v14 * 2.0;
+      *v13 = *(float *)&v14;
+    }
+    while ( v11 < m );
+    v12 = 3.1415927 / (float)ln;
+  }
+  v15 = 0;
+  v16 = 0;
+  if ( n > 0 )
+  {
+    v17 = *map;
+    while ( 1 )
+    {
+      v32 = c_anim_center;
+      v31 = c_anim_center;
+      v29 = v17;
+      v18 = (float)((float)v17 * v12);
+      __libm_sse2_cos(v27);
+      *(float *)&a3 = v18 * 2.0;
+      for ( i = 0; ; i = v20 + 1 )
       {
-        v17 = i - lsp[v15 - 1];
-        v15 += 2;
-        q = v17 * q;
+        v20 = i + 1;
+        if ( v20 >= m )
+          break;
+        v31 = (float)(*(float *)&a3 - lsp[v20 - 1]) * v31;
+        v32 = (float)(*(float *)&a3 - lsp[v20]) * v32;
       }
-      if ( v15 == m )
+      if ( v20 == m )
       {
-        qb = (i - lsp[v15 - 1]) * q;
-        pa = (4.0 - i * i) * p * p;
-        v18 = qb * qb;
+        v21 = a3;
+        *(float *)&v21 = (float)(*(float *)&a3 - lsp[v20 - 1]) * v31;
+        v22 = *(float *)&a3 * *(float *)&a3;
+        a3 = v21;
+        v23 = 4.0 - v22;
+        *(float *)&a3 = *(float *)&v21 * *(float *)&v21;
       }
       else
       {
-        pa = (2.0 - i) * p * p;
-        v18 = (i + 2.0) * q * q;
+        v23 = 2.0 - *(float *)&a3;
+        *(float *)&a3 = (float)((float)(*(float *)&a3 + 2.0) * v31) * v31;
       }
-      qc = v18;
-      qa = exp((amp / sqrt(qc + pa) - ampoffset) * 0.1151292473077774);
-      ++v10;
-      curve[v12] = curve[v12] * qa;
-      v12 = v10;
-      for ( j = map[v10]; j == v13; j = map[v10] )
+      __libm_sse2_exp(v28);
+      v24 = (amp / sqrt((float)(*(float *)&a3 + (float)((float)(v23 * v32) * v32))) - ampoffset) * 0.1151292473077774;
+      do
       {
-        ++v10;
-        curve[v12] = curve[v12] * qa;
-        v12 = v10;
+        v25 = &curve[v15];
+        v26 = curve[v15];
+        v15 = ++v16;
+        *v25 = v26 * v24;
+        v17 = map[v16];
       }
+      while ( v17 == v29 );
+      if ( v16 >= n )
+        break;
+      v12 = v30;
     }
-    while ( v10 < n );
   }
 }

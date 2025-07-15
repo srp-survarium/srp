@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::QName::AS3toString(
       if ( v7 )
         Scaleform::GFx::ASStringNode::ReleaseNode(v12);
       result->pNode = pNode;
-      Scaleform::GFx::ASString::Append(result, "::", (Scaleform::GFx::ASStringNode *)2);
+      Scaleform::GFx::ASString::Append(result, (const __m128i *)"::", (Scaleform::GFx::ASStringNode *)2);
       Scaleform::GFx::ASString::Append(result, (Scaleform::GFx::ASStringNode *)&this->LocalName);
     }
     else
@@ -42,10 +42,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::QName::AS3toString(
   }
   else
   {
-    v4 = Scaleform::operator+(&v13, "*::", &this->LocalName);
+    v4 = Scaleform::operator+(&v13, (const __m128i *)"*::", &this->LocalName);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    result->pNode->pManager,
-                   (char *)((v4->HeapTypeBits & 0xFFFFFFFC) + 8),
+                   (__m128i *)((v4->HeapTypeBits & 0xFFFFFFFC) + 8),
                    *(_DWORD *)(v4->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++StringNode->RefCount;
     v6 = result->pNode;

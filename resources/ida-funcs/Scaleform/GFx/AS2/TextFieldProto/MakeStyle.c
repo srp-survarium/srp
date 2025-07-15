@@ -16,7 +16,7 @@ void __cdecl Scaleform::GFx::AS2::TextFieldProto::MakeStyle(
   double v14; // st7
   Scaleform::GFx::AS2::Environment *v15; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+Ch] [ebp-14h] BYREF
 
   pHeap = fn->Env->StringContext.pContext->pHeap;
   v3 = (Scaleform::GFx::AS2::Object *)pHeap->Alloc(pHeap, 52u, 0);
@@ -55,16 +55,16 @@ LABEL_11:
                                                                strlen(v7),
                                                                0);
         ++ConstStringNode->RefCount;
-        val.V.BooleanValue = 5;
-        val.V.FunctionValue.pLocalFrame = ConstStringNode;
+        v17.V.BooleanValue = 5;
+        v17.V.FunctionValue.pLocalFrame = ConstStringNode;
         ++ConstStringNode->RefCount;
         Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
           &v5->Scaleform::GFx::AS2::ObjectInterface,
-          &fn->Env->StringContext,
+          (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
           "underlineStyle",
-          (const Scaleform::GFx::AS2::Value *)&val.NV.4);
-        if ( val.V.BooleanValue >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&val.NV.4);
+          (const Scaleform::GFx::AS2::Value *)&v17.NV.4);
+        if ( v17.V.BooleanValue >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v17.NV.4);
         if ( ConstStringNode->RefCount-- == 1 )
           Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)ConstStringNode);
         v6 = hinfo;
@@ -75,51 +75,51 @@ LABEL_11:
   }
   if ( (v6->Flags & 0x20) != 0 )
   {
-    v10 = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v6->UnderlineColor.Raw);
-    val.V.BooleanValue = 3;
+    v10 = (double)(v6->UnderlineColor.Raw & 0xFFFFFF);
+    v17.V.BooleanValue = 3;
     Env = fn->Env;
-    *(double *)((char *)&val.NV.NumberValue + 4) = v10;
+    *(double *)((char *)&v17.NV.NumberValue + 4) = v10;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &Env->StringContext,
+      (Scaleform::GFx::ASStringNode *)&Env->StringContext,
       "underlineColor",
-      (const Scaleform::GFx::AS2::Value *)&val.NV.4);
-    if ( val.V.BooleanValue >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&val.NV.4);
+      (const Scaleform::GFx::AS2::Value *)&v17.NV.4);
+    if ( v17.V.BooleanValue >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v17.NV.4);
   }
   if ( (v6->Flags & 8) != 0 )
   {
-    v12 = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v6->BackgroundColor.Raw);
-    val.V.BooleanValue = 3;
+    v12 = (double)(v6->BackgroundColor.Raw & 0xFFFFFF);
+    v17.V.BooleanValue = 3;
     v13 = fn->Env;
-    *(double *)((char *)&val.NV.NumberValue + 4) = v12;
+    *(double *)((char *)&v17.NV.NumberValue + 4) = v12;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &v13->StringContext,
+      (Scaleform::GFx::ASStringNode *)&v13->StringContext,
       "backgroundColor",
-      (const Scaleform::GFx::AS2::Value *)&val.NV.4);
-    if ( val.V.BooleanValue >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&val.NV.4);
+      (const Scaleform::GFx::AS2::Value *)&v17.NV.4);
+    if ( v17.V.BooleanValue >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v17.NV.4);
   }
   if ( (v6->Flags & 0x10) != 0 )
   {
-    v14 = (double)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v6->TextColor.Raw);
-    val.V.BooleanValue = 3;
+    v14 = (double)(v6->TextColor.Raw & 0xFFFFFF);
+    v17.V.BooleanValue = 3;
     v15 = fn->Env;
-    *(double *)((char *)&val.NV.NumberValue + 4) = v14;
+    *(double *)((char *)&v17.NV.NumberValue + 4) = v14;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &v15->StringContext,
+      (Scaleform::GFx::ASStringNode *)&v15->StringContext,
       "textColor",
-      (const Scaleform::GFx::AS2::Value *)&val.NV.4);
-    if ( val.V.BooleanValue >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&val.NV.4);
+      (const Scaleform::GFx::AS2::Value *)&v17.NV.4);
+    if ( v17.V.BooleanValue >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v17.NV.4);
   }
   Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v5);
   if ( v5 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

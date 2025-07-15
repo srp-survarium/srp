@@ -2,205 +2,155 @@ void __userpurge Wm4::Mapper2<float>::Mapper2<float>(
         Wm4::Mapper2<float> *this@<ecx>,
         int a2@<esi>,
         int iVQuantity,
-        vostok::math::float2 *akVertex,
+        const Wm4::Vector2<float> *akVertex,
         float fEpsilon)
 {
-  int v5; // edi
-  const Wm4::Vector2<float> *v6; // edx
-  float *v7; // ecx
-  int v8; // ebx
-  double v9; // st7
-  float v10; // eax
-  double v11; // st7
-  float v12; // ecx
-  double v13; // st6
-  float v14; // edx
-  bool v15; // c0
-  bool v16; // c3
-  int v17; // eax
-  int v18; // ecx
-  Wm4::Vector2<float> *v19; // ebp
+  double v6; // st7
+  int v7; // edx
+  float *v8; // eax
+  float v9; // xmm0_4
+  char *v10; // edi
+  float v11; // xmm1_4
+  float v12; // xmm0_4
+  int v13; // eax
+  int v14; // eax
+  const Wm4::Vector2<float> *v15; // eax
+  int v16; // eax
+  const Wm4::Vector2<float> *v17; // eax
+  float v18; // xmm1_4
+  int v19; // xmm2_4
   int v20; // eax
-  float *v21; // edi
-  vostok::math::float2 *v22; // eax
-  vostok::math::float2 *v23; // ecx
-  double v24; // st7
-  vostok::math::float2 *v25; // ecx
-  double v26; // st7
-  int v27; // edx
-  int v28; // edi
-  long double v29; // st6
-  bool v30; // c0
-  float v31; // [esp+0h] [ebp-30h]
-  float v32; // [esp+0h] [ebp-30h]
-  const Wm4::Vector2<float> *v33; // [esp+4h] [ebp-2Ch]
-  const Wm4::Vector2<float> *v34; // [esp+4h] [ebp-2Ch]
-  float v35; // [esp+4h] [ebp-2Ch]
-  float v36; // [esp+4h] [ebp-2Ch]
-  const Wm4::Vector2<float> *v37; // [esp+4h] [ebp-2Ch]
-  float fSign; // [esp+10h] [ebp-20h] BYREF
-  int v39; // [esp+14h] [ebp-1Ch]
-  float fLMax; // [esp+18h] [ebp-18h] BYREF
-  int v41; // [esp+1Ch] [ebp-14h]
-  float fMaxSign; // [esp+20h] [ebp-10h] BYREF
-  float v43; // [esp+24h] [ebp-Ch]
-  Wm4::Vector2<float> kDiff; // [esp+28h] [ebp-8h] BYREF
-  float fLb; // [esp+38h] [ebp+8h]
-  float fL; // [esp+38h] [ebp+8h]
-  float fLc; // [esp+38h] [ebp+8h]
-  int fLd; // [esp+38h] [ebp+8h]
-  float fLe; // [esp+38h] [ebp+8h]
-  float fLa; // [esp+38h] [ebp+8h]
+  float v21; // xmm4_4
+  float i; // xmm5_4
+  float v23; // xmm1_4
+  float v24; // xmm2_4
+  float v25; // xmm1_4
+  int v26; // eax
+  int v27; // [esp+8h] [ebp-1Ch] BYREF
+  int v28; // [esp+Ch] [ebp-18h]
+  int v29; // [esp+10h] [ebp-14h] BYREF
+  int v30; // [esp+14h] [ebp-10h]
+  char *v31; // [esp+18h] [ebp-Ch]
+  char *v32; // [esp+1Ch] [ebp-8h]
+  int v33; // [esp+30h] [ebp+Ch]
 
   *(_BYTE *)(a2 + 36) = 0;
-  Wm4::Vector2<float>::operator=(akVertex, (vostok::math::float2 *)a2);
-  Wm4::Vector2<float>::operator=((vostok::math::float2 *)a2, (vostok::math::float2 *)(a2 + 8));
-  v5 = 1;
-  fLMax = 0.0;
-  fSign = 0.0;
-  v41 = 0;
-  v39 = 0;
+  *(float *)a2 = akVertex->m_afTuple[0];
+  v6 = akVertex->m_afTuple[1];
+  v27 = 0;
+  v28 = 0;
+  *(float *)(a2 + 4) = v6;
+  *(float *)(a2 + 8) = *(float *)a2;
+  *(float *)(a2 + 12) = *(float *)(a2 + 4);
+  v29 = 0;
+  v7 = 1;
+  v30 = 0;
   if ( iVQuantity > 1 )
   {
-    LODWORD(fMaxSign) = (char *)&fSign - a2;
-    v6 = (const Wm4::Vector2<float> *)&akVertex[1];
+    v32 = (char *)&v29 - a2;
+    v31 = (char *)&v27 - a2;
+    this = (Wm4::Mapper2<float> *)&CONTAINING_RECORD(akVertex, Wm4::Mapper2<float>, m_kMin)->m_kMax;
     do
     {
-      v7 = (float *)a2;
-      v8 = 2;
+      v8 = (float *)a2;
+      v33 = 2;
       do
       {
-        if ( *v7 <= (double)v6->m_afTuple[0] )
+        v9 = this->m_kMin.m_afTuple[0];
+        if ( *v8 <= this->m_kMin.m_afTuple[0] )
         {
-          if ( v7[2] < (double)v6->m_afTuple[0] )
-          {
-            v10 = fMaxSign;
-            v7[2] = v6->m_afTuple[0];
-            *(_DWORD *)((char *)v7 + LODWORD(v10)) = v5;
-          }
+          if ( v9 <= v8[2] )
+            goto LABEL_9;
+          v10 = v31;
+          v8[2] = v9;
         }
         else
         {
-          v9 = v6->m_afTuple[0];
-          *(_DWORD *)((char *)&fLMax + (_DWORD)v7 - a2) = v5;
-          *v7 = v9;
+          v10 = v32;
+          *v8 = v9;
         }
-        ++v7;
-        v6 = (const Wm4::Vector2<float> *)((char *)v6 + 4);
-        --v8;
+        *(_DWORD *)((char *)v8 + (_DWORD)v10) = v7;
+LABEL_9:
+        ++v8;
+        this = (Wm4::Mapper2<float> *)((char *)this + 4);
+        --v33;
       }
-      while ( v8 );
-      ++v5;
+      while ( v33 );
+      ++v7;
     }
-    while ( v5 < iVQuantity );
+    while ( v7 < iVQuantity );
   }
-  Wm4::Vector2<float>::operator-(
-    (Wm4::Vector2<float> *)a2,
-    (Wm4::Vector2<float> *)&fMaxSign,
-    (Wm4::Vector2<float> *)(a2 + 8),
-    v33);
-  v11 = fMaxSign;
-  v12 = fLMax;
-  *(float *)(a2 + 16) = fMaxSign;
-  v13 = v43;
-  v14 = fSign;
-  v15 = v43 < v11;
-  v16 = v43 == v11;
-  *(float *)(a2 + 24) = v12;
-  *(float *)(a2 + 28) = v14;
-  if ( !v15 && !v16 )
+  v11 = *(float *)(a2 + 8) - *(float *)a2;
+  v12 = *(float *)(a2 + 12) - *(float *)(a2 + 4);
+  *(_DWORD *)(a2 + 24) = v29;
+  v13 = v27;
+  *(float *)(a2 + 16) = v11;
+  *(_DWORD *)(a2 + 28) = v13;
+  if ( v12 > v11 )
   {
-    v17 = v41;
-    *(float *)(a2 + 16) = v13;
-    v18 = v39;
-    *(_DWORD *)(a2 + 24) = v17;
-    *(_DWORD *)(a2 + 28) = v18;
+    *(_DWORD *)(a2 + 24) = v30;
+    v14 = v28;
+    *(float *)(a2 + 16) = v12;
+    *(_DWORD *)(a2 + 28) = v14;
   }
-  v19 = (Wm4::Vector2<float> *)akVertex;
-  Wm4::Vector2<float>::operator=(&akVertex[*(_DWORD *)(a2 + 24)], (vostok::math::float2 *)(a2 + 40));
-  if ( fEpsilon <= (double)*(float *)(a2 + 16) )
+  v15 = &akVertex[*(_DWORD *)(a2 + 24)];
+  *(float *)(a2 + 40) = v15->m_afTuple[0];
+  *(float *)(a2 + 44) = v15->m_afTuple[1];
+  if ( fEpsilon <= *(float *)(a2 + 16) )
   {
-    v21 = (float *)(a2 + 48);
-    v22 = (vostok::math::float2 *)Wm4::Vector2<float>::operator-(
-                                    (Wm4::Vector2<float> *)(a2 + 40),
-                                    &kDiff,
-                                    (Wm4::Vector2<float> *)&akVertex[*(_DWORD *)(a2 + 28)],
-                                    v34);
-    Wm4::Vector2<float>::operator=(v22, (vostok::math::float2 *)(a2 + 48));
-    fLb = *(float *)(a2 + 52) * *(float *)(a2 + 52) + *v21 * *v21;
-    fL = sqrt(fLb);
-    if ( fL <= 0.000001 )
+    v17 = &akVertex[*(_DWORD *)(a2 + 28)];
+    v18 = v17->m_afTuple[1] - *(float *)(a2 + 44);
+    *(float *)(a2 + 48) = v17->m_afTuple[0] - *(float *)(a2 + 40);
+    *(float *)(a2 + 52) = v18;
+    Wm4::Vector2<float>::Normalize(&this->m_kMin, (float *)(a2 + 48));
+    v19 = *(_DWORD *)(a2 + 52);
+    *(_DWORD *)(a2 + 60) = *(_DWORD *)(a2 + 48);
+    *(_DWORD *)(a2 + 56) = v19 ^ _mask__NegFloat_;
+    *(_DWORD *)(a2 + 32) = *(_DWORD *)(a2 + 24);
+    v20 = 0;
+    v21 = 0.0;
+    for ( i = 0.0; v20 < iVQuantity; ++v20 )
     {
-      v24 = 0.0;
-      *v21 = 0.0;
-    }
-    else
-    {
-      fLc = 1.0 / fL;
-      *v21 = *v21 * fLc;
-      v24 = fLc * *(float *)(a2 + 52);
-    }
-    *(float *)(a2 + 52) = v24;
-    v31 = -*v21;
-    vostok::math::float2::float2(v23, (int)&fMaxSign, *(_DWORD *)(a2 + 52), v31, v35);
-    v32 = -v43;
-    *(float *)&fLd = -fMaxSign;
-    vostok::math::float2::float2(v25, (int)&kDiff, fLd, v32, v36);
-    Wm4::Vector2<float>::operator=((vostok::math::float2 *)&kDiff, (vostok::math::float2 *)(a2 + 56));
-    v26 = 0.0;
-    v27 = *(_DWORD *)(a2 + 24);
-    fLMax = 0.0;
-    v28 = 0;
-    fMaxSign = 0.0;
-    for ( *(_DWORD *)(a2 + 32) = v27; v28 < iVQuantity; ++v19 )
-    {
-      Wm4::Vector2<float>::operator-((Wm4::Vector2<float> *)(a2 + 40), &kDiff, v19, v37);
-      fLe = *(float *)(a2 + 60) * kDiff.m_afTuple[1] + kDiff.m_afTuple[0] * *(float *)(a2 + 56);
-      v26 = 0.0;
-      v29 = fLe;
-      if ( fLe <= 0.0 )
+      v23 = (float)(*(float *)(a2 + 56) * (float)(akVertex[v20].m_afTuple[0] - *(float *)(a2 + 40)))
+          + (float)((float)(akVertex[v20].m_afTuple[1] - *(float *)(a2 + 44)) * *(float *)(a2 + 60));
+      if ( v23 <= 0.0 )
       {
-        if ( v29 >= 0.0 )
-          fSign = 0.0;
+        if ( v23 >= 0.0 )
+          v24 = 0.0;
         else
-          fSign = -1.0;
+          v24 = FLOAT_N1_0;
       }
       else
       {
-        fSign = 1.0;
+        v24 = s_bm_current_air_resistance;
       }
-      fLa = fabs(v29);
-      if ( fLMax < (double)fLa )
+      LODWORD(v25) = LODWORD(v23) & _mask__AbsFloat_;
+      if ( v25 > v21 )
       {
-        fLMax = fLa;
-        *(_DWORD *)(a2 + 32) = v28;
-        fMaxSign = fSign;
+        v21 = v25;
+        i = v24;
+        *(_DWORD *)(a2 + 32) = v20;
       }
-      ++v28;
     }
-    if ( *(float *)(a2 + 16) * fEpsilon <= fLMax )
+    if ( (float)(fEpsilon * *(float *)(a2 + 16)) <= v21 )
     {
-      v30 = v26 < fMaxSign;
       *(_DWORD *)(a2 + 20) = 2;
-      *(_BYTE *)(a2 + 36) = v30;
+      *(_BYTE *)(a2 + 36) = i > 0.0;
     }
     else
     {
-      *(_DWORD *)(a2 + 32) = *(_DWORD *)(a2 + 28);
+      v26 = *(_DWORD *)(a2 + 28);
       *(_DWORD *)(a2 + 20) = 1;
+      *(_DWORD *)(a2 + 32) = v26;
     }
   }
   else
   {
-    v20 = *(_DWORD *)(a2 + 24);
-    *(_DWORD *)(a2 + 28) = v20;
-    *(_DWORD *)(a2 + 32) = v20;
     *(_DWORD *)(a2 + 20) = 0;
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)&Wm4::Vector2<float>::ZERO,
-      (vostok::math::float2 *)(a2 + 48));
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)&Wm4::Vector2<float>::ZERO,
-      (vostok::math::float2 *)(a2 + 56));
+    v16 = *(_DWORD *)(a2 + 24);
+    *(_DWORD *)(a2 + 28) = v16;
+    *(_DWORD *)(a2 + 32) = v16;
+    *(Wm4::Vector2<float> *)(a2 + 48) = Wm4::Vector2<float>::ZERO;
+    *(Wm4::Vector2<float> *)(a2 + 56) = Wm4::Vector2<float>::ZERO;
   }
 }

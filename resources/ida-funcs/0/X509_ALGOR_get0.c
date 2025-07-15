@@ -1,4 +1,4 @@
-void __cdecl X509_ALGOR_get0(asn1_object_st **paobj, int *pptype, void **ppval, X509_algor_st *algor)
+void __cdecl X509_ALGOR_get0(asn1_object_st **paobj, int *pptype, char **ppval, X509_algor_st *algor)
 {
   asn1_type_st *parameter; // eax
 

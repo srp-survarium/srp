@@ -21,23 +21,23 @@ unsigned int __cdecl _control87(unsigned int newctrl, unsigned int mask)
   int v21; // ecx
   int v22; // ecx
   unsigned int v23; // [esp+14h] [ebp-Ch]
-  __int16 oldCw; // [esp+18h] [ebp-8h]
-  unsigned int newabs; // [esp+2Ch] [ebp+Ch]
+  __int16 v24; // [esp+18h] [ebp-8h]
+  unsigned int v25; // [esp+2Ch] [ebp+Ch]
 
   v2 = 0;
-  if ( (oldCw & 1) != 0 )
+  if ( (v24 & 1) != 0 )
     v2 = 16;
-  if ( (oldCw & 4) != 0 )
+  if ( (v24 & 4) != 0 )
     v2 |= 8u;
-  if ( (oldCw & 8) != 0 )
+  if ( (v24 & 8) != 0 )
     v2 |= 4u;
-  if ( (oldCw & 0x10) != 0 )
+  if ( (v24 & 0x10) != 0 )
     v2 |= 2u;
-  if ( (oldCw & 0x20) != 0 )
+  if ( (v24 & 0x20) != 0 )
     v2 |= 1u;
-  if ( (oldCw & 2) != 0 )
+  if ( (v24 & 2) != 0 )
     v2 |= 0x80000u;
-  v3 = oldCw & 0xC00;
+  v3 = v24 & 0xC00;
   if ( v3 )
   {
     switch ( v3 )
@@ -53,19 +53,19 @@ unsigned int __cdecl _control87(unsigned int newctrl, unsigned int mask)
         break;
     }
   }
-  if ( (oldCw & 0x300) != 0 )
+  if ( (v24 & 0x300) != 0 )
   {
-    if ( (oldCw & 0x300) == 0x200 )
+    if ( (v24 & 0x300) == 0x200 )
       v2 |= (unsigned int)&_sbh_sizeHeaderList;
   }
   else
   {
     v2 |= (unsigned int)&loc_20000;
   }
-  if ( (oldCw & 0x1000) != 0 )
+  if ( (v24 & 0x1000) != 0 )
     v2 |= 0x40000u;
   result = mask & newctrl | v2 & ~mask;
-  newabs = result;
+  v25 = result;
   if ( result != v2 )
   {
     v6 = hw_cw(result);
@@ -110,7 +110,7 @@ unsigned int __cdecl _control87(unsigned int newctrl, unsigned int mask)
     }
     if ( (v7 & 0x1000) != 0 )
       v8 |= 0x40000u;
-    newabs = v8;
+    v25 = v8;
     result = v8;
   }
   v10 = 0;
@@ -152,19 +152,18 @@ unsigned int __cdecl _control87(unsigned int newctrl, unsigned int mask)
       if ( v14 )
       {
         if ( v14 == 64 )
-          v10 |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
+          v10 |= 0x1000000u;
       }
       else
       {
-        v10 |= (unsigned int)&vostok::memory::s_CRT_arena[39128632];
+        v10 |= 0x3000000u;
       }
     }
     else
     {
-      v10 |= (unsigned int)&vostok::memory::s_CRT_arena[22351416];
+      v10 |= 0x2000000u;
     }
-    v15 = newctrl & (unsigned int)&vostok::memory::s_CRT_arena[39653719] & mask
-        | v10 & ~((unsigned int)&vostok::memory::s_CRT_arena[39653719] & mask);
+    v15 = newctrl & mask & 0x308031F | v10 & ~(mask & 0x308031F);
     if ( v15 == v10 )
     {
       v16 = v10;
@@ -210,21 +209,21 @@ unsigned int __cdecl _control87(unsigned int newctrl, unsigned int mask)
         if ( v21 )
         {
           if ( v21 == 64 )
-            v18 |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
+            v18 |= 0x1000000u;
         }
         else
         {
-          v18 |= (unsigned int)&vostok::memory::s_CRT_arena[39128632];
+          v18 |= 0x3000000u;
         }
       }
       else
       {
-        v18 |= (unsigned int)&vostok::memory::s_CRT_arena[22351416];
+        v18 |= 0x2000000u;
       }
       v16 = v18;
     }
-    v22 = newabs ^ v16;
-    result = newabs | v16;
+    v22 = v25 ^ v16;
+    result = v25 | v16;
     if ( (v22 & 0x8031F) != 0 )
       result |= 0x80000000;
   }

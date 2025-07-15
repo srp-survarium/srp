@@ -17,12 +17,12 @@ char __thiscall Scaleform::Render::TreeCacheNode::calcChildMaskBounds(
   const Scaleform::Render::Rect<float> *v14; // eax
   Scaleform::Render::TreeCacheNode *pMask; // ecx
   Scaleform::Render::TreeCacheNode *pParent; // eax
-  const Scaleform::Render::Matrix2x4<float> *m; // edx
-  const Scaleform::Render::TreeNode::NodeData *v20; // [esp+130h] [ebp-64h]
-  Scaleform::Render::Rect<float> pr; // [esp+134h] [ebp-60h] BYREF
-  Scaleform::Render::Rect<float> v22; // [esp+144h] [ebp-50h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+154h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> pviewMatrix; // [esp+174h] [ebp-20h] BYREF
+  const Scaleform::Render::Matrix2x4<float> *p_result; // edx
+  const Scaleform::Render::TreeNode::NodeData *v20; // [esp+Ch] [ebp-64h]
+  Scaleform::Render::Rect<float> boundsa; // [esp+10h] [ebp-60h] BYREF
+  Scaleform::Render::Rect<float> v22; // [esp+20h] [ebp-50h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+30h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> pviewMatrix; // [esp+50h] [ebp-20h] BYREF
 
   v3 = this;
   v4 = *(_DWORD *)(*(_DWORD *)(((int)child->pMask->pNode & 0xFFFFF000) + 0x14)
@@ -60,12 +60,12 @@ LABEL_7:
 LABEL_8:
     NodeData = Scaleform::Render::TreeCacheNode::GetNodeData(v3->pRoot);
     v11 = NodeData[1].M34.M[2][2];
-    pr.x1 = -1.0;
+    boundsa.x1 = -1.0;
     p_M34 = (int *)&NodeData[1].M34;
-    pr.y1 = -1.0;
+    boundsa.y1 = -1.0;
     v13 = LOBYTE(v11) & 0x30;
-    pr.x2 = 1.0;
-    pr.y2 = 1.0;
+    boundsa.x2 = 1.0;
+    boundsa.y2 = 1.0;
     if ( v13 == 16 || v13 == 48 )
       v14 = Scaleform::Render::Viewport::ScaleToViewport<int>(
               (Scaleform::Render::Rect<float> *)&result,
@@ -73,9 +73,9 @@ LABEL_8:
               p_M34[3],
               p_M34[5],
               p_M34[4],
-              &pr);
+              &boundsa);
     else
-      v14 = Scaleform::Render::Viewport::ScaleToViewport<int>(&v22, p_M34[2], p_M34[3], p_M34[4], p_M34[5], &pr);
+      v14 = Scaleform::Render::Viewport::ScaleToViewport<int>(&v22, p_M34[2], p_M34[3], p_M34[4], p_M34[5], &boundsa);
     Scaleform::Render::Rect<float>::operator=(bounds, v14);
     return 1;
   }
@@ -87,18 +87,18 @@ LABEL_8:
   {
     if ( pParent == child )
     {
-      m = (const Scaleform::Render::Matrix2x4<float> *)&v20->M34;
+      p_result = (const Scaleform::Render::Matrix2x4<float> *)&v20->M34;
     }
     else
     {
       Scaleform::Render::TreeCacheNode::CalcViewMatrix(pMask, &pviewMatrix);
       Scaleform::Render::Matrix2x4<float>::Matrix2x4<float>(&result);
       Scaleform::Render::TreeCacheNode::CalcViewMatrix(v3, &result);
-      m = &result;
+      p_result = &result;
     }
-    Scaleform::Render::Matrix2x4<float>::Append(&pviewMatrix, m);
+    Scaleform::Render::Matrix2x4<float>::Append(&pviewMatrix, p_result);
   }
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&pviewMatrix, &pr, (__m128 *)(v4 + 112));
-  Scaleform::Render::Rect<float>::operator=(bounds, &pr);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&pviewMatrix, (__m128 *)&boundsa, (__m128 *)(v4 + 112));
+  Scaleform::Render::Rect<float>::operator=(bounds, &boundsa);
   return 1;
 }

@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::Matrix2x4<float>::SetToAppend(
   __m128 v6; // xmm1
   __m128 v7; // xmm6
   __m128 v8; // xmm0
-  __m128 v9; // [esp+10h] [ebp-10h]
+  __m128 v9; // [esp+0h] [ebp-10h]
 
   v9 = *(__m128 *)&m0->M[1][0];
   v4 = (__m128)`Scaleform::SIMD::SSE::InstructionSet::Constant<4294967295,4294967295,0,4294967295>'::`2'::v;

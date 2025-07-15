@@ -1,11 +1,11 @@
-void __cdecl stlp_std::ios_base::_S_initialize()
+int stlp_std::ios_base::_S_initialize()
 {
   stlp_std::priv::stdio_streambuf_base *v0; // esi
   _iobuf *v1; // eax
   _iobuf *v2; // eax
   stlp_std::priv::stdio_streambuf_base *v3; // esi
   _iobuf *v4; // eax
-  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *filebuf__iobuf; // ebp
+  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *v5; // ebp
   stlp_std::priv::stdio_streambuf_base *v6; // edi
   _iobuf *v7; // eax
   stlp_std::priv::stdio_streambuf_base *v8; // esi
@@ -31,10 +31,11 @@ void __cdecl stlp_std::ios_base::_S_initialize()
   int v28; // eax
   int v29; // eax
   int v30; // edi
-  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *cin_buf; // [esp+14h] [ebp-34h]
-  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *clog_buf; // [esp+18h] [ebp-30h]
-  stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *wlog; // [esp+30h] [ebp-18h]
-  int v34; // [esp+34h] [ebp-14h]
+  int result; // eax
+  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *filebuf__iobuf; // [esp+14h] [ebp-34h]
+  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *v33; // [esp+18h] [ebp-30h]
+  stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *v34; // [esp+30h] [ebp-18h]
+  int v35; // [esp+34h] [ebp-14h]
 
   if ( stlp_std::ios_base::_S_is_synced )
   {
@@ -44,17 +45,17 @@ void __cdecl stlp_std::ios_base::_S_initialize()
       v1 = __iob_func();
       stlp_std::priv::stdio_streambuf_base::stdio_streambuf_base(v0, v1);
       v0->__vftable = (stlp_std::priv::stdio_streambuf_base_vtbl *)&stlp_std::priv::stdio_istreambuf::`vftable';
-      cin_buf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v0;
+      filebuf__iobuf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v0;
     }
     else
     {
-      cin_buf = 0;
+      filebuf__iobuf = 0;
     }
   }
   else
   {
     v2 = __iob_func();
-    cin_buf = stlp_std::_Stl_create_filebuf__iobuf___(v2, 8);
+    filebuf__iobuf = stlp_std::_Stl_create_filebuf__iobuf___(v2, 8);
   }
   if ( stlp_std::ios_base::_S_is_synced )
   {
@@ -69,7 +70,7 @@ void __cdecl stlp_std::ios_base::_S_initialize()
     {
       v3 = 0;
     }
-    filebuf__iobuf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v3;
+    v5 = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v3;
     v6 = (stlp_std::priv::stdio_streambuf_base *)operator new(0x24u);
     if ( v6 )
     {
@@ -87,30 +88,30 @@ void __cdecl stlp_std::ios_base::_S_initialize()
       v9 = __iob_func();
       stlp_std::priv::stdio_streambuf_base::stdio_streambuf_base(v8, v9 + 2);
       v8->__vftable = (stlp_std::priv::stdio_streambuf_base_vtbl *)&stlp_std::priv::stdio_ostreambuf::`vftable';
-      clog_buf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v8;
+      v33 = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v8;
     }
     else
     {
-      clog_buf = 0;
+      v33 = 0;
     }
   }
   else
   {
     v10 = __iob_func();
-    filebuf__iobuf = stlp_std::_Stl_create_filebuf__iobuf___(v10 + 1, 16);
+    v5 = stlp_std::_Stl_create_filebuf__iobuf___(v10 + 1, 16);
     v11 = __iob_func();
     v6 = (stlp_std::priv::stdio_streambuf_base *)stlp_std::_Stl_create_filebuf__iobuf___(v11 + 2, 16);
     v12 = __iob_func();
-    clog_buf = stlp_std::_Stl_create_filebuf__iobuf___(v12 + 2, 16);
+    v33 = stlp_std::_Stl_create_filebuf__iobuf___(v12 + 2, 16);
   }
   stlp_std::basic_istream<char,stlp_std::char_traits<char>>::basic_istream<char,stlp_std::char_traits<char>>(
     &stlp_std::cin,
-    cin_buf,
+    filebuf__iobuf,
     1);
   v14 = v13;
   stlp_std::basic_ostream<char,stlp_std::char_traits<char>>::basic_ostream<char,stlp_std::char_traits<char>>(
     &stlp_std::cout,
-    filebuf__iobuf,
+    v5,
     1);
   v16 = v15;
   stlp_std::basic_ostream<char,stlp_std::char_traits<char>>::basic_ostream<char,stlp_std::char_traits<char>>(
@@ -120,7 +121,7 @@ void __cdecl stlp_std::ios_base::_S_initialize()
   v18 = v17;
   stlp_std::basic_ostream<char,stlp_std::char_traits<char>>::basic_ostream<char,stlp_std::char_traits<char>>(
     &stlp_std::clog,
-    clog_buf,
+    v33,
     1);
   *(_DWORD *)(v14 + *(_DWORD *)(*(_DWORD *)v14 + 4) + 92) = v16;
   *(_DWORD *)(*(_DWORD *)(*(_DWORD *)v18 + 4) + v18 + 8) |= 0x2000u;
@@ -131,7 +132,7 @@ void __cdecl stlp_std::ios_base::_S_initialize()
   v23 = __iob_func();
   v24 = stlp_std::_Stl_create_wfilebuf(v23 + 2, 16);
   v25 = __iob_func();
-  wlog = stlp_std::_Stl_create_wfilebuf(v25 + 2, 16);
+  v34 = stlp_std::_Stl_create_wfilebuf(v25 + 2, 16);
   stlp_std::basic_istream<wchar_t,stlp_std::char_traits<wchar_t>>::basic_istream<wchar_t,stlp_std::char_traits<wchar_t>>(
     &stlp_std::wcin,
     wfilebuf,
@@ -141,7 +142,7 @@ void __cdecl stlp_std::ios_base::_S_initialize()
     &stlp_std::wcout,
     v22,
     1);
-  v34 = v28;
+  v35 = v28;
   stlp_std::basic_ostream<wchar_t,stlp_std::char_traits<wchar_t>>::basic_ostream<wchar_t,stlp_std::char_traits<wchar_t>>(
     &stlp_std::wcerr,
     v24,
@@ -149,8 +150,10 @@ void __cdecl stlp_std::ios_base::_S_initialize()
   v30 = v29;
   stlp_std::basic_ostream<wchar_t,stlp_std::char_traits<wchar_t>>::basic_ostream<wchar_t,stlp_std::char_traits<wchar_t>>(
     &stlp_std::wclog,
-    wlog,
+    v34,
     1);
-  *(_DWORD *)(v27 + *(_DWORD *)(*(_DWORD *)v27 + 4) + 92) = v34;
-  *(_DWORD *)(v30 + *(_DWORD *)(*(_DWORD *)v30 + 4) + 8) |= 0x2000u;
+  *(_DWORD *)(v27 + *(_DWORD *)(*(_DWORD *)v27 + 4) + 92) = v35;
+  result = v30 + *(_DWORD *)(*(_DWORD *)v30 + 4);
+  *(_DWORD *)(result + 8) |= 0x2000u;
+  return result;
 }

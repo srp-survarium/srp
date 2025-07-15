@@ -1,117 +1,90 @@
 vostok::resources::queries_result *__cdecl vostok::resources::resources_manager::create_queries_result(
         const vostok::resources::query_resource_params *params)
 {
-  unsigned int requests_count; // esi
+  unsigned int requests_count; // edi
   void *v3; // esp
-  int v4; // edi
-  vostok::resources::queries_result *v5; // esi
-  const vostok::variant<32> **user_data; // eax
-  const vostok::math::float4x4 **transforms; // eax
+  unsigned int v4; // esi
+  const vostok::variant<32> *const *user_data; // eax
+  const vostok::math::float4x4 *const *transforms; // eax
   const vostok::resources::creation_request *requests_create; // eax
-  vostok::resources::class_id_enum v9; // eax
-  vostok::resources::class_id_enum id; // edx
+  vostok::resources::class_id_enum id; // eax
   const char *path; // eax
-  const char *v12; // esi
-  vostok::resources::class_id_enum v13; // edx
-  vostok::resources::cook_base *cook; // eax
-  unsigned int v15; // eax
-  unsigned int v16; // eax
-  unsigned int v17; // esi
-  vostok::memory::base_allocator *allocator; // ecx
-  vostok::memory::base_allocator_vtbl *v19; // edx
-  vostok::vfs::base_node<1> *m_link_target; // edi
-  unsigned int v21; // esi
+  const char *v10; // edi
+  vostok::resources::class_id_enum v11; // eax
+  unsigned int v12; // kr00_4
+  _DWORD *v13; // edx
+  unsigned int v14; // kr04_4
+  vostok::memory::base_allocator *allocator; // esi
+  unsigned int v16; // edi
+  char *v17; // eax
+  vostok::resources::queries_result *v18; // esi
   vostok::resources::query_result_for_cook *parent; // eax
-  bool v23; // al
-  bool v24; // cl
-  vostok::resources::query_result_for_cook *v25; // eax
+  bool v20; // zf
+  vostok::resources::query_result_for_cook *v21; // eax
   vostok::resources::queries_result *m_parent; // eax
   DWORD CurrentThreadId; // eax
-  vostok::resources::autoselect_quality_bool *autoselect_quality; // edx
-  const unsigned int *quality_indexes; // edx
-  const bool *disable_cache; // ecx
-  float *target_satisfactions; // edx
-  vostok::resources::query_result_for_cook *v32; // ecx
-  vostok::memory::base_allocator *v33; // edx
-  vostok::resources::queries_result *v34; // ecx
-  boost::detail::function::vtable_base *vtable; // eax
-  unsigned int *out_queries_id; // ecx
-  vostok::resources::queries_result *result; // eax
-  char *v38; // ecx
-  unsigned int v39; // esi
-  const vostok::variant<32> **v40; // eax
-  vostok::variant<32> *v41; // eax
-  const vostok::math::float4x4 **v42; // eax
-  char *v43; // eax
-  const vostok::resources::creation_request *v44; // eax
-  vostok::resources::class_id_enum v45; // eax
-  char v46; // dl
-  const char *v47; // eax
-  unsigned int v48; // eax
-  vostok::variant<32> **v49; // edi
-  bool v50; // al
-  vostok::resources::query_type_enum v51; // ecx
-  int v52; // eax
-  const vostok::resources::creation_request *v53; // eax
-  vostok::vfs::base_node<1> *v54; // edi
-  const vostok::resources::creation_request *v55; // eax
-  vostok::variant<32> **v56; // ecx
-  int *v57; // edi
-  int v58; // eax
-  boost::function<void __cdecl(vostok::resources::queries_result &)> v59; // [esp-44h] [ebp-80h] BYREF
-  vostok::memory::base_allocator *v60; // [esp-24h] [ebp-60h]
-  DWORD v61; // [esp-20h] [ebp-5Ch]
-  vostok::resources::query_result_for_cook *v62; // [esp-1Ch] [ebp-58h]
-  float *v63; // [esp-18h] [ebp-54h]
-  const bool *v64; // [esp-14h] [ebp-50h]
-  const unsigned int *v65; // [esp-10h] [ebp-4Ch]
-  vostok::resources::query_type_enum v66; // [esp-Ch] [ebp-48h]
-  vostok::resources::autoselect_quality_bool *v67; // [esp-8h] [ebp-44h]
-  assert_on_fail_bool v68; // [esp-4h] [ebp-40h]
-  int v69; // [esp+0h] [ebp-3Ch] BYREF
-  vostok::vfs::vfs_iterator v70; // [esp+Ch] [ebp-30h] BYREF
-  vostok::variant<32> *v71; // [esp+1Ch] [ebp-20h]
-  vostok::resources::query_type_enum queries_type; // [esp+20h] [ebp-1Ch]
-  vostok::variant<32> *v73; // [esp+24h] [ebp-18h]
-  vostok::resources::queries_result *i; // [esp+28h] [ebp-14h]
-  vostok::vfs::base_node<1> *v75; // [esp+2Ch] [ebp-10h]
-  int *v76; // [esp+30h] [ebp-Ch]
-  vostok::variant<32> **p_m_user_data; // [esp+34h] [ebp-8h]
-  assert_on_fail_bool assert_on_fail; // [esp+44h] [ebp+8h]
-  assert_on_fail_bool assert_on_faila; // [esp+44h] [ebp+8h]
-  char assert_on_fail_3; // [esp+47h] [ebp+Bh]
-  bool assert_on_fail_3a; // [esp+47h] [ebp+Bh]
+  unsigned int *out_queries_id; // eax
+  vostok::variant<32> *v25; // eax
+  vostok::variant<32> **p_m_user_data; // ecx
+  const vostok::variant<32> *const *v27; // edi
+  unsigned int v28; // edx
+  vostok::variant<32> *v29; // eax
+  const vostok::math::float4x4 *const *v30; // edi
+  unsigned int v31; // edx
+  vostok::variant<32> *v32; // edi
+  const vostok::resources::creation_request *v33; // eax
+  vostok::resources::class_id_enum v34; // eax
+  unsigned __int8 *v35; // eax
+  unsigned int v36; // eax
+  unsigned __int8 *v37; // edx
+  int v38; // eax
+  char *v39; // eax
+  vostok::variant<32> *v40; // edi
+  unsigned int v41; // edi
+  _DWORD v43[6]; // [esp+0h] [ebp-44h] BYREF
+  unsigned int v44; // [esp+18h] [ebp-2Ch]
+  vostok::resources::queries_result *v45; // [esp+1Ch] [ebp-28h]
+  assert_on_fail_bool assert_on_fail; // [esp+20h] [ebp-24h]
+  unsigned __int8 *src; // [esp+24h] [ebp-20h]
+  vostok::variant<32> *v48; // [esp+28h] [ebp-1Ch]
+  _DWORD *v49; // [esp+2Ch] [ebp-18h]
+  unsigned int v50; // [esp+30h] [ebp-14h]
+  vostok::variant<32> **v51; // [esp+34h] [ebp-10h]
+  vostok::variant<32> *v52; // [esp+38h] [ebp-Ch]
+  unsigned int v53; // [esp+3Ch] [ebp-8h]
+  bool v54; // [esp+43h] [ebp-1h]
+  int v55; // [esp+4Ch] [ebp+8h]
+  char v56; // [esp+4Fh] [ebp+Bh]
+  char v57; // [esp+4Fh] [ebp+Bh]
 
   requests_count = params->requests_count;
   v3 = alloca(4 * requests_count);
   v4 = 0;
-  v76 = &v69;
-  v75 = 0;
-  p_m_user_data = 0;
-  v73 = 0;
+  v49 = v43;
+  v51 = 0;
+  v52 = 0;
+  v53 = 0;
   if ( requests_count )
   {
-    v5 = 0;
-    for ( i = 0; ; v5 = i )
+    v50 = 0;
+    do
     {
       user_data = params->user_data;
       if ( user_data && user_data[v4] )
-        p_m_user_data = (vostok::variant<32> **)((char *)p_m_user_data + 1);
+        v52 = (vostok::variant<32> *)((char *)v52 + 1);
       transforms = params->transforms;
       if ( transforms && transforms[v4] )
-        v73 = (vostok::variant<32> *)((char *)v73 + 1);
+        ++v53;
       requests_create = params->requests_create;
       if ( requests_create
-        && (v9 = *(vostok::resources::class_id_enum *)((char *)&v5->m_callback.functor.vostok_pointer_size_alignment[1]
-                                                     + (_DWORD)requests_create)) != unknown_data_class )
+        && (id = *(vostok::resources::class_id_enum *)((char *)&requests_create->m_id + v50)) != unknown_data_class )
       {
-        assert_on_fail_3 = 1;
-        id = v9;
+        v56 = 1;
       }
       else
       {
         id = params->requests[v4].id;
-        assert_on_fail_3 = 0;
+        v56 = 0;
       }
       if ( id != raw_data_class
         && id != raw_data_class_no_reuse
@@ -120,57 +93,63 @@ vostok::resources::queries_result *__cdecl vostok::resources::resources_manager:
       {
         vostok::resources::resources_manager::find_cook(id);
       }
-      if ( assert_on_fail_3 )
-        path = *(const char **)((char *)&v5->m_callback.vtable + (unsigned int)params->requests_create);
+      if ( v56 )
+        path = *(const char **)((char *)&params->requests_create->m_name + v50);
       else
         path = params->requests[v4].path;
-      v12 = path;
+      v10 = path;
       if ( !path )
-        v12 = (const char *)&buf;
-      if ( !vostok::resources::g_resources_manager.m_variable->m_num_cook_registrators
-        && (assert_on_fail_3
-         || (v13 = params->requests[v4].id, v13 == raw_data_class)
-         || v13 == raw_data_class_no_reuse
-         || (cook = vostok::resources::resources_manager::find_cook(v13)) == 0
-         || !vostok::resources::cook_base::does_create_resource_if_no_file(cook)) )
+        v10 = uri;
+      if ( !s_resources_manager_buffer.m_num_cook_registrators
+        && (v56
+         || (v11 = params->requests[v4].id, v11 == raw_data_class)
+         || v11 == raw_data_class_no_reuse
+         || !vostok::resources::cook_base::does_create_resource_if_no_file(params->requests[v4].id)) )
       {
-        v76[v4] = strlen(v12) + 1;
+        v14 = strlen(v10);
+        v13 = &v49[v4];
+        *v13 = v14 + 1;
       }
       else
       {
-        v15 = vostok::math::max(0x104u, strlen(v12) + 1);
-        v76[v4] = v15;
+        v12 = strlen(v10);
+        v13 = &v49[v4];
+        *v13 = v12 + 1 > 0x104 ? 260 - (v12 + 1) - 260 : -260;
       }
-      v16 = v76[v4];
-      if ( v16 > 0x104 )
-        v75 = (vostok::vfs::base_node<1> *)((char *)v75 + v16);
-      i = (vostok::resources::queries_result *)((char *)i + 16);
-      if ( ++v4 >= params->requests_count )
-        break;
+      if ( *v13 > 0x104u )
+        v51 = (vostok::variant<32> **)((char *)v51 + *v13);
+      v50 += 16;
+      ++v4;
     }
+    while ( v4 < params->requests_count );
   }
-  v17 = 720 * params->requests_count;
   allocator = params->allocator;
-  v19 = allocator->__vftable;
-  v70.m_type = (_DWORD)v73 << 6;
-  m_link_target = (vostok::vfs::base_node<1> *)(48 * (_DWORD)p_m_user_data);
-  v21 = v17 + 80;
-  v70.m_link_target = (vostok::vfs::base_node<1> *)(48 * (_DWORD)p_m_user_data);
-  i = (vostok::resources::queries_result *)v19->call_malloc(
-                                             allocator,
-                                             (unsigned int)v75 + 64 * (_DWORD)v73 + 48 * (_DWORD)p_m_user_data + v21);
+  v55 = 48 * (_DWORD)v52;
+  v44 = 736 * params->requests_count + 80;
+  v16 = v44;
+  v50 = v53 << 6;
+  v17 = type_info::raw_name(&char `RTTI Type Descriptor');
+  v18 = (vostok::resources::queries_result *)allocator->call_malloc(
+                                               allocator,
+                                               (unsigned int)v51 + v16 + v55 + v50,
+                                               v17,
+                                               "vostok::resources::resources_manager::create_queries_result",
+                                               ".\\resources_manager_user_thread.cpp",
+                                               119u);
   parent = params->parent;
-  v23 = parent
-     && ((int)parent[1].m_memory_usage_self.vostok::resources::query_result_for_user::vostok::resources::resource_base::vostok::resources::resource_quality::type
-       & 0x8000000) != 0;
-  v24 = params->query_type == query_type_helper_for_mount;
-  if ( v23 || (queries_type = query_type_normal, v24) )
-    queries_type = query_type_helper_for_mount;
-  v25 = params->parent;
-  assert_on_fail = params->assert_on_fail;
-  if ( v25 )
+  v45 = v18;
+  if ( parent
+    && ((int)parent[1].m_memory_usage_self.vostok::resources::query_result_for_user::vostok::resources::resource_base::vostok::resources::resource_quality::type
+      & 0x8000000) != 0
+    || (v20 = params->query_type == query_type_helper_for_mount, src = 0, v20) )
   {
-    m_parent = v25->m_parent;
+    src = (unsigned __int8 *)1;
+  }
+  assert_on_fail = params->assert_on_fail;
+  v21 = params->parent;
+  if ( v21 )
+  {
+    m_parent = v21->m_parent;
     if ( m_parent )
     {
       if ( m_parent->m_assert_on_fail == assert_on_fail_false )
@@ -178,157 +157,132 @@ vostok::resources::queries_result *__cdecl vostok::resources::resources_manager:
     }
   }
   CurrentThreadId = GetCurrentThreadId();
-  if ( i )
+  if ( v18 )
   {
-    autoselect_quality = params->autoselect_quality;
-    v68 = assert_on_fail;
-    v67 = autoselect_quality;
-    quality_indexes = params->quality_indexes;
-    v66 = queries_type;
-    disable_cache = params->disable_cache;
-    v65 = quality_indexes;
-    target_satisfactions = params->target_satisfactions;
-    v64 = disable_cache;
-    v32 = params->parent;
-    v63 = target_satisfactions;
-    v33 = params->allocator;
-    v62 = v32;
-    v61 = CurrentThreadId;
-    v60 = v33;
-    v34 = (vostok::resources::queries_result *)&v59;
-    v59.vtable = 0;
-    vtable = params->callback.vtable;
-    if ( vtable )
-    {
-      v59.vtable = params->callback.vtable;
-      if ( ((unsigned __int8)vtable & 1) != 0 )
-        v59.functor = params->callback.functor;
-      else
-        (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
-          &params->callback.functor,
-          &v59.functor,
-          0);
-    }
     vostok::resources::queries_result::queries_result(
-      v34,
+      v18,
       params->requests_count,
-      v59,
-      v60,
-      v61,
-      v62,
-      v63,
-      v64,
-      v65,
-      v66,
-      v67,
-      v68);
-    m_link_target = v70.m_link_target;
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&params->callback,
+      params->allocator,
+      CurrentThreadId,
+      params->parent,
+      params->target_satisfactions,
+      (vostok::resources::query_result *)params->disable_cache,
+      (char *)params->quality_indexes,
+      (vostok::resources::query_type_enum)src,
+      params->autoselect_quality,
+      assert_on_fail);
+    v18 = v45;
+    v16 = v44;
   }
   out_queries_id = params->out_queries_id;
-  result = i;
   if ( out_queries_id )
-    *out_queries_id = (unsigned int)i;
-  _InterlockedExchangeAdd(&result->m_reference_count, 1u);
-  v73 = (vostok::variant<32> *)((char *)result + v21);
-  v71 = (vostok::variant<32> *)((char *)m_link_target + (_DWORD)result + v21);
-  v38 = (char *)result + v70.m_type + (_DWORD)m_link_target + v21;
-  v39 = 0;
-  queries_type = (vostok::resources::query_type_enum)v38;
-  v70.m_link_target = v75;
-  assert_on_faila = assert_on_fail_false;
+    *out_queries_id = (unsigned int)v18;
+  _InterlockedExchangeAdd(&v18->m_reference_count, 1u);
+  v48 = (vostok::variant<32> *)((char *)v18 + v16);
+  assert_on_fail = (assert_on_fail_bool)((char *)v18 + v50 + v55 + v16);
+  v44 = (unsigned int)v51;
+  v25 = (vostok::variant<32> *)((char *)v18 + v55 + v16);
+  v52 = v25;
+  v53 = 0;
   if ( params->requests_count )
   {
-    v75 = 0;
-    p_m_user_data = &result->m_queries[0].m_user_data;
-    do
+    v50 = 0;
+    p_m_user_data = &v18->m_queries[0].m_user_data;
+    v51 = &v18->m_queries[0].m_user_data;
+    while ( 1 )
     {
-      v40 = params->user_data;
-      if ( v40 && v40[v39] )
+      v27 = params->user_data;
+      if ( v27 )
       {
-        v41 = v73;
-        *p_m_user_data = v73;
-        if ( v41 )
+        v28 = v53;
+        if ( v27[v53] )
         {
-          v41->m_helper = 0;
-          v41->m_type_id = 0;
-        }
-        vostok::variant<32>::operator=(*p_m_user_data, params->user_data[v39]);
-        ++v73;
-      }
-      v42 = params->transforms;
-      if ( v42 && v42[v39] )
-      {
-        v43 = (char *)v71;
-        *(p_m_user_data - 8) = v71;
-        qmemcpy(v43, params->transforms[assert_on_faila], 0x40u);
-        v39 = assert_on_faila;
-        v71 = (vostok::variant<32> *)(v43 + 64);
-      }
-      v44 = params->requests_create;
-      if ( v44
-        && (v45 = *(_DWORD *)((char *)&v75->m_next_overlapped.max_storage + (_DWORD)v44 + 4)) != unknown_data_class )
-      {
-        v46 = 1;
-      }
-      else
-      {
-        v45 = params->requests[v39].id;
-        v46 = 0;
-      }
-      *(p_m_user_data - 50) = (vostok::variant<32> *)v45;
-      if ( v46 )
-        v47 = *(const char **)((char *)&v75->m_mount_root.pointer + (unsigned int)params->requests_create);
-      else
-        v47 = params->requests[v39].path;
-      v70.m_type = (vostok::vfs::vfs_iterator::type_enum)v47;
-      if ( !v47 )
-      {
-        v47 = (const char *)&buf;
-        v70.m_type = (vostok::vfs::vfs_iterator::type_enum)&buf;
-      }
-      v48 = strlen(v47);
-      v49 = p_m_user_data;
-      v50 = v48 < 0x104;
-      assert_on_fail_3a = v50;
-      v51 = (vostok::resources::query_type_enum)(p_m_user_data + 1);
-      if ( !v50 )
-        v51 = queries_type;
-      *(p_m_user_data - 21) = (vostok::variant<32> *)v51;
-      if ( v50 )
-        v52 = 260;
-      else
-        v52 = v76[v39];
-      v49[66] = (vostok::variant<32> *)v52;
-      if ( v46 )
-      {
-        v53 = params->requests_create;
-        v54 = v75;
-        v70.m_hashset = *(vostok::vfs::vfs_hashset **)((char *)&v75->m_mount_helper_parent.max_storage + (_DWORD)v53 + 4);
-        v70.m_node = *(vostok::vfs::base_node<1> **)((char *)&v53->m_data.m_size + (_DWORD)v75);
-        if ( vostok::mutable_buffer::size(&v70) )
-        {
-          v55 = params->requests_create;
-          v56 = p_m_user_data;
-          *(p_m_user_data - 31) = *(vostok::variant<32> **)((char *)&v54->m_mount_helper_parent.max_storage
-                                                          + (_DWORD)v55
-                                                          + 4);
-          *(v56 - 30) = *(vostok::variant<32> **)((char *)&v55->m_data.m_size + (_DWORD)v54);
+          v29 = v48;
+          *p_m_user_data = v48;
+          if ( v29 )
+          {
+            v29->m_helper = 0;
+            v29->m_type_id = 0;
+          }
+          vostok::variant<32>::operator=(*p_m_user_data, params->user_data[v28], (vostok::variant<32> *)p_m_user_data);
+          ++v48;
+          p_m_user_data = v51;
+          v25 = v52;
         }
       }
-      v57 = v76;
-      memcpy((unsigned __int8 *)*(p_m_user_data - 21), (unsigned __int8 *)v70.m_type, v76[v39]);
-      if ( !assert_on_fail_3a )
+      v30 = params->transforms;
+      if ( v30 )
       {
-        v58 = v57[v39];
-        v70.m_link_target = (vostok::vfs::base_node<1> *)((char *)v70.m_link_target - v58);
-        queries_type += v58;
+        v31 = v53;
+        if ( v30[v53] )
+        {
+          v32 = v52;
+          v52 = (vostok::variant<32> *)((char *)v52 + 64);
+          p_m_user_data[13] = v25;
+          qmemcpy(v32, params->transforms[v31], 0x40u);
+          v18 = v45;
+          p_m_user_data = v51;
+        }
       }
-      p_m_user_data += 180;
-      v75 = (vostok::vfs::base_node<1> *)((char *)v75 + 16);
-      assert_on_faila = ++v39;
+      v33 = params->requests_create;
+      if ( v33 && *(vostok::resources::class_id_enum *)((char *)&v33->m_id + v50) )
+      {
+        v57 = 1;
+        v34 = *(vostok::resources::class_id_enum *)((char *)&v33->m_id + v50);
+      }
+      else
+      {
+        v34 = params->requests[v53].id;
+        v57 = 0;
+      }
+      *(p_m_user_data - 33) = (vostok::variant<32> *)v34;
+      if ( v57 )
+        v35 = *(unsigned __int8 **)((char *)&params->requests_create->m_name + v50);
+      else
+        v35 = (unsigned __int8 *)params->requests[v53].path;
+      src = v35;
+      if ( !v35 )
+        src = (unsigned __int8 *)uri;
+      v36 = strlen((const char *)src);
+      v54 = v36 < 0x104;
+      v37 = (unsigned __int8 *)(p_m_user_data + 21);
+      if ( v36 >= 0x104 )
+        v37 = (unsigned __int8 *)assert_on_fail;
+      v20 = !v54;
+      *(p_m_user_data - 4) = (vostok::variant<32> *)v37;
+      if ( v20 )
+        v38 = v49[v53];
+      else
+        v38 = 260;
+      p_m_user_data[86] = (vostok::variant<32> *)v38;
+      if ( v57 )
+      {
+        v39 = (char *)params->requests_create + v50;
+        v20 = *((_DWORD *)v39 + 2) == 0;
+        v40 = (vostok::variant<32> *)*((_DWORD *)v39 + 1);
+        v43[4] = v40;
+        if ( !v20 )
+        {
+          *(p_m_user_data - 14) = v40;
+          *(p_m_user_data - 13) = (vostok::variant<32> *)*((_DWORD *)v39 + 2);
+        }
+      }
+      v41 = v49[v53];
+      memcpy(v37, src, v41);
+      if ( !v54 )
+      {
+        v44 -= v41;
+        assert_on_fail += v41;
+      }
+      ++v53;
+      v51 += 184;
+      v50 += 16;
+      if ( v53 >= params->requests_count )
+        break;
+      p_m_user_data = v51;
+      v25 = v52;
     }
-    while ( v39 < params->requests_count );
-    return i;
   }
-  return result;
+  return v18;
 }

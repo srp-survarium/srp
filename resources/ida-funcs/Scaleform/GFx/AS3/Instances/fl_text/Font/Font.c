@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::Font::Font(
   Scaleform::GFx::ASStringNode *v4; // eax
   Scaleform::GFx::ASStringNode *v5; // eax
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_text::Font_vtbl *)&Scaleform::GFx::AS3::Instances::fl_text::Font::`vftable';
   this->pFont.pObject = 0;
   p_EmptyStringNode = &t->pVM->StringManagerRef->pStringManager->EmptyStringNode;

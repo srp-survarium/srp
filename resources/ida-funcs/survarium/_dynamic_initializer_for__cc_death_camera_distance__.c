@@ -1,13 +1,17 @@
-int survarium::_dynamic_initializer_for__cc_death_camera_distance__()
+int __thiscall survarium::_dynamic_initializer_for__cc_death_camera_distance__(
+        vostok::console_commands::console_command *this)
 {
-  cc_death_camera_distance.m_prev = vostok::console_commands::s_console_command_root;
-  if ( vostok::console_commands::s_console_command_root )
-    vostok::console_commands::s_console_command_root->m_next = &cc_death_camera_distance;
+  vostok::console_commands::console_command::console_command(
+    this,
+    (int)&cc_death_camera_distance,
+    "death_camera_distance",
+    1,
+    command_type_engine_internal,
+    execution_filter_general);
   cc_death_camera_distance.m_min = 0.0;
-  vostok::console_commands::s_console_command_root = &cc_death_camera_distance;
   cc_death_camera_distance.m_value = &s_death_camera_distance;
-  cc_death_camera_distance.m_max = 1000.0;
+  cc_death_camera_distance.m_max = FLOAT_1000_0;
   cc_death_camera_distance.m_need_args = 1;
-  cc_death_camera_distance.__vftable = (vostok::console_commands::cc_float_vtbl *)&stru_95AF78.m_key_bindings[48];
+  cc_death_camera_distance.__vftable = (vostok::console_commands::cc_float_vtbl *)&vostok::console_commands::cc_float::`vftable';
   return atexit(survarium::_dynamic_atexit_destructor_for__cc_death_camera_distance__);
 }

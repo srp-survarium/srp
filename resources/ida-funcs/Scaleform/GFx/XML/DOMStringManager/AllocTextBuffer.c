@@ -1,6 +1,6 @@
 Scaleform::GFx::XML::DOMStringManager::TextPage::Entry *__thiscall Scaleform::GFx::XML::DOMStringManager::AllocTextBuffer(
         Scaleform::GFx::XML::DOMStringManager *this,
-        char *pbuffer,
+        const __m128i *pbuffer,
         unsigned int length)
 {
   Scaleform::GFx::XML::DOMStringManager::TextPage::Entry *pFreeTextBuffers; // eax
@@ -24,7 +24,7 @@ Scaleform::GFx::XML::DOMStringManager::TextPage::Entry *__thiscall Scaleform::GF
   }
   if ( v5 )
   {
-    memcpy((unsigned __int8 *)v5, (unsigned __int8 *)pbuffer, length);
+    memcpy((int)v5, pbuffer, length);
     v5->Buff[length] = 0;
   }
   return v5;

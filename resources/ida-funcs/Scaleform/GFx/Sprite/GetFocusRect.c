@@ -1,12 +1,10 @@
-Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Sprite::GetFocusRect(
-        Scaleform::GFx::Sprite *this,
-        Scaleform::Render::Rect<float> *result)
+__m128 *__thiscall Scaleform::GFx::Sprite::GetFocusRect(Scaleform::GFx::Sprite *this, __m128 *result)
 {
   Scaleform::GFx::Sprite *v3; // eax
   Scaleform::GFx::Sprite *v4; // esi
   float *v5; // eax
-  Scaleform::Render::Rect<float> r; // [esp+60h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> v8; // [esp+70h] [ebp-20h] BYREF
+  __m128 v7; // [esp+10h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> v8; // [esp+20h] [ebp-20h] BYREF
 
   v3 = this->GetHitArea(this);
   v8.M[0][0] = 1.0;
@@ -29,12 +27,12 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Sprite::GetFocusRect(
     v8.M[1][1] = v5[5];
     v8.M[1][2] = v5[6];
     v8.M[1][3] = v5[7];
-    v4->GetFocusRect(v4, &r);
-    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8, result, (__m128 *)&r);
+    v4->GetFocusRect(v4, (Scaleform::Render::Rect<float> *)&v7);
+    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8, result, &v7);
   }
   else
   {
-    Scaleform::GFx::InteractiveObject::GetFocusRect(this, result);
+    Scaleform::GFx::InteractiveObject::GetFocusRect(this, (Scaleform::Render::Rect<float> *)result);
   }
   return result;
 }

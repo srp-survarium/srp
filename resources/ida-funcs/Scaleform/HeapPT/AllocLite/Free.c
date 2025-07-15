@@ -2,7 +2,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
         Scaleform::HeapPT::AllocLite *this,
         Scaleform::HeapPT::TreeSeg *seg,
         Scaleform::HeapPT::DualTNode *ptr,
-        Scaleform::HeapPT::DualTNode *size,
+        unsigned int size,
         unsigned int alignSize)
 {
   unsigned int MinSize; // ecx
@@ -14,11 +14,11 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
   Scaleform::HeapPT::DualTNode *GrEq; // eax
   unsigned int v13; // edi
   Scaleform::HeapPT::DualTNode *v14; // eax
-  Scaleform::HeapPT::DualTNode *next; // [esp+18h] [ebp+Ch]
+  Scaleform::HeapPT::DualTNode *v15; // [esp+18h] [ebp+Ch]
 
   MinSize = this->MinSize;
-  v7 = (unsigned int)size;
-  if ( (unsigned int)size < MinSize )
+  v7 = size;
+  if ( size < MinSize )
     v7 = MinSize;
   v8 = alignSize;
   if ( alignSize < MinSize )
@@ -31,7 +31,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
   GrEq = (Scaleform::HeapPT::DualTNode *)Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor>::FindGrEq(
                                            &this->AddrTree,
                                            (unsigned int)ptr + v10);
-  next = GrEq;
+  v15 = GrEq;
   if ( !LeEq
     || LeEq->ParentSeg != seg
     || (Scaleform::HeapPT::DualTNode *)((char *)LeEq + (LeEq->Size << this->MinShift)) != ptr )
@@ -40,7 +40,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
   }
   if ( !GrEq || GrEq->ParentSeg != seg || GrEq != (Scaleform::HeapPT::DualTNode *)((char *)ptr + v10) )
   {
-    next = 0;
+    v15 = 0;
     GrEq = 0;
   }
   v13 = v10 >> this->MinShift;
@@ -51,7 +51,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
     v13 += LeEq->Size;
     v9 = LeEq;
     Scaleform::HeapPT::AllocLite::pullNode(this, LeEq);
-    GrEq = next;
+    GrEq = v15;
   }
   if ( GrEq )
   {
@@ -70,7 +70,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::Free(
     v9->pNext = v14->pNext;
     v9->pPrev = v14;
     v14->pNext = v9;
-    v9->pNext->Scaleform::ListNode<Scaleform::HeapPT::DualTNode>::$FA7D61F44F114A80126F7766EA9000B1::pPrev = v9;
+    v9->pNext->Scaleform::ListNode<Scaleform::HeapPT::DualTNode>::$2060FFF33C3A9317469158F368502EC1::pPrev = v9;
   }
   Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor>::Insert(
     &this->AddrTree,

@@ -1,29 +1,26 @@
-char __thiscall Scaleform::Render::D3D1x::HAL::createBlendStates(
-        Scaleform::Render::D3D1x::HAL *this,
-        Scaleform::Render::D3D1x::HAL *thisa)
+char __thiscall Scaleform::Render::D3D1x::HAL::createBlendStates(Scaleform::Render::D3D1x::HAL *this, int a2)
 {
-  unsigned int v2; // esi
+  unsigned int v2; // edi
   char v3; // bl
-  unsigned int v4; // ecx
-  D3D11_BLEND v5; // edx
-  D3D11_BLEND v6; // edi
-  unsigned int v7; // eax
-  D3D11_BLEND v8; // ecx
-  D3D11_BLEND v9; // eax
-  ID3D11BlendState **i; // [esp+Ch] [ebp-10Ch]
-  D3D11_BLEND_DESC desc; // [esp+10h] [ebp-108h] BYREF
+  unsigned int v4; // eax
+  unsigned int v5; // edx
+  int v6; // ecx
+  int v7; // esi
+  int v8; // eax
+  int i; // [esp+Ch] [ebp-10Ch]
+  unsigned __int8 dst[264]; // [esp+10h] [ebp-108h] BYREF
 
-  memset((int)thisa->BlendStates, 0, sizeof(thisa->BlendStates));
   v2 = 0;
-  for ( i = thisa->BlendStates; ; ++i )
+  memset(a2 + 64380, 0, 0x94u);
+  for ( i = a2 + 64380; ; i += 4 )
   {
-    memset((int)&desc, 0, sizeof(desc));
+    memset((int)dst, 0, sizeof(dst));
     v3 = 0;
     v4 = v2;
     if ( v2 < 0x24 )
     {
-      desc.RenderTarget[0].BlendEnable = 1;
-      desc.RenderTarget[0].RenderTargetWriteMask = 15;
+      *(_DWORD *)&dst[8] = 1;
+      dst[36] = 15;
       if ( v2 >= 0x12 )
       {
         v4 = v2 - 18;
@@ -32,26 +29,28 @@ char __thiscall Scaleform::Render::D3D1x::HAL::createBlendStates(
     }
     else
     {
-      desc.RenderTarget[0].BlendEnable = 0;
-      desc.RenderTarget[0].RenderTargetWriteMask = 0;
+      *(_DWORD *)&dst[8] = 0;
+      dst[36] = 0;
     }
-    v5 = dword_A8A15C[5 * (v4 % 0x12)];
-    v6 = dword_A8A160[5 * (v4 % 0x12)];
-    v7 = 5 * (v4 % 0x12);
-    desc.RenderTarget[0].BlendOp = acmodes[v7 / 5].BlendOp;
-    desc.RenderTarget[0].BlendOpAlpha = desc.RenderTarget[0].BlendOp;
-    v8 = dword_A8A164[v7];
-    v9 = dword_A8A168[v7];
-    desc.RenderTarget[0].SrcBlend = v5;
-    desc.RenderTarget[0].DestBlend = v6;
-    desc.RenderTarget[0].SrcBlendAlpha = v8;
-    desc.RenderTarget[0].DestBlendAlpha = v9;
+    v5 = 20 * (v4 % 0x12);
+    v6 = dword_8D0304[v5 / 4];
+    v7 = dword_8D0308[v5 / 4];
+    *(_DWORD *)&dst[20] = acmodes[v5 / 0x14].BlendOp;
+    *(_DWORD *)&dst[32] = *(_DWORD *)&dst[20];
+    *(_DWORD *)&dst[24] = dword_8D030C[v5 / 4];
+    v8 = dword_8D0310[v5 / 4];
+    *(_DWORD *)&dst[12] = v6;
+    *(_DWORD *)&dst[16] = v7;
+    *(_DWORD *)&dst[28] = v8;
     if ( v3 )
     {
-      if ( v5 == D3D11_BLEND_SRC_ALPHA )
-        desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+      if ( v6 == 5 )
+        *(_DWORD *)&dst[12] = 2;
     }
-    if ( thisa->pDevice->CreateBlendState(thisa->pDevice, &desc, i) < 0 )
+    if ( (*(int (__stdcall **)(_DWORD, unsigned __int8 *, int))(**(_DWORD **)(a2 + 63952) + 80))(
+           *(_DWORD *)(a2 + 63952),
+           dst,
+           i) < 0 )
       break;
     if ( ++v2 >= 0x25 )
       return 1;

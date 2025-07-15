@@ -2,12 +2,12 @@ Scaleform::Render::MeshCacheItem *__cdecl Scaleform::Render::MeshCacheItem::Crea
         Scaleform::Render::MeshCacheItem::MeshType type,
         Scaleform::Render::MeshCacheListSet *pcacheList,
         unsigned int classSize,
-        Scaleform::Render::MeshCache *content,
+        Scaleform::Render::MeshCacheItem::MeshBaseContent *content,
         unsigned int allocSize,
         unsigned int vertexCount,
         unsigned int indexCount)
 {
-  unsigned int v8; // ebp
+  unsigned int Size; // ebp
   unsigned int v9; // edi
   Scaleform::Render::MeshCacheItem *result; // eax
   Scaleform::Render::MeshCacheItem *v11; // esi
@@ -20,37 +20,37 @@ Scaleform::Render::MeshCacheItem *__cdecl Scaleform::Render::MeshCacheItem::Crea
   int v18; // eax
   Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive> *inserted; // eax
   Scaleform::Render::MeshCacheItem *pNext; // edx
-  Scaleform::Render::MeshCacheItem *p; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::Render::MeshCacheItem *v21; // [esp+10h] [ebp-4h] BYREF
   unsigned int i; // [esp+20h] [ebp+Ch]
-  Scaleform::Render::MeshCache *pcache; // [esp+24h] [ebp+10h]
+  Scaleform::Render::MeshCache *pCache; // [esp+24h] [ebp+10h]
 
-  v8 = (unsigned int)content->Scaleform::Render::MeshCacheConfig::__vftable;
+  Size = content->Meshes.Size;
   v9 = (classSize + 3) & 0xFFFFFFFC;
-  pcache = pcacheList->pCache;
+  pCache = pcacheList->pCache;
   result = (Scaleform::Render::MeshCacheItem *)pcacheList->pCache->pHeap->Alloc(
                                                  pcacheList->pCache->pHeap,
-                                                 v9 + 4 * v8,
+                                                 v9 + 4 * Size,
                                                  0);
   v11 = result;
-  p = result;
+  v21 = result;
   if ( result )
   {
     v12 = pcacheList;
     result->Type = type;
     result->pCacheList = pcacheList;
-    result->HashKey = (unsigned int)content->pRQCaches;
-    result->MeshCount = v8;
+    result->HashKey = content->HashKey;
+    result->MeshCount = Size;
     result->pMeshes = (Scaleform::Render::MeshBase **)((char *)result + v9);
     v13 = 0;
-    if ( v8 )
+    if ( Size )
     {
       do
       {
-        v11->pMeshes[v13] = *(Scaleform::Render::MeshBase **)((char *)&content->~Scaleform::Render::MeshCache
-                                                            + v13 * (unsigned int)content->pHeap);
+        v11->pMeshes[v13] = *(Scaleform::Render::MeshBase **)((char *)content->Meshes.pData
+                                                            + v13 * content->Meshes.StrideSize);
         ++v13;
       }
-      while ( v13 < v8 );
+      while ( v13 < Size );
       v12 = pcacheList;
     }
     v11->PrimitiveBatches.Root.pPrev = (Scaleform::Render::MeshCacheItemUseNode *)&v11->PrimitiveBatches;
@@ -65,9 +65,9 @@ Scaleform::Render::MeshCacheItem *__cdecl Scaleform::Render::MeshCacheItem::Crea
     }
     else
     {
-      for ( i = 0; i < v8; ++i )
+      for ( i = 0; i < Size; ++i )
       {
-        v14 = *(int *)((char *)&content->~Scaleform::Render::MeshCache + i * (unsigned int)content->pHeap);
+        v14 = *(int *)((char *)content->Meshes.pData + i * content->Meshes.StrideSize);
         v15 = *(_DWORD *)(v14 + 112);
         v16 = (Scaleform::Render::ArrayReserveLH_Mov<Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive>,2> *)(v14 + 112);
         if ( v15 <= 2 )
@@ -94,9 +94,9 @@ LABEL_13:
         }
       }
       Scaleform::HashSetBase<Scaleform::Render::MeshCacheItem *,Scaleform::Render::MeshCacheItem::HashFunctor,Scaleform::Render::MeshCacheItem::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::MeshCacheItem *,2>,Scaleform::HashsetCachedEntry<Scaleform::Render::MeshCacheItem *,Scaleform::Render::MeshCacheItem::HashFunctor>>::add<Scaleform::Render::MeshCacheItem *>(
-        &pcache->BatchCacheItemHash,
-        &pcache->BatchCacheItemHash,
-        &p,
+        &pCache->BatchCacheItemHash,
+        &pCache->BatchCacheItemHash,
+        &v21,
         v11->HashKey);
       v12 = pcacheList;
     }

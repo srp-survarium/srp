@@ -1,9 +1,9 @@
 void __thiscall survarium::lobby_client::on_disconnected(survarium::lobby_client *this)
 {
-  boost::function<void __cdecl(void)> *p_m_on_disconnected; // esi
+  int v1; // ecx
 
-  p_m_on_disconnected = &this->m_on_disconnected;
   this->m_net_client_connected = 0;
-  if ( boost::function0<void>::operator void (__thiscall boost::function0<void>::dummy::*)(void)(&this->m_on_disconnected) )
-    boost::function0<void>::operator()(p_m_on_disconnected);
+  v1 = -(this->m_on_disconnected.vtable != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v1) != 0 )
+    boost::function0<void>::operator()((boost::function0<bool> *)v1);
 }

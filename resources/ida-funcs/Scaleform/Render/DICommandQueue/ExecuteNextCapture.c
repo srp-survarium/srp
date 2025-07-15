@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::DICommandQueue::ExecuteNextCapture(
   Scaleform::Render::DIQueuePage *v8; // eax
   Scaleform::Render::DIQueuePage *v9; // ecx
   Scaleform::Render::DICommandContext context; // [esp+10h] [ebp-24h] BYREF
-  Scaleform::Render::DICommandSet cmdSet; // [esp+18h] [ebp-1Ch] BYREF
+  Scaleform::Render::DICommandSet v11; // [esp+18h] [ebp-1Ch] BYREF
   int v12; // [esp+24h] [ebp-10h] BYREF
   Scaleform::Render::HAL *v13; // [esp+28h] [ebp-Ch]
   Scaleform::Render::Renderer2D *v14; // [esp+2Ch] [ebp-8h]
@@ -29,9 +29,9 @@ void __thiscall Scaleform::Render::DICommandQueue::ExecuteNextCapture(
     context.pR2D = v14;
     context.pHAL = v13;
   }
-  cmdSet.pQueue = this;
-  cmdSet.QueueList.Root.pPrev = (Scaleform::Render::DIQueuePage *)&cmdSet.QueueList;
-  cmdSet.QueueList.Root.pNext = (Scaleform::Render::DIQueuePage *)&cmdSet.QueueList;
+  v11.pQueue = this;
+  v11.QueueList.Root.pPrev = (Scaleform::Render::DIQueuePage *)&v11.QueueList;
+  v11.QueueList.Root.pNext = (Scaleform::Render::DIQueuePage *)&v11.QueueList;
   Scaleform::Mutex::DoLock(&this->CommandSetMutex);
   EnterCriticalSection(&this->QueueLock.cs);
   pNext = (Scaleform::Render::DICommandQueue *)this->Queues[1].Root.pNext;
@@ -54,16 +54,16 @@ void __thiscall Scaleform::Render::DICommandQueue::ExecuteNextCapture(
     v9 = v6->Root.pPrev;
     v6->Root.pPrev = (Scaleform::Render::DIQueuePage *)v6;
     this->Queues[2].Root.pNext = (Scaleform::Render::DIQueuePage *)&this->Queues[2];
-    v9->pNext = (Scaleform::Render::DIQueuePage *)&cmdSet.QueueList;
-    v8->pPrev = cmdSet.QueueList.Root.pPrev;
-    cmdSet.QueueList.Root.pPrev->pNext = v8;
-    cmdSet.QueueList.Root.pPrev = v9;
+    v9->pNext = (Scaleform::Render::DIQueuePage *)&v11.QueueList;
+    v8->pPrev = v11.QueueList.Root.pPrev;
+    v11.QueueList.Root.pPrev->pNext = v8;
+    v11.QueueList.Root.pPrev = v9;
   }
   Scaleform::Mutex::Unlock(&this->CommandSetMutex);
-  this->pRTCommands = &cmdSet;
+  this->pRTCommands = &v11;
   LeaveCriticalSection(&this->QueueLock.cs);
   Scaleform::Mutex::Unlock(&this->CommandSetMutex);
-  Scaleform::Render::DICommandSet::ExecuteCommandsRT(&cmdSet, &context);
+  Scaleform::Render::DICommandSet::ExecuteCommandsRT(&v11, &context);
   Scaleform::Mutex::DoLock(&this->CommandSetMutex);
   this->pRTCommands = 0;
   Scaleform::WaitCondition::NotifyAll(&this->CommandSetWC);

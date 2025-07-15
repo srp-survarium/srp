@@ -1,6 +1,6 @@
-int __cdecl png_do_read_transformations(int a1, int a2)
+unsigned int __cdecl png_do_read_transformations(int a1, int a2)
 {
-  int result; // eax
+  unsigned int result; // eax
   unsigned int v3; // [esp+0h] [ebp-8h]
 
   if ( !*(_DWORD *)(a1 + 264) )
@@ -36,9 +36,9 @@ int __cdecl png_do_read_transformations(int a1, int a2)
   if ( ((unsigned int)&loc_600000 & *(_DWORD *)(a1 + 116)) != 0 && png_do_rgb_to_gray(a1, a2, *(_DWORD *)(a1 + 264) + 1) )
   {
     *(_BYTE *)(a1 + 593) = 1;
-    if ( (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *))((unsigned int)&loc_600000 & *(_DWORD *)(a1 + 116)) == Scaleform::GFx::AS2::CreateShadow )
+    if ( (_UNKNOWN *)((unsigned int)&loc_600000 & *(_DWORD *)(a1 + 116)) == &loc_400000 )
       png_warning(a1, "png_do_rgb_to_gray found nongray pixel");
-    if ( ((unsigned int)&loc_600000 & *(_DWORD *)(a1 + 116)) == 0x200000 )
+    if ( (_UNKNOWN *)((unsigned int)&loc_600000 & *(_DWORD *)(a1 + 116)) == &loc_200000 )
       png_error(a1, (int)"png_do_rgb_to_gray found nongray pixel");
   }
   if ( (*(_DWORD *)(a1 + 116) & 0x4000) != 0 && (*(_DWORD *)(a1 + 108) & 0x800) == 0 )
@@ -58,7 +58,7 @@ int __cdecl png_do_read_transformations(int a1, int a2)
   {
     png_do_strip_channel(a2, *(_DWORD *)(a1 + 264) + 1, 0);
   }
-  if ( ((unsigned int)&unk_800000 & *(_DWORD *)(a1 + 116)) != 0 && (*(_BYTE *)(a2 + 8) & 4) != 0 )
+  if ( (*(_DWORD *)(a1 + 116) & 0x800000) != 0 && (*(_BYTE *)(a2 + 8) & 4) != 0 )
     png_do_encode_alpha(a2, *(_DWORD *)(a1 + 264) + 1, a1);
   if ( (*(_DWORD *)(a1 + 116) & 0x4000000) != 0 )
     png_do_scale_16_to_8(a2, *(_DWORD *)(a1 + 264) + 1);
@@ -94,7 +94,7 @@ int __cdecl png_do_read_transformations(int a1, int a2)
     png_do_read_swap_alpha(a2, *(_DWORD *)(a1 + 264) + 1);
   if ( (*(_DWORD *)(a1 + 116) & 0x10) != 0 )
     png_do_swap(a2, *(_DWORD *)(a1 + 264) + 1);
-  result = *(_DWORD *)(a1 + 116) & 0x100000;
+  result = (unsigned int)&loc_100000 & *(_DWORD *)(a1 + 116);
   if ( result )
   {
     if ( *(_DWORD *)(a1 + 92) )

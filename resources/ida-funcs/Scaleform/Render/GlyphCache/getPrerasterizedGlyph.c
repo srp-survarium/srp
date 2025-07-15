@@ -9,14 +9,12 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphCache::getPrera
   int v8; // ebp
   int v9; // ebx
   Scaleform::Render::GlyphNode *Glyph; // eax
-  Scaleform::Render::TextNotifier *Notifier; // eax
   unsigned int i; // ebx
-  bool v13; // zf
-  unsigned __int8 *v14; // [esp-14h] [ebp-24h]
-  int imgW; // [esp+8h] [ebp-8h]
-  unsigned int v16; // [esp+Ch] [ebp-4h]
-  unsigned int imgH; // [esp+14h] [ebp+4h]
-  const Scaleform::Render::GlyphNode *gpa; // [esp+1Ch] [ebp+Ch]
+  unsigned __int8 *v12; // [esp-14h] [ebp-24h]
+  unsigned int v13; // [esp+8h] [ebp-8h]
+  unsigned int v14; // [esp+Ch] [ebp-4h]
+  unsigned int MaxSlotHeight; // [esp+14h] [ebp+4h]
+  const Scaleform::Render::GlyphNode *v16; // [esp+1Ch] [ebp+Ch]
 
   pRaster = data->pRaster;
   if ( pRaster->Height + 2 * this->SlotPadding < this->MaxSlotHeight || data->pShape->IsEmpty(data->pShape) )
@@ -24,12 +22,12 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphCache::getPrera
     SlotPadding = this->SlotPadding;
     v8 = -(pRaster->OriginX + SlotPadding);
     v9 = -(SlotPadding + pRaster->OriginY);
-    v16 = SlotPadding;
-    imgW = 2 * SlotPadding + pRaster->Width + 1;
-    imgH = pRaster->Height - pRaster->OriginY + SlotPadding + pRaster->OriginY + SlotPadding + 1;
-    if ( imgH > this->MaxSlotHeight )
+    v14 = SlotPadding;
+    v13 = 2 * SlotPadding + pRaster->Width + 1;
+    MaxSlotHeight = pRaster->Height - pRaster->OriginY + SlotPadding + pRaster->OriginY + SlotPadding + 1;
+    if ( MaxSlotHeight > this->MaxSlotHeight )
     {
-      imgH = this->MaxSlotHeight;
+      MaxSlotHeight = this->MaxSlotHeight;
       if ( this->RasterTooBigWarning )
       {
         Scaleform::Render::GlyphCache::LogWarning(
@@ -38,39 +36,41 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphCache::getPrera
         this->RasterTooBigWarning = 0;
       }
     }
-    Glyph = Scaleform::Render::GlyphQueue::AllocateGlyph(&this->Queue, gp, imgW, imgH);
-    gpa = Glyph;
+    Glyph = Scaleform::Render::GlyphCache::allocateGlyph(
+              this,
+              tm,
+              gp,
+              (Scaleform::Render::GlyphNode *)v13,
+              (Scaleform::Render::GlyphNode *)MaxSlotHeight);
+    v16 = Glyph;
     if ( Glyph )
     {
-      Notifier = Scaleform::Render::GlyphQueue::CreateNotifier(&this->Queue, Glyph, tm);
-      Scaleform::Render::TextMeshProvider::AddNotifier(tm, Notifier);
-      gpa->Scale = 1.0;
-      gpa->Origin.y = 16 * v9;
-      gpa->Origin.x = 16 * v8;
+      Glyph->Origin.y = 16 * v9;
+      Glyph->Scale = 1.0;
+      Glyph->Origin.x = 16 * v8;
       Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
         &this->RasterData,
-        imgW * imgH);
-      v14 = this->RasterData.Data.Data;
-      this->RasterPitch = imgW;
-      memset((int)v14, 0, imgW * imgH);
+        v13 * MaxSlotHeight);
+      v12 = this->RasterData.Data.Data;
+      this->RasterPitch = v13;
+      memset((int)v12, 0, v13 * MaxSlotHeight);
       for ( i = 0; i < pRaster->Height; ++i )
       {
-        if ( i + v16 >= imgH )
+        if ( i + v14 >= MaxSlotHeight )
           break;
         memcpy(
-          &this->RasterData.Data.Data[v16 + (i + v16) * this->RasterPitch],
-          &pRaster->Raster.Data.Data[i * pRaster->Width],
+          (int)&this->RasterData.Data.Data[(i + v14) * this->RasterPitch + v14],
+          (const __m128i *)&pRaster->Raster.Data.Data[i * pRaster->Width],
           pRaster->Width);
       }
-      Scaleform::Render::GlyphCache::updateTextureGlyph(this, gpa);
+      Scaleform::Render::GlyphCache::updateTextureGlyph(this, v16);
       ++this->RasterizationCount;
-      return (Scaleform::Render::GlyphNode *)gpa;
+      return (Scaleform::Render::GlyphNode *)v16;
     }
     else
     {
-      v13 = !this->RasterCacheWarning;
       this->Result = Res_CacheFull;
-      if ( !v13 )
+      if ( this->RasterCacheWarning )
       {
         Scaleform::Render::GlyphCache::LogWarning(
           this,

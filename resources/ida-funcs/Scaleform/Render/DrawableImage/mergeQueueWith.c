@@ -3,17 +3,17 @@ char __thiscall Scaleform::Render::DrawableImage::mergeQueueWith(
         Scaleform::Render::DrawableImage *other)
 {
   Scaleform::Lock *p_QueueLock; // edi
-  Scaleform::Render::Texture *volatile pObject; // ebp
-  Scaleform::Render::Image *RefCount; // edi
-  Scaleform::Render::ImageUpdateSync *v7; // ecx
-  volatile int v8; // ecx
-  Scaleform::Render::Image *i; // eax
-  Scaleform::Render::ImageUpdateSync *v10; // ecx
-  Scaleform::Render::ImageUpdateSync *pUpdateSync; // ecx
-  Scaleform::GFx::Resource *v12; // ecx
+  Scaleform::Render::DICommandQueue *pObject; // ebp
+  Scaleform::Render::DrawableImage *v6; // edi
+  Scaleform::Render::DrawableImage *v7; // ecx
+  Scaleform::Render::DrawableImage *v8; // ecx
+  Scaleform::Render::DrawableImage *i; // eax
+  Scaleform::Render::DrawableImage *v10; // ecx
+  Scaleform::Render::DrawableImage *v11; // ecx
+  Scaleform::Render::DICommandQueue *v12; // ecx
   Scaleform::RefCountVImpl *v13; // ecx
   Scaleform::Render::DICommandQueue *v14; // eax
-  Scaleform::Render::Image_vtbl *pPrev; // ecx
+  Scaleform::Render::DrawableImage *pPrev; // ecx
 
   p_QueueLock = &this->pQueue.pObject->QueueLock;
   EnterCriticalSection(&p_QueueLock->cs);
@@ -30,48 +30,44 @@ char __thiscall Scaleform::Render::DrawableImage::mergeQueueWith(
     other->pNext->pPrev = other->pPrev;
     if ( (other->DrawableImageState & 8) != 0 )
     {
-      pObject = (Scaleform::Render::Texture *volatile)other->pQueue.pObject;
-      RefCount = (Scaleform::Render::Image *)pObject[1].RefCount;
-      if ( other == RefCount )
+      pObject = other->pQueue.pObject;
+      v6 = pObject->pCPUModifiedImageList.pObject;
+      if ( other == v6 )
       {
-        v7 = (Scaleform::Render::ImageUpdateSync *)other->pCPUModifiedNext.pObject;
+        v7 = other->pCPUModifiedNext.pObject;
         if ( v7 )
-          ((void (__thiscall *)(Scaleform::Render::ImageUpdateSync *))v7->UpdateImage)(v7);
-        v8 = pObject[1].RefCount;
+          v7->AddRef(v7);
+        v8 = pObject->pCPUModifiedImageList.pObject;
         if ( v8 )
-          (*(void (__thiscall **)(volatile int))(*(_DWORD *)v8 + 8))(v8);
-        pObject[1].RefCount = (volatile int)other->pCPUModifiedNext.pObject;
+          v8->Release(v8);
+        pObject->pCPUModifiedImageList.pObject = other->pCPUModifiedNext.pObject;
       }
       else
       {
-        for ( i = (Scaleform::Render::Image *)RefCount[4].pUpdateSync;
-              other != i;
-              i = (Scaleform::Render::Image *)i[4].pUpdateSync )
-        {
-          RefCount = i;
-        }
-        v10 = (Scaleform::Render::ImageUpdateSync *)other->pCPUModifiedNext.pObject;
+        for ( i = v6->pCPUModifiedNext.pObject; other != i; i = i->pCPUModifiedNext.pObject )
+          v6 = i;
+        v10 = other->pCPUModifiedNext.pObject;
         if ( v10 )
-          ((void (__thiscall *)(Scaleform::Render::ImageUpdateSync *))v10->UpdateImage)(v10);
-        pUpdateSync = RefCount[4].pUpdateSync;
-        if ( pUpdateSync )
-          ((void (__thiscall *)(Scaleform::Render::ImageUpdateSync *))pUpdateSync->UpdateImage)(pUpdateSync);
-        RefCount[4].pUpdateSync = (Scaleform::Render::ImageUpdateSync *)other->pCPUModifiedNext.pObject;
+          v10->AddRef(v10);
+        v11 = v6->pCPUModifiedNext.pObject;
+        if ( v11 )
+          v11->Release(v11);
+        v6->pCPUModifiedNext.pObject = other->pCPUModifiedNext.pObject;
       }
     }
     p_QueueLock = &this->pQueue.pObject->QueueLock;
     EnterCriticalSection(&p_QueueLock->cs);
-    v12 = (Scaleform::GFx::Resource *)this->pQueue.pObject;
+    v12 = this->pQueue.pObject;
     if ( v12 )
-      Scaleform::RefCountImpl::AddRef(v12);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v12);
     v13 = (Scaleform::RefCountVImpl *)other->pQueue.pObject;
     if ( v13 )
       Scaleform::RefCountImpl::Release(v13);
     other->pQueue.pObject = this->pQueue.pObject;
     v14 = this->pQueue.pObject;
-    pPrev = (Scaleform::Render::Image_vtbl *)v14->ImageList.Root.pPrev;
+    pPrev = v14->ImageList.Root.pPrev;
     v14 = (Scaleform::Render::DICommandQueue *)((char *)v14 + 44);
-    other->pPrev = (Scaleform::Render::DrawableImage *)pPrev;
+    other->pPrev = pPrev;
     other->pNext = (Scaleform::Render::DrawableImage *)&v14[-1].Queues[3];
     v14->__vftable[6].~Scaleform::Render::DICommandQueue = (void (__thiscall *)(struct Scaleform::Render::DICommandQueue *))other;
     v14->__vftable = (Scaleform::Render::DICommandQueue_vtbl *)other;

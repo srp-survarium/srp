@@ -6,7 +6,7 @@ Scaleform::Render::ShapePathType __thiscall Scaleform::Render::ShapeDataPacked<S
 {
   return Scaleform::Render::ShapeDataPackedDecoder<Scaleform::ArrayDH<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ReadPathInfo(
            &this->Decoder,
-           (unsigned int)pos,
+           pos,
            coord,
            styles);
 }

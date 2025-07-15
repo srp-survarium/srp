@@ -1,59 +1,65 @@
-btCompoundShape *__usercall vostok::physics::new_bt_element_joint@<eax>(
-        vostok::configs::binary_config_value *target@<eax>,
-        float a2@<xmm4>,
+const btTransform *__usercall vostok::physics::new_bt_element_joint@<eax>(
+        float a1@<xmm10>,
+        const vostok::configs::binary_config_value *target,
         vostok::memory::base_allocator *allocator,
         vostok::collision::bone_collision_data *data)
 {
-  btCompoundShape *v5; // ecx
-  const void *pointer; // esi
-  const vostok::configs::binary_config_value *v7; // eax
-  __int64 v8; // xmm0_8
-  float v9; // eax
-  float *v10; // eax
-  _DWORD *v11; // eax
-  __int64 v12; // xmm0_8
-  btCollisionShape *v13; // eax
-  btCollisionShape *v14; // ebx
-  const vostok::math::float4x4 *v15; // esi
-  const vostok::math::float4x4 *v16; // eax
-  bool v18; // [esp+630h] [ebp-140h]
-  vostok::math::float3 angles; // [esp+648h] [ebp-128h] BYREF
-  vostok::math::float3 v20; // [esp+654h] [ebp-11Ch] BYREF
-  vostok::math::float3 dimension; // [esp+660h] [ebp-110h] BYREF
-  int v22; // [esp+66Ch] [ebp-104h]
-  vostok::math::float4x4 m; // [esp+670h] [ebp-100h] BYREF
-  btTransform localTransform; // [esp+6B0h] [ebp-C0h] BYREF
-  vostok::math::float4x4 result; // [esp+6F0h] [ebp-80h] BYREF
-  vostok::math::float4x4 v26; // [esp+730h] [ebp-40h] BYREF
+  char *v4; // eax
+  void *v5; // eax
+  btCompoundShape *v6; // ecx
+  const void *pointer; // ebx
+  float **v8; // eax
+  float *v9; // esi
+  float **v10; // eax
+  float *v11; // esi
+  float **v12; // eax
+  float *v13; // esi
+  btCollisionShape *v14; // eax
+  btCollisionShape *v15; // esi
+  vostok::math::float4x4 *v16; // edi
+  vostok::math::float4x4 *v17; // eax
+  btCompoundShape *v19; // [esp-4h] [ebp-144h]
+  const btTransform *localTransform; // [esp+18h] [ebp-128h]
+  vostok::math::float3 v21; // [esp+1Ch] [ebp-124h] BYREF
+  vostok::math::float3 v22; // [esp+28h] [ebp-118h] BYREF
+  vostok::math::float3 dim; // [esp+34h] [ebp-10Ch] BYREF
+  vostok::math::float4x4 m; // [esp+40h] [ebp-100h] BYREF
+  btTransform shape; // [esp+80h] [ebp-C0h] BYREF
+  vostok::math::float4x4 v26; // [esp+C0h] [ebp-80h] BYREF
+  _BYTE v27[64]; // [esp+100h] [ebp-40h] BYREF
 
-  if ( allocator->call_malloc(allocator, 96) )
-    LODWORD(angles.x) = btCompoundShape::btCompoundShape(v5, v18);
+  v4 = type_info::raw_name(&btCompoundShape `RTTI Type Descriptor');
+  v5 = allocator->call_malloc(
+         allocator,
+         96,
+         v4,
+         "vostok::physics::new_bt_element_joint",
+         ".\\animated_rigid_body.cpp",
+         88);
+  if ( v5 )
+    localTransform = (const btTransform *)btCompoundShape::btCompoundShape(v6, (int)v5);
   else
-    angles.x = 0.0;
+    localTransform = 0;
   pointer = vostok::configs::binary_config_value::operator[](target, "type")->data.pointer;
-  v7 = vostok::configs::binary_config_value::operator[](target, "position");
-  v8 = *(_QWORD *)v7->data.pointer;
-  v9 = *((float *)v7->data.pointer + 2);
-  *(_QWORD *)&v20.elements[1] = v8;
-  dimension.x = v9;
-  v10 = (float *)vostok::configs::binary_config_value::operator[](target, "rotation")->data.pointer;
-  v20.x = v10[2];
-  *(_QWORD *)&angles.elements[1] = *(_QWORD *)v10;
-  v11 = vostok::configs::binary_config_value::operator[](target, "scale")->data.pointer;
-  v12 = *(_QWORD *)v11;
-  v22 = v11[2];
-  *(_QWORD *)&dimension.elements[1] = v12;
-  vostok::physics::new_bt_primitive(
-    (const vostok::collision::primitive_type)pointer,
-    (vostok::math::float3 *)&dimension.elements[1],
-    allocator,
-    a2);
-  v14 = v13;
-  v13->m_userPointer = data;
-  v15 = vostok::math::create_translation(&result, (vostok::math::float3 *)&v20.elements[1]);
-  v16 = vostok::math::create_rotation(&v26, (vostok::math::float3 *)&angles.elements[1]);
-  vostok::math::mul4x3(&m, v16, v15);
-  vostok::physics::from_vostok(&m, (vostok::math::quaternion *)&localTransform);
-  btCompoundShape::addChildShape((btCompoundShape *)LODWORD(angles.x), &localTransform, v14);
-  return (btCompoundShape *)LODWORD(angles.x);
+  v8 = (float **)vostok::configs::binary_config_value::operator[](target, "position");
+  v9 = *v8;
+  v22.x = **v8;
+  *(_QWORD *)&v22.elements[1] = *(_QWORD *)(v9 + 1);
+  v10 = (float **)vostok::configs::binary_config_value::operator[](target, "rotation");
+  v11 = *v10;
+  v21.x = **v10;
+  *(_QWORD *)&v21.elements[1] = *(_QWORD *)(v11 + 1);
+  v12 = (float **)vostok::configs::binary_config_value::operator[](target, "scale");
+  v13 = *v12;
+  dim.x = **v12;
+  *(_QWORD *)&dim.elements[1] = *(_QWORD *)(v13 + 1);
+  vostok::physics::create_bt_primitive((vostok::collision::primitive_type)pointer, &dim, allocator, a1);
+  v15 = v14;
+  v14->m_userPointer = data;
+  v16 = vostok::math::create_translation(&v22, &v26);
+  v17 = vostok::math::create_rotation(&v21, (int)v16, (int)v27);
+  vostok::math::mul4x3(v16, v17, &m);
+  vostok::physics::from_vostok(&m, &shape.m_basis);
+  btCompoundShape::addChildShape(v19, localTransform, &shape, v15);
+  return localTransform;
 }

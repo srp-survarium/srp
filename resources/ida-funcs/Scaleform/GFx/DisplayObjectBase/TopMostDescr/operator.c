@@ -3,13 +3,13 @@ Scaleform::GFx::DisplayObjectBase::TopMostDescr *__thiscall Scaleform::GFx::Disp
         const Scaleform::GFx::DisplayObjectBase::TopMostDescr *__that)
 {
   Scaleform::GFx::DisplayObjectBase::TopMostDescr *result; // eax
-  float __thata; // [esp+4h] [ebp+4h]
+  float y; // [esp+4h] [ebp+4h]
 
   result = this;
   result->pResult = __that->pResult;
-  __thata = __that->LocalPt.y;
+  y = __that->LocalPt.y;
   result->LocalPt.x = __that->LocalPt.x;
-  result->LocalPt.y = __thata;
+  result->LocalPt.y = y;
   result->pIgnoreMC = __that->pIgnoreMC;
   result->pHitArea = __that->pHitArea;
   result->ControllerIdx = __that->ControllerIdx;

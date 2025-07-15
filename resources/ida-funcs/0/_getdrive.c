@@ -1,23 +1,23 @@
-unsigned int __cdecl _getdrive()
+int __cdecl _getdrive()
 {
-  unsigned __int8 *v0; // ebx
+  char *v0; // ebx
   signed int CurrentDirectoryA; // esi
-  char *v2; // eax
-  unsigned int v3; // edi
-  int memfree; // [esp+10h] [ebp-110h]
-  char curdirstr[264]; // [esp+14h] [ebp-10Ch] BYREF
+  unsigned __int8 *v2; // eax
+  int v3; // edi
+  int v5; // [esp+10h] [ebp-110h]
+  char Buffer[264]; // [esp+14h] [ebp-10Ch] BYREF
 
-  memfree = 0;
-  v0 = (unsigned __int8 *)curdirstr;
-  CurrentDirectoryA = GetCurrentDirectoryA(0x105u, curdirstr);
+  v5 = 0;
+  v0 = Buffer;
+  CurrentDirectoryA = GetCurrentDirectoryA(0x105u, Buffer);
   if ( CurrentDirectoryA > 260 )
   {
-    v2 = (char *)_calloc_crt(CurrentDirectoryA + 1, 1u);
-    v0 = (unsigned __int8 *)v2;
+    v2 = _calloc_crt(CurrentDirectoryA + 1, 1u);
+    v0 = (char *)v2;
     if ( v2 )
     {
-      memfree = 1;
-      CurrentDirectoryA = GetCurrentDirectoryA(CurrentDirectoryA + 1, v2);
+      v5 = 1;
+      CurrentDirectoryA = GetCurrentDirectoryA(CurrentDirectoryA + 1, (LPSTR)v2);
     }
     else
     {
@@ -29,13 +29,13 @@ unsigned int __cdecl _getdrive()
   if ( CurrentDirectoryA )
   {
     if ( v0[1] == 58 )
-      v3 = toupper(*v0) - 64;
+      v3 = toupper((unsigned __int8)*v0) - 64;
   }
   else
   {
     *_errno() = 12;
   }
-  if ( memfree )
+  if ( v5 )
     free(v0);
   return v3;
 }

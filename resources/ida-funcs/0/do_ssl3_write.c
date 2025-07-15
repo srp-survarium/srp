@@ -1,9 +1,4 @@
-int __cdecl do_ssl3_write(
-        ssl_st *s,
-        int type,
-        unsigned __int8 *buf,
-        unsigned int len,
-        unsigned int create_empty_fragment)
+int __cdecl do_ssl3_write(ssl_st *s, int type, __m128i *buf, unsigned int len, unsigned int create_empty_fragment)
 {
   ssl3_buffer_st *p_wbuf; // ebx
   int result; // eax
@@ -17,7 +12,7 @@ int __cdecl do_ssl3_write(
   int v15; // eax
   _BYTE *v16; // esi
   _BYTE *v17; // ebx
-  unsigned __int8 *v18; // esi
+  int v18; // esi
   unsigned int length; // ebp
   int v20; // [esp+8h] [ebp-8h]
   ssl3_buffer_st *v21; // [esp+Ch] [ebp-4h]
@@ -29,7 +24,7 @@ int __cdecl do_ssl3_write(
   if ( !p_wbuf->buf && !ssl3_setup_write_buffer(s) )
     return -1;
   if ( p_wbuf->left )
-    return ssl3_write_pending(s, type, buf, len);
+    return ssl3_write_pending((int)p_wbuf, s, type, (const unsigned __int8 *)buf, len);
   if ( s->s3->alert_dispatch )
   {
     result = s->method->ssl_dispatch_alert(s);
@@ -56,7 +51,7 @@ LABEL_27:
     goto LABEL_26;
   }
   object = X509_EXTENSION_get_object((ui_string_st *)s->write_hash);
-  sa = EVP_MD_size((const env_md_st *)object);
+  sa = EVP_MD_size((int)p_wbuf, (const env_md_st *)object);
   if ( sa < 0 )
     return -1;
   if ( create_empty_fragment )
@@ -70,13 +65,13 @@ LABEL_26:
   }
   if ( s3->need_empty_fragments && type == 23 )
   {
-    v12 = do_ssl3_write(s, 23, buf, 0, 1);
+    v12 = do_ssl3_write(s, 23, (unsigned __int8 *)buf, 0, 1u);
     v20 = v12;
     if ( v12 > 0 )
     {
       if ( v12 > 85 )
       {
-        ERR_put_error(0x14u, 104, 68, ".\\ssl\\s3_pkt.c", 696);
+        ERR_put_error((int)p_wbuf, 0x14u, 104, 68, ".\\ssl\\s3_pkt.c", 696);
         return -1;
       }
       goto LABEL_24;
@@ -95,15 +90,15 @@ LABEL_28:
   *v16++ = BYTE1(s->version);
   *v16 = s->version;
   v17 = v16 + 1;
-  v18 = v16 + 3;
-  p_wrec->data = v18;
+  v18 = (int)(v16 + 3);
+  p_wrec->data = (unsigned __int8 *)v18;
   p_wrec->length = len;
-  p_wrec->input = buf;
+  p_wrec->input = (unsigned __int8 *)buf;
   if ( s->compress )
   {
     if ( !ssl3_do_compress(s) )
     {
-      ERR_put_error(0x14u, 104, 141, ".\\ssl\\s3_pkt.c", 756);
+      ERR_put_error((int)v17, 0x14u, 104, 141, ".\\ssl\\s3_pkt.c", 756);
       return -1;
     }
   }
@@ -114,11 +109,11 @@ LABEL_28:
   }
   if ( sa )
   {
-    if ( s->method->ssl3_enc->mac(s, &v18[p_wrec->length], 1) < 0 )
+    if ( s->method->ssl3_enc->mac(s, (unsigned __int8 *)(v18 + p_wrec->length), 1) < 0 )
       return -1;
     p_wrec->length += sa;
-    p_wrec->input = v18;
-    p_wrec->data = v18;
+    p_wrec->input = (unsigned __int8 *)v18;
+    p_wrec->data = (unsigned __int8 *)v18;
   }
   s->method->ssl3_enc->enc(s, 1);
   *v17 = BYTE1(p_wrec->length);
@@ -130,8 +125,8 @@ LABEL_28:
     return length;
   v21->left = v20 + length;
   s->s3->wpend_tot = len;
-  s->s3->wpend_buf = buf;
+  s->s3->wpend_buf = (const unsigned __int8 *)buf;
   s->s3->wpend_type = type;
   s->s3->wpend_ret = len;
-  return ssl3_write_pending(s, type, buf, len);
+  return ssl3_write_pending((int)v17, s, type, (const unsigned __int8 *)buf, len);
 }

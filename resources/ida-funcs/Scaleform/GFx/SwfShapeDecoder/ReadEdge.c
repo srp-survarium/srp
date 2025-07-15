@@ -39,8 +39,8 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
   int v38; // eax
   unsigned int v39; // eax
   unsigned int v40; // eax
-  int dy; // [esp+10h] [ebp-8h]
-  int dya; // [esp+10h] [ebp-8h]
+  int v41; // [esp+10h] [ebp-8h]
+  unsigned int v42; // [esp+10h] [ebp-8h]
   int v43; // [esp+14h] [ebp-4h]
 
   if ( ++this->Stream.CurBitIndex >= 8 )
@@ -114,9 +114,9 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
     if ( (v15 & UInt) != 0 )
       UInt |= -1 << v14;
     v17 = Scaleform::GFx::StreamContext::ReadUInt(&this->Stream, v14);
-    dy = v17;
+    v41 = v17;
     if ( (v15 & v17) != 0 )
-      dy = (-1 << v14) | v17;
+      v41 = (-1 << v14) | v17;
     v18 = Scaleform::GFx::StreamContext::ReadUInt(&this->Stream, v14);
     v43 = v18;
     if ( (v15 & v18) != 0 )
@@ -125,9 +125,9 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
     if ( (v15 & v19) != 0 )
       v19 |= -1 << v14;
     edge->Cx = UInt + this->Pos->LastX;
-    edge->Cy = dy + this->Pos->LastY;
+    edge->Cy = v41 + this->Pos->LastY;
     this->Pos->LastX += UInt + v43;
-    this->Pos->LastY += dy + v19;
+    this->Pos->LastY += v41 + v19;
     edge->Ax = this->Pos->LastX;
     edge->Ay = this->Pos->LastY;
     edge->Curve = 1;
@@ -194,7 +194,7 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
     }
     v31 = 0;
     edge->Curve = 0;
-    dya = 0;
+    v42 = 0;
     if ( v30 )
     {
       v32 = Scaleform::GFx::StreamContext::ReadUInt(&this->Stream, v29);
@@ -223,7 +223,7 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
         v40 = Scaleform::GFx::StreamContext::ReadUInt(&this->Stream, v29);
         if ( ((1 << (v29 - 1)) & v40) != 0 )
           v40 |= -1 << v29;
-        dya = v40;
+        v42 = v40;
       }
       else
       {
@@ -232,7 +232,7 @@ int __thiscall Scaleform::GFx::SwfShapeDecoder::ReadEdge(
           v39 |= -1 << v29;
         v31 = v39;
       }
-      v35 = dya;
+      v35 = v42;
     }
     edge->Ax = v31 + this->Pos->LastX;
     edge->Ay = v35 + this->Pos->LastY;

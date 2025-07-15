@@ -26,8 +26,8 @@ void __thiscall Scaleform::Render::Text::LineBuffer::RemoveLines(
   if ( Size != num )
   {
     memmove(
-      (unsigned __int8 *)&this->Lines.Data.Data[lineIdx],
-      (unsigned __int8 *)&this->Lines.Data.Data[lineIdx] + 4 * num,
+      (int)&this->Lines.Data.Data[lineIdx],
+      (const __m128i *)(&this->Lines.Data.Data[lineIdx] + num),
       4 * (Size - lineIdx - num));
     this->Lines.Data.Size -= num;
     return;

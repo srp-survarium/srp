@@ -1,71 +1,75 @@
 void __fastcall mdct_butterfly_generic(int points, float *T, float *x, unsigned int trigint)
 {
-  unsigned int v5; // esi
-  float *v6; // eax
-  float *v7; // ecx
-  double v8; // st6
-  double v9; // st5
-  float *v10; // edx
-  double v11; // st6
-  double v12; // st5
-  float *v13; // edx
-  double v14; // st6
-  double v15; // st5
-  float *v16; // edx
-  double v17; // st6
-  double v18; // st5
-  float r1; // [esp+10h] [ebp+4h]
-  float r1a; // [esp+10h] [ebp+4h]
-  float r1b; // [esp+10h] [ebp+4h]
-  float r1c; // [esp+10h] [ebp+4h]
-  float r0; // [esp+14h] [ebp+8h]
-  float r0a; // [esp+14h] [ebp+8h]
-  float r0b; // [esp+14h] [ebp+8h]
-  float r0c; // [esp+14h] [ebp+8h]
+  unsigned int v4; // edi
+  float *v5; // eax
+  float *v6; // ecx
+  float v7; // xmm4_4
+  float v8; // xmm3_4
+  float v9; // xmm1_4
+  float v10; // xmm0_4
+  float v11; // xmm1_4
+  float v12; // xmm2_4
+  float v13; // xmm4_4
+  float v14; // xmm1_4
+  float v15; // xmm2_4
+  float v16; // xmm3_4
+  float v17; // xmm2_4
+  float *v18; // edx
+  float v19; // xmm4_4
+  float v20; // xmm0_4
+  float v21; // xmm1_4
+  float v22; // xmm2_4
+  float *v23; // edx
+  float v24; // xmm1_4
+  float v25; // xmm3_4
+  float *v26; // edx
+  float v27; // xmm2_4
 
-  v5 = trigint;
-  v6 = &x[(points >> 1) - 8];
-  v7 = &v6[points - (points >> 1) + 7];
+  v4 = trigint;
+  v5 = &x[(points >> 1) - 8];
+  v6 = &v5[points - (points >> 1) + 7];
   do
   {
-    r0 = *(v7 - 1) - v6[6];
-    r1 = *v7 - v6[7];
-    *(v7 - 1) = v6[6] + *(v7 - 1);
-    *v7 = v6[7] + *v7;
-    v6[6] = *T * r0 + T[1] * r1;
-    v8 = r1 * *T;
-    v9 = T[1];
-    v10 = &T[v5];
-    v6[7] = v8 - r0 * v9;
-    r0a = *(v7 - 3) - v6[4];
-    r1a = *(v7 - 2) - v6[5];
-    *(v7 - 3) = v6[4] + *(v7 - 3);
-    *(v7 - 2) = v6[5] + *(v7 - 2);
-    v6[4] = *v10 * r0a + v10[1] * r1a;
-    v11 = r1a * *v10;
-    v12 = v10[1];
-    v13 = &v10[v5];
-    v6[5] = v11 - r0a * v12;
-    r0b = *(v7 - 5) - v6[2];
-    r1b = *(v7 - 4) - v6[3];
-    *(v7 - 5) = v6[2] + *(v7 - 5);
-    *(v7 - 4) = *(v7 - 4) + v6[3];
-    v6[2] = *v13 * r0b + v13[1] * r1b;
-    v14 = r1b * *v13;
+    v7 = *v6;
+    v8 = v5[6];
+    v9 = *(v6 - 1);
+    v10 = v9 + v8;
+    v11 = v9 - v8;
+    v12 = *v6 - v5[7];
+    *(v6 - 1) = v10;
+    *v6 = v5[7] + v7;
+    v13 = v5[4];
+    v5[6] = (float)(T[1] * v12) + (float)(*T * v11);
+    v5[7] = (float)(*T * v12) - (float)(T[1] * v11);
+    v14 = *(v6 - 2);
+    v15 = *(v6 - 3);
+    v16 = v14 - v5[5];
+    *(v6 - 3) = v15 + v13;
+    *(v6 - 2) = v14 + v5[5];
+    v17 = v15 - v13;
+    v18 = &T[v4];
+    v5[4] = (float)(v18[1] * v16) + (float)(*v18 * v17);
+    v5[5] = (float)(*v18 * v16) - (float)(v18[1] * v17);
+    v19 = *(v6 - 4);
+    v20 = v5[2];
+    v21 = *(v6 - 5) - v20;
+    v22 = v19 - v5[3];
+    *(v6 - 5) = v20 + *(v6 - 5);
+    *(v6 - 4) = v5[3] + v19;
+    v23 = &v18[v4];
+    v5[2] = (float)(v23[1] * v22) + (float)(*v23 * v21);
+    v5[3] = (float)(*v23 * v22) - (float)(v23[1] * v21);
+    v24 = *(v6 - 6);
+    v25 = v24 - v5[1];
+    v26 = &v23[v4];
+    v27 = *(v6 - 7) - *v5;
+    *(v6 - 7) = *v5 + *(v6 - 7);
+    *(v6 - 6) = v24 + v5[1];
+    *v5 = (float)(v26[1] * v25) + (float)(*v26 * v27);
+    v5[1] = (float)(*v26 * v25) - (float)(v26[1] * v27);
+    v5 -= 8;
+    T = &v26[v4];
     v6 -= 8;
-    v15 = v13[1];
-    v16 = &v13[v5];
-    v7 -= 8;
-    v6[11] = v14 - r0b * v15;
-    r0c = v7[1] - v6[8];
-    r1c = v7[2] - v6[9];
-    v7[1] = v6[8] + v7[1];
-    v7[2] = v6[9] + v7[2];
-    v6[8] = *v16 * r0c + v16[1] * r1c;
-    v17 = r1c * *v16;
-    v18 = v16[1];
-    T = &v16[v5];
-    v6[9] = v17 - r0c * v18;
   }
-  while ( v6 >= x );
+  while ( v5 >= x );
 }

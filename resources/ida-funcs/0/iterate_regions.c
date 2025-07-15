@@ -1,101 +1,95 @@
 void __usercall iterate_regions<regions_count>(
         char *start_address@<eax>,
-        const unsigned int allocation_granularity@<edi>,
-        unsigned __int64 min_buffer_size,
+        unsigned int allocation_granularity,
+        const unsigned __int64 min_buffer_size,
         regions_count *predicate)
 {
-  __int64 v4; // rcx
-  __int64 v6; // kr00_8
-  _MEMORY_BASIC_INFORMATION memory_info; // [esp+Ch] [ebp-1Ch] BYREF
+  unsigned int v4; // edi
+  bool v6; // cf
+  unsigned int v7; // eax
+  unsigned __int64 v8; // kr00_8
+  _MEMORY_BASIC_INFORMATION Buffer; // [esp+Ch] [ebp-1Ch] BYREF
 
-  HIDWORD(v4) = 0;
+  v4 = 0;
   do
   {
-    if ( VirtualQuery(start_address, &memory_info, 0x1Cu) )
+    if ( !VirtualQuery(start_address, &Buffer, 0x1Cu) )
     {
-      LODWORD(v4) = memory_info.RegionSize;
-      if ( memory_info.RegionSize >= min_buffer_size )
-      {
-        if ( memory_info.RegionSize % allocation_granularity )
-          LODWORD(v4) = allocation_granularity
-                      + memory_info.RegionSize
-                      - memory_info.RegionSize % allocation_granularity;
-        HIDWORD(v4) = (v4 + (unsigned __int64)(unsigned int)start_address) >> 32;
-        start_address += v4;
-        if ( (HINSTANCE__ *)memory_info.State == &_sbh_sizeHeaderList )
-          ++predicate->m_region_count;
-      }
-      else
-      {
-        if ( memory_info.RegionSize % allocation_granularity )
-          LODWORD(v4) = allocation_granularity
-                      + memory_info.RegionSize
-                      - memory_info.RegionSize % allocation_granularity;
-        HIDWORD(v4) = (v4 + (unsigned __int64)(unsigned int)start_address) >> 32;
-        start_address += v4;
-      }
+      v6 = __CFADD__(allocation_granularity, start_address);
+      start_address += allocation_granularity;
+LABEL_4:
+      v4 += v6;
+      continue;
     }
-    else
+    if ( Buffer.RegionSize < min_buffer_size )
     {
-      v6 = allocation_granularity + __PAIR64__(HIDWORD(v4), (unsigned int)start_address);
-      HIDWORD(v4) = HIDWORD(v6);
-      start_address = (char *)v6;
+      v7 = vostok::math::align_up<unsigned long>(allocation_granularity);
+      v6 = __CFADD__(v7, start_address);
+      start_address += v7;
+      goto LABEL_4;
     }
+    v8 = vostok::math::align_up<unsigned long>(allocation_granularity) + __PAIR64__(v4, (unsigned int)start_address);
+    v4 = HIDWORD(v8);
+    start_address = (char *)v8;
+    if ( (HINSTANCE__ *)Buffer.State == &_sbh_sizeHeaderList )
+      ++predicate->m_region_count;
   }
-  while ( !HIDWORD(v4) );
+  while ( !v4 );
 }
 
 
-void __usercall iterate_regions<regions_filler>(
-        const unsigned int start_address@<eax>,
+void __cdecl iterate_regions<regions_filler>(
+        char *start_address,
         unsigned int allocation_granularity,
-        unsigned __int64 min_buffer_size,
+        const unsigned __int64 min_buffer_size,
         regions_filler *predicate)
 {
-  __int64 v4; // kr00_8
-  unsigned int RegionSize; // ecx
-  unsigned int v6; // eax
-  vostok::buffer_vector<vostok::memory::platform::region> *m_regions; // eax
-  vostok::memory::platform::region *m_end; // ecx
-  __int64 BaseAddress; // [esp+18h] [ebp-2Ch]
-  _MEMORY_BASIC_INFORMATION memory_info; // [esp+24h] [ebp-20h] BYREF
+  bool v5; // cf
+  unsigned int RegionSize; // esi
+  unsigned int v7; // eax
+  unsigned int v8; // eax
+  unsigned int v9; // et0
+  vostok::buffer_vector<vostok::memory::platform::region> *m_regions; // [esp-8h] [ebp-4Ch]
+  vostok::buffer_vector<vostok::memory::platform::region> *v11; // [esp-4h] [ebp-48h]
+  _MEMORY_BASIC_INFORMATION Buffer; // [esp+Ch] [ebp-38h] BYREF
+  _DWORD v13[5]; // [esp+28h] [ebp-1Ch] BYREF
+  unsigned int v14; // [esp+3Ch] [ebp-8h]
 
-  v4 = start_address;
+  v14 = 0;
   do
   {
-    if ( VirtualQuery((LPCVOID)v4, &memory_info, 0x1Cu) )
+    if ( !VirtualQuery(start_address, &Buffer, 0x1Cu) )
     {
-      RegionSize = memory_info.RegionSize;
-      if ( memory_info.RegionSize >= min_buffer_size )
-      {
-        v6 = memory_info.RegionSize;
-        if ( memory_info.RegionSize % allocation_granularity )
-          v6 = allocation_granularity + memory_info.RegionSize - memory_info.RegionSize % allocation_granularity;
-        v4 += v6;
-        if ( (HINSTANCE__ *)memory_info.State == &_sbh_sizeHeaderList )
-        {
-          m_regions = predicate->m_regions;
-          BaseAddress = (unsigned int)memory_info.BaseAddress;
-          m_end = predicate->m_regions->m_end;
-          if ( m_end )
-          {
-            m_end->size = memory_info.RegionSize;
-            *(_QWORD *)&m_end->address = BaseAddress;
-          }
-          ++m_regions->m_end;
-        }
-      }
-      else
-      {
-        if ( memory_info.RegionSize % allocation_granularity )
-          RegionSize = allocation_granularity + memory_info.RegionSize - memory_info.RegionSize % allocation_granularity;
-        v4 += RegionSize;
-      }
+      v5 = __CFADD__(allocation_granularity, start_address);
+      start_address += allocation_granularity;
+LABEL_4:
+      v14 += v5;
+      continue;
     }
-    else
+    RegionSize = Buffer.RegionSize;
+    if ( Buffer.RegionSize < min_buffer_size )
     {
-      v4 += allocation_granularity;
+      v7 = vostok::math::align_up<unsigned long>(allocation_granularity);
+      v5 = __CFADD__(v7, start_address);
+      start_address += v7;
+      goto LABEL_4;
+    }
+    v8 = vostok::math::align_up<unsigned long>(allocation_granularity);
+    v9 = (v8 + __PAIR64__(v14, (unsigned int)start_address)) >> 32;
+    start_address += v8;
+    v14 = v9;
+    if ( (HINSTANCE__ *)Buffer.State == &_sbh_sizeHeaderList )
+    {
+      v13[3] = 0;
+      v13[2] = Buffer.BaseAddress;
+      m_regions = predicate->m_regions;
+      v13[0] = RegionSize;
+      v13[1] = 0;
+      vostok::buffer_vector<vostok::memory::platform::region>::push_back(
+        v11,
+        (const vostok::memory::platform::region *)m_regions,
+        v13);
     }
   }
-  while ( !HIDWORD(v4) );
+  while ( !v14 );
 }

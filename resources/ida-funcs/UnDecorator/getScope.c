@@ -20,10 +20,10 @@ DName *__cdecl UnDecorator::getScope(DName *result)
   DName *v20; // [esp-8h] [ebp-ACh]
   const DName *v21; // [esp-4h] [ebp-A8h]
   DName v22; // [esp+Ch] [ebp-98h] BYREF
-  DName resulta; // [esp+14h] [ebp-90h] BYREF
+  DName v23; // [esp+14h] [ebp-90h] BYREF
   char v24; // [esp+1Ch] [ebp-88h] BYREF
   DName v25; // [esp+24h] [ebp-80h] BYREF
-  DName v26; // [esp+2Ch] [ebp-78h] BYREF
+  DName resulta; // [esp+2Ch] [ebp-78h] BYREF
   DName v27; // [esp+34h] [ebp-70h] BYREF
   char v28; // [esp+3Ch] [ebp-68h] BYREF
   char v29; // [esp+44h] [ebp-60h] BYREF
@@ -37,26 +37,26 @@ DName *__cdecl UnDecorator::getScope(DName *result)
   DName v37; // [esp+84h] [ebp-20h] BYREF
   DName v38; // [esp+8Ch] [ebp-18h] BYREF
   DName v39; // [esp+94h] [ebp-10h] BYREF
-  DName namespaceName; // [esp+9Ch] [ebp-8h] BYREF
-  bool fNeedBracket; // [esp+AFh] [ebp+Bh]
+  DName v40; // [esp+9Ch] [ebp-8h] BYREF
+  char rd_3; // [esp+AFh] [ebp+Bh]
 
   *((_BYTE *)result + 4) = 0;
   *((_DWORD *)result + 1) &= 0xFFFF00FF;
   result->node = 0;
-  fNeedBracket = 0;
+  rd_3 = 0;
   while ( !*((_BYTE *)result + 4) && *UnDecorator::gName && *UnDecorator::gName != 64 )
   {
     if ( UnDecorator::fExplicitTemplateParams && !UnDecorator::fGetTemplateArgumentList )
       return result;
     if ( result->node )
     {
-      v2 = operator+(&resulta, "::", result);
+      v2 = operator+(&v23, "::", result);
       DName::operator=(result, v2);
-      if ( fNeedBracket )
+      if ( rd_3 )
       {
-        v3 = operator+(&v26, 91, result);
+        v3 = operator+(&resulta, 91, result);
         DName::operator=(result, v3);
-        fNeedBracket = 0;
+        rd_3 = 0;
       }
     }
     if ( *UnDecorator::gName != 63 )
@@ -83,11 +83,11 @@ LABEL_27:
         break;
       case '%':
 LABEL_22:
-        DName::DName(&namespaceName, (char **)&UnDecorator::gName, 64);
+        DName::DName(&v40, (char **)&UnDecorator::gName, 64);
         v13 = operator+(&v30, "`anonymous namespace'", result);
         DName::operator=(result, v13);
         if ( UnDecorator::pZNameList->index != 9 )
-          Replicator::operator+=(UnDecorator::pZNameList, &namespaceName);
+          Replicator::operator+=(UnDecorator::pZNameList, &v40);
         break;
       case '?':
         if ( v4[1] != 95 || v4[2] != 63 )
@@ -121,7 +121,7 @@ LABEL_22:
         v7 = DName::operator+(v6, &v33, 93);
         v8 = DName::operator+(v7, &v25, result);
         DName::operator=(result, v8);
-        fNeedBracket = 1;
+        rd_3 = 1;
         break;
     }
   }

@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::UnboxArgV1<Scaleform::GFx::AS3::SPtr<Scalef
       if ( ((unsigned __int8)pObject & 1) == 0 )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -37,7 +37,7 @@ void __thiscall Scaleform::GFx::AS3::UnboxArgV1<Scaleform::GFx::AS3::SPtr<Scalef
     else
     {
       v6 = v5->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v6) != 0 )
+      if ( (v6 & 0x3FFFFF) != 0 )
       {
         v5->RefCount = v6 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);
@@ -72,7 +72,7 @@ void __thiscall Scaleform::GFx::AS3::UnboxArgV1<Scaleform::GFx::AS3::SPtr<Scalef
       if ( ((unsigned __int8)pObject & 1) == 0 )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -90,7 +90,7 @@ void __thiscall Scaleform::GFx::AS3::UnboxArgV1<Scaleform::GFx::AS3::SPtr<Scalef
     else
     {
       v8 = v7->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+      if ( (v8 & 0x3FFFFF) != 0 )
       {
         v7->RefCount = v8 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

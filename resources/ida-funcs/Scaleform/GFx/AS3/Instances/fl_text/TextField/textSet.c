@@ -5,13 +5,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::textSet(
 {
   Scaleform::GFx::TextField *pObject; // ecx
   Scaleform::GFx::ASStringNode *pNode; // esi
-  char *pData; // edi
+  const __m128i *pData; // edi
 
   pObject = (Scaleform::GFx::TextField *)this->pDispObj.pObject;
   pObject->Flags &= ~2u;
   pNode = value->pNode;
   ++pNode->RefCount;
-  pData = (char *)pNode->pData;
+  pData = (const __m128i *)pNode->pData;
   if ( (pObject->Flags & 2) != 0 )
     pObject->Flags &= ~2u;
   Scaleform::GFx::TextField::SetTextValue(pObject, pData, 0, 1);

@@ -4,605 +4,649 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Tracer::MergeB
         Scaleform::GFx::AS3::TR::Block *to,
         const Scaleform::GFx::AS3::TR::Block *from)
 {
-  unsigned int v4; // eax
-  int v5; // esi
-  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *v6; // ecx
-  Scaleform::GFx::AS3::Value *v7; // ebp
-  int v8; // eax
-  const Scaleform::GFx::AS3::Value *v9; // edi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *ValueTraits; // ebx
-  Scaleform::GFx::AS3::VM *v11; // eax
-  int v12; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v13; // esi
-  Scaleform::GFx::AS3::VM *v14; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v15; // ecx
-  Scaleform::GFx::AS3::InstanceTraits::Traits *j; // eax
-  Scaleform::GFx::AS3::ClassTraits::Traits *v17; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *k; // eax
-  Scaleform::GFx::AS3::VM *v19; // esi
-  const Scaleform::GFx::AS3::VM::Error *v20; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  unsigned int v22; // edi
-  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *v23; // esi
-  int v24; // ebx
-  Scaleform::GFx::AS3::Value *v25; // edi
-  int v26; // eax
-  const Scaleform::GFx::AS3::Value *v27; // esi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v28; // eax
-  Scaleform::GFx::AS3::VM *v29; // ecx
-  int v30; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v31; // ebp
-  Scaleform::GFx::AS3::VM *v32; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v33; // edx
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v34; // eax
-  Scaleform::GFx::AS3::ClassTraits::Traits *v35; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *m; // eax
-  Scaleform::GFx::AS3::VM *v37; // esi
-  const Scaleform::GFx::AS3::VM::Error *v38; // eax
-  Scaleform::GFx::ASStringNode *v39; // eax
-  Scaleform::GFx::AS3::VM *v40; // esi
-  const Scaleform::GFx::AS3::VM::Error *v41; // eax
-  Scaleform::GFx::ASStringNode *v42; // eax
-  Scaleform::GFx::AS3::CheckResult *v43; // eax
-  Scaleform::GFx::AS3::TR::State *v44; // edx
+  Scaleform::GFx::AS3::TR::State *State; // ebp
+  Scaleform::GFx::AS3::TR::State *v5; // ecx
   unsigned int Size; // eax
-  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *p_Data; // esi
-  unsigned int v47; // ecx
-  int v48; // ebp
-  Scaleform::GFx::AS3::Value *v49; // edi
-  int v50; // eax
-  const Scaleform::GFx::AS3::Value *v51; // esi
-  int v52; // eax
+  unsigned int v7; // esi
+  int v8; // ebx
+  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *p_Data; // ecx
+  Scaleform::GFx::AS3::Value *Data; // esi
+  Scaleform::GFx::AS3::Value *v11; // edi
+  int v12; // ebp
+  const Scaleform::GFx::AS3::Value *v13; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // ebx
   Scaleform::GFx::AS3::VM *VMRef; // eax
-  int v54; // eax
-  Scaleform::GFx::AS3::InstanceTraits::Traits *ITr; // ebp
-  Scaleform::GFx::AS3::VM *v56; // eax
-  int v57; // edx
-  unsigned __int8 *pData; // ecx
-  Scaleform::GFx::AS3::VM *v59; // ebx
-  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edx
-  Scaleform::GFx::AS3::InstanceTraits::Traits *v61; // eax
-  Scaleform::GFx::AS3::ClassTraits::Traits *v62; // eax
+  int v16; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *ITr; // eax
+  Scaleform::GFx::AS3::VM *v18; // ecx
+  Scaleform::GFx::AS3::VM *v19; // ebx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v20; // ebp
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v21; // ecx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v22; // edx
   Scaleform::GFx::AS3::InstanceTraits::Traits *i; // eax
-  bool v64; // dl
-  Scaleform::GFx::AS3::Traits *tr; // [esp+14h] [ebp-30h]
+  Scaleform::GFx::AS3::ClassTraits::Traits *v24; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *j; // eax
+  const Scaleform::GFx::AS3::Traits *v26; // ebx
+  unsigned int v27; // esi
+  int v28; // ebx
+  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *v29; // ecx
+  Scaleform::GFx::AS3::Value *v30; // esi
+  Scaleform::GFx::AS3::Value *v31; // edi
+  int v32; // ebp
+  const Scaleform::GFx::AS3::Value *v33; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *ValueTraits; // eax
+  Scaleform::GFx::AS3::VM *v35; // eax
+  unsigned int Flags; // ebx
+  int v37; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v38; // eax
+  Scaleform::GFx::AS3::VM *v39; // ecx
+  Scaleform::GFx::AS3::VM *v40; // ebx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v41; // ebp
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v42; // ecx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v43; // edx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *k; // eax
+  Scaleform::GFx::AS3::ClassTraits::Traits *v45; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *m; // eax
+  Scaleform::GFx::AS3::VM *v47; // esi
+  const Scaleform::GFx::AS3::VM::Error *v48; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::AS3::CheckResult *v50; // eax
+  unsigned int v51; // eax
+  unsigned int v52; // edx
+  int v53; // ebx
+  Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *v54; // ecx
+  Scaleform::GFx::AS3::Value *v55; // edi
+  int v56; // eax
+  const Scaleform::GFx::AS3::Value *v57; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v58; // ebx
+  Scaleform::GFx::AS3::VM *v59; // eax
+  int v60; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v61; // ebp
+  Scaleform::GFx::AS3::VM *v62; // eax
+  Scaleform::GFx::AS3::VM::ErrorID v63; // eax
+  unsigned __int8 *pData; // ecx
+  Scaleform::GFx::AS3::VM *v65; // ebp
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v66; // ebx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v67; // ecx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v68; // edx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *n; // eax
+  Scaleform::GFx::AS3::ClassTraits::Traits *v70; // eax
+  Scaleform::GFx::AS3::InstanceTraits::Traits *ii; // eax
+  const Scaleform::GFx::AS3::Traits *v72; // ebp
+  bool v73; // cl
+  unsigned __int8 *v74; // edx
+  Scaleform::GFx::AS3::InstanceTraits::Traits *tr; // [esp+14h] [ebp-30h]
   Scaleform::GFx::AS3::InstanceTraits::Traits *tra; // [esp+14h] [ebp-30h]
   Scaleform::GFx::AS3::InstanceTraits::Traits *trb; // [esp+14h] [ebp-30h]
-  Scaleform::GFx::AS3::TR::State *from_st; // [esp+18h] [ebp-2Ch]
-  Scaleform::GFx::AS3::VM *v70; // [esp+1Ch] [ebp-28h]
-  Scaleform::GFx::AS3::VM *v71; // [esp+1Ch] [ebp-28h]
-  int v72; // [esp+1Ch] [ebp-28h]
-  Scaleform::GFx::AS3::TR::State *to_st; // [esp+20h] [ebp-24h]
-  int v74; // [esp+24h] [ebp-20h]
-  unsigned int v75; // [esp+24h] [ebp-20h]
-  unsigned int v76; // [esp+24h] [ebp-20h]
-  int v77; // [esp+28h] [ebp-1Ch]
-  int v78; // [esp+28h] [ebp-1Ch]
-  char v79; // [esp+28h] [ebp-1Ch]
-  int v80; // [esp+2Ch] [ebp-18h]
-  int v81; // [esp+2Ch] [ebp-18h]
-  int v82; // [esp+2Ch] [ebp-18h]
-  int v83; // [esp+30h] [ebp-14h]
-  int v84; // [esp+30h] [ebp-14h]
-  unsigned __int8 v85; // [esp+38h] [ebp-Ch]
-  Scaleform::GFx::AS3::VM::Error v86; // [esp+3Ch] [ebp-8h] BYREF
-  Scaleform::GFx::AS3::InstanceTraits::Traits *toa; // [esp+4Ch] [ebp+8h]
+  Scaleform::GFx::AS3::InstanceTraits::Traits *to_tr; // [esp+18h] [ebp-2Ch]
+  Scaleform::GFx::AS3::InstanceTraits::Traits *to_tra; // [esp+18h] [ebp-2Ch]
+  Scaleform::GFx::AS3::InstanceTraits::Traits *to_trb; // [esp+18h] [ebp-2Ch]
+  Scaleform::GFx::AS3::TR::State *to_st; // [esp+1Ch] [ebp-28h]
+  const Scaleform::GFx::AS3::TR::State *from_st; // [esp+20h] [ebp-24h]
+  unsigned int v84; // [esp+24h] [ebp-20h]
+  int v85; // [esp+24h] [ebp-20h]
+  unsigned int v86; // [esp+24h] [ebp-20h]
+  int v87; // [esp+28h] [ebp-1Ch]
+  unsigned int v88; // [esp+28h] [ebp-1Ch]
+  int v89; // [esp+28h] [ebp-1Ch]
+  int v90; // [esp+2Ch] [ebp-18h]
+  int v91; // [esp+2Ch] [ebp-18h]
+  int v92; // [esp+2Ch] [ebp-18h]
+  int v93; // [esp+30h] [ebp-14h]
+  int v94; // [esp+34h] [ebp-10h]
+  int v95; // [esp+34h] [ebp-10h]
+  char v96; // [esp+34h] [ebp-10h]
+  unsigned int v97; // [esp+38h] [ebp-Ch]
+  Scaleform::GFx::AS3::VM::Error v98; // [esp+3Ch] [ebp-8h] BYREF
+  bool toa; // [esp+4Ch] [ebp+8h]
   bool tob; // [esp+4Ch] [ebp+8h]
-  Scaleform::GFx::AS3::InstanceTraits::Traits *toc; // [esp+4Ch] [ebp+8h]
-  bool tod; // [esp+4Ch] [ebp+8h]
-  Scaleform::GFx::AS3::InstanceTraits::Traits *toe; // [esp+4Ch] [ebp+8h]
-  bool tof; // [esp+4Ch] [ebp+8h]
+  bool toc; // [esp+4Ch] [ebp+8h]
   char froma; // [esp+50h] [ebp+Ch]
   char fromb; // [esp+50h] [ebp+Ch]
   char fromc; // [esp+50h] [ebp+Ch]
 
-  from_st = from->State;
-  to_st = to->State;
+  State = from->State;
+  v5 = to->State;
+  from_st = State;
+  to_st = v5;
   if ( (to->Type & 4) != 0 )
+    goto LABEL_134;
+  Size = State->OpStack.Data.Size;
+  if ( v5->OpStack.Data.Size != Size )
+    goto LABEL_55;
+  v7 = 0;
+  v84 = 0;
+  if ( !Size )
+    goto LABEL_55;
+  v8 = 0;
+  v90 = 0;
+  while ( 1 )
   {
-LABEL_129:
-    v44 = from_st;
-    Size = from_st->Registers.Data.Size;
-    p_Data = &to_st->Registers.Data;
-    if ( to_st->Registers.Data.Size != Size )
-      goto LABEL_117;
-    v47 = 0;
-    v76 = 0;
-    if ( !Size )
-    {
-LABEL_199:
-      v43 = result;
-      result->Result = 1;
-      return v43;
-    }
-    v48 = 0;
-    v72 = 0;
-    while ( v47 >= p_Data->Size )
+    p_Data = &v5->OpStack.Data;
+    if ( v7 >= p_Data->Size )
     {
       Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
         p_Data,
-        (Scaleform::GFx::AS3::Value *)((char *)v44->Registers.Data.Data + v48));
-LABEL_198:
-      v44 = from_st;
-      v47 = v76 + 1;
-      v48 += 16;
-      v76 = v47;
-      v72 = v48;
-      if ( v47 >= from_st->Registers.Data.Size )
-        goto LABEL_199;
+        (Scaleform::GFx::AS3::Value *)((char *)State->OpStack.Data.Data + v8));
+      goto LABEL_69;
     }
-    v49 = (Scaleform::GFx::AS3::Value *)((char *)p_Data->Data + v48);
-    v50 = v49->Flags & 0x1F;
-    v51 = (Scaleform::GFx::AS3::Value *)((char *)from_st->Registers.Data.Data + v48);
-    v84 = v50;
-    if ( v50 )
+    Data = State->OpStack.Data.Data;
+    v11 = (Scaleform::GFx::AS3::Value *)((char *)p_Data->Data + v8);
+    v12 = v11->Flags & 0x1F;
+    v13 = (Scaleform::GFx::AS3::Value *)((char *)Data + v8);
+    v94 = v12;
+    if ( !v12 )
     {
-      v52 = v50 - 8;
-      if ( v52 )
-      {
-        if ( v52 == 1 )
-          trb = v49->value.VS._1.ITr;
-        else
-          trb = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
-                                                                 this->CF->pFile->VMRef,
-                                                                 v49);
-      }
-      else
-      {
-        trb = v49->value.VS._1.ITr;
-      }
+      pObject = this->CF->pFile->VMRef->TraitsVoid.pObject;
+      goto LABEL_13;
     }
-    else
+    if ( v12 == 8 || v12 == 9 )
     {
-      trb = this->CF->pFile->VMRef->TraitsVoid.pObject;
+      pObject = v11->value.VS._1.ITr;
+LABEL_13:
+      to_tr = pObject;
+      goto LABEL_14;
     }
-    if ( trb )
+    pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
+                                                               this->CF->pFile->VMRef,
+                                                               v11);
+    to_tr = pObject;
+LABEL_14:
+    if ( pObject )
     {
       VMRef = this->CF->pFile->VMRef;
-      if ( trb == (Scaleform::GFx::AS3::InstanceTraits::Traits *)VMRef->TraitsClassClass.pObject )
-        trb = (Scaleform::GFx::AS3::InstanceTraits::Traits *)VMRef->TraitsObject.pObject;
+      if ( pObject == (Scaleform::GFx::AS3::InstanceTraits::Traits *)VMRef->TraitsClassClass.pObject )
+      {
+        pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)VMRef->TraitsObject.pObject;
+        to_tr = pObject;
+      }
     }
-    v54 = v51->Flags & 0x1F;
-    v82 = v54;
-    if ( v54 )
+    v16 = v13->Flags & 0x1F;
+    v87 = v16;
+    if ( v16 )
     {
-      if ( (unsigned int)(v54 - 8) < 2 )
-        ITr = v51->value.VS._1.ITr;
+      if ( (unsigned int)(v16 - 8) < 2 )
+        ITr = v13->value.VS._1.ITr;
       else
         ITr = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
                                                                this->CF->pFile->VMRef,
-                                                               v51);
+                                                               v13);
     }
     else
     {
       ITr = this->CF->pFile->VMRef->TraitsVoid.pObject;
     }
+    tr = ITr;
     if ( ITr )
     {
-      v56 = this->CF->pFile->VMRef;
-      if ( ITr == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v56->TraitsClassClass.pObject )
-        ITr = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v56->TraitsObject.pObject;
+      v18 = this->CF->pFile->VMRef;
+      if ( ITr == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v18->TraitsClassClass.pObject )
+      {
+        ITr = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v18->TraitsObject.pObject;
+        tr = ITr;
+      }
     }
-    v57 = 1 << (v76 & 7);
-    v79 = v76 & 7;
-    pData = from_st->RegistersAlive.pData;
-    fromc = 0;
-    v86.ID = v76 >> 3;
-    v85 = v57;
-    if ( ((unsigned __int8)v57 & pData[v76 >> 3]) != 0 )
+    froma = 0;
+    if ( pObject == ITr )
+      goto LABEL_68;
+    if ( !v12 )
+      goto LABEL_67;
+    v19 = this->CF->pFile->VMRef;
+    v20 = v19->TraitsObject.pObject->ITraits.pObject;
+    if ( to_tr == v20 || to_tr == v19->TraitsClassClass.pObject->ITraits.pObject )
+      goto LABEL_68;
+    if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, tr) )
     {
-      if ( ((unsigned __int8)v57 & to_st->RegistersAlive.pData[v76 >> 3]) == 0 )
-        goto LABEL_190;
-      if ( trb == ITr )
-        goto LABEL_191;
-      if ( !v84 )
-        goto LABEL_190;
-      v59 = this->CF->pFile->VMRef;
-      toe = v59->TraitsObject.pObject->ITraits.pObject;
-      if ( trb == toe || trb == v59->TraitsClassClass.pObject->ITraits.pObject )
-        goto LABEL_191;
-      if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, ITr) )
+      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v11, v13, v20);
+      goto LABEL_68;
+    }
+    toa = Scaleform::GFx::AS3::Tracer::IsNumericType(this, to_tr);
+    if ( toa && Scaleform::GFx::AS3::Tracer::IsNumericType(this, tr) )
+    {
+      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v11, v13, v19->TraitsNumber.pObject->ITraits.pObject);
+      goto LABEL_68;
+    }
+    if ( (unsigned int)(v94 - 12) <= 3 && !v11->value.VS._1.VInt
+      || (v21 = v19->TraitsNull.pObject, v22 = to_tr, to_tr == v21) )
+    {
+      if ( (unsigned int)(v87 - 12) <= 3 && !v13->value.VS._1.VInt || tr == v19->TraitsNull.pObject )
+        goto LABEL_68;
+      v26 = tr;
+      if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, tr) && Scaleform::GFx::AS3::Tracer::IsNumericType(this, tr) )
+        goto LABEL_54;
+LABEL_67:
+      Scaleform::GFx::AS3::Value::Assign(v11, v13);
+      goto LABEL_68;
+    }
+    if ( (unsigned int)(v87 - 12) <= 3 && !v13->value.VS._1.VInt || tr == v21 )
+    {
+      if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, to_tr) && toa )
+        break;
+      goto LABEL_68;
+    }
+    for ( i = to_tr; i; i = (Scaleform::GFx::AS3::InstanceTraits::Traits *)i->pParent.pObject )
+      i->Flags |= 0x80u;
+    v24 = (Scaleform::GFx::AS3::ClassTraits::Traits *)tr;
+    if ( tr )
+    {
+      while ( (v24->Flags & 0x80) == 0 )
       {
-        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v49, v51, toe);
-        goto LABEL_191;
+        v24 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v24->pParent.pObject;
+        if ( !v24 )
+          goto LABEL_50;
       }
-      tof = Scaleform::GFx::AS3::Tracer::IsNumericType(this, trb);
-      if ( tof && Scaleform::GFx::AS3::Tracer::IsNumericType(this, ITr) )
+      froma = 1;
+      if ( (v24->Flags & 0x20) != 0 )
+        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v11, v13, v24);
+      else
+        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(
+          this,
+          v11,
+          v13,
+          (Scaleform::GFx::AS3::InstanceTraits::Traits *)v24);
+      v22 = to_tr;
+    }
+LABEL_50:
+    for ( j = v22; j; j = (Scaleform::GFx::AS3::InstanceTraits::Traits *)j->pParent.pObject )
+      j->Flags &= ~0x80u;
+    if ( !froma )
+      break;
+LABEL_68:
+    State = (Scaleform::GFx::AS3::TR::State *)from_st;
+    v7 = v84;
+    v8 = v90;
+LABEL_69:
+    ++v7;
+    v8 += 16;
+    v84 = v7;
+    v90 = v8;
+    if ( v7 >= State->OpStack.Data.Size )
+      goto LABEL_55;
+    v5 = to_st;
+  }
+  v26 = tr;
+LABEL_54:
+  Scaleform::GFx::AS3::Tracer::ThrowMergeTypeError(this, to_tr, v26);
+  State = (Scaleform::GFx::AS3::TR::State *)from_st;
+LABEL_55:
+  v27 = 0;
+  v88 = 0;
+  if ( State->ScopeStack.Data.Size )
+  {
+    v28 = 0;
+    v85 = 0;
+    while ( 1 )
+    {
+      v29 = &to_st->ScopeStack.Data;
+      if ( v27 < to_st->ScopeStack.Data.Size )
+        break;
+      Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
+        v29,
+        (Scaleform::GFx::AS3::Value *)((char *)State->ScopeStack.Data.Data + v28));
+LABEL_132:
+      ++v27;
+      v28 += 16;
+      v88 = v27;
+      v85 = v28;
+      if ( v27 >= State->ScopeStack.Data.Size )
+        goto LABEL_133;
+    }
+    v30 = State->ScopeStack.Data.Data;
+    v31 = (Scaleform::GFx::AS3::Value *)((char *)v29->Data + v28);
+    v32 = v31->Flags & 0x1F;
+    v33 = (Scaleform::GFx::AS3::Value *)((char *)v30 + v28);
+    v95 = v32;
+    if ( !v32 )
+    {
+      ValueTraits = this->CF->pFile->VMRef->TraitsVoid.pObject;
+      goto LABEL_78;
+    }
+    if ( v32 == 8 )
+    {
+      tra = v31->value.VS._1.ITr;
+    }
+    else
+    {
+      if ( v32 == 9 )
+        ValueTraits = v31->value.VS._1.ITr;
+      else
+        ValueTraits = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
+                                                                       this->CF->pFile->VMRef,
+                                                                       v31);
+LABEL_78:
+      tra = ValueTraits;
+    }
+    if ( tra )
+    {
+      v35 = this->CF->pFile->VMRef;
+      if ( tra == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v35->TraitsClassClass.pObject )
+        tra = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v35->TraitsObject.pObject;
+    }
+    Flags = v33->Flags;
+    v37 = v33->Flags & 0x1F;
+    v91 = v37;
+    if ( v37 )
+    {
+      if ( (unsigned int)(v37 - 8) < 2 )
+        v38 = v33->value.VS._1.ITr;
+      else
+        v38 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
+                                                               this->CF->pFile->VMRef,
+                                                               v33);
+    }
+    else
+    {
+      v38 = this->CF->pFile->VMRef->TraitsVoid.pObject;
+    }
+    to_tra = v38;
+    if ( v38 )
+    {
+      v39 = this->CF->pFile->VMRef;
+      if ( v38 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v39->TraitsClassClass.pObject )
       {
-        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v49, v51, v59->TraitsNumber.pObject->ITraits.pObject);
-        goto LABEL_191;
+        v38 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v39->TraitsObject.pObject;
+        to_tra = v38;
       }
-      if ( (unsigned int)(v84 - 12) > 3 || v49->value.VS._1.VInt )
+    }
+    fromb = 0;
+    if ( (((unsigned __int8)BYTE1(v31->Flags) ^ BYTE1(Flags)) & 1) != 0 )
+      goto LABEL_119;
+    if ( tra != v38 )
+    {
+      if ( !v32 )
       {
-        pObject = v59->TraitsNull.pObject;
-        v61 = trb;
-        if ( trb != pObject )
+LABEL_130:
+        Scaleform::GFx::AS3::Value::Assign(v31, v33);
+        goto LABEL_131;
+      }
+      v40 = this->CF->pFile->VMRef;
+      v41 = v40->TraitsObject.pObject->ITraits.pObject;
+      if ( tra == v41 || tra == v40->TraitsClassClass.pObject->ITraits.pObject )
+        goto LABEL_131;
+      if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, to_tra) )
+      {
+        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v31, v33, v41);
+        goto LABEL_131;
+      }
+      tob = Scaleform::GFx::AS3::Tracer::IsNumericType(this, tra);
+      if ( tob && Scaleform::GFx::AS3::Tracer::IsNumericType(this, to_tra) )
+      {
+        Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v31, v33, v40->TraitsNumber.pObject->ITraits.pObject);
+        goto LABEL_131;
+      }
+      if ( (unsigned int)(v95 - 12) > 3 || v31->value.VS._1.VInt )
+      {
+        v42 = v40->TraitsNull.pObject;
+        v43 = tra;
+        if ( tra != v42 )
         {
-          if ( (unsigned int)(v82 - 12) <= 3 && !v51->value.VS._1.VInt || ITr == pObject )
+          if ( (unsigned int)(v91 - 12) <= 3 && !v33->value.VS._1.VInt || to_tra == v42 )
           {
-            if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, trb) && tof )
-              goto LABEL_181;
+            if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, tra) && tob )
+              goto LABEL_119;
           }
           else
           {
-            if ( trb )
+            for ( k = tra; k; k = (Scaleform::GFx::AS3::InstanceTraits::Traits *)k->pParent.pObject )
+              k->Flags |= 0x80u;
+            v45 = (Scaleform::GFx::AS3::ClassTraits::Traits *)to_tra;
+            if ( to_tra )
             {
-              do
+              while ( (v45->Flags & 0x80) == 0 )
               {
-                v61->Flags |= 0x80u;
-                v61 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v61->pParent.pObject;
+                v45 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v45->pParent.pObject;
+                if ( !v45 )
+                  goto LABEL_116;
               }
-              while ( v61 );
-            }
-            v62 = (Scaleform::GFx::AS3::ClassTraits::Traits *)ITr;
-            if ( ITr )
-            {
-              while ( (v62->Flags & 0x80) == 0 )
-              {
-                v62 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v62->pParent.pObject;
-                if ( !v62 )
-                  goto LABEL_178;
-              }
-              fromc = 1;
-              if ( (v62->Flags & 0x20) != 0 )
-                Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v49, v51, v62);
+              fromb = 1;
+              if ( (v45->Flags & 0x20) != 0 )
+                Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v31, v33, v45);
               else
                 Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(
                   this,
-                  v49,
-                  v51,
-                  (Scaleform::GFx::AS3::InstanceTraits::Traits *)v62);
+                  v31,
+                  v33,
+                  (Scaleform::GFx::AS3::InstanceTraits::Traits *)v45);
+              v43 = tra;
             }
-LABEL_178:
-            for ( i = trb; i; i = (Scaleform::GFx::AS3::InstanceTraits::Traits *)i->pParent.pObject )
-              i->Flags &= ~0x80u;
-            if ( !fromc )
+LABEL_116:
+            for ( m = v43; m; m = (Scaleform::GFx::AS3::InstanceTraits::Traits *)m->pParent.pObject )
+              m->Flags &= ~0x80u;
+            if ( !fromb )
             {
-LABEL_181:
-              v40 = this->CF->pFile->VMRef;
-              Scaleform::GFx::AS3::VM::Error::Error(&v86, eCannotMergeTypesError, v40);
-              goto LABEL_115;
+LABEL_119:
+              Scaleform::GFx::AS3::Tracer::ThrowMergeTypeError(this, tra, to_tra);
+              v47 = this->CF->pFile->VMRef;
+              Scaleform::GFx::AS3::VM::Error::Error(
+                &v98,
+                eScopeDepthUnbalancedError,
+                (Scaleform::String)v47,
+                to_st->ScopeStack.Data.Size,
+                from_st->ScopeStack.Data.Size);
+              Scaleform::GFx::AS3::VM::ThrowErrorInternal(
+                v47,
+                v48,
+                (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
+              pNode = v98.Message.pNode;
+              --v98.Message.pNode->RefCount;
+              if ( !pNode->RefCount )
+                Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+              goto LABEL_121;
             }
           }
-          goto LABEL_191;
+          goto LABEL_131;
         }
       }
-      if ( ((unsigned int)(v82 - 12) > 3 || v51->value.VS._1.VInt) && ITr != v59->TraitsNull.pObject )
+      if ( ((unsigned int)(v91 - 12) > 3 || v33->value.VS._1.VInt) && to_tra != v40->TraitsNull.pObject )
       {
-        if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, ITr)
-          && Scaleform::GFx::AS3::Tracer::IsNumericType(this, ITr) )
+        if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, to_tra)
+          && Scaleform::GFx::AS3::Tracer::IsNumericType(this, to_tra) )
         {
-          goto LABEL_181;
+          goto LABEL_119;
         }
-LABEL_190:
-        Scaleform::GFx::AS3::Value::Assign(v49, v51);
+        goto LABEL_130;
       }
     }
-LABEL_191:
-    v64 = (v85 & from_st->RegistersAlive.pData[v86.ID]) != 0 || (v85 & to_st->RegistersAlive.pData[v86.ID]) != 0;
-    v48 = v72;
-    p_Data = &to_st->Registers.Data;
-    if ( v64 )
-      to_st->RegistersAlive.pData[v86.ID] |= 1 << v79;
-    else
-      to_st->RegistersAlive.pData[v86.ID] &= ~(1 << v79);
+LABEL_131:
+    State = (Scaleform::GFx::AS3::TR::State *)from_st;
+    v28 = v85;
+    v27 = v88;
+    goto LABEL_132;
+  }
+LABEL_133:
+  v5 = to_st;
+LABEL_134:
+  v51 = State->Registers.Data.Size;
+  if ( v5->Registers.Data.Size != v51 )
+  {
+LABEL_121:
+    v50 = result;
+    result->Result = 0;
+    return v50;
+  }
+  v52 = 0;
+  v86 = 0;
+  if ( !v51 )
+  {
+LABEL_207:
+    v50 = result;
+    result->Result = 1;
+    return v50;
+  }
+  v53 = 0;
+  v89 = 0;
+  while ( 2 )
+  {
+    v54 = &v5->Registers.Data;
+    if ( v52 >= v54->Size )
+    {
+      Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
+        v54,
+        (Scaleform::GFx::AS3::Value *)((char *)State->Registers.Data.Data + v53));
+LABEL_205:
+      v52 = v86 + 1;
+      v53 += 16;
+      v86 = v52;
+      v89 = v53;
+      if ( v52 >= State->Registers.Data.Size )
+        goto LABEL_207;
+      v5 = to_st;
+      continue;
+    }
+    break;
+  }
+  v55 = (Scaleform::GFx::AS3::Value *)((char *)v54->Data + v53);
+  v56 = v55->Flags & 0x1F;
+  v57 = (Scaleform::GFx::AS3::Value *)((char *)State->Registers.Data.Data + v53);
+  v92 = v56;
+  if ( !v56 )
+  {
+    v58 = this->CF->pFile->VMRef->TraitsVoid.pObject;
+    goto LABEL_144;
+  }
+  if ( (unsigned int)(v56 - 8) < 2 )
+  {
+    v58 = v55->value.VS._1.ITr;
+LABEL_144:
+    trb = v58;
+    goto LABEL_145;
+  }
+  v58 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
+                                                         this->CF->pFile->VMRef,
+                                                         v55);
+  trb = v58;
+LABEL_145:
+  if ( v58 )
+  {
+    v59 = this->CF->pFile->VMRef;
+    if ( v58 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v59->TraitsClassClass.pObject )
+    {
+      v58 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v59->TraitsObject.pObject;
+      trb = v58;
+    }
+  }
+  v60 = v57->Flags & 0x1F;
+  v93 = v60;
+  if ( !v60 )
+  {
+    v61 = this->CF->pFile->VMRef->TraitsVoid.pObject;
+    goto LABEL_153;
+  }
+  if ( (unsigned int)(v60 - 8) < 2 )
+  {
+    v61 = v57->value.VS._1.ITr;
+LABEL_153:
+    to_trb = v61;
+    goto LABEL_154;
+  }
+  v61 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
+                                                         this->CF->pFile->VMRef,
+                                                         v57);
+  to_trb = v61;
+LABEL_154:
+  if ( v61 )
+  {
+    v62 = this->CF->pFile->VMRef;
+    if ( v61 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v62->TraitsClassClass.pObject )
+    {
+      v61 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v62->TraitsObject.pObject;
+      to_trb = v61;
+    }
+  }
+  v63 = 1 << (v86 & 7);
+  v96 = v86 & 7;
+  pData = from_st->RegistersAlive.pData;
+  fromc = 0;
+  v97 = v86 >> 3;
+  v98.ID = v63;
+  if ( ((unsigned __int8)v63 & pData[v86 >> 3]) == 0 )
+    goto LABEL_198;
+  if ( ((unsigned __int8)v63 & to_st->RegistersAlive.pData[v86 >> 3]) == 0 )
+    goto LABEL_197;
+  if ( v58 == v61 )
+    goto LABEL_198;
+  if ( !v92 )
+  {
+LABEL_197:
+    Scaleform::GFx::AS3::Value::Assign(v55, v57);
     goto LABEL_198;
   }
-  v4 = from->State->OpStack.Data.Size;
-  if ( to->State->OpStack.Data.Size != v4 )
-    goto LABEL_52;
-  tr = 0;
-  if ( !v4 )
-    goto LABEL_52;
-  v5 = 0;
-  v74 = 0;
-  while ( 1 )
+  v65 = this->CF->pFile->VMRef;
+  v66 = v65->TraitsObject.pObject->ITraits.pObject;
+  if ( trb == v66 || trb == v65->TraitsClassClass.pObject->ITraits.pObject )
+    goto LABEL_198;
+  if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, to_trb) )
   {
-    v6 = &to_st->OpStack.Data;
-    if ( (unsigned int)tr < to_st->OpStack.Data.Size )
-      break;
-    Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
-      v6,
-      (Scaleform::GFx::AS3::Value *)((char *)from_st->OpStack.Data.Data + v5));
-LABEL_66:
-    v5 += 16;
-    tr = (Scaleform::GFx::AS3::Traits *)((char *)tr + 1);
-    v74 = v5;
-    if ( (unsigned int)tr >= from_st->OpStack.Data.Size )
-      goto LABEL_52;
+    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v55, v57, v66);
+    goto LABEL_198;
   }
-  v7 = (Scaleform::GFx::AS3::Value *)((char *)v6->Data + v5);
-  v8 = v7->Flags & 0x1F;
-  v9 = (Scaleform::GFx::AS3::Value *)((char *)from_st->OpStack.Data.Data + v5);
-  v77 = v8;
-  if ( v8 )
+  toc = Scaleform::GFx::AS3::Tracer::IsNumericType(this, trb);
+  if ( toc && Scaleform::GFx::AS3::Tracer::IsNumericType(this, to_trb) )
   {
-    if ( (unsigned int)(v8 - 8) < 2 )
-      ValueTraits = v7->value.VS._1.ITr;
-    else
-      ValueTraits = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
-                                                                     this->CF->pFile->VMRef,
-                                                                     v7);
+    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v55, v57, v65->TraitsNumber.pObject->ITraits.pObject);
+    goto LABEL_198;
   }
-  else
+  if ( (unsigned int)(v92 - 12) <= 3 && !v55->value.VS._1.VInt || (v67 = v65->TraitsNull.pObject, v68 = trb, trb == v67) )
   {
-    ValueTraits = this->CF->pFile->VMRef->TraitsVoid.pObject;
-  }
-  if ( ValueTraits )
-  {
-    v11 = this->CF->pFile->VMRef;
-    if ( ValueTraits == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v11->TraitsClassClass.pObject )
-      ValueTraits = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v11->TraitsObject.pObject;
-  }
-  v12 = v9->Flags & 0x1F;
-  v80 = v12;
-  if ( v12 )
-  {
-    if ( (unsigned int)(v12 - 8) < 2 )
-      v13 = v9->value.VS._1.ITr;
-    else
-      v13 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
-                                                             this->CF->pFile->VMRef,
-                                                             v9);
-  }
-  else
-  {
-    v13 = this->CF->pFile->VMRef->TraitsVoid.pObject;
-  }
-  if ( v13 )
-  {
-    v14 = this->CF->pFile->VMRef;
-    if ( v13 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v14->TraitsClassClass.pObject )
-      v13 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v14->TraitsObject.pObject;
-  }
-  froma = 0;
-  if ( ValueTraits == v13 )
-  {
-LABEL_65:
-    v5 = v74;
-    goto LABEL_66;
-  }
-  if ( !v77 )
-  {
-LABEL_64:
-    Scaleform::GFx::AS3::Value::Assign(v7, v9);
-    goto LABEL_65;
-  }
-  v70 = this->CF->pFile->VMRef;
-  toa = v70->TraitsObject.pObject->ITraits.pObject;
-  if ( ValueTraits == toa || ValueTraits == v70->TraitsClassClass.pObject->ITraits.pObject )
-    goto LABEL_65;
-  if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, v13) )
-  {
-    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v7, v9, toa);
-    goto LABEL_65;
-  }
-  tob = Scaleform::GFx::AS3::Tracer::IsNumericType(this, ValueTraits);
-  if ( tob && Scaleform::GFx::AS3::Tracer::IsNumericType(this, v13) )
-  {
-    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v7, v9, v70->TraitsNumber.pObject->ITraits.pObject);
-    goto LABEL_65;
-  }
-  if ( (unsigned int)(v77 - 12) <= 3 && !v7->value.VS._1.VInt || (v15 = v70->TraitsNull.pObject, ValueTraits == v15) )
-  {
-    if ( (unsigned int)(v80 - 12) <= 3 && !v9->value.VS._1.VInt || v13 == v70->TraitsNull.pObject )
-      goto LABEL_65;
-    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, v13) && Scaleform::GFx::AS3::Tracer::IsNumericType(this, v13) )
-      goto LABEL_50;
-    goto LABEL_64;
-  }
-  if ( (unsigned int)(v80 - 12) <= 3 && !v9->value.VS._1.VInt || v13 == v15 )
-  {
-    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, ValueTraits) && tob )
-      goto LABEL_50;
-    goto LABEL_65;
-  }
-  for ( j = ValueTraits; j; j = (Scaleform::GFx::AS3::InstanceTraits::Traits *)j->pParent.pObject )
-    j->Flags |= 0x80u;
-  v17 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v13;
-  if ( v13 )
-  {
-    while ( (v17->Flags & 0x80) == 0 )
+    if ( (unsigned int)(v93 - 12) <= 3 && !v57->value.VS._1.VInt || to_trb == v65->TraitsNull.pObject )
+      goto LABEL_198;
+    v72 = to_trb;
+    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, to_trb)
+      && Scaleform::GFx::AS3::Tracer::IsNumericType(this, to_trb) )
     {
-      v17 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v17->pParent.pObject;
-      if ( !v17 )
-        goto LABEL_47;
+      goto LABEL_188;
     }
-    froma = 1;
-    if ( (v17->Flags & 0x20) != 0 )
-      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v7, v9, v17);
+    goto LABEL_197;
+  }
+  if ( (unsigned int)(v93 - 12) <= 3 && !v57->value.VS._1.VInt || to_trb == v67 )
+  {
+    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, trb) && toc )
+      goto LABEL_187;
+    goto LABEL_198;
+  }
+  for ( n = trb; n; n = (Scaleform::GFx::AS3::InstanceTraits::Traits *)n->pParent.pObject )
+    n->Flags |= 0x80u;
+  v70 = (Scaleform::GFx::AS3::ClassTraits::Traits *)to_trb;
+  if ( to_trb )
+  {
+    while ( (v70->Flags & 0x80) == 0 )
+    {
+      v70 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v70->pParent.pObject;
+      if ( !v70 )
+        goto LABEL_184;
+    }
+    fromc = 1;
+    if ( (v70->Flags & 0x20) != 0 )
+      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v55, v57, v70);
     else
       Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(
         this,
-        v7,
-        v9,
-        (Scaleform::GFx::AS3::InstanceTraits::Traits *)v17);
+        v55,
+        v57,
+        (Scaleform::GFx::AS3::InstanceTraits::Traits *)v70);
+    v68 = trb;
   }
-LABEL_47:
-  for ( k = ValueTraits; k; k = (Scaleform::GFx::AS3::InstanceTraits::Traits *)k->pParent.pObject )
-    k->Flags &= ~0x80u;
-  if ( froma )
-    goto LABEL_65;
-LABEL_50:
-  v19 = this->CF->pFile->VMRef;
-  Scaleform::GFx::AS3::VM::Error::Error(&v86, eCannotMergeTypesError, v19);
-  Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-    v19,
-    v20,
-    (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
-  pNode = v86.Message.pNode;
-  --v86.Message.pNode->RefCount;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-LABEL_52:
-  v22 = 0;
-  v23 = &to_st->ScopeStack.Data;
-  v75 = 0;
-  if ( !from_st->ScopeStack.Data.Size )
-    goto LABEL_129;
-  v24 = 0;
-  v83 = 0;
-  while ( v22 >= v23->Size )
+LABEL_184:
+  for ( ii = v68; ii; ii = (Scaleform::GFx::AS3::InstanceTraits::Traits *)ii->pParent.pObject )
+    ii->Flags &= ~0x80u;
+  if ( fromc )
   {
-    Scaleform::ArrayDataDH<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
-      v23,
-      (Scaleform::GFx::AS3::Value *)((char *)from_st->ScopeStack.Data.Data + v24));
-LABEL_128:
-    ++v22;
-    v24 += 16;
-    v75 = v22;
-    v83 = v24;
-    if ( v22 >= from_st->ScopeStack.Data.Size )
-      goto LABEL_129;
-  }
-  v25 = (Scaleform::GFx::AS3::Value *)((char *)v23->Data + v24);
-  v26 = v25->Flags & 0x1F;
-  v27 = (Scaleform::GFx::AS3::Value *)((char *)from_st->ScopeStack.Data.Data + v24);
-  v81 = v26;
-  if ( v26 )
-  {
-    if ( (unsigned int)(v26 - 8) < 2 )
-      v28 = v25->value.VS._1.ITr;
+LABEL_198:
+    v73 = (v98.ID & from_st->RegistersAlive.pData[v97]) != 0 || (v98.ID & to_st->RegistersAlive.pData[v97]) != 0;
+    v53 = v89;
+    State = (Scaleform::GFx::AS3::TR::State *)from_st;
+    v74 = to_st->RegistersAlive.pData;
+    if ( v73 )
+      v74[v97] |= 1 << v96;
     else
-      v28 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
-                                                             this->CF->pFile->VMRef,
-                                                             v25);
+      v74[v97] &= ~(1 << v96);
+    goto LABEL_205;
   }
-  else
-  {
-    v28 = this->CF->pFile->VMRef->TraitsVoid.pObject;
-  }
-  tra = v28;
-  if ( v28 )
-  {
-    v29 = this->CF->pFile->VMRef;
-    if ( v28 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v29->TraitsClassClass.pObject )
-      tra = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v29->TraitsObject.pObject;
-  }
-  v30 = v27->Flags & 0x1F;
-  v78 = v30;
-  if ( v30 )
-  {
-    if ( (unsigned int)(v30 - 8) < 2 )
-      v31 = v27->value.VS._1.ITr;
-    else
-      v31 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)Scaleform::GFx::AS3::VM::GetValueTraits(
-                                                             this->CF->pFile->VMRef,
-                                                             v27);
-  }
-  else
-  {
-    v31 = this->CF->pFile->VMRef->TraitsVoid.pObject;
-  }
-  if ( v31 )
-  {
-    v32 = this->CF->pFile->VMRef;
-    if ( v31 == (Scaleform::GFx::AS3::InstanceTraits::Traits *)v32->TraitsClassClass.pObject )
-      v31 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v32->TraitsObject.pObject;
-  }
-  fromb = 0;
-  if ( (((unsigned __int8)BYTE1(v25->Flags) ^ (unsigned __int8)BYTE1(v27->Flags)) & 1) != 0 )
-    goto LABEL_112;
-  if ( tra == v31 )
-    goto LABEL_127;
-  if ( !v81 )
-  {
-LABEL_126:
-    Scaleform::GFx::AS3::Value::Assign(v25, v27);
-    goto LABEL_127;
-  }
-  v71 = this->CF->pFile->VMRef;
-  toc = v71->TraitsObject.pObject->ITraits.pObject;
-  if ( tra == toc || tra == v71->TraitsClassClass.pObject->ITraits.pObject )
-    goto LABEL_127;
-  if ( Scaleform::GFx::AS3::Tracer::IsAnyType(this, v31) )
-  {
-    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v25, v27, toc);
-    goto LABEL_127;
-  }
-  tod = Scaleform::GFx::AS3::Tracer::IsNumericType(this, tra);
-  if ( tod && Scaleform::GFx::AS3::Tracer::IsNumericType(this, v31) )
-  {
-    Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v25, v27, v71->TraitsNumber.pObject->ITraits.pObject);
-    goto LABEL_127;
-  }
-  if ( (unsigned int)(v81 - 12) <= 3 && !v25->value.VS._1.VInt || (v33 = v71->TraitsNull.pObject, v34 = tra, tra == v33) )
-  {
-    if ( (unsigned int)(v78 - 12) <= 3 && !v27->value.VS._1.VInt || v31 == v71->TraitsNull.pObject )
-      goto LABEL_127;
-    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, v31) && Scaleform::GFx::AS3::Tracer::IsNumericType(this, v31) )
-      goto LABEL_112;
-    goto LABEL_126;
-  }
-  if ( (unsigned int)(v78 - 12) <= 3 && !v27->value.VS._1.VInt || v31 == v33 )
-  {
-    if ( !Scaleform::GFx::AS3::Tracer::IsStringType(this, tra) && tod )
-      goto LABEL_112;
-    goto LABEL_127;
-  }
-  if ( tra )
-  {
-    do
-    {
-      v34->Flags |= 0x80u;
-      v34 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v34->pParent.pObject;
-    }
-    while ( v34 );
-  }
-  v35 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v31;
-  if ( v31 )
-  {
-    while ( (v35->Flags & 0x80) == 0 )
-    {
-      v35 = (Scaleform::GFx::AS3::ClassTraits::Traits *)v35->pParent.pObject;
-      if ( !v35 )
-        goto LABEL_109;
-    }
-    fromb = 1;
-    if ( (v35->Flags & 0x20) != 0 )
-      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(this, v25, v27, v35);
-    else
-      Scaleform::GFx::AS3::Tracer::JoinSNodesUpdateType(
-        this,
-        v25,
-        v27,
-        (Scaleform::GFx::AS3::InstanceTraits::Traits *)v35);
-  }
-LABEL_109:
-  for ( m = tra; m; m = (Scaleform::GFx::AS3::InstanceTraits::Traits *)m->pParent.pObject )
-    m->Flags &= ~0x80u;
-  if ( fromb )
-  {
-LABEL_127:
-    v24 = v83;
-    v22 = v75;
-    v23 = &to_st->ScopeStack.Data;
-    goto LABEL_128;
-  }
-LABEL_112:
-  v37 = this->CF->pFile->VMRef;
-  Scaleform::GFx::AS3::VM::Error::Error(&v86, eCannotMergeTypesError, v37);
-  Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-    v37,
-    v38,
-    (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
-  v39 = v86.Message.pNode;
-  --v86.Message.pNode->RefCount;
-  if ( !v39->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v39);
-  v40 = this->CF->pFile->VMRef;
-  Scaleform::GFx::AS3::VM::Error::Error(&v86, eScopeDepthUnbalancedError, v40);
-LABEL_115:
-  Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-    v40,
-    v41,
-    (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
-  v42 = v86.Message.pNode;
-  --v86.Message.pNode->RefCount;
-  if ( !v42->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v42);
-LABEL_117:
-  v43 = result;
+LABEL_187:
+  v72 = to_trb;
+LABEL_188:
+  Scaleform::GFx::AS3::Tracer::ThrowMergeTypeError(this, trb, v72);
+  v50 = result;
   result->Result = 0;
-  return v43;
+  return v50;
 }

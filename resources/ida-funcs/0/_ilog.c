@@ -1,4 +1,4 @@
-int __fastcall _ilog(unsigned int v)
+int __cdecl _ilog(unsigned int v)
 {
   int result; // eax
 

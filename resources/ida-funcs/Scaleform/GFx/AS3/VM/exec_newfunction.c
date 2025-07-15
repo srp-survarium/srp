@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_newfunction(
   pObject = (Scaleform::GFx::AS3::VMAbcFile *)cf->pTraits.pObject;
   v6 = (Scaleform::GFx::AS3::Classes::Function **)this->TraitsFunction.pObject->ITraits.pObject;
   if ( !v6[17] )
-    ((void (__thiscall *)(Scaleform::GFx::AS3::Classes::Function **))(*v6)[1]._pRCC)(v6);
+    ((void (__thiscall *)(Scaleform::GFx::AS3::Classes::Function **))(*v6)[1].RefCount)(v6);
   GlobalObject = Scaleform::GFx::AS3::VM::GetGlobalObject(this);
   Scaleform::GFx::AS3::Classes::Function::MakeInstance(
     v6[17],

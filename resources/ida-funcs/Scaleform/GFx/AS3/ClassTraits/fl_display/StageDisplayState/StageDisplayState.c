@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState:
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_display::StageDisplayStateCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::fl::Object *)MHeap->Alloc(MHeap, 120u, 0);
   if ( v4 )
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState:
   if ( v7 )
   {
     Scaleform::GFx::AS3::Class::Class(v7, this);
-    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_display::StageDisplayState::`vftable';
     v8[1].__vftable = (Scaleform::GFx::AS3::Class_vtbl *)"fullScreen";
     v8[1].pRCCRaw = (unsigned int)"fullScreenInteractive";
     v8[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)"normal";
@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::StageDisplayState:
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

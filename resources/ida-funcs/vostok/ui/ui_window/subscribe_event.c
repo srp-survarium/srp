@@ -3,103 +3,57 @@ void __thiscall vostok::ui::ui_window::subscribe_event(
         vostok::ui::enum_window_events ev,
         fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> handler)
 {
-  vostok::ui::typed_handlers *M_finish; // esi
+  stlp_std::reverse_iterator<vostok::ui::typed_handlers *> *p_m_event_manager; // esi
   vostok::ui::typed_handlers *v5; // eax
-  stlp_std::priv::_Impl_vector<vostok::ui::typed_handlers,vostok::vectora_allocator<vostok::ui::typed_handlers> > *v6; // ecx
-  vostok::ui::typed_handlers *v7; // eax
-  vostok::ui::typed_handlers *v8; // esi
-  fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> *v9; // eax
-  vostok::vectora<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> > *p_list; // esi
-  vostok::vectora<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> > *v11; // esi
-  fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> *v12; // eax
-  const stlp_std::__false_type *v13; // [esp+0h] [ebp-24h]
-  unsigned int v14; // [esp+4h] [ebp-20h]
-  bool v15; // [esp+8h] [ebp-1Ch]
-  vostok::ui::typed_handlers __x; // [esp+10h] [ebp-14h] BYREF
+  vostok::ui::typed_handlers *current; // eax
+  vostok::buffer_vector<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> > *p_list; // esi
+  const stlp_std::__false_type *v8; // [esp+0h] [ebp-A0h]
+  unsigned int v9; // [esp+4h] [ebp-9Ch]
+  bool v10; // [esp+8h] [ebp-98h]
+  vostok::ui::typed_handlers __x; // [esp+10h] [ebp-90h] BYREF
+  char vars0; // [esp+A0h] [ebp+0h] BYREF
 
-  M_finish = this->m_event_manager._M_impl._M_finish;
-  v5 = stlp_std::priv::__find<vostok::ui::typed_handlers *,enum vostok::ui::enum_window_events>(
+  p_m_event_manager = (stlp_std::reverse_iterator<vostok::ui::typed_handlers *> *)&this->m_event_manager;
+  v5 = stlp_std::find<vostok::ui::typed_handlers *,enum vostok::ui::enum_window_events>(
          this->m_event_manager._M_impl._M_start,
-         M_finish,
-         &ev);
-  if ( v5 == M_finish )
+         &ev,
+         this->m_event_manager._M_impl._M_finish);
+  if ( v5 == this->m_event_manager._M_impl._M_finish )
   {
-    __x.list._M_impl._M_end_of_storage.m_allocator = this->m_allocator;
-    v7 = this->m_event_manager._M_impl._M_finish;
-    __x.list._M_impl._M_start = 0;
-    __x.list._M_impl._M_finish = 0;
-    __x.list._M_impl._M_end_of_storage._M_data = 0;
-    if ( v7 == this->m_event_manager._M_impl._M_end_of_storage._M_data )
+    __x.list.m_begin = (fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> *)__x.list.m_buffer;
+    __x.list.m_end = (fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> *)__x.list.m_buffer;
+    __x.list.m_max_end = (fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> *)&vars0;
+    current = p_m_event_manager[1].current;
+    if ( current == p_m_event_manager[3].current )
     {
       stlp_std::priv::_Impl_vector<vostok::ui::typed_handlers,vostok::vectora_allocator<vostok::ui::typed_handlers>>::_M_insert_overflow_aux(
-        v6,
-        (stlp_std::reverse_iterator<vostok::ui::typed_handlers *> *)&this->m_event_manager,
-        v7,
+        (stlp_std::priv::_Impl_vector<vostok::ui::typed_handlers,vostok::vectora_allocator<vostok::ui::typed_handlers> > *)&__x,
+        p_m_event_manager,
+        current,
         &__x,
-        v13,
-        v14,
-        v15);
-    }
-    else
-    {
-      if ( v7 )
-        vostok::ui::typed_handlers::typed_handlers(&__x, v7, &__x);
-      ++this->m_event_manager._M_impl._M_finish;
-    }
-    if ( __x.list._M_impl._M_start )
-      __x.list._M_impl._M_end_of_storage.m_allocator->call_free(
-        __x.list._M_impl._M_end_of_storage.m_allocator,
-        __x.list._M_impl._M_start);
-    this->m_event_manager._M_impl._M_finish[-1].type = ev;
-    v8 = this->m_event_manager._M_impl._M_finish;
-    v9 = v8[-1].list._M_impl._M_finish;
-    p_list = &v8[-1].list;
-    if ( v9 == p_list->_M_impl._M_end_of_storage._M_data )
-    {
-      stlp_std::priv::_Impl_vector<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>,vostok::vectora_allocator<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>>>::_M_insert_overflow_aux(
-        (stlp_std::priv::_Impl_vector<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)>,vostok::vectora_allocator<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> > > *)&handler,
-        &p_list->_M_impl._M_start,
+        v8,
         v9,
-        &handler,
-        v13,
-        v14,
-        v15);
+        v10);
     }
     else
     {
-      if ( v9 )
+      if ( current )
       {
-        v9->m_Closure.m_pthis = 0;
-        v9->m_Closure.m_pFunction = 0;
-        *v9 = handler;
+        current->type = __x.type;
+        vostok::fixed_vector<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>,16>::fixed_vector<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>,16>(
+          &current->list,
+          &__x.list);
       }
-      ++p_list->_M_impl._M_finish;
+      ++p_m_event_manager[1].current;
     }
+    this->m_event_manager._M_impl._M_finish[-1].type = ev;
+    p_list = &this->m_event_manager._M_impl._M_finish[-1].list;
   }
   else
   {
-    v11 = &v5->list;
-    v12 = v5->list._M_impl._M_finish;
-    if ( v12 == v11->_M_impl._M_end_of_storage._M_data )
-    {
-      stlp_std::priv::_Impl_vector<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>,vostok::vectora_allocator<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>>>::_M_insert_overflow_aux(
-        (stlp_std::priv::_Impl_vector<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)>,vostok::vectora_allocator<fastdelegate::FastDelegate<bool __cdecl(vostok::ui::window *,int,int)> > > *)v6,
-        &v11->_M_impl._M_start,
-        v12,
-        &handler,
-        v13,
-        v14,
-        v15);
-    }
-    else
-    {
-      if ( v12 )
-      {
-        v12->m_Closure.m_pthis = 0;
-        v12->m_Closure.m_pFunction = 0;
-        *v12 = handler;
-      }
-      ++v11->_M_impl._M_finish;
-    }
+    p_list = &v5->list;
   }
+  vostok::buffer_vector<fastdelegate::FastDelegate<bool __cdecl (vostok::ui::window *,int,int)>>::push_back(
+    p_list,
+    &handler);
 }

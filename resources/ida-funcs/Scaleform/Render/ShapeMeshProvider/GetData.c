@@ -15,9 +15,9 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::GetData(
   Scaleform::Render::Scale9GridInfo *v13; // eax
   unsigned int v14; // ecx
   char v15; // bl
-  unsigned int v17; // [esp+40h] [ebp-28h]
-  int v18; // [esp+44h] [ebp-24h] BYREF
-  Scaleform::Render::Matrix2x4<float> viewMtx; // [esp+48h] [ebp-20h] BYREF
+  unsigned int v17; // [esp+18h] [ebp-28h]
+  int v18; // [esp+1Ch] [ebp-24h] BYREF
+  Scaleform::Render::Matrix2x4<float> viewMtx; // [esp+20h] [ebp-20h] BYREF
 
   Layer = mesh->Layer;
   v5 = 0;

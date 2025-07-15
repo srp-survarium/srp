@@ -1,41 +1,41 @@
 void __cdecl save_minidump(const char *output_file_name, _EXCEPTION_POINTERS *const exception_information)
 {
+  const char *v2; // eax
+  HMODULE LibraryA; // eax
+  BOOL (__stdcall *MiniDumpWriteDump)(HANDLE, DWORD, HANDLE, MINIDUMP_TYPE, PMINIDUMP_EXCEPTION_INFORMATION, PMINIDUMP_USER_STREAM_INFORMATION, PMINIDUMP_CALLBACK_INFORMATION); // edi
+  HANDLE FileA; // esi
   HANDLE CurrentProcess; // eax
-  DWORD CurrentProcessId; // [esp-18h] [ebp-144h]
-  void *v4; // [esp-14h] [ebp-140h]
-  vostok::debug::engine *v5; // [esp+0h] [ebp-12Ch]
-  vostok::debug::engine *v6; // [esp+4h] [ebp-128h]
-  char *_Src; // [esp+8h] [ebp-124h]
-  char file_name[260]; // [esp+Ch] [ebp-120h] BYREF
-  _MINIDUMP_EXCEPTION_INFORMATION info; // [esp+114h] [ebp-18h] BYREF
-  void *minidump_handle; // [esp+120h] [ebp-Ch]
-  int (__stdcall *MiniDumpWriteDump)(void *, unsigned int, void *, _MINIDUMP_TYPE, _MINIDUMP_EXCEPTION_INFORMATION *const, _MINIDUMP_USER_STREAM_INFORMATION *const, _MINIDUMP_CALLBACK_INFORMATION *const); // [esp+124h] [ebp-8h]
-  HINSTANCE__ *library_handle; // [esp+128h] [ebp-4h]
+  DWORD CurrentProcessId; // [esp-18h] [ebp-134h]
+  char _Dst[260]; // [esp+Ch] [ebp-110h] BYREF
+  _DWORD v9[3]; // [esp+110h] [ebp-Ch] BYREF
 
-  library_handle = 0;
-  v6 = vostok::debug::debug_engine();
-  _Src = (char *)v6->current_directory(v6);
-  strcpy_s(file_name, 0x104u, _Src);
-  strcat_s<260>((char (*)[260])file_name, library_id);
-  library_handle = LoadLibraryA(file_name);
-  if ( library_handle || (library_handle = LoadLibraryA(library_id)) != 0 )
+  v2 = s_debug_engine->current_directory(s_debug_engine);
+  strcpy_s(_Dst, 0x104u, v2);
+  strcat_s(_Dst, 0x104u, "dbghelp.dll");
+  LibraryA = LoadLibraryA(_Dst);
+  if ( LibraryA || (LibraryA = LoadLibraryA("dbghelp.dll")) != 0 )
   {
-    MiniDumpWriteDump = (int (__stdcall *)(void *, unsigned int, void *, _MINIDUMP_TYPE, _MINIDUMP_EXCEPTION_INFORMATION *const, _MINIDUMP_USER_STREAM_INFORMATION *const, _MINIDUMP_CALLBACK_INFORMATION *const))GetProcAddress(library_handle, "MiniDumpWriteDump");
+    MiniDumpWriteDump = (BOOL (__stdcall *)(HANDLE, DWORD, HANDLE, MINIDUMP_TYPE, PMINIDUMP_EXCEPTION_INFORMATION, PMINIDUMP_USER_STREAM_INFORMATION, PMINIDUMP_CALLBACK_INFORMATION))GetProcAddress(LibraryA, "MiniDumpWriteDump");
     if ( MiniDumpWriteDump )
     {
-      v5 = vostok::debug::debug_engine();
-      v5->create_folder_r(v5, output_file_name, 0);
-      minidump_handle = CreateFileA(output_file_name, 0x40000000u, 2u, 0, 2u, 0x80u, 0);
-      if ( minidump_handle != (void *)-1 )
+      s_debug_engine->create_folder_r(s_debug_engine, output_file_name, 0);
+      FileA = CreateFileA(output_file_name, 0x40000000u, 2u, 0, 2u, 0x80u, 0);
+      if ( FileA != (HANDLE)-1 )
       {
-        info.ThreadId = GetCurrentThreadId();
-        info.ExceptionPointers = exception_information;
-        info.ClientPointers = 0;
-        v4 = minidump_handle;
+        v9[0] = GetCurrentThreadId();
+        v9[1] = exception_information;
+        v9[2] = 0;
         CurrentProcessId = GetCurrentProcessId();
         CurrentProcess = GetCurrentProcess();
-        MiniDumpWriteDump(CurrentProcess, CurrentProcessId, v4, MiniDumpNormal, &info, 0, 0);
-        CloseHandle(minidump_handle);
+        MiniDumpWriteDump(
+          CurrentProcess,
+          CurrentProcessId,
+          FileA,
+          MiniDumpNormal,
+          (PMINIDUMP_EXCEPTION_INFORMATION)v9,
+          0,
+          0);
+        CloseHandle(FileA);
       }
     }
   }

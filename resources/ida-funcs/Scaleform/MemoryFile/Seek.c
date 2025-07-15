@@ -1,24 +1,20 @@
 int __thiscall Scaleform::MemoryFile::Seek(Scaleform::MemoryFile *this, int offset, int origin)
 {
-  int result; // eax
+  int v3; // eax
 
-  if ( origin )
+  switch ( origin )
   {
-    if ( origin == 1 )
-    {
+    case 0:
+      v3 = offset;
+      goto LABEL_7;
+    case 1:
       this->FileIndex += offset;
-      return this->FileIndex;
-    }
-    if ( origin == 2 )
-    {
-      result = this->FileSize - offset;
-      this->FileIndex = result;
-      return result;
-    }
-  }
-  else
-  {
-    this->FileIndex = offset;
+      break;
+    case 2:
+      v3 = this->FileSize - offset;
+LABEL_7:
+      this->FileIndex = v3;
+      break;
   }
   return this->FileIndex;
 }

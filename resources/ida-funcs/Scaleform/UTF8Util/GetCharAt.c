@@ -1,6 +1,6 @@
-unsigned int __stdcall Scaleform::UTF8Util::GetCharAt(int index, const char *putf8str, int length)
+unsigned int __stdcall Scaleform::UTF8Util::GetCharAt(int index, char *putf8str, int length)
 {
-  const char *v3; // ebx
+  char *v3; // ebx
   int v4; // edi
   unsigned int result; // eax
   int v6; // esi
@@ -14,7 +14,7 @@ unsigned int __stdcall Scaleform::UTF8Util::GetCharAt(int index, const char *put
     v7 = index;
     do
     {
-      result = Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
+      result = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
       --v7;
     }
     while ( result && v7 >= 0 );
@@ -24,7 +24,7 @@ unsigned int __stdcall Scaleform::UTF8Util::GetCharAt(int index, const char *put
     v6 = index;
     do
     {
-      result = Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
+      result = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
       if ( !v6 )
         break;
       --v6;

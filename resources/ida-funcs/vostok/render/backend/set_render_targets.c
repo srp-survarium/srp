@@ -1,46 +1,14 @@
 void __userpurge vostok::render::backend::set_render_targets(
-        ID3D11RenderTargetView *rt0@<ecx>,
-        const vostok::render::render_target *rt1@<edx>,
-        const vostok::render::render_target *rt2@<esi>,
-        const vostok::render::render_target *rt3@<edi>,
-        vostok::render::backend *this)
+        vostok::render::backend *this@<ecx>,
+        const vostok::render::render_target *rt0@<eax>,
+        const vostok::render::render_target *rt1,
+        const vostok::render::render_target *rt2,
+        const vostok::render::render_target *rt3)
 {
-  ID3D11RenderTargetView *m_rt; // ecx
-  ID3D11RenderTargetView *v6; // ecx
-  ID3D11RenderTargetView *v7; // ecx
+  int v6; // edx
 
-  if ( rt0 )
-    rt0 = (ID3D11RenderTargetView *)rt0[4].lpVtbl;
-  if ( this->m_targets[0] != rt0 )
-  {
-    this->m_targets[0] = rt0;
-    this->m_dirty_targets.render_targets[0] = 1;
-  }
-  if ( rt1 )
-    m_rt = rt1->m_rt;
-  else
-    m_rt = 0;
-  if ( this->m_targets[1] != m_rt )
-  {
-    this->m_targets[1] = m_rt;
-    this->m_dirty_targets.render_targets[1] = 1;
-  }
-  if ( rt2 )
-    v6 = rt2->m_rt;
-  else
-    v6 = 0;
-  if ( this->m_targets[2] != v6 )
-  {
-    this->m_targets[2] = v6;
-    this->m_dirty_targets.render_targets[2] = 1;
-  }
-  if ( rt3 )
-    v7 = rt3->m_rt;
-  else
-    v7 = 0;
-  if ( this->m_targets[3] != v7 )
-  {
-    this->m_targets[3] = v7;
-    this->m_dirty_targets.render_targets[3] = 1;
-  }
+  vostok::render::backend::set_render_target(this, enum_target_rt0, rt0);
+  vostok::render::backend::set_render_target(this, (vostok::render::enum_render_target_enum)(v6 + 1), rt1);
+  vostok::render::backend::set_render_target(this, enum_target_rt2, rt2);
+  vostok::render::backend::set_render_target(this, enum_target_rt3, rt3);
 }

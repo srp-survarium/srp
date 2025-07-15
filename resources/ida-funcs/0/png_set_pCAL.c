@@ -1,4 +1,13 @@
-void __cdecl png_set_pCAL(int a1, int a2, char *lpString, int a4, int a5, unsigned int a6, int a7, char *a8, int a9)
+void __cdecl png_set_pCAL(
+        int a1,
+        int a2,
+        const __m128i *lpString,
+        int a4,
+        int a5,
+        unsigned int a6,
+        int a7,
+        const __m128i *a8,
+        int a9)
 {
   unsigned int v9; // eax
   int i; // [esp+0h] [ebp-8h]
@@ -9,7 +18,7 @@ void __cdecl png_set_pCAL(int a1, int a2, char *lpString, int a4, int a5, unsign
 
   if ( a1 && a2 )
   {
-    count = lstrlenA(lpString) + 1;
+    count = lstrlenA(lpString->m128i_i8) + 1;
     if ( a6 >= 4 )
       png_error(a1, (int)"Invalid pCAL equation type");
     for ( i = 0; i < a7; ++i )
@@ -21,16 +30,16 @@ void __cdecl png_set_pCAL(int a1, int a2, char *lpString, int a4, int a5, unsign
     *(_DWORD *)(a2 + 160) = png_malloc_warn(a1, count);
     if ( *(_DWORD *)(a2 + 160) )
     {
-      memcpy(*(unsigned __int8 **)(a2 + 160), (unsigned __int8 *)lpString, count);
+      memcpy(*(_DWORD *)(a2 + 160), lpString, count);
       *(_DWORD *)(a2 + 164) = a4;
       *(_DWORD *)(a2 + 168) = a5;
       *(_BYTE *)(a2 + 180) = a6;
       *(_BYTE *)(a2 + 181) = a7;
-      counta = lstrlenA(a8) + 1;
+      counta = lstrlenA(a8->m128i_i8) + 1;
       *(_DWORD *)(a2 + 172) = png_malloc_warn(a1, counta);
       if ( *(_DWORD *)(a2 + 172) )
       {
-        memcpy(*(unsigned __int8 **)(a2 + 172), (unsigned __int8 *)a8, counta);
+        memcpy(*(_DWORD *)(a2 + 172), a8, counta);
         *(_DWORD *)(a2 + 176) = png_malloc_warn(a1, 4 * a7 + 4);
         if ( *(_DWORD *)(a2 + 176) )
         {
@@ -44,7 +53,7 @@ void __cdecl png_set_pCAL(int a1, int a2, char *lpString, int a4, int a5, unsign
               png_warning(a1, "Insufficient memory for pCAL parameter");
               return;
             }
-            memcpy(*(unsigned __int8 **)(*(_DWORD *)(a2 + 176) + 4 * j), *(unsigned __int8 **)(a9 + 4 * j), countb);
+            memcpy(*(_DWORD *)(*(_DWORD *)(a2 + 176) + 4 * j), *(const __m128i **)(a9 + 4 * j), countb);
           }
           *(_DWORD *)(a2 + 8) |= 0x400u;
           *(_DWORD *)(a2 + 184) |= 0x80u;

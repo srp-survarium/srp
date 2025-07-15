@@ -1,27 +1,27 @@
-int __cdecl x509_name_ex_new(stack_st ***val)
+int __usercall x509_name_ex_new@<eax>(int a1@<ebx>, struct ASN1_VALUE_st **val)
 {
-  stack_st **v1; // esi
-  stack_st *v2; // eax
-  buf_mem_st *v3; // eax
+  struct ASN1_VALUE_st *v2; // esi
+  stack_st *v3; // eax
+  buf_mem_st *v4; // eax
   int result; // eax
 
-  v1 = (stack_st **)CRYPTO_malloc(20, ".\\crypto\\asn1\\x_name.c", 135);
-  if ( v1 && (v2 = sk_new_null(), (*v1 = v2) != 0) && (v3 = BUF_MEM_new(), (v1[2] = (stack_st *)v3) != 0) )
+  v2 = (struct ASN1_VALUE_st *)CRYPTO_malloc(20, ".\\crypto\\asn1\\x_name.c", 135);
+  if ( v2 && (v3 = sk_new_null(), (*(_DWORD *)v2 = v3) != 0) && (v4 = BUF_MEM_new(a1), (*((_DWORD *)v2 + 2) = v4) != 0) )
   {
     result = 1;
-    v1[3] = 0;
-    v1[4] = 0;
-    v1[1] = (stack_st *)1;
-    *val = v1;
+    *((_DWORD *)v2 + 3) = 0;
+    *((_DWORD *)v2 + 4) = 0;
+    *((_DWORD *)v2 + 1) = 1;
+    *val = v2;
   }
   else
   {
-    ERR_put_error(0xDu, 171, 65, ".\\crypto\\asn1\\x_name.c", 147);
-    if ( v1 )
+    ERR_put_error(a1, 0xDu, 171, 65, ".\\crypto\\asn1\\x_name.c", 147);
+    if ( v2 )
     {
-      if ( *v1 )
-        sk_free(*v1);
-      CRYPTO_free(v1);
+      if ( *(_DWORD *)v2 )
+        sk_free(*(stack_st **)v2);
+      CRYPTO_free(v2);
     }
     return 0;
   }

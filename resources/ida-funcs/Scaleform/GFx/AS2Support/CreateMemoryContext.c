@@ -1,6 +1,6 @@
 Scaleform::GFx::MemoryContext *__userpurge Scaleform::GFx::AS2Support::CreateMemoryContext@<eax>(
         Scaleform::GFx::AS2Support *this@<ecx>,
-        int a2@<ebp>,
+        int a2@<ebx>,
         const char *heapName,
         const Scaleform::GFx::MemoryParams *memParams,
         bool debugHeap)
@@ -15,21 +15,21 @@ Scaleform::GFx::MemoryContext *__userpurge Scaleform::GFx::AS2Support::CreateMem
   Scaleform::GFx::ASStringManager *v12; // eax
   int v13; // eax
   Scaleform::RefCountVImpl *v14; // ecx
-  Scaleform::MemoryHeap::HeapDesc desc; // [esp+Ch] [ebp-20h] BYREF
-  int debugHeapa; // [esp+38h] [ebp+Ch]
+  _DWORD v16[8]; // [esp+Ch] [ebp-20h] BYREF
+  int v17; // [esp+38h] [ebp+Ch]
   Scaleform::GFx::AS2::ASRefCountCollector *v18; // [esp+3Ch] [ebp+10h]
 
-  qmemcpy((void *)&desc, memParams, sizeof(desc));
-  desc.Flags |= (debugHeap ? 0x1000 : 0) | 3;
+  qmemcpy(v16, memParams, sizeof(v16));
+  v16[6] = 3;
+  v16[0] = v16[0] & 0xFFFFFFFC | (debugHeap ? 0x1000 : 0) | 2;
   InitialDynamicLimit = memParams->InitialDynamicLimit;
-  desc.HeapId = 3;
-  desc.Limit = (unsigned int)&loc_20000;
+  v16[5] = &loc_20000;
   if ( InitialDynamicLimit != -1 )
-    desc.Limit = InitialDynamicLimit;
-  v6 = (Scaleform::MemoryHeap *)((int (__thiscall *)(Scaleform::MemoryHeap *, const char *, Scaleform::MemoryHeap::HeapDesc *, int))Scaleform::Memory::pGlobalHeap->CreateHeap)(
+    v16[5] = InitialDynamicLimit;
+  v6 = (Scaleform::MemoryHeap *)((int (__thiscall *)(Scaleform::MemoryHeap *, const char *, _DWORD *, int))Scaleform::Memory::pGlobalHeap->CreateHeap)(
                                   Scaleform::Memory::pGlobalHeap,
                                   heapName,
-                                  &desc,
+                                  v16,
                                   a2);
   v7 = (int)v6->Alloc(v6, 48u, 0);
   if ( v7 )
@@ -76,16 +76,16 @@ Scaleform::GFx::MemoryContext *__userpurge Scaleform::GFx::AS2Support::CreateMem
   if ( v12 )
   {
     Scaleform::GFx::ASStringManager::ASStringManager(v12, v6);
-    debugHeapa = v13;
+    v17 = v13;
   }
   else
   {
-    debugHeapa = 0;
+    v17 = 0;
   }
   v14 = *(Scaleform::RefCountVImpl **)(v8 + 12);
   if ( v14 )
     Scaleform::RefCountImpl::Release(v14);
-  *(_DWORD *)(v8 + 12) = debugHeapa;
+  *(_DWORD *)(v8 + 12) = v17;
   *(_DWORD *)(v8 + 32) = memParams->Desc.Limit;
   *(float *)(v8 + 44) = memParams->HeapLimitMultiplier;
   v6->SetLimitHandler(v6, (Scaleform::MemoryHeap::LimitHandler *)(v8 + 24));

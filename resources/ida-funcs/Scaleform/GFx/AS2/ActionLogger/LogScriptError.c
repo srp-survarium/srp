@@ -1,8 +1,8 @@
 void Scaleform::GFx::AS2::ActionLogger::LogScriptError(Scaleform::GFx::AS2::ActionLogger *this, const char *pfmt, ...)
 {
   unsigned int v2; // eax
-  Scaleform::StringDataPtr v1; // [esp+8h] [ebp-114h] BYREF
-  Scaleform::MsgFormat::Sink result; // [esp+10h] [ebp-10Ch] BYREF
+  Scaleform::StringDataPtr v3; // [esp+8h] [ebp-114h] BYREF
+  Scaleform::MsgFormat::Sink v4; // [esp+10h] [ebp-10Ch] BYREF
   _BYTE v5[256]; // [esp+1Ch] [ebp-100h] BYREF
   va_list va; // [esp+128h] [ebp+Ch] BYREF
 
@@ -14,23 +14,23 @@ void Scaleform::GFx::AS2::ActionLogger::LogScriptError(Scaleform::GFx::AS2::Acti
       v2 = strlen(pfmt);
       if ( pfmt[v2 - 1] == 10 )
         --v2;
-      v1.pStr = pfmt;
-      v1.Size = v2;
-      result.SinkData.pStr = (Scaleform::String *)v5;
-      result.Type = tDataPtr;
-      result.SinkData.DataPtr.Size = 256;
-      Scaleform::Format<Scaleform::StringDataPtr,char const *>(&result, "{0} : {1}\n", &v1, &this->LogSuffix);
-      ((void (__thiscall *)(Scaleform::Log *, void *, _BYTE *, char *))this->pLog->LogMessageVarg)(
+      v3.pStr = pfmt;
+      v3.Size = v2;
+      v4.SinkData.pStr = (Scaleform::String *)v5;
+      v4.Type = tDataPtr;
+      v4.SinkData.DataPtr.Size = 256;
+      Scaleform::Format<Scaleform::StringDataPtr,char const *>(&v4, "{0} : {1}\n", &v3, &this->LogSuffix);
+      ((void (__thiscall *)(Scaleform::Log *, int, _BYTE *, char *))this->pLog->LogMessageVarg)(
         this->pLog,
-        &loc_34000,
+        212992,
         v5,
         va);
     }
     else
     {
-      ((void (__thiscall *)(Scaleform::Log *, void *, const char *, char *))this->pLog->LogMessageVarg)(
+      ((void (__thiscall *)(Scaleform::Log *, int, const char *, char *))this->pLog->LogMessageVarg)(
         this->pLog,
-        &loc_34000,
+        212992,
         pfmt,
         va);
     }

@@ -1,75 +1,79 @@
-void __cdecl qsort(char *base, unsigned int num, unsigned int width, int (__cdecl *comp)(const void *, const void *))
+void __usercall qsort(
+        int a1@<edi>,
+        char *base,
+        unsigned int num,
+        unsigned int width,
+        int (__cdecl *comp)(const void *, const void *))
 {
-  char *v4; // ebx
-  unsigned int v5; // edi
-  char *v6; // esi
-  unsigned int v7; // eax
-  char *v8; // edi
-  unsigned int v9; // edx
-  char *v10; // eax
-  int v11; // ecx
-  char *v12; // eax
-  char *v13; // edx
-  int v14; // ecx
+  char *v5; // ebx
+  unsigned int v6; // edi
+  char *v7; // esi
+  unsigned int v8; // eax
+  char *v9; // edi
+  unsigned int v10; // edx
+  char *v11; // eax
+  int v12; // ecx
+  char *v13; // eax
+  unsigned int v14; // edx
   int v15; // ecx
-  int v16; // eax
-  char *v17; // edx
-  char *v18; // eax
-  char *histk[30]; // [esp+8h] [ebp-100h]
-  char *lostk[30]; // [esp+80h] [ebp-88h]
+  int v16; // ecx
+  int v17; // eax
+  char *v18; // edx
+  char *v19; // eax
+  _DWORD v20[60]; // [esp+8h] [ebp-100h]
   unsigned int v21; // [esp+F8h] [ebp-10h]
-  int stkptr; // [esp+FCh] [ebp-Ch]
-  char *hi; // [esp+100h] [ebp-8h]
-  char *lo; // [esp+104h] [ebp-4h]
-  char base_3; // [esp+113h] [ebp+Bh]
+  int v22; // [esp+FCh] [ebp-Ch]
+  char *v23; // [esp+100h] [ebp-8h]
+  char *v24; // [esp+104h] [ebp-4h]
+  char v25; // [esp+113h] [ebp+Bh]
 
-  v4 = base;
+  v5 = base;
   if ( !base && num )
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(0, a1, num);
     return;
   }
-  v5 = width;
+  v6 = width;
   if ( !width || !comp )
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter((int)base, width, num);
     return;
   }
   if ( num >= 2 )
   {
-    v6 = &base[width * (num - 1)];
-    stkptr = 0;
-    lo = base;
-    hi = v6;
+    v7 = &base[width * (num - 1)];
+    v22 = 0;
+    v24 = base;
+    v23 = v7;
     while ( 1 )
     {
-      v7 = (v6 - v4) / v5 + 1;
-      if ( v7 <= 8 )
+      v8 = (v7 - v5) / v6 + 1;
+      if ( v8 <= 8 )
       {
-        shortsort(v6, v4, v5, comp);
+        shortsort(v7, v5, v6, comp);
         goto LABEL_49;
       }
-      v8 = &v4[v5 * (v7 >> 1)];
-      if ( comp(v4, v8) > 0 )
-        swap(v4, v8, width);
-      if ( comp(v4, v6) > 0 )
-        swap(v4, v6, width);
-      if ( comp(v8, v6) > 0 )
-        swap(v8, v6, width);
+      v9 = &v5[v6 * (v8 >> 1)];
+      if ( comp(v5, v9) > 0 )
+        swap(v5, v9, width);
+      if ( comp(v5, v7) > 0 )
+        swap(v5, v7, width);
+      if ( comp(v9, v7) > 0 )
+        swap(v9, v7, width);
       while ( 1 )
       {
-        if ( v8 > v4 )
+        if ( v9 > v5 )
         {
           while ( 1 )
           {
-            v4 += width;
-            if ( v4 >= v8 )
+            v5 += width;
+            if ( v5 >= v9 )
               break;
-            if ( comp(v4, v8) > 0 )
+            if ( comp(v5, v9) > 0 )
             {
-              if ( v8 > v4 )
+              if ( v9 > v5 )
                 goto LABEL_24;
               goto LABEL_22;
             }
@@ -77,106 +81,106 @@ void __cdecl qsort(char *base, unsigned int num, unsigned int width, int (__cdec
         }
         do
 LABEL_22:
-          v4 += width;
-        while ( v4 <= hi && comp(v4, v8) <= 0 );
+          v5 += width;
+        while ( v5 <= v23 && comp(v5, v9) <= 0 );
         do
 LABEL_24:
-          v6 -= width;
-        while ( v6 > v8 && comp(v6, v8) > 0 );
-        if ( v4 > v6 )
+          v7 -= width;
+        while ( v7 > v9 && comp(v7, v9) > 0 );
+        if ( v5 > v7 )
           break;
-        v9 = width;
-        v10 = v6;
-        if ( v4 != v6 )
+        v10 = width;
+        v11 = v7;
+        if ( v5 != v7 )
         {
-          v11 = v4 - v6;
+          v12 = v5 - v7;
           do
           {
-            v21 = v9 - 1;
-            base_3 = v10[v11];
-            v10[v11] = *v10;
-            *v10 = base_3;
-            v9 = v21;
-            ++v10;
+            v21 = v10 - 1;
+            v25 = v11[v12];
+            v11[v12] = *v11;
+            *v11 = v25;
+            v10 = v21;
+            ++v11;
           }
           while ( v21 );
         }
-        if ( v8 == v6 )
-          v8 = v4;
+        if ( v9 == v7 )
+          v9 = v5;
       }
-      v6 += width;
-      if ( v8 >= v6 )
+      v7 += width;
+      if ( v9 >= v7 )
         goto LABEL_36;
       do
       {
-        v6 -= width;
-        if ( v6 <= v8 )
+        v7 -= width;
+        if ( v7 <= v9 )
           goto LABEL_36;
       }
-      while ( !comp(v6, v8) );
-      if ( v8 < v6 )
+      while ( !comp(v7, v9) );
+      if ( v9 < v7 )
       {
 LABEL_38:
-        v12 = lo;
+        v13 = v24;
       }
       else
       {
 LABEL_36:
         while ( 1 )
         {
-          v6 -= width;
-          v12 = lo;
-          if ( v6 <= lo )
+          v7 -= width;
+          v13 = v24;
+          if ( v7 <= v24 )
             break;
-          if ( comp(v6, v8) )
+          if ( comp(v7, v9) )
             goto LABEL_38;
         }
       }
-      v13 = hi;
-      if ( v6 - v12 < hi - v4 )
+      v14 = (unsigned int)v23;
+      if ( v7 - v13 < v23 - v5 )
       {
-        if ( v4 < hi )
+        if ( v5 < v23 )
         {
-          v15 = stkptr;
-          lostk[stkptr] = v4;
-          histk[v15] = v13;
-          stkptr = v15 + 1;
+          v16 = v22;
+          v20[v22 + 30] = v5;
+          v20[v16] = v14;
+          v22 = v16 + 1;
         }
-        if ( v12 >= v6 )
+        if ( v13 >= v7 )
           goto LABEL_48;
-        v4 = lo;
-        v5 = width;
-        hi = v6;
+        v5 = v24;
+        v6 = width;
+        v23 = v7;
       }
       else
       {
-        if ( v12 < v6 )
+        if ( v13 < v7 )
         {
-          v14 = stkptr;
-          lostk[stkptr] = v12;
-          histk[v14] = v6;
-          stkptr = v14 + 1;
+          v15 = v22;
+          v20[v22 + 30] = v13;
+          v20[v15] = v7;
+          v22 = v15 + 1;
         }
-        if ( v4 >= v13 )
+        if ( (unsigned int)v5 >= v14 )
         {
 LABEL_48:
-          v5 = width;
+          v6 = width;
 LABEL_49:
-          v16 = --stkptr;
-          if ( stkptr < 0 )
+          v17 = --v22;
+          if ( v22 < 0 )
             return;
-          v17 = lostk[v16];
-          v18 = histk[v16];
-          lo = v17;
-          hi = v18;
-          v4 = v17;
-          v6 = v18;
+          v18 = (char *)v20[v17 + 30];
+          v19 = (char *)v20[v17];
+          v24 = v18;
+          v23 = v19;
+          v5 = v18;
+          v7 = v19;
         }
         else
         {
-          v6 = hi;
-          v5 = width;
-          lo = v4;
+          v7 = v23;
+          v6 = width;
+          v24 = v5;
         }
       }
     }

@@ -17,8 +17,8 @@ Scaleform::GFx::Bool3W *__userpurge Scaleform::GFx::AS2::Environment::CheckGloba
   Scaleform::GFx::ASStringNode **p_pNode; // ebp
   Scaleform::GFx::ASStringNode *v16; // ecx
   unsigned int v17; // eax
-  char *pData; // [esp-Ch] [ebp-20h]
-  char *caseSensitive; // [esp+10h] [ebp-4h]
+  const char *pData; // [esp-Ch] [ebp-20h]
+  const char *v19; // [esp+10h] [ebp-4h]
 
   v5 = params;
   if ( this->StringContext.SWFVersion <= 6u )
@@ -67,15 +67,10 @@ LABEL_4:
       return v10;
     }
   }
-  LOBYTE(caseSensitive) = this->StringContext.SWFVersion > 6u;
-  pData = (char *)v5->VarName->pNode->pData;
+  LOBYTE(v19) = this->StringContext.SWFVersion > 6u;
+  pData = v5->VarName->pNode->pData;
   params = 0;
-  v17 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(
-          caseSensitive,
-          (unsigned int)a2,
-          pData,
-          (char **)&params,
-          (bool)caseSensitive);
+  v17 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(v19, (int)a2, pData, (const char **)&params, (bool)v19);
   if ( v17 == -1 || LOBYTE(params->VarName) )
   {
     v10 = result;

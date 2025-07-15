@@ -11,31 +11,31 @@ Scaleform::String *__thiscall Scaleform::GFx::StaticTextSnapshotData::GetSelecte
   unsigned int v9; // edi
   unsigned int Char_Advance0; // eax
   unsigned int v11; // eax
-  unsigned int baseIdx; // [esp+10h] [ebp-68h]
+  int v13; // [esp+10h] [ebp-68h]
   unsigned int i; // [esp+14h] [ebp-64h]
-  Scaleform::Render::Text::HighlightDesc desc; // [esp+18h] [ebp-60h] BYREF
-  Scaleform::Render::Text::HighlighterRangeIterator ranges; // [esp+40h] [ebp-38h] BYREF
+  Scaleform::Render::Text::HighlightDesc v15; // [esp+18h] [ebp-60h] BYREF
+  Scaleform::Render::Text::HighlighterRangeIterator resulta; // [esp+40h] [ebp-38h] BYREF
 
   v3 = result;
   Scaleform::String::String(result);
   v5 = 0;
   v6 = 0;
-  baseIdx = 0;
+  v13 = 0;
   result = (Scaleform::String *)((this->SnapshotString.HeapTypeBits & 0xFFFFFFFC) + 8);
   for ( i = 0; v5 < this->StaticTextCharRefs.Data.Size; i = ++v5 )
   {
     pHighlight = this->StaticTextCharRefs.Data.Data[v5].pChar.pObject->pHighlight;
     if ( pHighlight )
     {
-      Scaleform::Render::Text::Highlighter::GetRangeIterator(&pHighlight->HighlightManager, &ranges, 0, 0xFFFFFFFF);
-      if ( !Scaleform::Render::Text::HighlighterRangeIterator::IsFinished(&ranges) )
+      Scaleform::Render::Text::Highlighter::GetRangeIterator(&pHighlight->HighlightManager, &resulta, 0, 0xFFFFFFFF);
+      if ( !Scaleform::Render::Text::HighlighterRangeIterator::IsFinished(&resulta) )
       {
         do
         {
-          Scaleform::Render::Text::HighlighterRangeIterator::operator*(&ranges, &desc);
-          v8 = baseIdx + desc.StartPos;
-          v9 = desc.Length + baseIdx + desc.StartPos;
-          desc.StartPos += baseIdx;
+          Scaleform::Render::Text::HighlighterRangeIterator::operator*(&resulta, &v15);
+          v8 = v13 + v15.StartPos;
+          v9 = v15.Length + v13 + v15.StartPos;
+          v15.StartPos += v13;
           if ( v9 > v6 )
           {
             if ( v6 < v8 )
@@ -54,7 +54,7 @@ Scaleform::String *__thiscall Scaleform::GFx::StaticTextSnapshotData::GetSelecte
                 }
                 ++v6;
               }
-              while ( v6 < desc.StartPos );
+              while ( v6 < v15.StartPos );
             }
             if ( v6 < v9 )
             {
@@ -85,12 +85,12 @@ LABEL_18:
             }
             v6 = v9;
           }
-          Scaleform::Render::Text::HighlighterRangeIterator::operator++(&ranges, 0);
+          Scaleform::Render::Text::HighlighterRangeIterator::operator++(&resulta, 0);
         }
-        while ( !Scaleform::Render::Text::HighlighterRangeIterator::IsFinished(&ranges) );
+        while ( !Scaleform::Render::Text::HighlighterRangeIterator::IsFinished(&resulta) );
         v5 = i;
       }
-      baseIdx += this->StaticTextCharRefs.Data.Data[v5].CharCount;
+      v13 += this->StaticTextCharRefs.Data.Data[v5].CharCount;
     }
   }
   return v3;

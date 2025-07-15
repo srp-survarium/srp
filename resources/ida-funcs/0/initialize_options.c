@@ -1,4 +1,0 @@
-void initialize_options()
-{
-  ;
-}

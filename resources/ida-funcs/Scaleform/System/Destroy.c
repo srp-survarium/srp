@@ -1,4 +1,4 @@
-void __cdecl Scaleform::System::Destroy()
+void Scaleform::System::Destroy()
 {
   if ( System_pSysAlloc )
   {

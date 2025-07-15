@@ -27,7 +27,7 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::~GASPrototypeBase(Scalefo
     if ( Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::~GASPrototypeBase(Scalefo
     if ( pLocalFrame )
     {
       v7 = pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v7) != 0 )
+      if ( (v7 & 0x3FFFFFF) != 0 )
       {
         pLocalFrame->RefCount = v7 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
@@ -56,7 +56,7 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::~GASPrototypeBase(Scalefo
     if ( v8 )
     {
       v9 = v8->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v9) != 0 )
+      if ( (v9 & 0x3FFFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);
@@ -71,7 +71,7 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::~GASPrototypeBase(Scalefo
     if ( v10 )
     {
       v11 = v10->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v11) != 0 )
+      if ( (v11 & 0x3FFFFFF) != 0 )
       {
         v10->RefCount = v11 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);

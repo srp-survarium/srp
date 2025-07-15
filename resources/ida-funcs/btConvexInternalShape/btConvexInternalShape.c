@@ -2,16 +2,20 @@ btConvexInternalShape *__usercall btConvexInternalShape::btConvexInternalShape@<
         btConvexInternalShape *this@<ecx>,
         btConvexInternalShape *result@<eax>)
 {
-  const vostok::math::float4x4 *v2; // xmm0_4
+  int v2; // xmm0_4
 
-  v2 = clear_value;
-  result->m_shapeType = 35;
   result->m_userPointer = 0;
+  v2 = LODWORD(s_bm_current_air_resistance);
+  result->m_shapeType = 35;
   result->__vftable = (btConvexInternalShape_vtbl *)&btConvexInternalShape::`vftable';
-  result->m_localScaling.mVec128.m128_i32[0] = (int)v2;
-  result->m_localScaling.mVec128.m128_i32[1] = (int)v2;
-  result->m_localScaling.mVec128.m128_i32[2] = (int)v2;
+  result->m_localScaling.mVec128.m128_i32[0] = v2;
+  result->m_localScaling.mVec128.m128_i32[1] = v2;
+  result->m_localScaling.mVec128.m128_i32[2] = v2;
   result->m_localScaling.mVec128.m128_i32[3] = 0;
-  result->m_collisionMargin = 0.039999999;
+  result->m_implicitShapeDimensions.mVec128.m128_i32[0] = 0;
+  result->m_implicitShapeDimensions.mVec128.m128_i32[1] = 0;
+  result->m_implicitShapeDimensions.mVec128.m128_i32[2] = 0;
+  result->m_implicitShapeDimensions.mVec128.m128_i32[3] = 0;
+  result->m_collisionMargin = FLOAT_0_039999999;
   return result;
 }

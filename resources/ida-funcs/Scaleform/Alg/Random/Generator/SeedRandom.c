@@ -40,6 +40,6 @@ void __thiscall Scaleform::Alg::Random::Generator::SeedRandom(
   this->Q[6] = v13;
   v14 = (((v13 << 13) ^ (unsigned int)v13) >> 17) ^ (v13 << 13) ^ v13;
   this->Q[7] = v14 ^ (32 * v14);
-  this->C = 362436;
+  this->C = (unsigned int)&loc_587C4;
   this->I = 7;
 }

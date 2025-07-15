@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl_events::IMEEvent::MakeOb
   if ( v3 )
   {
     Scaleform::GFx::AS3::Instances::fl_events::TextEvent::TextEvent(v3, t);
-    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_events::ErrorEvent::`vftable';
+    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_events::IMEEvent::`vftable';
     Scaleform::GFx::AS3::Value::Pick(result, v4);
   }
   else

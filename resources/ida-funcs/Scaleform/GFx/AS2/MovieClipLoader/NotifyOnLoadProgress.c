@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS2::MovieClipLoader::NotifyOnLoadProgress(
         int loadedBytes,
         int totalBytes)
 {
-  Scaleform::GFx::InteractiveObject *pData; // ebx
+  Scaleform::GFx::DisplayObject *pData; // ebx
   int v6; // ebp
   int v8; // edi
   Scaleform::StringHashLH<Scaleform::GFx::AS2::MovieClipLoader::ProgressDesc,2,Scaleform::String::NoCaseHashFunctor,Scaleform::StringLH_HashNode<Scaleform::GFx::AS2::MovieClipLoader::ProgressDesc,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::GFx::AS2::MovieClipLoader::ProgressDesc,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::GFx::AS2::MovieClipLoader::ProgressDesc,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *p_ProgressInfo; // esi
@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::AS2::MovieClipLoader::NotifyOnLoadProgress(
   Scaleform::GFx::AS2::MovieClipLoader::ProgressDesc value; // [esp+14h] [ebp-Ch] BYREF
   unsigned int v23; // [esp+1Ch] [ebp-4h]
 
-  pData = (Scaleform::GFx::InteractiveObject *)ptarget.pData;
+  pData = (Scaleform::GFx::DisplayObject *)ptarget.pData;
   v6 = loadedBytes;
   v8 = totalBytes;
   if ( ptarget.pData )

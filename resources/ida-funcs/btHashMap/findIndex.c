@@ -1,38 +1,30 @@
 int __usercall btHashMap<btInternalVertexPair,btInternalEdge>::findIndex@<eax>(
-        btHashMap<btInternalVertexPair,btInternalEdge> *this@<edx>,
+        btHashMap<btInternalVertexPair,btInternalEdge> *this@<ecx>,
         const btInternalVertexPair *key@<eax>)
 {
   __int16 m_v1; // bx
-  __int16 m_v0; // di
+  __int16 m_v0; // si
   unsigned int v4; // eax
   int result; // eax
-  btInternalVertexPair *m_data; // esi
-  int v7; // ecx
+  btInternalVertexPair *v6; // edi
 
   m_v1 = key->m_v1;
   m_v0 = key->m_v0;
   v4 = (this->m_valueArray.m_capacity - 1) & (key->m_v0 + (m_v1 << 16));
   if ( v4 >= this->m_hashTable.m_size )
     return -1;
-  result = this->m_hashTable.m_data[v4];
-  if ( result != -1 )
+  for ( result = this->m_hashTable.m_data[v4]; result != -1; result = this->m_next.m_data[result] )
   {
-    m_data = this->m_keyArray.m_data;
-    do
-    {
-      v7 = result;
-      if ( m_v0 == m_data[result].m_v0 && m_v1 == m_data[v7].m_v1 )
-        break;
-      result = this->m_next.m_data[v7];
-    }
-    while ( result != -1 );
+    v6 = &this->m_keyArray.m_data[result];
+    if ( m_v0 == v6->m_v0 && m_v1 == v6->m_v1 )
+      break;
   }
   return result;
 }
 
 
-int __usercall btHashMap<btHashPtr,int>::findIndex@<eax>(
-        btHashMap<btHashPtr,int> *this@<edx>,
+int __usercall btHashMap<btHashPtr,btCollisionShape *>::findIndex@<eax>(
+        btHashMap<btHashPtr,btCollisionShape *> *this@<edx>,
         const btHashPtr *key@<eax>)
 {
   int v2; // esi

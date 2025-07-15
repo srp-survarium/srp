@@ -5,8 +5,8 @@ void __thiscall Scaleform::Render::DICommand_ColorTransform::ExecuteHWCopyAction
         const Scaleform::Render::Matrix2x4<float> *texgen)
 {
   Scaleform::Render::DrawableImage *pObject; // eax
-  float v6; // [esp+50h] [ebp-24h]
-  float v7[8]; // [esp+54h] [ebp-20h] BYREF
+  float v6; // [esp+Ch] [ebp-24h]
+  float v7[8]; // [esp+10h] [ebp-20h] BYREF
 
   Scaleform::Render::HAL::applyBlendMode(
     context->pHAL,

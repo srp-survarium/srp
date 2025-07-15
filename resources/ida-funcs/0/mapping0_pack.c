@@ -1,19 +1,19 @@
-void __cdecl mapping0_pack(vorbis_info *vi, _DWORD *vm, oggpack_buffer *opb)
+void __cdecl mapping0_pack(vorbis_info *vi, int *vm, oggpack_buffer *opb)
 {
-  int v3; // ebx
   unsigned int *v4; // edi
-  int channels; // ecx
-  unsigned int v6; // eax
-  unsigned int i; // ecx
+  int channels; // eax
+  unsigned int v6; // ecx
+  unsigned int i; // eax
   int v8; // eax
   unsigned int v9; // ecx
   unsigned int j; // eax
-  int v11; // edi
-  unsigned int *v12; // ebx
-  int v13; // ebx
-  unsigned int *v14; // edi
+  unsigned int *v11; // edi
+  unsigned int *v12; // edi
+  int v13; // [esp+18h] [ebp+Ch]
+  int v14; // [esp+18h] [ebp+Ch]
+  int v15; // [esp+18h] [ebp+Ch]
 
-  if ( (int)*vm <= 1 )
+  if ( *vm <= 1 )
   {
     oggpack_write(opb, 0, 1u);
   }
@@ -22,7 +22,7 @@ void __cdecl mapping0_pack(vorbis_info *vi, _DWORD *vm, oggpack_buffer *opb)
     oggpack_write(opb, 1u, 1u);
     oggpack_write(opb, *vm - 1, 4u);
   }
-  if ( (int)vm[289] <= 0 )
+  if ( vm[289] <= 0 )
   {
     oggpack_write(opb, 0, 1u);
   }
@@ -30,10 +30,10 @@ void __cdecl mapping0_pack(vorbis_info *vi, _DWORD *vm, oggpack_buffer *opb)
   {
     oggpack_write(opb, 1u, 1u);
     oggpack_write(opb, vm[289] - 1, 8u);
-    v3 = 0;
-    if ( (int)vm[289] > 0 )
+    v13 = 0;
+    if ( vm[289] > 0 )
     {
-      v4 = vm + 546;
+      v4 = (unsigned int *)(vm + 546);
       do
       {
         channels = vi->channels;
@@ -52,40 +52,40 @@ void __cdecl mapping0_pack(vorbis_info *vi, _DWORD *vm, oggpack_buffer *opb)
             ++v9;
         }
         oggpack_write(opb, *v4, v9);
-        ++v3;
+        ++v13;
         ++v4;
       }
-      while ( v3 < vm[289] );
+      while ( v13 < vm[289] );
     }
   }
   oggpack_write(opb, 0, 2u);
-  if ( (int)*vm > 1 )
+  if ( *vm > 1 )
   {
-    v11 = 0;
+    v14 = 0;
     if ( vi->channels > 0 )
     {
-      v12 = vm + 1;
+      v11 = (unsigned int *)(vm + 1);
       do
       {
-        oggpack_write(opb, *v12, 4u);
+        oggpack_write(opb, *v11, 4u);
+        ++v14;
         ++v11;
-        ++v12;
       }
-      while ( v11 < vi->channels );
+      while ( v14 < vi->channels );
     }
   }
-  v13 = 0;
-  if ( (int)*vm > 0 )
+  v15 = 0;
+  if ( *vm > 0 )
   {
-    v14 = vm + 273;
+    v12 = (unsigned int *)(vm + 273);
     do
     {
       oggpack_write(opb, 0, 8u);
-      oggpack_write(opb, *(v14 - 16), 8u);
-      oggpack_write(opb, *v14, 8u);
-      ++v13;
-      ++v14;
+      oggpack_write(opb, *(v12 - 16), 8u);
+      oggpack_write(opb, *v12, 8u);
+      ++v15;
+      ++v12;
     }
-    while ( v13 < *vm );
+    while ( v15 < *vm );
   }
 }

@@ -2,84 +2,75 @@ void __cdecl vostok::vfs::find_async_expand_sub_fat(
         vostok::vfs::base_node<1> *node,
         vostok::vfs::base_node<1> *node_parent,
         vostok::vfs::async_callbacks_data *async_data,
-        unsigned int increment)
+        int increment)
 {
-  survarium::game_camera *v4; // ecx
-  boost::function<void __cdecl(vostok::vfs::mount_result)> v5; // [esp-24h] [ebp-790h] BYREF
-  vostok::vfs::lock_operation_enum v6; // [esp-4h] [ebp-770h]
-  vostok::vfs::mount_root_node_base<1> *pointer; // [esp+0h] [ebp-76Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>,boost::_bi::value<unsigned int> > > v8; // [esp+Ch] [ebp-760h]
-  boost::function1<void,vostok::vfs::mount_result> *v9; // [esp+18h] [ebp-754h]
-  survarium::game_camera *v10; // [esp+1Ch] [ebp-750h]
-  vostok::fs_new::watcher_enabled_bool watcher_enabled; // [esp+20h] [ebp-74Ch]
-  survarium::game_camera *v12; // [esp+24h] [ebp-748h]
-  vostok::vfs::mount_root_node_base<1> *v13; // [esp+30h] [ebp-73Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>,boost::_bi::value<unsigned int> > > result; // [esp+34h] [ebp-738h] BYREF
-  char v15; // [esp+47h] [ebp-725h]
-  vostok::vfs::mount_root_node_base<1> *mount_root; // [esp+48h] [ebp-724h]
-  vostok::fs_new::virtual_path_string virtual_path; // [esp+4Ch] [ebp-720h] BYREF
-  vostok::fs_new::synchronous_device_interface sync_device; // [esp+168h] [ebp-604h] BYREF
-  vostok::fs_new::native_path_string physical_path; // [esp+174h] [ebp-5F8h] BYREF
-  vostok::fs_new::device_file_system_no_watcher_proxy device_proxy; // [esp+290h] [ebp-4DCh]
-  vostok::vfs::query_mount_arguments args; // [esp+294h] [ebp-4D8h] BYREF
+  vostok::vfs::base_node<1> *v4; // ecx
+  vostok::vfs::physical_folder_mount_root_node<1> *mount_root; // ebx
+  vostok::fixed_string<260> *v6; // ecx
+  int pointer; // eax
+  boost::function<void __cdecl(vostok::vfs::mount_result)> *v8; // ecx
+  vostok::vfs::base_node<1> *v9; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  vostok::fs_new::synchronous_device_interface *v11; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>,boost::_bi::value<unsigned int> > > v12; // [esp-30h] [ebp-760h]
+  boost::function<void __cdecl(vostok::vfs::mount_result)> v13; // [esp-20h] [ebp-750h] BYREF
+  vostok::vfs::query_mount_arguments v14; // [esp+10h] [ebp-720h] BYREF
+  vostok::fs_new::virtual_path_string v15; // [esp+4E8h] [ebp-248h] BYREF
+  vostok::fs_new::virtual_path_string v16; // [esp+600h] [ebp-130h] BYREF
+  void (__thiscall *v17)(vostok::vfs::async_callbacks_data *, vostok::vfs::mount_result, int); // [esp+718h] [ebp-18h]
+  vostok::vfs::async_callbacks_data *v18; // [esp+71Ch] [ebp-14h]
+  int v19; // [esp+720h] [ebp-10h]
+  int v20[2]; // [esp+724h] [ebp-Ch] BYREF
+  char v21; // [esp+72Ch] [ebp-4h]
 
-  v15 = 0;
-  survarium::weapon_user_dead_state::finalize(v4);
-  if ( (node->m_flags & 8) == 8 )
-  {
-    pointer = vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>(node);
-  }
-  else
-  {
-    pointer = v13;
-    pointer = node->m_mount_root.pointer;
-  }
-  mount_root = pointer;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&virtual_path);
-  vostok::vfs::base_node<1>::get_full_path(node, (vostok::fs_new::native_path_string *)&virtual_path);
-  vostok::fs_new::path_string_impl::path_string_impl(
-    &physical_path,
-    92,
-    (const vostok::platform_pointer_selector<char,1>::helper *)&pointer->physical_path);
-  watcher_enabled = pointer->watcher_enabled;
-  v12 = (survarium::game_camera *)pointer->device.pointer;
-  device_proxy.m_device_file_system = (vostok::fs_new::device_file_system_interface *)v12;
-  v10 = v12;
-  survarium::weapon_user_dead_state::finalize(v12);
-  sync_device.m_synchronize_query = 0;
-  sync_device.m_device.m_device_file_system = (vostok::fs_new::device_file_system_interface *)v12;
-  sync_device.m_out_of_memory = 0;
-  v6 = lock_operation_lock;
-  v8 = *boost::bind<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result,unsigned int,vostok::vfs::async_callbacks_data *,boost::arg<1>,unsigned int>(
-          &result,
-          vostok::vfs::async_callbacks_data::on_automatic_archive_or_subfat_mounted,
-          async_data,
-          1_28,
-          increment);
-  v9 = &v5;
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v8.l_.a1_.t_,
-    &v5);
-  boost::function1<void,vostok::vfs::mount_result>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>,boost::_bi::value<unsigned int>>>>(
-    v9,
-    v8);
+  mount_root = vostok::vfs::base_node<1>::get_mount_root(v4, (int)node);
+  v16.m_string.m_begin = v16.m_string.m_buffer;
+  v16.m_string.m_end = v16.m_string.m_buffer;
+  v16.m_string.m_max_end = &v16.m_separator;
+  v16.m_string.m_buffer[0] = 0;
+  v16.m_separator = 47;
+  vostok::vfs::base_node<1>::get_full_path(node, &v16);
+  vostok::fixed_string<260>::fixed_string<260>(v6, &v15.m_string, (char *)mount_root->physical_path.pointer);
+  v15.m_separator = 92;
+  pointer = (int)mount_root->device.pointer;
+  v20[0] = 0;
+  v20[1] = pointer;
+  v18 = async_data;
+  v19 = increment;
+  v17 = vostok::vfs::async_callbacks_data::on_automatic_archive_or_subfat_mounted;
+  v12.l_.a1_.t_ = (vostok::vfs::async_callbacks_data *)vostok::vfs::async_callbacks_data::on_automatic_archive_or_subfat_mounted;
+  v12.l_.a3_.t_ = (unsigned int)async_data;
+  v12.f_.f_ = (void (__thiscall *)(vostok::vfs::async_callbacks_data *, vostok::vfs::mount_result, unsigned int))&v13;
+  v21 = 0;
+  boost::function<void __cdecl (vostok::vfs::mount_result)>::function<void __cdecl (vostok::vfs::mount_result)>(
+    v8,
+    v12,
+    increment);
   vostok::vfs::query_mount_arguments::mount_archive(
-    &args,
-    mount_root->allocator.pointer,
-    (vostok::vfs::query_mount_arguments *)&virtual_path,
-    &physical_path,
-    &physical_path,
-    (vostok::fixed_string<16> *)&buf,
-    mount_root->async_device.pointer,
-    mount_root->device.pointer != 0 ? &sync_device : 0,
-    v5,
-    v6);
-  args.submount_type = submount_type_subfat;
-  args.submount_node = node;
-  args.parent_of_submount_node = node_parent;
-  args.root_write_lock = async_data->env.node;
-  args.unlock_after_mount = 0;
-  vostok::vfs::virtual_file_system::query_mount(async_data->env.file_system, &args);
-  boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&args.callback);
-  vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(&sync_device);
+    (vostok::vfs::query_mount_arguments *)v20,
+    (int)&v14,
+    (vostok::vfs::query_mount_arguments *)mount_root->allocator.pointer,
+    &v16.m_string,
+    &v15,
+    (const vostok::fs_new::native_path_string *)&v15,
+    (vostok::fs_new::native_path_string *)uri,
+    mount_root->async_device.pointer->m_queries.m_forward_queue.m_static_memory,
+    mount_root->device.pointer != 0 ? (vostok::fs_new::asynchronous_device_interface *)v20 : 0,
+    0,
+    v13);
+  v14.submount_node = node;
+  v14.parent_of_submount_node = node_parent;
+  v9 = async_data->env.node;
+  v13.functor.vostok_pointer_size_alignment[5] = async_data->env.file_system;
+  v14.submount_type = submount_type_subfat;
+  v14.root_write_lock = v9;
+  v14.unlock_after_mount = 0;
+  vostok::vfs::virtual_file_system::query_mount(
+    &v14,
+    (vostok::threading::mutex *)v9,
+    (vostok::vfs::virtual_file_system *)v13.functor.vostok_pointer_size_alignment[5]);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v10,
+    (int *)&v14.callback);
+  vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(v11, v20);
 }

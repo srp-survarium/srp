@@ -23,40 +23,40 @@ void __userpurge Scaleform::Render::Text::StyledText::Remove(
   wchar_t *v21; // ecx
   wchar_t v22; // cx
   unsigned int v23; // [esp+8h] [ebp-2Ch]
-  unsigned int remainingLen; // [esp+20h] [ebp-14h]
-  Scaleform::Render::Text::Paragraph *pprevPara; // [esp+24h] [ebp-10h]
-  unsigned int paraLen; // [esp+28h] [ebp-Ch] BYREF
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+2Ch] [ebp-8h] BYREF
-  bool needUniteParas; // [esp+38h] [ebp+4h]
+  unsigned int v26; // [esp+20h] [ebp-14h]
+  Scaleform::Render::Text::Paragraph *v27; // [esp+24h] [ebp-10h]
+  unsigned int pindexInParagraph; // [esp+28h] [ebp-Ch] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+2Ch] [ebp-8h] BYREF
+  bool index; // [esp+38h] [ebp+4h]
 
   v4 = this;
   if ( length == -1 )
     length = Scaleform::Render::Text::StyledText::GetLength(this);
   v5 = length;
   v4->OnTextRemoving(v4, startPos, length);
-  Scaleform::Render::Text::StyledText::GetParagraphByIndex(v4, &paraIter, startPos, &paraLen);
-  pArray = paraIter.pArray;
-  CurIndex = paraIter.CurIndex;
-  pprevPara = 0;
-  remainingLen = length;
-  needUniteParas = 0;
-  if ( paraIter.pArray )
+  Scaleform::Render::Text::StyledText::GetParagraphByIndex(v4, &result, startPos, &pindexInParagraph);
+  pArray = result.pArray;
+  CurIndex = result.CurIndex;
+  v27 = 0;
+  v26 = length;
+  index = 0;
+  if ( result.pArray )
   {
-    if ( paraIter.CurIndex >= 0 && paraIter.CurIndex < (signed int)paraIter.pArray->Data.Size )
+    if ( result.CurIndex >= 0 && result.CurIndex < (signed int)result.pArray->Data.Size )
     {
-      pPara = paraIter.pArray->Data.Data[paraIter.CurIndex].pPara;
+      pPara = result.pArray->Data.Data[result.CurIndex].pPara;
       Size = pPara->Text.Size;
-      if ( length >= Size - paraLen )
-        v5 = pPara->Text.Size - paraLen;
+      if ( length >= Size - pindexInParagraph )
+        v5 = pPara->Text.Size - pindexInParagraph;
       if ( v5 > Size )
         goto LABEL_11;
-      needUniteParas = v5 + paraLen >= Size;
-      pprevPara = paraIter.pArray->Data.Data[paraIter.CurIndex].pPara;
-      Scaleform::Render::Text::Paragraph::Remove(pPara, paraLen, v5 + paraLen);
+      index = v5 + pindexInParagraph >= Size;
+      v27 = result.pArray->Data.Data[result.CurIndex].pPara;
+      Scaleform::Render::Text::Paragraph::Remove(pPara, pindexInParagraph, v5 + pindexInParagraph);
       v4 = this;
-      remainingLen = length - v5;
+      v26 = length - v5;
       if ( CurIndex < (signed int)pArray->Data.Size )
-        paraIter.CurIndex = ++CurIndex;
+        result.CurIndex = ++CurIndex;
     }
     while ( pArray )
     {
@@ -64,22 +64,16 @@ void __userpurge Scaleform::Render::Text::StyledText::Remove(
         goto LABEL_31;
       v10 = pArray->Data.Data[CurIndex].pPara;
       v11 = v10->Text.Size;
-      paraLen = v11;
-      if ( remainingLen < v11 )
+      pindexInParagraph = v11;
+      if ( v26 < v11 )
       {
-        if ( pprevPara && needUniteParas )
+        if ( v27 && index )
         {
-          v23 = v11 - remainingLen;
+          v23 = v11 - v26;
           v4 = this;
-          Scaleform::Render::Text::Paragraph::Copy(
-            pprevPara,
-            this->pTextAllocator.pObject,
-            v10,
-            remainingLen,
-            pprevPara->Text.Size,
-            v23);
-          Scaleform::Render::Text::StyledText::RemoveParagraph(this, &paraIter, v10);
-          needUniteParas = 0;
+          Scaleform::Render::Text::Paragraph::Copy(v27, this->pTextAllocator.pObject, v10, v26, v27->Text.Size, v23);
+          Scaleform::Render::Text::StyledText::RemoveParagraph(this, &result, v10);
+          index = 0;
         }
         else
         {
@@ -92,21 +86,21 @@ LABEL_31:
           v15 = pArray->Data.Data[CurIndex].pPara;
           if ( v15->Text.Size )
           {
-            if ( pprevPara && needUniteParas )
+            if ( v27 && index )
             {
               Scaleform::Render::Text::Paragraph::Copy(
-                pprevPara,
+                v27,
                 v4->pTextAllocator.pObject,
                 v15,
                 0,
-                pprevPara->Text.Size,
+                v27->Text.Size,
                 v15->Text.Size);
-              Scaleform::Render::Text::StyledText::RemoveParagraph(v4, &paraIter, v15);
+              Scaleform::Render::Text::StyledText::RemoveParagraph(v4, &result, v15);
             }
           }
           else
           {
-            Scaleform::Render::Text::StyledText::RemoveParagraph(v4, &paraIter, pArray->Data.Data[CurIndex].pPara);
+            Scaleform::Render::Text::StyledText::RemoveParagraph(v4, &result, pArray->Data.Data[CurIndex].pPara);
           }
         }
         while ( CurIndex >= 0 && CurIndex < (signed int)pArray->Data.Size )
@@ -164,17 +158,17 @@ LABEL_31:
             }
             a2 = v12;
             ((void (__thiscall *)(Scaleform::MemoryHeap *))Scaleform::Memory::pGlobalHeap->Free)(Scaleform::Memory::pGlobalHeap);
-            v11 = paraLen;
+            v11 = pindexInParagraph;
           }
           memmove(
-            (unsigned __int8 *)&pArray->Data.Data[CurIndex],
-            (unsigned __int8 *)&pArray->Data.Data[CurIndex + 1],
+            (int)&pArray->Data.Data[CurIndex],
+            (const __m128i *)&pArray->Data.Data[CurIndex + 1],
             4 * (pArray->Data.Size - CurIndex) - 4);
           --pArray->Data.Size;
         }
       }
-      remainingLen -= v11;
-      if ( !remainingLen )
+      v26 -= v11;
+      if ( !v26 )
         goto LABEL_30;
 LABEL_11:
       v4 = this;

@@ -1,11 +1,11 @@
-void *__thiscall Scaleform::MemoryHeapPT::Alloc(
+unsigned __int8 *__thiscall Scaleform::MemoryHeapPT::Alloc(
         Scaleform::MemoryHeapPT *this,
         unsigned int size,
         unsigned int align,
         const Scaleform::AllocInfo *info)
 {
-  void *v5; // eax
-  void *v6; // edi
+  unsigned __int8 *v5; // eax
+  unsigned __int8 *v6; // edi
   Scaleform::Lock *p_HeapLock; // [esp-8h] [ebp-Ch]
 
   if ( !this->UseLocks )
@@ -19,13 +19,13 @@ void *__thiscall Scaleform::MemoryHeapPT::Alloc(
 }
 
 
-void *__thiscall Scaleform::MemoryHeapPT::Alloc(
+unsigned __int8 *__thiscall Scaleform::MemoryHeapPT::Alloc(
         Scaleform::MemoryHeapPT *this,
         unsigned int size,
         const Scaleform::AllocInfo *info)
 {
-  void *v4; // eax
-  void *v5; // edi
+  unsigned __int8 *v4; // eax
+  unsigned __int8 *v5; // edi
   Scaleform::Lock *p_HeapLock; // [esp-8h] [ebp-Ch]
 
   if ( !this->UseLocks )

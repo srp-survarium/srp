@@ -1,4 +1,11 @@
-void vostok::engine::_dynamic_initializer_for__s_no_fs_watch__()
+void __thiscall vostok::engine::_dynamic_initializer_for__s_no_fs_watch__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call((void (__cdecl *)(void *))vostok::command_line::protected_key_construct, &s_no_fs_watch);
+  vostok::command_line::key::key(
+    this,
+    &s_no_fs_watch,
+    "no_fs_watch",
+    uri,
+    "file system",
+    "disables file system changes watching",
+    uri);
 }

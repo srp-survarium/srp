@@ -1,133 +1,105 @@
-vostok::memory::base_allocator *__userpurge vostok::render::culling::portal_sector_structure::get_sector_id@<eax>(
-        vostok::render::culling::portal_sector_structure *this@<ecx>,
-        int a2@<ebx>,
-        int a3@<edi>,
-        int a4@<esi>,
-        vostok::memory::base_allocator *allocator,
-        const vostok::math::float3 *pos)
+unsigned int __usercall vostok::render::culling::portal_sector_structure::get_sector_id@<eax>(
+        vostok::render::culling::portal_sector_structure *this@<edx>,
+        const vostok::math::float3 *pos@<ecx>,
+        int a3@<ebx>,
+        int a4@<edi>,
+        int a5@<esi>)
 {
-  float x; // xmm1_4
-  float y; // xmm2_4
-  float z; // xmm3_4
-  __int64 v9; // xmm4_8
   vostok::collision::space_partitioning_tree *m_sectors_spatial_tree; // ecx
-  float v12; // esi
-  const vostok::math::float4x4 *v13; // eax
-  vostok::collision::triangle_result *M_data; // edx
-  vostok::render::culling::portal *m_begin; // ebx
-  float v16; // xmm1_4
-  float v17; // xmm2_4
-  float v18; // xmm0_4
-  unsigned int v19; // ecx
-  vostok::collision::triangle_result *v20; // esi
-  vostok::memory::base_allocator *m_allocator; // xmm3_4
-  unsigned int v22; // edx
+  vostok::collision::triangle_result *v8; // ebx
+  vostok::collision::triangle_result *v9; // eax
+  vostok::math::float4x4 *v10; // eax
+  vostok::render::culling::portal *m_begin; // edi
+  float z; // xmm1_4
+  float y; // xmm2_4
+  float x; // xmm3_4
+  unsigned int v15; // ecx
+  vostok::collision::triangle_result *v16; // edx
+  float v17; // xmm0_4
+  unsigned int v18; // ebx
   float *p_x; // ecx
-  float v24; // esi
-  vostok::vectora<vostok::collision::triangle_result> results; // [esp+1Ch] [ebp-E4h] BYREF
-  float dist; // [esp+2Ch] [ebp-D4h]
-  __int64 v29; // [esp+30h] [ebp-D0h] BYREF
-  int v30; // [esp+38h] [ebp-C8h]
-  vostok::math::aabb aabb; // [esp+3Ch] [ebp-C4h] BYREF
-  vostok::math::cuboid v32; // [esp+54h] [ebp-ACh] BYREF
-  char v33; // [esp+CCh] [ebp-34h] BYREF
+  vostok::math::float4x4 *v23; // [esp-4h] [ebp-2100h]
+  vostok::collision::triangle_result *v24; // [esp+4h] [ebp-20F8h] BYREF
+  vostok::collision::triangle_result *__last; // [esp+8h] [ebp-20F4h]
+  char *v26; // [esp+Ch] [ebp-20F0h]
+  _BYTE v27[8192]; // [esp+10h] [ebp-20ECh] BYREF
+  char v28; // [esp+2010h] [ebp-ECh] BYREF
+  vostok::math::float4x4 v29; // [esp+2014h] [ebp-E8h] BYREF
+  vostok::math::cuboid v30; // [esp+2054h] [ebp-A8h] BYREF
+  vostok::math::aabb v31; // [esp+20D0h] [ebp-2Ch] BYREF
+  vostok::math::float3 v32; // [esp+20E8h] [ebp-14h] BYREF
+  float v33; // [esp+20F4h] [ebp-8h]
+  stlp_std::unary_negate<vostok::render::culling::collision_result_user_data_equalls_to> v34; // [esp+20F8h] [ebp-4h]
 
-  x = pos->x;
-  *(float *)&results._M_impl._M_start = pos->x - 0.1;
-  y = pos->y;
-  *(float *)&results._M_impl._M_finish = y - 0.1;
-  z = pos->z;
-  v9 = *(_QWORD *)&results._M_impl._M_start;
-  results._M_impl._M_end_of_storage.m_allocator = allocator;
-  *(float *)&results._M_impl._M_start = x + 0.1;
-  *(float *)&results._M_impl._M_finish = y + 0.1;
-  aabb.min.z = z + 0.1;
+  v34._M_pred.m_user_data = 0;
+  v32.x = FLOAT_0_1;
+  v32.y = FLOAT_0_1;
+  v32.z = FLOAT_0_1;
+  vostok::math::create_aabb_center_radius(&v32, pos, &v31);
   m_sectors_spatial_tree = this->m_sectors_spatial_tree;
-  *(float *)&v30 = z - 0.1;
-  v29 = v9;
-  *(_QWORD *)&aabb.min.x = *(_QWORD *)&results._M_impl._M_start;
-  results._M_impl._M_start = 0;
-  results._M_impl._M_finish = 0;
-  results._M_impl._M_end_of_storage._M_data = 0;
-  if ( !((unsigned __int8 (__thiscall *)(vostok::collision::space_partitioning_tree *, int, __int64 *, vostok::vectora<vostok::collision::triangle_result> *, int, int, int))m_sectors_spatial_tree->aabb_query)(
+  v24 = (vostok::collision::triangle_result *)v27;
+  __last = (vostok::collision::triangle_result *)v27;
+  v26 = &v28;
+  if ( !((unsigned __int8 (__thiscall *)(vostok::collision::space_partitioning_tree *, int, vostok::math::aabb *, vostok::collision::triangle_result **, int, int, int))m_sectors_spatial_tree->aabb_query)(
           m_sectors_spatial_tree,
           1,
-          &v29,
-          &results,
-          a3,
+          &v31,
+          &v24,
           a4,
-          a2) )
-    goto LABEL_14;
-  v12 = dist;
-  results._M_impl._M_end_of_storage.m_allocator = (vostok::memory::base_allocator *)results._M_impl._M_end_of_storage._M_data->object->m_user_data;
-  if ( stlp_std::priv::__find_if<vostok::collision::triangle_result *,stlp_std::unary_negate<vostok::render::culling::collision_result_user_data_equalls_to>>(
-         results._M_impl._M_end_of_storage._M_data + 1,
-         (vostok::collision::triangle_result *)LODWORD(dist),
-         (stlp_std::unary_negate<vostok::render::culling::collision_result_user_data_equalls_to>)results._M_impl._M_end_of_storage.m_allocator) == (vostok::collision::triangle_result *)LODWORD(v12) )
-    goto LABEL_14;
-  if ( results._M_impl._M_end_of_storage._M_data != (vostok::collision::triangle_result *)LODWORD(v12) )
-    dist = *(float *)&results._M_impl._M_end_of_storage._M_data;
-  v13 = vostok::math::float4x4::identity((vostok::math::float4x4 *)&v33);
-  vostok::math::cuboid::cuboid(&v32, &aabb, v13);
-  if ( this->m_portals_geometry->cuboid_query(
-         this->m_portals_geometry,
-         0,
-         &v32,
-         (vostok::vectora<vostok::collision::triangle_result> *)&results._M_impl._M_end_of_storage._M_data) )
+          a5,
+          a3) )
+    return v34._M_pred.m_user_data;
+  v8 = v24;
+  v34._M_pred.m_user_data = (unsigned int)v24->object->m_user_data;
+  v9 = stlp_std::find_if<vostok::collision::triangle_result *,stlp_std::unary_negate<vostok::render::culling::collision_result_user_data_equalls_to>>(
+         v24 + 1,
+         __last,
+         v34);
+  if ( v9 == __last )
+    return v34._M_pred.m_user_data;
+  __last = v8;
+  v10 = vostok::math::float4x4::identity(v23, &v29);
+  vostok::math::cuboid::cuboid(&v31, v10, &v30);
+  if ( !this->m_portals_geometry->cuboid_query(
+          this->m_portals_geometry,
+          0,
+          &v30,
+          (vostok::buffer_vector<vostok::collision::triangle_result> *)&v24) )
+    return v34._M_pred.m_user_data;
+  m_begin = this->m_portals.m_begin;
+  z = pos->z;
+  y = pos->y;
+  x = pos->x;
+  v15 = v24->triangle_id >> 1;
+  v16 = v24 + 1;
+  v34._M_pred.m_user_data = fabs(
+                              (float)((float)((float)(m_begin[v15].m_plane.normal.y * y)
+                                            + (float)(m_begin[v15].m_plane.normal.z * z))
+                                    + (float)(pos->x * m_begin[v15].m_plane.normal.x))
+                            + m_begin[v15].m_plane.d);
+  if ( &v24[1] != __last )
   {
-    M_data = results._M_impl._M_end_of_storage._M_data;
-    m_begin = this->m_portals.m_begin;
-    v16 = pos->z;
-    v17 = pos->y;
-    v18 = pos->x;
-    v19 = results._M_impl._M_end_of_storage._M_data->triangle_id >> 1;
-    v20 = results._M_impl._M_end_of_storage._M_data + 1;
-    results._M_impl._M_end_of_storage.m_allocator = COERCE_VOSTOK_MEMORY_BASE_ALLOCATOR_(
-                                                      fabs(
-                                                        (float)((float)((float)(m_begin[v19].m_plane.normal.z * v16)
-                                                                      + (float)(m_begin[v19].m_plane.normal.y * v17))
-                                                              + (float)(pos->x * m_begin[v19].m_plane.normal.x))
-                                                      + m_begin[v19].m_plane.d));
-    if ( &results._M_impl._M_end_of_storage._M_data[1] != (vostok::collision::triangle_result *)LODWORD(dist) )
+    v17 = *(float *)&v34._M_pred.m_user_data;
+    do
     {
-      m_allocator = results._M_impl._M_end_of_storage.m_allocator;
-      do
+      v18 = v16->triangle_id >> 1;
+      if ( v18 != v15 )
       {
-        v22 = v20->triangle_id >> 1;
-        if ( v22 != v19 )
+        v33 = (float)((float)((float)(m_begin[v18].m_plane.normal.y * y) + (float)(m_begin[v18].m_plane.normal.z * z))
+                    + (float)(x * m_begin[v18].m_plane.normal.x))
+            + m_begin[v18].m_plane.d;
+        v34._M_pred.m_user_data = LODWORD(v33) & 0x7FFFFFFF;
+        if ( v17 > COERCE_FLOAT(LODWORD(v33) & 0x7FFFFFFF) )
         {
-          *(float *)&results._M_impl._M_end_of_storage.m_allocator = (float)((float)((float)(m_begin[v22].m_plane.normal.z
-                                                                                           * v16)
-                                                                                   + (float)(m_begin[v22].m_plane.normal.y
-                                                                                           * v17))
-                                                                           + (float)(v18 * m_begin[v22].m_plane.normal.x))
-                                                                   + m_begin[v22].m_plane.d;
-          v30 = (int)results._M_impl._M_end_of_storage.m_allocator & 0x7FFFFFFF;
-          if ( *(float *)&m_allocator > COERCE_FLOAT((int)results._M_impl._M_end_of_storage.m_allocator & 0x7FFFFFFF) )
-          {
-            m_allocator = (vostok::memory::base_allocator *)((int)results._M_impl._M_end_of_storage.m_allocator
-                                                           & 0x7FFFFFFF);
-            v19 = v22;
-          }
+          v17 = *(float *)&v34._M_pred.m_user_data;
+          v15 = v18;
         }
-        ++v20;
       }
-      while ( v20 != (vostok::collision::triangle_result *)LODWORD(dist) );
-      M_data = results._M_impl._M_end_of_storage._M_data;
+      ++v16;
     }
-    p_x = &m_begin[v19].m_plane.normal.x;
-    v24 = p_x[((float)((float)((float)((float)(p_x[2] * v16) + (float)(p_x[1] * v17)) + (float)(v18 * *p_x)) + p_x[3]) <= 0.0)
-            + 4];
-    (*(void (__thiscall **)(_DWORD, vostok::collision::triangle_result *))(*(_DWORD *)v29 + 24))(v29, M_data);
-    return (vostok::memory::base_allocator *)LODWORD(v24);
+    while ( v16 != __last );
   }
-  else
-  {
-LABEL_14:
-    if ( results._M_impl._M_end_of_storage._M_data )
-      (*(void (__thiscall **)(_DWORD, vostok::collision::triangle_result *))(*(_DWORD *)v29 + 24))(
-        v29,
-        results._M_impl._M_end_of_storage._M_data);
-    return results._M_impl._M_end_of_storage.m_allocator;
-  }
+  p_x = &m_begin[v15].m_plane.normal.x;
+  return LODWORD(p_x[((float)((float)((float)((float)(p_x[1] * y) + (float)(p_x[2] * z)) + (float)(*p_x * x)) + p_x[3]) <= 0.0)
+                   + 4]);
 }

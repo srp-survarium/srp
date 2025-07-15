@@ -2,7 +2,7 @@ unsigned int __fastcall _hw_cw_sse2(int a1, unsigned int abstr)
 {
   unsigned int result; // eax
   unsigned int v3; // ecx
-  unsigned __int8 *v4; // edx
+  unsigned int v4; // edx
 
   result = 0;
   if ( (abstr & 0x10) != 0 )
@@ -33,18 +33,18 @@ unsigned int __fastcall _hw_cw_sse2(int a1, unsigned int abstr)
         break;
     }
   }
-  v4 = (unsigned __int8 *)((unsigned int)&vostok::memory::s_CRT_arena[39128632] & abstr);
-  if ( v4 == &vostok::memory::s_CRT_arena[5574200] )
+  v4 = abstr & 0x3000000;
+  switch ( v4 )
   {
-    result |= 0x8040u;
-  }
-  else if ( v4 == &vostok::memory::s_CRT_arena[22351416] )
-  {
-    result |= 0x40u;
-  }
-  else if ( v4 == &vostok::memory::s_CRT_arena[39128632] )
-  {
-    result |= 0x8000u;
+    case 0x1000000u:
+      result |= 0x8040u;
+      break;
+    case 0x2000000u:
+      result |= 0x40u;
+      break;
+    case 0x3000000u:
+      result |= 0x8000u;
+      break;
   }
   return result;
 }

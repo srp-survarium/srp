@@ -3,7 +3,7 @@ int __cdecl EC_POINT_mul(
         ec_point_st *r,
         const bignum_st *g_scalar,
         bignum_st *point,
-        const ec_point_st *p_scalar,
+        bignum_st *p_scalar,
         bignum_ctx *ctx)
 {
   unsigned int v6; // edx
@@ -11,7 +11,7 @@ int __cdecl EC_POINT_mul(
   const ec_point_st *points; // [esp+0h] [ebp-4h] BYREF
 
   points = (const ec_point_st *)point;
-  point = (bignum_st *)p_scalar;
+  point = p_scalar;
   v6 = points && p_scalar;
   mul = group->meth->mul;
   if ( mul )

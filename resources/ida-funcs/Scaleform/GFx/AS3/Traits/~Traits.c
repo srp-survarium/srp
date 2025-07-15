@@ -1,47 +1,58 @@
 void __thiscall Scaleform::GFx::AS3::Traits::~Traits(Scaleform::GFx::AS3::Traits *this)
 {
-  Scaleform::GFx::AS3::Traits *pObject; // ecx
+  Scaleform::GFx::AS3::VTable *pObject; // ecx
+  const Scaleform::GFx::AS3::Traits *v3; // ecx
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS3::Class *v4; // ecx
-  unsigned int v5; // eax
+  Scaleform::GFx::AS3::Class *v5; // ecx
+  unsigned int v6; // eax
 
   this->__vftable = (Scaleform::GFx::AS3::Traits_vtbl *)&Scaleform::GFx::AS3::Traits::`vftable';
   Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(
     this->InitScope.Data.Data,
     this->InitScope.Data.Size);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->InitScope.Data.Data);
-  Scaleform::AutoPtr<Scaleform::GFx::AS3::VTable>::~AutoPtr<Scaleform::GFx::AS3::VTable>(&this->pVTable);
-  pObject = (Scaleform::GFx::AS3::Traits *)this->pParent.pObject;
+  pObject = this->pVTable.pObject;
   if ( pObject )
   {
-    if ( ((unsigned __int8)pObject & 1) != 0 )
+    if ( this->pVTable.Owner )
     {
-      this->pParent.pObject = (Scaleform::GFx::AS3::Traits *)((char *)pObject - 1);
+      this->pVTable.Owner = 0;
+      Scaleform::GFx::AS3::VTable::`scalar deleting destructor'(pObject, 1);
+    }
+    this->pVTable.pObject = 0;
+  }
+  this->pVTable.Owner = 0;
+  v3 = this->pParent.pObject;
+  if ( v3 )
+  {
+    if ( ((unsigned __int8)v3 & 1) != 0 )
+    {
+      this->pParent.pObject = (const Scaleform::GFx::AS3::Traits *)((char *)v3 - 1);
     }
     else
     {
-      RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      RefCount = v3->RefCount;
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
-        pObject->RefCount = RefCount - 1;
-        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
+        v3->RefCount = RefCount - 1;
+        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v3);
       }
     }
   }
-  v4 = this->pConstructor.pObject;
-  if ( v4 )
+  v5 = this->pConstructor.pObject;
+  if ( v5 )
   {
-    if ( ((unsigned __int8)v4 & 1) != 0 )
+    if ( ((unsigned __int8)v5 & 1) != 0 )
     {
-      this->pConstructor.pObject = (Scaleform::GFx::AS3::Class *)((char *)v4 - 1);
+      this->pConstructor.pObject = (Scaleform::GFx::AS3::Class *)((char *)v5 - 1);
     }
     else
     {
-      v5 = v4->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v5) != 0 )
+      v6 = v5->RefCount;
+      if ( (v6 & 0x3FFFFF) != 0 )
       {
-        v4->RefCount = v5 - 1;
-        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);
+        v5->RefCount = v6 - 1;
+        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);
       }
     }
   }
@@ -50,5 +61,5 @@ void __thiscall Scaleform::GFx::AS3::Traits::~Traits(Scaleform::GFx::AS3::Traits
     this->VArray.Data.Data,
     this->VArray.Data.Size);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->VArray.Data.Data);
-  Scaleform::GFx::AS3::GASRefCountBase::~GASRefCountBase(this);
+  Scaleform::GFx::AS3::GASRefCountBase::~GASRefCountBase(&this->Scaleform::GFx::AS3::GASRefCountBase);
 }

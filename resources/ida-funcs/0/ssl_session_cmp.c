@@ -1,53 +1,53 @@
 int __cdecl ssl_session_cmp(const ssl_session_st *b)
 {
-  const ssl_session_st *a; // ecx
-  const ssl_session_st *v2; // esi
-  unsigned int session_id_length; // ecx
-  unsigned __int8 *session_id; // esi
-  unsigned __int8 *v6; // edx
+  _DWORD *v1; // ecx
+  _DWORD *v2; // esi
+  unsigned int v4; // ecx
+  unsigned __int8 *v5; // esi
+  unsigned __int8 *session_id; // edx
   int v7; // eax
 
-  v2 = a;
-  if ( a->ssl_version != b->ssl_version )
+  v2 = v1;
+  if ( *v1 != b->ssl_version )
     return 1;
-  session_id_length = a->session_id_length;
-  if ( session_id_length != b->session_id_length )
+  v4 = v1[17];
+  if ( v4 != b->session_id_length )
     return 1;
-  session_id = v2->session_id;
-  v6 = b->session_id;
-  if ( session_id_length < 4 )
+  v5 = (unsigned __int8 *)(v2 + 18);
+  session_id = b->session_id;
+  if ( v4 < 4 )
   {
 LABEL_7:
-    if ( !session_id_length )
+    if ( !v4 )
       return 0;
   }
   else
   {
-    while ( *(_DWORD *)session_id == *(_DWORD *)v6 )
+    while ( *(_DWORD *)v5 == *(_DWORD *)session_id )
     {
-      session_id_length -= 4;
-      v6 += 4;
+      v4 -= 4;
       session_id += 4;
-      if ( session_id_length < 4 )
+      v5 += 4;
+      if ( v4 < 4 )
         goto LABEL_7;
     }
   }
-  v7 = *session_id - *v6;
+  v7 = *v5 - *session_id;
   if ( v7 )
     return (v7 >> 31) | 1;
-  if ( session_id_length <= 1 )
+  if ( v4 <= 1 )
     return 0;
-  v7 = session_id[1] - v6[1];
+  v7 = v5[1] - session_id[1];
   if ( v7 )
     return (v7 >> 31) | 1;
-  if ( session_id_length <= 2 )
+  if ( v4 <= 2 )
     return 0;
-  v7 = session_id[2] - v6[2];
+  v7 = v5[2] - session_id[2];
   if ( v7 )
     return (v7 >> 31) | 1;
-  if ( session_id_length > 3 )
+  if ( v4 > 3 )
   {
-    v7 = session_id[3] - v6[3];
+    v7 = v5[3] - session_id[3];
     return (v7 >> 31) | 1;
   }
   return 0;

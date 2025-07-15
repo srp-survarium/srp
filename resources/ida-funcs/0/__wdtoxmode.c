@@ -1,4 +1,4 @@
-unsigned int __usercall __wdtoxmode@<eax>(unsigned int a1@<ebx>, char attr, const wchar_t *name)
+unsigned int __usercall __wdtoxmode@<eax>(int a1@<ebx>, char attr, const wchar_t *name)
 {
   const wchar_t *v3; // ecx
   wchar_t v4; // dx

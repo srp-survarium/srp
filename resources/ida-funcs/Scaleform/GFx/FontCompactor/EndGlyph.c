@@ -5,26 +5,26 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
   unsigned int Size; // ebx
   Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *p_Encoder; // edi
   unsigned int v6; // eax
-  const Scaleform::GFx::FontCompactor::ContourType *v7; // ecx
+  Scaleform::GFx::FontCompactor::ContourType *v7; // ecx
   unsigned int v8; // edx
   Scaleform::GFx::FontCompactor::VertexType **Pages; // edi
   unsigned int v10; // eax
   Scaleform::GFx::FontCompactor::VertexType *v11; // edx
   int v12; // eax
-  unsigned int y; // ebp
+  int y; // ebp
   int v14; // edi
-  unsigned int j; // ebx
+  unsigned int i; // ebx
   Scaleform::GFx::FontCompactor::VertexType **v16; // edx
   Scaleform::GFx::FontCompactor::VertexType *v17; // ecx
   __int16 x; // ax
-  unsigned int v19; // ebx
+  int v19; // ebx
   Scaleform::GFx::FontCompactor::VertexType *v20; // edx
   int v21; // eax
   int v22; // esi
   Scaleform::GFx::FontCompactor::VertexType *v23; // edx
   int v24; // ecx
-  unsigned int v25; // ebx
-  unsigned int v26; // ecx
+  int v25; // ebx
+  int v26; // ecx
   int v27; // eax
   int v28; // eax
   unsigned int v29; // ebp
@@ -47,14 +47,15 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
   Scaleform::GFx::FontCompactor::KerningPairType *v46; // edi
   int v47; // edx
   int v48; // eax
-  bool newShapesAdded; // [esp+Fh] [ebp-2Dh]
-  unsigned int numEdges; // [esp+10h] [ebp-2Ch] BYREF
-  const Scaleform::GFx::FontCompactor::ContourType *c; // [esp+14h] [ebp-28h] BYREF
-  unsigned int i; // [esp+18h] [ebp-24h] BYREF
+  char v49; // [esp+Fh] [ebp-2Dh]
+  int x2; // [esp+10h] [ebp-2Ch] BYREF
+  int y1; // [esp+14h] [ebp-28h] BYREF
+  int x1; // [esp+18h] [ebp-24h] BYREF
   Scaleform::GFx::FontCompactor *v53; // [esp+1Ch] [ebp-20h]
   int y2; // [esp+20h] [ebp-1Ch] BYREF
-  unsigned int startPath; // [esp+24h] [ebp-18h]
-  Scaleform::GFx::FontCompactor::GlyphInfoType glyphInfo; // [esp+28h] [ebp-14h]
+  unsigned int v55; // [esp+24h] [ebp-18h]
+  int v56; // [esp+28h] [ebp-14h]
+  unsigned int v57; // [esp+2Ch] [ebp-10h]
   Scaleform::GFx::FontCompactor::GlyphKeyType key; // [esp+30h] [ebp-Ch] BYREF
 
   v2 = this;
@@ -62,38 +63,35 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
   Size = this->Encoder.Data->Size;
   p_Encoder = &this->Encoder;
   v53 = this;
-  glyphInfo.GlyphCode = FontNumGlyphs;
-  glyphInfo.AdvanceX = 0;
-  glyphInfo.GlobalOffset = Size;
+  v56 = FontNumGlyphs;
+  v57 = Size;
   if ( this->TmpContours.Size )
     Scaleform::GFx::FontCompactor::normalizeLastContour(this);
-  Scaleform::GFx::FontCompactor::computeBounds(v2, (int *)&i, (int *)&c, (int *)&numEdges, &y2);
-  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, i);
-  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, (int)c);
-  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(
-    p_Encoder,
-    numEdges);
+  Scaleform::GFx::FontCompactor::computeBounds(v2, &x1, &y1, &x2, &y2);
+  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, x1);
+  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, y1);
+  Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, x2);
   Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(p_Encoder, y2);
   Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteUInt15(
     p_Encoder,
     v2->TmpContours.Size);
-  newShapesAdded = 0;
+  v49 = 0;
   if ( v2->TmpContours.Size )
   {
     v6 = 0;
-    for ( i = 0; ; v6 = i )
+    for ( x1 = 0; ; v6 = x1 )
     {
       v7 = &v2->TmpContours.Pages[v6 >> 6][v6 & 0x3F];
       v8 = 1;
-      c = v7;
-      numEdges = 0;
+      y1 = (int)v7;
+      x2 = 0;
       if ( v7->DataSize > 1 )
       {
         Pages = v2->TmpVertices.Pages;
         v10 = v7->DataStart + 1;
         do
         {
-          ++numEdges;
+          ++x2;
           if ( (Pages[v10 >> 6][v10 & 0x3F].x & 1) != 0 )
           {
             ++v8;
@@ -114,26 +112,26 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
       Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteSInt15(
         &v2->Encoder,
         y);
-      startPath = v2->Encoder.Data->Size;
+      v55 = v2->Encoder.Data->Size;
       Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteUInt30(
         &v2->Encoder,
-        2 * numEdges);
-      for ( j = 1; j < c->DataSize; ++j )
+        2 * x2);
+      for ( i = 1; i < *(_DWORD *)(y1 + 4); ++i )
       {
         v16 = v2->TmpVertices.Pages;
-        y2 = c->DataStart;
-        v17 = &v16[(j + y2) >> 6][(j + y2) & 0x3F];
+        y2 = *(_DWORD *)y1;
+        v17 = &v16[(i + y2) >> 6][(i + y2) & 0x3F];
         x = v17->x;
         if ( (v17->x & 1) != 0 )
         {
-          v19 = j + 1;
-          v20 = v16[(v19 + y2) >> 6];
+          v19 = i + 1;
+          v20 = v16[(unsigned int)(v19 + y2) >> 6];
           v21 = (v19 + y2) & 0x3F;
           v22 = v20[v21].x;
           v23 = &v20[v21];
           LOWORD(v21) = v17->x;
           v24 = v17->y;
-          numEdges = v19;
+          x2 = v19;
           v25 = v23->y;
           v22 >>= 1;
           Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteQuad(
@@ -145,14 +143,14 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
           v14 = v22;
           v2 = v53;
           y = v25;
-          j = numEdges;
+          i = x2;
         }
         else
         {
           v26 = v17->y;
           v27 = x >> 1;
           y2 = v27;
-          numEdges = v26;
+          x2 = v26;
           if ( v27 == v14 )
           {
             Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::WriteVLine(
@@ -173,14 +171,14 @@ void __thiscall Scaleform::GFx::FontCompactor::EndGlyph(Scaleform::GFx::FontComp
                 v26 - y);
           }
           v14 = y2;
-          y = numEdges;
+          y = x2;
         }
       }
       if ( mergeContours )
       {
-        v29 = startPath;
+        v29 = v55;
         key.pFont = v2;
-        HashValue = Scaleform::GFx::FontCompactor::ComputePathHash(v2, startPath);
+        HashValue = Scaleform::GFx::FontCompactor::ComputePathHash(v2, v55);
         pTable = v2->ContourHash.pTable;
         key.HashValue = HashValue;
         key.DataStart = v29;
@@ -199,7 +197,7 @@ LABEL_29:
             &v2->ContourHash,
             &key,
             HashValue);
-          newShapesAdded = 1;
+          v49 = 1;
           goto LABEL_30;
         }
         Data = v2->Encoder.Data;
@@ -210,16 +208,16 @@ LABEL_29:
           (2 * *(_DWORD *)(v33 + 8)) | 1);
       }
 LABEL_30:
-      if ( ++i >= v2->TmpContours.Size )
+      if ( ++x1 >= v2->TmpContours.Size )
       {
-        Size = glyphInfo.GlobalOffset;
+        Size = v57;
         break;
       }
     }
   }
   ++v2->FontNumGlyphs;
-  startPath = Size;
-  if ( mergeContours && !newShapesAdded )
+  v55 = Size;
+  if ( mergeContours && !v49 )
   {
     key.pFont = v2;
     v35 = Scaleform::GFx::FontCompactor::ComputeGlyphHash(v2, Size);
@@ -247,13 +245,13 @@ LABEL_30:
       v40 = v2->Encoder.Data;
       if ( Size < v40->Size )
         v40->Size = Size;
-      glyphInfo.GlobalOffset = *(_DWORD *)(v39 + 8);
-      Size = glyphInfo.GlobalOffset;
+      v57 = *(_DWORD *)(v39 + 8);
+      Size = v57;
     }
   }
   v41 = v2->FontNumGlyphs;
   FontStartGlyphs = v2->FontStartGlyphs;
-  v2->FontTotalGlyphBytes += v2->Encoder.Data->Size - startPath;
+  v2->FontTotalGlyphBytes += v2->Encoder.Data->Size - v55;
   Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::UpdateUInt32fixlen(
     &v2->Encoder,
     FontStartGlyphs,
@@ -270,7 +268,7 @@ LABEL_30:
       p_GlyphInfoTable,
       v45);
   v46 = p_GlyphInfoTable->Pages[v45];
-  v47 = *(_DWORD *)&glyphInfo.GlyphCode;
+  v47 = v56;
   v48 = p_GlyphInfoTable->Size & 0x3F;
   v46[v48].Adjustment = Size;
   *(_DWORD *)&v46[v48].Char1 = v47;

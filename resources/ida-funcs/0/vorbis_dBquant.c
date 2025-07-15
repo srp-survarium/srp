@@ -1,10 +1,11 @@
 int __usercall vorbis_dBquant@<eax>(const float *x@<eax>)
 {
-  int v1; // eax
+  int result; // eax
 
-  v1 = (int)(*x * 7.314285755157471 + 1023.5);
-  if ( v1 <= 1023 )
-    return v1 < 0 ? 0 : v1;
-  else
+  result = (int)(float)((float)(*x * 7.3142858) + 1023.5);
+  if ( result > 1023 )
     return 1023;
+  if ( result < 0 )
+    return 0;
+  return result;
 }

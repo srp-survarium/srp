@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::Text::EditorKit::CutToClipboard(
         Scaleform::Render::Text::Paragraph *endPos,
         bool useRichClipboard)
 {
-  Scaleform::Render::Text::Paragraph *v5; // esi
+  const Scaleform::Render::Text::Paragraph *v5; // esi
   Scaleform::Render::Text::Paragraph *v6; // edi
   Scaleform::Render::Text::DocView *pObject; // ebx
 

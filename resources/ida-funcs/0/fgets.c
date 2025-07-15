@@ -1,4 +1,4 @@
-char *__usercall fgets@<eax>(unsigned int a1@<edi>, _iobuf *a2@<esi>, char *string, int count, _iobuf *str)
+char *__usercall fgets@<eax>(int a1@<edi>, _iobuf *a2@<esi>, char *string, int count, _iobuf *str)
 {
   int v6; // eax
   ioinfo *v7; // ecx
@@ -11,7 +11,7 @@ char *__usercall fgets@<eax>(unsigned int a1@<edi>, _iobuf *a2@<esi>, char *stri
   if ( !string && count || count < 0 || (a2 = str) == 0 )
   {
     *_errno() = 22;
-    _invalid_parameter(0, a1, (unsigned int)a2);
+    _invalid_parameter(0, a1, (int)a2);
     return 0;
   }
   if ( !count )
@@ -29,7 +29,7 @@ char *__usercall fgets@<eax>(unsigned int a1@<edi>, _iobuf *a2@<esi>, char *stri
           *((char *)v8 + 36) < 0) )
     {
       *_errno() = 22;
-      _invalid_parameter(0, a1, (unsigned int)str);
+      _invalid_parameter(0, a1, (int)str);
       retval = 0;
     }
   }
@@ -49,7 +49,7 @@ char *__usercall fgets@<eax>(unsigned int a1@<edi>, _iobuf *a2@<esi>, char *stri
         if ( v9 == string )
         {
           retval = 0;
-          goto done_3;
+          goto done_5;
         }
         break;
       }
@@ -58,7 +58,7 @@ char *__usercall fgets@<eax>(unsigned int a1@<edi>, _iobuf *a2@<esi>, char *stri
     while ( (_BYTE)v11 != 10 );
     *v9 = 0;
   }
-done_3:
+done_5:
   _unlock_file(str);
   return retval;
 }

@@ -48,7 +48,7 @@ LABEL_9:
         *v5 = (struct ASN1_VALUE_st *)-1;
       break;
     case 5:
-      goto $LN8_43;
+      goto $LN8_47;
     case 6:
       ASN1_OBJECT_free((asn1_object_st *)*v5);
       *v5 = 0;
@@ -56,7 +56,7 @@ LABEL_9:
     default:
       ASN1_STRING_free((asn1_string_st *)*v5);
       *v5 = 0;
-$LN8_43:
+$LN8_47:
       *v5 = 0;
       break;
   }

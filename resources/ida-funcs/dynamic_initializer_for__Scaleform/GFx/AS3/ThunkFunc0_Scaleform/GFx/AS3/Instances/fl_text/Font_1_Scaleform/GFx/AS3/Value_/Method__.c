@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::Font::fontStyleGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_text::Font,1,Scaleform::GFx::AS3::Value>::Method) = Scaleform::GFx::AS3::Instances::fl_text::Font::fontStyleGet;
-  dword_AACEA4 = 0;
+  dword_8F165C = 0;
   return result;
 }

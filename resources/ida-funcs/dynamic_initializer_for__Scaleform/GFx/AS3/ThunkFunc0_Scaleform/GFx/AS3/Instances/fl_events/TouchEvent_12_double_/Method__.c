@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_events::TouchEvent::localXGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_events::TouchEvent,12,double>::Method) = Scaleform::GFx::AS3::Instances::fl_events::TouchEvent::localXGet;
-  dword_AADABC = 0;
+  dword_8F2274 = 0;
   return result;
 }

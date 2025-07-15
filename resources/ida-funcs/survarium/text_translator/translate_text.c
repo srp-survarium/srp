@@ -1,79 +1,66 @@
 void __userpurge survarium::text_translator::translate_text(
-        survarium::text_translator *this@<eax>,
-        char *text_id@<edi>,
-        wchar_t *translated_text)
+        survarium::text_translator *this@<ecx>,
+        int a2@<eax>,
+        char *text_id,
+        char *translated_text)
 {
-  char v4; // bl
-  vostok::configs::binary_config_value *v5; // eax
-  void (__cdecl *v6)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v7)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  char *pointer; // eax
-  vostok::configs::binary_config_value *v9; // eax
-  char *v10; // [esp+0h] [ebp-34h]
-  unsigned int pConvertedChars; // [esp+10h] [ebp-24h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+14h] [ebp-20h] BYREF
+  const vostok::configs::binary_config_value *v5; // eax
+  vostok::configs::binary_config_value *v6; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // ecx
+  vostok::configs::binary_config_value *v8; // eax
+  unsigned int v9; // eax
+  bool has_passed_filters; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v11; // [esp-4h] [ebp-3Ch]
+  char *_Src; // [esp+10h] [ebp-28h]
+  char v13; // [esp+14h] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+18h] [ebp-20h] BYREF
 
-  v4 = 0;
-  pConvertedChars = 0;
-  v5 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                 this->m_text_data.m_object->m_root,
-                                                 "strings");
-  if ( vostok::configs::binary_config_value::value_exists(v5, v10) )
+  v13 = 0;
+  v5 = vostok::configs::binary_config_value::operator[](
+         *(vostok::configs::binary_config_value **)(*(_DWORD *)a2 + 264),
+         "strings");
+  if ( vostok::configs::binary_config_value::value_exists(v6, (int)v5, (unsigned int)text_id) )
   {
-    v9 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                   this->m_text_data.m_object->m_root,
-                                                   "strings");
-    pointer = (char *)vostok::configs::binary_config_value::operator[](v9, text_id)->data.pointer;
+    v8 = vostok::configs::binary_config_value::operator[](
+           *(vostok::configs::binary_config_value **)(*(_DWORD *)a2 + 264),
+           "strings");
+    _Src = (char *)vostok::configs::binary_config_value::operator[](v8, text_id)->data.pointer;
   }
   else
   {
+    _Src = text_id;
+  }
+  v9 = strlen(_Src);
+  if ( v9 >= 0x200 )
+  {
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)"game",
+                                 (const char *)2),
+          v7 = v11,
+          has_passed_filters) )
     {
-      v6 = vostok::core::g_log_callback;
-      log_callback.vtable = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          &log_callback.functor,
-          &log_callback.functor,
-          destroy_functor_tag);
-      if ( v6 )
-      {
-        log_callback.functor.obj_ptr = v6;
-        log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                     + 1);
-      }
-      else
-      {
-        log_callback.vtable = 0;
-      }
-      v4 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v7,
+        &v14);
+      v13 = 1;
       vostok::logging::append(
-        &log_callback,
+        &v14,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\text_translator.cpp",
-        0x38u,
-        "void __thiscall survarium::text_translator::translate_text(const char *,wchar_t [])",
-        "game:",
-        info,
-        "There is no available localization for [%s] !!!",
+        0x43u,
+        "void __thiscall survarium::text_translator::translate_text(const char *,char [])",
+        "game",
+        error,
+        "TEXT_TRANSLATOR: Too long localization string [%s]",
         text_id);
     }
-    if ( (v4 & 1) != 0 )
-    {
-      if ( log_callback.vtable )
-      {
-        if ( ((int)log_callback.vtable & 1) == 0 )
-        {
-          v7 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-          if ( v7 )
-            v7(&log_callback.functor, &log_callback.functor, 2);
-        }
-      }
-    }
-    pointer = text_id;
+    if ( (v13 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v7,
+        (int *)&v14);
+    v9 = 511;
   }
-  pConvertedChars = 0;
-  mbstowcs_s(&pConvertedChars, translated_text, 0x200u, pointer, 0xFFFFFFFF);
+  strncpy_s(translated_text, 0x200u, _Src, v9);
 }

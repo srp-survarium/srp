@@ -1,16 +1,16 @@
-int vostok::animation::_dynamic_initializer_for__zero___2()
+void vostok::animation::_dynamic_initializer_for__zero___2()
 {
-  int result; // eax
-  __int64 v1; // [esp+0h] [ebp-Ch]
+  float v0; // xmm0_4
+  __int64 v1; // [esp+4h] [ebp-8h]
 
-  result = 0;
-  *(_QWORD *)&zero_2.channels[3] = 0;
-  LODWORD(v1) = clear_value;
-  HIDWORD(v1) = clear_value;
-  *(_QWORD *)&zero_2.translation.x = 0;
+  zero_2.translation.x = 0.0;
+  zero_2.translation.y = 0.0;
   zero_2.translation.z = 0.0;
-  zero_2.rotation.z = 0.0;
-  *(_QWORD *)&zero_2.channels[6] = v1;
-  LODWORD(zero_2.scale.z) = clear_value;
-  return result;
+  v0 = s_bm_current_air_resistance;
+  zero_2.rotation.x = 0.0;
+  *(_QWORD *)&zero_2.channels[4] = 0;
+  *(float *)&v1 = v0;
+  *((float *)&v1 + 1) = v0;
+  zero_2.scale.x = v0;
+  *(_QWORD *)&zero_2.channels[7] = v1;
 }

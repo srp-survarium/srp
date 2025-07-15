@@ -2,7 +2,7 @@ int __thiscall Scaleform::GFx::MovieImpl::HandleEvent(
         Scaleform::GFx::MovieImpl *this,
         const Scaleform::GFx::Event *event)
 {
-  int result; // eax
+  int v4; // eax
   Scaleform::GFx::Event::EventType Type; // eax
   const Scaleform::GFx::Event *v6; // edi
   int v7; // ebp
@@ -23,8 +23,8 @@ int __thiscall Scaleform::GFx::MovieImpl::HandleEvent(
   Scaleform::RefCountVImpl *v22; // edi
   int v23; // esi
   Scaleform::Render::Point<float> p; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::Render::Point<float> pt; // [esp+18h] [ebp-8h] BYREF
-  Scaleform::GFx::KeyboardState *eventa; // [esp+24h] [ebp+4h]
+  Scaleform::Render::Point<float> result; // [esp+18h] [ebp-8h] BYREF
+  Scaleform::GFx::KeyboardState *KeyboardStates; // [esp+24h] [ebp+4h]
 
   if ( !this->IsMovieFocused(this) )
   {
@@ -37,18 +37,18 @@ int __thiscall Scaleform::GFx::MovieImpl::HandleEvent(
   {
 LABEL_5:
     v6 = event + 1;
-    eventa = this->KeyboardStates;
+    KeyboardStates = this->KeyboardStates;
     v7 = -8 - (_DWORD)event;
     do
     {
       if ( LOBYTE(v6->Type) )
       {
-        v8 = (unsigned int)v6 + v7 < 6 ? eventa : 0;
+        v8 = (unsigned int)v6 + v7 < 6 ? KeyboardStates : 0;
         Scaleform::GFx::KeyboardState::SetKeyToggled(v8, 144, (v6->Type & 0x10) != 0);
         Scaleform::GFx::KeyboardState::SetKeyToggled(v8, 20, (v6->Type & 8) != 0);
         Scaleform::GFx::KeyboardState::SetKeyToggled(v8, 145, (v6->Type & 0x20) != 0);
       }
-      ++eventa;
+      ++KeyboardStates;
       v6 = (const Scaleform::GFx::Event *)((char *)v6 + 1);
     }
     while ( (unsigned int)v6 + v7 < 6 );
@@ -91,8 +91,8 @@ LABEL_5:
         goto LABEL_65;
       p.x = *(float *)&event[1].Type;
       p.y = *(float *)&event[1].Modifiers.States;
-      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &pt, &p);
-      Scaleform::GFx::InputEventsQueue::AddMouseMove(&this->InputEventsQueue, v15, &pt);
+      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &result, &p);
+      Scaleform::GFx::InputEventsQueue::AddMouseMove(&this->InputEventsQueue, v15, &result);
       return 3;
     case MouseDown:
       v17 = event[3].Type;
@@ -100,11 +100,11 @@ LABEL_5:
         goto LABEL_65;
       p.x = *(float *)&event[1].Type;
       p.y = *(float *)&event[1].Modifiers.States;
-      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &pt, &p);
+      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &result, &p);
       Scaleform::GFx::InputEventsQueue::AddMouseButtonEvent(
         &this->InputEventsQueue,
         v17,
-        &pt,
+        &result,
         1 << *(_DWORD *)&event[2].Modifiers.States,
         0);
       goto LABEL_25;
@@ -114,15 +114,15 @@ LABEL_5:
         goto LABEL_65;
       p.x = *(float *)&event[1].Type;
       p.y = *(float *)&event[1].Modifiers.States;
-      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &pt, &p);
+      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &result, &p);
       Scaleform::GFx::InputEventsQueue::AddMouseButtonEvent(
         &this->InputEventsQueue,
         v16,
-        &pt,
+        &result,
         1 << *(_DWORD *)&event[2].Modifiers.States,
         0x80u);
 LABEL_25:
-      result = 3;
+      v4 = 3;
       break;
     case MouseWheel:
       v18 = event[3].Type;
@@ -130,9 +130,13 @@ LABEL_25:
         goto LABEL_65;
       p.x = *(float *)&event[1].Type;
       p.y = *(float *)&event[1].Modifiers.States;
-      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &pt, &p);
-      Scaleform::GFx::InputEventsQueue::AddMouseWheel(&this->InputEventsQueue, v18, &pt, (int)*(float *)&event[2].Type);
-      result = 3;
+      Scaleform::Render::Matrix2x4<float>::TransformByInverse(&this->ViewportMatrix, &result, &p);
+      Scaleform::GFx::InputEventsQueue::AddMouseWheel(
+        &this->InputEventsQueue,
+        v18,
+        &result,
+        (int)*(float *)&event[2].Type);
+      v4 = 3;
       break;
     case KeyDown:
       KeyboardState = Scaleform::GFx::MovieImpl::GetKeyboardState(this, event[2].Modifiers.States);
@@ -176,7 +180,7 @@ LABEL_25:
       if ( v20 != TouchTap && ((unsigned int)v20 < 0x20 || v20 == (IME|MouseWheel|0x60)) )
         goto LABEL_25;
       Scaleform::GFx::InputEventsQueue::AddCharTyped(&this->InputEventsQueue, v20, event[2].Modifiers.States);
-      result = 3;
+      v4 = 3;
       break;
     case KeyUp:
       v21 = Scaleform::GFx::MovieImpl::GetKeyboardState(this, event[2].Modifiers.States);
@@ -227,12 +231,12 @@ LABEL_25:
               this,
               event);
       Scaleform::RefCountImpl::Release(v22);
-      result = v23;
+      v4 = v23;
       break;
     default:
 LABEL_65:
-      result = 0;
+      v4 = 0;
       break;
   }
-  return result;
+  return v4;
 }

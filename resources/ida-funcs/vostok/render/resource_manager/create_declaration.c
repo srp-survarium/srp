@@ -1,75 +1,67 @@
-vostok::render::res_declaration *__userpurge vostok::render::resource_manager::create_declaration@<eax>(
-        unsigned int count@<eax>,
+vostok::render::res_declaration *__thiscall vostok::render::resource_manager::create_declaration(
         vostok::render::resource_manager *this,
-        stlp_std::forward_iterator_tag *dcl)
+        const D3D11_INPUT_ELEMENT_DESC *dcl,
+        const D3D11_INPUT_ELEMENT_DESC *count,
+        unsigned int counta)
 {
-  vostok::render::resource_manager *v3; // eax
-  vostok::render::res_declaration *v4; // ecx
-  unsigned int sl_created; // esi
-  vostok::render::res_declaration *v7; // eax
-  vostok::render::res_declaration *v8; // esi
-  stlp_std::forward_iterator_tag *v9; // ecx
-  stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *> > *M_node; // eax
-  vostok::render::res_declaration *new_decl; // [esp+10h] [ebp-30h] BYREF
-  stlp_std::forward_iterator_tag *__formal; // [esp+14h] [ebp-2Ch]
-  stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<vostok::render::res_declaration *,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *> >,bool> result; // [esp+18h] [ebp-28h] BYREF
-  vostok::render::res_declaration descriptor; // [esp+20h] [ebp-20h] BYREF
+  vostok::buffer_vector<vostok::render::signature_layout_pair> *v4; // ecx
+  int v5; // esi
+  vostok::memory::doug_lea_allocator *v7; // esi
+  char *v8; // eax
+  vostok::memory::doug_lea_allocator *v9; // ecx
+  char *v10; // eax
+  stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *> > *v11; // ecx
+  vostok::render::res_declaration *v12; // eax
+  vostok::render::res_declaration *v13; // edi
+  stlp_std::priv::_Rb_tree_node_base v14; // [esp-4h] [ebp-123Ch]
+  const char *v15; // [esp+0h] [ebp-1238h]
+  const char *v16; // [esp+4h] [ebp-1234h]
+  unsigned int v17; // [esp+8h] [ebp-1230h]
+  vostok::render::res_declaration *__x; // [esp+Ch] [ebp-122Ch] BYREF
+  stlp_std::priv::_Rb_tree_iterator<vostok::render::res_declaration *,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *> > v19[2]; // [esp+10h] [ebp-1228h] BYREF
+  vostok::render::res_declaration v20; // [esp+18h] [ebp-1220h] BYREF
 
-  memset(&descriptor, 0, 28);
-  __formal = &dcl[28 * count];
-  stlp_std::priv::_Impl_vector<D3D11_INPUT_ELEMENT_DESC,vostok::render::std_allocator<D3D11_INPUT_ELEMENT_DESC>>::_M_range_initialize<D3D11_INPUT_ELEMENT_DESC const *>(
-    (stlp_std::priv::_Impl_vector<D3D11_INPUT_ELEMENT_DESC,vostok::render::std_allocator<D3D11_INPUT_ELEMENT_DESC> > *)__formal,
-    &descriptor.dcl_code._M_impl,
-    dcl,
-    (const D3D11_INPUT_ELEMENT_DESC *)__formal);
-  new_decl = &descriptor;
-  descriptor.m_is_registered = 0;
-  result.first._M_node = &this->m_declarations._M_t._M_header._M_data;
-  v3 = (vostok::render::resource_manager *)stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *>>::_M_find<vostok::render::res_declaration const *>(
-                                             (const vostok::render::res_declaration **)&new_decl,
-                                             &this->m_declarations._M_t);
-  if ( v3 == (vostok::render::resource_manager *)&this->m_declarations )
+  vostok::render::res_declaration::res_declaration(count, counta, &v20);
+  __x = &v20;
+  stlp_std::set<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::std_allocator<vostok::render::res_declaration *>>::find<vostok::render::res_declaration *>(
+    &__x,
+    (stlp_std::set<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::std_allocator<vostok::render::res_declaration *> > *)((char *)&loc_938E8 + (_DWORD)dcl),
+    v19);
+  if ( v19[0]._M_node == (stlp_std::priv::_Rb_tree_node_base *)((char *)&loc_938E8 + (_DWORD)dcl) )
   {
-    vostok::render::res_declaration::~res_declaration(v4);
-    v7 = (vostok::render::res_declaration *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                              (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                              0x20u);
-    v8 = v7;
-    if ( v7 )
+    v20.dcl_code.m_end = v20.dcl_code.m_begin;
+    vostok::buffer_vector<vostok::render::signature_layout_pair>::~buffer_vector<vostok::render::signature_layout_pair>(
+      v4,
+      (int *)&v20.vs_to_layout);
+    v7 = vostok::render::g_allocator;
+    v8 = type_info::raw_name(&vostok::render::res_declaration `RTTI Type Descriptor');
+    v10 = vostok::memory::doug_lea_allocator::malloc_impl(v9, (int)v7, 0x1220u, v8, v15, v16, v17);
+    if ( v10 )
     {
-      v9 = __formal;
-      v7->m_reference_count = 0;
-      v7->vs_to_layout._M_impl._M_start = 0;
-      v7->vs_to_layout._M_impl._M_finish = 0;
-      v7->vs_to_layout._M_impl._M_end_of_storage._M_data = 0;
-      v7->dcl_code._M_impl._M_start = 0;
-      v7->dcl_code._M_impl._M_finish = 0;
-      v7->dcl_code._M_impl._M_end_of_storage._M_data = 0;
-      stlp_std::priv::_Impl_vector<D3D11_INPUT_ELEMENT_DESC,vostok::render::std_allocator<D3D11_INPUT_ELEMENT_DESC>>::_M_range_initialize<D3D11_INPUT_ELEMENT_DESC const *>(
-        (stlp_std::priv::_Impl_vector<D3D11_INPUT_ELEMENT_DESC,vostok::render::std_allocator<D3D11_INPUT_ELEMENT_DESC> > *)v9,
-        &v7->dcl_code._M_impl,
-        dcl,
-        (const D3D11_INPUT_ELEMENT_DESC *)v9);
-      v8->m_is_registered = 0;
+      vostok::render::res_declaration::res_declaration(count, counta, (vostok::render::res_declaration *)v10);
+      __x = v12;
     }
     else
     {
-      v8 = 0;
+      __x = 0;
     }
-    M_node = (stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *> > *)result.first._M_node;
-    new_decl = v8;
-    v8->m_is_registered = 1;
+    v13 = __x;
+    *(_DWORD *)&v14._M_color = &__x;
+    __x->m_is_registered = 1;
     stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *>>::insert_unique(
-      (stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *> > *)&result,
-      M_node,
-      &result,
-      (const vostok::render::res_declaration **)&new_decl);
-    return v8;
+      v11,
+      (int)v19,
+      (stlp_std::priv::_Rb_tree<vostok::render::res_declaration *,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>,vostok::render::res_declaration *,stlp_std::priv::_Identity<vostok::render::res_declaration *>,stlp_std::priv::_SetTraitsT<vostok::render::res_declaration *>,vostok::render::std_allocator<vostok::render::res_declaration *> > *)((char *)&loc_938E8 + (_DWORD)dcl),
+      v14);
+    return v13;
   }
   else
   {
-    sl_created = v3->sl_created;
-    vostok::render::res_declaration::~res_declaration(v4);
-    return (vostok::render::res_declaration *)sl_created;
+    v5 = *(_DWORD *)&v19[0]._M_node[1]._M_color;
+    v20.dcl_code.m_end = v20.dcl_code.m_begin;
+    vostok::buffer_vector<vostok::render::signature_layout_pair>::~buffer_vector<vostok::render::signature_layout_pair>(
+      v4,
+      (int *)&v20.vs_to_layout);
+    return (vostok::render::res_declaration *)v5;
   }
 }

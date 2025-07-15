@@ -8,12 +8,12 @@ void __thiscall Scaleform::Render::Scale9GridTess::addVertex(
         unsigned int areaCode)
 {
   float *p_x; // eax
-  Scaleform::Render::Scale9GridTess::TmpVertexType tmpVer; // [esp+4h] [ebp-Ch] BYREF
+  Scaleform::Render::Scale9GridTess::TmpVertexType val; // [esp+4h] [ebp-Ch] BYREF
 
-  tmpVer.Slope = 0.0;
-  tmpVer.VerIdx = this->VerCount;
-  tmpVer.AreaCode = areaCode;
-  Scaleform::ArrayStaticBuffPOD<Scaleform::Render::Scale9GridTess::TmpVertexType,72,2>::PushBack(ver, &tmpVer);
+  val.Slope = 0.0;
+  val.VerIdx = this->VerCount;
+  val.AreaCode = areaCode;
+  Scaleform::ArrayStaticBuffPOD<Scaleform::Render::Scale9GridTess::TmpVertexType,72,2>::PushBack(ver, &val);
   p_x = &this->Vertices[this->VerCount].x;
   *p_x = x;
   p_x[1] = y;

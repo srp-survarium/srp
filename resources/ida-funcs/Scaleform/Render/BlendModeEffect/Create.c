@@ -1,6 +1,6 @@
 void __cdecl Scaleform::Render::BlendModeEffect::Create(
         Scaleform::Render::TreeCacheNode *node,
-        const Scaleform::Render::BlendState *stateArg,
+        Scaleform::Render::BlendState *stateArg,
         Scaleform::Render::CacheEffect *next)
 {
   Scaleform::Render::BlendModeEffect *v3; // eax

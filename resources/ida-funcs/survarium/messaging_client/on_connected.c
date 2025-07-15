@@ -1,55 +1,47 @@
 void __thiscall survarium::messaging_client::on_connected(survarium::messaging_client *this)
 {
-  void (__cdecl *v2)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v3; // ecx
-  vostok::network::login_client *v4; // eax
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v5; // ecx
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::messaging_client,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::_bi::value<survarium::messaging_client *>,boost::arg<1> > > v6; // [esp-8h] [ebp-50h]
-  unsigned __int8 buffer[4]; // [esp+10h] [ebp-38h] BYREF
-  vostok::network_core::packet<vostok::network_core::tcp_packet> v8; // [esp+14h] [ebp-34h] BYREF
-  int v9; // [esp+20h] [ebp-28h]
-  boost::function<void __cdecl(vostok::network_core::packet_reader &)> on_packet_received; // [esp+28h] [ebp-20h] BYREF
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  vostok::network_core::buffer_writer *v3; // ecx
+  vostok::network_core::buffer_writer *v4; // ecx
+  vostok::network_core::buffer_writer *v5; // ecx
+  vostok::network::tcp_packet_client *v6; // ecx
+  vostok::network_core::buffer_writer *v7; // ecx
+  vostok::network_core::mutable_buffer *v8; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::messaging_client,vostok::network_core::buffer_reader &>,boost::_bi::list2<boost::_bi::value<survarium::messaging_client *>,boost::arg<1> > > v9; // [esp-8h] [ebp-68h]
+  int v10; // [esp+0h] [ebp-60h]
+  unsigned __int8 v11; // [esp+13h] [ebp-4Dh] BYREF
+  unsigned int m_session_id; // [esp+14h] [ebp-4Ch] BYREF
+  boost::function<void __cdecl(vostok::network_core::buffer_reader &)> v13; // [esp+18h] [ebp-48h] BYREF
+  vostok::network_core::tcp_packet v14; // [esp+38h] [ebp-28h] BYREF
 
-  v6.l_.a1_.t_ = this;
-  v6.f_.f_ = survarium::messaging_client::sign_in_on_packet_received;
+  v9.l_.a1_.t_ = this;
+  v9.f_.f_ = survarium::messaging_client::sign_in_on_packet_received;
   this->m_connection_state = client_connecting;
-  on_packet_received.vtable = 0;
-  boost::function1<void,vostok::network_core::packet_reader &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::messaging_client,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::_bi::value<survarium::messaging_client *>,boost::arg<1>>>>(
-    (boost::function1<void,vostok::network_core::packet_reader &> *)this,
-    (boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::messaging_client,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::_bi::value<survarium::messaging_client *>,boost::arg<1> > > *)&on_packet_received,
-    v6);
-  vostok::network::tcp_packet_client::set_on_packet_received(
-    &this->m_network_client,
-    (boost::function<void __cdecl(unsigned int,unsigned int)> *)&on_packet_received);
-  if ( on_packet_received.vtable )
-  {
-    if ( ((int)on_packet_received.vtable & 1) == 0 )
-    {
-      v2 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)on_packet_received.vtable & 0xFFFFFFFE);
-      if ( v2 )
-        v2(&on_packet_received.functor, &on_packet_received.functor, 2);
-    }
-  }
+  boost::function<void __cdecl (vostok::network_core::buffer_reader &)>::function<void __cdecl (vostok::network_core::buffer_reader &)>(
+    (boost::function<void __cdecl(vostok::network_core::buffer_reader &)> *)this,
+    (boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::messaging_client,vostok::network_core::buffer_reader &>,boost::_bi::list2<boost::_bi::value<survarium::messaging_client *>,boost::arg<1> > > *)&v13,
+    v9,
+    v10);
+  boost::function<void __cdecl (boost::system::error_code)>::operator=(
+    &v13,
+    (boost::function1<void,vostok::physics::contact_point const &> *)&this->m_network_client);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v13);
   vostok::network_core::tcp_packet::tcp_packet(
-    (vostok::network_core::tcp_packet *)&v8.m_buffer_size,
-    &vostok::memory::g_mt_allocator);
-  buffer[0] = -61;
-  vostok::network_core::packet<vostok::network_core::tcp_packet>::append(v3, (int)&v8.m_buffer_size, buffer, 1u);
-  v4 = this->m_game->m_network_client->login_client(this->m_game->m_network_client);
-  v8.m_buffer = (unsigned __int8 *)vostok::network::login_client::session_id(v4);
-  vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-    &v8,
-    (int)&v8.m_buffer_size,
-    (unsigned __int8 *)&v8,
+    (vostok::network_core::tcp_packet *)&vostok::memory::g_mt_allocator,
+    (int)&v14);
+  v11 = -61;
+  vostok::network_core::buffer_writer::w(v3, &v14.m_writer.serialization_operations_descriptors.m_size, &v11, 1u);
+  m_session_id = this->m_game->m_network_client->login_client(this->m_game->m_network_client)->m_client->m_session_id;
+  vostok::network_core::buffer_writer::w(
+    v4,
+    &v14.m_writer.serialization_operations_descriptors.m_size,
+    (unsigned __int8 *)&m_session_id,
     4u);
-  buffer[0] = 5;
-  vostok::network_core::packet<vostok::network_core::tcp_packet>::append(v5, (int)&v8.m_buffer_size, buffer, 1u);
-  vostok::network::tcp_packet_client::send(
-    &this->m_network_client,
-    (const vostok::network_core::tcp_packet *)&v8.m_buffer_size);
-  if ( v8.m_buffer_size )
-  {
-    if ( v8.m_buffer_size != 3 )
-      (*(void (__thiscall **)(int, unsigned int))(*(_DWORD *)v9 + 24))(v9, v8.m_buffer_size - 3);
-  }
+  v11 = 5;
+  vostok::network_core::buffer_writer::w(v5, &v14.m_writer.serialization_operations_descriptors.m_size, &v11, 1u);
+  vostok::network::tcp_packet_client::send(v6, (const vostok::network_core::tcp_packet *)&this->m_network_client, &v14);
+  vostok::network_core::buffer_writer::~buffer_writer(v7, &v14.m_writer.serialization_operations_descriptors);
+  vostok::network_core::mutable_buffer::~mutable_buffer(v8, &v14);
 }

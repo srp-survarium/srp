@@ -3,117 +3,77 @@ void __userpurge survarium::options_tab::initialize_data(
         int a2@<eax>,
         vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *movie)
 {
-  survarium::flash_value *v4; // eax
-  int j; // ecx
-  int v6; // esi
-  survarium::flash_movie_resource *m_object; // ecx
-  int v8; // ecx
-  survarium::flash_movie_resource *v9; // edx
-  char *v10; // esi
-  int k; // edi
-  int v12; // eax
-  unsigned __int8 i; // [esp+51h] [ebp-81h]
-  survarium::flash_value option_item; // [esp+52h] [ebp-80h] BYREF
-  survarium::flash_value option_item_member; // [esp+6Ah] [ebp-68h] BYREF
-  survarium::flash_value options_args[3]; // [esp+82h] [ebp-50h] BYREF
-  char v17; // [esp+CAh] [ebp-8h] BYREF
+  survarium::flash_value *v4; // ecx
+  survarium::flash_value *v5; // ecx
+  int v6; // edx
+  survarium::flash_value *v7; // ecx
+  bool v8; // zf
+  unsigned int v9; // ebx
+  int v10; // ecx
+  survarium::flash_movie_resource *m_object; // eax
+  survarium::flash_movie *v12; // ecx
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  Scaleform::GFx::Value *v17; // esi
+  int i; // edi
+  survarium::flash_value v19; // [esp+10h] [ebp-84h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+28h] [ebp-6Ch] BYREF
+  _BYTE v21[24]; // [esp+40h] [ebp-54h] BYREF
+  char v22; // [esp+58h] [ebp-3Ch] BYREF
+  survarium::flash_value v23; // [esp+5Ch] [ebp-38h] BYREF
+  survarium::flash_value value; // [esp+74h] [ebp-20h] BYREF
+  unsigned __int8 v25; // [esp+8Fh] [ebp-5h]
 
-  v4 = options_args;
-  for ( j = 2; j >= 0; --j )
+  v4 = &v19;
+  do
   {
-    if ( v4 )
+    survarium::flash_value::flash_value(v4);
+    v4 = v5 + 1;
+  }
+  while ( v6 - 1 >= 0 );
+  survarium::flash_value::SetUInt(v4, (int)&v19, *(_DWORD *)(a2 + 8));
+  survarium::flash_value::SetBoolean(v7, (int)v21, 1);
+  Scaleform::GFx::Movie::CreateArray(movie->m_object->movie->m_movie, &pvalue);
+  v8 = *(_BYTE *)(a2 + 4) == 0;
+  v25 = 0;
+  if ( !v8 )
+  {
+    do
     {
-      *(_DWORD *)v4->body = 0;
-      *(_DWORD *)&v4->body[4] = 0;
+      v9 = v25;
+      v10 = *(_DWORD *)(*(_DWORD *)a2 + 4 * v25);
+      (*(void (__thiscall **)(int))(*(_DWORD *)v10 + 4))(v10);
+      m_object = movie->m_object;
+      *(_DWORD *)v23.body = 0;
+      *(_DWORD *)&v23.body[4] = 0;
+      survarium::flash_movie::CreateObject(
+        v12,
+        (survarium::flash_value *)m_object->movie,
+        (Scaleform::GFx::Value *)&v23);
+      *(_DWORD *)value.body = 0;
+      *(_DWORD *)&value.body[4] = 0;
+      survarium::flash_value::SetUInt(v13, (int)&value, v9);
+      survarium::flash_value::SetMember(v14, &v23, "id", &value);
+      (*(void (__thiscall **)(_DWORD, survarium::flash_value *))(**(_DWORD **)(*(_DWORD *)a2 + 4 * v9) + 12))(
+        *(_DWORD *)(*(_DWORD *)a2 + 4 * v9),
+        &value);
+      survarium::flash_value::SetMember(v15, &v23, "value", &value);
+      survarium::flash_value::SetElement(v16, &pvalue, v9, &v23);
+      Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+      Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v23);
+      ++v25;
     }
-    ++v4;
-  }
-  v6 = *(_DWORD *)(a2 + 8);
-  if ( (options_args[0].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)options_args[0].body + 8))(
-      *(_DWORD *)options_args[0].body,
-      options_args,
-      *(_DWORD *)&options_args[0].body[8]);
-    *(_DWORD *)options_args[0].body = 0;
-  }
-  *(_DWORD *)&options_args[0].body[4] = 4;
-  *(_DWORD *)&options_args[0].body[8] = v6;
-  if ( (options_args[2].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)options_args[2].body + 8))(
-      *(_DWORD *)options_args[2].body,
-      &options_args[2],
-      *(_DWORD *)&options_args[2].body[8]);
-    *(_DWORD *)options_args[2].body = 0;
-  }
-  m_object = movie->m_object;
-  *(_DWORD *)&options_args[2].body[4] = 2;
-  options_args[2].body[8] = 1;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&options_args[1]);
-  for ( i = 0; i < *(_BYTE *)(a2 + 4); ++i )
-  {
-    v8 = *(_DWORD *)(*(_DWORD *)a2 + 4 * i);
-    (*(void (__thiscall **)(int))(*(_DWORD *)v8 + 4))(v8);
-    v9 = movie->m_object;
-    *(_DWORD *)option_item.body = 0;
-    *(_DWORD *)&option_item.body[4] = 0;
-    Scaleform::GFx::Movie::CreateObject(v9->movie->m_movie, (Scaleform::GFx::Value *)&option_item, 0, 0, 0);
-    *(_DWORD *)option_item_member.body = 0;
-    *(_DWORD *)&option_item_member.body[4] = 4;
-    *(_DWORD *)&option_item_member.body[8] = i;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)option_item.body
-                                                                                         + 20))(
-      *(_DWORD *)option_item.body,
-      *(_DWORD *)&option_item.body[8],
-      "id",
-      &option_item_member,
-      (option_item.body[4] & 0x8F) == 10);
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *))(**(_DWORD **)(*(_DWORD *)a2 + 4 * i) + 12))(
-      *(_DWORD *)(*(_DWORD *)a2 + 4 * i),
-      &option_item_member);
-    (*(void (__thiscall **)(_DWORD, _DWORD, const vostok::render::custom_config_value *, survarium::flash_value *, bool))(**(_DWORD **)option_item.body + 20))(
-      *(_DWORD *)option_item.body,
-      *(_DWORD *)&option_item.body[8],
-      &stru_955964,
-      &option_item_member,
-      (option_item.body[4] & 0x8F) == 10);
-    (*(void (__thiscall **)(_DWORD, _DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)options_args[1].body + 52))(
-      *(_DWORD *)options_args[1].body,
-      *(_DWORD *)&options_args[1].body[8],
-      i,
-      &option_item);
-    if ( (option_item_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)option_item_member.body + 8))(
-        *(_DWORD *)option_item_member.body,
-        &option_item_member,
-        *(_DWORD *)&option_item_member.body[8]);
-      *(_DWORD *)option_item_member.body = 0;
-    }
-    *(_DWORD *)&option_item_member.body[4] = 0;
-    if ( (option_item.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)option_item.body + 8))(
-        *(_DWORD *)option_item.body,
-        &option_item,
-        *(_DWORD *)&option_item.body[8]);
+    while ( v25 < *(_BYTE *)(a2 + 4) );
   }
   Scaleform::GFx::Movie::Invoke(
     movie->m_object->movie->m_movie,
     "root.set_values",
     0,
-    (const Scaleform::GFx::Value *)options_args,
+    (const Scaleform::GFx::Value *)&v19,
     3u);
-  v10 = &v17;
-  for ( k = 2; k >= 0; --k )
-  {
-    v12 = *((_DWORD *)v10 - 5);
-    v10 -= 24;
-    if ( (v12 & 0x40) != 0 )
-    {
-      (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v10 + 8))(v10, *((_DWORD *)v10 + 2));
-      *(_DWORD *)v10 = 0;
-    }
-    *((_DWORD *)v10 + 1) = 0;
-  }
+  v17 = (Scaleform::GFx::Value *)&v22;
+  for ( i = 2; i >= 0; --i )
+    Scaleform::GFx::Value::~Value(--v17);
 }

@@ -1,24 +1,48 @@
 void __thiscall vostok::network::string_response::~string_response(vostok::network::string_response *this)
 {
-  vostok::memory::base_allocator *v1; // eax
-  vostok::memory::base_allocator *v2; // eax
-  vostok::memory::base_allocator *v3; // eax
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v4; // ecx
-  char *temp; // [esp+18h] [ebp-4h] BYREF
+  char *m_string0; // eax
+  vostok::memory::base_allocator *allocator; // ecx
+  char *m_string1; // eax
+  char *m_string2; // eax
+  vostok::memory::base_allocator *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v8; // ecx
 
+  m_string0 = this->m_string0;
+  allocator = this->allocator;
   this->__vftable = (vostok::network::string_response_vtbl *)&vostok::network::string_response::`vftable';
-  temp = this->m_string0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::memory::free_helper<vostok::memory::base_allocator,char>(v1, &temp);
-  temp = this->m_string1;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::memory::free_helper<vostok::memory::base_allocator,char>(v2, &temp);
-  temp = this->m_string2;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::memory::free_helper<vostok::memory::base_allocator,char>(v3, &temp);
-  boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&this->m_functor2);
-  boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&this->m_functor1);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(v4);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&this->m_functor0);
+  if ( m_string0 )
+    allocator->call_free(
+      allocator,
+      m_string0,
+      "vostok::network::string_response::~string_response",
+      "c:\\survarium.deploy\\sources\\vostok\\network\\sources\\string_response.h",
+      52u);
+  m_string1 = this->m_string1;
+  if ( m_string1 )
+    this->allocator->call_free(
+      this->allocator,
+      m_string1,
+      "vostok::network::string_response::~string_response",
+      "c:\\survarium.deploy\\sources\\vostok\\network\\sources\\string_response.h",
+      55u);
+  m_string2 = this->m_string2;
+  v6 = this->allocator;
+  if ( m_string2 )
+    v6->call_free(
+      v6,
+      m_string2,
+      "vostok::network::string_response::~string_response",
+      "c:\\survarium.deploy\\sources\\vostok\\network\\sources\\string_response.h",
+      58u);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v6,
+    (int *)&this->m_functor2);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&this->m_functor1);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v8,
+    (int *)&this->m_functor0);
   this->__vftable = (vostok::network::string_response_vtbl *)&vostok::network::response::`vftable';
 }

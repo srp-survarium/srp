@@ -1,9 +1,7 @@
-void __stdcall __noreturn unhandled_exception_handler(_EXCEPTION_POINTERS *const exception_information)
+void __stdcall __noreturn unhandled_exception_handler(_EXCEPTION_POINTERS *exception_information)
 {
-  vostok::debug::bugtrap *savedregs; // [esp+0h] [ebp+0h]
-
-  if ( !vostok::debug::bugtrap::initialized() )
-    vostok::debug::bugtrap::initialize(savedregs);
+  if ( !s_initialized_3 )
+    vostok::debug::bugtrap::initialize();
   prologue(exception_information);
   epilogue(exception_information);
 }

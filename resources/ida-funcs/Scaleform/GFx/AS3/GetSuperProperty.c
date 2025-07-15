@@ -1,7 +1,7 @@
 Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::GetSuperProperty(
         Scaleform::GFx::AS3::CheckResult *result,
         Scaleform::GFx::AS3::VM *vm,
-        Scaleform::GFx::AS3::Traits *ot,
+        const Scaleform::GFx::AS3::Traits *ot,
         Scaleform::GFx::AS3::Value *resulta,
         Scaleform::GFx::AS3::Value *_this,
         const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *mn,
@@ -19,7 +19,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::GetSuperProperty(
   ValueTraits = ot;
   if ( !ot )
     ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(vm, _this);
-  pObject = (Scaleform::GFx::AS3::Traits *)ValueTraits->pParent.pObject;
+  pObject = ValueTraits->pParent.pObject;
   if ( pObject )
   {
     index = 0;

@@ -1,7 +1,7 @@
 Scaleform::MemoryHeapPT *__thiscall Scaleform::MemoryHeapPT::CreateHeap(
         Scaleform::MemoryHeapPT *this,
-        const char *name,
-        const Scaleform::MemoryHeap::HeapDesc *desc)
+        char *name,
+        Scaleform::SysAllocPaged *desc)
 {
   Scaleform::LockSafe *p_RootLock; // ebx
   Scaleform::MemoryHeapPT *Heap; // esi

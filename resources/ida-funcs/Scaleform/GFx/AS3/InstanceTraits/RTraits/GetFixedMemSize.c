@@ -5,7 +5,7 @@ int __thiscall Scaleform::GFx::AS3::InstanceTraits::RTraits::GetFixedMemSize(
 
   pObject = this->pParent.pObject;
   if ( pObject )
-    return pObject->GetFixedMemSize((Scaleform::GFx::AS3::Traits *)pObject);
+    return pObject->GetFixedMemSize(pObject);
   else
     return 32;
 }

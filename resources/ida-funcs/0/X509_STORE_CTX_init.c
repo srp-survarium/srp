@@ -38,7 +38,7 @@ int __cdecl X509_STORE_CTX_init(x509_store_ctx_st *ctx, x509_store_st *store, x5
   ctx->param = v5;
   if ( !v5 )
   {
-    ERR_put_error(0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2029);
+    ERR_put_error(0, 0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2029);
     return 0;
   }
   if ( store )
@@ -49,7 +49,7 @@ int __cdecl X509_STORE_CTX_init(x509_store_ctx_st *ctx, x509_store_st *store, x5
     if ( !v7 )
     {
 LABEL_7:
-      ERR_put_error(0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2057);
+      ERR_put_error(0, 0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2057);
       return 0;
     }
   }
@@ -58,7 +58,7 @@ LABEL_7:
     v5->inh_flags |= 0x11u;
     ctx->cleanup = 0;
   }
-  v8 = X509_VERIFY_PARAM_lookup(&result.m_buffer[40]);
+  v8 = X509_VERIFY_PARAM_lookup("default");
   if ( !X509_VERIFY_PARAM_inherit(ctx->param, v8) )
     goto LABEL_7;
   if ( store && (check_issued = store->check_issued) != 0 )
@@ -92,19 +92,19 @@ LABEL_7:
   if ( store && (cert_crl = store->cert_crl) != 0 )
     ctx->cert_crl = cert_crl;
   else
-    ctx->cert_crl = (int (__cdecl *)(x509_store_ctx_st *, X509_crl_st *, x509_st *))::cert_crl;
+    ctx->cert_crl = ::cert_crl;
   if ( store && (lookup_certs = store->lookup_certs) != 0 )
     ctx->lookup_certs = lookup_certs;
   else
-    ctx->lookup_certs = X509_STORE_get1_certs;
+    ctx->lookup_certs = (stack_st_X509 *(__cdecl *)(x509_store_ctx_st *, X509_name_st *))X509_STORE_get1_certs;
   if ( store && (lookup_crls = store->lookup_crls) != 0 )
     ctx->lookup_crls = lookup_crls;
   else
-    ctx->lookup_crls = X509_STORE_get1_crls;
-  ctx->check_policy = check_policy;
-  if ( CRYPTO_new_ex_data((unsigned int)lookup_crls) )
+    ctx->lookup_crls = (stack_st_X509_CRL *(__cdecl *)(x509_store_ctx_st *, X509_name_st *))X509_STORE_get1_crls;
+  ctx->check_policy = (int (__cdecl *)(x509_store_ctx_st *))check_policy;
+  if ( CRYPTO_new_ex_data((int)lookup_crls, 0) )
     return 1;
   CRYPTO_free(ctx);
-  ERR_put_error(0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2122);
+  ERR_put_error(0, 0xBu, 143, 65, ".\\crypto\\x509\\x509_vfy.c", 2122);
   return 0;
 }

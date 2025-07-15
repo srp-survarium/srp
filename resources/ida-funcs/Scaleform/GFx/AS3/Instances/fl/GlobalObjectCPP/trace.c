@@ -43,8 +43,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::trace(
       pNode = tmp.pNode;
       if ( v8 )
         break;
-      Scaleform::String::String(&v20, (char *)tmp.pNode->pData, tmp.pNode->Size);
-      Scaleform::StringBuffer::AppendString(&r, (char *)((*v10 & 0xFFFFFFFC) + 8), 0xFFFFFFFF);
+      Scaleform::String::String(&v20, (const __m128i *)tmp.pNode->pData, tmp.pNode->Size);
+      Scaleform::StringBuffer::AppendString(&r, (const __m128i *)((*v10 & 0xFFFFFFFC) + 8), 0xFFFFFFFF);
       v11 = (void *)(v20.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((v20.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);
@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::trace(
   else
   {
 LABEL_12:
-    Scaleform::StringBuffer::AppendString(&r, "\n", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(&r, (const __m128i *)"\n", 0xFFFFFFFF);
     Size = r.Size;
     for ( i = 0; Size; Size -= v15 )
     {
@@ -74,8 +74,8 @@ LABEL_12:
         v15 = 1999;
       pData = r.pData;
       if ( !r.pData )
-        pData = (char *)&buf;
-      memcpy((unsigned __int8 *)dst, (unsigned __int8 *)&pData[i], v15);
+        pData = (char *)uri;
+      memcpy((int)dst, (const __m128i *)&pData[i], v15);
       UI = vm->UI;
       dst[v15] = 0;
       UI->Output(UI, Output_Message, dst);

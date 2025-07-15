@@ -24,7 +24,7 @@ int __cdecl asn1_bio_ctrl(bio_st *b, int cmd, int arg1, void **arg2)
           BIO_clear_flags(b, 15);
           goto LABEL_18;
         }
-        result = BIO_ctrl(b->next_bio, cmd, arg1, arg2);
+        result = BIO_ctrl(cmd, b->next_bio, cmd, arg1, arg2);
       }
       break;
     case 149:
@@ -58,7 +58,7 @@ int __cdecl asn1_bio_ctrl(bio_st *b, int cmd, int arg1, void **arg2)
     default:
       next_bio = b->next_bio;
       if ( next_bio )
-        result = BIO_ctrl(next_bio, cmd, arg1, arg2);
+        result = BIO_ctrl(cmd, next_bio, cmd, arg1, arg2);
       else
 LABEL_18:
         result = 0;

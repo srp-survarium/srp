@@ -1,6 +1,6 @@
 double __thiscall Scaleform::GFx::TextField::GetX(Scaleform::GFx::TextField *this)
 {
-  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+60h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+0h] [ebp-60h] BYREF
 
   pgeomData.OrigMatrix.M[0][0] = 1.0;
   pgeomData.Y = 0;

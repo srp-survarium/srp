@@ -2,7 +2,7 @@ int __cdecl AES_wrap_key(
         aes_key_st *key,
         const unsigned __int8 *iv,
         unsigned __int8 *out,
-        unsigned __int8 *in,
+        const __m128i *in,
         unsigned int inlen)
 {
   unsigned __int8 *v5; // edi
@@ -24,7 +24,7 @@ int __cdecl AES_wrap_key(
   if ( (inlen & 7) != 0 || inlen < 8 )
     return -1;
   v6 = 1;
-  memcpy(out + 8, in, inlen);
+  memcpy((int)(out + 8), in, inlen);
   v7 = iv;
   if ( !iv )
     v7 = default_iv;

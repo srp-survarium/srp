@@ -1,16 +1,19 @@
 void __thiscall survarium::object_vegetation::insert(survarium::object_vegetation *this)
 {
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v2; // [esp-8h] [ebp-Ch] BYREF
-  const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *p_m_render_scene; // [esp-4h] [ebp-8h]
+  survarium::base_game_scene **p_m_game_scene; // ebx
+  vostok::render::scene_renderer *v2; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v3; // [esp-8h] [ebp-14h] BYREF
+  vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *p_m_render_scene; // [esp-4h] [ebp-10h]
 
+  p_m_game_scene = &this->m_game_scene;
   p_m_render_scene = &this->m_game_scene->m_render_scene;
-  v2.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &v2,
-    (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_grass);
+  v3.m_object = (survarium::pure_game_effect_emitter_base *)this;
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &v3,
+    (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&this->m_grass);
   vostok::render::scene_renderer::set_grass(
-    (vostok::render::scene_renderer *)this->m_game_scene,
-    this->m_game_scene->m_game->m_renderer->m_scene,
-    v2.m_object,
-    p_m_render_scene);
+    v2,
+    *(vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)((char *)&dword_200060 + (unsigned int)(*p_m_game_scene)->m_game->m_renderer),
+    (const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *)v3.m_object,
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)p_m_render_scene);
 }

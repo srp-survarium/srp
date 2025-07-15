@@ -24,7 +24,7 @@ int __cdecl _fpclass(long double x)
   else
   {
     v4 = HIWORD(x) & 0x8000;
-    if ( (HIWORD(x) & 0x7FF0) == 0 && (((unsigned int)&loc_FFFFF & HIDWORD(x)) != 0 || LODWORD(x)) )
+    if ( (HIWORD(x) & 0x7FF0) == 0 && ((HIDWORD(x) & 0xFFFFF) != 0 || LODWORD(x)) )
     {
       return (HIWORD(x) & 0x8000) != 0 ? 16 : 128;
     }

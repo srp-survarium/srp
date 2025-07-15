@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::RectPacker::emitPacked(Scaleform::Render::Rec
   Scaleform::Render::RectPacker::RectType *v7; // eax
   unsigned int i; // [esp+0h] [ebp-14h]
   Scaleform::Render::RectPacker *v9; // [esp+4h] [ebp-10h]
-  unsigned int rect_4; // [esp+Ch] [ebp-8h]
+  unsigned int y; // [esp+Ch] [ebp-8h]
 
   v1 = 0;
   v9 = this;
@@ -22,7 +22,7 @@ void __thiscall Scaleform::Render::RectPacker::emitPacked(Scaleform::Render::Rec
       x = v2->x;
       p_PackedRects = &this->PackedRects;
       v6 = this->PackedRects.Size >> 8;
-      rect_4 = v2->y;
+      y = v2->y;
       if ( v6 >= this->PackedRects.NumPages )
       {
         Scaleform::ArrayPagedBase<Scaleform::Render::RectPacker::RectType,8,64,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::RectPacker::RectType,2>>::allocatePage(
@@ -32,7 +32,7 @@ void __thiscall Scaleform::Render::RectPacker::emitPacked(Scaleform::Render::Rec
       }
       v7 = &p_PackedRects->Pages[v6][(unsigned __int8)p_PackedRects->Size];
       v7->x = x;
-      v7->y = rect_4;
+      v7->y = y;
       v1 = i;
       v7->Id = Id;
       ++p_PackedRects->Size;

@@ -48,7 +48,7 @@ const Scaleform::GFx::AS3::ClassTraits::Traits *__thiscall Scaleform::GFx::AS3::
       {
         v4 = *(_DWORD **)(v3.VInt + 20);
         if ( !v4[17] )
-          (*(void (__thiscall **)(_DWORD *))(*v4 + 44))(v4);
+          (*(void (__thiscall **)(_DWORD *))(*v4 + 56))(v4);
         result = *(const Scaleform::GFx::AS3::ClassTraits::Traits **)(v4[17] + 20);
       }
       else

@@ -16,8 +16,8 @@ void __thiscall Scaleform::Render::FilterEffect::FilterEffect(
   Scaleform::Render::SortKeyInterface *v14; // ecx
   void *v15; // eax
   Scaleform::Render::MatrixPoolImpl::EntryHandle *pHandle; // eax
-  Scaleform::Render::SortKey v17; // [esp+38h] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> v18; // [esp+40h] [ebp-20h] BYREF
+  Scaleform::Render::SortKey v17; // [esp+18h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> ma; // [esp+20h] [ebp-20h] BYREF
 
   this->pNext = next;
   this->Length = 0;
@@ -59,18 +59,18 @@ void __thiscall Scaleform::Render::FilterEffect::FilterEffect(
   this->BoundsMatrix = (Scaleform::Render::MatrixPoolImpl::HMatrix)m->pHandle;
   if ( pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
     ++pHandle->pHeader->RefCount;
-  v18.M[0][0] = 0.0;
-  v18.M[0][1] = 0.0;
-  v18.M[0][2] = 0.0;
-  v18.M[0][3] = 0.0;
-  v18.M[1][0] = 0.0;
-  v18.M[1][1] = 0.0;
-  v18.M[1][2] = 0.0;
-  v18.M[1][3] = 0.0;
-  Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(&this->BoundsMatrix, &v18, Element_T0);
+  ma.M[0][0] = 0.0;
+  ma.M[0][1] = 0.0;
+  ma.M[0][2] = 0.0;
+  ma.M[0][3] = 0.0;
+  ma.M[1][0] = 0.0;
+  ma.M[1][1] = 0.0;
+  ma.M[1][2] = 0.0;
+  ma.M[1][3] = 0.0;
+  Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(&this->BoundsMatrix, &ma, 1u);
   Scaleform::Render::MatrixPoolImpl::HMatrix::SetUserData(
     &this->BoundsMatrix,
-    (unsigned __int8 *)&m->pHandle->pHeader[1].RefCount
-  + 16 * (unsigned __int8)byte_9B2B74[5 * (m->pHandle->pHeader->Format & 0xF)],
+    (const __m128i *)&m->pHandle->pHeader[1].RefCount
+  + (unsigned __int8)byte_874214[5 * (m->pHandle->pHeader->Format & 0xF)],
     0x20u);
 }

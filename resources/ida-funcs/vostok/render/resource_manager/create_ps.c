@@ -1,57 +1,89 @@
-vostok::render::res_sampler_list *__userpurge vostok::render::resource_manager::create_ps@<eax>(
-        stlp_std::priv::_Rb_tree_node_base *binder@<eax>,
-        stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *a2@<ecx>,
-        vostok::render::resource_manager *this)
+const vostok::render::xs_descriptor<vostok::render::vs_data> *__thiscall vostok::render::resource_manager::create_ps(
+        vostok::render::resource_manager *this,
+        const vostok::render::xs_descriptor<vostok::render::ps_data> *binder,
+        vostok::render::xs_descriptor<vostok::render::ps_data> *bindera)
 {
-  stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *p_m_p_shaders; // ebx
-  const stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *v5; // eax
-  vostok::render::res_xs<vostok::render::ps_data> *v7; // eax
-  int v8; // eax
-  int v9; // esi
-  vostok::render::res_xs<vostok::render::ps_data> *v10; // ecx
-  vostok::render::grass_render_model *m_object; // edi
-  void *v12; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  vostok::render::res_xs<vostok::render::vs_data> *__val; // [esp+10h] [ebp-8h] BYREF
-  char v15; // [esp+14h] [ebp-4h]
+  vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data> *v3; // ebx
+  char *v4; // esi
+  const vostok::render::xs_descriptor<vostok::render::vs_data> **v5; // edi
+  vostok::memory::doug_lea_allocator *v7; // esi
+  char *v8; // eax
+  vostok::memory::doug_lea_allocator *v9; // ecx
+  char *v10; // eax
+  vostok::render::res_xs<vostok::render::ps_data> *v11; // ecx
+  int v12; // eax
+  int v13; // edi
+  vostok::render::res_xs<vostok::render::ps_data> *v14; // ecx
+  vostok::memory::doug_lea_allocator *v15; // ebx
+  vostok::memory::doug_lea_allocator *v16; // ecx
+  stlp_std::priv::_Rb_tree_node_base v17; // [esp-4h] [ebp-1Ch]
+  const char *v18; // [esp+0h] [ebp-18h]
+  const char *v19; // [esp+0h] [ebp-18h]
+  const char *v20; // [esp+4h] [ebp-14h]
+  const char *v21; // [esp+4h] [ebp-14h]
+  unsigned int v22; // [esp+8h] [ebp-10h]
+  unsigned int v23; // [esp+8h] [ebp-10h]
+  int v24; // [esp+10h] [ebp-8h] BYREF
+  char v25; // [esp+14h] [ebp-4h]
 
-  p_m_p_shaders = (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)&this->m_p_shaders;
-  v5 = stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *>>::_M_find<vostok::render::xs_descriptor<vostok::render::vs_data>>(
-         a2,
-         (const stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)&this->m_p_shaders,
-         binder);
-  if ( v5 != p_m_p_shaders )
-    return (vostok::render::res_sampler_list *)v5->_M_node_count;
-  v7 = (vostok::render::res_xs<vostok::render::ps_data> *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                            (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                            0x18u);
-  if ( v7 )
+  v3 = (vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data> *)&binder[23].m_shader_data.textures.m_buffer[85].m_store[40];
+  v4 = *(char **)&binder[23].m_shader_data.textures.m_buffer[85].m_store[44];
+  v5 = (const vostok::render::xs_descriptor<vostok::render::vs_data> **)&binder[23].m_shader_data.textures.m_buffer[85].m_store[40];
+  if ( v4 )
   {
-    vostok::render::res_xs<vostok::render::ps_data>::res_xs<vostok::render::ps_data>(
-      v7,
-      (const vostok::render::xs_descriptor<vostok::render::ps_data> *)binder);
-    v9 = v8;
+    do
+    {
+      if ( vostok::render::res_xs<vostok::render::gs_data>::compare(
+             (vostok::render::res_xs<vostok::render::vs_data> *)this,
+             *((const vostok::render::xs_descriptor<vostok::render::vs_data> **)v4 + 4),
+             (int)bindera) < 0 )
+      {
+        v4 = (char *)*((_DWORD *)v4 + 3);
+      }
+      else
+      {
+        v5 = (const vostok::render::xs_descriptor<vostok::render::vs_data> **)v4;
+        v4 = (char *)*((_DWORD *)v4 + 2);
+      }
+    }
+    while ( v4 );
+    if ( v5 == (const vostok::render::xs_descriptor<vostok::render::vs_data> **)v3 )
+      goto LABEL_11;
+    if ( vostok::render::res_xs<vostok::render::gs_data>::compare(
+           (vostok::render::res_xs<vostok::render::vs_data> *)this,
+           v5[4],
+           (int)bindera) > 0 )
+      v5 = (const vostok::render::xs_descriptor<vostok::render::vs_data> **)&binder[23].m_shader_data.textures.m_buffer[85].m_store[40];
+  }
+  if ( v5 != (const vostok::render::xs_descriptor<vostok::render::vs_data> **)v3 )
+    return v5[4];
+LABEL_11:
+  v7 = vostok::render::g_allocator;
+  v8 = type_info::raw_name(&vostok::render::res_xs<vostok::render::ps_data> `RTTI Type Descriptor');
+  v10 = vostok::memory::doug_lea_allocator::malloc_impl(v9, (int)v7, 0x1Cu, v8, v18, v20, v22);
+  if ( v10 )
+  {
+    vostok::render::res_xs<vostok::render::ps_data>::res_xs<vostok::render::ps_data>(v11, (int)v10, bindera);
+    v13 = v12;
   }
   else
   {
-    v9 = 0;
+    v13 = 0;
   }
-  this = (vostok::render::resource_manager *)v9;
-  *(_BYTE *)(v9 + 20) = 1;
-  stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *>>::insert_unique(
-    (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)&__val,
-    p_m_p_shaders,
-    &__val,
-    (vostok::render::res_xs<vostok::render::vs_data> *const *)&this);
-  if ( !v15 )
+  *(_DWORD *)&v17._M_color = &bindera;
+  bindera = (vostok::render::xs_descriptor<vostok::render::ps_data> *)v13;
+  *(_BYTE *)(v13 + 24) = 1;
+  stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::ps_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::ps_data>,vostok::render::res_xs<vostok::render::ps_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::ps_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::ps_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::ps_data> *>>::insert_unique(
+    (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::ps_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::ps_data>,vostok::render::res_xs<vostok::render::ps_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::ps_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::ps_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::ps_data> *> > *)v11,
+    (int)&v24,
+    v3,
+    v17);
+  if ( !v25 )
   {
-    m_object = vostok::render::g_allocator.m_object;
-    vostok::render::res_xs<vostok::render::ps_data>::~res_xs<vostok::render::ps_data>(v10, v9);
-    v12 = (void *)v9;
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v12);
-    return __val->m_samplers.m_object;
+    v15 = vostok::render::g_allocator;
+    vostok::render::res_xs<vostok::render::ps_data>::`scalar deleting destructor'(v14, v13);
+    vostok::memory::doug_lea_allocator::free_impl(v16, (int)v15, (char *)v13, v19, v21, v23);
+    return *(const vostok::render::xs_descriptor<vostok::render::vs_data> **)(v24 + 16);
   }
-  return (vostok::render::res_sampler_list *)v9;
+  return (const vostok::render::xs_descriptor<vostok::render::vs_data> *)v13;
 }

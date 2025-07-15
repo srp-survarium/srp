@@ -21,7 +21,7 @@ int __cdecl buffer_read(bio_st *b, char *out, int outl)
     {
       if ( v6 > outl )
         v6 = outl;
-      memcpy((unsigned __int8 *)out, (unsigned __int8 *)(*((_DWORD *)ptr + 4) + *((_DWORD *)ptr + 2)), v6);
+      memcpy((int)out, (const __m128i *)(*((_DWORD *)ptr + 4) + *((_DWORD *)ptr + 2)), v6);
       *((_DWORD *)ptr + 4) += v6;
       *((_DWORD *)ptr + 3) -= v6;
       v9 += v6;
@@ -34,7 +34,7 @@ int __cdecl buffer_read(bio_st *b, char *out, int outl)
     {
       while ( 1 )
       {
-        v8 = BIO_read(b->next_bio, out, outl);
+        v8 = BIO_read(outl, b->next_bio, out, outl);
         if ( v8 <= 0 )
           break;
         v9 += v8;
@@ -51,7 +51,7 @@ int __cdecl buffer_read(bio_st *b, char *out, int outl)
         return v8;
       return result;
     }
-    v7 = BIO_read(b->next_bio, *((char **)ptr + 2), *(_DWORD *)ptr);
+    v7 = BIO_read(outl, b->next_bio, *((char **)ptr + 2), *(_DWORD *)ptr);
     if ( v7 <= 0 )
       break;
     *((_DWORD *)ptr + 4) = 0;

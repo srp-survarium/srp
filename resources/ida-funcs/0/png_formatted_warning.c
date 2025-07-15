@@ -11,7 +11,7 @@ int __cdecl png_formatted_warning(int a1, int a2, char *a3)
     if ( !a2 || *a3 != 64 || !a3[1] )
       goto LABEL_18;
     ++a3;
-    for ( i = 0; byte_85E634[i] != *a3 && byte_85E634[i]; ++i )
+    for ( i = 0; byte_6F1F88[i] != *a3 && byte_6F1F88[i]; ++i )
       ;
     if ( i < 8 )
     {

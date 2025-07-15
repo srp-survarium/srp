@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc2_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_geom::Rectangle::contains;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc2<Scaleform::GFx::AS3::Instances::fl_geom::Rectangle,15,bool,double,double>::Method) = Scaleform::GFx::AS3::Instances::fl_geom::Rectangle::contains;
-  dword_AAC774 = 0;
+  dword_8F0F2C = 0;
   return result;
 }

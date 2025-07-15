@@ -1,13 +1,13 @@
 void __usercall vostok::render::draw_text_shadowed(
-        const char *str@<eax>,
+        unsigned int pos_x@<edi>,
         unsigned int pos_y@<esi>,
-        const vostok::ui::font *in_font,
-        unsigned int pos_x,
-        unsigned int clr)
+        vostok::ui::font *in_font,
+        const char *str,
+        int clr)
 {
-  int v6; // eax
+  int v5; // eax
 
-  v6 = vostok::math::color_rgba(0.0, COERCE_VOSTOK_MATH_(0.0), 0.0, 1.0);
-  vostok::render::draw_text(str, in_font, pos_x + 1, pos_y + 1, (vostok::math::color)v6);
-  vostok::render::draw_text(str, in_font, pos_x, pos_y, (vostok::math::color)clr);
+  v5 = vostok::math::color_rgba(0.0, COERCE_VOSTOK_MATH_(0.0), 0.0, 1.0);
+  vostok::render::draw_text(in_font, str, pos_x + 1, pos_y + 1, v5);
+  vostok::render::draw_text(in_font, str, pos_x, pos_y, clr);
 }

@@ -1,52 +1,43 @@
 unsigned int __thiscall vostok::resources::resource_quality::positional_users_count(
         vostok::resources::resource_quality *this,
-        const vostok::resources::resource_base *resource_user)
+        vostok::threading::simple_lock *resource_user)
 {
-  vostok::resources::resource_quality *v2; // ebx
-  vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *p_m_parent_resources; // esi
-  vostok::threading::simple_lock *v5; // ebp
-  const vostok::resources::resource_link *m_first; // eax
-  const vostok::resources::resource_link *v7; // esi
-  int v8; // edi
-  const vostok::resources::resource_link *i; // eax
+  vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *p_m_thread_id; // esi
+  const vostok::threading::simple_lock *v5; // eax
+  vostok::resources::resource_link *no_dying; // eax
+  int v7; // edi
+  vostok::resources::resource_link *v8; // esi
+  vostok::threading::simple_lock::mutex_raii v9; // [esp+8h] [ebp-8h] BYREF
 
-  v2 = this;
   if ( resource_user )
   {
-    this = (vostok::resources::resource_quality *)resource_user->m_flags.m_flags;
-    if ( ((unsigned __int8)this & 8) != 0 )
+    if ( ((unsigned __int8)((resource_user[1].m_lock & 8) - 8) == 0 ? (unsigned int)resource_user : 0) != 0 )
       return 1;
-    p_m_parent_resources = &resource_user->m_parent_resources;
+    p_m_thread_id = (vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *)&resource_user[7].m_thread_id;
   }
   else
   {
-    p_m_parent_resources = &this->m_parent_resources;
+    p_m_thread_id = &this->m_parent_resources;
   }
-  if ( p_m_parent_resources )
-    v5 = &p_m_parent_resources->vostok::threading::simple_lock;
+  if ( p_m_thread_id )
+    v5 = &p_m_thread_id->vostok::threading::simple_lock;
   else
     v5 = 0;
-  vostok::threading::simple_lock::lock((vostok::threading::simple_lock *)this, v5);
-  m_first = p_m_parent_resources->m_first;
-  if ( m_first && (m_first->resource->m_flags.m_flags & 0x800) != 0 )
-    m_first = vostok::resources::resource_link_list_next_no_dying(m_first);
-  v7 = m_first;
-  v8 = 0;
-  if ( m_first )
+  v9.lock = v5;
+  vostok::threading::simple_lock::lock(resource_user, (int)v5);
+  v9.locked = 1;
+  no_dying = vostok::resources::resource_link_list_front_no_dying(p_m_thread_id);
+  v7 = 0;
+  while ( 1 )
   {
-    do
-    {
-      v8 += vostok::resources::resource_quality::positional_users_count(v2, v7->resource);
-      for ( i = v7->next_link; i; i = i->next_link )
-      {
-        if ( (i->resource->m_flags.m_flags & 0x800) == 0 )
-          break;
-      }
-      v7 = i;
-    }
-    while ( i );
+    v8 = no_dying;
+    if ( !no_dying )
+      break;
+    v7 += vostok::resources::resource_quality::positional_users_count(
+            this,
+            (vostok::threading::simple_lock *)no_dying->resource);
+    no_dying = vostok::resources::resource_link_list_next_no_dying(v8);
   }
-  if ( v5->m_lock-- == 1 )
-    _InterlockedExchange(&v5->m_thread_id, 0);
-  return v8;
+  vostok::threading::simple_lock::mutex_raii::~mutex_raii(&v9);
+  return v7;
 }

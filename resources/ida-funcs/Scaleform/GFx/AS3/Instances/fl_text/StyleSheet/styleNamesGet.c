@@ -61,7 +61,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::styleNamesG
     Scaleform::String::operator+=(&temp, (const Scaleform::String *)(20 * v10 + v9->TextureWidth + 16));
     v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                 StringManagerRef->pStringManager,
-                (char *)((temp.HeapTypeBits & 0xFFFFFFFC) + 8),
+                (__m128i *)((temp.HeapTypeBits & 0xFFFFFFFC) + 8),
                 *(_DWORD *)(temp.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++v.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Value(&v22, &v);
@@ -104,7 +104,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::styleNamesG
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

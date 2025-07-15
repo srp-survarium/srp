@@ -8,7 +8,7 @@ char __thiscall Scaleform::GFx::AS3::IMEManager::IsCandidateListLoaded(Scaleform
     return 0;
   v.pObjectInterface = 0;
   v.Type = VT_Undefined;
-  if ( !(unsigned __int8)Scaleform::GFx::Movie::GetVariable(pMovie, &v, "_global.gfx_ime_candidate_list_state") )
+  if ( !Scaleform::GFx::Movie::GetVariable(pMovie, &v, "_global.gfx_ime_candidate_list_state") )
   {
     if ( (v.Type & 0x40) != 0 )
     {

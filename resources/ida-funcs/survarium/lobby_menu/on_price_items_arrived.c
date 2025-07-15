@@ -1,254 +1,151 @@
 void __thiscall survarium::lobby_menu::on_price_items_arrived(
         survarium::lobby_menu *this,
-        survarium::lobby_menu *trader_id,
-        unsigned __int8 trader_ida)
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> trader_id,
+        unsigned __int8 a3)
 {
-  survarium::lobby_client *v3; // edi
+  vostok::particle::particle_system_instance_impl *m_object; // ebx
   vostok::configs::binary_config_value *v4; // eax
   vostok::configs::binary_config_value *v5; // eax
-  const vostok::configs::binary_config_value *v6; // ebp
-  int v7; // ecx
-  unsigned int v8; // ebx
-  const char *pointer; // edi
-  survarium::flash_value *v10; // eax
-  int i; // ecx
-  survarium::flash_movie_resource *m_object; // edx
-  survarium::text_translator *p_m_text_translator; // eax
-  int v14; // ecx
-  const void *v15; // esi
-  int v16; // ebp
-  survarium::price_item *v17; // esi
-  int item_dict_id; // edi
-  int cost; // esi
-  char *v20; // esi
-  int j; // edi
-  int v22; // eax
-  unsigned __int8 current_reputation_level; // [esp+90h] [ebp-4EAh]
-  unsigned __int8 levels_count; // [esp+91h] [ebp-4E9h]
-  survarium::flash_value price_item_property; // [esp+92h] [ebp-4E8h] BYREF
-  int v26; // [esp+AAh] [ebp-4D0h]
-  survarium::flash_value prices_array_item; // [esp+AEh] [ebp-4CCh] BYREF
-  int v28; // [esp+C6h] [ebp-4B4h]
-  unsigned __int16 *p_count; // [esp+CAh] [ebp-4B0h]
-  const vostok::configs::binary_config_value *faction_levels; // [esp+CEh] [ebp-4ACh]
-  survarium::lobby_client *lobby_client; // [esp+D2h] [ebp-4A8h]
-  survarium::flash_value current_level[5]; // [esp+D6h] [ebp-4A4h] BYREF
-  char v33; // [esp+14Eh] [ebp-42Ch] BYREF
-  char faction_str[32]; // [esp+156h] [ebp-424h] BYREF
-  wchar_t faction_level_name_w[514]; // [esp+176h] [ebp-404h] BYREF
+  const vostok::configs::binary_config_value *v6; // esi
+  unsigned __int8 v7; // al
+  char *pointer; // edi
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  int v11; // edx
+  survarium::flash_value *v12; // ecx
+  survarium::text_translator *v13; // ecx
+  unsigned int *v14; // eax
+  survarium::flash_value *v15; // ecx
+  survarium::lobby_client *v16; // eax
+  survarium::flash_movie *v17; // ecx
+  unsigned __int16 *v18; // edi
+  unsigned int m_uid; // eax
+  survarium::flash_value *v20; // ecx
+  survarium::flash_value *v21; // ecx
+  survarium::flash_value *v22; // ecx
+  survarium::flash_value *v23; // ecx
+  survarium::flash_value *v24; // ecx
+  survarium::flash_value *v25; // ecx
+  survarium::flash_value *v26; // ecx
+  Scaleform::GFx::Value *v27; // esi
+  int i; // edi
+  char v29[512]; // [esp+10h] [ebp-2E8h] BYREF
+  char _Dest[32]; // [esp+210h] [ebp-E8h] BYREF
+  survarium::flash_value v31; // [esp+230h] [ebp-C8h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+248h] [ebp-B0h] BYREF
+  _BYTE v33[24]; // [esp+260h] [ebp-98h] BYREF
+  survarium::flash_value v34; // [esp+278h] [ebp-80h] BYREF
+  _BYTE v35[24]; // [esp+290h] [ebp-68h] BYREF
+  char v36; // [esp+2A8h] [ebp-50h] BYREF
+  survarium::flash_value v37; // [esp+2ACh] [ebp-4Ch] BYREF
+  survarium::flash_value v38; // [esp+2C4h] [ebp-34h] BYREF
+  const vostok::configs::binary_config_value *v39; // [esp+2DCh] [ebp-1Ch]
+  unsigned int v40; // [esp+2E0h] [ebp-18h]
+  unsigned int value; // [esp+2E4h] [ebp-14h]
+  int v42; // [esp+2E8h] [ebp-10h]
+  survarium::lobby_client *v43; // [esp+2ECh] [ebp-Ch]
+  int v44; // [esp+2F0h] [ebp-8h]
+  unsigned __int8 v45; // [esp+2F7h] [ebp-1h]
 
-  v3 = trader_id->m_game->m_network_client->lobby_client(trader_id->m_game->m_network_client);
-  lobby_client = v3;
-  sprintf_s<32>((char (*)[32])faction_str, "faction_%d", trader_ida);
-  v4 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                 trader_id->m_game->m_items_dictionary.m_object->dict_config.m_object->m_root,
-                                                 "factions_dict");
-  v5 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v4, faction_str);
+  m_object = trader_id.m_object;
+  v43 = survarium::lobby_menu::lobby_client(this, (int)trader_id.m_object);
+  sprintf_s<32>((char (*)[32])_Dest, "faction_%d", a3);
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &trader_id,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3412]->m_name[217]);
+  v4 = vostok::configs::binary_config_value::operator[](
+         (vostok::configs::binary_config_value *)trader_id.m_object->m_lods[0].m_template.m_object,
+         "factions_dict");
+  v5 = vostok::configs::binary_config_value::operator[](v4, _Dest);
   v6 = vostok::configs::binary_config_value::operator[](v5, "levels");
-  v7 = 24 * v6->count;
-  faction_levels = v6;
-  levels_count = v7 / 24;
-  current_reputation_level = 0;
-  if ( levels_count )
+  v39 = v6;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&trader_id);
+  v7 = 24 * v6->count / 24;
+  HIBYTE(trader_id.m_object) = 0;
+  v45 = v7;
+  v43 = (survarium::lobby_client *)((char *)v43 + 8 * a3 + 12744);
+  if ( v7 )
   {
-    v8 = 0;
-    p_count = &v3->m_prices[trader_ida].count;
-    v28 = 0;
-    v26 = 0;
+    value = 0;
+    v44 = 0;
     while ( 1 )
     {
-      pointer = (const char *)vostok::configs::binary_config_value::operator[](
-                                (vostok::configs::binary_config_value *)((char *)v6->data.pointer + v26),
-                                "name")->data.pointer;
-      v10 = current_level;
-      for ( i = 4; i >= 0; --i )
+      pointer = (char *)vostok::configs::binary_config_value::operator[](
+                          (vostok::configs::binary_config_value *)((char *)v6->data.pointer + v44),
+                          "name")->data.pointer;
+      v9 = &v31;
+      do
       {
-        if ( v10 )
-        {
-          *(_DWORD *)v10->body = 0;
-          *(_DWORD *)&v10->body[4] = 0;
-        }
-        ++v10;
+        survarium::flash_value::flash_value(v9);
+        v9 = v10 + 1;
       }
-      if ( (current_level[0].body[4] & 0x40) != 0 )
+      while ( v11 - 1 >= 0 );
+      survarium::flash_value::SetUInt(v9, (int)&v31, a3);
+      Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4), &pvalue);
+      survarium::flash_value::SetUInt(v12, (int)v33, value);
+      survarium::text_translator::translate_text(
+        v13,
+        (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+        pointer,
+        v29);
+      survarium::flash_value::SetString(&v34, v29);
+      v14 = (unsigned int *)vostok::configs::binary_config_value::operator[](
+                              (vostok::configs::binary_config_value *)((char *)v39->data.pointer + v44),
+                              "value");
+      survarium::flash_value::SetUInt(v15, (int)v35, *v14);
+      v16 = v43;
+      v17 = 0;
+      *(_DWORD *)v38.body = 0;
+      *(_DWORD *)&v38.body[4] = 0;
+      v40 = 0;
+      if ( *(_WORD *)&v43->account_nickname[4] )
       {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)current_level[0].body + 8))(
-          *(_DWORD *)current_level[0].body,
-          current_level,
-          *(_DWORD *)&current_level[0].body[8]);
-        *(_DWORD *)current_level[0].body = 0;
-      }
-      m_object = trader_id->m_lobby_menu_ui.m_object;
-      *(_DWORD *)&current_level[0].body[4] = 4;
-      *(_DWORD *)&current_level[0].body[8] = trader_ida;
-      Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&current_level[1]);
-      if ( (current_level[2].body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)current_level[2].body + 8))(
-          *(_DWORD *)current_level[2].body,
-          &current_level[2],
-          *(_DWORD *)&current_level[2].body[8]);
-        *(_DWORD *)current_level[2].body = 0;
-      }
-      *(_DWORD *)&current_level[2].body[8] = v28;
-      p_m_text_translator = &trader_id->m_game->m_text_translator;
-      *(_DWORD *)&current_level[2].body[4] = 4;
-      survarium::text_translator::translate_text(p_m_text_translator, pointer, faction_level_name_w);
-      v14 = 0;
-      *(_DWORD *)prices_array_item.body = 0;
-      *(_DWORD *)&prices_array_item.body[4] = 7;
-      *(_DWORD *)&prices_array_item.body[8] = faction_level_name_w;
-      if ( (current_level[3].body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)current_level[3].body + 8))(
-          *(_DWORD *)current_level[3].body,
-          &current_level[3],
-          *(_DWORD *)&current_level[3].body[8]);
-        v14 = *(_DWORD *)prices_array_item.body;
-        *(_DWORD *)current_level[3].body = 0;
-      }
-      *(_DWORD *)&current_level[3].body[4] = 7;
-      *(_DWORD *)&current_level[3].body[8] = faction_level_name_w;
-      if ( (prices_array_item.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(int, survarium::flash_value *, _DWORD))(*(_DWORD *)v14 + 8))(
-          v14,
-          &prices_array_item,
-          *(_DWORD *)&prices_array_item.body[8]);
-      v15 = vostok::configs::binary_config_value::operator[](
-              (vostok::configs::binary_config_value *)((char *)faction_levels->data.pointer + v26),
-              (char *)&stru_955964)->data.pointer;
-      if ( (current_level[4].body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)current_level[4].body + 8))(
-          *(_DWORD *)current_level[4].body,
-          &current_level[4],
-          *(_DWORD *)&current_level[4].body[8]);
-        *(_DWORD *)current_level[4].body = 0;
-      }
-      *(_DWORD *)&current_level[4].body[4] = 4;
-      *(_DWORD *)&current_level[4].body[8] = v15;
-      *(_DWORD *)price_item_property.body = 0;
-      *(_DWORD *)&price_item_property.body[4] = 0;
-      if ( *p_count )
-      {
-        v16 = 0;
+        v42 = 0;
         do
         {
-          v17 = &lobby_client->m_prices[trader_ida].items[v16];
-          if ( v17->reputation_level == current_reputation_level )
+          v18 = (unsigned __int16 *)(v42 + *(_DWORD *)v16->account_nickname);
+          LOBYTE(v17) = HIBYTE(trader_id.m_object);
+          if ( *((_BYTE *)v18 + 8) == HIBYTE(trader_id.m_object) )
           {
-            *(_DWORD *)prices_array_item.body = 0;
-            *(_DWORD *)&prices_array_item.body[4] = 0;
-            Scaleform::GFx::Movie::CreateObject(
-              trader_id->m_lobby_menu_ui.m_object->movie->m_movie,
-              (Scaleform::GFx::Value *)&prices_array_item,
-              0,
-              0,
-              0);
-            item_dict_id = v17->item_dict_id;
-            if ( (price_item_property.body[4] & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)price_item_property.body
-                                                                               + 8))(
-                *(_DWORD *)price_item_property.body,
-                &price_item_property,
-                *(_DWORD *)&price_item_property.body[8]);
-              *(_DWORD *)price_item_property.body = 0;
-            }
-            *(_DWORD *)&price_item_property.body[4] = 4;
-            *(_DWORD *)&price_item_property.body[8] = item_dict_id;
-            (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)prices_array_item.body
-                                                                                                 + 20))(
-              *(_DWORD *)prices_array_item.body,
-              *(_DWORD *)&prices_array_item.body[8],
-              "dictId",
-              &price_item_property,
-              (prices_array_item.body[4] & 0x8F) == 10);
-            if ( (price_item_property.body[4] & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)price_item_property.body
-                                                                               + 8))(
-                *(_DWORD *)price_item_property.body,
-                &price_item_property,
-                *(_DWORD *)&price_item_property.body[8]);
-              *(_DWORD *)price_item_property.body = 0;
-            }
-            *(_DWORD *)&price_item_property.body[4] = 4;
-            *(_DWORD *)&price_item_property.body[8] = 10;
-            (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)prices_array_item.body
-                                                                                                 + 20))(
-              *(_DWORD *)prices_array_item.body,
-              *(_DWORD *)&prices_array_item.body[8],
-              "count",
-              &price_item_property,
-              (prices_array_item.body[4] & 0x8F) == 10);
-            cost = v17->cost;
-            if ( (price_item_property.body[4] & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)price_item_property.body
-                                                                               + 8))(
-                *(_DWORD *)price_item_property.body,
-                &price_item_property,
-                *(_DWORD *)&price_item_property.body[8]);
-              *(_DWORD *)price_item_property.body = 0;
-            }
-            *(_DWORD *)&price_item_property.body[4] = 4;
-            *(_DWORD *)&price_item_property.body[8] = cost;
-            (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)prices_array_item.body
-                                                                                                 + 20))(
-              *(_DWORD *)prices_array_item.body,
-              *(_DWORD *)&prices_array_item.body[8],
-              "cost",
-              &price_item_property,
-              (prices_array_item.body[4] & 0x8F) == 10);
-            (*(void (__thiscall **)(_DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)current_level[1].body + 60))(
-              *(_DWORD *)current_level[1].body,
-              *(_DWORD *)&current_level[1].body[8],
-              &prices_array_item);
-            if ( (prices_array_item.body[4] & 0x40) != 0 )
-              (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)prices_array_item.body + 8))(
-                *(_DWORD *)prices_array_item.body,
-                &prices_array_item,
-                *(_DWORD *)&prices_array_item.body[8]);
+            m_uid = m_object[2].m_uid;
+            *(_DWORD *)v37.body = 0;
+            *(_DWORD *)&v37.body[4] = 0;
+            survarium::flash_movie::CreateObject(
+              v17,
+              *(survarium::flash_value **)(m_uid + 264),
+              (Scaleform::GFx::Value *)&v37);
+            survarium::flash_value::SetUInt(v20, (int)&v38, *v18);
+            survarium::flash_value::SetMember(v21, &v37, "dictId", &v38);
+            survarium::flash_value::SetUInt(v22, (int)&v38, 0xAu);
+            survarium::flash_value::SetMember(v23, &v37, "count", &v38);
+            survarium::flash_value::SetUInt(v24, (int)&v38, *((_DWORD *)v18 + 1));
+            survarium::flash_value::SetMember(v25, &v37, "cost", &v38);
+            survarium::flash_value::PushBack(v26, &pvalue, &v37);
+            Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v37);
+            v16 = v43;
           }
-          ++v8;
-          ++v16;
+          v17 = (survarium::flash_movie *)*(unsigned __int16 *)&v16->account_nickname[4];
+          ++v40;
+          v42 += 12;
         }
-        while ( v8 < *p_count );
-        v8 = 0;
+        while ( v40 < (unsigned int)v17 );
       }
       Scaleform::GFx::Movie::Invoke(
-        trader_id->m_lobby_menu_ui.m_object->movie->m_movie,
+        *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4),
         "root.setup_shop_data",
         0,
-        (const Scaleform::GFx::Value *)current_level,
+        (const Scaleform::GFx::Value *)&v31,
         5u);
-      if ( (price_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)price_item_property.body + 8))(
-          *(_DWORD *)price_item_property.body,
-          &price_item_property,
-          *(_DWORD *)&price_item_property.body[8]);
-        *(_DWORD *)price_item_property.body = 0;
-      }
-      *(_DWORD *)&price_item_property.body[4] = 0;
-      v20 = &v33;
-      for ( j = 4; j >= 0; --j )
-      {
-        v22 = *((_DWORD *)v20 - 5);
-        v20 -= 24;
-        if ( (v22 & 0x40) != 0 )
-        {
-          (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v20 + 8))(v20, *((_DWORD *)v20 + 2));
-          *(_DWORD *)v20 = 0;
-        }
-        *((_DWORD *)v20 + 1) = 0;
-      }
-      ++v28;
-      v26 += 24;
-      if ( ++current_reputation_level >= levels_count )
+      Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v38);
+      v27 = (Scaleform::GFx::Value *)&v36;
+      for ( i = 4; i >= 0; --i )
+        Scaleform::GFx::Value::~Value(--v27);
+      ++HIBYTE(trader_id.m_object);
+      ++value;
+      v44 += 24;
+      if ( HIBYTE(trader_id.m_object) >= v45 )
         break;
-      v6 = faction_levels;
+      v6 = v39;
     }
   }
 }

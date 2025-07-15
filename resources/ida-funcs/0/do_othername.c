@@ -22,7 +22,7 @@ BOOL __usercall do_othername@<eax>(GENERAL_NAME_st *gen@<ebx>, char *value, v3_e
   v8 = (unsigned __int8 *)CRYPTO_malloc(v7 + 1, ".\\crypto\\x509v3\\v3_alt.c", 581);
   strncpy(v8, (unsigned __int8 *)value, v7);
   v8[v7] = 0;
-  *(_DWORD *)gen->d.ptr = OBJ_txt2obj((char *)v8, 0);
+  *(_DWORD *)gen->d.ptr = OBJ_txt2obj((int)gen, (char *)v8, 0);
   CRYPTO_free(v8);
   return *(_DWORD *)gen->d.ptr != 0;
 }

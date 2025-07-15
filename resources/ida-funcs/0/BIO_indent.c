@@ -1,20 +1,20 @@
-int __cdecl BIO_indent(bio_st *b, int indent, int max)
+int __usercall BIO_indent@<eax>(int a1@<ebx>, bio_st *b, int indent, int max)
 {
-  int v3; // esi
+  int v4; // esi
 
-  v3 = indent;
+  v4 = indent;
   if ( indent < 0 )
-    v3 = 0;
-  if ( v3 > max )
-    v3 = max;
-  if ( !v3 )
+    v4 = 0;
+  if ( v4 > max )
+    v4 = max;
+  if ( !v4 )
     return 1;
   while ( 1 )
   {
-    --v3;
-    if ( BIO_puts(b, (const char *)&stru_95AF78) != 1 )
+    --v4;
+    if ( BIO_puts(a1, b, " ") != 1 )
       break;
-    if ( !v3 )
+    if ( !v4 )
       return 1;
   }
   return 0;

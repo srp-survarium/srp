@@ -38,25 +38,22 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
   double v36; // st7
   const Scaleform::Render::StrokeVertex *v37; // ecx
   unsigned int v38; // ecx
-  Scaleform::Render::StrokeVertex **v39; // edi
-  int v40; // ebp
-  unsigned int v41; // edi
-  unsigned int v42; // eax
-  unsigned int v43; // eax
-  unsigned int v44; // ecx
-  unsigned int v45; // edx
-  unsigned int v46; // eax
-  Scaleform::Render::StrokeVertex **v47; // ebp
-  float len1; // [esp+10h] [ebp-20h]
-  float len2; // [esp+14h] [ebp-1Ch]
-  float v51; // [esp+18h] [ebp-18h]
-  float v53; // [esp+1Ch] [ebp-14h]
-  float dist; // [esp+20h] [ebp-10h]
-  unsigned int i; // [esp+28h] [ebp-8h]
-  unsigned int ia; // [esp+28h] [ebp-8h]
-  unsigned int v57; // [esp+2Ch] [ebp-4h]
-  Scaleform::Render::TessBase *tessa; // [esp+34h] [ebp+4h]
-  unsigned int v59; // [esp+38h] [ebp+8h]
+  unsigned int v39; // edi
+  unsigned int v40; // eax
+  unsigned int v41; // eax
+  unsigned int v42; // ecx
+  unsigned int v43; // edx
+  unsigned int v44; // eax
+  Scaleform::Render::StrokeVertex **v45; // ebp
+  float dist; // [esp+10h] [ebp-20h]
+  float v47; // [esp+14h] [ebp-1Ch]
+  float v49; // [esp+18h] [ebp-18h]
+  float v51; // [esp+20h] [ebp-10h]
+  unsigned int v52; // [esp+28h] [ebp-8h]
+  int v53; // [esp+28h] [ebp-8h]
+  unsigned int v54; // [esp+2Ch] [ebp-4h]
+  unsigned int v55; // [esp+34h] [ebp+4h]
+  unsigned int v56; // [esp+38h] [ebp+8h]
 
   if ( !this->Closed )
     this->Closed = Scaleform::Render::StrokePath::ClosePath(&this->Path);
@@ -73,14 +70,14 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
         v11 = this->Path.Path.Size;
         v12 = v9 + 1;
         v13 = Size - 1;
-        i = v9 + 1;
+        v52 = v9 + 1;
         if ( v9 + 1 >= v11 )
           v12 -= v11;
         v14 = v9;
         if ( !v9 )
           v14 = this->Path.Path.Size;
         Pages = this->Path.Path.Pages;
-        len1 = Pages[v13 >> 4][v13 & 0xF].dist;
+        dist = Pages[v13 >> 4][v13 & 0xF].dist;
         v16 = tess;
         Scaleform::Render::Stroker::calcJoin(
           this,
@@ -90,19 +87,19 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
           &Pages[(v14 - 1) >> 4][(v14 - 1) & 0xF],
           &Pages[v9 >> 4][v9 & 0xF],
           COERCE_FLOAT(&Pages[v12 >> 4][v12 & 0xF]),
-          len1,
+          dist,
           Pages[v9 >> 4][v9 & 0xF].dist);
-        v9 = i;
+        v9 = v52;
       }
-      while ( i < this->Path.Path.Size );
+      while ( v52 < this->Path.Path.Size );
       ((void (__thiscall *)(Scaleform::Render::TessBase *, _DWORD, int, int))tess->ClosePath)(tess, LODWORD(a4), a3, a2);
       tess->FinalizePath(tess, 0, 1u, 0, 0);
       v17 = this->Path.Path.Size;
-      tessa = (Scaleform::Render::TessBase *)v17;
+      v55 = v17;
       if ( v17 )
       {
         v18 = v17 - 1;
-        v59 = v17 - 1;
+        v56 = v17 - 1;
         do
         {
           v19 = v18;
@@ -118,7 +115,7 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
             v17 -= v22;
           v24 = this->Path.Path.Pages;
           v25 = &v24[v18 >> 4][v18 & 0xF];
-          dist = v24[v20 >> 4][v20 & 0xF].dist;
+          v51 = v24[v20 >> 4][v20 & 0xF].dist;
           v16 = a8;
           Scaleform::Render::Stroker::calcJoin(
             this,
@@ -129,11 +126,11 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
             v25,
             COERCE_FLOAT(&v24[v23 >> 4][v23 & 0xF]),
             v25->dist,
-            dist);
-          v17 = (unsigned int)&tessa[-1].__vftable + 3;
-          v18 = v59 - 1;
-          tessa = (Scaleform::Render::TessBase *)v17;
-          --v59;
+            v51);
+          v17 = v55 - 1;
+          v18 = v56 - 1;
+          v55 = v17;
+          --v56;
         }
         while ( v17 );
       }
@@ -145,20 +142,17 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
       v26 = tess;
       Scaleform::Render::Stroker::calcCap(
         this,
-        (int)tess,
-        a3,
         tess,
         *(const Scaleform::Render::StrokeVertex **)this->Path.Path.Pages,
         (const Scaleform::Render::StrokeVertex *)*this->Path.Path.Pages + 1,
         (*this->Path.Path.Pages)->dist,
         this->StartLineCap,
-        a4,
-        *(float *)&a3);
+        a4);
       v27 = 2;
       v28 = 1;
       if ( this->Path.Path.Size > 2 )
       {
-        ia = 2;
+        v53 = 2;
         do
         {
           v29 = v28;
@@ -176,7 +170,7 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
           v35 = v28 & 0xF;
           v36 = v34[v35].dist;
           v37 = &v34[v35];
-          len2 = v36;
+          v47 = v36;
           v26 = tess;
           Scaleform::Render::Stroker::calcJoin(
             this,
@@ -187,59 +181,54 @@ void __userpurge Scaleform::Render::Stroker::GenerateStroke(
             v37,
             COERCE_FLOAT(&v33[v27 >> 4][v27 & 0xF]),
             v33[v31 >> 4][v31 & 0xF].dist,
-            len2);
-          v28 = ia;
-          v27 = ia + 1;
-          ia = v27;
+            v47);
+          v28 = v53;
+          v27 = v53 + 1;
+          v53 = v27;
         }
         while ( v27 < this->Path.Path.Size );
       }
       v38 = this->Path.Path.Size;
-      v39 = this->Path.Path.Pages;
-      v40 = (int)v39[(v38 - 2) >> 4];
       Scaleform::Render::Stroker::calcCap(
         this,
-        (int)v26,
-        v40,
         v26,
-        &v39[(v38 - 1) >> 4][(v38 - 1) & 0xF],
-        (const Scaleform::Render::StrokeVertex *)(v40 + 12 * (((_BYTE)v38 - 2) & 0xF)),
-        *(float *)(v40 + 12 * (((_BYTE)v38 - 2) & 0xF) + 8),
+        &this->Path.Path.Pages[(v38 - 1) >> 4][(v38 - 1) & 0xF],
+        &this->Path.Path.Pages[(v38 - 2) >> 4][((_BYTE)v38 - 2) & 0xF],
+        this->Path.Path.Pages[(v38 - 2) >> 4][((_BYTE)v38 - 2) & 0xF].dist,
         this->EndLineCap,
-        v51,
-        v53);
-      v41 = this->Path.Path.Size - 2;
+        v49);
+      v39 = this->Path.Path.Size - 2;
       if ( this->Path.Path.Size != 2 )
       {
         do
         {
-          v42 = v41;
-          if ( !v41 )
-            v42 = this->Path.Path.Size;
-          v57 = v42 - 1;
-          v43 = v41;
-          if ( !v41 )
-            v43 = this->Path.Path.Size;
-          v44 = this->Path.Path.Size;
-          v45 = v43 - 1;
-          v46 = v41 + 1;
-          if ( v41 + 1 >= v44 )
-            v46 -= v44;
-          v47 = this->Path.Path.Pages;
+          v40 = v39;
+          if ( !v39 )
+            v40 = this->Path.Path.Size;
+          v54 = v40 - 1;
+          v41 = v39;
+          if ( !v39 )
+            v41 = this->Path.Path.Size;
+          v42 = this->Path.Path.Size;
+          v43 = v41 - 1;
+          v44 = v39 + 1;
+          if ( v39 + 1 >= v42 )
+            v44 -= v42;
+          v45 = this->Path.Path.Pages;
           v26 = tess;
           Scaleform::Render::Stroker::calcJoin(
             this,
-            *(float *)&v47,
+            *(float *)&v45,
             *(float *)&this,
             tess,
-            &v47[v46 >> 4][v46 & 0xF],
-            &v47[v41 >> 4][v41 & 0xF],
-            COERCE_FLOAT(&v47[v45 >> 4][v45 & 0xF]),
-            v47[v41 >> 4][v41 & 0xF].dist,
-            v47[v57 >> 4][v57 & 0xF].dist);
-          --v41;
+            &v45[v44 >> 4][v44 & 0xF],
+            &v45[v39 >> 4][v39 & 0xF],
+            COERCE_FLOAT(&v45[v43 >> 4][v43 & 0xF]),
+            v45[v39 >> 4][v39 & 0xF].dist,
+            v45[v54 >> 4][v54 & 0xF].dist);
+          --v39;
         }
-        while ( v41 );
+        while ( v39 );
       }
       v26->ClosePath(v26);
       v26->FinalizePath(v26, 0, 1u, 0, 0);

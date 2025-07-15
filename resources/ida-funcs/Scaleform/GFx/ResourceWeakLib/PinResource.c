@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::ResourceWeakLib::PinResource(Scaleform::GFx::Res
       Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc>>::add<Scaleform::GFx::Resource *>(
         p_PinSet,
         p_PinSet,
-        (Scaleform::GFx::Resource *const *)&pres,
+        (Scaleform::GFx::Resource **)&pres,
         v6 ^ (v6 >> 6));
       InterlockedExchangeAdd((volatile LONG *)(v6 + 4), 1);
     }

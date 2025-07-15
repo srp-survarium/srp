@@ -1,4 +1,4 @@
-void __cdecl stlp_std::_dynamic_atexit_destructor_for___S_empty_string__()
+void stlp_std::_dynamic_atexit_destructor_for___S_empty_string__()
 {
   if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)S_empty_string._M_start_of_storage._M_data != &S_empty_string
     && S_empty_string._M_start_of_storage._M_data )

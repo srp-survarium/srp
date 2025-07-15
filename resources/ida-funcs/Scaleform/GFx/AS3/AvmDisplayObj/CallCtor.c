@@ -21,7 +21,7 @@ unsigned int __thiscall Scaleform::GFx::AS3::AvmDisplayObj::CallCtor(
     --result;
   v4 = *(_DWORD **)(result + 20);
   if ( !v4[17] )
-    (*(void (__thiscall **)(_DWORD *))(*v4 + 44))(v4);
+    (*(void (__thiscall **)(_DWORD *))(*v4 + 56))(v4);
   pAS3RawPtr = (Scaleform::GFx::AS3::Value::V1U)this->pAS3RawPtr;
   v6 = v4[17];
   if ( !pAS3RawPtr.VInt )
@@ -37,7 +37,7 @@ unsigned int __thiscall Scaleform::GFx::AS3::AvmDisplayObj::CallCtor(
   if ( !v7 )
     goto LABEL_19;
   Size = v7->CallStack.Size;
-  (*(void (__thiscall **)(int, Scaleform::GFx::AS3::Value *, _DWORD, _DWORD))(*(_DWORD *)v6 + 72))(v6, &_this, 0, 0);
+  (*(void (__thiscall **)(int, Scaleform::GFx::AS3::Value *, _DWORD, _DWORD))(*(_DWORD *)v6 + 84))(v6, &_this, 0, 0);
   if ( v7->CallStack.Size <= Size )
     goto LABEL_19;
   if ( execute )

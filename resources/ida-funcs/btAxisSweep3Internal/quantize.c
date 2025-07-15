@@ -1,17 +1,18 @@
 void __userpurge btAxisSweep3Internal<unsigned short>::quantize(
         unsigned __int16 *out@<esi>,
-        const btVector3 *point@<edx>,
-        unsigned __int16 isMax@<cx>,
+        const btVector3 *point@<ecx>,
+        unsigned __int16 isMax@<dx>,
         btAxisSweep3Internal<unsigned short> *this)
 {
   float v4; // xmm0_4
   float v5; // xmm1_4
   float v6; // xmm2_4
-  unsigned __int16 v7; // dx
-  int v8; // edx
-  unsigned __int16 v9; // dx
-  int v10; // edx
-  int v11; // edx
+  unsigned __int16 v7; // cx
+  int v8; // ecx
+  unsigned __int16 v9; // cx
+  int v10; // ecx
+  unsigned __int16 v11; // ax
+  int v12; // ecx
 
   v4 = this->m_quantize.mVec128.m128_f32[0]
      * (float)(point->mVec128.m128_f32[0] - this->m_worldAabbMin.mVec128.m128_f32[0]);
@@ -45,13 +46,14 @@ void __userpurge btAxisSweep3Internal<unsigned short>::quantize(
   out[1] = v9;
   if ( v6 > 0.0 )
   {
-    LOWORD(v11) = this->m_handleSentinel;
-    if ( v6 < (float)(unsigned __int16)v11 )
-      v11 = (int)v6;
-    out[2] = isMax | v11 & this->m_bpHandleMask;
+    LOWORD(v12) = this->m_handleSentinel;
+    if ( v6 < (float)(unsigned __int16)v12 )
+      v12 = (int)v6;
+    v11 = isMax | v12 & this->m_bpHandleMask;
   }
   else
   {
-    out[2] = isMax;
+    v11 = isMax;
   }
+  out[2] = v11;
 }

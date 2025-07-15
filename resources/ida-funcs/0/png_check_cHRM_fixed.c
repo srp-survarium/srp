@@ -14,22 +14,22 @@ int __cdecl png_check_cHRM_fixed(int a1, int a2, int a3, int a4, int a5, int a6,
     png_warning(a1, "Ignoring attempt to set negative chromaticity value");
     v13 = 0;
   }
-  if ( a2 > (int)&loc_186A0 - a3 )
+  if ( a2 > 100000 - a3 )
   {
     png_warning(a1, "Invalid cHRM white point");
     v13 = 0;
   }
-  if ( a4 > (int)&loc_186A0 - a5 )
+  if ( a4 > 100000 - a5 )
   {
     png_warning(a1, "Invalid cHRM red point");
     v13 = 0;
   }
-  if ( a6 > (int)&loc_186A0 - a7 )
+  if ( a6 > 100000 - a7 )
   {
     png_warning(a1, "Invalid cHRM green point");
     v13 = 0;
   }
-  if ( a8 > (int)&loc_186A0 - a9 )
+  if ( a8 > 100000 - a9 )
   {
     png_warning(a1, "Invalid cHRM blue point");
     v13 = 0;

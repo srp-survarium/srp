@@ -1,32 +1,33 @@
-void __thiscall vostok::particle::particle_action_initial_size::init(
-        vostok::particle::particle_action_initial_size *this,
+void __userpurge vostok::particle::particle_action_initial_size::init(
+        vostok::particle::particle_action_initial_size *this@<ecx>,
+        unsigned int a2@<edi>,
         vostok::particle::particle_emitter_instance *instance,
         vostok::particle::base_particle *P,
         float time)
 {
-  _BYTE *v4; // eax
-  const vostok::math::float3 *v5; // eax
-  float other_y; // [esp+4h] [ebp-54h]
-  const vostok::math::float3 *other_z; // [esp+8h] [ebp-50h]
-  boost::_bi::list1<vostok::network_core::packet_reader &> *m_seed; // [esp+10h] [ebp-48h]
-  vostok::math::float3 result; // [esp+3Ch] [ebp-1Ch] BYREF
-  vostok::math::float3 v11; // [esp+48h] [ebp-10h] BYREF
-  char v12; // [esp+57h] [ebp-1h]
+  int v5; // edx
+  vostok::math::curve_line_ranged_xyz_float *v6; // ecx
+  vostok::math::float3 *v7; // eax
+  vostok::math::float3 *p_start_size; // ecx
+  vostok::math::float3 *v9; // esi
+  vostok::particle::particle_action_initial_size *v10; // eax
+  unsigned int m_seed; // [esp+8h] [ebp-2Ch]
+  vostok::math::float3 v12; // [esp+18h] [ebp-1Ch] BYREF
+  vostok::math::float3 v13; // [esp+24h] [ebp-10h] BYREF
+  vostok::particle::particle_action_initial_size *v14; // [esp+30h] [ebp-4h]
 
-  v12 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *v4 )
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)instance);
-  m_seed = (boost::_bi::list1<vostok::network_core::packet_reader &> *)P->m_seed;
-  vostok::math::float3::float3(&v11, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-  other_z = v5;
-  other_y = vostok::particle::particle_emitter_instance::get_linear_emitter_time(instance);
-  P->start_size = *vostok::particle::curve_line_ranged_xyz_float::evaluate(
-                     &this->m_init_size,
-                     &result,
-                     other_y,
-                     other_z,
-                     range_time_type,
-                     m_seed);
-  vostok::math::float3_pod::operator+=(&P->start_size, &P->size);
+  m_seed = P->m_seed;
+  v14 = this;
+  memset(&v13, 0, sizeof(v13));
+  vostok::particle::particle_emitter_instance::get_linear_emitter_time((vostok::particle::particle_emitter_instance *)this);
+  v7 = vostok::math::curve_line_ranged_xyz_float::evaluate(v6, v5 + 24, 0.0, &v12, 0.0, &v13, m_seed, a2);
+  p_start_size = &P->start_size;
+  v9 = v7;
+  v10 = v14;
+  P->start_size = *v9;
+  if ( v10->m_is_square )
+    P->start_size.y = p_start_size->x;
+  P->size.x = p_start_size->x + P->size.x;
+  P->size.y = P->start_size.y + P->size.y;
+  P->size.z = P->start_size.z + P->size.z;
 }

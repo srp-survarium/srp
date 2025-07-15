@@ -76,15 +76,15 @@ Scaleform::GFx::AS3::InstanceTraits::Traits *__thiscall Scaleform::GFx::AS3::VM:
       v15 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
               this,
               v14,
-              (Scaleform::GFx::AS3::Abc::Multiname *)v14[1].__vftable[2].MakeInternedNamespace
-            + *(_DWORD *)(*((_DWORD *)v14[1].__vftable[3].~Scaleform::GFx::AS3::VMFile + v13.VInt) + 4));
+              (Scaleform::GFx::AS3::Abc::Multiname *)v14[1].__vftable[2].ForEachChild_GC
+            + *(_DWORD *)(*((_DWORD *)v14[1].__vftable[2].GetMultiname + v13.VInt) + 4));
       if ( !v15 )
         goto LABEL_3;
       result = v15->ITraits.pObject;
       break;
     case 7u:
     case 0x11u:
-      v9 = &Scaleform::GFx::AS3::Traits::GetVT((Scaleform::GFx::AS3::Traits *)value->value.VS._2.VObj)->VTMethods.Data.Data[value->value.VS._1.VInt];
+      v9 = &Scaleform::GFx::AS3::Traits::GetVT(value->value.VS._2.pTraits)->VTMethods.Data.Data[value->value.VS._1.VInt];
       if ( (v9->Flags & 0x1F) == 6 )
       {
         v10 = v9->value.VS._1;
@@ -92,8 +92,8 @@ Scaleform::GFx::AS3::InstanceTraits::Traits *__thiscall Scaleform::GFx::AS3::VM:
         v12 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
                 this,
                 v11,
-                (Scaleform::GFx::AS3::Abc::Multiname *)v11[1].__vftable[2].MakeInternedNamespace
-              + *(_DWORD *)(*((_DWORD *)v11[1].__vftable[3].~Scaleform::GFx::AS3::VMFile + v10.VInt) + 4));
+                (Scaleform::GFx::AS3::Abc::Multiname *)v11[1].__vftable[2].ForEachChild_GC
+              + *(_DWORD *)(*((_DWORD *)v11[1].__vftable[2].GetMultiname + v10.VInt) + 4));
         if ( !v12 )
           goto LABEL_3;
         result = v12->ITraits.pObject;

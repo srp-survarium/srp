@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::DisplayList::ReplaceRenderTreeNode(
         Scaleform::GFx::DisplayList *this,
         Scaleform::GFx::DisplayObjectBase *owner,
-        unsigned int index)
+        Scaleform::GFx::DisplayObjectBase *index)
 {
   Scaleform::GFx::DisplayList::DisplayEntry *v3; // esi
   Scaleform::Render::TreeContainer *v4; // ebp
@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::DisplayList::ReplaceRenderTreeNode(
   Scaleform::Render::TreeNode *v11; // eax
   Scaleform::Render::TreeNode *v12; // eax
 
-  v3 = &this->DisplayObjectArray.Data.Data[index];
+  v3 = &this->DisplayObjectArray.Data.Data[(_DWORD)index];
   if ( (v3->pCharacter->Flags & 0x8000u) == 0 )
   {
     v4 = owner->GetRenderContainer(owner);

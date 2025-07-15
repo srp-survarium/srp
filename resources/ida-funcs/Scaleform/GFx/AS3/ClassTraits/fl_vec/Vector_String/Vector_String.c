@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_vec::Vector_String::Vector_
     this,
     vm,
     (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl_vec::Vector_StringCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_vec::Vector_String_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_vec::Vector_String_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_vec::Vector_String::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_vec::Vector_String::Vector_
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

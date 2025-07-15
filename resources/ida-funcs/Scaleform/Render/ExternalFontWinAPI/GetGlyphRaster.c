@@ -13,18 +13,18 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphRaster(
   signed int GlyphOutlineW; // eax
   Scaleform::Render::FontSysDataWinAPI *v13; // ecx
   DWORD v14; // eax
-  void *g1_4; // [esp+Ch] [ebp-28h]
-  _MAT2 im; // [esp+10h] [ebp-24h] BYREF
+  HGDIOBJ h; // [esp+Ch] [ebp-28h]
+  MAT2 mat2; // [esp+10h] [ebp-24h] BYREF
   _GLYPHMETRICS gm; // [esp+20h] [ebp-14h] BYREF
-  Scaleform::Lock *locker; // [esp+38h] [ebp+4h]
+  Scaleform::Lock *lpCriticalSection; // [esp+38h] [ebp+4h]
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
     return 0;
   result = this->IsHintedRasterGlyph(this, glyphIndex, hintedSize);
   if ( result )
   {
-    locker = this->pFontLock;
-    EnterCriticalSection(&locker->cs);
+    lpCriticalSection = this->pFontLock;
+    EnterCriticalSection(&lpCriticalSection->cs);
     v7 = &this->Glyphs.Data.Data[glyphIndex];
     if ( hintedSize != this->LastHintedFontSize )
     {
@@ -50,16 +50,16 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphRaster(
     WinHDC = this->pSysData->WinHDC;
     v9 = SelectObject(WinHDC, this->HintedFont);
     pSysData = this->pSysData;
-    g1_4 = v9;
+    h = v9;
     if ( !pSysData->GlyphBuffer.Data.Size )
       Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
         &pSysData->GlyphBuffer,
         0x3F8u);
-    im.eM11.value = 1;
-    memset(&im.eM12, 0, 10);
-    im.eM22.value = 1;
+    mat2.eM11.value = 1;
+    memset(&mat2.eM12, 0, 10);
+    mat2.eM22.value = 1;
     v11 = this->pSysData;
-    im.eM11.fract = 0;
+    mat2.eM11.fract = 0;
     GlyphOutlineW = GetGlyphOutlineW(
                       v11->WinHDC,
                       v7->Code,
@@ -67,9 +67,9 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphRaster(
                       &gm,
                       v11->GlyphBuffer.Data.Size,
                       v11->GlyphBuffer.Data.Data,
-                      &im);
+                      &mat2);
     if ( (GlyphOutlineW == -1 || (v13 = this->pSysData, GlyphOutlineW > (signed int)v13->GlyphBuffer.Data.Size))
-      && ((v14 = GetGlyphOutlineW(this->pSysData->WinHDC, v7->Code, 1u, &gm, 0, 0, &im), v14 == -1)
+      && ((v14 = GetGlyphOutlineW(this->pSysData->WinHDC, v7->Code, 1u, &gm, 0, 0, &mat2), v14 == -1)
        || (Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
              &this->pSysData->GlyphBuffer,
              v14 + 1016),
@@ -80,12 +80,12 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphRaster(
                              &gm,
                              this->pSysData->GlyphBuffer.Data.Size,
                              this->pSysData->GlyphBuffer.Data.Data,
-                             &im),
+                             &mat2),
            GlyphOutlineW == -1)
        || (v13 = this->pSysData, GlyphOutlineW > (signed int)v13->GlyphBuffer.Data.Size)) )
     {
-      SelectObject(WinHDC, g1_4);
-      LeaveCriticalSection(&locker->cs);
+      SelectObject(WinHDC, h);
+      LeaveCriticalSection(&lpCriticalSection->cs);
       return 0;
     }
     else
@@ -110,8 +110,8 @@ bool __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphRaster(
           1u);
         *raster->Raster.Data.Data = 0;
       }
-      SelectObject(WinHDC, g1_4);
-      LeaveCriticalSection(&locker->cs);
+      SelectObject(WinHDC, h);
+      LeaveCriticalSection(&lpCriticalSection->cs);
       return 1;
     }
   }

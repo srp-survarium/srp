@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::MatrixPoolImpl::MatrixPool::~MatrixPool(
     {
       pNext = this->DataPages.Root.pNext;
       pNext->pPrev->pNext = pNext->pNext;
-      pNext->pNext->Scaleform::ListNode<Scaleform::Render::MatrixPoolImpl::DataPage>::$863ACD953D7DE0B7EBE039C91E7D8E4F::pPrev = pNext->pPrev;
+      pNext->pNext->Scaleform::ListNode<Scaleform::Render::MatrixPoolImpl::DataPage>::$95A64ED5797A13A53B8ABC5B6A0E3FA8::pPrev = pNext->pPrev;
       pLastFreedPage = this->pLastFreedPage;
       this->AllocatedSpace -= 4080;
       --this->DataPageCount;

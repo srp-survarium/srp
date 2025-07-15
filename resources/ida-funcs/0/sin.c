@@ -11,7 +11,7 @@ double __cdecl sin(double X)
     if ( v1 == 8064 )
       v2 = (v4 & 0x7F) == 127;
     if ( v2 )
-      JUMPOUT(0x1AC2A8);
+      JUMPOUT(0x2B8768);
   }
-  JUMPOUT(0x199A3F);
+  JUMPOUT(0x2AE24F);
 }

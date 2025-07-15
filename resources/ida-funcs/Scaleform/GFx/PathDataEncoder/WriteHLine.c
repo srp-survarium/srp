@@ -15,21 +15,21 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> *v15; // esi
   unsigned int v16; // edi
   int v17; // ebx
-  unsigned __int8 xa; // [esp+14h] [ebp+4h]
-  unsigned __int8 xb; // [esp+14h] [ebp+4h]
+  unsigned __int8 v18; // [esp+14h] [ebp+4h]
+  unsigned __int8 v19; // [esp+14h] [ebp+4h]
 
   Data = this->Data;
   v5 = this->Data->Size >> 12;
   if ( (unsigned int)(x + 2048) > 0xFFF )
   {
     v11 = (16 * x) | 1;
-    xb = v11;
+    v19 = v11;
     if ( v5 >= Data->NumPages )
     {
       Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
         Data,
         v5);
-      v11 = xb;
+      v11 = v19;
     }
     Data->Pages[v5][Data->Size++ & 0xFFF] = v11;
     v12 = this->Data;
@@ -56,13 +56,13 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   else
   {
     v6 = 16 * x;
-    xa = 16 * x;
+    v18 = 16 * x;
     if ( v5 >= Data->NumPages )
     {
       Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
         Data,
         v5);
-      v6 = xa;
+      v6 = v18;
     }
     Data->Pages[v5][Data->Size++ & 0xFFF] = v6;
     v7 = this->Data;

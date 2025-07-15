@@ -1,4 +1,4 @@
-void __usercall nc_uri(unsigned int a1@<ebx>, asn1_string_st *uri, asn1_string_st *base)
+void __usercall nc_uri(int a1@<ebx>, asn1_string_st *uri, asn1_string_st *base)
 {
   unsigned __int8 *data; // edi
   _BYTE *v4; // eax

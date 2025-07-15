@@ -1,17 +1,14 @@
 void __thiscall survarium::messaging_client::on_disconnected(survarium::messaging_client *this)
 {
-  void (__cdecl *v1)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function<void __cdecl(vostok::network_core::packet_reader &)> on_packet_received; // [esp+0h] [ebp-20h] BYREF
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v1; // ecx
+  boost::function<void __cdecl(vostok::network_core::buffer_reader &)> v2; // [esp+8h] [ebp-20h] BYREF
 
+  v2.vtable = 0;
   this->m_connection_state = client_disconnected;
-  on_packet_received.vtable = 0;
-  vostok::network::tcp_packet_client::set_on_packet_received(
-    &this->m_network_client,
-    (boost::function<void __cdecl(unsigned int,unsigned int)> *)&on_packet_received);
-  if ( on_packet_received.vtable && ((int)on_packet_received.vtable & 1) == 0 )
-  {
-    v1 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)on_packet_received.vtable & 0xFFFFFFFE);
-    if ( v1 )
-      v1(&on_packet_received.functor, &on_packet_received.functor, 2);
-  }
+  boost::function<void __cdecl (boost::system::error_code)>::operator=(
+    &v2,
+    (boost::function1<void,vostok::physics::contact_point const &> *)&this->m_network_client);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v1,
+    (int *)&v2);
 }

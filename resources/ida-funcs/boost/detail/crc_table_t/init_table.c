@@ -1,33 +1,51 @@
-int boost::detail::crc_table_t<32,79764919,1>::init_table()
+void boost::detail::crc_table_t<32,79764919,1>::init_table()
 {
-  int result; // eax
-  unsigned int v1; // [esp+0h] [ebp-14h]
-  unsigned __int8 mask; // [esp+7h] [ebp-Dh]
-  int remainder; // [esp+8h] [ebp-Ch]
-  unsigned __int8 dividend; // [esp+13h] [ebp-1h]
+  signed int v0; // edi
+  unsigned __int8 v1; // al
+  unsigned __int8 v2; // al
+  char v3; // cl
+  unsigned __int8 v4; // bl
+  int v5; // esi
+  unsigned int v6; // eax
+  bool v7; // zf
+  unsigned __int8 v8; // [esp+1h] [ebp-1h]
 
-  result = `boost::detail::crc_table_t<32,79764919,1>::init_table'::`2'::did_init;
   if ( !`boost::detail::crc_table_t<32,79764919,1>::init_table'::`2'::did_init )
   {
-    dividend = 0;
+    v8 = 0;
     do
     {
-      remainder = 0;
-      for ( mask = 0x80; mask; mask >>= 1 )
+      v0 = 0;
+      v1 = 0x80;
+      do
       {
-        if ( (mask & dividend) != 0 )
-          remainder ^= 0x80000000;
-        if ( remainder >= 0 )
-          remainder *= 2;
+        if ( (v1 & v8) != 0 )
+          v0 ^= 0x80000000;
+        if ( v0 >= 0 )
+          v0 *= 2;
         else
-          remainder = (unsigned int)&s_task_manager.m_task_allocator.m_task_buffer[377847] ^ (2 * remainder);
+          v0 = (2 * v0) ^ 0x4C11DB7;
+        v1 >>= 1;
       }
-      v1 = boost::detail::reflector<32>::reflect(remainder);
-      boost::detail::crc_table_t<32,79764919,1>::table_[boost::detail::reflector<8>::reflect(dividend++)] = v1;
-      result = dividend;
+      while ( v1 );
+      v2 = v8;
+      v3 = 7;
+      v4 = 0;
+      v5 = 8;
+      do
+      {
+        if ( (v2 & 1) != 0 )
+          v4 |= 1 << v3;
+        --v3;
+        v2 >>= 1;
+        --v5;
+      }
+      while ( v5 );
+      v6 = boost::detail::crc_helper<32,1>::reflect(v0);
+      v7 = v8++ == 0xFF;
+      boost::detail::crc_table_t<32,79764919,1>::table_[v4] = v6;
     }
-    while ( dividend );
+    while ( !v7 );
     `boost::detail::crc_table_t<32,79764919,1>::init_table'::`2'::did_init = 1;
   }
-  return result;
 }

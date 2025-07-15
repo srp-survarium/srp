@@ -1,22 +1,20 @@
-void __thiscall stlp_std::vector<vostok::ai::weapon *,vostok::vectora_allocator<void *>>::vector<vostok::ai::weapon *,vostok::vectora_allocator<void *>>(
-        stlp_std::vector<vostok::ai::weapon *,vostok::vectora_allocator<void *> > *this,
-        const vostok::vectora_allocator<vostok::ai::weapon *> *__a)
+void __userpurge stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::vector<unsigned char,stlp_std::allocator<unsigned char>>(
+        stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *this@<ecx>,
+        int a2@<eax>,
+        unsigned __int8 *__n,
+        const unsigned __int8 *__val,
+        const stlp_std::allocator<unsigned char> *__a)
 {
-  vostok::vectora_allocator<void *> v3; // [esp+4h] [ebp-4h] BYREF
+  int v6; // edx
+  unsigned __int8 *v7; // edi
+  int i; // eax
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  v3.m_allocator = __a->m_allocator;
-  stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *>>::_Impl_vector<void *,vostok::vectora_allocator<void *>>(
+  stlp_std::priv::_Vector_base<unsigned char,stlp_std::allocator<unsigned char>>::_Vector_base<unsigned char,stlp_std::allocator<unsigned char>>(
     &this->_M_impl,
-    &v3);
-}
-
-
-void __thiscall stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *>>::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *>>(
-        stlp_std::vector<survarium::zone_group *,survarium::std_allocator<survarium::zone_group *> > *this,
-        const survarium::std_allocator<survarium::zone_group *> *__a)
-{
-  stlp_std::priv::_Impl_vector<void *,survarium::std_allocator<void *>>::_Impl_vector<void *,survarium::std_allocator<void *>>(
-    (survarium::vector<vostok::resources::request> *)this,
-    this);
+    (unsigned __int8 **)a2);
+  v6 = *(_DWORD *)a2 + 17408;
+  v7 = *(unsigned __int8 **)a2;
+  for ( i = 17408; i > 0; --i )
+    *v7++ = *__n;
+  *(_DWORD *)(a2 + 4) = v6;
 }

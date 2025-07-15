@@ -4,22 +4,22 @@ void __thiscall Scaleform::Render::GlyphCache::filterScanline(
         unsigned int w)
 {
   unsigned int v3; // edi
-  unsigned __int8 *v4; // eax
+  char *v4; // eax
   int v5; // esi
   int v6; // ecx
   unsigned __int8 v7; // bl
   unsigned __int8 *v8; // ecx
   char v9; // dl
-  unsigned __int8 buf[256]; // [esp+Ch] [ebp-100h] BYREF
+  __m128i src[16]; // [esp+Ch] [ebp-100h] BYREF
 
   v3 = w;
   if ( w > 0x100 )
     v3 = 256;
-  memset((int)buf, 0, v3);
+  memset((int)src, 0, v3);
   if ( v3 > 4 )
   {
-    v4 = &buf[1];
-    v5 = 4 - (_DWORD)&buf[1];
+    v4 = &src[0].m128i_i8[1];
+    v5 = 4 - ((_DWORD)src[0].m128i_i32 + 1);
     do
     {
       v6 = sl[v5 - 2 + (_DWORD)v4];
@@ -31,9 +31,9 @@ void __thiscall Scaleform::Render::GlyphCache::filterScanline(
       *(v4 - 1) += v9;
       LOBYTE(v8) = *v8;
       v4[3] += v9;
-      *++v4 += (unsigned __int8)v8;
+      *++v4 += (char)v8;
     }
     while ( (unsigned int)&v4[v5] < v3 );
   }
-  memcpy(sl, buf, v3);
+  memcpy((int)sl, src, v3);
 }

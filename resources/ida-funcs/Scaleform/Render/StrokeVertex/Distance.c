@@ -3,14 +3,14 @@ BOOL __thiscall Scaleform::Render::StrokeVertex::Distance(
         const Scaleform::Render::StrokeVertex *val)
 {
   float v3; // [esp+4h] [ebp-4h]
-  float vala; // [esp+Ch] [ebp+4h]
-  float valb; // [esp+Ch] [ebp+4h]
-  float valc; // [esp+Ch] [ebp+4h]
+  float v4; // [esp+Ch] [ebp+4h]
+  float v5; // [esp+Ch] [ebp+4h]
+  float v6; // [esp+Ch] [ebp+4h]
 
   v3 = val->x - this->x;
-  vala = val->y - this->y;
-  valb = vala * vala + v3 * v3;
-  valc = sqrt(valb);
-  this->dist = valc;
-  return valc > 0.0;
+  v4 = val->y - this->y;
+  v5 = v4 * v4 + v3 * v3;
+  v6 = sqrt(v5);
+  this->dist = v6;
+  return v6 > 0.0;
 }

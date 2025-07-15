@@ -4,71 +4,51 @@ int __thiscall btDiscreteDynamicsWorld::stepSimulation(
         int maxSubSteps,
         float fixedTimeStep)
 {
-  const char *v5; // ecx
-  CProfileNode *Sub_Node; // eax
-  int RecursionCounter; // ecx
-  int v8; // edi
-  int v9; // ebx
-  float v10; // xmm0_4
-  btIDebugDraw *v11; // eax
-  btClock *v12; // ecx
-  CProfileNode *v13; // eax
-  bool v14; // zf
-  int *p_RecursionCounter; // esi
-  CProfileNode *v16; // edi
-  unsigned int fixedTimeStepa; // [esp+20h] [ebp+Ch]
+  int v4; // ebx
+  int v5; // edi
+  float v7; // xmm0_4
+  btIDebugDraw *v8; // eax
+  btDiscreteDynamicsWorld_vtbl *v9; // eax
 
-  CProfileManager::Reset();
-  Sub_Node = CProfileManager::CurrentNode;
-  if ( CProfileManager::CurrentNode->Name != "stepSimulation" )
-  {
-    Sub_Node = CProfileNode::Get_Sub_Node(v5);
-    CProfileManager::CurrentNode = Sub_Node;
-  }
-  RecursionCounter = Sub_Node->RecursionCounter;
-  ++Sub_Node->TotalCalls;
-  Sub_Node->RecursionCounter = RecursionCounter + 1;
-  if ( !RecursionCounter )
-    Sub_Node->StartTime = btClock::getTimeMicroseconds(0);
-  v8 = maxSubSteps;
-  v9 = 0;
+  v4 = maxSubSteps;
+  v5 = 0;
   if ( maxSubSteps )
   {
-    v10 = this->m_localTime + timeStep;
-    this->m_localTime = v10;
-    if ( v10 >= fixedTimeStep )
+    v7 = this->m_localTime + timeStep;
+    this->m_localTime = v7;
+    if ( v7 >= fixedTimeStep )
     {
-      v9 = (int)(float)(v10 / fixedTimeStep);
-      this->m_localTime = v10 - (float)((float)v9 * fixedTimeStep);
+      v5 = (int)(float)(v7 / fixedTimeStep);
+      this->m_localTime = v7 - (float)((float)v5 * fixedTimeStep);
     }
   }
   else
   {
-    fixedTimeStep = timeStep;
     this->m_localTime = timeStep;
-    if ( fabsf(timeStep) >= 0.00000011920929 )
+    fixedTimeStep = timeStep;
+    if ( COERCE_FLOAT(LODWORD(timeStep) & _mask__AbsFloat_) >= 0.00000011920929 )
     {
-      v9 = 1;
-      v8 = 1;
+      v4 = 1;
+      v5 = 1;
     }
     else
     {
-      v9 = 0;
-      v8 = 0;
+      v5 = 0;
+      v4 = 0;
     }
   }
   if ( this->getDebugDrawer(this) )
   {
-    v11 = this->getDebugDrawer(this);
-    gDisableDeactivation = (v11->getDebugMode(v11) & 0x10) != 0;
+    v8 = this->getDebugDrawer(this);
+    gDisableDeactivation = (v8->getDebugMode(v8) & 0x10) != 0;
   }
-  if ( v9 )
+  v9 = this->__vftable;
+  if ( v5 )
   {
-    if ( v9 <= v8 )
-      v8 = v9;
-    ((void (__thiscall *)(btDiscreteDynamicsWorld *, _DWORD))this->saveKinematicState)(this, (float)v8 * fixedTimeStep);
-    this->applyGravity(this);
-    if ( v8 > 0 )
+    if ( v5 <= v4 )
+      v4 = v5;
+    ((void (__fastcall *)(btDiscreteDynamicsWorld *))v9->applyGravity)(this);
+    if ( v4 > 0 )
     {
       do
       {
@@ -76,28 +56,15 @@ int __thiscall btDiscreteDynamicsWorld::stepSimulation(
           this,
           LODWORD(fixedTimeStep));
         this->synchronizeMotionStates(this);
-        --v8;
+        --v4;
       }
-      while ( v8 );
+      while ( v4 );
     }
   }
   else
   {
-    this->synchronizeMotionStates(this);
+    v9->synchronizeMotionStates(this);
   }
   this->clearForces(this);
-  v13 = CProfileManager::CurrentNode;
-  ++CProfileManager::FrameCounter;
-  v14 = CProfileManager::CurrentNode->RecursionCounter-- == 1;
-  p_RecursionCounter = &v13->RecursionCounter;
-  v16 = v13;
-  if ( v14 && v13->TotalCalls )
-  {
-    fixedTimeStepa = btClock::getTimeMicroseconds(v12) - v13->StartTime;
-    v13 = CProfileManager::CurrentNode;
-    v16->TotalTime = (double)fixedTimeStepa * 0.001 + v16->TotalTime;
-  }
-  if ( !*p_RecursionCounter )
-    CProfileManager::CurrentNode = v13->Parent;
-  return v9;
+  return v5;
 }

@@ -1,4 +1,4 @@
-int __cdecl EC_POINT_is_at_infinity(const ec_group_st *group, const ec_point_st *point)
+int __usercall EC_POINT_is_at_infinity@<eax>(int a1@<ebx>, const ec_group_st *group, const ec_point_st *point)
 {
   int (__cdecl *is_at_infinity)(const ec_group_st *, const ec_point_st *); // ecx
 
@@ -11,13 +11,13 @@ int __cdecl EC_POINT_is_at_infinity(const ec_group_st *group, const ec_point_st 
     }
     else
     {
-      ERR_put_error(0x10u, 118, 101, ".\\crypto\\ec\\ec_lib.c", 1036);
+      ERR_put_error(a1, 0x10u, 118, 101, ".\\crypto\\ec\\ec_lib.c", 1036);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x10u, 118, 66, ".\\crypto\\ec\\ec_lib.c", 1031);
+    ERR_put_error(a1, 0x10u, 118, 66, ".\\crypto\\ec\\ec_lib.c", 1031);
     return 0;
   }
 }

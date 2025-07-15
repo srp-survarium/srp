@@ -3,7 +3,7 @@ Scaleform::Render::Text::TextFilter *__thiscall Scaleform::Render::Text::TextFil
         const Scaleform::Render::Text::TextFilter *__that)
 {
   Scaleform::Render::Text::TextFilter *result; // eax
-  float __thata; // [esp+4h] [ebp+4h]
+  float y; // [esp+4h] [ebp+4h]
 
   result = this;
   result->BlurX = __that->BlurX;
@@ -13,9 +13,9 @@ Scaleform::Render::Text::TextFilter *__thiscall Scaleform::Render::Text::TextFil
   result->ShadowParams.Passes = __that->ShadowParams.Passes;
   result->ShadowParams.BlurX = __that->ShadowParams.BlurX;
   result->ShadowParams.BlurY = __that->ShadowParams.BlurY;
-  __thata = __that->ShadowParams.Offset.y;
+  y = __that->ShadowParams.Offset.y;
   result->ShadowParams.Offset.x = __that->ShadowParams.Offset.x;
-  result->ShadowParams.Offset.y = __thata;
+  result->ShadowParams.Offset.y = y;
   result->ShadowParams.Strength = __that->ShadowParams.Strength;
   *(_QWORD *)&result->ShadowParams.Colors[0].Channels.Blue = *(_QWORD *)&__that->ShadowParams.Colors[0].Channels.Blue;
   result->ShadowFlags = __that->ShadowFlags;

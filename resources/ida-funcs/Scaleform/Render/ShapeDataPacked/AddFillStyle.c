@@ -4,7 +4,7 @@ unsigned int __thiscall Scaleform::Render::ShapeDataPacked<Scaleform::ArrayDH<un
 {
   Scaleform::ArrayLH<Scaleform::Render::FillStyleType,2,Scaleform::ArrayDefaultPolicy> *p_FillStyles; // esi
   Scaleform::Render::FillStyleType *v4; // esi
-  Scaleform::GFx::Resource *pObject; // ecx
+  Scaleform::Render::ComplexFill *pObject; // ecx
 
   p_FillStyles = &this->FillStyles;
   Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorLH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
@@ -15,9 +15,9 @@ unsigned int __thiscall Scaleform::Render::ShapeDataPacked<Scaleform::ArrayDH<un
   if ( v4 )
   {
     v4->Color = fill->Color;
-    pObject = (Scaleform::GFx::Resource *)fill->pFill.pObject;
+    pObject = fill->pFill.pObject;
     if ( pObject )
-      Scaleform::RefCountImpl::AddRef(pObject);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject);
     v4->pFill.pObject = fill->pFill.pObject;
   }
   return this->FillStyles.Data.Size;

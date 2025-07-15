@@ -1,7 +1,7 @@
-unsigned int __usercall strtoul@<eax>(unsigned int a1@<ebx>, const char *nptr, char **endptr, unsigned int ibase)
+unsigned int __usercall strtoul@<eax>(int a1@<ebx>, const char *nptr, const char **endptr, int ibase)
 {
   if ( __locale_changed )
-    return strtoxl(a1, 0, nptr, (const char **)endptr, ibase, 1);
+    return strtoxl(a1, 0, nptr, endptr, ibase, 1);
   else
-    return strtoxl(a1, &__initiallocalestructinfo, nptr, (const char **)endptr, ibase, 1);
+    return strtoxl(a1, &__initiallocalestructinfo, nptr, endptr, ibase, 1);
 }

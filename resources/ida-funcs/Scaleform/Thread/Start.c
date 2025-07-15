@@ -20,13 +20,13 @@ char __thiscall Scaleform::Thread::Start(Scaleform::Thread *this, Scaleform::Thr
   InterlockedExchange(&this->SuspendCount.Value, 0);
   InterlockedExchange((volatile LONG *)&this->ThreadFlags, initialState != Running ? 8 : 0);
   v4 = _beginthreadex(
-         (unsigned int)this,
+         (int)this,
          0,
          this->StackSize,
          (unsigned int (__stdcall *)(void *))Scaleform::Thread_Win32StartFn,
          this,
          0,
-         (unsigned int *)&this->IdValue);
+         (LPDWORD)&this->IdValue);
   this->ThreadHandle = v4;
   if ( !v4 )
   {

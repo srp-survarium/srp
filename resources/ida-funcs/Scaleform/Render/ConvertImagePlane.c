@@ -11,7 +11,7 @@ void __stdcall Scaleform::Render::ConvertImagePlane(
   unsigned int FormatScanlineCount; // eax
   unsigned __int8 *pData; // esi
   unsigned __int8 *v10; // edi
-  unsigned int formatPlaneIndexa; // [esp+20h] [ebp+10h]
+  unsigned int plane; // [esp+20h] [ebp+10h]
 
   FormatBitsPerPixel = Scaleform::Render::ImageData::GetFormatBitsPerPixel(format, formatPlaneIndex);
   FormatScanlineCount = Scaleform::Render::ImageData::GetFormatScanlineCount(format, splane->Height, formatPlaneIndex);
@@ -19,14 +19,14 @@ void __stdcall Scaleform::Render::ConvertImagePlane(
   v10 = dplane->pData;
   if ( FormatScanlineCount )
   {
-    formatPlaneIndexa = FormatScanlineCount;
+    plane = FormatScanlineCount;
     do
     {
       copyScanline(v10, pData, (FormatBitsPerPixel * splane->Width) >> 3, pcolorMap, scanlineArg);
       pData += splane->Pitch;
       v10 += dplane->Pitch;
-      --formatPlaneIndexa;
+      --plane;
     }
-    while ( formatPlaneIndexa );
+    while ( plane );
   }
 }

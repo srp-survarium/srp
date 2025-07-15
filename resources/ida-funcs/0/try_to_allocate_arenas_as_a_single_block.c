@@ -1,95 +1,63 @@
-char __cdecl try_to_allocate_arenas_as_a_single_block(
-        vostok::buffer_vector<vostok::memory::platform::region> *arenas,
+char __usercall try_to_allocate_arenas_as_a_single_block@<al>(
+        vostok::buffer_vector<vostok::memory::platform::region> *arenas@<eax>,
         vostok::buffer_vector<vostok::memory::platform::region> *resource_arenas)
 {
   vostok::memory::platform::region *m_begin; // eax
-  vostok::memory::platform::region *m_end; // ecx
-  unsigned int v4; // esi
-  unsigned int v5; // edi
-  unsigned __int64 v6; // kr00_8
-  vostok::memory::platform::region *v7; // eax
-  vostok::memory::platform::region *v8; // ecx
-  unsigned __int64 v9; // kr08_8
+  unsigned __int64 v4; // kr00_8
+  vostok::memory::platform::region *i; // eax
+  unsigned __int64 v6; // kr08_8
+  unsigned int v7; // eax
+  unsigned __int64 v8; // kr10_8
+  unsigned int v9; // eax
   unsigned __int64 v10; // rax
-  unsigned __int64 v11; // kr10_8
-  int v12; // ecx
-  char *v13; // eax
+  char *region; // eax
+  vostok::memory::platform::region *v13; // ecx
+  vostok::memory::platform::region *m_end; // esi
   vostok::memory::platform::region *v15; // ecx
   vostok::memory::platform::region *v16; // edx
-  vostok::memory::platform::region *v17; // ecx
-  vostok::memory::platform::region *v18; // edx
-  unsigned __int64 pure_total_size; // [esp+14h] [ebp-30h]
-  _SYSTEM_INFO SystemInfo; // [esp+20h] [ebp-24h] BYREF
+  unsigned __int64 v17; // [esp-18h] [ebp-2Ch]
 
   m_begin = arenas->m_begin;
-  m_end = arenas->m_end;
   v4 = 0;
-  v5 = 0;
-  if ( arenas->m_begin != m_end )
+  while ( m_begin != arenas->m_end )
   {
-    do
-    {
-      v6 = m_begin->size + __PAIR64__(v5, v4);
-      v5 = HIDWORD(v6);
-      v4 = v6;
-      ++m_begin;
-    }
-    while ( m_begin != m_end );
+    v4 += m_begin->size;
+    ++m_begin;
   }
-  v7 = resource_arenas->m_begin;
-  v8 = resource_arenas->m_end;
-  if ( resource_arenas->m_begin != v8 )
+  for ( i = resource_arenas->m_begin; i != resource_arenas->m_end; ++i )
   {
-    do
-    {
-      v9 = v7->size + __PAIR64__(v5, v4);
-      v5 = HIDWORD(v9);
-      v4 = v9;
-      ++v7;
-    }
-    while ( v7 != v8 );
+    v6 = i->size + v4;
+    v4 = v6;
   }
-  pure_total_size = __PAIR64__(v5, v4);
-  GetSystemInfo(&SystemInfo);
-  v10 = __PAIR64__(v5, v4) % SystemInfo.dwAllocationGranularity;
-  if ( v10 )
-  {
-    v11 = SystemInfo.dwAllocationGranularity - v10 + __PAIR64__(v5, v4);
-    v5 = HIDWORD(v11);
-    v4 = v11;
-  }
-  GetSystemInfo(&SystemInfo);
-  v12 = (__PAIR64__(v5, SystemInfo.dwAllocationGranularity) == 0 || v5 == (SystemInfo.dwAllocationGranularity == 0))
-     && (!__PAIR64__(v5, SystemInfo.dwAllocationGranularity) || v4 < -SystemInfo.dwAllocationGranularity);
-  v13 = (char *)VirtualAlloc(
-                  0,
-                  (-v12 & (v4 + SystemInfo.dwAllocationGranularity)) - SystemInfo.dwAllocationGranularity,
-                  0x3000u,
-                  4u);
-  if ( !v13 )
+  v7 = allocation_granularity();
+  v8 = vostok::math::align_up<unsigned __int64>(v4, v7);
+  v9 = allocation_granularity();
+  HIDWORD(v17) = v9 == 0;
+  LODWORD(v17) = -v9;
+  v10 = vostok::math::min(v8, v17);
+  region = (char *)allocate_region(v10, 0);
+  if ( !region )
     return 0;
-  *(_QWORD *)&s_crt_allocator_creation.m_arena_id = pure_total_size;
-  v15 = arenas->m_begin;
-  v16 = arenas->m_end;
-  for ( s_crt_allocator_creation.m_arena_start = v13; v15 != v16; ++v15 )
+  s_single_block_arena_size = v4;
+  v13 = arenas->m_begin;
+  m_end = arenas->m_end;
+  s_single_block_arena = region;
+  while ( v13 != m_end )
   {
-    if ( v15->size )
+    if ( v13->size )
     {
-      v15->address = v13;
-      v13 += LODWORD(v15->size);
+      v13->address = region;
+      region += LODWORD(v13->size);
     }
+    ++v13;
   }
-  v17 = resource_arenas->m_begin;
-  v18 = resource_arenas->m_end;
-  if ( resource_arenas->m_begin != v18 )
+  v15 = resource_arenas->m_begin;
+  v16 = resource_arenas->m_end;
+  while ( v15 != v16 )
   {
-    do
-    {
-      v17->address = v13;
-      v13 += LODWORD(v17->size);
-      ++v17;
-    }
-    while ( v17 != v18 );
+    v15->address = region;
+    region += LODWORD(v15->size);
+    ++v15;
   }
   return 1;
 }

@@ -3,7 +3,7 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
         Scaleform::GFx::AS2::Value *a,
         Scaleform::GFx::AS2::Value *b)
 {
-  Scaleform::GFx::AS2::Value *p_dummy; // ebx
+  Scaleform::GFx::AS2::Value *v3; // ebx
   Scaleform::GFx::AS2::Value *v5; // ebp
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // edi
   Scaleform::GFx::AS2::Value *pCurrent; // edi
@@ -24,49 +24,49 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
   bool v23; // al
   double v24; // st7
   char v25; // bl
-  Scaleform::GFx::ASStringNode *pNode; // edi
+  Scaleform::GFx::ASStringNode *v26; // edi
   bool v27; // al
   int v28; // ecx
   int Flags; // eax
-  const char *v30; // edi
+  char *v30; // edi
   unsigned int Length; // eax
   int v32; // eax
   Scaleform::GFx::ASStringNode *v33; // eax
   Scaleform::GFx::ASStringNode *v34; // eax
   char v35; // [esp-4h] [ebp-68h]
-  Scaleform::GFx::ASString sb; // [esp+14h] [ebp-50h] BYREF
-  double valB; // [esp+18h] [ebp-4Ch] BYREF
-  Scaleform::GFx::AS2::Value valA; // [esp+20h] [ebp-44h] BYREF
-  Scaleform::GFx::AS2::Value dummy; // [esp+30h] [ebp-34h] BYREF
-  Scaleform::GFx::AS2::FnCall fn; // [esp+40h] [ebp-24h] BYREF
+  Scaleform::GFx::ASStringNode *v36; // [esp+14h] [ebp-50h] BYREF
+  double v37; // [esp+18h] [ebp-4Ch] BYREF
+  Scaleform::GFx::AS2::Value v38; // [esp+20h] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value v39; // [esp+30h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FnCall v40; // [esp+40h] [ebp-24h] BYREF
 
-  p_dummy = a;
-  dummy.T.Type = 0;
+  v3 = a;
+  v39.T.Type = 0;
   if ( !a )
   {
-    a = &dummy;
-    p_dummy = &dummy;
+    a = &v39;
+    v3 = &v39;
   }
   v5 = b;
   if ( !b )
-    v5 = &dummy;
+    v5 = &v39;
   if ( !this->Func.Function )
   {
     v21 = (this->Flags & 0x10) == 0;
-    *(double *)&valA.T.Type = 0.0;
-    valB = 0.0;
+    *(double *)&v38.T.Type = 0.0;
+    v37 = 0.0;
     if ( !v21 )
     {
-      if ( p_dummy->T.Type == 3 || p_dummy->T.Type == 4 )
+      if ( v3->T.Type == 3 || v3->T.Type == 4 )
       {
-        *(double *)&valA.T.Type = Scaleform::GFx::AS2::Value::ToNumber(p_dummy, this->Env);
+        *(double *)&v38.T.Type = Scaleform::GFx::AS2::Value::ToNumber(v3, this->Env);
         LOBYTE(b) = 1;
       }
       else
       {
-        Scaleform::GFx::AS2::Value::ToStringImpl(p_dummy, (Scaleform::GFx::ASString *)&b, this->Env, -1, 0);
+        Scaleform::GFx::AS2::Value::ToStringImpl(v3, (Scaleform::GFx::ASString *)&b, this->Env, -1, 0);
         v22 = (Scaleform::GFx::ASStringNode *)b;
-        v23 = Scaleform::GFx::AS2::GAS_ParseNumber((long double *)&valA.T.Type);
+        v23 = Scaleform::GFx::AS2::GAS_ParseNumber(*(char **)&b->T.Type, (int)b, (long double *)&v38.T.Type);
         v21 = v22->RefCount-- == 1;
         LOBYTE(b) = v23;
         if ( v21 )
@@ -79,37 +79,37 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
       }
       else
       {
-        Scaleform::GFx::AS2::Value::ToStringImpl(v5, &sb, this->Env, -1, 0);
-        pNode = sb.pNode;
-        v27 = Scaleform::GFx::AS2::GAS_ParseNumber(&valB);
-        v21 = pNode->RefCount-- == 1;
+        Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&v36, this->Env, -1, 0);
+        v26 = v36;
+        v27 = Scaleform::GFx::AS2::GAS_ParseNumber((char *)v36->pData, (int)v36, &v37);
+        v21 = v26->RefCount-- == 1;
         v25 = v27;
         if ( v21 )
-          Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-        v24 = valB;
+          Scaleform::GFx::ASStringNode::ReleaseNode(v26);
+        v24 = v37;
       }
       if ( (_BYTE)b && v25 )
       {
-        if ( *(double *)&valA.T.Type >= v24 )
+        if ( *(double *)&v38.T.Type >= v24 )
           v28 = 0;
         else
           v28 = -1;
-        if ( *(double *)&valA.T.Type > v24 )
+        if ( *(double *)&v38.T.Type > v24 )
           v28 = 1;
         if ( (this->Flags & 2) != 0 )
           return -v28;
         return v28;
       }
-      p_dummy = a;
+      v3 = a;
     }
-    Scaleform::GFx::AS2::Value::ToStringImpl(p_dummy, (Scaleform::GFx::ASString *)&b, this->Env, -1, 0);
+    Scaleform::GFx::AS2::Value::ToStringImpl(v3, (Scaleform::GFx::ASString *)&b, this->Env, -1, 0);
     Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&a, this->Env, -1, 0);
     Flags = this->Flags;
     if ( (Flags & 0x400) != 0 )
     {
-      v30 = *(const char **)&a->T.Type;
-      LOBYTE(sb.pNode) = (Flags & 1) == 0;
-      v35 = (char)sb.pNode;
+      v30 = *(char **)&a->T.Type;
+      LOBYTE(v36) = (Flags & 1) == 0;
+      v35 = (char)v36;
       Length = Scaleform::GFx::ASConstString::GetLength((Scaleform::GFx::ASConstString *)&a);
       v32 = Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(
               (Scaleform::GFx::ASConstString *)&b,
@@ -119,7 +119,7 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
     }
     else if ( (Flags & 1) != 0 )
     {
-      v32 = Scaleform::String::CompareNoCase(*(const char **)&b->T.Type, *(const char **)&a->T.Type);
+      v32 = Scaleform::String::CompareNoCase(*(char **)&b->T.Type, *(char **)&a->T.Type);
     }
     else
     {
@@ -139,7 +139,7 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
     return v19;
   }
   p_Stack = &this->Env->Stack;
-  valA.T.Type = 0;
+  v38.T.Type = 0;
   if ( ++p_Stack->pCurrent >= p_Stack->pPageEnd )
     Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(p_Stack);
   pCurrent = p_Stack->pCurrent;
@@ -152,20 +152,20 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
     Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(v10);
   v11 = v10->pCurrent;
   if ( v11 )
-    Scaleform::GFx::AS2::Value::Value(v11, p_dummy);
+    Scaleform::GFx::AS2::Value::Value(v11, v3);
   v12 = this->Env;
   v13 = v12->Stack.pCurrent - v12->Stack.pPageStart + 32 * v12->Stack.Pages.Data.Size - 32;
-  fn.Result = &valA;
-  fn.ThisPtr = this->This;
-  memset(&fn.ThisFunctionRef, 0, 9);
+  v40.Result = &v38;
+  v40.ThisPtr = this->This;
+  memset(&v40.ThisFunctionRef, 0, 9);
   pLocalFrame = this->Func.pLocalFrame;
-  fn.FirstArgBottomIndex = v13;
+  v40.FirstArgBottomIndex = v13;
   Function = this->Func.Function;
-  fn.Env = v12;
+  v40.Env = v12;
   v16 = 2;
-  fn.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
-  fn.NArgs = 2;
-  Function->Invoke(Function, &fn, pLocalFrame, 0);
+  v40.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
+  v40.NArgs = 2;
+  Function->Invoke(Function, &v40, pLocalFrame, 0);
   v17 = &this->Env->Stack;
   do
   {
@@ -176,26 +176,26 @@ int __thiscall Scaleform::GFx::AS2::ArraySortFunctor::Compare(
     --v16;
   }
   while ( v16 );
-  if ( fn.Result )
+  if ( v40.Result )
   {
-    v18 = Scaleform::GFx::AS2::Value::ToInt32(fn.Result, this->Env);
+    v18 = Scaleform::GFx::AS2::Value::ToInt32(v40.Result, this->Env);
     if ( (this->Flags & 2) != 0 )
       v18 = -v18;
     v19 = v18;
-    Scaleform::GFx::AS2::FnCall::~FnCall(&fn);
-    if ( valA.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&valA);
-    if ( dummy.T.Type >= 5u )
+    Scaleform::GFx::AS2::FnCall::~FnCall(&v40);
+    if ( v38.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v38);
+    if ( v39.T.Type >= 5u )
     {
-      Scaleform::GFx::AS2::Value::DropRefs(&dummy);
+      Scaleform::GFx::AS2::Value::DropRefs(&v39);
       return v19;
     }
     return v19;
   }
-  Scaleform::GFx::AS2::FnCall::~FnCall(&fn);
-  if ( valA.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&valA);
-  if ( dummy.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&dummy);
+  Scaleform::GFx::AS2::FnCall::~FnCall(&v40);
+  if ( v38.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v38);
+  if ( v39.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v39);
   return 0;
 }

@@ -1,7 +1,7 @@
-int __cdecl MD5_Update(MD5state_st *c, unsigned __int8 *data_, unsigned int len)
+int __cdecl MD5_Update(MD5state_st *c, const __m128i *data_, unsigned int len)
 {
   unsigned int v3; // edi
-  unsigned __int8 *v4; // ebp
+  const __m128i *v4; // ebp
   unsigned int Nl; // eax
   unsigned int v6; // ecx
   unsigned int num; // eax
@@ -25,29 +25,29 @@ int __cdecl MD5_Update(MD5state_st *c, unsigned __int8 *data_, unsigned int len)
       data = c->data;
       if ( len < 0x40 && num + len < 0x40 )
       {
-        memcpy((unsigned __int8 *)data + num, data_, len);
+        memcpy((int)data + num, data_, len);
         c->num += len;
         return 1;
       }
       v10 = 64 - num;
-      memcpy((unsigned __int8 *)data + num, data_, 64 - num);
+      memcpy((int)data + num, data_, 64 - num);
       md5_block_asm_data_order(c, c->data, 1);
       v3 = len - v10;
       c->num = 0;
       memset((int)c->data, 0, sizeof(c->data));
-      v4 = &data_[v10];
+      v4 = (const __m128i *)((char *)data_ + v10);
     }
     if ( v3 >> 6 )
     {
       md5_block_asm_data_order(c, v4, v3 >> 6);
       v11 = v3 >> 6 << 6;
-      v4 += v11;
+      v4 = (const __m128i *)((char *)v4 + v11);
       v3 -= v11;
     }
     if ( v3 )
     {
       c->num = v3;
-      memcpy((unsigned __int8 *)c->data, v4, v3);
+      memcpy((int)c->data, v4, v3);
     }
   }
   return 1;

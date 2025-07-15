@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeMultiB
   int v8; // esi
   unsigned int Size; // esi
   unsigned int Position; // edx
-  unsigned __int8 *pData; // edi
+  const __m128i *pData; // edi
   unsigned int v12; // eax
   Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v14; // eax
@@ -22,24 +22,25 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeMultiB
   unsigned int Length; // ebx
   _DWORD *v21; // edi
   Scaleform::GFx::AS3::VM::ErrorID ID; // edi
-  Scaleform::GFx::AS3::VM::Error v23; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::StringDataPtr v23; // [esp-8h] [ebp-30h]
+  Scaleform::GFx::AS3::VM::Error v24; // [esp+10h] [ebp-18h] BYREF
   Scaleform::WStringBuffer wbuff; // [esp+18h] [ebp-10h] BYREF
-  unsigned __int8 *valuea; // [esp+30h] [ebp+8h]
+  const __m128i *valuea; // [esp+30h] [ebp+8h]
 
   v5 = Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::UTF8_Names[0];
   v6 = 0;
-  v23.ID = (Scaleform::GFx::AS3::VM::ErrorID)this;
+  v24.ID = (Scaleform::GFx::AS3::VM::ErrorID)this;
   if ( Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::UTF8_Names[0] )
   {
     while ( strcmp(charSet->pNode->pData, v5) )
     {
-      v5 = off_9B48F8[v6++];
+      v5 = off_8765A0[v6++];
       if ( !v5 )
         goto LABEL_4;
     }
     Size = value->pNode->Size;
     Position = this->Position;
-    pData = (unsigned __int8 *)value->pNode->pData;
+    pData = (const __m128i *)value->pNode->pData;
     v12 = Position + Size;
     if ( Position + Size < this->Data.Data.Size )
     {
@@ -50,7 +51,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeMultiB
     {
       Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Resize(this, Position + Size);
     }
-    memcpy(&this->Data.Data.Data[this->Position], pData, Size);
+    memcpy((int)&this->Data.Data.Data[this->Position], pData, Size);
     this->Position += Size;
   }
   else
@@ -62,53 +63,53 @@ LABEL_4:
     {
       while ( strcmp(charSet->pNode->pData, v7) )
       {
-        v7 = (&off_9B490C)[v8++];
+        v7 = (&off_8765B4)[v8++];
         if ( !v7 )
           goto LABEL_13;
       }
       pNode = value->pNode;
       memset(&wbuff, 0, sizeof(wbuff));
-      Scaleform::WStringBuffer::SetString(&wbuff, pNode->pData, pNode->Size);
+      Scaleform::WStringBuffer::SetString(&wbuff, (char *)pNode->pData, pNode->Size);
       v17 = this->Position;
       v18 = this->Data.Data.Size;
       v19 = v17 + wbuff.Length;
       Length = wbuff.Length;
-      valuea = (unsigned __int8 *)wbuff.pText;
+      valuea = (const __m128i *)wbuff.pText;
       if ( v17 + wbuff.Length < v18 )
       {
-        ID = v23.ID;
-        if ( v19 >= *(_DWORD *)(v23.ID + 40) )
-          *(_DWORD *)(v23.ID + 40) = v19;
+        ID = v24.ID;
+        if ( v19 >= *(_DWORD *)(v24.ID + 40) )
+          *(_DWORD *)(v24.ID + 40) = v19;
       }
       else
       {
         if ( v17 + wbuff.Length > v18 )
         {
-          v21 = (_DWORD *)(v23.ID + 44);
-          if ( v19 >= *(_DWORD *)(v23.ID + 48) )
+          v21 = (_DWORD *)(v24.ID + 44);
+          if ( v19 >= *(_DWORD *)(v24.ID + 48) )
           {
-            if ( v19 >= *(_DWORD *)(v23.ID + 52) )
+            if ( v19 >= *(_DWORD *)(v24.ID + 52) )
               Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)(v23.ID + 44),
-                (const void *)(v23.ID + 44),
+                (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)(v24.ID + 44),
+                (const void *)(v24.ID + 44),
                 v19 + (v19 >> 2));
           }
-          else if ( v19 < *(_DWORD *)(v23.ID + 52) >> 1 )
+          else if ( v19 < *(_DWORD *)(v24.ID + 52) >> 1 )
           {
             Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)(v23.ID + 44),
-              (const void *)(v23.ID + 44),
+              (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)(v24.ID + 44),
+              (const void *)(v24.ID + 44),
               v19);
           }
-          *(_DWORD *)(v23.ID + 48) = v19;
+          *(_DWORD *)(v24.ID + 48) = v19;
           memset(v18 + *v21, 0, v19 - v18);
         }
-        ID = v23.ID;
-        *(_DWORD *)(v23.ID + 40) = v19;
+        ID = v24.ID;
+        *(_DWORD *)(v24.ID + 40) = v19;
         if ( *(_DWORD *)(ID + 36) > v19 )
           *(_DWORD *)(ID + 36) = v19;
       }
-      memcpy((unsigned __int8 *)(*(_DWORD *)(ID + 36) + *(_DWORD *)(ID + 44)), valuea, Length);
+      memcpy(*(_DWORD *)(ID + 36) + *(_DWORD *)(ID + 44), valuea, Length);
       *(_DWORD *)(ID + 36) += Length;
       Scaleform::WStringBuffer::~WStringBuffer(&wbuff);
     }
@@ -116,10 +117,12 @@ LABEL_4:
     {
 LABEL_13:
       pVM = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error(&v23, eInvalidArgumentError, pVM);
+      v23.pStr = "charSet";
+      v23.Size = 7;
+      Scaleform::GFx::AS3::VM::Error::Error(&v24, eInvalidArgumentError, pVM, v23);
       Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v14);
-      v15 = v23.Message.pNode;
-      --v23.Message.pNode->RefCount;
+      v15 = v24.Message.pNode;
+      --v24.Message.pNode->RefCount;
       if ( !v15->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v15);
     }

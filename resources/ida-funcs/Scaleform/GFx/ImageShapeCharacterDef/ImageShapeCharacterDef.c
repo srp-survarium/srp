@@ -12,33 +12,33 @@ void __thiscall Scaleform::GFx::ImageShapeCharacterDef::ImageShapeCharacterDef(
   Scaleform::Render::ImageBase::ImageType (__thiscall *GetImageType)(Scaleform::Render::ImageBase *); // eax
   Scaleform::Render::ImageBase *v11; // eax
   Scaleform::Render::Image *(__thiscall *CreateImage)(Scaleform::GFx::ImageCreator *, const Scaleform::GFx::ImageCreateInfo *, Scaleform::Render::ImageSource *); // edx
-  int v13; // ecx
-  int v14; // edx
-  Scaleform::Render::ComplexFill *v15; // ecx
-  int v16; // ecx
-  int v17; // eax
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *Data; // ecx
+  unsigned int Capacity; // edx
+  Scaleform::RefCountVImpl *v15; // ecx
+  Scaleform::Render::Matrix2x4<float> *p_Size; // ecx
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *v17; // eax
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::DataStatus Status; // eax
   Scaleform::Render::ShapeMeshProvider *v19; // eax
   float v20; // eax
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::Render::ShapeMeshProvider *v22; // eax
-  int v23; // eax
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *v23; // eax
   Scaleform::Render::ShapeMeshProvider *v24; // eax
   float v25; // eax
-  Scaleform::Render::ImageBase *scale; // [esp+244h] [ebp-A4h]
-  float scalea; // [esp+244h] [ebp-A4h]
-  float x; // [esp+258h] [ebp-90h] BYREF
-  Scaleform::LogMessageId id; // [esp+25Ch] [ebp-8Ch] BYREF
-  Scaleform::Render::ImageBase *v30; // [esp+260h] [ebp-88h]
-  int v31; // [esp+264h] [ebp-84h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+268h] [ebp-80h] BYREF
-  Scaleform::Render::FillStyleType v33; // [esp+278h] [ebp-70h] BYREF
-  int v34; // [esp+280h] [ebp-68h] BYREF
-  int v35; // [esp+284h] [ebp-64h] BYREF
-  float v36[4]; // [esp+288h] [ebp-60h] BYREF
-  Scaleform::Render::Matrix2x4<float> v37; // [esp+298h] [ebp-50h] BYREF
-  Scaleform::Render::Rect<float> v38; // [esp+2B8h] [ebp-30h] BYREF
-  _DWORD v39[8]; // [esp+2C8h] [ebp-20h] BYREF
+  Scaleform::Render::ImageBase *scale; // [esp+30h] [ebp-A4h]
+  float scalea; // [esp+30h] [ebp-A4h]
+  float x; // [esp+44h] [ebp-90h] BYREF
+  Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v29; // [esp+48h] [ebp-8Ch] BYREF
+  Scaleform::Render::ImageBase *v30; // [esp+4Ch] [ebp-88h]
+  int v31; // [esp+50h] [ebp-84h] BYREF
+  __m128 v32; // [esp+54h] [ebp-80h] BYREF
+  Scaleform::Render::FillStyleType fill; // [esp+64h] [ebp-70h] BYREF
+  int v34; // [esp+6Ch] [ebp-68h] BYREF
+  int v35; // [esp+70h] [ebp-64h] BYREF
+  float v36[4]; // [esp+74h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix2x4<float> v37; // [esp+84h] [ebp-50h] BYREF
+  __m128 v38; // [esp+A4h] [ebp-30h] BYREF
+  _DWORD v39[8]; // [esp+B4h] [ebp-20h] BYREF
 
   this->__vftable = (Scaleform::GFx::ImageShapeCharacterDef_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->pLib = 0;
@@ -78,7 +78,7 @@ void __thiscall Scaleform::GFx::ImageShapeCharacterDef::ImageShapeCharacterDef(
   }
   LODWORD(x) = 2;
   AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-  v33.pFill.pObject = 0;
+  fill.pFill.pObject = 0;
   v8 = (int)AllocAutoHeap(Scaleform::Memory::pGlobalHeap, this, 64u, (const Scaleform::AllocInfo *)&x);
   if ( v8 )
   {
@@ -90,7 +90,7 @@ void __thiscall Scaleform::GFx::ImageShapeCharacterDef::ImageShapeCharacterDef(
     *(float *)(v8 + 20) = 0.0;
     *(_DWORD *)(v8 + 12) = 0;
     *(float *)(v8 + 24) = 0.0;
-    id.Id = v8;
+    v29.Data = (Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> *)v8;
     *(float *)(v8 + 28) = 0.0;
     *(float *)(v8 + 32) = 0.0;
     *(float *)(v8 + 40) = 0.0;
@@ -101,12 +101,14 @@ void __thiscall Scaleform::GFx::ImageShapeCharacterDef::ImageShapeCharacterDef(
   }
   else
   {
-    id.Id = 0;
+    v29.Data = 0;
   }
-  v33.pFill.pObject = (Scaleform::Render::ComplexFill *)id.Id;
+  fill.pFill.pObject = (Scaleform::Render::ComplexFill *)v29.Data;
   if ( !pimage )
   {
-    Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "Image is null in ImageShapeCharacterDef ctor.");
+    Scaleform::LogDebugMessage(
+      (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+      "Image is null in ImageShapeCharacterDef ctor.");
     goto LABEL_45;
   }
   v9 = pimage->pImage;
@@ -140,7 +142,9 @@ LABEL_14:
     v30 = v11;
     goto LABEL_15;
   }
-  Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "ImageCreator is null in ImageShapeCharacterDef ctor");
+  Scaleform::LogDebugMessage(
+    (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+    "ImageCreator is null in ImageShapeCharacterDef ctor");
   *(float *)&v11 = 0.0;
 LABEL_15:
   if ( *(float *)&v11 != 0.0 )
@@ -148,35 +152,37 @@ LABEL_15:
     v11->AddRef(v11);
     v11 = v30;
   }
-  v13 = id.Id;
-  v14 = *(_DWORD *)(id.Id + 8);
-  if ( v14 )
+  Data = v29.Data;
+  Capacity = v29.Data->Data.Policy.Capacity;
+  if ( Capacity )
   {
-    (*(void (__thiscall **)(_DWORD))(*(_DWORD *)v14 + 8))(*(_DWORD *)(id.Id + 8));
+    (*(void (__thiscall **)(unsigned int))(*(_DWORD *)Capacity + 8))(v29.Data->Data.Policy.Capacity);
     v11 = v30;
-    v13 = id.Id;
+    Data = v29.Data;
   }
-  *(float *)(v13 + 8) = *(float *)&v11;
+  Data->Data.Policy.Capacity = (unsigned int)v11;
   if ( *(float *)&v11 == 0.0 )
   {
-    Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "Image is not created.");
-    v15 = (Scaleform::Render::ComplexFill *)id.Id;
+    Scaleform::LogDebugMessage(
+      (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+      "Image is not created.");
+    v15 = (Scaleform::RefCountVImpl *)v29.Data;
     goto LABEL_46;
   }
-  v16 = v13 + 16;
-  *(float *)v16 = 1.0;
-  *(float *)(v16 + 4) = 0.0;
-  *(float *)(v16 + 8) = 0.0;
-  *(float *)(v16 + 12) = 0.0;
-  *(float *)(v16 + 16) = 0.0;
-  *(float *)(v16 + 24) = 0.0;
-  *(float *)(v16 + 28) = 0.0;
-  *(float *)(v16 + 20) = 1.0;
-  Scaleform::Render::Matrix2x4<float>::AppendScaling((Scaleform::Render::Matrix2x4<float> *)v16, 0.050000001);
-  v17 = id.Id;
-  *(_BYTE *)(id.Id + 48) = 1;
+  p_Size = (Scaleform::Render::Matrix2x4<float> *)&Data[1].Data.Size;
+  p_Size->M[0][0] = 1.0;
+  p_Size->M[0][1] = 0.0;
+  p_Size->M[0][2] = 0.0;
+  p_Size->M[0][3] = 0.0;
+  p_Size->M[1][0] = 0.0;
+  p_Size->M[1][2] = 0.0;
+  p_Size->M[1][3] = 0.0;
+  p_Size->M[1][1] = 1.0;
+  Scaleform::Render::Matrix2x4<float>::AppendScaling(p_Size, 0.050000001);
+  v17 = v29.Data;
+  LOBYTE(v29.Data[4].Data.Data) = 1;
   if ( bilinear )
-    *(_BYTE *)(v17 + 48) |= 2u;
+    LOBYTE(v17[4].Data.Data) |= 2u;
   v30->GetRect(v30, (Scaleform::Render::Rect<unsigned long> *)v36);
   v37.M[0][0] = 1.0;
   v37.M[0][1] = 0.0;
@@ -189,18 +195,18 @@ LABEL_15:
   ((void (__thiscall *)(Scaleform::Render::ImageBase *, Scaleform::Render::Matrix2x4<float> *))v30->__vftable[1].GetImageType)(
     v30,
     &v37);
-  pr.x1 = 0.0;
-  pr.y1 = 0.0;
-  pr.x2 = 0.0;
-  pr.y2 = 0.0;
-  v38.x1 = (float)LODWORD(v36[0]);
-  v38.y1 = (float)LODWORD(v36[1]);
-  v38.x2 = (float)LODWORD(v36[2]);
-  v38.y2 = (float)LODWORD(v36[3]);
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v37, &pr, (__m128 *)&v38);
+  v32.m128_f32[0] = 0.0;
+  v32.m128_f32[1] = 0.0;
+  v32.m128_f32[2] = 0.0;
+  v32.m128_f32[3] = 0.0;
+  v38.m128_f32[0] = (float)LODWORD(v36[0]);
+  v38.m128_f32[1] = (float)LODWORD(v36[1]);
+  v38.m128_f32[2] = (float)LODWORD(v36[2]);
+  v38.m128_f32[3] = (float)LODWORD(v36[3]);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v37, &v32, &v38);
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::AddFillStyle(
     v6,
-    &v33);
+    &fill);
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
     v6,
     1u,
@@ -210,22 +216,22 @@ LABEL_15:
     v6,
     0.0,
     0.0);
-  x = pr.x2 - pr.x1;
+  x = v32.m128_f32[2] - v32.m128_f32[0];
   x = x * 20.0;
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
     v6,
     x,
     0.0);
-  x = pr.y2 - pr.y1;
+  x = v32.m128_f32[3] - v32.m128_f32[1];
   x = x * 20.0;
   scalea = x;
-  x = pr.x2 - pr.x1;
+  x = v32.m128_f32[2] - v32.m128_f32[0];
   x = 20.0 * x;
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
     v6,
     x,
     scalea);
-  x = pr.y2 - pr.y1;
+  x = v32.m128_f32[3] - v32.m128_f32[1];
   x = x * 20.0;
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
     v6,
@@ -242,9 +248,9 @@ LABEL_15:
   {
     if ( Status != Status_EndPath )
       Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::EndPath(v6);
-    id.Id = (int)v6->Data;
+    v29.Data = v6->Data;
     Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteChar(
-      (Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)&id,
+      &v29,
       7);
     v6->Status = Status_EndShape;
   }
@@ -277,25 +283,25 @@ LABEL_15:
   if ( v22 )
   {
     Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v22, (Scaleform::GFx::Resource *)this->pShape.pObject, 0);
-    id.Id = v23;
+    v29.Data = v23;
   }
   else
   {
-    id.Id = 0;
+    v29.Data = 0;
   }
   v24 = this->pShapeMeshProvider.pObject;
   if ( v24 )
     v24->Release(&v24->Scaleform::Render::MeshProvider);
   v25 = x;
-  this->pShapeMeshProvider.pObject = (Scaleform::Render::ShapeMeshProvider *)id.Id;
+  this->pShapeMeshProvider.pObject = (Scaleform::Render::ShapeMeshProvider *)v29.Data;
   if ( v25 != 0.0 )
     (*(void (__thiscall **)(int))(*(_DWORD *)(LODWORD(v25) + 8) + 8))(LODWORD(v25) + 8);
   v30->Release(v30);
 LABEL_45:
-  v15 = v33.pFill.pObject;
+  v15 = (Scaleform::RefCountVImpl *)fill.pFill.pObject;
 LABEL_46:
   if ( v15 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v15);
+    Scaleform::RefCountImpl::Release(v15);
   if ( v6 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v6);
 }

@@ -1,147 +1,105 @@
 void __userpurge survarium::messaging_client::on_message_typed(
-        wchar_t *input_text@<eax>,
-        survarium::messaging_client *this,
-        const wchar_t *message_chanel)
+        survarium::chat_handler *receiver_name@<ecx>,
+        int message_chanel@<eax>,
+        int this,
+        char *input_text)
 {
-  const wchar_t *v3; // ebx
-  wchar_t *v5; // ebp
-  unsigned __int16 *v6; // eax
-  survarium::messaging_client *v7; // edi
-  int m_match_channel_id; // esi
-  int v9; // eax
-  int v10; // eax
-  bool v11; // zf
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v12; // ecx
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v13; // ecx
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v14; // ecx
-  unsigned __int8 v15; // kr08_1
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v16; // ecx
-  bool has_direct_receiver; // [esp+10h] [ebp-1BCh] BYREF
-  bool in_match[4]; // [esp+14h] [ebp-1B8h] BYREF
-  vostok::network_core::tcp_packet packet; // [esp+18h] [ebp-1B4h] BYREF
-  char receiver_name[32]; // [esp+28h] [ebp-1A4h] BYREF
-  wchar_t w_receiver_name[32]; // [esp+48h] [ebp-184h] BYREF
-  wchar_t w_sender_name[32]; // [esp+88h] [ebp-144h] BYREF
-  char message_body[256]; // [esp+C8h] [ebp-104h] BYREF
+  survarium::messaging_client *v4; // ebx
+  bool v7; // zf
+  vostok::network_core::buffer_writer *v8; // ecx
+  vostok::network_core::buffer_writer *v9; // ecx
+  vostok::network_core::buffer_writer *v10; // ecx
+  vostok::network_core::buffer_writer *v11; // ecx
+  vostok::network_core::buffer_writer *v12; // ecx
+  vostok::network::tcp_packet_client *v13; // ecx
+  vostok::network_core::buffer_writer *v14; // ecx
+  vostok::network_core::mutable_buffer *v15; // ecx
+  char _Dst[260]; // [esp+10h] [ebp-130h] BYREF
+  vostok::network_core::tcp_packet v17; // [esp+114h] [ebp-2Ch] BYREF
+  int v18; // [esp+13Ch] [ebp-4h]
 
-  v3 = message_chanel;
-  v5 = input_text;
-  has_direct_receiver = *input_text == 47;
-  v6 = wcsstr(input_text, L" ");
-  if ( has_direct_receiver && v6 )
+  v4 = (survarium::messaging_client *)this;
+  v7 = *(_DWORD *)(this + 136) == 3;
+  v18 = message_chanel;
+  if ( v7 )
   {
-    v5 = v6 + 1;
-    wcsncpy_s((unsigned int)message_chanel, w_receiver_name, 0x20u, input_text + 1, v6 - input_text - 1);
-    v7 = this;
-    in_match[0] = this->m_chat_handler->m_game_ui_mode;
-    v3 = (const wchar_t *)survarium::messaging_client::parse_receiver_channel(w_receiver_name, this, in_match[0]);
-  }
-  else
-  {
-    v7 = this;
-  }
-  if ( v3 != (const wchar_t *)4 )
-    swprintf_s<32>((wchar_t (*)[32])w_receiver_name, &word_96B534);
-  if ( v7->m_connection_state == client_connected )
-  {
-    *(_DWORD *)in_match = 0;
-    mbstowcs_s((unsigned int *)in_match, w_sender_name, 0x20u, v7->m_local_name, 0xFFFFFFFF);
     survarium::chat_handler::add_message(
-      (survarium::chat_handler *)w_sender_name,
-      (const messaging::message_channel_enum)v7->m_chat_handler,
-      v3,
-      v5);
-    if ( v3 == (const wchar_t *)4 )
+      receiver_name,
+      *(vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)(this + 4),
+      (survarium::private_channel_tab *)message_chanel,
+      input_text,
+      (char *)(this + 280));
+    if ( message_chanel == 4 )
+      survarium::chat_handler::add_to_recent_list((const char *)receiver_name, v4->m_chat_handler);
+    strcpy_s(_Dst, 0x100u, input_text);
+    this = 0;
+    switch ( message_chanel )
     {
-      survarium::chat_handler::add_to_recent_list(v7->m_chat_handler, w_receiver_name);
-      v7 = this;
-    }
-    m_match_channel_id = 0;
-    *(_DWORD *)in_match = 0;
-    v9 = wcstombs_s((unsigned int *)in_match, message_body, 0x100u, v5, 0xFFFFFFFF);
-    if ( v9 && v9 != 80 )
-      strcpy_s(message_body, 0x100u, "##text conversion error##");
-    *(_DWORD *)in_match = 0;
-    v10 = wcstombs_s((unsigned int *)in_match, receiver_name, 0x20u, w_receiver_name, 0xFFFFFFFF);
-    if ( v10 && v10 != 80 )
-      strcpy_s(message_body, 0x100u, "##name conversion error##");
-    switch ( (unsigned int)v3 )
-    {
-      case 3u:
-      case 6u:
-      case 7u:
+      case 1:
+        this = v4->m_localization_group_channel;
+        break;
+      case 3:
         return;
-      case 5u:
-        m_match_channel_id = v7->m_match_channel_id_;
-        v11 = m_match_channel_id == -1;
-        goto LABEL_19;
-      case 8u:
-        m_match_channel_id = -1;
-        v11 = v7->m_match_channel_id_ == -1;
-LABEL_19:
-        if ( !v11 )
-          goto $LN1_34;
-        return;
+      case 4:
+        this = 0;
+        break;
+      case 5:
+        this = v4->m_match_channel_id_;
+        v7 = this == -1;
+LABEL_15:
+        if ( v7 )
+          return;
+        break;
       default:
-$LN1_34:
-        vostok::network_core::tcp_packet::tcp_packet(&packet, &vostok::memory::g_mt_allocator);
-        has_direct_receiver = -63;
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          v12,
-          (int)&packet,
-          (unsigned __int8 *)&has_direct_receiver,
-          1u);
-        *(_DWORD *)in_match = m_match_channel_id;
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          v13,
-          (int)&packet,
-          (unsigned __int8 *)in_match,
-          4u);
-        *(_DWORD *)in_match = strlen(receiver_name);
-        has_direct_receiver = in_match[0];
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          (vostok::network_core::packet<vostok::network_core::tcp_packet> *)&has_direct_receiver,
-          (int)&packet,
-          (unsigned __int8 *)&has_direct_receiver,
-          1u);
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          v14,
-          (int)&packet,
-          (unsigned __int8 *)receiver_name,
-          in_match[0]);
-        has_direct_receiver = (char)v3;
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          (vostok::network_core::packet<vostok::network_core::tcp_packet> *)&has_direct_receiver,
-          (int)&packet,
-          (unsigned __int8 *)&has_direct_receiver,
-          1u);
-        v15 = strlen(message_body);
-        has_direct_receiver = v15;
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          v16,
-          (int)&packet,
-          (unsigned __int8 *)&has_direct_receiver,
-          1u);
-        vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-          (vostok::network_core::packet<vostok::network_core::tcp_packet> *)message_body,
-          (int)&packet,
-          (unsigned __int8 *)message_body,
-          v15);
-        vostok::network::tcp_packet_client::send(&this->m_network_client, &packet);
-        if ( packet.m_buffer )
+        if ( message_chanel > 5 )
         {
-          if ( packet.m_buffer != (unsigned __int8 *)3 )
-            packet.m_allocator->call_free(packet.m_allocator, packet.m_buffer - 3);
+          if ( message_chanel <= 7 )
+          {
+            this = v4->m_match_channel_id_;
+            if ( this == -1 )
+              return;
+            v18 = (v4->m_game_team_id != team_1) + 6;
+          }
+          else if ( message_chanel == 8 )
+          {
+            this = -1;
+            v7 = v4->m_match_channel_id_ == -1;
+            goto LABEL_15;
+          }
         }
         break;
     }
+    vostok::network_core::tcp_packet::tcp_packet(
+      (vostok::network_core::tcp_packet *)&vostok::memory::g_mt_allocator,
+      (int)&v17);
+    HIBYTE(input_text) = -63;
+    vostok::network_core::buffer_writer::w(
+      v8,
+      &v17.m_writer.serialization_operations_descriptors.m_size,
+      (unsigned __int8 *)&input_text + 3,
+      1u);
+    vostok::network_core::buffer_writer::w(
+      v9,
+      &v17.m_writer.serialization_operations_descriptors.m_size,
+      (unsigned __int8 *)&this,
+      4u);
+    vostok::network_core::buffer_writer::w_string(v10, (char *)&v17.m_writer, (int)receiver_name);
+    HIBYTE(input_text) = v18;
+    vostok::network_core::buffer_writer::w(
+      v11,
+      &v17.m_writer.serialization_operations_descriptors.m_size,
+      (unsigned __int8 *)&input_text + 3,
+      1u);
+    vostok::network_core::buffer_writer::w_string(v12, (char *)&v17.m_writer, (int)_Dst);
+    vostok::network::tcp_packet_client::send(v13, (const vostok::network_core::tcp_packet *)&v4->m_network_client, &v17);
+    vostok::network_core::buffer_writer::~buffer_writer(v14, &v17.m_writer.serialization_operations_descriptors);
+    vostok::network_core::mutable_buffer::~mutable_buffer(v15, &v17);
+    return;
   }
-  else
-  {
-    survarium::chat_handler::add_message(
-      v7->m_chat_handler,
-      (const messaging::message_channel_enum)v7->m_chat_handler,
-      (const wchar_t *)2,
-      L"not connected to messaging server...");
-  }
+  survarium::chat_handler::add_message(
+    receiver_name,
+    *(vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)(this + 4),
+    (survarium::private_channel_tab *)2,
+    "not connected to messaging server...",
+    "System");
 }

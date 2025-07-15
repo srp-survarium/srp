@@ -1,141 +1,101 @@
-void __userpurge vostok::render::grass_patch::grass_patch(
-        vostok::render::grass_patch *this@<edi>,
-        const vostok::math::float3 *in_origin@<eax>,
-        unsigned int a3@<ebp>,
-        unsigned int a4@<esi>,
-        vostok::collision::space_partitioning_tree *const in_collision_tree,
-        vostok::render::grass_template *templ,
-        float in_size)
+void __thiscall vostok::render::grass_patch::grass_patch(
+        vostok::render::grass_patch *this,
+        const vostok::render::grass_patch *__that,
+        int a3)
 {
-  const vostok::math::float4x4 *v7; // xmm0_4
-  survarium::game_action_id *M_start; // edx
-  vostok::render::render_target *render_target; // eax
-  vostok::render::render_target *v10; // ecx
-  const char *m_object; // eax
-  bool v12; // zf
-  vostok::render::res_texture *v13; // eax
-  vostok::render::res_texture *v14; // ebp
-  vostok::render::res_texture *v15; // eax
-  vostok::render::res_texture *v16; // ecx
-  vostok::render::res_texture *v17; // eax
-  float v18; // xmm0_4
-  __int64 v19; // xmm6_8
-  float v20; // xmm3_4
-  __int64 v21; // [esp+0h] [ebp-28h]
-  __int64 v22; // [esp+0h] [ebp-28h]
-  __int128 v23; // [esp+14h] [ebp-14h]
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+    &__that->m_movement_rt,
+    (const vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)a3);
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+    &__that->m_movement_texture,
+    (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a3 + 4));
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+    &__that->m_instance_vb,
+    (const vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a3 + 8));
+  __that->m_instances.m_size = 0;
+  __that->m_instances.m_first = 0;
+  __that->m_instances.m_last = 0;
+  `vector copy constructor iterator'(
+    (char *)__that->m_geometry,
+    (char *)(a3 + 28),
+    4u,
+    3,
+    (void *(__thiscall *)(void *, void *))vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>);
+  `vector copy constructor iterator'(
+    (char *)__that->m_vb_stream_1,
+    (char *)(a3 + 40),
+    4u,
+    3,
+    (void *(__thiscall *)(void *, void *))vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>);
+  __that->m_merged_indices[0] = *(unsigned __int16 **)(a3 + 52);
+  __that->m_merged_indices[1] = *(unsigned __int16 **)(a3 + 56);
+  __that->m_merged_indices[2] = *(unsigned __int16 **)(a3 + 60);
+  __that->m_sort_info[0] = *(vostok::render::grass_patch::sort_info **)(a3 + 64);
+  __that->m_sort_info[1] = *(vostok::render::grass_patch::sort_info **)(a3 + 68);
+  __that->m_sort_info[2] = *(vostok::render::grass_patch::sort_info **)(a3 + 72);
+  __that->m_template = *(vostok::render::grass_template **)(a3 + 76);
+  __that->m_collision_tree = *(vostok::collision::space_partitioning_tree *const *)(a3 + 80);
+  __that->m_collision_geometry = *(vostok::collision::geometry_instance **)(a3 + 84);
+  __that->m_collision_object = *(vostok::collision::object **)(a3 + 88);
+  qmemcpy(&__that->m_aabb, (const void *)(a3 + 92), sizeof(__that->m_aabb));
+  memcpy((unsigned __int8 *)__that->m_movement_data, (unsigned __int8 *)(a3 + 116), 0x4042u);
+}
 
-  *(_QWORD *)&this->m_prev_view_pos.x = 0;
-  this->m_prev_view_pos.z = 0.0;
-  this->m_movement_rt.m_object = 0;
-  this->m_movement_texture.m_object = 0;
-  *(_QWORD *)&this->m_aabb.min.x = 0xBF800000BF800000uLL;
-  v7 = clear_value;
-  this->m_aabb.min.z = -1.0;
-  LODWORD(v21) = v7;
-  HIDWORD(v21) = v7;
-  *(_QWORD *)&this->m_aabb.max.x = v21;
-  LODWORD(this->m_aabb.max.z) = v7;
-  this->m_origin = *in_origin;
-  this->m_size = 16.0;
-  this->m_occlusion_info_index = -1;
-  this->m_current_lod_index = 0;
-  this->m_instances._M_impl._M_start = 0;
-  this->m_instances._M_impl._M_finish = 0;
-  this->m_instances._M_impl._M_end_of_storage._M_data = 0;
-  `vector constructor iterator'(
-    (char *)this->m_geometry,
-    4u,
-    3,
-    (void *(__thiscall *)(void *))vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>);
-  `vector constructor iterator'(
-    (char *)this->m_vb_stream_1,
-    4u,
-    3,
-    (void *(__thiscall *)(void *))vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>);
-  M_start = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start;
-  this->m_template = templ;
-  this->m_collision_tree = in_collision_tree;
-  this->m_collision_geometry = 0;
-  this->m_collision_object = 0;
-  this->m_visible = 1;
-  this->m_occluded = 0;
-  this->m_merged_indices[0] = 0;
-  this->m_sort_info[0] = 0;
-  this->m_merged_indices[1] = 0;
-  this->m_sort_info[1] = 0;
-  this->m_merged_indices[2] = 0;
-  this->m_sort_info[2] = 0;
-  if ( *((_BYTE *)M_start + 304) )
+
+void __thiscall vostok::render::grass_patch::grass_patch(
+        vostok::render::grass_patch *this,
+        vostok::collision::space_partitioning_tree *const in_collision_tree,
+        vostok::collision::space_partitioning_tree_vtbl *templ,
+        vostok::collision::space_partitioning_tree_vtbl *in_origin,
+        vostok::collision::space_partitioning_tree *in_size)
+{
+  vostok::collision::space_partitioning_tree *v5; // eax
+  int v6; // esi
+  vostok::math::aabb v7; // [esp+Ch] [ebp-24h] BYREF
+  vostok::math::float3 v8; // [esp+24h] [ebp-Ch] BYREF
+
+  in_collision_tree->__vftable = 0;
+  in_collision_tree[1].__vftable = 0;
+  in_collision_tree[2].__vftable = 0;
+  in_collision_tree[3].__vftable = 0;
+  in_collision_tree[5].__vftable = 0;
+  in_collision_tree[6].__vftable = 0;
+  in_collision_tree[7].__vftable = 0;
+  in_collision_tree[8].__vftable = 0;
+  in_collision_tree[9].__vftable = 0;
+  in_collision_tree[10].__vftable = 0;
+  in_collision_tree[11].__vftable = 0;
+  in_collision_tree[12].__vftable = 0;
+  in_collision_tree[19].__vftable = in_origin;
+  in_collision_tree[20].__vftable = templ;
+  in_collision_tree[21].__vftable = 0;
+  in_collision_tree[22].__vftable = 0;
+  vostok::math::create_identity_aabb((vostok::math::aabb *)&in_collision_tree[23]);
+  in_collision_tree[4125].__vftable = 0;
+  in_collision_tree[4126].__vftable = 0;
+  in_collision_tree[4127].__vftable = 0;
+  in_collision_tree[4128].__vftable = in_size->__vftable;
+  in_collision_tree[4129].__vftable = in_size[1].__vftable;
+  in_collision_tree[4130].__vftable = in_size[2].__vftable;
+  in_collision_tree[4132].__vftable = (vostok::collision::space_partitioning_tree_vtbl *)-1;
+  in_collision_tree[4131].__vftable = (vostok::collision::space_partitioning_tree_vtbl *)LODWORD(vostok::render::grass_patch_size);
+  in_collision_tree[4133].__vftable = 0;
+  LOBYTE(in_collision_tree[4141].__vftable) = 1;
+  BYTE1(in_collision_tree[4141].__vftable) = 0;
+  v5 = in_collision_tree + 16;
+  v6 = 3;
+  do
   {
-    render_target = vostok::render::resource_manager::create_render_target(
-                      (vostok::render::resource_manager *)in_collision_tree,
-                      (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                      0,
-                      (vostok::render::res_texture *)0x40,
-                      (ID3D11Texture2D **)0x40,
-                      (const char *)0x3D,
-                      enum_rt_usage_render_target,
-                      0,
-                      0,
-                      a4,
-                      a3);
-    v10 = 0;
-    if ( render_target )
-    {
-      ++render_target->m_reference_count;
-      v10 = render_target;
-    }
-    m_object = (const char *)this->m_movement_rt.m_object;
-    this->m_movement_rt.m_object = v10;
-    if ( m_object )
-    {
-      v12 = (*(_DWORD *)m_object)-- == 1;
-      if ( v12 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          m_object);
-    }
-    v13 = this->m_movement_rt.m_object->m_texture.m_object;
-    v14 = 0;
-    if ( v13 )
-    {
-      v14 = this->m_movement_rt.m_object->m_texture.m_object;
-      ++v13->m_reference_count;
-    }
-    v15 = 0;
-    if ( v14 )
-    {
-      ++v14->m_reference_count;
-      v15 = v14;
-    }
-    v16 = v15;
-    v17 = this->m_movement_texture.m_object;
-    this->m_movement_texture.m_object = v16;
-    if ( v17 )
-    {
-      v12 = v17->m_reference_count-- == 1;
-      if ( v12 )
-        vostok::render::res_texture::destroy_impl(v16, v17);
-    }
-    if ( v14 )
-    {
-      v12 = v14->m_reference_count-- == 1;
-      if ( v12 )
-        vostok::render::res_texture::destroy_impl(v16, v14);
-    }
+    v5[-3].__vftable = 0;
+    v5->__vftable = 0;
+    ++v5;
+    --v6;
   }
-  v18 = this->m_size * 0.5;
-  *(float *)&v22 = this->m_origin.x - v18;
-  *((float *)&v22 + 1) = this->m_origin.y - 0.1;
-  v19 = v22;
-  v20 = this->m_origin.z + v18;
-  *(float *)&v22 = this->m_origin.x + v18;
-  *((float *)&v22 + 1) = this->m_origin.y + 0.1;
-  *(_QWORD *)((char *)&v23 + 4) = v22;
-  *(float *)&v23 = this->m_origin.z - v18;
-  *(_QWORD *)&this->m_aabb.min.x = v19;
-  *((float *)&v23 + 3) = v20;
-  *(_OWORD *)&this->m_aabb.min.elements[2] = v23;
+  while ( v6 );
+  v8.x = *(float *)&in_collision_tree[4131].__vftable * 0.5;
+  *(_QWORD *)&v8.elements[1] = __PAIR64__(LODWORD(v8.x), LODWORD(FLOAT_0_1));
+  qmemcpy(
+    &in_collision_tree[23],
+    vostok::math::create_aabb_center_radius(&v8, (const vostok::math::float3 *)&in_collision_tree[4128], &v7),
+    0x18u);
 }

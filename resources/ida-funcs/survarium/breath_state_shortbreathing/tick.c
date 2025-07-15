@@ -1,9 +1,14 @@
-void __thiscall survarium::breath_state_shortbreathing::tick(survarium::breath_state_shortbreathing *this, float dt)
+void __thiscall survarium::breath_state_shortbreathing::tick(
+        survarium::breath_state_shortbreathing *this,
+        const float dispersion,
+        const float dt)
 {
-  float max_breath_holding_time; // xmm0_4
+  float *m_penalty_factor; // eax
+  float v4; // xmm0_4
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  max_breath_holding_time = this->m_params->max_breath_holding_time;
-  vostok::math::min();
-  *this->m_breath_holding_reserve = max_breath_holding_time;
+  m_penalty_factor = this->m_penalty_factor;
+  v4 = (float)(dt / this->m_user->m_breath_vibration_params.time_to_get_penalty_for_shortbreathing) + *m_penalty_factor;
+  if ( s_bm_current_air_resistance <= v4 )
+    v4 = s_bm_current_air_resistance;
+  *m_penalty_factor = v4;
 }

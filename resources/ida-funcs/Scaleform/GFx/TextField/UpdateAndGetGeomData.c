@@ -9,8 +9,8 @@ Scaleform::GFx::DisplayObjectBase::GeomDataType *__thiscall Scaleform::GFx::Text
   double v7; // st7
   double v8; // st6
   double v9; // st7
-  float x1; // [esp+60h] [ebp-30h]
-  float y1; // [esp+64h] [ebp-2Ch]
+  float x1; // [esp+10h] [ebp-30h]
+  float y1; // [esp+14h] [ebp-2Ch]
 
   Scaleform::GFx::DisplayObjectBase::GetGeomData(this, pgeomData);
   if ( force || (this->Flags & 0x2000) != 0 )

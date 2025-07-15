@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::Tessellator::connectPendingToLeft(
 {
   Scaleform::Render::Tessellator::MonotoneType *monotone; // eax
   unsigned int style; // edi
-  Scaleform::Render::Tessellator::BaseLineType *v6; // ecx
+  Scaleform::Render::Tessellator::BaseLineType *lowerBase; // ecx
   unsigned int vertexLeft; // ebx
   unsigned int styleLeft; // eax
   char v9; // dl
@@ -68,16 +68,16 @@ void __thiscall Scaleform::Render::Tessellator::connectPendingToLeft(
   unsigned int v66; // edi
   Scaleform::Render::Tessellator::PendingEndType **Pages; // ecx
   int v68; // eax
-  unsigned int vertex; // ecx
+  unsigned int v69; // ecx
   int v70; // eax
-  unsigned int firstChain; // eax
+  unsigned int v71; // eax
   unsigned int Size; // eax
-  unsigned int it_4; // [esp+14h] [ebp-88h]
-  unsigned int it_8; // [esp+18h] [ebp-84h]
-  unsigned int it_12; // [esp+1Ch] [ebp-80h]
-  Scaleform::Render::Tessellator::PendingEndType *it_16; // [esp+20h] [ebp-7Ch]
-  unsigned int it_24; // [esp+28h] [ebp-74h]
-  unsigned int styleAbove; // [esp+34h] [ebp-68h]
+  unsigned int firstChain; // [esp+14h] [ebp-88h]
+  unsigned int numChains; // [esp+18h] [ebp-84h]
+  unsigned int vertexRight; // [esp+1Ch] [ebp-80h]
+  _DWORD *v76; // [esp+20h] [ebp-7Ch]
+  unsigned int vertex; // [esp+28h] [ebp-74h]
+  unsigned int v78; // [esp+34h] [ebp-68h]
   Scaleform::Render::Tessellator::MonoVertexType v79; // [esp+38h] [ebp-64h] BYREF
   Scaleform::Render::Tessellator::MonoVertexType v80; // [esp+44h] [ebp-58h] BYREF
   Scaleform::Render::Tessellator::MonoVertexType val; // [esp+50h] [ebp-4Ch] BYREF
@@ -89,29 +89,29 @@ void __thiscall Scaleform::Render::Tessellator::connectPendingToLeft(
   unsigned int v87; // [esp+80h] [ebp-1Ch] BYREF
   unsigned int v88; // [esp+84h] [ebp-18h]
   Scaleform::Render::Tessellator::MonoVertexType *v89; // [esp+88h] [ebp-14h]
-  Scaleform::Render::Tessellator::BaseLineType *lowerBase; // [esp+8Ch] [ebp-10h]
+  Scaleform::Render::Tessellator::BaseLineType *v90; // [esp+8Ch] [ebp-10h]
   Scaleform::Render::Tessellator::MonoVertexType *v91; // [esp+90h] [ebp-Ch]
-  Scaleform::Render::Tessellator::PendingEndType scanLeft; // [esp+94h] [ebp-8h] BYREF
+  _DWORD v92[2]; // [esp+94h] [ebp-8h] BYREF
 
   monotone = scan->monotone;
   style = monotone->style;
-  v6 = monotone->lowerBase;
+  lowerBase = monotone->lowerBase;
   monotone->lowerBase = 0;
-  vertexLeft = v6->vertexLeft;
-  it_8 = v6->numChains;
-  it_12 = v6->vertexRight;
-  scanLeft.monotone = scan->monotone;
-  it_16 = &scanLeft;
-  styleAbove = style;
-  it_4 = v6->firstChain;
-  it_24 = this->PendingEnds.Pages[it_4 >> 4][it_4 & 0xF].vertex;
-  styleLeft = v6->styleLeft;
-  lowerBase = v6;
-  scanLeft.vertex = vertexLeft;
+  vertexLeft = lowerBase->vertexLeft;
+  numChains = lowerBase->numChains;
+  vertexRight = lowerBase->vertexRight;
+  v92[1] = scan->monotone;
+  v76 = v92;
+  v78 = style;
+  firstChain = lowerBase->firstChain;
+  vertex = this->PendingEnds.Pages[firstChain >> 4][firstChain & 0xF].vertex;
+  styleLeft = lowerBase->styleLeft;
+  v90 = lowerBase;
+  v92[0] = vertexLeft;
   v9 = 1;
   while ( 1 )
   {
-    if ( vertexLeft == it_24 )
+    if ( vertexLeft == vertex )
       goto LABEL_66;
     if ( v9 )
     {
@@ -120,7 +120,7 @@ void __thiscall Scaleform::Render::Tessellator::connectPendingToLeft(
       {
         v14 = &this->MonoVertices.Pages[v10->d.m.lastIdx >> 4][v10->d.m.lastIdx & 0xF];
         v91 = v14;
-        if ( v14->srcVer == it_24 )
+        if ( v14->srcVer == vertex )
         {
 LABEL_13:
           v18 = scan->monotone;
@@ -208,8 +208,8 @@ LABEL_62:
           v14 = v91;
         }
         v16 = &this->MonoVertices.Pages[v15][this->MonoVertices.Size & 0xF];
-        v16->srcVer = it_24;
-        v16->aaVer = it_24;
+        v16->srcVer = vertex;
+        v16->aaVer = vertex;
         v16->next = 0;
         ++this->MonoVertices.Size;
         v14->next = &this->MonoVertices.Pages[(this->MonoVertices.Size - 1) >> 4][(this->MonoVertices.Size - 1) & 0xF];
@@ -226,8 +226,8 @@ LABEL_62:
             this->MonoVertices.Size >> 4);
         v12 = this->MonoVertices.Size & 0xF;
         v13 = this->MonoVertices.Pages[v11];
-        v13[v12].srcVer = it_24;
-        v13[v12].aaVer = it_24;
+        v13[v12].srcVer = vertex;
+        v13[v12].aaVer = vertex;
         v13[v12].next = 0;
         ++this->MonoVertices.Size;
         v10->start = &this->MonoVertices.Pages[(this->MonoVertices.Size - 1) >> 4][(this->MonoVertices.Size - 1) & 0xF];
@@ -237,7 +237,7 @@ LABEL_62:
       v10->d.m.lastIdx = this->MonoVertices.Size - 1;
       goto LABEL_13;
     }
-    if ( styleLeft != styleAbove || !it_16->monotone )
+    if ( styleLeft != v78 || !v76[1] )
     {
       v35 = this->Monotones.Size >> 4;
       if ( v35 >= this->Monotones.NumPages )
@@ -249,11 +249,11 @@ LABEL_62:
       v36->d.m.lastIdx = -1;
       v36->d.m.prevIdx1 = -1;
       v36->d.m.prevIdx2 = -1;
-      v36->style = styleAbove;
+      v36->style = v78;
       v36->lowerBase = 0;
       ++this->Monotones.Size;
       v37 = &this->Monotones.Pages[(this->Monotones.Size - 1) >> 4][(this->Monotones.Size - 1) & 0xF];
-      it_16->monotone = v37;
+      v76[1] = v37;
       if ( vertexLeft != -1 )
       {
         v19 = v37->start == 0;
@@ -298,12 +298,12 @@ LABEL_62:
           }
         }
       }
-      if ( it_24 != -1 )
+      if ( vertex != -1 )
       {
         v19 = v37->start == 0;
         v80.next = 0;
-        v80.srcVer = it_24 & 0x7FFFFFFF;
-        v80.aaVer = it_24 & 0x7FFFFFFF;
+        v80.srcVer = vertex & 0x7FFFFFFF;
+        v80.aaVer = vertex & 0x7FFFFFFF;
         if ( v19 )
         {
           v46 = this->MonoVertices.Size >> 4;
@@ -328,7 +328,7 @@ LABEL_62:
         else
         {
           v52 = &this->MonoVertices.Pages[v37->d.m.lastIdx >> 4][v37->d.m.lastIdx & 0xF];
-          if ( v52->srcVer != (it_24 & 0x7FFFFFFF) )
+          if ( v52->srcVer != (vertex & 0x7FFFFFFF) )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::OutVertexType,4,16>::PushBack(
               &this->MonoVertices,
@@ -343,8 +343,8 @@ LABEL_62:
         }
       }
     }
-    v18 = it_16->monotone;
-    if ( it_8 )
+    v18 = (Scaleform::Render::Tessellator::MonotoneType *)v76[1];
+    if ( numChains )
     {
       if ( targetVertex == -1 )
         goto LABEL_66;
@@ -445,31 +445,31 @@ LABEL_65:
     }
 LABEL_66:
     v9 = 0;
-    if ( !it_8 )
+    if ( !numChains )
       break;
-    --it_8;
-    vertexLeft = it_24;
-    v65 = it_4;
-    v66 = it_4++;
+    --numChains;
+    vertexLeft = vertex;
+    v65 = firstChain;
+    v66 = firstChain++;
     Pages = this->PendingEnds.Pages;
     v68 = (int)&Pages[v66 >> 4][v65 & 0xF];
-    it_16 = (Scaleform::Render::Tessellator::PendingEndType *)v68;
-    if ( it_8 )
-      vertex = Pages[it_4 >> 4][it_4 & 0xF].vertex;
+    v76 = (_DWORD *)v68;
+    if ( numChains )
+      v69 = Pages[firstChain >> 4][firstChain & 0xF].vertex;
     else
-      vertex = it_12;
+      v69 = vertexRight;
     v70 = *(_DWORD *)(v68 + 4);
-    it_24 = vertex;
+    vertex = v69;
     if ( v70 )
       styleLeft = *(_DWORD *)(v70 + 16);
     else
       styleLeft = 0;
   }
-  if ( lowerBase == &this->BaseLines.Pages[(this->BaseLines.Size - 1) >> 4][(this->BaseLines.Size - 1) & 0xF] )
+  if ( v90 == &this->BaseLines.Pages[(this->BaseLines.Size - 1) >> 4][(this->BaseLines.Size - 1) & 0xF] )
   {
-    firstChain = lowerBase->firstChain;
-    if ( firstChain < this->PendingEnds.Size )
-      this->PendingEnds.Size = firstChain;
+    v71 = v90->firstChain;
+    if ( v71 < this->PendingEnds.Size )
+      this->PendingEnds.Size = v71;
     Size = this->BaseLines.Size;
     if ( Size )
       this->BaseLines.Size = Size - 1;

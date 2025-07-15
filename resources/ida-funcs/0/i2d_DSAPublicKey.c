@@ -1,4 +1,4 @@
 int __cdecl i2d_DSAPublicKey(dsa_st *a, unsigned __int8 **out)
 {
-  return ASN1_item_i2d((struct ASN1_VALUE_st *)a, out, &stru_83DA74);
+  return ASN1_item_i2d((struct ASN1_VALUE_st *)a, out, &stru_6CF71C);
 }

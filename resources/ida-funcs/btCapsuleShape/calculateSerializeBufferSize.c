@@ -1,4 +1,4 @@
-int __thiscall btCapsuleShape::calculateSerializeBufferSize(btCapsuleShape *this)
+int __thiscall btCapsuleShape::calculateSerializeBufferSize(btCylinderShape *this)
 {
   return 60;
 }

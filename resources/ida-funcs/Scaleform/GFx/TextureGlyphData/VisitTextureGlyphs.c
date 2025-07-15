@@ -4,15 +4,15 @@ void __thiscall Scaleform::GFx::TextureGlyphData::VisitTextureGlyphs(
 {
   unsigned int v3; // esi
   int v4; // edi
-  unsigned int n; // [esp+8h] [ebp-4h]
+  unsigned int Size; // [esp+8h] [ebp-4h]
 
   v3 = 0;
-  n = this->TextureGlyphs.Data.Size;
-  if ( n )
+  Size = this->TextureGlyphs.Data.Size;
+  if ( Size )
   {
     v4 = 0;
     do
       pvisitor->Visit(pvisitor, v3++, &this->TextureGlyphs.Data.Data[v4++]);
-    while ( v3 < n );
+    while ( v3 < Size );
   }
 }

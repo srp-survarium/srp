@@ -11,7 +11,7 @@ double __cdecl tan(double X)
     if ( v1 == 8064 )
       v2 = (v4 & 0x7F) == 127;
     if ( v2 )
-      JUMPOUT(0x54A7A8);
+      JUMPOUT(0x667538);
   }
-  JUMPOUT(0x5493EF);
+  JUMPOUT(0x66499F);
 }

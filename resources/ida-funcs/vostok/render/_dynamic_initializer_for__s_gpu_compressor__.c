@@ -1,6 +1,4 @@
-void vostok::render::_dynamic_initializer_for__s_gpu_compressor__()
+void __thiscall vostok::render::_dynamic_initializer_for__s_gpu_compressor__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_gpu_compressor);
+  vostok::command_line::key::key(this, &s_gpu_compressor, "gpu_compressor", uri, uri, "use gpu compressor", uri);
 }

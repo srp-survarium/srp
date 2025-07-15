@@ -1,4 +1,4 @@
-long double __cdecl atof(char *nptr)
+long double __usercall atof@<st0>(int a1@<edi>, char *nptr)
 {
-  return _atof_l(nptr, 0);
+  return _atof_l(a1, nptr, 0);
 }

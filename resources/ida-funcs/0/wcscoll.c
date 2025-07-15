@@ -1,8 +1,4 @@
-int __usercall wcscoll@<eax>(
-        unsigned int a1@<ebx>,
-        unsigned int a2@<edi>,
-        const wchar_t *_string1,
-        const wchar_t *_string2)
+int __usercall wcscoll@<eax>(int a1@<ebx>, int a2@<edi>, const wchar_t *_string1, const wchar_t *_string2)
 {
   if ( __locale_changed )
     return _wcscoll_l(a2, 0, _string1, _string2, 0);

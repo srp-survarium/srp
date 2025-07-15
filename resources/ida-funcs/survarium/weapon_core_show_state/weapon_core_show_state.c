@@ -1,55 +1,50 @@
-void __thiscall survarium::weapon_core_show_state::weapon_core_show_state(
-        survarium::weapon_core_show_state *this,
+void __userpurge survarium::weapon_core_show_state::weapon_core_show_state(
+        survarium::weapon_core_show_state *this@<ecx>,
+        int a2@<esi>,
         survarium::weapon_core *weapon,
-        float animation_timescale,
+        vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *animation_timescale,
         const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *animations,
-        unsigned int animations_count,
-        bool *is_shown)
+        const unsigned int animations_count)
 {
-  survarium::game_camera *v6; // ecx
-  _BYTE *v7; // eax
-  survarium::game_camera *v8; // ecx
-  int j; // [esp+28h] [ebp-14h]
-  int i; // [esp+2Ch] [ebp-10h]
-  unsigned int user_state; // [esp+30h] [ebp-Ch]
-  unsigned int view; // [esp+34h] [ebp-8h]
-  unsigned int animation_index; // [esp+38h] [ebp-4h]
+  const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *v6; // edi
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *v7; // ebx
+  int v8; // [esp+8h] [ebp-4h]
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *v10; // [esp+18h] [ebp+Ch]
+  int v11; // [esp+1Ch] [ebp+10h]
 
-  survarium::weapon_core_show_state_base::weapon_core_show_state_base(this, weapon, is_shown);
-  this->survarium::weapon_core_show_state_base::survarium::weapon_core_animation_end_aware_state::survarium::weapon_core_base_state::vostok::ai::fsm_state::__vftable = (survarium::weapon_core_show_state_vtbl *)&survarium::weapon_core_show_state::`vftable'{for `vostok::ai::fsm_state'};
-  this->survarium::weapon_core_show_state_base::survarium::weapon_core_animation_end_aware_state::survarium::weapon_core_base_state::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable = (vostok::resources::unmanaged_resource_vtbl *)&survarium::weapon_core_show_state::`vftable'{for `vostok::resources::unmanaged_resource'};
-  `vector constructor iterator'(
-    (char *)this->m_weapon_animations,
-    4u,
-    4,
-    (void *(__thiscall *)(void *))vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>);
-  `vector constructor iterator'(
-    (char *)this->m_user_animations,
-    4u,
-    4,
-    (void *(__thiscall *)(void *))vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>);
-  this->m_time_scale = animation_timescale;
-  survarium::weapon_user_dead_state::finalize(v6);
-  v8 = (survarium::game_camera *)(unsigned __int8)*v7;
-  if ( *v7 )
-    survarium::weapon_user_dead_state::finalize(v8);
-  animation_index = 0;
-  for ( view = 0; view != 2; ++view )
+  survarium::weapon_core_animation_end_aware_state::weapon_core_animation_end_aware_state(
+    this,
+    (_DWORD *)a2,
+    weapon,
+    weapon_state_show,
+    (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)(a2 + 316));
+  *(_DWORD *)(a2 + 292) = -3;
+  *(_DWORD *)a2 = &survarium::weapon_core_show_state::`vftable'{for `vostok::ai::fsm_state'};
+  *(_DWORD *)(a2 + 24) = &survarium::weapon_core_show_state::`vftable'{for `vostok::resources::unmanaged_resource'};
+  *(_DWORD *)(a2 + 316) = 0;
+  *(_DWORD *)(a2 + 320) = 0;
+  *(_DWORD *)(a2 + 324) = 0;
+  *(_DWORD *)(a2 + 328) = 0;
+  *(_QWORD *)(a2 + 332) = (unsigned int)animation_timescale;
+  v10 = (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)(a2 + 316);
+  v8 = 2;
+  do
   {
-    for ( user_state = 0; user_state != 2; ++user_state )
+    v6 = animations;
+    v7 = v10;
+    animations += 2;
+    v11 = 2;
+    do
     {
-      vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::operator=(
-        &this->m_weapon_animations[view][user_state],
-        &animations[animation_index++]);
-      v8 = (survarium::game_camera *)(user_state + 1);
+      vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::operator=(
+        v6++,
+        v7);
+      v7 += 2;
+      --v11;
     }
+    while ( v11 );
+    ++v10;
+    --v8;
   }
-  for ( i = 0; i != 2; ++i )
-  {
-    for ( j = 0; j != 2; ++j )
-      vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::operator=(
-        &this->m_user_animations[i][j],
-        &animations[animation_index++]);
-  }
-  survarium::weapon_user_dead_state::finalize(v8);
+  while ( v8 );
 }

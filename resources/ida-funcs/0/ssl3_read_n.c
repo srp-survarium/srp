@@ -5,10 +5,10 @@ int __cdecl ssl3_read_n(ssl_st *s, int n, int max, int extend)
   unsigned __int8 *buf; // ecx
   int v7; // ebp
   int left; // esi
-  unsigned __int8 *v9; // eax
+  const __m128i *v9; // eax
   unsigned __int8 *v10; // eax
-  unsigned __int8 *packet; // ecx
-  unsigned __int8 *v12; // eax
+  const __m128i *packet; // ecx
+  int v12; // eax
   int v13; // eax
   bio_st *rbio; // eax
   int v15; // eax
@@ -33,10 +33,10 @@ int __cdecl ssl3_read_n(ssl_st *s, int n, int max, int extend)
         goto LABEL_13;
       if ( left < 5 )
         goto LABEL_13;
-      v9 = &buf[p_rbuf->offset];
-      if ( *v9 != 23 || (v9[4] | (v9[3] << 8)) < 128 )
+      v9 = (const __m128i *)&buf[p_rbuf->offset];
+      if ( v9->m128i_i8[0] != 23 || (v9->m128i_u8[4] | (v9->m128i_u8[3] << 8)) < 128 )
         goto LABEL_13;
-      memmove(&p_rbuf->buf[v7], v9, p_rbuf->left);
+      memmove((int)&p_rbuf->buf[v7], v9, p_rbuf->left);
     }
     p_rbuf->offset = v7;
 LABEL_13:
@@ -66,11 +66,11 @@ LABEL_21:
     p_rbuf->left = left - result;
     return result;
   }
-  packet = s->packet;
-  v12 = &p_rbuf->buf[v7];
+  packet = (const __m128i *)s->packet;
+  v12 = (int)&p_rbuf->buf[v7];
   packet_length = s->packet_length;
-  v18 = v12;
-  if ( packet != v12 )
+  v18 = (unsigned __int8 *)v12;
+  if ( packet != (const __m128i *)v12 )
   {
     memmove(v12, packet, left + s->packet_length);
     s->packet = v18;
@@ -97,7 +97,7 @@ LABEL_21:
       if ( !rbio )
         break;
       s->rwstate = 3;
-      v15 = BIO_read(rbio, (char *)&v18[packet_length + left], max - left);
+      v15 = BIO_read((int)p_rbuf, rbio, (char *)&v18[packet_length + left], max - left);
       v16 = v15;
       if ( v15 <= 0 )
         goto LABEL_39;
@@ -118,7 +118,7 @@ LABEL_48:
       if ( left >= n )
         goto LABEL_48;
     }
-    ERR_put_error(0x14u, 149, 211, ".\\ssl\\s3_pkt.c", 242);
+    ERR_put_error((int)p_rbuf, 0x14u, 149, 211, ".\\ssl\\s3_pkt.c", 242);
     v16 = -1;
 LABEL_39:
     p_rbuf->left = left;
@@ -133,7 +133,7 @@ LABEL_39:
   }
   else
   {
-    ERR_put_error(0x14u, 149, 68, ".\\ssl\\s3_pkt.c", 213);
+    ERR_put_error((int)p_rbuf, 0x14u, 149, 68, ".\\ssl\\s3_pkt.c", 213);
     return -1;
   }
 }

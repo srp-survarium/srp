@@ -3,7 +3,7 @@ bignum_st *__cdecl BN_bin2bn(const unsigned __int8 *s, int len, bignum_st *ret)
   bignum_st *v3; // ebx
   int v4; // edi
   int v6; // ecx
-  unsigned int *v7; // esi
+  int v7; // esi
   int v8; // ebp
   bignum_st *v9; // eax
   int v11; // esi
@@ -17,7 +17,7 @@ bignum_st *__cdecl BN_bin2bn(const unsigned __int8 *s, int len, bignum_st *ret)
   a = 0;
   if ( !ret )
   {
-    a = BN_new();
+    a = BN_new(0);
     v3 = a;
     if ( !a )
       return 0;
@@ -25,9 +25,9 @@ bignum_st *__cdecl BN_bin2bn(const unsigned __int8 *s, int len, bignum_st *ret)
   v6 = len;
   if ( len )
   {
-    v7 = (unsigned int *)(((unsigned int)(len - 1) >> 2) + 1);
+    v7 = ((unsigned int)(len - 1) >> 2) + 1;
     v8 = (len - 1) & 3;
-    if ( (int)v7 > v3->dmax )
+    if ( v7 > v3->dmax )
     {
       v9 = bn_expand2(v3, v7);
       v6 = len;
@@ -38,9 +38,9 @@ bignum_st *__cdecl BN_bin2bn(const unsigned __int8 *s, int len, bignum_st *ret)
     }
     if ( v9 )
     {
-      v3->top = (int)v7;
+      v3->top = v7;
       v3->neg = 0;
-      v11 = (int)v7;
+      v11 = v7;
       do
       {
         v4 = *s | (v4 << 8);

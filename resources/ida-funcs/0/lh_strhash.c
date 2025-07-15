@@ -1,4 +1,4 @@
-int __cdecl lh_strhash(const char *c)
+unsigned int __cdecl lh_strhash(const char *c)
 {
   const char *v1; // edx
   unsigned int v2; // esi

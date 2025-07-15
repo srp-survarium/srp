@@ -1,52 +1,48 @@
 void __thiscall vostok::fs_new::asynchronous_device_interface::get_synchronous_access(
         vostok::fs_new::asynchronous_device_interface *this,
-        vostok::fs_new::synchronous_device_interface *in_out_synchronous_interface,
-        vostok::memory::base_allocator *allocator)
+        vostok::fs_new::asynchronous_device_query_vtbl *in_out_synchronous_interface,
+        vostok::memory::base_allocator *allocator,
+        vostok::memory::base_allocator *a5)
 {
-  vostok::memory::base_allocator *v3; // eax
-  DWORD v4; // eax
-  vostok::fs_new::asynchronous_device_query *v5; // eax
-  vostok::fs_new::asynchronous_device_query *v6; // [esp+0h] [ebp-18h]
-  vostok::fs_new::asynchronous_device_query *v7; // [esp+4h] [ebp-14h]
-  vostok::fs_new::synchronize_device_query *v9; // [esp+10h] [ebp-8h]
-  vostok::fs_new::synchronize_device_query *synchronize_query; // [esp+14h] [ebp-4h]
-  vostok::fs_new::synchronize_device_query *synchronize_querya; // [esp+14h] [ebp-4h]
+  vostok::fs_new::asynchronous_device_query *v6; // edi
+  char *v7; // eax
+  vostok::fs_new::device_file_system_interface *execute; // ecx
+  vostok::threading::event_tasks_unaware *v9; // ecx
+  vostok::threading::event_tasks_unaware *v10; // ecx
+  DWORD CurrentThreadId; // [esp+10h] [ebp+8h]
 
-  synchronize_query = 0;
-  if ( this->m_device_mode == device_mode_asynchronous
-    && this->m_synchronous_thread_id != vostok::threading::current_thread_id() )
+  v6 = 0;
+  if ( in_out_synchronous_interface[16].~vostok::fs_new::asynchronous_device_query == (void (__thiscall *)(vostok::fs_new::asynchronous_device_query *))1
+    && in_out_synchronous_interface[15].~vostok::fs_new::asynchronous_device_query != (void (__thiscall *)(vostok::fs_new::asynchronous_device_query *))GetCurrentThreadId() )
   {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-    synchronize_querya = (vostok::fs_new::synchronize_device_query *)vostok::memory::malloc_helper<vostok::memory::base_allocator>(
-                                                                       v3,
-                                                                       0x40u);
-    if ( synchronize_querya )
+    v7 = type_info::raw_name(&vostok::fs_new::synchronize_device_query `RTTI Type Descriptor');
+    v6 = (vostok::fs_new::asynchronous_device_query *)a5->call_malloc(
+                                                        a5,
+                                                        64,
+                                                        v7,
+                                                        "vostok::fs_new::asynchronous_device_interface::get_synchronous_access",
+                                                        ".\\asynchronous_device_interface.cpp",
+                                                        33);
+    if ( v6 )
     {
-      v9 = (vostok::fs_new::synchronize_device_query *)operator new(0x40u, synchronize_querya);
-      if ( v9 )
-      {
-        v4 = vostok::threading::current_thread_id();
-        vostok::fs_new::synchronize_device_query::synchronize_device_query(v9, this, v4, allocator);
-        v6 = v5;
-      }
-      else
-      {
-        v6 = 0;
-      }
-      v7 = v6;
+      CurrentThreadId = GetCurrentThreadId();
+      vostok::fs_new::asynchronous_device_query::asynchronous_device_query(v6, a5, 0);
+      v6->__vftable = (vostok::fs_new::asynchronous_device_query_vtbl *)&vostok::fs_new::synchronize_device_query::`vftable';
+      v6[1].__vftable = in_out_synchronous_interface;
+      vostok::threading::event_tasks_unaware::event_tasks_unaware(v9, (HANDLE *)&v6[1].m_next_backward);
+      vostok::threading::event_tasks_unaware::event_tasks_unaware(v10, (HANDLE *)&v6[1].m_allocator);
+      *(_DWORD *)&v6[1].m_device_query_result = CurrentThreadId;
+      vostok::one_way_threads_channel_with_response<vostok::fs_new::asynchronous_device_query,vostok::intrusive_mpsc_queue<vostok::fs_new::asynchronous_device_query,vostok::threads_channel_query_base_helper<vostok::fs_new::asynchronous_device_query>,0>,vostok::fs_new::null_device_query>::producer_push_to_process(
+        (vostok::one_way_threads_channel_with_response<vostok::fs_new::asynchronous_device_query,vostok::intrusive_mpsc_queue<vostok::fs_new::asynchronous_device_query,vostok::threads_channel_query_base_helper<vostok::fs_new::asynchronous_device_query>,0>,vostok::fs_new::null_device_query> *)&in_out_synchronous_interface[7].execute,
+        v6);
+      SetEvent(in_out_synchronous_interface[15].execute);
     }
     else
     {
-      v7 = 0;
+      LOBYTE(allocator->m_arena_end) = 1;
     }
-    synchronize_query = (vostok::fs_new::synchronize_device_query *)v7;
-    if ( v7 )
-      vostok::fs_new::asynchronous_device_interface::push_high_priority_query(this, v7);
-    else
-      in_out_synchronous_interface->m_out_of_memory = 1;
   }
-  vostok::fs_new::synchronous_device_interface::initialize_private(
-    in_out_synchronous_interface,
-    &this->m_device,
-    synchronize_query);
+  execute = (vostok::fs_new::device_file_system_interface *)in_out_synchronous_interface[16].execute;
+  allocator->__vftable = (vostok::memory::base_allocator_vtbl *)v6;
+  allocator->m_arena_start = execute;
 }

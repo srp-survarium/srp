@@ -1,6 +1,11 @@
 void __thiscall boost::asio::detail::reactor_op_queue<unsigned int>::reactor_op_queue<unsigned int>(
         boost::asio::detail::reactor_op_queue<unsigned int> *this)
 {
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)this);
-  boost::asio::detail::hash_map<unsigned int,boost::asio::detail::reactor_op_queue<unsigned int>::operations>::hash_map<unsigned int,boost::asio::detail::reactor_op_queue<unsigned int>::operations>(&this->operations_);
+  this->operations_.size_ = 0;
+  this->operations_.values_._M_impl._M_node._M_data._M_next = &this->operations_.values_._M_impl._M_node._M_data;
+  this->operations_.values_._M_impl._M_node._M_data._M_prev = &this->operations_.values_._M_impl._M_node._M_data;
+  this->operations_.spares_._M_impl._M_node._M_data._M_next = &this->operations_.spares_._M_impl._M_node._M_data;
+  this->operations_.spares_._M_impl._M_node._M_data._M_prev = &this->operations_.spares_._M_impl._M_node._M_data;
+  this->operations_.buckets_ = 0;
+  this->operations_.num_buckets_ = 0;
 }

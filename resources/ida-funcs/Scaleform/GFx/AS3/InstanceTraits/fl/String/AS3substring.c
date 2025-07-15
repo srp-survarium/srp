@@ -22,11 +22,11 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3substring(
   bool v19; // zf
   long double v20; // st5
   long double v21; // st7
-  const char *v22; // esi
+  char *v22; // esi
   long double v23; // rt0
   double v24; // st5
   signed int v25; // eax
-  const char *v26; // ecx
+  char *v26; // ecx
   Scaleform::GFx::ASString *v27; // eax
   Scaleform::GFx::ASStringNode *v28; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
@@ -81,7 +81,7 @@ LABEL_8:
   v35 = v11;
   vb.Flags = 4;
   vb.Bonus.pWeakProxy = 0;
-  if ( (HIDWORD(v35) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(v35) | LODWORD(v35) )
+  if ( (HIDWORD(v35) & 0x7FF00000) == 0x7FF00000 && HIDWORD(v35) & 0xFFFFF | LODWORD(v35) )
   {
     startNumber = Scaleform::GFx::NumberUtil::NEGATIVE_INFINITY();
     v11 = startNumber;
@@ -94,7 +94,7 @@ LABEL_8:
   ve.Flags = 4;
   v35 = v14;
   ve.Bonus.pWeakProxy = 0;
-  if ( (HIDWORD(v35) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(v35) | LODWORD(v35) )
+  if ( (HIDWORD(v35) & 0x7FF00000) == 0x7FF00000 && HIDWORD(v35) & 0xFFFFF | LODWORD(v35) )
   {
     endNumber = Scaleform::GFx::NumberUtil::NEGATIVE_INFINITY();
     v14 = endNumber;
@@ -108,12 +108,12 @@ LABEL_8:
       v23 = v20;
       v24 = v15;
       v21 = v23;
-      v22 = (const char *)(int)v24;
+      v22 = (char *)(int)v24;
     }
     else
     {
       v21 = v20;
-      v22 = (const char *)utf8Len;
+      v22 = (char *)utf8Len;
     }
     if ( v14 <= v21 )
       v25 = (int)v14;
@@ -122,7 +122,7 @@ LABEL_8:
     if ( v25 < (int)v22 )
     {
       v26 = v22;
-      v22 = (const char *)v25;
+      v22 = (char *)v25;
       v25 = (signed int)v26;
     }
     if ( (int)v22 < 0 )

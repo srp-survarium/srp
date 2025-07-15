@@ -1,4 +1,4 @@
-void __cdecl __noreturn _inconsistency()
+void __noreturn _inconsistency()
 {
   void (*v0)(void); // eax
 

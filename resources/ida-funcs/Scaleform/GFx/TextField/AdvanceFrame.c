@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::TextField::AdvanceFrame(
         Scaleform::GFx::TextField::TextDocumentListener::TranslatorChanged(&this->TextDocListener);
         Scaleform::GFx::TextField::SetTextValue(
           this,
-          (char *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
+          (const __m128i *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
           (this->Flags & 0x1000) != 0,
           1);
         v5 = 1;
@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::TextField::AdvanceFrame(
     v10 = Scaleform::GFx::TextField::CheckAdvanceStatus(this, v9);
     if ( v10 == -1 )
     {
-      this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+      this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     }
     else if ( v10 == 1 )
     {
@@ -80,7 +80,7 @@ void __thiscall Scaleform::GFx::TextField::AdvanceFrame(
           this->Flags |= (unsigned int)&_sbh_sizeHeaderList;
           Scaleform::GFx::TextField::SetTextValue(
             this,
-            (char *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
+            (const __m128i *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
             (this->Flags & 0x1000) != 0,
             1);
         }

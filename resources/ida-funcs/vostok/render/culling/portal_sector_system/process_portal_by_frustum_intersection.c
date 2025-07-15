@@ -1,62 +1,71 @@
-void __thiscall vostok::render::culling::portal_sector_system::process_portal_by_frustum_intersection(
-        vostok::render::culling::portal_sector_system *this,
-        unsigned int portal_id,
+void __userpurge vostok::render::culling::portal_sector_system::process_portal_by_frustum_intersection(
+        vostok::render::culling::portal_sector_system *this@<ecx>,
+        float a2@<edi>,
+        float a3@<esi>,
+        vostok::render::culling::portal_sector_system *portal_id,
         const vostok::math::frustum *f,
         unsigned int sector_id,
-        const vostok::math::float3 *view_pos)
+        const vostok::math::float3 *view_pos,
+        const vostok::math::float3 *a8)
 {
-  vostok::render::culling::portal *v6; // esi
-  unsigned int v7; // esi
-  float v8; // [esp+14h] [ebp-B8h]
-  float v9; // [esp+14h] [ebp-B8h]
-  float v10; // [esp+18h] [ebp-B4h]
-  float v11; // [esp+1Ch] [ebp-B0h]
-  float v12; // [esp+20h] [ebp-ACh]
-  vostok::math::float3 points[4]; // [esp+24h] [ebp-A8h] BYREF
-  vostok::math::frustum result; // [esp+54h] [ebp-78h] BYREF
+  vostok::render::culling::portal *v8; // esi
+  vostok::math::float3 *v9; // esi
+  vostok::math::float3 v10; // [esp-14h] [ebp-C0h]
+  vostok::math::frustum fa; // [esp+0h] [ebp-ACh] BYREF
+  vostok::math::float3 vertices[4]; // [esp+78h] [ebp-34h] BYREF
 
-  v6 = &this->m_structure.m_object->m_portals.m_begin[portal_id];
-  if ( v6->m_sectors[(float)((float)((float)((float)(v6->m_plane.normal.z * (float)-f->m_planes[4].plane.normal.z)
-                                           + (float)(v6->m_plane.normal.y * (float)-f->m_planes[4].plane.normal.y))
-                                   + (float)(v6->m_plane.normal.x * (float)-f->m_planes[4].plane.normal.x))
-                           + v6->m_plane.d) > 0.0] != sector_id )
+  v10.z = a3;
+  v8 = &portal_id->m_structure.m_object->m_portals.m_begin[(_DWORD)f];
+  v10.y = a2;
+  if ( (const vostok::math::float3 *)v8->m_sectors[(float)((float)((float)((float)(v8->m_plane.normal.z
+                                                                                 * COERCE_FLOAT(
+                                                                                     *(_DWORD *)(sector_id + 88)
+                                                                                   ^ _mask__NegFloat_))
+                                                                         + (float)(v8->m_plane.normal.y
+                                                                                 * COERCE_FLOAT(
+                                                                                     *(_DWORD *)(sector_id + 84)
+                                                                                   ^ _mask__NegFloat_)))
+                                                                 + (float)(v8->m_plane.normal.x
+                                                                         * COERCE_FLOAT(
+                                                                             *(_DWORD *)(sector_id + 80)
+                                                                           ^ _mask__NegFloat_)))
+                                                         + v8->m_plane.d) > 0.0] != view_pos )
   {
-    memmove((unsigned __int8 *)points, (unsigned __int8 *)v6->m_points, 0x30u);
-    if ( vostok::render::culling::cull_points_by_frustum(f, (vostok::math::float3 (*)[4])points) )
+    stlp_std::priv::__copy_trivial(
+      (unsigned __int8 *)v8->m_points,
+      (unsigned __int8 *)&v8->m_visible,
+      (unsigned __int8 *)vertices);
+    LODWORD(v10.x) = vertices;
+    if ( vostok::render::culling::cull_points_by_frustum((const vostok::math::frustum *)sector_id, v10)
+      && fabs(
+           fsqrt(
+             (float)((float)((float)(vertices[1].z - vertices[0].z) * (float)(vertices[1].z - vertices[0].z))
+                   + (float)((float)(vertices[1].y - vertices[0].y) * (float)(vertices[1].y - vertices[0].y)))
+           + (float)((float)(vertices[1].x - vertices[0].x) * (float)(vertices[1].x - vertices[0].x)))
+         * fsqrt(
+             (float)((float)((float)(vertices[2].z - vertices[1].z) * (float)(vertices[2].z - vertices[1].z))
+                   + (float)((float)(vertices[2].y - vertices[1].y) * (float)(vertices[2].y - vertices[1].y)))
+           + (float)((float)(vertices[2].x - vertices[1].x) * (float)(vertices[2].x - vertices[1].x)))) >= 0.001 )
     {
-      v10 = points[2].x - points[1].x;
-      v11 = points[2].y - points[1].y;
-      v12 = points[2].z - points[1].z;
-      v8 = sqrtf(
-             (float)((float)((float)(points[1].z - points[0].z) * (float)(points[1].z - points[0].z))
-                   + (float)((float)(points[1].y - points[0].y) * (float)(points[1].y - points[0].y)))
-           + (float)((float)(points[1].x - points[0].x) * (float)(points[1].x - points[0].x)));
-      v9 = sqrtf((float)((float)(v12 * v12) + (float)(v11 * v11)) + (float)(v10 * v10)) * v8;
-      if ( COERCE_FLOAT(LODWORD(v9) & 0x7FFFFFFF) >= 0.001 )
+      if ( view_pos == (const vostok::math::float3 *)v8->m_sectors[0] )
+        v9 = (vostok::math::float3 *)v8->m_sectors[1];
+      else
+        v9 = (vostok::math::float3 *)v8->m_sectors[0];
+      if ( vostok::render::culling::sector_double_query_preventer::is_possible_points_for_frustum(
+             portal_id->m_preventer,
+             (unsigned int)v9,
+             (const vostok::math::float3 (*)[4])vertices) )
       {
-        if ( sector_id == v6->m_sectors[0] )
-          v7 = v6->m_sectors[1];
-        else
-          v7 = v6->m_sectors[0];
-        if ( vostok::render::culling::sector_double_query_preventer::is_possible_points_for_frustum(
-               this->m_preventer,
-               v7,
-               (const vostok::math::float3 (*)[4])points) )
-        {
-          vostok::render::culling::create_frustum_from_four_points(
-            &result,
-            view_pos,
-            (const vostok::math::float3 (*)[4])points,
-            &f->m_planes[4].plane);
-          vostok::render::culling::sector_double_query_preventer::add_frustum(this->m_preventer, &result, v7);
-          vostok::render::culling::portal_sector_system::process_sector(
-            (vostok::render::culling::portal_sector_system *)portal_id,
-            this,
-            v7,
-            portal_id,
-            view_pos,
-            &result);
-        }
+        vostok::render::culling::create_frustum_from_four_points(
+          a8,
+          (vostok::math::float3 (*)[4])vertices,
+          &fa,
+          sector_id + 80);
+        vostok::render::culling::sector_double_query_preventer::add_frustum(
+          portal_id->m_preventer,
+          (unsigned int)v9,
+          &fa);
+        vostok::render::culling::portal_sector_system::process_sector(portal_id, v9, f, a8, &fa);
       }
     }
   }

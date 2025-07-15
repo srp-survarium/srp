@@ -18,14 +18,14 @@ void __thiscall Scaleform::GFx::ZlibImageSource::CreateCompatibleImage(
   unsigned int FileLen; // [esp-8h] [ebp-1Ch]
   int v17; // [esp+4h] [ebp-10h]
   int v18; // [esp+8h] [ebp-Ch]
-  Scaleform::Render::Size<unsigned long> size; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::Render::Size<unsigned long> v19; // [esp+Ch] [ebp-8h] BYREF
 
   if ( this->IsDecodeOnlyImageCompatible(this, args) )
   {
     pHeap = args->pHeap;
     if ( !pHeap )
       pHeap = Scaleform::Memory::pGlobalHeap;
-    v4 = (Scaleform::GFx::MemoryBufferZlibImage *)pHeap->Alloc(pHeap, 64u, 0);
+    v4 = (Scaleform::GFx::MemoryBufferZlibImage *)pHeap->Alloc(pHeap, 68u, 0);
     if ( v4 )
     {
       pUpdateSync = args->pUpdateSync;
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::ZlibImageSource::CreateCompatibleImage(
         v4,
         pObject,
         v9,
-        &size,
+        &v19,
         BitmapFormatId,
         ColorTableSize,
         Use,
@@ -63,6 +63,6 @@ void __thiscall Scaleform::GFx::ZlibImageSource::CreateCompatibleImage(
   }
   else
   {
-    Scaleform::Render::ImageSource::CreateCompatibleImage(this, args, v17, v18, size.Width);
+    Scaleform::Render::ImageSource::CreateCompatibleImage(this, args, v17, v18, v19.Width);
   }
 }

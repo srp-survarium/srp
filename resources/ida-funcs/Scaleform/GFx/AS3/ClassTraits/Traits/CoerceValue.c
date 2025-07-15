@@ -39,7 +39,7 @@ LABEL_7:
     case 5u:
     case 7u:
       if ( this == pVM->TraitsObject.pObject || TraitsType == Traits_Function )
-        goto $LN19_47;
+        goto $LN19_50;
       return 0;
     case 0xAu:
       if ( this == pVM->TraitsObject.pObject || TraitsType == Traits_String )
@@ -67,7 +67,7 @@ LABEL_33:
       goto LABEL_32;
     case 0x10u:
     case 0x11u:
-$LN19_47:
+$LN19_50:
       v_4 = value;
 LABEL_16:
       Scaleform::GFx::AS3::Value::Assign(result, v_4);

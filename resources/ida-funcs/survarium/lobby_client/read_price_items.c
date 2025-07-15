@@ -1,36 +1,43 @@
-unsigned __int8 __usercall survarium::lobby_client::read_price_items@<al>(
-        survarium::lobby_client *this@<ecx>,
-        vostok::network_core::packet_reader *reader@<esi>)
+unsigned __int8 __fastcall survarium::lobby_client::read_price_items(
+        survarium::lobby_client *this,
+        int a2,
+        vostok::network_core::buffer_reader *reader)
 {
-  const unsigned __int8 *m_pointer; // eax
-  unsigned __int8 v3; // bl
-  survarium::faction_price *v4; // ebp
-  const unsigned __int8 *v5; // ecx
+  const unsigned __int8 *m_pointer; // esi
+  int v5; // edi
   unsigned __int16 v6; // ax
-  unsigned int v7; // edi
-  vostok::memory::doug_lea_allocator *v8; // eax
+  vostok::memory::doug_lea_allocator *v7; // esi
+  char *v8; // eax
   unsigned __int8 *v9; // eax
-  unsigned int v10; // edi
+  unsigned int v10; // esi
+  const char *v12; // [esp+0h] [ebp-Ch]
+  const char *v13; // [esp+4h] [ebp-8h]
+  unsigned int v14; // [esp+8h] [ebp-4h]
+  unsigned __int8 v15; // [esp+17h] [ebp+Bh]
 
   m_pointer = reader->m_pointer;
-  v3 = *m_pointer;
+  v15 = *m_pointer;
   reader->m_pointer = m_pointer + 1;
-  v4 = &this->m_prices[v3];
-  v4->faction_id = v3;
-  v5 = reader->m_pointer;
-  v6 = *(_WORD *)v5;
-  reader->m_pointer = v5 + 2;
-  v4->count = v6;
+  v5 = a2 + 8 * v15 + 12744;
+  *(_BYTE *)(a2 + 8 * v15 + 12750) = v15;
+  v6 = vostok::network_core::buffer_reader::r<unsigned short>(reader);
+  *(_WORD *)(v5 + 4) = v6;
   if ( v6 )
   {
-    v7 = 6 * v6;
-    v8 = (vostok::memory::doug_lea_allocator *)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)survarium::g_allocator.f_.f_);
-    v9 = (unsigned __int8 *)vostok::memory::doug_lea_allocator::malloc_impl(v8, v7);
-    v10 = 3 * v4->count;
-    v4->items = (survarium::price_item *)v9;
-    v10 *= 2;
+    v7 = survarium::g_allocator;
+    v8 = type_info::raw_name(&survarium::price_item `RTTI Type Descriptor');
+    v9 = (unsigned __int8 *)vostok::memory::doug_lea_allocator::malloc_impl(
+                              (vostok::memory::doug_lea_allocator *)(12 * *(unsigned __int16 *)(v5 + 4)),
+                              (int)v7,
+                              12 * *(unsigned __int16 *)(v5 + 4),
+                              v8,
+                              v12,
+                              v13,
+                              v14);
+    v10 = 12 * *(unsigned __int16 *)(v5 + 4);
+    *(_DWORD *)v5 = v9;
     memcpy(v9, (unsigned __int8 *)reader->m_pointer, v10);
     reader->m_pointer += v10;
   }
-  return v3;
+  return v15;
 }

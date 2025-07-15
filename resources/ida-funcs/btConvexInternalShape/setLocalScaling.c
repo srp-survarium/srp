@@ -1,10 +1,10 @@
 void __thiscall btConvexInternalShape::setLocalScaling(btConvexInternalShape *this, const btVector3 *scaling)
 {
-  btVector3 v3; // [esp+14h] [ebp-10h]
+  unsigned __int64 v2; // [esp+Ch] [ebp-Ch]
 
-  v3.mVec128.m128_f32[0] = fabsf(scaling->mVec128.m128_f32[0]);
-  v3.mVec128.m128_f32[1] = fabsf(scaling->mVec128.m128_f32[1]);
-  v3.mVec128.m128_f32[2] = fabsf(scaling->mVec128.m128_f32[2]);
-  v3.mVec128.m128_i32[3] = 0;
-  this->m_localScaling = (btVector3)v3.mVec128;
+  LODWORD(v2) = scaling->mVec128.m128_i32[1] & _mask__AbsFloat_;
+  HIDWORD(v2) = scaling->mVec128.m128_i32[2] & _mask__AbsFloat_;
+  this->m_localScaling.mVec128.m128_i32[0] = scaling->mVec128.m128_i32[0] & _mask__AbsFloat_;
+  *(unsigned __int64 *)((char *)this->m_localScaling.mVec128.m128_u64 + 4) = v2;
+  this->m_localScaling.mVec128.m128_i32[3] = 0;
 }

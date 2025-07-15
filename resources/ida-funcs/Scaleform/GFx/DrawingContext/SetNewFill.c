@@ -3,7 +3,7 @@ unsigned int __thiscall Scaleform::GFx::DrawingContext::SetNewFill(Scaleform::GF
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::GFx::DrawingContext::PackedShape *v3; // ebx
   Scaleform::Render::FillStyleType *v4; // edi
-  Scaleform::GFx::Resource *v5; // ecx
+  Scaleform::Render::ComplexFill *v5; // ecx
   unsigned int Size; // edx
 
   this->mFillStyle.Color = 0;
@@ -20,9 +20,9 @@ unsigned int __thiscall Scaleform::GFx::DrawingContext::SetNewFill(Scaleform::GF
   if ( &v3->FillStyles.Data.Data[v3->FillStyles.Data.Size] != (Scaleform::Render::FillStyleType *)8 )
   {
     v4->Color = this->mFillStyle.Color;
-    v5 = (Scaleform::GFx::Resource *)this->mFillStyle.pFill.pObject;
+    v5 = this->mFillStyle.pFill.pObject;
     if ( v5 )
-      Scaleform::RefCountImpl::AddRef(v5);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v5);
     v4->pFill.pObject = this->mFillStyle.pFill.pObject;
   }
   Size = v3->FillStyles.Data.Size;

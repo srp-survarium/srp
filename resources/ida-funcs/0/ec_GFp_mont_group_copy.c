@@ -1,7 +1,7 @@
-int __cdecl ec_GFp_mont_group_copy(ec_group_st *dest, const ec_group_st *src)
+int __usercall ec_GFp_mont_group_copy@<eax>(int a1@<ebx>, ec_group_st *dest, const ec_group_st *src)
 {
-  bn_mont_ctx_st *v2; // eax
-  bignum_st *v3; // eax
+  bn_mont_ctx_st *v3; // eax
+  bignum_st *v4; // eax
 
   if ( dest->field_data1 )
   {
@@ -17,18 +17,18 @@ int __cdecl ec_GFp_mont_group_copy(ec_group_st *dest, const ec_group_st *src)
     return 0;
   if ( src->field_data1 )
   {
-    v2 = BN_MONT_CTX_new();
-    dest->field_data1 = v2;
-    if ( !v2 )
+    v3 = BN_MONT_CTX_new();
+    dest->field_data1 = v3;
+    if ( !v3 )
       return 0;
-    if ( !BN_MONT_CTX_copy(v2, (bn_mont_ctx_st *)src->field_data1) )
+    if ( !BN_MONT_CTX_copy(v3, (bn_mont_ctx_st *)src->field_data1) )
       goto LABEL_17;
   }
   if ( src->field_data2 )
   {
-    v3 = BN_dup((const bignum_st *)src->field_data2);
-    dest->field_data2 = v3;
-    if ( !v3 )
+    v4 = BN_dup(a1, (const bignum_st *)src->field_data2);
+    dest->field_data2 = v4;
+    if ( !v4 )
     {
 LABEL_17:
       if ( dest->field_data1 )

@@ -1,5 +1,5 @@
 void __thiscall Scaleform::GFx::AS3::InstanceTraits::Interface::MakeObject(
-        Scaleform::GFx::AS3::InstanceTraits::fl::Catch *this,
+        Scaleform::GFx::AS3::InstanceTraits::fl::Object *this,
         Scaleform::GFx::AS3::Value *result,
         Scaleform::GFx::AS3::InstanceTraits::Traits *t)
 {
@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::Interface::MakeObject(
   if ( v3 )
   {
     Scaleform::GFx::AS3::Instance::Instance(v3, t);
-    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_gfx::IMECandidateListStyle::`vftable';
+    v4->__vftable = (Scaleform::GFx::AS3::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl::Object::`vftable';
     Scaleform::GFx::AS3::Value::Pick(result, v4);
   }
   else

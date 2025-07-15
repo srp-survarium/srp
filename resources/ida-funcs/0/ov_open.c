@@ -1,4 +1,4 @@
-int __cdecl ov_open(_iobuf *f, OggVorbis_File *vf, const char *initial, int ibytes)
+int __cdecl ov_open(_iobuf *f, OggVorbis_File *vf, char *initial, int ibytes)
 {
   ov_callbacks v5; // [esp-10h] [ebp-20h]
 

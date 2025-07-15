@@ -13,8 +13,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::trans
   const Scaleform::Render::Matrix2x4<float> *v11; // eax
   Scaleform::GFx::DisplayObject *pDispObj; // ecx
   Scaleform::GFx::DisplayObject *v13; // edi
-  unsigned __int8 dst[48]; // [esp+C0h] [ebp-70h] BYREF
-  unsigned __int8 v16[64]; // [esp+F0h] [ebp-40h] BYREF
+  float v15[12]; // [esp+C0h] [ebp-70h] BYREF
+  float v16[16]; // [esp+F0h] [ebp-40h] BYREF
 
   pObject = this->pDispObj.pObject;
   Cxform = Scaleform::GFx::DisplayObjectBase::GetCxform(value->pDispObj);
@@ -38,19 +38,19 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::trans
     v11 = value->pDispObj->GetMatrix(value->pDispObj);
     (*p_SetMatrix)(v6, v11);
   }
-  memset((int)dst, 0, sizeof(dst));
+  memset((int)v15, 0, sizeof(v15));
   pDispObj = value->pDispObj;
-  *(float *)dst = 1.0;
-  *(float *)&dst[20] = 1.0;
-  *(float *)&dst[40] = 1.0;
-  if ( pDispObj->GetViewMatrix3D(pDispObj, (Scaleform::Render::Matrix3x4<float> *)dst, 0) )
-    this->pDispObj.pObject->SetViewMatrix3D(this->pDispObj.pObject, (const Scaleform::Render::Matrix3x4<float> *)dst);
+  v15[0] = 1.0;
+  v15[5] = 1.0;
+  v15[10] = 1.0;
+  if ( pDispObj->GetViewMatrix3D(pDispObj, (Scaleform::Render::Matrix3x4<float> *)v15, 0) )
+    this->pDispObj.pObject->SetViewMatrix3D(this->pDispObj.pObject, (const Scaleform::Render::Matrix3x4<float> *)v15);
   memset((int)v16, 0, sizeof(v16));
   v13 = value->pDispObj;
-  *(float *)v16 = 1.0;
-  *(float *)&v16[20] = 1.0;
-  *(float *)&v16[40] = 1.0;
-  *(float *)&v16[60] = 1.0;
+  v16[0] = 1.0;
+  v16[5] = 1.0;
+  v16[10] = 1.0;
+  v16[15] = 1.0;
   if ( v13->GetProjectionMatrix3D(v13, (Scaleform::Render::Matrix4x4<float> *)v16, 0) )
     this->pDispObj.pObject->SetProjectionMatrix3D(
       this->pDispObj.pObject,

@@ -15,14 +15,15 @@ char __thiscall Scaleform::Render::TreeCacheMeshBase::GetPatternChain(
     range->Length = 1;
     p_Effects = &this->Effects;
     this->SorterShapeNode.Removed = 0;
-    if ( this->Effects.pEffect || ((unsigned int)sub_7E0000 & this->UpdateFlags) != 0 )
+    if ( this->Effects.pEffect
+      || ((unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376] & this->UpdateFlags) != 0 )
     {
-      if ( ((unsigned int)sub_7E0000 & this->UpdateFlags) != 0 )
+      if ( ((unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376] & this->UpdateFlags) != 0 )
       {
         Scaleform::Render::CacheEffectChain::UpdateEffects(
           p_Effects,
           this,
-          (unsigned int)sub_7E0000 & this->UpdateFlags);
+          (unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376] & this->UpdateFlags);
         Scaleform::Render::TreeCacheNode::updateEffectChain(this, range);
         Depth = this->Depth;
         this->UpdateFlags &= 0xFF81FFFF;

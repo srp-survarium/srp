@@ -8,7 +8,7 @@ int __cdecl jinit_huff_decoder(int a1)
 
   v1 = (int (__cdecl **)(int *))(**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 216);
   *(_DWORD *)(a1 + 424) = v1;
-  *v1 = sub_377950;
+  *v1 = sub_484610;
   if ( *(_BYTE *)(a1 + 201) )
   {
     result = (**(int (__cdecl ***)(int, int, _DWORD))(a1 + 4))(a1, 1, *(_DWORD *)(a1 + 36) << 8);

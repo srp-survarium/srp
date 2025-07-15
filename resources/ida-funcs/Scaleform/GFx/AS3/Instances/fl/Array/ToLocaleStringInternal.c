@@ -10,13 +10,13 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::Instances::fl::Array::
   Scaleform::GFx::AS3::Traits *pObject; // edx
   Scaleform::GFx::AS3::Value::V1U v9; // ebp
   Scaleform::GFx::ASStringNode *VInt; // ecx
-  Scaleform::GFx::ASString *v12; // eax
+  const __m128i ***v12; // eax
   Scaleform::GFx::ASStringNode *v13; // eax
   unsigned int RefCount; // edx
   Scaleform::GFx::AS3::GASRefCountBase *v15; // ecx
   unsigned int v16; // edx
   Scaleform::GFx::AS3::GASRefCountBase *v17; // ecx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // eax
   Scaleform::GFx::AS3::CheckResult v21; // [esp+13h] [ebp-61h] BYREF
   unsigned int v22; // [esp+14h] [ebp-60h]
@@ -36,7 +36,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::Instances::fl::Array::
   while ( 1 )
   {
     if ( v3 )
-      Scaleform::StringBuffer::AppendString(&buff, ",", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&buff, (const __m128i *)",", 0xFFFFFFFF);
     key = v3;
     if ( v3 >= this->SA.ValueA.Data.Size )
     {
@@ -90,7 +90,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::Instances::fl::Array::
     {
       v9 = r.value.VS._1;
       ++*(_DWORD *)(r.value.VS._1.VInt + 12);
-      Scaleform::StringBuffer::AppendString(&buff, *(char **)v9.VInt, 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&buff, *(const __m128i **)v9.VInt, 0xFFFFFFFF);
       if ( (*(_DWORD *)(v9.VInt + 12))-- == 1 )
       {
         VInt = (Scaleform::GFx::ASStringNode *)v9.VInt;
@@ -100,8 +100,8 @@ LABEL_27:
     }
     else
     {
-      v12 = Scaleform::GFx::AS3::AsString(&v25, &r, this->pTraits.pObject->pVM->StringManagerRef);
-      Scaleform::StringBuffer::AppendString(&buff, (char *)v12->pNode->pData, 0xFFFFFFFF);
+      v12 = (const __m128i ***)Scaleform::GFx::AS3::AsString(&v25, &r, this->pTraits.pObject->pVM->StringManagerRef);
+      Scaleform::StringBuffer::AppendString(&buff, **v12, 0xFFFFFFFF);
       v13 = v25.pNode;
       --v25.pNode->RefCount;
       VInt = v13;
@@ -128,7 +128,7 @@ LABEL_27:
       {
         RefCount = prop_name.Obj.pObject->RefCount;
         v15 = prop_name.Obj.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           prop_name.Obj.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);
@@ -160,7 +160,7 @@ LABEL_40:
     {
       v16 = prop_name.Obj.pObject->RefCount;
       v17 = prop_name.Obj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+      if ( (v16 & 0x3FFFFF) != 0 )
       {
         prop_name.Obj.pObject->RefCount = v16 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);
@@ -168,9 +168,9 @@ LABEL_40:
     }
   }
 LABEL_54:
-  pData = buff.pData;
+  pData = (__m128i *)buff.pData;
   if ( !buff.pData )
-    pData = (char *)&buf;
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
                  pData,

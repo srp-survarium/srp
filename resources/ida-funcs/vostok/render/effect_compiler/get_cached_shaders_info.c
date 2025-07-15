@@ -1,21 +1,27 @@
-const vostok::vectora<vostok::render::effect_compiler::shader_cache_info> *__usercall vostok::render::effect_compiler::get_cached_shaders_info@<eax>(
+const vostok::fixed_vector<vostok::render::effect_compiler::shader_cache_info,32> *__usercall vostok::render::effect_compiler::get_cached_shaders_info@<eax>(
         vostok::render::effect_compiler *this@<ecx>,
-        stlp_std::priv::_Vector_base<vostok::render::effect_compiler::shader_cache_info,vostok::vectora_allocator<vostok::render::effect_compiler::shader_cache_info> > *a2@<eax>,
-        int a3@<edi>)
+        int a2@<edx>,
+        _DWORD *a3@<esi>)
 {
-  int v3; // ecx
-  vostok::vectora_allocator<vostok::render::effect_compiler::shader_cache_info> __a; // [esp+0h] [ebp-4h] BYREF
+  vostok::render::effect_compiler::shader_cache_info *v3; // ecx
+  int v4; // ebx
+  int v6; // [esp+Ch] [ebp-8h]
+  const vostok::render::effect_compiler::shader_cache_info *v7; // [esp+10h] [ebp-4h]
 
-  __a.m_allocator = (vostok::memory::base_allocator *)this;
-  v3 = *(_DWORD *)(a3 + 12) - *(_DWORD *)(a3 + 8);
-  __a.m_allocator = *(vostok::memory::base_allocator **)(a3 + 16);
-  stlp_std::priv::_Vector_base<vostok::render::effect_compiler::shader_cache_info,vostok::vectora_allocator<vostok::render::effect_compiler::shader_cache_info>>::_Vector_base<vostok::render::effect_compiler::shader_cache_info,vostok::vectora_allocator<vostok::render::effect_compiler::shader_cache_info>>(
-    a2,
-    v3 / 848,
-    &__a);
-  a2->_M_finish = stlp_std::priv::__ucopy<vostok::render::effect_compiler::shader_cache_info const *,vostok::render::effect_compiler::shader_cache_info *,int>(
-                    *(const vostok::render::effect_compiler::shader_cache_info **)(a3 + 8),
-                    *(const vostok::render::effect_compiler::shader_cache_info **)(a3 + 12),
-                    a2->_M_start);
-  return (const vostok::vectora<vostok::render::effect_compiler::shader_cache_info> *)a2;
+  v3 = (vostok::render::effect_compiler::shader_cache_info *)(a3 + 3);
+  a3[2] = a3 + 7043;
+  a3[1] = a3 + 3;
+  *a3 = a3 + 3;
+  v6 = *(_DWORD *)(a2 + 16);
+  v4 = *(_DWORD *)(a2 + 12);
+  v7 = (const vostok::render::effect_compiler::shader_cache_info *)(a3 + 3);
+  a3[1] = &a3[220 * ((v6 - v4) / 880) + 3];
+  while ( v4 != v6 )
+  {
+    if ( v7 )
+      vostok::render::effect_compiler::shader_cache_info::shader_cache_info(v3, v7, v4);
+    v4 += 880;
+    ++v7;
+  }
+  return (const vostok::fixed_vector<vostok::render::effect_compiler::shader_cache_info,32> *)a3;
 }

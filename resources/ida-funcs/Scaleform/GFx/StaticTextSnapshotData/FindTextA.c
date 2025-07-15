@@ -1,10 +1,10 @@
 int __thiscall Scaleform::GFx::StaticTextSnapshotData::FindTextA(
         Scaleform::GFx::StaticTextSnapshotData *this,
         signed int start,
-        const char *query,
-        const char *bcaseSensitive)
+        char *query,
+        char *bcaseSensitive)
 {
-  unsigned int v5; // edi
+  unsigned int Char_Advance0; // edi
   char v6; // bl
   signed int v7; // ebp
   int v8; // eax
@@ -17,20 +17,20 @@ int __thiscall Scaleform::GFx::StaticTextSnapshotData::FindTextA(
   int v15; // edx
   int v16; // ecx
   int v17; // ebp
-  const char *s1; // [esp+10h] [ebp-Ch] BYREF
-  const char *string; // [esp+14h] [ebp-8h] BYREF
+  char *v19; // [esp+10h] [ebp-Ch] BYREF
+  char *v20; // [esp+14h] [ebp-8h] BYREF
   int c; // [esp+18h] [ebp-4h]
 
-  v5 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&query);
-  c = v5;
-  if ( !v5 )
+  Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&query);
+  c = Char_Advance0;
+  if ( !Char_Advance0 )
     --query;
   v6 = (char)bcaseSensitive;
-  string = (const char *)((this->SnapshotString.HeapTypeBits & 0xFFFFFFFC) + 8);
+  v20 = (char *)((this->SnapshotString.HeapTypeBits & 0xFFFFFFFC) + 8);
   v7 = 0;
   while ( 1 )
   {
-    v8 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&string);
+    v8 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v20);
     v9 = v8;
     if ( !v8 )
       return -1;
@@ -38,22 +38,22 @@ int __thiscall Scaleform::GFx::StaticTextSnapshotData::FindTextA(
       goto LABEL_8;
     if ( v6 )
     {
-      if ( v8 != v5 )
+      if ( v8 != Char_Advance0 )
         goto LABEL_8;
 LABEL_15:
-      s1 = string;
+      v19 = v20;
       bcaseSensitive = query;
       do
       {
         v11 = -1;
-        v12 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&bcaseSensitive);
+        v12 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&bcaseSensitive);
         if ( !v12 )
           --bcaseSensitive;
         do
         {
-          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&s1);
+          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v19);
           if ( !v13 )
-            --s1;
+            --v19;
           ++v11;
         }
         while ( v13 == 10 );
@@ -80,7 +80,7 @@ LABEL_15:
       if ( !v13 )
         return -1;
       v17 = v7 - v11;
-      v5 = c;
+      Char_Advance0 = c;
       v7 = v17 + 1;
     }
     else
@@ -92,7 +92,7 @@ LABEL_15:
 LABEL_8:
       if ( v9 == 10 )
         --v7;
-      v5 = c;
+      Char_Advance0 = c;
       ++v7;
     }
   }

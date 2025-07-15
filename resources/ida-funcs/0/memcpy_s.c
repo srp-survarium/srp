@@ -1,11 +1,11 @@
-unsigned int __usercall memcpy_s@<eax>(
-        unsigned int a1@<ebx>,
+int __usercall memcpy_s@<eax>(
+        int a1@<ebx>,
         unsigned __int8 *dst,
         unsigned int sizeInBytes,
-        unsigned __int8 *src,
+        const __m128i *src,
         unsigned int count)
 {
-  unsigned int v6; // esi
+  int v6; // esi
 
   if ( !count )
     return 0;
@@ -13,7 +13,7 @@ unsigned int __usercall memcpy_s@<eax>(
     goto LABEL_4;
   if ( src && sizeInBytes >= count )
   {
-    memcpy(dst, src, count);
+    memcpy((int)dst, src, count);
     return 0;
   }
   memset((int)dst, 0, sizeInBytes);

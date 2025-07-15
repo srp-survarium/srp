@@ -59,48 +59,48 @@ char __thiscall Scaleform::Render::RawImage::Decode(
   unsigned int FormatBitsPerPixel; // eax
   int v58; // ecx
   unsigned int v59; // ebx
-  const unsigned __int8 *psource; // [esp+14h] [ebp-64h]
-  unsigned __int8 *pdestin; // [esp+18h] [ebp-60h]
-  unsigned int formatPlaneCount; // [esp+1Ch] [ebp-5Ch]
+  unsigned __int8 *v60; // [esp+14h] [ebp-64h]
+  unsigned __int8 *v61; // [esp+18h] [ebp-60h]
+  unsigned int v62; // [esp+1Ch] [ebp-5Ch]
   int v64; // [esp+24h] [ebp-54h]
   int v65; // [esp+28h] [ebp-50h]
-  unsigned int i; // [esp+2Ch] [ebp-4Ch]
-  unsigned int planeCount; // [esp+30h] [ebp-48h]
-  unsigned int level; // [esp+34h] [ebp-44h]
+  unsigned int v66; // [esp+2Ch] [ebp-4Ch]
+  unsigned int v67; // [esp+30h] [ebp-48h]
+  unsigned int v68; // [esp+34h] [ebp-44h]
   int v69; // [esp+38h] [ebp-40h]
   unsigned int v70; // [esp+3Ch] [ebp-3Ch]
   unsigned int v71; // [esp+40h] [ebp-38h]
   int v72; // [esp+40h] [ebp-38h]
   int v73; // [esp+44h] [ebp-34h]
-  unsigned int planeIndex; // [esp+48h] [ebp-30h]
+  int v74; // [esp+48h] [ebp-30h]
   int v75; // [esp+4Ch] [ebp-2Ch]
-  Scaleform::Render::ImagePlane splane; // [esp+50h] [ebp-28h] BYREF
-  Scaleform::Render::ImagePlane dplane; // [esp+64h] [ebp-14h] BYREF
+  Scaleform::Render::ImagePlane p; // [esp+50h] [ebp-28h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+64h] [ebp-14h] BYREF
 
   Format = this->Data.Format;
   v5 = 0;
   p_Data = &this->Data;
   v73 = Format & 0xFFF;
-  memset(&splane, 0, sizeof(splane));
-  memset(&dplane, 0, sizeof(dplane));
+  memset(&p, 0, sizeof(p));
+  memset(&pplane, 0, sizeof(pplane));
   if ( (Format & 0xFFF) != 0 )
   {
     if ( v73 == 200 )
     {
-      formatPlaneCount = 3;
+      v62 = 3;
     }
     else if ( v73 == 201 )
     {
-      formatPlaneCount = 4;
+      v62 = 4;
     }
     else
     {
-      formatPlaneCount = 1;
+      v62 = 1;
     }
   }
   else
   {
-    formatPlaneCount = 0;
+    v62 = 0;
   }
   if ( (this->Data.Flags & 1) != 0 )
     LevelCount = this->Data.LevelCount;
@@ -108,7 +108,7 @@ char __thiscall Scaleform::Render::RawImage::Decode(
     LevelCount = 1;
   v8 = pdest;
   v9 = LevelCount * p_Data->RawPlaneCount;
-  planeCount = v9;
+  v67 = v9;
   if ( (pdest->Flags & 1) != 0 )
     v10 = pdest->LevelCount;
   else
@@ -117,49 +117,49 @@ char __thiscall Scaleform::Render::RawImage::Decode(
   {
     if ( v9 >= v10 * (unsigned int)pdest->RawPlaneCount )
     {
-      planeCount = v10 * pdest->RawPlaneCount;
-      v9 = planeCount;
+      v67 = v10 * pdest->RawPlaneCount;
+      v9 = v67;
     }
-    i = 0;
+    v66 = 0;
     if ( !v9 )
       return 1;
-    v27 = v9 % formatPlaneCount;
+    v27 = v9 % v62;
     v69 = 0;
-    planeIndex = v9 % formatPlaneCount;
+    v74 = v9 % v62;
     while ( ((this->Data.Flags & 1) != 0 || this->Data.LevelCount == 1) && ((v8->Flags & 1) != 0 || v8->LevelCount == 1) )
     {
-      Scaleform::Render::ImageData::GetPlane(p_Data, v5, &splane);
-      Scaleform::Render::ImageData::GetPlane(v8, v5, &dplane);
-      pData = splane.pData;
-      v56 = dplane.pData;
+      Scaleform::Render::ImageData::GetPlane(p_Data, v5, &p);
+      Scaleform::Render::ImageData::GetPlane(v8, v5, &pplane);
+      pData = p.pData;
+      v56 = pplane.pData;
       FormatBitsPerPixel = Scaleform::Render::ImageData::GetFormatBitsPerPixel(p_Data->Format, 0);
-      v59 = (splane.Width * FormatBitsPerPixel) >> 3;
+      v59 = (p.Width * FormatBitsPerPixel) >> 3;
       if ( v58 )
       {
         v72 = v58;
         do
         {
           copyScanline(v56, pData, v59, this->Data.pPalette.pObject, arg);
-          pData += splane.Pitch;
-          v56 += dplane.Pitch;
+          pData += p.Pitch;
+          v56 += pplane.Pitch;
           --v72;
         }
         while ( v72 );
       }
-      v5 = i;
+      v5 = v66;
       v8 = pdest;
 LABEL_67:
       v69 += 20;
-      i = ++v5;
-      if ( v5 >= planeCount )
+      v66 = ++v5;
+      if ( v5 >= v67 )
         return 1;
-      v27 = planeIndex;
+      v27 = v74;
     }
-    v75 = 20 * formatPlaneCount;
+    v75 = 20 * v62;
     v65 = v69;
-    psource = 0;
-    pdestin = 0;
-    level = 0;
+    v60 = 0;
+    v61 = 0;
+    v68 = 0;
     v28 = v5;
     v71 = v5;
     v64 = 20 * v27;
@@ -169,7 +169,7 @@ LABEL_67:
       v29 = v8->LevelCount;
       if ( this->Data.LevelCount < v29 )
         v29 = this->Data.LevelCount;
-      if ( level >= v29 )
+      if ( v68 >= v29 )
         goto LABEL_67;
       RawPlaneCount = p_Data->RawPlaneCount;
       if ( (this->Data.Flags & 1) == 0 )
@@ -180,23 +180,23 @@ LABEL_67:
           &p_Data->pPlanes[(v70 + v28) % p_Data->RawPlaneCount],
           p_Data->Format,
           (v70 + v28) / p_Data->RawPlaneCount,
-          &splane,
+          &p,
           (v70 + v28) % p_Data->RawPlaneCount);
       }
       else
       {
         v31 = (unsigned int *)((char *)&p_Data->pPlanes->Width + v64);
         v32 = v31[1];
-        splane.Width = *v31;
+        p.Width = *v31;
         v33 = v31[2];
-        splane.Height = v32;
+        p.Height = v32;
         v34 = v31[3];
-        splane.Pitch = v33;
+        p.Pitch = v33;
         v35 = (unsigned __int8 *)v31[4];
-        splane.DataSize = v34;
-        splane.pData = v35;
+        p.DataSize = v34;
+        p.pData = v35;
       }
-      if ( !psource )
+      if ( !v60 )
         goto LABEL_47;
 LABEL_48:
       if ( (v8->Flags & 1) == 0 )
@@ -207,24 +207,24 @@ LABEL_48:
             &v8->pPlanes[v28 % v8->RawPlaneCount],
             v8->Format,
             v28 / v8->RawPlaneCount,
-            &dplane,
+            &pplane,
             v28 % v8->RawPlaneCount);
         }
         else
         {
           v46 = (unsigned int *)((char *)&v8->pPlanes->Width + v65);
           v47 = v46[1];
-          dplane.Width = *v46;
+          pplane.Width = *v46;
           v48 = v46[2];
-          dplane.Height = v47;
+          pplane.Height = v47;
           v49 = v46[3];
-          dplane.Pitch = v48;
+          pplane.Pitch = v48;
           v50 = (unsigned __int8 *)v46[4];
-          dplane.DataSize = v49;
-          dplane.pData = v50;
+          pplane.DataSize = v49;
+          pplane.pData = v50;
         }
 LABEL_57:
-        pdestin = dplane.pData;
+        v61 = pplane.pData;
         goto LABEL_58;
       }
       if ( v70 + v28 >= v8->RawPlaneCount )
@@ -233,45 +233,45 @@ LABEL_57:
           &v8->pPlanes[(v70 + v28) % v8->RawPlaneCount],
           v8->Format,
           (v70 + v28) / v8->RawPlaneCount,
-          &dplane,
+          &pplane,
           (v70 + v28) % v8->RawPlaneCount);
       }
       else
       {
         v41 = (unsigned int *)((char *)&v8->pPlanes->Width + v64);
         v42 = v41[1];
-        dplane.Width = *v41;
+        pplane.Width = *v41;
         v43 = v41[2];
-        dplane.Height = v42;
+        pplane.Height = v42;
         v44 = v41[3];
         v45 = (unsigned __int8 *)v41[4];
-        dplane.Pitch = v43;
-        dplane.DataSize = v44;
-        dplane.pData = v45;
+        pplane.Pitch = v43;
+        pplane.DataSize = v44;
+        pplane.pData = v45;
       }
-      if ( !pdestin )
+      if ( !v61 )
         goto LABEL_57;
 LABEL_58:
       v51 = Scaleform::Render::ImageData::GetFormatBitsPerPixel(p_Data->Format, 0);
-      v53 = (splane.Width * v51) >> 3;
+      v53 = (p.Width * v51) >> 3;
       if ( v52 )
       {
         v54 = v52;
         do
         {
-          copyScanline(pdestin, psource, v53, this->Data.pPalette.pObject, arg);
-          psource += splane.Pitch;
-          pdestin += dplane.Pitch;
+          copyScanline(v61, v60, v53, this->Data.pPalette.pObject, arg);
+          v60 += p.Pitch;
+          v61 += pplane.Pitch;
           --v54;
         }
         while ( v54 );
         v28 = v71;
       }
-      ++level;
+      ++v68;
       v64 += v75;
       v65 += v75;
-      v28 += formatPlaneCount;
-      v5 = i;
+      v28 += v62;
+      v5 = v66;
       v71 = v28;
     }
     if ( v28 >= RawPlaneCount )
@@ -280,24 +280,24 @@ LABEL_58:
         &p_Data->pPlanes[v28 % p_Data->RawPlaneCount],
         p_Data->Format,
         v28 / p_Data->RawPlaneCount,
-        &splane,
+        &p,
         v28 % p_Data->RawPlaneCount);
     }
     else
     {
       v36 = (unsigned int *)((char *)&p_Data->pPlanes->Width + v65);
       v37 = v36[1];
-      splane.Width = *v36;
+      p.Width = *v36;
       v38 = v36[2];
-      splane.Height = v37;
+      p.Height = v37;
       v39 = v36[3];
-      splane.Pitch = v38;
+      p.Pitch = v38;
       v40 = (unsigned __int8 *)v36[4];
-      splane.DataSize = v39;
-      splane.pData = v40;
+      p.DataSize = v39;
+      p.pData = v40;
     }
 LABEL_47:
-    psource = splane.pData;
+    v60 = p.pData;
     goto LABEL_48;
   }
   if ( !v9 )
@@ -311,7 +311,7 @@ LABEL_47:
         &p_Data->pPlanes[v5 % p_Data->RawPlaneCount],
         p_Data->Format,
         v5 / p_Data->RawPlaneCount,
-        &splane,
+        &p,
         v5 % p_Data->RawPlaneCount);
     }
     else
@@ -320,14 +320,14 @@ LABEL_47:
       Width = pPlanes[v11].Width;
       Height = pPlanes[v11].Height;
       v15 = &pPlanes[v11];
-      splane.Width = Width;
+      p.Width = Width;
       Pitch = v15->Pitch;
-      splane.Height = Height;
+      p.Height = Height;
       DataSize = v15->DataSize;
       v18 = v15->pData;
-      splane.Pitch = Pitch;
-      splane.DataSize = DataSize;
-      splane.pData = v18;
+      p.Pitch = Pitch;
+      p.DataSize = DataSize;
+      p.pData = v18;
     }
     if ( v5 >= pdest->RawPlaneCount )
     {
@@ -335,7 +335,7 @@ LABEL_47:
         &pdest->pPlanes[v5 % pdest->RawPlaneCount],
         pdest->Format,
         v5 / pdest->RawPlaneCount,
-        &dplane,
+        &pplane,
         v5 % pdest->RawPlaneCount);
     }
     else
@@ -344,19 +344,19 @@ LABEL_47:
       v20 = v19[v11].Width;
       v21 = v19[v11].Height;
       v22 = &v19[v11];
-      dplane.Width = v20;
+      pplane.Width = v20;
       v23 = v22->Pitch;
-      dplane.Height = v21;
+      pplane.Height = v21;
       v24 = v22->DataSize;
       v25 = v22->pData;
-      dplane.Pitch = v23;
-      dplane.DataSize = v24;
-      dplane.pData = v25;
+      pplane.Pitch = v23;
+      pplane.DataSize = v24;
+      pplane.pData = v25;
     }
-    memcpy(dplane.pData, splane.pData, splane.DataSize);
+    memcpy((int)pplane.pData, (const __m128i *)p.pData, p.DataSize);
     ++v5;
     ++v11;
   }
-  while ( v5 < planeCount );
+  while ( v5 < v67 );
   return 1;
 }

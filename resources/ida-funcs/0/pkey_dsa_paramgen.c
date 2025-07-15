@@ -17,7 +17,7 @@ dsa_st *__cdecl pkey_dsa_paramgen(evp_pkey_ctx_st *ctx, evp_pkey_st *pkey)
   {
     p_cb = 0;
   }
-  result = DSA_new();
+  result = DSA_new((int)p_cb);
   v5 = (char *)result;
   if ( result )
   {
@@ -33,12 +33,12 @@ dsa_st *__cdecl pkey_dsa_paramgen(evp_pkey_ctx_st *ctx, evp_pkey_st *pkey)
            p_cb);
     if ( v6 )
     {
-      EVP_PKEY_assign(pkey, 116, v5);
+      EVP_PKEY_assign(pkey, (void *)0x74, v5);
       return (dsa_st *)v6;
     }
     else
     {
-      DSA_free((unsigned int)v5, (dsa_st *)v5);
+      DSA_free((int)v5, (int)p_cb, (dsa_st *)v5);
       return 0;
     }
   }

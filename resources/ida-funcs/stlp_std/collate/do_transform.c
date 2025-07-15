@@ -2,7 +2,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
         stlp_std::collate<char> *this,
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *result,
         char *low,
-        const char *high)
+        char *high)
 {
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
     result,
@@ -17,7 +17,7 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocato
         stlp_std::collate<wchar_t> *this,
         stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *result,
         wchar_t *low,
-        const wchar_t *high)
+        wchar_t *high)
 {
   stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>(
     result,

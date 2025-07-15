@@ -1,132 +1,101 @@
 void __thiscall vostok::tasks::thread_pool::initialize(
         vostok::tasks::thread_pool *this,
-        vostok::tasks::thread_pool *thisa)
+        vostok::tasks::thread_pool *a2)
 {
   int v2; // ecx
-  int v3; // esi
-  unsigned int v4; // edi
-  unsigned int v5; // ebp
-  vostok::tasks::thread_tls *v6; // esi
-  bool v7; // zf
-  unsigned int v8; // edx
-  char *m_begin; // eax
-  int v10; // ebp
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  LARGE_INTEGER v12; // rax
-  vostok::threading *v13; // [esp+0h] [ebp-478h]
-  void **v14; // [esp+4h] [ebp-474h]
-  int v15; // [esp+14h] [ebp-464h]
-  unsigned int max_task_threads; // [esp+18h] [ebp-460h]
-  __int64 v17; // [esp+1Ch] [ebp-45Ch]
-  LARGE_INTEGER PerformanceCount; // [esp+28h] [ebp-450h] BYREF
-  boost::function<void __cdecl(void)> function_to_call; // [esp+30h] [ebp-448h] BYREF
-  vostok::tasks::thread_tls *v20; // [esp+50h] [ebp-428h]
-  vostok::tasks::thread_tls *v21; // [esp+54h] [ebp-424h]
-  vostok::fixed_string<512> thread_name_for_logging; // [esp+58h] [ebp-420h] BYREF
-  char v23; // [esp+264h] [ebp-214h] BYREF
-  vostok::fixed_string<512> thread_name_for_debugger; // [esp+268h] [ebp-210h] BYREF
-  char v25; // [esp+474h] [ebp-4h] BYREF
+  unsigned int v3; // edi
+  vostok::buffer_string *v4; // ecx
+  vostok::tasks::thread_tls *v5; // esi
+  void *v6; // ecx
+  unsigned int v7; // eax
+  vostok::particle::particle_action *v8; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v9; // ecx
+  vostok::timing::timer *v10; // ecx
+  unsigned int v11; // edi
+  int v12; // esi
+  const char *v13[3]; // [esp+10h] [ebp-464h] BYREF
+  _BYTE v14[512]; // [esp+1Ch] [ebp-458h] BYREF
+  char v15; // [esp+21Ch] [ebp-258h] BYREF
+  vostok::buffer_string v16; // [esp+220h] [ebp-254h] BYREF
+  _BYTE v17[512]; // [esp+22Ch] [ebp-248h] BYREF
+  char v18; // [esp+42Ch] [ebp-48h] BYREF
+  boost::function<void __cdecl(void)> v19; // [esp+430h] [ebp-44h] BYREF
+  vostok::tasks::thread_tls *v20; // [esp+450h] [ebp-24h]
+  vostok::tasks::thread_tls *v21; // [esp+454h] [ebp-20h]
+  __int64 v22; // [esp+458h] [ebp-1Ch]
+  unsigned int v23; // [esp+460h] [ebp-14h]
+  const char *v24; // [esp+464h] [ebp-10h]
+  unsigned int v25; // [esp+468h] [ebp-Ch]
+  char v26; // [esp+46Fh] [ebp-5h]
 
-  v2 = (char *)thisa->m_task_thread_tls.m_end - (char *)thisa->m_task_thread_tls.m_begin;
-  v3 = v2 / 360;
-  max_task_threads = v2 / 360;
-  v4 = 0;
-  if ( v2 / 360 )
+  v2 = 360;
+  v3 = 0;
+  v23 = a2->m_task_thread_tls.m_end - a2->m_task_thread_tls.m_begin;
+  if ( v23 )
   {
-    v15 = 0;
+    v25 = 0;
     do
     {
-      v5 = v4 + 1;
-      thread_name_for_debugger.m_begin = thread_name_for_debugger.m_buffer;
-      thread_name_for_debugger.m_end = thread_name_for_debugger.m_buffer;
-      thread_name_for_debugger.m_max_end = &v25;
-      thread_name_for_debugger.m_buffer[0] = 0;
-      vostok::buffer_string::assignf(&thread_name_for_debugger, "task #%d", v4 + 1);
-      thread_name_for_logging.m_begin = thread_name_for_logging.m_buffer;
-      thread_name_for_logging.m_end = thread_name_for_logging.m_buffer;
-      thread_name_for_logging.m_max_end = &v23;
-      thread_name_for_logging.m_buffer[0] = 0;
-      vostok::buffer_string::assignf(&thread_name_for_logging, "task #%d", v4 + 1);
-      v6 = &thisa->m_task_thread_tls.m_begin[v15];
-      v7 = s_logical_core_count == 0;
-      v6->pool = thisa;
-      v6->thread_index = v4;
-      if ( v7 )
-        vostok::threading::initialize_core_count(v13);
-      v8 = v4 % s_logical_core_count;
-      v6->thread_type = type_task_thread;
-      v6->hardware_thread = v8;
-      v6->state = 1;
-      if ( &v6->thread_name != (vostok::fixed_string<32> *)&thread_name_for_logging )
+      v13[0] = v14;
+      v13[1] = v14;
+      v13[2] = &v15;
+      v24 = (const char *)(v3 + 1);
+      v14[0] = 0;
+      vostok::fs_new::path_string_impl::assignf(
+        v13,
+        (vostok::buffer_string *)v2,
+        (vostok::buffer_string *)"task #%d",
+        (const char *)(v3 + 1));
+      v16.m_begin = v17;
+      v16.m_end = v17;
+      v16.m_max_end = &v18;
+      v17[0] = 0;
+      vostok::fs_new::path_string_impl::assignf(&v16, v4, (vostok::buffer_string *)"task #%d", v24);
+      v5 = &a2->m_task_thread_tls.m_begin[v25 / 0x168];
+      v5->pool = a2;
+      v5->thread_index = v3;
+      v7 = vostok::threading::core_count(v6);
+      v5->thread_type = type_task_thread;
+      v5->hardware_thread = v3 % v7;
+      v5->state = 1;
+      vostok::buffer_string::operator=(&v16, &v5->thread_name);
+      LODWORD(v22) = vostok::tasks::thread_tls::thread_proc;
+      v21 = v5;
+      v20 = v5;
+      HIDWORD(v22) = v5;
+      if ( Scaleform::Render::RenderEvent::GetListenerStatus(v8) )
       {
-        m_begin = v6->thread_name.m_begin;
-        v6->thread_name.m_end = m_begin;
-        *m_begin = 0;
-        v10 = thread_name_for_logging.m_end - thread_name_for_logging.m_begin;
-        memcpy(
-          (unsigned __int8 *)v6->thread_name.m_end,
-          (unsigned __int8 *)thread_name_for_logging.m_begin,
-          thread_name_for_logging.m_end - thread_name_for_logging.m_begin);
-        v6->thread_name.m_end += v10;
-        v5 = v4 + 1;
-        *v6->thread_name.m_end = 0;
-      }
-      LODWORD(v17) = vostok::tasks::thread_tls::thread_proc;
-      v20 = v6;
-      v21 = v6;
-      HIDWORD(v17) = v6;
-      if ( survarium::generate_shaders_world::is_loading() )
-      {
-        function_to_call.vtable = 0;
+        v19.vtable = 0;
       }
       else
       {
-        *(_QWORD *)&function_to_call.functor.obj_ptr = v17;
-        function_to_call.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::tasks::thread_tls>,boost::_bi::list1<boost::_bi::value<vostok::tasks::thread_tls *>>>>'::`2'::stored_vtable
-                                                                         + 1);
+        v26 = 0;
+        *(_QWORD *)&v19.functor.obj_ptr = v22;
+        v19.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::tasks::thread_tls>,boost::_bi::list1<boost::_bi::value<vostok::tasks::thread_tls *>>>>'::`2'::stored_vtable
+                                                            + 1);
       }
-      v6->thread_id = vostok::threading::spawn(
-                        &function_to_call,
-                        thread_name_for_debugger.m_begin,
-                        thread_name_for_logging.m_begin,
-                        v6->hardware_thread,
-                        0,
-                        (vostok::threading::tasks_awareness)v13,
-                        v14);
-      if ( function_to_call.vtable )
-      {
-        if ( ((int)function_to_call.vtable & 1) == 0 )
-        {
-          v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)function_to_call.vtable & 0xFFFFFFFE);
-          if ( v11 )
-            v11(&function_to_call.functor, &function_to_call.functor, 2);
-        }
-        function_to_call.vtable = 0;
-      }
-      ++v15;
-      v4 = v5;
+      v5->thread_id = vostok::threading::spawn(&v19, v16.m_begin, v13[0], v5->hardware_thread, 0);
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        v9,
+        (int *)&v19);
+      v3 = (unsigned int)v24;
+      v25 += 360;
     }
-    while ( v5 < max_task_threads );
-    v3 = max_task_threads;
-    v4 = 0;
+    while ( (unsigned int)v24 < v23 );
   }
-  vostok::tasks::thread_pool::log_columns_header((vostok::tasks::thread_pool *)v2, thisa);
-  if ( vostok::timing::g_cpu_supports_time_stamp )
+  vostok::tasks::thread_pool::log_columns_header(a2);
+  vostok::timing::timer::start(v10, (LARGE_INTEGER *)&a2->m_timer);
+  v11 = v23;
+  if ( v23 )
   {
-    v12.QuadPart = __rdtsc();
+    v12 = 0;
+    do
+    {
+      SetEvent(*(HANDLE *)a2->m_task_thread_tls.m_begin[v12++].event_start_thread_work.m_event);
+      --v11;
+    }
+    while ( v11 );
   }
-  else
-  {
-    QueryPerformanceCounter(&PerformanceCount);
-    v12 = PerformanceCount;
-  }
-  thisa->m_timer.m_start_time = v12.QuadPart;
-  LODWORD(thisa->m_timer.m_current_time) = 0;
-  for ( HIDWORD(thisa->m_timer.m_current_time) = 0; v3; --v3 )
-  {
-    SetEvent(*(HANDLE *)&thisa->m_task_thread_tls.m_begin->event_start_thread_work.m_event[v4]);
-    v4 += 360;
-  }
-  WaitForSingleObject(*(HANDLE *)thisa->m_all_task_threads_started.m_event, 0xFFFFFFFF);
-  thisa->m_initialized = 1;
+  WaitForSingleObject(*(HANDLE *)a2->m_all_task_threads_started.m_event, 0xFFFFFFFF);
+  a2->m_initialized = 1;
 }

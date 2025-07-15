@@ -1,14 +1,14 @@
 void __thiscall Scaleform::GFx::AS2::MovieRoot::ActionQueueType::Clear(
         Scaleform::GFx::AS2::MovieRoot::ActionQueueType *this)
 {
-  Scaleform::GFx::AS2::MovieRoot::ActionQueueIterator iter; // [esp+0h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::MovieRoot::ActionQueueIterator v1; // [esp+0h] [ebp-10h] BYREF
 
-  iter.pActionQueue = this;
-  iter.ModId = 0;
-  iter.CurrentPrio = 0;
-  iter.pLastEntry = 0;
-  while ( Scaleform::GFx::AS2::MovieRoot::ActionQueueIterator::getNext(&iter) )
+  v1.pActionQueue = this;
+  v1.ModId = 0;
+  v1.CurrentPrio = 0;
+  v1.pLastEntry = 0;
+  while ( Scaleform::GFx::AS2::MovieRoot::ActionQueueIterator::getNext(&v1) )
     ;
-  if ( iter.pLastEntry )
-    Scaleform::GFx::AS2::MovieRoot::ActionQueueType::AddToFreeList(iter.pActionQueue, iter.pLastEntry);
+  if ( v1.pLastEntry )
+    Scaleform::GFx::AS2::MovieRoot::ActionQueueType::AddToFreeList(v1.pActionQueue, v1.pLastEntry);
 }

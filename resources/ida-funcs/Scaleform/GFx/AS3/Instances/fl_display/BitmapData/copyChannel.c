@@ -7,80 +7,77 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::copyChan
         Scaleform::Render::DrawableImage::ChannelBits sourceChannel,
         Scaleform::Render::DrawableImage::ChannelBits destChannel)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  unsigned int v8; // eax
+  Scaleform::GFx::AS3::VM *pVM; // ecx
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASStringNode *v11; // ecx
+  unsigned int v11; // eax
   Scaleform::GFx::AS3::VM *v12; // esi
-  const Scaleform::GFx::AS3::VM::Error *v13; // eax
-  Scaleform::GFx::ASStringNode *v14; // eax
-  Scaleform::GFx::AS3::VM *v15; // esi
-  const Scaleform::GFx::AS3::VM::Error *v16; // eax
-  Scaleform::GFx::ASStringNode *v17; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // ebx
-  Scaleform::Render::DrawableImage *v19; // ebp
+  Scaleform::Render::DrawableImage *v14; // ebp
   long double y; // st7
-  const Scaleform::Render::Rect<long> *v21; // eax
-  Scaleform::GFx::AS3::VM::Error v22; // [esp+4h] [ebp-18h] BYREF
-  Scaleform::Render::Rect<long> v23; // [esp+Ch] [ebp-10h] BYREF
+  const Scaleform::Render::Rect<long> *v16; // eax
+  Scaleform::StringDataPtr v17; // [esp-8h] [ebp-30h] BYREF
+  Scaleform::GFx::AS3::VM::Error v18; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::Render::Rect<long> v19; // [esp+18h] [ebp-10h] BYREF
 
   if ( !this->pImage.pObject )
   {
+    v17.pStr = "Invalid BitmapData";
+    v17.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eArgumentError, this->pTraits.pObject->pVM, v17);
     pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v22, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v9);
-    pNode = v22.Message.pNode;
-    --v22.Message.pNode->RefCount;
-    v11 = pNode;
-    if ( pNode->RefCount )
-      return;
-LABEL_12:
-    Scaleform::GFx::ASStringNode::ReleaseNode(v11);
-    return;
+LABEL_3:
+    v17.Size = v8;
+    goto LABEL_4;
   }
-  if ( !sourceBitmapData )
+  if ( sourceBitmapData )
   {
-    v12 = this->pTraits.pObject->pVM;
-    goto LABEL_8;
+    if ( sourceRect )
+    {
+      if ( destPoint )
+      {
+        DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
+                                        this,
+                                        this);
+        v14 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
+                this,
+                sourceBitmapData);
+        y = destPoint->y;
+        v18.ID = (int)destPoint->x;
+        v18.Message.pNode = (Scaleform::GFx::ASStringNode *)(int)y;
+        v16 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v19, sourceRect);
+        Scaleform::Render::DrawableImage::CopyChannel(
+          DrawableImageFromBitmapData,
+          v14,
+          v16,
+          (const Scaleform::Render::Point<long> *)&v18,
+          sourceChannel,
+          destChannel);
+        return;
+      }
+      v12 = this->pTraits.pObject->pVM;
+      Scaleform::StringDataPtr::StringDataPtr(&v17, "destPoint");
+      Scaleform::GFx::AS3::VM::Error::Error(&v18, eNullPointerError, v12, v17);
+      pVM = v12;
+    }
+    else
+    {
+      v17.pStr = "sourceRect";
+      v17.Size = 10;
+      Scaleform::GFx::AS3::VM::Error::Error(&v18, eNullPointerError, this->pTraits.pObject->pVM, v17);
+      pVM = this->pTraits.pObject->pVM;
+    }
+    goto LABEL_3;
   }
-  if ( !sourceRect )
-  {
-    v12 = this->pTraits.pObject->pVM;
-LABEL_8:
-    Scaleform::GFx::AS3::VM::Error::Error(&v22, eNullPointerError, v12);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v12, v13);
-    v14 = v22.Message.pNode;
-    --v22.Message.pNode->RefCount;
-    v11 = v14;
-    if ( v14->RefCount )
-      return;
-    goto LABEL_12;
-  }
-  if ( !destPoint )
-  {
-    v15 = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v22, eNullPointerError, v15);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v15, v16);
-    v17 = v22.Message.pNode;
-    --v22.Message.pNode->RefCount;
-    v11 = v17;
-    if ( v17->RefCount )
-      return;
-    goto LABEL_12;
-  }
-  DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
-                                  this,
-                                  this);
-  v19 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(this, sourceBitmapData);
-  y = destPoint->y;
-  v22.ID = (int)destPoint->x;
-  v22.Message.pNode = (Scaleform::GFx::ASStringNode *)(int)y;
-  v21 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v23, sourceRect);
-  Scaleform::Render::DrawableImage::CopyChannel(
-    DrawableImageFromBitmapData,
-    v19,
-    v21,
-    (const Scaleform::Render::Point<long> *)&v22,
-    sourceChannel,
-    destChannel);
+  v17.pStr = "sourceBitmapData";
+  v17.Size = 16;
+  Scaleform::GFx::AS3::VM::Error::Error(&v18, eNullPointerError, this->pTraits.pObject->pVM, v17);
+  v17.Size = v11;
+  pVM = this->pTraits.pObject->pVM;
+LABEL_4:
+  Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, (const Scaleform::GFx::AS3::VM::Error *)v17.Size);
+  pNode = v18.Message.pNode;
+  --v18.Message.pNode->RefCount;
+  if ( !pNode->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 }

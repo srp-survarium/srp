@@ -77,7 +77,7 @@ BOOL __cdecl ASN1_UTCTIME_check(asn1_string_st *d)
         if ( v16 > 57 )
           break;
         v19 = v16 + 10 * v18 - 48;
-        if ( v19 < dword_839878[v14] || v19 > dword_839898[v14] )
+        if ( v19 < dword_6CB540[v14] || v19 > dword_6CB560[v14] )
           break;
         ++v14;
         v13 = v17 + 1;

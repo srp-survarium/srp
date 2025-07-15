@@ -1,30 +1,35 @@
-void __thiscall vostok::logging::log_format::set(
-        vostok::logging::log_format *this,
-        vostok::logging::format_specifier *format_expression)
+void __usercall vostok::logging::log_format::set(vostok::logging::log_format *this@<ecx>, char *a2@<esi>)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::logging::format_specifier_enum *k; // [esp+8h] [ebp-3Ch]
-  unsigned int j; // [esp+14h] [ebp-30h]
-  unsigned int i; // [esp+18h] [ebp-2Ch]
-  vostok::fixed_vector<enum vostok::logging::format_specifier_enum,8> specifiers; // [esp+1Ch] [ebp-28h] BYREF
+  char *v2; // edx
+  unsigned int v3; // eax
+  char *v4; // ecx
+  unsigned int i; // ecx
+  vostok::logging::format_specifier_enum *v6; // eax
+  vostok::fixed_vector<enum vostok::logging::format_specifier_enum,8> list; // [esp+4h] [ebp-2Ch] BYREF
+  char vars0; // [esp+30h] [ebp+0h] BYREF
 
-  vostok::fixed_vector<char const *,4>::fixed_vector<char const *,4>((vostok::fixed_vector<void const *,4> *)&specifiers);
-  vostok::logging::format_specifier::fill_specifier_list(format_expression, &specifiers, (char (*)[512])this);
-  for ( i = 0; i < 8; ++i )
+  list.m_begin = (vostok::logging::format_specifier_enum *)list.m_buffer;
+  list.m_end = (vostok::logging::format_specifier_enum *)list.m_buffer;
+  list.m_max_end = (vostok::logging::format_specifier_enum *)&vars0;
+  vostok::logging::format_specifier::fill_specifier_list(
+    (vostok::logging::format_specifier *)this,
+    &list,
+    (char (*)[512])a2);
+  v2 = a2 + 520;
+  v3 = 0;
+  v4 = a2 + 520;
+  do
   {
-    this->indexes[i] = 0;
-    this->enabled[i] = 0;
+    *(_DWORD *)v4 = 0;
+    a2[v3++ + 512] = 0;
+    v4 += 4;
   }
-  for ( j = 0; ; ++j )
+  while ( v3 < 8 );
+  for ( i = 0; i < list.m_end - list.m_begin; v2 += 4 )
   {
-    v2 = (survarium::game_camera *)(specifiers.m_end - specifiers.m_begin);
-    if ( j >= (unsigned int)v2 )
-      break;
-    survarium::weapon_user_dead_state::finalize(v2);
-    this->indexes[j] = specifiers.m_begin[j];
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-    this->enabled[specifiers.m_begin[j]] = 1;
+    v6 = &list.m_begin[i];
+    *(vostok::logging::format_specifier_enum *)v2 = *v6;
+    a2[*v6 + 512] = 1;
+    ++i;
   }
-  for ( k = specifiers.m_begin; k != specifiers.m_end; ++k )
-    ;
 }

@@ -1,8 +1,10 @@
 void __thiscall vostok::ai::planning::base_lexeme::add_to_target_world_state_as_predicate(
-        vostok::ai::planning::base_lexeme *this,
-        vostok::ai::planning::specified_problem *problem,
-        unsigned int *offset)
+        survarium::network_client *this,
+        char *map_name,
+        Scaleform::SysAllocMalloc *director,
+        unsigned int a4,
+        Scaleform::DefaultAcquireInterface *a5)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)offset);
+  vostok::memory::process_allocator::finalize_impl((vostok::render::stage_screen_space_reflections *)this);
+  Scaleform::SysAllocMalloc::Realloc(director, (unsigned int)map_name, (unsigned int)director, a4, a5);
 }

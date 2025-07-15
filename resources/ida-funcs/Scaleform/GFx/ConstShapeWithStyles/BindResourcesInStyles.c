@@ -19,15 +19,15 @@ void __thiscall Scaleform::GFx::ConstShapeWithStyles::BindResourcesInStyles(
   Scaleform::GFx::Resource *v16; // ecx
   Scaleform::GFx::Resource_vtbl *v17; // edi
   _DWORD *v18; // esi
-  Scaleform::Render::FillStyleType *fillStyles; // [esp+14h] [ebp-Ch]
-  Scaleform::GFx::ResourceBindData rdata; // [esp+18h] [ebp-8h] BYREF
+  unsigned __int8 *v20; // [esp+14h] [ebp-Ch]
+  Scaleform::GFx::ResourceBindData pdata; // [esp+18h] [ebp-8h] BYREF
 
   v2 = this;
   Styles = this->Styles;
   v4 = 0;
-  fillStyles = (Scaleform::Render::FillStyleType *)Styles;
-  rdata.pResource.pObject = 0;
-  rdata.pBinding = 0;
+  v20 = Styles;
+  pdata.pResource.pObject = 0;
+  pdata.pBinding = 0;
   if ( this->FillStylesNum )
   {
     v5 = (Scaleform::RefCountVImpl **)(Styles + 4);
@@ -43,19 +43,19 @@ void __thiscall Scaleform::GFx::ConstShapeWithStyles::BindResourcesInStyles(
             v7 = &resourceBinding->pResources[RefCount];
             if ( v7->pResource.pObject )
               Scaleform::RefCountImpl::AddRef(v7->pResource.pObject);
-            if ( rdata.pResource.pObject )
-              Scaleform::GFx::Resource::Release(rdata.pResource.pObject);
+            if ( pdata.pResource.pObject )
+              Scaleform::GFx::Resource::Release(pdata.pResource.pObject);
             pObject = v7->pResource.pObject;
-            rdata = *v7;
+            pdata = *v7;
           }
           else
           {
-            Scaleform::GFx::ResourceBinding::GetResourceData_Locked(resourceBinding, &rdata, (*v5)[6].RefCount);
-            pObject = rdata.pResource.pObject;
+            Scaleform::GFx::ResourceBinding::GetResourceData_Locked(resourceBinding, &pdata, (*v5)[6].RefCount);
+            pObject = pdata.pResource.pObject;
           }
           if ( pObject && (pObject->GetResourceTypeCode(pObject) & 0xFF00) == 0x100 )
           {
-            v9 = rdata.pResource.pObject[1].__vftable;
+            v9 = pdata.pResource.pObject[1].__vftable;
             v10 = &(*v5)[1].__vftable;
             if ( v9 )
               (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v9->~Scaleform::GFx::Resource + 1))(v9);
@@ -78,7 +78,7 @@ void __thiscall Scaleform::GFx::ConstShapeWithStyles::BindResourcesInStyles(
       v5 += 2;
     }
     while ( v4 < v2->FillStylesNum );
-    Styles = (unsigned __int8 *)fillStyles;
+    Styles = v20;
   }
   v11 = 0;
   v12 = &Styles[8 * v2->FillStylesNum];
@@ -97,19 +97,19 @@ void __thiscall Scaleform::GFx::ConstShapeWithStyles::BindResourcesInStyles(
             v15 = &resourceBinding->pResources[v14];
             if ( v15->pResource.pObject )
               Scaleform::RefCountImpl::AddRef(v15->pResource.pObject);
-            if ( rdata.pResource.pObject )
-              Scaleform::GFx::Resource::Release(rdata.pResource.pObject);
+            if ( pdata.pResource.pObject )
+              Scaleform::GFx::Resource::Release(pdata.pResource.pObject);
             v16 = v15->pResource.pObject;
-            rdata = *v15;
+            pdata = *v15;
           }
           else
           {
-            Scaleform::GFx::ResourceBinding::GetResourceData_Locked(resourceBinding, &rdata, v14);
-            v16 = rdata.pResource.pObject;
+            Scaleform::GFx::ResourceBinding::GetResourceData_Locked(resourceBinding, &pdata, v14);
+            v16 = pdata.pResource.pObject;
           }
           if ( v16 && (v16->GetResourceTypeCode(v16) & 0xFF00) == 0x100 )
           {
-            v17 = rdata.pResource.pObject[1].__vftable;
+            v17 = pdata.pResource.pObject[1].__vftable;
             v18 = &(*v13)[1].__vftable;
             if ( v17 )
               (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v17->~Scaleform::GFx::Resource + 1))(v17);
@@ -133,6 +133,6 @@ void __thiscall Scaleform::GFx::ConstShapeWithStyles::BindResourcesInStyles(
     }
     while ( v11 < v2->StrokeStylesNum );
   }
-  if ( rdata.pResource.pObject )
-    Scaleform::GFx::Resource::Release(rdata.pResource.pObject);
+  if ( pdata.pResource.pObject )
+    Scaleform::GFx::Resource::Release(pdata.pResource.pObject);
 }

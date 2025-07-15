@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::ContextImpl::Context::Shutdown(
   char v7; // bl
   Scaleform::Lock *v8; // edi
   Scaleform::Render::ContextImpl::RenderNotify *pRenderer; // eax
-  Scaleform::Event waitEvent; // [esp+10h] [ebp-2Ch] BYREF
+  Scaleform::Event v10; // [esp+10h] [ebp-2Ch] BYREF
 
   for ( i = this->CaptureNotifyList.Root.pNext; ; i = pNext )
   {
@@ -44,13 +44,13 @@ LABEL_14:
     LeaveCriticalSection(&p_LockObject->cs);
     if ( !v7 )
       break;
-    Scaleform::Event::Event(&waitEvent, 0, 0);
+    Scaleform::Event::Event(&v10, 0, 0);
     v8 = &this->pCaptureLock.pObject->LockObject;
     EnterCriticalSection(&v8->cs);
     if ( this->pRenderer )
     {
       pRenderer = this->pRenderer;
-      this->pShutdownEvent = &waitEvent;
+      this->pShutdownEvent = &v10;
       if ( pRenderer->pRTCommandQueue )
         pRenderer->pRTCommandQueue->PushThreadCommand(pRenderer->pRTCommandQueue, &pRenderer->ServiceCommandInstance);
     }
@@ -60,7 +60,7 @@ LABEL_14:
     }
     LeaveCriticalSection(&v8->cs);
     if ( v7 )
-      Scaleform::Event::Wait(&waitEvent, 0xFFFFFFFF);
-    Scaleform::Event::~Event(&waitEvent);
+      Scaleform::Event::Wait(&v10, 0xFFFFFFFF);
+    Scaleform::Event::~Event(&v10);
   }
 }

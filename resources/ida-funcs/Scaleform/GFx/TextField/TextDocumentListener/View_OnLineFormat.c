@@ -18,7 +18,15 @@ char __thiscall Scaleform::GFx::TextField::TextDocumentListener::View_OnLineForm
   double v15; // st6
   float *v16; // ecx
   unsigned int v17; // eax
-  Scaleform::GFx::Translator::LineFormatDesc tdesc; // [esp+8h] [ebp-30h] BYREF
+  _DWORD v19[4]; // [esp+8h] [ebp-30h] BYREF
+  unsigned int v20; // [esp+18h] [ebp-20h]
+  float i; // [esp+1Ch] [ebp-1Ch]
+  float v22; // [esp+20h] [ebp-18h]
+  float v23; // [esp+24h] [ebp-14h]
+  float v24; // [esp+28h] [ebp-10h]
+  int v25; // [esp+2Ch] [ebp-Ch]
+  unsigned int v26; // [esp+30h] [ebp-8h]
+  bool v27; // [esp+34h] [ebp-4h]
 
   v3 = (Scaleform::RefCountVImpl *)(*(int (__thiscall **)(char *, int))(*((_DWORD *)this[-13].View_OnHScroll + 2) + 12))(
                                      (char *)this[-13].View_OnHScroll + 8,
@@ -28,40 +36,38 @@ char __thiscall Scaleform::GFx::TextField::TextDocumentListener::View_OnLineForm
     pWidths = desc->pWidths;
     LineStartPos = desc->LineStartPos;
     v6 = desc->CurrentLineWidth * 0.05000000074505806;
-    tdesc.pParaText = desc->pParaText;
+    v19[0] = desc->pParaText;
     ProposedWordWrapPoint = desc->ProposedWordWrapPoint;
-    tdesc.CurrentLineWidth = v6;
-    tdesc.pWidths = pWidths;
+    v22 = v6;
+    v19[2] = pWidths;
     ParaTextLen = desc->ParaTextLen;
     v9 = desc->DashSymbolWidth * 0.05000000074505806;
-    tdesc.ProposedWordWrapPoint = ProposedWordWrapPoint;
+    v26 = ProposedWordWrapPoint;
     LOBYTE(ProposedWordWrapPoint) = desc->Alignment;
-    tdesc.LineStartPos = LineStartPos;
+    v19[3] = LineStartPos;
     NumCharsInLine = desc->NumCharsInLine;
-    tdesc.DashSymbolWidth = v9;
+    v24 = v9;
     LineWidthBeforeWordWrap = desc->LineWidthBeforeWordWrap;
-    tdesc.ParaTextLen = ParaTextLen;
+    v19[1] = ParaTextLen;
     LOBYTE(ParaTextLen) = desc->UseHyphenation;
-    tdesc.Alignment = ProposedWordWrapPoint;
+    LOBYTE(v25) = ProposedWordWrapPoint;
     v12 = 0;
-    tdesc.LineWidthBeforeWordWrap = LineWidthBeforeWordWrap * 0.05000000074505806;
-    tdesc.NumCharsInLine = NumCharsInLine;
+    v23 = LineWidthBeforeWordWrap * 0.05000000074505806;
+    v20 = NumCharsInLine;
     VisibleRectWidth = desc->VisibleRectWidth;
-    tdesc.UseHyphenation = ParaTextLen;
-    for ( tdesc.VisibleRectWidth = VisibleRectWidth * 0.05000000074505806;
-          v12 < tdesc.NumCharsInLine;
-          *v16 = v15 * 0.05000000074505806 )
+    v27 = ParaTextLen;
+    for ( i = VisibleRectWidth * 0.05000000074505806; v12 < v20; *v16 = v15 * 0.05000000074505806 )
     {
       v14 = desc->pWidths;
       v15 = v14[v12];
       v16 = &v14[v12++];
     }
-    if ( ((unsigned __int8 (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::Translator::LineFormatDesc *))v3->__vftable[1].~Scaleform::RefCountVImpl)(
+    if ( ((unsigned __int8 (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *))v3->__vftable[1].~Scaleform::RefCountVImpl)(
            v3,
-           &tdesc) )
+           v19) )
     {
-      v17 = tdesc.ProposedWordWrapPoint;
-      desc->UseHyphenation = tdesc.UseHyphenation;
+      v17 = v26;
+      desc->UseHyphenation = v27;
       desc->ProposedWordWrapPoint = v17;
       Scaleform::RefCountImpl::Release(v3);
       return 1;

@@ -1,4 +1,4 @@
-int __usercall _set_error_mode@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int em)
+int __usercall _set_error_mode@<eax>(int a1@<ebx>, int a2@<edi>, int em)
 {
   int result; // eax
 

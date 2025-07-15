@@ -3,511 +3,386 @@ double __thiscall btCollisionWorld::AllHitsRayResultCallback::addSingleResult(
         btCollisionWorld::LocalRayResult *rayResult,
         bool normalInWorldSpace)
 {
-  btCollisionWorld::LocalRayResult *v3; // edi
   int m_capacity; // ecx
   int m_size; // eax
-  int v7; // ebx
-  int v8; // edx
-  int v9; // eax
-  btCollisionObject **v10; // ecx
-  btCollisionObject **m_data; // eax
-  btCollisionObject **v12; // eax
-  unsigned __int64 v13; // xmm0_8
+  int v6; // esi
+  int v7; // edx
+  int v8; // eax
+  btCollisionObject **v9; // ecx
+  btCollisionObject **v10; // eax
+  btVector3 *p_m_hitNormalLocal; // esi
   float *m_collisionObject; // eax
-  float v15; // xmm0_4
-  float v16; // xmm1_4
-  float v17; // xmm2_4
+  float v13; // xmm0_4
+  float v14; // xmm1_4
+  float v15; // xmm2_4
+  float v16; // xmm3_4
+  float v17; // xmm4_4
   float v18; // xmm3_4
   float v19; // xmm4_4
   int v20; // ecx
   int v21; // eax
-  int v22; // ebx
-  btVector3 *v23; // edi
-  int v24; // edx
-  btVector3 *v25; // ecx
-  int v26; // ebx
-  btVector3 *v27; // eax
-  btVector3 *v28; // eax
-  btVector3 *v29; // eax
+  int *v22; // esi
+  int v23; // eax
+  __m128 *p_mVec128; // ecx
+  int v25; // edx
+  btVector3 *v26; // esi
+  btVector3 *v27; // edi
+  int *v28; // edi
   btCollisionWorld::LocalShapeInfo *m_localShapeInfo; // eax
-  int v31; // ecx
-  int v32; // eax
-  int v33; // ebx
-  int v34; // edx
-  int v35; // eax
-  int *v36; // ecx
-  int *v37; // eax
-  int *v38; // eax
-  int v39; // ecx
-  int v40; // eax
-  signed int v41; // eax
-  bool *v42; // ebx
-  int v43; // edi
+  int v30; // ecx
+  int v31; // eax
+  int v32; // esi
+  int v33; // edx
+  int v34; // eax
+  int *v35; // ecx
+  int *v36; // eax
+  int v37; // ecx
+  int v38; // eax
+  int v39; // edi
   int i; // eax
-  bool *v45; // eax
-  bool *v46; // eax
+  bool *v41; // eax
   float m_hitFraction; // xmm1_4
-  int v48; // ecx
-  int v49; // eax
-  int v50; // eax
-  btVector3 *v51; // edi
-  int v52; // edx
-  btVector3 *v53; // ecx
-  int v54; // ebx
-  btVector3 *v55; // eax
-  btVector3 *v56; // eax
-  btVector3 *v57; // eax
-  int v58; // ecx
-  int v59; // eax
-  int v60; // eax
-  int v61; // edi
-  float *v62; // eax
-  int v63; // ebx
-  unsigned int v64; // ecx
-  float *v65; // eax
-  float *v66; // eax
-  float *v67; // eax
-  bool m_is_shape_index; // [esp+A9h] [ebp-3Dh]
-  btCollisionObject **v70; // [esp+AAh] [ebp-3Ch]
-  int *v71; // [esp+AAh] [ebp-3Ch]
-  int v72; // [esp+AAh] [ebp-3Ch]
-  int v73; // [esp+AAh] [ebp-3Ch]
-  float *v74; // [esp+AAh] [ebp-3Ch]
-  int v75; // [esp+AEh] [ebp-38h]
-  int m_triangleIndex; // [esp+AEh] [ebp-38h]
-  int v77; // [esp+AEh] [ebp-38h]
-  int v78; // [esp+B6h] [ebp-30h]
-  int v79; // [esp+BAh] [ebp-2Ch]
-  int v80; // [esp+C2h] [ebp-24h]
-  unsigned __int64 v81; // [esp+C6h] [ebp-20h]
-  unsigned __int64 v82; // [esp+D6h] [ebp-10h]
-  unsigned __int64 v83; // [esp+D6h] [ebp-10h]
-  unsigned __int64 v84; // [esp+DEh] [ebp-8h]
+  int v43; // ecx
+  int v44; // eax
+  float v45; // xmm3_4
+  int v46; // eax
+  __m128 *v47; // ecx
+  int v48; // edx
+  btVector3 *v49; // esi
+  btVector3 *v50; // edi
+  int *v51; // edi
+  int v52; // ecx
+  int v53; // eax
+  int v54; // esi
+  int v55; // edx
+  int v56; // eax
+  float *v57; // ecx
+  float *v58; // eax
+  bool m_is_shape_index; // [esp+17h] [ebp-29h]
+  btCollisionObject **size; // [esp+18h] [ebp-28h]
+  signed int sizea; // [esp+18h] [ebp-28h]
+  unsigned int sizeb; // [esp+18h] [ebp-28h]
+  int sizec; // [esp+18h] [ebp-28h]
+  signed int sized; // [esp+18h] [ebp-28h]
+  btVector3 *v66; // [esp+1Ch] [ebp-24h]
+  int *v67; // [esp+1Ch] [ebp-24h]
+  bool *v68; // [esp+1Ch] [ebp-24h]
+  btVector3 *v69; // [esp+1Ch] [ebp-24h]
+  float *v70; // [esp+1Ch] [ebp-24h]
+  float v71; // [esp+20h] [ebp-20h] BYREF
+  float v72; // [esp+24h] [ebp-1Ch]
+  float v73; // [esp+28h] [ebp-18h]
+  int v74; // [esp+2Ch] [ebp-14h]
+  int v75; // [esp+30h] [ebp-10h]
+  int v76; // [esp+34h] [ebp-Ch]
+  int v77; // [esp+38h] [ebp-8h]
+  int v78; // [esp+3Ch] [ebp-4h]
 
-  v3 = rayResult;
   this->m_collisionObject = rayResult->m_collisionObject;
   m_capacity = this->m_collisionObjects.m_capacity;
   m_size = this->m_collisionObjects.m_size;
   if ( m_size == m_capacity )
   {
-    v7 = 2 * m_size;
-    if ( !m_size )
-      v7 = 1;
-    if ( m_capacity < v7 )
+    v6 = m_size ? 2 * m_size : 1;
+    if ( m_capacity < v6 )
     {
-      if ( v7 )
-      {
-        ++gNumAlignedAllocs;
-        v70 = (btCollisionObject **)sAlignedAllocFunc(4 * v7, 16);
-      }
+      if ( v6 )
+        size = (btCollisionObject **)btAlignedAllocInternal(4 * v6);
       else
+        size = 0;
+      v7 = this->m_collisionObjects.m_size;
+      v8 = 0;
+      if ( v7 > 0 )
       {
-        v70 = 0;
-      }
-      v8 = this->m_collisionObjects.m_size;
-      v9 = 0;
-      if ( v8 > 0 )
-      {
-        v10 = v70;
+        v9 = size;
         do
         {
-          if ( v10 )
-          {
-            *v10 = this->m_collisionObjects.m_data[v9];
-            v3 = rayResult;
-          }
+          if ( v9 )
+            *v9 = this->m_collisionObjects.m_data[v8];
+          ++v8;
           ++v9;
-          ++v10;
         }
-        while ( v9 < v8 );
+        while ( v8 < v7 );
       }
-      m_data = this->m_collisionObjects.m_data;
-      if ( m_data )
+      if ( this->m_collisionObjects.m_data )
       {
         if ( this->m_collisionObjects.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
+          btAlignedFreeInternal(this->m_collisionObjects.m_data);
         this->m_collisionObjects.m_data = 0;
       }
-      this->m_collisionObjects.m_data = v70;
       this->m_collisionObjects.m_ownsMemory = 1;
-      this->m_collisionObjects.m_capacity = v7;
+      this->m_collisionObjects.m_data = size;
+      this->m_collisionObjects.m_capacity = v6;
     }
   }
-  v12 = &this->m_collisionObjects.m_data[this->m_collisionObjects.m_size];
-  if ( v12 )
-    *v12 = v3->m_collisionObject;
+  v10 = &this->m_collisionObjects.m_data[this->m_collisionObjects.m_size];
+  if ( v10 )
+    *v10 = rayResult->m_collisionObject;
   ++this->m_collisionObjects.m_size;
   if ( normalInWorldSpace )
   {
-    v82 = v3->m_hitNormalLocal.mVec128.m128_u64[0];
-    v13 = v3->m_hitNormalLocal.mVec128.m128_u64[1];
+    p_m_hitNormalLocal = &rayResult->m_hitNormalLocal;
   }
   else
   {
     m_collisionObject = (float *)this->m_collisionObject;
-    v15 = v3->m_hitNormalLocal.mVec128.m128_f32[2];
-    v16 = v3->m_hitNormalLocal.mVec128.m128_f32[1];
-    v17 = v3->m_hitNormalLocal.mVec128.m128_f32[0];
-    v18 = m_collisionObject[5];
-    v19 = m_collisionObject[6];
+    v13 = rayResult->m_hitNormalLocal.mVec128.m128_f32[2];
+    v14 = rayResult->m_hitNormalLocal.mVec128.m128_f32[1];
+    v15 = rayResult->m_hitNormalLocal.mVec128.m128_f32[0];
+    v16 = m_collisionObject[5];
+    v17 = m_collisionObject[6];
     m_collisionObject += 4;
-    *(float *)&v81 = (float)((float)(v18 * v16) + (float)(v19 * v15)) + (float)(v17 * *m_collisionObject);
-    *((float *)&v81 + 1) = (float)((float)(m_collisionObject[5] * v16) + (float)(m_collisionObject[6] * v15))
-                         + (float)(v17 * m_collisionObject[4]);
-    v82 = v81;
-    v13 = COERCE_UNSIGNED_INT(
-            (float)((float)(m_collisionObject[9] * v16) + (float)(m_collisionObject[10] * v15))
-          + (float)(m_collisionObject[8] * v17));
+    v18 = (float)((float)(v16 * v14) + (float)(v17 * v13)) + (float)(v15 * *m_collisionObject);
+    v19 = m_collisionObject[6];
+    v71 = v18;
+    v72 = (float)((float)(m_collisionObject[5] * v14) + (float)(v19 * v13)) + (float)(m_collisionObject[4] * v15);
+    v73 = (float)((float)(m_collisionObject[9] * v14) + (float)(m_collisionObject[10] * v13))
+        + (float)(m_collisionObject[8] * v15);
+    v74 = 0;
+    p_m_hitNormalLocal = (btVector3 *)&v71;
   }
   v20 = this->m_hitNormalWorld.m_capacity;
   v21 = this->m_hitNormalWorld.m_size;
-  HIDWORD(v84) = HIDWORD(v13);
+  v75 = p_m_hitNormalLocal->mVec128.m128_i32[0];
+  v22 = &p_m_hitNormalLocal->mVec128.m128_i32[1];
+  v76 = *v22++;
+  v77 = *v22;
+  v78 = v22[1];
   if ( v21 == v20 )
   {
-    if ( v21 )
+    sizea = v21 ? 2 * v21 : 1;
+    if ( v20 < sizea )
     {
-      v22 = 2 * v21;
-      v75 = 2 * v21;
-    }
-    else
-    {
-      v22 = 1;
-      v75 = 1;
-    }
-    if ( v20 < v22 )
-    {
-      if ( v22 )
-      {
-        ++gNumAlignedAllocs;
-        v23 = (btVector3 *)sAlignedAllocFunc(16 * v22, 16);
-      }
+      if ( sizea )
+        v66 = (btVector3 *)btAlignedAllocInternal(16 * sizea);
       else
+        v66 = 0;
+      v23 = this->m_hitNormalWorld.m_size;
+      if ( v23 > 0 )
       {
-        v23 = 0;
-      }
-      if ( this->m_hitNormalWorld.m_size > 0 )
-      {
-        v24 = 0;
-        v25 = v23;
-        v26 = this->m_hitNormalWorld.m_size;
+        p_mVec128 = &v66->mVec128;
+        v25 = 0;
         do
         {
-          if ( v25 )
+          if ( p_mVec128 )
           {
-            v27 = this->m_hitNormalWorld.m_data;
-            v25->mVec128.m128_u64[0] = v27[v24].mVec128.m128_u64[0];
-            v25->mVec128.m128_u64[1] = v27[v24].mVec128.m128_u64[1];
+            v26 = &this->m_hitNormalWorld.m_data[v25];
+            p_mVec128->m128_i32[0] = v26->mVec128.m128_i32[0];
+            v26 = (btVector3 *)((char *)v26 + 4);
+            p_mVec128->m128_i32[1] = v26->mVec128.m128_i32[0];
+            v26 = (btVector3 *)((char *)v26 + 4);
+            p_mVec128->m128_i32[2] = v26->mVec128.m128_i32[0];
+            p_mVec128->m128_i32[3] = v26->mVec128.m128_i32[1];
           }
-          ++v24;
           ++v25;
-          --v26;
+          ++p_mVec128;
+          --v23;
         }
-        while ( v26 );
-        v22 = v75;
+        while ( v23 );
       }
-      v28 = this->m_hitNormalWorld.m_data;
-      if ( v28 )
+      if ( this->m_hitNormalWorld.m_data )
       {
         if ( this->m_hitNormalWorld.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v28);
-        }
+          btAlignedFreeInternal(this->m_hitNormalWorld.m_data);
         this->m_hitNormalWorld.m_data = 0;
       }
-      this->m_hitNormalWorld.m_data = v23;
-      v3 = rayResult;
+      this->m_hitNormalWorld.m_data = v66;
       this->m_hitNormalWorld.m_ownsMemory = 1;
-      this->m_hitNormalWorld.m_capacity = v22;
+      this->m_hitNormalWorld.m_capacity = sizea;
     }
   }
-  v29 = &this->m_hitNormalWorld.m_data[this->m_hitNormalWorld.m_size];
-  if ( v29 )
+  v27 = &this->m_hitNormalWorld.m_data[this->m_hitNormalWorld.m_size];
+  if ( v27 )
   {
-    v29->mVec128.m128_u64[0] = v82;
-    v29->mVec128.m128_u64[1] = v13;
+    v27->mVec128.m128_i32[0] = v75;
+    v28 = &v27->mVec128.m128_i32[1];
+    *v28++ = v76;
+    *v28 = v77;
+    v28[1] = v78;
   }
   ++this->m_hitNormalWorld.m_size;
-  m_triangleIndex = -1;
+  sizeb = -1;
   m_is_shape_index = 0;
-  if ( v3->m_localShapeInfo )
+  if ( rayResult->m_localShapeInfo )
   {
-    m_localShapeInfo = v3->m_localShapeInfo;
-    m_triangleIndex = m_localShapeInfo->m_triangleIndex;
+    m_localShapeInfo = rayResult->m_localShapeInfo;
+    sizeb = m_localShapeInfo->m_triangleIndex;
     m_is_shape_index = m_localShapeInfo->m_is_shape_index;
   }
-  v31 = this->m_triangleIndex.m_capacity;
-  v32 = this->m_triangleIndex.m_size;
-  if ( v32 == v31 )
+  v30 = this->m_triangleIndex.m_capacity;
+  v31 = this->m_triangleIndex.m_size;
+  if ( v31 == v30 )
   {
-    v33 = 2 * v32;
-    if ( !v32 )
-      v33 = 1;
-    if ( v31 < v33 )
+    v32 = v31 ? 2 * v31 : 1;
+    if ( v30 < v32 )
     {
-      if ( v33 )
-      {
-        ++gNumAlignedAllocs;
-        v71 = (int *)sAlignedAllocFunc(4 * v33, 16);
-      }
+      if ( v32 )
+        v67 = (int *)btAlignedAllocInternal(4 * v32);
       else
+        v67 = 0;
+      v33 = this->m_triangleIndex.m_size;
+      v34 = 0;
+      if ( v33 > 0 )
       {
-        v71 = 0;
-      }
-      v34 = this->m_triangleIndex.m_size;
-      v35 = 0;
-      if ( v34 > 0 )
-      {
-        v36 = v71;
+        v35 = v67;
         do
         {
-          if ( v36 )
-          {
-            *v36 = this->m_triangleIndex.m_data[v35];
-            v3 = rayResult;
-          }
+          if ( v35 )
+            *v35 = this->m_triangleIndex.m_data[v34];
+          ++v34;
           ++v35;
-          ++v36;
         }
-        while ( v35 < v34 );
+        while ( v34 < v33 );
       }
-      v37 = this->m_triangleIndex.m_data;
-      if ( v37 )
+      if ( this->m_triangleIndex.m_data )
       {
         if ( this->m_triangleIndex.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v37);
-        }
+          btAlignedFreeInternal(this->m_triangleIndex.m_data);
         this->m_triangleIndex.m_data = 0;
       }
-      this->m_triangleIndex.m_data = v71;
       this->m_triangleIndex.m_ownsMemory = 1;
-      this->m_triangleIndex.m_capacity = v33;
+      this->m_triangleIndex.m_data = v67;
+      this->m_triangleIndex.m_capacity = v32;
     }
   }
-  v38 = &this->m_triangleIndex.m_data[this->m_triangleIndex.m_size];
-  if ( v38 )
-    *v38 = m_triangleIndex;
+  v36 = &this->m_triangleIndex.m_data[this->m_triangleIndex.m_size];
+  if ( v36 )
+    *v36 = sizeb;
   ++this->m_triangleIndex.m_size;
-  v39 = this->m_is_shape_index.m_capacity;
-  v40 = this->m_is_shape_index.m_size;
-  if ( v40 == v39 )
+  v37 = this->m_is_shape_index.m_capacity;
+  v38 = this->m_is_shape_index.m_size;
+  if ( v38 == v37 )
   {
-    if ( v40 )
+    sizec = v38 ? 2 * v38 : 1;
+    if ( v37 < sizec )
     {
-      v41 = 2 * v40;
-      v72 = v41;
-    }
-    else
-    {
-      v72 = 1;
-      v41 = 1;
-    }
-    if ( v39 < v41 )
-    {
-      if ( v41 )
-      {
-        ++gNumAlignedAllocs;
-        v42 = (bool *)sAlignedAllocFunc(v41, 16);
-      }
+      if ( sizec )
+        v68 = (bool *)btAlignedAllocInternal(sizec);
       else
+        v68 = 0;
+      v39 = this->m_is_shape_index.m_size;
+      for ( i = 0; i < v39; ++i )
       {
-        v42 = 0;
+        if ( &v68[i] )
+          v68[i] = this->m_is_shape_index.m_data[i];
       }
-      v43 = this->m_is_shape_index.m_size;
-      for ( i = 0; i < v43; ++i )
-      {
-        if ( &v42[i] )
-          v42[i] = this->m_is_shape_index.m_data[i];
-      }
-      v45 = this->m_is_shape_index.m_data;
-      if ( v45 )
+      if ( this->m_is_shape_index.m_data )
       {
         if ( this->m_is_shape_index.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v45);
-        }
+          btAlignedFreeInternal(this->m_is_shape_index.m_data);
         this->m_is_shape_index.m_data = 0;
       }
-      v3 = rayResult;
+      this->m_is_shape_index.m_data = v68;
       this->m_is_shape_index.m_ownsMemory = 1;
-      this->m_is_shape_index.m_data = v42;
-      this->m_is_shape_index.m_capacity = v72;
+      this->m_is_shape_index.m_capacity = sizec;
     }
   }
-  v46 = &this->m_is_shape_index.m_data[this->m_is_shape_index.m_size];
-  if ( v46 )
-    *v46 = m_is_shape_index;
+  v41 = &this->m_is_shape_index.m_data[this->m_is_shape_index.m_size];
+  if ( v41 )
+    *v41 = m_is_shape_index;
   ++this->m_is_shape_index.m_size;
-  m_hitFraction = v3->m_hitFraction;
-  v48 = this->m_hitPointWorld.m_capacity;
-  v49 = this->m_hitPointWorld.m_size;
-  *(float *)&v83 = (float)(this->m_rayToWorld.mVec128.m128_f32[0] * m_hitFraction)
-                 + (float)((float)(*(float *)&clear_value - m_hitFraction) * this->m_rayFromWorld.mVec128.m128_f32[0]);
-  *((float *)&v83 + 1) = (float)(this->m_rayFromWorld.mVec128.m128_f32[1]
-                               * (float)(*(float *)&clear_value - m_hitFraction))
-                       + (float)(this->m_rayToWorld.mVec128.m128_f32[1] * m_hitFraction);
-  *(float *)&v84 = (float)(this->m_rayFromWorld.mVec128.m128_f32[2] * (float)(*(float *)&clear_value - m_hitFraction))
-                 + (float)(this->m_rayToWorld.mVec128.m128_f32[2] * m_hitFraction);
-  if ( v49 == v48 )
+  m_hitFraction = rayResult->m_hitFraction;
+  v43 = this->m_hitPointWorld.m_capacity;
+  v44 = this->m_hitPointWorld.m_size;
+  v45 = this->m_rayToWorld.mVec128.m128_f32[1];
+  v71 = (float)(m_hitFraction * this->m_rayToWorld.mVec128.m128_f32[0])
+      + (float)(this->m_rayFromWorld.mVec128.m128_f32[0] * (float)(s_bm_current_air_resistance - m_hitFraction));
+  v72 = (float)(this->m_rayFromWorld.mVec128.m128_f32[1] * (float)(s_bm_current_air_resistance - m_hitFraction))
+      + (float)(v45 * m_hitFraction);
+  v73 = (float)(this->m_rayFromWorld.mVec128.m128_f32[2] * (float)(s_bm_current_air_resistance - m_hitFraction))
+      + (float)(this->m_rayToWorld.mVec128.m128_f32[2] * m_hitFraction);
+  if ( v44 == v43 )
   {
-    if ( v49 )
+    sized = v44 ? 2 * v44 : 1;
+    if ( v43 < sized )
     {
-      v50 = 2 * v49;
-      v73 = v50;
-    }
-    else
-    {
-      v50 = 1;
-      v73 = 1;
-    }
-    if ( v48 < v50 )
-    {
-      if ( v50 )
-      {
-        ++gNumAlignedAllocs;
-        v51 = (btVector3 *)sAlignedAllocFunc(16 * v73, 16);
-      }
+      if ( sized )
+        v69 = (btVector3 *)btAlignedAllocInternal(16 * sized);
       else
+        v69 = 0;
+      v46 = this->m_hitPointWorld.m_size;
+      if ( v46 > 0 )
       {
-        v51 = 0;
-      }
-      if ( this->m_hitPointWorld.m_size > 0 )
-      {
-        v52 = 0;
-        v53 = v51;
-        v54 = this->m_hitPointWorld.m_size;
+        v47 = &v69->mVec128;
+        v48 = 0;
         do
         {
-          if ( v53 )
+          if ( v47 )
           {
-            v55 = this->m_hitPointWorld.m_data;
-            v53->mVec128.m128_u64[0] = v55[v52].mVec128.m128_u64[0];
-            v53->mVec128.m128_u64[1] = v55[v52].mVec128.m128_u64[1];
+            v49 = &this->m_hitPointWorld.m_data[v48];
+            v47->m128_i32[0] = v49->mVec128.m128_i32[0];
+            v49 = (btVector3 *)((char *)v49 + 4);
+            v47->m128_i32[1] = v49->mVec128.m128_i32[0];
+            v49 = (btVector3 *)((char *)v49 + 4);
+            v47->m128_i32[2] = v49->mVec128.m128_i32[0];
+            v47->m128_i32[3] = v49->mVec128.m128_i32[1];
           }
-          ++v52;
-          ++v53;
-          --v54;
+          ++v48;
+          ++v47;
+          --v46;
         }
-        while ( v54 );
+        while ( v46 );
       }
-      v56 = this->m_hitPointWorld.m_data;
-      if ( v56 )
+      if ( this->m_hitPointWorld.m_data )
       {
         if ( this->m_hitPointWorld.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v56);
-        }
+          btAlignedFreeInternal(this->m_hitPointWorld.m_data);
         this->m_hitPointWorld.m_data = 0;
       }
-      this->m_hitPointWorld.m_data = v51;
-      v3 = rayResult;
+      this->m_hitPointWorld.m_data = v69;
       this->m_hitPointWorld.m_ownsMemory = 1;
-      this->m_hitPointWorld.m_capacity = v73;
+      this->m_hitPointWorld.m_capacity = sized;
     }
   }
-  v57 = &this->m_hitPointWorld.m_data[this->m_hitPointWorld.m_size];
-  if ( v57 )
+  v50 = &this->m_hitPointWorld.m_data[this->m_hitPointWorld.m_size];
+  if ( v50 )
   {
-    v57->mVec128.m128_u64[0] = v83;
-    v57->mVec128.m128_u64[1] = v84;
+    v50->mVec128.m128_f32[0] = v71;
+    v51 = &v50->mVec128.m128_i32[1];
+    *(float *)v51++ = v72;
+    *(float *)v51 = v73;
+    v51[1] = v74;
   }
   ++this->m_hitPointWorld.m_size;
-  v58 = this->m_hitFractions.m_capacity;
-  v59 = this->m_hitFractions.m_size;
-  if ( v59 == v58 )
+  v52 = this->m_hitFractions.m_capacity;
+  v53 = this->m_hitFractions.m_size;
+  if ( v53 == v52 )
   {
-    if ( v59 )
+    v54 = v53 ? 2 * v53 : 1;
+    if ( v52 < v54 )
     {
-      v60 = 2 * v59;
-      v79 = v60;
-    }
-    else
-    {
-      v60 = 1;
-      v79 = 1;
-    }
-    if ( v58 < v60 )
-    {
-      if ( v60 )
-      {
-        ++gNumAlignedAllocs;
-        v74 = (float *)sAlignedAllocFunc(4 * v60, 16);
-      }
+      if ( v54 )
+        v70 = (float *)btAlignedAllocInternal(4 * v54);
       else
+        v70 = 0;
+      v55 = this->m_hitFractions.m_size;
+      v56 = 0;
+      if ( v55 > 0 )
       {
-        v74 = 0;
-      }
-      v61 = 0;
-      v78 = this->m_hitFractions.m_size;
-      if ( v78 >= 4 )
-      {
-        v62 = v74 + 2;
-        v63 = -8 - (_DWORD)v74;
-        v64 = ((unsigned int)(v78 - 4) >> 2) + 1;
-        v61 = 4 * v64;
-        v77 = 2;
-        v80 = 4 * v64;
+        v57 = v70;
         do
         {
-          if ( v62 != (float *)8 )
-            *(v62 - 2) = *(float *)((char *)this->m_hitFractions.m_data + v63 + (unsigned int)v62);
-          if ( v62 != (float *)4 )
-            *(v62 - 1) = *(float *)((char *)this->m_hitFractions.m_data + v63 + (unsigned int)v62 + 4);
-          if ( v62 )
-          {
-            v63 = -8 - (_DWORD)v74;
-            *v62 = this->m_hitFractions.m_data[v77];
-          }
-          if ( v62 != (float *)-4 )
-          {
-            v63 = -8 - (_DWORD)v74;
-            v61 = v80;
-            v62[1] = *(float *)((char *)this->m_hitFractions.m_data + 4 - (_DWORD)v74 + (unsigned int)v62);
-          }
-          v77 += 4;
-          v62 += 4;
-          --v64;
+          if ( v57 )
+            *v57 = this->m_hitFractions.m_data[v56];
+          ++v56;
+          ++v57;
         }
-        while ( v64 );
+        while ( v56 < v55 );
       }
-      if ( v61 < v78 )
-      {
-        v65 = &v74[v61];
-        do
-        {
-          if ( v65 )
-            *v65 = this->m_hitFractions.m_data[v61];
-          ++v61;
-          ++v65;
-        }
-        while ( v61 < v78 );
-      }
-      v66 = this->m_hitFractions.m_data;
-      if ( v66 )
+      if ( this->m_hitFractions.m_data )
       {
         if ( this->m_hitFractions.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v66);
-        }
+          btAlignedFreeInternal(this->m_hitFractions.m_data);
         this->m_hitFractions.m_data = 0;
       }
-      v3 = rayResult;
       this->m_hitFractions.m_ownsMemory = 1;
-      this->m_hitFractions.m_data = v74;
-      this->m_hitFractions.m_capacity = v79;
+      this->m_hitFractions.m_data = v70;
+      this->m_hitFractions.m_capacity = v54;
     }
   }
-  v67 = &this->m_hitFractions.m_data[this->m_hitFractions.m_size];
-  if ( v67 )
-    *v67 = v3->m_hitFraction;
+  v58 = &this->m_hitFractions.m_data[this->m_hitFractions.m_size];
+  if ( v58 )
+    *v58 = rayResult->m_hitFraction;
   ++this->m_hitFractions.m_size;
   return this->m_closestHitFraction;
 }

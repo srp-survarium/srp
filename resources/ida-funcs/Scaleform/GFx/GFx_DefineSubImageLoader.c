@@ -36,10 +36,9 @@ void __stdcall Scaleform::GFx::GFx_DefineSubImageLoader(
   Scaleform::GFx::SubImageResourceInfo *v34; // eax
   unsigned __int16 v35; // [esp+10h] [ebp-18h]
   unsigned __int16 v36; // [esp+14h] [ebp-14h]
-  unsigned int bitmapResourceId; // [esp+18h] [ebp-10h] BYREF
-  Scaleform::GFx::Resource *v38; // [esp+1Ch] [ebp-Ch]
-  Scaleform::GFx::ResourceData rdata; // [esp+20h] [ebp-8h] BYREF
-  unsigned __int16 pa; // [esp+2Ch] [ebp+4h]
+  Scaleform::GFx::ResourceHandle v37; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::ResourceData result; // [esp+20h] [ebp-8h] BYREF
+  unsigned __int16 v39; // [esp+2Ch] [ebp+4h]
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -52,7 +51,7 @@ void __stdcall Scaleform::GFx::GFx_DefineSubImageLoader(
   v6 = *(_WORD *)&pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
   p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-  bitmapResourceId = v6;
+  v37.HType = v6;
   if ( !p_ProcessInfo )
     p_ProcessInfo = &p->ProcessInfo;
   v8 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
@@ -76,7 +75,7 @@ void __stdcall Scaleform::GFx::GFx_DefineSubImageLoader(
   LOWORD(pBuffer) = pBuffer[v14];
   v11->Stream.Pos = v14 + 2;
   v17 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-  pa = (unsigned __int16)pBuffer | (v16 << 8);
+  v39 = (unsigned __int16)pBuffer | (v16 << 8);
   if ( !v17 )
     v17 = &p->ProcessInfo;
   v18 = v17->Stream.DataSize - v17->Stream.Pos;
@@ -134,19 +133,15 @@ void __stdcall Scaleform::GFx::GFx_DefineSubImageLoader(
   }
   v33->ImageId.Id = v12 | 0x90000;
   v33->Rect.y1 = v35;
-  v33->Rect.x1 = pa;
+  v33->Rect.x1 = v39;
   v33->Rect.x2 = v36;
   v33->Rect.y2 = v32;
-  Scaleform::GFx::SubImageResourceCreator::CreateSubImageResourceData(&rdata, v33);
-  Scaleform::GFx::LoadProcess::AddDataResource(
-    p,
-    (Scaleform::GFx::ResourceHandle *)&bitmapResourceId,
-    (Scaleform::GFx::ResourceId)bitmapResourceId,
-    &rdata);
-  if ( !bitmapResourceId && v38 )
-    Scaleform::GFx::Resource::Release(v38);
-  if ( rdata.pInterface )
-    rdata.pInterface->Release(rdata.pInterface, rdata.hData);
+  Scaleform::GFx::SubImageResourceCreator::CreateSubImageResourceData(&result, v33);
+  Scaleform::GFx::LoadProcess::AddDataResource(p, &v37, (Scaleform::GFx::ResourceId)v37.HType, &result);
+  if ( v37.HType == RH_Pointer && v37.BindIndex )
+    Scaleform::GFx::Resource::Release(v37.pResource);
+  if ( result.pInterface )
+    result.pInterface->Release(result.pInterface, result.hData);
   if ( v33 )
     Scaleform::RefCountNTSImpl::Release(v33);
 }

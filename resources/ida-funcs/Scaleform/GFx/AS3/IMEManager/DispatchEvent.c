@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::IMEManager::DispatchEvent(
         Scaleform::GFx::AS3::IMEManager *this,
-        char *message,
-        char *messageType,
+        Scaleform::GFx::ASStringNode *message,
+        __m128i *messageType,
         char *type)
 {
   Scaleform::GFx::ASMovieRootBase *pObject; // ebp
@@ -41,10 +41,10 @@ void __thiscall Scaleform::GFx::AS3::IMEManager::DispatchEvent(
     v8 = v7;
     if ( (v7 & 1) != 0 )
       v8 = v7 - 1;
-    messageType = (char *)Scaleform::GFx::ASStringManager::CreateStringNode(
-                            (Scaleform::GFx::ASStringManager *)pObject[21].pASSupport.pObject,
-                            messageType);
-    ++*((_DWORD *)messageType + 3);
+    messageType = (__m128i *)Scaleform::GFx::ASStringManager::CreateStringNode(
+                               (Scaleform::GFx::ASStringManager *)pObject[21].pASSupport.pObject,
+                               messageType);
+    ++messageType->m128i_i32[3];
     if ( Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::HasEventHandler(
            (Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher *)v8,
            (const Scaleform::GFx::ASString *)&messageType,
@@ -63,7 +63,7 @@ void __thiscall Scaleform::GFx::AS3::IMEManager::DispatchEvent(
       Class = Scaleform::GFx::AS3::VM::GetClass(
                 (Scaleform::GFx::AS3::VM *)v9,
                 (Scaleform::GFx::ASStringNode *)&avmDispObj,
-                (Scaleform::GFx::ASStringNode *)v9[1].ChangeMouseCursorType);
+                (Scaleform::GFx::ASStringNode *)v9[1].GenerateMouseEvents);
       Scaleform::GFx::AS3::ASVM::_constructInstance(
         (Scaleform::GFx::AS3::ASVM *)v9,
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&type,
@@ -86,7 +86,7 @@ void __thiscall Scaleform::GFx::AS3::IMEManager::DispatchEvent(
       Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&type);
     }
     v11 = (Scaleform::GFx::ASStringNode *)messageType;
-    --*((_DWORD *)messageType + 3);
+    --messageType->m128i_i32[3];
     if ( !v11->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v11);
   }

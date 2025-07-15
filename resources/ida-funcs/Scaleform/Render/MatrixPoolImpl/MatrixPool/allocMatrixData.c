@@ -6,7 +6,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
   Scaleform::Render::MatrixPoolImpl::EntryHandle *v4; // esi
   Scaleform::Render::MatrixPoolImpl::DataHeader *v5; // eax
 
-  v3 = (unsigned __int8)byte_9B2B74[5 * (formatBits & 0xF)];
+  v3 = (unsigned __int8)byte_874214[5 * (formatBits & 0xF)];
   v4 = Scaleform::Render::MatrixPoolImpl::EntryHandleTable::AllocEntry(&this->HandleTable, 0);
   if ( !v4 )
     return 0;

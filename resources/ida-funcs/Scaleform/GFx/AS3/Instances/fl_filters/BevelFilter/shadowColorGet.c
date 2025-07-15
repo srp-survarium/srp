@@ -2,5 +2,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::shadowC
         Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter *this,
         unsigned int *result)
 {
-  *result = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & this->GetBevelFilterData(this)->Params.Colors[0].Raw;
+  *result = this->GetBevelFilterData(this)->Params.Colors[0].Raw & 0xFFFFFF;
 }

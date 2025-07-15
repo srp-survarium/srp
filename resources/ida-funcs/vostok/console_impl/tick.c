@@ -1,218 +1,227 @@
-void __userpurge vostok::console_impl::tick(
-        vostok::console_impl *this@<ecx>,
-        int a2@<eax>,
-        const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *scene_view)
+void __thiscall vostok::console_impl::tick(
+        vostok::console_impl *this,
+        const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *scene_view,
+        int a3)
 {
-  vostok::logging::log_file *v3; // ebx
-  int v5; // eax
-  int (__thiscall ***v6)(_DWORD); // ecx
-  vostok::ui::window *m_ui_window; // esi
-  unsigned int lines_count; // ebx
-  vostok::ui::scroll_source *v9; // eax
-  vostok::ui::scroll_source v10; // edx
-  char v11; // al
-  int v12; // eax
-  int v13; // esi
-  float *v14; // eax
-  vostok::ui::scroll_source *v15; // ecx
-  int v16; // ecx
-  int v17; // eax
-  unsigned int v18; // eax
-  vostok::console_impl *v19; // ecx
+  vostok::logging::log_file *v3; // edi
+  int v4; // eax
+  vostok::render::base_scene_view *m_object; // ecx
+  int v6; // eax
+  vostok::render::base_scene_view *m_last_line; // edi
+  int v8; // esi
+  _DWORD *v9; // eax
+  int v10; // edx
+  int v11; // eax
+  vostok::fixed_string<512> *v12; // esi
+  int v13; // eax
+  unsigned int v14; // ecx
+  vostok::render::base_scene_view *v15; // ecx
+  int v16; // eax
+  char *v17; // eax
+  vostok::console_impl *v18; // ecx
+  int v19; // eax
   int v20; // eax
-  int v21; // eax
   vostok::ui::text *item; // esi
+  int v22; // eax
   int v23; // eax
-  vostok::ui::window *(__thiscall *w)(vostok::ui::text *); // eax
-  int v25; // eax
-  unsigned int v26; // eax
-  vostok::ui::text *v27; // esi
-  vostok::console_impl *v28; // ecx
+  unsigned int v24; // eax
+  char *buffer_ptr; // esi
+  vostok::logging::log_file *v26; // ecx
+  vostok::console_impl *v27; // ecx
+  vostok::ui::text *v28; // esi
   vostok::ui::window *v29; // eax
   int v30; // eax
   int v31; // eax
   int v32; // eax
   int v33; // eax
   int v34; // eax
-  int v35; // eax
-  double v36; // st7
+  vostok::render::base_scene_view_vtbl *v35; // edi
+  int v36; // eax
   vostok::ui::text *v37; // esi
   int v38; // eax
-  vostok::ui::window *(__thiscall *v39)(vostok::ui::text *); // eax
-  int v40; // eax
-  vostok::ui::scroll_source *v41; // ecx
-  float visible_heighta; // [esp+4Ch] [ebp-44Ch]
-  float visible_height; // [esp+4Ch] [ebp-44Ch]
-  bool follow_last_line; // [esp+53h] [ebp-445h]
-  vostok::logging::log_file *l; // [esp+54h] [ebp-444h]
-  float scroll_pos; // [esp+58h] [ebp-440h]
-  int v47; // [esp+5Ch] [ebp-43Ch] BYREF
-  float v48; // [esp+60h] [ebp-438h]
-  vostok::render::ui::renderer *v49; // [esp+64h] [ebp-434h]
-  vostok::ui::scroll_source *scroll_v; // [esp+68h] [ebp-430h]
-  vostok::math::float2 sz; // [esp+6Ch] [ebp-42Ch] BYREF
-  unsigned int need_lines_count[2]; // [esp+74h] [ebp-424h] BYREF
-  vostok::math::float2 tail_size; // [esp+7Ch] [ebp-41Ch] BYREF
-  _DWORD v54[2]; // [esp+84h] [ebp-414h] BYREF
-  vostok::dialog_guard dialog_updater; // [esp+8Ch] [ebp-40Ch]
-  char log_str_buffer[1024]; // [esp+98h] [ebp-400h] BYREF
+  int v39; // eax
+  _DWORD *v40; // ecx
+  vostok::logging::log_file *v41; // ecx
+  vostok::console_impl *value; // [esp+3Ch] [ebp-264h]
+  char v43; // [esp+53h] [ebp-24Dh]
+  float v44; // [esp+54h] [ebp-24Ch]
+  float v45; // [esp+54h] [ebp-24Ch]
+  void (__thiscall *line)(vostok::render::stage_screen_space_reflections *); // [esp+58h] [ebp-248h]
+  int v47; // [esp+5Ch] [ebp-244h]
+  float v48; // [esp+60h] [ebp-240h] BYREF
+  void (__thiscall **v49)(vostok::render::base_scene_view *, int); // [esp+64h] [ebp-23Ch]
+  int v50; // [esp+68h] [ebp-238h]
+  vostok::logging::processor processor; // [esp+6Ch] [ebp-234h] BYREF
+  _DWORD *v52; // [esp+70h] [ebp-230h]
+  _DWORD v53[2]; // [esp+74h] [ebp-22Ch] BYREF
+  float v54; // [esp+7Ch] [ebp-224h] BYREF
+  float v55; // [esp+80h] [ebp-220h]
+  _DWORD v56[2]; // [esp+84h] [ebp-21Ch] BYREF
+  _DWORD v57[2]; // [esp+8Ch] [ebp-214h] BYREF
+  int v58; // [esp+94h] [ebp-20Ch]
+  unsigned __int8 str1[512]; // [esp+A0h] [ebp-200h] BYREF
 
   v3 = vostok::core::g_log_file;
-  l = vostok::core::g_log_file;
-  vostok::logging::log_file::start_transaction(vostok::core::g_log_file);
-  v5 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 32) + 52))(*(_DWORD *)(a2 + 32));
-  v6 = *(int (__thiscall ****)(_DWORD))(a2 + 20);
-  v49 = (vostok::render::ui::renderer *)v5;
-  m_ui_window = (vostok::ui::window *)(**v6)(v6);
-  dialog_updater.m_ui_window = m_ui_window;
-  lines_count = vostok::logging::log_file::get_lines_count(v3);
-  LODWORD(sz.x) = lines_count;
-  if ( !lines_count )
-    goto LABEL_6;
-  v9 = (vostok::ui::scroll_source *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 24) + 28))(*(_DWORD *)(a2 + 24));
-  v10.__vftable = v9->__vftable;
-  scroll_v = v9;
-  visible_heighta = v10.get_position(v9);
-  LODWORD(scroll_pos) = LODWORD(visible_heighta) & 0x7FFFFFFF;
-  v11 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 24) + 12))(*(_DWORD *)(a2 + 24));
-  follow_last_line = v11;
-  if ( fabs(COERCE_FLOAT(LODWORD(visible_heighta) & 0x7FFFFFFF) - *(float *)(a2 + 12)) >= 0.0000099999997 )
-    goto LABEL_8;
-  if ( !v11 )
+  line = (void (__thiscall *)(vostok::render::stage_screen_space_reflections *))vostok::core::g_log_file;
+  vostok::logging::log_file::start_transaction((vostok::logging::log_file *)this, (int)vostok::core::g_log_file);
+  v4 = ((int (__thiscall *)(vostok::render::base_scene_view *))scene_view[8].m_object->__vftable[1].is_increasing_quality)(scene_view[8].m_object);
+  m_object = scene_view[5].m_object;
+  v50 = v4;
+  v6 = ((int (__thiscall *)(vostok::render::base_scene_view *))m_object->~vostok::render::base_scene_view)(m_object);
+  m_last_line = (vostok::render::base_scene_view *)v3->m_last_line;
+  v8 = v6;
+  v58 = v6;
+  v53[0] = m_last_line;
+  if ( m_last_line )
   {
-    if ( lines_count != *(_DWORD *)(a2 + 52) )
+    v9 = (_DWORD *)((int (__thiscall *)(vostok::render::base_scene_view *))scene_view[6].m_object->__vftable[1].~vostok::render::base_scene_view)(scene_view[6].m_object);
+    v10 = *v9;
+    v52 = v9;
+    v44 = ((double (__thiscall *)(_DWORD *))*(_DWORD *)(v10 + 4))(v9);
+    v47 = LODWORD(v44) & 0x7FFFFFFF;
+    v43 = ((int (__thiscall *)(vostok::render::base_scene_view *))scene_view[6].m_object->unlink_child_resource)(scene_view[6].m_object);
+    if ( fabs(COERCE_FLOAT(LODWORD(v44) & 0x7FFFFFFF) - *(float *)&scene_view[3].m_object) < 0.0000099999997 )
     {
-      v12 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 24) + 20))(*(_DWORD *)(a2 + 24));
-      v13 = (*(int (__thiscall **)(_DWORD, int))(**(_DWORD **)(a2 + 24) + 24))(*(_DWORD *)(a2 + 24), v12 - 1);
-      v14 = (float *)(*(int (__thiscall **)(int))(*(_DWORD *)v13 + 12))(v13);
-      v15 = (vostok::ui::scroll_source *)(lines_count - *(_DWORD *)(a2 + 52));
-      sz.x = *v14;
-      scroll_v = v15;
-      sz.y = (double)(unsigned int)v15 * 20.0 + v14[1];
-      (*(void (__thiscall **)(int, vostok::math::float2 *))(*(_DWORD *)v13 + 8))(v13, &sz);
-      (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(a2 + 24) + 4))(*(_DWORD *)(a2 + 24), v13);
-      (***(void (__thiscall ****)(_DWORD, int, _DWORD))(a2 + 24))(*(_DWORD *)(a2 + 24), v13, 0);
-      m_ui_window = dialog_updater.m_ui_window;
-      *(_DWORD *)(a2 + 52) = lines_count;
+      if ( !v43 )
+      {
+        if ( m_last_line != scene_view[13].m_object )
+        {
+          v11 = ((int (__thiscall *)(vostok::render::base_scene_view *))scene_view[6].m_object->increase_quality_to_target)(scene_view[6].m_object);
+          v12 = (vostok::fixed_string<512> *)((int (__thiscall *)(vostok::render::base_scene_view *, int))scene_view[6].m_object->is_increasing_quality)(
+                                               scene_view[6].m_object,
+                                               v11 - 1);
+          v13 = (*((int (__thiscall **)(vostok::fixed_string<512> *))v12->m_begin + 3))(v12);
+          v14 = (char *)m_last_line - (char *)scene_view[13].m_object;
+          v53[0] = *(_DWORD *)v13;
+          v52 = (_DWORD *)v14;
+          *(float *)&v53[1] = (double)v14 * 20.0 + *(float *)(v13 + 4);
+          (*((void (__thiscall **)(vostok::fixed_string<512> *, _DWORD *))v12->m_begin + 2))(v12, v53);
+          scene_view[6].m_object->log_string(scene_view[6].m_object, v12);
+          ((void (__thiscall *)(vostok::render::base_scene_view *, vostok::fixed_string<512> *, _DWORD))scene_view[6].m_object->~vostok::render::base_scene_view)(
+            scene_view[6].m_object,
+            v12,
+            0);
+          scene_view[13].m_object = m_last_line;
+        }
+        goto LABEL_28;
+      }
+      if ( m_last_line == scene_view[13].m_object )
+      {
+LABEL_28:
+        v8 = v58;
+        goto LABEL_29;
+      }
     }
-LABEL_6:
-    m_ui_window->tick(m_ui_window);
-    m_ui_window->draw(m_ui_window, v49, scene_view);
-    vostok::logging::log_file::end_transaction(l);
-    return;
-  }
-  if ( lines_count != *(_DWORD *)(a2 + 52) )
-  {
-LABEL_8:
-    (*(void (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 24) + 8))(*(_DWORD *)(a2 + 24));
-    v16 = *(_DWORD *)(a2 + 24);
-    *(_DWORD *)(a2 + 8) = 0;
-    v17 = (*(int (__thiscall **)(int))(*(_DWORD *)v16 + 36))(v16);
-    visible_height = *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v17 + 12))(v17) + 4);
-    v18 = vostok::math::floor(visible_height * 0.050000001);
-    need_lines_count[0] = v18;
-    if ( follow_last_line && lines_count > v18 )
+    ((void (__thiscall *)(vostok::render::base_scene_view *))scene_view[6].m_object->link_child_resource)(scene_view[6].m_object);
+    v15 = scene_view[6].m_object;
+    scene_view[2].m_object = 0;
+    v16 = ((int (__thiscall *)(vostok::render::base_scene_view *))v15->__vftable[1].link_child_resource)(v15);
+    v45 = *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v16 + 12))(v16) + 4);
+    v17 = (char *)vostok::math::floor(v45 * 0.050000001);
+    v18 = value;
+    processor.buffer_ptr = v17;
+    if ( v43 && m_last_line > (vostok::render::base_scene_view *)v17 )
     {
-      v20 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 28) + 20))(*(_DWORD *)(a2 + 28));
-      v21 = (*(int (__thiscall **)(int))(*(_DWORD *)v20 + 12))(v20);
-      v19 = (vostok::console_impl *)lines_count;
-      v47 = lines_count;
-      scroll_pos = (double)lines_count * 20.0 - visible_height + *(float *)(v21 + 4);
+      v19 = ((int (__thiscall *)(vostok::render::base_scene_view *))scene_view[7].m_object->increase_quality_to_target)(scene_view[7].m_object);
+      v20 = (*(int (__thiscall **)(int))(*(_DWORD *)v19 + 12))(v19);
+      v18 = (vostok::console_impl *)m_last_line;
+      v48 = *(float *)&m_last_line;
+      *(float *)&v47 = (double)(unsigned int)m_last_line * 20.0 - v45 + *(float *)(v20 + 4);
     }
-    item = vostok::console_impl::get_item(
-             v19,
-             (const stlp_std::__true_type *)lines_count,
-             a2,
-             (unsigned int)m_ui_window);
-    v23 = (int)item->w(item);
-    v47 = 1148846080;
-    v48 = scroll_pos;
-    (*(void (__thiscall **)(int, int *))(*(_DWORD *)v23 + 8))(v23, &v47);
-    w = item->w;
-    v47 = **(_DWORD **)(a2 + 24);
-    v25 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))w)(item, 0);
-    (*(void (__thiscall **)(_DWORD, int))LODWORD(v48))(*(_DWORD *)(a2 + 24), v25);
-    v26 = vostok::math::floor(scroll_pos * 0.050000001);
-    v27 = (vostok::ui::text *)need_lines_count[0];
-    if ( need_lines_count[0] )
+    item = vostok::console_impl::get_item(v18, (int)scene_view);
+    v22 = (int)item->w(item);
+    v48 = FLOAT_1000_0;
+    v49 = (void (__thiscall **)(vostok::render::base_scene_view *, int))v47;
+    (*(void (__thiscall **)(int, float *))(*(_DWORD *)v22 + 8))(v22, &v48);
+    v48 = *(float *)&scene_view[6].m_object->__vftable;
+    v23 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))item->w)(item, 0);
+    (*v49)(scene_view[6].m_object, v23);
+    v24 = vostok::math::floor(*(float *)&v47 * 0.050000001);
+    buffer_ptr = processor.buffer_ptr;
+    if ( processor.buffer_ptr )
     {
-      if ( need_lines_count[0] > lines_count )
-        v27 = (vostok::ui::text *)lines_count;
+      if ( processor.buffer_ptr > (char *)m_last_line )
+        buffer_ptr = (char *)m_last_line;
     }
     else
     {
-      v27 = 0;
+      buffer_ptr = 0;
     }
-    if ( v26 )
+    v26 = (vostok::logging::log_file *)((char *)m_last_line - buffer_ptr);
+    if ( v24 )
     {
-      if ( v26 > lines_count - (unsigned int)v27 )
-        v26 = lines_count - (_DWORD)v27;
+      if ( v24 <= (unsigned int)v26 )
+        v26 = (vostok::logging::log_file *)v24;
     }
     else
     {
       v26 = 0;
     }
-    vostok::logging::log_file::goto_line(l, v26);
-    if ( v27 )
+    vostok::logging::log_file::goto_line(v26, line, (unsigned int)v26);
+    if ( buffer_ptr )
     {
-      v47 = (int)v27;
+      v48 = *(float *)&buffer_ptr;
       do
       {
-        v27 = vostok::console_impl::get_item(v28, (const stlp_std::__true_type *)lines_count, a2, (unsigned int)v27);
-        v29 = v27->w(v27);
-        need_lines_count[0] = 0;
-        need_lines_count[1] = 0;
-        v29->set_position(v29, (const vostok::math::float2 *)need_lines_count);
-        v30 = (int)v27->w(v27);
-        v54[0] = 1148846080;
-        v54[1] = 1101004800;
-        (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v30 + 8))(v30, v54);
-        v31 = (int)v27->w(v27);
+        v28 = vostok::console_impl::get_item(v27, (int)scene_view);
+        v29 = v28->w(v28);
+        v56[0] = 0;
+        v56[1] = 0;
+        v29->set_position(v29, (const vostok::math::float2 *)v56);
+        v30 = (int)v28->w(v28);
+        *(float *)v57 = FLOAT_1000_0;
+        *(float *)&v57[1] = FLOAT_20_0;
+        (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v30 + 8))(v30, v57);
+        v31 = (int)v28->w(v28);
         (*(void (__thiscall **)(int, int))(*(_DWORD *)v31 + 16))(v31, 1);
-        v27->set_text_mode(v27, tm_default);
-        v27->set_font(v27, fnt_arial);
-        vostok::logging::log_file::read_next_line(l, log_str_buffer, 0x400u);
-        v27->set_text(v27, log_str_buffer);
-        strstr((unsigned __int8 *)log_str_buffer, "<Warning>");
+        v28->set_text_mode(v28, tm_default);
+        v28->set_font(v28, fnt_arial);
+        processor.buffer_ptr = (char *)str1;
+        vostok::logging::log_file::process_next_line<vostok::logging::processor>(
+          (vostok::logging::log_file *)line,
+          &processor);
+        v28->set_text(v28, (const char *)str1);
+        strstr(str1, "<Warning>");
         if ( v32 )
         {
           v33 = -939458561;
         }
         else
         {
-          strstr((unsigned __int8 *)log_str_buffer, "<ERROR>");
+          strstr(str1, "<ERROR>");
           v33 = v34 != 0 ? -939523841 : -922746881;
         }
-        v27->set_color(v27, v33);
-        lines_count = **(_DWORD **)(a2 + 24);
-        v35 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))v27->w)(v27, 0);
-        (*(void (__thiscall **)(_DWORD, int))lines_count)(*(_DWORD *)(a2 + 24), v35);
-        --v47;
+        v28->set_color(v28, v33);
+        v35 = scene_view[6].m_object->__vftable;
+        v36 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))v28->w)(v28, 0);
+        ((void (__thiscall *)(vostok::render::base_scene_view *, int))v35->~vostok::render::base_scene_view)(
+          scene_view[6].m_object,
+          v36);
+        --LODWORD(v48);
       }
-      while ( v47 );
-      lines_count = LODWORD(sz.x);
+      while ( v48 != 0.0 );
+      m_last_line = (vostok::render::base_scene_view *)v53[0];
     }
-    LODWORD(sz.x) = lines_count;
-    tail_size.x = 1000.0;
-    v36 = (double)lines_count * 20.0 - scroll_pos - visible_height;
-    tail_size.y = v36;
-    if ( v36 > 0.0 )
+    v53[0] = m_last_line;
+    v54 = FLOAT_1000_0;
+    v55 = (double)(unsigned int)m_last_line * 20.0 - *(float *)&v47 - v45;
+    if ( v55 > 0.0 )
     {
-      v37 = vostok::console_impl::get_item(v28, (const stlp_std::__true_type *)lines_count, a2, (unsigned int)v27);
+      v37 = vostok::console_impl::get_item(v27, (int)scene_view);
       v38 = (int)v37->w(v37);
-      (*(void (__thiscall **)(int, vostok::math::float2 *))(*(_DWORD *)v38 + 8))(v38, &tail_size);
-      v39 = v37->w;
-      v47 = **(_DWORD **)(a2 + 24);
-      v40 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))v39)(v37, 0);
-      (*(void (__thiscall **)(_DWORD, int))LODWORD(v48))(*(_DWORD *)(a2 + 24), v40);
+      (*(void (__thiscall **)(int, float *))(*(_DWORD *)v38 + 8))(v38, &v54);
+      v48 = *(float *)&scene_view[6].m_object->__vftable;
+      v39 = ((int (__thiscall *)(vostok::ui::text *, _DWORD))v37->w)(v37, 0);
+      (*v49)(scene_view[6].m_object, v39);
     }
-    v41 = scroll_v;
-    *(_DWORD *)(a2 + 52) = lines_count;
-    *(float *)(a2 + 12) = scroll_pos;
-    ((void (__stdcall *)(_DWORD))v41->set_step_size)(20.0);
-    m_ui_window = dialog_updater.m_ui_window;
+    v40 = v52;
+    scene_view[13].m_object = m_last_line;
+    scene_view[3].m_object = (vostok::render::base_scene_view *)v47;
+    (*(void (__stdcall **)(_DWORD))(*v40 + 16))(20.0);
+    goto LABEL_28;
   }
-  m_ui_window->tick(m_ui_window);
-  m_ui_window->draw(m_ui_window, v49, scene_view);
-  vostok::logging::log_file::end_transaction(l);
+LABEL_29:
+  (*(void (__thiscall **)(int))(*(_DWORD *)v8 + 28))(v8);
+  (*(void (__thiscall **)(int, int, int))(*(_DWORD *)v8 + 24))(v8, v50, a3);
+  vostok::logging::log_file::end_transaction(v41, (int)line);
 }

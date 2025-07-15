@@ -4,7 +4,8 @@ void __userpurge survarium::flash_value::SetMember(
         const char *name,
         survarium::flash_value *value)
 {
-  (*(void (__stdcall **)(_DWORD, const char *, survarium::flash_value *, bool))(*(_DWORD *)*a2 + 20))(
+  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(*(_DWORD *)*a2 + 20))(
+    *a2,
     a2[2],
     name,
     value,

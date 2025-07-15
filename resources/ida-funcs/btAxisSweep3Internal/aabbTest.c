@@ -4,13 +4,11 @@ void __thiscall btAxisSweep3Internal<unsigned short>::aabbTest(
         const btVector3 *aabbMax,
         btBroadphaseAabbCallback *callback)
 {
-  int v5; // ebx
-  int v6; // eax
-  btAxisSweep3Internal<unsigned short>::Edge *v7; // ecx
-  bool v8; // zf
-  btAxisSweep3Internal<unsigned short>::Edge *v9; // eax
-  btAxisSweep3Internal<unsigned short>::Handle *v10; // eax
-  char v11; // cl
+  int v5; // eax
+  btAxisSweep3Internal<unsigned short>::Edge *v6; // eax
+  btAxisSweep3Internal<unsigned short>::Handle *v7; // eax
+  char v8; // cl
+  int v9; // [esp+4h] [ebp-4h]
 
   if ( this->m_raycastAccelerator )
   {
@@ -19,38 +17,37 @@ void __thiscall btAxisSweep3Internal<unsigned short>::aabbTest(
   else
   {
     v5 = 1;
+    v9 = 1;
     if ( 2 * this->m_numHandles + 1 > 1 )
     {
-      v6 = 1;
       do
       {
-        v7 = this->m_pEdges[0];
-        v8 = (v7[v6].m_pos & 1) == 0;
-        v9 = &v7[v6];
-        if ( !v8 )
+        v6 = &this->m_pEdges[0][v5];
+        if ( (v6->m_pos & 1) != 0 )
         {
-          v10 = &this->m_pHandles[v9->m_handle];
-          v11 = 1;
-          if ( aabbMin->mVec128.m128_f32[0] > v10->m_aabbMax.mVec128.m128_f32[0]
-            || v10->m_aabbMin.mVec128.m128_f32[0] > aabbMax->mVec128.m128_f32[0] )
+          v7 = &this->m_pHandles[v6->m_handle];
+          v8 = 1;
+          if ( aabbMin->mVec128.m128_f32[0] > v7->m_aabbMax.mVec128.m128_f32[0]
+            || v7->m_aabbMin.mVec128.m128_f32[0] > aabbMax->mVec128.m128_f32[0] )
           {
-            v11 = 0;
+            v8 = 0;
           }
-          if ( aabbMin->mVec128.m128_f32[2] > v10->m_aabbMax.mVec128.m128_f32[2]
-            || v10->m_aabbMin.mVec128.m128_f32[2] > aabbMax->mVec128.m128_f32[2] )
+          if ( aabbMin->mVec128.m128_f32[2] > v7->m_aabbMax.mVec128.m128_f32[2]
+            || v7->m_aabbMin.mVec128.m128_f32[2] > aabbMax->mVec128.m128_f32[2] )
           {
-            v11 = 0;
+            v8 = 0;
           }
-          if ( aabbMin->mVec128.m128_f32[1] <= v10->m_aabbMax.mVec128.m128_f32[1]
-            && v10->m_aabbMin.mVec128.m128_f32[1] <= aabbMax->mVec128.m128_f32[1] )
+          if ( aabbMin->mVec128.m128_f32[1] > v7->m_aabbMax.mVec128.m128_f32[1]
+            || v7->m_aabbMin.mVec128.m128_f32[1] > aabbMax->mVec128.m128_f32[1] )
           {
-            if ( v11 )
-              callback->process(callback, v10);
+            v8 = 0;
           }
+          if ( v8 )
+            callback->process(callback, v7);
         }
-        v6 = (unsigned __int16)++v5;
+        v5 = (unsigned __int16)++v9;
       }
-      while ( (unsigned __int16)v5 < 2 * this->m_numHandles + 1 );
+      while ( (unsigned __int16)v9 < 2 * this->m_numHandles + 1 );
     }
   }
 }

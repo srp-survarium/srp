@@ -2,12 +2,12 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetMatrix(
         Scaleform::GFx::DisplayObjectBase *this,
         const Scaleform::Render::Matrix2x4<float> *m)
 {
-  unsigned __int8 *pIndXFormData; // ecx
+  Scaleform::GFx::DisplayObjectBase::IndirectTransformDataType *pIndXFormData; // ecx
   Scaleform::Render::TreeNode *v4; // eax
   Scaleform::Render::TreeNode *RenderNode; // eax
   unsigned __int8 src[48]; // [esp+10h] [ebp-30h] BYREF
 
-  pIndXFormData = (unsigned __int8 *)this->pIndXFormData;
+  pIndXFormData = this->pIndXFormData;
   if ( pIndXFormData )
   {
     *(float *)src = m->M[0][0];
@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetMatrix(
     *(float *)&src[36] = 0.0;
     *(float *)&src[40] = 1.0;
     *(float *)&src[44] = 0.0;
-    memcpy(pIndXFormData, src, 0x30u);
+    memcpy((int)pIndXFormData, (const __m128i *)src, 0x30u);
     RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(this);
     Scaleform::Render::ContextImpl::Entry::getWritableData(RenderNode, 1u);
     Scaleform::GFx::DisplayObjectBase::UpdateViewAndPerspective(this);

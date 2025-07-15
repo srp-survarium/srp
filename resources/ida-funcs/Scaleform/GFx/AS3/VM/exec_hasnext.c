@@ -44,7 +44,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_hasnext(Scaleform::GFx::AS3::VM *t
   --this->OpStack.pCurrent;
   if ( stack.Success )
   {
-    v8 = *(Scaleform::GFx::AS3::Value **)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int *, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v4[-1].value.VS._1.VInt + 52))(
+    v8 = *(Scaleform::GFx::AS3::Value **)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int *, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v4[-1].value.VS._1.VInt + 64))(
                                            v4[-1].value.VS._1,
                                            &v10,
                                            v5);

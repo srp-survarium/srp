@@ -1,117 +1,64 @@
 int __cdecl vorbis_book_decodevs_add(codebook *book, float *a, oggpack_buffer *b, int n)
 {
-  codebook *v4; // ebx
-  int v5; // edi
+  int v5; // ebx
   void *v6; // esp
   void *v7; // esp
-  float **v8; // esi
+  _DWORD *v8; // edi
   int v9; // eax
-  float *v10; // ecx
-  int v11; // eax
-  int v12; // edx
-  bool v13; // cc
-  int v14; // esi
-  int *v15; // eax
-  float **v16; // ecx
-  unsigned int v17; // edi
-  int v18; // ebx
-  double v19; // st7
-  double v20; // st7
-  int v21; // ebx
-  double v22; // st7
-  int v23; // ebx
-  float *v24; // eax
-  float *v25; // ecx
-  double v26; // st7
-  _BYTE v28[12]; // [esp+0h] [ebp-20h] BYREF
-  int step; // [esp+Ch] [ebp-14h]
-  float **t; // [esp+10h] [ebp-10h]
-  int *entry; // [esp+14h] [ebp-Ch]
-  int o; // [esp+18h] [ebp-8h]
-  int i; // [esp+1Ch] [ebp-4h]
+  int v10; // ecx
+  float *v11; // eax
+  _BYTE v13[12]; // [esp+0h] [ebp-14h] BYREF
+  _BYTE *v14; // [esp+Ch] [ebp-8h]
+  float *v15; // [esp+10h] [ebp-4h]
+  codebook *booka; // [esp+1Ch] [ebp+8h]
+  int bookb; // [esp+1Ch] [ebp+8h]
 
-  v4 = book;
   if ( book->used_entries <= 0 )
     return 0;
-  step = n / book->dim;
-  v5 = step;
-  v6 = alloca(4 * step);
-  entry = (int *)v28;
-  v7 = alloca(4 * step);
-  v8 = (float **)v28;
-  t = (float **)v28;
-  i = 0;
-  if ( step <= 0 )
+  v5 = n / book->dim;
+  v6 = alloca(4 * v5);
+  v15 = (float *)v13;
+  v7 = alloca(4 * v5);
+  booka = 0;
+  v8 = v13;
+  v14 = v13;
+  if ( v5 <= 0 )
   {
 LABEL_6:
-    v12 = 0;
-    v13 = book->dim <= 0;
-    i = 0;
-    o = 0;
-    if ( !v13 )
+    bookb = 0;
+    if ( book->dim > 0 )
     {
-      entry = (int *)a;
+      v15 = a;
       do
       {
-        v14 = 0;
-        if ( v5 >= 4 )
+        v10 = 0;
+        if ( v5 > 0 )
         {
-          v15 = entry;
-          v16 = t + 2;
-          v17 = ((unsigned int)(v5 - 4) >> 2) + 1;
-          v14 = 4 * v17;
+          v11 = v15;
           do
           {
-            v18 = (int)*(v16 - 1);
-            v19 = (*(v16 - 2))[v12] + *(float *)v15;
-            v15 += 4;
-            v16 += 4;
-            --v17;
-            *((float *)v15 - 4) = v19;
-            v20 = *(float *)(v18 + v12 * 4);
-            v21 = (int)*(v16 - 4);
-            *((float *)v15 - 3) = v20 + *((float *)v15 - 3);
-            v22 = *(float *)(v12 * 4 + v21);
-            v23 = (int)*(v16 - 3);
-            *((float *)v15 - 2) = v22 + *((float *)v15 - 2);
-            *((float *)v15 - 1) = *(float *)(v23 + v12 * 4) + *((float *)v15 - 1);
+            *v11 = *(float *)(*(_DWORD *)&v14[4 * v10++] + 4 * bookb) + *v11;
+            ++v11;
           }
-          while ( v17 );
-          v4 = book;
-          v5 = step;
+          while ( v10 < v5 );
         }
-        if ( v14 < v5 )
-        {
-          v24 = &a[v14 + o];
-          do
-          {
-            v25 = t[v14++];
-            v26 = v25[v12] + *v24++;
-            *(v24 - 1) = v26;
-          }
-          while ( v14 < v5 );
-        }
-        o += v5;
-        entry += v5;
-        ++v12;
-        v13 = ++i < v4->dim;
+        ++bookb;
+        v15 += v5;
       }
-      while ( v13 );
+      while ( bookb < book->dim );
     }
     return 0;
   }
-  entry = (int *)((char *)entry - v28);
+  v15 = (float *)((char *)v15 - v13);
   while ( 1 )
   {
     v9 = decode_packed_entry_number(book, b);
-    *(float **)((char *)v8 + (_DWORD)entry) = (float *)v9;
+    *(_DWORD *)((char *)v8 + (_DWORD)v15) = v9;
     if ( v9 == -1 )
       return -1;
-    v10 = &book->valuelist[v9 * book->dim];
-    v11 = i + 1;
-    *v8++ = v10;
-    i = v11;
-    if ( v11 >= v5 )
+    booka = (codebook *)((char *)booka + 1);
+    *v8++ = &book->valuelist[v9 * book->dim];
+    if ( (int)booka >= v5 )
       goto LABEL_6;
   }
 }

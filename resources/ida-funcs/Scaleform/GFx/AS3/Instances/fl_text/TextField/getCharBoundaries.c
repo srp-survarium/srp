@@ -22,29 +22,29 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getCharBound
   float v20; // [esp+94h] [ebp-54h]
   float v21; // [esp+94h] [ebp-54h]
   float v22; // [esp+94h] [ebp-54h]
-  Scaleform::Render::Rect<float> pCharRect; // [esp+98h] [ebp-50h] BYREF
+  Scaleform::Render::Rect<float> v23; // [esp+98h] [ebp-50h] BYREF
   Scaleform::GFx::AS3::Value v24; // [esp+A8h] [ebp-40h] BYREF
   Scaleform::GFx::AS3::Value v25; // [esp+B8h] [ebp-30h] BYREF
   Scaleform::GFx::AS3::Value v26; // [esp+C8h] [ebp-20h] BYREF
   Scaleform::GFx::AS3::Value v27; // [esp+D8h] [ebp-10h] BYREF
   char vars0; // [esp+E8h] [ebp+0h] BYREF
 
-  pCharRect.x1 = 0.0;
-  pCharRect.y1 = 0.0;
+  v23.x1 = 0.0;
+  v23.y1 = 0.0;
   pObject = this->pDispObj.pObject;
   v16 = 0.0 + 0.0;
-  pCharRect.x2 = v16;
-  pCharRect.y2 = v16;
+  v23.x2 = v16;
+  v23.y2 = v16;
   if ( Scaleform::Render::Text::DocView::GetCharBoundaries(
          (Scaleform::Render::Text::DocView *)pObject[1].pRenNode.pObject,
-         &pCharRect,
+         &v23,
          charIndex) )
   {
     v24.Bonus.pWeakProxy = 0;
     v25.Flags = 0;
     v25.Bonus.pWeakProxy = 0;
     v26.Flags = 0;
-    v17 = pCharRect.x1 * 0.05000000074505806;
+    v17 = v23.x1 * 0.05000000074505806;
     v26.Bonus.pWeakProxy = 0;
     v27.Flags = 0;
     v5 = v17;
@@ -55,14 +55,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getCharBound
       v6 = v5 + 0.5;
     v24.Flags = 4;
     v24.value.VNumber = (double)(int)v6;
-    v18 = 0.05000000074505806 * pCharRect.y1;
+    v18 = 0.05000000074505806 * v23.y1;
     v7 = v18;
     if ( v18 <= 0.0 )
       v8 = v7 - 0.5;
     else
       v8 = v7 + 0.5;
     Scaleform::GFx::AS3::Value::SetNumber(&v25, (double)(int)v8);
-    v19 = pCharRect.x2 - pCharRect.x1;
+    v19 = v23.x2 - v23.x1;
     v20 = v19 * 0.05000000074505806;
     v9 = v20;
     if ( v20 <= 0.0 )
@@ -70,7 +70,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getCharBound
     else
       v10 = v9 + 0.5;
     Scaleform::GFx::AS3::Value::SetNumber(&v26, (double)(int)v10);
-    v21 = pCharRect.y2 - pCharRect.y1;
+    v21 = v23.y2 - v23.y1;
     v22 = v21 * 0.05000000074505806;
     v11 = v22;
     if ( v22 <= 0.0 )
@@ -81,7 +81,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getCharBound
     Scaleform::GFx::AS3::ASVM::_constructInstance(
       (Scaleform::GFx::AS3::ASVM *)this->pTraits.pObject->pVM,
       result,
-      (Scaleform::GFx::AS3::Object *)this->pTraits.pObject->pVM[1].ScopeStack.Data.Policy.Capacity,
+      (Scaleform::GFx::AS3::Object *)this->pTraits.pObject->pVM[1].ScopeStack.Data.Size,
       4u,
       &v24);
     v13 = (Scaleform::GFx::AS3::Value *)&vars0;

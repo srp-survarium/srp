@@ -3,10 +3,10 @@ btSequentialImpulseConstraintSolver *__usercall btSequentialImpulseConstraintSol
         btSequentialImpulseConstraintSolver *result@<eax>)
 {
   result->__vftable = (btSequentialImpulseConstraintSolver_vtbl *)&btSequentialImpulseConstraintSolver::`vftable';
+  result->m_tmpSolverContactConstraintPool.m_ownsMemory = 1;
   result->m_tmpSolverContactConstraintPool.m_data = 0;
   result->m_tmpSolverContactConstraintPool.m_size = 0;
   result->m_tmpSolverContactConstraintPool.m_capacity = 0;
-  result->m_tmpSolverContactConstraintPool.m_ownsMemory = 1;
   result->m_tmpSolverNonContactConstraintPool.m_ownsMemory = 1;
   result->m_tmpSolverNonContactConstraintPool.m_data = 0;
   result->m_tmpSolverNonContactConstraintPool.m_size = 0;

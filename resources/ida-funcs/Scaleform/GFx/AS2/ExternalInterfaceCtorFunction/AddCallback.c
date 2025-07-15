@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(const Scaleform::GFx::AS2::FnCall *fn)
 {
   const Scaleform::GFx::AS2::FnCall *v1; // esi
-  Scaleform::GFx::AS2::Value *Result; // edi
+  Scaleform::GFx::AS2::Value *v2; // edi
   _DWORD *v3; // eax
   Scaleform::GFx::AS2::Value *v4; // ecx
   const Scaleform::GFx::AS2::Environment *Env; // edx
@@ -21,23 +21,23 @@ void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(con
   Scaleform::GFx::AS2::Value *v19; // esi
   unsigned int RefCount; // eax
   unsigned __int8 Flags; // bl
-  Scaleform::GFx::AS2::FunctionObject *v22; // ecx
+  Scaleform::GFx::AS2::FunctionObject *Function; // ecx
   unsigned int v23; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
   unsigned int v25; // eax
   Scaleform::GFx::ASStringNode *v26; // eax
   Scaleform::GFx::AS2::Environment *v27; // [esp-Ch] [ebp-28h]
-  Scaleform::GFx::MovieImpl *proot; // [esp+Ch] [ebp-10h]
-  Scaleform::GFx::AS2::FunctionRef function; // [esp+10h] [ebp-Ch] BYREF
+  int v28; // [esp+Ch] [ebp-10h]
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+10h] [ebp-Ch] BYREF
 
   v1 = fn;
-  Result = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(Result);
-  Result->T.Type = 0;
+  v2 = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(v2);
+  v2->T.Type = 0;
   if ( v1->NArgs >= 3 )
   {
     v3 = &v1->Env->__vftable;
-    proot = *(Scaleform::GFx::MovieImpl **)(*(_DWORD *)(v3[28] + 16) + 8);
+    v28 = *(_DWORD *)(*(_DWORD *)(v3[28] + 16) + 8);
     v4 = 0;
     if ( v1->FirstArgBottomIndex <= (unsigned int)(32 * (v3[6] - 1) + ((v3[1] - v3[2]) >> 4)) )
       v4 = (Scaleform::GFx::AS2::Value *)(*(_DWORD *)(v3[5] + 4 * ((unsigned int)v1->FirstArgBottomIndex >> 5))
@@ -48,7 +48,7 @@ void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(con
     v7 = 0;
     if ( v6 <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
       v7 = &Env->Stack.Pages.Data.Data[v6 >> 5]->Values[v6 & 0x1F];
-    Scaleform::GFx::AS2::Value::ToFunction(v7, &function, Env);
+    Scaleform::GFx::AS2::Value::ToFunction(v7, &result, Env);
     v8 = &v1->Env->__vftable;
     v9 = v1->FirstArgBottomIndex - 1;
     v10 = 0;
@@ -82,11 +82,11 @@ void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(con
       v11 = v18;
     }
     Scaleform::GFx::AS2::MovieRoot::AddInvokeAlias(
-      (Scaleform::GFx::AS2::MovieRoot *)proot->pASMovieRoot.pObject,
+      *(Scaleform::GFx::AS2::MovieRoot **)(v28 + 12),
       (const Scaleform::GFx::ASString *)&fn,
       v10,
       v11,
-      &function);
+      &result);
     v19 = v1->Result;
     Scaleform::GFx::AS2::Value::DropRefs(v19);
     v19->T.Type = 2;
@@ -94,7 +94,7 @@ void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(con
     if ( v11 )
     {
       RefCount = v11->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v11->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -108,29 +108,29 @@ void __cdecl Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::AddCallback(con
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v10);
       }
     }
-    Flags = function.Flags;
-    if ( (function.Flags & 2) == 0 )
+    Flags = result.Flags;
+    if ( (result.Flags & 2) == 0 )
     {
-      v22 = function.Function;
-      if ( function.Function )
+      Function = result.Function;
+      if ( result.Function )
       {
-        v23 = function.Function->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v23) != 0 )
+        v23 = result.Function->RefCount;
+        if ( (v23 & 0x3FFFFFF) != 0 )
         {
-          function.Function->RefCount = v23 - 1;
-          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v22);
+          result.Function->RefCount = v23 - 1;
+          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
         }
       }
     }
     if ( (Flags & 1) == 0 )
     {
-      pLocalFrame = function.pLocalFrame;
-      if ( function.pLocalFrame )
+      pLocalFrame = result.pLocalFrame;
+      if ( result.pLocalFrame )
       {
-        v25 = function.pLocalFrame->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v25) != 0 )
+        v25 = result.pLocalFrame->RefCount;
+        if ( (v25 & 0x3FFFFFF) != 0 )
         {
-          function.pLocalFrame->RefCount = v25 - 1;
+          result.pLocalFrame->RefCount = v25 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
         }
       }

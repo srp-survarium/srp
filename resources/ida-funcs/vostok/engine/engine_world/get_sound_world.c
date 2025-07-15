@@ -1,16 +1,14 @@
 vostok::configs::binary_config *__thiscall vostok::engine::engine_world::get_sound_world(
         vostok::engine::engine_world *this)
 {
-  vostok::tasks::thread_pool *v2; // ecx
-  vostok::tasks::thread_pool *v3; // ecx
+  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> *p_m_shader_mask_config; // edi
 
-  while ( !this->m_shader_mask_config.m_object )
+  p_m_shader_mask_config = &this->m_shader_mask_config;
+  if ( !this->m_shader_mask_config.m_object )
   {
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_locks(v2);
-    Sleep(1u);
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_unlocks(v3);
+    do
+      vostok::threading::yield(1u, (vostok::tasks *)this);
+    while ( !p_m_shader_mask_config->m_object );
   }
-  return this->m_shader_mask_config.m_object;
+  return p_m_shader_mask_config->m_object;
 }

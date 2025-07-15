@@ -16,7 +16,7 @@ unsigned __int8 *__cdecl png_decompress_chunk(int a1, int a2, unsigned int a3, u
     }
     else
     {
-      v10 = sub_364840(a1, count + *(_DWORD *)(a1 + 680), a3 - count, 0, 0);
+      v10 = sub_471500(a1, count + *(_DWORD *)(a1 + 680), a3 - count, 0, 0);
       if ( count >= 0xFFFFFFFE || v10 >= -2 - count || *(_DWORD *)(a1 + 652) && v10 + count >= *(_DWORD *)(a1 + 652) - 1 )
       {
         png_warning(a1, "Exceeded size limit while expanding chunk");
@@ -27,8 +27,8 @@ unsigned __int8 *__cdecl png_decompress_chunk(int a1, int a2, unsigned int a3, u
         dst = (unsigned __int8 *)png_malloc_warn(a1, count + v10 + 1);
         if ( dst )
         {
-          memcpy(dst, *(unsigned __int8 **)(a1 + 680), count);
-          v8 = sub_364840(a1, count + *(_DWORD *)(a1 + 680), a3 - count, &dst[count], v10);
+          memcpy((int)dst, *(const __m128i **)(a1 + 680), count);
+          v8 = sub_471500(a1, count + *(_DWORD *)(a1 + 680), a3 - count, &dst[count], v10);
           dst[v10 + count] = 0;
           if ( v8 == v10 )
           {
@@ -58,7 +58,7 @@ unsigned __int8 *__cdecl png_decompress_chunk(int a1, int a2, unsigned int a3, u
   if ( result )
   {
     if ( count )
-      memcpy(result, *(unsigned __int8 **)(a1 + 680), count);
+      memcpy((int)result, *(const __m128i **)(a1 + 680), count);
     png_free(a1, *(void **)(a1 + 680));
     *(_DWORD *)(a1 + 680) = v6;
     result = (unsigned __int8 *)count;

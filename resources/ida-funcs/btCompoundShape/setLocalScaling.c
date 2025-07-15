@@ -1,65 +1,68 @@
 void __thiscall btCompoundShape::setLocalScaling(btCompoundShape *this, const btVector3 *scaling)
 {
-  int v3; // ebx
+  btCompoundShapeChild *v3; // eax
+  float *v4; // eax
+  float v5; // xmm0_4
+  float v6; // xmm1_4
+  float v7; // xmm2_4
+  int *v8; // esi
   btCompoundShapeChild *m_data; // eax
-  unsigned __int64 v5; // xmm0_8
-  btCompoundShapeChild *v6; // eax
-  const btVector3 *v7; // eax
-  float v8; // xmm1_4
-  float v9; // xmm2_4
-  btCompoundShapeChild *v10; // ecx
-  float v11; // xmm1_4
-  float v12; // xmm2_4
-  void (__thiscall *recalculateLocalAabb)(btCompoundShape *); // eax
-  int v14; // [esp+BCh] [ebp-74h]
-  unsigned __int64 v15; // [esp+C0h] [ebp-70h] BYREF
-  __int64 v16; // [esp+C8h] [ebp-68h]
-  unsigned __int64 v17; // [esp+D0h] [ebp-60h]
-  __int64 v18; // [esp+D8h] [ebp-58h]
-  __m128i v19; // [esp+E0h] [ebp-50h] BYREF
-  btTransform newChildTransform; // [esp+F0h] [ebp-40h] BYREF
+  float v10; // xmm1_4
+  float v11; // xmm2_4
+  btCompoundShape_vtbl *v12; // eax
+  int v13; // [esp+18h] [ebp-78h]
+  int v14; // [esp+1Ch] [ebp-74h]
+  float v15; // [esp+20h] [ebp-70h] BYREF
+  float v16; // [esp+24h] [ebp-6Ch]
+  float v17; // [esp+28h] [ebp-68h]
+  int v18; // [esp+2Ch] [ebp-64h]
+  float v19; // [esp+30h] [ebp-60h]
+  float v20; // [esp+34h] [ebp-5Ch]
+  float v21; // [esp+38h] [ebp-58h]
+  int v22; // [esp+3Ch] [ebp-54h]
+  btVector3 v23; // [esp+40h] [ebp-50h]
+  btTransform m_transform; // [esp+50h] [ebp-40h] BYREF
 
-  v3 = 0;
+  v14 = 0;
   if ( this->m_children.m_size > 0 )
   {
-    HIDWORD(v18) = 0;
-    v19.m128i_i32[3] = 0;
-    v14 = 0;
+    v22 = 0;
+    v23.mVec128.m128_i32[3] = 0;
+    v13 = 0;
     do
     {
+      v3 = &this->m_children.m_data[v13];
+      m_transform = v3->m_transform;
+      v4 = (float *)v3->m_childShape->getLocalScaling(v3->m_childShape);
+      v5 = scaling->mVec128.m128_f32[0];
+      v6 = scaling->mVec128.m128_f32[1];
+      v7 = scaling->mVec128.m128_f32[2];
+      v15 = *v4;
+      v16 = v4[1];
+      v17 = v4[2];
+      v8 = (int *)(v4 + 3);
       m_data = this->m_children.m_data;
-      v5 = m_data[v14].m_transform.m_basis.m_el[0].mVec128.m128_u64[0];
-      v6 = &m_data[v14];
-      newChildTransform.m_basis.m_el[0].mVec128.m128_u64[0] = v5;
-      newChildTransform.m_basis.m_el[0].mVec128.m128_u64[1] = v6->m_transform.m_basis.m_el[0].mVec128.m128_u64[1];
-      newChildTransform.m_basis.m_el[1] = v6->m_transform.m_basis.m_el[1];
-      newChildTransform.m_basis.m_el[2] = v6->m_transform.m_basis.m_el[2];
-      newChildTransform.m_origin = v6->m_transform.m_origin;
-      v7 = v6->m_childShape->getLocalScaling(v6->m_childShape);
-      v8 = scaling->mVec128.m128_f32[1];
-      v9 = scaling->mVec128.m128_f32[2];
-      v10 = this->m_children.m_data;
-      v15 = v7->mVec128.m128_u64[0];
-      v11 = (float)(v8 * *((float *)&v15 + 1)) / this->m_localScaling.mVec128.m128_f32[1];
-      v16 = v7->mVec128.m128_i64[1];
-      v12 = (float)(v9 * *(float *)&v16) / this->m_localScaling.mVec128.m128_f32[2];
-      *(float *)&v17 = (float)(scaling->mVec128.m128_f32[0] * *(float *)&v15) / this->m_localScaling.mVec128.m128_f32[0];
-      *((float *)&v17 + 1) = v11;
-      v15 = v17;
-      *(float *)&v18 = v12;
-      v16 = v18;
-      v10[v14].m_childShape->setLocalScaling(v10[v14].m_childShape, (const btVector3 *)&v15);
-      *(float *)v19.m128i_i32 = scaling->mVec128.m128_f32[0] * newChildTransform.m_origin.mVec128.m128_f32[0];
-      *(float *)&v19.m128i_i32[1] = scaling->mVec128.m128_f32[1] * newChildTransform.m_origin.mVec128.m128_f32[1];
-      *(float *)&v19.m128i_i32[2] = scaling->mVec128.m128_f32[2] * newChildTransform.m_origin.mVec128.m128_f32[2];
-      newChildTransform.m_origin = (btVector3)_mm_load_si128(&v19);
-      btCompoundShape::updateChildTransform(v3, &newChildTransform, this, 0);
-      ++v14;
-      ++v3;
+      v18 = *v8;
+      v10 = (float)(v6 * v16) / this->m_localScaling.mVec128.m128_f32[1];
+      v11 = (float)(v7 * v17) / this->m_localScaling.mVec128.m128_f32[2];
+      v19 = (float)(v5 * v15) / this->m_localScaling.mVec128.m128_f32[0];
+      v20 = v10;
+      v21 = v11;
+      v15 = v19;
+      v16 = v10;
+      v17 = v11;
+      v18 = v22;
+      m_data[v13].m_childShape->setLocalScaling(m_data[v13].m_childShape, (const btVector3 *)&v15);
+      v23.mVec128.m128_f32[0] = scaling->mVec128.m128_f32[0] * m_transform.m_origin.mVec128.m128_f32[0];
+      v23.mVec128.m128_f32[1] = scaling->mVec128.m128_f32[1] * m_transform.m_origin.mVec128.m128_f32[1];
+      v23.mVec128.m128_f32[2] = scaling->mVec128.m128_f32[2] * m_transform.m_origin.mVec128.m128_f32[2];
+      m_transform.m_origin = (btVector3)v23.mVec128;
+      btCompoundShape::updateChildTransform(v14++, &m_transform, this, 0);
+      ++v13;
     }
-    while ( v3 < this->m_children.m_size );
+    while ( v14 < this->m_children.m_size );
   }
-  recalculateLocalAabb = this->recalculateLocalAabb;
+  v12 = this->__vftable;
   this->m_localScaling = (btVector3)scaling->mVec128;
-  recalculateLocalAabb(this);
+  v12->recalculateLocalAabb(this);
 }

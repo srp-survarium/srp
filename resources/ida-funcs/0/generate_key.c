@@ -18,17 +18,17 @@ int __cdecl generate_key(dh_st *dh)
   v2 = 0;
   v13 = 0;
   pub_key = 0;
-  ctx = BN_CTX_new();
+  ctx = BN_CTX_new(0);
   if ( !ctx )
     goto LABEL_18;
   priv_key = dh->priv_key;
   if ( priv_key )
     goto LABEL_5;
-  priv_key = BN_new();
+  priv_key = BN_new(0);
   if ( !priv_key )
   {
 LABEL_18:
-    ERR_put_error(5u, 103, 3, ".\\crypto\\dh\\dh_key.c", 166);
+    ERR_put_error((int)pub_key, 5u, 103, 3, ".\\crypto\\dh\\dh_key.c", 166);
     v10 = 0;
     goto LABEL_19;
   }
@@ -37,13 +37,13 @@ LABEL_5:
   pub_key = dh->pub_key;
   if ( !pub_key )
   {
-    pub_key = BN_new();
+    pub_key = BN_new(0);
     if ( !pub_key )
       goto LABEL_18;
   }
   if ( (dh->flags & 1) != 0 )
   {
-    v13 = BN_MONT_CTX_set_locked(&dh->method_mont_p, 26, dh->p, ctx);
+    v13 = BN_MONT_CTX_set_locked((int)priv_key, &dh->method_mont_p, 26, dh->p, ctx);
     if ( !v13 )
       goto LABEL_18;
   }
@@ -52,7 +52,7 @@ LABEL_5:
     length = dh->length;
     if ( !length )
       length = BN_num_bits(dh->p) - 1;
-    if ( !BN_rand(priv_key, length, 0, 0) )
+    if ( !BN_rand((int)pub_key, priv_key, length, 0, 0) )
       goto LABEL_18;
   }
   if ( (dh->flags & 2) != 0 )

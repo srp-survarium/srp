@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_vec::Vector_String::Vector_St
   Scaleform::GFx::AS3::VM *pVM; // eax
   const Scaleform::MemoryHeap *MHeap; // ecx
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_String_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_String::`vftable';
   pVM = t->pVM;
   MHeap = pVM->MHeap;

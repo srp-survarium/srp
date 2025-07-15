@@ -19,20 +19,20 @@ char __thiscall Scaleform::Render::ContextImpl::Context::Capture(Scaleform::Rend
   int v18; // edi
   int v19; // ebx
   unsigned int v20; // ecx
-  Scaleform::Render::ContextImpl::ContextCaptureNotify *pNext; // edi
+  Scaleform::Render::ContextImpl::ContextCaptureNotify *v21; // edi
   Scaleform::List<Scaleform::Render::ContextImpl::ContextCaptureNotify,Scaleform::Render::ContextImpl::ContextCaptureNotify> *p_CaptureNotifyList; // esi
   int v23; // eax
-  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *pcbPage; // [esp+10h] [ebp-14h]
-  unsigned int iitem; // [esp+18h] [ebp-Ch]
+  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *pNext; // [esp+10h] [ebp-14h]
+  unsigned int v26; // [esp+18h] [ebp-Ch]
   Scaleform::Render::ContextImpl::EntryChange *v27; // [esp+1Ch] [ebp-8h]
-  _RTL_CRITICAL_SECTION *scopeLock; // [esp+20h] [ebp-4h]
+  _RTL_CRITICAL_SECTION *lpCriticalSection; // [esp+20h] [ebp-4h]
 
   v1 = this;
   Scaleform::Render::ContextImpl::Context::PropagateChangesUp(this);
   if ( v1->ShutdownRequested )
     return 0;
-  scopeLock = &v1->pCaptureLock.pObject->LockObject.cs;
-  EnterCriticalSection(scopeLock);
+  lpCriticalSection = &v1->pCaptureLock.pObject->LockObject.cs;
+  EnterCriticalSection(lpCriticalSection);
   Scaleform::Render::ContextImpl::Context::handleFinalizingSnaphot(v1);
   v3 = v1->pSnapshots[0];
   Scaleform::Render::ContextImpl::EntryTable::GetActiveSnapshotPages(
@@ -87,12 +87,12 @@ char __thiscall Scaleform::Render::ContextImpl::Context::Capture(Scaleform::Rend
   if ( v14 )
   {
     pPages = v14->Changes.pPages;
-    pcbPage = pPages;
+    pNext = pPages;
     if ( pPages )
     {
       while ( 1 )
       {
-        iitem = 0;
+        v26 = 0;
         if ( pPages->Count )
         {
           v16 = pPages->Items;
@@ -114,32 +114,32 @@ char __thiscall Scaleform::Render::ContextImpl::Context::Capture(Scaleform::Rend
                 *(_DWORD *)(v19 + 4 * ((int)((int)&pNode[-1] - ((unsigned int)pNode & 0xFFFFF000)) / 28) + 20) = (int)pNode->pNative ^ (*(_DWORD *)(v19 + 4 * ((int)((int)&pNode[-1] - ((unsigned int)pNode & 0xFFFFF000)) / 28) + 20) ^ (int)pNode->pNative) & 1;
               }
               v1 = this;
-              pPages = pcbPage;
+              pPages = pNext;
             }
             v16 = v27 + 1;
-            ++iitem;
+            ++v26;
             ++v27;
           }
-          while ( iitem < pPages->Count );
+          while ( v26 < pPages->Count );
         }
-        pcbPage = pPages->pNext;
+        pNext = pPages->pNext;
         if ( !pPages->pNext )
           break;
         pPages = pPages->pNext;
       }
     }
   }
-  pNext = v1->CaptureNotifyList.Root.pNext;
+  v21 = v1->CaptureNotifyList.Root.pNext;
   v1->CaptureCalled = 1;
   p_CaptureNotifyList = &v1->CaptureNotifyList;
   while ( 1 )
   {
     v23 = p_CaptureNotifyList ? (int)&p_CaptureNotifyList[-1].Root.4 : 0;
-    if ( pNext == (Scaleform::Render::ContextImpl::ContextCaptureNotify *)v23 )
+    if ( v21 == (Scaleform::Render::ContextImpl::ContextCaptureNotify *)v23 )
       break;
-    pNext->OnCapture(pNext);
-    pNext = pNext->pNext;
+    v21->OnCapture(v21);
+    v21 = v21->pNext;
   }
-  LeaveCriticalSection(scopeLock);
+  LeaveCriticalSection(lpCriticalSection);
   return 1;
 }

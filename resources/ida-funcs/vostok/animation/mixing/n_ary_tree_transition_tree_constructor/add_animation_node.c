@@ -1,73 +1,90 @@
 vostok::animation::mixing::n_ary_tree_animation_node *__userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::add_animation_node@<eax>(
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this@<ecx>,
-        int a2@<esi>,
+        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this@<esi>,
+        const vostok::animation::mixing::animation_state *previous_animation_state@<edi>,
         vostok::animation::mixing::n_ary_tree_animation_node *new_animation,
-        const vostok::animation::mixing::animation_state *previous_animation_state,
         unsigned int animation_interval_id,
         float animation_interval_time,
         bool is_new_animation)
 {
-  unsigned int v8; // edx
-  vostok::animation::mixing::n_ary_tree_animation_node *v9; // edi
-  vostok::animation::mixing::n_ary_tree_animation_node *v10; // ebx
-  bool v11; // cl
-  int v12; // eax
-  float animation_time_threshold; // xmm0_4
-  float m_weight; // xmm1_4
-  vostok::animation::mixing::n_ary_tree_weight_calculator weight_calculator; // [esp+10h] [ebp-20h] BYREF
-  __int16 initial_event_types; // [esp+34h] [ebp+4h]
+  unsigned int m_current_time_in_ms; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *v7; // ecx
+  unsigned int m_operands_count; // edx
+  vostok::animation::mixing::animation_state *m_new_animation_state; // eax
+  float m_weight; // xmm0_4
+  unsigned int v11; // edx
+  float v12; // xmm1_4
+  float animation_time_threshold; // xmm2_4
+  vostok::animation::mixing::n_ary_tree_weight_calculator v15; // [esp+4h] [ebp-2Ch] BYREF
+  vostok::animation::mixing::n_ary_tree_animation_node *v16; // [esp+28h] [ebp-8h]
+  int v17; // [esp+2Ch] [ebp-4h]
+  vostok::animation::mixing::n_ary_tree_animation_node *v18; // [esp+44h] [ebp+14h]
 
-  **(_DWORD **)(a2 + 116) = *(_DWORD *)(a2 + 100);
-  *(_DWORD *)(a2 + 116) += 4;
-  initial_event_types = 0;
+  *this->m_new_animation_event++ = this->m_new_animation_state;
+  v17 = 0;
   if ( is_new_animation )
   {
-    initial_event_types = 129;
+    v17 = 129;
   }
   else if ( previous_animation_state && !previous_animation_state->are_there_any_weight_transitions )
   {
-    initial_event_types = 128;
+    v17 = 128;
   }
-  v8 = *(_DWORD *)(a2 + 132);
-  weight_calculator.__vftable = (vostok::animation::mixing::n_ary_tree_weight_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_weight_calculator::`vftable';
-  memset((void *)&weight_calculator.m_animation, 0, 12);
-  weight_calculator.m_current_time_in_ms = v8;
-  memset(&weight_calculator.m_weight, 0, 9);
-  vostok::animation::mixing::n_ary_tree_weight_calculator::visit(&weight_calculator, new_animation);
-  v9 = new_animation + 1;
-  v10 = (vostok::animation::mixing::n_ary_tree_animation_node *)((char *)new_animation
-                                                               + 4 * new_animation->m_operands_count
-                                                               + 88);
-  new_animation->m_animation_state = *(vostok::animation::mixing::animation_state **)(a2 + 100);
-  if ( &new_animation[1] != v10 )
+  m_current_time_in_ms = this->m_current_time_in_ms;
+  v15.__vftable = (vostok::animation::mixing::n_ary_tree_weight_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_weight_calculator::`vftable';
+  memset((void *)&v15.m_animation, 0, 12);
+  v15.m_current_time_in_ms = m_current_time_in_ms;
+  memset(&v15.m_weight, 0, 13);
+  vostok::animation::mixing::n_ary_tree_weight_calculator::visit(&v15, new_animation);
+  v7 = new_animation;
+  m_operands_count = new_animation->m_operands_count;
+  new_animation->m_animation_state = this->m_new_animation_state;
+  v16 = (vostok::animation::mixing::n_ary_tree_animation_node *)((char *)new_animation + 4 * m_operands_count + 88);
+  v18 = new_animation + 1;
+  if ( &new_animation[1] != v16 )
   {
     do
     {
-      (*((void (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v9->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
-       + 3))(v9->__vftable);
-      v9 = (vostok::animation::mixing::n_ary_tree_animation_node *)((char *)v9 + 4);
+      (*((void (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v18->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+       + 3))(v18->__vftable);
+      v18 = (vostok::animation::mixing::n_ary_tree_animation_node *)((char *)v18 + 4);
     }
-    while ( v9 != v10 );
+    while ( v18 != v16 );
+    v7 = new_animation;
   }
-  v11 = previous_animation_state
-     && (!previous_animation_state->event_iterator.m_animation_node->m_is_transitting_to_zero
-      || new_animation->m_is_transitting_to_zero
-      || !previous_animation_state->is_freezed);
-  v12 = *(_DWORD *)(a2 + 100);
-  if ( v12 )
+  if ( !previous_animation_state
+    || previous_animation_state->event_iterator.m_animation_node->m_is_transitting_to_zero
+    && !v7->m_is_transitting_to_zero
+    && previous_animation_state->is_freezed )
   {
-    if ( v11 )
-      animation_time_threshold = previous_animation_state->animation_time_threshold;
-    else
-      animation_time_threshold = 0.0;
-    m_weight = weight_calculator.m_weight;
-    *(_DWORD *)v12 = animation_interval_id;
-    *(float *)(v12 + 4) = animation_interval_time;
-    *(float *)(v12 + 8) = animation_time_threshold;
-    *(float *)(v12 + 12) = m_weight;
-    *(_WORD *)(v12 + 16) = initial_event_types;
-    *(_DWORD *)(v12 + 20) = v11 ? previous_animation_state : 0;
+    m_new_animation_state = this->m_new_animation_state;
+    if ( m_new_animation_state )
+    {
+      m_weight = v15.m_weight;
+      v11 = animation_interval_id;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.z = animation_interval_time;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.x = 0.0;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.w = 0.0;
+      goto LABEL_17;
+    }
   }
-  *(_DWORD *)(a2 + 100) += 180;
-  return new_animation;
+  else
+  {
+    m_new_animation_state = this->m_new_animation_state;
+    if ( m_new_animation_state )
+    {
+      m_weight = v15.m_weight;
+      v11 = previous_animation_state->animation_interval_id;
+      v12 = previous_animation_state->animation_interval_time;
+      animation_time_threshold = previous_animation_state->animation_time_threshold;
+      LODWORD(m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.x) = previous_animation_state;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.z = v12;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.w = animation_time_threshold;
+LABEL_17:
+      LODWORD(m_new_animation_state->bone_matrices_computer.previous_object_movement.rotation.y) = v11;
+      LOWORD(m_new_animation_state->bone_matrices_computer.previous_object_movement.translation.elements[1]) = v17;
+      m_new_animation_state->bone_matrices_computer.previous_object_movement.translation.x = m_weight;
+    }
+  }
+  ++this->m_new_animation_state;
+  return v7;
 }

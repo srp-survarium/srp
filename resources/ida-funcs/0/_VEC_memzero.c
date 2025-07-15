@@ -1,17 +1,17 @@
-char *__cdecl _VEC_memzero(int dst, int val, int len)
+char *__cdecl _VEC_memzero(char *dst, int val, int len)
 {
   char *result; // eax
   int v4; // edi
   int v5; // edx
   unsigned int v6; // [esp+4h] [ebp-Ch]
 
-  result = (char *)dst;
-  v4 = dst % 16;
-  if ( dst % 16 )
+  result = dst;
+  v4 = (int)dst % 16;
+  if ( (int)dst % 16 )
   {
-    memset((void *)dst, 0, 16 - v4);
-    _VEC_memzero((void *)(16 - v4 + dst), 0, len - (16 - v4));
-    return (char *)dst;
+    memset(dst, 0, 16 - v4);
+    _VEC_memzero((int)&dst[16 - v4], 0, len - (16 - v4));
+    return dst;
   }
   else
   {
@@ -19,14 +19,14 @@ char *__cdecl _VEC_memzero(int dst, int val, int len)
     v6 = v5;
     if ( len != v5 )
     {
-      fastzero_I((_OWORD *)dst, len - v5);
-      result = (char *)dst;
+      fastzero_I(dst, len - v5);
+      result = dst;
       v5 = v6;
     }
     if ( v5 )
     {
       memset(&result[len - v5], 0, v6);
-      return (char *)dst;
+      return dst;
     }
   }
   return result;

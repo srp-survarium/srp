@@ -2,26 +2,28 @@ void __thiscall survarium::base_network_client::attach_to_player_cc(
         survarium::base_network_client *this,
         char *arguments)
 {
-  survarium::player *v3; // ecx
-  survarium::base_network_client *v4; // ecx
-  vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> v5; // [esp-4h] [ebp-14h] BYREF
-  int player_id; // [esp+Ch] [ebp-4h] BYREF
+  vostok::particle::particle_system_instance_impl *v3; // ecx
+  survarium::game_world *v4; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v5; // [esp-4h] [ebp-18h] BYREF
+  int v6; // [esp+10h] [ebp-4h] BYREF
 
-  if ( sscanf_s(arguments, "%d", &player_id) != -1 && (unsigned __int8)player_id < 0x14u )
+  if ( sscanf_s(arguments, "%d", &v6) != -1 && (unsigned __int8)v6 < 0x14u )
   {
-    this->get_player(
+    this->get_active_player(
       this,
       (vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> *)&arguments,
-      player_id);
+      v6);
     if ( arguments )
     {
       v5.m_object = v3;
-      vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>(
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
         &v5,
-        (const vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> *)&arguments,
-        (survarium::profile_player_character *)v3);
-      survarium::base_network_client::attach_to_player(v4, (int)this, v5);
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&arguments);
+      ((void (__thiscall *)(survarium::base_network_client *, vostok::particle::particle_system_instance_impl *))this->attach_to_player)(
+        this,
+        v5.m_object);
+      survarium::game_world::switch_to_player_camera(v4, (int)&this->m_game->m_game_world, 1);
     }
-    vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> *)&arguments);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&arguments);
   }
 }

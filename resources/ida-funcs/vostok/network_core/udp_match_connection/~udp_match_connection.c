@@ -1,22 +1,18 @@
-void __thiscall vostok::network_core::udp_match_connection::~udp_match_connection(
-        vostok::network_core::udp_match_connection *this)
+void __usercall vostok::network_core::udp_match_connection::~udp_match_connection(
+        vostok::network_core::udp_match_connection *this@<ecx>,
+        int a2@<eax>)
 {
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v1; // ecx
-  survarium::game_camera *v2; // ecx
-  survarium::game_camera *v3; // ecx
-  survarium::game_camera *v4; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v1,
-    (int *)&this->m_on_disconnect);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+    (int *)(a2 + 2752));
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)(a2 + 2720));
   `vector destructor iterator'(
-    (char *)&this->m_channels,
-    0x18u,
+    (char *)(a2 + 2676),
+    0x2Cu,
     1,
     (void (__thiscall *)(void *))vostok::network_core::udp_match_connection::channel::~channel);
-  survarium::weapon_user_dead_state::finalize(v2);
-  survarium::weapon_user_dead_state::finalize(v3);
-  survarium::weapon_user_dead_state::finalize(v4);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
 }

@@ -1,17 +1,23 @@
-void __cdecl ERR_put_error(unsigned __int8 lib, __int16 func, __int16 reason, const char *file, int line)
+void __usercall ERR_put_error(
+        int a1@<ebx>,
+        unsigned __int8 lib,
+        __int16 func,
+        __int16 reason,
+        const char *file,
+        int line)
 {
   err_state_st *state; // esi
-  int v6; // eax
+  int v7; // eax
   int bottom; // ecx
   int top; // eax
 
-  state = ERR_get_state();
-  v6 = (state->top + 1) % 16;
+  state = ERR_get_state(a1);
+  v7 = (state->top + 1) % 16;
   bottom = state->bottom;
-  state->top = v6;
-  if ( v6 == bottom )
+  state->top = v7;
+  if ( v7 == bottom )
     state->bottom = (bottom + 1) % 16;
-  state->err_flags[v6] = 0;
+  state->err_flags[v7] = 0;
   state->err_buffer[state->top] = reason & 0xFFF | (lib << 24) | ((func & 0xFFF) << 12);
   state->err_file[state->top] = file;
   state->err_line[state->top] = line;

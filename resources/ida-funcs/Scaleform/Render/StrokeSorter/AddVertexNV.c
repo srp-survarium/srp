@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::StrokeSorter::AddVertexNV(
   Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16> *p_SrcVertices; // esi
   unsigned int v8; // edi
   int v9; // eax
-  int v_12; // [esp+Ch] [ebp-4h]
+  int v10; // [esp+Ch] [ebp-4h]
 
   Size = this->SrcVertices.Size;
   if ( Size == this->LastVertex
@@ -27,15 +27,15 @@ void __thiscall Scaleform::Render::StrokeSorter::AddVertexNV(
   {
     p_SrcVertices = &this->SrcVertices;
     v8 = this->SrcVertices.Size >> 4;
-    LOWORD(v_12) = segType;
-    BYTE2(v_12) = 0;
+    LOWORD(v10) = segType;
+    BYTE2(v10) = 0;
     if ( v8 >= this->SrcVertices.NumPages )
       Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16>::allocPage(&this->SrcVertices, v8);
     v9 = (int)&p_SrcVertices->Pages[v8][p_SrcVertices->Size & 0xF];
     *(float *)v9 = x;
     *(float *)(v9 + 4) = y;
     *(float *)(v9 + 8) = 0.0;
-    *(_DWORD *)(v9 + 12) = v_12;
+    *(_DWORD *)(v9 + 12) = v10;
     ++p_SrcVertices->Size;
   }
 }

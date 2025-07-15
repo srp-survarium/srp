@@ -3,7 +3,7 @@ int __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::Compare(
         Scaleform::GFx::AS2::Value *a,
         Scaleform::GFx::AS2::Value *b)
 {
-  Scaleform::GFx::AS2::Value *p_dummy; // ecx
+  Scaleform::GFx::AS2::Value *v4; // ecx
   Scaleform::GFx::AS2::Value *v5; // esi
   Scaleform::GFx::AS2::Environment *Env; // eax
   Scaleform::GFx::CharacterHandle *pCharHandle; // ecx
@@ -24,38 +24,38 @@ int __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::Compare(
   const Scaleform::ArrayCC<Scaleform::GFx::ASString,323,Scaleform::ArrayDefaultPolicy> *FieldArray; // eax
   int v23; // esi
   int v24; // esi
-  unsigned int i; // [esp+18h] [ebp-3Ch]
-  int j; // [esp+1Ch] [ebp-38h]
-  Scaleform::GFx::AS2::ASStringContext *psc; // [esp+20h] [ebp-34h]
-  Scaleform::GFx::AS2::Value valB; // [esp+24h] [ebp-30h] BYREF
-  Scaleform::GFx::AS2::Value valA; // [esp+34h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value dummy; // [esp+44h] [ebp-10h] BYREF
+  int v26; // [esp+18h] [ebp-3Ch]
+  int i; // [esp+1Ch] [ebp-38h]
+  Scaleform::GFx::AS2::ASStringContext *p_StringContext; // [esp+20h] [ebp-34h]
+  Scaleform::GFx::AS2::Value ba; // [esp+24h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value aa; // [esp+34h] [ebp-20h] BYREF
+  _BYTE v31[16]; // [esp+44h] [ebp-10h] BYREF
 
-  p_dummy = a;
-  dummy.T.Type = 0;
+  v4 = a;
+  v31[0] = 0;
   if ( !a )
   {
-    a = &dummy;
-    p_dummy = &dummy;
+    a = (Scaleform::GFx::AS2::Value *)v31;
+    v4 = (Scaleform::GFx::AS2::Value *)v31;
   }
   v5 = b;
   if ( !b )
   {
-    b = &dummy;
-    v5 = &dummy;
+    b = (Scaleform::GFx::AS2::Value *)v31;
+    v5 = (Scaleform::GFx::AS2::Value *)v31;
   }
-  psc = &this->Env->StringContext;
-  i = 0;
+  p_StringContext = &this->Env->StringContext;
+  v26 = 0;
   if ( !this->FunctorArray.Data.Size )
     return 0;
-  for ( j = 0; ; ++j )
+  for ( i = 0; ; ++i )
   {
     Env = this->Env;
-    if ( p_dummy->T.Type == 7 )
+    if ( v4->T.Type == 7 )
     {
       if ( Env )
       {
-        pCharHandle = p_dummy->V.pCharHandle;
+        pCharHandle = v4->V.pCharHandle;
         if ( pCharHandle )
         {
           v8 = Scaleform::GFx::CharacterHandle::ResolveCharacter(pCharHandle, Env->Target->pASRoot->pMovieImpl);
@@ -86,7 +86,7 @@ int __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::Compare(
     }
     else
     {
-      v13 = Scaleform::GFx::AS2::Value::ToObject(p_dummy, this->Env);
+      v13 = Scaleform::GFx::AS2::Value::ToObject(v4, this->Env);
       if ( v13 )
       {
         v12 = &v13->Scaleform::GFx::AS2::ObjectInterface;
@@ -131,29 +131,29 @@ LABEL_28:
     if ( !v12 || !v20 )
       goto LABEL_38;
     FieldArray = this->FieldArray;
-    valA.T.Type = 0;
-    valB.T.Type = 0;
-    v23 = (int)&FieldArray->Data.Data[i];
-    if ( v12->GetMemberRaw(v12, psc, (const Scaleform::GFx::ASString *)v23, &valA)
-      && v20->GetMemberRaw(v20, psc, (const Scaleform::GFx::ASString *)v23, &valB) )
+    aa.T.Type = 0;
+    ba.T.Type = 0;
+    v23 = (int)&FieldArray->Data.Data[v26];
+    if ( v12->GetMemberRaw(v12, p_StringContext, (const Scaleform::GFx::ASString *)v23, &aa)
+      && v20->GetMemberRaw(v20, p_StringContext, (const Scaleform::GFx::ASString *)v23, &ba) )
     {
-      v24 = Scaleform::GFx::AS2::ArraySortFunctor::Compare(&this->FunctorArray.Data.Data[j], &valA, &valB);
+      v24 = Scaleform::GFx::AS2::ArraySortFunctor::Compare(&this->FunctorArray.Data.Data[i], &aa, &ba);
       if ( v24 )
         break;
     }
-    if ( valB.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&valB);
-    if ( valA.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&valA);
+    if ( ba.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&ba);
+    if ( aa.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&aa);
     v5 = b;
 LABEL_38:
-    if ( ++i >= this->FunctorArray.Data.Size )
+    if ( ++v26 >= this->FunctorArray.Data.Size )
       return 0;
-    p_dummy = a;
+    v4 = a;
   }
-  if ( valB.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&valB);
-  if ( valA.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&valA);
+  if ( ba.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&ba);
+  if ( aa.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&aa);
   return v24;
 }

@@ -61,12 +61,12 @@ LABEL_18:
     case 0xDu:
     case 0xEu:
     case 0xFu:
-      goto $LN11_68;
+      goto $LN11_73;
     case 0x10u:
     case 0x11u:
       if ( x->value.VS._2.VObj != y->value.VS._2.VObj )
         return 0;
-$LN11_68:
+$LN11_73:
       if ( x->value.VS._1.VInt != y->value.VS._1.VInt )
         return 0;
       result = 1;

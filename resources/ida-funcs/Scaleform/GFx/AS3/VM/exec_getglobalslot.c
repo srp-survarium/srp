@@ -1,12 +1,15 @@
 void __thiscall Scaleform::GFx::AS3::VM::exec_getglobalslot(Scaleform::GFx::AS3::VM *this, unsigned int slot_index)
 {
-  Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *GlobalObject; // eax
-  Scaleform::GFx::AS3::SlotIndex v5; // [esp-8h] [ebp-Ch]
-  Scaleform::GFx::AS3::Value *pCurrent; // [esp-4h] [ebp-8h]
+  Scaleform::GFx::AS3::Value *pCurrent; // ebp
+  Scaleform::GFx::ASStringNode *GlobalObject; // edi
+  unsigned int Size; // ecx
+  signed int v7; // eax
+  unsigned int v8; // esi
+  Scaleform::GFx::AS3::SlotInfo *SlotInfo; // eax
 
-  if ( (_S10_0 & 1) == 0 )
+  if ( (_S15 & 1) == 0 )
   {
-    _S10_0 |= 1u;
+    _S15 |= 1u;
     v.Flags = 0;
     v.Bonus.pWeakProxy = 0;
     atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -23,11 +26,26 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_getglobalslot(Scaleform::GFx::AS3:
     }
   }
   pCurrent = this->OpStack.pCurrent;
-  v5.Index = slot_index;
-  GlobalObject = Scaleform::GFx::AS3::VM::GetGlobalObject(this);
-  Scaleform::GFx::AS3::Object::GetSlotValueUnsafe(
-    GlobalObject,
-    (Scaleform::GFx::AS3::CheckResult *)&slot_index,
-    v5,
-    pCurrent);
+  GlobalObject = (Scaleform::GFx::ASStringNode *)Scaleform::GFx::AS3::VM::GetGlobalObject(this);
+  Size = GlobalObject->Size;
+  v7 = *(_DWORD *)(Size + 44) + slot_index - 1;
+  if ( v7 >= 0 && (v8 = *(_DWORD *)(Size + 20), v7 >= v8) )
+  {
+    Scaleform::GFx::AS3::SlotInfo::GetSlotValueUnsafe(
+      (Scaleform::GFx::AS3::SlotInfo *)(32 * (v7 - v8) + *(_DWORD *)(Size + 28) + 8),
+      (Scaleform::GFx::AS3::CheckResult *)&slot_index,
+      pCurrent,
+      GlobalObject);
+  }
+  else
+  {
+    SlotInfo = (Scaleform::GFx::AS3::SlotInfo *)Scaleform::GFx::AS3::Slots::GetSlotInfo(
+                                                  *(Scaleform::GFx::AS3::Slots **)(Size + 24),
+                                                  (Scaleform::GFx::AS3::AbsoluteIndex)v7);
+    Scaleform::GFx::AS3::SlotInfo::GetSlotValueUnsafe(
+      SlotInfo,
+      (Scaleform::GFx::AS3::CheckResult *)&slot_index,
+      pCurrent,
+      GlobalObject);
+  }
 }

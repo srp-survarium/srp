@@ -35,13 +35,13 @@ void __thiscall Scaleform::GFx::Text::TextStyleParserHandler<wchar_t>::OpenCSSSe
   if ( pHeap && (v6 = (const wchar_t *)name->mTextFormat.FontList.pData, *v6 == 46) )
   {
     v5 = 1;
-    Scaleform::String::AppendString(&keystr, v6 + 1, pHeap - 1);
+    Scaleform::String::AppendString(&keystr, (wchar_t *)v6 + 1, pHeap - 1);
   }
   else
   {
     Scaleform::String::AppendString(
       &keystr,
-      (const wchar_t *)name->mTextFormat.FontList.pData,
+      (wchar_t *)name->mTextFormat.FontList.pData,
       (int)name->mTextFormat.FontList.pHeap);
   }
   pManager = (Scaleform::String *)this->pManager;

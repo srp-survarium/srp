@@ -9,15 +9,14 @@ void __thiscall Scaleform::GFx::FontDataBound::FontDataBound(
   Scaleform::GFx::TextureGlyphData *v7; // edi
   Scaleform::GFx::TextureGlyphData *pObject; // ecx
   int v9; // [esp+8h] [ebp-Ch] BYREF
-  Scaleform::GFx::TextureGlyphBinder binder; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::TextureGlyphData::TextureGlyphVisitor pvisitor; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceBinding *v11; // [esp+10h] [ebp-4h]
 
   this->__vftable = (Scaleform::GFx::FontDataBound_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->__vftable = (Scaleform::GFx::FontDataBound_vtbl *)&Scaleform::Render::Font::`vftable';
   this->RefCount = 1;
   this->Ascent = *(float *)&pfont->pLib;
-  this->Descent = *(float *)&pfont[1].__vftable;
-  this->Leading = *(float *)&pfont[1].RefCount.Value;
-  this->Flags = (unsigned int)pfont[1].pLib;
+  *(Scaleform::GFx::Resource *)&this->Descent = pfont[1];
   this->LowerCaseTop = (__int16)pfont[2].__vftable;
   this->UpperCaseTop = HIWORD(pfont[2].__vftable);
   this->hRef.pManager.Value = 0;
@@ -45,8 +44,8 @@ void __thiscall Scaleform::GFx::FontDataBound::FontDataBound(
   pObject = this->pTGData.pObject;
   if ( pObject )
     Scaleform::RefCountNTSImpl::Release(pObject);
-  binder.ResBinding = pbinding;
+  v11 = pbinding;
   this->pTGData.pObject = v7;
-  binder.__vftable = (Scaleform::GFx::TextureGlyphBinder_vtbl *)&Scaleform::GFx::TextureGlyphBinder::`vftable';
-  Scaleform::GFx::TextureGlyphData::VisitTextureGlyphs(v7, &binder);
+  pvisitor.__vftable = (Scaleform::GFx::TextureGlyphData::TextureGlyphVisitor_vtbl *)&Scaleform::GFx::TextureGlyphBinder::`vftable';
+  Scaleform::GFx::TextureGlyphData::VisitTextureGlyphs(v7, &pvisitor);
 }

@@ -8,7 +8,7 @@ Scaleform::File *__thiscall Scaleform::GFx::LoadStates::OpenFile(
 
   if ( this->pBindStates.pObject->pFileOpener.pObject )
   {
-    if ( (loadConstants & 0x200000) != 0 )
+    if ( ((unsigned int)&loc_200000 & loadConstants) != 0 )
     {
       pObject = 0;
     }
@@ -30,7 +30,7 @@ Scaleform::File *__thiscall Scaleform::GFx::LoadStates::OpenFile(
     v4 = this->pLog.pObject;
     if ( v4 )
     {
-      if ( (loadConstants & 0x200000) == 0 )
+      if ( ((unsigned int)&loc_200000 & loadConstants) == 0 )
         Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogError(
           &v4->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
           "Loader failed to open '%s', FileOpener not installe",

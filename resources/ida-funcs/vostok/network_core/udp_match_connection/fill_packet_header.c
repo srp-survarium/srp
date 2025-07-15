@@ -1,13 +1,17 @@
-void __thiscall vostok::network_core::udp_match_connection::fill_packet_header(
-        vostok::network_core::udp_match_connection *this,
-        vostok::network_core::udp_match_packet *packet)
+void __usercall vostok::network_core::udp_match_connection::fill_packet_header(
+        vostok::network_core::udp_match_connection *this@<ecx>,
+        vostok::network_core::udp_match_packet *packet@<eax>)
 {
-  vostok::network_core::udp_match_packets_count_enum packet_type; // [esp+18h] [ebp-4h]
+  unsigned __int8 *m_buffer; // ecx
+  __int64 v4; // rax
+  int v5; // [esp+Ch] [ebp-4h]
 
-  packet_type = packet->m_buffer.elems[0];
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&packet->m_buffer);
-  *(_WORD *)packet->m_buffer.elems = packet->sequence_id.m_number;
-  *(_WORD *)&packet->m_buffer.elems[2] = this->m_remote_sequence_id.m_number;
-  *(_WORD *)&packet->m_buffer.elems[4] = (packet_type == udp_match_multiple_packets)
-                                       | (unsigned __int16)(2 * this->m_remote_acknowledgement_bits);
+  m_buffer = packet->m_buffer.m_buffer;
+  v5 = *m_buffer;
+  *(_WORD *)m_buffer = *(_WORD *)&packet->sequence_ids.m_buffer[(packet->sequence_ids.m_head + 8) % 9][0];
+  m_buffer += 2;
+  *(_WORD *)m_buffer = this->m_remote_sequence_id.m_number;
+  LODWORD(v4) = (2 * LODWORD(this->m_remote_acknowledgement_bits)) | (v5 == 1);
+  HIDWORD(v4) = this->m_remote_acknowledgement_bits >> 31;
+  *(_QWORD *)(m_buffer + 2) = v4;
 }

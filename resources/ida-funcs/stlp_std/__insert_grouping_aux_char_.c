@@ -2,7 +2,7 @@ char *__cdecl stlp_std::__insert_grouping_aux_char_(
         char *first,
         char *last,
         const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *grouping,
-        char separator,
+        unsigned __int8 separator,
         char Plus,
         char Minus,
         int basechars)
@@ -14,23 +14,23 @@ char *__cdecl stlp_std::__insert_grouping_aux_char_(
   unsigned __int8 *v12; // esi
   int v13; // edi
   char *M_data; // eax
-  char *firsta; // [esp+8h] [ebp+4h]
-  int sign; // [esp+Ch] [ebp+8h]
+  char *v15; // [esp+8h] [ebp+4h]
+  int v16; // [esp+Ch] [ebp+8h]
 
   v7 = first;
   v8 = last;
   if ( first == last )
     return 0;
   v10 = 0;
-  sign = 0;
+  v16 = 0;
   if ( *first == Plus || *first == Minus )
   {
-    sign = 1;
+    v16 = 1;
     v7 = first + 1;
   }
   v11 = &v7[basechars];
   v12 = (unsigned __int8 *)v8;
-  firsta = v11;
+  v15 = v11;
   v13 = 0;
   while ( 1 )
   {
@@ -44,9 +44,9 @@ char *__cdecl stlp_std::__insert_grouping_aux_char_(
     if ( v8 - (char *)v12 > 0 )
     {
       memmove(v12 + 1, v12, v8 - (char *)v12);
-      v11 = firsta;
+      v11 = v15;
     }
     *v12 = separator;
   }
-  return &v8[sign - (_DWORD)v11 + basechars];
+  return &v8[v16 - (_DWORD)v11 + basechars];
 }

@@ -1,19 +1,15 @@
-char *__usercall _getdcwd_nolock@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
-        unsigned int drive,
-        char *pnbuf,
-        int maxlen)
+char *__usercall _getdcwd_nolock@<eax>(int a1@<edi>, int a2@<esi>, DWORD drive, char *pnbuf, int maxlen)
 {
-  unsigned int v6; // eax
+  int v6; // eax
   char *v7; // edi
   signed int FullPathNameA; // eax
-  char *v9; // eax
+  unsigned __int8 *v9; // eax
   signed int v10; // eax
   DWORD LastError; // eax
-  char *pname; // [esp+4h] [ebp-8h] BYREF
-  char drvstr[4]; // [esp+8h] [ebp-4h] BYREF
-  signed int count; // [esp+14h] [ebp+8h]
+  LPSTR FilePart; // [esp+4h] [ebp-8h] BYREF
+  char FileName; // [esp+8h] [ebp-4h] BYREF
+  char v14[3]; // [esp+9h] [ebp-3h] BYREF
+  int nBufferLength; // [esp+14h] [ebp+8h]
 
   if ( drive )
   {
@@ -36,41 +32,42 @@ char *__usercall _getdcwd_nolock@<eax>(
     if ( maxlen <= 0 )
     {
       *_errno() = 22;
-      _invalid_parameter(0, (unsigned int)pnbuf, a2);
+      _invalid_parameter(0, (int)pnbuf, a2);
       return 0;
     }
-    count = maxlen;
+    nBufferLength = maxlen;
     *pnbuf = 0;
   }
   else
   {
-    count = 0;
+    nBufferLength = 0;
   }
   if ( v6 )
   {
-    drvstr[0] = v6 + 64;
-    strcpy(&drvstr[1], ":.");
+    FileName = v6 + 64;
+    strcpy(v14, ":.");
   }
   else
   {
-    strcpy(drvstr, ".");
+    FileName = 46;
+    v14[0] = 0;
   }
-  FullPathNameA = GetFullPathNameA(drvstr, count, pnbuf, &pname);
+  FullPathNameA = GetFullPathNameA(&FileName, nBufferLength, pnbuf, &FilePart);
   if ( !FullPathNameA )
     goto LABEL_25;
   if ( !pnbuf )
   {
     if ( FullPathNameA > maxlen )
       maxlen = FullPathNameA;
-    v9 = (char *)calloc(maxlen, 1u);
-    v7 = v9;
+    v9 = calloc(maxlen, 1u);
+    v7 = (char *)v9;
     if ( !v9 )
     {
       *_errno() = 12;
       *__doserrno() = 8;
       return 0;
     }
-    v10 = GetFullPathNameA(drvstr, maxlen, v9, &pname);
+    v10 = GetFullPathNameA(&FileName, maxlen, (LPSTR)v9, &FilePart);
     if ( v10 && v10 < maxlen )
       return v7;
 LABEL_25:
@@ -78,7 +75,7 @@ LABEL_25:
     _dosmaperr(LastError);
     return 0;
   }
-  if ( FullPathNameA < count )
+  if ( FullPathNameA < nBufferLength )
     return v7;
   *_errno() = 34;
   *pnbuf = 0;

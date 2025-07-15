@@ -1,161 +1,158 @@
-int __usercall _mbsnbicmp_l@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
-        const unsigned __int8 *s1,
-        const unsigned __int8 *s2,
+void __usercall _mbsnbicmp_l(
+        const char *a1@<edi>,
+        int a2@<esi>,
+        char *s1,
+        char *s2,
         unsigned int n,
         localeinfo_struct *plocinfo)
 {
-  int result; // eax
-  const unsigned __int8 *v7; // edi
-  unsigned __int16 v8; // cx
-  bool v9; // zf
-  int v10; // ecx
-  unsigned __int16 v11; // si
-  unsigned __int8 v12; // dl
-  int v13; // ecx
-  char *v14; // ecx
+  char *v6; // edi
+  unsigned __int16 v7; // cx
+  bool v8; // zf
+  int v9; // ecx
+  __int16 v10; // si
+  unsigned __int8 v11; // dl
+  int v12; // ecx
+  char *v13; // ecx
+  int v14; // ecx
   int v15; // ecx
   int v16; // ecx
-  int v17; // ecx
-  char *v18; // ecx
-  _LocaleUpdate _loc_update; // [esp+4h] [ebp-18h] BYREF
-  int c1; // [esp+14h] [ebp-8h]
-  int c2; // [esp+18h] [ebp-4h]
+  char *v17; // ecx
+  _LocaleUpdate v18; // [esp+4h] [ebp-18h] BYREF
+  int v19; // [esp+14h] [ebp-8h]
+  int v20; // [esp+18h] [ebp-4h]
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v18, plocinfo);
   if ( !n )
   {
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return 0;
+    if ( v18.updated )
+      v18.ptd->_ownlocale &= ~2u;
+    return;
   }
-  if ( !_loc_update.localeinfo.mbcinfo->ismbcodepage )
+  if ( !v18.localeinfo.mbcinfo->ismbcodepage )
   {
-    result = _strnicmp((const char *)s1, (const char *)s2, n);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return result;
+    _strnicmp(0, a1, s1, s2, n);
+    if ( v18.updated )
+      v18.ptd->_ownlocale &= ~2u;
+    return;
   }
   if ( !s1 )
   {
     *_errno() = 22;
-    _invalid_parameter(0, a1, a2);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return 0x7FFFFFFF;
+    _invalid_parameter(0, (int)a1, a2);
+    if ( v18.updated )
+      v18.ptd->_ownlocale &= ~2u;
+    return;
   }
-  v7 = s2;
+  v6 = s2;
   if ( !s2 )
   {
     *_errno() = 22;
     _invalid_parameter(0, 0, a2);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return 0x7FFFFFFF;
+    if ( v18.updated )
+      v18.ptd->_ownlocale &= ~2u;
+    return;
   }
   while ( 1 )
   {
-    v8 = *s1;
+    v7 = (unsigned __int8)*s1;
     --n;
     ++s1;
-    v9 = (_loc_update.localeinfo.mbcinfo->mbctype[(unsigned __int8)v8 + 1] & 4) == 0;
-    c1 = v8;
-    if ( v9 )
+    v8 = (v18.localeinfo.mbcinfo->mbctype[(unsigned __int8)v7 + 1] & 4) == 0;
+    v19 = v7;
+    if ( v8 )
     {
-      v14 = (char *)_loc_update.localeinfo.mbcinfo + (unsigned __int16)c1;
-      if ( (v14[29] & 0x10) != 0 )
-        v15 = (unsigned __int8)v14[285];
+      v13 = (char *)v18.localeinfo.mbcinfo + (unsigned __int16)v19;
+      if ( (v13[29] & 0x10) != 0 )
+        v14 = (unsigned __int8)v13[285];
       else
-        v15 = (unsigned __int16)c1;
-      c1 = v15;
+        v14 = (unsigned __int16)v19;
+      v19 = v14;
       goto LABEL_32;
     }
     if ( !n )
     {
-      v10 = *v7;
-      v9 = (_loc_update.localeinfo.mbcinfo->mbctype[v10 + 1] & 4) == 0;
-      c1 = 0;
-      if ( !v9 )
+      v9 = (unsigned __int8)*v6;
+      v8 = (v18.localeinfo.mbcinfo->mbctype[v9 + 1] & 4) == 0;
+      v19 = 0;
+      if ( !v8 )
         goto LABEL_51;
-      v10 = (unsigned __int16)v10;
-      v11 = 0;
+      v9 = (unsigned __int16)v9;
+      v10 = 0;
       goto LABEL_46;
     }
     if ( !*s1 )
     {
-      c1 = 0;
+      v19 = 0;
 LABEL_32:
-      v11 = c1;
+      v10 = v19;
       goto LABEL_33;
     }
-    v12 = *s1++;
-    v13 = (unsigned __int16)(v12 | (unsigned __int16)(v8 << 8));
-    v11 = v13;
-    c1 = v13;
-    if ( (unsigned __int16)v13 < _loc_update.localeinfo.mbcinfo->mbulinfo[0]
-      || (unsigned __int16)v13 > _loc_update.localeinfo.mbcinfo->mbulinfo[1] )
+    v11 = *s1++;
+    v12 = (unsigned __int16)(v11 | (unsigned __int16)(v7 << 8));
+    v10 = v12;
+    v19 = v12;
+    if ( (unsigned __int16)v12 < v18.localeinfo.mbcinfo->mbulinfo[0]
+      || (unsigned __int16)v12 > v18.localeinfo.mbcinfo->mbulinfo[1] )
     {
-      if ( (unsigned __int16)v13 >= _loc_update.localeinfo.mbcinfo->mbulinfo[3]
-        && (unsigned __int16)v13 <= _loc_update.localeinfo.mbcinfo->mbulinfo[4] )
+      if ( (unsigned __int16)v12 >= v18.localeinfo.mbcinfo->mbulinfo[3]
+        && (unsigned __int16)v12 <= v18.localeinfo.mbcinfo->mbulinfo[4] )
       {
-        v11 = _loc_update.localeinfo.mbcinfo->mbulinfo[5] + v13;
+        v10 = v18.localeinfo.mbcinfo->mbulinfo[5] + v12;
       }
     }
     else
     {
-      v11 = _loc_update.localeinfo.mbcinfo->mbulinfo[2] + v13;
+      v10 = v18.localeinfo.mbcinfo->mbulinfo[2] + v12;
     }
 LABEL_33:
-    v16 = *v7++;
-    v9 = (_loc_update.localeinfo.mbcinfo->mbctype[(unsigned __int8)v16 + 1] & 4) == 0;
-    c2 = v16;
-    if ( v9 )
+    v15 = (unsigned __int8)*v6++;
+    v8 = (v18.localeinfo.mbcinfo->mbctype[(unsigned __int8)v15 + 1] & 4) == 0;
+    v20 = v15;
+    if ( v8 )
     {
-      v18 = (char *)_loc_update.localeinfo.mbcinfo + (unsigned __int16)c2;
-      if ( (v18[29] & 0x10) != 0 )
-        v10 = (unsigned __int8)v18[285];
+      v17 = (char *)v18.localeinfo.mbcinfo + (unsigned __int16)v20;
+      if ( (v17[29] & 0x10) != 0 )
+        v9 = (unsigned __int8)v17[285];
       else
-        v10 = (unsigned __int16)c2;
+        v9 = (unsigned __int16)v20;
 LABEL_46:
-      c2 = v10;
+      v20 = v9;
       goto LABEL_47;
     }
-    if ( !n || (--n, !*v7) )
+    if ( !n || (--n, !*v6) )
     {
-      c2 = 0;
+      v20 = 0;
 LABEL_47:
-      LOWORD(v17) = c2;
+      LOWORD(v16) = v20;
       goto test;
     }
-    v17 = (unsigned __int16)(*v7++ | (unsigned __int16)((_WORD)v16 << 8));
-    c2 = v17;
-    if ( (unsigned __int16)v17 < _loc_update.localeinfo.mbcinfo->mbulinfo[0]
-      || (unsigned __int16)v17 > _loc_update.localeinfo.mbcinfo->mbulinfo[1] )
+    v16 = (unsigned __int16)((unsigned __int8)*v6++ | (unsigned __int16)((_WORD)v15 << 8));
+    v20 = v16;
+    if ( (unsigned __int16)v16 < v18.localeinfo.mbcinfo->mbulinfo[0]
+      || (unsigned __int16)v16 > v18.localeinfo.mbcinfo->mbulinfo[1] )
     {
-      if ( (unsigned __int16)v17 >= _loc_update.localeinfo.mbcinfo->mbulinfo[3]
-        && (unsigned __int16)v17 <= _loc_update.localeinfo.mbcinfo->mbulinfo[4] )
+      if ( (unsigned __int16)v16 >= v18.localeinfo.mbcinfo->mbulinfo[3]
+        && (unsigned __int16)v16 <= v18.localeinfo.mbcinfo->mbulinfo[4] )
       {
-        LOWORD(v17) = _loc_update.localeinfo.mbcinfo->mbulinfo[5] + v17;
+        LOWORD(v16) = v18.localeinfo.mbcinfo->mbulinfo[5] + v16;
       }
     }
     else
     {
-      LOWORD(v17) = _loc_update.localeinfo.mbcinfo->mbulinfo[2] + v17;
+      LOWORD(v16) = v18.localeinfo.mbcinfo->mbulinfo[2] + v16;
     }
 test:
-    if ( (_WORD)v17 != v11 )
+    if ( (_WORD)v16 != v10 )
       break;
-    if ( !v11 || !n )
+    if ( !v10 || !n )
     {
 LABEL_51:
-      if ( _loc_update.updated )
-        _loc_update.ptd->_ownlocale &= ~2u;
-      return 0;
+      if ( v18.updated )
+        v18.ptd->_ownlocale &= ~2u;
+      return;
     }
   }
-  result = (unsigned __int16)v17 < v11 ? 1 : -1;
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
-  return result;
+  if ( v18.updated )
+    v18.ptd->_ownlocale &= ~2u;
 }

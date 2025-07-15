@@ -7,11 +7,11 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::noise(
         unsigned int channelOptions,
         bool grayScale)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v8; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // eax
-  Scaleform::GFx::AS3::VM::Error v11; // [esp+0h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v11; // [esp-8h] [ebp-14h]
+  Scaleform::GFx::AS3::VM::Error v12; // [esp+4h] [ebp-8h] BYREF
 
   if ( this->pImage.pObject )
   {
@@ -28,11 +28,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::noise(
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v11, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v8);
-    pNode = v11.Message.pNode;
-    --v11.Message.pNode->RefCount;
+    v11.pStr = "Invalid BitmapData";
+    v11.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v12, eArgumentError, this->pTraits.pObject->pVM, v11);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v8);
+    pNode = v12.Message.pNode;
+    --v12.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

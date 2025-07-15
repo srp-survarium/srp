@@ -1,4 +1,4 @@
-unsigned int __usercall stlp_std::priv::__format_float_scientific@<eax>(
+int __usercall stlp_std::priv::__format_float_scientific@<eax>(
         stlp_std::priv::__basic_iostring<char> *buf@<esi>,
         const char *bp@<ecx>,
         int decpt,
@@ -28,9 +28,10 @@ unsigned int __usercall stlp_std::priv::__format_float_scientific@<eax>(
   char v27; // al
   char *v28; // edi
   int v30; // [esp+Ch] [ebp-18h] BYREF
-  unsigned int __group_pos; // [esp+10h] [ebp-14h]
+  int v31; // [esp+10h] [ebp-14h]
   unsigned int v32; // [esp+14h] [ebp-10h] BYREF
-  char expbuf[8]; // [esp+18h] [ebp-Ch] BYREF
+  _BYTE v33[2]; // [esp+1Bh] [ebp-9h] BYREF
+  char v34; // [esp+1Dh] [ebp-7h] BYREF
 
   if ( sign )
   {
@@ -75,7 +76,7 @@ unsigned int __usercall stlp_std::priv::__format_float_scientific@<eax>(
   M_finish = buf->_M_finish;
   M_data = (stlp_std::priv::__basic_iostring<char> *)buf->_M_start_of_storage._M_data;
   v15 = bp + 1;
-  __group_pos = M_finish - (char *)M_data;
+  v31 = M_finish - (char *)M_data;
   if ( precision || (flags & 0x400) != 0 )
   {
     if ( M_data == buf )
@@ -131,8 +132,8 @@ unsigned int __usercall stlp_std::priv::__format_float_scientific@<eax>(
       buf,
       precision,
       48);
-  v25 = &expbuf[5];
-  expbuf[5] = 0;
+  v25 = &v34;
+  v34 = 0;
   if ( is_zero )
     goto LABEL_53;
   v26 = decpt - 1;
@@ -141,12 +142,12 @@ unsigned int __usercall stlp_std::priv::__format_float_scientific@<eax>(
   for ( ; v26 > 9; v26 /= 10 )
     *--v25 = v26 % 10 + 48;
   *--v25 = v26 + 48;
-  if ( v25 > &expbuf[3] )
+  if ( v25 > v33 )
   {
 LABEL_53:
     do
       *--v25 = 48;
-    while ( v25 > &expbuf[3] );
+    while ( v25 > v33 );
   }
   if ( decpt > 0 || (v27 = 45, is_zero) )
     v27 = 43;
@@ -157,5 +158,5 @@ LABEL_53:
     buf,
     v28,
     &v28[strlen(v28)]);
-  return __group_pos;
+  return v31;
 }

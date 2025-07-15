@@ -13,18 +13,18 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
   Scaleform::GFx::AS3::CheckResult *v10; // eax
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // ebp
   Scaleform::GFx::ASStringNode *pNode; // eax
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::AS3::Value *StringNode; // edi
   bool v15; // zf
   _DWORD *VInt; // edi
   int v17; // eax
-  char *v18; // eax
+  __m128i *v18; // eax
   Scaleform::GFx::AS3::Value *v19; // edi
   Scaleform::GFx::ASStringNode *v20; // ecx
   const Scaleform::GFx::ASString *v21; // eax
   Scaleform::GFx::ASStringNode *v22; // eax
   Scaleform::GFx::ASStringNode *v23; // eax
-  char *v24; // eax
+  __m128i *v24; // eax
   Scaleform::GFx::ASString *String; // eax
   Scaleform::GFx::AS3::VM::ErrorID ID; // eax
   Scaleform::GFx::ASString v27; // [esp+4h] [ebp-2Ch] BYREF
@@ -56,9 +56,9 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
         --v27.pNode->RefCount;
         if ( !pNode->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-        pData = buf.pData;
+        pData = (__m128i *)buf.pData;
         if ( !buf.pData )
-          pData = (char *)&::buf;
+          pData = (__m128i *)uri;
         StringNode = (Scaleform::GFx::AS3::Value *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                      StringManagerRef->pStringManager,
                                                      pData,
@@ -78,15 +78,15 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
       && (*(_DWORD *)(v17 + 56) & 0x20) == 0 )
     {
       Scaleform::StringBuffer::StringBuffer(&buf, Scaleform::Memory::pGlobalHeap);
-      (*(void (__thiscall **)(_DWORD *, Scaleform::StringBuffer *, _DWORD, _DWORD, _DWORD))(*VInt + 88))(
+      (*(void (__thiscall **)(_DWORD *, Scaleform::StringBuffer *, _DWORD, _DWORD, _DWORD))(*VInt + 100))(
         VInt,
         &buf,
         0,
         0,
         0);
-      v18 = buf.pData;
+      v18 = (__m128i *)buf.pData;
       if ( !buf.pData )
-        v18 = (char *)&::buf;
+        v18 = (__m128i *)uri;
       v19 = (Scaleform::GFx::AS3::Value *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                             StringManagerRef->pStringManager,
                                             v18,
@@ -137,9 +137,9 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
       --v28.pNode->RefCount;
       if ( !v23->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v23);
-      v24 = buf.pData;
+      v24 = (__m128i *)buf.pData;
       if ( !buf.pData )
-        v24 = (char *)&::buf;
+        v24 = (__m128i *)uri;
       String = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
                  StringManagerRef,
                  (Scaleform::GFx::ASString *)&v30,

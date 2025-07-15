@@ -13,41 +13,41 @@ void __thiscall Scaleform::GFx::PlaceObject2Tag::ExecuteBase(
   Scaleform::GFx::ASStringNode *v11; // esi
   char v12; // bl
   Scaleform::GFx::ASStringNode *v13; // eax
-  Scaleform::GFx::ASStringNode *v14; // [esp+1ECh] [ebp-7Ch] BYREF
-  Scaleform::GFx::ASStringNode *v15; // [esp+1F0h] [ebp-78h] BYREF
-  _BYTE v16[4]; // [esp+1F4h] [ebp-74h] BYREF
-  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData data; // [esp+1F8h] [ebp-70h] BYREF
+  Scaleform::GFx::ASStringNode *v14; // [esp+20h] [ebp-7Ch] BYREF
+  Scaleform::GFx::ASStringNode *v15; // [esp+24h] [ebp-78h] BYREF
+  _BYTE v16[4]; // [esp+28h] [ebp-74h] BYREF
+  Scaleform::GFx::GFxPlaceObjectBase::UnpackedData v17; // [esp+2Ch] [ebp-70h] BYREF
 
   v15 = 0;
-  Scaleform::Render::Cxform::Cxform(&data.Pos.ColorTransform);
-  data.Pos.Matrix_1.M[0][0] = 1.0;
-  data.Pos.Matrix_1.M[0][1] = 0.0;
-  data.Pos.Matrix_1.M[0][2] = 0.0;
-  data.Pos.Matrix_1.M[0][3] = 0.0;
-  data.Pos.Matrix_1.M[1][0] = 0.0;
-  data.Pos.Matrix_1.M[1][2] = 0.0;
-  data.Pos.Matrix_1.M[1][3] = 0.0;
-  data.Pos.Matrix_1.M[1][1] = 1.0;
-  data.Pos.pFilters.pObject = 0;
-  data.Pos.CharacterId.Id = 0x40000;
-  data.Pos.Depth = 0;
-  data.Pos.Ratio = 0.0;
-  memset(&data.Pos.ClassName, 0, 9);
-  Scaleform::GFx::PlaceObject2Tag::UnpackBase(this, &data, version);
-  if ( data.PlaceType )
+  Scaleform::Render::Cxform::Cxform(&v17.Pos.ColorTransform);
+  v17.Pos.Matrix_1.M[0][0] = 1.0;
+  v17.Pos.Matrix_1.M[0][1] = 0.0;
+  v17.Pos.Matrix_1.M[0][2] = 0.0;
+  v17.Pos.Matrix_1.M[0][3] = 0.0;
+  v17.Pos.Matrix_1.M[1][0] = 0.0;
+  v17.Pos.Matrix_1.M[1][2] = 0.0;
+  v17.Pos.Matrix_1.M[1][3] = 0.0;
+  v17.Pos.Matrix_1.M[1][1] = 1.0;
+  v17.Pos.pFilters.pObject = 0;
+  v17.Pos.CharacterId.Id = 0x40000;
+  v17.Pos.Depth = 0;
+  v17.Pos.Ratio = 0.0;
+  memset(&v17.Pos.ClassName, 0, 9);
+  Scaleform::GFx::PlaceObject2Tag::UnpackBase(this, &v17, version);
+  if ( v17.PlaceType )
   {
-    if ( data.PlaceType == Place_Move )
+    if ( v17.PlaceType == Place_Move )
     {
-      Scaleform::GFx::DisplayObjContainer::MoveDisplayObject(m, &data.Pos);
+      Scaleform::GFx::DisplayObjContainer::MoveDisplayObject(m, &v17.Pos);
       goto LABEL_27;
     }
-    if ( data.PlaceType != Place_Replace )
+    if ( v17.PlaceType != Place_Replace )
       goto LABEL_27;
     StringManager = Scaleform::GFx::InteractiveObject::GetStringManager(m);
-    if ( data.Name )
+    if ( v17.Name )
     {
       v7 = 8;
-      StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, (char *)data.Name);
+      StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, (__m128i *)v17.Name);
       ++StringNode->RefCount;
       v14 = StringNode;
       p_EmptyStringNode = StringNode;
@@ -77,7 +77,7 @@ void __thiscall Scaleform::GFx::PlaceObject2Tag::ExecuteBase(
     }
     m->CreateAndReplaceDisplayObject(
       m,
-      (const Scaleform::GFx::CharPosInfo *)&data,
+      (const Scaleform::GFx::CharPosInfo *)&v17,
       (const Scaleform::GFx::ASString *)&v15,
       (Scaleform::GFx::DisplayObjectBase **)v16);
     v9 = v15;
@@ -85,10 +85,10 @@ void __thiscall Scaleform::GFx::PlaceObject2Tag::ExecuteBase(
   else
   {
     v10 = Scaleform::GFx::InteractiveObject::GetStringManager(m);
-    if ( data.Name )
+    if ( v17.Name )
     {
       v12 = 2;
-      v13 = Scaleform::GFx::ASStringManager::CreateStringNode(v10, (char *)data.Name);
+      v13 = Scaleform::GFx::ASStringManager::CreateStringNode(v10, (__m128i *)v17.Name);
       ++v13->RefCount;
       v15 = v13;
       v11 = v13;
@@ -118,9 +118,9 @@ void __thiscall Scaleform::GFx::PlaceObject2Tag::ExecuteBase(
     }
     m->AddDisplayObject(
       m,
-      (const Scaleform::GFx::CharPosInfo *)&data,
+      (const Scaleform::GFx::CharPosInfo *)&v17,
       (const Scaleform::GFx::ASString *)&v14,
-      data.pEventHandlers,
+      v17.pEventHandlers,
       0,
       -1u,
       4u,
@@ -131,6 +131,6 @@ void __thiscall Scaleform::GFx::PlaceObject2Tag::ExecuteBase(
   if ( !--v9->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v9);
 LABEL_27:
-  if ( data.Pos.pFilters.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)data.Pos.pFilters.pObject);
+  if ( v17.Pos.pFilters.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v17.Pos.pFilters.pObject);
 }

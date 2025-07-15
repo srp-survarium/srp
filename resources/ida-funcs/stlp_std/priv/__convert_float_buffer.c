@@ -1,13 +1,13 @@
 void __cdecl stlp_std::priv::__convert_float_buffer(
         const stlp_std::priv::__basic_iostring<char> *str,
         stlp_std::priv::__basic_iostring<wchar_t> *out,
-        stlp_std::ctype<wchar_t> *ct,
+        const stlp_std::ctype<wchar_t> *ct,
         wchar_t dot,
         int __check_dot)
 {
   char *M_finish; // ebx
   char *M_data; // edi
-  stlp_std::ctype<wchar_t> *v7; // ebp
+  const stlp_std::ctype<wchar_t> *v7; // ebp
   stlp_std::priv::__basic_iostring<wchar_t> *v8; // esi
   wchar_t v9; // ax
   stlp_std::priv::__basic_iostring<wchar_t> *v10; // edx
@@ -17,7 +17,7 @@ void __cdecl stlp_std::priv::__convert_float_buffer(
   unsigned int v14; // eax
   int *v15; // ecx
   unsigned int v16; // ecx
-  _BYTE *v18; // edi
+  char *v18; // edi
   wchar_t v19; // ax
   stlp_std::priv::__basic_iostring<wchar_t> *v20; // edx
   wchar_t v21; // bx
@@ -28,11 +28,11 @@ void __cdecl stlp_std::priv::__convert_float_buffer(
   unsigned int v26; // ecx
   int v27; // [esp+10h] [ebp-8h] BYREF
   int v28; // [esp+14h] [ebp-4h] BYREF
-  const char *str_end; // [esp+1Ch] [ebp+4h]
+  char *v29; // [esp+1Ch] [ebp+4h]
 
   M_finish = str->_M_finish;
   M_data = str->_M_start_of_storage._M_data;
-  str_end = M_finish;
+  v29 = M_finish;
   if ( (_BYTE)__check_dot )
   {
     if ( M_data == M_finish )
@@ -75,9 +75,9 @@ LABEL_19:
       }
       out->_M_finish[1] = 0;
       *out->_M_finish++ = v11;
-      if ( ++M_data == str_end )
+      if ( ++M_data == v29 )
         return;
-      M_finish = (char *)str_end;
+      M_finish = v29;
     }
   }
   else
@@ -134,7 +134,7 @@ LABEL_19:
         *v8->_M_finish++ = v21;
         ++v18;
       }
-      while ( v18 != str_end );
+      while ( v18 != v29 );
     }
   }
 }

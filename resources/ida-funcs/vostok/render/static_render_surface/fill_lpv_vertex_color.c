@@ -9,17 +9,17 @@ void __thiscall vostok::render::static_render_surface::fill_lpv_vertex_color(
   if ( m_vertex_input_type == static_mesh_vertex_input_type )
   {
     vostok::render::fill_static_lpv_vertex_color__vostok::render::static_render_surface::fill_lpv_vertex_color_::_2_::static_vertex0_(
-      &this->m_materail_effects_instance,
       in_out_geometry,
       &this->m_render_geometry,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_materail_effects_instance,
       transform);
   }
   else if ( m_vertex_input_type == static_mesh_vertex_colored_input_type )
   {
     vostok::render::fill_static_lpv_vertex_color__vostok::render::static_render_surface::fill_lpv_vertex_color_::_2_::colored_static_vertex_(
-      &this->m_materail_effects_instance,
       in_out_geometry,
       &this->m_render_geometry,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_materail_effects_instance,
       transform);
   }
 }

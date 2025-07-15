@@ -1,23 +1,23 @@
-bool __userpurge Scaleform::GFx::TextField::SetRestrict@<al>(
+char __userpurge Scaleform::GFx::TextField::SetRestrict@<al>(
         Scaleform::GFx::TextField *this@<ecx>,
         int a2@<ebx>,
-        const Scaleform::GFx::ASString *restrStr)
+        const __m128i ***restrStr)
 {
   Scaleform::GFx::Text::EditorKit *pObject; // esi
   const Scaleform::String *v5; // eax
-  bool v6; // al
+  char v6; // al
   void *v7; // esi
-  bool v8; // bl
-  Scaleform::Ptr<Scaleform::GFx::Text::EditorKit> result; // [esp+8h] [ebp-4h] BYREF
+  char v8; // bl
+  Scaleform::RefCountVImpl *v10; // [esp+8h] [ebp-4h] BYREF
 
   if ( !this->pDocument.pObject->pEditorKit.pObject )
   {
-    Scaleform::GFx::TextField::CreateEditorKit(this, a2, (int)&result);
-    if ( result.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pObject);
+    Scaleform::GFx::TextField::CreateEditorKit(this, a2, (int)&v10);
+    if ( v10 )
+      Scaleform::RefCountImpl::Release(v10);
   }
   pObject = (Scaleform::GFx::Text::EditorKit *)this->pDocument.pObject->pEditorKit.pObject;
-  Scaleform::String::String((Scaleform::String *)&restrStr, (char *)restrStr->pNode->pData);
+  Scaleform::String::String((Scaleform::String *)&restrStr, **restrStr);
   v6 = Scaleform::GFx::Text::EditorKit::SetRestrict(pObject, v5);
   v7 = (void *)((unsigned int)restrStr & 0xFFFFFFFC);
   v8 = v6;

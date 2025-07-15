@@ -1,55 +1,66 @@
 void __thiscall vostok::network::tcp_packet_client::connect(
         vostok::network::tcp_packet_client *this,
-        char *host,
-        unsigned __int16 port)
+        const char *host,
+        char *port,
+        __int16 a4)
 {
-  vostok::memory::base_allocator *v3; // eax
-  vostok::network::response *v4; // eax
-  vostok::network::network_world *v6; // [esp+14h] [ebp-6Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf4<void,vostok::network::login_client,char const *,unsigned short,char const *,char const *>,boost::_bi::list5<boost::_bi::value<vostok::network::login_client *>,boost::arg<1>,boost::_bi::value<unsigned short>,boost::arg<2>,boost::arg<3> > > v7; // [esp+20h] [ebp-60h]
-  void *_Where; // [esp+34h] [ebp-4Ch]
-  vostok::network::network_world *m_world; // [esp+3Ch] [ebp-44h]
-  char v10; // [esp+48h] [ebp-38h]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,char const *,unsigned short>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::arg<1>,boost::_bi::value<unsigned short> > > result; // [esp+4Ch] [ebp-34h] BYREF
-  boost::function1<void,char const *> v12; // [esp+58h] [ebp-28h] BYREF
-  vostok::network::string_order *v13; // [esp+7Ch] [ebp-4h]
+  int v5; // eax
+  int v6; // esi
+  char *v7; // eax
+  boost::function<void __cdecl(char const *)> *v8; // ecx
+  __int32 v9; // eax
+  int v10; // ebx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v11; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,char const *,unsigned short>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::arg<1>,boost::_bi::value<unsigned short> > > v12; // [esp-10h] [ebp-5Ch]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+10h] [ebp-3Ch] BYREF
+  void (__thiscall *v14)(vostok::network::tcp_packet_client *, char *, boost::asio::ip::tcp); // [esp+30h] [ebp-1Ch]
+  const char *v15; // [esp+34h] [ebp-18h]
+  int v16; // [esp+38h] [ebp-14h]
+  int v17; // [esp+40h] [ebp-Ch]
+  vostok::network::string_order *v18; // [esp+44h] [ebp-8h]
+  char v19; // [esp+54h] [ebp+8h]
 
-  v10 = 0;
-  m_world = this->m_world;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)m_world);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)m_world->m_channel.orders.m_owner_allocator);
-  _Where = vostok::memory::base_allocator::malloc_impl(v3, 0x78u);
-  v13 = (vostok::network::string_order *)operator new(0x78u, _Where);
-  if ( v13 )
+  v5 = *((_DWORD *)host + 32);
+  v19 = 0;
+  v6 = *(_DWORD *)(v5 + 284);
+  v7 = type_info::raw_name(&vostok::network::string_order `RTTI Type Descriptor');
+  v18 = (vostok::network::string_order *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v6 + 16))(
+                                           v6,
+                                           128,
+                                           v7,
+                                           "vostok::network::tcp_packet_client::connect",
+                                           ".\\tcp_packet_client.cpp",
+                                           68);
+  if ( v18 )
   {
-    v7 = *boost::bind<void,vostok::network::login_client,char const *,unsigned short,char const *,char const *,vostok::network::login_client *,boost::arg<1>,unsigned short,boost::arg<2>,boost::arg<3>>(
-            (boost::_bi::bind_t<void,boost::_mfi::mf4<void,vostok::network::login_client,char const *,unsigned short,char const *,char const *>,boost::_bi::list5<boost::_bi::value<vostok::network::login_client *>,boost::arg<1>,boost::_bi::value<unsigned short>,boost::arg<2>,boost::arg<3> > > *)&result,
-            vostok::network::tcp_packet_client::connect_impl,
-            (vostok::network::login_client *)this,
-            1_243,
-            port);
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-      (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v7.f_.f_,
-      &v12);
-    boost::function1<void,char const *>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,char const *,unsigned short>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::arg<1>,boost::_bi::value<unsigned short>>>>(
-      &v12,
-      (boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,char const *,unsigned short>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::arg<1>,boost::_bi::value<unsigned short> > >)v7);
-    v10 = 1;
-    v6 = this->m_world;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v6);
+    LOWORD(v17) = a4;
+    v16 = v17;
+    v14 = vostok::network::tcp_packet_client::connect_impl;
+    v15 = host;
+    v12.l_.a1_.t_ = (vostok::network::tcp_packet_client *)vostok::network::tcp_packet_client::connect_impl;
+    *(_DWORD *)&v12.l_.a3_.t_ = host;
+    v12.f_.f_ = (void (__thiscall *)(vostok::network::tcp_packet_client *, const char *, unsigned __int16))&f;
+    boost::function<void __cdecl (char const *)>::function<void __cdecl (char const *)>(v8, v12, v17);
+    v19 = 1;
     vostok::network::string_order::string_order(
-      v13,
-      v6->m_channel.orders.m_owner_allocator,
-      (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)&v12,
-      host);
-    vostok::network::network_world::add_order(this->m_world, v4);
+      v18,
+      *(vostok::memory::base_allocator **)(*((_DWORD *)host + 32) + 284),
+      &f,
+      port);
   }
   else
   {
-    vostok::network::network_world::add_order(this->m_world, 0);
+    v9 = 0;
   }
-  if ( (v10 & 1) != 0 )
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)(v10 & 1),
-      (int *)&v12);
+  v10 = *((_DWORD *)host + 32);
+  *(_DWORD *)(v9 + 8) = 0;
+  v10 += 148;
+  v11 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)_InterlockedExchange(
+                                                                                          (volatile __int32 *)(*(_DWORD *)v10 + 8),
+                                                                                          v9);
+  *(_DWORD *)v10 = v9;
+  if ( (v19 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v11,
+      (int *)&f);
 }

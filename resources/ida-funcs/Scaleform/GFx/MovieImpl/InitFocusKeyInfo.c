@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::MovieImpl::InitFocusKeyInfo(
   int v13; // eax
   Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *i; // edi
   float pfocusInfoa; // [esp+8h] [ebp+4h]
-  float keyEntrya; // [esp+Ch] [ebp+8h]
+  float y2; // [esp+Ch] [ebp+8h]
 
   if ( !pfocusInfo->Initialized )
   {
@@ -26,11 +26,11 @@ void __thiscall Scaleform::GFx::MovieImpl::InitFocusKeyInfo(
     pObject = (char)inclFocusEnabled.pObject;
     pfocusInfoa = v7->LastFocusedRect.y1;
     pfocusGroup = v7->LastFocusedRect.x2;
-    keyEntrya = v7->LastFocusedRect.y2;
+    y2 = v7->LastFocusedRect.y2;
     pfocusInfo->Prev_aRect.x1 = v7->LastFocusedRect.x1;
     pfocusInfo->Prev_aRect.y1 = pfocusInfoa;
     pfocusInfo->Prev_aRect.x2 = pfocusGroup;
-    pfocusInfo->Prev_aRect.y2 = keyEntrya;
+    pfocusInfo->Prev_aRect.y2 = y2;
     pfocusInfo->InclFocusEnabled = pObject;
     pfocusInfo->ManualFocus = 0;
     pfocusInfo->KeyboardIndex = keyEntry->KeyboardIndex;

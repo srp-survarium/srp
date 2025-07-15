@@ -15,7 +15,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   int v12; // ecx
   unsigned int v13; // eax
   unsigned __int16 v14; // cx
-  unsigned __int16 v15; // bx
+  int v15; // ebx
   int v16; // edx
   unsigned int v17; // eax
   int v18; // edx
@@ -24,11 +24,11 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   int v21; // edx
   int v22; // ecx
   unsigned int v23; // eax
-  unsigned int v24; // edi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v25; // ecx
+  int v24; // edi
+  unsigned int v25; // ebx
   int v26; // ecx
   unsigned int v27; // ecx
-  unsigned int v28; // edx
+  int v28; // edx
   unsigned int v29; // eax
   int v30; // ecx
   unsigned int v31; // ecx
@@ -49,58 +49,56 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   int v46; // ecx
   unsigned int v47; // ecx
   int v48; // edx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v49; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v50; // ecx
-  Scaleform::Render::Image *v51; // edi
-  unsigned int v52; // edi
-  Scaleform::Render::TextureGlyph *v53; // ebx
-  int v54; // ecx
-  unsigned int v55; // eax
-  float v56; // edi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v57; // ecx
-  int v58; // edx
-  unsigned int v59; // eax
-  unsigned __int16 v60; // cx
+  Scaleform::Render::Image *v49; // edi
+  unsigned int v50; // edi
+  Scaleform::Render::TextureGlyph *v51; // ebx
+  int v52; // ecx
+  unsigned int v53; // eax
+  float v54; // edi
+  int v55; // edx
+  unsigned int v56; // eax
+  unsigned __int16 v57; // cx
   Scaleform::Render::Font *FontData; // edi
-  int v62; // eax
-  Scaleform::GFx::TextureGlyphData *v63; // ebx
-  Scaleform::GFx::TextureGlyphData *v64; // ebx
-  unsigned int v65; // eax
-  Scaleform::GFx::TextureGlyphData *v66; // eax
-  int v67; // edx
-  int v68; // ecx
-  int v69; // edx
-  int v70; // eax
+  int v59; // eax
+  Scaleform::GFx::TextureGlyphData *v60; // ebx
+  Scaleform::GFx::TextureGlyphData *v61; // ebx
+  unsigned int v62; // eax
+  Scaleform::GFx::TextureGlyphData *v63; // eax
+  int v64; // edx
+  int v65; // ecx
+  int v66; // edx
+  int v67; // eax
+  unsigned int v68; // eax
+  unsigned __int16 v69; // dx
+  int v70; // edx
   unsigned int v71; // eax
-  unsigned __int16 v72; // dx
+  unsigned __int16 v72; // cx
   int v73; // edx
-  unsigned int v74; // eax
-  unsigned __int16 v75; // cx
-  int v76; // edx
-  unsigned int v77; // edi
-  unsigned int v78; // eax
+  unsigned int v74; // edi
+  unsigned int v75; // eax
+  unsigned __int16 v76; // cx
   Scaleform::Render::TextureGlyph *Data; // ebx
-  Scaleform::Render::TextureGlyph *v80; // esi
+  Scaleform::Render::TextureGlyph *v78; // esi
   unsigned int Size; // edi
-  void *v82; // esi
-  Scaleform::String pstr; // [esp+2C0h] [ebp-80h] BYREF
-  Scaleform::GFx::ResourceId rid; // [esp+2C4h] [ebp-7Ch]
-  float v85; // [esp+2C8h] [ebp-78h]
-  float v86; // [esp+2CCh] [ebp-74h]
-  float v87; // [esp+2D0h] [ebp-70h]
-  float v88; // [esp+2D4h] [ebp-6Ch]
-  float v89; // [esp+2D8h] [ebp-68h]
-  unsigned int v90; // [esp+2DCh] [ebp-64h]
-  unsigned int v91; // [esp+2E0h] [ebp-60h]
-  Scaleform::MemoryHeap *pHeap; // [esp+2E4h] [ebp-5Ch]
-  Scaleform::GFx::ResourceId v93; // [esp+2E8h] [ebp-58h]
-  Scaleform::GFx::ResourceHandle result; // [esp+2ECh] [ebp-54h] BYREF
-  Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+2F4h] [ebp-4Ch] BYREF
-  int v96; // [esp+300h] [ebp-40h]
-  int v97; // [esp+304h] [ebp-3Ch]
-  unsigned __int16 targetWidth[2]; // [esp+308h] [ebp-38h]
-  int v99; // [esp+30Ch] [ebp-34h]
-  Scaleform::Render::TextureGlyph __that; // [esp+310h] [ebp-30h] BYREF
+  void *v80; // esi
+  Scaleform::String pstr; // [esp+30h] [ebp-80h] BYREF
+  float v82; // [esp+34h] [ebp-7Ch]
+  float v83; // [esp+38h] [ebp-78h]
+  float v84; // [esp+3Ch] [ebp-74h]
+  float v85; // [esp+40h] [ebp-70h]
+  float v86; // [esp+44h] [ebp-6Ch]
+  float v87; // [esp+48h] [ebp-68h]
+  unsigned int v88; // [esp+4Ch] [ebp-64h]
+  unsigned int v89; // [esp+50h] [ebp-60h]
+  Scaleform::MemoryHeap *pHeap; // [esp+54h] [ebp-5Ch]
+  Scaleform::GFx::ResourceId v91; // [esp+58h] [ebp-58h]
+  Scaleform::GFx::ResourceHandle textureId; // [esp+5Ch] [ebp-54h] BYREF
+  Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+64h] [ebp-4Ch] BYREF
+  int v94; // [esp+70h] [ebp-40h]
+  int v95; // [esp+74h] [ebp-3Ch]
+  int v96; // [esp+78h] [ebp-38h]
+  int v97; // [esp+7Ch] [ebp-34h]
+  Scaleform::Render::TextureGlyph __that; // [esp+80h] [ebp-30h] BYREF
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -115,13 +113,13 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
      | ((pAltStream->Stream.pBuffer[Pos + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos + 2] << 8)) << 8);
   v6 = Pos + 4;
   v7 = pAltStream->Stream.DataSize - (Pos + 4);
-  v93.Id = v5;
+  v91.Id = v5;
   pAltStream->Stream.Pos = v6;
   pAltStream->Stream.UnusedBits = 0;
   if ( v7 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   v8 = pAltStream->Stream.Pos;
-  rid.Id = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v8];
+  LODWORD(v82) = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v8];
   pAltStream->Stream.Pos = v8 + 2;
   Scaleform::String::String(&pstr);
   Scaleform::GFx::Stream::ReadStringWithLength(&pAltStream->Stream, &pstr);
@@ -134,7 +132,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   v10 += 2;
   v12 = pAltStream->Stream.DataSize - v10;
   pAltStream->Stream.Pos = v10;
-  *(_DWORD *)targetWidth = v11;
+  v96 = v11;
   pAltStream->Stream.UnusedBits = 0;
   if ( v12 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
@@ -144,7 +142,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   v15 = v14;
   v16 = pAltStream->Stream.DataSize - v13;
   pAltStream->Stream.Pos = v13;
-  v99 = v14;
+  v97 = v14;
   pAltStream->Stream.UnusedBits = 0;
   if ( v16 < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(&pAltStream->Stream);
@@ -152,24 +150,32 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   v18 = pAltStream->Stream.pBuffer[v17++];
   v19 = pAltStream->Stream.DataSize - v17;
   pAltStream->Stream.Pos = v17;
-  v97 = v18;
+  v95 = v18;
   pAltStream->Stream.UnusedBits = 0;
   if ( v19 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   v20 = pAltStream->Stream.Pos;
   v21 = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v20];
   pAltStream->Stream.Pos = v20 + 2;
-  v96 = v21;
-  if ( Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)tagInfo->TagType);
+  v94 = v21;
+  if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      &pAltStream->Stream,
+      "  FontTextureInfo: tagInfo.TagType = %d, id = 0x%X, fmt = %d, name = '%s', w = %d, h = %d\n",
+      tagInfo->TagType,
+      v5,
+      LOWORD(v82),
+      (const char *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+      v96,
+      v15);
   Scaleform::GFx::GFx_CreateImageFileResourceHandle(
-    &result,
+    &textureId,
     p,
     (Scaleform::GFx::ResourceId)v5,
-    (char *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
-    (char *)&buf,
-    rid.Id,
-    targetWidth[0],
+    (const __m128i *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const __m128i *)uri,
+    LOWORD(v82),
+    v96,
     v15);
   v22 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
   memset(&pheapAddr, 0, sizeof(pheapAddr));
@@ -179,10 +185,16 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
   v23 = pAltStream->Stream.Pos;
   v24 = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v23];
   pAltStream->Stream.Pos = v23 + 2;
-  v91 = v24;
-  if ( Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v25);
-  v90 = 0;
+  v89 = v24;
+  if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      &pAltStream->Stream,
+      "  PadPixels = %d, nominal glyph size = %d, numTexGlyphs = %d\n",
+      v95,
+      v94,
+      v24);
+  v25 = 0;
+  v88 = 0;
   if ( v24 )
   {
     do
@@ -196,7 +208,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
           | ((pAltStream->Stream.pBuffer[v27 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v27 + 2] << 8)) << 8);
       v29 = v27 + 4;
       v30 = pAltStream->Stream.DataSize - (v27 + 4);
-      rid.Id = v28;
+      v82 = *(float *)&v28;
       pAltStream->Stream.Pos = v29;
       pAltStream->Stream.UnusedBits = 0;
       if ( v30 < 4 )
@@ -206,7 +218,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
           | ((pAltStream->Stream.pBuffer[v31 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v31 + 2] << 8)) << 8);
       v33 = v31 + 4;
       v34 = pAltStream->Stream.DataSize - (v31 + 4);
-      v85 = *(float *)&v32;
+      v83 = *(float *)&v32;
       pAltStream->Stream.Pos = v33;
       pAltStream->Stream.UnusedBits = 0;
       if ( v34 < 4 )
@@ -216,7 +228,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
           | ((pAltStream->Stream.pBuffer[v35 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v35 + 2] << 8)) << 8);
       v37 = v35 + 4;
       v38 = pAltStream->Stream.DataSize - (v35 + 4);
-      v86 = *(float *)&v36;
+      v84 = *(float *)&v36;
       pAltStream->Stream.Pos = v37;
       pAltStream->Stream.UnusedBits = 0;
       if ( v38 < 4 )
@@ -226,7 +238,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
           | ((pAltStream->Stream.pBuffer[v39 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v39 + 2] << 8)) << 8);
       v41 = v39 + 4;
       v42 = pAltStream->Stream.DataSize - (v39 + 4);
-      v87 = *(float *)&v40;
+      v85 = *(float *)&v40;
       pAltStream->Stream.Pos = v41;
       pAltStream->Stream.UnusedBits = 0;
       if ( v42 < 4 )
@@ -236,7 +248,7 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
           | ((pAltStream->Stream.pBuffer[v43 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v43 + 2] << 8)) << 8);
       v45 = v43 + 4;
       v46 = pAltStream->Stream.DataSize - (v43 + 4);
-      v88 = *(float *)&v44;
+      v86 = *(float *)&v44;
       pAltStream->Stream.Pos = v45;
       pAltStream->Stream.UnusedBits = 0;
       if ( v46 < 4 )
@@ -245,11 +257,22 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
       v48 = pAltStream->Stream.pBuffer[v47]
           | ((pAltStream->Stream.pBuffer[v47 + 1] | (*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v47 + 2] << 8)) << 8);
       pAltStream->Stream.Pos = v47 + 4;
-      v89 = *(float *)&v48;
-      if ( Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
+      v87 = *(float *)&v48;
+      if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
       {
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v49);
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v50);
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+          &pAltStream->Stream,
+          "  TEXGLYPH[%d]: uvBnd.x1 = %f, uvBnd.y1 = %f, uvBnd.x2 = %f, uvBnd.y2 = %f\n",
+          v25,
+          v82,
+          v83,
+          v84,
+          v85);
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+          &pAltStream->Stream,
+          "                uvOrigin.x = %f, uvOrigin.y = %f\n",
+          v86,
+          v87);
       }
       __that.UvBounds.x1 = 0.0;
       __that.UvBounds.y1 = 0.0;
@@ -259,182 +282,184 @@ void __stdcall Scaleform::GFx::GFx_FontTextureInfoLoader(
       __that.UvBounds.y2 = 0.0;
       __that.pImage.pObject = 0;
       __that.BindIndex = -1;
-      if ( result.HType == RH_Index )
+      if ( textureId.HType == RH_Index )
       {
-        __that.BindIndex = result.BindIndex;
+        __that.BindIndex = textureId.BindIndex;
       }
-      else if ( result.HType == RH_Pointer
-             && result.BindIndex
-             && ((*(int (__thiscall **)(unsigned int))(*(_DWORD *)result.BindIndex + 8))(result.BindIndex) & 0xFF00) == 0x100 )
+      else if ( textureId.HType == RH_Pointer
+             && textureId.BindIndex
+             && ((*(int (__thiscall **)(unsigned int))(*(_DWORD *)textureId.BindIndex + 8))(textureId.BindIndex) & 0xFF00) == 0x100 )
       {
-        v51 = *(Scaleform::Render::Image **)(result.HType == RH_Pointer ? result.BindIndex + 0xC : 12);
-        if ( v51 )
-          v51->AddRef(*(struct Scaleform::Render::Image **)(result.HType == RH_Pointer ? result.BindIndex + 0xC : 12));
+        v49 = *(Scaleform::Render::Image **)(textureId.HType == RH_Pointer ? textureId.BindIndex + 0xC : 12);
+        if ( v49 )
+          v49->AddRef(*(struct Scaleform::Render::Image **)(textureId.HType == RH_Pointer
+                                                          ? textureId.BindIndex + 0xC
+                                                          : 12));
         if ( __that.pImage.pObject )
           __that.pImage.pObject->Release(__that.pImage.pObject);
-        __that.pImage.pObject = v51;
+        __that.pImage.pObject = v49;
       }
-      __that.UvBounds.x1 = *(float *)&rid.Id;
-      v52 = pheapAddr.Size + 1;
-      __that.UvBounds.y1 = v85;
-      __that.UvBounds.x2 = v86;
-      __that.UvBounds.y2 = v87;
-      __that.UvOrigin.x = v88;
-      __that.UvOrigin.y = v89;
+      __that.UvBounds.x1 = v82;
+      v50 = pheapAddr.Size + 1;
+      __that.UvBounds.y1 = v83;
+      __that.UvBounds.x2 = v84;
+      __that.UvBounds.y2 = v85;
+      __that.UvOrigin.x = v86;
+      __that.UvOrigin.y = v87;
       if ( pheapAddr.Size + 1 >= pheapAddr.Size )
       {
-        if ( v52 >= pheapAddr.Policy.Capacity )
+        if ( v50 >= pheapAddr.Policy.Capacity )
           Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
             &pheapAddr,
             &pheapAddr,
-            v52 + (v52 >> 2));
+            v50 + (v50 >> 2));
       }
       else
       {
-        v53 = &pheapAddr.Data[pheapAddr.Size - 1];
-        v89 = NAN;
+        v51 = &pheapAddr.Data[pheapAddr.Size - 1];
+        v87 = NAN;
         do
         {
-          ((void (__thiscall *)(Scaleform::Render::TextureGlyph *, _DWORD))v53->~Scaleform::Render::TextureGlyph)(
-            v53,
+          ((void (__thiscall *)(Scaleform::Render::TextureGlyph *, _DWORD))v51->~Scaleform::Render::TextureGlyph)(
+            v51,
             0);
-          --v53;
-          --LODWORD(v89);
+          --v51;
+          --LODWORD(v87);
         }
-        while ( v89 != 0.0 );
-        if ( v52 < pheapAddr.Policy.Capacity >> 1 )
+        while ( v87 != 0.0 );
+        if ( v50 < pheapAddr.Policy.Capacity >> 1 )
           Scaleform::ArrayDataBase<Scaleform::Render::TextureGlyph,Scaleform::AllocatorGH<Scaleform::Render::TextureGlyph,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
             &pheapAddr,
             &pheapAddr,
-            v52);
+            v50);
       }
-      pheapAddr.Size = v52;
-      if ( &pheapAddr.Data[v52] != (Scaleform::Render::TextureGlyph *)48 )
-        Scaleform::Render::TextureGlyph::TextureGlyph(&pheapAddr.Data[v52 - 1], &__that);
+      pheapAddr.Size = v50;
+      if ( &pheapAddr.Data[v50] != (Scaleform::Render::TextureGlyph *)48 )
+        Scaleform::Render::TextureGlyph::TextureGlyph(&pheapAddr.Data[v50 - 1], &__that);
       if ( __that.pImage.pObject )
         __that.pImage.pObject->Release(__that.pImage.pObject);
       Scaleform::RefCountImplCore::~RefCountImplCore(&__that.Scaleform::RefCountBase<Scaleform::Render::TextureGlyph,2>);
-      ++v90;
+      v25 = v88 + 1;
+      v88 = v25;
     }
-    while ( v90 < v91 );
+    while ( v25 < v89 );
   }
-  v54 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+  v52 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
   pAltStream->Stream.UnusedBits = 0;
-  if ( v54 < 2 )
+  if ( v52 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-  v55 = pAltStream->Stream.Pos;
-  LODWORD(v56) = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v55];
-  pAltStream->Stream.Pos = v55 + 2;
-  if ( Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v57);
-  if ( v56 != 0.0 )
+  v53 = pAltStream->Stream.Pos;
+  LODWORD(v54) = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v53];
+  pAltStream->Stream.Pos = v53 + 2;
+  if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  NumFonts = %d\n", v54);
+  if ( v54 != 0.0 )
   {
-    v89 = v56;
+    v87 = v54;
     do
     {
-      v58 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+      v55 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
       pAltStream->Stream.UnusedBits = 0;
-      if ( v58 < 2 )
+      if ( v55 < 2 )
         Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-      v59 = pAltStream->Stream.Pos;
-      v60 = *(_WORD *)&pAltStream->Stream.pBuffer[v59];
-      pAltStream->Stream.Pos = v59 + 2;
+      v56 = pAltStream->Stream.Pos;
+      v57 = *(_WORD *)&pAltStream->Stream.pBuffer[v56];
+      pAltStream->Stream.Pos = v56 + 2;
       FontData = Scaleform::GFx::MovieDataDef::LoadTaskData::GetFontData(
                    p->pLoadData.pObject,
-                   (Scaleform::GFx::ResourceId)v60);
+                   (Scaleform::GFx::ResourceId)v57);
       if ( !FontData )
         goto LABEL_89;
-      v62 = (int)FontData->GetTextureGlyphData(FontData);
-      if ( v62 )
-        ++*(_DWORD *)(v62 + 4);
-      v63 = (Scaleform::GFx::TextureGlyphData *)v62;
-      if ( !v62 )
+      v59 = (int)FontData->GetTextureGlyphData(FontData);
+      if ( v59 )
+        ++*(_DWORD *)(v59 + 4);
+      v60 = (Scaleform::GFx::TextureGlyphData *)v59;
+      if ( !v59 )
       {
-        v64 = (Scaleform::GFx::TextureGlyphData *)pHeap->Alloc(pHeap, 44u, 0);
-        if ( v64 )
+        v61 = (Scaleform::GFx::TextureGlyphData *)pHeap->Alloc(pHeap, 44u, 0);
+        if ( v61 )
         {
-          v65 = FontData->GetGlyphShapeCount(FontData);
-          Scaleform::GFx::TextureGlyphData::TextureGlyphData(v64, v65, 1);
+          v62 = FontData->GetGlyphShapeCount(FontData);
+          Scaleform::GFx::TextureGlyphData::TextureGlyphData(v61, v62, 1);
         }
         else
         {
-          v66 = 0;
+          v63 = 0;
         }
-        v63 = v66;
-        if ( !v66 )
+        v60 = v63;
+        if ( !v63 )
           goto LABEL_76;
-        v67 = v97;
-        v66->PackTextureConfig.NominalSize = v96;
-        v68 = *(_DWORD *)targetWidth;
-        v66->PackTextureConfig.PadPixels = v67;
-        v69 = v99;
-        v66->PackTextureConfig.TextureWidth = v68;
-        v66->PackTextureConfig.TextureHeight = v69;
-        FontData->SetTextureGlyphData(FontData, v66);
+        v64 = v95;
+        v63->PackTextureConfig.NominalSize = v94;
+        v65 = v96;
+        v63->PackTextureConfig.PadPixels = v64;
+        v66 = v97;
+        v63->PackTextureConfig.TextureWidth = v65;
+        v63->PackTextureConfig.TextureHeight = v66;
+        FontData->SetTextureGlyphData(FontData, v63);
       }
-      Scaleform::GFx::TextureGlyphData::AddTexture(v63, v93, &result);
+      Scaleform::GFx::TextureGlyphData::AddTexture(v60, v91, &textureId);
 LABEL_76:
-      v70 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+      v67 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
       pAltStream->Stream.UnusedBits = 0;
-      if ( v70 < 2 )
+      if ( v67 < 2 )
         Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-      v71 = pAltStream->Stream.Pos;
-      v72 = *(_WORD *)&pAltStream->Stream.pBuffer[v71];
-      v57 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)v72;
-      pAltStream->Stream.Pos = v71 + 2;
-      if ( v72 )
+      v68 = pAltStream->Stream.Pos;
+      v69 = *(_WORD *)&pAltStream->Stream.pBuffer[v68];
+      pAltStream->Stream.Pos = v68 + 2;
+      if ( v69 )
       {
-        v90 = v72;
+        v88 = v69;
         do
         {
-          v73 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+          v70 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+          pAltStream->Stream.UnusedBits = 0;
+          if ( v70 < 2 )
+            Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
+          v71 = pAltStream->Stream.Pos;
+          v72 = *(_WORD *)&pAltStream->Stream.pBuffer[v71];
+          v71 += 2;
+          v73 = pAltStream->Stream.DataSize - v71;
+          pAltStream->Stream.Pos = v71;
+          v74 = v72;
           pAltStream->Stream.UnusedBits = 0;
           if ( v73 < 2 )
             Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-          v74 = pAltStream->Stream.Pos;
-          v75 = *(_WORD *)&pAltStream->Stream.pBuffer[v74];
-          v74 += 2;
-          v76 = pAltStream->Stream.DataSize - v74;
-          pAltStream->Stream.Pos = v74;
-          v77 = v75;
-          pAltStream->Stream.UnusedBits = 0;
-          if ( v76 < 2 )
-            Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-          v78 = pAltStream->Stream.Pos;
-          v57 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v78];
-          pAltStream->Stream.Pos = v78 + 2;
-          if ( v63 )
-            Scaleform::GFx::TextureGlyphData::AddTextureGlyph(v63, v77, &pheapAddr.Data[(unsigned __int16)v57]);
-          --v90;
+          v75 = pAltStream->Stream.Pos;
+          v76 = *(_WORD *)&pAltStream->Stream.pBuffer[v75];
+          pAltStream->Stream.Pos = v75 + 2;
+          if ( v60 )
+            Scaleform::GFx::TextureGlyphData::AddTextureGlyph(v60, v74, &pheapAddr.Data[v76]);
+          --v88;
         }
-        while ( v90 );
+        while ( v88 );
       }
-      if ( v63 )
-        Scaleform::RefCountNTSImpl::Release(v63);
+      if ( v60 )
+        Scaleform::RefCountNTSImpl::Release(v60);
 LABEL_89:
-      --LODWORD(v89);
+      --LODWORD(v87);
     }
-    while ( v89 != 0.0 );
+    while ( v87 != 0.0 );
   }
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v57);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "\n");
   Data = pheapAddr.Data;
-  v80 = &pheapAddr.Data[pheapAddr.Size - 1];
+  v78 = &pheapAddr.Data[pheapAddr.Size - 1];
   if ( pheapAddr.Size )
   {
     Size = pheapAddr.Size;
     do
     {
-      ((void (__thiscall *)(Scaleform::Render::TextureGlyph *, _DWORD))v80->~Scaleform::Render::TextureGlyph)(v80, 0);
-      --v80;
+      ((void (__thiscall *)(Scaleform::Render::TextureGlyph *, _DWORD))v78->~Scaleform::Render::TextureGlyph)(v78, 0);
+      --v78;
       --Size;
     }
     while ( Size );
   }
   if ( Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)Data);
-  if ( result.HType == RH_Pointer && result.BindIndex )
-    Scaleform::GFx::Resource::Release(result.pResource);
-  v82 = (void *)(pstr.HeapTypeBits & 0xFFFFFFFC);
+  if ( textureId.HType == RH_Pointer && textureId.BindIndex )
+    Scaleform::GFx::Resource::Release(textureId.pResource);
+  v80 = (void *)(pstr.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v82);
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v80);
 }

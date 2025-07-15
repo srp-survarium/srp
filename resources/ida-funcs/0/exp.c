@@ -11,7 +11,7 @@ double __cdecl exp(double X)
     if ( v2 == 8064 )
       v3 = (v4 & 0x7F) == 127;
     if ( v3 )
-      JUMPOUT(0x1CDC58);
+      JUMPOUT(0x669528);
   }
   return _exp_default(X);
 }

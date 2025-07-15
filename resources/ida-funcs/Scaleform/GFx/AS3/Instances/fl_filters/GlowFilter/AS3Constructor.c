@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter::AS3Const
   blurY = 6.0;
   stren = 2.0;
   v14 = 0.0;
-  color = (unsigned int)&vostok::memory::s_CRT_arena[5508664];
+  color = 16711680;
   qual = 1;
   inner = 0;
   knock = 0;

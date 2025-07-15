@@ -1,4 +1,4 @@
-BOOL __usercall vostok::command_line::is_delimiter@<eax>(unsigned __int8 value@<al>, char *delimiters@<ecx>)
+BOOL __usercall vostok::command_line::is_delimiter@<eax>(unsigned __int8 value@<al>, char *delimiters)
 {
   int v2; // eax
 

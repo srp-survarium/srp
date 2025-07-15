@@ -22,7 +22,13 @@ void __cdecl __FrameUnwindToState(EHRegistrationNode *pRN, void *pDC, const _s_F
     if ( v7->action )
     {
       pRN->state = state;
-      _CallSettingFrame((unsigned int)pFuncInfo->pUnwindMap[v6].action, (unsigned int)pRN, 0x103u);
+      _CallSettingFrame(
+        (int)pFuncInfo->pUnwindMap,
+        (int)pFuncInfo,
+        state,
+        (unsigned int)pFuncInfo->pUnwindMap[v6].action,
+        (unsigned int)pRN,
+        0x103u);
     }
   }
   if ( _getptd()->_ProcessingThrow > 0 )

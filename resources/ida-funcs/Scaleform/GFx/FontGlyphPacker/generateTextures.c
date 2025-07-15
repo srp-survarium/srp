@@ -25,36 +25,36 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateTextures(
   int v22; // ecx
   double v23; // st7
   Scaleform::GFx::FontGlyphPacker::GlyphInfo *v24; // ecx
-  void (__thiscall *AddRef)(struct Scaleform::Render::Image *); // edx
+  void (__thiscall *AddRef)(struct Scaleform::Render::RawImage *); // edx
   Scaleform::GFx::TextureGlyphData *v26; // edi
   Scaleform::Render::Palette *pObject; // esi
-  __int64 X; // [esp+588h] [ebp-F8h]
-  Scaleform::GFx::ImageResource *pimageRes; // [esp+5A8h] [ebp-D8h]
-  float pimageResc; // [esp+5A8h] [ebp-D8h]
-  Scaleform::GFx::ImageResource *pimageResa; // [esp+5A8h] [ebp-D8h]
-  Scaleform::GFx::ImageResource *pimageResb; // [esp+5A8h] [ebp-D8h]
-  float v33; // [esp+5ACh] [ebp-D4h]
-  float v34; // [esp+5ACh] [ebp-D4h]
-  int v35; // [esp+5B0h] [ebp-D0h]
-  float v36; // [esp+5B0h] [ebp-D0h]
-  unsigned int v37; // [esp+5B0h] [ebp-D0h]
-  float v38; // [esp+5B4h] [ebp-CCh]
-  unsigned int i; // [esp+5BCh] [ebp-C4h]
-  Scaleform::GFx::ResourceId v41; // [esp+5C8h] [ebp-B8h]
-  Scaleform::GFx::FontResource *pFont; // [esp+5D0h] [ebp-B0h]
-  unsigned int glyphIndex; // [esp+5D4h] [ebp-ACh]
-  float x1; // [esp+5E0h] [ebp-A0h]
-  float y1; // [esp+5E4h] [ebp-9Ch]
-  float x2; // [esp+5E8h] [ebp-98h]
-  float y2; // [esp+5ECh] [ebp-94h]
-  float v48; // [esp+5F0h] [ebp-90h]
-  float y; // [esp+5F4h] [ebp-8Ch]
-  float v50; // [esp+608h] [ebp-78h]
-  float v51; // [esp+60Ch] [ebp-74h]
-  Scaleform::Render::TextureGlyph glyph; // [esp+610h] [ebp-70h] BYREF
-  Scaleform::Render::ImageData pdata; // [esp+648h] [ebp-38h] BYREF
-  _DWORD v54[2]; // [esp+670h] [ebp-10h] BYREF
-  Scaleform::Render::Size<unsigned long> size; // [esp+678h] [ebp-8h] BYREF
+  __int64 X; // [esp+0h] [ebp-F8h]
+  Scaleform::GFx::ImageResource *pimageRes; // [esp+20h] [ebp-D8h]
+  float pimageResc; // [esp+20h] [ebp-D8h]
+  Scaleform::GFx::ImageResource *pimageResa; // [esp+20h] [ebp-D8h]
+  Scaleform::GFx::ImageResource *pimageResb; // [esp+20h] [ebp-D8h]
+  float v33; // [esp+24h] [ebp-D4h]
+  float v34; // [esp+24h] [ebp-D4h]
+  int v35; // [esp+28h] [ebp-D0h]
+  float v36; // [esp+28h] [ebp-D0h]
+  unsigned int v37; // [esp+28h] [ebp-D0h]
+  float v38; // [esp+2Ch] [ebp-CCh]
+  unsigned int i; // [esp+34h] [ebp-C4h]
+  Scaleform::GFx::ResourceId v41; // [esp+40h] [ebp-B8h]
+  Scaleform::GFx::FontResource *pFont; // [esp+48h] [ebp-B0h]
+  unsigned int glyphIndex; // [esp+4Ch] [ebp-ACh]
+  float x1; // [esp+58h] [ebp-A0h]
+  float y1; // [esp+5Ch] [ebp-9Ch]
+  float x2; // [esp+60h] [ebp-98h]
+  float y2; // [esp+64h] [ebp-94h]
+  float v48; // [esp+68h] [ebp-90h]
+  float y; // [esp+6Ch] [ebp-8Ch]
+  float v50; // [esp+80h] [ebp-78h]
+  float v51; // [esp+84h] [ebp-74h]
+  Scaleform::Render::TextureGlyph glyph; // [esp+88h] [ebp-70h] BYREF
+  Scaleform::Render::ImageData v53; // [esp+C0h] [ebp-38h] BYREF
+  _DWORD v54[2]; // [esp+E8h] [ebp-10h] BYREF
+  Scaleform::Render::Size<unsigned long> v55; // [esp+F0h] [ebp-8h] BYREF
 
   for ( i = 0; i < numTextures; ++i )
   {
@@ -106,21 +106,21 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateTextures(
         ;
     }
     X = (unsigned int)this->pFontHeap;
-    size.Width = TextureWidth;
-    size.Height = TextureHeight;
+    v55.Width = TextureWidth;
+    v55.Height = TextureHeight;
     v11 = Scaleform::Render::RawImage::Create(
             Image_A8,
             1u,
-            &size,
+            &v55,
             2u,
             (Scaleform::MemoryHeap *)X,
             (Scaleform::Render::ImageUpdateSync *)HIDWORD(X));
-    memset(&pdata, 0, 10);
-    memset(&pdata.pPalette, 0, 24);
-    pdata.RawPlaneCount = 1;
-    pdata.pPlanes = &pdata.Plane0;
-    Scaleform::Render::RawImage::GetImageData(v11, &pdata);
-    memset((int)pdata.pPlanes->pData, 0, TextureWidth * TextureHeight);
+    memset(&v53, 0, 10);
+    memset(&v53.pPalette, 0, 24);
+    v53.RawPlaneCount = 1;
+    v53.pPlanes = &v53.Plane0;
+    Scaleform::Render::RawImage::GetImageData(v11, &v53);
+    memset((int)v53.pPlanes->pData, 0, TextureWidth * TextureHeight);
     v12 = glyphs;
     v13 = 0;
     if ( glyphs->Data.Size )
@@ -131,7 +131,7 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateTextures(
         if ( *(Scaleform::Render::ImageBase **)((char *)&pimageResa->pImage + (unsigned int)glyphs->Data.Data) == (Scaleform::Render::ImageBase *)i )
           Scaleform::GFx::FontGlyphPacker::rasterizeGlyph(
             this,
-            (unsigned int *)glyphs,
+            (int *)glyphs,
             v11,
             (Scaleform::GFx::FontGlyphPacker::GlyphInfo *)((char *)pimageResa + (unsigned int)glyphs->Data.Data));
         pimageResa = (Scaleform::GFx::ImageResource *)((char *)pimageResa + 48);
@@ -223,11 +223,11 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateTextures(
     }
     if ( pimageResb )
       Scaleform::GFx::Resource::Release(pimageResb);
-    Scaleform::Render::ImageData::freePlanes(&pdata);
-    if ( pdata.pPalette.pObject )
+    Scaleform::Render::ImageData::freePlanes(&v53);
+    if ( v53.pPalette.pObject )
     {
-      pObject = pdata.pPalette.pObject;
-      if ( InterlockedExchangeAdd(&pdata.pPalette.pObject->RefCount.Value, -1) == 1 )
+      pObject = v53.pPalette.pObject;
+      if ( InterlockedExchangeAdd(&v53.pPalette.pObject->RefCount.Value, -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pObject);
     }
     v11->Release(v11);

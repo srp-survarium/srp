@@ -111,7 +111,7 @@ char __cdecl jpeg_calc_output_dimensions(int a1)
   if ( !*(_BYTE *)(a1 + 74) )
     v15 = *(_DWORD *)(a1 + 100);
   *(_DWORD *)(a1 + 104) = v15;
-  LOBYTE(v16) = sub_373200(v2, a1);
+  LOBYTE(v16) = sub_47FEC0(v2, a1);
   if ( (_BYTE)v16 )
   {
     v16 = *(_DWORD *)(a1 + 276);

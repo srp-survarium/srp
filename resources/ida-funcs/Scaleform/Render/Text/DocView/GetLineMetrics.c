@@ -1,14 +1,14 @@
 char __thiscall Scaleform::Render::Text::DocView::GetLineMetrics(
         Scaleform::Render::Text::DocView *this,
-        int lineIndex,
+        unsigned int lineIndex,
         Scaleform::Render::Text::DocView::LineMetrics *pmetrics)
 {
   Scaleform::Render::Text::LineBuffer::Line *v5; // esi
   unsigned int Width; // eax
   unsigned int Height; // eax
   int Leading; // eax
-  Scaleform::Render::Text::DocView::LineMetrics *pmetricsa; // [esp+18h] [ebp+8h]
-  float pmetricsb; // [esp+18h] [ebp+8h]
+  int BaseLineOffset; // [esp+18h] [ebp+8h]
+  float v11; // [esp+18h] [ebp+8h]
 
   if ( !pmetrics )
     return 0;
@@ -19,17 +19,17 @@ char __thiscall Scaleform::Render::Text::DocView::GetLineMetrics(
   }
   if ( this == (Scaleform::Render::Text::DocView *)-48
     || lineIndex >= this->mLineBuffer.Lines.Data.Size
-    || lineIndex < 0 )
+    || (lineIndex & 0x80000000) != 0 )
   {
     return 0;
   }
   v5 = this->mLineBuffer.Lines.Data.Data[lineIndex];
   if ( (v5->MemSize & 0x80000000) == 0 )
-    pmetricsa = (Scaleform::Render::Text::DocView::LineMetrics *)v5->Data32.BaseLineOffset;
+    BaseLineOffset = v5->Data32.BaseLineOffset;
   else
-    pmetricsa = (Scaleform::Render::Text::DocView::LineMetrics *)v5->Data8.BaseLineOffset;
-  pmetricsb = (float)(int)pmetricsa;
-  pmetrics->Ascent = (__int64)pmetricsb;
+    BaseLineOffset = v5->Data8.BaseLineOffset;
+  v11 = (float)BaseLineOffset;
+  pmetrics->Ascent = (__int64)v11;
   pmetrics->Descent = (__int64)Scaleform::Render::Text::LineBuffer::Line::GetDescent(v5);
   if ( (v5->MemSize & 0x80000000) == 0 )
     Width = v5->Data32.Width;

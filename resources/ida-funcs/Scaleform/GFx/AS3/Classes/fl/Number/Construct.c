@@ -6,11 +6,11 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::Number::Construct(
         bool __formal)
 {
   unsigned int Flags; // edx
-  Scaleform::GFx::ASStringNode *v6; // ecx
-  unsigned __int64 v7; // rax
-  Scaleform::GFx::AS3::VM *pVM; // esi
+  Scaleform::GFx::ASStringNode *v7; // ecx
+  unsigned __int64 v8; // rax
   const Scaleform::GFx::AS3::VM::Error *v9; // eax
   Scaleform::GFx::ASStringNode *v10; // eax
+  Scaleform::StringDataPtr v11; // [esp-Ch] [ebp-20h]
   long double v; // [esp+Ch] [ebp-8h] BYREF
 
   if ( argc )
@@ -22,9 +22,17 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::Number::Construct(
     }
     else
     {
-      pVM = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v, eWrongArgumentCountError, pVM);
-      Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v9);
+      v11.pStr = "Number::Construct";
+      v11.Size = 17;
+      Scaleform::GFx::AS3::VM::Error::Error(
+        (Scaleform::GFx::AS3::VM::Error *)&v,
+        eWrongArgumentCountError,
+        this->pTraits.pObject->pVM,
+        v11,
+        0,
+        1,
+        argc);
+      Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v9);
       v10 = (Scaleform::GFx::ASStringNode *)HIDWORD(v);
       --*(_DWORD *)(HIDWORD(v) + 12);
       if ( !v10->RefCount )
@@ -42,10 +50,10 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::Number::Construct(
     }
     Flags = result->Flags;
     v = 0.0;
-    v7 = __PAIR64__(Flags & 0xFFFFFFE4, LODWORD(v)) | 0x400000000LL;
-    v6 = (Scaleform::GFx::ASStringNode *)HIDWORD(v);
-    result->Flags = HIDWORD(v7);
-    result->value.VS._1.VInt = v7;
-    result->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v6;
+    v8 = __PAIR64__(Flags & 0xFFFFFFE4, LODWORD(v)) | 0x400000000LL;
+    v7 = (Scaleform::GFx::ASStringNode *)HIDWORD(v);
+    result->Flags = HIDWORD(v8);
+    result->value.VS._1.VInt = v8;
+    result->value.VS._2.VObj = (Scaleform::GFx::AS3::Object *)v7;
   }
 }

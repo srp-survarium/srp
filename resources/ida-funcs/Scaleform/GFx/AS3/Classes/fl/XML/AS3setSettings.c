@@ -60,9 +60,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3setSettings(
         && (v10 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::AS3::Object::DynAttrsKey>(
                     v9,
                     &key,
-                    (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                  & ConstStringNode->HashFlags
-                  & *(_DWORD *)(v8 + 4)),
+                    ConstStringNode->HashFlags & *(_DWORD *)(v8 + 4) & 0xFFFFFF),
             v10 >= 0)
         && (v11 = 32 * v10 + v8 + 16) != 0 )
       {
@@ -94,7 +92,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3setSettings(
         && (v16 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::AS3::Object::DynAttrsKey>(
                     v9,
                     &key,
-                    (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v14->HashFlags & v15.pTable->SizeMask),
+                    v14->HashFlags & v15.pTable->SizeMask & 0xFFFFFF),
             v16 >= 0)
         && (v17 = (int)&v15.pTable[4 * v16 + 2]) != 0 )
       {
@@ -126,7 +124,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3setSettings(
         && (v21 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::AS3::Object::DynAttrsKey>(
                     v9,
                     &key,
-                    (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v19->HashFlags & v20.pTable->SizeMask),
+                    v19->HashFlags & v20.pTable->SizeMask & 0xFFFFFF),
             v21 >= 0)
         && (v22 = (int)&v20.pTable[4 * v21 + 2]) != 0 )
       {
@@ -158,7 +156,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3setSettings(
         && (v26 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::AS3::Object::DynAttrsKey>(
                     v9,
                     &key,
-                    (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v24->HashFlags & v25.pTable->SizeMask),
+                    v24->HashFlags & v25.pTable->SizeMask & 0xFFFFFF),
             v26 >= 0)
         && (v27 = (int)&v25.pTable[4 * v26 + 2]) != 0 )
       {
@@ -190,7 +188,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3setSettings(
         && (v31 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::AS3::Object::DynAttrsKey>(
                     v9,
                     &key,
-                    (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v29->HashFlags & v30.pTable->SizeMask),
+                    v29->HashFlags & v30.pTable->SizeMask & 0xFFFFFF),
             v31 >= 0)
         && (v32 = (int)&v30.pTable[4 * v31 + 2]) != 0 )
       {

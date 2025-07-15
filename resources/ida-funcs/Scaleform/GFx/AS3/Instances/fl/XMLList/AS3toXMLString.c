@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3toXMLString(
   int v19; // eax
   unsigned int m; // esi
   Scaleform::GFx::AS3::Instances::fl::XML *v21; // ecx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v25; // zf
@@ -61,9 +61,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3toXMLString(
           {
             do
             {
-              v9 = *((_DWORD *)&pObject[1].pPrev->Scaleform::GFx::AS3::Instance::Scaleform::GFx::AS3::Object::Scaleform::GFx::AS3::GASRefCountBase::Scaleform::GFx::AS3::RefCountBaseGC<328>::$6995B294EB399C8E7199C0A182ACF77B::__vftable
+              v9 = *((_DWORD *)&pObject[1].pPrev->Scaleform::GFx::AS3::Instance::Scaleform::GFx::AS3::Object::Scaleform::GFx::AS3::GASRefCountBase::Scaleform::GFx::AS3::RefCountBaseGC<328>::$877A9988573213A5FC37040398A8D661::__vftable
                    + v8);
-              v10 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 68))(v9);
+              v10 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 80))(v9);
               v11 = (_DWORD *)v10;
               if ( v10 )
               {
@@ -129,9 +129,9 @@ LABEL_27:
     v21 = v2->List.Data.Data[m].pObject;
     v21->ToXMLString(v21, &buf, 0, 0, &na);
   }
-  pData = buf.pData;
+  pData = (__m128i *)buf.pData;
   if ( !buf.pData )
-    pData = (char *)&::buf;
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(vm->StringManagerRef->pStringManager, pData, buf.Size);
   StringNode->RefCount += 2;
   pNode = result->pNode;

@@ -4,7 +4,7 @@ BOOL __userpurge Scaleform::Render::SKI_Primitive::UpdateBundleEntry@<eax>(
         void *d,
         Scaleform::Render::BundleEntry *p,
         int tr,
-        Scaleform::Render::Renderer2DImpl *r,
+        Scaleform::Render::TreeCacheRoot *r,
         Scaleform::Render::Renderer2DImpl *__formal)
 {
   void (__thiscall *AddRef)(struct Scaleform::Render::SKI_Primitive *, void *); // edx
@@ -12,17 +12,17 @@ BOOL __userpurge Scaleform::Render::SKI_Primitive::UpdateBundleEntry@<eax>(
   Scaleform::Render::PrimitiveBundle *v9; // eax
   Scaleform::Render::Bundle *v10; // eax
   Scaleform::Render::Bundle *v11; // esi
-  Scaleform::Render::SortKey ourKey; // [esp+10h] [ebp-8h] BYREF
+  void *v13; // [esp+14h] [ebp-4h] BYREF
 
   if ( !p->pBundle.pObject )
   {
     AddRef = Scaleform::Render::SKI_Primitive::Instance.AddRef;
-    ourKey.Data = d;
+    v13 = d;
     ((void (__thiscall *)(Scaleform::Render::SKI_Primitive *, void *, int))AddRef)(
       &Scaleform::Render::SKI_Primitive::Instance,
       d,
       a2);
-    v8 = (Scaleform::Render::TreeCacheRoot *)r;
+    v8 = r;
     tr = 67;
     v9 = (Scaleform::Render::PrimitiveBundle *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                  Scaleform::Memory::pGlobalHeap,
@@ -31,11 +31,7 @@ BOOL __userpurge Scaleform::Render::SKI_Primitive::UpdateBundleEntry@<eax>(
                                                  &tr);
     if ( v9 )
     {
-      Scaleform::Render::PrimitiveBundle::PrimitiveBundle(
-        v9,
-        v8,
-        (const Scaleform::Render::SortKey *)&ourKey.Data,
-        __formal);
+      Scaleform::Render::PrimitiveBundle::PrimitiveBundle(v9, v8, (const Scaleform::Render::SortKey *)&v13, __formal);
       v11 = v10;
     }
     else

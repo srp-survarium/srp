@@ -7,8 +7,7 @@ btVector3 *__userpurge btQuantizedBvh::getAabbMin@<eax>(
   float v4; // xmm0_4
   int v5; // esi
   int v6; // edx
-  btOptimizedBvhNode *m_data; // ecx
-  int v8; // edx
+  btOptimizedBvhNode *v7; // esi
 
   if ( this->m_useQuantization )
   {
@@ -26,10 +25,11 @@ btVector3 *__userpurge btQuantizedBvh::getAabbMin@<eax>(
   }
   else
   {
-    m_data = this->m_leafNodes.m_data;
-    v8 = nodeIndex << 6;
-    result->mVec128.m128_u64[0] = *(unsigned __int64 *)((char *)m_data->m_aabbMinOrg.mVec128.m128_u64 + v8);
-    result->mVec128.m128_u64[1] = *(unsigned __int64 *)((char *)&m_data->m_aabbMinOrg.mVec128.m128_u64[1] + v8);
+    v7 = &this->m_leafNodes.m_data[nodeIndex];
+    result->mVec128.m128_i32[0] = v7->m_aabbMinOrg.mVec128.m128_i32[0];
+    v7 = (btOptimizedBvhNode *)((char *)v7 + 4);
+    result->mVec128.m128_i32[1] = v7->m_aabbMinOrg.mVec128.m128_i32[0];
+    result->mVec128.m128_u64[1] = *(unsigned __int64 *)((char *)v7->m_aabbMinOrg.mVec128.m128_u64 + 4);
   }
   return result;
 }

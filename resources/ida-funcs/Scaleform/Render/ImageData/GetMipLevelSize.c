@@ -1,4 +1,4 @@
-int __stdcall Scaleform::Render::ImageData::GetMipLevelSize(
+unsigned int __stdcall Scaleform::Render::ImageData::GetMipLevelSize(
         Scaleform::Render::ImageFormat format,
         const Scaleform::Render::Size<unsigned long> *sz,
         unsigned int plane)

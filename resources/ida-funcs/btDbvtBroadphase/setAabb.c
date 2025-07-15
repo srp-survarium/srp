@@ -1,128 +1,116 @@
 void __thiscall btDbvtBroadphase::setAabb(
         btDbvtBroadphase *this,
-        btBroadphaseProxy *absproxy,
-        btVector3 *aabbMin,
+        int absproxy,
+        const btVector3 *aabbMin,
         const btVector3 *aabbMax,
         btDispatcher *__formal)
 {
   bool v5; // zf
-  btVector3 *v6; // edi
-  btDbvtNode *m_free; // eax
-  btDbvtNode *v9; // eax
-  float v10; // xmm4_4
-  float v11; // xmm6_4
-  float v12; // xmm7_4
-  float v13; // xmm5_4
-  float v14; // xmm0_4
+  btDbvtNode *v6; // eax
+  float v7; // xmm4_4
+  float v8; // xmm5_4
+  float v9; // xmm6_4
+  float v10; // xmm0_4
+  float v11; // xmm2_4
+  float m_prediction; // xmm3_4
+  float v13; // xmm7_4
+  float v14; // xmm1_4
   float v15; // xmm3_4
-  int v16; // eax
-  _DWORD *m_multiSapParentProxy; // eax
-  void **v18; // eax
-  btDbvtNode *aabb_20; // [esp+AAh] [ebp-5Ch]
-  const btDbvtNode *aabb_24; // [esp+AEh] [ebp-58h]
-  char v21; // [esp+D1h] [ebp-35h]
-  btDbvtNode *m_clientObject; // [esp+D2h] [ebp-34h]
-  btDbvt **m_sets; // [esp+D2h] [ebp-34h]
-  btVector3 v24; // [esp+D6h] [ebp-30h] BYREF
-  __m128 volume; // [esp+E6h] [ebp-20h] BYREF
-  __m128 volume_16; // [esp+F6h] [ebp-10h]
+  btDbvtBroadphase *pbp; // eax
+  int m_stageCurrent; // ecx
+  btDbvt *v18; // ecx
+  btDbvt *v19; // ecx
+  char v20; // [esp+17h] [ebp-4Dh]
+  btDbvtTreeCollider policy; // [esp+18h] [ebp-4Ch] BYREF
+  btDbvt *m_sets; // [esp+20h] [ebp-44h]
+  btVector3 v23; // [esp+24h] [ebp-40h] BYREF
+  float v24; // [esp+38h] [ebp-2Ch]
+  __m128 v25; // [esp+44h] [ebp-20h] BYREF
+  __m128 v26; // [esp+54h] [ebp-10h]
 
-  v5 = absproxy[1].m_uniqueId == 2;
-  v6 = aabbMin;
-  volume = aabbMin->mVec128;
-  volume_16 = aabbMax->mVec128;
-  v21 = 0;
+  v25.m128_u64[0] = aabbMin->mVec128.m128_u64[0];
+  v5 = *(_DWORD *)(absproxy + 60) == 2;
+  v25.m128_u64[1] = aabbMin->mVec128.m128_u64[1];
+  v26.m128_u64[0] = aabbMax->mVec128.m128_u64[0];
+  v26.m128_i32[2] = aabbMax->mVec128.m128_i32[2];
+  policy.pbp = this;
+  v26.m128_i32[3] = aabbMax->mVec128.m128_i32[3];
+  v20 = 0;
   if ( v5 )
   {
-    m_clientObject = (btDbvtNode *)absproxy[1].m_clientObject;
-    removeleaf(&this->m_sets[1], m_clientObject);
-    m_free = this->m_sets[1].m_free;
-    if ( m_free )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_free);
-    }
-    --this->m_sets[1].m_leaves;
-    this->m_sets[1].m_free = m_clientObject;
-    m_sets = (btDbvt **)this->m_sets;
-    absproxy[1].m_clientObject = btDbvt::insert((btDbvt *)&volume, (const btDbvtAabbMm *)&volume, absproxy);
+    btDbvt::remove(&this->m_sets[1], *(btDbvtNode **)(absproxy + 48));
+    m_sets = policy.pbp->m_sets;
+    *(_DWORD *)(absproxy + 48) = btDbvt::insert((btDbvt *)&v25, policy.pbp->m_sets, &v25, absproxy);
+LABEL_14:
+    v20 = 1;
     goto LABEL_15;
   }
   ++this->m_updates_call;
-  v9 = (btDbvtNode *)absproxy[1].m_clientObject;
-  v24.mVec128 = _mm_or_ps(_mm_cmplt_ps(v9->volume.mx.mVec128, volume), _mm_cmplt_ps(volume_16, v9->volume.mi.mVec128));
-  if ( v24.mVec128.m128_i32[2] | v24.mVec128.m128_i32[1] | v24.mVec128.m128_i32[0] )
+  v6 = *(btDbvtNode **)(absproxy + 48);
+  v23.mVec128 = _mm_or_ps(_mm_cmplt_ps(v6->volume.mx.mVec128, v25), _mm_cmplt_ps(v26, v6->volume.mi.mVec128));
+  if ( v23.mVec128.m128_i32[2] | v23.mVec128.m128_i32[1] | v23.mVec128.m128_i32[0] )
   {
-    m_sets = (btDbvt **)this->m_sets;
-    btDbvt::update(this->m_sets, v9, (btDbvtAabbMm *)&volume);
-    ++this->m_updates_done;
+    m_sets = this->m_sets;
+    btDbvt::update(m_sets, m_sets, v6, &v25);
+LABEL_13:
+    ++policy.pbp->m_updates_done;
+    goto LABEL_14;
+  }
+  v7 = aabbMin->mVec128.m128_f32[0] - *(float *)(absproxy + 16);
+  v8 = aabbMin->mVec128.m128_f32[1] - *(float *)(absproxy + 20);
+  v9 = aabbMin->mVec128.m128_f32[2] - *(float *)(absproxy + 24);
+  v10 = (float)(*(float *)(absproxy + 32) - *(float *)(absproxy + 16)) * 0.5;
+  v11 = (float)(*(float *)(absproxy + 40) - *(float *)(absproxy + 24)) * 0.5;
+  m_prediction = this->m_prediction;
+  v24 = (float)(*(float *)(absproxy + 36) - *(float *)(absproxy + 20)) * 0.5;
+  v13 = m_prediction * v10;
+  v14 = m_prediction * v24;
+  v15 = m_prediction * v11;
+  v23.mVec128.m128_u64[0] = __PAIR64__(LODWORD(v14), LODWORD(v13));
+  v23.mVec128.m128_u64[1] = LODWORD(v15);
+  if ( v7 < 0.0 )
+    v23.mVec128.m128_i32[0] = LODWORD(v13) ^ _mask__NegFloat_;
+  if ( v8 < 0.0 )
+    v23.mVec128.m128_i32[1] = LODWORD(v14) ^ _mask__NegFloat_;
+  if ( v9 < 0.0 )
+    v23.mVec128.m128_i32[2] = LODWORD(v15) ^ _mask__NegFloat_;
+  m_sets = this->m_sets;
+  if ( btDbvt::update((btDbvtAabbMm *)&v25, &v23, this->m_sets, (btDbvt *)v6, 0.050000001) )
+    goto LABEL_13;
 LABEL_15:
-    v6 = aabbMin;
-    goto LABEL_16;
-  }
-  v10 = aabbMin->mVec128.m128_f32[0] - absproxy->m_aabbMin.mVec128.m128_f32[0];
-  v11 = aabbMin->mVec128.m128_f32[1] - absproxy->m_aabbMin.mVec128.m128_f32[1];
-  v12 = aabbMin->mVec128.m128_f32[2] - absproxy->m_aabbMin.mVec128.m128_f32[2];
-  v13 = this->m_prediction
-      * (float)((float)(absproxy->m_aabbMax.mVec128.m128_f32[0] - absproxy->m_aabbMin.mVec128.m128_f32[0]) * 0.5);
-  v14 = this->m_prediction
-      * (float)((float)(absproxy->m_aabbMax.mVec128.m128_f32[1] - absproxy->m_aabbMin.mVec128.m128_f32[1]) * 0.5);
-  v15 = this->m_prediction
-      * (float)((float)(absproxy->m_aabbMax.mVec128.m128_f32[2] - absproxy->m_aabbMin.mVec128.m128_f32[2]) * 0.5);
-  v24.mVec128.m128_f32[0] = v13;
-  v24.mVec128.m128_f32[1] = v14;
-  v24.mVec128.m128_u64[1] = LODWORD(v15);
-  if ( v10 < 0.0 )
-    v24.mVec128.m128_f32[0] = -v13;
-  if ( v11 < 0.0 )
-    v24.mVec128.m128_f32[1] = -v14;
-  if ( v12 < 0.0 )
-    v24.mVec128.m128_f32[2] = -v15;
-  m_sets = (btDbvt **)this->m_sets;
-  if ( btDbvt::update(this->m_sets, v9, (btDbvtAabbMm *)&volume, &v24, 0.050000001) )
+  listremove_btDbvtProxy_((btDbvtProxy *)absproxy, &policy.pbp->m_stageRoots[*(_DWORD *)(absproxy + 60)]);
+  *(_QWORD *)(absproxy + 16) = aabbMin->mVec128.m128_u64[0];
+  *(_DWORD *)(absproxy + 24) = aabbMin->mVec128.m128_i32[2];
+  pbp = policy.pbp;
+  *(_DWORD *)(absproxy + 28) = aabbMin->mVec128.m128_i32[3];
+  *(btVector3 *)(absproxy + 32) = (btVector3)aabbMax->mVec128;
+  *(_DWORD *)(absproxy + 60) = pbp->m_stageCurrent;
+  m_stageCurrent = pbp->m_stageCurrent;
+  *(_DWORD *)(absproxy + 52) = 0;
+  v18 = (btDbvt *)&pbp->m_stageRoots[m_stageCurrent];
+  *(_DWORD *)(absproxy + 56) = v18->m_root;
+  if ( v18->m_root )
+    v18->m_root[1].volume.mi.mVec128.m128_i32[1] = absproxy;
+  v18->m_root = (btDbvtNode *)absproxy;
+  if ( v20 )
   {
-    ++this->m_updates_done;
-LABEL_16:
-    v21 = 1;
-  }
-  v16 = *(_DWORD *)&absproxy[1].m_collisionFilterGroup;
-  if ( v16 )
-    *(_DWORD *)(v16 + 56) = absproxy[1].m_multiSapParentProxy;
-  else
-    this->m_stageRoots[absproxy[1].m_uniqueId] = (btDbvtProxy *)absproxy[1].m_multiSapParentProxy;
-  m_multiSapParentProxy = absproxy[1].m_multiSapParentProxy;
-  if ( m_multiSapParentProxy )
-    m_multiSapParentProxy[13] = *(_DWORD *)&absproxy[1].m_collisionFilterGroup;
-  absproxy->m_aabbMin = (btVector3)v6->mVec128;
-  absproxy->m_aabbMax = (btVector3)aabbMax->mVec128;
-  absproxy[1].m_uniqueId = this->m_stageCurrent;
-  v18 = (void **)&this->m_stageRoots[this->m_stageCurrent];
-  *(_DWORD *)&absproxy[1].m_collisionFilterGroup = 0;
-  absproxy[1].m_multiSapParentProxy = *v18;
-  if ( *v18 )
-    *((_DWORD *)*v18 + 13) = absproxy;
-  *v18 = absproxy;
-  if ( v21 )
-  {
-    v5 = !this->m_deferedcollide;
-    this->m_needcleanup = 1;
+    v5 = !pbp->m_deferedcollide;
+    pbp->m_needcleanup = 1;
     if ( v5 )
     {
-      aabb_24 = (const btDbvtNode *)absproxy[1].m_clientObject;
-      aabb_20 = this->m_sets[1].m_root;
-      v24.mVec128.m128_i32[0] = (int)this;
+      policy.pbp = pbp;
       btDbvt::collideTTpersistentStack<btDbvtTreeCollider>(
-        (btDbvt *)aabb_20,
-        (int)&this->m_sets[1],
-        aabb_20,
-        aabb_24,
-        (btDbvtTreeCollider *)&v24);
+        v18,
+        (int)&pbp->m_sets[1],
+        pbp->m_sets[1].m_root,
+        *(const btDbvtNode **)(absproxy + 48),
+        &policy);
       btDbvt::collideTTpersistentStack<btDbvtTreeCollider>(
-        *m_sets,
+        v19,
         (int)m_sets,
-        (const btDbvtNode *)*m_sets,
-        (const btDbvtNode *)absproxy[1].m_clientObject,
-        (btDbvtTreeCollider *)&v24);
+        m_sets->m_root,
+        *(const btDbvtNode **)(absproxy + 48),
+        &policy);
     }
   }
 }

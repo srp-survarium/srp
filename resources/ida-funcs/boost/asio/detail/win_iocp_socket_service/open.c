@@ -1,50 +1,68 @@
-boost::system::error_code *__thiscall boost::asio::detail::win_iocp_socket_service<boost::asio::ip::tcp>::open(
-        boost::asio::detail::win_iocp_socket_service<boost::asio::ip::tcp> *this,
-        boost::system::error_code *result,
-        boost::asio::detail::win_iocp_socket_service<boost::asio::ip::tcp>::implementation_type *impl,
-        const boost::asio::ip::tcp *protocol,
-        boost::system::error_code *ec)
+boost::system::error_code *__userpurge boost::asio::detail::win_iocp_socket_service<boost::asio::ip::tcp>::open@<eax>(
+        boost::asio::detail::win_iocp_socket_service_base *impl@<ecx>,
+        const boost::asio::ip::tcp *protocol@<eax>,
+        boost::system::error_code *this,
+        boost::system::error_code *ec,
+        boost::system::error_code *a5)
 {
-  const boost::system::error_category *m_cat; // ecx
-  _DWORD v7[7]; // [esp+70h] [ebp-24h] BYREF
-  boost::system::error_code v8; // [esp+8Ch] [ebp-8h] BYREF
+  boost::system::error_code *result; // eax
+  _DWORD v8[7]; // [esp+Ch] [ebp-28h] BYREF
+  char v9; // [esp+28h] [ebp-Ch] BYREF
 
-  if ( !boost::asio::detail::win_iocp_socket_service_base::do_open(this, &v8, impl, protocol->family_, 1, 6, ec)->m_val )
+  if ( !boost::asio::detail::win_iocp_socket_service_base::do_open(
+          impl,
+          this,
+          (boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *)&v9,
+          (int)impl,
+          protocol->family_,
+          (void *)1,
+          (boost::system::error_code *)6,
+          (int)a5)->socket_ )
   {
-    impl->protocol_ = (boost::asio::ip::tcp)protocol->family_;
-    impl->have_remote_endpoint_ = 0;
-    v7[0] = 2;
-    memset(&v7[1], 0, 24);
-    qmemcpy(&impl->remote_endpoint_, v7, sizeof(impl->remote_endpoint_));
+    impl->mutex_.crit_section_.LockSemaphore = (void *)protocol->family_;
+    memset(v8, 0, sizeof(v8));
+    LOWORD(v8[0]) = 2;
+    LOBYTE(impl->mutex_.crit_section_.SpinCount) = 0;
+    HIWORD(v8[0]) = 0;
+    v8[1] = 0;
+    qmemcpy(&impl->impl_list_, v8, 0x1Cu);
   }
-  m_cat = ec->m_cat;
-  result->m_val = ec->m_val;
-  result->m_cat = m_cat;
+  result = ec;
+  *ec = *a5;
   return result;
 }
 
 
-boost::system::error_code *__thiscall boost::asio::detail::win_iocp_socket_service<boost::asio::ip::udp>::open(
-        boost::asio::detail::win_iocp_socket_service<boost::asio::ip::udp> *this,
-        boost::system::error_code *result,
-        boost::asio::detail::win_iocp_socket_service<boost::asio::ip::udp>::implementation_type *impl,
-        const boost::asio::ip::udp *protocol,
-        boost::system::error_code *ec)
+boost::system::error_code *__userpurge boost::asio::detail::win_iocp_socket_service<boost::asio::ip::udp>::open@<eax>(
+        boost::asio::detail::win_iocp_socket_service_base *impl@<ecx>,
+        const boost::asio::ip::udp *protocol@<eax>,
+        boost::system::error_code *this,
+        boost::system::error_code *ec,
+        boost::system::error_code *a5)
 {
-  const boost::system::error_category *m_cat; // ecx
-  _DWORD v7[7]; // [esp+70h] [ebp-24h] BYREF
-  boost::system::error_code v8; // [esp+8Ch] [ebp-8h] BYREF
+  boost::system::error_code *result; // eax
+  _DWORD v8[7]; // [esp+Ch] [ebp-28h] BYREF
+  char v9; // [esp+28h] [ebp-Ch] BYREF
 
-  if ( !boost::asio::detail::win_iocp_socket_service_base::do_open(this, &v8, impl, protocol->family_, 2, 17, ec)->m_val )
+  if ( !boost::asio::detail::win_iocp_socket_service_base::do_open(
+          impl,
+          this,
+          (boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *)&v9,
+          (int)impl,
+          protocol->family_,
+          (void *)2,
+          (boost::system::error_code *)0x11,
+          (HANDLE)a5)->socket_ )
   {
-    impl->protocol_ = (boost::asio::ip::udp)protocol->family_;
-    impl->have_remote_endpoint_ = 0;
-    v7[0] = 2;
-    memset(&v7[1], 0, 24);
-    qmemcpy(&impl->remote_endpoint_, v7, sizeof(impl->remote_endpoint_));
+    impl->mutex_.crit_section_.LockSemaphore = (void *)protocol->family_;
+    memset(v8, 0, sizeof(v8));
+    LOWORD(v8[0]) = 2;
+    LOBYTE(impl->mutex_.crit_section_.SpinCount) = 0;
+    HIWORD(v8[0]) = 0;
+    v8[1] = 0;
+    qmemcpy(&impl->impl_list_, v8, 0x1Cu);
   }
-  m_cat = ec->m_cat;
-  result->m_val = ec->m_val;
-  result->m_cat = m_cat;
+  result = ec;
+  *ec = *a5;
   return result;
 }

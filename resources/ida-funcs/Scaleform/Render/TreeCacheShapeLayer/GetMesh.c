@@ -11,9 +11,9 @@ Scaleform::Render::MeshBase *__thiscall Scaleform::Render::TreeCacheShapeLayer::
   Scaleform::Render::Bundle *v9; // eax
   Scaleform::Render::ShapeMeshProvider *v10; // eax
   Scaleform::Render::MeshKey *v11; // esi
-  float morphRatio; // [esp+D0h] [ebp-80h]
-  Scaleform::Render::Matrix2x4<float> viewMatrix; // [esp+F0h] [ebp-60h] BYREF
-  Scaleform::Render::Matrix4x4<float> result; // [esp+110h] [ebp-40h] BYREF
+  float MorphRatio; // [esp+0h] [ebp-80h]
+  Scaleform::Render::Matrix2x4<float> mat; // [esp+20h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix4x4<float> result; // [esp+40h] [ebp-40h] BYREF
 
   if ( this->pRoot )
   {
@@ -32,29 +32,29 @@ Scaleform::Render::MeshBase *__thiscall Scaleform::Render::TreeCacheShapeLayer::
       {
         Scaleform::Render::TreeCacheNode::GetViewProj(this, &result);
         ShapeNodeData = Scaleform::Render::TreeCacheShapeLayer::GetShapeNodeData(this);
-        Scaleform::Render::TreeCacheShapeLayer::getShapeMatrixFrom3D(this, ShapeNodeData, &viewMatrix, &result);
+        Scaleform::Render::TreeCacheShapeLayer::getShapeMatrixFrom3D(this, ShapeNodeData, &mat, &result);
       }
       else
       {
         v7 = (float *)(&pHandle->pHeader[1].RefCount
-                     + 4 * (unsigned __int8)byte_9B2B74[5 * (pHandle->pHeader->Format & 0xF)]);
-        viewMatrix.M[0][0] = *v7;
-        viewMatrix.M[0][1] = v7[1];
-        viewMatrix.M[0][2] = v7[2];
-        viewMatrix.M[0][3] = v7[3];
-        viewMatrix.M[1][0] = v7[4];
-        viewMatrix.M[1][1] = v7[5];
-        viewMatrix.M[1][2] = v7[6];
-        viewMatrix.M[1][3] = v7[7];
+                     + 4 * (unsigned __int8)byte_874214[5 * (pHandle->pHeader->Format & 0xF)]);
+        mat.M[0][0] = *v7;
+        mat.M[0][1] = v7[1];
+        mat.M[0][2] = v7[2];
+        mat.M[0][3] = v7[3];
+        mat.M[1][0] = v7[4];
+        mat.M[1][1] = v7[5];
+        mat.M[1][2] = v7[6];
+        mat.M[1][3] = v7[7];
       }
-      morphRatio = Scaleform::Render::TreeCacheShapeLayer::GetMorphRatio(this);
+      MorphRatio = Scaleform::Render::TreeCacheShapeLayer::GetMorphRatio(this);
       MeshProvider = Scaleform::Render::TreeCacheShapeLayer::GetMeshProvider(this);
       Scaleform::Render::TreeCacheShapeLayer::updateMeshKey(
         this,
         this->pRenderer2D,
         MeshProvider,
-        morphRatio,
-        &viewMatrix,
+        MorphRatio,
+        &mat,
         v4,
         0);
       if ( !this->ComplexShape )
@@ -83,7 +83,7 @@ Scaleform::Render::MeshBase *__thiscall Scaleform::Render::TreeCacheShapeLayer::
             Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(
               &this->M,
               (const Scaleform::Render::Matrix2x4<float> *)&result,
-              Element_Cxform);
+              0);
           }
         }
       }

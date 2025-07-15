@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::LoadVarsProto::Decode(Scaleform::String fn)
 {
-  const Scaleform::GFx::AS2::FnCall *pData; // esi
+  Scaleform::GFx::AS2::FnCall *pData; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::Ptr<Scaleform::GFx::AS2::Object> *p_pProto; // edi
   Scaleform::GFx::AS2::Value *v4; // eax
@@ -10,9 +10,9 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::Decode(Scaleform::String fn)
   void *v8; // esi
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-1Ch]
-  Scaleform::GFx::ASString urlStr; // [esp+4h] [ebp-4h] BYREF
+  Scaleform::GFx::ASConstString v11; // [esp+4h] [ebp-4h] BYREF
 
-  pData = (const Scaleform::GFx::AS2::FnCall *)fn.pData;
+  pData = (Scaleform::GFx::AS2::FnCall *)fn.pData;
   if ( fn.pData[2].RefCount > 0 )
   {
     if ( *(_DWORD *)fn.pData->Data
@@ -25,10 +25,10 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::Decode(Scaleform::String fn)
         p_pProto = 0;
       Env = pData->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(pData, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v4, &urlStr, Env, -1, 0);
+      Scaleform::GFx::AS2::Value::ToStringImpl(v4, (Scaleform::GFx::ASString *)&v11, Env, -1, 0);
       Scaleform::String::String(&fn);
-      v5 = urlStr.pNode->pData;
-      Length = Scaleform::GFx::ASConstString::GetLength(&urlStr);
+      v5 = v11.pNode->pData;
+      Length = Scaleform::GFx::ASConstString::GetLength(&v11);
       Scaleform::GFx::ASUtils::Unescape(v5, Length, &fn);
       if ( p_pProto )
         v7 = (Scaleform::GFx::AS2::ObjectInterface *)&p_pProto[4];
@@ -38,8 +38,8 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::Decode(Scaleform::String fn)
       v8 = (void *)(fn.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((fn.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
-      pNode = urlStr.pNode;
-      --urlStr.pNode->RefCount;
+      pNode = v11.pNode;
+      --v11.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     }

@@ -11,11 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::GetNextPropertyName(
   StringManagerRef = this->pTraits.pObject->pVM->StringManagerRef;
   if ( ind.Index )
   {
-    v.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[6].m_keyboard[1],
-                1u,
-                0);
+    v.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(StringManagerRef->pStringManager, "0", 1u, 0);
     ++v.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Assign(name, &v);
     pNode = v.pNode;

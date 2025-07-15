@@ -36,8 +36,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::globa
   params[0].value.VNumber = pointa;
   pointb = 0.05000000074505806 * ptOut_4;
   params[1].value.VNumber = pointb;
-  (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, Scaleform::GFx::AS3::Value *, int))(*(_DWORD *)v6->pVM[1].ScopeStack.Data.Size + 36))(
-    v6->pVM[1].ScopeStack.Data.Size,
+  (*(void (__thiscall **)(Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Value *, int, Scaleform::GFx::AS3::Value *, int))(v6->pVM[1].ScopeStack.Data.Data->Flags + 48))(
+    v6->pVM[1].ScopeStack.Data.Data,
     &r,
     2,
     params,

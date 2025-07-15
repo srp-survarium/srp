@@ -3,13 +3,13 @@ void __usercall vostok::physics::destroy_static_rigid_body(vostok::physics::bt_s
   vostok::memory::base_allocator *v1; // edi
   _BYTE *v2; // ebx
 
-  v1 = vostok::physics::g_ph_allocator;
+  v1 = vostok::physics::g_allocator;
   if ( body )
   {
     v2 = __RTCastToVoid((void **)&body->__vftable);
-    ((void (__thiscall *)(vostok::physics::bt_static_rigid_body *, _DWORD))body->~vostok::physics::bt_static_rigid_body)(
+    ((void (__thiscall *)(vostok::physics::bt_static_rigid_body *, _DWORD))body->~vostok::physics::bt_rigid_body_base)(
       body,
       0);
-    v1->call_free(v1, v2);
+    v1->call_free(v1, v2, "vostok::physics::destroy_static_rigid_body", ".\\static_rigid_body.cpp", 56u);
   }
 }

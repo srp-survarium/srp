@@ -1,32 +1,58 @@
 void __thiscall vostok::ui::ui_window::remove_child(vostok::ui::ui_window *this, vostok::ui::window *w)
 {
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *M_finish; // esi
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v4; // eax
-  vostok::ui::window *v5; // esi
-  vostok::memory::base_allocator *m_allocator; // ebx
+  void **M_finish; // edx
+  vostok::vectora<vostok::ui::window *> *p_m_children; // esi
+  void **M_start; // eax
+  int i; // ecx
+  vostok::memory::base_allocator *m_allocator; // esi
   _BYTE *v7; // edi
 
-  M_finish = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)this->m_children._M_impl._M_finish;
-  v4 = stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-         (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)this->m_children._M_impl._M_start,
-         M_finish,
-         (const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)&w);
-  if ( &v4[1] != M_finish )
-    stlp_std::priv::__copy_ptrs<void * *,void * *>(
-      (void **)&v4[1].m_object,
-      (void **)&M_finish->m_object,
-      (void **)&v4->m_object);
-  v5 = w;
-  --this->m_children._M_impl._M_finish;
-  if ( v5->get_orphan(v5) )
+  M_finish = this->m_children._M_impl._M_finish;
+  p_m_children = &this->m_children;
+  M_start = this->m_children._M_impl._M_start;
+  for ( i = ((char *)M_finish - (char *)M_start) >> 4; i > 0; --i )
+  {
+    if ( *M_start == w )
+      goto LABEL_17;
+    if ( *++M_start == w )
+      goto LABEL_17;
+    if ( *++M_start == w )
+      goto LABEL_17;
+    if ( *++M_start == w )
+      goto LABEL_17;
+    ++M_start;
+  }
+  switch ( M_finish - M_start )
+  {
+    case 1:
+      goto LABEL_15;
+    case 2:
+LABEL_13:
+      if ( *M_start == w )
+        goto LABEL_17;
+      ++M_start;
+LABEL_15:
+      if ( *M_start == w )
+        goto LABEL_17;
+      break;
+    case 3:
+      if ( *M_start == w )
+        goto LABEL_17;
+      ++M_start;
+      goto LABEL_13;
+  }
+  M_start = M_finish;
+LABEL_17:
+  stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *>>::erase(&p_m_children->_M_impl, M_start);
+  if ( w->get_orphan(w) )
   {
     m_allocator = this->m_allocator;
-    v7 = __RTCastToVoid((void **)&v5->__vftable);
-    ((void (__thiscall *)(vostok::ui::window *, _DWORD))v5->~vostok::ui::window)(v5, 0);
-    m_allocator->call_free(m_allocator, v7);
+    v7 = __RTCastToVoid((void **)&w->__vftable);
+    ((void (__thiscall *)(vostok::ui::window *, _DWORD))w->~vostok::ui::window)(w, 0);
+    m_allocator->call_free(m_allocator, v7, "vostok::ui::ui_window::remove_child", ".\\ui_window.cpp", 83u);
   }
   else
   {
-    v5->set_parent(v5, 0);
+    w->set_parent(w, 0);
   }
 }

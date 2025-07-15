@@ -1,112 +1,120 @@
 void __thiscall vostok::render::render_output_window::render_output_window(
         vostok::render::render_output_window *this,
         vostok::render::render_output_window *window_configuration,
-        const vostok::render::output_window_configuration *window_configurationa)
+        survarium::flash_renderer *a3)
 {
-  vostok::render::renderer_context_targets *v4; // ecx
+  unsigned int m_output_width; // edi
+  char *p_m_targets; // edi
+  unsigned int x; // ecx
+  vostok::render::resource_manager *v7; // ecx
   vostok::render::res_render_output *render_output; // eax
-  unsigned int m_object; // eax
-  unsigned int v7; // edx
-  int v8; // ecx
-  const char *m_conflicted_key_name; // eax
-  vostok::render::backend *v10; // ecx
-  survarium::flash_renderer *v11; // eax
-  survarium::game *m_game; // ecx
-  unsigned int width; // ecx
-  vostok::math::uint2 v14; // [esp-8h] [ebp-24h] BYREF
-  _DWORD v15[3]; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::Render::D3D1x::HAL *m_HALRenderer; // eax
+  float z; // esi
+  vostok::render::backend *v11; // ecx
+  vostok::memory::doug_lea_allocator *v12; // esi
+  char *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // ecx
+  char *v15; // eax
+  survarium::flash_renderer *v16; // eax
+  survarium::flash_renderer *v17; // ecx
+  vostok::render::device *v18; // eax
+  vostok::math::uint2 v19; // [esp-Ch] [ebp-2Ch]
+  const char *v20; // [esp+0h] [ebp-20h]
+  const char *v21; // [esp+4h] [ebp-1Ch]
+  unsigned int v22; // [esp+8h] [ebp-18h]
+  vostok::math::uint2 result; // [esp+10h] [ebp-10h] BYREF
+  int i; // [esp+1Ch] [ebp-4h]
+  vostok::render::render_target_instance *m_family; // [esp+28h] [ebp+8h]
 
-  vostok::resources::unmanaged_resource::unmanaged_resource(window_configuration, 1u);
+  m_output_width = a3->m_output_width;
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, window_configuration, fs_iterator_class);
+  window_configuration->m_window = (HWND__ *)m_output_width;
   window_configuration->__vftable = (vostok::render::render_output_window_vtbl *)&vostok::render::render_output_window::`vftable';
   vostok::render::render_output_window::get_window_client_size(
-    (HWND)window_configurationa->hwnd,
-    &v14,
-    window_configurationa->windowed);
-  vostok::render::renderer_context_targets::renderer_context_targets(v4, (int)&window_configuration->m_targets, v14);
+    &result,
+    (HWND__ *)a3->m_output_width,
+    BYTE1(a3[1].m_output_width));
+  p_m_targets = (char *)&window_configuration->m_targets;
+  m_family = window_configuration->m_targets.m_family;
+  for ( i = 72; i >= 0; --i )
+    vostok::render::render_target_instance::render_target_instance(m_family++);
+  window_configuration->m_targets.m_size.y = 0;
+  window_configuration->m_targets.m_memory_usage = 0;
+  x = result.x;
+  window_configuration->m_targets.m_size.x = 0;
+  v19.y = x;
+  v19.x = 1;
+  vostok::render::renderer_context_targets::create_targets(
+    (vostok::render::renderer_context_targets *)result.y,
+    (vostok::render::enum_render_target_index)p_m_targets,
+    v19,
+    (DXGI_FORMAT)result.y);
   render_output = vostok::render::resource_manager::create_render_output(
-                    (vostok::render::resource_manager *)window_configurationa->windowed,
-                    (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                    (HWND__ *)window_configurationa->hwnd,
-                    (vostok::render::res_render_output *)window_configurationa->windowed);
+                    v7,
+                    (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                    (HWND__ *)a3->m_output_width,
+                    BYTE1(a3[1].m_output_width));
   window_configuration->m_output.m_object = 0;
   if ( render_output )
   {
     window_configuration->m_output.m_object = render_output;
     ++render_output->m_reference_count;
   }
-  window_configuration->m_window = (HWND__ *)window_configurationa->hwnd;
-  window_configuration->m_windowed = window_configurationa->windowed;
+  window_configuration->m_flash_renderer = 0;
+  window_configuration->m_windowed = BYTE1(a3[1].m_output_width);
   window_configuration->m_current_size = *vostok::render::render_output_window::get_window_client_size(
-                                            (HWND)window_configurationa->hwnd,
-                                            v15,
-                                            window_configurationa->windowed);
-  if ( window_configurationa->create_flash_renderer )
+                                            &result,
+                                            (HWND__ *)a3->m_output_width,
+                                            BYTE1(a3[1].m_output_width));
+  window_configuration->m_windowed_changed = 1;
+  m_HALRenderer = a3->m_HALRenderer;
+  if ( m_HALRenderer )
+    vostok::render::render_output_window::set_size(
+      (unsigned int)m_HALRenderer,
+      BYTE1(a3[1].m_output_width) == 0,
+      window_configuration,
+      (unsigned int)a3->m_R2dRenderer,
+      BYTE1(a3[1].m_output_width) == 0,
+      0,
+      (bool)v20);
+  if ( LOBYTE(a3[1].m_output_width) )
   {
-    m_object = (unsigned int)window_configuration->m_targets.m_family[48].target.m_object;
-    v7 = (unsigned int)window_configuration->m_targets.m_family[47].target.m_object;
-    if ( m_object )
-      v8 = *(_DWORD *)(m_object + 16);
-    else
-      v8 = 0;
-    m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    if ( *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) != v8 )
-    {
-      *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = v8;
-      *((_BYTE *)m_conflicted_key_name + 163) = 1;
-    }
-    if ( v7 )
-      v10 = *(vostok::render::backend **)(v7 + 16);
-    else
-      v10 = 0;
-    if ( *((vostok::render::backend **)m_conflicted_key_name + 536) != v10 )
-    {
-      *((_DWORD *)m_conflicted_key_name + 536) = v10;
-      *((_BYTE *)m_conflicted_key_name + 164) = 1;
-    }
-    if ( *((_DWORD *)m_conflicted_key_name + 537) )
-    {
-      *((_DWORD *)m_conflicted_key_name + 537) = 0;
-      *((_BYTE *)m_conflicted_key_name + 165) = 1;
-    }
-    if ( *((_DWORD *)m_conflicted_key_name + 538) )
-    {
-      *((_DWORD *)m_conflicted_key_name + 538) = 0;
-      *((_BYTE *)m_conflicted_key_name + 166) = 1;
-    }
-    vostok::render::backend::flush(v10, (int)m_conflicted_key_name);
-    if ( vostok::memory::doug_lea_allocator::malloc_impl(
-           (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-           0x10u) )
+    z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+    vostok::render::backend::set_render_targets(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      window_configuration->m_targets.m_family[51].target.m_object,
+      window_configuration->m_targets.m_family[50].target.m_object,
+      0,
+      0);
+    vostok::render::backend::flush(v11, LODWORD(z));
+    v12 = vostok::render::g_allocator;
+    v13 = type_info::raw_name(&survarium::flash_renderer `RTTI Type Descriptor');
+    v15 = vostok::memory::doug_lea_allocator::malloc_impl(v14, (int)v12, 0x10u, v13, v20, v21, v22);
+    if ( v15 )
     {
       survarium::flash_renderer::flash_renderer(
-        (survarium::flash_renderer *)window_configurationa->scaleform_render_queue,
-        window_configurationa->scaleform_render_queue,
-        (ID3D11Device *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-        (ID3D11DeviceContext *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y);
+        a3,
+        (int)v15,
+        (Scaleform::Render::D3D1x::HAL *)a3->m_output_height,
+        vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+        vostok::quasi_singleton<vostok::render::device>::pinst->m_context);
+      v17 = v16;
     }
     else
     {
-      v11 = 0;
+      v17 = 0;
     }
-    m_game = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game;
-    window_configuration->m_flash_renderer = v11;
+    v18 = vostok::quasi_singleton<vostok::render::device>::pinst;
+    window_configuration->m_flash_renderer = v17;
     survarium::flash_renderer::on_reset_device(
-      v11,
+      v17,
       window_configuration->m_current_size.x,
       window_configuration->m_current_size.y,
-      (ID3D11Device *)m_game->m_game_world.m_mouse_pos.x,
-      (ID3D11DeviceContext *)m_game->m_game_world.m_mouse_pos.y);
+      v18->m_device,
+      v18->m_context);
   }
   else
   {
     window_configuration->m_flash_renderer = 0;
   }
-  width = window_configurationa->width;
-  if ( width )
-    vostok::render::render_output_window::set_size(
-      width,
-      (vostok::render::renderer_context_targets *)window_configurationa->height,
-      window_configuration,
-      !window_configurationa->windowed,
-      (vostok::render::renderer_context_targets *)1);
 }

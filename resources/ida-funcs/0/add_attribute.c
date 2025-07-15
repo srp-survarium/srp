@@ -1,4 +1,4 @@
-int __usercall add_attribute@<eax>(stack_st_X509_ATTRIBUTE **sk@<ebx>, unsigned int nid, int atrtype, void *value)
+int __usercall add_attribute@<eax>(stack_st_X509_ATTRIBUTE **sk@<ebx>, void *nid, int atrtype, int value)
 {
   stack_st_X509_ATTRIBUTE *v4; // eax
   int v6; // esi
@@ -15,7 +15,7 @@ int __usercall add_attribute@<eax>(stack_st_X509_ATTRIBUTE **sk@<ebx>, unsigned 
     if ( !v4 )
       return 0;
 new_attrib:
-    v8 = (char *)X509_ATTRIBUTE_create(nid, atrtype, value);
+    v8 = (char *)X509_ATTRIBUTE_create((int)sk, (unsigned int)nid, atrtype, value);
     v9 = (x509_attributes_st *)v8;
     if ( !v8 )
       return 0;
@@ -38,7 +38,7 @@ new_attrib:
       goto new_attrib;
   }
   X509_ATTRIBUTE_free(v7);
-  v10 = X509_ATTRIBUTE_create(nid, atrtype, value);
+  v10 = X509_ATTRIBUTE_create((int)sk, (unsigned int)nid, atrtype, value);
   v11 = v10;
   if ( !v10 )
     return 0;

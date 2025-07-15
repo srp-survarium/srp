@@ -1,29 +1,43 @@
-void __thiscall boost::asio::detail::select_reactor::cancel_ops_unlocked(
-        boost::asio::detail::select_reactor *this,
-        unsigned int descriptor,
-        const boost::system::error_code *ec)
+void __userpurge boost::asio::detail::select_reactor::cancel_ops_unlocked(
+        boost::asio::detail::select_reactor *this@<ecx>,
+        int a2@<eax>,
+        stlp_std::priv::_List_node_base *descriptor,
+        stlp_std::priv::_List_node_base *ec)
 {
-  bool v3; // [esp+0h] [ebp-D8h]
-  int i; // [esp+C8h] [ebp-10h]
-  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> ops; // [esp+CCh] [ebp-Ch] BYREF
-  bool need_interrupt; // [esp+D7h] [ebp-1h]
+  char v5; // bl
+  int v6; // esi
+  boost::asio::detail::socket_select_interrupter *v7; // ecx
+  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> v8; // [esp+Ch] [ebp-Ch] BYREF
+  int v9; // [esp+14h] [ebp-4h]
 
-  need_interrupt = 0;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&ops);
-  ops.front_ = 0;
-  ops.back_ = 0;
-  for ( i = 0; i < 4; ++i )
+  v8.front_ = 0;
+  v5 = 0;
+  v8.back_ = 0;
+  v6 = a2 + 56;
+  v9 = 4;
+  do
   {
-    v3 = boost::asio::detail::reactor_op_queue<unsigned int>::cancel_operations(
-           &this->op_queue_[i],
-           descriptor,
-           &ops,
+    if ( boost::asio::detail::reactor_op_queue<unsigned int>::cancel_operations(
+           (boost::asio::detail::reactor_op_queue<unsigned int> *)this,
+           v6,
+           (unsigned int)descriptor,
+           &v8,
            ec)
-      || need_interrupt;
-    need_interrupt = v3;
+      || v5 )
+    {
+      v5 = 1;
+    }
+    v6 += 28;
+    --v9;
   }
-  boost::asio::detail::win_iocp_io_service::post_deferred_completions(this->io_service_, &ops);
-  if ( need_interrupt )
-    boost::asio::detail::socket_select_interrupter::interrupt(&this->interrupter_);
-  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>((boost::asio::detail::op_queue<boost::asio::detail::timer_op> *)&ops);
+  while ( v9 );
+  boost::asio::detail::win_iocp_io_service::post_deferred_completions(
+    (boost::asio::detail::win_iocp_io_service *)this,
+    *(_DWORD *)(a2 + 20),
+    &v8);
+  if ( v5 )
+    boost::asio::detail::socket_select_interrupter::interrupt(v7, a2 + 48);
+  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>(
+    (boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *)v7,
+    (int *)&v8);
 }

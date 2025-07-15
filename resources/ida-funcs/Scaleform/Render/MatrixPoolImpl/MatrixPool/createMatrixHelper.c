@@ -16,7 +16,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
     return &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle;
   pHeader = v4->pHeader;
   *(Scaleform::Render::Matrix2x4<float> *)(&v4->pHeader[1].RefCount
-                                         + 4 * (unsigned __int8)byte_9B2B74[5 * (v4->pHeader->Format & 0xF)]) = *m;
+                                         + 4 * (unsigned __int8)byte_874214[5 * (v4->pHeader->Format & 0xF)]) = *m;
   if ( (formatBits & 1) != 0 )
     qmemcpy(
       &pHeader[1].RefCount
@@ -25,7 +25,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
       0x20u);
   if ( (formatBits & 2) != 0 )
   {
-    v7 = (float *)(&v4->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B71[5 * (v4->pHeader->Format & 0xF)]);
+    v7 = (float *)(&v4->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874211[5 * (v4->pHeader->Format & 0xF)]);
     *v7 = 1.0;
     v7[5] = 1.0;
     v7[1] = 0.0;
@@ -37,7 +37,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
   }
   if ( (formatBits & 4) != 0 )
   {
-    v8 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B72[5 * (v5->pHeader->Format & 0xF)]);
+    v8 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874212[5 * (v5->pHeader->Format & 0xF)]);
     *v8 = 1.0;
     v8[5] = 1.0;
     v8[1] = 0.0;
@@ -48,17 +48,14 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
     v8[7] = 0.0;
   }
   if ( (formatBits & 8) != 0 )
-    memset(
-      (int)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B73[5 * (v5->pHeader->Format & 0xF)]),
-      0,
-      0x40u);
+    memset((int)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874213[5 * (v5->pHeader->Format & 0xF)]), 0, 64);
   return v5;
 }
 
 
 Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::MatrixPoolImpl::MatrixPool::createMatrixHelper(
         Scaleform::Render::MatrixPoolImpl::MatrixPool *this,
-        Scaleform::Render::Matrix3x4<float> *m,
+        const __m128i *m,
         const Scaleform::Render::Cxform *cx,
         unsigned __int8 formatBits)
 {
@@ -71,10 +68,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
   v5 = v4;
   if ( !v4 )
     return &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle;
-  memcpy(
-    (unsigned __int8 *)&v4->pHeader[1].RefCount + 16 * (unsigned __int8)byte_9B2B74[5 * (v4->pHeader->Format & 0xF)],
-    (unsigned __int8 *)m,
-    0x30u);
+  memcpy((int)(&v4->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874214[5 * (v4->pHeader->Format & 0xF)]), m, 0x30u);
   if ( (formatBits & 1) != 0 )
     qmemcpy(
       &v5->pHeader[1].RefCount
@@ -84,7 +78,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
       0x20u);
   if ( (formatBits & 2) != 0 )
   {
-    v6 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B71[5 * (v5->pHeader->Format & 0xF)]);
+    v6 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874211[5 * (v5->pHeader->Format & 0xF)]);
     *v6 = 1.0;
     v6[5] = 1.0;
     v6[1] = 0.0;
@@ -96,7 +90,7 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
   }
   if ( (formatBits & 4) != 0 )
   {
-    v7 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B72[5 * (v5->pHeader->Format & 0xF)]);
+    v7 = (float *)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874212[5 * (v5->pHeader->Format & 0xF)]);
     *v7 = 1.0;
     v7[5] = 1.0;
     v7[1] = 0.0;
@@ -107,9 +101,6 @@ Scaleform::Render::MatrixPoolImpl::EntryHandle *__thiscall Scaleform::Render::Ma
     v7[7] = 0.0;
   }
   if ( (formatBits & 8) != 0 )
-    memset(
-      (int)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_9B2B73[5 * (v5->pHeader->Format & 0xF)]),
-      0,
-      0x40u);
+    memset((int)(&v5->pHeader[1].RefCount + 4 * (unsigned __int8)byte_874213[5 * (v5->pHeader->Format & 0xF)]), 0, 64);
   return v5;
 }

@@ -5,12 +5,13 @@ btVector3 *__thiscall btTriangleShape::localGetSupportingVertexWithoutMargin(
 {
   float v3; // xmm5_4
   float v4; // xmm4_4
-  float v5; // xmm0_4
-  float v6; // xmm1_4
-  float v7; // xmm3_4
+  float v5; // xmm2_4
+  float v6; // xmm0_4
+  float v7; // xmm1_4
   int v8; // eax
-  int v9; // edx
+  int v9; // esi
   btVector3 *v10; // eax
+  btConvexShape *v11; // esi
 
   v3 = dir->mVec128.m128_f32[1];
   v4 = dir->mVec128.m128_f32[2];
@@ -42,6 +43,10 @@ LABEL_5:
 LABEL_7:
   v9 = v8 + 5;
   v10 = result;
-  *result = (btVector3)*((_OWORD *)&this->btConvexShape + v9);
+  v11 = (btConvexShape *)this + v9;
+  result->mVec128.m128_i32[0] = (int)v11->__vftable;
+  v11 = (btConvexShape *)((char *)v11 + 4);
+  result->mVec128.m128_i32[1] = (int)v11->__vftable;
+  result->mVec128.m128_u64[1] = *(_QWORD *)&v11->m_shapeType;
   return v10;
 }

@@ -4,133 +4,131 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::paletteM
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  unsigned int v5; // esi
+  unsigned int v6; // eax
+  Scaleform::GFx::AS3::VM *pVM; // ecx
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASStringNode *v8; // ecx
   Scaleform::GFx::AS3::VM::ErrorID VInt; // edx
-  int v10; // esi
-  Scaleform::GFx::AS3::VM *v11; // esi
-  const Scaleform::GFx::AS3::VM::Error *v12; // eax
-  Scaleform::GFx::ASStringNode *v13; // eax
-  unsigned int v14; // edi
+  int v10; // edi
+  unsigned int v11; // eax
+  Scaleform::GFx::AS3::VM *v12; // edi
+  unsigned int v13; // edi
   Scaleform::GFx::AS3::Value::VU *p_value; // eax
-  int v16; // ebx
-  unsigned int v17; // esi
-  Scaleform::GFx::AS3::Value *v18; // eax
+  int v15; // ebx
+  Scaleform::GFx::AS3::Value *v16; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // esi
-  Scaleform::Render::DrawableImage *v20; // edi
-  double v21; // st7
-  const Scaleform::Render::Rect<long> *v22; // eax
-  Scaleform::GFx::AS3::VM::Error v23; // [esp+8h] [ebp-1044h] BYREF
-  unsigned int *v24; // [esp+10h] [ebp-103Ch]
-  Scaleform::GFx::AS3::CheckResult resulta; // [esp+17h] [ebp-1035h] BYREF
-  Scaleform::GFx::AS3::Value::VU *v26; // [esp+18h] [ebp-1034h]
-  Scaleform::Render::Point<long> destPoint; // [esp+1Ch] [ebp-1030h] BYREF
-  Scaleform::GFx::AS3::Instances::fl_display::BitmapData *sourceBitmapData; // [esp+24h] [ebp-1028h]
-  unsigned int v29; // [esp+28h] [ebp-1024h]
-  unsigned int *channels[4]; // [esp+2Ch] [ebp-1020h] BYREF
-  Scaleform::Render::Rect<long> v31; // [esp+3Ch] [ebp-1010h] BYREF
-  char v32; // [esp+4Ch] [ebp-1000h] BYREF
+  Scaleform::Render::DrawableImage *v18; // edi
+  double v19; // st7
+  const Scaleform::Render::Rect<long> *v20; // eax
+  Scaleform::StringDataPtr v21[3]; // [esp-8h] [ebp-105Ch] BYREF
+  Scaleform::GFx::AS3::VM::Error v22; // [esp+10h] [ebp-1044h] BYREF
+  char *v23; // [esp+18h] [ebp-103Ch]
+  Scaleform::GFx::AS3::CheckResult resulta; // [esp+1Fh] [ebp-1035h] BYREF
+  Scaleform::GFx::AS3::Value::VU *v25; // [esp+20h] [ebp-1034h]
+  Scaleform::Render::Point<long> v26; // [esp+24h] [ebp-1030h] BYREF
+  Scaleform::GFx::AS3::Instances::fl_display::BitmapData *sourceBitmapData; // [esp+2Ch] [ebp-1028h]
+  unsigned int v28; // [esp+30h] [ebp-1024h]
+  const void *v29[4]; // [esp+34h] [ebp-1020h] BYREF
+  Scaleform::Render::Rect<long> v30; // [esp+44h] [ebp-1010h] BYREF
+  char v31; // [esp+54h] [ebp-1000h] BYREF
 
+  v5 = 0;
   if ( !this->pImage.pObject )
   {
+    v21[0].pStr = "Invalid BitmapData";
+    v21[0].Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v22, eArgumentError, this->pTraits.pObject->pVM, v21[0]);
     pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v23, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
-    pNode = v23.Message.pNode;
-    --v23.Message.pNode->RefCount;
-    v8 = pNode;
-    if ( pNode->RefCount )
-      return;
+LABEL_3:
+    v21[0].Size = v6;
+    goto LABEL_4;
+  }
+  if ( argc < 3 )
+    return;
+  VInt = argv[1].value.VS._1.VInt;
+  v10 = argv[2].value.VS._1.VInt;
+  sourceBitmapData = (Scaleform::GFx::AS3::Instances::fl_display::BitmapData *)argv->value.VS._1.VInt;
+  v22.ID = VInt;
+  v26.x = v10;
+  if ( !sourceBitmapData )
+  {
+    v21[0].pStr = "sourceBitmapData";
+    v21[0].Size = 16;
+    Scaleform::GFx::AS3::VM::Error::Error(&v22, eNullPointerError, this->pTraits.pObject->pVM, v21[0]);
+    v21[0].Size = v11;
+    pVM = this->pTraits.pObject->pVM;
+LABEL_4:
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, (const Scaleform::GFx::AS3::VM::Error *)v21[0].Size);
+    pNode = v22.Message.pNode;
+    --v22.Message.pNode->RefCount;
+    if ( !pNode->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    return;
+  }
+  if ( !VInt )
+  {
+    v12 = this->pTraits.pObject->pVM;
+    Scaleform::StringDataPtr::StringDataPtr(v21, "sourceRect");
+LABEL_11:
+    Scaleform::GFx::AS3::VM::Error::Error(&v22, eNullPointerError, v12, v21[0]);
+    pVM = v12;
     goto LABEL_3;
   }
-  if ( argc >= 3 )
+  if ( !v10 )
   {
-    VInt = argv[1].value.VS._1.VInt;
-    v10 = argv[2].value.VS._1.VInt;
-    sourceBitmapData = (Scaleform::GFx::AS3::Instances::fl_display::BitmapData *)argv->value.VS._1.VInt;
-    v23.ID = VInt;
-    destPoint.x = v10;
-    if ( sourceBitmapData )
+    v12 = this->pTraits.pObject->pVM;
+    Scaleform::StringDataPtr::StringDataPtr(v21, "destPoint");
+    goto LABEL_11;
+  }
+  v13 = 0;
+  p_value = &argv[3].value;
+  v28 = argc - 3;
+  v23 = &v31;
+  v25 = &argv[3].value;
+  do
+  {
+    if ( v13 < v28 )
     {
-      if ( VInt )
+      v15 = p_value->VS._1.VInt;
+      *(&v30.x1 + v13) = p_value->VS._1.VInt;
+      if ( v15 )
       {
-        if ( v10 )
+        v29[v13] = v23;
+        do
         {
-          v14 = 0;
-          p_value = &argv[3].value;
-          v29 = argc - 3;
-          v24 = (unsigned int *)&v32;
-          v26 = &argv[3].value;
-          do
-          {
-            if ( v14 < v29 )
-            {
-              v16 = p_value->VS._1.VInt;
-              v17 = 0;
-              *(&v31.x1 + v14) = p_value->VS._1.VInt;
-              if ( v16 )
-              {
-                channels[v14] = v24;
-                do
-                {
-                  v18 = (Scaleform::GFx::AS3::Value *)Scaleform::GFx::AS3::Impl::SparseArray::At(
-                                                        (Scaleform::GFx::AS3::Impl::SparseArray *)(v16 + 32),
-                                                        v17);
-                  Scaleform::GFx::AS3::Value::Convert2UInt32(v18, &resulta, &channels[v14][v17++]);
-                }
-                while ( v17 < 0x100 );
-              }
-              else
-              {
-                channels[v14] = 0;
-              }
-            }
-            else
-            {
-              channels[v14] = 0;
-            }
-            v24 += 256;
-            ++v14;
-            p_value = v26 + 2;
-            v26 += 2;
-          }
-          while ( v14 < 4 );
-          DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
-                                          this,
-                                          this);
-          v20 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
-                  this,
-                  sourceBitmapData);
-          v21 = *(double *)(destPoint.x + 40);
-          destPoint.x = (int)*(double *)(destPoint.x + 32);
-          destPoint.y = (int)v21;
-          v22 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(
-                  this,
-                  &v31,
-                  (const Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *)v23.ID);
-          Scaleform::Render::DrawableImage::PaletteMap(DrawableImageFromBitmapData, v20, v22, &destPoint, channels);
-          return;
+          v16 = (Scaleform::GFx::AS3::Value *)Scaleform::GFx::AS3::Impl::SparseArray::At(
+                                                (Scaleform::GFx::AS3::Impl::SparseArray *)(v15 + 32),
+                                                v5);
+          Scaleform::GFx::AS3::Value::Convert2UInt32(v16, &resulta, (unsigned int *)v29[v13] + v5++);
         }
-        v11 = this->pTraits.pObject->pVM;
+        while ( v5 < 0x100 );
+        v5 = 0;
       }
       else
       {
-        v11 = this->pTraits.pObject->pVM;
+        v29[v13] = 0;
       }
     }
     else
     {
-      v11 = this->pTraits.pObject->pVM;
+      v29[v13] = 0;
     }
-    Scaleform::GFx::AS3::VM::Error::Error(&v23, eNullPointerError, v11);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v11, v12);
-    v13 = v23.Message.pNode;
-    --v23.Message.pNode->RefCount;
-    v8 = v13;
-    if ( !v13->RefCount )
-LABEL_3:
-      Scaleform::GFx::ASStringNode::ReleaseNode(v8);
+    v23 += 1024;
+    ++v13;
+    p_value = v25 + 2;
+    v25 += 2;
   }
+  while ( v13 < 4 );
+  DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
+                                  this,
+                                  this);
+  v18 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(this, sourceBitmapData);
+  v19 = *(double *)(v26.x + 40);
+  v26.x = (int)*(double *)(v26.x + 32);
+  v26.y = (int)v19;
+  v20 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(
+          this,
+          &v30,
+          (const Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *)v22.ID);
+  Scaleform::Render::DrawableImage::PaletteMap(DrawableImageFromBitmapData, v18, v20, &v26, v29);
 }

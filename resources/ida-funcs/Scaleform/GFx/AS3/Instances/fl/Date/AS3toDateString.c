@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::AS3toDateString(
   v4 = Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeString(out, 0x80u, this->TimeValue, LocalTZA, 1, 0, 0);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 out,
+                 (__m128i *)out,
                  v4);
   StringNode->RefCount += 2;
   pNode = result->pNode;

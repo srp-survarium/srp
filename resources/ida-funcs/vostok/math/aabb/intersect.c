@@ -2,124 +2,119 @@ int __thiscall vostok::math::aabb::intersect(
         vostok::math::aabb *this,
         const vostok::math::float3 *origin,
         const vostok::math::float3 *direction,
-        int result,
-        vostok::math::float3 *resulta)
+        vostok::math::float3 *result,
+        vostok::math::float3 *a5)
 {
-  const vostok::math::float3 *v5; // ebp
-  const vostok::math::float3 *v6; // edi
-  int v7; // esi
-  int v8; // eax
-  char v9; // dl
-  const vostok::math::float3 *v10; // ecx
-  int v11; // ebx
-  float v12; // xmm0_4
-  float x; // xmm1_4
-  float v14; // xmm1_4
-  float v16; // xmm0_4
-  vostok::math::float3 *v17; // ecx
-  float v18; // xmm2_4
-  float v19; // xmm3_4
-  float v20; // xmm1_4
-  float v21; // xmm3_4
-  int v22; // esi
-  float v23; // xmm1_4
-  int v24; // edi
-  float *p_x; // eax
-  char *v26; // edx
-  float v27; // xmm0_4
-  int v28; // [esp+10h] [ebp-1Ch]
-  float maxT[3]; // [esp+14h] [ebp-18h]
-  float candidatePlane[3]; // [esp+20h] [ebp-Ch] BYREF
+  const vostok::math::float3 *v5; // eax
+  int v6; // ecx
+  char v7; // dl
+  float v8; // xmm1_4
+  float x; // xmm0_4
+  vostok::math::float3 *v11; // ecx
+  int v12; // esi
+  int v13; // edx
+  int v14; // ebx
+  int v15; // eax
+  int v16; // edx
+  float v17; // xmm1_4
+  const vostok::math::float3 *v18; // eax
+  int v19; // esi
+  int v20; // edx
+  float v21; // xmm0_4
+  _BYTE v22[12]; // [esp+Ch] [ebp-24h] BYREF
+  float v23[3]; // [esp+18h] [ebp-18h] BYREF
+  int v24; // [esp+24h] [ebp-Ch]
+  int v25; // [esp+28h] [ebp-8h]
+  _BYTE v26[4]; // [esp+2Ch] [ebp-4h]
 
   v5 = origin;
-  v6 = direction;
-  v7 = (char *)direction - (char *)origin;
-  v8 = 0;
-  v9 = 1;
-  v10 = origin;
-  v28 = (char *)direction - (char *)origin;
-  v11 = (char *)candidatePlane - (char *)origin;
+  v6 = 0;
+  v7 = 1;
+  v25 = (char *)direction - (char *)origin;
+  v24 = v22 - (_BYTE *)origin;
   do
   {
-    v12 = *(float *)((char *)&v10->x + v7);
-    x = v10->x;
-    if ( v10->x <= v12 )
+    v8 = *(float *)((char *)&v5->x + (char *)direction - (char *)origin);
+    x = v5->x;
+    if ( v5->x > v8 )
     {
-      v14 = v10[1].x;
-      if ( v12 <= v14 )
-      {
-        *((_BYTE *)&origin + v8) = 2;
-      }
-      else
-      {
-        *((_BYTE *)&origin + v8) = 0;
-        *(float *)((char *)&v10->x + v11) = v14;
-        v9 = 0;
-      }
+      v26[v6] = 1;
+LABEL_6:
+      *(float *)((char *)&v5->x + v22 - (_BYTE *)origin) = x;
+      v7 = 0;
+      goto LABEL_8;
     }
-    else
+    x = v5[1].x;
+    if ( v8 > x )
     {
-      *((_BYTE *)&origin + v8) = 1;
-      *(float *)((char *)&v10->x + v11) = x;
-      v9 = 0;
+      v26[v6] = 0;
+      goto LABEL_6;
     }
-    ++v8;
-    v10 = (const vostok::math::float3 *)((char *)v10 + 4);
+    v26[v6] = 2;
+LABEL_8:
+    ++v6;
+    v5 = (const vostok::math::float3 *)((char *)v5 + 4);
   }
-  while ( v8 < 3 );
-  if ( v9 )
+  while ( v6 < 3 );
+  if ( v7 )
   {
-    *resulta = *v6;
+    *a5 = *direction;
     return 1;
   }
   else
   {
-    v16 = -1.0;
-    v17 = (vostok::math::float3 *)result;
-    if ( (_BYTE)origin == 2 || *(float *)result == 0.0 )
-      v18 = -1.0;
-    else
-      v18 = (float)(candidatePlane[0] - v6->x) / *(float *)result;
-    maxT[0] = v18;
-    if ( BYTE1(origin) == 2 || (v19 = *(float *)(result + 4), v19 == 0.0) )
-      v20 = -1.0;
-    else
-      v20 = (float)(candidatePlane[1] - v6->y) / v19;
-    maxT[1] = v20;
-    if ( BYTE2(origin) != 2 )
+    v11 = result;
+    v12 = 0;
+    v13 = (char *)v23 - (char *)result;
+    do
     {
-      v21 = *(float *)(result + 8);
-      if ( v21 != 0.0 )
-        v16 = (float)(candidatePlane[2] - v6->z) / v21;
+      if ( v26[v12] == 2 || v11->x == 0.0 )
+        *(float *)((char *)&v11->x + v13) = FLOAT_N1_0;
+      else
+        *(float *)((char *)&v11->x + v13) = (float)(*(float *)&v22[(char *)v11 - (char *)result]
+                                                  - *(float *)((char *)&v11->x + (char *)direction - (char *)result))
+                                          / v11->x;
+      ++v12;
+      v11 = (vostok::math::float3 *)((char *)v11 + 4);
     }
-    v22 = 0;
-    maxT[2] = v16;
-    result = v20 > v18;
-    if ( v16 > maxT[result] )
-      result = 2;
-    v23 = maxT[result];
-    if ( v23 >= 0.0 )
+    while ( v12 < 3 );
+    v14 = 0;
+    v15 = 1;
+    v16 = 0;
+    do
     {
-      v24 = (char *)v17 - (char *)direction;
-      p_x = &v5->x;
-      v26 = (char *)((char *)resulta - (char *)v5);
+      if ( v23[v15] > v23[v16] )
+      {
+        v14 = v15;
+        v16 = v15;
+      }
+      ++v15;
+    }
+    while ( v15 < 3 );
+    v17 = v23[v14];
+    if ( v17 >= 0.0 )
+    {
+      v18 = origin;
+      v19 = 0;
+      v20 = (char *)a5 - (char *)origin;
       do
       {
-        if ( result == v22 )
+        if ( v14 == v19 )
         {
-          *(float *)((char *)p_x + (_DWORD)v26) = *(float *)((char *)p_x + v11);
+          *(float *)((char *)&v18->x + v20) = *(float *)((char *)&v18->x + v24);
         }
         else
         {
-          v27 = (float)(*(float *)((char *)p_x + v28 + v24) * v23) + *(float *)((char *)p_x + v28);
-          *(float *)((char *)p_x + (_DWORD)v26) = v27;
-          if ( *p_x > v27 || v27 > p_x[3] )
+          v21 = (float)(*(float *)((char *)&v18->x + v25 + (char *)result - (char *)direction) * v17)
+              + *(float *)((char *)&v18->x + v25);
+          *(float *)((char *)&v18->x + v20) = v21;
+          if ( v18->x > v21 || v21 > v18[1].x )
             return 0;
         }
-        ++v22;
-        ++p_x;
+        ++v19;
+        v18 = (const vostok::math::float3 *)((char *)v18 + 4);
       }
-      while ( v22 < 3 );
+      while ( v19 < 3 );
       return 2;
     }
     else

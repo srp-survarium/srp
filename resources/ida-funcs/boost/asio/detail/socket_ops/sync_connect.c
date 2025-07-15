@@ -1,35 +1,29 @@
-void __cdecl boost::asio::detail::socket_ops::sync_connect(
-        SOCKET s,
+void __usercall boost::asio::detail::socket_ops::sync_connect(
+        boost::system::error_code *ec@<esi>,
+        int a2@<ebx>,
+        unsigned int s,
         const sockaddr *addr,
-        unsigned int addrlen,
-        boost::system::error_code *ec)
+        unsigned int addrlen)
 {
-  char v4; // [esp+0h] [ebp-30Ch]
-  bool v5; // [esp+4h] [ebp-308h]
-  const boost::system::error_category *v6; // [esp+Ch] [ebp-300h]
-  int connect_error; // [esp+304h] [ebp-8h] BYREF
-  unsigned int connect_error_len; // [esp+308h] [ebp-4h] BYREF
+  const boost::system::error_category *v5; // eax
+  boost::system::error_code rhs; // [esp+4h] [ebp-Ch] BYREF
+  int level; // [esp+Ch] [ebp-4h] BYREF
 
-  boost::asio::detail::socket_ops::connect(s, addr, addrlen, ec);
-  v5 = ec->m_cat == boost::system::system_category() && ec->m_val == 10036;
-  if ( v5 || (ec->m_cat != boost::system::system_category() || ec->m_val != 10035 ? (v4 = 0) : (v4 = 1), v4) )
+  boost::asio::detail::socket_ops::connect(ec, a2, s, addr, addrlen);
+  rhs.m_cat = boost::system::system_category();
+  rhs.m_val = 10036;
+  if ( !boost::system::operator!=(ec, &rhs)
+    || (rhs.m_cat = boost::system::system_category(), rhs.m_val = 10035, !boost::system::operator!=(ec, &rhs)) )
   {
     if ( boost::asio::detail::socket_ops::poll_connect(s, ec) >= 0 )
     {
-      connect_error = 0;
-      connect_error_len = 4;
-      if ( boost::asio::detail::socket_ops::getsockopt(
-             s,
-             0,
-             0xFFFF,
-             4103,
-             (char *)&connect_error,
-             &connect_error_len,
-             ec) != -1 )
+      level = 0;
+      rhs.m_cat = (const boost::system::error_category *)4;
+      if ( boost::asio::detail::socket_ops::getsockopt((unsigned int *)&rhs.m_cat, ec, s, 4103, (int)&level) != -1 )
       {
-        v6 = boost::system::system_category();
-        ec->m_val = connect_error;
-        ec->m_cat = v6;
+        v5 = boost::system::system_category();
+        ec->m_val = level;
+        ec->m_cat = v5;
       }
     }
   }

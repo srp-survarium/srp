@@ -7,8 +7,8 @@ int __cdecl jinit_2pass_quantizer(int a1)
 
   v1 = (**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 44);
   *(_DWORD *)(a1 + 440) = v1;
-  *(_DWORD *)v1 = sub_37C410;
-  *(_DWORD *)(v1 + 12) = sub_37C540;
+  *(_DWORD *)v1 = sub_4890D0;
+  *(_DWORD *)(v1 + 12) = sub_489200;
   *(_DWORD *)(v1 + 32) = 0;
   *(_DWORD *)(v1 + 40) = 0;
   if ( *(_DWORD *)(a1 + 100) != 3 )
@@ -54,7 +54,7 @@ int __cdecl jinit_2pass_quantizer(int a1)
                              a1,
                              1,
                              6 * (*(_DWORD *)(a1 + 92) + 2));
-    return sub_37C340(a1);
+    return sub_489000(a1);
   }
   return result;
 }

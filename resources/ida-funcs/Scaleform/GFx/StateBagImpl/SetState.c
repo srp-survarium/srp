@@ -4,15 +4,15 @@ void __thiscall Scaleform::GFx::StateBagImpl::SetState(
         Scaleform::GFx::Resource *pstate)
 {
   _RTL_CRITICAL_SECTION *p_pDelegate; // ebx
-  Scaleform::GFx::State *v5; // esi
+  Scaleform::GFx::Resource *v5; // esi
 
   p_pDelegate = (_RTL_CRITICAL_SECTION *)&this->pDelegate;
   EnterCriticalSection((LPCRITICAL_SECTION)&this->pDelegate);
-  v5 = (Scaleform::GFx::State *)pstate;
+  v5 = pstate;
   if ( pstate )
   {
     Scaleform::RefCountImpl::AddRef(pstate);
-    pstate = (Scaleform::GFx::Resource *)v5;
+    pstate = v5;
     Scaleform::HashSetBase<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp,Scaleform::GFx::StateBagImpl::StatePtrHashOp,Scaleform::AllocatorGH<Scaleform::GFx::StateBagImpl::StatePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp>>::Set<Scaleform::GFx::StateBagImpl::StatePtr>(
       (Scaleform::HashSetBase<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp,Scaleform::GFx::StateBagImpl::StatePtrHashOp,Scaleform::AllocatorGH<Scaleform::GFx::StateBagImpl::StatePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp> > *)&this->Scaleform::GFx::LogBase<Scaleform::GFx::StateBagImpl>,
       &this->Scaleform::GFx::LogBase<Scaleform::GFx::StateBagImpl>,

@@ -33,13 +33,23 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
   bool v33; // zf
   Scaleform::GFx::AS3::Object *v34; // ecx
   unsigned int v35; // eax
-  unsigned int v36; // [esp+20h] [ebp-2Ch]
-  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo> ploaderInfo; // [esp+34h] [ebp-18h] BYREF
-  Scaleform::Render::TreeContainer *v38; // [esp+38h] [ebp-14h]
-  Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+3Ch] [ebp-10h] BYREF
-  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> _class; // [esp+40h] [ebp-Ch]
-  Scaleform::StringDataPtr gname; // [esp+44h] [ebp-8h] BYREF
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  unsigned int v39; // [esp+20h] [ebp-3Ch]
+  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo> ploaderInfo; // [esp+34h] [ebp-28h] BYREF
+  Scaleform::Render::TreeContainer *v41; // [esp+38h] [ebp-24h]
+  Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+3Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> _class; // [esp+40h] [ebp-1Ch]
+  Scaleform::StringDataPtr gname; // [esp+44h] [ebp-18h] BYREF
+  Scaleform::AmpFunctionTimer _amp_timer_; // [esp+4Ch] [ebp-10h] BYREF
 
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_,
+    this->pASRoot->pMovieImpl->AdvanceStats.pObject,
+    "Stage::ExecuteFrame0Events",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
   pObject = this->pASRoot->pMovieImpl->pASMovieRoot.pObject;
   MovieClip = Scaleform::GFx::AS3::MovieRoot::CreateMovieClip(
                 (Scaleform::GFx::AS3::MovieRoot *)this->pASRoot,
@@ -89,13 +99,13 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
       HIDWORD(COERCE_UNSIGNED_INT64(55.0)));
     v12 = this->GetRenderContainer(this);
     v13 = v12;
-    v38 = v12;
+    v41 = v12;
     if ( v12 )
       ++v12->RefCount;
     Scaleform::GFx::DisplayList::AddEntryAtIndex(
       &this->mDisplayList,
       this,
-      this->mDisplayList.DisplayObjectArray.Data.Size,
+      (Scaleform::GFx::DisplayObjectBase *)this->mDisplayList.DisplayObjectArray.Data.Size,
       v5);
     Scaleform::Render::TreeContainer::Insert(this->pASRoot->pMovieImpl->pRenderRoot.pObject, 0, v13);
     v5->pParent = this;
@@ -113,7 +123,7 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
     Class = Scaleform::GFx::AS3::VM::GetClass(
               (Scaleform::GFx::AS3::VM *)v15,
               (Scaleform::GFx::ASStringNode *)&gname,
-              (Scaleform::GFx::ASStringNode *)v15[1].ChangeMouseCursorType);
+              (Scaleform::GFx::ASStringNode *)v15[1].GenerateMouseEvents);
     _class.pObject = Class;
     if ( Class )
     {
@@ -149,14 +159,14 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
         if ( ((int)ploaderInfo.pObject & 1) == 0 )
         {
           RefCount = ploaderInfo.pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             ploaderInfo.pObject->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v20);
           }
         }
       }
-      v13 = v38;
+      v13 = v41;
     }
     Scaleform::GFx::AS3::AvmDisplayObj::CreateASInstanceNoCtor(
       (Scaleform::GFx::AS3::AvmDisplayObj *)(&v5->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
@@ -199,7 +209,7 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
         if ( ((int)ploaderInfo.pObject & 1) == 0 )
         {
           v28 = ploaderInfo.pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v28) != 0 )
+          if ( (v28 & 0x3FFFFF) != 0 )
           {
             ploaderInfo.pObject->RefCount = v28 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v27);
@@ -224,9 +234,9 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
     while ( pObject[22].__vftable )
     {
       v29 = (Scaleform::GFx::AS3::VM *)pObject[2].__vftable;
-      v36 = (unsigned int)pObject[22].__vftable;
+      v39 = (unsigned int)pObject[22].__vftable;
       pObject[22].__vftable = 0;
-      Scaleform::GFx::AS3::VM::ExecuteCode(v29, v36);
+      Scaleform::GFx::AS3::VM::ExecuteCode(v29, v39);
       v30 = (Scaleform::GFx::AS3::VM *)pObject[2].__vftable;
       if ( v30->HandleException )
       {
@@ -253,7 +263,7 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
         }
         p_ExceptionObj->Flags &= 0xFFFFFFE0;
         this->FrameCounterObj.pObject->Flags |= 0x20u;
-        v13 = v38;
+        v13 = v41;
       }
     }
     (*(void (__thiscall **)(int, int))(*((_DWORD *)&v5->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
@@ -273,7 +283,7 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
       if ( ((int)_class.pObject & 1) == 0 )
       {
         v35 = _class.pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v35) != 0 )
+        if ( (v35 & 0x3FFFFF) != 0 )
         {
           _class.pObject->RefCount = v35 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v34);
@@ -287,5 +297,15 @@ void __usercall Scaleform::GFx::AS3::Stage::ExecuteFrame0Events(Scaleform::GFx::
         Scaleform::Render::ContextImpl::Entry::destroyHelper(v13);
     }
     Scaleform::RefCountNTSImpl::Release(v5);
+  }
+  Stats = _amp_timer_.Stats;
+  if ( _amp_timer_.Stats )
+  {
+    p_NativePopCallstack = &_amp_timer_.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(_amp_timer_.StartTicks),
+      (ProfileTicks - _amp_timer_.StartTicks) >> 32);
   }
 }

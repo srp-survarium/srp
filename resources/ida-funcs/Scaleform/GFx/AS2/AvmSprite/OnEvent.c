@@ -26,7 +26,7 @@ char __thiscall Scaleform::GFx::AS2::AvmSprite::OnEvent(
   unsigned __int8 Flags; // dl
   unsigned __int8 v25; // al
   Scaleform::GFx::ASStringNode *v27; // eax
-  Scaleform::GFx::AS2::Value method; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::Value v28; // [esp+10h] [ebp-14h] BYREF
   int v29; // [esp+20h] [ebp-4h]
 
   pDispObj = (Scaleform::GFx::Sprite *)this->pDispObj;
@@ -86,10 +86,10 @@ LABEL_40:
       WcharCode = v5->WcharCode;
       KeyCode = v5->KeyCode;
       v18 = *(_DWORD *)&v5->RollOverCnt;
-      *(_DWORD *)&method.T.Type = v5->Id;
+      *(_DWORD *)&v28.T.Type = v5->Id;
       TouchID = v5->TouchID;
-      *(_QWORD *)&method.NV.NumberValue = __PAIR64__(KeyCode, WcharCode);
-      *((_DWORD *)&method.NV + 3) = TouchID;
+      *(_QWORD *)&v28.NV.NumberValue = __PAIR64__(KeyCode, WcharCode);
+      *((_DWORD *)&v28.NV + 3) = TouchID;
       v29 = v18;
       inserted->Type = Entry_Event;
       if ( v15 )
@@ -101,11 +101,11 @@ LABEL_40:
       v21 = inserted->pActionBuffer.pObject;
       if ( v21 )
         Scaleform::RefCountNTSImpl::Release(v21);
-      v22 = *(_QWORD *)&method.T.Type;
-      pLocalFrame = method.V.FunctionValue.pLocalFrame;
+      v22 = *(_QWORD *)&v28.T.Type;
+      pLocalFrame = v28.V.FunctionValue.pLocalFrame;
       inserted->pActionBuffer.pObject = 0;
       inserted->mEventId.Id = v22;
-      Flags = method.V.FunctionValue.Flags;
+      Flags = v28.V.FunctionValue.Flags;
       inserted->mEventId.WcharCode = HIDWORD(v22);
       v25 = BYTE2(v29);
       inserted->mEventId.KeyCode = (unsigned int)pLocalFrame;
@@ -118,27 +118,27 @@ LABEL_40:
     return 1;
   }
   v8 = this->GetASEnvironment(this)->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject;
-  if ( v5->Id > (unsigned int)&unk_800000 )
+  if ( v5->Id > 0x800000 )
     v9 = v5->Id - 16777191;
   else
     v9 = (unsigned __int8)Scaleform::Alg::BitCount32(v5->Id);
   if ( (unsigned int)(v9 - 1) > 0x21 )
     v10 = 46;
   else
-    v10 = dword_8659E8[v9];
+    v10 = dword_6F9848[v9];
   id = (const Scaleform::GFx::EventId *)*((_DWORD *)&v8[8].RefCount + v10);
   ++id->TouchID;
   if ( id[1].Id )
   {
     v11 = this->ASMovieClipObj.pObject;
     v12 = 0;
-    method.T.Type = 0;
+    v28.T.Type = 0;
     if ( (v11 || (v11 = (Scaleform::GFx::AS2::MovieClipObject *)this->pProto.pObject) != 0)
       && v11->GetMemberRaw(
            &v11->Scaleform::GFx::AS2::ObjectInterface,
            &this->ASEnvironment.StringContext,
            (const Scaleform::GFx::ASString *)&id,
-           &method) )
+           &v28) )
     {
       v12 = 1;
     }
@@ -146,20 +146,20 @@ LABEL_40:
        || this->ASEnvironment.StringContext.SWFVersion >= 6u
        && Scaleform::GFx::MovieImpl::IsKeyboardFocused(
             this->pDispObj->pASRoot->pMovieImpl,
-            this->pDispObj,
-            v5->ControllerIndex))
+            (Scaleform::GFx::Sprite *)this->pDispObj,
+            (Scaleform::Ptr<Scaleform::GFx::Sprite>)v5->ControllerIndex))
       && v12 )
     {
-      if ( method.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&method);
+      if ( v28.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v28);
       v13 = (Scaleform::GFx::ASStringNode *)id;
       --id->TouchID;
       if ( !v13->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v13);
       goto LABEL_40;
     }
-    if ( method.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&method);
+    if ( v28.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v28);
   }
   v27 = (Scaleform::GFx::ASStringNode *)id;
   --id->TouchID;

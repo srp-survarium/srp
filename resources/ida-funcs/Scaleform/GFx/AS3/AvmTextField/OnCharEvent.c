@@ -85,7 +85,7 @@ char __thiscall Scaleform::GFx::AS3::AvmTextField::OnCharEvent(
   if ( evt.pObject && ((int)evt.pObject & 1) == 0 )
   {
     RefCount = evt.pObject->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       evt.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

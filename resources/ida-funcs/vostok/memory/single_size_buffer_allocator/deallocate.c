@@ -1,32 +1,23 @@
-void __thiscall vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::deallocate(
-        vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy> *this,
-        void **pointer)
+void __thiscall vostok::memory::single_size_buffer_allocator<120,vostok::threading::mutex_tasks_unaware>::deallocate(
+        vostok::memory::single_size_buffer_allocator<292,vostok::threading::mutex> *this,
+        void **pointer,
+        _DWORD **a3)
 {
-  vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::node *freeing_node; // [esp+10h] [ebp-4h]
+  volatile signed __int64 *v3; // esi
+  signed __int64 v4; // rax
+  void *v5; // ecx
+  _DWORD *v6; // [esp+18h] [ebp-8h]
 
-  freeing_node = (vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::node *)*pointer;
-  freeing_node->next = this->m_free_list_head.pointer;
-  this->m_free_list_head.pointer = freeing_node;
-  --this->m_allocated_count;
-  *pointer = 0;
-}
-
-
-void __thiscall vostok::memory::single_size_buffer_allocator<208,vostok::threading::mutex>::deallocate(
-        vostok::memory::single_size_buffer_allocator<128,vostok::threading::simple_lock> *this,
-        void **pointer)
-{
-  vostok::memory::multi_threading_single_size_allocator_policy<vostok::memory::single_size_buffer_allocator<128,vostok::threading::simple_lock>::node>::free_list_type comperand; // [esp+24h] [ebp-14h]
-  __int64 freeing_node; // [esp+30h] [ebp-8h]
-
-  LODWORD(freeing_node) = *pointer;
+  v6 = *a3;
+  v3 = (volatile signed __int64 *)(pointer + 8);
   do
   {
-    comperand.whole = (volatile __int64)this->m_free_list_head;
-    *(_DWORD *)freeing_node = this->m_free_list_head.pointer;
-    HIDWORD(freeing_node) = comperand.counter;
+    LODWORD(v4) = *(_DWORD *)v3;
+    v5 = pointer[9];
+    *v6 = *(_DWORD *)v3;
+    HIDWORD(v4) = v5;
   }
-  while ( vostok::threading::interlocked_compare_exchange(&this->m_free_list_head.whole, freeing_node, comperand.whole) != comperand.whole );
-  vostok::threading::multi_threading_policy::intrusive_ptr_decrement<vostok::resources::unmanaged_intrusive_base>((vostok::resources::unmanaged_intrusive_base *)&this->m_allocated_count);
-  *pointer = 0;
+  while ( _InterlockedCompareExchange64(v3, __SPAIR64__((unsigned int)v5, (unsigned int)v6), v4) != __PAIR64__((unsigned int)v5, v4) );
+  _InterlockedExchangeAdd((volatile signed __int32 *)pointer + 10, 0xFFFFFFFF);
+  *a3 = 0;
 }

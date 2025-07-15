@@ -1,51 +1,47 @@
-void __thiscall vostok::particle::particle_world::remove_overflowing_particles(vostok::particle::particle_world *this)
+void __usercall vostok::particle::particle_world::remove_overflowing_particles(
+        vostok::particle::particle_world *this@<ecx>,
+        const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *a2@<eax>)
 {
-  survarium::game_camera *v1; // ecx
-  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> v2; // [esp-4h] [ebp-40h] BYREF
-  vostok::resources::unmanaged_intrusive_base *object; // [esp+0h] [ebp-3Ch]
-  vostok::particle::particle_world *thisa; // [esp+4h] [ebp-38h]
-  vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *next_of_object; // [esp+Ch] [ebp-30h]
-  vostok::particle::particle_system_instance_impl *m_object; // [esp+14h] [ebp-28h]
-  vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v7; // [esp+18h] [ebp-24h] BYREF
-  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v8; // [esp+24h] [ebp-18h]
-  char v9; // [esp+2Bh] [ebp-11h]
-  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> result; // [esp+30h] [ebp-Ch] BYREF
-  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> instance; // [esp+38h] [ebp-4h] BYREF
+  vostok::particle::particle_system_instance_impl *v2; // ecx
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  vostok::particle::particle_emitter_instance *i; // edi
+  unsigned int m_old_lod; // eax
+  vostok::particle::particle_emitter_instance *j; // esi
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *next_of_object; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v8; // [esp-4h] [ebp-14h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v9; // [esp+8h] [ebp-8h] BYREF
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> v10; // [esp+Ch] [ebp-4h] BYREF
 
-  thisa = this;
-  instance.m_object = 0;
-  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    (vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&instance,
-    (const vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_ticked_instances_list.m_first);
-  while ( instance.m_object
-        ? vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr
-        : 0 )
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &v10,
+    a2 + 101);
+  while ( 1 )
   {
-    v9 = 0;
-    survarium::weapon_user_dead_state::finalize(v1);
-    vostok::particle::particle_system_instance_impl::remove_overflowing_particles(instance.m_object);
-    v8 = (vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v2;
-    v2.m_object = 0;
-    if ( instance.m_object )
+    m_object = v10.m_object;
+    if ( !v10.m_object
+      || !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
     {
-      vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(v8);
-      v8->m_object = (survarium::weapon_user_animations_container *)instance.m_object;
-      if ( v8->m_object )
-      {
-        object = &v8->m_object->vostok::resources::unmanaged_intrusive_base;
-        vostok::threading::interlocked_increment(object);
-      }
+      break;
     }
-    next_of_object = (vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)vostok::intrusive_list<vostok::particle::particle_system_instance_impl,vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base>,656,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::get_next_of_object(&result, v2);
-    v7.m_object = 0;
-    vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v7,
-      next_of_object);
-    m_object = (vostok::particle::particle_system_instance_impl *)v7.m_object;
-    v7.m_object = (vostok::ai::behaviour *)instance.m_object;
-    instance.m_object = m_object;
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v7);
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result);
+    for ( i = v10.m_object->m_lods[v10.m_object->m_current_lod].m_emitter_instance_list.m_first; i; i = i->m_next )
+      i->remove_overflowing_particles(i);
+    m_old_lod = m_object->m_old_lod;
+    if ( m_object->m_current_lod != m_old_lod )
+    {
+      for ( j = m_object->m_lods[m_old_lod].m_emitter_instance_list.m_first; j; j = j->m_next )
+        j->remove_overflowing_particles(j);
+    }
+    v8.m_object = v2;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v8,
+      &v10);
+    next_of_object = vostok::intrusive_list<vostok::particle::particle_system_instance_impl,vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base>,724,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::get_next_of_object(
+                       &v9,
+                       (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)v8.m_object);
+    vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+      next_of_object,
+      &v10);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v9);
   }
-  vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&instance);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v10);
 }

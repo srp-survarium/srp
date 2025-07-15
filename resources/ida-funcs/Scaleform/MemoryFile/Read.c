@@ -1,4 +1,4 @@
-int __thiscall Scaleform::MemoryFile::Read(Scaleform::MemoryFile *this, unsigned __int8 *pbufer, int numBytes)
+int __thiscall Scaleform::MemoryFile::Read(Scaleform::MemoryFile *this, unsigned __int8 *pbufer, unsigned int numBytes)
 {
   int FileIndex; // ecx
   int FileSize; // eax
@@ -7,7 +7,7 @@ int __thiscall Scaleform::MemoryFile::Read(Scaleform::MemoryFile *this, unsigned
   FileIndex = this->FileIndex;
   FileSize = this->FileSize;
   v6 = numBytes;
-  if ( FileIndex + numBytes > FileSize )
+  if ( (int)(FileIndex + numBytes) > FileSize )
     v6 = FileSize - FileIndex;
   if ( v6 > 0 )
   {

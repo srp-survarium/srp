@@ -7,7 +7,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3child(
   const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *XMLListInstance; // eax
-  Scaleform::GFx::AS3::VM::Error v8; // [esp+8h] [ebp-20h] BYREF
+  Scaleform::StringDataPtr v8; // [esp-8h] [ebp-30h]
+  Scaleform::GFx::AS3::VM::Error v9; // [esp+8h] [ebp-20h] BYREF
   Scaleform::GFx::AS3::Multiname prop_name; // [esp+10h] [ebp-18h] BYREF
 
   pVM = this->pTraits.pObject->pVM;
@@ -29,10 +30,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3child(
   }
   else
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v8, eInvalidArgumentError, pVM);
+    v8.pStr = "propertyName";
+    v8.Size = 12;
+    Scaleform::GFx::AS3::VM::Error::Error(&v9, eInvalidArgumentError, this->pTraits.pObject->pVM, v8);
     Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v5);
-    pNode = v8.Message.pNode;
-    --v8.Message.pNode->RefCount;
+    pNode = v9.Message.pNode;
+    --v9.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

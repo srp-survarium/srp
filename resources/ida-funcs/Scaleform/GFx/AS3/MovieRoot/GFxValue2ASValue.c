@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::GFxValue2ASValue(
   Scaleform::GFx::Value::ValueType pManager; // esi
   Scaleform::GFx::ASString *v; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  const wchar_t *pLower; // eax
+  wchar_t *pLower; // eax
   Scaleform::GFx::ASStringNode *v7; // esi
   bool v8; // zf
   const Scaleform::GFx::ASString *v9; // eax
@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::GFxValue2ASValue(
   Scaleform::GFx::AS3::Traits *pObject; // ecx
   unsigned int v12; // ecx
   unsigned int HashFlags; // edx
-  char *v_4; // [esp+4h] [ebp-20h]
+  __m128i *v_4; // [esp+4h] [ebp-20h]
   Scaleform::GFx::ASString str; // [esp+Ch] [ebp-18h] BYREF
   Scaleform::GFx::ASString result; // [esp+10h] [ebp-14h] BYREF
   Scaleform::GFx::AS3::Value other; // [esp+14h] [ebp-10h] BYREF
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::GFxValue2ASValue(
       Scaleform::GFx::AS3::Value::SetNumber(pdestVal, *(double *)&gfxVal->pLower);
       break;
     case 6:
-      v_4 = (char *)gfxVal->pLower;
+      v_4 = (__m128i *)gfxVal->pLower;
       if ( (pManager & 0x40) == 0 )
       {
         v = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
@@ -55,7 +55,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::GFxValue2ASValue(
       Scaleform::GFx::AS3::Value::operator=(pdestVal, (Scaleform::GFx::ASStringNode *)v_4);
       break;
     case 7:
-      pLower = (const wchar_t *)gfxVal->pLower;
+      pLower = (wchar_t *)gfxVal->pLower;
       if ( (pManager & 0x40) != 0 )
       {
         v7 = (Scaleform::GFx::ASStringNode *)*((_DWORD *)pLower - 1);

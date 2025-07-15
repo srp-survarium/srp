@@ -5,7 +5,6 @@ void __usercall Scaleform::Render::D3D1x::Texture::~Texture(
   Scaleform::Mutex *v2; // edi
   int v3; // eax
   int v4; // eax
-  Scaleform::RefCountVImpl *v5; // ecx
 
   v2 = (Scaleform::Mutex *)(*(_DWORD *)(a2 + 16) + 36);
   *(_DWORD *)a2 = &Scaleform::Render::D3D1x::Texture::`vftable';
@@ -23,9 +22,5 @@ void __usercall Scaleform::Render::D3D1x::Texture::~Texture(
   if ( v4 != a2 + 56 && v4 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, *(void **)(a2 + 52));
   Scaleform::Mutex::Unlock(v2);
-  *(_DWORD *)a2 = &Scaleform::Render::Texture::`vftable';
-  v5 = *(Scaleform::RefCountVImpl **)(a2 + 16);
-  if ( v5 )
-    Scaleform::RefCountImpl::Release(v5);
-  Scaleform::RefCountImplCore::~RefCountImplCore((Scaleform::RefCountImplCore *)a2);
+  Scaleform::Render::Texture::~Texture((Scaleform::Render::Texture *)a2);
 }

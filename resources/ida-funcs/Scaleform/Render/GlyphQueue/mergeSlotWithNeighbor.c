@@ -10,20 +10,20 @@ Scaleform::Render::GlyphSlot *__thiscall Scaleform::Render::GlyphQueue::mergeSlo
   unsigned __int16 v8; // si
   int v9; // eax
   unsigned __int16 TextureId; // ax
-  unsigned int x; // [esp+8h] [ebp-14h]
-  Scaleform::Render::GlyphBand *band; // [esp+10h] [ebp-Ch]
+  int x; // [esp+8h] [ebp-14h]
+  Scaleform::Render::GlyphBand *pBand; // [esp+10h] [ebp-Ch]
   Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::NodeType *v16; // [esp+14h] [ebp-8h]
   Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::NodeType *v17; // [esp+18h] [ebp-4h]
-  char toRight; // [esp+20h] [ebp+4h]
+  char slota; // [esp+20h] [ebp+4h]
 
   pNextInBand = slot->pNextInBand;
-  band = slot->pBand;
-  toRight = 1;
-  if ( pNextInBand == (Scaleform::Render::GlyphSlot *)&band->Slots )
+  pBand = slot->pBand;
+  slota = 1;
+  if ( pNextInBand == (Scaleform::Render::GlyphSlot *)&pBand->Slots )
   {
     pNextInBand = slot->pPrevInBand;
-    toRight = 0;
-    if ( pNextInBand == (Scaleform::Render::GlyphSlot *)&band->Slots )
+    slota = 0;
+    if ( pNextInBand == (Scaleform::Render::GlyphSlot *)&pBand->Slots )
       return 0;
   }
   if ( pNextInBand->w > slot->w )
@@ -35,7 +35,7 @@ Scaleform::Render::GlyphSlot *__thiscall Scaleform::Render::GlyphQueue::mergeSlo
   x = slot->x;
   slot->pPrev->pNext = slot->pNext;
   v7 = this;
-  slot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = slot->pPrev;
+  slot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = slot->pPrev;
   --this->SlotQueueSize;
   if ( (slot->TextureId & 0x8000u) == 0 )
   {
@@ -53,14 +53,14 @@ Scaleform::Render::GlyphSlot *__thiscall Scaleform::Render::GlyphQueue::mergeSlo
   else
   {
     v8 = x;
-    if ( pRoot->mRect.h == band->h )
+    if ( pRoot->mRect.h == pBand->h )
     {
       v9 = pRoot->mRect.x;
-      if ( toRight ? x + w == v9 : v9 + pRoot->mRect.w == x )
+      if ( slota ? x + w == v9 : v9 + pRoot->mRect.w == x )
       {
         v5->pNext = this->Glyphs.FirstEmptySlot;
         this->Glyphs.FirstEmptySlot = v5;
-        if ( toRight )
+        if ( slota )
           pRoot->mRect.x = x;
         pRoot->mRect.w += w;
         goto LABEL_18;
@@ -70,15 +70,15 @@ Scaleform::Render::GlyphSlot *__thiscall Scaleform::Render::GlyphQueue::mergeSlo
   v5[5].pNext = (Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::NodeType *)pRoot;
   v5[6].pNext = 0;
   v5[4].pNext = (Scaleform::ListAllocBase<Scaleform::Render::GlyphNode,127,Scaleform::AllocatorLH_POD<Scaleform::Render::GlyphNode,79> >::NodeType *)pNextInBand;
-  HIWORD(v16) = band->y;
-  HIWORD(v17) = band->h;
+  HIWORD(v16) = pBand->y;
+  HIWORD(v17) = pBand->h;
   LOWORD(v16) = v8;
   v5[7].pNext = v16;
   LOWORD(v17) = w;
   v5[8].pNext = v17;
   pNextInBand->pRoot = (Scaleform::Render::GlyphNode *)v5;
 LABEL_18:
-  if ( toRight )
+  if ( slota )
     pNextInBand->x = v8;
   TextureId = pNextInBand->TextureId;
   pNextInBand->w += w;

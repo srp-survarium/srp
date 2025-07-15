@@ -1,6 +1,6 @@
 _flt *__cdecl _fltin2(
         _flt *flt,
-        const char *str,
+        char *str,
         int len_ignore,
         int scale_ignore,
         int radix_ignore,
@@ -8,30 +8,30 @@ _flt *__cdecl _fltin2(
 {
   int v6; // ebx
   INTRNCVT_STATUS v7; // eax
-  const char *EndPtr; // [esp+Ch] [ebp-24h] BYREF
-  const char *v10; // [esp+10h] [ebp-20h]
-  _CRT_DOUBLE x; // [esp+14h] [ebp-1Ch] BYREF
-  unsigned int flags; // [esp+1Ch] [ebp-14h]
-  _LDBL12 ld12; // [esp+20h] [ebp-10h] BYREF
+  char *p_end_ptr; // [esp+Ch] [ebp-24h] BYREF
+  char *v10; // [esp+10h] [ebp-20h]
+  _CRT_DOUBLE d; // [esp+14h] [ebp-1Ch] BYREF
+  unsigned int v12; // [esp+1Ch] [ebp-14h]
+  _LDBL12 pld12; // [esp+20h] [ebp-10h] BYREF
 
   v10 = str;
   v6 = 0;
-  flags = __strgtold12_l(&ld12, &EndPtr, str, 0, 0, 0, 0, _Locale);
-  if ( (flags & 4) != 0 )
+  v12 = __strgtold12_l(&pld12, (const char **)&p_end_ptr, str, 0, 0, 0, 0, _Locale);
+  if ( (v12 & 4) != 0 )
   {
     v6 = 512;
-    *(_CRT_DOUBLE *)&x.x = 0;
+    *(_CRT_DOUBLE *)&d.x = 0;
   }
   else
   {
-    v7 = _ld12tod(&ld12, &x);
-    if ( (flags & 2) != 0 || v7 == INTRNCVT_OVERFLOW )
+    v7 = _ld12tod(&pld12, &d);
+    if ( (v12 & 2) != 0 || v7 == INTRNCVT_OVERFLOW )
       v6 = 128;
-    if ( (flags & 1) != 0 || v7 == INTRNCVT_UNDERFLOW )
+    if ( (v12 & 1) != 0 || v7 == INTRNCVT_UNDERFLOW )
       v6 |= 0x100u;
   }
-  flt->nbytes = EndPtr - v10;
-  flt->dval = x.x;
+  flt->nbytes = p_end_ptr - v10;
+  flt->dval = d.x;
   flt->flags = v6;
   return flt;
 }

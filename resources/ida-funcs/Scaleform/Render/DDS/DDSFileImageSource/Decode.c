@@ -17,7 +17,7 @@ bool __thiscall Scaleform::Render::DDS::DDSFileImageSource::Decode(
   unsigned int v15; // eax
   unsigned int width; // [esp+8h] [ebp-1044h]
   unsigned int v17; // [esp+Ch] [ebp-1040h]
-  unsigned int size; // [esp+10h] [ebp-103Ch]
+  unsigned int v18; // [esp+10h] [ebp-103Ch]
   Scaleform::Render::ImagePlane pplane; // [esp+14h] [ebp-1038h] BYREF
   Scaleform::Render::ImageScanlineBufferImpl v20; // [esp+28h] [ebp-1024h] BYREF
   unsigned __int8 tempBuffer[4096]; // [esp+4Ch] [ebp-1000h] BYREF
@@ -53,7 +53,7 @@ bool __thiscall Scaleform::Render::DDS::DDSFileImageSource::Decode(
           tempBuffer,
           0x1000u);
         ReadScanlineSize = v20.ReadScanlineSize;
-        size = v20.ReadScanlineSize;
+        v18 = v20.ReadScanlineSize;
         if ( v20.ReadFormat == Image_None || !v20.Width || !v20.pReadScanline )
           break;
         v12 = 0;
@@ -64,8 +64,8 @@ bool __thiscall Scaleform::Render::DDS::DDSFileImageSource::Decode(
             Format = this->Format;
             if ( Format == Image_R8G8B8A8 || Format == Image_R8G8B8 )
             {
-              Scaleform::Render::DDS::ProcessUDDSData(size, Format, &this->HeaderInfo.DDSFmt, v20.pReadScanline);
-              ReadScanlineSize = size;
+              Scaleform::Render::DDS::ProcessUDDSData(v18, Format, &this->HeaderInfo.DDSFmt, v20.pReadScanline);
+              ReadScanlineSize = v18;
             }
             Scaleform::Render::ImageScanlineBufferImpl::ConvertReadBuffer(
               &v20,

@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::noInvisibleAdv
   _DWORD *v4; // eax
 
   pVM = this->pTraits.pObject->pVM;
-  if ( LOBYTE(pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&pVM[1].HandleException + 4) )
   {
     v4 = (_DWORD *)((char *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + 16244);
     if ( value )

@@ -1,6 +1,6 @@
 int __thiscall Scaleform::BufferedFile::Write(
         Scaleform::BufferedFile *this,
-        unsigned __int8 *psourceBuffer,
+        const __m128i *psourceBuffer,
         int numBytes)
 {
   Scaleform::File *pObject; // ecx
@@ -20,12 +20,12 @@ int __thiscall Scaleform::BufferedFile::Write(
   }
   if ( (signed int)(8184 - this->Pos) >= numBytes || (Scaleform::BufferedFile::FlushBuffer(this), numBytes <= 4096) )
   {
-    memcpy(&this->pBuffer[this->Pos], psourceBuffer, numBytes);
+    memcpy((int)&this->pBuffer[this->Pos], psourceBuffer, numBytes);
     this->Pos += numBytes;
     return numBytes;
   }
 LABEL_8:
-  result = this->pFile.pObject->Write(this->pFile.pObject, psourceBuffer, numBytes);
+  result = this->pFile.pObject->Write(this->pFile.pObject, (const unsigned __int8 *)psourceBuffer, numBytes);
   if ( result > 0 )
     this->FilePos += result;
   return result;

@@ -1,4 +1,4 @@
-void __usercall SSL_CTX_free(unsigned int a1@<edi>, ssl_ctx_st *a)
+void __usercall SSL_CTX_free(int a1@<edi>, int a2@<ebx>, ssl_ctx_st *a)
 {
   stack_st_X509_NAME *client_CA; // eax
   stack_st_X509 *extra_certs; // eax
@@ -11,8 +11,8 @@ void __usercall SSL_CTX_free(unsigned int a1@<edi>, ssl_ctx_st *a)
     if ( a->param )
       X509_VERIFY_PARAM_free(a->param);
     if ( a->sessions )
-      SSL_CTX_flush_sessions(a, 0);
-    CRYPTO_free_ex_data(a1);
+      SSL_CTX_flush_sessions(a1, a, 0);
+    CRYPTO_free_ex_data(a1, a2);
     if ( a->sessions )
       lh_free((lhash_st *)a->sessions);
     if ( a->cert_store )
@@ -22,7 +22,7 @@ void __usercall SSL_CTX_free(unsigned int a1@<edi>, ssl_ctx_st *a)
     if ( a->cipher_list_by_id )
       sk_free(&a->cipher_list_by_id->stack);
     if ( a->cert )
-      ssl_cert_free(a->cert);
+      ssl_cert_free(a1, a->cert);
     client_CA = a->client_CA;
     if ( client_CA )
       sk_pop_free(&client_CA->stack, (void (__cdecl *)(void *))X509_NAME_free);
@@ -34,7 +34,7 @@ void __usercall SSL_CTX_free(unsigned int a1@<edi>, ssl_ctx_st *a)
     if ( psk_identity_hint )
       CRYPTO_free(psk_identity_hint);
     if ( a->client_cert_engine )
-      ENGINE_finish(a1, a->client_cert_engine);
+      ENGINE_finish(a1, a2, a->client_cert_engine);
     wbuf_freelist = a->wbuf_freelist;
     if ( wbuf_freelist )
       ssl_buf_freelist_free(wbuf_freelist);

@@ -1,22 +1,22 @@
 void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineStyle(float fn)
 {
-  const Scaleform::GFx::AS2::FnCall *v1; // esi
+  float v1; // esi
   Scaleform::GFx::AS2::ObjectInterface *v2; // edi
   unsigned int v3; // ebp
   Scaleform::GFx::InteractiveObject *v4; // ebx
   Scaleform::GFx::InteractiveObject *v5; // edi
   Scaleform::GFx::AS2::Value *v6; // eax
   bool v7; // cc
-  unsigned int v8; // edi
+  int v8; // edi
   Scaleform::GFx::AS2::Value *v9; // eax
   Scaleform::GFx::AS2::Value *v10; // eax
-  unsigned int v11; // edi
+  int v11; // edi
   double v12; // st7
   bool v13; // c0
   bool v14; // c3
   double v15; // st7
   Scaleform::GFx::AS2::Value *v16; // eax
-  char v17; // al
+  bool v17; // al
   Scaleform::GFx::AS2::Value *v18; // eax
   Scaleform::GFx::AS2::Value *v19; // eax
   Scaleform::GFx::ASStringNode *pNode; // ecx
@@ -24,24 +24,24 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineStyle(float fn)
   Scaleform::GFx::AS2::Value *v22; // eax
   Scaleform::GFx::ASStringNode *v23; // ecx
   Scaleform::GFx::AS2::Value *v24; // eax
-  Scaleform::GFx::ASStringNode *v25; // ecx
+  float v25; // ecx
   Scaleform::GFx::AS2::Environment *v26; // [esp+10h] [ebp-3Ch]
   Scaleform::GFx::AS2::Environment *v27; // [esp+10h] [ebp-3Ch]
   Scaleform::GFx::AS2::Environment *v28; // [esp+10h] [ebp-3Ch]
-  Scaleform::GFx::AS2::Environment *Env; // [esp+18h] [ebp-34h]
-  Scaleform::GFx::AS2::Environment *v30; // [esp+18h] [ebp-34h]
-  Scaleform::GFx::AS2::Environment *v31; // [esp+18h] [ebp-34h]
-  const Scaleform::GFx::AS2::Environment *v32; // [esp+18h] [ebp-34h]
-  Scaleform::GFx::AS2::Environment *v33; // [esp+18h] [ebp-34h]
-  float miterLimit; // [esp+2Ch] [ebp-20h]
+  Scaleform::GFx::AS2::Environment *miterLimit; // [esp+18h] [ebp-34h]
+  Scaleform::GFx::AS2::Environment *miterLimita; // [esp+18h] [ebp-34h]
+  Scaleform::GFx::AS2::Environment *miterLimitb; // [esp+18h] [ebp-34h]
+  const Scaleform::GFx::AS2::Environment *miterLimitc; // [esp+18h] [ebp-34h]
+  Scaleform::GFx::AS2::Environment *miterLimitd; // [esp+18h] [ebp-34h]
+  float v34; // [esp+2Ch] [ebp-20h]
   Scaleform::GFx::InteractiveObject *v35; // [esp+30h] [ebp-1Ch]
   unsigned int joins; // [esp+34h] [ebp-18h]
   unsigned int caps; // [esp+38h] [ebp-14h]
-  Scaleform::GFx::ASString result[2]; // [esp+3Ch] [ebp-10h] BYREF
-  BOOL hinting; // [esp+44h] [ebp-8h]
+  Scaleform::GFx::ASString src[2]; // [esp+3Ch] [ebp-10h] BYREF
+  bool hinting[4]; // [esp+44h] [ebp-8h]
   float lineWidth; // [esp+48h] [ebp-4h]
 
-  v1 = (const Scaleform::GFx::AS2::FnCall *)LODWORD(fn);
+  v1 = fn;
   v2 = *(Scaleform::GFx::AS2::ObjectInterface **)(LODWORD(fn) + 8);
   v3 = 0;
   if ( v2 )
@@ -60,32 +60,32 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineStyle(float fn)
   }
   if ( v4 )
   {
-    if ( v1->NArgs <= 0 )
+    if ( *(int *)(LODWORD(v1) + 28) <= 0 )
     {
       Scaleform::GFx::AS2::AvmSprite::SetNoLine((Scaleform::GFx::AS2::AvmSprite *)(&v4->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                                                  + v4->AvmObjOffset));
       return;
     }
-    Env = v1->Env;
-    v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-    lineWidth = Scaleform::GFx::AS2::Value::ToNumber(v6, Env);
-    v7 = v1->NArgs <= 1;
-    miterLimit = 3.0;
+    miterLimit = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+    v6 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 0);
+    lineWidth = Scaleform::GFx::AS2::Value::ToNumber(v6, miterLimit);
+    v7 = *(_DWORD *)(LODWORD(v1) + 28) <= 1;
+    v34 = 3.0;
     v8 = -16777216;
-    LOBYTE(hinting) = 0;
+    hinting[0] = 0;
     caps = 0;
     joins = 0;
     if ( v7 )
       goto LABEL_45;
-    v30 = v1->Env;
-    v9 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
-    v8 = Scaleform::GFx::AS2::Value::ToUInt32(v9, v30) | 0xFF000000;
-    if ( v1->NArgs <= 2 )
+    miterLimita = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+    v9 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 1);
+    v8 = Scaleform::GFx::AS2::Value::ToUInt32(v9, miterLimita) | 0xFF000000;
+    if ( *(int *)(LODWORD(v1) + 28) <= 2 )
       goto LABEL_45;
-    v31 = v1->Env;
-    v10 = Scaleform::GFx::AS2::FnCall::Arg(v1, 2);
-    fn = Scaleform::GFx::AS2::Value::ToNumber(v10, v31);
-    v11 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v8;
+    miterLimitb = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+    v10 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 2);
+    fn = Scaleform::GFx::AS2::Value::ToNumber(v10, miterLimitb);
+    v11 = v8 & 0xFFFFFF;
     fn = fn * 255.0 / 100.0;
     v12 = fn;
     if ( fn >= 255.0 )
@@ -101,19 +101,19 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLineStyle(float fn)
       {
 LABEL_14:
         fn = v15;
-        *(_QWORD *)&result[0].pNode = (__int64)fn;
-        v8 = ((int)result[0].pNode << 24) | v11;
-        if ( v1->NArgs > 3 )
+        *(_QWORD *)&src[0].pNode = (__int64)fn;
+        v8 = ((int)src[0].pNode << 24) | v11;
+        if ( *(int *)(LODWORD(v1) + 28) > 3 )
         {
-          v32 = v1->Env;
-          v16 = Scaleform::GFx::AS2::FnCall::Arg(v1, 3);
-          v17 = Scaleform::GFx::AS2::Value::ToBool(v16, v32);
-          v7 = v1->NArgs <= 4;
-          LOBYTE(hinting) = v17;
+          miterLimitc = *(const Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+          v16 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 3);
+          v17 = Scaleform::GFx::AS2::Value::ToBool(v16, v8, miterLimitc);
+          v7 = *(_DWORD *)(LODWORD(v1) + 28) <= 4;
+          hinting[0] = v17;
           if ( !v7 )
           {
-            v26 = v1->Env;
-            v18 = Scaleform::GFx::AS2::FnCall::Arg(v1, 4);
+            v26 = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+            v18 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 4);
             Scaleform::GFx::AS2::Value::ToStringImpl(v18, (Scaleform::GFx::ASString *)&fn, v26, -1, 0);
             if ( Scaleform::GFx::ASString::operator==((Scaleform::GFx::ASString *)&fn, "none") )
             {
@@ -127,14 +127,14 @@ LABEL_14:
             {
               v3 = 2;
             }
-            if ( v1->NArgs > 5 )
+            if ( *(int *)(LODWORD(v1) + 28) > 5 )
             {
-              v27 = v1->Env;
-              v19 = Scaleform::GFx::AS2::FnCall::Arg(v1, 5);
-              Scaleform::GFx::AS2::Value::ToStringImpl(v19, result, v27, -1, 0);
-              Scaleform::GFx::ASString::operator=((Scaleform::GFx::ASString *)&fn, result);
-              pNode = result[0].pNode;
-              v21 = result[0].pNode->RefCount-- == 1;
+              v27 = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+              v19 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 5);
+              Scaleform::GFx::AS2::Value::ToStringImpl(v19, src, v27, -1, 0);
+              Scaleform::GFx::ASString::operator=((Scaleform::GFx::ASString *)&fn, src);
+              pNode = src[0].pNode;
+              v21 = src[0].pNode->RefCount-- == 1;
               if ( v21 )
                 Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
               if ( Scaleform::GFx::ASString::operator==((Scaleform::GFx::ASString *)&fn, "none") )
@@ -145,14 +145,14 @@ LABEL_14:
               {
                 caps = 640;
               }
-              if ( v1->NArgs > 6 )
+              if ( *(int *)(LODWORD(v1) + 28) > 6 )
               {
-                v28 = v1->Env;
-                v22 = Scaleform::GFx::AS2::FnCall::Arg(v1, 6);
-                Scaleform::GFx::AS2::Value::ToStringImpl(v22, result, v28, -1, 0);
-                Scaleform::GFx::ASString::operator=((Scaleform::GFx::ASString *)&fn, result);
-                v23 = result[0].pNode;
-                v21 = result[0].pNode->RefCount-- == 1;
+                v28 = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+                v22 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 6);
+                Scaleform::GFx::AS2::Value::ToStringImpl(v22, src, v28, -1, 0);
+                Scaleform::GFx::ASString::operator=((Scaleform::GFx::ASString *)&fn, src);
+                v23 = src[0].pNode;
+                v21 = src[0].pNode->RefCount-- == 1;
                 if ( v21 )
                   Scaleform::GFx::ASStringNode::ReleaseNode(v23);
                 if ( Scaleform::GFx::ASString::operator==((Scaleform::GFx::ASString *)&fn, "miter") )
@@ -163,22 +163,22 @@ LABEL_14:
                 {
                   joins = 16;
                 }
-                if ( v1->NArgs > 7 )
+                if ( *(int *)(LODWORD(v1) + 28) > 7 )
                 {
-                  v33 = v1->Env;
-                  v24 = Scaleform::GFx::AS2::FnCall::Arg(v1, 7);
-                  miterLimit = Scaleform::GFx::AS2::Value::ToNumber(v24, v33);
-                  if ( miterLimit < 1.0 )
-                    miterLimit = 1.0;
-                  if ( miterLimit > 255.0 )
-                    miterLimit = 255.0;
+                  miterLimitd = *(Scaleform::GFx::AS2::Environment **)(LODWORD(v1) + 24);
+                  v24 = Scaleform::GFx::AS2::FnCall::Arg((Scaleform::GFx::AS2::FnCall *)LODWORD(v1), 7);
+                  v34 = Scaleform::GFx::AS2::Value::ToNumber(v24, miterLimitd);
+                  if ( v34 < 1.0 )
+                    v34 = 1.0;
+                  if ( v34 > 255.0 )
+                    v34 = 255.0;
                 }
               }
             }
-            v25 = (Scaleform::GFx::ASStringNode *)LODWORD(fn);
+            v25 = fn;
             v21 = (*(_DWORD *)(LODWORD(fn) + 12))-- == 1;
             if ( v21 )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v25);
+              Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)LODWORD(v25));
             v4 = v35;
           }
         }
@@ -188,11 +188,11 @@ LABEL_45:
                                            + v4->AvmObjOffset),
           lineWidth,
           v8,
-          hinting,
+          hinting[0],
           v3,
           caps,
           joins,
-          miterLimit);
+          v34);
         return;
       }
     }

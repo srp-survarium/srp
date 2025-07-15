@@ -1,97 +1,105 @@
 void __usercall btTransformUtil::integrateTransform(
-        const btTransform *curTrans@<ecx>,
         const btVector3 *linvel@<eax>,
-        const btVector3 *angvel@<edi>,
+        long double a2@<esi:edi>,
+        const btTransform *curTrans,
+        const btVector3 *angvel,
         float timeStep,
         btTransform *predictedTransform)
 {
-  float v5; // xmm2_4
+  float v6; // xmm2_4
   float v7; // xmm3_4
-  long double v8; // st7
-  float v9; // xmm1_4
-  float v10; // xmm0_4
-  float v11; // xmm2_4
-  long double v12; // st7
-  btMatrix3x3 *v13; // ecx
-  float v14; // xmm0_4
+  float v8; // xmm4_4
+  float v9; // xmm0_4
+  float v10; // xmm1_4
+  __m128 v11; // xmm4
+  __m128 v12; // xmm0
+  float v13; // xmm4_4
+  float v14; // xmm1_4
   float v15; // xmm1_4
-  float v16; // xmm3_4
-  float v17; // xmm2_4
-  float v18; // [esp+E8h] [ebp-48h]
-  float v19; // [esp+ECh] [ebp-44h]
-  float v20; // [esp+ECh] [ebp-44h]
-  btMatrix3x3 v21; // [esp+F0h] [ebp-40h] BYREF
-  float v22; // [esp+12Ch] [ebp-4h]
+  float v16; // xmm0_4
+  float v17; // xmm1_4
+  float v18; // xmm3_4
+  float v19; // xmm2_4
+  float v20; // xmm4_4
+  float v21; // [esp+Ch] [ebp-38h]
+  float v22; // [esp+10h] [ebp-34h]
+  float v23; // [esp+14h] [ebp-30h]
+  float v24; // [esp+18h] [ebp-2Ch]
+  float v25; // [esp+1Ch] [ebp-28h]
+  btQuaternion q; // [esp+24h] [ebp-20h] BYREF
+  btQuaternion v27; // [esp+34h] [ebp-10h] BYREF
 
-  v5 = linvel->mVec128.m128_f32[2] * timeStep;
-  v7 = curTrans->m_origin.mVec128.m128_f32[0] + (float)(linvel->mVec128.m128_f32[0] * timeStep);
-  v21.m_el[2].mVec128.m128_f32[1] = curTrans->m_origin.mVec128.m128_f32[1]
-                                  + (float)(linvel->mVec128.m128_f32[1] * timeStep);
-  v21.m_el[2].mVec128.m128_f32[2] = curTrans->m_origin.mVec128.m128_f32[2] + v5;
-  v21.m_el[2].mVec128.m128_f32[0] = v7;
-  v21.m_el[2].mVec128.m128_i32[3] = 0;
-  predictedTransform->m_origin = v21.m_el[2];
-  v19 = angvel->mVec128.m128_f32[0];
-  v8 = sqrtf(
-         (float)((float)(v19 * v19) + (float)(angvel->mVec128.m128_f32[1] * angvel->mVec128.m128_f32[1]))
-       + (float)(angvel->mVec128.m128_f32[2] * angvel->mVec128.m128_f32[2]));
-  v18 = v8;
-  v9 = timeStep;
-  if ( v8 * timeStep <= 0.78539819 )
+  v6 = linvel->mVec128.m128_f32[2];
+  v7 = timeStep;
+  v8 = curTrans->m_origin.mVec128.m128_f32[0] + (float)(linvel->mVec128.m128_f32[0] * timeStep);
+  q.m_floats[1] = curTrans->m_origin.mVec128.m128_f32[1] + (float)(linvel->mVec128.m128_f32[1] * timeStep);
+  v9 = curTrans->m_origin.mVec128.m128_f32[2];
+  q.m_floats[0] = v8;
+  q.m_floats[2] = v9 + (float)(v6 * timeStep);
+  q.m_floats[3] = 0.0;
+  predictedTransform->m_origin.mVec128.m128_f32[0] = v8;
+  *(unsigned __int64 *)((char *)predictedTransform->m_origin.mVec128.m128_u64 + 4) = *(_QWORD *)&q.m_floats[1];
+  predictedTransform->m_origin.mVec128.m128_i32[3] = LODWORD(q.m_floats[3]);
+  v10 = angvel->mVec128.m128_f32[0];
+  v12 = (__m128)angvel->mVec128.m128_u32[2];
+  v11 = (__m128)LODWORD(pi_d4);
+  v12.m128_f32[0] = fsqrt(
+                      (float)((float)(v10 * v10) + (float)(angvel->mVec128.m128_f32[1] * angvel->mVec128.m128_f32[1]))
+                    + (float)(v12.m128_f32[0] * v12.m128_f32[0]));
+  v22 = angvel->mVec128.m128_f32[0];
+  v21 = v12.m128_f32[0];
+  if ( (float)(v12.m128_f32[0] * timeStep) > 0.78539819 )
   {
-    v10 = v8;
+    v11.m128_f32[0] = 0.78539819 / timeStep;
+    v12 = v11;
+    v21 = 0.78539819 / timeStep;
+  }
+  if ( v12.m128_f32[0] >= 0.001 )
+  {
+    v12.m128_f32[0] = (float)(v12.m128_f32[0] * timeStep) * 0.5;
+    v12 = (__m128)_mm_cvtps_pd(v12);
+    __libm_sse2_sin((__m128i)v12);
+    v7 = timeStep;
+    v14 = *(double *)v12.m128_u64;
+    v12.m128_f32[0] = v21;
+    v15 = v14 / v21;
+    q.m_floats[0] = v22 * v15;
+    q.m_floats[1] = angvel->mVec128.m128_f32[1] * v15;
+    q.m_floats[2] = angvel->mVec128.m128_f32[2] * v15;
   }
   else
   {
-    v10 = 0.78539819 / timeStep;
-    v18 = 0.78539819 / timeStep;
+    v13 = (float)(timeStep * 0.5)
+        - (float)((float)((float)((float)((float)(timeStep * timeStep) * timeStep) * v12.m128_f32[0]) * v12.m128_f32[0])
+                * 0.020833334);
+    q.m_floats[0] = v10 * v13;
+    q.m_floats[1] = angvel->mVec128.m128_f32[1] * v13;
+    q.m_floats[2] = angvel->mVec128.m128_f32[2] * v13;
   }
-  if ( v10 >= 0.001 )
-  {
-    v12 = sinf((float)(v10 * timeStep) * 0.5) / v18;
-    v9 = timeStep;
-    v21.m_el[2].mVec128.m128_i32[3] = 0;
-    v21.m_el[2].mVec128.m128_f32[0] = v19 * v12;
-    v21.m_el[2].mVec128.m128_f32[1] = angvel->mVec128.m128_f32[1] * v12;
-    v21.m_el[2].mVec128.m128_f32[2] = v12 * angvel->mVec128.m128_f32[2];
-    v21.m_el[1] = (btVector3)_mm_load_si128((const __m128i *)&v21.m_el[2]);
-    v10 = v18;
-  }
-  else
-  {
-    v11 = (float)(timeStep * 0.5)
-        - (float)((float)((float)((float)((float)(timeStep * timeStep) * timeStep) * v10) * v10) * 0.020833334);
-    v21.m_el[2].mVec128.m128_f32[0] = v19 * v11;
-    v21.m_el[2].mVec128.m128_f32[1] = angvel->mVec128.m128_f32[1] * v11;
-    v21.m_el[2].mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(angvel->mVec128.m128_f32[2] * v11);
-    v21.m_el[1] = (btVector3)_mm_load_si128((const __m128i *)&v21.m_el[2]);
-  }
-  v22 = cosf((float)(v10 * v9) * 0.5);
-  btMatrix3x3::getRotation(v13, (float *)curTrans, (btQuaternion *)&v21.m_el[2]);
-  v14 = (float)((float)((float)(v21.m_el[2].mVec128.m128_f32[2] * v21.m_el[1].mVec128.m128_f32[1])
-                      + (float)(v21.m_el[2].mVec128.m128_f32[3] * v21.m_el[1].mVec128.m128_f32[0]))
-              + (float)(v22 * v21.m_el[2].mVec128.m128_f32[0]))
-      - (float)(v21.m_el[2].mVec128.m128_f32[1] * v21.m_el[1].mVec128.m128_f32[2]);
-  v15 = (float)((float)((float)(v21.m_el[2].mVec128.m128_f32[1] * v22)
-                      + (float)(v21.m_el[2].mVec128.m128_f32[3] * v21.m_el[1].mVec128.m128_f32[1]))
-              + (float)(v21.m_el[1].mVec128.m128_f32[2] * v21.m_el[2].mVec128.m128_f32[0]))
-      - (float)(v21.m_el[2].mVec128.m128_f32[2] * v21.m_el[1].mVec128.m128_f32[0]);
-  v16 = (float)((float)((float)(v21.m_el[2].mVec128.m128_f32[3] * v22)
-                      - (float)(v21.m_el[1].mVec128.m128_f32[0] * v21.m_el[2].mVec128.m128_f32[0]))
-              - (float)(v21.m_el[2].mVec128.m128_f32[1] * v21.m_el[1].mVec128.m128_f32[1]))
-      - (float)(v21.m_el[2].mVec128.m128_f32[2] * v21.m_el[1].mVec128.m128_f32[2]);
-  v17 = (float)((float)((float)(v21.m_el[2].mVec128.m128_f32[2] * v22)
-                      + (float)(v21.m_el[2].mVec128.m128_f32[1] * v21.m_el[1].mVec128.m128_f32[0]))
-              + (float)(v21.m_el[2].mVec128.m128_f32[3] * v21.m_el[1].mVec128.m128_f32[2]))
-      - (float)(v21.m_el[1].mVec128.m128_f32[1] * v21.m_el[2].mVec128.m128_f32[0]);
-  v21.m_el[0].mVec128.m128_f32[3] = v16;
-  v21.m_el[0].mVec128.m128_f32[2] = v17;
-  v21.m_el[0].mVec128.m128_f32[1] = v15;
-  v21.m_el[0].mVec128.m128_f32[0] = v14;
-  v20 = 1.0 / sqrtf((float)((float)((float)(v16 * v16) + (float)(v17 * v17)) + (float)(v15 * v15)) + (float)(v14 * v14));
-  v21.m_el[0].mVec128.m128_f32[0] = v14 * v20;
-  v21.m_el[0].mVec128.m128_f32[1] = v15 * v20;
-  v21.m_el[0].mVec128.m128_f32[2] = v17 * v20;
-  v21.m_el[0].mVec128.m128_f32[3] = v16 * v20;
-  btMatrix3x3::setRotation(&v21, (int)predictedTransform);
+  q.m_floats[3] = 0.0;
+  v23 = q.m_floats[0];
+  v24 = q.m_floats[1];
+  v25 = q.m_floats[2];
+  __libm_sse2_cos(a2);
+  v27.m_floats[3] = (float)(v12.m128_f32[0] * v7) * 0.5;
+  btMatrix3x3::getRotation(&curTrans->m_basis, &q);
+  v16 = (float)((float)((float)(q.m_floats[2] * v24) + (float)(q.m_floats[3] * v23))
+              + (float)(v27.m_floats[3] * q.m_floats[0]))
+      - (float)(q.m_floats[1] * v25);
+  v17 = (float)((float)((float)(q.m_floats[1] * v27.m_floats[3]) + (float)(q.m_floats[3] * v24))
+              + (float)(v25 * q.m_floats[0]))
+      - (float)(q.m_floats[2] * v23);
+  v18 = (float)((float)((float)(q.m_floats[3] * v27.m_floats[3]) - (float)(v23 * q.m_floats[0]))
+              - (float)(q.m_floats[1] * v24))
+      - (float)(q.m_floats[2] * v25);
+  v19 = (float)((float)((float)(q.m_floats[2] * v27.m_floats[3]) + (float)(q.m_floats[3] * v25))
+              + (float)(q.m_floats[1] * v23))
+      - (float)(v24 * q.m_floats[0]);
+  v20 = s_bm_current_air_resistance
+      / fsqrt((float)((float)((float)(v18 * v18) + (float)(v19 * v19)) + (float)(v17 * v17)) + (float)(v16 * v16));
+  v27.m_floats[0] = v16 * v20;
+  v27.m_floats[1] = v17 * v20;
+  v27.m_floats[2] = v19 * v20;
+  v27.m_floats[3] = v18 * v20;
+  btMatrix3x3::setRotation(&v27, &predictedTransform->m_basis);
 }

@@ -1,18 +1,13 @@
-void __thiscall vostok::resources::query_result_for_cook::clear_user_data(
-        vostok::resources::query_result_for_cook *this)
+void __usercall vostok::resources::query_result_for_cook::clear_user_data(
+        vostok::resources::query_result_for_cook *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::variant<32> *m_user_data; // esi
-  vostok::detail::abstract_type_helper *m_helper; // ecx
+  _DWORD *v2; // edi
+  int v3; // esi
 
-  m_user_data = this->m_user_data;
-  if ( m_user_data )
-  {
-    m_helper = m_user_data->m_helper;
-    if ( m_helper )
-    {
-      m_helper->destroy(m_helper, m_user_data->m_storage);
-      m_user_data->m_helper = 0;
-    }
-  }
-  this->m_user_data = 0;
+  v2 = (_DWORD *)(a2 + 264);
+  v3 = *(_DWORD *)(a2 + 264);
+  if ( v3 )
+    vostok::variant<32>::destroy_previous_variable_if_needed((vostok::variant<32> *)this, v3);
+  *v2 = 0;
 }

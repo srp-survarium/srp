@@ -1,21 +1,23 @@
-void __usercall vostok::render::res_sampler_list::rebind(
-        vostok::render::res_sampler_list *this@<ecx>,
-        _DWORD *a2@<esi>)
+void __usercall vostok::render::res_sampler_list::rebind(vostok::render::res_sampler_list *this@<ecx>, int a2@<esi>)
 {
-  unsigned int v2; // ebx
-  int v3; // ebp
+  unsigned int v2; // edi
+  int v3; // ebx
+  ID3D11SamplerState *registered_sampler; // eax
 
   v2 = 0;
-  if ( (a2[2] - a2[1]) >> 2 )
+  if ( (*(_DWORD *)(a2 + 8) - *(_DWORD *)(a2 + 4)) >> 2 )
   {
     v3 = 0;
     do
     {
-      *(_DWORD *)(a2[1] + 4 * v2++) = vostok::render::resource_manager::find_registered_sampler(
-                                        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                                        *(const char **)(a2[4] + v3));
+      registered_sampler = vostok::render::resource_manager::find_registered_sampler(
+                             (vostok::render::resource_manager *)this,
+                             (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                             *(const char **)(*(_DWORD *)(a2 + 144) + v3));
+      this = *(vostok::render::res_sampler_list **)(a2 + 4);
+      *(&this->m_reference_count + v2++) = (unsigned int)registered_sampler;
       v3 += 44;
     }
-    while ( v2 < (a2[2] - a2[1]) >> 2 );
+    while ( v2 < (*(_DWORD *)(a2 + 8) - *(_DWORD *)(a2 + 4)) >> 2 );
   }
 }

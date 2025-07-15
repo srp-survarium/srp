@@ -27,7 +27,7 @@ void __thiscall Scaleform::Render::DICommandQueue::~DICommandQueue(Scaleform::Re
   {
     pNext = this->Queues[3].Root.pNext;
     pNext->pPrev->pNext = pNext->pNext;
-    pNext->pNext->Scaleform::ListNode<Scaleform::Render::DIQueuePage>::$DED4EEDCED8B039708BE169F5A3A1451::pPrev = pNext->pPrev;
+    pNext->pNext->Scaleform::ListNode<Scaleform::Render::DIQueuePage>::$635FA6BA164E16D24CB31804A66DEDAF::pPrev = pNext->pPrev;
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pNext);
   }
   this->RefCount = 0;

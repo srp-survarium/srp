@@ -58,7 +58,7 @@ void __cdecl Scaleform::GFx::AS2::TextFieldProto::GetIMECompositionStringStyle(c
   {
 LABEL_23:
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) == 0 )
+    if ( (RefCount & 0x3FFFFFF) == 0 )
       return;
     goto LABEL_24;
   }
@@ -80,7 +80,7 @@ LABEL_23:
   if ( v12 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v11);
   RefCount = v6->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
 LABEL_24:
     v6->RefCount = RefCount - 1;

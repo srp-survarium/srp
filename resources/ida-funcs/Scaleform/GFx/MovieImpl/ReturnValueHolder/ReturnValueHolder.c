@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::MovieImpl::ReturnValueHolder::ReturnValueHolder(
 
   this->CharBuffer = 0;
   this->CharBufferSize = 0;
-  ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(pmgr, (const char *)&buf, 0, 0);
+  ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(pmgr, (char *)uri, 0, 0);
   ++ConstStringNode->RefCount;
   this->StringArray.Data.Data = 0;
   this->StringArray.Data.Size = 0;

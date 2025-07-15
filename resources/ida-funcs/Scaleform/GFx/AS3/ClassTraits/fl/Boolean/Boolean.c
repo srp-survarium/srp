@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::Boolean::Boolean(
   if ( v4 )
   {
     Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(v4, vm, &Scaleform::GFx::AS3::fl::BooleanCI);
-    *v5 = &Scaleform::GFx::AS3::InstanceTraits::Prototype::`vftable';
+    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl::Boolean::`vftable';
     v5[15] = 1;
   }
   else
@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::Boolean::Boolean(
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

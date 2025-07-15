@@ -1,77 +1,76 @@
-char __thiscall Scaleform::Render::D3D1x::HAL::createDepthStencilStates(
-        Scaleform::Render::D3D1x::HAL *this,
-        Scaleform::Render::D3D1x::HAL *thisa)
+char __thiscall Scaleform::Render::D3D1x::HAL::createDepthStencilStates(Scaleform::Render::D3D1x::HAL *this, int a2)
 {
-  int v2; // esi
-  ID3D11Device *pDevice; // eax
-  D3D11_DEPTH_STENCIL_DESC desc; // [esp+4h] [ebp-34h] BYREF
+  int v2; // eax
+  int v3; // eax
+  unsigned __int8 dst[52]; // [esp+Ch] [ebp-38h] BYREF
+  int v6; // [esp+40h] [ebp-4h]
 
-  *(_QWORD *)thisa->DepthStencilStates = 0;
-  *(_QWORD *)&thisa->DepthStencilStates[2] = 0;
-  v2 = 0;
-  *(_QWORD *)&thisa->DepthStencilStates[4] = 0;
-  *(_QWORD *)&thisa->DepthStencilStates[6] = 0;
+  memset((void *)(a2 + 64528), 0, 0x20u);
+  v6 = 0;
   while ( 1 )
   {
-    memset((int)&desc, 0, sizeof(desc));
-    desc.DepthFunc = D3D11_COMPARISON_ALWAYS;
-    desc.StencilReadMask = -1;
-    desc.StencilWriteMask = -1;
-    desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-    desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-    desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-    desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-    switch ( v2 )
+    memset((int)dst, 0, sizeof(dst));
+    v2 = 7;
+    *(_DWORD *)&dst[8] = 8;
+    dst[16] = -1;
+    dst[17] = -1;
+    *(_DWORD *)&dst[32] = 8;
+    *(_DWORD *)&dst[24] = 1;
+    *(_DWORD *)&dst[20] = 1;
+    *(_DWORD *)&dst[28] = 1;
+    switch ( v6 )
     {
       case 0:
-        desc.StencilEnable = 0;
+        *(_DWORD *)&dst[12] = 0;
         break;
       case 1:
-        desc.StencilEnable = 1;
-        desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-        desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
-        desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_REPLACE;
-        break;
+        *(_DWORD *)&dst[32] = 8;
+        v2 = 3;
+        goto LABEL_6;
       case 2:
-        desc.StencilEnable = 1;
-        desc.FrontFace.StencilFunc = D3D11_COMPARISON_LESS_EQUAL;
-        desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
-        desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-        desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+        *(_DWORD *)&dst[12] = 1;
+        *(_DWORD *)&dst[32] = 4;
+        *(_DWORD *)&dst[28] = 3;
+        *(_DWORD *)&dst[20] = 1;
+        *(_DWORD *)&dst[24] = 1;
         break;
       case 3:
-        desc.StencilEnable = 1;
-        desc.FrontFace.StencilFunc = D3D11_COMPARISON_EQUAL;
-        desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR;
-        desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+        *(_DWORD *)&dst[32] = 3;
+LABEL_6:
+        *(_DWORD *)&dst[12] = 1;
+        *(_DWORD *)&dst[28] = v2;
+        *(_DWORD *)&dst[24] = v2;
         break;
       case 4:
-        desc.DepthEnable = 1;
-        desc.DepthFunc = D3D11_COMPARISON_ALWAYS;
-        desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+        *(_DWORD *)dst = 1;
+        *(_DWORD *)&dst[8] = 8;
+        *(_DWORD *)&dst[4] = 1;
         break;
       case 5:
-        desc.StencilEnable = 1;
-        desc.FrontFace.StencilFunc = D3D11_COMPARISON_LESS_EQUAL;
-        desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+        *(_DWORD *)&dst[12] = 1;
+        *(_DWORD *)&dst[32] = 4;
+        *(_DWORD *)&dst[28] = 1;
         break;
       case 6:
-        desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-        desc.DepthEnable = 1;
-        desc.DepthFunc = D3D11_COMPARISON_EQUAL;
+        *(_DWORD *)&dst[4] = 1;
+        *(_DWORD *)dst = 1;
+        *(_DWORD *)&dst[8] = 3;
         break;
       case 7:
-        desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-        desc.DepthEnable = 0;
+        *(_DWORD *)&dst[4] = 0;
+        *(_DWORD *)dst = 0;
         break;
       default:
         break;
     }
-    pDevice = thisa->pDevice;
-    desc.BackFace = desc.FrontFace;
-    if ( pDevice->CreateDepthStencilState(pDevice, &desc, &thisa->DepthStencilStates[v2]) < 0 )
+    v3 = *(_DWORD *)(a2 + 63952);
+    *(_DWORD *)&dst[36] = *(_DWORD *)&dst[20];
+    *(_DWORD *)&dst[40] = *(_DWORD *)&dst[24];
+    *(_DWORD *)&dst[44] = *(_DWORD *)&dst[28];
+    *(_DWORD *)&dst[48] = *(_DWORD *)&dst[32];
+    if ( (*(int (__stdcall **)(int, unsigned __int8 *, int))(*(_DWORD *)v3 + 84))(v3, dst, a2 + 4 * v6 + 64528) < 0 )
       return 0;
-    if ( (unsigned int)++v2 >= 8 )
+    if ( (unsigned int)++v6 >= 8 )
       return 1;
   }
 }

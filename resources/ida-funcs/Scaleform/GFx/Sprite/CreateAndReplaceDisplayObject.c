@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::Sprite::CreateAndReplaceDisplayObject(
         Scaleform::GFx::Sprite *this,
-        const Scaleform::GFx::CharPosInfo *pos,
+        Scaleform::GFx::DisplayObjectBase *pos,
         const Scaleform::GFx::ASString *name,
         Scaleform::GFx::DisplayObjectBase **newChar)
 {

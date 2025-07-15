@@ -1,6 +1,6 @@
 char __thiscall Scaleform::Render::UserDataEffect::Update(
         Scaleform::Render::UserDataEffect *this,
-        const Scaleform::Render::UserDataState *stateArg)
+        Scaleform::Render::UserDataState *stateArg)
 {
   Scaleform::Render::BundleEntry *p_StartEntry; // esi
   Scaleform::Render::Bundle *pObject; // eax

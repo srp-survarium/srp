@@ -1,51 +1,51 @@
 void __cdecl Scaleform::GFx::AS2::ArrayObject::ArrayUnshift(Scaleform::GFx::AS2::ArrayObject *fn)
 {
-  Scaleform::GFx::AS2::ObjectInterface *RootIndex; // ebx
-  Scaleform::GFx::AS2::ArrayObject *p_pProto; // ebx
-  int pTable; // eax
+  unsigned int RootIndex; // ebx
+  Scaleform::GFx::AS2::ArrayObject *v3; // ebx
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::TableType *pTable; // eax
   int i; // edi
-  Scaleform::GFx::AS2::Environment *pObject; // ecx
+  Scaleform::GFx::AS2::Object *pObject; // ecx
   int v7; // ebx
-  unsigned int Size; // ebp
-  Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // ecx
+  Scaleform::GFx::AS2::Object *v8; // ebp
+  $C9E2C53B7BF33D1B05D56CCE19B38030 *v9; // ecx
   unsigned int v10; // eax
   const Scaleform::GFx::AS2::Value *v11; // edx
   Scaleform::GFx::AS2::Value *pRCC; // esi
-  unsigned int v13; // ebx
-  Scaleform::GFx::AS2::ArrayObject *pThis; // [esp+8h] [ebp+4h]
+  unsigned int Size; // ebx
+  Scaleform::GFx::AS2::ArrayObject *v14; // [esp+8h] [ebp+4h]
 
   if ( fn->RootIndex && (*(int (__thiscall **)(unsigned int))(*(_DWORD *)fn->RootIndex + 8))(fn->RootIndex) == 7 )
   {
-    RootIndex = (Scaleform::GFx::AS2::ObjectInterface *)fn->RootIndex;
+    RootIndex = fn->RootIndex;
     if ( RootIndex )
-      p_pProto = (Scaleform::GFx::AS2::ArrayObject *)&RootIndex[-2].pProto;
+      v3 = (Scaleform::GFx::AS2::ArrayObject *)(RootIndex - 16);
     else
-      p_pProto = 0;
-    p_pProto->LengthValueOverriden = 0;
-    pTable = (int)fn->Members.mHash.pTable;
-    pThis = p_pProto;
-    if ( pTable > 0 )
+      v3 = 0;
+    v3->LengthValueOverriden = 0;
+    pTable = fn->Members.mHash.pTable;
+    v14 = v3;
+    if ( (int)pTable > 0 )
     {
-      Scaleform::GFx::AS2::ArrayObject::InsertEmpty(p_pProto, 0, pTable);
+      Scaleform::GFx::AS2::ArrayObject::InsertEmpty(v3, 0, (int)pTable);
       for ( i = 0; i < (int)fn->Members.mHash.pTable; ++i )
       {
-        pObject = (Scaleform::GFx::AS2::Environment *)fn->pProto.pObject;
-        v7 = (char *)pObject->Stack.pCurrent - (char *)pObject->Stack.pPageStart;
-        Size = pObject->Stack.Pages.Data.Size;
-        p_Stack = &pObject->Stack;
+        pObject = fn->pProto.pObject;
+        v7 = (int)pObject->pRCC - pObject->RootIndex;
+        v8 = pObject->pProto.pObject;
+        v9 = &pObject->4;
         v10 = (unsigned int)fn->ResolveHandler.Function - i;
         v11 = 0;
-        if ( v10 <= 32 * (Size - 1) + (v7 >> 4) )
-          v11 = &p_Stack->Pages.Data.Data[v10 >> 5]->Values[v10 & 0x1F];
-        p_pProto = pThis;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(pThis, i, v11);
+        if ( v10 <= 32 * (int)(&v8[-1].IsListenerSet + 2) + (v7 >> 4) )
+          v11 = (const Scaleform::GFx::AS2::Value *)&(&v9[4].pRCC->__vftable)[v10 >> 5][4 * (v10 & 0x1F)];
+        v3 = v14;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v14, i, v11);
       }
     }
     pRCC = (Scaleform::GFx::AS2::Value *)fn->pRCC;
-    v13 = p_pProto->Elements.Data.Size;
+    Size = v3->Elements.Data.Size;
     if ( pRCC->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(pRCC);
-    pRCC->NV.Int32Value = v13;
+    pRCC->NV.Int32Value = Size;
     pRCC->T.Type = 4;
   }
   else

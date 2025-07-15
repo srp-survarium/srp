@@ -10,7 +10,9 @@ void __thiscall Scaleform::Render::TextMeshProvider::ClearEntries(Scaleform::Ren
   unsigned int Size; // ebx
 
   for ( i = 0; i < this->Notifiers.Data.Size; ++i )
-    Scaleform::Render::GlyphQueue::RemoveNotifier(&this->pCache->Queue, this->Notifiers.Data.Data[i]);
+    Scaleform::Render::GlyphQueue::RemoveNotifier(
+      &this->pCache->Queue,
+      (Scaleform::ListAllocBase<Scaleform::Render::TextNotifier,127,Scaleform::AllocatorLH_POD<Scaleform::Render::TextNotifier,79> >::NodeType *)this->Notifiers.Data.Data[i]);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->Notifiers.Data.Data);
   this->Notifiers.Data.Data = 0;
   this->Notifiers.Data.Size = 0;

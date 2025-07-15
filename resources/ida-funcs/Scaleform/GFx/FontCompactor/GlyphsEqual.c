@@ -7,7 +7,7 @@ char __thiscall Scaleform::GFx::FontCompactor::GlyphsEqual(
   unsigned int v4; // esi
   unsigned int v6; // edi
   unsigned int v7; // ebx
-  unsigned __int8 **cmpFonta; // [esp+18h] [ebp+8h]
+  unsigned __int8 **Pages; // [esp+18h] [ebp+8h]
 
   v4 = pos;
   v6 = cmpPos;
@@ -16,8 +16,8 @@ char __thiscall Scaleform::GFx::FontCompactor::GlyphsEqual(
     return 0;
   if ( pos < v7 )
   {
-    cmpFonta = cmpFont->Decoder.Data->Pages;
-    while ( this->Decoder.Data->Pages[v4 >> 12][v4 & 0xFFF] == cmpFonta[v6 >> 12][v6 & 0xFFF] )
+    Pages = cmpFont->Decoder.Data->Pages;
+    while ( this->Decoder.Data->Pages[v4 >> 12][v4 & 0xFFF] == Pages[v6 >> 12][v6 & 0xFFF] )
     {
       ++v4;
       ++v6;

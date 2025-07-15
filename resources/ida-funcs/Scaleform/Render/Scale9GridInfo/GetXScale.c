@@ -2,11 +2,11 @@ double __thiscall Scaleform::Render::Scale9GridInfo::GetXScale(Scaleform::Render
 {
   Scaleform::Render::Matrix2x4<float> *ResultingMatrices; // esi
   int v2; // edi
-  float scale; // [esp+8h] [ebp-8h]
+  float v4; // [esp+8h] [ebp-8h]
   float v5; // [esp+Ch] [ebp-4h]
   float v6; // [esp+Ch] [ebp-4h]
 
-  scale = 0.0;
+  v4 = 0.0;
   ResultingMatrices = this->ResultingMatrices;
   v2 = 3;
   do
@@ -16,8 +16,8 @@ double __thiscall Scaleform::Render::Scale9GridInfo::GetXScale(Scaleform::Render
     v6 = sqrt(v5);
     ++ResultingMatrices;
     --v2;
-    scale = v6 + scale;
+    v4 = v6 + v4;
   }
   while ( v2 );
-  return (float)(scale / 3.0);
+  return (float)(v4 / 3.0);
 }

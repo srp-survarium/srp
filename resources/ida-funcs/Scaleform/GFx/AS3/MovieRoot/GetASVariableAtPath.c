@@ -27,7 +27,7 @@ char __thiscall Scaleform::GFx::AS3::MovieRoot::GetASVariableAtPath(
   const Scaleform::GFx::AS3::Value *v26; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v27; // ebx
   Scaleform::StringDataPtr *NextToken; // eax
-  char *pStr; // esi
+  __m128i *pStr; // esi
   unsigned int Size; // eax
   unsigned int v31; // edx
   unsigned int v32; // ecx
@@ -171,7 +171,7 @@ LABEL_108:
         while ( 1 )
         {
           NextToken = Scaleform::StringDataPtr::GetNextToken(&pt.Path, (Scaleform::StringDataPtr *)&ppath, 46);
-          pStr = (char *)NextToken->pStr;
+          pStr = (__m128i *)NextToken->pStr;
           pt.Token.pStr = NextToken->pStr;
           Size = NextToken->Size;
           pt.Token.Size = Size;
@@ -206,7 +206,7 @@ LABEL_108:
           {
             ++propName.pNode->RefCount;
           }
-          v35 = *(Scaleform::GFx::AS3::GASRefCountBase **)(*(_DWORD *)&v27->pImpl.Owner + 232);
+          v35 = *(Scaleform::GFx::AS3::GASRefCountBase **)(*(_DWORD *)&v27->pImpl.Owner + 272);
           v68.Kind = MN_QName;
           v68.Obj.pObject = v35;
           if ( v35 )
@@ -233,7 +233,7 @@ LABEL_108:
           subVal.Bonus.pWeakProxy = 0;
           if ( !resolvedVal.value.VS._1.VInt )
             break;
-          if ( !*(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)resolvedVal.value.VS._1.VInt + 16))(
+          if ( !*(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)resolvedVal.value.VS._1.VInt + 28))(
                             resolvedVal.value.VS._1,
                             &result,
                             &v68,
@@ -265,7 +265,7 @@ LABEL_108:
                 {
                   RefCount = v59.pObject->RefCount;
                   v47 = v59.pObject;
-                  if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+                  if ( (RefCount & 0x3FFFFF) != 0 )
                   {
                     v59.pObject->RefCount = RefCount - 1;
                     Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v47);
@@ -303,7 +303,7 @@ LABEL_108:
                 &ppathToVar);
               pData = s.pData;
               if ( !s.pData )
-                pData = (char *)&buf;
+                pData = (char *)uri;
               Scaleform::Log::LogError(v52, pData);
               Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&s);
             }

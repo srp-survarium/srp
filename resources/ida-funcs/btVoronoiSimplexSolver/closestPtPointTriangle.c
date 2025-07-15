@@ -1,228 +1,194 @@
 char __userpurge btVoronoiSimplexSolver::closestPtPointTriangle@<al>(
-        const btVector3 *p@<edi>,
         const btVector3 *b@<edx>,
-        const btVector3 *c@<esi>,
         btSubSimplexClosestResult *result@<eax>,
         btVoronoiSimplexSolver *this,
-        const btVector3 *a)
+        const btVector3 *p,
+        const btVector3 *a,
+        const btVector3 *c)
 {
-  float v6; // xmm7_4
-  float v7; // xmm6_4
-  float v8; // xmm2_4
-  float v9; // xmm5_4
-  float v10; // xmm1_4
-  float v11; // xmm4_4
-  float v12; // xmm3_4
-  float v13; // xmm7_4
-  unsigned __int64 v14; // xmm1_8
-  float v16; // xmm6_4
-  unsigned __int64 v17; // xmm1_8
-  float v18; // xmm6_4
-  float v19; // xmm5_4
-  float v20; // xmm1_4
+  float v6; // xmm6_4
+  float v7; // xmm7_4
+  float v8; // xmm1_4
+  float v9; // xmm3_4
+  float v10; // xmm4_4
+  float v11; // xmm7_4
+  float v12; // xmm6_4
+  float v13; // xmm2_4
+  float v14; // xmm5_4
+  float v15; // xmm1_4
+  float v16; // xmm1_4
+  float v17; // xmm6_4
+  float v18; // xmm1_4
+  float v19; // xmm1_4
+  float v20; // xmm7_4
   float v21; // xmm1_4
-  float v22; // xmm7_4
-  unsigned __int64 v23; // xmm1_8
-  float v24; // xmm7_4
-  float v25; // xmm6_4
-  float v26; // xmm2_4
-  float v27; // xmm6_4
-  float v28; // xmm2_4
-  float v29; // xmm3_4
-  float v30; // xmm1_4
-  float v31; // xmm2_4
-  float v32; // xmm5_4
-  float v33; // xmm3_4
-  float v34; // xmm1_4
-  float v35; // xmm2_4
-  float v36; // xmm1_4
-  float v37; // [esp+328h] [ebp-54h]
-  float v38; // [esp+32Ch] [ebp-50h]
-  float v39; // [esp+32Ch] [ebp-50h]
-  float v40; // [esp+330h] [ebp-4Ch]
-  float v41; // [esp+330h] [ebp-4Ch]
-  float v42; // [esp+334h] [ebp-48h]
-  float v43; // [esp+338h] [ebp-44h]
-  int m_numVertices; // [esp+33Ch] [ebp-40h]
-  float v45; // [esp+340h] [ebp-3Ch]
-  float v46; // [esp+340h] [ebp-3Ch]
-  float v47; // [esp+344h] [ebp-38h]
-  float v48; // [esp+344h] [ebp-38h]
-  float v49; // [esp+348h] [ebp-34h]
-  float v50; // [esp+34Ch] [ebp-30h]
-  float v51; // [esp+350h] [ebp-2Ch]
-  float v52; // [esp+354h] [ebp-28h]
-  float v53; // [esp+354h] [ebp-28h]
-  float v54; // [esp+358h] [ebp-24h]
-  float v55; // [esp+35Ch] [ebp-20h]
-  unsigned __int64 v56; // [esp+35Ch] [ebp-20h]
-  unsigned __int64 v57; // [esp+35Ch] [ebp-20h]
-  unsigned __int64 v58; // [esp+35Ch] [ebp-20h]
-  float v59; // [esp+360h] [ebp-1Ch]
-  float v60; // [esp+360h] [ebp-1Ch]
-  float v61; // [esp+360h] [ebp-1Ch]
-  float v62; // [esp+364h] [ebp-18h]
-  unsigned __int64 v63; // [esp+364h] [ebp-18h]
-  unsigned __int64 v64; // [esp+364h] [ebp-18h]
-  unsigned __int64 v65; // [esp+364h] [ebp-18h]
-  unsigned __int64 v66; // [esp+36Ch] [ebp-10h]
-  float v67; // [esp+374h] [ebp-8h]
+  float v22; // xmm1_4
+  float v23; // xmm6_4
+  float v24; // xmm2_4
+  float v25; // xmm4_4
+  float v26; // xmm1_4
+  float v27; // xmm1_4
+  float v28; // xmm1_4
+  float v29; // xmm2_4
+  float v30; // xmm3_4
+  float v32; // [esp+10h] [ebp-60h]
+  float v33; // [esp+14h] [ebp-5Ch]
+  float v34; // [esp+18h] [ebp-58h]
+  float v35; // [esp+1Ch] [ebp-54h]
+  float v36; // [esp+20h] [ebp-50h]
+  float v37; // [esp+20h] [ebp-50h]
+  int m_numVertices; // [esp+24h] [ebp-4Ch]
+  float v39; // [esp+24h] [ebp-4Ch]
+  float v40; // [esp+28h] [ebp-48h]
+  float v41; // [esp+28h] [ebp-48h]
+  float v42; // [esp+2Ch] [ebp-44h]
+  float v43; // [esp+30h] [ebp-40h]
+  float v44; // [esp+34h] [ebp-3Ch]
+  float v45; // [esp+38h] [ebp-38h]
+  float v46; // [esp+38h] [ebp-38h]
+  float v47; // [esp+3Ch] [ebp-34h]
+  float v48; // [esp+44h] [ebp-2Ch]
+  float v49; // [esp+48h] [ebp-28h]
+  unsigned __int64 v50; // [esp+50h] [ebp-20h]
+  float v51; // [esp+50h] [ebp-20h]
+  float v52; // [esp+54h] [ebp-1Ch]
+  float v53; // [esp+54h] [ebp-1Ch]
+  float v54; // [esp+58h] [ebp-18h]
+  float v55; // [esp+58h] [ebp-18h]
 
   *(_WORD *)&result->m_usedVertices &= 0xFFF0u;
-  v6 = *((float *)&this->m_numVertices + 1);
-  v7 = *((float *)&this->m_numVertices + 2);
-  v8 = b->mVec128.m128_f32[1] - v6;
-  v51 = c->mVec128.m128_f32[1];
-  v9 = v51 - v6;
-  v52 = c->mVec128.m128_f32[2];
-  v67 = v52 - v7;
-  v40 = p->mVec128.m128_f32[0];
-  v55 = p->mVec128.m128_f32[0] - *(float *)&this->m_numVertices;
-  v38 = p->mVec128.m128_f32[1];
+  v6 = p->mVec128.m128_f32[1];
+  v7 = p->mVec128.m128_f32[2];
+  v8 = p->mVec128.m128_f32[0];
+  v44 = a->mVec128.m128_f32[1];
+  v48 = v44 - v6;
+  v45 = a->mVec128.m128_f32[2];
+  v49 = v45 - v7;
+  v9 = b->mVec128.m128_f32[1] - v6;
+  v10 = b->mVec128.m128_f32[2] - v7;
   m_numVertices = this->m_numVertices;
-  v50 = b->mVec128.m128_f32[0];
-  v10 = b->mVec128.m128_f32[0] - *(float *)&this->m_numVertices;
-  v49 = c->mVec128.m128_f32[0];
-  v11 = c->mVec128.m128_f32[0] - *(float *)&this->m_numVertices;
-  v59 = v38 - v6;
-  v45 = p->mVec128.m128_f32[2];
-  v12 = b->mVec128.m128_f32[2] - v7;
-  v13 = (float)((float)((float)(v45 - v7) * (float)(v52 - v7)) + (float)((float)(v38 - v6) * (float)(v51 - v6)))
-      + (float)(v55 * v11);
-  v42 = (float)((float)((float)(v45 - v7) * v12) + (float)(v59 * v8)) + (float)(v55 * v10);
-  v43 = v13;
-  if ( v42 <= 0.0 && v13 <= 0.0 )
+  v33 = *((float *)&this->m_numVertices + 1);
+  v11 = v33 - v6;
+  v40 = *((float *)&this->m_numVertices + 2);
+  v12 = v40 - p->mVec128.m128_f32[2];
+  v43 = b->mVec128.m128_f32[0];
+  v13 = b->mVec128.m128_f32[0] - p->mVec128.m128_f32[0];
+  v34 = (float)((float)(v12 * v10) + (float)(v11 * v9))
+      + (float)((float)(*(float *)&this->m_numVertices - p->mVec128.m128_f32[0]) * v13);
+  v42 = a->mVec128.m128_f32[0];
+  v14 = a->mVec128.m128_f32[0] - p->mVec128.m128_f32[0];
+  v35 = (float)((float)(v12 * v49) + (float)(v11 * v48))
+      + (float)((float)(*(float *)&this->m_numVertices - p->mVec128.m128_f32[0]) * v14);
+  if ( v34 <= 0.0 && v35 <= 0.0 )
   {
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = *(_QWORD *)&this->m_numVertices;
-    v14 = *((_QWORD *)&this->m_numVertices + 1);
+    v15 = s_bm_current_air_resistance;
+    result->m_closestPointOnSimplex = (btVector3)p->mVec128;
     *(_WORD *)&result->m_usedVertices |= 1u;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v14;
-    LODWORD(v14) = clear_value;
     result->m_barycentricCoords[1] = 0.0;
     result->m_barycentricCoords[2] = 0.0;
-    LODWORD(result->m_barycentricCoords[0]) = v14;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
+LABEL_25:
+    result->m_barycentricCoords[0] = v15;
+    goto LABEL_26;
   }
-  v60 = v38 - b->mVec128.m128_f32[1];
-  v62 = v45 - b->mVec128.m128_f32[2];
-  v37 = (float)((float)(v62 * v12) + (float)(v60 * v8)) + (float)((float)(v40 - v50) * v10);
-  v16 = (float)((float)(v62 * v67) + (float)(v60 * v9)) + (float)((float)(v40 - v50) * v11);
-  v47 = v16;
-  if ( v37 >= 0.0 && v37 >= v16 )
+  v52 = v33 - b->mVec128.m128_f32[1];
+  v54 = v40 - b->mVec128.m128_f32[2];
+  v32 = (float)((float)(v54 * v10) + (float)(v52 * v9)) + (float)((float)(*(float *)&m_numVertices - v43) * v13);
+  v36 = (float)((float)(v54 * v49) + (float)(v52 * v48)) + (float)((float)(*(float *)&m_numVertices - v43) * v14);
+  if ( v32 < 0.0
+    || v32 < (float)((float)((float)(v54 * v49) + (float)(v52 * v48))
+                   + (float)((float)(*(float *)&m_numVertices - v43) * v14)) )
   {
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = b->mVec128.m128_u64[0];
-    v17 = b->mVec128.m128_u64[1];
-    *(_WORD *)&result->m_usedVertices |= 2u;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v17;
-    LODWORD(v17) = clear_value;
-    result->m_barycentricCoords[0] = 0.0;
-    LODWORD(result->m_barycentricCoords[1]) = v17;
-    result->m_barycentricCoords[2] = 0.0;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
-  }
-  v54 = (float)(v16 * v42) - (float)(v37 * v13);
-  if ( v54 <= 0.0 && v42 >= 0.0 && v37 <= 0.0 )
-  {
-    v18 = v42 / (float)(v42 - v37);
-    v19 = *(float *)&m_numVertices + (float)(v10 * v18);
-    *((float *)&v56 + 1) = *((float *)&this->m_numVertices + 1) + (float)(v8 * v18);
-    v20 = *((float *)&this->m_numVertices + 2);
-    *(_WORD *)&result->m_usedVertices |= 3u;
-    *(float *)&v63 = v20 + (float)(v12 * v18);
-    *(float *)&v56 = v19;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = v56;
-    HIDWORD(v63) = 0;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v63;
-    v21 = *(float *)&clear_value - v18;
-    result->m_barycentricCoords[1] = v18;
-    result->m_barycentricCoords[2] = 0.0;
-    result->m_barycentricCoords[0] = v21;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
-  }
-  v22 = v38 - v51;
-  v39 = (float)((float)((float)(v45 - v52) * v12) + (float)((float)(v38 - v51) * v8))
-      + (float)((float)(v40 - v49) * v10);
-  v41 = (float)((float)((float)(v45 - v52) * v67) + (float)(v22 * v9)) + (float)((float)(v40 - v49) * v11);
-  if ( v41 >= 0.0 && v41 >= v39 )
-  {
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = c->mVec128.m128_u64[0];
-    v23 = c->mVec128.m128_u64[1];
-    *(_WORD *)&result->m_usedVertices |= 4u;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v23;
-    LODWORD(v23) = clear_value;
-    result->m_barycentricCoords[0] = 0.0;
-    result->m_barycentricCoords[1] = 0.0;
-    LODWORD(result->m_barycentricCoords[2]) = v23;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
-  }
-  v46 = (float)(v39 * v43) - (float)(v41 * v42);
-  if ( v46 > 0.0 || v43 < 0.0 )
-  {
-    v24 = v41;
-  }
-  else
-  {
-    v24 = v41;
-    if ( v41 <= 0.0 )
+    v47 = (float)(v36 * v34) - (float)(v32 * v35);
+    if ( v47 > 0.0 || v34 < 0.0 || v32 > 0.0 )
     {
-      v25 = v43 / (float)(v43 - v41);
-      *(float *)&v57 = *(float *)&m_numVertices + (float)(v11 * v25);
-      *((float *)&v57 + 1) = *((float *)&this->m_numVertices + 1) + (float)(v9 * v25);
-      v26 = *((float *)&this->m_numVertices + 2);
-      *(_WORD *)&result->m_usedVertices |= 5u;
-      *(float *)&v64 = v26 + (float)(v67 * v25);
-      result->m_closestPointOnSimplex.mVec128.m128_u64[0] = v57;
-      HIDWORD(v64) = 0;
-      result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v64;
-      result->m_barycentricCoords[0] = *(float *)&clear_value - v25;
-      result->m_barycentricCoords[1] = 0.0;
-      result->m_barycentricCoords[2] = v25;
-      result->m_barycentricCoords[3] = 0.0;
-      return 1;
+      v51 = *(float *)&m_numVertices - v42;
+      v39 = (float)((float)((float)(v40 - v45) * v10) + (float)((float)(v33 - v44) * v9))
+          + (float)((float)(*(float *)&m_numVertices - v42) * v13);
+      v20 = (float)((float)((float)(v40 - v45) * v49) + (float)((float)(v33 - v44) * v48)) + (float)(v51 * v14);
+      if ( v20 >= 0.0 && v20 >= v39 )
+      {
+        v21 = s_bm_current_air_resistance;
+        result->m_closestPointOnSimplex = (btVector3)a->mVec128;
+        *(_WORD *)&result->m_usedVertices |= 4u;
+        result->m_barycentricCoords[0] = 0.0;
+        result->m_barycentricCoords[1] = 0.0;
+        result->m_barycentricCoords[2] = v21;
+        goto LABEL_26;
+      }
+      v41 = (float)(v39 * v35) - (float)(v20 * v34);
+      if ( v41 > 0.0 || v35 < 0.0 || v20 > 0.0 )
+      {
+        v23 = (float)(v20 * v32) - (float)(v39 * v36);
+        if ( v23 <= 0.0 )
+        {
+          v37 = v36 - v32;
+          if ( v37 >= 0.0 && (float)(v39 - v20) >= 0.0 )
+          {
+            v24 = b->mVec128.m128_f32[2];
+            v25 = v37 / (float)((float)(v39 - v20) + v37);
+            v26 = b->mVec128.m128_f32[1];
+            *(_WORD *)&result->m_usedVertices |= 6u;
+            v53 = v26 + (float)((float)(v44 - v26) * v25);
+            v27 = s_bm_current_air_resistance;
+            result->m_closestPointOnSimplex.mVec128.m128_f32[0] = v43 + (float)((float)(v42 - v43) * v25);
+            result->m_closestPointOnSimplex.mVec128.m128_f32[1] = v53;
+            result->m_closestPointOnSimplex.mVec128.m128_f32[2] = v24 + (float)((float)(v45 - v24) * v25);
+            result->m_closestPointOnSimplex.mVec128.m128_i32[3] = 0;
+            result->m_barycentricCoords[0] = 0.0;
+            result->m_barycentricCoords[1] = v27 - v25;
+            result->m_barycentricCoords[2] = v25;
+            goto LABEL_26;
+          }
+        }
+        v46 = s_bm_current_air_resistance / (float)((float)(v23 + v41) + v47);
+        v17 = v46 * v47;
+        v28 = v8 + (float)(v13 * (float)(v46 * v41));
+        v29 = p->mVec128.m128_f32[1] + (float)(v9 * (float)(v46 * v41));
+        v30 = p->mVec128.m128_f32[2];
+        *(_WORD *)&result->m_usedVertices |= 7u;
+        *(float *)&v50 = v28 + (float)(v14 * (float)(v46 * v47));
+        *((float *)&v50 + 1) = v29 + (float)(v48 * (float)(v46 * v47));
+        v55 = (float)(v30 + (float)(v10 * (float)(v46 * v41))) + (float)(v49 * (float)(v46 * v47));
+        v19 = s_bm_current_air_resistance - (float)(v46 * v41);
+        result->m_barycentricCoords[1] = v46 * v41;
+      }
+      else
+      {
+        v17 = v35 / (float)(v35 - v20);
+        *(float *)&v50 = v8 + (float)(v14 * v17);
+        *((float *)&v50 + 1) = p->mVec128.m128_f32[1] + (float)(v48 * v17);
+        v22 = p->mVec128.m128_f32[2];
+        *(_WORD *)&result->m_usedVertices |= 5u;
+        v55 = v22 + (float)(v49 * v17);
+        v19 = s_bm_current_air_resistance;
+        result->m_barycentricCoords[1] = 0.0;
+      }
+      result->m_barycentricCoords[2] = v17;
     }
+    else
+    {
+      v17 = v34 / (float)(v34 - v32);
+      *(float *)&v50 = v8 + (float)(v13 * v17);
+      *((float *)&v50 + 1) = p->mVec128.m128_f32[1] + (float)(v9 * v17);
+      v18 = p->mVec128.m128_f32[2];
+      *(_WORD *)&result->m_usedVertices |= 3u;
+      v55 = v18 + (float)(v10 * v17);
+      v19 = s_bm_current_air_resistance;
+      result->m_barycentricCoords[1] = v17;
+      result->m_barycentricCoords[2] = 0.0;
+    }
+    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = v50;
+    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = LODWORD(v55);
+    v15 = v19 - v17;
+    goto LABEL_25;
   }
-  v27 = (float)(v24 * v37) - (float)(v39 * v16);
-  if ( v27 > 0.0 || (v48 = v47 - v37, v48 < 0.0) || (float)(v39 - v41) < 0.0 )
-  {
-    v53 = *(float *)&clear_value / (float)((float)(v27 + v46) + v54);
-    v61 = v9 * (float)(v53 * v54);
-    v32 = v12 * (float)(v53 * v46);
-    v33 = *(float *)&m_numVertices + (float)(v10 * (float)(v53 * v46));
-    v34 = *((float *)&this->m_numVertices + 1) + (float)(v8 * (float)(v53 * v46));
-    v35 = *((float *)&this->m_numVertices + 2);
-    *(_WORD *)&result->m_usedVertices |= 7u;
-    *((float *)&v66 + 1) = v34 + v61;
-    *(float *)&v66 = v33 + (float)(v11 * (float)(v53 * v54));
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = v66;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT((float)(v35 + v32) + (float)(v67 * (float)(v53 * v54)));
-    v36 = (float)(*(float *)&clear_value - (float)(v53 * v46)) - (float)(v53 * v54);
-    result->m_barycentricCoords[1] = v53 * v46;
-    result->m_barycentricCoords[2] = v53 * v54;
-    result->m_barycentricCoords[0] = v36;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
-  }
-  else
-  {
-    v28 = b->mVec128.m128_f32[1];
-    v29 = b->mVec128.m128_f32[2];
-    *(_WORD *)&result->m_usedVertices |= 6u;
-    v30 = v48 / (float)((float)(v39 - v41) + v48);
-    *((float *)&v58 + 1) = v28 + (float)((float)(v51 - v28) * v30);
-    *(float *)&v58 = v50 + (float)((float)(v49 - v50) * v30);
-    result->m_closestPointOnSimplex.mVec128.m128_u64[0] = v58;
-    *(float *)&v65 = v29 + (float)((float)(v52 - v29) * v30);
-    HIDWORD(v65) = 0;
-    result->m_closestPointOnSimplex.mVec128.m128_u64[1] = v65;
-    v31 = *(float *)&clear_value - v30;
-    result->m_barycentricCoords[0] = 0.0;
-    result->m_barycentricCoords[1] = v31;
-    result->m_barycentricCoords[2] = v30;
-    result->m_barycentricCoords[3] = 0.0;
-    return 1;
-  }
+  v16 = s_bm_current_air_resistance;
+  result->m_closestPointOnSimplex = (btVector3)b->mVec128;
+  *(_WORD *)&result->m_usedVertices |= 2u;
+  result->m_barycentricCoords[0] = 0.0;
+  result->m_barycentricCoords[1] = v16;
+  result->m_barycentricCoords[2] = 0.0;
+LABEL_26:
+  result->m_barycentricCoords[3] = 0.0;
+  return 1;
 }

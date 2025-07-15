@@ -1,4 +1,4 @@
-const ssl_cipher_st *__cdecl ssl23_get_cipher_by_char(const unsigned __int8 *p)
+const ssl_cipher_st *__cdecl ssl23_get_cipher_by_char(unsigned __int8 *p)
 {
   const ssl_cipher_st *result; // eax
 

@@ -55,7 +55,7 @@ int __cdecl png_write_start_row(int a1)
     *(_DWORD *)(a1 + 236) = *(_DWORD *)(a1 + 232);
     *(_DWORD *)(a1 + 240) = *(_DWORD *)(a1 + 228);
   }
-  sub_36BE00(a1, 1);
+  sub_478AC0(a1, 1);
   *(_DWORD *)(a1 + 136) = *(_DWORD *)(a1 + 180);
   result = *(_DWORD *)(a1 + 176);
   *(_DWORD *)(a1 + 132) = result;

@@ -21,7 +21,7 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
   Scaleform::Render::TreeNode *v19; // eax
   unsigned int v20; // esi
   Scaleform::Render::Viewport *v21; // esi
-  Scaleform::Render::Rect<float> *p_prect; // eax
+  Scaleform::Render::Rect<float> *p_r; // eax
   unsigned int Flags; // esi
   int v24; // esi
   char v25; // bl
@@ -29,18 +29,18 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
   double y1; // st6
   double x2; // st5
   double y2; // st4
-  float v30; // [esp+31Ch] [ebp-94h]
-  float v31; // [esp+31Ch] [ebp-94h]
-  float v32; // [esp+31Ch] [ebp-94h]
-  float v33; // [esp+31Ch] [ebp-94h]
-  float v34; // [esp+31Ch] [ebp-94h]
-  Scaleform::Render::Rect<float> bounds; // [esp+320h] [ebp-90h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+330h] [ebp-80h] BYREF
-  Scaleform::Render::Rect<float> prect; // [esp+340h] [ebp-70h] BYREF
-  float v38; // [esp+358h] [ebp-58h]
-  float v39; // [esp+35Ch] [ebp-54h]
-  Scaleform::Render::Rect<float> pdest; // [esp+360h] [ebp-50h] BYREF
-  Scaleform::Render::Matrix4x4<float> v41; // [esp+370h] [ebp-40h] BYREF
+  float v30; // [esp+14h] [ebp-94h]
+  float v31; // [esp+14h] [ebp-94h]
+  float v32; // [esp+14h] [ebp-94h]
+  float v33; // [esp+14h] [ebp-94h]
+  float v34; // [esp+14h] [ebp-94h]
+  Scaleform::Render::Rect<float> bounds; // [esp+18h] [ebp-90h] BYREF
+  Scaleform::Render::Rect<float> v36; // [esp+28h] [ebp-80h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+38h] [ebp-70h] BYREF
+  float v38; // [esp+50h] [ebp-58h]
+  float v39; // [esp+54h] [ebp-54h]
+  Scaleform::Render::Rect<float> pdest; // [esp+58h] [ebp-50h] BYREF
+  Scaleform::Render::Matrix4x4<float> v41; // [esp+68h] [ebp-40h] BYREF
 
   v6 = this;
   pNode = this->pNode;
@@ -68,14 +68,14 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
          & 0x200) != 0;
   }
   while ( v14 );
-  prect.x1 = 0.0;
-  prect.y1 = 0.0;
-  prect.x2 = 0.0;
-  prect.y2 = 0.0;
-  pr.x1 = 0.0;
-  pr.y1 = 0.0;
-  pr.x2 = 0.0;
-  pr.y2 = 0.0;
+  r.x1 = 0.0;
+  r.y1 = 0.0;
+  r.x2 = 0.0;
+  r.y2 = 0.0;
+  v36.x1 = 0.0;
+  v36.y1 = 0.0;
+  v36.x2 = 0.0;
+  v36.y2 = 0.0;
   if ( v13 )
   {
     v18 = v6->pRoot;
@@ -90,7 +90,7 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
          & 0xFFFFFFFE)
         + 160;
     Scaleform::Render::Matrix4x4<float>::MultiplyMatrix(&v41, viewProjMatrix, viewMatrix);
-    Scaleform::Render::Matrix4x4<float>::EncloseTransformHomogeneous(&v41, &bounds, (__m128 *)(v11 + 112));
+    Scaleform::Render::Matrix4x4<float>::EncloseTransformHomogeneous(&v41, (__m128 *)&bounds, (__m128 *)(v11 + 112));
     Scaleform::Render::Viewport::ScaleToViewport<int>(
       (Scaleform::Render::Rect<float> *)&v41,
       0,
@@ -98,10 +98,10 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
       *(_DWORD *)(v20 + 16),
       *(_DWORD *)(v20 + 20),
       &bounds);
-    pr.x1 = v41.M[0][0];
-    pr.y1 = v41.M[0][1];
-    pr.x2 = v41.M[0][2];
-    pr.y2 = v41.M[0][3];
+    v36.x1 = v41.M[0][0];
+    v36.y1 = v41.M[0][1];
+    v36.x2 = v41.M[0][2];
+    v36.y2 = v41.M[0][3];
   }
   else
   {
@@ -122,7 +122,7 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
     filterBounds->m128_f32[3] = v30;
     Scaleform::Render::Matrix2x4<float>::EncloseTransform(
       (Scaleform::Render::Matrix2x4<float> *)&v41,
-      &pr,
+      (__m128 *)&v36,
       filterBounds);
   }
   v21 = (Scaleform::Render::Viewport *)((*(_DWORD *)(*(_DWORD *)(((int)v6->pRoot->pNode & 0xFFFFF000) + 0x14)
@@ -133,60 +133,60 @@ int __thiscall Scaleform::Render::TreeCacheNode::calcFilterBounds(
                                                    + 20)
                                        & 0xFFFFFFFE)
                                       + 160);
-  Scaleform::Render::Viewport::GetCullRectF(v21, &prect, 1);
-  p_prect = cullRect;
+  Scaleform::Render::Viewport::GetCullRectF(v21, &r, 1);
+  p_r = cullRect;
   if ( !cullRect )
-    p_prect = &prect;
+    p_r = &r;
   Flags = v21->Flags;
-  bounds.x1 = p_prect->x1;
+  bounds.x1 = p_r->x1;
   v24 = Flags & 0x30;
-  bounds.y1 = p_prect->y1;
-  bounds.x2 = p_prect->x2;
-  bounds.y2 = p_prect->y2;
+  bounds.y1 = p_r->y1;
+  bounds.x2 = p_r->x2;
+  bounds.y2 = p_r->y2;
   if ( v24 == 16 || v24 == 48 )
   {
-    bounds.x1 = prect.y1;
-    bounds.y1 = prect.x1;
-    bounds.x2 = prect.y2;
-    bounds.y2 = prect.x2;
+    bounds.x1 = r.y1;
+    bounds.y1 = r.x1;
+    bounds.x2 = r.y2;
+    bounds.y2 = r.x2;
   }
   pdest.x1 = bounds.x1;
   pdest.y1 = bounds.y1;
   pdest.x2 = bounds.x2;
   pdest.y2 = bounds.y2;
   Scaleform::Render::TreeNode::NodeData::expandByFilterBounds((Scaleform::Render::TreeNode::NodeData *)v11, &pdest, 0);
-  prect.x1 = bounds.x1 - 32.0;
-  prect.x2 = bounds.x2 + 32.0;
-  prect.y1 = bounds.y1 - 32.0;
-  prect.y2 = bounds.y2 + 32.0;
-  Scaleform::Render::Rect<float>::IntersectRect(&pdest, &pdest, &prect);
+  r.x1 = bounds.x1 - 32.0;
+  r.x2 = bounds.x2 + 32.0;
+  r.y1 = bounds.y1 - 32.0;
+  r.y2 = bounds.y2 + 32.0;
+  Scaleform::Render::Rect<float>::IntersectRect(&pdest, &pdest, &r);
   v25 = 1;
-  bounds.x1 = pr.x1;
-  bounds.y1 = pr.y1;
-  bounds.x2 = pr.x2;
-  bounds.y2 = pr.y2;
-  if ( prect.x2 < (double)pr.x2 || prect.y2 < (double)pr.y2 || prect.x1 > (double)pr.x1 || prect.y1 > (double)pr.y1 )
+  bounds.x1 = v36.x1;
+  bounds.y1 = v36.y1;
+  bounds.x2 = v36.x2;
+  bounds.y2 = v36.y2;
+  if ( r.x2 < (double)v36.x2 || r.y2 < (double)v36.y2 || r.x1 > (double)v36.x1 || r.y1 > (double)v36.y1 )
   {
     v25 = 0;
-    if ( !Scaleform::Render::Rect<float>::IntersectRect(&prect, &bounds, &pr) )
+    if ( !Scaleform::Render::Rect<float>::IntersectRect(&r, &bounds, &v36) )
       return 0;
   }
   v31 = floor(bounds.x1);
-  pr.x1 = v31;
+  v36.x1 = v31;
   v32 = floor(bounds.y1);
-  pr.y1 = v32;
+  v36.y1 = v32;
   v33 = ceil(bounds.x2);
-  pr.x2 = v33;
+  v36.x2 = v33;
   v34 = ceil(bounds.y2);
-  pr.y2 = v34;
-  x1 = pr.x1;
-  filterBounds->m128_f32[0] = pr.x1;
-  y1 = pr.y1;
-  filterBounds->m128_f32[1] = pr.y1;
-  x2 = pr.x2;
-  filterBounds->m128_f32[2] = pr.x2;
-  y2 = pr.y2;
-  filterBounds->m128_f32[3] = pr.y2;
+  v36.y2 = v34;
+  x1 = v36.x1;
+  filterBounds->m128_f32[0] = v36.x1;
+  y1 = v36.y1;
+  filterBounds->m128_f32[1] = v36.y1;
+  x2 = v36.x2;
+  filterBounds->m128_f32[2] = v36.x2;
+  y2 = v36.y2;
+  filterBounds->m128_f32[3] = v36.y2;
   filterAreaMatrix->M[0][0] = x2 - x1;
   filterAreaMatrix->M[0][1] = 0.0;
   filterAreaMatrix->M[0][2] = 0.0;

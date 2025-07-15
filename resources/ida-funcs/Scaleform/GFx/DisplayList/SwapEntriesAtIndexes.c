@@ -14,9 +14,9 @@ char __thiscall Scaleform::GFx::DisplayList::SwapEntriesAtIndexes(
   Scaleform::GFx::DisplayList::DisplayEntry *v12; // esi
   Scaleform::GFx::DisplayList *v13; // [esp+8h] [ebp-14h]
   Scaleform::GFx::DisplayObjectBase *v14; // [esp+Ch] [ebp-10h]
-  unsigned int e_4; // [esp+14h] [ebp-8h]
-  unsigned int e_8; // [esp+18h] [ebp-4h]
-  char origIndex2a; // [esp+28h] [ebp+Ch]
+  unsigned int TreeIndex; // [esp+14h] [ebp-8h]
+  unsigned int MaskTreeIndex; // [esp+18h] [ebp-4h]
+  char v17; // [esp+28h] [ebp+Ch]
 
   v13 = this;
   if ( origIndex1 == origIndex2 )
@@ -26,8 +26,8 @@ char __thiscall Scaleform::GFx::DisplayList::SwapEntriesAtIndexes(
   pCharacter = v6->pCharacter;
   if ( v6->pCharacter )
     ++pCharacter->RefCount;
-  e_4 = v6->TreeIndex;
-  e_8 = v6->MaskTreeIndex;
+  TreeIndex = v6->TreeIndex;
+  MaskTreeIndex = v6->MaskTreeIndex;
   if ( (pCharacter->Flags & 0x8000u) != 0
     || origIndex2 < this->DisplayObjectArray.Data.Size
     && (this->DisplayObjectArray.Data.Data[origIndex2].pCharacter->Flags & 0x8000u) != 0 )
@@ -61,10 +61,10 @@ char __thiscall Scaleform::GFx::DisplayList::SwapEntriesAtIndexes(
     }
     v12->pCharacter = pCharacter;
     ++pCharacter->RefCount;
-    v12->TreeIndex = e_4;
-    v12->MaskTreeIndex = e_8;
-    origIndex2a = Scaleform::GFx::DisplayList::SwapRenderTreeNodes(this, owner, origIndex1, origIndex2);
+    v12->TreeIndex = TreeIndex;
+    v12->MaskTreeIndex = MaskTreeIndex;
+    v17 = Scaleform::GFx::DisplayList::SwapRenderTreeNodes(this, owner, origIndex1, origIndex2);
     Scaleform::RefCountNTSImpl::Release(pCharacter);
-    return origIndex2a;
+    return v17;
   }
 }

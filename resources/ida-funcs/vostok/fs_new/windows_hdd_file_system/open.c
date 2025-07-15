@@ -1,60 +1,113 @@
-BOOL __thiscall vostok::fs_new::windows_hdd_file_system::open(
+bool __thiscall vostok::fs_new::windows_hdd_file_system::open(
         vostok::fs_new::windows_hdd_file_system *this,
-        char **out_handle,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *absolute_path,
-        const vostok::fs_new::open_file_params *params)
+        void **const out_handle,
+        const vostok::fs_new::native_path_string *absolute_path,
+        DWORD params)
 {
-  const char *v4; // eax
-  survarium::game_camera *v5; // ecx
-  DWORD desired_access; // [esp+8h] [ebp-14h]
-  char *handle; // [esp+Ch] [ebp-10h]
-  DWORD creation_disposition; // [esp+10h] [ebp-Ch]
-  DWORD flags; // [esp+14h] [ebp-8h]
+  DWORD v4; // esi
+  int v5; // eax
+  int v6; // eax
+  void *m_archive_handle; // ebx
+  char *FileA; // eax
+  vostok::buffer_string *v10; // ecx
+  char *v11; // ebx
+  vostok::fixed_string<128> *v12; // eax
+  vostok::fixed_string<128> *v13; // [esp-8h] [ebp-ACh]
+  vostok::fs_new::file_mode::mode_enum v14; // [esp-4h] [ebp-A8h]
+  vostok::fixed_string<128> v15; // [esp+Ch] [ebp-98h] BYREF
+  vostok::fs_new::windows_hdd_file_system *v16; // [esp+98h] [ebp-Ch]
+  DWORD dwFlagsAndAttributes; // [esp+9Ch] [ebp-8h]
+  DWORD dwDesiredAccess; // [esp+A0h] [ebp-4h]
 
-  flags = 128;
-  if ( params->use_buffering == use_buffering_false )
-    flags = 536871040;
-  desired_access = 0;
-  if ( params->access == read )
+  v4 = params;
+  v16 = this;
+  dwFlagsAndAttributes = 128;
+  if ( !*(_DWORD *)(params + 16) )
+    dwFlagsAndAttributes = 536871040;
+  v5 = *(_DWORD *)(params + 4);
+  dwDesiredAccess = 0;
+  if ( v5 == 1 )
   {
-    desired_access = 0x80000000;
+    dwDesiredAccess = 0x80000000;
   }
-  else if ( params->access )
+  else if ( v5 )
   {
-    if ( params->access == read_write )
-      desired_access = -1073741824;
-  }
-  else
-  {
-    desired_access = 0x40000000;
-  }
-  creation_disposition = 0;
-  if ( params->mode )
-  {
-    if ( params->mode == open_existing )
-    {
-      creation_disposition = 3;
-    }
-    else if ( params->mode == append_or_create )
-    {
-      creation_disposition = 4;
-    }
+    if ( v5 == 2 )
+      dwDesiredAccess = -1073741824;
   }
   else
   {
-    creation_disposition = 2;
+    dwDesiredAccess = 0x40000000;
   }
-  v4 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(absolute_path);
-  handle = (char *)CreateFileA(v4, desired_access, 3u, 0, creation_disposition, flags, 0);
-  if ( handle == (char *)-1 && params->assert_on_fail )
+  v6 = *(_DWORD *)params;
+  params = 0;
+  if ( v6 )
   {
-    vostok::fs_new::log_last_error(
-      (const char *)&stru_955E40.m_fat_it.m_type,
-      (survarium::game_camera *)&stru_955E40.m_prev_in_memory_type);
-    survarium::weapon_user_dead_state::finalize(v5);
+    if ( v6 == 1 )
+    {
+      params = 3;
+    }
+    else if ( v6 == 2 )
+    {
+      params = 4;
+    }
   }
-  if ( handle != (char *)-1 && params->mode == append_or_create )
-    SetFilePointer(handle, 0, 0, 2u);
-  *out_handle = handle;
-  return handle + 1 != 0;
+  else
+  {
+    params = 2;
+  }
+  m_archive_handle = this->m_archive_handle;
+  if ( m_archive_handle == (void *)-1
+    || !vostok::buffer_string::ends_with((vostok::buffer_string *)this, (int)absolute_path, ".db") )
+  {
+    FileA = (char *)CreateFileA(
+                      absolute_path->m_string.m_begin,
+                      dwDesiredAccess,
+                      3u,
+                      0,
+                      params,
+                      dwFlagsAndAttributes,
+                      0);
+    v11 = FileA;
+    if ( FileA == (char *)-1 )
+    {
+      if ( *(_DWORD *)(v4 + 8) )
+      {
+        if ( !debug_macro_helper_ignore_always_2 )
+        {
+          v14 = *(_DWORD *)(v4 + 4);
+          v13 = *(vostok::fixed_string<128> **)v4;
+          HIBYTE(params) = 0;
+          v12 = vostok::fs_new::file_open_flags_to_string(&v15, v13, v14);
+          vostok::debug::on_error(
+            (bool *)&params + 3,
+            process_error_true,
+            0,
+            "assertion_failed",
+            "fatal error",
+            ".\\windows_hdd_file_system.cpp",
+            "vostok::fs_new::windows_hdd_file_system::open",
+            (const char *)0x61,
+            (char *)&stru_7FC1E4.filter_stack.m_last,
+            absolute_path->m_string.m_begin,
+            v12->m_begin);
+          if ( vostok::debug::is_debugger_present() || HIBYTE(params) )
+            __debugbreak();
+        }
+      }
+    }
+    else if ( *(_DWORD *)v4 == 2 )
+    {
+      SetFilePointer(FileA, 0, 0, 2u);
+    }
+    *out_handle = v11;
+    if ( vostok::buffer_string::ends_with(v10, (int)absolute_path, ".db") )
+      v16->m_archive_handle = v11;
+    return v11 + 1 != 0;
+  }
+  else
+  {
+    *out_handle = m_archive_handle;
+    return 1;
+  }
 }

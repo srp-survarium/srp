@@ -2,7 +2,7 @@ vostok::render::grass_render_surface *__thiscall vostok::render::grass_render_su
         vostok::render::grass_render_surface *this,
         char a2)
 {
-  vostok::render::grass_render_surface::~grass_render_surface(this);
+  vostok::render::grass_render_surface::~grass_render_surface(this, (const char *)this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

@@ -5,7 +5,7 @@ lhash_node_st **__usercall getrn@<eax>(lhash_st *lh@<esi>, const void *data, uns
   lhash_node_st *v5; // edi
   lhash_node_st **i; // ebx
   lhash_node_st **p_next; // eax
-  unsigned int *rhasha; // [esp+14h] [ebp+8h]
+  int (__cdecl *comp)(const void *, const void *); // [esp+14h] [ebp+8h]
 
   v3 = lh->hash(data);
   ++lh->num_hash_calls;
@@ -13,7 +13,7 @@ lhash_node_st **__usercall getrn@<eax>(lhash_st *lh@<esi>, const void *data, uns
   v4 = v3 % lh->pmax;
   if ( v4 < lh->p )
     v4 = v3 % lh->num_alloc_nodes;
-  rhasha = (unsigned int *)lh->comp;
+  comp = lh->comp;
   v5 = lh->b[v4];
   for ( i = &lh->b[v4]; v5; i = p_next )
   {
@@ -21,7 +21,7 @@ lhash_node_st **__usercall getrn@<eax>(lhash_st *lh@<esi>, const void *data, uns
     if ( v5->hash == v3 )
     {
       ++lh->num_comp_calls;
-      if ( !((int (__cdecl *)(void *, const void *))rhasha)(v5->data, data) )
+      if ( !comp(v5->data, data) )
         break;
     }
     p_next = &v5->next;

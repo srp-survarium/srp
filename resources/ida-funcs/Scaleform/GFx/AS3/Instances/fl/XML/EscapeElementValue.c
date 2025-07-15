@@ -15,19 +15,19 @@ void __cdecl Scaleform::GFx::AS3::Instances::fl::XML::EscapeElementValue(
     switch ( Char_Advance0 )
     {
       case '"':
-        Scaleform::StringBuffer::AppendString(buf, aQuo, 6u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aQuo, 6u);
         break;
       case '&':
-        Scaleform::StringBuffer::AppendString(buf, aAmp_0, 5u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aAmp_3, 5u);
         break;
       case '\'':
-        Scaleform::StringBuffer::AppendString(buf, aApo, 6u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)aApo, 6u);
         break;
       case '<':
-        Scaleform::StringBuffer::AppendString(buf, "&lt;", 4u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&lt;", 4u);
         break;
       case '>':
-        Scaleform::StringBuffer::AppendString(buf, "&gt;", 4u);
+        Scaleform::StringBuffer::AppendString(buf, (const __m128i *)"&gt;", 4u);
         break;
       default:
         Scaleform::StringBuffer::AppendChar(buf, Char_Advance0);

@@ -5,17 +5,11 @@ void **__thiscall btCollisionDispatcher::allocateCollisionAlgorithm(btCollisionD
   void *v4; // edx
 
   m_collisionAlgorithmPoolAllocator = this->m_collisionAlgorithmPoolAllocator;
-  if ( m_collisionAlgorithmPoolAllocator->m_freeCount )
-  {
-    result = (void **)m_collisionAlgorithmPoolAllocator->m_firstFree;
-    v4 = *result;
-    --m_collisionAlgorithmPoolAllocator->m_freeCount;
-    m_collisionAlgorithmPoolAllocator->m_firstFree = v4;
-  }
-  else
-  {
-    ++gNumAlignedAllocs;
-    return (void **)sAlignedAllocFunc(size, 16);
-  }
+  if ( !m_collisionAlgorithmPoolAllocator->m_freeCount )
+    return (void **)btAlignedAllocInternal(size);
+  result = (void **)m_collisionAlgorithmPoolAllocator->m_firstFree;
+  v4 = *result;
+  --m_collisionAlgorithmPoolAllocator->m_freeCount;
+  m_collisionAlgorithmPoolAllocator->m_firstFree = v4;
   return result;
 }

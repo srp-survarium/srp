@@ -15,7 +15,7 @@ int __cdecl _except_handler3(_EXCEPTION_RECORD *pExcept, _EH3_EXCEPTION_REGISTRA
   v4 = pRN;
   if ( (pExcept->ExceptionFlags & 6) != 0 )
   {
-    _local_unwind2((int)pRN, 0xFFFFFFFF);
+    _local_unwind2((unsigned int)&pRN[1], (int)pRN, 0xFFFFFFFF);
     return 1;
   }
   else
@@ -46,7 +46,7 @@ int __cdecl _except_handler3(_EXCEPTION_RECORD *pExcept, _EH3_EXCEPTION_REGISTRA
             v9 = v4->ScopeTable;
             _global_unwind2(v4);
             v3 = v4 + 1;
-            _local_unwind2((int)v4, TryLevel);
+            _local_unwind2((unsigned int)&v4[1], (int)v4, TryLevel);
             _NLG_Notify((unsigned int)v9[TryLevel].HandlerFunc, (unsigned int)&v4[1], 1u);
             v4->TryLevel = *(&v9->EnclosingLevel + v10);
             v4 = 0;

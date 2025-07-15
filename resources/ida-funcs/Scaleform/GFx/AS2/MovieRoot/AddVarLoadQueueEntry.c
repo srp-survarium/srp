@@ -1,12 +1,12 @@
 void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
         Scaleform::GFx::AS2::MovieRoot *this,
-        Scaleform::GFx::InteractiveObject *ptargetChar,
-        char *purl,
+        Scaleform::String ptargetChar,
+        const __m128i *purl,
         Scaleform::GFx::LoadQueueEntry::LoadMethod method)
 {
   char v4; // bl
-  Scaleform::GFx::InteractiveObject *v5; // esi
-  Scaleform::GFx::InteractiveObject *v7; // eax
+  Scaleform::GFx::DisplayObject *pData; // esi
+  unsigned int v7; // eax
   int v8; // edi
   Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *v9; // edi
   Scaleform::GFx::CharacterHandle *pObject; // eax
@@ -16,28 +16,24 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
   Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *v14; // esi
   Scaleform::GFx::LoadQueueEntry *v15; // eax
   Scaleform::RefCountVImpl *v16; // eax
-  Scaleform::String url; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::String v17; // [esp+Ch] [ebp-4h] BYREF
 
   v4 = 0;
-  url.pData = 0;
-  v5 = ptargetChar;
-  if ( ptargetChar )
+  v17.pData = 0;
+  pData = (Scaleform::GFx::DisplayObject *)ptargetChar.pData;
+  if ( ptargetChar.pData )
   {
-    if ( ((ptargetChar->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x400) != 0
-        ? (unsigned int)ptargetChar
-        : 0) != 0
-      && (v7 = (ptargetChar->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x400) != 0
-             ? ptargetChar
-             : 0,
-          v8 = (*(int (__thiscall **)(int *))(*(&v7->Depth + v7->AvmObjOffset) + 120))(&v7->Depth + v7->AvmObjOffset),
+    if ( ((ptargetChar.pData[5].Size & 0x4000000) != 0 ? ptargetChar.HeapTypeBits : 0) != 0
+      && (v7 = (ptargetChar.pData[5].Size & 0x4000000) != 0 ? ptargetChar.HeapTypeBits : 0,
+          v8 = (*(int (__thiscall **)(unsigned int))(*(_DWORD *)(v7 + 4 * *(unsigned __int8 *)(v7 + 65) + 24) + 120))(v7 + 4 * *(unsigned __int8 *)(v7 + 65) + 24),
           v8 != -1) )
     {
       v14 = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *)this->pMovieImpl->pHeap->Alloc(this->pMovieImpl->pHeap, 108, 0);
       if ( v14 )
       {
-        Scaleform::String::String(&url, purl);
+        Scaleform::String::String(&v17, purl);
         v4 = 2;
-        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(v14, v8, &url, method, 1, 0);
+        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(v14, v8, &v17, method, 1, 0);
         v12 = v15;
       }
       else
@@ -45,25 +41,19 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
         v12 = 0;
       }
       if ( (v4 & 2) != 0 )
-        Scaleform::String::~String(&url);
+        Scaleform::String::~String(&v17);
     }
     else
     {
       v9 = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *)this->pMovieImpl->pHeap->Alloc(this->pMovieImpl->pHeap, 108, 0);
       if ( v9 )
       {
-        Scaleform::String::String((Scaleform::String *)&ptargetChar, purl);
-        pObject = v5->pNameHandle.pObject;
+        Scaleform::String::String(&ptargetChar, purl);
+        pObject = pData->pNameHandle.pObject;
         v4 = 1;
         if ( !pObject )
-          pObject = Scaleform::GFx::DisplayObject::CreateCharacterHandle(v5);
-        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(
-          v9,
-          pObject,
-          (const Scaleform::String *)&ptargetChar,
-          method,
-          1,
-          0);
+          pObject = Scaleform::GFx::DisplayObject::CreateCharacterHandle(pData);
+        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(v9, pObject, &ptargetChar, method, 1, 0);
         v12 = v11;
       }
       else
@@ -72,8 +62,8 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
       }
       if ( (v4 & 1) != 0 )
       {
-        v13 = (void *)((unsigned int)ptargetChar & 0xFFFFFFFC);
-        if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)ptargetChar & 0xFFFFFFFC) + 4), -1) == 1 )
+        v13 = (void *)(ptargetChar.HeapTypeBits & 0xFFFFFFFC);
+        if ( InterlockedExchangeAdd((volatile LONG *)((ptargetChar.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
       }
     }
@@ -99,7 +89,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
 void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
         Scaleform::GFx::AS2::MovieRoot *this,
         Scaleform::GFx::AS2::LoadVarsObject *ploadVars,
-        char *purl,
+        const __m128i *purl,
         Scaleform::GFx::LoadQueueEntry::LoadMethod method)
 {
   char v5; // bl
@@ -149,12 +139,12 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
 
 void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
         Scaleform::GFx::AS2::MovieRoot *this,
-        char *ptarget,
-        char *purl,
+        Scaleform::String ptarget,
+        const __m128i *purl,
         Scaleform::GFx::LoadQueueEntry::LoadMethod method)
 {
   char v4; // bl
-  char *v5; // ebp
+  Scaleform::String::DataDesc *pData; // ebp
   Scaleform::GFx::InteractiveObject *v7; // edi
   Scaleform::GFx::ASStringNode *v8; // eax
   int v9; // ecx
@@ -173,21 +163,28 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddVarLoadQueueEntry(
 
   v4 = 0;
   url.pData = 0;
-  v5 = ptarget;
-  ptarget = (char *)Scaleform::GFx::ASStringManager::CreateStringNode(this->BuiltinsMgr.pStringManager, ptarget);
-  ++*((_DWORD *)ptarget + 3);
+  pData = ptarget.pData;
+  ptarget.pData = (Scaleform::String::DataDesc *)Scaleform::GFx::ASStringManager::CreateStringNode(
+                                                   this->BuiltinsMgr.pStringManager,
+                                                   (__m128i *)ptarget.pData);
+  ++ptarget.pData[1].Size;
   v7 = this->FindTarget(this, &ptarget);
-  v8 = (Scaleform::GFx::ASStringNode *)ptarget;
-  --*((_DWORD *)ptarget + 3);
+  v8 = (Scaleform::GFx::ASStringNode *)ptarget.pData;
+  --ptarget.pData[1].Size;
   if ( !v8->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v8);
   if ( !v7 )
   {
-    ptarget = (char *)&buf;
+    ptarget.pData = (Scaleform::String::DataDesc *)uri;
     LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(this, 0);
     LOBYTE(url.pData) = (unsigned int)Scaleform::GFx::DisplayObjectBase::GetVersion(LevelMovie) > 6;
-    v10 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName((char *)url.pData, 0, v5, &ptarget, (bool)url.pData);
-    if ( *ptarget || v10 == -1 )
+    v10 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(
+            (const char *)url.pData,
+            0,
+            (const char *)pData,
+            (const char **)&ptarget,
+            (bool)url.pData);
+    if ( LOBYTE(ptarget.pData->Size) || v10 == -1 )
       return;
     goto LABEL_16;
   }
@@ -214,15 +211,9 @@ LABEL_16:
       v17 = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *)this->pMovieImpl->pHeap->Alloc(this->pMovieImpl->pHeap, 108, 0);
       if ( v17 )
       {
-        Scaleform::String::String((Scaleform::String *)&ptarget, purl);
+        Scaleform::String::String(&ptarget, purl);
         v4 = 2;
-        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(
-          v17,
-          v10,
-          (const Scaleform::String *)&ptarget,
-          method,
-          1,
-          0);
+        Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::GFxAS2LoadQueueEntry(v17, v10, &ptarget, method, 1, 0);
         v14 = v18;
       }
       else
@@ -231,8 +222,8 @@ LABEL_16:
       }
       if ( (v4 & 2) != 0 )
       {
-        v19 = (void *)((unsigned int)ptarget & 0xFFFFFFFC);
-        if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)ptarget & 0xFFFFFFFC) + 4), -1) == 1 )
+        v19 = (void *)(ptarget.HeapTypeBits & 0xFFFFFFFC);
+        if ( InterlockedExchangeAdd((volatile LONG *)((ptarget.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v19);
       }
       goto LABEL_22;

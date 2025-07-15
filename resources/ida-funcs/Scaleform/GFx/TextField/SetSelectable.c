@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::TextField::SetSelectable(Scaleform::GFx::TextFie
 {
   Scaleform::Render::Text::DocView *pObject; // eax
   Scaleform::Render::Text::EditorKitBase *v4; // esi
-  Scaleform::GFx::Resource **EditorKit; // edi
+  Scaleform::RefCountVImpl **EditorKit; // edi
   Scaleform::GFx::Resource *v6; // edi
 
   pObject = this->pDocument.pObject;
@@ -11,12 +11,12 @@ void __thiscall Scaleform::GFx::TextField::SetSelectable(Scaleform::GFx::TextFie
     Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject->pEditorKit.pObject);
   if ( (_BYTE)v )
   {
-    EditorKit = (Scaleform::GFx::Resource **)Scaleform::GFx::TextField::CreateEditorKit(this, (int)this, (int)&v);
+    EditorKit = Scaleform::GFx::TextField::CreateEditorKit(this, (int)this, (int)&v);
     if ( *EditorKit )
-      Scaleform::RefCountImpl::AddRef(*EditorKit);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)*EditorKit);
     if ( v4 )
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
-    v6 = *EditorKit;
+    v6 = (Scaleform::GFx::Resource *)*EditorKit;
     if ( v )
       Scaleform::RefCountImpl::Release(v);
     LOWORD(v6[10].pLib) |= 2u;

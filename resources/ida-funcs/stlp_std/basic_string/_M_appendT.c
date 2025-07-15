@@ -1,7 +1,7 @@
 stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *__thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char>>::_M_appendT<char const *>(
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *this,
         char *__first,
-        char *__last,
+        const char *__last,
         const stlp_std::forward_iterator_tag *__formal)
 {
   char *M_finish; // edx
@@ -18,14 +18,14 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
   char *v17; // edi
   unsigned __int8 v19; // al
   unsigned __int8 *v20; // edi
-  const char *__firsta; // [esp+Ch] [ebp+4h]
-  const char *__lasta; // [esp+10h] [ebp+8h]
+  unsigned __int8 *src; // [esp+Ch] [ebp+4h]
+  unsigned int v22; // [esp+10h] [ebp+8h]
 
   if ( __first == __last )
     return this;
   M_finish = this->_M_finish;
   v7 = __last - __first;
-  __firsta = (const char *)(__last - __first);
+  src = (unsigned __int8 *)(__last - __first);
   if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *)this->_M_start_of_storage._M_data == this )
     v8 = (char *)((char *)this - M_finish + 16);
   else
@@ -35,8 +35,8 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
     v19 = *__first;
     v20 = (unsigned __int8 *)(__first + 1);
     *M_finish = v19;
-    if ( __last != (char *)v20 )
-      memcpy((unsigned __int8 *)this->_M_finish + 1, v20, __last - (char *)v20);
+    if ( __last != (const char *)v20 )
+      memcpy((unsigned __int8 *)this->_M_finish + 1, v20, __last - (const char *)v20);
     this->_M_finish[v7] = 0;
     this->_M_finish += v7;
     return this;
@@ -46,7 +46,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
     size = stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char>>::_M_compute_next_size(
              this,
              __last - __first);
-    __lasta = (const char *)size;
+    v22 = size;
     if ( size <= 0x101 )
       p_M_start_of_storage = (unsigned __int8 *)&this->_M_start_of_storage;
     else
@@ -62,7 +62,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
       v14 = v11 - (char *)M_data;
       memcpy(p_M_start_of_storage, M_data, v11 - (char *)M_data);
       v13 = (unsigned __int8 *)(v14 + v15);
-      v7 = (unsigned int)__firsta;
+      v7 = (unsigned int)src;
     }
     memcpy(v13, (unsigned __int8 *)__first, v7);
     v17 = (char *)(v7 + v16);
@@ -70,7 +70,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
     stlp_std::priv::_String_base<char,stlp_std::priv::__iostring_allocator<char>>::_M_deallocate_block((stlp_std::priv::__basic_iostring<char> *)this);
     this->_M_start_of_storage._M_data = (char *)p_M_start_of_storage;
     this->_M_finish = v17;
-    this->_M_buffers._M_end_of_storage = (char *)&__lasta[(_DWORD)p_M_start_of_storage];
+    this->_M_buffers._M_end_of_storage = (char *)&p_M_start_of_storage[v22];
     return this;
   }
 }
@@ -79,7 +79,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostri
 stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_appendT<wchar_t const *>(
         stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *this,
         wchar_t *__first,
-        wchar_t *__last,
+        const wchar_t *__last,
         const stlp_std::forward_iterator_tag *__formal)
 {
   wchar_t *M_finish; // edx
@@ -97,15 +97,15 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__
   wchar_t *v18; // edi
   wchar_t v20; // dx
   unsigned __int8 *v21; // edi
-  const wchar_t *__firsta; // [esp+Ch] [ebp+4h]
-  unsigned int __lasta; // [esp+10h] [ebp+8h]
+  unsigned __int8 *src; // [esp+Ch] [ebp+4h]
+  unsigned int v23; // [esp+10h] [ebp+8h]
 
   if ( __first == __last )
     return this;
   M_finish = this->_M_finish;
   v7 = (char *)__last - (char *)__first;
   v8 = __last - __first;
-  __firsta = (const wchar_t *)((char *)__last - (char *)__first);
+  src = (unsigned __int8 *)((char *)__last - (char *)__first);
   if ( (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *)this->_M_start_of_storage._M_data == this )
     v9 = 16 - (((char *)M_finish - (char *)this) >> 1);
   else
@@ -115,7 +115,7 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__
     v20 = *__first;
     v21 = (unsigned __int8 *)(__first + 1);
     *this->_M_finish = v20;
-    if ( __last != (wchar_t *)v21 )
+    if ( __last != (const wchar_t *)v21 )
       memcpy((unsigned __int8 *)this->_M_finish + 2, v21, (char *)__last - (char *)v21);
     this->_M_finish[v8] = 0;
     this->_M_finish += v8;
@@ -124,7 +124,7 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__
   size = stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_compute_next_size(
            this,
            __last - __first);
-  __lasta = size;
+  v23 = size;
   if ( size <= 0x101 )
     p_M_start_of_storage = (unsigned __int8 *)&this->_M_start_of_storage;
   else
@@ -143,7 +143,7 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__
     v15 = (char *)v12 - (char *)M_data;
     memcpy(p_M_start_of_storage, M_data, (char *)v12 - (char *)M_data);
     v14 = (unsigned __int8 *)(v15 + v16);
-    v7 = (unsigned int)__firsta;
+    v7 = (unsigned int)src;
   }
   memcpy(v14, (unsigned __int8 *)__first, v7);
   v18 = (wchar_t *)(v7 + v17);
@@ -151,6 +151,6 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__
   stlp_std::priv::_String_base<wchar_t,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_deallocate_block((stlp_std::priv::__basic_iostring<wchar_t> *)this);
   this->_M_start_of_storage._M_data = (wchar_t *)p_M_start_of_storage;
   this->_M_finish = v18;
-  this->_M_buffers._M_end_of_storage = (wchar_t *)&p_M_start_of_storage[2 * __lasta];
+  this->_M_buffers._M_end_of_storage = (wchar_t *)&p_M_start_of_storage[2 * v23];
   return this;
 }

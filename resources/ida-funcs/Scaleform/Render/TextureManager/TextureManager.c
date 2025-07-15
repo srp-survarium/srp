@@ -14,7 +14,7 @@ void __thiscall Scaleform::Render::TextureManager::TextureManager(
 
   this->Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::TextureManager_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
-  this->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::Render::StateData::Interface::`vftable';
+  this->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::GFx::AMP::SocketImplFactory::`vftable';
   this->Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::TextureManager_vtbl *)&Scaleform::Render::TextureManager::`vftable'{for `Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>'};
   this->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::Render::TextureManager::`vftable'{for `Scaleform::Render::ImageUpdateSync'};
   this->ServiceCommandInstance.__vftable = (Scaleform::Render::TextureManager::ServiceCommand_vtbl *)&Scaleform::RefCountImplCore::`vftable';

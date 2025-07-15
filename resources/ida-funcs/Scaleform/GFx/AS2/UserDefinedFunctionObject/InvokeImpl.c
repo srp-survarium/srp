@@ -20,69 +20,72 @@ void __thiscall Scaleform::GFx::AS2::UserDefinedFunctionObject::InvokeImpl(
   Scaleform::GFx::FunctionHandler *pObject; // ecx
   char Type; // al
   Scaleform::GFx::Value *Data; // esi
-  Scaleform::ArrayCPP<Scaleform::GFx::Value,2,Scaleform::ArrayDefaultPolicy> args; // [esp+2Ch] [ebp-8Ch] BYREF
+  Scaleform::ArrayDataBase<Scaleform::GFx::Value,Scaleform::AllocatorGH_CPP<Scaleform::GFx::Value,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+2Ch] [ebp-8Ch] BYREF
   Scaleform::GFx::AS2::Environment *penv; // [esp+38h] [ebp-80h]
-  int i; // [esp+3Ch] [ebp-7Ch]
-  Scaleform::GFx::Value thisVal; // [esp+40h] [ebp-78h] BYREF
-  Scaleform::GFx::Value arg; // [esp+58h] [ebp-60h] BYREF
-  Scaleform::GFx::Value retVal; // [esp+70h] [ebp-48h] BYREF
+  int v22; // [esp+3Ch] [ebp-7Ch]
+  Scaleform::GFx::Value pdestVal; // [esp+40h] [ebp-78h] BYREF
+  Scaleform::GFx::Value v24; // [esp+58h] [ebp-60h] BYREF
+  Scaleform::GFx::Value gfxVal; // [esp+70h] [ebp-48h] BYREF
   Scaleform::GFx::AS2::UserDefinedFunctionObject *v26; // [esp+88h] [ebp-30h]
-  Scaleform::GFx::AS2::Value thisAS; // [esp+8Ch] [ebp-2Ch] BYREF
-  Scaleform::GFx::FunctionHandler::Params params; // [esp+9Ch] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::Value value; // [esp+8Ch] [ebp-2Ch] BYREF
+  _DWORD v28[4]; // [esp+9Ch] [ebp-1Ch] BYREF
+  Scaleform::GFx::Value *v29; // [esp+ACh] [ebp-Ch]
+  unsigned int v30; // [esp+B0h] [ebp-8h]
+  void *pUserData; // [esp+B4h] [ebp-4h]
 
   ThisPtr = fn->ThisPtr;
   Env = fn->Env;
   v26 = this;
   penv = Env;
-  memset(&args, 0, sizeof(args));
-  thisVal.pObjectInterface = 0;
-  thisVal.Type = VT_Undefined;
-  retVal.pObjectInterface = 0;
-  retVal.Type = VT_Undefined;
-  thisAS.T.Type = 0;
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
+  pdestVal.pObjectInterface = 0;
+  pdestVal.Type = VT_Undefined;
+  gfxVal.pObjectInterface = 0;
+  gfxVal.Type = VT_Undefined;
+  value.T.Type = 0;
   if ( ThisPtr )
   {
-    Scaleform::GFx::AS2::Value::SetAsObjectInterface(&thisAS, ThisPtr);
+    Scaleform::GFx::AS2::Value::SetAsObjectInterface(&value, ThisPtr);
   }
   else
   {
-    Scaleform::GFx::AS2::Value::DropRefs(&thisAS);
-    thisAS.T.Type = 1;
+    Scaleform::GFx::AS2::Value::DropRefs(&value);
+    value.T.Type = 1;
   }
   Scaleform::GFx::AS2::MovieRoot::ASValue2Value(
     (Scaleform::GFx::AS2::MovieRoot *)Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
     Env,
-    &thisAS,
-    &thisVal);
+    &value,
+    &pdestVal);
   Scaleform::ArrayDataBase<Scaleform::GFx::Value,Scaleform::AllocatorGH_CPP<Scaleform::GFx::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-    &args.Data,
-    &args,
+    &pheapAddr,
+    &pheapAddr,
     1u);
-  Size = args.Data.Size;
-  v5 = &args.Data.Data[args.Data.Size - 1];
-  if ( &args.Data.Data[args.Data.Size] != (Scaleform::GFx::Value *)24 )
+  Size = pheapAddr.Size;
+  v5 = &pheapAddr.Data[pheapAddr.Size - 1];
+  if ( &pheapAddr.Data[pheapAddr.Size] != (Scaleform::GFx::Value *)24 )
   {
     v5->pObjectInterface = 0;
-    v5->Type = thisVal.Type;
-    v5->mValue.NValue = thisVal.mValue.NValue;
-    v5->DataAux = thisVal.DataAux;
-    if ( (thisVal.Type & 0x40) != 0 )
+    v5->Type = pdestVal.Type;
+    v5->mValue.NValue = pdestVal.mValue.NValue;
+    v5->DataAux = pdestVal.DataAux;
+    if ( (pdestVal.Type & 0x40) != 0 )
     {
-      v5->pObjectInterface = thisVal.pObjectInterface;
-      thisVal.pObjectInterface->ObjectAddRef(thisVal.pObjectInterface, v5, (void *)v5->mValue.IValue);
+      v5->pObjectInterface = pdestVal.pObjectInterface;
+      pdestVal.pObjectInterface->ObjectAddRef(pdestVal.pObjectInterface, v5, (void *)v5->mValue.IValue);
     }
   }
   v6 = 0;
   v7 = fn->NArgs <= 0;
-  i = 0;
+  v22 = 0;
   if ( !v7 )
   {
     do
     {
       v8 = fn->FirstArgBottomIndex - v6;
       v9 = fn->Env;
-      arg.pObjectInterface = 0;
-      arg.Type = VT_Undefined;
+      v24.pObjectInterface = 0;
+      v24.Type = VT_Undefined;
       v10 = (char *)v9->Stack.pCurrent - (char *)v9->Stack.pPageStart;
       v11 = v9->Stack.Pages.Data.Size;
       p_Stack = &v9->Stack;
@@ -93,90 +96,90 @@ void __thiscall Scaleform::GFx::AS2::UserDefinedFunctionObject::InvokeImpl(
         (Scaleform::GFx::AS2::MovieRoot *)penv->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
         penv,
         v13,
-        &arg);
+        &v24);
       v14 = Size + 1;
       if ( Size + 1 >= Size )
       {
-        if ( v14 >= args.Data.Policy.Capacity )
+        if ( v14 >= pheapAddr.Policy.Capacity )
           Scaleform::ArrayDataBase<Scaleform::GFx::Value,Scaleform::AllocatorGH_CPP<Scaleform::GFx::Value,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            &args.Data,
-            &args,
+            &pheapAddr,
+            &pheapAddr,
             v14 + (v14 >> 2));
       }
       else
       {
-        Scaleform::ConstructorCPP<Scaleform::GFx::Value>::DestructArray(&args.Data.Data[v14], 0xFFFFFFFF);
-        if ( v14 < args.Data.Policy.Capacity >> 1 )
+        Scaleform::ConstructorCPP<Scaleform::GFx::Value>::DestructArray(&pheapAddr.Data[v14], 0xFFFFFFFF);
+        if ( v14 < pheapAddr.Policy.Capacity >> 1 )
           Scaleform::ArrayDataBase<Scaleform::GFx::Value,Scaleform::AllocatorGH_CPP<Scaleform::GFx::Value,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            &args.Data,
-            &args,
+            &pheapAddr,
+            &pheapAddr,
             v14);
       }
-      v15 = &args.Data.Data[v14 - 1];
+      v15 = &pheapAddr.Data[v14 - 1];
       ++Size;
-      args.Data.Size = v14;
-      if ( &args.Data.Data[v14] != (Scaleform::GFx::Value *)24 )
+      pheapAddr.Size = v14;
+      if ( &pheapAddr.Data[v14] != (Scaleform::GFx::Value *)24 )
       {
         v15->pObjectInterface = 0;
-        v15->Type = arg.Type;
-        v15->mValue.NValue = arg.mValue.NValue;
-        v15->DataAux = arg.DataAux;
-        if ( (arg.Type & 0x40) != 0 )
+        v15->Type = v24.Type;
+        v15->mValue.NValue = v24.mValue.NValue;
+        v15->DataAux = v24.DataAux;
+        if ( (v24.Type & 0x40) != 0 )
         {
           pStringManaged = v15->mValue.pStringManaged;
-          v15->pObjectInterface = arg.pObjectInterface;
-          arg.pObjectInterface->ObjectAddRef(arg.pObjectInterface, v15, pStringManaged);
+          v15->pObjectInterface = v24.pObjectInterface;
+          v24.pObjectInterface->ObjectAddRef(v24.pObjectInterface, v15, pStringManaged);
         }
       }
-      if ( (arg.Type & 0x40) != 0 )
-        arg.pObjectInterface->ObjectRelease(arg.pObjectInterface, &arg, (void *)arg.mValue.IValue);
-      v6 = i + 1;
-      v7 = ++i < fn->NArgs;
+      if ( (v24.Type & 0x40) != 0 )
+        v24.pObjectInterface->ObjectRelease(v24.pObjectInterface, &v24, (void *)v24.mValue.IValue);
+      v6 = v22 + 1;
+      v7 = ++v22 < fn->NArgs;
     }
     while ( v7 );
     Env = penv;
   }
   v7 = fn->NArgs <= 0;
-  params.pMovie = Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject->pMovieImpl;
-  params.pRetVal = &retVal;
-  params.pThis = &thisVal;
+  v28[1] = Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject->pMovieImpl;
+  v28[0] = &gfxVal;
+  v28[2] = &pdestVal;
   if ( v7 )
-    params.pArgs = 0;
+    v29 = 0;
   else
-    params.pArgs = args.Data.Data + 1;
-  params.ArgCount = Size - 1;
-  params.pUserData = v26->pUserData;
+    v29 = pheapAddr.Data + 1;
+  v30 = Size - 1;
+  pUserData = v26->pUserData;
   pObject = v26->pContext.pObject;
-  params.pArgsWithThisRef = args.Data.Data;
-  pObject->Call(pObject, &params);
-  Type = retVal.Type;
-  if ( (retVal.Type & 0x8F) != 0 )
+  v28[3] = pheapAddr.Data;
+  pObject->Call(pObject, (const Scaleform::GFx::FunctionHandler::Params *)v28);
+  Type = gfxVal.Type;
+  if ( (gfxVal.Type & 0x8F) != 0 )
   {
     Scaleform::GFx::AS2::MovieRoot::Value2ASValue(
       (Scaleform::GFx::AS2::MovieRoot *)Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
-      &retVal,
+      &gfxVal,
       fn->Result);
-    Type = retVal.Type;
+    Type = gfxVal.Type;
   }
-  if ( thisAS.T.Type >= 5u )
+  if ( value.T.Type >= 5u )
   {
-    Scaleform::GFx::AS2::Value::DropRefs(&thisAS);
-    Type = retVal.Type;
+    Scaleform::GFx::AS2::Value::DropRefs(&value);
+    Type = gfxVal.Type;
   }
   if ( (Type & 0x40) != 0 )
   {
-    retVal.pObjectInterface->ObjectRelease(retVal.pObjectInterface, &retVal, (void *)retVal.mValue.IValue);
-    retVal.pObjectInterface = 0;
+    gfxVal.pObjectInterface->ObjectRelease(gfxVal.pObjectInterface, &gfxVal, (void *)gfxVal.mValue.IValue);
+    gfxVal.pObjectInterface = 0;
   }
-  retVal.Type = VT_Undefined;
-  if ( (thisVal.Type & 0x40) != 0 )
+  gfxVal.Type = VT_Undefined;
+  if ( (pdestVal.Type & 0x40) != 0 )
   {
-    thisVal.pObjectInterface->ObjectRelease(thisVal.pObjectInterface, &thisVal, (void *)thisVal.mValue.IValue);
-    thisVal.pObjectInterface = 0;
+    pdestVal.pObjectInterface->ObjectRelease(pdestVal.pObjectInterface, &pdestVal, (void *)pdestVal.mValue.IValue);
+    pdestVal.pObjectInterface = 0;
   }
-  Data = args.Data.Data;
-  thisVal.Type = VT_Undefined;
-  Scaleform::ConstructorCPP<Scaleform::GFx::Value>::DestructArray(args.Data.Data, Size);
+  Data = pheapAddr.Data;
+  pdestVal.Type = VT_Undefined;
+  Scaleform::ConstructorCPP<Scaleform::GFx::Value>::DestructArray(pheapAddr.Data, Size);
   if ( Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
 }

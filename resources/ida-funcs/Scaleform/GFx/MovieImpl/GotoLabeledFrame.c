@@ -5,20 +5,20 @@ char __thiscall Scaleform::GFx::MovieImpl::GotoLabeledFrame(
 {
   Scaleform::GFx::MovieDefImpl *pObject; // eax
   const char *v6; // edi
-  unsigned int targetFrame; // [esp+Ch] [ebp-4h] BYREF
+  int v7; // [esp+Ch] [ebp-4h] BYREF
 
   if ( !this->pMainMovie )
     return 0;
   pObject = this->pMainMovieDef.pObject;
   v6 = (const char *)label;
-  targetFrame = -1;
+  v7 = -1;
   if ( pObject->pBindData.pObject->pDataDef.pObject->GetLabeledFrame(
          pObject->pBindData.pObject->pDataDef.pObject,
          (const char *)label,
-         &targetFrame,
+         (unsigned int *)&v7,
          0) )
   {
-    this->GotoFrame(this, offset + targetFrame);
+    this->GotoFrame(this, offset + v7);
     return 1;
   }
   else

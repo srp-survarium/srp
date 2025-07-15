@@ -2,26 +2,29 @@ void __usercall vostok::render::visibility_statistics_group::~visibility_statist
         vostok::render::visibility_statistics_group *this@<ecx>,
         _DWORD *a2@<eax>)
 {
-  a2[1047] = &vostok::render::statistics_base::`vftable';
-  a2[1000] = &vostok::render::statistics_base::`vftable';
-  a2[953] = &vostok::render::statistics_base::`vftable';
-  a2[906] = &vostok::render::statistics_base::`vftable';
-  a2[859] = &vostok::render::statistics_base::`vftable';
-  a2[812] = &vostok::render::statistics_base::`vftable';
-  a2[765] = &vostok::render::statistics_base::`vftable';
-  a2[718] = &vostok::render::statistics_base::`vftable';
-  a2[671] = &vostok::render::statistics_base::`vftable';
-  a2[624] = &vostok::render::statistics_base::`vftable';
-  a2[577] = &vostok::render::statistics_base::`vftable';
-  a2[530] = &vostok::render::statistics_base::`vftable';
-  a2[483] = &vostok::render::statistics_base::`vftable';
-  a2[436] = &vostok::render::statistics_base::`vftable';
-  a2[389] = &vostok::render::statistics_base::`vftable';
-  a2[342] = &vostok::render::statistics_base::`vftable';
-  a2[295] = &vostok::render::statistics_base::`vftable';
-  a2[248] = &vostok::render::statistics_base::`vftable';
-  a2[194] = &vostok::render::statistics_base::`vftable';
-  a2[140] = &vostok::render::statistics_base::`vftable';
-  a2[92] = &vostok::render::statistics_base::`vftable';
+  a2[1598] = &vostok::render::statistics_base::`vftable';
+  a2[1536] = &vostok::render::statistics_base::`vftable';
+  a2[1474] = &vostok::render::statistics_base::`vftable';
+  a2[1412] = &vostok::render::statistics_base::`vftable';
+  a2[1350] = &vostok::render::statistics_base::`vftable';
+  a2[1288] = &vostok::render::statistics_base::`vftable';
+  a2[1226] = &vostok::render::statistics_base::`vftable';
+  a2[1164] = &vostok::render::statistics_base::`vftable';
+  a2[1102] = &vostok::render::statistics_base::`vftable';
+  a2[1040] = &vostok::render::statistics_base::`vftable';
+  a2[978] = &vostok::render::statistics_base::`vftable';
+  a2[916] = &vostok::render::statistics_base::`vftable';
+  a2[854] = &vostok::render::statistics_base::`vftable';
+  a2[792] = &vostok::render::statistics_base::`vftable';
+  a2[730] = &vostok::render::statistics_base::`vftable';
+  a2[668] = &vostok::render::statistics_base::`vftable';
+  a2[606] = &vostok::render::statistics_base::`vftable';
+  a2[544] = &vostok::render::statistics_base::`vftable';
+  a2[482] = &vostok::render::statistics_base::`vftable';
+  a2[420] = &vostok::render::statistics_base::`vftable';
+  a2[358] = &vostok::render::statistics_base::`vftable';
+  a2[272] = &vostok::render::statistics_base::`vftable';
+  a2[186] = &vostok::render::statistics_base::`vftable';
+  a2[124] = &vostok::render::statistics_base::`vftable';
   a2[38] = &vostok::render::statistics_base::`vftable';
 }

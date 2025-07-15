@@ -1,94 +1,89 @@
-void __userpurge Wm4::ConvexHull1<float>::ConvexHull1<float>(
-        Wm4::ConvexHull1<float> *this@<edi>,
-        unsigned int iVertexQuantity@<eax>,
-        Wm4::Query::Type eQueryType@<ecx>,
-        const stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex> *a4@<esi>,
-        float *afVertex,
-        Wm4::ConvexHull1<float>::SortedVertex *fEpsilon,
-        bool bOwner)
+Wm4::ConvexHull1<float>::SortedVertex *__userpurge Wm4::ConvexHull1<float>::ConvexHull1<float>@<eax>(
+        int a1@<ecx>,
+        int a2@<xmm0>,
+        Wm4::ConvexHull1<float>::SortedVertex *this,
+        int iVertexQuantity,
+        float *afVertex)
 {
-  Wm4::ConvexHull1<float>::SortedVertex *M_start; // esi
+  unsigned int Value_low; // eax
+  Wm4::ConvexHull1<float>::SortedVertex *M_start; // edi
   int i; // eax
-  Wm4::ConvexHull1<float>::SortedVertex *M_finish; // ebx
-  int v10; // ebp
-  int v11; // eax
-  int j; // ecx
-  int *v13; // eax
-  stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex> v14; // [esp-18h] [ebp-2Ch]
-  stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex> v15; // [esp-Ch] [ebp-20h]
-  Wm4::ConvexHull1<float>::SortedVertex __val; // [esp+0h] [ebp-14h] BYREF
-  stlp_std::vector<Wm4::ConvexHull1<float>::SortedVertex,stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex> > kArray; // [esp+8h] [ebp-Ch] BYREF
-  float fEpsilona; // [esp+1Ch] [ebp+8h]
+  int v8; // esi
+  int v9; // ecx
+  int v10; // eax
+  Wm4::ConvexHull1<float>::SortedVertex *v11; // esi
+  int *v12; // eax
+  const stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex> *v14; // [esp+0h] [ebp-24h]
+  stlp_std::priv::_Impl_vector<Wm4::ConvexHull1<float>::SortedVertex,stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex> > v15; // [esp+Ch] [ebp-18h] BYREF
+  Wm4::ConvexHull1<float>::SortedVertex __val; // [esp+18h] [ebp-Ch] BYREF
 
-  this->m_fEpsilon = *(float *)&fEpsilon;
-  this->m_eQueryType = eQueryType;
+  Wm4::ConvexHull<float>::ConvexHull<float>((int)this, a1, a2, iVertexQuantity, 1);
+  LODWORD(this[4].Value) = afVertex;
   __val.Value = 0.0;
   __val.Index = 0;
-  this->m_iVertexQuantity = iVertexQuantity;
-  this->m_iDimension = 0;
-  this->m_iSimplexQuantity = 0;
-  this->m_aiIndex = 0;
-  this->m_bOwner = 1;
-  this->__vftable = (Wm4::ConvexHull1<float>_vtbl *)&Wm4::ConvexHull1<float>::`vftable';
-  this->m_afVertex = afVertex;
+  Value_low = LODWORD(this[1].Value);
+  LODWORD(this->Value) = &Wm4::ConvexHull1<float>::`vftable';
   stlp_std::priv::_Impl_vector<Wm4::ConvexHull1<float>::SortedVertex,stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex>>::_Impl_vector<Wm4::ConvexHull1<float>::SortedVertex,stlp_std::allocator<Wm4::ConvexHull1<float>::SortedVertex>>(
-    &kArray._M_impl,
-    iVertexQuantity,
+    &v15,
+    Value_low,
     &__val,
-    a4);
-  M_start = kArray._M_impl._M_start;
-  for ( i = 0; i < this->m_iVertexQuantity; ++i )
+    v14);
+  M_start = v15._M_start;
+  for ( i = 0; i < SLODWORD(this[1].Value); ++i )
   {
-    M_start[i].Value = this->m_afVertex[i];
+    M_start[i].Value = *(float *)(LODWORD(this[4].Value) + 4 * i);
     M_start[i].Index = i;
   }
-  M_finish = kArray._M_impl._M_finish;
-  if ( M_start != kArray._M_impl._M_finish )
+  if ( M_start != v15._M_finish )
   {
-    v10 = kArray._M_impl._M_finish - M_start;
-    v11 = v10;
-    for ( j = 0; v11 != 1; ++j )
-      v11 >>= 1;
+    v8 = v15._M_finish - M_start;
+    v9 = v8;
+    v10 = 0;
+    while ( v9 != 1 )
+    {
+      ++v10;
+      v9 >>= 1;
+    }
     stlp_std::priv::__introsort_loop<Wm4::ConvexHull1<float>::SortedVertex *,Wm4::ConvexHull1<float>::SortedVertex,int,stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>>(
       M_start,
-      kArray._M_impl._M_finish,
+      v15._M_finish,
       0,
-      2 * j,
-      (stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>)fEpsilon);
-    if ( v10 <= 16 )
+      2 * v10,
+      this);
+    if ( v8 <= 16 )
     {
       stlp_std::priv::__insertion_sort<Wm4::ConvexHull1<float>::SortedVertex *,Wm4::ConvexHull1<float>::SortedVertex,stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>>(
         M_start,
-        M_finish,
-        fEpsilon,
-        v15);
+        v15._M_finish,
+        this);
     }
     else
     {
+      v11 = M_start + 16;
       stlp_std::priv::__insertion_sort<Wm4::ConvexHull1<float>::SortedVertex *,Wm4::ConvexHull1<float>::SortedVertex,stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>>(
         M_start,
         M_start + 16,
-        fEpsilon,
-        v15);
-      stlp_std::priv::__unguarded_insertion_sort_aux<Wm4::ConvexHull1<float>::SortedVertex *,Wm4::ConvexHull1<float>::SortedVertex,stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>>(
-        M_start + 16,
-        M_finish,
-        fEpsilon,
-        v14);
+        this);
+      while ( v11 != v15._M_finish )
+      {
+        stlp_std::priv::__unguarded_linear_insert<Wm4::ConvexHull1<float>::SortedVertex *,Wm4::ConvexHull1<float>::SortedVertex,stlp_std::less<Wm4::ConvexHull1<float>::SortedVertex>>(
+          v11,
+          *v11);
+        ++v11;
+      }
     }
   }
-  fEpsilona = M_start[this->m_iVertexQuantity - 1].Value - M_start->Value;
-  if ( this->m_fEpsilon <= (double)fEpsilona )
+  if ( (float)(M_start[LODWORD(this[1].Value) - 1].Value - M_start->Value) >= this[3].Value )
   {
-    this->m_iDimension = 1;
-    this->m_iSimplexQuantity = 2;
-    v13 = (int *)operator new[](8u);
-    this->m_aiIndex = v13;
-    *v13 = M_start->Index;
-    this->m_aiIndex[1] = M_start[this->m_iVertexQuantity - 1].Index;
+    this[1].Index = 1;
+    LODWORD(this[2].Value) = 2;
+    v12 = (int *)operator new[](8u);
+    this[2].Index = (int)v12;
+    *v12 = M_start->Index;
+    *(_DWORD *)(this[2].Index + 4) = M_start[LODWORD(this[1].Value) - 1].Index;
   }
-  if ( (unsigned int)(8 * (kArray._M_impl._M_end_of_storage._M_data - M_start)) <= 0x80 )
-    stlp_std::__node_alloc::_M_deallocate(M_start, 8 * (kArray._M_impl._M_end_of_storage._M_data - M_start));
-  else
-    operator delete(M_start);
+  stlp_std::__node_alloc::deallocate(
+    (_STLP_atomic_freelist::item *)M_start,
+    8 * (v15._M_end_of_storage._M_data - M_start));
+  return this;
 }

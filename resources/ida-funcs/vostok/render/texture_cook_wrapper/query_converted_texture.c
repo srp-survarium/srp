@@ -1,43 +1,36 @@
-void __userpurge vostok::render::texture_cook_wrapper::query_converted_texture(
-        vostok::resources::query_result_for_cook *parent@<edi>,
-        vostok::render::texture_cook_wrapper *this)
+void __thiscall vostok::render::texture_cook_wrapper::query_converted_texture(
+        vostok::render::texture_cook_wrapper *this,
+        vostok::resources::query_result_for_cook *parent,
+        vostok::resources::query_result_for_cook *a3)
 {
-  char *m_requery_path; // eax
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::texture_cook_wrapper,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::render::texture_cook_wrapper *>,boost::arg<1> > > v4; // [esp-8h] [ebp-150h]
-  char *other; // [esp+4h] [ebp-144h] BYREF
-  vostok::resources::request requests; // [esp+8h] [ebp-140h] BYREF
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+10h] [ebp-138h] BYREF
-  vostok::fs_new::virtual_path_string converted_texture_path; // [esp+30h] [ebp-118h] BYREF
+  char *requested_path; // eax
+  vostok::fixed_string<260> *v4; // ecx
+  vostok::particle::particle_action *v5; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  int v7[8]; // [esp+10h] [ebp-138h] BYREF
+  vostok::fs_new::virtual_path_string in_out_result; // [esp+30h] [ebp-118h] BYREF
 
-  m_requery_path = parent->m_requery_path;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  other = m_requery_path;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&converted_texture_path, (const char **)&other);
-  vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>(&converted_texture_path);
-  v4.l_.a1_.t_ = this;
-  v4.f_.f_ = vostok::render::texture_cook_wrapper::on_texture_loaded;
-  callback.vtable = 0;
-  boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::texture_cook_wrapper,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::render::texture_cook_wrapper *>,boost::arg<1>>>>(
-    (boost::function1<void,vostok::resources::queries_result &> *)this,
-    (boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::texture_cook_wrapper,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::render::texture_cook_wrapper *>,boost::arg<1> > > *)&callback,
-    v4);
-  requests.path = converted_texture_path.m_string.m_begin;
-  requests.id = texture_class;
-  other = 0;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    &vostok::memory::g_mt_allocator,
-    (const vostok::variant<32> **)&other,
-    parent,
-    assert_on_fail_true);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
+  requested_path = (char *)vostok::resources::query_result_for_user::get_requested_path(a3);
+  vostok::fixed_string<260>::fixed_string<260>(v4, &in_out_result.m_string, requested_path);
+  in_out_result.m_separator = 47;
+  vostok::fs_new::set_extension_for_path<vostok::fs_new::virtual_path_string>(&in_out_result);
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(v5) )
   {
-    v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v3 )
-      v3(&callback.functor, &callback.functor, 2);
+    v7[0] = 0;
   }
+  else
+  {
+    v7[2] = (int)vostok::render::texture_cook_wrapper::on_texture_loaded;
+    v7[3] = (int)parent;
+    v7[0] = (int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::texture_cook_wrapper,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::render::texture_cook_wrapper *>,boost::arg<1>>>>'::`2'::stored_vtable
+          + 1;
+  }
+  vostok::resources::query_resource(
+    in_out_result.m_string.m_begin,
+    (vostok::variant<32> *)8,
+    &vostok::memory::g_mt_allocator,
+    0,
+    (const vostok::variant<32> **)a3,
+    assert_on_fail_true);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v6, v7);
 }

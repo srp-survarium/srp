@@ -7,16 +7,16 @@ void __thiscall Scaleform::GFx::AS2::StageCtorFunction::NotifyOnResize(
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // esi
   Scaleform::GFx::AS2::ObjectInterface *v6; // ebx
   Scaleform::GFx::MovieImpl *pMovieRoot; // ecx
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v8; // eax
   Scaleform::GFx::AS2::ObjectInterface *v9; // esi
   Scaleform::GFx::ASStringNode *v10; // eax
-  Scaleform::GFx::ASString eventName; // [esp+3Ch] [ebp-34h] BYREF
-  unsigned int v12; // [esp+40h] [ebp-30h]
-  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback pcallback; // [esp+44h] [ebp-2Ch] BYREF
-  int v14; // [esp+48h] [ebp-28h]
-  unsigned int v15; // [esp+4Ch] [ebp-24h]
-  Scaleform::GFx::AS2::Value result; // [esp+50h] [ebp-20h] BYREF
-  Scaleform::Render::Rect<float> rect; // [esp+60h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+Ch] [ebp-34h] BYREF
+  unsigned int v12; // [esp+10h] [ebp-30h]
+  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback v13; // [esp+14h] [ebp-2Ch] BYREF
+  int v14; // [esp+18h] [ebp-28h]
+  unsigned int v15; // [esp+1Ch] [ebp-24h]
+  Scaleform::GFx::AS2::Value result; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> rect; // [esp+30h] [ebp-10h] BYREF
 
   pContext = penv->StringContext.pContext;
   if ( pContext->GFxExtensions.Value == 1 )
@@ -36,23 +36,27 @@ void __thiscall Scaleform::GFx::AS2::StageCtorFunction::NotifyOnResize(
       v6 = 0;
     pMovieRoot = penv->StringContext.pContext->pMovieRoot;
     v12 = penv->Stack.pCurrent - penv->Stack.pPageStart + 32 * penv->Stack.Pages.Data.Size - 32;
-    eventName.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+    ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                         (Scaleform::GFx::ASStringManager *)pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                         "onResize",
                         8u,
                         0);
-    ++eventName.pNode->RefCount;
+    ++ConstStringNode->RefCount;
     if ( v6 )
     {
       v14 = 1;
-      pcallback.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
+      v13.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
       v15 = v12;
-      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(penv, v6, &eventName, &pcallback);
+      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
+        penv,
+        v6,
+        (const Scaleform::GFx::ASString *)&ConstStringNode,
+        &v13);
     }
-    pNode = eventName.pNode;
-    --eventName.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    v8 = ConstStringNode;
+    --ConstStringNode->RefCount;
+    if ( !v8->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v8);
     if ( p_Stack->pCurrent->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(p_Stack->pCurrent);
     --p_Stack->pCurrent;
@@ -67,21 +71,25 @@ void __thiscall Scaleform::GFx::AS2::StageCtorFunction::NotifyOnResize(
       v9 = &this->Scaleform::GFx::AS2::ObjectInterface;
     else
       v9 = 0;
-    eventName.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+    ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                         (Scaleform::GFx::ASStringManager *)pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                         "onResize",
                         8u,
                         0);
-    ++eventName.pNode->RefCount;
+    ++ConstStringNode->RefCount;
     if ( v9 )
     {
-      pcallback.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
+      v13.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
       v14 = 0;
       v15 = 0;
-      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(penv, v9, &eventName, &pcallback);
+      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
+        penv,
+        v9,
+        (const Scaleform::GFx::ASString *)&ConstStringNode,
+        &v13);
     }
-    v10 = eventName.pNode;
-    --eventName.pNode->RefCount;
+    v10 = ConstStringNode;
+    --ConstStringNode->RefCount;
     if ( !v10->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v10);
   }
@@ -93,18 +101,18 @@ void __cdecl Scaleform::GFx::AS2::StageCtorFunction::NotifyOnResize(const Scalef
   Scaleform::GFx::AS2::Environment *Env; // eax
   Scaleform::GFx::AS2::Object *v2; // eax
   Scaleform::GFx::AS2::ObjectInterface *v3; // eax
-  Scaleform::GFx::AS2::Value stageCtorVal; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v4; // [esp+Ch] [ebp-10h] BYREF
 
   Env = fn->Env;
-  stageCtorVal.T.Type = 0;
+  v4.T.Type = 0;
   if ( Env->StringContext.pContext->pGlobal.pObject->GetMemberRaw(
          &Env->StringContext.pContext->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface,
          &Env->StringContext,
          (const Scaleform::GFx::ASString *)&Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[11].AVMVersion,
-         &stageCtorVal)
-    && stageCtorVal.T.Type != 11 )
+         &v4)
+    && v4.T.Type != 11 )
   {
-    v2 = Scaleform::GFx::AS2::Value::ToObject(&stageCtorVal, fn->Env);
+    v2 = Scaleform::GFx::AS2::Value::ToObject(&v4, fn->Env);
     if ( v2 )
     {
       v3 = &v2->Scaleform::GFx::AS2::ObjectInterface;
@@ -114,6 +122,6 @@ void __cdecl Scaleform::GFx::AS2::StageCtorFunction::NotifyOnResize(const Scalef
           fn->Env);
     }
   }
-  if ( stageCtorVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&stageCtorVal);
+  if ( v4.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v4);
 }

@@ -45,8 +45,8 @@ char __thiscall Scaleform::GFx::MovieImpl::ReleaseLevelMovie(Scaleform::GFx::Mov
         if ( v15 )
           Scaleform::RefCountNTSImpl::Release(v15);
         memmove(
-          (unsigned __int8 *)&p_MovieLevels->Data.Data[v9],
-          (unsigned __int8 *)&p_MovieLevels->Data.Data[v9 + 1],
+          (int)&p_MovieLevels->Data.Data[v9],
+          (const __m128i *)&p_MovieLevels->Data.Data[v9 + 1],
           8 * (this->MovieLevels.Data.Size - v9) - 8);
         --this->MovieLevels.Data.Size;
       }
@@ -86,8 +86,8 @@ char __thiscall Scaleform::GFx::MovieImpl::ReleaseLevelMovie(Scaleform::GFx::Mov
           if ( v7 )
             Scaleform::RefCountNTSImpl::Release(v7);
           memmove(
-            (unsigned __int8 *)&v4->Data.Data[v6],
-            (unsigned __int8 *)&v4->Data.Data[v6 + 1],
+            (int)&v4->Data.Data[v6],
+            (const __m128i *)&v4->Data.Data[v6 + 1],
             8 * (this->MovieLevels.Data.Size - v6) - 8);
           --this->MovieLevels.Data.Size;
         }

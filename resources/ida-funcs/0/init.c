@@ -1,4 +1,4 @@
-int __cdecl init(env_md_ctx_st *ctx)
+int __cdecl init(WHIRLPOOL_CTX *ctx)
 {
-  return WHIRLPOOL_Init((WHIRLPOOL_CTX *)ctx->md_data);
+  return WHIRLPOOL_Init((WHIRLPOOL_CTX *)HIDWORD(ctx->H.q[1]));
 }

@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::StateBagImpl::StateBagImpl(
         Scaleform::GFx::StateBagImpl *this,
         Scaleform::GFx::Resource *pdelegate)
 {
-  Scaleform::GFx::StateBagImpl *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   this->Scaleform::RefCountBase<Scaleform::GFx::StateBagImpl,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::GFx::StateBagImpl_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -16,8 +16,8 @@ void __thiscall Scaleform::GFx::StateBagImpl::StateBagImpl(
   Scaleform::Lock::Lock(&this->StateLock, 0);
   if ( pdelegate )
     Scaleform::RefCountImpl::AddRef(pdelegate);
-  pObject = this->pDelegate.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pDelegate.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pDelegate.pObject = (Scaleform::GFx::StateBagImpl *)pdelegate;
 }

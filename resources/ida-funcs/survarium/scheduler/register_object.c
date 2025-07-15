@@ -1,39 +1,51 @@
-survarium::scheduler::record *__thiscall survarium::scheduler::register_object(
-        survarium::scheduler *this,
-        survarium::scheduler *identifier,
-        survarium::scheduler::identifier *callback,
-        boost::function<void __cdecl(unsigned int,unsigned int)> *active,
-        bool activea)
+survarium::scheduler::record *__userpurge survarium::scheduler::register_object@<eax>(
+        survarium::scheduler *this@<ecx>,
+        int a2@<edx>,
+        survarium::scheduler::identifier *identifier,
+        boost::function<void __cdecl(unsigned int,unsigned int)> *callback,
+        const bool active)
 {
-  int v5; // eax
-  unsigned int v6; // ecx
-  vostok::vectora<survarium::scheduler::record> *v7; // edi
-  void (__cdecl *v8)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  stlp_std::reverse_iterator<survarium::scheduler::record *> *v6; // edi
+  int v7; // eax
+  survarium::scheduler::record *current; // eax
   int v9; // esi
-  survarium::scheduler::record __x; // [esp+10h] [ebp-38h] BYREF
+  const stlp_std::__false_type *v11; // [esp+0h] [ebp-48h]
+  unsigned int v12; // [esp+4h] [ebp-44h]
+  bool v13; // [esp+8h] [ebp-40h]
+  survarium::scheduler::record __that; // [esp+10h] [ebp-38h] BYREF
 
-  v5 = *(_DWORD *)callback & 0x7FFFFFFF;
-  __x.m_callback.vtable = 0;
-  v6 = v5 | (activea << 31);
-  *callback = (survarium::scheduler::identifier)v6;
-  v7 = identifier->m_objects[v6 >> 31];
-  *callback = (survarium::scheduler::identifier)(v6 ^ (v6 ^ (v7->_M_impl._M_finish - v7->_M_impl._M_start)) & 0x7FFFFFFF);
-  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::push_back(
-    (stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *)&__x,
-    &__x);
-  if ( __x.m_callback.vtable )
+  *(_DWORD *)identifier |= 0x80000000;
+  v5 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)*identifier;
+  v6 = *(stlp_std::reverse_iterator<survarium::scheduler::record *> **)(a2 + 4 * (*(unsigned int *)identifier >> 31) + 32);
+  v7 = v6[1].current - v6->current;
+  __that.m_callback.vtable = 0;
+  *identifier = (survarium::scheduler::identifier)((unsigned int)v5 ^ ((unsigned int)v5 ^ v7) & 0x7FFFFFFF);
+  current = v6[1].current;
+  if ( current == v6[3].current )
   {
-    if ( ((int)__x.m_callback.vtable & 1) == 0 )
-    {
-      v8 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)__x.m_callback.vtable & 0xFFFFFFFE);
-      if ( v8 )
-        v8(&__x.m_callback.functor, &__x.m_callback.functor, 2);
-    }
+    stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::_M_insert_overflow_aux(
+      (stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *)&__that,
+      v6,
+      current,
+      &__that,
+      v11,
+      v12,
+      v13);
   }
-  v9 = (int)&v7->_M_impl._M_finish[-1];
-  *(_DWORD *)v9 = callback;
-  boost::function<void __cdecl (unsigned char,vostok::network_core::packet_reader &)>::operator=(
-    active,
-    (boost::function2<void,unsigned int,unsigned int> *)(v9 + 8));
+  else
+  {
+    if ( current )
+      survarium::scheduler::record::record(&__that, v6[1].current);
+    ++v6[1].current;
+  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v5,
+    (int *)&__that.m_callback);
+  v9 = (int)&v6[1].current[-1];
+  *(_DWORD *)v9 = identifier;
+  boost::function<void __cdecl (unsigned int,unsigned int)>::operator=(
+    callback,
+    (boost::function1<void,vostok::physics::contact_point const &> *)(v9 + 8));
   return (survarium::scheduler::record *)v9;
 }

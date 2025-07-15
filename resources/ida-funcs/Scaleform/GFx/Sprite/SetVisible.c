@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::Sprite::SetVisible(Scaleform::GFx::Sprite *this,
     v7 = Scaleform::GFx::Sprite::CheckAdvanceStatus(this, v6);
     if ( v7 == -1 )
     {
-      this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+      this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     }
     else if ( v7 == 1 )
     {

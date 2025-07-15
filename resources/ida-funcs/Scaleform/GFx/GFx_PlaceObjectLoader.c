@@ -1,51 +1,50 @@
-void __thiscall Scaleform::GFx::GFx_PlaceObjectLoader(
-        Scaleform::GFx::AS3::RefCountBaseGC<328> *this,
-        Scaleform::GFx::Stream *p,
-        const Scaleform::GFx::TagInfo *tagInfo)
+void __stdcall Scaleform::GFx::GFx_PlaceObjectLoader(Scaleform::GFx::Stream *p, const Scaleform::GFx::TagInfo *tagInfo)
 {
-  Scaleform::GFx::SWFProcessInfo *p_DataSize; // ebp
-  unsigned int v4; // eax
-  Scaleform::GFx::MovieDataDef::LoadTaskData *v5; // ecx
-  unsigned int BytesLeft; // edx
-  unsigned int v7; // edi
-  Scaleform::GFx::DataAllocator *p_TagMemAllocator; // ecx
-  unsigned int v9; // eax
+  unsigned int *p_DataSize; // ebp
+  int v3; // eax
+  int v4; // ecx
+  unsigned int v5; // edx
+  unsigned int v6; // edi
+  Scaleform::GFx::DataAllocator *v7; // ecx
+  unsigned int v8; // eax
   unsigned __int8 *pCurrent; // esi
+  unsigned __int8 *v10; // eax
   Scaleform::GFx::PlaceObjectTag *v11; // eax
-  Scaleform::GFx::PlaceObjectTag *v12; // eax
-  Scaleform::GFx::PlaceObjectTag *v13; // esi
+  Scaleform::GFx::PlaceObjectTag *v12; // esi
 
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(this);
-  p_DataSize = *(Scaleform::GFx::SWFProcessInfo **)&p[1].BuiltinBuffer[204];
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    (Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess> *)&p->CurrentByte,
+    "  PlaceObject\n");
+  p_DataSize = *(unsigned int **)&p[1].BuiltinBuffer[204];
   if ( !p_DataSize )
-    p_DataSize = (Scaleform::GFx::SWFProcessInfo *)&p->DataSize;
-  v4 = Scaleform::GFx::PlaceObject3Tag::ComputeDataSize(&p_DataSize->Stream);
-  v5 = (Scaleform::GFx::MovieDataDef::LoadTaskData *)p->TagStack[0];
-  BytesLeft = v5->TagMemAllocator.BytesLeft;
-  v7 = v4;
-  p_TagMemAllocator = &v5->TagMemAllocator;
-  v9 = (v4 + 10) & 0xFFFFFFFC;
-  if ( v9 > BytesLeft )
+    p_DataSize = &p->DataSize;
+  v3 = Scaleform::GFx::PlaceObjectTag::ComputeDataSize((Scaleform::GFx::Stream *)p_DataSize);
+  v4 = p->TagStack[0];
+  v5 = *(_DWORD *)(v4 + 12);
+  v6 = v3;
+  v7 = (Scaleform::GFx::DataAllocator *)(v4 + 8);
+  v8 = (v3 + 10) & 0xFFFFFFFC;
+  if ( v8 > v5 )
   {
-    v11 = (Scaleform::GFx::PlaceObjectTag *)Scaleform::GFx::DataAllocator::OverflowAlloc(p_TagMemAllocator, v9);
+    v10 = Scaleform::GFx::DataAllocator::OverflowAlloc(v7, v8);
   }
   else
   {
-    pCurrent = p_TagMemAllocator->pCurrent;
-    p_TagMemAllocator->pCurrent += v9;
-    p_TagMemAllocator->BytesLeft = BytesLeft - v9;
-    v11 = (Scaleform::GFx::PlaceObjectTag *)pCurrent;
+    pCurrent = v7->pCurrent;
+    v7->pCurrent += v8;
+    v7->BytesLeft = v5 - v8;
+    v10 = pCurrent;
   }
-  if ( v11 )
+  if ( v10 )
   {
-    Scaleform::GFx::PlaceObjectTag::PlaceObjectTag(v11);
-    v13 = v12;
+    Scaleform::GFx::PlaceObjectTag::PlaceObjectTag((Scaleform::GFx::PlaceObjectTag *)v10);
+    v12 = v11;
   }
   else
   {
-    v13 = 0;
+    v12 = 0;
   }
-  Scaleform::GFx::Stream::ReadToBuffer(&p_DataSize->Stream, v13->pData, v7);
-  Scaleform::GFx::PlaceObjectTag::CheckForCxForm(v13, v7);
-  Scaleform::GFx::LoadProcess::AddExecuteTag((Scaleform::GFx::LoadProcess *)p, v13);
+  Scaleform::GFx::Stream::ReadToBuffer((Scaleform::GFx::Stream *)p_DataSize, v12->pData, v6);
+  Scaleform::GFx::PlaceObjectTag::CheckForCxForm(v12, v6);
+  Scaleform::GFx::LoadProcess::AddExecuteTag((Scaleform::GFx::LoadProcess *)p, v12);
 }

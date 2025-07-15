@@ -1,6 +1,6 @@
 Scaleform::File *__thiscall Scaleform::GFx::FileOpener::OpenFile(
         Scaleform::GFx::FileOpener *this,
-        const char *purl,
+        char *purl,
         int flags,
         int modes)
 {

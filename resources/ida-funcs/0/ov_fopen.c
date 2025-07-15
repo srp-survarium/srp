@@ -1,13 +1,13 @@
-int __cdecl ov_fopen(const char *path, OggVorbis_File *vf)
+int __cdecl ov_fopen(char *path, OggVorbis_File *vf)
 {
-  int ret; // [esp+0h] [ebp-8h]
-  _iobuf *f; // [esp+4h] [ebp-4h]
+  int v3; // [esp+0h] [ebp-8h]
+  _iobuf *stream; // [esp+4h] [ebp-4h]
 
-  f = fopen(path, mode);
-  if ( !f )
+  stream = fopen(path, aRb_1);
+  if ( !stream )
     return -1;
-  ret = ov_open(f, vf, 0, 0);
-  if ( ret )
-    fclose(f);
-  return ret;
+  v3 = ov_open(stream, vf, 0, 0);
+  if ( v3 )
+    fclose(stream);
+  return v3;
 }

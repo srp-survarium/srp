@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx::MouseEve
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_gfx::MouseEventExCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = v4;
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx::MouseEve
   if ( v7 )
   {
     Scaleform::GFx::AS3::Class::Class(v7, this);
-    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_gfx::MouseEventEx::`vftable';
     v8[1].__vftable = 0;
     v8[1].pRCCRaw = 1;
     v8[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)2;
@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_gfx::MouseEventEx::MouseEve
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

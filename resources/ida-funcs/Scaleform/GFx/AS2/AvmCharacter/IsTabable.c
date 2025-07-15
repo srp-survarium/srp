@@ -1,17 +1,17 @@
-char __thiscall Scaleform::GFx::AS2::AvmCharacter::IsTabable(Scaleform::GFx::AS2::AvmCharacter *this)
+bool __thiscall Scaleform::GFx::AS2::AvmCharacter::IsTabable(Scaleform::GFx::AS2::AvmCharacter *this)
 {
-  char result; // al
+  bool result; // al
   Scaleform::GFx::AS2::Object *pObject; // ebx
   Scaleform::GFx::AS2::AvmCharacter_vtbl *v4; // edx
   const Scaleform::GFx::AS2::Environment *v5; // ebp
   bool v6; // bl
   Scaleform::GFx::ASStringNode *v7; // eax
-  char v8; // bl
+  bool v8; // bl
   Scaleform::GFx::InteractiveObject *pDispObj; // eax
   unsigned __int8 AvmObjOffset; // cl
   int v11; // eax
   Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+Ch] [ebp-14h] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v13; // [esp+10h] [ebp-10h] BYREF
 
   result = this->pDispObj->GetVisible(this->pDispObj);
   if ( !result )
@@ -22,7 +22,7 @@ char __thiscall Scaleform::GFx::AS2::AvmCharacter::IsTabable(Scaleform::GFx::AS2
   if ( pObject )
   {
     v4 = this->Scaleform::GFx::AvmInteractiveObjBase::Scaleform::GFx::AvmDisplayObjBase::__vftable;
-    val.T.Type = 0;
+    v13.T.Type = 0;
     v5 = v4->GetASEnvironment(this);
     ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                         (Scaleform::GFx::ASStringManager *)v5->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
@@ -34,20 +34,20 @@ char __thiscall Scaleform::GFx::AS2::AvmCharacter::IsTabable(Scaleform::GFx::AS2
            &pObject->Scaleform::GFx::AS2::ObjectInterface,
            &v5->StringContext,
            (const Scaleform::GFx::ASString *)&ConstStringNode,
-           &val);
+           &v13);
     v7 = ConstStringNode;
     --ConstStringNode->RefCount;
     if ( !v7->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-    if ( v6 && val.T.Type && val.T.Type != 10 )
+    if ( v6 && v13.T.Type && v13.T.Type != 10 )
     {
-      v8 = Scaleform::GFx::AS2::Value::ToBool(&val, v5);
-      if ( val.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&val);
+      v8 = Scaleform::GFx::AS2::Value::ToBool(&v13, (int)this, v5);
+      if ( v13.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v13);
       return v8;
     }
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
+    if ( v13.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v13);
   }
   pDispObj = this->pDispObj;
   AvmObjOffset = pDispObj->AvmObjOffset;

@@ -1,22 +1,20 @@
-unsigned __int8 __usercall vostok::render::select_model_template@<al>(
-        float *values@<esi>,
-        unsigned __int8 count@<cl>,
-        float sum)
+__m128 __cdecl vostok::render::select_model_template(float *const values, float sum)
 {
-  unsigned __int64 v3; // rax
-  unsigned __int8 result; // al
-  float p; // [esp+8h] [ebp+4h]
+  vostok::math::random32 *v2; // ecx
+  __m128 result; // xmm0
+  unsigned __int8 i; // al
+  __m128 v5; // xmm1
+  float v6; // [esp+4h] [ebp-4h]
 
-  model_index_random.m_seed = 134775813 * model_index_random.m_seed + 1;
-  v3 = (unsigned __int64)model_index_random.m_seed << 20;
-  result = 0;
-  p = (double)HIDWORD(v3) * 0.00000095367432 * sum;
-  if ( !count )
-    return count - 1;
-  while ( values[result] <= p )
+  result.m128_i32[0] = 0;
+  v6 = vostok::math::random32::random_f(v2, sum);
+  for ( i = 0; ; ++i )
   {
-    if ( ++result >= count )
-      return count - 1;
+    v5 = (__m128)LODWORD(values[i]);
+    v5.m128_f32[0] = v5.m128_f32[0] + result.m128_f32[0];
+    result = v5;
+    if ( v5.m128_f32[0] >= v6 )
+      break;
   }
   return result;
 }

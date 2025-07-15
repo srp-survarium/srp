@@ -1,26 +1,27 @@
 double __usercall vostok::resources::resource_quality::update_satisfaction_for_resource_with_quality@<st0>(
         vostok::resources::resource_quality *this@<ecx>,
-        vostok::resources::resource_quality *a2@<edi>,
-        double a3@<st0>)
+        vostok::resources::resource_quality *a2@<esi>)
 {
-  vostok::threading::simple_lock *v3; // esi
+  vostok::threading::simple_lock *v2; // edi
   vostok::resources::resource_link *m_first; // eax
-  unsigned int i; // ecx
+  unsigned int quality_value; // ecx
   double result; // st7
 
-  v3 = &a2->m_children_resources.vostok::threading::simple_lock;
+  v2 = &a2->m_children_resources.vostok::threading::simple_lock;
   vostok::threading::simple_lock::lock(
     (vostok::threading::simple_lock *)this,
-    &a2->m_children_resources.vostok::threading::simple_lock);
+    (int)&a2->m_children_resources.vostok::threading::simple_lock);
   m_first = a2->m_children_resources.m_first;
-  for ( i = -1; m_first; m_first = m_first->next_link )
+  quality_value = -1;
+  while ( m_first )
   {
-    if ( i == -1 || m_first->quality_value < i )
-      i = m_first->quality_value;
+    if ( quality_value == -1 || m_first->quality_value < quality_value )
+      quality_value = m_first->quality_value;
+    m_first = m_first->next_link;
   }
-  if ( v3->m_lock-- == 1 )
+  if ( v2->m_lock-- == 1 )
     _InterlockedExchange(&a2->m_children_resources.m_thread_id, 0);
-  result = vostok::resources::resource_quality::satisfaction(a2, a3, i, 0, 0);
+  result = vostok::resources::resource_quality::satisfaction(a2, quality_value, 0, 0);
   a2->m_current_satisfaction = result;
   return result;
 }

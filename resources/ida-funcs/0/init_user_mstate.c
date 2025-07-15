@@ -1,61 +1,40 @@
-malloc_state *__usercall init_user_mstate@<eax>(char *tbase@<eax>, unsigned int tsize)
+malloc_state *__cdecl init_user_mstate(char *tbase, unsigned int tsize)
 {
-  int v3; // eax
-  int v4; // ebp
-  char *v5; // esi
-  unsigned int default_mflags; // ecx
-  unsigned int magic; // eax
-  char *v8; // eax
-  int v9; // ecx
-  char *v10; // edx
-  unsigned int v11; // edi
-  int v12; // ecx
-  char *v13; // edx
-  unsigned int v14; // eax
+  char *v2; // edi
+  malloc_state *v3; // esi
+  unsigned int magic; // ecx
+  char *v5; // ecx
+  int v6; // edi
+  malloc_chunk *v7; // ecx
 
-  v3 = (unsigned __int8)tbase & 7;
-  if ( v3 )
-    v4 = -v3 & 7;
-  else
-    v4 = 0;
-  v5 = &tbase[v4 + 8];
-  memset((int)v5, 0, 0x1E0u);
-  default_mflags = mparams.default_mflags;
+  v2 = &tbase[((unsigned __int8)tbase & 7) != 0 ? -((unsigned __int8)tbase & 7) & 7 : 0];
+  v3 = (malloc_state *)(v2 + 8);
+  memset((int)(v2 + 8), 0, 0x1E0u);
   magic = mparams.magic;
-  *(_DWORD *)&tbase[v4 + 4] = 483;
-  *((_DWORD *)v5 + 9) = magic;
-  *((_DWORD *)v5 + 110) = default_mflags | 4;
-  *((_DWORD *)v5 + 4) = tbase;
-  *((_DWORD *)v5 + 111) = tbase;
-  *((_DWORD *)v5 + 109) = tsize;
-  *((_DWORD *)v5 + 108) = tsize;
-  *((_DWORD *)v5 + 112) = tsize;
-  *((_DWORD *)v5 + 8) = 255;
-  *((_DWORD *)v5 + 117) = 0;
-  *((_DWORD *)v5 + 118) = 0;
-  *((_DWORD *)v5 + 115) = 0;
-  *((_DWORD *)v5 + 116) = 0;
-  v8 = &tbase[v4 + 48];
-  v9 = 32;
+  *((_DWORD *)v2 + 1) = 483;
+  *((_DWORD *)v2 + 11) = magic;
+  *((_DWORD *)v2 + 119) = 0;
+  *((_DWORD *)v2 + 120) = 0;
+  *((_DWORD *)v2 + 117) = 0;
+  *((_DWORD *)v2 + 118) = 0;
+  *((_DWORD *)v2 + 112) = mparams.default_mflags | 4;
+  *((_DWORD *)v2 + 6) = tbase;
+  *((_DWORD *)v2 + 113) = tbase;
+  *((_DWORD *)v2 + 111) = tsize;
+  *((_DWORD *)v2 + 110) = tsize;
+  *((_DWORD *)v2 + 114) = tsize;
+  *((_DWORD *)v2 + 10) = 255;
+  v5 = v2 + 48;
+  v6 = 32;
   do
   {
-    *((_DWORD *)v8 + 3) = v8;
-    *((_DWORD *)v8 + 2) = v8;
-    v8 += 8;
-    --v9;
+    --v6;
+    *((_DWORD *)v5 + 3) = v5;
+    *((_DWORD *)v5 + 2) = v5;
+    v5 += 8;
   }
-  while ( v9 );
-  v10 = &tbase[v4 + (*(_DWORD *)&tbase[v4 + 4] & 0xFFFFFFF8)];
-  v11 = -((*(_DWORD *)&tbase[v4 + 4] & 0xFFFFFFF8) + v4);
-  v12 = ((*(v5 - 4) & 0xF8) + (_BYTE)v5 - 8) & 7;
-  if ( (((*(v5 - 4) & 0xF8) + (_BYTE)v5 - 8) & 7) != 0 )
-    v12 = -v12 & 7;
-  v13 = &v10[v12];
-  v14 = v11 + tsize - 40 - v12;
-  *((_DWORD *)v5 + 6) = v13;
-  *((_DWORD *)v5 + 3) = v14;
-  *((_DWORD *)v13 + 1) = v14 | 1;
-  *(_DWORD *)&v13[v14 + 4] = 40;
-  *((_DWORD *)v5 + 7) = mparams.trim_threshold;
-  return (malloc_state *)v5;
+  while ( v6 );
+  v7 = (malloc_chunk *)((char *)v3 + ((int)v3[-1].out_of_memory_parameter & 0xFFFFFFF8) - 8);
+  init_top(v3, v7, tbase - (char *)v7 + tsize - 40);
+  return v3;
 }

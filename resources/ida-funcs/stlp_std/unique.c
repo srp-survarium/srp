@@ -1,20 +1,27 @@
-vostok::physics::base_physics_object **__cdecl stlp_std::unique<vostok::physics::base_physics_object * *>(
-        vostok::physics::base_physics_object **__first,
-        vostok::physics::base_physics_object **__last)
+unsigned int *__usercall stlp_std::unique<unsigned int *>@<eax>(
+        unsigned int *__first@<eax>,
+        unsigned int *__last@<esi>)
 {
-  stlp_std::equal_to<vostok::physics::base_physics_object *> *v2; // eax
-  survarium::game_camera *v3; // ecx
-  stlp_std::equal_to<vostok::physics::base_physics_object *> result; // [esp+13h] [ebp-5h] BYREF
-  vostok::physics::base_physics_object **v6; // [esp+14h] [ebp-4h]
+  unsigned int *v2; // ecx
+  unsigned int *i; // eax
 
-  v2 = stlp_std::priv::__equal_to<vostok::physics::base_physics_object *>(&result, 0);
-  v6 = stlp_std::adjacent_find<vostok::physics::base_physics_object * *,stlp_std::equal_to<vostok::physics::base_physics_object *>>(
-         __first,
-         __last,
-         (stlp_std::equal_to<vostok::physics::base_physics_object *>)v2->stlp_std::binary_function<vostok::physics::base_physics_object *,vostok::physics::base_physics_object *,bool>);
-  survarium::weapon_user_dead_state::finalize(v3);
-  return stlp_std::unique_copy<vostok::physics::base_physics_object * *,vostok::physics::base_physics_object * *>(
-           v6,
-           __last,
-           v6);
+  v2 = __first;
+  if ( __first == __last )
+    return __last;
+  while ( ++__first != __last )
+  {
+    if ( *v2 == *__first )
+      goto LABEL_7;
+    v2 = __first;
+  }
+  v2 = __last;
+LABEL_7:
+  if ( v2 == __last )
+    return v2;
+  for ( i = v2 + 1; i != __last; ++i )
+  {
+    if ( *v2 != *i )
+      *++v2 = *i;
+  }
+  return v2 + 1;
 }

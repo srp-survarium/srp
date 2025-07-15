@@ -1,7 +1,10 @@
-int *__fastcall vostok_mspace_realloc(unsigned __int8 *oldmem, unsigned int bytes, malloc_state *msp)
+unsigned __int8 *__usercall vostok_mspace_realloc@<eax>(
+        malloc_state *msp@<eax>,
+        unsigned __int8 *oldmem,
+        unsigned int bytes)
 {
   if ( oldmem )
-    return (int *)internal_realloc(msp, oldmem, bytes);
+    return internal_realloc(msp, oldmem, bytes);
   else
-    return vostok_mspace_malloc(msp, bytes);
+    return (unsigned __int8 *)vostok_mspace_malloc(msp, bytes);
 }

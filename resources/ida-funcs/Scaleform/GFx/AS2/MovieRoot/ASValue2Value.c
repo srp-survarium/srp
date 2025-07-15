@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ASValue2Value(
     case 2:
       v24 = penv;
       v5->Type = VT_Boolean;
-      v5->mValue.BValue = Scaleform::GFx::AS2::Value::ToBool(v4, v24);
+      v5->mValue.BValue = Scaleform::GFx::AS2::Value::ToBool(v4, (int)this, v24);
       break;
     case 3:
       v25 = penv;

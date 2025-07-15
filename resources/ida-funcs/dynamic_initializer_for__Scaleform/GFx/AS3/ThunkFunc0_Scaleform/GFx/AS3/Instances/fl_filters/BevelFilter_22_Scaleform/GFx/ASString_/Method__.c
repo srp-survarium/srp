@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::typeGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter,22,Scaleform::GFx::ASString>::Method) = Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::typeGet;
-  dword_AADF74 = 0;
+  dword_8F272C = 0;
   return result;
 }

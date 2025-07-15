@@ -5,25 +5,25 @@ void __stdcall Scaleform::Render::RescaleImageData(
 {
   unsigned int PlaneCount; // ebx
   unsigned int i; // edi
-  Scaleform::Render::ImagePlane splane; // [esp+10h] [ebp-28h] BYREF
-  Scaleform::Render::ImagePlane dplane; // [esp+24h] [ebp-14h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+10h] [ebp-28h] BYREF
+  Scaleform::Render::ImagePlane v6; // [esp+24h] [ebp-14h] BYREF
 
   PlaneCount = Scaleform::Render::ImageData::GetPlaneCount(src);
   for ( i = 0; i < PlaneCount; ++i )
   {
-    memset(&splane, 0, sizeof(splane));
-    memset(&dplane, 0, sizeof(dplane));
-    Scaleform::Render::ImageData::GetPlane(src, i, &splane);
-    Scaleform::Render::ImageData::GetPlane(dest, i, &dplane);
+    memset(&pplane, 0, sizeof(pplane));
+    memset(&v6, 0, sizeof(v6));
+    Scaleform::Render::ImageData::GetPlane(src, i, &pplane);
+    Scaleform::Render::ImageData::GetPlane(dest, i, &v6);
     Scaleform::Render::ResizeImageBilinear(
-      dplane.pData,
-      dplane.Width,
-      dplane.Height,
-      dplane.Pitch,
-      splane.pData,
-      splane.Width,
-      splane.Height,
-      splane.Pitch,
+      v6.pData,
+      v6.Width,
+      v6.Height,
+      v6.Pitch,
+      pplane.pData,
+      pplane.Width,
+      pplane.Height,
+      pplane.Pitch,
       resizeType);
   }
 }

@@ -9,7 +9,9 @@ Scaleform::Render::TextureManager *__thiscall Scaleform::Render::TextureManager:
 }
 
 
-void *__thiscall Scaleform::Render::TextureManager::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::TextureManager *__thiscall Scaleform::Render::TextureManager::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::TextureManager::`vector deleting destructor'(
            (Scaleform::Render::TextureManager *)(this - 8),

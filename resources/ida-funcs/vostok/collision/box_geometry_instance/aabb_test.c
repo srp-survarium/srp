@@ -1,6 +1,6 @@
 char __thiscall vostok::collision::box_geometry_instance::aabb_test(
-        vostok::collision::box_geometry_instance *this,
-        const vostok::math::aabb *aabb)
+        survarium::interactive_object *this,
+        survarium::base_player *user)
 {
   return 1;
 }

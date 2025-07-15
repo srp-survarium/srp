@@ -42,9 +42,9 @@ void __thiscall Scaleform::GFx::AS2::TextFormatObject::TextFormatObject(
   Scaleform::MemoryHeap *v4; // eax
   Scaleform::GFx::AS2::ASStringContext *p_StringContext; // edi
   Scaleform::GFx::AS2::Object *Prototype; // eax
-  Scaleform::GFx::AS2::PropFlags flags; // [esp+13h] [ebp-15h] BYREF
+  Scaleform::GFx::AS2::PropFlags v7; // [esp+13h] [ebp-15h] BYREF
   Scaleform::MemoryHeap *pheap; // [esp+14h] [ebp-14h]
-  Scaleform::GFx::AS2::Value val; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v9; // [esp+18h] [ebp-10h] BYREF
 
   v2 = penv;
   Scaleform::GFx::AS2::Object::Object(this, penv);
@@ -76,200 +76,200 @@ void __thiscall Scaleform::GFx::AS2::TextFormatObject::TextFormatObject(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     p_StringContext,
     Prototype);
-  flags.Flags = 2;
-  val.T.Type = 1;
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "align",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "blockIndent",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "bold",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "bullet",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
-    (char *)&stru_9555EC,
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
+    "color",
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "font",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "indent",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "italic",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "leading",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "leftMargin",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "rightMargin",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "size",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "tabStops",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "target",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "underline",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  flags.Flags = 2;
-  val.T.Type = 1;
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
+  v7.Flags = 2;
+  v9.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    p_StringContext,
+    (Scaleform::GFx::ASStringNode *)p_StringContext,
     "url",
-    &val,
-    &flags);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+    &v9,
+    &v7);
+  if ( v9.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v9);
   if ( penv->StringContext.SWFVersion >= 8u )
   {
     LOBYTE(penv) = 2;
-    val.T.Type = 1;
+    v9.T.Type = 1;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &this->Scaleform::GFx::AS2::ObjectInterface,
-      p_StringContext,
+      (Scaleform::GFx::ASStringNode *)p_StringContext,
       "kerning",
-      &val,
+      &v9,
       (const Scaleform::GFx::AS2::PropFlags *)&penv);
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
+    if ( v9.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v9);
     LOBYTE(penv) = 2;
-    val.T.Type = 1;
+    v9.T.Type = 1;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &this->Scaleform::GFx::AS2::ObjectInterface,
-      p_StringContext,
+      (Scaleform::GFx::ASStringNode *)p_StringContext,
       "letterSpacing",
-      &val,
+      &v9,
       (const Scaleform::GFx::AS2::PropFlags *)&penv);
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
+    if ( v9.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v9);
   }
   if ( p_StringContext->pContext->GFxExtensions.Value == 1 )
   {
     LOBYTE(penv) = 2;
-    val.T.Type = 1;
+    v9.T.Type = 1;
     Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
       &this->Scaleform::GFx::AS2::ObjectInterface,
-      p_StringContext,
+      (Scaleform::GFx::ASStringNode *)p_StringContext,
       "alpha",
-      &val,
+      &v9,
       (const Scaleform::GFx::AS2::PropFlags *)&penv);
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
+    if ( v9.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v9);
   }
 }

@@ -1,204 +1,206 @@
-void __thiscall ppmd_compressor_impl::UpdateModel(
-        ppmd_compressor_impl *this,
-        ppmd_compressor_impl *MinContext,
-        PPM_CONTEXT *MinContexta)
+void __userpurge ppmd_compressor_impl::UpdateModel(
+        ppmd_compressor_impl *this@<ecx>,
+        int a2@<eax>,
+        ppmd_allocator *MinContext)
 {
-  PPM_CONTEXT *v3; // ecx
-  PPM_CONTEXT::STATE *MaxContext; // ebp
-  PPM_CONTEXT *FoundState; // esi
-  unsigned __int8 NumStats; // al
+  char *v4; // eax
+  PPM_CONTEXT *next; // ecx
+  PPM_CONTEXT *NumStats; // ebx
   PPM_CONTEXT::STATE *Stats; // edx
-  PPM_CONTEXT *Suffix; // edi
-  unsigned __int8 Symbol; // cl
+  PPM_CONTEXT *v8; // edi
+  PPM_CONTEXT::STATE *v9; // eax
+  unsigned __int8 Freq; // bl
   __int16 v11; // ax
-  PPM_CONTEXT *v12; // ecx
-  unsigned __int8 Freq; // cl
-  __int16 v14; // ax
-  PPM_CONTEXT::STATE *v15; // eax
-  unsigned __int8 *UnitsStart; // esi
+  PPM_CONTEXT *v12; // eax
+  unsigned int v13; // ecx
+  PPM_CONTEXT *v14; // eax
   PPM_CONTEXT *Successors; // eax
-  unsigned int v19; // edi
-  unsigned int v20; // esi
-  unsigned int v21; // eax
-  char *v22; // eax
-  BLK_NODE *v23; // eax
-  unsigned __int8 v24; // cl
-  unsigned __int16 v25; // dx
-  unsigned int v26; // ecx
-  unsigned int v27; // eax
-  __int16 v28; // dx
-  int v29; // eax
-  int v30; // eax
-  unsigned __int8 Flag; // [esp+13h] [ebp-19h]
-  PPM_CONTEXT *FSuccessor; // [esp+14h] [ebp-18h]
-  unsigned int FFreq; // [esp+18h] [ebp-14h]
-  PPM_CONTEXT *Successor; // [esp+1Ch] [ebp-10h]
-  unsigned int ns; // [esp+20h] [ebp-Ch]
-  unsigned int s0; // [esp+24h] [ebp-8h]
-  unsigned int ns1; // [esp+28h] [ebp-4h]
-  unsigned __int8 FSymbol; // [esp+30h] [ebp+4h]
+  bool v16; // zf
+  ppmd_allocator *v17; // ecx
+  unsigned int v18; // edx
+  unsigned __int8 *v19; // eax
+  unsigned __int8 *v20; // eax
+  unsigned __int8 v21; // cl
+  int SummFreq; // ecx
+  int v23; // eax
+  unsigned int v24; // ecx
+  unsigned int v25; // eax
+  unsigned __int16 v26; // ax
+  int v27; // eax
+  __int16 v28; // [esp+Ch] [ebp-18h]
+  unsigned int m_allocator_low; // [esp+Ch] [ebp-18h]
+  PPM_CONTEXT *Successor; // [esp+10h] [ebp-14h]
+  PPM_CONTEXT *v31; // [esp+10h] [ebp-14h]
+  unsigned int v32; // [esp+14h] [ebp-10h]
+  unsigned int v33; // [esp+18h] [ebp-Ch]
+  PPM_CONTEXT *v34; // [esp+1Ch] [ebp-8h]
+  char i; // [esp+22h] [ebp-2h]
+  char v36; // [esp+23h] [ebp-1h]
 
-  v3 = MinContexta;
-  MaxContext = (PPM_CONTEXT::STATE *)MinContext->MaxContext;
-  FoundState = (PPM_CONTEXT *)MinContext->FoundState;
-  FSuccessor = *(PPM_CONTEXT **)&FoundState->SummFreq;
-  FFreq = FoundState->Flags;
-  NumStats = FoundState->NumStats;
+  v4 = *(char **)(a2 + 4112);
+  NumStats = (PPM_CONTEXT *)(unsigned __int8)v4[1];
+  v34 = *(PPM_CONTEXT **)(v4 + 2);
+  next = (PPM_CONTEXT *)MinContext->BList[0].next;
+  v33 = (unsigned int)NumStats;
+  LOBYTE(NumStats) = *v4;
   Stats = 0;
-  Suffix = MinContexta->Suffix;
-  FSymbol = FoundState->NumStats;
-  if ( FFreq < 0x1F && Suffix )
+  v8 = *(PPM_CONTEXT **)(a2 + 3592);
+  v36 = *v4;
+  if ( v33 < 0x1F && next )
   {
-    if ( Suffix->NumStats )
+    if ( next->NumStats )
     {
-      Stats = Suffix->Stats;
-      if ( Stats->Symbol != NumStats )
+      Stats = next->Stats;
+      if ( Stats->Symbol != (_BYTE)NumStats )
       {
         do
-        {
-          Symbol = Stats[1].Symbol;
           ++Stats;
-        }
-        while ( Symbol != NumStats );
+        while ( Stats->Symbol != (_BYTE)NumStats );
         if ( Stats->Freq >= Stats[-1].Freq )
         {
-          v11 = *(_WORD *)&Stats->Symbol;
-          v12 = Stats->Successor;
+          v9 = Stats - 1;
+          v28 = *(_WORD *)&Stats->Symbol;
+          Successor = Stats->Successor;
           *(_WORD *)&Stats->Symbol = *(_WORD *)&Stats[-1].Symbol;
-          Stats->Successor = Stats[-1].Successor;
-          *(_WORD *)&Stats[-1].Symbol = v11;
-          Stats[-1].Successor = v12;
+          NumStats = Stats[-1].Successor;
+          Stats->Successor = NumStats;
+          *(_WORD *)&v9->Symbol = v28;
+          v9->Successor = Successor;
           --Stats;
         }
       }
       Freq = Stats->Freq;
-      v14 = 2 * (Freq < 0x73u);
-      Stats->Freq = v14 + Freq;
-      Suffix->SummFreq += v14;
+      v11 = 2 * (Freq < 0x73u);
+      Stats->Freq = v11 + Freq;
+      next->SummFreq += v11;
+      LOBYTE(NumStats) = v36;
     }
     else
     {
-      Stats = (PPM_CONTEXT::STATE *)&Suffix->SummFreq;
-      HIBYTE(Suffix->SummFreq) += HIBYTE(Suffix->SummFreq) < 0x20u;
+      Stats = (PPM_CONTEXT::STATE *)&next->SummFreq;
+      HIBYTE(next->SummFreq) += HIBYTE(next->SummFreq) < 0x20u;
     }
-    v3 = MinContexta;
-    NumStats = FSymbol;
   }
-  if ( !MinContext->OrderFall && FSuccessor )
+  if ( *(_DWORD *)(a2 + 4120) || !v34 )
   {
-    MinContext->FoundState->Successor = ppmd_compressor_impl::CreateSuccessors(MinContext, 1, Stats, v3);
-    v15 = (PPM_CONTEXT::STATE *)MinContext->FoundState->Successor;
-    if ( !v15 )
+    *(_BYTE *)(*(_DWORD *)(a2 + 500))++ = (_BYTE)NumStats;
+    v13 = *(_DWORD *)(a2 + 504);
+    v31 = *(PPM_CONTEXT **)(a2 + 500);
+    if ( (unsigned int)v31 >= v13 )
+      goto RESTART_MODEL;
+    if ( v34 )
     {
-LABEL_14:
-      v3 = MinContexta;
-RESTART_MODEL:
-      ppmd_compressor_impl::RestoreModelRare((ppmd_compressor_impl *)v3, (PPM_CONTEXT *)MaxContext, v3, FSuccessor);
-      return;
+      if ( (unsigned int)v34 >= v13 )
+      {
+LABEL_20:
+        if ( !v34 )
+          goto RESTART_MODEL;
+        v16 = (*(_DWORD *)(a2 + 4120))-- == 1;
+        v17 = MinContext;
+        if ( v16 )
+        {
+          v31 = v34;
+          *(_DWORD *)(a2 + 500) -= *(_DWORD *)(a2 + 3592) != (_DWORD)MinContext;
+        }
+        else if ( *(int *)(a2 + 7596) > 2 )
+        {
+          *(_DWORD *)(a2 + 4120) = 0;
+          v31 = v34;
+          *(_DWORD *)(a2 + 500) = *(_DWORD *)(a2 + 496);
+        }
+        v18 = HIWORD(MinContext->m_allocator) - LOBYTE(MinContext->m_allocator) - v33;
+        m_allocator_low = LOBYTE(MinContext->m_allocator);
+        v32 = v18;
+        for ( i = 8 * ((unsigned __int8)NumStats >= 0x40u); v8 != (PPM_CONTEXT *)MinContext; v8 = v8->Suffix )
+        {
+          NumStats = (PPM_CONTEXT *)v8->NumStats;
+          if ( v8->NumStats )
+          {
+            if ( ((unsigned __int8)NumStats & 1) != 0 )
+            {
+              v19 = ppmd_allocator::ExpandUnits(
+                      v17,
+                      (ppmd_allocator *)(a2 + 12),
+                      (BLK_NODE *)v8->Stats,
+                      (unsigned int)&NumStats->Flags >> 1);
+              if ( !v19 )
+                goto RESTART_MODEL;
+              v18 = v32;
+              v8->Stats = (PPM_CONTEXT::STATE *)v19;
+            }
+            v8->SummFreq += 3 * (int)NumStats + 1 < m_allocator_low;
+          }
+          else
+          {
+            v20 = ppmd_allocator::AllocUnits((ppmd_allocator *)(a2 + 12), 1u);
+            if ( !v20 )
+              goto RESTART_MODEL;
+            *(_WORD *)v20 = v8->SummFreq;
+            *(_DWORD *)(v20 + 2) = v8->Stats;
+            v8->Stats = (PPM_CONTEXT::STATE *)v20;
+            v21 = v20[1];
+            if ( v21 >= 0x1Eu )
+              v20[1] = 120;
+            else
+              v20[1] = 2 * v21;
+            v18 = v32;
+            v8->SummFreq = v20[1] + *(_WORD *)(a2 + 4116) + (m_allocator_low > 2);
+          }
+          SummFreq = v8->SummFreq;
+          v23 = v33 * (SummFreq + 6);
+          v24 = v18 + SummFreq;
+          v25 = 2 * v23;
+          if ( v25 >= 6 * v24 )
+          {
+            v17 = (ppmd_allocator *)((12 * v24 < v25) + (15 * v24 < v25) + (9 * v24 < v25) + 4);
+            v18 = v32;
+            v26 = (_WORD)v17 + v8->SummFreq;
+          }
+          else
+          {
+            v17 = (ppmd_allocator *)((v25 >= 4 * v24) + (v24 < v25) + 1);
+            v26 = v8->SummFreq + 4;
+          }
+          ++v8->NumStats;
+          v8->SummFreq = v26;
+          v27 = (int)&v8->Stats[v8->NumStats];
+          *(_DWORD *)(v27 + 2) = v31;
+          *(_BYTE *)v27 = v36;
+          *(_BYTE *)(v27 + 1) = (_BYTE)v17;
+          v8->Flags |= i;
+        }
+        v14 = v34;
+        goto LABEL_41;
+      }
+      Successors = ppmd_compressor_impl::CreateSuccessors(
+                     Stats,
+                     (PPM_CONTEXT *)MinContext,
+                     (ppmd_compressor_impl *)a2,
+                     0);
     }
-    goto LABEL_29;
+    else
+    {
+      Successors = ppmd_compressor_impl::ReduceOrder((ppmd_compressor_impl *)a2, Stats, (PPM_CONTEXT *)MinContext);
+    }
+    v34 = Successors;
+    goto LABEL_20;
   }
-  *MinContext->m_allocator.pText++ = NumStats;
-  UnitsStart = MinContext->m_allocator.UnitsStart;
-  Successor = (PPM_CONTEXT *)MinContext->m_allocator.pText;
-  if ( Successor >= (PPM_CONTEXT *)UnitsStart )
-    goto RESTART_MODEL;
-  if ( FSuccessor )
+  v12 = ppmd_compressor_impl::CreateSuccessors(Stats, (PPM_CONTEXT *)MinContext, (ppmd_compressor_impl *)a2, 1);
+  v13 = *(_DWORD *)(a2 + 4112);
+  *(_DWORD *)(v13 + 2) = v12;
+  v14 = *(PPM_CONTEXT **)(*(_DWORD *)(a2 + 4112) + 2);
+  if ( !v14 )
   {
-    if ( FSuccessor >= (PPM_CONTEXT *)UnitsStart )
-      goto LABEL_22;
-    Successors = ppmd_compressor_impl::CreateSuccessors(MinContext, 0, Stats, v3);
-  }
-  else
-  {
-    Successors = ppmd_compressor_impl::ReduceOrder(MinContext, Stats, v3);
-  }
-  v3 = MinContexta;
-  FSuccessor = Successors;
-  NumStats = FSymbol;
-LABEL_22:
-  if ( !FSuccessor )
-    goto RESTART_MODEL;
-  if ( MinContext->OrderFall-- == 1 )
-  {
-    Successor = FSuccessor;
-    MinContext->m_allocator.pText -= MinContext->MaxContext != v3;
-  }
-  else if ( MinContext->MRMethod > model_restoration_freeze )
-  {
-    Successor = FSuccessor;
-    MinContext->m_allocator.pText = MinContext->m_allocator.HeapStart;
-    MinContext->OrderFall = 0;
-  }
-  v19 = v3->NumStats;
-  v20 = v3->SummFreq - v19 - FFreq;
-  ns = v19;
-  s0 = v20;
-  Flag = 8 * (NumStats >= 0x40u);
-  if ( MaxContext == (PPM_CONTEXT::STATE *)v3 )
-  {
-    v15 = (PPM_CONTEXT::STATE *)FSuccessor;
-LABEL_29:
-    MinContext->MaxContext = (PPM_CONTEXT *)v15;
+RESTART_MODEL:
+    ppmd_compressor_impl::RestoreModelRare(
+      (ppmd_compressor_impl *)v13,
+      (ppmd_allocator *)NumStats,
+      (ppmd_compressor_impl *)a2,
+      v8,
+      (PPM_CONTEXT *)MinContext,
+      v34);
     return;
   }
-  while ( 1 )
-  {
-    v21 = MaxContext->Symbol;
-    ns1 = v21;
-    if ( MaxContext->Symbol )
-    {
-      if ( (v21 & 1) != 0 )
-      {
-        v22 = ppmd_allocator::ExpandUnits(
-                &MinContext->m_allocator,
-                *(ppmd_allocator **)((char *)&MaxContext->Successor + 2),
-                (v21 + 1) >> 1);
-        if ( !v22 )
-          goto LABEL_14;
-        v20 = s0;
-        *(PPM_CONTEXT **)((char *)&MaxContext->Successor + 2) = (PPM_CONTEXT *)v22;
-        v21 = ns1;
-      }
-      LOWORD(MaxContext->Successor) += 3 * v21 + 1 < ns;
-    }
-    else
-    {
-      v23 = ppmd_allocator::AllocUnits(&MinContext->m_allocator, 1u);
-      if ( !v23 )
-        goto LABEL_14;
-      LOWORD(v23->Stamp) = MaxContext->Successor;
-      *(unsigned int *)((char *)&v23->Stamp + 2) = *(unsigned int *)((char *)&MaxContext->Successor + 2);
-      *(PPM_CONTEXT **)((char *)&MaxContext->Successor + 2) = (PPM_CONTEXT *)v23;
-      v24 = BYTE1(v23->Stamp);
-      BYTE1(v23->Stamp) = v24 >= 0x1Eu ? 120 : 2 * v24;
-      LOWORD(MaxContext->Successor) = BYTE1(v23->Stamp) + LOWORD(MinContext->InitEsc) + (v19 > 2);
-    }
-    v25 = (unsigned __int16)MaxContext->Successor;
-    v26 = v20 + v25;
-    v27 = 2 * FFreq * (v25 + 6);
-    if ( v27 >= 6 * v26 )
-    {
-      LOWORD(v26) = (12 * v26 < v27) + (15 * v26 < v27) + (9 * v26 < v27) + 4;
-      v20 = s0;
-      v28 = v26 + v25;
-    }
-    else
-    {
-      LOBYTE(v26) = (v27 >= 4 * v26) + (v26 < v27) + 1;
-      v28 = v25 + 4;
-    }
-    v29 = ++MaxContext->Symbol;
-    LOWORD(MaxContext->Successor) = v28;
-    v30 = *(int *)((char *)&MaxContext->Successor + 2) + 6 * v29;
-    *(_DWORD *)(v30 + 2) = Successor;
-    *(_BYTE *)v30 = FSymbol;
-    *(_BYTE *)(v30 + 1) = v26;
-    MaxContext->Freq |= Flag;
-    MaxContext = (PPM_CONTEXT::STATE *)MaxContext[1].Successor;
-    if ( MaxContext == (PPM_CONTEXT::STATE *)MinContexta )
-      break;
-    v19 = ns;
-  }
-  MinContext->MaxContext = FSuccessor;
+LABEL_41:
+  *(_DWORD *)(a2 + 3592) = v14;
 }

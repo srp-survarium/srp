@@ -26,7 +26,7 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::N
     v9 = Scaleform::HashSetBase<Scaleform::GFx::AS3::Instances::fl::Namespace *,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Instances::fl::Namespace *,2>,Scaleform::HashsetEntry<Scaleform::GFx::AS3::Instances::fl::Namespace *,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc>>::findIndexCore<Scaleform::GFx::AS3::NamespaceKey>(
            p_NamespaceSet,
            &key,
-           v7.pTable->SizeMask & (kind ^ (4 * ((unsigned int)&vostok::memory::s_CRT_arena[5574199] & pNode->HashFlags))));
+           v7.pTable->SizeMask & (kind ^ (4 * (pNode->HashFlags & 0xFFFFFF))));
     if ( v9 >= 0 )
     {
       SizeMask = v7.pTable[v9 + 1].SizeMask;

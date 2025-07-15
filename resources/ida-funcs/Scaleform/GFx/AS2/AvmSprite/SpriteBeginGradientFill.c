@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginGradientFill(const Scale
   Scaleform::GFx::InteractiveObject *Target; // eax
   Scaleform::GFx::InteractiveObject_vtbl **v3; // esi
   Scaleform::GFx::DrawingContext *v4; // edi
-  Scaleform::GFx::Resource *NewComplexFill; // esi
+  Scaleform::Render::ComplexFill *NewComplexFill; // esi
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -27,9 +27,9 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginGradientFill(const Scale
     Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v3[4]);
     Scaleform::GFx::DisplayObjectBase::InvalidateHitResult((Scaleform::GFx::DisplayObjectBase *)v3[4]);
     Scaleform::GFx::DrawingContext::AcquirePath(v4, 1);
-    NewComplexFill = Scaleform::GFx::DrawingContext::CreateNewComplexFill(v4);
+    NewComplexFill = (Scaleform::Render::ComplexFill *)Scaleform::GFx::DrawingContext::CreateNewComplexFill(v4);
     Scaleform::GFx::DrawingContext::BeginFill(v4);
     if ( NewComplexFill )
-      Scaleform::GFx::AS2::AvmSprite::SpriteCreateGradient(fn, (Scaleform::Render::ComplexFill *)NewComplexFill);
+      Scaleform::GFx::AS2::AvmSprite::SpriteCreateGradient(fn, NewComplexFill);
   }
 }

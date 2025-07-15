@@ -13,46 +13,46 @@ void __thiscall Scaleform::DoubleFormatter::Parse(
   char *v11; // edi
   long double Value; // st7
   long double v13; // st7
-  Scaleform::Formatter *v14; // eax
+  int v14; // eax
   Scaleform::Formatter *v15; // edi
   unsigned int v16; // eax
   unsigned int v17; // ecx
   Scaleform::StringDataPtr v18[2]; // [esp-8h] [ebp-48h] BYREF
-  Scaleform::Formatter *impl_ptr; // [esp+Ch] [ebp-34h] BYREF
-  Scaleform::StringDataPtr tmp_str; // [esp+10h] [ebp-30h] BYREF
-  Scaleform::StringDataPtr impl_param_str; // [esp+18h] [ebp-28h] BYREF
+  Scaleform::SwitchFormatter::ValueType v; // [esp+Ch] [ebp-34h] BYREF
+  Scaleform::StringDataPtr v20; // [esp+10h] [ebp-30h] BYREF
+  Scaleform::StringDataPtr v21; // [esp+18h] [ebp-28h] BYREF
   Scaleform::StringDataPtr result; // [esp+20h] [ebp-20h] BYREF
   int v23; // [esp+28h] [ebp-18h] BYREF
   char v24; // [esp+2Ch] [ebp-14h]
   int v25; // [esp+30h] [ebp-10h]
-  Scaleform::FormatterFactory::Args args; // [esp+34h] [ebp-Ch] BYREF
+  _DWORD v26[3]; // [esp+34h] [ebp-Ch] BYREF
 
   Size = str->Size;
-  tmp_str.pStr = str->pStr;
-  tmp_str.Size = Size;
-  impl_ptr = 0;
+  v20.pStr = str->pStr;
+  v20.Size = Size;
+  v.Value = 0;
   if ( !Size )
     return;
   while ( 1 )
   {
-    NextToken = Scaleform::StringDataPtr::GetNextToken(&tmp_str, &result, 58);
+    NextToken = Scaleform::StringDataPtr::GetNextToken(&v20, &result, 58);
     pStr = NextToken->pStr;
     v6 = NextToken->Size;
     if ( !NextToken->pStr || !v6 )
       return;
     v7 = v6 + 1;
-    if ( tmp_str.Size < v6 + 1 )
-      v7 = tmp_str.Size;
-    tmp_str.pStr += v7;
-    tmp_str.Size -= v7;
+    if ( v20.Size < v6 + 1 )
+      v7 = v20.Size;
+    v20.pStr += v7;
+    v20.Size -= v7;
     if ( !isdigit(*pStr) )
       break;
-$LN16_39:
+$LN16_45:
     Scaleform::NumericBase::ReadPrintFormat(
       &this->Scaleform::NumericBase,
       (Scaleform::StringDataPtr)__PAIR64__(v6, (unsigned int)pStr));
 LABEL_24:
-    if ( !tmp_str.Size )
+    if ( !v20.Size )
       goto LABEL_33;
   }
   switch ( *pStr )
@@ -62,26 +62,26 @@ LABEL_24:
     case '+':
     case '-':
     case '.':
-      goto $LN16_39;
+      goto $LN16_45;
     case 'E':
-      goto $LN58_1;
+      goto $LN58_2;
     case 'G':
-      goto $LN62;
+      goto $LN62_2;
     case 'e':
       *((_BYTE *)&this->Scaleform::NumericBase + 6) &= ~1u;
-$LN58_1:
+$LN58_2:
       this->Type = FmtScientific;
-      Scaleform::StringDataPtr::GetNextToken(&tmp_str, v18, 58);
+      Scaleform::StringDataPtr::GetNextToken(&v20, v18, 58);
       goto LABEL_10;
     case 'f':
       this->Type = FmtDecimal;
-      Scaleform::StringDataPtr::GetNextToken(&tmp_str, v18, 58);
+      Scaleform::StringDataPtr::GetNextToken(&v20, v18, 58);
       goto LABEL_10;
     case 'g':
       *((_BYTE *)&this->Scaleform::NumericBase + 6) &= ~1u;
-$LN62:
+$LN62_2:
       this->Type = FmtSignificant;
-      Scaleform::StringDataPtr::GetNextToken(&tmp_str, v18, 58);
+      Scaleform::StringDataPtr::GetNextToken(&v20, v18, 58);
 LABEL_10:
       Scaleform::NumericBase::ReadPrintFormat(&this->Scaleform::NumericBase, v18[0]);
       goto LABEL_24;
@@ -90,10 +90,10 @@ LABEL_10:
       {
         if ( !strncmp(pStr, "sep", 3u) )
         {
-          Scaleform::StringDataPtr::GetNextToken(&tmp_str, &impl_param_str, 58);
-          if ( impl_param_str.Size )
+          Scaleform::StringDataPtr::GetNextToken(&v20, &v21, 58);
+          if ( v21.Size )
             *((_BYTE *)&this->Scaleform::NumericBase + 5) ^= (*((_BYTE *)&this->Scaleform::NumericBase + 5)
-                                                            ^ *impl_param_str.pStr)
+                                                            ^ *v21.pStr)
                                                            & 0x7F;
         }
         goto LABEL_24;
@@ -106,31 +106,28 @@ LABEL_10:
           v13 = Value - 0.5;
         else
           v13 = Value + 0.5;
-        impl_ptr = (Scaleform::Formatter *)(int)v13;
-        Scaleform::SwitchFormatter::SwitchFormatter(
-          (Scaleform::SwitchFormatter *)v11,
-          this->pParentFmt,
-          (const Scaleform::SwitchFormatter::ValueType *)&impl_ptr);
-        impl_ptr = v14;
+        v.Value = (int)v13;
+        Scaleform::SwitchFormatter::SwitchFormatter((Scaleform::SwitchFormatter *)v11, this->pParentFmt, &v);
+        v.Value = v14;
       }
       else
       {
-        impl_ptr = 0;
+        v.Value = 0;
       }
-      tmp_str.pStr += tmp_str.Size;
-      tmp_str.Size = 0;
+      v20.pStr += v20.Size;
+      v20.Size = 0;
 LABEL_33:
-      v15 = impl_ptr;
-      if ( impl_ptr )
+      v15 = (Scaleform::Formatter *)v.Value;
+      if ( v.Value )
       {
         v16 = str->Size;
         v17 = v6 + 1;
         if ( v16 < v6 + 1 )
           v17 = str->Size;
-        impl_param_str.pStr = &str->pStr[v17];
-        impl_param_str.Size = v16 - v17;
+        v21.pStr = &str->pStr[v17];
+        v21.Size = v16 - v17;
         if ( v16 != v17 )
-          impl_ptr->Parse(impl_ptr, &impl_param_str);
+          (*(void (__thiscall **)(int, Scaleform::StringDataPtr *))(*(_DWORD *)v.Value + 8))(v.Value, &v21);
         Scaleform::MsgFormat::ReplaceFormatter(this->pParentFmt, this, v15, 1);
       }
       return;
@@ -144,12 +141,14 @@ LABEL_33:
         else
           v10 = v9 + 0.5;
         v23 = (int)v10;
-        args.Name = &tmp_str;
-        args.Value = (const Scaleform::ResourceFormatter::ValueType *)&v23;
+        v26[1] = &v20;
+        v26[2] = &v23;
         v24 = 1;
         v25 = 0;
-        args.Fmt = pParentFmt;
-        impl_ptr = pParentFmt->pLocaleProvider->MakeFormatter(pParentFmt->pLocaleProvider, &args);
+        v26[0] = pParentFmt;
+        v.Value = (int)pParentFmt->pLocaleProvider->MakeFormatter(
+                         pParentFmt->pLocaleProvider,
+                         (const Scaleform::FormatterFactory::Args *)v26);
       }
       goto LABEL_24;
   }

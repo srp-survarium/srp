@@ -18,5 +18,5 @@ void __thiscall Scaleform::FixedBitSetBase<Scaleform::AllocatorDH<unsigned char,
   other = 341;
   v8 = (unsigned __int8 *)Alloc(v6, v5, (const Scaleform::AllocInfo *)&other);
   this->pData = v8;
-  memcpy(v8, v2->pData, v5);
+  memcpy((int)v8, (const __m128i *)v2->pData, v5);
 }

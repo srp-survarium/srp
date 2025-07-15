@@ -1,46 +1,47 @@
-const char *__usercall vostok::render::stage_type_to_string@<eax>(
-        vostok::render::enum_render_stage_type stage_type@<eax>)
+const char *__usercall vostok::render::stage_type_to_string@<eax>(int stage_type@<eax>)
 {
-  const char *result; // eax
+  int v1; // eax
+  int v2; // eax
+  int v3; // eax
+  int v4; // eax
+  int v6; // eax
+  int v7; // eax
+  int v8; // eax
+  int v9; // eax
 
-  switch ( stage_type )
+  if ( stage_type <= 16 )
   {
-    case gbuffer_render_stage:
-      result = (const char *)&stru_960978;
-      break;
-    case decals_accumulate_render_stage:
-      result = "decals";
-      break;
-    case accumulate_distortion_render_stage:
-      result = "distortion";
-      break;
-    case ambient_occlusion_render_stage:
-      result = "ambient_occlusion";
-      break;
-    case light_propagation_volumes_render_stage:
-      result = "light_propagation_volumes";
-      break;
-    case forward_render_stage:
-      result = "forward";
-      break;
-    case lighting_render_stage:
-      result = (const char *)&stru_960A90.type;
-      break;
-    case post_process_render_stage:
-      result = (const char *)&stru_95F7AC;
-      break;
-    case debug_post_process_render_stage:
-      result = "debug_post_process";
-      break;
-    case debug_render_stage:
-      result = "debug";
-      break;
-    case shadow_render_stage:
-      result = "shadow";
-      break;
-    default:
-      result = "unknown";
-      break;
+    if ( stage_type == 16 )
+      return "forward";
+    v1 = stage_type - 1;
+    if ( !v1 )
+      return "g_stage";
+    v2 = v1 - 1;
+    if ( !v2 )
+      return "decals";
+    v3 = v2 - 1;
+    if ( !v3 )
+      return "distortion";
+    v4 = v3 - 2;
+    if ( !v4 )
+      return "ambient_occlusion";
+    if ( v4 == 3 )
+      return "light_propagation_volumes";
+    return 0;
   }
-  return result;
+  v6 = stage_type - 17;
+  if ( !v6 )
+    return "lighting";
+  v7 = v6 - 7;
+  if ( !v7 )
+    return "post_process";
+  v8 = v7 - 1;
+  if ( !v8 )
+    return "debug_post_process";
+  v9 = v8 - 1;
+  if ( !v9 )
+    return (const char *)&stru_802CB8;
+  if ( v9 != 1 )
+    return 0;
+  return "shadow";
 }

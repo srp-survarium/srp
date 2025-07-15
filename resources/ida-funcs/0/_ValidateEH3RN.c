@@ -125,7 +125,7 @@ LABEL_64:
 LABEL_39:
       if ( !VirtualQuery(ScopeTable, &mbi, 0x1Cu) )
         return 1;
-      if ( (unsigned __int8 *)mbi.Type != &vostok::memory::s_CRT_arena[5574200] )
+      if ( mbi.Type != 0x1000000 )
         return -1;
       AllocationBase = (unsigned __int8 *)mbi.AllocationBase;
       if ( !_ValidateImageBase((unsigned __int8 *)mbi.AllocationBase) )

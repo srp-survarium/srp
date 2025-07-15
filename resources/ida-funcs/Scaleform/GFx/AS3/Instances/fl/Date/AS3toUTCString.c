@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::AS3toUTCString(
   v3 = Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeString(out, 0x80u, this->TimeValue, 0, 1, 1, 1);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 out,
+                 (__m128i *)out,
                  v3);
   StringNode->RefCount += 2;
   pNode = result->pNode;

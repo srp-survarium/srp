@@ -54,7 +54,7 @@ int __cdecl BN_from_montgomery_word(bignum_st *ret, bignum_st *r, bn_mont_ctx_st
   if ( v4 && top )
   {
     if ( top + v4 + 1 > r->dmax )
-      v5 = bn_expand2(r, (unsigned int *)(top + v4 + 1));
+      v5 = bn_expand2(r, top + v4 + 1);
     else
       v5 = r;
     if ( !v5 )
@@ -117,7 +117,7 @@ int __cdecl BN_from_montgomery_word(bignum_st *ret, bignum_st *r, bn_mont_ctx_st
     }
     v19 = v17 - v4;
     v45 = v17 - v4;
-    if ( v4 > ret->dmax ? bn_expand2(ret, (unsigned int *)v4) : ret )
+    if ( v4 > ret->dmax ? bn_expand2(ret, v4) : ret )
     {
       v21 = -(((v19 - v4) >> 31) & 1);
       ret->top = v45 & v21 | v4 & ~v21;

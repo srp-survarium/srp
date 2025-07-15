@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Error::toStringProto(
   Scaleform::GFx::ASStringNode *v7; // ebx
   Scaleform::GFx::ASStringNode *v8; // ecx
   unsigned int *p_RefCount; // eax
-  char *v10; // ecx
+  const __m128i *v10; // ecx
   void *v11; // esi
   Scaleform::GFx::ASStringNode *v12; // [esp+Ch] [ebp-4h] BYREF
 
@@ -29,9 +29,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Error::toStringProto(
     Scaleform::GFx::ASStringNode::ReleaseNode(v8);
   if ( this->message.pNode->Size )
   {
-    v10 = (char *)((Scaleform::operator+((Scaleform::String *)&result, ": ", &this->message)->HeapTypeBits & 0xFFFFFFFC)
-                 + 8);
-    Scaleform::GFx::ASString::Append(v4, v10, (Scaleform::GFx::ASStringNode *)strlen(v10));
+    v10 = (const __m128i *)((Scaleform::operator+((Scaleform::String *)&result, (const __m128i *)": ", &this->message)->HeapTypeBits
+                           & 0xFFFFFFFC)
+                          + 8);
+    Scaleform::GFx::ASString::Append(v4, v10, (Scaleform::GFx::ASStringNode *)strlen(v10->m128i_i8));
     v11 = (void *)((unsigned int)result & 0xFFFFFFFC);
     if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)result & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);

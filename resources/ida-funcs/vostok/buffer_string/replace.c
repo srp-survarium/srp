@@ -4,101 +4,89 @@ vostok::buffer_string *__userpurge vostok::buffer_string::replace@<eax>(
         char *what,
         char *with)
 {
-  unsigned int v4; // ebx
-  unsigned int v5; // esi
-  unsigned int v6; // eax
+  unsigned int v4; // eax
+  unsigned int v5; // eax
+  unsigned __int64 v6; // kr00_8
+  int v7; // esi
   void *v8; // esp
-  unsigned __int8 *v9; // esi
-  int v10; // eax
-  unsigned __int8 *m_begin; // ecx
-  unsigned int v12; // eax
-  unsigned __int8 *v13; // edx
-  unsigned __int8 *v14; // eax
-  const char *v15; // eax
-  unsigned int v16; // ebx
-  unsigned __int8 *v17; // esi
+  vostok::buffer_string *v9; // ecx
+  char *m_begin; // eax
+  char *v11; // ecx
+  char *v12; // esi
+  char v13; // dl
   char *m_end; // ecx
   char *i; // eax
-  unsigned __int8 *v20; // eax
-  unsigned int v21; // esi
-  _BYTE v22[8]; // [esp+0h] [ebp-20h] BYREF
-  vostok::buffer_string temp; // [esp+8h] [ebp-18h] BYREF
-  unsigned int what_length; // [esp+14h] [ebp-Ch]
-  unsigned int pos; // [esp+18h] [ebp-8h]
-  unsigned __int8 *src; // [esp+1Ch] [ebp-4h]
+  char v16; // dl
+  char *v17; // esi
+  unsigned int v18; // ebx
+  char *v20; // [esp-4h] [ebp-1Ch]
+  unsigned int v21[2]; // [esp+0h] [ebp-18h] BYREF
+  vostok::buffer_string v22; // [esp+8h] [ebp-10h] BYREF
+  unsigned int v23; // [esp+14h] [ebp-4h]
 
-  v4 = strlen(what);
-  what_length = v4;
-  v5 = strlen(with);
-  if ( debug_macro_helper_ignore_always_12 || v4 )
+  v23 = strlen(what);
+  v4 = strlen(with);
+  if ( debug_macro_helper_ignore_always_15 || v23 )
   {
-    v8 = alloca(vostok::math::max(a2->m_end - a2->m_begin, v5 * ((a2->m_end - a2->m_begin) / v4 + 1)) + 1);
-    v9 = v22;
-    src = v22;
-    v22[0] = 0;
+    v6 = (unsigned int)(a2->m_end - a2->m_begin) - (unsigned __int64)(v4 * ((a2->m_end - a2->m_begin) / v23 + 1));
+    v7 = a2->m_end - a2->m_begin - (v6 & HIDWORD(v6)) + 1;
+    v8 = alloca(v7);
+    v9 = (vostok::buffer_string *)((char *)v21 + v7);
+    v22.m_begin = (char *)v21;
+    v22.m_end = (char *)v21;
+    v22.m_max_end = (char *)v21 + v7;
+    LOBYTE(v21[0]) = 0;
     while ( 1 )
     {
-      strstr((unsigned __int8 *)a2->m_begin, (unsigned __int8 *)what);
-      if ( !v10 )
+      v18 = vostok::buffer_string::find(v9, (unsigned __int8 **)a2, what, v21[0]);
+      if ( v18 == -1 )
         break;
-      m_begin = (unsigned __int8 *)a2->m_begin;
-      v12 = v10 - (unsigned int)a2->m_begin;
-      pos = v12;
-      if ( v12 == -1 )
-        break;
-      v13 = &m_begin[v12];
-      *v9 = 0;
-      if ( m_begin != &m_begin[v12] )
+      m_begin = a2->m_begin;
+      v11 = v22.m_begin;
+      v12 = &a2->m_begin[v18];
+      v22.m_end = v22.m_begin;
+      *v22.m_begin = 0;
+      if ( m_begin != v12 )
       {
-        v14 = m_begin;
         do
-          *v9++ = *v14++;
-        while ( v14 != v13 );
+        {
+          v13 = *m_begin++;
+          *v11++ = v13;
+        }
+        while ( m_begin != v12 );
+        v22.m_end = v11;
       }
-      v15 = with;
-      *v9 = 0;
-      v16 = strlen(v15);
-      memcpy(v9, (unsigned __int8 *)with, v16);
-      v17 = &v9[v16];
-      *v17 = 0;
+      v20 = with;
+      *v11 = 0;
+      vostok::buffer_string::append((vostok::buffer_string *)v11, (int)&v22, v20);
       m_end = a2->m_end;
-      for ( i = &a2->m_begin[pos + what_length]; i != m_end; ++v17 )
-        *v17 = *i++;
-      *v17 = 0;
-      if ( a2 != &temp )
+      for ( i = &a2->m_begin[v18 + v23]; i != m_end; ++i )
       {
-        v20 = (unsigned __int8 *)a2->m_begin;
-        a2->m_end = a2->m_begin;
-        *v20 = 0;
-        v21 = v17 - src;
-        memcpy((unsigned __int8 *)a2->m_end, src, v21);
-        a2->m_end += v21;
-        *a2->m_end = 0;
+        v16 = *i;
+        v17 = v22.m_end++;
+        *v17 = v16;
       }
-      v9 = src;
+      *v22.m_end = 0;
+      vostok::buffer_string::operator=(&v22, a2);
     }
   }
   else
   {
-    v6 = occurances_left_12;
-    if ( occurances_left_12 == -1 )
-      v6 = 10;
-    occurances_left_12 = v6 - 1;
-    if ( v6 )
+    v5 = occurances_left_13;
+    if ( occurances_left_13 == -1 )
+      v5 = 10;
+    occurances_left_13 = v5 - 1;
+    if ( v5 )
     {
-      HIBYTE(with) = 0;
+      HIBYTE(what) = 0;
       vostok::debug::on_error(
-        0,
-        (bool *)&with + 3,
+        (bool *)&what + 3,
         process_error_false,
-        &debug_macro_helper_ignore_always_12,
-        assert_untyped,
-        "assertion_failed",
-        "what_length",
+        (bool *)"what_length",
         ".\\buffer_string.cpp",
         "vostok::buffer_string::replace",
-        0x6Au);
-      if ( vostok::debug::is_debugger_present() || HIBYTE(with) )
+        (const char *)0x6B);
+      if ( vostok::debug::is_debugger_present() || HIBYTE(what) )
         __debugbreak();
     }
   }

@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::DisplayObject::SetScrollRect(
 {
   Scaleform::Render::TreeNode *RenderNode; // eax
   Scaleform::Render::TreeNode *v4; // edi
-  Scaleform::GFx::DisplayObject::ScrollRectInfo *pScrollRect; // eax
+  const __m128i *pScrollRect; // eax
   Scaleform::GFx::DisplayObject::ScrollRectInfo *v6; // edi
   Scaleform::RefCountNTSImpl *v7; // ecx
   unsigned int v8; // edi
@@ -19,11 +19,11 @@ void __thiscall Scaleform::GFx::DisplayObject::SetScrollRect(
   Scaleform::Ptr<Scaleform::GFx::DrawingContext> *p_Mask; // eax
   Scaleform::GFx::DrawingContext *v18; // ecx
   int v19; // ecx
-  Scaleform::Render::TreeNode *v20; // [esp+ACh] [ebp-2Ch]
-  Scaleform::GFx::DrawingContext *DrawingContext; // [esp+B0h] [ebp-28h]
-  float x; // [esp+B0h] [ebp-28h]
-  int y; // [esp+B4h] [ebp-24h] BYREF
-  Scaleform::Render::Matrix2x4<float> v24; // [esp+B8h] [ebp-20h] BYREF
+  Scaleform::Render::TreeNode *v20; // [esp+28h] [ebp-2Ch]
+  Scaleform::GFx::DrawingContext *DrawingContext; // [esp+2Ch] [ebp-28h]
+  float x; // [esp+2Ch] [ebp-28h]
+  int y; // [esp+30h] [ebp-24h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+34h] [ebp-20h] BYREF
 
   if ( this->pMaskCharacter && !this->IsUsedAsMask(this) && this->pMaskCharacter )
     Scaleform::GFx::DisplayObject::SetMask(this, 0);
@@ -35,17 +35,15 @@ void __thiscall Scaleform::GFx::DisplayObject::SetScrollRect(
     if ( this->pScrollRect )
     {
       Scaleform::Render::TreeNode::SetMaskNode(RenderNode, 0);
-      pScrollRect = this->pScrollRect;
-      if ( pScrollRect->IsOrig3D )
+      pScrollRect = (const __m128i *)this->pScrollRect;
+      if ( pScrollRect[6].m128i_i8[0] )
       {
-        Scaleform::Render::TreeNode::SetMatrix3D(v4, &pScrollRect->OrigTransformMatrix);
+        Scaleform::Render::TreeNode::SetMatrix3D(v4, pScrollRect + 3);
       }
       else
       {
-        Scaleform::Render::Matrix2x4<float>::operator=(
-          &v24,
-          (const Scaleform::Render::Matrix2x4<float> *)&pScrollRect->OrigTransformMatrix);
-        Scaleform::Render::TreeNode::SetMatrix(v4, &v24);
+        Scaleform::Render::Matrix2x4<float>::operator=(&m, (const Scaleform::Render::Matrix2x4<float> *)&pScrollRect[3]);
+        Scaleform::Render::TreeNode::SetMatrix(v4, &m);
       }
     }
     if ( r )
@@ -76,8 +74,8 @@ void __thiscall Scaleform::GFx::DisplayObject::SetScrollRect(
       v12->Rectangle.x2 = x2;
       v12->Rectangle.y2 = y2;
       memcpy(
-        (unsigned __int8 *)&this->pScrollRect->OrigTransformMatrix,
-        (unsigned __int8 *)(*(_DWORD *)(*(_DWORD *)(v8 + 16) + 4 * ((int)((int)&v20[-1] - v8) / 28) + 20) + 16),
+        (int)&this->pScrollRect->OrigTransformMatrix,
+        (const __m128i *)(*(_DWORD *)(*(_DWORD *)(v8 + 16) + 4 * ((int)((int)&v20[-1] - v8) / 28) + 20) + 16),
         sizeof(this->pScrollRect->OrigTransformMatrix));
       this->pScrollRect->IsOrig3D = (*(_WORD *)(*(_DWORD *)(*(_DWORD *)(v8 + 16)
                                                           + 4 * ((int)((int)&v20[-1] - v8) / 28)
@@ -104,7 +102,7 @@ void __thiscall Scaleform::GFx::DisplayObject::SetScrollRect(
       Scaleform::GFx::DrawingContext::LineTo(this->pScrollRect->Mask.pObject, x, *(float *)&y);
       Scaleform::GFx::DrawingContext::LineTo(this->pScrollRect->Mask.pObject, 0.0, *(float *)&y);
       Scaleform::GFx::DrawingContext::EndFill(this->pScrollRect->Mask.pObject);
-      Scaleform::GFx::DrawingContext::UpdateRenderNode(this->pScrollRect->Mask.pObject);
+      Scaleform::GFx::DrawingContext::UpdateRenderNode(this->pScrollRect->Mask.pObject, (int)r);
       v19 = (int)&v20[-1] - v8;
       if ( this->pScrollRect->IsOrig3D )
         this->SetMatrix3D(

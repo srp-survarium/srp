@@ -15,7 +15,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3slice(
   int v12; // esi
   Scaleform::GFx::ASStringNode *v13; // eax
   bool v14; // zf
-  const char *v15; // edi
+  char *v15; // edi
   Scaleform::GFx::ASStringManager *pStringManager; // eax
   Scaleform::GFx::ASStringNode *v17; // eax
   Scaleform::GFx::ASStringNode *v18; // eax
@@ -54,9 +54,9 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3slice(
       goto LABEL_27;
     }
     if ( startNumber <= (double)utf8Len )
-      v15 = (const char *)(int)startNumber;
+      v15 = (char *)(int)startNumber;
     else
-      v15 = (const char *)Length;
+      v15 = (char *)Length;
     if ( (int)v15 < 0 )
       v15 += Length;
     if ( v9 < 2 )
@@ -79,7 +79,7 @@ LABEL_27:
     if ( v12 >= (int)v15 )
     {
 LABEL_23:
-      vm = Scaleform::GFx::ASConstString::SubstringNode(&thisStr, v15, (const char *)v12);
+      vm = Scaleform::GFx::ASConstString::SubstringNode(&thisStr, v15, (char *)v12);
       ++vm->RefCount;
       Scaleform::GFx::AS3::Value::Assign(result, (const Scaleform::GFx::ASString *)&vm);
     }

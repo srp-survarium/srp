@@ -1,7 +1,7 @@
 int __cdecl EVP_PKEY_asn1_get0_info(
         int *ppkey_id,
         int *ppkey_base_id,
-        int *ppkey_flags,
+        unsigned int *ppkey_flags,
         char **pinfo,
         char **ppem_str,
         const evp_pkey_asn1_method_st *ameth)

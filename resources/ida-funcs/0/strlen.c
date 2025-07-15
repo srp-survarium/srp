@@ -26,9 +26,6 @@ main_loop_1:
       while ( (v3 & 0x81010100) == 0 );
       v4 = *((_DWORD *)v1 - 1);
     }
-    while ( (_BYTE)v4
-         && BYTE1(v4)
-         && ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & v4) != 0
-         && (v4 & 0xFF000000) != 0 );
+    while ( (_BYTE)v4 && BYTE1(v4) && (v4 & 0xFF0000) != 0 && (v4 & 0xFF000000) != 0 );
   }
 }

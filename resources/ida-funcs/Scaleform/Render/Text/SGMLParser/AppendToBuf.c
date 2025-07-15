@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::AppendToBuf(
         Scaleform::Render::Text::SGMLParser<wchar_t> *this,
-        wchar_t *pstr,
+        const __m128i *pstr,
         unsigned int sz)
 {
   unsigned int BufSize; // eax
@@ -22,6 +22,6 @@ void __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::AppendToBuf(
       v8 = (wchar_t *)this->pHeap->Alloc(this->pHeap, v7, 0);
     this->pBuffer = v8;
   }
-  memcpy((unsigned __int8 *)&this->pBuffer[this->BufPos], (unsigned __int8 *)pstr, 2 * sz);
+  memcpy((int)&this->pBuffer[this->BufPos], pstr, 2 * sz);
   this->BufPos += sz;
 }

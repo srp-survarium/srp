@@ -14,7 +14,7 @@ Scaleform::Render::MemoryBufferImage *__thiscall Scaleform::Render::JPEG::FileRe
   pHeap = args->pHeap;
   if ( !pHeap )
     pHeap = Scaleform::Memory::pGlobalHeap;
-  v6 = (Scaleform::Render::MemoryBufferImage *)pHeap->Alloc(pHeap, 56u, 0);
+  v6 = (Scaleform::Render::MemoryBufferImage *)pHeap->Alloc(pHeap, 60u, 0);
   if ( !v6 )
     return 0;
   pUpdateSync = args->pUpdateSync;

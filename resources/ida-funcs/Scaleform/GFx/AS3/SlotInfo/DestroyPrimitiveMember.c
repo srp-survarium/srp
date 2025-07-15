@@ -40,7 +40,7 @@ void __thiscall Scaleform::GFx::AS3::SlotInfo::DestroyPrimitiveMember(
         else
         {
           v9 = *(_DWORD *)((v8 & 0xFFFFFFF9) + 0x10);
-          if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+          if ( (v9 & 0x3FFFFF) != 0 )
           {
             *(_DWORD *)((v8 & 0xFFFFFFF9) + 0x10) = v9 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)(v8 & 0xFFFFFFF9));

@@ -9,12 +9,12 @@ void __thiscall Scaleform::BoolFormatter::Convert(Scaleform::BoolFormatter *this
     {
       if ( (v1 & 1) != 0 )
       {
-        this->result.pStr = (const char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1];
+        this->result.pStr = "true";
         this->result.Size = 4;
         this->IsConverted = 1;
         return;
       }
-      this->result.pStr = (const char *)&stru_95AF78.m_key_bindings[6];
+      this->result.pStr = "false";
       this->result.Size = 5;
     }
     this->IsConverted = 1;

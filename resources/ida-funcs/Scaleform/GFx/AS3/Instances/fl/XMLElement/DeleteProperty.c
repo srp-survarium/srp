@@ -44,7 +44,7 @@ LABEL_26:
         goto LABEL_27;
     }
     RefCount = v12->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       v12->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);
@@ -86,7 +86,7 @@ LABEL_13:
       }
     }
     v8 = v7->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+    if ( (v8 & 0x3FFFFF) != 0 )
     {
       v7->RefCount = v8 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

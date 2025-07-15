@@ -1,5 +1,5 @@
 void __usercall Scaleform::GFx::AS3::Instances::fl::Date::GetCurrentTimeValue(
-        unsigned int a1@<ebx>,
+        int a1@<ebx>,
         long double *timeValue,
         int *localTZA)
 {

@@ -1,147 +1,64 @@
-void __thiscall vostok::render::grass_patch::init_collision(
-        vostok::render::grass_patch *this,
-        vostok::render::grass_patch *thisa)
+void __thiscall vostok::render::grass_patch::init_collision(vostok::render::grass_patch *this, int a2)
 {
-  void **M_start; // ecx
-  void **M_finish; // edx
-  int v4; // eax
+  int v3; // esi
+  float v4; // xmm1_4
   float v5; // xmm2_4
-  unsigned int v6; // ecx
-  float v7; // xmm1_4
-  float x; // xmm4_4
-  const vostok::math::float4x4 *v9; // eax
-  int v10; // eax
-  vostok::collision::geometry_instance *v11; // edx
-  vostok::collision::geometry_instance *v12; // esi
-  int v13; // eax
-  vostok::collision::space_partitioning_tree *m_collision_tree; // ecx
-  __int64 v15; // [esp+14h] [ebp-E4h]
-  __int64 v16; // [esp+14h] [ebp-E4h]
-  float v17; // [esp+1Ch] [ebp-DCh]
-  float v18; // [esp+1Ch] [ebp-DCh]
-  float v19; // [esp+20h] [ebp-D8h]
-  float v20; // [esp+24h] [ebp-D4h]
-  __int64 v21; // [esp+28h] [ebp-D0h]
-  float z; // [esp+30h] [ebp-C8h]
-  vostok::math::float4x4 transform; // [esp+38h] [ebp-C0h] BYREF
-  vostok::math::float4x4 dst; // [esp+78h] [ebp-80h] BYREF
-  vostok::math::float4x4 result; // [esp+B8h] [ebp-40h] BYREF
+  float v6; // xmm2_4
+  float v7; // xmm3_4
+  unsigned int v8; // xmm1_4
+  unsigned int v9; // xmm2_4
+  vostok::math::float4x4 *v10; // eax
+  vostok::collision::geometry_instance *v11; // eax
+  vostok::collision::object *v12; // eax
+  vostok::math::float4x4 v13; // [esp+14h] [ebp-D4h] BYREF
+  vostok::math::float4x4 v14; // [esp+54h] [ebp-94h] BYREF
+  vostok::math::float4x4 matrix; // [esp+94h] [ebp-54h] BYREF
+  float v16; // [esp+D4h] [ebp-14h]
+  vostok::math::float3 v17; // [esp+D8h] [ebp-10h] BYREF
+  float v18; // [esp+F0h] [ebp+8h]
+  vostok::math::float4x4 *v19; // [esp+F0h] [ebp+8h]
 
-  if ( (_S6_5 & 1) == 0 )
+  if ( (_S5_5 & 1) == 0 )
   {
-    _S6_5 |= 1u;
-    s_randomizer_0.m_seed = (unsigned int)&loc_186A0;
+    _S5_5 |= 1u;
+    s_randomizer_0.m_seed = 100000;
   }
-  M_start = thisa->m_instances._M_impl._M_start;
-  M_finish = thisa->m_instances._M_impl._M_finish;
-  thisa->m_aabb.min.y = float_max_12;
-  for ( thisa->m_aabb.max.y = float_min_9; M_start != M_finish; thisa->m_aabb.max.z = v17 )
-  {
-    v4 = (int)*M_start + 56;
-    if ( *(float *)v4 <= thisa->m_aabb.min.x )
-      LODWORD(v21) = *((_DWORD *)*M_start + 14);
-    else
-      *(float *)&v21 = thisa->m_aabb.min.x;
-    if ( *((float *)*M_start + 15) <= thisa->m_aabb.min.y )
-      HIDWORD(v21) = *((_DWORD *)*M_start + 15);
-    else
-      HIDWORD(v21) = LODWORD(thisa->m_aabb.min.y);
-    if ( *((float *)*M_start + 16) <= thisa->m_aabb.min.z )
-      z = *((float *)*M_start + 16);
-    else
-      z = thisa->m_aabb.min.z;
-    *(_QWORD *)&thisa->m_aabb.min.x = v21;
-    thisa->m_aabb.min.z = z;
-    if ( thisa->m_aabb.max.x <= *(float *)v4 )
-      LODWORD(v15) = *(_DWORD *)v4;
-    else
-      *(float *)&v15 = thisa->m_aabb.max.x;
-    if ( thisa->m_aabb.max.y <= *(float *)(v4 + 4) )
-      HIDWORD(v15) = *(_DWORD *)(v4 + 4);
-    else
-      HIDWORD(v15) = LODWORD(thisa->m_aabb.max.y);
-    if ( thisa->m_aabb.max.z <= *(float *)(v4 + 8) )
-      v17 = *(float *)(v4 + 8);
-    else
-      v17 = thisa->m_aabb.max.z;
-    ++M_start;
-    *(_QWORD *)&thisa->m_aabb.max.x = v15;
-  }
-  thisa->m_aabb.min.y = thisa->m_aabb.min.y - 0.2;
-  thisa->m_aabb.max.y = thisa->m_aabb.max.y + 3.0;
-  v5 = (float)(thisa->m_aabb.max.z + thisa->m_aabb.min.z) * 0.5;
-  *(float *)&v16 = (float)(thisa->m_aabb.min.x + thisa->m_aabb.max.x) * 0.5;
-  *((float *)&v16 + 1) = (float)(thisa->m_aabb.max.y + thisa->m_aabb.min.y) * 0.5;
-  *(_QWORD *)&thisa->m_origin.x = v16;
-  thisa->m_origin.z = v5;
-  v19 = (double)((((unsigned int)&loc_FFFFF + 1) * (unsigned __int64)(134775813 * s_randomizer_0.m_seed + 1)) >> 32)
-      * 0.00000095367432
-      * 0.1;
-  v6 = 134775813 * (134775813 * s_randomizer_0.m_seed + 1) + 1;
-  v20 = (double)((((unsigned int)&loc_FFFFF + 1) * (unsigned __int64)v6) >> 32) * 0.00000095367432 * 0.1;
-  s_randomizer_0.m_seed = 134775813 * v6 + 1;
-  v7 = (float)(v19 - 0.25) + thisa->m_origin.z;
-  *(float *)&v16 = 0.1
-                 * (0.00000095367432
-                  * (double)((((unsigned int)&loc_FFFFF + 1) * (unsigned __int64)s_randomizer_0.m_seed) >> 32));
-  x = thisa->m_origin.x;
-  thisa->m_origin.y = (float)(v20 - 0.25) + thisa->m_origin.y;
-  thisa->m_origin.z = v7;
-  thisa->m_origin.x = x + (float)(*(float *)&v16 - 0.25);
-  *(float *)&v16 = (float)(thisa->m_aabb.max.x - thisa->m_aabb.min.x) * 0.5;
-  *((float *)&v16 + 1) = (float)(thisa->m_aabb.max.y - thisa->m_aabb.min.y) * 0.5;
-  v18 = (float)(thisa->m_aabb.max.z - thisa->m_aabb.min.z) * 0.5;
-  memset((int)&dst, 0, sizeof(dst));
-  dst.j.y = *((float *)&v16 + 1);
-  LODWORD(dst.i.x) = v16;
-  dst.k.z = v18;
-  LODWORD(dst.c.w) = clear_value;
-  v9 = vostok::math::create_translation(&result, &thisa->m_origin);
-  vostok::math::mul4x3(&transform, &dst, v9);
-  v10 = ((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-          vostok::render::g_allocator.m_object,
-          136);
-  if ( v10 )
-  {
-    *(_BYTE *)(v10 + 4) = 1;
-    *(_DWORD *)v10 = &vostok::collision::box_geometry_instance::`vftable';
-    qmemcpy((void *)(v10 + 8), &transform, 0x40u);
-    invert_impl(
-      &transform,
-      (float)((float)((float)((float)(transform.k.z * transform.j.y) - (float)(transform.j.z * transform.k.y))
-                    * transform.i.x)
-            - (float)((float)((float)(transform.k.z * transform.j.x) - (float)(transform.j.z * transform.k.x))
-                    * transform.i.y))
-    + (float)((float)((float)(transform.j.x * transform.k.y) - (float)(transform.j.y * transform.k.x)) * transform.i.z));
-    v12 = v11;
-  }
-  else
-  {
-    v12 = 0;
-  }
-  thisa->m_collision_geometry = v12;
-  v13 = ((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-          vostok::render::g_allocator.m_object,
-          52);
-  if ( v13 )
-  {
-    *(_QWORD *)(v13 + 4) = 0;
-    *(_DWORD *)(v13 + 12) = 0;
-    *(_QWORD *)(v13 + 16) = 0;
-    *(_DWORD *)(v13 + 24) = 0;
-    *(_DWORD *)(v13 + 28) = 0;
-    *(_DWORD *)(v13 + 32) = 0;
-    *(_BYTE *)(v13 + 44) = 1;
-    *(_DWORD *)v13 = &vostok::collision::collision_object::`vftable';
-    *(_DWORD *)(v13 + 48) = v12;
-    *(_DWORD *)(v13 + 36) = thisa;
-    *(_DWORD *)(v13 + 40) = 1;
-  }
-  else
-  {
-    v13 = 0;
-  }
-  m_collision_tree = thisa->m_collision_tree;
-  thisa->m_collision_object = (vostok::collision::object *)v13;
-  m_collision_tree->insert(m_collision_tree, (vostok::collision::object *)v13, &transform);
+  v3 = *(_DWORD *)(a2 + 20);
+  *(float *)(a2 + 96) = float_max_19;
+  for ( *(float *)(a2 + 108) = float_min_15; v3; v3 = *(_DWORD *)(v3 + 8) )
+    vostok::math::aabb::modify((vostok::math::aabb *)(v3 + 60), (vostok::math::aabb *)(a2 + 92));
+  *(float *)(a2 + 96) = *(float *)(a2 + 96) - 0.2;
+  *(float *)(a2 + 108) = *(float *)(a2 + 108) + 3.0;
+  v4 = *(float *)(a2 + 108) + *(float *)(a2 + 96);
+  v5 = *(float *)(a2 + 112) + *(float *)(a2 + 100);
+  v17.x = (float)(*(float *)(a2 + 92) + *(float *)(a2 + 104)) * 0.5;
+  v17.y = v4 * 0.5;
+  v17.z = v5 * 0.5;
+  *(vostok::math::float3 *)(a2 + 16512) = v17;
+  v18 = vostok::math::random32::random_f(&s_randomizer_0, 0.1);
+  v16 = vostok::math::random32::random_f(&s_randomizer_0, 0.1);
+  v17.z = vostok::math::random32::random_f(&s_randomizer_0, 0.1);
+  v6 = v16 - 0.25;
+  v7 = v17.z - 0.25;
+  *(float *)(a2 + 16512) = *(float *)(a2 + 16512) + (float)(v18 - 0.25);
+  *(float *)(a2 + 16516) = *(float *)(a2 + 16516) + v6;
+  *(float *)(a2 + 16520) = *(float *)(a2 + 16520) + v7;
+  *(float *)&v8 = (float)(*(float *)(a2 + 108) - *(float *)(a2 + 96)) * 0.5;
+  *(float *)&v9 = (float)(*(float *)(a2 + 112) - *(float *)(a2 + 100)) * 0.5;
+  v17.x = (float)(*(float *)(a2 + 104) - *(float *)(a2 + 92)) * 0.5;
+  *(_QWORD *)&v17.elements[1] = __PAIR64__(v9, v8);
+  v19 = vostok::math::create_translation((const vostok::math::float3 *)(a2 + 16512), &v14);
+  v10 = vostok::math::create_scale(&v17, &v13);
+  vostok::math::mul4x3(v19, v10, &matrix);
+  v11 = vostok::collision::new_box_geometry_instance(&vostok::memory::g_mt_allocator, &matrix);
+  *(_DWORD *)(a2 + 84) = v11;
+  v12 = vostok::collision::new_collision_object(
+          &vostok::memory::g_mt_allocator,
+          (unsigned int)v11,
+          (vostok::collision::geometry_instance *)a2);
+  *(_DWORD *)(a2 + 88) = v12;
+  (***(void (__thiscall ****)(_DWORD, vostok::collision::object *, vostok::math::float4x4 *))(a2 + 80))(
+    *(_DWORD *)(a2 + 80),
+    v12,
+    &matrix);
 }

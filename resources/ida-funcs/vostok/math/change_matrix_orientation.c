@@ -1,30 +1,24 @@
-void __cdecl vostok::math::change_matrix_orientation(
+void __fastcall vostok::math::change_matrix_orientation(
         const vostok::math::float4x4 *rotation_matrix,
         vostok::math::float4x4 *matrix_to_rotate)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::math::float3 *v3; // eax
-  _DWORD *v4; // eax
-  _DWORD *v5; // esi
-  survarium::game_camera *v6; // ecx
-  _DWORD *v7; // eax
-  vostok::math::float3 *v8; // eax
-  vostok::math::float4x4 result; // [esp+1Ch] [ebp-58h] BYREF
-  vostok::math::float3 v10; // [esp+5Ch] [ebp-18h] BYREF
-  vostok::math::float3 pos; // [esp+68h] [ebp-Ch]
+  vostok::math::float4_pod *p_c; // ebx
+  vostok::math::float4x4 *v3; // edx
+  vostok::math::float4x4 v4; // [esp+4h] [ebp-58h] BYREF
+  __int64 v5; // [esp+44h] [ebp-18h]
+  float z; // [esp+4Ch] [ebp-10h]
+  int v7; // [esp+50h] [ebp-Ch]
+  __int64 v8; // [esp+54h] [ebp-8h]
 
-  survarium::weapon_user_dead_state::finalize(v2);
-  pos = *v3;
-  vostok::math::float3::float3(&v10, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-  v5 = v4;
-  survarium::weapon_user_dead_state::finalize(v6);
-  *v7 = *v5;
-  v7[1] = v5[1];
-  v7[2] = v5[2];
-  qmemcpy(
-    (void *)matrix_to_rotate,
-    vostok::math::operator*(&result, matrix_to_rotate, rotation_matrix),
-    sizeof(vostok::math::float4x4));
-  survarium::weapon_user_dead_state::finalize(0);
-  *v8 = pos;
+  p_c = &matrix_to_rotate->c;
+  v5 = *(_QWORD *)&matrix_to_rotate->lines[3].x;
+  z = matrix_to_rotate->c.z;
+  v7 = 0;
+  v8 = 0;
+  matrix_to_rotate->c.x = 0.0;
+  *(_QWORD *)&matrix_to_rotate->lines[3].elements[1] = v8;
+  vostok::math::mul4x3(rotation_matrix, matrix_to_rotate, &v4);
+  qmemcpy(v3, &v4, sizeof(vostok::math::float4x4));
+  *(_QWORD *)&p_c->x = v5;
+  p_c->z = z;
 }

@@ -21,21 +21,21 @@ void __thiscall Scaleform::GFx::AS2::ExecutionContext::InstanceOfOpCode(Scalefor
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *v20; // esi
   Scaleform::GFx::AS2::Value *v21; // esi
   Scaleform::GFx::AS2::Environment *v22; // [esp+2h] [ebp-38h]
-  bool rv; // [esp+19h] [ebp-21h]
-  Scaleform::GFx::AS2::FunctionRef ctorFunc; // [esp+1Eh] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::Value prototypeVal; // [esp+2Ah] [ebp-10h] BYREF
+  bool v23; // [esp+19h] [ebp-21h]
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+1Eh] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::Value v25; // [esp+2Ah] [ebp-10h] BYREF
 
   pEnv = this->pEnv;
   pCurrent = this->pEnv->Stack.pCurrent;
   pPrevPageTop = pCurrent - 1;
   if ( pCurrent <= pEnv->Stack.pPageStart )
     pPrevPageTop = pEnv->Stack.pPrevPageTop;
-  rv = 0;
+  v23 = 0;
   if ( pCurrent->T.Type == 8 || pCurrent->T.Type == 11 )
   {
-    Scaleform::GFx::AS2::Value::ToFunction(pCurrent, &ctorFunc, pEnv);
-    Function = ctorFunc.Function;
-    if ( ctorFunc.Function )
+    Scaleform::GFx::AS2::Value::ToFunction(pCurrent, &result, pEnv);
+    Function = result.Function;
+    if ( result.Function )
     {
       v22 = this->pEnv;
       if ( pPrevPageTop->T.Type == 7 )
@@ -57,29 +57,35 @@ LABEL_11:
           if ( v7 )
           {
             v9 = this->pEnv;
-            prototypeVal.T.Type = 0;
+            v25.T.Type = 0;
             if ( Function->GetMemberRaw(
                    &Function->Scaleform::GFx::AS2::ObjectInterface,
                    &v9->StringContext,
                    (const Scaleform::GFx::ASString *)&v9->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[23].pASSupport,
-                   &prototypeVal) )
+                   &v25) )
             {
-              v10 = Scaleform::GFx::AS2::Value::ToObject(&prototypeVal, this->pEnv);
-              rv = v7->InstanceOf(v7, this->pEnv, v10, 1);
+              v10 = Scaleform::GFx::AS2::Value::ToObject(&v25, this->pEnv);
+              v23 = v7->InstanceOf(v7, this->pEnv, v10, 1);
             }
-            if ( prototypeVal.T.Type >= 5u )
-              Scaleform::GFx::AS2::Value::DropRefs(&prototypeVal);
+            else if ( (*((_BYTE *)this + 54) & 1) != 0 )
+            {
+              Scaleform::GFx::AS2::ActionLogger::LogScriptError(
+                &this->LogF,
+                "The constructor function in InstanceOf should have 'prototype'.");
+            }
+            if ( v25.T.Type >= 5u )
+              Scaleform::GFx::AS2::Value::DropRefs(&v25);
           }
         }
       }
     }
-    Flags = ctorFunc.Flags;
-    if ( (ctorFunc.Flags & 2) == 0 )
+    Flags = result.Flags;
+    if ( (result.Flags & 2) == 0 )
     {
       if ( Function )
       {
         RefCount = Function->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           Function->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -88,18 +94,22 @@ LABEL_11:
     }
     if ( (Flags & 1) == 0 )
     {
-      pLocalFrame = ctorFunc.pLocalFrame;
-      if ( ctorFunc.pLocalFrame )
+      pLocalFrame = result.pLocalFrame;
+      if ( result.pLocalFrame )
       {
-        v14 = ctorFunc.pLocalFrame->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v14) != 0 )
+        v14 = result.pLocalFrame->RefCount;
+        if ( (v14 & 0x3FFFFFF) != 0 )
         {
-          ctorFunc.pLocalFrame->RefCount = v14 - 1;
+          result.pLocalFrame->RefCount = v14 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
         }
       }
     }
+    goto LABEL_28;
   }
+  if ( (*((_BYTE *)this + 54) & 1) != 0 )
+    Scaleform::GFx::AS2::ActionLogger::LogScriptError(&this->LogF, "The parameter of InstanceOf should be a function.");
+LABEL_28:
   v15 = this->pEnv->Stack.pCurrent;
   p_Stack = &this->pEnv->Stack;
   if ( &v15[-2] >= this->pEnv->Stack.pPageStart )
@@ -133,6 +143,6 @@ LABEL_11:
   if ( v21 )
   {
     v21->T.Type = 2;
-    v21->V.BooleanValue = rv;
+    v21->V.BooleanValue = v23;
   }
 }

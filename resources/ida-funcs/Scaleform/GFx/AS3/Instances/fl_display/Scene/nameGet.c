@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::nameGet(
   {
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    result->pNode->pManager,
-                   (char *)((SceneInfo->Name.HeapTypeBits & 0xFFFFFFFC) + 8),
+                   (__m128i *)((SceneInfo->Name.HeapTypeBits & 0xFFFFFFFC) + 8),
                    *(_DWORD *)(SceneInfo->Name.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++StringNode->RefCount;
     pNode = result->pNode;

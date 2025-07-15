@@ -9,13 +9,13 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
   Scaleform::GFx::Resource *v6; // edi
   unsigned int (__thiscall *GetResourceTypeCode)(Scaleform::GFx::Resource *); // edx
   unsigned int (__thiscall *v9)(Scaleform::GFx::Resource *); // edx
-  Scaleform::File *v10; // ebp
+  Scaleform::GFx::Resource *v10; // ebp
   unsigned int v11; // eax
   int v12; // edx
   bool v13; // zf
   bool v14; // bl
   char *v15; // ecx
-  Scaleform::File *v17; // ebp
+  Scaleform::GFx::Resource *v17; // ebp
   Scaleform::GFx::ZlibSupportBase *v18; // ebp
   Scaleform::GFx::LogState *v19; // edi
   Scaleform::Log *pObject; // eax
@@ -35,7 +35,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
   unsigned __int16 v34; // dx
   int TagOffset; // [esp-4h] [ebp-28h]
   unsigned int v36; // [esp+10h] [ebp-14h] BYREF
-  Scaleform::GFx::TagInfo tagInfo; // [esp+14h] [ebp-10h] BYREF
+  Scaleform::GFx::TagInfo pTagInfo; // [esp+14h] [ebp-10h] BYREF
 
   v6 = pin;
   this->FileStartPos = ((int (__thiscall *)(Scaleform::GFx::Resource *))pin->__vftable[1].~Scaleform::GFx::Resource)(pin);
@@ -45,7 +45,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
   v9 = v6->__vftable[2].GetResourceTypeCode;
   pin = 0;
   ((void (__thiscall *)(Scaleform::GFx::Resource *, Scaleform::GFx::Resource **, int))v9)(v6, &pin, 4);
-  v10 = (Scaleform::File *)pin;
+  v10 = pin;
   this->FileEndPos = (unsigned int)pin + this->FileStartPos;
   v11 = v36;
   v12 = HIBYTE(v36);
@@ -54,13 +54,13 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
   this->Header.SWFFlags = 0;
   v14 = v13;
   this->FileAttributes = 0;
-  v15 = (char *)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v11);
+  v15 = (char *)(v11 & 0xFFFFFF);
   this->Header.FileLength = (unsigned int)v10;
   this->Header.Version = v12;
-  if ( (_UNKNOWN *)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v11) != &loc_535746
-    && v15 != (char *)&loc_535741 + 2
-    && v15 != (_BYTE *)&loc_584645 + 2
-    && v15 != (_BYTE *)vostok::physics::parallelComponent + 3 )
+  if ( (_UNKNOWN *)(v11 & 0xFFFFFF) != (_UNKNOWN *)((char *)&loc_535744 + 2)
+    && v15 != (char *)&loc_53573F + 4
+    && v15 != (char *)&loc_584646 + 1
+    && v15 != (char *)&loc_58463E + 5 )
   {
     if ( plog )
       Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogError(
@@ -68,7 +68,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
         "Loader read failed - file does not start with a SWF header");
     return 0;
   }
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & v11) == 0x580000 )
+  if ( (_UNKNOWN *)(v11 & 0xFF0000) == (_UNKNOWN *)((char *)&loc_57FFFD + 3) )
     this->Header.SWFFlags = 16;
   if ( v13 )
     this->Header.SWFFlags |= 1u;
@@ -87,7 +87,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
     LOBYTE(parseMsg) = 0;
   }
   Scaleform::RefCountImpl::AddRef(v6);
-  v17 = (Scaleform::File *)v6;
+  v17 = v6;
   if ( v14 )
   {
     v18 = zlib;
@@ -102,7 +102,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
     }
     if ( (_BYTE)parseMsg )
       Scaleform::GFx::LogState::LogMessageByType(plog, (Scaleform::LogMessageId)20480, "SWF file is compressed.\n");
-    v17 = v18->CreateZlibFile(v18, (Scaleform::File *)v6);
+    v17 = (Scaleform::GFx::Resource *)v18->CreateZlibFile(v18, (Scaleform::File *)v6);
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v6);
     this->FileEndPos = this->Header.FileLength - 8;
   }
@@ -136,7 +136,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
   {
     if ( this->Header.Version < 9 || v27 + this->Stream.FilePos - this->Stream.DataSize >= this->FileEndPos )
       goto LABEL_56;
-    if ( Scaleform::GFx::Stream::OpenTag(&this->Stream, &tagInfo) == Tag_FileAttributes )
+    if ( Scaleform::GFx::Stream::OpenTag(&this->Stream, &pTagInfo) == Tag_FileAttributes )
     {
       v32 = this->Stream.DataSize - this->Stream.Pos;
       this->Stream.UnusedBits = 0;
@@ -148,7 +148,7 @@ char __thiscall Scaleform::GFx::SWFProcessInfo::Initialize(
       this->FileAttributes = v34;
     }
     Scaleform::GFx::Stream::CloseTag(&this->Stream);
-    TagOffset = tagInfo.TagOffset;
+    TagOffset = pTagInfo.TagOffset;
     goto LABEL_55;
   }
   if ( this->Stream.FilePos + v27 - this->Stream.DataSize >= this->FileEndPos )
@@ -159,9 +159,9 @@ LABEL_36:
     v28 = this->Stream.FilePos - this->Stream.DataSize + this->Stream.Pos;
     if ( v28 >= this->FileEndPos )
       goto LABEL_56;
-    while ( Scaleform::GFx::Stream::OpenTag(&this->Stream, &tagInfo) >= Tag_ExporterInfo )
+    while ( Scaleform::GFx::Stream::OpenTag(&this->Stream, &pTagInfo) >= Tag_ExporterInfo )
       Scaleform::GFx::Stream::CloseTag(&this->Stream);
-    if ( tagInfo.TagType == Tag_FileAttributes )
+    if ( pTagInfo.TagType == Tag_FileAttributes )
     {
       v29 = this->Stream.DataSize - this->Stream.Pos;
       this->Stream.UnusedBits = 0;
@@ -181,7 +181,7 @@ LABEL_56:
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v17);
     return 1;
   }
-  if ( Scaleform::GFx::Stream::OpenTag(&this->Stream) == Tag_ExporterInfo )
+  if ( Scaleform::GFx::Stream::OpenTag(&this->Stream) == 1000 )
   {
     Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
       &this->Header.mExporterInfo,

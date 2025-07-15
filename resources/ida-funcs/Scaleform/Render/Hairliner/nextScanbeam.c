@@ -1,4 +1,4 @@
-unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
+int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
         Scaleform::Render::Hairliner *this,
         float yb,
         float yt,
@@ -36,7 +36,7 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
   unsigned int v34; // ebx
   bool v35; // zf
   unsigned int Size; // ecx
-  unsigned int v37; // edi
+  int v37; // edi
   int v38; // edx
   Scaleform::Render::Hairliner::MonoChainType ***v39; // ebx
   Scaleform::Render::Hairliner::MonoChainType *v40; // ebp
@@ -68,40 +68,40 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
   Scaleform::Render::Hairliner::MonoChainType **v66; // eax
   Scaleform::Render::Hairliner::MonoChainType **v67; // ecx
   Scaleform::Render::Hairliner::MonoChainType *v68; // edx
-  unsigned int retFlags; // [esp+10h] [ebp-2Ch]
-  unsigned int i; // [esp+14h] [ebp-28h]
-  unsigned int ia; // [esp+14h] [ebp-28h]
-  unsigned int ib; // [esp+14h] [ebp-28h]
-  unsigned int ic; // [esp+14h] [ebp-28h]
+  int v70; // [esp+10h] [ebp-2Ch]
+  unsigned int v71; // [esp+14h] [ebp-28h]
+  unsigned int v72; // [esp+14h] [ebp-28h]
+  unsigned int v73; // [esp+14h] [ebp-28h]
+  int v74; // [esp+14h] [ebp-28h]
   float v75; // [esp+18h] [ebp-24h]
   float v76; // [esp+18h] [ebp-24h]
   float v77; // [esp+18h] [ebp-24h]
   int v78; // [esp+18h] [ebp-24h]
   unsigned __int8 *v79; // [esp+18h] [ebp-24h]
-  unsigned int k; // [esp+1Ch] [ebp-20h]
-  unsigned int ka; // [esp+1Ch] [ebp-20h]
-  unsigned int kb; // [esp+1Ch] [ebp-20h]
-  Scaleform::Render::Hairliner::MonoChainType **den; // [esp+20h] [ebp-1Ch]
-  float denb; // [esp+20h] [ebp-1Ch]
-  float denc; // [esp+20h] [ebp-1Ch]
-  unsigned int dena; // [esp+20h] [ebp-1Ch]
-  float height; // [esp+24h] [ebp-18h]
+  unsigned int v80; // [esp+1Ch] [ebp-20h]
+  int v81; // [esp+1Ch] [ebp-20h]
+  unsigned int v82; // [esp+1Ch] [ebp-20h]
+  Scaleform::Render::Hairliner::MonoChainType **v83; // [esp+20h] [ebp-1Ch]
+  float v84; // [esp+20h] [ebp-1Ch]
+  float v85; // [esp+20h] [ebp-1Ch]
+  unsigned int v86; // [esp+20h] [ebp-1Ch]
+  float v87; // [esp+24h] [ebp-18h]
   int v88; // [esp+28h] [ebp-14h]
   int v89; // [esp+2Ch] [ebp-10h]
-  Scaleform::Render::Hairliner::MonoChainType *in; // [esp+30h] [ebp-Ch]
-  Scaleform::Render::Hairliner::MonoChainType *in_4; // [esp+34h] [ebp-8h]
-  float in_8; // [esp+38h] [ebp-4h]
-  Scaleform::Render::Hairliner::MonoChainType *startMca; // [esp+48h] [ebp+Ch]
-  unsigned int startMcb; // [esp+48h] [ebp+Ch]
-  unsigned int numMca; // [esp+4Ch] [ebp+10h]
+  Scaleform::Render::Hairliner::MonoChainType *v90; // [esp+30h] [ebp-Ch]
+  Scaleform::Render::Hairliner::MonoChainType *v91; // [esp+34h] [ebp-8h]
+  float v92; // [esp+38h] [ebp-4h]
+  Scaleform::Render::Hairliner::MonoChainType *v93; // [esp+48h] [ebp+Ch]
+  unsigned int v94; // [esp+48h] [ebp+Ch]
+  int v95; // [esp+4Ch] [ebp+10h]
 
   v6 = numMc;
   v7 = 0;
-  retFlags = numMc != 0;
+  v70 = numMc != 0;
   v8 = yt;
   this->ValidChains.Size = 0;
   v9 = yb;
-  i = 0;
+  v71 = 0;
   if ( this->ActiveChains.Size )
   {
     do
@@ -139,14 +139,14 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
               this->ValidChains.Size >> 4);
           v8 = yt;
           v9 = yb;
-          v21 = i;
-          this->ValidChains.Pages[v20][this->ValidChains.Size++ & 0xF] = i;
+          v21 = v71;
+          this->ValidChains.Pages[v20][this->ValidChains.Size++ & 0xF] = v71;
           v10->flags |= 2u;
         }
         else
         {
-          retFlags |= 2u;
-          v21 = i;
+          v70 |= 2u;
+          v21 = v71;
           v10->xb = v10->xt;
           v10->flags = flags | 1;
           v10->flags |= 2u;
@@ -176,11 +176,11 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
             this->ValidChains.Size >> 4);
         v8 = yt;
         v9 = yb;
-        v21 = i;
-        this->ValidChains.Pages[v27][this->ValidChains.Size++ & 0xF] = i;
+        v21 = v71;
+        this->ValidChains.Pages[v27][this->ValidChains.Size++ & 0xF] = v71;
       }
       v7 = v21 + 1;
-      i = v7;
+      v71 = v7;
     }
     while ( v7 < this->ActiveChains.Size );
     v6 = numMc;
@@ -188,8 +188,8 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
   if ( v6 )
   {
     v28 = startMc;
-    ia = startMc;
-    k = v6;
+    v72 = startMc;
+    v80 = v6;
     do
     {
       v29 = this->MonoChainsSorted.Pages[v28 >> 4][v28 & 0xF];
@@ -215,33 +215,33 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
           this->ActiveChains.Size >> 4);
       v8 = yt;
       this->ActiveChains.Pages[v34][this->ActiveChains.Size++ & 0xF] = 0;
-      v28 = ia + 1;
-      v35 = k-- == 1;
-      ++ia;
+      v28 = v72 + 1;
+      v35 = v80-- == 1;
+      ++v72;
     }
     while ( !v35 );
     v9 = yb;
     Size = this->ActiveChains.Size;
     v37 = Size - numMc;
     v38 = numMc + startMc;
-    ka = Size - numMc;
+    v81 = Size - numMc;
     v78 = numMc + startMc;
-    ib = Size - numMc - 1;
+    v73 = Size - numMc - 1;
     while ( 1 )
     {
       if ( v37
         && ((v39 = this->ActiveChains.Pages,
-             startMca = this->MonoChainsSorted.Pages[(unsigned int)(v38 - 1) >> 4][((_BYTE)v38 - 1) & 0xF],
-             v40 = v39[ib >> 4][ib & 0xF],
-             startMca->xb == v40->xb)
-          ? (xt = v40->xt, xb = startMca->xt)
-          : (xt = v40->xb, xb = startMca->xb),
+             v93 = this->MonoChainsSorted.Pages[(unsigned int)(v38 - 1) >> 4][((_BYTE)v38 - 1) & 0xF],
+             v40 = v39[v73 >> 4][v73 & 0xF],
+             v93->xb == v40->xb)
+          ? (xt = v40->xt, xb = v93->xt)
+          : (xt = v40->xb, xb = v93->xb),
             xb <= xt) )
       {
-        --ib;
+        --v73;
         --Size;
-        ka = v37 - 1;
-        v39[Size >> 4][Size & 0xF] = v39[(v37 - 1) >> 4][(v37 - 1) & 0xF];
+        v81 = v37 - 1;
+        v39[Size >> 4][Size & 0xF] = v39[(unsigned int)(v37 - 1) >> 4][(v37 - 1) & 0xF];
       }
       else
       {
@@ -253,12 +253,12 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
       if ( !numMc )
         break;
       v38 = v78;
-      v37 = ka;
+      v37 = v81;
     }
   }
   v43 = 0;
   this->Intersections.Size = 0;
-  if ( (retFlags & 1) != 0 )
+  if ( (v70 & 1) != 0 )
   {
     this->ValidChains.Size = 0;
     if ( this->ActiveChains.Size )
@@ -281,43 +281,43 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
       while ( v43 < this->ActiveChains.Size );
     }
   }
-  height = v8 - v9;
+  v87 = v8 - v9;
   if ( this->ValidChains.Size > 1 )
   {
     v45 = 0;
-    ic = 0;
+    v74 = 0;
     do
     {
-      numMca = v45;
+      v95 = v45;
       if ( v45 >= 0 )
       {
-        startMcb = v45 + 1;
+        v94 = v45 + 1;
         while ( 1 )
         {
           v46 = this->ValidChains.Pages;
           v47 = this->ActiveChains.Pages;
           v48 = (unsigned int)v45 >> 4;
           v49 = v45 & 0xF;
-          in = v47[v46[v48][v49] >> 4][v46[v48][v49] & 0xF];
-          v88 = startMcb >> 4;
-          v50 = v46[v88][startMcb & 0xF];
-          v89 = startMcb & 0xF;
+          v90 = v47[v46[v48][v49] >> 4][v46[v48][v49] & 0xF];
+          v88 = v94 >> 4;
+          v50 = v46[v88][v94 & 0xF];
+          v89 = v94 & 0xF;
           v51 = v47[v50 >> 4][v50 & 0xF];
-          v52 = in;
-          in_4 = v51;
-          if ( v51->xt >= (double)in->xt )
+          v52 = v90;
+          v91 = v51;
+          if ( v51->xt >= (double)v90->xt )
             break;
           v53 = 0;
           if ( !this->Intersections.Size )
           {
             this->ChainsAtBottom.Size = 0;
-            kb = 0;
+            v82 = 0;
             if ( this->ActiveChains.Size )
             {
               do
               {
                 v54 = this->ChainsAtBottom.Size >> 4;
-                den = &this->ActiveChains.Pages[v53 >> 4][v53 & 0xF];
+                v83 = &this->ActiveChains.Pages[v53 >> 4][v53 & 0xF];
                 if ( v54 >= this->ChainsAtBottom.NumPages )
                 {
                   MaxPages = this->ChainsAtBottom.MaxPages;
@@ -327,7 +327,7 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
                     if ( this->ChainsAtBottom.Pages )
                     {
                       v79 = Scaleform::Render::LinearHeap::Alloc(pHeap, 8 * MaxPages);
-                      memcpy(v79, (unsigned __int8 *)this->ChainsAtBottom.Pages, 4 * this->ChainsAtBottom.NumPages);
+                      memcpy((int)v79, (const __m128i *)this->ChainsAtBottom.Pages, 4 * this->ChainsAtBottom.NumPages);
                       v57 = v79;
                       this->ChainsAtBottom.MaxPages *= 2;
                     }
@@ -340,69 +340,69 @@ unsigned int __thiscall Scaleform::Render::Hairliner::nextScanbeam(
                   }
                   this->ChainsAtBottom.Pages[v54] = (Scaleform::Render::Hairliner::MonoChainType **)Scaleform::Render::LinearHeap::Alloc(this->ChainsAtBottom.pHeap, 0x40u);
                   ++this->ChainsAtBottom.NumPages;
-                  v53 = kb;
+                  v53 = v82;
                 }
-                this->ChainsAtBottom.Pages[v54][this->ChainsAtBottom.Size++ & 0xF] = *den;
-                kb = ++v53;
+                this->ChainsAtBottom.Pages[v54][this->ChainsAtBottom.Size++ & 0xF] = *v83;
+                v82 = ++v53;
               }
               while ( v53 < this->ActiveChains.Size );
               v8 = yt;
-              v52 = in;
+              v52 = v90;
               v9 = yb;
-              v51 = in_4;
+              v51 = v91;
             }
           }
-          denb = v51->xt - v51->xb - v52->xt + v52->xb;
-          v58 = denb;
-          if ( denb == 0.0 )
+          v84 = v51->xt - v51->xb - v52->xt + v52->xb;
+          v58 = v84;
+          if ( v84 == 0.0 )
           {
             v59 = v9;
           }
           else
           {
-            denc = v52->xb - v51->xb;
-            v59 = denc * height / v58 + v9;
+            v85 = v52->xb - v51->xb;
+            v59 = v85 * v87 / v58 + v9;
           }
-          in_8 = v59;
-          if ( in_8 < v9 )
-            in_8 = v9;
-          if ( in_8 > v8 )
-            in_8 = v8;
+          v92 = v59;
+          if ( v92 < v9 )
+            v92 = v9;
+          if ( v92 > v8 )
+            v92 = v8;
           v60 = this->Intersections.Size >> 4;
-          dena = v60;
+          v86 = v60;
           if ( v60 >= this->Intersections.NumPages )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::IntersectionType,4,4>::allocPage(
               (Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::IntersectionType,4,4> *)&this->Intersections,
               v60);
-            v60 = dena;
+            v60 = v86;
           }
           v8 = yt;
           v9 = yb;
           v61 = this->Intersections.Pages[v60];
           v62 = this->Intersections.Size & 0xF;
-          v61[v62].mc1 = in;
+          v61[v62].mc1 = v90;
           v63 = &v61[v62];
-          v63->mc2 = in_4;
-          v63->y = in_8;
+          v63->mc2 = v91;
+          v63->y = v92;
           ++this->Intersections.Size;
           v64 = this->ValidChains.Pages;
           v65 = this->ActiveChains.Pages;
-          --startMcb;
+          --v94;
           v66 = &v65[v64[v88][v89] >> 4][v64[v88][v89] & 0xF];
           v67 = &v65[v64[v48][v49] >> 4][v64[v48][v49] & 0xF];
           v68 = *v67;
           *v67 = *v66;
           *v66 = v68;
-          if ( (--numMca & 0x80000000) != 0 )
+          if ( --v95 < 0 )
             break;
-          v45 = numMca;
+          v45 = v95;
         }
-        v45 = ic;
+        v45 = v74;
       }
-      ic = ++v45;
+      v74 = ++v45;
     }
     while ( v45 + 1 < this->ValidChains.Size );
   }
-  return retFlags;
+  return v70;
 }

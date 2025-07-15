@@ -1,10 +1,10 @@
-Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *__thiscall Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
+Scaleform::Ptr<Scaleform::GFx::Sprite> *__thiscall Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
         Scaleform::WeakPtr<Scaleform::GFx::Sprite> *this,
-        Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *result)
+        Scaleform::Ptr<Scaleform::GFx::Sprite> *result)
 {
   Scaleform::WeakPtrProxy *pObject; // eax
   Scaleform::GFx::Sprite *v4; // eax
-  Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *v5; // eax
+  Scaleform::Ptr<Scaleform::GFx::Sprite> *v5; // eax
 
   pObject = this->pProxy.pObject;
   if ( !this->pProxy.pObject )

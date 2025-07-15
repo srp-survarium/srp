@@ -27,6 +27,6 @@ void __cdecl _initptd(_tiddata *ptd, threadlocaleinfostruct *ptloci)
   if ( !ptloci )
     ptd->ptlocinfo = __ptlocinfo;
   __addlocaleref(ptd->ptlocinfo);
-  savedregs = 1656415;
+  savedregs = 2761627;
   _unlock(12);
 }

@@ -25,8 +25,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::
   float v23; // [esp+56Ch] [ebp-188h]
   float v24; // [esp+56Ch] [ebp-188h]
   Scaleform::GFx::AS3::CheckResult v25; // [esp+573h] [ebp-181h] BYREF
-  unsigned __int8 dst[64]; // [esp+574h] [ebp-180h] BYREF
-  _DWORD v27[16]; // [esp+5B4h] [ebp-140h] BYREF
+  unsigned __int8 src[64]; // [esp+574h] [ebp-180h] BYREF
+  _DWORD dst[16]; // [esp+5B4h] [ebp-140h] BYREF
   Scaleform::GFx::AS3::Value argv; // [esp+5F4h] [ebp-100h] BYREF
   char vars0; // [esp+6F4h] [ebp+0h] BYREF
 
@@ -58,16 +58,16 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::
     v6 = focalLength;
   }
   v23 = v6;
-  memset((int)dst, 0, sizeof(dst));
-  *(float *)&dst[60] = 1.0;
-  *(float *)dst = v23;
-  *(float *)&dst[20] = v23;
-  *(float *)&dst[40] = 1.0;
-  memcpy((unsigned __int8 *)v27, dst, sizeof(v27));
-  *(float *)&v27[14] = 1.0;
+  memset((int)src, 0, sizeof(src));
+  *(float *)&src[60] = 1.0;
+  *(float *)src = v23;
+  *(float *)&src[20] = v23;
+  *(float *)&src[40] = 1.0;
+  memcpy((int)dst, (const __m128i *)src, sizeof(dst));
+  *(float *)&dst[14] = 1.0;
   p_argv = &argv;
   v8 = 15;
-  *(float *)&v27[15] = 0.0;
+  *(float *)&dst[15] = 0.0;
   do
   {
     p_argv->Flags = 0;
@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::
   v9 = &argv;
   do
   {
-    v24 = *(float *)&v27[v4];
+    v24 = *(float *)&dst[v4];
     if ( (v9->Flags & 0x1F) > 9 )
     {
       if ( (v9->Flags & 0x200) != 0 )

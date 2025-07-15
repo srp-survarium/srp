@@ -13,7 +13,7 @@ int __cdecl md_read(bio_st *b, char *out, int outl)
   next_bio = b->next_bio;
   if ( !next_bio )
     return 0;
-  v6 = BIO_read(next_bio, out, outl);
+  v6 = BIO_read((int)out, next_bio, out, outl);
   v7 = v6;
   if ( b->init && v6 > 0 && EVP_DigestUpdate(ptr) <= 0 )
     return -1;

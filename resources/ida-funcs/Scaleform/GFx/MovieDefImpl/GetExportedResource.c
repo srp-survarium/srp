@@ -1,4 +1,4 @@
-char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
+bool __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
         Scaleform::GFx::MovieDefImpl *this,
         Scaleform::GFx::ResourceBindData *pdata,
         const Scaleform::String *symbol,
@@ -18,7 +18,7 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
   Scaleform::Lock *p_ImportSourceLock; // esi
   Scaleform::GFx::MovieDefImpl::BindTaskData *v18; // ecx
   Scaleform::GFx::MovieDefImpl::BindTaskData *v19; // eax
-  unsigned int v20; // ecx
+  const Scaleform::String *v20; // ecx
   Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> *Data; // eax
   Scaleform::GFx::MovieDefImpl *v22; // esi
   Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> *v23; // ebp
@@ -26,30 +26,30 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
   Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> *v25; // ebp
   Scaleform::GFx::MovieDefImpl *v26; // ecx
   Scaleform::GFx::Resource **p_pObject; // esi
-  Scaleform::GFx::Resource **j; // esi
-  unsigned int i; // [esp+10h] [ebp-1Ch] BYREF
-  Scaleform::Lock::Locker loc; // [esp+14h] [ebp-18h]
-  Scaleform::GFx::ResourceHandle hres; // [esp+18h] [ebp-14h] BYREF
-  Scaleform::Array<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,265,Scaleform::ArrayDefaultPolicy> importsCopy; // [esp+20h] [ebp-Ch] BYREF
+  Scaleform::GFx::Resource **i; // esi
+  Scaleform::String::NoCaseKey key; // [esp+10h] [ebp-1Ch] BYREF
+  Scaleform::Lock *v30; // [esp+14h] [ebp-18h]
+  Scaleform::GFx::ResourceHandle v31; // [esp+18h] [ebp-14h] BYREF
+  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,Scaleform::AllocatorGH<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,265>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+20h] [ebp-Ch] BYREF
 
   pObject = this->pBindData.pObject->pDataDef.pObject->pData.pObject;
   v6 = 0;
   v7 = pObject->LoadState < LS_LoadFinished;
-  hres.HType = RH_Pointer;
-  hres.BindIndex = 0;
+  v31.HType = RH_Pointer;
+  v31.BindIndex = 0;
   if ( v7 )
   {
     v6 = pObject;
     EnterCriticalSection(&pObject->ResourceLock.cs);
   }
   v8 = this->pBindData.pObject->pDataDef.pObject->pData.pObject;
-  i = (unsigned int)symbol;
+  key.pStr = symbol;
   v9 = Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceHandle,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeHashF>>::GetAlt<Scaleform::String::NoCaseKey>(
          &v8->Exports.mHash,
-         (const Scaleform::String::NoCaseKey *)&i);
+         &key);
   if ( v9 )
   {
-    Scaleform::GFx::ResourceHandle::operator=(&hres, &v9->Second);
+    Scaleform::GFx::ResourceHandle::operator=(&v31, &v9->Second);
     v10 = 1;
   }
   else
@@ -60,25 +60,25 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
     LeaveCriticalSection(&v6->ResourceLock.cs);
   if ( v10 )
   {
-    if ( hres.HType == RH_Index )
+    if ( v31.HType == RH_Index )
     {
-      pResource = hres.pResource;
-      Scaleform::GFx::ResourceBinding::GetResourceData(&this->pBindData.pObject->ResourceBinding, pdata, hres.BindIndex);
+      pResource = v31.pResource;
+      Scaleform::GFx::ResourceBinding::GetResourceData(&this->pBindData.pObject->ResourceBinding, pdata, v31.BindIndex);
     }
     else
     {
       pdata->pBinding = &this->pBindData.pObject->ResourceBinding;
-      Resource = Scaleform::GFx::ResourceHandle::GetResource(&hres, &this->pBindData.pObject->ResourceBinding);
+      Resource = Scaleform::GFx::ResourceHandle::GetResource(&v31, &this->pBindData.pObject->ResourceBinding);
       v13 = Resource;
       if ( Resource )
         Scaleform::RefCountImpl::AddRef(Resource);
       if ( pdata->pResource.pObject )
         Scaleform::GFx::Resource::Release(pdata->pResource.pObject);
-      pResource = hres.pResource;
+      pResource = v31.pResource;
       pdata->pResource.pObject = v13;
     }
     v14 = pdata->pResource.pObject != 0;
-    if ( hres.HType == RH_Pointer )
+    if ( v31.HType == RH_Pointer )
     {
       if ( pResource )
         Scaleform::GFx::Resource::Release(pResource);
@@ -89,38 +89,38 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
   {
     Size = 0;
     p_ImportSourceLock = &this->pBindData.pObject->ImportSourceLock;
-    memset(&importsCopy, 0, sizeof(importsCopy));
-    loc.pLock = p_ImportSourceLock;
+    memset(&pheapAddr, 0, sizeof(pheapAddr));
+    v30 = p_ImportSourceLock;
     EnterCriticalSection(&p_ImportSourceLock->cs);
     v18 = this->pBindData.pObject;
     if ( v18->ImportSourceMovies.Data.Size )
     {
       Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,Scaleform::AllocatorGH<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,265>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        &importsCopy.Data,
-        &importsCopy,
+        &pheapAddr,
+        &pheapAddr,
         v18->ImportSourceMovies.Data.Size);
-      Size = importsCopy.Data.Size;
+      Size = pheapAddr.Size;
     }
     v19 = this->pBindData.pObject;
     v20 = 0;
-    i = 0;
+    key.pStr = 0;
     if ( v19->ImportSourceMovies.Data.Size )
     {
       do
       {
         Data = v19->ImportSourceMovies.Data.Data;
-        v22 = Data[v20].pObject;
+        v22 = Data[(_DWORD)v20].pObject;
         if ( v22 != ignoreDef )
         {
           if ( v22 )
-            Scaleform::RefCountImpl::AddRef(Data[v20].pObject);
+            Scaleform::RefCountImpl::AddRef(Data[(_DWORD)v20].pObject);
           Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,Scaleform::AllocatorGH<Scaleform::Ptr<Scaleform::GFx::MovieDefImpl>,265>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-            &importsCopy.Data,
-            &importsCopy,
+            &pheapAddr,
+            &pheapAddr,
             Size + 1);
-          Size = importsCopy.Data.Size;
-          v23 = &importsCopy.Data.Data[importsCopy.Data.Size - 1];
-          if ( &importsCopy.Data.Data[importsCopy.Data.Size] != (Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> *)4 )
+          Size = pheapAddr.Size;
+          v23 = &pheapAddr.Data[pheapAddr.Size - 1];
+          if ( &pheapAddr.Data[pheapAddr.Size] != (Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> *)4 )
           {
             if ( v22 )
               Scaleform::RefCountImpl::AddRef(v22);
@@ -130,11 +130,11 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
             Scaleform::GFx::Resource::Release(v22);
         }
         v19 = this->pBindData.pObject;
-        v20 = i + 1;
-        i = v20;
+        v20 = (const Scaleform::String *)((char *)&key.pStr->pData + 1);
+        key.pStr = v20;
       }
-      while ( v20 < v19->ImportSourceMovies.Data.Size );
-      p_ImportSourceLock = loc.pLock;
+      while ( (unsigned int)v20 < v19->ImportSourceMovies.Data.Size );
+      p_ImportSourceLock = v30;
     }
     LeaveCriticalSection(&p_ImportSourceLock->cs);
     v24 = 0;
@@ -142,8 +142,8 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
     {
       while ( 1 )
       {
-        v25 = importsCopy.Data.Data;
-        v26 = importsCopy.Data.Data[v24].pObject;
+        v25 = pheapAddr.Data;
+        v26 = pheapAddr.Data[v24].pObject;
         if ( v26 )
         {
           if ( Scaleform::GFx::MovieDefImpl::GetExportedResource(v26, pdata, symbol, 0) )
@@ -163,24 +163,24 @@ char __thiscall Scaleform::GFx::MovieDefImpl::GetExportedResource(
       while ( Size );
       if ( v25 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v25);
-      if ( hres.HType == RH_Pointer && hres.BindIndex )
-        Scaleform::GFx::Resource::Release(hres.pResource);
+      if ( v31.HType == RH_Pointer && v31.BindIndex )
+        Scaleform::GFx::Resource::Release(v31.pResource);
       return 1;
     }
     else
     {
-      v25 = importsCopy.Data.Data;
+      v25 = pheapAddr.Data;
 LABEL_50:
-      for ( j = &v25[Size - 1].pObject; Size; --Size )
+      for ( i = &v25[Size - 1].pObject; Size; --Size )
       {
-        if ( *j )
-          Scaleform::GFx::Resource::Release(*j);
-        --j;
+        if ( *i )
+          Scaleform::GFx::Resource::Release(*i);
+        --i;
       }
       if ( v25 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v25);
-      if ( hres.HType == RH_Pointer && hres.BindIndex )
-        Scaleform::GFx::Resource::Release(hres.pResource);
+      if ( v31.HType == RH_Pointer && v31.BindIndex )
+        Scaleform::GFx::Resource::Release(v31.pResource);
       return 0;
     }
   }

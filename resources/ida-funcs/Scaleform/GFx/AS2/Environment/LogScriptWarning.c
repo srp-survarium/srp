@@ -3,8 +3,8 @@ void Scaleform::GFx::AS2::Environment::LogScriptWarning(Scaleform::GFx::AS2::Env
   Scaleform::GFx::AS2::ActionLogger *pASLogger; // esi
   unsigned int v3; // eax
   Scaleform::Log *v4; // eax
-  Scaleform::StringDataPtr v1; // [esp+8h] [ebp-114h] BYREF
-  Scaleform::MsgFormat::Sink result; // [esp+10h] [ebp-10Ch] BYREF
+  Scaleform::StringDataPtr v5; // [esp+8h] [ebp-114h] BYREF
+  Scaleform::MsgFormat::Sink v6; // [esp+10h] [ebp-10Ch] BYREF
   _BYTE v7[256]; // [esp+1Ch] [ebp-100h] BYREF
   va_list va; // [esp+128h] [ebp+Ch] BYREF
 
@@ -19,12 +19,12 @@ void Scaleform::GFx::AS2::Environment::LogScriptWarning(Scaleform::GFx::AS2::Env
         v3 = strlen(pfmt);
         if ( pfmt[v3 - 1] == 10 )
           --v3;
-        v1.pStr = pfmt;
-        v1.Size = v3;
-        result.SinkData.pStr = (Scaleform::String *)v7;
-        result.Type = tDataPtr;
-        result.SinkData.DataPtr.Size = 256;
-        Scaleform::Format<Scaleform::StringDataPtr,char const *>(&result, "{0} : {1}\n", &v1, &pASLogger->LogSuffix);
+        v5.pStr = pfmt;
+        v5.Size = v3;
+        v6.SinkData.pStr = (Scaleform::String *)v7;
+        v6.Type = tDataPtr;
+        v6.SinkData.DataPtr.Size = 256;
+        Scaleform::Format<Scaleform::StringDataPtr,char const *>(&v6, "{0} : {1}\n", &v5, &pASLogger->LogSuffix);
         ((void (__thiscall *)(Scaleform::Log *, int, _BYTE *, char *))pASLogger->pLog->LogMessageVarg)(
           pASLogger->pLog,
           147456,

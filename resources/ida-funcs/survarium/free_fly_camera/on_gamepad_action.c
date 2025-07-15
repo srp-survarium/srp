@@ -10,8 +10,8 @@ char __thiscall survarium::free_fly_camera::on_gamepad_action(
   vostok::input::gamepad *v8; // edi
   vostok::input::gamepad *v9; // ebx
   void (__thiscall **v10)(vostok::input::gamepad *, int, _DWORD); // esi
-  float v11; // [esp+4h] [ebp-10h]
-  float v12; // [esp+4h] [ebp-10h]
+  float v11; // [esp+Ch] [ebp-8h]
+  float v12; // [esp+Ch] [ebp-8h]
 
   if ( button == gamepad_x )
   {
@@ -22,7 +22,7 @@ char __thiscall survarium::free_fly_camera::on_gamepad_action(
     (*p_set_vibration)(v5, 0, LODWORD(v11));
     return 1;
   }
-  else if ( button == gamepad_b )
+  if ( button == gamepad_b )
   {
     v8 = input_world->get_gamepad(input_world);
     v9 = input_world->get_gamepad(input_world);
@@ -31,8 +31,5 @@ char __thiscall survarium::free_fly_camera::on_gamepad_action(
     (*v10)(v9, 1, LODWORD(v12));
     return 1;
   }
-  else
-  {
-    return 0;
-  }
+  return 0;
 }

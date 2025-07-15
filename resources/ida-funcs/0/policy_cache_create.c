@@ -32,7 +32,7 @@ LABEL_11:
           v8 = (X509_POLICY_DATA_st *)v7;
           if ( !v7 )
             break;
-          if ( OBJ_obj2nid((const asn1_object_st *)v7->ln) == 746 )
+          if ( OBJ_obj2nid((const asn1_object_st *)v7->ln) == (void *)746 )
           {
             if ( policy_cache->anyPolicy )
               goto LABEL_12;
@@ -40,7 +40,7 @@ LABEL_11:
           }
           else
           {
-            if ( sk_find(&policy_cache->data->stack, (char *)v8) != -1 )
+            if ( sk_find(v4, &policy_cache->data->stack, (char *)v8) != -1 )
             {
 LABEL_12:
               x->ex_flags |= 0x800u;

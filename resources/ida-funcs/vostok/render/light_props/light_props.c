@@ -1,4 +1,4 @@
-void __usercall vostok::render::light_props::light_props(vostok::render::light_props *this@<ecx>, int a2@<eax>)
+void __usercall vostok::render::light_props::light_props(vostok::render::light_props *this@<ecx>, int a2@<esi>)
 {
   *(_DWORD *)(a2 + 64) = 0;
   *(_DWORD *)(a2 + 68) = 0;
@@ -21,6 +21,7 @@ void __usercall vostok::render::light_props::light_props(vostok::render::light_p
   *(_BYTE *)(a2 + 142) = 0;
   *(_BYTE *)(a2 + 143) = 0;
   *(_BYTE *)(a2 + 144) = 0;
+  *(_BYTE *)(a2 + 145) = 0;
   *(_DWORD *)(a2 + 148) = 0;
   *(_DWORD *)(a2 + 152) = 0;
   *(_DWORD *)(a2 + 156) = 0;
@@ -32,12 +33,7 @@ void __usercall vostok::render::light_props::light_props(vostok::render::light_p
   *(_DWORD *)(a2 + 172) = 0;
   *(_DWORD *)(a2 + 216) = 0;
   *(_DWORD *)(a2 + 220) = 0;
-  *(_DWORD *)(a2 + 224) = 0;
-  *(_DWORD *)(a2 + 232) = 0;
-  *(_BYTE *)(a2 + 136) = 0;
-  *(_BYTE *)(a2 + 137) = 0;
-  *(_BYTE *)(a2 + 138) = 0;
-  *(_BYTE *)(a2 + 139) = 0;
-  *(_BYTE *)(a2 + 140) = 0;
-  *(_BYTE *)(a2 + 141) = 0;
+  vostok::math::curve_line_color::set_defaults((vostok::math::curve_line_color *)(a2 + 176));
+  *(_DWORD *)(a2 + 136) = 0;
+  *(_WORD *)(a2 + 140) = 0;
 }

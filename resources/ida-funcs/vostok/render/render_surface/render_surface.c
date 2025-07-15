@@ -1,19 +1,16 @@
 void __usercall vostok::render::render_surface::render_surface(
         vostok::render::render_surface *this@<ecx>,
-        int a2@<eax>)
+        int a2@<esi>)
 {
-  *(_DWORD *)a2 = &stru_962594.m_declarations;
-  *(_QWORD *)(a2 + 8) = 0;
-  *(_DWORD *)(a2 + 16) = 0;
-  *(_QWORD *)(a2 + 20) = 0;
-  *(_DWORD *)(a2 + 28) = 0;
-  *(_DWORD *)(a2 + 48) = 0;
-  *(_DWORD *)(a2 + 52) = 0;
-  *(_DWORD *)(a2 + 56) = 0;
-  *(_DWORD *)(a2 + 80) = a2 + 148;
-  *(_DWORD *)(a2 + 72) = a2 + 84;
-  *(_DWORD *)(a2 + 76) = a2 + 84;
-  *(_BYTE *)(a2 + 84) = 0;
-  *(_DWORD *)(a2 + 148) = 0;
-  *(_DWORD *)(a2 + 152) = 1176256512;
+  *(_DWORD *)a2 = &vostok::render::render_surface::`vftable';
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 28) = a2 + 40;
+  *(_DWORD *)(a2 + 32) = a2 + 40;
+  *(_BYTE *)(a2 + 40) = 0;
+  *(_DWORD *)(a2 + 36) = a2 + 104;
+  *(_DWORD *)(a2 + 104) = 0;
+  vostok::math::create_zero_aabb((vostok::math::aabb *)(a2 + 108));
+  *(float *)(a2 + 152) = FLOAT_10000_0;
 }

@@ -94,7 +94,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3setName(
       if ( v21 )
       {
         v21->AddInScopeNamespace(v21, v7);
-        pObject = (Scaleform::GFx::AS3::Instances::fl::Namespace *)v7;
+        pObject = v7;
 LABEL_27:
         this->SetNamespace(this, pObject);
 LABEL_28:
@@ -112,7 +112,7 @@ LABEL_29:
     {
       this->AddInScopeNamespace(this, v7);
     }
-    pObject = (Scaleform::GFx::AS3::Instances::fl::Namespace *)v7;
+    pObject = v7;
     goto LABEL_27;
   }
 }

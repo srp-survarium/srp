@@ -1,13 +1,20 @@
 int __cdecl __timet_from_ft(_FILETIME *pft)
 {
-  _SYSTEMTIME st; // [esp+0h] [ebp-18h] BYREF
-  _FILETIME lft; // [esp+10h] [ebp-8h] BYREF
+  _SYSTEMTIME SystemTime; // [esp+0h] [ebp-18h] BYREF
+  _FILETIME LocalFileTime; // [esp+10h] [ebp-8h] BYREF
 
   if ( (pft->dwLowDateTime || pft->dwHighDateTime)
-    && FileTimeToLocalFileTime(pft, &lft)
-    && FileTimeToSystemTime(&lft, &st) )
+    && FileTimeToLocalFileTime(pft, &LocalFileTime)
+    && FileTimeToSystemTime(&LocalFileTime, &SystemTime) )
   {
-    return __loctotime32_t(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, 0);
+    return __loctotime32_t(
+             SystemTime.wYear,
+             SystemTime.wMonth,
+             SystemTime.wDay,
+             SystemTime.wHour,
+             SystemTime.wMinute,
+             SystemTime.wSecond,
+             0);
   }
   else
   {

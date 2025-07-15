@@ -7,7 +7,7 @@ char __thiscall Scaleform::GFx::MovieImpl::QueueSetFocusTo(
         Scaleform::GFx::ProcessFocusKeyInfo *pfocusKeyInfo)
 {
   Scaleform::GFx::Sprite *pObject; // edi
-  Scaleform::GFx::InteractiveObject *v8; // esi
+  Scaleform::GFx::Sprite *v8; // esi
   Scaleform::GFx::State *v10; // eax
   Scaleform::RefCountVImpl *v11; // ebx
   Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+24h] [ebp-4h] BYREF
@@ -33,13 +33,13 @@ char __thiscall Scaleform::GFx::MovieImpl::QueueSetFocusTo(
   v11 = (Scaleform::RefCountVImpl *)v10;
   if ( v10 )
   {
-    v8 = (Scaleform::GFx::InteractiveObject *)(*((int (__thiscall **)(Scaleform::GFx::State_vtbl *, Scaleform::GFx::MovieImpl *, Scaleform::GFx::Sprite *, Scaleform::GFx::Sprite *, Scaleform::GFx::InteractiveObject *))v10[1].~Scaleform::GFx::State
-                                               + 16))(
-                                                v10[1].__vftable,
-                                                this,
-                                                pObject,
-                                                ch,
-                                                ptopMostCh);
+    v8 = (Scaleform::GFx::Sprite *)(*((int (__thiscall **)(Scaleform::GFx::State_vtbl *, Scaleform::GFx::MovieImpl *, Scaleform::GFx::Sprite *, Scaleform::GFx::Sprite *, Scaleform::GFx::InteractiveObject *))v10[1].~Scaleform::GFx::State
+                                    + 16))(
+                                     v10[1].__vftable,
+                                     this,
+                                     pObject,
+                                     ch,
+                                     ptopMostCh);
     if ( pObject == v8 )
       goto LABEL_11;
   }

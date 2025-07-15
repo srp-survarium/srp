@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::MovieImpl::AddStickyVariableNode(
   unsigned int *v6; // eax
   unsigned int v7; // eax
   unsigned int v8; // ecx
-  Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef key; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::ArrayLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2,Scaleform::ArrayDefaultPolicy> *,Scaleform::GFx::ASStringHashFunctor>::NodeRef v9; // [esp+Ch] [ebp-8h] BYREF
 
   pTable = this->StickyVariables.mHash.pTable;
   p_StickyVariables = &this->StickyVariables;
@@ -41,11 +41,11 @@ void __thiscall Scaleform::GFx::MovieImpl::AddStickyVariableNode(
   }
   else
   {
-    key.pFirst = path;
-    key.pSecond = &p;
+    v9.pFirst = path;
+    v9.pSecond = (Scaleform::ArrayLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2,Scaleform::ArrayDefaultPolicy> *const *)&p;
     Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
       &p_StickyVariables->mHash,
       p_StickyVariables,
-      &key);
+      &v9);
   }
 }

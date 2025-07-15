@@ -2,7 +2,7 @@ void __cdecl Scaleform::GFx::AS2::ColorCtorFunction::GlobalCtor(const Scaleform:
 {
   Scaleform::GFx::InteractiveObject *TargetByValue; // ebx
   Scaleform::GFx::AS2::Environment *Env; // ecx
-  Scaleform::GFx::AS2::Value *v3; // edx
+  Scaleform::GFx::ASStringNode *v3; // edx
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::AS2::ColorObject *p_pProto; // ecx
   Scaleform::GFx::AS2::Object *v6; // edi
@@ -17,8 +17,7 @@ void __cdecl Scaleform::GFx::AS2::ColorCtorFunction::GlobalCtor(const Scaleform:
     Env = fn->Env;
     v3 = 0;
     if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
-      v3 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
-                                                                                         & 0x1F];
+      v3 = (Scaleform::GFx::ASStringNode *)&Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
     TargetByValue = Scaleform::GFx::AS2::Environment::FindTargetByValue(Env, v3);
   }
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Color )
@@ -52,7 +51,7 @@ void __cdecl Scaleform::GFx::AS2::ColorCtorFunction::GlobalCtor(const Scaleform:
   if ( v6 )
   {
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v6->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

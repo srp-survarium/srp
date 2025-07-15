@@ -5,13 +5,13 @@ void __thiscall Scaleform::GFx::AS2ValueObjectInterface::VisitMembers_::_2_::Vis
         unsigned __int8 flags)
 {
   Scaleform::GFx::AS2::Environment *pEnv; // edx
-  Scaleform::GFx::Value v; // [esp+8h] [ebp-18h] BYREF
+  Scaleform::GFx::Value pdestVal; // [esp+8h] [ebp-18h] BYREF
 
   pEnv = this->pEnv;
-  v.pObjectInterface = 0;
-  v.Type = VT_Undefined;
-  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this->pMovieRoot, pEnv, val, &v);
-  this->pVisitor->Visit(this->pVisitor, name->pNode->pData, &v);
-  if ( (v.Type & 0x40) != 0 )
-    v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
+  pdestVal.pObjectInterface = 0;
+  pdestVal.Type = VT_Undefined;
+  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this->pMovieRoot, pEnv, val, &pdestVal);
+  this->pVisitor->Visit(this->pVisitor, name->pNode->pData, &pdestVal);
+  if ( (pdestVal.Type & 0x40) != 0 )
+    pdestVal.pObjectInterface->ObjectRelease(pdestVal.pObjectInterface, &pdestVal, (void *)pdestVal.mValue.IValue);
 }

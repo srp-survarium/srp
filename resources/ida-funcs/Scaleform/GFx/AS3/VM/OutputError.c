@@ -44,7 +44,7 @@ void __thiscall Scaleform::GFx::AS3::VM::OutputError(Scaleform::GFx::AS3::VM *th
   }
   pObject = this->PublicNamespace.pObject;
   prop_name.Kind = MN_QName;
-  prop_name.Obj.pObject = pObject;
+  prop_name.Obj.pObject = &pObject->Scaleform::GFx::AS3::GASRefCountBase;
   if ( pObject )
   {
     ++pObject->RefCount;

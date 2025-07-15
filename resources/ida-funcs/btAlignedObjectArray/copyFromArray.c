@@ -1,83 +1,71 @@
 void __userpurge btAlignedObjectArray<btSoftBody *>::copyFromArray(
         btAlignedObjectArray<btSoftBody *> *this@<ecx>,
-        int a2@<eax>,
+        int a2@<esi>,
         const btAlignedObjectArray<btSoftBody *> *otherArray)
 {
-  const btAlignedObjectArray<btSoftBody *> *v3; // edx
-  int v5; // ebx
+  int v3; // ebx
   int m_size; // edi
-  _DWORD *v7; // ebp
-  int v8; // edx
-  int v9; // eax
+  int v5; // edx
+  int v6; // eax
+  _DWORD *v7; // ecx
+  int i; // ecx
+  _DWORD *v9; // eax
   _DWORD *v10; // ecx
-  void *v11; // eax
-  int i; // eax
-  _DWORD *v13; // ecx
-  _DWORD *v14; // ecx
-  int v15; // eax
-  _DWORD *v16; // [esp+Ch] [ebp-4h]
+  int v11; // eax
+  int v12; // [esp+8h] [ebp-8h]
+  _DWORD *v13; // [esp+Ch] [ebp-4h]
 
-  v3 = otherArray;
-  v5 = *(_DWORD *)(a2 + 4);
+  v3 = *(_DWORD *)(a2 + 4);
   m_size = otherArray->m_size;
-  if ( m_size >= v5 )
+  v12 = v3;
+  if ( m_size >= v3 )
   {
-    if ( m_size > v5 && *(_DWORD *)(a2 + 8) < m_size )
+    if ( m_size > v3 && *(_DWORD *)(a2 + 8) < m_size )
     {
       if ( m_size )
-      {
-        ++gNumAlignedAllocs;
-        v7 = sAlignedAllocFunc(4 * m_size, 16);
-        v16 = v7;
-      }
+        v13 = btAlignedAllocInternal(4 * m_size);
       else
+        v13 = 0;
+      v5 = *(_DWORD *)(a2 + 4);
+      v6 = 0;
+      if ( v5 > 0 )
       {
-        v7 = 0;
-        v16 = 0;
-      }
-      v8 = *(_DWORD *)(a2 + 4);
-      v9 = 0;
-      if ( v8 > 0 )
-      {
-        v10 = v7;
+        v7 = v13;
         do
         {
-          if ( v10 )
-            *v10 = *(_DWORD *)(*(_DWORD *)(a2 + 12) + 4 * v9);
-          ++v9;
-          ++v10;
+          if ( v7 )
+          {
+            *v7 = *(_DWORD *)(*(_DWORD *)(a2 + 12) + 4 * v6);
+            v3 = v12;
+          }
+          ++v6;
+          ++v7;
         }
-        while ( v9 < v8 );
-        v7 = v16;
+        while ( v6 < v5 );
       }
-      v11 = *(void **)(a2 + 12);
-      if ( v11 )
+      if ( *(_DWORD *)(a2 + 12) )
       {
         if ( *(_BYTE *)(a2 + 16) )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v11);
-        }
+          btAlignedFreeInternal(*(void **)(a2 + 12));
         *(_DWORD *)(a2 + 12) = 0;
       }
-      v3 = otherArray;
-      *(_DWORD *)(a2 + 12) = v7;
       *(_BYTE *)(a2 + 16) = 1;
+      *(_DWORD *)(a2 + 12) = v13;
       *(_DWORD *)(a2 + 8) = m_size;
     }
-    for ( i = v5; i < m_size; ++i )
+    for ( i = v3; i < m_size; ++i )
     {
-      v13 = (_DWORD *)(*(_DWORD *)(a2 + 12) + 4 * i);
-      if ( v13 )
-        *v13 = 0;
+      v9 = (_DWORD *)(*(_DWORD *)(a2 + 12) + 4 * i);
+      if ( v9 )
+        *v9 = 0;
     }
   }
-  v14 = *(_DWORD **)(a2 + 12);
-  v15 = 0;
-  for ( *(_DWORD *)(a2 + 4) = m_size; v15 < m_size; ++v14 )
+  v10 = *(_DWORD **)(a2 + 12);
+  v11 = 0;
+  for ( *(_DWORD *)(a2 + 4) = m_size; v11 < m_size; ++v10 )
   {
-    if ( v14 )
-      *v14 = v3->m_data[v15];
-    ++v15;
+    if ( v10 )
+      *v10 = otherArray->m_data[v11];
+    ++v11;
   }
 }

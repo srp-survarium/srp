@@ -5,38 +5,40 @@ void __userpurge Scaleform::Render::D3D1x::TextureManager::SetSamplerState(
         ID3D11ShaderResourceView **views,
         ID3D11SamplerState *state)
 {
-  unsigned int v6; // edx
-  ID3D11ShaderResourceView **v7; // ebp
-  bool loadTextures; // [esp+1Fh] [ebp-45h]
-  ID3D11SamplerState *states[16]; // [esp+24h] [ebp-40h] BYREF
-  char loadSamplers; // [esp+6Ch] [ebp+8h]
+  unsigned __int8 *v6; // edx
+  unsigned __int8 src[64]; // [esp+4h] [ebp-4Ch] BYREF
+  unsigned __int8 *dst; // [esp+44h] [ebp-Ch]
+  unsigned int v9; // [esp+48h] [ebp-8h]
+  char v10; // [esp+4Fh] [ebp-1h]
+  char v11; // [esp+5Bh] [ebp+Bh]
 
-  v6 = 0;
-  loadSamplers = 0;
-  loadTextures = 0;
+  v9 = 0;
+  v11 = 0;
+  v10 = 0;
   if ( viewCount )
   {
-    v7 = (ID3D11ShaderResourceView **)&this->CurrentTextures[stage];
-    memset32(states, (int)state, viewCount);
+    dst = (unsigned __int8 *)&this->CurrentTextures[stage];
+    v6 = dst;
+    memset32(src, (int)state, viewCount);
     do
     {
-      if ( *(v7 - 4) != (ID3D11ShaderResourceView *)state )
-        loadSamplers = 1;
-      if ( *v7 != views[v6] )
-        loadTextures = 1;
-      ++v6;
-      ++v7;
+      if ( *((ID3D11SamplerState **)v6 - 4) != state )
+        v11 = 1;
+      if ( *(ID3D11ShaderResourceView **)v6 != views[v9] )
+        v10 = 1;
+      ++v9;
+      v6 += 4;
     }
-    while ( v6 < viewCount );
-    if ( loadSamplers )
+    while ( v9 < viewCount );
+    if ( v11 )
     {
-      this->pDeviceContext->PSSetSamplers(this->pDeviceContext, stage, viewCount, states);
-      memcpy((unsigned __int8 *)&this->CurrentSamplers[stage], (unsigned __int8 *)states, 4 * viewCount);
+      this->pDeviceContext->PSSetSamplers(this->pDeviceContext, stage, viewCount, (ID3D11SamplerState *const *)src);
+      memcpy((unsigned __int8 *)&this->CurrentSamplers[stage], src, 4 * viewCount);
     }
-    if ( loadTextures )
+    if ( v10 )
     {
       this->pDeviceContext->PSSetShaderResources(this->pDeviceContext, stage, viewCount, views);
-      memcpy((unsigned __int8 *)&this->CurrentTextures[stage], (unsigned __int8 *)views, 4 * viewCount);
+      memcpy(dst, (unsigned __int8 *)views, 4 * viewCount);
     }
   }
 }

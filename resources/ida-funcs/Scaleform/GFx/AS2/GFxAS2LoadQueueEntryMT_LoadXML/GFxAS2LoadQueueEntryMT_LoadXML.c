@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadXML::GFxAS2LoadQ
         Scaleform::GFx::LoadQueueEntry *pqueueEntry,
         Scaleform::String pmovieRoot)
 {
-  Scaleform::GFx::AS2::MovieRoot *pData; // edi
+  Scaleform::String::DataDesc *pData; // edi
   Scaleform::GFx::LoadStates *v5; // edi
   Scaleform::GFx::MovieImpl *pMovieImpl; // eax
   Scaleform::GFx::Resource *pObject; // ebp
@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadXML::GFxAS2LoadQ
   void *v18; // edi
   Scaleform::GFx::AS2::GFxAS2LoadQueueEntry::XMLHolderType v19; // [esp-14h] [ebp-24h] BYREF
 
-  pData = (Scaleform::GFx::AS2::MovieRoot *)pmovieRoot.pData;
+  pData = pmovieRoot.pData;
   Scaleform::GFx::LoadQueueEntryMT::LoadQueueEntryMT(
     this,
     pqueueEntry,
@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadXML::GFxAS2LoadQ
   this->__vftable = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadXML_vtbl *)&Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadXML::`vftable';
   this->pTask.pObject = 0;
   this->pLoadStates.pObject = 0;
-  this->pASMovieRoot = pData;
+  this->pASMovieRoot = (Scaleform::GFx::AS2::MovieRoot *)pData;
   v5 = (Scaleform::GFx::LoadStates *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 80, 0);
   if ( v5 )
   {

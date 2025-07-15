@@ -17,10 +17,10 @@ Scaleform::Render::Text::Paragraph *__thiscall Scaleform::Render::Text::StyledTe
   Scaleform::Render::Text::ParagraphFormat *pObject; // eax
   unsigned int v17; // [esp-4h] [ebp-1Ch]
   Scaleform::Render::Text::StyledText::ParagraphPtrWrapper v18; // [esp+10h] [ebp-8h] BYREF
-  unsigned int nextPos; // [esp+14h] [ebp-4h]
+  unsigned int v19; // [esp+14h] [ebp-4h]
 
   Size = this->Paragraphs.Data.Size;
-  nextPos = 0;
+  v19 = 0;
   if ( Size )
   {
     pPara = this->Paragraphs.Data.Data[Size - 1].pPara;
@@ -37,7 +37,7 @@ Scaleform::Render::Text::Paragraph *__thiscall Scaleform::Render::Text::StyledTe
       if ( !*v9 )
         --v5;
     }
-    nextPos = StartIndex + v5;
+    v19 = StartIndex + v5;
   }
   Allocator = Scaleform::Render::Text::StyledText::GetAllocator(this);
   v11 = (int)Allocator->pHeap->Alloc(Allocator->pHeap, 40u, 0);
@@ -78,6 +78,6 @@ Scaleform::Render::Text::Paragraph *__thiscall Scaleform::Render::Text::StyledTe
   if ( !pdefParaFmt )
     pObject = this->pDefaultParagraphFormat.pObject;
   Scaleform::Render::Text::Paragraph::SetFormat(v14, this->pTextAllocator.pObject, pObject);
-  v14->StartIndex = nextPos;
+  v14->StartIndex = v19;
   return v14;
 }

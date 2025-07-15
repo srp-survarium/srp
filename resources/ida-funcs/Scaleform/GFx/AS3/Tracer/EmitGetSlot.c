@@ -35,11 +35,8 @@ char __thiscall Scaleform::GFx::AS3::Tracer::EmitGetSlot(
         break;
       case 4u:
         VNumber = value->value.VNumber;
-        if ( (HIDWORD(VNumber) & 0x7FF00000) != 0x7FF00000
-          || !((unsigned int)&loc_FFFFF & HIDWORD(VNumber) | LODWORD(VNumber)) )
-        {
+        if ( (HIDWORD(VNumber) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(VNumber) & 0xFFFFF | LODWORD(VNumber)) )
           goto LABEL_17;
-        }
         if ( (_BYTE)objOnStack )
           Scaleform::GFx::AS3::Tracer::EmitPopPrevResult(this, st);
         Scaleform::GFx::AS3::Tracer::PushNewOpCode(this, op_pushnan);

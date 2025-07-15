@@ -1,71 +1,71 @@
-int __cdecl __init_numeric(lconv *ploci)
+int __cdecl __init_numeric(threadlocaleinfostruct *ploci)
 {
-  lconv *v2; // eax
-  int *v4; // eax
+  unsigned __int8 *v2; // eax
+  _DWORD *v4; // eax
   int *v5; // eax
   int v6; // esi
-  unsigned int int_curr_symbol_high; // edi
+  LCID wCountry; // edi
   int v8; // eax
   int v9; // eax
   char *v10; // eax
   char v11; // cl
   char *v12; // esi
-  localeinfo_struct locinfo; // [esp+Ch] [ebp-18h] BYREF
+  localeinfo_struct v13; // [esp+Ch] [ebp-18h] BYREF
   char **p_grouping; // [esp+14h] [ebp-10h]
-  int ret; // [esp+18h] [ebp-Ch]
-  int *lc_refcount; // [esp+1Ch] [ebp-8h]
-  int *lconv_num_refcount; // [esp+20h] [ebp-4h]
-  lconv *lc; // [esp+2Ch] [ebp+8h]
+  int v15; // [esp+18h] [ebp-Ch]
+  void *v16; // [esp+1Ch] [ebp-8h]
+  int *v17; // [esp+20h] [ebp-4h]
+  lconv *pointer; // [esp+2Ch] [ebp+8h]
 
-  locinfo.locinfo = (threadlocaleinfostruct *)ploci;
-  locinfo.mbcinfo = 0;
-  if ( ploci->mon_grouping || ploci->mon_thousands_sep )
+  v13.locinfo = ploci;
+  v13.mbcinfo = 0;
+  if ( ploci->lc_handle[4] || ploci->lc_handle[3] )
   {
-    v2 = (lconv *)_calloc_crt(1u, 0x30u);
-    lc = v2;
+    v2 = _calloc_crt(1u, 0x30u);
+    pointer = (lconv *)v2;
     if ( !v2 )
       return 1;
-    qmemcpy(v2, *(const void **)&ploci[3].n_cs_precedes, sizeof(lconv));
-    v4 = (int *)_malloc_crt(4u);
-    lc_refcount = v4;
+    qmemcpy(v2, ploci->lconv, 0x30u);
+    v4 = _malloc_crt(4u);
+    v16 = v4;
     if ( !v4 )
     {
-      free(lc);
+      free(pointer);
       return 1;
     }
     *v4 = 0;
-    if ( !ploci->mon_grouping )
+    if ( !ploci->lc_handle[4] )
     {
-      lc->decimal_point = __lconv_c.decimal_point;
-      lc->thousands_sep = __lconv_c.thousands_sep;
-      lconv_num_refcount = 0;
-      lc->grouping = __lconv_c.grouping;
+      pointer->decimal_point = __lconv_c.decimal_point;
+      pointer->thousands_sep = __lconv_c.thousands_sep;
+      v17 = 0;
+      pointer->grouping = __lconv_c.grouping;
 LABEL_26:
-      *lc_refcount = 1;
-      if ( lconv_num_refcount )
-        *lconv_num_refcount = 1;
+      *(_DWORD *)v16 = 1;
+      if ( v17 )
+        *v17 = 1;
       goto LABEL_28;
     }
     v5 = (int *)_malloc_crt(4u);
-    lconv_num_refcount = v5;
+    v17 = v5;
     if ( !v5 )
     {
       v6 = 1;
 LABEL_11:
-      free(lc);
-      free(lc_refcount);
+      free(pointer);
+      free(v16);
       return v6;
     }
     *v5 = 0;
-    int_curr_symbol_high = HIWORD(ploci[1].int_curr_symbol);
-    ret = __getlocaleinfo(&locinfo, 1, int_curr_symbol_high, 0xEu, &lc->decimal_point);
-    v8 = __getlocaleinfo(&locinfo, 1, int_curr_symbol_high, 0xFu, &lc->thousands_sep);
-    ret |= v8;
-    p_grouping = &lc->grouping;
-    v9 = __getlocaleinfo(&locinfo, 1, int_curr_symbol_high, 0x10u, &lc->grouping);
-    if ( ret | v9 )
+    wCountry = ploci->lc_id[4].wCountry;
+    v15 = __getlocaleinfo(&v13, 1, wCountry, 0xEu, (unsigned __int8 **)pointer);
+    v8 = __getlocaleinfo(&v13, 1, wCountry, 0xFu, (unsigned __int8 **)&pointer->thousands_sep);
+    v15 |= v8;
+    p_grouping = &pointer->grouping;
+    v9 = __getlocaleinfo(&v13, 1, wCountry, 0x10u, (unsigned __int8 **)&pointer->grouping);
+    if ( v15 | v9 )
     {
-      __free_lconv_num(lc);
+      __free_lconv_num(pointer);
       v6 = -1;
       goto LABEL_11;
     }
@@ -96,22 +96,22 @@ LABEL_18:
     *v10 = v11 - 48;
     goto LABEL_18;
   }
-  lconv_num_refcount = 0;
-  lc_refcount = 0;
-  lc = &__lconv_c;
+  v17 = 0;
+  v16 = 0;
+  pointer = &__lconv_c;
 LABEL_28:
-  if ( ploci[3].negative_sign )
-    InterlockedDecrement((volatile LONG *)ploci[3].negative_sign);
-  if ( ploci[3].positive_sign )
+  if ( ploci->lconv_num_refcount )
+    InterlockedDecrement(ploci->lconv_num_refcount);
+  if ( ploci->lconv_intl_refcount )
   {
-    if ( !InterlockedDecrement((volatile LONG *)ploci[3].positive_sign) )
+    if ( !InterlockedDecrement(ploci->lconv_intl_refcount) )
     {
-      free(ploci[3].positive_sign);
-      free(*(void **)&ploci[3].n_cs_precedes);
+      free(ploci->lconv_intl_refcount);
+      free(ploci->lconv);
     }
   }
-  ploci[3].negative_sign = (char *)lconv_num_refcount;
-  ploci[3].positive_sign = (char *)lc_refcount;
-  *(_DWORD *)&ploci[3].n_cs_precedes = lc;
+  ploci->lconv_num_refcount = v17;
+  ploci->lconv_intl_refcount = (int *)v16;
+  ploci->lconv = pointer;
   return 0;
 }

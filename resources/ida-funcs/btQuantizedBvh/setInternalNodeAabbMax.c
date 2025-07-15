@@ -1,28 +1,35 @@
-void __fastcall btQuantizedBvh::setInternalNodeAabbMax(int nodeIndex, const btVector3 *aabbMax, btQuantizedBvh *this)
+void __userpurge btQuantizedBvh::setInternalNodeAabbMax(
+        btQuantizedBvh *this@<ecx>,
+        int a2@<eax>,
+        int nodeIndex,
+        const btVector3 *aabbMax)
 {
-  float v3; // xmm1_4
-  float v4; // xmm2_4
-  const vostok::math::float4x4 *v5; // xmm3_4
-  unsigned __int16 *m_quantizedAabbMax; // ecx
+  float v4; // xmm1_4
+  float v5; // xmm2_4
+  float v6; // xmm3_4
+  _WORD *v7; // ecx
+  int v8; // eax
+  int v9; // ecx
 
-  if ( this->m_useQuantization )
+  if ( *(_BYTE *)(a2 + 72) )
   {
-    v3 = this->m_bvhQuantization.mVec128.m128_f32[1]
-       * (float)(aabbMax->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1]);
-    v4 = this->m_bvhQuantization.mVec128.m128_f32[2]
-       * (float)(aabbMax->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2]);
-    v5 = clear_value;
-    m_quantizedAabbMax = this->m_quantizedContiguousNodes.m_data[nodeIndex].m_quantizedAabbMax;
-    *m_quantizedAabbMax = (int)(float)((float)(this->m_bvhQuantization.mVec128.m128_f32[0]
-                                             * (float)(aabbMax->mVec128.m128_f32[0]
-                                                     - this->m_bvhAabbMin.mVec128.m128_f32[0]))
-                                     + *(float *)&clear_value)
-                        | 1;
-    m_quantizedAabbMax[1] = (int)(float)(v3 + *(float *)&v5) | 1;
-    m_quantizedAabbMax[2] = (int)(float)(v4 + *(float *)&v5) | 1;
+    v4 = *(float *)(a2 + 52) * (float)(*(float *)(nodeIndex + 4) - *(float *)(a2 + 20));
+    v5 = *(float *)(a2 + 56) * (float)(*(float *)(nodeIndex + 8) - *(float *)(a2 + 24));
+    v6 = s_bm_current_air_resistance;
+    v7 = (_WORD *)(*(_DWORD *)(a2 + 148) + 16 * (_DWORD)this + 6);
+    *v7 = (int)(float)((float)(*(float *)(a2 + 48) * (float)(*(float *)nodeIndex - *(float *)(a2 + 16)))
+                     + s_bm_current_air_resistance)
+        | 1;
+    v7[1] = (int)(float)(v4 + v6) | 1;
+    v7[2] = (int)(float)(v5 + v6) | 1;
   }
   else
   {
-    this->m_contiguousNodes.m_data[nodeIndex].m_aabbMaxOrg = (btVector3)aabbMax->mVec128;
+    v8 = *(_DWORD *)(a2 + 108);
+    v9 = (_DWORD)this << 6;
+    *(_DWORD *)(v8 + v9 + 16) = *(_DWORD *)nodeIndex;
+    *(_DWORD *)(v8 + v9 + 20) = *(_DWORD *)(nodeIndex + 4);
+    *(_DWORD *)(v8 + v9 + 24) = *(_DWORD *)(nodeIndex + 8);
+    *(_DWORD *)(v8 + v9 + 28) = *(_DWORD *)(nodeIndex + 12);
   }
 }

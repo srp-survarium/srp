@@ -1,144 +1,108 @@
 void __thiscall vostok::render::batched_geometry<vostok::render::lpv_vertex>::finalize_batch(
         vostok::render::batched_geometry<vostok::render::lpv_vertex> *this,
-        vostok::render::batched_geometry<vostok::render::lpv_vertex> *thisa)
+        int a2)
 {
-  vostok::render::res_geometry *v2; // edi
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::render::untyped_buffer *v4; // eax
+  vostok::render::untyped_buffer *v2; // eax
+  vostok::render::untyped_buffer *v3; // eax
+  vostok::render::resource_manager *v4; // ecx
   vostok::render::res_geometry *geometry; // eax
-  vostok::render::material_effects_instance *m_object; // eax
-  vostok::render::geometry_batch *v7; // eax
-  stlp_std::priv::_Impl_vector<vostok::render::geometry_batch,vostok::render::std_allocator<vostok::render::geometry_batch> > *v8; // ecx
-  vostok::render::geometry_batch *M_finish; // edx
+  vostok::particle::particle_system_instance_impl *v6; // ecx
+  int v7; // eax
+  vostok::buffer_vector<vostok::render::geometry_batch> *v8; // ecx
+  vostok::render::res_pass *v9; // eax
   bool v10; // zf
-  unsigned __int16 *M_start; // eax
-  vostok::render::lpv_vertex *v12; // eax
-  vostok::render::untyped_buffer *v13; // edi
-  vostok::render::untyped_buffer *v14; // edi
-  vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> v15; // [esp-4h] [ebp-4Ch]
-  const stlp_std::__false_type *v16; // [esp+0h] [ebp-48h]
-  unsigned int v17; // [esp+4h] [ebp-44h]
-  bool v18; // [esp+8h] [ebp-40h]
-  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> in_geometry; // [esp+Ch] [ebp-3Ch] BYREF
-  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> ib; // [esp+10h] [ebp-38h]
-  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> vb; // [esp+14h] [ebp-34h]
-  __int64 v22; // [esp+18h] [ebp-30h]
-  int v23; // [esp+20h] [ebp-28h]
-  vostok::render::geometry_batch v24; // [esp+24h] [ebp-24h] BYREF
+  vostok::render::untyped_buffer *v11; // esi
+  vostok::render::untyped_buffer *v12; // esi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v13; // [esp-4h] [ebp-44h] BYREF
+  vostok::render::hw_buffer_pool *v14; // [esp+0h] [ebp-40h]
+  vostok::render::res_geometry *geom; // [esp+10h] [ebp-30h] BYREF
+  vostok::render::untyped_buffer *v16; // [esp+14h] [ebp-2Ch]
+  vostok::render::untyped_buffer *ib; // [esp+18h] [ebp-28h]
+  vostok::render::geometry_batch v18; // [esp+1Ch] [ebp-24h] BYREF
 
-  if ( thisa->m_vertices._M_impl._M_finish - thisa->m_vertices._M_impl._M_start
-    && (((char *)thisa->m_indices._M_impl._M_finish - (char *)thisa->m_indices._M_impl._M_start) & 0xFFFFFFFE) != 0 )
+  if ( *(_DWORD *)(a2 + 10520) != *(_DWORD *)(a2 + 10524)
+    && *(_DWORD *)(a2 + 1321252) != *(_DWORD *)((char *)&loc_142928 + a2) )
   {
-    v2 = 0;
-    buffer = vostok::render::resource_manager::create_buffer(
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               20 * (thisa->m_vertices._M_impl._M_finish - thisa->m_vertices._M_impl._M_start),
-               thisa->m_vertices._M_impl._M_start,
-               enum_buffer_type_vertex,
-               0,
-               0);
-    vb.m_object = 0;
-    if ( buffer )
+    vostok::render::resource_manager::create_buffer(
+      20 * ((*(_DWORD *)(a2 + 10524) - *(_DWORD *)(a2 + 10520)) / 20),
+      vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+      (void *)0x14,
+      *(vostok::render::enum_buffer_type *)(a2 + 10520),
+      0,
+      0,
+      0);
+    ib = 0;
+    if ( v2 )
     {
-      ++buffer->m_reference_count;
-      vb.m_object = buffer;
+      ++v2->m_reference_count;
+      ib = v2;
     }
-    v4 = vostok::render::resource_manager::create_buffer(
-           (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-           2 * (thisa->m_indices._M_impl._M_finish - thisa->m_indices._M_impl._M_start),
-           thisa->m_indices._M_impl._M_start,
-           enum_buffer_type_index,
-           0,
-           0);
-    ib.m_object = 0;
-    if ( v4 )
+    vostok::render::resource_manager::create_buffer(
+      2 * ((*(_DWORD *)((char *)&loc_142928 + a2) - *(_DWORD *)(a2 + 1321252)) >> 1),
+      vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+      (void *)2,
+      *(vostok::render::enum_buffer_type *)(a2 + 1321252),
+      1,
+      0,
+      0);
+    v16 = 0;
+    if ( v3 )
     {
-      ++v4->m_reference_count;
-      ib.m_object = v4;
+      ++v3->m_reference_count;
+      v16 = v3;
     }
     geometry = vostok::render::resource_manager::create_geometry(
-                 (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                 thisa->m_layout.m_object,
-                 0x14u,
-                 vb.m_object,
-                 ib.m_object);
-    in_geometry.m_object = 0;
+                 v4,
+                 (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                 *(vostok::render::res_declaration **)(a2 + 10480),
+                 (vostok::render::untyped_buffer *)0x14,
+                 ib,
+                 v16);
+    geom = 0;
     if ( geometry )
     {
       ++geometry->m_reference_count;
-      in_geometry.m_object = geometry;
-      v2 = geometry;
+      geom = geometry;
     }
-    v15.m_object = 0;
-    m_object = thisa->m_materail_effects_instance.m_object;
-    if ( m_object )
-    {
-      v15.m_object = thisa->m_materail_effects_instance.m_object;
-      _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-    }
+    v13.m_object = v6;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v13,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)&loc_162945 + a2 + 3));
     vostok::render::geometry_batch::geometry_batch(
-      &v24,
-      &thisa->m_bbox,
-      &in_geometry,
-      thisa->m_indices._M_impl._M_finish - thisa->m_indices._M_impl._M_start,
-      v15);
-    M_finish = thisa->m_geometry_batches._M_impl._M_finish;
-    if ( M_finish == thisa->m_geometry_batches._M_impl._M_end_of_storage._M_data )
+      (const vostok::math::aabb *)((char *)&loc_162930 + a2),
+      &v18,
+      (const vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&geom,
+      (*(_DWORD *)((char *)&loc_142928 + a2) - *(_DWORD *)(a2 + 1321252)) >> 1,
+      v13);
+    vostok::buffer_vector<vostok::render::geometry_batch>::push_back(
+      v8,
+      (const vostok::render::geometry_batch *)(a2 + 4),
+      v7);
+    vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(&v18.geometry);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v18.mtl);
+    v9 = (vostok::render::res_pass *)geom;
+    if ( geom )
     {
-      stlp_std::priv::_Impl_vector<vostok::render::geometry_batch,vostok::render::std_allocator<vostok::render::geometry_batch>>::_M_insert_overflow_aux(
-        v8,
-        M_finish,
-        v7,
-        v16,
-        v17,
-        v18);
-      v2 = in_geometry.m_object;
-    }
-    else
-    {
-      if ( M_finish )
-        vostok::render::geometry_batch::geometry_batch(v7, (const vostok::render::geometry_batch *)v16);
-      ++thisa->m_geometry_batches._M_impl._M_finish;
-    }
-    vostok::render::geometry_batch::~geometry_batch((vostok::render::geometry_batch *)v8);
-    if ( v2 )
-    {
-      v10 = v2->m_reference_count-- == 1;
+      v10 = geom->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v2);
+        vostok::render::resource_manager::release(vostok::quasi_singleton<vostok::render::resource_manager>::pinst, v9);
     }
-    v22 = 0;
-    v23 = 0;
-    *(_QWORD *)&thisa->m_bbox.min.x = 0;
-    memset(&v24.bbox.min.elements[2], 0, 12);
-    *(_QWORD *)&thisa->m_bbox.min.elements[2] = 0;
-    v24.bbox.max.z = 0.0;
-    *(_QWORD *)&thisa->m_bbox.max.elements[1] = LODWORD(v24.bbox.max.y);
-    M_start = thisa->m_indices._M_impl._M_start;
-    if ( M_start != thisa->m_indices._M_impl._M_finish )
-      thisa->m_indices._M_impl._M_finish = M_start;
-    v12 = thisa->m_vertices._M_impl._M_start;
-    if ( v12 != thisa->m_vertices._M_impl._M_finish )
-      thisa->m_vertices._M_impl._M_finish = v12;
-    v13 = ib.m_object;
-    if ( ib.m_object )
+    qmemcpy((char *)&loc_162930 + a2, vostok::math::create_zero_aabb(&v18.bbox), 0x18u);
+    v11 = v16;
+    *(_DWORD *)((char *)&loc_142928 + a2) = *(_DWORD *)(a2 + 1321252);
+    *(_DWORD *)(a2 + 10524) = *(_DWORD *)(a2 + 10520);
+    if ( v11 )
     {
-      v10 = ib.m_object->m_reference_count-- == 1;
+      v10 = v11->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v13);
+        vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v11, v14);
     }
-    v14 = vb.m_object;
-    if ( vb.m_object )
+    v12 = ib;
+    if ( ib )
     {
-      v10 = vb.m_object->m_reference_count-- == 1;
+      v10 = ib->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v14);
+        vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v12, v14);
     }
   }
 }
@@ -146,145 +110,109 @@ void __thiscall vostok::render::batched_geometry<vostok::render::lpv_vertex>::fi
 
 void __thiscall vostok::render::batched_geometry<vostok::render::shadow_vertex>::finalize_batch(
         vostok::render::batched_geometry<vostok::render::shadow_vertex> *this,
-        vostok::render::batched_geometry<vostok::render::shadow_vertex> *thisa)
+        int a2)
 {
-  vostok::render::untyped_buffer *buffer; // eax
+  vostok::render::untyped_buffer *v2; // eax
   vostok::render::untyped_buffer *v3; // eax
+  vostok::render::resource_manager *v4; // ecx
   vostok::render::res_geometry *geometry; // eax
-  vostok::render::res_geometry *v5; // edi
-  vostok::render::material_effects_instance *m_object; // eax
-  vostok::render::geometry_batch *v7; // eax
-  stlp_std::priv::_Impl_vector<vostok::render::geometry_batch,vostok::render::std_allocator<vostok::render::geometry_batch> > *v8; // ecx
-  vostok::render::geometry_batch *M_finish; // edx
+  vostok::particle::particle_system_instance_impl *v6; // ecx
+  int v7; // eax
+  vostok::buffer_vector<vostok::render::geometry_batch> *v8; // ecx
+  vostok::render::res_pass *v9; // eax
   bool v10; // zf
-  unsigned __int16 *M_start; // eax
-  vostok::render::shadow_vertex *v12; // eax
-  vostok::render::untyped_buffer *v13; // edi
-  vostok::render::untyped_buffer *v14; // edi
-  vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> v15; // [esp-4h] [ebp-4Ch]
-  const stlp_std::__false_type *v16; // [esp+0h] [ebp-48h]
-  unsigned int v17; // [esp+4h] [ebp-44h]
-  bool v18; // [esp+8h] [ebp-40h]
-  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> in_geometry; // [esp+Ch] [ebp-3Ch] BYREF
-  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> ib; // [esp+10h] [ebp-38h]
-  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> vb; // [esp+14h] [ebp-34h]
-  __int64 v22; // [esp+18h] [ebp-30h]
-  int v23; // [esp+20h] [ebp-28h]
-  vostok::render::geometry_batch v24; // [esp+24h] [ebp-24h] BYREF
+  vostok::render::untyped_buffer *v11; // esi
+  vostok::render::untyped_buffer *v12; // esi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v13; // [esp-4h] [ebp-44h] BYREF
+  vostok::render::hw_buffer_pool *v14; // [esp+0h] [ebp-40h]
+  vostok::render::res_geometry *geom; // [esp+10h] [ebp-30h] BYREF
+  vostok::render::untyped_buffer *v16; // [esp+14h] [ebp-2Ch]
+  vostok::render::untyped_buffer *ib; // [esp+18h] [ebp-28h]
+  vostok::render::geometry_batch v18; // [esp+1Ch] [ebp-24h] BYREF
 
-  if ( (((char *)thisa->m_vertices._M_impl._M_finish - (char *)thisa->m_vertices._M_impl._M_start) & 0xFFFFFFE0) != 0
-    && (((char *)thisa->m_indices._M_impl._M_finish - (char *)thisa->m_indices._M_impl._M_start) & 0xFFFFFFFE) != 0 )
+  if ( *(_DWORD *)(a2 + 10520) != *(_DWORD *)(a2 + 10524)
+    && *(_DWORD *)((char *)&loc_202924 + a2) != *(_DWORD *)(a2 + 2107688) )
   {
-    buffer = vostok::render::resource_manager::create_buffer(
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               32 * (thisa->m_vertices._M_impl._M_finish - thisa->m_vertices._M_impl._M_start),
-               thisa->m_vertices._M_impl._M_start,
-               enum_buffer_type_vertex,
-               0,
-               0);
-    vb.m_object = 0;
-    if ( buffer )
+    vostok::render::resource_manager::create_buffer(
+      32 * ((*(_DWORD *)(a2 + 10524) - *(_DWORD *)(a2 + 10520)) >> 5),
+      vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+      (void *)0x20,
+      *(vostok::render::enum_buffer_type *)(a2 + 10520),
+      0,
+      0,
+      0);
+    ib = 0;
+    if ( v2 )
     {
-      ++buffer->m_reference_count;
-      vb.m_object = buffer;
+      ++v2->m_reference_count;
+      ib = v2;
     }
-    v3 = vostok::render::resource_manager::create_buffer(
-           (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-           2 * (thisa->m_indices._M_impl._M_finish - thisa->m_indices._M_impl._M_start),
-           thisa->m_indices._M_impl._M_start,
-           enum_buffer_type_index,
-           0,
-           0);
-    ib.m_object = 0;
+    vostok::render::resource_manager::create_buffer(
+      2 * ((*(_DWORD *)(a2 + 2107688) - *(_DWORD *)((char *)&loc_202924 + a2)) >> 1),
+      vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+      (void *)2,
+      *(vostok::render::enum_buffer_type *)((char *)&loc_202924 + a2),
+      1,
+      0,
+      0);
+    v16 = 0;
     if ( v3 )
     {
       ++v3->m_reference_count;
-      ib.m_object = v3;
+      v16 = v3;
     }
     geometry = vostok::render::resource_manager::create_geometry(
-                 (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                 thisa->m_layout.m_object,
-                 0x20u,
-                 vb.m_object,
-                 ib.m_object);
-    v5 = 0;
-    in_geometry.m_object = 0;
+                 v4,
+                 (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                 *(vostok::render::res_declaration **)(a2 + 10480),
+                 (vostok::render::untyped_buffer *)0x20,
+                 ib,
+                 v16);
+    geom = 0;
     if ( geometry )
     {
       ++geometry->m_reference_count;
-      in_geometry.m_object = geometry;
-      v5 = geometry;
+      geom = geometry;
     }
-    v15.m_object = 0;
-    m_object = thisa->m_materail_effects_instance.m_object;
-    if ( m_object )
-    {
-      v15.m_object = thisa->m_materail_effects_instance.m_object;
-      _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-    }
+    v13.m_object = v6;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v13,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a2 + 2238792));
     vostok::render::geometry_batch::geometry_batch(
-      &v24,
-      &thisa->m_bbox,
-      &in_geometry,
-      thisa->m_indices._M_impl._M_finish - thisa->m_indices._M_impl._M_start,
-      v15);
-    M_finish = thisa->m_geometry_batches._M_impl._M_finish;
-    if ( M_finish == thisa->m_geometry_batches._M_impl._M_end_of_storage._M_data )
+      (const vostok::math::aabb *)(a2 + 2238768),
+      &v18,
+      (const vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&geom,
+      (*(_DWORD *)(a2 + 2107688) - *(_DWORD *)((char *)&loc_202924 + a2)) >> 1,
+      v13);
+    vostok::buffer_vector<vostok::render::geometry_batch>::push_back(
+      v8,
+      (const vostok::render::geometry_batch *)(a2 + 4),
+      v7);
+    vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(&v18.geometry);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v18.mtl);
+    v9 = (vostok::render::res_pass *)geom;
+    if ( geom )
     {
-      stlp_std::priv::_Impl_vector<vostok::render::geometry_batch,vostok::render::std_allocator<vostok::render::geometry_batch>>::_M_insert_overflow_aux(
-        v8,
-        M_finish,
-        v7,
-        v16,
-        v17,
-        v18);
-      v5 = in_geometry.m_object;
-    }
-    else
-    {
-      if ( M_finish )
-        vostok::render::geometry_batch::geometry_batch(v7, (const vostok::render::geometry_batch *)v16);
-      ++thisa->m_geometry_batches._M_impl._M_finish;
-    }
-    vostok::render::geometry_batch::~geometry_batch((vostok::render::geometry_batch *)v8);
-    if ( v5 )
-    {
-      v10 = v5->m_reference_count-- == 1;
+      v10 = geom->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v5);
+        vostok::render::resource_manager::release(vostok::quasi_singleton<vostok::render::resource_manager>::pinst, v9);
     }
-    v22 = 0;
-    v23 = 0;
-    *(_QWORD *)&thisa->m_bbox.min.x = 0;
-    memset(&v24.bbox.min.elements[2], 0, 12);
-    *(_QWORD *)&thisa->m_bbox.min.elements[2] = 0;
-    v24.bbox.max.z = 0.0;
-    *(_QWORD *)&thisa->m_bbox.max.elements[1] = LODWORD(v24.bbox.max.y);
-    M_start = thisa->m_indices._M_impl._M_start;
-    if ( M_start != thisa->m_indices._M_impl._M_finish )
-      thisa->m_indices._M_impl._M_finish = M_start;
-    v12 = thisa->m_vertices._M_impl._M_start;
-    if ( v12 != thisa->m_vertices._M_impl._M_finish )
-      thisa->m_vertices._M_impl._M_finish = v12;
-    v13 = ib.m_object;
-    if ( ib.m_object )
+    qmemcpy((void *)(a2 + 2238768), vostok::math::create_zero_aabb(&v18.bbox), 0x18u);
+    v11 = v16;
+    *(_DWORD *)(a2 + 2107688) = *(_DWORD *)((char *)&loc_202924 + a2);
+    *(_DWORD *)(a2 + 10524) = *(_DWORD *)(a2 + 10520);
+    if ( v11 )
     {
-      v10 = ib.m_object->m_reference_count-- == 1;
+      v10 = v11->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v13);
+        vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v11, v14);
     }
-    v14 = vb.m_object;
-    if ( vb.m_object )
+    v12 = ib;
+    if ( ib )
     {
-      v10 = vb.m_object->m_reference_count-- == 1;
+      v10 = ib->m_reference_count-- == 1;
       if ( v10 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v14);
+        vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v12, v14);
     }
   }
 }

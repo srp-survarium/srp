@@ -2,13 +2,13 @@ void __thiscall Scaleform::Render::Text::Paragraph::Copy(
         Scaleform::Render::Text::Paragraph *this,
         Scaleform::Render::Text::Allocator *pallocator,
         const Scaleform::Render::Text::Paragraph *psrcPara,
-        unsigned int startSrcIndex,
+        int startSrcIndex,
         unsigned int startDestIndex,
         unsigned int length)
 {
   unsigned int v6; // edi
   Scaleform::Render::Text::Paragraph *v7; // ebx
-  signed int v8; // ebp
+  int v8; // ebp
   const Scaleform::Render::Text::Paragraph *v9; // esi
   Scaleform::Render::Text::Paragraph::FormatRunIterator *v10; // eax
   int Index; // ecx
@@ -27,7 +27,7 @@ void __thiscall Scaleform::Render::Text::Paragraph::Copy(
   wchar_t *v25; // eax
   Scaleform::Render::Text::TextFormat *v26; // eax
   Scaleform::Render::Text::TextFormat *v27; // esi
-  Scaleform::Render::Text::Paragraph::FormatRunIterator fmtIt; // [esp+Ch] [ebp-24h] BYREF
+  Scaleform::Render::Text::Paragraph::FormatRunIterator v29; // [esp+Ch] [ebp-24h] BYREF
 
   v6 = length;
   v7 = this;
@@ -38,19 +38,19 @@ void __thiscall Scaleform::Render::Text::Paragraph::Copy(
     Scaleform::Render::Text::Paragraph::InsertString(
       this,
       pallocator,
-      &psrcPara->Text.pText[startSrcIndex],
+      (const __m128i *)&psrcPara->Text.pText[startSrcIndex],
       startDestIndex,
       length,
       0);
-    Scaleform::Render::Text::Paragraph::FormatRunIterator::FormatRunIterator(&fmtIt, &v9->FormatInfo, &v9->Text, v8);
+    Scaleform::Render::Text::Paragraph::FormatRunIterator::FormatRunIterator(&v29, &v9->FormatInfo, &v9->Text, v8);
     length = v6;
-    if ( fmtIt.CurTextIndex < fmtIt.pText->Size )
+    if ( v29.CurTextIndex < v29.pText->Size )
     {
       while ( 1 )
       {
         if ( !v6 )
           goto LABEL_24;
-        v10 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&fmtIt);
+        v10 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&v29);
         Index = v10->PlaceHolder.Index;
         v12 = v10->PlaceHolder.Length;
         if ( Index >= v8 )
@@ -86,30 +86,27 @@ void __thiscall Scaleform::Render::Text::Paragraph::Copy(
           }
         }
         length -= v12;
-        if ( fmtIt.FormatIterator.Index < 0
-          || fmtIt.FormatIterator.Index >= fmtIt.FormatIterator.pArray->Ranges.Data.Size )
-        {
+        if ( v29.FormatIterator.Index < 0 || v29.FormatIterator.Index >= v29.FormatIterator.pArray->Ranges.Data.Size )
           break;
-        }
-        v17 = &fmtIt.FormatIterator.pArray->Ranges.Data.Data[fmtIt.FormatIterator.Index];
-        if ( fmtIt.CurTextIndex < v17->Index )
+        v17 = &v29.FormatIterator.pArray->Ranges.Data.Data[v29.FormatIterator.Index];
+        if ( v29.CurTextIndex < v17->Index )
         {
-          Size = fmtIt.FormatIterator.pArray->Ranges.Data.Data[fmtIt.FormatIterator.Index].Index;
+          Size = v29.FormatIterator.pArray->Ranges.Data.Data[v29.FormatIterator.Index].Index;
 LABEL_22:
-          fmtIt.CurTextIndex = Size;
+          v29.CurTextIndex = Size;
           goto LABEL_23;
         }
-        Size = v17->Length + fmtIt.CurTextIndex;
-        fmtIt.CurTextIndex = Size;
-        if ( fmtIt.FormatIterator.Index < (signed int)fmtIt.FormatIterator.pArray->Ranges.Data.Size )
-          ++fmtIt.FormatIterator.Index;
+        Size = v17->Length + v29.CurTextIndex;
+        v29.CurTextIndex = Size;
+        if ( v29.FormatIterator.Index < (signed int)v29.FormatIterator.pArray->Ranges.Data.Size )
+          ++v29.FormatIterator.Index;
 LABEL_23:
         v7 = this;
-        if ( Size >= fmtIt.pText->Size )
+        if ( Size >= v29.pText->Size )
           goto LABEL_24;
         v6 = length;
       }
-      Size = fmtIt.pText->Size;
+      Size = v29.pText->Size;
       goto LABEL_22;
     }
 LABEL_24:
@@ -142,7 +139,7 @@ LABEL_24:
           1u);
       }
     }
-    v26 = fmtIt.PlaceHolder.pFormat.pObject;
+    v26 = v29.PlaceHolder.pFormat.pObject;
     ++v7->ModCounter;
     if ( v26 )
     {

@@ -13,11 +13,11 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
   signed int GlyphOutlineW; // eax
   Scaleform::Render::FontSysDataWinAPI *v13; // ecx
   DWORD v14; // eax
-  Scaleform::Lock *locker; // [esp+8h] [ebp-30h]
-  void *g1_4; // [esp+10h] [ebp-28h]
-  _MAT2 im; // [esp+14h] [ebp-24h] BYREF
+  Scaleform::Lock *lpCriticalSection; // [esp+8h] [ebp-30h]
+  HGDIOBJ h; // [esp+10h] [ebp-28h]
+  MAT2 mat2; // [esp+14h] [ebp-24h] BYREF
   _GLYPHMETRICS gm; // [esp+24h] [ebp-14h] BYREF
-  HDC__ *glyphIndexa; // [esp+3Ch] [ebp+4h]
+  HDC__ *hdc; // [esp+3Ch] [ebp+4h]
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
     return 0;
@@ -27,8 +27,8 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
     v6 = 0;
     hintedSize = 0;
   }
-  locker = this->pFontLock;
-  EnterCriticalSection(&locker->cs);
+  lpCriticalSection = this->pFontLock;
+  EnterCriticalSection(&lpCriticalSection->cs);
   MasterFont = this->MasterFont;
   v8 = &this->Glyphs.Data.Data[glyphIndex];
   if ( v6 )
@@ -56,19 +56,19 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
     }
     MasterFont = this->HintedFont;
   }
-  glyphIndexa = this->pSysData->WinHDC;
-  v9 = SelectObject(glyphIndexa, MasterFont);
+  hdc = this->pSysData->WinHDC;
+  v9 = SelectObject(hdc, MasterFont);
   pSysData = this->pSysData;
-  g1_4 = v9;
+  h = v9;
   if ( !pSysData->GlyphBuffer.Data.Size )
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
       &pSysData->GlyphBuffer,
       0x3F8u);
-  im.eM11.value = 1;
-  memset(&im.eM12, 0, 10);
-  im.eM22.value = 1;
+  mat2.eM11.value = 1;
+  memset(&mat2.eM12, 0, 10);
+  mat2.eM22.value = 1;
   v11 = this->pSysData;
-  im.eM11.fract = 0;
+  mat2.eM11.fract = 0;
   GlyphOutlineW = GetGlyphOutlineW(
                     v11->WinHDC,
                     v8->Code,
@@ -76,10 +76,10 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
                     &gm,
                     v11->GlyphBuffer.Data.Size,
                     v11->GlyphBuffer.Data.Data,
-                    &im);
+                    &mat2);
   if ( GlyphOutlineW == -1 || (v13 = this->pSysData, GlyphOutlineW > (signed int)v13->GlyphBuffer.Data.Size) )
   {
-    v14 = GetGlyphOutlineW(this->pSysData->WinHDC, v8->Code, 2u, &gm, 0, 0, &im);
+    v14 = GetGlyphOutlineW(this->pSysData->WinHDC, v8->Code, 2u, &gm, 0, 0, &mat2);
     if ( v14 == -1 )
       goto LABEL_22;
     Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
@@ -92,7 +92,7 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
                       &gm,
                       this->pSysData->GlyphBuffer.Data.Size,
                       this->pSysData->GlyphBuffer.Data.Data,
-                      &im);
+                      &mat2);
     if ( GlyphOutlineW == -1 )
       goto LABEL_22;
     v13 = this->pSysData;
@@ -108,12 +108,12 @@ char __thiscall Scaleform::Render::ExternalFontWinAPI::GetTemporaryGlyphShape(
          shape,
          v6) )
   {
-    SelectObject(glyphIndexa, g1_4);
-    LeaveCriticalSection(&locker->cs);
+    SelectObject(hdc, h);
+    LeaveCriticalSection(&lpCriticalSection->cs);
     return 1;
   }
 LABEL_22:
-  SelectObject(glyphIndexa, g1_4);
-  LeaveCriticalSection(&locker->cs);
+  SelectObject(hdc, h);
+  LeaveCriticalSection(&lpCriticalSection->cs);
   return 0;
 }

@@ -1,7 +1,7 @@
 threadlocaleinfostruct *__cdecl __removelocaleref(threadlocaleinfostruct *ptloci)
 {
   volatile LONG **p_refcount; // ebx
-  int ptlocia; // [esp+Ch] [ebp+8h]
+  int lpAddend; // [esp+Ch] [ebp+8h]
 
   if ( ptloci )
   {
@@ -15,7 +15,7 @@ threadlocaleinfostruct *__cdecl __removelocaleref(threadlocaleinfostruct *ptloci
     if ( ptloci->ctype1_refcount )
       InterlockedDecrement(ptloci->ctype1_refcount);
     p_refcount = (volatile LONG **)&ptloci->lc_category[0].refcount;
-    ptlocia = 6;
+    lpAddend = 6;
     do
     {
       if ( *(p_refcount - 2) != (volatile LONG *)__clocalestr && *p_refcount )
@@ -23,9 +23,9 @@ threadlocaleinfostruct *__cdecl __removelocaleref(threadlocaleinfostruct *ptloci
       if ( *(p_refcount - 1) && p_refcount[1] )
         InterlockedDecrement(p_refcount[1]);
       p_refcount += 4;
-      --ptlocia;
+      --lpAddend;
     }
-    while ( ptlocia );
+    while ( lpAddend );
     InterlockedDecrement(&ptloci->lc_time_curr->refcount);
   }
   return ptloci;

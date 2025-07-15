@@ -1,17 +1,12 @@
 void __thiscall vostok::console_commands::cc_delegate::execute(
         vostok::console_commands::cc_delegate *this,
-        const char *args)
+        vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *args)
 {
-  int v3; // ecx
+  vostok::console_commands::console_command *v3; // ecx
 
-  boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-    (boost::function1<void,char const *> *)this,
+  boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+    (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)this,
     &this->m_functor.vtable,
     args);
-  v3 = -(this->m_on_change_event.vtable != 0);
-  if ( ((unsigned int)survarium::weapon_user_dead_state::finalize & v3) != 0 )
-    boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-      (boost::function1<void,char const *> *)v3,
-      &this->m_on_change_event.vtable,
-      args);
+  vostok::console_commands::console_command::on_changed(v3, (int)this, args);
 }

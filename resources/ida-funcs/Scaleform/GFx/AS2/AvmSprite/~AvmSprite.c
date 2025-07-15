@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::~AvmSprite(Scaleform::GFx::AS2::
   if ( pObject )
   {
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);

@@ -1,46 +1,50 @@
-stack_st_GENERAL_NAME *__cdecl v2i_issuer_alt(v3_ext_method *method, v3_ext_ctx *ctx, stack_st_CONF_VALUE *nval)
+stack_st_GENERAL_NAME *__usercall v2i_issuer_alt@<eax>(
+        int a1@<ebx>,
+        v3_ext_method *method,
+        v3_ext_ctx *ctx,
+        stack_st_CONF_VALUE *nval)
 {
-  stack_st *v3; // esi
-  stack_st_CONF_VALUE *v5; // ebx
-  int v6; // edi
-  CONF_VALUE *v7; // esi
+  stack_st *v4; // esi
+  stack_st_CONF_VALUE *v6; // ebx
+  int v7; // edi
+  CONF_VALUE *v8; // esi
   const char *value; // eax
-  char *v9; // eax
+  char *v10; // eax
   stack_st_GENERAL_NAME *gens; // [esp+4h] [ebp-4h]
 
-  v3 = sk_new_null();
-  gens = (stack_st_GENERAL_NAME *)v3;
-  if ( !v3 )
+  v4 = sk_new_null();
+  gens = (stack_st_GENERAL_NAME *)v4;
+  if ( !v4 )
   {
-    ERR_put_error(0x22u, 153, 65, ".\\crypto\\x509v3\\v3_alt.c", 250);
+    ERR_put_error(a1, 0x22u, 153, 65, ".\\crypto\\x509v3\\v3_alt.c", 250);
     return 0;
   }
-  v5 = nval;
-  v6 = 0;
+  v6 = nval;
+  v7 = 0;
   if ( sk_num(&nval->stack) <= 0 )
-    return (stack_st_GENERAL_NAME *)v3;
+    return (stack_st_GENERAL_NAME *)v4;
   while ( 1 )
   {
-    v7 = (CONF_VALUE *)sk_value(&v5->stack, v6);
-    if ( name_cmp(v7->name, "issuer") )
+    v8 = (CONF_VALUE *)sk_value(&v6->stack, v7);
+    if ( name_cmp(v8->name, "issuer") )
       break;
-    value = v7->value;
+    value = v8->value;
     if ( !value || strcmp(value, "copy") )
       break;
     if ( !copy_issuer(ctx, gens) )
-      goto err_37;
-    v5 = nval;
+      goto err_39;
+    v6 = nval;
 LABEL_11:
-    if ( ++v6 >= sk_num(&v5->stack) )
+    if ( ++v7 >= sk_num(&v6->stack) )
       return gens;
   }
-  v9 = (char *)v2i_GENERAL_NAME_ex(0, method, ctx, v7, 0);
-  if ( v9 )
+  v10 = (char *)v2i_GENERAL_NAME_ex((int)v6, 0, method, ctx, v8, 0);
+  if ( v10 )
   {
-    sk_push(&gens->stack, v9);
+    sk_push(&gens->stack, v10);
     goto LABEL_11;
   }
-err_37:
+err_39:
   sk_pop_free(&gens->stack, (void (__cdecl *)(void *))GENERAL_NAME_free);
   return 0;
 }

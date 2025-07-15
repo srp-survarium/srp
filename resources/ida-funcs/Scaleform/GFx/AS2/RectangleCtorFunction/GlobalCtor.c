@@ -16,7 +16,10 @@ void __cdecl Scaleform::GFx::AS2::RectangleCtorFunction::GlobalCtor(const Scalef
   const Scaleform::GFx::AS2::Value *v14; // eax
   Scaleform::GFx::AS2::Value *v15; // esi
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Value params[4]; // [esp+Ch] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+Ch] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+1Ch] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+2Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v20; // [esp+3Ch] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+4Ch] [ebp+0h] BYREF
 
   if ( !fn->ThisPtr
@@ -49,33 +52,36 @@ LABEL_10:
   {
     Env = fn->Env;
     FirstArgBottomIndex = fn->FirstArgBottomIndex;
-    params[0].T.Type = 0;
-    params[1].T.Type = 0;
-    params[2].T.Type = 0;
-    params[3].T.Type = 0;
+    v17.T.Type = 0;
+    v18.T.Type = 0;
+    v19.T.Type = 0;
+    v20.T.Type = 0;
     Size = Env->Stack.Pages.Data.Size;
     p_Stack = &Env->Stack;
     v10 = 0;
     if ( FirstArgBottomIndex <= 32 * (Size - 1) + p_Stack->pCurrent - p_Stack->pPageStart )
       v10 = &p_Stack->Pages.Data.Data[FirstArgBottomIndex >> 5]->Values[FirstArgBottomIndex & 0x1F];
-    Scaleform::GFx::AS2::Value::operator=(params, v10);
+    Scaleform::GFx::AS2::Value::operator=(&v17, v10);
     v11 = 3;
     if ( fn->NArgs > 1 )
     {
       v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-      Scaleform::GFx::AS2::Value::operator=(&params[1], v12);
+      Scaleform::GFx::AS2::Value::operator=(&v18, v12);
       if ( fn->NArgs > 2 )
       {
         v13 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-        Scaleform::GFx::AS2::Value::operator=(&params[2], v13);
+        Scaleform::GFx::AS2::Value::operator=(&v19, v13);
         if ( fn->NArgs > 3 )
         {
           v14 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-          Scaleform::GFx::AS2::Value::operator=(&params[3], v14);
+          Scaleform::GFx::AS2::Value::operator=(&v20, v14);
         }
       }
     }
-    Scaleform::GFx::AS2::RectangleObject::SetProperties(v5, &fn->Env->StringContext, params);
+    Scaleform::GFx::AS2::RectangleObject::SetProperties(
+      v5,
+      (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+      &v17);
     v15 = (Scaleform::GFx::AS2::Value *)&retaddr;
     do
     {
@@ -89,7 +95,7 @@ LABEL_10:
   if ( v5 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

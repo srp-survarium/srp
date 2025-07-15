@@ -31,57 +31,57 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateUnderlines(
   double v28; // st7
   int v29; // eax
   bool (__thiscall *BeginOutput)(Scaleform::Render::VertexOutput *, const Scaleform::Render::VertexOutput::Fill *, unsigned int, const Scaleform::Render::Matrix2x4<float> *); // edx
-  float X; // [esp+992h] [ebp-108h]
-  float Xa; // [esp+992h] [ebp-108h]
-  float v34; // [esp+9AAh] [ebp-F0h]
-  float v35; // [esp+9AAh] [ebp-F0h]
-  float v36; // [esp+9AAh] [ebp-F0h]
-  float v37; // [esp+9AAh] [ebp-F0h]
-  float v38; // [esp+9AAh] [ebp-F0h]
-  float v39; // [esp+9AAh] [ebp-F0h]
-  float v40; // [esp+9AAh] [ebp-F0h]
-  float v41; // [esp+9AAh] [ebp-F0h]
-  float v42; // [esp+9AAh] [ebp-F0h]
-  float v43; // [esp+9AAh] [ebp-F0h]
-  float v44; // [esp+9AAh] [ebp-F0h]
-  float v45; // [esp+9AAh] [ebp-F0h]
-  float v46; // [esp+9AAh] [ebp-F0h]
-  float v47; // [esp+9AAh] [ebp-F0h]
-  float v48; // [esp+9AEh] [ebp-ECh]
-  float v49; // [esp+9AEh] [ebp-ECh]
-  float v50; // [esp+9AEh] [ebp-ECh]
-  float v51; // [esp+9AEh] [ebp-ECh]
-  float v52; // [esp+9AEh] [ebp-ECh]
-  float v53; // [esp+9AEh] [ebp-ECh]
-  float v54; // [esp+9AEh] [ebp-ECh]
-  char v55; // [esp+9B5h] [ebp-E5h]
-  float v56; // [esp+9B6h] [ebp-E4h]
-  float v57; // [esp+9B6h] [ebp-E4h]
-  float v58; // [esp+9B6h] [ebp-E4h]
-  float v59; // [esp+9B6h] [ebp-E4h]
-  float v60; // [esp+9B6h] [ebp-E4h]
-  float v61; // [esp+9B6h] [ebp-E4h]
-  float v62; // [esp+9B6h] [ebp-E4h]
-  float v63; // [esp+9B6h] [ebp-E4h]
-  float v64; // [esp+9BAh] [ebp-E0h]
-  float v65; // [esp+9BAh] [ebp-E0h]
-  float v66; // [esp+9BEh] [ebp-DCh]
-  float v67; // [esp+9BEh] [ebp-DCh]
-  float v68; // [esp+9BEh] [ebp-DCh]
-  float v69; // [esp+9C2h] [ebp-D8h]
-  float v70; // [esp+9C2h] [ebp-D8h]
-  float v71; // [esp+9C6h] [ebp-D4h]
-  float v72; // [esp+9C6h] [ebp-D4h]
-  float v73; // [esp+9C6h] [ebp-D4h]
-  float v74; // [esp+9CAh] [ebp-D0h]
-  float v75; // [esp+9CAh] [ebp-D0h]
-  double v76; // [esp+9CAh] [ebp-D0h]
-  Scaleform::Render::TextMeshProvider::VertexCountType v78; // [esp+9DAh] [ebp-C0h] BYREF
-  double v79; // [esp+9E2h] [ebp-B8h]
-  Scaleform::Render::Matrix2x4<float> v80; // [esp+9EAh] [ebp-B0h] BYREF
-  _DWORD v81[7]; // [esp+A0Eh] [ebp-8Ch] BYREF
-  Scaleform::ArrayStaticBuffPOD<unsigned long,16,2> v82; // [esp+A2Ah] [ebp-70h] BYREF
-  Scaleform::Render::Matrix2x4<float> v83; // [esp+A7Ah] [ebp-20h] BYREF
+  float X; // [esp+48h] [ebp-108h]
+  float Xa; // [esp+48h] [ebp-108h]
+  float v34; // [esp+60h] [ebp-F0h]
+  float v35; // [esp+60h] [ebp-F0h]
+  float v36; // [esp+60h] [ebp-F0h]
+  float v37; // [esp+60h] [ebp-F0h]
+  float v38; // [esp+60h] [ebp-F0h]
+  float v39; // [esp+60h] [ebp-F0h]
+  float v40; // [esp+60h] [ebp-F0h]
+  float v41; // [esp+60h] [ebp-F0h]
+  float v42; // [esp+60h] [ebp-F0h]
+  float v43; // [esp+60h] [ebp-F0h]
+  float v44; // [esp+60h] [ebp-F0h]
+  float v45; // [esp+60h] [ebp-F0h]
+  float v46; // [esp+60h] [ebp-F0h]
+  float v47; // [esp+60h] [ebp-F0h]
+  float v48; // [esp+64h] [ebp-ECh]
+  float v49; // [esp+64h] [ebp-ECh]
+  float v50; // [esp+64h] [ebp-ECh]
+  float v51; // [esp+64h] [ebp-ECh]
+  float v52; // [esp+64h] [ebp-ECh]
+  float v53; // [esp+64h] [ebp-ECh]
+  float v54; // [esp+64h] [ebp-ECh]
+  char v55; // [esp+6Bh] [ebp-E5h]
+  float v56; // [esp+6Ch] [ebp-E4h]
+  float v57; // [esp+6Ch] [ebp-E4h]
+  float v58; // [esp+6Ch] [ebp-E4h]
+  float v59; // [esp+6Ch] [ebp-E4h]
+  float v60; // [esp+6Ch] [ebp-E4h]
+  float v61; // [esp+6Ch] [ebp-E4h]
+  float v62; // [esp+6Ch] [ebp-E4h]
+  float v63; // [esp+6Ch] [ebp-E4h]
+  float v64; // [esp+70h] [ebp-E0h]
+  float v65; // [esp+70h] [ebp-E0h]
+  float v66; // [esp+74h] [ebp-DCh]
+  float v67; // [esp+74h] [ebp-DCh]
+  float v68; // [esp+74h] [ebp-DCh]
+  float v69; // [esp+78h] [ebp-D8h]
+  float v70; // [esp+78h] [ebp-D8h]
+  float v71; // [esp+7Ch] [ebp-D4h]
+  float v72; // [esp+7Ch] [ebp-D4h]
+  float v73; // [esp+7Ch] [ebp-D4h]
+  float v74; // [esp+80h] [ebp-D0h]
+  float v75; // [esp+80h] [ebp-D0h]
+  double v76; // [esp+80h] [ebp-D0h]
+  Scaleform::Render::TextMeshProvider::VertexCountType verCount; // [esp+90h] [ebp-C0h] BYREF
+  double v79; // [esp+98h] [ebp-B8h]
+  Scaleform::Render::Matrix2x4<float> v80; // [esp+A0h] [ebp-B0h] BYREF
+  _DWORD v81[7]; // [esp+C4h] [ebp-8Ch] BYREF
+  Scaleform::ArrayStaticBuffPOD<unsigned long,16,2> v82; // [esp+E0h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix2x4<float> v83; // [esp+130h] [ebp-20h] BYREF
 
   v82.Data = v82.Static;
   v82.pHeap = Scaleform::Memory::pGlobalHeap;
@@ -174,7 +174,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateUnderlines(
       ren->MeshGen.mStrokerAA.AaWidthLeft = v6;
       ren->MeshGen.mStrokerAA.StyleLeft = VStart + 1;
       ren->MeshGen.mStrokerAA.StyleRight = VStart + 1;
-      v78.VStart = VStart + 1;
+      verCount.VStart = VStart + 1;
       Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(&v82, &v15->mColor);
       v66 = v15->EntryData.RasterData.Coord[2];
       v34 = v15->EntryData.RasterData.Coord[1];
@@ -289,8 +289,8 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateUnderlines(
         }
         p_mStrokerAA->FinalizePath(p_mStrokerAA, 0, 0, 0, 0);
       }
-      VStart = v78.VStart;
-      if ( v78.VStart >= layer->Count )
+      VStart = verCount.VStart;
+      if ( verCount.VStart >= layer->Count )
         break;
       v6 = 0.5;
       v9 = 0.0;
@@ -327,9 +327,9 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateUnderlines(
     memset(&v81[3], 0, 16);
     if ( BeginOutput(verOut, (const Scaleform::Render::VertexOutput::Fill *)v81, 1u, &v83) )
     {
-      v78.VStart = 0;
-      v78.IStart = 0;
-      Scaleform::Render::TextMeshProvider::setMeshData(this, p_mStrokerAA, verOut, v82.Data, &v78);
+      verCount.VStart = 0;
+      verCount.IStart = 0;
+      Scaleform::Render::TextMeshProvider::setMeshData(this, p_mStrokerAA, verOut, v82.Data, &verCount);
       verOut->EndOutput(verOut);
     }
   }

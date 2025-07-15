@@ -1,19 +1,15 @@
-const char *vostok::ai::_dynamic_initializer_for__memory_object_types_captions___13()
+void vostok::ai::_dynamic_initializer_for__memory_object_types_captions___13()
 {
-  const char *result; // eax
-
   memory_object_types_captions_13[0].first = percept_memory_object_type_threat;
-  memory_object_types_captions_13[0].second = "threat: ";
-  memory_object_types_captions_13[1].first = percept_memory_object_type_enemy;
-  memory_object_types_captions_13[1].second = "enemy: ";
-  memory_object_types_captions_13[2].first = percept_memory_object_type_order;
-  memory_object_types_captions_13[2].second = "order: ";
-  memory_object_types_captions_13[3].first = percept_memory_object_type_disturbance;
-  memory_object_types_captions_13[3].second = "disturbance: ";
-  memory_object_types_captions_13[4].first = percept_memory_object_type_path_info;
-  result = "path: ";
-  memory_object_types_captions_13[4].second = "path: ";
-  memory_object_types_captions_13[5].first = percept_memory_object_type_pickup_item;
-  memory_object_types_captions_13[5].second = "pick-up item: ";
-  return result;
+  dword_47E59A8 = (int)"threat: ";
+  dword_47E59AC = 1;
+  dword_47E59B0 = (int)"enemy: ";
+  dword_47E59B4 = 2;
+  dword_47E59B8 = (int)"order: ";
+  dword_47E59BC = 3;
+  dword_47E59C0 = (int)"disturbance: ";
+  dword_47E59C4 = 4;
+  dword_47E59C8 = (int)"path: ";
+  dword_47E59CC = 5;
+  dword_47E59D0 = (int)"pick-up item: ";
 }

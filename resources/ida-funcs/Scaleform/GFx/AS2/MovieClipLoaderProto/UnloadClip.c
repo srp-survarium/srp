@@ -6,7 +6,7 @@ void __cdecl Scaleform::GFx::AS2::MovieClipLoaderProto::UnloadClip(const Scalefo
   Scaleform::GFx::AS2::Value *v4; // ecx
   Scaleform::GFx::AS2::Value *v5; // eax
   Scaleform::GFx::Sprite *LevelMovie; // eax
-  Scaleform::GFx::InteractiveObject *v7; // edi
+  Scaleform::RefCountNTSImpl *v7; // edi
   unsigned __int8 Type; // al
   Scaleform::GFx::AS2::Environment *v9; // eax
   Scaleform::GFx::AS2::MovieRoot *pObject; // edi
@@ -74,8 +74,8 @@ LABEL_16:
     {
       Scaleform::GFx::AS2::MovieRoot::AddLoadQueueEntry(
         (Scaleform::GFx::AS2::MovieRoot *)v1->Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
-        v7,
-        (char *)&buf,
+        (Scaleform::String)v7,
+        (const __m128i *)uri,
         LM_None,
         0);
       v17 = v1->Result;

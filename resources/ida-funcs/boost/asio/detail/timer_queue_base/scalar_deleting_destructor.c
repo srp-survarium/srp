@@ -3,7 +3,6 @@ boost::asio::detail::timer_queue_base *__thiscall boost::asio::detail::timer_que
         char a2)
 {
   this->__vftable = (boost::asio::detail::timer_queue_base_vtbl *)&boost::asio::detail::timer_queue_base::`vftable';
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&this->next_);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

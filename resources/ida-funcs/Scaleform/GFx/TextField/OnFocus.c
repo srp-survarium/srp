@@ -28,9 +28,9 @@ void __thiscall Scaleform::GFx::TextField::OnFocus(
   Scaleform::Render::Text::EditorKitBase *v26; // eax
   char v27; // al
   Scaleform::Render::Text::EditorKitBase *v28; // ecx
-  Scaleform::Render::Rect<float> v29; // [esp+50h] [ebp-40h] BYREF
-  Scaleform::Render::Rect<float> v30; // [esp+60h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+70h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> v29; // [esp+10h] [ebp-40h] BYREF
+  Scaleform::Render::Rect<float> v30; // [esp+20h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+30h] [ebp-20h] BYREF
 
   Flags = this->pDef.pObject->Flags;
   if ( (Flags & 0x1000) == 0 )

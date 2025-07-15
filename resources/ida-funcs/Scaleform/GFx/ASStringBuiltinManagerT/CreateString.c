@@ -1,7 +1,7 @@
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156>::CreateString(
         Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156> *this,
         Scaleform::GFx::ASString *result,
-        char *pstr)
+        __m128i *pstr)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
 
@@ -15,7 +15,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enu
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156>::CreateString(
         Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156> *this,
         Scaleform::GFx::ASString *result,
-        const wchar_t *pwstr,
+        wchar_t *pwstr,
         int len)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
@@ -36,7 +36,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enu
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pStringManager,
-                 (char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(str->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   ++StringNode->RefCount;
   result->pNode = StringNode;
@@ -47,7 +47,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enu
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
         Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62> *this,
         Scaleform::GFx::ASString *result,
-        char *pstr)
+        __m128i *pstr)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
 
@@ -61,7 +61,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enu
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
         Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62> *this,
         Scaleform::GFx::ASString *result,
-        char *pstr,
+        __m128i *pstr,
         unsigned int length)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
@@ -76,7 +76,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enu
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
         Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62> *this,
         Scaleform::GFx::ASString *result,
-        const wchar_t *pwstr,
+        wchar_t *pwstr,
         int len)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax

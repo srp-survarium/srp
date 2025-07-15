@@ -1,14 +1,14 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextFormat(
         Scaleform::GFx::AS3::Instances::fl_text::TextFormat *this,
         Scaleform::Render::Text::ParagraphFormat *parafmt,
-        int fmt)
+        signed int fmt)
 {
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // ebp
   __int16 v5; // bx
   Scaleform::GFx::AS3::Value *Null; // eax
   Scaleform::Render::Text::ParagraphFormat *v7; // esi
   bool v8; // zf
-  char *v9; // edx
+  __m128i *v9; // edx
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::AS3::Value::V1U v11; // edx
   Scaleform::GFx::AS3::Value *p_other; // eax
@@ -76,17 +76,17 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
   }
   else
   {
-    v9 = "left";
+    v9 = (__m128i *)"left";
     switch ( (parafmt->PresentMask >> 9) & 3 )
     {
       case 1:
-        v9 = "right";
+        v9 = (__m128i *)"right";
         break;
       case 2:
-        v9 = "justify";
+        v9 = (__m128i *)"justify";
         break;
       case 3:
-        v9 = "center";
+        v9 = (__m128i *)"center";
         break;
     }
     v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, v9);
@@ -222,10 +222,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
   if ( (v13->PresentMask & 1) != 0 )
   {
     v5 |= 0x20u;
-    fmt = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v13->ColorV;
+    fmt = v13->ColorV & 0xFFFFFF;
     other.Flags = 4;
     other.Bonus.pWeakProxy = 0;
-    other.value.VNumber = (double)(unsigned int)fmt;
+    other.value.VNumber = (double)fmt;
     v18 = &other;
   }
   else
@@ -251,7 +251,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
     *(float *)&fmt = COERCE_FLOAT(
                        Scaleform::GFx::ASStringManager::CreateStringNode(
                          sm->pStringManager,
-                         (char *)((FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
+                         (__m128i *)((FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
                          *(_DWORD *)(FontList->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF));
     ++*(_DWORD *)(fmt + 12);
     p_fmt = (Scaleform::GFx::ASString *)&fmt;
@@ -451,7 +451,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
     *(float *)&fmt = COERCE_FLOAT(
                        Scaleform::GFx::ASStringManager::CreateStringNode(
                          sm->pStringManager,
-                         (char *)((p_Url->HeapTypeBits & 0xFFFFFFFC) + 8),
+                         (__m128i *)((p_Url->HeapTypeBits & 0xFFFFFFFC) + 8),
                          *(_DWORD *)(p_Url->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF));
     ++*(_DWORD *)(fmt + 12);
     p_NullString = (Scaleform::GFx::ASString *)&fmt;
@@ -513,7 +513,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
         else
         {
           RefCount = pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             pObject->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -528,7 +528,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
       if ( ((unsigned __int8)pV & 1) == 0 )
       {
         v40 = pV->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v40) != 0 )
+        if ( (v40 & 0x3FFFFF) != 0 )
         {
           pV->RefCount = v40 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);
@@ -548,7 +548,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextForm
       else
       {
         v42 = v41->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v42) != 0 )
+        if ( (v42 & 0x3FFFFF) != 0 )
         {
           v41->RefCount = v42 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v41);

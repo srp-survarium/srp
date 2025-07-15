@@ -5,16 +5,16 @@ DName *__cdecl UnDecorator::getStringEncoding(DName *result, char *prefix)
   const char *v4; // eax
   char v5; // cl
   DName *v6; // eax
-  DName v7; // [esp+0h] [ebp-10h] BYREF
-  DName resulta; // [esp+8h] [ebp-8h] BYREF
+  DName resulta; // [esp+0h] [ebp-10h] BYREF
+  DName v8; // [esp+8h] [ebp-8h] BYREF
 
-  DName::DName(&resulta, prefix);
+  DName::DName(&v8, prefix);
   v2 = *UnDecorator::gName++;
   if ( v2 == 64 && (v3 = *UnDecorator::gName, ++UnDecorator::gName, v3 == 95) )
   {
     ++UnDecorator::gName;
-    UnDecorator::getDimension(&v7, 0);
-    UnDecorator::getDimension(&v7, 0);
+    UnDecorator::getDimension(&resulta, 0);
+    UnDecorator::getDimension(&resulta, 0);
     v4 = UnDecorator::gName;
     v5 = *UnDecorator::gName;
     if ( *UnDecorator::gName )
@@ -31,7 +31,7 @@ DName *__cdecl UnDecorator::getStringEncoding(DName *result, char *prefix)
       {
         UnDecorator::gName = v4 + 1;
         v6 = result;
-        *result = resulta;
+        *result = v8;
         return v6;
       }
     }

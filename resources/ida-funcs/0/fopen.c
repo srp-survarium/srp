@@ -1,4 +1,4 @@
-_iobuf *__cdecl fopen(_iobuf *file, const char *mode)
+_iobuf *__usercall fopen@<eax>(const char *a1@<esi>, char *file, char *mode)
 {
-  return _fsopen(file, mode, 64);
+  return _fsopen(a1, file, mode, 64);
 }

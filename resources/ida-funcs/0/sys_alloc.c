@@ -1,113 +1,138 @@
-int *__usercall sys_alloc@<eax>(malloc_state *m@<eax>, unsigned int nb)
+char *__usercall sys_alloc@<eax>(malloc_state *m@<eax>, unsigned int nb)
 {
-  int *result; // eax
-  unsigned int v4; // eax
-  unsigned int v5; // ebp
-  char *v6; // edi
+  unsigned int v3; // ebx
+  char *result; // eax
+  unsigned int v6; // eax
+  unsigned int v7; // edi
+  char *v8; // ecx
   unsigned int footprint; // eax
-  malloc_chunk *v8; // ecx
-  malloc_segment *p_seg; // ecx
-  malloc_segment *v10; // eax
-  unsigned int topsize; // eax
-  malloc_chunk *top; // ecx
-  unsigned int v13; // eax
+  malloc_chunk **smallbins; // eax
+  bool v11; // zf
+  unsigned int v12; // eax
+  malloc_segment *p_seg; // edx
   unsigned int sflags; // eax
   unsigned int size; // eax
-  unsigned int v16; // ecx
-  char *base; // ecx
+  malloc_segment *v16; // eax
+  unsigned int v17; // edx
+  char *base; // edx
+  unsigned int topsize; // eax
+  malloc_chunk *top; // ecx
+  unsigned int v21; // eax
+  int v22; // [esp+8h] [ebp-4h]
 
+  v3 = nb;
   init_mparams();
-  if ( (m->mflags & 1) == 0 || nb < mparams.mmap_threshold || (result = mmap_alloc(nb, m)) == 0 )
+  if ( (m->mflags & 1) == 0 || nb < mparams.mmap_threshold || (result = (char *)mmap_alloc(m)) == 0 )
   {
-    v4 = ~(mparams.granularity - 1);
-    v5 = v4 & (mparams.granularity + nb + 40);
-    if ( v5 > nb )
+    v6 = ~(mparams.granularity - 1);
+    v7 = v6 & (mparams.granularity + nb + 40);
+    if ( v7 <= nb )
+      return 0;
+    v8 = (char *)mmap(v6 & (mparams.granularity + nb + 40));
+    if ( v8 == (char *)-1 )
+      return 0;
+    m->footprint += v7;
+    footprint = m->footprint;
+    if ( footprint > m->max_footprint )
+      m->max_footprint = footprint;
+    if ( m->top )
     {
-      v6 = (char *)mmap(v4 & (mparams.granularity + nb + 40));
-      if ( v6 != (char *)-1 )
+      p_seg = &m->seg;
+      if ( m != (malloc_state *)-444 )
       {
-        m->footprint += v5;
-        footprint = m->footprint;
-        if ( footprint > m->max_footprint )
-          m->max_footprint = footprint;
-        if ( m->top )
+        do
         {
-          p_seg = &m->seg;
-          if ( m == (malloc_state *)-444 )
-            goto LABEL_15;
-          while ( v6 != &p_seg->base[p_seg->size] )
-          {
-            p_seg = p_seg->next;
-            if ( !p_seg )
-              goto LABEL_15;
-          }
+          if ( v8 == &p_seg->base[p_seg->size] )
+            break;
+          p_seg = p_seg->next;
+        }
+        while ( p_seg );
+        if ( p_seg )
+        {
           sflags = p_seg->sflags;
-          if ( (sflags & 8) != 0
-            || (sflags & 1) == 0
-            || m->top < (malloc_chunk *)p_seg->base
-            || (size = p_seg->size, m->top >= (malloc_chunk *)&p_seg->base[size]) )
+          if ( (sflags & 8) == 0 && (sflags & 1) != 0 )
           {
-LABEL_15:
-            if ( v6 < m->least_addr )
-              m->least_addr = v6;
-            v10 = &m->seg;
-            if ( m != (malloc_state *)-444 )
+            if ( m->top >= (malloc_chunk *)p_seg->base )
             {
-              while ( v10->base != &v6[v5] )
+              size = p_seg->size;
+              if ( m->top < (malloc_chunk *)&p_seg->base[size] )
               {
-                v10 = v10->next;
-                if ( !v10 )
-                  goto LABEL_20;
-              }
-              v16 = v10->sflags;
-              if ( (v16 & 8) == 0 && (v16 & 1) != 0 )
-              {
-                base = v10->base;
-                v10->size += v5;
-                v10->base = v6;
-                return (int *)prepend_alloc(v6, nb, (malloc_tree_chunk *)m, base);
+                p_seg->size = v7 + size;
+                init_top(m, m->top, v7 + m->topsize);
+                v3 = nb;
+                goto LABEL_35;
               }
             }
-LABEL_20:
-            add_segment(m, v6, v5, 1u);
+            v3 = nb;
           }
-          else
-          {
-            p_seg->size = v5 + size;
-            init_top(m, m->top, v5 + m->topsize);
-          }
-        }
-        else
-        {
-          m->magic = mparams.magic;
-          m->least_addr = v6;
-          m->seg.base = v6;
-          m->seg.size = v5;
-          m->seg.sflags = 1;
-          m->release_checks = 255;
-          init_bins(m);
-          if ( m == &gm_ )
-          {
-            init_top(m, (malloc_chunk *)v6, v5 - 40);
-          }
-          else
-          {
-            v8 = (malloc_chunk *)((char *)m + ((int)m[-1].out_of_memory_parameter & 0xFFFFFFF8) - 8);
-            init_top(m, v8, v6 - (char *)v8 + v5 - 40);
-          }
-        }
-        topsize = m->topsize;
-        if ( nb < topsize )
-        {
-          top = m->top;
-          v13 = topsize - nb;
-          m->topsize = v13;
-          m->top = (malloc_chunk *)((char *)top + nb);
-          *(unsigned int *)((char *)&top->head + nb) = v13 | 1;
-          top->head = nb | 3;
-          return (int *)&top->fd;
         }
       }
+      if ( v8 < m->least_addr )
+        m->least_addr = v8;
+      v16 = &m->seg;
+      if ( m != (malloc_state *)-444 )
+      {
+        do
+        {
+          if ( v16->base == &v8[v7] )
+            break;
+          v16 = v16->next;
+        }
+        while ( v16 );
+        if ( v16 )
+        {
+          v17 = v16->sflags;
+          if ( (v17 & 8) == 0 && (v17 & 1) != 0 )
+          {
+            base = v16->base;
+            v16->size += v7;
+            v16->base = v8;
+            return prepend_alloc(m, v3, v8, base);
+          }
+        }
+      }
+      add_segment(m, (malloc_chunk *)v8, v7, 1u);
+    }
+    else
+    {
+      m->magic = mparams.magic;
+      m->least_addr = v8;
+      m->seg.base = v8;
+      m->seg.size = v7;
+      m->seg.sflags = 1;
+      m->release_checks = 255;
+      smallbins = m->smallbins;
+      v22 = 32;
+      do
+      {
+        v11 = v22-- == 1;
+        smallbins[3] = (malloc_chunk *)smallbins;
+        smallbins[2] = (malloc_chunk *)smallbins;
+        smallbins += 2;
+      }
+      while ( !v11 );
+      if ( m == &gm_ )
+      {
+        v12 = v7 - 40;
+      }
+      else
+      {
+        v12 = v8 - ((char *)m + ((int)m[-1].out_of_memory_parameter & 0xFFFFFFF8) - 8) + v7 - 40;
+        v8 = (char *)m + ((int)m[-1].out_of_memory_parameter & 0xFFFFFFF8) - 8;
+      }
+      init_top(m, (malloc_chunk *)v8, v12);
+    }
+LABEL_35:
+    topsize = m->topsize;
+    if ( v3 < topsize )
+    {
+      top = m->top;
+      v21 = topsize - v3;
+      m->topsize = v21;
+      m->top = (malloc_chunk *)((char *)top + v3);
+      *(unsigned int *)((char *)&top->head + v3) = v21 | 1;
+      top->head = v3 | 3;
+      return (char *)&top->fd;
     }
     return 0;
   }

@@ -6,7 +6,7 @@ Scaleform::GFx::Sprite *__thiscall Scaleform::GFx::AS2::MovieClipObject::GetASCh
 
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->pTextField,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+    &result);
   pObject = result.pObject;
   if ( result.pObject )
   {

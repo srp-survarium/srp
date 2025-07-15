@@ -3,7 +3,7 @@ char __thiscall vostok::engine::engine_world::is_application_active(vostok::engi
   char result; // al
 
   result = 1;
-  if ( !BYTE2(this->m_resources_cooker_destruction_started) )
-    return BYTE1(this->m_resources_cooker_destruction_started);
+  if ( !BYTE2(this->m_render_has_been_created) )
+    return BYTE1(this->m_render_has_been_created);
   return result;
 }

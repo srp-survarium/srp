@@ -11,11 +11,11 @@ Scaleform::Render::DDS::DDSFileImageSource *__thiscall Scaleform::Render::DDS::F
     return 0;
   v3 = (Scaleform::Render::DDS::DDSFileImageSource *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                        Scaleform::Memory::pGlobalHeap,
-                                                       104,
+                                                       112,
                                                        0);
   if ( !v3 )
     return 0;
-  Scaleform::Render::DDS::DDSFileImageSource::DDSFileImageSource(v3, file, args->Format);
+  Scaleform::Render::DDS::DDSFileImageSource::DDSFileImageSource(v3, (Scaleform::GFx::Resource *)file, args->Format);
   v5 = v4;
   if ( v4 && !Scaleform::Render::DDS::DDSFileImageSource::ReadHeader(v4) )
   {

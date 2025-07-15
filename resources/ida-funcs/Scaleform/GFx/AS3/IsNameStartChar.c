@@ -25,7 +25,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::IsNameStartChar(
   else
   {
     v2 = result;
-    if ( (unsigned int)(c - 0x10000) > 0xDFFFF )
+    if ( c - 0x10000 > (unsigned int)&loc_DFFFF )
     {
       result->Result = 0;
       return v2;

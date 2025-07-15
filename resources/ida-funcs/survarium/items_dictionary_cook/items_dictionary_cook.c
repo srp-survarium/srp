@@ -1,20 +1,18 @@
 void __thiscall survarium::items_dictionary_cook::items_dictionary_cook(survarium::items_dictionary_cook *this)
 {
-  vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> v1; // [esp-4h] [ebp-Ch] BYREF
-  survarium::items_dictionary_cook *thisa; // [esp+0h] [ebp-8h]
+  vostok::memory::doug_lea_allocator *v1; // edi
+  vostok::buffer_vector<vostok::resources::cook_base *> *v2; // ecx
+  vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> v3; // [esp+0h] [ebp-Ch]
 
-  thisa = this;
-  v1.m_flags = (unsigned int)this;
-  stlp_std::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>::reverse_iterator<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *>(
-    0,
-    (boost::_bi::list1<vostok::network_core::packet_reader &> **)&v1);
+  v1 = survarium::g_allocator;
   vostok::resources::translate_query_cook::translate_query_cook(
-    thisa,
-    items_dictionary_class,
+    (vostok::resources::translate_query_cook *)0x43,
+    &s_items_dictionary_cook,
     reuse_true,
     0xFFFFFFFB,
-    v1);
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&thisa[1]);
-  thisa->__vftable = (survarium::items_dictionary_cook_vtbl *)&survarium::items_dictionary_cook::`vftable';
-  vostok::resources::register_cook(thisa);
+    0,
+    v3);
+  s_items_dictionary_cook.__vftable = (survarium::items_dictionary_cook_vtbl *)&survarium::items_dictionary_cook::`vftable';
+  s_items_dictionary_cook.m_allocator = v1;
+  vostok::resources::resources_manager::register_cook(&s_items_dictionary_cook, v2);
 }

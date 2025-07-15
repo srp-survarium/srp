@@ -1,95 +1,108 @@
 void __thiscall vostok::render::skeleton_render_model_instance::update(
         vostok::render::skeleton_render_model_instance *this)
 {
-  vostok::render::skeleton_render_model_instance *v1; // ebx
-  vostok::render::render_surface_instance *v2; // ebp
-  vostok::render::skeleton_render_model *m_object; // eax
-  const vostok::math::float4x4 *M_start; // esi
-  const vostok::math::float4x4 *M_finish; // ebx
-  vostok::math::float4x4 *v6; // edi
-  int p_m_aabbox; // eax
-  const vostok::math::float4x4 *v8; // eax
-  vostok::math::float4x4 *v9; // eax
-  float x; // xmm1_4
+  vostok::render::skeleton_render_model *m_object; // esi
+  bool v3; // zf
+  vostok::render::render_surface *v4; // ecx
+  float v5; // xmm0_4
+  float v6; // xmm1_4
+  vostok::render::render_surface_instance *v7; // ecx
+  vostok::render::skeleton_render_model *v8; // eax
+  const vostok::math::float4x4 *m_begin; // edx
   float *p_x; // eax
-  int v12; // ecx
-  int v13; // [esp+14h] [ebp-F0h]
-  unsigned int i; // [esp+1Ch] [ebp-E8h]
-  __int64 v16; // [esp+20h] [ebp-E4h]
-  int v17; // [esp+28h] [ebp-DCh]
-  __int64 v18; // [esp+2Ch] [ebp-D8h]
-  float z; // [esp+34h] [ebp-D0h]
-  vostok::math::float4x4 left; // [esp+44h] [ebp-C0h] BYREF
-  vostok::math::float4x4 result; // [esp+84h] [ebp-80h] BYREF
+  const vostok::math::float4x4 *v11; // esi
+  vostok::math::float4x4 *v12; // eax
+  const vostok::math::float4x4 *v13; // edx
+  vostok::math::float4x4 *v14; // eax
+  unsigned int m_instances_count; // eax
+  pix_event_wrapper_dx11 wszName[5]; // [esp+Fh] [ebp-F1h] BYREF
+  unsigned int v17; // [esp+14h] [ebp-ECh]
+  unsigned int v18; // [esp+18h] [ebp-E8h]
+  vostok::math::float4x4 *m_end; // [esp+1Ch] [ebp-E4h]
+  const vostok::math::float4x4 *v20; // [esp+20h] [ebp-E0h]
+  vostok::render::render_surface_instance *v21; // [esp+24h] [ebp-DCh]
+  float v22; // [esp+28h] [ebp-D8h]
+  float v23; // [esp+2Ch] [ebp-D4h]
+  float v24; // [esp+30h] [ebp-D0h]
+  float v25; // [esp+34h] [ebp-CCh]
+  float v26; // [esp+38h] [ebp-C8h]
+  float v27; // [esp+3Ch] [ebp-C4h]
+  vostok::math::float4x4 v28; // [esp+40h] [ebp-C0h] BYREF
+  vostok::math::float4x4 v29; // [esp+80h] [ebp-80h] BYREF
+  vostok::math::float4x4 v30; // [esp+C0h] [ebp-40h] BYREF
 
-  v1 = this;
-  vostok::render::skeleton_render_model::update(this->m_original.m_object, &this->m_bones_matrices);
-  i = 0;
-  if ( v1->m_instances_count )
+  pix_event_wrapper_dx11::pix_event_wrapper_dx11(
+    (pix_event_wrapper_dx11 *)this,
+    wszName,
+    (int)L"skeleton_render_model_instance");
+  m_object = this->m_original.m_object;
+  v3 = m_object->m_childs_count == 0;
+  wszName[0] = 0;
+  if ( !v3 )
   {
-    v13 = 0;
     do
     {
-      v2 = &v1->m_surface_instances[v13];
-      if ( (v2->m_flags & 1) != 0 )
-      {
-        m_object = v1->m_original.m_object;
-        M_start = m_object->m_inverted_bones_matrices_in_bind_pose._M_impl._M_start;
-        M_finish = m_object->m_inverted_bones_matrices_in_bind_pose._M_impl._M_finish;
-        v6 = this->m_bones_matrices._M_impl._M_start;
-        p_m_aabbox = (int)&v2->m_render_surface->m_aabbox;
-        *(_QWORD *)(p_m_aabbox + 12) = 0;
-        *(_QWORD *)p_m_aabbox = 0;
-        *(_DWORD *)(p_m_aabbox + 20) = 0;
-        for ( *(_DWORD *)(p_m_aabbox + 8) = 0; M_start != M_finish; *(_DWORD *)(v12 + 20) = v17 )
-        {
-          invert_impl(
-            M_start,
-            (float)((float)((float)((float)(M_start->j.y * M_start->k.z) - (float)(M_start->j.z * M_start->k.y))
-                          * M_start->i.x)
-                  - (float)((float)((float)(M_start->j.x * M_start->k.z) - (float)(M_start->k.x * M_start->j.z))
-                          * M_start->i.y))
-          + (float)((float)((float)(M_start->j.x * M_start->k.y) - (float)(M_start->k.x * M_start->j.y)) * M_start->i.z));
-          v8 = vostok::math::transpose(&result, v6);
-          v9 = vostok::math::mul4x4(&left, v8);
-          x = v9->c.x;
-          p_x = &v9->c.x;
-          v12 = (int)&v2->m_render_surface->m_aabbox;
-          if ( x <= *(float *)v12 )
-            *(float *)&v18 = x;
-          else
-            *(float *)&v18 = v2->m_render_surface->m_aabbox.min.x;
-          if ( p_x[1] <= v2->m_render_surface->m_aabbox.min.y )
-            *((float *)&v18 + 1) = p_x[1];
-          else
-            HIDWORD(v18) = LODWORD(v2->m_render_surface->m_aabbox.min.y);
-          if ( p_x[2] <= v2->m_render_surface->m_aabbox.min.z )
-            z = p_x[2];
-          else
-            z = v2->m_render_surface->m_aabbox.min.z;
-          *(_QWORD *)v12 = v18;
-          *(float *)(v12 + 8) = z;
-          if ( *(float *)(v12 + 12) <= *p_x )
-            *(float *)&v16 = *p_x;
-          else
-            LODWORD(v16) = *(_DWORD *)(v12 + 12);
-          if ( *(float *)(v12 + 16) <= p_x[1] )
-            *((float *)&v16 + 1) = p_x[1];
-          else
-            HIDWORD(v16) = *(_DWORD *)(v12 + 16);
-          if ( *(float *)(v12 + 20) <= p_x[2] )
-            v17 = *((_DWORD *)p_x + 2);
-          else
-            v17 = *(_DWORD *)(v12 + 20);
-          ++M_start;
-          ++v6;
-          *(_QWORD *)(v12 + 12) = v16;
-        }
-        v1 = this;
-      }
-      ++v13;
-      ++i;
+      v4 = m_object->m_childs[*(_BYTE *)wszName];
+      ((void (__thiscall *)(vostok::render::render_surface *, vostok::fixed_vector<vostok::math::float4x4,128> *))v4->__vftable[1].~vostok::render::render_surface)(
+        v4,
+        &this->m_bones_matrices);
+      ++*(_BYTE *)wszName;
     }
-    while ( i < v1->m_instances_count );
+    while ( *(_BYTE *)wszName < m_object->m_childs_count );
   }
+  v18 = 0;
+  if ( this->m_instances_count )
+  {
+    v17 = 0;
+    v5 = FLOAT_N0_5;
+    v6 = c_anim_center;
+    do
+    {
+      v7 = &this->m_surface_instances[v17 / 0x38];
+      v3 = (v7->m_flags & 1) == 0;
+      v21 = v7;
+      if ( !v3 )
+      {
+        v8 = this->m_original.m_object;
+        m_begin = v8->m_inverted_bones_matrices_in_bind_pose.m_begin;
+        m_end = v8->m_inverted_bones_matrices_in_bind_pose.m_end;
+        *(_DWORD *)&wszName[1] = this->m_bones_matrices.m_begin;
+        p_x = &v7->m_render_surface->m_aabbox.min.x;
+        v25 = v5;
+        v26 = v5;
+        v27 = v5;
+        *p_x = v5;
+        p_x[1] = v26;
+        p_x[2] = v27;
+        v22 = v6;
+        v23 = v6;
+        v24 = v6;
+        p_x[3] = v6;
+        p_x[4] = v23;
+        v20 = m_begin;
+        p_x[5] = v24;
+        if ( m_begin != m_end )
+        {
+          do
+          {
+            vostok::math::transpose(*(const vostok::math::float4x4 **)&wszName[1], &v28);
+            v11 = v20;
+            v12 = vostok::math::invert4x3(v20, &v29);
+            v14 = vostok::math::mul4x4(v13, v12, &v30);
+            vostok::math::aabb::modify((vostok::math::aabb *)&v14->lines[3], &v21->m_render_surface->m_aabbox);
+            *(_DWORD *)&wszName[1] += 64;
+            v20 = v11 + 1;
+          }
+          while ( &v11[1] != m_end );
+          v6 = c_anim_center;
+          v5 = FLOAT_N0_5;
+        }
+      }
+      m_instances_count = this->m_instances_count;
+      ++v18;
+      v17 += 56;
+    }
+    while ( v18 < m_instances_count );
+  }
+  D3DPERF_EndEvent();
 }

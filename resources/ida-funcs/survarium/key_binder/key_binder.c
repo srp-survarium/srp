@@ -1,161 +1,104 @@
-void __usercall survarium::key_binder::key_binder(survarium::key_binder *this@<esi>, survarium::game *g@<eax>)
+void __userpurge survarium::key_binder::key_binder(survarium::game *g@<eax>, survarium::key_binder *this)
 {
   survarium::game_action_descr *v2; // eax
   survarium::console_command_bind *v3; // ecx
-  boost::detail::function::vtable_base *v4; // eax
-  void (__cdecl *v5)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::detail::function::vtable_base *v6; // eax
-  void (__cdecl *v7)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  __int64 v8; // [esp+Ch] [ebp-30h]
-  int v9; // [esp+14h] [ebp-28h]
-  boost::detail::function::vtable_base *v10; // [esp+18h] [ebp-24h]
-  boost::detail::function::function_buffer v11; // [esp+20h] [ebp-1Ch] BYREF
+  vostok::console_commands::cc_delegate *v4; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  vostok::console_commands::cc_delegate *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int> > > v8; // [esp-10h] [ebp-54h]
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int> > > v9; // [esp-10h] [ebp-54h]
+  survarium::console_command_bind *v10; // [esp-4h] [ebp-48h]
+  survarium::console_command_bind *v11; // [esp-4h] [ebp-48h]
+  survarium::console_command_bind *v12; // [esp-4h] [ebp-48h]
+  survarium::console_command_bind *v13; // [esp-4h] [ebp-48h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+10h] [ebp-34h] BYREF
+  void (__thiscall *v15)(survarium::key_binder *, char *, int); // [esp+34h] [ebp-10h]
+  survarium::key_binder *v16; // [esp+38h] [ebp-Ch]
+  int v17; // [esp+3Ch] [ebp-8h]
 
   this->m_game = g;
-  memset((int)this, 0, 0x300u);
+  memset((int)this, 0, 0x360u);
   v2 = actions_;
   do
   {
-    v3 = (survarium::console_command_bind *)(3 * v2->id);
-    this->m_key_bindings[v2->id].m_action = v2;
-    ++v2;
+    v3 = (survarium::console_command_bind *)(12 * v2->id);
+    *(survarium::game_action_descr **)((char *)&this->m_key_bindings[0].m_action + (_DWORD)v3) = v2++;
   }
   while ( v2 != (survarium::game_action_descr *)survarium::keyboards );
-  if ( (_S6_6 & 1) == 0 )
+  if ( (_S9_5 & 1) == 0 )
   {
-    _S6_6 |= 1u;
-    survarium::console_command_bind::console_command_bind(v3, (int)&s_bind_key_command, this, 0);
-    atexit(survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_bind_key_command__);
+    _S9_5 |= 1u;
+    survarium::console_command_bind::console_command_bind(
+      v3,
+      (survarium::key_binder *)&s_bind_key_command,
+      (survarium::keyboard_key_descr *)this,
+      0);
+    atexit((int (__cdecl *)())survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_bind_key_command__);
+    v3 = v10;
   }
-  if ( (_S6_6 & 2) == 0 )
+  if ( (_S9_5 & 2) == 0 )
   {
-    _S6_6 |= 2u;
-    survarium::console_command_bind::console_command_bind(v3, (int)&s_bind_sec_key_command, this, 1u);
-    atexit(survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_bind_sec_key_command__);
+    _S9_5 |= 2u;
+    survarium::console_command_bind::console_command_bind(
+      v3,
+      (survarium::key_binder *)&s_bind_sec_key_command,
+      (survarium::keyboard_key_descr *)this,
+      (survarium::game_action_descr *)1);
+    atexit((int (__cdecl *)())survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_bind_sec_key_command__);
+    v3 = v11;
   }
-  if ( (_S6_6 & 4) == 0 )
+  if ( (_S9_5 & 4) == 0 )
   {
-    _S6_6 |= 4u;
-    LODWORD(v8) = survarium::key_binder::unbind_key;
-    HIDWORD(v8) = this;
-    v9 = 0;
-    if ( survarium::generate_shaders_world::is_loading() )
-    {
-      v4 = 0;
-    }
-    else
-    {
-      v11.vostok_pointer_size_alignment[2] = (void *)v9;
-      *(_QWORD *)&v11.obj_ptr = v8;
-      v4 = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,char const *>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int>>>>'::`2'::stored_vtable
-                                                  + 1);
-    }
-    v10 = v4;
-    s_unbind_key_command.m_next = 0;
-    s_unbind_key_command.m_prev = vostok::console_commands::s_console_command_root;
-    s_unbind_key_command.m_name = "unbind";
-    s_unbind_key_command.m_command_type = command_type_user_specific;
-    s_unbind_key_command.m_execution_type = execution_filter_general;
-    s_unbind_key_command.m_need_args = 0;
-    s_unbind_key_command.m_serializable = 1;
-    s_unbind_key_command.m_on_change_event.vtable = 0;
-    if ( vostok::console_commands::s_console_command_root )
-    {
-      vostok::console_commands::s_console_command_root->m_next = &s_unbind_key_command;
-      v4 = v10;
-    }
-    vostok::console_commands::s_console_command_root = &s_unbind_key_command;
-    s_unbind_key_command.__vftable = (vostok::console_commands::cc_delegate_vtbl *)&stru_95AF78.m_key_bindings[40];
-    s_unbind_key_command.m_functor.vtable = 0;
-    if ( v4 )
-    {
-      s_unbind_key_command.m_functor.vtable = v4;
-      if ( ((unsigned __int8)v10 & 1) != 0 )
-      {
-        s_unbind_key_command.m_functor.functor = v11;
-      }
-      else
-      {
-        (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)v4 & 0xFFFFFFFE))(
-          &v11,
-          &s_unbind_key_command.m_functor.functor,
-          0);
-        v4 = v10;
-      }
-    }
-    s_unbind_key_command.m_need_args = 1;
-    if ( v4 )
-    {
-      if ( ((unsigned __int8)v10 & 1) == 0 )
-      {
-        v5 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((unsigned int)v4 & 0xFFFFFFFE);
-        if ( v5 )
-          v5(&v11, &v11, 2);
-      }
-    }
-    atexit(survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_unbind_key_command__);
+    _S9_5 |= 4u;
+    v17 = 0;
+    v15 = survarium::key_binder::unbind_key;
+    v16 = this;
+    v8.l_.a1_.t_ = (survarium::key_binder *)survarium::key_binder::unbind_key;
+    v8.l_.a3_.t_ = (int)this;
+    v8.f_.f_ = (void (__thiscall *)(survarium::key_binder *, const char *, int))&f;
+    boost::function<void __cdecl (char const *)>::function<void __cdecl (char const *)>(
+      (boost::function<void __cdecl(char const *)> *)v3,
+      v8,
+      0);
+    vostok::console_commands::cc_delegate::cc_delegate(
+      v4,
+      (int)&s_unbind_key_command,
+      "unbind",
+      &f,
+      1,
+      command_type_user_specific);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v5,
+      (int *)&f);
+    atexit((int (__cdecl *)())survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_unbind_key_command__);
+    v3 = v12;
   }
-  if ( (_S6_6 & 8) == 0 )
+  if ( (_S9_5 & 8) == 0 )
   {
-    _S6_6 |= 8u;
-    v9 = 1;
-    LODWORD(v8) = survarium::key_binder::unbind_key;
-    HIDWORD(v8) = this;
-    if ( survarium::generate_shaders_world::is_loading() )
-    {
-      v6 = 0;
-    }
-    else
-    {
-      *(_QWORD *)&v11.obj_ptr = v8;
-      v11.vostok_pointer_size_alignment[2] = (void *)v9;
-      v6 = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,char const *>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int>>>>'::`2'::stored_vtable
-                                                  + 1);
-    }
-    v10 = v6;
-    s_unbind_second_key_command.m_next = 0;
-    s_unbind_second_key_command.m_prev = vostok::console_commands::s_console_command_root;
-    s_unbind_second_key_command.m_name = "unbind_sec";
-    s_unbind_second_key_command.m_command_type = command_type_user_specific;
-    s_unbind_second_key_command.m_execution_type = execution_filter_general;
-    s_unbind_second_key_command.m_need_args = 0;
-    s_unbind_second_key_command.m_serializable = 1;
-    s_unbind_second_key_command.m_on_change_event.vtable = 0;
-    if ( vostok::console_commands::s_console_command_root )
-    {
-      vostok::console_commands::s_console_command_root->m_next = &s_unbind_second_key_command;
-      v6 = v10;
-    }
-    vostok::console_commands::s_console_command_root = &s_unbind_second_key_command;
-    s_unbind_second_key_command.__vftable = (vostok::console_commands::cc_delegate_vtbl *)&stru_95AF78.m_key_bindings[40];
-    s_unbind_second_key_command.m_functor.vtable = 0;
-    if ( v6 )
-    {
-      s_unbind_second_key_command.m_functor.vtable = v6;
-      if ( ((unsigned __int8)v10 & 1) != 0 )
-      {
-        s_unbind_second_key_command.m_functor.functor = v11;
-      }
-      else
-      {
-        (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)v6 & 0xFFFFFFFE))(
-          &v11,
-          &s_unbind_second_key_command.m_functor.functor,
-          0);
-        v6 = v10;
-      }
-    }
-    s_unbind_second_key_command.m_need_args = 1;
-    if ( v6 )
-    {
-      if ( ((unsigned __int8)v10 & 1) == 0 )
-      {
-        v7 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((unsigned int)v6 & 0xFFFFFFFE);
-        if ( v7 )
-          v7(&v11, &v11, 2);
-      }
-    }
-    atexit(survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_unbind_second_key_command__);
+    _S9_5 |= 8u;
+    v17 = 1;
+    v15 = survarium::key_binder::unbind_key;
+    v16 = this;
+    v9.l_.a1_.t_ = (survarium::key_binder *)survarium::key_binder::unbind_key;
+    v9.l_.a3_.t_ = (int)this;
+    v9.f_.f_ = (void (__thiscall *)(survarium::key_binder *, const char *, int))&f;
+    boost::function<void __cdecl (char const *)>::function<void __cdecl (char const *)>(
+      (boost::function<void __cdecl(char const *)> *)v3,
+      v9,
+      1);
+    vostok::console_commands::cc_delegate::cc_delegate(
+      v6,
+      (int)&s_unbind_second_key_command,
+      "unbind_sec",
+      &f,
+      1,
+      command_type_user_specific);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v7,
+      (int *)&f);
+    atexit((int (__cdecl *)())survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_unbind_second_key_command__);
+    v3 = v13;
   }
   survarium::key_binder::set_default_controls((survarium::key_binder *)v3, this);
 }

@@ -1,167 +1,166 @@
-malloc_tree_chunk **__cdecl tmalloc_small(malloc_chunk *m, malloc_chunk *nb)
+malloc_tree_chunk **__usercall tmalloc_small@<eax>(malloc_state *m@<esi>, unsigned int nb)
 {
-  unsigned int v3; // edx
-  malloc_tree_chunk *v4; // ecx
-  unsigned int v5; // ebp
-  malloc_tree_chunk *v6; // edi
-  char *prev_foot; // ecx
-  malloc_tree_chunk *bk; // esi
+  unsigned int v2; // eax
+  malloc_tree_chunk *v3; // eax
+  unsigned int v4; // edx
+  malloc_tree_chunk *v5; // ebx
+  malloc_tree_chunk *bk; // edi
+  malloc_tree_chunk *parent; // ecx
   malloc_tree_chunk *fd; // eax
-  char *v10; // ecx
-  malloc_tree_chunk **child; // eax
-  unsigned int index; // ecx
-  malloc_chunk *v13; // eax
-  malloc_tree_chunk *v14; // eax
-  malloc_tree_chunk *v15; // eax
-  malloc_tree_chunk **result; // eax
-  unsigned int v17; // eax
-  int v18; // edx
-  malloc_chunk **v19; // ecx
-  malloc_chunk *r; // [esp+4h] [ebp-4h]
-  malloc_chunk *DV; // [esp+Ch] [ebp+4h]
-  malloc_chunk *DVa; // [esp+Ch] [ebp+4h]
+  char *v9; // eax
+  char *child; // ecx
+  malloc_tree_chunk **v11; // eax
+  malloc_tree_chunk *v12; // eax
+  malloc_tree_chunk *v13; // eax
+  unsigned int dvsize; // eax
+  unsigned int v15; // eax
+  malloc_chunk **v16; // ecx
+  malloc_chunk *dv; // [esp+0h] [ebp-10h]
+  malloc_chunk *v19; // [esp+4h] [ebp-Ch]
+  malloc_tree_chunk *v20; // [esp+8h] [ebp-8h]
 
-  _BitScanForward(&v3, m->head & -m->head);
-  v4 = (malloc_tree_chunk *)*(&m[19].prev_foot + v3);
-  v5 = (v4->head & 0xFFFFFFF8) - (_DWORD)nb;
+  _BitScanForward(&v2, m->treemap & -m->treemap);
+  v3 = m->treebins[v2];
+  v4 = (v3->head & 0xFFFFFFF8) - nb;
 LABEL_2:
-  v6 = v4;
+  v5 = v3;
   while ( 1 )
   {
-    v4 = v4->child[0] ? v4->child[0] : v4->child[1];
-    if ( !v4 )
+    v3 = v3->child[0] ? v3->child[0] : v3->child[1];
+    if ( !v3 )
       break;
-    if ( (v4->head & 0xFFFFFFF8) - (unsigned int)nb < v5 )
+    if ( (v3->head & 0xFFFFFFF8) - nb < v4 )
     {
-      v5 = (v4->head & 0xFFFFFFF8) - (_DWORD)nb;
+      v4 = (v3->head & 0xFFFFFFF8) - nb;
       goto LABEL_2;
     }
   }
-  prev_foot = (char *)m[1].prev_foot;
-  if ( v6 < (malloc_tree_chunk *)prev_foot
-    || (r = (malloc_chunk *)((char *)nb + (_DWORD)v6), v6 >= (malloc_tree_chunk *)((char *)nb + (int)v6)) )
+  if ( (char *)v5 < m->least_addr
+    || (v19 = (malloc_chunk *)((char *)v5 + nb), v5 >= (malloc_tree_chunk *)((char *)v5 + nb)) )
   {
     abort();
   }
-  bk = v6->bk;
-  DV = (malloc_chunk *)v6->parent;
-  if ( bk != v6 )
+  bk = v5->bk;
+  parent = v5->parent;
+  v20 = parent;
+  if ( bk != v5 )
   {
-    fd = v6->fd;
-    if ( fd >= (malloc_tree_chunk *)prev_foot )
+    fd = v5->fd;
+    if ( (char *)fd >= m->least_addr )
     {
       fd->bk = bk;
       bk->fd = fd;
+LABEL_22:
+      parent = v20;
+      goto LABEL_23;
+    }
+    goto LABEL_21;
+  }
+  v9 = (char *)&v5->child[1];
+  bk = v5->child[1];
+  if ( bk || (v9 = (char *)v5->child, (bk = v5->child[0]) != 0) )
+  {
+    while ( 1 )
+    {
+      child = (char *)&bk->child[1];
+      if ( !bk->child[1] )
+      {
+        child = (char *)bk->child;
+        if ( !bk->child[0] )
+          break;
+      }
+      bk = *(malloc_tree_chunk **)child;
+      v9 = child;
+    }
+    if ( v9 >= m->least_addr )
+    {
+      *(_DWORD *)v9 = 0;
       goto LABEL_22;
     }
 LABEL_21:
     abort();
   }
-  bk = v6->child[1];
-  v10 = (char *)&v6->child[1];
-  if ( bk || (bk = v6->child[0], v10 = (char *)v6->child, bk) )
+LABEL_23:
+  if ( !parent )
+    goto LABEL_42;
+  v11 = &m->treebins[v5->index];
+  if ( v5 == *v11 )
   {
-    while ( 1 )
-    {
-      child = &bk->child[1];
-      if ( !bk->child[1] )
-      {
-        child = bk->child;
-        if ( !bk->child[0] )
-          break;
-      }
-      bk = *child;
-      v10 = (char *)child;
-    }
-    if ( (unsigned int)v10 < m[1].prev_foot )
-      goto LABEL_21;
-    *(_DWORD *)v10 = 0;
-  }
-LABEL_22:
-  if ( !DV )
-    goto LABEL_43;
-  index = v6->index;
-  if ( v6 == *((malloc_tree_chunk **)&m[19].prev_foot + index) )
-  {
-    *(&m[19].prev_foot + index) = (unsigned int)bk;
+    *v11 = bk;
     if ( !bk )
     {
-      m->head &= ~(1 << v6->index);
-      goto LABEL_43;
+      m->treemap &= ~(1 << v5->index);
+      goto LABEL_42;
     }
-    v13 = DV;
   }
   else
   {
-    v13 = DV;
-    if ( (unsigned int)DV < m[1].prev_foot )
+    if ( (char *)parent < m->least_addr )
       abort();
-    if ( (malloc_tree_chunk *)DV[1].prev_foot == v6 )
-      DV[1].prev_foot = (unsigned int)bk;
+    if ( parent->child[0] == v5 )
+      parent->child[0] = bk;
     else
-      DV[1].head = (unsigned int)bk;
+      parent->child[1] = bk;
     if ( !bk )
-      goto LABEL_43;
+      goto LABEL_42;
   }
-  if ( (unsigned int)bk < m[1].prev_foot )
-    goto LABEL_42;
-  bk->parent = (malloc_tree_chunk *)v13;
-  v14 = v6->child[0];
-  if ( v14 )
+  if ( (char *)bk < m->least_addr )
+    goto LABEL_41;
+  bk->parent = parent;
+  v12 = v5->child[0];
+  if ( v12 )
   {
-    if ( (unsigned int)v14 < m[1].prev_foot )
+    if ( (char *)v12 < m->least_addr )
       abort();
-    bk->child[0] = v14;
-    v14->parent = bk;
+    bk->child[0] = v12;
+    v12->parent = bk;
   }
-  v15 = v6->child[1];
-  if ( v15 )
+  v13 = v5->child[1];
+  if ( v13 )
   {
-    if ( (unsigned int)v15 >= m[1].prev_foot )
+    if ( (char *)v13 >= m->least_addr )
     {
-      bk->child[1] = v15;
-      v15->parent = bk;
-      goto LABEL_43;
+      bk->child[1] = v13;
+      v13->parent = bk;
+      goto LABEL_42;
     }
-LABEL_42:
+LABEL_41:
     abort();
   }
-LABEL_43:
-  if ( v5 >= 0x10 )
+LABEL_42:
+  if ( v4 >= 0x10 )
   {
-    v6->head = (unsigned int)nb | 3;
-    r->head = v5 | 1;
-    *(unsigned int *)((char *)&r->prev_foot + v5) = v5;
-    v17 = (unsigned int)m->fd;
-    if ( v17 )
+    v5->head = nb | 3;
+    v19->head = v4 | 1;
+    *(unsigned int *)((char *)&v19->prev_foot + v4) = v4;
+    dvsize = m->dvsize;
+    if ( dvsize )
     {
-      DVa = (malloc_chunk *)m[1].head;
-      v18 = 1 << (v17 >> 3);
-      if ( (m->prev_foot & v18) != 0 )
+      v15 = dvsize >> 3;
+      dv = m->dv;
+      if ( (m->smallmap & (1 << v15)) != 0 )
       {
-        v19 = (malloc_chunk **)*(&m[3].prev_foot + 2 * (v17 >> 3));
-        if ( (unsigned int)v19 < m[1].prev_foot )
+        v16 = (malloc_chunk **)m->smallbins[2 * v15 + 2];
+        if ( (char *)v16 < m->least_addr )
           abort();
       }
       else
       {
-        m->prev_foot |= v18;
-        v19 = &m[2].fd + 2 * (v17 >> 3);
+        m->smallmap |= 1 << v15;
+        v16 = &m->smallbins[2 * v15];
       }
-      *(&m[3].prev_foot + 2 * (v17 >> 3)) = (unsigned int)DVa;
-      v19[3] = DVa;
-      DVa->fd = (malloc_chunk *)v19;
-      DVa->bk = (malloc_chunk *)((char *)m + 8 * (v17 >> 3) + 40);
+      m->smallbins[2 * v15 + 2] = dv;
+      v16[3] = dv;
+      dv->fd = (malloc_chunk *)v16;
+      dv->bk = (malloc_chunk *)&m->smallbins[2 * v15];
     }
-    result = &v6->fd;
-    m->fd = (malloc_chunk *)v5;
-    m[1].head = (unsigned int)r;
+    m->dvsize = v4;
+    m->dv = v19;
   }
   else
   {
-    v6->head = ((unsigned int)nb + v5) | 3;
-    *(unsigned int *)((char *)&v6->head + v5 + (_DWORD)nb) |= 1u;
-    return &v6->fd;
+    v5->head = (v4 + nb) | 3;
+    *(unsigned int *)((char *)&v5->head + v4 + nb) |= 1u;
   }
-  return result;
+  return &v5->fd;
 }

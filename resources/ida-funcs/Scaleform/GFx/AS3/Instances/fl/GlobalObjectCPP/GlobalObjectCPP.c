@@ -93,8 +93,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::GlobalObjec
     v19 = Scaleform::GFx::AS3::Traits::GetConstructor(v18);
     Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::AddFixedSlot(this, v19);
   }
-  TInfo.Name = (const char *)&buf;
-  TInfo.PkgName = (const char *)&buf;
+  TInfo.Name = uri;
+  TInfo.PkgName = uri;
   TInfo.Flags = 1;
   TInfo.Parent = 0;
   TInfo.Implements = 0;
@@ -111,7 +111,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::GlobalObjec
   CInfo.Type = &TInfo;
   v21 = this->pTraits.pObject;
   TInfo.Flags = 1;
-  TInfo.Name = (const char *)&buf;
+  TInfo.Name = uri;
   TInfo.PkgName = "flash.net";
   TInfo.Parent = 0;
   TInfo.Implements = 0;
@@ -119,14 +119,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::GlobalObjec
   Scaleform::GFx::AS3::Traits::Add2VT(v21, &CInfo, f_2);
   v22 = this->pTraits.pObject;
   TInfo.Flags = 1;
-  TInfo.Name = (const char *)&buf;
+  TInfo.Name = uri;
   TInfo.PkgName = "flash.system";
   TInfo.Parent = 0;
   TInfo.Implements = 0;
   CInfo.Type = &TInfo;
   memset(&CInfo.Factory, 0, 24);
   Scaleform::GFx::AS3::Traits::Add2VT(v22, &CInfo, f_1);
-  TInfo.Name = (const char *)&buf;
+  TInfo.Name = uri;
   TInfo.Flags = 1;
   TInfo.PkgName = "flash.utils";
   TInfo.Parent = 0;
@@ -153,7 +153,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::GlobalObjec
   TInfo.Implements = 0;
   memset(&CInfo.Factory, 0, 24);
   TInfo.Flags = 1;
-  TInfo.Name = (const char *)&buf;
+  TInfo.Name = uri;
   TInfo.PkgName = "avmplus";
   CInfo.Type = &TInfo;
   v25 = f;

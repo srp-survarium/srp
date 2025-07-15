@@ -9,6 +9,6 @@ void __thiscall Scaleform::GFx::AS3::Instance::Instance(
   t->RefCount = (t->RefCount + 1) & 0x8FBFFFFF;
   this->DynAttrs.mHash.pTable = 0;
   this->pUserDataHolder = 0;
-  this->__vftable = (Scaleform::GFx::AS3::Instance_vtbl *)&Scaleform::GFx::AS3::Instances::fl_gfx::IMECandidateListStyle::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Instance_vtbl *)&Scaleform::GFx::AS3::Instance::`vftable';
   Scaleform::GFx::AS3::Traits::ConstructTail(t, this);
 }

@@ -1,18 +1,76 @@
 void __thiscall survarium::damage_model::deserialize(
         survarium::damage_model *this,
-        vostok::network_core::packet_reader *reader)
+        vostok::network_core::buffer_reader *reader,
+        vostok::network_core::buffer_reader *time_offset,
+        unsigned int time_offseta)
 {
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::body_part_parameters,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::arg<1>,boost::reference_wrapper<vostok::network_core::packet_reader> > > *pred; // [esp+4h] [ebp-38h]
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::body_part_parameters,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::arg<1>,boost::reference_wrapper<vostok::network_core::packet_reader> > > result; // [esp+30h] [ebp-Ch] BYREF
-  boost::reference_wrapper<vostok::network_core::packet_reader> a2; // [esp+38h] [ebp-4h]
+  const unsigned __int8 *m_pointer; // esi
+  int v6; // ecx
+  vostok::network_core::buffer_reader *v7; // eax
+  const unsigned __int8 *v8; // esi
+  unsigned int v9; // ecx
+  const unsigned __int8 *v10; // esi
+  survarium::body_part_parameters *m_buffer_size; // ecx
+  survarium::body_part_parameters *next; // esi
+  _DWORD *v13; // eax
+  _DWORD *v14; // esi
+  _DWORD *v15; // edi
+  vostok::network_core::buffer_reader *readera; // [esp+18h] [ebp+Ch]
+  vostok::network_core::buffer_reader *readerb; // [esp+18h] [ebp+Ch]
+  vostok::network_core::buffer_reader *readerc; // [esp+18h] [ebp+Ch]
 
-  a2.t_ = (vostok::network_core::packet_reader *)boost::addressof<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result>,boost::_bi::list2<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>>>>((boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)reader);
-  pred = boost::bind<void,survarium::body_part_parameters,vostok::network_core::packet_reader &,boost::arg<1>,boost::reference_wrapper<vostok::network_core::packet_reader>>(
-           &result,
-           (void (__thiscall *)(survarium::body_part_parameters *, vostok::network_core::packet_reader *))survarium::body_part_parameters::deserialize,
-           *(_BYTE *)&1_169,
-           a2);
-  vostok::intrusive_list<survarium::body_part_parameters,survarium::body_part_parameters *,0,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::for_each<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::body_part_parameters,vostok::network_core::packet_reader &>,boost::_bi::list2<boost::arg<1>,boost::reference_wrapper<vostok::network_core::packet_reader>>>>(
-    &this->m_body_parts,
-    pred);
+  m_pointer = time_offset->m_pointer;
+  readera = *(vostok::network_core::buffer_reader **)m_pointer;
+  time_offset->m_pointer = m_pointer + 4;
+  if ( readera == (vostok::network_core::buffer_reader *)-1 )
+    v6 = -1;
+  else
+    v6 = (int)readera + time_offseta;
+  v7 = reader;
+  reader[137].m_pointer = (const unsigned __int8 *)v6;
+  v8 = time_offset->m_pointer;
+  readerb = *(vostok::network_core::buffer_reader **)v8;
+  time_offset->m_pointer = v8 + 4;
+  if ( readerb == (vostok::network_core::buffer_reader *)-1 )
+    v9 = -1;
+  else
+    v9 = (unsigned int)readerb + time_offseta;
+  reader[137].m_buffer_size = v9;
+  v10 = time_offset->m_pointer;
+  readerc = *(vostok::network_core::buffer_reader **)v10;
+  time_offset->m_pointer = v10 + 4;
+  reader[138].m_buffer = (const unsigned __int8 *)readerc;
+  m_buffer_size = (survarium::body_part_parameters *)reader[22].m_buffer_size;
+  if ( m_buffer_size )
+  {
+    do
+    {
+      next = m_buffer_size->next;
+      survarium::body_part_parameters::deserialize(m_buffer_size, time_offset, time_offseta);
+      m_buffer_size = next;
+    }
+    while ( next );
+    v7 = reader;
+  }
+  LOBYTE(v7[145].m_pointer) = 0;
+  BYTE1(v7[145].m_pointer) = 0;
+  v13 = (_DWORD *)v7[22].m_buffer_size;
+  if ( v13 )
+  {
+    v14 = v13;
+    do
+    {
+      v15 = (_DWORD *)*v14;
+      if ( survarium::body_part_parameters::is_affect_applied(m_buffer_size, (int)v14, affects_type_leg_damage) )
+      {
+        ++LOBYTE(reader[145].m_pointer);
+      }
+      else if ( survarium::body_part_parameters::is_affect_applied(m_buffer_size, (int)v14, affects_type_hand_damage) )
+      {
+        ++BYTE1(reader[145].m_pointer);
+      }
+      v14 = v15;
+    }
+    while ( v15 );
+  }
 }

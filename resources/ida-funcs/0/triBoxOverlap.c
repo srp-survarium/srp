@@ -1,23 +1,23 @@
 BOOL __usercall triBoxOverlap@<eax>(
-        const vostok::math::float3 *boxhalfsize@<edx>,
-        const vostok::math::float3 (*triverts)[3]@<eax>,
+        const vostok::math::float3 *boxhalfsize@<eax>,
+        const vostok::math::float3 (*triverts)[3]@<ecx>,
         const vostok::math::float3 *boxcenter)
 {
   float y; // xmm1_4
-  float x; // xmm0_4
   float z; // xmm2_4
-  float v6; // xmm3_4
-  float v7; // xmm5_4
-  float v8; // xmm4_4
-  float v9; // xmm7_4
-  float v10; // xmm6_4
-  float v11; // xmm3_4
-  float v12; // xmm7_4
+  float x; // xmm0_4
+  float v6; // xmm6_4
+  float v7; // xmm4_4
+  float v8; // xmm3_4
+  float v9; // xmm5_4
+  float v10; // xmm7_4
+  float v11; // xmm6_4
+  float v12; // xmm4_4
   float v13; // xmm7_4
-  float v14; // xmm0_4
-  float v15; // xmm2_4
-  float v16; // xmm0_4
-  float v17; // xmm7_4
+  float v14; // xmm1_4
+  float v15; // xmm0_4
+  float v16; // xmm7_4
+  float v17; // xmm0_4
   float v18; // xmm2_4
   float v19; // xmm0_4
   float v20; // xmm7_4
@@ -25,240 +25,241 @@ BOOL __usercall triBoxOverlap@<eax>(
   float v22; // xmm0_4
   float v23; // xmm7_4
   float v24; // xmm1_4
-  float v25; // xmm1_4
+  float v25; // xmm7_4
   float v26; // xmm2_4
-  float v27; // xmm0_4
-  float v28; // xmm7_4
-  float v29; // xmm1_4
-  float v30; // xmm0_4
-  float v31; // xmm7_4
-  float v32; // xmm2_4
-  float v33; // xmm0_4
-  float v34; // xmm7_4
-  float v35; // xmm2_4
-  float v36; // xmm0_4
-  float v37; // xmm7_4
+  float v27; // xmm2_4
+  float v28; // xmm1_4
+  float v29; // xmm0_4
+  float v30; // xmm2_4
+  float v31; // xmm1_4
+  float v32; // xmm0_4
+  float v33; // xmm7_4
+  float v34; // xmm2_4
+  float v35; // xmm0_4
+  float v36; // xmm2_4
+  float v37; // xmm1_4
   float v38; // xmm2_4
-  float v39; // xmm0_4
-  float v40; // xmm2_4
+  float v39; // xmm1_4
+  float v40; // xmm0_4
   float v41; // xmm1_4
-  float fey; // [esp+0h] [ebp-64h]
-  int feya; // [esp+0h] [ebp-64h]
-  int feyb; // [esp+0h] [ebp-64h]
-  float fex; // [esp+4h] [ebp-60h]
-  int fexa; // [esp+4h] [ebp-60h]
-  int fexb; // [esp+4h] [ebp-60h]
-  float max; // [esp+8h] [ebp-5Ch]
-  float maxa; // [esp+8h] [ebp-5Ch]
-  __int64 v51; // [esp+Ch] [ebp-58h]
-  float min; // [esp+14h] [ebp-50h]
-  float v53; // [esp+1Ch] [ebp-48h]
-  float v54; // [esp+20h] [ebp-44h]
-  float v55; // [esp+24h] [ebp-40h]
-  float v56; // [esp+28h] [ebp-3Ch]
-  float v57; // [esp+2Ch] [ebp-38h]
-  float v58; // [esp+30h] [ebp-34h]
-  float v59; // [esp+38h] [ebp-2Ch]
-  float v60; // [esp+3Ch] [ebp-28h]
-  vostok::math::float3 normal; // [esp+40h] [ebp-24h] BYREF
-  vostok::math::float3 v62; // [esp+4Ch] [ebp-18h]
-  vostok::math::float3 v0; // [esp+58h] [ebp-Ch] BYREF
-  float fez; // [esp+68h] [ebp+4h]
-  int feza; // [esp+68h] [ebp+4h]
-  int fezb; // [esp+68h] [ebp+4h]
+  float v42; // xmm1_4
+  vostok::math::float3 v44; // [esp+0h] [ebp-64h] BYREF
+  vostok::math::float3 v45; // [esp+Ch] [ebp-58h] BYREF
+  vostok::math::float3 v46; // [esp+18h] [ebp-4Ch]
+  __int64 v47; // [esp+24h] [ebp-40h]
+  float v48; // [esp+2Ch] [ebp-38h]
+  float v49; // [esp+30h] [ebp-34h]
+  float v50; // [esp+34h] [ebp-30h]
+  float v51; // [esp+38h] [ebp-2Ch]
+  float v52; // [esp+3Ch] [ebp-28h]
+  float v53; // [esp+40h] [ebp-24h]
+  float v54; // [esp+44h] [ebp-20h]
+  float v55; // [esp+48h] [ebp-1Ch]
+  float v56; // [esp+4Ch] [ebp-18h]
+  float v57; // [esp+50h] [ebp-14h]
+  float v58; // [esp+54h] [ebp-10h]
+  float v59; // [esp+58h] [ebp-Ch]
+  __int64 v60; // [esp+5Ch] [ebp-8h]
+  float v61; // [esp+6Ch] [ebp+8h]
+  int v62; // [esp+6Ch] [ebp+8h]
+  int v63; // [esp+6Ch] [ebp+8h]
 
   y = boxcenter->y;
-  x = boxcenter->x;
   z = boxcenter->z;
-  v6 = (*triverts)[0].z;
-  v7 = (*triverts)[0].x - boxcenter->x;
-  v8 = (*triverts)[0].y - y;
-  v59 = (*triverts)[1].y - y;
-  v60 = (*triverts)[1].z - z;
-  v9 = (*triverts)[2].x - boxcenter->x;
-  *(_QWORD *)&v62.x = __PAIR64__(LODWORD(v8), LODWORD(v7));
-  *(_QWORD *)&v0.x = __PAIR64__(LODWORD(v8), LODWORD(v7));
-  v10 = (*triverts)[1].x - x;
-  v55 = (*triverts)[2].z - z;
-  v11 = v6 - z;
-  v56 = v10 - v7;
-  v58 = v60 - v11;
-  v53 = v9;
-  v12 = (*triverts)[2].y;
-  normal.x = v53 - v10;
-  v13 = v12 - y;
-  normal.y = v13 - v59;
-  normal.z = v55 - v60;
-  v62.x = v7 - v53;
-  v62.y = v8 - v13;
-  v62.z = v11 - v55;
-  v0.z = v11;
-  fex = fabs(v10 - v7);
-  v14 = (float)((float)(v60 - v11) * v8) - (float)((float)(v59 - v8) * v11);
-  v54 = v13;
-  v57 = v59 - v8;
-  fey = fabs(v59 - v8);
-  fez = fabs(v60 - v11);
-  if ( (float)((float)((float)(v60 - v11) * v13) - (float)((float)(v59 - v8) * v55)) <= v14 )
+  x = boxcenter->x;
+  v6 = (*triverts)[0].y;
+  v7 = (*triverts)[0].z;
+  v8 = (*triverts)[0].x - boxcenter->x;
+  v9 = (*triverts)[1].x - boxcenter->x;
+  v46.y = (*triverts)[1].y - y;
+  v46.z = (*triverts)[1].z - z;
+  v10 = (*triverts)[2].x - x;
+  v54 = (*triverts)[2].z - z;
+  v11 = v6 - y;
+  v12 = v7 - z;
+  *(_QWORD *)&v45.x = __PAIR64__(LODWORD(v11), LODWORD(v8));
+  v45.z = v12;
+  *(_QWORD *)&v44.x = __PAIR64__(LODWORD(v11), LODWORD(v8));
+  v49 = v9 - v8;
+  v51 = v46.z - v12;
+  v52 = v10;
+  v13 = (*triverts)[2].y - y;
+  v44.z = v12;
+  v45.x = v52 - v9;
+  v45.y = v13 - v46.y;
+  v45.z = v54 - v46.z;
+  *(float *)&v47 = v8 - v52;
+  *((float *)&v47 + 1) = v11 - v13;
+  v48 = v12 - v54;
+  v60 = __PAIR64__(COERCE_UNSIGNED_INT(fabs(v46.y - v11)), COERCE_UNSIGNED_INT(fabs(v9 - v8)));
+  v53 = v13;
+  v50 = v46.y - v11;
+  v61 = fabs(v46.z - v12);
+  v14 = (float)((float)(v46.z - v12) * v11) - (float)((float)(v46.y - v11) * v12);
+  v15 = (float)((float)(v46.z - v12) * v13) - (float)((float)(v46.y - v11) * v54);
+  if ( v15 <= v14 )
   {
-    max = (float)((float)(v60 - v11) * v8) - (float)((float)(v59 - v8) * v11);
-    v14 = (float)((float)(v60 - v11) * v13) - (float)((float)(v59 - v8) * v55);
+    v16 = (float)((float)(v46.z - v12) * v13) - (float)((float)(v46.y - v11) * v54);
   }
   else
   {
-    max = (float)((float)(v60 - v11) * v13) - (float)((float)(v59 - v8) * v55);
+    v16 = (float)((float)(v46.z - v12) * v11) - (float)((float)(v46.y - v11) * v12);
+    v14 = v15;
   }
-  v51 = *(_QWORD *)&boxhalfsize->elements[1];
-  v15 = (float)(*((float *)&v51 + 1) * fey) + (float)(*(float *)&v51 * fez);
-  if ( v14 > v15 || (float)-v15 > max )
+  v17 = boxhalfsize->y;
+  v57 = boxhalfsize->z;
+  v58 = v17;
+  v18 = (float)(v57 * *((float *)&v60 + 1)) + (float)(v17 * v61);
+  if ( v16 > v18 || COERCE_FLOAT(LODWORD(v18) ^ _mask__NegFloat_) > v14 )
     return 0;
-  v16 = (float)(v11 * v56) - (float)(v58 * v7);
-  if ( (float)((float)(v55 * v56) - (float)(v58 * v53)) <= v16 )
+  v19 = (float)(v54 * v49) - (float)(v51 * v52);
+  if ( v19 <= (float)((float)(v12 * v49) - (float)(v51 * v8)) )
   {
-    v17 = (float)(v55 * v56) - (float)(v58 * v53);
+    v20 = (float)(v54 * v49) - (float)(v51 * v52);
+    v19 = (float)(v12 * v49) - (float)(v51 * v8);
   }
   else
   {
-    v17 = (float)(v11 * v56) - (float)(v58 * v7);
-    v16 = (float)(v55 * v56) - (float)(v58 * v53);
+    v20 = (float)(v12 * v49) - (float)(v51 * v8);
   }
-  maxa = boxhalfsize->x;
-  v18 = (float)(boxhalfsize->x * fez) + (float)(*((float *)&v51 + 1) * fex);
-  if ( v17 > v18 || (float)-v18 > v16 )
+  v56 = boxhalfsize->x;
+  v21 = (float)(v56 * v61) + (float)(v57 * *(float *)&v60);
+  if ( v20 > v21 || COERCE_FLOAT(LODWORD(v21) ^ _mask__NegFloat_) > v19 )
     return 0;
-  v19 = (float)(v57 * v10) - (float)(v59 * v56);
-  if ( v19 <= (float)((float)(v57 * v53) - (float)(v54 * v56)) )
+  v22 = (float)(v50 * v9) - (float)(v46.y * v49);
+  if ( v22 <= (float)((float)(v50 * v52) - (float)(v53 * v49)) )
   {
-    v20 = (float)(v57 * v10) - (float)(v59 * v56);
-    v19 = (float)(v57 * v53) - (float)(v54 * v56);
+    v23 = (float)(v50 * v9) - (float)(v46.y * v49);
+    v22 = (float)(v50 * v52) - (float)(v53 * v49);
   }
   else
   {
-    v20 = (float)(v57 * v53) - (float)(v54 * v56);
+    v23 = (float)(v50 * v52) - (float)(v53 * v49);
   }
-  v21 = (float)(maxa * fey) + (float)(*(float *)&v51 * fex);
-  if ( v20 > v21 || (float)-v21 > v19 )
+  v24 = (float)(v56 * *((float *)&v60 + 1)) + (float)(v58 * *(float *)&v60);
+  if ( v23 > v24 || COERCE_FLOAT(LODWORD(v24) ^ _mask__NegFloat_) > v22 )
     return 0;
-  fexa = LODWORD(normal.x) & 0x7FFFFFFF;
-  v22 = (float)(normal.z * v8) - (float)(normal.y * v11);
-  feya = LODWORD(normal.y) & 0x7FFFFFFF;
-  feza = LODWORD(normal.z) & 0x7FFFFFFF;
-  if ( (float)((float)(normal.z * v54) - (float)(normal.y * v55)) <= v22 )
+  v60 = *(_QWORD *)&v45.x & 0x7FFFFFFF7FFFFFFFLL;
+  v59 = v45.z;
+  v62 = LODWORD(v45.z) & 0x7FFFFFFF;
+  if ( (float)((float)(v45.z * v53) - (float)(v45.y * v54)) <= (float)((float)(v45.z * v11) - (float)(v45.y * v12)) )
   {
-    v23 = (float)(normal.z * v54) - (float)(normal.y * v55);
+    v25 = (float)(v45.z * v53) - (float)(v45.y * v54);
+    v59 = (float)(v45.z * v11) - (float)(v45.y * v12);
   }
   else
   {
-    v23 = (float)(normal.z * v8) - (float)(normal.y * v11);
-    v22 = (float)(normal.z * v54) - (float)(normal.y * v55);
+    v25 = (float)(v45.z * v11) - (float)(v45.y * v12);
+    v59 = (float)(v45.z * v53) - (float)(v45.y * v54);
   }
-  v24 = (float)(*((float *)&v51 + 1) * *(float *)&feya) + (float)(*(float *)&v51 * *(float *)&feza);
-  if ( v23 > v24 || (float)-v24 > v22 )
+  v26 = (float)(v57 * *((float *)&v60 + 1)) + (float)(v58 * *(float *)&v62);
+  if ( v25 > v26 || COERCE_FLOAT(LODWORD(v26) ^ _mask__NegFloat_) > v59 )
     return 0;
-  v25 = (float)(v55 * normal.x) - (float)(normal.z * v53);
-  if ( v25 <= (float)((float)(v11 * normal.x) - (float)(normal.z * v7)) )
+  if ( (float)((float)(v54 * v45.x) - (float)(v45.z * v52)) <= (float)((float)(v12 * v45.x) - (float)(v45.z * v8)) )
   {
-    min = (float)(v55 * normal.x) - (float)(normal.z * v53);
-    v25 = (float)(v11 * normal.x) - (float)(normal.z * v7);
+    v27 = (float)(v54 * v45.x) - (float)(v45.z * v52);
+    v59 = (float)(v12 * v45.x) - (float)(v45.z * v8);
   }
   else
   {
-    min = (float)(v11 * normal.x) - (float)(normal.z * v7);
+    v27 = (float)(v12 * v45.x) - (float)(v45.z * v8);
+    v59 = (float)(v54 * v45.x) - (float)(v45.z * v52);
   }
-  v26 = (float)(maxa * *(float *)&feza) + (float)(*((float *)&v51 + 1) * *(float *)&fexa);
-  if ( min > v26 || (float)-v26 > v25 )
+  v28 = (float)(v56 * *(float *)&v62) + (float)(v57 * *(float *)&v60);
+  if ( v27 > v28 || COERCE_FLOAT(LODWORD(v28) ^ _mask__NegFloat_) > v59 )
     return 0;
-  v27 = (float)(normal.y * v7) - (float)(v8 * normal.x);
-  if ( (float)((float)(normal.y * v10) - (float)(v59 * normal.x)) <= v27 )
+  v29 = (float)(v45.y * v9) - (float)(v46.y * v45.x);
+  if ( v29 <= (float)((float)(v45.y * v8) - (float)(v11 * v45.x)) )
   {
-    v28 = (float)(normal.y * v10) - (float)(v59 * normal.x);
+    v30 = (float)(v45.y * v9) - (float)(v46.y * v45.x);
+    v29 = (float)(v45.y * v8) - (float)(v11 * v45.x);
   }
   else
   {
-    v28 = (float)(normal.y * v7) - (float)(v8 * normal.x);
-    v27 = (float)(normal.y * v10) - (float)(v59 * normal.x);
+    v30 = (float)(v45.y * v8) - (float)(v11 * v45.x);
   }
-  v29 = (float)(maxa * *(float *)&feya) + (float)(*(float *)&v51 * *(float *)&fexa);
-  if ( v28 > v29 || (float)-v29 > v27 )
+  v31 = (float)(v56 * *((float *)&v60 + 1)) + (float)(v58 * *(float *)&v60);
+  if ( v30 > v31 || COERCE_FLOAT(LODWORD(v31) ^ _mask__NegFloat_) > v29 )
     return 0;
-  v30 = (float)(v8 * v62.z) - (float)(v11 * v62.y);
-  fexb = LODWORD(v62.x) & 0x7FFFFFFF;
-  feyb = LODWORD(v62.y) & 0x7FFFFFFF;
-  fezb = LODWORD(v62.z) & 0x7FFFFFFF;
-  if ( (float)((float)(v59 * v62.z) - (float)(v60 * v62.y)) <= v30 )
+  v60 = v47 & 0x7FFFFFFF7FFFFFFFLL;
+  v55 = v48;
+  v32 = (float)(v46.y * v48) - (float)(v46.z * *((float *)&v47 + 1));
+  v63 = LODWORD(v48) & 0x7FFFFFFF;
+  if ( v32 <= (float)((float)(v11 * v48) - (float)(v12 * *((float *)&v47 + 1))) )
   {
-    v31 = (float)(v59 * v62.z) - (float)(v60 * v62.y);
+    v33 = (float)(v46.y * v48) - (float)(v46.z * *((float *)&v47 + 1));
+    v32 = (float)(v11 * v48) - (float)(v12 * *((float *)&v47 + 1));
   }
   else
   {
-    v31 = (float)(v8 * v62.z) - (float)(v11 * v62.y);
-    v30 = (float)(v59 * v62.z) - (float)(v60 * v62.y);
+    v33 = (float)(v11 * v48) - (float)(v12 * *((float *)&v47 + 1));
   }
-  v32 = (float)(*((float *)&v51 + 1) * *(float *)&feyb) + (float)(*(float *)&v51 * *(float *)&fezb);
-  if ( v31 > v32 || (float)-v32 > v30 )
+  v34 = (float)(v57 * *((float *)&v60 + 1)) + (float)(v58 * *(float *)&v63);
+  if ( v33 > v34 || COERCE_FLOAT(LODWORD(v34) ^ _mask__NegFloat_) > v32 )
     return 0;
-  v33 = (float)(v11 * v62.x) - (float)(v7 * v62.z);
-  if ( (float)((float)(v60 * v62.x) - (float)(v10 * v62.z)) <= v33 )
+  v35 = (float)(v46.z * *(float *)&v47) - (float)(v9 * v48);
+  if ( v35 <= (float)((float)(v12 * *(float *)&v47) - (float)(v8 * v48)) )
   {
-    v34 = (float)(v60 * v62.x) - (float)(v10 * v62.z);
+    v36 = (float)(v46.z * *(float *)&v47) - (float)(v9 * v48);
+    v35 = (float)(v12 * *(float *)&v47) - (float)(v8 * v48);
   }
   else
   {
-    v34 = (float)(v11 * v62.x) - (float)(v7 * v62.z);
-    v33 = (float)(v60 * v62.x) - (float)(v10 * v62.z);
+    v36 = (float)(v12 * *(float *)&v47) - (float)(v8 * v48);
   }
-  v35 = (float)(maxa * *(float *)&fezb) + (float)(*((float *)&v51 + 1) * *(float *)&fexb);
-  if ( v34 > v35 || (float)-v35 > v33 )
+  v37 = (float)(v56 * *(float *)&v63) + (float)(v57 * *(float *)&v60);
+  if ( v36 > v37 || COERCE_FLOAT(LODWORD(v37) ^ _mask__NegFloat_) > v35 )
     return 0;
-  v36 = (float)(v10 * v62.y) - (float)(v59 * v62.x);
-  if ( v36 <= (float)((float)(v53 * v62.y) - (float)(v54 * v62.x)) )
+  if ( (float)((float)(v9 * *((float *)&v47 + 1)) - (float)(v46.y * *(float *)&v47)) <= (float)((float)(v52 * *((float *)&v47 + 1))
+                                                                                              - (float)(v53 * *(float *)&v47)) )
   {
-    v37 = (float)(v10 * v62.y) - (float)(v59 * v62.x);
-    v36 = (float)(v53 * v62.y) - (float)(v54 * v62.x);
+    v38 = (float)(v9 * *((float *)&v47 + 1)) - (float)(v46.y * *(float *)&v47);
+    v59 = (float)(v52 * *((float *)&v47 + 1)) - (float)(v53 * *(float *)&v47);
   }
   else
   {
-    v37 = (float)(v53 * v62.y) - (float)(v54 * v62.x);
+    v38 = (float)(v52 * *((float *)&v47 + 1)) - (float)(v53 * *(float *)&v47);
+    v59 = (float)(v9 * *((float *)&v47 + 1)) - (float)(v46.y * *(float *)&v47);
   }
-  v38 = (float)(maxa * *(float *)&feyb) + (float)(*(float *)&v51 * *(float *)&fexb);
-  if ( v37 > v38 || (float)-v38 > v36 )
-    return 0;
-  v39 = v7;
-  if ( v7 > v10 )
-    v39 = v10;
-  if ( v10 > v7 )
-    v7 = v10;
-  if ( v39 > v53 )
-    v39 = v53;
-  if ( v53 > v7 )
-    v7 = v53;
-  if ( v39 > maxa || (float)-maxa > v7 )
+  v39 = (float)(v56 * *((float *)&v60 + 1)) + (float)(v58 * *(float *)&v60);
+  if ( v38 > v39 || COERCE_FLOAT(LODWORD(v39) ^ _mask__NegFloat_) > v59 )
     return 0;
   v40 = v8;
-  if ( v8 > v59 )
-    v40 = v59;
-  if ( v59 > v8 )
-    v8 = v59;
-  if ( v40 > v54 )
-    v40 = v54;
-  if ( v54 > v8 )
-    v8 = v54;
-  if ( v40 > *(float *)&v51 || (float)-*(float *)&v51 > v8 )
+  if ( v8 > v9 )
+    v40 = v9;
+  if ( v9 > v8 )
+    v8 = v9;
+  if ( v40 > v52 )
+    v40 = v52;
+  if ( v52 > v8 )
+    v8 = v52;
+  if ( v40 > v56 || COERCE_FLOAT(LODWORD(v56) ^ _mask__NegFloat_) > v8 )
     return 0;
   v41 = v11;
-  if ( v11 > v60 )
-    v41 = v60;
-  if ( v60 > v11 )
-    v11 = v60;
-  if ( v41 > v55 )
-    v41 = v55;
-  if ( v55 > v11 )
-    v11 = v55;
-  if ( v41 > *((float *)&v51 + 1) || (float)-*((float *)&v51 + 1) > v11 )
+  if ( v11 > v46.y )
+    v41 = v46.y;
+  if ( v46.y > v11 )
+    v11 = v46.y;
+  if ( v41 > v53 )
+    v41 = v53;
+  if ( v53 > v11 )
+    v11 = v53;
+  if ( v41 > v58 || COERCE_FLOAT(LODWORD(v58) ^ _mask__NegFloat_) > v11 )
     return 0;
-  v62.x = (float)(normal.z * v57) - (float)(normal.y * v58);
-  v62.z = (float)(normal.y * v56) - (float)(v57 * normal.x);
-  v62.y = (float)(v58 * normal.x) - (float)(normal.z * v56);
-  normal = v62;
-  return planeBoxOverlap(&v0, boxhalfsize, &normal);
+  v42 = v12;
+  if ( v12 > v46.z )
+    v42 = v46.z;
+  if ( v46.z > v12 )
+    v12 = v46.z;
+  if ( v42 > v54 )
+    v42 = v54;
+  if ( v54 > v12 )
+    v12 = v54;
+  if ( v42 > v57 || COERCE_FLOAT(LODWORD(v57) ^ _mask__NegFloat_) > v12 )
+    return 0;
+  v46.x = (float)(v45.z * v50) - (float)(v45.y * v51);
+  v46.y = (float)(v51 * v45.x) - (float)(v45.z * v49);
+  v46.z = (float)(v45.y * v49) - (float)(v50 * v45.x);
+  v45 = v46;
+  return planeBoxOverlap(boxhalfsize, &v45, &v44);
 }

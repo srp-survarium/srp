@@ -8,12 +8,12 @@ void __thiscall Scaleform::GFx::Sprite::UpdateActiveSoundVolume(Scaleform::GFx::
   unsigned int v7; // edi
   int v8; // esi
   Scaleform::GFx::Sprite *pCharacter; // ecx
-  float v; // [esp+10h] [ebp-4h]
+  float RealSoundVolume; // [esp+10h] [ebp-4h]
 
   pActiveSounds = this->pActiveSounds;
   if ( pActiveSounds )
   {
-    v = Scaleform::GFx::Sprite::GetRealSoundVolume(this);
+    RealSoundVolume = Scaleform::GFx::Sprite::GetRealSoundVolume(this);
     for ( i = 0; i < pActiveSounds->Sounds.Data.Size; ++i )
     {
       v4 = (int)&pActiveSounds->Sounds.Data.Data[i];
@@ -22,8 +22,9 @@ void __thiscall Scaleform::GFx::Sprite::UpdateActiveSoundVolume(Scaleform::GFx::
       v5 = *(_DWORD *)v4;
       v6 = *(_DWORD *)(*(_DWORD *)v4 + 12);
       if ( v6 && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v6 + 16))(v6) )
-        v = (double)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v5 + 12) + 20))(*(_DWORD *)(v5 + 12)) / 100.0;
-      (*(void (__stdcall **)(float))(**(_DWORD **)(v5 + 8) + 40))(COERCE_FLOAT(LODWORD(v)));
+        RealSoundVolume = (double)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v5 + 12) + 20))(*(_DWORD *)(v5 + 12))
+                        / 100.0;
+      (*(void (__stdcall **)(float))(**(_DWORD **)(v5 + 8) + 40))(COERCE_FLOAT(LODWORD(RealSoundVolume)));
       Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)v5);
       pActiveSounds = this->pActiveSounds;
     }

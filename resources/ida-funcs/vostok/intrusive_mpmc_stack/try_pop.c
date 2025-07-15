@@ -1,17 +1,19 @@
-survarium::bullet_manager::bullet_functor *__thiscall vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,72>::try_pop(
-        vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,72> *this)
+survarium::bullet_manager::bullet_functor *__thiscall vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76>::try_pop(
+        vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76> *this,
+        volatile signed __int64 *a2)
 {
-  __int64 v2; // [esp-10h] [ebp-38h]
-  __int64 result; // [esp+18h] [ebp-10h]
+  volatile signed __int64 *i; // edi
+  int v3; // esi
+  signed __int64 v5; // [esp+14h] [ebp-8h]
 
-  do
+  for ( i = a2; ; i = a2 )
   {
-    result = this->m_top.whole;
-    if ( !this->m_top.m_pointer )
-      return 0;
-    HIDWORD(v2) = HIDWORD(result) + 1;
-    LODWORD(v2) = *(_DWORD *)(result + 72);
+    v3 = *(_DWORD *)i;
+    if ( !*(_DWORD *)i )
+      break;
+    v5 = *i;
+    if ( _InterlockedCompareExchange64(i, __SPAIR64__(*((_DWORD *)i + 1) + 1, *(_DWORD *)(v3 + 76)), v5) == v5 )
+      return (survarium::bullet_manager::bullet_functor *)v3;
   }
-  while ( vostok::threading::interlocked_compare_exchange(&this->m_top.whole, v2, result) != result );
-  return (survarium::bullet_manager::bullet_functor *)result;
+  return 0;
 }

@@ -30,7 +30,7 @@ int __cdecl ec_GFp_mont_group_set_curve(
   v6 = ctx;
   if ( !ctx )
   {
-    v12 = BN_CTX_new();
+    v12 = BN_CTX_new(0);
     v6 = v12;
     if ( !v12 )
       return 0;
@@ -38,9 +38,9 @@ int __cdecl ec_GFp_mont_group_set_curve(
   v8 = BN_MONT_CTX_new();
   if ( v8 )
   {
-    if ( BN_MONT_CTX_set(v8, p, v6) )
+    if ( BN_MONT_CTX_set((int)v6, v8, p, v6) )
     {
-      v9 = BN_new();
+      v9 = BN_new((int)v6);
       if ( v9 )
       {
         v10 = (bignum_pool_item *)BN_value_one();
@@ -63,7 +63,7 @@ int __cdecl ec_GFp_mont_group_set_curve(
     }
     else
     {
-      ERR_put_error(0x10u, 189, 3, ".\\crypto\\ec\\ecp_mont.c", 226);
+      ERR_put_error((int)v6, 0x10u, 189, 3, ".\\crypto\\ec\\ecp_mont.c", 226);
     }
   }
   if ( v12 )

@@ -5,9 +5,9 @@ bool __thiscall Scaleform::GFx::FontManager::NodePtr::operator==(
   Scaleform::GFx::FontHandle *pNode; // eax
   Scaleform::GFx::FontHandle *v4; // ecx
   _DWORD *v6; // ecx
-  const char *v7; // edi
+  char *v7; // edi
   _DWORD *v8; // eax
-  const char *v9; // eax
+  char *v9; // eax
 
   pNode = other->pNode;
   v4 = this->pNode;
@@ -18,11 +18,9 @@ bool __thiscall Scaleform::GFx::FontManager::NodePtr::operator==(
       & 0x313) != 0 )
     return 0;
   v6 = (_DWORD *)(pNode->FontName.HeapTypeBits & 0xFFFFFFFC);
-  v7 = (*v6 & 0x7FFFFFFF) != 0 ? (const char *)(v6 + 2) : pNode->pFont.pObject->GetName(pNode->pFont.pObject);
+  v7 = (char *)((*v6 & 0x7FFFFFFF) != 0 ? v6 + 2 : pNode->pFont.pObject->GetName(pNode->pFont.pObject));
   v8 = (_DWORD *)(this->pNode->FontName.HeapTypeBits & 0xFFFFFFFC);
-  v9 = (*v8 & 0x7FFFFFFF) != 0
-     ? (const char *)(v8 + 2)
-     : this->pNode->pFont.pObject->GetName(this->pNode->pFont.pObject);
+  v9 = (char *)((*v8 & 0x7FFFFFFF) != 0 ? v8 + 2 : this->pNode->pFont.pObject->GetName(this->pNode->pFont.pObject));
   return !Scaleform::String::CompareNoCase(v9, v7);
 }
 
@@ -33,7 +31,7 @@ BOOL __thiscall Scaleform::GFx::FontManager::NodePtr::operator==(
 {
   Scaleform::GFx::FontHandle *pNode; // ecx
   _DWORD *v3; // eax
-  const char *v4; // eax
+  char *v4; // eax
   BOOL result; // eax
 
   pNode = this->pNode;
@@ -42,8 +40,8 @@ BOOL __thiscall Scaleform::GFx::FontManager::NodePtr::operator==(
       & (key->FontStyle & 0x10 | ((key->FontStyle & 0x300) != 0 ? 0x300 : 0) | 3)) == (key->FontStyle & 0x313) )
   {
     v3 = (_DWORD *)(pNode->FontName.HeapTypeBits & 0xFFFFFFFC);
-    v4 = (*v3 & 0x7FFFFFFF) != 0 ? (const char *)(v3 + 2) : pNode->pFont.pObject->GetName(pNode->pFont.pObject);
-    if ( !Scaleform::String::CompareNoCase(v4, key->pFontName) )
+    v4 = (char *)((*v3 & 0x7FFFFFFF) != 0 ? v3 + 2 : pNode->pFont.pObject->GetName(pNode->pFont.pObject));
+    if ( !Scaleform::String::CompareNoCase(v4, (char *)key->pFontName) )
       return 1;
   }
   return result;

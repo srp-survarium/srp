@@ -14,12 +14,12 @@ void __thiscall Scaleform::Render::GlyphCache::strengthenImage(
   unsigned int v11; // ebx
   unsigned __int8 *i; // esi
   int v13; // eax
-  unsigned int ratioa; // [esp+1Ch] [ebp+1Ch]
+  unsigned int v14; // [esp+1Ch] [ebp+1Ch]
 
   v9 = ratio;
   if ( ratio != 1.0 && h )
   {
-    ratioa = h;
+    v14 = h;
     v10 = &img[sy * pitch + sx];
     do
     {
@@ -39,8 +39,8 @@ void __thiscall Scaleform::Render::GlyphCache::strengthenImage(
         *i++ = v13;
       }
       v10 += pitch;
-      --ratioa;
+      --v14;
     }
-    while ( ratioa );
+    while ( v14 );
   }
 }

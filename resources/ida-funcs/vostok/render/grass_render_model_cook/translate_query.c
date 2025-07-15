@@ -2,76 +2,77 @@ void __thiscall vostok::render::grass_render_model_cook::translate_query(
         vostok::render::grass_render_model_cook *this,
         vostok::resources::query_result_for_cook *parent)
 {
-  char *m_requery_path; // eax
+  const char *requested_path; // eax
   __int64 v3; // rdi
-  vostok::render::cook_intermediate_data *v4; // esi
-  int v5; // eax
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > v7; // [esp-8h] [ebp-390h]
-  char *other; // [esp+Ch] [ebp-37Ch] BYREF
-  boost::function<void __cdecl(vostok::vfs::vfs_locked_iterator const &)> callback; // [esp+10h] [ebp-378h] BYREF
-  void (__thiscall *v10)(vostok::render::render_model_cook *, vostok::render::cook_intermediate_data *, const vostok::vfs::vfs_locked_iterator *); // [esp+34h] [ebp-354h]
-  int v11; // [esp+38h] [ebp-350h]
-  vostok::fs_new::virtual_path_string model_path; // [esp+40h] [ebp-348h] BYREF
-  vostok::fs_new::virtual_path_string render_path; // [esp+158h] [ebp-230h] BYREF
-  vostok::fs_new::virtual_path_string path; // [esp+274h] [ebp-114h] BYREF
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  char *v6; // ecx
+  int v7; // eax
+  vostok::particle::particle_action *v8; // ecx
+  vostok::fixed_string<260> *v9; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  const char *v11; // [esp+0h] [ebp-388h]
+  const char *v12; // [esp+4h] [ebp-384h]
+  unsigned int v13; // [esp+8h] [ebp-380h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v14; // [esp+20h] [ebp-368h] BYREF
+  vostok::fs_new::virtual_path_string v15; // [esp+40h] [ebp-348h] BYREF
+  char *v16[3]; // [esp+158h] [ebp-230h] BYREF
+  _BYTE v17[260]; // [esp+164h] [ebp-224h] BYREF
+  char v18; // [esp+268h] [ebp-120h] BYREF
+  vostok::fs_new::virtual_path_string v19; // [esp+274h] [ebp-114h] BYREF
 
-  m_requery_path = parent->m_requery_path;
   LODWORD(v3) = this;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  model_path.m_string.m_end = model_path.m_string.m_buffer;
-  model_path.m_string.m_begin = model_path.m_string.m_buffer;
-  model_path.m_string.m_max_end = &model_path.m_separator;
-  model_path.m_string.m_buffer[0] = 0;
-  model_path.m_separator = 47;
-  vostok::fs_new::path_string_impl::assignf(&model_path, "%s.model", m_requery_path);
-  v4 = (vostok::render::cook_intermediate_data *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                   (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                   0x138u);
-  if ( v4 )
+  requested_path = vostok::resources::query_result_for_user::get_requested_path(parent);
+  v15.m_string.m_begin = v15.m_string.m_buffer;
+  v15.m_string.m_end = v15.m_string.m_buffer;
+  v15.m_string.m_max_end = &v15.m_separator;
+  v15.m_string.m_buffer[0] = 0;
+  v15.m_separator = 47;
+  vostok::fs_new::path_string_impl::assignf(
+    &v15,
+    (vostok::buffer_string *)&v15.m_separator,
+    (vostok::buffer_string *)"%s.model",
+    requested_path);
+  HIDWORD(v3) = vostok::render::g_allocator;
+  v4 = type_info::raw_name(&vostok::render::cook_intermediate_data `RTTI Type Descriptor');
+  v6 = vostok::memory::doug_lea_allocator::malloc_impl(v5, SHIDWORD(v3), 0x338u, v4, v11, v12, v13);
+  if ( v6 )
   {
-    vostok::render::cook_intermediate_data::cook_intermediate_data(v4, &model_path, parent);
-    HIDWORD(v3) = v5;
+    vostok::render::cook_intermediate_data::cook_intermediate_data(
+      (vostok::render::cook_intermediate_data *)v6,
+      &v15,
+      parent);
+    HIDWORD(v3) = v7;
   }
   else
   {
     HIDWORD(v3) = 0;
   }
-  render_path.m_string.m_begin = render_path.m_string.m_buffer;
-  render_path.m_string.m_end = render_path.m_string.m_buffer;
-  render_path.m_string.m_max_end = &render_path.m_separator;
-  render_path.m_string.m_buffer[0] = 0;
-  render_path.m_separator = 47;
-  vostok::fs_new::path_string_impl::assignf(&render_path, "resources/models/%s/render", model_path.m_string.m_begin);
-  v11 = v3;
-  v10 = vostok::render::render_model_cook::on_fs_iterator_ready_submeshes;
-  *(_QWORD *)&v7.f_.f_ = v3;
-  callback.vtable = 0;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         &callback.functor,
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::render::render_model_cook::on_fs_iterator_ready_submeshes,
-         v7) )
+  v16[0] = v17;
+  v16[1] = v17;
+  v16[2] = &v18;
+  v17[0] = 0;
+  v18 = 47;
+  vostok::fs_new::path_string_impl::assignf(
+    v16,
+    (vostok::buffer_string *)v6,
+    (vostok::buffer_string *)"resources/models/%s/render",
+    v15.m_string.m_begin);
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(v8) )
   {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::vfs::vfs_locked_iterator const &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::render_model_cook,vostok::render::cook_intermediate_data *,vostok::vfs::vfs_locked_iterator const &>,boost::_bi::list3<boost::_bi::value<vostok::render::grass_render_model_cook *>,boost::_bi::value<vostok::render::cook_intermediate_data *>,boost::arg<1>>>>'::`2'::stored_vtable
-                                                             + 1);
+    v14.vtable = 0;
   }
   else
   {
-    callback.vtable = 0;
+    v14.functor.obj_ptr = vostok::render::render_model_cook::on_fs_iterator_ready_submeshes;
+    *(_QWORD *)((char *)&v14.functor.bound_memfunc_ptr.memfunc_ptr + 4) = v3;
+    v14.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::vfs::vfs_locked_iterator const &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::render_model_cook,vostok::render::cook_intermediate_data *,vostok::vfs::vfs_locked_iterator const &>,boost::_bi::list3<boost::_bi::value<vostok::render::grass_render_model_cook *>,boost::_bi::value<vostok::render::cook_intermediate_data *>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                        + 1);
   }
-  other = render_path.m_string.m_begin;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&path, (const char **)&other);
-  vostok::resources::query_vfs_iterator(
-    &path,
-    &callback,
-    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-    recursive_true,
-    parent);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-  {
-    v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v6 )
-      v6(&callback.functor, &callback.functor, 2);
-  }
+  vostok::fixed_string<260>::fixed_string<260>(v9, &v19.m_string, v16[0]);
+  v19.m_separator = 47;
+  vostok::resources::query_vfs_iterator(&v19, &v14, vostok::render::g_allocator, recursive_true, parent);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v10,
+    (int *)&v14);
 }

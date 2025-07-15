@@ -143,7 +143,7 @@ LABEL_30:
         Scaleform::GFx::DrawingContext::ChangeLineStyle(
           pObject,
           argc,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574199] & color | ((unsigned int)(__int64)(alpha * 255.0) << 24),
+          color & 0xFFFFFF | ((unsigned int)(__int64)(alpha * 255.0) << 24),
           pixelHinting,
           scaleMode,
           caps,

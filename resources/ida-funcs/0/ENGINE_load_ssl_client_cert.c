@@ -1,5 +1,6 @@
 int __usercall ENGINE_load_ssl_client_cert@<eax>(
-        unsigned int a1@<edi>,
+        int a1@<ebx>,
+        int a2@<edi>,
         engine_st *e,
         ssl_st *s,
         stack_st_X509_NAME *ca_dn,
@@ -13,10 +14,10 @@ int __usercall ENGINE_load_ssl_client_cert@<eax>(
 
   if ( e )
   {
-    CRYPTO_lock(a1, 9, 30, ".\\crypto\\engine\\eng_pkey.c", 179);
+    CRYPTO_lock(a2, a1, 9, 30, ".\\crypto\\engine\\eng_pkey.c", 179);
     if ( e->funct_ref )
     {
-      CRYPTO_lock(a1, 10, 30, ".\\crypto\\engine\\eng_pkey.c", 187);
+      CRYPTO_lock(a2, a1, 10, 30, ".\\crypto\\engine\\eng_pkey.c", 187);
       load_ssl_client_cert = e->load_ssl_client_cert;
       if ( load_ssl_client_cert )
       {
@@ -24,20 +25,20 @@ int __usercall ENGINE_load_ssl_client_cert@<eax>(
       }
       else
       {
-        ERR_put_error(0x26u, 194, 125, ".\\crypto\\engine\\eng_pkey.c", 191);
+        ERR_put_error(a1, 0x26u, 194, 125, ".\\crypto\\engine\\eng_pkey.c", 191);
         return 0;
       }
     }
     else
     {
-      CRYPTO_lock(a1, 10, 30, ".\\crypto\\engine\\eng_pkey.c", 182);
-      ERR_put_error(0x26u, 194, 117, ".\\crypto\\engine\\eng_pkey.c", 184);
+      CRYPTO_lock(a2, a1, 10, 30, ".\\crypto\\engine\\eng_pkey.c", 182);
+      ERR_put_error(a1, 0x26u, 194, 117, ".\\crypto\\engine\\eng_pkey.c", 184);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x26u, 194, 67, ".\\crypto\\engine\\eng_pkey.c", 176);
+    ERR_put_error(a1, 0x26u, 194, 67, ".\\crypto\\engine\\eng_pkey.c", 176);
     return 0;
   }
 }

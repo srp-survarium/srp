@@ -1,4 +1,4 @@
-void __cdecl Scaleform::GFx::AS2::ColorMatrixFilterCtorFunction::GlobalCtor(const Scaleform::GFx::AS2::FnCall *fn)
+double __cdecl Scaleform::GFx::AS2::ColorMatrixFilterCtorFunction::GlobalCtor(const Scaleform::GFx::AS2::FnCall *fn)
 {
   const Scaleform::GFx::AS2::FnCall *v1; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
@@ -12,14 +12,15 @@ void __cdecl Scaleform::GFx::AS2::ColorMatrixFilterCtorFunction::GlobalCtor(cons
   Scaleform::GFx::AS2::Object *Prototype; // eax
   Scaleform::GFx::AS2::Object_vtbl *v11; // ebx
   signed int i; // edi
-  unsigned int v13; // eax
-  Scaleform::GFx::AS2::Environment *v14; // esi
+  int v13; // eax
+  double result; // st7
+  Scaleform::GFx::AS2::Environment *v15; // esi
   Scaleform::GFx::AS2::GlobalContext *pContext; // ecx
-  Scaleform::GFx::ASStringNode *v16; // eax
+  Scaleform::GFx::ASStringNode *v17; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::ASStringNode *v18; // [esp+24h] [ebp-64h] BYREF
-  Scaleform::GFx::AS2::Value v19; // [esp+28h] [ebp-60h] BYREF
-  unsigned int Index[20]; // [esp+38h] [ebp-50h]
+  Scaleform::GFx::ASStringNode *v19; // [esp+24h] [ebp-64h] BYREF
+  Scaleform::GFx::AS2::Value v20; // [esp+28h] [ebp-60h] BYREF
+  _DWORD v21[20]; // [esp+38h] [ebp-50h]
 
   v1 = fn;
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_ColorMatrixFilter )
@@ -64,36 +65,38 @@ void __cdecl Scaleform::GFx::AS2::ColorMatrixFilterCtorFunction::GlobalCtor(cons
       if ( v9->InstanceOf(&v9->Scaleform::GFx::AS2::ObjectInterface, v1->Env, Prototype, 1) )
       {
         v11 = p_pProto[1].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable;
-        Index[0] = 0;
-        Index[1] = 1;
-        Index[2] = 2;
-        Index[3] = 3;
-        Index[4] = 16;
-        Index[5] = 4;
-        Index[6] = 5;
-        Index[7] = 6;
-        Index[8] = 7;
-        Index[9] = 17;
-        Index[10] = 8;
-        Index[11] = 9;
-        Index[12] = 10;
-        Index[13] = 11;
-        Index[14] = 18;
-        Index[15] = 12;
-        Index[16] = 13;
-        Index[17] = 14;
-        Index[18] = 15;
-        Index[19] = 19;
+        v21[0] = 0;
+        v21[1] = 1;
+        v21[2] = 2;
+        v21[3] = 3;
+        v21[4] = 16;
+        v21[5] = 4;
+        v21[6] = 5;
+        v21[7] = 6;
+        v21[8] = 7;
+        v21[9] = 17;
+        v21[10] = 8;
+        v21[11] = 9;
+        v21[12] = 10;
+        v21[13] = 11;
+        v21[14] = 18;
+        v21[15] = 12;
+        v21[16] = 13;
+        v21[17] = 14;
+        v21[18] = 15;
+        v21[19] = 19;
         if ( v11 )
         {
           if ( v11->~Scaleform::GFx::AS2::Object == (void (__thiscall *)(struct Scaleform::GFx::AS2::Object *))8 )
           {
-            for ( i = 0; i < (signed int)v9[1].RootIndex; *((float *)&v11->GetValue + v13) = *(float *)&v18 )
+            for ( i = 0; i < (signed int)v9[1].RootIndex; *((float *)&v11->GetValue + v13) = *(float *)&v19 )
             {
-              *(float *)&v18 = Scaleform::GFx::AS2::Value::ToNumber(
-                                 (Scaleform::GFx::AS2::Value *)(&v9[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[i],
+              *(float *)&v19 = Scaleform::GFx::AS2::Value::ToNumber(
+                                 (Scaleform::GFx::AS2::Value *)(&v9[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[i],
                                  v1->Env);
-              v13 = Index[i++];
+              v13 = v21[i];
+              result = *(float *)&v19;
+              ++i;
             }
           }
         }
@@ -101,33 +104,34 @@ void __cdecl Scaleform::GFx::AS2::ColorMatrixFilterCtorFunction::GlobalCtor(cons
       }
     }
   }
-  v14 = v1->Env;
-  pContext = v14->StringContext.pContext;
-  v19.T.Type = 10;
+  v15 = v1->Env;
+  pContext = v15->StringContext.pContext;
+  v20.T.Type = 10;
   LOBYTE(fn) = 0;
-  *(float *)&v18 = COERCE_FLOAT(
+  *(float *)&v19 = COERCE_FLOAT(
                      Scaleform::GFx::ASStringManager::CreateConstStringNode(
                        (Scaleform::GFx::ASStringManager *)pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                        "matrix",
                        6u,
                        0));
-  ++v18->RefCount;
+  ++v19->RefCount;
   p_pProto->SetMemberRaw(
     &p_pProto->Scaleform::GFx::AS2::ObjectInterface,
-    &v14->StringContext,
-    (const Scaleform::GFx::ASString *)&v18,
-    &v19,
+    &v15->StringContext,
+    (const Scaleform::GFx::ASString *)&v19,
+    &v20,
     (const Scaleform::GFx::AS2::PropFlags *)&fn);
-  v16 = v18;
-  --v18->RefCount;
-  if ( !v16->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-  if ( v19.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&v19);
+  v17 = v19;
+  --v19->RefCount;
+  if ( !v17->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v17);
+  if ( v20.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v20);
   RefCount = p_pProto->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
     p_pProto->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);
   }
+  return result;
 }

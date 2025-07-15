@@ -1,27 +1,27 @@
 Scaleform::GFx::AS2::BitmapData *__cdecl Scaleform::GFx::AS2::GFx_LoadBitmap<Scaleform::GFx::ASString>(
-        Scaleform::GFx::ImageResource *penv,
+        Scaleform::GFx::AS2::Environment *penv,
         const Scaleform::GFx::ASString *linkageId)
 {
   const Scaleform::GFx::ASString *v2; // ebx
   Scaleform::GFx::AS2::Environment *v3; // esi
-  Scaleform::GFx::InteractiveObject *pLib; // ecx
-  Scaleform::GFx::MovieImpl *pMovieImpl; // edi
+  Scaleform::GFx::ResourceLibBase *Target; // ecx
+  Scaleform::GFx::MovieImpl *PinResource; // edi
   Scaleform::RefCountVImpl *v6; // eax
   Scaleform::GFx::Resource *v8; // eax
   Scaleform::GFx::MovieDef *v9; // edi
   Scaleform::GFx::AS2::BitmapData *v10; // eax
   Scaleform::GFx::AS2::BitmapData *v11; // eax
   Scaleform::GFx::AS2::BitmapData *v12; // ebx
-  char *pData; // [esp-4h] [ebp-10h]
+  const __m128i *pData; // [esp-4h] [ebp-10h]
 
   v2 = linkageId;
-  v3 = (Scaleform::GFx::AS2::Environment *)penv;
-  pLib = (Scaleform::GFx::InteractiveObject *)penv[2].pLib;
-  pMovieImpl = pLib->pASRoot->pMovieImpl;
-  pData = (char *)linkageId->pNode->pData;
-  v6 = (Scaleform::RefCountVImpl *)pLib->GetResourceMovieDef(pLib);
+  v3 = penv;
+  Target = (Scaleform::GFx::ResourceLibBase *)penv->Target;
+  PinResource = (Scaleform::GFx::MovieImpl *)Target[2].PinResource;
+  pData = (const __m128i *)linkageId->pNode->pData;
+  v6 = (Scaleform::RefCountVImpl *)((int (__thiscall *)(Scaleform::GFx::ResourceLibBase *))Target->__vftable[16].~Scaleform::GFx::ResourceLibBase)(Target);
   Scaleform::GFx::MovieImpl::GetImageResourceByLinkageId(
-    pMovieImpl,
+    PinResource,
     (Scaleform::Ptr<Scaleform::GFx::ImageResource> *)&penv,
     v6,
     pData);
@@ -33,7 +33,7 @@ Scaleform::GFx::AS2::BitmapData *__cdecl Scaleform::GFx::AS2::GFx_LoadBitmap<Sca
       v2->pNode->pData);
 LABEL_3:
     if ( penv )
-      Scaleform::GFx::Resource::Release(penv);
+      Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)penv);
     return 0;
   }
   v8 = v3->Target->GetResourceMovieDef(v3->Target);
@@ -54,9 +54,9 @@ LABEL_3:
   {
     v12 = 0;
   }
-  Scaleform::GFx::AS2::BitmapData::SetImage(v12, v3, penv, v9);
+  Scaleform::GFx::AS2::BitmapData::SetImage(v12, v3, (Scaleform::GFx::ImageResource *)penv, v9);
   Scaleform::GFx::Resource::Release(v9);
   if ( penv )
-    Scaleform::GFx::Resource::Release(penv);
+    Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)penv);
   return v12;
 }

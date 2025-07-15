@@ -1,19 +1,19 @@
 bool __userpurge vostok::collision::colliders::ray_geometry_base::test_triangle@<al>(
-        vostok::collision::colliders::ray_geometry_base *this@<esi>,
+        vostok::collision::colliders::ray_geometry_base *this@<eax>,
         unsigned int *triangle@<edx>,
         float *range)
 {
-  const unsigned int *v3; // edi
-  const vostok::math::float3 *v4; // eax
+  const unsigned int *v4; // ebx
+  const vostok::math::float3 *v5; // eax
 
-  v3 = this->m_geometry->indices(this->m_geometry, *triangle);
-  v4 = this->m_geometry->vertices(this->m_geometry);
+  v4 = this->m_geometry->indices(this->m_geometry, *triangle);
+  v5 = this->m_geometry->vertices(this->m_geometry);
   return vostok::collision::test_triangle(
-           &v4[*v3],
-           &v4[v3[1]],
-           &v4[v3[2]],
+           &v5[v4[1]],
+           &v5[v4[2]],
            &this->m_ray_aabb_collider.m_origin,
            &this->m_ray_aabb_collider.m_direction,
+           &v5[*v4],
            this->m_max_distance,
            range);
 }

@@ -2,7 +2,7 @@ void __cdecl png_handle_tRNS(int a1, int a2, unsigned int a3)
 {
   unsigned __int8 v3[8]; // [esp+0h] [ebp-114h] BYREF
   unsigned __int8 buf[4]; // [esp+8h] [ebp-10Ch] BYREF
-  unsigned __int8 src[260]; // [esp+Ch] [ebp-108h] BYREF
+  __m128i src[16]; // [esp+Ch] [ebp-108h] BYREF
 
   if ( (*(_DWORD *)(a1 + 108) & 1) == 0 )
     png_error(a1, (int)"Missing IHDR before tRNS");
@@ -48,7 +48,7 @@ void __cdecl png_handle_tRNS(int a1, int a2, unsigned int a3)
         png_crc_finish(a1, 0);
         return;
       }
-      png_crc_read((_DWORD *)a1, src, a3);
+      png_crc_read((_DWORD *)a1, (unsigned __int8 *)src, a3);
       *(_WORD *)(a1 + 308) = a3;
     }
   }
@@ -68,5 +68,5 @@ LABEL_10:
   if ( png_crc_finish(a1, 0) )
     *(_WORD *)(a1 + 308) = 0;
   else
-    png_set_tRNS(a1, a2, src, *(unsigned __int16 *)(a1 + 308), (unsigned __int8 *)(a1 + 424));
+    png_set_tRNS(a1, a2, src, *(unsigned __int16 *)(a1 + 308), (const __m128i *)(a1 + 424));
 }

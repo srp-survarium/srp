@@ -13,7 +13,7 @@ char __thiscall Scaleform::Render::RenderSync::EndFrame(Scaleform::Render::Rende
   Scaleform::Render::FenceImpl *v13; // eax
   Scaleform::Render::FenceFrame *v14; // ebp
   Scaleform::Render::FenceFrame *i; // edi
-  bool wrapped; // [esp+19h] [ebp-1h]
+  char v16; // [esp+19h] [ebp-1h]
 
   p_FenceFrames = &this->FenceFrames;
   if ( (Scaleform::List<Scaleform::Render::FenceFrame,Scaleform::Render::FenceFrame> *)this->FenceFrames.Root.pNext == &this->FenceFrames )
@@ -37,7 +37,7 @@ char __thiscall Scaleform::Render::RenderSync::EndFrame(Scaleform::Render::Rende
           Data->APIHandle,
           HIDWORD(Data->APIHandle));
   pNext = this->FenceFrames.Root.pNext;
-  wrapped = v10;
+  v16 = v10;
   if ( pNext != p_FenceFrames->Root.pPrev )
   {
     do
@@ -63,7 +63,7 @@ char __thiscall Scaleform::Render::RenderSync::EndFrame(Scaleform::Render::Rende
       }
       v14 = pNext->pNext;
       pNext->pPrev->pNext = v14;
-      pNext->pNext->Scaleform::ListNode<Scaleform::Render::FenceFrame>::$5C9767EADF33BDEDA33A3838A8B3522A::pPrev = pNext->pPrev;
+      pNext->pNext->Scaleform::ListNode<Scaleform::Render::FenceFrame>::$2031C420DC8AC57DF0822C542663F0D9::pPrev = pNext->pPrev;
       Scaleform::Render::FenceFrame::~FenceFrame(pNext);
       pNext->pPrev = (Scaleform::Render::FenceFrame *)this->FenceFrameAlloc.FirstEmptySlot;
       this->FenceFrameAlloc.FirstEmptySlot = (Scaleform::ListAllocBase<Scaleform::Render::FenceFrame,127,Scaleform::AllocatorLH<Scaleform::Render::FenceFrame,2> >::NodeType *)pNext;
@@ -72,7 +72,7 @@ char __thiscall Scaleform::Render::RenderSync::EndFrame(Scaleform::Render::Rende
     }
     while ( v14 != p_FenceFrames->Root.pPrev );
   }
-  if ( wrapped )
+  if ( v16 )
   {
     for ( i = this->FenceFrames.Root.pNext; i != (Scaleform::Render::FenceFrame *)p_FenceFrames; i = i->pNext )
       i->WrappedAround = 1;

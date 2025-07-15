@@ -1,37 +1,38 @@
 ecpk_parameters_st *__usercall ec_asn1_group2pkparameters@<eax>(
         const ssl_st *group@<edi>,
-        ecpk_parameters_st *params@<ecx>)
+        ecpk_parameters_st *params@<ecx>,
+        int a3@<ebx>)
 {
-  struct ASN1_VALUE_st *v2; // esi
+  struct ASN1_VALUE_st *v3; // esi
   int type; // ecx
-  struct ASN1_VALUE_st *v5; // eax
+  struct ASN1_VALUE_st *v6; // eax
   unsigned int shutdown; // eax
-  void *v7; // eax
+  void *v8; // eax
 
-  v2 = (struct ASN1_VALUE_st *)params;
+  v3 = (struct ASN1_VALUE_st *)params;
   if ( params )
   {
     type = params->type;
-    if ( *(_DWORD *)v2 || !*((_DWORD *)v2 + 1) )
+    if ( *(_DWORD *)v3 || !*((_DWORD *)v3 + 1) )
     {
       if ( type == 1 )
       {
-        v5 = (struct ASN1_VALUE_st *)*((_DWORD *)v2 + 1);
-        if ( v5 )
-          ASN1_item_free(v5, &local_it_63);
+        v6 = (struct ASN1_VALUE_st *)*((_DWORD *)v3 + 1);
+        if ( v6 )
+          ASN1_item_free(v6, &local_it_63);
       }
     }
     else
     {
-      ASN1_OBJECT_free(*((asn1_object_st **)v2 + 1));
+      ASN1_OBJECT_free(*((asn1_object_st **)v3 + 1));
     }
   }
   else
   {
-    v2 = ASN1_item_new(&local_it_64);
-    if ( !v2 )
+    v3 = ASN1_item_new(&local_it_64);
+    if ( !v3 )
     {
-      ERR_put_error(0x10u, 156, 65, ".\\crypto\\ec\\ec_asn1.c", 695);
+      ERR_put_error(a3, 0x10u, 156, 65, ".\\crypto\\ec\\ec_asn1.c", 695);
       return 0;
     }
   }
@@ -41,19 +42,19 @@ ecpk_parameters_st *__usercall ec_asn1_group2pkparameters@<eax>(
     if ( !shutdown )
     {
 LABEL_15:
-      ASN1_item_free(v2, &local_it_64);
+      ASN1_item_free(v3, &local_it_64);
       return 0;
     }
-    *(_DWORD *)v2 = 0;
-    v7 = OBJ_nid2obj(shutdown);
+    *(_DWORD *)v3 = 0;
+    v8 = OBJ_nid2obj(a3, shutdown);
   }
   else
   {
-    *(_DWORD *)v2 = 1;
-    v7 = ec_asn1_group2parameters(0);
+    *(_DWORD *)v3 = 1;
+    v8 = ec_asn1_group2parameters(0);
   }
-  *((_DWORD *)v2 + 1) = v7;
-  if ( !v7 )
+  *((_DWORD *)v3 + 1) = v8;
+  if ( !v8 )
     goto LABEL_15;
-  return (ecpk_parameters_st *)v2;
+  return (ecpk_parameters_st *)v3;
 }

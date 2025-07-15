@@ -4,20 +4,20 @@ int __cdecl do_name_ex(
         int indent,
         unsigned int flags)
 {
-  void *arg; // ecx
+  void *v4; // ecx
   X509_name_st *v5; // ebp
   int v6; // edi
   HINSTANCE__ *v8; // eax
-  Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *v9)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *); // ebx
+  void *v9; // ebx
   X509_name_st *v10; // eax
   unsigned int v11; // ecx
   X509_name_entry_st *entry; // eax
   ui_string_st *v13; // esi
   ui_string_st *object; // edi
-  unsigned int v15; // eax
-  unsigned int v16; // ebp
+  void *v15; // eax
+  void *v16; // ebp
   int v17; // edi
-  const char *v18; // eax
+  char *v18; // eax
   int v19; // esi
   int (__cdecl *v20)(void *, const void *, int); // ebx
   int v21; // edi
@@ -34,13 +34,13 @@ int __cdecl do_name_ex(
   const char *v32; // [esp+30h] [ebp-74h]
   int v33; // [esp+34h] [ebp-70h]
   int input_flags; // [esp+38h] [ebp-6Ch]
-  asn1_string_st *str; // [esp+44h] [ebp-60h]
+  asn1_string_st *v35; // [esp+44h] [ebp-60h]
   X509_name_st *v36; // [esp+48h] [ebp-5Ch]
-  char buf[80]; // [esp+50h] [ebp-54h] BYREF
+  char v37[80]; // [esp+50h] [ebp-54h] BYREF
 
   v5 = n;
   v6 = indent;
-  v25 = arg;
+  v25 = v4;
   input_flags = -1;
   if ( indent < 0 )
   {
@@ -48,10 +48,10 @@ int __cdecl do_name_ex(
     v6 = 0;
   }
   v24 = v6;
-  if ( !do_indent(arg, v6, io_ch) )
+  if ( !do_indent(v4, v6, io_ch) )
     return -1;
-  v8 = (HINSTANCE__ *)(flags & 0xF0000);
-  if ( (flags & 0xF0000) > 0x30000 )
+  v8 = (HINSTANCE__ *)((unsigned int)&locret_F0000 & flags);
+  if ( ((unsigned int)&locret_F0000 & flags) > (unsigned int)&loc_30000 )
   {
     if ( v8 == (HINSTANCE__ *)((char *)&loc_3FFFF + 1) )
     {
@@ -61,7 +61,7 @@ int __cdecl do_name_ex(
     }
     return -1;
   }
-  if ( (flags & 0xF0000) == 0x30000 )
+  if ( (_UNKNOWN *)((unsigned int)&locret_F0000 & flags) == &loc_30000 )
   {
     v29 = "; ";
     v26 = 2;
@@ -72,7 +72,7 @@ int __cdecl do_name_ex(
   {
     if ( v8 == (HINSTANCE__ *)&loc_20000 )
     {
-      v29 = (const char *)&stru_95AF78.m_key_bindings[32];
+      v29 = ", ";
       v26 = 2;
       indent = 0;
 LABEL_14:
@@ -88,7 +88,7 @@ LABEL_14:
   v27 = 1;
   indent = 0;
 LABEL_15:
-  if ( ((unsigned int)&unk_800000 & flags) != 0 )
+  if ( (flags & 0x800000) != 0 )
   {
     v32 = " = ";
     v33 = 3;
@@ -98,13 +98,13 @@ LABEL_15:
     v32 = "=";
     v33 = 1;
   }
-  v9 = (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *))((unsigned int)&loc_600000 & flags);
+  v9 = (void *)((unsigned int)&loc_600000 & flags);
   v10 = X509_NAME_entry_count(n);
   v36 = v10;
   loc = 0;
   if ( (int)v10 > 0 )
   {
-    v11 = flags & 0x100000;
+    v11 = (unsigned int)&loc_100000 & flags;
     v30 = (int)&v10[-1].canon_enclen + 3;
     while ( 1 )
     {
@@ -125,45 +125,45 @@ LABEL_15:
         {
           if ( !io_ch(v25, v29, v26) || !do_indent(v25, indent, io_ch) )
             return -1;
-          v9 = (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *))((unsigned int)&loc_600000 & flags);
+          v9 = (void *)((unsigned int)&loc_600000 & flags);
           v24 += indent + v26;
         }
       }
       input_flags = v13->input_flags;
       object = X509_EXTENSION_get_object(v13);
-      str = (asn1_string_st *)UI_get0_output_string(v13);
+      v35 = (asn1_string_st *)UI_get0_output_string(v13);
       v15 = OBJ_obj2nid((const asn1_object_st *)object);
       v16 = v15;
-      if ( (char *)v9 == (char *)&loc_600000 )
+      if ( v9 == &loc_600000 )
       {
         v20 = io_ch;
         goto LABEL_49;
       }
-      if ( v9 == Scaleform::GFx::AS2::CreateShadow || !v15 )
+      if ( v9 == &loc_400000 || !v15 )
         break;
       if ( v9 )
       {
-        if ( v9 != (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *))((char *)&loc_1FFFFE + 2) )
+        if ( v9 != &loc_200000 )
         {
-          v18 = (const char *)&::buf;
+          v18 = (char *)uri;
 LABEL_40:
           v17 = 0;
           goto LABEL_41;
         }
         v17 = 25;
-        v18 = OBJ_nid2ln(v15);
+        v18 = (char *)OBJ_nid2ln((int)v9, (unsigned int)v15);
       }
       else
       {
         v17 = 10;
-        v18 = OBJ_nid2sn(v15);
+        v18 = (char *)OBJ_nid2sn(0, (unsigned int)v15);
       }
 LABEL_41:
       v19 = strlen(v18);
       v20 = io_ch;
       if ( !io_ch(v25, v18, v19) )
         return -1;
-      if ( v19 < v17 && ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & flags) != 0 )
+      if ( v19 < v17 && (flags & 0x2000000) != 0 )
       {
         v21 = v17 - v19;
         if ( !do_indent(v25, v21, io_ch) )
@@ -175,11 +175,11 @@ LABEL_41:
         return -1;
       v24 += v33 + v19;
 LABEL_49:
-      if ( v16 || ((unsigned int)&vostok::memory::s_CRT_arena[5574200] & flags) == 0 )
+      if ( v16 || (flags & 0x1000000) == 0 )
         v22 = 0;
       else
         v22 = 128;
-      v23 = do_print_ex(v20, flags | v22, v25, str);
+      v23 = do_print_ex(v20, flags | v22, v25, v35);
       if ( v23 < 0 )
         return -1;
       v24 += v23;
@@ -187,11 +187,11 @@ LABEL_49:
       if ( ++loc >= (int)v36 )
         return v24;
       v5 = n;
-      v11 = flags & 0x100000;
-      v9 = (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::Node *, Scaleform::GFx::XML::RootNode *))((unsigned int)&loc_600000 & flags);
+      v11 = (unsigned int)&loc_100000 & flags;
+      v9 = (void *)((unsigned int)&loc_600000 & flags);
     }
-    OBJ_obj2txt(buf, 0x50u, (const asn1_object_st *)object, 1);
-    v18 = buf;
+    OBJ_obj2txt(v37, 0x50u, (const asn1_object_st *)object, 1);
+    v18 = v37;
     goto LABEL_40;
   }
   return v24;

@@ -11,19 +11,19 @@ BOOL __cdecl ssl_cipher_get_evp(
   unsigned int algorithm_enc; // eax
   int v10; // eax
   int *v11; // ecx
-  unsigned int data[3]; // [esp+8h] [ebp-Ch] BYREF
+  unsigned int v12[3]; // [esp+8h] [ebp-Ch] BYREF
 
   cipher = s->cipher;
   if ( !cipher )
     return 0;
   if ( comp )
   {
-    load_builtin_compressions((unsigned int)s);
+    load_builtin_compressions((int)s, (int)cipher);
     *comp = 0;
-    data[0] = s->compress_meth;
+    v12[0] = s->compress_meth;
     if ( ssl_comp_methods )
     {
-      v8 = sk_find(&ssl_comp_methods->stack, (char *)data);
+      v8 = sk_find((int)s, &ssl_comp_methods->stack, (char *)v12);
       if ( v8 < 0 )
         *comp = 0;
       else

@@ -146,7 +146,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::GetTextForm
       &this->mColor,
       (Scaleform::GFx::AS3::CheckResult *)&fmt,
       (unsigned int *)&parafmt);
-    v12->ColorV ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199] & (parafmt ^ v12->ColorV);
+    v12->ColorV ^= (parafmt ^ v12->ColorV) & 0xFFFFFF;
     v12->PresentMask |= 1u;
   }
   else
@@ -162,7 +162,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::GetTextForm
       &this->mFont,
       (Scaleform::GFx::AS3::CheckResult *)&fmt,
       (Scaleform::GFx::ASString *)&parafmt);
-    Scaleform::Render::Text::TextFormat::SetFontList(v12, *(char **)parafmt, 0xFFFFFFFF);
+    Scaleform::Render::Text::TextFormat::SetFontList(v12, *(const __m128i **)parafmt, 0xFFFFFFFF);
     v15 = (Scaleform::GFx::ASStringNode *)parafmt;
     --*(_DWORD *)(parafmt + 12);
     if ( !v15->RefCount )
@@ -292,7 +292,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::GetTextForm
       &this->mUrl,
       (Scaleform::GFx::AS3::CheckResult *)&fmt,
       (Scaleform::GFx::ASString *)&parafmt);
-    Scaleform::Render::Text::TextFormat::SetUrl(v12, *(char **)parafmt, 0xFFFFFFFF);
+    Scaleform::Render::Text::TextFormat::SetUrl(v12, *(const __m128i **)parafmt, 0xFFFFFFFF);
     v20 = (Scaleform::GFx::ASStringNode *)parafmt;
     --*(_DWORD *)(parafmt + 12);
     if ( !v20->RefCount )

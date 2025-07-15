@@ -128,7 +128,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_text::Font::enumerateFonts(
       {
         EntryCount = deviceFontNames.mHash.pTable[2].EntryCount;
         pTable = deviceFontNames.mHash.pTable;
-        if ( ((unsigned int)&byte_3FFFFF & EntryCount) != 0 )
+        if ( (EntryCount & 0x3FFFFF) != 0 )
         {
           deviceFontNames.mHash.pTable[2].EntryCount = EntryCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)pTable);
@@ -196,7 +196,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_text::Font::enumerateFonts(
         p_fontName = &enumerateDeviceFonts.pObject->fontName;
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                        enumerateDeviceFonts.pObject->fontName.pNode->pManager,
-                       (char *)((p_deviceFontNames->mHash.pTable[2 * v26 + 2].EntryCount & 0xFFFFFFFC) + 8),
+                       (__m128i *)((p_deviceFontNames->mHash.pTable[2 * v26 + 2].EntryCount & 0xFFFFFFFC) + 8),
                        *(_DWORD *)(p_deviceFontNames->mHash.pTable[2 * v26 + 2].EntryCount & 0xFFFFFFFC) & 0x7FFFFFFF);
         ++StringNode->RefCount;
         pNode = p_fontName->pNode;
@@ -220,7 +220,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_text::Font::enumerateFonts(
           {
             RefCount = enumerateDeviceFonts.pObject->RefCount;
             pObject = enumerateDeviceFonts.pObject;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               enumerateDeviceFonts.pObject->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -257,7 +257,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_text::Font::enumerateFonts(
       else
       {
         v37 = v35->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v37) != 0 )
+        if ( (v37 & 0x3FFFFF) != 0 )
         {
           v35->RefCount = v37 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v35);

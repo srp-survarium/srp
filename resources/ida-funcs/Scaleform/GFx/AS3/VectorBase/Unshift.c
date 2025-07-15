@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<long>::Unshift(
         Scaleform::GFx::AS3::VectorBase<unsigned long> *this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   Scaleform::ArrayDH<unsigned long,2,Scaleform::ArrayDefaultPolicy> *p_ValueA; // edi
   unsigned int v6; // eax
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::Unshift(
         Scaleform::GFx::AS3::VectorBase<double> *this,
         int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   const Scaleform::GFx::AS3::Value *v5; // ebx
   Scaleform::ArrayDH<double,2,Scaleform::ArrayDefaultPolicy> *p_ValueA; // esi
@@ -102,7 +102,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Uns
         Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value> *this,
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v4; // esi
   Scaleform::GFx::AS3::Value *v6; // edi
@@ -147,7 +147,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::A
         Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> > *this,
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v4; // edi
   Scaleform::ArrayDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode>,2,Scaleform::ArrayDefaultPolicy> *p_ValueA; // ebp

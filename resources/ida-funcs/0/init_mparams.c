@@ -1,22 +1,22 @@
 int __cdecl init_mparams()
 {
-  _SYSTEM_INFO system_info; // [esp+0h] [ebp-24h] BYREF
+  _SYSTEM_INFO SystemInfo; // [esp+0h] [ebp-24h] BYREF
 
   if ( !mparams.page_size )
   {
-    mparams.mmap_threshold = 0x40000;
-    mparams.trim_threshold = (unsigned int)&loc_1FFFFE + 2;
+    mparams.mmap_threshold = (unsigned int)&loc_3FFFF + 1;
+    mparams.trim_threshold = (unsigned int)&loc_200000;
     mparams.default_mflags = 5;
     if ( !mparams.magic )
     {
       mparams.magic = 1482184792;
       gm_.mflags = 5;
     }
-    GetSystemInfo(&system_info);
-    mparams.page_size = system_info.dwPageSize;
-    mparams.granularity = system_info.dwAllocationGranularity;
-    if ( ((system_info.dwAllocationGranularity - 1) & system_info.dwAllocationGranularity) != 0
-      || ((system_info.dwPageSize - 1) & system_info.dwPageSize) != 0 )
+    GetSystemInfo(&SystemInfo);
+    mparams.page_size = SystemInfo.dwPageSize;
+    mparams.granularity = SystemInfo.dwAllocationGranularity;
+    if ( ((SystemInfo.dwAllocationGranularity - 1) & SystemInfo.dwAllocationGranularity) != 0
+      || ((SystemInfo.dwPageSize - 1) & SystemInfo.dwPageSize) != 0 )
     {
       abort();
     }

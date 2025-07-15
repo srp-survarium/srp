@@ -1,12 +1,12 @@
 lhash_st *__cdecl lh_new(
-        int (__cdecl *h)(const char *c),
+        unsigned int (__cdecl *h)(const char *c),
         void (__cdecl *c)(unsigned __int8 *str1, unsigned __int8 *str2))
 {
   _DWORD *v2; // esi
   void *v3; // eax
   int i; // eax
   void (__cdecl *v6)(unsigned __int8 *, unsigned __int8 *); // eax
-  int (__cdecl *v7)(const char *); // eax
+  unsigned int (__cdecl *v7)(const char *); // eax
 
   v2 = CRYPTO_malloc(96, ".\\crypto\\lhash\\lhash.c", 119);
   if ( !v2 )

@@ -5,7 +5,7 @@ DName *__cdecl UnDecorator::getBasicDataType(DName *result, const DName *superTy
   int v4; // ebx
   unsigned __int8 v5; // al
   const DName *BasicDataType; // eax
-  DName *p_superName; // eax
+  DName *p_name; // eax
   DName *ECSUDataType; // eax
   int v9; // edx
   DName *v10; // eax
@@ -17,10 +17,10 @@ DName *__cdecl UnDecorator::getBasicDataType(DName *result, const DName *superTy
   int v16; // eax
   const DName *v17; // eax
   DName v18; // [esp+Ch] [ebp-24h] BYREF
-  DName arType; // [esp+14h] [ebp-1Ch] BYREF
-  DName superName; // [esp+1Ch] [ebp-14h] BYREF
+  DName resulta; // [esp+14h] [ebp-1Ch] BYREF
+  DName name; // [esp+1Ch] [ebp-14h] BYREF
   DName cvType; // [esp+24h] [ebp-Ch] BYREF
-  unsigned __int8 extended_bdtCode; // [esp+2Fh] [ebp-1h]
+  unsigned __int8 v22; // [esp+2Fh] [ebp-1h]
 
   v2 = *UnDecorator::gName;
   if ( !*UnDecorator::gName )
@@ -33,7 +33,7 @@ DName *__cdecl UnDecorator::getBasicDataType(DName *result, const DName *superTy
   v3 = v2;
   *((_DWORD *)&cvType + 1) &= 0xFFFF0000;
   v4 = -1;
-  extended_bdtCode = 0;
+  v22 = 0;
   if ( v2 <= 0x4Eu )
   {
     if ( v2 != 78 )
@@ -91,10 +91,10 @@ LABEL_54:
   if ( v2 != 95 )
   {
 LABEL_51:
-    p_superName = &v18;
+    p_name = &v18;
 LABEL_37:
     --UnDecorator::gName;
-    ECSUDataType = UnDecorator::getECSUDataType(p_superName);
+    ECSUDataType = UnDecorator::getECSUDataType(p_name);
     v9 = *((_DWORD *)ECSUDataType + 1);
     cvType.node = ECSUDataType->node;
     *((_DWORD *)&cvType + 1) = v9;
@@ -108,20 +108,15 @@ LABEL_37:
 LABEL_55:
     if ( v3 == 67 )
     {
-      v14 = operator+(&superName, "signed ", &cvType);
+      v14 = operator+(&name, "signed ", &cvType);
     }
     else if ( v3 == 69 || v3 == 71 || v3 == 73 || v3 == 75 )
     {
-      v14 = operator+(&arType, "unsigned ", &cvType);
+      v14 = operator+(&resulta, "unsigned ", &cvType);
     }
     else
     {
-      if ( v3 != 95
-        || extended_bdtCode != 69
-        && extended_bdtCode != 71
-        && extended_bdtCode != 73
-        && extended_bdtCode != 75
-        && extended_bdtCode != 77 )
+      if ( v3 != 95 || v22 != 69 && v22 != 71 && v22 != 73 && v22 != 75 && v22 != 77 )
       {
 LABEL_70:
         if ( superType->node )
@@ -145,7 +140,7 @@ LABEL_73:
     goto LABEL_70;
   }
   v5 = *UnDecorator::gName++;
-  extended_bdtCode = v5;
+  v22 = v5;
   if ( v5 <= 0x4Bu )
   {
     if ( v5 >= 0x4Au )
@@ -184,7 +179,7 @@ LABEL_73:
       }
       if ( v5 == 36 )
       {
-        BasicDataType = UnDecorator::getBasicDataType(&arType, superType);
+        BasicDataType = UnDecorator::getBasicDataType(&resulta, superType);
         operator+(result, "__w64 ", BasicDataType);
         return result;
       }
@@ -214,26 +209,26 @@ LABEL_47:
     }
     if ( (unsigned int)v5 - 88 > 1 )
       goto LABEL_47;
-    p_superName = &superName;
+    p_name = &name;
     goto LABEL_37;
   }
   v4 = -2;
 LABEL_41:
   v11 = superType->node;
   *((_DWORD *)&cvType + 1) &= 0xFFFF0000;
-  superName.node = v11;
+  name.node = v11;
   v12 = *((_DWORD *)superType + 1);
   cvType.node = 0;
-  *((_DWORD *)&superName + 1) = v12;
+  *((_DWORD *)&name + 1) = v12;
   if ( v4 == -2 )
   {
-    *((_DWORD *)&superName + 1) |= 0x800u;
-    UnDecorator::getPtrRefType(&arType, &cvType, &superName, 0);
-    if ( (*((_WORD *)&arType + 2) & 0x800) == 0 )
-      DName::operator+=(&arType, "[]");
+    *((_DWORD *)&name + 1) |= 0x800u;
+    UnDecorator::getPtrRefType(&resulta, &cvType, &name, 0);
+    if ( (*((_WORD *)&resulta + 2) & 0x800) == 0 )
+      DName::operator+=(&resulta, "[]");
     v10 = result;
-    result->node = arType.node;
-    v13 = *((_DWORD *)&arType + 1);
+    result->node = resulta.node;
+    v13 = *((_DWORD *)&resulta + 1);
     goto LABEL_73;
   }
   if ( !superType->node )
@@ -249,6 +244,6 @@ LABEL_41:
       DName::operator=(&cvType, "volatile");
     }
   }
-  UnDecorator::getPointerType(result, &cvType, &superName);
+  UnDecorator::getPointerType(result, &cvType, &name);
   return result;
 }

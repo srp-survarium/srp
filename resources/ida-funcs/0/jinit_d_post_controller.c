@@ -10,7 +10,7 @@ int (__cdecl **__cdecl jinit_d_post_controller(int a1, char a2))(int a1, int a2)
   result = (int (__cdecl **)(int, int))(**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 28);
   v3 = result;
   *(_DWORD *)(a1 + 412) = result;
-  *result = sub_379F90;
+  *result = sub_486C50;
   result[2] = 0;
   result[3] = 0;
   if ( *(_BYTE *)(a1 + 74) )

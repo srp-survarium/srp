@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::FontCompactor::AssignGlyphCode(
       glyphIndex = v3;
       Scaleform::HashSet<unsigned short,Scaleform::FixedSizeHash<unsigned short>,Scaleform::FixedSizeHash<unsigned short>,Scaleform::AllocatorGH<unsigned short,2>,Scaleform::HashsetCachedEntry<unsigned short,Scaleform::FixedSizeHash<unsigned short>>>::Add<unsigned short>(
         p_GlyphCodes,
-        (const unsigned __int16 *)&glyphIndex);
+        (unsigned __int16 *)&glyphIndex);
     }
   }
 }

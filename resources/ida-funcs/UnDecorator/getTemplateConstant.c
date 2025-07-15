@@ -3,7 +3,7 @@ DName *__cdecl UnDecorator::getTemplateConstant(DName *result)
   char v1; // bl
   DName *v2; // eax
   DName *v3; // eax
-  int v4; // eax
+  unsigned int v4; // eax
   char *Parameter; // eax
   DName *v6; // eax
   const DName *v7; // eax
@@ -22,10 +22,12 @@ DName *__cdecl UnDecorator::getTemplateConstant(DName *result)
   DName v21; // [esp+44h] [ebp-98h] BYREF
   DName v22; // [esp+4Ch] [ebp-90h] BYREF
   DName v23; // [esp+54h] [ebp-88h] BYREF
-  DName ptm; // [esp+5Ch] [ebp-80h] BYREF
-  char buf[100]; // [esp+64h] [ebp-78h] BYREF
-  char nptr[8]; // [esp+C8h] [ebp-14h] BYREF
-  DName resulta; // [esp+D0h] [ebp-Ch] BYREF
+  DName resulta; // [esp+5Ch] [ebp-80h] BYREF
+  char v25; // [esp+64h] [ebp-78h] BYREF
+  char v26; // [esp+65h] [ebp-77h] BYREF
+  char v27; // [esp+66h] [ebp-76h]
+  char v28[8]; // [esp+C8h] [ebp-14h] BYREF
+  DName rd; // [esp+D0h] [ebp-Ch] BYREF
 
   v1 = *UnDecorator::gName++;
   if ( v1 <= 68 )
@@ -60,25 +62,25 @@ LABEL_10:
           DName::DName(result, DN_invalid);
           return result;
         }
-        UnDecorator::getSignedDimension(&ptm);
         UnDecorator::getSignedDimension(&resulta);
-        if ( *((char *)&ptm + 4) <= 1 && *((char *)&resulta + 4) <= 1 )
+        UnDecorator::getSignedDimension(&rd);
+        if ( *((char *)&resulta + 4) <= 1 && *((char *)&rd + 4) <= 1 )
         {
-          if ( !DName::getString(&ptm, &buf[1], 0x64u) )
+          if ( !DName::getString(&resulta, &v26, 0x64u) )
             goto LABEL_10;
-          buf[0] = buf[1];
-          if ( buf[1] == 45 )
+          v25 = v26;
+          if ( v26 == 45 )
           {
-            buf[1] = buf[2];
-            buf[2] = 46;
+            v26 = v27;
+            v27 = 46;
           }
           else
           {
-            buf[1] = 46;
+            v26 = 46;
           }
-          DecoratedName = &resulta;
+          DecoratedName = &rd;
           v12 = result;
-          v2 = DName::DName(&v14, buf);
+          v2 = DName::DName(&v14, &v25);
           v3 = DName::operator+(v2, &v19, 101);
           goto LABEL_16;
         }
@@ -101,12 +103,12 @@ LABEL_10:
     goto LABEL_10;
   if ( v1 <= 74 )
   {
-    DName::operator=(&ptm, 123);
+    DName::operator=(&resulta, 123);
     if ( v1 >= 72 && v1 <= 74 )
     {
       v7 = UnDecorator::getDecoratedName(&v22);
-      DName::operator+=(&ptm, v7);
-      DName::operator+=(&ptm, 44);
+      DName::operator+=(&resulta, v7);
+      DName::operator+=(&resulta, 44);
     }
     if ( v1 == 70 )
       goto LABEL_46;
@@ -116,52 +118,53 @@ LABEL_10:
       {
 LABEL_47:
         SignedDimension = UnDecorator::getSignedDimension(&v16);
-        DName::operator+=(&ptm, SignedDimension);
+        DName::operator+=(&resulta, SignedDimension);
         goto LABEL_48;
       }
       if ( v1 == 73 )
       {
 LABEL_46:
         v9 = UnDecorator::getSignedDimension(&v18);
-        DName::operator+=(&ptm, v9);
-        DName::operator+=(&ptm, 44);
+        DName::operator+=(&resulta, v9);
+        DName::operator+=(&resulta, 44);
         goto LABEL_47;
       }
       if ( v1 != 74 )
       {
 LABEL_48:
-        DName::operator+(&ptm, result, 125);
+        DName::operator+(&resulta, result, 125);
         return result;
       }
     }
     v8 = UnDecorator::getSignedDimension(&v20);
-    DName::operator+=(&ptm, v8);
-    DName::operator+=(&ptm, 44);
+    DName::operator+=(&resulta, v8);
+    DName::operator+=(&resulta, 44);
     goto LABEL_46;
   }
   if ( v1 == 81 )
   {
 LABEL_30:
-    UnDecorator::getSignedDimension(&ptm);
+    UnDecorator::getSignedDimension(&resulta);
     if ( (UnDecorator::disableFlags & 0x4000) != 0
-      && (DName::getString(&ptm, nptr, 0x10u), v4 = atol(nptr), (Parameter = UnDecorator::m_pGetParameter(v4)) != 0) )
+      && (DName::getString(&resulta, v28, 0x10u), v4 = atol(v1, v28),
+                                                  (Parameter = UnDecorator::m_pGetParameter(v4)) != 0) )
     {
       DName::DName(result, Parameter);
     }
     else
     {
       if ( v1 == 68 )
-        v6 = operator+(&v23, "`template-parameter", &ptm);
+        v6 = operator+(&v23, "`template-parameter", &resulta);
       else
-        v6 = operator+(&v15, "`non-type-template-parameter", &ptm);
+        v6 = operator+(&v15, "`non-type-template-parameter", &resulta);
       DName::operator+(v6, result, "'");
     }
     return result;
   }
   if ( v1 != 82 )
     goto LABEL_10;
-  UnDecorator::getZName(&resulta, 0, 0);
-  UnDecorator::getSignedDimension(&ptm);
-  *result = resulta;
+  UnDecorator::getZName(&rd, 0, 0);
+  UnDecorator::getSignedDimension(&resulta);
+  *result = rd;
   return result;
 }

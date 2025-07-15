@@ -4,9 +4,9 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetAlpha(Scaleform::GFx::Disp
   Scaleform::Render::Cxform *v4; // eax
   Scaleform::Render::TreeNode *RenderNode; // eax
   Scaleform::Render::ContextImpl::EntryData *WritableData; // eax
-  float v8[8]; // [esp+34h] [ebp-20h] BYREF
+  float v8[8]; // [esp+14h] [ebp-20h] BYREF
 
-  if ( (HIDWORD(alpha) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(alpha) | LODWORD(alpha)) )
+  if ( (HIDWORD(alpha) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(alpha) & 0xFFFFF | LODWORD(alpha)) )
   {
     pObject = this->pRenNode.pObject;
     if ( pObject )

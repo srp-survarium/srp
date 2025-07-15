@@ -1,10 +1,10 @@
 void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::AddChildAt(
         Scaleform::GFx::AS3::AvmDisplayObjContainer *this,
         Scaleform::GFx::InteractiveObject *ch,
-        Scaleform::Render::TreeNode *index)
+        Scaleform::GFx::DisplayObjectBase *index)
 {
   Scaleform::GFx::DisplayObject *pDispObj; // ecx
-  Scaleform::Render::TreeNode *pObject; // edi
+  Scaleform::GFx::DisplayObjectBase *pObject; // edi
   Scaleform::GFx::InteractiveObject *pParent; // eax
   Scaleform::GFx::DisplayList *p_LastHitTestY; // ebp
   int v8; // eax
@@ -21,8 +21,8 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::AddChildAt(
 
   pDispObj = this->pDispObj;
   pObject = index;
-  if ( index > pDispObj[1].pRenNode.pObject )
-    pObject = pDispObj[1].pRenNode.pObject;
+  if ( (Scaleform::Render::TreeNode *)index > pDispObj[1].pRenNode.pObject )
+    pObject = (Scaleform::GFx::DisplayObjectBase *)pDispObj[1].pRenNode.pObject;
   pParent = ch->pParent;
   p_LastHitTestY = (Scaleform::GFx::DisplayList *)&pDispObj[1].LastHitTestY;
   if ( pParent )
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::AddChildAt(
       v9 = 0;
     Scaleform::GFx::AS3::AvmDisplayObjContainer::RemoveChild(v9, ch);
   }
-  Scaleform::GFx::DisplayList::AddEntryAtIndex(p_LastHitTestY, this->pDispObj, (unsigned int)pObject, ch);
+  Scaleform::GFx::DisplayList::AddEntryAtIndex(p_LastHitTestY, this->pDispObj, pObject, ch);
   v10 = (Scaleform::GFx::InteractiveObject *)this->pDispObj;
   ch->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags &= 0xEFEFu;
   v11 = ch->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags >> 7;

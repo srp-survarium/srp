@@ -1,72 +1,73 @@
 void __userpurge btAxisSweep3Internal<unsigned short>::sortMinUp(
         unsigned __int16 edge@<ax>,
-        btAxisSweep3Internal<unsigned short> *this,
+        btAxisSweep3Internal<unsigned short>::Handle *this,
         int axis,
         btDispatcher *dispatcher,
         bool updateOverlaps)
 {
-  int v5; // edx
-  btAxisSweep3Internal<unsigned short>::Edge *v7; // ebp
-  btAxisSweep3Internal<unsigned short>::Handle *v8; // edi
-  btAxisSweep3Internal<unsigned short>::Edge *v9; // esi
-  int v10; // ecx
-  btAxisSweep3Internal<unsigned short>::Handle *m_pHandles; // eax
-  btBroadphaseProxy *v12; // edi
-  btBroadphaseProxy *v13; // esi
-  int v14; // eax
-  int v15; // edx
-  btAxisSweep3Internal<unsigned short>::Edge v16; // eax
-  btAxisSweep3Internal<unsigned short>::Edge *pNext; // [esp+18h] [ebp-8h]
-  btAxisSweep3Internal<unsigned short>::Handle *pHandleEdge; // [esp+1Ch] [ebp-4h]
-  btAxisSweep3Internal<unsigned short>::Handle *pHandleNext; // [esp+24h] [ebp+4h]
+  btAxisSweep3Internal<unsigned short>::Edge *v6; // edi
+  btAxisSweep3Internal<unsigned short>::Handle *v7; // esi
+  btAxisSweep3Internal<unsigned short>::Edge *v8; // edx
+  int v9; // ecx
+  btAxisSweep3Internal<unsigned short>::Handle *v10; // eax
+  btAxisSweep3Internal<unsigned short>::Handle *v11; // esi
+  int v12; // eax
+  char *v14; // eax
+  btAxisSweep3Internal<unsigned short>::Edge v15; // eax
+  btAxisSweep3Internal<unsigned short>::Handle *v16; // [esp+Ch] [ebp-Ch]
+  char *v17; // [esp+10h] [ebp-8h]
+  btAxisSweep3Internal<unsigned short>::Edge *v18; // [esp+14h] [ebp-4h]
+  btAxisSweep3Internal<unsigned short>::Handle *pHandleB; // [esp+20h] [ebp+8h]
 
-  v5 = axis;
-  v7 = &this->m_pEdges[axis][edge];
-  v8 = &this->m_pHandles[v7->m_handle];
-  v9 = v7 + 1;
-  pNext = v7 + 1;
-  pHandleEdge = v8;
-  if ( v7[1].m_handle )
+  v6 = (btAxisSweep3Internal<unsigned short>::Edge *)(*(&this[1].m_uniqueId + axis) + 4 * edge);
+  v7 = (btAxisSweep3Internal<unsigned short>::Handle *)(*(_DWORD *)&this[1].m_collisionFilterGroup + (v6->m_handle << 6));
+  v8 = v6 + 1;
+  v16 = v7;
+  while ( 1 )
   {
-    do
+    v18 = v8;
+    if ( !v8->m_handle || v6->m_pos < v8->m_pos )
+      break;
+    v9 = v8->m_handle << 6;
+    v17 = (char *)(v9 + *(_DWORD *)&this[1].m_collisionFilterGroup);
+    if ( (v8->m_pos & 1) != 0 )
     {
-      if ( v7->m_pos < v9->m_pos )
-        break;
-      v10 = v9->m_handle << 6;
-      pHandleNext = (btAxisSweep3Internal<unsigned short>::Handle *)((char *)this->m_pHandles + v10);
-      if ( (v9->m_pos & 1) != 0 )
+      v10 = *(btAxisSweep3Internal<unsigned short>::Handle **)&this[1].m_collisionFilterGroup;
+      v11 = &v10[v6->m_handle];
+      pHandleB = (btAxisSweep3Internal<unsigned short>::Handle *)((char *)v10 + v9);
+      v12 = (1 << axis) & 3;
+      if ( updateOverlaps )
       {
-        m_pHandles = this->m_pHandles;
-        v12 = (btAxisSweep3Internal<unsigned short>::Handle *)((char *)m_pHandles + v10);
-        v13 = &m_pHandles[v7->m_handle];
-        v14 = (1 << v5) & 3;
-        v15 = (1 << v14) & 3;
-        if ( updateOverlaps
-          && *(&v13[1].m_collisionFilterMask + v14) >= *((_WORD *)&v12[1].m_clientObject + v14)
-          && *(&v12[1].m_collisionFilterMask + v14) >= *((_WORD *)&v13[1].m_clientObject + v14)
-          && *(&v13[1].m_collisionFilterMask + v15) >= *((_WORD *)&v12[1].m_clientObject + v15)
-          && *(&v12[1].m_collisionFilterMask + v15) >= *((_WORD *)&v13[1].m_clientObject + v15) )
+        if ( v11->m_maxEdges[v12] >= pHandleB->m_minEdges[v12]
+          && btAxisSweep3Internal<unsigned short>::testOverlap2D(v11, v12, (1 << v12) & 3, pHandleB) )
         {
-          this->m_pairCache->removeOverlappingPair(this->m_pairCache, v13, v12, dispatcher);
-          if ( this->m_userPairCallback )
-            this->m_userPairCallback->removeOverlappingPair(this->m_userPairCallback, v13, v12, dispatcher);
+          (*(void (__thiscall **)(int, btAxisSweep3Internal<unsigned short>::Handle *, btAxisSweep3Internal<unsigned short>::Handle *, btDispatcher *))(*(_DWORD *)this[1].m_aabbMax.mVec128.m128_i32[1] + 8))(
+            this[1].m_aabbMax.mVec128.m128_i32[1],
+            v11,
+            pHandleB,
+            dispatcher);
+          if ( this[1].m_aabbMax.mVec128.m128_i32[2] )
+            (*(void (__thiscall **)(int, btAxisSweep3Internal<unsigned short>::Handle *, btAxisSweep3Internal<unsigned short>::Handle *, btDispatcher *))(*(_DWORD *)this[1].m_aabbMax.mVec128.m128_i32[2] + 8))(
+              this[1].m_aabbMax.mVec128.m128_i32[2],
+              v11,
+              pHandleB,
+              dispatcher);
         }
-        v8 = pHandleEdge;
-        v9 = pNext;
-        --pHandleNext->m_maxEdges[axis];
-        v5 = axis;
+        v8 = v18;
       }
-      else
-      {
-        --pHandleNext->m_minEdges[v5];
-      }
-      ++v8->m_minEdges[v5];
-      v16 = *v7;
-      *v7 = *v9;
-      *v9++ = v16;
-      ++v7;
-      pNext = v9;
+      v7 = v16;
+      v14 = &v17[2 * axis + 54];
     }
-    while ( v9->m_handle );
+    else
+    {
+      v14 = &v17[2 * axis + 48];
+    }
+    --*(_WORD *)v14;
+    ++v7->m_minEdges[axis];
+    v15 = *v6;
+    *v6 = *v8;
+    *v8 = v15;
+    ++v6;
+    ++v8;
   }
 }

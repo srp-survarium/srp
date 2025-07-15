@@ -1,8 +1,4 @@
-int __usercall _wcsicoll@<eax>(
-        unsigned int a1@<ebx>,
-        unsigned int a2@<edi>,
-        const wchar_t *_string1,
-        const wchar_t *_string2)
+int __usercall _wcsicoll@<eax>(int a1@<ebx>, int a2@<edi>, const wchar_t *_string1, const wchar_t *_string2)
 {
   const wchar_t *v4; // edi
   const wchar_t *v6; // edx
@@ -33,7 +29,7 @@ int __usercall _wcsicoll@<eax>(
   else
   {
     *_errno() = 22;
-    _invalid_parameter(a1, (unsigned int)_string1, 0);
+    _invalid_parameter(a1, (int)_string1, 0);
     return 0x7FFFFFFF;
   }
 }

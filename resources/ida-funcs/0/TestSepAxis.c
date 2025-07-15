@@ -1,24 +1,25 @@
-char __usercall TestSepAxis@<al>(
-        btConvexPolyhedron *hullA@<edx>,
-        const btVector3 *sep_axis@<esi>,
+char __cdecl TestSepAxis(
+        btConvexPolyhedron *hullA,
         btConvexPolyhedron *hullB,
         const btTransform *transA,
         const btTransform *transB,
         float *depth)
 {
-  float v6; // xmm0_4
-  float Min1; // [esp+4h] [ebp-10h] BYREF
-  float Max0; // [esp+8h] [ebp-Ch] BYREF
-  float Min0; // [esp+Ch] [ebp-8h] BYREF
-  float Max1; // [esp+10h] [ebp-4h] BYREF
+  const btVector3 *v5; // ecx
+  const btVector3 *v6; // ecx
+  float v7; // xmm0_4
+  float v9; // [esp+4h] [ebp-10h] BYREF
+  float v10; // [esp+8h] [ebp-Ch] BYREF
+  float v11; // [esp+Ch] [ebp-8h] BYREF
+  float v12; // [esp+10h] [ebp-4h] BYREF
 
-  btConvexPolyhedron::project(hullA, transA, sep_axis, &Min0, &Max0);
-  btConvexPolyhedron::project(hullB, transB, sep_axis, &Min1, &Max1);
-  if ( Min1 > Max0 || Min0 > Max1 )
+  btConvexPolyhedron::project(transA, v5, &v11, hullA, &v10);
+  btConvexPolyhedron::project(transB, v6, &v9, hullB, &v12);
+  if ( v12 > v11 || v10 > v9 )
     return 0;
-  v6 = Max1 - Min0;
-  if ( (float)(Max1 - Min0) > (float)(Max0 - Min1) )
-    v6 = Max0 - Min1;
-  *depth = v6;
+  v7 = v9 - v10;
+  if ( (float)(v9 - v10) > (float)(v11 - v12) )
+    v7 = v11 - v12;
+  *depth = v7;
   return 1;
 }

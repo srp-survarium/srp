@@ -1,11 +1,11 @@
 void __thiscall survarium::object_ambient_volume::load(
         survarium::object_ambient_volume *this,
-        vostok::configs::binary_config_value *t,
+        const vostok::configs::binary_config_value *t,
         const char *__formal,
         boost::function<void __cdecl(survarium::game_object_ &)> *cb)
 {
   const vostok::configs::binary_config_value *v5; // eax
-  boost::function1<void,char const *> *v6; // ecx
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *v6; // ecx
   float pointer; // xmm0_4
   bool v8; // zf
 
@@ -18,7 +18,10 @@ void __thiscall survarium::object_ambient_volume::load(
     pointer = (float)(int)v5->data.pointer;
   v8 = !this->m_enabled;
   this->m_ambient_multiplier = pointer;
-  if ( v8 || pointer == *(float *)&clear_value )
+  if ( v8 || pointer == s_bm_current_air_resistance )
     this->m_valid = 0;
-  boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(v6, cb, (const char *)this);
+  boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+    v6,
+    cb,
+    (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)this);
 }

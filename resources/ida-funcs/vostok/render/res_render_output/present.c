@@ -1,37 +1,32 @@
-void __thiscall vostok::render::res_render_output::present(vostok::render::res_render_output *this)
+void __thiscall vostok::render::res_render_output::present(vostok::render::res_render_output *this, BOOL force_vsync)
 {
-  bool v1; // zf
-  HRESULT v2; // eax
-  vostok::render::device *v3; // ecx
-  const char *d3d11_error_string; // eax
-  bool do_debug_break; // [esp+Dh] [ebp-1h] BYREF
+  BOOL v2; // eax
+  int v3; // ecx
+  HRESULT v4; // eax
+  vostok::render::device *v5; // ecx
+  bool *d3d11_error_string; // eax
 
-  do_debug_break = HIBYTE(this);
-  v1 = *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-       + 241) == 0;
-  this->m_present_sync_mode = *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                              + 241) != 0;
-  v2 = this->m_swap_chain->Present(this->m_swap_chain, !v1, 0);
-  if ( v2 == -2005270523 || v2 == -2005270521 || v2 == -2005270496 )
+  v2 = vostok::render::res_render_output::select_presentation_interval(this, force_vsync);
+  *(_DWORD *)(v3 + 232) = v2;
+  v4 = (*(int (__stdcall **)(_DWORD, BOOL, _DWORD))(**(_DWORD **)(v3 + 212) + 32))(*(_DWORD *)(v3 + 212), v2, 0);
+  if ( v4 == -2005270523 || v4 == -2005270521 || v4 == -2005270496 )
   {
-    vostok::render::device::on_device_removed(v3);
+    vostok::render::device::on_device_removed(v5, (int)vostok::quasi_singleton<vostok::render::device>::pinst);
   }
-  else if ( !LOBYTE(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish)
-         && v2 < 0 )
+  else if ( !ignore_always_23 && v4 < 0 )
   {
-    do_debug_break = 1;
-    d3d11_error_string = make_d3d11_error_string(v2);
+    HIBYTE(force_vsync) = 1;
+    d3d11_error_string = (bool *)make_d3d11_error_string(
+                                   v4,
+                                   (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v5);
     vostok::debug::on_error(
-      &do_debug_break,
+      (bool *)&force_vsync + 3,
       process_error_true,
-      (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\res_render_output.cpp",
       "vostok::render::res_render_output::present",
-      0x8Du);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      (const char *)0xAD);
+    if ( vostok::debug::is_debugger_present() || HIBYTE(force_vsync) )
       __debugbreak();
   }
 }

@@ -1,14 +1,15 @@
-int __cdecl vfprintf_helper(
+int __usercall vfprintf_helper@<eax>(
+        int a1@<ebx>,
         int (__cdecl *outfn)(_iobuf *, const char *, localeinfo_struct *, char *),
         _iobuf *str,
         const char *format,
         localeinfo_struct *plocinfo,
         char *ap)
 {
-  int v6; // eax
-  ioinfo *v7; // ecx
-  ioinfo *v8; // eax
-  int v9; // esi
+  int v7; // eax
+  ioinfo *v8; // ecx
+  ioinfo *v9; // eax
+  int v10; // esi
   int retval; // [esp+10h] [ebp-1Ch]
 
   retval = 0;
@@ -17,27 +18,27 @@ int __cdecl vfprintf_helper(
     _lock_file(str);
     if ( (str->_flag & 0x40) == 0 )
     {
-      v6 = _fileno(str);
-      if ( v6 == -1 || v6 == -2 )
-        v7 = &__badioinfo;
+      v7 = _fileno(a1, (int)str, str);
+      if ( v7 == -1 || v7 == -2 )
+        v8 = &__badioinfo;
       else
-        v7 = (ioinfo *)((char *)__pioinfo[v6 >> 5] + 64 * (v6 & 0x1F));
-      if ( (*((_BYTE *)v7 + 36) & 0x7F) != 0
-        || (v6 == -1 || v6 == -2
-          ? (v8 = &__badioinfo)
-          : (v8 = (ioinfo *)((char *)__pioinfo[v6 >> 5] + 64 * (v6 & 0x1F))),
-            *((char *)v8 + 36) < 0) )
+        v8 = (ioinfo *)((char *)__pioinfo[v7 >> 5] + 64 * (v7 & 0x1F));
+      if ( (*((_BYTE *)v8 + 36) & 0x7F) != 0
+        || (v7 == -1 || v7 == -2
+          ? (v9 = &__badioinfo)
+          : (v9 = (ioinfo *)((char *)__pioinfo[v7 >> 5] + 64 * (v7 & 0x1F))),
+            *((char *)v9 + 36) < 0) )
       {
         *_errno() = 22;
-        _invalid_parameter(0, 0, 0, 0, 0);
+        _invalid_parameter(a1, (int)str, 0);
         retval = -1;
       }
     }
     if ( !retval )
     {
-      v9 = _stbuf(str);
+      v10 = _stbuf(str);
       retval = outfn(str, format, plocinfo, ap);
-      _ftbuf(v9, str);
+      _ftbuf(v10, str);
     }
     _unlock_file(str);
     return retval;
@@ -45,7 +46,7 @@ int __cdecl vfprintf_helper(
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, (int)str, 0);
     return -1;
   }
 }

@@ -1,21 +1,25 @@
-struct ASN1_VALUE_st *__cdecl ASN1_item_d2i_bio(const ASN1_ITEM_st *it, bio_st *in, struct ASN1_VALUE_st **x)
+struct ASN1_VALUE_st *__usercall ASN1_item_d2i_bio@<eax>(
+        int a1@<ebx>,
+        const ASN1_ITEM_st *it,
+        bio_st *in,
+        struct ASN1_VALUE_st **x)
 {
-  struct ASN1_VALUE_st *v3; // esi
-  unsigned __int8 *v4; // eax
-  buf_mem_st *v5; // edi
+  struct ASN1_VALUE_st *v4; // esi
+  const unsigned __int8 **v5; // eax
+  buf_mem_st *v6; // edi
   buf_mem_st *pb; // [esp+8h] [ebp-8h] BYREF
-  unsigned __int8 *data; // [esp+Ch] [ebp-4h] BYREF
+  char *data; // [esp+Ch] [ebp-4h] BYREF
 
   pb = 0;
-  v3 = 0;
-  v4 = (unsigned __int8 *)asn1_d2i_read_bio(in, &pb);
-  v5 = pb;
-  if ( (int)v4 >= 0 )
+  v4 = 0;
+  v5 = (const unsigned __int8 **)asn1_d2i_read_bio(a1, in, &pb);
+  v6 = pb;
+  if ( (int)v5 >= 0 )
   {
-    data = (unsigned __int8 *)pb->data;
-    v3 = ASN1_item_d2i(x, &data, v4, it);
+    data = pb->data;
+    v4 = ASN1_item_d2i(x, (unsigned __int8 **)&data, v5, it);
   }
-  if ( v5 )
-    BUF_MEM_free(v5);
-  return v3;
+  if ( v6 )
+    BUF_MEM_free(v6);
+  return v4;
 }

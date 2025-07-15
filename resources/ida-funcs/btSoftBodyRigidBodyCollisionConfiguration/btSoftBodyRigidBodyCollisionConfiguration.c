@@ -1,111 +1,91 @@
 btSoftBodyRigidBodyCollisionConfiguration *__userpurge btSoftBodyRigidBodyCollisionConfiguration::btSoftBodyRigidBodyCollisionConfiguration@<eax>(
         btSoftBodyRigidBodyCollisionConfiguration *this@<ecx>,
-        btSoftBodyRigidBodyCollisionConfiguration *a2@<edi>,
+        btSoftBodyRigidBodyCollisionConfiguration *a2@<eax>,
         const btDefaultCollisionConstructionInfo *constructionInfo)
 {
-  btCollisionAlgorithmCreateFunc *v3; // eax
   btCollisionAlgorithmCreateFunc *v4; // eax
   btCollisionAlgorithmCreateFunc *v5; // eax
   btCollisionAlgorithmCreateFunc *v6; // eax
   btCollisionAlgorithmCreateFunc *v7; // eax
-  int *p_m_elemSize; // eax
-  void *v9; // eax
+  btCollisionAlgorithmCreateFunc *v8; // eax
   btPoolAllocator *m_collisionAlgorithmPool; // eax
-  btPoolAllocator *v11; // esi
-  btPoolAllocator *v12; // eax
+  btPoolAllocator *v10; // edx
+  btPoolAllocator *v11; // eax
 
-  btDefaultCollisionConfiguration::btDefaultCollisionConfiguration(this, (int)a2, constructionInfo);
-  ++gNumAlignedAllocs;
-  a2->__vftable = (btSoftBodyRigidBodyCollisionConfiguration_vtbl *)&stru_957BE0.m_raw_resource_ptr;
-  v3 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
-  if ( v3 )
-  {
-    v3->m_swapped = 0;
-    v3->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftSoftCollisionAlgorithm::CreateFunc::`vftable';
-  }
-  else
-  {
-    v3 = 0;
-  }
-  ++gNumAlignedAllocs;
-  a2->m_softSoftCreateFunc = v3;
-  v4 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  btDefaultCollisionConfiguration::btDefaultCollisionConfiguration(this, a2, constructionInfo);
+  a2->__vftable = (btSoftBodyRigidBodyCollisionConfiguration_vtbl *)&btSoftBodyRigidBodyCollisionConfiguration::`vftable';
+  v4 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v4 )
   {
     v4->m_swapped = 0;
-    v4->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&stru_957BE0.vostok::resources::unmanaged_resource::m_flags;
+    v4->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftSoftCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v4 = 0;
   }
-  ++gNumAlignedAllocs;
-  a2->m_softRigidConvexCreateFunc = v4;
-  v5 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_softSoftCreateFunc = v4;
+  v5 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v5 )
   {
     v5->m_swapped = 0;
-    v5->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&stru_957BE0.vostok::resources::unmanaged_resource::m_flags;
+    v5->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftRigidCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v5 = 0;
   }
-  ++gNumAlignedAllocs;
-  a2->m_swappedSoftRigidConvexCreateFunc = v5;
-  v5->m_swapped = 1;
-  v6 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_softRigidConvexCreateFunc = v5;
+  v6 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v6 )
   {
     v6->m_swapped = 0;
-    v6->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)(&stru_957BE0.m_bones_count + 1);
+    v6->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftRigidCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v6 = 0;
   }
-  ++gNumAlignedAllocs;
-  a2->m_softRigidConcaveCreateFunc = v6;
-  v7 = (btCollisionAlgorithmCreateFunc *)sAlignedAllocFunc(8u, 16);
+  a2->m_swappedSoftRigidConvexCreateFunc = v6;
+  v6->m_swapped = 1;
+  v7 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
   if ( v7 )
   {
     v7->m_swapped = 0;
-    v7->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftBodyConcaveCollisionAlgorithm::SwappedCreateFunc::`vftable';
+    v7->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftBodyConcaveCollisionAlgorithm::CreateFunc::`vftable';
   }
   else
   {
     v7 = 0;
   }
-  a2->m_swappedSoftRigidConcaveCreateFunc = v7;
-  v7->m_swapped = 1;
+  a2->m_softRigidConcaveCreateFunc = v7;
+  v8 = (btCollisionAlgorithmCreateFunc *)btAlignedAllocInternal(8u);
+  if ( v8 )
+  {
+    v8->m_swapped = 0;
+    v8->__vftable = (btCollisionAlgorithmCreateFunc_vtbl *)&btSoftBodyConcaveCollisionAlgorithm::SwappedCreateFunc::`vftable';
+  }
+  else
+  {
+    v8 = 0;
+  }
+  a2->m_swappedSoftRigidConcaveCreateFunc = v8;
+  v8->m_swapped = 1;
   if ( a2->m_ownsCollisionAlgorithmPool )
   {
-    p_m_elemSize = &a2->m_collisionAlgorithmPool->m_elemSize;
-    if ( p_m_elemSize )
+    m_collisionAlgorithmPool = a2->m_collisionAlgorithmPool;
+    if ( m_collisionAlgorithmPool )
     {
-      if ( *p_m_elemSize < 176 )
+      if ( m_collisionAlgorithmPool->m_elemSize < 176 )
       {
-        v9 = (void *)p_m_elemSize[4];
-        if ( v9 )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v9);
-        }
-        m_collisionAlgorithmPool = a2->m_collisionAlgorithmPool;
-        if ( m_collisionAlgorithmPool )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc((void *)m_collisionAlgorithmPool);
-        }
-        ++gNumAlignedAllocs;
-        v11 = (btPoolAllocator *)sAlignedAllocFunc(0x14u, 16);
-        if ( v11 )
-        {
-          btPoolAllocator::btPoolAllocator(v11, 176, constructionInfo->m_defaultMaxCollisionAlgorithmPoolSize);
-          a2->m_collisionAlgorithmPool = v12;
-          return a2;
-        }
-        a2->m_collisionAlgorithmPool = 0;
+        btAlignedFreeInternal(m_collisionAlgorithmPool->m_pool);
+        btAlignedFreeInternal((void *)a2->m_collisionAlgorithmPool);
+        v10 = (btPoolAllocator *)btAlignedAllocInternal(0x14u);
+        if ( v10 )
+          btPoolAllocator::btPoolAllocator(v10, 176, constructionInfo->m_defaultMaxCollisionAlgorithmPoolSize);
+        else
+          v11 = 0;
+        a2->m_collisionAlgorithmPool = v11;
       }
     }
   }

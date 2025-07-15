@@ -25,10 +25,7 @@ bool __thiscall Scaleform::Render::TextLayerPrimitive::RemoveEntry(
       }
       else
       {
-        memmove(
-          (unsigned __int8 *)&this->Entries.Data.Data[i],
-          (unsigned __int8 *)&this->Entries.Data.Data[i + 1],
-          4 * (Size - i) - 4);
+        memmove((int)&this->Entries.Data.Data[i], (const __m128i *)&this->Entries.Data.Data[i + 1], 4 * (Size - i) - 4);
         --this->Entries.Data.Size;
       }
       Scaleform::Render::Primitive::Remove(this, i--, 1u);

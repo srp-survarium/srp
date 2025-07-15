@@ -1,63 +1,58 @@
-int __cdecl get_local_video_memory_size_impl()
+unsigned __int64 __cdecl get_local_video_memory_size_impl()
 {
-  unsigned int v0; // ebx
-  HRESULT v1; // edi
-  IDirect3D9 *v2; // esi
-  unsigned __int64 v4; // kr08_8
-  HMONITOR__ *v5; // edi
-  unsigned __int64 v6; // rax
-  unsigned __int64 v7; // rax
-  HRESULT hrCoInitialize; // [esp+28h] [ebp-4B4h]
-  unsigned int dwAdapterCount; // [esp+2Ch] [ebp-4B0h]
-  unsigned __int64 dwAdapterRAM; // [esp+30h] [ebp-4ACh] BYREF
-  unsigned __int64 dwAvailableVidMem; // [esp+38h] [ebp-4A4h] BYREF
-  tagMONITORINFOEXA mi; // [esp+40h] [ebp-49Ch] BYREF
-  _D3DADAPTER_IDENTIFIER9 id; // [esp+88h] [ebp-454h] BYREF
+  IDirect3D9 *v0; // eax
+  IDirect3D9 *v1; // edi
+  unsigned int v3; // ebx
+  HMONITOR__ *v4; // esi
+  unsigned __int64 v5; // rax
+  _D3DADAPTER_IDENTIFIER9 dst; // [esp+10h] [ebp-4B8h] BYREF
+  tagMONITORINFO mi; // [esp+460h] [ebp-68h] BYREF
+  unsigned __int64 right; // [esp+4A8h] [ebp-20h] BYREF
+  unsigned __int64 pdwAdapterRam; // [esp+4B0h] [ebp-18h] BYREF
+  unsigned int v10; // [esp+4B8h] [ebp-10h]
+  HRESULT v11; // [esp+4BCh] [ebp-Ch]
+  unsigned __int64 left; // [esp+4C0h] [ebp-8h]
 
-  v0 = 0;
-  v1 = CoInitializeEx(0, 2u);
-  hrCoInitialize = v1;
-  v2 = Direct3DCreate9(0x20u);
-  if ( v2 )
+  v11 = CoInitializeEx(0, 2u);
+  v0 = Direct3DCreate9(0x20u);
+  v1 = v0;
+  if ( !v0 )
   {
-    dwAdapterCount = v2->GetAdapterCount(v2);
-    v4 = 0;
-    if ( dwAdapterCount )
-    {
-      do
-      {
-        memset((int)&id, 0, sizeof(id));
-        v2->GetAdapterIdentifier(v2, v0, 0, &id);
-        v5 = v2->GetAdapterMonitor(v2, v0);
-        mi.cbSize = 72;
-        GetMonitorInfoA(v5, &mi);
-        if ( (GetVideoMemoryViaWMI(&dwAdapterRAM) & 0x80000000) != 0 )
-        {
-          if ( GetVideoMemoryViaDirectDraw(&dwAvailableVidMem, v5) >= 0 )
-          {
-            LODWORD(v7) = guess_exact_memory_size(dwAvailableVidMem);
-            v4 = vostok::math::max(v4, v7);
-          }
-        }
-        else
-        {
-          LODWORD(v6) = guess_exact_memory_size(dwAdapterRAM);
-          v4 -= v4 < v6 ? v4 - v6 : 0;
-        }
-        ++v0;
-      }
-      while ( v0 < dwAdapterCount );
-      v1 = hrCoInitialize;
-    }
-    v2->Release(v2);
-    if ( v1 >= 0 )
-      CoUninitialize();
-    return v4;
-  }
-  else
-  {
-    if ( v1 >= 0 )
+    if ( v11 >= 0 )
       CoUninitialize();
     return 0;
   }
+  v3 = 0;
+  v10 = v0->GetAdapterCount(v0);
+  left = 0;
+  if ( v10 )
+  {
+    while ( 1 )
+    {
+      memset((int)&dst, 0, sizeof(dst));
+      v1->GetAdapterIdentifier(v1, v3, 0, &dst);
+      v4 = v1->GetAdapterMonitor(v1, v3);
+      mi.cbSize = 72;
+      GetMonitorInfoA(v4, &mi);
+      if ( GetVideoMemoryViaWMI(v4, &pdwAdapterRam) >= 0 )
+        break;
+      if ( GetVideoMemoryViaDirectDraw(&right, v4) >= 0 )
+      {
+        v5 = vostok::math::max(left, right);
+        goto LABEL_10;
+      }
+LABEL_11:
+      if ( ++v3 >= v10 )
+        goto LABEL_12;
+    }
+    v5 = vostok::math::max(left, pdwAdapterRam);
+LABEL_10:
+    left = v5;
+    goto LABEL_11;
+  }
+LABEL_12:
+  v1->Release(v1);
+  if ( v11 >= 0 )
+    CoUninitialize();
+  return vostok::math::min(left, 0x80000000);
 }

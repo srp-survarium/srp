@@ -13,15 +13,9 @@ void __cdecl Scaleform::System::Init(
 
 void __cdecl Scaleform::System::Init(Scaleform::SysAllocBase *psysAlloc)
 {
-  Scaleform::MemoryHeap::HeapDesc rootHeapDesc; // [esp+0h] [ebp-20h] BYREF
+  const Scaleform::MemoryHeap::HeapDesc *v1; // eax
+  Scaleform::MemoryHeap::RootHeapDesc v2; // [esp+0h] [ebp-20h] BYREF
 
-  rootHeapDesc.Flags = 0;
-  rootHeapDesc.Limit = 0;
-  rootHeapDesc.Arena = 0;
-  rootHeapDesc.Granularity = 0x4000;
-  rootHeapDesc.Reserve = 0x4000;
-  rootHeapDesc.MinAlign = 16;
-  rootHeapDesc.Threshold = 0x40000;
-  rootHeapDesc.HeapId = 1;
-  Scaleform::System::Init(&rootHeapDesc, psysAlloc);
+  Scaleform::MemoryHeap::RootHeapDesc::RootHeapDesc(&v2);
+  Scaleform::System::Init(v1, psysAlloc);
 }

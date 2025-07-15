@@ -21,7 +21,7 @@ stack_st_GENERAL_NAME *__cdecl v2i_GENERAL_NAMES(
       while ( 1 )
       {
         v6 = sk_value(&nval->stack, v5);
-        v7 = (char *)v2i_GENERAL_NAME_ex(0, method, ctx, (CONF_VALUE *)v6, 0);
+        v7 = (char *)v2i_GENERAL_NAME_ex((int)ctx, 0, method, ctx, (CONF_VALUE *)v6, 0);
         if ( !v7 )
           break;
         sk_push(v3, v7);
@@ -34,7 +34,7 @@ stack_st_GENERAL_NAME *__cdecl v2i_GENERAL_NAMES(
   }
   else
   {
-    ERR_put_error(0x22u, 118, 65, ".\\crypto\\x509v3\\v3_alt.c", 404);
+    ERR_put_error(0, 0x22u, 118, 65, ".\\crypto\\x509v3\\v3_alt.c", 404);
     return 0;
   }
 }

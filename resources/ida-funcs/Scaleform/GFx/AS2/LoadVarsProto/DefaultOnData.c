@@ -1,4 +1,4 @@
-void __cdecl Scaleform::GFx::AS2::LoadVarsProto::DefaultOnData(const Scaleform::GFx::AS2::FnCall *fn)
+void __cdecl Scaleform::GFx::AS2::LoadVarsProto::DefaultOnData(Scaleform::GFx::ASStringNode *a1)
 {
   const Scaleform::GFx::AS2::FnCall *v1; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
@@ -9,16 +9,17 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::DefaultOnData(const Scaleform::
   bool v7; // zf
   Scaleform::GFx::AS2::Environment *v8; // edx
   Scaleform::GFx::AS2::Value *v9; // ecx
-  Scaleform::GFx::ASStringNode *pNode; // ebp
+  Scaleform::GFx::ASStringNode *v10; // ebp
   Scaleform::GFx::AS2::ObjectInterface *v11; // eax
   unsigned __int8 Variables; // al
   void *v13; // esi
   void *v14; // esi
-  Scaleform::GFx::ASString result; // [esp+4h] [ebp-8h] BYREF
-  Scaleform::String str; // [esp+8h] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *v15; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::String v16; // [esp+8h] [ebp-4h] BYREF
 
-  v1 = fn;
-  if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_LoadVars )
+  v1 = (const Scaleform::GFx::AS2::FnCall *)a1;
+  if ( a1->pLower
+    && (*((int (__thiscall **)(Scaleform::GFx::ASStringNode *))a1->pLower->$7DDA6D7E09E348E44B226E8441B9AFBF::pData + 2))(a1->pLower) == 27 )
   {
     ThisPtr = v1->ThisPtr;
     if ( ThisPtr )
@@ -30,9 +31,9 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::DefaultOnData(const Scaleform::
     if ( v1->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
       v5 = &Env->Stack.Pages.Data.Data[(unsigned int)v1->FirstArgBottomIndex >> 5]->Values[v1->FirstArgBottomIndex
                                                                                          & 0x1F];
-    Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
-    v6 = (Scaleform::GFx::ASStringNode *)fn;
-    Scaleform::String::String(&str, (char *)fn->__vftable);
+    Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&a1, Env, -1, 0);
+    v6 = a1;
+    Scaleform::String::String(&v16, (const __m128i *)a1->pData);
     v7 = v6->RefCount-- == 1;
     if ( v7 )
       Scaleform::GFx::ASStringNode::ReleaseNode(v6);
@@ -40,23 +41,23 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::DefaultOnData(const Scaleform::
     v9 = 0;
     if ( v1->FirstArgBottomIndex <= 32 * (v8->Stack.Pages.Data.Size - 1) + v8->Stack.pCurrent - v8->Stack.pPageStart )
       v9 = &v8->Stack.Pages.Data.Data[(unsigned int)v1->FirstArgBottomIndex >> 5]->Values[v1->FirstArgBottomIndex & 0x1F];
-    Scaleform::GFx::AS2::Value::ToStringImpl(v9, &result, v8, -1, 0);
-    pNode = result.pNode;
-    Scaleform::String::String((Scaleform::String *)&fn, (char *)result.pNode->pData);
+    Scaleform::GFx::AS2::Value::ToStringImpl(v9, (Scaleform::GFx::ASString *)&v15, v8, -1, 0);
+    v10 = v15;
+    Scaleform::String::String((Scaleform::String *)&a1, (const __m128i *)v15->pData);
     if ( p_pProto )
       v11 = &p_pProto->Scaleform::GFx::AS2::ObjectInterface;
     else
       v11 = 0;
-    Variables = Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(v1->Env, v11, (Scaleform::String *)&fn);
-    Scaleform::GFx::AS2::LoadVarsObject::NotifyOnLoad(p_pProto, v1->Env, (const Scaleform::GFx::ASString)Variables);
-    v13 = (void *)((unsigned int)fn & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)fn & 0xFFFFFFFC) + 4), -1) == 1 )
+    Variables = Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(v1->Env, v11, (Scaleform::String *)&a1);
+    Scaleform::GFx::AS2::LoadVarsObject::NotifyOnLoad(p_pProto, v1->Env, (Scaleform::GFx::ASStringNode *)Variables);
+    v13 = (void *)((unsigned int)a1 & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)a1 & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
-    v7 = pNode->RefCount-- == 1;
+    v7 = v10->RefCount-- == 1;
     if ( v7 )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-    v14 = (void *)(str.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((str.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v10);
+    v14 = (void *)(v16.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v16.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v14);
   }
   else

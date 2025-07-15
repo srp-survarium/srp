@@ -127,7 +127,7 @@ void __thiscall Scaleform::ArrayUnsafeBase<Scaleform::Render::Texture::UpdateDes
   v3 = cap;
   if ( cap > this->Capacity )
   {
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->Data);
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)this->Data);
     v5 = v3 + extraTail;
     this->Capacity = v3 + extraTail;
     if ( v5 )

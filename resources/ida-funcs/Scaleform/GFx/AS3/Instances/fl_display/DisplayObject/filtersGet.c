@@ -109,7 +109,7 @@ LABEL_10:
         {
           RefCount = as3filter.pObject->RefCount;
           pObject = as3filter.pObject;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             as3filter.pObject->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -133,7 +133,7 @@ LABEL_10:
         return;
       }
       v16 = v14->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+      if ( (v16 & 0x3FFFFF) != 0 )
       {
         v14->RefCount = v16 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v14);

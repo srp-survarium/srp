@@ -118,7 +118,7 @@ void __userpurge Scaleform::GFx::AS3::MovieRoot::GenerateMouseEvents(
   Scaleform::GFx::InteractiveObject *stage; // [esp+78h] [ebp-48h] BYREF
   unsigned int changeMask; // [esp+7Ch] [ebp-44h] BYREF
   Scaleform::GFx::InteractiveObject *v118; // [esp+80h] [ebp-40h]
-  Scaleform::Ptr<Scaleform::GFx::InteractiveObject> v119; // [esp+84h] [ebp-3Ch] BYREF
+  Scaleform::RefCountNTSImpl *v119; // [esp+84h] [ebp-3Ch] BYREF
   Scaleform::Ptr<Scaleform::GFx::InteractiveObject> PrevActiveEntity; // [esp+88h] [ebp-38h]
   float x; // [esp+8Ch] [ebp-34h]
   float y; // [esp+90h] [ebp-30h]
@@ -135,7 +135,7 @@ void __userpurge Scaleform::GFx::AS3::MovieRoot::GenerateMouseEvents(
   ms = v5;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&v5->ActiveEntity,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&changeMask);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&changeMask);
   v6 = changeMask;
   if ( changeMask )
     ++*(_DWORD *)(changeMask + 4);
@@ -144,7 +144,7 @@ void __userpurge Scaleform::GFx::AS3::MovieRoot::GenerateMouseEvents(
     Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)v6);
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)v5,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&changeMask);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&changeMask);
   v7 = (Scaleform::GFx::InteractiveObject *)changeMask;
   if ( changeMask )
     ++*(_DWORD *)(changeMask + 4);
@@ -363,7 +363,7 @@ LABEL_48:
           v42 = v36->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
           HIWORD(TopmostEntity.pObject) = (unsigned __int8)dci;
           OnMouseEvent = v42->OnMouseEvent;
-          evt.WcharCode = (unsigned int)&vostok::memory::s_CRT_arena[5574211];
+          evt.WcharCode = 16777227;
           memset(&evt.KeyCode, 0, 9);
           OnMouseEvent(v36, (const Scaleform::GFx::EventId *)&evt.WcharCode);
           v44 = v37[3].pPlayNext;
@@ -411,7 +411,7 @@ LABEL_85:
       v48 = Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
               ms,
               (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&idx,
-              v45)->pObject;
+              (Scaleform::Ptr<Scaleform::GFx::Sprite>)v45)->pObject;
       if ( idx )
         Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)idx);
       if ( v48 )
@@ -424,7 +424,10 @@ LABEL_85:
         evt.ControllerIndex = mouseIndex;
         evt.RollOverCnt = 0;
         evt.KeysState.States = keyMods;
-        MouseButtonDownEntity = Scaleform::GFx::MouseState::GetMouseButtonDownEntity(v47, &cur, v45);
+        MouseButtonDownEntity = Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
+                                  v47,
+                                  &cur,
+                                  (Scaleform::Ptr<Scaleform::GFx::Sprite>)v45);
         MouseButtonDownEntity->pObject->OnMouseEvent(MouseButtonDownEntity->pObject, &evt);
         if ( cur.pObject )
           Scaleform::RefCountNTSImpl::Release(cur.pObject);
@@ -474,7 +477,7 @@ LABEL_85:
                 v59 = v50->OnMouseEvent;
                 evt.KeysState.States = keyMods;
                 evt.AsciiCode = buttonIdx;
-                evt.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574213];
+                evt.Id = 16777229;
                 evt.WcharCode = 0;
                 evt.KeyCode = 0;
                 evt.MouseWheelDelta = 0;
@@ -497,16 +500,19 @@ LABEL_112:
           v47 = ms;
         }
       }
-      result[3].States = v50 == Scaleform::GFx::MouseState::GetMouseButtonDownEntity(v47, &v119, v45)->pObject;
-      if ( v119.pObject )
-        Scaleform::RefCountNTSImpl::Release(v119.pObject);
+      result[3].States = v50 == Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
+                                  v47,
+                                  (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&v119,
+                                  (Scaleform::Ptr<Scaleform::GFx::Sprite>)v45)->pObject;
+      if ( v119 )
+        Scaleform::RefCountNTSImpl::Release(v119);
       if ( result[3].States )
       {
         evt.ControllerIndex = mouseIndex;
         v61 = v50->OnMouseEvent;
         evt.KeysState.States = keyMods;
         evt.AsciiCode = buttonIdx;
-        evt.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574212];
+        evt.Id = 16777228;
         evt.WcharCode = 0;
         evt.KeyCode = 0;
         evt.MouseWheelDelta = 0;
@@ -537,7 +543,7 @@ LABEL_113:
     mouseUpEvt.MouseWheelDelta = WheelDelta;
     v63 = v118->OnMouseEvent;
     mouseUpEvt.KeysState.States = keyMods;
-    mouseUpEvt.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574214];
+    mouseUpEvt.Id = 16777230;
     memset(&mouseUpEvt.WcharCode, 0, 9);
     mouseUpEvt.RollOverCnt = 0;
     v63(v118, &mouseUpEvt);
@@ -556,7 +562,10 @@ LABEL_113:
     mouseUpEvt.RollOverCnt = 0;
     v67(v118, &mouseUpEvt);
     LOBYTE(dci) = 1;
-    if ( !Scaleform::GFx::MouseState::GetMouseButtonDownEntity(v64, &v119, 0)->pObject
+    if ( !Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
+            v64,
+            (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&v119,
+            0)->pObject
       || (LOBYTE(dci) = 3,
           dblClicka = 1,
           Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
@@ -572,8 +581,8 @@ LABEL_113:
       if ( stage )
         Scaleform::RefCountNTSImpl::Release(stage);
     }
-    if ( ((unsigned __int8)dci & 1) != 0 && v119.pObject )
-      Scaleform::RefCountNTSImpl::Release(v119.pObject);
+    if ( ((unsigned __int8)dci & 1) != 0 && v119 )
+      Scaleform::RefCountNTSImpl::Release(v119);
     if ( dblClicka )
     {
       evt.Id = 8;
@@ -709,7 +718,7 @@ LABEL_151:
       LOBYTE(TopmostEntity.pObject) = v84;
       BYTE1(TopmostEntity.pObject) = a4;
       HIWORD(TopmostEntity.pObject) = (unsigned __int8)dci;
-      evt.WcharCode = (unsigned int)&vostok::memory::s_CRT_arena[5574210];
+      evt.WcharCode = 16777226;
       memset(&evt.KeyCode, 0, 9);
       v85(v81, (const Scaleform::GFx::EventId *)&evt.WcharCode);
       Data = (Scaleform::RefCountNTSImpl *)v71[38].Data.Data;

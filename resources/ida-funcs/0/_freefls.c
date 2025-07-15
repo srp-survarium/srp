@@ -2,7 +2,6 @@ void __stdcall _freefls(void *data)
 {
   threadmbcinfostruct *v1; // edi
   threadlocaleinfostruct *v2; // edi
-  int savedregs; // [esp+28h] [ebp+0h]
 
   if ( data )
   {
@@ -35,7 +34,6 @@ void __stdcall _freefls(void *data)
       if ( v2 != __ptlocinfo && v2 != &__initiallocinfo && !v2->refcount )
         __freetlocinfo(v2);
     }
-    savedregs = 1656856;
     _unlock(12);
     free(data);
   }

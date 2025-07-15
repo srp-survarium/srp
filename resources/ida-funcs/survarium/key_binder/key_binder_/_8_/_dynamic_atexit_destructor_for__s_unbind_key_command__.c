@@ -1,5 +1,8 @@
 void __thiscall survarium::key_binder::key_binder_::_8_::_dynamic_atexit_destructor_for__s_unbind_key_command__(
-        vostok::console_commands::cc_delegate *this)
+        boost::function1<void,vostok::sound::create_sound_propagator_params const &> *this)
 {
-  vostok::console_commands::cc_delegate::~cc_delegate(this, (survarium::keyboard_key_descr ***)&s_unbind_key_command);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    this,
+    (int *)&s_unbind_key_command.m_functor);
+  vostok::console_commands::console_command::~console_command(&s_unbind_key_command);
 }

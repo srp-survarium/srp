@@ -17,7 +17,7 @@ int __usercall ssl3_add_cert_to_buf@<eax>(unsigned int *l@<esi>, x509_st *x@<edi
   }
   else
   {
-    ERR_put_error(0x14u, 296, 7, ".\\ssl\\s3_both.c", 307);
+    ERR_put_error(v3, 0x14u, 296, 7, ".\\ssl\\s3_both.c", 307);
     return -1;
   }
 }

@@ -1,37 +1,33 @@
-void __usercall ogg_page_checksum_set(ogg_page *og@<eax>)
+void __fastcall ogg_page_checksum_set(int a1, ogg_page *og)
 {
-  int v2; // edx
-  unsigned __int8 *header; // ecx
+  unsigned __int8 *header; // eax
   int header_len; // esi
-  unsigned int v5; // eax
-  int body_len; // esi
-  unsigned __int8 *body; // edi
+  unsigned int v4; // ecx
+  int v5; // esi
+  unsigned __int8 *body; // edx
+  int i; // [esp+4h] [ebp-4h]
+  int body_len; // [esp+4h] [ebp-4h]
 
-  v2 = 0;
   if ( og )
   {
     header = og->header;
-    header[22] = 0;
     header_len = og->header_len;
+    header[22] = 0;
     header[23] = 0;
-    v5 = 0;
+    v4 = 0;
     header[24] = 0;
     header[25] = 0;
-    if ( header_len > 0 )
-    {
-      do
-        v5 = crc_lookup[HIBYTE(v5) ^ header[v2++]] ^ (v5 << 8);
-      while ( v2 < header_len );
-      v2 = 0;
-    }
+    for ( i = 0; i < header_len; ++i )
+      v4 = crc_lookup[HIBYTE(v4) ^ header[i]] ^ (v4 << 8);
+    v5 = 0;
     body_len = og->body_len;
     if ( body_len > 0 )
     {
       body = og->body;
       do
-        v5 = crc_lookup[HIBYTE(v5) ^ body[v2++]] ^ (v5 << 8);
-      while ( v2 < body_len );
+        v4 = crc_lookup[HIBYTE(v4) ^ body[v5++]] ^ (v4 << 8);
+      while ( v5 < body_len );
     }
-    *(_DWORD *)(header + 22) = v5;
+    *(_DWORD *)(header + 22) = v4;
   }
 }

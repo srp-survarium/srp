@@ -6,7 +6,7 @@ char __thiscall Scaleform::GFx::AS2::AvmSprite::HasEventHandler(
   Scaleform::GFx::AS2::MovieClipObject *pObject; // eax
   Scaleform::GFx::ASStringNode *v5; // eax
   Scaleform::GFx::ASStringNode *v7; // eax
-  Scaleform::GFx::AS2::Value method; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v8; // [esp+Ch] [ebp-10h] BYREF
 
   v2 = id;
   if ( Scaleform::GFx::AS2::AvmCharacter::HasClipEventHandler(this, id) )
@@ -18,25 +18,25 @@ char __thiscall Scaleform::GFx::AS2::AvmSprite::HasEventHandler(
   if ( id[1].Id )
   {
     pObject = this->ASMovieClipObj.pObject;
-    method.T.Type = 0;
+    v8.T.Type = 0;
     if ( pObject || (pObject = (Scaleform::GFx::AS2::MovieClipObject *)this->pProto.pObject) != 0 )
     {
       if ( pObject->GetMemberRaw(
              &pObject->Scaleform::GFx::AS2::ObjectInterface,
              &this->ASEnvironment.StringContext,
              (const Scaleform::GFx::ASString *)&id,
-             &method) )
+             &v8) )
       {
-        if ( method.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&method);
+        if ( v8.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v8);
         v5 = (Scaleform::GFx::ASStringNode *)id;
         --id->TouchID;
         if ( !v5->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v5);
         return 1;
       }
-      if ( method.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&method);
+      if ( v8.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v8);
     }
   }
   v7 = (Scaleform::GFx::ASStringNode *)id;

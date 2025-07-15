@@ -1,6 +1,6 @@
 Scaleform::GFx::MovieDefImpl *__thiscall Scaleform::GFx::LoaderImpl::CreateMovie(
         Scaleform::GFx::LoaderImpl *this,
-        char *pfilename,
+        const __m128i *pfilename,
         unsigned int loadConstants,
         unsigned int memoryArena)
 {
@@ -13,7 +13,7 @@ Scaleform::GFx::MovieDefImpl *__thiscall Scaleform::GFx::LoaderImpl::CreateMovie
   v5 = (Scaleform::GFx::LoadStates *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 80, 0);
   if ( v5 )
   {
-    Scaleform::GFx::LoadStates::LoadStates(v5, this, 0, 0);
+    Scaleform::GFx::LoadStates::LoadStates(v5, (Scaleform::GFx::Resource *)this, 0, 0);
     v7 = v6;
   }
   else

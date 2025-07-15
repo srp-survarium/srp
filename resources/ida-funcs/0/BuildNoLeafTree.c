@@ -4,43 +4,40 @@ void __cdecl BuildNoLeafTree(
         unsigned int *current_id,
         const Opcode::AABBTreeNode *current_node)
 {
-  const Opcode::AABBTreeNode *v7; // ecx
-  Opcode::AABBNoLeafNode *v8; // esi
-  float z; // edx
-  IceMaths::Point *p_mExtents; // eax
-  unsigned int v11; // eax
-  unsigned int v12; // ecx
-  const Opcode::AABBTreeNode *N; // [esp+14h] [ebp+4h]
+  const Opcode::AABBTreeNode *v5; // ecx
+  const Opcode::AABBTreeNode *v6; // ebx
+  Opcode::AABBNoLeafNode *v7; // eax
+  unsigned int v8; // edx
+  unsigned int v9; // ecx
 
   while ( 1 )
   {
-    v7 = (const Opcode::AABBTreeNode *)(current_node->mPos & 0xFFFFFFFE);
-    N = v7 ? &v7[1] : 0;
-    v8 = &linear[box_id];
-    v8->mAABB.mCenter.x = current_node->mBV.mCenter.x;
-    v8->mAABB.mCenter.y = current_node->mBV.mCenter.y;
-    z = current_node->mBV.mCenter.z;
-    p_mExtents = &current_node->mBV.mExtents;
-    v8->mAABB.mCenter.z = z;
-    v8->mAABB.mExtents.x = p_mExtents->x;
-    v8->mAABB.mExtents.y = p_mExtents->y;
-    v8->mAABB.mExtents.z = p_mExtents->z;
-    if ( (v7->mPos & 0xFFFFFFFE) != 0 )
+    v5 = (const Opcode::AABBTreeNode *)(current_node->mPos & 0xFFFFFFFE);
+    v6 = v5 != 0 ? &v5[1] : 0;
+    v7 = &linear[box_id];
+    v7->mAABB.mCenter.x = current_node->mBV.mCenter.x;
+    v7->mAABB.mCenter.y = current_node->mBV.mCenter.y;
+    v7->mAABB.mCenter.z = current_node->mBV.mCenter.z;
+    v7->mAABB.mExtents.x = current_node->mBV.mExtents.x;
+    v7->mAABB.mExtents.y = current_node->mBV.mExtents.y;
+    v7->mAABB.mExtents.z = current_node->mBV.mExtents.z;
+    if ( (v5->mPos & 0xFFFFFFFE) != 0 )
     {
-      v11 = (*current_id)++;
-      v8->mPosData = (unsigned int)&linear[v11];
-      BuildNoLeafTree(linear, v11, current_id, v7);
+      v8 = (*current_id)++;
+      v7->mPosData = (unsigned int)&linear[v8];
+      BuildNoLeafTree(linear, v8, current_id, v5);
+      v7 = &linear[box_id];
     }
     else
     {
-      v8->mPosData = (2 * *v7->mNodePrimitives) | 1;
+      v7->mPosData = (2 * *v5->mNodePrimitives) | 1;
     }
-    current_node = N;
-    if ( (N->mPos & 0xFFFFFFFE) == 0 )
+    if ( (v6->mPos & 0xFFFFFFFE) == 0 )
       break;
-    v12 = (*current_id)++;
-    v8->mNegData = (unsigned int)&linear[v12];
-    box_id = v12;
+    v9 = (*current_id)++;
+    box_id = v9;
+    v7->mNegData = (unsigned int)&linear[v9];
+    current_node = v6;
   }
-  linear[box_id].mNegData = (2 * *N->mNodePrimitives) | 1;
+  linear[box_id].mNegData = (2 * *v6->mNodePrimitives) | 1;
 }

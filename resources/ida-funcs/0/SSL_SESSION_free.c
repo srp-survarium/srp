@@ -1,11 +1,11 @@
-void __usercall SSL_SESSION_free(unsigned int a1@<edi>, ssl_session_st *ss)
+void __usercall SSL_SESSION_free(int a1@<edi>, int a2@<ebx>, ssl_session_st *ss)
 {
   unsigned __int8 *tlsext_ecpointformatlist; // eax
   unsigned __int8 *tlsext_ellipticcurvelist; // eax
 
   if ( ss && CRYPTO_add_lock(&ss->references, -1, 14, ".\\ssl\\ssl_sess.c", 695) <= 0 )
   {
-    CRYPTO_free_ex_data(a1);
+    CRYPTO_free_ex_data(a1, a2);
     OPENSSL_cleanse(ss->key_arg, 8);
     OPENSSL_cleanse(ss->master_key, 48);
     OPENSSL_cleanse(ss->session_id, 32);

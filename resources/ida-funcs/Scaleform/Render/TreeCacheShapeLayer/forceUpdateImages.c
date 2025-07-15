@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::forceUpdateImages(Scalef
   Scaleform::Render::MeshKey *pObject; // ecx
   Scaleform::Render::TreeCacheRoot *pRoot; // ecx
   Scaleform::Render::TreeCacheNode *pParent; // esi
-  Scaleform::Render::SortKey sk; // [esp+14h] [ebp-8h] BYREF
+  Scaleform::Render::SortKey v11; // [esp+14h] [ebp-8h] BYREF
 
   pNode = this->pNode;
   if ( pNode )
@@ -28,7 +28,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::forceUpdateImages(Scalef
   else
     v5 = this->pParent->Scaleform::Render::TreeCacheMeshBase::Scaleform::Render::TreeCacheNode::pNode;
   Scaleform::Render::TreeCacheShapeLayer::CreateSortKey(
-    &sk,
+    &v11,
     this,
     v4,
     this->Layer,
@@ -39,7 +39,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::forceUpdateImages(Scalef
                           + 20)
               & 0xFFFFFFFE)
              + 148));
-  if ( sk.pImpl == this->SorterShapeNode.Key.pImpl && sk.Data == this->SorterShapeNode.Key.Data )
+  if ( v11.pImpl == this->SorterShapeNode.Key.pImpl && v11.Data == this->SorterShapeNode.Key.Data )
   {
     if ( this->pMeshKey.pObject )
       Scaleform::Render::TreeCacheShapeLayer::updateTexture0Matrix(this);
@@ -47,11 +47,11 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::forceUpdateImages(Scalef
   else
   {
     Scaleform::Render::BundleEntry::ClearBundle(&this->SorterShapeNode);
-    sk.pImpl->AddRef(sk.pImpl, sk.Data);
+    v11.pImpl->AddRef(v11.pImpl, v11.Data);
     this->SorterShapeNode.Key.pImpl->Release(this->SorterShapeNode.Key.pImpl, this->SorterShapeNode.Key.Data);
-    pImpl = sk.pImpl;
-    Data = sk.Data;
-    this->SorterShapeNode.Key.pImpl = sk.pImpl;
+    pImpl = v11.pImpl;
+    Data = v11.Data;
+    this->SorterShapeNode.Key.pImpl = v11.pImpl;
     this->SorterShapeNode.Key.Data = Data;
     this->ComplexShape = pImpl->Type == SortKey_MeshProvider;
     pObject = this->pMeshKey.pObject;
@@ -63,11 +63,8 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::forceUpdateImages(Scalef
     {
       pParent = this->pParent;
       if ( pParent )
-        Scaleform::Render::TreeCacheRoot::AddToUpdate(
-          pRoot,
-          pParent,
-          (unsigned int)&vostok::memory::s_CRT_arena[5575225]);
+        Scaleform::Render::TreeCacheRoot::AddToUpdate(pRoot, pParent, 0x1000401u);
     }
   }
-  sk.pImpl->Release(sk.pImpl, sk.Data);
+  v11.pImpl->Release(v11.pImpl, v11.Data);
 }

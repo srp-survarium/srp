@@ -1,48 +1,69 @@
-void __usercall vostok::ui::ui_text_edit::move_cursor(vostok::ui::ui_text_edit *this@<ecx>, int a2@<eax>)
+void __usercall vostok::ui::ui_text_edit::move_cursor(
+        vostok::ui::ui_text_edit *this@<esi>,
+        vostok::ui::enum_cursor_moving action@<eax>,
+        vostok::ui::ui_text_edit *a3@<ecx>)
 {
-  vostok::ui::ui_text_edit *v2; // esi
-  unsigned __int16 m_caret_pos; // ax
-  unsigned __int16 v4; // ax
-  unsigned __int16 v5; // ax
+  unsigned __int16 v3; // bx
+  int v4; // eax
+  int v5; // eax
+  int v6; // eax
+  unsigned __int16 *p_m_caret_pos; // eax
+  vostok::ui::ui_text_edit *m_caret_pos; // ecx
+  unsigned __int16 v9; // di
+  unsigned __int16 i; // ax
+  vostok::ui::ui_text_edit *v11; // ecx
 
-  v2 = this;
-  switch ( a2 )
+  v3 = 0;
+  if ( action == cr_left )
   {
-    case 0:
-      m_caret_pos = this->m_caret_pos;
-      if ( m_caret_pos )
+    p_m_caret_pos = &this->m_caret_pos;
+    m_caret_pos = (vostok::ui::ui_text_edit *)this->m_caret_pos;
+    if ( !(_WORD)m_caret_pos )
+      return;
+    if ( (this->m_shift_state.m_data.dummy & 3) != 0 )
+    {
+      v9 = *p_m_caret_pos;
+      if ( *p_m_caret_pos )
       {
-        LOBYTE(this) = (this->m_shift_state.m_data.dummy & 3) != 0;
-        if ( (v2->m_shift_state.m_data.dummy & 3) != 0 )
+        for ( i = (unsigned __int16)vostok::ui::ui_text_edit::calc_right_word_position(m_caret_pos, (int)this, 0);
+              v9 > i;
+              i = (unsigned __int16)vostok::ui::ui_text_edit::calc_right_word_position(v11, (int)this, i) )
         {
-          v4 = vostok::ui::ui_text_edit::calc_left_word_position(this, (int)v2, v2->m_caret_pos);
-          v2->set_caret_position(v2, v4, 1);
+          v3 = i;
         }
-        else
-        {
-          v2->set_caret_position(v2, m_caret_pos - 1, 1);
-        }
-      }
-      break;
-    case 1:
-      if ( (this->m_shift_state.m_data.dummy & 3) != 0 )
-      {
-        v5 = vostok::ui::ui_text_edit::calc_right_word_position(
-               (vostok::ui::ui_text_edit *)this->m_caret_pos,
-               (int)this,
-               this->m_caret_pos);
-        v2->set_caret_position(v2, v5, 1);
+        LOWORD(v6) = v3;
       }
       else
       {
-        this->set_caret_position(this, this->m_caret_pos + 1, 1);
+        LOWORD(v6) = 0;
       }
-      break;
-    case 2:
-      this->set_caret_position(this, 0, 1);
-      break;
-    case 3:
+      v6 = (unsigned __int16)v6;
+    }
+    else
+    {
+      v6 = (unsigned __int16)m_caret_pos - 1;
+    }
+    goto LABEL_21;
+  }
+  v4 = action - 1;
+  if ( !v4 )
+  {
+    if ( (this->m_shift_state.m_data.dummy & 3) != 0 )
+      v6 = (unsigned __int16)vostok::ui::ui_text_edit::calc_right_word_position(a3, (int)this, this->m_caret_pos);
+    else
+      v6 = this->m_caret_pos + 1;
+LABEL_21:
+    this->set_caret_position(this, v6, 1);
+    return;
+  }
+  v5 = v4 - 1;
+  if ( v5 )
+  {
+    if ( v5 == 1 )
       this->set_caret_position(this, LOWORD(this->m_text.m_text.m_end) - LOWORD(this->m_text.m_text.m_begin), 1);
-      break;
+  }
+  else
+  {
+    this->set_caret_position(this, 0, 1);
   }
 }

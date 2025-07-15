@@ -1,4 +1,5 @@
-int __cdecl EVP_PKEY_sign(
+int __usercall EVP_PKEY_sign@<eax>(
+        int a1@<ebx>,
         evp_pkey_ctx_st *ctx,
         unsigned __int8 *sig,
         unsigned int *siglen,
@@ -6,26 +7,26 @@ int __cdecl EVP_PKEY_sign(
         unsigned int tbslen)
 {
   const evp_pkey_method_st *pmeth; // eax
-  unsigned int v7; // eax
+  unsigned int v8; // eax
 
   if ( ctx && (pmeth = ctx->pmeth) != 0 && pmeth->sign )
   {
     if ( ctx->operation != 8 )
     {
-      ERR_put_error(6u, 140, 151, ".\\crypto\\evp\\pmeth_fn.c", 112);
+      ERR_put_error(a1, 6u, 140, 151, ".\\crypto\\evp\\pmeth_fn.c", 112);
       return -1;
     }
     if ( (pmeth->flags & 2) == 0 )
       return ctx->pmeth->sign(ctx, sig, siglen, tbs, tbslen);
-    v7 = EVP_PKEY_size(ctx->pkey);
+    v8 = EVP_PKEY_size(ctx->pkey);
     if ( !sig )
     {
-      *siglen = v7;
+      *siglen = v8;
       return 1;
     }
-    if ( *siglen < v7 )
+    if ( *siglen < v8 )
     {
-      ERR_put_error(6u, 140, 155, ".\\crypto\\evp\\pmeth_fn.c", 115);
+      ERR_put_error((int)siglen, 6u, 140, 155, ".\\crypto\\evp\\pmeth_fn.c", 115);
       return 0;
     }
     else
@@ -35,7 +36,7 @@ int __cdecl EVP_PKEY_sign(
   }
   else
   {
-    ERR_put_error(6u, 140, 150, ".\\crypto\\evp\\pmeth_fn.c", 107);
+    ERR_put_error(a1, 6u, 140, 150, ".\\crypto\\evp\\pmeth_fn.c", 107);
     return -2;
   }
 }

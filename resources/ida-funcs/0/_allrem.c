@@ -1,9 +1,9 @@
-unsigned __int64 __stdcall _allrem(unsigned __int64 a1, __int64 a2)
+signed __int64 __stdcall _allrem(signed __int64 a1, __int64 a2)
 {
   int v2; // edi
   int v3; // eax
   unsigned __int64 v4; // rtt
-  unsigned __int64 result; // rax
+  signed __int64 result; // rax
   unsigned __int64 v6; // rcx
   unsigned __int64 v7; // rax
   unsigned int v8; // eax
@@ -12,7 +12,7 @@ unsigned __int64 __stdcall _allrem(unsigned __int64 a1, __int64 a2)
   unsigned __int64 v11; // rax
 
   v2 = 0;
-  if ( (a1 & 0x8000000000000000uLL) != 0LL )
+  if ( a1 < 0 )
   {
     v2 = 1;
     HIDWORD(a1) = -HIDWORD(a1) - ((_DWORD)a1 != 0);
@@ -32,7 +32,7 @@ unsigned __int64 __stdcall _allrem(unsigned __int64 a1, __int64 a2)
     result = v4 % (unsigned int)a2;
     if ( v2 - 1 < 0 )
       return result;
-    return -(__int64)result;
+    return -result;
   }
   v6 = __PAIR64__(v3, a2);
   v7 = a1;
@@ -51,6 +51,6 @@ unsigned __int64 __stdcall _allrem(unsigned __int64 a1, __int64 a2)
     v11 -= a2;
   result = v11 - a1;
   if ( v2 - 1 < 0 )
-    return -(__int64)result;
+    return -result;
   return result;
 }

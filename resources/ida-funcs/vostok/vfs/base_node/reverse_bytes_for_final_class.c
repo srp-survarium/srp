@@ -1,80 +1,92 @@
-void __thiscall vostok::vfs::base_node<1>::reverse_bytes_for_final_class(
-        vostok::vfs::base_node<1> *this,
-        vostok::vfs::reverse_direction_enum direction)
+void __usercall vostok::vfs::base_node<1>::reverse_bytes_for_final_class(
+        vostok::vfs::base_node<1> *this@<ecx>,
+        char *a2@<eax>)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::game_camera *v3; // ecx
-  survarium::game_camera *v4; // ecx
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  vostok::vfs::archive_file_node<1> *archive_file; // [esp+2ACh] [ebp-20h]
-  vostok::vfs::archive_compressed_file_node<1> *compressed_file; // [esp+2B0h] [ebp-1Ch]
-  vostok::vfs::archive_inline_file_node<1> *inline_file; // [esp+2B4h] [ebp-18h]
-  vostok::vfs::archive_inline_compressed_file_node<1> *compressed_inline_file; // [esp+2B8h] [ebp-14h]
-  vostok::vfs::base_folder_node<1> *folder; // [esp+2BCh] [ebp-10h]
-  vostok::vfs::hard_link_node<1> *res; // [esp+2C0h] [ebp-Ch]
-  vostok::vfs::soft_link_node<1> *link; // [esp+2C4h] [ebp-8h]
-  vostok::vfs::external_subfat_node<1> *node; // [esp+2C8h] [ebp-4h]
+  char *v2; // esi
+  char *v3; // ebx
+  __int16 v4; // ax
+  char *v5; // esi
+  vostok::vfs::base_node<1> *v6; // ecx
+  char *v7; // esi
+  vostok::vfs::archive_file_node_base<1> *v8; // ecx
+  char *v9; // ecx
+  char *v10; // edi
+  char *v11; // esi
+  vostok::vfs::archive_file_node_base<1> *v12; // ecx
+  char *v13; // ecx
+  char *v14; // edi
+  char *v15; // esi
+  vostok::vfs::archive_file_node_base<1> *v16; // ecx
+  char *v17; // esi
+  vostok::vfs::archive_file_node_base<1> *v18; // ecx
 
-  if ( direction == reverse_direction_to_native )
-    vostok::vfs::reverse_bytes<unsigned short>(&this->m_flags);
-  if ( (this->m_flags & 0x1000) == 0x1000 )
+  v2 = a2;
+  v3 = a2 + 48;
+  stlp_std::reverse<char *>(a2 + 48, a2 + 50);
+  v4 = *(_WORD *)v3;
+  if ( (*(_WORD *)v3 & 0x1000) == 0x1000 )
   {
-    node = vostok::vfs::node_cast<vostok::vfs::external_subfat_node,vostok::vfs::base_node,1>(this);
-    vostok::vfs::reverse_bytes<vostok::platform_pointer_selector<char,1>::helper>((vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper *)node);
-    vostok::vfs::reverse_bytes<vostok::vfs::vfs_reader_writer_lock>((vostok::vfs::vfs_reader_writer_lock *)&node->external_fat_size);
-    vostok::vfs::base_node<1>::reverse_bytes(&node->base);
+    v5 = v2 - 16;
+LABEL_3:
+    stlp_std::reverse<char *>(v5, v5 + 8);
+    stlp_std::reverse<char *>(v5 + 8, v5 + 12);
+    v2 = v5 + 16;
+    goto LABEL_22;
   }
-  else if ( (this->m_flags & 0x100) == 0x100 )
+  if ( (v4 & 0x100) == 0x100 || (v4 & 0x200) == 0x200 )
   {
-    link = (vostok::vfs::soft_link_node<1> *)vostok::vfs::node_cast<vostok::vfs::soft_link_node,vostok::vfs::base_node,1>(this);
-    vostok::vfs::reverse_bytes<vostok::platform_pointer_selector<char,1>::helper>((vostok::platform_pointer_selector<vostok::vfs::base_node<1>,1>::helper *)link);
-    vostok::vfs::base_node<1>::reverse_bytes(&link->base);
+    stlp_std::reverse<char *>(v2 - 8, v2);
+    goto LABEL_22;
   }
-  else if ( (this->m_flags & 0x200) == 0x200 )
+  if ( (v4 & 1) != 0 )
   {
-    res = vostok::vfs::node_cast<vostok::vfs::soft_link_node,vostok::vfs::base_node,1>(this);
-    vostok::vfs::reverse_bytes<vostok::platform_pointer_selector<char,1>::helper>(&res->referenced);
-    vostok::vfs::base_node<1>::reverse_bytes(&res->base);
+    v5 = (char *)vostok::vfs::cast_folder<1>((vostok::vfs::base_node<1> *)v2);
+    goto LABEL_3;
   }
-  else if ( (this->m_flags & 1) == 1 )
+  if ( (v4 & 0x40) != 0 )
   {
-    folder = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(this);
-    survarium::weapon_user_dead_state::finalize(v2);
-    vostok::vfs::reverse_bytes<vostok::platform_pointer_selector<char,1>::helper>(&folder->m_first_child);
-    vostok::vfs::reverse_bytes<vostok::vfs::vfs_reader_writer_lock>(&folder->m_readers_writers_counters);
-    vostok::vfs::base_node<1>::reverse_bytes(&folder->base);
-  }
-  else if ( (this->m_flags & 0x40) == 0x40 )
-  {
-    if ( (this->m_flags & 0x10) == 0x10 )
+    if ( (v4 & 0x10) != 0 )
     {
-      compressed_inline_file = vostok::vfs::node_cast<vostok::vfs::archive_inline_compressed_file_node,vostok::vfs::base_node,1>(this);
-      survarium::weapon_user_dead_state::finalize(v3);
-      vostok::vfs::archive_inline_compressed_file_node<1>::reverse_bytes(compressed_inline_file);
+      v7 = (char *)vostok::vfs::node_cast<vostok::vfs::archive_inline_compressed_file_node,vostok::vfs::base_node,1>((vostok::vfs::base_node<1> *)v2);
+      vostok::vfs::archive_file_node_base<1>::reverse_bytes(v8, v7);
+      if ( v7 )
+        v9 = v7 + 24;
+      else
+        v9 = 0;
+      v10 = v9 + 8;
+      stlp_std::reverse<char *>(v9, v9 + 8);
+      stlp_std::reverse<char *>(v10, v10 + 4);
+      stlp_std::reverse<char *>(v7 + 40, v7 + 44);
+      v2 = v7 + 48;
     }
     else
     {
-      inline_file = vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(this);
-      survarium::weapon_user_dead_state::finalize(v4);
-      vostok::vfs::archive_inline_file_node<1>::reverse_bytes(inline_file);
+      v11 = (char *)vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>((vostok::vfs::base_node<1> *)v2);
+      vostok::vfs::archive_file_node_base<1>::reverse_bytes(v12, v11);
+      if ( v11 )
+        v13 = v11 + 24;
+      else
+        v13 = 0;
+      v14 = v13 + 8;
+      stlp_std::reverse<char *>(v13, v13 + 8);
+      stlp_std::reverse<char *>(v14, v14 + 4);
+      v2 = v11 + 40;
     }
   }
-  else if ( (this->m_flags & 2) != 2 )
+  else if ( (v4 & 0x10) != 0 )
   {
-    if ( (this->m_flags & 0x10) == 0x10 )
-    {
-      compressed_file = vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(this);
-      survarium::weapon_user_dead_state::finalize(v5);
-      vostok::vfs::archive_compressed_file_node<1>::reverse_bytes(compressed_file);
-    }
-    else
-    {
-      archive_file = vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>(this);
-      survarium::weapon_user_dead_state::finalize(v6);
-      vostok::vfs::archive_file_node<1>::reverse_bytes(archive_file);
-    }
+    v15 = (char *)vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>((vostok::vfs::base_node<1> *)v2);
+    vostok::vfs::archive_file_node_base<1>::reverse_bytes(v16, v15);
+    stlp_std::reverse<char *>(v15 + 24, v15 + 28);
+    v2 = v15 + 32;
   }
-  if ( direction == reverse_direction_to_native )
-    vostok::vfs::reverse_bytes<unsigned short>(&this->m_flags);
+  else
+  {
+    v17 = (char *)vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>((vostok::vfs::base_node<1> *)v2);
+    vostok::vfs::archive_file_node_base<1>::reverse_bytes(v18, v17);
+    v2 = v17 + 24;
+  }
+LABEL_22:
+  vostok::vfs::base_node<1>::reverse_bytes(v6, v2);
+  stlp_std::reverse<char *>(v3, v3 + 2);
 }

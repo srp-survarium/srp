@@ -1,111 +1,63 @@
-void __thiscall survarium::lobby_menu::update_status(survarium::lobby_menu *this, survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::update_status(survarium::lobby_menu *this, int a2)
 {
-  survarium::game *m_game; // eax
-  survarium::lobby_client *v3; // esi
-  vostok::network::login_client *v4; // esi
+  int v3; // esi
+  int v4; // eax
   int v5; // eax
-  survarium::flash_movie_resource *m_object; // edx
-  int v7; // edi
-  char *v8; // eax
-  survarium::flash_value account_info; // [esp+2Ch] [ebp-180h] BYREF
-  survarium::flash_value b_val; // [esp+44h] [ebp-168h] BYREF
-  survarium::flash_value port; // [esp+5Ch] [ebp-150h] BYREF
-  survarium::flash_value log_message; // [esp+74h] [ebp-138h] BYREF
-  vostok::fixed_string<128> buff; // [esp+8Ch] [ebp-120h] BYREF
-  char v14; // [esp+118h] [ebp-94h] BYREF
-  vostok::fixed_string<128> status_str; // [esp+11Ch] [ebp-90h] BYREF
-  char v16; // [esp+1A8h] [ebp-4h] BYREF
+  survarium::flash_value *v6; // ecx
+  survarium::lobby_menu *v7; // ecx
+  char v8[128]; // [esp+1Ch] [ebp-168h] BYREF
+  char *value[3]; // [esp+A0h] [ebp-E4h] BYREF
+  _BYTE v10[128]; // [esp+ACh] [ebp-D8h] BYREF
+  char v11; // [esp+12Ch] [ebp-58h] BYREF
+  Scaleform::GFx::Value v12; // [esp+134h] [ebp-50h] BYREF
+  survarium::flash_value v13; // [esp+14Ch] [ebp-38h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+164h] [ebp-20h] BYREF
+  int v15; // [esp+17Ch] [ebp-8h]
+  int v16; // [esp+18Ch] [ebp+8h]
 
-  status_str.m_begin = status_str.m_buffer;
-  m_game = thisa->m_game;
-  status_str.m_end = status_str.m_buffer;
-  status_str.m_max_end = &v16;
-  status_str.m_buffer[0] = 0;
-  *(_DWORD *)b_val.body = 0;
-  *(_DWORD *)&b_val.body[4] = 2;
-  b_val.body[8] = 0;
-  v3 = m_game->m_network_client->lobby_client(m_game->m_network_client);
-  if ( survarium::lobby_client::status(v3, &status_str) == surf_lobby_menu )
-  {
-    *(_DWORD *)&b_val.body[4] = 2;
-    b_val.body[8] = 1;
-  }
-  v4 = thisa->m_game->m_network_client->login_client(thisa->m_game->m_network_client);
-  v5 = (int)thisa->m_game->m_network_client->lobby_client(thisa->m_game->m_network_client);
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)account_info.body = 0;
-  *(_DWORD *)&account_info.body[4] = 0;
-  v7 = v5;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&account_info);
-  v8 = vostok::network::login_client::account_name(v4);
-  survarium::flash_value::SetElement(&account_info, v8, 0);
-  survarium::flash_value::SetElement(&account_info, v4->m_server_host, 1u);
-  *(_DWORD *)&port.body[4] = 0;
-  *(_DWORD *)port.body = 0;
-  *(_DWORD *)&port.body[8] = v4->m_server_port;
-  *(_DWORD *)&port.body[4] = 4;
-  (*(void (__thiscall **)(_DWORD, _DWORD, int, survarium::flash_value *))(**(_DWORD **)account_info.body + 52))(
-    *(_DWORD *)account_info.body,
-    *(_DWORD *)&account_info.body[8],
-    2,
-    &port);
-  buff.m_end = buff.m_buffer;
-  buff.m_begin = buff.m_buffer;
-  buff.m_max_end = &v14;
-  buff.m_buffer[0] = 0;
-  vostok::buffer_string::assignf(&buff, "%s:%d", (const char *)(v7 + 42), *(unsigned __int16 *)(v7 + 40));
-  survarium::flash_value::SetElement(&account_info, buff.m_begin, 3u);
+  v3 = a2 + 160;
+  v4 = *(_DWORD *)(a2 + 160);
+  v8[0] = 0;
+  v16 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v4 + 13912) + 56))(*(_DWORD *)(v4 + 13912));
+  v15 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)v3 + 13912) + 60))(*(_DWORD *)(*(_DWORD *)v3 + 13912));
+  v5 = *(_DWORD *)(a2 + 1600);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v5 + 264) + 4), &pvalue);
+  survarium::flash_value::SetElement((survarium::flash_value *)&pvalue, s_net_client_account_name, 0);
+  survarium::flash_value::SetElement((survarium::flash_value *)&pvalue, (const char *)(v16 + 340), 1u);
+  v12.pObjectInterface = 0;
+  v12.Type = VT_Undefined;
+  survarium::flash_value::SetUInt(v6, (int)&v12, *(unsigned __int16 *)(v16 + 404));
+  pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, 2u, &v12);
+  value[0] = v10;
+  value[1] = v10;
+  value[2] = &v11;
+  v10[0] = 0;
+  vostok::fs_new::path_string_impl::assignf(
+    value,
+    (vostok::buffer_string *)*(unsigned __int16 *)(v15 + 72),
+    (vostok::buffer_string *)"%s:%d",
+    (const char *)(v15 + 74),
+    *(unsigned __int16 *)(v15 + 72));
+  survarium::flash_value::SetElement((survarium::flash_value *)&pvalue, value[0], 3u);
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
     "root.lobby_menu.set_account_info",
     0,
-    (const Scaleform::GFx::Value *)&account_info,
+    &pvalue,
     1u);
-  *(_DWORD *)log_message.body = 0;
-  *(_DWORD *)&log_message.body[4] = 0;
-  survarium::flash_value::SetString(&log_message, status_str.m_begin);
+  *(_DWORD *)v13.body = 0;
+  *(_DWORD *)&v13.body[4] = 0;
+  survarium::flash_value::SetString(&v13, v8);
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_lobby_menu_ui.m_object->movie->m_movie,
-    "root.lock_play_button",
-    0,
-    (const Scaleform::GFx::Value *)&b_val,
-    1u);
-  Scaleform::GFx::Movie::Invoke(
-    thisa->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
     "root.set_status_info",
     0,
-    (const Scaleform::GFx::Value *)&log_message,
+    (const Scaleform::GFx::Value *)&v13,
     1u);
-  if ( (log_message.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)log_message.body + 8))(
-      *(_DWORD *)log_message.body,
-      &log_message,
-      *(_DWORD *)&log_message.body[8]);
-    *(_DWORD *)log_message.body = 0;
-  }
-  *(_DWORD *)&log_message.body[4] = 0;
-  if ( (port.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)port.body + 8))(
-      *(_DWORD *)port.body,
-      &port,
-      *(_DWORD *)&port.body[8]);
-    *(_DWORD *)port.body = 0;
-  }
-  *(_DWORD *)&port.body[4] = 0;
-  if ( (account_info.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)account_info.body + 8))(
-      *(_DWORD *)account_info.body,
-      &account_info,
-      *(_DWORD *)&account_info.body[8]);
-    *(_DWORD *)account_info.body = 0;
-  }
-  *(_DWORD *)&account_info.body[4] = 0;
-  if ( (b_val.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)b_val.body + 8))(
-      *(_DWORD *)b_val.body,
-      &b_val,
-      *(_DWORD *)&b_val.body[8]);
+  survarium::lobby_menu::update_play_button_lock(v7, a2);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v13);
+  Scaleform::GFx::Value::~Value(&v12);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

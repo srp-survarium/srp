@@ -1,6 +1,6 @@
-char __thiscall Scaleform::SysAllocPaged::shutdownHeapEngine(Scaleform::SysAllocPaged *this)
+bool __thiscall Scaleform::SysAllocPaged::shutdownHeapEngine(Scaleform::SysAllocPaged *this)
 {
-  char v1; // bl
+  bool v1; // bl
 
   v1 = Scaleform::MemoryHeap::ReleaseRootHeapPT();
   if ( Scaleform::HeapPT::GlobalPageTable && Scaleform::HeapPT::GlobalRoot )

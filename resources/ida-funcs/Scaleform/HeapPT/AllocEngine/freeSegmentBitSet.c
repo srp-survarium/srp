@@ -12,7 +12,7 @@ void __thiscall Scaleform::HeapPT::AllocEngine::freeSegmentBitSet(
   if ( pCachedBSeg && pCachedBSeg != seg && !pCachedBSeg->UseCount )
   {
     Scaleform::HeapPT::AllocBitSet1::ReleaseSegment(&this->Allocator, this->pCachedBSeg);
-    Scaleform::HeapPT::AllocEngine::freeSegment(this, this->pCachedBSeg);
+    Scaleform::HeapPT::AllocEngine::freeSegment(this, (unsigned int)this->pCachedBSeg);
   }
   Footprint = this->Footprint;
   this->pCachedBSeg = 0;
@@ -22,7 +22,7 @@ void __thiscall Scaleform::HeapPT::AllocEngine::freeSegmentBitSet(
     if ( Footprint >= seg->DataSize + this->Reserve )
     {
       Scaleform::HeapPT::AllocBitSet1::ReleaseSegment(&this->Allocator, seg);
-      Scaleform::HeapPT::AllocEngine::freeSegment(this, seg);
+      Scaleform::HeapPT::AllocEngine::freeSegment(this, (unsigned int)seg);
     }
     LeaveCriticalSection(&p_RootLock->mLock.cs);
   }

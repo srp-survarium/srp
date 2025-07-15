@@ -1,29 +1,45 @@
-vostok::sound::composite_sound *__thiscall vostok::sound::composite_sound_cook::create_sound(
+void __thiscall vostok::sound::composite_sound_cook::create_sound(
         vostok::sound::composite_sound_cook *this,
-        vostok::configs::binary_config_value *composite)
+        const vostok::configs::binary_config_value *composite)
 {
-  vostok::configs::binary_config_value *v2; // eax
-  const char *v3; // eax
-  int v4; // eax
-  vostok::sound::composite_sound *buffer; // [esp+2Ch] [ebp-10h]
-  int sounds_buffer_size; // [esp+30h] [ebp-Ch]
+  unsigned int v3; // ebp
+  int v5; // esi
+  const char *v6; // eax
+  void *unmanaged_memory; // esi
+  DWORD TickCount; // eax
+  int v9; // eax
+  __int16 pointer; // [esp+14h] [ebp+4h]
 
-  sounds_buffer_size = 0;
-  if ( vostok::configs::binary_config_value::value_exists(composite, "sound_items") )
+  v3 = 0;
+  v5 = 0;
+  pointer = 0;
+  if ( vostok::configs::binary_config_value::value_exists(
+         (vostok::configs::binary_config_value *)this,
+         (int)composite,
+         (unsigned int)"sound_items") )
   {
-    v2 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                   composite,
-                                                   "sound_items");
-    sounds_buffer_size = 12 * vostok::configs::binary_config_value::size(v2);
+    v3 = 24 * vostok::configs::binary_config_value::operator[](composite, "sound_items")->count / 24;
+    v5 = 24 * v3;
+    if ( vostok::configs::binary_config_value::operator[](composite, "use_master_layer_index")->data.pointer )
+      pointer = (__int16)vostok::configs::binary_config_value::operator[](composite, "master_layer_index")->data.pointer;
+    else
+      pointer = -1;
   }
-  v3 = type_info::name(&char `RTTI Type Descriptor', &__type_info_root_node);
-  buffer = (vostok::sound::composite_sound *)vostok::resources::allocate_unmanaged_memory(sounds_buffer_size + 288, v3);
-  if ( !buffer )
-    return 0;
-  vostok::sound::composite_sound::composite_sound(
-    buffer,
-    &buffer[1],
-    sounds_buffer_size,
-    this->m_world->m_last_current_time_in_ms);
-  return (vostok::sound::composite_sound *)v4;
+  v6 = type_info::name(&char `RTTI Type Descriptor', &__type_info_root_node);
+  unmanaged_memory = vostok::resources::allocate_unmanaged_memory(v5 + 288, v6);
+  if ( unmanaged_memory )
+  {
+    TickCount = GetTickCount();
+    vostok::sound::composite_sound::composite_sound(
+      (vostok::sound::composite_sound *)unmanaged_memory,
+      v3,
+      (stlp_std::pair<vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base>,vostok::sound::composite_sound_params> *)unmanaged_memory
+    + 12,
+      TickCount);
+  }
+  else
+  {
+    v9 = 0;
+  }
+  *(_WORD *)(v9 + 268) = pointer;
 }

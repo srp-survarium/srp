@@ -16,8 +16,8 @@ int __cdecl Scaleform::Render::Math2D::CheckCubicIntersection(
   float *p_ax; // esi
   int v15; // eax
   double v16; // st7
-  float lastY; // [esp+30h] [ebp-218h]
-  float lastX; // [esp+34h] [ebp-214h]
+  float v18; // [esp+30h] [ebp-218h]
+  float v19; // [esp+34h] [ebp-214h]
   Scaleform::Render::Math2D::QuadCurvePath path; // [esp+38h] [ebp-210h] BYREF
 
   path.Quads.pHeap = Scaleform::Memory::pGlobalHeap;
@@ -36,8 +36,8 @@ int __cdecl Scaleform::Render::Math2D::CheckCubicIntersection(
     &path);
   Size = path.Quads.Size;
   Data = (Scaleform::Render::Math2D::QuadCurvePath *)path.Quads.Data;
-  lastX = x1;
-  lastY = y1;
+  v19 = x1;
+  v18 = y1;
   if ( path.Quads.Size )
   {
     p_ax = &path.Quads.Data->ax;
@@ -45,19 +45,19 @@ int __cdecl Scaleform::Render::Math2D::CheckCubicIntersection(
     {
       v15 = Scaleform::Render::Math2D::CheckQuadraticIntersection(
               styleCount,
-              lastX,
-              lastY,
+              v19,
+              v18,
               *(p_ax - 2),
               *(p_ax - 1),
               *p_ax,
               p_ax[1],
               x,
               y);
-      lastX = *p_ax;
+      v19 = *p_ax;
       v16 = p_ax[1];
       p_ax += 4;
       --Size;
-      lastY = v16;
+      v18 = v16;
       styleCount = v15;
     }
     while ( Size );

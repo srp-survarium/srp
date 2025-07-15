@@ -25,7 +25,7 @@ void __thiscall Scaleform::Render::DICommand_PerlinNoise::DICommand_PerlinNoise(
     v4 = 4 * other->OffsetCount;
     if ( v4 > 0x80 )
       v4 = 128;
-    memcpy((unsigned __int8 *)this->Offsets, (unsigned __int8 *)other->Offsets, v4);
+    memcpy((int)this->Offsets, (const __m128i *)other->Offsets, v4);
   }
 }
 
@@ -41,7 +41,7 @@ void __thiscall Scaleform::Render::DICommand_PerlinNoise::DICommand_PerlinNoise(
         bool fractal,
         unsigned int channels,
         bool grayScale,
-        float *offsets,
+        const __m128i *offsets,
         unsigned int offsetCount)
 {
   unsigned int v13; // ecx
@@ -64,5 +64,5 @@ void __thiscall Scaleform::Render::DICommand_PerlinNoise::DICommand_PerlinNoise(
     v13 = 16;
   this->OffsetCount = v13;
   if ( offsetCount )
-    memcpy((unsigned __int8 *)this->Offsets, (unsigned __int8 *)offsets, 4 * offsetCount);
+    memcpy((int)this->Offsets, offsets, 4 * offsetCount);
 }

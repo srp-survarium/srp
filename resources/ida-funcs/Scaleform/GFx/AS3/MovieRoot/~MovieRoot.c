@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::~MovieRoot(Scaleform::GFx::AS3::
   }
   Scaleform::GFx::ASStringManager::ReleaseBuiltinArray(
     this->BuiltinsMgr.pStringManager,
-    this->BuiltinsMgr.Builtins,
+    (Scaleform::GFx::ASStringNode *)&this->BuiltinsMgr,
     0x3Eu);
   pObject = this->pStage.pObject;
   if ( pObject )
@@ -81,7 +81,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::~MovieRoot(Scaleform::GFx::AS3::
   v11 = (Scaleform::RefCountVImpl *)this->MemContext.pObject;
   if ( v11 )
     Scaleform::RefCountImpl::Release(v11);
-  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::Text::CSSHandler<wchar_t>::`vftable';
+  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   this->Scaleform::GFx::AS3::FlashUI::__vftable = (Scaleform::GFx::AS3::FlashUI_vtbl *)&Scaleform::GFx::AMP::SocketImplFactory::`vftable';
   this->Scaleform::GFx::ASMovieRootBase::Scaleform::RefCountBase<Scaleform::GFx::ASMovieRootBase,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,327>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::GFx::AS3::MovieRoot_vtbl *)&Scaleform::GFx::ASMovieRootBase::`vftable';
   v12 = (Scaleform::RefCountVImpl *)this->pASSupport.pObject;

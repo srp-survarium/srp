@@ -1,7 +1,7 @@
-void readtimer()
+void __usercall readtimer(int a1@<edi>)
 {
-  void *v0; // esp
   void *v1; // esp
+  void *v2; // esp
   DWORD buf; // [esp+8h] [ebp-Ch] BYREF
   LARGE_INTEGER PerformanceCount; // [esp+Ch] [ebp-8h] BYREF
 
@@ -9,8 +9,8 @@ void readtimer()
   {
     if ( QueryPerformanceCounter(&PerformanceCount) )
     {
-      v0 = alloca(8);
-      RAND_add(&PerformanceCount, 8, 0.0);
+      v1 = alloca(8);
+      RAND_add(a1, &PerformanceCount, 8, 0.0);
       if ( have_perfc )
         return;
     }
@@ -20,6 +20,6 @@ void readtimer()
     }
   }
   buf = GetTickCount();
-  v1 = alloca(8);
-  RAND_add(&buf, 4, 0.0);
+  v2 = alloca(8);
+  RAND_add(a1, &buf, 4, 0.0);
 }

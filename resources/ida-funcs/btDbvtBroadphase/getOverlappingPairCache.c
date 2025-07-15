@@ -1,10 +1,4 @@
-btOverlappingPairCache *__thiscall btDbvtBroadphase::getOverlappingPairCache(btDbvtBroadphase *this)
+unsigned int __thiscall btDbvtBroadphase::getOverlappingPairCache(vostok::ui::ui_progress_bar *this)
 {
-  return this->m_paircache;
-}
-
-
-const btOverlappingPairCache *__thiscall btDbvtBroadphase::getOverlappingPairCache(btDbvtBroadphase *this)
-{
-  return this->m_paircache;
+  return this->m_maximum;
 }

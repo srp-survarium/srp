@@ -7,7 +7,7 @@ Scaleform::GFx::AS3::ClassTraits::ClassClass *__thiscall Scaleform::GFx::AS3::VM
   Scaleform::GFx::AS3::Instances::fl::Namespace *InternedNamespace; // eax
   Scaleform::GFx::AS3::VMAppDomain *AppDomain; // ebp
   Scaleform::GFx::AS3::VMAppDomain *ParentDomain; // ecx
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v8; // ebx
+  const Scaleform::GFx::AS3::Instances::fl::Namespace *v8; // ebx
   Scaleform::GFx::AS3::ClassTraits::Traits **ClassTrait; // eax
   Scaleform::GFx::ASStringNode *pNode; // ebx
   Scaleform::GFx::AS3::ClassTraits::ClassClass *v11; // esi

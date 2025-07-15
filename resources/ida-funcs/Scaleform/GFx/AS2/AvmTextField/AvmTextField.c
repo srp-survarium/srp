@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::AS2::AvmTextField::AvmTextField(
   StringManager = Scaleform::GFx::InteractiveObject::GetStringManager(ptf);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  StringManager,
-                 (char *)((p_VariableName->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((p_VariableName->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(p_VariableName->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   this->VariableName.pNode = StringNode;
   ++StringNode->RefCount;
@@ -72,7 +72,7 @@ LABEL_6:
   if ( pObject )
   {
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);

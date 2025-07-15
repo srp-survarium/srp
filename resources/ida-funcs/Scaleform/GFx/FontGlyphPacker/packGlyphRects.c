@@ -46,18 +46,18 @@ unsigned int __thiscall Scaleform::GFx::FontGlyphPacker::packGlyphRects(
   unsigned int v7; // eax
   float *v8; // esi
   unsigned int v9; // ecx
-  const Scaleform::Render::RectPacker::PackType *v10; // eax
+  Scaleform::Render::RectPacker::PackType *v10; // eax
   unsigned int *p_x; // edi
   Scaleform::GFx::FontGlyphPacker::GlyphInfo *v12; // esi
   float x1; // [esp+54h] [ebp-3Ch]
-  unsigned int i; // [esp+58h] [ebp-38h]
-  unsigned int ia; // [esp+58h] [ebp-38h]
-  unsigned int j; // [esp+5Ch] [ebp-34h]
-  unsigned int ja; // [esp+5Ch] [ebp-34h]
-  float packa; // [esp+60h] [ebp-30h]
-  float packb; // [esp+60h] [ebp-30h]
-  float packc; // [esp+60h] [ebp-30h]
-  const Scaleform::Render::RectPacker::PackType *pack; // [esp+60h] [ebp-30h]
+  unsigned int id; // [esp+58h] [ebp-38h]
+  unsigned int ida; // [esp+58h] [ebp-38h]
+  unsigned int v17; // [esp+5Ch] [ebp-34h]
+  int v18; // [esp+5Ch] [ebp-34h]
+  float v19; // [esp+60h] [ebp-30h]
+  float v20; // [esp+60h] [ebp-30h]
+  float v21; // [esp+60h] [ebp-30h]
+  Scaleform::Render::RectPacker::PackType *v22; // [esp+60h] [ebp-30h]
   float v24; // [esp+68h] [ebp-28h]
   float v25; // [esp+68h] [ebp-28h]
   float v26; // [esp+70h] [ebp-20h]
@@ -78,45 +78,45 @@ unsigned int __thiscall Scaleform::GFx::FontGlyphPacker::packGlyphRects(
   this->Packer.Packs.Size = 0;
   this->Packer.PackTree.Size = 0;
   this->Packer.Failed.Size = 0;
-  i = start;
+  id = start;
   if ( start < end )
   {
     v7 = 48 * start;
-    j = 48 * start;
+    v17 = 48 * start;
     do
     {
       v8 = (float *)((char *)glyphs->Data.Data + v7);
       if ( *((_DWORD *)v8 + 2) == -1 )
       {
-        packa = ceil(v8[6]);
-        v24 = packa;
+        v19 = ceil(v8[6]);
+        v24 = v19;
         v26 = v8[4];
-        packb = ceil(v8[7]);
-        wa = packb;
-        packc = floor(v8[5]);
+        v20 = ceil(v8[7]);
+        wa = v20;
+        v21 = floor(v8[5]);
         v27 = floor(v26);
-        Scaleform::Render::RectPacker::AddRect(p_Packer, (__int64)(v24 - v27), (__int64)(wa - packc), i);
-        v7 = j;
+        Scaleform::Render::RectPacker::AddRect(p_Packer, (__int64)(v24 - v27), (__int64)(wa - v21), id);
+        v7 = v17;
       }
       v7 += 48;
-      ++i;
-      j = v7;
+      ++id;
+      v17 = v7;
     }
-    while ( i < end );
+    while ( id < end );
   }
   Scaleform::Render::RectPacker::Pack(p_Packer);
   v9 = 0;
-  for ( ia = 0; v9 < v5->Packer.Packs.Size; ia = v9 )
+  for ( ida = 0; v9 < v5->Packer.Packs.Size; ida = v9 )
   {
     v10 = &v5->Packer.Packs.Pages[v9 >> 4][v9 & 0xF];
-    pack = v10;
-    ja = 0;
+    v22 = v10;
+    v18 = 0;
     if ( v10->NumRects )
     {
       w = texIdx + v9;
       while ( 1 )
       {
-        p_x = &v5->Packer.PackedRects.Pages[(ja + v10->StartRect) >> 8][(unsigned __int8)(ja + LOBYTE(v10->StartRect))].x;
+        p_x = &v5->Packer.PackedRects.Pages[(v18 + v10->StartRect) >> 8][(unsigned __int8)(v18 + LOBYTE(v10->StartRect))].x;
         v12 = &glyphs->Data.Data[p_x[2]];
         v28 = ceil(v12->Bounds.x2);
         v25 = v28;
@@ -134,11 +134,11 @@ unsigned int __thiscall Scaleform::GFx::FontGlyphPacker::packGlyphRects(
         v12->Bounds.y2 = (float)(p_x[1] + (unsigned int)(__int64)(v31 - v33));
         v5 = this;
         v12->TextureIdx = w;
-        if ( ++ja >= pack->NumRects )
+        if ( ++v18 >= v22->NumRects )
           break;
-        v10 = pack;
+        v10 = v22;
       }
-      v9 = ia;
+      v9 = ida;
     }
     ++v9;
   }

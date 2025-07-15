@@ -1,19 +1,19 @@
-int __cdecl ASN1_primitive_new(struct ASN1_VALUE_st **pval, const ASN1_ITEM_st *it)
+int __usercall ASN1_primitive_new@<eax>(int a1@<ebx>, struct ASN1_VALUE_st **pval, const ASN1_ITEM_st *it)
 {
   _DWORD *funcs; // eax
-  int (__cdecl *v3)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *); // eax
+  int (__cdecl *v4)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *); // eax
   int result; // eax
   int utype; // eax
-  asn1_string_st *v6; // eax
+  asn1_string_st *v7; // eax
 
   if ( !it )
     goto LABEL_7;
   funcs = it->funcs;
   if ( funcs )
   {
-    v3 = (int (__cdecl *)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *))funcs[2];
-    if ( v3 )
-      return v3(pval, it);
+    v4 = (int (__cdecl *)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *))funcs[2];
+    if ( v4 )
+      return v4(pval, it);
   }
   if ( it->itype == 5 )
 LABEL_7:
@@ -41,14 +41,14 @@ LABEL_7:
       result = 1;
       break;
     case 6:
-      *pval = (struct ASN1_VALUE_st *)OBJ_nid2obj(0);
+      *pval = (struct ASN1_VALUE_st *)OBJ_nid2obj(a1, 0);
       result = 1;
       break;
     default:
-      v6 = ASN1_STRING_type_new(utype);
-      if ( it->itype == 5 && v6 )
-        v6->flags |= 0x40u;
-      *pval = (struct ASN1_VALUE_st *)v6;
+      v7 = ASN1_STRING_type_new(a1, utype);
+      if ( it->itype == 5 && v7 )
+        v7->flags |= 0x40u;
+      *pval = (struct ASN1_VALUE_st *)v7;
       result = *pval != 0;
       break;
   }

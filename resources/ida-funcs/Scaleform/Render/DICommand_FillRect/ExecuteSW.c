@@ -8,43 +8,43 @@ void __thiscall Scaleform::Render::DICommand_FillRect::ExecuteSW(
   Scaleform::Render::ImagePlane *pPlanes; // eax
   int Height; // edx
   unsigned int Raw; // ebp
-  signed int y1; // ebx
+  int y1; // ebx
   int x2; // edi
-  signed int i; // esi
-  Scaleform::Render::Rect<long> clippedRect; // [esp+Ch] [ebp-38h] BYREF
-  Scaleform::Render::Rect<long> dstImageRect; // [esp+1Ch] [ebp-28h] BYREF
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+2Ch] [ebp-18h] BYREF
+  int i; // esi
+  Scaleform::Render::Rect<long> v12; // [esp+Ch] [ebp-38h] BYREF
+  Scaleform::Render::Rect<long> v13; // [esp+1Ch] [ebp-28h] BYREF
+  _DWORD v14[6]; // [esp+2Ch] [ebp-18h] BYREF
 
   v5 = context->pHAL->GetTextureManager(context->pHAL);
-  dstSwiz.Swizzler = v5->GetImageSwizzler(v5);
-  dstSwiz.pCurrentScanline = 0;
-  dstSwiz.pImage = dest;
-  memset(&dstSwiz.CachedBlockY, 0, 12);
-  dstSwiz.Swizzler->Initialize(dstSwiz.Swizzler, &dstSwiz);
+  v14[0] = v5->GetImageSwizzler(v5);
+  v14[1] = 0;
+  v14[2] = dest;
+  memset(&v14[3], 0, 12);
+  (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v14[0] + 4))(v14[0], v14);
   pPlanes = dest->pPlanes;
   Height = pPlanes->Height;
-  dstImageRect.x2 = pPlanes->Width;
-  dstImageRect.x1 = 0;
-  dstImageRect.y1 = 0;
-  dstImageRect.y2 = Height;
-  memset(&clippedRect, 0, sizeof(clippedRect));
-  if ( Scaleform::Render::Rect<long>::IntersectRect(&dstImageRect, &clippedRect, &this->ApplyRect) )
+  v13.x2 = pPlanes->Width;
+  v13.x1 = 0;
+  v13.y1 = 0;
+  v13.y2 = Height;
+  memset(&v12, 0, sizeof(v12));
+  if ( Scaleform::Render::Rect<long>::IntersectRect(&v13, &v12, &this->ApplyRect) )
   {
     Raw = this->FillColor.Raw;
     if ( !this->pImage.pObject->Transparent )
       Raw |= 0xFF000000;
-    y1 = clippedRect.y1;
-    if ( clippedRect.y1 < clippedRect.y2 )
+    y1 = v12.y1;
+    if ( v12.y1 < v12.y2 )
     {
-      x2 = clippedRect.x2;
+      x2 = v12.x2;
       do
       {
-        dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, y1);
-        for ( i = clippedRect.x1; i < x2; ++i )
-          dstSwiz.Swizzler->SetPixelInScanline(dstSwiz.Swizzler, &dstSwiz, i, Raw);
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v14[0] + 8))(v14[0], v14, y1);
+        for ( i = v12.x1; i < x2; ++i )
+          (*(void (__thiscall **)(_DWORD, _DWORD *, int, unsigned int))(*(_DWORD *)v14[0] + 12))(v14[0], v14, i, Raw);
         ++y1;
       }
-      while ( y1 < clippedRect.y2 );
+      while ( y1 < v12.y2 );
     }
   }
 }

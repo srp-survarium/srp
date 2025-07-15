@@ -1,15 +1,12 @@
-const char *__cdecl vostok::core::get_command_line()
+char *__cdecl vostok::core::get_command_line()
 {
-  const char *CommandLineA; // eax
+  char *CommandLineA; // eax
 
-  if ( !s_initialized_5 )
+  if ( !s_initialized_7 )
   {
     CommandLineA = GetCommandLineA();
-    strcpy_s(
-      (char *)&vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[2] + 4,
-      0x200u,
-      CommandLineA);
-    s_initialized_5 = 1;
+    vostok::strings::copy<512>((char (*)[512])s_command_line, CommandLineA);
+    s_initialized_7 = 1;
   }
-  return (char *)&vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[2] + 4;
+  return s_command_line;
 }

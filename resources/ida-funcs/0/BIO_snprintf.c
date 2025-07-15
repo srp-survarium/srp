@@ -1,14 +1,14 @@
-unsigned int BIO_snprintf(char *buf, unsigned int n, char *format, ...)
+int BIO_snprintf(char *buf, unsigned int n, char *format, ...)
 {
-  unsigned int result; // eax
-  int truncated; // [esp+0h] [ebp-8h] BYREF
-  unsigned int retlen; // [esp+4h] [ebp-4h] BYREF
+  int result; // eax
+  int v4; // [esp+0h] [ebp-8h] BYREF
+  unsigned int v5; // [esp+4h] [ebp-4h] BYREF
 
-  dopr(&buf, 0, &n, &retlen, &truncated, format);
-  if ( truncated )
+  dopr((const __m128i **)&buf, 0, &n, &v5, &v4, format);
+  if ( v4 )
     return -1;
-  result = retlen;
-  if ( retlen > 0x7FFFFFFF )
+  result = v5;
+  if ( v5 > 0x7FFFFFFF )
     return -1;
   return result;
 }

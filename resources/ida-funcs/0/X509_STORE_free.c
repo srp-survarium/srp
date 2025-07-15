@@ -32,7 +32,7 @@ void __cdecl X509_STORE_free(x509_store_st *vfy)
     }
     sk_free(&get_cert_methods->stack);
     sk_pop_free(&vfy->objs->stack, (void (__cdecl *)(void *))cleanup);
-    CRYPTO_free_ex_data(i);
+    CRYPTO_free_ex_data(i, (int)get_cert_methods);
     if ( vfy->param )
       X509_VERIFY_PARAM_free(vfy->param);
     CRYPTO_free(vfy);

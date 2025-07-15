@@ -1,6 +1,6 @@
 void __cdecl _unlock_file(_iobuf *pf)
 {
-  if ( pf < _iob || pf > &stru_9AE290 )
+  if ( pf < _iob || pf > &stru_86F340 )
   {
     LeaveCriticalSection((LPCRITICAL_SECTION)&pf[1]);
   }

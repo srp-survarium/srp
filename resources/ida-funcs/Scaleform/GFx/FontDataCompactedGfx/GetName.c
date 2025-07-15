@@ -1,4 +1,4 @@
-char *__thiscall Scaleform::GFx::FontDataCompactedGfx::GetName(Scaleform::GFx::FontDataCompactedGfx *this)
+unsigned int __thiscall Scaleform::GFx::FontDataCompactedGfx::GetName(Scaleform::Render::DDS::DDSFileImageSource *this)
 {
-  return this->CompactedFontValue.Name.Data;
+  return this->HeaderInfo.MipmapCount;
 }

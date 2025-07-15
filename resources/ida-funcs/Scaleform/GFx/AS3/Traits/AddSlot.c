@@ -1,147 +1,105 @@
 void __thiscall Scaleform::GFx::AS3::Traits::AddSlot(
         Scaleform::GFx::AS3::Traits *this,
-        Scaleform::GFx::ASString *name,
-        Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace const > ns,
-        Scaleform::GFx::AS3::SlotInfo::BindingType dt,
-        Scaleform::GFx::AS3::AbsoluteIndex offset,
-        Scaleform::GFx::AS3::AbsoluteIndex const_)
+        const Scaleform::GFx::AS3::MemberInfo *mi)
 {
-  Scaleform::GFx::AS3::Slots *v6; // esi
-  Scaleform::GFx::AS3::SlotInfo *p_Value; // eax
-  Scaleform::GFx::AS3::SlotInfo v; // [esp+4h] [ebp-14h] BYREF
-
-  v.pNs.pObject = ns.pV;
-  memset(&v.CTraits, 0, 12);
-  *(_DWORD *)&v = ((LOBYTE(const_.Index) != 0) + 2) & 0x1F ^ (*(_DWORD *)&v & 0xF8000000 | 0x7FFFC00);
-  v6 = &this->Scaleform::GFx::AS3::Slots;
-  Scaleform::GFx::AS3::Slots::Add(&this->Scaleform::GFx::AS3::Slots, &const_, name, &v);
-  Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&v);
-  p_Value = &v6->VArray.Data.Data[const_.Index - v6->FirstOwnSlotNum].Value;
-  *(_DWORD *)p_Value ^= (*(_DWORD *)p_Value ^ (32 * dt)) & 0x3E0;
-  *(_DWORD *)p_Value ^= (*(_DWORD *)p_Value ^ (offset.Index << 10)) & 0x7FFFC00;
-}
-
-
-Scaleform::GFx::AS3::AbsoluteIndex *__thiscall Scaleform::GFx::AS3::Traits::AddSlot(
-        Scaleform::GFx::AS3::Traits *this,
-        Scaleform::GFx::AS3::AbsoluteIndex *result,
-        Scaleform::GFx::ASString *name,
-        Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace const > ns,
-        Scaleform::GFx::AS3::VMAbcFile *file,
-        const Scaleform::GFx::AS3::Abc::TraitInfo *ti,
-        bool const_)
-{
-  unsigned int v7; // eax
-  Scaleform::GFx::AS3::SlotInfo v; // [esp+4h] [ebp-14h] BYREF
-
-  v.pNs.pObject = ns.pV;
-  v.CTraits.pObject = 0;
-  v.File.pObject = file;
-  v7 = *(_DWORD *)&v & 0xF8000000 | 0x7FFFC00;
-  if ( file )
-    file->RefCount = (file->RefCount + 1) & 0x8FBFFFFF;
-  v.TI = ti;
-  *(_DWORD *)&v = ((unsigned __int8)(const_ + 2) ^ (unsigned __int8)v7) & 0x1F ^ v7;
-  Scaleform::GFx::AS3::Slots::Add(&this->Scaleform::GFx::AS3::Slots, result, name, &v);
-  Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&v);
-  return result;
-}
-
-
-void __thiscall Scaleform::GFx::AS3::Traits::AddSlot(
-        Scaleform::GFx::AS3::Traits *this,
-        Scaleform::GFx::ASStringNode *mi)
-{
-  Scaleform::GFx::ASStringNode *v2; // ebx
-  const char *pManager; // eax
-  Scaleform::GFx::ASStringNode *pLower; // esi
-  Scaleform::GFx::AS3::VM *pVM; // edi
-  Scaleform::GFx::AS3::StringManager *StringManagerRef; // ecx
+  const Scaleform::GFx::AS3::MemberInfo *v2; // ebx
+  Scaleform::GFx::AS3::VM *pVM; // esi
+  Scaleform::GFx::AS3::StringManager *StringManagerRef; // eax
+  int v5; // edi
+  Scaleform::GFx::ASStringNode *NamespaceName; // ecx
   unsigned int v7; // ebp
-  Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // edi
-  Scaleform::GFx::ASStringNode *v9; // eax
-  char *pData; // edx
-  Scaleform::GFx::ASStringManager *pStringManager; // esi
-  const char *v12; // eax
-  const Scaleform::GFx::AS3::MemberInfo *ConstStringNode; // esi
-  int v14; // eax
-  _DWORD *v15; // edi
+  Scaleform::GFx::AS3::Instances::fl::Namespace *pV; // edi
+  Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // esi
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v10; // esi
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *ConstStringNode; // esi
+  _DWORD *v13; // edi
+  const Scaleform::GFx::AS3::SlotInfo *v14; // eax
+  bool v15; // zf
   unsigned int *v16; // edx
-  Scaleform::GFx::AS3::StringManager *sm; // [esp+10h] [ebp-20h]
-  Scaleform::GFx::AS3::AbsoluteIndex ind; // [esp+14h] [ebp-1Ch] BYREF
-  Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> result; // [esp+18h] [ebp-18h] BYREF
-  Scaleform::GFx::AS3::SlotInfo v; // [esp+1Ch] [ebp-14h] BYREF
+  Scaleform::GFx::ASString name; // [esp+10h] [ebp-28h] BYREF
+  Scaleform::GFx::AS3::StringManager *sm; // [esp+14h] [ebp-24h] BYREF
+  Scaleform::GFx::AS3::AbsoluteIndex ind; // [esp+18h] [ebp-20h] BYREF
+  Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> result; // [esp+1Ch] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS3::SlotInfo v21; // [esp+20h] [ebp-18h] BYREF
 
   v2 = mi;
-  pManager = (const char *)mi->pManager;
-  pLower = mi->pLower;
   pVM = this->pVM;
-  ind.Index = (int)this;
   StringManagerRef = pVM->StringManagerRef;
-  v7 = ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & (unsigned int)pLower | 0x24000000) >> 25;
+  v5 = *((_DWORD *)mi + 2);
+  ind.Index = (int)this;
+  NamespaceName = (Scaleform::GFx::ASStringNode *)mi->NamespaceName;
+  v7 = (v5 & 0x2000000 | 0x24000000u) >> 25;
   sm = StringManagerRef;
-  mi = (Scaleform::GFx::ASStringNode *)pManager;
-  if ( pManager && *pManager )
+  if ( NamespaceName && LOBYTE(NamespaceName->pData) )
   {
-    if ( pManager == Scaleform::GFx::AS3::NS_AS3 || !strcmp(pManager, Scaleform::GFx::AS3::NS_AS3) )
+    if ( NamespaceName != (Scaleform::GFx::ASStringNode *)Scaleform::GFx::AS3::NS_AS3 )
     {
-      pObject = pVM->AS3Namespace.pObject;
-      if ( pObject )
-        pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
+      if ( strcmp((const char *)NamespaceName, Scaleform::GFx::AS3::NS_AS3) )
+      {
+        pV = Scaleform::GFx::AS3::VM::MakeInternedNamespace(
+               pVM,
+               (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *)&name,
+               (Scaleform::GFx::AS3::Abc::NamespaceKind)(v5 << 12 >> 28),
+               NamespaceName)->pV;
+        v2 = mi;
+        goto LABEL_16;
+      }
+      v2 = mi;
     }
-    else
-    {
-      pObject = Scaleform::GFx::AS3::VM::MakeInternedNamespace(
-                  pVM,
-                  (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *)&mi,
-                  (Scaleform::GFx::AS3::Abc::NamespaceKind)((int)((_DWORD)pLower << 12) >> 28),
-                  mi)->pV;
-    }
+    pObject = pVM->AS3Namespace.pObject;
+    if ( pObject )
+      pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
+    pV = pObject;
   }
-  else if ( ((unsigned int)pLower & 0xF0000) != 0 )
+  else if ( ((unsigned int)&locret_F0000 & v5) != 0 )
   {
-    mi = &StringManagerRef->pStringManager->EmptyStringNode;
-    ++mi->RefCount;
-    pObject = Scaleform::GFx::AS3::VM::MakeInternedNamespace(
-                pVM,
-                &result,
-                (Scaleform::GFx::AS3::Abc::NamespaceKind)((int)v2->pLower << 12 >> 28),
-                (Scaleform::GFx::ASString *)&mi)->pV;
-    v9 = mi;
-    --mi->RefCount;
-    if ( !v9->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+    name.pNode = &StringManagerRef->pStringManager->EmptyStringNode;
+    ++name.pNode->RefCount;
+    pV = Scaleform::GFx::AS3::VM::MakeInternedNamespace(
+           pVM,
+           &result,
+           (Scaleform::GFx::AS3::Abc::NamespaceKind)((int)(*((_DWORD *)mi + 2) << 12) >> 28),
+           &name)->pV;
+    pNode = name.pNode;
+    --name.pNode->RefCount;
+    if ( !pNode->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }
   else
   {
-    pObject = pVM->PublicNamespace.pObject;
-    if ( pObject )
-      pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
+    v10 = pVM->PublicNamespace.pObject;
+    if ( v10 )
+      v10->RefCount = (v10->RefCount + 1) & 0x8FBFFFFF;
+    pV = v10;
   }
-  pData = (char *)v2->pData;
-  pStringManager = sm->pStringManager;
-  v12 = v2->pData;
-  mi = (Scaleform::GFx::ASStringNode *)(v2->pData + 1);
-  ConstStringNode = (const Scaleform::GFx::AS3::MemberInfo *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                                                               pStringManager,
-                                                               pData,
-                                                               &v12[strlen(v12) + 1] - (const char *)mi,
-                                                               0);
-  v14 = (int)v;
-  ++ConstStringNode[1].Name;
-  *(_DWORD *)&v = v7 & 0x1F ^ (v14 & 0xF8000000 | 0x7FFFC00);
-  v.pNs.pObject = pObject;
-  memset(&v.CTraits, 0, 12);
-  v15 = (_DWORD *)(ind.Index + 20);
-  mi = (Scaleform::GFx::ASStringNode *)ConstStringNode;
-  Scaleform::GFx::AS3::Slots::Add(
-    (Scaleform::GFx::AS3::Slots *)(ind.Index + 20),
-    &ind,
-    (Scaleform::GFx::ASString *)&mi,
-    &v);
-  Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&v);
-  v16 = (unsigned int *)(v15[2] + 28 * (ind.Index - *v15) + 8);
-  *v16 = *v16 & 0xF800001F | ((unsigned __int16)v2->pLower << 10) | ((int)v2->pLower << 7 >> 22) & 0x3E0;
-  if ( ConstStringNode[1].Name-- == (const char *)1 )
-    Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)ConstStringNode);
+LABEL_16:
+  ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                      sm->pStringManager,
+                      (char *)v2->Name,
+                      strlen(v2->Name),
+                      0);
+  ++ConstStringNode->RefCount;
+  ++ConstStringNode->RefCount;
+  name.pNode = ConstStringNode;
+  sm = (Scaleform::GFx::AS3::StringManager *)ConstStringNode;
+  Scaleform::GFx::AS3::SlotInfo::SlotInfo(
+    &v21,
+    (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace const >)pV,
+    0,
+    v7,
+    (const Scaleform::Ptr<Scaleform::GFx::ASStringNode> *)&sm);
+  v13 = (_DWORD *)(ind.Index + 20);
+  Scaleform::GFx::AS3::Slots::Add((Scaleform::GFx::AS3::Slots *)(ind.Index + 20), &ind, &name, v14);
+  Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&v21);
+  v15 = ConstStringNode->RefCount-- == 1;
+  if ( v15 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(ConstStringNode);
+  v16 = (unsigned int *)(32 * (ind.Index - *v13) + v13[2] + 8);
+  *v16 = *v16 & 0xF800001F
+       | (((unsigned int)&loc_1FFFF & (unsigned __int16)*((_DWORD *)mi + 2)) << 10)
+       | ((int)(*((_DWORD *)mi + 2) << 7) >> 22) & 0x3E0;
+  v15 = ConstStringNode->RefCount-- == 1;
+  if ( v15 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(ConstStringNode);
 }

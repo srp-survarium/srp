@@ -1,7 +1,7 @@
 char __userpurge Scaleform::GFx::AS3::SocketThreadMgr::Init@<al>(
         Scaleform::GFx::AS3::SocketThreadMgr *this@<ecx>,
         int a2@<ebp>,
-        char *address,
+        const __m128i *address,
         int port)
 {
   Scaleform::Thread *pObject; // ecx

@@ -4,14 +4,14 @@ void __cdecl Scaleform::GFx::AS2::StringCtorFunction::StringFromCharCode(const S
   Scaleform::GFx::AS2::Environment *Env; // edx
   unsigned int v3; // eax
   Scaleform::GFx::AS2::Value *v4; // ecx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // edi
-  Scaleform::GFx::AS2::Value *v7; // esi
+  Scaleform::GFx::AS2::Value *Result; // esi
   bool v8; // zf
   unsigned int v9[2]; // [esp+8h] [ebp-20h]
-  Scaleform::StringBuffer result; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v10; // [esp+10h] [ebp-18h] BYREF
 
-  Scaleform::StringBuffer::StringBuffer(&result, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v10, Scaleform::Memory::pGlobalHeap);
   for ( i = 0; i < fn->NArgs; ++i )
   {
     Env = fn->Env;
@@ -20,24 +20,24 @@ void __cdecl Scaleform::GFx::AS2::StringCtorFunction::StringFromCharCode(const S
     if ( v3 <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
       v4 = &Env->Stack.Pages.Data.Data[v3 >> 5]->Values[v3 & 0x1F];
     *(_QWORD *)v9 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v4, fn->Env);
-    Scaleform::StringBuffer::AppendChar(&result, v9[0]);
+    Scaleform::StringBuffer::AppendChar(&v10, v9[0]);
   }
-  pData = result.pData;
-  if ( !result.pData )
-    pData = (char *)&buf;
+  pData = (__m128i *)v10.pData;
+  if ( !v10.pData )
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                  pData,
-                 result.Size);
+                 v10.Size);
   ++StringNode->RefCount;
-  v7 = fn->Result;
-  if ( v7->T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(v7);
-  v7->T.Type = 5;
-  v7->NV.Int32Value = (int)StringNode;
+  Result = fn->Result;
+  if ( Result->T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 5;
+  Result->NV.Int32Value = (int)StringNode;
   v8 = ++StringNode->RefCount == 1;
   --StringNode->RefCount;
   if ( v8 )
     Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&result);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v10);
 }

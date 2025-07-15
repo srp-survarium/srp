@@ -137,7 +137,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix::toString(
   ++v83.pNode->RefCount;
   v81.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v81.pNode->RefCount;
@@ -150,7 +150,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix::toString(
   ++v79.pNode->RefCount;
   v77.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v77.pNode->RefCount;
@@ -165,7 +165,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix::toString(
   ++v75.pNode->RefCount;
   v74.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v74.pNode->RefCount;
@@ -180,7 +180,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix::toString(
   ++v82.pNode->RefCount;
   v78.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v78.pNode->RefCount;
@@ -197,7 +197,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix::toString(
   ++v84.pNode->RefCount;
   str.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++str.pNode->RefCount;

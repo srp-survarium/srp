@@ -19,13 +19,13 @@ int __usercall gf2m_Mxy@<eax>(
   {
     if ( z2->top )
     {
-      BN_CTX_start(ctx);
-      v10 = BN_CTX_get(ctx);
-      v13 = BN_CTX_get(ctx);
-      v11 = BN_CTX_get(ctx);
+      BN_CTX_start((int)z2, ctx);
+      v10 = BN_CTX_get((int)z2, ctx);
+      v13 = BN_CTX_get((int)z2, ctx);
+      v11 = BN_CTX_get((int)z2, ctx);
       v14 = (const bignum_st *)v11;
       if ( !v11
-        || !BN_set_word(v11->vals, 1u)
+        || !BN_set_word((int)z2, v11->vals, 1u)
         || !group->meth->field_mul(group, (bignum_st *)v10, z1, z2, ctx)
         || !group->meth->field_mul(group, z1, z1, x, ctx)
         || !BN_GF2m_add(z1, z1, x1)
@@ -59,8 +59,8 @@ int __usercall gf2m_Mxy@<eax>(
   }
   else
   {
-    BN_set_word(x2, 0);
-    BN_set_word(z2, 0);
+    BN_set_word((int)z2, x2, 0);
+    BN_set_word((int)z2, z2, 0);
     return 1;
   }
   return result;

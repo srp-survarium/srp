@@ -1,50 +1,19 @@
-void __thiscall vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
-        vostok::fs_new::synchronous_device_interface *this,
-        vostok::fs_new::asynchronous_device_interface *adi,
+void __userpurge vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
+        vostok::fs_new::synchronous_device_interface *this@<ecx>,
+        int a2@<esi>,
+        vostok::fs_new::asynchronous_device_query_vtbl *adi,
         vostok::memory::base_allocator *allocator)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_synchronize_query = 0;
-  this->m_device.m_device_file_system = 0;
-  this->m_out_of_memory = 0;
-  vostok::fs_new::synchronous_device_interface::get_synchronous_access(this, adi, allocator);
-}
+  vostok::threading::event *v4; // ecx
 
-
-void __thiscall vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
-        vostok::fs_new::synchronous_device_interface *this,
-        vostok::fs_new::asynchronous_device_interface *adi,
-        vostok::memory::base_allocator *allocator,
-        vostok::fs_new::device_file_system_interface *device,
-        vostok::fs_new::watcher_enabled_bool watcher_enabled)
-{
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_synchronize_query = 0;
-  this->m_device.m_device_file_system = device;
-  this->m_out_of_memory = 0;
-  if ( !device )
-    vostok::fs_new::synchronous_device_interface::get_synchronous_access(this, adi, allocator);
-}
-
-
-void __thiscall vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
-        vostok::fs_new::synchronous_device_interface *this,
-        vostok::fs_new::device_file_system_interface *device,
-        vostok::fs_new::watcher_enabled_bool watcher_enabled)
-{
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_synchronize_query = 0;
-  this->m_device.m_device_file_system = device;
-  this->m_out_of_memory = 0;
-}
-
-
-void __thiscall vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
-        vostok::fs_new::synchronous_device_interface *this,
-        vostok::fs_new::device_file_system_no_watcher_proxy device)
-{
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_synchronize_query = 0;
-  this->m_device = device;
-  this->m_out_of_memory = 0;
+  *(_DWORD *)a2 = 0;
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_BYTE *)(a2 + 8) = 0;
+  vostok::fs_new::asynchronous_device_interface::get_synchronous_access(
+    (vostok::fs_new::asynchronous_device_interface *)this,
+    adi,
+    (vostok::memory::base_allocator *)a2,
+    allocator);
+  if ( *(_DWORD *)a2 )
+    vostok::threading::event::wait(v4, (HANDLE *)(*(_DWORD *)a2 + 40), 0xFFFFFFFF);
 }

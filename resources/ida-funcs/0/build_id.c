@@ -1,28 +1,29 @@
-unsigned int __usercall build_id@<eax>(const char *current_date@<eax>)
+unsigned int __cdecl build_id(char *day)
 {
-  int v1; // esi
-  unsigned int v2; // esi
-  date current; // [esp+8h] [ebp-11Ch] BYREF
-  char month_string[16]; // [esp+14h] [ebp-110h] BYREF
-  char buffer[256]; // [esp+24h] [ebp-100h] BYREF
+  signed int v1; // edi
+  unsigned int v3; // esi
+  char _Dst[256]; // [esp+8h] [ebp-11Ch] BYREF
+  char src[4]; // [esp+108h] [ebp-1Ch] BYREF
+  date date; // [esp+10Ch] [ebp-18h] BYREF
+  date v8; // [esp+118h] [ebp-Ch] BYREF
 
-  current.day = 1;
-  current.month = 1;
-  current.year = 1;
-  strcpy_s(buffer, 0x100u, current_date);
-  sscanf_s(buffer, "%s %d %d", month_string, 16, &current);
+  v8.day = 1;
+  v8.month = 1;
+  v8.year = 1;
+  strcpy_s(_Dst, 0x100u, day);
+  sscanf_s(_Dst, "%s %d %d", src, 16, &v8);
   v1 = 0;
-  current.month = 0;
-  while ( _stricmp(month_id[v1], month_string) )
+  v8.month = 0;
+  while ( _stricmp(month_id[v1++], src) )
   {
-    if ( ++v1 >= 12 )
+    if ( v1 >= 12 )
       goto LABEL_6;
   }
-  current.month = v1 + 1;
+  v8.month = v1;
 LABEL_6:
-  *(_DWORD *)month_string = 6;
-  *(_DWORD *)&month_string[4] = 1;
-  *(_DWORD *)&month_string[8] = 2012;
-  v2 = day_count((const date *)month_string);
-  return day_count(&current) - v2;
+  date.day = 6;
+  date.month = 1;
+  date.year = 2012;
+  v3 = day_count(&date);
+  return day_count(&v8) - v3;
 }

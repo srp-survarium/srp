@@ -4,37 +4,27 @@ char __thiscall vostok::resources::device_manager::process_query(
         vostok::fs_new::synchronous_device_interface *device)
 {
   char result; // al
-  vostok::animation::mixing::animation_interval *v4; // eax
-  vostok::fs_new::device_file_system_no_watcher_proxy *v5; // eax
-  void **v6; // [esp-4h] [ebp-14h]
-  const vostok::fs_new::synchronous_device_interface *v7; // [esp+0h] [ebp-10h]
-  void **file; // [esp+Ch] [ebp-4h] BYREF
+  vostok::resources::device_manager *v4; // ecx
+  const vostok::fs_new::synchronous_device_interface *v5; // [esp+0h] [ebp-10h]
+  void **out_file; // [esp+Ch] [ebp-4h] BYREF
 
-  file = 0;
-  result = vostok::resources::device_manager::open_file(
-             device,
-             (vostok::resources::query_result *)this,
-             this,
-             &file,
-             query);
+  out_file = 0;
+  result = vostok::resources::device_manager::open_file(this, device, &out_file, query);
   if ( result )
   {
     if ( (query->m_flags & 2) != 0 )
       vostok::resources::device_manager::process_read_query(
-        (vostok::vfs::vfs_iterator *)query,
-        (vostok::resources::device_manager *)file,
+        query,
+        (vostok::resources::device_manager *)out_file,
         device,
-        v7);
+        v5);
     else
       vostok::resources::device_manager::process_write_query(
-        (vostok::vfs::vfs_iterator *)query,
-        (vostok::resources::device_manager *)file,
-        device,
-        v7);
-    v6 = file;
-    v4 = (vostok::animation::mixing::animation_interval *)vostok::fs_new::synchronous_device_interface::operator->(device);
-    v5 = (vostok::fs_new::device_file_system_no_watcher_proxy *)vostok::animation::mixing::animation_interval::animation(v4);
-    vostok::fs_new::device_file_system_no_watcher_proxy::close(v5, v6);
+        v4,
+        (vostok::resources::device_manager *)out_file,
+        query,
+        device);
+    device->m_device.m_device_file_system->close(device->m_device.m_device_file_system, out_file);
     return 1;
   }
   return result;

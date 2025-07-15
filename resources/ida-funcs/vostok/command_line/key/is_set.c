@@ -1,9 +1,9 @@
-BOOL __thiscall vostok::command_line::key::is_set(vostok::command_line::key *this)
+BOOL __usercall vostok::command_line::key::is_set@<eax>(vostok::command_line::key *this@<ecx>, int a2@<eax>)
 {
-  if ( this->m_type == type_unset )
-  {
-    this->m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-  }
-  return this->m_type != type_recursive;
+  _DWORD *v2; // esi
+
+  v2 = (_DWORD *)(a2 + 548);
+  if ( !*(_DWORD *)(a2 + 548) )
+    vostok::command_line::key::initialize(this, a2);
+  return *v2 != 1;
 }

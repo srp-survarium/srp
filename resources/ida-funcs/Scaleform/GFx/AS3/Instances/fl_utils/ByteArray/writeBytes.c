@@ -25,7 +25,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeBytes(
     if ( v7 <= v5 - v6 )
     {
       if ( v7 )
-        Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(this, &bytes->Data.Data.Data[v6], v7);
+        Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Write(
+          this,
+          (const __m128i *)&bytes->Data.Data.Data[v6],
+          v7);
     }
     else
     {

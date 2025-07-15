@@ -46,6 +46,6 @@ void __thiscall Scaleform::Render::TextureManager::~TextureManager(Scaleform::Re
   if ( v6 )
     Scaleform::RefCountImpl::Release(v6);
   Scaleform::RefCountImplCore::~RefCountImplCore(&this->ServiceCommandInstance);
-  this->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::Render::StateData::Interface::`vftable';
+  this->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::GFx::AMP::SocketImplFactory::`vftable';
   Scaleform::RefCountImplCore::~RefCountImplCore(this);
 }

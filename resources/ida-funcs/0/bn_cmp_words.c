@@ -4,7 +4,7 @@ int __cdecl bn_cmp_words(char *a, char *b, int n)
   unsigned int v4; // ecx
   bool v5; // cf
   int v7; // ecx
-  const unsigned int *i; // eax
+  char *i; // eax
   unsigned int v9; // edx
 
   v3 = *(_DWORD *)&b[4 * n - 4];
@@ -15,11 +15,11 @@ int __cdecl bn_cmp_words(char *a, char *b, int n)
   v7 = n - 2;
   if ( n - 2 >= 0 )
   {
-    for ( i = (const unsigned int *)&b[4 * v7]; ; --i )
+    for ( i = &b[4 * v7]; ; i -= 4 )
     {
-      v9 = *(const unsigned int *)((char *)i + a - b);
-      v5 = *i < v9;
-      if ( *i != v9 )
+      v9 = *(_DWORD *)&i[a - b];
+      v5 = *(_DWORD *)i < v9;
+      if ( *(_DWORD *)i != v9 )
         break;
       if ( --v7 < 0 )
         return 0;

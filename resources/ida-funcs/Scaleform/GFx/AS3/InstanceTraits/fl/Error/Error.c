@@ -5,5 +5,5 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl::Error::Error(
 {
   Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(this, vm, ci);
   this->__vftable = (Scaleform::GFx::AS3::InstanceTraits::fl::Error_vtbl *)&Scaleform::GFx::AS3::InstanceTraits::fl::Error::`vftable';
-  this->MemSize = 44;
+  this->MemSize = 48;
 }

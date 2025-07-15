@@ -1,6 +1,6 @@
 Scaleform::Render::Font::NativeHintingType *__thiscall Scaleform::Render::FontProviderWinAPI::findNativeHinting(
         Scaleform::Render::FontProviderWinAPI *this,
-        const char *name)
+        char *name)
 {
   int v3; // ebx
   int i; // edi
@@ -10,7 +10,7 @@ Scaleform::Render::Font::NativeHintingType *__thiscall Scaleform::Render::FontPr
     return 0;
   for ( i = 0;
         Scaleform::String::CompareNoCase(
-          (const char *)((this->NativeHinting.Data.Data[i].Typeface.HeapTypeBits & 0xFFFFFFFC) + 8),
+          (char *)((this->NativeHinting.Data.Data[i].Typeface.HeapTypeBits & 0xFFFFFFFC) + 8),
           name);
         ++i )
   {

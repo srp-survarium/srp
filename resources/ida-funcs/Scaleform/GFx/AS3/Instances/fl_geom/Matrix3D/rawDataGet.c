@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::rawDataGet(
   Scaleform::GFx::AS3::Value params[1]; // [esp+20h] [ebp-90h] BYREF
   Scaleform::Render::Matrix4x4<double> m4d; // [esp+30h] [ebp-80h] BYREF
 
-  memcpy((unsigned __int8 *)&m4d, (unsigned __int8 *)&this->mat4, sizeof(m4d));
+  memcpy((int)&m4d, (const __m128i *)&this->mat4, sizeof(m4d));
   m4d.M[0][3] = m4d.M[0][3] * 0.05;
   m4d.M[1][3] = m4d.M[1][3] * 0.05;
   m4d.M[2][3] = 0.05 * m4d.M[2][3];

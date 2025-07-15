@@ -7,11 +7,11 @@ void __thiscall Scaleform::GFx::DisplayList::MarkAllEntriesForRemoval(
   int v5; // ebp
   Scaleform::GFx::DisplayObjectBase *pCharacter; // esi
   Scaleform::GFx::DisplayList::DisplayEntry *v7; // eax
-  unsigned int n; // [esp+8h] [ebp-4h]
+  unsigned int Size; // [esp+8h] [ebp-4h]
 
   v4 = 0;
-  n = this->DisplayObjectArray.Data.Size;
-  if ( n )
+  Size = this->DisplayObjectArray.Data.Size;
+  if ( Size )
   {
     v5 = 0;
     do
@@ -29,6 +29,6 @@ void __thiscall Scaleform::GFx::DisplayList::MarkAllEntriesForRemoval(
       ++v4;
       ++v5;
     }
-    while ( v4 < n );
+    while ( v4 < Size );
   }
 }

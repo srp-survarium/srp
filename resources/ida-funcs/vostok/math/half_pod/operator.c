@@ -1,28 +1,18 @@
-double __thiscall vostok::math::half_pod::operator float(vostok::math::half_pod *this)
+void __usercall vostok::math::half_pod::operator float(vostok::math::half_pod *this@<ecx>, unsigned __int16 *a2@<eax>)
 {
-  unsigned int m; // [esp+4h] [ebp-Ch]
-  unsigned int e; // [esp+8h] [ebp-8h]
-  unsigned int s; // [esp+Ch] [ebp-4h]
+  unsigned int v2; // eax
+  int v3; // ecx
+  int v4; // eax
 
-  s = (this->data & 0x8000) << 16;
-  e = ((int)this->data >> 10) & 0x1F;
-  m = this->data & 0x3FF;
-  if ( e )
+  v2 = *a2;
+  v3 = (v2 >> 10) & 0x1F;
+  v4 = v2 & 0x3FF;
+  if ( !v3 && v4 )
   {
-    if ( e == 31 )
-      return COERCE_FLOAT(s | (m << 13) | 0x7F800000);
-  }
-  else
-  {
-    if ( (this->data & 0x3FF) == 0 )
-      return *(float *)&s;
-    while ( (m & 0x400) == 0 )
+    while ( (v4 & 0x400) == 0 )
     {
-      m *= 2;
-      --e;
+      LOWORD(v4) = 2 * v4;
+      --v3;
     }
-    ++e;
-    m &= ~0x400u;
   }
-  return COERCE_FLOAT(s | (m << 13) | ((e + 112) << 23));
 }

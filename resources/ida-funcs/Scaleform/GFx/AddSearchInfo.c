@@ -1,25 +1,25 @@
 void __usercall Scaleform::GFx::AddSearchInfo(
         Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *psearchInfo@<edi>,
         Scaleform::String::DataDesc *a2@<ecx>,
-        char *line)
+        const __m128i *line)
 {
   int i; // esi
   void *v4; // esi
-  Scaleform::String sindent; // [esp+0h] [ebp-4h] BYREF
+  Scaleform::String v5; // [esp+0h] [ebp-4h] BYREF
 
-  sindent.pData = a2;
+  v5.pData = a2;
   if ( psearchInfo )
   {
-    Scaleform::String::String(&sindent, "   ");
+    Scaleform::String::String(&v5, (const __m128i *)"   ");
     for ( i = 0; i < psearchInfo->Indent; ++i )
       Scaleform::StringBuffer::AppendString(
         &psearchInfo->Info,
-        (char *)((sindent.HeapTypeBits & 0xFFFFFFFC) + 8),
-        *(_DWORD *)(sindent.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
+        (const __m128i *)((v5.HeapTypeBits & 0xFFFFFFFC) + 8),
+        *(_DWORD *)(v5.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     Scaleform::StringBuffer::AppendString(&psearchInfo->Info, line, 0xFFFFFFFF);
-    Scaleform::StringBuffer::AppendString(&psearchInfo->Info, "\n", 0xFFFFFFFF);
-    v4 = (void *)(sindent.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((sindent.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    Scaleform::StringBuffer::AppendString(&psearchInfo->Info, (const __m128i *)"\n", 0xFFFFFFFF);
+    v4 = (void *)(v5.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v5.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v4);
   }
 }

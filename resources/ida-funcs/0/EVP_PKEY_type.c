@@ -1,15 +1,15 @@
-int __cdecl EVP_PKEY_type(int type)
+const char *__usercall EVP_PKEY_type@<eax>(int a1@<edi>, void *type)
 {
-  const evp_pkey_asn1_method_st *v1; // eax
-  int pkey_id; // esi
+  engine_st *v2; // eax
+  const char *id; // esi
   engine_st *pe; // [esp+4h] [ebp-4h] BYREF
 
-  v1 = EVP_PKEY_asn1_find(&pe, type);
-  if ( v1 )
-    pkey_id = v1->pkey_id;
+  v2 = EVP_PKEY_asn1_find(&pe, type);
+  if ( v2 )
+    id = v2->id;
   else
-    pkey_id = 0;
+    id = 0;
   if ( pe )
-    ENGINE_finish(pe);
-  return pkey_id;
+    ENGINE_finish(a1, pe);
+  return id;
 }

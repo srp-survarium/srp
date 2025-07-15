@@ -2,7 +2,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Traits::SetSlo
         Scaleform::GFx::AS3::Traits *this,
         Scaleform::GFx::AS3::CheckResult *result,
         Scaleform::GFx::AS3::AbsoluteIndex ind,
-        const Scaleform::GFx::AS3::Value *v,
+        Scaleform::GFx::AS3::Value *v,
         Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP *obj)
 {
   Scaleform::GFx::AS3::VM *pVM; // edi

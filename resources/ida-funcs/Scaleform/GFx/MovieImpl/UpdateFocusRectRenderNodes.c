@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *p_LastFocused; // edi
   Scaleform::WeakPtrProxy *v11; // eax
   Scaleform::GFx::DisplayObjectBase *v12; // esi
-  unsigned __int8 *WorldMatrix3D; // eax
+  const __m128i *WorldMatrix3D; // eax
   double v14; // st6
   void *(__thiscall *AllocAutoHeap)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // edx
   Scaleform::Render::ShapeDataFloat *v16; // eax
@@ -20,22 +20,22 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
   Scaleform::Render::ShapeMeshProvider *v19; // eax
   float v20; // eax
   Scaleform::Render::ShapeMeshProvider *v21; // eax
-  Scaleform::Render::ShapeMeshProvider *v22; // eax
+  Scaleform::Render::ContextImpl::EntryData_vtbl *v22; // eax
   Scaleform::Render::TreeShape *v23; // edi
   unsigned int v24; // eax
   Scaleform::Render::ContextImpl::Entry *v25; // ecx
-  Scaleform::Render::TreeContainer *y; // [esp+268h] [ebp-C4h]
-  Scaleform::Render::ShapeMeshProvider *pshape; // [esp+284h] [ebp-A8h] BYREF
-  int v28; // [esp+288h] [ebp-A4h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+28Ch] [ebp-A0h] BYREF
-  Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *v30; // [esp+2A4h] [ebp-88h]
-  unsigned int v31; // [esp+2A8h] [ebp-84h]
-  int v32; // [esp+2ACh] [ebp-80h]
-  Scaleform::GFx::DisplayObjectBase *v33; // [esp+2B0h] [ebp-7Ch]
-  Scaleform::Render::FillStyleType v34; // [esp+2B4h] [ebp-78h] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+2BCh] [ebp-70h] BYREF
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+2CCh] [ebp-60h] BYREF
-  Scaleform::Render::Matrix3x4<float> result; // [esp+2FCh] [ebp-30h] BYREF
+  Scaleform::Render::TreeContainer *y; // [esp+14h] [ebp-C4h]
+  float x; // [esp+30h] [ebp-A8h] BYREF
+  int v28; // [esp+34h] [ebp-A4h] BYREF
+  Scaleform::Render::Rect<float> pr; // [esp+38h] [ebp-A0h] BYREF
+  Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *v30; // [esp+50h] [ebp-88h]
+  unsigned int v31; // [esp+54h] [ebp-84h]
+  int v32; // [esp+58h] [ebp-80h]
+  Scaleform::GFx::DisplayObjectBase *v33; // [esp+5Ch] [ebp-7Ch]
+  Scaleform::Render::FillStyleType fill; // [esp+60h] [ebp-78h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+68h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix3x4<float> dst; // [esp+78h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix3x4<float> result; // [esp+A8h] [ebp-30h] BYREF
 
   if ( this->pMainMovie )
   {
@@ -60,7 +60,7 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
       v7 = this->pRenderRoot.pObject;
       y = this->FocusRectContainerNode.pObject;
       v8 = Scaleform::Render::TreeContainer::GetSize(v7);
-      Scaleform::Render::TreeContainer::Insert(v7, v8, y);
+      Scaleform::Render::TreeContainer::Insert(v7, v8, (Scaleform::Render::TreeNodeArray *)y);
     }
     v31 = 0;
     if ( this->FocusGroupsCnt )
@@ -94,18 +94,18 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   Scaleform::RefCountNTSImpl::Release(v12);
                   return;
                 }
-                WorldMatrix3D = (unsigned __int8 *)Scaleform::GFx::DisplayObjectBase::GetWorldMatrix3D(v12, &result);
-                memcpy((unsigned __int8 *)&dst, WorldMatrix3D, sizeof(dst));
+                WorldMatrix3D = (const __m128i *)Scaleform::GFx::DisplayObjectBase::GetWorldMatrix3D(v12, &result);
+                memcpy((int)&dst, WorldMatrix3D, sizeof(dst));
                 Scaleform::Render::Matrix3x4<float>::EncloseTransform(&dst, &pr, &r);
                 *(float *)&v28 = (double)v31 * 20.0;
-                pshape = (Scaleform::Render::ShapeMeshProvider *)v28;
+                x = *(float *)&v28;
                 v14 = *(float *)&v28;
                 v28 = 2;
                 AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
                 pr.x1 = pr.x1 - v14;
                 pr.x2 = v14 + pr.x2;
-                pr.y1 = pr.y1 - *(float *)&pshape;
-                pr.y2 = *(float *)&pshape + pr.y2;
+                pr.y1 = pr.y1 - x;
+                pr.y2 = x + pr.y2;
                 v16 = (Scaleform::Render::ShapeDataFloat *)AllocAutoHeap(
                                                              Scaleform::Memory::pGlobalHeap,
                                                              this,
@@ -120,11 +120,11 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                 {
                   v18 = 0;
                 }
-                v34.pFill.pObject = 0;
-                v34.Color = v32 ^ 0xFFFFFF00 | 0xFF000000;
+                fill.pFill.pObject = 0;
+                fill.Color = v32 ^ 0xFFFFFF00 | 0xFF000000;
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::AddFillStyle(
                   v18,
-                  &v34);
+                  &fill);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
                   v18,
                   1u,
@@ -138,15 +138,15 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   v18,
                   pr.x2,
                   pr.y1);
-                *(float *)&pshape = pr.y1 + 20.0;
+                x = pr.y1 + 20.0;
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
                   pr.x2,
-                  *(float *)&pshape);
+                  x);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
                   pr.x1,
-                  *(float *)&pshape);
+                  x);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ClosePath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::EndPath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
@@ -162,14 +162,14 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   v18,
                   pr.x2,
                   pr.y2);
-                *(float *)&pshape = pr.x2 - 20.0;
+                x = pr.x2 - 20.0;
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
-                  *(float *)&pshape,
+                  x,
                   pr.y2);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
-                  *(float *)&pshape,
+                  x,
                   pr.y1);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ClosePath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::EndPath(v18);
@@ -186,15 +186,15 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   v18,
                   pr.x1,
                   pr.y2);
-                *(float *)&pshape = pr.y2 - 20.0;
+                x = pr.y2 - 20.0;
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
                   pr.x1,
-                  *(float *)&pshape);
+                  x);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
                   pr.x2,
-                  *(float *)&pshape);
+                  x);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ClosePath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::EndPath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
@@ -210,14 +210,14 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   v18,
                   pr.x1,
                   pr.y1);
-                *(float *)&pshape = pr.x1 + 20.0;
+                x = pr.x1 + 20.0;
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
-                  *(float *)&pshape,
+                  x,
                   pr.y1);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                   v18,
-                  *(float *)&pshape,
+                  x,
                   pr.y2);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ClosePath(v18);
                 Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::EndPath(v18);
@@ -230,32 +230,37 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                                                                 &v28);
                 if ( v19 )
                 {
-                  Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v19, v18, 0);
+                  Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v19, (Scaleform::GFx::Resource *)v18, 0);
                   *(float *)&v28 = v20;
                 }
                 else
                 {
                   *(float *)&v28 = 0.0;
                 }
-                pshape = (Scaleform::Render::ShapeMeshProvider *)2;
+                LODWORD(x) = 2;
                 v21 = (Scaleform::Render::ShapeMeshProvider *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                                 Scaleform::Memory::pGlobalHeap,
                                                                 this,
                                                                 96,
-                                                                &pshape);
+                                                                &x);
                 if ( v21 )
                 {
-                  Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v21, v18, 0);
-                  pshape = v22;
+                  Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v21, (Scaleform::GFx::Resource *)v18, 0);
+                  x = *(float *)&v22;
                 }
                 else
                 {
-                  *(float *)&pshape = 0.0;
+                  x = 0.0;
                 }
                 v23 = Scaleform::Render::ContextImpl::Context::CreateEntry<Scaleform::Render::TreeShape>(&this->RenderContext);
-                Scaleform::Render::TreeShape::SetShape(v23, (Scaleform::Render::ContextImpl::EntryData_vtbl *)pshape);
+                Scaleform::Render::TreeShape::SetShape(
+                  v23,
+                  (Scaleform::Render::ContextImpl::EntryData_vtbl *)LODWORD(x));
                 v24 = Scaleform::Render::TreeContainer::GetSize(this->FocusRectContainerNode.pObject);
-                Scaleform::Render::TreeContainer::Insert(this->FocusRectContainerNode.pObject, v24, v23);
+                Scaleform::Render::TreeContainer::Insert(
+                  this->FocusRectContainerNode.pObject,
+                  v24,
+                  (Scaleform::Render::TreeNodeArray *)v23);
                 if ( v23 )
                   ++v23->RefCount;
                 v25 = (Scaleform::Render::ContextImpl::Entry *)v30[-5].pProxy.pObject;
@@ -272,12 +277,12 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
                   if ( v6 )
                     Scaleform::Render::ContextImpl::Entry::destroyHelper(v23);
                 }
-                if ( *(float *)&pshape != 0.0 )
-                  pshape->Release(&pshape->Scaleform::Render::MeshProvider);
+                if ( x != 0.0 )
+                  (*(void (__thiscall **)(int))(*(_DWORD *)(LODWORD(x) + 8) + 8))(LODWORD(x) + 8);
                 if ( *(float *)&v28 != 0.0 )
                   (*(void (__thiscall **)(int))(*(_DWORD *)(v28 + 8) + 8))(v28 + 8);
-                if ( v34.pFill.pObject )
-                  Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v34.pFill.pObject);
+                if ( fill.pFill.pObject )
+                  Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)fill.pFill.pObject);
                 if ( v18 )
                   Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v18);
                 v12 = v33;
@@ -294,7 +299,7 @@ void __thiscall Scaleform::GFx::MovieImpl::UpdateFocusRectRenderNodes(Scaleform:
             p_LastFocused->pProxy.pObject = 0;
           }
         }
-        v32 += (int)vostok::intrusive_list<vostok::ai::brain_unit,vostok::ai::brain_unit *,264,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::erase;
+        v32 += 1081552;
         p_LastFocused += 16;
         ++v31;
         v30 = p_LastFocused;

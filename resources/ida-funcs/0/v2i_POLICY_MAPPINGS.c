@@ -1,73 +1,77 @@
-stack_st *__cdecl v2i_POLICY_MAPPINGS(const v3_ext_method *method, v3_ext_ctx *ctx, stack_st_CONF_VALUE *nval)
+stack_st *__usercall v2i_POLICY_MAPPINGS@<eax>(
+        int a1@<ebx>,
+        const v3_ext_method *method,
+        v3_ext_ctx *ctx,
+        stack_st_CONF_VALUE *nval)
 {
-  int v4; // ebx
-  char *v5; // eax
-  char *v6; // esi
-  char *v7; // eax
-  asn1_object_st *v8; // edi
-  asn1_object_st *v9; // eax
-  asn1_object_st *v10; // ebp
-  struct ASN1_VALUE_st *v11; // eax
-  stack_st *v12; // [esp+0h] [ebp-4h]
+  int v5; // ebx
+  char *v6; // eax
+  char *v7; // esi
+  char *v8; // eax
+  asn1_object_st *v9; // edi
+  asn1_object_st *v10; // eax
+  asn1_object_st *v11; // ebp
+  struct ASN1_VALUE_st *v12; // eax
+  stack_st *v13; // [esp+0h] [ebp-4h]
 
-  v12 = sk_new_null();
-  if ( v12 )
+  v13 = sk_new_null();
+  if ( v13 )
   {
-    v4 = 0;
+    v5 = 0;
     if ( sk_num(&nval->stack) <= 0 )
     {
-      return v12;
+      return v13;
     }
     else
     {
       while ( 1 )
       {
-        v5 = sk_value(&nval->stack, v4);
-        v6 = v5;
-        if ( !*((_DWORD *)v5 + 2) )
+        v6 = sk_value(&nval->stack, v5);
+        v7 = v6;
+        if ( !*((_DWORD *)v6 + 2) )
           break;
-        v7 = (char *)*((_DWORD *)v5 + 1);
-        if ( !v7 )
+        v8 = (char *)*((_DWORD *)v6 + 1);
+        if ( !v8 )
           break;
-        v8 = OBJ_txt2obj(v7, 0);
-        v9 = OBJ_txt2obj(*((char **)v6 + 2), 0);
-        v10 = v9;
-        if ( !v8 || !v9 )
+        v9 = OBJ_txt2obj(v5, v8, 0);
+        v10 = OBJ_txt2obj(v5, *((char **)v7 + 2), 0);
+        v11 = v10;
+        if ( !v9 || !v10 )
         {
-          sk_pop_free(v12, (void (__cdecl *)(void *))POLICY_MAPPING_free);
-          ERR_put_error(0x22u, 145, 110, ".\\crypto\\x509v3\\v3_pmaps.c", 140);
+          sk_pop_free(v13, (void (__cdecl *)(void *))POLICY_MAPPING_free);
+          ERR_put_error(v5, 0x22u, 145, 110, ".\\crypto\\x509v3\\v3_pmaps.c", 140);
           ERR_add_error_data(
             6,
             "section:",
-            *(_DWORD *)v6,
+            *(_DWORD *)v7,
             ",name:",
-            *((_DWORD *)v6 + 1),
+            *((_DWORD *)v7 + 1),
             ",value:",
-            *((_DWORD *)v6 + 2));
+            *((_DWORD *)v7 + 2));
           return 0;
         }
-        v11 = ASN1_item_new(&local_it_67);
-        if ( !v11 )
+        v12 = ASN1_item_new(&local_it_67);
+        if ( !v12 )
         {
-          sk_pop_free(v12, (void (__cdecl *)(void *))POLICY_MAPPING_free);
-          ERR_put_error(0x22u, 145, 65, ".\\crypto\\x509v3\\v3_pmaps.c", 147);
+          sk_pop_free(v13, (void (__cdecl *)(void *))POLICY_MAPPING_free);
+          ERR_put_error(v5, 0x22u, 145, 65, ".\\crypto\\x509v3\\v3_pmaps.c", 147);
           return 0;
         }
-        *(_DWORD *)v11 = v8;
-        *((_DWORD *)v11 + 1) = v10;
-        sk_push(v12, (char *)v11);
-        if ( ++v4 >= sk_num(&nval->stack) )
-          return v12;
+        *(_DWORD *)v12 = v9;
+        *((_DWORD *)v12 + 1) = v11;
+        sk_push(v13, (char *)v12);
+        if ( ++v5 >= sk_num(&nval->stack) )
+          return v13;
       }
-      sk_pop_free(v12, (void (__cdecl *)(void *))POLICY_MAPPING_free);
-      ERR_put_error(0x22u, 145, 110, ".\\crypto\\x509v3\\v3_pmaps.c", 132);
-      ERR_add_error_data(6, "section:", *(_DWORD *)v6, ",name:", *((_DWORD *)v6 + 1), ",value:", *((_DWORD *)v6 + 2));
+      sk_pop_free(v13, (void (__cdecl *)(void *))POLICY_MAPPING_free);
+      ERR_put_error(v5, 0x22u, 145, 110, ".\\crypto\\x509v3\\v3_pmaps.c", 132);
+      ERR_add_error_data(6, "section:", *(_DWORD *)v7, ",name:", *((_DWORD *)v7 + 1), ",value:", *((_DWORD *)v7 + 2));
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x22u, 145, 65, ".\\crypto\\x509v3\\v3_pmaps.c", 124);
+    ERR_put_error(a1, 0x22u, 145, 65, ".\\crypto\\x509v3\\v3_pmaps.c", 124);
     return 0;
   }
 }

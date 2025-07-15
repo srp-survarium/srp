@@ -1,22 +1,23 @@
 BOOL __thiscall Scaleform::GFx::MovieImpl::IsKeyboardFocused(
         Scaleform::GFx::MovieImpl *this,
-        const Scaleform::GFx::InteractiveObject *ch,
-        unsigned int controllerIdx)
+        Scaleform::GFx::Sprite *ch,
+        Scaleform::Ptr<Scaleform::GFx::Sprite> controllerIdx)
 {
-  unsigned int v3; // ebp
-  Scaleform::GFx::InteractiveObject *v5; // esi
+  Scaleform::GFx::Sprite *pObject; // ebp
+  Scaleform::GFx::Sprite *v5; // esi
 
-  v3 = controllerIdx;
+  pObject = controllerIdx.pObject;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-    (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[controllerIdx]].LastFocused,
-    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&controllerIdx);
-  v5 = (Scaleform::GFx::InteractiveObject *)controllerIdx;
-  if ( controllerIdx )
+    (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[(unsigned int)controllerIdx.pObject]].LastFocused,
+    &controllerIdx);
+  v5 = controllerIdx.pObject;
+  if ( controllerIdx.pObject )
   {
-    ++*(_DWORD *)(controllerIdx + 4);
+    ++controllerIdx.pObject->RefCount;
     Scaleform::RefCountNTSImpl::Release(v5);
   }
   if ( v5 )
     Scaleform::RefCountNTSImpl::Release(v5);
-  return v5 == ch && this->FocusGroups[this->FocusGroupIndexes[v3]].FocusRectShown;
+  return v5 == ch
+      && this->FocusGroups[*((unsigned __int8 *)&pObject[86].pRenNode.pObject + (_DWORD)this)].FocusRectShown;
 }

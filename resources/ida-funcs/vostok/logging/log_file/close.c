@@ -1,15 +1,21 @@
-void __thiscall vostok::logging::log_file::close(vostok::logging::log_file *this)
+volatile __int32 *__thiscall vostok::logging::log_file::close(vostok::logging::log_file *this)
 {
-  __int32 v2; // [esp+4h] [ebp-Ch] BYREF
-  __int32 v3; // [esp+8h] [ebp-8h]
-  void **file; // [esp+Ch] [ebp-4h]
+  vostok::logging::log_file *v1; // edi
+  volatile __int32 *result; // eax
+  volatile __int32 v3; // esi
+  __int32 v4; // [esp+4h] [ebp-4h] BYREF
 
-  if ( this->m_file )
+  v1 = vostok::core::g_log_file;
+  result = (volatile __int32 *)&vostok::core::g_log_file->m_file;
+  if ( vostok::core::g_log_file->m_file )
   {
-    file = this->m_file;
-    v3 = vostok::threading::interlocked_exchange_pointer((volatile int *)&this->m_file, 0);
-    _InterlockedExchange(&v2, v3);
-    vostok::fs_new::device_file_system_proxy_base::flush(&this->m_device.m_device, file);
-    vostok::fs_new::device_file_system_no_watcher_proxy::close(&this->m_device.m_device, file);
+    v3 = *result;
+    _InterlockedExchange(result, 0);
+    _InterlockedExchange(&v4, (__int32)result);
+    (*(void (__thiscall **)(volatile __int32))(*(_DWORD *)v3 + 16))(v3);
+    return (volatile __int32 *)((int (__thiscall *)(vostok::logging::base_fs_device *, volatile __int32))v1->m_device->close_file)(
+                                 v1->m_device,
+                                 v3);
   }
+  return result;
 }

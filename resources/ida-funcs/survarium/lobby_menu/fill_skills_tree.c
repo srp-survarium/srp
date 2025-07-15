@@ -1,518 +1,323 @@
-void __usercall survarium::lobby_menu::fill_skills_tree(survarium::lobby_menu *this@<ecx>, int a2@<esi>)
+void __thiscall survarium::lobby_menu::fill_skills_tree(
+        survarium::lobby_menu *this,
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> a2)
 {
-  int v2; // eax
-  int v3; // ecx
-  vostok::configs::binary_config_value *v4; // ebx
-  unsigned __int8 pointer; // al
-  int v6; // edx
-  vostok::configs::binary_config_value *v7; // eax
-  vostok::configs::binary_config_value *v8; // eax
-  const char **v9; // eax
-  Scaleform::GFx::Value::ObjectInterface *pObjectInterface; // ecx
-  vostok::configs::binary_config_value *v11; // eax
-  vostok::configs::binary_config_value *v12; // eax
-  const char **v13; // eax
-  Scaleform::GFx::Value::ObjectInterface *v14; // ecx
-  vostok::configs::binary_config_value *v15; // eax
-  vostok::configs::binary_config_value *v16; // eax
-  const void *v17; // edi
-  vostok::configs::binary_config_value *v18; // eax
-  const vostok::configs::binary_config_value *v19; // eax
-  int v20; // ecx
-  vostok::configs::binary_config_value *v21; // edi
-  Scaleform::GFx::Movie *v22; // ecx
-  Scaleform::GFx::Value::ObjectInterface *v23; // ecx
-  bool v24; // bl
-  vostok::configs::binary_config_value *v25; // ebx
-  const vostok::configs::binary_config_value *v26; // eax
-  int v27; // ecx
-  const vostok::configs::binary_config_value *v28; // eax
-  float v29; // xmm0_4
-  const vostok::configs::binary_config_value *v30; // eax
-  vostok::configs::binary_config_value *v31; // eax
-  vostok::configs::binary_config_value *v32; // eax
-  const char **v33; // eax
-  Scaleform::GFx::Value::ObjectInterface *v34; // ecx
-  Scaleform::GFx::Value::ObjectInterface *v35; // ecx
-  vostok::configs::binary_config_value *v36; // eax
-  vostok::configs::binary_config_value *v37; // eax
-  void *v38; // edi
-  vostok::configs::binary_config_value *v39; // ebx
-  const vostok::configs::binary_config_value *v40; // eax
-  int v41; // ecx
-  const void *v42; // ebx
+  vostok::particle::particle_system_instance_impl *m_object; // ebx
+  char pointer; // al
+  survarium::flash_movie *v4; // ecx
+  vostok::configs::binary_config_value *v5; // eax
+  vostok::configs::binary_config_value *v6; // eax
+  char **v7; // eax
+  survarium::flash_value *v8; // ecx
+  vostok::configs::binary_config_value *v9; // eax
+  vostok::configs::binary_config_value *v10; // eax
+  char **v11; // eax
+  survarium::flash_value *v12; // ecx
+  vostok::configs::binary_config_value *v13; // eax
+  vostok::configs::binary_config_value *v14; // eax
+  unsigned int *v15; // eax
+  survarium::flash_value *v16; // ecx
+  survarium::flash_value *v17; // ecx
+  survarium::flash_value *v18; // ecx
+  survarium::flash_value *v19; // ecx
+  survarium::flash_value *v20; // ecx
+  survarium::flash_value *v21; // ecx
+  int v22; // eax
+  int v23; // ecx
+  vostok::configs::binary_config_value *v24; // eax
+  vostok::configs::binary_config_value *v25; // eax
+  survarium::flash_movie *v26; // ecx
+  survarium::flash_value *v27; // ecx
+  vostok::configs::binary_config_value *v28; // ecx
+  bool v29; // al
+  survarium::flash_value *v30; // ecx
+  survarium::flash_value *v31; // ecx
+  const vostok::configs::binary_config_value *v32; // eax
+  survarium::flash_movie *v33; // ecx
+  unsigned int m_uid; // eax
+  const vostok::configs::binary_config_value *v35; // eax
+  float v36; // xmm0_4
+  const vostok::configs::binary_config_value *v37; // eax
+  vostok::configs::binary_config_value *v38; // eax
+  vostok::configs::binary_config_value *v39; // eax
+  char **v40; // eax
+  survarium::flash_value *v41; // ecx
+  survarium::flash_value *v42; // ecx
   vostok::configs::binary_config_value *v43; // eax
   vostok::configs::binary_config_value *v44; // eax
-  const char **v45; // eax
-  vostok::configs::binary_config_value *v46; // eax
-  vostok::configs::binary_config_value *v47; // eax
-  const char **v48; // eax
-  int v49; // ecx
-  int v50; // ecx
-  int v51; // edi
-  Scaleform::GFx::Value v52; // [esp+1E0h] [ebp-1184h] BYREF
-  Scaleform::GFx::Value v53; // [esp+1FCh] [ebp-1168h] BYREF
-  unsigned int v54; // [esp+214h] [ebp-1150h]
-  unsigned __int8 v55; // [esp+21Bh] [ebp-1149h]
-  vostok::configs::binary_config_value *v56; // [esp+21Ch] [ebp-1148h]
-  Scaleform::GFx::Value v57; // [esp+220h] [ebp-1144h] BYREF
-  unsigned int v58; // [esp+238h] [ebp-112Ch]
-  int v59; // [esp+23Ch] [ebp-1128h]
-  int v60; // [esp+240h] [ebp-1124h] BYREF
-  int v61; // [esp+244h] [ebp-1120h]
-  void *v62; // [esp+248h] [ebp-111Ch]
-  Scaleform::GFx::Value v63; // [esp+258h] [ebp-110Ch] BYREF
-  Scaleform::GFx::Value pvalue; // [esp+270h] [ebp-10F4h] BYREF
-  int v65; // [esp+288h] [ebp-10DCh]
-  int v66; // [esp+28Ch] [ebp-10D8h]
-  Scaleform::GFx::Value v67; // [esp+290h] [ebp-10D4h] BYREF
-  float v68; // [esp+2A8h] [ebp-10BCh]
-  int v69; // [esp+2ACh] [ebp-10B8h]
-  char v70[32]; // [esp+2B0h] [ebp-10B4h] BYREF
-  vostok::configs::binary_config_value *v71; // [esp+2D4h] [ebp-1090h]
-  unsigned int v72; // [esp+2D8h] [ebp-108Ch]
-  vostok::configs::binary_config_value *v73; // [esp+2DCh] [ebp-1088h]
-  char v74[32]; // [esp+2E0h] [ebp-1084h] BYREF
-  char key[32]; // [esp+300h] [ebp-1064h] BYREF
-  char _Dest[32]; // [esp+320h] [ebp-1044h] BYREF
-  char v77[32]; // [esp+340h] [ebp-1024h] BYREF
-  wchar_t v78[512]; // [esp+360h] [ebp-1004h] BYREF
-  wchar_t translated_text[512]; // [esp+760h] [ebp-C04h] BYREF
-  wchar_t v80[512]; // [esp+B60h] [ebp-804h] BYREF
-  wchar_t v81[514]; // [esp+F60h] [ebp-404h] BYREF
+  unsigned int *v45; // eax
+  survarium::flash_value *v46; // ecx
+  survarium::flash_value *v47; // ecx
+  vostok::configs::binary_config_value *v48; // ecx
+  const vostok::configs::binary_config_value *v49; // eax
+  vostok::configs::binary_config_value *v50; // ecx
+  unsigned int v51; // eax
+  vostok::configs::binary_config_value *v52; // eax
+  vostok::configs::binary_config_value *v53; // eax
+  char **v54; // eax
+  vostok::configs::binary_config_value *v55; // eax
+  vostok::configs::binary_config_value *v56; // eax
+  char **v57; // eax
+  survarium::flash_value *v58; // ecx
+  survarium::flash_value *v59; // ecx
+  survarium::flash_value *v60; // ecx
+  survarium::flash_value *v61; // ecx
+  int v62; // esi
+  survarium::text_translator v63[128]; // [esp+18h] [ebp-964h] BYREF
+  survarium::text_translator v64[128]; // [esp+218h] [ebp-764h] BYREF
+  survarium::text_translator value[128]; // [esp+418h] [ebp-564h] BYREF
+  survarium::text_translator v66[129]; // [esp+618h] [ebp-364h] BYREF
+  char _Dest[32]; // [esp+81Ch] [ebp-160h] BYREF
+  char v68[32]; // [esp+83Ch] [ebp-140h] BYREF
+  char v69[32]; // [esp+85Ch] [ebp-120h] BYREF
+  char v70[32]; // [esp+87Ch] [ebp-100h] BYREF
+  _QWORD v71[4]; // [esp+89Ch] [ebp-E0h] BYREF
+  Scaleform::GFx::Value v72; // [esp+8BCh] [ebp-C0h] BYREF
+  survarium::flash_value v73; // [esp+8D4h] [ebp-A8h] BYREF
+  Scaleform::GFx::Value pargs; // [esp+8ECh] [ebp-90h] BYREF
+  unsigned int v75; // [esp+904h] [ebp-78h]
+  vostok::resources::resource_link *m_last; // [esp+908h] [ebp-74h]
+  survarium::flash_value v77; // [esp+90Ch] [ebp-70h] BYREF
+  survarium::flash_value v78; // [esp+924h] [ebp-58h] BYREF
+  Scaleform::GFx::Value v79; // [esp+93Ch] [ebp-40h] BYREF
+  int v80; // [esp+954h] [ebp-28h]
+  float v81; // [esp+958h] [ebp-24h]
+  vostok::configs::binary_config_value *v82; // [esp+95Ch] [ebp-20h]
+  unsigned int v83; // [esp+960h] [ebp-1Ch]
+  int v84; // [esp+964h] [ebp-18h]
+  int v85; // [esp+968h] [ebp-14h]
+  vostok::resources::unmanaged_resource *v86; // [esp+96Ch] [ebp-10h]
+  int i; // [esp+970h] [ebp-Ch]
+  vostok::configs::binary_config_value *v88; // [esp+974h] [ebp-8h]
 
-  v2 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 168) + 952) + 60))(*(_DWORD *)(*(_DWORD *)(a2 + 168) + 952));
-  v3 = *(_DWORD *)(*(_DWORD *)(a2 + 168) + 948);
-  v71 = *(vostok::configs::binary_config_value **)(*(_DWORD *)(v2 + 2140) + 264);
-  v56 = *(vostok::configs::binary_config_value **)(*(_DWORD *)(v3 + 264) + 264);
-  v53.pObjectInterface = 0;
-  v53.Type = VT_Undefined;
-  v65 = 1;
-  v69 = 5;
+  m_object = a2.m_object;
+  m_last = a2.m_object[2].m_next_in_memory_type[1].m_children_resources.m_last;
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &a2,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&a2.m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3412]->m_name[217]);
+  v86 = a2.m_object->m_lods[0].m_template.m_object;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&a2);
+  *(_DWORD *)v78.body = 0;
+  *(_DWORD *)&v78.body[4] = 0;
+  v84 = 1;
+  v80 = 5;
   do
   {
-    sprintf_s<32>((char (*)[32])_Dest, "skill_%d", v65);
-    v4 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v71, _Dest);
-    v73 = v4;
-    pointer = (unsigned __int8)vostok::configs::binary_config_value::operator[](v4, "id")->data.pointer;
-    v6 = *(_DWORD *)(a2 + 212);
-    pvalue.pObjectInterface = 0;
-    pvalue.Type = VT_Undefined;
-    v55 = pointer;
-    Scaleform::GFx::Movie::CreateObject(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v6 + 264) + 4), &pvalue, 0, 0, 0);
-    v59 = v55;
-    sprintf_s<32>((char (*)[32])key, "skill_%d", v55);
-    v7 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v56, "skills_dict");
-    v8 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v7, key);
-    v9 = (const char **)vostok::configs::binary_config_value::operator[](v8, "skill_name");
+    sprintf_s<32>((char (*)[32])_Dest, "skill_%d", v84);
+    v82 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)m_last, _Dest);
+    pointer = (char)vostok::configs::binary_config_value::operator[](v82, "id")->data.pointer;
+    pargs.pObjectInterface = 0;
+    pargs.Type = VT_Undefined;
+    HIBYTE(a2.m_object) = pointer;
+    survarium::flash_movie::CreateObject(v4, *(survarium::flash_value **)(m_object[2].m_uid + 264), &pargs);
+    a2.m_object = (vostok::particle::particle_system_instance_impl *)HIBYTE(a2.m_object);
+    sprintf_s<32>((char (*)[32])v69, "skill_%d", a2.m_object);
+    v5 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v86, "skills_dict");
+    v6 = vostok::configs::binary_config_value::operator[](v5, v69);
+    v7 = (char **)vostok::configs::binary_config_value::operator[](v6, "skill_name");
     survarium::text_translator::translate_text(
-      (survarium::text_translator *)(*(_DWORD *)(a2 + 168) + 988),
-      *v9,
-      translated_text);
-    pObjectInterface = 0;
-    v52.pObjectInterface = 0;
-    v52.Type = VT_StringW;
-    v52.mValue.IValue = (int)translated_text;
-    if ( (v53.Type & 0x40) != 0 )
+      value,
+      (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+      *v7,
+      (char *)value);
+    survarium::flash_value::SetString(&v78, (const char *)value);
+    survarium::flash_value::SetMember(v8, &pargs, "name", &v78);
+    v9 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v86, "skills_dict");
+    v10 = vostok::configs::binary_config_value::operator[](v9, v69);
+    v11 = (char **)vostok::configs::binary_config_value::operator[](v10, "skill_description");
+    survarium::text_translator::translate_text(
+      v64,
+      (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+      *v11,
+      (char *)v64);
+    survarium::flash_value::SetString(&v78, (const char *)v64);
+    survarium::flash_value::SetMember(v12, &pargs, "description", &v78);
+    v13 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)v86, "skills_dict");
+    v14 = vostok::configs::binary_config_value::operator[](v13, v69);
+    v15 = (unsigned int *)vostok::configs::binary_config_value::operator[](v14, "skill_icon");
+    survarium::flash_value::SetUInt(v16, (int)&v78, *v15);
+    survarium::flash_value::SetMember(v17, &pargs, "color", &v78);
+    survarium::flash_value::SetUInt(v18, (int)&v78, (unsigned int)a2.m_object);
+    survarium::flash_value::SetMember(v19, &pargs, "id", &v78);
+    survarium::flash_value::SetUInt(v20, (int)&v78, 0);
+    survarium::flash_value::SetMember(v21, &pargs, "opened", &v78);
+    Scaleform::GFx::Movie::CreateArray(
+      *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4),
+      (Scaleform::GFx::Value *)&v78);
+    *(_DWORD *)v77.body = 0;
+    *(_DWORD *)&v77.body[4] = 0;
+    v22 = 24 * vostok::configs::binary_config_value::operator[](v82, "levels")->count / 24;
+    v23 = 1;
+    v85 = 1;
+    v75 = v22;
+    if ( v22 )
     {
-      v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
-      pObjectInterface = v52.pObjectInterface;
-      v53.pObjectInterface = 0;
-    }
-    v53.Type = VT_StringW;
-    v53.mValue.IValue = (int)translated_text;
-    if ( (v52.Type & 0x40) != 0 )
-      pObjectInterface->ObjectRelease(pObjectInterface, &v52, v52.mValue.pStringManaged);
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      "name",
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
-    v11 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v56, "skills_dict");
-    v12 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v11, key);
-    v13 = (const char **)vostok::configs::binary_config_value::operator[](v12, "skill_description");
-    survarium::text_translator::translate_text((survarium::text_translator *)(*(_DWORD *)(a2 + 168) + 988), *v13, v80);
-    v14 = 0;
-    v52.pObjectInterface = 0;
-    v52.Type = VT_StringW;
-    v52.mValue.IValue = (int)v80;
-    if ( (v53.Type & 0x40) != 0 )
-    {
-      v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
-      v14 = v52.pObjectInterface;
-      v53.pObjectInterface = 0;
-    }
-    v53.Type = VT_StringW;
-    v53.mValue.IValue = (int)v80;
-    if ( (v52.Type & 0x40) != 0 )
-      v14->ObjectRelease(v14, &v52, v52.mValue.pStringManaged);
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      "description",
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
-    v15 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v56, "skills_dict");
-    v16 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v15, key);
-    v17 = vostok::configs::binary_config_value::operator[](v16, "skill_icon")->data.pointer;
-    if ( (v53.Type & 0x40) != 0 )
-    {
-      v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
-      v53.pObjectInterface = 0;
-    }
-    v53.Type = VT_UInt;
-    v53.mValue.IValue = (int)v17;
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      (const char *)&stru_9555EC,
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
-    if ( (v53.Type & 0x40) != 0 )
-    {
-      v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
-      v53.pObjectInterface = 0;
-    }
-    v53.mValue.IValue = v59;
-    v53.Type = VT_UInt;
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      "id",
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
-    if ( (v53.Type & 0x40) != 0 )
-    {
-      v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
-      v53.pObjectInterface = 0;
-    }
-    v53.Type = VT_UInt;
-    v53.mValue.IValue = 0;
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      "opened",
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
-    Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 212) + 264) + 4), &v53);
-    v63.pObjectInterface = 0;
-    v63.Type = VT_Undefined;
-    v72 = 24 * vostok::configs::binary_config_value::operator[](v4, "levels")->count / 24;
-    v59 = 1;
-    if ( v72 )
-    {
-      while ( 1 )
+      do
       {
-        sprintf_s<32>((char (*)[32])v77, "skill_level_%d", v59);
-        v18 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v4, "levels");
-        v19 = vostok::configs::binary_config_value::operator[](v18, v77);
-        v20 = *(_DWORD *)(a2 + 212);
-        v21 = (vostok::configs::binary_config_value *)v19;
-        v67.pObjectInterface = 0;
-        v67.Type = VT_Undefined;
-        v22 = *(Scaleform::GFx::Movie **)(*(_DWORD *)(v20 + 264) + 4);
-        v66 = (int)v19;
-        Scaleform::GFx::Movie::CreateObject(v22, &v67, 0, 0, 0);
-        v23 = 0;
-        v52.pObjectInterface = 0;
-        v52.Type = VT_StringW;
-        v52.mValue.IValue = (int)translated_text;
-        if ( (v63.Type & 0x40) != 0 )
-        {
-          v63.pObjectInterface->ObjectRelease(v63.pObjectInterface, &v63, (void *)v63.mValue.IValue);
-          v23 = v52.pObjectInterface;
-          v63.pObjectInterface = 0;
-        }
-        v63.Type = VT_StringW;
-        v63.mValue.IValue = (int)translated_text;
-        if ( (v52.Type & 0x40) != 0 )
-          v23->ObjectRelease(v23, &v52, v52.mValue.pStringManaged);
-        v67.pObjectInterface->SetMember(
-          v67.pObjectInterface,
-          (void *)v67.mValue.IValue,
-          "name",
-          &v63,
-          (v67.Type & 0x8F) == 10);
-        v24 = vostok::configs::binary_config_value::value_exists(v21, "perks");
-        if ( (v63.Type & 0x40) != 0 )
-        {
-          v63.pObjectInterface->ObjectRelease(v63.pObjectInterface, &v63, (void *)v63.mValue.IValue);
-          v63.pObjectInterface = 0;
-        }
-        v63.mValue.IValue = v24;
-        v63.Type = VT_UInt;
-        v67.pObjectInterface->SetMember(
-          v67.pObjectInterface,
-          (void *)v67.mValue.IValue,
-          "power",
-          &v63,
-          (v67.Type & 0x8F) == 10);
+        sprintf_s<32>((char (*)[32])v68, "skill_level_%d", v85);
+        v24 = vostok::configs::binary_config_value::operator[](v82, "levels");
+        v25 = vostok::configs::binary_config_value::operator[](v24, v68);
+        v72.pObjectInterface = 0;
+        v72.Type = VT_Undefined;
+        v88 = v25;
+        survarium::flash_movie::CreateObject(v26, *(survarium::flash_value **)(m_object[2].m_uid + 264), &v72);
+        survarium::flash_value::SetString(&v77, (const char *)value);
+        survarium::flash_value::SetMember(v27, &v72, "name", &v77);
+        v29 = vostok::configs::binary_config_value::value_exists(v28, (int)v88, (unsigned int)"perks");
+        survarium::flash_value::SetUInt(v30, (int)&v77, v29);
+        survarium::flash_value::SetMember(v31, &v72, "power", &v77);
         Scaleform::GFx::Movie::CreateArray(
-          *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 212) + 264) + 4),
-          &v63);
-        v25 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v21, "boosters")->data.pointer;
-        v26 = vostok::configs::binary_config_value::operator[](v21, "boosters");
-        v58 = (unsigned int)v26->data.pointer + 24 * v26->count;
-        v60 = 0;
-        v61 = 0;
-        v54 = 0;
-        if ( v25 != (vostok::configs::binary_config_value *)v58 )
+          *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4),
+          (Scaleform::GFx::Value *)&v77);
+        a2.m_object = (vostok::particle::particle_system_instance_impl *)vostok::configs::binary_config_value::operator[](
+                                                                           v88,
+                                                                           "boosters")->data.pointer;
+        v32 = vostok::configs::binary_config_value::operator[](v88, "boosters");
+        v33 = (survarium::flash_movie *)((char *)v32->data.pointer + 24 * v32->count);
+        v83 = (unsigned int)v33;
+        *(_DWORD *)v73.body = 0;
+        *(_DWORD *)&v73.body[4] = 0;
+        i = 0;
+        if ( (survarium::flash_movie *)a2.m_object != v33 )
         {
           do
           {
-            v27 = *(_DWORD *)(a2 + 212);
-            v57.pObjectInterface = 0;
-            v57.Type = VT_Undefined;
-            Scaleform::GFx::Movie::CreateObject(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v27 + 264) + 4), &v57, 0, 0, 0);
-            v28 = vostok::configs::binary_config_value::operator[](v25, (char *)&stru_955964);
-            if ( v28->type == 2 )
-              v29 = *(float *)&v28->data.pointer;
+            m_uid = m_object[2].m_uid;
+            v79.pObjectInterface = 0;
+            v79.Type = VT_Undefined;
+            survarium::flash_movie::CreateObject(v33, *(survarium::flash_value **)(m_uid + 264), &v79);
+            v35 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)a2.m_object,
+                    "value");
+            if ( v35->type == 2 )
+              v36 = *(float *)&v35->data.pointer;
             else
-              v29 = (float)(int)v28->data.pointer;
-            v68 = v29;
-            v30 = vostok::configs::binary_config_value::operator[](v25, "id");
-            sprintf_s<32>((char (*)[32])v74, "booster_%d", v30->data.pointer);
-            v31 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v56,
-                                                            "boosters_dict");
-            v32 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v31, v74);
-            v33 = (const char **)vostok::configs::binary_config_value::operator[](v32, "booster_name");
+              v36 = (float)(int)v35->data.pointer;
+            v81 = v36;
+            v37 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)a2.m_object,
+                    "id");
+            sprintf_s<32>((char (*)[32])v71, "booster_%d", v37->data.pointer);
+            v38 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)v86,
+                    "boosters_dict");
+            v39 = vostok::configs::binary_config_value::operator[](v38, (char *)v71);
+            v40 = (char **)vostok::configs::binary_config_value::operator[](v39, "booster_name");
             survarium::text_translator::translate_text(
-              (survarium::text_translator *)(*(_DWORD *)(a2 + 168) + 988),
-              *v33,
-              v78);
-            sprintf_s<32>((char (*)[32])v70, (const char *)&stru_95AF78.m_key_bindings[63].m_keyboard[1], v68);
-            v34 = 0;
-            v52.pObjectInterface = 0;
-            v52.Type = VT_String;
-            v52.mValue.IValue = (int)v70;
-            if ( (v61 & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(int, int *, void *))(*(_DWORD *)v60 + 8))(v60, &v60, v62);
-              v34 = v52.pObjectInterface;
-              v60 = 0;
-            }
-            v61 = 6;
-            v62 = v70;
-            if ( (v52.Type & 0x40) != 0 )
-              v34->ObjectRelease(v34, &v52, v52.mValue.pStringManaged);
-            v57.pObjectInterface->SetMember(
-              v57.pObjectInterface,
-              (void *)v57.mValue.IValue,
-              "prop_value",
-              (const Scaleform::GFx::Value *)&v60,
-              (v57.Type & 0x8F) == 10);
-            v35 = 0;
-            v52.pObjectInterface = 0;
-            v52.Type = VT_StringW;
-            v52.mValue.IValue = (int)v78;
-            if ( (v61 & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(int, int *, void *))(*(_DWORD *)v60 + 8))(v60, &v60, v62);
-              v35 = v52.pObjectInterface;
-              v60 = 0;
-            }
-            v61 = 7;
-            v62 = v78;
-            if ( (v52.Type & 0x40) != 0 )
-              v35->ObjectRelease(v35, &v52, v52.mValue.pStringManaged);
-            v57.pObjectInterface->SetMember(
-              v57.pObjectInterface,
-              (void *)v57.mValue.IValue,
-              "prop_name",
-              (const Scaleform::GFx::Value *)&v60,
-              (v57.Type & 0x8F) == 10);
-            v36 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v56,
-                                                            "boosters_dict");
-            v37 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v36, v74);
-            v38 = (void *)vostok::configs::binary_config_value::operator[](v37, "booster_icon")->data.pointer;
-            if ( (v61 & 0x40) != 0 )
-            {
-              (*(void (__thiscall **)(int, int *, void *))(*(_DWORD *)v60 + 8))(v60, &v60, v62);
-              v60 = 0;
-            }
-            v61 = 4;
-            v62 = v38;
-            v57.pObjectInterface->SetMember(
-              v57.pObjectInterface,
-              (void *)v57.mValue.IValue,
-              "prop_icon",
-              (const Scaleform::GFx::Value *)&v60,
-              (v57.Type & 0x8F) == 10);
-            v63.pObjectInterface->SetElement(v63.pObjectInterface, (void *)v63.mValue.IValue, v54, &v57);
-            if ( (v57.Type & 0x40) != 0 )
-              v57.pObjectInterface->ObjectRelease(v57.pObjectInterface, &v57, (void *)v57.mValue.IValue);
-            ++v54;
-            ++v25;
+              v66,
+              (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+              *v40,
+              (char *)v66);
+            sprintf_s<32>((char (*)[32])v70, "%f", v81);
+            survarium::flash_value::SetString(&v73, v70);
+            survarium::flash_value::SetMember(v41, &v79, "prop_value", &v73);
+            survarium::flash_value::SetString(&v73, (const char *)v66);
+            survarium::flash_value::SetMember(v42, &v79, "prop_name", &v73);
+            v43 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)v86,
+                    "boosters_dict");
+            v44 = vostok::configs::binary_config_value::operator[](v43, (char *)v71);
+            v45 = (unsigned int *)vostok::configs::binary_config_value::operator[](v44, "booster_icon");
+            survarium::flash_value::SetUInt(v46, (int)&v73, *v45);
+            survarium::flash_value::SetMember(v47, &v79, "prop_icon", &v73);
+            (*(void (__thiscall **)(_DWORD, _DWORD, int, Scaleform::GFx::Value *))(**(_DWORD **)v77.body + 52))(
+              *(_DWORD *)v77.body,
+              *(_DWORD *)&v77.body[8],
+              i,
+              &v79);
+            Scaleform::GFx::Value::~Value(&v79);
+            a2.m_object = (vostok::particle::particle_system_instance_impl *)((char *)a2.m_object + 24);
+            ++i;
           }
-          while ( v25 != (vostok::configs::binary_config_value *)v58 );
-          v21 = (vostok::configs::binary_config_value *)v66;
+          while ( a2.m_object != (vostok::particle::particle_system_instance_impl *)v83 );
         }
-        v67.pObjectInterface->SetMember(
-          v67.pObjectInterface,
-          (void *)v67.mValue.IValue,
-          "properties",
-          &v63,
-          (v67.Type & 0x8F) == 10);
-        if ( vostok::configs::binary_config_value::value_exists(v21, "perks") )
+        survarium::flash_value::SetMember((survarium::flash_value *)v33, &v72, "properties", &v77);
+        if ( vostok::configs::binary_config_value::value_exists(v48, (int)v88, (unsigned int)"perks") )
         {
           Scaleform::GFx::Movie::CreateArray(
-            *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 212) + 264) + 4),
-            &v63);
-          v39 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v21, "perks")->data.pointer;
-          v54 = (unsigned int)v39;
-          v40 = vostok::configs::binary_config_value::operator[](v21, "perks");
-          v66 = (int)v40->data.pointer + 24 * v40->count;
-          v57.pObjectInterface = 0;
-          v57.Type = VT_Undefined;
-          v58 = 0;
-          if ( v39 != (vostok::configs::binary_config_value *)v66 )
+            *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4),
+            (Scaleform::GFx::Value *)&v77);
+          a2.m_object = (vostok::particle::particle_system_instance_impl *)vostok::configs::binary_config_value::operator[](
+                                                                             v88,
+                                                                             "perks")->data.pointer;
+          v49 = vostok::configs::binary_config_value::operator[](v88, "perks");
+          v50 = (vostok::configs::binary_config_value *)((char *)v49->data.pointer + 24 * v49->count);
+          v79.pObjectInterface = 0;
+          v88 = v50;
+          v79.Type = VT_Undefined;
+          for ( i = 0; (vostok::configs::binary_config_value *)a2.m_object != v88; ++i )
           {
-            while ( 1 )
-            {
-              v41 = *(_DWORD *)(a2 + 212);
-              v52.pObjectInterface = 0;
-              v52.Type = VT_Undefined;
-              Scaleform::GFx::Movie::CreateObject(
-                *(Scaleform::GFx::Movie **)(*(_DWORD *)(v41 + 264) + 4),
-                &v52,
-                0,
-                0,
-                0);
-              v42 = vostok::configs::binary_config_value::operator[](v39, "id")->data.pointer;
-              sprintf_s<32>((char (*)[32])v74, "perk_%d", v42);
-              v43 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v56,
-                                                              "perks_dict");
-              v44 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v43, v74);
-              v45 = (const char **)vostok::configs::binary_config_value::operator[](v44, "name");
-              survarium::text_translator::translate_text(
-                (survarium::text_translator *)(*(_DWORD *)(a2 + 168) + 988),
-                *v45,
-                v78);
-              v46 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v56,
-                                                              "perks_dict");
-              v47 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v46, v74);
-              v48 = (const char **)vostok::configs::binary_config_value::operator[](v47, "description");
-              survarium::text_translator::translate_text(
-                (survarium::text_translator *)(*(_DWORD *)(a2 + 168) + 988),
-                *v48,
-                v81);
-              v49 = 0;
-              *(_DWORD *)v70 = 0;
-              *(_DWORD *)&v70[4] = 7;
-              *(_DWORD *)&v70[8] = v78;
-              if ( (v57.Type & 0x40) != 0 )
-              {
-                v57.pObjectInterface->ObjectRelease(v57.pObjectInterface, &v57, (void *)v57.mValue.IValue);
-                v49 = *(_DWORD *)v70;
-                v57.pObjectInterface = 0;
-              }
-              v57.Type = VT_StringW;
-              v57.mValue.IValue = (int)v78;
-              if ( (v70[4] & 0x40) != 0 )
-                (*(void (__thiscall **)(int, char *, _DWORD))(*(_DWORD *)v49 + 8))(v49, v70, *(_DWORD *)&v70[8]);
-              v52.pObjectInterface->SetMember(
-                v52.pObjectInterface,
-                (void *)v52.mValue.IValue,
-                "name",
-                &v57,
-                (v52.Type & 0x8F) == 10);
-              v50 = 0;
-              *(_DWORD *)v70 = 0;
-              *(_DWORD *)&v70[4] = 7;
-              *(_DWORD *)&v70[8] = v81;
-              if ( (v57.Type & 0x40) != 0 )
-              {
-                v57.pObjectInterface->ObjectRelease(v57.pObjectInterface, &v57, (void *)v57.mValue.IValue);
-                v50 = *(_DWORD *)v70;
-                v57.pObjectInterface = 0;
-              }
-              v57.Type = VT_StringW;
-              v57.mValue.IValue = (int)v81;
-              if ( (v70[4] & 0x40) != 0 )
-                (*(void (__thiscall **)(int, char *, _DWORD))(*(_DWORD *)v50 + 8))(v50, v70, *(_DWORD *)&v70[8]);
-              v52.pObjectInterface->SetMember(
-                v52.pObjectInterface,
-                (void *)v52.mValue.IValue,
-                "item_description",
-                &v57,
-                (v52.Type & 0x8F) == 10);
-              if ( (v57.Type & 0x40) != 0 )
-              {
-                v57.pObjectInterface->ObjectRelease(v57.pObjectInterface, &v57, (void *)v57.mValue.IValue);
-                v57.pObjectInterface = 0;
-              }
-              v57.Type = VT_UInt;
-              v57.mValue.IValue = (int)v42;
-              v52.pObjectInterface->SetMember(
-                v52.pObjectInterface,
-                (void *)v52.mValue.IValue,
-                "id",
-                &v57,
-                (v52.Type & 0x8F) == 10);
-              v63.pObjectInterface->SetElement(v63.pObjectInterface, (void *)v63.mValue.IValue, v58, &v52);
-              if ( (v52.Type & 0x40) != 0 )
-                v52.pObjectInterface->ObjectRelease(v52.pObjectInterface, &v52, (void *)v52.mValue.IValue);
-              ++v58;
-              v54 += 24;
-              if ( v54 == v66 )
-                break;
-              v39 = (vostok::configs::binary_config_value *)v54;
-            }
+            v51 = m_object[2].m_uid;
+            v71[1] = 0;
+            survarium::flash_movie::CreateObject(
+              (survarium::flash_movie *)v50,
+              *(survarium::flash_value **)(v51 + 264),
+              (Scaleform::GFx::Value *)&v71[1]);
+            v83 = (unsigned int)vostok::configs::binary_config_value::operator[](
+                                  (vostok::configs::binary_config_value *)a2.m_object,
+                                  "id")->data.pointer;
+            sprintf_s<32>((char (*)[32])v70, "perk_%d", v83);
+            v52 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)v86,
+                    "perks_dict");
+            v53 = vostok::configs::binary_config_value::operator[](v52, v70);
+            v54 = (char **)vostok::configs::binary_config_value::operator[](v53, "name");
+            survarium::text_translator::translate_text(
+              v66,
+              (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+              *v54,
+              (char *)v66);
+            v55 = vostok::configs::binary_config_value::operator[](
+                    (vostok::configs::binary_config_value *)v86,
+                    "perks_dict");
+            v56 = vostok::configs::binary_config_value::operator[](v55, v70);
+            v57 = (char **)vostok::configs::binary_config_value::operator[](v56, "description");
+            survarium::text_translator::translate_text(
+              v63,
+              (int)&m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3421],
+              *v57,
+              (char *)v63);
+            survarium::flash_value::SetString((survarium::flash_value *)&v79, (const char *)v66);
+            survarium::flash_value::SetMember(v58, &v71[1], "name", (survarium::flash_value *)&v79);
+            survarium::flash_value::SetString((survarium::flash_value *)&v79, (const char *)v63);
+            survarium::flash_value::SetMember(v59, &v71[1], "item_description", (survarium::flash_value *)&v79);
+            survarium::flash_value::SetUInt(v60, (int)&v79, v83);
+            survarium::flash_value::SetMember(v61, &v71[1], "id", (survarium::flash_value *)&v79);
+            (*(void (__thiscall **)(_DWORD, _DWORD, int, _QWORD *))(**(_DWORD **)v77.body + 52))(
+              *(_DWORD *)v77.body,
+              *(_DWORD *)&v77.body[8],
+              i,
+              &v71[1]);
+            Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v71[1]);
+            a2.m_object = (vostok::particle::particle_system_instance_impl *)((char *)a2.m_object + 24);
           }
-          v67.pObjectInterface->SetMember(
-            v67.pObjectInterface,
-            (void *)v67.mValue.IValue,
-            "perks",
-            &v63,
-            (v67.Type & 0x8F) == 10);
-          if ( (v57.Type & 0x40) != 0 )
-            v57.pObjectInterface->ObjectRelease(v57.pObjectInterface, &v57, (void *)v57.mValue.IValue);
+          survarium::flash_value::SetMember((survarium::flash_value *)v50, &v72, "perks", &v77);
+          Scaleform::GFx::Value::~Value(&v79);
         }
-        v51 = v59;
-        v53.pObjectInterface->SetElement(v53.pObjectInterface, (void *)v53.mValue.IValue, v59 - 1, &v67);
-        if ( (v61 & 0x40) != 0 )
-        {
-          (*(void (__thiscall **)(int, int *, void *))(*(_DWORD *)v60 + 8))(v60, &v60, v62);
-          v60 = 0;
-        }
-        v61 = 0;
-        if ( (v67.Type & 0x40) != 0 )
-          v67.pObjectInterface->ObjectRelease(v67.pObjectInterface, &v67, (void *)v67.mValue.IValue);
-        v59 = v51 + 1;
-        if ( v51 + 1 > v72 )
-          break;
-        v4 = v73;
+        v62 = v85;
+        (*(void (__thiscall **)(_DWORD, _DWORD, int, Scaleform::GFx::Value *))(**(_DWORD **)v78.body + 52))(
+          *(_DWORD *)v78.body,
+          *(_DWORD *)&v78.body[8],
+          v85 - 1,
+          &v72);
+        Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v73);
+        Scaleform::GFx::Value::~Value(&v72);
+        v85 = v62 + 1;
       }
+      while ( v62 + 1 <= v75 );
     }
-    pvalue.pObjectInterface->SetMember(
-      pvalue.pObjectInterface,
-      (void *)pvalue.mValue.IValue,
-      "slots",
-      &v53,
-      (pvalue.Type & 0x8F) == 10);
+    survarium::flash_value::SetMember((survarium::flash_value *)v23, &pargs, "slots", &v78);
     Scaleform::GFx::Movie::Invoke(
-      *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 212) + 264) + 4),
+      *(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object[2].m_uid + 264) + 4),
       "root.create_perk_tree",
       0,
-      &pvalue,
+      &pargs,
       1u);
-    if ( (v63.Type & 0x40) != 0 )
-    {
-      v63.pObjectInterface->ObjectRelease(v63.pObjectInterface, &v63, (void *)v63.mValue.IValue);
-      v63.pObjectInterface = 0;
-    }
-    v63.Type = VT_Undefined;
-    if ( (pvalue.Type & 0x40) != 0 )
-      pvalue.pObjectInterface->ObjectRelease(pvalue.pObjectInterface, &pvalue, (void *)pvalue.mValue.IValue);
-    ++v65;
-    --v69;
+    Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v77);
+    Scaleform::GFx::Value::~Value(&pargs);
+    ++v84;
+    --v80;
   }
-  while ( v69 );
-  if ( (v53.Type & 0x40) != 0 )
-    v53.pObjectInterface->ObjectRelease(v53.pObjectInterface, &v53, (void *)v53.mValue.IValue);
+  while ( v80 );
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v78);
 }

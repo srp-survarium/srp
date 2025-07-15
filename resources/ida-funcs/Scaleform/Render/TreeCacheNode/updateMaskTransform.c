@@ -19,7 +19,7 @@ void __thiscall Scaleform::Render::TreeCacheNode::updateMaskTransform(
                                                        & 0xFFFFFFFE);
     if ( (flags & 0x80u) != 0 )
     {
-      memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)&t->Mat3D, sizeof(dst));
+      memcpy((int)&dst, (const __m128i *)&t->Mat3D, sizeof(dst));
       Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&t->Mat3D, &dst, &v4->M34);
     }
     else

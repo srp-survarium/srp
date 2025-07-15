@@ -15,7 +15,7 @@ void __thiscall Scaleform::AllocAddr::destroyAll(Scaleform::AllocAddr *this)
         i = nodes.Root.pNext )
   {
     i->pPrev->pNext = i->pNext;
-    i->pNext->Scaleform::ListNode<Scaleform::AllocAddrNode>::$DB72A02B443B71C4F9F3C79864B49E88::pPrev = i->pPrev;
+    i->pNext->Scaleform::ListNode<Scaleform::AllocAddrNode>::$EDDFB6E6111D817B2CB971CA9EC17793::pPrev = i->pPrev;
     this->pNodeHeap->Free(this->pNodeHeap, i);
   }
 }

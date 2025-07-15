@@ -15,10 +15,10 @@ void __usercall survarium::flash_external_handler::flash_external_handler(
     v3[2] = 6;
     *v3 = &survarium::flash_external_handler_impl::`vftable';
     v3[3] = a2;
-    a2[1] = v3;
   }
   else
   {
-    a2[1] = 0;
+    v3 = 0;
   }
+  a2[1] = v3;
 }

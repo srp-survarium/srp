@@ -1,45 +1,48 @@
 void __thiscall vostok::render::user_render_surface::material_ready(
         vostok::render::user_render_surface *this,
-        vostok::resources::unmanaged_resource *data,
+        vostok::particle::particle_system_instance_impl *data,
         vostok::render::material_effects_instance_cook_data *cook_data,
         char *material_name)
 {
-  char *v4; // edi
-  vostok::render::render_surface *v5; // ecx
-  vostok::resources::unmanaged_resource *v6; // esi
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  vostok::resources::queries_result *v8; // [esp-8h] [ebp-18h]
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *p_m_children_resources; // [esp-4h] [ebp-14h]
+  vostok::memory::doug_lea_allocator *m_lock; // ecx
+  vostok::particle::particle_system_instance_impl *v6; // ecx
+  vostok::render::render_surface *v7; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v8; // [esp-8h] [ebp-14h] BYREF
+  char *v9; // [esp-4h] [ebp-10h]
+  const char *v10; // [esp+0h] [ebp-Ch]
+  const char *v11; // [esp+4h] [ebp-8h]
+  unsigned int v12; // [esp+8h] [ebp-4h]
 
-  vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::material_effects_instance_cook_data,vostok::memory::detail::call_destructor_predicate>(
-    (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-    (vostok::resources::unmanaged_resource ***)&cook_data);
-  v4 = material_name;
-  if ( data->m_parent_resources.m_lock == 1 )
+  vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::material_effects_instance_cook_data>(
+    vostok::render::g_allocator,
+    &cook_data,
+    v10,
+    v11,
+    v12);
+  m_lock = (vostok::memory::doug_lea_allocator *)data->m_parent_resources.m_lock;
+  if ( m_lock == (vostok::memory::doug_lea_allocator *)1 )
   {
-    p_m_children_resources = (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)&data[1].m_children_resources;
-    data = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&data,
-      (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)p_m_children_resources);
-    v6 = data;
-    v8 = 0;
-    if ( data )
-    {
-      v8 = (vostok::resources::queries_result *)data;
-      _InterlockedExchangeAdd(&data->m_reference_count, 1u);
-    }
+    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data,
+      (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data->m_lods[1].m_emitter_instance_list);
+    v9 = material_name;
+    v8.m_object = v6;
+    vostok::resources::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base>::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base>(
+      &v8,
+      data);
     vostok::render::render_surface::set_material_effects(
-      v5,
-      (vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base>)v8,
-      v4);
-    if ( v6 && !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(&v6->vostok::resources::unmanaged_intrusive_base, v6);
+      v7,
+      (vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base>)this,
+      (const char *)v8.m_object,
+      v9);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&data);
   }
-  if ( v4 )
-  {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v4);
-  }
+  if ( material_name )
+    vostok::memory::doug_lea_allocator::free_impl(
+      m_lock,
+      (int)vostok::render::g_allocator,
+      material_name,
+      v10,
+      v11,
+      v12);
 }

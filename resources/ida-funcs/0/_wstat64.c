@@ -1,7 +1,7 @@
 int __cdecl _wstat64(const wchar_t *name, _stat64 *buf)
 {
   const wchar_t *dwHighDateTime; // esi
-  unsigned int v3; // eax
+  int v3; // eax
   const wchar_t *v4; // eax
   const wchar_t *v5; // esi
   __int64 v6; // rax
@@ -149,6 +149,6 @@ LABEL_42:
   }
   *__doserrno() = 0;
   *_errno() = 22;
-  _invalid_parameter(0, (unsigned int)buf, (unsigned int)name);
+  _invalid_parameter(0, (int)buf, (int)name);
   return -1;
 }

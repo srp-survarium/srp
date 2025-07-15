@@ -41,76 +41,76 @@ void __thiscall Scaleform::Render::StrokerAA::calcRoundJoin(
   unsigned int v40; // ebx
   Scaleform::Render::StrokerAA::TriangleType *v41; // eax
   Scaleform::Render::StrokerAA::TriangleType *v42; // eax
-  float y; // [esp+4h] [ebp-5Ch]
-  float ya; // [esp+4h] [ebp-5Ch]
-  float yb; // [esp+4h] [ebp-5Ch]
-  float yc; // [esp+4h] [ebp-5Ch]
-  float yd; // [esp+4h] [ebp-5Ch]
-  float ye; // [esp+4h] [ebp-5Ch]
-  float yf; // [esp+4h] [ebp-5Ch]
-  float yg; // [esp+4h] [ebp-5Ch]
-  float yh; // [esp+4h] [ebp-5Ch]
-  float yi; // [esp+4h] [ebp-5Ch]
-  float yj; // [esp+4h] [ebp-5Ch]
-  float yk; // [esp+4h] [ebp-5Ch]
-  unsigned int newTotalL; // [esp+20h] [ebp-40h]
-  unsigned int newTotalLa; // [esp+20h] [ebp-40h]
-  unsigned int newTotalLb; // [esp+20h] [ebp-40h]
-  float newTotalRc; // [esp+24h] [ebp-3Ch]
-  float newTotalRd; // [esp+24h] [ebp-3Ch]
-  float newTotalRe; // [esp+24h] [ebp-3Ch]
-  float newTotalRf; // [esp+24h] [ebp-3Ch]
-  unsigned int newTotalR; // [esp+24h] [ebp-3Ch]
-  float newTotalRg; // [esp+24h] [ebp-3Ch]
-  float newTotalRh; // [esp+24h] [ebp-3Ch]
-  float newTotalRi; // [esp+24h] [ebp-3Ch]
-  float newTotalRj; // [esp+24h] [ebp-3Ch]
-  float newTotalRk; // [esp+24h] [ebp-3Ch]
-  float newTotalRl; // [esp+24h] [ebp-3Ch]
-  unsigned int newTotalRa; // [esp+24h] [ebp-3Ch]
-  float newTotalRm; // [esp+24h] [ebp-3Ch]
-  float newTotalRn; // [esp+24h] [ebp-3Ch]
-  unsigned int newTotalRb; // [esp+24h] [ebp-3Ch]
-  float newSolidL; // [esp+28h] [ebp-38h]
-  unsigned int newSolidLa; // [esp+28h] [ebp-38h]
-  float newSolidLf; // [esp+28h] [ebp-38h]
-  float newSolidLb; // [esp+28h] [ebp-38h]
-  float newSolidLc; // [esp+28h] [ebp-38h]
-  unsigned int newSolidLd; // [esp+28h] [ebp-38h]
-  float newSolidLg; // [esp+28h] [ebp-38h]
-  float newSolidLe; // [esp+28h] [ebp-38h]
-  float yTotal; // [esp+2Ch] [ebp-34h]
-  float yTotala; // [esp+2Ch] [ebp-34h]
-  float yTotalb; // [esp+2Ch] [ebp-34h]
-  float yTotalc; // [esp+2Ch] [ebp-34h]
-  float dy; // [esp+30h] [ebp-30h]
-  double dyd; // [esp+30h] [ebp-30h]
-  float dye; // [esp+30h] [ebp-30h]
-  float dya; // [esp+30h] [ebp-30h]
-  float dyf; // [esp+30h] [ebp-30h]
-  float dyg; // [esp+30h] [ebp-30h]
-  float dyb; // [esp+30h] [ebp-30h]
-  double dyh; // [esp+30h] [ebp-30h]
-  float dyi; // [esp+30h] [ebp-30h]
-  float dyc; // [esp+30h] [ebp-30h]
-  float dyj; // [esp+30h] [ebp-30h]
-  float dyk; // [esp+30h] [ebp-30h]
-  float nd; // [esp+38h] [ebp-28h]
-  int n; // [esp+38h] [ebp-28h]
-  float ne; // [esp+38h] [ebp-28h]
-  float nf; // [esp+38h] [ebp-28h]
-  float ng; // [esp+38h] [ebp-28h]
-  float nh; // [esp+38h] [ebp-28h]
-  int ni; // [esp+38h] [ebp-28h]
-  int na; // [esp+38h] [ebp-28h]
-  float nj; // [esp+38h] [ebp-28h]
-  int nb; // [esp+38h] [ebp-28h]
-  float nk; // [esp+38h] [ebp-28h]
-  float nl; // [esp+38h] [ebp-28h]
-  float nm; // [esp+38h] [ebp-28h]
-  float nn; // [esp+38h] [ebp-28h]
-  int no; // [esp+38h] [ebp-28h]
-  int nc; // [esp+38h] [ebp-28h]
+  float v43; // [esp+4h] [ebp-5Ch]
+  float v44; // [esp+4h] [ebp-5Ch]
+  float v45; // [esp+4h] [ebp-5Ch]
+  float v46; // [esp+4h] [ebp-5Ch]
+  float v47; // [esp+4h] [ebp-5Ch]
+  float v48; // [esp+4h] [ebp-5Ch]
+  float v49; // [esp+4h] [ebp-5Ch]
+  float v50; // [esp+4h] [ebp-5Ch]
+  float v51; // [esp+4h] [ebp-5Ch]
+  float v52; // [esp+4h] [ebp-5Ch]
+  float v53; // [esp+4h] [ebp-5Ch]
+  float v54; // [esp+4h] [ebp-5Ch]
+  unsigned int v3; // [esp+20h] [ebp-40h]
+  unsigned int v3a; // [esp+20h] [ebp-40h]
+  unsigned int v3b; // [esp+20h] [ebp-40h]
+  float v58; // [esp+24h] [ebp-3Ch]
+  float v59; // [esp+24h] [ebp-3Ch]
+  float v60; // [esp+24h] [ebp-3Ch]
+  float v61; // [esp+24h] [ebp-3Ch]
+  unsigned int v62; // [esp+24h] [ebp-3Ch]
+  float v63; // [esp+24h] [ebp-3Ch]
+  float v64; // [esp+24h] [ebp-3Ch]
+  float v65; // [esp+24h] [ebp-3Ch]
+  float v66; // [esp+24h] [ebp-3Ch]
+  float v67; // [esp+24h] [ebp-3Ch]
+  float v68; // [esp+24h] [ebp-3Ch]
+  unsigned int v69; // [esp+24h] [ebp-3Ch]
+  float v70; // [esp+24h] [ebp-3Ch]
+  float v71; // [esp+24h] [ebp-3Ch]
+  unsigned int v72; // [esp+24h] [ebp-3Ch]
+  float v2; // [esp+28h] [ebp-38h]
+  unsigned int v2a; // [esp+28h] [ebp-38h]
+  float v2f; // [esp+28h] [ebp-38h]
+  float v2b; // [esp+28h] [ebp-38h]
+  float v2c; // [esp+28h] [ebp-38h]
+  unsigned int v2d; // [esp+28h] [ebp-38h]
+  float v2g; // [esp+28h] [ebp-38h]
+  float v2e; // [esp+28h] [ebp-38h]
+  float v81; // [esp+2Ch] [ebp-34h]
+  float v82; // [esp+2Ch] [ebp-34h]
+  float v83; // [esp+2Ch] [ebp-34h]
+  float v84; // [esp+2Ch] [ebp-34h]
+  float v85; // [esp+30h] [ebp-30h]
+  double v86; // [esp+30h] [ebp-30h]
+  float v87; // [esp+30h] [ebp-30h]
+  float v88; // [esp+30h] [ebp-30h]
+  float v89; // [esp+30h] [ebp-30h]
+  float v90; // [esp+30h] [ebp-30h]
+  float v91; // [esp+30h] [ebp-30h]
+  double v92; // [esp+30h] [ebp-30h]
+  float v93; // [esp+30h] [ebp-30h]
+  float v94; // [esp+30h] [ebp-30h]
+  float v95; // [esp+30h] [ebp-30h]
+  float v96; // [esp+30h] [ebp-30h]
+  float v97; // [esp+38h] [ebp-28h]
+  float v98; // [esp+38h] [ebp-28h]
+  float v99; // [esp+38h] [ebp-28h]
+  float v100; // [esp+38h] [ebp-28h]
+  float v101; // [esp+38h] [ebp-28h]
+  float v102; // [esp+38h] [ebp-28h]
+  int v103; // [esp+38h] [ebp-28h]
+  int v104; // [esp+38h] [ebp-28h]
+  float v105; // [esp+38h] [ebp-28h]
+  float v106; // [esp+38h] [ebp-28h]
+  float v107; // [esp+38h] [ebp-28h]
+  float v108; // [esp+38h] [ebp-28h]
+  float v109; // [esp+38h] [ebp-28h]
+  float v110; // [esp+38h] [ebp-28h]
+  int v111; // [esp+38h] [ebp-28h]
+  int v112; // [esp+38h] [ebp-28h]
   unsigned int v113; // [esp+3Ch] [ebp-24h]
   unsigned int v114; // [esp+3Ch] [ebp-24h]
   unsigned int TotalR; // [esp+40h] [ebp-20h]
@@ -121,157 +121,157 @@ void __thiscall Scaleform::Render::StrokerAA::calcRoundJoin(
   unsigned int TotalL; // [esp+50h] [ebp-10h]
   unsigned int v121; // [esp+54h] [ebp-Ch]
   unsigned int v122; // [esp+54h] [ebp-Ch]
-  bool a1; // [esp+6Ch] [ebp+Ch]
-  float a1e; // [esp+6Ch] [ebp+Ch]
-  float a1f; // [esp+6Ch] [ebp+Ch]
-  float a1g; // [esp+6Ch] [ebp+Ch]
-  float a1h; // [esp+6Ch] [ebp+Ch]
-  float a1a; // [esp+6Ch] [ebp+Ch]
-  float a1b; // [esp+6Ch] [ebp+Ch]
-  float a1i; // [esp+6Ch] [ebp+Ch]
-  float a1j; // [esp+6Ch] [ebp+Ch]
-  float a1k; // [esp+6Ch] [ebp+Ch]
-  float a1l; // [esp+6Ch] [ebp+Ch]
-  float a1c; // [esp+6Ch] [ebp+Ch]
-  float a1d; // [esp+6Ch] [ebp+Ch]
+  bool pa; // [esp+6Ch] [ebp+Ch]
+  float pf; // [esp+6Ch] [ebp+Ch]
+  float pg; // [esp+6Ch] [ebp+Ch]
+  float ph; // [esp+6Ch] [ebp+Ch]
+  float pi; // [esp+6Ch] [ebp+Ch]
+  float pb; // [esp+6Ch] [ebp+Ch]
+  float pc; // [esp+6Ch] [ebp+Ch]
+  float pj; // [esp+6Ch] [ebp+Ch]
+  float pk; // [esp+6Ch] [ebp+Ch]
+  float pl; // [esp+6Ch] [ebp+Ch]
+  float pm; // [esp+6Ch] [ebp+Ch]
+  float pd; // [esp+6Ch] [ebp+Ch]
+  float pe; // [esp+6Ch] [ebp+Ch]
 
   v6 = p->overlapPrev || p->overlapThis;
   v7 = !p->rightTurnThis;
-  a1 = v6;
+  pa = v6;
   if ( v7 )
   {
-    nj = this->Tolerance * 0.125;
-    if ( nj > w->solidWidthL + w->solidWidthL - p->dbTotalL )
+    v105 = this->Tolerance * 0.125;
+    if ( v105 > w->solidWidthL + w->solidWidthL - p->dbTotalL )
       goto LABEL_3;
     v26 = v1;
     if ( v6 )
       xMiterThisL = v1->x - p->dx1TotalL;
     else
       xMiterThisL = p->xMiterThisL;
-    dyb = xMiterThisL;
+    v91 = xMiterThisL;
     if ( v6 )
       yMiterThisL = v1->y - p->dy1TotalL;
     else
       yMiterThisL = p->yMiterThisL;
-    yTotalb = yMiterThisL;
-    *(float *)&nb = (dyb - v1->x) * w->solidCoeffL + v1->x;
-    newSolidLc = (yTotalb - v1->y) * w->solidCoeffL + v1->y;
-    newTotalRi = p->dy1SolidR + v1->y;
-    yf = newTotalRi;
-    newTotalRj = p->dx1SolidR + v1->x;
-    v29 = Scaleform::Render::StrokerAA::addVertex(this, newTotalRj, yf, this->StyleRight, 1);
+    v83 = yMiterThisL;
+    v106 = (v91 - v1->x) * w->solidCoeffL + v1->x;
+    v2c = (v83 - v1->y) * w->solidCoeffL + v1->y;
+    v65 = p->dy1SolidR + v1->y;
+    v49 = v65;
+    v66 = p->dx1SolidR + v1->x;
+    v29 = Scaleform::Render::StrokerAA::addVertex(this, v66, v49, this->StyleRight, 1);
     if ( w->aaFlagR )
     {
-      newTotalRk = p->dy1TotalR + v1->y;
-      yg = newTotalRk;
-      newTotalRl = p->dx1TotalR + v1->x;
-      newTotalRa = Scaleform::Render::StrokerAA::addVertex(this, newTotalRl, yg, this->StyleRight, 0);
+      v67 = p->dy1TotalR + v1->y;
+      v50 = v67;
+      v68 = p->dx1TotalR + v1->x;
+      v69 = Scaleform::Render::StrokerAA::addVertex(this, v68, v50, this->StyleRight, 0);
     }
     else
     {
-      newTotalRa = v29;
+      v69 = v29;
     }
     v30 = w;
     if ( w->solidFlag )
     {
-      newSolidLd = Scaleform::Render::StrokerAA::addVertex(this, *(float *)&nb, newSolidLc, this->StyleLeft, 1);
+      v2d = Scaleform::Render::StrokerAA::addVertex(this, v106, v2c, this->StyleLeft, 1);
       v30 = w;
     }
     else
     {
-      newSolidLd = v29;
+      v2d = v29;
     }
     if ( v30->aaFlagL )
     {
-      newTotalLb = Scaleform::Render::StrokerAA::addVertex(this, dyb, yTotalb, this->StyleLeft, 0);
+      v3b = Scaleform::Render::StrokerAA::addVertex(this, v91, v83, this->StyleLeft, 0);
       v30 = w;
     }
     else
     {
-      newTotalLb = newSolidLd;
+      v3b = v2d;
     }
     if ( v30->solidFlagL || v30->solidFlagR )
     {
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v29, newSolidLd);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, newSolidLd, this->SolidL);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v29, v2d);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v2d, this->SolidL);
       v30 = w;
     }
     if ( v30->aaFlagR )
     {
       Scaleform::Render::StrokerAA::addTriangle(this, this->TotalR, v29, this->SolidR);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->TotalR, newTotalRa, v29);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->TotalR, v69, v29);
       v30 = w;
     }
     if ( v30->aaFlagL )
     {
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, newSolidLd, newTotalLb);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, newTotalLb, this->TotalL);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, v2d, v3b);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, v3b, this->TotalL);
     }
-    this->SolidL = newSolidLd;
-    this->TotalL = newTotalLb;
+    this->SolidL = v2d;
+    this->TotalL = v3b;
     this->SolidR = v29;
-    this->TotalR = newTotalRa;
-    if ( a1 )
+    this->TotalR = v69;
+    if ( pa )
     {
-      a1i = v1->y - p->dy2SolidL;
-      yh = a1i;
-      a1j = v1->x - p->dx2SolidL;
-      this->SolidL = Scaleform::Render::StrokerAA::addVertex(this, a1j, yh, this->StyleLeft, 1);
+      pj = v1->y - p->dy2SolidL;
+      v51 = pj;
+      pk = v1->x - p->dx2SolidL;
+      this->SolidL = Scaleform::Render::StrokerAA::addVertex(this, pk, v51, this->StyleLeft, 1);
       if ( w->aaFlagL )
       {
-        a1k = v1->y - p->dy2TotalL;
-        yi = a1k;
-        a1l = v1->x - p->dx2TotalL;
-        v31 = Scaleform::Render::StrokerAA::addVertex(this, a1l, yi, this->StyleLeft, 0);
+        pl = v1->y - p->dy2TotalL;
+        v52 = pl;
+        pm = v1->x - p->dx2TotalL;
+        v31 = Scaleform::Render::StrokerAA::addVertex(this, pm, v52, this->StyleLeft, 0);
       }
       else
       {
-        v31 = newSolidLd;
+        v31 = v2d;
       }
       this->TotalL = v31;
     }
-    a1c = atan2(p->dy1TotalR, p->dx1TotalR);
-    nk = atan2(p->dy2TotalR, p->dx2TotalR);
-    v32 = nk;
-    if ( nk < (double)a1c )
+    pd = atan2(p->dy1TotalR, p->dx1TotalR);
+    v107 = atan2(p->dy2TotalR, p->dx2TotalR);
+    v32 = v107;
+    if ( v107 < (double)pd )
     {
-      newSolidLg = v32 + 6.283185482025146;
-      v32 = newSolidLg;
+      v2g = v32 + 6.283185482025146;
+      v32 = v2g;
     }
     v33 = w;
-    dyh = v32 - a1c;
-    nl = w->totalWidthR / (this->Tolerance * 0.25 + w->totalWidthR);
-    nm = acos(nl);
-    nn = nm + nm;
-    v34 = dyh / nn;
-    no = (int)v34 + 1;
-    newSolidLe = dyh / (double)no;
-    a1d = newSolidLe + a1c;
-    if ( no > 0 )
+    v92 = v32 - pd;
+    v108 = w->totalWidthR / (this->Tolerance * 0.25 + w->totalWidthR);
+    v109 = acos(v108);
+    v110 = v109 + v109;
+    v34 = v92 / v110;
+    v111 = (int)v34 + 1;
+    v2e = v92 / (double)v111;
+    pe = v2e + pd;
+    if ( v111 > 0 )
     {
-      nc = (int)v34 + 1;
+      v112 = (int)v34 + 1;
       do
       {
-        dyi = cos(a1d);
-        yTotalc = dyi;
-        dyc = sin(a1d);
+        v93 = cos(pe);
+        v84 = v93;
+        v94 = sin(pe);
         if ( v33->solidFlag )
         {
-          newTotalRm = v33->solidWidthR * dyc + v26->y;
-          yj = newTotalRm;
-          newTotalRn = v33->solidWidthR * yTotalc + v26->x;
-          v29 = Scaleform::Render::StrokerAA::addVertex(this, newTotalRn, yj, this->StyleRight, 1);
+          v70 = v33->solidWidthR * v94 + v26->y;
+          v53 = v70;
+          v71 = v33->solidWidthR * v84 + v26->x;
+          v29 = Scaleform::Render::StrokerAA::addVertex(this, v71, v53, this->StyleRight, 1);
         }
         if ( v33->aaFlagR )
         {
-          dyj = dyc * v33->totalWidthR + v26->y;
-          yk = dyj;
-          dyk = yTotalc * v33->totalWidthR + v26->x;
-          newTotalRb = Scaleform::Render::StrokerAA::addVertex(this, dyk, yk, this->StyleRight, 0);
+          v95 = v94 * v33->totalWidthR + v26->y;
+          v54 = v95;
+          v96 = v84 * v33->totalWidthR + v26->x;
+          v72 = Scaleform::Render::StrokerAA::addVertex(this, v96, v54, this->StyleRight, 0);
         }
         else
         {
-          newTotalRb = v29;
+          v72 = v29;
         }
         if ( v33->solidFlagR )
         {
@@ -314,23 +314,23 @@ void __thiscall Scaleform::Render::StrokerAA::calcRoundJoin(
           v26 = v1;
           v42 = &v41[this->Triangles.Size & 0xF];
           v42->v1 = v122;
-          v42->v2 = newTotalRb;
+          v42->v2 = v72;
           v42->v3 = v29;
           ++this->Triangles.Size;
           v33 = w;
         }
-        v7 = nc-- == 1;
+        v7 = v112-- == 1;
         this->SolidR = v29;
-        this->TotalR = newTotalRb;
-        a1d = newSolidLe + a1d;
+        this->TotalR = v72;
+        pe = v2e + pe;
       }
       while ( !v7 );
     }
   }
   else
   {
-    nd = this->Tolerance * 0.125;
-    if ( nd > w->solidWidthR + w->solidWidthR - p->dbTotalR )
+    v97 = this->Tolerance * 0.125;
+    if ( v97 > w->solidWidthR + w->solidWidthR - p->dbTotalR )
     {
 LABEL_3:
       Scaleform::Render::StrokerAA::calcMiterJoin(this, v1, w, p, MiterJoin);
@@ -341,131 +341,131 @@ LABEL_3:
       xMiterThisR = p->dx1TotalR + v1->x;
     else
       xMiterThisR = p->xMiterThisR;
-    dy = xMiterThisR;
+    v85 = xMiterThisR;
     if ( v6 )
       yMiterThisR = p->dy1TotalR + v1->y;
     else
       yMiterThisR = p->yMiterThisR;
-    yTotal = yMiterThisR;
-    *(float *)&n = (dy - v1->x) * w->solidCoeffR + v1->x;
-    newSolidL = (yTotal - v1->y) * w->solidCoeffR + v1->y;
-    newTotalRc = v1->y - p->dy1SolidL;
-    y = newTotalRc;
-    newTotalRd = v1->x - p->dx1SolidL;
-    v11 = Scaleform::Render::StrokerAA::addVertex(this, newTotalRd, y, this->StyleLeft, 1);
+    v81 = yMiterThisR;
+    v98 = (v85 - v1->x) * w->solidCoeffR + v1->x;
+    v2 = (v81 - v1->y) * w->solidCoeffR + v1->y;
+    v58 = v1->y - p->dy1SolidL;
+    v43 = v58;
+    v59 = v1->x - p->dx1SolidL;
+    v11 = Scaleform::Render::StrokerAA::addVertex(this, v59, v43, this->StyleLeft, 1);
     v12 = v11;
     if ( w->aaFlagL )
     {
-      newTotalRe = v1->y - p->dy1TotalL;
-      ya = newTotalRe;
-      newTotalRf = v1->x - p->dx1TotalL;
-      newTotalL = Scaleform::Render::StrokerAA::addVertex(this, newTotalRf, ya, this->StyleLeft, 0);
+      v60 = v1->y - p->dy1TotalL;
+      v44 = v60;
+      v61 = v1->x - p->dx1TotalL;
+      v3 = Scaleform::Render::StrokerAA::addVertex(this, v61, v44, this->StyleLeft, 0);
     }
     else
     {
-      newTotalL = v11;
+      v3 = v11;
     }
     v13 = w;
     if ( w->solidFlag )
     {
-      newSolidLa = Scaleform::Render::StrokerAA::addVertex(this, *(float *)&n, newSolidL, this->StyleRight, 1);
+      v2a = Scaleform::Render::StrokerAA::addVertex(this, v98, v2, this->StyleRight, 1);
       v13 = w;
     }
     else
     {
-      newSolidLa = v12;
+      v2a = v12;
     }
     if ( v13->aaFlagR )
     {
-      newTotalR = Scaleform::Render::StrokerAA::addVertex(this, dy, yTotal, this->StyleRight, 0);
+      v62 = Scaleform::Render::StrokerAA::addVertex(this, v85, v81, this->StyleRight, 0);
       v13 = w;
     }
     else
     {
-      newTotalR = newSolidLa;
+      v62 = v2a;
     }
     if ( v13->solidFlagL || v13->solidFlagR )
     {
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, newSolidLa, v12);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, this->SolidR, newSolidLa);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, v2a, v12);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidL, this->SolidR, v2a);
       v13 = w;
     }
     if ( v13->aaFlagL )
     {
       Scaleform::Render::StrokerAA::addTriangle(this, this->TotalL, this->SolidL, v12);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->TotalL, v12, newTotalL);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->TotalL, v12, v3);
       v13 = w;
     }
     if ( v13->aaFlagR )
     {
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, newTotalR, newSolidLa);
-      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, this->TotalR, newTotalR);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, v62, v2a);
+      Scaleform::Render::StrokerAA::addTriangle(this, this->SolidR, this->TotalR, v62);
     }
     this->SolidL = v12;
-    this->TotalL = newTotalL;
-    this->SolidR = newSolidLa;
-    this->TotalR = newTotalR;
-    if ( a1 )
+    this->TotalL = v3;
+    this->SolidR = v2a;
+    this->TotalR = v62;
+    if ( pa )
     {
-      a1e = p->dy2SolidR + v1->y;
-      yb = a1e;
-      a1f = p->dx2SolidR + v1->x;
-      this->SolidR = Scaleform::Render::StrokerAA::addVertex(this, a1f, yb, this->StyleRight, 1);
+      pf = p->dy2SolidR + v1->y;
+      v45 = pf;
+      pg = p->dx2SolidR + v1->x;
+      this->SolidR = Scaleform::Render::StrokerAA::addVertex(this, pg, v45, this->StyleRight, 1);
       if ( w->aaFlagR )
       {
-        a1g = p->dy2TotalR + v1->y;
-        yc = a1g;
-        a1h = p->dx2TotalR + v1->x;
-        v14 = Scaleform::Render::StrokerAA::addVertex(this, a1h, yc, this->StyleRight, 0);
+        ph = p->dy2TotalR + v1->y;
+        v46 = ph;
+        pi = p->dx2TotalR + v1->x;
+        v14 = Scaleform::Render::StrokerAA::addVertex(this, pi, v46, this->StyleRight, 0);
       }
       else
       {
-        v14 = newSolidLa;
+        v14 = v2a;
       }
       this->TotalR = v14;
     }
-    a1a = atan2(-p->dy1TotalL, -p->dx1TotalL);
-    ne = atan2(-p->dy2TotalL, -p->dx2TotalL);
-    v15 = ne;
-    if ( ne > (double)a1a )
+    pb = atan2(-p->dy1TotalL, -p->dx1TotalL);
+    v99 = atan2(-p->dy2TotalL, -p->dx2TotalL);
+    v15 = v99;
+    if ( v99 > (double)pb )
     {
-      newSolidLf = v15 - 6.283185482025146;
-      v15 = newSolidLf;
+      v2f = v15 - 6.283185482025146;
+      v15 = v2f;
     }
     v16 = w;
-    dyd = a1a - v15;
-    nf = w->totalWidthL / (this->Tolerance * 0.25 + w->totalWidthL);
-    ng = acos(nf);
-    nh = ng + ng;
-    v17 = dyd / nh;
-    ni = (int)v17 + 1;
-    newSolidLb = dyd / (double)ni;
-    a1b = a1a - newSolidLb;
-    if ( ni > 0 )
+    v86 = pb - v15;
+    v100 = w->totalWidthL / (this->Tolerance * 0.25 + w->totalWidthL);
+    v101 = acos(v100);
+    v102 = v101 + v101;
+    v17 = v86 / v102;
+    v103 = (int)v17 + 1;
+    v2b = v86 / (double)v103;
+    pc = pb - v2b;
+    if ( v103 > 0 )
     {
-      na = (int)v17 + 1;
+      v104 = (int)v17 + 1;
       do
       {
-        dye = cos(a1b);
-        yTotala = dye;
-        dya = sin(a1b);
+        v87 = cos(pc);
+        v82 = v87;
+        v88 = sin(pc);
         if ( v16->solidFlag )
         {
-          newTotalRg = v16->solidWidthL * dya + v8->y;
-          yd = newTotalRg;
-          newTotalRh = v16->solidWidthL * yTotala + v8->x;
-          v12 = Scaleform::Render::StrokerAA::addVertex(this, newTotalRh, yd, this->StyleLeft, 1);
+          v63 = v16->solidWidthL * v88 + v8->y;
+          v47 = v63;
+          v64 = v16->solidWidthL * v82 + v8->x;
+          v12 = Scaleform::Render::StrokerAA::addVertex(this, v64, v47, this->StyleLeft, 1);
         }
         if ( v16->aaFlagL )
         {
-          dyf = v16->totalWidthL * dya + v8->y;
-          ye = dyf;
-          dyg = v16->totalWidthL * yTotala + v8->x;
-          newTotalLa = Scaleform::Render::StrokerAA::addVertex(this, dyg, ye, this->StyleLeft, 0);
+          v89 = v16->totalWidthL * v88 + v8->y;
+          v48 = v89;
+          v90 = v16->totalWidthL * v82 + v8->x;
+          v3a = Scaleform::Render::StrokerAA::addVertex(this, v90, v48, this->StyleLeft, 0);
         }
         else
         {
-          newTotalLa = v12;
+          v3a = v12;
         }
         if ( v16->solidFlagL )
         {
@@ -509,14 +509,14 @@ LABEL_3:
           v25 = &v24[this->Triangles.Size & 0xF];
           v25->v1 = v121;
           v25->v2 = v12;
-          v25->v3 = newTotalLa;
+          v25->v3 = v3a;
           ++this->Triangles.Size;
           v16 = w;
         }
-        v7 = na-- == 1;
+        v7 = v104-- == 1;
         this->SolidL = v12;
-        this->TotalL = newTotalLa;
-        a1b = a1b - newSolidLb;
+        this->TotalL = v3a;
+        pc = pc - v2b;
       }
       while ( !v7 );
     }

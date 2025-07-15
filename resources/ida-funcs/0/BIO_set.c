@@ -16,10 +16,10 @@ int __cdecl BIO_set(bio_st *bio, bio_method_st *method)
   bio->references = 1;
   bio->num_read = 0;
   bio->num_write = 0;
-  CRYPTO_new_ex_data(0);
+  CRYPTO_new_ex_data(0, (int)&bio->ex_data);
   create = method->create;
   if ( !create || create(bio) )
     return 1;
-  CRYPTO_free_ex_data(0);
+  CRYPTO_free_ex_data(0, (int)&bio->ex_data);
   return 0;
 }

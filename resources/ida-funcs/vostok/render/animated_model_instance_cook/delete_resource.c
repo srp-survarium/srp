@@ -10,6 +10,11 @@ void __thiscall vostok::render::animated_model_instance_cook::delete_resource(
     ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
       resource,
       0);
-    vostok::memory::g_resources_unmanaged_allocator.call_free(&vostok::memory::g_resources_unmanaged_allocator, v2);
+    vostok::memory::g_resources_unmanaged_allocator.call_free(
+      &vostok::memory::g_resources_unmanaged_allocator,
+      v2,
+      "vostok::render::animated_model_instance_cook::delete_resource",
+      ".\\animated_model_instance_cook.cpp",
+      156u);
   }
 }

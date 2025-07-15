@@ -50,21 +50,22 @@ char __thiscall Scaleform::GFx::MovieImpl::IsFocused(
 
 bool __thiscall Scaleform::GFx::MovieImpl::IsFocused(
         Scaleform::GFx::MovieImpl *this,
-        const Scaleform::GFx::InteractiveObject *ch,
-        unsigned int controllerIdx)
+        Scaleform::GFx::Sprite *ch,
+        Scaleform::Ptr<Scaleform::GFx::Sprite> controllerIdx)
 {
-  Scaleform::GFx::InteractiveObject *v3; // esi
+  Scaleform::GFx::Sprite *pObject; // esi
 
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-    (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[controllerIdx]].LastFocused,
-    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&controllerIdx);
-  v3 = (Scaleform::GFx::InteractiveObject *)controllerIdx;
-  if ( controllerIdx )
+    (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[*((unsigned __int8 *)&controllerIdx.pObject[86].pRenNode.pObject
+                                                                     + (unsigned int)this)].LastFocused,
+    &controllerIdx);
+  pObject = controllerIdx.pObject;
+  if ( controllerIdx.pObject )
   {
-    ++*(_DWORD *)(controllerIdx + 4);
-    Scaleform::RefCountNTSImpl::Release(v3);
+    ++controllerIdx.pObject->RefCount;
+    Scaleform::RefCountNTSImpl::Release(pObject);
   }
-  if ( v3 )
-    Scaleform::RefCountNTSImpl::Release(v3);
-  return v3 == ch;
+  if ( pObject )
+    Scaleform::RefCountNTSImpl::Release(pObject);
+  return pObject == ch;
 }

@@ -1,125 +1,102 @@
-int **__usercall 01class@<eax>(vorbis_block *vb@<eax>, vorbis_info_residue0 **vl, int **in, int ch)
+int **__usercall 01class@<eax>(vorbis_block *vb@<eax>, _DWORD *vl, int **in, int ch)
 {
-  vorbis_info_residue0 *v5; // ebp
+  _DWORD *v5; // edi
   int v6; // ebx
-  int v7; // edi
+  char *v7; // eax
   int v8; // ebx
-  int *v9; // eax
-  int v10; // eax
-  double v11; // st7
-  int v12; // ecx
-  int **v13; // ebp
-  char *v14; // eax
-  int v15; // esi
-  int v16; // edi
-  int v17; // ebx
-  int *v18; // ecx
-  signed int v19; // eax
-  int v20; // ecx
-  int *classmetric2; // edx
-  int v22; // edx
-  bool v23; // zf
-  bool v24; // cc
-  int **partword; // [esp+10h] [ebp-2Ch]
-  int i; // [esp+14h] [ebp-28h]
-  int samples_per_partition; // [esp+18h] [ebp-24h]
-  int ent; // [esp+1Ch] [ebp-20h]
-  float scalea; // [esp+20h] [ebp-1Ch]
-  int scale; // [esp+20h] [ebp-1Ch]
-  vorbis_info_residue0 *info; // [esp+24h] [ebp-18h]
-  int v33; // [esp+28h] [ebp-14h]
-  int v34; // [esp+2Ch] [ebp-10h]
-  int offset; // [esp+30h] [ebp-Ch]
-  int possible_partitions; // [esp+38h] [ebp-4h]
+  int *v9; // esi
+  char *v10; // eax
+  int *v11; // ecx
+  signed int v12; // eax
+  int v13; // ecx
+  int *v14; // eax
+  int v15; // eax
+  bool v16; // zf
+  float v18; // [esp+Ch] [ebp-34h]
+  int v19; // [esp+14h] [ebp-2Ch]
+  int v20; // [esp+18h] [ebp-28h]
+  int v21; // [esp+1Ch] [ebp-24h]
+  int v22; // [esp+20h] [ebp-20h]
+  int v23; // [esp+24h] [ebp-1Ch]
+  char *i; // [esp+28h] [ebp-18h]
+  int v25; // [esp+2Ch] [ebp-14h]
+  int v26; // [esp+30h] [ebp-10h]
+  int v27; // [esp+34h] [ebp-Ch]
+  int v28; // [esp+38h] [ebp-8h]
+  int v29; // [esp+3Ch] [ebp-4h]
+  int v30; // [esp+3Ch] [ebp-4h]
 
-  v5 = *vl;
-  possible_partitions = (*vl)->partitions;
-  info = *vl;
-  samples_per_partition = (*vl)->grouping;
-  v6 = ((*vl)->end - (*vl)->begin) / samples_per_partition;
-  v33 = v6;
-  v7 = 0;
-  partword = (int **)_vorbis_block_alloc(vb, 4 * ch);
-  if ( ch > 0 )
+  v5 = (_DWORD *)*vl;
+  v19 = *(_DWORD *)(*vl + 12);
+  v20 = *(_DWORD *)(*vl + 8);
+  v27 = (v5[1] - *v5) / v20;
+  v6 = 0;
+  for ( i = _vorbis_block_alloc(vb, 4 * ch); v6 < ch; ++v6 )
   {
-    v8 = 4 * v6;
-    do
-    {
-      v9 = (int *)_vorbis_block_alloc(vb, v8);
-      partword[v7] = v9;
-      memset((int)v9, 0, v8);
-      ++v7;
-    }
-    while ( v7 < ch );
-    v6 = v33;
+    v7 = _vorbis_block_alloc(vb, 4 * v27);
+    *(_DWORD *)&i[4 * v6] = v7;
+    memset((int)v7, 0, 4 * v27);
   }
-  v10 = 0;
-  i = 0;
-  if ( v6 > 0 )
+  v28 = 0;
+  if ( v27 > 0 )
   {
-    scalea = 100.0 / (double)samples_per_partition;
-    v11 = scalea;
-    v34 = 0;
+    v25 = 0;
     do
     {
-      v12 = v10 + v5->begin;
-      offset = v12;
+      v8 = v25 + *v5;
       if ( ch > 0 )
       {
-        v13 = partword;
-        v14 = (char *)((char *)in - (char *)partword);
-        scale = ch;
+        v9 = (int *)i;
+        v22 = v19 - 1;
+        v10 = (char *)((char *)in - i);
+        v21 = ch;
         while ( 1 )
         {
-          v15 = samples_per_partition;
-          v16 = 0;
-          v17 = 0;
-          ent = 0;
-          if ( samples_per_partition > 0 )
+          v26 = 0;
+          v29 = 0;
+          if ( v20 > 0 )
           {
-            v18 = &(*(int **)((char *)v13 + (_DWORD)v14))[v12];
+            v11 = (int *)(*(int *)((char *)v9 + (_DWORD)v10) + 4 * v8);
+            v23 = v20;
             do
             {
-              v19 = abs32(*v18);
-              if ( v19 > v17 )
-                v17 = v19;
-              v16 += v19;
-              ++v18;
-              --v15;
+              v12 = abs32(*v11);
+              if ( v12 > v26 )
+                v26 = v12;
+              v29 += v12;
+              ++v11;
+              --v23;
             }
-            while ( v15 );
-            ent = v16;
+            while ( v23 );
           }
-          v20 = 0;
-          if ( possible_partitions - 1 > 0 )
+          v13 = 0;
+          v18 = 100.0 / (double)v20;
+          v30 = (int)(float)((float)v29 * v18);
+          if ( v22 > 0 )
           {
-            classmetric2 = (int *)info->classmetric2;
+            v14 = v5 + 646;
             do
             {
-              if ( v17 <= *(classmetric2 - 64) && (*classmetric2 < 0 || (int)((double)ent * v11) < *classmetric2) )
+              if ( v26 <= *(v14 - 64) && (*v14 < 0 || v30 < *v14) )
                 break;
-              ++v20;
-              ++classmetric2;
+              ++v13;
+              ++v14;
             }
-            while ( v20 < possible_partitions - 1 );
+            while ( v13 < v22 );
           }
-          v22 = (int)*v13++;
-          v23 = scale-- == 1;
-          *(_DWORD *)(v22 + 4 * i) = v20;
-          if ( v23 )
+          v15 = *v9++;
+          v16 = v21-- == 1;
+          *(_DWORD *)(v15 + 4 * v28) = v13;
+          if ( v16 )
             break;
-          v12 = offset;
-          v14 = (char *)((char *)in - (char *)partword);
+          v10 = (char *)((char *)in - i);
         }
-        v5 = info;
-        v6 = v33;
       }
-      v10 = samples_per_partition + v34;
-      v24 = ++i < v6;
-      v34 += samples_per_partition;
+      ++v28;
+      v25 += v20;
     }
-    while ( v24 );
+    while ( v28 < v27 );
   }
-  vl[10] = (vorbis_info_residue0 *)((char *)vl[10] + 1);
-  return partword;
+  ++vl[10];
+  return (int **)i;
 }

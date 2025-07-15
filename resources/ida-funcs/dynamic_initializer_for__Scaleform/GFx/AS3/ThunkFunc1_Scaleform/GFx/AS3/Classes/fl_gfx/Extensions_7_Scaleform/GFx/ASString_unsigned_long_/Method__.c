@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::getMouseCursorType;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Classes::fl_gfx::Extensions,7,Scaleform::GFx::ASString,unsigned long>::Method) = Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::getMouseCursorType;
-  dword_AAEB7C = 0;
+  dword_8F3334 = 0;
   return result;
 }

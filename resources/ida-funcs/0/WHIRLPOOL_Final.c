@@ -1,4 +1,4 @@
-int __cdecl WHIRLPOOL_Final(unsigned __int8 *md, WHIRLPOOL_CTX *c)
+int __cdecl WHIRLPOOL_Final(WHIRLPOOL_CTX *md, WHIRLPOOL_CTX *c)
 {
   unsigned int v2; // eax
   unsigned int v3; // esi

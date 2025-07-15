@@ -1,130 +1,160 @@
-char __thiscall vostok::render::textures_handler<0>::set_overwrite(
-        vostok::render::textures_handler<0> *this,
-        char *name,
-        vostok::render::res_texture *texture,
-        vostok::render::res_texture *texturea)
+char __userpurge vostok::render::textures_handler<1>::set_overwrite@<al>(
+        vostok::render::textures_handler<1> *this@<ecx>,
+        int a2@<eax>,
+        const char *name,
+        vostok::render::res_texture *texture)
 {
-  int *v4; // eax
-  int v5; // eax
-  const char **v6; // esi
-  unsigned int v7; // edi
-  unsigned int v8; // ebp
-  const char *v9; // eax
-  int v10; // eax
-  const vostok::render::res_texture_list *v12; // edi
-  vostok::render::res_texture *v13; // ecx
-  const char *v14; // esi
-  unsigned int v15; // edi
-  unsigned int v16; // eax
-  const char *v17; // ecx
-  const vostok::render::res_texture_list *v18; // eax
-  bool v19; // zf
-  vostok::render::res_texture *v20; // edx
-  vostok::render::res_texture **v21; // eax
-  vostok::render::res_texture *v22; // ecx
-  vostok::render::res_texture *v23; // esi
-  unsigned int v24; // [esp-8h] [ebp-18h]
-  unsigned int v25; // [esp-4h] [ebp-14h]
+  _DWORD *v5; // eax
+  unsigned int v6; // edi
+  const char ***v7; // eax
+  unsigned int v8; // ebx
+  unsigned int *v10; // eax
+  _DWORD *v11; // ebx
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v12; // edi
+  unsigned int v13; // ecx
+  unsigned int v14; // eax
+  const char **i; // [esp+10h] [ebp-8h]
+  unsigned int v16; // [esp+14h] [ebp-4h]
 
-  v4 = (int *)*((_DWORD *)name + 131);
-  if ( !*v4 )
+  v5 = *(_DWORD **)(a2 + 524);
+  v6 = 0;
+  if ( !*v5 )
     return 0;
-  v5 = *v4;
-  v6 = *(const char ***)(v5 + 1396);
-  v7 = (*(_DWORD *)(v5 + 1400) - (int)v6) / 84;
-  v8 = 0;
-  if ( !v7 )
+  v7 = (const char ***)(*v5 + 2296);
+  v16 = 0;
+  v8 = ((char *)v7[1] - (char *)*v7) / 84;
+  if ( !v8 )
     return 0;
-  while ( 1 )
+  for ( i = *v7; vostok::detail::strcmp_s(*i, name); i += 21 )
   {
-    v9 = *v6;
-    if ( *v6 )
-    {
-      v10 = texture ? strcmp(v9, (const char *)texture) : *v9 != 0;
-    }
-    else
-    {
-      if ( !texture )
-        break;
-      v10 = -(LOBYTE(texture->__vftable) != 0);
-    }
-    if ( !v10 )
-      break;
-    ++v8;
-    v6 += 21;
-    if ( v8 >= v7 )
+    v16 = ++v6;
+    if ( v6 >= v8 )
       return 0;
   }
-  v12 = *(const vostok::render::res_texture_list **)name;
-  if ( *(_DWORD *)name
+  v10 = *(unsigned int **)a2;
+  if ( *(_DWORD *)a2
     && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    v13 = texturea;
-    if ( v12->m_container._M_impl._M_start[v8].m_object != texturea )
+    if ( *(vostok::render::res_texture **)(v10[1] + 4 * v6) != texture )
     {
-      if ( v12 != (const vostok::render::res_texture_list *)(name + 528) )
-      {
-        *((_DWORD *)name + 132) = v12->m_reference_count;
-        stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>>::operator=(
-          (stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *)v13,
-          &v12->m_container._M_impl);
-        name[544] = v12->m_is_registered;
-      }
-      v14 = name + 532;
-      v15 = v8 + 1;
-      v24 = (*((_DWORD *)name + 134) - *((_DWORD *)name + 133)) >> 2;
-      texture = 0;
-      v16 = vostok::math::max(v24, v8 + 1);
-      stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>>::resize(
-        (stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *)(name + 532),
-        v16,
-        (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&texture);
-      goto LABEL_19;
+      if ( v10 != (unsigned int *)(a2 + 528) )
+        vostok::render::res_texture_list::operator=(
+          (vostok::render::res_texture_list *)(a2 + 528),
+          (const vostok::render::res_texture_list *)(a2 + 528),
+          *(unsigned int **)a2);
+      name = 0;
+      v11 = (_DWORD *)(a2 + 532);
+      v12 = (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v6 + 1);
+      v13 = (*(_DWORD *)(a2 + 536) - *(_DWORD *)(a2 + 532)) >> 2;
+      vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::resize(
+        (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v13 - (v13 < (unsigned int)v12 ? v13 - (_DWORD)v12 : 0)),
+        (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 532),
+        (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&name);
+      goto LABEL_14;
     }
     return 0;
   }
-  v15 = v8 + 1;
-  v14 = name + 532;
-  texture = 0;
-  stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>>::resize(
-    (stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *)(name + 532),
-    v8 + 1,
-    (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&texture);
-LABEL_19:
-  v25 = *((_DWORD *)name + 2);
-  *((_DWORD *)name + 1) += v8 < *((_DWORD *)name + 1) ? v8 - *((_DWORD *)name + 1) : 0;
-  *((_DWORD *)name + 2) = vostok::math::max(v15, v25);
-  v17 = 0;
-  if ( name != (char *)-528 )
+  name = 0;
+  v12 = (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v6 + 1);
+  v11 = (_DWORD *)(a2 + 532);
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::resize(
+    v12,
+    (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 532),
+    (const vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)&name);
+LABEL_14:
+  v14 = *(_DWORD *)(a2 + 8);
+  *(_DWORD *)(a2 + 4) += v16 < *(_DWORD *)(a2 + 4) ? v16 - *(_DWORD *)(a2 + 4) : 0;
+  *(_DWORD *)(a2 + 8) = (char *)v12
+                      - (((unsigned int)v12 - v14) & ((unsigned int)((unsigned int)v12 - (unsigned __int64)v14) >> 32));
+  vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)a2,
+    (vostok::render::res_texture_list *)(a2 + 528));
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    texture,
+    (vostok::render::res_texture *)(*v11 + 4 * v16));
+  return 1;
+}
+
+
+char __userpurge vostok::render::textures_handler<0>::set_overwrite@<al>(
+        vostok::render::textures_handler<0> *this@<ecx>,
+        int a2@<eax>,
+        vostok::render::res_texture *name,
+        vostok::render::res_texture *texture)
+{
+  _DWORD *v5; // eax
+  unsigned int v6; // edi
+  int v7; // eax
+  vostok::render::res_texture *v8; // ecx
+  int v9; // eax
+  unsigned int v10; // ebx
+  unsigned int *v12; // eax
+  _DWORD *v13; // ebx
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *v14; // edi
+  unsigned int v15; // ecx
+  unsigned int v16; // eax
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v17; // [esp+Ch] [ebp-8h] BYREF
+  unsigned int v18; // [esp+10h] [ebp-4h]
+
+  v5 = *(_DWORD **)(a2 + 524);
+  v6 = 0;
+  if ( !*v5 )
+    return 0;
+  v7 = *v5 + 2296;
+  v8 = *(vostok::render::res_texture **)v7;
+  v9 = (*(_DWORD *)(v7 + 4) - *(_DWORD *)v7) / 84;
+  v18 = 0;
+  v10 = v9;
+  if ( !v9 )
+    return 0;
+  v17.m_object = v8;
+  while ( vostok::detail::strcmp_s((const char *)v17.m_object->__vftable, "t_probe_cubemap_diffuse") )
   {
-    ++*((_DWORD *)name + 132);
-    v17 = name + 528;
+    v17.m_object = (vostok::render::res_texture *)((char *)v17.m_object + 84);
+    v18 = ++v6;
+    if ( v6 >= v10 )
+      return 0;
   }
-  v18 = *(const vostok::render::res_texture_list **)name;
-  *(_DWORD *)name = v17;
-  if ( v18 )
+  v12 = *(unsigned int **)a2;
+  if ( *(_DWORD *)a2
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    v19 = v18->m_reference_count-- == 1;
-    if ( v19 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v18);
+    if ( *(vostok::render::res_texture **)(v12[1] + 4 * v6) != name )
+    {
+      if ( v12 != (unsigned int *)(a2 + 528) )
+        vostok::render::res_texture_list::operator=(
+          (vostok::render::res_texture_list *)(a2 + 528),
+          (const vostok::render::res_texture_list *)(a2 + 528),
+          *(unsigned int **)a2);
+      v17.m_object = 0;
+      v13 = (_DWORD *)(a2 + 532);
+      v14 = (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v6 + 1);
+      v15 = (*(_DWORD *)(a2 + 536) - *(_DWORD *)(a2 + 532)) >> 2;
+      vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::resize(
+        (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v15 - (v15 < (unsigned int)v14 ? v15 - (_DWORD)v14 : 0)),
+        (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 532),
+        &v17);
+      goto LABEL_14;
+    }
+    return 0;
   }
-  v20 = texturea;
-  v21 = (vostok::render::res_texture **)(*(_DWORD *)v14 + 4 * v8);
-  v22 = 0;
-  if ( texturea )
-  {
-    ++texturea->m_reference_count;
-    v22 = v20;
-  }
-  v23 = *v21;
-  *v21 = v22;
-  if ( v23 )
-  {
-    v19 = v23->m_reference_count-- == 1;
-    if ( v19 )
-      vostok::render::res_texture::destroy_impl(v22);
-  }
+  v17.m_object = 0;
+  v14 = (vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > *)(v6 + 1);
+  v13 = (_DWORD *)(a2 + 532);
+  vostok::buffer_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>::resize(
+    v14,
+    (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 532),
+    &v17);
+LABEL_14:
+  v16 = *(_DWORD *)(a2 + 8);
+  *(_DWORD *)(a2 + 4) += v18 < *(_DWORD *)(a2 + 4) ? v18 - *(_DWORD *)(a2 + 4) : 0;
+  *(_DWORD *)(a2 + 8) = (char *)v14
+                      - (((unsigned int)v14 - v16) & ((unsigned int)((unsigned int)v14 - (unsigned __int64)v16) >> 32));
+  vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)a2,
+    (vostok::render::res_texture_list *)(a2 + 528));
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    name,
+    (vostok::render::res_texture *)(*v13 + 4 * v18));
   return 1;
 }

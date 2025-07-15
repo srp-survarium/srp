@@ -2,16 +2,18 @@ char __usercall Scaleform::Render::D3D1x::Texture::Initialize@<al>(
         Scaleform::Render::D3D1x::Texture *this@<esi>,
         ID3D11Texture2D *ptexture@<eax>)
 {
-  Scaleform::Render::TextureManagerLocks *pObject; // ecx
-  Scaleform::Render::TextureManager *pManager; // edi
   Scaleform::Render::ImageBase *pImage; // ecx
-  int v6; // eax
-  Scaleform::Render::D3D1x::TextureFormat::Mapping *v7; // eax
-  unsigned int Height; // ecx
+  Scaleform::Render::TextureManagerLocks *pObject; // eax
+  Scaleform::Render::TextureManager *pManager; // edi
+  int v7; // eax
+  Scaleform::Render::D3D1x::TextureFormat::Mapping *v8; // eax
+  unsigned int v9; // ecx
   Scaleform::Render::D3D1x::Texture::HWTextureDesc *pTextures; // eax
   Scaleform::Render::D3D1x::Texture::HWTextureDesc *v11; // eax
-  unsigned int v12; // ecx
-  D3D11_TEXTURE2D_DESC texDesc; // [esp+14h] [ebp-2Ch] BYREF
+  unsigned int Height; // ecx
+  _DWORD v13[2]; // [esp+8h] [ebp-2Ch] BYREF
+  unsigned __int8 v14; // [esp+10h] [ebp-24h]
+  int v15; // [esp+18h] [ebp-1Ch]
 
   if ( !ptexture )
     return 0;
@@ -21,44 +23,44 @@ char __usercall Scaleform::Render::D3D1x::Texture::Initialize@<al>(
     this->pTextures->pTexture = ptexture;
     this->pTextures->pTexture->AddRef(this->pTextures->pTexture);
   }
-  ptexture->GetDesc(ptexture, &texDesc);
+  ptexture->GetDesc(ptexture, (D3D11_TEXTURE2D_DESC *)v13);
+  pImage = this->pImage;
+  this->MipLevels = v14;
   pObject = this->pManagerLocks.pObject;
-  this->MipLevels = texDesc.MipLevels;
   this->pFormat = 0;
   pManager = pObject->pManager;
-  pImage = this->pImage;
   if ( pImage )
   {
-    v6 = pImage->GetFormat(pImage);
-    this->pFormat = pManager->getTextureFormat(pManager, (Scaleform::Render::ImageFormat)(v6 & 0xFFEFFFFF));
+    v7 = pImage->GetFormat(pImage);
+    this->pFormat = pManager->getTextureFormat(pManager, (Scaleform::Render::ImageFormat)(v7 & 0xFFEFFFFF));
   }
   if ( !this->pFormat )
   {
-    v7 = Scaleform::Render::D3D1x::TextureFormatMapping;
+    v8 = Scaleform::Render::D3D1x::TextureFormatMapping;
     if ( Scaleform::Render::D3D1x::TextureFormatMapping[0].Format )
     {
-      while ( v7->D3DFormat != texDesc.Format )
+      while ( v8->D3DFormat != v15 )
       {
-        ++v7;
-        if ( v7->Format == Image_None )
-          goto LABEL_12;
+        ++v8;
+        if ( v8->Format == Image_None )
+          goto LABEL_13;
       }
-      this->pFormat = pManager->getTextureFormat(pManager, v7->Format);
+      this->pFormat = pManager->getTextureFormat(pManager, v8->Format);
     }
-LABEL_12:
+LABEL_13:
     if ( !this->pFormat )
-      goto LABEL_13;
+      goto LABEL_14;
   }
-  Height = texDesc.Height;
+  v9 = v13[1];
   pTextures = this->pTextures;
-  pTextures->Size.Width = texDesc.Width;
-  pTextures->Size.Height = Height;
+  pTextures->Size.Width = v13[0];
+  pTextures->Size.Height = v9;
   if ( !this->ImgSize.Width && !this->ImgSize.Height )
   {
     v11 = this->pTextures;
-    v12 = v11->Size.Height;
+    Height = v11->Size.Height;
     this->ImgSize.Width = v11->Size.Width;
-    this->ImgSize.Height = v12;
+    this->ImgSize.Height = Height;
   }
   if ( (*((int (__stdcall **)(Scaleform::Render::TextureManager_vtbl *, ID3D11Texture2D *, _DWORD, ID3D11ShaderResourceView **))this->pManagerLocks.pObject->pManager[1].~Scaleform::Render::TextureManager
         + 7))(
@@ -67,7 +69,7 @@ LABEL_12:
          0,
          &this->pTextures->pView) < 0 )
   {
-LABEL_13:
+LABEL_14:
     this->State = State_Valid;
     return 0;
   }
@@ -78,141 +80,168 @@ LABEL_13:
 
 char __thiscall Scaleform::Render::D3D1x::Texture::Initialize(Scaleform::Render::D3D1x::Texture *this)
 {
-  Scaleform::Render::ImageFormat v3; // eax
-  bool v4; // zf
-  Scaleform::Render::D3D1x::TextureManager *v5; // edx
-  unsigned int v6; // ebp
-  int v7; // ebx
-  Scaleform::Render::D3D1x::Texture::HWTextureDesc *v8; // edi
+  Scaleform::Render::TextureManager *pManager; // edi
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpStats *v4; // eax
+  char v5; // al
+  char v6; // bl
+  unsigned int v8; // ebx
+  Scaleform::Render::D3D1x::Texture::HWTextureDesc *v9; // edi
   Scaleform::Render::Size<unsigned long> *FormatPlaneSize; // eax
   unsigned int Height; // ecx
-  unsigned int v11; // ebp
-  unsigned int v12; // ebx
-  int v13; // edi
+  int v12; // edi
+  unsigned int v13; // ebx
   unsigned int v14; // eax
   unsigned __int16 Use; // ax
   bool v16; // cl
   bool v17; // al
   Scaleform::Render::D3D1x::Texture::HWTextureDesc *v18; // edi
-  unsigned int MipLevels; // edx
-  Scaleform::Render::D3D1x::TextureManager *v20; // ebx
-  const Scaleform::Render::TextureFormat *pFormat; // ecx
-  DXGI_FORMAT GetImageFormat; // ecx
-  ID3D11Device *pDevice; // eax
-  unsigned int TextureCount; // ecx
-  int v25; // [esp+20h] [ebp-48h]
-  D3D11_USAGE usage; // [esp+24h] [ebp-44h]
-  unsigned int bindFlags; // [esp+28h] [ebp-40h]
-  Scaleform::Render::Size<unsigned long> cpu; // [esp+2Ch] [ebp-3Ch] BYREF
-  Scaleform::Render::ImageFormat format; // [esp+34h] [ebp-34h]
-  Scaleform::Render::D3D1x::TextureManager *pmanager; // [esp+38h] [ebp-30h]
-  D3D11_TEXTURE2D_DESC desc; // [esp+3Ch] [ebp-2Ch] BYREF
+  int MipLevels; // edx
+  const Scaleform::Render::TextureFormat *pFormat; // ebx
+  unsigned int v21; // ecx
+  int v22; // [esp+20h] [ebp-258h]
+  unsigned int i; // [esp+20h] [ebp-258h]
+  unsigned int v24; // [esp+20h] [ebp-258h]
+  Scaleform::Render::ImageFormat fmt; // [esp+24h] [ebp-254h]
+  HINSTANCE__ *fmta; // [esp+24h] [ebp-254h]
+  int v27; // [esp+28h] [ebp-250h]
+  Scaleform::Render::TextureManager *v28; // [esp+2Ch] [ebp-24Ch]
+  int v29; // [esp+30h] [ebp-248h]
+  Scaleform::Render::Size<unsigned long> result; // [esp+34h] [ebp-244h] BYREF
+  unsigned __int8 dst[44]; // [esp+3Ch] [ebp-23Ch] BYREF
+  Scaleform::AmpFunctionTimer v32; // [esp+68h] [ebp-210h] BYREF
+  char v33[512]; // [esp+78h] [ebp-200h] BYREF
 
-  if ( (this->TextureFlags & 4) != 0 )
-    return Scaleform::Render::D3D1x::Texture::Initialize(this, this->pTextures->pTexture);
-  v3 = this->GetImageFormat(this);
-  v4 = this->State == (State_Dead|State_Valid);
-  v5 = (Scaleform::Render::D3D1x::TextureManager *)this->pManagerLocks.pObject->pManager;
-  format = v3;
-  pmanager = v5;
-  if ( !v4 )
+  pManager = this->pManagerLocks.pObject->pManager;
+  if ( pManager->RenderThreadId == (void *)Scaleform::GetCurrentThreadId() )
   {
-    v6 = 0;
+    Instance = Scaleform::AmpServer::GetInstance();
+    v4 = Instance->GetDisplayStats(Instance);
+  }
+  else
+  {
+    v4 = 0;
+  }
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v32,
+    v4,
+    "Scaleform::Render::D3D1x::Texture::Initialize",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
+  if ( (this->TextureFlags & 4) != 0 )
+  {
+    v5 = Scaleform::Render::D3D1x::Texture::Initialize(this, this->pTextures->pTexture);
+LABEL_6:
+    v6 = v5;
+    goto LABEL_7;
+  }
+  fmt = this->GetImageFormat(this);
+  v28 = this->pManagerLocks.pObject->pManager;
+  if ( this->State != (State_Dead|State_Valid) )
+  {
+    v8 = 0;
     if ( this->TextureCount )
     {
-      v7 = 0;
+      v22 = 0;
       do
       {
-        v8 = &this->pTextures[v7];
-        FormatPlaneSize = Scaleform::Render::ImageData::GetFormatPlaneSize(&cpu, format, &this->ImgSize, v6);
+        v9 = &this->pTextures[v22];
+        FormatPlaneSize = Scaleform::Render::ImageData::GetFormatPlaneSize(&result, fmt, &this->ImgSize, v8);
         Height = FormatPlaneSize->Height;
-        v8->Size.Width = FormatPlaneSize->Width;
-        v8->Size.Height = Height;
-        ++v6;
-        ++v7;
+        ++v22;
+        v9->Size.Width = FormatPlaneSize->Width;
+        v9->Size.Height = Height;
+        ++v8;
       }
-      while ( v6 < this->TextureCount );
+      while ( v8 < this->TextureCount );
     }
   }
   if ( (this->Use & 2) != 0
     && Scaleform::Render::D3D1x::IsD3DFormatMipGenCompatible((DXGI_FORMAT)this->pFormat[1].GetImageFormat) )
   {
     this->TextureFlags |= 2u;
-    v11 = 0;
-    v12 = 31;
-    if ( this->TextureCount )
+    v12 = 0;
+    v13 = 31;
+    for ( i = 0; i < this->TextureCount; ++v12 )
     {
-      v13 = 0;
-      do
-      {
-        v14 = Scaleform::Render::ImageSize_MipLevelCount(this->pTextures[v13].Size);
-        if ( v12 >= v14 )
-          v12 = v14;
-        ++v11;
-        ++v13;
-      }
-      while ( v11 < this->TextureCount );
+      v14 = Scaleform::Render::ImageSize_MipLevelCount(this->pTextures[v12].Size);
+      ++i;
+      if ( v13 >= v14 )
+        v13 = v14;
     }
-    this->MipLevels = v12;
+    this->MipLevels = v13;
   }
   Use = this->Use;
   v16 = (Use & 0x100) != 0 && (Use & 0xE0) != 0;
   v17 = (Use & 0x400) != 0;
-  usage = D3D11_USAGE_DEFAULT;
-  cpu.Width = 0;
-  bindFlags = 8;
+  v29 = 0;
+  fmta = 0;
+  result.Width = 8;
   if ( v16 )
   {
-    usage = D3D11_USAGE_DYNAMIC;
-    cpu.Width = (unsigned int)&_sbh_sizeHeaderList;
+    v29 = 2;
+    fmta = &_sbh_sizeHeaderList;
   }
   if ( v17 )
-    bindFlags = 40;
-  v4 = this->TextureCount == 0;
-  format = Image_None;
-  if ( v4 )
+    result.Width = 40;
+  v24 = 0;
+  if ( this->TextureCount )
   {
-LABEL_28:
-    if ( !this->pImage || Scaleform::Render::Texture::Update(this) )
+    v27 = 0;
+    while ( 1 )
     {
-      this->State = State_Dead;
-      return Scaleform::Render::Texture::Initialize(this);
+      v18 = &this->pTextures[v27];
+      memset((int)dst, 0, sizeof(dst));
+      MipLevels = this->MipLevels;
+      pFormat = this->pFormat;
+      *(_DWORD *)dst = v18->Size.Width;
+      v21 = v18->Size.Height;
+      *(_DWORD *)&dst[8] = MipLevels;
+      *(_DWORD *)&dst[4] = v21;
+      *(_DWORD *)&dst[12] = 1;
+      *(_DWORD *)&dst[16] = pFormat[1].GetImageFormat;
+      *(_DWORD *)&dst[28] = v29;
+      *(_DWORD *)&dst[32] = result.Width;
+      *(_DWORD *)&dst[36] = fmta;
+      *(_DWORD *)&dst[20] = 1;
+      vostok::sprintf<512>((char (*)[512])v33, "CreateTexture2D %dx%d", *(_DWORD *)dst, v21);
+      g_log_output_ptr(0, v33);
+      if ( (*((int (__stdcall **)(Scaleform::Render::TextureManager_vtbl *, unsigned __int8 *, _DWORD, ID3D11Texture2D **))v28[1].~Scaleform::Render::TextureManager
+            + 5))(
+             v28[1].Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable,
+             dst,
+             0,
+             &v18->pTexture) < 0
+        || (*((int (__stdcall **)(Scaleform::Render::TextureManager_vtbl *, ID3D11Texture2D *, _DWORD, ID3D11ShaderResourceView **))v28[1].~Scaleform::Render::TextureManager
+            + 7))(
+             v28[1].Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable,
+             v18->pTexture,
+             0,
+             &v18->pView) < 0 )
+      {
+        break;
+      }
+      ++v24;
+      ++v27;
+      if ( v24 >= this->TextureCount )
+        goto LABEL_32;
     }
   }
   else
   {
-    v25 = 0;
-    while ( 1 )
+LABEL_32:
+    if ( !this->pImage || Scaleform::Render::Texture::Update(this) )
     {
-      v18 = &this->pTextures[v25];
-      memset((int)&desc, 0, sizeof(desc));
-      MipLevels = this->MipLevels;
-      v20 = pmanager;
-      desc.Width = v18->Size.Width;
-      desc.Height = v18->Size.Height;
-      pFormat = this->pFormat;
-      desc.MipLevels = MipLevels;
-      desc.ArraySize = 1;
-      GetImageFormat = (DXGI_FORMAT)pFormat[1].GetImageFormat;
-      desc.Usage = usage;
-      desc.Format = GetImageFormat;
-      desc.CPUAccessFlags = cpu.Width;
-      desc.SampleDesc.Count = 1;
-      pDevice = pmanager->pDevice;
-      desc.BindFlags = bindFlags;
-      if ( pDevice->CreateTexture2D(pDevice, &desc, 0, &v18->pTexture) < 0
-        || v20->pDevice->CreateShaderResourceView(v20->pDevice, v18->pTexture, 0, &v18->pView) < 0 )
-      {
-        break;
-      }
-      TextureCount = this->TextureCount;
-      ++v25;
-      if ( ++format >= TextureCount )
-        goto LABEL_28;
+      this->State = State_Dead;
+      v5 = Scaleform::Render::Texture::Initialize(this);
+      goto LABEL_6;
     }
   }
   this->ReleaseHWTextures(this, 1);
   if ( this->State != (State_Dead|State_Valid) )
     this->State = State_Valid;
-  return 0;
+  v6 = 0;
+LABEL_7:
+  Scaleform::AmpFunctionTimer::~AmpFunctionTimer(&v32);
+  return v6;
 }

@@ -6,8 +6,8 @@ int __usercall stlp_std::_get_osfflags@<eax>(int fd@<eax>, void *oshandle@<edi>)
   BOOL v5; // esi
   BOOL v6; // eax
   int result; // eax
-  unsigned int dummy; // [esp+0h] [ebp-8h] BYREF
-  unsigned int dummy2; // [esp+4h] [ebp-4h] BYREF
+  unsigned int NumberOfBytesWritten; // [esp+0h] [ebp-8h] BYREF
+  _BYTE Buffer[4]; // [esp+4h] [ebp-4h] BYREF
 
   osfile = 0;
   if ( fd >= 0 )
@@ -19,8 +19,8 @@ int __usercall stlp_std::_get_osfflags@<eax>(int fd@<eax>, void *oshandle@<edi>)
     v4 = v3 | 0x8000;
   else
     v4 = v3 | 0x4000;
-  v5 = WriteFile(oshandle, &dummy2, 0, &dummy, 0);
-  v6 = ReadFile(oshandle, &dummy2, 0, &dummy, 0);
+  v5 = WriteFile(oshandle, Buffer, 0, &NumberOfBytesWritten, 0);
+  v6 = ReadFile(oshandle, Buffer, 0, &NumberOfBytesWritten, 0);
   if ( v5 )
   {
     if ( v6 )

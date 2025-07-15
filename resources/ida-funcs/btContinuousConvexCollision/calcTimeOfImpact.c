@@ -6,161 +6,235 @@ char __thiscall btContinuousConvexCollision::calcTimeOfImpact(
         const btTransform *toB,
         btConvexCast::CastResult *result)
 {
-  float v7; // xmm1_4
+  btContinuousConvexCollision *v7; // ecx
+  float v8; // xmm2_4
+  long double v9; // rdi
   btIDebugDraw *m_debugDrawer; // ecx
-  const vostok::math::float4x4 *v9; // xmm2_4
-  float v10; // xmm0_4
-  float v11; // xmm1_4
-  btIDebugDraw *v12; // ecx
-  int v13; // eax
-  float v15; // [esp+1798h] [ebp-1B4h]
-  float v16; // [esp+1798h] [ebp-1B4h]
-  float v17; // [esp+1798h] [ebp-1B4h]
-  float v18; // [esp+179Ch] [ebp-1B0h]
-  float v19; // [esp+17A0h] [ebp-1ACh]
-  int v20; // [esp+17A0h] [ebp-1ACh]
-  float v21; // [esp+17A4h] [ebp-1A8h]
-  float v22; // [esp+17A8h] [ebp-1A4h]
-  float v23; // [esp+17ACh] [ebp-1A0h]
-  float v24; // [esp+17B0h] [ebp-19Ch]
-  float v25; // [esp+17B4h] [ebp-198h]
-  btVector3 v27; // [esp+17CCh] [ebp-180h]
-  btVector3 angVel; // [esp+17DCh] [ebp-170h] BYREF
-  _DWORD v29[4]; // [esp+17ECh] [ebp-160h] BYREF
-  btVector3 v30; // [esp+17FCh] [ebp-150h] BYREF
-  btVector3 linVel; // [esp+180Ch] [ebp-140h] BYREF
-  _DWORD v32[4]; // [esp+181Ch] [ebp-130h] BYREF
-  btVector3 linvel; // [esp+182Ch] [ebp-120h] BYREF
-  btVector3 angvel; // [esp+183Ch] [ebp-110h] BYREF
-  btPointCollector v35; // [esp+184Ch] [ebp-100h] BYREF
-  btPointCollector v36; // [esp+188Ch] [ebp-C0h] BYREF
-  btTransform predictedTransform; // [esp+18CCh] [ebp-80h] BYREF
-  btTransform transB; // [esp+190Ch] [ebp-40h] BYREF
+  float v12; // xmm1_4
+  float v13; // xmm0_4
+  float v14; // xmm2_4
+  btIDebugDraw *v15; // ecx
+  btContinuousConvexCollision *v16; // ecx
+  const float *v17; // [esp+Ch] [ebp-220h]
+  float v18; // [esp+18h] [ebp-214h]
+  int v19; // [esp+18h] [ebp-214h]
+  float v20; // [esp+1Ch] [ebp-210h]
+  float v21; // [esp+20h] [ebp-20Ch]
+  float v22; // [esp+20h] [ebp-20Ch]
+  float v23; // [esp+24h] [ebp-208h]
+  float v24; // [esp+28h] [ebp-204h]
+  float v25; // [esp+2Ch] [ebp-200h]
+  float v26; // [esp+30h] [ebp-1FCh]
+  float v27; // [esp+34h] [ebp-1F8h]
+  btVector3 v29; // [esp+4Ch] [ebp-1E0h] BYREF
+  btMatrix3x3 v30; // [esp+60h] [ebp-1CCh] BYREF
+  float v31; // [esp+94h] [ebp-198h] BYREF
+  float v32; // [esp+98h] [ebp-194h] BYREF
+  btTransform v33; // [esp+9Ch] [ebp-190h] BYREF
+  btVector3 v34; // [esp+DCh] [ebp-150h]
+  _DWORD v35[4]; // [esp+ECh] [ebp-140h] BYREF
+  btTransform v36; // [esp+FCh] [ebp-130h] BYREF
+  btVector3 v37; // [esp+13Ch] [ebp-F0h] BYREF
+  btVector3 v38; // [esp+14Ch] [ebp-E0h] BYREF
+  _DWORD v39[4]; // [esp+15Ch] [ebp-D0h] BYREF
+  unsigned __int64 v40; // [esp+16Ch] [ebp-C0h] BYREF
+  int v41; // [esp+174h] [ebp-B8h]
+  int v42; // [esp+178h] [ebp-B4h]
+  btIDebugDraw v43; // [esp+17Ch] [ebp-B0h] BYREF
+  btVector3 v44; // [esp+18Ch] [ebp-A0h]
+  unsigned __int64 v45; // [esp+19Ch] [ebp-90h] BYREF
+  int v46; // [esp+1A4h] [ebp-88h]
+  int v47; // [esp+1A8h] [ebp-84h]
+  float v48[2]; // [esp+1ACh] [ebp-80h] BYREF
+  btIDebugDraw v49; // [esp+1BCh] [ebp-70h] BYREF
+  btVector3 v50; // [esp+1CCh] [ebp-60h]
+  unsigned __int64 v51; // [esp+1DCh] [ebp-50h] BYREF
+  int v52; // [esp+1E4h] [ebp-48h]
+  int v53; // [esp+1E8h] [ebp-44h]
+  float v54[2]; // [esp+1ECh] [ebp-40h] BYREF
+  _BYTE v55[48]; // [esp+1FCh] [ebp-30h] BYREF
 
-  btTransformUtil::calculateVelocity(toA, &linVel, &angVel, fromA, 1.0);
-  btTransformUtil::calculateVelocity(toB, &linvel, &angvel, fromB, 1.0);
-  v15 = this->m_convexA->getAngularMotionDisc((struct btConvexShape *)this->m_convexA);
+  btTransformUtil::calculateVelocity(fromA, toA, 1.0, &v37, (btVector3 *)&v30.m_el[1].m_floats[3]);
+  btTransformUtil::calculateVelocity(fromB, toB, 1.0, &v38, &v29);
+  v21 = this->m_convexA->getAngularMotionDisc((struct btConvexShape *)this->m_convexA);
   if ( this->m_convexB1 )
-    v19 = this->m_convexB1->getAngularMotionDisc((struct btConvexShape *)this->m_convexB1);
+    v18 = this->m_convexB1->getAngularMotionDisc((struct btConvexShape *)this->m_convexB1);
   else
-    v19 = 0.0;
-  v16 = sqrtf(
-          (float)((float)(angVel.mVec128.m128_f32[2] * angVel.mVec128.m128_f32[2])
-                + (float)(angVel.mVec128.m128_f32[0] * angVel.mVec128.m128_f32[0]))
-        + (float)(angVel.mVec128.m128_f32[1] * angVel.mVec128.m128_f32[1]))
-      * v15;
-  v21 = sqrtf(
-          (float)((float)(angvel.mVec128.m128_f32[1] * angvel.mVec128.m128_f32[1])
-                + (float)(angvel.mVec128.m128_f32[2] * angvel.mVec128.m128_f32[2]))
-        + (float)(angvel.mVec128.m128_f32[0] * angvel.mVec128.m128_f32[0]))
-      * v19
-      + v16;
-  v23 = linvel.mVec128.m128_f32[0] - linVel.mVec128.m128_f32[0];
-  v24 = linvel.mVec128.m128_f32[1] - linVel.mVec128.m128_f32[1];
-  v25 = linvel.mVec128.m128_f32[2] - linVel.mVec128.m128_f32[2];
-  if ( sqrtf(
-         (float)((float)((float)(linvel.mVec128.m128_f32[0] - linVel.mVec128.m128_f32[0])
-                       * (float)(linvel.mVec128.m128_f32[0] - linVel.mVec128.m128_f32[0]))
-               + (float)((float)(linvel.mVec128.m128_f32[2] - linVel.mVec128.m128_f32[2])
-                       * (float)(linvel.mVec128.m128_f32[2] - linVel.mVec128.m128_f32[2])))
-       + (float)((float)(linvel.mVec128.m128_f32[1] - linVel.mVec128.m128_f32[1])
-               * (float)(linvel.mVec128.m128_f32[1] - linVel.mVec128.m128_f32[1])))
-     + v21 != 0.0 )
-  {
     v18 = 0.0;
-    v22 = 0.0;
-    v20 = 0;
-    v35.__vftable = (btPointCollector_vtbl *)&btPointCollector::`vftable';
-    strcpy((char *)&v35.m_distance, "k\v^]");
-    btContinuousConvexCollision::computeClosestPoints(fromA, fromB, (btVoronoiSimplexSolver *)&v35, this, &v35);
-    v30.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v35.m_pointInWorld);
-    if ( v35.m_hasResult )
+  v25 = v38.mVec128.m128_f32[0] - v37.mVec128.m128_f32[0];
+  v23 = (float)(fsqrt(
+                  (float)((float)(v30.m_el[2].mVec128.m128_f32[0] * v30.m_el[2].mVec128.m128_f32[0])
+                        + (float)(v30.m_el[2].mVec128.m128_f32[1] * v30.m_el[2].mVec128.m128_f32[1]))
+                + (float)(v30.m_el[1].mVec128.m128_f32[3] * v30.m_el[1].mVec128.m128_f32[3]))
+              * v21)
+      + (float)(fsqrt(
+                  (float)((float)(v29.mVec128.m128_f32[2] * v29.mVec128.m128_f32[2])
+                        + (float)(v29.mVec128.m128_f32[0] * v29.mVec128.m128_f32[0]))
+                + (float)(v29.mVec128.m128_f32[1] * v29.mVec128.m128_f32[1]))
+              * v18);
+  v26 = v38.mVec128.m128_f32[1] - v37.mVec128.m128_f32[1];
+  v27 = v38.mVec128.m128_f32[2] - v37.mVec128.m128_f32[2];
+  if ( (float)(fsqrt(
+                 (float)((float)((float)(v38.mVec128.m128_f32[0] - v37.mVec128.m128_f32[0])
+                               * (float)(v38.mVec128.m128_f32[0] - v37.mVec128.m128_f32[0]))
+                       + (float)((float)(v38.mVec128.m128_f32[2] - v37.mVec128.m128_f32[2])
+                               * (float)(v38.mVec128.m128_f32[2] - v37.mVec128.m128_f32[2])))
+               + (float)((float)(v38.mVec128.m128_f32[1] - v37.mVec128.m128_f32[1])
+                       * (float)(v38.mVec128.m128_f32[1] - v37.mVec128.m128_f32[1])))
+             + v23) != 0.0 )
+  {
+    v19 = 0;
+    v20 = 0.0;
+    v24 = 0.0;
+    v43.__vftable = (btIDebugDraw_vtbl *)&btPointCollector::`vftable';
+    strcpy((char *)v48, "k\v^]");
+    btContinuousConvexCollision::computeClosestPoints(v7, (int)this, fromA, fromB, &v43);
+    v40 = v45;
+    v41 = v46;
+    v42 = v47;
+    if ( LOBYTE(v48[1]) )
     {
-      v7 = result->m_allowedPenetration + v35.m_distance;
-      v27.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v35.m_normalOnBInWorld);
-      v17 = v7;
-      if ( (float)((float)((float)((float)(v35.m_normalOnBInWorld.mVec128.m128_f32[1] * v24)
-                                 + (float)(v35.m_normalOnBInWorld.mVec128.m128_f32[0] * v23))
-                         + (float)(v35.m_normalOnBInWorld.mVec128.m128_f32[2] * v25))
-                 + v21) > 0.00000011920929 )
+      v8 = result->m_allowedPenetration + v48[0];
+      v34.mVec128 = v44.mVec128;
+      v22 = v8;
+      HIDWORD(v9) = &v45;
+      LODWORD(v9) = v35;
+      if ( (float)((float)((float)((float)(v44.mVec128.m128_f32[0] * v25) + (float)(v44.mVec128.m128_f32[2] * v27))
+                         + (float)(v44.mVec128.m128_f32[1] * v26))
+                 + v23) > 0.00000011920929 )
       {
-        if ( v7 <= 0.001 )
-        {
-LABEL_19:
-          result->m_fraction = v18;
-          result->m_normal = (btVector3)v27.mVec128;
-          result->m_hitPoint = (btVector3)v30.mVec128;
-          return 1;
-        }
         while ( 1 )
         {
+          if ( v8 <= 0.001 )
+          {
+            result->m_normal = (btVector3)v34.mVec128;
+            result->m_hitPoint.mVec128.m128_u64[0] = v40;
+            result->m_hitPoint.mVec128.m128_i32[2] = v41;
+            result->m_fraction = v20;
+            result->m_hitPoint.mVec128.m128_i32[3] = v42;
+            return 1;
+          }
           m_debugDrawer = result->m_debugDrawer;
-          v9 = clear_value;
+          v12 = s_bm_current_air_resistance;
           if ( m_debugDrawer )
           {
-            v32[0] = clear_value;
-            v32[1] = clear_value;
-            v32[2] = clear_value;
-            v32[3] = 0;
-            ((void (__thiscall *)(btIDebugDraw *, btVector3 *, _DWORD, _DWORD *))m_debugDrawer->drawSphere)(
+            *(float *)v39 = s_bm_current_air_resistance;
+            *(float *)&v39[1] = s_bm_current_air_resistance;
+            *(float *)&v39[2] = s_bm_current_air_resistance;
+            v39[3] = 0;
+            ((void (__thiscall *)(btIDebugDraw *, unsigned __int64 *, _DWORD, _DWORD *))m_debugDrawer->drawSphere)(
               m_debugDrawer,
-              &v30,
+              &v40,
               0.2,
-              v32);
-            v9 = clear_value;
-            v7 = v17;
+              v39);
+            v12 = s_bm_current_air_resistance;
+            v8 = v22;
           }
-          v10 = (float)((float)((float)(v27.mVec128.m128_f32[1] * v24) + (float)(v27.mVec128.m128_f32[0] * v23))
-                      + (float)(v25 * v27.mVec128.m128_f32[2]))
-              + v21;
-          if ( v10 <= 0.00000011920929 )
-            break;
-          v11 = (float)(v7 / v10) + v18;
-          v18 = v11;
-          if ( v11 > *(float *)&v9 || v11 < 0.0 || v22 >= v11 )
-            break;
-          v22 = v11;
-          btTransformUtil::integrateTransform(fromA, &linVel, &angVel, v11, &predictedTransform);
-          btTransformUtil::integrateTransform(fromB, &linvel, &angvel, v11, &transB);
-          v12 = result->m_debugDrawer;
-          if ( v12 )
+          v13 = (float)((float)((float)(v25 * v34.mVec128.m128_f32[0]) + (float)(v34.mVec128.m128_f32[2] * v27))
+                      + (float)(v34.mVec128.m128_f32[1] * v26))
+              + v23;
+          if ( v13 <= 0.00000011920929 )
+            return 0;
+          v14 = (float)(v8 / v13) + v20;
+          v20 = v14;
+          if ( v14 > v12 || v14 < 0.0 || v24 >= v14 )
+            return 0;
+          v24 = v14;
+          btTransformUtil::integrateTransform(&v37, v9, fromA, (const btVector3 *)&v30.m_el[1].m_floats[3], v14, &v36);
+          btTransformUtil::integrateTransform(&v38, v9, fromB, &v29, v14, &v33);
+          v30.m_el[0].mVec128.m128_f32[3] = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[2])
+                                                  + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[2].mVec128.m128_f32[2]))
+                                          + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[2]
+                                                  * v33.m_basis.m_el[0].mVec128.m128_f32[2]);
+          v30.m_el[1].mVec128.m128_f32[1] = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[1]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[2])
+                                                  + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[1]
+                                                          * v33.m_basis.m_el[2].mVec128.m128_f32[2]))
+                                          + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[1]
+                                                  * v33.m_basis.m_el[0].mVec128.m128_f32[2]);
+          v32 = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[0] * v33.m_basis.m_el[1].mVec128.m128_f32[2])
+                      + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[0] * v33.m_basis.m_el[2].mVec128.m128_f32[2]))
+              + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[0] * v33.m_basis.m_el[0].mVec128.m128_f32[2]);
+          v30.m_el[0].mVec128.m128_f32[2] = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[1])
+                                                  + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[2].mVec128.m128_f32[1]))
+                                          + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[2]
+                                                  * v33.m_basis.m_el[0].mVec128.m128_f32[1]);
+          v30.m_el[0].mVec128.m128_f32[1] = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[1]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[1])
+                                                  + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[1]
+                                                          * v33.m_basis.m_el[2].mVec128.m128_f32[1]))
+                                          + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[1]
+                                                  * v33.m_basis.m_el[0].mVec128.m128_f32[1]);
+          v30.m_el[1].mVec128.m128_f32[0] = (float)((float)(v36.m_basis.m_el[0].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[0].mVec128.m128_f32[0])
+                                                  + (float)(v36.m_basis.m_el[1].mVec128.m128_f32[2]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[0]))
+                                          + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[2]
+                                                  * v33.m_basis.m_el[2].mVec128.m128_f32[0]);
+          v30.m_el[1].mVec128.m128_f32[2] = (float)((float)(v36.m_basis.m_el[1].mVec128.m128_f32[0]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[1])
+                                                  + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[0]
+                                                          * v33.m_basis.m_el[2].mVec128.m128_f32[1]))
+                                          + (float)(v36.m_basis.m_el[0].mVec128.m128_f32[0]
+                                                  * v33.m_basis.m_el[0].mVec128.m128_f32[1]);
+          v31 = (float)((float)(v36.m_basis.m_el[0].mVec128.m128_f32[1] * v33.m_basis.m_el[0].mVec128.m128_f32[0])
+                      + (float)(v36.m_basis.m_el[1].mVec128.m128_f32[1] * v33.m_basis.m_el[1].mVec128.m128_f32[0]))
+              + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[1] * v33.m_basis.m_el[2].mVec128.m128_f32[0]);
+          v30.m_el[0].mVec128.m128_f32[0] = (float)((float)(v36.m_basis.m_el[0].mVec128.m128_f32[0]
+                                                          * v33.m_basis.m_el[0].mVec128.m128_f32[0])
+                                                  + (float)(v36.m_basis.m_el[1].mVec128.m128_f32[0]
+                                                          * v33.m_basis.m_el[1].mVec128.m128_f32[0]))
+                                          + (float)(v36.m_basis.m_el[2].mVec128.m128_f32[0]
+                                                  * v33.m_basis.m_el[2].mVec128.m128_f32[0]);
+          btMatrix3x3::setValue(
+            &v30,
+            (int)v55,
+            &v31,
+            v30.m_el[1].mVec128.m128_f32,
+            &v30.m_el[1].mVec128.m128_f32[2],
+            &v30.m_el[0].mVec128.m128_f32[1],
+            &v30.m_el[0].mVec128.m128_f32[2],
+            &v32,
+            &v30.m_el[1].mVec128.m128_f32[1],
+            &v30.m_el[0].mVec128.m128_f32[3],
+            v17);
+          v15 = result->m_debugDrawer;
+          if ( v15 )
           {
-            v29[0] = clear_value;
-            memset(&v29[1], 0, 12);
-            ((void (__thiscall *)(btIDebugDraw *, btVector3 *, _DWORD, _DWORD *))v12->drawSphere)(
-              v12,
-              &predictedTransform.m_origin,
+            *(float *)v35 = s_bm_current_air_resistance;
+            memset(&v35[1], 0, 12);
+            ((void (__thiscall *)(btIDebugDraw *, btVector3 *, _DWORD, _DWORD *))v15->drawSphere)(
+              v15,
+              &v36.m_origin,
               0.2,
-              v29);
+              v35);
           }
-          ((void (__thiscall *)(btConvexCast::CastResult *, _DWORD))result->DebugDraw)(result, LODWORD(v11));
-          v36.__vftable = (btPointCollector_vtbl *)&btPointCollector::`vftable';
-          strcpy((char *)&v36.m_distance, "k\v^]");
-          btContinuousConvexCollision::computeClosestPoints(
-            &predictedTransform,
-            &transB,
-            (btVoronoiSimplexSolver *)this,
-            this,
-            &v36);
-          if ( !v36.m_hasResult )
+          ((void (__thiscall *)(btConvexCast::CastResult *, _DWORD))result->DebugDraw)(result, LODWORD(v14));
+          v49.__vftable = (btIDebugDraw_vtbl *)&btPointCollector::`vftable';
+          strcpy((char *)v54, "k\v^]");
+          btContinuousConvexCollision::computeClosestPoints(v16, (int)this, &v36, &v33, &v49);
+          if ( !LOBYTE(v54[1]) )
+            break;
+          v40 = v51;
+          ++v19;
+          v8 = result->m_allowedPenetration + v54[0];
+          v41 = v52;
+          v42 = v53;
+          v34.mVec128 = v50.mVec128;
+          v22 = v8;
+          HIDWORD(v9) = &v51;
+          LODWORD(v9) = v35;
+          if ( v19 > 64 )
           {
-            result->reportFailure(result, -1, v20);
+            result->reportFailure(result, -2, v19);
             return 0;
           }
-          v7 = result->m_allowedPenetration + v36.m_distance;
-          v13 = v20 + 1;
-          v30.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v36.m_pointInWorld);
-          v17 = v7;
-          v27.mVec128 = (__m128)_mm_load_si128((const __m128i *)&v36.m_normalOnBInWorld);
-          v20 = v13;
-          if ( v13 > 64 )
-          {
-            result->reportFailure(result, -2, v13);
-            return 0;
-          }
-          if ( v7 <= 0.001 )
-            goto LABEL_19;
         }
+        result->reportFailure(result, -1, v19);
       }
     }
   }

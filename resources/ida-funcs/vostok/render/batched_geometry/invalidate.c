@@ -1,48 +1,54 @@
 void __thiscall vostok::render::batched_geometry<vostok::render::lpv_vertex>::invalidate(
         vostok::render::batched_geometry<vostok::render::lpv_vertex> *this,
-        vostok::render::batched_geometry<vostok::render::lpv_vertex> *thisa)
+        _DWORD *a2)
 {
-  vostok::render::geometry_batch *M_finish; // ebx
-  vostok::render::geometry_batch *i; // esi
-  const vostok::render::res_geometry *m_object; // eax
-  vostok::resources::unmanaged_resource *v6; // eax
-  vostok::render::geometry_batch *M_start; // esi
-  unsigned __int16 *v8; // eax
-  vostok::render::lpv_vertex *v9; // eax
-  vostok::render::geometry_batch *v10; // [esp+0h] [ebp-10h]
-  const stlp_std::__false_type *v11; // [esp+4h] [ebp-Ch]
+  int *v3; // edi
+  int v4; // ebp
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *v5; // ecx
+  int i; // [esp+14h] [ebp+4h]
 
-  M_finish = thisa->m_geometry_batches._M_impl._M_finish;
-  for ( i = thisa->m_geometry_batches._M_impl._M_start; i != M_finish; ++i )
+  v3 = a2 + 1;
+  v4 = a2[1];
+  for ( i = a2[2]; v4 != i; v4 += 36 )
   {
-    m_object = i->geometry.m_object;
-    i->geometry.m_object = 0;
-    if ( m_object )
-    {
-      if ( m_object->m_reference_count-- == 1 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          m_object);
-    }
-    v6 = i->mtl.m_object;
-    i->mtl.m_object = 0;
-    if ( v6 && !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(&v6->vostok::resources::unmanaged_intrusive_base, v6);
+    vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(v4 + 28),
+      0);
+    vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>::operator=(
+      v5,
+      (vostok::particle::particle_system_instance_impl **)(v4 + 24));
   }
-  M_start = thisa->m_geometry_batches._M_impl._M_start;
-  if ( M_start != thisa->m_geometry_batches._M_impl._M_finish )
+  vostok::buffer_vector<vostok::render::geometry_batch>::clear(
+    (vostok::buffer_vector<vostok::render::geometry_batch> *)this,
+    v3);
+  a2[330314] = a2[330313];
+  a2[2631] = a2[2630];
+}
+
+
+void __thiscall vostok::render::batched_geometry<vostok::render::shadow_vertex>::invalidate(
+        vostok::render::batched_geometry<vostok::render::shadow_vertex> *this,
+        _DWORD *a2)
+{
+  int *v3; // edi
+  int v4; // ebp
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *v5; // ecx
+  int i; // [esp+14h] [ebp+4h]
+
+  v3 = a2 + 1;
+  v4 = a2[1];
+  for ( i = a2[2]; v4 != i; v4 += 36 )
   {
-    stlp_std::__destroy_range_aux<vostok::render::geometry_batch *,vostok::render::geometry_batch>(
-      M_start,
-      thisa->m_geometry_batches._M_impl._M_finish,
-      v10,
-      v11);
-    thisa->m_geometry_batches._M_impl._M_finish = M_start;
+    vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(v4 + 28),
+      0);
+    vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>::operator=(
+      v5,
+      (vostok::particle::particle_system_instance_impl **)(v4 + 24));
   }
-  v8 = thisa->m_indices._M_impl._M_start;
-  if ( v8 != thisa->m_indices._M_impl._M_finish )
-    thisa->m_indices._M_impl._M_finish = v8;
-  v9 = thisa->m_vertices._M_impl._M_start;
-  if ( v9 != thisa->m_vertices._M_impl._M_finish )
-    thisa->m_vertices._M_impl._M_finish = v9;
+  vostok::buffer_vector<vostok::render::geometry_batch>::clear(
+    (vostok::buffer_vector<vostok::render::geometry_batch> *)this,
+    v3);
+  *(_DWORD *)((char *)&loc_202924 + (_DWORD)a2 + 4) = *(_DWORD *)((char *)&loc_202924 + (_DWORD)a2);
+  a2[2631] = a2[2630];
 }

@@ -1,90 +1,83 @@
 vostok::render::res_texture *__userpurge vostok::render::resource_manager::create_texture2d_impl@<eax>(
-        D3D11_USAGE usage@<edi>,
-        vostok::render::resource_manager *this,
+        vostok::render::resource_manager *this@<ecx>,
         unsigned int width,
-        ID3D11Texture2D *height,
+        unsigned int height,
         const D3D11_SUBRESOURCE_DATA *data,
         DXGI_FORMAT format,
+        D3D11_USAGE usage,
         unsigned int mip_levels,
         unsigned int array_size,
         bool use_for_render_target)
 {
-  ID3D11Texture2D *v9; // ebp
   HRESULT v10; // eax
-  const char *d3d11_error_string; // eax
-  void *v12; // eax
-  vostok::render::res_texture *v13; // ecx
-  int v14; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v11; // ecx
+  bool *d3d11_error_string; // eax
+  void *v13; // eax
+  vostok::render::res_texture *v14; // ecx
   int v15; // esi
-  bool v17; // [esp+0h] [ebp-38h]
-  bool v18; // [esp+4h] [ebp-34h]
-  D3D11_TEXTURE2D_DESC texure_desc; // [esp+Ch] [ebp-2Ch] BYREF
+  int v16; // eax
+  vostok::render::res_texture *v17; // [esp-4h] [ebp-40h]
+  const char *v18; // [esp+0h] [ebp-3Ch]
+  bool v19; // [esp+0h] [ebp-3Ch]
+  const char *v20; // [esp+4h] [ebp-38h]
+  unsigned int v21; // [esp+8h] [ebp-34h]
+  unsigned __int8 dst[44]; // [esp+Ch] [ebp-30h] BYREF
+  ID3D11Resource *surface; // [esp+38h] [ebp-4h] BYREF
 
-  v9 = height;
-  memset((int)&texure_desc, 0, sizeof(texure_desc));
-  texure_desc.Width = (unsigned int)this;
-  texure_desc.Height = width;
-  texure_desc.Format = (DXGI_FORMAT)height;
-  texure_desc.SampleDesc.Count = 1;
-  texure_desc.SampleDesc.Quality = 0;
-  texure_desc.Usage = usage;
-  texure_desc.MipLevels = (unsigned int)data;
-  texure_desc.ArraySize = 1;
-  texure_desc.BindFlags = ((unsigned __int8)format != DXGI_FORMAT_UNKNOWN ? 0x20 : 0)
-                        | (usage != D3D11_USAGE_STAGING ? 8 : 0);
+  if ( vostok::command_line::key::is_set((vostok::command_line::key *)this, (int)&s_no_render_targets) )
+    return 0;
+  memset((int)dst, 0, sizeof(dst));
+  *(_DWORD *)dst = width;
+  *(_DWORD *)&dst[4] = height;
+  *(_DWORD *)&dst[8] = mip_levels;
+  *(_DWORD *)&dst[16] = format;
+  *(_DWORD *)&dst[20] = 1;
+  *(_DWORD *)&dst[24] = 0;
+  *(_DWORD *)&dst[28] = usage;
+  *(_DWORD *)&dst[12] = 1;
+  *(_DWORD *)&dst[32] = ((unsigned __int8)array_size != 0 ? 0x20 : 0) | (usage != D3D11_USAGE_STAGING ? 8 : 0);
   if ( usage == D3D11_USAGE_DYNAMIC )
-    texure_desc.CPUAccessFlags = (unsigned int)&_sbh_sizeHeaderList;
-  else
-    texure_desc.CPUAccessFlags = usage != D3D11_USAGE_STAGING ? 0 : (unsigned int)&loc_20000;
-  v10 = (*(int (__stdcall **)(int, D3D11_TEXTURE2D_DESC *, _DWORD, ID3D11Texture2D **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x
-                                                                                      + 20))(
-          `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-          &texure_desc,
-          0,
-          &height);
-  if ( !LOBYTE(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_waiting_for_bind_action)
-    && v10 < 0 )
   {
-    LOBYTE(format) = 1;
-    d3d11_error_string = make_d3d11_error_string(v10);
+    *(_DWORD *)&dst[36] = &_sbh_sizeHeaderList;
+  }
+  else
+  {
+    *(_DWORD *)&dst[36] = &loc_20000;
+    if ( usage != D3D11_USAGE_STAGING )
+      *(_DWORD *)&dst[36] = 0;
+  }
+  v10 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateTexture2D(
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+          (const D3D11_TEXTURE2D_DESC *)dst,
+          data,
+          (ID3D11Texture2D **)&surface);
+  if ( !ignore_always_9 && v10 < 0 )
+  {
+    HIBYTE(array_size) = 1;
+    d3d11_error_string = (bool *)make_d3d11_error_string(v10, v11);
     vostok::debug::on_error(
-      (bool *)&format,
+      (bool *)&array_size + 3,
       process_error_true,
-      (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_waiting_for_bind_action,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\resource_manager.cpp",
       "vostok::render::resource_manager::create_texture2d_impl",
-      0x9BAu);
-    if ( vostok::debug::is_debugger_present() || (_BYTE)format )
+      (const char *)0xCEC);
+    if ( vostok::debug::is_debugger_present() || HIBYTE(array_size) )
       __debugbreak();
   }
-  v12 = vostok::memory::doug_lea_allocator::malloc_impl(
-          (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-          0x1BCu);
-  if ( v12 )
+  v13 = vostok::memory::new_helper<vostok::render::res_texture>::call<vostok::memory::doug_lea_allocator>(
+          vostok::render::g_allocator,
+          v18,
+          v20,
+          v21);
+  v15 = 0;
+  if ( v13 )
   {
-    vostok::render::res_texture::res_texture(v13, (int)v12, 0);
-    v15 = v14;
+    vostok::render::res_texture::res_texture(v14, (int)v13, 0);
+    v15 = v16;
   }
-  else
-  {
-    v15 = 0;
-  }
-  *(_DWORD *)(v15 + 52) = vostok::render::utils::calc_surface_size(
-                            (unsigned int)this,
-                            width,
-                            (DXGI_FORMAT)v9,
-                            (unsigned int *)&format);
-  vostok::render::res_texture::set_hw_texture(
-    (vostok::render::res_texture *)(usage == D3D11_USAGE_STAGING),
-    v15,
-    height,
-    0,
-    usage == D3D11_USAGE_STAGING,
-    v17,
-    v18);
-  height->Release(height);
+  *(_DWORD *)(v15 + 64) = vostok::render::utils::calc_surface_size(width, height, format, &array_size);
+  vostok::render::res_texture::set_hw_texture(v17, v15, surface, 0, usage == D3D11_USAGE_STAGING, 0, v19);
+  surface->Release(surface);
   return (vostok::render::res_texture *)v15;
 }

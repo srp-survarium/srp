@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::MeshCacheItemUseNode::SetMeshItem(
   if ( this->pMeshItem )
   {
     this->pPrev->pNext = this->pNext;
-    this->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItemUseNode>::$014803AF19A6CAF01D7F6E26E893966B::pPrev = this->pPrev;
+    this->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItemUseNode>::$779B21075EDB092AAA8449DD539B31FB::pPrev = this->pPrev;
   }
   this->pMeshItem = p;
   if ( p )

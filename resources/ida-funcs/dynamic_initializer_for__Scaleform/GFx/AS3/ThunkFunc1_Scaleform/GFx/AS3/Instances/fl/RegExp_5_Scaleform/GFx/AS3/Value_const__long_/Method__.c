@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_events::MouseEvent::deltaSet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl::RegExp,5,Scaleform::GFx::AS3::Value const,long>::Method) = Scaleform::GFx::AS3::Instances::fl_events::MouseEvent::deltaSet;
-  dword_AAD504 = 0;
+  dword_8F1CBC = 0;
   return result;
 }

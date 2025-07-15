@@ -1,12 +1,7 @@
-void __usercall survarium::flash_value::SetInt(survarium::flash_value *this@<esi>, int value@<edi>)
+void __userpurge survarium::flash_value::SetInt(survarium::flash_value *this@<ecx>, int a2@<esi>, int value)
 {
-  if ( (*(_DWORD *)&this->body[4] & 0x40) != 0 )
-  {
-    (*(void (__stdcall **)(survarium::flash_value *, _DWORD))(**(_DWORD **)this->body + 8))(
-      this,
-      *(_DWORD *)&this->body[8]);
-    *(_DWORD *)this->body = 0;
-  }
-  *(_DWORD *)&this->body[8] = value;
-  *(_DWORD *)&this->body[4] = 3;
+  if ( (*(_DWORD *)(a2 + 4) & 0x40) != 0 )
+    Scaleform::GFx::Value::ReleaseManagedValue((Scaleform::GFx::Value *)a2);
+  *(_DWORD *)(a2 + 4) = 3;
+  *(_DWORD *)(a2 + 8) = value;
 }

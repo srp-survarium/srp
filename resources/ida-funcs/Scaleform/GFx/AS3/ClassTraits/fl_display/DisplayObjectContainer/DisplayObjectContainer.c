@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectConta
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_display::DisplayObjectContainerCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectContainer_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectContainer_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectContainer::`vftable';
   this->TraitsType = Traits_DisplayObjectContainer;
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectConta
       v4,
       vm,
       &Scaleform::GFx::AS3::fl_display::DisplayObjectContainerCI);
-    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_display::Stage::`vftable';
+    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_display::DisplayObjectContainer::`vftable';
     v5[15] = 23;
     v5[13] = 60;
   }
@@ -56,7 +56,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::DisplayObjectConta
         return;
       }
       RefCount = v9->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v9->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);

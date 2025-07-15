@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::FontCacheHandleManager::destroyFontList_NTS(
   Scaleform::Render::FontCacheHandle *v4; // ebp
   Scaleform::RefCountVImpl *v5; // eax
   Scaleform::Render::GlyphCache *pCache; // ecx
-  bool merge; // [esp+Bh] [ebp-5h]
+  char v7; // [esp+Bh] [ebp-5h]
   Scaleform::Render::FontCacheHandleManager *v8; // [esp+Ch] [ebp-4h]
 
   pNext = this->Fonts[type].Root.pNext;
@@ -15,7 +15,7 @@ void __thiscall Scaleform::Render::FontCacheHandleManager::destroyFontList_NTS(
   v8 = this;
   if ( pNext != (Scaleform::Render::FontCacheHandle *)v3 )
   {
-    merge = 0;
+    v7 = 0;
     while ( 1 )
     {
       v4 = pNext->pNext;
@@ -25,7 +25,7 @@ void __thiscall Scaleform::Render::FontCacheHandleManager::destroyFontList_NTS(
         if ( pCache )
         {
           Scaleform::Render::GlyphCache::CleanUpFont(pCache, pNext);
-          merge = 1;
+          v7 = 1;
         }
       }
       else
@@ -44,7 +44,7 @@ void __thiscall Scaleform::Render::FontCacheHandleManager::destroyFontList_NTS(
     }
     v3->Root.pPrev = (Scaleform::Render::FontCacheHandle *)v3;
     v3->Root.pNext = (Scaleform::Render::FontCacheHandle *)v3;
-    if ( merge )
+    if ( v7 )
       Scaleform::Render::GlyphCache::MergeCacheSlots(v8->pCache);
   }
 }

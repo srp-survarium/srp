@@ -92,30 +92,30 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
   unsigned int v90; // eax
   unsigned int v91; // ebx
   Scaleform::Render::Tessellator::OuterEdgeType *v92; // ebx
-  unsigned int outVer; // ecx
+  unsigned int v93; // ecx
   unsigned int v94; // eax
-  unsigned int vi2; // [esp+8h] [ebp-5Ch] BYREF
-  Scaleform::Render::Tessellator::EdgeAAType *e2; // [esp+Ch] [ebp-58h] BYREF
+  unsigned int v95; // [esp+8h] [ebp-5Ch] BYREF
+  Scaleform::Render::Tessellator::EdgeAAType *v96; // [esp+Ch] [ebp-58h] BYREF
   int v97; // [esp+10h] [ebp-54h]
-  Scaleform::Render::Tessellator::EdgeAAType *e1; // [esp+14h] [ebp-50h]
+  Scaleform::Render::Tessellator::EdgeAAType *v98; // [esp+14h] [ebp-50h]
   int v99; // [esp+18h] [ebp-4Ch]
   unsigned int v100; // [esp+1Ch] [ebp-48h]
   unsigned int v101; // [esp+20h] [ebp-44h]
   unsigned int v102; // [esp+24h] [ebp-40h]
-  unsigned int endVer; // [esp+28h] [ebp-3Ch]
-  Scaleform::Render::Tessellator::StarVertexType sv; // [esp+2Ch] [ebp-38h]
-  Scaleform::Render::Tessellator::OuterEdgeType oe; // [esp+34h] [ebp-30h]
-  Scaleform::Render::TessVertex v1; // [esp+3Ch] [ebp-28h] BYREF
-  Scaleform::Render::TessVertex v2; // [esp+50h] [ebp-14h] BYREF
-  unsigned int *bevel; // [esp+68h] [ebp+4h]
-  unsigned int bevelh; // [esp+68h] [ebp+4h]
-  int bevela; // [esp+68h] [ebp+4h]
-  unsigned int bevelb; // [esp+68h] [ebp+4h]
-  unsigned int bevelc; // [esp+68h] [ebp+4h]
-  unsigned int beveld; // [esp+68h] [ebp+4h]
-  char bevele; // [esp+68h] [ebp+4h]
-  Scaleform::Render::Tessellator::StarVertexType *bevelf; // [esp+68h] [ebp+4h]
-  unsigned int bevelg; // [esp+68h] [ebp+4h]
+  unsigned int v103; // [esp+28h] [ebp-3Ch]
+  unsigned int v104; // [esp+2Ch] [ebp-38h]
+  int v105; // [esp+38h] [ebp-2Ch]
+  Scaleform::Render::TessVertex v106; // [esp+3Ch] [ebp-28h] BYREF
+  Scaleform::Render::TessVertex v107; // [esp+50h] [ebp-14h] BYREF
+  unsigned int *v108; // [esp+68h] [ebp+4h]
+  unsigned int v109; // [esp+68h] [ebp+4h]
+  int v110; // [esp+68h] [ebp+4h]
+  unsigned int v111; // [esp+68h] [ebp+4h]
+  unsigned int v112; // [esp+68h] [ebp+4h]
+  unsigned int v113; // [esp+68h] [ebp+4h]
+  char v114; // [esp+68h] [ebp+4h]
+  Scaleform::Render::Tessellator::StarVertexType *v115; // [esp+68h] [ebp+4h]
+  unsigned int v116; // [esp+68h] [ebp+4h]
 
   v3 = start;
   if ( start != end )
@@ -123,10 +123,10 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
     v97 = end - start;
     v5 = (Scaleform::Render::Tessellator::EdgeAAType *)(end - 1);
     v6 = start;
-    e2 = (Scaleform::Render::Tessellator::EdgeAAType *)(end - 1);
+    v96 = (Scaleform::Render::Tessellator::EdgeAAType *)(end - 1);
     this->StartFan.Size = 0;
     this->EndFan.Size = 0;
-    vi2 = start;
+    v95 = start;
     if ( start < end )
     {
       while ( 1 )
@@ -140,8 +140,8 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
         {
           if ( v10->slope != v11->slope && (v10->style & 0x8000u) == 0 && (v11->style & 0x8000) != 0 )
           {
-            Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(&this->StartFan, &vi2);
-            Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(&this->EndFan, (const unsigned int *)&e2);
+            Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(&this->StartFan, &v95);
+            Scaleform::Render::ArrayPaged<unsigned int,3,4>::PushBack(&this->EndFan, (unsigned int *)&v96);
           }
         }
         else if ( ((v10->style ^ v11->style) & 0x7FFF) != 0 )
@@ -159,29 +159,29 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
               this->EndFan.Size >> 3);
           v14 = this->EndFan.Pages[v13];
           v3 = start;
-          v14[this->EndFan.Size++ & 7] = (unsigned int)e2;
+          v14[this->EndFan.Size++ & 7] = (unsigned int)v96;
         }
-        e2 = (Scaleform::Render::Tessellator::EdgeAAType *)v6++;
-        vi2 = v6;
+        v96 = (Scaleform::Render::Tessellator::EdgeAAType *)v6++;
+        v95 = v6;
         if ( v6 >= end )
           break;
-        v5 = e2;
+        v5 = v96;
       }
     }
     if ( this->StartFan.Size )
     {
       v29 = this->EndFan.Size >> 3;
-      bevel = *this->EndFan.Pages;
+      v108 = *this->EndFan.Pages;
       if ( v29 >= this->EndFan.NumPages )
         Scaleform::Render::ArrayPaged<Scaleform::Render::PathBasic,2,4>::allocPage(
           (Scaleform::Render::ArrayPaged<Scaleform::Render::PathBasic,2,4> *)&this->EndFan,
           v29);
-      this->EndFan.Pages[v29][this->EndFan.Size++ & 7] = *bevel;
+      this->EndFan.Pages[v29][this->EndFan.Size++ & 7] = *v108;
       Size = this->StarVertices.Size;
       v31 = this->EdgeFans.Array[v3].cntVer->srcVer & 0xFFFFFFF;
       v32 = 0;
-      endVer = Size;
-      sv.cntVer = v31;
+      v103 = Size;
+      v104 = v31;
       if ( this->StartFan.Size )
       {
         do
@@ -194,21 +194,21 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
           v102 = v32 + 1;
           v36 = v35[(v32 + 1) & 7];
           v37 = this->EdgeFans.Array;
-          vi2 = v36;
+          v95 = v36;
           v38 = &v37[v36];
           cntVer = v37[v34].cntVer;
           v99 = 12 * v34;
           v40 = &v37[v34];
           srcVer = v40->rayVer->srcVer;
-          e2 = v38;
+          v96 = v38;
           v42 = cntVer->srcVer & 0xFFFFFFF;
-          e1 = v40;
-          if ( (srcVer & 0xFFFFFFF) == v42 || (e2->rayVer->srcVer & 0xFFFFFFF) == v42 )
+          v98 = v40;
+          if ( (srcVer & 0xFFFFFFF) == v42 || (v96->rayVer->srcVer & 0xFFFFFFF) == v42 )
           {
             v43 = this->MeshVertices.Pages;
-            bevelh = cntVer->srcVer & 0xFFFFFFF;
-            v1.x = v43[bevelh >> 4][cntVer->srcVer & 0xF].x;
-            v1.y = v43[bevelh >> 4][bevelh & 0xF].y;
+            v109 = cntVer->srcVer & 0xFFFFFFF;
+            v106.x = v43[v109 >> 4][cntVer->srcVer & 0xF].x;
+            v106.y = v43[v109 >> 4][v109 & 0xF].y;
           }
           else
           {
@@ -216,67 +216,66 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
               this,
               &this->MeshVertices.Pages[(srcVer & 0xFFFFFFF) >> 4][srcVer & 0xF],
               &this->MeshVertices.Pages[v42 >> 4][v42 & 0xF],
-              &this->MeshVertices.Pages[(e2->rayVer->srcVer & 0xFFFFFFF) >> 4][e2->rayVer->srcVer & 0xF],
-              &v1,
+              &this->MeshVertices.Pages[(v96->rayVer->srcVer & 0xFFFFFFF) >> 4][v96->rayVer->srcVer & 0xF],
+              &v106,
               0);
-            v40 = e1;
+            v40 = v98;
           }
-          e2 = (Scaleform::Render::Tessellator::EdgeAAType *)this->MeshVertices.Size;
-          if ( vi2 >= v34 || (vi2 += v97, v34 <= vi2) )
+          v96 = (Scaleform::Render::Tessellator::EdgeAAType *)this->MeshVertices.Size;
+          if ( v95 >= v34 || (v95 += v97, v34 <= v95) )
           {
             v44 = v99;
-            bevela = v99;
+            v110 = v99;
             v45 = 12 * (v34 - v97);
             do
             {
               if ( v34 >= end )
                 v44 = v45;
-              (*(Scaleform::Render::Tessellator::MonoVertexType **)((char *)&this->EdgeFans.Array->cntVer + v44))->aaVer = (unsigned int)e2;
+              (*(Scaleform::Render::Tessellator::MonoVertexType **)((char *)&this->EdgeFans.Array->cntVer + v44))->aaVer = (unsigned int)v96;
               ++v34;
-              v44 = bevela + 12;
+              v44 = v110 + 12;
               v45 += 12;
-              bevela += 12;
+              v110 += 12;
             }
-            while ( v34 <= vi2 );
+            while ( v34 <= v95 );
           }
           v46 = this->MeshVertices.Size >> 4;
-          v1.Styles[1] = v40->style & 0x7FFF;
-          v1.Styles[0] = v1.Styles[1];
-          v1.Flags = 2;
-          v1.Mesh = -1;
-          bevelb = v46;
+          v106.Styles[1] = v40->style & 0x7FFF;
+          v106.Styles[0] = v106.Styles[1];
+          *(_DWORD *)&v106.Flags = -65534;
+          v111 = v46;
           if ( v46 >= this->MeshVertices.NumPages )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::allocPage(&this->MeshVertices, v46);
-            v46 = bevelb;
+            v46 = v111;
           }
           v47 = &this->MeshVertices.Pages[v46][this->MeshVertices.Size & 0xF];
-          y = v1.y;
-          v47->x = v1.x;
-          v49 = *(_DWORD *)v1.Styles;
+          y = v106.y;
+          v47->x = v106.x;
+          v49 = *(_DWORD *)v106.Styles;
           v47->y = y;
           v47->Idx = -1;
-          v50 = *(_DWORD *)&v1.Flags;
+          v50 = *(_DWORD *)&v106.Flags;
           *(_DWORD *)v47->Styles = v49;
           *(_DWORD *)&v47->Flags = v50;
           ++this->MeshVertices.Size;
           v51 = this->StarVertices.Size >> 4;
-          bevelc = v51;
+          v112 = v51;
           if ( v51 >= this->StarVertices.NumPages )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
               (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StarVertices,
               v51);
-            v51 = bevelc;
+            v51 = v112;
           }
           v52 = this->StarVertices.Pages[v51];
           v53 = this->StarVertices.Size & 0xF;
-          v52[v53].cntVer = sv.cntVer;
-          v52[v53].starVer = (unsigned int)e2;
+          v52[v53].cntVer = v104;
+          v52[v53].starVer = (unsigned int)v96;
           ++this->StarVertices.Size;
           v54 = this->EdgeFans.Array[*(unsigned int *)((char *)this->EndFan.Pages[v100 / 4] + v101)].rayVer;
           v55 = v54->srcVer;
-          e2 = &this->EdgeFans.Array[*(unsigned int *)((char *)this->EndFan.Pages[v100 / 4] + v101)];
+          v96 = &this->EdgeFans.Array[*(unsigned int *)((char *)this->EndFan.Pages[v100 / 4] + v101)];
           v56 = v55 & 0xFFFFFFF;
           v57 = v40->rayVer->srcVer & 0xFFFFFFF;
           if ( v57 == v56 )
@@ -284,16 +283,16 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
             if ( (v54->aaVer & 0x40000000) == 0 )
             {
               v58 = this->InnerQuads.Size >> 4;
-              beveld = v58;
+              v113 = v58;
               if ( v58 >= this->InnerQuads.NumPages )
               {
                 Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                   (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->InnerQuads,
                   v58);
-                v58 = beveld;
+                v58 = v113;
               }
               v59 = this->InnerQuads.Pages[v58];
-              v60 = e2;
+              v60 = v96;
               v61 = this->InnerQuads.Size & 0xF;
               v59[v61].e1 = v40;
               v59[v61].e2 = v60;
@@ -305,38 +304,36 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
           {
             v62 = v40->cntVer;
             v63 = v62->srcVer & 0xFFFFFFF;
-            bevele = 0;
+            v114 = 0;
             v101 = v63;
             if ( v57 == v63 || v56 == v63 )
             {
               v64 = this->MeshVertices.Pages;
               v65 = v62->srcVer & 0xFFFFFFF;
-              v1.x = v64[v65 >> 4][v62->srcVer & 0xF].x;
-              v1.y = v64[v65 >> 4][v65 & 0xF].y;
+              v106.x = v64[v65 >> 4][v62->srcVer & 0xF].x;
+              v106.y = v64[v65 >> 4][v65 & 0xF].y;
             }
             else
             {
-              bevele = Scaleform::Render::Tessellator::computeMiter(
-                         this,
-                         &this->MeshVertices.Pages[v56 >> 4][v56 & 0xF],
-                         &this->MeshVertices.Pages[v101 >> 4][v101 & 0xF],
-                         &this->MeshVertices.Pages[v57 >> 4][v57 & 0xF],
-                         &v1,
-                         &v2);
+              v114 = Scaleform::Render::Tessellator::computeMiter(
+                       this,
+                       &this->MeshVertices.Pages[v56 >> 4][v56 & 0xF],
+                       &this->MeshVertices.Pages[v101 >> 4][v101 & 0xF],
+                       &this->MeshVertices.Pages[v57 >> 4][v57 & 0xF],
+                       &v106,
+                       &v107);
             }
             v66 = this->MeshVertices.Size;
-            v67 = e2->style & 0x7FFF;
-            v68 = e1->style & 0x7FFF;
-            v2.Flags = 0;
-            v1.Flags = 0;
-            vi2 = v66;
-            v1.Idx = -1;
-            v1.Styles[1] = v67;
-            v1.Styles[0] = v67;
-            v2.Styles[1] = v68;
-            v2.Styles[0] = v68;
-            v2.Mesh = -1;
-            v1.Mesh = -1;
+            v67 = v96->style & 0x7FFF;
+            v68 = v98->style & 0x7FFF;
+            *(_DWORD *)&v107.Flags = -65536;
+            *(_DWORD *)&v106.Flags = -65536;
+            v95 = v66;
+            v106.Idx = -1;
+            v106.Styles[1] = v67;
+            v106.Styles[0] = v67;
+            v107.Styles[1] = v68;
+            v107.Styles[0] = v68;
             if ( v67 != v68 )
               Scaleform::Render::Tessellator::setMesh(this, v67, v68);
             v69 = this->MeshVertices.Size >> 4;
@@ -347,20 +344,20 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
               v69 = v101;
             }
             v70 = &this->MeshVertices.Pages[v69][this->MeshVertices.Size & 0xF];
-            v71 = v1.y;
-            v70->x = v1.x;
-            Idx = v1.Idx;
+            v71 = v106.y;
+            v70->x = v106.x;
+            Idx = v106.Idx;
             v70->y = v71;
-            v73 = *(_DWORD *)v1.Styles;
+            v73 = *(_DWORD *)v106.Styles;
             v70->Idx = Idx;
-            v74 = *(_DWORD *)&v1.Flags;
+            v74 = *(_DWORD *)&v106.Flags;
             *(_DWORD *)v70->Styles = v73;
             *(_DWORD *)&v70->Flags = v74;
             ++this->MeshVertices.Size;
-            if ( bevele )
+            if ( v114 )
             {
               v75 = this->MeshVertices.Size >> 4;
-              vi2 = this->MeshVertices.Size;
+              v95 = this->MeshVertices.Size;
               v101 = v75;
               if ( v75 >= this->MeshVertices.NumPages )
               {
@@ -368,12 +365,12 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
                 v75 = v101;
               }
               v76 = &this->MeshVertices.Pages[v75][this->MeshVertices.Size & 0xF];
-              v77 = v2.y;
-              v76->x = v2.x;
-              v78 = *(_DWORD *)v2.Styles;
+              v77 = v107.y;
+              v76->x = v107.x;
+              v78 = *(_DWORD *)v107.Styles;
               v76->y = v77;
               v76->Idx = -1;
-              v79 = *(_DWORD *)&v2.Flags;
+              v79 = *(_DWORD *)&v107.Flags;
               *(_DWORD *)v76->Styles = v78;
               *(_DWORD *)&v76->Flags = v79;
               ++this->MeshVertices.Size;
@@ -393,17 +390,17 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
             v82[v83].cntVer = v81->cntVer;
             v82[v83].starVer = v81->starVer;
             ++this->StarVertices.Size;
-            if ( bevele )
+            if ( v114 )
             {
               v84 = this->StarVertices.Size >> 4;
               v85 = &this->StarVertices.Pages[(this->StarVertices.Size - 1) >> 4][(this->StarVertices.Size - 1) & 0xF];
-              bevelf = v85;
+              v115 = v85;
               if ( v84 >= this->StarVertices.NumPages )
               {
                 Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                   (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StarVertices,
                   v84);
-                v85 = bevelf;
+                v85 = v115;
               }
               v86 = this->StarVertices.Pages[v84];
               v87 = this->StarVertices.Size & 0xF;
@@ -411,43 +408,43 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
               v86[v87].starVer = v85->starVer;
               ++this->StarVertices.Size;
               this->StarVertices.Pages[(this->StarVertices.Size - 3) >> 4][(this->StarVertices.Size - 3) & 0xF].starVer = v66;
-              this->StarVertices.Pages[(this->StarVertices.Size - 2) >> 4][(this->StarVertices.Size - 2) & 0xF].starVer = vi2;
+              this->StarVertices.Pages[(this->StarVertices.Size - 2) >> 4][(this->StarVertices.Size - 2) & 0xF].starVer = v95;
             }
             else
             {
               this->StarVertices.Pages[(this->StarVertices.Size - 2) >> 4][(this->StarVertices.Size - 2) & 0xF].starVer = v66;
             }
             v88 = this->OuterEdges.Size >> 4;
-            bevelg = v88;
+            v116 = v88;
             if ( v88 >= this->OuterEdges.NumPages )
             {
               Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                 (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->OuterEdges,
                 v88);
-              v88 = bevelg;
+              v88 = v116;
             }
             v89 = this->OuterEdges.Pages[v88];
             v90 = this->OuterEdges.Size & 0xF;
-            v89[v90].edge = e1;
-            v89[v90].outVer = vi2;
+            v89[v90].edge = v98;
+            v89[v90].outVer = v95;
             ++this->OuterEdges.Size;
-            oe.outVer = v66 | 0x40000000;
+            v105 = v66 | 0x40000000;
             v91 = this->OuterEdges.Size >> 4;
             if ( v91 >= this->OuterEdges.NumPages )
               Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                 (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->OuterEdges,
                 this->OuterEdges.Size >> 4);
             v92 = this->OuterEdges.Pages[v91];
-            outVer = oe.outVer;
+            v93 = v105;
             v94 = this->OuterEdges.Size & 0xF;
-            v92[v94].edge = e2;
-            v92[v94].outVer = outVer;
+            v92[v94].edge = v96;
+            v92[v94].outVer = v93;
             ++this->OuterEdges.Size;
           }
           v32 = v102;
         }
         while ( v102 < this->StartFan.Size );
-        Size = endVer;
+        Size = v103;
       }
       if ( Size + 3 > this->StarVertices.Size && Size < this->StarVertices.Size )
         this->StarVertices.Size = Size;
@@ -458,14 +455,13 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
       v16 = v3;
       v17 = this->MeshVertices.Pages[(v15[v3].cntVer->srcVer & 0xFFFFFFF) >> 4];
       v18 = 5 * (v15[v3].cntVer->srcVer & 0xF);
-      v1.x = v17[v15[v3].cntVer->srcVer & 0xF].x;
+      v106.x = v17[v15[v3].cntVer->srcVer & 0xF].x;
       v19 = *(&v17->y + v18);
       LOWORD(v18) = v15[v3].style;
-      v1.y = v19;
-      v1.Styles[1] = v18 & 0x7FFF;
-      v1.Styles[0] = v18 & 0x7FFF;
-      v1.Flags = 2;
-      v1.Mesh = -1;
+      v106.y = v19;
+      v106.Styles[1] = v18 & 0x7FFF;
+      v106.Styles[0] = v18 & 0x7FFF;
+      *(_DWORD *)&v106.Flags = -65534;
       if ( v3 < end )
       {
         v20 = v97;
@@ -483,11 +479,11 @@ void __thiscall Scaleform::Render::Tessellator::processFan(
       if ( v24 >= p_MeshVertices->NumPages )
         Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::allocPage(p_MeshVertices, v24);
       v25 = (int)&p_MeshVertices->Pages[v24][p_MeshVertices->Size & 0xF];
-      v26 = v1.y;
-      *(float *)v25 = v1.x;
-      v27 = *(_DWORD *)v1.Styles;
+      v26 = v106.y;
+      *(float *)v25 = v106.x;
+      v27 = *(_DWORD *)v106.Styles;
       *(float *)(v25 + 4) = v26;
-      v28 = *(_DWORD *)&v1.Flags;
+      v28 = *(_DWORD *)&v106.Flags;
       *(_DWORD *)(v25 + 8) = -1;
       *(_DWORD *)(v25 + 12) = v27;
       *(_DWORD *)(v25 + 16) = v28;

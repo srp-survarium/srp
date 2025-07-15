@@ -12,41 +12,45 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::FindClassAndInitializeClassInstance
   Scaleform::GFx::InteractiveObject *v10; // eax
   Scaleform::GFx::InteractiveObject *v11; // edi
   Scaleform::GFx::InteractiveObject *v12; // eax
-  Scaleform::GFx::AS2::MovieRoot::ActionEntry *p_e; // ecx
+  Scaleform::GFx::AS2::MovieRoot::ActionEntry *v13; // ecx
   Scaleform::GFx::InteractiveObject *v14; // edi
   Scaleform::GFx::InteractiveObject *v15; // edx
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v16; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // esi
   Scaleform::GFx::AS2::FunctionObject *Function; // ecx
   unsigned int RefCount; // eax
   unsigned int v20; // eax
-  Scaleform::GFx::AS2::FunctionRef ctorFunc; // [esp+10h] [ebp-9Ch] BYREF
-  Scaleform::GFx::ASString symbolName; // [esp+1Ch] [ebp-90h] BYREF
+  Scaleform::GFx::AS2::FunctionRefBase orig; // [esp+10h] [ebp-9Ch] BYREF
+  Scaleform::GFx::ASStringNode *v22; // [esp+1Ch] [ebp-90h] BYREF
   Scaleform::GFx::AS2::MovieRoot::ActionEntry v23; // [esp+20h] [ebp-8Ch] BYREF
-  Scaleform::GFx::AS2::GlobalContext *gctxt; // [esp+64h] [ebp-48h]
-  Scaleform::GFx::AS2::MovieRoot::ActionEntry e; // [esp+68h] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::GlobalContext *pContext; // [esp+64h] [ebp-48h]
+  Scaleform::GFx::AS2::MovieRoot::ActionEntry v25; // [esp+68h] [ebp-44h] BYREF
 
   Env = fn->Env;
   FirstArgBottomIndex = fn->FirstArgBottomIndex;
   v3 = Env->Stack.pCurrent - Env->Stack.pPageStart;
   v4 = 32 * (Env->Stack.Pages.Data.Size - 1);
-  gctxt = Env->StringContext.pContext;
+  pContext = Env->StringContext.pContext;
   v5 = 0;
-  memset(&ctorFunc, 0, 9);
+  memset(&orig, 0, 9);
   if ( FirstArgBottomIndex <= v4 + v3 )
     v5 = &Env->Stack.Pages.Data.Data[FirstArgBottomIndex >> 5]->Values[FirstArgBottomIndex & 0x1F];
-  Scaleform::GFx::AS2::Value::ToStringImpl(v5, &symbolName, Env, -1, 0);
-  if ( symbolName.pNode->Size )
+  Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&v22, Env, -1, 0);
+  if ( v22->Size )
   {
     ThisPtr = fn->ThisPtr;
     if ( ThisPtr->GetObjectType(ThisPtr) == Object_Sprite )
       p_pProto = (Scaleform::GFx::AS2::AvmCharacter *)&ThisPtr[-1].pProto;
     else
       p_pProto = 0;
-    if ( Scaleform::GFx::AS2::GlobalContext::FindRegisteredClass(gctxt, &fn->Env->StringContext, &symbolName, &ctorFunc) )
+    if ( Scaleform::GFx::AS2::GlobalContext::FindRegisteredClass(
+           pContext,
+           &fn->Env->StringContext,
+           (const Scaleform::GFx::ASString *)&v22,
+           (Scaleform::GFx::AS2::FunctionRef *)&orig) )
     {
-      if ( ctorFunc.Function )
-        v8 = &ctorFunc.Function->Scaleform::GFx::AS2::ObjectInterface;
+      if ( orig.Function )
+        v8 = &orig.Function->Scaleform::GFx::AS2::ObjectInterface;
       else
         v8 = 0;
       Scaleform::GFx::AS2::AvmCharacter::SetProtoToPrototypeOf(p_pProto, v8);
@@ -79,28 +83,28 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::FindClassAndInitializeClassInstance
       Scaleform::GFx::AS2::MovieRoot::ActionEntry::Execute(&v23, (Scaleform::GFx::AS2::MovieRoot *)v10->pASRoot);
       Scaleform::GFx::AS2::MovieRoot::ActionEntry::~ActionEntry(&v23);
       v11 = p_pProto->pDispObj;
-      memset(&e.pCharacter, 0, 21);
-      e.mEventId.RollOverCnt = 0;
-      memset(&e.mEventId.KeysState, 0, 11);
-      e.mEventId.ControllerIndex = -1;
-      memset(&e.FunctionParams, 0, sizeof(e.FunctionParams));
-      e.pNextEntry = 0;
-      e.Type = Entry_Function;
+      memset(&v25.pCharacter, 0, 21);
+      v25.mEventId.RollOverCnt = 0;
+      memset(&v25.mEventId.KeysState, 0, 11);
+      v25.mEventId.ControllerIndex = -1;
+      memset(&v25.FunctionParams, 0, sizeof(v25.FunctionParams));
+      v25.pNextEntry = 0;
+      v25.Type = Entry_Function;
       if ( v11 )
       {
         ++v11->RefCount;
-        if ( e.pCharacter.pObject )
-          Scaleform::RefCountNTSImpl::Release(e.pCharacter.pObject);
+        if ( v25.pCharacter.pObject )
+          Scaleform::RefCountNTSImpl::Release(v25.pCharacter.pObject);
       }
-      e.pCharacter.pObject = v11;
-      if ( e.pActionBuffer.pObject )
-        Scaleform::RefCountNTSImpl::Release(e.pActionBuffer.pObject);
-      e.pActionBuffer.pObject = 0;
-      Scaleform::GFx::AS2::FunctionRefBase::Assign(&e.Function, &ctorFunc);
+      v25.pCharacter.pObject = v11;
+      if ( v25.pActionBuffer.pObject )
+        Scaleform::RefCountNTSImpl::Release(v25.pActionBuffer.pObject);
+      v25.pActionBuffer.pObject = 0;
+      Scaleform::GFx::AS2::FunctionRefBase::Assign(&v25.Function, &orig);
       v12 = p_pProto->pDispObj;
-      e.SessionId = 0;
-      Scaleform::GFx::AS2::MovieRoot::ActionEntry::Execute(&e, (Scaleform::GFx::AS2::MovieRoot *)v12->pASRoot);
-      p_e = &e;
+      v25.SessionId = 0;
+      Scaleform::GFx::AS2::MovieRoot::ActionEntry::Execute(&v25, (Scaleform::GFx::AS2::MovieRoot *)v12->pASRoot);
+      v13 = &v25;
     }
     else
     {
@@ -131,32 +135,32 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::FindClassAndInitializeClassInstance
       v23.mEventId.MouseWheelDelta = 0;
       v23.SessionId = 0;
       Scaleform::GFx::AS2::MovieRoot::ActionEntry::Execute(&v23, (Scaleform::GFx::AS2::MovieRoot *)v15->pASRoot);
-      p_e = &v23;
+      v13 = &v23;
     }
-    Scaleform::GFx::AS2::MovieRoot::ActionEntry::~ActionEntry(p_e);
+    Scaleform::GFx::AS2::MovieRoot::ActionEntry::~ActionEntry(v13);
   }
-  pNode = symbolName.pNode;
-  --symbolName.pNode->RefCount;
-  pLocalFrame = ctorFunc.pLocalFrame;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  if ( (ctorFunc.Flags & 2) == 0 )
+  v16 = v22;
+  --v22->RefCount;
+  pLocalFrame = orig.pLocalFrame;
+  if ( !v16->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v16);
+  if ( (orig.Flags & 2) == 0 )
   {
-    Function = ctorFunc.Function;
-    if ( ctorFunc.Function )
+    Function = orig.Function;
+    if ( orig.Function )
     {
-      RefCount = ctorFunc.Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      RefCount = orig.Function->RefCount;
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
-        ctorFunc.Function->RefCount = RefCount - 1;
+        orig.Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
       }
     }
   }
-  if ( (ctorFunc.Flags & 1) == 0 && pLocalFrame )
+  if ( (orig.Flags & 1) == 0 && pLocalFrame )
   {
     v20 = pLocalFrame->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v20) != 0 )
+    if ( (v20 & 0x3FFFFFF) != 0 )
     {
       pLocalFrame->RefCount = v20 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

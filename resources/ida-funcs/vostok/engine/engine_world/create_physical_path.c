@@ -1,11 +1,16 @@
 void __thiscall vostok::engine::engine_world::create_physical_path(
         vostok::engine::engine_world *this,
         char (*result)[260],
-        const char *resources_path,
-        const char *inside_resources_path)
+        char *resources_path,
+        char *inside_resources_path)
 {
-  vostok::strings::detail::tuples v4; // [esp+8h] [ebp-34h] BYREF
+  vostok::strings::detail::tuples *v4; // ecx
+  vostok::strings::detail::tuples v5; // [esp+4h] [ebp-34h] BYREF
 
-  vostok::strings::detail::tuples::tuples(&v4, resources_path, inside_resources_path);
-  vostok::strings::detail::tuples::concat(&v4, (const char *)result);
+  vostok::strings::detail::tuples::tuples(
+    (vostok::strings::detail::tuples *)this,
+    &v5,
+    resources_path,
+    inside_resources_path);
+  vostok::strings::detail::tuples::concat(v4, (int)&v5, (char *)result);
 }

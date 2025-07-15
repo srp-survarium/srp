@@ -11,7 +11,9 @@ Scaleform::GFx::AS2::TextFormatObject *__thiscall Scaleform::GFx::AS2::TextForma
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::TextFormatObject::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::TextFormatObject *__thiscall Scaleform::GFx::AS2::TextFormatObject::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::TextFormatObject::`vector deleting destructor'(
            (Scaleform::GFx::AS2::TextFormatObject *)(this - 16),

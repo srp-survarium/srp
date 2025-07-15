@@ -22,8 +22,8 @@ void __thiscall Scaleform::Render::Text::Paragraph::Remove(
     if ( v4 + startPos < Size )
     {
       memmove(
-        (unsigned __int8 *)&this->Text.pText[startPos],
-        (unsigned __int8 *)&this->Text.pText[v4 + startPos],
+        (int)&this->Text.pText[startPos],
+        (const __m128i *)&this->Text.pText[v4 + startPos],
         2 * (Size - v4 - startPos));
       this->Text.Size -= v4;
     }

@@ -101,7 +101,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLParser::Par
       v11 = eXMLUnterminatedCData;
       goto LABEL_30;
     case 35:
-      goto $LN86_3;
+      goto $LN86_2;
     default:
       goto LABEL_30;
   }
@@ -129,7 +129,7 @@ LABEL_32:
   if ( shouldAdvancePos )
 LABEL_33:
     *pos += XML_GetCurrentByteIndex(this->Parser);
-$LN86_3:
+$LN86_2:
   Scaleform::GFx::AS3::XMLParser::SetNodeKind(this, kNone);
   v17 = result;
   result->Result = rc;

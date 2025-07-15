@@ -5,21 +5,21 @@ int __cdecl aes_256_cbc_cipher(
         unsigned int inl)
 {
   unsigned int v5; // ebp
-  unsigned int inla; // [esp+20h] [ebp+10h]
+  unsigned int v8; // [esp+20h] [ebp+10h]
 
   v5 = inl;
   if ( inl >= 0x40000000 )
   {
-    inla = inl >> 30;
+    v8 = inl >> 30;
     do
     {
       AES_cbc_encrypt(in, out, 0x40000000, ctx->cipher_data, ctx->iv, ctx->encrypt);
       v5 -= 0x40000000;
       in += 0x40000000;
       out += 0x40000000;
-      --inla;
+      --v8;
     }
-    while ( inla );
+    while ( v8 );
   }
   if ( v5 )
     AES_cbc_encrypt(in, out, v5, ctx->cipher_data, ctx->iv, ctx->encrypt);

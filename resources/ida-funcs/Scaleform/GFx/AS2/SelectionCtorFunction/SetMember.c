@@ -14,36 +14,36 @@ char __thiscall Scaleform::GFx::AS2::SelectionCtorFunction::SetMember(
   pMovieImpl = penv->Target->pASRoot->pMovieImpl;
   if ( !strcmp(name->pNode->pData, "disableFocusAutoRelease") )
   {
-    pMovieImpl->Flags ^= (unsigned int)&vostok::memory::s_CRT_arena[1379896]
-                       & (pMovieImpl->Flags
-                        ^ ((unsigned __int8)Scaleform::GFx::AS2::Value::ToBool(val, penv) << 22));
+    pMovieImpl->Flags ^= (pMovieImpl->Flags
+                        ^ (Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv) << 22))
+                       & 0xC00000;
     return 1;
   }
   if ( !strcmp(name->pNode->pData, "alwaysEnableArrowKeys") )
   {
-    pMovieImpl->Flags ^= (unsigned int)&vostok::memory::s_CRT_arena[39128632]
-                       & (pMovieImpl->Flags
-                        ^ ((unsigned __int8)Scaleform::GFx::AS2::Value::ToBool(val, penv) << 24));
+    pMovieImpl->Flags ^= (pMovieImpl->Flags
+                        ^ (Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv) << 24))
+                       & 0x3000000;
     return 1;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "alwaysEnableKeyboardPress") )
   {
     pMovieImpl->Flags ^= (pMovieImpl->Flags
-                        ^ ((unsigned __int8)Scaleform::GFx::AS2::Value::ToBool(val, penv) << 26))
+                        ^ (Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv) << 26))
                        & 0xC000000;
     return 1;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "disableFocusRolloverEvent") )
   {
     pMovieImpl->Flags ^= (pMovieImpl->Flags
-                        ^ ((unsigned __int8)Scaleform::GFx::AS2::Value::ToBool(val, penv) << 28))
+                        ^ (Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv) << 28))
                        & 0x30000000;
     return 1;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "disableFocusKeys") )
   {
     pMovieImpl->Flags = pMovieImpl->Flags & 0x3FFFFFFF
-                      | ((unsigned __int8)Scaleform::GFx::AS2::Value::ToBool(val, penv) << 30);
+                      | (Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv) << 30);
     return 1;
   }
   if ( !Scaleform::GFx::ASString::operator==(name, "modalClip") )

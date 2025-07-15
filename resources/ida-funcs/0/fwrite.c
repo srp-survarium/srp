@@ -1,7 +1,7 @@
 unsigned int __usercall fwrite@<eax>(
-        unsigned int a1@<ebx>,
-        unsigned int a2@<edi>,
-        unsigned __int8 *buffer,
+        int a1@<ebx>,
+        int a2@<edi>,
+        const __m128i *buffer,
         unsigned int size,
         unsigned int count,
         _iobuf *stream)

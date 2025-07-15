@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_display::Sprite::stopTouchDrag;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_display::Sprite,13,Scaleform::GFx::AS3::Value const,long>::Method) = Scaleform::GFx::AS3::Instances::fl_display::Sprite::stopTouchDrag;
-  dword_AAE80C = 0;
+  dword_8F2FC4 = 0;
   return result;
 }

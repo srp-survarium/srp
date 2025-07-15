@@ -9,6 +9,6 @@ char __thiscall Scaleform::GFx::AS2::MovieClipObject::SetMemberRaw(
     (Scaleform::GFx::AS2::MovieClipObject *)((char *)this - 16),
     psc,
     name,
-    val);
+    *(float *)&val);
   return Scaleform::GFx::AS2::Object::SetMemberRaw(this, psc, name, val, flags);
 }

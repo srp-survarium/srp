@@ -1,6 +1,7 @@
-int __cdecl PKCS12_PBE_keyivgen(
+int __usercall PKCS12_PBE_keyivgen@<eax>(
+        int a1@<ebx>,
         evp_cipher_ctx_st *ctx,
-        const char *pass,
+        char *pass,
         int passlen,
         asn1_type_st *param,
         const engine_st *cipher,
@@ -8,15 +9,15 @@ int __cdecl PKCS12_PBE_keyivgen(
         int en_de)
 {
   char *ptr; // eax
-  PBEPARAM_st *v8; // eax
-  PBEPARAM_st *v9; // ebx
+  PBEPARAM_st *v9; // eax
+  PBEPARAM_st *v10; // ebx
   const asn1_string_st *iter; // eax
-  int v12; // ebp
+  int v13; // ebp
   unsigned __int8 *data; // esi
   int length; // edi
-  const rsa_meth_st *v15; // eax
-  bio_st *v16; // eax
-  int v17; // esi
+  const rsa_meth_st *v16; // eax
+  bio_st *v17; // eax
+  int v18; // esi
   unsigned __int8 *in; // [esp+Ch] [ebp-3Ch] BYREF
   evp_cipher_ctx_st *ctxa; // [esp+10h] [ebp-38h]
   unsigned __int8 iv[16]; // [esp+14h] [ebp-34h] BYREF
@@ -27,43 +28,43 @@ int __cdecl PKCS12_PBE_keyivgen(
   {
     ptr = param->value.ptr;
     in = (unsigned __int8 *)*((_DWORD *)ptr + 2);
-    v8 = d2i_PBEPARAM(0, (const unsigned __int8 **)&in, *(_DWORD *)ptr);
-    v9 = v8;
-    if ( !v8 )
+    v9 = d2i_PBEPARAM(0, &in, *(const unsigned __int8 **)ptr);
+    v10 = v9;
+    if ( !v9 )
     {
-      ERR_put_error(0x23u, 120, 101, ".\\crypto\\pkcs12\\p12_crpt.c", 87);
+      ERR_put_error(0, 0x23u, 120, 101, ".\\crypto\\pkcs12\\p12_crpt.c", 87);
       return 0;
     }
-    iter = v8->iter;
+    iter = v9->iter;
     if ( iter )
-      v12 = ASN1_INTEGER_get(iter);
+      v13 = ASN1_INTEGER_get(iter);
     else
-      v12 = 1;
-    data = v9->salt->data;
-    length = v9->salt->length;
-    v15 = EC_KEY_get0_public_key(cipher);
-    if ( !PKCS12_key_gen_asc(pass, passlen, data, length, 1, v12, (int)v15, out, md) )
+      v13 = 1;
+    data = v10->salt->data;
+    length = v10->salt->length;
+    v16 = EC_KEY_get0_public_key(cipher);
+    if ( !PKCS12_key_gen_asc(pass, passlen, data, length, 1, v13, (int)v16, out, md) )
     {
-      ERR_put_error(0x23u, 120, 107, ".\\crypto\\pkcs12\\p12_crpt.c", 97);
+      ERR_put_error((int)v10, 0x23u, 120, 107, ".\\crypto\\pkcs12\\p12_crpt.c", 97);
 LABEL_11:
-      PBEPARAM_free(v9);
+      PBEPARAM_free(v10);
       return 0;
     }
-    v16 = EC_KEY_get0_private_key((const ssl_st *)cipher);
-    if ( !PKCS12_key_gen_asc(pass, passlen, data, length, 2, v12, (int)v16, iv, md) )
+    v17 = EC_KEY_get0_private_key((const ssl_st *)cipher);
+    if ( !PKCS12_key_gen_asc(pass, passlen, data, length, 2, v13, (int)v17, iv, md) )
     {
-      ERR_put_error(0x23u, 120, 106, ".\\crypto\\pkcs12\\p12_crpt.c", 103);
+      ERR_put_error((int)v10, 0x23u, 120, 106, ".\\crypto\\pkcs12\\p12_crpt.c", 103);
       goto LABEL_11;
     }
-    PBEPARAM_free(v9);
-    v17 = EVP_CipherInit_ex(ctxa, (const evp_cipher_st *)cipher, 0, out, iv, en_de);
+    PBEPARAM_free(v10);
+    v18 = EVP_CipherInit_ex(ctxa, (const evp_cipher_st *)cipher, 0, out, iv, en_de);
     OPENSSL_cleanse(out, 32);
     OPENSSL_cleanse(iv, 16);
-    return v17;
+    return v18;
   }
   else
   {
-    ERR_put_error(0x23u, 120, 101, ".\\crypto\\pkcs12\\p12_crpt.c", 81);
+    ERR_put_error(a1, 0x23u, 120, 101, ".\\crypto\\pkcs12\\p12_crpt.c", 81);
     return 0;
   }
 }

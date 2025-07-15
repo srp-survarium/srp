@@ -1,8 +1,8 @@
-survarium::weapon_core_cook *__thiscall vostok::particle::particle_system_cook::`vector deleting destructor'(
-        survarium::weapon_core_cook *this,
+survarium::particle_game_effect_emitter_cook *__thiscall vostok::particle::particle_system_cook::`vector deleting destructor'(
+        survarium::particle_game_effect_emitter_cook *this,
         char a2)
 {
-  vostok::resources::unmanaged_cook::~unmanaged_cook((vostok::resources::unmanaged_cook *)this, this);
+  this->__vftable = (survarium::particle_game_effect_emitter_cook_vtbl *)&vostok::resources::cook_base::`vftable';
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

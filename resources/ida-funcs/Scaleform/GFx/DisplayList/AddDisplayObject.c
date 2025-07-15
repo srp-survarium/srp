@@ -5,28 +5,28 @@ void __thiscall Scaleform::GFx::DisplayList::AddDisplayObject(
         Scaleform::GFx::DisplayObjectBase *ch,
         char addFlags)
 {
-  int v6; // esi
+  int Depth; // esi
   unsigned int DisplayIndex; // eax
-  unsigned int v9; // ebp
+  Scaleform::GFx::DisplayObjectBase *v9; // ebp
   void (__thiscall *SetBlendMode)(Scaleform::GFx::DisplayObjectBase *, Scaleform::Render::BlendMode); // edx
   void (__thiscall *OnEventLoad)(Scaleform::GFx::DisplayObjectBase *); // eax
-  int depth; // [esp+18h] [ebp-4h]
-  unsigned int size; // [esp+24h] [ebp+8h]
+  int v13; // [esp+18h] [ebp-4h]
+  Scaleform::Render::Cxform *Size; // [esp+24h] [ebp+8h]
 
-  v6 = pos->Depth;
-  depth = v6;
-  size = this->DisplayObjectArray.Data.Size;
-  DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(this, v6);
-  v9 = DisplayIndex;
+  Depth = pos->Depth;
+  v13 = Depth;
+  Size = (Scaleform::Render::Cxform *)this->DisplayObjectArray.Data.Size;
+  DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(this, Depth);
+  v9 = (Scaleform::GFx::DisplayObjectBase *)DisplayIndex;
   this->pCachedChar = 0;
   if ( (addFlags & 1) != 0
-    && DisplayIndex < size
-    && this->DisplayObjectArray.Data.Data[DisplayIndex].pCharacter->Depth == v6 )
+    && DisplayIndex < (unsigned int)Size
+    && this->DisplayObjectArray.Data.Data[DisplayIndex].pCharacter->Depth == Depth )
   {
     Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(this, owner, DisplayIndex);
-    v9 = Scaleform::GFx::DisplayList::FindDisplayIndex(this, v6);
+    v9 = (Scaleform::GFx::DisplayObjectBase *)Scaleform::GFx::DisplayList::FindDisplayIndex(this, Depth);
   }
-  ch->Depth = depth;
+  ch->Depth = v13;
   Scaleform::GFx::DisplayObjectBase::SetCxform(ch, &pos->ColorTransform);
   ch->SetMatrix(ch, &pos->Matrix_1);
   ((void (__thiscall *)(_DWORD, _DWORD))ch->SetRatio)(ch, pos->Ratio);

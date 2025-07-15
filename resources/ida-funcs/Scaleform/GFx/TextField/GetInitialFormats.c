@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::TextField::GetInitialFormats(
   Scaleform::GFx::TextFieldDef *v13; // eax
   Scaleform::GFx::Resource *v14; // eax
   Scaleform::GFx::Resource *v15; // ebx
-  char *v16; // eax
+  const __m128i *v16; // eax
   Scaleform::GFx::TextFieldDef *v17; // eax
   Scaleform::GFx::FontHandle *v18; // eax
   Scaleform::Log *v19; // eax
@@ -28,30 +28,30 @@ void __thiscall Scaleform::GFx::TextField::GetInitialFormats(
   double RightMargin; // st6
   int Id_low; // [esp-8h] [ebp-3Ch]
   const char *v29; // [esp-4h] [ebp-38h]
-  Scaleform::GFx::ResourceBindData fontData; // [esp+10h] [ebp-24h] BYREF
+  Scaleform::GFx::ResourceBindData v30; // [esp+10h] [ebp-24h] BYREF
   Scaleform::GFx::ResourceBindData result; // [esp+18h] [ebp-1Ch] BYREF
-  Scaleform::Render::Text::ParagraphFormat defaultParagraphFmt; // [esp+20h] [ebp-14h] BYREF
-  char lookForResource; // [esp+38h] [ebp+4h]
+  Scaleform::Render::Text::ParagraphFormat v32; // [esp+20h] [ebp-14h] BYREF
+  char v33; // [esp+38h] [ebp+4h]
 
   Scaleform::Render::Text::TextFormat::InitByDefaultValues(ptextFmt);
   Scaleform::Render::Text::ParagraphFormat::InitByDefaultValues(pparaFmt);
   pObject = this->pDef.pObject;
   v6 = 0;
-  fontData.pResource.pObject = 0;
-  fontData.pBinding = 0;
-  lookForResource = 1;
+  v30.pResource.pObject = 0;
+  v30.pBinding = 0;
+  v33 = 1;
   if ( LOWORD(pObject->FontId.Id) )
   {
     ResourceData = Scaleform::GFx::ResourceBinding::GetResourceData(this->pBinding, &result, &pObject->pFont);
     if ( ResourceData->pResource.pObject )
       Scaleform::RefCountImpl::AddRef(ResourceData->pResource.pObject);
     v6 = ResourceData->pResource.pObject;
-    fontData = *ResourceData;
+    v30 = *ResourceData;
     if ( result.pResource.pObject )
     {
       Scaleform::GFx::Resource::Release(result.pResource.pObject);
 LABEL_14:
-      v6 = fontData.pResource.pObject;
+      v6 = v30.pResource.pObject;
     }
   }
   else if ( (*(_DWORD *)(pObject->FontClass.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF) != 0 )
@@ -63,15 +63,15 @@ LABEL_14:
     if ( !Scaleform::GFx::MovieImpl::FindExportedResource(
             this->pASRoot->pMovieImpl,
             v9,
-            &fontData,
+            &v30,
             &this->pDef.pObject->FontClass) )
     {
       Scaleform::Render::Text::TextFormat::SetFontName(ptextFmt, &this->pDef.pObject->FontClass);
-      lookForResource = 0;
+      v33 = 0;
     }
     if ( v9 )
       Scaleform::GFx::Resource::Release(v9);
-    if ( !lookForResource )
+    if ( !v33 )
       goto LABEL_35;
     goto LABEL_14;
   }
@@ -119,10 +119,10 @@ LABEL_14:
         (const char *)((this->pDef.pObject->DefaultText.HeapTypeBits & 0xFFFFFFFC) + 8));
       goto LABEL_34;
     }
-    if ( fontData.pResource.pObject )
+    if ( v30.pResource.pObject )
     {
-      v15 = (Scaleform::GFx::Resource *)fontData.pResource.pObject[1].__vftable;
-      v16 = (char *)((int (__thiscall *)(Scaleform::GFx::Resource *))v15->GetKey)(v15);
+      v15 = (Scaleform::GFx::Resource *)v30.pResource.pObject[1].__vftable;
+      v16 = (const __m128i *)((int (__thiscall *)(Scaleform::GFx::Resource *))v15->GetKey)(v15);
       Scaleform::Render::Text::TextFormat::SetFontName(ptextFmt, v16, 0xFFFFFFFF);
       v17 = this->pDef.pObject;
       if ( SLOBYTE(v17->Flags) >= 0 || (*(_DWORD *)(v17->FontClass.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF) != 0 )
@@ -134,7 +134,7 @@ LABEL_14:
           v18 = (Scaleform::GFx::FontHandle *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x20u);
           if ( v18 )
           {
-            Scaleform::GFx::FontHandle::FontHandle(v18, 0, v15, 0, 0, fontData.pBinding->pOwnerDefImpl);
+            Scaleform::GFx::FontHandle::FontHandle(v18, 0, v15, 0, 0, v30.pBinding->pOwnerDefImpl);
             v12 = v19;
           }
           else
@@ -160,8 +160,8 @@ LABEL_35:
   ptextFmt->PresentMask |= 1u;
   ptextFmt->ColorV = Raw;
   v22 = this->pDef.pObject;
-  defaultParagraphFmt.RefCount = 1;
-  memset(&defaultParagraphFmt.pTabStops, 0, 16);
+  v32.RefCount = 1;
+  memset(&v32.pTabStops, 0, 16);
   switch ( v22->Alignment )
   {
     case ALIGN_LEFT:
@@ -197,7 +197,7 @@ LABEL_42:
     pparaFmt->Leading = (int)(0.05000000074505806 * this->pDef.pObject->Leading);
     pparaFmt->PresentMask = v26 | 8;
   }
-  Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&defaultParagraphFmt);
-  if ( fontData.pResource.pObject )
-    Scaleform::GFx::Resource::Release(fontData.pResource.pObject);
+  Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&v32);
+  if ( v30.pResource.pObject )
+    Scaleform::GFx::Resource::Release(v30.pResource.pObject);
 }

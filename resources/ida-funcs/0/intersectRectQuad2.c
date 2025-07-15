@@ -1,118 +1,119 @@
-int __usercall intersectRectQuad2@<eax>(float *p@<edx>, float *h, float *ret)
+int __cdecl intersectRectQuad2(float *h, float *ret)
 {
-  float *v3; // esi
-  int v4; // eax
-  unsigned int v5; // ecx
-  int v6; // ebp
-  int v7; // ebx
-  float *v8; // edi
-  float v9; // xmm5_4
-  float v10; // xmm4_4
-  float *v11; // ebp
-  float *v12; // esi
-  float *v13; // eax
-  float *r; // [esp+10h] [ebp-5Ch]
-  int nr; // [esp+14h] [ebp-58h]
-  float *v17; // [esp+18h] [ebp-54h]
-  int i; // [esp+1Ch] [ebp-50h]
-  float *v19; // [esp+20h] [ebp-4Ch]
-  float *q; // [esp+24h] [ebp-48h]
-  int sign; // [esp+28h] [ebp-44h]
-  float buffer[16]; // [esp+2Ch] [ebp-40h] BYREF
+  unsigned __int8 *v2; // ecx
+  unsigned __int8 *v3; // esi
+  unsigned __int8 *v4; // edi
+  int v5; // eax
+  int v6; // ecx
+  float v7; // xmm2_4
+  float v8; // xmm5_4
+  float *v9; // ebx
+  float *v10; // esi
+  float *v11; // eax
+  float *v12; // edx
+  double v13; // st7
+  unsigned __int8 *v14; // edx
+  float v15; // xmm4_4
+  float v16; // xmm1_4
+  float v17; // xmm3_4
+  float v18; // xmm6_4
+  float *v19; // edx
+  bool v20; // zf
+  char v22; // [esp+Ch] [ebp-60h] BYREF
+  unsigned __int8 *v23; // [esp+4Ch] [ebp-20h]
+  unsigned __int8 *v24; // [esp+50h] [ebp-1Ch]
+  unsigned __int8 *v25; // [esp+54h] [ebp-18h]
+  int v26; // [esp+58h] [ebp-14h]
+  int v27; // [esp+5Ch] [ebp-10h]
+  unsigned __int8 *src; // [esp+60h] [ebp-Ch]
+  float *v29; // [esp+64h] [ebp-8h]
+  int v30; // [esp+68h] [ebp-4h]
 
-  v3 = ret;
-  v4 = 4;
-  q = p;
-  r = ret;
-  v5 = 0;
+  v3 = (unsigned __int8 *)ret;
+  v4 = v2;
+  v23 = v2;
+  v5 = 4;
+  src = (unsigned __int8 *)ret;
+  v6 = 0;
   while ( 2 )
   {
-    v6 = -1;
-    sign = -1;
+    v26 = -1;
     do
     {
-      v7 = 0;
-      v8 = v3;
-      nr = 0;
-      i = v4;
-      if ( v4 > 0 )
+      v30 = 0;
+      v29 = (float *)v3;
+      v27 = v5;
+      if ( v5 > 0 )
       {
-        v9 = h[v5 / 4];
-        v17 = p + 2;
-        v10 = (float)v6;
-        v11 = &p[v5 / 4];
-        v12 = &v3[v5 / 0xFFFFFFFC + 1];
-        v19 = &p[v5 / 4];
-        v13 = &p[v5 / 0xFFFFFFFC + 1];
+        v7 = h[v6];
+        v8 = (float)v26;
+        v25 = v4 + 8;
+        v9 = (float *)&v4[v6 * 4];
+        v10 = (float *)&v3[-(v6 * 4) + 4];
+        v24 = &v4[v6 * 4];
+        v11 = (float *)&v4[-(v6 * 4) + 4];
         while ( 1 )
         {
-          if ( v9 > (float)(*v11 * v10) )
+          if ( v7 > (float)(*v9 * v8) )
           {
-            ++v7;
-            *v8 = v13[v5 / 4 - 1];
-            v8 += 2;
+            v12 = v29;
+            *v29 = v11[v6 - 1];
             v12 += 2;
-            *(v8 - 1) = v13[v5 / 4];
-            nr = v7;
-            if ( (v7 & 8) != 0 )
+            v13 = v11[v6];
+            v10 += 2;
+            ++v30;
+            *(v12 - 1) = v13;
+            v29 = v12;
+            if ( (v30 & 8) != 0 )
               break;
           }
-          if ( i > 1 )
-            p = v17;
-          v7 = nr;
-          if ( v9 > (float)(*v11 * v10) != v9 > (float)(p[v5 / 4] * v10) )
+          v14 = v25;
+          v15 = *v9;
+          if ( v27 <= 1 )
+            v14 = v4;
+          v16 = *(float *)&v14[v6 * 4];
+          if ( v7 > (float)(v15 * v8) != v7 > (float)(v16 * v8) )
           {
-            *v12 = (float)((float)((float)(p[v5 / 0xFFFFFFFC + 1] - *v13) / (float)(p[v5 / 4] - *v11))
-                         * (float)((float)(v9 * v10) - *v11))
-                 + *v13;
-            v7 = nr + 1;
-            v8[v5 / 4] = v9 * v10;
-            v8 += 2;
-            v12 += 2;
-            nr = v7;
-            if ( (v7 & 8) != 0 )
+            v17 = *v11;
+            v18 = *(float *)&v14[-(v6 * 4) + 4];
+            v19 = v29;
+            v29 += 2;
+            *v10 = (float)((float)((float)(v18 - v17) / (float)(v16 - v15)) * (float)((float)(v7 * v8) - v15)) + v17;
+            v10 += 2;
+            v20 = (++v30 & 8) == 0;
+            v19[v6] = v7 * v8;
+            if ( !v20 )
               break;
           }
-          v17 += 2;
-          v11 = v19 + 2;
-          v13 += 2;
-          v19 += 2;
-          if ( --i <= 0 )
-          {
-            v3 = r;
-            v6 = sign;
-            goto LABEL_14;
-          }
-          p = q;
+          v25 += 8;
+          v9 = (float *)(v24 + 8);
+          v11 += 2;
+          --v27;
+          v24 += 8;
+          if ( v27 <= 0 )
+            goto LABEL_13;
+          v4 = v23;
         }
-        p = r;
-        goto done_4;
+        v4 = src;
+        goto done;
       }
-LABEL_14:
-      p = v3;
-      q = v3;
-      if ( v3 == ret )
-      {
-        v3 = buffer;
-        r = buffer;
-      }
-      else
-      {
-        v3 = ret;
-        r = ret;
-      }
-      v6 += 2;
-      v4 = v7;
-      sign = v6;
+LABEL_13:
+      v4 = src;
+      v3 = (unsigned __int8 *)ret;
+      v23 = src;
+      if ( src == (unsigned __int8 *)ret )
+        v3 = (unsigned __int8 *)&v22;
+      v26 += 2;
+      v5 = v30;
+      src = v3;
     }
-    while ( v6 <= 1 );
-    v5 += 4;
-    if ( (int)v5 <= 4 )
+    while ( v26 <= 1 );
+    if ( ++v6 <= 1 )
       continue;
     break;
   }
-done_4:
-  if ( p != ret )
-    memcpy((unsigned __int8 *)ret, (unsigned __int8 *)p, 8 * v7);
-  return v7;
+done:
+  if ( v4 != (unsigned __int8 *)ret )
+    memcpy((unsigned __int8 *)ret, v4, 8 * v30);
+  return v30;
 }

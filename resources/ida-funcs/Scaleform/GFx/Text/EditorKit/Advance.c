@@ -11,16 +11,16 @@ void __thiscall Scaleform::GFx::Text::EditorKit::Advance(Scaleform::GFx::Text::E
   unsigned int v12; // eax
   unsigned int v13; // edi
   unsigned int CursorPosInLine; // eax
-  double delta; // [esp+18h] [ebp+4h]
-  double deltaa; // [esp+18h] [ebp+4h]
-  double deltab; // [esp+18h] [ebp+4h]
+  double v15; // [esp+18h] [ebp+4h]
+  double y; // [esp+18h] [ebp+4h]
+  double v17; // [esp+18h] [ebp+4h]
 
   IsReadOnly = (unsigned __int8 (*)(void))this->IsReadOnly;
-  delta = timer - this->LastAdvanceTime;
+  v15 = timer - this->LastAdvanceTime;
   this->LastAdvanceTime = timer;
   if ( !IsReadOnly() )
   {
-    v5 = this->CursorTimer + delta;
+    v5 = this->CursorTimer + v15;
     if ( v5 > 0.5 )
     {
       Flags = this->Flags;
@@ -39,13 +39,13 @@ void __thiscall Scaleform::GFx::Text::EditorKit::Advance(Scaleform::GFx::Text::E
   }
   if ( (this->Flags & 0x20) != 0 )
   {
-    deltaa = this->LastMousePos.y;
+    y = this->LastMousePos.y;
     ViewRect = Scaleform::Render::Text::DocView::GetViewRect(this->pDocView.pObject);
     v10 = this->pDocView.pObject;
-    if ( ViewRect->y1 < deltaa )
+    if ( ViewRect->y1 < y )
     {
-      deltab = this->LastMousePos.y;
-      if ( Scaleform::Render::Text::DocView::GetViewRect(v10)->y2 <= deltab )
+      v17 = this->LastMousePos.y;
+      if ( Scaleform::Render::Text::DocView::GetViewRect(v10)->y2 <= v17 )
       {
         v13 = Scaleform::Render::Text::DocView::GetBottomVScroll(this->pDocView.pObject) + 1;
         if ( v13 < Scaleform::Render::Text::DocView::GetLinesCount(this->pDocView.pObject) )

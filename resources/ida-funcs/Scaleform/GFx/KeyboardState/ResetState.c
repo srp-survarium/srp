@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::KeyboardState::ResetState(Scaleform::GFx::Keyboa
   this->KeyQueue.PutIdx = 0;
   this->KeyQueue.GetIdx = 0;
   this->KeyQueue.Count = 0;
-  memset((int)&this->KeyQueue, 0, 0x640u);
+  memset((int)&this->KeyQueue, 0, 1600);
   *(_DWORD *)this->Keymap = 0;
   *(_DWORD *)&this->Keymap[4] = 0;
   *(_DWORD *)&this->Keymap[8] = 0;

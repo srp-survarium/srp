@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::LoadStates::~LoadStates(Scaleform::GFx::LoadStat
 {
   volatile LONG *v2; // edi
   Scaleform::RefCountVImpl *pObject; // ecx
-  Scaleform::GFx::ResourceWeakLib *v4; // ecx
+  Scaleform::RefCountVImpl *v4; // ecx
   Scaleform::RefCountVImpl *v5; // ecx
   Scaleform::RefCountVImpl *v6; // ecx
   Scaleform::RefCountVImpl *v7; // ecx
@@ -23,9 +23,9 @@ void __thiscall Scaleform::GFx::LoadStates::~LoadStates(Scaleform::GFx::LoadStat
   pObject = (Scaleform::RefCountVImpl *)this->pLoaderImpl.pObject;
   if ( pObject )
     Scaleform::RefCountImpl::Release(pObject);
-  v4 = this->pWeakResourceLib.pObject;
+  v4 = (Scaleform::RefCountVImpl *)this->pWeakResourceLib.pObject;
   if ( v4 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
+    Scaleform::RefCountImpl::Release(v4);
   v5 = (Scaleform::RefCountVImpl *)this->pAS3Support.pObject;
   if ( v5 )
     Scaleform::RefCountImpl::Release(v5);

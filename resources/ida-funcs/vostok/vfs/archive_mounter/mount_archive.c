@@ -1,45 +1,60 @@
-void __thiscall vostok::vfs::archive_mounter::mount_archive(vostok::vfs::archive_mounter *this)
+void __thiscall vostok::vfs::archive_mounter::mount_archive(
+        vostok::vfs::archive_mounter *this,
+        vostok::vfs::mount_result *result)
 {
-  vostok::vfs::result_enum m_result; // [esp+14h] [ebp-30h]
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> other; // [esp+18h] [ebp-2Ch] BYREF
-  bool m_out_of_memory; // [esp+2Bh] [ebp-19h]
-  vostok::vfs::mount_result v5; // [esp+30h] [ebp-14h] BYREF
-  vostok::fs_new::synchronous_device_interface device; // [esp+38h] [ebp-Ch] BYREF
+  vostok::vfs::vfs_mount *m_object; // eax
+  vostok::vfs::archive_mounter *v3; // ecx
+  vostok::fs_new::synchronous_device_interface *v4; // ecx
+  vostok::fs_new::synchronous_device_interface *v5; // ecx
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *v6; // ecx
+  vostok::vfs::mount_result *v7; // ecx
+  vostok::vfs::mounter *v8; // eax
+  vostok::vfs::mounter *v9; // ecx
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> v10; // [esp-Ch] [ebp-28h] BYREF
+  vostok::vfs::vfs_mount *v11; // [esp-8h] [ebp-24h]
+  int v12; // [esp-4h] [ebp-20h]
+  vostok::fs_new::synchronous_device_interface device; // [esp+Ch] [ebp-10h] BYREF
 
-  if ( this->m_args.asynchronous_device )
+  m_object = result[151].mount.m_object;
+  if ( m_object )
   {
     vostok::fs_new::synchronous_device_interface::synchronous_device_interface(
-      &device,
-      this->m_args.asynchronous_device,
-      this->m_args.allocator);
-    m_out_of_memory = device.m_out_of_memory;
+      (vostok::fs_new::synchronous_device_interface *)this,
+      (int)&device,
+      (vostok::fs_new::asynchronous_device_query_vtbl *)m_object,
+      (vostok::memory::base_allocator *)result[152].mount.m_object);
     if ( device.m_out_of_memory )
     {
-      vostok::vfs::mounter::finish_with_out_of_memory(this);
-      vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(&device);
+      vostok::vfs::mounter::finish_with_out_of_memory(v3, (int)result);
+      vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(v4, (int *)&device);
       return;
     }
-    vostok::vfs::archive_mounter::mount_archive_impl(this, &device);
-    vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(&device);
+    vostok::vfs::archive_mounter::mount_archive_impl(v3, (int)result, &device);
+    vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(v5, (int *)&device);
   }
   else
   {
-    vostok::vfs::archive_mounter::mount_archive_impl(this, this->m_args.synchronous_device);
+    vostok::vfs::archive_mounter::mount_archive_impl(
+      this,
+      (int)result,
+      (vostok::fs_new::synchronous_device_interface *)result[151].result);
   }
-  if ( this->m_result == result_success )
+  if ( result[8].result == result_out_of_memory )
     vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::operator=(
-      &this->m_mount_ptr,
-      0,
-      (vostok::vfs::vfs_mount *)this);
+      v6,
+      (int *)&result[8],
+      0);
+  v12 = 0;
+  v11 = (vostok::vfs::vfs_mount *)result[8].result;
+  v10.m_object = (vostok::vfs::vfs_mount *)v6;
   vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-    &other,
-    &this->m_mount_ptr);
-  m_result = this->m_result;
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-    &v5.mount,
-    &other);
-  v5.result = m_result;
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&other);
-  vostok::vfs::mounter::finish(this, &v5, 0);
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&v5.mount);
+    &v10,
+    &result[8].mount);
+  vostok::vfs::mount_result::mount_result(
+    v7,
+    (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&device.m_device,
+    v10,
+    v11);
+  vostok::vfs::mounter::finish(v9, result, v8, v12);
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&device.m_device);
 }

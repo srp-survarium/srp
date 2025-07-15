@@ -1,6 +1,6 @@
 Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::MovieRoot::ResolveInvokeAlias(
         Scaleform::GFx::AS3::MovieRoot *this,
-        char *pstr)
+        __m128i *pstr)
 {
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringHash<Scaleform::GFx::AS3::Value> *pInvokeAliases; // ecx
@@ -15,7 +15,7 @@ Scaleform::GFx::AS3::Value *__thiscall Scaleform::GFx::AS3::MovieRoot::ResolveIn
   ++StringNode->RefCount;
   pInvokeAliases = this->pInvokeAliases;
   v5.pTable = pInvokeAliases->mHash.pTable;
-  pstr = (char *)StringNode;
+  pstr = (__m128i *)StringNode;
   if ( v5.pTable
     && (v6 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS3::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS3::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS3::Value,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS3::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS3::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::ASString>(
                &pInvokeAliases->mHash,

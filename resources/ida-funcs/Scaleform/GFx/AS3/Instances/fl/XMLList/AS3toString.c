@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3toString(
   unsigned int v5; // edi
   Scaleform::GFx::AS3::Instances::fl::XML *pObject; // esi
   int v7; // eax
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v11; // zf
@@ -38,9 +38,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3toString(
       while ( v5 < Size );
       pVM = vm;
     }
-    pData = buf.pData;
+    pData = (__m128i *)buf.pData;
     if ( !buf.pData )
-      pData = (char *)&::buf;
+      pData = (__m128i *)uri;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    pVM->StringManagerRef->pStringManager,
                    pData,

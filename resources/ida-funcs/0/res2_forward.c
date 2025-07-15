@@ -1,63 +1,57 @@
 int __cdecl res2_forward(
         oggpack_buffer *opb,
         vorbis_block *vb,
-        vorbis_block *vl,
+        _DWORD **vl,
         int **in,
-        int *nonzero,
+        char *nonzero,
         int ch,
         int **partword)
 {
-  int v7; // ebp
+  int pcmend; // eax
   int v9; // edi
-  int *v10; // eax
-  int *v11; // esi
-  int v12; // edx
-  int v13; // ecx
-  int v14; // ebx
-  int v15; // eax
-  _DWORD *v16; // ecx
-  int v18; // [esp+Ch] [ebp-10h]
-  int v19; // [esp+14h] [ebp-8h]
-  int *work; // [esp+18h] [ebp-4h] BYREF
-  int used; // [esp+24h] [ebp+8h]
+  char *v10; // eax
+  int v11; // ecx
+  int v12; // ebx
+  char *v13; // ecx
+  int v15; // [esp+Ch] [ebp-10h]
+  int v16; // [esp+10h] [ebp-Ch]
+  char *v17; // [esp+14h] [ebp-8h] BYREF
+  int v18; // [esp+18h] [ebp-4h]
+  int v19; // [esp+28h] [ebp+Ch]
 
-  v7 = ch;
-  v9 = vb->pcmend / 2;
-  used = 0;
-  v10 = (int *)_vorbis_block_alloc(vb, 4 * ch * v9);
-  work = v10;
+  pcmend = vb->pcmend;
+  v19 = 0;
+  v9 = pcmend / 2;
+  v17 = _vorbis_block_alloc(vb, 4 * ch * (pcmend / 2));
   if ( ch <= 0 )
     return 0;
-  v11 = nonzero;
-  v12 = (char *)in - (char *)nonzero;
-  v13 = (char *)v10 - (char *)nonzero;
-  v19 = (char *)v10 - (char *)nonzero;
+  v10 = nonzero;
+  v11 = v17 - nonzero;
+  v16 = v17 - nonzero;
   v18 = ch;
-  do
+  while ( 1 )
   {
-    v14 = *(int *)((char *)v11 + v12);
-    if ( *v11 )
-      ++used;
-    v15 = 0;
+    v12 = 0;
+    v15 = *(_DWORD *)&v10[(char *)in - nonzero];
+    if ( *(_DWORD *)v10 )
+      ++v19;
     if ( v9 > 0 )
     {
-      v16 = (int *)((char *)v11 + v13);
+      v13 = &v10[v11];
       do
       {
-        *v16 = *(_DWORD *)(v14 + 4 * v15++);
-        v16 += v7;
+        *(_DWORD *)v13 = *(_DWORD *)(v15 + 4 * v12++);
+        v13 += 4 * ch;
       }
-      while ( v15 < v9 );
-      v7 = ch;
-      v12 = (char *)in - (char *)nonzero;
-      v13 = v19;
+      while ( v12 < v9 );
     }
-    ++v11;
-    --v18;
+    v10 += 4;
+    if ( !--v18 )
+      break;
+    v11 = v16;
   }
-  while ( v18 );
-  if ( used )
-    return 01forward(opb, vl, &work, (int **)1, partword);
+  if ( v19 )
+    return 01forward(vl, opb, (vorbis_block *)&v17, (int **)1, (char *)partword);
   else
     return 0;
 }

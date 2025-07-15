@@ -100,7 +100,7 @@ LABEL_14:
     {
       v14 = &t[n2];
       if ( v23 )
-        memset((int)v14, 0, 0x40u);
+        memset((int)v14, 0, 64);
       else
         bn_mul_comba8(v14, t, t + 8);
       v15 = r;

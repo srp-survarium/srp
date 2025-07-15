@@ -1,9 +1,11 @@
-void __cdecl _CallCatchBlock2(
+void __usercall _CallCatchBlock2(
+        int a1@<edi>,
+        int a2@<esi>,
         EHRegistrationNode *pRN,
         const _s_FuncInfo *pFuncInfo,
-        void *handlerAddress,
+        unsigned int handlerAddress,
         int CatchDepth,
         unsigned int NLGCode)
 {
-  _CallSettingFrame((unsigned int)handlerAddress, (unsigned int)pRN, NLGCode);
+  _CallSettingFrame((int)pRN, a1, a2, handlerAddress, (unsigned int)pRN, NLGCode);
 }

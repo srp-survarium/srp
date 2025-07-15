@@ -1,28 +1,37 @@
 void __cdecl vostok::command_line::iterate_keys<vostok::command_line::checker>()
 {
   unsigned int v0; // eax
-  const char *m_begin; // ebp
+  char *m_begin; // ebx
   char *v2; // esi
-  int v3; // eax
-  unsigned __int8 v4; // al
-  unsigned __int8 *v5; // ebx
-  int v6; // eax
-  char v7; // al
-  char v8; // bl
-  unsigned __int8 *v9; // ebp
-  unsigned __int8 v10; // al
-  bool v11; // zf
-  int v12; // eax
-  const char *v13; // [esp+0h] [ebp-438h]
-  bool do_debug_break; // [esp+13h] [ebp-425h] BYREF
-  const char *command_line; // [esp+14h] [ebp-424h]
-  vostok::fixed_string<512> key_name; // [esp+18h] [ebp-420h] BYREF
-  char v17; // [esp+224h] [ebp-214h] BYREF
-  vostok::fixed_string<512> key_value; // [esp+228h] [ebp-210h] BYREF
-  char v19; // [esp+434h] [ebp-4h] BYREF
+  bool is_delimiter; // al
+  vostok::fixed_string<512> *v4; // ecx
+  char *v5; // esi
+  unsigned __int8 v6; // al
+  bool v7; // al
+  vostok::fixed_string<512> *v8; // ecx
+  vostok::command_line::key *v9; // edi
+  char *v10; // esi
+  char v11; // al
+  char v12; // bl
+  bool v13; // zf
+  bool v14; // al
+  unsigned __int8 v15; // al
+  vostok::command_line::key *v16; // edi
+  vostok::buffer_string *v17; // [esp-4h] [ebp-440h]
+  vostok::fixed_string<512> *v18; // [esp-4h] [ebp-440h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v19; // [esp-4h] [ebp-440h]
+  vostok::fixed_string<512> *v20; // [esp-4h] [ebp-440h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v21; // [esp-4h] [ebp-440h]
+  const char *v22; // [esp+0h] [ebp-43Ch]
+  _BYTE v23[528]; // [esp+Ch] [ebp-430h] BYREF
+  vostok::command_line::key *v24; // [esp+21Ch] [ebp-220h] BYREF
+  char *v25; // [esp+42Ch] [ebp-10h]
+  char *begin_src; // [esp+430h] [ebp-Ch] BYREF
+  char *end_src; // [esp+434h] [ebp-8h] BYREF
+  bool do_debug_break; // [esp+43Bh] [ebp-1h] BYREF
 
   if ( !`vostok::command_line::iterate_keys<vostok::command_line::checker>'::`5'::debug_macro_helper_ignore_always
-    && !s_command_line_ready )
+    && !LOBYTE(s_command_line_keys_creation.m_mutex[1]) )
   {
     v0 = `vostok::command_line::iterate_keys<vostok::command_line::checker>'::`8'::occurances_left;
     if ( `vostok::command_line::iterate_keys<vostok::command_line::checker>'::`8'::occurances_left == -1 )
@@ -34,171 +43,167 @@ void __cdecl vostok::command_line::iterate_keys<vostok::command_line::checker>()
       vostok::debug::on_error(
         &do_debug_break,
         process_error_false,
-        &`vostok::command_line::iterate_keys<vostok::command_line::checker>'::`5'::debug_macro_helper_ignore_always,
-        assert_untyped,
+        0,
         "assertion_failed",
         "s_command_line_ready",
         ".\\command_line.cpp",
         "vostok::command_line::iterate_keys",
-        0xBBu,
-        "please run initialize first");
+        (const char *)0xBC,
+        "please run initialize first",
+        v22);
       if ( vostok::debug::is_debugger_present() || do_debug_break )
         __debugbreak();
     }
     return;
   }
   m_begin = vostok::command_line::g_command_line.m_begin;
-  v11 = *vostok::command_line::g_command_line.m_begin == 0;
-  command_line = vostok::command_line::g_command_line.m_begin;
+  v13 = *vostok::command_line::g_command_line.m_begin == 0;
+  v25 = vostok::command_line::g_command_line.m_begin;
   v2 = vostok::command_line::g_command_line.m_begin;
-  if ( v11 )
+  if ( v13 )
     return;
-  while ( 1 )
-  {
-    strchr(" \t", *v2);
-    if ( !v3 )
-      break;
-LABEL_39:
-    if ( !*++v2 )
-      return;
-  }
-  if ( *v2 != 45 )
-  {
-    if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-      vostok::buffer_string::assignf(
-        &vostok::command_line::s_command_line_error,
-        "expected '-' symbol and not %c at %s(%d)",
-        *v2,
-        m_begin,
-        v2 - m_begin);
-    goto LABEL_39;
-  }
-  v4 = *++v2;
-  if ( !v4 )
-  {
-    if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-      return;
-    goto LABEL_42;
-  }
-  if ( v4 == 45 )
-  {
-    v4 = *++v2;
-    if ( !v4 )
-    {
-      if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-        return;
-LABEL_42:
-      vostok::buffer_string::assignf(
-        &vostok::command_line::s_command_line_error,
-        "last command line key is empty: %s",
-        m_begin);
-      return;
-    }
-  }
-  v5 = (unsigned __int8 *)v2;
   do
   {
-    strchr(" \t", v4);
-    if ( v6 )
-      break;
-    if ( *v2 == 61 )
-      break;
-    v4 = *++v2;
-  }
-  while ( v4 );
-  key_name.m_begin = key_name.m_buffer;
-  key_name.m_max_end = &v17;
-  memcpy((unsigned __int8 *)key_name.m_buffer, v5, v2 - (char *)v5);
-  key_name.m_end = &key_name.m_buffer[v2 - (char *)v5];
-  *key_name.m_end = 0;
-  if ( *v2 != 61 )
-  {
-    if ( !vostok::command_line::find_key(key_name.m_begin) )
-      vostok::command_line::checker::operator()(key_name.m_begin, v13);
-    goto LABEL_39;
-  }
-  v7 = *++v2;
-  if ( v7 )
-  {
-    v8 = 0;
-    v9 = (unsigned __int8 *)v2;
-    if ( v7 == 34 )
+    is_delimiter = vostok::command_line::is_delimiter(*v2, " \t");
+    v4 = (vostok::fixed_string<512> *)v17;
+    if ( is_delimiter )
+      goto LABEL_41;
+    if ( *v2 != 45 )
     {
-      ++v2;
-      v8 = 1;
-      v9 = (unsigned __int8 *)v2;
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          (vostok::buffer_string *)(v2 - m_begin),
+          (vostok::buffer_string *)&stru_8029BC,
+          (const char *)*v2,
+          m_begin,
+          v2 - m_begin);
+      goto LABEL_41;
     }
-    v10 = *v2;
-    if ( !*v2 )
+    v5 = v2 + 1;
+    v6 = *v5;
+    end_src = v5;
+    if ( !v6 || v6 == 45 && (++v5, v6 = *v5, end_src = v5, !v6) )
     {
-LABEL_34:
-      key_value.m_begin = key_value.m_buffer;
-      key_value.m_end = key_value.m_buffer;
-      key_value.m_max_end = &v19;
-      memcpy((unsigned __int8 *)key_value.m_buffer, v9, v2 - (char *)v9);
-      key_value.m_end += v2 - (char *)v9;
-      *key_value.m_end = 0;
-      if ( v8 )
-        ++v2;
-      if ( !vostok::command_line::find_key(key_name.m_begin) )
-        vostok::command_line::checker::operator()(key_name.m_begin, v13);
-      m_begin = command_line;
-      goto LABEL_39;
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v17,
+          (vostok::buffer_string *)"last command line key is empty: %s",
+          m_begin);
+      return;
     }
-    while ( 2 )
+    begin_src = v5;
+    while ( v6 )
     {
-      if ( v8 )
+      v7 = vostok::command_line::is_delimiter(v6, " \t");
+      v4 = v18;
+      if ( v7 || *v5 == 61 )
+        break;
+      v6 = *++v5;
+      end_src = v5;
+    }
+    vostok::fixed_string<512>::fixed_string<512>(v4, (int)&v24, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( *end_src != 61 )
+    {
+      v9 = v24;
+      if ( !vostok::command_line::find_key((char *)v24) )
+        vostok::command_line::checker::operator()(v9, v19);
+      goto LABEL_41;
+    }
+    v10 = end_src + 1;
+    v11 = *++end_src;
+    if ( !v11 )
+    {
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v8,
+          (vostok::buffer_string *)&stru_802A0C,
+          begin_src);
+      return;
+    }
+    v12 = 0;
+    begin_src = v10;
+    if ( v11 == 34 )
+    {
+      v12 = 1;
+      begin_src = ++v10;
+      goto LABEL_34;
+    }
+    while ( 1 )
+    {
+      v15 = *v10;
+      if ( !*v10 )
+        break;
+      if ( v12 )
       {
-        if ( v10 == 34 )
-        {
-          v11 = *(v2 - 1) == 92;
-LABEL_32:
-          if ( !v11 )
-            goto LABEL_34;
-        }
-        v10 = *++v2;
-        if ( !v10 )
-          goto LABEL_34;
-        continue;
+        if ( v15 != 34 )
+          goto LABEL_33;
+        v13 = *(v10 - 1) == 92;
       }
-      break;
+      else
+      {
+        v14 = vostok::command_line::is_delimiter(v15, " \t");
+        v8 = v20;
+        v13 = !v14;
+      }
+      if ( !v13 )
+        break;
+LABEL_33:
+      ++v10;
+LABEL_34:
+      end_src = v10;
     }
-    strchr(" \t", v10);
-    v11 = v12 == 0;
-    goto LABEL_32;
+    vostok::fixed_string<512>::fixed_string<512>(v8, (int)v23, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( v12 )
+      v2 = end_src + 1;
+    v16 = v24;
+    if ( !vostok::command_line::find_key((char *)v24) )
+      vostok::command_line::checker::operator()(v16, v21);
+    m_begin = v25;
+LABEL_41:
+    ++v2;
   }
-  if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-    vostok::buffer_string::assignf(&vostok::command_line::s_command_line_error, "key value is empty: %s", v5);
+  while ( *v2 );
 }
 
 
 void __cdecl vostok::command_line::iterate_keys<vostok::command_line::initializer>()
 {
   unsigned int v0; // eax
-  const char *m_begin; // ebp
+  char *m_begin; // ebx
   char *v2; // esi
-  int v3; // eax
-  unsigned __int8 v4; // al
-  unsigned __int8 *v5; // ebx
-  int v6; // eax
+  bool is_delimiter; // al
+  vostok::fixed_string<512> *v4; // ecx
+  char *v5; // esi
+  unsigned __int8 v6; // al
+  bool v7; // al
+  vostok::fixed_string<512> *v8; // ecx
   vostok::command_line::key *key; // eax
-  char v8; // al
-  char v9; // bl
-  unsigned __int8 *v10; // ebp
-  unsigned __int8 v11; // al
-  bool v12; // zf
-  int v13; // eax
-  char *v14; // edi
-  vostok::command_line::key *v15; // eax
-  bool do_debug_break; // [esp+13h] [ebp-425h] BYREF
-  const char *command_line; // [esp+14h] [ebp-424h]
-  vostok::fixed_string<512> key_name; // [esp+18h] [ebp-420h] BYREF
-  char v19; // [esp+224h] [ebp-214h] BYREF
-  vostok::fixed_string<512> key_value; // [esp+228h] [ebp-210h] BYREF
-  char v21; // [esp+434h] [ebp-4h] BYREF
+  char *v10; // esi
+  char v11; // al
+  char v12; // bl
+  bool v13; // zf
+  bool v14; // al
+  unsigned __int8 v15; // al
+  char *v16; // edi
+  vostok::command_line::key *v17; // eax
+  vostok::buffer_string *v18; // [esp-4h] [ebp-440h]
+  vostok::fixed_string<512> *v19; // [esp-4h] [ebp-440h]
+  vostok::fixed_string<512> *v20; // [esp-4h] [ebp-440h]
+  const char *v21; // [esp+0h] [ebp-43Ch]
+  char *v22; // [esp+Ch] [ebp-430h] BYREF
+  char *v23; // [esp+21Ch] [ebp-220h] BYREF
+  char *v24; // [esp+42Ch] [ebp-10h]
+  char *begin_src; // [esp+430h] [ebp-Ch] BYREF
+  char *end_src; // [esp+434h] [ebp-8h] BYREF
+  bool do_debug_break; // [esp+43Bh] [ebp-1h] BYREF
 
   if ( !`vostok::command_line::iterate_keys<vostok::command_line::initializer>'::`5'::debug_macro_helper_ignore_always
-    && !s_command_line_ready )
+    && !LOBYTE(s_command_line_keys_creation.m_mutex[1]) )
   {
     v0 = `vostok::command_line::iterate_keys<vostok::command_line::initializer>'::`8'::occurances_left;
     if ( `vostok::command_line::iterate_keys<vostok::command_line::initializer>'::`8'::occurances_left == -1 )
@@ -210,175 +215,169 @@ void __cdecl vostok::command_line::iterate_keys<vostok::command_line::initialize
       vostok::debug::on_error(
         &do_debug_break,
         process_error_false,
-        &`vostok::command_line::iterate_keys<vostok::command_line::initializer>'::`5'::debug_macro_helper_ignore_always,
-        assert_untyped,
+        0,
         "assertion_failed",
         "s_command_line_ready",
         ".\\command_line.cpp",
         "vostok::command_line::iterate_keys",
-        0xBBu,
-        "please run initialize first");
+        (const char *)0xBC,
+        "please run initialize first",
+        v21);
       if ( vostok::debug::is_debugger_present() || do_debug_break )
         __debugbreak();
     }
     return;
   }
   m_begin = vostok::command_line::g_command_line.m_begin;
-  v12 = *vostok::command_line::g_command_line.m_begin == 0;
-  command_line = vostok::command_line::g_command_line.m_begin;
+  v13 = *vostok::command_line::g_command_line.m_begin == 0;
+  v24 = vostok::command_line::g_command_line.m_begin;
   v2 = vostok::command_line::g_command_line.m_begin;
-  if ( v12 )
+  if ( v13 )
     return;
-  while ( 1 )
-  {
-    strchr(" \t", *v2);
-    if ( !v3 )
-      break;
-LABEL_39:
-    if ( !*++v2 )
-      return;
-  }
-  if ( *v2 != 45 )
-  {
-    if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-      vostok::buffer_string::assignf(
-        &vostok::command_line::s_command_line_error,
-        "expected '-' symbol and not %c at %s(%d)",
-        *v2,
-        m_begin,
-        v2 - m_begin);
-    goto LABEL_39;
-  }
-  v4 = *++v2;
-  if ( !v4 )
-  {
-    if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-      return;
-    goto LABEL_42;
-  }
-  if ( v4 == 45 )
-  {
-    v4 = *++v2;
-    if ( !v4 )
-    {
-      if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-        return;
-LABEL_42:
-      vostok::buffer_string::assignf(
-        &vostok::command_line::s_command_line_error,
-        "last command line key is empty: %s",
-        m_begin);
-      return;
-    }
-  }
-  v5 = (unsigned __int8 *)v2;
   do
   {
-    strchr(" \t", v4);
-    if ( v6 )
-      break;
-    if ( *v2 == 61 )
-      break;
-    v4 = *++v2;
-  }
-  while ( v4 );
-  key_name.m_begin = key_name.m_buffer;
-  key_name.m_max_end = &v19;
-  memcpy((unsigned __int8 *)key_name.m_buffer, v5, v2 - (char *)v5);
-  key_name.m_end = &key_name.m_buffer[v2 - (char *)v5];
-  *key_name.m_end = 0;
-  if ( *v2 != 61 )
-  {
-    key = vostok::command_line::find_key(key_name.m_begin);
-    if ( key )
-      key->m_type = type_non_recursive;
-    goto LABEL_39;
-  }
-  v8 = *++v2;
-  if ( v8 )
-  {
-    v9 = 0;
-    v10 = (unsigned __int8 *)v2;
-    if ( v8 == 34 )
+    is_delimiter = vostok::command_line::is_delimiter(*v2, " \t");
+    v4 = (vostok::fixed_string<512> *)v18;
+    if ( is_delimiter )
+      goto LABEL_41;
+    if ( *v2 != 45 )
     {
-      ++v2;
-      v9 = 1;
-      v10 = (unsigned __int8 *)v2;
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          (vostok::buffer_string *)(v2 - m_begin),
+          (vostok::buffer_string *)&stru_8029BC,
+          (const char *)*v2,
+          m_begin,
+          v2 - m_begin);
+      goto LABEL_41;
     }
-    v11 = *v2;
-    if ( !*v2 )
+    v5 = v2 + 1;
+    v6 = *v5;
+    end_src = v5;
+    if ( !v6 || v6 == 45 && (++v5, v6 = *v5, end_src = v5, !v6) )
     {
-LABEL_34:
-      key_value.m_begin = key_value.m_buffer;
-      key_value.m_end = key_value.m_buffer;
-      key_value.m_max_end = &v21;
-      memcpy((unsigned __int8 *)key_value.m_buffer, v10, v2 - (char *)v10);
-      key_value.m_end += v2 - (char *)v10;
-      *key_value.m_end = 0;
-      if ( v9 )
-        ++v2;
-      v14 = key_value.m_begin;
-      v15 = vostok::command_line::find_key(key_name.m_begin);
-      if ( v15 )
-        vostok::command_line::key::initialize(v15, v14);
-      m_begin = command_line;
-      goto LABEL_39;
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v18,
+          (vostok::buffer_string *)"last command line key is empty: %s",
+          m_begin);
+      return;
     }
-    while ( 2 )
+    begin_src = v5;
+    while ( v6 )
     {
-      if ( v9 )
+      v7 = vostok::command_line::is_delimiter(v6, " \t");
+      v4 = v19;
+      if ( v7 || *v5 == 61 )
+        break;
+      v6 = *++v5;
+      end_src = v5;
+    }
+    vostok::fixed_string<512>::fixed_string<512>(v4, (int)&v23, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( *end_src != 61 )
+    {
+      key = vostok::command_line::find_key(v23);
+      if ( key )
+        key->m_type = type_void;
+      goto LABEL_41;
+    }
+    v10 = end_src + 1;
+    v11 = *++end_src;
+    if ( !v11 )
+    {
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v8,
+          (vostok::buffer_string *)&stru_802A0C,
+          begin_src);
+      return;
+    }
+    v12 = 0;
+    begin_src = v10;
+    if ( v11 == 34 )
+    {
+      v12 = 1;
+      begin_src = ++v10;
+      goto LABEL_34;
+    }
+    while ( 1 )
+    {
+      v15 = *v10;
+      if ( !*v10 )
+        break;
+      if ( v12 )
       {
-        if ( v11 == 34 )
-        {
-          v12 = *(v2 - 1) == 92;
-LABEL_32:
-          if ( !v12 )
-            goto LABEL_34;
-        }
-        v11 = *++v2;
-        if ( !v11 )
-          goto LABEL_34;
-        continue;
+        if ( v15 != 34 )
+          goto LABEL_33;
+        v13 = *(v10 - 1) == 92;
       }
-      break;
+      else
+      {
+        v14 = vostok::command_line::is_delimiter(v15, " \t");
+        v8 = v20;
+        v13 = !v14;
+      }
+      if ( !v13 )
+        break;
+LABEL_33:
+      ++v10;
+LABEL_34:
+      end_src = v10;
     }
-    strchr(" \t", v11);
-    v12 = v13 == 0;
-    goto LABEL_32;
+    vostok::fixed_string<512>::fixed_string<512>(v8, (int)&v22, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( v12 )
+      v2 = end_src + 1;
+    v16 = v22;
+    v17 = vostok::command_line::find_key(v23);
+    if ( v17 )
+      vostok::command_line::key::initialize(v16, v17);
+    m_begin = v24;
+LABEL_41:
+    ++v2;
   }
-  if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-    vostok::buffer_string::assignf(&vostok::command_line::s_command_line_error, "key value is empty: %s", v5);
+  while ( *v2 );
 }
 
 
 void __cdecl vostok::command_line::iterate_keys<vostok::command_line::key_initializator>()
 {
   unsigned int v0; // eax
-  const char *m_begin; // ebx
-  char *v2; // ebp
-  int v3; // eax
-  unsigned __int8 v4; // al
-  unsigned __int8 *v5; // edi
-  int v6; // eax
-  char *v7; // esi
+  char *m_begin; // esi
+  char *v2; // edi
+  bool is_delimiter; // al
+  vostok::fixed_string<512> *v4; // ecx
+  char *v5; // edi
+  unsigned __int8 v6; // al
+  bool v7; // al
+  vostok::fixed_string<512> *v8; // ecx
+  char *v9; // esi
   vostok::command_line::key *key; // eax
-  char v9; // al
-  char v10; // bl
-  unsigned __int8 *v11; // edi
-  unsigned __int8 v12; // al
+  char *v11; // edi
+  char v12; // al
   bool v13; // zf
-  int v14; // eax
-  char *v15; // edi
-  const char *v16; // [esp-4h] [ebp-43Ch]
-  bool do_debug_break; // [esp+13h] [ebp-425h] BYREF
-  const char *command_line; // [esp+14h] [ebp-424h]
-  vostok::fixed_string<512> key_name; // [esp+18h] [ebp-420h] BYREF
-  char v20; // [esp+224h] [ebp-214h] BYREF
-  vostok::fixed_string<512> key_value; // [esp+228h] [ebp-210h] BYREF
-  char v22; // [esp+434h] [ebp-4h] BYREF
+  bool v14; // al
+  unsigned __int8 v15; // al
+  char *v16; // ebx
+  char *v17; // esi
+  vostok::command_line::key *v18; // eax
+  vostok::buffer_string *v19; // [esp-4h] [ebp-444h]
+  vostok::fixed_string<512> *v20; // [esp-4h] [ebp-444h]
+  vostok::fixed_string<512> *v21; // [esp-4h] [ebp-444h]
+  const char *v22; // [esp+0h] [ebp-440h]
+  bool do_debug_break; // [esp+13h] [ebp-42Dh] BYREF
+  char *end_src; // [esp+14h] [ebp-42Ch] BYREF
+  char *begin_src; // [esp+18h] [ebp-428h] BYREF
+  char *v26; // [esp+1Ch] [ebp-424h]
+  char *v27; // [esp+20h] [ebp-420h] BYREF
+  char *v28; // [esp+230h] [ebp-210h] BYREF
 
   if ( !`vostok::command_line::iterate_keys<vostok::command_line::key_initializator>'::`5'::debug_macro_helper_ignore_always
-    && !s_command_line_ready )
+    && !LOBYTE(s_command_line_keys_creation.m_mutex[1]) )
   {
     v0 = `vostok::command_line::iterate_keys<vostok::command_line::key_initializator>'::`8'::occurances_left;
     if ( `vostok::command_line::iterate_keys<vostok::command_line::key_initializator>'::`8'::occurances_left == -1 )
@@ -390,14 +389,14 @@ void __cdecl vostok::command_line::iterate_keys<vostok::command_line::key_initia
       vostok::debug::on_error(
         &do_debug_break,
         process_error_false,
-        &`vostok::command_line::iterate_keys<vostok::command_line::key_initializator>'::`5'::debug_macro_helper_ignore_always,
-        assert_untyped,
+        0,
         "assertion_failed",
         "s_command_line_ready",
         ".\\command_line.cpp",
         "vostok::command_line::iterate_keys",
-        0xBBu,
-        "please run initialize first");
+        (const char *)0xBC,
+        "please run initialize first",
+        v22);
       if ( vostok::debug::is_debugger_present() || do_debug_break )
         __debugbreak();
     }
@@ -405,134 +404,121 @@ void __cdecl vostok::command_line::iterate_keys<vostok::command_line::key_initia
   }
   m_begin = vostok::command_line::g_command_line.m_begin;
   v13 = *vostok::command_line::g_command_line.m_begin == 0;
-  command_line = vostok::command_line::g_command_line.m_begin;
+  v26 = vostok::command_line::g_command_line.m_begin;
   v2 = vostok::command_line::g_command_line.m_begin;
   if ( v13 )
     return;
-  while ( 1 )
+  while ( 2 )
   {
-    strchr(" \t", *v2);
-    if ( v3 )
-      goto LABEL_40;
+    is_delimiter = vostok::command_line::is_delimiter(*v2, " \t");
+    v4 = (vostok::fixed_string<512> *)v19;
+    if ( is_delimiter )
+      goto LABEL_42;
     if ( *v2 != 45 )
     {
       if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-        vostok::buffer_string::assignf(
-          &vostok::command_line::s_command_line_error,
-          "expected '-' symbol and not %c at %s(%d)",
-          *v2,
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          (vostok::buffer_string *)(v2 - m_begin),
+          (vostok::buffer_string *)&stru_8029BC,
+          (const char *)*v2,
           m_begin,
           v2 - m_begin);
-      goto LABEL_40;
+      goto LABEL_42;
     }
-    v4 = *++v2;
-    if ( !v4 )
+    v5 = v2 + 1;
+    v6 = *v5;
+    end_src = v5;
+    if ( !v6 || v6 == 45 && (++v5, v6 = *v5, end_src = v5, !v6) )
     {
-      if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-        return;
-      goto LABEL_43;
-    }
-    if ( v4 == 45 )
-    {
-      v4 = *++v2;
-      if ( !v4 )
-      {
-        if ( vostok::command_line::s_command_line_error.m_end != vostok::command_line::s_command_line_error.m_begin )
-          return;
-LABEL_43:
-        vostok::buffer_string::assignf(
-          &vostok::command_line::s_command_line_error,
-          "last command line key is empty: %s",
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v19,
+          (vostok::buffer_string *)"last command line key is empty: %s",
           m_begin);
-        return;
-      }
-    }
-    v5 = (unsigned __int8 *)v2;
-    do
-    {
-      strchr(" \t", v4);
-      if ( v6 )
-        break;
-      if ( *v2 == 61 )
-        break;
-      v4 = *++v2;
-    }
-    while ( v4 );
-    key_name.m_begin = key_name.m_buffer;
-    key_name.m_max_end = &v20;
-    memcpy((unsigned __int8 *)key_name.m_buffer, v5, v2 - (char *)v5);
-    key_name.m_end = &key_name.m_buffer[v2 - (char *)v5];
-    *key_name.m_end = 0;
-    if ( *v2 == 61 )
-      break;
-    v7 = key_name.m_begin;
-    key = vostok::command_line::find_key(key_name.m_begin);
-    if ( key )
-    {
-      v16 = 0;
-      goto LABEL_38;
-    }
-LABEL_40:
-    if ( !*++v2 )
       return;
-  }
-  v9 = *++v2;
-  if ( v9 )
-  {
-    v10 = 0;
-    v11 = (unsigned __int8 *)v2;
-    if ( v9 == 34 )
-    {
-      ++v2;
-      v10 = 1;
-      v11 = (unsigned __int8 *)v2;
     }
-    v12 = *v2;
-    if ( !*v2 )
+    begin_src = v5;
+    while ( v6 )
     {
-LABEL_34:
-      key_value.m_begin = key_value.m_buffer;
-      key_value.m_end = key_value.m_buffer;
-      key_value.m_max_end = &v22;
-      memcpy((unsigned __int8 *)key_value.m_buffer, v11, v2 - (char *)v11);
-      key_value.m_end += v2 - (char *)v11;
-      *key_value.m_end = 0;
-      if ( v10 )
-        ++v2;
-      v15 = key_value.m_begin;
-      v7 = key_name.m_begin;
-      key = vostok::command_line::find_key(key_name.m_begin);
-      if ( !key )
-        goto LABEL_39;
-      v16 = v15;
-LABEL_38:
-      vostok::command_line::key_initializator::operator()(key, v7, v16);
-LABEL_39:
-      m_begin = command_line;
-      goto LABEL_40;
+      v7 = vostok::command_line::is_delimiter(v6, " \t");
+      v4 = v20;
+      if ( v7 || *v5 == 61 )
+        break;
+      v6 = *++v5;
+      end_src = v5;
     }
-    while ( 2 )
+    vostok::fixed_string<512>::fixed_string<512>(v4, (int)&v27, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( *end_src != 61 )
     {
-      if ( v10 )
+      v9 = v27;
+      key = vostok::command_line::find_key(v27);
+      if ( key )
+        vostok::command_line::key_initializator::operator()(key, v9, 0);
+      goto LABEL_42;
+    }
+    v11 = end_src + 1;
+    v12 = *++end_src;
+    if ( !v12 )
+    {
+      if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
+        vostok::fs_new::path_string_impl::assignf(
+          (int)&vostok::command_line::s_command_line_error,
+          v8,
+          (vostok::buffer_string *)&stru_802A0C,
+          begin_src);
+      return;
+    }
+    begin_src = v11;
+    do_debug_break = 0;
+    if ( v12 == 34 )
+    {
+      ++v11;
+      do_debug_break = 1;
+      begin_src = v11;
+      goto LABEL_36;
+    }
+    while ( 1 )
+    {
+      v15 = *v11;
+      if ( !*v11 )
+        break;
+      if ( do_debug_break )
       {
-        if ( v12 == 34 )
-        {
-          v13 = *(v2 - 1) == 92;
-LABEL_32:
-          if ( !v13 )
-            goto LABEL_34;
-        }
-        v12 = *++v2;
-        if ( !v12 )
-          goto LABEL_34;
-        continue;
+        if ( v15 != 34 )
+          goto LABEL_35;
+        v13 = *(v11 - 1) == 92;
       }
-      break;
+      else
+      {
+        v14 = vostok::command_line::is_delimiter(v15, " \t");
+        v8 = v21;
+        v13 = !v14;
+      }
+      if ( !v13 )
+        break;
+LABEL_35:
+      ++v11;
+LABEL_36:
+      end_src = v11;
     }
-    strchr(" \t", v12);
-    v13 = v14 == 0;
-    goto LABEL_32;
+    vostok::fixed_string<512>::fixed_string<512>(v8, (int)&v28, &begin_src, (const char **)&end_src);
+    v2 = end_src;
+    if ( do_debug_break )
+      v2 = end_src + 1;
+    v16 = v27;
+    v17 = v28;
+    v18 = vostok::command_line::find_key(v27);
+    if ( v18 )
+      vostok::command_line::key_initializator::operator()(v18, v16, v17);
+LABEL_42:
+    if ( *++v2 )
+    {
+      m_begin = v26;
+      continue;
+    }
+    break;
   }
-  if ( vostok::command_line::s_command_line_error.m_end == vostok::command_line::s_command_line_error.m_begin )
-    vostok::buffer_string::assignf(&vostok::command_line::s_command_line_error, "key value is empty: %s", v5);
 }

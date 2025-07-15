@@ -4,9 +4,9 @@ const Scaleform::Render::TextureGlyph *__thiscall Scaleform::GFx::TextureGlyphDa
 {
   if ( glyphIndex < this->TextureGlyphs.Data.Size )
     return &this->TextureGlyphs.Data.Data[glyphIndex];
-  if ( (_S4_1 & 1) == 0 )
+  if ( (_S4_2 & 1) == 0 )
   {
-    _S4_1 |= 1u;
+    _S4_2 |= 1u;
     dummyTextureGlyph.UvBounds.x1 = 0.0;
     dummyTextureGlyph.UvBounds.y1 = 0.0;
     dummyTextureGlyph.UvBounds.x2 = 0.0;

@@ -1,10 +1,10 @@
-lhash_node_st *__cdecl lh_insert(lhash_st *lh, _DWORD *data)
+lhash_node_st *__cdecl lh_insert(lhash_st *lh, lhash_node_st *data)
 {
   lhash_st *v2; // esi
   unsigned int v3; // eax
-  _DWORD *v4; // ebx
+  lhash_node_st *v4; // ebx
   lhash_node_st **v5; // edi
-  lhash_node_st *v6; // ecx
+  lhash_node_st **v6; // ecx
   lhash_node_st *result; // eax
 
   v2 = lh;
@@ -14,11 +14,11 @@ lhash_node_st *__cdecl lh_insert(lhash_st *lh, _DWORD *data)
     expand(v2);
   v4 = data;
   v5 = getrn(v2, data, (unsigned int *)&lh);
-  v6 = *v5;
+  v6 = (lhash_node_st **)*v5;
   if ( *v5 )
   {
-    result = (lhash_node_st *)v6->data;
-    v6->data = v4;
+    result = *v6;
+    *v6 = v4;
     ++v2->num_replace;
   }
   else

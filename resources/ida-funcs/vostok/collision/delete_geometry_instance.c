@@ -11,6 +11,6 @@ void __usercall vostok::collision::delete_geometry_instance(
     ((void (__thiscall *)(vostok::collision::geometry_instance *, _DWORD))object->~vostok::collision::geometry_instance)(
       object,
       0);
-    allocator->call_free(allocator, v2);
+    allocator->call_free(allocator, v2, "vostok::collision::delete_geometry_instance", ".\\api.cpp", 280u);
   }
 }

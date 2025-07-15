@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginSolidFill(Scaleform::GFx::D
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::GFx::DrawingContext::PackedShape *v4; // ebx
   Scaleform::Render::FillStyleType *v5; // edi
-  Scaleform::GFx::Resource *v6; // ecx
+  Scaleform::Render::ComplexFill *v6; // ecx
   bool v7; // zf
 
   this->mFillStyle.Color = rgba;
@@ -20,9 +20,9 @@ void __thiscall Scaleform::GFx::DrawingContext::BeginSolidFill(Scaleform::GFx::D
   if ( &v4->FillStyles.Data.Data[v4->FillStyles.Data.Size] != (Scaleform::Render::FillStyleType *)8 )
   {
     v5->Color = this->mFillStyle.Color;
-    v6 = (Scaleform::GFx::Resource *)this->mFillStyle.pFill.pObject;
+    v6 = this->mFillStyle.pFill.pObject;
     if ( v6 )
-      Scaleform::RefCountImpl::AddRef(v6);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v6);
     v5->pFill.pObject = this->mFillStyle.pFill.pObject;
   }
   v7 = (this->States & 0x10) == 0;

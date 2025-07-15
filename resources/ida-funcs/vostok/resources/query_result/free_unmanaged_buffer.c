@@ -1,61 +1,40 @@
-void __usercall vostok::resources::query_result::free_unmanaged_buffer(
-        vostok::resources::query_result *this@<ecx>,
-        int a2@<eax>)
+void __thiscall vostok::resources::query_result::free_unmanaged_buffer(vostok::resources::query_result *this, int a2)
 {
-  char **v3; // ebp
-  bool v4; // zf
-  char **v5; // eax
-  unsigned int v6; // edx
-  vostok::configs::binary_config *m_data; // edi
-  vostok::resources::query_result *v8; // ecx
-  vostok::resources::unmanaged_resource *m_object; // edi
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> ptr; // [esp+14h] [ebp-20h] BYREF
-  vostok::mutable_buffer unmanaged_buffer; // [esp+18h] [ebp-1Ch] BYREF
-  vostok::vfs::vfs_iterator result; // [esp+20h] [ebp-14h] BYREF
+  int v2; // eax
+  survarium::pure_game_effect_emitter_base *v3; // edi
+  survarium::pure_game_effect_emitter_base *m_object; // ebx
+  vostok::resources::query_result *v5; // ecx
+  vostok::vfs::vfs_iterator v6; // [esp+10h] [ebp-24h] BYREF
+  unsigned int v7; // [esp+28h] [ebp-Ch]
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v8; // [esp+2Ch] [ebp-8h] BYREF
 
-  v3 = (char **)(a2 + 636);
-  v4 = !vostok::mutable_buffer::operator bool((vostok::mutable_buffer *)(a2 + 636));
-  v5 = v3;
-  if ( v4 )
-    v5 = (char **)(a2 + 644);
-  v6 = (unsigned int)v5[1];
-  unmanaged_buffer.m_data = *v5;
-  unmanaged_buffer.m_size = v6;
-  if ( vostok::mutable_buffer::operator bool(&unmanaged_buffer) )
+  v2 = a2 + 652;
+  if ( !*(_DWORD *)(a2 + 652) )
+    v2 = a2 + 660;
+  v3 = *(survarium::pure_game_effect_emitter_base **)v2;
+  v7 = *(_DWORD *)(v2 + 4);
+  if ( v3 )
   {
-    m_data = (vostok::configs::binary_config *)unmanaged_buffer.m_data;
-    if ( unmanaged_buffer.m_data )
-    {
-      vostok::resources::unmanaged_resource::unmanaged_resource(
-        (vostok::resources::unmanaged_resource *)unmanaged_buffer.m_data,
-        1u);
-      m_data->__vftable = (vostok::configs::binary_config_vtbl *)&vostok::resources::helper_unmanaged_resource::`vftable';
-    }
-    else
-    {
-      m_data = 0;
-    }
-    ptr.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&ptr,
-      m_data);
-    vostok::resources::query_result::set_deleter_object(v8, ptr.m_object);
-    if ( (*(_DWORD *)(a2 + 688) & 0x800) != 0 )
-      vostok::vfs::vfs_iterator::end(&result);
-    else
-      vostok::vfs::vfs_iterator::vfs_iterator(&result, (const vostok::vfs::vfs_iterator *)(a2 + 160));
-    m_object = ptr.m_object;
-    ptr.m_object->m_fat_it = result;
-    m_object->m_memory_usage_self.size = (unsigned int)vostok::mutable_buffer::size((vostok::vfs::vfs_iterator *)&unmanaged_buffer);
+    vostok::resources::unmanaged_resource::unmanaged_resource(
+      (vostok::resources::unmanaged_resource *)a2,
+      v3,
+      fs_iterator_class);
+    v3->__vftable = (survarium::pure_game_effect_emitter_base_vtbl *)&vostok::resources::helper_unmanaged_resource::`vftable';
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      &v8,
+      v3);
+    m_object = v8.m_object;
+    vostok::resources::query_result::set_deleter_object(v5, a2, v8.m_object);
+    m_object->m_fat_it = *vostok::resources::query_result::get_fat_it_zero_if_physical_path_it(
+                            (vostok::resources::query_result *)a2,
+                            &v6);
+    m_object->m_memory_usage_self.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::type = &vostok::resources::nocache_memory;
+    m_object->m_memory_usage_self.size = v7;
     m_object->m_creation_source = creation_source_deallocate_buffer_helper;
-    m_object->m_memory_usage_self.vostok::resources::resource_base::vostok::resources::resource_quality::type = &vostok::resources::nocache_memory;
-    *v3 = 0;
-    v3[1] = 0;
-    *(_DWORD *)(a2 + 644) = 0;
-    *(_DWORD *)(a2 + 648) = 0;
-    if ( !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &m_object->vostok::resources::unmanaged_intrusive_base,
-        m_object);
+    *(_DWORD *)(a2 + 652) = 0;
+    *(_DWORD *)(a2 + 656) = 0;
+    *(_DWORD *)(a2 + 660) = 0;
+    *(_DWORD *)(a2 + 664) = 0;
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v8);
   }
 }

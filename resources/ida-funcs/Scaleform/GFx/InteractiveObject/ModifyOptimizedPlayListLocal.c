@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayListLocal<
   if ( (Flags & 0xC) != 0 || (this->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x40) != 0 )
   {
     if ( v2 )
-      this->Flags = (unsigned int)Scaleform::GFx::AS2::CreateShadow | Flags;
+      this->Flags = (unsigned int)&loc_400000 | Flags;
   }
   else if ( !v2 )
   {
@@ -30,7 +30,7 @@ void __thiscall Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayListLocal<
   v4 = Scaleform::GFx::Sprite::CheckAdvanceStatus((Scaleform::GFx::Sprite *)this, v3);
   if ( v4 == -1 )
   {
-    this->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    this->Flags |= (unsigned int)&loc_400000;
   }
   else if ( v4 == 1 )
   {
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayListLocal<
   v4 = Scaleform::GFx::TextField::CheckAdvanceStatus((Scaleform::GFx::TextField *)this, v3);
   if ( v4 == -1 )
   {
-    this->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    this->Flags |= (unsigned int)&loc_400000;
   }
   else if ( v4 == 1 )
   {

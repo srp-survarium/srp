@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::MovieRoot::CreateString(
         Scaleform::GFx::AS3::MovieRoot *this,
         Scaleform::GFx::Value *pvalue,
-        char *pstring)
+        __m128i *pstring)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
   Scaleform::GFx::ASStringNode *v5; // esi

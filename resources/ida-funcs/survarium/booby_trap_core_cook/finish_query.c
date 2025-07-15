@@ -1,28 +1,34 @@
-void __thiscall survarium::booby_trap_core_cook::finish_query(
-        survarium::booby_trap_core_cook *this,
-        vostok::resources::query_result_for_cook *parent,
-        vostok::configs::binary_config *resource)
+void __userpurge survarium::booby_trap_core_cook::finish_query(
+        survarium::booby_trap_core_cook *this@<ecx>,
+        survarium::booby_trap_core *resource@<eax>,
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *parent)
 {
-  vostok::network_core::packet_reader *v3; // eax
-  vostok::resources::memory_usage_type *v4; // eax
-  vostok::resources::unmanaged_resource *v5; // ecx
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v6; // [esp-4h] [ebp-1Ch] BYREF
-  vostok::resources::memory_usage_type *memory_usage; // [esp+0h] [ebp-18h]
-  survarium::booby_trap_core_cook *thisa; // [esp+4h] [ebp-14h]
-  boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *v9; // [esp+10h] [ebp-8h] BYREF
+  survarium::pure_game_effect_emitter_base *v3; // edi
+  survarium::booby_trap_core_cook_vtbl *v4; // eax
+  unsigned int v5; // eax
+  survarium::pure_game_effect_emitter_base *v6; // ecx
+  survarium::pure_game_effect_emitter_base *v7; // ecx
+  vostok::resources::query_result_for_cook *v8; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v9; // [esp-4h] [ebp-18h] BYREF
+  vostok::resources::memory_usage_type v10; // [esp+8h] [ebp-Ch] BYREF
 
-  thisa = this;
-  v3 = (vostok::network_core::packet_reader *)this->get_derived_resource_size(this);
-  vostok::resources::memory_usage_type::memory_usage_type(
-    (boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *)&vostok::resources::nocache_memory,
+  if ( resource )
+    v3 = (survarium::pure_game_effect_emitter_base *)&resource->vostok::resources::unmanaged_resource;
+  else
+    v3 = 0;
+  v4 = this->__vftable;
+  v10.type = &vostok::resources::nocache_memory;
+  v5 = v4->get_derived_resource_size(this);
+  v9.m_object = v6;
+  v10.size = v5;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
     &v9,
-    v3,
-    (vostok::network_core::packet_reader *)memory_usage);
-  memory_usage = v4;
-  v6.m_object = v5;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
-    &v6,
-    resource);
-  vostok::resources::query_result_for_cook::set_unmanaged_resource(memory_usage, parent, v6);
-  vostok::resources::query_result_for_cook::finish_query(parent, result_success, assert_on_fail_true);
+    v3);
+  vostok::resources::query_result_for_cook::set_unmanaged_resource(&v10, v7, parent, v9);
+  vostok::resources::query_result_for_cook::finish_query_impl(
+    v8,
+    (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent,
+    result_out_of_memory,
+    assert_on_fail_true,
+    result_fail);
 }

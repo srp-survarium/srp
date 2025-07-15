@@ -8,7 +8,7 @@ char __thiscall Scaleform::MsgFormat::ReplaceFormatter(
   unsigned int v5; // esi
   int i; // edx
   Scaleform::MsgFormat::fmt_record *v7; // eax
-  int value_4; // [esp+10h] [ebp-4h]
+  int v9; // [esp+10h] [ebp-4h]
 
   Size = this->Data.Size;
   v5 = 0;
@@ -24,9 +24,9 @@ char __thiscall Scaleform::MsgFormat::ReplaceFormatter(
     if ( ++v5 >= Size )
       return 0;
   }
-  LOBYTE(value_4) = allocated;
+  LOBYTE(v9) = allocated;
   v7->RecType = eFmtType;
   v7->RecValue.String.Str = (const char *)newf;
-  *(_DWORD *)&v7->RecValue.Formatter.Allocated = value_4;
+  *(_DWORD *)&v7->RecValue.Formatter.Allocated = v9;
   return 1;
 }

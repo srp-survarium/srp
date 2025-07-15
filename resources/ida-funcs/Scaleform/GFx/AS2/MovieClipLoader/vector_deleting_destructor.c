@@ -10,7 +10,9 @@ Scaleform::GFx::AS2::MovieClipLoader *__thiscall Scaleform::GFx::AS2::MovieClipL
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::MovieClipLoader::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::MovieClipLoader *__thiscall Scaleform::GFx::AS2::MovieClipLoader::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::MovieClipLoader::`vector deleting destructor'(
            (Scaleform::GFx::AS2::MovieClipLoader *)(this - 16),

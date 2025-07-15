@@ -1,9 +1,9 @@
-unsigned int __cdecl day_count(const date *date)
+unsigned int __usercall day_count@<eax>(const date *date@<edi>)
 {
   unsigned int year; // ecx
-  BOOL v2; // edi
+  BOOL v2; // ebx
   unsigned int month; // eax
-  unsigned int v4; // ecx
+  unsigned int v4; // esi
 
   year = date->year;
   v2 = !(year % 0x190) || (year & 3) == 0 && year % 0x64;

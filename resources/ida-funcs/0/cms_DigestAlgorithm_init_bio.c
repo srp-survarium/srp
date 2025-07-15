@@ -1,37 +1,37 @@
-bio_st *__cdecl cms_DigestAlgorithm_init_bio(X509_algor_st *digestAlgorithm)
+bio_st *__usercall cms_DigestAlgorithm_init_bio@<eax>(int a1@<ebx>, X509_algor_st *digestAlgorithm)
 {
-  unsigned int v1; // eax
-  const char *v2; // eax
+  void *v2; // eax
+  char *v3; // eax
   const env_md_st *digestbyname; // edi
-  bio_method_st *v5; // eax
-  bio_st *v6; // eax
-  bio_st *v7; // esi
-  asn1_object_st *paobj; // [esp+8h] [ebp-4h] BYREF
+  bio_method_st *v6; // eax
+  bio_st *v7; // eax
+  bio_st *v8; // esi
+  asn1_object_st *a; // [esp+8h] [ebp-4h] BYREF
 
-  X509_ALGOR_get0(&paobj, 0, 0, digestAlgorithm);
-  v1 = OBJ_obj2nid(paobj);
-  v2 = OBJ_nid2sn(v1);
-  digestbyname = EVP_get_digestbyname(v2);
+  X509_ALGOR_get0(&a, 0, 0, digestAlgorithm);
+  v2 = OBJ_obj2nid(a);
+  v3 = (char *)OBJ_nid2sn(a1, (unsigned int)v2);
+  digestbyname = EVP_get_digestbyname(v3);
   if ( digestbyname )
   {
-    v5 = BIO_f_md();
-    v6 = BIO_new(v5);
-    v7 = v6;
-    if ( v6 && BIO_ctrl(v6, 111, 0, (void *)digestbyname) )
+    v6 = BIO_f_md();
+    v7 = BIO_new(a1, v6);
+    v8 = v7;
+    if ( v7 && BIO_ctrl(a1, v7, 111, 0, (void *)digestbyname) )
     {
-      return v7;
+      return v8;
     }
     else
     {
-      ERR_put_error(0x2Eu, 116, 119, ".\\crypto\\cms\\cms_lib.c", 378);
-      if ( v7 )
-        BIO_free((unsigned int)digestbyname, v7);
+      ERR_put_error(a1, 0x2Eu, 116, 119, ".\\crypto\\cms\\cms_lib.c", 378);
+      if ( v8 )
+        BIO_free((int)digestbyname, a1, v8);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x2Eu, 116, 149, ".\\crypto\\cms\\cms_lib.c", 371);
+    ERR_put_error(a1, 0x2Eu, 116, 149, ".\\crypto\\cms\\cms_lib.c", 371);
     return 0;
   }
 }

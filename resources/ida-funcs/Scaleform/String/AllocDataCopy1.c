@@ -3,7 +3,7 @@ Scaleform::String::DataDesc *__thiscall Scaleform::String::AllocDataCopy1(
         Scaleform::MemoryHeap *pheap,
         unsigned int size,
         unsigned int lengthIsSize,
-        char *pdata,
+        const __m128i *pdata,
         unsigned int copySize)
 {
   Scaleform::String::DataDesc *v6; // esi
@@ -22,6 +22,6 @@ Scaleform::String::DataDesc *__thiscall Scaleform::String::AllocDataCopy1(
     InterlockedExchangeAdd(&Scaleform::String::NullData.RefCount, 1);
     v6 = &Scaleform::String::NullData;
   }
-  memcpy((unsigned __int8 *)v6->Data, (unsigned __int8 *)pdata, copySize);
+  memcpy((int)v6->Data, pdata, copySize);
   return v6;
 }

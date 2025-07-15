@@ -1,79 +1,81 @@
-vostok::math::float4x4 *__usercall vostok::math::create_camera_direction@<eax>(
-        const vostok::math::float3 *view@<edi>,
-        const vostok::math::float3 *local_up_in_world_space@<eax>,
-        _QWORD *a3@<esi>,
-        const vostok::math::float3 *from)
+vostok::math::float4x4 *__fastcall vostok::math::create_camera_direction(
+        const vostok::math::float3 *view,
+        const vostok::math::float3 *local_up_in_world_space,
+        vostok::math::float4x4 *from,
+        float *a4)
 {
-  float y; // xmm3_4
-  float z; // xmm1_4
+  float y; // xmm4_4
+  float z; // xmm2_4
   float v6; // xmm0_4
-  long double v7; // st7
-  float v8; // xmm4_4
-  float v9; // xmm1_4
-  float v10; // xmm2_4
-  unsigned int v11; // xmm3_4
-  unsigned int v12; // xmm0_4
+  float v7; // xmm5_4
+  float v8; // xmm3_4
+  vostok::math::float4x4 *result; // eax
+  float v11; // xmm6_4
+  float v12; // xmm2_4
   float v13; // xmm5_4
-  __int64 v14; // xmm5_8
-  float v15; // xmm4_4
-  float v16; // xmm0_4
-  float x; // [esp+8h] [ebp-34h]
-  float v19; // [esp+Ch] [ebp-30h]
-  float v20; // [esp+Ch] [ebp-30h]
-  float v21; // [esp+10h] [ebp-2Ch]
-  float v22; // [esp+14h] [ebp-28h]
-  float v23; // [esp+18h] [ebp-24h]
-  unsigned int v24; // [esp+18h] [ebp-24h]
-  float v25; // [esp+1Ch] [ebp-20h]
-  unsigned int v26; // [esp+1Ch] [ebp-20h]
-  float right_8; // [esp+28h] [ebp-14h]
-  __int64 v28; // [esp+2Ch] [ebp-10h]
-  __int64 v29; // [esp+34h] [ebp-8h]
+  float v14; // xmm3_4
+  float v15; // xmm2_4
+  float v16; // xmm6_4
+  float v17; // xmm7_4
+  float v18; // xmm3_4
+  float v19; // xmm4_4
+  float v20; // xmm5_4
+  float v21; // xmm6_4
+  float v22; // xmm0_4
+  float v23; // xmm5_4
+  float v24; // [esp+4h] [ebp-28h]
+  _BYTE v25[12]; // [esp+8h] [ebp-24h]
+  float v26; // [esp+Ch] [ebp-20h]
+  float v27; // [esp+1Ch] [ebp-10h]
+  float v28; // [esp+24h] [ebp-8h]
+  float x; // [esp+38h] [ebp+Ch]
 
   y = view->y;
   z = view->z;
-  v6 = -(float)((float)((float)(local_up_in_world_space->x * view->x) + (float)(local_up_in_world_space->y * y))
-              + (float)(local_up_in_world_space->z * z));
+  LODWORD(v6) = COERCE_UNSIGNED_INT(
+                  (float)((float)(local_up_in_world_space->x * view->x) + (float)(local_up_in_world_space->y * y))
+                + (float)(local_up_in_world_space->z * z))
+              ^ _mask__NegFloat_;
+  v7 = local_up_in_world_space->y + (float)(y * v6);
+  v8 = local_up_in_world_space->z + (float)(z * v6);
+  result = from;
   x = view->x;
-  v22 = local_up_in_world_space->x + (float)(view->x * v6);
-  v23 = local_up_in_world_space->y + (float)(y * v6);
-  v25 = local_up_in_world_space->z + (float)(z * v6);
-  v7 = sqrtf((float)((float)(v23 * v23) + (float)(v25 * v25)) + (float)(v22 * v22));
-  v8 = view->z;
-  *(float *)&v29 = x;
-  v19 = 1.0 / v7;
-  v9 = v19 * v22;
-  v10 = (float)(v8 * (float)(v23 * v19)) - (float)(view->y * (float)(v25 * v19));
-  *(float *)&v11 = (float)(x * (float)(v25 * v19)) - (float)(v8 * (float)(v19 * v22));
-  *(float *)&v12 = (float)(view->y * (float)(v19 * v22)) - (float)(x * (float)(v23 * v19));
-  *(float *)&v28 = v10;
-  *((float *)&v28 + 1) = v19 * v22;
-  *a3 = v28;
-  *(float *)&v24 = v23 * v19;
-  HIDWORD(v29) = 0;
-  v13 = view->y;
-  *(float *)&v26 = v25 * v19;
-  right_8 = *(float *)&v12;
-  a3[1] = (unsigned int)v29;
-  v21 = v13;
-  v29 = LODWORD(v13);
-  v20 = view->z;
-  a3[2] = __PAIR64__(v24, v11);
-  v14 = v29;
-  *(float *)&v29 = v20;
-  a3[4] = __PAIR64__(v26, v12);
-  HIDWORD(v29) = 0;
-  v15 = from->y;
-  a3[5] = (unsigned int)v29;
-  v16 = from->z;
-  a3[3] = v14;
-  *(float *)&v14 = from->x;
-  *(float *)&v28 = -(float)((float)((float)(v16 * right_8) + (float)(v15 * *(float *)&v11)) + (float)(from->x * v10));
-  *(float *)&v29 = -(float)((float)((float)(v16 * v20) + (float)(v15 * v21)) + (float)(from->x * x));
-  HIDWORD(v29) = clear_value;
-  *((float *)&v28 + 1) = -(float)((float)((float)(v16 * *(float *)&v26) + (float)(*(float *)&v14 * v9))
-                                + (float)(v15 * *(float *)&v24));
-  a3[6] = v28;
-  a3[7] = v29;
-  return (vostok::math::float4x4 *)a3;
+  v11 = local_up_in_world_space->x + (float)(view->x * v6);
+  v12 = fsqrt((float)((float)(v7 * v7) + (float)(v8 * v8)) + (float)(v11 * v11));
+  v13 = v7 * (float)(s_bm_current_air_resistance / v12);
+  v14 = v8 * (float)(s_bm_current_air_resistance / v12);
+  v15 = (float)(s_bm_current_air_resistance / v12) * v11;
+  v16 = v13;
+  v17 = v14;
+  v18 = (float)(view->z * v13) - (float)(y * v14);
+  v19 = (float)(view->x * v17) - (float)(view->z * v15);
+  v20 = (float)(view->y * v15) - (float)(view->x * v13);
+  v26 = view->x;
+  from->i.x = v18;
+  from->i.y = v15;
+  *(_QWORD *)&from->lines[0].elements[2] = LODWORD(v26);
+  v28 = v16;
+  *(float *)v25 = v16;
+  v27 = v20;
+  *(float *)&v25[4] = view->y;
+  v21 = *a4;
+  from->j.x = v19;
+  *(_QWORD *)&from->lines[1].elements[1] = *(_QWORD *)v25;
+  from->j.w = 0.0;
+  v22 = a4[2];
+  v24 = v20;
+  *(float *)&v25[4] = view->z;
+  v23 = a4[1];
+  from->k.x = v24;
+  from->k.y = v17;
+  *(_QWORD *)&from->lines[2].elements[2] = *(unsigned int *)&v25[4];
+  *(_DWORD *)&v25[4] = COERCE_UNSIGNED_INT((float)((float)(v22 * view->z) + (float)(v23 * view->y)) + (float)(v21 * x))
+                     ^ _mask__NegFloat_;
+  *(float *)&v25[8] = s_bm_current_air_resistance;
+  LODWORD(from->c.x) = COERCE_UNSIGNED_INT((float)((float)(v22 * v27) + (float)(v23 * v19)) + (float)(v21 * v18))
+                     ^ _mask__NegFloat_;
+  LODWORD(from->c.y) = COERCE_UNSIGNED_INT((float)((float)(v22 * v17) + (float)(v21 * v15)) + (float)(v23 * v28))
+                     ^ _mask__NegFloat_;
+  *(_QWORD *)&from->lines[3].elements[2] = *(_QWORD *)&v25[4];
+  return result;
 }

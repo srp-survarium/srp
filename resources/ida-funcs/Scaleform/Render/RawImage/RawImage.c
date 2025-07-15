@@ -19,4 +19,5 @@ void __thiscall Scaleform::Render::RawImage::RawImage(Scaleform::Render::RawImag
   this->Data.Plane0.Pitch = 0;
   this->Data.Plane0.DataSize = 0;
   this->Data.Plane0.pData = 0;
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
 }

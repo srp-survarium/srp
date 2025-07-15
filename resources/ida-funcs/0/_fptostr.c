@@ -1,8 +1,8 @@
-unsigned int __cdecl _fptostr(char *buf, unsigned int sizeInBytes, int digits, _strflt *pflt)
+int __cdecl _fptostr(char *buf, unsigned int sizeInBytes, int digits, _strflt *pflt)
 {
   _strflt *v4; // ecx
   char *mantissa; // edi
-  unsigned int v6; // esi
+  int v6; // esi
   int v8; // edx
   int v9; // eax
   char *v10; // eax
@@ -16,7 +16,7 @@ unsigned int __cdecl _fptostr(char *buf, unsigned int sizeInBytes, int digits, _
     v6 = 22;
     *_errno() = 22;
 LABEL_3:
-    _invalid_parameter(0, (unsigned int)mantissa, v6);
+    _invalid_parameter(0, (int)mantissa, v6);
     return v6;
   }
   v8 = digits;
@@ -62,7 +62,7 @@ LABEL_3:
   else
   {
     strlen((unsigned __int8 *)buf + 1);
-    memmove((unsigned __int8 *)buf, (unsigned __int8 *)buf + 1, v12 + 1);
+    memmove((int)buf, (const __m128i *)(buf + 1), v12 + 1);
   }
   return 0;
 }

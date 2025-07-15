@@ -1,7 +1,7 @@
 Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *__thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::CreateIOErrorEventObject(
         Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher *this,
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *result,
-        char *errText)
+        __m128i *errText)
 {
   Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *Constructor; // eax
 

@@ -1,33 +1,30 @@
-void __thiscall vostok::logging::path_parts::concat2buffer(vostok::logging::path_parts *this, char (*buffer)[512])
+void __userpurge vostok::logging::path_parts::concat2buffer(
+        char (*buffer)[512]@<edi>,
+        vostok::logging::path_parts *this)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::logging::path_parts *thisa; // [esp+0h] [ebp-1Ch]
-  unsigned int part_length; // [esp+10h] [ebp-Ch]
-  unsigned int i; // [esp+14h] [ebp-8h]
-  unsigned int string_length; // [esp+18h] [ebp-4h]
+  int v2; // esi
+  int i; // ebx
+  const char **v4; // eax
+  char *v5; // ecx
+  char *v6; // eax
+  unsigned int v7; // [esp+8h] [ebp-4h]
 
-  thisa = this;
-  string_length = 0;
+  v2 = 0;
   (*buffer)[0] = 0;
   for ( i = 0; ; ++i )
   {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-    if ( !thisa->m_parts.m_begin[i] )
+    v4 = &this->m_parts.m_begin[i];
+    if ( !*v4 )
       break;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)thisa->m_parts.m_begin);
-    part_length = vostok::strings::length(thisa->m_parts.m_begin[i]);
-    survarium::weapon_user_dead_state::finalize(v2);
-    vostok::memory::copy(
-      (unsigned __int8 *)&(*buffer)[string_length],
-      512 - string_length,
-      (unsigned __int8 *)thisa->m_parts.m_begin[i],
-      part_length + 1);
-    string_length += part_length;
-    this = (vostok::logging::path_parts *)(i + 1);
+    v5 = (char *)*v4;
+    v7 = strlen(*v4);
+    vostok::strings::copy(&(*buffer)[v2], 512 - v2, v5);
+    v2 += v7;
   }
-  if ( string_length )
+  if ( v2 )
   {
-    if ( (*buffer)[string_length - 1] == 58 )
-      (*buffer)[string_length - 1] = 0;
+    v6 = &(*buffer)[v2 - 1];
+    if ( *v6 == 58 )
+      *v6 = 0;
   }
 }

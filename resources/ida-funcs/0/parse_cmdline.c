@@ -8,12 +8,12 @@ void __usercall parse_cmdline(char *cmdstart@<edx>, int *numchars@<edi>, char **
   char **v11; // eax
   int v12; // ebx
   unsigned int v13; // ecx
-  char v14; // al
+  unsigned __int8 v14; // al
   char *v15; // ecx
   char *v16; // ecx
-  unsigned int v17; // [esp-4h] [ebp-10h]
-  BOOL inquote; // [esp+8h] [ebp-4h]
-  BOOL inquotea; // [esp+8h] [ebp-4h]
+  unsigned __int8 v17; // [esp-4h] [ebp-10h]
+  BOOL v18; // [esp+8h] [ebp-4h]
+  BOOL v19; // [esp+8h] [ebp-4h]
 
   v5 = numargs;
   *numchars = 0;
@@ -24,14 +24,14 @@ void __usercall parse_cmdline(char *cmdstart@<edx>, int *numchars@<edi>, char **
     v8 = argv++;
     *v8 = args;
   }
-  inquote = 0;
+  v18 = 0;
   do
   {
     if ( *cmdstart == 34 )
     {
       v9 = 34;
       ++cmdstart;
-      inquote = !inquote;
+      v18 = !v18;
     }
     else
     {
@@ -42,7 +42,7 @@ void __usercall parse_cmdline(char *cmdstart@<edx>, int *numchars@<edi>, char **
         args = v7 + 1;
       }
       v9 = *cmdstart;
-      v17 = (unsigned __int8)*cmdstart++;
+      v17 = *cmdstart++;
       if ( _ismbblead(v17) )
       {
         ++*numchars;
@@ -62,11 +62,11 @@ void __usercall parse_cmdline(char *cmdstart@<edx>, int *numchars@<edi>, char **
       }
     }
   }
-  while ( inquote || v9 != 32 && v9 != 9 );
+  while ( v18 || v9 != 32 && v9 != 9 );
   if ( v7 )
     *(v7 - 1) = 0;
 LABEL_18:
-  inquotea = 0;
+  v19 = 0;
   while ( *cmdstart )
   {
     while ( *cmdstart == 32 || *cmdstart == 9 )
@@ -92,14 +92,14 @@ LABEL_18:
       {
         if ( (v13 & 1) == 0 )
         {
-          if ( inquotea && cmdstart[1] == 34 )
+          if ( v19 && cmdstart[1] == 34 )
           {
             ++cmdstart;
           }
           else
           {
             v12 = 0;
-            inquotea = !inquotea;
+            v19 = !v19;
           }
         }
         v13 >>= 1;
@@ -117,7 +117,7 @@ LABEL_18:
         args = v7;
       }
       v14 = *cmdstart;
-      if ( !*cmdstart || !inquotea && (v14 == 32 || v14 == 9) )
+      if ( !*cmdstart || !v19 && (v14 == 32 || v14 == 9) )
         break;
       if ( v12 )
       {

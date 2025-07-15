@@ -1,24 +1,26 @@
 void __thiscall survarium::ladder::ladder(
         survarium::ladder *this,
-        const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *main_animation,
-        const vostok::math::plane *p)
+        vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *main_animation,
+        const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *p,
+        vostok::resources::managed_resource **a4)
 {
-  survarium::game_camera *v3; // ecx
+  survarium::usable_object *v4; // ecx
+  _DWORD *v5; // eax
 
-  vostok::resources::unmanaged_resource::unmanaged_resource(this, 1u);
-  survarium::usable_object::usable_object(&this->survarium::usable_object);
-  this->vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable = (survarium::ladder_vtbl *)&survarium::ladder::`vftable';
-  this->survarium::usable_object::survarium::collision_geometry_subscriber::__vftable = (survarium::usable_object_vtbl *)&survarium::ladder::`vftable'{for `survarium::collision_geometry_subscriber'};
-  this->survarium::usable_object::survarium::link_resolver::__vftable = (survarium::link_resolver_vtbl *)&survarium::ladder::`vftable'{for `survarium::link_resolver'};
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)this,
-    &this->m_landing_points.m_size);
-  survarium::weapon_user_dead_state::finalize(v3);
-  this->m_landing_points.m_first = 0;
-  this->m_landing_points.m_last = 0;
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>(
-    &this->m_main_animation,
-    main_animation);
-  this->m_plane = *p;
-  this->m_occluder = 0;
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, main_animation, fs_iterator_class);
+  survarium::usable_object::usable_object(v4, (int)&main_animation[66], 1);
+  *v5 = &survarium::ladder::`vftable'{for `survarium::collision_geometry_subscriber'};
+  main_animation->m_object = (vostok::resources::managed_resource *)&survarium::ladder::`vftable';
+  main_animation[67].m_object = (vostok::resources::managed_resource *)&survarium::ladder::`vftable'{for `survarium::link_resolver'};
+  main_animation[83].m_object = 0;
+  main_animation[85].m_object = 0;
+  main_animation[86].m_object = 0;
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
+    main_animation + 87,
+    p);
+  main_animation[88].m_object = *a4;
+  main_animation[89].m_object = a4[1];
+  main_animation[90].m_object = a4[2];
+  main_animation[91].m_object = a4[3];
+  main_animation[92].m_object = 0;
 }

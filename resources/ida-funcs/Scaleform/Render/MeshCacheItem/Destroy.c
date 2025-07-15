@@ -30,7 +30,7 @@ void __thiscall Scaleform::Render::MeshCacheItem::Destroy(
 
   pCacheList = this->pCacheList;
   this->pPrev->pNext = this->pNext;
-  this->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$181941B0ECCE92AAF0AD80025FE0C204::pPrev = this->pPrev;
+  this->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$91FE2188799D963DDDCE23AE0AD4A8E3::pPrev = this->pPrev;
   p_Size = &pCacheList->Slots[this->ListType].Size;
   *p_Size -= this->AllocSize;
   if ( this->Type <= (unsigned int)Mesh_Complex )

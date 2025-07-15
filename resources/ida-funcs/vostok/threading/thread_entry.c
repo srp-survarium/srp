@@ -1,53 +1,44 @@
-void __cdecl vostok::threading::thread_entry(const boost::function0<void> *argument)
+void __cdecl vostok::threading::thread_entry(
+        boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *argument)
 {
-  const boost::function0<void> *v1; // esi
-  const char *v2; // ecx
-  unsigned int obj_ptr; // edx
-  volatile int v4; // ecx
-  unsigned int v5; // kr00_4
-  void *v6; // esp
-  unsigned int v7; // kr04_4
-  void *v8; // esp
-  vostok::threading::tasks_awareness tasks_awareness; // esi
-  vostok::tasks::thread_pool *v10; // ecx
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::math *v12[3]; // [esp+0h] [ebp-48h] BYREF
-  vostok::threading::thread_entry_params params; // [esp+Ch] [ebp-3Ch] BYREF
-  volatile __int32 *v14; // [esp+44h] [ebp-4h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *v1; // esi
+  unsigned int v2; // kr00_4
+  void *v3; // esp
+  unsigned int v4; // kr04_4
+  void *v5; // esp
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::function0<bool> *v7; // [esp-4h] [ebp-58h]
+  char v8[16]; // [esp+0h] [ebp-54h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+10h] [ebp-44h] BYREF
+  boost::detail::function::vtable_base *vtable; // [esp+30h] [ebp-24h]
+  boost::detail::function::vtable_base *v11; // [esp+34h] [ebp-20h]
+  unsigned int hardware_thread; // [esp+38h] [ebp-1Ch]
+  vostok::threading::tasks_awareness v13; // [esp+3Ch] [ebp-18h]
+  void *v14; // [esp+40h] [ebp-14h]
+  char v15; // [esp+44h] [ebp-10h]
+  volatile __int32 *v16; // [esp+4Ch] [ebp-8h]
 
   v1 = argument;
-  params.function_to_call.vtable = 0;
-  boost::function0<void>::assign_to_own(&params.function_to_call, argument);
-  params.thread_name_for_logging = (const char *volatile)v1[1].vtable;
-  v2 = (const char *)(&v1[1].vtable)[1];
-  obj_ptr = (unsigned int)v1[1].functor.obj_ptr;
-  params.tasks_awareness = (vostok::threading::tasks_awareness)v1[1].functor.vostok_pointer_size_alignment[1];
-  params.thread_name_for_debugger = v2;
-  v4 = (volatile int)v1[1].functor.vostok_pointer_size_alignment[2];
-  params.hardware_thread = obj_ptr;
-  v14 = (volatile __int32 *)&v1[1].functor.vostok_pointer_size_alignment[2];
-  params.processed = v4;
-  v5 = strlen((const char *)(&v1[1].vtable)[1]);
-  v6 = alloca(v5 + 1);
-  strcpy_s((char *)v12, v5 + 1, (const char *)(&v1[1].vtable)[1]);
-  v7 = strlen((const char *)v1[1].vtable);
-  v8 = alloca(v7 + 1);
-  strcpy_s((char *)v12, v7 + 1, (const char *)v1[1].vtable);
-  TlsSetValue(s_thread_logging_name_tls_key, v12);
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(argument, &f);
+  vtable = v1[1].vtable;
+  v11 = (&v1[1].vtable)[1];
+  hardware_thread = (unsigned int)v1[1].functor.obj_ptr;
+  v13 = (vostok::threading::tasks_awareness)v1[1].functor.vostok_pointer_size_alignment[1];
+  v16 = (volatile __int32 *)&v1[1].functor.vostok_pointer_size_alignment[2];
+  v14 = v1[1].functor.vostok_pointer_size_alignment[2];
+  v15 = *(&v1[1].functor.data + 12);
+  v2 = strlen((const char *)(&v1[1].vtable)[1]);
+  v3 = alloca(v2 + 1);
+  vostok::strings::copy(v8, v2 + 1, (char *)(&v1[1].vtable)[1]);
+  v4 = strlen((const char *)v1[1].vtable);
+  v5 = alloca(v4 + 1);
+  vostok::strings::copy(v8, v4 + 1, (char *)v1[1].vtable);
+  vostok::threading::tls_set_value(s_thread_logging_name_tls_key, v8);
   _InterlockedExchange((volatile __int32 *)&argument, vostok::debug::is_debugger_present());
-  _InterlockedExchange(v14, 1);
-  vostok::threading::set_current_thread_affinity((char *)params.hardware_thread);
-  tasks_awareness = params.tasks_awareness;
-  vostok::math::on_thread_spawn(v12[0]);
-  if ( tasks_awareness == tasks_aware && s_thread_pool.m_initialized )
-    vostok::tasks::thread_pool::register_current_thread_as_core_user(v10, (DWORD *)s_thread_pool.m_variable);
-  boost::function0<void>::operator()(&params.function_to_call);
-  if ( TlsGetValue(s_thread_logging_name_tls_key) )
-    TlsSetValue(s_thread_logging_name_tls_key, 0);
-  if ( params.function_to_call.vtable && ((int)params.function_to_call.vtable & 1) == 0 )
-  {
-    v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)params.function_to_call.vtable & 0xFFFFFFFE);
-    if ( v11 )
-      v11(&params.function_to_call.functor, &params.function_to_call.functor, 2);
-  }
+  _InterlockedExchange(v16, 1);
+  vostok::threading::set_current_thread_affinity((char *)hardware_thread);
+  vostok::threading::on_thread_spawn(v13);
+  boost::function0<void>::operator()(v7, &f);
+  vostok::threading::free_current_thread_logging_name();
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v6, (int *)&f);
 }

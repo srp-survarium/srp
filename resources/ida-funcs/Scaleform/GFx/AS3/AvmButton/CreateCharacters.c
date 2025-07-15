@@ -42,8 +42,8 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
   Scaleform::Render::TreeContainer *v41; // [esp+614h] [ebp-BCh]
   Scaleform::GFx::Button::ButtonState buttonState; // [esp+618h] [ebp-B8h]
   Scaleform::ArrayDataBase<Scaleform::GFx::Button::CharToRec,Scaleform::AllocatorLH<Scaleform::GFx::Button::CharToRec,2>,Scaleform::ArrayDefaultPolicy> *pheapAddr; // [esp+61Ch] [ebp-B4h]
-  int pnode; // [esp+620h] [ebp-B0h]
-  Scaleform::Render::TreeNode *pnodea; // [esp+620h] [ebp-B0h]
+  int v44; // [esp+620h] [ebp-B0h]
+  Scaleform::Render::TreeNode *RenderNode; // [esp+620h] [ebp-B0h]
   char *v47; // [esp+628h] [ebp-A8h]
   Scaleform::RefCountNTSImpl *v48; // [esp+62Ch] [ebp-A4h]
   int v49; // [esp+630h] [ebp-A0h]
@@ -71,8 +71,8 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
   __int16 v71; // [esp+6A4h] [ebp-2Ch]
   __int16 v72; // [esp+6A6h] [ebp-2Ah]
   char v73; // [esp+6A8h] [ebp-28h]
-  Scaleform::GFx::CharacterCreateInfo v74; // [esp+6B8h] [ebp-18h] BYREF
-  Scaleform::GFx::CharacterCreateInfo v75; // [esp+6C4h] [ebp-Ch] BYREF
+  _BYTE v74[12]; // [esp+6B8h] [ebp-18h] BYREF
+  int v75; // [esp+6C4h] [ebp-Ch] BYREF
 
   v1 = this;
   pClassName = (char *)this[-1].pClassName;
@@ -95,22 +95,22 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
     {
       if ( ((unsigned __int8)v5 & v40) == 0 )
         goto LABEL_86;
-      buttonState = Up;
+      buttonState = None;
       if ( (v5 & 8) != 0 )
       {
-        buttonState = Up;
+        buttonState = None;
       }
       else if ( (v5 & 2) != 0 )
       {
-        buttonState = Down;
+        buttonState = 2;
       }
       else if ( (v5 & 4) != 0 )
       {
-        buttonState = Over;
+        buttonState = 1;
       }
       else if ( (v5 & 1) != 0 )
       {
-        buttonState = Hit;
+        buttonState = 3;
       }
       pheapAddr = (Scaleform::ArrayDataBase<Scaleform::GFx::Button::CharToRec,Scaleform::AllocatorLH<Scaleform::GFx::Button::CharToRec,2>,Scaleform::ArrayDefaultPolicy> *)&pClassName[16 * buttonState + 132];
       v6 = *(Scaleform::Render::TreeContainer **)&pClassName[16 * buttonState + 128];
@@ -145,13 +145,13 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
       }
       Scaleform::GFx::MovieDefImpl::GetCharacterCreateInfo(
         *((Scaleform::GFx::MovieDefImpl **)v1[-1].pClassName + 25),
-        (Scaleform::GFx::ResourceBinding *)&v74,
+        (Scaleform::GFx::ResourceBinding *)v74,
         (Scaleform::GFx::ResourceId)65537);
       v10 = *(_DWORD *)(*((_DWORD *)v1[-1].pClassName + 4) + 12);
-      v11 = (*(int (__thiscall **)(int, _DWORD, Scaleform::GFx::CharacterCreateInfo *, _DWORD, _DWORD, _DWORD))(*(_DWORD *)v10 + 16))(
+      v11 = (*(int (__thiscall **)(int, _DWORD, _BYTE *, _DWORD, _DWORD, _DWORD))(*(_DWORD *)v10 + 16))(
               v10,
               *(_DWORD *)(*((_DWORD *)v1[-1].pClassName + 4) + 8),
-              &v74,
+              v74,
               0,
               *(_DWORD *)(v4 + 68),
               0);
@@ -167,7 +167,7 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
       v15 = v14 + 1;
       if ( v14 + 1 < v14 )
       {
-        pnode = -1;
+        v44 = -1;
         p_pObject = &pheapAddr->Data[v14 - 1].Char.pObject;
         do
         {
@@ -177,9 +177,9 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::CreateCharacters(Scaleform::GFx:
             v13 = pheapAddr;
           }
           p_pObject -= 2;
-          --pnode;
+          --v44;
         }
-        while ( pnode );
+        while ( v44 );
         if ( v15 >= v13->Policy.Capacity >> 1 )
           goto LABEL_37;
         Scaleform::ArrayDataBase<Scaleform::GFx::Button::CharToRec,Scaleform::AllocatorLH<Scaleform::GFx::Button::CharToRec,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
@@ -217,14 +217,14 @@ LABEL_37:
         v18 = v12->CheckAdvanceStatus(v12, Flags);
         if ( v18 == -1 )
         {
-          v12->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+          v12->Flags |= (unsigned int)&loc_400000;
         }
         else if ( v18 == 1 )
         {
           Scaleform::GFx::InteractiveObject::AddToOptimizedPlayList(v12);
         }
       }
-      pnodea = Scaleform::GFx::DisplayObjectBase::GetRenderNode(v51);
+      RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(v51);
       v19 = *(_DWORD *)(*(_DWORD *)(((unsigned int)v41 & 0xFFFFF000) + 0x10)
                       + 4 * ((int)((int)&v41[-1] - ((unsigned int)v41 & 0xFFFFF000)) / 28)
                       + 20);
@@ -237,7 +237,7 @@ LABEL_37:
         else
           v20 = (*(_DWORD *)(v21 + 4) != 0) + 1;
       }
-      Scaleform::Render::TreeContainer::Insert(v41, v20, pnodea);
+      Scaleform::Render::TreeContainer::Insert(v41, v20, RenderNode);
       Scaleform::RefCountNTSImpl::Release(v51);
       pClassName = v47;
       v1 = this;
@@ -246,7 +246,7 @@ LABEL_60:
         *((Scaleform::GFx::MovieDefImpl **)v1[-1].pClassName + 25),
         (Scaleform::GFx::ResourceBinding *)&v75,
         *(Scaleform::GFx::ResourceId *)(v4 + 68));
-      if ( v75.pCharDef )
+      if ( v75 )
       {
         Scaleform::Render::Cxform::Cxform(&v57);
         v67 = 0.0;
@@ -301,7 +301,7 @@ LABEL_60:
         v1 = this;
         pClassName = v47;
       }
-      if ( buttonState == Hit )
+      if ( buttonState == 3 )
         v48[4].__vftable = (Scaleform::RefCountNTSImpl_vtbl *)pClassName;
       v32 = v41;
       if ( v55 == buttonState && !v41->pParent )

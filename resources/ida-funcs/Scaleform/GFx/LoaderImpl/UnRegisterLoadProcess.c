@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::LoaderImpl::UnRegisterLoadProcess(
         goto LABEL_6;
     }
     pNext->pPrev->pNext = pNext->pNext;
-    pNext->pNext->Scaleform::ListNode<Scaleform::GFx::LoadProcessNode>::$F43B522E6CDF9F9352B616E4B3331646::pPrev = pNext->pPrev;
+    pNext->pNext->Scaleform::ListNode<Scaleform::GFx::LoadProcessNode>::$BC59A0EDCD2D4A0AD47AE3B379B0B70F::pPrev = pNext->pPrev;
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pNext);
   }
 LABEL_6:

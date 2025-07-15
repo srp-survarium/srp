@@ -1,61 +1,58 @@
 void __userpurge btQuantizedBvh::walkStacklessQuantizedTree(
-        btQuantizedBvh *this@<edx>,
+        btQuantizedBvh *this@<ecx>,
         int startNodeIndex@<eax>,
         btNodeOverlapCallback *nodeCallback,
         unsigned __int16 *quantizedQueryAabbMin,
         unsigned __int16 *quantizedQueryAabbMax,
         int endNodeIndex)
 {
-  btQuantizedBvhNode *v8; // esi
-  int v9; // ecx
-  int v10; // eax
-  int v11; // edi
-  bool v12; // al
-  int v13; // eax
-  int walkIterations; // [esp+Ch] [ebp-4h]
-  int curIndex; // [esp+18h] [ebp+8h]
-  bool isLeafNode; // [esp+1Ch] [ebp+Ch]
+  btQuantizedBvhNode *v7; // esi
+  int v8; // edx
+  int v9; // eax
+  int v10; // edi
+  int v11; // eax
+  int v12; // [esp+8h] [ebp-8h]
+  int v13; // [esp+Ch] [ebp-4h]
+  bool v14; // [esp+23h] [ebp+13h]
 
-  v8 = &this->m_quantizedContiguousNodes.m_data[startNodeIndex];
-  v9 = 0;
-  curIndex = startNodeIndex;
-  while ( curIndex < endNodeIndex )
+  v7 = &this->m_quantizedContiguousNodes.m_data[startNodeIndex];
+  v8 = 0;
+  v13 = startNodeIndex;
+  while ( v13 < endNodeIndex )
   {
-    walkIterations = ++v9;
-    v10 = *quantizedQueryAabbMax >= v8->m_quantizedAabbMin[0]
-       && v8->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
-       && quantizedQueryAabbMax[1] >= v8->m_quantizedAabbMin[1]
-       && quantizedQueryAabbMax[2] >= v8->m_quantizedAabbMin[2]
-       && v8->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
-       && v8->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2];
-    v11 = ((v10 | -v10) >> 31) & 1;
-    v12 = v8->m_escapeIndexOrTriangleIndex >= 0;
-    isLeafNode = v12;
-    if ( v8->m_escapeIndexOrTriangleIndex >= 0 )
+    v12 = ++v8;
+    v9 = *quantizedQueryAabbMax >= v7->m_quantizedAabbMin[0]
+      && v7->m_quantizedAabbMax[0] >= *quantizedQueryAabbMin
+      && quantizedQueryAabbMax[1] >= v7->m_quantizedAabbMin[1]
+      && quantizedQueryAabbMax[2] >= v7->m_quantizedAabbMin[2]
+      && v7->m_quantizedAabbMax[1] >= quantizedQueryAabbMin[1]
+      && v7->m_quantizedAabbMax[2] >= quantizedQueryAabbMin[2];
+    v10 = ((v9 | -v9) >> 31) & 1;
+    v14 = v7->m_escapeIndexOrTriangleIndex >= 0;
+    if ( v7->m_escapeIndexOrTriangleIndex >= 0 )
     {
-      if ( !v11 )
+      if ( (v9 | -v9) >= 0 )
         goto LABEL_6;
       nodeCallback->processNode(
         nodeCallback,
-        v8->m_escapeIndexOrTriangleIndex >> 21,
-        ((unsigned int)&loc_1FFFFE + 1) & v8->m_escapeIndexOrTriangleIndex);
-      v12 = isLeafNode;
-      v9 = walkIterations;
+        v7->m_escapeIndexOrTriangleIndex >> 21,
+        ((unsigned int)&loc_1FFFFE + 1) & v7->m_escapeIndexOrTriangleIndex);
+      v8 = v12;
     }
-    if ( v11 )
+    if ( v10 )
       goto LABEL_8;
 LABEL_6:
-    if ( v12 )
+    if ( v14 )
     {
 LABEL_8:
-      ++v8;
-      ++curIndex;
+      ++v7;
+      ++v13;
       continue;
     }
-    v13 = -v8->m_escapeIndexOrTriangleIndex;
-    v8 -= v8->m_escapeIndexOrTriangleIndex;
-    curIndex += v13;
+    v11 = -v7->m_escapeIndexOrTriangleIndex;
+    v7 -= v7->m_escapeIndexOrTriangleIndex;
+    v13 += v11;
   }
-  if ( maxIterations < v9 )
-    maxIterations = v9;
+  if ( maxIterations < v8 )
+    maxIterations = v8;
 }

@@ -1,51 +1,40 @@
 char __usercall vostok::render::res_effect::apply_pass@<al>(vostok::render::res_effect *this@<ecx>, int a2@<eax>)
 {
-  vostok::render::res_shader_technique *v2; // eax
-  vostok::render::res_shader_technique *v3; // esi
-  bool v4; // zf
-  vostok::render::res_pass *m_object; // eax
-  const vostok::render::res_pass *v7; // edi
-  vostok::render::res_xs<vostok::render::gs_data> *v8; // ecx
-  vostok::render::res_xs<vostok::render::ps_data> *v9; // ecx
+  vostok::render::res_pass *v2; // ecx
+  vostok::render::res_pass *v3; // eax
+  vostok::render::res_pass *v4; // esi
+  _DWORD *m_reference_count; // eax
+  vostok::render::res_pass *v6; // edi
+  vostok::render::effect_manager *v7; // ecx
+  bool v8; // zf
 
-  v2 = *(vostok::render::res_shader_technique **)(*(_DWORD *)(a2 + 280) + 4 * *(_DWORD *)(a2 + 276));
-  v3 = 0;
-  if ( v2 )
+  v2 = *(vostok::render::res_pass **)(a2 + 22048);
+  v3 = *(vostok::render::res_pass **)(*(_DWORD *)(a2 + 22052) + 4 * (_DWORD)v2);
+  v4 = 0;
+  if ( v3 )
   {
-    v3 = v2;
-    ++v2->m_reference_count;
+    v4 = v3;
+    ++v3->m_reference_count;
   }
-  if ( v3->m_passes._M_impl._M_finish - v3->m_passes._M_impl._M_start )
+  m_reference_count = (_DWORD *)v4->m_vs.m_object->m_reference_count;
+  v6 = 0;
+  if ( m_reference_count )
   {
-    m_object = v3->m_passes._M_impl._M_start->m_object;
-    v7 = 0;
-    if ( m_object )
-    {
-      v7 = v3->m_passes._M_impl._M_start->m_object;
-      ++m_object->m_reference_count;
-    }
-    vostok::render::res_xs<vostok::render::vs_data>::apply(v7->m_vs.m_object);
-    vostok::render::res_xs<vostok::render::gs_data>::apply(v8);
-    vostok::render::res_xs<vostok::render::ps_data>::apply(v9);
-    vostok::render::res_state::apply(v7->m_state.m_object);
-    v4 = v7->m_reference_count-- == 1;
-    if ( v4 )
+    v6 = (vostok::render::res_pass *)v4->m_vs.m_object->m_reference_count;
+    ++*m_reference_count;
+  }
+  vostok::render::res_pass::apply(v2, v6);
+  if ( v6 )
+  {
+    v8 = v6->m_reference_count-- == 1;
+    if ( v8 )
       vostok::render::effect_manager::delete_pass(
-        (vostok::render::effect_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_to_bind,
-        v7);
-    v4 = v3->m_reference_count-- == 1;
-    if ( v4 )
-      vostok::render::resource_intrusive_base::destroy<vostok::render::res_shader_technique>(v3);
-    return 1;
+        v7,
+        (int)vostok::quasi_singleton<vostok::render::effect_manager>::pinst,
+        v6);
   }
-  else
-  {
-    if ( v3 )
-    {
-      v4 = v3->m_reference_count-- == 1;
-      if ( v4 )
-        vostok::render::resource_intrusive_base::destroy<vostok::render::res_shader_technique>(v3);
-    }
-    return 0;
-  }
+  v8 = v4->m_reference_count-- == 1;
+  if ( v8 )
+    vostok::render::resource_intrusive_base::destroy<vostok::render::res_shader_technique>(v4);
+  return 1;
 }

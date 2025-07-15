@@ -1,170 +1,112 @@
-void __userpurge vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC>::create_state(
-        ID3D11BlendState **ppIState@<esi>,
-        int a2@<ecx>,
-        unsigned int a3@<ebx>,
-        vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC> *this,
-        D3D11_BLEND_DESC desc)
+void __thiscall vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC,32>::create_state(
+        vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC,32> *this,
+        D3D11_BLEND_DESC desc,
+        ID3D11BlendState **ppIState)
 {
-  int x; // eax
-  HRESULT v6; // eax
-  const char *d3d11_error_string; // eax
-  bool do_debug_break; // [esp+19h] [ebp-1h] BYREF
+  ID3D11Device_vtbl *v3; // ecx
+  HRESULT v4; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  bool *d3d11_error_string; // eax
+  ID3D11Device *m_device; // [esp-18h] [ebp-24h]
+  char v8; // [esp+Bh] [ebp-1h] BYREF
 
-  do_debug_break = HIBYTE(a2);
-  if ( !ignore_always_30
-    && (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC> **, ID3D11BlendState **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 80))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         &this,
-         ppIState) < 0 )
+  if ( !ignore_always_40
+    && vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateBlendState(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         (const D3D11_BLEND_DESC *)&desc.IndependentBlendEnable,
+         (ID3D11BlendState **)desc.AlphaToCoverageEnable) < 0 )
   {
-    x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-    do_debug_break = 1;
-    v6 = (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC> **, ID3D11BlendState **))(*(_DWORD *)x + 80))(
-           x,
-           &this,
-           ppIState);
-    d3d11_error_string = make_d3d11_error_string(v6);
+    v3 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->lpVtbl;
+    m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+    v8 = 1;
+    v4 = v3->CreateBlendState(
+           m_device,
+           (const D3D11_BLEND_DESC *)&desc.IndependentBlendEnable,
+           (ID3D11BlendState **)desc.AlphaToCoverageEnable);
+    d3d11_error_string = (bool *)make_d3d11_error_string(v4, v5);
     vostok::debug::on_error(
-      a3,
-      &do_debug_break,
+      (bool *)&v8,
       process_error_true,
-      &ignore_always_30,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\state_cache.cpp",
-      "vostok::render::state_cache<struct ID3D11BlendState,struct D3D11_BLEND_DESC>::create_state",
-      0x3Eu);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      "vostok::render::state_cache<struct ID3D11BlendState,struct D3D11_BLEND_DESC,32>::create_state",
+      (const char *)0x3C);
+    if ( vostok::debug::is_debugger_present() || v8 )
       __debugbreak();
   }
 }
 
 
-void __userpurge vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC>::create_state(
-        ID3D11DepthStencilState **ppIState@<esi>,
-        int a2@<ecx>,
-        unsigned int a3@<ebx>,
-        vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC> *this,
-        D3D11_DEPTH_STENCIL_DESC desc)
+void __thiscall vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::create_state(
+        vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32> *this,
+        D3D11_RASTERIZER_DESC desc,
+        ID3D11RasterizerState **ppIState)
 {
-  int x; // eax
-  HRESULT v6; // eax
-  const char *d3d11_error_string; // eax
-  bool do_debug_break; // [esp+19h] [ebp-1h] BYREF
+  ID3D11Device_vtbl *v3; // ecx
+  HRESULT v4; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  bool *d3d11_error_string; // eax
+  ID3D11Device *m_device; // [esp-18h] [ebp-24h]
+  char v8; // [esp+Bh] [ebp-1h] BYREF
 
-  do_debug_break = HIBYTE(a2);
-  if ( !ignore_always_29
-    && (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC> **, ID3D11DepthStencilState **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 84))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         &this,
-         ppIState) < 0 )
+  if ( !ignore_always_38
+    && vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateRasterizerState(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         (const D3D11_RASTERIZER_DESC *)&desc.CullMode,
+         (ID3D11RasterizerState **)desc.FillMode) < 0 )
   {
-    x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-    do_debug_break = 1;
-    v6 = (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC> **, ID3D11DepthStencilState **))(*(_DWORD *)x + 84))(
-           x,
-           &this,
-           ppIState);
-    d3d11_error_string = make_d3d11_error_string(v6);
+    v3 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->lpVtbl;
+    m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+    v8 = 1;
+    v4 = v3->CreateRasterizerState(
+           m_device,
+           (const D3D11_RASTERIZER_DESC *)&desc.CullMode,
+           (ID3D11RasterizerState **)desc.FillMode);
+    d3d11_error_string = (bool *)make_d3d11_error_string(v4, v5);
     vostok::debug::on_error(
-      a3,
-      &do_debug_break,
+      (bool *)&v8,
       process_error_true,
-      &ignore_always_29,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\state_cache.cpp",
-      "vostok::render::state_cache<struct ID3D11DepthStencilState,struct D3D11_DEPTH_STENCIL_DESC>::create_state",
-      0x37u);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      "vostok::render::state_cache<struct ID3D11RasterizerState,struct D3D11_RASTERIZER_DESC,32>::create_state",
+      (const char *)0x2E);
+    if ( vostok::debug::is_debugger_present() || v8 )
       __debugbreak();
   }
 }
 
 
-void __userpurge vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::create_state(
-        ID3D11RasterizerState **ppIState@<esi>,
-        int a2@<ecx>,
-        unsigned int a3@<ebx>,
-        vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC> *this,
-        D3D11_RASTERIZER_DESC desc)
+void __thiscall vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC,32>::create_state(
+        vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC,32> *this,
+        D3D11_SAMPLER_DESC desc,
+        ID3D11SamplerState **ppIState)
 {
-  int x; // eax
-  HRESULT v6; // eax
-  const char *d3d11_error_string; // eax
-  bool do_debug_break; // [esp+19h] [ebp-1h] BYREF
+  ID3D11Device_vtbl *v3; // ecx
+  HRESULT v4; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  bool *d3d11_error_string; // eax
+  ID3D11Device *m_device; // [esp-18h] [ebp-20h]
+  char v8; // [esp+7h] [ebp-1h] BYREF
 
-  do_debug_break = HIBYTE(a2);
-  if ( !ignore_always_28
-    && (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC> **, ID3D11RasterizerState **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 88))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         &this,
+  if ( !ignore_always_41
+    && vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateSamplerState(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         &desc,
          ppIState) < 0 )
   {
-    x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-    do_debug_break = 1;
-    v6 = (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC> **, ID3D11RasterizerState **))(*(_DWORD *)x + 88))(
-           x,
-           &this,
-           ppIState);
-    d3d11_error_string = make_d3d11_error_string(v6);
+    v3 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->lpVtbl;
+    m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+    v8 = 1;
+    v4 = v3->CreateSamplerState(m_device, &desc, ppIState);
+    d3d11_error_string = (bool *)make_d3d11_error_string(v4, v5);
     vostok::debug::on_error(
-      a3,
-      &do_debug_break,
+      (bool *)&v8,
       process_error_true,
-      &ignore_always_28,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\state_cache.cpp",
-      "vostok::render::state_cache<struct ID3D11RasterizerState,struct D3D11_RASTERIZER_DESC>::create_state",
-      0x30u);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
-      __debugbreak();
-  }
-}
-
-
-void __userpurge vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC>::create_state(
-        ID3D11SamplerState **ppIState@<esi>,
-        int a2@<ecx>,
-        unsigned int a3@<ebx>,
-        vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC> *this,
-        D3D11_SAMPLER_DESC desc)
-{
-  int x; // eax
-  HRESULT v6; // eax
-  const char *d3d11_error_string; // eax
-  bool do_debug_break; // [esp+19h] [ebp-1h] BYREF
-
-  do_debug_break = HIBYTE(a2);
-  if ( !ignore_always_31
-    && (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC> **, ID3D11SamplerState **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 92))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         &this,
-         ppIState) < 0 )
-  {
-    x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-    do_debug_break = 1;
-    v6 = (*(int (__stdcall **)(int, vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC> **, ID3D11SamplerState **))(*(_DWORD *)x + 92))(
-           x,
-           &this,
-           ppIState);
-    d3d11_error_string = make_d3d11_error_string(v6);
-    vostok::debug::on_error(
-      a3,
-      &do_debug_break,
-      process_error_true,
-      &ignore_always_31,
-      assert_untyped,
-      "assertion_failed",
-      d3d11_error_string,
-      ".\\state_cache.cpp",
-      "vostok::render::state_cache<struct ID3D11SamplerState,struct D3D11_SAMPLER_DESC>::create_state",
-      0x45u);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      "vostok::render::state_cache<struct ID3D11SamplerState,struct D3D11_SAMPLER_DESC,32>::create_state",
+      (const char *)0x43);
+    if ( vostok::debug::is_debugger_present() || v8 )
       __debugbreak();
   }
 }

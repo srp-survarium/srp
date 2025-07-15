@@ -1,69 +1,62 @@
-boost::asio::ip::address *__cdecl boost::asio::ip::address::from_string(boost::asio::ip::address *result, char *str)
-{
-  boost::asio::ip::address addr; // [esp+1F0h] [ebp-24h] BYREF
-  boost::system::error_code ec; // [esp+20Ch] [ebp-8h] BYREF
-
-  ec.m_val = 0;
-  ec.m_cat = boost::system::system_category();
-  boost::asio::ip::address::from_string(&addr, str, &ec);
-  if ( (ec.m_val != 0
-      ? (unsigned int)boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>
-      : 0) != 0 )
-    boost::asio::detail::do_throw_error(&ec);
-  *result = addr;
-  return result;
-}
-
-
 boost::asio::ip::address *__cdecl boost::asio::ip::address::from_string(
         boost::asio::ip::address *result,
         char *str,
         boost::system::error_code *ec)
 {
-  __int64 dest; // [esp+1Ch] [ebp-7Ch] BYREF
-  boost::asio::ip::address_v6 *p_ipv6_address; // [esp+24h] [ebp-74h]
-  boost::asio::ip::address_v4 *p_ipv4_address; // [esp+28h] [ebp-70h]
-  boost::asio::ip::address v7; // [esp+48h] [ebp-50h] BYREF
-  boost::asio::ip::address tmp; // [esp+64h] [ebp-34h] BYREF
-  boost::asio::ip::address_v4 ipv4_address; // [esp+80h] [ebp-18h]
-  boost::asio::ip::address_v6 ipv6_address; // [esp+84h] [ebp-14h] BYREF
+  unsigned int v3; // ecx
+  boost::system::error_code *v4; // edi
+  bool v5; // zf
+  __int64 v7; // [esp+14h] [ebp-30h]
+  __int64 v8; // [esp+1Ch] [ebp-28h]
+  __int64 v9; // [esp+30h] [ebp-14h] BYREF
+  __int64 v10; // [esp+38h] [ebp-Ch]
+  unsigned int v11; // [esp+40h] [ebp-4h] BYREF
 
-  boost::asio::ip::address_v6::from_string(&ipv6_address, str, ec);
-  if ( ec->m_val )
+  v9 = 0;
+  v10 = 0;
+  v11 = 0;
+  if ( boost::asio::detail::socket_ops::inet_pton(23, str, &v9, &v11, ec) > 0 )
   {
-    LODWORD(dest) = 0;
-    if ( boost::asio::detail::socket_ops::inet_pton(2, str, &dest, 0, ec) > 0 )
-      ipv4_address = (boost::asio::ip::address_v4)dest;
-    else
-      ipv4_address = 0;
-    if ( ec->m_val )
-    {
-      boost::asio::ip::address::address(result);
-    }
-    else
-    {
-      boost::asio::ip::address::address(&v7);
-      v7.type_ = ipv4;
-      v7.ipv4_address_ = ipv4_address;
-      result->type_ = ipv4;
-      result->ipv4_address_.addr_.S_un.S_addr = v7.ipv4_address_.addr_.S_un.S_addr;
-      result->ipv6_address_ = v7.ipv6_address_;
-    }
-    return result;
+    v3 = v11;
+    v7 = v9;
+    v8 = v10;
   }
   else
   {
-    boost::asio::ip::address::address(&tmp);
-    tmp.type_ = ipv6;
-    tmp.ipv6_address_ = ipv6_address;
-    result->type_ = ipv6;
-    p_ipv4_address = &result->ipv4_address_;
-    result->ipv4_address_.addr_.S_un.S_addr = tmp.ipv4_address_.addr_.S_un.S_addr;
-    HIDWORD(dest) = &tmp.ipv6_address_;
-    p_ipv6_address = &result->ipv6_address_;
-    *(_QWORD *)result->ipv6_address_.addr_.u.Byte = *(_QWORD *)tmp.ipv6_address_.addr_.u.Byte;
-    *(_QWORD *)&result->ipv6_address_.addr_.u.Word[4] = *(_QWORD *)&tmp.ipv6_address_.addr_.u.Word[4];
-    p_ipv6_address->scope_id_ = *(_DWORD *)(HIDWORD(dest) + 16);
-    return result;
+    v7 = 0;
+    v8 = 0;
+    v3 = 0;
   }
+  v4 = ec;
+  if ( ec->m_val )
+  {
+    boost::asio::ip::address_v4::from_string((boost::asio::ip::address_v4 *)&ec, str, ec);
+    v5 = v4->m_val == 0;
+    result->type_ = ipv4;
+    if ( v5 )
+    {
+      result->ipv4_address_.addr_.S_un.S_addr = (unsigned int)ec;
+      result->ipv6_address_.scope_id_ = 0;
+      *(_QWORD *)result->ipv6_address_.addr_.u.Byte = 0;
+      *(_QWORD *)&result->ipv6_address_.addr_.u.Word[4] = 0;
+    }
+    else
+    {
+      result->ipv4_address_.addr_.S_un.S_addr = 0;
+      *(_QWORD *)result->ipv6_address_.addr_.u.Byte = 0;
+      *(_QWORD *)&result->ipv6_address_.addr_.u.Word[4] = 0;
+      result->ipv6_address_.scope_id_ = 0;
+    }
+  }
+  else
+  {
+    v9 = 0;
+    v10 = 0;
+    result->type_ = ipv6;
+    result->ipv4_address_.addr_.S_un.S_addr = 0;
+    *(_QWORD *)result->ipv6_address_.addr_.u.Byte = v7;
+    *(_QWORD *)&result->ipv6_address_.addr_.u.Word[4] = v8;
+    result->ipv6_address_.scope_id_ = v3;
+  }
+  return result;
 }

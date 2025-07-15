@@ -8,7 +8,8 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::DrawingContext::CreateNewCo
   Scaleform::GFx::DrawingContext::PackedShape *v6; // ecx
   Scaleform::Render::FillStyleType *v7; // esi
   Scaleform::RefCountVImpl *v8; // ecx
-  Scaleform::Render::FillStyleType v10; // [esp+10h] [ebp-8h] BYREF
+  unsigned int v10; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::RefCountVImpl *v11; // [esp+14h] [ebp-4h]
 
   v2 = Scaleform::GFx::DrawingContext::SetNewFill(this);
   v3 = (Scaleform::GFx::Resource *)this->pHeap->Alloc(this->pHeap, 64, 0);
@@ -36,24 +37,24 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::DrawingContext::CreateNewCo
     v4 = 0;
   }
   pObject = this->Shapes.pObject;
-  v10.pFill.pObject = 0;
-  pObject->GetFillStyle(pObject, v2, &v10);
+  v11 = 0;
+  pObject->GetFillStyle(pObject, v2, (Scaleform::Render::FillStyleType *)&v10);
   if ( v4 )
     Scaleform::RefCountImpl::AddRef(v4);
-  if ( v10.pFill.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v10.pFill.pObject);
+  if ( v11 )
+    Scaleform::RefCountImpl::Release(v11);
   v6 = this->Shapes.pObject;
-  v10.pFill.pObject = (Scaleform::Render::ComplexFill *)v4;
+  v11 = (Scaleform::RefCountVImpl *)v4;
   v7 = &v6->FillStyles.Data.Data[v2 - 1];
-  v7->Color = v10.Color;
-  if ( v10.pFill.pObject )
-    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v10.pFill.pObject);
+  v7->Color = v10;
+  if ( v11 )
+    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v11);
   v8 = (Scaleform::RefCountVImpl *)v7->pFill.pObject;
   if ( v8 )
     Scaleform::RefCountImpl::Release(v8);
-  v7->pFill.pObject = v10.pFill.pObject;
-  if ( v10.pFill.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v10.pFill.pObject);
+  v7->pFill.pObject = (Scaleform::Render::ComplexFill *)v11;
+  if ( v11 )
+    Scaleform::RefCountImpl::Release(v11);
   if ( v4 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
   return v4;

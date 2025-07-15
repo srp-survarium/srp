@@ -1,30 +1,16 @@
-void __thiscall boost::asio::detail::win_iocp_io_service::post_deferred_completion(
-        boost::asio::detail::win_iocp_io_service *this,
+void __userpurge boost::asio::detail::win_iocp_io_service::post_deferred_completion(
+        boost::asio::detail::win_iocp_io_service *this@<ecx>,
+        int a2@<eax>,
         boost::asio::detail::win_iocp_operation *op)
 {
-  boost::asio::detail::scoped_lock<boost::asio::detail::win_mutex> lock; // [esp+18h] [ebp-8h] BYREF
-
   op->ready_ = 1;
-  if ( !PostQueuedCompletionStatus(this->iocp_.handle, 0, 2u, op) )
+  if ( !PostQueuedCompletionStatus(*(HANDLE *)(a2 + 20), 0, 2u, op) )
   {
-    survarium::weapon_core::cast_weapon_core((survarium::game_options *)&lock);
-    lock.mutex_ = &this->dispatch_mutex_;
-    EnterCriticalSection(&this->dispatch_mutex_.crit_section_);
-    lock.locked_ = 1;
-    op->next_ = 0;
-    if ( this->completed_ops_.back_ )
-    {
-      this->completed_ops_.back_->next_ = op;
-      this->completed_ops_.back_ = op;
-    }
-    else
-    {
-      this->completed_ops_.back_ = op;
-      this->completed_ops_.front_ = op;
-    }
-    InterlockedExchange(&this->dispatch_required_, 1);
-    if ( lock.locked_ )
-      LeaveCriticalSection(&lock.mutex_->crit_section_);
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&lock);
+    EnterCriticalSection((LPCRITICAL_SECTION)(a2 + 48));
+    boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::push(
+      (boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *)(a2 + 76),
+      op);
+    InterlockedExchange((volatile LONG *)(a2 + 44), 1);
+    LeaveCriticalSection((LPCRITICAL_SECTION)(a2 + 48));
   }
 }

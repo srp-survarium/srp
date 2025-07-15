@@ -2,114 +2,193 @@ char __thiscall Scaleform::Render::GlyphCache::updateTextureGlyph(
         Scaleform::Render::GlyphCache *this,
         const Scaleform::Render::GlyphNode *node)
 {
-  unsigned int w; // ebp
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpStats *v4; // eax
   unsigned __int16 TextureId; // di
   unsigned int RasterPitch; // ecx
+  unsigned int w; // ebp
   unsigned int x; // edx
-  unsigned int v7; // edi
+  unsigned int v9; // edi
   unsigned int y; // ecx
-  unsigned int v9; // edx
-  Scaleform::Render::GlyphTextureMapper *v10; // ecx
+  unsigned int h; // edx
+  Scaleform::Render::GlyphTextureMapper *v12; // ecx
   unsigned int TextureHeight; // eax
   Scaleform::Render::TextureManager *pTexMan; // edx
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
   Scaleform::Render::RawImage *pObject; // ecx
   Scaleform::ArrayPagedLH_POD<Scaleform::Render::GlyphCache::UpdateRect,6,16,2> *p_GlyphsToUpdate; // ebp
-  unsigned int Size; // esi
-  unsigned int v16; // esi
-  Scaleform::Render::Palette *v17; // esi
-  Scaleform::Render::ImagePlane *v19; // eax
-  unsigned int updX[2]; // [esp+10h] [ebp-64h] BYREF
-  unsigned int updY; // [esp+18h] [ebp-5Ch] BYREF
-  unsigned int dstY; // [esp+1Ch] [ebp-58h]
-  unsigned int dstX; // [esp+20h] [ebp-54h]
-  unsigned int pitch; // [esp+24h] [ebp-50h]
-  const unsigned __int8 *data; // [esp+28h] [ebp-4Ch]
-  char *v26; // [esp+2Ch] [ebp-48h]
-  Scaleform::Render::GlyphCache::UpdateRect r; // [esp+30h] [ebp-44h] BYREF
-  Scaleform::Render::ImageData d; // [esp+4Ch] [ebp-28h] BYREF
-  unsigned int h; // [esp+78h] [ebp+4h]
+  unsigned int v21; // esi
+  unsigned int v22; // esi
+  Scaleform::Render::Palette *v23; // esi
+  Scaleform::AmpStats *v24; // edi
+  void (__thiscall **v25)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v26; // rax
+  Scaleform::Render::ImagePlane *v27; // eax
+  Scaleform::AmpStats *v28; // esi
+  void (__thiscall **v29)(Scaleform::AmpStats *, unsigned __int64); // edi
+  unsigned __int64 v30; // rax
+  Scaleform::AmpStats *v31; // edi
+  void (__thiscall **v32)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v33; // rax
+  unsigned int v34; // [esp+10h] [ebp-78h]
+  Scaleform::Render::Size<unsigned long> size; // [esp+14h] [ebp-74h] BYREF
+  Scaleform::Render::GlyphTextureMapper *v36; // [esp+1Ch] [ebp-6Ch] BYREF
+  unsigned int v37; // [esp+20h] [ebp-68h]
+  unsigned int v38; // [esp+24h] [ebp-64h]
+  unsigned int v39; // [esp+28h] [ebp-60h]
+  const __m128i *Data; // [esp+2Ch] [ebp-5Ch]
+  char *v41; // [esp+30h] [ebp-58h]
+  Scaleform::AmpFunctionTimer v42; // [esp+34h] [ebp-54h] BYREF
+  _DWORD v43[7]; // [esp+44h] [ebp-44h] BYREF
+  Scaleform::Render::ImageData v44; // [esp+60h] [ebp-28h] BYREF
 
-  w = node->mRect.w;
+  Instance = Scaleform::AmpServer::GetInstance();
+  v4 = Instance->GetDisplayStats(Instance);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v42,
+    v4,
+    "GlyphCache::UpdateTextureGlyph",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
   TextureId = node->pSlot->TextureId;
   RasterPitch = this->RasterPitch;
-  data = this->RasterData.Data.Data;
+  w = node->mRect.w;
+  Data = (const __m128i *)this->RasterData.Data.Data;
   x = node->mRect.x;
-  v7 = TextureId & 0x7FFF;
-  pitch = RasterPitch;
+  v9 = TextureId & 0x7FFF;
+  v39 = RasterPitch;
   y = node->mRect.y;
-  dstX = x;
-  v9 = node->mRect.h;
-  dstY = y;
-  v10 = &this->Textures[v7];
-  h = v9;
-  v26 = (char *)this + 80 * v7;
-  updY = (unsigned int)v10;
-  if ( !v10->Valid )
+  v38 = x;
+  h = node->mRect.h;
+  v37 = y;
+  v12 = &this->Textures[v9];
+  v34 = h;
+  v41 = (char *)this + 80 * v9;
+  v36 = v12;
+  if ( !v12->Valid )
   {
     TextureHeight = this->TextureHeight;
-    updX[0] = this->TextureWidth;
+    size.Width = this->TextureWidth;
     pTexMan = this->pTexMan;
-    updX[1] = TextureHeight;
+    size.Height = TextureHeight;
     Scaleform::Render::GlyphTextureMapper::Create(
-      v10,
+      v12,
       this->Method,
       this->pHeap,
       pTexMan,
       this->pFillMan,
       this,
-      v7,
-      (const Scaleform::Render::Size<unsigned long> *)updX);
-    v10 = (Scaleform::Render::GlyphTextureMapper *)updY;
+      v9,
+      &size);
+    v12 = v36;
   }
   this->pRQCaches->LockFlags |= 2u;
-  if ( this->Method != TU_MultipleUpdate )
+  if ( this->Method == TU_MultipleUpdate )
   {
-    v19 = Scaleform::Render::GlyphTextureMapper::Map(v10);
-    if ( v19 )
+    if ( !Scaleform::Render::TextureUpdatePacker::Allocate(
+            &this->UpdatePacker,
+            w,
+            v34,
+            &size.Width,
+            (unsigned int *)&v36) )
     {
-      Scaleform::Render::GlyphCache::copyImageData(this, v19, (unsigned __int8 *)data, pitch, dstX, dstY, w, h);
-      return 1;
+      Scaleform::Render::GlyphCache::partialUpdateTextures(this);
+      if ( !Scaleform::Render::TextureUpdatePacker::Allocate(
+              &this->UpdatePacker,
+              w,
+              v34,
+              &size.Width,
+              (unsigned int *)&v36) )
+      {
+        Stats = v42.Stats;
+        if ( v42.Stats )
+        {
+          p_NativePopCallstack = &v42.Stats->NativePopCallstack;
+          ProfileTicks = Scaleform::Timer::GetProfileTicks();
+          ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+            Stats,
+            ProfileTicks - LODWORD(v42.StartTicks),
+            (ProfileTicks - v42.StartTicks) >> 32);
+          return 0;
+        }
+        return 0;
+      }
     }
-    return 0;
+    v44.pPlanes = &v44.Plane0;
+    pObject = this->UpdateBuffer.pObject;
+    memset(&v44, 0, 10);
+    v44.RawPlaneCount = 1;
+    memset(&v44.pPalette, 0, 24);
+    Scaleform::Render::RawImage::GetImageData(pObject, &v44);
+    Scaleform::Render::GlyphCache::copyImageData(this, v44.pPlanes, Data, v39, size.Width, (unsigned int)v36, w, v34);
+    ++*((_DWORD *)v41 + 49);
+    v43[4] = w;
+    p_GlyphsToUpdate = &this->GlyphsToUpdate;
+    v21 = this->GlyphsToUpdate.Size;
+    v43[0] = size.Width;
+    v43[1] = v36;
+    v22 = v21 >> 6;
+    v43[2] = v38;
+    v43[3] = v37;
+    v43[5] = v34;
+    v43[6] = v9;
+    if ( v22 >= p_GlyphsToUpdate->NumPages )
+      Scaleform::ArrayPagedBase<Scaleform::Render::GlyphCache::UpdateRect,6,16,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::GlyphCache::UpdateRect,2>>::allocatePage(
+        p_GlyphsToUpdate,
+        v22);
+    qmemcpy(
+      &p_GlyphsToUpdate->Pages[v22][p_GlyphsToUpdate->Size++ & 0x3F],
+      v43,
+      sizeof(p_GlyphsToUpdate->Pages[v22][p_GlyphsToUpdate->Size++ & 0x3F]));
+    Scaleform::Render::ImageData::freePlanes(&v44);
+    if ( v44.pPalette.pObject )
+    {
+      v23 = v44.pPalette.pObject;
+      if ( InterlockedExchangeAdd(&v44.pPalette.pObject->RefCount.Value, -1) == 1 )
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v23);
+    }
+    v24 = v42.Stats;
+    if ( v42.Stats )
+    {
+      v25 = &v42.Stats->NativePopCallstack;
+      v26 = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v25)(
+        v24,
+        v26 - LODWORD(v42.StartTicks),
+        (v26 - v42.StartTicks) >> 32);
+    }
+    return 1;
   }
-  if ( !Scaleform::Render::TextureUpdatePacker::Allocate(&this->UpdatePacker, w, h, updX, &updY) )
+  else
   {
-    Scaleform::Render::GlyphCache::partialUpdateTextures(this);
-    if ( !Scaleform::Render::TextureUpdatePacker::Allocate(&this->UpdatePacker, w, h, updX, &updY) )
+    v27 = Scaleform::Render::GlyphTextureMapper::Map(v12);
+    if ( !v27 )
+    {
+      v31 = v42.Stats;
+      if ( v42.Stats )
+      {
+        v32 = &v42.Stats->NativePopCallstack;
+        v33 = Scaleform::Timer::GetProfileTicks();
+        ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v32)(
+          v31,
+          v33 - LODWORD(v42.StartTicks),
+          (v33 - v42.StartTicks) >> 32);
+      }
       return 0;
+    }
+    Scaleform::Render::GlyphCache::copyImageData(this, v27, Data, v39, v38, v37, w, v34);
+    v28 = v42.Stats;
+    if ( v42.Stats )
+    {
+      v29 = &v42.Stats->NativePopCallstack;
+      v30 = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v29)(
+        v28,
+        v30 - LODWORD(v42.StartTicks),
+        (v30 - v42.StartTicks) >> 32);
+    }
+    return 1;
   }
-  d.RawPlaneCount = 1;
-  pObject = this->UpdateBuffer.pObject;
-  memset(&d, 0, 10);
-  d.pPlanes = &d.Plane0;
-  memset(&d.pPalette, 0, 24);
-  Scaleform::Render::RawImage::GetImageData(pObject, &d);
-  Scaleform::Render::GlyphCache::copyImageData(this, d.pPlanes, (unsigned __int8 *)data, pitch, updX[0], updY, w, h);
-  ++*((_DWORD *)v26 + 49);
-  r.w = w;
-  p_GlyphsToUpdate = &this->GlyphsToUpdate;
-  Size = this->GlyphsToUpdate.Size;
-  r.SrcX = updX[0];
-  r.SrcY = updY;
-  v16 = Size >> 6;
-  r.DstX = dstX;
-  r.DstY = dstY;
-  r.h = h;
-  r.TextureId = v7;
-  if ( v16 >= p_GlyphsToUpdate->NumPages )
-    Scaleform::ArrayPagedBase<Scaleform::Render::GlyphCache::UpdateRect,6,16,Scaleform::AllocatorPagedLH_POD<Scaleform::Render::GlyphCache::UpdateRect,2>>::allocatePage(
-      p_GlyphsToUpdate,
-      v16);
-  qmemcpy(
-    &p_GlyphsToUpdate->Pages[v16][p_GlyphsToUpdate->Size++ & 0x3F],
-    &r,
-    sizeof(p_GlyphsToUpdate->Pages[v16][p_GlyphsToUpdate->Size++ & 0x3F]));
-  Scaleform::Render::ImageData::freePlanes(&d);
-  if ( d.pPalette.pObject )
-  {
-    v17 = d.pPalette.pObject;
-    if ( InterlockedExchangeAdd(&d.pPalette.pObject->RefCount.Value, -1) == 1 )
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v17);
-  }
-  return 1;
 }

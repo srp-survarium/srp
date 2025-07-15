@@ -8,14 +8,14 @@ int __cdecl _fcloseall()
 
   count = 0;
   _lock(1);
-  for ( i = 3; i < (int)_nstream; ++i )
+  for ( i = 3; i < _nstream; ++i )
   {
     v1 = i;
     v2 = &__piob[i];
     if ( *v2 )
     {
       v3 = (_iobuf *)*v2;
-      if ( (v3->_flag & 0x83) != 0 && fclose(v3) != -1 )
+      if ( (v3->_flag & 0x83) != 0 && fclose(0, v3) != -1 )
         ++count;
       if ( i >= 20 )
       {

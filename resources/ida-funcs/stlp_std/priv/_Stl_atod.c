@@ -1,27 +1,28 @@
 double __cdecl stlp_std::priv::_Stl_atod(int ndigit, int dexp)
 {
-  char *buffer; // ecx
+  unsigned int v2; // ecx
   char *v3; // ebx
   unsigned __int64 v4; // rdi
   int v6; // ebx
   int v7; // ebp
   int v8; // ebp
   char v9; // bl
-  unsigned __int64 v10; // rdi
+  __int64 v10; // rdi
   int v11; // ecx
-  unsigned __int64 v12; // rax
-  unsigned int v13; // edi
-  unsigned int v14; // ecx
-  unsigned int v15; // kr00_4
-  stlp_std::priv::_Double_rep drep; // [esp+10h] [ebp-10h] BYREF
+  double v12; // rax
+  double v13; // rax
+  unsigned int v14; // edi
+  unsigned int v15; // ecx
+  unsigned int v16; // kr00_4
+  double v17; // [esp+10h] [ebp-10h] BYREF
 
-  v3 = buffer;
+  v3 = (char *)v2;
   v4 = 0;
-  if ( buffer >= &buffer[ndigit] )
+  if ( v2 >= v2 + ndigit )
     return 0.0;
   do
     v4 = *v3++ + 10 * v4;
-  while ( v3 < &buffer[ndigit] );
+  while ( (unsigned int)v3 < v2 + ndigit );
   if ( !v4 )
     return 0.0;
   v6 = 0;
@@ -39,62 +40,63 @@ double __cdecl stlp_std::priv::_Stl_atod(int ndigit, int dexp)
     ++v6;
   if ( v4 >> v6 )
     ++v6;
-  drep.ival = v4 << (64 - (unsigned __int8)v6);
-  stlp_std::priv::_Stl_tenscale(dexp, &drep.ival, &ndigit);
+  *(_QWORD *)&v17 = v4 << (64 - (unsigned __int8)v6);
+  stlp_std::priv::_Stl_tenscale(dexp, (unsigned __int64 *)&v17, &ndigit);
   v7 = ndigit + v6;
   if ( ndigit + v6 > -1022 )
   {
-    v13 = drep.ival >> 11;
-    v14 = HIDWORD(drep.val) >> 11;
-    if ( (LOWORD(drep.val) & 0x400) != 0 && ((LOWORD(drep.val) & 0x800) != 0 || (LOWORD(drep.val) & 0x3FF) != 0) )
+    v14 = *(_QWORD *)&v17 >> 11;
+    v15 = HIDWORD(v17) >> 11;
+    if ( (LOWORD(v17) & 0x400) != 0 && ((LOWORD(v17) & 0x800) != 0 || (LOWORD(v17) & 0x3FF) != 0) )
     {
-      v15 = v13 + 1;
-      v14 = (__PAIR64__(v14, v13++) + 1) >> 32;
-      if ( (v14 & 0xFFE00000) != 0 )
+      v16 = v14 + 1;
+      v15 = (__PAIR64__(v15, v14++) + 1) >> 32;
+      if ( (v15 & 0xFFE00000) != 0 )
       {
-        v13 = __PAIR64__(v14, v15) >> 1;
-        v14 >>= 1;
+        v14 = __PAIR64__(v15, v16) >> 1;
+        v15 >>= 1;
         ++v7;
       }
     }
     if ( v7 > 1024 )
     {
-      drep.val = INFINITY;
+      v17 = INFINITY;
       return INFINITY;
     }
-    LODWORD(drep.val) = v13;
-    HIDWORD(drep.val) = v14 & 0x800FFFFF | ((((_WORD)v7 + 1022) & 0x7FF) << 20);
+    LODWORD(v17) = v14;
+    HIDWORD(v17) = v15 & 0x800FFFFF | ((((_WORD)v7 + 1022) & 0x7FF) << 20);
   }
   else
   {
     v8 = v7 + 1022;
     if ( v8 < -53 || (v9 = 12 - v8, 12 - v8 > 64) )
     {
-      drep.val = 0.0;
+      v17 = 0.0;
       return 0.0;
     }
     if ( v8 == -52 )
     {
-      v10 = drep.ival & 0x7FFFFFFFFFFFFFFFLL;
-      v11 = HIDWORD(drep.val) >> 31;
-      v12 = 0;
+      v10 = *(_QWORD *)&v17 & 0x7FFFFFFFFFFFFFFFLL;
+      v11 = HIDWORD(v17) >> 31;
+      v12 = 0.0;
     }
     else
     {
-      v10 = drep.ival & ((1LL << v9) - 2);
-      v12 = drep.ival >> v9;
-      v11 = ((unsigned __int8)(drep.ival >> v9) - 1) & 1;
+      v10 = *(_QWORD *)&v17 & ((1LL << v9) - 2);
+      *(_QWORD *)&v12 = *(_QWORD *)&v17 >> v9;
+      v11 = ((unsigned __int8)(*(_QWORD *)&v17 >> v9) - 1) & 1;
     }
-    drep.ival = v12;
-    if ( v11 && ((v12 & 1) != 0 || v10) )
+    v17 = v12;
+    if ( v11 && ((LOBYTE(v12) & 1) != 0 || v10) )
     {
-      drep.ival = v12 + 1;
-      if ( v12 == 0xFFFFFFFFFFFFFLL )
+      *(_QWORD *)&v13 = *(_QWORD *)&v12 + 1LL;
+      v17 = v13;
+      if ( *(_QWORD *)&v13 == __PAIR64__(&loc_100000, 0) )
       {
-        drep.val = 2.225073858507201e-308;
-        return 2.225073858507201e-308;
+        v17 = COERCE_DOUBLE(__PAIR64__(HIDWORD(v13), 0));
+        return COERCE_DOUBLE(__PAIR64__(HIDWORD(v13), 0));
       }
     }
   }
-  return drep.val;
+  return v17;
 }

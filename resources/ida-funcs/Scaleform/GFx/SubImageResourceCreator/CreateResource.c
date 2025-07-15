@@ -6,52 +6,52 @@ char __thiscall Scaleform::GFx::SubImageResourceCreator::CreateResource(
         Scaleform::MemoryHeap *pbindHeap)
 {
   Scaleform::GFx::ResourceBinding *pBinding; // ecx
-  Scaleform::GFx::ResourceId v7; // eax
+  unsigned int x2; // eax
   Scaleform::GFx::ResourceBinding *v8; // ecx
   Scaleform::GFx::Resource *pObject; // esi
   Scaleform::GFx::SubImageResource *v10; // eax
   Scaleform::GFx::Resource *v11; // eax
   Scaleform::GFx::Resource *v12; // esi
-  Scaleform::GFx::ResourceHandle rh; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::GFx::ResourceBindData pdata; // [esp+18h] [ebp-8h] BYREF
-  Scaleform::GFx::ImageResource *pimageRes; // [esp+24h] [ebp+4h]
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType v14; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::ResourceBindData v15; // [esp+18h] [ebp-8h] BYREF
+  unsigned int y2; // [esp+24h] [ebp+4h]
 
-  pimageRes = (Scaleform::GFx::ImageResource *)hdata->y2;
-  if ( !pimageRes )
+  y2 = hdata->y2;
+  if ( !y2 )
   {
     pBinding = pbindData->pBinding;
-    v7.Id = hdata->x2;
-    rh.HType = RH_Pointer;
-    rh.BindIndex = 0;
+    x2 = hdata->x2;
+    v14.EntryCount = 0;
+    v14.SizeMask = 0;
     Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(
       *(Scaleform::GFx::MovieDataDef::LoadTaskData **)(*(_DWORD *)(pBinding->pOwnerDefRes[2].RefCount.Value + 12) + 32),
-      (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType *)&rh,
-      v7);
+      &v14,
+      (Scaleform::GFx::ResourceId)x2);
     v8 = pbindData->pBinding;
-    if ( rh.HType )
+    if ( v14.EntryCount )
     {
-      pdata.pResource.pObject = 0;
-      pdata.pBinding = 0;
-      Scaleform::GFx::ResourceBinding::GetResourceData(v8, &pdata, rh.BindIndex);
-      pObject = pdata.pResource.pObject;
-      if ( pdata.pResource.pObject )
-        Scaleform::GFx::Resource::Release(pdata.pResource.pObject);
+      v15.pResource.pObject = 0;
+      v15.pBinding = 0;
+      Scaleform::GFx::ResourceBinding::GetResourceData(v8, &v15, v14.SizeMask);
+      pObject = v15.pResource.pObject;
+      if ( v15.pResource.pObject )
+        Scaleform::GFx::Resource::Release(v15.pResource.pObject);
     }
     else
     {
-      pObject = rh.pResource;
+      pObject = (Scaleform::GFx::Resource *)v14.SizeMask;
     }
     if ( pObject && (pObject->GetResourceTypeCode(pObject) & 0xFF00) == 0x100 )
-      pimageRes = (Scaleform::GFx::ImageResource *)pObject;
-    if ( rh.HType == RH_Pointer && rh.BindIndex )
-      Scaleform::GFx::Resource::Release(rh.pResource);
-    if ( !pimageRes )
+      y2 = (unsigned int)pObject;
+    if ( !v14.EntryCount && v14.SizeMask )
+      Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)v14.SizeMask);
+    if ( !y2 )
       return 0;
   }
   v10 = (Scaleform::GFx::SubImageResource *)pbindHeap->Alloc(pbindHeap, 72, 0);
   if ( v10 )
   {
-    Scaleform::GFx::SubImageResource::SubImageResource(v10, (int)pimageRes, 0, hdata + 1, pbindHeap);
+    Scaleform::GFx::SubImageResource::SubImageResource(v10, y2, 0, hdata + 1, pbindHeap);
     v12 = v11;
   }
   else

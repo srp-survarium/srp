@@ -8,42 +8,41 @@ void __thiscall Scaleform::GFx::AS2::`anonymous namespace'::CandidateListLoader:
   Scaleform::GFx::AS2::IMEManager *v6; // ecx
   unsigned int v7; // edi
   Scaleform::GFx::AS2::IMEManager *v8; // ecx
-  Scaleform::GFx::DisplayObject *pData; // edi
-  Scaleform::GFx::MovieDefImpl *v10; // eax
+  Scaleform::String::DataDesc *pData; // edi
+  int v10; // eax
   void *v11; // esi
-  Scaleform::GFx::Value v; // [esp+Ch] [ebp-18h] BYREF
+  Scaleform::GFx::Value value; // [esp+Ch] [ebp-18h] BYREF
 
   pObject = this->pASIMEManager.pObject;
   pimeManager = pObject->pimeManager;
   if ( pObject->pMovie )
   {
     v6 = this->pASIMEManager.pObject;
-    v.mValue.NValue = 2.0;
-    v.pObjectInterface = 0;
-    v.Type = VT_Number;
-    Scaleform::GFx::Movie::SetVariable(v6->pMovie, "_global.gfx_ime_candidate_list_state", &v, SV_Sticky);
+    value.mValue.NValue = 2.0;
+    value.pObjectInterface = 0;
+    value.Type = VT_Number;
+    Scaleform::GFx::Movie::SetVariable(v6->pMovie, "_global.gfx_ime_candidate_list_state", &value, SV_Sticky);
     v7 = this->pASIMEManager.pObject->CandidateSwfPath.HeapTypeBits & 0xFFFFFFFC;
-    if ( (v.Type & 0x40) != 0 )
+    if ( (value.Type & 0x40) != 0 )
     {
-      v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
-      v.pObjectInterface = 0;
+      value.pObjectInterface->ObjectRelease(value.pObjectInterface, &value, (void *)value.mValue.IValue);
+      value.pObjectInterface = 0;
     }
     v8 = this->pASIMEManager.pObject;
-    v.Type = VT_String;
-    v.mValue.IValue = v7 + 8;
-    Scaleform::GFx::Movie::SetVariable(v8->pMovie, "_global.gfx_ime_candidate_list_path", &v, SV_Sticky);
-    if ( (v.Type & 0x40) != 0 )
-      v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
+    value.Type = VT_String;
+    value.mValue.IValue = v7 + 8;
+    Scaleform::GFx::Movie::SetVariable(v8->pMovie, "_global.gfx_ime_candidate_list_path", &value, SV_Sticky);
+    if ( (value.Type & 0x40) != 0 )
+      value.pObjectInterface->ObjectRelease(value.pObjectInterface, &value, (void *)value.mValue.IValue);
   }
-  pData = (Scaleform::GFx::DisplayObject *)ptarget.pData;
+  pData = ptarget.pData;
   if ( ptarget.pData )
   {
-    v10 = (Scaleform::GFx::MovieDefImpl *)(*(int (__thiscall **)(Scaleform::String::DataDesc *))(*(_DWORD *)ptarget.HeapTypeBits
-                                                                                               + 256))(ptarget.pData);
-    if ( v10->pLib )
-      v10->pLib->PinResource(v10->pLib, v10);
+    v10 = (*(int (__thiscall **)(Scaleform::String::DataDesc *))(*(_DWORD *)ptarget.HeapTypeBits + 256))(ptarget.pData);
+    if ( *(_DWORD *)(v10 + 8) )
+      (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(v10 + 8) + 8))(*(_DWORD *)(v10 + 8), v10);
     Scaleform::String::String(&ptarget);
-    Scaleform::GFx::DisplayObject::GetAbsolutePath(pData, &ptarget);
+    Scaleform::GFx::DisplayObject::GetAbsolutePath((Scaleform::GFx::DisplayObject *)pData, &ptarget);
     Scaleform::String::operator=(&this->pASIMEManager.pObject->CandListPath, &ptarget);
     if ( pimeManager )
       pimeManager->OnCandidateListLoaded(pimeManager, (const char *)((ptarget.HeapTypeBits & 0xFFFFFFFC) + 8));

@@ -12,7 +12,7 @@ void __thiscall Scaleform::Render::MeshCache::MoveToCacheListFront(
   {
     pCacheList = p->pCacheList;
     p->pPrev->pNext = p->pNext;
-    p->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$181941B0ECCE92AAF0AD80025FE0C204::pPrev = p->pPrev;
+    p->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$91FE2188799D963DDDCE23AE0AD4A8E3::pPrev = p->pPrev;
     p_Size = &pCacheList->Slots[p->ListType].Size;
     *p_Size -= p->AllocSize;
     v5 = p->pCacheList;

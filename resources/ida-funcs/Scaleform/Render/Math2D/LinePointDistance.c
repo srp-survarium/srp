@@ -1,26 +1,26 @@
 double __cdecl Scaleform::Render::Math2D::LinePointDistance(float x1, float y1, float x2, float y2, float x, float y)
 {
-  float dy; // [esp+0h] [ebp-Ch]
+  float v7; // [esp+0h] [ebp-Ch]
   float v8; // [esp+4h] [ebp-8h]
-  float da; // [esp+8h] [ebp-4h]
-  float d; // [esp+8h] [ebp-4h]
-  float x1b; // [esp+10h] [ebp+4h]
-  float x1c; // [esp+10h] [ebp+4h]
-  float x2a; // [esp+18h] [ebp+Ch]
+  float v9; // [esp+8h] [ebp-4h]
+  float v10; // [esp+8h] [ebp-4h]
+  float v11; // [esp+10h] [ebp+4h]
+  float v12; // [esp+10h] [ebp+4h]
+  float v14; // [esp+18h] [ebp+Ch]
 
   v8 = x2 - x1;
-  dy = y2 - y1;
-  da = dy * dy + v8 * v8;
-  d = sqrt(da);
-  if ( d == 0.0 )
+  v7 = y2 - y1;
+  v9 = v7 * v7 + v8 * v8;
+  v10 = sqrt(v9);
+  if ( v10 == 0.0 )
   {
-    x2a = x - x1;
-    x1b = y - y1;
-    x1c = x1b * x1b + x2a * x2a;
-    return (float)sqrt(x1c);
+    v14 = x - x1;
+    v11 = y - y1;
+    v12 = v11 * v11 + v14 * v14;
+    return (float)sqrt(v12);
   }
   else
   {
-    return (float)(((x - x2) * dy - (y - y2) * v8) / d);
+    return (float)(((x - x2) * v7 - (y - y2) * v8) / v10);
   }
 }

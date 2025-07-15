@@ -37,7 +37,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::ExecuteProgre
       {
         v6 = *(_DWORD *)(bytesLoaded + 16);
         v7 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)bytesLoaded;
-        if ( ((unsigned int)&byte_3FFFFF & v6) != 0 )
+        if ( (v6 & 0x3FFFFF) != 0 )
         {
           *(_DWORD *)(bytesLoaded + 16) = v6 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

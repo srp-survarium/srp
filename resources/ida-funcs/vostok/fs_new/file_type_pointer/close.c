@@ -1,13 +1,11 @@
-void __thiscall vostok::fs_new::file_type_pointer::close(vostok::fs_new::file_type_pointer *this)
+void __usercall vostok::fs_new::file_type_pointer::close(
+        vostok::fs_new::file_type_pointer *this@<ecx>,
+        _DWORD *a2@<esi>)
 {
-  _BYTE *v1; // eax
+  int v2; // ecx
 
-  if ( this->file && !vostok::fs_new::g_use_open_file_cache )
-  {
-    survarium::weapon_user_dead_state::finalize(0);
-    if ( *v1 )
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)(unsigned __int8)*v1);
-    vostok::fs_new::device_file_system_no_watcher_proxy::close(&this->device->m_device, this->file);
-  }
-  this->file = 0;
+  v2 = a2[1];
+  if ( v2 && !vostok::fs_new::g_use_open_file_cache )
+    (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(*a2 + 4) + 8))(*(_DWORD *)(*a2 + 4), v2);
+  a2[1] = 0;
 }

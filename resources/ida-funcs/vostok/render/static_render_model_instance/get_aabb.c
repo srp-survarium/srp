@@ -5,6 +5,6 @@ vostok::math::aabb *__thiscall vostok::render::static_render_model_instance::get
   vostok::math::aabb *v2; // eax
 
   v2 = result;
-  *result = this->m_original.m_object->m_aabbox;
+  qmemcpy(result, &this->m_original.m_object->m_aabbox, sizeof(vostok::math::aabb));
   return v2;
 }

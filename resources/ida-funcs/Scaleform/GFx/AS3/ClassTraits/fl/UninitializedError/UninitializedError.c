@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError::Uninit
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl::UninitializedErrorCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError::Uninit
   {
     Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(v4, vm, &Scaleform::GFx::AS3::fl::UninitializedErrorCI);
     *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl::Error::`vftable';
-    v5[13] = 44;
+    v5[13] = 48;
   }
   else
   {
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::UninitializedError::Uninit
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

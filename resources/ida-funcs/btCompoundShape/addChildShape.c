@@ -1,124 +1,102 @@
-void __userpurge btCompoundShape::addChildShape(
-        btCompoundShape *this@<esi>,
-        const btTransform *localTransform@<eax>,
-        btCollisionShape *shape)
+void __thiscall btCompoundShape::addChildShape(
+        btCompoundShape *this,
+        const btTransform *localTransform,
+        const btTransform *shape,
+        btCollisionShape *a4)
 {
-  btCollisionShape_vtbl *v3; // edx
-  unsigned __int64 v6; // xmm0_8
-  int m_shapeType; // eax
-  float (__thiscall *getMargin)(btCollisionShape *); // eax
-  btDbvt *v9; // ecx
-  btDbvt *m_dynamicAabbTree; // edi
-  int m_capacity; // ecx
-  int v12; // eax
-  int v13; // edi
-  btCompoundShapeChild *v14; // edi
-  int v15; // ebx
-  btCompoundShapeChild *m_data; // eax
-  btCompoundShapeChild *v17; // eax
-  void *m_size; // [esp+19Ch] [ebp-B4h]
-  btCompoundShapeChild *v19; // [esp+1B4h] [ebp-9Ch]
-  int v20; // [esp+1B8h] [ebp-98h]
-  int v21; // [esp+1BCh] [ebp-94h]
-  __m128i v22; // [esp+1C0h] [ebp-90h] BYREF
-  __m128i v23; // [esp+1D0h] [ebp-80h] BYREF
-  btCompoundShapeChild v24; // [esp+1E0h] [ebp-70h] BYREF
-  btDbvtAabbMm v25; // [esp+230h] [ebp-20h] BYREF
+  btCollisionShape_vtbl *v4; // eax
+  double v5; // st7
+  btCollisionShape_vtbl *v6; // eax
+  btVector3 *p_m_origin; // eax
+  int i; // ecx
+  float v9; // xmm0_4
+  float v10; // xmm0_4
+  btDbvt *v11; // eax
+  int v12; // ecx
+  int v13; // eax
+  int v14; // edi
+  btCompoundShapeChild *v15; // esi
+  btCompoundShapeChild *v16; // eax
+  int v17; // [esp-4h] [ebp-B4h]
+  int v18; // [esp+14h] [ebp-9Ch]
+  btCompoundShapeChild *v19; // [esp+18h] [ebp-98h]
+  int v20; // [esp+1Ch] [ebp-94h]
+  btVector3 v21; // [esp+20h] [ebp-90h] BYREF
+  btVector3 v22; // [esp+30h] [ebp-80h] BYREF
+  btCompoundShapeChild v23; // [esp+40h] [ebp-70h] BYREF
+  btVector3 data[2]; // [esp+90h] [ebp-20h] BYREF
 
-  ++this->m_updateRevision;
-  v3 = shape->__vftable;
-  v6 = localTransform->m_basis.m_el[0].mVec128.m128_u64[0];
-  m_shapeType = shape->m_shapeType;
-  v24.m_transform.m_basis.m_el[0].mVec128.m128_u64[0] = v6;
-  v24.m_transform.m_basis.m_el[0].mVec128.m128_u64[1] = localTransform->m_basis.m_el[0].mVec128.m128_u64[1];
-  v24.m_transform.m_basis.m_el[1] = localTransform->m_basis.m_el[1];
-  v24.m_transform.m_basis.m_el[2] = localTransform->m_basis.m_el[2];
-  v24.m_transform.m_origin.mVec128.m128_u64[0] = localTransform->m_origin.mVec128.m128_u64[0];
-  v24.m_childShapeType = m_shapeType;
-  getMargin = v3->getMargin;
-  v24.m_node = 0;
-  v24.m_transform.m_origin.mVec128.m128_u64[1] = localTransform->m_origin.mVec128.m128_u64[1];
-  v24.m_childShape = shape;
-  v24.m_childMargin = getMargin(shape);
-  shape->getAabb(shape, localTransform, (btVector3 *)&v22, (btVector3 *)&v23);
-  if ( this->m_localAabbMin.mVec128.m128_f32[0] > *(float *)v22.m128i_i32 )
-    this->m_localAabbMin.mVec128.m128_i32[0] = v22.m128i_i32[0];
-  if ( *(float *)v23.m128i_i32 > this->m_localAabbMax.mVec128.m128_f32[0] )
-    this->m_localAabbMax.mVec128.m128_i32[0] = v23.m128i_i32[0];
-  if ( this->m_localAabbMin.mVec128.m128_f32[1] > *(float *)&v22.m128i_i32[1] )
-    this->m_localAabbMin.mVec128.m128_i32[1] = v22.m128i_i32[1];
-  if ( *(float *)&v23.m128i_i32[1] > this->m_localAabbMax.mVec128.m128_f32[1] )
-    this->m_localAabbMax.mVec128.m128_i32[1] = v23.m128i_i32[1];
-  if ( this->m_localAabbMin.mVec128.m128_f32[2] > *(float *)&v22.m128i_i32[2] )
-    this->m_localAabbMin.mVec128.m128_i32[2] = v22.m128i_i32[2];
-  if ( *(float *)&v23.m128i_i32[2] > this->m_localAabbMax.mVec128.m128_f32[2] )
-    this->m_localAabbMax.mVec128.m128_i32[2] = v23.m128i_i32[2];
-  m_dynamicAabbTree = this->m_dynamicAabbTree;
-  if ( m_dynamicAabbTree )
+  v23.m_node = 0;
+  ++localTransform[1].m_basis.m_el[0].mVec128.m128_i32[1];
+  v23.m_transform = *shape;
+  v23.m_childShapeType = a4->m_shapeType;
+  v4 = a4->__vftable;
+  v23.m_childShape = a4;
+  v5 = ((double (__thiscall *)(btCollisionShape *))v4->getMargin)(a4);
+  v6 = a4->__vftable;
+  v23.m_childMargin = v5;
+  v6->getAabb(a4, shape, &v21, &v22);
+  p_m_origin = &localTransform->m_origin;
+  for ( i = 0; i < 3; ++i )
   {
-    m_size = (void *)this->m_children.m_size;
-    v25.mi = (btVector3)_mm_load_si128(&v22);
-    v25.mx = (btVector3)_mm_load_si128(&v23);
-    v24.m_node = btDbvt::insert(v9, m_dynamicAabbTree, &v25, m_size);
+    v9 = v21.mVec128.m128_f32[i];
+    if ( p_m_origin[-1].mVec128.m128_f32[0] > v9 )
+      p_m_origin[-1].mVec128.m128_f32[0] = v9;
+    v10 = v22.mVec128.m128_f32[i];
+    if ( v10 > p_m_origin->mVec128.m128_f32[0] )
+      p_m_origin->mVec128.m128_f32[0] = v10;
+    p_m_origin = (btVector3 *)((char *)p_m_origin + 4);
   }
-  m_capacity = this->m_children.m_capacity;
-  v12 = this->m_children.m_size;
-  if ( v12 == m_capacity )
+  v11 = (btDbvt *)localTransform[1].m_basis.m_el[0].mVec128.m128_i32[0];
+  if ( v11 )
   {
-    if ( v12 )
+    v17 = localTransform->m_basis.m_el[1].mVec128.m128_i32[0];
+    data[0] = (btVector3)v21.mVec128;
+    data[1] = (btVector3)v22.mVec128;
+    v23.m_node = btDbvt::insert((btDbvt *)data, v11, data, v17);
+  }
+  v12 = localTransform->m_basis.m_el[1].mVec128.m128_i32[1];
+  v13 = localTransform->m_basis.m_el[1].mVec128.m128_i32[0];
+  if ( v13 == v12 )
+  {
+    v14 = 0;
+    v18 = v13 ? 2 * v13 : 1;
+    if ( v12 < v18 )
     {
-      v13 = 2 * v12;
-      v20 = 2 * v12;
-    }
-    else
-    {
-      v20 = 1;
-      v13 = 1;
-    }
-    if ( m_capacity < v13 )
-    {
-      if ( v13 )
-      {
-        ++gNumAlignedAllocs;
-        v19 = (btCompoundShapeChild *)sAlignedAllocFunc(80 * v13, 16);
-      }
+      if ( v18 )
+        v19 = (btCompoundShapeChild *)btAlignedAllocInternal(80 * v18);
       else
-      {
         v19 = 0;
-      }
-      if ( this->m_children.m_size > 0 )
+      if ( localTransform->m_basis.m_el[1].mVec128.m128_i32[0] > 0 )
       {
-        v14 = v19;
-        v15 = 0;
-        v21 = this->m_children.m_size;
+        v15 = v19;
+        v20 = localTransform->m_basis.m_el[1].mVec128.m128_i32[0];
         do
         {
-          if ( v14 )
-            btCompoundShapeChild::btCompoundShapeChild(&this->m_children.m_data[v15], v14);
+          if ( v15 )
+            btCompoundShapeChild::btCompoundShapeChild(
+              (btCompoundShapeChild *)(v14 + localTransform->m_basis.m_el[1].mVec128.m128_i32[2]),
+              v15);
+          v14 += 80;
           ++v15;
-          ++v14;
-          --v21;
+          --v20;
         }
-        while ( v21 );
-        v13 = v20;
+        while ( v20 );
       }
-      m_data = this->m_children.m_data;
-      if ( m_data )
+      if ( localTransform->m_basis.m_el[1].mVec128.m128_i32[2] )
       {
-        if ( this->m_children.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
-        this->m_children.m_data = 0;
+        if ( localTransform->m_basis.m_el[1].mVec128.m128_i8[12] )
+          btAlignedFreeInternal((void *)localTransform->m_basis.m_el[1].mVec128.m128_i32[2]);
+        localTransform->m_basis.m_el[1].mVec128.m128_i32[2] = 0;
       }
-      this->m_children.m_ownsMemory = 1;
-      this->m_children.m_data = v19;
-      this->m_children.m_capacity = v13;
+      localTransform->m_basis.m_el[1].mVec128.m128_i32[2] = (int)v19;
+      localTransform->m_basis.m_el[1].mVec128.m128_i8[12] = 1;
+      localTransform->m_basis.m_el[1].mVec128.m128_i32[1] = v18;
     }
   }
-  v17 = &this->m_children.m_data[this->m_children.m_size];
-  if ( v17 )
-    btCompoundShapeChild::btCompoundShapeChild(&v24, v17);
-  ++this->m_children.m_size;
+  v16 = (btCompoundShapeChild *)(localTransform->m_basis.m_el[1].mVec128.m128_i32[2]
+                               + 80 * localTransform->m_basis.m_el[1].mVec128.m128_i32[0]);
+  if ( v16 )
+    btCompoundShapeChild::btCompoundShapeChild(&v23, v16);
+  ++localTransform->m_basis.m_el[1].mVec128.m128_i32[0];
 }

@@ -1,27 +1,25 @@
-void __usercall survarium::game::initialize_ui(survarium::game *this@<ecx>, _DWORD *a2@<esi>)
+void __thiscall survarium::game::initialize_ui(survarium::game *this, vostok::ui::engine *engine)
 {
-  vostok::render::ui::renderer *v2; // ebx
-  vostok::input::world *v3; // ebp
-  vostok::ui::ui_world *v4; // edi
-  int v5; // eax
-  vostok::ui::engine *engine; // [esp+4h] [ebp-8h]
-  vostok::memory::base_allocator *allocator; // [esp+8h] [ebp-4h]
+  vostok::render::ui::renderer *v3; // edi
+  vostok::memory::doug_lea_allocator *v4; // esi
+  char *v5; // eax
+  vostok::ui::ui_world *v6; // edx
+  int v7; // eax
+  vostok::input::world *input_world; // [esp+Ch] [ebp-4h]
+  vostok::ui::engine *enginea; // [esp+18h] [ebp+8h]
 
-  if ( a2 )
-    engine = (vostok::ui::engine *)a2 + 9;
+  if ( engine )
+    enginea = engine + 9;
   else
-    engine = 0;
-  v2 = *(vostok::render::ui::renderer **)(a2[37] + 12);
-  v3 = (vostok::input::world *)a2[35];
-  allocator = (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_;
-  v4 = (vostok::ui::ui_world *)(*(int (__stdcall **)(int))(*(_DWORD *)LODWORD(survarium::g_allocator.f_.f_) + 16))(88);
-  if ( v4 )
-  {
-    vostok::ui::ui_world::ui_world(v4, allocator, v3, engine, v2);
-    a2[36] = v5;
-  }
+    enginea = 0;
+  v3 = *(vostok::render::ui::renderer **)((char *)&dword_20005C + *(_DWORD *)&engine[172]);
+  v4 = survarium::g_allocator;
+  input_world = *(vostok::input::world **)&engine[164];
+  v5 = type_info::raw_name(&vostok::ui::ui_world `RTTI Type Descriptor');
+  v6 = (vostok::ui::ui_world *)v4->call_malloc(v4, 88u, v5, "vostok::ui::create_world", ".\\ui_entry_point.cpp", 13u);
+  if ( v6 )
+    vostok::ui::ui_world::ui_world(v6, v4, input_world, (const char *)v4, enginea, v3);
   else
-  {
-    a2[36] = 0;
-  }
+    v7 = 0;
+  *(_DWORD *)&engine[168] = v7;
 }

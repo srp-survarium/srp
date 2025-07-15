@@ -6,11 +6,11 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::PropagateScale9GridExists(
   int v4; // edi
   unsigned int Size; // ebp
   Scaleform::GFx::DisplayObjectBase *pCharacter; // ecx
-  bool actualGrid; // [esp+Bh] [ebp-1h]
+  bool v7; // [esp+Bh] [ebp-1h]
 
   HasScale9Grid = Scaleform::GFx::DisplayObjectBase::HasScale9Grid(this);
   v3 = HasScale9Grid;
-  actualGrid = HasScale9Grid;
+  v7 = HasScale9Grid;
   if ( ((this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags
        & 1) != 0
      || !HasScale9Grid)
@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::PropagateScale9GridExists(
       ++v4;
       if ( !--Size )
         break;
-      v3 = actualGrid;
+      v3 = v7;
     }
   }
 }

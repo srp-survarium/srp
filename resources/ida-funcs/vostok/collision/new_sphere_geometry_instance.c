@@ -1,11 +1,19 @@
 vostok::collision::geometry_instance *__cdecl vostok::collision::new_sphere_geometry_instance(
-        const vostok::math::float4x4 *matrix)
+        vostok::memory::base_allocator *matrix)
 {
+  vostok::memory::doug_lea_allocator *v1; // esi
+  char *v2; // eax
   vostok::collision::geometry_instance *result; // eax
 
-  result = (vostok::collision::geometry_instance *)((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-                                                     vostok::render::g_allocator.m_object,
-                                                     72);
+  v1 = vostok::render::g_allocator;
+  v2 = type_info::raw_name(&vostok::collision::sphere_geometry_instance `RTTI Type Descriptor');
+  result = (vostok::collision::geometry_instance *)v1->call_malloc(
+                                                     v1,
+                                                     72u,
+                                                     v2,
+                                                     "vostok::collision::new_sphere_geometry_instance",
+                                                     ".\\api.cpp",
+                                                     118u);
   if ( !result )
     return 0;
   result->m_delete_by_collision_object = 1;

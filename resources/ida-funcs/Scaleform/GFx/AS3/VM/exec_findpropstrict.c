@@ -44,7 +44,11 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_findpropstrict(
     }
     else
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v10, eUndefinedVarError, this);
+      Scaleform::GFx::AS3::VM::Error::Error(
+        &v10,
+        (Scaleform::GFx::AS3::VM_vtbl *)0x429,
+        (Scaleform::GFx::ASStringNode *)this,
+        &args.ArgMN.Name);
       Scaleform::GFx::AS3::VM::ThrowErrorInternal(
         this,
         v7,

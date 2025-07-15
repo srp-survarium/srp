@@ -98,7 +98,7 @@ LABEL_18:
     v11 = *(_DWORD *)&id->RollOverCnt;
     e.TouchID = TouchID;
     *(_DWORD *)&e.RollOverCnt = v11;
-    e.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574212];
+    e.Id = 16777228;
     if ( !pAS3RawPtr )
       pAS3RawPtr = this->pAS3CollectiblePtr.pObject;
     v12 = pAS3RawPtr;

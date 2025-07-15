@@ -1,13 +1,17 @@
-void __usercall vostok::resources::resources_manager::wakeup_thread_by_id_if_needed(
+void __userpurge vostok::resources::resources_manager::wakeup_thread_by_id_if_needed(
         vostok::resources::resources_manager *this@<ecx>,
-        int a2@<eax>)
+        int a2@<eax>,
+        vostok::resources::resources_manager *thread_id)
 {
-  if ( this == *(vostok::resources::resources_manager **)((char *)&dword_203CC + a2) )
+  vostok::resources::resources_manager *v3; // ecx
+
+  v3 = *(vostok::resources::resources_manager **)((char *)&loc_203D3 + a2 + 1);
+  if ( thread_id == v3 )
   {
-    SetEvent(*(HANDLE *)((char *)&dword_203D0 + a2));
+    vostok::resources::resources_manager::wakeup_resources_thread(v3, a2);
   }
-  else if ( this == *(vostok::resources::resources_manager **)&byte_203D8[a2] )
+  else if ( thread_id == *(vostok::resources::resources_manager **)((char *)&loc_203DF + a2 + 1) )
   {
-    SetEvent(*(HANDLE *)((char *)&dword_203E0 + a2));
+    SetEvent(*(HANDLE *)((char *)&loc_203E8 + a2));
   }
 }

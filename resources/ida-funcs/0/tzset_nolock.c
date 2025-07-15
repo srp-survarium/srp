@@ -1,4 +1,4 @@
-void __usercall tzset_nolock(unsigned int a1@<edi>, unsigned int a2@<esi>)
+void __usercall tzset_nolock(int a1@<edi>, int a2@<esi>)
 {
   unsigned __int8 *v2; // eax
   unsigned __int8 *v3; // esi
@@ -6,10 +6,10 @@ void __usercall tzset_nolock(unsigned int a1@<edi>, unsigned int a2@<esi>)
   int v5; // eax
   int v6; // eax
   char **v7; // edi
-  const char *v8; // esi
+  char *v8; // esi
   char v9; // al
-  int v10; // eax
-  int v11; // eax
+  unsigned int v10; // eax
+  unsigned int v11; // eax
   int v12; // esi
   int v13; // esi
   int negdiff; // [esp+14h] [ebp-38h]
@@ -20,7 +20,8 @@ void __usercall tzset_nolock(unsigned int a1@<edi>, unsigned int a2@<esi>)
   int daylight; // [esp+28h] [ebp-24h] BYREF
   char **tzname; // [esp+2Ch] [ebp-20h]
   int timezone; // [esp+30h] [ebp-1Ch] BYREF
-  CPPEH_RECORD ms_exc; // [esp+34h] [ebp-18h]
+  CPPEH_RECORD ms_exc; // [esp+34h] [ebp-18h] BYREF
+  int savedregs; // [esp+4Ch] [ebp+0h]
 
   negdiff = 0;
   nochange = 0;
@@ -30,11 +31,11 @@ void __usercall tzset_nolock(unsigned int a1@<edi>, unsigned int a2@<esi>)
   _lock(7);
   ms_exc.registration.TryLevel = 0;
   tzname = __tzname();
-  if ( _get_timezone(&timezone) )
+  if ( _get_timezone(0, a1, &timezone) )
     _invoke_watson(0, a1, a2);
-  if ( _get_daylight(&daylight) )
+  if ( _get_daylight(0, a1, &daylight) )
     _invoke_watson(0, a1, a2);
-  if ( _get_dstbias(&dstbias) )
+  if ( _get_dstbias(0, a1, &dstbias) )
     _invoke_watson(0, a1, a2);
   lc_cp = ___lc_codepage_func();
   tzapiused = 0;
@@ -93,8 +94,8 @@ LABEL_33:
   if ( !lastTZ )
     goto LABEL_33;
   strlen(v3);
-  if ( strcpy_s(lastTZ, v6 + 1, (const char *)v3) )
-    _invoke_watson(0, 0xFFFFFFFF, (unsigned int)v3);
+  if ( strcpy_s(-1, lastTZ, v6 + 1, (const char *)v3) )
+    _invoke_watson(0, -1, (int)v3);
 LABEL_34:
   _set_timezone(timezone);
   _set_daylight(daylight);
@@ -103,16 +104,23 @@ LABEL_34:
   _unlock(7);
   if ( !nochange )
   {
+    savedregs = 3;
+    ms_exc.registration.TryLevel = (DWORD)v3;
+    ms_exc.registration.ScopeTable = (PSCOPETABLE_ENTRY)64;
     v7 = tzname;
-    if ( strncpy_s(*tzname, 0x40u, (const char *)v3, 3u) )
-      _invoke_watson(0, (unsigned int)v7, (unsigned int)v3);
-    v8 = (const char *)(v3 + 3);
+    if ( strncpy_s((int)tzname, *tzname, 64, (const char *)v3, 3u) )
+    {
+      savedregs = 0;
+      memset(&ms_exc.registration, 0, sizeof(ms_exc.registration));
+      _invoke_watson(0, (int)v7, (int)v3);
+    }
+    v8 = (char *)(v3 + 3);
     if ( *v8 == 45 )
     {
       negdiff = 1;
       ++v8;
     }
-    timezone = 3600 * atol(v8);
+    timezone = 3600 * atol(0, v8);
     while ( 1 )
     {
       v9 = *v8;
@@ -122,13 +130,13 @@ LABEL_34:
     }
     if ( *v8 == 58 )
     {
-      v10 = atol(++v8);
+      v10 = atol(0, ++v8);
       timezone += 60 * v10;
       while ( *v8 >= 48 && *v8 <= 57 )
         ++v8;
       if ( *v8 == 58 )
       {
-        v11 = atol(++v8);
+        v11 = atol(0, ++v8);
         timezone += v11;
         while ( *v8 >= 48 && *v8 <= 57 )
           ++v8;
@@ -139,8 +147,12 @@ LABEL_34:
     daylight = *v8;
     if ( daylight )
     {
-      if ( strncpy_s(v7[1], 0x40u, v8, 3u) )
-        _invoke_watson(0, (unsigned int)v7, (unsigned int)v8);
+      if ( strncpy_s((int)v7, v7[1], 64, v8, 3u) )
+      {
+        savedregs = 0;
+        memset(&ms_exc.registration, 0, sizeof(ms_exc.registration));
+        _invoke_watson(0, (int)v7, (int)v8);
+      }
     }
     else
     {

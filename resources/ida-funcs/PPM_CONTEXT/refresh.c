@@ -1,37 +1,45 @@
-void __thiscall PPM_CONTEXT::refresh(PPM_CONTEXT *this, PPM_CONTEXT *impl, unsigned int OldNU, int Scale)
+void __userpurge PPM_CONTEXT::refresh(
+        PPM_CONTEXT *this@<esi>,
+        unsigned int OldNU@<ecx>,
+        ppmd_compressor_impl *impl,
+        unsigned int Scale)
 {
-  ppmd_allocator *v5; // eax
-  int SummFreq; // esi
+  PPM_CONTEXT::STATE *v5; // eax
+  int SummFreq; // edi
   char v7; // cl
-  int v8; // ecx
-  int v9; // esi
+  int Freq; // ecx
+  int v9; // edi
   unsigned int v10; // edx
-  int Stamp_high; // edx
+  int v11; // ecx
   unsigned int v12; // edx
-  int i; // [esp+1Ch] [ebp+Ch]
+  int NumStats; // [esp+14h] [ebp+Ch]
 
-  i = impl->NumStats;
-  v5 = ppmd_allocator::ShrinkUnits((ppmd_allocator *)&this[1], (ppmd_allocator *)impl->Stats, OldNU, (i + 2) >> 1, impl);
-  SummFreq = impl->SummFreq;
-  v7 = impl->Flags & (4 * (Scale + 4));
-  impl->Stats = (PPM_CONTEXT::STATE *)v5;
-  impl->Flags = 8 * (LOBYTE(v5->m_allocator) >= 0x40u) + v7;
-  v8 = BYTE1(v5->m_allocator);
-  v9 = SummFreq - v8;
-  v10 = (unsigned int)(v8 + Scale) >> Scale;
-  BYTE1(v5->m_allocator) = v10;
-  impl->SummFreq = (unsigned __int8)v10;
+  NumStats = this->NumStats;
+  v5 = (PPM_CONTEXT::STATE *)ppmd_allocator::ShrinkUnits(
+                               &impl->m_allocator,
+                               OldNU,
+                               (char *)this->Stats,
+                               (NumStats + 2) >> 1);
+  SummFreq = this->SummFreq;
+  v7 = this->Flags & (4 * (Scale + 4));
+  this->Stats = v5;
+  this->Flags = 8 * (v5->Symbol >= 0x40u) + v7;
+  Freq = v5->Freq;
+  v9 = SummFreq - Freq;
+  v10 = (Freq + Scale) >> Scale;
+  v5->Freq = v10;
+  this->SummFreq = (unsigned __int8)v10;
   do
   {
-    Stamp_high = HIBYTE(v5->BList[0].Stamp);
-    v5 = (ppmd_allocator *)((char *)v5 + 6);
-    v9 -= Stamp_high;
-    v12 = (unsigned int)(Scale + Stamp_high) >> Scale;
-    BYTE1(v5->m_allocator) = v12;
-    impl->SummFreq += (unsigned __int8)v12;
-    impl->Flags |= 8 * (LOBYTE(v5->m_allocator) >= 0x40u);
-    --i;
+    v11 = v5[1].Freq;
+    ++v5;
+    v9 -= v11;
+    v12 = (v11 + Scale) >> Scale;
+    v5->Freq = v12;
+    this->SummFreq += (unsigned __int8)v12;
+    this->Flags |= 8 * (v5->Symbol >= 0x40u);
+    --NumStats;
   }
-  while ( i );
-  impl->SummFreq += (unsigned int)(Scale + v9) >> Scale;
+  while ( NumStats );
+  this->SummFreq += (Scale + v9) >> Scale;
 }

@@ -3,7 +3,7 @@ int __cdecl pkey_rsa_encrypt(
         unsigned __int8 *out,
         unsigned int *outlen,
         const unsigned __int8 *in,
-        unsigned int inlen)
+        int inlen)
 {
   int result; // eax
 

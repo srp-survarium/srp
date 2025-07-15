@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::ContextImpl::Context::handleFinalizingSnaphot
   int v8; // edx
   int v9; // ecx
   int v10; // edx
-  unsigned int iitem; // [esp+8h] [ebp-Ch]
+  unsigned int v11; // [esp+8h] [ebp-Ch]
   Scaleform::Render::ContextImpl::Snapshot *v12; // [esp+Ch] [ebp-8h]
 
   v1 = this;
@@ -21,7 +21,7 @@ void __thiscall Scaleform::Render::ContextImpl::Context::handleFinalizingSnaphot
   {
     for ( i = v2->Changes.pPages; i; i = i->pNext )
     {
-      iitem = 0;
+      v11 = 0;
       if ( i->Count )
       {
         Items = i->Items;
@@ -42,9 +42,9 @@ void __thiscall Scaleform::Render::ContextImpl::Context::handleFinalizingSnaphot
             v2 = v12;
           }
           ++Items;
-          ++iitem;
+          ++v11;
         }
-        while ( iitem < i->Count );
+        while ( v11 < i->Count );
         v1 = this;
       }
     }

@@ -8,12 +8,12 @@ void __thiscall Scaleform::Render::TreeCacheMeshBase::ComputeFinalMatrix(
   Scaleform::Render::Cxform *p_Cx; // ebx
   unsigned __int8 v6; // si
   Scaleform::Render::MatrixPoolImpl::HMatrix *v7; // eax
-  Scaleform::Render::MatrixPoolImpl::HMatrix result; // [esp+6Ch] [ebp-34h] BYREF
-  Scaleform::Render::Matrix3x4<float> m; // [esp+70h] [ebp-30h] BYREF
+  Scaleform::Render::MatrixPoolImpl::HMatrix v8; // [esp+Ch] [ebp-34h] BYREF
+  Scaleform::Render::Matrix3x4<float> m; // [esp+10h] [ebp-30h] BYREF
 
   v3 = this->M.pHandle == &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle;
   p_M = &this->M;
-  result.pHandle = (Scaleform::Render::MatrixPoolImpl::EntryHandle *)this;
+  v8.pHandle = (Scaleform::Render::MatrixPoolImpl::EntryHandle *)this;
   if ( v3 )
   {
     p_Cx = &t->Cx;
@@ -21,8 +21,8 @@ void __thiscall Scaleform::Render::TreeCacheMeshBase::ComputeFinalMatrix(
     if ( (flags & 0x80u) == 0 )
     {
       v7 = Scaleform::Render::MatrixPoolImpl::MatrixPool::CreateMatrix(
-             (Scaleform::Render::MatrixPoolImpl::MatrixPool *)&result.pHandle[8].pHeader[154],
-             &result,
+             (Scaleform::Render::MatrixPoolImpl::MatrixPool *)&v8.pHandle[8].pHeader[154],
+             &v8,
              &t->Mat,
              p_Cx,
              v6);
@@ -31,15 +31,15 @@ void __thiscall Scaleform::Render::TreeCacheMeshBase::ComputeFinalMatrix(
     {
       Scaleform::Render::TransformArgs::GetMatrix3D(t, flags, &m);
       v7 = Scaleform::Render::MatrixPoolImpl::MatrixPool::CreateMatrix(
-             (Scaleform::Render::MatrixPoolImpl::MatrixPool *)&result.pHandle[8].pHeader[154],
-             &result,
-             &m,
+             (Scaleform::Render::MatrixPoolImpl::MatrixPool *)&v8.pHandle[8].pHeader[154],
+             &v8,
+             (const __m128i *)&m,
              p_Cx,
              v6 | 0x10);
     }
     Scaleform::Render::MatrixPoolImpl::HMatrix::operator=(p_M, v7);
-    if ( result.pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
-      Scaleform::Render::MatrixPoolImpl::DataHeader::Release(result.pHandle->pHeader);
+    if ( v8.pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
+      Scaleform::Render::MatrixPoolImpl::DataHeader::Release(v8.pHandle->pHeader);
   }
   else
   {

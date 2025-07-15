@@ -1,9 +1,9 @@
 void __thiscall vostok::console_commands::cc_bool::status(vostok::console_commands::cc_bool *this, char (*dest)[512])
 {
-  survarium::keyboard_key_descr **m_keyboard; // eax
+  const char *v2; // eax
 
-  m_keyboard = stru_95AF78.m_key_bindings[4].m_keyboard;
+  v2 = "on";
   if ( !*this->m_value )
-    m_keyboard = &stru_95AF78.m_key_bindings[5].m_keyboard[1];
-  vostok::sprintf<512>(dest, "%s", (const char *)m_keyboard);
+    v2 = "off";
+  vostok::sprintf<512>(dest, (char *)&stru_7F9BE8.allocator, v2);
 }

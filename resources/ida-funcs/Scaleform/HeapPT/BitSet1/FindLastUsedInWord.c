@@ -2,7 +2,7 @@ int __cdecl Scaleform::HeapPT::BitSet1::FindLastUsedInWord(unsigned int bits)
 {
   if ( (unsigned __int16)bits == 0xFFFF )
   {
-    if ( (unsigned __int8 *)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & bits) == &vostok::memory::s_CRT_arena[5574199] )
+    if ( (bits & 0xFFFFFF) == 0xFFFFFF )
       return Scaleform::HeapPT::BitSet1::LastUsedBlock[HIBYTE(bits)] + 24;
     else
       return Scaleform::HeapPT::BitSet1::LastUsedBlock[BYTE2(bits)] + 16;

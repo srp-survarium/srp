@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_newcatch(
 
   pObject = (Scaleform::GFx::AS3::Classes::fl::Catch **)this->TraitsCatch.pObject->ITraits.pObject;
   if ( !pObject[17] )
-    ((void (__thiscall *)(Scaleform::GFx::AS3::Classes::fl::Catch **))(*pObject)[1]._pRCC)(pObject);
+    ((void (__thiscall *)(Scaleform::GFx::AS3::Classes::fl::Catch **))(*pObject)[1].RefCount)(pObject);
   pV = Scaleform::GFx::AS3::Classes::fl::Catch::MakeInstance(
          pObject[17],
          (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Catch> *)&e,

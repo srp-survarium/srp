@@ -26,7 +26,7 @@ void __cdecl __noreturn longjmp(jmp_buf Buf, int Value)
     }
     else
     {
-      _local_unwind2((int)v4, v2[7]);
+      _local_unwind2(v3, (int)v4, v2[7]);
     }
   }
   _NLG_Notify(v2[5], v3, 0);

@@ -1,15 +1,15 @@
 void __usercall EVP_EncodeUpdate(
-        unsigned int a1@<esi>,
+        int a1@<esi>,
         evp_Encode_Ctx_st *ctx,
         unsigned __int8 *out,
         int *outl,
-        unsigned __int8 *in,
+        const __m128i *in,
         unsigned int inl)
 {
   int v6; // ebx
   int num; // eax
   int length; // esi
-  unsigned __int8 *v9; // ebp
+  const __m128i *v9; // ebp
   unsigned int v10; // esi
   int v11; // eax
   unsigned __int8 *v12; // esi
@@ -24,7 +24,7 @@ void __usercall EVP_EncodeUpdate(
   if ( inl )
   {
     if ( ctx->length > 80 )
-      OpenSSLDie((unsigned int)ctx, a1, ".\\crypto\\evp\\encode.c", 139, "ctx->length <= (int)sizeof(ctx->enc_data)");
+      OpenSSLDie((int)ctx, a1, inl, ".\\crypto\\evp\\encode.c", 139, "ctx->length <= (int)sizeof(ctx->enc_data)");
     num = ctx->num;
     length = ctx->length;
     if ( (int)(ctx->num + inl) >= length )
@@ -33,8 +33,8 @@ void __usercall EVP_EncodeUpdate(
       if ( num )
       {
         v10 = length - num;
-        memcpy(&ctx->enc_data[num], in, v10);
-        v9 = &in[v10];
+        memcpy((int)&ctx->enc_data[num], in, v10);
+        v9 = (const __m128i *)((char *)in + v10);
         v6 = inl - v10;
         v11 = EVP_EncodeBlock(out, ctx->enc_data, ctx->length);
         ctx->num = 0;
@@ -49,23 +49,23 @@ void __usercall EVP_EncodeUpdate(
       }
       for ( ; v6 >= ctx->length; v16 += v13 + 1 )
       {
-        v13 = EVP_EncodeBlock(v12, v9, ctx->length);
+        v13 = EVP_EncodeBlock(v12, (const unsigned __int8 *)v9, ctx->length);
         v14 = ctx->length;
         v15 = &v12[v13];
         *v15 = 10;
         v12 = v15 + 1;
         v6 -= v14;
-        v9 += v14;
+        v9 = (const __m128i *)((char *)v9 + v14);
         *v12 = 0;
       }
       if ( v6 )
-        memcpy(ctx->enc_data, v9, v6);
+        memcpy((int)ctx->enc_data, v9, v6);
       ctx->num = v6;
       *outl = v16;
     }
     else
     {
-      memcpy(&ctx->enc_data[num], in, inl);
+      memcpy((int)&ctx->enc_data[num], in, inl);
       ctx->num += inl;
     }
   }

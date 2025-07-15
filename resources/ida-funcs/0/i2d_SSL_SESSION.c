@@ -23,7 +23,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
   int timeout; // [esp-Ch] [ebp-180h]
   int verify_result; // [esp-Ch] [ebp-180h]
   int tlsext_tick_lifetime_hint; // [esp-Ch] [ebp-180h]
-  unsigned __int8 *ppa; // [esp+8h] [ebp-16Ch] BYREF
+  unsigned __int8 *out; // [esp+8h] [ebp-16Ch] BYREF
   char compress_meth; // [esp+Fh] [ebp-165h] BYREF
   char v28; // [esp+10h] [ebp-164h] BYREF
   char v29; // [esp+11h] [ebp-163h]
@@ -37,7 +37,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
   int v37; // [esp+2Ch] [ebp-148h]
   int v38; // [esp+30h] [ebp-144h]
   int v39; // [esp+34h] [ebp-140h]
-  int length; // [esp+38h] [ebp-13Ch]
+  int v40; // [esp+38h] [ebp-13Ch]
   int v41; // [esp+3Ch] [ebp-138h]
   asn1_string_st a; // [esp+40h] [ebp-134h] BYREF
   asn1_string_st v43; // [esp+50h] [ebp-124h] BYREF
@@ -63,7 +63,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
   char v63; // [esp+168h] [ebp-Ch] BYREF
 
   v34 = pp;
-  length = 0;
+  v40 = 0;
   v33 = 0;
   v39 = 0;
   v35 = 0;
@@ -78,12 +78,12 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
   a.length = 8;
   a.type = 2;
   a.data = (unsigned __int8 *)&v58;
-  ASN1_INTEGER_set(&a, 1);
+  ASN1_INTEGER_set(8, &a, 1);
   ssl_version = in->ssl_version;
   v43.length = 8;
   v43.type = 2;
   v43.data = (unsigned __int8 *)&v63;
-  ASN1_INTEGER_set(&v43, ssl_version);
+  ASN1_INTEGER_set(8, &v43, ssl_version);
   v44.data = (unsigned __int8 *)&v28;
   cipher = in->cipher;
   v44.type = 4;
@@ -131,7 +131,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
     v50.type = 2;
     v50.length = 8;
     v50.data = (unsigned __int8 *)&v60;
-    ASN1_INTEGER_set(&v50, time);
+    ASN1_INTEGER_set(8, &v50, time);
   }
   if ( in->timeout )
   {
@@ -139,7 +139,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
     v51.length = 8;
     v51.type = 2;
     v51.data = (unsigned __int8 *)&v62;
-    ASN1_INTEGER_set(&v51, timeout);
+    ASN1_INTEGER_set(8, &v51, timeout);
   }
   if ( in->verify_result )
   {
@@ -147,7 +147,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
     v52.length = 8;
     v52.type = 2;
     v52.data = (unsigned __int8 *)&v59;
-    ASN1_INTEGER_set(&v52, verify_result);
+    ASN1_INTEGER_set(8, &v52, verify_result);
   }
   tlsext_hostname = (unsigned __int8 *)in->tlsext_hostname;
   if ( tlsext_hostname )
@@ -169,7 +169,7 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
     v54.length = 8;
     v54.type = 2;
     v54.data = (unsigned __int8 *)&v61;
-    ASN1_INTEGER_set(&v54, tlsext_tick_lifetime_hint);
+    ASN1_INTEGER_set(8, &v54, tlsext_tick_lifetime_hint);
   }
   psk_identity_hint = (unsigned __int8 *)in->psk_identity_hint;
   if ( psk_identity_hint )
@@ -194,8 +194,8 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
     v16 += i2d_ASN1_OCTET_STRING(&v49, 0);
   if ( in->time )
   {
-    length = i2d_ASN1_INTEGER(&v50, 0);
-    v16 += ASN1_object_size(1, length, 1);
+    v40 = i2d_ASN1_INTEGER(&v50, 0);
+    v16 += ASN1_object_size(1, v40, 1);
   }
   if ( in->timeout )
   {
@@ -248,72 +248,72 @@ int __cdecl i2d_SSL_SESSION(ssl_session_st *in, unsigned __int8 **pp)
   v20 = ASN1_object_size(1, v19, 16);
   if ( v34 )
   {
-    ppa = *v34;
-    ASN1_put_object(&ppa, 1, v19, 16, 0);
-    i2d_ASN1_INTEGER(&a, &ppa);
-    i2d_ASN1_INTEGER(&v43, &ppa);
-    i2d_ASN1_OCTET_STRING(&v44, &ppa);
-    i2d_ASN1_OCTET_STRING(&v47, &ppa);
-    i2d_ASN1_OCTET_STRING(&v46, &ppa);
+    out = *v34;
+    ASN1_put_object(&out, 1, v19, 16, 0);
+    i2d_ASN1_INTEGER(&a, &out);
+    i2d_ASN1_INTEGER(&v43, &out);
+    i2d_ASN1_OCTET_STRING(&v44, &out);
+    i2d_ASN1_OCTET_STRING(&v47, &out);
+    i2d_ASN1_OCTET_STRING(&v46, &out);
     if ( in->key_arg_length )
     {
-      v21 = ppa;
-      i2d_ASN1_OCTET_STRING(&v49, &ppa);
+      v21 = out;
+      i2d_ASN1_OCTET_STRING(&v49, &out);
       *v21 = *v21 & 0x20 | 0x80;
     }
     if ( in->time )
     {
-      ASN1_put_object(&ppa, 1, length, 1, 128);
-      i2d_ASN1_INTEGER(&v50, &ppa);
+      ASN1_put_object(&out, 1, v40, 1, 128);
+      i2d_ASN1_INTEGER(&v50, &out);
     }
     if ( in->timeout )
     {
-      ASN1_put_object(&ppa, 1, v33, 2, 128);
-      i2d_ASN1_INTEGER(&v51, &ppa);
+      ASN1_put_object(&out, 1, v33, 2, 128);
+      i2d_ASN1_INTEGER(&v51, &out);
     }
     if ( in->peer )
     {
-      ASN1_put_object(&ppa, 1, v39, 3, 128);
-      i2d_X509(in->peer, &ppa);
+      ASN1_put_object(&out, 1, v39, 3, 128);
+      i2d_X509(in->peer, &out);
     }
-    ASN1_put_object(&ppa, 1, v18, 4, 128);
-    i2d_ASN1_OCTET_STRING(&v48, &ppa);
+    ASN1_put_object(&out, 1, v18, 4, 128);
+    i2d_ASN1_OCTET_STRING(&v48, &out);
     if ( in->verify_result )
     {
-      ASN1_put_object(&ppa, 1, v35, 5, 128);
-      i2d_ASN1_INTEGER(&v52, &ppa);
+      ASN1_put_object(&out, 1, v35, 5, 128);
+      i2d_ASN1_INTEGER(&v52, &out);
     }
     if ( in->tlsext_hostname )
     {
-      ASN1_put_object(&ppa, 1, v41, 6, 128);
-      i2d_ASN1_OCTET_STRING(&v53, &ppa);
+      ASN1_put_object(&out, 1, v41, 6, 128);
+      i2d_ASN1_OCTET_STRING(&v53, &out);
     }
     if ( in->psk_identity_hint )
     {
-      ASN1_put_object(&ppa, 1, v38, 7, 128);
-      i2d_ASN1_OCTET_STRING(&v56, &ppa);
+      ASN1_put_object(&out, 1, v38, 7, 128);
+      i2d_ASN1_OCTET_STRING(&v56, &out);
     }
     if ( in->psk_identity )
     {
-      ASN1_put_object(&ppa, 1, v37, 8, 128);
-      i2d_ASN1_OCTET_STRING(&v57, &ppa);
+      ASN1_put_object(&out, 1, v37, 8, 128);
+      i2d_ASN1_OCTET_STRING(&v57, &out);
     }
     if ( in->tlsext_tick_lifetime_hint > 0 )
     {
-      ASN1_put_object(&ppa, 1, v31, 9, 128);
-      i2d_ASN1_INTEGER(&v54, &ppa);
+      ASN1_put_object(&out, 1, v31, 9, 128);
+      i2d_ASN1_INTEGER(&v54, &out);
     }
     if ( in->tlsext_tick )
     {
-      ASN1_put_object(&ppa, 1, v36, 10, 128);
-      i2d_ASN1_OCTET_STRING(&v55, &ppa);
+      ASN1_put_object(&out, 1, v36, 10, 128);
+      i2d_ASN1_OCTET_STRING(&v55, &out);
     }
     if ( in->compress_meth )
     {
-      ASN1_put_object(&ppa, 1, v32, 11, 128);
-      i2d_ASN1_OCTET_STRING(&v45, &ppa);
+      ASN1_put_object(&out, 1, v32, 11, 128);
+      i2d_ASN1_OCTET_STRING(&v45, &out);
     }
-    *v34 = ppa;
+    *v34 = out;
   }
   return v20;
 }

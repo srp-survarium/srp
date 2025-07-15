@@ -1,4 +1,4 @@
-void __thiscall pure_call_handler(survarium::game_camera *this)
+void __cdecl pure_call_handler()
 {
-  handler_base(this);
+  handler_base("pure virtual function call");
 }

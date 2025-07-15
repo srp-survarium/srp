@@ -25,6 +25,6 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::SetHitStateObject(
       v4,
       0);
   }
-  if ( Scaleform::GFx::Button::GetButtonState((Scaleform::GFx::ButtonRecord::MouseState)pDispObj[2].pParent) == Hit )
-    Scaleform::GFx::AS3::AvmButton::SwitchStateIntl(this, Hit);
+  if ( Scaleform::GFx::Button::GetButtonState((Scaleform::GFx::ButtonRecord::MouseState)pDispObj[2].pParent) == 3 )
+    Scaleform::GFx::AS3::AvmButton::SwitchStateIntl(this, (Scaleform::GFx::Button::ButtonState)3);
 }

@@ -3,9 +3,9 @@ int __thiscall Scaleform::Render::D3D1x::MeshCache::LockBuffers(Scaleform::Rende
   int result; // eax
   Scaleform::Render::RQCacheInterface *pRQCaches; // ecx
 
+  this->VBSizeEvictedInLock = 0;
   result = 1;
   this->Locked = 1;
-  this->VBSizeEvictedInLock = 0;
   pRQCaches = this->pRQCaches;
   if ( pRQCaches )
     pRQCaches->LockFlags |= 1u;

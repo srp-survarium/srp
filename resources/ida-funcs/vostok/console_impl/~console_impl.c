@@ -6,12 +6,16 @@ void __thiscall vostok::console_impl::~console_impl(vostok::console_impl *this)
   int v5; // eax
   void (__thiscall **v6)(vostok::ui::world *, vostok::ui::window *); // edi
   vostok::ui::window *v7; // eax
-  void **M_start; // edi
-  void **i; // ebp
-  void (__thiscall **v10)(vostok::ui::world *, vostok::ui::window *); // ebx
-  int v11; // eax
-  void **v12; // edi
-  const void **j; // ebx
+  vostok::memory::base_allocator *m_allocator; // ecx
+  vostok::vectora<vostok::ui::text *> *p_m_text_items; // edi
+  void **M_start; // ebx
+  void (__thiscall **v11)(vostok::ui::world *, vostok::ui::window *); // edi
+  int v12; // eax
+  const void **v13; // ebx
+  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *> > *v14; // ecx
+  stlp_std::priv::_Vector_base<void *,vostok::vectora_allocator<void *> > *v15; // ecx
+  const void **i; // [esp+Ch] [ebp-8h]
+  void **M_finish; // [esp+10h] [ebp-4h]
 
   m_ui_world = this->m_ui_world;
   m_ui_dialog = this->m_ui_dialog;
@@ -22,29 +26,40 @@ void __thiscall vostok::console_impl::~console_impl(vostok::console_impl *this)
   v6 = &this->m_ui_world->destroy_window;
   v7 = this->m_ui_tips_view_hl->w(this->m_ui_tips_view_hl);
   (*v6)(this->m_ui_world, v7);
+  p_m_text_items = &this->m_text_items;
   M_start = this->m_text_items._M_impl._M_start;
-  for ( i = this->m_text_items._M_impl._M_finish; M_start != i; ++M_start )
+  M_finish = this->m_text_items._M_impl._M_finish;
+  if ( M_start != M_finish )
   {
-    v10 = &this->m_ui_world->destroy_window;
-    v11 = (*(int (__thiscall **)(void *))(*(_DWORD *)*M_start + 28))(*M_start);
-    (*v10)(this->m_ui_world, (vostok::ui::window *)v11);
+    do
+    {
+      v11 = &this->m_ui_world->destroy_window;
+      v12 = (*(int (__thiscall **)(void *))(*(_DWORD *)*M_start + 28))(*M_start);
+      (*v11)(this->m_ui_world, (vostok::ui::window *)v12);
+      ++M_start;
+    }
+    while ( M_start != M_finish );
+    p_m_text_items = &this->m_text_items;
   }
-  v12 = (void **)this->m_executed_history._M_impl._M_start;
-  for ( j = this->m_executed_history._M_impl._M_finish; v12 != (void **)j; ++v12 )
+  v13 = this->m_executed_history._M_impl._M_start;
+  for ( i = this->m_executed_history._M_impl._M_finish; v13 != i; ++v13 )
   {
-    if ( *v12 )
-      this->m_allocator->call_free(this->m_allocator, *v12);
+    m_allocator = this->m_allocator;
+    if ( *v13 )
+      m_allocator->call_free(
+        m_allocator,
+        (void *)*v13,
+        "vostok::console_impl::~console_impl",
+        ".\\console_impl.cpp",
+        119u);
   }
-  if ( this->m_tips._M_impl._M_start )
-    this->m_tips._M_impl._M_end_of_storage.m_allocator->call_free(
-      this->m_tips._M_impl._M_end_of_storage.m_allocator,
-      this->m_tips._M_impl._M_start);
-  if ( this->m_executed_history._M_impl._M_start )
-    this->m_executed_history._M_impl._M_end_of_storage.m_allocator->call_free(
-      this->m_executed_history._M_impl._M_end_of_storage.m_allocator,
-      this->m_executed_history._M_impl._M_start);
-  if ( this->m_text_items._M_impl._M_start )
-    this->m_text_items._M_impl._M_end_of_storage.m_allocator->call_free(
-      this->m_text_items._M_impl._M_end_of_storage.m_allocator,
-      this->m_text_items._M_impl._M_start);
+  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *>>::~_Impl_vector<void const *,vostok::vectora_allocator<void const *>>(
+    (stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *> > *)m_allocator,
+    (int)&this->m_tips);
+  stlp_std::priv::_Impl_vector<void const *,vostok::vectora_allocator<void const *>>::~_Impl_vector<void const *,vostok::vectora_allocator<void const *>>(
+    v14,
+    (int)&this->m_executed_history);
+  stlp_std::priv::_Vector_base<void *,vostok::vectora_allocator<void *>>::~_Vector_base<void *,vostok::vectora_allocator<void *>>(
+    v15,
+    (int)p_m_text_items);
 }

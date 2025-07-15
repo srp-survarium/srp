@@ -6,16 +6,16 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Value::Convert
 {
   Scaleform::GFx::AS3::Value::V1U v4; // ecx
   unsigned int v5; // esi
-  char *v6; // edi
+  __m128i *v6; // edi
   double v7; // st7
   Scaleform::GFx::AS3::CheckResult *v8; // eax
   int v9; // eax
-  const char *ByteIndex; // ebx
+  char *ByteIndex; // ebx
   int v11; // eax
-  const char *v12; // edi
+  char *v12; // edi
   double v13; // st7
-  const char *v14; // [esp+0h] [ebp-48h]
-  const char *v15; // [esp+0h] [ebp-48h]
+  char *v14; // [esp+0h] [ebp-48h]
+  char *v15; // [esp+0h] [ebp-48h]
   int v16; // [esp+4h] [ebp-44h]
   int v17; // [esp+4h] [ebp-44h]
   Scaleform::GFx::AS3::CheckResult v18; // [esp+2Fh] [ebp-19h] BYREF
@@ -38,17 +38,20 @@ LABEL_7:
         result->Result = 1;
         return v8;
       }
-      v6 = *(char **)v4.VInt;
-      *(double *)&v.Flags = Scaleform::GFx::NumberUtil::StringToDouble((char *)*(_DWORD *)v4.VInt, v5, &offset);
+      v6 = *(__m128i **)v4.VInt;
+      *(double *)&v.Flags = Scaleform::GFx::NumberUtil::StringToDouble(
+                              (__m128i *)*(_DWORD *)v4.VInt,
+                              v5,
+                              (Scaleform::String)&offset);
       if ( Scaleform::GFx::NumberUtil::IsNaN(*(long double *)&v.Flags) || 0.0 == *(double *)&v.Flags )
       {
         if ( offset == v5 )
           goto LABEL_7;
         if ( 0.0 == *(double *)&v.Flags )
         {
-          Scaleform::String::String(&str, &v6[offset]);
+          Scaleform::String::String(&str, (__m128i *)((char *)v6 + offset));
           v16 = v5 - offset;
-          v14 = &v6[offset];
+          v14 = &v6->m128i_i8[offset];
           v9 = Scaleform::GFx::ASUtils::SkipWhiteSpace(&str);
           ByteIndex = Scaleform::UTF8Util::GetByteIndex(v9, v14, v16);
           Scaleform::String::~String(&str);
@@ -57,9 +60,9 @@ LABEL_7:
         }
         *(double *)&v.Flags = Scaleform::GFx::NumberUtil::StringToInt(v6, v5, 0, &offset);
       }
-      Scaleform::String::String(&str, &v6[offset]);
+      Scaleform::String::String(&str, (__m128i *)((char *)v6 + offset));
       v17 = v5 - offset;
-      v15 = &v6[offset];
+      v15 = &v6->m128i_i8[offset];
       v11 = Scaleform::GFx::ASUtils::SkipWhiteSpace(&str);
       v12 = Scaleform::UTF8Util::GetByteIndex(v11, v15, v17);
       Scaleform::String::~String(&str);

@@ -3,7 +3,7 @@ void __cdecl __noreturn png_fixed_error(int a1, int a2)
   unsigned __int8 dst[92]; // [esp+0h] [ebp-60h] BYREF
   int v3; // [esp+5Ch] [ebp-4h]
 
-  memcpy(dst, (unsigned __int8 *)"fixed point overflow in ", 0x18u);
+  memcpy((int)dst, (const __m128i *)"fixed point overflow in ", 0x18u);
   v3 = 0;
   if ( a2 )
   {

@@ -2,7 +2,7 @@ void __cdecl Scaleform::GFx::AS2::Selection::QueueSetFocus(
         Scaleform::GFx::AS2::Environment *penv,
         Scaleform::GFx::InteractiveObject *pNewFocus,
         unsigned int controllerIdx,
-        Scaleform::GFx::FocusMovedType fmt)
+        int fmt)
 {
   Scaleform::GFx::CharacterHandle *pObject; // eax
   unsigned int Size; // esi
@@ -20,10 +20,10 @@ void __cdecl Scaleform::GFx::AS2::Selection::QueueSetFocus(
   Scaleform::GFx::AS2::MovieRoot::ActionEntry *v17; // esi
   Scaleform::RefCountNTSImpl *v18; // ecx
   Scaleform::RefCountNTSImpl *v19; // ecx
-  Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy> params; // [esp+Ch] [ebp-1Ch] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy> > a; // [esp+Ch] [ebp-1Ch] BYREF
   Scaleform::GFx::AS2::Value v; // [esp+18h] [ebp-10h] BYREF
 
-  memset(&params, 0, sizeof(params));
+  memset(&a, 0, sizeof(a));
   if ( pNewFocus )
   {
     pObject = pNewFocus->pNameHandle.pObject;
@@ -34,24 +34,24 @@ void __cdecl Scaleform::GFx::AS2::Selection::QueueSetFocus(
     if ( pObject )
       ++pObject->RefCount;
     Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-      &params.Data,
-      &params,
+      &a.Data,
+      &a,
       1u);
-    Size = params.Data.Size;
-    v6 = &params.Data.Data[params.Data.Size - 1];
-    if ( &params.Data.Data[params.Data.Size] == (Scaleform::GFx::AS2::Value *)16 )
+    Size = a.Data.Size;
+    v6 = &a.Data.Data[a.Data.Size - 1];
+    if ( &a.Data.Data[a.Data.Size] == (Scaleform::GFx::AS2::Value *)16 )
       goto LABEL_10;
   }
   else
   {
     v.T.Type = 1;
     Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-      &params.Data,
-      &params,
+      &a.Data,
+      &a,
       1u);
-    Size = params.Data.Size;
-    v6 = &params.Data.Data[params.Data.Size - 1];
-    if ( &params.Data.Data[params.Data.Size] == (Scaleform::GFx::AS2::Value *)16 )
+    Size = a.Data.Size;
+    v6 = &a.Data.Data[a.Data.Size - 1];
+    if ( &a.Data.Data[a.Data.Size] == (Scaleform::GFx::AS2::Value *)16 )
       goto LABEL_11;
   }
   Scaleform::GFx::AS2::Value::Value(v6, &v);
@@ -62,26 +62,26 @@ LABEL_11:
   v.T.Type = 4;
   v.NV.Int32Value = fmt;
   Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-    &params.Data,
-    &params,
+    &a.Data,
+    &a,
     Size + 1);
-  v7 = params.Data.Size;
-  if ( &params.Data.Data[params.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
+  v7 = a.Data.Size;
+  if ( &a.Data.Data[a.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
   {
-    Scaleform::GFx::AS2::Value::Value(&params.Data.Data[params.Data.Size - 1], &v);
+    Scaleform::GFx::AS2::Value::Value(&a.Data.Data[a.Data.Size - 1], &v);
     if ( v.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&v);
   }
   v.T.Type = 3;
   v.NV.NumberValue = (double)controllerIdx;
   Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-    &params.Data,
-    &params,
+    &a.Data,
+    &a,
     v7 + 1);
-  Data = params.Data.Data;
-  if ( &params.Data.Data[params.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
+  Data = a.Data.Data;
+  if ( &a.Data.Data[a.Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
   {
-    Scaleform::GFx::AS2::Value::Value(&params.Data.Data[params.Data.Size - 1], &v);
+    Scaleform::GFx::AS2::Value::Value(&a.Data.Data[a.Data.Size - 1], &v);
     if ( v.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&v);
   }
@@ -122,11 +122,11 @@ LABEL_21:
   if ( v19 )
     Scaleform::RefCountNTSImpl::Release(v19);
   v17->pActionBuffer.pObject = 0;
-  v17->CFunction = (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::Selection::DoTransferFocus;
+  v17->CFunction = Scaleform::GFx::AS2::Selection::DoTransferFocus;
   Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>>::operator=(
     &v17->FunctionParams,
-    &params);
-  Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::DestructArray(Data, params.Data.Size);
+    &a);
+  Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::DestructArray(Data, a.Data.Size);
   if ( Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
 }

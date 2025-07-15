@@ -1,4 +1,4 @@
-BOOL __cdecl tree_link_matching_nodes(X509_POLICY_LEVEL_st *curr, const X509_POLICY_DATA_st *data)
+BOOL __cdecl tree_link_matching_nodes(X509_POLICY_LEVEL_st *curr, X509_POLICY_DATA_st *data)
 {
   X509_POLICY_LEVEL_st *v2; // esi
   int v3; // ebx

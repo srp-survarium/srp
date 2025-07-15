@@ -15,7 +15,7 @@ void __thiscall Scaleform::Render::GlyphCache::GlyphCache(
   this->Scaleform::RefCountBase<Scaleform::Render::GlyphCache,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::GlyphCache_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
   this->Scaleform::Render::CacheBase::__vftable = (Scaleform::Render::CacheBase_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-  this->Scaleform::Render::GlyphCacheConfig::__vftable = (Scaleform::Render::GlyphCacheConfig_vtbl *)&Scaleform::Render::GlyphCacheConfig::`vftable';
+  this->Scaleform::Render::GlyphCacheConfig::__vftable = (Scaleform::Render::GlyphCacheConfig_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   this->Scaleform::RefCountBase<Scaleform::Render::GlyphCache,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::GlyphCache_vtbl *)&Scaleform::Render::GlyphCache::`vftable'{for `Scaleform::RefCountBase<Scaleform::Render::GlyphCache,2>'};
   this->Scaleform::Render::CacheBase::__vftable = (Scaleform::Render::CacheBase_vtbl *)&Scaleform::Render::GlyphCache::`vftable'{for `Scaleform::Render::CacheBase'};
   this->Scaleform::Render::GlyphCacheConfig::__vftable = (Scaleform::Render::GlyphCacheConfig_vtbl *)&Scaleform::Render::GlyphCache::`vftable'{for `Scaleform::Render::GlyphCacheConfig'};

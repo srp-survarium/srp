@@ -1,7 +1,7 @@
 void __thiscall Scaleform::HeapPT::AllocLite::splitNode(
         Scaleform::HeapPT::AllocLite *this,
         Scaleform::HeapPT::DualTNode *node,
-        unsigned __int8 *start,
+        Scaleform::HeapPT::DualTNode *start,
         unsigned int size)
 {
   Scaleform::HeapPT::TreeSeg *ParentSeg; // ebp
@@ -11,16 +11,16 @@ void __thiscall Scaleform::HeapPT::AllocLite::splitNode(
   ParentSeg = node->ParentSeg;
   MinShift = this->MinShift;
   v7 = (unsigned int)node + (node->Size << MinShift) - (_DWORD)start - size;
-  if ( start != (unsigned __int8 *)node )
+  if ( start != node )
     Scaleform::HeapPT::AllocLite::pushNode(
       this,
       node,
       ParentSeg,
-      (unsigned int)(start - (unsigned __int8 *)node) >> MinShift);
+      (unsigned int)((char *)start - (char *)node) >> MinShift);
   if ( v7 )
     Scaleform::HeapPT::AllocLite::pushNode(
       this,
-      (Scaleform::HeapPT::DualTNode *)&start[size],
+      (Scaleform::HeapPT::DualTNode *)((char *)start + size),
       ParentSeg,
       v7 >> this->MinShift);
 }

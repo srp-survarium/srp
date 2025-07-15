@@ -1,40 +1,40 @@
-unsigned int __cdecl ssleay_rand_status()
+int __usercall ssleay_rand_status@<eax>(unsigned int a1@<ebx>)
 {
-  unsigned int v0; // edi
-  BOOL v1; // esi
+  int v1; // edi
+  unsigned int v2; // esi
   crypto_threadid_st id; // [esp+8h] [ebp-8h] BYREF
 
   CRYPTO_THREADID_current(&id);
-  v0 = 1;
+  v1 = 1;
   if ( crypto_lock_rand )
   {
-    CRYPTO_lock(1u, 5, 19, ".\\crypto\\rand\\md_rand.c", 558);
-    v1 = CRYPTO_THREADID_cmp(&locking_threadid, &id) == 0;
-    CRYPTO_lock(1u, 6, 19, ".\\crypto\\rand\\md_rand.c", 560);
-    if ( v1 )
+    CRYPTO_lock(1, a1, 5, 19, ".\\crypto\\rand\\md_rand.c", 558);
+    v2 = CRYPTO_THREADID_cmp(&locking_threadid, &id) == 0;
+    CRYPTO_lock(1, a1, 6, 19, ".\\crypto\\rand\\md_rand.c", 560);
+    if ( v2 )
       goto LABEL_4;
   }
   else
   {
-    v1 = 0;
+    v2 = 0;
   }
-  CRYPTO_lock(1u, 9, 18, ".\\crypto\\rand\\md_rand.c", 567);
-  CRYPTO_lock(1u, 9, 19, ".\\crypto\\rand\\md_rand.c", 570);
+  CRYPTO_lock(1, a1, 9, 18, ".\\crypto\\rand\\md_rand.c", 567);
+  CRYPTO_lock(1, a1, 9, 19, ".\\crypto\\rand\\md_rand.c", 570);
   CRYPTO_THREADID_cpy(&locking_threadid, &id);
-  CRYPTO_lock(1u, 10, 19, ".\\crypto\\rand\\md_rand.c", 572);
+  CRYPTO_lock(1, a1, 10, 19, ".\\crypto\\rand\\md_rand.c", 572);
   crypto_lock_rand = 1;
 LABEL_4:
   if ( !initialized )
   {
-    RAND_poll();
+    RAND_poll(a1, 1, v2);
     initialized = 1;
   }
   if ( entropy < 32.0 )
-    v0 = 0;
-  if ( !v1 )
+    v1 = 0;
+  if ( !v2 )
   {
     crypto_lock_rand = 0;
-    CRYPTO_lock(v0, 10, 18, ".\\crypto\\rand\\md_rand.c", 589);
+    CRYPTO_lock(v1, a1, 10, 18, ".\\crypto\\rand\\md_rand.c", 589);
   }
-  return v0;
+  return v1;
 }

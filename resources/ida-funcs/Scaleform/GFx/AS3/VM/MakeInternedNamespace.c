@@ -11,9 +11,9 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *__thiscall S
   if ( uri->pNode->Size || kind )
   {
     pObject = (Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *)this->TraitsNamespace.pObject->ITraits.pObject;
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -43,7 +43,7 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *__thiscall S
 
   uri = Scaleform::GFx::ASStringManager::CreateStringNode(
           this->StringManagerRef->pStringManager,
-          (char *)uri->pData,
+          (__m128i *)uri->pData,
           (unsigned int)uri->pManager);
   ++uri->RefCount;
   Scaleform::GFx::AS3::VM::MakeInternedNamespace(this, result, kind, (Scaleform::GFx::ASString *)&uri);
@@ -61,12 +61,12 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *__thiscall S
         Scaleform::GFx::AS3::Abc::NamespaceKind kind,
         Scaleform::GFx::ASStringNode *name)
 {
-  char *v4; // eax
+  __m128i *v4; // eax
   Scaleform::GFx::ASStringNode *v6; // eax
 
-  v4 = (char *)name;
+  v4 = (__m128i *)name;
   if ( !name )
-    v4 = (char *)&buf;
+    v4 = (__m128i *)uri;
   name = Scaleform::GFx::ASStringManager::CreateStringNode(this->StringManagerRef->pStringManager, v4);
   ++name->RefCount;
   Scaleform::GFx::AS3::VM::MakeInternedNamespace(this, result, kind, (Scaleform::GFx::ASString *)&name);

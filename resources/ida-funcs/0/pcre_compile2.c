@@ -4,7 +4,7 @@ void *__cdecl pcre_compile2(unsigned __int8 *buf, unsigned int a2, int *a3, _DWO
   __int16 v8; // [esp+0h] [ebp-10F0h]
   __int16 v9; // [esp+4h] [ebp-10ECh]
   int v10; // [esp+8h] [ebp-10E8h]
-  Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *v11)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *); // [esp+Ch] [ebp-10E4h]
+  char *v11; // [esp+Ch] [ebp-10E4h]
   int v12; // [esp+18h] [ebp-10D8h]
   unsigned __int8 v13; // [esp+1Ch] [ebp-10D4h]
   unsigned __int8 *v14; // [esp+20h] [ebp-10D0h]
@@ -49,7 +49,7 @@ void *__cdecl pcre_compile2(unsigned __int8 *buf, unsigned int a2, int *a3, _DWO
   {
     valid = 16;
 LABEL_110:
-    *a4 = sub_5091D0(valid);
+    *a4 = sub_624570(valid);
     if ( a3 )
       *a3 = valid;
     return 0;
@@ -92,22 +92,22 @@ LABEL_109:
       if ( !strncmp((const char *)&v31[v25 + 2], "CR)", 3u) )
       {
         v25 += 5;
-        v20 = 0x100000;
+        v20 = (int)&loc_100000;
       }
       else if ( !strncmp((const char *)&v31[v25 + 2], "LF)", 3u) )
       {
         v25 += 5;
-        v20 = 0x200000;
+        v20 = (int)&loc_200000;
       }
       else if ( !strncmp((const char *)&v31[v25 + 2], "CRLF)", 5u) )
       {
         v25 += 7;
-        v20 = 3145728;
+        v20 = (int)&loc_300000;
       }
       else if ( !strncmp((const char *)&v31[v25 + 2], "ANY)", 4u) )
       {
         v25 += 6;
-        v20 = (int)Scaleform::GFx::AS2::CreateShadow;
+        v20 = (int)&loc_400000;
       }
       else if ( !strncmp((const char *)&v31[v25 + 2], "ANYCRLF)", 8u) )
       {
@@ -117,7 +117,7 @@ LABEL_109:
       else if ( !strncmp((const char *)&v31[v25 + 2], "BSR_ANYCRLF)", 0xCu) )
       {
         v25 += 14;
-        v21 = (int)&unk_800000;
+        v21 = 0x800000;
       }
       else if ( !strncmp((const char *)&v31[v25 + 2], "BSR_UNICODE)", 0xCu) )
       {
@@ -156,33 +156,33 @@ LABEL_109:
     valid = 56;
     goto LABEL_109;
   }
-  v11 = (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *))(a2 & 0x700000);
-  if ( (a2 & 0x700000) > 0x300000 )
+  v11 = (char *)(a2 & 0x700000);
+  if ( (int)(a2 & 0x700000) > (int)&loc_300000 )
   {
-    if ( v11 == Scaleform::GFx::AS2::CreateShadow )
+    if ( v11 == (char *)&loc_400000 )
     {
       v33 = -1;
     }
     else
     {
-      if ( v11 != (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *))((char *)&loc_4FFFFF + 1) )
+      if ( v11 != (_BYTE *)&loc_4FFFFE + 2 )
         goto LABEL_62;
       v33 = -2;
     }
   }
-  else if ( v11 == (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *))((char *)&loc_2FFFFF + 1) )
+  else if ( v11 == (char *)&loc_300000 )
   {
     v33 = 3338;
   }
   else if ( v11 )
   {
-    if ( v11 == (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *))((char *)&loc_FFFFF + 1) )
+    if ( v11 == (char *)&loc_100000 )
     {
       v33 = 13;
     }
     else
     {
-      if ( v11 != (Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *(__cdecl *)(Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::XML::ElementNode *, Scaleform::GFx::XML::RootNode *))((char *)&loc_1FFFFE + 2) )
+      if ( v11 != (char *)&loc_200000 )
       {
 LABEL_62:
         valid = 56;
@@ -239,7 +239,7 @@ LABEL_62:
   v31 += v25;
   v30 = v22;
   v22[0] = 125;
-  sub_5096F0(*((_DWORD *)v32 + 19), &v30, &v31, &valid, 0, 0, 0, 0, &v36, &v27, 0, v32, &v35);
+  sub_624A90(*((_DWORD *)v32 + 19), &v30, &v31, &valid, 0, 0, 0, 0, &v36, &v27, 0, v32, &v35);
   if ( valid )
     goto LABEL_109;
   if ( v35 > (int)&_sbh_sizeHeaderList )
@@ -283,7 +283,7 @@ LABEL_62:
   v31 = &buf[v25];
   v30 = v34;
   *v34 = 125;
-  sub_5096F0(*((_DWORD *)pointer + 2), &v30, &v31, &valid, 0, 0, 0, 0, &v36, &v27, 0, v32, 0);
+  sub_624A90(*((_DWORD *)pointer + 2), &v30, &v31, &valid, 0, 0, 0, 0, &v36, &v27, 0, v32, 0);
   *((_WORD *)pointer + 8) = *((_WORD *)v32 + 28);
   *((_WORD *)pointer + 9) = *((_WORD *)v32 + 32);
   *((_WORD *)pointer + 6) = *((_WORD *)v32 + 40);
@@ -332,7 +332,7 @@ LABEL_62:
         v14 = &i[(*(i - 1) | (*(i - 2) << 8)) - 3];
         v13 = *v14;
         *v14 = 0;
-        v12 = sub_509220(i, (*((_DWORD *)pointer + 2) & 0x800) != 0, 1, v32);
+        v12 = sub_6245C0(i, (*((_DWORD *)pointer + 2) & 0x800) != 0, 1, v32);
         *v14 = v13;
         if ( v12 < 0 )
         {
@@ -355,17 +355,17 @@ LABEL_62:
   }
   if ( (*((_DWORD *)pointer + 2) & 0x10) == 0 )
   {
-    if ( sub_5125D0(v34, 0, *((_DWORD *)v32 + 17)) )
+    if ( sub_62D970(v34, 0, *((_DWORD *)v32 + 17)) )
     {
       *((_DWORD *)pointer + 2) |= 0x10u;
     }
     else
     {
       if ( v36 < 0 )
-        v36 = sub_5129B0(v34, 0);
+        v36 = sub_62DD50(v34, 0);
       if ( v36 < 0 )
       {
-        if ( sub_512770(v34, 0, *((_DWORD *)v32 + 17)) )
+        if ( sub_62DB10(v34, 0, *((_DWORD *)v32 + 17)) )
           *((_WORD *)pointer + 6) |= 8u;
       }
       else

@@ -5,8 +5,8 @@ void __thiscall vostok::resources::game_resources_manager::on_resource_freed_cal
         vostok::resources::class_id_enum class_id)
 {
   const vostok::resources::memory_type *type; // esi
-  vostok::threading::mutex *v5; // edi
-  vostok::resources::game_resources_manager *v6; // [esp+0h] [ebp-8h]
+  _RTL_CRITICAL_SECTION *v5; // edi
+  vostok::resources::game_resources_manager *v6; // ecx
 
   type = memory_usage->type;
   if ( memory_usage->type && type->queue.m_first )
@@ -14,8 +14,8 @@ void __thiscall vostok::resources::game_resources_manager::on_resource_freed_cal
     if ( type == (const vostok::resources::memory_type *)-40 )
       v5 = 0;
     else
-      v5 = &type->queue.vostok::threading::mutex;
-    vostok::threading::mutex::lock(v5);
+      v5 = (_RTL_CRITICAL_SECTION *)&type->queue.vostok::threading::mutex;
+    vostok::threading::mutex::lock((vostok::threading::mutex *)this, v5);
     if ( destruction_observer )
     {
       if ( type->listen_type != listen_all )
@@ -24,13 +24,13 @@ void __thiscall vostok::resources::game_resources_manager::on_resource_freed_cal
     else if ( type->listen_type != listen_all )
     {
 LABEL_13:
-      LeaveCriticalSection((LPCRITICAL_SECTION)v5);
+      LeaveCriticalSection(v5);
       return;
     }
-    if ( vostok::resources::game_resources_manager::try_reallocate_queue(type, v6) )
+    if ( vostok::resources::game_resources_manager::try_reallocate_queue(v6, type) )
     {
       type->listen_type = listen_none;
-      SetEvent(*(HANDLE *)((char *)&dword_203D0 + (unsigned int)vostok::resources::g_resources_manager.m_variable));
+      SetEvent(*(HANDLE *)s_resources_manager_buffer.m_resources_wakeup_event.m_event.m_event);
     }
     goto LABEL_13;
   }

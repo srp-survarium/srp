@@ -36,9 +36,9 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
 
   strFullPath.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                         this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                        (char *)localPath->pNode->pData);
+                        (__m128i *)localPath->pNode->pData);
   ++strFullPath.pNode->RefCount;
-  Scaleform::GFx::ASString::Append(&strFullPath, (char *)&stru_95963C.m_max_end, (Scaleform::GFx::ASStringNode *)1);
+  Scaleform::GFx::ASString::Append(&strFullPath, (const __m128i *)":", (Scaleform::GFx::ASStringNode *)1);
   Scaleform::GFx::ASString::Append(&strFullPath, name);
   pTable = this->SharedObjects.mHash.pTable;
   p_SharedObjects = &this->SharedObjects;
@@ -67,7 +67,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
                     (Scaleform::GFx::AS3::InstanceTraits::fl_net::SharedObject *)this->pTraits.pObject[1].__vftable)->pV;
   if ( Scaleform::GFx::AS3::Instances::fl_net::SharedObject::SetNameAndLocalPath(
          pthis.pObject,
-         (Scaleform::GFx::ASString *)name,
+         (const __m128i ***)name,
          localPath) )
   {
     pVM = this->pTraits.pObject->pVM;
@@ -88,8 +88,8 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
     v19 = v18;
     if ( v18 )
       Scaleform::RefCountImpl::Release(v18);
-    Scaleform::String::String(&strName, *(char **)name->pData);
-    Scaleform::String::String(&strLocalPath, (char *)localPath->pNode->pData);
+    Scaleform::String::String(&strName, *(const __m128i **)name->pData);
+    Scaleform::String::String(&strLocalPath, (const __m128i *)localPath->pNode->pData);
     if ( v17
       && ((unsigned __int8 (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::String *, Scaleform::String *, Scaleform::GFx::AS3::ASSharedObjectLoader *, Scaleform::RefCountVImpl *))v17->AddRef)(
            v17,
@@ -126,7 +126,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -150,7 +150,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
       if ( ((unsigned __int8)pV & 1) == 0 )
       {
         v24 = pV->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v24) != 0 )
+        if ( (v24 & 0x3FFFFF) != 0 )
         {
           pV->RefCount = v24 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);
@@ -171,7 +171,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
       else
       {
         v11 = v10->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+        if ( (v11 & 0x3FFFFF) != 0 )
         {
           v10->RefCount = v11 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -189,7 +189,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_net::SharedObject::getLocal(
     else
     {
       v25 = pthis.pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v25) != 0 )
+      if ( (v25 & 0x3FFFFF) != 0 )
       {
         v26 = pthis.pObject;
         pthis.pObject->RefCount = v25 - 1;

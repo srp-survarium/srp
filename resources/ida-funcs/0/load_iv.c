@@ -1,52 +1,47 @@
-int __cdecl load_iv(char **fromp, unsigned __int8 *to)
+int __usercall load_iv@<eax>(int a1@<ecx>, int a2@<ebx>, char **fromp, unsigned __int8 *to)
 {
-  int num; // ecx
-  int v3; // esi
-  char *v4; // edi
-  int v5; // ebp
-  int v6; // esi
-  char v7; // al
-  char v8; // bl
-  char v9; // bl
-  unsigned __int8 *v10; // eax
+  char *v5; // edi
+  int v6; // ebp
+  int v7; // esi
+  char v8; // al
+  unsigned __int8 *v9; // eax
 
-  v3 = num;
-  v4 = *fromp;
-  if ( num > 0 )
-    memset((int)to, 0, num);
-  v5 = 2 * v3;
-  v6 = 0;
-  if ( v5 <= 0 )
+  v5 = *fromp;
+  if ( a1 > 0 )
+    memset((int)to, 0, a1);
+  v6 = 2 * a1;
+  v7 = 0;
+  if ( v6 <= 0 )
   {
 LABEL_14:
-    *fromp = v4;
+    *fromp = v5;
     return 1;
   }
   while ( 1 )
   {
-    v7 = *v4;
-    if ( *v4 < 48 || v7 > 57 )
+    v8 = *v5;
+    if ( *v5 < 48 || v8 > 57 )
       break;
-    v8 = v7 - 48;
+    a2 = v8 - 48;
 LABEL_13:
-    v9 = v8 << (4 * ((v6 & 1) == 0));
-    v10 = &to[v6 / 2];
-    ++v6;
-    *v10 |= v9;
-    ++v4;
-    if ( v6 >= v5 )
+    LOBYTE(a2) = (_BYTE)a2 << (4 * ((v7 & 1) == 0));
+    v9 = &to[v7 / 2];
+    ++v7;
+    *v9 |= a2;
+    ++v5;
+    if ( v7 >= v6 )
       goto LABEL_14;
   }
-  if ( v7 >= 65 && v7 <= 70 )
+  if ( v8 >= 65 && v8 <= 70 )
   {
-    v8 = v7 - 55;
+    a2 = v8 - 55;
     goto LABEL_13;
   }
-  if ( v7 >= 97 && v7 <= 102 )
+  if ( v8 >= 97 && v8 <= 102 )
   {
-    v8 = v7 - 87;
+    a2 = v8 - 87;
     goto LABEL_13;
   }
-  ERR_put_error(9u, 101, 103, ".\\crypto\\pem\\pem_lib.c", 557);
+  ERR_put_error(a2, 9u, 101, 103, ".\\crypto\\pem\\pem_lib.c", 557);
   return 0;
 }

@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::crossProduct(
   const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *v6; // eax
   Scaleform::GFx::AS3::Traits *pObject; // ecx
-  Scaleform::GFx::AS3::Instances::fl::Catch *v8; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v8; // eax
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v9; // edi
   long double v10; // st7
   long double v11; // st6
@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::crossProduct(
   {
     pObject = this->pTraits.pObject;
     itr = (Scaleform::GFx::AS3::InstanceTraits::fl_geom::Vector3D *)this->pTraits.pObject;
-    v8 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
+    v8 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
     v9 = (Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *)v8;
     if ( v8 )
     {
@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::crossProduct(
           return;
         }
         RefCount = v12->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v12->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);

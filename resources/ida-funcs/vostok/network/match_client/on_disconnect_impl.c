@@ -1,11 +1,15 @@
 void __thiscall vostok::network::match_client::on_disconnect_impl(
         vostok::network::match_client *this,
-        boost::function4<void,unsigned int,float,float,char const *> *type)
+        const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *type)
 {
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_on_disconnected)
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
-    boost::function1<void,enum vostok::network_core::disconnect_event_types_enum>::operator()(
-      &this->m_on_disconnected,
+  boost::function<void __cdecl(enum vostok::network_core::disconnect_event_types_enum)> *p_m_on_disconnected; // eax
+  int v3; // ecx
+
+  p_m_on_disconnected = &this->m_on_disconnected;
+  v3 = -(this->m_on_disconnected.vtable != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v3) != 0 )
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)v3,
+      p_m_on_disconnected,
       type);
 }

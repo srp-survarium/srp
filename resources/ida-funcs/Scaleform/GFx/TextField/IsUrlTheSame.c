@@ -9,7 +9,7 @@ bool __thiscall Scaleform::GFx::TextField::IsUrlTheSame(
   int v6; // edx
   int Index; // ebp
   Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone> *i; // ecx
-  const Scaleform::Range *urlRangea; // [esp+Ch] [ebp+8h]
+  signed int v9; // [esp+Ch] [ebp+8h]
 
   pObject = this->pCSSData.pObject;
   result = 1;
@@ -20,9 +20,9 @@ bool __thiscall Scaleform::GFx::TextField::IsUrlTheSame(
     if ( Size )
     {
       Index = urlRange->Index;
-      urlRangea = (const Scaleform::Range *)(urlRange->Length + urlRange->Index - 1);
+      v9 = urlRange->Length + urlRange->Index - 1;
       for ( i = pObject->UrlZones.Ranges.Data.Data;
-            (int)urlRangea < i->Index
+            v9 < i->Index
          || (signed int)(i->Length + i->Index - 1) < Index
          || pObject->MouseState[mouseIndex].UrlZoneIndex == v6 + 1;
             ++i )

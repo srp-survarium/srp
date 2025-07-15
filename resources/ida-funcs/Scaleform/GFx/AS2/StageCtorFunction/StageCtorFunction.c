@@ -10,7 +10,7 @@ void __userpurge Scaleform::GFx::AS2::StageCtorFunction::StageCtorFunction(
   const Scaleform::GFx::ASString *p_pMovieImpl; // [esp-10h] [ebp-2Ch]
   const Scaleform::GFx::ASString *p_pASSupport; // [esp-10h] [ebp-2Ch]
   int v10; // [esp+0h] [ebp-1Ch]
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+Ch] [ebp-10h] BYREF
 
   v4 = psc;
   Scaleform::GFx::AS2::Object::Object(this, psc);
@@ -44,49 +44,49 @@ void __userpurge Scaleform::GFx::AS2::StageCtorFunction::StageCtorFunction(
     v10);
   p_pMovieImpl = (const Scaleform::GFx::ASString *)&v4->pContext->pMovieRoot->pASMovieRoot.pObject[33].pMovieImpl;
   LOBYTE(psc) = 0;
-  val.T.Type = 10;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v4,
     p_pMovieImpl,
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
   p_pASSupport = (const Scaleform::GFx::ASString *)&v4->pContext->pMovieRoot->pASMovieRoot.pObject[33].pASSupport;
   LOBYTE(psc) = 0;
-  val.T.Type = 10;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v4,
     p_pASSupport,
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    v4,
+    (Scaleform::GFx::ASStringNode *)v4,
     "scaleMode",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 10;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    v4,
+    (Scaleform::GFx::ASStringNode *)v4,
     "align",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 2;
-  val.V.BooleanValue = 1;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 2;
+  v11.V.BooleanValue = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    v4,
+    (Scaleform::GFx::ASStringNode *)v4,
     "showMenu",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
 }

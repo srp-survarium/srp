@@ -1,24 +1,24 @@
 void __userpurge Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetCxform(
-        unsigned int batch@<edi>,
+        Scaleform::Render::Cxform *cx@<eax>,
         Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair> *this,
         const Scaleform::Render::D3D1x::ShaderPair *sd,
-        const Scaleform::Render::Cxform *cx,
-        unsigned int index)
+        unsigned int index,
+        unsigned int batch)
 {
   Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
     sd,
-    1u,
-    0,
     this,
-    (const float *)cx,
+    1u,
+    (float *)cx,
     4u,
-    batch);
+    0,
+    index);
   Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
     sd,
-    0,
-    0,
     this,
+    0,
     cx->M[1],
     4u,
-    batch);
+    0,
+    index);
 }

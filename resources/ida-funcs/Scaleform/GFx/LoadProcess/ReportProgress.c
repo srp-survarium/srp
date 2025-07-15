@@ -11,11 +11,11 @@ void __thiscall Scaleform::GFx::LoadProcess::ReportProgress(
   int TagDataOffset; // edi
   void *v9; // esi
   Scaleform::String v10; // [esp+8h] [ebp-14h] BYREF
-  const Scaleform::GFx::TagInfo *v11; // [esp+Ch] [ebp-10h]
+  Scaleform::GFx::TagType v11; // [esp+Ch] [ebp-10h]
   int v12; // [esp+10h] [ebp-Ch]
   int v13; // [esp+14h] [ebp-8h]
   int v14; // [esp+18h] [ebp-4h]
-  const Scaleform::GFx::TagInfo *tagInfoa; // [esp+24h] [ebp+8h]
+  Scaleform::GFx::TagType TagType; // [esp+24h] [ebp+8h]
 
   pObject = this->pLoadStates.pObject;
   if ( pObject->pProgressHandler.pObject )
@@ -24,9 +24,9 @@ void __thiscall Scaleform::GFx::LoadProcess::ReportProgress(
     TagLength = tagInfo->TagLength;
     TagOffset = tagInfo->TagOffset;
     TagDataOffset = tagInfo->TagDataOffset;
-    tagInfoa = (const Scaleform::GFx::TagInfo *)tagInfo->TagType;
+    TagType = tagInfo->TagType;
     Scaleform::String::String(&v10, fileURL);
-    v11 = tagInfoa;
+    v11 = TagType;
     v12 = TagOffset;
     v13 = TagLength;
     v14 = TagDataOffset;

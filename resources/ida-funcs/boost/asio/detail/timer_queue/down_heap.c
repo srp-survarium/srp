@@ -1,19 +1,29 @@
-void __thiscall boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::down_heap(
-        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this,
+void __userpurge boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::down_heap(
+        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this@<ecx>,
+        int a2@<esi>,
         unsigned int index)
 {
-  unsigned int v2; // [esp+4h] [ebp-A4h]
-  unsigned int child; // [esp+A4h] [ebp-4h]
+  unsigned int v3; // ebx
+  unsigned int i; // edi
+  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *v5; // ecx
 
-  for ( child = 2 * index + 1; child < this->heap_._M_impl._M_finish - this->heap_._M_impl._M_start; child = 2 * v2 + 1 )
+  v3 = index;
+  for ( i = 2 * index + 1; i < (*(_DWORD *)(a2 + 16) - *(_DWORD *)(a2 + 12)) >> 4; i = 2 * i + 1 )
   {
-    v2 = child + 1 == this->heap_._M_impl._M_finish - this->heap_._M_impl._M_start
-      || this->heap_._M_impl._M_start[child].time_.time_.time_count_.value_ < this->heap_._M_impl._M_start[child + 1].time_.time_.time_count_.value_
-       ? child
-       : child + 1;
-    if ( this->heap_._M_impl._M_start[index].time_.time_.time_count_.value_ < this->heap_._M_impl._M_start[v2].time_.time_.time_count_.value_ )
+    if ( i + 1 != (*(_DWORD *)(a2 + 16) - *(_DWORD *)(a2 + 12)) >> 4
+      && !boost::asio::time_traits<boost::posix_time::ptime>::less_than(
+            (const boost::posix_time::ptime *)(16 * i + *(_DWORD *)(a2 + 12)),
+            (const boost::posix_time::ptime *)(16 * i + *(_DWORD *)(a2 + 12) + 16)) )
+    {
+      ++i;
+    }
+    if ( boost::asio::time_traits<boost::posix_time::ptime>::less_than(
+           (const boost::posix_time::ptime *)(*(_DWORD *)(a2 + 12) + 16 * v3),
+           (const boost::posix_time::ptime *)(*(_DWORD *)(a2 + 12) + 16 * i)) )
+    {
       break;
-    boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(this, index, v2);
-    index = v2;
+    }
+    boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(v5, a2, v3, i);
+    v3 = i;
   }
 }

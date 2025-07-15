@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::ASString::operator=<Scaleform::String>(
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pNode->pManager,
-                 (char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(str->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   ++StringNode->RefCount;
   pNode = this->pNode;
@@ -33,14 +33,17 @@ void __thiscall Scaleform::GFx::ASString::operator=(
 }
 
 
-void __thiscall Scaleform::GFx::ASString::operator=(Scaleform::GFx::ASString *this, char *pstr)
+void __thiscall Scaleform::GFx::ASString::operator=(Scaleform::GFx::ASString *this, Scaleform::GFx::ASStringNode *pstr)
 {
   Scaleform::GFx::ASStringNode *StringNode; // edi
   Scaleform::GFx::ASStringNode *pNode; // esi
   Scaleform::GFx::ASStringNode *pLower; // ecx
   Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *> > > *p_StringSet; // ecx
 
-  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(this->pNode->pManager, pstr, strlen(pstr));
+  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 this->pNode->pManager,
+                 (__m128i *)pstr,
+                 strlen((const char *)pstr));
   ++StringNode->RefCount;
   pNode = this->pNode;
   if ( this->pNode->RefCount-- == 1 )
@@ -49,10 +52,10 @@ void __thiscall Scaleform::GFx::ASString::operator=(Scaleform::GFx::ASString *th
     if ( pLower != pNode && pLower )
       Scaleform::GFx::ASStringNode::Release(pLower);
     p_StringSet = &pNode->pManager->StringSet;
-    pstr = (char *)pNode;
+    pstr = pNode;
     Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>>>::RemoveAlt<Scaleform::GFx::ASStringNode *>(
       p_StringSet,
-      (Scaleform::GFx::ASStringNode *const *)&pstr);
+      &pstr);
     Scaleform::GFx::ASStringManager::FreeStringNode(pNode->pManager, pNode);
   }
   this->pNode = StringNode;
@@ -74,9 +77,9 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASString::operator+(
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pNode->pManager,
-                 (char *)this->pNode->pData,
+                 (const __m128i *)this->pNode->pData,
                  this->pNode->Size,
-                 (char *)str->pNode->pData,
+                 (const __m128i *)str->pNode->pData,
                  (Scaleform::GFx::ASStringNode *)str->pNode->Size);
   ++StringNode->RefCount;
   result->pNode = StringNode;
@@ -87,16 +90,16 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASString::operator+(
 Scaleform::GFx::ASString *__thiscall Scaleform::GFx::ASString::operator+(
         Scaleform::GFx::ASString *this,
         Scaleform::GFx::ASString *result,
-        char *pstr)
+        const __m128i *pstr)
 {
   Scaleform::GFx::ASStringNode *StringNode; // eax
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pNode->pManager,
-                 (char *)this->pNode->pData,
+                 (const __m128i *)this->pNode->pData,
                  this->pNode->Size,
                  pstr,
-                 (Scaleform::GFx::ASStringNode *)strlen(pstr));
+                 (Scaleform::GFx::ASStringNode *)strlen(pstr->m128i_i8));
   ++StringNode->RefCount;
   result->pNode = StringNode;
   return result;
@@ -189,7 +192,7 @@ bool __thiscall Scaleform::GFx::ASString::operator>(
 }
 
 
-void __thiscall Scaleform::GFx::ASString::operator+=(Scaleform::GFx::ASString *this, char *str)
+void __thiscall Scaleform::GFx::ASString::operator+=(Scaleform::GFx::ASString *this, const __m128i *str)
 {
-  Scaleform::GFx::ASString::Append(this, str, (Scaleform::GFx::ASStringNode *)strlen(str));
+  Scaleform::GFx::ASString::Append(this, str, (Scaleform::GFx::ASStringNode *)strlen(str->m128i_i8));
 }

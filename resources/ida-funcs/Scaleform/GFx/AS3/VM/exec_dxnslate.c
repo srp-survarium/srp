@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_dxnslate(Scaleform::GFx::AS3::VM *
       if ( ((unsigned __int8)VStr & 1) == 0 )
       {
         HashFlags = VStr->HashFlags;
-        if ( ((unsigned int)&byte_3FFFFF & HashFlags) != 0 )
+        if ( (HashFlags & 0x3FFFFF) != 0 )
         {
           VStr->HashFlags = HashFlags - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)VStr);
@@ -45,9 +45,9 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_dxnslate(Scaleform::GFx::AS3::VM *
     ++uri.pNode->RefCount;
     if ( Scaleform::GFx::AS3::Value::Convert2String(pCurrent, &result, &uri)->Result && uri.pNode->Size )
     {
-      if ( (_S10_0 & 1) == 0 )
+      if ( (_S15 & 1) == 0 )
       {
-        _S10_0 |= 1u;
+        _S15 |= 1u;
         v.Flags = 0;
         v.Bonus.pWeakProxy = 0;
         atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -83,7 +83,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_dxnslate(Scaleform::GFx::AS3::VM *
         if ( ((unsigned __int8)v8 & 1) == 0 )
         {
           RefCount = v8->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v8->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

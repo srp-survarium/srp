@@ -4,6 +4,6 @@ Scaleform::GFx::AS3::Traits *__thiscall Scaleform::GFx::AS3::Traits::`scalar del
 {
   Scaleform::GFx::AS3::Traits::~Traits(this);
   if ( (a2 & 1) != 0 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this);
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)this);
   return this;
 }

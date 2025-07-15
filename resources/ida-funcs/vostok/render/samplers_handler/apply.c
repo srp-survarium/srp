@@ -1,70 +1,139 @@
 void __usercall vostok::render::samplers_handler<1>::apply(
         vostok::render::samplers_handler<1> *this@<ecx>,
-        unsigned int *a2@<eax>)
+        unsigned int *a2@<esi>)
 {
-  ID3D11SamplerState **v3; // esi
-  vostok::render::samplers_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-4h] BYREF
+  unsigned int v2; // ecx
+  unsigned int v3; // eax
+  unsigned int i; // ecx
+  unsigned int v5; // ecx
+  unsigned int v6; // ebx
+  ID3D11SamplerState *const *v7; // edi
+  unsigned int v8; // [esp+4h] [ebp-4h]
 
-  v3 = (ID3D11SamplerState **)(a2 + 2);
   memset((int)(a2 + 2), 0, 0x40u);
-  end = 0;
-  vostok::render::samplers_handler<0>::fill_changes_buffer(v4, a2, v3, &end);
-  if ( end != *a2 )
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, unsigned int *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                           + 40))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      *a2,
-      end - *a2,
-      &a2[*a2 + 2]);
-  *a2 = 0;
+  v2 = a2[18];
+  if ( v2 )
+    v3 = (*(_DWORD *)(v2 + 8) - *(_DWORD *)(v2 + 4)) >> 2;
+  else
+    v3 = 0;
+  for ( i = *a2; i < v3; ++i )
+    a2[i + 2] = *(_DWORD *)(*(_DWORD *)(a2[18] + 4) + 4 * i);
+  v5 = *a2;
+  if ( v3 > *a2 )
+  {
+    v6 = *a2;
+    v8 = v3 - v5;
+    if ( v5 < v3 - v5 )
+    {
+      v7 = (ID3D11SamplerState *const *)&a2[v5 + 2];
+      do
+      {
+        if ( *v7 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetSamplers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v6,
+            1u,
+            v7);
+        ++v6;
+        ++v7;
+      }
+      while ( v6 < v8 );
+    }
+  }
   a2[1] = 0;
+  *a2 = 0;
 }
 
 
 void __usercall vostok::render::samplers_handler<2>::apply(
         vostok::render::samplers_handler<2> *this@<ecx>,
-        unsigned int *a2@<eax>)
+        unsigned int *a2@<esi>)
 {
-  ID3D11SamplerState **v3; // esi
-  vostok::render::samplers_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-4h] BYREF
+  unsigned int v2; // ecx
+  unsigned int v3; // eax
+  unsigned int i; // ecx
+  unsigned int v5; // ecx
+  unsigned int v6; // ebx
+  ID3D11SamplerState *const *v7; // edi
+  unsigned int v8; // [esp+4h] [ebp-4h]
 
-  v3 = (ID3D11SamplerState **)(a2 + 2);
   memset((int)(a2 + 2), 0, 0x40u);
-  end = 0;
-  vostok::render::samplers_handler<0>::fill_changes_buffer(v4, a2, v3, &end);
-  if ( end != *a2 )
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, unsigned int *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                           + 128))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      *a2,
-      end - *a2,
-      &a2[*a2 + 2]);
-  *a2 = 0;
+  v2 = a2[18];
+  if ( v2 )
+    v3 = (*(_DWORD *)(v2 + 8) - *(_DWORD *)(v2 + 4)) >> 2;
+  else
+    v3 = 0;
+  for ( i = *a2; i < v3; ++i )
+    a2[i + 2] = *(_DWORD *)(*(_DWORD *)(a2[18] + 4) + 4 * i);
+  v5 = *a2;
+  if ( v3 > *a2 )
+  {
+    v6 = *a2;
+    v8 = v3 - v5;
+    if ( v5 < v3 - v5 )
+    {
+      v7 = (ID3D11SamplerState *const *)&a2[v5 + 2];
+      do
+      {
+        if ( *v7 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetSamplers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v6,
+            1u,
+            v7);
+        ++v6;
+        ++v7;
+      }
+      while ( v6 < v8 );
+    }
+  }
   a2[1] = 0;
+  *a2 = 0;
 }
 
 
 void __usercall vostok::render::samplers_handler<0>::apply(
         vostok::render::samplers_handler<0> *this@<ecx>,
-        unsigned int *a2@<eax>)
+        unsigned int *a2@<esi>)
 {
-  ID3D11SamplerState **v3; // esi
-  vostok::render::samplers_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-4h] BYREF
+  unsigned int v2; // ecx
+  unsigned int v3; // eax
+  unsigned int i; // ecx
+  unsigned int v5; // ecx
+  unsigned int v6; // ebx
+  ID3D11SamplerState *const *v7; // edi
+  unsigned int v8; // [esp+4h] [ebp-4h]
 
-  v3 = (ID3D11SamplerState **)(a2 + 2);
   memset((int)(a2 + 2), 0, 0x40u);
-  end = 0;
-  vostok::render::samplers_handler<0>::fill_changes_buffer(v4, a2, v3, &end);
-  if ( end != *a2 )
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, unsigned int *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                           + 104))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      *a2,
-      end - *a2,
-      &a2[*a2 + 2]);
-  *a2 = 0;
+  v2 = a2[18];
+  if ( v2 )
+    v3 = (*(_DWORD *)(v2 + 8) - *(_DWORD *)(v2 + 4)) >> 2;
+  else
+    v3 = 0;
+  for ( i = *a2; i < v3; ++i )
+    a2[i + 2] = *(_DWORD *)(*(_DWORD *)(a2[18] + 4) + 4 * i);
+  v5 = *a2;
+  if ( v3 > *a2 )
+  {
+    v6 = *a2;
+    v8 = v3 - v5;
+    if ( v5 < v3 - v5 )
+    {
+      v7 = (ID3D11SamplerState *const *)&a2[v5 + 2];
+      do
+      {
+        if ( *v7 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetSamplers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v6,
+            1u,
+            v7);
+        ++v6;
+        ++v7;
+      }
+      while ( v6 < v8 );
+    }
+  }
   a2[1] = 0;
+  *a2 = 0;
 }

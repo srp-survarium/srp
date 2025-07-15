@@ -13,7 +13,7 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateGetMinutes(const Scaleform::GFx
     else
       p_pProto = 0;
     Result = fn->Result;
-    v4 = (double)((int)p_pProto[22].pObject % ((int)&loc_36EE7F + 1) / 60000);
+    v4 = (double)((int)p_pProto[22].pObject % 3600000 / 60000);
     if ( Result->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(Result);
     Result->T.Type = 3;

@@ -1,247 +1,232 @@
 void __thiscall survarium::object_decal::load(
         survarium::object_decal *this,
-        vostok::configs::binary_config_value *t,
+        const vostok::configs::binary_config_value *t,
         const char *__formal,
-        boost::function4<void,unsigned int,float,float,char const *> *cb)
+        boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *cb)
 {
-  bool v5; // al
+  vostok::configs::binary_config_value *v5; // ecx
   bool v6; // al
-  bool v7; // al
+  vostok::configs::binary_config_value *v7; // ecx
   bool v8; // al
-  bool v9; // al
-  const vostok::configs::binary_config_value *v10; // eax
-  float v11; // xmm0_4
-  __int64 pointer; // rax
-  const vostok::configs::binary_config_value *v13; // eax
-  float v14; // xmm0_4
-  __int64 v15; // rax
-  const vostok::configs::binary_config_value *v16; // eax
-  float v17; // xmm0_4
-  __int64 v18; // rax
-  const vostok::configs::binary_config_value *v19; // eax
-  float v20; // xmm0_4
-  __int64 v21; // rax
-  const vostok::configs::binary_config_value *v22; // eax
-  float v23; // xmm0_4
-  __int64 v24; // rax
-  const vostok::configs::binary_config_value *v25; // eax
-  float v26; // xmm0_4
-  __int64 v27; // rax
-  int *v28; // esi
-  survarium::game_world *v29; // eax
-  survarium::game_world *v30; // edi
-  boost::function<void __cdecl(vostok::resources::queries_result &)> *v31; // ecx
-  void (__cdecl *v32)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__thiscall *__ptr64 v33)(survarium::game_world *, vostok::resources::queries_result *, unsigned int, const boost::function<void __cdecl(vostok::resources::queries_result &)> *); // [esp+24h] [ebp-D4h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> v34; // [esp+38h] [ebp-C0h] BYREF
-  vostok::variant<32> user_data; // [esp+58h] [ebp-A0h] BYREF
-  int v36; // [esp+88h] [ebp-70h]
-  vostok::resources::request result; // [esp+98h] [ebp-60h] BYREF
-  vostok::variant<32> *v38; // [esp+A0h] [ebp-58h] BYREF
-  int v39; // [esp+A4h] [ebp-54h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+A8h] [ebp-50h] BYREF
-  _DWORD v41[2]; // [esp+C8h] [ebp-30h] BYREF
-  survarium::game_world *v42; // [esp+D0h] [ebp-28h] BYREF
-  _DWORD *v43; // [esp+F0h] [ebp-8h]
-  int v44; // [esp+F4h] [ebp-4h]
+  vostok::configs::binary_config_value *v9; // ecx
+  bool v10; // al
+  vostok::configs::binary_config_value *v11; // ecx
+  bool v12; // al
+  vostok::configs::binary_config_value *v13; // ecx
+  const vostok::configs::binary_config_value *v14; // eax
+  float pointer; // xmm0_4
+  vostok::configs::binary_config_value *v16; // ecx
+  const vostok::configs::binary_config_value *v17; // eax
+  float v18; // xmm0_4
+  vostok::configs::binary_config_value *v19; // ecx
+  const vostok::configs::binary_config_value *v20; // eax
+  float v21; // xmm0_4
+  vostok::configs::binary_config_value *v22; // ecx
+  const vostok::configs::binary_config_value *v23; // eax
+  float v24; // xmm0_4
+  vostok::configs::binary_config_value *v25; // ecx
+  const vostok::configs::binary_config_value *v26; // eax
+  float v27; // xmm0_4
+  const vostok::configs::binary_config_value *v28; // eax
+  float v29; // xmm0_4
+  vostok::variant<32> *v30; // ecx
+  vostok::render::material_effects_instance_cook_data *v31; // eax
+  boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *v32; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v33; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v34; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v35; // ecx
+  vostok::fixed_string<260> *v36; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v37; // ecx
+  vostok::variant<32> *v38; // ecx
+  _BYTE v39[52]; // [esp-34h] [ebp-23Ch] BYREF
+  const char *v40; // [esp+0h] [ebp-208h]
+  const char *v41; // [esp+4h] [ebp-204h]
+  unsigned int v42; // [esp+8h] [ebp-200h]
+  vostok::render::material_effects_instance_cook_data *v43; // [esp+10h] [ebp-1F8h] BYREF
+  char *v44; // [esp+14h] [ebp-1F4h]
+  unsigned int v45; // [esp+18h] [ebp-1F0h] BYREF
+  boost::detail::function::function_buffer functor; // [esp+20h] [ebp-1E8h] BYREF
+  vostok::variant<32> v47; // [esp+38h] [ebp-1D0h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > v48; // [esp+68h] [ebp-1A0h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > __that; // [esp+98h] [ebp-170h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > v50; // [esp+C8h] [ebp-140h] BYREF
+  vostok::buffer_string v51[22]; // [esp+F8h] [ebp-110h] BYREF
 
   survarium::load_transform(t, &this->m_transform);
-  v5 = !vostok::configs::binary_config_value::value_exists(t, "projection_on_static_geometry")
+  v6 = !vostok::configs::binary_config_value::value_exists(
+          *(vostok::configs::binary_config_value **)&v39[48],
+          (int)t,
+          (unsigned int)"projection_on_static_geometry")
     || vostok::configs::binary_config_value::operator[](t, "projection_on_static_geometry")->data.pointer != 0;
-  user_data.m_type_id = (unsigned int)"projection_on_skeleton_geometry";
-  this->m_projection_on_static_geometry = v5;
-  v6 = !vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id)
+  this->m_projection_on_static_geometry = v6;
+  v8 = !vostok::configs::binary_config_value::value_exists(v5, (int)t, (unsigned int)"projection_on_skeleton_geometry")
     || vostok::configs::binary_config_value::operator[](t, "projection_on_skeleton_geometry")->data.pointer != 0;
-  user_data.m_type_id = (unsigned int)"projection_on_terrain_geometry";
-  this->m_projection_on_skeleton_geometry = v6;
-  v7 = !vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id)
-    || vostok::configs::binary_config_value::operator[](t, "projection_on_terrain_geometry")->data.pointer != 0;
-  user_data.m_type_id = (unsigned int)"projection_on_speedtree_geometry";
-  this->m_projection_on_terrain_geometry = v7;
-  v8 = !vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id)
-    || vostok::configs::binary_config_value::operator[](t, "projection_on_speedtree_geometry")->data.pointer != 0;
-  user_data.m_type_id = (unsigned int)"projection_on_particle_geometry";
-  this->m_projection_on_speedtree_geometry = v8;
-  v9 = !vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id)
-    || vostok::configs::binary_config_value::operator[](t, "projection_on_particle_geometry")->data.pointer != 0;
-  user_data.m_type_id = (unsigned int)"alpha_angle";
-  this->m_projection_on_particle_geometry = v9;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  this->m_projection_on_skeleton_geometry = v8;
+  v10 = !vostok::configs::binary_config_value::value_exists(v7, (int)t, (unsigned int)"projection_on_terrain_geometry")
+     || vostok::configs::binary_config_value::operator[](t, "projection_on_terrain_geometry")->data.pointer != 0;
+  this->m_projection_on_terrain_geometry = v10;
+  v12 = !vostok::configs::binary_config_value::value_exists(v9, (int)t, (unsigned int)"projection_on_particle_geometry")
+     || vostok::configs::binary_config_value::operator[](t, "projection_on_particle_geometry")->data.pointer != 0;
+  this->m_projection_on_particle_geometry = v12;
+  if ( vostok::configs::binary_config_value::value_exists(v11, (int)t, (unsigned int)"alpha_angle") )
   {
-    v10 = vostok::configs::binary_config_value::operator[](t, "alpha_angle");
-    if ( v10->type == 2 )
-    {
-      v11 = *(float *)&v10->data.pointer;
-    }
+    v14 = vostok::configs::binary_config_value::operator[](t, "alpha_angle");
+    if ( v14->type == 2 )
+      pointer = *(float *)&v14->data.pointer;
     else
-    {
-      pointer = (int)v10->data.pointer;
-      v39 = HIDWORD(pointer);
-      v11 = (float)(int)pointer;
-    }
+      pointer = (float)(int)v14->data.pointer;
   }
   else
   {
-    v11 = -90.0;
+    pointer = FLOAT_N90_0;
   }
-  user_data.m_type_id = (unsigned int)"clip_angle";
-  this->m_alpha_angle = v11;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  *(_DWORD *)&v39[48] = "clip_angle";
+  this->m_alpha_angle = pointer;
+  if ( vostok::configs::binary_config_value::value_exists(v13, (int)t, *(unsigned int *)&v39[48]) )
   {
-    v13 = vostok::configs::binary_config_value::operator[](t, "clip_angle");
-    if ( v13->type == 2 )
-    {
-      v14 = *(float *)&v13->data.pointer;
-    }
+    v17 = vostok::configs::binary_config_value::operator[](t, "clip_angle");
+    if ( v17->type == 2 )
+      v18 = *(float *)&v17->data.pointer;
     else
-    {
-      v15 = (int)v13->data.pointer;
-      v39 = HIDWORD(v15);
-      v14 = (float)(int)v15;
-    }
+      v18 = (float)(int)v17->data.pointer;
   }
   else
   {
-    v14 = -90.0;
+    v18 = FLOAT_N90_0;
   }
-  user_data.m_type_id = (unsigned int)"decal_far_distance";
-  this->m_clip_angle = v14;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  *(_DWORD *)&v39[48] = "decal_far_distance";
+  this->m_clip_angle = v18;
+  if ( vostok::configs::binary_config_value::value_exists(v16, (int)t, *(unsigned int *)&v39[48]) )
   {
-    v16 = vostok::configs::binary_config_value::operator[](t, "decal_far_distance");
-    if ( v16->type == 2 )
-    {
-      v17 = *(float *)&v16->data.pointer;
-    }
+    v20 = vostok::configs::binary_config_value::operator[](t, "decal_far_distance");
+    if ( v20->type == 2 )
+      v21 = *(float *)&v20->data.pointer;
     else
-    {
-      v18 = (int)v16->data.pointer;
-      v39 = HIDWORD(v18);
-      v17 = (float)(int)v18;
-    }
+      v21 = (float)(int)v20->data.pointer;
   }
   else
   {
-    v17 = *(float *)&clear_value;
+    v21 = s_bm_current_air_resistance;
   }
-  user_data.m_type_id = (unsigned int)"decal_width";
-  this->m_decal_far_distance = v17;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  *(_DWORD *)&v39[48] = "decal_width";
+  this->m_decal_far_distance = v21;
+  if ( vostok::configs::binary_config_value::value_exists(v19, (int)t, *(unsigned int *)&v39[48]) )
   {
-    v19 = vostok::configs::binary_config_value::operator[](t, "decal_width");
-    if ( v19->type == 2 )
-    {
-      v20 = *(float *)&v19->data.pointer;
-    }
+    v23 = vostok::configs::binary_config_value::operator[](t, "decal_width");
+    if ( v23->type == 2 )
+      v24 = *(float *)&v23->data.pointer;
     else
-    {
-      v21 = (int)v19->data.pointer;
-      v39 = HIDWORD(v21);
-      v20 = (float)(int)v21;
-    }
+      v24 = (float)(int)v23->data.pointer;
   }
   else
   {
-    v20 = *(float *)&clear_value;
+    v24 = s_bm_current_air_resistance;
   }
-  user_data.m_type_id = (unsigned int)"decal_height";
-  this->m_decal_width = v20;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  *(_DWORD *)&v39[48] = "decal_height";
+  this->m_decal_width = v24;
+  if ( vostok::configs::binary_config_value::value_exists(v22, (int)t, *(unsigned int *)&v39[48]) )
   {
-    v22 = vostok::configs::binary_config_value::operator[](t, "decal_height");
-    if ( v22->type == 2 )
-    {
-      v23 = *(float *)&v22->data.pointer;
-    }
+    v26 = vostok::configs::binary_config_value::operator[](t, "decal_height");
+    if ( v26->type == 2 )
+      v27 = *(float *)&v26->data.pointer;
     else
-    {
-      v24 = (int)v22->data.pointer;
-      v39 = HIDWORD(v24);
-      v23 = (float)(int)v24;
-    }
+      v27 = (float)(int)v26->data.pointer;
   }
   else
   {
-    v23 = *(float *)&clear_value;
+    v27 = s_bm_current_air_resistance;
   }
-  user_data.m_type_id = (unsigned int)"draw_priority";
-  this->m_decal_height = v23;
-  if ( vostok::configs::binary_config_value::value_exists(t, (char *)user_data.m_type_id) )
+  *(_DWORD *)&v39[48] = "draw_priority";
+  this->m_decal_height = v27;
+  if ( vostok::configs::binary_config_value::value_exists(v25, (int)t, *(unsigned int *)&v39[48]) )
   {
-    v25 = vostok::configs::binary_config_value::operator[](t, "draw_priority");
-    if ( v25->type == 2 )
-    {
-      v26 = *(float *)&v25->data.pointer;
-    }
+    v28 = vostok::configs::binary_config_value::operator[](t, "draw_priority");
+    if ( v28->type == 2 )
+      v29 = *(float *)&v28->data.pointer;
     else
-    {
-      v27 = (int)v25->data.pointer;
-      v39 = HIDWORD(v27);
-      v26 = (float)(int)v27;
-    }
+      v29 = (float)(int)v28->data.pointer;
   }
   else
   {
-    v26 = 0.0;
+    v29 = 0.0;
   }
-  user_data.m_type_id = (unsigned int)"decal_material";
-  this->m_draw_priority = v26;
-  v38 = (vostok::variant<32> *)vostok::configs::binary_config_value::operator[](t, (char *)user_data.m_type_id)->data.pointer;
-  v28 = vostok::memory::doug_lea_allocator::malloc_impl(
-          (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-          0x10u);
-  if ( v28 )
+  this->m_draw_priority = v29;
+  v44 = (char *)vostok::configs::binary_config_value::operator[](t, "decal_material")->data.pointer;
+  v43 = (vostok::render::material_effects_instance_cook_data *)vostok::memory::new_helper<vostok::render::material_effects_instance_cook_data>::call<vostok::memory::doug_lea_allocator>(
+                                                                 survarium::g_allocator,
+                                                                 v40,
+                                                                 v41,
+                                                                 v42);
+  if ( v43 )
   {
+    *(_DWORD *)&v39[48] = 0;
+    *(_DWORD *)&v39[44] = v30;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v39[44],
+      0);
     vostok::render::material_effects_instance_cook_data::material_effects_instance_cook_data(
-      (vostok::render::material_effects_instance_cook_data *)v28,
       decal_vertex_input_type,
-      0,
-      0,
-      cull_mode_back);
-    v30 = v29;
+      v43,
+      *(vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v39[44],
+      v39[48],
+      (vostok::render::enum_cull_mode)v40);
+    v43 = v31;
   }
   else
   {
-    v30 = 0;
+    v43 = 0;
   }
-  v44 = vostok::detail::type_to_int<vostok::render::material_effects_instance_cook_data *>::get();
-  v42 = v30;
-  v41[0] = &vostok::detail::concrete_type_helper<vostok::render::material_effects_instance_cook_data *>::`vftable';
-  v43 = v41;
-  result.path = (const char *)&user_data;
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(cb, (int)&v34);
-  HIDWORD(v33) = (unsigned __int8)1_134;
-  LODWORD(v33) = this;
-  boost::bind<void,survarium::object_sky,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl (survarium::game_object_ &)> &,survarium::object_sky *,boost::arg<1>,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl (survarium::game_object_ &)>>(
-    (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::object_sky,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list4<boost::_bi::value<survarium::object_sky *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > > *)result.path,
+  v47.m_helper = 0;
+  v47.m_type_id = 0;
+  vostok::variant<32>::set<vostok::render::material_effects_instance_cook_data *>(v30, &v47, &v43);
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    cb,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&v39[20]);
+  *(_DWORD *)&v39[8] = v43;
+  *(_DWORD *)&v39[4] = (unsigned __int8)1_110;
+  boost::bind<void,survarium::object_decal,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl (survarium::game_object_ &)> &,survarium::object_decal *,boost::arg<1>,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl (survarium::game_object_ &)>>(
+    (int)&__that,
+    (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > *)this,
+    *(void (__thiscall *__ptr64 *)(survarium::game_world *, vostok::resources::queries_result *, unsigned int, const boost::function<void __cdecl(vostok::resources::queries_result &)> *))&v39[4],
+    (survarium::game_world *)survarium::object_decal::material_ready,
+    0,
+    *(boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&v39[20]);
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>(
+    &v48,
+    &__that);
+  v45 = 0;
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>(
+    &v50,
+    &v48);
+  *(_DWORD *)&v39[48] = &functor;
+  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>(
+    (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > *)v39,
+    &v50);
+  v45 = boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl (vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl (vostok::resources::queries_result &)>>>>>(
+          v32,
+          *(boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > *)v39,
+          *(boost::function1<void,vostok::sound::create_sound_propagator_params const &> **)&v39[48]) != 0
+      ? (unsigned int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::object_decal,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl (survarium::game_object_ &)> &>,boost::_bi::list4<boost::_bi::value<survarium::object_decal *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<boost::function<void __cdecl (survarium::game_object_ &)>>>>>'::`2'::stored_vtable
+      : 0;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
     v33,
-    v30,
-    (void (__thiscall *__ptr64)(survarium::game_world *, vostok::resources::queries_result *, unsigned int, const boost::function<void __cdecl(vostok::resources::queries_result &)> *))(unsigned int)survarium::object_decal::material_ready,
-    v34);
-  boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
-    v31,
-    (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::object_decal,vostok::resources::queries_result &,vostok::render::material_effects_instance_cook_data *,boost::function<void __cdecl(survarium::game_object_ &)> &>,boost::_bi::list4<boost::_bi::value<survarium::object_decal *>,boost::arg<1>,boost::_bi::value<vostok::render::material_effects_instance_cook_data *>,boost::_bi::value<boost::function<void __cdecl(survarium::game_object_ &)> > > >)user_data,
-    v36);
-  result.path = (const char *)v38;
-  v38 = (vostok::variant<32> *)v41;
-  result.id = material_effects_instance_class;
-  vostok::resources::query_resources(
-    &result,
-    1u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
-    (const vostok::variant<32> **)&v38,
+    (int *)&v50.l_.a4_);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v34,
+    (int *)&v48.l_.a4_);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v35,
+    (int *)&__that.l_.a4_);
+  vostok::fixed_string<260>::fixed_string<260>(v36, v51, v44);
+  vostok::resources::query_resource(
+    v51[0].m_begin,
+    (vostok::variant<32> *)0xF,
+    survarium::g_allocator,
+    &v47,
     0,
     assert_on_fail_true);
-  if ( callback.vtable )
-  {
-    if ( ((int)callback.vtable & 1) == 0 )
-    {
-      v32 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-      if ( v32 )
-        v32(&callback.functor, &callback.functor, 2);
-    }
-  }
-  if ( v43 )
-    (*(void (__thiscall **)(_DWORD *, survarium::game_world **))(*v43 + 4))(v43, &v42);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v37,
+    (int *)&v45);
+  vostok::variant<32>::destroy_previous_variable_if_needed(v38, (int)&v47);
 }

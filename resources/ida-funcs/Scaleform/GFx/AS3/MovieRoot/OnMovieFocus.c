@@ -4,11 +4,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::OnMovieFocus(Scaleform::GFx::AS3
 
   p_mEventChains = &this->mEventChains;
   if ( set )
-    Scaleform::GFx::AS3::EventChains::Dispatch(
-      p_mEventChains,
-      (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574217]);
+    Scaleform::GFx::AS3::EventChains::Dispatch(p_mEventChains, Event_Activate);
   else
-    Scaleform::GFx::AS3::EventChains::Dispatch(
-      p_mEventChains,
-      (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574218]);
+    Scaleform::GFx::AS3::EventChains::Dispatch(p_mEventChains, Event_Deactivate);
 }

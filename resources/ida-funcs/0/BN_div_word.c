@@ -5,7 +5,7 @@ unsigned int __cdecl BN_div_word(bignum_st *a, unsigned int w)
   unsigned int v6; // ebp
   int v7; // edi
   unsigned int v8; // esi
-  unsigned int v9; // eax
+  int v9; // eax
   int top; // eax
   unsigned int v11; // [esp+4h] [ebp-4h]
   char l; // [esp+10h] [ebp+8h]

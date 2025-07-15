@@ -9,7 +9,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3substr(
   Scaleform::GFx::AS3::Value *v6; // ecx
   Scaleform::GFx::ASStringNode *v7; // eax
   Scaleform::GFx::ASStringNode *v8; // ecx
-  const char *v9; // edi
+  char *v9; // edi
   int v10; // esi
   unsigned int Length; // eax
   unsigned int v12; // ebp
@@ -47,9 +47,9 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3substr(
       }
       vm = (Scaleform::GFx::ASStringNode *)v13;
       if ( startNumber <= (double)v13 )
-        v9 = (const char *)(int)startNumber;
+        v9 = (char *)(int)startNumber;
       else
-        v9 = (const char *)v13;
+        v9 = (char *)v13;
       if ( (int)v9 < 0 )
         v9 += v13;
     }

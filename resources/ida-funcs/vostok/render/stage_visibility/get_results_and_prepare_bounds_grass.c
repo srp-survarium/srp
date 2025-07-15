@@ -1,56 +1,50 @@
 void __thiscall vostok::render::stage_visibility::get_results_and_prepare_bounds_grass(
         vostok::render::stage_visibility *this,
         vostok::math::float4 **out_bounds,
-        vostok::math::float4 **out_counter,
-        vostok::render::grass_patch **end)
+        unsigned int *out_counter,
+        vostok::math::float4x4 *a4)
 {
-  float z; // eax
-  vostok::render::grass_patch **v6; // edi
-  unsigned int m_occlusion_info_index; // eax
-  bool v8; // al
-  vostok::render::grass_patch *v9; // eax
-  vostok::render::grass_patch *v10; // esi
-  vostok::math::aabb *v11; // eax
-  vostok::math::float4 *v12; // eax
-  const vostok::math::float4x4 *v13; // [esp+4h] [ebp-78h]
-  __int64 v14; // [esp+14h] [ebp-68h]
-  __int64 v15; // [esp+1Ch] [ebp-60h]
-  __int64 v16; // [esp+24h] [ebp-58h]
-  __int64 v17; // [esp+2Ch] [ebp-50h]
-  __int64 v18; // [esp+34h] [ebp-48h]
-  vostok::math::float4x4 v19; // [esp+3Ch] [ebp-40h] BYREF
-  vostok::render::grass_patch **enda; // [esp+88h] [ebp+Ch]
+  _DWORD *v4; // eax
+  int **v5; // eax
+  int *v6; // ebx
+  int v7; // esi
+  float x; // eax
+  int v9; // esi
+  vostok::math::float4x4 *v10; // eax
+  const vostok::math::float4x4 *v11; // eax
+  _DWORD *v12; // ecx
+  _DWORD *v13; // edi
+  vostok::math::float4x4 v14; // [esp+Ch] [ebp-58h] BYREF
+  char v15; // [esp+4Ch] [ebp-18h] BYREF
+  int *i; // [esp+5Ch] [ebp-8h]
 
-  z = out_bounds[1][774].z;
-  v6 = *(vostok::render::grass_patch ***)(LODWORD(z) + 1404);
-  for ( enda = *(vostok::render::grass_patch ***)(LODWORD(z) + 1408); v6 != enda; *out_counter = v12 + 1 )
+  v4 = (int *)((char *)&dword_8B9668 + LODWORD(out_bounds[1][1016].z));
+  if ( *v4 )
   {
-    m_occlusion_info_index = (*v6)->m_occlusion_info_index;
-    v8 = m_occlusion_info_index != -1 && *((_BYTE *)&out_bounds[7]->x + m_occlusion_info_index) == 0;
-    (*v6)->m_occluded = v8;
-    v9 = *end;
-    (*v6)->m_occlusion_info_index = (unsigned int)*end;
-    v10 = *v6;
-    *end = (vostok::render::grass_patch *)((char *)&v9->m_movement_data[0][0] + 1);
-    v10 = (vostok::render::grass_patch *)((char *)v10 + 16404);
-    v11 = (vostok::math::aabb *)vostok::math::float4x4::identity(&v19);
-    v16 = *(_QWORD *)&v10->m_movement_data[0][0];
-    v17 = *(_QWORD *)&v10->m_movement_data[0][2];
-    v18 = *(_QWORD *)&v10->m_movement_data[0][4];
-    vostok::math::aabb::modify(v11, v13);
-    *(float *)&v14 = (float)(*((float *)&v17 + 1) + *(float *)&v16) * 0.5;
-    *((float *)&v14 + 1) = (float)(*(float *)&v18 + *((float *)&v16 + 1)) * 0.5;
-    *(float *)&v15 = (float)(*((float *)&v18 + 1) + *(float *)&v17) * 0.5;
-    *((float *)&v15 + 1) = sqrtf(
-                             (float)((float)((float)((float)(*((float *)&v18 + 1) - *(float *)&v17) * 0.5)
-                                           * (float)((float)(*((float *)&v18 + 1) - *(float *)&v17) * 0.5))
-                                   + (float)((float)((float)(*((float *)&v17 + 1) - *(float *)&v16) * 0.5)
-                                           * (float)((float)(*((float *)&v17 + 1) - *(float *)&v16) * 0.5)))
-                           + (float)((float)((float)(*(float *)&v18 - *((float *)&v16 + 1)) * 0.5)
-                                   * (float)((float)(*(float *)&v18 - *((float *)&v16 + 1)) * 0.5)));
-    v12 = *out_counter;
-    *(_QWORD *)&v12->x = v14;
-    *(_QWORD *)&v12->elements[2] = v15;
-    ++v6;
+    v5 = (int **)(*v4 + 340);
+    v6 = *v5;
+    for ( i = v5[1]; v6 != i; *out_counter = (unsigned int)(v12 + 4) )
+    {
+      v7 = *v6;
+      *(_BYTE *)(v7 + 16565) = vostok::render::stage_visibility::occluded(
+                                 (vostok::render::stage_visibility *)out_bounds,
+                                 *(_DWORD *)(*v6 + 16528));
+      x = a4->i.x;
+      *(float *)(*v6 + 16528) = a4->i.x;
+      v9 = *v6;
+      LODWORD(a4->i.x) = LODWORD(x) + 1;
+      v10 = vostok::math::float4x4::identity(a4, &v14);
+      v11 = vostok::render::aabb_to_occlusion_bound(
+              (const vostok::math::aabb *)(v9 + 92),
+              (const vostok::math::float4x4 *)&v15,
+              (vostok::math::aabb *)v10);
+      v12 = (_DWORD *)*out_counter;
+      v13 = (_DWORD *)*out_counter;
+      *v13++ = LODWORD(v11->i.x);
+      *v13++ = LODWORD(v11->i.y);
+      *v13 = LODWORD(v11->i.z);
+      ++v6;
+      v13[1] = LODWORD(v11->i.w);
+    }
   }
 }

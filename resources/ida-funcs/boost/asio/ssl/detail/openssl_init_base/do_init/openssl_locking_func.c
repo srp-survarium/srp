@@ -1,22 +1,13 @@
 void __cdecl boost::asio::ssl::detail::openssl_init_base::do_init::openssl_locking_func(char mode, int n)
 {
-  boost::shared_ptr<boost::asio::ssl::detail::openssl_init_base::do_init> *v2; // [esp+10h] [ebp-38h]
-  boost::shared_ptr<boost::asio::ssl::detail::openssl_init_base::do_init> *v3; // [esp+2Ch] [ebp-1Ch]
-  boost::shared_ptr<boost::asio::ssl::detail::openssl_init_base::do_init> v4; // [esp+38h] [ebp-10h] BYREF
-  boost::shared_ptr<boost::asio::ssl::detail::openssl_init_base::do_init> result; // [esp+40h] [ebp-8h] BYREF
+  boost::detail::shared_count *v2; // ecx
+  boost::asio::detail::win_mutex *px; // [esp-4h] [ebp-Ch]
+  boost::shared_ptr<boost::asio::ssl::detail::openssl_init_base::do_init> result; // [esp+0h] [ebp-8h] BYREF
 
+  px = boost::asio::ssl::detail::openssl_init_base::instance(&result)->px->mutexes_._M_impl._M_start[n].px;
   if ( (mode & 1) != 0 )
-  {
-    v3 = boost::asio::ssl::detail::openssl_init_base::instance(&result);
-    EnterCriticalSection(&v3->px->mutexes_._M_impl._M_start[n].px->crit_section_);
-    if ( result.pn.pi_ )
-      boost::detail::sp_counted_base::release(result.pn.pi_);
-  }
+    EnterCriticalSection(&px->crit_section_);
   else
-  {
-    v2 = boost::asio::ssl::detail::openssl_init_base::instance(&v4);
-    LeaveCriticalSection(&v2->px->mutexes_._M_impl._M_start[n].px->crit_section_);
-    if ( v4.pn.pi_ )
-      boost::detail::sp_counted_base::release(v4.pn.pi_);
-  }
+    LeaveCriticalSection(&px->crit_section_);
+  boost::detail::shared_count::~shared_count(v2, (volatile signed __int32 **)&result.pn);
 }

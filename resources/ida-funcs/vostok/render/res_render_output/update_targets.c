@@ -1,63 +1,54 @@
 void __usercall vostok::render::res_render_output::update_targets(
         vostok::render::res_render_output *this@<ecx>,
-        int a2@<eax>)
+        int a2@<esi>)
 {
-  HRESULT v3; // eax
-  const char *d3d11_error_string; // eax
-  HRESULT v5; // esi
-  vostok::render::res_render_output *v6; // ecx
-  const char *v7; // eax
-  bool do_debug_break; // [esp+25h] [ebp-5h] BYREF
-  ID3D11Texture2D *buffer; // [esp+26h] [ebp-4h] BYREF
+  HRESULT v2; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v3; // ecx
+  bool *d3d11_error_string; // eax
+  HRESULT v5; // edi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
+  bool *v7; // eax
+  ID3D11Resource *v8; // [esp+8h] [ebp-8h] BYREF
+  char v9; // [esp+Fh] [ebp-1h] BYREF
 
-  v3 = (*(int (__stdcall **)(_DWORD, _DWORD, GUID *, ID3D11Texture2D **))(**(_DWORD **)(a2 + 204) + 36))(
-         *(_DWORD *)(a2 + 204),
+  v2 = (*(int (__stdcall **)(_DWORD, _DWORD, GUID *, ID3D11Resource **))(**(_DWORD **)(a2 + 212) + 36))(
+         *(_DWORD *)(a2 + 212),
          0,
          &_GUID_6f15aaf2_d208_4e89_9ab4_489535d34f9c,
-         &buffer);
-  if ( !LOBYTE(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_end_of_storage._M_data)
-    && v3 < 0 )
+         &v8);
+  if ( !ignore_always_29 && v2 < 0 )
   {
-    do_debug_break = 1;
-    d3d11_error_string = make_d3d11_error_string(v3);
+    v9 = 1;
+    d3d11_error_string = (bool *)make_d3d11_error_string(v2, v3);
     vostok::debug::on_error(
-      &do_debug_break,
+      (bool *)&v9,
       process_error_true,
-      (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_end_of_storage,
-      assert_untyped,
-      "assertion_failed",
       d3d11_error_string,
       ".\\res_render_output.cpp",
       "vostok::render::res_render_output::update_targets",
-      0x16Bu);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      (const char *)0x1B3);
+    if ( vostok::debug::is_debugger_present() || v9 )
       __debugbreak();
   }
-  v5 = (*(int (__stdcall **)(int, ID3D11Texture2D *, _DWORD, int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x
-                                                                 + 36))(
-         `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-         buffer,
+  v5 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateRenderTargetView(
+         vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+         v8,
          0,
-         a2 + 208);
-  buffer->Release(buffer);
-  if ( !BYTE1(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_end_of_storage._M_data)
-    && v5 < 0 )
+         (ID3D11RenderTargetView **)(a2 + 216));
+  v8->Release(v8);
+  if ( !ignore_always_30 && v5 < 0 )
   {
-    do_debug_break = 1;
-    v7 = make_d3d11_error_string(v5);
+    v9 = 1;
+    v7 = (bool *)make_d3d11_error_string(v5, v6);
     vostok::debug::on_error(
-      &do_debug_break,
+      (bool *)&v9,
       process_error_true,
-      (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_end_of_storage._M_data
-    + 1,
-      assert_untyped,
-      "assertion_failed",
       v7,
       ".\\res_render_output.cpp",
       "vostok::render::res_render_output::update_targets",
-      0x16Fu);
-    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      (const char *)0x1B7);
+    if ( vostok::debug::is_debugger_present() || v9 )
       __debugbreak();
   }
-  vostok::render::res_render_output::update_depth_stencil_buffer(v6, a2);
+  vostok::render::res_render_output::update_depth_stencil_buffer((vostok::render::res_render_output *)v6, a2);
 }

@@ -32,7 +32,7 @@ void __thiscall Scaleform::GFx::AS3::AvmSprite::QueueFrameScript(
     v6 = pAS3RawPtr;
     if ( ((unsigned __int8)pAS3RawPtr & 1) != 0 )
       v6 = (Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)((char *)pAS3RawPtr - 1);
-    if ( ((unsigned __int8 (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *, unsigned int, Scaleform::GFx::AS3::Value *))v6->__vftable[1].~Scaleform::GFx::AS3::Instances::fl_display::DisplayObject)(
+    if ( ((unsigned __int8 (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *, unsigned int, Scaleform::GFx::AS3::Value *))v6->__vftable[1].IsAS3Object)(
            v6,
            frame,
            &method) )
@@ -74,7 +74,7 @@ void __thiscall Scaleform::GFx::AS3::AvmSprite::QueueFrameScript(
         else
         {
           RefCount = v12->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v12->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);

@@ -2,222 +2,183 @@ void __usercall vostok::render::scene_shader_constants::scene_shader_constants(
         vostok::render::scene_shader_constants *this@<ecx>,
         vostok::render::shader_constant_host **a2@<edi>)
 {
-  vostok::strings::shared::profile *v2; // eax
-  vostok::render::backend *v3; // ecx
-  volatile signed __int32 *p_m_reference_count; // esi
-  vostok::strings::shared::manager *v5; // ecx
-  vostok::strings::shared::profile *v6; // eax
-  vostok::render::backend *v7; // ecx
-  volatile signed __int32 *v8; // esi
-  vostok::strings::shared::manager *v9; // ecx
-  vostok::strings::shared::profile *v10; // eax
-  vostok::render::backend *v11; // ecx
-  volatile signed __int32 *v12; // esi
-  vostok::strings::shared::manager *v13; // ecx
-  vostok::strings::shared::profile *v14; // eax
-  vostok::render::backend *v15; // ecx
-  volatile signed __int32 *v16; // esi
-  vostok::strings::shared::manager *v17; // ecx
-  vostok::strings::shared::profile *v18; // eax
-  vostok::render::backend *v19; // ecx
-  volatile signed __int32 *v20; // esi
-  vostok::strings::shared::manager *v21; // ecx
-  vostok::strings::shared::profile *v22; // eax
-  vostok::render::backend *v23; // ecx
-  volatile signed __int32 *v24; // esi
-  vostok::strings::shared::manager *v25; // ecx
-  vostok::strings::shared::profile *v26; // eax
-  vostok::render::backend *v27; // ecx
-  volatile signed __int32 *v28; // esi
-  vostok::strings::shared::manager *v29; // ecx
-  vostok::strings::shared::profile *v30; // eax
-  vostok::render::backend *v31; // ecx
-  volatile signed __int32 *v32; // esi
-  vostok::strings::shared::manager *v33; // ecx
-  vostok::strings::shared::profile *v34; // eax
-  vostok::render::backend *v35; // ecx
-  volatile signed __int32 *v36; // esi
-  vostok::shared_string name; // [esp+8h] [ebp-4h] BYREF
+  vostok::render::backend *v2; // ecx
+  vostok::shared_string *v3; // ecx
+  vostok::render::backend *v4; // ecx
+  vostok::shared_string *v5; // ecx
+  vostok::render::backend *v6; // ecx
+  vostok::shared_string *v7; // ecx
+  vostok::render::backend *v8; // ecx
+  vostok::shared_string *v9; // ecx
+  vostok::render::backend *v10; // ecx
+  vostok::shared_string *v11; // ecx
+  vostok::render::backend *v12; // ecx
+  vostok::shared_string *v13; // ecx
+  vostok::render::backend *v14; // ecx
+  vostok::shared_string *v15; // ecx
+  vostok::render::backend *v16; // ecx
+  vostok::shared_string *v17; // ecx
+  vostok::render::backend *v18; // ecx
+  vostok::shared_string *v19; // ecx
+  vostok::render::backend *v20; // ecx
+  vostok::shared_string *v21; // ecx
+  vostok::render::backend *v22; // ecx
+  vostok::shared_string name; // [esp+Ch] [ebp-4h] BYREF
 
-  v2 = vostok::strings::shared::manager::string(
-         (vostok::strings::shared::manager *)this,
-         (const char *)s_manager.m_variable);
-  p_m_reference_count = 0;
-  name.m_pointer.m_object = 0;
-  if ( v2 )
-  {
-    p_m_reference_count = &v2->m_reference_count;
-    name.m_pointer.m_object = v2;
-    v3 = (vostok::render::backend *)_InterlockedExchangeAdd(&v2->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(
+    (vostok::shared_string *)this,
+    &name.m_pointer,
+    "frame_height_lights_and_desaturation");
   *a2 = vostok::render::backend::register_constant_host(
-          v3,
-          (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+          v2,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
           &name,
-          rc_float);
-  if ( p_m_reference_count )
+          0);
+  if ( name.m_pointer.m_object )
   {
-    v5 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(p_m_reference_count, 0xFFFFFFFF);
-    if ( !v5 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v3 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v3 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v6 = vostok::strings::shared::manager::string(v5, (const char *)s_manager.m_variable);
-  v8 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v6 )
-  {
-    v8 = &v6->m_reference_count;
-    name.m_pointer.m_object = v6;
-    v7 = (vostok::render::backend *)_InterlockedExchangeAdd(&v6->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v3, &name.m_pointer, "frame_mid_tones");
   a2[1] = vostok::render::backend::register_constant_host(
-            v7,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v4,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v8 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v9 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v8, 0xFFFFFFFF);
-    if ( !v9 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v5 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v5 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v10 = vostok::strings::shared::manager::string(v9, (const char *)s_manager.m_variable);
-  v12 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v10 )
-  {
-    v12 = &v10->m_reference_count;
-    name.m_pointer.m_object = v10;
-    v11 = (vostok::render::backend *)_InterlockedExchangeAdd(&v10->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v5, &name.m_pointer, "frame_shadows");
   a2[2] = vostok::render::backend::register_constant_host(
-            v11,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v6,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v12 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v13 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v12, 0xFFFFFFFF);
-    if ( !v13 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v7 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v7 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v14 = vostok::strings::shared::manager::string(v13, (const char *)s_manager.m_variable);
-  v16 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v14 )
-  {
-    v16 = &v14->m_reference_count;
-    name.m_pointer.m_object = v14;
-    v15 = (vostok::render::backend *)_InterlockedExchangeAdd(&v14->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v7, &name.m_pointer, "gamma_correction_factor");
   a2[3] = vostok::render::backend::register_constant_host(
-            v15,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v8,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v16 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v17 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v16, 0xFFFFFFFF);
-    if ( !v17 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v9 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v9 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v18 = vostok::strings::shared::manager::string(v17, (const char *)s_manager.m_variable);
-  v20 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v18 )
-  {
-    v20 = &v18->m_reference_count;
-    name.m_pointer.m_object = v18;
-    v19 = (vostok::render::backend *)_InterlockedExchangeAdd(&v18->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v9, &name.m_pointer, "frame_fade");
   a2[4] = vostok::render::backend::register_constant_host(
-            v19,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v10,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v20 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v21 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v20, 0xFFFFFFFF);
-    if ( !v21 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v11 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v11 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v22 = vostok::strings::shared::manager::string(v21, (const char *)s_manager.m_variable);
-  v24 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v22 )
-  {
-    v24 = &v22->m_reference_count;
-    name.m_pointer.m_object = v22;
-    v23 = (vostok::render::backend *)_InterlockedExchangeAdd(&v22->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v11, &name.m_pointer, "filmic_tonemap_packed_parameters_0");
   a2[5] = vostok::render::backend::register_constant_host(
-            v23,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v12,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v24 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v25 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v24, 0xFFFFFFFF);
-    if ( !v25 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v13 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v13 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v26 = vostok::strings::shared::manager::string(v25, (const char *)s_manager.m_variable);
-  v28 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v26 )
-  {
-    v28 = &v26->m_reference_count;
-    name.m_pointer.m_object = v26;
-    v27 = (vostok::render::backend *)_InterlockedExchangeAdd(&v26->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v13, &name.m_pointer, "filmic_tonemap_packed_parameters_1");
   a2[6] = vostok::render::backend::register_constant_host(
-            v27,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v14,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v28 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v29 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v28, 0xFFFFFFFF);
-    if ( !v29 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v15 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v15 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v30 = vostok::strings::shared::manager::string(v29, (const char *)s_manager.m_variable);
-  v32 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v30 )
+  vostok::shared_string::shared_string(v15, &name.m_pointer, "s_eye_ray_corner");
+  a2[9] = vostok::render::backend::register_constant_host(
+            v16,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+            &name,
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v32 = &v30->m_reference_count;
-    name.m_pointer.m_object = v30;
-    v31 = (vostok::render::backend *)_InterlockedExchangeAdd(&v30->m_reference_count, 1u);
+    v17 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v17 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
+  vostok::shared_string::shared_string(v17, &name.m_pointer, "image_grain_parameters");
+  a2[10] = vostok::render::backend::register_constant_host(
+             v18,
+             SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+             &name,
+             0);
+  if ( name.m_pointer.m_object )
+  {
+    v19 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v19 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
+  }
+  vostok::shared_string::shared_string(v19, &name.m_pointer, "bloom_parameters");
   a2[7] = vostok::render::backend::register_constant_host(
-            v31,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v20,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v32 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v33 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v32, 0xFFFFFFFF);
-    if ( !v33 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v21 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v21 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v34 = vostok::strings::shared::manager::string(v33, (const char *)s_manager.m_variable);
-  v36 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v34 )
-  {
-    v36 = &v34->m_reference_count;
-    name.m_pointer.m_object = v34;
-    v35 = (vostok::render::backend *)_InterlockedExchangeAdd(&v34->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v21, &name.m_pointer, "blueshift");
   a2[8] = vostok::render::backend::register_constant_host(
-            v35,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v22,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v36 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    if ( !_InterlockedExchangeAdd(v36, 0xFFFFFFFF) )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    if ( !_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF) )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
 }

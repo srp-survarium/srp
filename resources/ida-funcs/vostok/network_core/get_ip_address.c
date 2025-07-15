@@ -2,84 +2,106 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *result,
         boost::asio::io_service *io_service)
 {
-  survarium::game_options *v2; // eax
-  const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *v3; // eax
-  survarium::game_options *v5; // eax
-  _BYTE v6[85]; // [esp+4CFh] [ebp-11Dh] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v7; // [esp+524h] [ebp-C8h] BYREF
-  survarium::game_camera v8; // [esp+53Fh] [ebp-ADh] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v9; // [esp+594h] [ebp-58h] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v10; // [esp+5ACh] [ebp-40h] BYREF
-  boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> end; // [esp+5C8h] [ebp-24h] BYREF
-  boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp> > resolver; // [esp+5D4h] [ebp-18h] BYREF
-  boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> iter; // [esp+5E0h] [ebp-Ch] BYREF
+  boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> *v2; // ecx
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *v3; // eax
+  char *M_data; // ebx
+  boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *v5; // ecx
+  bool v6; // al
+  boost::detail::shared_count *v7; // ecx
+  boost::detail::shared_count *v8; // ecx
+  boost::shared_ptr<void> *v9; // ecx
+  boost::detail::shared_count *v10; // ecx
+  boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> *v12; // [esp-8h] [ebp-E0h]
+  boost::asio::ip::resolver_query_base::flags v13; // [esp+0h] [ebp-D8h]
+  boost::system::error_code *v14; // [esp+0h] [ebp-D8h]
+  boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> query; // [esp+10h] [ebp-C8h] BYREF
+  _BYTE v16[28]; // [esp+60h] [ebp-78h] BYREF
+  boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp> > v17; // [esp+7Ch] [ebp-5Ch] BYREF
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > service; // [esp+88h] [ebp-50h] BYREF
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char> > v19; // [esp+A0h] [ebp-38h] BYREF
+  boost::asio::ip::address resulta; // [esp+B8h] [ebp-20h] BYREF
+  stlp_std::allocator<char> v21; // [esp+D7h] [ebp-1h] BYREF
 
-  boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::tcp>>::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::tcp>>(
-    &resolver,
-    io_service);
-  v2 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v8);
+  boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp>>::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp>>(
+    io_service,
+    &v17);
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-    (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v8.__vftable + 1),
-    (char *)&buf,
-    (const stlp_std::allocator<char> *)v2);
-  v3 = boost::asio::ip::host_name(&v7);
+    &service,
+    (char *)uri,
+    &v21);
+  v12 = v2;
+  v3 = boost::asio::ip::host_name((stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)&v19);
   boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp>::basic_resolver_query<boost::asio::ip::tcp>(
-    (boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> *)((char *)&v8.m_inverted_view_matrix.lines[3].x + 1),
+    v12,
+    &query,
     v3,
-    (const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v8.__vftable
-                                                                                                + 1),
-    address_configured);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v7);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block((stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)((char *)&v8.__vftable + 1));
-  survarium::weapon_user_dead_state::finalize(&v8);
-  boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp>>::resolve(
-    &resolver,
-    &iter,
-    (const boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> *)((char *)&v8.m_inverted_view_matrix.lines[3].x
-                                                                        + 1));
-  boost::shared_ptr<stlp_std::vector<boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp>,stlp_std::allocator<boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp>>>>::shared_ptr<stlp_std::vector<boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp>,stlp_std::allocator<boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp>>>>((boost::asio::detail::hash_map<unsigned int,boost::asio::detail::reactor_op_queue<unsigned int>::operations>::bucket_type *)&end);
-  end.index_ = 0;
-  while ( !boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>::equal(&iter, &end) )
+    &service,
+    v13);
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v19);
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&service);
+  v19._M_finish = 0;
+  v19._M_start_of_storage._M_data = (char *)boost::system::system_category();
+  boost::asio::detail::resolver_service<boost::asio::ip::tcp>::resolve(
+    &query,
+    (boost::asio::detail::resolver_service<boost::asio::ip::tcp> *)&service._M_buffers._M_static_buf[12],
+    (boost::system::error_code *)&v19._M_finish,
+    v14);
+  if ( (v19._M_finish != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+    boost::asio::detail::do_throw_error((const boost::system::error_code *)&v19._M_finish, "resolve");
+  memset(&v19._M_buffers._M_static_buf[12], 0, 12);
+  while ( 1 )
   {
-    qmemcpy(&v6[57], &iter.values_.px->_M_impl._M_start[iter.index_], 0x1Cu);
-    boost::asio::ip::detail::endpoint::address(
-      (boost::asio::ip::detail::endpoint *)&v6[57],
-      (boost::asio::ip::address *)((char *)&v8.m_inverted_view_matrix.lines[1].elements[1] + 1));
-    if ( !boost::asio::ip::address::is_loopback((boost::asio::ip::address *)((char *)&v8.m_inverted_view_matrix.lines[1].elements[1]
-                                                                           + 1))
-      && !*(_DWORD *)((char *)&v8.m_inverted_view_matrix.j.elements[1] + 1) )
+    if ( !boost::asio::ip::operator!=(
+            (const boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *)&service._M_buffers._M_static_buf[12],
+            (const boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> *)&v19._M_buffers._M_static_buf[12]) )
     {
-      qmemcpy(&v6[29], &iter.values_.px->_M_impl._M_start[iter.index_], 0x1Cu);
-      boost::asio::ip::detail::endpoint::address(
-        (boost::asio::ip::detail::endpoint *)&v6[29],
-        (boost::asio::ip::address *)&v6[1]);
-      if ( *(_DWORD *)&v6[1] == 1 )
-        boost::asio::ip::address_v6::to_string((boost::asio::ip::address_v6 *)&v6[9], result);
-      else
-        boost::asio::ip::address_v4::to_string((boost::asio::ip::address_v4 *)&v6[5], result);
-      if ( end.values_.pn.pi_ )
-        boost::detail::sp_counted_base::release(end.values_.pn.pi_);
-      if ( iter.values_.pn.pi_ )
-        boost::detail::sp_counted_base::release(iter.values_.pn.pi_);
-      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v10);
-      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v9);
-      boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp>>::~basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp>>((boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp> > *)&resolver);
-      return result;
+      stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
+        result,
+        "unknown",
+        &v21);
+      goto LABEL_21;
     }
-    boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>::increment(&iter);
+    M_data = service._M_start_of_storage._M_data;
+    qmemcpy(
+      v16,
+      (const void *)(**(_DWORD **)&service._M_buffers._M_static_buf[12] + 76 * (int)service._M_start_of_storage._M_data),
+      sizeof(v16));
+    boost::asio::ip::detail::endpoint::address(0, (int)v16, &resulta);
+    if ( resulta.type_ == ipv4 )
+    {
+      v6 = (ntohl(resulta.ipv4_address_.addr_.S_un.S_addr) & 0xFF000000) == 2130706432;
+      goto LABEL_16;
+    }
+    if ( resulta.ipv6_address_.addr_.u.Byte[0]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[1], 0) != resulta.ipv6_address_.addr_.u.Byte[2]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[3], 0) != resulta.ipv6_address_.addr_.u.Byte[4]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[5], 0) != resulta.ipv6_address_.addr_.u.Byte[6]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[7], 0) != resulta.ipv6_address_.addr_.u.Byte[8]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[9], 0) != resulta.ipv6_address_.addr_.u.Byte[10]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[11], 0) != resulta.ipv6_address_.addr_.u.Byte[12]
+      || __PAIR16__(resulta.ipv6_address_.addr_.u.Byte[13], 0) != resulta.ipv6_address_.addr_.u.Byte[14]
+      || resulta.ipv6_address_.addr_.u.Byte[15] != 1 )
+    {
+      break;
+    }
+LABEL_18:
+    boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>::operator++(
+      v5,
+      (boost::detail::shared_count **)&service._M_buffers._M_static_buf[12]);
   }
-  v5 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)v6);
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-    result,
-    "unknown",
-    (const stlp_std::allocator<char> *)v5);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v6);
-  if ( end.values_.pn.pi_ )
-    boost::detail::sp_counted_base::release(end.values_.pn.pi_);
-  if ( iter.values_.pn.pi_ )
-    boost::detail::sp_counted_base::release(iter.values_.pn.pi_);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v10);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v9);
-  boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp>>::~basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp>>((boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::udp> > *)&resolver);
+  v6 = 0;
+LABEL_16:
+  if ( v6 || resulta.type_ )
+    goto LABEL_18;
+  qmemcpy(v16, (const void *)(**(_DWORD **)&service._M_buffers._M_static_buf[12] + 76 * (_DWORD)M_data), sizeof(v16));
+  boost::asio::ip::detail::endpoint::address(0, (int)v16, &resulta);
+  boost::asio::ip::address::to_string((boost::asio::ip::address *)result, (int)&resulta);
+LABEL_21:
+  boost::detail::shared_count::~shared_count(v7, (volatile signed __int32 **)&v19._M_finish);
+  boost::detail::shared_count::~shared_count(v8, (volatile signed __int32 **)&service._M_finish);
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&query.service_name_);
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&query.host_name_);
+  boost::shared_ptr<void>::reset(v9, &v17.implementation.px);
+  boost::detail::shared_count::~shared_count(v10, (volatile signed __int32 **)&v17.implementation.pn);
   return result;
 }

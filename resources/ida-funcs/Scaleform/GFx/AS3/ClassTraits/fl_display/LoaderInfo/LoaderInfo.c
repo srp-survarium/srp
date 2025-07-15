@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo::Loader
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_display::LoaderInfoCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo::Loader
   if ( v6 )
   {
     Scaleform::GFx::AS3::Class::Class(v6, this);
-    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_display::LoaderInfo::`vftable';
   }
   else
   {
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_display::LoaderInfo::Loader
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

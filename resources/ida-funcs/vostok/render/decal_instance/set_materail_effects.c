@@ -1,23 +1,14 @@
-void __userpurge vostok::render::decal_instance::set_materail_effects(
-        vostok::render::decal_instance *this@<ecx>,
-        vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *a2@<eax>,
-        const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *in_ptr)
+void __usercall vostok::render::decal_instance::set_materail_effects(
+        vostok::render::decal_instance *this@<eax>,
+        const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *in_ptr@<edi>)
 {
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v3; // esi
-  char *other; // [esp+4h] [ebp-118h] BYREF
-  vostok::fs_new::virtual_path_string in_material_name; // [esp+8h] [ebp-114h] BYREF
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *p_material; // esi
+  vostok::fixed_string<260> *v3; // ecx
+  vostok::buffer_string v4[23]; // [esp+4h] [ebp-114h] BYREF
 
-  v3 = a2 + 17;
-  vostok::render::material_manager::remove_material_effects(
-    (vostok::render::material_manager *)this,
-    (const vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.y);
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator=(
-    v3,
-    in_ptr);
-  other = (char *)LODWORD(v3->m_object[4].m_last_fail_of_increasing_quality);
-  vostok::fs_new::virtual_path_string::virtual_path_string(&in_material_name, (const char **)&other);
-  vostok::render::material_manager::add_material_effects(
-    (vostok::render::material_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.y,
-    (vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> *)v3,
-    &in_material_name);
+  p_material = &this->m_properties.material;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::operator=(
+    in_ptr,
+    &this->m_properties.material);
+  vostok::fixed_string<260>::fixed_string<260>(v3, v4, (char *)p_material->m_object[1].__vftable);
 }

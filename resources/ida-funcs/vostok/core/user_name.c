@@ -1,13 +1,12 @@
-char *__thiscall vostok::core::user_name(void *this)
+char *__cdecl vostok::core::user_name()
 {
-  unsigned int buffer_size; // [esp+0h] [ebp-4h] BYREF
+  unsigned int pcbBuffer; // [esp+4h] [ebp-4h] BYREF
 
-  buffer_size = (unsigned int)this;
-  if ( !s_initialized_6 )
+  if ( !s_initialized_8 )
   {
-    buffer_size = 512;
-    GetUserNameA(s_user, &buffer_size);
-    s_initialized_6 = 1;
+    pcbBuffer = 512;
+    GetUserNameA(s_user, &pcbBuffer);
+    s_initialized_8 = 1;
   }
   return s_user;
 }

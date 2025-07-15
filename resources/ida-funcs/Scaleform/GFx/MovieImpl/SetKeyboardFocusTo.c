@@ -1,47 +1,48 @@
 void __thiscall Scaleform::GFx::MovieImpl::SetKeyboardFocusTo(
         Scaleform::GFx::MovieImpl *this,
         Scaleform::GFx::Sprite *ch,
-        unsigned int controllerIdx,
+        Scaleform::Ptr<Scaleform::GFx::Sprite> controllerIdx,
         Scaleform::GFx::FocusMovedType fmt)
 {
   Scaleform::GFx::State *v5; // eax
-  unsigned int v6; // ebx
-  Scaleform::GFx::InteractiveObject *v7; // ebp
+  Scaleform::Ptr<Scaleform::GFx::Sprite> v6; // ebx
+  Scaleform::GFx::Sprite *pObject; // ebp
   Scaleform::GFx::Sprite *pParent; // edi
   Scaleform::GFx::FocusGroupDescr *v9; // ebp
   Scaleform::GFx::FocusMovedType v10; // [esp-4h] [ebp-18h]
-  Scaleform::Ptr<Scaleform::GFx::IMEManagerBase> pIMEManager; // [esp+10h] [ebp-4h]
+  Scaleform::RefCountVImpl *v11; // [esp+10h] [ebp-4h]
 
   v5 = this->GetStateAddRef(&this->Scaleform::GFx::StateBag, 24);
-  v6 = controllerIdx;
-  pIMEManager.pObject = (Scaleform::GFx::IMEManagerBase *)v5;
+  v6.pObject = controllerIdx.pObject;
+  v11 = (Scaleform::RefCountVImpl *)v5;
   if ( v5 && v5[1].__vftable )
   {
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[controllerIdx]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&controllerIdx);
-    v7 = (Scaleform::GFx::InteractiveObject *)controllerIdx;
-    if ( controllerIdx )
+      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[*((unsigned __int8 *)&controllerIdx.pObject[86].pRenNode.pObject
+                                                                       + (unsigned int)this)].LastFocused,
+      &controllerIdx);
+    pObject = controllerIdx.pObject;
+    if ( controllerIdx.pObject )
     {
-      ++*(_DWORD *)(controllerIdx + 4);
-      Scaleform::RefCountNTSImpl::Release(v7);
+      ++controllerIdx.pObject->RefCount;
+      Scaleform::RefCountNTSImpl::Release(pObject);
     }
     pParent = ch;
-    if ( v7 != ch )
-      pParent = (Scaleform::GFx::Sprite *)pIMEManager.pObject->pASIMEManager.pObject->HandleFocus(
-                                            pIMEManager.pObject->pASIMEManager.pObject,
+    if ( pObject != ch )
+      pParent = (Scaleform::GFx::Sprite *)(*(int (__thiscall **)(volatile int, Scaleform::GFx::MovieImpl *, Scaleform::GFx::Sprite *, Scaleform::GFx::Sprite *, _DWORD))(*(_DWORD *)v11[1].RefCount + 64))(
+                                            v11[1].RefCount,
                                             this,
-                                            v7,
+                                            pObject,
                                             ch,
                                             0);
-    if ( v7 )
-      Scaleform::RefCountNTSImpl::Release(v7);
+    if ( pObject )
+      Scaleform::RefCountNTSImpl::Release(pObject);
   }
   else
   {
     pParent = ch;
   }
-  v9 = &this->FocusGroups[this->FocusGroupIndexes[v6]];
+  v9 = &this->FocusGroups[*((unsigned __int8 *)&v6.pObject[86].pRenNode.pObject + (unsigned int)this)];
   if ( pParent && pParent->GetType(pParent) == MouseWheel )
   {
     if ( v9->FocusRectShown )
@@ -67,6 +68,6 @@ void __thiscall Scaleform::GFx::MovieImpl::SetKeyboardFocusTo(
       this->FocusRectChanged = 1;
     v9->FocusRectShown = pParent == 0;
   }
-  if ( pIMEManager.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pIMEManager.pObject);
+  if ( v11 )
+    Scaleform::RefCountImpl::Release(v11);
 }

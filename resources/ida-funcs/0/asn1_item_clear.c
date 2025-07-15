@@ -17,7 +17,7 @@ void __usercall asn1_item_clear(struct ASN1_VALUE_st **pval@<esi>, const ASN1_IT
         if ( !templates )
           goto LABEL_10;
         if ( (templates->flags & 0x306) != 0 )
-          goto $LN1_2;
+          goto $LN1_6;
         v2 = templates->item();
         itype = v2->itype;
         if ( itype <= 6 )
@@ -27,13 +27,13 @@ void __usercall asn1_item_clear(struct ASN1_VALUE_st **pval@<esi>, const ASN1_IT
       case 2u:
       case 3u:
       case 6u:
-        goto $LN1_2;
+        goto $LN1_6;
       case 4u:
         funcs = v2->funcs;
         if ( funcs && (v6 = (void (__cdecl *)(struct ASN1_VALUE_st **, const ASN1_ITEM_st *))funcs[3]) != 0 )
           v6(pval, v2);
         else
-$LN1_2:
+$LN1_6:
           *pval = 0;
         break;
       case 5u:

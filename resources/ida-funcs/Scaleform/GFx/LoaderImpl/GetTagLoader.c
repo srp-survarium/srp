@@ -14,7 +14,7 @@ bool __cdecl Scaleform::GFx::LoaderImpl::GetTagLoader(
     }
     else
     {
-      v4 = (void (__stdcall *)(Scaleform::GFx::LoadProcess *, const Scaleform::GFx::TagInfo *))*(&ssl3_ciphers[61].strength_bits
+      v4 = (void (__stdcall *)(Scaleform::GFx::LoadProcess *, const Scaleform::GFx::TagInfo *))*(&Scaleform::GFx::SF_STAT_StatMV_ASString_Mem.Id
                                                                                                + tagType);
       *plf = v4;
       return v4 != 0;

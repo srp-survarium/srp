@@ -1,17 +1,13 @@
-void __usercall vostok::console_commands::console_command::on_changed(
-        vostok::console_commands::console_command *this@<eax>,
-        const char *args@<edx>)
+void __userpurge vostok::console_commands::console_command::on_changed(
+        vostok::console_commands::console_command *this@<ecx>,
+        int a2@<eax>,
+        const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *args)
 {
-  boost::detail::function::vtable_base *vtable; // ecx
-  boost::function<void __cdecl(char const *)> *p_m_on_change_event; // eax
-  int v4; // ecx
+  int v3; // ecx
 
-  vtable = this->m_on_change_event.vtable;
-  p_m_on_change_event = &this->m_on_change_event;
-  v4 = -(vtable != 0);
-  if ( ((unsigned int)survarium::weapon_user_dead_state::finalize & v4) != 0 )
-    boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-      (boost::function1<void,char const *> *)v4,
-      p_m_on_change_event,
+  v3 = -(*(_DWORD *)(a2 + 32) != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v3) != 0 )
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)v3,
       args);
 }

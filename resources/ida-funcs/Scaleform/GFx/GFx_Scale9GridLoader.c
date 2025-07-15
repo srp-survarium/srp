@@ -6,10 +6,9 @@ void __stdcall Scaleform::GFx::GFx_Scale9GridLoader(
   int v3; // eax
   unsigned int Pos; // eax
   Scaleform::GFx::ResourceId v5; // edi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v6; // ecx
   Scaleform::GFx::SpriteDef *BindIndex; // edi
-  Scaleform::GFx::ResourceHandle phandle; // [esp+40h] [ebp-18h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+48h] [ebp-10h] BYREF
+  Scaleform::GFx::ResourceHandle phandle; // [esp+20h] [ebp-18h] BYREF
+  Scaleform::Render::Rect<float> pr; // [esp+28h] [ebp-10h] BYREF
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -26,8 +25,15 @@ void __stdcall Scaleform::GFx::GFx_Scale9GridLoader(
   v5.Id = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
   Scaleform::GFx::Stream::ReadRect(&pAltStream->Stream, &pr);
-  if ( Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v6);
+  if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParse(&pAltStream->Stream) )
+    Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+      &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+      "Scale9GridLoader, id=%d, x1=%d, y1=%d, x2=%d, y2=%d\n",
+      v5.Id,
+      (int)pr.x1,
+      (int)pr.y1,
+      (int)pr.x2,
+      (int)pr.y2);
   if ( pr.x2 <= (double)pr.x1 )
   {
     Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogWarning(
@@ -48,7 +54,10 @@ void __stdcall Scaleform::GFx::GFx_Scale9GridLoader(
   }
   phandle.HType = RH_Pointer;
   phandle.BindIndex = 0;
-  if ( Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(p->pLoadData.pObject, &phandle, v5) )
+  if ( Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(
+         p->pLoadData.pObject,
+         (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType *)&phandle,
+         v5) )
   {
     if ( phandle.HType )
       return;

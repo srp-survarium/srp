@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::TextField::AppendText(
         Scaleform::GFx::TextField *this,
-        const char *putf8Str,
+        char *putf8Str,
         unsigned int utf8Len)
 {
   Scaleform::Render::Text::DocView::AppendText(this->pDocument.pObject, putf8Str, utf8Len);

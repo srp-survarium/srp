@@ -1,4 +1,4 @@
-int __usercall _isatty@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int fh)
+int __usercall _isatty@<eax>(int a1@<ebx>, int a2@<edi>, int fh)
 {
   if ( fh == -2 )
   {

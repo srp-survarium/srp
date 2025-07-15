@@ -29,41 +29,41 @@ char __thiscall Scaleform::GFx::AS2::TextFormatObject::SetMember(
   float val_4; // [esp+4h] [ebp-5Ch]
   float val_4a; // [esp+4h] [ebp-5Ch]
   float val_4b; // [esp+4h] [ebp-5Ch]
-  Scaleform::GFx::ASString strval; // [esp+18h] [ebp-48h] BYREF
-  Scaleform::GFx::ASString result; // [esp+1Ch] [ebp-44h] BYREF
-  Scaleform::GFx::ASString str; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::GFx::ASString v32; // [esp+18h] [ebp-48h] BYREF
+  Scaleform::GFx::ASString str; // [esp+1Ch] [ebp-44h] BYREF
+  Scaleform::GFx::ASString v34; // [esp+20h] [ebp-40h] BYREF
   unsigned int v35[2]; // [esp+24h] [ebp-3Ch]
-  int n; // [esp+2Ch] [ebp-34h]
-  Scaleform::GFx::AS2::Value valset; // [esp+30h] [ebp-30h] BYREF
+  int Size; // [esp+2Ch] [ebp-34h]
+  Scaleform::GFx::AS2::Value v37; // [esp+30h] [ebp-30h] BYREF
   Scaleform::GFx::AS2::Value v38; // [esp+40h] [ebp-20h] BYREF
   Scaleform::GFx::AS2::Value v39; // [esp+50h] [ebp-10h] BYREF
-  char vb; // [esp+6Ch] [ebp+Ch]
-  char vc; // [esp+6Ch] [ebp+Ch]
-  int vd; // [esp+6Ch] [ebp+Ch]
-  char ve; // [esp+6Ch] [ebp+Ch]
-  char vf; // [esp+6Ch] [ebp+Ch]
+  bool vb; // [esp+6Ch] [ebp+Ch]
+  bool vc; // [esp+6Ch] [ebp+Ch]
+  unsigned int vd; // [esp+6Ch] [ebp+Ch]
+  bool ve; // [esp+6Ch] [ebp+Ch]
+  bool vf; // [esp+6Ch] [ebp+Ch]
   int v; // [esp+6Ch] [ebp+Ch]
-  char vg; // [esp+6Ch] [ebp+Ch]
+  bool vg; // [esp+6Ch] [ebp+Ch]
   int va; // [esp+6Ch] [ebp+Ch]
 
-  Scaleform::GFx::AS2::Value::Value(&valset, val);
+  Scaleform::GFx::AS2::Value::Value(&v37, val);
   if ( !strcmp(name->pNode->pData, "align") )
   {
-    Scaleform::GFx::AS2::Value::ToStringImpl(val, &strval, penv, -1, 0);
-    pNode = strval.pNode;
-    if ( !strcmp(strval.pNode->pData, "left") )
+    Scaleform::GFx::AS2::Value::ToStringImpl(val, &v32, penv, -1, 0);
+    pNode = v32.pNode;
+    if ( !strcmp(v32.pNode->pData, "left") )
     {
       HIWORD(this->mParagraphFormat.RefCount) = HIWORD(this->mParagraphFormat.RefCount) & 0xF9FE | 1;
     }
-    else if ( !strcmp(strval.pNode->pData, "right") )
+    else if ( !strcmp(v32.pNode->pData, "right") )
     {
       HIWORD(this->mParagraphFormat.RefCount) = HIWORD(this->mParagraphFormat.RefCount) & 0xF9FE | 0x201;
     }
-    else if ( Scaleform::GFx::ASString::operator==(&strval, "center") )
+    else if ( Scaleform::GFx::ASString::operator==(&v32, "center") )
     {
       HIWORD(this->mParagraphFormat.RefCount) |= 0x601u;
     }
-    else if ( Scaleform::GFx::ASString::operator==(&strval, "justify") )
+    else if ( Scaleform::GFx::ASString::operator==(&v32, "justify") )
     {
       Scaleform::Render::Text::ParagraphFormat::SetAlignment(
         (Scaleform::Render::Text::ParagraphFormat *)&this->mTextFormat.pFontHandle,
@@ -72,8 +72,8 @@ char __thiscall Scaleform::GFx::AS2::TextFormatObject::SetMember(
     else
     {
       HIWORD(this->mParagraphFormat.RefCount) &= 0xF9FEu;
-      Scaleform::GFx::AS2::Value::DropRefs(&valset);
-      valset.T.Type = 1;
+      Scaleform::GFx::AS2::Value::DropRefs(&v37);
+      v37.T.Type = 1;
     }
     v8 = pNode->RefCount-- == 1;
     if ( v8 )
@@ -86,10 +86,10 @@ char __thiscall Scaleform::GFx::AS2::TextFormatObject::SetMember(
     if ( val->T.Type != 1 && Type && Type != 10 )
     {
       v10 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      if ( valset.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&valset);
-      valset.T.Type = 3;
-      valset.NV.NumberValue = (double)v10;
+      if ( v37.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v37);
+      v37.T.Type = 3;
+      v37.NV.NumberValue = (double)v10;
       if ( v10 >= 0 )
       {
         if ( v10 > 720 )
@@ -113,13 +113,13 @@ char __thiscall Scaleform::GFx::AS2::TextFormatObject::SetMember(
     v11 = val->T.Type;
     if ( val->T.Type != 1 && v11 && v11 != 10 )
     {
-      vb = Scaleform::GFx::AS2::Value::ToBool(val, penv);
-      Scaleform::GFx::AS2::Value::SetBool(&valset, vb);
+      vb = Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv);
+      Scaleform::GFx::AS2::Value::SetBool(&v37, vb);
       Scaleform::Render::Text::TextFormat::SetBold(
         (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
         vb);
 LABEL_147:
-      v25 = Scaleform::GFx::AS2::Object::SetMember(this, penv, name, &valset, flags);
+      v25 = Scaleform::GFx::AS2::Object::SetMember(this, penv, name, &v37, flags);
       goto LABEL_148;
     }
     LOBYTE(this->mTextFormat.pImageDesc.pObject) &= ~1u;
@@ -130,8 +130,8 @@ LABEL_147:
   {
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
-      vc = Scaleform::GFx::AS2::Value::ToBool(val, penv);
-      Scaleform::GFx::AS2::Value::SetBool(&valset, vc);
+      vc = Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv);
+      Scaleform::GFx::AS2::Value::SetBool(&v37, vc);
       Scaleform::Render::Text::ParagraphFormat::SetBullet(
         (Scaleform::Render::Text::ParagraphFormat *)&this->mTextFormat.pFontHandle,
         vc);
@@ -139,19 +139,17 @@ LABEL_147:
     }
     HIWORD(this->mParagraphFormat.RefCount) &= 0x7F7Fu;
 LABEL_146:
-    Scaleform::GFx::AS2::Value::DropRefs(&valset);
-    valset.T.Type = 1;
+    Scaleform::GFx::AS2::Value::DropRefs(&v37);
+    v37.T.Type = 1;
     goto LABEL_147;
   }
-  if ( Scaleform::GFx::ASString::operator==(name, (const char *)&stru_9555EC) )
+  if ( Scaleform::GFx::ASString::operator==(name, "color") )
   {
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       vd = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)(unsigned int)vd);
-      this->mTextFormat.Url.HeapTypeBits ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                          & (vd
-                                           ^ this->mTextFormat.Url.HeapTypeBits);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)vd);
+      this->mTextFormat.Url.HeapTypeBits ^= (vd ^ this->mTextFormat.Url.HeapTypeBits) & 0xFFFFFF;
       HIWORD(this->mTextFormat.pImageDesc.pObject) |= 1u;
       goto LABEL_147;
     }
@@ -163,12 +161,12 @@ LABEL_146:
   {
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
-      Scaleform::GFx::AS2::Value::ToStringImpl(val, &result, penv, -1, 0);
-      Scaleform::GFx::AS2::Value::SetString(&valset, &result);
-      v12 = result.pNode;
+      Scaleform::GFx::AS2::Value::ToStringImpl(val, &str, penv, -1, 0);
+      Scaleform::GFx::AS2::Value::SetString(&v37, &str);
+      v12 = str.pNode;
       Scaleform::Render::Text::TextFormat::SetFontList(
         (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
-        (char *)result.pNode->pData,
+        (const __m128i *)str.pNode->pData,
         0xFFFFFFFF);
       goto LABEL_45;
     }
@@ -182,7 +180,7 @@ LABEL_145:
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       v14 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v14);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v14);
       if ( v14 >= -720 )
       {
         if ( v14 > 720 )
@@ -205,8 +203,8 @@ LABEL_145:
   {
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
-      ve = Scaleform::GFx::AS2::Value::ToBool(val, penv);
-      Scaleform::GFx::AS2::Value::SetBool(&valset, ve);
+      ve = Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv);
+      Scaleform::GFx::AS2::Value::SetBool(&v37, ve);
       Scaleform::Render::Text::TextFormat::SetItalic(
         (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
         ve);
@@ -221,7 +219,7 @@ LABEL_145:
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       v15 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v15);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v15);
       if ( v15 >= -720 )
       {
         if ( v15 > 720 )
@@ -245,7 +243,7 @@ LABEL_145:
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       v16 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v16);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v16);
       if ( v16 >= 0 )
       {
         if ( v16 > 720 )
@@ -269,7 +267,7 @@ LABEL_145:
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       v17 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v17);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v17);
       if ( v17 >= 0 )
       {
         if ( v17 > 720 )
@@ -293,7 +291,7 @@ LABEL_145:
     if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
     {
       v18 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v18);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v18);
       if ( v18 >= 0 )
       {
         if ( v18 >= 128 )
@@ -322,8 +320,8 @@ LABEL_145:
     {
       if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
       {
-        vf = Scaleform::GFx::AS2::Value::ToBool(val, penv);
-        Scaleform::GFx::AS2::Value::SetBool(&valset, vf);
+        vf = Scaleform::GFx::AS2::Value::ToBool(val, (int)penv, penv);
+        Scaleform::GFx::AS2::Value::SetBool(&v37, vf);
         Scaleform::Render::Text::TextFormat::SetUnderline(
           (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
           vf);
@@ -340,12 +338,12 @@ LABEL_145:
         Scaleform::Render::Text::TextFormat::ClearUrl((Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame);
         goto LABEL_146;
       }
-      Scaleform::GFx::AS2::Value::ToStringImpl(val, &str, penv, -1, 0);
-      Scaleform::GFx::AS2::Value::SetString(&valset, &str);
-      v12 = str.pNode;
+      Scaleform::GFx::AS2::Value::ToStringImpl(val, &v34, penv, -1, 0);
+      Scaleform::GFx::AS2::Value::SetString(&v37, &v34);
+      v12 = v34.pNode;
       Scaleform::Render::Text::TextFormat::SetUrl(
         (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
-        (char *)str.pNode->pData,
+        (const __m128i *)v34.pNode->pData,
         0xFFFFFFFF);
 LABEL_45:
       v8 = v12->RefCount-- == 1;
@@ -361,7 +359,7 @@ LABEL_45:
       {
         v26 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
         v = v26;
-        Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v26);
+        Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v26);
         if ( v26 >= -720 )
         {
           if ( v26 > 720 )
@@ -389,8 +387,8 @@ LABEL_45:
         goto LABEL_135;
       if ( val->T.Type != 1 && !Scaleform::GFx::AS2::Value::IsUndefined(val) )
       {
-        vg = Scaleform::GFx::AS2::Value::ToBool(val, penv);
-        Scaleform::GFx::AS2::Value::SetBool(&valset, vg);
+        vg = Scaleform::GFx::AS2::Value::ToBool(val, (int)name, penv);
+        Scaleform::GFx::AS2::Value::SetBool(&v37, vg);
         Scaleform::Render::Text::TextFormat::SetKerning(
           (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
           vg);
@@ -399,8 +397,8 @@ LABEL_45:
       LOBYTE(this->mTextFormat.pImageDesc.pObject) &= ~8u;
       HIWORD(this->mTextFormat.pImageDesc.pObject) &= ~0x80u;
     }
-    Scaleform::GFx::AS2::Value::DropRefs(&valset);
-    valset.T.Type = 1;
+    Scaleform::GFx::AS2::Value::DropRefs(&v37);
+    v37.T.Type = 1;
 LABEL_135:
     if ( penv->StringContext.pContext->GFxExtensions.Value != 1 || !Scaleform::GFx::ASString::operator==(name, "alpha") )
       goto LABEL_147;
@@ -408,7 +406,7 @@ LABEL_135:
     {
       v27 = Scaleform::GFx::AS2::Value::ToInt32(val, penv);
       va = v27;
-      Scaleform::GFx::AS2::Value::SetNumber(&valset, (double)v27);
+      Scaleform::GFx::AS2::Value::SetNumber(&v37, (double)v27);
       if ( v27 >= 0 )
       {
         if ( v27 > 100 )
@@ -418,10 +416,10 @@ LABEL_135:
       {
         va = 0;
       }
-      n = (int)((double)va * 255.0 / 100.0);
+      Size = (int)((double)va * 255.0 / 100.0);
       Scaleform::Render::Text::TextFormat::SetAlpha(
         (Scaleform::Render::Text::TextFormat *)&this->ResolveHandler.pLocalFrame,
-        n);
+        Size);
       goto LABEL_147;
     }
     this->mTextFormat.Url.HeapTypeBits |= 0xFF000000;
@@ -444,8 +442,8 @@ LABEL_135:
     (Scaleform::Render::Text::ParagraphFormat *)&this->mTextFormat.pFontHandle,
     v21->Elements.Data.Size);
   v22 = 0;
-  n = v21->Elements.Data.Size;
-  if ( n > 0 )
+  Size = v21->Elements.Data.Size;
+  if ( Size > 0 )
   {
     do
     {
@@ -461,14 +459,14 @@ LABEL_135:
         v22++,
         (__int64)v23);
     }
-    while ( v22 < n );
+    while ( v22 < Size );
   }
   Scaleform::GFx::AS2::Value::Value(&v39, v21);
   v25 = Scaleform::GFx::AS2::Object::SetMember(this, penv, name, v24, flags);
   if ( v39.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v39);
 LABEL_148:
-  if ( valset.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&valset);
+  if ( v37.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v37);
   return v25;
 }

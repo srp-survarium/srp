@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::SetLevel(Scaleform::GFx::AS2::Av
   Scaleform::GFx::ASStringNode *v13; // eax
   Scaleform::GFx::ASStringNode *StringNode; // [esp+10h] [ebp-350h] BYREF
   Scaleform::MsgFormat::Sink r; // [esp+14h] [ebp-34Ch] BYREF
-  char nameBuff[64]; // [esp+20h] [ebp-340h] BYREF
+  __m128i v16[4]; // [esp+20h] [ebp-340h] BYREF
   Scaleform::MsgFormat v17; // [esp+60h] [ebp-300h] BYREF
 
   v2 = level;
@@ -38,8 +38,8 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::SetLevel(Scaleform::GFx::AS2::Av
   RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(pDispObj);
   Scaleform::Render::TreeContainer::Insert(v10, v8, RenderNode);
   this->Level = v2;
-  memset(nameBuff, 0, sizeof(nameBuff));
-  r.SinkData.pStr = (Scaleform::String *)nameBuff;
+  memset(v16, 0, sizeof(v16));
+  r.SinkData.pStr = (Scaleform::String *)v16;
   r.Type = tDataPtr;
   r.SinkData.DataPtr.Size = 64;
   Scaleform::MsgFormat::MsgFormat(&v17, &r);
@@ -50,7 +50,7 @@ void __thiscall Scaleform::GFx::AS2::AvmSprite::SetLevel(Scaleform::GFx::AS2::Av
   v12 = this->pDispObj;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)this->ASEnvironment.StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 nameBuff);
+                 v16);
   ++StringNode->RefCount;
   ((void (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::ASStringNode **))v12->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].GetProjectionMatrix3D)(
     v12,

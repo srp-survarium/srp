@@ -5,7 +5,7 @@ char __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_un
   int v3; // eax
   int v4; // edi
   char *M_ext_buf_EOS; // [esp-8h] [ebp-1Ch]
-  char *__enext; // [esp+10h] [ebp-4h] BYREF
+  char *M_ext_buf; // [esp+10h] [ebp-4h] BYREF
 
   if ( this->_M_in_output_mode && !this->_M_constant_width )
   {
@@ -13,12 +13,17 @@ char __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_un
     {
       M_codecvt = this->_M_codecvt;
       M_ext_buf_EOS = this->_M_ext_buf_EOS;
-      __enext = this->_M_ext_buf;
-      v3 = M_codecvt->do_unshift(M_codecvt, &this->_M_state, __enext, M_ext_buf_EOS, &__enext);
+      M_ext_buf = this->_M_ext_buf;
+      v3 = M_codecvt->do_unshift(
+             (stlp_std::codecvt<char,char,int> *)M_codecvt,
+             &this->_M_state,
+             M_ext_buf,
+             M_ext_buf_EOS,
+             &M_ext_buf);
       v4 = v3;
-      if ( v3 == 3 || __enext == this->_M_ext_buf && !v3 )
+      if ( v3 == 3 || M_ext_buf == this->_M_ext_buf && !v3 )
         break;
-      if ( v3 == 2 || !stlp_std::_Filebuf_base::_M_write(&this->_M_base, this->_M_ext_buf, __enext - this->_M_ext_buf) )
+      if ( v3 == 2 || !stlp_std::_Filebuf_base::_M_write(&this->_M_base, this->_M_ext_buf, M_ext_buf - this->_M_ext_buf) )
         return 0;
     }
     while ( v4 == 1 );

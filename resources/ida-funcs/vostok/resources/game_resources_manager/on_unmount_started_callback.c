@@ -1,6 +1,5 @@
-void __usercall vostok::resources::game_resources_manager::on_unmount_started_callback(
-        vostok::resources::game_resources_manager *this@<ecx>,
-        double a2@<st0>)
+void __thiscall vostok::resources::game_resources_manager::on_unmount_started_callback(
+        vostok::resources::game_resources_manager *this)
 {
-  vostok::resources::game_resources_manager::dispatch_capture(this, this, a2);
+  vostok::resources::game_resources_manager::dispatch_capture(this, this);
 }

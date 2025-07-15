@@ -11,7 +11,7 @@ int __cdecl ssl23_write_bytes(ssl_st *s)
   init_num = s->init_num;
   wbio = s->wbio;
   s->rwstate = 2;
-  result = BIO_write(wbio, &data[init_off], init_num);
+  result = BIO_write(init_off, wbio, &data[init_off], init_num);
   if ( result <= 0 )
   {
 LABEL_4:
@@ -28,7 +28,7 @@ LABEL_4:
       init_num -= result;
       init_off += result;
       s->rwstate = 2;
-      result = BIO_write(s->wbio, &data[init_off], init_num);
+      result = BIO_write(init_off, s->wbio, &data[init_off], init_num);
       if ( result <= 0 )
         goto LABEL_4;
     }

@@ -1,22 +1,28 @@
 void __userpurge vostok::render::scene::update_light(
         vostok::render::scene *this@<ecx>,
         int a2@<eax>,
-        vostok::render::light_props *id,
+        long double a3@<esi:edi>,
+        unsigned int id,
         vostok::render::light_props *props)
 {
-  vostok::render::light_data **v4; // eax
-  vostok::render::light_data *v5; // edx
-  vostok::render::light_data *v6; // eax
-  vostok::render::light_data *v7; // eax
-  unsigned int __val; // [esp+Ch] [ebp-4h] BYREF
+  _DWORD *v5; // eax
+  int v6; // eax
 
-  v4 = *(vostok::render::light_data ***)(a2 + 944);
-  v5 = v4[1];
-  v6 = *v4;
-  __val = (unsigned int)this;
-  v7 = stlp_std::priv::__lower_bound<vostok::render::light_data *,unsigned int,stlp_std::priv::__less_2<vostok::render::light_data,unsigned int>,stlp_std::priv::__less_2<unsigned int,vostok::render::light_data>,int>(
-         v5,
-         &__val,
-         v6);
-  vostok::render::fill_light(v7->light.m_object, id);
+  v5 = *(_DWORD **)((char *)&dword_8B9660 + a2);
+  HIDWORD(a3) = *v5;
+  v6 = (v5[1] - *v5) >> 3;
+  while ( v6 > 0 )
+  {
+    LODWORD(a3) = HIDWORD(a3) + 8 * (v6 >> 1);
+    if ( *(_DWORD *)(LODWORD(a3) + 4) >= id )
+    {
+      v6 >>= 1;
+    }
+    else
+    {
+      HIDWORD(a3) = LODWORD(a3) + 8;
+      v6 += -1 - (v6 >> 1);
+    }
+  }
+  vostok::render::fill_light(a3, *(vostok::render::light **)HIDWORD(a3), props);
 }

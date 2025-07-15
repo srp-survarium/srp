@@ -1,4 +1,4 @@
-int __thiscall Scaleform::HeapMH::RootMH::GetPageIndex(
+unsigned int __thiscall Scaleform::HeapMH::RootMH::GetPageIndex(
         Scaleform::HeapMH::RootMH *this,
         const Scaleform::HeapMH::PageMH *page)
 {

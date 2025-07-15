@@ -64,7 +64,7 @@ LABEL_7:
     if ( other && ((unsigned __int8)other & 1) == 0 )
     {
       RefCount = other->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         other->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(other);

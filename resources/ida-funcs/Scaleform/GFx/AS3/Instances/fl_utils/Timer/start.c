@@ -50,6 +50,6 @@ void __userpurge Scaleform::GFx::AS3::Instances::fl_utils::Timer::start(
   if ( v12 )
     Scaleform::RefCountImpl::Release(v12);
   this->pCoreTimer.pObject = v11;
-  Scaleform::GFx::MovieImpl::AddIntervalTimer(v6, v11);
+  Scaleform::GFx::MovieImpl::AddIntervalTimer(v6, (Scaleform::GFx::Resource *)v11);
   this->pCoreTimer.pObject->Start(this->pCoreTimer.pObject, v6);
 }

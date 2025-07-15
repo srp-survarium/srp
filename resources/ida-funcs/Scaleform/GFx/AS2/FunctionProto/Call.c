@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::FunctionProto::Call(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v1; // esi
+  Scaleform::GFx::AS2::Value *Result; // esi
   const Scaleform::GFx::AS2::Value *v2; // ebp
   Scaleform::GFx::AS2::Environment *Env; // edx
   Scaleform::GFx::AS2::Value *v4; // ecx
@@ -9,7 +9,7 @@ void __cdecl Scaleform::GFx::AS2::FunctionProto::Call(const Scaleform::GFx::AS2:
   Scaleform::GFx::AS2::ObjectInterface *v7; // esi
   Scaleform::RefCountNTSImpl *v8; // esi
   Scaleform::GFx::AS2::Object *v9; // eax
-  int v10; // eax
+  int NArgs; // eax
   int v11; // ebx
   Scaleform::GFx::AS2::Environment *v12; // ecx
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // esi
@@ -20,7 +20,7 @@ void __cdecl Scaleform::GFx::AS2::FunctionProto::Call(const Scaleform::GFx::AS2:
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // edx
   Scaleform::GFx::AS2::FunctionObject *Function; // ecx
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // esi
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *p_pProto; // esi
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v21; // esi
   Scaleform::GFx::AS2::Environment *v22; // eax
   int v23; // ecx
   Scaleform::GFx::AS2::RefCountBaseGC<323>_vtbl *v24; // eax
@@ -28,21 +28,21 @@ void __cdecl Scaleform::GFx::AS2::FunctionProto::Call(const Scaleform::GFx::AS2:
   unsigned int RefCount; // eax
   unsigned int v27; // eax
   Scaleform::GFx::AS2::Environment *v28; // [esp-4h] [ebp-58h]
-  Scaleform::GFx::AS2::ObjectInterface *thisObj; // [esp+10h] [ebp-44h]
-  int nArgs; // [esp+14h] [ebp-40h]
-  Scaleform::RefCountNTSImpl *charHolder; // [esp+18h] [ebp-3Ch]
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *objectHolder; // [esp+1Ch] [ebp-38h]
-  Scaleform::GFx::AS2::Value result; // [esp+20h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::ObjectInterface *v29; // [esp+10h] [ebp-44h]
+  unsigned int n; // [esp+14h] [ebp-40h]
+  Scaleform::RefCountNTSImpl *v31; // [esp+18h] [ebp-3Ch]
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *p_pProto; // [esp+1Ch] [ebp-38h]
+  Scaleform::GFx::AS2::Value v; // [esp+20h] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FnCall v34; // [esp+30h] [ebp-24h] BYREF
 
-  v1 = fn->Result;
+  Result = fn->Result;
   v2 = 0;
-  objectHolder = 0;
-  charHolder = 0;
-  thisObj = 0;
-  nArgs = 0;
-  Scaleform::GFx::AS2::Value::DropRefs(v1);
-  v1->T.Type = 0;
+  p_pProto = 0;
+  v31 = 0;
+  v29 = 0;
+  n = 0;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 0;
   if ( fn->NArgs < 1 )
     goto LABEL_20;
   Env = fn->Env;
@@ -59,7 +59,7 @@ void __cdecl Scaleform::GFx::AS2::FunctionProto::Call(const Scaleform::GFx::AS2:
       goto LABEL_7;
     }
 LABEL_15:
-    thisObj = 0;
+    v29 = 0;
     goto LABEL_20;
   }
   v9 = Scaleform::GFx::AS2::Value::ToObject(v4, v28);
@@ -67,7 +67,7 @@ LABEL_15:
     goto LABEL_15;
   v6 = &v9->Scaleform::GFx::AS2::ObjectInterface;
 LABEL_7:
-  thisObj = v6;
+  v29 = v6;
   if ( v6 )
   {
     v7 = v6;
@@ -75,26 +75,26 @@ LABEL_7:
     {
       if ( v7 != (Scaleform::GFx::AS2::ObjectInterface *)16 )
         v7[-1].pProto.pObject = (Scaleform::GFx::AS2::Object *)(((int)&v7[-1].pProto.pObject->__vftable + 1) & 0x8FFFFFFF);
-      objectHolder = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)&v7[-2].pProto;
+      p_pProto = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)&v7[-2].pProto;
     }
     else if ( (unsigned int)(v7->GetObjectType(v7) - 2) > 3 )
     {
-      charHolder = 0;
+      v31 = 0;
     }
     else
     {
       v8 = (Scaleform::RefCountNTSImpl *)v7[1].__vftable;
       if ( v8 )
         ++v8->RefCount;
-      charHolder = v8;
+      v31 = v8;
     }
   }
 LABEL_20:
-  v10 = fn->NArgs;
-  if ( v10 >= 2 )
+  NArgs = fn->NArgs;
+  if ( NArgs >= 2 )
   {
-    v11 = v10 - 1;
-    for ( nArgs = v10 - 1; v11 >= 1; v2 = 0 )
+    v11 = NArgs - 1;
+    for ( n = NArgs - 1; v11 >= 1; v2 = 0 )
     {
       v12 = fn->Env;
       p_Stack = &v12->Stack;
@@ -109,21 +109,21 @@ LABEL_20:
       --v11;
     }
   }
-  result.T.Type = 0;
+  v.T.Type = 0;
   if ( fn->ThisFunctionRef.Function )
   {
     v15 = fn->Env;
-    v16 = nArgs;
+    v16 = n;
     v17 = v15->Stack.pCurrent - v15->Stack.pPageStart + 32 * v15->Stack.Pages.Data.Size - 32;
-    v34.Result = &result;
-    v34.ThisPtr = thisObj;
+    v34.Result = &v;
+    v34.ThisPtr = v29;
     pLocalFrame = fn->ThisFunctionRef.pLocalFrame;
     v34.FirstArgBottomIndex = v17;
     Function = fn->ThisFunctionRef.Function;
     v34.Env = v15;
     v34.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
     memset(&v34.ThisFunctionRef, 0, 9);
-    v34.NArgs = nArgs;
+    v34.NArgs = n;
     Function->Invoke(Function, &v34, pLocalFrame, 0);
     Scaleform::GFx::AS2::FnCall::~FnCall(&v34);
   }
@@ -132,53 +132,53 @@ LABEL_20:
     ThisPtr = fn->ThisPtr;
     if ( ThisPtr )
     {
-      p_pProto = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)&ThisPtr[-2].pProto;
-      if ( p_pProto )
-        p_pProto->RefCount = (p_pProto->RefCount + 1) & 0x8FFFFFFF;
+      v21 = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)&ThisPtr[-2].pProto;
+      if ( v21 )
+        v21->RefCount = (v21->RefCount + 1) & 0x8FFFFFFF;
     }
     else
     {
-      p_pProto = 0;
+      v21 = 0;
     }
     v22 = fn->Env;
-    v16 = nArgs;
+    v16 = n;
     v23 = v22->Stack.pCurrent - v22->Stack.pPageStart + 32 * v22->Stack.Pages.Data.Size - 32;
-    v34.Result = &result;
+    v34.Result = &v;
     v34.FirstArgBottomIndex = v23;
     v34.Env = v22;
-    v24 = p_pProto->__vftable;
-    v34.ThisPtr = thisObj;
+    v24 = v21->__vftable;
+    v34.ThisPtr = v29;
     Finalize_GC = v24[3].Finalize_GC;
     v34.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
     memset(&v34.ThisFunctionRef, 0, 9);
-    v34.NArgs = nArgs;
+    v34.NArgs = n;
     ((void (__thiscall *)(Scaleform::GFx::AS2::RefCountBaseGC<323> *, Scaleform::GFx::AS2::FnCall *, _DWORD, _DWORD))Finalize_GC)(
-      p_pProto,
+      v21,
       &v34,
       0,
       0);
     Scaleform::GFx::AS2::FnCall::~FnCall(&v34);
-    RefCount = p_pProto->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    RefCount = v21->RefCount;
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
-      p_pProto->RefCount = RefCount - 1;
-      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);
+      v21->RefCount = RefCount - 1;
+      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v21);
     }
   }
   if ( v16 > 0 )
     Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(&fn->Env->Stack, v16);
-  Scaleform::GFx::AS2::Value::operator=(fn->Result, &result);
-  if ( result.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&result);
-  if ( charHolder )
-    Scaleform::RefCountNTSImpl::Release(charHolder);
-  if ( objectHolder )
+  Scaleform::GFx::AS2::Value::operator=(fn->Result, &v);
+  if ( v.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v);
+  if ( v31 )
+    Scaleform::RefCountNTSImpl::Release(v31);
+  if ( p_pProto )
   {
-    v27 = objectHolder->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v27) != 0 )
+    v27 = p_pProto->RefCount;
+    if ( (v27 & 0x3FFFFFF) != 0 )
     {
-      objectHolder->RefCount = v27 - 1;
-      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(objectHolder);
+      p_pProto->RefCount = v27 - 1;
+      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);
     }
   }
 }

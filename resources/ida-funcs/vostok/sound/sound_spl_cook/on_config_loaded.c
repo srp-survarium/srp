@@ -1,88 +1,105 @@
 void __thiscall vostok::sound::sound_spl_cook::on_config_loaded(
         vostok::sound::sound_spl_cook *this,
         vostok::resources::queries_result *data,
-        vostok::resources::query_result_for_cook *parent)
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *parent)
 {
-  vostok::sound::sound_spl *v3; // eax
-  const vostok::configs::binary_config_value *v4; // eax
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v5; // [esp-Ch] [ebp-84h] BYREF
-  const vostok::resources::memory_type *v6; // [esp-8h] [ebp-80h]
-  unsigned int v7; // [esp-4h] [ebp-7Ch]
-  vostok::sound::sound_spl_cook *thisa; // [esp+0h] [ebp-78h]
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *v9; // [esp+Ch] [ebp-6Ch]
-  vostok::resources::unmanaged_resource *v10; // [esp+1Ch] [ebp-5Ch]
-  vostok::sound::sound_spl *v11; // [esp+24h] [ebp-54h]
-  char v12; // [esp+2Bh] [ebp-4Dh]
-  vostok::configs::binary_config_value *m_root; // [esp+2Ch] [ebp-4Ch]
-  vostok::configs::binary_config *v14; // [esp+30h] [ebp-48h]
-  char v15; // [esp+37h] [ebp-41h]
-  vostok::configs::binary_config *v16; // [esp+3Ch] [ebp-3Ch]
-  vostok::configs::binary_config *m_object; // [esp+40h] [ebp-38h]
-  const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v18; // [esp+44h] [ebp-34h]
-  vostok::resources::query_result_for_user *v19; // [esp+50h] [ebp-28h]
-  vostok::sound::sound_spl *object; // [esp+54h] [ebp-24h]
-  vostok::sound::sound_spl *v21; // [esp+5Ch] [ebp-1Ch]
-  vostok::memory::base_allocator *v22; // [esp+60h] [ebp-18h]
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v23; // [esp+68h] [ebp-10h] BYREF
-  vostok::sound::sound_spl *v24; // [esp+6Ch] [ebp-Ch]
-  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> spl_config; // [esp+70h] [ebp-8h] BYREF
-  vostok::resources::resource_ptr<vostok::sound::sound_spl,vostok::resources::unmanaged_intrusive_base> v26; // [esp+74h] [ebp-4h] BYREF
+  char *v3; // eax
+  vostok::particle::particle_system_instance_impl *v4; // eax
+  vostok::resources::unmanaged_resource *v5; // ecx
+  vostok::particle::particle_system_instance_impl *v6; // esi
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  const vostok::configs::binary_config_value *v8; // esi
+  survarium::pure_game_effect_emitter_base *v9; // edi
+  int v10; // ecx
+  vostok::resources::query_result_for_cook *v11; // ecx
+  vostok::resources::query_result_for_cook *v12; // ecx
+  _BYTE v13[28]; // [esp-14h] [ebp-34h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v14; // [esp+14h] [ebp-Ch] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v15; // [esp+18h] [ebp-8h] BYREF
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v16; // [esp+1Ch] [ebp-4h] BYREF
 
-  thisa = this;
-  v22 = vostok::resources::unmanaged_allocator();
-  v21 = (vostok::sound::sound_spl *)vostok::memory::base_allocator::malloc_impl(v22, 0x128u);
-  v24 = v21;
-  if ( v21 )
+  v3 = type_info::raw_name(&vostok::sound::sound_spl `RTTI Type Descriptor');
+  v4 = (vostok::particle::particle_system_instance_impl *)vostok::memory::g_resources_unmanaged_allocator.call_malloc(
+                                                            &vostok::memory::g_resources_unmanaged_allocator,
+                                                            328,
+                                                            v3,
+                                                            "vostok::sound::sound_spl_cook::on_config_loaded",
+                                                            ".\\sound_spl_cook.cpp",
+                                                            49);
+  v6 = v4;
+  if ( v4 )
   {
-    vostok::sound::sound_spl::sound_spl(v24);
-    object = v3;
+    vostok::resources::unmanaged_resource::unmanaged_resource(v5, v4, fs_iterator_class);
+    v6->__vftable = (vostok::particle::particle_system_instance_impl_vtbl *)&vostok::sound::sound_spl::`vftable';
+    v6->m_lods[0].m_emitter_instance_list.m_last = 0;
+    v6->m_lods[0].m_distance = 0.0;
+    v6->m_lods[1].m_emitter_instance_list.m_last = 0;
+    v6->m_lods[1].m_distance = 0.0;
   }
   else
   {
-    object = 0;
+    v6 = 0;
   }
-  v26.m_object = 0;
-  vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &v26.vostok::intrusive_ptr<vostok::sound::sound_spl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>,
-    object);
-  if ( vostok::resources::queries_result::is_successful(data) )
+  v15.m_object = 0;
+  if ( v6 )
   {
-    v18 = (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)vostok::resources::queries_result::operator[](data, 0);
-    v23.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v23,
-      v18 + 55);
-    m_object = v23.m_object;
-    v16 = v23.m_object;
-    spl_config.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &spl_config,
-      v23.m_object);
-    vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::resources::resource_ptr<survarium::game_world_object,vostok::resources::unmanaged_intrusive_base> *)&v23);
-    v15 = 0;
-    v14 = spl_config.m_object;
-    m_root = spl_config.m_object->m_root;
-    v12 = 0;
-    v11 = v26.m_object;
-    v4 = vostok::configs::binary_config_value::operator[](m_root, "spl");
-    vostok::sound::sound_spl::load(v11, v4);
-    vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::resources::resource_ptr<survarium::game_world_object,vostok::resources::unmanaged_intrusive_base> *)&spl_config);
-    v10 = v26.m_object;
-    v7 = 296;
-    v6 = &vostok::resources::nocache_memory;
-    v5.m_object = v26.m_object;
-    v9 = &v5;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
-      &v5,
-      (vostok::configs::binary_config *)v26.m_object);
-    vostok::resources::query_result_for_cook::set_unmanaged_resource(parent, v5, v6, v7);
-    vostok::resources::query_result_for_cook::finish_query(parent, result_success, assert_on_fail_true);
-    vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v26);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v15);
+    v15.m_object = v6;
+    _InterlockedExchangeAdd(&v6->m_reference_count, 1u);
   }
-  else
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &v16,
+    (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data->m_queries[0].m_unmanaged_resource);
+  m_object = (vostok::particle::particle_system_instance_impl *)v16.m_object;
+  v14.m_object = 0;
+  if ( v16.m_object )
   {
-    v19 = vostok::resources::queries_result::operator[](data, 0);
-    vostok::resources::query_result_for_cook::finish_query(parent, v19->m_error_type, assert_on_fail_true);
-    vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v26);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v14);
+    v14.m_object = m_object;
+    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
   }
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v16);
+  v8 = vostok::configs::binary_config_value::operator[](
+         (vostok::configs::binary_config_value *)v14.m_object->m_lods[0].m_template.m_object,
+         "spl");
+  *(_DWORD *)v13 = &vostok::memory::g_resources_unmanaged_allocator;
+  qmemcpy(&v13[4], v8, 0x18u);
+  vostok::math::curve_line_points<float,0>::load<vostok::configs::binary_config_value>(
+    0,
+    (vostok::math::curve_line_points<float,0> *)v15.m_object->m_lods,
+    *(vostok::configs::binary_config_value *)v13,
+    *(int *)&v13[24]);
+  qmemcpy(
+    &v13[4],
+    vostok::configs::binary_config_value::operator[](
+      (vostok::configs::binary_config_value *)v14.m_object->m_lods[0].m_template.m_object,
+      "volume"),
+    0x18u);
+  v9 = (survarium::pure_game_effect_emitter_base *)v15.m_object;
+  *(_DWORD *)v13 = &vostok::memory::g_resources_unmanaged_allocator;
+  vostok::math::curve_line_points<float,0>::load<vostok::configs::binary_config_value>(
+    0,
+    (vostok::math::curve_line_points<float,0> *)&v15.m_object->m_lods[1],
+    *(vostok::configs::binary_config_value *)v13,
+    *(int *)&v13[24]);
+  *(_DWORD *)&v13[24] = 328;
+  *(_DWORD *)&v13[20] = &vostok::resources::nocache_memory;
+  *(_DWORD *)&v13[16] = v10;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v13[16],
+    v9);
+  vostok::resources::query_result_for_cook::set_unmanaged_resource(
+    v11,
+    parent,
+    *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v13[16],
+    *(const vostok::resources::memory_type **)&v13[20],
+    *(unsigned int *)&v13[24]);
+  vostok::resources::query_result_for_cook::finish_query_impl(
+    v12,
+    (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent,
+    result_out_of_memory,
+    assert_on_fail_true,
+    result_fail);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v14);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v15);
 }

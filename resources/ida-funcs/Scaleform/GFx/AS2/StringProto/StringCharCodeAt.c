@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringCharCodeAt(const Scaleform:
   Scaleform::GFx::ASConstString *p_pProto; // eax
   Scaleform::GFx::ASConstString *v3; // ebx
   Scaleform::GFx::AS2::Value *v4; // eax
-  const char *v5; // edi
+  char *v5; // edi
   double CharAt; // st7
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::Environment *Env; // [esp-Ch] [ebp-18h]
@@ -20,7 +20,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringCharCodeAt(const Scaleform:
     if ( fn->NArgs < 1
       || (Env = fn->Env,
           v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0),
-          v5 = (const char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v4, Env),
+          v5 = (char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v4, Env),
           (int)v5 < 0)
       || (int)v5 >= (int)Scaleform::GFx::ASConstString::GetLength(v3) )
     {

@@ -1,41 +1,51 @@
-vostok::math::color *__cdecl vostok::render::interpolated_color_64_(
+vostok::math::color *__usercall vostok::render::interpolated_color_64_@<eax>(
+        unsigned int *a1@<edi>,
+        int a2@<esi>,
         vostok::math::color *result,
         vostok::math::color (*color_grid)[64][64],
-        vostok::math::float2 uv)
+        const vostok::math::float2 uv)
 {
-  signed int v4; // edi
-  signed int v5; // eax
-  unsigned int v6; // eax
-  int v7; // esi
-  unsigned int v8; // eax
-  float y; // [esp+18h] [ebp+4h]
+  unsigned int v5; // eax
+  int v6; // esi
+  unsigned int v7; // eax
+  double v9; // [esp-4h] [ebp-14h]
+  double v10; // [esp+0h] [ebp-10h]
+  float v11; // [esp+0h] [ebp-10h]
+  float v12; // [esp+8h] [ebp-8h]
+  float x; // [esp+Ch] [ebp-4h] BYREF
+  float v14; // [esp+20h] [ebp+10h]
 
-  result->m_value = -1;
-  v4 = vostok::math::floor(uv.x);
-  v5 = vostok::math::floor(uv.y);
-  y = (float)(COERCE_FLOAT(LODWORD(uv.y) & 0x7FFFFFFF) - (float)((v5 >> 31) ^ ((v5 >> 31) + v5))) * 64.0;
-  v6 = vostok::math::floor((float)(COERCE_FLOAT(LODWORD(uv.x) & 0x7FFFFFFF) - (float)((v4 >> 31) ^ ((v4 >> 31) + v4))) * 64.0);
-  if ( v6 )
+  *a1 = -1;
+  HIDWORD(v10) = a2;
+  LODWORD(v10) = &x;
+  x = *(float *)&(*color_grid)[0][0].m_value;
+  v12 = modf(*(float *)&(*color_grid)[0][0].m_value, v10);
+  LODWORD(v9) = &x;
+  x = uv.x;
+  v14 = modf(uv.x, v9) * 64.0;
+  v11 = 64.0 * v12;
+  v5 = vostok::math::floor(v11);
+  if ( v5 )
   {
-    v7 = v6;
-    if ( v6 > 0x3F )
+    if ( v5 > 0x3F )
+      v6 = 63;
+    else
+      v6 = v5;
+  }
+  else
+  {
+    v6 = 0;
+  }
+  v7 = vostok::math::floor(v14);
+  if ( v7 )
+  {
+    if ( v7 > 0x3F )
       v7 = 63;
   }
   else
   {
     v7 = 0;
   }
-  v8 = vostok::math::floor(y);
-  if ( v8 )
-  {
-    if ( v8 > 0x3F )
-      v8 = 63;
-    *result = (*color_grid)[v7][v8];
-    return result;
-  }
-  else
-  {
-    *result = (*color_grid)[v7][0];
-    return result;
-  }
+  *a1 = result[64 * v6 + v7].m_value;
+  return (vostok::math::color *)a1;
 }

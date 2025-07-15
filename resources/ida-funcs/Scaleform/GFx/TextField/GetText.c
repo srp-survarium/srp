@@ -28,7 +28,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::TextField::GetText(
     {
       StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                      StringManager,
-                     (char *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
+                     (__m128i *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8),
                      *(_DWORD *)(this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       result->pNode = StringNode;
       ++StringNode->RefCount;
@@ -53,7 +53,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::TextField::GetText(
     Text = Scaleform::Render::Text::DocView::GetText(this->pDocument.pObject, &reqHtml);
     v13 = Scaleform::GFx::ASStringManager::CreateStringNode(
             StringManager,
-            (char *)((Text->HeapTypeBits & 0xFFFFFFFC) + 8),
+            (__m128i *)((Text->HeapTypeBits & 0xFFFFFFFC) + 8),
             *(_DWORD *)(Text->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     result->pNode = v13;
     ++v13->RefCount;

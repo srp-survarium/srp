@@ -1,20 +1,21 @@
 void __thiscall vostok::render::sun_cascade::sun_cascade(
         vostok::render::sun_cascade *this,
         vostok::render::sun_cascade *__that,
-        const vostok::render::sun_cascade *__thata)
+        vostok::render::ray *end)
 {
-  const vostok::render::sun_cascade *v3; // ebx
+  vostok::render::ray *v3; // ebx
 
-  v3 = __thata;
-  qmemcpy(__that, __thata, 0x40u);
+  v3 = end;
+  qmemcpy(__that, end, 0x40u);
   __that->rays.m_begin = (vostok::render::ray *)__that->rays.m_buffer;
   __that->rays.m_end = (vostok::render::ray *)__that->rays.m_buffer;
-  __thata = (const vostok::render::sun_cascade *)v3->rays.m_end;
+  __that->rays.m_max_end = (vostok::render::ray *)&__that->size;
+  end = (vostok::render::ray *)LODWORD(v3[2].origin.z);
   vostok::buffer_vector<vostok::render::ray>::assign<vostok::render::ray const *>(
     &__that->rays,
-    v3->rays.m_begin,
-    (const vostok::render::ray *const *)&__thata);
-  __that->size = v3->size;
-  __that->bias = v3->bias;
-  __that->reset_chain = v3->reset_chain;
+    (const vostok::render::ray *)LODWORD(v3[2].origin.y),
+    (const vostok::render::ray **)&end);
+  __that->size = v3[11].direction.y;
+  __that->bias = v3[11].direction.z;
+  __that->reset_chain = LOBYTE(v3[11].origin.x);
 }

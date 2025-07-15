@@ -8,13 +8,13 @@ bio_st *__cdecl cms_EnvelopedData_init_bio(CMS_ContentInfo_st *cms)
   evp_pkey_ctx_st *v7; // eax
   unsigned __int8 *key; // eax
   int v9; // [esp+Ch] [ebp-4h]
-  bio_st *cmsa; // [esp+14h] [ebp+4h]
+  bio_st *v10; // [esp+14h] [ebp+4h]
 
   flags = (CMS_EncryptedContentInfo_st *)cms->d.data->flags;
   v3 = 0;
   v9 = 0;
   result = cms_EncryptedContent_init_bio(flags);
-  cmsa = result;
+  v10 = result;
   if ( result && flags->cipher )
   {
     data = cms->d.data->data;
@@ -32,23 +32,23 @@ LABEL_10:
         {
           if ( v6->type != 2 )
           {
-            ERR_put_error(0x2Eu, 125, 154, ".\\crypto\\cms\\cms_env.c", 834);
-            goto err_146;
+            ERR_put_error((int)cms, 0x2Eu, 125, 154, ".\\crypto\\cms\\cms_env.c", 834);
+            goto err_148;
           }
           v7 = (evp_pkey_ctx_st *)cms_RecipientInfo_kekri_encrypt(v6, cms);
         }
         else
         {
-          v7 = cms_RecipientInfo_ktri_encrypt(cms, v6);
+          v7 = cms_RecipientInfo_ktri_encrypt((int)cms, cms, v6);
         }
         if ( (int)v7 <= 0 )
           break;
         if ( ++v3 >= sk_num((const stack_st *)data) )
           goto LABEL_10;
       }
-      ERR_put_error(0x2Eu, 125, 116, ".\\crypto\\cms\\cms_env.c", 841);
+      ERR_put_error((int)cms, 0x2Eu, 125, 116, ".\\crypto\\cms\\cms_env.c", 841);
     }
-err_146:
+err_148:
     key = flags->key;
     flags->cipher = 0;
     if ( key )
@@ -60,11 +60,11 @@ err_146:
     }
     if ( v9 )
     {
-      return cmsa;
+      return v10;
     }
     else
     {
-      BIO_free((unsigned int)data, cmsa);
+      BIO_free((int)data, (int)cms, v10);
       return 0;
     }
   }

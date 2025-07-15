@@ -3,10 +3,12 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::CallFrame(
         const Scaleform::GFx::AS3::CallFrame *other)
 {
   Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // ecx
+  Scaleform::GFx::ASStringNode *v4; // ecx
   unsigned int Flags; // eax
 
   this->DiscardResult = other->DiscardResult;
   this->ACopy = 1;
+  this->RegisteredFunction = other->RegisteredFunction;
   this->ScopeStackBaseInd = other->ScopeStackBaseInd;
   this->CP = other->CP;
   this->pRegisterFile = other->pRegisterFile;
@@ -22,6 +24,14 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::CallFrame(
   if ( pObject )
     pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
   this->PrevFirstStackPos = other->PrevFirstStackPos;
+  this->PrevReservedNum = other->PrevReservedNum;
+  v4 = other->Name.pObject;
+  this->Name.pObject = v4;
+  if ( v4 )
+    ++v4->RefCount;
+  this->CurrFileInd = 0;
+  this->CurrLineNumber = 0;
+  this->StartTicks = other->StartTicks;
   this->Invoker = other->Invoker;
   Flags = other->Invoker.Flags;
   if ( (Flags & 0x1F) > 9 )

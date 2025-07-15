@@ -12,14 +12,14 @@ void __userpurge Scaleform::GFx::AS3::XMLSupportImpl::XMLSupportImpl(
   Scaleform::GFx::AS3::VMAppDomain *SystemDomain; // ebp
   const Scaleform::GFx::ASString *v11; // eax
   Scaleform::GFx::AS3::ClassTraits::fl::XMLList *v12; // eax
-  Scaleform::GFx::AS3::VM *v13; // eax
-  Scaleform::GFx::AS3::VM *v14; // ebx
-  Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // ecx
+  int v13; // eax
+  int v14; // ebx
+  _DWORD *v15; // ecx
   Scaleform::GFx::AS3::VMAppDomain *v16; // esi
-  const Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // ebp
+  const Scaleform::GFx::AS3::Instances::fl::Namespace *v17; // ebp
   const Scaleform::GFx::ASString *v18; // eax
   Scaleform::GFx::ASStringNode *v19; // eax
-  Scaleform::GFx::AS3::Instances::fl::Namespace *ns; // [esp+18h] [ebp-4h] BYREF
+  const Scaleform::GFx::AS3::Instances::fl::Namespace *ns; // [esp+18h] [ebp-4h] BYREF
   Scaleform::GFx::ASStringNode *retaddr; // [esp+1Ch] [ebp+0h] BYREF
 
   v4 = vm;
@@ -40,7 +40,7 @@ void __userpurge Scaleform::GFx::AS3::XMLSupportImpl::XMLSupportImpl(
     v9 = 0;
   }
   SystemDomain = v4->SystemDomain;
-  v11 = (const Scaleform::GFx::ASString *)((int (__thiscall *)(Scaleform::GFx::AS3::InstanceTraits::Traits *, Scaleform::GFx::AS3::Instances::fl::Namespace **, int))v9->ITraits.pObject->GetName)(
+  v11 = (const Scaleform::GFx::ASString *)((int (__thiscall *)(Scaleform::GFx::AS3::InstanceTraits::Traits *, const Scaleform::GFx::AS3::Instances::fl::Namespace **, int))v9->ITraits.pObject->GetName)(
                                             v9->ITraits.pObject,
                                             &ns,
                                             a2);
@@ -63,15 +63,15 @@ void __userpurge Scaleform::GFx::AS3::XMLSupportImpl::XMLSupportImpl(
   {
     v14 = 0;
   }
-  pWeakProxy = v14->ExceptionObj.Bonus.pWeakProxy;
+  v15 = *(_DWORD **)(v14 + 100);
   v16 = v4->SystemDomain;
-  pObject = (const Scaleform::GFx::AS3::Instances::fl::Namespace *)pWeakProxy[12].pObject;
-  v18 = (const Scaleform::GFx::ASString *)(*(int (__cdecl **)(Scaleform::GFx::ASStringNode **))(pWeakProxy->RefCount + 16))(&retaddr);
-  vm = v14;
+  v17 = (const Scaleform::GFx::AS3::Instances::fl::Namespace *)v15[25];
+  v18 = (const Scaleform::GFx::ASString *)(*(int (__cdecl **)(Scaleform::GFx::ASStringNode **))(*v15 + 28))(&retaddr);
+  vm = (Scaleform::GFx::AS3::VM *)v14;
   Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Add(
     &v16->ClassTraitsSet,
     v18,
-    pObject,
+    v17,
     (Scaleform::GFx::AS3::ClassTraits::Traits *const *)&vm);
   v19 = (Scaleform::GFx::ASStringNode *)ns;
   --ns->pPrev;

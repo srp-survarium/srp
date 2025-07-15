@@ -1,165 +1,272 @@
-void __userpurge survarium::medkit::load(
-        survarium::medkit *this@<ecx>,
-        float a2@<xmm0>,
-        vostok::configs::binary_config_value config)
+void __thiscall survarium::medkit::load(survarium::medkit *this, vostok::configs::binary_config_value config, int a3)
 {
-  vostok::configs::binary_config_value *v3; // ecx
-  float v4; // xmm0_4
-  vostok::configs::binary_config_value *v5; // ecx
-  float v6; // xmm0_4
-  unsigned int v7; // esi
-  vostok::memory::doug_lea_allocator *v8; // eax
-  vostok::configs::binary_config_value *v9; // ecx
-  vostok::configs::binary_config_value *v10; // eax
-  const vostok::configs::binary_config_value *v11; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v12; // ecx
-  vostok::configs::binary_config_value *v13; // eax
-  vostok::configs::binary_config_value *v14; // ecx
-  unsigned int v15; // esi
-  vostok::memory::doug_lea_allocator *v16; // eax
-  vostok::configs::binary_config_value *v17; // eax
-  const vostok::configs::binary_config_value *v18; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v19; // ecx
-  vostok::configs::binary_config_value *v20; // eax
-  const vostok::configs::binary_config_value *v21; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v22; // ecx
-  unsigned int v23; // esi
-  vostok::memory::doug_lea_allocator *v24; // eax
-  boost::_bi::bind_t<float,boost::_mfi::mf4<float,survarium::medkit,char const *,char const *,float,float>,boost::_bi::list5<boost::_bi::value<survarium::medkit *>,boost::arg<1>,boost::arg<2>,boost::arg<3>,boost::arg<4> > > *v25; // eax
-  boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *v26; // eax
-  vostok::configs::binary_config_value *v27; // eax
-  const vostok::configs::binary_config_value *v28; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v29; // ecx
-  vostok::configs::binary_config_value *v30; // eax
-  const vostok::configs::binary_config_value *v31; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v32; // ecx
-  vostok::configs::binary_config_value *v33; // eax
-  vostok::configs::binary_config_value *v34; // ecx
-  vostok::configs::binary_config_value *v35; // eax
-  vostok::configs::binary_config_value *v36; // ecx
-  boost::function<float __cdecl(char const *,char const *,float,float)> *value; // [esp+0h] [ebp-130h]
-  char *v39; // [esp+10h] [ebp-120h]
-  char *v40; // [esp+14h] [ebp-11Ch]
-  boost::function<float __cdecl(char const *,char const *,float,float)> v41; // [esp+2Ch] [ebp-104h] BYREF
-  char *v42; // [esp+54h] [ebp-DCh]
-  char *source; // [esp+6Ch] [ebp-C4h]
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1> > > result; // [esp+A8h] [ebp-88h] BYREF
-  double (__thiscall *f)(survarium::medkit *, const char *, const char *, float, float); // [esp+BCh] [ebp-74h]
-  int f_4; // [esp+C0h] [ebp-70h]
-  survarium::damage_protector *v47; // [esp+C4h] [ebp-6Ch]
-  survarium::medkit::damage_protection *dmgp; // [esp+C8h] [ebp-68h]
-  int j; // [esp+CCh] [ebp-64h]
-  survarium::medkit::affect *affct; // [esp+D0h] [ebp-60h]
-  int index; // [esp+D4h] [ebp-5Ch]
-  survarium::medkit::item_influence *infl; // [esp+D8h] [ebp-58h]
-  unsigned int i; // [esp+DCh] [ebp-54h]
-  float activation_delay_sec; // [esp+E0h] [ebp-50h]
-  float activity_time_sec; // [esp+E4h] [ebp-4Ch]
-  vostok::configs::binary_config_value remove_affects; // [esp+E8h] [ebp-48h] BYREF
-  vostok::configs::binary_config_value influences; // [esp+100h] [ebp-30h] BYREF
-  vostok::configs::binary_config_value damage_protect; // [esp+118h] [ebp-18h] BYREF
+  _DWORD *pointer; // ebx
+  const vostok::configs::binary_config_value *v4; // eax
+  float v5; // xmm0_4
+  const vostok::configs::binary_config_value *v6; // eax
+  float v7; // xmm0_4
+  vostok::memory::doug_lea_allocator *v8; // esi
+  char *v9; // eax
+  char *v10; // eax
+  vostok::memory::doug_lea_allocator *v11; // esi
+  char *v12; // eax
+  char *v13; // eax
+  bool v14; // zf
+  int v15; // esi
+  char **v16; // eax
+  const vostok::configs::binary_config_value *v17; // eax
+  float v18; // xmm0_4
+  unsigned int v19; // ecx
+  vostok::memory::doug_lea_allocator *v20; // esi
+  char *v21; // eax
+  char *v22; // eax
+  int v23; // esi
+  char **v24; // eax
+  const void *v25; // eax
+  vostok::memory::doug_lea_allocator *v26; // esi
+  char *v27; // eax
+  int v28; // eax
+  _DWORD *v29; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v30; // ecx
+  char **v31; // eax
+  float v32; // esi
+  char **v33; // eax
+  const vostok::configs::binary_config_value *v34; // eax
+  float v35; // xmm0_4
+  const vostok::configs::binary_config_value *v36; // eax
+  float v37; // xmm0_4
+  const char *v38; // [esp+4h] [ebp-6Ch]
+  const char *v39; // [esp+4h] [ebp-6Ch]
+  const char *v40; // [esp+4h] [ebp-6Ch]
+  const char *v41; // [esp+4h] [ebp-6Ch]
+  const char *v42; // [esp+8h] [ebp-68h]
+  const char *v43; // [esp+8h] [ebp-68h]
+  const char *v44; // [esp+8h] [ebp-68h]
+  const char *v45; // [esp+8h] [ebp-68h]
+  unsigned int v46; // [esp+Ch] [ebp-64h]
+  unsigned int v47; // [esp+Ch] [ebp-64h]
+  unsigned int v48; // [esp+Ch] [ebp-64h]
+  unsigned int v49; // [esp+Ch] [ebp-64h]
+  boost::function1<void,vostok::physics::contact_point const &> v50; // [esp+14h] [ebp-5Ch] BYREF
+  _QWORD v51[3]; // [esp+34h] [ebp-3Ch] BYREF
+  void (__thiscall *v52)(survarium::medkit *, char *, survarium::hit_type_enum, float *, float *); // [esp+4Ch] [ebp-24h]
+  int v53; // [esp+50h] [ebp-20h]
+  _DWORD *v54; // [esp+54h] [ebp-1Ch]
+  unsigned int v55; // [esp+58h] [ebp-18h]
+  float v56; // [esp+60h] [ebp-10h]
+  int v57; // [esp+64h] [ebp-Ch]
+  unsigned int v58; // [esp+68h] [ebp-8h]
 
-  vostok::configs::binary_config_value::operator[](&config, "activity_time_sec");
-  vostok::configs::binary_config_value::operator float(v3);
-  vostok::math::max();
-  activity_time_sec = a2;
-  v4 = 1000.0 * a2;
-  this->m_config_activity_time_ms = vostok::math::floor(v4);
-  vostok::configs::binary_config_value::operator[](&config, "activation_delay_sec");
-  vostok::configs::binary_config_value::operator float(v5);
-  activation_delay_sec = v4;
-  v6 = 1000.0 * v4;
-  this->m_config_delay_ms = vostok::math::floor(v6);
-  influences = *vostok::configs::binary_config_value::operator[](&config, "influences");
-  this->m_influences_count = vostok::configs::binary_config_value::size(&influences);
-  v7 = 20 * this->m_influences_count;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_influences = (survarium::medkit::item_influence *)vostok::memory::malloc_helper<vostok::memory::doug_lea_allocator>(
-                                                              v8,
-                                                              v7);
-  vostok::configs::binary_config_value::operator[](&config, "add_stamina_regen");
-  vostok::configs::binary_config_value::operator float(v9);
-  this->m_add_stamina_regen = v6;
-  for ( i = 0; i < this->m_influences_count; ++i )
+  pointer = config.data.pointer;
+  v4 = vostok::configs::binary_config_value::operator[](
+         (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+         "activity_time_sec");
+  if ( v4->type == 2 )
+    v5 = *(float *)&v4->data.pointer;
+  else
+    v5 = (float)(int)v4->data.pointer;
+  *(float *)&config.data.pointer = v5;
+  if ( v5 <= 0.001 )
   {
-    infl = &this->m_influences[i];
-    v10 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&influences, i);
-    v11 = vostok::configs::binary_config_value::operator[](v10, "body_part");
-    source = (char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                       v12,
-                       (int)v11);
-    vostok::strings::copy(infl->body_part_name, 0x10u, source);
-    v13 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&influences, i);
-    vostok::configs::binary_config_value::operator[](v13, "amount");
-    vostok::configs::binary_config_value::operator float(v14);
-    infl->health_amount = v6;
-    v6 = infl->health_amount / activity_time_sec;
-    infl->health_amount = v6;
+    v5 = epsilon_3_4;
+    *(float *)&config.data.pointer = epsilon_3_4;
   }
-  remove_affects = *vostok::configs::binary_config_value::operator[](&config, "remove_affects");
-  this->m_affects_count = vostok::configs::binary_config_value::size(&remove_affects);
-  v15 = 20 * this->m_affects_count;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_affects = (survarium::medkit::affect *)vostok::memory::malloc_helper<vostok::memory::doug_lea_allocator>(
-                                                   v16,
-                                                   v15);
-  for ( index = 0; index < (unsigned int)this->m_affects_count; ++index )
+  pointer[82] = vostok::math::floor(v5 * 1000.0);
+  v6 = vostok::configs::binary_config_value::operator[](
+         (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+         "activation_delay_sec");
+  if ( v6->type == 2 )
+    v7 = *(float *)&v6->data.pointer;
+  else
+    v7 = (float)(int)v6->data.pointer;
+  pointer[83] = vostok::math::floor(v7 * 1000.0);
+  qmemcpy(
+    v51,
+    vostok::configs::binary_config_value::operator[](
+      (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+      "influences"),
+    sizeof(v51));
+  v8 = survarium::g_allocator;
+  *((_BYTE *)pointer + 308) = 24 * HIWORD(HIDWORD(v51[2])) / 24;
+  v9 = type_info::raw_name(&survarium::medkit::item_influence `RTTI Type Descriptor');
+  v10 = vostok::memory::doug_lea_allocator::malloc_impl(
+          (vostok::memory::doug_lea_allocator *)(20 * *((unsigned __int8 *)pointer + 308)),
+          (int)v8,
+          20 * *((unsigned __int8 *)pointer + 308),
+          v9,
+          v38,
+          v42,
+          v46);
+  v11 = survarium::g_allocator;
+  pointer[75] = v10;
+  v12 = type_info::raw_name(&float `RTTI Type Descriptor');
+  v13 = vostok::memory::doug_lea_allocator::malloc_impl(
+          (vostok::memory::doug_lea_allocator *)(4 * *((unsigned __int8 *)pointer + 308)),
+          (int)v11,
+          4 * *((unsigned __int8 *)pointer + 308),
+          v12,
+          v39,
+          v43,
+          v47);
+  v58 = 0;
+  v14 = *((_BYTE *)pointer + 308) == 0;
+  pointer[76] = v13;
+  if ( !v14 )
   {
-    affct = &this->m_affects[index];
-    v17 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &remove_affects,
-                                                    index);
-    v18 = vostok::configs::binary_config_value::operator[](v17, "body_part");
-    v42 = (char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v19, (int)v18);
-    vostok::strings::copy(affct->body_part_name, 0x10u, v42);
-    v20 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                    &remove_affects,
-                                                    index);
-    v21 = vostok::configs::binary_config_value::operator[](v20, "affect");
-    affct->type = (survarium::hit_affects_type_enum)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                                      v22,
-                                                      (int)v21);
+    v57 = 0;
+    v56 = s_bm_current_air_resistance / *(float *)&config.data.pointer;
+    config.data.pointer = (const void *)v51[0];
+    do
+    {
+      v15 = v57 + pointer[75];
+      v16 = (char **)vostok::configs::binary_config_value::operator[](
+                       (vostok::configs::binary_config_value *)config.data.pointer,
+                       "body_part");
+      vostok::strings::copy<16>((char (*)[16])v15, *v16);
+      v17 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)config.data.pointer,
+              "amount");
+      if ( v17->type == 2 )
+        v18 = *(float *)&v17->data.pointer;
+      else
+        v18 = (float)(int)v17->data.pointer;
+      v19 = v58++;
+      v57 += 20;
+      config.data.pointer = (char *)config.data.pointer + 24;
+      *(float *)(v15 + 16) = v18 * v56;
+      *(_DWORD *)(pointer[76] + 4 * v19) = 0;
+    }
+    while ( v58 < *((unsigned __int8 *)pointer + 308) );
   }
-  damage_protect = *vostok::configs::binary_config_value::operator[](&config, "damage_protection");
-  this->m_damage_protect_count = vostok::configs::binary_config_value::size(&damage_protect);
-  v23 = 120 * this->m_damage_protect_count;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->m_damage_protect = (survarium::medkit::damage_protection *)vostok::memory::malloc_helper<vostok::memory::doug_lea_allocator>(
-                                                                     v24,
-                                                                     v23);
-  for ( j = 0; j < (unsigned int)this->m_damage_protect_count; ++j )
+  qmemcpy(
+    v51,
+    vostok::configs::binary_config_value::operator[](
+      (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+      "remove_affects"),
+    sizeof(v51));
+  v20 = survarium::g_allocator;
+  *((_BYTE *)pointer + 316) = 24 * HIWORD(HIDWORD(v51[2])) / 24;
+  v21 = type_info::raw_name(&survarium::medkit::affect `RTTI Type Descriptor');
+  v22 = vostok::memory::doug_lea_allocator::malloc_impl(
+          (vostok::memory::doug_lea_allocator *)(20 * *((unsigned __int8 *)pointer + 316)),
+          (int)v20,
+          20 * *((unsigned __int8 *)pointer + 316),
+          v21,
+          v40,
+          v44,
+          v48);
+  v58 = 0;
+  v14 = *((_BYTE *)pointer + 316) == 0;
+  pointer[78] = v22;
+  if ( !v14 )
   {
-    dmgp = &this->m_damage_protect[j];
-    v47 = (survarium::damage_protector *)operator new(0x50u, dmgp);
-    if ( v47 )
-      survarium::damage_protector::damage_protector(v47);
-    f = survarium::medkit::reduce_damage;
-    f_4 = 0;
-    v25 = (boost::_bi::bind_t<float,boost::_mfi::mf4<float,survarium::medkit,char const *,char const *,float,float>,boost::_bi::list5<boost::_bi::value<survarium::medkit *>,boost::arg<1>,boost::arg<2>,boost::arg<3>,boost::arg<4> > > *)boost::bind<void,vostok::sound::ogg_sound_cook,vostok::resources::queries_result &,vostok::sound::ogg_sound_cook *,boost::arg<1>>((boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core_animation_end_aware_state,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_animation_end_aware_state *>,boost::arg<1> > > *)&result, (void (__thiscall *__ptr64)(vostok::sound::sound_environment_cook *, vostok::resources::queries_result *))(unsigned int)survarium::medkit::reduce_damage, (survarium::weapon_core_animation_end_aware_state *)this);
-    value = &dmgp->protector.reduce_damage_functor;
-    boost::function<float __cdecl (char const *,char const *,float,float)>::function<float __cdecl (char const *,char const *,float,float)>(
-      &v41,
-      *v25,
-      0);
-    boost::function1<unsigned int,char const *>::swap(
-      v26,
-      (boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *)value);
-    boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear(&v41);
-    v27 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&damage_protect, j);
-    v28 = vostok::configs::binary_config_value::operator[](v27, "body_part");
-    v40 = (char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v29, (int)v28);
-    vostok::strings::copy(dmgp->body_part_name, 0x10u, v40);
-    v30 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&damage_protect, j);
-    v31 = vostok::configs::binary_config_value::operator[](v30, "hit_type");
-    v39 = (char *)stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v32, (int)v31);
-    vostok::strings::copy(dmgp->hit_type, 0x10u, v39);
-    v33 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&damage_protect, j);
-    vostok::configs::binary_config_value::operator[](v33, "hit_coeff");
-    vostok::configs::binary_config_value::operator float(v34);
-    dmgp->hit_coeff = v6;
-    v35 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&damage_protect, j);
-    vostok::configs::binary_config_value::operator[](v35, "threshold");
-    vostok::configs::binary_config_value::operator float(v36);
-    dmgp->threshold = v6;
+    v57 = 0;
+    config.data.pointer = (const void *)v51[0];
+    do
+    {
+      v23 = v57 + pointer[78];
+      v24 = (char **)vostok::configs::binary_config_value::operator[](
+                       (vostok::configs::binary_config_value *)config.data.pointer,
+                       "body_part");
+      vostok::strings::copy<16>((char (*)[16])v23, *v24);
+      v25 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)config.data.pointer,
+              "affect")->data.pointer;
+      ++v58;
+      v57 += 20;
+      config.data.pointer = (char *)config.data.pointer + 24;
+      *(_DWORD *)(v23 + 16) = v25;
+    }
+    while ( v58 < *((unsigned __int8 *)pointer + 316) );
+  }
+  qmemcpy(
+    v51,
+    vostok::configs::binary_config_value::operator[](
+      (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+      "damage_protection"),
+    sizeof(v51));
+  v26 = survarium::g_allocator;
+  *((_BYTE *)pointer + 324) = 24 * HIWORD(HIDWORD(v51[2])) / 24;
+  v27 = type_info::raw_name(&survarium::medkit::damage_protection `RTTI Type Descriptor');
+  pointer[80] = vostok::memory::doug_lea_allocator::malloc_impl(
+                  (vostok::memory::doug_lea_allocator *)(144 * *((unsigned __int8 *)pointer + 324)),
+                  (int)v26,
+                  144 * *((unsigned __int8 *)pointer + 324),
+                  v27,
+                  v41,
+                  v45,
+                  v49);
+  v58 = 0;
+  if ( *((_BYTE *)pointer + 324) )
+  {
+    v57 = 0;
+    config.data.pointer = (const void *)v51[0];
+    do
+    {
+      v28 = pointer[80];
+      v14 = v57 + v28 == 0;
+      v29 = (_DWORD *)(v57 + v28);
+      v56 = *(float *)&v29;
+      if ( !v14 )
+      {
+        *v29 = &survarium::damage_protector::`vftable';
+        v29[2] = 0;
+        v29[10] = 0;
+        v29[18] = 0;
+        v29[26] = 0;
+      }
+      v52 = survarium::medkit::reduce_damage;
+      v53 = 0;
+      v54 = pointer;
+      LODWORD(v51[1]) = survarium::medkit::reduce_damage;
+      HIDWORD(v51[1]) = 0;
+      v51[2] = __PAIR64__(v55, (unsigned int)pointer);
+      if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
+      {
+        v50.vtable = 0;
+      }
+      else
+      {
+        *(_QWORD *)&v50.functor.obj_ptr = v51[1];
+        *((_QWORD *)&v50.functor.data + 1) = v51[2];
+        v50.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::medkit,char const *,enum survarium::hit_type_enum,float &,float &>,boost::_bi::list5<boost::_bi::value<survarium::medkit *>,boost::arg<1>,boost::arg<2>,boost::arg<3>,boost::arg<4>>>>'::`2'::stored_vtable
+                                                            + 1);
+      }
+      boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(
+        (boost::function1<void,vostok::physics::contact_point const &> *)(LODWORD(v56) + 8),
+        &v50);
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        v30,
+        (int *)&v50);
+      v31 = (char **)vostok::configs::binary_config_value::operator[](
+                       (vostok::configs::binary_config_value *)config.data.pointer,
+                       "body_part");
+      v32 = v56;
+      vostok::strings::copy<16>((char (*)[16])(LODWORD(v56) + 112), *v31);
+      v33 = (char **)vostok::configs::binary_config_value::operator[](
+                       (vostok::configs::binary_config_value *)config.data.pointer,
+                       "hit_type");
+      *(_DWORD *)(LODWORD(v32) + 128) = survarium::hit_type(*v33);
+      v34 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)config.data.pointer,
+              "hit_coeff");
+      if ( v34->type == 2 )
+        v35 = *(float *)&v34->data.pointer;
+      else
+        v35 = (float)(int)v34->data.pointer;
+      *(float *)(LODWORD(v32) + 132) = v35;
+      v36 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)config.data.pointer,
+              "threshold");
+      if ( v36->type == 2 )
+        v37 = *(float *)&v36->data.pointer;
+      else
+        v37 = (float)(int)v36->data.pointer;
+      ++v58;
+      v57 += 144;
+      config.data.pointer = (char *)config.data.pointer + 24;
+      *(float *)(LODWORD(v32) + 136) = v37;
+    }
+    while ( v58 < *((unsigned __int8 *)pointer + 324) );
   }
 }

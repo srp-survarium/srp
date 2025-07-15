@@ -3,7 +3,7 @@ Scaleform::GFx::DrawingContext *__thiscall Scaleform::GFx::MovieImpl::CreateDraw
 {
   char v2; // bl
   Scaleform::GFx::DrawingContext *v3; // edi
-  Scaleform::GFx::ImageCreator *v4; // ebp
+  Scaleform::GFx::Resource *v4; // ebp
   Scaleform::GFx::DrawingContext *v5; // eax
   Scaleform::GFx::DrawingContext *v6; // edi
   Scaleform::GFx::DrawingContext *pPrev; // edx
@@ -13,7 +13,7 @@ Scaleform::GFx::DrawingContext *__thiscall Scaleform::GFx::MovieImpl::CreateDraw
   if ( v3 )
   {
     v2 = 1;
-    v4 = (Scaleform::GFx::ImageCreator *)this->GetStateAddRef(&this->Scaleform::GFx::StateBag, 11);
+    v4 = (Scaleform::GFx::Resource *)this->GetStateAddRef(&this->Scaleform::GFx::StateBag, 11);
     Scaleform::GFx::DrawingContext::DrawingContext(v3, this->pHeap, &this->RenderContext, v4);
     v6 = v5;
   }

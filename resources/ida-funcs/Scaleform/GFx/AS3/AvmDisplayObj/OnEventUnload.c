@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnEventUnload(Scaleform::GFx
   Scaleform::GFx::AS3::VM *v8; // ecx
   Scaleform::GFx::DisplayObject *v9; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *pObject; // eax
-  bool (__thiscall *CheckAvm)(Scaleform::GFx::ASMovieRootBase *); // ebp
+  void (__thiscall *GenerateTouchEvents)(Scaleform::GFx::ASMovieRootBase *, unsigned int); // ebp
   int v12; // ebx
   int v13; // eax
   Scaleform::GFx::AS3::VM *v14; // ecx
@@ -48,9 +48,9 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnEventUnload(Scaleform::GFx
     v6 = *v5;
     Scaleform::GFx::AS3::Multiname::Multiname(
       &v22,
-      (Scaleform::GFx::AS3::Instances::fl::Namespace *)this->pDispObj->pASRoot[2].__vftable[1].CheckAvm,
+      (Scaleform::GFx::AS3::Instances::fl::Namespace *)this->pDispObj->pASRoot[2].__vftable[1].GenerateTouchEvents,
       &name);
-    (*(void (__thiscall **)(int *, char *, int, Scaleform::GFx::AS3::Value *))(v6 + 16))(v5, &v17, v7, &v);
+    (*(void (__thiscall **)(int *, char *, int, Scaleform::GFx::AS3::Value *))(v6 + 28))(v5, &v17, v7, &v);
     Scaleform::GFx::AS3::Multiname::~Multiname(&v22);
     Scaleform::GFx::AS3::Value::~Value(&name);
     v8 = (Scaleform::GFx::AS3::VM *)this->pDispObj->pASRoot[2].__vftable;
@@ -71,11 +71,14 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnEventUnload(Scaleform::GFx
       if ( (Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)v.value.VS._1.VInt != pObject )
         goto LABEL_22;
       Scaleform::GFx::AS3::Value::Value(&name, &result);
-      CheckAvm = this->pDispObj->pASRoot[2].__vftable[1].CheckAvm;
+      GenerateTouchEvents = this->pDispObj->pASRoot[2].__vftable[1].GenerateTouchEvents;
       v12 = *v5;
       Null = Scaleform::GFx::AS3::Value::GetNull();
-      Scaleform::GFx::AS3::Multiname::Multiname(&v22, (Scaleform::GFx::AS3::Instances::fl::Namespace *)CheckAvm, &name);
-      (*(void (__thiscall **)(int *, char *, int, const Scaleform::GFx::AS3::Value *))(v12 + 12))(v5, &v17, v13, Null);
+      Scaleform::GFx::AS3::Multiname::Multiname(
+        &v22,
+        (Scaleform::GFx::AS3::Instances::fl::Namespace *)GenerateTouchEvents,
+        &name);
+      (*(void (__thiscall **)(int *, char *, int, const Scaleform::GFx::AS3::Value *))(v12 + 24))(v5, &v17, v13, Null);
       Scaleform::GFx::AS3::Multiname::~Multiname(&v22);
       Scaleform::GFx::AS3::Value::~Value(&name);
       v14 = (Scaleform::GFx::AS3::VM *)this->pDispObj->pASRoot[2].__vftable;

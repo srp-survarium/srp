@@ -1,4 +1,4 @@
-void __cdecl __noreturn terminate()
+void __noreturn terminate()
 {
   void (*v0)(void); // eax
 

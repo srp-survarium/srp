@@ -29,7 +29,7 @@ bool __thiscall Scaleform::GFx::Stream::PopulateBuffer(Scaleform::GFx::Stream *t
   }
   else
   {
-    memmove(this->pBuffer, &this->pBuffer[Pos], DataSize - Pos);
+    memmove((int)this->pBuffer, (const __m128i *)&this->pBuffer[Pos], DataSize - Pos);
     this->DataSize -= this->Pos;
   }
   v6 = this->pInput.pObject;

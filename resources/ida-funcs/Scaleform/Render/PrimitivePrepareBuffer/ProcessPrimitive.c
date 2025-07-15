@@ -25,11 +25,11 @@ Scaleform::Render::RenderQueueItem::QIPrepareResult __thiscall Scaleform::Render
   Scaleform::Render::PrimitiveBatch *v23; // eax
   Scaleform::Render::Primitive *pPrimitive; // eax
   Scaleform::Render::RenderQueueItem::QIPrepareResult result; // eax
-  Scaleform::List<Scaleform::Render::PrimitiveBatch,Scaleform::Render::PrimitiveBatch> *batches; // [esp+Ch] [ebp-14h]
-  Scaleform::Render::MeshCacheItem::MeshContent mc; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::Render::PrimitiveBatch *v26; // [esp+Ch] [ebp-14h]
+  Scaleform::Render::MeshCacheItem::MeshContent v27; // [esp+10h] [ebp-10h] BYREF
 
   p_Batches = (Scaleform::Render::PrimitiveBatch *)&this->pPrimitive->Batches;
-  batches = (Scaleform::List<Scaleform::Render::PrimitiveBatch,Scaleform::Render::PrimitiveBatch> *)p_Batches;
+  v26 = p_Batches;
   if ( this->pPrepare == p_Batches )
     return 0;
   while ( this->pPrepare == this->pPrepareTail )
@@ -82,12 +82,12 @@ LABEL_32:
     p_pObject = &pPrepare->pPrimitive->Meshes.Data.Data[pPrepare->MeshIndex].pMesh.pObject;
     v8 = 0;
     v9 = 0;
-    mc.Meshes.pData = p_pObject;
-    mc.Meshes.Size = MeshCount;
-    for ( mc.Meshes.StrideSize = 8; v9 < MeshCount; v8 ^= v10 )
+    v27.Meshes.pData = p_pObject;
+    v27.Meshes.Size = MeshCount;
+    for ( v27.Meshes.StrideSize = 8; v9 < MeshCount; v8 ^= v10 )
       v10 = (unsigned int)p_pObject[2 * v9++] >> 5;
     v11 = this->pPrepare;
-    mc.HashKey = v8;
+    v27.HashKey = v8;
     if ( v11->Type == DP_Failed )
       goto LABEL_17;
     if ( this->State )
@@ -99,14 +99,14 @@ LABEL_32:
       break;
     v15 = Scaleform::HashSetBase<Scaleform::Render::MeshCacheItem *,Scaleform::Render::MeshCacheItem::HashFunctor,Scaleform::Render::MeshCacheItem::HashFunctor,Scaleform::AllocatorLH<Scaleform::Render::MeshCacheItem *,2>,Scaleform::HashsetCachedEntry<Scaleform::Render::MeshCacheItem *,Scaleform::Render::MeshCacheItem::HashFunctor>>::findIndexCore<Scaleform::Render::MeshCacheItem::MeshContent>(
             p_BatchCacheItemHash,
-            &mc,
+            &v27,
             v8 & pTable->SizeMask);
     if ( v15 < 0 )
       break;
     Scaleform::Render::MeshCacheItemUseNode::SetMeshItem(
       &v11->MeshNode,
       *((Scaleform::Render::MeshCacheItem **)&pTable[2].EntryCount + 3 * v15));
-    p_Batches = (Scaleform::Render::PrimitiveBatch *)batches;
+    p_Batches = v26;
 LABEL_17:
     this->State = PS_Loop;
     LOBYTE(waitForCache) = 0;
@@ -116,7 +116,7 @@ LABEL_18:
     {
       pCacheList = pMeshItem->pCacheList;
       pMeshItem->pPrev->pNext = pMeshItem->pNext;
-      pMeshItem->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$181941B0ECCE92AAF0AD80025FE0C204::pPrev = pMeshItem->pPrev;
+      pMeshItem->pNext->Scaleform::ListNode<Scaleform::Render::MeshCacheItem>::$91FE2188799D963DDDCE23AE0AD4A8E3::pPrev = pMeshItem->pPrev;
       p_Size = &pCacheList->Slots[pMeshItem->ListType].Size;
       *p_Size -= pMeshItem->AllocSize;
       v19 = pMeshItem->pCacheList;
@@ -132,9 +132,9 @@ LABEL_18:
     if ( v20 == this->pPrepareTail )
       goto LABEL_21;
   }
-  p_Batches = (Scaleform::Render::PrimitiveBatch *)batches;
+  p_Batches = v26;
 LABEL_16:
-  if ( this->pCache->PreparePrimitive(this->pCache, v11, &mc, waitForCache) )
+  if ( this->pCache->PreparePrimitive(this->pCache, v11, &v27, waitForCache) )
     goto LABEL_17;
   result = QIP_NeedCache;
   this->State = PS_NeedCache;

@@ -2,7 +2,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl_
         Scaleform::GFx::AS3::Instances::fl_vec::Vector_double *this,
         Scaleform::GFx::AS3::CheckResult *result,
         const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *prop_name,
-        const Scaleform::GFx::AS3::Value *value)
+        Scaleform::GFx::AS3::Value *value)
 {
   const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *v4; // edi
   unsigned int ind; // [esp+8h] [ebp-4h] BYREF

@@ -1,6 +1,9 @@
-BOOL __thiscall vostok::render::ambient_volume::is_occluded(vostok::render::ambient_volume *this)
+BOOL __thiscall vostok::render::ambient_volume::is_occluded(vostok::render::ambient_volume *this, int a2)
 {
-  return *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-         + 288)
-      && this->m_occluded;
+  BOOL result; // eax
+
+  result = 0;
+  if ( vostok::quasi_singleton<vostok::render::options>::pinst->current.m_use_hiz_occlusion_culling )
+    return *(_BYTE *)(a2 + 108) != 0;
+  return result;
 }

@@ -1,22 +1,35 @@
-void __thiscall survarium::anomaly_state::initialize(survarium::anomaly_state *this)
+void __userpurge survarium::anomaly_state::initialize(
+        survarium::anomaly_state *this@<ecx>,
+        _DWORD *a2@<edi>,
+        unsigned int current_time_in_ms,
+        bool forced)
 {
-  survarium::game_camera *v1; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v2; // ecx
-  survarium::zone_group **v4; // [esp+8h] [ebp-10h]
-  boost::arg<1> *result; // [esp+Ch] [ebp-Ch]
-  unsigned int g; // [esp+14h] [ebp-4h]
+  int v4; // esi
+  _DWORD *v5; // ebx
+  int v6; // eax
+  _DWORD *j; // [esp+0h] [ebp-8h]
+  survarium::zone_group *i; // [esp+4h] [ebp-4h]
 
-  for ( g = 0; g < stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *>>::size(&this->groups._M_impl); ++g )
+  for ( i = 0; (unsigned int)i < (a2[8] - a2[7]) >> 2; i = (survarium::zone_group *)((char *)i + 1) )
   {
-    survarium::weapon_user_dead_state::finalize(v1);
-    result = (boost::arg<1> *)&stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                 v2,
-                                 (int)&this->groups)[g];
-    v4 = (survarium::zone_group **)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(result);
-    survarium::zone_group::initialize(*v4);
+    v4 = *(_DWORD *)(a2[7] + 4 * (_DWORD)i);
+    if ( *(_BYTE *)(v4 + 1) )
+    {
+      v5 = *(_DWORD **)(v4 + 20);
+      for ( j = *(_DWORD **)(v4 + 24); v5 != j; ++v5 )
+        (*(void (__thiscall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(*(_DWORD *)(v4 + 32) + 40) + 20))(
+          *(_DWORD *)(*(_DWORD *)(v4 + 32) + 40),
+          *v5,
+          0);
+    }
+    else
+    {
+      survarium::zone_group::recharge(i, v4, 0);
+    }
   }
-  if ( this->active_time_sec )
-    this->m_finish_time_ms = this->owner->m_current_time + 1000 * this->active_time_sec;
+  v6 = a2[4];
+  if ( v6 )
+    a2[11] = current_time_in_ms + 1000 * v6;
   else
-    this->m_finish_time_ms = 0;
+    a2[11] = 0;
 }

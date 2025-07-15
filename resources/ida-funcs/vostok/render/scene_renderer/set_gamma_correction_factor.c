@@ -1,73 +1,59 @@
 void __thiscall vostok::render::scene_renderer::set_gamma_correction_factor(
         vostok::render::scene_renderer *this,
-        vostok::render::scene_renderer *value,
-        boost::function<void __cdecl(void)> *valuea)
+        boost::function<void __cdecl(void)> *value,
+        boost::function<void __cdecl(void)> *a3)
 {
-  float v3; // edi
-  __int32 v4; // ebx
-  int v5; // eax
-  bool v6; // zf
-  char v7; // bl
-  void (__cdecl *v8)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v9)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::engine::world,float>,boost::_bi::list2<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<float> > > v10; // [esp-Ch] [ebp-6Ch]
-  int v11; // [esp+0h] [ebp-60h]
-  char v12; // [esp+10h] [ebp-50h]
-  boost::function<void __cdecl(void)> *v13[2]; // [esp+14h] [ebp-4Ch]
-  boost::function4<void,unsigned int,float,float,char const *> v14; // [esp+20h] [ebp-40h] BYREF
-  boost::function0<void> f; // [esp+40h] [ebp-20h] BYREF
+  vostok::memory::base_allocator *obj_ptr; // ecx
+  vostok::render::base_command *v5; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::render::engine::world,float>,boost::_bi::list2<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<float> > > v7; // [esp-10h] [ebp-6Ch]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+Ch] [ebp-50h] BYREF
+  boost::function<void __cdecl(vostok::render::base_command &)> on_defer_execution; // [esp+2Ch] [ebp-30h] BYREF
+  void (__thiscall *v10)(vostok::render::engine::world *, float); // [esp+4Ch] [ebp-10h]
+  boost::detail::function::vtable_base *vtable; // [esp+50h] [ebp-Ch]
+  boost::function<void __cdecl(void)> *v12; // [esp+54h] [ebp-8h]
+  vostok::render::functor_command *v13; // [esp+58h] [ebp-4h]
+  char v14; // [esp+64h] [ebp+8h]
 
-  v3 = *(float *)&value;
-  v12 = 0;
-  v4 = (__int32)value->m_allocator->call_malloc(value->m_allocator, 152u);
-  if ( v4 )
+  v14 = 0;
+  v13 = (vostok::render::functor_command *)vostok::memory::new_helper<vostok::render::functor_command>::call<vostok::memory::base_allocator>(
+                                             (vostok::memory::base_allocator *)value->functor.obj_ptr,
+                                             "vostok::render::scene_renderer::set_gamma_correction_factor",
+                                             (const char *const)0x115);
+  if ( v13 )
   {
-    v13[1] = (boost::function<void __cdecl(void)> *)value->m_render_engine_world;
-    v13[0] = (boost::function<void __cdecl(void)> *)vostok::render::engine::world::set_gamma_correction_factor;
-    *(_QWORD *)&v10.f_.f_ = *(_QWORD *)v13;
-    LODWORD(v10.l_.a2_.t_) = valuea;
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(valuea, (int)&f, 0, v10, v11);
-    v14.vtable = 0;
-    *(_BYTE *)(v4 + 12) = 0;
-    *(_BYTE *)(v4 + 13) = 1;
-    *(_DWORD *)(v4 + 80) = 0;
-    *(_DWORD *)v4 = &vostok::render::functor_command::`vftable';
-    v12 = 3;
-    *(_DWORD *)(v4 + 88) = 0;
-    boost::function0<void>::assign_to_own((boost::function0<void> *)(v4 + 88), &f);
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(&v14, v4 + 120);
-    v3 = *(float *)&value;
+    vtable = value->vtable;
+    v12 = a3;
+    v10 = vostok::render::engine::world::set_gamma_correction_factor;
+    v7.l_.a1_.t_ = (vostok::render::engine::world *)vostok::render::engine::world::set_gamma_correction_factor;
+    LODWORD(v7.l_.a2_.t_) = vtable;
+    v7.f_.f_ = (void (__thiscall *)(vostok::render::engine::world *, float))&f;
+    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(a3, v7, (int)a3);
+    obj_ptr = (vostok::memory::base_allocator *)value->functor.obj_ptr;
+    on_defer_execution.vtable = 0;
+    v14 = 3;
+    vostok::render::functor_command::functor_command(
+      v13,
+      obj_ptr,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_defer_execution,
+      &f);
   }
   else
   {
-    v4 = 0;
+    v5 = 0;
   }
-  v5 = *(_DWORD *)(LODWORD(v3) + 4);
-  v6 = *(_DWORD *)(*(_DWORD *)(v5 + 64) + 4) == 0;
-  *(_DWORD *)(v4 + 4) = 0;
-  _InterlockedExchange((volatile __int32 *)(*(_DWORD *)v5 + 4), v4);
-  *(_DWORD *)v5 = v4;
-  if ( v6 )
-    SetEvent(*(HANDLE *)(v5 + 144));
-  v7 = v12;
-  if ( (v12 & 2) != 0 )
+  vostok::render::one_way_render_channel::owner_push_back(
+    (vostok::render::one_way_render_channel *)(&value->vtable)[1],
+    v5);
+  if ( (v14 & 2) != 0 )
   {
-    v7 = v12 & 0xFD;
-    if ( v14.vtable )
-    {
-      if ( ((int)v14.vtable & 1) == 0 )
-      {
-        v8 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v14.vtable & 0xFFFFFFFE);
-        if ( v8 )
-          v8(&v14.functor, &v14.functor, 2);
-      }
-      v14.vtable = 0;
-    }
+    v14 &= ~2u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v6,
+      (int *)&on_defer_execution);
   }
-  if ( (v7 & 1) != 0 && f.vtable && ((int)f.vtable & 1) == 0 )
-  {
-    v9 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)f.vtable & 0xFFFFFFFE);
-    if ( v9 )
-      v9(&f.functor, &f.functor, 2);
-  }
+  if ( (v14 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v6,
+      (int *)&f);
 }

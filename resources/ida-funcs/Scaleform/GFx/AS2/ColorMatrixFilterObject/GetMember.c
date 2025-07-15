@@ -19,12 +19,12 @@ char __thiscall Scaleform::GFx::AS2::ColorMatrixFilterObject::GetMember(
   const Scaleform::Render::BlurFilterParams *v19; // eax
   const Scaleform::Render::BlurFilterParams *v20; // eax
   const Scaleform::Render::BlurFilterParams *v21; // eax
-  Scaleform::GFx::AS2::Value v22; // [esp+10h] [ebp-64h] BYREF
-  unsigned int Index[20]; // [esp+24h] [ebp-50h]
+  Scaleform::GFx::AS2::Value vala; // [esp+10h] [ebp-64h] BYREF
+  _DWORD v23[20]; // [esp+24h] [ebp-50h]
   float penva; // [esp+78h] [ebp+4h]
   float penvb; // [esp+78h] [ebp+4h]
-  float vala; // [esp+80h] [ebp+Ch]
-  float valb; // [esp+80h] [ebp+Ch]
+  float v26; // [esp+80h] [ebp+Ch]
+  float v27; // [esp+80h] [ebp+Ch]
 
   if ( !strcmp(name->pNode->pData, "matrix") )
   {
@@ -33,27 +33,27 @@ char __thiscall Scaleform::GFx::AS2::ColorMatrixFilterObject::GetMember(
     {
       pHeap = penv->StringContext.pContext->pHeap;
       v7 = pHeap->__vftable;
-      Index[10] = 8;
+      v23[10] = 8;
       Alloc = v7->Alloc;
-      Index[0] = 0;
-      Index[1] = 1;
-      Index[2] = 2;
-      Index[3] = 3;
-      Index[4] = 16;
-      Index[5] = 4;
-      Index[6] = 5;
-      Index[7] = 6;
-      Index[8] = 7;
-      Index[9] = 17;
-      Index[11] = 9;
-      Index[12] = 10;
-      Index[13] = 11;
-      Index[14] = 18;
-      Index[15] = 12;
-      Index[16] = 13;
-      Index[17] = 14;
-      Index[18] = 15;
-      Index[19] = 19;
+      v23[0] = 0;
+      v23[1] = 1;
+      v23[2] = 2;
+      v23[3] = 3;
+      v23[4] = 16;
+      v23[5] = 4;
+      v23[6] = 5;
+      v23[7] = 6;
+      v23[8] = 7;
+      v23[9] = 17;
+      v23[11] = 9;
+      v23[12] = 10;
+      v23[13] = 11;
+      v23[14] = 18;
+      v23[15] = 12;
+      v23[16] = 13;
+      v23[17] = 14;
+      v23[18] = 15;
+      v23[19] = 19;
       v9 = (Scaleform::GFx::AS2::ArrayObject *)Alloc(pHeap, 80u, 0);
       if ( v9 )
       {
@@ -67,17 +67,17 @@ char __thiscall Scaleform::GFx::AS2::ColorMatrixFilterObject::GetMember(
       Scaleform::GFx::AS2::ArrayObject::Resize(v11, 20);
       for ( i = 0; i < 20; ++i )
       {
-        *(double *)((char *)&v22.NV.NumberValue + 4) = *((float *)&pLocalFrame->Variables.mHash.pTable + Index[i]);
-        v22.V.BooleanValue = 3;
-        Scaleform::GFx::AS2::ArrayObject::SetElement(v11, i, (const Scaleform::GFx::AS2::Value *)&v22.NV.4);
-        if ( v22.V.BooleanValue >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v22.NV.4);
+        *(double *)((char *)&vala.NV.NumberValue + 4) = *((float *)&pLocalFrame->Variables.mHash.pTable + v23[i]);
+        vala.V.BooleanValue = 3;
+        Scaleform::GFx::AS2::ArrayObject::SetElement(v11, i, (const Scaleform::GFx::AS2::Value *)&vala.NV.4);
+        if ( vala.V.BooleanValue >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&vala.NV.4);
       }
       Scaleform::GFx::AS2::Value::SetAsObject(val, v11);
       if ( v11 )
       {
         RefCount = v11->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v11->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -97,8 +97,8 @@ char __thiscall Scaleform::GFx::AS2::ColorMatrixFilterObject::GetMember(
       Scaleform::GFx::AS2::Value::DropRefs(val);
     val->T.Type = 3;
     result = 1;
-    vala = penva * 0.05000000074505806;
-    val->NV.NumberValue = vala;
+    v26 = penva * 0.05000000074505806;
+    val->NV.NumberValue = v26;
   }
   else if ( !strcmp(name->pNode->pData, "blurY") )
   {
@@ -107,13 +107,13 @@ char __thiscall Scaleform::GFx::AS2::ColorMatrixFilterObject::GetMember(
       Scaleform::GFx::AS2::Value::DropRefs(val);
     val->T.Type = 3;
     result = 1;
-    valb = penvb * 0.05000000074505806;
-    val->NV.NumberValue = valb;
+    v27 = penvb * 0.05000000074505806;
+    val->NV.NumberValue = v27;
   }
-  else if ( Scaleform::GFx::ASString::operator==(name, (const char *)&stru_9555EC) )
+  else if ( Scaleform::GFx::ASString::operator==(name, "color") )
   {
     v17 = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::ColorMatrixFilterObject *)((char *)this - 16));
-    Scaleform::GFx::AS2::Value::SetInt(val, (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v17->Colors[0].Raw);
+    Scaleform::GFx::AS2::Value::SetInt(val, v17->Colors[0].Raw & 0xFFFFFF);
     return 1;
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "inner") )

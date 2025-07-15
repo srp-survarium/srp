@@ -7,7 +7,7 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalTrace(const Scaleform::GFx::AS2::FnC
   Scaleform::GFx::AS2::Object *v5; // eax
   Scaleform::GFx::AS2::ASStringContext *p_StringContext; // eax
   Scaleform::GFx::AS2::Environment *v7; // eax
-  Scaleform::GFx::ASStringNode *pNode; // esi
+  Scaleform::GFx::ASStringNode *v8; // esi
   bool v9; // zf
   Scaleform::GFx::AS2::Environment *v10; // edx
   Scaleform::GFx::AS2::Value *v11; // ecx
@@ -15,10 +15,10 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalTrace(const Scaleform::GFx::AS2::FnC
   unsigned int Size; // esi
   char *i; // eax
   Scaleform::GFx::AS2::Environment *v15; // [esp-4h] [ebp-808h]
-  Scaleform::GFx::ASString traceStr; // [esp+10h] [ebp-7F4h] BYREF
-  Scaleform::GFx::AS2::Value method; // [esp+14h] [ebp-7F0h] BYREF
-  Scaleform::GFx::AS2::Value result; // [esp+24h] [ebp-7E0h] BYREF
-  char buffStr[2000]; // [esp+34h] [ebp-7D0h] BYREF
+  Scaleform::GFx::ASStringNode *v16; // [esp+10h] [ebp-7F4h] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+14h] [ebp-7F0h] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+24h] [ebp-7E0h] BYREF
+  char _Dst[2000]; // [esp+34h] [ebp-7D0h] BYREF
 
   Env = fn->Env;
   v2 = 0;
@@ -42,55 +42,55 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalTrace(const Scaleform::GFx::AS2::FnC
   if ( v4 )
   {
     p_StringContext = &fn->Env->StringContext;
-    method.T.Type = 0;
+    v17.T.Type = 0;
     if ( v4->GetMemberRaw(
            v4,
            p_StringContext,
            (const Scaleform::GFx::ASString *)&p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject[25].pMovieImpl,
-           &method)
-      && (method.T.Type == 8 || method.T.Type == 11) )
+           &v17)
+      && (v17.T.Type == 8 || v17.T.Type == 11) )
     {
       v7 = fn->Env;
-      result.T.Type = 0;
+      v18.T.Type = 0;
       Scaleform::GFx::AS2::GAS_Invoke(
-        &method,
-        &result,
+        &v17,
+        &v18,
         v4,
         v7,
         0,
         v7->Stack.pCurrent - v7->Stack.pPageStart + 32 * v7->Stack.Pages.Data.Size - 31,
         0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(&result, &traceStr, fn->Env, -1, 0);
-      pNode = traceStr.pNode;
+      Scaleform::GFx::AS2::Value::ToStringImpl(&v18, (Scaleform::GFx::ASString *)&v16, fn->Env, -1, 0);
+      v8 = v16;
       Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>::LogScriptMessage(
         &fn->Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>,
         "%s\n",
-        traceStr.pNode->pData);
-      v9 = pNode->RefCount-- == 1;
+        v16->pData);
+      v9 = v8->RefCount-- == 1;
       if ( v9 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-      if ( result.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&result);
-      if ( method.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&method);
+        Scaleform::GFx::ASStringNode::ReleaseNode(v8);
+      if ( v18.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v18);
+      if ( v17.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v17);
       return;
     }
-    if ( method.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&method);
+    if ( v17.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v17);
   }
 LABEL_20:
   v10 = fn->Env;
   v11 = 0;
   if ( fn->FirstArgBottomIndex <= 32 * (v10->Stack.Pages.Data.Size - 1) + v10->Stack.pCurrent - v10->Stack.pPageStart )
     v11 = &v10->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-  Scaleform::GFx::AS2::Value::ToStringImpl(v11, &traceStr, v10, -1, 0);
-  v12 = traceStr.pNode;
-  Size = traceStr.pNode->Size;
+  Scaleform::GFx::AS2::Value::ToStringImpl(v11, (Scaleform::GFx::ASString *)&v16, v10, -1, 0);
+  v12 = v16;
+  Size = v16->Size;
   if ( Size >= 0x7D0 )
     Size = 1999;
-  strncpy_s(buffStr, 0x7D0u, traceStr.pNode->pData, Size);
-  buffStr[Size] = 0;
-  for ( i = buffStr; *i; ++i )
+  strncpy_s((int)fn, _Dst, 2000, v16->pData, Size);
+  _Dst[Size] = 0;
+  for ( i = _Dst; *i; ++i )
   {
     if ( *i == 13 )
       *i = 10;
@@ -99,12 +99,12 @@ LABEL_20:
     Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>::LogScriptMessage(
       &fn->Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>,
       "%s ...<truncated>\n",
-      buffStr);
+      _Dst);
   else
     Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>::LogScriptMessage(
       &fn->Scaleform::GFx::LogBase<Scaleform::GFx::AS2::FnCall>,
       "%s\n",
-      buffStr);
+      _Dst);
   v9 = v12->RefCount-- == 1;
   if ( v9 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v12);

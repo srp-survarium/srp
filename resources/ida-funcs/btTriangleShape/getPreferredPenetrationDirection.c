@@ -1,13 +1,13 @@
 void __thiscall btTriangleShape::getPreferredPenetrationDirection(
         btTriangleShape *this,
         int index,
-        btVector3 *penetrationVector)
+        btTriangleShape *penetrationVector)
 {
-  btTriangleShape::calcNormal(this, penetrationVector);
+  btTriangleShape::calcNormal(penetrationVector, (float *)this);
   if ( index )
   {
-    penetrationVector->mVec128.m128_f32[0] = penetrationVector->mVec128.m128_f32[0] * -1.0;
-    penetrationVector->mVec128.m128_f32[1] = penetrationVector->mVec128.m128_f32[1] * -1.0;
-    penetrationVector->mVec128.m128_f32[2] = penetrationVector->mVec128.m128_f32[2] * -1.0;
+    *(float *)&penetrationVector->__vftable = *(float *)&penetrationVector->__vftable * -1.0;
+    *(float *)&penetrationVector->m_shapeType = *(float *)&penetrationVector->m_shapeType * -1.0;
+    *(float *)&penetrationVector->m_userPointer = *(float *)&penetrationVector->m_userPointer * -1.0;
   }
 }

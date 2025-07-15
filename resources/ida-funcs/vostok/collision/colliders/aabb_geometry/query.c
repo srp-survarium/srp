@@ -54,13 +54,13 @@ void __thiscall vostok::collision::colliders::aabb_geometry::query(
     }
     mPosData = node->mPosData;
     if ( (mPosData & 1) != 0 )
-      vostok::collision::colliders::aabb_geometry::test_primitive(this, COERCE_FLOAT(mPosData >> 1));
+      vostok::collision::colliders::aabb_geometry::test_primitive(this, (float **)this, mPosData >> 1);
     else
       vostok::collision::colliders::aabb_geometry::query(this, (const Opcode::AABBNoLeafNode *)node->mPosData);
     mNegData = node->mNegData;
     if ( (mNegData & 1) != 0 )
     {
-      vostok::collision::colliders::aabb_geometry::test_primitive(this, COERCE_FLOAT(mNegData >> 1));
+      vostok::collision::colliders::aabb_geometry::test_primitive(this, (float **)this, mNegData >> 1);
       return;
     }
     node = (const Opcode::AABBNoLeafNode *)node->mNegData;

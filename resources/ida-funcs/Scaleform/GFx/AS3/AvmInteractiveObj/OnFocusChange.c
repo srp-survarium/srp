@@ -86,7 +86,7 @@ char __thiscall Scaleform::GFx::AS3::AvmInteractiveObj::OnFocusChange(
   {
     RefCount = toBeFocused->RefCount;
     v19 = toBeFocused;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       toBeFocused->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v19);

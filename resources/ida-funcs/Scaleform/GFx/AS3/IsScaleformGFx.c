@@ -3,13 +3,13 @@ BOOL __cdecl Scaleform::GFx::AS3::IsScaleformGFx(const Scaleform::GFx::AS3::Inst
   unsigned int Size; // eax
   Scaleform::GFx::ASStringNode *pNode; // ecx
 
-  if ( (_S14 & 1) != 0 )
+  if ( (_S19 & 1) != 0 )
   {
     Size = scaleform_gfx.Size;
   }
   else
   {
-    _S14 |= 1u;
+    _S19 |= 1u;
     Size = 13;
     scaleform_gfx.pStr = "scaleform.gfx";
     scaleform_gfx.Size = 13;

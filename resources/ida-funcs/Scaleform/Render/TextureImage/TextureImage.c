@@ -22,4 +22,5 @@ void __thiscall Scaleform::Render::TextureImage::TextureImage(
   this->Size.Height = size->Height;
   this->Size.Width = Width;
   this->Use = use;
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
 }

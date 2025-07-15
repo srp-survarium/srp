@@ -1,21 +1,13 @@
-void __thiscall vostok::timing::timer::timer(vostok::timing::timer *this)
+void __usercall vostok::timing::timer::timer(vostok::timing::timer *this@<ecx>, LARGE_INTEGER *a2@<esi>)
 {
-  unsigned __int64 QuadPart; // rax
-  const vostok::math::float4x4 *v3; // xmm0_4
-  LARGE_INTEGER PerformanceCount; // [esp+4h] [ebp-8h] BYREF
+  LARGE_INTEGER QPC; // rax
+  float v3; // xmm0_4
 
-  this->m_current_time = 0;
-  if ( vostok::timing::g_cpu_supports_time_stamp )
-  {
-    QuadPart = __rdtsc();
-  }
-  else
-  {
-    QueryPerformanceCounter(&PerformanceCount);
-    QuadPart = PerformanceCount.QuadPart;
-  }
-  v3 = clear_value;
-  this->m_start_time = QuadPart;
-  LODWORD(this->m_time_factor) = v3;
-  LODWORD(this->m_backup_time_factor) = v3;
+  a2->LowPart = 0;
+  a2->HighPart = 0;
+  QPC = vostok::timing::get_QPC();
+  v3 = s_bm_current_air_resistance;
+  a2[1] = QPC;
+  *(float *)&a2[2].LowPart = v3;
+  *(float *)&a2[2].HighPart = v3;
 }

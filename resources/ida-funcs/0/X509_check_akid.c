@@ -4,8 +4,8 @@ int __cdecl X509_check_akid(x509_st *issuer, AUTHORITY_KEYID_st *akid)
   stack_st_GENERAL_NAME *v4; // edi
   int v5; // esi
   char *v6; // eax
-  const X509_name_st *v7; // esi
-  const X509_name_st *issuer_name; // eax
+  X509_name_st *v7; // esi
+  X509_name_st *issuer_name; // eax
   asn1_string_st *serial; // [esp-8h] [ebp-Ch]
 
   if ( !akid )
@@ -33,7 +33,7 @@ int __cdecl X509_check_akid(x509_st *issuer, AUTHORITY_KEYID_st *akid)
     if ( ++v5 >= sk_num(&v4->stack) )
       return 0;
   }
-  v7 = (const X509_name_st *)*((_DWORD *)v6 + 1);
+  v7 = (X509_name_st *)*((_DWORD *)v6 + 1);
   if ( v7 && (issuer_name = X509_get_issuer_name(issuer), X509_NAME_cmp(v7, issuer_name)) )
     return 31;
   else

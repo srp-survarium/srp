@@ -11,6 +11,6 @@ void __thiscall Scaleform::Render::TreeNode::Clear3D(Scaleform::Render::TreeNode
       & 0x200) != 0 )
     v1 = 8193;
   WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, v1);
-  memcpy((unsigned __int8 *)&WritableData[2], (unsigned __int8 *)&Scaleform::Render::Matrix3x4<float>::Identity, 0x30u);
+  memcpy((int)&WritableData[2], (const __m128i *)&Scaleform::Render::Matrix3x4<float>::Identity, 0x30u);
   WritableData->Flags &= ~0x200u;
 }

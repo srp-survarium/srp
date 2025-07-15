@@ -1,4 +1,4 @@
-void __usercall __tzset(unsigned int a1@<edi>)
+void __usercall __tzset(int a1@<edi>)
 {
   if ( !first_time_1 )
   {

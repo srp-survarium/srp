@@ -1,35 +1,9 @@
-void __usercall vostok::buffer_vector<int>::construct(int *p@<eax>, int *value@<ecx>)
-{
-  if ( p )
-    *p = *value;
-}
-
-
-void __cdecl vostok::buffer_vector<vostok::variant<32> const *>::construct(
-        const vostok::variant<32> **p,
-        const vostok::variant<32> *const *value)
-{
-  if ( p )
-    *p = *value;
-}
-
-
-void __cdecl vostok::buffer_vector<void const *>::construct(const void **p, const void **value)
-{
-  const void **v2; // [esp+4h] [ebp-4h]
-
-  v2 = (const void **)operator new(4u, p);
-  if ( v2 )
-    *v2 = *value;
-}
-
-
-void __cdecl vostok::buffer_vector<vostok::apc::callback>::construct(
-        vostok::apc::callback *begin,
+void __usercall vostok::buffer_vector<vostok::apc::callback>::construct(
+        vostok::apc::callback *begin@<eax>,
         vostok::apc::callback **end)
 {
-  vostok::apc::callback *v2; // ebx
-  vostok::apc::callback *v3; // edi
+  vostok::apc::callback *v2; // edi
+  vostok::apc::callback *v3; // ebx
   vostok::apc::callback *i; // esi
 
   v2 = begin;
@@ -56,11 +30,86 @@ void __cdecl vostok::buffer_vector<vostok::apc::callback>::construct(
 }
 
 
+void __cdecl vostok::buffer_vector<survarium::particle_game_effect_presenter::effect_data>::construct(
+        survarium::particle_game_effect_presenter::effect_data *begin,
+        survarium::particle_game_effect_presenter::effect_data **end)
+{
+  survarium::particle_game_effect_presenter::effect_data *v2; // eax
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *v3; // ebx
+  survarium::particle_game_effect_presenter::effect_data *v4; // [esp+Ch] [ebp-4h]
+
+  v2 = begin;
+  if ( begin != *end )
+  {
+    v4 = begin + 1;
+    do
+    {
+      v3 = (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)v2;
+      if ( v2 != v4 )
+      {
+        do
+        {
+          if ( v3 )
+          {
+            v3->m_object = 0;
+            vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+              v3 + 1,
+              0);
+            v2 = begin;
+            v3[3].m_object = 0;
+          }
+          v3 += 4;
+        }
+        while ( v3 != (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)v4 );
+      }
+      ++v4;
+      begin = ++v2;
+    }
+    while ( v2 != *end );
+  }
+}
+
+
+void __cdecl vostok::buffer_vector<vostok::render::effect_manager::effect_holder_struct>::construct(
+        vostok::render::effect_manager::effect_holder_struct *p,
+        const vostok::render::effect_manager::effect_holder_struct *value)
+{
+  if ( p )
+  {
+    p->descriptor = value->descriptor;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&p->config,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&value->config);
+    p->parameters = value->parameters;
+    p->effect = value->effect;
+    p->stage_index = value->stage_index;
+  }
+}
+
+
+void __cdecl vostok::buffer_vector<vostok::render::grass_template>::construct(
+        vostok::render::grass_template *p,
+        const vostok::render::grass_template *value)
+{
+  if ( p )
+  {
+    p->m_instances.m_size = 0;
+    p->m_instances.m_first = 0;
+    p->m_instances.m_last = 0;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&p->m_render_model,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&value->m_render_model);
+    p->m_sizes = value->m_sizes;
+    p->m_index = value->m_index;
+  }
+}
+
+
 void __usercall vostok::buffer_vector<vostok::render::grass_layer_desc::model_desc>::construct(
         vostok::render::grass_layer_desc::model_desc *begin@<edx>,
-        vostok::render::grass_layer_desc::model_desc *const *end@<esi>)
+        vostok::render::grass_layer_desc::model_desc *const *end@<edi>)
 {
-  vostok::render::grass_layer_desc::model_desc *v2; // ecx
+  vostok::render::grass_layer_desc::model_desc *v2; // esi
   char *m_buffer; // eax
 
   if ( begin != *end )
@@ -93,81 +142,170 @@ void __usercall vostok::buffer_vector<vostok::render::grass_layer_desc::model_de
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::ai::planning::plan_item>::construct(
-        vostok::ai::planning::plan_item *p,
-        const vostok::ai::planning::plan_item *value)
+void __cdecl vostok::buffer_vector<vostok::render::requested_streamable_texture>::construct(
+        vostok::render::requested_streamable_texture *p,
+        const vostok::render::requested_streamable_texture *value)
 {
-  vostok::ai::planning::plan_item *v2; // [esp+2Ch] [ebp-4h]
-
-  v2 = (vostok::ai::planning::plan_item *)operator new(0x1Cu, p);
-  if ( v2 )
-    vostok::ai::planning::plan_item::plan_item(v2, value);
+  if ( p )
+  {
+    vostok::fixed_string<260>::fixed_string<260>(&p->path, &value->path);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+      &p->texture,
+      &value->texture);
+    p->num_mips = value->num_mips;
+  }
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::resources::request>::construct(
-        vostok::resources::request *p,
-        const vostok::resources::request *value)
+void __usercall vostok::buffer_vector<vostok::render::effect_compiler::texture_query_desc>::construct(
+        vostok::render::effect_compiler::texture_query_desc *p@<edi>,
+        const vostok::render::effect_compiler::texture_query_desc *value)
+{
+  if ( p )
+  {
+    vostok::fixed_string<260>::fixed_string<260>(&p->m_query_physicaly_path, &value->m_query_physicaly_path);
+    vostok::fixed_string<260>::fixed_string<260>(&p->m_query_short_path, &value->m_query_short_path);
+    p->m_mip_level_cut = value->m_mip_level_cut;
+    p->m_num_last_mips_used = value->m_num_last_mips_used;
+  }
+}
+
+
+void __usercall vostok::buffer_vector<vostok::render::ui::vertex>::construct(
+        vostok::render::ui::vertex *p@<eax>,
+        const vostok::render::ui::vertex *value@<ecx>)
 {
   if ( p )
     *p = *value;
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::ai::statistics_item<46,16>>::construct(
-        vostok::ai::statistics_item<46,16> *p,
-        const vostok::ai::statistics_item<46,16> *value)
+void __usercall vostok::buffer_vector<vostok::collision::bone_collision_data>::construct(
+        vostok::collision::bone_collision_data *p@<edi>,
+        const vostok::collision::bone_collision_data *value)
 {
-  vostok::ai::statistics_item<46,16> *v2; // [esp+58h] [ebp-4h]
-
-  v2 = (vostok::ai::statistics_item<46,16> *)operator new(0x3F4u, p);
-  if ( v2 )
-    vostok::ai::statistics_item<46,16>::statistics_item<46,16>(v2, value);
-}
-
-
-void __cdecl vostok::buffer_vector<vostok::animation::mixing::animation_interval>::construct(
-        vostok::animation::mixing::animation_interval *p,
-        const vostok::animation::mixing::animation_interval *value)
-{
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *v2; // [esp+8h] [ebp-4h]
-
-  v2 = (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)operator new(0xCu, (void *)p);
-  if ( v2 )
+  if ( p )
   {
-    vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>(
-      v2,
-      &value->m_animation);
-    v2[1].m_object = (vostok::resources::managed_resource *)LODWORD(value->m_start_time);
-    v2[2].m_object = (vostok::resources::managed_resource *)LODWORD(value->m_length);
+    vostok::fixed_string<64>::fixed_string<64>(&p->bone_name, &value->bone_name);
+    vostok::fixed_string<16>::fixed_string<16>(&p->body_part_name, &value->body_part_name);
+    p->skeleton_bone_index = value->skeleton_bone_index;
   }
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::resources::creation_request>::construct(
-        vostok::resources::creation_request *p,
-        const vostok::resources::creation_request *value)
+void __usercall vostok::buffer_vector<vostok::render::buffer_slot>::construct(
+        vostok::render::buffer_slot *begin@<ecx>,
+        vostok::render::buffer_slot *const *end@<esi>)
 {
-  vostok::resources::creation_request *v2; // [esp+4h] [ebp-4h]
+  vostok::render::buffer_slot *v2; // edx
+  char *m_buffer; // eax
 
-  v2 = (vostok::resources::creation_request *)operator new(0x10u, (void *)p);
-  if ( v2 )
-    *v2 = *value;
+  if ( begin != *end )
+  {
+    v2 = begin + 1;
+    do
+    {
+      if ( begin != v2 )
+      {
+        m_buffer = v2[-1].name.m_buffer;
+        do
+        {
+          if ( m_buffer != (char *)12 )
+          {
+            *((_DWORD *)m_buffer - 3) = m_buffer;
+            *((_DWORD *)m_buffer - 2) = m_buffer;
+            *((_DWORD *)m_buffer - 1) = m_buffer + 64;
+            *m_buffer = 0;
+            *((_DWORD *)m_buffer + 16) = -1;
+            *m_buffer = 0;
+            *((_DWORD *)m_buffer + 17) = 0;
+          }
+          m_buffer += 84;
+        }
+        while ( m_buffer - 12 != (char *)v2 );
+      }
+      ++begin;
+      ++v2;
+    }
+    while ( begin != *end );
+  }
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::ai::planning::object_instance>::construct(
-        vostok::ai::planning::object_instance *p,
-        const vostok::ai::planning::object_instance *value)
+void __usercall vostok::buffer_vector<vostok::render::sampler_slot>::construct(
+        vostok::render::sampler_slot *begin@<ecx>,
+        vostok::render::sampler_slot *const *end@<esi>)
 {
-  char *v2; // [esp+20h] [ebp-4h]
+  vostok::render::sampler_slot *v2; // edx
+  char *m_buffer; // eax
 
-  v2 = (char *)operator new(0x114u, p);
-  if ( v2 )
+  if ( begin != *end )
   {
-    *(_DWORD *)v2 = value->m_type;
-    *((_DWORD *)v2 + 1) = value->m_instance;
-    vostok::fixed_string<256>::fixed_string<256>((vostok::fixed_string<256> *)(v2 + 8), &value->m_caption);
+    v2 = begin + 1;
+    do
+    {
+      if ( begin != v2 )
+      {
+        m_buffer = v2[-1].name.m_buffer;
+        do
+        {
+          if ( m_buffer != (char *)12 )
+          {
+            *((_DWORD *)m_buffer - 3) = m_buffer;
+            *((_DWORD *)m_buffer - 2) = m_buffer;
+            *((_DWORD *)m_buffer - 1) = m_buffer + 64;
+            *m_buffer = 0;
+            *((_DWORD *)m_buffer + 16) = -1;
+            *((_DWORD *)m_buffer + 17) = 0;
+            *m_buffer = 0;
+          }
+          m_buffer += 84;
+        }
+        while ( m_buffer - 12 != (char *)v2 );
+      }
+      ++begin;
+      ++v2;
+    }
+    while ( begin != *end );
+  }
+}
+
+
+void __usercall vostok::buffer_vector<vostok::render::texture_slot>::construct(
+        vostok::render::texture_slot *begin@<ecx>,
+        vostok::render::texture_slot *const *end@<esi>)
+{
+  vostok::render::texture_slot *v2; // edx
+  char *m_buffer; // eax
+
+  if ( begin != *end )
+  {
+    v2 = begin + 1;
+    do
+    {
+      if ( begin != v2 )
+      {
+        m_buffer = v2[-1].name.m_buffer;
+        do
+        {
+          if ( m_buffer != (char *)12 )
+          {
+            *((_DWORD *)m_buffer - 3) = m_buffer;
+            *((_DWORD *)m_buffer - 2) = m_buffer;
+            *((_DWORD *)m_buffer - 1) = m_buffer + 64;
+            *m_buffer = 0;
+            *((_DWORD *)m_buffer + 16) = -1;
+            *m_buffer = 0;
+            *((_DWORD *)m_buffer + 17) = 0;
+          }
+          m_buffer += 84;
+        }
+        while ( m_buffer - 12 != (char *)v2 );
+      }
+      ++begin;
+      ++v2;
+    }
+    while ( begin != *end );
   }
 }
 
@@ -178,64 +316,59 @@ void __cdecl vostok::buffer_vector<vostok::tasks::thread_tls>::construct(
 {
   vostok::tasks::thread_tls *v2; // ecx
   vostok::tasks::thread_tls *v3; // ebx
-  vostok::tasks::thread_tls *v4; // edi
-  int i; // esi
+  int i; // edi
+  vostok::tasks::thread_tls *v5; // [esp+Ch] [ebp+8h]
 
   v3 = begin;
   if ( begin != *end )
   {
-    v4 = begin + 1;
+    v5 = begin + 1;
     do
     {
-      for ( i = (int)v3; (vostok::tasks::thread_tls *)i != v4; i += 360 )
+      for ( i = (int)v3; (vostok::tasks::thread_tls *)i != v5; i += 360 )
       {
         if ( i )
           vostok::tasks::thread_tls::thread_tls(v2, i);
       }
+      ++v5;
       ++v3;
-      ++v4;
     }
     while ( v3 != *end );
   }
 }
 
 
-void __cdecl vostok::buffer_vector<vostok::variant<32>>::construct(
-        vostok::variant<32> *p,
-        const vostok::variant<32> *value)
+void __usercall vostok::buffer_vector<vostok::fixed_vector<vostok::math::frustum,1024>>::construct(
+        vostok::fixed_vector<vostok::math::frustum,1024> *begin@<edx>,
+        vostok::fixed_vector<vostok::math::frustum,1024> *const *end@<edi>)
 {
-  if ( p )
-  {
-    p->m_helper = 0;
-    p->m_type_id = value->m_type_id;
-    vostok::variant<32>::operator=(p, value);
-  }
-}
-
-
-void __usercall vostok::buffer_vector<vostok::render::vector<vostok::render::culling::aab_rect>>::construct(
-        vostok::render::vector<vostok::math::frustum> *begin@<edx>,
-        vostok::render::vector<vostok::math::frustum> *const *end@<edi>)
-{
-  vostok::render::vector<vostok::math::frustum> *v2; // ecx
-  vostok::render::vector<vostok::math::frustum> *i; // eax
+  vostok::fixed_vector<vostok::math::frustum,1024> *v2; // esi
+  vostok::fixed_vector<vostok::math::frustum,1024>::allign_helper *m_buffer; // eax
 
   if ( begin != *end )
   {
-    v2 = begin + 1;
+    v2 = (vostok::fixed_vector<vostok::math::frustum,1024> *)((char *)begin + (_DWORD)&loc_1E00A + 2);
     do
     {
-      for ( i = begin; i != v2; ++i )
+      if ( begin != v2 )
       {
-        if ( i )
+        m_buffer = v2[-1].m_buffer;
+        do
         {
-          i->_M_impl._M_start = 0;
-          i->_M_impl._M_finish = 0;
-          i->_M_impl._M_end_of_storage._M_data = 0;
+          if ( m_buffer != (vostok::fixed_vector<vostok::math::frustum,1024>::allign_helper *)12 )
+          {
+            *(_DWORD *)&m_buffer[-1].m_store[108] = m_buffer;
+            *(_DWORD *)&m_buffer[-1].m_store[112] = m_buffer;
+            *(_DWORD *)&m_buffer[-1].m_store[116] = (char *)&loc_1E000 + (_DWORD)m_buffer;
+          }
+          m_buffer = (vostok::fixed_vector<vostok::math::frustum,1024>::allign_helper *)((char *)m_buffer
+                                                                                       + (_DWORD)&loc_1E00A
+                                                                                       + 2);
         }
+        while ( &m_buffer[-1].m_store[108] != (char *)v2 );
       }
-      ++begin;
-      ++v2;
+      begin = (vostok::fixed_vector<vostok::math::frustum,1024> *)((char *)begin + (_DWORD)&loc_1E00A + 2);
+      v2 = (vostok::fixed_vector<vostok::math::frustum,1024> *)((char *)v2 + (_DWORD)&loc_1E00A + 2);
     }
     while ( begin != *end );
   }

@@ -15,9 +15,9 @@ int __cdecl ec_GFp_simple_dbl(const ec_group_st *group, ec_point_st *r, const ec
   bignum_ctx *v18; // [esp+28h] [ebp-8h]
 
   v18 = 0;
-  if ( EC_POINT_is_at_infinity(group, a) )
+  if ( EC_POINT_is_at_infinity((int)group, group, a) )
   {
-    BN_set_word(&r->Z, 0);
+    BN_set_word((int)group, &r->Z, 0);
     r->Z_is_one = 0;
     return 1;
   }
@@ -27,16 +27,16 @@ int __cdecl ec_GFp_simple_dbl(const ec_group_st *group, ec_point_st *r, const ec
   m = &group->field;
   if ( !ctx )
   {
-    v18 = BN_CTX_new();
+    v18 = BN_CTX_new((int)group);
     v5 = v18;
     if ( !v18 )
       return 0;
   }
-  BN_CTX_start(v5);
-  v6 = BN_CTX_get(v5);
-  v7 = BN_CTX_get(v5);
-  ra = BN_CTX_get(v5);
-  b = BN_CTX_get(v5);
+  BN_CTX_start((int)group, v5);
+  v6 = BN_CTX_get((int)group, v5);
+  v7 = BN_CTX_get((int)group, v5);
+  ra = BN_CTX_get((int)group, v5);
+  b = BN_CTX_get((int)group, v5);
   if ( b )
   {
     if ( a->Z_is_one )
@@ -78,7 +78,7 @@ LABEL_26:
                                   v10 = BN_mod_sub_quick(&r->Y, v6->vals, b->vals, m);
                                   v11 = 1;
                                   if ( v10 )
-                                    goto err_203;
+                                    goto err_205;
                                 }
                               }
                             }
@@ -127,7 +127,7 @@ LABEL_26:
     }
   }
   v11 = 0;
-err_203:
+err_205:
   BN_CTX_end(v5);
   if ( v18 )
     BN_CTX_free(v18);

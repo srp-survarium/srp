@@ -1,47 +1,46 @@
-int __usercall GetSourceInfoFromAddress@<eax>(
-        unsigned int a1@<ebx>,
+int __cdecl GetSourceInfoFromAddress(
         unsigned __int64 address,
         char *lpszModuleInfo,
-        unsigned int lpszModuleInfoSize,
+        char *lpszModuleInfoSize,
         char *lpszSourceInfo,
-        unsigned int lpszSourceInfoSize,
-        int *line,
-        unsigned int *address_out)
+        _DWORD *lpszSourceInfoSize)
 {
   HANDLE CurrentProcess; // eax
-  HANDLE v9; // eax
+  bool v6; // zf
+  HANDLE v7; // eax
+  HANDLE v8; // eax
   HANDLE v10; // eax
   HANDLE v11; // eax
-  HINSTANCE__ *ModuleBase64; // [esp-Ch] [ebp-44h]
-  HINSTANCE__ *v14; // [esp-Ch] [ebp-44h]
-  HANDLE v15; // [esp+4h] [ebp-34h]
-  _IMAGEHLP_LINE64 lineInfo; // [esp+18h] [ebp-20h] BYREF
-  unsigned int dwDisp; // [esp+34h] [ebp-4h] BYREF
+  HINSTANCE__ *ModuleBase64; // [esp-Ch] [ebp-3Ch]
+  HINSTANCE__ *v13; // [esp-Ch] [ebp-3Ch]
+  _IMAGEHLP_LINE64 v14; // [esp+10h] [ebp-20h] BYREF
+  unsigned int v15; // [esp+2Ch] [ebp-4h] BYREF
 
-  strcpy_s(lpszSourceInfo, lpszSourceInfoSize, "?");
-  strcpy_s(lpszModuleInfo, lpszModuleInfoSize, "?");
-  *line = -1;
-  *address_out = 0;
-  memset(&lineInfo.Key, 0, 20);
-  lineInfo.SizeOfStruct = 24;
+  strcpy_s(lpszModuleInfoSize, 0x208u, "?");
+  strcpy_s(lpszModuleInfo, 0x100u, "?");
+  *(_DWORD *)lpszSourceInfo = -1;
+  *lpszSourceInfoSize = 0;
+  memset(&v14, 0, sizeof(v14));
+  v14.SizeOfStruct = 24;
   CurrentProcess = GetCurrentProcess();
-  if ( s_SymGetLineFromAddr64(CurrentProcess, address, &dwDisp, &lineInfo) )
+  if ( s_SymGetLineFromAddr64(CurrentProcess, address, &v15, &v14) )
   {
-    PCSTR2LPTSTR(a1, lineInfo.FileName, lpszSourceInfo, lpszSourceInfoSize);
-    *line = lineInfo.LineNumber;
-    *address_out = lineInfo.Address;
-    if ( s_GetModuleBaseName )
+    PCSTR2LPTSTR(256, v14.FileName, lpszModuleInfoSize, 0x208u);
+    *(_DWORD *)lpszSourceInfo = v14.LineNumber;
+    v6 = s_GetModuleBaseName == 0;
+    *lpszSourceInfoSize = v14.Address;
+    if ( v6 )
     {
-      v15 = GetCurrentProcess();
-      ModuleBase64 = (HINSTANCE__ *)s_SymGetModuleBase64(v15, lineInfo.Address);
-      v9 = GetCurrentProcess();
-      s_GetModuleBaseName(v9, ModuleBase64, lpszModuleInfo, lpszModuleInfoSize);
-      if ( !*lpszModuleInfo )
-        GetModuleNameFromAddress(a1, address, lpszModuleInfo, lpszModuleInfoSize);
+      GetModuleNameFromAddress(256, address, lpszModuleInfo);
     }
     else
     {
-      GetModuleNameFromAddress(a1, address, lpszModuleInfo, lpszModuleInfoSize);
+      v7 = GetCurrentProcess();
+      ModuleBase64 = (HINSTANCE__ *)s_SymGetModuleBase64(v7, v14.Address);
+      v8 = GetCurrentProcess();
+      s_GetModuleBaseName(v8, ModuleBase64, lpszModuleInfo, 0x100u);
+      if ( !*lpszModuleInfo )
+        GetModuleNameFromAddress((int)lpszModuleInfo, address, lpszModuleInfo);
     }
     return 1;
   }
@@ -50,17 +49,17 @@ int __usercall GetSourceInfoFromAddress@<eax>(
     if ( s_GetModuleBaseName )
     {
       v10 = GetCurrentProcess();
-      v14 = (HINSTANCE__ *)s_SymGetModuleBase64(v10, address);
+      v13 = (HINSTANCE__ *)s_SymGetModuleBase64(v10, address);
       v11 = GetCurrentProcess();
-      s_GetModuleBaseName(v11, v14, lpszModuleInfo, lpszModuleInfoSize);
+      s_GetModuleBaseName(v11, v13, lpszModuleInfo, 0x100u);
       if ( !*lpszModuleInfo )
-        GetModuleNameFromAddress(a1, address, lpszModuleInfo, lpszModuleInfoSize);
+        GetModuleNameFromAddress((int)lpszModuleInfo, address, lpszModuleInfo);
     }
     else
     {
-      GetModuleNameFromAddress(a1, address, lpszModuleInfo, lpszModuleInfoSize);
+      GetModuleNameFromAddress(256, address, lpszModuleInfo);
     }
-    *address_out = address;
+    *lpszSourceInfoSize = address;
     return 0;
   }
 }

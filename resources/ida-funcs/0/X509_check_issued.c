@@ -1,8 +1,8 @@
 int __cdecl X509_check_issued(x509_st *issuer, x509_st *subject)
 {
-  const X509_name_st *subject_name; // eax
+  X509_name_st *subject_name; // eax
   int result; // eax
-  const X509_name_st *issuer_name; // [esp-4h] [ebp-Ch]
+  X509_name_st *issuer_name; // [esp-4h] [ebp-Ch]
 
   issuer_name = X509_get_issuer_name(subject);
   subject_name = X509_get_subject_name(issuer);

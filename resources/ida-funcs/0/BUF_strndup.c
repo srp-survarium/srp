@@ -1,4 +1,4 @@
-char *__cdecl BUF_strndup(const char *str, unsigned int siz)
+char *__cdecl BUF_strndup(char *str, unsigned int siz)
 {
   char *v3; // eax
   char *v4; // esi
@@ -14,7 +14,7 @@ char *__cdecl BUF_strndup(const char *str, unsigned int siz)
   }
   else
   {
-    ERR_put_error(7u, 104, 65, ".\\crypto\\buffer\\buffer.c", 180);
+    ERR_put_error((int)str, 7u, 104, 65, ".\\crypto\\buffer\\buffer.c", 180);
     return 0;
   }
 }

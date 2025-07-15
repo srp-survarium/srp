@@ -1,13 +1,13 @@
 void __usercall btConvexHullInternal::removeEdgePair(
-        btConvexHullInternal *this@<esi>,
+        btConvexHullInternal *this@<edx>,
         btConvexHullInternal::Edge *edge@<eax>)
 {
-  btConvexHullInternal::Edge *next; // edx
   btConvexHullInternal::Edge *reverse; // ecx
-  btConvexHullInternal::Edge *v4; // edx
+  btConvexHullInternal::Edge *next; // esi
+  btConvexHullInternal::Edge *v4; // esi
 
-  next = edge->next;
   reverse = edge->reverse;
+  next = edge->next;
   if ( edge->next == edge )
   {
     reverse->target->edges = 0;

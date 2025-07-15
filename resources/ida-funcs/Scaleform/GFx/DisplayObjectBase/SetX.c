@@ -1,11 +1,11 @@
 void __thiscall Scaleform::GFx::DisplayObjectBase::SetX(Scaleform::GFx::DisplayObjectBase *this, double x)
 {
   float *v3; // eax
-  double v4; // [esp+24h] [ebp-28h]
-  Scaleform::Render::Matrix2x4<float> v5; // [esp+2Ch] [ebp-20h] BYREF
+  double v4; // [esp+14h] [ebp-28h]
+  Scaleform::Render::Matrix2x4<float> v5; // [esp+1Ch] [ebp-20h] BYREF
 
   v4 = x;
-  if ( (HIDWORD(v4) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(v4) | LODWORD(v4)) )
+  if ( (HIDWORD(v4) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(v4) & 0xFFFFF | LODWORD(v4)) )
   {
     if ( x == -INFINITY || x == INFINITY )
       x = 0.0;

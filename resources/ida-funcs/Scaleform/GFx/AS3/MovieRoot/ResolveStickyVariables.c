@@ -88,7 +88,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ResolveStickyVariables(
             }
             v18 = this->pAVM.pObject->PublicNamespace.pObject;
             propname.Kind = MN_QName;
-            propname.Obj.pObject = v18;
+            propname.Obj.pObject = &v18->Scaleform::GFx::AS3::GASRefCountBase;
             if ( v18 )
               v18->RefCount = (v18->RefCount + 1) & 0x8FBFFFFF;
             propname.Name.Flags = 0;
@@ -108,7 +108,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ResolveStickyVariables(
                 Scaleform::GFx::AS3::Value::ReleaseInternal(&nameVal);
               }
             }
-            (*(void (__thiscall **)(int, Scaleform::GFx::InteractiveObject **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::MovieImpl::StickyVarNode *))(*(_DWORD *)v24 + 12))(
+            (*(void (__thiscall **)(int, Scaleform::GFx::InteractiveObject **, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::MovieImpl::StickyVarNode *))(*(_DWORD *)v24 + 24))(
               v24,
               &pch,
               &propname,
@@ -144,7 +144,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ResolveStickyVariables(
               Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
                 &v22->StickyVariables.mHash,
                 &v22->StickyVariables,
-                (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&_pnode);
+                (Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::ArrayLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2,Scaleform::ArrayDefaultPolicy> *,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)&_pnode);
             }
             return;
           }

@@ -1,39 +1,58 @@
-survarium::jump_animation_parts __cdecl survarium::get_jump_animation_index(
-        survarium::move_direction_enum move_direction,
-        bool jump_from_right_leg,
-        survarium::jump_animation_parts animation_part)
+unsigned int __usercall survarium::get_jump_animation_index@<eax>(
+        const bool jump_from_right_leg@<cl>,
+        unsigned int animation_part@<eax>,
+        const survarium::jump_type_enum jump_type)
 {
-  survarium::jump_animation_parts result; // eax
+  int v3; // edx
 
-  switch ( move_direction )
+  switch ( jump_type )
   {
-    case move_direction_on_site:
-      result = animation_part;
+    case jump_type_on_site:
+      return animation_part;
+    case jump_type_fwd:
+      v3 = !jump_from_right_leg ? 42 : 36;
+      goto LABEL_16;
+    case jump_type_fwd_right:
+      v3 = !jump_from_right_leg ? 54 : 48;
+      goto LABEL_16;
+    case jump_type_fwd_left:
+      v3 = !jump_from_right_leg ? 66 : 60;
+      goto LABEL_16;
+    case jump_type_sprint_fwd:
+      v3 = !jump_from_right_leg ? 78 : 72;
+      goto LABEL_16;
+    case jump_type_sprint_fwd_right:
+      v3 = !jump_from_right_leg ? 90 : 84;
+      goto LABEL_16;
+    case jump_type_sprint_fwd_left:
+      v3 = !jump_from_right_leg ? 102 : 96;
+LABEL_16:
+      animation_part += v3;
       break;
-    case move_direction_fwd:
-      result = animation_part + (jump_from_right_leg ? 4 : 10);
+    case jump_type_from_site_fwd:
+      animation_part += 4;
       break;
-    case move_direction_fwd_right:
-      result = animation_part + (jump_from_right_leg ? 16 : 22);
+    case jump_type_from_site_fwd_right:
+      animation_part += 8;
       break;
-    case move_direction_right:
-      result = animation_part + (jump_from_right_leg ? 28 : 34);
+    case jump_type_from_site_right:
+      animation_part += 12;
       break;
-    case move_direction_back_right:
-      result = animation_part + (jump_from_right_leg ? 40 : 46);
+    case jump_type_from_site_back_right:
+      animation_part += 16;
       break;
-    case move_direction_back:
-      result = animation_part + (jump_from_right_leg ? 52 : 58);
+    case jump_type_from_site_back:
+      animation_part += 20;
       break;
-    case move_direction_back_left:
-      result = animation_part + (jump_from_right_leg ? 64 : 70);
+    case jump_type_from_site_back_left:
+      animation_part += 24;
       break;
-    case move_direction_left:
-      result = animation_part + (jump_from_right_leg ? 76 : 82);
+    case jump_type_from_site_left:
+      animation_part += 28;
       break;
-    case move_direction_fwd_left:
-      result = animation_part + (jump_from_right_leg ? 88 : 94);
+    case jump_type_from_site_fwd_left:
+      animation_part += 32;
       break;
   }
-  return result;
+  return animation_part;
 }

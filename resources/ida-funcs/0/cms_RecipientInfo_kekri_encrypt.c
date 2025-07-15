@@ -15,7 +15,7 @@ int __usercall cms_RecipientInfo_kekri_encrypt@<eax>(CMS_RecipientInfo_st *ri@<e
   flags = cms->d.data->flags;
   if ( !recip )
   {
-    ERR_put_error(0x2Eu, 136, 130, ".\\crypto\\cms\\cms_env.c", 656);
+    ERR_put_error((int)ktri, 0x2Eu, 136, 130, ".\\crypto\\cms\\cms_env.c", 656);
     return 0;
   }
   if ( !AES_set_encrypt_key(recip, 8 * (int)ktri->pkey, &key) )
@@ -24,24 +24,24 @@ int __usercall cms_RecipientInfo_kekri_encrypt@<eax>(CMS_RecipientInfo_st *ri@<e
     v8 = v7;
     if ( v7 )
     {
-      v9 = AES_wrap_key(&key, 0, v7, *(const unsigned __int8 **)(flags + 16), *(_DWORD *)(flags + 20));
+      v9 = AES_wrap_key(&key, 0, v7, *(unsigned __int8 **)(flags + 16), *(_DWORD *)(flags + 20));
       if ( v9 > 0 )
       {
         ASN1_STRING_set0(ktri->encryptedKey, v8, v9);
         v4 = 1;
         goto LABEL_9;
       }
-      ERR_put_error(0x2Eu, 136, 159, ".\\crypto\\cms\\cms_env.c", 680);
+      ERR_put_error((int)ktri, 0x2Eu, 136, 159, ".\\crypto\\cms\\cms_env.c", 680);
     }
     else
     {
-      ERR_put_error(0x2Eu, 136, 65, ".\\crypto\\cms\\cms_env.c", 672);
+      ERR_put_error((int)ktri, 0x2Eu, 136, 65, ".\\crypto\\cms\\cms_env.c", 672);
     }
     if ( v8 )
       CRYPTO_free(v8);
     goto LABEL_9;
   }
-  ERR_put_error(0x2Eu, 136, 115, ".\\crypto\\cms\\cms_env.c", 663);
+  ERR_put_error((int)ktri, 0x2Eu, 136, 115, ".\\crypto\\cms\\cms_env.c", 663);
 LABEL_9:
   OPENSSL_cleanse(&key, 244);
   return v4;

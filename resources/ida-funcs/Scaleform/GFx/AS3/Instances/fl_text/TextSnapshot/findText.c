@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::findText(
         int *result,
         int beginIndex,
         Scaleform::String textToFind,
-        const char *caseSensitive)
+        char *caseSensitive)
 {
   int TextA; // eax
   void *v7; // esi
@@ -11,12 +11,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::findText(
 
   Scaleform::String::String(
     &textToFind,
-    *(char **)textToFind.pData->Size,
+    *(const __m128i **)textToFind.pData->Size,
     *(_DWORD *)(*(_DWORD *)textToFind.HeapTypeBits + 20));
   TextA = Scaleform::GFx::StaticTextSnapshotData::FindTextA(
             &this->SnapshotData,
             beginIndex,
-            (const char *)((textToFind.HeapTypeBits & 0xFFFFFFFC) + 8),
+            (char *)((textToFind.HeapTypeBits & 0xFFFFFFFC) + 8),
             caseSensitive);
   v7 = (void *)(textToFind.HeapTypeBits & 0xFFFFFFFC);
   v8 = (volatile LONG *)((textToFind.HeapTypeBits & 0xFFFFFFFC) + 4);

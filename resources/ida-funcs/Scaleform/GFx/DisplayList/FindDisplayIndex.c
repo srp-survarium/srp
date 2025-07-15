@@ -38,14 +38,14 @@ unsigned int __thiscall Scaleform::GFx::DisplayList::FindDisplayIndex(Scaleform:
   Scaleform::GFx::DisplayList::DepthToIndexContainer *v17; // ecx
   int v18; // ecx
   Scaleform::GFx::DisplayList::DisplayEntry *i; // esi
-  int rv; // [esp+Ch] [ebp-10h]
-  unsigned int n; // [esp+10h] [ebp-Ch] BYREF
+  int v20; // [esp+Ch] [ebp-10h]
+  unsigned int Size; // [esp+10h] [ebp-Ch] BYREF
   Scaleform::GFx::DisplayList::DepthToIndexMapElem val; // [esp+14h] [ebp-8h] BYREF
 
   if ( (this->Flags & 1) == 0 )
     goto LABEL_25;
   v3 = -1;
-  rv = -1;
+  v20 = -1;
   if ( this->DisplayObjectArray.Data.Size <= 0xA )
   {
     DepthToIndexMap = this->DepthToIndexMap;
@@ -60,12 +60,12 @@ unsigned int __thiscall Scaleform::GFx::DisplayList::FindDisplayIndex(Scaleform:
     v5 = 0;
     if ( !this->DepthToIndexMap )
     {
-      n = 322;
+      Size = 322;
       v6 = (Scaleform::GFx::DisplayList::DepthToIndexContainer *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                                    Scaleform::Memory::pGlobalHeap,
                                                                    this,
                                                                    12,
-                                                                   &n);
+                                                                   &Size);
       if ( v6 )
       {
         v6->Array.Data.Data = 0;
@@ -78,15 +78,15 @@ unsigned int __thiscall Scaleform::GFx::DisplayList::FindDisplayIndex(Scaleform:
       }
       this->DepthToIndexMap = v6;
     }
-    n = this->DisplayObjectArray.Data.Size;
-    if ( n )
+    Size = this->DisplayObjectArray.Data.Size;
+    if ( Size )
     {
       v7 = 0;
       do
       {
         v8 = &this->DisplayObjectArray.Data.Data[v7];
-        if ( rv == -1 && v8->pCharacter->Depth >= depth )
-          rv = v4;
+        if ( v20 == -1 && v8->pCharacter->Depth >= depth )
+          v20 = v4;
         pCharacter = v8->pCharacter;
         v10 = pCharacter->Depth;
         if ( v10 != -1 )
@@ -111,8 +111,8 @@ unsigned int __thiscall Scaleform::GFx::DisplayList::FindDisplayIndex(Scaleform:
         ++v4;
         ++v7;
       }
-      while ( v4 < n );
-      v3 = rv;
+      while ( v4 < Size );
+      v3 = v20;
     }
     Scaleform::ArrayData<Scaleform::GFx::DisplayList::DepthToIndexMapElem,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DepthToIndexMapElem,2>,Scaleform::ArrayDefaultPolicy>::Resize(
       &this->DepthToIndexMap->Array.Data,

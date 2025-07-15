@@ -1,6 +1,8 @@
-void __thiscall vostok::strings::text_tree_item::~text_tree_item(vostok::strings::text_tree_item *this)
+void __usercall vostok::strings::text_tree_item::~text_tree_item(
+        vostok::strings::text_tree_item *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::strings::text_tree_item::clear(this);
-  DeleteCriticalSection((LPCRITICAL_SECTION)&this->m_column_items.vostok::threading::mutex);
-  DeleteCriticalSection((LPCRITICAL_SECTION)&this->m_sub_items.vostok::threading::mutex);
+  vostok::strings::text_tree_item::clear((vostok::strings::text_tree_item *)a2);
+  DeleteCriticalSection((LPCRITICAL_SECTION)(a2 + 64));
+  DeleteCriticalSection((LPCRITICAL_SECTION)(a2 + 16));
 }

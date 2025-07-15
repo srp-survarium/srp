@@ -13,18 +13,18 @@ void __thiscall Scaleform::GFx::RemoveObject2Tag::AddToTimelineSnapshot(
   Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *v11; // eax
   int v12; // ecx
   unsigned int Size; // [esp-Ch] [ebp-24h]
-  Scaleform::GFx::TimelineSnapshot::SnapshotElement *pse; // [esp+10h] [ebp-8h] BYREF
-  int val; // [esp+14h] [ebp-4h] BYREF
+  Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *v14; // [esp+10h] [ebp-8h] BYREF
+  int v15; // [esp+14h] [ebp-4h] BYREF
 
   this->Trace(this, "\n");
   Depth = this->Depth;
   Size = psnapshot->SnapshotSortedArray.Data.Size;
-  val = Depth;
+  v15 = Depth;
   v5 = Scaleform::Alg::UpperBoundSliced<Scaleform::ArrayDH_POD<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,2,Scaleform::ArrayDefaultPolicy>,int,int (__cdecl *)(int,Scaleform::GFx::TimelineSnapshot::SnapshotElement const *)>(
          &psnapshot->SnapshotSortedArray,
          0,
          Size,
-         &val,
+         &v15,
          Scaleform::GFx::TimelineSnapshot::DepthLess);
   if ( v5
     && (v6 = psnapshot->SnapshotSortedArray.Data.Data[v5 - 1],
@@ -39,22 +39,22 @@ void __thiscall Scaleform::GFx::RemoveObject2Tag::AddToTimelineSnapshot(
     v8 = psnapshot;
     v9 = 0;
   }
-  pse = v9;
+  v14 = (Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *)v9;
   if ( !v9 )
     goto LABEL_14;
   if ( v9->PlaceType )
   {
     Scaleform::GFx::TimelineSnapshot::RemoveAtIndex(psnapshot, (unsigned int)v8);
-    pse = 0;
+    v14 = 0;
 LABEL_14:
     if ( psnapshot->Direction == Direction_Forward )
     {
       v11 = Scaleform::GFx::TimelineSnapshot::Add(psnapshot, this->Depth);
       v12 = this->Depth;
-      pse = (Scaleform::GFx::TimelineSnapshot::SnapshotElement *)v11;
+      v14 = v11;
       v11->Data[0].Depth = v12;
-      pse->PlaceType = 3;
-      pse->Flags |= 2u;
+      v14->Data[0].PlaceType = 3;
+      v14->Data[0].Flags |= 2u;
     }
     return;
   }
@@ -64,12 +64,12 @@ LABEL_14:
     {
       v10 = v9->Tags.pMainTag->UnpackEventHandlers(v9->Tags.pMainTag);
       if ( v10 )
-        this->CheckEventHandlers(this, (void **)&pse, v10);
+        this->CheckEventHandlers(this, (void **)&v14, v10);
     }
   }
-  if ( !pse )
+  if ( !v14 )
     goto LABEL_14;
   Scaleform::GFx::TimelineSnapshot::RemoveAtIndex(psnapshot, (unsigned int)v8);
-  if ( !pse )
+  if ( !v14 )
     goto LABEL_14;
 }

@@ -16,8 +16,8 @@ char __thiscall Scaleform::GFx::FontCompactor::PathsEqual(
   unsigned __int8 *v14; // esi
   Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *v15; // [esp+10h] [ebp-20h]
   Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *v16; // [esp+14h] [ebp-1Ch]
-  unsigned __int8 edge2[12]; // [esp+18h] [ebp-18h] BYREF
-  unsigned __int8 edge1[12]; // [esp+24h] [ebp-Ch] BYREF
+  unsigned __int8 v17[12]; // [esp+18h] [ebp-18h] BYREF
+  unsigned __int8 data[12]; // [esp+24h] [ebp-Ch] BYREF
 
   v4 = pos;
   p_Decoder = &this->Decoder;
@@ -45,16 +45,16 @@ char __thiscall Scaleform::GFx::FontCompactor::PathsEqual(
       RawEdge = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadRawEdge(
                   p_Decoder,
                   v6,
-                  edge1);
+                  data);
       cmpPos = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadRawEdge(
                  v7,
                  v9,
-                 edge2);
+                 v17);
       if ( RawEdge != cmpPos )
         return 0;
       v12 = RawEdge;
-      v13 = edge2;
-      v14 = edge1;
+      v13 = v17;
+      v14 = data;
       if ( RawEdge >= 4 )
       {
         while ( *(_DWORD *)v14 == *(_DWORD *)v13 )

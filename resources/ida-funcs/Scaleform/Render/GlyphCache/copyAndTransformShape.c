@@ -64,57 +64,57 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
   bool *v61; // ecx
   Scaleform::Render::GlyphShape *v62; // eax
   double Multiplier; // st7
-  float param_60b; // [esp+E8Ch] [ebp-164h]
-  float param_60c; // [esp+E8Ch] [ebp-164h]
-  float param_60d; // [esp+E8Ch] [ebp-164h]
-  int param_60; // [esp+E8Ch] [ebp-164h]
-  int param_60a; // [esp+E8Ch] [ebp-164h]
-  int v69; // [esp+E90h] [ebp-160h]
-  int v70; // [esp+E94h] [ebp-15Ch]
-  Scaleform::Render::TessBase *v71; // [esp+E98h] [ebp-158h]
-  float v72; // [esp+EA4h] [ebp-14Ch]
-  float v73; // [esp+EA4h] [ebp-14Ch]
-  float v74; // [esp+EA4h] [ebp-14Ch]
-  float v75; // [esp+EA4h] [ebp-14Ch]
-  float v76; // [esp+EA4h] [ebp-14Ch]
-  float v77; // [esp+EA4h] [ebp-14Ch]
-  float v78; // [esp+EA4h] [ebp-14Ch]
-  float v79; // [esp+EA4h] [ebp-14Ch]
-  float v80; // [esp+EA4h] [ebp-14Ch]
-  float v81; // [esp+EA4h] [ebp-14Ch]
-  float v82; // [esp+EA4h] [ebp-14Ch]
-  float v83; // [esp+EA4h] [ebp-14Ch]
-  _DWORD *v84; // [esp+EA4h] [ebp-14Ch]
-  char v85; // [esp+EABh] [ebp-145h]
-  float x; // [esp+EACh] [ebp-144h] BYREF
-  float y; // [esp+EB0h] [ebp-140h] BYREF
-  float v88; // [esp+EB4h] [ebp-13Ch]
-  float v89; // [esp+EB8h] [ebp-138h]
-  float v90; // [esp+EC4h] [ebp-12Ch]
-  float v91; // [esp+EC8h] [ebp-128h]
-  int v92; // [esp+ECCh] [ebp-124h]
-  Scaleform::Render::Matrix2x4<float> v93; // [esp+ED0h] [ebp-120h] BYREF
-  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v94; // [esp+EF4h] [ebp-FCh] BYREF
-  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v95; // [esp+EFCh] [ebp-F4h] BYREF
-  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v96; // [esp+F04h] [ebp-ECh] BYREF
-  int v97; // [esp+F0Ch] [ebp-E4h]
-  Scaleform::Render::VertexPath *p_TmpPath1; // [esp+F10h] [ebp-E0h]
-  unsigned int leftStyle; // [esp+F14h] [ebp-DCh] BYREF
-  unsigned int rightStyle; // [esp+F18h] [ebp-D8h]
-  unsigned int strokeStyle; // [esp+F1Ch] [ebp-D4h]
-  unsigned int v102; // [esp+F20h] [ebp-D0h]
-  Scaleform::Render::TessBase con; // [esp+F24h] [ebp-CCh] BYREF
-  Scaleform::Render::Stroker *p_mStroker; // [esp+F28h] [ebp-C8h]
-  float v105; // [esp+F2Ch] [ebp-C4h]
-  float v106; // [esp+F30h] [ebp-C0h]
-  float v107; // [esp+F34h] [ebp-BCh]
-  float v108; // [esp+F38h] [ebp-B8h]
-  Scaleform::Render::ShapePosInfo pos; // [esp+F3Ch] [ebp-B4h] BYREF
-  Scaleform::Render::GlyphCache *v110; // [esp+F74h] [ebp-7Ch]
-  _DWORD v111[13]; // [esp+F78h] [ebp-78h] BYREF
-  char v112; // [esp+FACh] [ebp-44h]
-  Scaleform::Render::ToleranceParams param; // [esp+FB0h] [ebp-40h] BYREF
-  int savedregs; // [esp+FF0h] [ebp+0h] BYREF
+  float svb; // [esp+28h] [ebp-164h]
+  float svc; // [esp+28h] [ebp-164h]
+  float svd; // [esp+28h] [ebp-164h]
+  int sv; // [esp+28h] [ebp-164h]
+  int sva; // [esp+28h] [ebp-164h]
+  int v69; // [esp+2Ch] [ebp-160h]
+  int v70; // [esp+30h] [ebp-15Ch]
+  Scaleform::Render::TessBase *v71; // [esp+34h] [ebp-158h]
+  float v72; // [esp+40h] [ebp-14Ch]
+  float v73; // [esp+40h] [ebp-14Ch]
+  float v74; // [esp+40h] [ebp-14Ch]
+  float v75; // [esp+40h] [ebp-14Ch]
+  float v76; // [esp+40h] [ebp-14Ch]
+  float v77; // [esp+40h] [ebp-14Ch]
+  float v78; // [esp+40h] [ebp-14Ch]
+  float v79; // [esp+40h] [ebp-14Ch]
+  float v80; // [esp+40h] [ebp-14Ch]
+  float v81; // [esp+40h] [ebp-14Ch]
+  float v82; // [esp+40h] [ebp-14Ch]
+  float v83; // [esp+40h] [ebp-14Ch]
+  _DWORD *v84; // [esp+40h] [ebp-14Ch]
+  char v85; // [esp+47h] [ebp-145h]
+  float x; // [esp+48h] [ebp-144h] BYREF
+  float y; // [esp+4Ch] [ebp-140h] BYREF
+  float v88; // [esp+50h] [ebp-13Ch]
+  float v89; // [esp+54h] [ebp-138h]
+  float v90; // [esp+60h] [ebp-12Ch]
+  float v91; // [esp+64h] [ebp-128h]
+  int v92; // [esp+68h] [ebp-124h]
+  Scaleform::Render::Matrix2x4<float> v93; // [esp+6Ch] [ebp-120h] BYREF
+  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v94; // [esp+90h] [ebp-FCh] BYREF
+  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v95; // [esp+98h] [ebp-F4h] BYREF
+  Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v96; // [esp+A0h] [ebp-ECh] BYREF
+  int v97; // [esp+A8h] [ebp-E4h]
+  Scaleform::Render::VertexPath *p_TmpPath1; // [esp+ACh] [ebp-E0h]
+  unsigned int v99; // [esp+B0h] [ebp-DCh] BYREF
+  unsigned int v100; // [esp+B4h] [ebp-D8h]
+  unsigned int v101; // [esp+B8h] [ebp-D4h]
+  unsigned int v102; // [esp+BCh] [ebp-D0h]
+  Scaleform::Render::TessBase con; // [esp+C0h] [ebp-CCh] BYREF
+  Scaleform::Render::Stroker *p_mStroker; // [esp+C4h] [ebp-C8h]
+  float v105; // [esp+C8h] [ebp-C4h]
+  float v106; // [esp+CCh] [ebp-C0h]
+  float v107; // [esp+D0h] [ebp-BCh]
+  float v108; // [esp+D4h] [ebp-B8h]
+  Scaleform::Render::ShapePosInfo pos; // [esp+D8h] [ebp-B4h] BYREF
+  Scaleform::Render::GlyphCache *v110; // [esp+110h] [ebp-7Ch]
+  _DWORD v111[13]; // [esp+114h] [ebp-78h] BYREF
+  char v112; // [esp+148h] [ebp-44h]
+  Scaleform::Render::ToleranceParams param; // [esp+14Ch] [ebp-40h] BYREF
+  int savedregs; // [esp+18Ch] [ebp+0h] BYREF
 
   IsEmpty = srcShape->IsEmpty;
   v9 = this;
@@ -137,8 +137,8 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
     {
       v93.M[0][3] = 0.0 + 0.0;
       v93.M[1][3] = italicOffset + 0.0;
-      param_60b = -v9->Param.FauxItalicAngle;
-      Scaleform::Render::Matrix2x4<float>::AppendShearing(&v93, 0.0, param_60b);
+      svb = -v9->Param.FauxItalicAngle;
+      Scaleform::Render::Matrix2x4<float>::AppendShearing(&v93, 0.0, svb);
       v93.M[0][3] = v93.M[0][3] + 0.0;
       v93.M[1][3] = v93.M[1][3] - italicOffset;
     }
@@ -153,7 +153,7 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
     v85 = 1;
     if ( fauxBold || *(float *)&outline != 0.0 )
     {
-      isOuterContourCW = Scaleform::Render::GlyphCache::isOuterContourCW(v9, (unsigned int *)v9, srcShape);
+      isOuterContourCW = Scaleform::Render::GlyphCache::isOuterContourCW(v9, (int *)v9, srcShape);
       v22 = v9->mStroker.__vftable;
       HIBYTE(v90) = isOuterContourCW;
       v22->Clear(&v9->mStroker);
@@ -171,14 +171,14 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
       p_mStroker = &v9->mStroker;
       v107 = 0.0;
       v108 = 0.0;
-      for ( i = ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &leftStyle);
+      for ( i = ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &v99);
             i;
-            i = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &leftStyle) )
+            i = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &v99) )
       {
         if ( !v85 && i == Shape_NewLayer )
           break;
         v85 = 0;
-        if ( leftStyle == rightStyle )
+        if ( v99 == v100 )
         {
           srcShape->SkipPathData(srcShape, (Scaleform::Render::ShapePosInfo *)v111);
         }
@@ -190,12 +190,12 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
           v107 = x;
           v108 = y;
           v77 = y * v106;
-          param_60c = v77;
+          svc = v77;
           v78 = x * v105;
           ((void (__thiscall *)(Scaleform::Render::Stroker *, _DWORD, _DWORD))p_mStroker->AddVertex)(
             p_mStroker,
             LODWORD(v78),
-            LODWORD(param_60c));
+            LODWORD(svc));
           for ( j = srcShape->ReadEdge(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x);
                 j;
                 j = srcShape->ReadEdge(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x) )
@@ -208,12 +208,12 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
               v107 = x;
               v108 = y;
               v80 = y * v106;
-              param_60d = v80;
+              svd = v80;
               v81 = x * v105;
               ((void (__thiscall *)(Scaleform::Render::Stroker *, _DWORD, _DWORD))p_mStroker->AddVertex)(
                 p_mStroker,
                 LODWORD(v81),
-                LODWORD(param_60d));
+                LODWORD(svd));
             }
             else
             {
@@ -224,7 +224,10 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
             }
           }
           v9->mStroker.ClosePath(&v9->mStroker);
-          Scaleform::Render::Stroker::CalcEquidistant(&v9->mStroker, &v9->TmpPath1, HIBYTE(v90) == 0);
+          Scaleform::Render::Stroker::CalcEquidistant(
+            &v9->mStroker,
+            &v9->TmpPath1,
+            (Scaleform::Render::StrokerTypes::EquidistantDir)(HIBYTE(v90) == 0));
         }
       }
       Scaleform::Render::VertexPath::Scale(&v9->TmpPath1, 1.0, 0.001);
@@ -394,16 +397,16 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
                 }
                 else
                 {
-                  param_60 = v55 - pos.LastY;
+                  sv = v55 - pos.LastY;
                   if ( v54 )
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
                       &v96.Encoder,
                       v54,
-                      param_60);
+                      sv);
                   else
                     Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
                       &v96.Encoder,
-                      param_60);
+                      sv);
                 }
                 pos.LastY += v56;
                 v50 += v54;
@@ -425,16 +428,16 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
               }
               else
               {
-                param_60a = pos.StartY - pos.LastY;
+                sva = pos.StartY - pos.LastY;
                 if ( pos.StartX == v50 )
                   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteVLine(
                     &v94.Encoder,
-                    param_60a);
+                    sva);
                 else
                   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteLine(
                     &v94.Encoder,
                     pos.StartX - v50,
-                    param_60a);
+                    sva);
               }
             }
             v59 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)glyphShape->pShape.pObject->pContainer;
@@ -482,15 +485,15 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
     }
     else
     {
-      for ( k = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &leftStyle);
+      for ( k = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &v99);
             k;
-            k = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &leftStyle) )
+            k = srcShape->ReadPathInfo(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x, &v99) )
       {
         if ( !v85 && k == Shape_NewLayer )
           break;
-        v12 = leftStyle;
+        v12 = v99;
         v85 = 0;
-        if ( leftStyle == rightStyle )
+        if ( v99 == v100 )
         {
           srcShape->SkipPathData(srcShape, (Scaleform::Render::ShapePosInfo *)v111);
         }
@@ -502,8 +505,8 @@ void __thiscall Scaleform::Render::GlyphCache::copyAndTransformShape(
             &pos,
             k,
             v12,
-            rightStyle,
-            strokeStyle,
+            v100,
+            v101,
             x,
             y);
           for ( m = srcShape->ReadEdge(srcShape, (Scaleform::Render::ShapePosInfo *)v111, &x);

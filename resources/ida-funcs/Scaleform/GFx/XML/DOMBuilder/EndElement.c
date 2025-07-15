@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::EndElement(
   Scaleform::GFx::XML::ObjectManager *v12; // ecx
   Scaleform::Ptr<Scaleform::GFx::XML::ObjectManager> *p_MemoryManager; // eax
   Scaleform::GFx::XML::ObjectManager *v14; // esi
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::XML::DOMStringNode *StringNode; // eax
   Scaleform::GFx::XML::TextNode *v17; // ecx
   unsigned int v18; // eax
@@ -67,9 +67,9 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::EndElement(
       ++v12->RefCount;
     v14 = p_MemoryManager->pObject;
     Scaleform::GFx::XML::ElementNode::AppendChild(v10, this->pAppendChainRoot.pObject);
-    pData = this->AppendText.pData;
+    pData = (__m128i *)this->AppendText.pData;
     if ( !pData )
-      pData = (char *)&buf;
+      pData = (__m128i *)uri;
     StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
                    &v14->StringPool,
                    pData,

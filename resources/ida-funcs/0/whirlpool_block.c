@@ -153,7 +153,7 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
   int v153; // edi
   int v154; // ebx
   bool v155; // cc
-  char *v156; // ecx
+  _BYTE *v156; // ecx
   WHIRLPOOL_CTX *v157; // eax
   int v158; // ebp
   unsigned __int8 *v159; // esi
@@ -167,7 +167,7 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
   __int64 v167; // [esp+14h] [ebp-24Ch]
   int v168; // [esp+1Ch] [ebp-244h]
   __int64 v169; // [esp+20h] [ebp-240h]
-  char *v170; // [esp+28h] [ebp-238h]
+  _BYTE *v170; // [esp+28h] [ebp-238h]
   __int64 v171; // [esp+2Ch] [ebp-234h]
   __int64 v172; // [esp+34h] [ebp-22Ch]
   __int64 v173; // [esp+3Ch] [ebp-224h]
@@ -228,7 +228,7 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
   _BYTE v228[64]; // [esp+21Ch] [ebp-44h] BYREF
 
   v224 = ctx;
-  if ( ((unsigned int)&unk_800000 & OPENSSL_ia32cap_P) != 0 )
+  if ( (OPENSSL_ia32cap_P & 0x800000) != 0 )
   {
     whirlpool_block_mmx(ctx, inp, n);
   }
@@ -249,29 +249,29 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         v227[i] = v6;
         v228[i] = v6 ^ v227[i + v4];
       }
-      v7 = &stru_8495F8.q[256];
-      v197 = &stru_8495F8.q[256];
+      v7 = &stru_6DB2A8.q[256];
+      v197 = &stru_6DB2A8.q[256];
       do
       {
-        HIDWORD(v211) = HIDWORD(stru_8495F8.q[v227[43]]);
-        LODWORD(v211) = *(_DWORD *)&stru_8495F8.c[8 * v227[43]];
-        HIDWORD(v172) = HIDWORD(stru_8495F8.q[v227[36]]);
-        LODWORD(v172) = *(_DWORD *)&stru_8495F8.c[8 * v227[36]];
-        HIDWORD(v199) = HIDWORD(stru_8495F8.q[v227[29]]);
-        LODWORD(v199) = *(_DWORD *)&stru_8495F8.c[8 * v227[29]];
-        HIDWORD(v214) = HIDWORD(stru_8495F8.q[v227[22]]);
-        LODWORD(v221) = *(_DWORD *)&stru_8495F8.c[8 * v227[15]];
+        HIDWORD(v211) = HIDWORD(stru_6DB2A8.q[v227[43]]);
+        LODWORD(v211) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[43]];
+        HIDWORD(v172) = HIDWORD(stru_6DB2A8.q[v227[36]]);
+        LODWORD(v172) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[36]];
+        HIDWORD(v199) = HIDWORD(stru_6DB2A8.q[v227[29]]);
+        LODWORD(v199) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[29]];
+        HIDWORD(v214) = HIDWORD(stru_6DB2A8.q[v227[22]]);
+        LODWORD(v221) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[15]];
         v8 = *(_DWORD *)v7;
-        HIDWORD(v221) = HIDWORD(stru_8495F8.q[v227[15]]);
+        HIDWORD(v221) = HIDWORD(stru_6DB2A8.q[v227[15]]);
         HIDWORD(v9) = HIDWORD(v214) ^ (v221 >> 24);
-        LODWORD(v9) = *(_DWORD *)&stru_8495F8.c[8 * v227[22]] ^ ((_DWORD)v221 << 8);
-        LODWORD(v214) = *(_DWORD *)&stru_8495F8.c[8 * v227[22]];
+        LODWORD(v9) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[22]] ^ ((_DWORD)v221 << 8);
+        LODWORD(v214) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[22]];
         v226[1] = *((_DWORD *)v7 + 1);
-        v10 = *(_DWORD *)&stru_8495F8.c[8 * v227[57]];
-        v11 = HIDWORD(stru_8495F8.q[v227[57]]);
+        v10 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[57]];
+        v11 = HIDWORD(stru_6DB2A8.q[v227[57]]);
         v226[0] = v8;
-        v12 = *(_DWORD *)&stru_8495F8.c[8 * v227[50]];
-        v13 = HIDWORD(stru_8495F8.q[v227[50]]);
+        v12 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[50]];
+        v13 = HIDWORD(stru_6DB2A8.q[v227[50]]);
         HIDWORD(v9) = v13 ^ ((v211 ^ ((v172 ^ ((v199 ^ (v9 << 8)) << 8)) << 8)) >> 24);
         LODWORD(v9) = v12
                     ^ (((unsigned int)v211
@@ -281,27 +281,27 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         LODWORD(v9) = v12 ^ (__PAIR64__(v11, v10) >> 8);
         HIDWORD(v9) = v13 ^ (v11 >> 8);
         v16 = v221 ^ ((v214 ^ ((v199 ^ ((v172 ^ ((v211 ^ (v9 >> 8)) >> 8)) >> 8)) >> 8)) >> 8);
-        v17 = HIDWORD(stru_8495F8.q[v227[0]]) ^ (HIDWORD(v16) >> 8) ^ (__PAIR64__(v14, v15) >> 24);
-        v226[0] ^= *(_DWORD *)&stru_8495F8.c[8 * v227[0]] ^ (v16 >> 8) ^ (v15 << 8);
+        v17 = HIDWORD(stru_6DB2A8.q[v227[0]]) ^ (HIDWORD(v16) >> 8) ^ (__PAIR64__(v14, v15) >> 24);
+        v226[0] ^= *(_DWORD *)&stru_6DB2A8.c[8 * v227[0]] ^ (v16 >> 8) ^ (v15 << 8);
         v226[1] ^= v17;
-        v18 = *(_DWORD *)&stru_8495F8.c[8 * v227[1]];
-        v19 = HIDWORD(stru_8495F8.q[v227[1]]);
-        v20 = *(_DWORD *)&stru_8495F8.c[8 * v227[58]];
-        v218 = HIDWORD(stru_8495F8.q[v227[58]]);
+        v18 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[1]];
+        v19 = HIDWORD(stru_6DB2A8.q[v227[1]]);
+        v20 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[58]];
+        v218 = HIDWORD(stru_6DB2A8.q[v227[58]]);
         LODWORD(v16) = v20 ^ (__PAIR64__(v19, v18) >> 8);
         HIDWORD(v16) = v218 ^ (v19 >> 8);
-        HIDWORD(v201) = HIDWORD(stru_8495F8.q[v227[51]]);
-        LODWORD(v201) = *(_DWORD *)&stru_8495F8.c[8 * v227[51]];
-        HIDWORD(v176) = HIDWORD(stru_8495F8.q[v227[44]]);
-        LODWORD(v176) = *(_DWORD *)&stru_8495F8.c[8 * v227[44]];
+        HIDWORD(v201) = HIDWORD(stru_6DB2A8.q[v227[51]]);
+        LODWORD(v201) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[51]];
+        HIDWORD(v176) = HIDWORD(stru_6DB2A8.q[v227[44]]);
+        LODWORD(v176) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[44]];
         LODWORD(v16) = v176 ^ ((v201 ^ (v16 >> 8)) >> 8);
         HIDWORD(v16) = HIDWORD(v176) ^ ((unsigned int)(HIDWORD(v201) ^ (HIDWORD(v16) >> 8)) >> 8);
-        HIDWORD(v206) = HIDWORD(stru_8495F8.q[v227[37]]);
-        LODWORD(v206) = *(_DWORD *)&stru_8495F8.c[8 * v227[37]];
-        HIDWORD(v174) = HIDWORD(stru_8495F8.q[v227[30]]);
-        LODWORD(v174) = *(_DWORD *)&stru_8495F8.c[8 * v227[30]];
-        v21 = *(_DWORD *)&stru_8495F8.c[8 * v227[23]];
-        v22 = HIDWORD(stru_8495F8.q[v227[23]]);
+        HIDWORD(v206) = HIDWORD(stru_6DB2A8.q[v227[37]]);
+        LODWORD(v206) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[37]];
+        HIDWORD(v174) = HIDWORD(stru_6DB2A8.q[v227[30]]);
+        LODWORD(v174) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[30]];
+        v21 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[23]];
+        v22 = HIDWORD(stru_6DB2A8.q[v227[23]]);
         LODWORD(v16) = v174 ^ ((v206 ^ (v16 >> 8)) >> 8);
         HIDWORD(v16) = HIDWORD(v174)
                      ^ ((HIDWORD(v206) ^ ((HIDWORD(v176) ^ ((HIDWORD(v201) ^ ((v218 ^ (v19 >> 8)) >> 8)) >> 8)) >> 8)) >> 8);
@@ -311,26 +311,26 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
             ^ ((v201 ^ ((v176 ^ ((v206 ^ ((v174 ^ (__PAIR64__(v22, v21) << 8)) << 8)) << 8)) << 8)) << 8);
         HIDWORD(v25) = v19 ^ (v25 >> 24);
         LODWORD(v25) = v18 ^ ((_DWORD)v25 << 8);
-        v26 = *(_DWORD *)&stru_8495F8.c[8 * v227[8]] ^ ((_DWORD)v25 << 8) ^ (__PAIR64__(v23, v24) >> 8);
-        v27 = *(_DWORD *)&stru_8495F8.c[8 * v227[9]];
-        v28 = HIDWORD(stru_8495F8.q[v227[9]]);
-        v29 = HIDWORD(stru_8495F8.q[v227[2]]);
-        v30 = *(_DWORD *)&stru_8495F8.c[8 * v227[2]];
-        v226[3] = HIDWORD(stru_8495F8.q[v227[8]]) ^ (v25 >> 24) ^ (v23 >> 8);
+        v26 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[8]] ^ ((_DWORD)v25 << 8) ^ (__PAIR64__(v23, v24) >> 8);
+        v27 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[9]];
+        v28 = HIDWORD(stru_6DB2A8.q[v227[9]]);
+        v29 = HIDWORD(stru_6DB2A8.q[v227[2]]);
+        v30 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[2]];
+        v226[3] = HIDWORD(stru_6DB2A8.q[v227[8]]) ^ (v25 >> 24) ^ (v23 >> 8);
         v226[2] = v26;
         v212 = v29;
         LODWORD(v25) = v30 ^ (__PAIR64__(v28, v27) >> 8);
         HIDWORD(v25) = v29 ^ (v28 >> 8);
-        v204 = HIDWORD(stru_8495F8.q[v227[59]]);
-        v203 = *(_DWORD *)&stru_8495F8.c[8 * v227[59]];
-        v182 = HIDWORD(stru_8495F8.q[v227[52]]);
-        v181 = *(_DWORD *)&stru_8495F8.c[8 * v227[52]];
-        LODWORD(v208) = *(_DWORD *)&stru_8495F8.c[8 * v227[45]];
-        HIDWORD(v208) = HIDWORD(stru_8495F8.q[v227[45]]);
-        LODWORD(v178) = *(_DWORD *)&stru_8495F8.c[8 * v227[38]];
-        HIDWORD(v178) = HIDWORD(stru_8495F8.q[v227[38]]);
-        v31 = *(_DWORD *)&stru_8495F8.c[8 * v227[31]];
-        v32 = HIDWORD(stru_8495F8.q[v227[31]]);
+        v204 = HIDWORD(stru_6DB2A8.q[v227[59]]);
+        v203 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[59]];
+        v182 = HIDWORD(stru_6DB2A8.q[v227[52]]);
+        v181 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[52]];
+        LODWORD(v208) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[45]];
+        HIDWORD(v208) = HIDWORD(stru_6DB2A8.q[v227[45]]);
+        LODWORD(v178) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[38]];
+        HIDWORD(v178) = HIDWORD(stru_6DB2A8.q[v227[38]]);
+        v31 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[31]];
+        v32 = HIDWORD(stru_6DB2A8.q[v227[31]]);
         v33 = v178
             ^ ((v208
               ^ (__PAIR64__(
@@ -350,26 +350,26 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         v45 = v30 ^ (v43 << 8);
         HIDWORD(v33) = v28 ^ (__PAIR64__(v44, v45) >> 24);
         LODWORD(v33) = v27 ^ (v45 << 8);
-        v46 = *(_DWORD *)&stru_8495F8.c[8 * v227[16]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v35, v34) >> 8);
-        v47 = *(_DWORD *)&stru_8495F8.c[8 * v227[17]];
-        v48 = HIDWORD(stru_8495F8.q[v227[17]]);
-        v49 = *(_DWORD *)&stru_8495F8.c[8 * v227[10]];
-        v213 = HIDWORD(stru_8495F8.q[v227[10]]);
-        v50 = *(_DWORD *)&stru_8495F8.c[8 * v227[3]];
-        v51 = HIDWORD(stru_8495F8.q[v227[3]]);
-        v226[5] = HIDWORD(stru_8495F8.q[v227[16]]) ^ (v33 >> 24) ^ (v35 >> 8);
+        v46 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[16]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v35, v34) >> 8);
+        v47 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[17]];
+        v48 = HIDWORD(stru_6DB2A8.q[v227[17]]);
+        v49 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[10]];
+        v213 = HIDWORD(stru_6DB2A8.q[v227[10]]);
+        v50 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[3]];
+        v51 = HIDWORD(stru_6DB2A8.q[v227[3]]);
+        v226[5] = HIDWORD(stru_6DB2A8.q[v227[16]]) ^ (v33 >> 24) ^ (v35 >> 8);
         v226[4] = v46;
         v209 = __PAIR64__(v51, v50);
-        v189 = HIDWORD(stru_8495F8.q[v227[60]]);
-        v188 = *(_DWORD *)&stru_8495F8.c[8 * v227[60]];
+        v189 = HIDWORD(stru_6DB2A8.q[v227[60]]);
+        v188 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[60]];
         LODWORD(v33) = v49 ^ (__PAIR64__(v48, v47) >> 8);
         HIDWORD(v33) = v213 ^ (v48 >> 8);
-        HIDWORD(v210) = HIDWORD(stru_8495F8.q[v227[53]]);
-        LODWORD(v210) = *(_DWORD *)&stru_8495F8.c[8 * v227[53]];
-        v184 = *(_DWORD *)&stru_8495F8.c[8 * v227[46]];
-        v185 = HIDWORD(stru_8495F8.q[v227[46]]);
-        v52 = *(_DWORD *)&stru_8495F8.c[8 * v227[39]];
-        v53 = HIDWORD(stru_8495F8.q[v227[39]]);
+        HIDWORD(v210) = HIDWORD(stru_6DB2A8.q[v227[53]]);
+        LODWORD(v210) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[53]];
+        v184 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[46]];
+        v185 = HIDWORD(stru_6DB2A8.q[v227[46]]);
+        v52 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[39]];
+        v53 = HIDWORD(stru_6DB2A8.q[v227[39]]);
         LODWORD(v33) = v188 ^ ((v209 ^ (v33 >> 8)) >> 8);
         HIDWORD(v33) = v189 ^ ((unsigned int)(HIDWORD(v209) ^ (HIDWORD(v33) >> 8)) >> 8);
         LODWORD(v33) = v184 ^ ((v210 ^ (v33 >> 8)) >> 8);
@@ -389,22 +389,22 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         v65 = v49 ^ (v63 << 8);
         HIDWORD(v33) = v48 ^ (__PAIR64__(v64, v65) >> 24);
         LODWORD(v33) = v47 ^ (v65 << 8);
-        v66 = *(_DWORD *)&stru_8495F8.c[8 * v227[24]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v55, v54) >> 8);
-        v67 = HIDWORD(stru_8495F8.q[v227[24]]) ^ (v33 >> 24) ^ (v55 >> 8);
-        v68 = *(_DWORD *)&stru_8495F8.c[8 * v227[25]];
-        v69 = HIDWORD(stru_8495F8.q[v227[25]]);
-        v70 = *(_DWORD *)&stru_8495F8.c[8 * v227[18]];
-        v215 = HIDWORD(stru_8495F8.q[v227[18]]);
-        HIDWORD(v205) = HIDWORD(stru_8495F8.q[v227[11]]);
-        LODWORD(v205) = *(_DWORD *)&stru_8495F8.c[8 * v227[11]];
-        v195 = HIDWORD(stru_8495F8.q[v227[4]]);
-        v194 = *(_DWORD *)&stru_8495F8.c[8 * v227[4]];
-        HIDWORD(v207) = HIDWORD(stru_8495F8.q[v227[61]]);
-        LODWORD(v207) = *(_DWORD *)&stru_8495F8.c[8 * v227[61]];
-        v191 = *(_DWORD *)&stru_8495F8.c[8 * v227[54]];
-        v192 = HIDWORD(stru_8495F8.q[v227[54]]);
-        v71 = *(_DWORD *)&stru_8495F8.c[8 * v227[47]];
-        v72 = HIDWORD(stru_8495F8.q[v227[47]]);
+        v66 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[24]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v55, v54) >> 8);
+        v67 = HIDWORD(stru_6DB2A8.q[v227[24]]) ^ (v33 >> 24) ^ (v55 >> 8);
+        v68 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[25]];
+        v69 = HIDWORD(stru_6DB2A8.q[v227[25]]);
+        v70 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[18]];
+        v215 = HIDWORD(stru_6DB2A8.q[v227[18]]);
+        HIDWORD(v205) = HIDWORD(stru_6DB2A8.q[v227[11]]);
+        LODWORD(v205) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[11]];
+        v195 = HIDWORD(stru_6DB2A8.q[v227[4]]);
+        v194 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[4]];
+        HIDWORD(v207) = HIDWORD(stru_6DB2A8.q[v227[61]]);
+        LODWORD(v207) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[61]];
+        v191 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[54]];
+        v192 = HIDWORD(stru_6DB2A8.q[v227[54]]);
+        v71 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[47]];
+        v72 = HIDWORD(stru_6DB2A8.q[v227[47]]);
         v226[6] = v66;
         v226[7] = v67;
         LODWORD(v33) = v194 ^ ((v205 ^ ((__PAIR64__(v215, v70) ^ (__PAIR64__(v69, v68) >> 8)) >> 8)) >> 8);
@@ -426,89 +426,89 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         v84 = v70 ^ (v82 << 8);
         HIDWORD(v33) = v69 ^ (__PAIR64__(v83, v84) >> 24);
         LODWORD(v33) = v68 ^ (v84 << 8);
-        v85 = *(_DWORD *)&stru_8495F8.c[8 * v227[32]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v74, v73) >> 8);
-        v86 = HIDWORD(stru_8495F8.q[v227[32]]) ^ (v33 >> 24) ^ (v74 >> 8);
-        v87 = *(_DWORD *)&stru_8495F8.c[8 * v227[33]];
-        v88 = HIDWORD(stru_8495F8.q[v227[33]]);
-        v89 = *(_DWORD *)&stru_8495F8.c[8 * v227[26]];
-        v217 = HIDWORD(stru_8495F8.q[v227[26]]);
-        HIDWORD(v169) = HIDWORD(stru_8495F8.q[v227[19]]);
-        LODWORD(v169) = *(_DWORD *)&stru_8495F8.c[8 * v227[19]];
-        HIDWORD(v167) = HIDWORD(stru_8495F8.q[v227[12]]);
-        LODWORD(v167) = *(_DWORD *)&stru_8495F8.c[8 * v227[12]];
-        v90 = *(_DWORD *)&stru_8495F8.c[8 * v227[5]];
-        v91 = HIDWORD(stru_8495F8.q[v227[5]]);
+        v85 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[32]] ^ ((_DWORD)v33 << 8) ^ (__PAIR64__(v74, v73) >> 8);
+        v86 = HIDWORD(stru_6DB2A8.q[v227[32]]) ^ (v33 >> 24) ^ (v74 >> 8);
+        v87 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[33]];
+        v88 = HIDWORD(stru_6DB2A8.q[v227[33]]);
+        v89 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[26]];
+        v217 = HIDWORD(stru_6DB2A8.q[v227[26]]);
+        HIDWORD(v169) = HIDWORD(stru_6DB2A8.q[v227[19]]);
+        LODWORD(v169) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[19]];
+        HIDWORD(v167) = HIDWORD(stru_6DB2A8.q[v227[12]]);
+        LODWORD(v167) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[12]];
+        v90 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[5]];
+        v91 = HIDWORD(stru_6DB2A8.q[v227[5]]);
         v226[8] = v85;
         v226[9] = v86;
-        HIDWORD(v165) = HIDWORD(stru_8495F8.q[v227[62]]);
+        HIDWORD(v165) = HIDWORD(stru_6DB2A8.q[v227[62]]);
         LODWORD(v33) = v167 ^ ((v169 ^ ((__PAIR64__(v217, v89) ^ (__PAIR64__(v88, v87) >> 8)) >> 8)) >> 8);
         HIDWORD(v33) = HIDWORD(v167) ^ ((HIDWORD(v169) ^ ((v217 ^ (v88 >> 8)) >> 8)) >> 8);
-        LODWORD(v165) = *(_DWORD *)&stru_8495F8.c[8 * v227[62]];
+        LODWORD(v165) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[62]];
         LODWORD(v33) = v90 ^ (v33 >> 8);
         HIDWORD(v33) = v91 ^ (HIDWORD(v33) >> 8);
         v92 = v165 ^ (v33 >> 8);
-        v93 = *(_DWORD *)&stru_8495F8.c[8 * v227[55]] ^ (v92 >> 8);
-        v94 = HIDWORD(stru_8495F8.q[v227[55]]) ^ (HIDWORD(v92) >> 8);
-        HIDWORD(v92) = HIDWORD(stru_8495F8.q[v227[55]]);
-        LODWORD(v92) = *(_DWORD *)&stru_8495F8.c[8 * v227[55]];
+        v93 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[55]] ^ (v92 >> 8);
+        v94 = HIDWORD(stru_6DB2A8.q[v227[55]]) ^ (HIDWORD(v92) >> 8);
+        HIDWORD(v92) = HIDWORD(stru_6DB2A8.q[v227[55]]);
+        LODWORD(v92) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[55]];
         v95 = v165 ^ (v92 << 8);
         HIDWORD(v95) = v91 ^ (v95 >> 24);
         LODWORD(v95) = v90 ^ ((_DWORD)v95 << 8);
         v96 = __PAIR64__(v217, v89) ^ ((v169 ^ ((v167 ^ (v95 << 8)) << 8)) << 8);
         HIDWORD(v96) = v88 ^ (v96 >> 24);
         LODWORD(v96) = v87 ^ ((_DWORD)v96 << 8);
-        v97 = *(_DWORD *)&stru_8495F8.c[8 * v227[40]] ^ ((_DWORD)v96 << 8) ^ (__PAIR64__(v94, v93) >> 8);
-        v98 = HIDWORD(stru_8495F8.q[v227[40]]) ^ (v96 >> 24) ^ (v94 >> 8);
-        v99 = *(_DWORD *)&stru_8495F8.c[8 * v227[41]];
-        v100 = HIDWORD(stru_8495F8.q[v227[41]]);
-        v101 = *(_DWORD *)&stru_8495F8.c[8 * v227[34]];
-        v219 = HIDWORD(stru_8495F8.q[v227[34]]);
-        v102 = *(_DWORD *)&stru_8495F8.c[8 * v227[27]];
+        v97 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[40]] ^ ((_DWORD)v96 << 8) ^ (__PAIR64__(v94, v93) >> 8);
+        v98 = HIDWORD(stru_6DB2A8.q[v227[40]]) ^ (v96 >> 24) ^ (v94 >> 8);
+        v99 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[41]];
+        v100 = HIDWORD(stru_6DB2A8.q[v227[41]]);
+        v101 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[34]];
+        v219 = HIDWORD(stru_6DB2A8.q[v227[34]]);
+        v102 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[27]];
         v226[10] = v97;
         v226[11] = v98;
         LODWORD(v177) = v102;
-        HIDWORD(v177) = HIDWORD(stru_8495F8.q[v227[27]]);
-        HIDWORD(v175) = HIDWORD(stru_8495F8.q[v227[20]]);
-        LODWORD(v175) = *(_DWORD *)&stru_8495F8.c[8 * v227[20]];
-        HIDWORD(v173) = HIDWORD(stru_8495F8.q[v227[13]]);
-        LODWORD(v173) = *(_DWORD *)&stru_8495F8.c[8 * v227[13]];
+        HIDWORD(v177) = HIDWORD(stru_6DB2A8.q[v227[27]]);
+        HIDWORD(v175) = HIDWORD(stru_6DB2A8.q[v227[20]]);
+        LODWORD(v175) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[20]];
+        HIDWORD(v173) = HIDWORD(stru_6DB2A8.q[v227[13]]);
+        LODWORD(v173) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[13]];
         LODWORD(v96) = v175 ^ ((v177 ^ ((__PAIR64__(v219, v101) ^ (__PAIR64__(v100, v99) >> 8)) >> 8)) >> 8);
         HIDWORD(v96) = HIDWORD(v175) ^ ((HIDWORD(v177) ^ ((v219 ^ (v100 >> 8)) >> 8)) >> 8);
-        HIDWORD(v171) = HIDWORD(stru_8495F8.q[v227[6]]);
-        LODWORD(v171) = *(_DWORD *)&stru_8495F8.c[8 * v227[6]];
+        HIDWORD(v171) = HIDWORD(stru_6DB2A8.q[v227[6]]);
+        LODWORD(v171) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[6]];
         LODWORD(v96) = v171 ^ ((v173 ^ (v96 >> 8)) >> 8);
         HIDWORD(v96) = HIDWORD(v171) ^ ((unsigned int)(HIDWORD(v173) ^ (HIDWORD(v96) >> 8)) >> 8);
-        v103 = *(_DWORD *)&stru_8495F8.c[8 * v227[63]] ^ (v96 >> 8);
-        v104 = HIDWORD(stru_8495F8.q[v227[63]])
+        v103 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[63]] ^ (v96 >> 8);
+        v104 = HIDWORD(stru_6DB2A8.q[v227[63]])
              ^ ((HIDWORD(v171)
                ^ ((HIDWORD(v173) ^ ((HIDWORD(v175) ^ ((HIDWORD(v177) ^ ((v219 ^ (v100 >> 8)) >> 8)) >> 8)) >> 8)) >> 8)) >> 8);
-        HIDWORD(v96) = HIDWORD(stru_8495F8.q[v227[63]]);
-        LODWORD(v96) = *(_DWORD *)&stru_8495F8.c[8 * v227[63]];
+        HIDWORD(v96) = HIDWORD(stru_6DB2A8.q[v227[63]]);
+        LODWORD(v96) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[63]];
         v105 = __PAIR64__(v104, v103) >> 8;
         v106 = __PAIR64__(v219, v101) ^ ((v177 ^ ((v175 ^ ((v173 ^ ((v171 ^ (v96 << 8)) << 8)) << 8)) << 8)) << 8);
         HIDWORD(v106) = v100 ^ (v106 >> 24);
         LODWORD(v106) = v99 ^ ((_DWORD)v106 << 8);
-        v107 = HIDWORD(stru_8495F8.q[v227[48]]) ^ (v106 >> 24) ^ (v104 >> 8);
-        v226[12] = *(_DWORD *)&stru_8495F8.c[8 * v227[48]] ^ ((_DWORD)v106 << 8) ^ v105;
+        v107 = HIDWORD(stru_6DB2A8.q[v227[48]]) ^ (v106 >> 24) ^ (v104 >> 8);
+        v226[12] = *(_DWORD *)&stru_6DB2A8.c[8 * v227[48]] ^ ((_DWORD)v106 << 8) ^ v105;
         v226[13] = v107;
-        v108 = *(_DWORD *)&stru_8495F8.c[8 * v227[49]];
-        v109 = HIDWORD(stru_8495F8.q[v227[49]]);
-        v110 = *(_DWORD *)&stru_8495F8.c[8 * v227[42]];
-        v216 = HIDWORD(stru_8495F8.q[v227[42]]);
-        HIDWORD(v190) = HIDWORD(stru_8495F8.q[v227[35]]);
-        LODWORD(v190) = *(_DWORD *)&stru_8495F8.c[8 * v227[35]];
+        v108 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[49]];
+        v109 = HIDWORD(stru_6DB2A8.q[v227[49]]);
+        v110 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[42]];
+        v216 = HIDWORD(stru_6DB2A8.q[v227[42]]);
+        HIDWORD(v190) = HIDWORD(stru_6DB2A8.q[v227[35]]);
+        LODWORD(v190) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[35]];
         LODWORD(v106) = v110 ^ (__PAIR64__(v109, v108) >> 8);
         HIDWORD(v106) = v216 ^ (v109 >> 8);
-        v187 = HIDWORD(stru_8495F8.q[v227[28]]);
-        v186 = *(_DWORD *)&stru_8495F8.c[8 * v227[28]];
-        HIDWORD(v183) = HIDWORD(stru_8495F8.q[v227[21]]);
+        v187 = HIDWORD(stru_6DB2A8.q[v227[28]]);
+        v186 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[28]];
+        HIDWORD(v183) = HIDWORD(stru_6DB2A8.q[v227[21]]);
         LODWORD(v106) = v186 ^ ((v190 ^ (v106 >> 8)) >> 8);
         HIDWORD(v106) = v187 ^ ((unsigned int)(HIDWORD(v190) ^ (HIDWORD(v106) >> 8)) >> 8);
-        LODWORD(v183) = *(_DWORD *)&stru_8495F8.c[8 * v227[21]];
-        v180 = HIDWORD(stru_8495F8.q[v227[14]]);
-        v179 = *(_DWORD *)&stru_8495F8.c[8 * v227[14]];
-        v111 = *(_DWORD *)&stru_8495F8.c[8 * v227[7]];
-        v112 = HIDWORD(stru_8495F8.q[v227[7]]);
+        LODWORD(v183) = *(_DWORD *)&stru_6DB2A8.c[8 * v227[21]];
+        v180 = HIDWORD(stru_6DB2A8.q[v227[14]]);
+        v179 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[14]];
+        v111 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[7]];
+        v112 = HIDWORD(stru_6DB2A8.q[v227[7]]);
         LODWORD(v106) = v179 ^ ((v183 ^ (v106 >> 8)) >> 8);
         HIDWORD(v106) = v180
                       ^ ((HIDWORD(v183) ^ ((v187 ^ ((HIDWORD(v190) ^ ((v216 ^ (v109 >> 8)) >> 8)) >> 8)) >> 8)) >> 8);
@@ -526,8 +526,8 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         v124 = v110 ^ (v122 << 8);
         HIDWORD(v106) = v109 ^ (__PAIR64__(v123, v124) >> 24);
         LODWORD(v106) = v108 ^ (v124 << 8);
-        v125 = *(_DWORD *)&stru_8495F8.c[8 * v227[56]] ^ ((_DWORD)v106 << 8) ^ (__PAIR64__(v114, v113) >> 8);
-        v126 = HIDWORD(stru_8495F8.q[v227[56]]) ^ (v106 >> 24) ^ (v114 >> 8);
+        v125 = *(_DWORD *)&stru_6DB2A8.c[8 * v227[56]] ^ ((_DWORD)v106 << 8) ^ (__PAIR64__(v114, v113) >> 8);
+        v126 = HIDWORD(stru_6DB2A8.q[v227[56]]) ^ (v106 >> 24) ^ (v114 >> 8);
         v226[14] = v125;
         v226[15] = v126;
         v127 = 2;
@@ -537,35 +537,35 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
         do
         {
           v130 = (unsigned __int8)v228[8 * (((_BYTE)v127 - 3) & 7) + 1];
-          v131 = *(_DWORD *)&stru_8495F8.c[8 * v130];
-          v132 = HIDWORD(stru_8495F8.q[v130]);
+          v131 = *(_DWORD *)&stru_6DB2A8.c[8 * v130];
+          v132 = HIDWORD(stru_6DB2A8.q[v130]);
           v133 = (unsigned __int8)v228[8 * (((_BYTE)v127 - 4) & 7) + 2];
-          v134 = *(_DWORD *)&stru_8495F8.c[8 * v133];
-          HIDWORD(v202) = HIDWORD(stru_8495F8.q[v133]);
+          v134 = *(_DWORD *)&stru_6DB2A8.c[8 * v133];
+          HIDWORD(v202) = HIDWORD(stru_6DB2A8.q[v133]);
           v223 = __PAIR64__(v132, v131);
           v135 = (unsigned __int8)v228[8 * (((_BYTE)v127 + 3) & 7) + 3];
           LODWORD(v202) = v134;
-          v136 = *(_DWORD *)&stru_8495F8.c[8 * v135];
-          HIDWORD(v200) = HIDWORD(stru_8495F8.q[v135]);
+          v136 = *(_DWORD *)&stru_6DB2A8.c[8 * v135];
+          HIDWORD(v200) = HIDWORD(stru_6DB2A8.q[v135]);
           v137 = (unsigned __int8)v228[8 * (((_BYTE)v127 + 2) & 7) + 4];
           LODWORD(v200) = v136;
-          v138 = *(_DWORD *)&stru_8495F8.c[8 * v137];
-          HIDWORD(v198) = HIDWORD(stru_8495F8.q[v137]);
+          v138 = *(_DWORD *)&stru_6DB2A8.c[8 * v137];
+          HIDWORD(v198) = HIDWORD(stru_6DB2A8.q[v137]);
           v220 = v127 + 1;
           v139 = (unsigned __int8)v228[8 * ((v127 + 1) & 7) + 5];
           LODWORD(v198) = v138;
-          v140 = *(_DWORD *)&stru_8495F8.c[8 * v139];
+          v140 = *(_DWORD *)&stru_6DB2A8.c[8 * v139];
           v141 = v198 ^ ((v200 ^ ((v202 ^ (__PAIR64__(v132, v131) >> 8)) >> 8)) >> 8);
-          HIDWORD(v196) = HIDWORD(stru_8495F8.q[v139]);
+          HIDWORD(v196) = HIDWORD(stru_6DB2A8.q[v139]);
           v142 = HIDWORD(v196) ^ (HIDWORD(v141) >> 8);
           v143 = (unsigned __int8)v228[8 * (v127 & 7) + 6];
           LODWORD(v196) = v140;
           v144 = v140 ^ (v141 >> 8);
-          v145 = *(_DWORD *)&stru_8495F8.c[8 * v143];
-          v193 = HIDWORD(stru_8495F8.q[v143]);
+          v145 = *(_DWORD *)&stru_6DB2A8.c[8 * v143];
+          v193 = HIDWORD(stru_6DB2A8.q[v143]);
           v146 = (unsigned __int8)v228[8 * (((_BYTE)v127 - 1) & 7) + 7];
-          v147 = *(_DWORD *)&stru_8495F8.c[8 * v146];
-          v148 = HIDWORD(stru_8495F8.q[v146]);
+          v147 = *(_DWORD *)&stru_6DB2A8.c[8 * v146];
+          v148 = HIDWORD(stru_6DB2A8.q[v146]);
           LODWORD(v141) = v145 ^ (__PAIR64__(v142, v144) >> 8);
           HIDWORD(v141) = v193 ^ (v142 >> 8);
           v149 = v148 ^ (HIDWORD(v141) >> 8);
@@ -582,8 +582,8 @@ void __cdecl whirlpool_block(WHIRLPOOL_CTX *ctx, _BYTE *inp, unsigned int n)
                       ^ ((v196
                         ^ (__PAIR64__(v193 ^ (unsigned int)(__PAIR64__(v148, v147) >> 24), v145 ^ (v147 << 8)) << 8)) << 8)) << 8)) << 8)) << 8)) >> 24;
           v152 = (unsigned __int8)v227[v128 + 56];
-          v153 = *(_DWORD *)&stru_8495F8.c[8 * v152] ^ ((_DWORD)v141 << 8) ^ (__PAIR64__(v149, v150) >> 8);
-          v154 = HIDWORD(stru_8495F8.q[v152]) ^ v151 ^ (v149 >> 8);
+          v153 = *(_DWORD *)&stru_6DB2A8.c[8 * v152] ^ ((_DWORD)v141 << 8) ^ (__PAIR64__(v149, v150) >> 8);
+          v154 = HIDWORD(stru_6DB2A8.q[v152]) ^ v151 ^ (v149 >> 8);
           *(WHIRLPOOL_CTX **)((char *)&v224 + v128) = (WHIRLPOOL_CTX *)(v153 ^ *(unsigned int *)((char *)&v224 + v128));
           v226[v128 / 4 - 1] ^= v154;
           --v129;

@@ -1,1418 +1,938 @@
-void __thiscall vostok::render::effect_environment_probe_lighting<1,1,1>::compile(
-        vostok::render::effect_environment_probe_lighting<1,1,1> *this,
+void __thiscall vostok::render::effect_environment_probe_lighting<1,1>::compile(
+        vostok::render::effect_environment_probe_lighting<1,1> *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  vostok::render::effect_compiler *v3; // ecx
   vostok::render::effect_compiler *v4; // ecx
   vostok::render::effect_compiler *v5; // ecx
   vostok::render::effect_compiler *v6; // ecx
   vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x1600400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v3,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v4);
-  vostok::render::effect_compiler::end_technique(v5);
-  vostok::render::effect_compiler::begin_technique(v6);
-  vostok::render::effect_compiler::begin_pass(
-    v7,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v8,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<1,1,0>::compile(
-        vostok::render::effect_environment_probe_lighting<1,1,0> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
+  vostok::command_line::key *v8; // ecx
   vostok::render::effect_compiler *v9; // ecx
   vostok::render::effect_compiler *v10; // ecx
   vostok::render::effect_compiler *v11; // ecx
-  D3D11_BLEND_OP v12; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  bool v18; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v19; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  bool v25; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
+  vostok::render::effect_compiler *v12; // ecx
+  vostok::render::effect_compiler *v13; // ecx
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::render::effect_compiler *v15; // ecx
+  vostok::render::effect_compiler *v16; // ecx
+  vostok::render::effect_compiler *v17; // ecx
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_compiler *v19; // ecx
+  vostok::render::effect_compiler *v20; // ecx
+  vostok::render::effect_compiler *v21; // ecx
+  vostok::render::effect_compiler *v22; // ecx
+  vostok::command_line::key *v23; // ecx
+  vostok::render::effect_compiler *v24; // ecx
+  vostok::render::effect_compiler *v25; // ecx
+  vostok::render::effect_compiler *v26; // ecx
+  vostok::render::effect_compiler *v27; // ecx
+  vostok::render::effect_compiler *v28; // ecx
+  vostok::render::effect_compiler *v29; // ecx
+  vostok::render::effect_compiler *v30; // ecx
+  vostok::render::effect_compiler *v31; // ecx
+  vostok::render::effect_compiler *v32; // ecx
+  vostok::render::shader_configuration v33; // [esp-10h] [ebp-34h]
+  vostok::render::shader_configuration v34; // [esp-10h] [ebp-34h]
+  D3D11_COMPARISON_FUNC v35; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v36; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v37; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v38; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v39; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v40; // [esp+4h] [ebp-20h]
+  __int64 v41; // [esp+1Ch] [ebp-8h]
 
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x600400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    v3,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
+  v41 = 1091043328;
+  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this, (int)compiler);
+  *(_DWORD *)&v33.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v33.configuration + 4) = 0;
+  HIDWORD(v33.configuration[1]) = 1091043328;
+  vostok::render::effect_compiler::begin_pass(v4, (int)compiler, "light", 0, v33, 0);
+  vostok::render::effect_compiler::set_depth(v5, (int)compiler, 1, 0, v35);
   vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
+    v6,
+    (int)compiler,
     1,
     D3D11_BLEND_SRC_ALPHA,
     D3D11_BLEND_INV_SRC_ALPHA,
     D3D11_BLEND_OP_ADD,
     D3D11_BLEND_ZERO,
     D3D11_BLEND_ZERO,
-    v12);
+    v36);
   vostok::render::effect_compiler::set_stencil(
-    compiler,
+    v7,
+    (int)compiler,
     1,
     0xFFu,
     0x40u,
-    0xFFu,
+    255,
     D3D11_COMPARISON_EQUAL,
     D3D11_STENCIL_OP_INVERT,
-    v13,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v15, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v18,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v4,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v5);
-  vostok::render::effect_compiler::end_technique(v6);
-  vostok::render::effect_compiler::begin_technique(v7);
-  vostok::render::effect_compiler::begin_pass(
-    v8,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
     D3D11_STENCIL_OP_INVERT,
-    v19,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
+    v37);
+  vostok::render::effect_compiler::set_cull_mode(
     compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v20);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v22, 0xFFFFFFFF);
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)3,
+    v8);
   vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v25,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
     v9,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v10);
-  vostok::render::effect_compiler::end_technique(v11);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<1,0,1>::compile(
-        vostok::render::effect_environment_probe_lighting<1,0,1> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  LOBYTE(this) = 1;
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x1200400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    v3,
     (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
+    "t_position",
+    "$user$position",
     0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v10,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v11,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
     v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
     0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
+    0xFFFFFFFF,
     0,
-    v16,
-    0xFFFFFFFF);
+    1.0);
   vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
+    v13,
+    (const char *)compiler,
+    "t_ssao_accumulator",
     "$user$ssao_accumulator_full_x",
     0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v4,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v5);
-  vostok::render::effect_compiler::end_technique(v6);
-  vostok::render::effect_compiler::begin_technique(v7);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
+    0xFFFFFFFF,
     0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v14,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v15,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v16, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v17,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+  vostok::render::effect_compiler::begin_technique(v18, (int)compiler);
+  *(_DWORD *)&v34.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v34.configuration + 4) = 0;
+  HIDWORD(v34.configuration[1]) = 1091043328;
+  vostok::render::effect_compiler::begin_pass(v19, (int)compiler, "light", 0, v34, 0);
+  vostok::render::effect_compiler::set_depth(v20, (int)compiler, 0, 0, v38);
   vostok::render::effect_compiler::set_stencil(
-    compiler,
+    v21,
+    (int)compiler,
     1,
     0xFFu,
     0x40u,
-    0xFFu,
+    255,
     D3D11_COMPARISON_EQUAL,
     D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
+    D3D11_STENCIL_OP_KEEP,
+    v39);
   vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
+    v22,
+    (int)compiler,
     1,
     D3D11_BLEND_SRC_ALPHA,
     D3D11_BLEND_INV_SRC_ALPHA,
     D3D11_BLEND_OP_ADD,
     D3D11_BLEND_ZERO,
     D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
+    v40);
+  vostok::render::effect_compiler::set_cull_mode(
     compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)2,
+    v23);
+  vostok::render::effect_compiler::set_texture(
+    v24,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v25,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v26,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v27,
+    (const char *)compiler,
+    "t_diffuse",
     "$user$albedo",
     0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
+    0xFFFFFFFF,
     0,
-    v23,
-    0xFFFFFFFF);
+    1.0);
   vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
+    v28,
+    (const char *)compiler,
+    "t_ssao_accumulator",
     "$user$ssao_accumulator_full_x",
     0,
-    v24,
-    0xFFFFFFFF);
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v29,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
   vostok::render::effect_compiler::color_write_enable(
-    v8,
+    v30,
+    (int)compiler,
     D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
+  vostok::render::effect_compiler::end_pass(v31, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v32,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
 }
 
 
-void __thiscall vostok::render::effect_environment_probe_lighting<1,0,0>::compile(
-        vostok::render::effect_environment_probe_lighting<1,0,0> *this,
+void __thiscall vostok::render::effect_environment_probe_lighting<1,0>::compile(
+        vostok::render::effect_environment_probe_lighting<1,0> *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  vostok::render::effect_compiler *v3; // ecx
   vostok::render::effect_compiler *v4; // ecx
   vostok::render::effect_compiler *v5; // ecx
   vostok::render::effect_compiler *v6; // ecx
   vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x200400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v3,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v4);
-  vostok::render::effect_compiler::end_technique(v5);
-  vostok::render::effect_compiler::begin_technique(v6);
-  vostok::render::effect_compiler::begin_pass(
-    v7,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v8,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<0,1,1>::compile(
-        vostok::render::effect_environment_probe_lighting<0,1,1> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  LOBYTE(this) = 1;
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x1400400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    v3,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v4,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v5);
-  vostok::render::effect_compiler::end_technique(v6);
-  vostok::render::effect_compiler::begin_technique(v7);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v8,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<0,1,0>::compile(
-        vostok::render::effect_environment_probe_lighting<0,1,0> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x400400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v3,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v4);
-  vostok::render::effect_compiler::end_technique(v5);
-  vostok::render::effect_compiler::begin_technique(v6);
-  vostok::render::effect_compiler::begin_pass(
-    v7,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v8,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<0,0,1>::compile(
-        vostok::render::effect_environment_probe_lighting<0,0,1> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
-  vostok::render::effect_compiler *v10; // ecx
-  D3D11_BLEND_OP v11; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v12; // [esp+0h] [ebp-20h]
-  bool v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v18; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v19; // [esp+0h] [ebp-20h]
-  bool v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
-
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x1000400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    (vostok::render::effect_compiler *)&configuration,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v11);
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v12,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v13, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v15,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v3,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v4);
-  vostok::render::effect_compiler::end_technique(v5);
-  vostok::render::effect_compiler::begin_technique(v6);
-  vostok::render::effect_compiler::begin_pass(
-    v7,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
-    D3D11_STENCIL_OP_INVERT,
-    v18,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v19);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v20, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v22,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v8,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v9);
-  vostok::render::effect_compiler::end_technique(v10);
-}
-
-
-void __thiscall vostok::render::effect_environment_probe_lighting<0,0,0>::compile(
-        vostok::render::effect_environment_probe_lighting<0,0,0> *this,
-        vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
-{
-  vostok::render::effect_compiler *v3; // ecx
-  vostok::render::effect_compiler *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::effect_compiler *v7; // ecx
-  vostok::render::effect_compiler *v8; // ecx
+  vostok::command_line::key *v8; // ecx
   vostok::render::effect_compiler *v9; // ecx
   vostok::render::effect_compiler *v10; // ecx
   vostok::render::effect_compiler *v11; // ecx
-  D3D11_BLEND_OP v12; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v13; // [esp+0h] [ebp-20h]
-  bool v14; // [esp+0h] [ebp-20h]
-  bool v15; // [esp+0h] [ebp-20h]
-  bool v16; // [esp+0h] [ebp-20h]
-  bool v17; // [esp+0h] [ebp-20h]
-  bool v18; // [esp+0h] [ebp-20h]
-  D3D11_STENCIL_OP v19; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v20; // [esp+0h] [ebp-20h]
-  bool v21; // [esp+0h] [ebp-20h]
-  bool v22; // [esp+0h] [ebp-20h]
-  bool v23; // [esp+0h] [ebp-20h]
-  bool v24; // [esp+0h] [ebp-20h]
-  bool v25; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
+  vostok::render::effect_compiler *v12; // ecx
+  vostok::render::effect_compiler *v13; // ecx
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::render::effect_compiler *v15; // ecx
+  vostok::render::effect_compiler *v16; // ecx
+  vostok::render::effect_compiler *v17; // ecx
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_compiler *v19; // ecx
+  vostok::render::effect_compiler *v20; // ecx
+  vostok::render::effect_compiler *v21; // ecx
+  vostok::render::effect_compiler *v22; // ecx
+  vostok::command_line::key *v23; // ecx
+  vostok::render::effect_compiler *v24; // ecx
+  vostok::render::effect_compiler *v25; // ecx
+  vostok::render::effect_compiler *v26; // ecx
+  vostok::render::effect_compiler *v27; // ecx
+  vostok::render::effect_compiler *v28; // ecx
+  vostok::render::effect_compiler *v29; // ecx
+  vostok::render::effect_compiler *v30; // ecx
+  vostok::render::effect_compiler *v31; // ecx
+  vostok::render::effect_compiler *v32; // ecx
+  vostok::render::shader_configuration v33; // [esp-10h] [ebp-34h]
+  vostok::render::shader_configuration v34; // [esp-10h] [ebp-34h]
+  D3D11_COMPARISON_FUNC v35; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v36; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v37; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v38; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v39; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v40; // [esp+4h] [ebp-20h]
+  __int64 v41; // [esp+1Ch] [ebp-8h]
 
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
-  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this);
-  vostok::render::effect_compiler::begin_pass(
-    v3,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
+  v41 = 1074266112;
+  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this, (int)compiler);
+  *(_DWORD *)&v33.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v33.configuration + 4) = 0;
+  HIDWORD(v33.configuration[1]) = 1074266112;
+  vostok::render::effect_compiler::begin_pass(v4, (int)compiler, "light", 0, v33, 0);
+  vostok::render::effect_compiler::set_depth(v5, (int)compiler, 1, 0, v35);
   vostok::render::effect_compiler::set_alpha_blend(
-    compiler,
+    v6,
+    (int)compiler,
     1,
     D3D11_BLEND_SRC_ALPHA,
     D3D11_BLEND_INV_SRC_ALPHA,
     D3D11_BLEND_OP_ADD,
     D3D11_BLEND_ZERO,
     D3D11_BLEND_ZERO,
-    v12);
+    v36);
   vostok::render::effect_compiler::set_stencil(
-    compiler,
+    v7,
+    (int)compiler,
     1,
     0xFFu,
     0x40u,
-    0xFFu,
+    255,
     D3D11_COMPARISON_EQUAL,
     D3D11_STENCIL_OP_INVERT,
-    v13,
-    D3D11_STENCIL_OP_INVERT);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_BACK);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v14, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v15, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v16,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v17,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v18,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
-    v4,
-    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v5);
-  vostok::render::effect_compiler::end_technique(v6);
-  vostok::render::effect_compiler::begin_technique(v7);
-  vostok::render::effect_compiler::begin_pass(
-    v8,
-    (const char *)compiler,
-    (const char *)&stru_9642F8.m_desc.Height,
-    0,
-    (const vostok::render::shader_configuration *)&stru_9642F8.m_rescale_max.elements[2],
-    (vostok::render::shader_include_getter *)&configuration);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 0;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_stencil(
-    compiler,
-    1,
-    0xFFu,
-    0x40u,
-    0xFFu,
-    D3D11_COMPARISON_EQUAL,
     D3D11_STENCIL_OP_INVERT,
-    v19,
-    D3D11_STENCIL_OP_KEEP);
-  vostok::render::effect_compiler::set_alpha_blend(
+    v37);
+  vostok::render::effect_compiler::set_cull_mode(
     compiler,
-    1,
-    D3D11_BLEND_SRC_ALPHA,
-    D3D11_BLEND_INV_SRC_ALPHA,
-    D3D11_BLEND_OP_ADD,
-    D3D11_BLEND_ZERO,
-    D3D11_BLEND_ZERO,
-    v20);
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_FRONT);
-  vostok::render::effect_compiler::set_texture(compiler, "t_position", "$user$position", 0, v21, 0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(compiler, "t_normal", "$user$normal", 0, v22, 0xFFFFFFFF);
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)3,
+    v8);
   vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc.ArraySize,
-    "$user$albedo",
-    0,
-    v23,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8,
-    (const char *)&stru_9642F8.m_desc.SampleDesc.Quality,
-    0,
-    v24,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::set_texture(
-    compiler,
-    (const char *)&stru_9642F8.m_desc_3d.Usage,
-    "$user$ssao_accumulator_full_x",
-    0,
-    v25,
-    0xFFFFFFFF);
-  vostok::render::effect_compiler::color_write_enable(
     v9,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v10,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v11,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v12,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v13,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v14,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v15,
+    (int)compiler,
     D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
-  vostok::render::effect_compiler::end_pass(v10);
-  vostok::render::effect_compiler::end_technique(v11);
+  vostok::render::effect_compiler::end_pass(v16, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v17,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+  vostok::render::effect_compiler::begin_technique(v18, (int)compiler);
+  *(_DWORD *)&v34.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v34.configuration + 4) = 0;
+  HIDWORD(v34.configuration[1]) = 1074266112;
+  vostok::render::effect_compiler::begin_pass(v19, (int)compiler, "light", 0, v34, 0);
+  vostok::render::effect_compiler::set_depth(v20, (int)compiler, 0, 0, v38);
+  vostok::render::effect_compiler::set_stencil(
+    v21,
+    (int)compiler,
+    1,
+    0xFFu,
+    0x40u,
+    255,
+    D3D11_COMPARISON_EQUAL,
+    D3D11_STENCIL_OP_INVERT,
+    D3D11_STENCIL_OP_KEEP,
+    v39);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v22,
+    (int)compiler,
+    1,
+    D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
+    D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ZERO,
+    D3D11_BLEND_ZERO,
+    v40);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)2,
+    v23);
+  vostok::render::effect_compiler::set_texture(
+    v24,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v25,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v26,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v27,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v28,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v29,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v30,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v31, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v32,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+}
+
+
+void __thiscall vostok::render::effect_environment_probe_lighting<0,1>::compile(
+        vostok::render::effect_environment_probe_lighting<0,1> *this,
+        vostok::render::effect_compiler *compiler,
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
+{
+  vostok::render::effect_compiler *v4; // ecx
+  vostok::render::effect_compiler *v5; // ecx
+  vostok::render::effect_compiler *v6; // ecx
+  vostok::render::effect_compiler *v7; // ecx
+  vostok::command_line::key *v8; // ecx
+  vostok::render::effect_compiler *v9; // ecx
+  vostok::render::effect_compiler *v10; // ecx
+  vostok::render::effect_compiler *v11; // ecx
+  vostok::render::effect_compiler *v12; // ecx
+  vostok::render::effect_compiler *v13; // ecx
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::render::effect_compiler *v15; // ecx
+  vostok::render::effect_compiler *v16; // ecx
+  vostok::render::effect_compiler *v17; // ecx
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_compiler *v19; // ecx
+  vostok::render::effect_compiler *v20; // ecx
+  vostok::render::effect_compiler *v21; // ecx
+  vostok::render::effect_compiler *v22; // ecx
+  vostok::command_line::key *v23; // ecx
+  vostok::render::effect_compiler *v24; // ecx
+  vostok::render::effect_compiler *v25; // ecx
+  vostok::render::effect_compiler *v26; // ecx
+  vostok::render::effect_compiler *v27; // ecx
+  vostok::render::effect_compiler *v28; // ecx
+  vostok::render::effect_compiler *v29; // ecx
+  vostok::render::effect_compiler *v30; // ecx
+  vostok::render::effect_compiler *v31; // ecx
+  vostok::render::effect_compiler *v32; // ecx
+  vostok::render::shader_configuration v33; // [esp-10h] [ebp-34h]
+  vostok::render::shader_configuration v34; // [esp-10h] [ebp-34h]
+  D3D11_COMPARISON_FUNC v35; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v36; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v37; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v38; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v39; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v40; // [esp+4h] [ebp-20h]
+  __int64 v41; // [esp+1Ch] [ebp-8h]
+
+  v41 = 17301504;
+  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this, (int)compiler);
+  *(_DWORD *)&v33.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v33.configuration + 4) = 0;
+  HIDWORD(v33.configuration[1]) = 17301504;
+  vostok::render::effect_compiler::begin_pass(v4, (int)compiler, "light", 0, v33, 0);
+  vostok::render::effect_compiler::set_depth(v5, (int)compiler, 1, 0, v35);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v6,
+    (int)compiler,
+    1,
+    D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
+    D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ZERO,
+    D3D11_BLEND_ZERO,
+    v36);
+  vostok::render::effect_compiler::set_stencil(
+    v7,
+    (int)compiler,
+    1,
+    0xFFu,
+    0x40u,
+    255,
+    D3D11_COMPARISON_EQUAL,
+    D3D11_STENCIL_OP_INVERT,
+    D3D11_STENCIL_OP_INVERT,
+    v37);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)3,
+    v8);
+  vostok::render::effect_compiler::set_texture(
+    v9,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v10,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v11,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v12,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v13,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v14,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v15,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v16, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v17,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+  vostok::render::effect_compiler::begin_technique(v18, (int)compiler);
+  *(_DWORD *)&v34.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v34.configuration + 4) = 0;
+  HIDWORD(v34.configuration[1]) = 17301504;
+  vostok::render::effect_compiler::begin_pass(v19, (int)compiler, "light", 0, v34, 0);
+  vostok::render::effect_compiler::set_depth(v20, (int)compiler, 0, 0, v38);
+  vostok::render::effect_compiler::set_stencil(
+    v21,
+    (int)compiler,
+    1,
+    0xFFu,
+    0x40u,
+    255,
+    D3D11_COMPARISON_EQUAL,
+    D3D11_STENCIL_OP_INVERT,
+    D3D11_STENCIL_OP_KEEP,
+    v39);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v22,
+    (int)compiler,
+    1,
+    D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
+    D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ZERO,
+    D3D11_BLEND_ZERO,
+    v40);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)2,
+    v23);
+  vostok::render::effect_compiler::set_texture(
+    v24,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v25,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v26,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v27,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v28,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v29,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v30,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v31, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v32,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+}
+
+
+void __thiscall vostok::render::effect_environment_probe_lighting<0,0>::compile(
+        vostok::render::effect_environment_probe_lighting<0,0> *this,
+        vostok::render::effect_compiler *compiler,
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
+{
+  vostok::render::effect_compiler *v4; // ecx
+  vostok::render::effect_compiler *v5; // ecx
+  vostok::render::effect_compiler *v6; // ecx
+  vostok::render::effect_compiler *v7; // ecx
+  vostok::command_line::key *v8; // ecx
+  vostok::render::effect_compiler *v9; // ecx
+  vostok::render::effect_compiler *v10; // ecx
+  vostok::render::effect_compiler *v11; // ecx
+  vostok::render::effect_compiler *v12; // ecx
+  vostok::render::effect_compiler *v13; // ecx
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::render::effect_compiler *v15; // ecx
+  vostok::render::effect_compiler *v16; // ecx
+  vostok::render::effect_compiler *v17; // ecx
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_compiler *v19; // ecx
+  vostok::render::effect_compiler *v20; // ecx
+  vostok::render::effect_compiler *v21; // ecx
+  vostok::render::effect_compiler *v22; // ecx
+  vostok::command_line::key *v23; // ecx
+  vostok::render::effect_compiler *v24; // ecx
+  vostok::render::effect_compiler *v25; // ecx
+  vostok::render::effect_compiler *v26; // ecx
+  vostok::render::effect_compiler *v27; // ecx
+  vostok::render::effect_compiler *v28; // ecx
+  vostok::render::effect_compiler *v29; // ecx
+  vostok::render::effect_compiler *v30; // ecx
+  vostok::render::effect_compiler *v31; // ecx
+  vostok::render::effect_compiler *v32; // ecx
+  vostok::render::shader_configuration v33; // [esp-10h] [ebp-34h]
+  vostok::render::shader_configuration v34; // [esp-10h] [ebp-34h]
+  D3D11_COMPARISON_FUNC v35; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v36; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v37; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v38; // [esp+4h] [ebp-20h]
+  D3D11_STENCIL_OP v39; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v40; // [esp+4h] [ebp-20h]
+  __int64 v41; // [esp+1Ch] [ebp-8h]
+
+  v41 = 0x80000;
+  vostok::render::effect_compiler::begin_technique((vostok::render::effect_compiler *)this, (int)compiler);
+  *(_DWORD *)&v33.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v33.configuration + 4) = 0;
+  HIDWORD(v33.configuration[1]) = 0x80000;
+  vostok::render::effect_compiler::begin_pass(v4, (int)compiler, "light", 0, v33, 0);
+  vostok::render::effect_compiler::set_depth(v5, (int)compiler, 1, 0, v35);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v6,
+    (int)compiler,
+    1,
+    D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
+    D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ZERO,
+    D3D11_BLEND_ZERO,
+    v36);
+  vostok::render::effect_compiler::set_stencil(
+    v7,
+    (int)compiler,
+    1,
+    0xFFu,
+    0x40u,
+    255,
+    D3D11_COMPARISON_EQUAL,
+    D3D11_STENCIL_OP_INVERT,
+    D3D11_STENCIL_OP_INVERT,
+    v37);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)3,
+    v8);
+  vostok::render::effect_compiler::set_texture(
+    v9,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v10,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v11,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v12,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v13,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v14,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v15,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v16, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v17,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
+  vostok::render::effect_compiler::begin_technique(v18, (int)compiler);
+  *(_DWORD *)&v34.0 = "environment_probe_lighting";
+  *(unsigned __int64 *)((char *)v34.configuration + 4) = 0;
+  HIDWORD(v34.configuration[1]) = 0x80000;
+  vostok::render::effect_compiler::begin_pass(v19, (int)compiler, "light", 0, v34, 0);
+  vostok::render::effect_compiler::set_depth(v20, (int)compiler, 0, 0, v38);
+  vostok::render::effect_compiler::set_stencil(
+    v21,
+    (int)compiler,
+    1,
+    0xFFu,
+    0x40u,
+    255,
+    D3D11_COMPARISON_EQUAL,
+    D3D11_STENCIL_OP_INVERT,
+    D3D11_STENCIL_OP_KEEP,
+    v39);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v22,
+    (int)compiler,
+    1,
+    D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
+    D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ZERO,
+    D3D11_BLEND_ZERO,
+    v40);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)2,
+    v23);
+  vostok::render::effect_compiler::set_texture(
+    v24,
+    (const char *)compiler,
+    "t_position",
+    "$user$position",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v25,
+    (const char *)compiler,
+    "t_normal",
+    "$user$normal",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v26,
+    (const char *)compiler,
+    "t_parameters",
+    "$user$surface_parameters",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v27,
+    (const char *)compiler,
+    "t_diffuse",
+    "$user$albedo",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v28,
+    (const char *)compiler,
+    "t_ssao_accumulator",
+    "$user$ssao_accumulator_full_x",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::set_texture(
+    v29,
+    (const char *)compiler,
+    "t_probe_indices",
+    "$user$probe_indices",
+    0,
+    0xFFFFFFFF,
+    0,
+    1.0);
+  vostok::render::effect_compiler::color_write_enable(
+    v30,
+    (int)compiler,
+    D3D11_COLOR_WRITE_ENABLE_BLUE|D3D11_COLOR_WRITE_ENABLE_GREEN|D3D11_COLOR_WRITE_ENABLE_RED);
+  vostok::render::effect_compiler::end_pass(v31, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v32,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
 }

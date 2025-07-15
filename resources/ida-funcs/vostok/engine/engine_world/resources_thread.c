@@ -1,22 +1,19 @@
-void __userpurge vostok::engine::engine_world::resources_thread(
-        vostok::engine::engine_world *this@<ecx>,
-        double a2@<st0>,
+void __thiscall vostok::engine::engine_world::resources_thread(
+        vostok::engine::engine_world *this,
         vostok::apc::threads_enum apc_thread_id)
 {
-  vostok::resources::resources_manager *v4; // ecx
+  vostok::resources::resources_manager *v3; // ecx
+  vostok::threading::event *v4; // ecx
+  vostok::resources::resources_manager *v5; // [esp-4h] [ebp-Ch]
 
   g_threads.m_begin[apc_thread_id].m_thread_id = GetCurrentThreadId();
-  vostok::apc::process(apc_thread_id);
+  vostok::apc::process(apc_thread_id, (vostok::command_line::key *)(48 * apc_thread_id), 0);
+  v3 = v5;
   while ( !this->m_resources_destruction_started )
   {
-    vostok::threading::event::wait(
-      (vostok::threading::event *)((char *)&dword_203D0 + (unsigned int)vostok::resources::g_resources_manager.m_variable),
-      (vostok::threading::event *)((char *)&dword_203D0 + (unsigned int)vostok::resources::g_resources_manager.m_variable),
-      0x12Cu);
-    vostok::resources::resources_manager::resources_thread_tick(
-      v4,
-      vostok::resources::g_resources_manager.m_variable,
-      a2);
+    vostok::resources::resources_manager::resources_thread_tick(v3);
+    vostok::apc::try_process_single_call(res_man);
+    vostok::threading::event::wait(v4, (HANDLE *)&s_resources_manager_buffer.m_resources_wakeup_event, 0x12Cu);
   }
-  vostok::apc::process(apc_thread_id);
+  vostok::apc::process(apc_thread_id, (vostok::command_line::key *)v3, 0);
 }

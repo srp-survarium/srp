@@ -1,59 +1,68 @@
-unsigned int __cdecl vostok::render::get_dx_version_via_dxdiag(
-        unsigned int *major_version,
-        unsigned int *minor_version)
+HRESULT __cdecl vostok::render::get_dx_version_via_dxdiag(unsigned int *major_version, unsigned int *minor_version)
 {
-  char v2; // bl
-  bool does_minor_version_obtained; // [esp+3Fh] [ebp-33h]
-  bool does_dx_version_obtained; // [esp+40h] [ebp-32h]
-  bool should_cleanup_COM; // [esp+41h] [ebp-31h]
-  IDxDiagContainer *pDxDiagSystemInfo; // [esp+42h] [ebp-30h] BYREF
-  IDxDiagProvider *dxdiag_provider; // [esp+46h] [ebp-2Ch] BYREF
-  IDxDiagContainer *pDxDiagRoot; // [esp+4Ah] [ebp-28h] BYREF
-  tagVARIANT var; // [esp+4Eh] [ebp-24h] BYREF
-  _DXDIAG_INIT_PARAMS dxDiagInitParam; // [esp+5Eh] [ebp-14h] BYREF
+  _DWORD v3[4]; // [esp+10h] [ebp-30h] BYREF
+  VARIANTARG pvarg; // [esp+20h] [ebp-20h] BYREF
+  int v5; // [esp+30h] [ebp-10h] BYREF
+  LPVOID ppv; // [esp+34h] [ebp-Ch] BYREF
+  int v7; // [esp+38h] [ebp-8h] BYREF
+  bool v8; // [esp+3Ch] [ebp-4h]
+  char v9; // [esp+3Dh] [ebp-3h]
+  char v10; // [esp+3Eh] [ebp-2h]
+  char v11; // [esp+3Fh] [ebp-1h]
 
-  v2 = 0;
-  does_minor_version_obtained = 0;
-  should_cleanup_COM = CoInitialize(0) >= 0;
-  does_dx_version_obtained = 0;
-  dxdiag_provider = 0;
-  if ( CoCreateInstance(&CLSID_DxDiagProvider, 0, 1u, &IID_IDxDiagProvider, (LPVOID *)&dxdiag_provider) >= 0 )
+  v11 = 0;
+  v10 = 0;
+  v8 = CoInitialize(0) >= 0;
+  v9 = 0;
+  ppv = 0;
+  if ( CoCreateInstance(&CLSID_DxDiagProvider, 0, 1u, &IID_IDxDiagProvider, &ppv) >= 0 )
   {
-    dxDiagInitParam.dwSize = 16;
-    dxDiagInitParam.dwDxDiagHeaderVersion = 111;
-    dxDiagInitParam.bAllowWHQLChecks = 0;
-    dxDiagInitParam.pReserved = 0;
-    if ( dxdiag_provider->Initialize(dxdiag_provider, &dxDiagInitParam) >= 0 )
+    v3[0] = 16;
+    v3[1] = 111;
+    v3[2] = 0;
+    v3[3] = 0;
+    if ( (*(int (__stdcall **)(LPVOID, _DWORD *))(*(_DWORD *)ppv + 12))(ppv, v3) >= 0 )
     {
-      pDxDiagRoot = 0;
-      pDxDiagSystemInfo = 0;
-      if ( dxdiag_provider->GetRootContainer(dxdiag_provider, &pDxDiagRoot) >= 0 )
+      v5 = 0;
+      v7 = 0;
+      if ( (*(int (__stdcall **)(LPVOID, int *))(*(_DWORD *)ppv + 16))(ppv, &v5) >= 0 )
       {
-        if ( pDxDiagRoot->GetChildContainer(pDxDiagRoot, L"DxDiag_SystemInfo", &pDxDiagSystemInfo) >= 0 )
+        if ( (*(int (__stdcall **)(int, const wchar_t *, int *))(*(_DWORD *)v5 + 20))(v5, L"DxDiag_SystemInfo", &v7) >= 0 )
         {
-          VariantInit(&var);
-          if ( pDxDiagSystemInfo->GetPropA(pDxDiagSystemInfo, L"dwDirectXVersionMajor", &var) >= 0 && var.vt == 19 )
+          VariantInit(&pvarg);
+          if ( (*(int (__stdcall **)(int, const wchar_t *, VARIANTARG *))(*(_DWORD *)v7 + 32))(
+                 v7,
+                 L"dwDirectXVersionMajor",
+                 &pvarg) >= 0
+            && pvarg.vt == 19 )
           {
-            *major_version = var.decVal.Lo32;
-            v2 = 1;
+            *major_version = pvarg.decVal.Lo32;
+            v11 = 1;
           }
-          VariantClear(&var);
-          if ( pDxDiagSystemInfo->GetPropA(pDxDiagSystemInfo, L"dwDirectXVersionMinor", &var) >= 0 && var.vt == 19 )
+          VariantClear(&pvarg);
+          if ( (*(int (__stdcall **)(int, const wchar_t *, VARIANTARG *))(*(_DWORD *)v7 + 32))(
+                 v7,
+                 L"dwDirectXVersionMinor",
+                 &pvarg) >= 0
+            && pvarg.vt == 19 )
           {
-            *minor_version = var.decVal.Lo32;
-            does_minor_version_obtained = 1;
+            *minor_version = pvarg.decVal.Lo32;
+            v10 = 1;
           }
-          VariantClear(&var);
-          if ( v2 && does_minor_version_obtained )
-            does_dx_version_obtained = 1;
-          pDxDiagSystemInfo->Release(pDxDiagSystemInfo);
+          VariantClear(&pvarg);
+          if ( v11 && v10 )
+            v9 = 1;
+          (*(void (__stdcall **)(int))(*(_DWORD *)v7 + 8))(v7);
         }
-        pDxDiagRoot->Release(pDxDiagRoot);
+        (*(void (__stdcall **)(int))(*(_DWORD *)v5 + 8))(v5);
       }
     }
-    dxdiag_provider->Release(dxdiag_provider);
+    (*(void (__stdcall **)(LPVOID))(*(_DWORD *)ppv + 8))(ppv);
   }
-  if ( should_cleanup_COM )
+  if ( v8 )
     CoUninitialize();
-  return does_dx_version_obtained ? 0 : 0x80004005;
+  if ( v9 )
+    return 0;
+  else
+    return -2147467259;
 }

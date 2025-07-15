@@ -1,4 +1,4 @@
-int __cdecl icomp(_DWORD **a, _DWORD **b)
+int __cdecl icomp(_DWORD **a1, _DWORD **a2)
 {
-  return **a - **b;
+  return **a1 - **a2;
 }

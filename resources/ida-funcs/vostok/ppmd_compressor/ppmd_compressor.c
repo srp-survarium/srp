@@ -1,14 +1,24 @@
 void __usercall vostok::ppmd_compressor::ppmd_compressor(vostok::ppmd_compressor *this@<ecx>, _DWORD *a2@<edi>)
 {
-  int v2; // eax
-  ppmd_compressor_impl *v3; // ecx
+  char *v2; // eax
+  void *v3; // eax
+  ppmd_compressor_impl *v4; // ecx
+  ppmd_compressor_impl *v5; // eax
 
-  *a2 = &vostok::ppmd_compressor::`vftable';
   a2[3] = 0;
+  *a2 = &vostok::ppmd_compressor::`vftable';
   a2[1] = &vostok::memory::g_cook_allocator;
-  v2 = ((int (__stdcall *)(int))vostok::memory::g_cook_allocator.call_malloc)(7628);
-  if ( v2 )
-    a2[2] = ppmd_compressor_impl::ppmd_compressor_impl(v3, v2);
+  v2 = type_info::raw_name(&ppmd_compressor_impl `RTTI Type Descriptor');
+  v3 = vostok::memory::g_cook_allocator.call_malloc(
+         &vostok::memory::g_cook_allocator,
+         7628,
+         v2,
+         "vostok::ppmd_compressor::ppmd_compressor",
+         ".\\compressor_ppmd.cpp",
+         362);
+  if ( v3 )
+    v5 = ppmd_compressor_impl::ppmd_compressor_impl(v4, (int)v3);
   else
-    a2[2] = 0;
+    v5 = 0;
+  a2[2] = v5;
 }

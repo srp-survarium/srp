@@ -1,67 +1,66 @@
 char __userpurge vostok::render::one_way_render_channel::render_process_commands@<al>(
         vostok::render::one_way_render_channel *this@<ecx>,
-        int a2@<eax>,
+        int a2@<edi>,
         bool wait_for_command_if_queue_is_empty)
 {
-  unsigned int i; // esi
-  int v5; // ecx
-  unsigned int v6; // ebx
-  __int32 v7; // eax
-  int v8; // esi
-  void (__thiscall **v9)(int); // eax
-  unsigned int v10; // ebp
+  unsigned int v3; // ebx
+  int v4; // eax
+  __int32 v5; // eax
+  int v6; // esi
+  void (__thiscall **v7)(int); // eax
+  unsigned int v8; // ebx
+  unsigned int v10; // [esp+14h] [ebp+8h]
 
-  if ( *(_BYTE *)(a2 + 180) )
+  if ( *(_BYTE *)(a2 + 172) )
     vostok::render::one_way_render_channel::process_next_frame_commands(this, a2);
-  if ( !*(_DWORD *)(*(_DWORD *)(a2 + 64) + 4) && wait_for_command_if_queue_is_empty )
+  v3 = 0;
+  if ( !*(_DWORD *)(*(_DWORD *)(a2 + 64) + 8) && wait_for_command_if_queue_is_empty )
   {
-    for ( i = 0; ; ++i )
+    while ( 1 )
     {
-      v5 = *(_DWORD *)(a2 + 64);
-      if ( *(_DWORD *)(v5 + 4) || i >= 0x40 )
+      v4 = *(_DWORD *)(a2 + 64);
+      if ( *(_DWORD *)(v4 + 8) )
         break;
-      if ( !SwitchToThread() )
-        Sleep(0);
+      if ( v3 >= 0x40 )
+      {
+        if ( !*(_DWORD *)(v4 + 8) )
+          vostok::threading::event::wait((vostok::threading::event *)this, (HANDLE *)(a2 + 136), 0x10u);
+        break;
+      }
+      vostok::threading::yield(0, (vostok::tasks *)this);
+      ++v3;
     }
-    if ( !*(_DWORD *)(v5 + 4) )
-      vostok::threading::event::wait((vostok::threading::event *)v5, a2 + 144);
   }
-  v6 = *(_DWORD *)(a2 + 176);
+  v10 = *(_DWORD *)(a2 + 168);
   while ( 1 )
   {
-    v7 = *(_DWORD *)(a2 + 64);
-    v8 = *(_DWORD *)(v7 + 4);
-    if ( !v8 )
+    v5 = *(_DWORD *)(a2 + 64);
+    v6 = *(_DWORD *)(v5 + 8);
+    if ( !v6 )
       break;
-    *(_DWORD *)(a2 + 64) = v8;
-    if ( !*(_BYTE *)(v7 + 12) && *(_DWORD *)(v7 + 80) <= v6 )
+    *(_DWORD *)(a2 + 64) = v6;
+    if ( !*(_BYTE *)(v5 + 16) && *(_DWORD *)(v5 + 84) <= v10 )
     {
-      *(_DWORD *)(v7 + 4) = 0;
-      _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(a2 + 68) + 4), v7);
-      *(_DWORD *)(a2 + 68) = v7;
+      *(_DWORD *)(v5 + 8) = 0;
+      _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(a2 + 68) + 8), v5);
+      *(_DWORD *)(a2 + 68) = v5;
     }
-    v9 = *(void (__thiscall ***)(int))v8;
-    if ( *(_BYTE *)(v8 + 12) )
+    v7 = *(void (__thiscall ***)(int))v6;
+    if ( *(_BYTE *)(v6 + 16) )
     {
-      v9[1](v8);
+      v7[1](v6);
     }
     else
     {
-      v10 = *(_DWORD *)(a2 + 176);
-      (*v9)(v8);
-      if ( *(_BYTE *)(v8 + 12) || *(_DWORD *)(v8 + 80) > v6 )
+      v8 = *(_DWORD *)(a2 + 168);
+      (*v7)(v6);
+      if ( *(_BYTE *)(v6 + 16) || *(_DWORD *)(v6 + 84) > v10 )
+        vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
+          (vostok::intrusive_list<vostok::render::base_command,vostok::render::base_command *,12,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)v6,
+          (_DWORD *)(a2 + 144));
+      if ( v8 < *(_DWORD *)(a2 + 168) )
       {
-        *(_DWORD *)(v8 + 8) = 0;
-        ++*(_DWORD *)(a2 + 152);
-        if ( *(_DWORD *)(a2 + 160) )
-          *(_DWORD *)(*(_DWORD *)(a2 + 164) + 8) = v8;
-        else
-          *(_DWORD *)(a2 + 160) = v8;
-        *(_DWORD *)(a2 + 164) = v8;
-      }
-      if ( v10 < *(_DWORD *)(a2 + 176) )
-      {
-        *(_BYTE *)(a2 + 180) = *(_DWORD *)(a2 + 160) != 0;
+        *(_BYTE *)(a2 + 172) = *(_DWORD *)(a2 + 152) != 0;
         return 0;
       }
     }

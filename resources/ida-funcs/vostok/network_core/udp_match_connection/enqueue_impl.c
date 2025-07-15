@@ -1,20 +1,20 @@
-void __thiscall vostok::network_core::udp_match_connection::enqueue_impl(
-        vostok::network_core::udp_match_connection *this,
-        vostok::network_core::udp_match_packet *packet)
+void __usercall vostok::network_core::udp_match_connection::enqueue_impl(
+        vostok::network_core::udp_match_connection *this@<ecx>,
+        int a2@<esi>)
 {
-  vostok::network_core::sequence_number<unsigned short> *sent_order_id; // [esp+18h] [ebp-8h]
+  char v2; // al
+  _WORD *v3; // eax
 
-  if ( *((char *)packet + 42) < 0 )
+  v2 = HIBYTE(this->m_random_generator.x[26]);
+  if ( v2 < 0 )
   {
-    sent_order_id = &this->m_channels.elems[*((_BYTE *)packet + 42) & 0x3F].sent_order_id;
-    packet->order_id = (vostok::network_core::sequence_number<unsigned short>)sent_order_id->m_number;
-    *(vostok::network_core::sequence_number<unsigned short> *)(packet->vostok::network_core::packet<vostok::network_core::udp_match_packet>::vostok::network_core::base_packet::m_buffer
-                                                             + 1) = (vostok::network_core::sequence_number<unsigned short>)sent_order_id->m_number++;
+    v3 = (_WORD *)(44 * (v2 & 0x3F) + a2 + 2718);
+    LOWORD(this->m_random_generator.x[25]) = *v3;
+    *(_WORD *)(this->m_random_generator.x[332] + 13) = (*v3)++;
   }
-  if ( (*((_BYTE *)packet + 42) & 0x40) != 0 )
-    ++this->m_stats.unacknowledged_packets;
-  vostok::intrusive_list<survarium::usable_object_user_data,survarium::usable_object_user_data *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-    (vostok::intrusive_list<vostok::ai::sensed_visual_object,vostok::ai::sensed_visual_object *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&this->m_packets_to_send,
-    (survarium::game_camera *)packet,
-    0);
+  if ( (this->m_random_generator.x[26] & 0x40000000) != 0 )
+    ++*(_DWORD *)(a2 + 2624);
+  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
+    (vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)this,
+    (_DWORD *)(a2 + 2628));
 }

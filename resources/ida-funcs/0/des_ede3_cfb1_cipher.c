@@ -21,7 +21,7 @@ int __cdecl des_ede3_cfb1_cipher(
       &ina,
       &outa,
       1,
-      1,
+      1u,
       (DES_ks *)ctx->cipher_data,
       (DES_ks *)ctx->cipher_data + 1,
       (DES_ks *)ctx->cipher_data + 2,

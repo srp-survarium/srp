@@ -27,14 +27,14 @@ int __cdecl png_init_read_transformations(int a1)
   int j; // [esp+44h] [ebp-48h]
   int v26; // [esp+48h] [ebp-44h]
   BOOL v27; // [esp+4Ch] [ebp-40h]
-  void *v28; // [esp+50h] [ebp-3Ch]
+  int v28; // [esp+50h] [ebp-3Ch]
   BOOL v29; // [esp+54h] [ebp-38h]
   int v30; // [esp+58h] [ebp-34h]
   unsigned __int16 v31; // [esp+5Ch] [ebp-30h]
   unsigned __int16 v32; // [esp+60h] [ebp-2Ch]
   unsigned __int16 v33; // [esp+64h] [ebp-28h]
-  void *v34; // [esp+6Ch] [ebp-20h]
-  void *v35; // [esp+70h] [ebp-1Ch]
+  int v34; // [esp+6Ch] [ebp-20h]
+  int v35; // [esp+70h] [ebp-1Ch]
   unsigned __int8 v36; // [esp+74h] [ebp-18h]
   unsigned __int8 v37; // [esp+75h] [ebp-17h]
   unsigned __int8 v38; // [esp+76h] [ebp-16h]
@@ -49,7 +49,7 @@ int __cdecl png_init_read_transformations(int a1)
   if ( *(_DWORD *)(a1 + 376) )
   {
     if ( *(_DWORD *)(a1 + 380) )
-      v44 = sub_35B0F0(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
+      v44 = sub_467DB0(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
     else
       *(_DWORD *)(a1 + 380) = png_reciprocal(*(_DWORD *)(a1 + 376));
   }
@@ -59,8 +59,8 @@ int __cdecl png_init_read_transformations(int a1)
   }
   else
   {
-    *(_DWORD *)(a1 + 376) = &loc_186A0;
-    *(_DWORD *)(a1 + 380) = &loc_186A0;
+    *(_DWORD *)(a1 + 376) = 100000;
+    *(_DWORD *)(a1 + 380) = 100000;
   }
   if ( v44 )
     v1 = *(_DWORD *)(a1 + 116) | 0x2000;
@@ -92,9 +92,9 @@ int __cdecl png_init_read_transformations(int a1)
     *(_WORD *)(a1 + 348) = *(_WORD *)(a1 + 342);
   }
   if ( *(_BYTE *)(a1 + 315) == 3 )
-    sub_35B140(a1);
+    sub_467E00(a1);
   else
-    sub_35B310(a1);
+    sub_467FD0(a1);
   if ( (*(_DWORD *)(a1 + 116) & 0x200) != 0
     && (*(_DWORD *)(a1 + 116) & 0x80) != 0
     && (*(_DWORD *)(a1 + 116) & 0x100) == 0
@@ -125,7 +125,7 @@ int __cdecl png_init_read_transformations(int a1)
     && (png_gamma_significant(*(_DWORD *)(a1 + 376))
      || png_gamma_significant(*(_DWORD *)(a1 + 380))
      || *(_BYTE *)(a1 + 332) == 3 && png_gamma_significant(*(_DWORD *)(a1 + 336)))
-    || ((unsigned int)&unk_800000 & *(_DWORD *)(a1 + 116)) != 0 && png_gamma_significant(*(_DWORD *)(a1 + 380)) )
+    || (*(_DWORD *)(a1 + 116) & 0x800000) != 0 && png_gamma_significant(*(_DWORD *)(a1 + 380)) )
   {
     png_build_gamma_table(a1, *(unsigned __int8 *)(a1 + 316));
     if ( (*(_DWORD *)(a1 + 116) & 0x80) != 0 )
@@ -151,31 +151,31 @@ int __cdecl png_init_read_transformations(int a1)
           switch ( v8 )
           {
             case 1:
-              v35 = *(void **)(a1 + 380);
-              v34 = &loc_186A0;
-              v2 = png_gamma_significant((int)&loc_186A0);
+              v35 = *(_DWORD *)(a1 + 380);
+              v34 = 100000;
+              v2 = png_gamma_significant(100000);
               break;
             case 2:
-              v35 = (void *)png_reciprocal(*(_DWORD *)(a1 + 376));
-              v34 = (void *)png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
-              v2 = png_gamma_significant((int)v34);
+              v35 = png_reciprocal(*(_DWORD *)(a1 + 376));
+              v34 = png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
+              v2 = png_gamma_significant(v34);
               break;
             case 3:
-              v35 = (void *)png_reciprocal(*(_DWORD *)(a1 + 336));
-              v34 = (void *)png_reciprocal2(*(_DWORD *)(a1 + 336), *(_DWORD *)(a1 + 380));
-              v2 = png_gamma_significant((int)v34);
+              v35 = png_reciprocal(*(_DWORD *)(a1 + 336));
+              v34 = png_reciprocal2(*(_DWORD *)(a1 + 336), *(_DWORD *)(a1 + 380));
+              v2 = png_gamma_significant(v34);
               break;
             default:
-              v35 = &loc_186A0;
-              v34 = &loc_186A0;
-              v2 = png_gamma_significant((int)&loc_186A0);
+              v35 = 100000;
+              v34 = 100000;
+              v2 = png_gamma_significant(100000);
               break;
           }
           if ( v2 )
           {
-            LOBYTE(v39) = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 342), (int)v34);
-            HIBYTE(v39) = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 344), (int)v34);
-            v40 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 346), (int)v34);
+            LOBYTE(v39) = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 342), v34);
+            HIBYTE(v39) = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 344), v34);
+            v40 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 346), v34);
           }
           else
           {
@@ -183,11 +183,11 @@ int __cdecl png_init_read_transformations(int a1)
             HIBYTE(v39) = *(_BYTE *)(a1 + 344);
             v40 = *(_BYTE *)(a1 + 346);
           }
-          if ( png_gamma_significant((int)v35) )
+          if ( png_gamma_significant(v35) )
           {
-            v36 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 342), (int)v35);
-            v37 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 344), (int)v35);
-            v38 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 346), (int)v35);
+            v36 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 342), v35);
+            v37 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 344), v35);
+            v38 = png_gamma_8bit_correct(*(unsigned __int16 *)(a1 + 346), v35);
           }
           else
           {
@@ -236,7 +236,7 @@ int __cdecl png_init_read_transformations(int a1)
       }
       else
       {
-        v28 = &loc_186A0;
+        v28 = 100000;
         v7 = *(_BYTE *)(a1 + 332);
         switch ( v7 )
         {
@@ -246,23 +246,23 @@ int __cdecl png_init_read_transformations(int a1)
             break;
           case 2:
             v30 = png_reciprocal(*(_DWORD *)(a1 + 376));
-            v28 = (void *)png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
+            v28 = png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
             v4 = png_gamma_significant(v30);
             break;
           case 3:
             v30 = png_reciprocal(*(_DWORD *)(a1 + 336));
-            v28 = (void *)png_reciprocal2(*(_DWORD *)(a1 + 336), *(_DWORD *)(a1 + 380));
+            v28 = png_reciprocal2(*(_DWORD *)(a1 + 336), *(_DWORD *)(a1 + 380));
             v4 = png_gamma_significant(v30);
             break;
           default:
             png_error(a1, (int)"invalid background gamma type");
         }
         v27 = v4;
-        v29 = png_gamma_significant((int)v28);
+        v29 = png_gamma_significant(v28);
         if ( v27 )
           *(_WORD *)(a1 + 358) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 348), v30);
         if ( v29 )
-          *(_WORD *)(a1 + 348) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 348), (int)v28);
+          *(_WORD *)(a1 + 348) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 348), v28);
         if ( *(unsigned __int16 *)(a1 + 342) == *(unsigned __int16 *)(a1 + 344)
           && *(unsigned __int16 *)(a1 + 342) == *(unsigned __int16 *)(a1 + 346)
           && *(unsigned __int16 *)(a1 + 342) == *(unsigned __int16 *)(a1 + 348) )
@@ -284,9 +284,9 @@ int __cdecl png_init_read_transformations(int a1)
           }
           if ( v29 )
           {
-            *(_WORD *)(a1 + 342) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 342), (int)v28);
-            *(_WORD *)(a1 + 344) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 344), (int)v28);
-            *(_WORD *)(a1 + 346) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 346), (int)v28);
+            *(_WORD *)(a1 + 342) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 342), v28);
+            *(_WORD *)(a1 + 344) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 344), v28);
+            *(_WORD *)(a1 + 346) = png_gamma_correct(a1, *(unsigned __int16 *)(a1 + 346), v28);
           }
         }
         *(_BYTE *)(a1 + 332) = 1;

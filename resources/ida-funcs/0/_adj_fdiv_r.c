@@ -9,35 +9,35 @@ void __usercall _adj_fdiv_r(char a1@<al>)
   switch ( a1 & 0x3F )
   {
     case 0:
-      __asm { fdiv    st, st; jumptable 001CE29D case 0 }
+      __asm { fdiv    st, st; jumptable 006668AD case 0 }
       return;
     case 1:
       __asm { int     6;  - internal hardware - UNDEFINED OPCODE (80286+) }
-      goto label2;
+      goto label2_0;
     case 2:
-label2:
-      __asm { fdivr   st, st; jumptable 001CE29D case 2 }
+label2_0:
+      __asm { fdivr   st, st; jumptable 006668AD case 2 }
       return;
     case 3:
       __asm { int     6;  - internal hardware - UNDEFINED OPCODE (80286+) }
       goto label4;
     case 4:
 label4:
-      __asm { fdiv    st, st; jumptable 001CE29D case 4 }
+      __asm { fdiv    st, st; jumptable 006668AD case 4 }
       return;
     case 5:
-      __asm { fdivp   st, st; jumptable 001CE29D case 5 }
+      __asm { fdivp   st, st; jumptable 006668AD case 5 }
       return;
     case 6:
-      __asm { fdivr   st, st; jumptable 001CE29D case 6 }
+      __asm { fdivr   st, st; jumptable 006668AD case 6 }
       return;
     case 7:
-      __asm { fdivrp  st, st; jumptable 001CE29D case 7 }
+      __asm { fdivrp  st, st; jumptable 006668AD case 7 }
       return;
     case 8:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 8
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 8
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
         fstp    [esp+2Ch+var_C]
@@ -56,7 +56,7 @@ label4:
 label10:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 10
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 10
         fstp    [esp+arg_8]; _TBYTE
       }
       fdiv_main_routine(v17, v18);
@@ -73,7 +73,7 @@ label10:
 label12:
       __asm
       {
-        fxch    st(1); jumptable 001CE29D case 12
+        fxch    st(1); jumptable 006668AD case 12
         fstp    [esp+arg_8]; _TBYTE
         fld     st
         fstp    tbyte ptr [esp+0]; _TBYTE
@@ -85,7 +85,7 @@ label12:
     case 0xD:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 13
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 13
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
       fdiv_main_routine(v1, v2);
@@ -93,7 +93,7 @@ label12:
     case 0xE:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 14
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 14
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
       fdiv_main_routine(v1, v2);
@@ -102,7 +102,7 @@ label12:
     case 0xF:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 15
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 15
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
       fdiv_main_routine(v1, v2);
@@ -110,7 +110,7 @@ label12:
     case 0x10:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 16
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 16
         fxch    st(1)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -131,7 +131,7 @@ label12:
 label18:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 18
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 18
         fxch    st(1)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -150,7 +150,7 @@ label18:
 label20:
       __asm
       {
-        fxch    st(2); jumptable 001CE29D case 20
+        fxch    st(2); jumptable 006668AD case 20
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(1)
         fld     st
@@ -167,7 +167,7 @@ label20:
     case 0x15:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 21
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 21
         fxch    st(1)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -177,7 +177,7 @@ label20:
     case 0x16:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 22
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 22
         fxch    st(1)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -191,7 +191,7 @@ label20:
     case 0x17:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 23
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 23
         fxch    st(1)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -201,7 +201,7 @@ label20:
     case 0x18:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 24
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 24
         fxch    st(2)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -222,7 +222,7 @@ label20:
 label26:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 26
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 26
         fxch    st(2)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -241,7 +241,7 @@ label26:
 label28:
       __asm
       {
-        fxch    st(3); jumptable 001CE29D case 28
+        fxch    st(3); jumptable 006668AD case 28
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(2)
         fld     st
@@ -258,7 +258,7 @@ label28:
     case 0x1D:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 29
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 29
         fxch    st(2)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -268,7 +268,7 @@ label28:
     case 0x1E:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 30
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 30
         fxch    st(2)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -282,7 +282,7 @@ label28:
     case 0x1F:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 31
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 31
         fxch    st(2)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -292,7 +292,7 @@ label28:
     case 0x20:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 32
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 32
         fxch    st(3)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -313,7 +313,7 @@ label28:
 label34:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 34
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 34
         fxch    st(3)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -332,7 +332,7 @@ label34:
 label36:
       __asm
       {
-        fxch    st(4); jumptable 001CE29D case 36
+        fxch    st(4); jumptable 006668AD case 36
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(3)
         fld     st
@@ -349,7 +349,7 @@ label36:
     case 0x25:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 37
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 37
         fxch    st(3)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -359,7 +359,7 @@ label36:
     case 0x26:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 38
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 38
         fxch    st(3)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -373,7 +373,7 @@ label36:
     case 0x27:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 39
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 39
         fxch    st(3)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -383,7 +383,7 @@ label36:
     case 0x28:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 40
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 40
         fxch    st(4)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -404,7 +404,7 @@ label36:
 label42:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 42
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 42
         fxch    st(4)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -423,7 +423,7 @@ label42:
 label44:
       __asm
       {
-        fxch    st(5); jumptable 001CE29D case 44
+        fxch    st(5); jumptable 006668AD case 44
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(4)
         fld     st
@@ -440,7 +440,7 @@ label44:
     case 0x2D:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 45
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 45
         fxch    st(4)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -450,7 +450,7 @@ label44:
     case 0x2E:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 46
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 46
         fxch    st(4)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -464,7 +464,7 @@ label44:
     case 0x2F:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 47
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 47
         fxch    st(4)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -474,7 +474,7 @@ label44:
     case 0x30:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 48
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 48
         fxch    st(5)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -495,7 +495,7 @@ label44:
 label50:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 50
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 50
         fxch    st(5)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -514,7 +514,7 @@ label50:
 label52:
       __asm
       {
-        fxch    st(6); jumptable 001CE29D case 52
+        fxch    st(6); jumptable 006668AD case 52
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(5)
         fld     st
@@ -531,7 +531,7 @@ label52:
     case 0x35:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 53
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 53
         fxch    st(5)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -541,7 +541,7 @@ label52:
     case 0x36:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 54
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 54
         fxch    st(5)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -555,7 +555,7 @@ label52:
     case 0x37:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 55
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 55
         fxch    st(5)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -565,7 +565,7 @@ label52:
     case 0x38:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 56
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 56
         fxch    st(6)
         fld     st
         fstp    [esp+2Ch+var_2C]; _TBYTE
@@ -586,7 +586,7 @@ label52:
 label58:
       __asm
       {
-        fstp    tbyte ptr [esp+0]; jumptable 001CE29D case 58
+        fstp    tbyte ptr [esp+0]; jumptable 006668AD case 58
         fxch    st(6)
         fstp    [esp+arg_8]; _TBYTE
       }
@@ -605,7 +605,7 @@ label58:
 label60:
       __asm
       {
-        fxch    st(7); jumptable 001CE29D case 60
+        fxch    st(7); jumptable 006668AD case 60
         fstp    [esp+arg_8]; _TBYTE
         fxch    st(6)
         fld     st
@@ -622,7 +622,7 @@ label60:
     case 0x3D:
       __asm
       {
-        fstp    [esp+2Ch+var_2C]; jumptable 001CE29D case 61
+        fstp    [esp+2Ch+var_2C]; jumptable 006668AD case 61
         fxch    st(6)
         fstp    [esp+2Ch+var_20]; _TBYTE
       }
@@ -632,7 +632,7 @@ label60:
     case 0x3E:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 62
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 62
         fxch    st(6)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }
@@ -646,7 +646,7 @@ label60:
     case 0x3F:
       __asm
       {
-        fstp    [esp+2Ch+var_20]; jumptable 001CE29D case 63
+        fstp    [esp+2Ch+var_20]; jumptable 006668AD case 63
         fxch    st(6)
         fstp    [esp+2Ch+var_2C]; _TBYTE
       }

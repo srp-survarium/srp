@@ -7,7 +7,7 @@ DName *__cdecl UnDecorator::getZName(DName *result, bool fUpdateCachedNames, boo
   DNameNode *node; // ecx
   const char *v8; // eax
   char *v9; // edi
-  int v10; // eax
+  unsigned int v10; // eax
   char *Parameter; // eax
   DName *v12; // eax
   DName *v13; // eax
@@ -18,9 +18,9 @@ DName *__cdecl UnDecorator::getZName(DName *result, bool fUpdateCachedNames, boo
   DName v18; // [esp+8h] [ebp-38h] BYREF
   DName *v19; // [esp+10h] [ebp-30h]
   DName v20; // [esp+14h] [ebp-2Ch] BYREF
-  DName dimension; // [esp+1Ch] [ebp-24h] BYREF
-  DName zName; // [esp+24h] [ebp-1Ch] BYREF
-  char buffer[16]; // [esp+2Ch] [ebp-14h] BYREF
+  DName v21; // [esp+1Ch] [ebp-24h] BYREF
+  DName rd; // [esp+24h] [ebp-1Ch] BYREF
+  char v23[16]; // [esp+2Ch] [ebp-14h] BYREF
 
   v3 = *UnDecorator::gName;
   v4 = *UnDecorator::gName - 48;
@@ -31,20 +31,20 @@ DName *__cdecl UnDecorator::getZName(DName *result, bool fUpdateCachedNames, boo
     Replicator::operator[](UnDecorator::pZNameList, result, v4);
     return result;
   }
-  zName.node = 0;
-  *((_DWORD *)&zName + 1) &= 0xFFFF0000;
+  rd.node = 0;
+  *((_DWORD *)&rd + 1) &= 0xFFFF0000;
   if ( v3 == 63 )
   {
-    TemplateName = UnDecorator::getTemplateName(&dimension, 0);
+    TemplateName = UnDecorator::getTemplateName(&v21, 0);
     node = TemplateName->node;
-    *((_DWORD *)&zName + 1) = *((_DWORD *)TemplateName + 1);
-    zName.node = node;
+    *((_DWORD *)&rd + 1) = *((_DWORD *)TemplateName + 1);
+    rd.node = node;
     LOBYTE(node) = *UnDecorator::gName;
     v8 = ++UnDecorator::gName;
     if ( (_BYTE)node != 64 )
     {
       UnDecorator::gName = v8 - 1;
-      DName::operator=(&zName, (DNameStatus)((*(v8 - 1) != 0) + 1));
+      DName::operator=(&rd, (DNameStatus)((*(v8 - 1) != 0) + 1));
     }
     goto LABEL_20;
   }
@@ -59,49 +59,49 @@ DName *__cdecl UnDecorator::getZName(DName *result, bool fUpdateCachedNames, boo
   {
     UnDecorator::gName += 13;
 LABEL_10:
-    UnDecorator::getSignedDimension(&dimension);
+    UnDecorator::getSignedDimension(&v21);
     if ( (UnDecorator::disableFlags & 0x4000) != 0 )
     {
-      DName::getString(&dimension, buffer, 0x10u);
-      v10 = atol(buffer);
+      DName::getString(&v21, v23, 0x10u);
+      v10 = atol(v3, v23);
       Parameter = UnDecorator::m_pGetParameter(v10);
       if ( Parameter )
       {
-        DName::operator=(&zName, Parameter);
+        DName::operator=(&rd, Parameter);
         goto LABEL_20;
       }
-      DName::operator=(&zName, "`");
+      DName::operator=(&rd, "`");
       v17 = &v18;
-      v12 = operator+(&v20, v9, &dimension);
+      v12 = operator+(&v20, v9, &v21);
     }
     else
     {
-      DName::operator=(&zName, "`");
+      DName::operator=(&rd, "`");
       v17 = &v20;
-      v12 = operator+(&v18, v9, &dimension);
+      v12 = operator+(&v18, v9, &v21);
     }
     v13 = DName::operator+(v12, v17, "'");
-    DName::operator+=(&zName, v13);
+    DName::operator+=(&rd, v13);
     goto LABEL_20;
   }
   if ( fAllowEmptyName && v3 == 64 )
   {
     ++UnDecorator::gName;
-    zName.node = 0;
-    *((_DWORD *)&zName + 1) = *((_DWORD *)&v20 + 1) & 0xFFFF0000;
+    rd.node = 0;
+    *((_DWORD *)&rd + 1) = *((_DWORD *)&v20 + 1) & 0xFFFF0000;
   }
   else
   {
     v14 = DName::DName(&v20, (char **)&UnDecorator::gName, 64);
     v15 = v14->node;
     v16 = *((_DWORD *)v14 + 1);
-    zName.node = v15;
-    *((_DWORD *)&zName + 1) = v16;
+    rd.node = v15;
+    *((_DWORD *)&rd + 1) = v16;
   }
 LABEL_20:
   if ( fUpdateCachedNames && UnDecorator::pZNameList->index != 9 )
-    Replicator::operator+=(UnDecorator::pZNameList, &zName);
+    Replicator::operator+=(UnDecorator::pZNameList, &rd);
   v5 = v19;
-  *v19 = zName;
+  *v19 = rd;
   return v5;
 }

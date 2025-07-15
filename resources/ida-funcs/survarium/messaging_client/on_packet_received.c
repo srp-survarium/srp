@@ -1,285 +1,261 @@
 void __thiscall survarium::messaging_client::on_packet_received(
         survarium::messaging_client *this,
-        vostok::network_core::packet_reader *reader)
+        vostok::network_core::buffer_reader *reader)
 {
-  const unsigned __int8 *m_pointer; // eax
-  int v4; // edi
-  char v5; // bl
-  const unsigned __int8 *v6; // eax
-  void (__cdecl *v7)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v8)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  survarium::messaging_client *v9; // ecx
-  messaging::friendship_actions_enum v10; // edi
-  const unsigned __int8 *v11; // eax
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v12; // ecx
-  void (__cdecl *v13)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  int *v14; // esi
-  void (__cdecl *v15)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v16)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v17)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-A8h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v20; // [esp+30h] [ebp-88h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v21; // [esp+50h] [ebp-68h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v22; // [esp+70h] [ebp-48h] BYREF
-  int v23; // [esp+94h] [ebp-24h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v24; // [esp+98h] [ebp-20h] BYREF
+  const unsigned __int8 *m_pointer; // esi
+  survarium::messaging_client *v4; // ecx
+  bool v5; // al
+  unsigned int m_game_low; // esi
+  unsigned __int8 *v7; // ecx
+  unsigned __int8 *v8; // ecx
+  bool v9; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v10; // esi
+  bool v11; // al
+  bool v12; // al
+  bool has_passed_filters; // al
+  survarium::messaging_client *v14; // [esp-4h] [ebp-BCh]
+  unsigned __int8 *v15; // [esp-4h] [ebp-BCh]
+  unsigned __int8 *v16; // [esp-4h] [ebp-BCh]
+  unsigned __int8 *v17; // [esp-4h] [ebp-BCh]
+  unsigned __int8 *v18; // [esp-4h] [ebp-BCh]
+  unsigned __int8 v19; // [esp+Eh] [ebp-AAh]
+  unsigned __int8 v20; // [esp+Eh] [ebp-AAh]
+  unsigned __int8 v21; // [esp+Eh] [ebp-AAh]
+  unsigned __int8 v22; // [esp+Eh] [ebp-AAh]
+  __int16 v23; // [esp+Fh] [ebp-A9h]
+  unsigned __int8 m_game; // [esp+Fh] [ebp-A9h]
+  survarium::lobby_menu **v25; // [esp+14h] [ebp-A4h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v26; // [esp+18h] [ebp-A0h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v27; // [esp+38h] [ebp-80h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v28; // [esp+58h] [ebp-60h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v29; // [esp+78h] [ebp-40h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v30; // [esp+98h] [ebp-20h] BYREF
 
   m_pointer = reader->m_pointer;
-  v4 = *m_pointer;
-  v5 = 0;
-  v6 = m_pointer + 1;
-  v23 = 0;
-  reader->m_pointer = v6;
-  if ( v4 == 201 )
+  v23 = *m_pointer;
+  v4 = (survarium::messaging_client *)(m_pointer + 1);
+  v25 = (survarium::lobby_menu **)this;
+  reader->m_pointer = m_pointer + 1;
+  switch ( (unsigned __int8)v23 )
   {
-    survarium::messaging_client::process_incoming_text_message(0, (survarium::lobby_menu *)this, reader);
-    return;
-  }
-  if ( v4 == 204 )
-  {
-    v9 = (survarium::messaging_client *)*v6;
-    v10 = (messaging::friendship_actions_enum)v9;
-    v11 = v6 + 1;
-    reader->m_pointer = v11;
-    if ( v9 == (survarium::messaging_client *)5 )
-    {
-      survarium::messaging_client::read_friend_list(this, reader);
-LABEL_74:
-      survarium::lobby_menu::on_friendship_status_recivied(this->m_game->m_lobby_menu, v10);
+    case 0xC9u:
+      survarium::messaging_client::process_incoming_text_message(
+        v4,
+        (vostok::network_core::buffer_reader *)this,
+        (unsigned int)reader);
       return;
-    }
-    if ( v9 == (survarium::messaging_client *)7 )
-    {
-      survarium::messaging_client::read_friend_status(
-        (survarium::messaging_client *)7,
-        (vostok::network_core::packet_reader *)this);
-      goto LABEL_74;
-    }
-    if ( v9 == (survarium::messaging_client *)6 )
-    {
-      survarium::messaging_client::read_ignore_list(this, reader);
-      goto LABEL_74;
-    }
-    if ( v9 == (survarium::messaging_client *)4 )
-    {
-      survarium::messaging_client::read_found_players(this, reader);
-      goto LABEL_74;
-    }
-    LOBYTE(v9) = *v11;
-    reader->m_pointer = v11 + 1;
-    if ( v10 )
-    {
-      if ( v10 != remove_friend )
+    case 0xCBu:
+      m_game = (unsigned __int8)v4->m_game;
+      m_game_low = LOBYTE(v4->m_game);
+      v7 = (unsigned __int8 *)&v4->m_game + 1;
+      reader->m_pointer = v7;
+      switch ( m_game_low )
       {
-        if ( v10 == add_ignorable )
+        case 7u:
+          survarium::messaging_client::read_friend_list(
+            (survarium::messaging_client *)v7,
+            (vostok::network_core::buffer_reader *)this,
+            reader);
+LABEL_49:
+          survarium::lobby_menu::on_friendship_status_recivied(
+            (survarium::lobby_menu *)LODWORD((*v25)[8].m_inverted_view_matrix.i.y),
+            (const vostok::messaging::friendship_actions_enum)m_game,
+            *v25);
+          return;
+        case 9u:
+          survarium::messaging_client::read_friend_status(
+            (survarium::messaging_client *)v7,
+            (vostok::network_core::buffer_reader *)this,
+            reader);
+          goto LABEL_49;
+        case 8u:
+          survarium::messaging_client::read_ignore_list(
+            (survarium::messaging_client *)v7,
+            (vostok::network_core::buffer_reader *)this,
+            reader);
+          goto LABEL_49;
+        case 6u:
+          survarium::messaging_client::read_found_players(
+            (survarium::messaging_client *)v7,
+            (vostok::network_core::buffer_reader *)this,
+            reader);
+          goto LABEL_49;
+      }
+      if ( m_game_low < 2 )
+      {
+        v22 = *v7;
+        v8 = v7 + 1;
+        reader->m_pointer = v8;
+        if ( v22 == 52 )
+          goto LABEL_42;
+        if ( !vostok::core::g_log_filter_tree
+          || (has_passed_filters = vostok::logging::has_passed_filters(
+                                     (vostok::logging::filter_tree *)"game",
+                                     (const char *)4),
+              v8 = v18,
+              has_passed_filters) )
         {
-          if ( (_BYTE)v9 != 52 )
+          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+            (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8,
+            &v30);
+          HIBYTE(v23) = 1;
+          vostok::logging::append(
+            &v30,
+            (void *const)vostok::core::g_log_flags,
+            &vostok::core::g_log_format,
+            ".\\messaging_client_process_messagess.cpp",
+            0x3Eu,
+            "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::buffer_reader &)",
+            "game",
+            info,
+            "add_friend: operation denied ");
+        }
+        if ( (v23 & 0x100) == 0 )
+          goto LABEL_49;
+        v10 = &v30;
+      }
+      else
+      {
+        if ( m_game_low == 2 )
+        {
+          v19 = *v7;
+          v8 = v7 + 1;
+          reader->m_pointer = v8;
+          if ( v19 != 52 )
           {
             if ( !vostok::core::g_log_filter_tree
-              || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
+              || (v9 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)4),
+                  v8 = v15,
+                  v9) )
             {
-              v16 = vostok::core::g_log_callback;
-              v22.vtable = 0;
-              if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-                `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-                  &v22.functor,
-                  &v22.functor,
-                  destroy_functor_tag);
-              if ( v16 )
-              {
-                v22.functor.obj_ptr = v16;
-                v22.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                    + 1);
-              }
-              else
-              {
-                v22.vtable = 0;
-              }
-              v5 = 4;
+              boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+                (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8,
+                &v29);
+              HIBYTE(v23) = 2;
               vostok::logging::append(
-                &v22,
+                &v29,
                 (void *const)vostok::core::g_log_flags,
                 &vostok::core::g_log_format,
                 ".\\messaging_client_process_messagess.cpp",
-                0x4Cu,
-                "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::packet_reader &)",
-                "game:",
+                0x48u,
+                "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::buffer_reader &)",
+                "game",
                 info,
-                "add_ignorable: operation denied ");
+                "remove_friend: operation denied ");
             }
-            if ( (v5 & 4) == 0 )
-              goto LABEL_74;
-            v14 = (int *)&v22;
-            goto LABEL_73;
+            if ( (v23 & 0x200) == 0 )
+              goto LABEL_49;
+            v10 = &v29;
+            goto LABEL_48;
           }
+LABEL_42:
+          survarium::messaging_client::query_for_friend_list((survarium::messaging_client *)v8, (int)this);
+          goto LABEL_49;
         }
-        else if ( (_BYTE)v9 != 52 )
+        if ( m_game == 3 || m_game == 4 )
         {
+          v21 = *v7;
+          v8 = v7 + 1;
+          reader->m_pointer = v8;
+          if ( v21 == 52 )
+            goto LABEL_29;
           if ( !vostok::core::g_log_filter_tree
-            || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
+            || (v12 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)4),
+                v8 = v17,
+                v12) )
           {
-            v17 = vostok::core::g_log_callback;
-            v24.vtable = 0;
-            if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-              `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-                &v24.functor,
-                &v24.functor,
-                destroy_functor_tag);
-            if ( v17 )
-            {
-              v24.functor.obj_ptr = v17;
-              v24.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                  + 1);
-            }
-            else
-            {
-              v24.vtable = 0;
-            }
-            v5 = 8;
+            boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+              (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8,
+              &v28);
+            HIBYTE(v23) = 4;
             vostok::logging::append(
-              &v24,
+              &v28,
               (void *const)vostok::core::g_log_flags,
               &vostok::core::g_log_format,
               ".\\messaging_client_process_messagess.cpp",
-              0x55u,
-              "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::packet_reader &)",
-              "game:",
+              0x52u,
+              "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::buffer_reader &)",
+              "game",
+              info,
+              "add_ignorable: operation denied ");
+          }
+          if ( (v23 & 0x400) == 0 )
+            goto LABEL_49;
+          v10 = &v28;
+        }
+        else
+        {
+          v20 = *v7;
+          v8 = v7 + 1;
+          reader->m_pointer = v8;
+          if ( v20 == 52 )
+          {
+LABEL_29:
+            survarium::messaging_client::query_for_ignore_list((survarium::messaging_client *)v8, (int)this);
+            goto LABEL_49;
+          }
+          if ( !vostok::core::g_log_filter_tree
+            || (v11 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)4),
+                v8 = v16,
+                v11) )
+          {
+            boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+              (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8,
+              &v27);
+            HIBYTE(v23) = 8;
+            vostok::logging::append(
+              &v27,
+              (void *const)vostok::core::g_log_flags,
+              &vostok::core::g_log_format,
+              ".\\messaging_client_process_messagess.cpp",
+              0x5Bu,
+              "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::buffer_reader &)",
+              "game",
               info,
               "remove_ignorable: operation denied ");
           }
-          if ( (v5 & 8) == 0 )
-            goto LABEL_74;
-          v14 = (int *)&v24;
-          goto LABEL_73;
+          if ( (v23 & 0x800) == 0 )
+            goto LABEL_49;
+          v10 = &v27;
         }
-        survarium::messaging_client::query_for_ignore_list(v9, (int)this);
-        goto LABEL_74;
       }
-      if ( (_BYTE)v9 == 52 )
-        goto LABEL_26;
+LABEL_48:
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v8,
+        (int *)v10);
+      goto LABEL_49;
+    case 0xCCu:
+      survarium::messaging_client::process_incoming_important_text_message(
+        v4,
+        (vostok::network_core::buffer_reader *)this,
+        (int)reader);
+      break;
+    default:
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
+        || (v5 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"game", (const char *)2),
+            v4 = v14,
+            v5) )
       {
-        v15 = vostok::core::g_log_callback;
-        v21.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v21.functor,
-            &v21.functor,
-            destroy_functor_tag);
-        if ( v15 )
-        {
-          v21.functor.obj_ptr = v15;
-          v21.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v21.vtable = 0;
-        }
-        v5 = 2;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v4,
+          &v26);
+        HIBYTE(v23) = 16;
         vostok::logging::append(
-          &v21,
+          &v26,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\messaging_client_process_messagess.cpp",
-          0x42u,
-          "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::packet_reader &)",
-          "game:",
-          info,
-          "remove_friend: operation denied ");
+          0x65u,
+          "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::buffer_reader &)",
+          "game",
+          error,
+          "messaging_client received unknown message:%d",
+          (unsigned __int8)v23);
       }
-      if ( (v5 & 2) == 0 )
-        goto LABEL_74;
-      v14 = (int *)&v21;
-    }
-    else
-    {
-      if ( (_BYTE)v9 == 52 )
-      {
-LABEL_26:
-        survarium::messaging_client::query_for_friend_list(v9, (int)this);
-        goto LABEL_74;
-      }
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", info) )
-      {
-        v13 = vostok::core::g_log_callback;
-        v20.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &v20.functor,
-            &v20.functor,
-            destroy_functor_tag);
-        if ( v13 )
-        {
-          v20.functor.obj_ptr = v13;
-          v20.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                              + 1);
-        }
-        else
-        {
-          v20.vtable = 0;
-        }
-        v5 = 1;
-        vostok::logging::append(
-          &v20,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\messaging_client_process_messagess.cpp",
-          0x38u,
-          "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::packet_reader &)",
-          "game:",
-          info,
-          "add_friend: operation denied ");
-      }
-      if ( (v5 & 1) == 0 )
-        goto LABEL_74;
-      v14 = (int *)&v20;
-    }
-LABEL_73:
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      v12,
-      v14);
-    goto LABEL_74;
-  }
-  if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "game:", error) )
-  {
-    v7 = vostok::core::g_log_callback;
-    log_callback.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &log_callback.functor,
-        &log_callback.functor,
-        destroy_functor_tag);
-    if ( v7 )
-    {
-      log_callback.functor.obj_ptr = v7;
-      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                   + 1);
-    }
-    else
-    {
-      log_callback.vtable = 0;
-    }
-    v5 = 16;
-    vostok::logging::append(
-      &log_callback,
-      (void *const)vostok::core::g_log_flags,
-      &vostok::core::g_log_format,
-      ".\\messaging_client_process_messagess.cpp",
-      0x5Fu,
-      "void __thiscall survarium::messaging_client::on_packet_received(class vostok::network_core::packet_reader &)",
-      "game:",
-      error,
-      "messaging_client received unknown message:%d",
-      v4);
-  }
-  if ( (v5 & 0x10) != 0 && log_callback.vtable && ((int)log_callback.vtable & 1) == 0 )
-  {
-    v8 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-    if ( v8 )
-      v8(&log_callback.functor, &log_callback.functor, 2);
+      if ( (v23 & 0x1000) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v26);
+      break;
   }
 }

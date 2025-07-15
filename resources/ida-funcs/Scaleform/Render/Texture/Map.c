@@ -9,8 +9,8 @@ char __thiscall Scaleform::Render::Texture::Map(
   Scaleform::Render::TextureManager *pManager; // ecx
   Scaleform::Render::MappedTextureBase *pMap; // eax
   Scaleform::Render::ImagePlane *pPlanes; // ebp
-  unsigned int mipLevela; // [esp+10h] [ebp+8h]
-  Scaleform::Render::ImageFormat levelCounta; // [esp+14h] [ebp+Ch]
+  int RawPlaneCount; // [esp+10h] [ebp+8h]
+  Scaleform::Render::ImageFormat v12; // [esp+14h] [ebp+Ch]
 
   v4 = levelCount;
   if ( !levelCount )
@@ -24,17 +24,17 @@ char __thiscall Scaleform::Render::Texture::Map(
     return 0;
   pMap = this->pMap;
   pPlanes = pMap->Data.pPlanes;
-  mipLevela = pMap->Data.RawPlaneCount;
-  levelCounta = this->GetImageFormat(this);
+  RawPlaneCount = pMap->Data.RawPlaneCount;
+  v12 = this->GetImageFormat(this);
   Scaleform::Render::ImageData::Clear(pdata);
   pdata->Flags |= 1u;
-  pdata->Format = levelCounta;
+  pdata->Format = v12;
   pdata->LevelCount = v4;
   pdata->pPlanes = pPlanes;
-  pdata->RawPlaneCount = mipLevela;
+  pdata->RawPlaneCount = RawPlaneCount;
   if ( pPlanes )
   {
-    if ( mipLevela == 1 )
+    if ( RawPlaneCount == 1 )
       pdata->Plane0 = *pPlanes;
   }
   pdata->Use = this->Use;

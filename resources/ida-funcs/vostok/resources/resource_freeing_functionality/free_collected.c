@@ -1,60 +1,57 @@
-void __thiscall vostok::resources::resource_freeing_functionality::free_collected(
-        vostok::resources::resource_freeing_functionality *this,
-        vostok::resources::releasing_functionality releasing)
+void __usercall vostok::resources::resource_freeing_functionality::free_collected(
+        vostok::resources::resource_freeing_functionality *this@<ecx>,
+        vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> **a2@<esi>)
 {
-  vostok::resources::game_resources_manager_data **m_data; // ebp
-  int v3; // eax
-  vostok::resources::game_resources_manager_data *v4; // eax
-  vostok::resources::resource_base *v5; // esi
-  unsigned int m_size; // ecx
-  vostok::resources::resource_base *i; // edx
-  vostok::resources::resource_base *v8; // ecx
-  vostok::resources::resource_base *m_next_for_grm_observer_list; // edx
-  vostok::resources::query_result *v10; // eax
+  int v2; // eax
+  vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *v3; // ecx
+  vostok::resources::resource_base *m_first; // eax
+  vostok::resources::resource_base *i; // edi
+  vostok::resources::resource_base *v6; // eax
+  vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *p_m_observed_resource_destructions_left; // ecx
+  vostok::resources::query_result *v8; // edx
+  vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *v9; // [esp+8h] [ebp-8h] BYREF
+  vostok::resources::resource_base *v10; // [esp+Ch] [ebp-4h]
 
-  m_data = (vostok::resources::game_resources_manager_data **)releasing.m_data;
-  v3 = *(_DWORD *)(releasing.m_data->flags.m_flags + 36);
-  if ( v3 )
-    *(_BYTE *)(v3 + 708) = 0;
-  v4 = *m_data;
-  if ( HIDWORD((*m_data)->memory_types.m_mutex.m_mutex[2]) )
+  v2 = *(_DWORD *)&(*a2)[2].gap4;
+  if ( v2 )
+    *(_BYTE *)(v2 + 724) = 0;
+  v3 = *a2;
+  if ( *(_DWORD *)&(*a2)[2].gap4 )
   {
-    m_size = v4->memory_types.m_size;
-    for ( i = 0; m_size; m_size = *(_DWORD *)(m_size + 184) )
+    m_first = v3->m_first;
+    for ( i = 0; m_first; m_first = m_first->m_next_for_grm_observer_list )
     {
-      if ( *(_DWORD *)(m_size + 88) == LODWORD(v4->memory_types.m_mutex.m_mutex[1]) )
-        i = (vostok::resources::resource_base *)m_size;
+      if ( m_first->m_memory_usage_self.vostok::resources::resource_quality::type == (const vostok::resources::memory_type *)v3[1].m_first )
+        i = m_first;
     }
-    v5 = i;
+    v10 = i;
   }
   else
   {
-    v5 = 0;
+    v10 = 0;
   }
-  releasing.m_data = m_data[1];
-  if ( v4->memory_types.m_size )
+  v9 = a2[1];
+  while ( v3->m_first )
   {
-    do
+    v6 = vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::pop_front(v3);
+    p_m_observed_resource_destructions_left = *a2;
+    v8 = *(vostok::resources::query_result **)&(*a2)[2].gap4;
+    if ( v8
+      && v6->m_memory_usage_self.vostok::resources::resource_quality::type == (const vostok::resources::memory_type *)p_m_observed_resource_destructions_left[1].m_first )
     {
-      v8 = (vostok::resources::resource_base *)v4->memory_types.m_size;
-      --v4->flags.m_flags;
-      m_next_for_grm_observer_list = v8->m_next_for_grm_observer_list;
-      v4->memory_types.m_size = (unsigned int)m_next_for_grm_observer_list;
-      if ( !m_next_for_grm_observer_list )
-        *((_DWORD *)&v4->memory_types.vostok::size_policy + 1) = 0;
-      v8->m_next_for_grm_observer_list = 0;
-      v10 = (vostok::resources::query_result *)HIDWORD((*m_data)->memory_types.m_mutex.m_mutex[2]);
-      if ( v10
-        && v8->m_memory_usage_self.vostok::resources::resource_quality::type == (const vostok::resources::memory_type *)LODWORD((*m_data)->memory_types.m_mutex.m_mutex[1]) )
-      {
-        _InterlockedExchangeAdd(&v10->m_observed_resource_destructions_left, 1u);
-        v8->m_destruction_observer = v10;
-      }
-      if ( v8 == v5 )
-        *(_BYTE *)(HIDWORD((*m_data)->memory_types.m_mutex.m_mutex[2]) + 708) = 1;
-      vostok::resources::releasing_functionality::release_resource(&releasing, v8);
-      v4 = *m_data;
+      p_m_observed_resource_destructions_left = (vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&v8->m_observed_resource_destructions_left;
+      _InterlockedExchangeAdd(&v8->m_observed_resource_destructions_left, 1u);
+      v6->m_destruction_observer = v8;
     }
-    while ( (*m_data)->memory_types.m_size );
+    if ( v6 == v10 )
+    {
+      p_m_observed_resource_destructions_left = *(vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> **)&(*a2)[2].gap4;
+      p_m_observed_resource_destructions_left[45].gap4 = 1;
+    }
+    vostok::resources::releasing_functionality::release_resource(
+      (vostok::resources::releasing_functionality *)p_m_observed_resource_destructions_left,
+      (vostok::resources::resource_base *)&v9,
+      (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>)v6);
+    v3 = *a2;
   }
 }

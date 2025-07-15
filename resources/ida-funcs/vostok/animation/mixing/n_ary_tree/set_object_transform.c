@@ -1,135 +1,122 @@
 void __usercall vostok::animation::mixing::n_ary_tree::set_object_transform(
-        vostok::animation::mixing::n_ary_tree *this@<ecx>,
-        float a2@<xmm4>)
+        vostok::animation::mixing::n_ary_tree_animation_node *animation_node@<eax>)
 {
-  unsigned int m_animations_count; // ebp
-  vostok::animation::mixing::animation_interval *v3; // ecx
-  vostok::animation::mixing::animation_interval *v4; // eax
-  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *v5; // ecx
-  vostok::math::quaternion *v6; // ecx
+  vostok::animation::mixing::animation_state *m_animation_state; // ebx
+  const vostok::animation::mixing::animation_interval *v3; // edx
+  vostok::resources::pinned_ptr_mutable<unsigned char> *v4; // ecx
+  const vostok::resources::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation> *v5; // eax
+  vostok::resources::pinned_ptr_const<unsigned char> *v6; // ecx
   bool v7; // zf
-  vostok::math::quaternion *v8; // ecx
-  float v9; // xmm0_4
-  _QWORD *v10; // eax
-  float v11; // edx
-  _QWORD *v12; // eax
-  const vostok::math::float4x4 *v13; // edx
-  unsigned int m_size; // eax
-  float x; // xmm0_4
-  _QWORD *v16; // eax
-  float z; // ecx
-  vostok::math::float3 v18; // [esp-4h] [ebp-88h] BYREF
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> object; // [esp+18h] [ebp-6Ch] BYREF
-  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation const > other; // [esp+1Ch] [ebp-68h] BYREF
-  vostok::resources::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation> pinned_animation; // [esp+28h] [ebp-5Ch] BYREF
-  vostok::animation::frame f; // [esp+38h] [ebp-4Ch] BYREF
-  vostok::animation::current_frame_position frame_position; // [esp+5Ch] [ebp-28h] BYREF
+  unsigned int v8; // xmm1_4
+  unsigned int v9; // xmm0_4
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v10; // [esp-4h] [ebp-74h] BYREF
+  vostok::animation::current_frame_position frame_pos; // [esp+Ch] [ebp-64h] BYREF
+  vostok::animation::frame f; // [esp+30h] [ebp-40h] BYREF
+  float v13; // [esp+54h] [ebp-1Ch]
+  float v14; // [esp+58h] [ebp-18h] BYREF
+  float v15; // [esp+5Ch] [ebp-14h]
+  float v16; // [esp+60h] [ebp-10h]
+  vostok::math::float3 translation; // [esp+64h] [ebp-Ch] BYREF
 
-  m_animations_count = this->m_animations_count;
-  v3 = (vostok::animation::mixing::animation_interval *)((char *)this->m_animation_states
-                                                       + 12 * *(_DWORD *)(m_animations_count + 92));
-  memset(&frame_position, 0, sizeof(frame_position));
-  v4 = vostok::animation::mixing::animation_interval::animation(v3);
-  object.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    &object,
-    &v4->m_animation);
-  v18.z = 0.0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&v18.elements[2],
-    &object);
-  vostok::resources::pinned_ptr_base<vostok::render::texture_data_resource const>::pinned_ptr_base<vostok::render::texture_data_resource const>(
-    v5,
-    &other.m_resource,
-    LODWORD(v18.elements[2]));
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&object);
-  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation const>::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation const>(
-    &pinned_animation,
-    &other);
-  vostok::resources::pinned_ptr_base<unsigned char const>::~pinned_ptr_base<unsigned char const>((vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *)&other);
+  m_animation_state = animation_node->m_animation_state;
+  v3 = &animation_node->m_animation_intervals[m_animation_state->animation_interval_id];
+  memset(&frame_pos, 0, sizeof(frame_pos));
+  v10.m_object = 0;
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
+    &v10,
+    &v3->m_first_view_animation);
+  vostok::resources::pinned_ptr_const<unsigned char>::pinned_ptr_const<unsigned char>(
+    v4,
+    (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>)&v14,
+    v10);
+  vostok::resources::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation>::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation>(
+    (vostok::resources::pinned_ptr_const<vostok::animation::cubic_spline_skeleton_animation> *)&translation,
+    v5);
+  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>::~pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>(
+    v6,
+    (int)&v14);
   vostok::animation::evaluate_frame(
-    (const vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *)&pinned_animation.m_data[*((_DWORD *)pinned_animation.m_data + 5)],
+    (const vostok::animation::poly_curve<vostok::animation::poly_curve_order3_domain<float,1> > *)(LODWORD(translation.y)
+                                                                                                 + *(_DWORD *)(LODWORD(translation.y) + 20)),
+    channel_scale_x,
+    m_animation_state->animation_time * 30.0,
     &f,
-    a2,
-    *(float *)(m_animations_count + 108) * 30.0,
-    &frame_position);
-  vostok::resources::pinned_ptr_base<unsigned char const>::~pinned_ptr_base<unsigned char const>((vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation> *)&pinned_animation);
-  *(_QWORD *)&other.m_resource.m_object = *(_QWORD *)&f.translation.x;
-  v7 = *(_BYTE *)(m_animations_count + 116) == 0;
-  other.m_size = LODWORD(f.translation.z);
+    &frame_pos);
+  vostok::resources::pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>::~pinned_ptr_base<vostok::animation::cubic_spline_skeleton_animation>(
+    (vostok::resources::pinned_ptr_const<unsigned char> *)v10.m_object,
+    (int)&translation);
+  v7 = !m_animation_state->are_there_any_weight_transitions;
+  translation = (vostok::math::float3)f.translation;
+  v13 = 0.0;
+  v14 = 0.0;
+  v15 = 0.0;
   if ( v7 )
   {
-    m_size = other.m_size;
-    *(_QWORD *)(m_animations_count + 56) = *(_QWORD *)&f.translation.x;
-    x = f.rotation.x;
-    *(_DWORD *)(m_animations_count + 64) = m_size;
-    *(_QWORD *)&v18.x = __PAIR64__(LODWORD(f.rotation.y), LODWORD(x));
-    v18.z = f.rotation.z;
-    vostok::math::quaternion::quaternion(v6, (float *)&pinned_animation, v18);
-    *(_QWORD *)(m_animations_count + 40) = *v16;
-    *(_QWORD *)(m_animations_count + 48) = v16[1];
-    z = f.scale.z;
-    *(_QWORD *)(m_animations_count + 68) = *(_QWORD *)&f.channels[6];
-    *(float *)(m_animations_count + 76) = z;
+    v9 = LODWORD(s_bm_current_air_resistance);
+    m_animation_state->bone_matrices_computer.accumulated_object_movement.translation = translation;
+    v16 = *(float *)&v9;
+    LODWORD(translation.x) = v9;
+    LODWORD(translation.y) = v9;
+    LODWORD(translation.z) = v9;
   }
   else
   {
-    v8 = (vostok::math::quaternion *)other.m_size;
-    *(_QWORD *)(m_animations_count + 16) = *(_QWORD *)&f.translation.x;
-    v9 = f.rotation.x;
-    *(_DWORD *)(m_animations_count + 24) = v8;
-    *(_QWORD *)&v18.x = __PAIR64__(LODWORD(f.rotation.y), LODWORD(v9));
-    v18.z = f.rotation.z;
-    vostok::math::quaternion::quaternion(v8, (float *)&pinned_animation, v18);
-    *(_QWORD *)m_animations_count = *v10;
-    *(_QWORD *)(m_animations_count + 8) = v10[1];
-    v11 = f.scale.z;
-    *(_QWORD *)(m_animations_count + 28) = *(_QWORD *)&f.channels[6];
-    *(_QWORD *)(m_animations_count + 56) = 0;
-    *(_DWORD *)(m_animations_count + 64) = 0;
-    memset(&other, 0, sizeof(other));
-    *(_QWORD *)&v18.x = 0;
-    *(float *)(m_animations_count + 36) = v11;
-    v18.z = 0.0;
-    vostok::math::quaternion::quaternion(0, (float *)&pinned_animation, v18);
-    *(_QWORD *)(m_animations_count + 40) = *v12;
-    *(_QWORD *)(m_animations_count + 48) = v12[1];
-    other.m_size = (unsigned int)clear_value;
-    v13 = clear_value;
-    other.m_resource.m_object = (vostok::resources::managed_resource *)clear_value;
-    other.m_data = (const unsigned __int8 *)clear_value;
-    *(_QWORD *)(m_animations_count + 68) = *(_QWORD *)&other.m_resource.m_object;
-    *(_DWORD *)(m_animations_count + 76) = v13;
+    v8 = LODWORD(s_bm_current_air_resistance);
+    m_animation_state->bone_matrices_computer.previous_object_movement.translation = translation;
+    v16 = *(float *)&v8;
+    m_animation_state->bone_matrices_computer.previous_object_movement.rotation.x = v13;
+    m_animation_state->bone_matrices_computer.previous_object_movement.rotation.y = v14;
+    m_animation_state->bone_matrices_computer.previous_object_movement.rotation.z = v15;
+    m_animation_state->bone_matrices_computer.previous_object_movement.rotation.w = v16;
+    LODWORD(translation.y) = v8;
+    LODWORD(translation.z) = v8;
+    LODWORD(m_animation_state->bone_matrices_computer.previous_object_movement.scale.x) = v8;
+    m_animation_state->bone_matrices_computer.previous_object_movement.scale.y = translation.y;
+    m_animation_state->bone_matrices_computer.previous_object_movement.scale.z = translation.z;
+    translation.y = 0.0;
+    translation.z = 0.0;
+    m_animation_state->bone_matrices_computer.accumulated_object_movement.translation.x = 0.0;
+    m_animation_state->bone_matrices_computer.accumulated_object_movement.translation.y = translation.y;
+    m_animation_state->bone_matrices_computer.accumulated_object_movement.translation.z = translation.z;
+    v13 = 0.0;
+    v14 = 0.0;
+    v15 = 0.0;
+    v16 = *(float *)&v8;
+    LODWORD(translation.x) = v8;
+    LODWORD(translation.y) = v8;
+    LODWORD(translation.z) = v8;
   }
+  m_animation_state->bone_matrices_computer.accumulated_object_movement.rotation.x = v13;
+  m_animation_state->bone_matrices_computer.accumulated_object_movement.rotation.y = v14;
+  m_animation_state->bone_matrices_computer.accumulated_object_movement.rotation.z = v15;
+  m_animation_state->bone_matrices_computer.accumulated_object_movement.rotation.w = v16;
+  m_animation_state->bone_matrices_computer.accumulated_object_movement.scale = translation;
 }
 
 
 void __userpurge vostok::animation::mixing::n_ary_tree::set_object_transform(
         vostok::animation::mixing::n_ary_tree *this@<ecx>,
         int a2@<eax>,
-        float a3@<xmm4>,
         const void *animated_object,
         const vostok::math::float4x4 *object_transform)
 {
-  const void *v5; // ebx
-  vostok::animation::mixing::n_ary_tree *v7; // esi
-  vostok::animation::mixing::animated_object_holder *v8; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *v6; // edi
+  vostok::animation::mixing::animated_object_holder *v7; // eax
 
-  v5 = animated_object;
-  v7 = *(vostok::animation::mixing::n_ary_tree **)(a2 + 4);
-  if ( v7 )
+  v6 = *(vostok::animation::mixing::n_ary_tree_animation_node **)(a2 + 4);
+  if ( v6 )
   {
     do
     {
-      if ( (const void *)v7->m_interpolators_count == v5 )
-        vostok::animation::mixing::n_ary_tree::set_object_transform(v7, a3);
-      v7 = (vostok::animation::mixing::n_ary_tree *)v7->m_tree_actual_time_in_ms;
+      if ( v6->m_animated_object == animated_object )
+        vostok::animation::mixing::n_ary_tree::set_object_transform(v6);
+      v6 = v6->m_next_weight_animation;
     }
-    while ( v7 );
-    v8 = stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
+    while ( v6 );
+    v7 = stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
            *(vostok::animation::mixing::animated_object_holder **)(a2 + 24),
-           (vostok::animation::mixing::animated_object_holder *)(*(_DWORD *)(a2 + 24) + 136 * *(_DWORD *)(a2 + 32)),
-           &animated_object);
-    qmemcpy(v8, object_transform, 0x40u);
+           &animated_object,
+           (vostok::animation::mixing::animated_object_holder *)(*(_DWORD *)(a2 + 24) + 136 * *(_DWORD *)(a2 + 36)));
+    qmemcpy(v7, object_transform, 0x40u);
   }
 }

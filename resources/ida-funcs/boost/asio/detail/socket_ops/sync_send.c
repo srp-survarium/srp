@@ -1,47 +1,52 @@
-signed int __cdecl boost::asio::detail::socket_ops::sync_send(
-        SOCKET s,
+int __usercall boost::asio::detail::socket_ops::sync_send@<eax>(
+        boost::system::error_code *ec@<esi>,
+        unsigned int s,
         unsigned __int8 state,
-        _WSABUF *bufs,
-        DWORD count,
-        DWORD flags,
-        bool all_empty,
-        boost::system::error_code *ec)
+        const _WSABUF *bufs,
+        unsigned int count,
+        char flags)
 {
-  const boost::system::error_category *v7; // edx
-  const boost::system::error_category *v11; // [esp+1ECh] [ebp-8h]
-  signed int bytes; // [esp+1F0h] [ebp-4h]
+  int v6; // edi
+  const boost::system::error_category *v7; // eax
+  int result; // eax
+  boost::system::error_code v9; // [esp+8h] [ebp-14h] BYREF
+  boost::system::error_code rhs; // [esp+10h] [ebp-Ch] BYREF
 
   if ( s == -1 )
   {
+    v6 = 10009;
+LABEL_3:
     v7 = boost::system::system_category();
-    ec->m_val = 10009;
+    ec->m_val = v6;
     ec->m_cat = v7;
     return 0;
   }
-  else if ( all_empty && (state & 0x10) != 0 )
+  if ( flags && (state & 0x10) != 0 )
   {
-    v11 = boost::system::system_category();
-    ec->m_val = 0;
-    ec->m_cat = v11;
-    return 0;
+    v6 = 0;
+    goto LABEL_3;
   }
-  else
+  result = boost::asio::detail::socket_ops::send(ec, s, bufs, count);
+  if ( result < 0 )
   {
-    do
+    while ( (state & 1) == 0 )
     {
-      bytes = boost::asio::detail::socket_ops::send(s, bufs, count, flags, ec);
-      if ( bytes >= 0 )
-        return bytes;
-      if ( (state & 1) == 0 )
+      rhs.m_cat = boost::system::system_category();
+      rhs.m_val = 10035;
+      if ( boost::system::operator!=(ec, &rhs) )
       {
-        if ( ec->m_cat == boost::system::system_category() && ec->m_val == 10035 )
-          continue;
-        if ( ec->m_cat == boost::system::system_category() && ec->m_val == 1237 )
-          continue;
+        v9.m_cat = boost::system::system_category();
+        v9.m_val = 1237;
+        if ( boost::system::operator!=(ec, &v9) )
+          break;
       }
-      return 0;
+      if ( boost::asio::detail::socket_ops::poll_write(ec, s) < 0 )
+        break;
+      result = boost::asio::detail::socket_ops::send(ec, s, bufs, count);
+      if ( result >= 0 )
+        return result;
     }
-    while ( boost::asio::detail::socket_ops::poll_write(s, 0, ec) >= 0 );
     return 0;
   }
+  return result;
 }

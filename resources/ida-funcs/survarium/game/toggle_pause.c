@@ -1,21 +1,16 @@
-void __usercall survarium::game::toggle_pause(survarium::game *this@<ecx>, survarium::game *a2@<edi>)
+void __usercall survarium::game::toggle_pause(survarium::game *this@<ecx>, survarium::game *a2@<esi>)
 {
-  bool v2; // al
-  vostok::sound::world_user *v3; // eax
-  float factor; // [esp+0h] [ebp-8h]
+  bool v2; // cl
 
-  v2 = !a2->m_is_paused;
-  a2->m_is_paused = v2;
-  if ( v2 )
+  if ( !((unsigned __int8 (__thiscall *)(survarium::base_network_client *, survarium::game *))a2->m_network_client->has_bandwidth)(
+          a2->m_network_client,
+          this) )
   {
-    survarium::game::pause(a2);
-  }
-  else
-  {
-    a2->m_is_paused = 0;
-    vostok::timing::timer::resume((vostok::timing::timer *)this, (int)&a2->m_timer);
-    factor = a2->m_last_sound_timescale_factor;
-    v3 = (vostok::sound::world_user *)((int (*)(void))a2->m_sound_world->get_logic_world_user)();
-    vostok::sound::world_user::set_time_scale_factor(v3, factor);
+    v2 = !a2->m_is_paused;
+    a2->m_is_paused = v2;
+    if ( v2 )
+      survarium::game::pause(a2);
+    else
+      survarium::game::resume(a2);
   }
 }

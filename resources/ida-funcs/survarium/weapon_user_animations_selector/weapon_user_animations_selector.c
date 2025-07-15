@@ -1,335 +1,493 @@
 void __thiscall survarium::weapon_user_animations_selector::weapon_user_animations_selector(
-        survarium::weapon_user_animations_selector *this)
+        survarium::weapon_user_animations_selector *this,
+        survarium::weapon_user_animations_selector *owner)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v1; // ecx
-  vostok::memory::doug_lea_allocator *v2; // eax
-  survarium::game_camera *v3; // ecx
-  survarium::player_logic_base_state *v4; // eax
-  vostok::memory::doug_lea_allocator *v5; // eax
-  survarium::game_camera *v6; // ecx
-  survarium::player_logic_base_state *v7; // eax
-  vostok::memory::doug_lea_allocator *v8; // eax
-  survarium::game_camera *v9; // ecx
-  survarium::player_logic_base_state *v10; // eax
-  vostok::memory::doug_lea_allocator *v11; // eax
-  survarium::player_logic_base_state *v12; // eax
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v13; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v14; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v15; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v16; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v17; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v18; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v19; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v20; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v21; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v22; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v23; // ecx
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::weapon_user_animations_selector,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum>,boost::_bi::list4<boost::_bi::value<survarium::weapon_user_animations_selector *>,boost::arg<1>,boost::arg<2>,boost::arg<3> > > *v24; // eax
-  boost::function0<bool> *v25; // eax
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v26; // ecx
-  survarium::player_logic_base_state *v27; // [esp+4h] [ebp-2A0h]
-  survarium::player_logic_base_state *v28; // [esp+8h] [ebp-29Ch]
-  survarium::player_logic_base_state *v29; // [esp+Ch] [ebp-298h]
-  survarium::player_logic_base_state *v30; // [esp+10h] [ebp-294h]
-  boost::function<void __cdecl(char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum)> v32; // [esp+24h] [ebp-280h] BYREF
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v33; // [esp+44h] [ebp-260h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v34; // [esp+4Ch] [ebp-258h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v35; // [esp+54h] [ebp-250h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v36; // [esp+5Ch] [ebp-248h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v37; // [esp+64h] [ebp-240h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v38; // [esp+6Ch] [ebp-238h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v39; // [esp+74h] [ebp-230h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v40; // [esp+7Ch] [ebp-228h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v41; // [esp+84h] [ebp-220h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v42; // [esp+8Ch] [ebp-218h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > f; // [esp+94h] [ebp-210h]
-  void *v44; // [esp+9Ch] [ebp-208h]
-  vostok::memory::doug_lea_allocator *v45; // [esp+A0h] [ebp-204h]
-  void *v46; // [esp+A4h] [ebp-200h]
-  vostok::memory::doug_lea_allocator *v47; // [esp+A8h] [ebp-1FCh]
-  void *v48; // [esp+ACh] [ebp-1F8h]
-  vostok::memory::doug_lea_allocator *v49; // [esp+B0h] [ebp-1F4h]
-  void *_Where; // [esp+B4h] [ebp-1F0h]
-  vostok::memory::doug_lea_allocator *v51; // [esp+B8h] [ebp-1ECh]
-  vostok::resources::resource_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base> *p_m_animations; // [esp+BCh] [ebp-1E8h]
-  survarium::game_options *p_m_leg_damaged_subscriber; // [esp+C0h] [ebp-1E4h]
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v54; // [esp+C4h] [ebp-1E0h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v55; // [esp+CCh] [ebp-1D8h] BYREF
-  boost::function0<bool> v56; // [esp+D4h] [ebp-1D0h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v57; // [esp+F4h] [ebp-1B0h] BYREF
-  boost::function0<bool> v58; // [esp+FCh] [ebp-1A8h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v59; // [esp+11Ch] [ebp-188h] BYREF
-  boost::function0<bool> v60; // [esp+124h] [ebp-180h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v61; // [esp+144h] [ebp-160h] BYREF
-  boost::function0<bool> v62; // [esp+14Ch] [ebp-158h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v63; // [esp+16Ch] [ebp-138h] BYREF
-  boost::function0<bool> v64; // [esp+174h] [ebp-130h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v65; // [esp+194h] [ebp-110h] BYREF
-  boost::function0<bool> v66; // [esp+19Ch] [ebp-108h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v67; // [esp+1BCh] [ebp-E8h] BYREF
-  boost::function0<bool> v68; // [esp+1C4h] [ebp-E0h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v69; // [esp+1E4h] [ebp-C0h] BYREF
-  boost::function0<bool> v70; // [esp+1ECh] [ebp-B8h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v71; // [esp+20Ch] [ebp-98h] BYREF
-  boost::function0<bool> v72; // [esp+214h] [ebp-90h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v73; // [esp+234h] [ebp-70h] BYREF
-  boost::function0<bool> v74; // [esp+23Ch] [ebp-68h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > result; // [esp+25Ch] [ebp-48h] BYREF
-  boost::function0<bool> v76; // [esp+264h] [ebp-40h] BYREF
-  survarium::player_logic_jump_state *v77; // [esp+284h] [ebp-20h]
-  survarium::player_logic_sprint_state *v78; // [esp+288h] [ebp-1Ch]
-  survarium::player_logic_crouch_state *v79; // [esp+28Ch] [ebp-18h]
-  survarium::player_logic_stand_state *v80; // [esp+290h] [ebp-14h]
-  survarium::player_logic_base_state *crouch; // [esp+294h] [ebp-10h]
-  survarium::player_logic_base_state *sprint; // [esp+298h] [ebp-Ch]
-  survarium::player_logic_base_state *stand; // [esp+29Ch] [ebp-8h]
-  survarium::player_logic_base_state *jumping; // [esp+2A0h] [ebp-4h]
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  char *v6; // eax
+  survarium::weapon_user_animations_selector *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // esi
+  char *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  char *v11; // eax
+  vostok::ai::fsm *v12; // eax
+  vostok::memory::doug_lea_allocator *v13; // esi
+  char *v14; // eax
+  vostok::memory::doug_lea_allocator *v15; // ecx
+  char *v16; // eax
+  char *v17; // esi
+  vostok::memory::doug_lea_allocator *v18; // esi
+  char *v19; // eax
+  vostok::memory::doug_lea_allocator *v20; // ecx
+  char *v21; // eax
+  survarium::player_logic_jump_state *v22; // esi
+  survarium::jump_logic *v23; // ecx
+  vostok::memory::doug_lea_allocator *v24; // esi
+  char *v25; // eax
+  vostok::memory::doug_lea_allocator *v26; // ecx
+  char *v27; // eax
+  int v28; // eax
+  _DWORD *v29; // eax
+  _DWORD *v30; // eax
+  _DWORD *v31; // eax
+  _DWORD *v32; // eax
+  boost::function<bool __cdecl(void)> *v33; // ecx
+  vostok::ai::fsm *v34; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v35; // ecx
+  boost::function<bool __cdecl(void)> *v36; // ecx
+  vostok::ai::fsm *v37; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v38; // ecx
+  boost::function<bool __cdecl(void)> *v39; // ecx
+  vostok::ai::fsm *v40; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v41; // ecx
+  boost::function<bool __cdecl(void)> *v42; // ecx
+  vostok::ai::fsm *v43; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v44; // ecx
+  boost::function<bool __cdecl(void)> *v45; // ecx
+  vostok::ai::fsm *v46; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v47; // ecx
+  boost::function<bool __cdecl(void)> *v48; // ecx
+  vostok::ai::fsm *v49; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v50; // ecx
+  boost::function<bool __cdecl(void)> *v51; // ecx
+  vostok::ai::fsm *v52; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v53; // ecx
+  boost::function<bool __cdecl(void)> *v54; // ecx
+  vostok::ai::fsm *v55; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v56; // ecx
+  boost::function<bool __cdecl(void)> *v57; // ecx
+  vostok::ai::fsm *v58; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v59; // ecx
+  boost::function<bool __cdecl(void)> *v60; // ecx
+  vostok::ai::fsm *v61; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v62; // ecx
+  boost::function<bool __cdecl(void)> *v63; // ecx
+  vostok::ai::fsm *v64; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v65; // ecx
+  boost::function<bool __cdecl(void)> *v66; // ecx
+  vostok::ai::fsm *v67; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v68; // ecx
+  boost::function<bool __cdecl(void)> *v69; // ecx
+  vostok::ai::fsm *v70; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v71; // ecx
+  boost::function<bool __cdecl(void)> *v72; // ecx
+  vostok::ai::fsm *v73; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v74; // ecx
+  boost::function<bool __cdecl(void)> *v75; // ecx
+  vostok::ai::fsm *v76; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v77; // ecx
+  boost::function<bool __cdecl(void)> *v78; // ecx
+  vostok::ai::fsm *v79; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v80; // ecx
+  vostok::ai::fsm *v81; // eax
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::player_logic_sprint_state,bool &>,boost::_bi::list2<boost::_bi::value<survarium::player_logic_sprint_state *>,boost::arg<1> > > v82; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v83; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v84; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v85; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v86; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v87; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v88; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v89; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v90; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v91; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v92; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v93; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v94; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v95; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,bool (__cdecl*)(void),boost::_bi::list0> v96; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v97; // [esp-8h] [ebp-54h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > v98; // [esp-8h] [ebp-54h]
+  const char *v99; // [esp+0h] [ebp-4Ch]
+  const char *v100; // [esp+0h] [ebp-4Ch]
+  const char *v101; // [esp+0h] [ebp-4Ch]
+  const char *v102; // [esp+0h] [ebp-4Ch]
+  const char *v103; // [esp+0h] [ebp-4Ch]
+  int v104; // [esp+0h] [ebp-4Ch]
+  int v105; // [esp+0h] [ebp-4Ch]
+  int v106; // [esp+0h] [ebp-4Ch]
+  int v107; // [esp+0h] [ebp-4Ch]
+  int v108; // [esp+0h] [ebp-4Ch]
+  int v109; // [esp+0h] [ebp-4Ch]
+  int v110; // [esp+0h] [ebp-4Ch]
+  int v111; // [esp+0h] [ebp-4Ch]
+  int v112; // [esp+0h] [ebp-4Ch]
+  int v113; // [esp+0h] [ebp-4Ch]
+  int v114; // [esp+0h] [ebp-4Ch]
+  int v115; // [esp+0h] [ebp-4Ch]
+  int v116; // [esp+0h] [ebp-4Ch]
+  int v117; // [esp+0h] [ebp-4Ch]
+  int v118; // [esp+0h] [ebp-4Ch]
+  int v119; // [esp+0h] [ebp-4Ch]
+  const char *v120; // [esp+4h] [ebp-48h]
+  const char *v121; // [esp+4h] [ebp-48h]
+  const char *v122; // [esp+4h] [ebp-48h]
+  const char *v123; // [esp+4h] [ebp-48h]
+  const char *v124; // [esp+4h] [ebp-48h]
+  unsigned int v125; // [esp+8h] [ebp-44h]
+  unsigned int v126; // [esp+8h] [ebp-44h]
+  unsigned int v127; // [esp+8h] [ebp-44h]
+  unsigned int v128; // [esp+8h] [ebp-44h]
+  unsigned int v129; // [esp+8h] [ebp-44h]
+  boost::function<bool __cdecl(void)> transition_predicate; // [esp+10h] [ebp-3Ch] BYREF
+  vostok::ai::fsm *v131; // [esp+38h] [ebp-14h]
+  vostok::ai::fsm *v132; // [esp+3Ch] [ebp-10h]
+  vostok::ai::fsm *v133; // [esp+40h] [ebp-Ch]
+  vostok::ai::fsm *v134; // [esp+44h] [ebp-8h]
+  survarium::weapon_user_animations_selector *ownera; // [esp+54h] [ebp+8h]
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)this);
-  vostok::ai::fsm::fsm(&this->m_logic);
-  p_m_leg_damaged_subscriber = (survarium::game_options *)&this->m_leg_damaged_subscriber;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_leg_damaged_subscriber);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    v1,
-    &this->m_leg_damaged_subscriber.subscription_callback.vtable);
-  this->m_leg_damaged_subscriber.next = 0;
-  p_m_animations = &this->m_animations;
-  this->m_animations.m_object = 0;
-  this->m_forced_not_to_sprint = 0;
-  this->m_right_leg_is_supporting = 1;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  v51 = v2;
-  _Where = vostok::memory::doug_lea_allocator::malloc_impl(v2, 0x28u);
-  v80 = (survarium::player_logic_stand_state *)operator new(0x28u, _Where);
-  if ( v80 )
+  v3 = survarium::g_allocator;
+  owner->m_logic.m_states.m_size = 0;
+  owner->m_logic.m_states.m_first = 0;
+  owner->m_logic.m_states.m_last = 0;
+  owner->m_logic.m_current_state = 0;
+  owner->m_logic.m_on_transition.vtable = 0;
+  owner->m_animations.m_object = 0;
+  owner->m_right_leg_is_supporting = 1;
+  v4 = type_info::raw_name(&survarium::player_logic_stand_state `RTTI Type Descriptor');
+  v6 = vostok::memory::doug_lea_allocator::malloc_impl(v5, (int)v3, 0x2Cu, v4, v99, v120, v125);
+  if ( v6 )
   {
-    survarium::player_logic_stand_state::player_logic_stand_state(v80, this);
-    v30 = v4;
+    survarium::player_logic_base_state::player_logic_base_state(
+      (survarium::player_logic_base_state *)v6,
+      owner,
+      type_stand);
+    v7->m_logic.m_states.m_size = (unsigned int)&survarium::player_logic_stand_state::`vftable';
+    ownera = v7;
   }
   else
   {
-    v30 = 0;
+    ownera = 0;
   }
-  stand = v30;
-  survarium::weapon_user_dead_state::finalize(v3);
-  v49 = v5;
-  v48 = vostok::memory::doug_lea_allocator::malloc_impl(v5, 0x28u);
-  v79 = (survarium::player_logic_crouch_state *)operator new(0x28u, v48);
-  if ( v79 )
+  v8 = survarium::g_allocator;
+  v9 = type_info::raw_name(&survarium::player_logic_crouch_state `RTTI Type Descriptor');
+  v11 = vostok::memory::doug_lea_allocator::malloc_impl(v10, (int)v8, 0x2Cu, v9, v100, v121, v126);
+  if ( v11 )
   {
-    survarium::player_logic_crouch_state::player_logic_crouch_state(v79, this);
-    v29 = v7;
+    survarium::player_logic_base_state::player_logic_base_state(
+      (survarium::player_logic_base_state *)v11,
+      owner,
+      type_crouch);
+    v12->m_states.m_size = (unsigned int)&survarium::player_logic_crouch_state::`vftable';
+    v133 = v12;
   }
   else
   {
-    v29 = 0;
+    v133 = 0;
   }
-  crouch = v29;
-  survarium::weapon_user_dead_state::finalize(v6);
-  v47 = v8;
-  v46 = vostok::memory::doug_lea_allocator::malloc_impl(v8, 0x90u);
-  v78 = (survarium::player_logic_sprint_state *)operator new(0x90u, v46);
-  if ( v78 )
+  v13 = survarium::g_allocator;
+  v14 = type_info::raw_name(&survarium::player_logic_sprint_state `RTTI Type Descriptor');
+  v16 = vostok::memory::doug_lea_allocator::malloc_impl(v15, (int)v13, 0x98u, v14, v101, v122, v127);
+  v17 = v16;
+  if ( v16 )
   {
-    survarium::player_logic_sprint_state::player_logic_sprint_state(v78, this);
-    v28 = v10;
+    survarium::player_logic_base_state::player_logic_base_state(
+      (survarium::player_logic_base_state *)v16,
+      owner,
+      type_sprint);
+    *(_DWORD *)v17 = &survarium::player_logic_sprint_state::`vftable';
+    *((_DWORD *)v17 + 12) = 0;
+    *((_DWORD *)v17 + 20) = 0;
+    v82.l_.a1_.t_ = (survarium::player_logic_sprint_state *)v17;
+    *((_DWORD *)v17 + 28) = 0;
+    *((_DWORD *)v17 + 36) = 0;
+    v82.f_.f_ = (void (__thiscall *)(survarium::player_logic_sprint_state *, bool *))survarium::weapon_core_show_state_base::on_animation_end_impl;
+    boost::function<void __cdecl (bool &)>::operator=<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::player_logic_sprint_state,bool &>,boost::_bi::list2<boost::_bi::value<survarium::player_logic_sprint_state *>,boost::arg<1>>>>(
+      (boost::function<void __cdecl(bool &)> *)survarium::weapon_core_show_state_base::on_animation_end_impl,
+      (boost::function1<void,vostok::physics::contact_point const &> *)(v17 + 112),
+      v82);
+    v17[40] = 1;
+    v134 = (vostok::ai::fsm *)v17;
   }
   else
   {
-    v28 = 0;
+    v134 = 0;
   }
-  sprint = v28;
-  survarium::weapon_user_dead_state::finalize(v9);
-  v45 = v11;
-  v44 = vostok::memory::doug_lea_allocator::malloc_impl(v11, 0x40u);
-  v77 = (survarium::player_logic_jump_state *)operator new(0x40u, v44);
-  if ( v77 )
+  v18 = survarium::g_allocator;
+  v19 = type_info::raw_name(&survarium::player_logic_jump_state `RTTI Type Descriptor');
+  v21 = vostok::memory::doug_lea_allocator::malloc_impl(v20, (int)v18, 0x1C0u, v19, v102, v123, v128);
+  v22 = (survarium::player_logic_jump_state *)v21;
+  if ( v21 )
   {
-    survarium::player_logic_jump_state::player_logic_jump_state(v77, this);
-    v27 = v12;
+    survarium::player_logic_base_state::player_logic_base_state(
+      (survarium::player_logic_base_state *)v21,
+      owner,
+      type_jump);
+    v22->__vftable = (survarium::player_logic_jump_state_vtbl *)&survarium::player_logic_jump_state::`vftable';
+    survarium::jump_logic::jump_logic(v23, (int)&v22->m_logic, owner, v22);
+    v22->m_sprint_initialize_callback.vtable = 0;
+    v22->m_sprint_finalize_callback.vtable = 0;
+    v132 = (vostok::ai::fsm *)v22;
   }
   else
   {
-    v27 = 0;
+    v132 = 0;
   }
-  jumping = v27;
-  vostok::ai::fsm::add_state(&this->m_logic, stand);
-  vostok::ai::fsm::add_state(&this->m_logic, crouch);
-  vostok::ai::fsm::add_state(&this->m_logic, sprint);
-  vostok::ai::fsm::add_state(&this->m_logic, v27);
-  f = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&result, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::crouch_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)f.f_.f_,
-    &v76);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v76,
-    f);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    stand,
-    crouch,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v76);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v13,
-    (int *)&v76);
-  v42 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v73, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::sprint_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v42.f_.f_,
-    &v74);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v74,
-    v42);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    stand,
-    sprint,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v74);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v14,
-    (int *)&v74);
-  v41 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v71, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::jump_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v41.f_.f_,
-    &v72);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v72,
-    v41);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    stand,
-    jumping,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v72);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v15,
-    (int *)&v72);
-  v40 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v69, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::stand_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v40.f_.f_,
-    &v70);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v70,
-    v40);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    crouch,
-    stand,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v70);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v16,
-    (int *)&v70);
-  v39 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v67, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::sprint_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v39.f_.f_,
-    &v68);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v68,
-    v39);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    crouch,
-    sprint,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v68);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v17,
-    (int *)&v68);
-  v38 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v65, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::crouch_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v38.f_.f_,
-    &v66);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v66,
-    v38);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    sprint,
-    crouch,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v66);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v18,
-    (int *)&v66);
-  v37 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v63, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::stand_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v37.f_.f_,
-    &v64);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v64,
-    v37);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    sprint,
-    stand,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v64);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v19,
-    (int *)&v64);
-  v36 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v61, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::jump_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v36.f_.f_,
-    &v62);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v62,
-    v36);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    sprint,
-    jumping,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v62);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v20,
-    (int *)&v62);
-  v35 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v59, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::broken_legs_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v35.f_.f_,
-    &v60);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v60,
-    v35);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    jumping,
-    crouch,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v60);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v21,
-    (int *)&v60);
-  v34 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v57, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::stand_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v34.f_.f_,
-    &v58);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v58,
-    v34);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    jumping,
-    stand,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v58);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v22,
-    (int *)&v58);
-  v33 = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v55, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::sprint_predicate, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v33.f_.f_,
-    &v56);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *>>>>(
-    &v56,
-    v33);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    jumping,
-    sprint,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v56);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v23,
-    (int *)&v56);
-  v24 = (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::weapon_user_animations_selector,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum>,boost::_bi::list4<boost::_bi::value<survarium::weapon_user_animations_selector *>,boost::arg<1>,boost::arg<2>,boost::arg<3> > > *)boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v54, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::weapon_user_animations_selector::on_broken_limb_affect, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum)>::function<void __cdecl (char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum)>(
-    &v32,
-    *v24,
-    0);
-  boost::function0<bool>::swap(v25, (boost::function0<bool> *)&this->m_leg_damaged_subscriber);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v26,
-    (int *)&v32);
-  this->m_player_logic_initial_state = stand;
+  v24 = survarium::g_allocator;
+  v25 = type_info::raw_name(&survarium::player_logic_dead_state `RTTI Type Descriptor');
+  v27 = vostok::memory::doug_lea_allocator::malloc_impl(v26, (int)v24, 0x34u, v25, v103, v124, v129);
+  if ( v27 )
+  {
+    survarium::player_logic_base_state::player_logic_base_state(
+      (survarium::player_logic_base_state *)v27,
+      owner,
+      type_dead);
+    *(_DWORD *)v28 = &survarium::player_logic_dead_state::`vftable';
+    *(_DWORD *)(v28 + 44) = 0;
+    *(_DWORD *)(v28 + 48) = 0;
+    *(_BYTE *)(v28 + 39) = 0;
+    v131 = (vostok::ai::fsm *)v28;
+  }
+  else
+  {
+    v131 = 0;
+  }
+  vostok::ai::fsm::add_state(&ownera->m_logic, owner);
+  vostok::ai::fsm::add_state(v133, v29);
+  vostok::ai::fsm::add_state(v134, v30);
+  vostok::ai::fsm::add_state(v132, v31);
+  vostok::ai::fsm::add_state(v131, v32);
+  v83.l_.a1_.t_ = owner;
+  v83.f_.f_ = survarium::weapon_user_animations_selector::dead_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v33,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v83,
+    v104);
+  vostok::ai::fsm::append_transition(
+    v34,
+    (vostok::ai::fsm_state *)ownera,
+    (vostok::ai::fsm_state *)v131,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v35,
+    (int *)&transition_predicate);
+  v84.l_.a1_.t_ = owner;
+  v84.f_.f_ = survarium::weapon_user_animations_selector::crouch_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v36,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v84,
+    v105);
+  vostok::ai::fsm::append_transition(
+    v37,
+    (vostok::ai::fsm_state *)ownera,
+    (vostok::ai::fsm_state *)v133,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v38,
+    (int *)&transition_predicate);
+  v85.l_.a1_.t_ = owner;
+  v85.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::sprint_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v39,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v85,
+    v106);
+  vostok::ai::fsm::append_transition(
+    v40,
+    (vostok::ai::fsm_state *)ownera,
+    (vostok::ai::fsm_state *)v134,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v41,
+    (int *)&transition_predicate);
+  v86.l_.a1_.t_ = owner;
+  v86.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::jump_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v42,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v86,
+    v107);
+  vostok::ai::fsm::append_transition(
+    v43,
+    (vostok::ai::fsm_state *)ownera,
+    (vostok::ai::fsm_state *)v132,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v44,
+    (int *)&transition_predicate);
+  v87.l_.a1_.t_ = owner;
+  v87.f_.f_ = survarium::weapon_user_animations_selector::dead_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v45,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v87,
+    v108);
+  vostok::ai::fsm::append_transition(
+    v46,
+    (vostok::ai::fsm_state *)v133,
+    (vostok::ai::fsm_state *)v131,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v47,
+    (int *)&transition_predicate);
+  v88.l_.a1_.t_ = owner;
+  v88.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::stand_from_crouch_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v48,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v88,
+    v109);
+  vostok::ai::fsm::append_transition(
+    v49,
+    (vostok::ai::fsm_state *)v133,
+    (vostok::ai::fsm_state *)ownera,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v50,
+    (int *)&transition_predicate);
+  v89.l_.a1_.t_ = owner;
+  v89.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::sprint_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v51,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v89,
+    v110);
+  vostok::ai::fsm::append_transition(
+    v52,
+    (vostok::ai::fsm_state *)v133,
+    (vostok::ai::fsm_state *)v134,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v53,
+    (int *)&transition_predicate);
+  v90.l_.a1_.t_ = owner;
+  v90.f_.f_ = survarium::weapon_user_animations_selector::dead_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v54,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v90,
+    v111);
+  vostok::ai::fsm::append_transition(
+    v55,
+    (vostok::ai::fsm_state *)v134,
+    (vostok::ai::fsm_state *)v131,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v56,
+    (int *)&transition_predicate);
+  v91.l_.a1_.t_ = owner;
+  v91.f_.f_ = survarium::weapon_user_animations_selector::crouch_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v57,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v91,
+    v112);
+  vostok::ai::fsm::append_transition(
+    v58,
+    (vostok::ai::fsm_state *)v134,
+    (vostok::ai::fsm_state *)v133,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v59,
+    (int *)&transition_predicate);
+  v92.l_.a1_.t_ = owner;
+  v92.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::not_sprint_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v60,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v92,
+    v113);
+  vostok::ai::fsm::append_transition(
+    v61,
+    (vostok::ai::fsm_state *)v134,
+    (vostok::ai::fsm_state *)ownera,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v62,
+    (int *)&transition_predicate);
+  v93.l_.a1_.t_ = owner;
+  v93.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::jump_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v63,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v93,
+    v114);
+  vostok::ai::fsm::append_transition(
+    v64,
+    (vostok::ai::fsm_state *)v134,
+    (vostok::ai::fsm_state *)v132,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v65,
+    (int *)&transition_predicate);
+  v94.l_.a1_.t_ = owner;
+  v94.f_.f_ = survarium::weapon_user_animations_selector::dead_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v66,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v94,
+    v115);
+  vostok::ai::fsm::append_transition(
+    v67,
+    (vostok::ai::fsm_state *)v132,
+    (vostok::ai::fsm_state *)v131,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v68,
+    (int *)&transition_predicate);
+  v95.l_.a1_.t_ = owner;
+  v95.f_.f_ = survarium::weapon_user_animations_selector::broken_legs_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v69,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v95,
+    v116);
+  vostok::ai::fsm::append_transition(
+    v70,
+    (vostok::ai::fsm_state *)v132,
+    (vostok::ai::fsm_state *)v133,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v71,
+    (int *)&transition_predicate);
+  *(_DWORD *)&v96.l_ = v131;
+  v96.f_ = (bool (__cdecl *)())vostok::collision::box_geometry_instance::is_valid;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v72,
+    (boost::_bi::bind_t<bool,bool (__cdecl*)(void),boost::_bi::list0> *)&transition_predicate,
+    v96,
+    v117);
+  vostok::ai::fsm::append_transition(
+    v73,
+    (vostok::ai::fsm_state *)v132,
+    (vostok::ai::fsm_state *)ownera,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v74,
+    (int *)&transition_predicate);
+  v97.l_.a1_.t_ = owner;
+  v97.f_.f_ = (bool (__thiscall *)(survarium::weapon_user_animations_selector *))survarium::weapon_user_animations_selector::sprint_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v75,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v97,
+    v118);
+  vostok::ai::fsm::append_transition(
+    v76,
+    (vostok::ai::fsm_state *)v132,
+    (vostok::ai::fsm_state *)v134,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v77,
+    (int *)&transition_predicate);
+  v98.l_.a1_.t_ = owner;
+  v98.f_.f_ = survarium::weapon_user_animations_selector::alive_predicate;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v78,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::weapon_user_animations_selector>,boost::_bi::list1<boost::_bi::value<survarium::weapon_user_animations_selector *> > > *)&transition_predicate,
+    v98,
+    v119);
+  vostok::ai::fsm::append_transition(
+    v79,
+    (vostok::ai::fsm_state *)v131,
+    (vostok::ai::fsm_state *)ownera,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v80,
+    (int *)&transition_predicate);
+  v81 = v133;
+  owner->m_stand_state = (survarium::player_logic_base_state *)ownera;
+  owner->m_crouch_state = (survarium::player_logic_base_state *)v81;
 }

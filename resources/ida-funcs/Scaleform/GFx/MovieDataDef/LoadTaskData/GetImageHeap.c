@@ -5,20 +5,20 @@ Scaleform::MemoryHeap *__thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::Ge
   int v3; // eax
   Scaleform::MemoryHeap *pObject; // ecx
   Scaleform::MemoryHeap *v5; // ebx
-  Scaleform::MemoryHeap::HeapDesc desc; // [esp+4h] [ebp-20h] BYREF
+  _DWORD v7[8]; // [esp+4h] [ebp-20h] BYREF
 
   if ( this->pImageHeap.pObject )
     return this->pImageHeap.pObject;
   pHeap = this->pHeap;
-  desc.Arena = 0;
-  desc.Flags = 4;
-  desc.MinAlign = 32;
-  desc.Granularity = 4096;
-  desc.Reserve = 0;
-  desc.Threshold = -1;
-  desc.Limit = 0;
-  desc.HeapId = 5;
-  v3 = (int)pHeap->CreateHeap(pHeap, "_Images", &desc);
+  v7[7] = 0;
+  v7[0] = 4;
+  v7[1] = 32;
+  v7[2] = 4096;
+  v7[3] = 0;
+  v7[4] = -1;
+  v7[5] = 0;
+  v7[6] = 5;
+  v3 = (int)pHeap->CreateHeap(pHeap, "_Images", (const Scaleform::MemoryHeap::HeapDesc *)v7);
   pObject = this->pImageHeap.pObject;
   v5 = (Scaleform::MemoryHeap *)v3;
   if ( pObject )

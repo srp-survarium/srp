@@ -1,8 +1,8 @@
 void __userpurge vostok::resources::query_result::query_result(
-        vostok::resources::query_result *this@<esi>,
-        vostok::resources::queries_result *parent@<eax>,
-        vostok::resources::query_result_for_cook *a3@<ecx>,
+        vostok::resources::query_result *this@<ecx>,
+        int a2@<eax>,
         unsigned __int16 flags,
+        vostok::resources::queries_result *parent,
         vostok::memory::base_allocator *allocator,
         unsigned int user_thread_id,
         float target_satisfaction,
@@ -11,41 +11,46 @@ void __userpurge vostok::resources::query_result::query_result(
         vostok::resources::query_type_enum query_type,
         vostok::resources::autoselect_quality_bool autoselect_quality)
 {
-  vostok::resources::query_result_for_cook::query_result_for_cook(a3, (int)this, parent);
-  this->__vftable = (vostok::resources::query_result_vtbl *)&vostok::resources::query_result::`vftable';
-  this->m_next_out_of_memory = 0;
-  this->m_sub_fat.m_object = 0;
-  this->m_next_in_device_manager = 0;
-  this->m_next_in_generate_if_no_file_queue = 0;
-  this->m_prev_in_generate_if_no_file_queue = 0;
-  this->m_data_to_save_generator = 0;
-  this->m_compressed_resource.m_object = 0;
-  this->m_raw_managed_resource.m_object = 0;
-  vostok::const_buffer::const_buffer(&this->m_raw_unmanaged_buffer);
-  vostok::const_buffer::const_buffer(&this->m_unmanaged_buffer);
-  this->m_name_registry_entry.class_id = unknown_data_class;
-  this->m_name_registry_entry.associated = 0;
-  this->m_name_registry_entry.name = 0;
-  this->m_name_registry_entry.next_to_delete = 0;
-  this->m_offset_to_file = 0;
-  this->m_loaded_bytes = 0;
-  this->m_quality_index = quality_index;
-  this->m_query_end_guard = 1;
-  this->m_flags = flags;
-  this->m_observed_resource_destructions_left = 0;
-  this->m_final_resource_size = 0;
-  this->m_user_thread_id = user_thread_id;
-  this->m_resource_for_grm_cache = 0;
-  this->m_ready_to_retry_action_that_caused_out_of_memory = 1;
-  this->m_on_created_resource_guard = 1;
+  volatile signed __int32 *v12; // ecx
+
+  vostok::resources::query_result_for_cook::query_result_for_cook(this, a2, parent);
+  *(_DWORD *)a2 = &vostok::resources::query_result::`vftable';
+  *(_DWORD *)(a2 + 616) = 0;
+  *(_DWORD *)(a2 + 620) = 0;
+  *(_DWORD *)(a2 + 624) = 0;
+  *(_DWORD *)(a2 + 628) = 0;
+  *(_DWORD *)(a2 + 632) = 0;
+  *(_DWORD *)(a2 + 640) = 0;
+  *(_DWORD *)(a2 + 644) = 0;
+  *(_DWORD *)(a2 + 648) = 0;
+  *(_DWORD *)(a2 + 652) = 0;
+  *(_DWORD *)(a2 + 656) = 0;
+  *(_DWORD *)(a2 + 660) = 0;
+  *(_DWORD *)(a2 + 664) = 0;
+  *(_DWORD *)(a2 + 668) = 0;
+  *(_DWORD *)(a2 + 672) = 0;
+  *(_DWORD *)(a2 + 676) = 0;
+  *(_DWORD *)(a2 + 684) = 0;
+  *(_DWORD *)(a2 + 696) = quality_index;
+  *(_DWORD *)(a2 + 688) = 0;
+  *(_DWORD *)(a2 + 692) = 0;
+  *(_DWORD *)(a2 + 700) = 1;
+  v12 = (volatile signed __int32 *)(a2 + 704);
+  *(_DWORD *)(a2 + 704) = flags;
+  *(_DWORD *)(a2 + 708) = 0;
+  *(_DWORD *)(a2 + 712) = 0;
+  *(_DWORD *)(a2 + 716) = user_thread_id;
+  *(_DWORD *)(a2 + 720) = 0;
+  *(_BYTE *)(a2 + 724) = 1;
+  *(_DWORD *)(a2 + 728) = 1;
   if ( disable_cache )
-    vostok::threading::interlocked_or(&this->m_flags, (unsigned int)&vostok::memory::s_CRT_arena[55905848]);
+    _InterlockedOr(v12, 0x4000000u);
   if ( query_type == query_type_helper_for_mount )
-    vostok::threading::interlocked_or(&this->m_flags, 0x8000000u);
+    _InterlockedOr(v12, 0x8000000u);
   if ( autoselect_quality == autoselect_quality_true )
-    vostok::threading::interlocked_or(&this->m_flags, 0x10000000u);
-  this->m_user_allocator = allocator;
-  this->m_next_referer = this;
-  this->m_target_satisfaction = target_satisfaction;
-  vostok::threading::interlocked_or(&this->m_flags, (unsigned int)&loc_20000);
+    _InterlockedOr(v12, 0x10000000u);
+  *(_DWORD *)(a2 + 340) = allocator;
+  *(_DWORD *)(a2 + 636) = a2;
+  *(float *)(a2 + 116) = target_satisfaction;
+  _InterlockedOr(v12, (unsigned int)&loc_20000);
 }

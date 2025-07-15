@@ -1,95 +1,171 @@
-void __thiscall vostok::network_core::udp_match_connection::instant_disconnect(
-        vostok::network_core::udp_match_connection *this,
-        boost::function4<void,unsigned int,float,float,char const *> *type)
+void __userpurge vostok::network_core::udp_match_connection::instant_disconnect(
+        vostok::network_core::udp_match_connection *this@<ecx>,
+        int a2@<edi>,
+        const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *type)
 {
-  boost::array<vostok::network_core::udp_match_connection::channel,1> *v2; // ecx
-  stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object> > *v3; // ecx
-  survarium::game_camera *v4; // ecx
-  boost::intrusive::rbtree_node<void *> *v6; // [esp+16Ch] [ebp-88h]
-  const char *v7; // [esp+188h] [ebp-6Ch]
-  vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy> *v8; // [esp+18Ch] [ebp-68h]
-  const char *m_logging_id; // [esp+1A8h] [ebp-4Ch]
-  vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy> *m_packets_allocator; // [esp+1ACh] [ebp-48h]
-  boost::intrusive::tree_iterator<boost::intrusive::rbtree_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,8>,vostok::network_core::udp_match_connection::comparer,unsigned int,1> >,0> v11; // [esp+1C0h] [ebp-34h] BYREF
-  remove_all_predicate v12; // [esp+1C4h] [ebp-30h] BYREF
-  remove_all_predicate predicate; // [esp+1D0h] [ebp-24h] BYREF
-  __int16 v14; // [esp+1DCh] [ebp-18h]
-  __int16 v15; // [esp+1DEh] [ebp-16h]
-  __int16 v16; // [esp+1E0h] [ebp-14h]
-  __int16 v17; // [esp+1E2h] [ebp-12h]
-  vostok::network_core::udp_match_packet *packet; // [esp+1E4h] [ebp-10h] BYREF
-  vostok::network_core::udp_match_connection::channel *channel; // [esp+1E8h] [ebp-Ch]
-  unsigned int i; // [esp+1ECh] [ebp-8h]
-  unsigned int n; // [esp+1F0h] [ebp-4h]
+  bool has_passed_filters; // al
+  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *v4; // ecx
+  boost::intrusive::set_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,20>,vostok::network_core::udp_match_packet::comparer,unsigned int,1> > *v5; // ecx
+  _DWORD *i; // ebx
+  _DWORD *v7; // eax
+  _DWORD *v8; // ecx
+  _DWORD *v9; // eax
+  _DWORD *v10; // ecx
+  _DWORD *v11; // esi
+  int v12; // ecx
+  vostok::network_core::udp_match_connection *v13; // [esp-4h] [ebp-50h]
+  boost::intrusive::set_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,20>,vostok::network_core::udp_match_packet::comparer,unsigned int,1> > *v14; // [esp-4h] [ebp-50h]
+  boost::intrusive::set_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,20>,vostok::network_core::udp_match_packet::comparer,unsigned int,1> > *v15; // [esp-4h] [ebp-50h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v16; // [esp+8h] [ebp-44h] BYREF
+  remove_all_predicate v17; // [esp+28h] [ebp-24h] BYREF
+  remove_all_predicate predicate; // [esp+34h] [ebp-18h] BYREF
+  const vostok::network_core::udp_match_packet *v19; // [esp+40h] [ebp-Ch] BYREF
+  int v20; // [esp+44h] [ebp-8h] BYREF
 
-  this->m_state = disconnected;
-  this->m_last_send_time_in_ms = 0;
-  this->m_last_send_attempt_time_in_ms = 0;
-  this->m_last_receive_time_in_ms = 0;
-  this->m_disconnection_receive_time_in_ms = 0;
-  this->m_remote_acknowledgement_bits = 0;
-  this->m_received_local_acknowledgement_bits = 0;
-  this->m_pending_operations_count = 0;
-  v17 = -1;
-  this->m_local_sequence_id.m_number = -1;
-  v16 = -1;
-  this->m_remote_sequence_id.m_number = -1;
-  v15 = -1;
-  this->m_received_local_sequence_id.m_number = -1;
-  v14 = -1;
-  this->m_disconnection_local_sequence_id.m_number = -1;
-  m_logging_id = this->m_logging_id;
-  m_packets_allocator = this->m_packets_allocator;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&predicate);
-  predicate.m_packets_allocator = m_packets_allocator;
-  predicate.m_stats = (vostok::network_core::udp_match_stats *)this;
-  predicate.m_logging_id = m_logging_id;
-  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::remove_if<remove_all_predicate>(
-    &this->m_unacknowledged_packets,
-    &predicate);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&predicate);
-  v7 = this->m_logging_id;
-  v8 = this->m_packets_allocator;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v12);
-  v12.m_packets_allocator = v8;
-  v12.m_stats = (vostok::network_core::udp_match_stats *)this;
-  v12.m_logging_id = v7;
-  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::remove_if<remove_all_predicate>(
-    &this->m_packets_to_send,
-    &v12);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&v12);
-  i = 0;
-  n = 1;
-  while ( i < n )
+  v20 = 0;
+  *(_DWORD *)(a2 + 2820) = 3;
+  if ( !vostok::core::g_log_filter_tree
+    || (has_passed_filters = vostok::logging::has_passed_filters(
+                               (vostok::logging::filter_tree *)"network_core",
+                               (const char *)2),
+        this = v13,
+        has_passed_filters) )
   {
-    v2 = &this->m_channels + i;
-    channel = (vostok::network_core::udp_match_connection::channel *)v2;
-    while ( stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-              (stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *)v2,
-              (int)&channel->packets.tree_.data_.node_plus_pred_.header_plus_size_.header_) )
-    {
-      v6 = (boost::intrusive::rbtree_node<void *> *)stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object>>::end(
-                                                      v3,
-                                                      (int)&channel->packets.tree_.data_.node_plus_pred_.header_plus_size_.header_);
-      survarium::weapon_user_dead_state::finalize(v4);
-      v11.members_.nodeptr_ = v6;
-      packet = (vostok::network_core::udp_match_packet *)boost::intrusive::tree_iterator<boost::intrusive::rbtree_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,8>,vostok::network_core::udp_match_connection::comparer,unsigned int,1>>,0>::operator->(&v11);
-      boost::intrusive::rbtree_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,8>,vostok::network_core::udp_match_connection::comparer,unsigned int,1>>::erase<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_connection::comparer>(
-        &channel->packets.tree_,
-        packet,
-        (vostok::network_core::udp_match_connection::comparer)channel->packets.tree_.data_.node_plus_pred_.header_plus_size_.size_,
-        0);
-      vostok::network_core::delete_udp_match_packet(
-        this->m_packets_allocator,
-        (vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::node **)&packet);
-    }
-    vostok::network_core::udp_match_connection::channel::reset(channel);
-    ++i;
+    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+      (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+      &v16);
+    v20 = 1;
+    vostok::logging::append(
+      &v16,
+      (void *const)vostok::core::g_log_flags,
+      &vostok::core::g_log_format,
+      ".\\udp_match_connection.cpp",
+      0x3A6u,
+      "void __thiscall vostok::network_core::udp_match_connection::instant_disconnect(enum vostok::network_core::disconne"
+      "ct_event_types_enum)",
+      "network_core",
+      error,
+      "--instant_disconnect");
   }
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_on_disconnect)
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
-    boost::function1<void,enum vostok::network_core::disconnect_event_types_enum>::operator()(
-      &this->m_on_disconnect,
+  if ( (v20 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+      (int *)&v16);
+  *(_DWORD *)(a2 + 2800) = 0;
+  *(_DWORD *)(a2 + 2804) = 0;
+  *(_DWORD *)(a2 + 2792) = 0;
+  *(_DWORD *)(a2 + 2812) = 0;
+  *(_DWORD *)(a2 + 2824) = 0;
+  *(_DWORD *)(a2 + 2828) = 0;
+  *(_DWORD *)(a2 + 2832) = 0;
+  *(_DWORD *)(a2 + 2836) = 0;
+  *(_WORD *)(a2 + 2840) = -1;
+  *(_WORD *)(a2 + 2842) = -1;
+  *(_WORD *)(a2 + 2844) = -1;
+  *(_WORD *)(a2 + 2846) = -1;
+  predicate.m_packets_allocator = *(vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> **)(a2 + 2784);
+  predicate.m_stats = (vostok::network_core::udp_match_stats *)(a2 + 2500);
+  predicate.m_logging_id = uri;
+  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::remove_if<remove_all_predicate>(
+    (vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)0xFFFF,
+    (_DWORD *)(a2 + 2660),
+    &predicate);
+  v17.m_packets_allocator = *(vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> **)(a2 + 2784);
+  v17.m_stats = (vostok::network_core::udp_match_stats *)(a2 + 2500);
+  v17.m_logging_id = uri;
+  vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::remove_if<remove_all_predicate>(
+    v4,
+    (_DWORD *)(a2 + 2628),
+    &v17);
+  for ( i = (_DWORD *)(a2 + 2680); *i; v5 = v14 )
+  {
+    v20 = *(_DWORD *)(a2 + 2684) - 20;
+    boost::intrusive::set_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,20>,vostok::network_core::udp_match_packet::comparer,unsigned int,1>>::erase(
+      v5,
+      a2 + 2676,
+      (const vostok::network_core::udp_match_packet *)v20);
+    vostok::network_core::delete_udp_match_packet(
+      *(vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> **)(a2 + 2784),
+      (vostok::memory::single_size_buffer_allocator<140,vostok::threading::simple_lock>::node **)&v20);
+  }
+  for ( ; *(_DWORD *)(a2 + 2700); v5 = v15 )
+  {
+    v19 = (const vostok::network_core::udp_match_packet *)(*(_DWORD *)(a2 + 2704) - 20);
+    boost::intrusive::set_impl<boost::intrusive::setopt<boost::intrusive::detail::member_hook_traits<vostok::network_core::udp_match_packet,boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none>,20>,vostok::network_core::udp_match_packet::comparer,unsigned int,1>>::erase(
+      v5,
+      a2 + 2696,
+      v19);
+    vostok::network_core::delete_udp_match_packet(
+      *(vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> **)(a2 + 2784),
+      (vostok::memory::single_size_buffer_allocator<140,vostok::threading::simple_lock>::node **)&v19);
+  }
+  v7 = (_DWORD *)*i;
+  if ( *i )
+  {
+    do
+    {
+      v8 = (_DWORD *)v7[1];
+      if ( v8 )
+      {
+        v7[1] = v8[2];
+        v8[2] = v7;
+      }
+      else
+      {
+        v8 = (_DWORD *)v7[2];
+        *v7 = 0;
+        v7[1] = 0;
+        v7[2] = 0;
+      }
+      v7 = v8;
+    }
+    while ( v8 );
+    *i = 0;
+    *(_DWORD *)(a2 + 2684) = a2 + 2680;
+    *(_DWORD *)(a2 + 2688) = a2 + 2680;
+  }
+  *i = 0;
+  *(_DWORD *)(a2 + 2684) = a2 + 2680;
+  *(_DWORD *)(a2 + 2688) = a2 + 2680;
+  *(_DWORD *)(a2 + 2692) = 0;
+  *(_DWORD *)(a2 + 2676) = 0;
+  v9 = (_DWORD *)(a2 + 2700);
+  v10 = *(_DWORD **)(a2 + 2700);
+  if ( v10 )
+  {
+    do
+    {
+      v11 = (_DWORD *)v10[1];
+      if ( v11 )
+      {
+        v10[1] = v11[2];
+        v11[2] = v10;
+      }
+      else
+      {
+        v11 = (_DWORD *)v10[2];
+        *v10 = 0;
+        v10[1] = 0;
+        v10[2] = 0;
+      }
+      v10 = v11;
+    }
+    while ( v11 );
+    *v9 = 0;
+    *(_DWORD *)(a2 + 2704) = a2 + 2700;
+    *(_DWORD *)(a2 + 2708) = a2 + 2700;
+  }
+  *v9 = 0;
+  *(_DWORD *)(a2 + 2704) = a2 + 2700;
+  *(_DWORD *)(a2 + 2708) = a2 + 2700;
+  *(_DWORD *)(a2 + 2712) = 0;
+  *(_DWORD *)(a2 + 2696) = 0;
+  *(_WORD *)(a2 + 2716) = -1;
+  *(_WORD *)(a2 + 2718) = 0;
+  v12 = -(*(_DWORD *)(a2 + 2720) != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v12) != 0 )
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)v12,
+      (_DWORD *)(a2 + 2720),
       type);
 }

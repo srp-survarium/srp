@@ -23,7 +23,7 @@ void __thiscall Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::T
     else
     {
       v6 = Scaleform::Render::LinearHeap::Alloc(pHeap, 32 * MaxArrays);
-      memcpy(v6, (unsigned __int8 *)this->Arrays, 16 * this->NumArrays);
+      memcpy((int)v6, (const __m128i *)this->Arrays, 16 * this->NumArrays);
       v7 = 2 * this->MaxArrays;
       this->Arrays = (Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *)v6;
       this->MaxArrays = v7;

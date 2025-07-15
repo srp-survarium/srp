@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Stage::alignSet(
     goto LABEL_24;
   CharAt = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&value, 0);
   if ( Length >= 2 )
-    v4 = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&value, (const char *)1);
+    v4 = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&value, (char *)1);
   if ( CharAt == 84 )
   {
     if ( v4 != 76 )

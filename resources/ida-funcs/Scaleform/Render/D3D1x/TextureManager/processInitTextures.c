@@ -6,10 +6,10 @@ void __thiscall Scaleform::Render::D3D1x::TextureManager::processInitTextures(
   Scaleform::Render::DepthStencilSurface *v4; // ecx
   int v5; // eax
   Scaleform::Render::Texture *pNext; // esi
-  bool (__thiscall *Initialize)(Scaleform::Render::Texture *); // eax
+  Scaleform::Render::Texture_vtbl *v7; // eax
   Scaleform::Render::DepthStencilSurface *v8; // eax
   Scaleform::Render::DepthStencilSurface *v9; // ecx
-  void (*v10)(void); // eax
+  Scaleform::Render::DepthStencilSurface_vtbl *v10; // eax
 
   p_TextureInitQueue = &this->TextureInitQueue;
   if ( this == (Scaleform::Render::D3D1x::TextureManager *)-72 )
@@ -30,10 +30,10 @@ void __thiscall Scaleform::Render::D3D1x::TextureManager::processInitTextures(
       pNext = this->TextureInitQueue.Root.pNext;
       pNext->pPrev->pNext = pNext->pNext;
       pNext->pNext->pPrev = pNext->pPrev;
-      Initialize = pNext->Initialize;
+      v7 = pNext->__vftable;
       pNext->pNext = 0;
       pNext->pPrev = 0;
-      if ( Initialize(pNext) )
+      if ( v7->Initialize(pNext) )
       {
         pNext->pPrev = this->Textures.Root.pPrev;
         pNext->pNext = (Scaleform::Render::Texture *)&this->TextureFormats.Data.Size;
@@ -51,10 +51,10 @@ void __thiscall Scaleform::Render::D3D1x::TextureManager::processInitTextures(
       v9 = this->DepthStencilInitQueue.Root.pNext;
       v9->pPrev->pNext = v9->pNext;
       v9->pNext->pPrev = v9->pPrev;
-      v10 = (void (*)(void))v9->Initialize;
+      v10 = v9->__vftable;
       v9->pNext = 0;
       v9->pPrev = 0;
-      v10();
+      ((void (*)(void))v10->Initialize)();
     }
     Scaleform::WaitCondition::NotifyAll(&this->pLocks.pObject->TextureInitWC);
   }

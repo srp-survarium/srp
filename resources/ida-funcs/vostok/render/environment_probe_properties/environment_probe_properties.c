@@ -1,20 +1,19 @@
 void __thiscall vostok::render::environment_probe_properties::environment_probe_properties(
         vostok::render::environment_probe_properties *this,
-        const vostok::render::environment_probe_properties *__that,
-        const vostok::render::environment_probe_properties *__thata)
+        vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *__that,
+        vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *other)
 {
-  unsigned __int8 *m_begin; // edx
-  unsigned int v4; // ecx
-  unsigned int v5; // esi
-
-  m_begin = (unsigned __int8 *)__thata->texture_name.m_begin;
-  v4 = __thata->texture_name.m_end - __thata->texture_name.m_begin;
-  __that->texture_name.m_max_end = (char *)&__that->transform;
-  v5 = v4;
-  __that->texture_name.m_begin = __that->texture_name.m_buffer;
-  __that->texture_name.m_end = __that->texture_name.m_buffer;
-  memcpy((unsigned __int8 *)__that->texture_name.m_buffer, m_begin, v4);
-  __that->texture_name.m_end += v5;
-  *__that->texture_name.m_end = 0;
-  qmemcpy((void *)&__that->transform, &__thata->transform, 0x68u);
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    __that,
+    other);
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    __that + 1,
+    other + 1);
+  vostok::fixed_string<260>::fixed_string<260>(
+    (vostok::fixed_string<260> *)&__that[2],
+    (const vostok::fixed_string<260> *)&other[2]);
+  qmemcpy(&__that[70], &other[70], 0x40u);
+  qmemcpy(&__that[86], &other[86], 0x40u);
+  qmemcpy(&__that[102], &other[102], 0x87u);
+  __that[136].m_object = other[136].m_object;
 }

@@ -53,9 +53,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::scale
     v13 = v16.y2 - v16.y1;
     v14 = 0.05000000074505806 * v13;
     v27 = v14;
-    (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, _DWORD *, int))(*(_DWORD *)pObject->pVM[1].ScopeStack.Data.Policy.Capacity
-                                                                                           + 36))(
-      pObject->pVM[1].ScopeStack.Data.Policy.Capacity,
+    (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, _DWORD *, int))(*(_DWORD *)pObject->pVM[1].ScopeStack.Data.Size
+                                                                                           + 48))(
+      pObject->pVM[1].ScopeStack.Data.Size,
       &v15,
       4,
       v17,
@@ -97,7 +97,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::scale
       else
       {
         RefCount = v7->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v7->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

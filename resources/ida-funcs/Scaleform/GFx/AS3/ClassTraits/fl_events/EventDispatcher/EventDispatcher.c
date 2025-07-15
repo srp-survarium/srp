@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::EventDispatcher::Ev
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_events::EventDispatcherCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::EventDispatcher_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::EventDispatcher_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_events::EventDispatcher::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = v4;
@@ -53,7 +53,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::EventDispatcher::Ev
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

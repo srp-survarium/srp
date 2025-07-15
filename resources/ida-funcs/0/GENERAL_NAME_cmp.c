@@ -17,7 +17,7 @@ unsigned int __cdecl GENERAL_NAME_cmp(GENERAL_NAME_st *a, GENERAL_NAME_st *b)
       break;
     case 3:
     case 5:
-      result = ASN1_TYPE_cmp(a->d.x400Address, b->d.x400Address);
+      result = ASN1_TYPE_cmp(a->d.rfc822Name, b->d.rfc822Name);
       break;
     case 4:
       result = X509_NAME_cmp(a->d.directoryName, b->d.directoryName);

@@ -18,11 +18,11 @@ void __thiscall Scaleform::GFx::AS3::ASRefCountCollector::AdvanceFrame(
   unsigned int RootsFreedTotal; // ecx
   unsigned int MaxRootCount; // eax
   unsigned int v18; // eax
-  Scaleform::AmpStats *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   unsigned int TotalFramesCount; // edx
   unsigned int v21; // eax
   unsigned int v22; // ecx
-  const Scaleform::GFx::AS3::RefCountBaseGC<328> *upgradeGen; // [esp+4h] [ebp-24h] BYREF
+  BOOL upgradeGen; // [esp+4h] [ebp-24h] BYREF
   __int64 v24; // [esp+8h] [ebp-20h]
   Scaleform::GFx::AS3::RefCountCollector<328>::Stats stats; // [esp+10h] [ebp-18h] BYREF
 
@@ -67,7 +67,7 @@ void __thiscall Scaleform::GFx::AS3::ASRefCountCollector::AdvanceFrame(
         v18 = this->PeakRootCount;
         if ( v18 < (unsigned int)v24 )
           this->MaxRootCount = v24;
-        pObject = stats.AdvanceStats.pObject;
+        pObject = (Scaleform::RefCountVImpl *)stats.AdvanceStats.pObject;
         TotalFramesCount = this->TotalFramesCount;
         this->LastPeakRootCount = v18;
         v21 = stats.RootsFreedTotal;
@@ -75,7 +75,7 @@ void __thiscall Scaleform::GFx::AS3::ASRefCountCollector::AdvanceFrame(
         this->FrameCnt = 0;
         this->LastCollectedRoots = v21;
         if ( pObject )
-          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+          Scaleform::RefCountImpl::Release(pObject);
       }
       v22 = this->FrameCnt;
       this->LastRootCount = v10;

@@ -1,96 +1,76 @@
 void __thiscall vostok::render::effect_post_process_blend_texture_materials::compile(
         vostok::render::effect_post_process_blend_texture_materials *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *custom_config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  const vostok::render::custom_config_value *v3; // eax
-  vostok::render::custom_config_value *v4; // ecx
-  vostok::render::effect_compiler *v5; // ecx
-  vostok::render::effect_compiler *v6; // ecx
-  vostok::render::custom_config_value *v7; // ecx
-  const vostok::render::custom_config_value *v8; // eax
-  vostok::strings::shared::profile *v9; // eax
+  vostok::configs::binary_config_value *v4; // eax
+  const vostok::configs::binary_config_value *v5; // eax
+  float *pointer; // esi
+  double v7; // xmm0_8
+  double v8; // xmm0_8
+  double v9; // xmm0_8
   vostok::render::effect_compiler *v10; // ecx
   vostok::render::effect_compiler *v11; // ecx
-  bool v12; // [esp+10h] [ebp-30h]
-  D3D11_BLEND_OP v13; // [esp+10h] [ebp-30h]
-  vostok::render::shader_include_getter include_getter[4]; // [esp+20h] [ebp-20h] BYREF
-  vostok::math::float4 source; // [esp+30h] [ebp-10h] BYREF
+  vostok::configs::binary_config_value *v12; // eax
+  char **v13; // eax
+  vostok::render::effect_compiler *v14; // ecx
+  vostok::render::effect_constant_storage *v15; // ecx
+  vostok::render::effect_compiler *v16; // ecx
+  vostok::render::effect_compiler *v17; // ecx
+  vostok::render::effect_compiler *v18; // ecx
+  vostok::render::effect_compiler *v19; // ecx
+  vostok::render::shader_configuration v20; // [esp-10h] [ebp-44h]
+  long double v21; // [esp+4h] [ebp-30h]
+  long double v22; // [esp+4h] [ebp-30h]
+  long double v23; // [esp+4h] [ebp-30h]
+  D3D11_COMPARISON_FUNC v24; // [esp+4h] [ebp-30h]
+  D3D11_BLEND_OP v25; // [esp+4h] [ebp-30h]
+  long double v26; // [esp+Ch] [ebp-28h]
+  long double v27; // [esp+Ch] [ebp-28h]
+  long double v28; // [esp+Ch] [ebp-28h]
+  __int64 v29; // [esp+1Ch] [ebp-18h]
+  vostok::math::float4 v30; // [esp+24h] [ebp-10h] BYREF
 
-  v3 = vostok::render::custom_config_value::operator[](
-         (vostok::render::custom_config_value *)this,
-         (int)custom_config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"constant_modulate_color");
-  vostok::render::custom_config_value::operator<vostok::math::float4> vostok::math::float4(
-    v4,
-    (vostok::math::float4 *)include_getter,
-    (int)v3);
-  source = (vostok::math::float4)_mm_load_si128((const __m128i *)include_getter);
-  vostok::render::effect_compiler::begin_technique(v5, (int)compiler);
-  include_getter[2].__vftable = (vostok::render::shader_include_getter_vtbl *)4;
-  include_getter[0].__vftable = 0;
-  include_getter[1].__vftable = 0;
-  include_getter[3].__vftable = 0;
-  vostok::render::effect_compiler::begin_pass(
-    v6,
-    compiler,
-    &stru_9656C8.m_name.m_string.m_buffer[100],
-    0,
-    (vostok::render::shader_configuration *)&stru_969230,
-    (const vostok::render::shader_configuration *)include_getter);
-  v8 = vostok::render::custom_config_value::operator[](
-         v7,
-         (int)custom_config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"texture_base");
-  vostok::render::effect_compiler::set_texture(
-    0xFFFFFFFF,
-    compiler,
-    &stru_963F84.m_name.m_string.m_buffer[116],
-    (char *)v8->data,
-    0,
-    v12);
-  v9 = vostok::strings::shared::manager::string(s_manager.m_variable, s_manager.m_variable, "modulate_color");
-  if ( v9 )
-  {
-    _InterlockedExchangeAdd(&v9->m_reference_count, 1u);
-    vostok::render::effect_compiler::set_constant<vostok::math::float4>(
-      (vostok::render::effect_constant_storage *)&source,
-      compiler,
-      (vostok::shared_string)v9);
-  }
-  else
-  {
-    vostok::render::effect_compiler::set_constant<vostok::math::float4>(
-      (vostok::render::effect_constant_storage *)&source,
-      compiler,
-      0);
-  }
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
+  v4 = vostok::configs::binary_config_value::operator[](config, "constant_modulate_color");
+  v5 = vostok::configs::binary_config_value::operator[](v4, "value");
+  pointer = (float *)v5->data.pointer;
+  v7 = *(float *)v5->data.pointer;
+  __libm_sse2_pow(v21, v26);
+  *(float *)&v7 = v7;
+  v30.x = *(float *)&v7;
+  v8 = pointer[1];
+  __libm_sse2_pow(v22, v27);
+  *(float *)&v8 = v8;
+  v30.y = *(float *)&v8;
+  v9 = pointer[2];
+  __libm_sse2_pow(v23, v28);
+  *(float *)&v9 = v9;
+  v30.z = *(float *)&v9;
+  v30.w = pointer[3];
+  vostok::render::effect_compiler::begin_technique(v10, (int)compiler);
+  *(_DWORD *)&v20.0 = "blend_texture";
+  v29 = 0x80000;
+  *(unsigned __int64 *)((char *)v20.configuration + 4) = 0;
+  HIDWORD(v20.configuration[1]) = 0x80000;
+  vostok::render::effect_compiler::begin_pass(v11, (int)compiler, "copy_image", 0, v20, 0);
+  v12 = vostok::configs::binary_config_value::operator[](config, "texture_base");
+  v13 = (char **)vostok::configs::binary_config_value::operator[](v12, "value");
+  vostok::render::effect_compiler::set_texture(v14, (const char *)compiler, "t_base", *v13, 0, 0xFFFFFFFF, 0, 1.0);
+  vostok::render::effect_compiler::set_constant<vostok::math::float4>(&v30, v15, compiler, "modulate_color");
+  vostok::render::effect_compiler::set_depth(v16, (int)compiler, 1, 0, v24);
   vostok::render::effect_compiler::set_alpha_blend(
-    D3D11_BLEND_INV_SRC_ALPHA,
-    compiler,
+    v17,
+    (int)compiler,
     1,
     D3D11_BLEND_SRC_ALPHA,
+    D3D11_BLEND_INV_SRC_ALPHA,
     D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ONE,
     D3D11_BLEND_ZERO,
-    D3D11_BLEND_OP_ADD,
-    v13);
-  vostok::render::effect_compiler::end_pass(
-    v10,
-    (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
-  vostok::render::effect_compiler::end_technique(v11, (int)compiler);
+    v25);
+  vostok::render::effect_compiler::end_pass(v18, (int)compiler);
+  vostok::render::effect_compiler::end_technique(
+    v19,
+    (vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
 }

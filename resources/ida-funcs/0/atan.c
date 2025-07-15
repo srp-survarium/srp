@@ -11,7 +11,7 @@ double __cdecl atan(double X)
     if ( v1 == 8064 )
       v2 = (v4 & 0x7F) == 127;
     if ( v2 )
-      JUMPOUT(0x199B08);
+      JUMPOUT(0x669238);
   }
-  JUMPOUT(0x18E0EF);
+  JUMPOUT(0x665B4F);
 }

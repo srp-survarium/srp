@@ -47,13 +47,13 @@ int __cdecl RSA_sign_ASN1_OCTET_STRING(
     }
     else
     {
-      ERR_put_error(4u, 118, 65, ".\\crypto\\rsa\\rsa_saos.c", 88);
+      ERR_put_error((int)v7, 4u, 118, 65, ".\\crypto\\rsa\\rsa_saos.c", 88);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(4u, 118, 112, ".\\crypto\\rsa\\rsa_saos.c", 82);
+    ERR_put_error((int)v7, 4u, 118, 112, ".\\crypto\\rsa\\rsa_saos.c", 82);
     return 0;
   }
 }

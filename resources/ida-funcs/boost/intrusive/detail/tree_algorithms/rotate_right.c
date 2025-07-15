@@ -1,15 +1,15 @@
-void __cdecl boost::intrusive::detail::tree_algorithms<boost::intrusive::rbtree_node_traits<void *,0>>::rotate_right(
-        boost::intrusive::rbtree_node<void *> *p,
-        boost::intrusive::rbtree_node<void *> *header)
+void __usercall boost::intrusive::detail::tree_algorithms<boost::intrusive::rbtree_node_traits<void *,0>>::rotate_right(
+        boost::intrusive::rbtree_node<void *> *p@<eax>,
+        boost::intrusive::rbtree_node<void *> *header@<edi>)
 {
+  boost::intrusive::rbtree_node<void *> *parent; // edx
   boost::intrusive::rbtree_node<void *> *left; // ecx
-  boost::intrusive::rbtree_node<void *> *right; // edx
-  boost::intrusive::rbtree_node<void *> *parent; // esi
-  bool v5; // zf
+  boost::intrusive::rbtree_node<void *> *right; // esi
+  bool v5; // bl
 
+  parent = p->parent_;
   left = p->left_;
   right = left->right_;
-  parent = p->parent_;
   v5 = p->parent_->left_ == p;
   p->left_ = right;
   if ( right )

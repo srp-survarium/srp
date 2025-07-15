@@ -1,4 +1,4 @@
-void __cdecl ASN1_TYPE_set(asn1_type_st *a, int type, void *value)
+void __cdecl ASN1_TYPE_set(asn1_type_st *a, int type, int value)
 {
   int v3; // eax
 
@@ -9,5 +9,5 @@ void __cdecl ASN1_TYPE_set(asn1_type_st *a, int type, void *value)
   if ( v3 == 1 )
     a->value.boolean = (unsigned __int8)-(value != 0);
   else
-    a->value.boolean = (int)value;
+    a->value.boolean = value;
 }

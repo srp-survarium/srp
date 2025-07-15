@@ -1,6 +1,6 @@
 char __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttribute(
         Scaleform::Render::Text::SGMLParser<wchar_t> *this,
-        const wchar_t **ppattrName,
+        wchar_t **ppattrName,
         unsigned int *pattrNameSz)
 {
   int CurState; // eax
@@ -18,7 +18,7 @@ char __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttribute(
   {
     if ( this->Iter.pCurChar >= this->Iter.pEnd )
       break;
-    Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, ppattrName, pattrNameSz);
+    Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, (const __m128i **)ppattrName, pattrNameSz);
     Scaleform::Render::Text::SGMLParser<wchar_t>::SkipSpaces(this);
     if ( this->Iter.pCurChar < this->Iter.pEnd )
     {

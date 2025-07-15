@@ -44,7 +44,7 @@ LABEL_11:
     }
     else
     {
-      if ( !sub_3728C0(a1) )
+      if ( !sub_47F580(a1) )
         return 0;
       v2 = a1[99];
     }

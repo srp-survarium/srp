@@ -20,12 +20,12 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringLastIndexOf(const Scaleform
   Scaleform::GFx::ASStringNode *v18; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-38h]
   Scaleform::GFx::AS2::Environment *v20; // [esp-Ch] [ebp-30h]
-  const char *str; // [esp+4h] [ebp-20h] BYREF
-  Scaleform::GFx::ASString searchAddRef; // [esp+8h] [ebp-1Ch] BYREF
-  Scaleform::GFx::ASString asStr; // [esp+Ch] [ebp-18h] BYREF
-  const char *s1; // [esp+10h] [ebp-14h] BYREF
-  const char *s2; // [esp+14h] [ebp-10h] BYREF
-  int start; // [esp+18h] [ebp-Ch]
+  char *putf8Buffer; // [esp+4h] [ebp-20h] BYREF
+  Scaleform::GFx::ASConstString v22; // [esp+8h] [ebp-1Ch] BYREF
+  Scaleform::GFx::ASConstString v23; // [esp+Ch] [ebp-18h] BYREF
+  char *v24; // [esp+10h] [ebp-14h] BYREF
+  char *v25; // [esp+14h] [ebp-10h] BYREF
+  int v26; // [esp+18h] [ebp-Ch]
   long double v27; // [esp+1Ch] [ebp-8h]
 
   v1 = fn;
@@ -38,22 +38,22 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringLastIndexOf(const Scaleform
       p_pProto = 0;
     if ( v1->NArgs >= 1 )
     {
-      asStr.pNode = (Scaleform::GFx::ASStringNode *)p_pProto[13].pObject;
-      ++asStr.pNode->RefCount;
+      v23.pNode = (Scaleform::GFx::ASStringNode *)p_pProto[13].pObject;
+      ++v23.pNode->RefCount;
       Env = v1->Env;
       v5 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v5, &searchAddRef, Env, -1, 0);
-      if ( Scaleform::GFx::ASConstString::GetLength(&searchAddRef) )
+      Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&v22, Env, -1, 0);
+      if ( Scaleform::GFx::ASConstString::GetLength(&v22) )
       {
         v8 = v1->NArgs <= 1;
-        str = asStr.pNode->pData;
-        fn = (const Scaleform::GFx::AS2::FnCall *)searchAddRef.pNode->pData;
-        start = 0x7FFFFFF;
+        putf8Buffer = (char *)v23.pNode->pData;
+        fn = (const Scaleform::GFx::AS2::FnCall *)v22.pNode->pData;
+        v26 = 0x7FFFFFF;
         if ( !v8 )
         {
           v20 = v1->Env;
           v9 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
-          start = (int)Scaleform::GFx::AS2::Value::ToNumber(v9, v20);
+          v26 = (int)Scaleform::GFx::AS2::Value::ToNumber(v9, v20);
         }
         Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&fn);
         LODWORD(v27) = Char_Advance0;
@@ -62,21 +62,21 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringLastIndexOf(const Scaleform
         v11 = -1;
         for ( i = 0; ; ++i )
         {
-          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&str);
+          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8Buffer);
           if ( !v13 )
             break;
-          if ( i <= start && v13 == Char_Advance0 )
+          if ( i <= v26 && v13 == Char_Advance0 )
           {
-            s1 = str;
-            s2 = (const char *)fn;
+            v24 = putf8Buffer;
+            v25 = (char *)fn;
             do
             {
-              v14 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&s1);
+              v14 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v24);
               if ( !v14 )
-                --s1;
-              v15 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&s2);
+                --v24;
+              v15 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v25);
               if ( !v15 )
-                --s2;
+                --v25;
               if ( !v14 )
                 break;
               if ( !v15 )
@@ -93,7 +93,7 @@ LABEL_33:
             Char_Advance0 = LODWORD(v27);
           }
         }
-        --str;
+        --putf8Buffer;
 LABEL_37:
         Result = v1->Result;
         if ( Result->T.Type >= 5u )
@@ -103,7 +103,7 @@ LABEL_37:
       }
       else
       {
-        LODWORD(v27) = Scaleform::GFx::ASConstString::GetLength(&asStr);
+        LODWORD(v27) = Scaleform::GFx::ASConstString::GetLength(&v23);
         v6 = v1->Result;
         v27 = (double)LODWORD(v27);
         if ( v6->T.Type >= 5u )
@@ -112,12 +112,12 @@ LABEL_37:
         v6->T.Type = 3;
         v6->NV.NumberValue = v7;
       }
-      pNode = searchAddRef.pNode;
-      --searchAddRef.pNode->RefCount;
+      pNode = v22.pNode;
+      --v22.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-      v18 = asStr.pNode;
-      --asStr.pNode->RefCount;
+      v18 = v23.pNode;
+      --v23.pNode->RefCount;
       if ( !v18->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v18);
     }

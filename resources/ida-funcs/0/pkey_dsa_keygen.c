@@ -1,18 +1,18 @@
-int __cdecl pkey_dsa_keygen(evp_pkey_ctx_st *ctx, evp_pkey_st *pkey)
+int __usercall pkey_dsa_keygen@<eax>(int a1@<ebx>, evp_pkey_ctx_st *ctx, evp_pkey_st *pkey)
 {
   int result; // eax
-  char *v3; // eax
+  char *v4; // eax
 
   if ( !ctx->pkey )
   {
-    ERR_put_error(0xAu, 121, 107, ".\\crypto\\dsa\\dsa_pmeth.c", 269);
+    ERR_put_error(a1, 0xAu, 121, 107, ".\\crypto\\dsa\\dsa_pmeth.c", 269);
     return 0;
   }
-  v3 = (char *)DSA_new();
-  if ( !v3 )
+  v4 = (char *)DSA_new(a1);
+  if ( !v4 )
     return 0;
-  EVP_PKEY_assign(pkey, 116, v3);
-  result = EVP_PKEY_copy_parameters(pkey, ctx->pkey);
+  EVP_PKEY_assign(pkey, (void *)0x74, v4);
+  result = EVP_PKEY_copy_parameters(a1, pkey, ctx->pkey);
   if ( result )
     return DSA_generate_key(pkey->pkey.dsa);
   return result;

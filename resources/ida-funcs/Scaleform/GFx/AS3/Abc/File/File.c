@@ -5,6 +5,8 @@ void __thiscall Scaleform::GFx::AS3::Abc::File::File(Scaleform::GFx::AS3::Abc::F
   this->__vftable = (Scaleform::GFx::AS3::Abc::File_vtbl *)&Scaleform::GFx::AS3::Abc::File::`vftable';
   this->DataSize = 0;
   Scaleform::String::String(&this->Source);
+  this->FileHandle = 0;
+  this->SwfFileOffset = 0;
   Scaleform::GFx::AS3::Abc::ConstPool::ConstPool(&this->Const_Pool);
   this->Methods.Info.Data.Data = 0;
   this->Methods.Info.Data.Size = 0;

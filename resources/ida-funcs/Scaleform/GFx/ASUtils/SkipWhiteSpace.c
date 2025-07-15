@@ -33,12 +33,12 @@ unsigned int __cdecl Scaleform::GFx::ASUtils::SkipWhiteSpace(Scaleform::String *
 }
 
 
-const char *__cdecl Scaleform::GFx::ASUtils::SkipWhiteSpace(const char *str, unsigned int len)
+char *__cdecl Scaleform::GFx::ASUtils::SkipWhiteSpace(char *str, unsigned int len)
 {
-  const char *result; // eax
-  const char *v3; // edi
-  const char *v4; // esi
-  unsigned int v5; // eax
+  char *result; // eax
+  char *v3; // edi
+  char *v4; // esi
+  unsigned int Char_Advance0; // eax
 
   result = str;
   v3 = &str[len];
@@ -47,18 +47,18 @@ const char *__cdecl Scaleform::GFx::ASUtils::SkipWhiteSpace(const char *str, uns
     while ( 1 )
     {
       v4 = result;
-      v5 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&str);
-      if ( v5 != 32
-        && v5 != 10
-        && v5 != 13
-        && v5 != 9
-        && v5 != 12
-        && v5 != 11
-        && (v5 < 0x2000 || v5 > 0x200B)
-        && v5 != 8232
-        && v5 != 8233
-        && v5 != 8287
-        && v5 != 12288 )
+      Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&str);
+      if ( Char_Advance0 != 32
+        && Char_Advance0 != 10
+        && Char_Advance0 != 13
+        && Char_Advance0 != 9
+        && Char_Advance0 != 12
+        && Char_Advance0 != 11
+        && (Char_Advance0 < 0x2000 || Char_Advance0 > 0x200B)
+        && Char_Advance0 != 8232
+        && Char_Advance0 != 8233
+        && Char_Advance0 != 8287
+        && Char_Advance0 != 12288 )
       {
         break;
       }

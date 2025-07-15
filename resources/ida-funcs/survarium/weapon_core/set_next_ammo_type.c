@@ -1,40 +1,37 @@
 void __thiscall survarium::weapon_core::set_next_ammo_type(survarium::weapon_core *this)
 {
-  survarium::inventory_item *v1; // ecx
-  survarium::inventory *inventory; // eax
-  vostok::resources::resource_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base> *v3; // eax
-  survarium::inventory *v4; // eax
-  vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v5; // eax
-  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *object; // [esp+8h] [ebp-2Ch]
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_allocation_resource,vostok::resources::unmanaged_intrusive_base> result; // [esp+2Ch] [ebp-8h] BYREF
-  survarium::profile_slot_enum next_slot; // [esp+30h] [ebp-4h]
+  unsigned __int8 m_ammunition_slots_count; // dl
+  unsigned __int8 *p_m_selected_ammo_id; // eax
+  survarium::profile_slot_enum *m_ammunition_slots; // ecx
+  int v5; // ebx
+  vostok::particle::particle_system_instance_impl *v6; // ebx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v7; // [esp+4h] [ebp-4h] BYREF
 
-  next_slot = max_slots_count;
-  if ( this->m_ammo_slot == survarium::weapon_core::get_ammo_slot(this, first_ammo) )
+  m_ammunition_slots_count = this->m_ammunition_slots_count;
+  if ( m_ammunition_slots_count >= 2u )
   {
-    next_slot = survarium::weapon_core::get_ammo_slot(this, second_ammo);
-  }
-  else
-  {
-    if ( this->m_ammo_slot != survarium::weapon_core::get_ammo_slot(this, second_ammo) )
-      return;
-    next_slot = survarium::weapon_core::get_ammo_slot(this, first_ammo);
-  }
-  inventory = survarium::inventory_item::get_inventory(v1, (int)this);
-  v3 = survarium::inventory::item_in_slot((survarium::inventory *)next_slot, (int)inventory);
-  if ( !vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator==(
-          &v3->vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>,
-          0) )
-  {
-    survarium::weapon_core::unload_ammo(this);
-    this->m_ammo_slot = next_slot;
-    v4 = survarium::inventory_item::get_inventory(&this->survarium::inventory_item, (int)this);
-    v5 = (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)survarium::inventory::item_in_slot((survarium::inventory *)this->m_ammo_slot, (int)v4);
-    object = (vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::resources::unmanaged_allocation_resource,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::weapon_ammunition,vostok::resources::unmanaged_intrusive_base> *)&result, v5);
-    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator=(
-      (vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_ammunition,
-      object);
-    vostok::intrusive_ptr<vostok::ai::behaviour,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&result);
-    this->m_target = weapon_target_reload;
+    p_m_selected_ammo_id = &this->m_selected_ammo_id;
+    if ( ++this->m_selected_ammo_id == m_ammunition_slots_count )
+      *p_m_selected_ammo_id = 0;
+    m_ammunition_slots = this->m_ammunition_slots;
+    v5 = 4 * m_ammunition_slots[*p_m_selected_ammo_id] + 272;
+    if ( *(survarium::inventory_vtbl **)((char *)&this->m_inventory->survarium::inventory_item::__vftable + v5) )
+    {
+      survarium::weapon_core::unload_ammo((survarium::weapon_core *)m_ammunition_slots, this);
+      v6 = *(vostok::particle::particle_system_instance_impl **)((char *)&this->m_inventory->survarium::inventory_item::__vftable
+                                                               + v5);
+      v7.m_object = 0;
+      if ( v6 )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v7);
+        v7.m_object = v6;
+        _InterlockedExchangeAdd(&v6->m_reference_count, 1u);
+      }
+      vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+        (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&v7,
+        (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_ammunition);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v7);
+      this->m_need_to_auto_reload = 1;
+    }
   }
 }

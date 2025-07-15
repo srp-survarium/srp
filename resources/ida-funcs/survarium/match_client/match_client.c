@@ -1,12 +1,20 @@
-void __usercall survarium::match_client::match_client(
-        survarium::match_client *this@<edi>,
-        vostok::network::world *world@<eax>)
+void __userpurge survarium::match_client::match_client(
+        survarium::match_client *this@<ecx>,
+        int a2@<edi>,
+        vostok::network_core::udp_match_packets_orderer *world)
 {
-  survarium::match_options *v2; // ecx
+  vostok::network::match_client *v3; // ecx
 
-  vostok::network::match_client::match_client(&this->m_client, world, &this->m_packets_orderer, 0);
-  this->m_packets_orderer.__vftable = (survarium::network_packets_orderer<enum vostok::match_client_message_types_enum,enum vostok::match_server_message_types_enum>_vtbl *)&survarium::network_packets_orderer<enum vostok::match_client_message_types_enum,enum vostok::match_server_message_types_enum>::`vftable';
-  survarium::match_options::match_options(v2, (int)&this->m_match_options);
-  this->m_last_send_queed_packets_time_in_ms = 0;
-  this->m_are_there_any_packets_to_send = 0;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)a2 = &survarium::base_match_client::`vftable';
+  *(_BYTE *)(a2 + 8) = 0;
+  survarium::match_options::match_options((survarium::match_options *)this, a2 + 16);
+  *(_DWORD *)a2 = &survarium::match_client::`vftable';
+  vostok::network::match_client::match_client(
+    v3,
+    (vostok::network::match_client *)(a2 + 29904),
+    (vostok::network::world_vtbl *)world,
+    (vostok::network::world_vtbl *)(a2 + 30152),
+    0);
+  *(_DWORD *)(a2 + 30152) = &survarium::network_packets_orderer<enum vostok::match::client::messages_enum,enum vostok::match::server::messages_enum>::`vftable';
 }

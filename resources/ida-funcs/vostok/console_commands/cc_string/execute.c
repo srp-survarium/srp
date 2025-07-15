@@ -1,14 +1,10 @@
-void __thiscall vostok::console_commands::cc_string::execute(
-        vostok::console_commands::cc_string *this,
-        const char *args)
+void __thiscall vostok::console_commands::cc_string::execute(vostok::console_commands::cc_string *this, char *args)
 {
-  int v3; // ecx
+  vostok::console_commands::console_command *v3; // ecx
 
-  strncpy_s(this->m_value, this->m_size, args, this->m_size);
-  v3 = -(this->m_on_change_event.vtable != 0);
-  if ( ((unsigned int)survarium::weapon_user_dead_state::finalize & v3) != 0 )
-    boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-      (boost::function1<void,char const *> *)v3,
-      &this->m_on_change_event.vtable,
-      args);
+  vostok::strings::copy_n(this->m_value, this->m_size, args, this->m_size);
+  vostok::console_commands::console_command::on_changed(
+    v3,
+    (int)this,
+    (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)args);
 }

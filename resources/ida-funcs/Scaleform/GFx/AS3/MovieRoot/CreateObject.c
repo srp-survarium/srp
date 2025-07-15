@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::CreateObject(
       Scaleform::GFx::AS3::VM::ExecuteCode(v14, 1u);
     goto LABEL_19;
   }
-  printf("Exception in CreateObject(\"%s\"):\n\t", className);
+  printf(v5, (int)&obj, "Exception in CreateObject(\"%s\"):\n\t", className);
   v19 = this->pAVM.pObject;
   p_ExceptionObj = &v19->ExceptionObj;
   v19->HandleException = 0;
@@ -172,7 +172,7 @@ LABEL_46:
             if ( VInt )
             {
               v25 = *(_DWORD *)(VInt + 16);
-              if ( ((unsigned int)&byte_3FFFFF & v25) != 0 )
+              if ( (v25 & 0x3FFFFF) != 0 )
               {
                 *(_DWORD *)(VInt + 16) = v25 - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)VInt);

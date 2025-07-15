@@ -1,25 +1,27 @@
 void __thiscall survarium::damage_zone_core::tick(
         survarium::damage_zone_core *this,
-        unsigned int frame_delta,
-        survarium::game_camera *current_time)
+        unsigned int time_delta,
+        vostok::physics::loose_ptr_data *current_time)
 {
-  survarium::apply_hit_type m_apply_hit_type; // [esp+0h] [ebp-8h]
+  bool v4; // al
+  unsigned int m_construct_thread_id; // eax
 
-  survarium::collision_sensor::tick(this, frame_delta, (const unsigned int)current_time);
-  m_apply_hit_type = this->m_apply_hit_type;
-  switch ( m_apply_hit_type )
+  survarium::collision_sensor::tick((survarium::collision_sensor *)this, time_delta, current_time);
+  if ( LOBYTE(this->m_parent_resources.m_first) )
   {
-    case on_enter:
-      goto LABEL_4;
-    case on_inside:
-      survarium::damage_zone_core::hit_on_inside(this, frame_delta, (unsigned int)current_time);
-      break;
-    case on_motion_inside:
-      survarium::damage_zone_core::hit_on_motion_inside(this, frame_delta, current_time);
-      break;
-    default:
-LABEL_4:
-      survarium::damage_zone_core::hit_on_enter(this, frame_delta, current_time);
-      return;
+    v4 = (unsigned int)((*((_DWORD *)&this->vostok::resources::resource_flags + 3)
+                       - this->vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags) >> 2) > 0;
   }
+  else
+  {
+    m_construct_thread_id = this->m_construct_thread_id;
+    v4 = m_construct_thread_id != -1 && m_construct_thread_id + this->m_creation_source >= (unsigned int)current_time;
+  }
+  BYTE1(this->m_memory_type_data) = v4;
+}
+
+
+void __thiscall survarium::damage_zone_core::tick(char *this, unsigned int a2, vostok::physics::loose_ptr_data *a3)
+{
+  survarium::damage_zone_core::tick((survarium::damage_zone_core *)(this - 52), a2, a3);
 }

@@ -21,7 +21,7 @@ LABEL_6:
     v3 = v5;
     v5 = (_DWORD *)*v5;
     (*(void (__cdecl **)(_DWORD))(a1 + 20))(v3[9]);
-    sub_525050(v3[11], a1);
+    sub_6403F0(v3[11], a1);
     (*(void (__cdecl **)(_DWORD *))(a1 + 20))(v3);
   }
   v4 = *(_DWORD *)(a1 + 300);
@@ -38,12 +38,12 @@ LABEL_11:
     v4 = *(_DWORD *)(v4 + 8);
     (*(void (__cdecl **)(int))(a1 + 20))(v2);
   }
-  sub_525050(*(_DWORD *)(a1 + 376), a1);
-  sub_525050(*(_DWORD *)(a1 + 372), a1);
-  sub_52DC00(a1 + 416);
-  sub_52DC00(a1 + 440);
+  sub_6403F0(*(_DWORD *)(a1 + 376), a1);
+  sub_6403F0(*(_DWORD *)(a1 + 372), a1);
+  sub_648FA0(a1 + 416);
+  sub_648FA0(a1 + 440);
   if ( !*(_BYTE *)(a1 + 488) && *(_DWORD *)(a1 + 356) )
-    sub_52D4B0(*(_DWORD *)(a1 + 356), *(_DWORD *)(a1 + 476) == 0, a1 + 12);
+    sub_648850(*(_DWORD *)(a1 + 356), *(_DWORD *)(a1 + 476) == 0, a1 + 12);
   (*(void (__cdecl **)(_DWORD))(a1 + 20))(*(_DWORD *)(a1 + 392));
   (*(void (__cdecl **)(_DWORD))(a1 + 20))(*(_DWORD *)(a1 + 464));
   (*(void (__cdecl **)(_DWORD))(a1 + 20))(*(_DWORD *)(a1 + 8));

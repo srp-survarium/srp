@@ -1,146 +1,135 @@
 btConvexHullShape *__userpurge btConvexHullShape::btConvexHullShape@<eax>(
         btConvexHullShape *this@<ecx>,
-        int a2@<eax>,
-        const float *points,
+        btConvexHullShape *points,
         int numPoints,
         int stride)
 {
-  const vostok::math::float4x4 *v5; // xmm0_4
-  int v7; // ecx
-  _QWORD *v8; // edi
-  _QWORD *v9; // ecx
-  int v10; // edx
-  int v11; // edi
-  int v12; // eax
-  void *v13; // eax
-  int v14; // ecx
-  _QWORD *v15; // eax
-  _QWORD *v16; // eax
-  int v17; // ecx
-  int v18; // ecx
-  int v19; // ecx
-  int v20; // ecx
-  _QWORD *v21; // eax
-  _QWORD *v23; // [esp+Ch] [ebp-18h]
-  int v24; // [esp+10h] [ebp-14h]
-  __int64 v25; // [esp+14h] [ebp-10h]
-  __int64 v26; // [esp+1Ch] [ebp-8h]
-  unsigned int v27; // [esp+1Ch] [ebp-8h]
-  unsigned int v28; // [esp+1Ch] [ebp-8h]
-  unsigned int v29; // [esp+1Ch] [ebp-8h]
-  unsigned int v30; // [esp+1Ch] [ebp-8h]
-  unsigned int v31; // [esp+1Ch] [ebp-8h]
-  __int64 v32; // [esp+1Ch] [ebp-8h]
+  int m_size; // edi
+  btVector3 *v5; // ecx
+  int v6; // eax
+  int v7; // edx
+  btVector3 *v8; // esi
+  int v9; // eax
+  btVector3 *v10; // edi
+  int *v11; // edi
+  int v12; // ecx
+  int *v13; // eax
+  btVector3 *v14; // edi
+  int v16; // [esp+0h] [ebp-30h]
+  int v17; // [esp+4h] [ebp-2Ch]
+  int v18; // [esp+8h] [ebp-28h]
+  int v19; // [esp+Ch] [ebp-24h]
+  int v20; // [esp+10h] [ebp-20h]
+  int v21; // [esp+14h] [ebp-1Ch]
+  int v22; // [esp+18h] [ebp-18h]
+  btVector3 *v23; // [esp+1Ch] [ebp-14h]
+  int v24; // [esp+20h] [ebp-10h]
+  int v25; // [esp+20h] [ebp-10h]
+  int v26; // [esp+24h] [ebp-Ch]
+  int v27; // [esp+24h] [ebp-Ch]
+  int v28; // [esp+28h] [ebp-8h]
+  int v29; // [esp+28h] [ebp-8h]
+  int v30; // [esp+2Ch] [ebp-4h]
 
-  v5 = clear_value;
-  *(_DWORD *)(a2 + 8) = 0;
-  *(_DWORD *)(a2 + 16) = v5;
-  *(_DWORD *)(a2 + 20) = v5;
-  *(_DWORD *)(a2 + 24) = v5;
-  *(_DWORD *)(a2 + 28) = 0;
-  *(_DWORD *)(a2 + 48) = 1025758986;
-  *(_DWORD *)(a2 + 64) = 0;
-  *(_DWORD *)(a2 + 80) = v5;
-  *(_DWORD *)(a2 + 84) = v5;
-  *(_DWORD *)(a2 + 88) = v5;
-  *(_DWORD *)(a2 + 92) = 0;
-  *(_DWORD *)(a2 + 96) = -1082130432;
-  *(_DWORD *)(a2 + 100) = -1082130432;
-  *(_DWORD *)(a2 + 104) = -1082130432;
-  *(_DWORD *)(a2 + 108) = 0;
-  *(_BYTE *)(a2 + 112) = 0;
-  *(_DWORD *)a2 = &btConvexHullShape::`vftable';
-  *(_BYTE *)(a2 + 144) = 1;
-  *(_DWORD *)(a2 + 140) = 0;
-  *(_DWORD *)(a2 + 132) = 0;
-  *(_DWORD *)(a2 + 136) = 0;
-  *(_DWORD *)(a2 + 4) = 4;
-  v7 = *(_DWORD *)(a2 + 132);
-  v24 = v7;
-  if ( v7 <= 6 )
+  btPolyhedralConvexAabbCachingShape::btPolyhedralConvexAabbCachingShape(this, points);
+  points->__vftable = (btConvexHullShape_vtbl *)&btConvexHullShape::`vftable';
+  points->m_unscaledPoints.m_ownsMemory = 1;
+  points->m_unscaledPoints.m_data = 0;
+  points->m_unscaledPoints.m_size = 0;
+  points->m_unscaledPoints.m_capacity = 0;
+  points->m_shapeType = 4;
+  m_size = points->m_unscaledPoints.m_size;
+  v22 = m_size;
+  if ( m_size <= 6 )
   {
-    if ( v7 < 6 && *(int *)(a2 + 136) < 6 )
+    if ( m_size < 6 && points->m_unscaledPoints.m_capacity < 6 )
     {
-      ++gNumAlignedAllocs;
-      v8 = sAlignedAllocFunc(0x60u, 16);
-      v23 = v8;
-      if ( *(int *)(a2 + 132) > 0 )
+      v5 = (btVector3 *)btAlignedAllocInternal(0x60u);
+      v6 = points->m_unscaledPoints.m_size;
+      v23 = v5;
+      if ( v6 > 0 )
       {
-        v9 = v8;
-        v10 = 0;
-        v11 = *(_DWORD *)(a2 + 132);
+        v7 = 0;
         do
         {
-          if ( v9 )
+          if ( v5 )
           {
-            v12 = *(_DWORD *)(a2 + 140);
-            *v9 = *(_QWORD *)(v12 + v10);
-            v9[1] = *(_QWORD *)(v10 + v12 + 8);
+            v8 = &points->m_unscaledPoints.m_data[v7];
+            v5->mVec128.m128_i32[0] = v8->mVec128.m128_i32[0];
+            v8 = (btVector3 *)((char *)v8 + 4);
+            v5->mVec128.m128_i32[1] = v8->mVec128.m128_i32[0];
+            v8 = (btVector3 *)((char *)v8 + 4);
+            v5->mVec128.m128_i32[2] = v8->mVec128.m128_i32[0];
+            v5->mVec128.m128_i32[3] = v8->mVec128.m128_i32[1];
+            m_size = v22;
           }
-          v10 += 16;
-          v9 += 2;
-          --v11;
+          ++v7;
+          ++v5;
+          --v6;
         }
-        while ( v11 );
-        v8 = v23;
+        while ( v6 );
       }
-      v13 = *(void **)(a2 + 140);
-      if ( v13 )
+      if ( points->m_unscaledPoints.m_data )
       {
-        if ( *(_BYTE *)(a2 + 144) )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v13);
-        }
-        *(_DWORD *)(a2 + 140) = 0;
+        if ( points->m_unscaledPoints.m_ownsMemory )
+          btAlignedFreeInternal(points->m_unscaledPoints.m_data);
+        points->m_unscaledPoints.m_data = 0;
       }
-      v7 = v24;
-      *(_BYTE *)(a2 + 144) = 1;
-      *(_DWORD *)(a2 + 140) = v8;
-      *(_DWORD *)(a2 + 136) = 6;
+      points->m_unscaledPoints.m_ownsMemory = 1;
+      points->m_unscaledPoints.m_data = v23;
+      points->m_unscaledPoints.m_capacity = 6;
     }
-    if ( v7 < 6 )
+    if ( m_size < 6 )
     {
-      v14 = 16 * v7;
+      v9 = m_size;
       do
       {
-        v15 = (_QWORD *)(v14 + *(_DWORD *)(a2 + 140));
-        if ( v15 )
+        v10 = &points->m_unscaledPoints.m_data[v9];
+        if ( v10 )
         {
-          *v15 = v25;
-          v15[1] = v26;
+          v10->mVec128.m128_i32[0] = v24;
+          v11 = &v10->mVec128.m128_i32[1];
+          *v11++ = v26;
+          *v11 = v28;
+          v11[1] = v30;
         }
-        v14 += 16;
+        ++v9;
       }
-      while ( v14 < 96 );
+      while ( v9 < 6 );
     }
   }
-  *(_DWORD *)(a2 + 132) = 6;
-  v16 = *(_QWORD **)(a2 + 140);
-  v27 = *((_DWORD *)points + 2);
-  *v16 = *(_QWORD *)points;
-  v16[1] = v27;
-  v28 = *((_DWORD *)points + 6);
-  v17 = *(_DWORD *)(a2 + 140);
-  *(_QWORD *)(v17 + 16) = *((_QWORD *)points + 2);
-  *(_QWORD *)(v17 + 24) = v28;
-  v18 = *(_DWORD *)(a2 + 140);
-  v29 = *((_DWORD *)points + 10);
-  *(_QWORD *)(v18 + 32) = *((_QWORD *)points + 4);
-  *(_QWORD *)(v18 + 40) = v29;
-  v19 = *(_DWORD *)(a2 + 140);
-  v30 = *((_DWORD *)points + 14);
-  *(_QWORD *)(v19 + 48) = *((_QWORD *)points + 6);
-  *(_QWORD *)(v19 + 56) = v30;
-  v20 = *(_DWORD *)(a2 + 140);
-  v31 = *((_DWORD *)points + 18);
-  *(_QWORD *)(v20 + 64) = *((_QWORD *)points + 8);
-  v20 += 64;
-  *(_QWORD *)(v20 + 8) = v31;
-  v32 = *((unsigned int *)points + 22);
-  v21 = (_QWORD *)(*(_DWORD *)(a2 + 140) + 80);
-  *v21 = *((_QWORD *)points + 10);
-  v21[1] = v32;
-  btPolyhedralConvexAabbCachingShape::recalcLocalAabb((btPolyhedralConvexAabbCachingShape *)v20);
-  return (btConvexHullShape *)a2;
+  v12 = 0;
+  points->m_unscaledPoints.m_size = 6;
+  v13 = (int *)(numPoints + 8);
+  do
+  {
+    v25 = *(v13 - 2);
+    v27 = *(v13 - 1);
+    v14 = &points->m_unscaledPoints.m_data[v12];
+    v29 = *v13;
+    v14->mVec128.m128_i32[0] = v25;
+    v14 = (btVector3 *)((char *)v14 + 4);
+    v14->mVec128.m128_i32[0] = v27;
+    v14 = (btVector3 *)((char *)v14 + 4);
+    v14->mVec128.m128_i32[0] = v29;
+    ++v12;
+    v13 += 4;
+    v14->mVec128.m128_i32[1] = 0;
+  }
+  while ( v12 < 6 );
+  btPolyhedralConvexAabbCachingShape::recalcLocalAabb(
+    (btPolyhedralConvexAabbCachingShape *)(v12 * 16),
+    (int *)points,
+    v16,
+    v17,
+    v18,
+    v19,
+    v20,
+    v21,
+    v22,
+    (int)v23,
+    v25,
+    v27,
+    v29);
+  return points;
 }

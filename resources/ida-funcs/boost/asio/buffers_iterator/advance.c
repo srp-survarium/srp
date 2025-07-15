@@ -1,75 +1,95 @@
-void __thiscall boost::asio::buffers_iterator<boost::asio::const_buffers_1,char>::advance(
-        boost::asio::buffers_iterator<boost::asio::const_buffers_1,char> *this,
-        int n)
+void __usercall boost::asio::buffers_iterator<boost::asio::const_buffers_1,char>::advance(
+        boost::asio::buffers_iterator<boost::asio::const_buffers_1,char> *this@<eax>,
+        int n@<edx>)
 {
-  const boost::asio::const_buffer *current; // edx
-  unsigned int size; // ecx
-  const void *buffer; // [esp+14h] [ebp-18h]
-  unsigned int buffer_4; // [esp+18h] [ebp-14h]
-  const boost::asio::const_buffer *iter; // [esp+20h] [ebp-Ch]
-  unsigned int abs_n; // [esp+24h] [ebp-8h]
-  int current_buffer_balance; // [esp+28h] [ebp-4h]
+  signed int v2; // ecx
+  const boost::asio::const_buffer *end; // esi
+  const boost::asio::const_buffer *v4; // ecx
+  const void *v5; // edi
+  unsigned int v6; // ecx
+  unsigned int v7; // edx
+  const boost::asio::const_buffer *begin; // edi
+  unsigned int current_buffer_position; // ecx
+  const boost::asio::const_buffer *current; // ecx
+  unsigned int size; // esi
+  const void *data; // ebx
 
   if ( n <= 0 )
   {
     if ( n < 0 )
     {
-      abs_n = -n;
-      while ( 1 )
+      v7 = -n;
+      if ( this->current_buffer_position_ >= v7 )
       {
-LABEL_9:
-        if ( this->current_buffer_position_ >= abs_n )
-        {
-          this->position_ -= abs_n;
-          this->current_buffer_position_ -= abs_n;
-          return;
-        }
-        abs_n -= this->current_buffer_position_;
-        this->position_ -= this->current_buffer_position_;
-        if ( this->current_ == this->begin_ )
-          break;
-        iter = this->current_;
-        while ( iter != this->begin_ )
-        {
-          --iter;
-          buffer = iter->data_;
-          buffer_4 = iter->size_;
-          if ( buffer_4 )
-          {
-            this->current_ = iter;
-            this->current_buffer_.data_ = buffer;
-            this->current_buffer_.size_ = buffer_4;
-            this->current_buffer_position_ = buffer_4;
-            goto LABEL_9;
-          }
-        }
+LABEL_17:
+        this->position_ -= v7;
+        this->current_buffer_position_ -= v7;
       }
-      this->current_buffer_position_ = 0;
+      else
+      {
+        begin = this->begin_;
+        while ( 1 )
+        {
+          current_buffer_position = this->current_buffer_position_;
+          this->position_ -= current_buffer_position;
+          v7 -= current_buffer_position;
+          current = this->current_;
+          if ( current == begin )
+            break;
+          while ( 1 )
+          {
+            --current;
+            size = current->size_;
+            if ( size )
+              break;
+            if ( current == begin )
+              goto LABEL_16;
+          }
+          data = current->data_;
+          this->current_ = current;
+          this->current_buffer_.data_ = data;
+          this->current_buffer_.size_ = size;
+          this->current_buffer_position_ = size;
+LABEL_16:
+          if ( this->current_buffer_position_ >= v7 )
+            goto LABEL_17;
+        }
+        this->current_buffer_position_ = 0;
+      }
     }
   }
   else
   {
-    while ( 1 )
+    v2 = this->current_buffer_.size_ - this->current_buffer_position_;
+    if ( v2 > n )
     {
-      current_buffer_balance = this->current_buffer_.size_ - this->current_buffer_position_;
-      if ( current_buffer_balance > n )
-      {
-        this->position_ += n;
-        this->current_buffer_position_ += n;
-        return;
-      }
-      n -= current_buffer_balance;
-      this->position_ += current_buffer_balance;
-      if ( ++this->current_ == this->end_ )
-        break;
-      current = this->current_;
-      size = current->size_;
-      this->current_buffer_.data_ = current->data_;
-      this->current_buffer_.size_ = size;
-      this->current_buffer_position_ = 0;
+LABEL_6:
+      this->position_ += n;
+      this->current_buffer_position_ += n;
     }
-    this->current_buffer_.data_ = 0;
-    this->current_buffer_.size_ = 0;
-    this->current_buffer_position_ = 0;
+    else
+    {
+      end = this->end_;
+      while ( 1 )
+      {
+        this->position_ += v2;
+        ++this->current_;
+        n -= v2;
+        v4 = this->current_;
+        if ( v4 == end )
+          break;
+        v5 = v4->data_;
+        v6 = v4->size_;
+        this->current_buffer_position_ = 0;
+        this->current_buffer_.data_ = v5;
+        this->current_buffer_.size_ = v6;
+        v2 = v6 - this->current_buffer_position_;
+        if ( v2 > n )
+          goto LABEL_6;
+      }
+      this->current_buffer_position_ = 0;
+      this->current_buffer_.data_ = 0;
+      this->current_buffer_.size_ = 0;
+    }
   }
 }

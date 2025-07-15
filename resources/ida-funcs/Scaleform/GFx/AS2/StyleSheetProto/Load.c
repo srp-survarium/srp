@@ -46,7 +46,7 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::Load(const Scaleform::GFx::AS
             (Scaleform::GFx::AS2::MovieRoot *)v1->Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
             p_pProto,
             v7,
-            (char *)fn->__vftable,
+            (const __m128i *)fn->__vftable,
             LM_None);
           Result = v1->Result;
           Scaleform::GFx::AS2::Value::DropRefs(Result);

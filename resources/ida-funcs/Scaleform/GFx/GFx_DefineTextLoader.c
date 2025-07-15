@@ -35,7 +35,10 @@ void __stdcall Scaleform::GFx::GFx_DefineTextLoader(
   {
     v10 = 0;
   }
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)&p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "TextCharacter, id = %d\n",
+    v7);
   Scaleform::GFx::StaticTextDef::Read(v10, p, tagInfo->TagType);
   if ( p->LoadState == LS_LoadingRoot )
     Scaleform::GFx::MovieDataDef::LoadTaskData::AddResource(p->pLoadData.pObject, (Scaleform::GFx::ResourceId)v7, v10);

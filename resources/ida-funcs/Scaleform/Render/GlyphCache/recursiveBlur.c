@@ -11,30 +11,30 @@ void __thiscall Scaleform::Render::GlyphCache::recursiveBlur(
 {
   Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *p_BlurStack; // esi
   Scaleform::ArrayLH_POD<float,2,Scaleform::ArrayDefaultPolicy> *p_BlurSum; // edi
-  Scaleform::Render::ImgBlurWrapperX imgWX; // [esp+1Ch] [ebp-18h] BYREF
+  Scaleform::Render::ImgBlurWrapperX v11; // [esp+1Ch] [ebp-18h] BYREF
 
   p_BlurStack = &this->BlurStack;
-  imgWX.Sx = sx;
+  v11.Sx = sx;
   p_BlurSum = &this->BlurSum;
-  imgWX.W = w;
-  imgWX.Sy = sy;
-  imgWX.Img = img;
-  imgWX.Pitch = pitch;
-  imgWX.H = h;
+  v11.W = w;
+  v11.Sy = sy;
+  v11.Img = img;
+  v11.Pitch = pitch;
+  v11.H = h;
   Scaleform::Render::RecursiveBlur<Scaleform::Render::ImgBlurWrapperX,Scaleform::ArrayLH_POD<float,2,Scaleform::ArrayDefaultPolicy>,Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>(
-    &imgWX,
+    &v11,
     rx,
     (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)&this->BlurSum,
-    &this->BlurStack);
-  imgWX.Sx = sx;
-  imgWX.Sy = sy;
-  imgWX.Img = img;
-  imgWX.Pitch = pitch;
-  imgWX.W = w;
-  imgWX.H = h;
+    (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)&this->BlurStack);
+  v11.Sx = sx;
+  v11.Sy = sy;
+  v11.Img = img;
+  v11.Pitch = pitch;
+  v11.W = w;
+  v11.H = h;
   Scaleform::Render::RecursiveBlur<Scaleform::Render::ImgBlurWrapperY,Scaleform::ArrayLH_POD<float,2,Scaleform::ArrayDefaultPolicy>,Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>(
-    (Scaleform::Render::ImgBlurWrapperY *)&imgWX,
+    (Scaleform::Render::ImgBlurWrapperY *)&v11,
     ry,
     (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)p_BlurSum,
-    p_BlurStack);
+    (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)p_BlurStack);
 }

@@ -10,7 +10,7 @@ asn1_string_st *__cdecl ASN1_UTCTIME_adj(asn1_string_st *s, __int64 t, int offse
   v4 = s;
   if ( s || (v5 = ASN1_STRING_type_new(23), (v4 = v5) != 0) )
   {
-    v6 = OPENSSL_gmtime(&t, &result);
+    v6 = OPENSSL_gmtime((int)v4, &t, &result);
     if ( !v6 || (offset_day || offset_sec) && !OPENSSL_gmtime_adj(v6, offset_day, offset_sec) )
       return 0;
     tm_year = v6->tm_year;
@@ -26,7 +26,7 @@ asn1_string_st *__cdecl ASN1_UTCTIME_adj(asn1_string_st *s, __int64 t, int offse
         data = (char *)CRYPTO_malloc(20, ".\\crypto\\asn1\\a_utctm.c", 221);
         if ( !data )
         {
-          ERR_put_error(0xDu, 218, 65, ".\\crypto\\asn1\\a_utctm.c", 224);
+          ERR_put_error((int)v4, 0xDu, 218, 65, ".\\crypto\\asn1\\a_utctm.c", 224);
           return 0;
         }
         if ( v4->data )

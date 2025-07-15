@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::Text::Highlighter::UpdateGlyphIndices(
   unsigned int CorrectionPos; // ebx
   int Offset; // ebx
   unsigned int i; // [esp+Ch] [ebp-4h]
-  const Scaleform::Render::Text::CompositionStringBase *pcsa; // [esp+14h] [ebp+4h]
+  int v11; // [esp+14h] [ebp+4h]
 
   this->CorrectionLen = 0;
   this->CorrectionPos = 0;
@@ -24,10 +24,10 @@ void __thiscall Scaleform::Render::Text::Highlighter::UpdateGlyphIndices(
   this->HasUnderline = 0;
   if ( Size )
   {
-    pcsa = 0;
+    v11 = 0;
     for ( i = Size; i; --i )
     {
-      v4 = (Scaleform::Render::Text::HighlightDesc *)((char *)pcsa + (unsigned int)this->Highlighters.Data.Data);
+      v4 = &this->Highlighters.Data.Data[v11];
       StartPos = v4->StartPos;
       Length = v4->Length;
       v4->AdjStartPos = v4->StartPos;
@@ -55,7 +55,7 @@ LABEL_13:
           v4->AdjStartPos = StartPos + CorrectionLen;
       }
 LABEL_14:
-      pcsa += 5;
+      ++v11;
     }
   }
 }

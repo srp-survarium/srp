@@ -1,309 +1,256 @@
 void __thiscall vostok::render::effect_manager::recompile_shaders_async(
         vostok::render::effect_manager *this,
-        vostok::render::effect_manager *in_changed_defines,
-        const vostok::render::vector<vostok::fs_new::virtual_path_string> *in_changed_definesa)
+        const vostok::buffer_vector<vostok::fs_new::virtual_path_string> *in_changed_defines)
 {
-  vostok::fs_new::virtual_path_string *M_start; // edi
-  vostok::fs_new::virtual_path_string *M_finish; // eax
-  vostok::render::effect_manager::effect_to_recompile_struct *v5; // ecx
-  vostok::render::effect_manager::effect_to_recompile_struct *v6; // esi
-  volatile signed __int32 *m_end; // eax
-  char *m_max_end; // eax
-  vostok::render::effect_descriptor *m_begin; // edx
-  const vostok::render::effect_manager::effect_to_recompile_struct *v10; // eax
-  vostok::render::effect_manager::effect_to_recompile_struct *v11; // ecx
-  char *m_object; // esi
-  vostok::render::custom_config *v13; // ebx
-  vostok::render::grass_render_model *v14; // ecx
-  unsigned int v15; // edi
-  void *v16; // esp
-  const vostok::variant<32> **v17; // ebx
-  void *v18; // esp
+  vostok::memory::doug_lea_allocator *v2; // esi
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  vostok::render::effect_manager::effect_to_recompile_struct *v6; // eax
+  vostok::particle::particle_system_instance_impl *v7; // ecx
+  const vostok::fs_new::virtual_path_string *v8; // esi
+  vostok::render::effect_manager::shader_cache_info *m_begin; // ebx
+  const vostok::buffer_vector<vostok::fs_new::virtual_path_string> *v10; // esi
+  const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *m_end; // ebx
+  vostok::buffer_vector<vostok::render::effect_manager::effect_to_recompile_struct> *v12; // ecx
+  vostok::render::effect_descriptor *descriptor; // esi
+  vostok::render::res_effect *v14; // edi
+  unsigned int v15; // ebx
+  vostok::memory::doug_lea_allocator *v16; // esi
+  char *v17; // edi
+  vostok::memory::doug_lea_allocator *v18; // ecx
   void *v19; // esp
-  const stlp_std::__false_type **v20; // edi
-  const stlp_std::__false_type **v21; // esi
-  int *v22; // ebx
-  volatile signed __int32 **v23; // eax
-  volatile signed __int32 *v24; // esi
-  int v25; // ecx
-  vostok::render::grass_render_model *v26; // ecx
-  const stlp_std::__false_type *v27; // ecx
-  _DWORD *v28; // ecx
-  const stlp_std::__false_type **v29; // eax
-  const stlp_std::__false_type *v30; // ecx
-  const stlp_std::__false_type *v31; // eax
-  __int64 v32; // xmm0_8
-  vostok::resources::resources_manager *m_initialized; // ecx
-  void (__cdecl *v34)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::tasks::thread_pool *v35; // ecx
-  vostok::resources::resource_ptr<vostok::render::res_effect,vostok::resources::unmanaged_intrusive_base> v36; // [esp-8h] [ebp-88h]
-  vostok::intrusive_ptr<vostok::render::custom_config,vostok::render::custom_config,vostok::threading::simple_lock> v37; // [esp-4h] [ebp-84h]
-  const stlp_std::__false_type *v38[2]; // [esp+0h] [ebp-80h] BYREF
-  bool v39; // [esp+8h] [ebp-78h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+10h] [ebp-70h] BYREF
-  vostok::render::effect_manager::effect_to_recompile_struct v41; // [esp+34h] [ebp-4Ch] BYREF
-  vostok::vectora<vostok::render::effect_manager::effect_to_recompile_struct> effects_to_recompile; // [esp+44h] [ebp-3Ch] BYREF
-  __int64 v43; // [esp+54h] [ebp-2Ch]
-  vostok::vectora<vostok::render::effect_manager::effect_to_recompile_struct> *p_effects_to_recompile; // [esp+5Ch] [ebp-24h]
-  vostok::mutable_buffer v45; // [esp+60h] [ebp-20h] BYREF
-  const vostok::resources::creation_request *requests; // [esp+68h] [ebp-18h]
-  unsigned int v47; // [esp+6Ch] [ebp-14h]
-  const stlp_std::__false_type **v48; // [esp+70h] [ebp-10h]
-  const stlp_std::__false_type **v49; // [esp+74h] [ebp-Ch]
-  volatile signed __int32 **p_config; // [esp+78h] [ebp-8h]
-  const stlp_std::__false_type **v51; // [esp+7Ch] [ebp-4h]
-  const vostok::render::vector<vostok::fs_new::virtual_path_string> *in_changed_definesb; // [esp+8Ch] [ebp+Ch]
+  void *v20; // esp
+  void *v21; // esp
+  const char **v22; // eax
+  vostok::particle::particle_system_instance_impl *v23; // edi
+  vostok::particle::particle_system_instance_impl *v24; // ecx
+  vostok::render::effect_compile_data *v25; // eax
+  const char **v26; // esi
+  const vostok::variant<32> **v27; // eax
+  const char **v28; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v29; // ecx
+  vostok::command_line::key *v30; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v31; // [esp-10h] [ebp-2314h] BYREF
+  vostok::particle::particle_system_instance_impl *v32; // [esp-Ch] [ebp-2310h]
+  unsigned int m_reconstruction_info_actuality_tick; // [esp-8h] [ebp-230Ch]
+  void (__thiscall **v34)(vostok::render::effect_manager *, vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **, vostok::resources::queries_result *); // [esp-4h] [ebp-2308h]
+  const char *v35; // [esp+0h] [ebp-2304h] BYREF
+  const char *v36; // [esp+4h] [ebp-2300h]
+  unsigned int v37; // [esp+8h] [ebp-22FCh]
+  _DWORD v38[3]; // [esp+10h] [ebp-22F4h] BYREF
+  _BYTE v39[8832]; // [esp+1Ch] [ebp-22E8h] BYREF
+  char v40; // [esp+229Ch] [ebp-68h] BYREF
+  void (__thiscall *v41)(vostok::render::effect_manager *, vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **, vostok::resources::queries_result *); // [esp+22A0h] [ebp-64h] BYREF
+  const vostok::buffer_vector<vostok::fs_new::virtual_path_string> *v42; // [esp+22A4h] [ebp-60h]
+  vostok::render::effect_manager::effect_to_recompile_struct *v43; // [esp+22A8h] [ebp-5Ch]
+  void (__thiscall *v44)(vostok::render::effect_manager *, vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **, vostok::resources::queries_result *); // [esp+22ACh] [ebp-58h]
+  const vostok::buffer_vector<vostok::fs_new::virtual_path_string> *v45; // [esp+22B0h] [ebp-54h]
+  vostok::render::effect_manager::effect_to_recompile_struct *v46; // [esp+22B4h] [ebp-50h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v47; // [esp+22B8h] [ebp-4Ch] BYREF
+  const vostok::variant<32> *const *v48; // [esp+22BCh] [ebp-48h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v49; // [esp+22C0h] [ebp-44h] BYREF
+  vostok::particle::particle_system_instance_impl *v50; // [esp+22C4h] [ebp-40h]
+  void *v51; // [esp+22C8h] [ebp-3Ch]
+  vostok::particle::particle_system_instance_impl *v52; // [esp+22CCh] [ebp-38h]
+  vostok::particle::particle_system_instance_impl *v53; // [esp+22D0h] [ebp-34h]
+  const char **v54; // [esp+22D4h] [ebp-30h]
+  const vostok::resources::request *v55; // [esp+22D8h] [ebp-2Ch]
+  const vostok::variant<32> *const *v56; // [esp+22DCh] [ebp-28h]
+  const char **i; // [esp+22E0h] [ebp-24h]
+  vostok::render::effect_compile_data *v58; // [esp+22E4h] [ebp-20h] BYREF
+  const char **m_object; // [esp+22E8h] [ebp-1Ch]
+  const vostok::variant<32> *const *v60; // [esp+22ECh] [ebp-18h]
+  const char **v61; // [esp+22F0h] [ebp-14h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v62; // [esp+22F4h] [ebp-10h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v63; // [esp+22F8h] [ebp-Ch] BYREF
+  vostok::render::effect_manager::effect_to_recompile_struct *value; // [esp+22FCh] [ebp-8h]
 
-  M_start = (vostok::fs_new::virtual_path_string *)in_changed_defines->m_effects._M_impl._M_start;
-  M_finish = (vostok::fs_new::virtual_path_string *)in_changed_defines->m_effects._M_impl._M_finish;
-  v5 = 0;
-  v6 = 0;
-  effects_to_recompile._M_impl._M_start = 0;
-  effects_to_recompile._M_impl._M_finish = 0;
-  effects_to_recompile._M_impl._M_end_of_storage.m_allocator = &vostok::memory::g_mt_allocator;
-  effects_to_recompile._M_impl._M_end_of_storage._M_data = 0;
-  if ( M_start != M_finish )
+  v2 = vostok::render::g_allocator;
+  v4 = type_info::raw_name(&vostok::fixed_vector<vostok::render::effect_manager::effect_to_recompile_struct,2048> `RTTI Type Descriptor');
+  v6 = (vostok::render::effect_manager::effect_to_recompile_struct *)vostok::memory::doug_lea_allocator::malloc_impl(
+                                                                       v5,
+                                                                       (int)v2,
+                                                                       (unsigned int)&unk_1000C,
+                                                                       v4,
+                                                                       v35,
+                                                                       v36,
+                                                                       v37);
+  if ( v6 )
   {
-    do
-    {
-      if ( (*(unsigned __int8 (__thiscall **)(char *, const vostok::render::vector<vostok::fs_new::virtual_path_string> *))(*(_DWORD *)M_start->m_string.m_begin + 4))(
-             M_start->m_string.m_begin,
-             in_changed_definesa) )
-      {
-        v37.m_object = 0;
-        m_end = (volatile signed __int32 *)M_start->m_string.m_end;
-        if ( m_end )
-        {
-          v37.m_object = (vostok::render::custom_config *)M_start->m_string.m_end;
-          _InterlockedExchangeAdd(m_end, 1u);
-        }
-        m_max_end = M_start->m_string.m_max_end;
-        m_begin = (vostok::render::effect_descriptor *)M_start->m_string.m_begin;
-        v36.m_object = 0;
-        if ( m_max_end )
-        {
-          v36.m_object = (vostok::render::res_effect *)M_start->m_string.m_max_end;
-          _InterlockedExchangeAdd((volatile signed __int32 *)m_max_end + 52, 1u);
-        }
-        vostok::render::effect_manager::effect_to_recompile_struct::effect_to_recompile_struct(
-          &v41,
-          m_begin,
-          v36,
-          v37,
-          (unsigned int)v38[0]);
-        v11 = effects_to_recompile._M_impl._M_finish;
-        if ( effects_to_recompile._M_impl._M_finish == effects_to_recompile._M_impl._M_end_of_storage._M_data )
-        {
-          stlp_std::priv::_Impl_vector<vostok::render::effect_manager::effect_to_recompile_struct,vostok::vectora_allocator<vostok::render::effect_manager::effect_to_recompile_struct>>::_M_insert_overflow_aux(
-            (stlp_std::priv::_Impl_vector<vostok::render::effect_manager::effect_to_recompile_struct,vostok::vectora_allocator<vostok::render::effect_manager::effect_to_recompile_struct> > *)effects_to_recompile._M_impl._M_finish,
-            (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *> *)&effects_to_recompile,
-            effects_to_recompile._M_impl._M_finish,
-            v10,
-            v38[0],
-            (unsigned int)v38[1],
-            v39);
-        }
-        else
-        {
-          if ( effects_to_recompile._M_impl._M_finish )
-          {
-            vostok::render::effect_manager::effect_to_recompile_struct::effect_to_recompile_struct(
-              effects_to_recompile._M_impl._M_finish,
-              v10);
-            v11 = effects_to_recompile._M_impl._M_finish;
-          }
-          effects_to_recompile._M_impl._M_finish = v11 + 1;
-        }
-        if ( v41.config.m_object && !_InterlockedExchangeAdd(&v41.config.m_object->m_reference_count, 0xFFFFFFFF) )
-        {
-          m_object = (char *)v41.config.m_object;
-          v13 = v41.config.m_object;
-          if ( v41.config.m_object->call_destructors )
-            vostok::render::custom_config_value::call_data_destructor(&v41.config.m_object->m_root);
-          if ( v13->own_buffer )
-          {
-            v14 = vostok::render::g_allocator.m_object;
-            BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-            vostok_mspace_free((malloc_state *)HIDWORD(v14->m_reconstruction_info_actuality_tick), m_object);
-          }
-        }
-        if ( v41.effect.m_object && !_InterlockedExchangeAdd(&v41.effect.m_object->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(
-            &v41.effect.m_object->vostok::resources::unmanaged_intrusive_base,
-            v41.effect.m_object);
-      }
-      M_start = (vostok::fs_new::virtual_path_string *)((char *)M_start + 12);
-    }
-    while ( M_start != (vostok::fs_new::virtual_path_string *)in_changed_defines->m_effects._M_impl._M_finish );
-    v6 = effects_to_recompile._M_impl._M_start;
-    v5 = effects_to_recompile._M_impl._M_finish;
-  }
-  v15 = v5 - v6;
-  v47 = v15;
-  if ( v15 )
-  {
-    v16 = alloca(4 * v15);
-    v17 = (const vostok::variant<32> **)v38;
-    v48 = v38;
-    v18 = alloca(48 * v15);
-    in_changed_definesb = (const vostok::render::vector<vostok::fs_new::virtual_path_string> *)v38;
-    v19 = alloca(16 * v15);
-    requests = (const vostok::resources::creation_request *)v38;
-    if ( v6 != effects_to_recompile._M_impl._M_finish )
-    {
-      v20 = v38;
-      p_config = (volatile signed __int32 **)&v6->config;
-      v21 = v38;
-      v49 = v38;
-      v51 = v38;
-      while ( 1 )
-      {
-        if ( v20 )
-        {
-          v20[10] = 0;
-          v20[11] = 0;
-        }
-        else
-        {
-          v20 = 0;
-        }
-        v22 = vostok::memory::doug_lea_allocator::malloc_impl(
-                (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                0x10u);
-        if ( v22 )
-        {
-          v23 = p_config;
-          v24 = 0;
-          if ( *p_config )
-          {
-            v24 = *p_config;
-            _InterlockedExchangeAdd(*p_config, 1u);
-          }
-          v25 = (int)v23[1];
-          *v22 = (int)*(v23 - 1);
-          v22[1] = 0;
-          if ( v24 )
-          {
-            v22[1] = (int)v24;
-            _InterlockedExchangeAdd(v24, 1u);
-          }
-          v22[2] = v25;
-          *((_BYTE *)v22 + 12) = 0;
-          if ( v24 && !_InterlockedExchangeAdd(v24, 0xFFFFFFFF) )
-          {
-            if ( *((_BYTE *)v24 + 9) )
-              vostok::render::custom_config_value::call_data_destructor((vostok::render::custom_config_value *)(v24 + 3));
-            if ( *((_BYTE *)v24 + 8) )
-            {
-              v26 = vostok::render::g_allocator.m_object;
-              BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-              vostok_mspace_free((malloc_state *)HIDWORD(v26->m_reconstruction_info_actuality_tick), (char *)v24);
-            }
-          }
-          v21 = v49;
-        }
-        else
-        {
-          v22 = 0;
-        }
-        v27 = v20[10];
-        if ( v27 )
-        {
-          (*(void (__thiscall **)(const stlp_std::__false_type *, const stlp_std::__false_type **))(*(_DWORD *)v27 + 4))(
-            v27,
-            v20 + 2);
-          v20[10] = 0;
-        }
-        v20[11] = (const stlp_std::__false_type *)vostok::detail::type_to_int<vostok::render::effect_compile_data *>::get();
-        if ( v20 != (const stlp_std::__false_type **)-8 )
-          v20[2] = (const stlp_std::__false_type *)v22;
-        v28 = v51;
-        *v20 = (const stlp_std::__false_type *)&vostok::detail::concrete_type_helper<vostok::render::effect_compile_data *>::`vftable';
-        v20[10] = (const stlp_std::__false_type *)v20;
-        *v28 = v20;
-        if ( v21 )
-        {
-          boost::_bi::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>(
-            &v45,
-            (unsigned __int8 *)&buf,
-            1u);
-          v30 = *v29;
-          v31 = v29[1];
-          *v21 = (const stlp_std::__false_type *)&buf;
-          v21[1] = v30;
-          v21[2] = v31;
-          v21[3] = (const stlp_std::__false_type *)13;
-        }
-        in_changed_definesb += 4;
-        ++v51;
-        p_config += 4;
-        v21 += 4;
-        v49 = v21;
-        if ( p_config - 2 == (volatile signed __int32 **)effects_to_recompile._M_impl._M_finish )
-          break;
-        v20 = (const stlp_std::__false_type **)in_changed_definesb;
-      }
-      v17 = (const vostok::variant<32> **)v48;
-      v15 = v47;
-    }
-    LODWORD(v43) = vostok::render::effect_manager::on_effects_recompiled;
-    HIDWORD(v43) = in_changed_defines;
-    v32 = v43;
-    in_changed_defines->m_is_effects_query_processing = 1;
-    v43 = v32;
-    p_effects_to_recompile = &effects_to_recompile;
-    if ( survarium::generate_shaders_world::is_loading() )
-    {
-      callback.vtable = 0;
-    }
-    else
-    {
-      *(_QWORD *)&callback.functor.obj_ptr = v43;
-      callback.functor.vostok_pointer_size_alignment[2] = p_effects_to_recompile;
-      callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::effect_manager,vostok::vectora<vostok::render::effect_manager::effect_to_recompile_struct> *,vostok::resources::queries_result &>,boost::_bi::list3<boost::_bi::value<vostok::render::effect_manager *>,boost::_bi::value<vostok::vectora<vostok::render::effect_manager::effect_to_recompile_struct> *>,boost::arg<1>>>>'::`2'::stored_vtable
-                                                               + 1);
-    }
-    vostok::resources::query_create_resources(
-      requests,
-      v15,
-      (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-      (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-      v17,
-      0,
-      assert_on_fail_true);
-    if ( callback.vtable )
-    {
-      if ( ((int)callback.vtable & 1) == 0 )
-      {
-        v34 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-        if ( v34 )
-          v34(&callback.functor, &callback.functor, 2);
-      }
-    }
-    while ( in_changed_defines->m_is_effects_query_processing )
-    {
-      vostok::resources::dispatch_callbacks(m_initialized);
-      if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-        vostok::tasks::thread_pool::on_current_thread_locks(v35, s_thread_pool.m_variable);
-      Sleep(1u);
-      m_initialized = (vostok::resources::resources_manager *)s_thread_pool.m_initialized;
-      if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-        vostok::tasks::thread_pool::on_current_thread_unlocks(
-          (vostok::tasks::thread_pool *)m_initialized,
-          s_thread_pool.m_variable);
-    }
-    stlp_std::__destroy_range_aux<stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>,vostok::render::effect_manager::effect_to_recompile_struct>(
-      (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>)effects_to_recompile._M_impl._M_finish,
-      (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>)effects_to_recompile._M_impl._M_start);
+    v6->effect.m_object = (vostok::render::res_effect *)&v6->parameters;
+    v6->descriptor = (vostok::render::effect_descriptor *)&v6->parameters;
+    v7 = (vostok::particle::particle_system_instance_impl *)((char *)&_sbh_sizeHeaderList + (_DWORD)&v6->parameters);
+    v6->config.m_object = (vostok::configs::binary_config *)v7;
+    value = v6;
   }
   else
   {
-    stlp_std::__destroy_range_aux<stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>,vostok::render::effect_manager::effect_to_recompile_struct>(
-      (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>)v5,
-      (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_to_recompile_struct *>)v6);
+    value = 0;
   }
-  if ( effects_to_recompile._M_impl._M_start )
-    effects_to_recompile._M_impl._M_end_of_storage.m_allocator->call_free(
-      effects_to_recompile._M_impl._M_end_of_storage.m_allocator,
-      effects_to_recompile._M_impl._M_start);
+  v8 = *(const vostok::fs_new::virtual_path_string **)&this->force_sync;
+  m_begin = this->m_shader_cache_info.m_begin;
+  v38[0] = v39;
+  v38[1] = v39;
+  v38[2] = &v40;
+  while ( v8 != (const vostok::fs_new::virtual_path_string *)m_begin )
+    vostok::buffer_vector<vostok::fs_new::virtual_path_string>::push_back(
+      (vostok::buffer_vector<vostok::fs_new::virtual_path_string> *)v7,
+      (int)v38,
+      v8++);
+  v10 = in_changed_defines;
+  m_end = (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)in_changed_defines[1522].m_end;
+  if ( m_end != (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)in_changed_defines[1522].m_max_end )
+  {
+    do
+    {
+      if ( m_end->m_object->log_string(m_end->m_object, (vostok::fixed_string<512> *)v38) )
+      {
+        vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+          &v63,
+          m_end + 1);
+        vostok::resources::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base>::resource_ptr<survarium::game_effect_emitter,vostok::resources::unmanaged_intrusive_base>(
+          &v62,
+          m_end[6].m_object);
+        m_object = (const char **)m_end[7].m_object;
+        v60 = (const vostok::variant<32> *const *)m_end->m_object;
+        vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+          &v47,
+          &v62);
+        v48 = v60;
+        vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+          &v49,
+          &v63);
+        v50 = m_end[2].m_object;
+        v51 = m_end[3].m_object;
+        v52 = m_end[4].m_object;
+        v53 = m_end[5].m_object;
+        v54 = m_object;
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v62);
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v63);
+        vostok::buffer_vector<vostok::render::effect_manager::effect_to_recompile_struct>::push_back(v12, value, &v47);
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v49);
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v47);
+        v10 = in_changed_defines;
+      }
+      m_end += 8;
+    }
+    while ( m_end != (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v10[1522].m_max_end );
+  }
+  descriptor = value->descriptor;
+  v14 = value->effect.m_object;
+  v15 = ((char *)descriptor - (char *)value->effect.m_object) >> 5;
+  if ( v15 )
+  {
+    v19 = alloca(4 * v15);
+    v60 = (const vostok::variant<32> *const *)&v35;
+    v20 = alloca(48 * v15);
+    v61 = &v35;
+    v21 = alloca(8 * v15);
+    v55 = (const vostok::resources::request *)&v35;
+    v62.m_object = (vostok::particle::particle_system_instance_impl *)v14;
+    if ( v14 != (vostok::render::res_effect *)descriptor )
+    {
+      m_object = &v35;
+      v56 = v60;
+      v22 = v61;
+      v23 = (vostok::particle::particle_system_instance_impl *)(&v14->vostok::resources::resource_flags + 1);
+      v63.m_object = v23;
+      for ( i = v61; ; v22 = i )
+      {
+        if ( v22 )
+        {
+          v22[10] = 0;
+          v22[11] = 0;
+          v61 = v22;
+        }
+        else
+        {
+          v61 = 0;
+        }
+        v58 = (vostok::render::effect_compile_data *)vostok::memory::new_helper<vostok::render::effect_compile_data>::call<vostok::memory::doug_lea_allocator>(
+                                                       vostok::render::g_allocator,
+                                                       v35,
+                                                       v36,
+                                                       v37);
+        if ( v58 )
+        {
+          v34 = 0;
+          m_reconstruction_info_actuality_tick = v23->m_reconstruction_info_actuality_tick;
+          v32 = v23;
+          v31.m_object = v24;
+          vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+            &v31,
+            (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v23[-1].m_time_to_finish
+          + 1);
+          vostok::render::effect_compile_data::effect_compile_data(
+            (vostok::render::effect_descriptor *)LODWORD(v63.m_object[-1].m_time_to_finish),
+            v58,
+            v31,
+            (const vostok::render::surface_effect_parameters *)v32,
+            m_reconstruction_info_actuality_tick,
+            (bool)v34);
+          v23 = v63.m_object;
+          v58 = v25;
+        }
+        else
+        {
+          v58 = 0;
+        }
+        v26 = v61;
+        vostok::variant<32>::set<vostok::render::effect_compile_data *>((vostok::variant<32> *)v24, v61, &v58);
+        v27 = (const vostok::variant<32> **)v56;
+        v62.m_object = (vostok::particle::particle_system_instance_impl *)((char *)v62.m_object + 32);
+        v7 = v62.m_object;
+        i += 12;
+        ++v56;
+        *v27 = (const vostok::variant<32> *)v26;
+        v28 = m_object;
+        *m_object = uri;
+        v28[1] = (const char *)13;
+        m_object = v28 + 2;
+        v23 = (vostok::particle::particle_system_instance_impl *)((char *)v23 + 32);
+        v63.m_object = v23;
+        if ( v7 == (vostok::particle::particle_system_instance_impl *)value->descriptor )
+          break;
+      }
+    }
+    v45 = in_changed_defines;
+    BYTE1(in_changed_defines->m_begin) = 1;
+    v46 = value;
+    v44 = vostok::render::effect_manager::on_effects_recompiled;
+    v41 = vostok::render::effect_manager::on_effects_recompiled;
+    v42 = v45;
+    v34 = &v41;
+    v43 = value;
+    if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *)v7) )
+    {
+      v47.m_object = 0;
+    }
+    else
+    {
+      v49.m_object = (vostok::particle::particle_system_instance_impl *)v41;
+      v50 = (vostok::particle::particle_system_instance_impl *)v42;
+      v51 = v43;
+      v47.m_object = (vostok::particle::particle_system_instance_impl *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::effect_manager,vostok::fixed_vector<vostok::render::effect_manager::effect_to_recompile_struct,2048> *,vostok::resources::queries_result &>,boost::_bi::list3<boost::_bi::value<vostok::render::effect_manager *>,boost::_bi::value<vostok::fixed_vector<vostok::render::effect_manager::effect_to_recompile_struct,2048> *>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                                       + 1);
+    }
+    vostok::resources::query_resources(v55, v15, vostok::render::g_allocator, v60, 0, assert_on_fail_true);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v29,
+      (int *)&v47);
+    while ( BYTE1(in_changed_defines->m_begin) )
+    {
+      vostok::resources::dispatch_callbacks(v30);
+      vostok::threading::yield(1u);
+    }
+  }
+  else
+  {
+    v16 = vostok::render::g_allocator;
+    v17 = (char *)value;
+    vostok::buffer_vector<vostok::render::effect_manager::effect_to_recompile_struct>::~buffer_vector<vostok::render::effect_manager::effect_to_recompile_struct>(
+      (vostok::buffer_vector<vostok::render::effect_manager::effect_to_recompile_struct> *)v7,
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)value);
+    vostok::memory::doug_lea_allocator::free_impl(v18, (int)v16, v17, v35, v36, v37);
+  }
 }

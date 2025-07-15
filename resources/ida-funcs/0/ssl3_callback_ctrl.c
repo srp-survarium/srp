@@ -1,10 +1,10 @@
-int __cdecl ssl3_callback_ctrl(ssl_st *s, int cmd, void (__cdecl *fp)())
+int __usercall ssl3_callback_ctrl@<eax>(int a1@<ebx>, ssl_st *s, int cmd, rsa_st *(__cdecl *fp)(ssl_st *, int, int))
 {
   int result; // eax
 
-  if ( (cmd == 5 || cmd == 6) && !ssl_cert_inst(&s->cert) )
+  if ( (cmd == 5 || cmd == 6) && !ssl_cert_inst(a1, &s->cert) )
   {
-    ERR_put_error(0x14u, 233, 65, ".\\ssl\\s3_lib.c", 2512);
+    ERR_put_error(a1, 0x14u, 233, 65, ".\\ssl\\s3_lib.c", 2512);
     return 0;
   }
   else
@@ -12,7 +12,7 @@ int __cdecl ssl3_callback_ctrl(ssl_st *s, int cmd, void (__cdecl *fp)())
     switch ( cmd )
     {
       case 5:
-        s->cert->rsa_tmp_cb = (rsa_st *(__cdecl *)(ssl_st *, int, int))fp;
+        s->cert->rsa_tmp_cb = fp;
         result = 0;
         break;
       case 6:

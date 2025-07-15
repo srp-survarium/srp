@@ -21,12 +21,9 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::InstanceTraits::Traits
     v8 = result;
     v12 = result;
     if ( f )
-      v9 = Scaleform::GFx::ASString::operator+(
-             p_Uri,
-             (Scaleform::GFx::ASString *)&result,
-             (char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags);
+      v9 = Scaleform::GFx::ASString::operator+(p_Uri, (Scaleform::GFx::ASString *)&result, (const __m128i *)".");
     else
-      v9 = Scaleform::GFx::ASString::operator+(p_Uri, (Scaleform::GFx::ASString *)&result, "::");
+      v9 = Scaleform::GFx::ASString::operator+(p_Uri, (Scaleform::GFx::ASString *)&result, (const __m128i *)"::");
     Scaleform::GFx::ASString::operator+(v9, v12, &name);
     v10 = (Scaleform::GFx::ASStringNode *)result;
     --result[3].pNode;

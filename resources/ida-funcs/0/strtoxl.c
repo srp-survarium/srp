@@ -1,9 +1,9 @@
 unsigned int __usercall strtoxl@<eax>(
-        unsigned int a1@<ebx>,
+        int a1@<ebx>,
         localeinfo_struct *plocinfo,
         const char *nptr,
         const char **endptr,
-        unsigned int ibase,
+        int ibase,
         int flags)
 {
   threadlocaleinfostruct *locinfo; // ecx
@@ -16,23 +16,23 @@ unsigned int __usercall strtoxl@<eax>(
   unsigned int v14; // ecx
   int v15; // ecx
   const char *v16; // edi
-  _LocaleUpdate _loc_update; // [esp+8h] [ebp-14h] BYREF
-  unsigned int number; // [esp+18h] [ebp-4h]
+  _LocaleUpdate v17; // [esp+8h] [ebp-14h] BYREF
+  unsigned int v18; // [esp+18h] [ebp-4h]
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v17, plocinfo);
   if ( endptr )
     *endptr = nptr;
-  if ( !nptr || ibase && ((int)ibase < 2 || (int)ibase > 36) )
+  if ( !nptr || ibase && (ibase < 2 || ibase > 36) )
   {
     *_errno() = 22;
-    _invalid_parameter(a1, 0, (unsigned int)nptr);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
+    _invalid_parameter(a1, 0, (int)nptr);
+    if ( v17.updated )
+      v17.ptd->_ownlocale &= ~2u;
     return 0;
   }
-  locinfo = _loc_update.localeinfo.locinfo;
+  locinfo = v17.localeinfo.locinfo;
   v8 = *nptr;
-  number = 0;
+  v18 = 0;
   for ( i = nptr + 1; ; ++i )
   {
     if ( locinfo->mb_cur_max <= 1 )
@@ -41,8 +41,8 @@ unsigned int __usercall strtoxl@<eax>(
     }
     else
     {
-      v10 = _isctype_l(v8, 8, &_loc_update.localeinfo);
-      locinfo = _loc_update.localeinfo.locinfo;
+      v10 = _isctype_l(v8, 8, &v17.localeinfo);
+      locinfo = v17.localeinfo.locinfo;
     }
     if ( !v10 )
       break;
@@ -104,9 +104,9 @@ LABEL_32:
     if ( v14 >= ibase )
       break;
     flags |= 8u;
-    if ( number < v13 || number == v13 && v14 <= 0xFFFFFFFF % ibase )
+    if ( v18 < v13 || v18 == v13 && v14 <= 0xFFFFFFFF % ibase )
     {
-      number = v14 + ibase * number;
+      v18 = v14 + ibase * v18;
     }
     else
     {
@@ -120,26 +120,26 @@ LABEL_32:
   if ( (flags & 8) != 0 )
   {
     if ( (flags & 4) != 0
-      || (flags & 1) == 0 && ((flags & 2) != 0 && number > 0x80000000 || (flags & 2) == 0 && number > 0x7FFFFFFF) )
+      || (flags & 1) == 0 && ((flags & 2) != 0 && v18 > 0x80000000 || (flags & 2) == 0 && v18 > 0x7FFFFFFF) )
     {
       *_errno() = 34;
       if ( (flags & 1) != 0 )
-        number = -1;
+        v18 = -1;
       else
-        number = ((flags & 2) != 0) + 0x7FFFFFFF;
+        v18 = ((flags & 2) != 0) + 0x7FFFFFFF;
     }
   }
   else
   {
     if ( endptr )
       v16 = nptr;
-    number = 0;
+    v18 = 0;
   }
   if ( endptr )
     *endptr = v16;
   if ( (flags & 2) != 0 )
-    number = -number;
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
-  return number;
+    v18 = -v18;
+  if ( v17.updated )
+    v17.ptd->_ownlocale &= ~2u;
+  return v18;
 }

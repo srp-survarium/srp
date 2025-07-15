@@ -22,7 +22,10 @@ void __thiscall Scaleform::GFx::AS2::DoActionTag::ExecuteWithPriority(
                                                 0);
     if ( v7 )
     {
-      Scaleform::GFx::AS2::ActionBuffer::ActionBuffer(v7, p_StringContext, this->pBuf.pObject);
+      Scaleform::GFx::AS2::ActionBuffer::ActionBuffer(
+        v7,
+        p_StringContext,
+        (Scaleform::GFx::Resource *)this->pBuf.pObject);
       v9 = v8;
     }
     else

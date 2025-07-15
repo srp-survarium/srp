@@ -1,11 +1,11 @@
-int __cdecl nsseq_cb(int operation, asn1_object_st ***pval)
+int __usercall nsseq_cb@<eax>(int a1@<ebx>, int operation, asn1_object_st ***pval)
 {
-  asn1_object_st **v2; // esi
+  asn1_object_st **v3; // esi
 
   if ( operation == 1 )
   {
-    v2 = *pval;
-    *v2 = OBJ_nid2obj(0x4Fu);
+    v3 = *pval;
+    *v3 = OBJ_nid2obj(a1, 0x4Fu);
   }
   return 1;
 }

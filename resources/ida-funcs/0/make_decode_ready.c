@@ -1,4 +1,4 @@
-int __cdecl make_decode_ready(OggVorbis_File *vf)
+int __usercall make_decode_ready@<eax>(__int128 a1@<xmm0>, OggVorbis_File *vf)
 {
   if ( vf->ready_state > 3 )
     return 0;
@@ -6,10 +6,10 @@ int __cdecl make_decode_ready(OggVorbis_File *vf)
     return -129;
   if ( vf->seekable )
   {
-    if ( vorbis_synthesis_init(&vf->vd, &vf->vi[vf->current_link]) )
+    if ( vorbis_synthesis_init(a1, &vf->vd, &vf->vi[vf->current_link]) )
       return -137;
   }
-  else if ( vorbis_synthesis_init(&vf->vd, vf->vi) )
+  else if ( vorbis_synthesis_init(a1, &vf->vd, vf->vi) )
   {
     return -137;
   }

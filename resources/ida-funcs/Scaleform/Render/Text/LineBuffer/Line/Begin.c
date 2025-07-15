@@ -16,13 +16,13 @@ Scaleform::Render::Text::LineBuffer::GlyphIterator *__thiscall Scaleform::Render
     {
       TextPos = this->Data32.TextPos;
     }
-    else if ( (unsigned __int8 *)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & this->Data32.TextPos) == &vostok::memory::s_CRT_arena[5574199] )
+    else if ( (this->Data32.TextPos & 0xFFFFFF) == 0xFFFFFF )
     {
       TextPos = -1;
     }
     else
     {
-      TextPos = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & this->Data32.TextPos;
+      TextPos = this->Data32.TextPos & 0xFFFFFF;
     }
     v4 = &this->Data8.Leading + 1;
     if ( (this->MemSize & 0x80000000) != 0 )

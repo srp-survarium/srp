@@ -13,7 +13,7 @@ int __cdecl BN_dec2bn(bignum_st **bn, const char *a)
   unsigned int i; // esi
   int top; // eax
   unsigned int *v14; // ecx
-  int num; // [esp+10h] [ebp+8h]
+  int v16; // [esp+10h] [ebp+8h]
 
   v2 = a;
   v3 = 0;
@@ -32,23 +32,23 @@ int __cdecl BN_dec2bn(bignum_st **bn, const char *a)
     while ( isdigit(v5) );
   }
   result = v4 + v3;
-  num = v4 + v3;
+  v16 = v4 + v3;
   if ( bn )
   {
     v7 = *bn;
     if ( *bn )
     {
-      BN_set_word(v7, 0);
+      BN_set_word((int)v2, v7, 0);
     }
     else
     {
-      v7 = BN_new();
+      v7 = BN_new((int)v2);
       if ( !v7 )
         return 0;
     }
     v8 = 4 * v4 + 31;
     if ( v8 / 32 > v7->dmax )
-      v9 = bn_expand2(v7, (unsigned int *)(v8 / 32));
+      v9 = bn_expand2(v7, v8 / 32);
     else
       v9 = v7;
     if ( !v9 )
@@ -92,7 +92,7 @@ int __cdecl BN_dec2bn(bignum_st **bn, const char *a)
       v7->top = top;
     }
     *bn = v7;
-    return num;
+    return v16;
   }
   return result;
 }

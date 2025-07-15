@@ -10,7 +10,7 @@ int __cdecl jinit_d_main_controller(int a1, char a2)
 
   v2 = (int (__cdecl **)(int *, int))(**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 80);
   *(_DWORD *)(a1 + 404) = v2;
-  *v2 = sub_379650;
+  *v2 = sub_486310;
   if ( a2 )
   {
     *(_DWORD *)(*(_DWORD *)a1 + 20) = 3;
@@ -23,7 +23,7 @@ int __cdecl jinit_d_main_controller(int a1, char a2)
       *(_DWORD *)(*(_DWORD *)a1 + 20) = 48;
       (**(void (__cdecl ***)(int))a1)(a1);
     }
-    result = sub_379100(a1);
+    result = sub_485DC0(a1);
     v4 = *(_DWORD *)(a1 + 284) + 2;
     v8 = v4;
   }

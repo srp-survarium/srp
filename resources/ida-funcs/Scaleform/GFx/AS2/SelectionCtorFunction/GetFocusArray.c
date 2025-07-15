@@ -14,7 +14,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusArray(const Sca
   Scaleform::GFx::AS2::Environment *v13; // [esp+0h] [ebp-20h]
   Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+Ch] [ebp-14h] BYREF
   Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::RefCountNTSImpl *fna; // [esp+24h] [ebp+4h]
+  Scaleform::RefCountNTSImpl *v16; // [esp+24h] [ebp+4h]
 
   v2 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v2);
@@ -25,7 +25,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusArray(const Sca
     v13 = fn->Env;
     v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
     v5 = Scaleform::GFx::AS2::Value::ToCharacter(v4, v13);
-    fna = v5;
+    v16 = v5;
     if ( v5 )
       ++v5->RefCount;
     v6 = (Scaleform::GFx::AS2::ArrayObject *)Scaleform::GFx::AS2::Environment::OperatorNew(
@@ -54,14 +54,14 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusArray(const Sca
       pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
       Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
         (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[i]].LastFocused,
-        (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+        &result);
       pObject = result.pObject;
       if ( result.pObject )
       {
         ++result.pObject->RefCount;
         Scaleform::RefCountNTSImpl::Release(pObject);
       }
-      if ( pObject == fna )
+      if ( pObject == v16 )
       {
         val.T.Type = 4;
         val.NV.Int32Value = i;
@@ -76,13 +76,13 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusArray(const Sca
     if ( v6 )
     {
       RefCount = v6->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v6->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
       }
     }
-    if ( fna )
-      Scaleform::RefCountNTSImpl::Release(fna);
+    if ( v16 )
+      Scaleform::RefCountNTSImpl::Release(v16);
   }
 }

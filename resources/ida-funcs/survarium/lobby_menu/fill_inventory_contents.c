@@ -1,150 +1,66 @@
-void __thiscall survarium::lobby_menu::fill_inventory_contents(
-        survarium::lobby_menu *this,
-        survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::fill_inventory_contents(survarium::lobby_menu *this, int a2)
 {
-  survarium::lobby_menu *v2; // ebx
-  int v3; // eax
-  const survarium::inventory_item_instance *v4; // ebp
-  const survarium::inventory_item_instance *v5; // esi
-  survarium::flash_movie_resource *m_object; // edx
-  survarium::flash_movie_resource *v7; // edx
-  unsigned int id; // edi
-  int dict_id; // ebx
-  unsigned int condition_or_stack; // ebp
-  unsigned int v11; // edi
-  unsigned int i; // [esp+74h] [ebp-50h]
-  const survarium::inventory_item_instance *it_e; // [esp+78h] [ebp-4Ch]
-  survarium::flash_value inventory_item_property; // [esp+7Ch] [ebp-48h] BYREF
-  survarium::flash_value inventory_item; // [esp+94h] [ebp-30h] BYREF
-  survarium::flash_value inventory_array; // [esp+ACh] [ebp-18h] BYREF
+  int *v3; // eax
+  int v4; // edi
+  int v5; // eax
+  survarium::flash_movie *v6; // ecx
+  int v7; // eax
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  int v16; // [esp-4h] [ebp-68h]
+  Scaleform::GFx::Value pvalue; // [esp+Ch] [ebp-58h] BYREF
+  Scaleform::GFx::Value v18; // [esp+24h] [ebp-40h] BYREF
+  survarium::flash_value value; // [esp+3Ch] [ebp-28h] BYREF
+  unsigned int v20; // [esp+54h] [ebp-10h]
+  int v21; // [esp+58h] [ebp-Ch]
+  int v22; // [esp+5Ch] [ebp-8h]
+  unsigned int v23; // [esp+6Ch] [ebp+8h]
 
-  v2 = thisa;
-  v3 = (int)thisa->m_game->m_network_client->lobby_client(thisa->m_game->m_network_client);
-  v4 = *(const survarium::inventory_item_instance **)(v3 + 1932);
-  v5 = *(const survarium::inventory_item_instance **)(v3 + 1928);
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)inventory_array.body = 0;
-  *(_DWORD *)&inventory_array.body[4] = 0;
-  it_e = v4;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&inventory_array);
-  *(_DWORD *)inventory_item_property.body = 0;
-  *(_DWORD *)&inventory_item_property.body[4] = 0;
-  i = 0;
-  if ( v5 != v4 )
+  v3 = (int *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 160) + 13912) + 60))(*(_DWORD *)(*(_DWORD *)(a2 + 160) + 13912))
+             + 12712);
+  v4 = *v3;
+  v22 = v3[1];
+  v5 = *(_DWORD *)(a2 + 1600);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v5 + 264) + 4), &pvalue);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  v23 = 0;
+  while ( v4 != v22 )
   {
-    do
-    {
-      v7 = v2->m_lobby_menu_ui.m_object;
-      *(_DWORD *)inventory_item.body = 0;
-      *(_DWORD *)&inventory_item.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(v7->movie->m_movie, (Scaleform::GFx::Value *)&inventory_item, 0, 0, 0);
-      id = v5->id;
-      dict_id = v5->dict_id;
-      condition_or_stack = v5->condition_or_stack;
-      if ( (inventory_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item_property.body + 8))(
-          *(_DWORD *)inventory_item_property.body,
-          &inventory_item_property,
-          *(_DWORD *)&inventory_item_property.body[8]);
-        *(_DWORD *)inventory_item_property.body = 0;
-      }
-      *(_DWORD *)&inventory_item_property.body[4] = 3;
-      *(_DWORD *)&inventory_item_property.body[8] = id;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)inventory_item.body
-                                                                                           + 20))(
-        *(_DWORD *)inventory_item.body,
-        *(_DWORD *)&inventory_item.body[8],
-        "id",
-        &inventory_item_property,
-        (inventory_item.body[4] & 0x8F) == 10);
-      if ( (inventory_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item_property.body + 8))(
-          *(_DWORD *)inventory_item_property.body,
-          &inventory_item_property,
-          *(_DWORD *)&inventory_item_property.body[8]);
-        *(_DWORD *)inventory_item_property.body = 0;
-      }
-      *(_DWORD *)&inventory_item_property.body[4] = 3;
-      *(_DWORD *)&inventory_item_property.body[8] = dict_id;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)inventory_item.body
-                                                                                           + 20))(
-        *(_DWORD *)inventory_item.body,
-        *(_DWORD *)&inventory_item.body[8],
-        "dictId",
-        &inventory_item_property,
-        (inventory_item.body[4] & 0x8F) == 10);
-      v11 = v5->condition_or_stack;
-      if ( (inventory_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item_property.body + 8))(
-          *(_DWORD *)inventory_item_property.body,
-          &inventory_item_property,
-          *(_DWORD *)&inventory_item_property.body[8]);
-        *(_DWORD *)inventory_item_property.body = 0;
-      }
-      *(_DWORD *)&inventory_item_property.body[4] = 4;
-      *(_DWORD *)&inventory_item_property.body[8] = v11;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)inventory_item.body
-                                                                                           + 20))(
-        *(_DWORD *)inventory_item.body,
-        *(_DWORD *)&inventory_item.body[8],
-        "condition",
-        &inventory_item_property,
-        (inventory_item.body[4] & 0x8F) == 10);
-      if ( (inventory_item_property.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item_property.body + 8))(
-          *(_DWORD *)inventory_item_property.body,
-          &inventory_item_property,
-          *(_DWORD *)&inventory_item_property.body[8]);
-        *(_DWORD *)inventory_item_property.body = 0;
-      }
-      *(_DWORD *)&inventory_item_property.body[4] = 4;
-      *(_DWORD *)&inventory_item_property.body[8] = condition_or_stack;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)inventory_item.body
-                                                                                           + 20))(
-        *(_DWORD *)inventory_item.body,
-        *(_DWORD *)&inventory_item.body[8],
-        "condition_or_stack",
-        &inventory_item_property,
-        (inventory_item.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, unsigned int, survarium::flash_value *))(**(_DWORD **)inventory_array.body
-                                                                                     + 52))(
-        *(_DWORD *)inventory_array.body,
-        *(_DWORD *)&inventory_array.body[8],
-        i,
-        &inventory_item);
-      if ( (inventory_item.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item.body + 8))(
-          *(_DWORD *)inventory_item.body,
-          &inventory_item,
-          *(_DWORD *)&inventory_item.body[8]);
-      ++i;
-      v2 = thisa;
-      ++v5;
-    }
-    while ( v5 != it_e );
+    v7 = *(_DWORD *)(a2 + 1600);
+    v18.pObjectInterface = 0;
+    v18.Type = VT_Undefined;
+    survarium::flash_movie::CreateObject(v6, *(survarium::flash_value **)(v7 + 264), &v18);
+    v16 = *(_DWORD *)(v4 + 8);
+    v21 = *(unsigned __int16 *)(v4 + 12);
+    v20 = *(_DWORD *)v4;
+    survarium::flash_value::SetInt(v8, (int)&value, v16);
+    survarium::flash_value::SetMember(v9, &v18, "id", &value);
+    survarium::flash_value::SetInt(v10, (int)&value, v21);
+    survarium::flash_value::SetMember(v11, &v18, "dictId", &value);
+    survarium::flash_value::SetUInt(v12, (int)&value, *(_DWORD *)v4);
+    survarium::flash_value::SetMember(v13, &v18, "condition", &value);
+    survarium::flash_value::SetUInt(v14, (int)&value, v20);
+    survarium::flash_value::SetMember(v15, &v18, "condition_or_stack", &value);
+    pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v23, &v18);
+    Scaleform::GFx::Value::~Value(&v18);
+    v4 += 16;
+    ++v23;
   }
   Scaleform::GFx::Movie::Invoke(
-    v2->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
     "root.inventory_list.setupInventoryData",
     0,
-    (const Scaleform::GFx::Value *)&inventory_array,
+    &pvalue,
     1u);
-  if ( (inventory_item_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_item_property.body + 8))(
-      *(_DWORD *)inventory_item_property.body,
-      &inventory_item_property,
-      *(_DWORD *)&inventory_item_property.body[8]);
-    *(_DWORD *)inventory_item_property.body = 0;
-  }
-  *(_DWORD *)&inventory_item_property.body[4] = 0;
-  if ( (inventory_array.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)inventory_array.body + 8))(
-      *(_DWORD *)inventory_array.body,
-      &inventory_array,
-      *(_DWORD *)&inventory_array.body[8]);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

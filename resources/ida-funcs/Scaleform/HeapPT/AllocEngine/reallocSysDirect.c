@@ -1,8 +1,8 @@
 unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::reallocSysDirect(
         Scaleform::HeapPT::AllocEngine *this,
         Scaleform::Heap::HeapSegment *seg,
-        unsigned __int8 *oldPtr,
-        unsigned int newSize)
+        __m128i *oldPtr,
+        LPCRITICAL_SECTION newSize)
 {
   unsigned __int16 Alignment; // cx
   unsigned int v8; // esi
@@ -11,15 +11,21 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::reallocSysDirect(
   void *pLimHandler; // edx
   unsigned __int8 *v12; // ebp
   unsigned __int8 *pData; // [esp-8h] [ebp-1Ch]
-  int alignSize; // [esp+18h] [ebp+4h]
-  Scaleform::LockSafe *rl; // [esp+20h] [ebp+Ch]
+  unsigned int v14; // [esp+18h] [ebp+4h]
+  Scaleform::LockSafe *lpCriticalSection; // [esp+20h] [ebp+Ch]
 
   if ( (seg->UseCount & 0x80000000) != 0 )
-    return Scaleform::HeapPT::AllocEngine::reallocGeneral(this, seg, oldPtr, seg->DataSize, newSize, seg->Alignment);
+    return Scaleform::HeapPT::AllocEngine::reallocGeneral(
+             this,
+             seg,
+             oldPtr,
+             seg->DataSize,
+             (unsigned int)newSize,
+             seg->Alignment);
   Alignment = seg->Alignment;
-  alignSize = 1 << Alignment;
+  v14 = 1 << Alignment;
   v8 = this->SysGranularity
-     * (((~((1 << Alignment) - 1) & ((1 << Alignment) + newSize - 1)) + this->SysGranularity - 1)
+     * (((~((1 << Alignment) - 1) & ((unsigned int)newSize + (1 << Alignment) - 1)) + this->SysGranularity - 1)
       / this->SysGranularity);
   DataSize = seg->DataSize;
   if ( v8 == DataSize )
@@ -48,9 +54,9 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::reallocSysDirect(
       }
     }
   }
-  rl = &Scaleform::HeapPT::GlobalRoot->RootLock;
+  lpCriticalSection = &Scaleform::HeapPT::GlobalRoot->RootLock;
   EnterCriticalSection(&Scaleform::HeapPT::GlobalRoot->RootLock.mLock.cs);
-  if ( this->HasRealloc && this->pSysAlloc->ReallocInPlace(this->pSysAlloc, seg->pData, DataSize, v8, alignSize) )
+  if ( this->HasRealloc && this->pSysAlloc->ReallocInPlace(this->pSysAlloc, seg->pData, DataSize, v8, v14) )
   {
     pData = seg->pData;
     if ( v8 <= DataSize )
@@ -63,20 +69,20 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::reallocSysDirect(
                  v8,
                  DataSize) )
     {
-      this->pSysAlloc->ReallocInPlace(this->pSysAlloc, seg->pData, v8, DataSize, alignSize);
-      LeaveCriticalSection(&rl->mLock.cs);
+      this->pSysAlloc->ReallocInPlace(this->pSysAlloc, seg->pData, v8, DataSize, v14);
+      LeaveCriticalSection(&lpCriticalSection->mLock.cs);
       return 0;
     }
     this->Footprint += v8 - DataSize;
     this->SysDirectSpace += v8 - DataSize;
     seg->DataSize = v8;
     v12 = seg->pData;
-    LeaveCriticalSection(&rl->mLock.cs);
+    LeaveCriticalSection(&lpCriticalSection->mLock.cs);
     return v12;
   }
   else
   {
-    LeaveCriticalSection(&rl->mLock.cs);
+    LeaveCriticalSection(&lpCriticalSection->mLock.cs);
     return Scaleform::HeapPT::AllocEngine::reallocGeneral(this, seg, oldPtr, DataSize, v8, seg->Alignment);
   }
 }

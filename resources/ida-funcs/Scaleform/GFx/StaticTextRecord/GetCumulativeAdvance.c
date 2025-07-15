@@ -8,13 +8,13 @@ double __thiscall Scaleform::GFx::StaticTextRecord::GetCumulativeAdvance(Scalefo
   float *v6; // eax
   unsigned int v7; // esi
   double v8; // st7
-  float advance; // [esp+4h] [ebp-4h]
-  float advancea; // [esp+4h] [ebp-4h]
-  float advanceb; // [esp+4h] [ebp-4h]
-  float advancec; // [esp+4h] [ebp-4h]
+  float v10; // [esp+4h] [ebp-4h]
+  float v11; // [esp+4h] [ebp-4h]
+  float v12; // [esp+4h] [ebp-4h]
+  float v13; // [esp+4h] [ebp-4h]
 
   Size = this->Glyphs.Data.Size;
-  advance = 0.0;
+  v10 = 0.0;
   v2 = 0;
   if ( Size >= 4 )
   {
@@ -26,10 +26,10 @@ double __thiscall Scaleform::GFx::StaticTextRecord::GetCumulativeAdvance(Scalefo
       v5 = *(p_GlyphAdvance - 2);
       p_GlyphAdvance += 8;
       --v4;
-      advancea = v5 + advance;
-      advanceb = advancea + *(p_GlyphAdvance - 8);
-      advancec = advanceb + *(p_GlyphAdvance - 6);
-      advance = advancec + *(p_GlyphAdvance - 4);
+      v11 = v5 + v10;
+      v12 = v11 + *(p_GlyphAdvance - 8);
+      v13 = v12 + *(p_GlyphAdvance - 6);
+      v10 = v13 + *(p_GlyphAdvance - 4);
     }
     while ( v4 );
   }
@@ -42,9 +42,9 @@ double __thiscall Scaleform::GFx::StaticTextRecord::GetCumulativeAdvance(Scalefo
       v8 = *v6;
       v6 += 2;
       --v7;
-      advance = v8 + advance;
+      v10 = v8 + v10;
     }
     while ( v7 );
   }
-  return advance;
+  return v10;
 }

@@ -1,4 +1,4 @@
-void vostok::render::_dynamic_initializer_for__s_z_only_0__()
+void __thiscall vostok::render::_dynamic_initializer_for__s_z_only_0__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call((void (__cdecl *)(void *))vostok::command_line::protected_key_construct, &s_z_only_0);
+  vostok::command_line::key::key(this, &s_z_only_0, "z_only_0", uri, uri, uri, uri);
 }

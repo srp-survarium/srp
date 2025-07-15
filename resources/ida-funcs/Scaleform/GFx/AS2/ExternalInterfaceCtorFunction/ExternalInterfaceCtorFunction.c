@@ -5,7 +5,7 @@ void __userpurge Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::ExternalInt
 {
   Scaleform::GFx::AS2::Object *Prototype; // eax
   int v5; // [esp+0h] [ebp-1Ch]
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v6; // [esp+Ch] [ebp-10h] BYREF
 
   Scaleform::GFx::AS2::Object::Object(this, psc);
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::ExternalInterfaceCtorFunction_vtbl *)&Scaleform::GFx::AS2::AmpMarkerCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
@@ -18,14 +18,14 @@ void __userpurge Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::ExternalInt
     Prototype);
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::ExternalInterfaceCtorFunction_vtbl *)&Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
-  val.T.Type = 10;
+  v6.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "available",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+    &v6);
+  if ( v6.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v6);
   Scaleform::GFx::AS2::NameFunction::AddConstMembers(
     (unsigned __int8 *)psc,
     a2,

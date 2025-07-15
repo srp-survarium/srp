@@ -1,38 +1,12 @@
-BOOL __usercall vostok::resources::resource_base::has_user_references@<eax>(
-        vostok::resources::resource_base *this@<ecx>,
-        _DWORD *a2@<eax>)
+BOOL __thiscall vostok::resources::resource_base::has_user_references(vostok::resources::resource_base *this)
 {
-  _DWORD *v2; // ecx
-  int v3; // ecx
-  int v4; // edx
+  vostok::resources::resource_flags *v1; // ecx
+  vostok::resources::base_of_intrusive_base *v2; // eax
+  int v3; // edx
+  int v4; // ecx
 
-  if ( (a2[2] & 1) != 0 && a2 )
-  {
-    v2 = a2 + 55;
-  }
-  else
-  {
-    if ( (a2[2] & 4) == 0 || !a2 )
-    {
-LABEL_15:
-      v4 = 0;
-      goto LABEL_16;
-    }
-    v2 = a2 + 52;
-  }
-  if ( !v2 )
-    goto LABEL_15;
-  if ( (a2[2] & 1) != 0 )
-    v3 = (int)(a2 + 55);
-  else
-    v3 = (a2[2] & 4) != 0 ? (int)(a2 + 52) : 0;
-  if ( (*(_DWORD *)(v3 + 4) & 1) == 0 )
-    goto LABEL_15;
-  v4 = 1;
-LABEL_16:
-  if ( (a2[2] & 1) != 0 && a2 )
-    return a2[15] < (unsigned int)(a2[55] - v4);
-  if ( (a2[2] & 4) != 0 && a2 )
-    return a2[15] < (unsigned int)(a2[52] - v4);
-  return a2[15] < (unsigned int)(MEMORY[0] - v4);
+  if ( vostok::resources::resource_flags::cast_base_of_intrusive_base(this) )
+    vostok::resources::resource_flags::cast_base_of_intrusive_base(v1);
+  v2 = vostok::resources::resource_flags::cast_base_of_intrusive_base(v1);
+  return *(_DWORD *)(v4 + 60) < (unsigned int)(v2->m_reference_count - v3);
 }

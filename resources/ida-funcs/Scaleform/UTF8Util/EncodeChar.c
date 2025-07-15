@@ -18,7 +18,7 @@ void __stdcall Scaleform::UTF8Util::EncodeChar(char *pbuffer, int *pindex, unsig
   {
     if ( ucs_character > 0x1FFFFF )
     {
-      if ( ucs_character > (unsigned int)&vostok::memory::s_CRT_arena[55905847] )
+      if ( ucs_character > 0x3FFFFFF )
       {
         if ( ucs_character > 0x7FFFFFFF )
           return;

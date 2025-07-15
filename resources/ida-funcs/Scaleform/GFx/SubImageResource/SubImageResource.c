@@ -5,8 +5,8 @@ void __thiscall Scaleform::GFx::SubImageResource::SubImageResource(
         const Scaleform::Render::Rect<unsigned long> *rect,
         Scaleform::MemoryHeap *pheap)
 {
-  Scaleform::GFx::ImageResource *v5; // ebx
-  Scaleform::Render::ImageBase *v6; // eax
+  int v5; // ebx
+  const void *v6; // eax
   Scaleform::Render::SubImage *v8; // eax
   const Scaleform::Render::Rect<unsigned long> *v9; // edi
   Scaleform::Render::Image *v10; // eax
@@ -17,18 +17,18 @@ void __thiscall Scaleform::GFx::SubImageResource::SubImageResource(
   unsigned int x1; // edi
   unsigned int Id; // ecx
 
-  v5 = (Scaleform::GFx::ImageResource *)pbase;
-  v6 = *(Scaleform::Render::ImageBase **)(pbase + 12);
+  v5 = pbase;
+  v6 = *(const void **)(pbase + 12);
   pbase = 3;
   v8 = (Scaleform::Render::SubImage *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                         Scaleform::Memory::pGlobalHeap,
                                         v6,
-                                        40,
+                                        44,
                                         &pbase);
   v9 = rect;
   if ( v8 )
   {
-    Scaleform::Render::SubImage::SubImage(v8, (Scaleform::Render::Image *)v5->pImage, rect);
+    Scaleform::Render::SubImage::SubImage(v8, *(Scaleform::Render::Image **)(v5 + 12), rect);
     v11 = v10;
   }
   else

@@ -10,19 +10,19 @@ Scaleform::GFx::ASStringNode *__thiscall Scaleform::GFx::ASStringManager::Create
   signed int v8; // eax
   Scaleform::GFx::ASStringNode *result; // eax
   Scaleform::GFx::ASStringNode *pFreeStringNodes; // esi
-  Scaleform::GFx::ASStringNode *pnode; // [esp+10h] [ebp-10h] BYREF
-  Scaleform::GFx::ASStringKey key; // [esp+14h] [ebp-Ch] BYREF
+  Scaleform::GFx::ASStringNode *v11; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringKey v12; // [esp+14h] [ebp-Ch] BYREF
 
-  key.pStr = pstr;
+  v12.pStr = pstr;
   v5 = Scaleform::String::BernsteinHashFunctionCIS(pstr, length, 0x1505u);
   pTable = this->StringSet.pTable;
-  v7 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v5;
-  key.HashValue = v7;
-  key.Length = length;
+  v7 = v5 & 0xFFFFFF;
+  v12.HashValue = v7;
+  v12.Length = length;
   if ( pTable
     && (v8 = Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>>>::findIndexCore<Scaleform::GFx::ASStringKey>(
                &this->StringSet,
-               &key,
+               &v12,
                v7 & pTable->SizeMask),
         v8 >= 0) )
   {
@@ -36,7 +36,7 @@ Scaleform::GFx::ASStringNode *__thiscall Scaleform::GFx::ASStringManager::Create
     pFreeStringNodes = this->pFreeStringNodes;
     if ( pFreeStringNodes )
       this->pFreeStringNodes = pFreeStringNodes->pLower;
-    pnode = pFreeStringNodes;
+    v11 = pFreeStringNodes;
     if ( pFreeStringNodes )
     {
       pFreeStringNodes->RefCount = 0;
@@ -47,7 +47,7 @@ Scaleform::GFx::ASStringNode *__thiscall Scaleform::GFx::ASStringManager::Create
       Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>>>::add<Scaleform::GFx::ASStringNode *>(
         &this->StringSet,
         &this->StringSet,
-        &pnode,
+        &v11,
         pFreeStringNodes->HashFlags);
       return pFreeStringNodes;
     }

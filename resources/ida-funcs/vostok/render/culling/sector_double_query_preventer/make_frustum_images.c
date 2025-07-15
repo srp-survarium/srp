@@ -1,166 +1,143 @@
 void __thiscall vostok::render::culling::sector_double_query_preventer::make_frustum_images(
         vostok::render::culling::sector_double_query_preventer *this,
-        vostok::render::culling::sector_double_query_preventer *furthest_vertices,
-        const vostok::math::float3 *furthest_verticesa)
+        const vostok::math::float3 *furthest_vertices,
+        int a3)
 {
-  const vostok::math::float3 *v3; // ebx
-  float v4; // ecx
-  float v5; // eax
-  const vostok::render::vector<vostok::math::frustum> *v6; // esi
-  const vostok::math::frustum *M_finish; // edi
+  const vostok::math::float3 *v3; // esi
+  float y; // eax
+  const vostok::math::frustum **v5; // edi
+  vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *y_low; // ecx
+  const vostok::math::frustum *v7; // eax
   int v8; // eax
-  char v9; // bp
+  char v9; // dl
   int v10; // eax
-  unsigned int v11; // ebp
-  vostok::math::plane *M_start; // edx
-  char *v13; // ebx
-  float v14; // eax
-  float v15; // xmm2_4
+  float *v11; // esi
+  vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *v12; // ecx
+  float *v13; // ebx
+  float *v14; // esi
+  float v15; // xmm0_4
   float v16; // xmm1_4
-  float v17; // xmm3_4
-  __int64 v18; // xmm0_8
-  vostok::math::frustum *p_f; // esi
-  vostok::math::plane *v20; // edi
-  const vostok::math::frustum *i; // ebx
-  float v22; // eax
-  const stlp_std::__true_type *v23; // [esp+0h] [ebp-17Ch]
-  unsigned int v24; // [esp+4h] [ebp-178h]
-  bool v25; // [esp+8h] [ebp-174h]
-  const vostok::math::frustum *frustum_it; // [esp+14h] [ebp-168h]
-  const vostok::render::vector<vostok::math::frustum> *it; // [esp+18h] [ebp-164h]
-  float *p_y; // [esp+1Ch] [ebp-160h]
-  const vostok::math::frustum *frutums_end; // [esp+20h] [ebp-15Ch]
-  vostok::math::random32 color_randomizer; // [esp+24h] [ebp-158h]
-  const vostok::render::vector<vostok::math::frustum> *sectors_max_frustums_end; // [esp+28h] [ebp-154h]
-  __int64 v32; // [esp+2Ch] [ebp-150h]
-  vostok::math::plane planes[6]; // [esp+38h] [ebp-144h] BYREF
-  vostok::render::culling::sector_double_query_preventer::frustum_image __x; // [esp+9Ch] [ebp-E0h] BYREF
-  vostok::math::frustum f; // [esp+100h] [ebp-7Ch] BYREF
-  char v36; // [esp+178h] [ebp-4h] BYREF
+  float v17; // xmm2_4
+  float v18; // xmm3_4
+  float v19; // xmm3_4
+  float v20; // xmm0_4
+  int v21; // ecx
+  const vostok::math::frustum *v22; // ebx
+  vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *v23; // [esp-4h] [ebp-17Ch]
+  vostok::math::frustum v24; // [esp+10h] [ebp-168h] BYREF
+  _BYTE v25[96]; // [esp+8Ch] [ebp-ECh] BYREF
+  int v26; // [esp+ECh] [ebp-8Ch]
+  vostok::math::plane v27[6]; // [esp+F0h] [ebp-88h] BYREF
+  float v28; // [esp+154h] [ebp-24h]
+  float v29; // [esp+158h] [ebp-20h]
+  float v30; // [esp+15Ch] [ebp-1Ch]
+  const vostok::math::frustum **v31; // [esp+160h] [ebp-18h]
+  vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *v32; // [esp+164h] [ebp-14h]
+  const vostok::math::frustum **v33; // [esp+168h] [ebp-10h]
+  int v34; // [esp+16Ch] [ebp-Ch]
+  const vostok::math::frustum *v35; // [esp+170h] [ebp-8h]
+  float *v36; // [esp+174h] [ebp-4h]
+  float *v37; // [esp+184h] [ebp+Ch]
 
-  v3 = (const vostok::math::float3 *)furthest_vertices;
-  v4 = *(float *)&furthest_vertices->m_frustum_images._M_impl._M_start;
-  color_randomizer.m_seed = 0;
-  if ( (vostok::render::culling::sector_double_query_preventer::frustum_image *)LODWORD(v4) != furthest_vertices->m_frustum_images._M_impl._M_finish )
-    *(float *)&furthest_vertices->m_frustum_images._M_impl._M_finish = v4;
-  v5 = *(float *)&furthest_vertices->m_sectors_max_frustums;
-  v6 = *(const vostok::render::vector<vostok::math::frustum> **)LODWORD(v5);
-  sectors_max_frustums_end = *(const vostok::render::vector<vostok::math::frustum> **)(LODWORD(v5) + 4);
-  it = *(const vostok::render::vector<vostok::math::frustum> **)LODWORD(v5);
-  if ( *(const vostok::render::vector<vostok::math::frustum> **)LODWORD(v5) != sectors_max_frustums_end )
+  v34 = 0;
+  v3 = furthest_vertices;
+  furthest_vertices[1].z = furthest_vertices[1].y;
+  y = furthest_vertices->y;
+  v5 = *(const vostok::math::frustum ***)LODWORD(y);
+  v31 = *(const vostok::math::frustum ***)(LODWORD(y) + 4);
+  v33 = v5;
+  if ( v5 != v31 )
   {
-    p_y = &furthest_verticesa->y;
-    while ( 1 )
+    v36 = (float *)(a3 + 4);
+    do
     {
-      M_finish = v6->_M_impl._M_finish;
-      frutums_end = M_finish;
-      if ( v6 == *(const vostok::render::vector<vostok::math::frustum> **)LODWORD(v3->y) )
+      y_low = (vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *)LODWORD(v3->y);
+      v7 = v5[1];
+      v35 = v7;
+      if ( v5 == (const vostok::math::frustum **)y_low->m_begin )
       {
-        for ( i = v6->_M_impl._M_start;
-              i != M_finish;
-              furthest_vertices->m_frustum_images._M_impl._M_finish[-1].c.m_value = -16711936 )
+        v22 = *v5;
+        if ( *v5 != v7 )
         {
-          v22 = *(float *)&furthest_vertices->m_frustum_images._M_impl._M_finish;
-          __x.c.m_value = -1;
-          if ( (vostok::render::culling::sector_double_query_preventer::frustum_image *)LODWORD(v22) == furthest_vertices->m_frustum_images._M_impl._M_end_of_storage._M_data )
+          do
           {
-            stlp_std::priv::_Impl_vector<vostok::render::culling::sector_double_query_preventer::frustum_image,vostok::render::std_allocator<vostok::render::culling::sector_double_query_preventer::frustum_image>>::_M_insert_overflow(
-              (vostok::render::culling::sector_double_query_preventer::frustum_image *)LODWORD(v22),
-              &furthest_vertices->m_frustum_images._M_impl,
-              &furthest_vertices->m_frustum_images._M_impl,
-              &__x,
-              v23,
-              v24,
+            v26 = -1;
+            vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image>::push_back(
+              y_low,
+              (const vostok::render::culling::sector_double_query_preventer::frustum_image *)&v3[1].elements[1],
               v25);
+            vostok::math::get_frustum_vertices(v22++, (vostok::math::float3 (*)[8])(LODWORD(v3[1].z) - 100));
+            y_low = v23;
+            *(_DWORD *)(LODWORD(v3[1].z) - 4) = -16711936;
           }
-          else
-          {
-            qmemcpy((void *)LODWORD(v22), &__x, 0x64u);
-            v6 = it;
-            ++furthest_vertices->m_frustum_images._M_impl._M_finish;
-          }
-          vostok::math::get_frustum_vertices(
-            i++,
-            (vostok::math::float3 (*)[8])&furthest_vertices->m_frustum_images._M_impl._M_finish[-1]);
+          while ( v22 != v35 );
         }
       }
       else
       {
-        v8 = 134775813 * color_randomizer.m_seed + 1;
+        v8 = 134775813 * v34 + 1;
         v9 = (unsigned __int64)(unsigned int)v8 >> 25;
         v10 = 134775813 * v8 + 1;
-        color_randomizer.m_seed = 134775813 * v10 + 1;
-        v11 = (unsigned __int8)(((unsigned __int64)color_randomizer.m_seed >> 25) + 0x80)
-            | (((unsigned __int8)(((unsigned __int64)(unsigned int)v10 >> 25) + 0x80) | (((v9 + 0x80) | 0xFFFFFF00) << 8)) << 8);
-        M_start = (vostok::math::plane *)v6->_M_impl._M_start;
-        frustum_it = v6->_M_impl._M_start;
-        if ( v6->_M_impl._M_start != M_finish )
+        v34 = 134775813 * v10 + 1;
+        v11 = (float *)*v5;
+        v12 = (vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image> *)((unsigned __int8)(((unsigned __int64)(unsigned int)v34 >> 25) + 0x80) | (((unsigned __int8)(((unsigned __int64)(unsigned int)v10 >> 25) + 0x80) | (((v9 + 0x80) | 0xFFFFFF00) << 8)) << 8));
+        v32 = v12;
+        v37 = v11;
+        if ( v11 == (float *)v35 )
         {
-          v13 = (char *)&M_start[5].vector.elements[2];
+          v3 = furthest_vertices;
+        }
+        else
+        {
+          v13 = v11 + 22;
           while ( 1 )
           {
-            v14 = *(float *)&furthest_vertices->m_frustum_images._M_impl._M_finish;
-            __x.c.m_value = -1;
-            if ( (vostok::render::culling::sector_double_query_preventer::frustum_image *)LODWORD(v14) == furthest_vertices->m_frustum_images._M_impl._M_end_of_storage._M_data )
-            {
-              stlp_std::priv::_Impl_vector<vostok::render::culling::sector_double_query_preventer::frustum_image,vostok::render::std_allocator<vostok::render::culling::sector_double_query_preventer::frustum_image>>::_M_insert_overflow(
-                (vostok::render::culling::sector_double_query_preventer::frustum_image *)LODWORD(v14),
-                &furthest_vertices->m_frustum_images._M_impl,
-                &furthest_vertices->m_frustum_images._M_impl,
-                &__x,
-                v23,
-                v24,
-                v25);
-              M_start = (vostok::math::plane *)frustum_it;
-            }
-            else
-            {
-              qmemcpy((void *)LODWORD(v14), &__x, 0x64u);
-              ++furthest_vertices->m_frustum_images._M_impl._M_finish;
-            }
-            v15 = *(float *)v13;
-            v16 = *((float *)v13 - 2);
-            planes[0] = *M_start;
-            planes[1] = *(vostok::math::plane *)(v13 - 68);
-            planes[2] = (vostok::math::plane)*((_OWORD *)v13 - 3);
-            planes[3] = *(vostok::math::plane *)(v13 - 28);
-            HIDWORD(v32) = *((_DWORD *)v13 - 1);
-            *(float *)&v32 = v16;
-            *(_QWORD *)&planes[4].normal.x = v32;
-            planes[4].normal.z = v15;
-            v17 = (float)((float)(*(p_y - 1) * v16) + (float)(p_y[1] * v15)) + (float)(*((float *)&v32 + 1) * *p_y);
-            *(_QWORD *)&planes[5].normal.x = *(_QWORD *)(v13 + 12);
-            v18 = *(_QWORD *)(v13 + 20);
-            planes[4].d = -v17;
-            *(_QWORD *)&planes[5].vector.elements[2] = v18;
-            p_f = &f;
-            v20 = planes;
-            do
-            {
-              *(_QWORD *)&p_f->m_planes[0].plane.normal.x = *(_QWORD *)&v20->normal.x;
-              *(_QWORD *)&p_f->m_planes[0].plane.vector.elements[2] = *(_QWORD *)&v20->vector.elements[2];
-              vostok::math::aabb_plane::normalize(p_f->m_planes);
-              p_f = (vostok::math::frustum *)((char *)p_f + 20);
-              ++v20;
-            }
-            while ( p_f != (vostok::math::frustum *)&v36 );
+            v26 = -1;
+            vostok::buffer_vector<vostok::render::culling::sector_double_query_preventer::frustum_image>::push_back(
+              v12,
+              (const vostok::render::culling::sector_double_query_preventer::frustum_image *)&furthest_vertices[1].elements[1],
+              v25);
+            v27[0].normal.x = *v11;
+            v14 = v11 + 1;
+            v27[0].normal.y = *v14;
+            *(_QWORD *)&v27[0].vector.elements[2] = *(_QWORD *)(v14 + 1);
+            v27[1] = *(vostok::math::plane *)(v13 - 17);
+            v27[2] = (vostok::math::plane)*((_OWORD *)v13 - 3);
+            v15 = *(v13 - 2);
+            v16 = *(v13 - 1);
+            v17 = *v13;
+            v18 = *(v36 - 1);
+            v27[3] = *(vostok::math::plane *)(v13 - 7);
+            v28 = v15;
+            v29 = v16;
+            v30 = v17;
+            v19 = v18 * v15;
+            v20 = *v36;
+            *(_QWORD *)&v27[4].normal.x = __PAIR64__(LODWORD(v16), LODWORD(v28));
+            v27[4].normal.z = v17;
+            LODWORD(v27[4].d) = COERCE_UNSIGNED_INT((float)(v19 + (float)(v20 * v16)) + (float)(v36[1] * v17))
+                              ^ _mask__NegFloat_;
+            v27[5] = *(vostok::math::plane *)(v13 + 3);
+            vostok::math::frustum::frustum(v21, (const vostok::math::plane (*)[6])v27, &v24);
+            v3 = furthest_vertices;
             vostok::math::get_frustum_vertices(
-              &f,
-              (vostok::math::float3 (*)[8])&furthest_vertices->m_frustum_images._M_impl._M_finish[-1]);
-            furthest_vertices->m_frustum_images._M_impl._M_finish[-1].c.m_value = v11;
-            v13 += 120;
-            if ( ++frustum_it == frutums_end )
+              &v24,
+              (vostok::math::float3 (*)[8])(LODWORD(furthest_vertices[1].z) - 100));
+            v37 += 30;
+            v12 = v32;
+            *(_DWORD *)(LODWORD(furthest_vertices[1].z) - 4) = v32;
+            v13 += 30;
+            if ( v37 == (float *)v35 )
               break;
-            M_start = (vostok::math::plane *)frustum_it;
+            v11 = v37;
           }
-          v6 = it;
+          v5 = v33;
         }
       }
-      p_y += 3;
-      it = ++v6;
-      if ( v6 == sectors_max_frustums_end )
-        break;
-      v3 = (const vostok::math::float3 *)furthest_vertices;
+      v36 += 3;
+      v5 = (const vostok::math::frustum **)((char *)v5 + (_DWORD)&loc_1E00A + 2);
+      v33 = v5;
     }
+    while ( v5 != v31 );
   }
 }

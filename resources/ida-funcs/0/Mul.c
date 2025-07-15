@@ -1,24 +1,28 @@
-_QWORD *__usercall Mul@<eax>(_QWORD *result@<eax>, float *a2@<ecx>, float a3@<xmm0>)
+btMatrix3x3 *__usercall Mul@<eax>(const btMatrix3x3 *a@<eax>, float *b, float a3)
 {
-  float v3; // xmm1_4
-  unsigned int v4; // xmm2_4
-  __int64 v5; // [esp+0h] [ebp-10h]
-  unsigned int v6; // [esp+8h] [ebp-8h]
+  float *v3; // ecx
+  float *v4; // eax
+  int v5; // edx
+  float v6; // xmm0_4
+  _DWORD *v7; // edi
+  float v9; // [esp+Ch] [ebp-Ch]
 
-  *(float *)&v5 = *a2 * a3;
-  *((float *)&v5 + 1) = a2[1] * a3;
-  v3 = a2[2];
-  *result = v5;
-  result[1] = COERCE_UNSIGNED_INT(v3 * a3);
-  *(float *)&v5 = a2[4] * a3;
-  *((float *)&v5 + 1) = a2[5] * a3;
-  *(float *)&v6 = a2[6] * a3;
-  result[2] = v5;
-  result[3] = v6;
-  *(float *)&v5 = a2[8] * a3;
-  *((float *)&v5 + 1) = a2[9] * a3;
-  *(float *)&v4 = a2[10] * a3;
-  result[4] = v5;
-  result[5] = v4;
-  return result;
+  v3 = b;
+  v4 = &a->m_el[0].mVec128.m128_f32[2];
+  v5 = 3;
+  do
+  {
+    v9 = *(v4 - 1) * a3;
+    v6 = *v4 * a3;
+    *v3 = *(v4 - 2) * a3;
+    v3[1] = v9;
+    v3[2] = v6;
+    v7 = v3 + 3;
+    v4 += 4;
+    v3 += 4;
+    --v5;
+    *v7 = 0;
+  }
+  while ( v5 );
+  return (btMatrix3x3 *)b;
 }

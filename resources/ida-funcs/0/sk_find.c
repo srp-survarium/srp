@@ -1,4 +1,4 @@
-int __cdecl sk_find(stack_st *st, char *data)
+int __usercall sk_find@<eax>(int a1@<edi>, stack_st *st, char *data)
 {
-  return internal_find(st, data, 2);
+  return internal_find(st, a1, data, 2);
 }

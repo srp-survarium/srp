@@ -13,7 +13,7 @@ char __thiscall Scaleform::Render::Viewport::GetClippedRect<int>(
   int v12; // edx
   int v13; // eax
   Scaleform::Render::Rect<int> r; // [esp+Ch] [ebp-20h] BYREF
-  Scaleform::Render::Rect<int> scissor; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::Render::Rect<int> v15; // [esp+1Ch] [ebp-10h] BYREF
 
   if ( orient && ((v4 = this->Flags & 0x30, v4 == 16) || v4 == 48) )
   {
@@ -30,24 +30,24 @@ char __thiscall Scaleform::Render::Viewport::GetClippedRect<int>(
   Left = this->Left;
   r.y2 = BufferHeight;
   Top = this->Top;
-  scissor.x1 = Left;
-  scissor.y1 = Top;
-  scissor.y2 = Width + Top;
+  v15.x1 = Left;
+  v15.y1 = Top;
+  v15.y2 = Width + Top;
   r.x1 = 0;
   r.y1 = 0;
-  scissor.x2 = Height + Left;
-  if ( Scaleform::Render::Rect<int>::IntersectRect(&scissor, prect, &r) )
+  v15.x2 = Height + Left;
+  if ( Scaleform::Render::Rect<int>::IntersectRect(&v15, prect, &r) )
   {
     if ( (this->Flags & 4) == 0 )
       return 1;
     ScissorTop = this->ScissorTop;
     v12 = this->ScissorLeft + this->ScissorWidth;
-    scissor.x1 = this->ScissorLeft;
+    v15.x1 = this->ScissorLeft;
     v13 = ScissorTop + this->ScissorHeight;
-    scissor.y1 = ScissorTop;
-    scissor.x2 = v12;
-    scissor.y2 = v13;
-    if ( Scaleform::Render::Rect<int>::IntersectRect(prect, prect, &scissor) )
+    v15.y1 = ScissorTop;
+    v15.x2 = v12;
+    v15.y2 = v13;
+    if ( Scaleform::Render::Rect<int>::IntersectRect(prect, prect, &v15) )
       return 1;
   }
   prect->x1 = 0;

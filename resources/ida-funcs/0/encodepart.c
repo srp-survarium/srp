@@ -1,35 +1,23 @@
-int __cdecl encodepart(oggpack_buffer *opb, int *vec, int n, codebook *book)
+int __cdecl encodepart(oggpack_buffer *opb, char *vec, int n, codebook *book)
 {
-  int v5; // eax
-  int v7; // ebp
-  int v8; // esi
-  const static_codebook *c; // eax
-  int v10; // esi
-  int bits; // [esp+8h] [ebp-4h]
-  codebook *booka; // [esp+1Ch] [ebp+10h]
+  int v6; // ebx
+  int v7; // eax
+  int v9; // [esp+4h] [ebp-4h]
+  int booka; // [esp+1Ch] [ebp+14h]
 
-  v5 = n / book->dim;
-  bits = 0;
-  if ( v5 <= 0 )
-    return 0;
-  booka = (codebook *)(4 * book->dim);
-  v7 = v5;
-  do
+  v9 = 0;
+  if ( n / book->dim > 0 )
   {
-    v8 = local_book_besterror(book, vec);
-    if ( v8 < 0 || (c = book->c, v8 >= c->entries) )
+    v6 = 4 * book->dim;
+    booka = n / book->dim;
+    do
     {
-      v10 = 0;
+      v7 = local_book_besterror(vec);
+      v9 += vorbis_book_encode(book, v7, opb);
+      vec += v6;
+      --booka;
     }
-    else
-    {
-      oggpack_write(opb, book->codelist[v8], c->lengthlist[v8]);
-      v10 = book->c->lengthlist[v8];
-    }
-    bits += v10;
-    vec = (int *)((char *)vec + (_DWORD)booka);
-    --v7;
+    while ( booka );
   }
-  while ( v7 );
-  return bits;
+  return v9;
 }

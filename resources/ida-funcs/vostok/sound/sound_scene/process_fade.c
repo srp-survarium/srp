@@ -1,37 +1,52 @@
-void __thiscall vostok::sound::sound_scene::process_fade(
-        vostok::sound::sound_scene *this,
-        vostok::sound::sound_world *world,
-        unsigned __int64 time_delta)
+void __userpurge vostok::sound::sound_scene::process_fade(
+        vostok::sound::sound_scene *this@<ecx>,
+        int a2@<esi>,
+        unsigned int time_delta)
 {
-  if ( this->m_fade_state == move_forward )
+  int v3; // eax
+  double v4; // st7
+  float v5; // xmm0_4
+  int v6; // eax
+  float *v7; // edi
+  double v8; // st7
+  vostok::sound::sound_world *v9; // ecx
+  int v10; // eax
+
+  v3 = *(_DWORD *)(a2 + 756);
+  if ( v3 == 1 )
   {
-    this->m_volume = (double)time_delta * this->m_fade_vol_per_msec + this->m_volume;
-    if ( this->m_volume >= 1.0 )
+    v4 = (double)time_delta / (double)*(unsigned int *)(a2 + 740) + *(float *)(a2 + 732);
+    *(float *)(a2 + 732) = v4;
+    if ( v4 >= 1.0 )
     {
-      this->m_volume = FLOAT_1_0;
-      this->m_fade_state = none;
+      v5 = s_bm_current_air_resistance;
+      *(_DWORD *)(a2 + 756) = 0;
+      *(float *)(a2 + 732) = v5;
     }
-    if ( this->m_submix_voice )
-      ((void (__stdcall *)(_DWORD, _DWORD, _DWORD))this->m_submix_voice->SetVolume)(
-        this->m_submix_voice,
-        this->m_volume,
+    v6 = *(_DWORD *)(a2 + 728);
+    if ( v6 )
+      (*(void (__stdcall **)(int, _DWORD, _DWORD))(*(_DWORD *)v6 + 48))(
+        v6,
+        *(float *)(a2 + 736) * *(float *)(a2 + 732),
         0);
   }
-  else if ( this->m_fade_state == move_backward )
+  else if ( v3 == 2 )
   {
-    this->m_volume = this->m_volume - (double)time_delta * this->m_fade_vol_per_msec;
-    if ( this->m_volume < 0.0 || fabs(this->m_volume - 0.0) < 0.0000099999997 )
+    v7 = (float *)(a2 + 732);
+    v8 = *(float *)(a2 + 732) - (double)time_delta / (double)*(unsigned int *)(a2 + 744);
+    *(float *)(a2 + 732) = v8;
+    if ( v8 < 0.0
+      || (time_delta = 0,
+          vostok::math::is_similar<float>((const float *)(a2 + 732), (const float *)&time_delta, 0.0000099999997)) )
     {
-      this->m_volume = *(float *)&FLOAT_0_0;
-      this->m_fade_state = none;
-      vostok::sound::sound_scene::pause_propagate_all_sounds(this);
-      vostok::sound::sound_world::remove_scene_from_active(world, this);
-      this->m_is_active = 0;
+      v9 = *(vostok::sound::sound_world **)(a2 + 284);
+      *(_DWORD *)(a2 + 756) = 0;
+      *v7 = 0.0;
+      vostok::sound::sound_world::remove_scene_from_active(v9, (vostok::sound::sound_scene *)a2);
+      *(_BYTE *)(a2 + 753) = 0;
     }
-    if ( this->m_submix_voice )
-      ((void (__stdcall *)(_DWORD, _DWORD, _DWORD))this->m_submix_voice->SetVolume)(
-        this->m_submix_voice,
-        this->m_volume,
-        0);
+    v10 = *(_DWORD *)(a2 + 728);
+    if ( v10 )
+      (*(void (__stdcall **)(int, _DWORD, _DWORD))(*(_DWORD *)v10 + 48))(v10, *(float *)(a2 + 736) * *v7, 0);
   }
 }

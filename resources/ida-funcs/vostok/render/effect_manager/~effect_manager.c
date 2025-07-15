@@ -1,150 +1,67 @@
-void __thiscall vostok::render::effect_manager::~effect_manager(
-        vostok::render::effect_manager *this,
-        vostok::render::effect_manager *thisa)
+void __thiscall vostok::render::effect_manager::~effect_manager(vostok::render::effect_manager *this, int a2)
 {
-  vostok::render::effect_manager *v2; // esi
-  stlp_std::priv::_Rb_tree_node_base *M_left; // edi
-  vostok::render::grass_render_model *m_object; // ebp
-  char *v5; // esi
-  char *v6; // eax
-  malloc_state *m_reconstruction_info_actuality_tick_high; // esi
-  stlp_std::priv::_Rb_tree_node_base *v8; // edi
-  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *p_m_effect_descriptors_by_texture; // ebp
-  char *v10; // esi
-  char *v11; // eax
-  malloc_state *v12; // esi
-  char *M_start; // eax
-  malloc_state *v14; // esi
-  char *v15; // eax
-  malloc_state *v16; // esi
-  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *p_m_techniques; // esi
-  vostok::render::grass_render_model *v18; // [esp+10h] [ebp-4h]
+  stlp_std::priv::_Rb_tree_node_base *i; // esi
+  stlp_std::priv::_Rb_tree_node_base *j; // esi
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *v4; // ecx
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *v5; // ecx
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *v6; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v7; // edi
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **v8; // esi
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *v9; // ecx
+  stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *v10; // ecx
+  int v11; // eax
+  const char *v12; // [esp+0h] [ebp-10h]
+  const char *v13; // [esp+4h] [ebp-Ch]
+  unsigned int v14; // [esp+8h] [ebp-8h]
 
-  v2 = thisa;
-  M_left = thisa->m_effect_descriptors._M_t._M_header._M_data._M_left;
-  if ( M_left != (stlp_std::priv::_Rb_tree_node_base *)&thisa->m_effect_descriptors )
+  for ( i = *(stlp_std::priv::_Rb_tree_node_base **)((char *)&loc_44770 + a2);
+        i != (stlp_std::priv::_Rb_tree_node_base *)((char *)&loc_44768 + a2);
+        i = stlp_std::priv::_Rb_global<bool>::_M_increment(i) )
   {
-    do
-    {
-      m_object = vostok::render::g_allocator.m_object;
-      if ( M_left[9]._M_right )
-      {
-        v5 = __RTCastToVoid((void **)M_left[9]._M_right);
-        (**(void (__thiscall ***)(stlp_std::priv::_Rb_tree_node_base *, _DWORD))M_left[9]._M_right)(
-          M_left[9]._M_right,
-          0);
-        if ( v5 )
-        {
-          v6 = v5;
-          m_reconstruction_info_actuality_tick_high = (malloc_state *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
-        }
-        v2 = thisa;
-        M_left[9]._M_right = 0;
-      }
-      M_left = stlp_std::priv::_Rb_global<bool>::_M_increment(M_left);
-    }
-    while ( M_left != (stlp_std::priv::_Rb_tree_node_base *)&v2->m_effect_descriptors );
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::scene_view>(
+      vostok::render::g_allocator,
+      (vostok::ai::fsm_state **)&i[9]._M_right,
+      v12,
+      v13,
+      v14);
   }
-  v8 = v2->m_effect_descriptors_by_texture._M_t._M_header._M_data._M_left;
-  p_m_effect_descriptors_by_texture = (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *)&v2->m_effect_descriptors_by_texture;
-  if ( v8 != (stlp_std::priv::_Rb_tree_node_base *)&v2->m_effect_descriptors_by_texture )
+  for ( j = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 280456);
+        j != (stlp_std::priv::_Rb_tree_node_base *)(a2 + 280448);
+        j = stlp_std::priv::_Rb_global<bool>::_M_increment(j) )
   {
-    do
-    {
-      v18 = vostok::render::g_allocator.m_object;
-      if ( v8[9]._M_right )
-      {
-        v10 = __RTCastToVoid((void **)v8[9]._M_right);
-        (**(void (__thiscall ***)(stlp_std::priv::_Rb_tree_node_base *, _DWORD))v8[9]._M_right)(v8[9]._M_right, 0);
-        if ( v10 )
-        {
-          v11 = v10;
-          v12 = (malloc_state *)HIDWORD(v18->m_reconstruction_info_actuality_tick);
-          BYTE2(v18->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(v12, v11);
-        }
-        v2 = thisa;
-        v8[9]._M_right = 0;
-      }
-      v8 = stlp_std::priv::_Rb_global<bool>::_M_increment(v8);
-    }
-    while ( v8 != (stlp_std::priv::_Rb_tree_node_base *)p_m_effect_descriptors_by_texture );
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::scene_view>(
+      vostok::render::g_allocator,
+      (vostok::ai::fsm_state **)&j[9]._M_right,
+      v12,
+      v13,
+      v14);
   }
-  M_start = (char *)v2->m_effects_deleted_in_pending._M_impl._M_start;
-  if ( M_start )
+  v4 = *(stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > **)((char *)&loc_4479C + a2);
+  *(_DWORD *)((char *)&loc_4479C + a2 + 4) = v4;
+  stlp_std::priv::_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>::~_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>(
+    v4,
+    (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *)(a2 + 280448));
+  stlp_std::priv::_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>::~_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>(
+    v5,
+    (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *)((char *)&loc_44768 + a2));
+  v7 = *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 18268);
+  v8 = (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 18272);
+  while ( v7 != *v8 )
   {
-    v14 = (malloc_state *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v14, M_start);
-    v2 = thisa;
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(v7 + 1);
+    v7 += 8;
   }
-  if ( p_m_effect_descriptors_by_texture->_M_node_count )
-  {
-    stlp_std::priv::_Rb_tree<vostok::render::res_effect *,vostok::render::effect_manager::compare_predicate<vostok::render::res_effect>,vostok::render::res_effect *,stlp_std::priv::_Identity<vostok::render::res_effect *>,stlp_std::priv::_SetTraitsT<vostok::render::res_effect *>,vostok::render::std_allocator<vostok::render::res_effect *>>::_M_erase(
-      p_m_effect_descriptors_by_texture,
-      p_m_effect_descriptors_by_texture->_M_header._M_data._M_parent);
-    p_m_effect_descriptors_by_texture->_M_header._M_data._M_left = (stlp_std::priv::_Rb_tree_node_base *)p_m_effect_descriptors_by_texture;
-    p_m_effect_descriptors_by_texture->_M_header._M_data._M_parent = 0;
-    p_m_effect_descriptors_by_texture->_M_header._M_data._M_right = (stlp_std::priv::_Rb_tree_node_base *)p_m_effect_descriptors_by_texture;
-    p_m_effect_descriptors_by_texture->_M_node_count = 0;
-  }
-  if ( v2->m_effect_descriptors._M_t._M_node_count )
-  {
-    stlp_std::priv::_Rb_tree<vostok::render::res_effect *,vostok::render::effect_manager::compare_predicate<vostok::render::res_effect>,vostok::render::res_effect *,stlp_std::priv::_Identity<vostok::render::res_effect *>,stlp_std::priv::_SetTraitsT<vostok::render::res_effect *>,vostok::render::std_allocator<vostok::render::res_effect *>>::_M_erase(
-      (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *)&v2->m_effect_descriptors,
-      v2->m_effect_descriptors._M_t._M_header._M_data._M_parent);
-    v2->m_effect_descriptors._M_t._M_header._M_data._M_left = &v2->m_effect_descriptors._M_t._M_header._M_data;
-    v2->m_effect_descriptors._M_t._M_header._M_data._M_parent = 0;
-    v2->m_effect_descriptors._M_t._M_header._M_data._M_right = &v2->m_effect_descriptors._M_t._M_header._M_data;
-    v2->m_effect_descriptors._M_t._M_node_count = 0;
-  }
-  stlp_std::__destroy_range_aux<stlp_std::reverse_iterator<vostok::render::effect_manager::effect_holder_struct *>,vostok::render::effect_manager::effect_holder_struct>(
-    (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_holder_struct *>)v2->m_effects._M_impl._M_finish,
-    (stlp_std::reverse_iterator<vostok::render::effect_manager::effect_holder_struct *>)v2->m_effects._M_impl._M_start);
-  v15 = (char *)v2->m_effects._M_impl._M_start;
-  if ( v15 )
-  {
-    v16 = (malloc_state *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v16, v15);
-    v2 = thisa;
-  }
-  p_m_techniques = (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *)&v2->m_techniques;
-  if ( p_m_techniques->_M_node_count )
-  {
-    stlp_std::priv::_Rb_tree<vostok::render::res_effect *,vostok::render::effect_manager::compare_predicate<vostok::render::res_effect>,vostok::render::res_effect *,stlp_std::priv::_Identity<vostok::render::res_effect *>,stlp_std::priv::_SetTraitsT<vostok::render::res_effect *>,vostok::render::std_allocator<vostok::render::res_effect *>>::_M_erase(
-      p_m_techniques,
-      p_m_techniques->_M_header._M_data._M_parent);
-    p_m_techniques->_M_header._M_data._M_left = (stlp_std::priv::_Rb_tree_node_base *)p_m_techniques;
-    p_m_techniques->_M_header._M_data._M_parent = 0;
-    p_m_techniques->_M_header._M_data._M_right = (stlp_std::priv::_Rb_tree_node_base *)p_m_techniques;
-    p_m_techniques->_M_node_count = 0;
-  }
-  if ( thisa->m_shaders._M_t._M_node_count )
-  {
-    stlp_std::priv::_Rb_tree<vostok::render::res_effect *,vostok::render::effect_manager::compare_predicate<vostok::render::res_effect>,vostok::render::res_effect *,stlp_std::priv::_Identity<vostok::render::res_effect *>,stlp_std::priv::_SetTraitsT<vostok::render::res_effect *>,vostok::render::std_allocator<vostok::render::res_effect *>>::_M_erase(
-      (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *)&thisa->m_shaders,
-      thisa->m_shaders._M_t._M_header._M_data._M_parent);
-    thisa->m_shaders._M_t._M_header._M_data._M_left = &thisa->m_shaders._M_t._M_header._M_data;
-    thisa->m_shaders._M_t._M_header._M_data._M_parent = 0;
-    thisa->m_shaders._M_t._M_header._M_data._M_right = &thisa->m_shaders._M_t._M_header._M_data;
-    thisa->m_shaders._M_t._M_node_count = 0;
-  }
-  if ( thisa->m_passes._M_t._M_node_count )
-  {
-    stlp_std::priv::_Rb_tree<vostok::render::res_effect *,vostok::render::effect_manager::compare_predicate<vostok::render::res_effect>,vostok::render::res_effect *,stlp_std::priv::_Identity<vostok::render::res_effect *>,stlp_std::priv::_SetTraitsT<vostok::render::res_effect *>,vostok::render::std_allocator<vostok::render::res_effect *>>::_M_erase(
-      (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::texture_pool *>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::texture_pool *> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::texture_pool *> > > *)&thisa->m_passes,
-      thisa->m_passes._M_t._M_header._M_data._M_parent);
-    thisa->m_passes._M_t._M_header._M_data._M_left = &thisa->m_passes._M_t._M_header._M_data;
-    thisa->m_passes._M_t._M_header._M_data._M_parent = 0;
-    thisa->m_passes._M_t._M_header._M_data._M_right = &thisa->m_passes._M_t._M_header._M_data;
-    thisa->m_passes._M_t._M_node_count = 0;
-  }
-  if ( thisa->m_shader_cache_info._M_impl._M_start )
-    thisa->m_shader_cache_info._M_impl._M_end_of_storage.m_allocator->call_free(
-      thisa->m_shader_cache_info._M_impl._M_end_of_storage.m_allocator,
-      thisa->m_shader_cache_info._M_impl._M_start);
-  `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_to_bind = kLEFT;
+  *v8 = *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 18268);
+  stlp_std::priv::_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>::~_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>(
+    v6,
+    (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *)(a2 + 18244));
+  stlp_std::priv::_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>::~_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>(
+    v9,
+    (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *)(a2 + 18220));
+  stlp_std::priv::_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>::~_Rb_tree<vostok::fixed_string<128>,stlp_std::less<vostok::fixed_string<128>>,stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fixed_string<128> const,vostok::render::effect_descriptor *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fixed_string<128>,vostok::render::effect_descriptor *>>>(
+    v10,
+    (stlp_std::priv::_Rb_tree<unsigned int,stlp_std::less<unsigned int>,stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters>,stlp_std::priv::_Select1st<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<unsigned int const ,vostok::render::volume_fog_parameters> >,vostok::render::std_allocator<stlp_std::pair<unsigned int,vostok::render::volume_fog_parameters> > > *)(a2 + 18196));
+  v11 = *(_DWORD *)(a2 + 4);
+  vostok::quasi_singleton<vostok::render::effect_manager>::pinst = 0;
+  *(_DWORD *)(a2 + 8) = v11;
 }

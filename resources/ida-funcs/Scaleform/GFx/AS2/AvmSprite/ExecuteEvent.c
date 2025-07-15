@@ -5,7 +5,7 @@ bool __thiscall Scaleform::GFx::AS2::AvmSprite::ExecuteEvent(
   Scaleform::GFx::InteractiveObject *pDispObj; // eax
   Scaleform::GFx::InteractiveObject *v5; // edi
   Scaleform::GFx::InteractiveObject *v7; // eax
-  bool rv; // [esp+8h] [ebp+4h]
+  bool ida; // [esp+8h] [ebp+4h]
 
   pDispObj = this->pDispObj;
   if ( (pDispObj->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x10) != 0 )
@@ -17,7 +17,7 @@ bool __thiscall Scaleform::GFx::AS2::AvmSprite::ExecuteEvent(
     || (this->pDispObj->Flags &= ~0x20u, v7 = this->pDispObj, (v7->Scaleform::GFx::DisplayObject::Flags & 8) != 0)
     || SLOBYTE(v7[1].pIndXFormData) < 0 )
   {
-    rv = Scaleform::GFx::AS2::AvmCharacter::ExecuteEvent(this, id);
+    ida = Scaleform::GFx::AS2::AvmCharacter::ExecuteEvent(this, id);
     if ( id->Id == 4 )
     {
       this->pDispObj->Flags |= 0x10u;
@@ -29,7 +29,7 @@ bool __thiscall Scaleform::GFx::AS2::AvmSprite::ExecuteEvent(
     }
     if ( v5 )
       Scaleform::RefCountNTSImpl::Release(v5);
-    return rv;
+    return ida;
   }
   else
   {

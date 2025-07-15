@@ -24,16 +24,16 @@ char __thiscall Scaleform::GFx::DisplayList::SwapDepths(
   Scaleform::GFx::DisplayObjectBase *pCharacter; // ebx
   Scaleform::GFx::DisplayList::DisplayEntry *v24; // eax
   unsigned int MaskTreeIndex; // edx
-  unsigned int index2; // [esp+8h] [ebp-24h]
+  unsigned int index; // [esp+8h] [ebp-24h]
   Scaleform::GFx::DisplayObjectBase *v27; // [esp+Ch] [ebp-20h]
   Scaleform::RefCountNTSImpl *v28; // [esp+10h] [ebp-1Ch]
-  unsigned int index1; // [esp+14h] [ebp-18h]
-  Scaleform::GFx::DisplayList::DisplayEntry de; // [esp+20h] [ebp-Ch] BYREF
+  unsigned int v29; // [esp+14h] [ebp-18h]
+  Scaleform::GFx::DisplayList::DisplayEntry val; // [esp+20h] [ebp-Ch] BYREF
 
   if ( depth1 == depth2 )
     return 1;
   DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(this, depth1);
-  index1 = DisplayIndex;
+  v29 = DisplayIndex;
   if ( DisplayIndex >= this->DisplayObjectArray.Data.Size )
     return 0;
   v8 = DisplayIndex;
@@ -43,7 +43,7 @@ char __thiscall Scaleform::GFx::DisplayList::SwapDepths(
     return 0;
   v9 = Scaleform::GFx::DisplayList::FindDisplayIndex(this, depth2);
   Size = this->DisplayObjectArray.Data.Size;
-  index2 = v9;
+  index = v9;
   if ( DisplayIndex < Size && (this->DisplayObjectArray.Data.Data[DisplayIndex].pCharacter->Flags & 0x8000u) != 0 )
     return 0;
   if ( v9 < Size && (this->DisplayObjectArray.Data.Data[v9].pCharacter->Flags & 0x8000u) != 0 )
@@ -55,28 +55,28 @@ char __thiscall Scaleform::GFx::DisplayList::SwapDepths(
   v12 = &this->DisplayObjectArray.Data.Data[v9];
   if ( v12->pCharacter->Depth != depth2 )
   {
-    DisplayIndex = index1;
+    DisplayIndex = v29;
 LABEL_34:
     pCharacter = this->DisplayObjectArray.Data.Data[v8].pCharacter;
     v24 = &this->DisplayObjectArray.Data.Data[v8];
-    de.pCharacter = pCharacter;
+    val.pCharacter = pCharacter;
     if ( pCharacter )
       ++pCharacter->RefCount;
     MaskTreeIndex = v24->MaskTreeIndex;
-    de.TreeIndex = v24->TreeIndex;
-    de.MaskTreeIndex = MaskTreeIndex;
+    val.TreeIndex = v24->TreeIndex;
+    val.MaskTreeIndex = MaskTreeIndex;
     Scaleform::GFx::DisplayList::RemoveFromRenderTree(this, owner, DisplayIndex);
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::DisplayList::DisplayEntry,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DisplayEntry,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
       &this->DisplayObjectArray,
       DisplayIndex);
-    v20 = index2;
-    if ( DisplayIndex < index2 )
-      v20 = index2 - 1;
+    v20 = index;
+    if ( DisplayIndex < index )
+      v20 = index - 1;
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::DisplayList::DisplayEntry,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DisplayEntry,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
       &this->DisplayObjectArray,
       v20,
-      &de);
-    Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, v20);
+      &val);
+    Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, (Scaleform::GFx::DisplayObjectBase *)v20);
     if ( pCharacter )
       Scaleform::RefCountNTSImpl::Release(pCharacter);
     goto LABEL_28;
@@ -87,9 +87,9 @@ LABEL_34:
     ++v13->RefCount;
   v14 = Data[v8].MaskTreeIndex;
   p_TreeIndex = &Data[v8].TreeIndex;
-  de.TreeIndex = *p_TreeIndex;
+  val.TreeIndex = *p_TreeIndex;
   p_MaskTreeIndex = &Data[v8].MaskTreeIndex;
-  de.MaskTreeIndex = v14;
+  val.MaskTreeIndex = v14;
   v27 = v12->pCharacter;
   v17 = Data[v8].pCharacter;
   if ( v17 )
@@ -108,19 +108,19 @@ LABEL_34:
   v12->pCharacter = (Scaleform::GFx::DisplayObjectBase *)v28;
   if ( v28 )
     ++v28->RefCount;
-  v18 = de.MaskTreeIndex;
-  v12->TreeIndex = de.TreeIndex;
+  v18 = val.MaskTreeIndex;
+  v12->TreeIndex = val.TreeIndex;
   v12->MaskTreeIndex = v18;
   if ( v28 )
     Scaleform::RefCountNTSImpl::Release(v28);
-  Scaleform::GFx::DisplayList::SwapRenderTreeNodes(this, owner, index1, index2);
+  Scaleform::GFx::DisplayList::SwapRenderTreeNodes(this, owner, v29, index);
   v19 = this->DisplayObjectArray.Data.Data[v8].pCharacter;
   if ( v19 )
   {
     v19->Depth = depth1;
     v19->CreateFrame = frame + 1;
   }
-  v20 = index2;
+  v20 = index;
 LABEL_28:
   v21 = this->DisplayObjectArray.Data.Data[v20].pCharacter;
   if ( v21 )

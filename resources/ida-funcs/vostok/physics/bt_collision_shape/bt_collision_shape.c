@@ -1,8 +1,9 @@
 void __usercall vostok::physics::bt_collision_shape::bt_collision_shape(
         vostok::physics::bt_collision_shape *this@<esi>,
-        btCollisionShape *sh@<edi>)
+        btCollisionShape *sh@<edi>,
+        vostok::resources::unmanaged_resource *a3@<ecx>)
 {
-  vostok::resources::unmanaged_resource::unmanaged_resource(this, 1u);
+  vostok::resources::unmanaged_resource::unmanaged_resource(a3, this, fs_iterator_class);
   this->m_tri_face_data = 0;
   this->m_shapes_face_data = 0;
   this->__vftable = (vostok::physics::bt_collision_shape_vtbl *)&vostok::physics::bt_collision_shape::`vftable';

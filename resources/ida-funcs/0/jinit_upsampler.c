@@ -22,8 +22,8 @@ int __cdecl jinit_upsampler(int a1)
   result = (**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 160);
   v3 = result;
   *(_DWORD *)(a1 + 432) = result;
-  *(_DWORD *)result = sub_37A130;
-  *(_DWORD *)(result + 4) = sub_37A150;
+  *(_DWORD *)result = sub_486DF0;
+  *(_DWORD *)(result + 4) = sub_486E10;
   *(_BYTE *)(result + 8) = 0;
   v18 = result;
   if ( *(_BYTE *)(a1 + 266) )
@@ -54,7 +54,7 @@ int __cdecl jinit_upsampler(int a1)
           {
             if ( v8 == v7 )
             {
-              *v5 = sub_37A320;
+              *v5 = sub_486FE0;
 LABEL_20:
               v14 = *(_DWORD *)(a1 + 276);
               v12 = (int (__cdecl **)(int, int, int, int))(*(_DWORD *)(a1 + 4) + 8);
@@ -64,7 +64,7 @@ LABEL_20:
             }
             if ( v10 == v9 && 2 * v8 == v7 )
             {
-              *v5 = sub_37A380;
+              *v5 = sub_487040;
               goto LABEL_20;
             }
           }
@@ -77,17 +77,17 @@ LABEL_20:
           }
           else
           {
-            *v5 = sub_37A240;
+            *v5 = sub_486F00;
             *(_BYTE *)(v18 + v19 + 140) = v17;
             *(_BYTE *)(v18 + v19 + 150) = v15 / v8;
           }
           goto LABEL_20;
         }
-        *v5 = sub_37A220;
+        *v5 = sub_486EE0;
       }
       else
       {
-        *v5 = sub_37A230;
+        *v5 = sub_486EF0;
       }
 LABEL_21:
       result = v19 + 1;

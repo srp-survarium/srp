@@ -1,35 +1,29 @@
-long double __cdecl _umatherr(
-        int type,
-        unsigned int opcode,
-        long double arg1,
-        long double arg2,
-        long double retval,
-        unsigned int cw)
+long double __cdecl _umatherr(int type, unsigned int opcode, long double arg1, long double arg2, long double retval)
 {
-  int v6; // eax
-  char *v7; // eax
+  int v5; // eax
+  char *v6; // eax
 
-  v6 = 0;
-  while ( dword_9AECD0[2 * v6] != opcode )
+  v5 = 0;
+  while ( dword_86FDF8[2 * v5] != opcode )
   {
-    if ( ++v6 >= 29 )
+    if ( ++v5 >= 29 )
     {
-      v7 = 0;
+      v6 = 0;
       goto LABEL_5;
     }
   }
-  v7 = (&off_9AECD4)[2 * v6];
+  v6 = (&off_86FDFC)[2 * v5];
 LABEL_5:
-  if ( v7 )
+  if ( v6 )
   {
-    _ctrlfp(cw, 0xFFFFu);
+    _ctrlfp();
     if ( !__init_collate() )
       _set_errno_from_matherr(type);
     return retval;
   }
   else
   {
-    _ctrlfp(cw, 0xFFFFu);
+    _ctrlfp();
     _set_errno_from_matherr(type);
     return retval;
   }

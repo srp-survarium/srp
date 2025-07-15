@@ -1,297 +1,227 @@
-void __usercall survarium::lobby_menu::fill_character_data(survarium::lobby_menu *this@<ecx>, _DWORD *a2@<esi>)
+void __thiscall survarium::lobby_menu::fill_character_data(
+        survarium::lobby_menu *this,
+        survarium::flash_value *player_characteristics_value)
 {
-  int v2; // ecx
-  int v3; // ecx
-  int v4; // eax
-  int v5; // ecx
+  survarium::lobby_client *v3; // eax
+  survarium::flash_movie *v4; // ecx
+  int v5; // edi
   int v6; // eax
-  unsigned __int8 *v7; // edi
-  int v8; // ebx
-  int v9; // ebx
-  int v10; // edi
-  int v11; // edi
-  int v12; // edi
-  int v13; // edi
-  unsigned int v14; // edi
-  unsigned int v15; // eax
-  unsigned int v16; // edi
-  int v17; // edi
-  unsigned __int8 j; // bl
-  int v19; // ecx
-  unsigned __int8 i; // [esp+EAh] [ebp-66h]
-  unsigned __int8 total_points_in_tree; // [esp+EBh] [ebp-65h]
-  unsigned __int8 total_points_in_treea; // [esp+EBh] [ebp-65h]
-  survarium::flash_value player_skills_value_prop; // [esp+ECh] [ebp-64h] BYREF
-  survarium::flash_value player_skills_value; // [esp+104h] [ebp-4Ch] BYREF
-  survarium::flash_value skill_value_prop; // [esp+11Ch] [ebp-34h] BYREF
-  survarium::flash_value perk_value; // [esp+134h] [ebp-1Ch] BYREF
+  int v7; // eax
+  survarium::player_params_modifiers_container *v8; // ecx
+  survarium::lobby_menu *v9; // ecx
+  survarium::lobby_menu *v10; // ecx
+  survarium::player_skill *m_player_skills; // eax
+  unsigned __int8 *p_skill_id; // edi
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  vostok::configs::binary_config_value *v17; // esi
+  bool v18; // cf
+  vostok::configs::binary_config_value *v19; // eax
+  vostok::configs::binary_config_value *v20; // esi
+  const vostok::configs::binary_config_value *v21; // eax
+  vostok::configs::binary_config_value *v22; // esi
+  const vostok::configs::binary_config_value *v23; // eax
+  float v24; // xmm0_4
+  survarium::lobby_menu *v25; // ecx
+  survarium::lobby_client *v26; // eax
+  survarium::lobby_menu *v27; // ecx
+  survarium::flash_value *v28; // ecx
+  survarium::flash_value *v29; // ecx
+  survarium::flash_value *v30; // ecx
+  survarium::flash_value *v31; // ecx
+  survarium::flash_value *v32; // ecx
+  unsigned int v33; // eax
+  survarium::flash_value *v34; // ecx
+  unsigned int v35; // eax
+  survarium::flash_value *v36; // ecx
+  survarium::flash_value *v37; // ecx
+  survarium::flash_value *v38; // ecx
+  survarium::lobby_menu *v39; // ecx
+  survarium::lobby_menu *v40; // ecx
+  survarium::lobby_client *v41; // eax
+  survarium::flash_value *v42; // ecx
+  survarium::lobby_menu *v43; // ecx
+  survarium::lobby_client *v44; // eax
+  survarium::lobby_menu *v45; // ecx
+  survarium::lobby_client *v46; // eax
+  survarium::flash_value *v47; // ecx
+  survarium::flash_value *v48; // [esp-8h] [ebp-4DCh]
+  survarium::flash_value *v49; // [esp-8h] [ebp-4DCh]
+  survarium::flash_value *v50; // [esp-4h] [ebp-4D8h]
+  float v51[20]; // [esp+10h] [ebp-4C4h] BYREF
+  char v52[960]; // [esp+60h] [ebp-474h] BYREF
+  char v53[16]; // [esp+420h] [ebp-B4h] BYREF
+  char _Dest[16]; // [esp+430h] [ebp-A4h] BYREF
+  Scaleform::GFx::Value pargs; // [esp+440h] [ebp-94h] BYREF
+  survarium::flash_value value; // [esp+458h] [ebp-7Ch] BYREF
+  Scaleform::GFx::Value v57; // [esp+470h] [ebp-64h] BYREF
+  vostok::configs::binary_config_value *v58; // [esp+488h] [ebp-4Ch]
+  int v59; // [esp+48Ch] [ebp-48h]
+  int v60; // [esp+490h] [ebp-44h]
+  Scaleform::GFx::Value v61; // [esp+494h] [ebp-40h] BYREF
+  unsigned __int8 *v62; // [esp+4ACh] [ebp-28h]
+  Scaleform::GFx::Value pvalue; // [esp+4B0h] [ebp-24h] BYREF
+  vostok::configs::binary_config_value *pointer; // [esp+4C8h] [ebp-Ch]
+  unsigned __int8 v65; // [esp+4CEh] [ebp-6h]
+  unsigned __int8 v66; // [esp+4CFh] [ebp-5h]
+  unsigned __int8 player_characteristics_value_3b; // [esp+4DFh] [ebp+Bh]
+  unsigned __int8 player_characteristics_value_3; // [esp+4DFh] [ebp+Bh]
+  unsigned __int8 player_characteristics_value_3a; // [esp+4DFh] [ebp+Bh]
+  unsigned __int8 player_characteristics_value_3c; // [esp+4DFh] [ebp+Bh]
 
-  v2 = a2[53];
-  *(_DWORD *)player_skills_value.body = 0;
-  *(_DWORD *)&player_skills_value.body[4] = 0;
-  Scaleform::GFx::Movie::CreateObject(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(v2 + 264) + 4),
-    (Scaleform::GFx::Value *)&player_skills_value,
-    0,
-    0,
-    0);
-  v3 = a2[53];
-  *(_DWORD *)player_skills_value_prop.body = 0;
-  *(_DWORD *)&player_skills_value_prop.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(v3 + 264) + 4),
-    (Scaleform::GFx::Value *)&player_skills_value_prop);
-  v4 = a2[42];
-  *(_DWORD *)skill_value_prop.body = 0;
-  *(_DWORD *)&skill_value_prop.body[4] = 0;
-  total_points_in_tree = 0;
-  i = 0;
-  if ( *(_BYTE *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v4 + 952) + 60))(*(_DWORD *)(v4 + 952)) + 1948) )
+  player_characteristics_value_3b = player_characteristics_value[66].body[20];
+  v3 = survarium::lobby_menu::lobby_client(this, (int)player_characteristics_value);
+  v4 = (survarium::flash_movie *)(1512 * player_characteristics_value_3b);
+  v5 = (int)&v4[22] + (_DWORD)v3;
+  v6 = *(_DWORD *)&player_characteristics_value[66].body[16];
+  v61.pObjectInterface = 0;
+  v61.Type = VT_Undefined;
+  v48 = *(survarium::flash_value **)(v6 + 264);
+  v59 = v5;
+  survarium::flash_movie::CreateObject(v4, v48, &v61);
+  v7 = *(_DWORD *)&player_characteristics_value[66].body[16];
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v7 + 264) + 4), &pvalue);
+  v65 = 0;
+  survarium::player_params_modifiers_container::player_params_modifiers_container(v8, (char *)v51);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  player_characteristics_value_3 = 0;
+  if ( survarium::lobby_menu::lobby_client(v9, (int)player_characteristics_value)->m_player_skills_count )
   {
     do
     {
-      v5 = *(_DWORD *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952))
-                     + 1944);
-      v6 = a2[53];
-      v7 = (unsigned __int8 *)(v5 + 2 * i);
-      *(_DWORD *)perk_value.body = 0;
-      *(_DWORD *)&perk_value.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(
-        *(Scaleform::GFx::Movie **)(*(_DWORD *)(v6 + 264) + 4),
-        (Scaleform::GFx::Value *)&perk_value,
-        0,
-        0,
-        0);
-      v8 = *v7;
-      if ( (skill_value_prop.body[4] & 0x40) != 0 )
+      m_player_skills = survarium::lobby_menu::lobby_client(v10, (int)player_characteristics_value)->m_player_skills;
+      v57.pObjectInterface = 0;
+      v57.Type = VT_Undefined;
+      p_skill_id = &m_player_skills[player_characteristics_value_3].skill_id;
+      v49 = *(survarium::flash_value **)(*(_DWORD *)&player_characteristics_value[66].body[16] + 264);
+      v62 = p_skill_id;
+      survarium::flash_movie::CreateObject((survarium::flash_movie *)player_characteristics_value_3, v49, &v57);
+      survarium::flash_value::SetUInt(v13, (int)&value, *p_skill_id);
+      survarium::flash_value::SetMember(v14, &v57, "id", &value);
+      survarium::flash_value::SetUInt(v15, (int)&value, p_skill_id[1]);
+      survarium::flash_value::SetMember(v16, &v57, "points", &value);
+      pvalue.pObjectInterface->SetElement(
+        pvalue.pObjectInterface,
+        (void *)pvalue.mValue.IValue,
+        player_characteristics_value_3,
+        &v57);
+      v65 += p_skill_id[1];
+      v17 = *(vostok::configs::binary_config_value **)(*(_DWORD *)&player_characteristics_value[71].body[16] + 264);
+      sprintf_s<16>((char (*)[16])_Dest, "skill_%d", *p_skill_id);
+      v58 = vostok::configs::binary_config_value::operator[](v17, _Dest);
+      v18 = v62[1] == 0;
+      v66 = 1;
+      if ( !v18 )
       {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)skill_value_prop.body + 8))(
-          *(_DWORD *)skill_value_prop.body,
-          &skill_value_prop,
-          *(_DWORD *)&skill_value_prop.body[8]);
-        *(_DWORD *)skill_value_prop.body = 0;
+        do
+        {
+          sprintf_s<16>((char (*)[16])v53, "skill_level_%d", v66);
+          v19 = vostok::configs::binary_config_value::operator[](v58, "levels");
+          v20 = vostok::configs::binary_config_value::operator[](v19, v53);
+          pointer = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
+                                                              v20,
+                                                              "boosters")->data.pointer;
+          v21 = vostok::configs::binary_config_value::operator[](v20, "boosters");
+          v22 = (vostok::configs::binary_config_value *)((char *)v21->data.pointer + 24 * v21->count);
+          while ( pointer != v22 )
+          {
+            v60 = LOBYTE(vostok::configs::binary_config_value::operator[](pointer, "id")->data.max_storage) - 1;
+            v23 = vostok::configs::binary_config_value::operator[](pointer, "value");
+            if ( v23->type == 2 )
+              v24 = *(float *)&v23->data.pointer;
+            else
+              v24 = (float)(int)v23->data.pointer;
+            ++pointer;
+            v51[v60] = v51[v60] + v24;
+          }
+          ++v66;
+        }
+        while ( v66 <= v62[1] );
       }
-      *(_DWORD *)&skill_value_prop.body[4] = 4;
-      *(_DWORD *)&skill_value_prop.body[8] = v8;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)perk_value.body
-                                                                                           + 20))(
-        *(_DWORD *)perk_value.body,
-        *(_DWORD *)&perk_value.body[8],
-        "id",
-        &skill_value_prop,
-        (perk_value.body[4] & 0x8F) == 10);
-      v9 = v7[1];
-      if ( (skill_value_prop.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)skill_value_prop.body + 8))(
-          *(_DWORD *)skill_value_prop.body,
-          &skill_value_prop,
-          *(_DWORD *)&skill_value_prop.body[8]);
-        *(_DWORD *)skill_value_prop.body = 0;
-      }
-      *(_DWORD *)&skill_value_prop.body[4] = 4;
-      *(_DWORD *)&skill_value_prop.body[8] = v9;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)perk_value.body
-                                                                                           + 20))(
-        *(_DWORD *)perk_value.body,
-        *(_DWORD *)&perk_value.body[8],
-        "points",
-        &skill_value_prop,
-        (perk_value.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)player_skills_value_prop.body
-                                                                               + 52))(
-        *(_DWORD *)player_skills_value_prop.body,
-        *(_DWORD *)&player_skills_value_prop.body[8],
-        i,
-        &perk_value);
-      total_points_in_tree += v7[1];
-      if ( (perk_value.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)perk_value.body + 8))(
-          *(_DWORD *)perk_value.body,
-          &perk_value,
-          *(_DWORD *)&perk_value.body[8]);
-      ++i;
+      Scaleform::GFx::Value::~Value(&v57);
+      ++player_characteristics_value_3;
+      v26 = survarium::lobby_menu::lobby_client(v25, (int)player_characteristics_value);
+      LOBYTE(v10) = player_characteristics_value_3;
     }
-    while ( i < *(_BYTE *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952))
-                         + 1948) );
+    while ( player_characteristics_value_3 < v26->m_player_skills_count );
+    v5 = v59;
   }
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "trees",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  v10 = *(unsigned __int8 *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952))
-                           + 2100)
-      - total_points_in_tree;
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 4;
-  *(_DWORD *)&player_skills_value_prop.body[8] = v10;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "points_available",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  v11 = *(unsigned __int8 *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952))
-                           + 2100);
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 4;
-  *(_DWORD *)&player_skills_value_prop.body[8] = v11;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "points_unlocked",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  v12 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952));
-  v13 = *(_DWORD *)(v12 + 2104)
-      - *(_DWORD *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952)) + 2108);
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 4;
-  *(_DWORD *)&player_skills_value_prop.body[8] = v13;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "experience_current",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  v14 = *(_DWORD *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952)) + 2112);
-  v15 = *(_DWORD *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952)) + 2108);
-  if ( v14 <= v15 )
-    v16 = 0;
-  else
-    v16 = v14 - v15;
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 4;
-  *(_DWORD *)&player_skills_value_prop.body[8] = v16;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "experience_next_level",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  v17 = a2[68];
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 4;
-  *(_DWORD *)&player_skills_value_prop.body[8] = v17;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "experience_delta",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
-  Scaleform::GFx::Movie::CreateArray(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(a2[53] + 264) + 4),
-    (Scaleform::GFx::Value *)&player_skills_value_prop);
-  for ( j = 0;
-        j < *(_BYTE *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2[42] + 952) + 60))(*(_DWORD *)(a2[42] + 952))
-                     + 2120);
-        ++j )
-  {
-    v19 = a2[42];
-    *(_DWORD *)perk_value.body = 0;
-    *(_DWORD *)&perk_value.body[4] = 0;
-    total_points_in_treea = *(_BYTE *)(j
-                                     + *(_DWORD *)((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v19 + 952) + 60))(*(_DWORD *)(v19 + 952))
-                                                 + 2116));
-    if ( (perk_value.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)perk_value.body + 8))(
-        *(_DWORD *)perk_value.body,
-        &perk_value,
-        *(_DWORD *)&perk_value.body[8]);
-      *(_DWORD *)perk_value.body = 0;
-    }
-    *(_DWORD *)&perk_value.body[8] = total_points_in_treea;
-    *(_DWORD *)&perk_value.body[4] = 4;
-    (*(void (__thiscall **)(_DWORD, _DWORD, _DWORD, survarium::flash_value *))(**(_DWORD **)player_skills_value_prop.body
-                                                                             + 52))(
-      *(_DWORD *)player_skills_value_prop.body,
-      *(_DWORD *)&player_skills_value_prop.body[8],
-      j,
-      &perk_value);
-    if ( (perk_value.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)perk_value.body + 8))(
-        *(_DWORD *)perk_value.body,
-        &perk_value,
-        *(_DWORD *)&perk_value.body[8]);
-  }
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)player_skills_value.body
-                                                                                       + 20))(
-    *(_DWORD *)player_skills_value.body,
-    *(_DWORD *)&player_skills_value.body[8],
-    "perks",
-    &player_skills_value_prop,
-    (player_skills_value.body[4] & 0x8F) == 10);
+  survarium::flash_value::SetMember((survarium::flash_value *)v10, &v61, "trees", (survarium::flash_value *)&pvalue);
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  survarium::lobby_menu::create_player_params(v27, player_characteristics_value, &pargs, (int)v51);
   Scaleform::GFx::Movie::Invoke(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(a2[53] + 264) + 4),
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)&player_characteristics_value[66].body[16] + 264) + 4),
+    "root.set_char_stats",
+    0,
+    &pargs,
+    1u);
+  v50 = (survarium::flash_value *)(*(unsigned __int8 *)(v5 + 1507) - v65);
+  survarium::flash_value::SetUInt(v50, (int)&pvalue, (unsigned int)v50);
+  survarium::flash_value::SetMember(v28, &v61, "points_available", (survarium::flash_value *)&pvalue);
+  survarium::flash_value::SetUInt(v29, (int)&pvalue, *(unsigned __int8 *)(v5 + 1507));
+  survarium::flash_value::SetMember(v30, &v61, "points_unlocked", (survarium::flash_value *)&pvalue);
+  survarium::flash_value::SetUInt(v31, (int)&pvalue, *(_DWORD *)(v5 + 1488) - *(_DWORD *)(v5 + 1496));
+  survarium::flash_value::SetMember(v32, &v61, "experience_current", (survarium::flash_value *)&pvalue);
+  v33 = *(_DWORD *)(v5 + 1492);
+  v34 = *(survarium::flash_value **)(v5 + 1496);
+  if ( v33 < (unsigned int)v34 )
+    v35 = 0;
+  else
+    v35 = v33 - (_DWORD)v34;
+  survarium::flash_value::SetUInt(v34, (int)&pvalue, v35);
+  survarium::flash_value::SetMember(v36, &v61, "experience_next_level", (survarium::flash_value *)&pvalue);
+  survarium::flash_value::SetUInt(v37, (int)&pvalue, *(unsigned __int16 *)(v5 + 1504));
+  survarium::flash_value::SetMember(v38, &v61, "experience_delta", (survarium::flash_value *)&pvalue);
+  Scaleform::GFx::Movie::CreateArray(
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)&player_characteristics_value[66].body[16] + 264) + 4),
+    &pvalue);
+  player_characteristics_value_3a = 0;
+  if ( survarium::lobby_menu::lobby_client(v39, (int)player_characteristics_value)->m_player_perks_count )
+  {
+    do
+    {
+      v57.pObjectInterface = 0;
+      v57.Type = VT_Undefined;
+      v41 = survarium::lobby_menu::lobby_client(v40, (int)player_characteristics_value);
+      survarium::flash_value::SetUInt(v42, (int)&v57, v41->m_player_perks[player_characteristics_value_3a]);
+      pvalue.pObjectInterface->SetElement(
+        pvalue.pObjectInterface,
+        (void *)pvalue.mValue.IValue,
+        player_characteristics_value_3a,
+        &v57);
+      Scaleform::GFx::Value::~Value(&v57);
+      ++player_characteristics_value_3a;
+      v44 = survarium::lobby_menu::lobby_client(v43, (int)player_characteristics_value);
+      LOBYTE(v40) = player_characteristics_value_3a;
+    }
+    while ( player_characteristics_value_3a < v44->m_player_perks_count );
+  }
+  survarium::flash_value::SetMember((survarium::flash_value *)v40, &v61, "perks", (survarium::flash_value *)&pvalue);
+  player_characteristics_value_3c = player_characteristics_value[66].body[20];
+  v46 = survarium::lobby_menu::lobby_client(v45, (int)player_characteristics_value);
+  survarium::flash_value::SetString(
+    (survarium::flash_value *)&pvalue,
+    v46->m_profiles[player_characteristics_value_3c].profile_name);
+  survarium::flash_value::SetMember(v47, &v61, "nickname", (survarium::flash_value *)&pvalue);
+  Scaleform::GFx::Movie::Invoke(
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)&player_characteristics_value[66].body[16] + 264) + 4),
     "root.fill_char_info",
     0,
-    (const Scaleform::GFx::Value *)&player_skills_value,
+    &v61,
     1u);
-  if ( (skill_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)skill_value_prop.body + 8))(
-      *(_DWORD *)skill_value_prop.body,
-      &skill_value_prop,
-      *(_DWORD *)&skill_value_prop.body[8]);
-    *(_DWORD *)skill_value_prop.body = 0;
-  }
-  *(_DWORD *)&skill_value_prop.body[4] = 0;
-  if ( (player_skills_value_prop.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value_prop.body + 8))(
-      *(_DWORD *)player_skills_value_prop.body,
-      &player_skills_value_prop,
-      *(_DWORD *)&player_skills_value_prop.body[8]);
-    *(_DWORD *)player_skills_value_prop.body = 0;
-  }
-  *(_DWORD *)&player_skills_value_prop.body[4] = 0;
-  if ( (player_skills_value.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)player_skills_value.body + 8))(
-      *(_DWORD *)player_skills_value.body,
-      &player_skills_value,
-      *(_DWORD *)&player_skills_value.body[8]);
+  Scaleform::GFx::Value::~Value(&pargs);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  `vector destructor iterator'(
+    v52,
+    0x30u,
+    20,
+    (void (__thiscall *)(void *))vostok::intrusive_list<survarium::affect_subscriber,survarium::affect_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::~intrusive_list<survarium::affect_subscriber,survarium::affect_subscriber *,32,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>);
+  Scaleform::GFx::Value::~Value(&pvalue);
+  Scaleform::GFx::Value::~Value(&v61);
 }

@@ -1,6 +1,6 @@
-Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::StaticTextCharacter::GetRectBounds(
+__m128 *__thiscall Scaleform::GFx::StaticTextCharacter::GetRectBounds(
         Scaleform::GFx::StaticTextCharacter *this,
-        Scaleform::Render::Rect<float> *result,
+        __m128 *result,
         Scaleform::Render::Matrix2x4<float> *transform)
 {
   __m128 *v3; // eax

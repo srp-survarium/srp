@@ -1,10 +1,7 @@
 double __cdecl vostok::particle::calc_duration(float duration, float duration_variance)
 {
-  float max_value; // [esp+8h] [ebp-8h]
+  double v2; // st7
 
-  max_value = vostok::particle::random_float(0.0, 1.0);
-  return (float)vostok::particle::linear_interpolation<float>(
-                  duration - duration_variance,
-                  duration + duration_variance,
-                  max_value);
+  v2 = vostok::particle::random_float(0.0, 1.0);
+  return v2 * (duration + duration_variance) + (1.0 - v2) * (duration - duration_variance);
 }

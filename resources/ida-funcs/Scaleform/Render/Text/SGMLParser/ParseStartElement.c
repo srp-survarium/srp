@@ -1,6 +1,6 @@
 bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::ParseStartElement(
         Scaleform::Render::Text::SGMLParser<wchar_t> *this,
-        const wchar_t **ppelemName,
+        wchar_t **ppelemName,
         unsigned int *pelemLen)
 {
   bool result; // al
@@ -12,7 +12,7 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::ParseStartElement(
   result = 0;
   if ( this->CurState == 2 )
   {
-    Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, ppelemName, pelemLen);
+    Scaleform::Render::Text::SGMLParser<wchar_t>::ParseName(this, (const __m128i **)ppelemName, pelemLen);
     CurChar = this->Iter.CurChar;
     if ( CurChar == 62 )
     {

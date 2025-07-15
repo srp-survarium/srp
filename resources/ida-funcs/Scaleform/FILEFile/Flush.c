@@ -1,4 +1,4 @@
-BOOL __thiscall Scaleform::FILEFile::Flush(Scaleform::FILEFile *this)
+BOOL __usercall Scaleform::FILEFile::Flush@<eax>(Scaleform::FILEFile *this@<ecx>, int a2@<ebx>, int a3@<edi>)
 {
-  return fflush(this->fs) == 0;
+  return fflush(a2, a3, this->fs) == 0;
 }

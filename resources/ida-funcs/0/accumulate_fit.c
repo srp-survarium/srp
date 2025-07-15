@@ -7,103 +7,87 @@ int __usercall accumulate_fit@<eax>(
         int n,
         vorbis_info_floor1 *info)
 {
-  int v7; // ebx
+  const float *v9; // edi
   int v10; // eax
-  float *v11; // ebp
-  double v12; // st5
-  int v13; // eax
-  int v14; // ecx
-  int v15; // edx
+  int v11; // edx
+  int v12; // ecx
   int result; // eax
-  int ya; // [esp+Ch] [ebp-2Ch]
-  int x2a; // [esp+10h] [ebp-28h]
-  int y2a; // [esp+14h] [ebp-24h]
-  int xya; // [esp+18h] [ebp-20h]
-  int xb; // [esp+1Ch] [ebp-1Ch]
-  int yb; // [esp+20h] [ebp-18h]
-  int x2b; // [esp+24h] [ebp-14h]
-  int y2b; // [esp+28h] [ebp-10h]
-  int xyb; // [esp+2Ch] [ebp-Ch]
-  int nb; // [esp+30h] [ebp-8h]
-  int xa; // [esp+48h] [ebp+10h]
+  int v14; // [esp+Ch] [ebp-2Ch]
+  int v15; // [esp+10h] [ebp-28h]
+  int v16; // [esp+14h] [ebp-24h]
+  int v17; // [esp+18h] [ebp-20h]
+  int v18; // [esp+1Ch] [ebp-1Ch]
+  int v19; // [esp+20h] [ebp-18h]
+  int v20; // [esp+24h] [ebp-14h]
+  int v21; // [esp+28h] [ebp-10h]
+  int v22; // [esp+2Ch] [ebp-Ch]
+  int v23; // [esp+30h] [ebp-8h]
+  int v24; // [esp+34h] [ebp-4h]
+  int v25; // [esp+48h] [ebp+10h]
+  const float *v26; // [esp+4Ch] [ebp+14h]
 
-  v7 = 0;
-  xa = 0;
-  ya = 0;
-  x2a = 0;
-  y2a = 0;
-  xya = 0;
-  xb = 0;
-  yb = 0;
-  x2b = 0;
-  y2b = 0;
-  xyb = 0;
-  nb = 0;
+  v25 = 0;
+  v24 = 0;
+  v23 = 0;
+  v22 = 0;
+  v21 = 0;
+  v20 = 0;
+  v19 = 0;
+  v18 = 0;
+  v17 = 0;
+  v16 = 0;
+  v15 = 0;
+  v14 = 0;
   memset((int)a, 0, sizeof(lsfit_acc));
-  v10 = x1;
   a->x0 = x0;
   a->x1 = x1;
   if ( x1 >= n )
-  {
     x1 = n - 1;
-    v10 = n - 1;
-  }
-  if ( x0 <= v10 )
+  if ( x0 <= x1 )
   {
-    v11 = (float *)&flr[x0];
+    v9 = &flr[x0];
+    v26 = v9;
     do
     {
-      v12 = *v11 * 7.314285755157471 + 1023.5;
-      v13 = (int)v12;
-      if ( (int)v12 <= 1023 )
+      v10 = vorbis_dBquant(v9);
+      if ( v10 )
       {
-        if ( v13 < 0 )
-          goto LABEL_12;
-        v14 = (int)v12;
-        if ( !v13 )
-          goto LABEL_12;
+        v12 = v11 * v11;
+        if ( (float)(*(const float *)((char *)v9 + (char *)mdct - (char *)flr) + info->twofitatten) < *v9 )
+        {
+          v17 += v12;
+          v18 += v10;
+          v19 += v11;
+          v16 += v10 * v10;
+          v15 += v11 * v10;
+          ++v14;
+        }
+        else
+        {
+          v23 += v12;
+          v24 += v10;
+          v25 += v11;
+          v22 += v10 * v10;
+          v21 += v11 * v10;
+          ++v20;
+        }
       }
-      else
-      {
-        v14 = 1023;
-      }
-      v15 = v14 * v14;
-      if ( *v11 > *(float *)((char *)v11 + (char *)mdct - (char *)flr) + info->twofitatten )
-      {
-        yb += v14;
-        xb += x0;
-        x2b += x0 * x0;
-        y2b += v15;
-        xyb += x0 * v14;
-        ++nb;
-      }
-      else
-      {
-        ya += v14;
-        xa += x0;
-        x2a += x0 * x0;
-        y2a += v15;
-        xya += x0 * v14;
-        ++v7;
-      }
-LABEL_12:
-      ++x0;
-      ++v11;
+      v9 = ++v26;
     }
-    while ( x0 <= x1 );
+    while ( v11 + 1 <= x1 );
   }
-  a->xa = xa;
-  a->ya = ya;
-  a->y2a = y2a;
-  a->x2a = x2a;
-  a->xya = xya;
-  a->yb = yb;
-  a->xb = xb;
-  a->x2b = x2b;
-  a->xyb = xyb;
-  a->an = v7;
-  result = v7;
-  a->y2b = y2b;
-  a->bn = nb;
+  a->xa = v25;
+  a->xb = v19;
+  a->ya = v24;
+  a->yb = v18;
+  a->x2a = v23;
+  a->x2b = v17;
+  a->y2a = v22;
+  a->y2b = v16;
+  a->xya = v21;
+  result = v20;
+  a->xyb = v15;
+  a->an = v20;
+  a->bn = v14;
   return result;
 }

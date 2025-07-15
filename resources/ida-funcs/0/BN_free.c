@@ -1,14 +1,20 @@
-void __cdecl bn_free(struct ASN1_VALUE_st **pval, const ASN1_ITEM_st *it)
+void __cdecl BN_free(bignum_st *a)
 {
-  bignum_st *v2; // [esp-4h] [ebp-8h]
+  int flags; // eax
 
-  if ( *pval )
+  if ( a )
   {
-    v2 = (bignum_st *)*pval;
-    if ( (it->size & 1) != 0 )
-      BN_clear_free(v2);
+    if ( a->d && (a->flags & 2) == 0 )
+      CRYPTO_free(a->d);
+    flags = a->flags;
+    if ( (flags & 1) != 0 )
+    {
+      CRYPTO_free(a);
+    }
     else
-      BN_free(v2);
-    *pval = 0;
+    {
+      a->flags = flags | 0x8000;
+      a->d = 0;
+    }
   }
 }

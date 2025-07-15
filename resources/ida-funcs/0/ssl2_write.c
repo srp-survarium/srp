@@ -1,9 +1,9 @@
-int __cdecl ssl2_write(ssl_st *s, unsigned __int8 *_buf, int len)
+int __usercall ssl2_write@<eax>(int a1@<ebx>, ssl_st *s, unsigned __int8 *_buf, int len)
 {
   int result; // eax
   ssl2_state_st *s2; // ecx
   unsigned int wnum; // edi
-  signed int v6; // ebp
+  unsigned int v7; // ebp
 
   if ( (SSL_state(s) & 0x3000) != 0 && !s->in_handshake )
   {
@@ -12,13 +12,13 @@ int __cdecl ssl2_write(ssl_st *s, unsigned __int8 *_buf, int len)
       return result;
     if ( !result )
     {
-      ERR_put_error(0x14u, 127, 229, ".\\ssl\\s2_pkt.c", 430);
+      ERR_put_error(a1, 0x14u, 127, 229, ".\\ssl\\s2_pkt.c", 430);
       return -1;
     }
   }
   if ( s->error )
   {
-    ssl2_write_error(s);
+    ssl2_write_error(a1, s);
     if ( s->error )
       return -1;
   }
@@ -30,8 +30,8 @@ int __cdecl ssl2_write(ssl_st *s, unsigned __int8 *_buf, int len)
     s2 = s->s2;
     wnum = s2->wnum;
     s2->wnum = 0;
-    v6 = len - wnum;
-    result = n_do_ssl_write(len - wnum, s, &_buf[wnum]);
+    v7 = len - wnum;
+    result = n_do_ssl_write(len - wnum, s, (const __m128i *)&_buf[wnum]);
     if ( result <= 0 )
     {
 LABEL_14:
@@ -39,11 +39,11 @@ LABEL_14:
     }
     else
     {
-      while ( result != v6 && (s->mode & 1) == 0 )
+      while ( result != v7 && (s->mode & 1) == 0 )
       {
         wnum += result;
-        v6 -= result;
-        result = n_do_ssl_write(v6, s, &_buf[wnum]);
+        v7 -= result;
+        result = n_do_ssl_write(v7, s, (const __m128i *)&_buf[wnum]);
         if ( result <= 0 )
           goto LABEL_14;
       }

@@ -14,7 +14,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::InsertBefore(const Scaleform::GF
   Scaleform::GFx::XML::ElementNode *NumPages; // eax
   Scaleform::RefCountNTSImpl *pRCC; // ebp
   Scaleform::GFx::AS2::RefCountCollector<323> *v14; // ecx
-  Scaleform::GFx::XML::RootNode *v15; // eax
+  Scaleform::GFx::AS2::Object *v15; // eax
   Scaleform::RefCountNTSImpl *v16; // ecx
   Scaleform::RefCountNTSImpl *v17; // edi
   Scaleform::GFx::AS2::RefCountCollector<323> *v18; // edx
@@ -22,7 +22,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::InsertBefore(const Scaleform::GF
   Scaleform::RefCountNTSImpl *v20; // ecx
   Scaleform::GFx::AS2::Environment *Env; // [esp-Ch] [ebp-18h]
   Scaleform::GFx::AS2::Environment *v22; // [esp-Ch] [ebp-18h]
-  Scaleform::GFx::AS2::XmlNodeObject *pthis; // [esp+8h] [ebp-4h]
+  Scaleform::Ptr<Scaleform::GFx::AS2::Object> *v23; // [esp+8h] [ebp-4h]
 
   v1 = Scaleform::GFx::AS2::FnCall::CheckThisPtr(fn, 0x1Du);
   v2 = Scaleform::GFx::AS2::FnCall::CheckThisPtr(fn, 0x1Cu);
@@ -32,7 +32,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::InsertBefore(const Scaleform::GF
     if ( ThisPtr )
     {
       p_pProto = &ThisPtr[-2].pProto;
-      pthis = (Scaleform::GFx::AS2::XmlNodeObject *)&ThisPtr[-2].pProto;
+      v23 = &ThisPtr[-2].pProto;
       if ( ThisPtr != (Scaleform::GFx::AS2::ObjectInterface *)16 )
       {
         pObject = (Scaleform::GFx::XML::ElementNode *)p_pProto[14].pObject;
@@ -70,13 +70,13 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::InsertBefore(const Scaleform::GF
                       pObject,
                       (Scaleform::GFx::XML::Node *)v8[1].pRCC,
                       (Scaleform::GFx::XML::Node *)v10[1].pRCC);
-                    v15 = pthis->pRootNode.pObject;
+                    v15 = v23[13].pObject;
                     if ( v15 )
-                      ++v15->RefCount;
+                      ++v15->pRCC;
                     v16 = (Scaleform::RefCountNTSImpl *)v8[1].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable;
                     if ( v16 )
                       Scaleform::RefCountNTSImpl::Release(v16);
-                    v8[1].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::Object_vtbl *)pthis->pRootNode.pObject;
+                    v8[1].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::Object_vtbl *)v23[13].pObject;
                     Scaleform::RefCountNTSImpl::Release(pRCC);
                   }
                 }

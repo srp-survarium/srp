@@ -1,12 +1,12 @@
-void __thiscall vostok::ui::text_tree_draw_helper_params::text_tree_draw_helper_params(
-        vostok::ui::text_tree_draw_helper_params *this,
-        const vostok::ui::text_tree_draw_helper_params *__that)
+void __usercall vostok::ui::text_tree_draw_helper_params::text_tree_draw_helper_params(
+        vostok::ui::text_tree_draw_helper_params *this@<ecx>,
+        int a2@<eax>)
 {
-  this->color1 = __that->color1;
-  this->color2 = __that->color2;
-  this->fnt = __that->fnt;
-  this->is_multipaged = __that->is_multipaged;
-  this->row_height = __that->row_height;
-  this->space_between_pages = __that->space_between_pages;
-  this->start_pos = __that->start_pos;
+  *(_DWORD *)a2 = this->color1;
+  *(_DWORD *)(a2 + 4) = this->color2;
+  *(_DWORD *)(a2 + 8) = this->fnt;
+  *(_BYTE *)(a2 + 12) = this->is_multipaged;
+  *(float *)(a2 + 16) = this->row_height;
+  *(float *)(a2 + 20) = this->space_between_pages;
+  *(vostok::math::float2 *)(a2 + 24) = this->start_pos;
 }

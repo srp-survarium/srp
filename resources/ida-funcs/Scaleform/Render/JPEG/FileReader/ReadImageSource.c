@@ -1,15 +1,15 @@
 Scaleform::Render::JPEG::ImageSource *__thiscall Scaleform::Render::JPEG::FileReader::ReadImageSource(
         Scaleform::Render::JPEG::FileReader *this,
-        Scaleform::File *file,
+        Scaleform::GFx::Resource *file,
         const Scaleform::Render::ImageCreateArgs *args)
 {
   Scaleform::Render::JPEG::ImageSource *v3; // esi
 
-  if ( file && file->IsValid(file) )
+  if ( file && (unsigned __int8)file->GetResourceTypeCode(file) )
   {
     v3 = (Scaleform::Render::JPEG::ImageSource *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                    Scaleform::Memory::pGlobalHeap,
-                                                   64,
+                                                   72,
                                                    0);
     if ( v3 )
     {

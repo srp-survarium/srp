@@ -1,374 +1,378 @@
-char __thiscall Scaleform::GFx::AS2::MovieRoot::GetVariableArray(
-        Scaleform::GFx::AS2::MovieRoot *this,
-        unsigned int type,
-        char *ppathToVar,
+char __userpurge Scaleform::GFx::AS2::MovieRoot::GetVariableArray@<al>(
+        Scaleform::GFx::AS2::MovieRoot *this@<ecx>,
+        int a2@<ebx>,
+        Scaleform::GFx::Movie::SetArrayType type,
+        __m128i *ppathToVar,
         Scaleform::GFx::ASString index,
-        const char *pdata,
-        Scaleform::GFx::ASStringNode *count)
+        Scaleform::GFx::Value *pdata,
+        Scaleform::GFx::ASString count)
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
   unsigned int Size; // edx
-  int v9; // eax
+  int v10; // eax
   Scaleform::GFx::MovieImpl::LevelInfo *Data; // esi
   Scaleform::GFx::MovieImpl::LevelInfo *i; // ecx
-  Scaleform::GFx::MovieImpl *v13; // edx
-  unsigned int v14; // ecx
-  unsigned int v15; // eax
-  Scaleform::GFx::MovieImpl::LevelInfo *v16; // esi
-  Scaleform::GFx::MovieImpl::LevelInfo *v17; // edx
+  Scaleform::GFx::MovieImpl *v14; // edx
+  unsigned int v15; // ecx
+  unsigned int v16; // eax
+  Scaleform::GFx::MovieImpl::LevelInfo *v17; // esi
+  Scaleform::GFx::MovieImpl::LevelInfo *v18; // edx
   Scaleform::GFx::InteractiveObject *pObject; // eax
-  int v19; // ecx
-  Scaleform::GFx::AS2::Environment *v20; // esi
-  Scaleform::GFx::AS2::Object *v21; // eax
-  Scaleform::GFx::AS2::Object *v22; // esi
-  int v23; // eax
-  int *v24; // ebp
-  Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *v25; // ebx
-  unsigned int RootIndex; // edi
-  unsigned int v27; // esi
-  const char *v28; // ebp
-  unsigned int v29; // ebx
-  Scaleform::GFx::AS2::Value *v30; // ecx
-  unsigned int v31; // esi
-  const char *v32; // ebp
-  unsigned int v33; // ebx
-  Scaleform::GFx::AS2::Value *v34; // ecx
-  unsigned int v35; // esi
-  const char *v36; // ebp
-  unsigned int v37; // ebx
-  Scaleform::GFx::AS2::Value *v38; // ecx
-  double v39; // st7
-  char *v40; // esi
-  unsigned int v41; // ebx
-  unsigned int v42; // ebp
-  Scaleform::GFx::AS2::Value *v43; // edi
-  unsigned int v44; // esi
-  unsigned int v45; // eax
-  unsigned int v46; // edi
-  Scaleform::GFx::AS2::Value *v47; // ecx
-  Scaleform::GFx::ASStringNode *v48; // esi
-  int v49; // eax
-  unsigned int v51; // eax
-  int v52; // ebx
-  unsigned int v53; // esi
-  Scaleform::GFx::AS2::Value *v54; // ecx
-  Scaleform::GFx::ASStringNode *v55; // eax
-  unsigned int v56; // eax
-  unsigned int v57; // ebx
-  Scaleform::MemoryHeap_vtbl *v58; // edx
-  int v59; // eax
-  _WORD *v60; // esi
-  unsigned int v61; // edi
-  const char *v62; // ebp
-  _WORD *v63; // ebx
-  unsigned int v64; // eax
-  Scaleform::GFx::ASStringNode *v65; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  int v20; // ecx
+  Scaleform::GFx::AS2::Environment *v21; // esi
+  Scaleform::GFx::AS2::Object *v22; // eax
+  Scaleform::GFx::AS2::Object *v23; // esi
+  int v24; // eax
+  int *v25; // ebp
+  Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *v26; // ebx
+  Scaleform::GFx::ASStringNode *RootIndex; // edi
+  unsigned int v28; // esi
+  Scaleform::GFx::Value *v29; // ebp
+  int pNode; // ebx
+  Scaleform::GFx::AS2::Value *v31; // ecx
+  unsigned int v32; // esi
+  Scaleform::GFx::Value *v33; // ebp
+  int v34; // ebx
+  Scaleform::GFx::AS2::Value *v35; // ecx
+  unsigned int v36; // esi
+  Scaleform::GFx::Value *v37; // ebp
+  int v38; // ebx
+  Scaleform::GFx::AS2::Value *v39; // ecx
+  double v40; // st7
+  Scaleform::GFx::Value *v41; // esi
+  int v42; // ebx
+  Scaleform::GFx::ASStringNode *v43; // ebp
+  Scaleform::GFx::AS2::Value *v44; // edi
+  Scaleform::GFx::ASStringNode *v45; // esi
+  unsigned int v46; // eax
+  unsigned int v47; // edi
+  Scaleform::GFx::AS2::Value *v48; // ecx
+  Scaleform::GFx::ASStringNode *v49; // esi
+  int v50; // eax
+  unsigned int v52; // eax
+  int v53; // ebx
+  unsigned int v54; // esi
+  Scaleform::GFx::AS2::Value *v55; // ecx
+  Scaleform::GFx::ASStringNode *v56; // eax
+  unsigned int v57; // eax
+  unsigned int v58; // ebx
+  Scaleform::MemoryHeap_vtbl *v59; // edx
+  int v60; // eax
+  _WORD *v61; // esi
+  unsigned int v62; // edi
+  Scaleform::GFx::Value *v63; // ebp
+  _WORD *v64; // ebx
+  unsigned int Char_Advance0; // eax
+  Scaleform::GFx::ASStringNode *v66; // eax
+  Scaleform::GFx::ASStringNode *v67; // eax
+  __int64 v68; // [esp-18h] [ebp-44h]
   Scaleform::GFx::AS2::Environment *penv; // [esp+8h] [ebp-24h]
-  unsigned int _CurrentState; // [esp+Ch] [ebp-20h] BYREF
-  Scaleform::GFx::ASString path; // [esp+10h] [ebp-1Ch] BYREF
-  Scaleform::GFx::DoublePrecisionGuard dpg; // [esp+14h] [ebp-18h] BYREF
-  Scaleform::GFx::AS2::MovieRoot *v71; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::AS2::Value retVal; // [esp+1Ch] [ebp-10h] BYREF
-  unsigned int n; // [esp+30h] [ebp+4h]
-  unsigned int na; // [esp+30h] [ebp+4h]
-  Scaleform::GFx::AS2::Object *pobj; // [esp+34h] [ebp+8h]
+  Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *v71; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::GFx::ASStringNode *StringNode; // [esp+10h] [ebp-1Ch] BYREF
+  unsigned int _CurrentState; // [esp+14h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::MovieRoot *v74; // [esp+18h] [ebp-14h]
+  Scaleform::GFx::AS2::Value v75; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v76; // [esp+30h] [ebp+4h]
+  Scaleform::GFx::ASStringNode *v77; // [esp+30h] [ebp+4h]
+  Scaleform::GFx::AS2::Object *v78; // [esp+34h] [ebp+8h]
 
   pMovieImpl = this->pMovieImpl;
   Size = pMovieImpl->MovieLevels.Data.Size;
-  v9 = 0;
-  v71 = this;
+  v10 = 0;
+  v74 = this;
   if ( !Size )
     return 0;
   Data = pMovieImpl->MovieLevels.Data.Data;
   for ( i = Data; i->Level; ++i )
   {
-    if ( ++v9 >= Size )
+    if ( ++v10 >= Size )
       return 0;
   }
-  if ( !Data[v9].pSprite.pObject )
+  if ( !Data[v10].pSprite.pObject )
     return 0;
-  _controlfp_s(&dpg.fpc, 0, 0);
-  _controlfp_s(&_CurrentState, (unsigned int)&_sbh_sizeHeaderList, 0x30000u);
-  v13 = this->pMovieImpl;
-  v14 = v13->MovieLevels.Data.Size;
-  v15 = 0;
-  if ( v14 )
+  _controlfp_s(a2, &_CurrentState, 0, 0);
+  _controlfp_s(a2, (unsigned int *)&v71, (unsigned int)&_sbh_sizeHeaderList, (unsigned int)&loc_30000);
+  v14 = this->pMovieImpl;
+  v15 = v14->MovieLevels.Data.Size;
+  v16 = 0;
+  if ( v15 )
   {
-    v16 = v13->MovieLevels.Data.Data;
-    v17 = v16;
-    while ( v17->Level )
+    v17 = v14->MovieLevels.Data.Data;
+    v18 = v17;
+    while ( v18->Level )
     {
-      ++v15;
-      ++v17;
-      if ( v15 >= v14 )
+      ++v16;
+      ++v18;
+      if ( v16 >= v15 )
         goto LABEL_11;
     }
-    pObject = v16[v15].pSprite.pObject;
+    pObject = v17[v16].pSprite.pObject;
   }
   else
   {
 LABEL_11:
     pObject = 0;
   }
-  v19 = (int)pObject + 4 * pObject->AvmObjOffset;
-  v20 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v19 + 124))(v19);
-  penv = v20;
-  path.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                 (Scaleform::GFx::ASStringManager *)v20->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+  v20 = (int)pObject + 4 * pObject->AvmObjOffset;
+  v21 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v20 + 124))(v20);
+  penv = v21;
+  HIDWORD(v68) = &v75;
+  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 (Scaleform::GFx::ASStringManager *)v21->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                  ppathToVar);
-  ++path.pNode->RefCount;
-  retVal.T.Type = 0;
-  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v20, &path, &retVal, 0, 0, 0, 0)
-    || retVal.T.Type != 6
-    || (v21 = Scaleform::GFx::AS2::Value::ToObject(&retVal, v20), v22 = v21, (pobj = v21) == 0)
-    || v21->GetObjectType(&v21->Scaleform::GFx::AS2::ObjectInterface) != Object_Array )
+  ++StringNode->RefCount;
+  LODWORD(v68) = &StringNode;
+  v75.T.Type = 0;
+  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v21, v68, 0, 0, 0)
+    || v75.T.Type != 6
+    || (v22 = Scaleform::GFx::AS2::Value::ToObject(&v75, v21), v23 = v22, (v78 = v22) == 0)
+    || v22->GetObjectType(&v22->Scaleform::GFx::AS2::ObjectInterface) != Object_Array )
   {
-    if ( retVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&retVal);
-    pNode = path.pNode;
-    --path.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-    _controlfp_s((unsigned int *)&pdata, dpg.fpc, 0x30000u);
+    if ( v75.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v75);
+    v67 = StringNode;
+    --StringNode->RefCount;
+    if ( !v67->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v67);
+    _controlfp_s(a2, (unsigned int *)&pdata, _CurrentState, (unsigned int)&loc_30000);
     return 0;
   }
   Scaleform::GFx::MovieImpl::GetRetValHolder(this->pMovieImpl);
-  v24 = (int *)v23;
-  v25 = (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)(v23 + 8);
-  *(_DWORD *)(v23 + 24) = 0;
-  _CurrentState = v23 + 8;
+  v25 = (int *)v24;
+  v26 = (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)(v24 + 8);
+  *(_DWORD *)(v24 + 24) = 0;
+  v71 = (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)(v24 + 8);
   Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
-    (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)(v23 + 8),
+    (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)(v24 + 8),
     1u);
-  RootIndex = v22[1].RootIndex;
+  RootIndex = (Scaleform::GFx::ASStringNode *)v23[1].RootIndex;
   switch ( type )
   {
-    case 0u:
-      v27 = 0;
-      if ( RootIndex >= (unsigned int)count )
-        RootIndex = (unsigned int)count;
+    case SA_Int:
+      v28 = 0;
+      if ( RootIndex >= count.pNode )
+        RootIndex = count.pNode;
       if ( RootIndex )
       {
-        v28 = pdata;
-        v29 = (int)index.pNode;
+        v29 = pdata;
+        pNode = (int)index.pNode;
         do
         {
-          v30 = (Scaleform::GFx::AS2::Value *)(&pobj[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[v29];
-          if ( v30 )
-            *(_DWORD *)&v28[4 * v27] = (int)Scaleform::GFx::AS2::Value::ToNumber(v30, penv);
+          v31 = (Scaleform::GFx::AS2::Value *)(&v78[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[pNode];
+          if ( v31 )
+            *((_DWORD *)&v29->pObjectInterface + v28) = (int)Scaleform::GFx::AS2::Value::ToNumber(v31, penv);
           else
-            *(_DWORD *)&v28[4 * v27] = 0;
-          ++v27;
-          ++v29;
+            *((_DWORD *)&v29->pObjectInterface + v28) = 0;
+          ++v28;
+          ++pNode;
         }
-        while ( v27 < RootIndex );
+        while ( v28 < (unsigned int)RootIndex );
       }
       break;
-    case 1u:
-      v35 = 0;
-      if ( RootIndex >= (unsigned int)count )
-        RootIndex = (unsigned int)count;
+    case SA_Double:
+      v36 = 0;
+      if ( RootIndex >= count.pNode )
+        RootIndex = count.pNode;
       if ( RootIndex )
       {
-        v36 = pdata;
-        v37 = (int)index.pNode;
+        v37 = pdata;
+        v38 = (int)index.pNode;
         do
         {
-          v38 = (Scaleform::GFx::AS2::Value *)(&pobj[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[v37];
-          if ( v38 )
-            v39 = Scaleform::GFx::AS2::Value::ToNumber(v38, penv);
+          v39 = (Scaleform::GFx::AS2::Value *)(&v78[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[v38];
+          if ( v39 )
+            v40 = Scaleform::GFx::AS2::Value::ToNumber(v39, penv);
           else
-            v39 = 0.0;
-          *(double *)&v36[8 * v35++] = v39;
-          ++v37;
+            v40 = 0.0;
+          *(double *)&(&v37->pObjectInterface)[2 * v36++] = v40;
+          ++v38;
         }
-        while ( v35 < RootIndex );
+        while ( v36 < (unsigned int)RootIndex );
       }
       break;
-    case 2u:
-      v31 = 0;
-      if ( RootIndex >= (unsigned int)count )
-        RootIndex = (unsigned int)count;
+    case SA_Float:
+      v32 = 0;
+      if ( RootIndex >= count.pNode )
+        RootIndex = count.pNode;
       if ( RootIndex )
       {
-        v32 = pdata;
-        v33 = (int)index.pNode;
+        v33 = pdata;
+        v34 = (int)index.pNode;
         do
         {
-          v34 = (Scaleform::GFx::AS2::Value *)(&pobj[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[v33];
-          if ( v34 )
-            *(float *)&v32[4 * v31] = Scaleform::GFx::AS2::Value::ToNumber(v34, penv);
+          v35 = (Scaleform::GFx::AS2::Value *)(&v78[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[v34];
+          if ( v35 )
+            *((float *)&v33->pObjectInterface + v32) = Scaleform::GFx::AS2::Value::ToNumber(v35, penv);
           else
-            *(float *)&v32[4 * v31] = 0.0;
-          ++v31;
-          ++v33;
+            *((float *)&v33->pObjectInterface + v32) = 0.0;
+          ++v32;
+          ++v34;
         }
-        while ( v31 < RootIndex );
+        while ( v32 < (unsigned int)RootIndex );
       }
       break;
-    case 3u:
-      v44 = (unsigned int)count;
-      if ( RootIndex >= (unsigned int)count )
+    case SA_String:
+      v45 = count.pNode;
+      if ( RootIndex >= count.pNode )
       {
-        n = (unsigned int)count;
+        v76 = count.pNode;
       }
       else
       {
-        v44 = RootIndex;
-        n = RootIndex;
+        v45 = RootIndex;
+        v76 = RootIndex;
       }
-      v45 = 1;
-      if ( v44 )
-        v45 = v44;
+      v46 = 1;
+      if ( v45 )
+        v46 = (unsigned int)v45;
       Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
-        v25,
-        v45);
-      v46 = 0;
-      if ( v44 )
+        v26,
+        v46);
+      v47 = 0;
+      if ( v45 )
       {
-        count = (Scaleform::GFx::ASStringNode *)(4 * (int)index.pNode);
+        count.pNode = (Scaleform::GFx::ASStringNode *)(4 * (int)index.pNode);
         do
         {
-          v47 = *(Scaleform::GFx::AS2::Value **)((char *)&count->pData + (unsigned int)pobj[1].pRCC);
-          if ( v47 )
+          v48 = *(Scaleform::GFx::AS2::Value **)((char *)&count.pNode->pData + (unsigned int)v78[1].pRCC);
+          if ( v48 )
           {
-            Scaleform::GFx::AS2::Value::ToStringImpl(v47, &index, penv, -1, 0);
-            v48 = index.pNode;
-            *(_DWORD *)&pdata[4 * v46] = index.pNode->pData;
-            v49 = v24[6];
-            v24[6] = v49 + 1;
-            Scaleform::GFx::ASString::operator=(&v25->Data[v49], &index);
-            if ( v48->RefCount-- == 1 )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v48);
+            Scaleform::GFx::AS2::Value::ToStringImpl(v48, &index, penv, -1, 0);
+            v49 = index.pNode;
+            *((_DWORD *)&pdata->pObjectInterface + v47) = index.pNode->pData;
+            v50 = v25[6];
+            v25[6] = v50 + 1;
+            Scaleform::GFx::ASString::operator=(&v26->Data[v50], &index);
+            if ( v49->RefCount-- == 1 )
+              Scaleform::GFx::ASStringNode::ReleaseNode(v49);
           }
           else
           {
-            *(_DWORD *)&pdata[4 * v46] = 0;
+            *((_DWORD *)&pdata->pObjectInterface + v47) = 0;
           }
-          count = (Scaleform::GFx::ASStringNode *)((char *)count + 4);
-          ++v46;
+          count.pNode = (Scaleform::GFx::ASStringNode *)((char *)count.pNode + 4);
+          ++v47;
         }
-        while ( v46 < n );
+        while ( v47 < (unsigned int)v76 );
       }
       break;
-    case 4u:
-      v51 = (unsigned int)count;
-      v52 = 0;
-      if ( RootIndex >= (unsigned int)count )
-      {
-        na = (unsigned int)count;
-      }
-      else
-      {
-        v51 = v22[1].RootIndex;
-        na = v51;
-      }
-      if ( !v51 )
-        v51 = 1;
-      Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
-        (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)_CurrentState,
-        v51);
+    case SA_StringW:
+      v52 = (unsigned int)count.pNode;
       v53 = 0;
+      if ( RootIndex >= count.pNode )
+      {
+        v77 = count.pNode;
+      }
+      else
+      {
+        v52 = v23[1].RootIndex;
+        v77 = (Scaleform::GFx::ASStringNode *)v52;
+      }
+      if ( !v52 )
+        v52 = 1;
+      Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
+        v71,
+        v52);
+      v54 = 0;
       if ( RootIndex )
       {
         index.pNode = (Scaleform::GFx::ASStringNode *)((int)index.pNode * 4);
         do
         {
-          v54 = *(Scaleform::GFx::AS2::Value **)((char *)&index.pNode->pData + (unsigned int)pobj[1].pRCC);
-          if ( v54 )
+          v55 = *(Scaleform::GFx::AS2::Value **)((char *)&index.pNode->pData + (unsigned int)v78[1].pRCC);
+          if ( v55 )
           {
-            Scaleform::GFx::AS2::Value::ToStringImpl(v54, (Scaleform::GFx::ASString *)&count, penv, -1, 0);
-            Scaleform::GFx::ASString::operator=(
-              (Scaleform::GFx::ASString *)(*(_DWORD *)_CurrentState + 4 * v53),
-              (const Scaleform::GFx::ASString *)&count);
-            v52 += Scaleform::GFx::ASConstString::GetLength((Scaleform::GFx::ASConstString *)&count) + 1;
-            v55 = count;
-            --count->RefCount;
-            if ( !v55->RefCount )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v55);
+            Scaleform::GFx::AS2::Value::ToStringImpl(v55, &count, penv, -1, 0);
+            Scaleform::GFx::ASString::operator=(&v71->Data[v54], &count);
+            v53 += Scaleform::GFx::ASConstString::GetLength(&count) + 1;
+            v56 = count.pNode;
+            --count.pNode->RefCount;
+            if ( !v56->RefCount )
+              Scaleform::GFx::ASStringNode::ReleaseNode(v56);
           }
           index.pNode = (Scaleform::GFx::ASStringNode *)((char *)index.pNode + 4);
-          ++v53;
+          ++v54;
         }
-        while ( v53 < RootIndex );
+        while ( v54 < (unsigned int)RootIndex );
       }
-      v56 = v24[1];
-      v57 = (2 * v52 + 4095) & 0xFFFFF000;
-      if ( v56 < v57 || v56 > v57 && v56 - v57 > 0x1000 )
+      v57 = v25[1];
+      v58 = (2 * v53 + 4095) & 0xFFFFF000;
+      if ( v57 < v58 || v57 > v58 && v57 - v58 > 0x1000 )
       {
-        v58 = Scaleform::Memory::pGlobalHeap->__vftable;
-        if ( *v24 )
-          v59 = ((int (__stdcall *)(int, unsigned int))v58->Realloc)(*v24, v57);
+        v59 = Scaleform::Memory::pGlobalHeap->__vftable;
+        if ( *v25 )
+          v60 = ((int (__stdcall *)(int, unsigned int))v59->Realloc)(*v25, v58);
         else
-          v59 = ((int (__stdcall *)(unsigned int, _DWORD))v58->Alloc)(v57, 0);
-        *v24 = v59;
-        v24[1] = v57;
+          v60 = ((int (__stdcall *)(unsigned int, _DWORD))v59->Alloc)(v58, 0);
+        *v25 = v60;
+        v25[1] = v58;
       }
-      v60 = (_WORD *)*v24;
-      v61 = 0;
-      if ( na )
+      v61 = (_WORD *)*v25;
+      v62 = 0;
+      if ( v77 )
       {
-        v62 = pdata;
+        v63 = pdata;
         do
         {
-          pdata = **(const char ***)(*(_DWORD *)_CurrentState + 4 * v61);
-          v63 = v60;
+          pdata = (Scaleform::GFx::Value *)v71->Data[v62].pNode->pData;
+          v64 = v61;
           while ( 1 )
           {
-            v64 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&pdata);
-            if ( !v64 )
+            Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&pdata);
+            if ( !Char_Advance0 )
               break;
-            *v60++ = v64;
+            *v61++ = Char_Advance0;
           }
-          --pdata;
-          *v60 = 0;
-          *(_DWORD *)&v62[4 * v61++] = v63;
-          ++v60;
+          pdata = (Scaleform::GFx::Value *)((char *)pdata - 1);
+          *v61 = 0;
+          *((_DWORD *)&v63->pObjectInterface + v62++) = v64;
+          ++v61;
         }
-        while ( v61 < na );
+        while ( v62 < (unsigned int)v77 );
       }
       Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
-        (Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> *)_CurrentState,
+        v71,
         1u);
       break;
-    case 5u:
-      if ( RootIndex >= (unsigned int)count )
-        RootIndex = (unsigned int)count;
+    case SA_Value:
+      if ( RootIndex >= count.pNode )
+        RootIndex = count.pNode;
       if ( RootIndex )
       {
-        v40 = (char *)pdata;
-        v41 = (int)index.pNode;
-        v42 = RootIndex;
+        v41 = pdata;
+        v42 = (int)index.pNode;
+        v43 = RootIndex;
         do
         {
-          v43 = (Scaleform::GFx::AS2::Value *)(&pobj[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[v41];
-          if ( (*((_DWORD *)v40 + 1) & 0x40) != 0 )
+          v44 = (Scaleform::GFx::AS2::Value *)(&v78[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[v42];
+          if ( (v41->Type & 0x40) != 0 )
           {
-            (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v40 + 8))(v40, *((_DWORD *)v40 + 2));
-            *(_DWORD *)v40 = 0;
+            ((void (__stdcall *)(Scaleform::GFx::Value *, int))v41->pObjectInterface->ObjectRelease)(
+              v41,
+              v41->mValue.IValue);
+            v41->pObjectInterface = 0;
           }
-          *((_DWORD *)v40 + 1) = 0;
-          if ( v43 )
-            Scaleform::GFx::AS2::MovieRoot::ASValue2Value(v71, penv, v43, (Scaleform::GFx::Value *)v40);
+          v41->Type = VT_Undefined;
+          if ( v44 )
+            Scaleform::GFx::AS2::MovieRoot::ASValue2Value(v74, penv, v44, v41);
           else
-            *((_DWORD *)v40 + 1) = 0;
+            v41->Type = VT_Undefined;
+          ++v42;
           ++v41;
-          v40 += 24;
-          --v42;
+          v43 = (Scaleform::GFx::ASStringNode *)((char *)v43 - 1);
         }
-        while ( v42 );
+        while ( v43 );
       }
       break;
     default:
       break;
   }
-  if ( retVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&retVal);
-  v65 = path.pNode;
-  --path.pNode->RefCount;
-  if ( !v65->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v65);
-  _controlfp_s((unsigned int *)&pdata, dpg.fpc, 0x30000u);
+  if ( v75.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v75);
+  v66 = StringNode;
+  --StringNode->RefCount;
+  if ( !v66->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v66);
+  _controlfp_s(a2, (unsigned int *)&pdata, _CurrentState, (unsigned int)&loc_30000);
   return 1;
 }

@@ -18,7 +18,7 @@ int __cdecl png_write_sPLT(_DWORD *a1, int a2)
   v3 = result;
   if ( result )
   {
-    sub_36AD20(a1, 1934642260, result + v10 + 2);
+    sub_4779E0(a1, 1934642260, result + v10 + 2);
     png_write_chunk_data(a1, (unsigned __int8 *)pointer, v3 + 1);
     png_write_chunk_data(a1, (unsigned __int8 *)(a2 + 4), 1);
     for ( i = *(__int16 **)(a2 + 8); (unsigned int)i < *(_DWORD *)(a2 + 8) + 10 * *(_DWORD *)(a2 + 12); i += 5 )

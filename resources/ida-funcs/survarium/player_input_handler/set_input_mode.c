@@ -1,15 +1,12 @@
 void __usercall survarium::player_input_handler::set_input_mode(
         survarium::player_input_handler *this@<ecx>,
-        int a2@<eax>)
+        survarium::input_mode_type_enum input_mode@<esi>)
 {
-  if ( *(_BYTE *)(a2 + 412) || *(survarium::player_input_handler **)(a2 + 408) != this )
-  {
-    *(_DWORD *)(a2 + 408) = this;
-    *(_BYTE *)(a2 + 412) = 1;
-  }
-  else
-  {
-    *(_DWORD *)(a2 + 408) = this;
-    *(_BYTE *)(a2 + 412) = 0;
-  }
+  bool v2; // dl
+
+  v2 = 0;
+  if ( this->m_input_mode_changed || this->m_input_mode != input_mode )
+    v2 = 1;
+  this->m_input_mode_changed = v2;
+  this->m_input_mode = input_mode;
 }

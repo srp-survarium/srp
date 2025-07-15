@@ -40,24 +40,24 @@ void __cdecl Scaleform::Render::TreeNode::NodeData::expandByFilterBounds(
   double v7; // st7
   Scaleform::Render::FilterType v8; // ecx
   double v9; // st7
-  float offset; // [esp+8h] [ebp-Ch]
-  float offseta; // [esp+8h] [ebp-Ch]
-  float offsetb; // [esp+8h] [ebp-Ch]
-  float offsetc; // [esp+8h] [ebp-Ch]
-  Scaleform::Render::Filter_vtbl *offsetd; // [esp+8h] [ebp-Ch]
-  float offset_4; // [esp+Ch] [ebp-8h]
+  float v10; // [esp+8h] [ebp-Ch]
+  float v11; // [esp+8h] [ebp-Ch]
+  float v12; // [esp+8h] [ebp-Ch]
+  float v13; // [esp+8h] [ebp-Ch]
+  Scaleform::Render::Filter_vtbl *v14; // [esp+8h] [ebp-Ch]
+  float v15; // [esp+Ch] [ebp-8h]
   float v16; // [esp+10h] [ebp-4h]
   float v17; // [esp+10h] [ebp-4h]
   float v18; // [esp+10h] [ebp-4h]
   float v19; // [esp+10h] [ebp-4h]
   float v20; // [esp+10h] [ebp-4h]
   float v21; // [esp+10h] [ebp-4h]
-  float _X; // [esp+10h] [ebp-4h]
+  float v22; // [esp+10h] [ebp-4h]
   float v23; // [esp+10h] [ebp-4h]
   float v24; // [esp+10h] [ebp-4h]
-  float count; // [esp+18h] [ebp+4h]
-  float countb; // [esp+18h] [ebp+4h]
-  float counta; // [esp+18h] [ebp+4h]
+  float v25; // [esp+18h] [ebp+4h]
+  float v26; // [esp+18h] [ebp+4h]
+  float v27; // [esp+18h] [ebp+4h]
 
   if ( filter )
   {
@@ -69,33 +69,33 @@ void __cdecl Scaleform::Render::TreeNode::NodeData::expandByFilterBounds(
       else
         v4 = 1.0;
       RefCount = filter[1].RefCount;
-      count = v4;
+      v25 = v4;
       v6 = (double)(int)filter[1].RefCount;
       if ( RefCount < 0 )
         v6 = v6 + 4294967300.0;
       v16 = v6;
-      offset = *(float *)&filter[1].Type * 0.05000000074505806;
-      offseta = offset + 1.0;
-      offsetb = offseta * 20.0;
-      offsetc = offsetb * v16 * count;
+      v10 = *(float *)&filter[1].Type * 0.05000000074505806;
+      v11 = v10 + 1.0;
+      v12 = v11 * 20.0;
+      v13 = v12 * v16 * v25;
       v7 = v16;
       v17 = 0.05000000074505806 * *(float *)&filter[1].Frozen;
       v18 = v17 + 1.0;
       v19 = 20.0 * v18;
-      v20 = v7 * v19 * count;
-      bounds->x1 = bounds->x1 - offsetc;
-      bounds->x2 = offsetc + bounds->x2;
+      v20 = v7 * v19 * v25;
+      bounds->x1 = bounds->x1 - v13;
+      bounds->x2 = v13 + bounds->x2;
       bounds->y1 = bounds->y1 - v20;
       bounds->y2 = v20 + bounds->y2;
       v8 = filter->Type;
       if ( v8 == Filter_Shadow || v8 == Filter_Bevel )
       {
-        offsetd = filter[2].__vftable;
-        offset_4 = *(float *)&filter[2].RefCount;
-        v21 = fabs(*(float *)&offsetd);
-        _X = count * v21;
-        v23 = ceilf(_X);
-        if ( *(float *)&offsetd <= 0.0 )
+        v14 = filter[2].__vftable;
+        v15 = *(float *)&filter[2].RefCount;
+        v21 = fabs(*(float *)&v14);
+        v22 = v25 * v21;
+        v23 = ceilf(v22);
+        if ( *(float *)&v14 <= 0.0 )
         {
           bounds->x1 = bounds->x1 - v23;
           v9 = bounds->x2 + 0.0;
@@ -106,18 +106,18 @@ void __cdecl Scaleform::Render::TreeNode::NodeData::expandByFilterBounds(
           v9 = bounds->x2 + v23;
         }
         bounds->x2 = v9;
-        v24 = fabs(offset_4);
-        countb = v24 * count;
-        counta = ceilf(countb);
-        if ( offset_4 <= 0.0 )
+        v24 = fabs(v15);
+        v26 = v24 * v25;
+        v27 = ceilf(v26);
+        if ( v15 <= 0.0 )
         {
-          bounds->y1 = bounds->y1 - counta;
+          bounds->y1 = bounds->y1 - v27;
           bounds->y2 = bounds->y2 + 0.0;
         }
         else
         {
           bounds->y1 = bounds->y1 - 0.0;
-          bounds->y2 = bounds->y2 + counta;
+          bounds->y2 = bounds->y2 + v27;
         }
       }
       Scaleform::Render::SnapRectToPixels(bounds);

@@ -4,7 +4,13 @@ void __usercall Opcode::AABBTreeNode::Release(Opcode::AABBTreeNode *this@<ecx>, 
 
   v2 = a2[6] & 0xFFFFFFFE;
   if ( (a2[6] & 1) == 0 && v2 )
-    (*(void (__thiscall **)(Opcode::AABBTreeNode *, unsigned int))(LODWORD(this->mBV.mCenter.x) + 24))(this, v2 - 8);
+    (*(void (__thiscall **)(Opcode::AABBTreeNode *, unsigned int, const char *, const char *, int))(LODWORD(this->mBV.mCenter.x)
+                                                                                                  + 24))(
+      this,
+      v2 - 8,
+      "Opcode::AABBTreeNode::Release",
+      ".\\OPC_AABBTree.cpp",
+      87);
   a2[7] = 0;
   a2[8] = 0;
 }

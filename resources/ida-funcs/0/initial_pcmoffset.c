@@ -1,18 +1,19 @@
 __int64 __cdecl initial_pcmoffset(OggVorbis_File *vf, vorbis_info *vi)
 {
   int v2; // eax
-  __int64 v3; // rax
-  __int64 v5; // [esp+0h] [ebp-5Ch]
-  int thisblock; // [esp+10h] [ebp-4Ch]
+  int v3; // edx
+  __int64 v4; // rax
+  int v6; // [esp+0h] [ebp-5Ch]
+  int v7; // [esp+10h] [ebp-4Ch]
   ogg_packet op; // [esp+14h] [ebp-48h] BYREF
-  __int64 accumulated; // [esp+34h] [ebp-28h]
-  int lastblock; // [esp+40h] [ebp-1Ch]
-  int result; // [esp+44h] [ebp-18h]
+  __int64 v9; // [esp+34h] [ebp-28h]
+  int v10; // [esp+40h] [ebp-1Ch]
+  int v11; // [esp+44h] [ebp-18h]
   ogg_page og; // [esp+48h] [ebp-14h] BYREF
   int serialno; // [esp+58h] [ebp-4h]
 
-  accumulated = 0;
-  lastblock = -1;
+  v9 = 0;
+  v10 = -1;
   serialno = vf->os.serialno;
   while ( (((unsigned __int64)get_next_page(vf, &og, -1) >> 32) & 0x80000000) == 0LL && !ogg_page_bos(&og) )
   {
@@ -22,27 +23,27 @@ __int64 __cdecl initial_pcmoffset(OggVorbis_File *vf, vorbis_info *vi)
       ogg_stream_pagein(&vf->os, &og);
       while ( 1 )
       {
-        result = ogg_stream_packetout(&vf->os, &op);
-        if ( !result )
+        v11 = ogg_stream_packetout(&vf->os, &op);
+        if ( !v11 )
           break;
-        if ( result > 0 )
+        if ( v11 > 0 )
         {
-          thisblock = vorbis_packet_blocksize(vi, &op);
-          if ( lastblock != -1 )
-            accumulated += (thisblock + lastblock) >> 2;
-          lastblock = thisblock;
+          v7 = vorbis_packet_blocksize(vi, &op);
+          if ( v10 != -1 )
+            v9 += (v7 + v10) >> 2;
+          v10 = v7;
         }
       }
-      v5 = ogg_page_granulepos(&og);
-      if ( (HIDWORD(v5) & (unsigned int)v5) != 0xFFFFFFFF )
+      v6 = ogg_page_granulepos(&og);
+      if ( (v3 & v6) != 0xFFFFFFFF )
       {
-        v3 = ogg_page_granulepos(&og);
-        accumulated = v3 - accumulated;
+        LODWORD(v4) = ogg_page_granulepos(&og);
+        v9 = v4 - v9;
         break;
       }
     }
   }
-  if ( accumulated < 0 )
+  if ( v9 < 0 )
     return 0;
-  return accumulated;
+  return v9;
 }

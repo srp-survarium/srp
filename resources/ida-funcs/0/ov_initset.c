@@ -1,12 +1,12 @@
-int __cdecl ov_initset(OggVorbis_File *vf)
+int __usercall ov_initset@<eax>(__int128 a1@<xmm0>, OggVorbis_File *vf)
 {
-  int ret; // [esp+0h] [ebp-4h]
+  int v3; // [esp+0h] [ebp-4h]
 
   while ( vf->ready_state != 4 )
   {
-    ret = fetch_and_process_packet(vf, 0, 1, 0);
-    if ( ret < 0 && ret != -3 )
-      return ret;
+    v3 = fetch_and_process_packet(a1, vf, 0, 1, 0);
+    if ( v3 < 0 && v3 != -3 )
+      return v3;
   }
   return 0;
 }

@@ -122,7 +122,7 @@ LABEL_43:
         while ( 1 )
         {
           if ( !*(_DWORD *)(v25 + 68) )
-            (*(void (__thiscall **)(int))(*(_DWORD *)v25 + 44))(v25);
+            (*(void (__thiscall **)(int))(*(_DWORD *)v25 + 56))(v25);
           Prototype = Scaleform::GFx::AS3::Class::GetPrototype(*(Scaleform::GFx::AS3::Class **)(v25 + 68), v25);
           v29 = (Scaleform::GFx::AS3::Value::V1U *)((int (__thiscall *)(Scaleform::GFx::AS3::Object *, Scaleform::GFx::AS3::Value::V1U *, _DWORD))Prototype->GetNextDynPropIndex)(
                                                      Prototype,
@@ -179,7 +179,7 @@ LABEL_39:
       while ( !object_reg.VInt )
       {
         if ( !*(_DWORD *)(pObject + 68) )
-          (*(void (__thiscall **)(int))(*(_DWORD *)pObject + 44))(pObject);
+          (*(void (__thiscall **)(int))(*(_DWORD *)pObject + 56))(pObject);
         v14 = Scaleform::GFx::AS3::Class::GetPrototype(*(Scaleform::GFx::AS3::Class **)(pObject + 68), pObject);
         object_reg = *(Scaleform::GFx::AS3::Value::V1U *)((int (__thiscall *)(Scaleform::GFx::AS3::Object *, Scaleform::GFx::AS3::Value *, _DWORD))v14->GetNextDynPropIndex)(
                                                            v14,

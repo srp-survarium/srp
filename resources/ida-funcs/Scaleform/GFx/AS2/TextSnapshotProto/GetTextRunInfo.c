@@ -10,11 +10,11 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::GetTextRunInfo(const Scalef
   Scaleform::GFx::AS2::ArrayObject *v8; // eax
   Scaleform::GFx::AS2::ArrayObject *v9; // edi
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *visitor_108; // [esp+158h] [ebp-94h]
-  Scaleform::GFx::AS2::Environment *visitor_108a; // [esp+158h] [ebp-94h]
-  unsigned int v13; // [esp+174h] [ebp-78h]
-  Scaleform::Ptr<Scaleform::GFx::AS2::Object> *p_pProto; // [esp+178h] [ebp-74h]
-  Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor v15; // [esp+17Ch] [ebp-70h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-94h]
+  Scaleform::GFx::AS2::Environment *v12; // [esp-4h] [ebp-94h]
+  unsigned int end; // [esp+18h] [ebp-78h]
+  Scaleform::Ptr<Scaleform::GFx::AS2::Object> *p_pProto; // [esp+1Ch] [ebp-74h]
+  Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor v15; // [esp+20h] [ebp-70h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextSnapshot )
   {
@@ -24,13 +24,13 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::GetTextRunInfo(const Scalef
       p_pProto = &ThisPtr[-2].pProto;
       if ( ThisPtr != (Scaleform::GFx::AS2::ObjectInterface *)16 && fn->NArgs >= 2 )
       {
-        visitor_108 = fn->Env;
+        Env = fn->Env;
         v2 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-        v3 = Scaleform::GFx::AS2::Value::ToUInt32(v2, visitor_108);
-        visitor_108a = fn->Env;
+        v3 = Scaleform::GFx::AS2::Value::ToUInt32(v2, Env);
+        v12 = fn->Env;
         v4 = v3;
         v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-        v13 = Scaleform::GFx::AS2::Value::ToUInt32(v5, visitor_108a);
+        end = Scaleform::GFx::AS2::Value::ToUInt32(v5, v12);
         pHeap = fn->Env->StringContext.pContext->pHeap;
         v7 = (Scaleform::GFx::AS2::ArrayObject *)pHeap->Alloc(pHeap, 80u, 0);
         if ( v7 )
@@ -47,13 +47,13 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::GetTextRunInfo(const Scalef
           (Scaleform::GFx::StaticTextSnapshotData *)&p_pProto[13],
           &v15,
           v4,
-          v13);
+          end);
         Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v9);
         v15.__vftable = (Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
         if ( v9 )
         {
           RefCount = v9->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v9->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

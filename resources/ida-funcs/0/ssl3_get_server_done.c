@@ -1,9 +1,9 @@
-int __cdecl ssl3_get_server_done(ssl_st *s)
+int __usercall ssl3_get_server_done@<eax>(int a1@<ebx>, ssl_st *s)
 {
-  ssl_st *v1; // esi
+  ssl_st *v2; // esi
   int result; // eax
 
-  v1 = s;
+  v2 = s;
   result = s->method->ssl_get_message(s, 4448, 4449, 14, 30, (int *)&s);
   if ( s )
   {
@@ -13,8 +13,8 @@ int __cdecl ssl3_get_server_done(ssl_st *s)
     }
     else
     {
-      ssl3_send_alert(v1, 2, 50);
-      ERR_put_error(0x14u, 145, 159, ".\\ssl\\s3_clnt.c", 1984);
+      ssl3_send_alert(v2, 2, 50);
+      ERR_put_error(a1, 0x14u, 145, 159, ".\\ssl\\s3_clnt.c", 1984);
       return -1;
     }
   }

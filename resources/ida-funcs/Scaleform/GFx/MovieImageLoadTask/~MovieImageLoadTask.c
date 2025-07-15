@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::MovieImageLoadTask::~MovieImageLoadTask(Scaleform::GFx::MovieImageLoadTask *this)
 {
   Scaleform::GFx::ImageResource *pObject; // ecx
-  Scaleform::File *v3; // ecx
+  Scaleform::RefCountVImpl *v3; // ecx
   Scaleform::GFx::MovieDefImpl *v4; // ecx
   Scaleform::GFx::MovieDataDef *v5; // ecx
   Scaleform::GFx::LoadStates *v6; // eax
@@ -10,9 +10,9 @@ void __thiscall Scaleform::GFx::MovieImageLoadTask::~MovieImageLoadTask(Scalefor
   pObject = this->pImageRes.pObject;
   if ( pObject )
     Scaleform::GFx::Resource::Release(pObject);
-  v3 = this->pImageFile.pObject;
+  v3 = (Scaleform::RefCountVImpl *)this->pImageFile.pObject;
   if ( v3 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v3);
+    Scaleform::RefCountImpl::Release(v3);
   v4 = this->pDefImpl.pObject;
   if ( v4 )
     Scaleform::GFx::Resource::Release(v4);

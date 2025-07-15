@@ -16,11 +16,11 @@ void __thiscall Scaleform::GFx::AS3::Class::toString(
   Scaleform::GFx::ASStringNode *v14; // [esp+10h] [ebp-4h] BYREF
 
   v3 = this->pTraits.pObject->GetName(this->pTraits.pObject, &v14);
-  v4 = Scaleform::operator+(&v13, "[class ", v3);
-  v5 = Scaleform::String::operator+(v4, &v12, "]");
+  v4 = Scaleform::operator+(&v13, (const __m128i *)"[class ", v3);
+  v5 = Scaleform::String::operator+(v4, &v12, (const __m128i *)"]");
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)((v5->HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((v5->HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(v5->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   StringNode->RefCount += 2;
   pNode = result->pNode;

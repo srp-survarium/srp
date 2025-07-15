@@ -1,120 +1,262 @@
-boost::function<void __cdecl(unsigned int,unsigned int)> *__usercall boost::function<void __cdecl (unsigned char,vostok::network_core::packet_reader &)>::operator=@<eax>(
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<unsigned char __cdecl (void const *)>::operator=(
+        boost::function<void __cdecl(float)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
+{
+  boost::detail::function::vtable_base *vtable; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> v5; // [esp+8h] [ebp-44h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> v6; // [esp+28h] [ebp-24h] BYREF
+
+  vtable = this->vtable;
+  v6.vtable = 0;
+  if ( vtable )
+  {
+    v6.vtable = vtable;
+    if ( ((unsigned __int8)vtable & 1) != 0 )
+    {
+      qmemcpy((void *)&v6.functor, &this->functor, sizeof(v6.functor));
+      this = 0;
+    }
+    else
+    {
+      (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
+        &this->functor,
+        &v6.functor,
+        0);
+    }
+  }
+  if ( f != &v6 )
+  {
+    v5.vtable = 0;
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v5,
+      &v6);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v6,
+      f);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      f,
+      &v5);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v3,
+      (int *)&v5);
+  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+    (int *)&v6);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__usercall boost::function<void __cdecl (unsigned int,unsigned int)>::operator=@<eax>(
         boost::function<void __cdecl(unsigned int,unsigned int)> *this@<ecx>,
-        boost::function2<void,unsigned int,unsigned int> *a2@<edi>)
+        boost::function1<void,vostok::physics::contact_point const &> *a2@<edi>)
 {
-  void (__cdecl *v2)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  const boost::function4<void,unsigned int,float,float,char const *> *v4; // [esp+0h] [ebp-28h]
-  boost::function2<void,unsigned int,unsigned int> v5; // [esp+8h] [ebp-20h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> *v2; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> *v4; // esi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> v7; // [esp+8h] [ebp-40h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v8; // [esp+28h] [ebp-20h] BYREF
 
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)this,
-    v4);
-  boost::function1<void,vostok::network_core::packet_reader &>::swap(&v5, a2);
-  if ( v5.vtable )
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    &v8);
+  v4 = v2;
+  if ( a2 != v2 )
   {
-    if ( ((int)v5.vtable & 1) == 0 )
-    {
-      v2 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v5.vtable & 0xFFFFFFFE);
-      if ( v2 )
-        v2(&v5.functor, &v5.functor, 2);
-    }
+    v7.vtable = 0;
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v7,
+      v2);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      v4,
+      a2);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      a2,
+      &v7);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v5,
+      (int *)&v7);
   }
-  return (boost::function<void __cdecl(unsigned int,unsigned int)> *)a2;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&v8);
+  return a2;
 }
 
 
-boost::function<void __cdecl(vostok::resources::query_result *)> *__thiscall boost::function<void __cdecl (vostok::resources::query_result *)>::operator=(
-        boost::function<void __cdecl(vostok::resources::query_result *)> *this)
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<void __cdecl (char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int)>::operator=(
+        boost::function<void __cdecl(char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
 {
-  boost::function1<void,vostok::resources::query_result *> *v1; // ecx
-  void (__cdecl *v2)(_BYTE *, _BYTE *, int); // eax
-  const boost::function4<void,unsigned int,float,float,char const *> *v4; // [esp+0h] [ebp-28h]
-  boost::function1<void,vostok::resources::query_result *> *v5; // [esp+0h] [ebp-28h]
-  int v6; // [esp+8h] [ebp-20h]
-  _BYTE v7[24]; // [esp+10h] [ebp-18h] BYREF
+  boost::detail::function::vtable_base *vtable; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> v5; // [esp+8h] [ebp-24h] BYREF
 
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)this,
-    v4);
-  boost::function1<void,vostok::resources::query_result *>::swap(v1, v5);
-  if ( v6 )
-  {
-    if ( (v6 & 1) == 0 )
-    {
-      v2 = *(void (__cdecl **)(_BYTE *, _BYTE *, int))(v6 & 0xFFFFFFFE);
-      if ( v2 )
-        v2(v7, v7, 2);
-    }
-  }
-  return &s_out_of_memory_callback;
-}
-
-
-boost::function<void __cdecl(vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum)> *__thiscall boost::function<void __cdecl (vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum)>::operator=(
-        boost::function<void __cdecl(vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum)> *this)
-{
-  boost::function3<void,vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum> *v1; // ecx
-  void (__cdecl *v2)(_BYTE *, _BYTE *, int); // eax
-  const boost::function4<void,unsigned int,float,float,char const *> *v4; // [esp+0h] [ebp-28h]
-  boost::function3<void,vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum> *v5; // [esp+0h] [ebp-28h]
-  int v6; // [esp+8h] [ebp-20h]
-  _BYTE v7[24]; // [esp+10h] [ebp-18h] BYREF
-
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)this,
-    v4);
-  boost::function3<void,vostok::resources::query_result *,vostok::resources::memory_usage_type const &,enum vostok::resources::class_id_enum>::swap(
-    v1,
-    v5);
-  if ( v6 )
-  {
-    if ( (v6 & 1) == 0 )
-    {
-      v2 = *(void (__cdecl **)(_BYTE *, _BYTE *, int))(v6 & 0xFFFFFFFE);
-      if ( v2 )
-        v2(v7, v7, 2);
-    }
-  }
-  return &s_resource_freed_callback;
-}
-
-
-boost::function<void __cdecl(boost::system::error_code)> *__thiscall boost::function<void __cdecl (boost::system::error_code)>::operator=(
-        boost::function<void __cdecl(boost::system::error_code)> *this,
-        const boost::function<void __cdecl(boost::system::error_code)> *f)
-{
-  boost::function1<void,enum vostok::handshaking_error_types_enum> v4; // [esp+2Ch] [ebp-20h] BYREF
-
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>((boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)this);
-  boost::function3<void,vostok::ai::brain_unit const *,vostok::ai::npc const *,vostok::ai::weapon const *>::assign_to_own(
-    &v4,
-    (const boost::function1<void,enum vostok::handshaking_error_types_enum> *)f);
-  boost::function1<unsigned int,char const *>::swap(
-    (boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *)&v4,
-    (boost::function2<bool,char const *,enum survarium::hit_affects_type_enum> *)this);
-  boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&v4);
-  return this;
-}
-
-
-boost::function<void __cdecl(void)> *__thiscall boost::function<void __cdecl (void)>::operator=(
-        boost::function<void __cdecl(void)> *this,
-        const boost::function<void __cdecl(void)> *f)
-{
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function0<void> v5; // [esp+8h] [ebp-20h] BYREF
-
+  vtable = this->vtable;
   v5.vtable = 0;
-  boost::function0<void>::assign_to_own(&v5, f);
-  boost::function0<void>::swap(&v5, this);
-  if ( v5.vtable )
+  if ( vtable )
   {
-    if ( ((int)v5.vtable & 1) == 0 )
+    v5.vtable = vtable;
+    if ( ((unsigned __int8)vtable & 1) != 0 )
+      qmemcpy((void *)&v5.functor, &this->functor, sizeof(v5.functor));
+    else
+      (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
+        &this->functor,
+        &v5.functor,
+        0);
+  }
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(f, &v5);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&v5);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<void __cdecl (vostok::vfs::mount_result)>::operator=(
+        boost::function<void __cdecl(vostok::vfs::mount_result)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
+{
+  boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> *v2; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v5; // [esp+8h] [ebp-24h] BYREF
+
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    &v5);
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(f, v2);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&v5);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<void __cdecl (boost::system::error_code)>::operator=(
+        boost::function<void __cdecl(vostok::network_core::buffer_reader &)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
+{
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v4; // [esp+8h] [ebp-24h] BYREF
+
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    &v4);
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(
+    f,
+    (boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> *)&v4);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v4);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<void __cdecl (enum vostok::network_core::disconnect_event_types_enum)>::operator=(
+        boost::function<void __cdecl(unsigned char,short)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
+{
+  boost::detail::function::vtable_base *vtable; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> v5; // [esp+8h] [ebp-40h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> v6; // [esp+28h] [ebp-20h] BYREF
+
+  vtable = this->vtable;
+  v5.vtable = 0;
+  if ( vtable )
+  {
+    v5.vtable = vtable;
+    if ( ((unsigned __int8)vtable & 1) != 0 )
     {
-      v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v5.vtable & 0xFFFFFFFE);
-      if ( v3 )
-        v3(&v5.functor, &v5.functor, 2);
+      qmemcpy((void *)&v5.functor, &this->functor, sizeof(v5.functor));
+      this = 0;
+    }
+    else
+    {
+      (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
+        &this->functor,
+        &v5.functor,
+        0);
     }
   }
-  return this;
+  if ( f != &v5 )
+  {
+    v6.vtable = 0;
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v6,
+      &v5);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v5,
+      f);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      f,
+      &v6);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v3,
+      (int *)&v6);
+  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+    (int *)&v5);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__thiscall boost::function<void __cdecl (void)>::operator=(
+        boost::function<void __cdecl(void)> *this,
+        boost::function1<void,vostok::physics::contact_point const &> *f)
+{
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v4; // [esp+8h] [ebp-20h] BYREF
+
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    &v4);
+  boost::function4<void,char const *,enum survarium::hit_type_enum,float &,float &>::swap(
+    f,
+    (boost::function4<void,char const *,enum survarium::hit_affects_type_enum,enum survarium::affect_event_type_enum,unsigned int> *)&v4);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v4);
+  return f;
+}
+
+
+boost::function1<void,vostok::physics::contact_point const &> *__usercall boost::function<bool __cdecl (void)>::operator=@<eax>(
+        boost::function<bool __cdecl(void)> *this@<ecx>,
+        boost::function1<void,vostok::physics::contact_point const &> *a2@<edi>)
+{
+  boost::function1<void,vostok::physics::contact_point const &> *v2; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> *v4; // esi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v7; // [esp+8h] [ebp-40h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> v8; // [esp+28h] [ebp-20h] BYREF
+
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    &v7);
+  v4 = v2;
+  if ( a2 != v2 )
+  {
+    v8.vtable = 0;
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v8,
+      v2);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      v4,
+      a2);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      a2,
+      &v8);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v5,
+      (int *)&v8);
+  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&v7);
+  return a2;
 }

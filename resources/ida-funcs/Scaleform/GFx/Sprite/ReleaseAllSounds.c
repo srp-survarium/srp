@@ -36,10 +36,7 @@ void __thiscall Scaleform::GFx::Sprite::ReleaseAllSounds(
         }
         else
         {
-          memmove(
-            (unsigned __int8 *)&p_ASSounds->Data.Data[i],
-            (unsigned __int8 *)&p_ASSounds->Data.Data[i + 1],
-            4 * (Size - i) - 4);
+          memmove((int)&p_ASSounds->Data.Data[i], (const __m128i *)&p_ASSounds->Data.Data[i + 1], 4 * (Size - i) - 4);
           --p_ASSounds->Data.Size;
         }
       }

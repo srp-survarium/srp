@@ -1,6 +1,6 @@
 int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
-        unsigned int *a1@<ebx>,
-        float *a2@<esi>,
+        _BYTE *a1@<ebx>,
+        _BYTE *a2@<esi>,
         const Scaleform::Render::ShapeDataInterface *sh)
 {
   int v5; // esi
@@ -21,30 +21,33 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
   int v20; // edx
   int v21; // edx
   char v24; // [esp+Fh] [ebp-5Dh]
-  unsigned int styles[3]; // [esp+10h] [ebp-5Ch] BYREF
-  float coord[6]; // [esp+1Ch] [ebp-50h] BYREF
-  Scaleform::Render::ShapePosInfo pos; // [esp+34h] [ebp-38h] BYREF
-  char first; // [esp+70h] [ebp+4h]
+  _DWORD v25[2]; // [esp+10h] [ebp-5Ch] BYREF
+  _BYTE v26[4]; // [esp+18h] [ebp-54h] BYREF
+  _BYTE v27[8]; // [esp+1Ch] [ebp-50h] BYREF
+  _BYTE v28[16]; // [esp+24h] [ebp-48h] BYREF
+  _DWORD v29[2]; // [esp+34h] [ebp-38h] BYREF
+  _DWORD v30[11]; // [esp+3Ch] [ebp-30h] BYREF
+  char v31; // [esp+68h] [ebp-4h]
+  char v32; // [esp+70h] [ebp+4h]
 
   if ( sh->IsEmpty(sh) )
     return 0;
   v5 = 5381;
   v6 = sh->GetStartingPos(sh);
-  pos.Sfactor = 1.0;
-  pos.Pos = v6;
+  *(float *)&v30[10] = 1.0;
+  v29[0] = v6;
   ReadPathInfo = sh->ReadPathInfo;
-  memset(&pos.StartX, 0, 44);
-  pos.Initialized = 0;
-  first = 1;
-  for ( i = ReadPathInfo(sh, &pos, coord, styles);
+  v29[1] = 0;
+  memset(v30, 0, 40);
+  v31 = 0;
+  v32 = 1;
+  for ( i = ReadPathInfo(sh, (Scaleform::Render::ShapePosInfo *)v29, (float *)v27, v25);
         i;
-        i = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, int *))sh->ReadPathInfo)(
-              sh,
-              &pos.StartY) )
+        i = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, _DWORD *))sh->ReadPathInfo)(sh, v30) )
   {
-    if ( !first && i == 2 )
+    if ( !v32 && i == 2 )
       break;
-    first = 0;
+    v32 = 0;
     v9 = 12;
     v10 = v5;
     do
@@ -54,11 +57,11 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
     }
     while ( v9 );
     v5 = v10;
-    if ( styles[0] == styles[1] )
+    if ( v25[0] == v25[1] )
     {
-      ((void (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, Scaleform::Render::ShapePosInfo *, float *, unsigned int *))sh->SkipPathData)(
+      ((void (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, _DWORD *, _BYTE *, _BYTE *))sh->SkipPathData)(
         sh,
-        &pos,
+        v29,
         a2,
         a1);
     }
@@ -67,17 +70,17 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
       v12 = 8;
       do
       {
-        v13 = *((unsigned __int8 *)&styles[2] + v12-- + 3);
+        v13 = (unsigned __int8)v26[v12-- + 3];
         v10 = (33 * v10) ^ v13;
       }
       while ( v12 );
       v5 = v10;
-      for ( j = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, Scaleform::Render::ShapePosInfo *, float *, float *, unsigned int *))sh->ReadEdge)(
+      for ( j = ((int (__thiscall *)(const Scaleform::Render::ShapeDataInterface *, _DWORD *, _BYTE *, _BYTE *, _BYTE *))sh->ReadEdge)(
                   sh,
-                  &pos,
-                  coord,
+                  v29,
+                  v27,
                   a2,
-                  a1); j; j = sh->ReadEdge(sh, (Scaleform::Render::ShapePosInfo *)&pos.StartY, &coord[2]) )
+                  a1); j; j = sh->ReadEdge(sh, (Scaleform::Render::ShapePosInfo *)v30, (float *)v28) )
       {
         v15 = j == Edge_LineTo;
         v16 = v5;
@@ -86,7 +89,7 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
           v17 = 8;
           do
           {
-            v18 = *((unsigned __int8 *)&coord[1] + v17-- + 3);
+            v18 = (unsigned __int8)v27[v17-- + 7];
             v16 = (33 * v16) ^ v18;
           }
           while ( v17 );
@@ -97,7 +100,7 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
           v19 = 16;
           do
           {
-            v20 = *((unsigned __int8 *)&coord[1] + v19-- + 3);
+            v20 = (unsigned __int8)v27[v19-- + 7];
             v21 = (33 * v16) ^ v20;
             v16 = v21;
           }
@@ -106,8 +109,8 @@ int __usercall Scaleform::GFx::ComputeGeometryHash@<eax>(
         }
       }
     }
-    a1 = &styles[2];
-    a2 = &coord[2];
+    a1 = v26;
+    a2 = v28;
   }
   return v5;
 }

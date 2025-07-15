@@ -1,13 +1,16 @@
-int dynamic_initializer_for__s_particle_lod__()
+int __thiscall dynamic_initializer_for__s_particle_lod__(vostok::console_commands::console_command *this)
 {
-  s_particle_lod.m_prev = vostok::console_commands::s_console_command_root;
-  if ( vostok::console_commands::s_console_command_root )
-    vostok::console_commands::s_console_command_root->m_next = &s_particle_lod;
-  vostok::console_commands::s_console_command_root = &s_particle_lod;
-  s_particle_lod.m_value = (unsigned int *)&survarium::g_allocator.l_;
+  vostok::console_commands::console_command::console_command(
+    this,
+    (int)&s_particle_lod,
+    "particle_lod",
+    1,
+    command_type_engine_internal,
+    execution_filter_general);
   s_particle_lod.m_min = 0;
+  s_particle_lod.m_value = &s_particle_lod_value;
   s_particle_lod.m_max = 10;
   s_particle_lod.m_need_args = 1;
-  s_particle_lod.__vftable = (vostok::console_commands::cc_u32_vtbl *)&stru_95AF78.m_key_bindings[50].m_keyboard[1];
+  s_particle_lod.__vftable = (vostok::console_commands::cc_u32_vtbl *)&vostok::console_commands::cc_u32::`vftable';
   return atexit(dynamic_atexit_destructor_for__s_particle_lod__);
 }

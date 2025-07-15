@@ -1,4 +1,4 @@
-int __cdecl name_cmp(const char *name, const char *cmp)
+int __cdecl name_cmp(char *name, char *cmp)
 {
   unsigned int v2; // esi
   int result; // eax

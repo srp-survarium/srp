@@ -1,136 +1,105 @@
-int __usercall vostok::resources::query_result::allocate_final_managed_resource_if_needed@<eax>(
-        vostok::resources::query_result *this@<ecx>,
-        int a2@<edi>)
+int __thiscall vostok::resources::query_result::allocate_final_managed_resource_if_needed(
+        vostok::resources::query_result *this,
+        int a2)
 {
-  vostok::resources::cook_base *cook; // eax
-  vostok::resources::query_result *m_flags; // ecx
-  vostok::resources::cook_base *v4; // ebp
-  vostok::const_buffer *v5; // eax
-  bool v6; // al
-  unsigned int v7; // ebp
-  vostok::resources::resources_manager *v8; // ecx
+  vostok::resources::query_result *v3; // ecx
+  vostok::const_buffer *v4; // eax
+  const char *m_data; // esi
+  vostok::resources::managed_cook_vtbl *v6; // edi
+  bool resource_if_no_file; // al
+  vostok::resources::query_result *v8; // ecx
+  vostok::resources::query_result *v9; // ecx
   vostok::resources::managed_resource *managed_resource; // eax
-  vostok::resources::managed_resource *m_object; // eax
-  boost::function1<void,vostok::collision::object const &> *v11; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v12; // ecx
-  const vostok::vfs::vfs_iterator *v14; // eax
-  int v15; // ebp
-  int v16; // ebp
-  vostok::resources::query_result *v17; // ecx
-  vostok::resources::resource_base::creation_source_enum v18; // eax
-  vostok::const_buffer *v19; // [esp+0h] [ebp-74h]
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v20; // [esp+10h] [ebp-64h] BYREF
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v21; // [esp+14h] [ebp-60h] BYREF
-  vostok::const_buffer raw_data; // [esp+18h] [ebp-5Ch] BYREF
-  _DWORD v23[3]; // [esp+20h] [ebp-54h] BYREF
-  _DWORD v24[5]; // [esp+2Ch] [ebp-48h] BYREF
-  vostok::vfs::vfs_iterator result; // [esp+40h] [ebp-34h] BYREF
-  boost::function<void __cdecl(vostok::resources::query_result *)> callback; // [esp+50h] [ebp-24h] BYREF
+  int v11; // edi
+  vostok::resources::managed_resource *m_object; // ecx
+  vostok::vfs::vfs_iterator *v14; // eax
+  vostok::resources::managed_resource *v15; // ecx
+  vostok::resources::query_result *v16; // ecx
+  int v17; // [esp-10h] [ebp-6Ch] BYREF
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v18; // [esp-4h] [ebp-60h] BYREF
+  int v19[8]; // [esp+10h] [ebp-4Ch] BYREF
+  _DWORD v20[4]; // [esp+30h] [ebp-2Ch] BYREF
+  const char *v21; // [esp+40h] [ebp-1Ch] BYREF
+  _DWORD v22[2]; // [esp+48h] [ebp-14h] BYREF
+  vostok::const_buffer pinned_raw_buffer; // [esp+50h] [ebp-Ch] BYREF
+  vostok::resources::managed_cook *managed_cook; // [esp+64h] [ebp+8h]
+  vostok::memory::managed_allocator_base *v25; // [esp+64h] [ebp+8h]
 
-  cook = vostok::resources::resources_manager::find_cook(*(vostok::resources::class_id_enum *)(a2 + 132));
-  if ( cook )
+  managed_cook = vostok::resources::cook_base::find_managed_cook(*(vostok::resources::class_id_enum *)(a2 + 132));
+  if ( vostok::resources::query_result::need_create_resource_if_no_file(
+         (vostok::resources::query_result *)v18.m_object,
+         (_DWORD *)a2) )
   {
-    m_flags = (vostok::resources::query_result *)cook->m_flags.m_flags;
-    if ( ((unsigned __int8)m_flags & 0x20) == 0 || ((unsigned __int8)m_flags & 0x18) != 0 )
-      cook = 0;
-    v4 = cook;
+    v22[0] = 0;
+    v22[1] = 0;
+    v4 = (vostok::const_buffer *)v22;
   }
   else
   {
-    v4 = 0;
+    v4 = vostok::resources::query_result::pin_raw_buffer((vostok::resources::query_result *)a2, &v21);
   }
-  if ( *(_DWORD *)(a2 + 164)
-    || (m_flags = *(vostok::resources::query_result **)(a2 + 212), *(_DWORD *)(a2 + 208))
-    || m_flags
-    || (*(_DWORD *)(a2 + 688) & 0x2000) != 0 )
-  {
-    v5 = vostok::resources::query_result::pin_raw_buffer(m_flags, v19);
-  }
-  else
-  {
-    v23[0] = 0;
-    v23[1] = 0;
-    v5 = (vostok::const_buffer *)v23;
-  }
-  raw_data = *v5;
-  v6 = !*(_DWORD *)(a2 + 164)
-    && !*(_DWORD *)(a2 + 208)
-    && !*(_DWORD *)(a2 + 212)
-    && (*(_DWORD *)(a2 + 688) & 0x2000) == 0;
-  v7 = ((int (__thiscall *)(vostok::resources::cook_base *, const char *, unsigned int, bool))v4->__vftable[1].calculate_quality_levels_count)(
-         v4,
-         raw_data.m_data,
-         raw_data.m_size,
-         !v6);
-  if ( *(_DWORD *)(a2 + 164)
-    || (v8 = *(vostok::resources::resources_manager **)(a2 + 212), *(_DWORD *)(a2 + 208))
-    || v8
-    || (*(_DWORD *)(a2 + 688) & 0x2000) != 0 )
-  {
-    vostok::resources::query_result::unpin_raw_buffer((vostok::resources::query_result *)&raw_data, &raw_data);
-  }
-  if ( !v7 )
+  m_data = v4->m_data;
+  pinned_raw_buffer.m_size = v4->m_size;
+  v6 = managed_cook->__vftable;
+  pinned_raw_buffer.m_data = m_data;
+  resource_if_no_file = vostok::resources::query_result::need_create_resource_if_no_file(v3, (_DWORD *)a2);
+  v25 = (vostok::memory::managed_allocator_base *)((int (__thiscall *)(vostok::resources::managed_cook *, const char *, unsigned int, bool))v6->calculate_resource_size)(
+                                                    managed_cook,
+                                                    m_data,
+                                                    pinned_raw_buffer.m_size,
+                                                    !resource_if_no_file);
+  if ( !vostok::resources::query_result::need_create_resource_if_no_file(v8, (_DWORD *)a2) )
+    vostok::resources::query_result::unpin_raw_buffer(v9, &pinned_raw_buffer);
+  if ( !v25 )
     return 1;
   managed_resource = vostok::resources::resources_manager::allocate_managed_resource(
-                       v8,
-                       v7,
+                       (vostok::resources::resources_manager *)v9,
+                       v25,
                        *(vostok::resources::class_id_enum *)(a2 + 132));
-  v20.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    &v20,
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base>::operator=(
+    (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)(a2 + 216),
     managed_resource);
-  m_object = v20.m_object;
-  v20.m_object = *(vostok::resources::managed_resource **)(a2 + 216);
-  *(_DWORD *)(a2 + 216) = m_object;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v20);
+  v11 = 0;
   if ( *(_DWORD *)(a2 + 216) )
   {
-    if ( (*(_DWORD *)(a2 + 688) & 0x800) != 0 )
-      v14 = vostok::vfs::vfs_iterator::end(&result);
-    else
-      v14 = (const vostok::vfs::vfs_iterator *)(a2 + 160);
-    v15 = *(_DWORD *)(a2 + 216);
-    vostok::vfs::vfs_iterator::vfs_iterator((vostok::vfs::vfs_iterator *)&v24[1], v14);
-    v16 = v15 + 160;
-    if ( !vostok::vfs::vfs_iterator::operator==(
-            (vostok::vfs::vfs_iterator *)&v24[1],
-            (const vostok::vfs::vfs_iterator *)v16) )
+    if ( (*(_DWORD *)(a2 + 704) & 0x800) != 0 )
     {
-      *(_QWORD *)v16 = *(_QWORD *)&v24[1];
-      *(_QWORD *)(v16 + 8) = *(_QWORD *)&v24[3];
+      memset(v20, 0, 12);
+      v20[3] = 3;
+      v14 = (vostok::vfs::vfs_iterator *)v20;
     }
-    v21.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-      &v21,
+    else
+    {
+      v14 = (vostok::vfs::vfs_iterator *)(a2 + 160);
+    }
+    vostok::resources::managed_resource::late_set_fat_it(
+      (vostok::resources::managed_resource *)&v17,
+      *(vostok::vfs::vfs_iterator **)(a2 + 216),
+      *v14);
+    v18.m_object = v15;
+    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
+      &v18,
       (const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)(a2 + 216));
-    v18 = vostok::resources::query_result::creation_source_for_resource(v17, a2);
-    v21.m_object->m_creation_source = v18;
-    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v21);
+    vostok::resources::query_result::set_creation_source_for_resource(v16, a2, v18);
     return 1;
   }
-  *(_DWORD *)(a2 + 308) = &vostok::resources::managed_memory;
-  *(_DWORD *)(a2 + 312) = v7;
-  *(_DWORD *)(a2 + 304) = 4;
+  *(_DWORD *)(a2 + 324) = &vostok::resources::managed_memory;
+  *(_DWORD *)(a2 + 328) = v25;
+  v18.m_object = (vostok::resources::managed_resource *)v19;
+  *(_DWORD *)(a2 + 320) = 4;
   *(_DWORD *)(a2 + 256) = 7;
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)&s_out_of_memory_callback,
-    (int)&callback);
-  if ( (callback.vtable != 0 ? (unsigned int)survarium::weapon_user_dead_state::finalize : 0) != 0 )
+  vostok::resources::get_out_of_memory_callback((boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)v18.m_object);
+  m_object = v18.m_object;
+  if ( (v19[0] != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
   {
     boost::function1<void,vostok::collision::object const &>::operator()(
-      v11,
-      &callback,
-      (const vostok::collision::object *)a2);
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      v12,
-      (int *)&callback);
-    return 2;
+      (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)v18.m_object,
+      v19,
+      (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)a2);
+    v11 = 2;
   }
-  else
-  {
-    boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-      (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v11,
-      (int *)&callback);
-    return 0;
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)m_object,
+    v19);
+  return v11;
 }

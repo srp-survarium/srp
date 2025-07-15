@@ -2,7 +2,7 @@ char __thiscall Scaleform::SysFile::Close(Scaleform::SysFile *this)
 {
   Scaleform::File *v2; // eax
   Scaleform::File *v3; // edi
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   if ( !this->IsValid(this) )
     return 0;
@@ -19,9 +19,9 @@ char __thiscall Scaleform::SysFile::Close(Scaleform::SysFile *this)
   {
     v3 = 0;
   }
-  pObject = this->pFile.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pFile.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pFile.pObject = v3;
   return 1;
 }

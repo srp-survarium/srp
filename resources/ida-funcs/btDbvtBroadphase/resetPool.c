@@ -1,11 +1,12 @@
 void __thiscall btDbvtBroadphase::resetPool(btDbvtBroadphase *this, btDispatcher *dispatcher)
 {
   btDbvt *v3; // ecx
+  btDbvtProxy **m_stageRoots; // edi
 
   if ( !(this->m_sets[0].m_leaves + this->m_sets[1].m_leaves) )
   {
-    btDbvt::clear((btDbvt *)this);
-    btDbvt::clear(v3);
+    btDbvt::clear((btDbvt *)this, this->m_sets);
+    btDbvt::clear(v3, &this->m_sets[1]);
     this->m_deferedcollide = 0;
     this->m_needcleanup = 1;
     this->m_stageCurrent = 0;
@@ -20,8 +21,9 @@ void __thiscall btDbvtBroadphase::resetPool(btDbvtBroadphase *this, btDispatcher
     this->m_gid = 0;
     this->m_pid = 0;
     this->m_cid = 0;
-    this->m_stageRoots[0] = 0;
-    this->m_stageRoots[1] = 0;
-    this->m_stageRoots[2] = 0;
+    m_stageRoots = this->m_stageRoots;
+    *m_stageRoots++ = 0;
+    *m_stageRoots = 0;
+    m_stageRoots[1] = 0;
   }
 }

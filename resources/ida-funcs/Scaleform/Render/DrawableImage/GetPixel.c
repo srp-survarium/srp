@@ -4,7 +4,7 @@ Scaleform::Render::Color *__thiscall Scaleform::Render::DrawableImage::GetPixel(
         int x,
         int y)
 {
-  Scaleform::Render::DrawableImage::GetPixel32(this, result, (Scaleform::Render::Color)x, y);
+  Scaleform::Render::DrawableImage::GetPixel32(this, result, x, y);
   result->Channels.Alpha = 0;
   return result;
 }

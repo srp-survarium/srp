@@ -22,7 +22,7 @@ int __cdecl png_write_pCAL(_DWORD *a1, LPCSTR a2, int a3, int a4, int a5, int a6
     *((_DWORD *)v15 + i) = (i != a6 - 1) + v8;
     v14 += *((_DWORD *)v15 + i);
   }
-  sub_36AD20(a1, 1883455820, v14);
+  sub_4779E0(a1, 1883455820, v14);
   png_write_chunk_data(a1, (unsigned __int8 *)pointer, v13);
   png_save_int_32(buf, a3);
   png_save_int_32(v11, a4);

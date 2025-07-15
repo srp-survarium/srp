@@ -1,4 +1,8 @@
-int __cdecl EVP_EncryptFinal_ex(evp_cipher_ctx_st *ctx, unsigned __int8 *out, int *outl)
+int __usercall EVP_EncryptFinal_ex@<eax>(
+        int a1@<ebx>,
+        evp_cipher_ctx_st *ctx,
+        unsigned __int8 *out,
+        unsigned int *outl)
 {
   unsigned int block_size; // edi
   int result; // eax
@@ -6,7 +10,7 @@ int __cdecl EVP_EncryptFinal_ex(evp_cipher_ctx_st *ctx, unsigned __int8 *out, in
 
   block_size = ctx->cipher->block_size;
   if ( block_size > 0x20 )
-    OpenSSLDie(block_size, (unsigned int)ctx, ".\\crypto\\evp\\evp_enc.c", 354, "b <= sizeof ctx->buf");
+    OpenSSLDie(block_size, (int)ctx, a1, ".\\crypto\\evp\\evp_enc.c", 354, "b <= sizeof ctx->buf");
   if ( block_size == 1 )
   {
     result = 1;
@@ -19,7 +23,7 @@ int __cdecl EVP_EncryptFinal_ex(evp_cipher_ctx_st *ctx, unsigned __int8 *out, in
     {
       if ( buf_len )
       {
-        ERR_put_error(6u, 127, 138, ".\\crypto\\evp\\evp_enc.c", 365);
+        ERR_put_error(a1, 6u, 127, 138, ".\\crypto\\evp\\evp_enc.c", 365);
         return 0;
       }
       else
@@ -31,7 +35,7 @@ int __cdecl EVP_EncryptFinal_ex(evp_cipher_ctx_st *ctx, unsigned __int8 *out, in
     else
     {
       if ( buf_len < block_size )
-        memset((int)&ctx->buf[buf_len], (unsigned __int8 *)(block_size - buf_len), block_size - buf_len);
+        memset((int)&ctx->buf[buf_len], block_size - buf_len, block_size - buf_len);
       result = ctx->cipher->do_cipher(ctx, out, ctx->buf, block_size);
       if ( result )
         *outl = block_size;

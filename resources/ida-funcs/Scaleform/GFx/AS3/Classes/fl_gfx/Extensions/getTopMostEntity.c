@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::getTopMostEnti
   v14 = 20.0 * y;
   v15.x = pmat.M[0][0] * v13 + v14 * pmat.M[0][1] + pmat.M[0][3];
   v15.y = v14 * pmat.M[1][1] + v13 * pmat.M[1][0] + pmat.M[1][3];
-  TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v5, &v15, 0, testAll, 0);
+  TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v5, &v15, 0.0, testAll, 0);
   if ( TopMostEntity )
   {
     v8 = (*(int (__thiscall **)(int))(*((_DWORD *)&TopMostEntity->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
@@ -69,7 +69,7 @@ LABEL_11:
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

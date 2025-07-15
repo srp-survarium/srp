@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS3::Traits::ForEachChild_GC_Slot(
         Scaleform::GFx::AS3::Traits *this,
         Scaleform::GFx::AS3::RefCountCollector<328> *prcc,
         const Scaleform::GFx::AS3::Object *obj,
-        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **))
+        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **, const Scaleform::GFx::AS3::RefCountBaseGC<328> *))
 {
   unsigned int Size; // ebx
   bool v6; // zf

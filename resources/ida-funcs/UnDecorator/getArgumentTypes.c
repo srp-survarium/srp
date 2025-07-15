@@ -6,7 +6,7 @@ DName *__cdecl UnDecorator::getArgumentTypes(DName *result)
   DName *v4; // eax
   char *v5; // eax
   DName v6; // [esp+0h] [ebp-10h] BYREF
-  DName arguments; // [esp+8h] [ebp-8h] BYREF
+  DName resulta; // [esp+8h] [ebp-8h] BYREF
 
   if ( *UnDecorator::gName == 88 )
   {
@@ -23,13 +23,13 @@ DName *__cdecl UnDecorator::getArgumentTypes(DName *result)
     DName::DName(result, v5);
     return result;
   }
-  UnDecorator::getArgumentList(&arguments);
-  v1 = *((_DWORD *)&arguments + 1);
-  if ( *((_BYTE *)&arguments + 4) || (v2 = *UnDecorator::gName) == 0 )
+  UnDecorator::getArgumentList(&resulta);
+  v1 = *((_DWORD *)&resulta + 1);
+  if ( *((_BYTE *)&resulta + 4) || (v2 = *UnDecorator::gName) == 0 )
   {
 LABEL_12:
     v4 = result;
-    result->node = arguments.node;
+    result->node = resulta.node;
     *((_DWORD *)result + 1) = v1;
     return v4;
   }
@@ -47,6 +47,6 @@ LABEL_12:
   v3 = ",...";
   if ( (UnDecorator::disableFlags & 0x40000) != 0 )
     v3 = ",<ellipsis>";
-  *result = *DName::operator+(&arguments, &v6, v3);
+  *result = *DName::operator+(&resulta, &v6, v3);
   return result;
 }

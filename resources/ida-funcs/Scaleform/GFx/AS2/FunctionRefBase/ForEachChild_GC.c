@@ -44,14 +44,14 @@ void __thiscall Scaleform::GFx::AS2::FunctionRefBase::ForEachChild_GC<Scaleform:
   Function = this->Function;
   if ( this->Function )
   {
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & --Function->RefCount) != 0 )
+    if ( (--Function->RefCount & 0x3FFFFFF) != 0 )
     {
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
     }
     else
     {
       Scaleform::GFx::AS2::RefCountCollector<323>::RemoveFromRoots(prcc, Function);
-      Function->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
+      Function->RefCount |= 0x4000000u;
       if ( (Function->RefCount & 0x8000000) == 0 )
       {
         Function->RootIndex = *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0;
@@ -66,14 +66,14 @@ void __thiscall Scaleform::GFx::AS2::FunctionRefBase::ForEachChild_GC<Scaleform:
   pLocalFrame = this->pLocalFrame;
   if ( pLocalFrame )
   {
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & --pLocalFrame->RefCount) != 0 )
+    if ( (--pLocalFrame->RefCount & 0x3FFFFFF) != 0 )
     {
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
     }
     else
     {
       Scaleform::GFx::AS2::RefCountCollector<323>::RemoveFromRoots(prcc, pLocalFrame);
-      pLocalFrame->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
+      pLocalFrame->RefCount |= 0x4000000u;
       if ( (pLocalFrame->RefCount & 0x8000000) == 0 )
       {
         pLocalFrame->RootIndex = *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0;
@@ -92,28 +92,28 @@ void __thiscall Scaleform::GFx::AS2::FunctionRefBase::ForEachChild_GC<Scaleform:
         Scaleform::GFx::AS2::FunctionRefBase *this,
         Scaleform::GFx::AS2::RefCountCollector<323> *prcc)
 {
-  Scaleform::GFx::AS2::FunctionObject *Function; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *Function; // eax
   unsigned int v4; // ecx
-  Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *pLocalFrame; // eax
   unsigned int v6; // ecx
 
-  Function = this->Function;
+  Function = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Function;
   if ( this->Function )
   {
-    v4 = ++Function->RefCount;
+    v4 = ++Function->Roots.Size;
     if ( (v4 & 0x70000000) != 0 )
     {
-      Function->RefCount = v4 & 0x8FFFFFFF;
+      Function->Roots.Size = v4 & 0x8FFFFFFF;
       Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, Function);
     }
   }
-  pLocalFrame = this->pLocalFrame;
+  pLocalFrame = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->pLocalFrame;
   if ( pLocalFrame )
   {
-    v6 = ++pLocalFrame->RefCount;
+    v6 = ++pLocalFrame->Roots.Size;
     if ( (v6 & 0x70000000) != 0 )
     {
-      pLocalFrame->RefCount = v6 & 0x8FFFFFFF;
+      pLocalFrame->Roots.Size = v6 & 0x8FFFFFFF;
       Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pLocalFrame);
     }
   }

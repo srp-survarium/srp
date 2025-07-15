@@ -11,7 +11,7 @@ double __cdecl log(double X)
     if ( v1 == 8064 )
       v2 = (v4 & 0x7F) == 127;
     if ( v2 )
-      JUMPOUT(0x54B438);
+      JUMPOUT(0x6697E8);
   }
-  JUMPOUT(0x54A3CF);
+  JUMPOUT(0x665CFF);
 }

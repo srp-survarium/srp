@@ -1,108 +1,84 @@
-void __usercall btSoftBody::solveClusters(btSoftBody *this@<ecx>, int a2@<edi>)
+void __cdecl btSoftBody::solveClusters(int bodies)
 {
+  btSoftBody *v1; // ecx
   int v2; // ebx
-  int i; // esi
-  int v4; // ecx
-
-  v2 = *(_DWORD *)(a2 + 860);
-  for ( i = 0; i < v2; ++i )
-  {
-    v4 = *(_DWORD *)(*(_DWORD *)(a2 + 868) + 4 * i);
-    (*(void (__thiscall **)(int, _DWORD, _DWORD))(*(_DWORD *)v4 + 8))(v4, *(float *)(a2 + 460), 1.0);
-  }
-}
-
-
-void __cdecl btSoftBody::solveClusters(const btAlignedObjectArray<btSoftBody *> *bodies)
-{
-  const btAlignedObjectArray<btSoftBody *> *v1; // ecx
-  int m_size; // edx
-  int v3; // ebx
-  btSoftBody **m_data; // esi
-  int v5; // edi
-  int *p_citerations; // eax
-  int i; // ebp
-  btSoftBody *v8; // esi
+  int v3; // edx
+  int v4; // esi
+  int *p_bodies; // eax
+  int v6; // esi
+  int v7; // edi
+  int v8; // esi
   int v9; // edi
-  int j; // ebp
-  btSoftBody *v11; // edi
-  int v12; // ebx
-  int v13; // esi
-  btSoftBody::Joint *v14; // ecx
-  int v15; // edi
-  int nb; // [esp+20h] [ebp-8h]
-  int iterations; // [esp+24h] [ebp-4h] BYREF
+  int v10; // edi
+  int v11; // [esp+1Ch] [ebp-Ch]
+  int v12; // [esp+20h] [ebp-8h]
+  int i; // [esp+24h] [ebp-4h]
+  int j; // [esp+24h] [ebp-4h]
 
-  v1 = bodies;
-  m_size = bodies->m_size;
-  v3 = 0;
-  nb = m_size;
-  iterations = 0;
-  if ( m_size > 0 )
-  {
-    m_data = bodies->m_data;
-    v5 = m_size;
-    do
-    {
-      p_citerations = &(*m_data)->m_cfg.citerations;
-      if ( v3 > *p_citerations )
-        p_citerations = &iterations;
-      v3 = *p_citerations;
-      ++m_data;
-      --v5;
-      iterations = *p_citerations;
-    }
-    while ( v5 );
-  }
-  for ( i = 0; i < m_size; ++i )
-  {
-    v8 = v1->m_data[i];
-    v9 = 0;
-    if ( v8->m_joints.m_size > 0 )
-    {
-      do
-        ((void (__stdcall *)(_DWORD, int))v8->m_joints.m_data[v9++]->Prepare)(v8->m_sst.sdt, v3);
-      while ( v9 < v8->m_joints.m_size );
-      v1 = bodies;
-      m_size = nb;
-    }
-  }
+  v2 = bodies;
+  v3 = *(_DWORD *)(bodies + 4);
+  bodies = 0;
+  v12 = v3;
   if ( v3 > 0 )
   {
-    iterations = v3;
+    v1 = *(btSoftBody **)(v2 + 12);
+    v4 = v3;
     do
     {
-      for ( j = 0; j < m_size; ++j )
+      p_bodies = (int *)&v1->__vftable[14];
+      if ( bodies > *p_bodies )
+        p_bodies = &bodies;
+      v1 = (btSoftBody *)((char *)v1 + 4);
+      --v4;
+      bodies = *p_bodies;
+    }
+    while ( v4 );
+  }
+  for ( i = 0; i < v3; ++i )
+  {
+    v1 = (btSoftBody *)i;
+    v6 = *(_DWORD *)(*(_DWORD *)(v2 + 12) + 4 * i);
+    v7 = 0;
+    if ( *(int *)(v6 + 860) > 0 )
+    {
+      do
+        (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(*(_DWORD *)(v6 + 868) + 4 * v7++) + 4))(
+          *(float *)(v6 + 460),
+          bodies);
+      while ( v7 < *(_DWORD *)(v6 + 860) );
+      v3 = v12;
+    }
+  }
+  if ( bodies > 0 )
+  {
+    v11 = bodies;
+    do
+    {
+      for ( j = 0; j < v3; ++j )
       {
-        v11 = v1->m_data[j];
-        v12 = v11->m_joints.m_size;
-        v13 = 0;
-        if ( v12 > 0 )
+        v1 = (btSoftBody *)j;
+        v8 = *(_DWORD *)(*(_DWORD *)(v2 + 12) + 4 * j);
+        v9 = *(_DWORD *)(v8 + 860);
+        bodies = 0;
+        if ( v9 > 0 )
         {
           do
-          {
-            v14 = v11->m_joints.m_data[v13];
-            ((void (__thiscall *)(btSoftBody::Joint *, float, _DWORD))v14->Solve)(v14, v11->m_sst.sdt, 1.0);
-            ++v13;
-          }
-          while ( v13 < v12 );
-          v1 = bodies;
-          m_size = nb;
+            (*(void (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(*(_DWORD *)(v8 + 868) + 4 * bodies++) + 8))(
+              *(float *)(v8 + 460),
+              1.0);
+          while ( bodies < v9 );
+          v3 = v12;
         }
       }
-      --iterations;
+      --v11;
     }
-    while ( iterations );
+    while ( v11 );
   }
-  v15 = 0;
-  if ( m_size > 0 )
+  v10 = 0;
+  if ( v3 > 0 )
   {
-    while ( 1 )
-    {
-      btSoftBody::cleanupClusters((btSoftBody *)v1->m_data, (int)v1->m_data[v15++]);
-      if ( v15 >= nb )
-        break;
-      v1 = bodies;
-    }
+    do
+      btSoftBody::cleanupClusters(v1, *(_DWORD *)(*(_DWORD *)(v2 + 12) + 4 * v10++));
+    while ( v10 < v12 );
   }
 }

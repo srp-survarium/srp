@@ -41,7 +41,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getTextForma
       &paraFmt,
       pObject,
       v6);
-    Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextFormat(beginIndex.pObject, &paraFmt, (int)&textFmt);
+    Scaleform::GFx::AS3::Instances::fl_text::TextFormat::SetTextFormat(
+      beginIndex.pObject,
+      &paraFmt,
+      (signed int)&textFmt);
     Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
     Scaleform::Render::Text::TextFormat::~TextFormat(&textFmt);
   }
@@ -50,7 +53,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::getTextForma
   {
     RefCount = beginIndex.pObject->RefCount;
     v11 = beginIndex.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       beginIndex.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);

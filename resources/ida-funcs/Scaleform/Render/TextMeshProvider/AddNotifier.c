@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::TextMeshProvider::AddNotifier(
         Scaleform::Render::TextMeshProvider *this,
-        Scaleform::Render::TextNotifier *notifier)
+        const Scaleform::Ptr<Scaleform::GFx::ASStringNode> *notifier)
 {
   const Scaleform::MemoryHeap *pHeap; // eax
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *p_Notifiers; // edi
@@ -29,7 +29,7 @@ void __thiscall Scaleform::Render::TextMeshProvider::AddNotifier(
     }
     Data = p_Notifiers->Data;
     p_Notifiers->Size = v4;
-    Data[v4 - 1] = (const Scaleform::Ptr<Scaleform::GFx::ASStringNode> *)notifier;
-    Scaleform::Render::GlyphQueue::PinSlot(notifier->pSlot);
+    Data[v4 - 1] = notifier;
+    Scaleform::Render::GlyphQueue::PinSlot((Scaleform::Render::GlyphSlot *)notifier[3].pObject);
   }
 }

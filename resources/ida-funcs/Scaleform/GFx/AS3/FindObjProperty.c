@@ -59,7 +59,7 @@ void __cdecl Scaleform::GFx::AS3::FindObjProperty(
   }
   if ( v5 && (t->Flags & 2) != 0 && (attr != FindCall || !Scaleform::GFx::AS3::IsXMLObject(scope)) )
   {
-    v12 = (const Scaleform::GFx::AS3::PropRef *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::PropRef *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *))(*(_DWORD *)scope->value.VS._1.VInt + 60))(
+    v12 = (const Scaleform::GFx::AS3::PropRef *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::PropRef *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *))(*(_DWORD *)scope->value.VS._1.VInt + 72))(
                                                   scope->value.VS._1,
                                                   &v17,
                                                   mn);
@@ -74,7 +74,7 @@ void __cdecl Scaleform::GFx::AS3::FindObjProperty(
     for ( i = t; i; i = i->pParent.pObject )
     {
       if ( !i->pConstructor.pObject )
-        i->InitOnDemand((Scaleform::GFx::AS3::Traits *)i);
+        i->InitOnDemand(i);
       Prototype = Scaleform::GFx::AS3::Class::GetPrototype(i->pConstructor.pObject, (int)result);
       Scaleform::GFx::AS3::Object::FindProperty(Prototype, result, mn, attr);
       if ( Scaleform::GFx::AS3::PropRef::operator bool(result) )

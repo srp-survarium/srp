@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::FontCompactor::LineTo(Scaleform::GFx::FontCompac
   Scaleform::GFx::FontCompactor::VertexType v4; // eax
   unsigned int v5; // ebx
   Scaleform::GFx::FontCompactor::ContourType *v6; // edx
-  Scaleform::GFx::FontCompactor::VertexType v; // [esp+14h] [ebp+8h]
+  Scaleform::GFx::FontCompactor::VertexType v7; // [esp+14h] [ebp+8h]
 
   if ( !this->TmpContours.Pages[(this->TmpContours.Size - 1) >> 6][(this->TmpContours.Size - 1) & 0x3F].DataSize
     || (v4 = this->TmpVertices.Pages[(this->TmpVertices.Size - 1) >> 6][(this->TmpVertices.Size - 1) & 0x3F],
@@ -11,13 +11,13 @@ void __thiscall Scaleform::GFx::FontCompactor::LineTo(Scaleform::GFx::FontCompac
     || y != v4.y )
   {
     v5 = this->TmpVertices.Size >> 6;
-    v.y = y;
+    v7.y = y;
     if ( v5 >= this->TmpVertices.NumPages )
       Scaleform::ArrayPagedBase<Scaleform::GFx::FontCompactor::VertexType,6,64,Scaleform::AllocatorPagedGH_POD<Scaleform::GFx::FontCompactor::VertexType,261>>::allocatePage(
         &this->TmpVertices,
         v5);
-    v.x = 2 * x;
-    this->TmpVertices.Pages[v5][this->TmpVertices.Size++ & 0x3F] = v;
+    v7.x = 2 * x;
+    this->TmpVertices.Pages[v5][this->TmpVertices.Size++ & 0x3F] = v7;
     v6 = this->TmpContours.Pages[(this->TmpContours.Size - 1) >> 6];
     ++v6[(this->TmpContours.Size - 1) & 0x3F].DataSize;
   }

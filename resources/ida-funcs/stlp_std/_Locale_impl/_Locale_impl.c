@@ -1,6 +1,6 @@
 void __thiscall stlp_std::_Locale_impl::_Locale_impl(stlp_std::_Locale_impl *this, char *s)
 {
-  stlp_std::allocator<char> __a; // [esp+Bh] [ebp-15h] BYREF
+  stlp_std::allocator<char> v3; // [esp+Bh] [ebp-15h] BYREF
   stlp_std::_Locale_impl *v4; // [esp+Ch] [ebp-14h]
   stlp_std::_Stl_aligned_buffer<stlp_std::_Locale_impl::Init> *v5; // [esp+10h] [ebp-10h]
   int v6; // [esp+1Ch] [ebp-4h]
@@ -10,7 +10,7 @@ void __thiscall stlp_std::_Locale_impl::_Locale_impl(stlp_std::_Locale_impl *thi
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
     &this->name,
     s,
-    &__a);
+    &v3);
   this->facets_vec._M_impl._M_start = 0;
   this->facets_vec._M_impl._M_finish = 0;
   v6 = 0;

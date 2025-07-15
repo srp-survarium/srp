@@ -1,24 +1,44 @@
-void __thiscall vostok::vfs::mounter::mounter(
-        vostok::vfs::mounter *this,
+void __userpurge vostok::vfs::mounter::mounter(
+        vostok::vfs::mounter *this@<ecx>,
+        int a2@<esi>,
         vostok::vfs::query_mount_arguments *args,
         vostok::vfs::virtual_file_system *file_system)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  this->__vftable = (vostok::vfs::mounter_vtbl *)&vostok::vfs::mounter::`vftable';
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)&this->m_referers,
-    &this->m_referers.m_size);
-  vostok::threading::mutex::mutex(&this->m_referers.vostok::threading::mutex);
-  this->m_referers.m_first = 0;
-  this->m_referers.m_last = 0;
-  vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>((vostok::render::stage_lights::lights_instance *)&this->m_mount_ptr);
-  this->m_result = result_error;
-  vostok::vfs::query_mount_arguments::query_mount_arguments(&this->m_args, args);
-  this->m_mount_root_base = 0;
-  this->m_file_system = file_system;
-  this->m_mount_id = 0;
-  vostok::intrusive_double_linked_list<vostok::vfs::mounter_base,vostok::vfs::mounter *,0,4,vostok::threading::mutex,vostok::no_size_policy,vostok::debug_policy>::push_back(
-    (vostok::intrusive_double_linked_list<vostok::vfs::mounter_base,vostok::vfs::mounter *,0,4,vostok::threading::mutex,vostok::no_size_policy,vostok::debug_policy> *)((char *)&loc_2011E + (unsigned int)this->m_file_system + 2),
-    this,
-    0);
+  vostok::vfs::mounter_base *v4; // ebx
+  vostok::vfs::query_mount_arguments *v5; // ecx
+  vostok::threading::mutex *v6; // ecx
+  vostok::vfs::mounter *m_last; // eax
+  vostok::vfs::mounter *v8; // eax
+
+  *(_DWORD *)a2 = &vostok::vfs::mounter::`vftable';
+  v4 = 0;
+  *(_DWORD *)(a2 + 16) = 0;
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(
+    (vostok::threading::mutex_tasks_unaware *)this,
+    (_RTL_CRITICAL_SECTION *)(a2 + 24));
+  *(_DWORD *)(a2 + 52) = 0;
+  *(_DWORD *)(a2 + 56) = 0;
+  *(_DWORD *)(a2 + 64) = 0;
+  *(_DWORD *)(a2 + 68) = 1;
+  vostok::vfs::query_mount_arguments::query_mount_arguments(v5, a2 + 72, args);
+  *(_DWORD *)(a2 + 1316) = file_system;
+  *(_DWORD *)(a2 + 1312) = 0;
+  *(_DWORD *)(a2 + 1320) = 0;
+  vostok::threading::mutex::lock(v6, (_RTL_CRITICAL_SECTION *)&file_system->pending_mounts.m_policy);
+  m_last = file_system->pending_mounts.m_last;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 8) = m_last;
+  if ( file_system->pending_mounts.m_first )
+  {
+    v8 = file_system->pending_mounts.m_last;
+    if ( v8 )
+      v4 = &v8->vostok::vfs::mounter_base;
+    v4->next = (vostok::vfs::mounter *)a2;
+  }
+  else
+  {
+    file_system->pending_mounts.m_first = (vostok::vfs::mounter *)a2;
+  }
+  file_system->pending_mounts.m_last = (vostok::vfs::mounter *)a2;
+  LeaveCriticalSection((LPCRITICAL_SECTION)&file_system->pending_mounts.m_policy);
 }

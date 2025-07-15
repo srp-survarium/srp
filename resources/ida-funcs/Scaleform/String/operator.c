@@ -51,7 +51,7 @@ void __thiscall Scaleform::String::operator=(Scaleform::String *this, const Scal
                                          pData,
                                          *(_DWORD *)v5 & 0x7FFFFFFF,
                                          *(_DWORD *)v5 & 0x80000000,
-                                         (char *)(v5 + 8),
+                                         (const __m128i *)(v5 + 8),
                                          *(_DWORD *)v5 & 0x7FFFFFFF)
                        | this->HeapTypeBits & 3;
   }
@@ -65,7 +65,7 @@ void __thiscall Scaleform::String::operator=(Scaleform::String *this, const Scal
   unsigned int Size; // ebx
   unsigned int HeapTypeBits; // ecx
   volatile LONG *v5; // edi
-  char *pData; // ebp
+  const __m128i *pData; // ebp
   Scaleform::MemoryHeap *v7; // eax
   int v8; // ecx
   int v9; // ecx
@@ -73,9 +73,9 @@ void __thiscall Scaleform::String::operator=(Scaleform::String *this, const Scal
   Size = src->Size;
   HeapTypeBits = this->HeapTypeBits;
   v5 = (volatile LONG *)(HeapTypeBits & 0xFFFFFFFC);
-  pData = src->pData;
+  pData = (const __m128i *)src->pData;
   if ( !src->pData )
-    pData = (char *)&buf;
+    pData = (const __m128i *)uri;
   v7 = 0;
   v8 = HeapTypeBits & 3;
   if ( v8 )
@@ -102,16 +102,16 @@ void __thiscall Scaleform::String::operator=(Scaleform::String *this, const Scal
 }
 
 
-void __thiscall Scaleform::String::operator=(Scaleform::String *this, char *pstr)
+void __thiscall Scaleform::String::operator=(Scaleform::String *this, const __m128i *pstr)
 {
   if ( pstr )
-    Scaleform::String::AssignString(this, pstr, strlen(pstr));
+    Scaleform::String::AssignString(this, pstr, strlen(pstr->m128i_i8));
   else
     Scaleform::String::AssignString(this, 0, 0);
 }
 
 
-void __thiscall Scaleform::String::operator=(Scaleform::String *this, const wchar_t *pwstr)
+void __thiscall Scaleform::String::operator=(Scaleform::String *this, wchar_t *pwstr)
 {
   volatile LONG *v3; // ebx
   int EncodeStringSize; // edi
@@ -174,6 +174,14 @@ bool __thiscall Scaleform::String::operator==(Scaleform::String *this, const cha
 }
 
 
+bool __thiscall Scaleform::String::operator!=(Scaleform::String *this, const Scaleform::String *str)
+{
+  return strcmp(
+           (const char *)((this->HeapTypeBits & 0xFFFFFFFC) + 8),
+           (const char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8)) != 0;
+}
+
+
 bool __thiscall Scaleform::String::operator!=(Scaleform::String *this, const char *str)
 {
   return strcmp((const char *)((this->HeapTypeBits & 0xFFFFFFFC) + 8), str) != 0;
@@ -194,14 +202,14 @@ Scaleform::String *__thiscall Scaleform::String::operator+(
 Scaleform::String *__thiscall Scaleform::String::operator+(
         Scaleform::String *this,
         Scaleform::String *result,
-        char *str)
+        const __m128i *str)
 {
-  char *v3; // eax
+  const __m128i *v3; // eax
 
   Scaleform::String::String(result, this);
   v3 = str;
   if ( !str )
-    v3 = (char *)&buf;
+    v3 = (const __m128i *)uri;
   Scaleform::String::AppendString(result, v3, 0xFFFFFFFF);
   return result;
 }
@@ -217,18 +225,18 @@ void __thiscall Scaleform::String::operator+=(Scaleform::String *this, const Sca
   unsigned int v8; // ebp
   int v9; // ecx
   int v10; // ecx
-  int srcSize; // [esp+10h] [ebp-4h]
-  unsigned int lflag; // [esp+18h] [ebp+4h]
+  unsigned int v11; // [esp+10h] [ebp-4h]
+  unsigned int v12; // [esp+18h] [ebp+4h]
 
   HeapTypeBits = this->HeapTypeBits;
   v4 = HeapTypeBits & 0xFFFFFFFC;
   v6 = src->HeapTypeBits & 0xFFFFFFFC;
   v5 = *(_DWORD *)(HeapTypeBits & 0xFFFFFFFC);
-  lflag = v5 & *(_DWORD *)v6 & 0x80000000;
+  v12 = v5 & *(_DWORD *)v6 & 0x80000000;
   pData = 0;
   v8 = v5 & 0x7FFFFFFF;
   v9 = HeapTypeBits & 3;
-  srcSize = *(_DWORD *)v6 & 0x7FFFFFFF;
+  v11 = *(_DWORD *)v6 & 0x7FFFFFFF;
   if ( v9 )
   {
     v10 = v9 - 1;
@@ -249,12 +257,12 @@ void __thiscall Scaleform::String::operator+=(Scaleform::String *this, const Sca
   this->HeapTypeBits = (unsigned int)Scaleform::String::AllocDataCopy2(
                                        this,
                                        pData,
-                                       v8 + srcSize,
-                                       lflag,
-                                       (char *)(v4 + 8),
+                                       v8 + v11,
+                                       v12,
+                                       (const __m128i *)(v4 + 8),
                                        v8,
-                                       (char *)(v6 + 8),
-                                       srcSize)
+                                       (const __m128i *)(v6 + 8),
+                                       v11)
                      | this->HeapTypeBits & 3;
   if ( InterlockedExchangeAdd((volatile LONG *)(v4 + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)v4);

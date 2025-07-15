@@ -8,8 +8,8 @@ void __usercall survarium::flash_text_manager::flash_text_manager(
   Scaleform::GFx::State *v6; // edi
   const Scaleform::GFx::DrawTextManager::TextParams *DefaultTextParams; // eax
   Scaleform::GFx::DrawTextManager *text_manager_impl; // ecx
-  void *v9; // edi
-  Scaleform::GFx::DrawTextManager::TextParams defParams; // [esp+18h] [ebp-1Ch] BYREF
+  Scaleform::GFx::DrawTextManager::TextParams params; // [esp+4h] [ebp-20h] BYREF
+  int v10; // [esp+20h] [ebp-4h]
 
   v2 = Scaleform::Memory::pGlobalHeap;
   this->need_capture = 0;
@@ -24,13 +24,12 @@ void __usercall survarium::flash_text_manager::flash_text_manager(
   if ( v6 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v6);
   DefaultTextParams = Scaleform::GFx::DrawTextManager::GetDefaultTextParams(this->text_manager_impl);
-  Scaleform::GFx::DrawTextManager::TextParams::TextParams(&defParams, DefaultTextParams);
-  defParams.TextColor.Raw = -16711936;
-  Scaleform::String::operator=(&defParams.FontName, "Arial");
+  Scaleform::GFx::DrawTextManager::TextParams::TextParams(&params, DefaultTextParams);
+  v10 = -16711936;
+  params.TextColor.Raw = -16711936;
+  Scaleform::String::operator=(&params.FontName, "Arial");
   text_manager_impl = this->text_manager_impl;
-  defParams.FontSize = 16.0;
-  Scaleform::GFx::DrawTextManager::SetDefaultTextParams(text_manager_impl, &defParams);
-  v9 = (void *)(defParams.FontName.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((defParams.FontName.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
+  params.FontSize = vostok::render::grass_patch_size;
+  Scaleform::GFx::DrawTextManager::SetDefaultTextParams(text_manager_impl, &params);
+  Scaleform::String::DataDesc::Release((Scaleform::String::DataDesc *)(params.FontName.HeapTypeBits & 0xFFFFFFFC));
 }

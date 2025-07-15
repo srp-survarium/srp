@@ -1,59 +1,59 @@
-void __cdecl Scaleform::GFx::AS2::PointProto::Add(const Scaleform::GFx::AS2::FnCall *fn)
+void __cdecl Scaleform::GFx::AS2::PointProto::Add(int fn)
 {
-  Scaleform::MemoryHeap *pHeap; // ecx
+  int v1; // ecx
   Scaleform::GFx::AS2::PointObject *v2; // eax
   Scaleform::GFx::AS2::PointObject *v3; // eax
   Scaleform::GFx::AS2::PointObject *v4; // edi
-  Scaleform::GFx::AS2::Environment *Env; // edx
+  Scaleform::GFx::AS2::Environment *v5; // edx
   Scaleform::GFx::AS2::Value *v6; // ecx
   Scaleform::GFx::AS2::Object *v7; // ebx
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
-  Scaleform::GFx::AS2::PointObject *p_pProto; // ecx
+  int v9; // eax
+  Scaleform::GFx::AS2::PointObject *v10; // ecx
   Scaleform::GFx::AS2::Environment *v11; // ecx
   char v12; // [esp+0h] [ebp-2Ch]
-  Scaleform::Render::Point<double> pt1; // [esp+Ch] [ebp-20h] BYREF
-  Scaleform::Render::Point<double> pt2; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::Render::Point<double> pt; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::Render::Point<double> v14; // [esp+1Ch] [ebp-10h] BYREF
 
-  pHeap = fn->Env->StringContext.pContext->pHeap;
-  v2 = (Scaleform::GFx::AS2::PointObject *)pHeap->Alloc(pHeap, 52u, 0);
+  v1 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(fn + 24) + 116) + 24);
+  v2 = (Scaleform::GFx::AS2::PointObject *)(*(int (__thiscall **)(int, int, _DWORD))(*(_DWORD *)v1 + 40))(v1, 52, 0);
   if ( v2 )
   {
-    Scaleform::GFx::AS2::PointObject::PointObject(v2, fn->Env);
+    Scaleform::GFx::AS2::PointObject::PointObject(v2, *(Scaleform::GFx::AS2::Environment **)(fn + 24));
     v4 = v3;
   }
   else
   {
     v4 = 0;
   }
-  if ( fn->NArgs <= 0 )
+  if ( *(int *)(fn + 28) <= 0 )
     goto LABEL_18;
-  Env = fn->Env;
+  v5 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
   v6 = 0;
-  if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
-    v6 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-  v7 = Scaleform::GFx::AS2::Value::ToObject(v6, Env);
+  if ( *(_DWORD *)(fn + 32) <= 32 * (v5->Stack.Pages.Data.Size - 1) + v5->Stack.pCurrent - v5->Stack.pPageStart )
+    v6 = &v5->Stack.Pages.Data.Data[*(_DWORD *)(fn + 32) >> 5]->Values[*(_DWORD *)(fn + 32) & 0x1F];
+  v7 = Scaleform::GFx::AS2::Value::ToObject(v6, v5);
   if ( v7 )
   {
-    if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Point )
+    if ( *(_DWORD *)(fn + 8) && (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(fn + 8) + 8))(*(_DWORD *)(fn + 8)) == 16 )
     {
-      ThisPtr = fn->ThisPtr;
-      if ( ThisPtr )
-        p_pProto = (Scaleform::GFx::AS2::PointObject *)&ThisPtr[-2].pProto;
+      v9 = *(_DWORD *)(fn + 8);
+      if ( v9 )
+        v10 = (Scaleform::GFx::AS2::PointObject *)(v9 - 16);
       else
-        p_pProto = 0;
-      Scaleform::GFx::AS2::PointObject::GetProperties(p_pProto, fn->Env, &pt1);
-      Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v7, &pt2);
-      v11 = fn->Env;
-      pt1.x = pt1.x + pt2.x;
-      pt1.y = pt2.y + pt1.y;
-      Scaleform::GFx::AS2::PointObject::SetProperties(v4, (int)v4, (int)fn, v11, &pt1, v12);
-      Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v4);
+        v10 = 0;
+      Scaleform::GFx::AS2::PointObject::GetProperties(v10, *(Scaleform::GFx::AS2::Environment **)(fn + 24), &pt);
+      Scaleform::GFx::AS2::GFxObject_GetPointProperties(*(Scaleform::GFx::AS2::Environment **)(fn + 24), v7, &v14);
+      v11 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
+      pt.x = pt.x + v14.x;
+      pt.y = v14.y + pt.y;
+      Scaleform::GFx::AS2::PointObject::SetProperties(v4, (int)v4, fn, v11, &pt, v12);
+      Scaleform::GFx::AS2::Value::SetAsObject(*(Scaleform::GFx::AS2::Value **)(fn + 4), v4);
     }
     else
     {
       Scaleform::GFx::AS2::Environment::LogScriptError(
-        fn->Env,
+        *(Scaleform::GFx::AS2::Environment **)(fn + 24),
         "Error: Null or invalid 'this' is used for a method of %s class.\n",
         "Point");
     }
@@ -61,13 +61,16 @@ void __cdecl Scaleform::GFx::AS2::PointProto::Add(const Scaleform::GFx::AS2::FnC
   else
   {
 LABEL_18:
-    Scaleform::GFx::AS2::PointObject::SetProperties(v4, &fn->Env->StringContext, Point_NanParams);
-    Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v4);
+    Scaleform::GFx::AS2::PointObject::SetProperties(
+      v4,
+      (Scaleform::GFx::AS2::ASStringContext *)(*(_DWORD *)(fn + 24) + 116),
+      Point_NanParams);
+    Scaleform::GFx::AS2::Value::SetAsObject(*(Scaleform::GFx::AS2::Value **)(fn + 4), v4);
   }
   if ( v4 )
   {
     RefCount = v4->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v4->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);

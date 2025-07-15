@@ -44,7 +44,7 @@ LABEL_18:
     v7 = radix;
     if ( radix < 2 || radix > 0x24 )
     {
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&r, eInvalidRadixError, vm);
+      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&r, eInvalidRadixError, vm, radix);
       Scaleform::GFx::AS3::VM::ThrowRangeError(vm, v14);
       goto LABEL_17;
     }
@@ -55,7 +55,10 @@ LABEL_18:
   {
 LABEL_15:
     v12 = Scaleform::GFx::AS3::SF_ECMA_dtostr(buffer, 40, val);
-    v = (int)Scaleform::GFx::ASStringManager::CreateStringNode(vm->StringManagerRef->pStringManager, buffer, v12);
+    v = (int)Scaleform::GFx::ASStringManager::CreateStringNode(
+               vm->StringManagerRef->pStringManager,
+               (__m128i *)buffer,
+               v12);
     ++*(_DWORD *)(v + 12);
     Scaleform::GFx::AS3::Value::Assign(result, (const Scaleform::GFx::ASString *)&v);
     Size = (Scaleform::GFx::ASStringNode *)v;
@@ -76,7 +79,7 @@ LABEL_15:
     v10 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
             vm->StringManagerRef,
             &v19,
-            (char *)r.pStr,
+            (__m128i *)r.pStr,
             r.Size);
     Scaleform::GFx::AS3::Value::operator=(result, v10);
     pNode = v19.pNode;

@@ -1,163 +1,157 @@
 void __thiscall vostok::particle::color_matrix::load<vostok::configs::binary_config_value>(
         vostok::particle::color_matrix *this,
-        vostok::configs::binary_config_value config)
+        vostok::configs::binary_config_value *allocator,
+        vostok::configs::binary_config_value config,
+        int a4)
 {
-  vostok::fixed_string<16> *v2; // ecx
-  const vostok::configs::binary_config_value *v3; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v4; // ecx
-  const vostok::variant<32> **v5; // eax
+  vostok::configs::binary_config_value *v4; // ecx
+  const char *pointer; // esi
   vostok::particle::enum_evaluate_type v6; // eax
-  vostok::fixed_string<16> *v7; // ecx
-  vostok::configs::binary_config_value *v8; // eax
-  vostok::configs::binary_config_value *v9; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v10; // ecx
-  const vostok::variant<32> **v11; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v12; // ecx
-  const vostok::variant<32> **v13; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v14; // ecx
-  const vostok::variant<32> **v15; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v16; // ecx
-  const vostok::variant<32> **v17; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v18; // ecx
-  const vostok::variant<32> **v19; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v20; // ecx
-  const vostok::variant<32> **v21; // eax
-  const vostok::configs::binary_config_value *v22; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v23; // ecx
-  const vostok::variant<32> **v24; // eax
-  float *v25; // eax
-  float v26; // ecx
-  float v27; // edx
-  vostok::particle::color_matrix_point_type *v28; // eax
-  const vostok::configs::binary_config_value *v29; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v30; // ecx
-  const vostok::variant<32> **v31; // eax
-  vostok::particle::color_matrix_point_type *v32; // eax
-  float v34; // [esp+60h] [ebp-ACh]
-  const vostok::variant<32> *v35; // [esp+64h] [ebp-A8h]
-  const vostok::variant<32> *v36; // [esp+68h] [ebp-A4h]
-  const vostok::variant<32> *v37; // [esp+6Ch] [ebp-A0h]
-  vostok::math::float2 v38; // [esp+70h] [ebp-9Ch] BYREF
-  const vostok::configs::binary_config_value *element; // [esp+78h] [ebp-94h]
-  vostok::particle::color_matrix_point_type *point; // [esp+7Ch] [ebp-90h]
-  vostok::configs::binary_config_value *v41; // [esp+80h] [ebp-8Ch]
-  vostok::configs::binary_config_value column_it; // [esp+84h] [ebp-88h] BYREF
-  const vostok::configs::binary_config_value *columns_config; // [esp+A0h] [ebp-6Ch]
-  vostok::configs::binary_config_value row_it; // [esp+A4h] [ebp-68h] BYREF
-  unsigned int num_columns; // [esp+C0h] [ebp-4Ch]
-  unsigned int num_rows; // [esp+C4h] [ebp-48h]
-  vostok::fixed_string<16> row_name; // [esp+C8h] [ebp-44h] BYREF
-  unsigned int row_index; // [esp+E4h] [ebp-28h]
-  const vostok::configs::binary_config_value *rows_config; // [esp+E8h] [ebp-24h]
-  vostok::fixed_string<16> column_name; // [esp+ECh] [ebp-20h] BYREF
-  unsigned int column_index; // [esp+108h] [ebp-4h]
+  unsigned int v7; // ebx
+  const vostok::configs::binary_config_value *v8; // eax
+  vostok::configs::binary_config_value *v9; // ecx
+  vostok::configs::binary_config_value *v10; // eax
+  vostok::buffer_string *v11; // ecx
+  int v12; // ecx
+  int v13; // esi
+  vostok::buffer_string *v14; // ecx
+  vostok::configs::binary_config_value *v15; // esi
+  _DWORD *v16; // ebx
+  _DWORD *v17; // eax
+  int v18; // xmm0_4
+  const vostok::configs::binary_config_value *v19; // eax
+  _DWORD *v20; // esi
+  vostok::configs::binary_config_value *v21; // [esp-4h] [ebp-A4h]
+  vostok::configs::binary_config_value *v22; // [esp-4h] [ebp-A4h]
+  unsigned int v23; // [esp+Ch] [ebp-94h]
+  const char *v24; // [esp+Ch] [ebp-94h]
+  vostok::configs::binary_config_value *v25; // [esp+10h] [ebp-90h]
+  const char *v26; // [esp+14h] [ebp-8Ch]
+  int v27; // [esp+18h] [ebp-88h]
+  unsigned int v28; // [esp+1Ch] [ebp-84h]
+  int v29; // [esp+20h] [ebp-80h]
+  unsigned int v30; // [esp+24h] [ebp-7Ch]
+  vostok::configs::binary_config_value *v31; // [esp+30h] [ebp-70h]
+  int v32; // [esp+34h] [ebp-6Ch]
+  char *v33[3]; // [esp+38h] [ebp-68h] BYREF
+  _BYTE v34[16]; // [esp+44h] [ebp-5Ch] BYREF
+  char *v35[3]; // [esp+54h] [ebp-4Ch] BYREF
+  _BYTE v36[16]; // [esp+60h] [ebp-40h] BYREF
+  vostok::configs::binary_config_value v37; // [esp+70h] [ebp-30h] BYREF
+  _DWORD v38[6]; // [esp+88h] [ebp-18h] BYREF
 
-  if ( vostok::configs::binary_config_value::value_exists(&config, "Input") )
+  if ( vostok::configs::binary_config_value::value_exists(
+         (vostok::configs::binary_config_value *)this,
+         (int)&config.data.max_storage + 4,
+         (unsigned int)"Input") )
   {
-    v3 = vostok::configs::binary_config_value::operator[](&config, "Input");
-    v5 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v4, (int)v3);
-    v6 = vostok::particle::string_to_evaluate_type((const char *)v5);
-    v2 = (vostok::fixed_string<16> *)this;
-    this->m_evaluate_type = v6;
+    pointer = (const char *)vostok::configs::binary_config_value::operator[](
+                              (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+                              "Input")->data.pointer;
+    v6 = vostok::strings::compare(pointer, "Age");
+    if ( v6 )
+      v6 = vostok::strings::compare(pointer, "Random") == 0;
+    v4 = allocator;
+    allocator->id_crc = v6;
   }
-  num_rows = 0;
-  num_columns = 0;
-  row_index = 0;
-  column_index = 0;
-  vostok::fixed_string<16>::fixed_string<16>(v2, (int)&row_name);
-  vostok::fixed_string<16>::fixed_string<16>(v7, (int)&column_name);
-  if ( vostok::configs::binary_config_value::value_exists(&config, "source") )
+  v35[0] = v36;
+  v35[1] = v36;
+  v35[2] = (char *)&v37;
+  v33[0] = v34;
+  v33[1] = v34;
+  v7 = 0;
+  v33[2] = (char *)v35;
+  v23 = 0;
+  v36[0] = 0;
+  v34[0] = 0;
+  if ( vostok::configs::binary_config_value::value_exists(v4, (int)&config.data.max_storage + 4, (unsigned int)"source") )
   {
-    v8 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&config, "source");
-    if ( vostok::configs::binary_config_value::value_exists(v8, "data") )
+    v8 = vostok::configs::binary_config_value::operator[](
+           (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+           "source");
+    if ( vostok::configs::binary_config_value::value_exists(v9, (int)v8, (unsigned int)"data") )
     {
-      v9 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&config, "source");
-      rows_config = vostok::configs::binary_config_value::operator[](v9, "data");
-      while ( 1 )
+      v10 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)((char *)&config.data.max_storage + 4),
+              "source");
+      v25 = vostok::configs::binary_config_value::operator[](v10, "data");
+      vostok::fs_new::path_string_impl::assignf(v35, v11, (vostok::buffer_string *)"row%d", 0);
+      while ( vostok::configs::binary_config_value::value_exists(v21, (int)v25, (unsigned int)v35[0]) )
       {
-        vostok::buffer_string::assignf(&row_name.vostok::buffer_string, "row%d", row_index);
-        v11 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v10, (int)&row_name);
-        if ( !vostok::configs::binary_config_value::value_exists(
-                (vostok::configs::binary_config_value *)rows_config,
-                (const char *)v11) )
+        qmemcpy((void *)&v37, vostok::configs::binary_config_value::operator[](v25, v35[0]), sizeof(v37));
+        if ( !(24 * HIWORD(*(_DWORD *)&v37.type) / 24) )
           break;
-        v13 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v12, (int)&row_name);
-        row_it = *vostok::configs::binary_config_value::operator[](
-                    (vostok::configs::binary_config_value *)rows_config,
-                    (const char *)v13);
-        if ( !vostok::configs::binary_config_value::size(&row_it) )
-          break;
-        columns_config = &row_it;
         while ( 1 )
         {
-          vostok::buffer_string::assignf(&column_name.vostok::buffer_string, "element%d", column_index);
-          v15 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                  v14,
-                  (int)&column_name);
-          if ( !vostok::configs::binary_config_value::value_exists(
-                  (vostok::configs::binary_config_value *)columns_config,
-                  (const char *)v15) )
+          vostok::fs_new::path_string_impl::assignf(
+            v33,
+            (vostok::buffer_string *)0x18,
+            (vostok::buffer_string *)"element%d",
+            (const char *)v7);
+          if ( !vostok::configs::binary_config_value::value_exists(v22, (int)&v37, (unsigned int)v33[0]) )
             break;
-          v17 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                  v16,
-                  (int)&column_name);
-          column_it = *vostok::configs::binary_config_value::operator[](
-                         (vostok::configs::binary_config_value *)columns_config,
-                         (const char *)v17);
-          if ( !vostok::configs::binary_config_value::size(&column_it) )
+          qmemcpy(v38, vostok::configs::binary_config_value::operator[](&v37, v33[0]), sizeof(v38));
+          v12 = 24;
+          if ( !(24 * HIWORD(v38[5]) / 24) )
             break;
-          ++column_index;
+          ++v7;
         }
-        ++row_index;
+        vostok::fs_new::path_string_impl::assignf(
+          v35,
+          (vostok::buffer_string *)v12,
+          (vostok::buffer_string *)"row%d",
+          (const char *)++v23);
       }
-      num_rows = row_index;
-      num_columns = column_index;
-      if ( row_index )
+      v13 = 0;
+      v28 = v23;
+      v30 = v7;
+      if ( v23 )
       {
-        if ( num_columns )
+        if ( v7 )
         {
-          vostok::particle::color_matrix::reserve(this, num_rows, num_columns);
-          for ( row_index = 0; row_index < num_rows; ++row_index )
+          vostok::particle::color_matrix::allocate_memory(
+            (vostok::particle::color_matrix *)allocator,
+            v23,
+            (vostok::particle::color_matrix *)config.data.pointer,
+            v7);
+          v24 = 0;
+          if ( v28 )
           {
-            vostok::buffer_string::assignf(&row_name.vostok::buffer_string, "row%d", row_index);
-            v19 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                    v18,
-                    (int)&row_name);
-            v41 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            (vostok::configs::binary_config_value *)rows_config,
-                                                            (const char *)v19);
-            for ( column_index = 0; column_index < num_columns; ++column_index )
+            v29 = 0;
+            v32 = 24 * v7;
+            do
             {
-              vostok::buffer_string::assignf(&column_name.vostok::buffer_string, "element%d", column_index);
-              v21 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                      v20,
-                      (int)&column_name);
-              element = vostok::configs::binary_config_value::operator[](v41, (const char *)v21);
-              point = &this->m_points.pointer[column_index + num_columns * row_index];
-              v22 = vostok::configs::binary_config_value::operator[](
-                      (vostok::configs::binary_config_value *)element,
-                      "position");
-              v24 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v23, (int)v22);
-              Wm4::Vector2<float>::operator=((vostok::math::float2 *)v24, &v38);
-              v26 = *v25;
-              v27 = v25[1];
-              v28 = point;
-              point->position.x = v26;
-              v28->position.y = v27;
-              v29 = vostok::configs::binary_config_value::operator[](
-                      (vostok::configs::binary_config_value *)element,
-                      (const char *)&stru_9555EC);
-              v31 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v30, (int)v29);
-              v34 = *(float *)v31;
-              v35 = v31[1];
-              v36 = v31[2];
-              v37 = v31[3];
-              v32 = point;
-              point->color.x = v34;
-              LODWORD(v32->color.y) = v35;
-              LODWORD(v32->color.z) = v36;
-              LODWORD(v32->color.w) = v37;
+              vostok::fs_new::path_string_impl::assignf(v35, v14, (vostok::buffer_string *)"row%d", v24);
+              v26 = 0;
+              v31 = vostok::configs::binary_config_value::operator[](v25, v35[0]);
+              if ( v30 )
+              {
+                v27 = v13;
+                do
+                {
+                  vostok::fs_new::path_string_impl::assignf(v33, v14, (vostok::buffer_string *)"element%d", v26);
+                  v15 = vostok::configs::binary_config_value::operator[](v31, v33[0]);
+                  v16 = (char *)allocator->data.pointer + v27;
+                  v17 = vostok::configs::binary_config_value::operator[](v15, "position")->data.pointer;
+                  v18 = v17[1];
+                  v16[4] = *v17;
+                  v16[5] = v18;
+                  v19 = vostok::configs::binary_config_value::operator[](v15, "color");
+                  v20 = v19->data.pointer;
+                  ++v26;
+                  v27 += 24;
+                  *v16 = *(_DWORD *)v19->data.pointer;
+                  v16[1] = *++v20;
+                  v16[2] = *++v20;
+                  v16[3] = v20[1];
+                }
+                while ( (unsigned int)v26 < v30 );
+              }
+              ++v24;
+              v13 = v32 + v29;
+              v29 += v32;
             }
+            while ( (unsigned int)v24 < v28 );
           }
         }
       }

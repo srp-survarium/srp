@@ -1,4 +1,4 @@
-void __cdecl stlp_std::_Locale_impl::make_classic_locale()
+void stlp_std::_Locale_impl::make_classic_locale()
 {
   stlp_std::_Locale_impl *v0; // eax
   stlp_std::locale::facet *v1; // eax
@@ -43,21 +43,21 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   stlp_std::priv::_STLP_alloc_proxy<void * *,void *,stlp_std::allocator<void *> > *p_M_end_of_storage; // ebx
   unsigned int v41; // ecx
   int v42; // ebp
-  void **v43; // edi
-  void **v44; // eax
-  stlp_std::forward_iterator_tag __formal; // [esp+17h] [ebp-89h] BYREF
+  _STLP_atomic_freelist::item *v43; // edi
+  _STLP_atomic_freelist::item *v44; // eax
+  stlp_std::forward_iterator_tag v45; // [esp+17h] [ebp-89h] BYREF
   unsigned int __n; // [esp+18h] [ebp-88h] BYREF
   stlp_std::_Locale_impl *impl; // [esp+1Ch] [ebp-84h]
   char *v48; // [esp+20h] [ebp-80h]
-  stlp_std::locale::facet *classic_facets[28]; // [esp+24h] [ebp-7Ch] BYREF
-  stlp_std::locale::facet *__last; // [esp+94h] [ebp-Ch] BYREF
+  stlp_std::locale::facet *v49[28]; // [esp+24h] [ebp-7Ch] BYREF
+  int v50; // [esp+94h] [ebp-Ch] BYREF
   int v51; // [esp+9Ch] [ebp-4h]
 
   __n = (unsigned int)&Locale_classic_impl_buf;
   stlp_std::_Locale_impl::_Locale_impl((stlp_std::_Locale_impl *)&Locale_classic_impl_buf, "C");
   impl = v0;
   v51 = -1;
-  classic_facets[0] = 0;
+  v49[0] = 0;
   v1 = (stlp_std::locale::facet *)operator new(8u);
   if ( v1 )
   {
@@ -68,7 +68,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v1 = 0;
   }
-  classic_facets[1] = v1;
+  v49[1] = v1;
   v2 = (stlp_std::ctype<char> *)operator new(0x10u);
   v48 = (char *)v2;
   v51 = 1;
@@ -77,7 +77,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   else
     v3 = 0;
   v51 = -1;
-  classic_facets[2] = v3;
+  v49[2] = v3;
   v4 = (stlp_std::locale::facet *)operator new(8u);
   if ( v4 )
   {
@@ -88,7 +88,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v4 = 0;
   }
-  classic_facets[3] = v4;
+  v49[3] = v4;
   v5 = (stlp_std::moneypunct<char,1> *)operator new(0x10u);
   v48 = (char *)v5;
   v51 = 2;
@@ -96,7 +96,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
     stlp_std::moneypunct<char,1>::moneypunct<char,1>(v5, 1u);
   else
     v6 = 0;
-  classic_facets[4] = v6;
+  v49[4] = v6;
   v7 = (stlp_std::moneypunct<char,0> *)operator new(0x10u);
   v48 = (char *)v7;
   v51 = 3;
@@ -105,7 +105,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   else
     v8 = 0;
   v51 = -1;
-  classic_facets[5] = v8;
+  v49[5] = v8;
   v9 = (stlp_std::locale::facet *)operator new(8u);
   if ( v9 )
   {
@@ -116,7 +116,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v9 = 0;
   }
-  classic_facets[6] = v9;
+  v49[6] = v9;
   v10 = (stlp_std::messages<char> *)operator new(8u);
   v48 = (char *)v10;
   v51 = 4;
@@ -125,7 +125,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   else
     v11 = 0;
   v51 = -1;
-  classic_facets[7] = v11;
+  v49[7] = v11;
   v12 = (stlp_std::locale::facet *)operator new(8u);
   if ( v12 )
   {
@@ -136,7 +136,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v12 = 0;
   }
-  classic_facets[8] = v12;
+  v49[8] = v12;
   v13 = (stlp_std::locale::facet *)operator new(8u);
   if ( v13 )
   {
@@ -147,7 +147,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v13 = 0;
   }
-  classic_facets[9] = v13;
+  v49[9] = v13;
   v14 = (stlp_std::locale::facet *)operator new(8u);
   if ( v14 )
   {
@@ -158,7 +158,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v14 = 0;
   }
-  classic_facets[10] = v14;
+  v49[10] = v14;
   v15 = (stlp_std::locale::facet *)operator new(8u);
   if ( v15 )
   {
@@ -169,7 +169,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v15 = 0;
   }
-  classic_facets[11] = v15;
+  v49[11] = v15;
   v16 = (char *)operator new(0x444u);
   v17 = (stlp_std::locale::facet *)v16;
   v48 = v16;
@@ -186,7 +186,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v17 = 0;
   }
-  classic_facets[12] = v17;
+  v49[12] = v17;
   v18 = (char *)operator new(0x444u);
   v19 = (stlp_std::locale::facet *)v18;
   v48 = v18;
@@ -204,7 +204,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
     v19 = 0;
   }
   v51 = -1;
-  classic_facets[13] = v19;
+  v49[13] = v19;
   v20 = (stlp_std::locale::facet *)operator new(8u);
   if ( v20 )
   {
@@ -215,7 +215,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v20 = 0;
   }
-  classic_facets[14] = v20;
+  v49[14] = v20;
   v21 = (stlp_std::locale::facet *)operator new(8u);
   if ( v21 )
   {
@@ -226,7 +226,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v21 = 0;
   }
-  classic_facets[15] = v21;
+  v49[15] = v21;
   v22 = (stlp_std::locale::facet *)operator new(8u);
   if ( v22 )
   {
@@ -237,7 +237,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v22 = 0;
   }
-  classic_facets[16] = v22;
+  v49[16] = v22;
   v23 = (stlp_std::moneypunct<wchar_t,1> *)operator new(0x10u);
   v48 = (char *)v23;
   v51 = 9;
@@ -245,7 +245,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
     stlp_std::moneypunct<wchar_t,1>::moneypunct<wchar_t,1>(v23, 1u);
   else
     v24 = 0;
-  classic_facets[17] = v24;
+  v49[17] = v24;
   v25 = (stlp_std::moneypunct<wchar_t,0> *)operator new(0x10u);
   v48 = (char *)v25;
   v51 = 10;
@@ -254,7 +254,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   else
     v26 = 0;
   v51 = -1;
-  classic_facets[18] = v26;
+  v49[18] = v26;
   v27 = (stlp_std::locale::facet *)operator new(8u);
   if ( v27 )
   {
@@ -265,7 +265,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v27 = 0;
   }
-  classic_facets[19] = v27;
+  v49[19] = v27;
   v28 = (stlp_std::messages<wchar_t> *)operator new(8u);
   v48 = (char *)v28;
   v51 = 11;
@@ -274,7 +274,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   else
     v29 = 0;
   v51 = -1;
-  classic_facets[20] = v29;
+  v49[20] = v29;
   v30 = (stlp_std::locale::facet *)operator new(8u);
   if ( v30 )
   {
@@ -285,7 +285,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v30 = 0;
   }
-  classic_facets[21] = v30;
+  v49[21] = v30;
   v31 = (stlp_std::locale::facet *)operator new(8u);
   if ( v31 )
   {
@@ -296,7 +296,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v31 = 0;
   }
-  classic_facets[22] = v31;
+  v49[22] = v31;
   v32 = (stlp_std::locale::facet *)operator new(8u);
   if ( v32 )
   {
@@ -307,7 +307,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v32 = 0;
   }
-  classic_facets[23] = v32;
+  v49[23] = v32;
   v33 = (stlp_std::locale::facet *)operator new(8u);
   if ( v33 )
   {
@@ -318,7 +318,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v33 = 0;
   }
-  classic_facets[24] = v33;
+  v49[24] = v33;
   v34 = (char *)operator new(0x6C4u);
   v35 = (stlp_std::locale::facet *)v34;
   v48 = v34;
@@ -335,7 +335,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v35 = 0;
   }
-  classic_facets[25] = v35;
+  v49[25] = v35;
   v36 = (char *)operator new(0x6C4u);
   v37 = (stlp_std::locale::facet *)v36;
   v48 = v36;
@@ -352,10 +352,10 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
   {
     v37 = 0;
   }
-  classic_facets[26] = v37;
+  v49[26] = v37;
   p_facets_vec = &impl->facets_vec;
   v51 = -1;
-  classic_facets[27] = 0;
+  v49[27] = 0;
   M_start = impl->facets_vec._M_impl._M_start;
   p_M_end_of_storage = &impl->facets_vec._M_impl._M_end_of_storage;
   v41 = impl->facets_vec._M_impl._M_end_of_storage._M_data - M_start;
@@ -365,11 +365,11 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
     v42 = impl->facets_vec._M_impl._M_finish - M_start;
     if ( M_start )
     {
-      v43 = stlp_std::priv::_Impl_vector<void *,stlp_std::allocator<void *>>::_M_allocate_and_copy<void * *>(
-              &impl->facets_vec._M_impl,
-              &__n,
-              (stlp_std::locale::facet **)M_start,
-              (stlp_std::locale::facet **)impl->facets_vec._M_impl._M_finish);
+      v43 = (_STLP_atomic_freelist::item *)stlp_std::priv::_Impl_vector<void *,stlp_std::allocator<void *>>::_M_allocate_and_copy<void * *>(
+                                             &impl->facets_vec._M_impl,
+                                             &__n,
+                                             (stlp_std::locale::facet **)M_start,
+                                             (stlp_std::locale::facet **)impl->facets_vec._M_impl._M_finish);
       stlp_std::priv::_Impl_vector<void *,stlp_std::allocator<void *>>::_M_clear(&p_facets_vec->_M_impl);
     }
     else
@@ -377,21 +377,21 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
       v43 = stlp_std::allocator<void *>::_M_allocate(&impl->facets_vec._M_impl._M_end_of_storage, 0x1Cu, &__n);
     }
     v44 = &v43[__n];
-    p_facets_vec->_M_impl._M_start = v43;
-    p_facets_vec->_M_impl._M_finish = &v43[v42];
-    p_M_end_of_storage->_M_data = v44;
+    p_facets_vec->_M_impl._M_start = (void **)&v43->_M_next;
+    p_facets_vec->_M_impl._M_finish = (void **)&v43[v42]._M_next;
+    p_M_end_of_storage->_M_data = (void **)&v44->_M_next;
   }
   stlp_std::priv::_Impl_vector<void *,stlp_std::allocator<void *>>::_M_assign_aux<stlp_std::locale::facet * *>(
     &p_facets_vec->_M_impl,
-    classic_facets,
-    (unsigned int)&__last,
-    &__formal);
+    v49,
+    (int)&v50,
+    &v45);
   if ( (_S4 & 1) == 0 )
   {
     _S4 |= 1u;
     v51 = 16;
     stlp_std::locale::locale(&Locale_classic, impl);
-    atexit(stlp_std::_Locale_impl::make_classic_locale_::_2_::_dynamic_atexit_destructor_for___Locale_classic__);
+    atexit((int (__cdecl *)())stlp_std::_Locale_impl::make_classic_locale_::_2_::_dynamic_atexit_destructor_for___Locale_classic__);
     v51 = -1;
   }
   Stl_classic_locale = &Locale_classic;
@@ -400,7 +400,7 @@ void __cdecl stlp_std::_Locale_impl::make_classic_locale()
     _S4 |= 2u;
     v51 = 17;
     stlp_std::locale::locale(&Locale_global, impl);
-    atexit(stlp_std::_Locale_impl::make_classic_locale_::_2_::_dynamic_atexit_destructor_for___Locale_global__);
+    atexit((int (__cdecl *)())stlp_std::_Locale_impl::make_classic_locale_::_2_::_dynamic_atexit_destructor_for___Locale_global__);
   }
   Stl_global_locale = &Locale_global;
 }

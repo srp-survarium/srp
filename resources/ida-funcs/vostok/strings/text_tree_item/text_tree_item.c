@@ -1,31 +1,28 @@
 void __userpurge vostok::strings::text_tree_item::text_tree_item(
-        vostok::strings::text_tree_item *this@<ecx>,
-        int a2@<esi>,
-        vostok::memory::stack_allocator *allocator,
+        vostok::strings::text_tree_item *this@<esi>,
+        vostok::memory::stack_allocator *allocator@<edi>,
+        vostok::threading::mutex_tasks_unaware *a3@<ecx>,
         char *value,
         bool is_page_breaker)
 {
-  unsigned int v5; // eax
-  unsigned __int8 *m_arena_current_position; // edi
+  vostok::threading::mutex_tasks_unaware *v5; // ecx
 
-  *(_DWORD *)(a2 + 8) = 0;
-  InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)(a2 + 16), 0x2710u);
-  *(_DWORD *)(a2 + 44) = 0;
-  *(_DWORD *)(a2 + 48) = 0;
-  *(_DWORD *)(a2 + 56) = 0;
-  InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)(a2 + 64), 0x2710u);
-  *(_DWORD *)(a2 + 92) = 0;
-  *(_DWORD *)(a2 + 96) = 0;
-  *(_BYTE *)(a2 + 113) = is_page_breaker;
-  *(_DWORD *)(a2 + 104) = 0;
-  *(_DWORD *)(a2 + 108) = allocator;
-  *(_BYTE *)(a2 + 112) = 1;
+  this->m_sub_items.m_size = 0;
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(
+    a3,
+    (_RTL_CRITICAL_SECTION *)&this->m_sub_items.vostok::threading::mutex);
+  this->m_sub_items.m_first = 0;
+  this->m_sub_items.m_last = 0;
+  this->m_column_items.m_size = 0;
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(
+    v5,
+    (_RTL_CRITICAL_SECTION *)&this->m_column_items.vostok::threading::mutex);
+  this->m_column_items.m_first = 0;
+  this->m_column_items.m_last = 0;
+  this->m_column_value = 0;
+  this->m_is_page_breaker = 0;
+  this->m_allocator = allocator;
+  this->m_is_visible = 1;
   if ( value )
-  {
-    v5 = strlen(value);
-    m_arena_current_position = (unsigned __int8 *)allocator->m_arena_current_position;
-    allocator->m_arena_current_position = &m_arena_current_position[v5 + 1];
-    memcpy(m_arena_current_position, (unsigned __int8 *)value, v5 + 1);
-    *(_DWORD *)(a2 + 104) = m_arena_current_position;
-  }
+    this->m_column_value = vostok::strings::duplicate<vostok::memory::stack_allocator>(allocator, value);
 }

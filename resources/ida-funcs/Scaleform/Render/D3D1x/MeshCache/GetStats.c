@@ -2,12 +2,21 @@ void __thiscall Scaleform::Render::D3D1x::MeshCache::GetStats(
         Scaleform::Render::D3D1x::MeshCache *this,
         Scaleform::Render::MeshCache::Stats *stats)
 {
-  _DWORD v3[14]; // [esp+10h] [ebp-38h] BYREF
+  int i; // eax
+  Scaleform::AllocAddr *v3; // eax
+  _DWORD v4[14]; // [esp+0h] [ebp-3Ch] BYREF
+  Scaleform::Render::D3D1x::MeshCache *v5; // [esp+38h] [ebp-4h]
 
-  memset(v3, 0, sizeof(v3));
-  qmemcpy(stats, v3, sizeof(Scaleform::Render::MeshCache::Stats));
+  v5 = this;
+  for ( i = 0; i < 7; ++i )
+  {
+    v4[i + 7] = 0;
+    v4[i] = 0;
+  }
+  qmemcpy(stats, v4, sizeof(Scaleform::Render::MeshCache::Stats));
   stats->TotalSize[5] = this->VertexBuffers.TotalSize;
   stats->UsedSize[5] = 16 * Scaleform::AllocAddr::GetFreeSize(&this->VertexBuffers.Allocator);
-  stats->TotalSize[6] = this->IndexBuffers.TotalSize;
-  stats->UsedSize[6] = 16 * Scaleform::AllocAddr::GetFreeSize(&this->IndexBuffers.Allocator);
+  v3 = (Scaleform::AllocAddr *)v5;
+  stats->TotalSize[6] = v5->IndexBuffers.TotalSize;
+  stats->UsedSize[6] = 16 * Scaleform::AllocAddr::GetFreeSize(v3 + 29);
 }

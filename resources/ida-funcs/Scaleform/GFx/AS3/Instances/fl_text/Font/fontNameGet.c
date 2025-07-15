@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::Font::fontNameGet(
 {
   Scaleform::Render::Font *pObject; // eax
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // esi
-  char *v4; // eax
+  __m128i *v4; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASString *p_fontName; // esi
   Scaleform::GFx::ASString v; // [esp+4h] [ebp-4h] BYREF
@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::Font::fontNameGet(
   if ( pObject )
   {
     StringManagerRef = this->pTraits.pObject->pVM->StringManagerRef;
-    v4 = (char *)pObject->GetName(this->pFont.pObject);
+    v4 = (__m128i *)pObject->GetName(this->pFont.pObject);
     v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, v4);
     ++v.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Assign(result, &v);

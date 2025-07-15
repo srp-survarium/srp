@@ -1,4 +1,4 @@
-char __stdcall Scaleform::MemoryHeap::ReleaseRootHeapPT()
+bool __stdcall Scaleform::MemoryHeap::ReleaseRootHeapPT()
 {
   Scaleform::LockSafe *p_RootLock; // esi
   bool v2; // bl

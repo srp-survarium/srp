@@ -5,7 +5,7 @@ void __stdcall `vector copy constructor iterator'(
         int __n,
         void *(__thiscall *__f)(void *, void *))
 {
-  int i; // ebp
+  int i; // [esp+14h] [ebp+14h]
 
   for ( i = __n - 1; i >= 0; --i )
   {

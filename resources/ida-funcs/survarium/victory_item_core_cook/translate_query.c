@@ -2,42 +2,55 @@ void __thiscall survarium::victory_item_core_cook::translate_query(
         survarium::victory_item_core_cook *this,
         vostok::resources::query_result_for_cook *parent)
 {
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core_animation_end_aware_state,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_animation_end_aware_state *>,boost::arg<1> > > *v2; // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::weapon_core_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_cook *>,boost::arg<1> > > v3; // [esp+4h] [ebp-7Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1> > > result; // [esp+48h] [ebp-38h] BYREF
-  int (__thiscall *f)(void *); // [esp+58h] [ebp-28h]
-  int f_4; // [esp+5Ch] [ebp-24h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+60h] [ebp-20h] BYREF
+  const char *requested_path; // eax
+  vostok::buffer_string *v4; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  vostok::variant<32> *v6; // [esp-4h] [ebp-15Ch]
+  vostok::physics::world *v7; // [esp+Ch] [ebp-14Ch] BYREF
+  int v8[2]; // [esp+10h] [ebp-148h] BYREF
+  survarium::victory_item_core_cook *v9; // [esp+18h] [ebp-140h]
+  vostok::physics::world *v10; // [esp+1Ch] [ebp-13Ch]
+  unsigned __int64 v11; // [esp+20h] [ebp-138h]
+  int (__thiscall *v12)(void *); // [esp+30h] [ebp-128h]
+  vostok::physics::world *v13; // [esp+34h] [ebp-124h]
+  unsigned __int64 v14; // [esp+38h] [ebp-120h]
+  const char *v15[3]; // [esp+40h] [ebp-118h] BYREF
+  _BYTE v16[260]; // [esp+4Ch] [ebp-10Ch] BYREF
+  char v17; // [esp+150h] [ebp-8h] BYREF
 
-  f =  __thiscall survarium::victory_item_core_cook::`vcall'{40,{flat}};
-  f_4 = 0;
-  v2 = boost::bind<void,vostok::sound::ogg_sound_cook,vostok::resources::queries_result &,vostok::sound::ogg_sound_cook *,boost::arg<1>>(
-         (boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon_core_animation_end_aware_state,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_animation_end_aware_state *>,boost::arg<1> > > *)&result,
-         (void (__thiscall *__ptr64)(vostok::sound::sound_environment_cook *, vostok::resources::queries_result *))(unsigned int) __thiscall survarium::victory_item_core_cook::`vcall'{40,{flat}},
-         (survarium::weapon_core_animation_end_aware_state *)this);
-  v3 = *(boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::weapon_core_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::weapon_core_cook *>,boost::arg<1> > > *)v2;
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)HIDWORD(v2->f_.f_),
-    &callback);
-  if ( boost::detail::function::basic_vtable2<bool,char const *,enum survarium::hit_affects_type_enum>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::mf2<bool,survarium::artefact_lifebone_core,char const *,enum survarium::hit_affects_type_enum>,boost::_bi::list3<boost::_bi::value<survarium::artefact_lifebone_core *>,boost::arg<1>,boost::arg<2>>>>(
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::victory_item_core_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::victory_item_core_cook *>,boost::arg<1>>>>'::`2'::stored_vtable,
-         v3,
-         &callback.functor) )
+  v15[0] = v16;
+  v15[1] = v16;
+  v15[2] = &v17;
+  v16[0] = 0;
+  v17 = 47;
+  requested_path = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fs_new::path_string_impl::assignf(v15, v4, (vostok::buffer_string *)"resources/%s", requested_path);
+  vostok::variant<32>::try_get<vostok::physics::world *>(v6, (int)parent->m_user_data->m_helper_storage, &v7);
+  v9 = this;
+  v10 = v7;
+  v8[0] = (int) __thiscall survarium::weapon_core_cook::`vcall'{36,{flat}};
+  v8[1] = 0;
+  v12 =  __thiscall survarium::weapon_core_cook::`vcall'{36,{flat}};
+  v13 = 0;
+  v14 = __PAIR64__((unsigned int)v7, (unsigned int)this);
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *) __thiscall survarium::weapon_core_cook::`vcall'{36,{flat}}) )
   {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::victory_item_core_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::victory_item_core_cook *>,boost::arg<1>>>>'::`2'::stored_vtable.base.manager
-                                                             + 1);
+    v8[0] = 0;
   }
   else
   {
-    callback.vtable = 0;
+    v9 = (survarium::victory_item_core_cook *)v12;
+    v10 = v13;
+    v11 = v14;
+    v8[0] = (int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::victory_item_core_cook,vostok::resources::queries_result &,vostok::physics::world &>,boost::_bi::list3<boost::_bi::value<survarium::victory_item_core_cook *>,boost::arg<1>,boost::reference_wrapper<vostok::physics::world>>>>'::`2'::stored_vtable
+          + 1;
   }
   vostok::resources::query_resource(
-    "resources/gameplay/victory_items/default.lua",
-    binary_config_class_impl,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
+    v15[0],
+    (vostok::variant<32> *)0x20,
+    survarium::g_allocator,
     0,
-    parent,
+    (const vostok::variant<32> **)parent,
     assert_on_fail_true);
-  boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&callback);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v5, v8);
 }

@@ -1,25 +1,11 @@
 void __usercall survarium::base_player_creation_params::~base_player_creation_params(
         survarium::base_player_creation_params *this@<ecx>,
-        int a2@<eax>)
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *a2@<esi>)
 {
-  int v3; // eax
-  int v4; // eax
-  int v5; // eax
-
-  v3 = *(_DWORD *)(a2 + 288);
-  if ( v3 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v3 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 288) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 288));
-  v4 = *(_DWORD *)(a2 + 280);
-  if ( v4 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v4 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 280) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 280));
-  v5 = *(_DWORD *)(a2 + 276);
-  if ( v5 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v5 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 276) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 276));
-  DeleteCriticalSection((LPCRITICAL_SECTION)(a2 + 136));
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(a2 + 106);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(a2 + 99);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(a2 + 98);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(a2 + 97);
+  a2[17].m_object = a2[16].m_object;
+  a2[1].m_object = a2->m_object;
 }

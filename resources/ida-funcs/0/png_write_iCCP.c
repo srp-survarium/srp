@@ -28,12 +28,12 @@ int __cdecl png_write_iCCP(_DWORD *a1, LPCSTR lpString, int a3, unsigned int *a4
           a5 = v9;
         }
         if ( a5 )
-          a5 = sub_36B9A0(a1, a4, a5, 0, v7);
-        sub_36AD20(a1, 1766015824, v6 + a5 + 2);
+          a5 = sub_478660(a1, a4, a5, 0, v7);
+        sub_4779E0(a1, 1766015824, v6 + a5 + 2);
         *((_BYTE *)pointer + v6 + 1) = 0;
         png_write_chunk_data(a1, (unsigned __int8 *)pointer, v6 + 2);
         if ( a5 )
-          sub_36C070(a1, v7, a5);
+          sub_478D30(a1, v7, a5);
         png_write_chunk_end((int)a1);
         return png_free((int)a1, pointer);
       }

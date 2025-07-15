@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS3::AvmButton::SetStateObject(
   pDispObj = (Scaleform::GFx::Button *)this->pDispObj;
   v4 = state;
   v5 = ch;
-  if ( state != Hit )
+  if ( state != 3 )
   {
     pObject = pDispObj->States[state].pRenNode.pObject;
     if ( pObject )

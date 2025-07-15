@@ -2,21 +2,12 @@ vostok::resources::fs_task_iterator *__thiscall vostok::resources::fs_task_itera
         vostok::resources::fs_task_iterator *this,
         char a2)
 {
-  boost::detail::function::vtable_base *vtable; // eax
-  void (__cdecl *v4)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
 
-  vostok::vfs::vfs_locked_iterator::~vfs_locked_iterator(&this->m_iterator);
-  vtable = this->m_callback.vtable;
-  if ( vtable )
-  {
-    if ( ((unsigned __int8)vtable & 1) == 0 )
-    {
-      v4 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((unsigned int)vtable & 0xFFFFFFFE);
-      if ( v4 )
-        v4(&this->m_callback.functor, &this->m_callback.functor, 2);
-    }
-    this->m_callback.vtable = 0;
-  }
+  vostok::vfs::vfs_locked_iterator::clear((vostok::vfs::vfs_locked_iterator *)this, (int)&this->m_iterator);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&this->m_callback);
   this->__vftable = (vostok::resources::fs_task_iterator_vtbl *)&vostok::resources::fs_task::`vftable';
   if ( (a2 & 1) != 0 )
     operator delete(this);

@@ -1,6 +1,6 @@
 Scaleform::MemoryHeapMH *__thiscall Scaleform::MemoryHeapMH::CreateHeap(
         Scaleform::MemoryHeapMH *this,
-        const char *name,
+        char *name,
         const Scaleform::MemoryHeap::HeapDesc *desc)
 {
   Scaleform::LockSafe *p_RootLock; // ebx

@@ -1,59 +1,46 @@
 BOOL __usercall planeBoxOverlap@<eax>(
-        const vostok::math::float3 *vert@<eax>,
-        const vostok::math::float3 *maxbox@<edx>,
-        const vostok::math::float3 *normal)
+        const vostok::math::float3 *maxbox@<eax>,
+        const vostok::math::float3 *normal,
+        const vostok::math::float3 *vert)
 {
-  float x; // xmm3_4
-  float v4; // xmm0_4
-  float v5; // xmm1_4
-  float v6; // xmm5_4
-  float y; // xmm7_4
-  float v8; // xmm4_4
-  float v9; // xmm0_4
-  float v10; // xmm5_4
-  float v11; // xmm1_4
-  float v12; // xmm1_4
-  float z; // xmm4_4
-  float v14; // xmm2_4
-  float v15; // xmm0_4
-  float v16; // xmm2_4
-  float vmax; // [esp+4h] [ebp-Ch]
-  float vmax_4; // [esp+8h] [ebp-8h]
-  float v; // [esp+14h] [ebp+4h]
+  int v3; // edx
+  int v4; // esi
+  int v5; // edi
+  float *v6; // ecx
+  float *v7; // edx
+  float v8; // xmm2_4
+  float x; // xmm0_4
+  float v10; // xmm4_4
+  bool v11; // zf
+  float v13[3]; // [esp+0h] [ebp-20h] BYREF
+  float v14[3]; // [esp+Ch] [ebp-14h] BYREF
+  int v15; // [esp+18h] [ebp-8h]
+  int v16; // [esp+1Ch] [ebp-4h]
 
-  x = normal->x;
-  v4 = maxbox->x;
-  v5 = vert->x;
-  v6 = maxbox->x;
-  if ( normal->x <= 0.0 )
-    v4 = -v4;
-  else
-    v6 = -v6;
-  y = normal->y;
-  v8 = vert->y;
-  vmax = v4 - v5;
-  v9 = maxbox->y;
-  v10 = v6 - v5;
-  v11 = v9;
-  if ( y <= 0.0 )
-    v9 = -v9;
-  else
-    v11 = -v9;
-  vmax_4 = v9 - v8;
-  v12 = v11 - v8;
-  z = normal->z;
-  v14 = maxbox->z;
-  v = vert->z;
-  if ( z <= 0.0 )
+  v3 = (char *)normal - (char *)v14;
+  v4 = (char *)v14 - (char *)maxbox;
+  v15 = (char *)normal - (char *)v14;
+  v5 = (char *)v13 - (char *)maxbox;
+  v16 = 3;
+  while ( 1 )
   {
-    v15 = maxbox->z - v;
-    v16 = (float)-v14 - v;
+    v6 = (float *)((char *)&maxbox->x + v4);
+    v7 = (float *)((char *)&maxbox->x + v4 + v3);
+    v8 = *(float *)((char *)v7 + (char *)vert - (char *)normal);
+    x = maxbox->x;
+    v10 = maxbox->x;
+    if ( *v7 <= 0.0 )
+      LODWORD(x) ^= _mask__NegFloat_;
+    else
+      LODWORD(v10) ^= _mask__NegFloat_;
+    *(float *)((char *)&maxbox->x + v5) = x - v8;
+    maxbox = (const vostok::math::float3 *)((char *)maxbox + 4);
+    v11 = v16-- == 1;
+    *v6 = v10 - v8;
+    if ( v11 )
+      break;
+    v3 = v15;
   }
-  else
-  {
-    v15 = (float)-v14 - v;
-    v16 = v14 - v;
-  }
-  return (float)((float)((float)(x * v10) + (float)(z * v15)) + (float)(y * v12)) <= 0.0
-      && (float)((float)((float)(x * vmax) + (float)(z * v16)) + (float)(y * vmax_4)) >= 0.0;
+  return (float)((float)((float)(normal->x * v14[0]) + (float)(normal->z * v14[2])) + (float)(normal->y * v14[1])) <= 0.0
+      && (float)((float)((float)(normal->x * v13[0]) + (float)(normal->z * v13[2])) + (float)(normal->y * v13[1])) >= 0.0;
 }

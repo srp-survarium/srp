@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::SetAltProto(
     if ( v4 )
     {
       RefCount = v4->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v4->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);
@@ -32,7 +32,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::SetAltProto(
     if ( v6 )
     {
       v7 = v6->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v7) != 0 )
+      if ( (v7 & 0x3FFFFFF) != 0 )
       {
         v6->RefCount = v7 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
@@ -45,7 +45,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::SetAltProto(
     if ( v8 )
     {
       v9 = v8->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v9) != 0 )
+      if ( (v9 & 0x3FFFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);

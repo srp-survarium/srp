@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::VectorGlyphShape::GetData(
+bool __thiscall Scaleform::Render::VectorGlyphShape::GetData(
         Scaleform::Render::VectorGlyphShape *this,
         Scaleform::Render::MeshBase *mesh,
         Scaleform::Render::VertexOutput *verOut,
@@ -33,7 +33,7 @@ char __thiscall Scaleform::Render::VectorGlyphShape::GetData(
   unsigned int v32; // eax
   int v33; // ebx
   char v34; // [esp+9Dh] [ebp-1431h]
-  char NullVectorMesh; // [esp+9Dh] [ebp-1431h]
+  bool NullVectorMesh; // [esp+9Dh] [ebp-1431h]
   float w; // [esp+9Eh] [ebp-1430h]
   float v37; // [esp+9Eh] [ebp-1430h]
   float v38; // [esp+9Eh] [ebp-1430h]

@@ -43,7 +43,7 @@ bool __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::CreateLi
     pObject->GetQualifiedName(pObject, (Scaleform::GFx::ASString *)&imgRes, qnfWithDot);
     resBindData.pResource.pObject = 0;
     resBindData.pBinding = 0;
-    Scaleform::String::String((Scaleform::String *)&defImpl, (char *)imgRes->__vftable);
+    Scaleform::String::String((Scaleform::String *)&defImpl, (const __m128i *)imgRes->__vftable);
     v14 = Scaleform::GFx::MovieImpl::FindExportedResource(
             pVM->pMovieRoot->pMovieImpl,
             ResourceMovieDef,

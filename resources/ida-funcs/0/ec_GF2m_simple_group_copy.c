@@ -23,11 +23,9 @@ bignum_st *__cdecl ec_GF2m_simple_group_copy(ec_group_st *dest, const ec_group_s
       dest->poly[4] = src->poly[4];
       dest->poly[5] = src->poly[5];
       v3 = dest->poly[0] + 31;
-      v4 = v3 / 32 > dest->a.dmax ? bn_expand2(&dest->a, (unsigned int *)(v3 / 32)) : &dest->a;
+      v4 = v3 / 32 > dest->a.dmax ? bn_expand2(&dest->a, v3 / 32) : &dest->a;
       if ( v4
-        && ((v5 = dest->poly[0] + 31, v5 / 32 > dest->b.dmax)
-          ? (p_b = bn_expand2(&dest->b, (unsigned int *)(v5 / 32)))
-          : (p_b = &dest->b),
+        && ((v5 = dest->poly[0] + 31, v5 / 32 > dest->b.dmax) ? (p_b = bn_expand2(&dest->b, v5 / 32)) : (p_b = &dest->b),
             p_b) )
       {
         for ( i = dest->a.top; i < dest->a.dmax; ++i )

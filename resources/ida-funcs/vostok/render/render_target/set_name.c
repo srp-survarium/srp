@@ -1,34 +1,21 @@
-void __usercall vostok::render::render_target::set_name(vostok::render::render_target *this@<edi>)
+void __thiscall vostok::render::render_target::set_name(
+        vostok::render::render_target *this,
+        vostok::shared_string *name,
+        vostok::shared_string __that)
 {
-  vostok::strings::shared::profile *v2; // eax
-  volatile signed __int32 *p_m_reference_count; // esi
-  vostok::strings::shared::profile *v4; // ecx
   vostok::strings::shared::profile *m_object; // eax
 
-  v2 = vostok::strings::shared::manager::string(s_manager.m_variable, (const char *)s_manager.m_variable);
-  p_m_reference_count = 0;
-  if ( v2 )
+  vostok::shared_string::shared_string(
+    (vostok::shared_string *)this,
+    &__that.m_pointer,
+    (char *)__that.m_pointer.m_object);
+  vostok::shared_string::operator=(name + 1, &__that);
+  if ( __that.m_pointer.m_object )
   {
-    p_m_reference_count = &v2->m_reference_count;
-    _InterlockedExchangeAdd(&v2->m_reference_count, 1u);
-  }
-  v4 = 0;
-  if ( p_m_reference_count )
-  {
-    v4 = (vostok::strings::shared::profile *)p_m_reference_count;
-    _InterlockedExchangeAdd(p_m_reference_count, 1u);
-  }
-  m_object = this->m_name.m_pointer.m_object;
-  this->m_name.m_pointer.m_object = v4;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::strings::shared::manager::remove(
-      (vostok::strings::shared::manager *)m_object,
-      (vostok::strings::shared::profile *)s_manager.m_variable);
-  if ( p_m_reference_count )
-  {
-    if ( !_InterlockedExchangeAdd(p_m_reference_count, 0xFFFFFFFF) )
-      vostok::strings::shared::manager::remove(
-        (vostok::strings::shared::manager *)p_m_reference_count,
-        (vostok::strings::shared::profile *)s_manager.m_variable);
+    m_object = __that.m_pointer.m_object;
+    if ( !_InterlockedExchangeAdd(&__that.m_pointer.m_object->m_reference_count, 0xFFFFFFFF) )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)m_object);
   }
 }

@@ -1,88 +1,104 @@
-double __userpurge vostok::physics::bullet_physics_world::object_query_::_2_::object_query_callback::addSingleResult@<st0>(
-        vostok::physics::bullet_physics_world::object_query::__l2::object_query_callback *this@<ecx>,
-        const vostok::physics::closest_ray_result *a2@<edi>,
+double __thiscall vostok::physics::bullet_physics_world::object_query_::_2_::object_query_callback::addSingleResult(
+        vostok::physics::bullet_physics_world::object_query::__l2::object_query_callback *this,
         btCollisionWorld::LocalConvexResult *convexResult,
         bool normalInWorldSpace)
 {
   float v4; // xmm5_4
   float v5; // xmm4_4
   float v6; // xmm3_4
-  unsigned int v7; // xmm1_4
-  unsigned int v8; // xmm2_4
-  float *m_hitCollisionObject; // ecx
+  float v7; // xmm1_4
+  float v8; // xmm3_4
+  float v9; // xmm2_4
+  float v10; // xmm0_4
+  float v11; // xmm5_4
+  float v12; // xmm0_4
+  float *m_hitCollisionObject; // esi
   btCollisionWorld::LocalShapeInfo *m_localShapeInfo; // edi
-  bool m_is_shape_index; // dl
-  btVector3 *p_m_hitNormalLocal; // ecx
-  float v13; // xmm0_4
-  float v14; // xmm1_4
-  float v15; // xmm2_4
-  float v16; // xmm5_4
+  btVector3 *p_m_hitNormalLocal; // esi
+  float v16; // xmm0_4
+  float v17; // xmm2_4
+  float v18; // xmm3_4
+  float v19; // xmm5_4
+  float *v20; // esi
+  vostok::vectora<vostok::physics::closest_ray_result> *m_results; // eax
   float m_hitFraction; // xmm0_4
-  unsigned __int64 v20; // [esp+70h] [ebp-50h] BYREF
-  float v21; // [esp+78h] [ebp-48h]
-  int v22; // [esp+7Ch] [ebp-44h]
-  unsigned __int64 v23; // [esp+80h] [ebp-40h]
-  unsigned __int64 v24; // [esp+88h] [ebp-38h]
-  stlp_std::priv::_Impl_vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<vostok::physics::closest_ray_result> > v25; // [esp+98h] [ebp-28h] BYREF
-  unsigned __int64 v26; // [esp+A8h] [ebp-18h]
-  int v27; // [esp+B0h] [ebp-10h]
-  int m_triangleIndex; // [esp+B4h] [ebp-Ch]
-  bool v29; // [esp+B8h] [ebp-8h]
-  float v30; // [esp+BCh] [ebp-4h]
+  float v24; // [esp+4h] [ebp-50h] BYREF
+  float v25; // [esp+8h] [ebp-4Ch]
+  float v26; // [esp+Ch] [ebp-48h]
+  int v27; // [esp+10h] [ebp-44h]
+  float v28; // [esp+14h] [ebp-40h]
+  float v29; // [esp+18h] [ebp-3Ch]
+  int v30; // [esp+1Ch] [ebp-38h]
+  int v31; // [esp+20h] [ebp-34h]
+  stlp_std::vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<void *> > v32; // [esp+2Ch] [ebp-28h] BYREF
+  float v33; // [esp+3Ch] [ebp-18h]
+  float v34; // [esp+40h] [ebp-14h]
+  int v35; // [esp+44h] [ebp-10h]
+  int m_triangleIndex; // [esp+48h] [ebp-Ch]
+  bool m_is_shape_index; // [esp+4Ch] [ebp-8h]
+  float v38; // [esp+50h] [ebp-4h]
 
   v4 = convexResult->m_hitPointLocal.mVec128.m128_f32[1];
   v5 = convexResult->m_hitPointLocal.mVec128.m128_f32[2];
   v6 = convexResult->m_hitPointLocal.mVec128.m128_f32[0];
-  *(float *)&v7 = (float)((float)((float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[1] * v4)
-                                + (float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[2] * v5))
-                        + (float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[0] * v6))
-                + this->m_modify_result_transform.m_origin.mVec128.m128_f32[0];
-  *(float *)&v8 = (float)((float)((float)(this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[1] * v4)
-                                + (float)(this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[2] * v5))
-                        + (float)(v6 * this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[0]))
-                + this->m_modify_result_transform.m_origin.mVec128.m128_f32[1];
-  v21 = -(float)((float)((float)((float)(this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[1] * v4)
-                               + (float)(this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[2] * v5))
-                       + (float)(v6 * this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[0]))
-               + this->m_modify_result_transform.m_origin.mVec128.m128_f32[2]);
-  *(float *)&v25._M_end_of_storage._M_data = v21;
+  v7 = (float)((float)((float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[1] * v4)
+                     + (float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[2] * v5))
+             + (float)(this->m_modify_result_transform.m_basis.m_el[0].mVec128.m128_f32[0] * v6))
+     + this->m_modify_result_transform.m_origin.mVec128.m128_f32[0];
+  v8 = v6 * this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[0];
+  v9 = (float)((float)((float)(this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[1] * v4)
+                     + (float)(this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[2] * v5))
+             + (float)(convexResult->m_hitPointLocal.mVec128.m128_f32[0]
+                     * this->m_modify_result_transform.m_basis.m_el[1].mVec128.m128_f32[0]))
+     + this->m_modify_result_transform.m_origin.mVec128.m128_f32[1];
+  v10 = this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[1] * v4;
+  v11 = this->m_modify_result_transform.m_basis.m_el[2].mVec128.m128_f32[2];
+  v24 = v7;
+  v12 = (float)((float)(v10 + (float)(v11 * v5)) + v8) + this->m_modify_result_transform.m_origin.mVec128.m128_f32[2];
+  v25 = v9;
+  LODWORD(v26) = LODWORD(v12) ^ _mask__NegFloat_;
+  *(float *)&v32._M_impl._M_finish = v7;
+  *(float *)&v32._M_impl._M_end_of_storage.m_allocator = v9;
+  v32._M_impl._M_end_of_storage._M_data = (vostok::physics::closest_ray_result *)(LODWORD(v12) ^ _mask__NegFloat_);
   m_hitCollisionObject = (float *)convexResult->m_hitCollisionObject;
   m_localShapeInfo = convexResult->m_localShapeInfo;
-  v25._M_start = (vostok::physics::closest_ray_result *)convexResult->m_hitCollisionObject->m_userObjectPointer;
+  v32._M_impl._M_start = (vostok::physics::closest_ray_result *)convexResult->m_hitCollisionObject->m_userObjectPointer;
   m_triangleIndex = m_localShapeInfo->m_triangleIndex;
   m_is_shape_index = m_localShapeInfo->m_is_shape_index;
-  v20 = __PAIR64__(v8, v7);
-  *(_QWORD *)&v25._M_finish = __PAIR64__(v8, v7);
-  v29 = m_is_shape_index;
   if ( normalInWorldSpace )
   {
     p_m_hitNormalLocal = &convexResult->m_hitNormalLocal;
   }
   else
   {
-    v13 = convexResult->m_hitNormalLocal.mVec128.m128_f32[2];
-    v14 = convexResult->m_hitNormalLocal.mVec128.m128_f32[1];
-    v15 = convexResult->m_hitNormalLocal.mVec128.m128_f32[0];
-    v16 = m_hitCollisionObject[10];
-    *(float *)&v20 = (float)((float)(m_hitCollisionObject[5] * v14) + (float)(m_hitCollisionObject[6] * v13))
-                   + (float)(v15 * m_hitCollisionObject[4]);
-    *((float *)&v20 + 1) = (float)((float)(m_hitCollisionObject[9] * v14) + (float)(v16 * v13))
-                         + (float)(m_hitCollisionObject[8] * v15);
-    v21 = (float)((float)(m_hitCollisionObject[13] * v14) + (float)(m_hitCollisionObject[14] * v13))
-        + (float)(m_hitCollisionObject[12] * v15);
-    v22 = 0;
-    p_m_hitNormalLocal = (btVector3 *)&v20;
+    v16 = convexResult->m_hitNormalLocal.mVec128.m128_f32[2];
+    v17 = convexResult->m_hitNormalLocal.mVec128.m128_f32[1];
+    v18 = convexResult->m_hitNormalLocal.mVec128.m128_f32[0];
+    v19 = m_hitCollisionObject[10];
+    v24 = (float)((float)(m_hitCollisionObject[5] * v17) + (float)(m_hitCollisionObject[6] * v16))
+        + (float)(v18 * m_hitCollisionObject[4]);
+    v25 = (float)((float)(m_hitCollisionObject[9] * v17) + (float)(v19 * v16)) + (float)(m_hitCollisionObject[8] * v18);
+    v26 = (float)((float)(m_hitCollisionObject[13] * v17) + (float)(m_hitCollisionObject[14] * v16))
+        + (float)(m_hitCollisionObject[12] * v18);
+    v27 = 0;
+    p_m_hitNormalLocal = (btVector3 *)&v24;
   }
-  v23 = p_m_hitNormalLocal->mVec128.m128_u64[0];
-  v24 = p_m_hitNormalLocal->mVec128.m128_u64[1];
-  v20 = v23;
-  LODWORD(v21) = v24 ^ 0x80000000;
-  v26 = v23;
+  v28 = p_m_hitNormalLocal->mVec128.m128_f32[0];
+  v20 = &p_m_hitNormalLocal->mVec128.m128_f32[1];
+  v29 = *v20++;
+  v30 = *(_DWORD *)v20;
+  m_results = this->m_results;
+  v31 = *((_DWORD *)v20 + 1);
+  v24 = v28;
+  v25 = v29;
+  LODWORD(v26) = v30 ^ _mask__NegFloat_;
   m_hitFraction = convexResult->m_hitFraction;
-  v27 = v24 ^ 0x80000000;
-  v30 = m_hitFraction;
-  stlp_std::priv::_Impl_vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<vostok::physics::closest_ray_result>>::push_back(
-    &v25,
-    a2);
+  v33 = v28;
+  v34 = v29;
+  v35 = v30 ^ _mask__NegFloat_;
+  v38 = m_hitFraction;
+  stlp_std::vector<vostok::physics::closest_ray_result,vostok::vectora_allocator<void *>>::push_back(
+    &v32,
+    (int)m_results);
   return convexResult->m_hitFraction;
 }

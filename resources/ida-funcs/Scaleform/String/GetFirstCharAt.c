@@ -1,22 +1,19 @@
-unsigned int __thiscall Scaleform::String::GetFirstCharAt(
-        Scaleform::String *this,
-        const char *index,
-        const char **offset)
+unsigned int __thiscall Scaleform::String::GetFirstCharAt(Scaleform::String *this, char *index, char **offset)
 {
-  _DWORD *v3; // eax
-  const char *v4; // edi
-  const char *v5; // esi
+  unsigned int v3; // eax
+  char *v4; // edi
+  unsigned int v5; // esi
   unsigned int result; // eax
 
-  v3 = (_DWORD *)(this->HeapTypeBits & 0xFFFFFFFC);
+  v3 = this->HeapTypeBits & 0xFFFFFFFC;
   v4 = index;
-  index = (const char *)(v3 + 2);
-  v5 = (char *)v3 + (*v3 & 0x7FFFFFFF) + 8;
+  index = (char *)(v3 + 8);
+  v5 = v3 + 8 + (*(_DWORD *)v3 & 0x7FFFFFFF);
   while ( 1 )
   {
-    result = Scaleform::UTF8Util::DecodeNextChar_Advance0(&index);
+    result = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&index);
     --v4;
-    if ( index >= v5 )
+    if ( (unsigned int)index >= v5 )
       break;
     if ( (int)v4 < 0 )
     {

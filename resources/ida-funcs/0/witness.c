@@ -7,14 +7,14 @@ int __usercall witness@<eax>(
         int k,
         bn_mont_ctx_st *mont)
 {
-  int ka; // [esp+8h] [ebp+8h]
+  int v8; // [esp+8h] [ebp+8h]
 
-  if ( !BN_mod_exp_mont(w->vals, w->vals, a1_odd, a, ctx, mont) )
+  if ( !BN_mod_exp_mont((int)a, w->vals, w, a1_odd, a, ctx, mont) )
     return -1;
   if ( w->vals[0].top == 1 && *w->vals[0].d == 1 && !w->vals[0].neg || !BN_cmp(w->vals, a1) )
     return 0;
-  ka = k - 1;
-  if ( !ka )
+  v8 = k - 1;
+  if ( !v8 )
     return 1;
   while ( BN_mod_mul(w->vals, w, w, a, ctx) )
   {
@@ -22,7 +22,7 @@ int __usercall witness@<eax>(
     {
       if ( !BN_cmp(w->vals, a1) )
         return 0;
-      if ( --ka )
+      if ( --v8 )
         continue;
     }
     return 1;

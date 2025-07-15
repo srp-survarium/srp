@@ -1,133 +1,122 @@
-void __userpurge btDiscreteDynamicsWorld::solveConstraints(
-        btDiscreteDynamicsWorld *this@<ecx>,
-        int a2@<ebx>,
-        int a3@<ebp>,
-        int a4@<esi>,
-        btContactSolverInfo *solverInfo,
-        int a6,
-        int a7,
-        const btContactSolverInfo *a8)
+void __thiscall btDiscreteDynamicsWorld::solveConstraints(
+        btDiscreteDynamicsWorld *this,
+        btContactSolverInfo *solverInfo)
 {
-  CProfileNode *Sub_Node; // eax
-  int RecursionCounter; // ecx
-  int m_size; // esi
+  int m_size; // edi
   int i; // ecx
-  btTypedConstraint **v13; // eax
-  int v14; // esi
-  int v15; // eax
-  btStackAlloc *m_stackAlloc; // ecx
-  btIDebugDraw *m_debugDrawer; // eax
-  int v18; // edx
+  btTypedConstraint **v5; // eax
+  btDiscreteDynamicsWorld_vtbl *v6; // eax
+  int v7; // edi
+  int v8; // eax
   btDispatcher *m_dispatcher1; // ecx
-  btConstraintSolver *m_constraintSolver; // eax
+  btConstraintSolver *v11; // eax
   void (__thiscall **p_prepareSolve)(btConstraintSolver *, int, int); // esi
-  int v22; // eax
-  btDiscreteDynamicsWorld::solveConstraints::__l2::InplaceSolverIslandCallback *v23; // ecx
-  btDiscreteDynamicsWorld::solveConstraints::__l2::InplaceSolverIslandCallback *v24; // ecx
-  btClock *v25; // ecx
-  CProfileNode *v26; // edi
-  int *p_RecursionCounter; // esi
-  bool v28; // zf
-  btAlignedObjectArray<btTypedConstraint *> sortedConstraints; // [esp+18h] [ebp-70h] BYREF
-  btDiscreteDynamicsWorld::solveConstraints::__l2::InplaceSolverIslandCallback solverCallback; // [esp+2Ch] [ebp-5Ch] BYREF
-  _UNKNOWN *retaddr; // [esp+88h] [ebp+0h]
+  int v13; // eax
+  btDiscreteDynamicsWorld::solveConstraints::__l2::InplaceSolverIslandCallback *v14; // ecx
+  btAlignedObjectArray<GrahamVector2> *v15; // ecx
+  btAlignedObjectArray<GrahamVector2> *v16; // ecx
+  btAlignedObjectArray<GrahamVector2> *v17; // ecx
+  btAlignedObjectArray<GrahamVector2> *v18; // ecx
+  btSimulationIslandManager::IslandCallback callback; // [esp+Ch] [ebp-78h] BYREF
+  btContactSolverInfo *v20; // [esp+10h] [ebp-74h]
+  btConstraintSolver *m_constraintSolver; // [esp+14h] [ebp-70h]
+  btTypedConstraint **v22; // [esp+18h] [ebp-6Ch]
+  int v23; // [esp+1Ch] [ebp-68h]
+  btIDebugDraw *m_debugDrawer; // [esp+20h] [ebp-64h]
+  btStackAlloc *m_stackAlloc; // [esp+24h] [ebp-60h]
+  btDispatcher *v26; // [esp+28h] [ebp-5Ch]
+  _BYTE v27[4]; // [esp+2Ch] [ebp-58h] BYREF
+  int v28; // [esp+30h] [ebp-54h]
+  int v29; // [esp+34h] [ebp-50h]
+  int v30; // [esp+38h] [ebp-4Ch]
+  char v31; // [esp+3Ch] [ebp-48h]
+  _BYTE v32[4]; // [esp+40h] [ebp-44h] BYREF
+  int v33; // [esp+44h] [ebp-40h]
+  int v34; // [esp+48h] [ebp-3Ch]
+  int v35; // [esp+4Ch] [ebp-38h]
+  char v36; // [esp+50h] [ebp-34h]
+  _BYTE v37[4]; // [esp+54h] [ebp-30h] BYREF
+  int v38; // [esp+58h] [ebp-2Ch]
+  int v39; // [esp+5Ch] [ebp-28h]
+  int v40; // [esp+60h] [ebp-24h]
+  char v41; // [esp+64h] [ebp-20h]
+  btAlignedObjectArray<btTypedConstraint *> v42; // [esp+68h] [ebp-1Ch] BYREF
+  btSortConstraintOnIslandPredicate CompareFunc[4]; // [esp+7Ch] [ebp-8h]
+  int v44; // [esp+80h] [ebp-4h]
+  int v45; // [esp+8Ch] [ebp+8h]
 
-  Sub_Node = CProfileManager::CurrentNode;
-  if ( CProfileManager::CurrentNode->Name != "solveConstraints" )
-  {
-    Sub_Node = CProfileNode::Get_Sub_Node((const char *)this);
-    CProfileManager::CurrentNode = Sub_Node;
-  }
-  RecursionCounter = Sub_Node->RecursionCounter;
-  ++Sub_Node->TotalCalls;
-  Sub_Node->RecursionCounter = RecursionCounter + 1;
-  if ( !RecursionCounter )
-    Sub_Node->StartTime = btClock::getTimeMicroseconds(0);
   m_size = this->m_constraints.m_size;
-  sortedConstraints.m_ownsMemory = 1;
-  sortedConstraints.m_data = 0;
+  v42.m_ownsMemory = 1;
+  memset(&v42.m_size, 0, 12);
   if ( m_size >= 0 )
   {
     if ( m_size > 0 )
     {
-      ++gNumAlignedAllocs;
-      sortedConstraints.m_ownsMemory = 1;
-      sortedConstraints.m_data = (btTypedConstraint **)sAlignedAllocFunc(4 * m_size, 16);
+      *(_DWORD *)CompareFunc = btAlignedAllocInternal(4 * m_size);
+      v44 = v42.m_size;
+      v42.m_ownsMemory = 1;
+      v42.m_data = *(btTypedConstraint ***)CompareFunc;
+      v42.m_capacity = m_size;
     }
     for ( i = 0; i < m_size; ++i )
     {
-      v13 = &sortedConstraints.m_data[i];
-      if ( v13 )
-        *v13 = 0;
+      v5 = &v42.m_data[i];
+      if ( v5 )
+        *v5 = 0;
     }
   }
-  v14 = 0;
-  if ( ((int (__thiscall *)(btDiscreteDynamicsWorld *, int, int, int))this->getNumConstraints)(this, a4, a3, a2) > 0 )
+  v6 = this->__vftable;
+  v42.m_size = m_size;
+  v7 = 0;
+  if ( v6->getNumConstraints(this) > 0 )
   {
     do
     {
-      *((_DWORD *)&solverCallback.m_solverInfo->m_tau + v14) = this->m_constraints.m_data[v14];
-      ++v14;
+      v42.m_data[v7] = this->m_constraints.m_data[v7];
+      ++v7;
     }
-    while ( v14 < this->getNumConstraints(this) );
+    while ( v7 < this->getNumConstraints(this) );
   }
-  if ( *(int *)&sortedConstraints.m_ownsMemory > 1 )
+  CompareFunc[0] = 0;
+  if ( v42.m_size > 1 )
     btAlignedObjectArray<btTypedConstraint *>::quickSortInternal<btSortConstraintOnIslandPredicate>(
-      (btAlignedObjectArray<btTypedConstraint *> *)&sortedConstraints.m_data,
+      &v42,
+      CompareFunc[0],
       0,
-      0,
-      *(_DWORD *)&sortedConstraints.m_ownsMemory - 1);
-  v15 = this->getNumConstraints(this);
-  solverCallback.m_debugDrawer = (btIDebugDraw *)this->m_constraintSolver;
-  m_stackAlloc = this->m_stackAlloc;
-  solverCallback.m_stackAlloc = v15 != 0 ? (btStackAlloc *)solverCallback.m_solverInfo : 0;
-  m_debugDrawer = this->m_debugDrawer;
-  solverCallback.m_dispatcher = *(btDispatcher **)&sortedConstraints.m_ownsMemory;
-  v18 = this->m_collisionObjects.m_size;
-  solverCallback.m_bodies.m_size = (int)m_stackAlloc;
-  m_dispatcher1 = this->m_dispatcher1;
-  *(_DWORD *)&solverCallback.m_bodies.m_allocator = m_debugDrawer;
+      v42.m_size - 1);
+  v8 = this->getNumConstraints(this);
   m_constraintSolver = this->m_constraintSolver;
-  solverCallback.m_sortedConstraints = (btTypedConstraint **)&`btDiscreteDynamicsWorld::solveConstraints'::`2'::InplaceSolverIslandCallback::`vftable';
-  solverCallback.m_numConstraints = (int)a8;
-  solverCallback.m_bodies.m_capacity = (int)m_dispatcher1;
-  LOBYTE(solverCallback.m_manifolds.m_capacity) = 1;
-  memset(&solverCallback.m_bodies.m_ownsMemory, 0, 12);
-  LOBYTE(solverCallback.m_constraints.m_capacity) = 1;
-  memset(&solverCallback.m_manifolds.m_ownsMemory, 0, 12);
-  *(_DWORD *)&solverCallback.m_constraints.m_ownsMemory = 0;
-  retaddr = 0;
-  sortedConstraints.m_capacity = v18;
-  p_prepareSolve = &m_constraintSolver->prepareSolve;
-  v22 = m_dispatcher1->getNumManifolds(m_dispatcher1);
-  (*p_prepareSolve)(this->m_constraintSolver, sortedConstraints.m_capacity, v22);
-  btSimulationIslandManager::buildAndProcessIslands(
-    (btSimulationIslandManager *)this->m_dispatcher1,
-    this->m_dispatcher1,
-    this,
-    (btSimulationIslandManager::IslandCallback *)&solverCallback.m_sortedConstraints);
-  btDiscreteDynamicsWorld::solveConstraints_::_2_::InplaceSolverIslandCallback::processConstraints(
-    v23,
-    (int)&solverCallback.m_sortedConstraints);
-  this->m_constraintSolver->allSolved(this->m_constraintSolver, a8, this->m_debugDrawer, this->m_stackAlloc);
-  `btDiscreteDynamicsWorld::solveConstraints'::`2'::InplaceSolverIslandCallback::~InplaceSolverIslandCallback(
-    v24,
-    (int)&solverCallback.m_sortedConstraints);
-  if ( sortedConstraints.m_data && sortedConstraints.m_ownsMemory )
-  {
-    ++gNumAlignedFree;
-    sAlignedFreeFunc(sortedConstraints.m_data);
-  }
-  v26 = CProfileManager::CurrentNode;
-  p_RecursionCounter = &CProfileManager::CurrentNode->RecursionCounter;
-  sortedConstraints.m_ownsMemory = 1;
-  sortedConstraints.m_data = 0;
-  v28 = CProfileManager::CurrentNode->RecursionCounter-- == 1;
-  if ( v28 && v26->TotalCalls )
-  {
-    v26->TotalTime = (double)(btClock::getTimeMicroseconds(v25) - v26->StartTime) * 0.001 + v26->TotalTime;
-    v26 = CProfileManager::CurrentNode;
-  }
-  if ( !*p_RecursionCounter )
-    CProfileManager::CurrentNode = v26->Parent;
+  m_dispatcher1 = this->m_dispatcher1;
+  v22 = v8 != 0 ? v42.m_data : 0;
+  v23 = v42.m_size;
+  m_debugDrawer = this->m_debugDrawer;
+  m_stackAlloc = this->m_stackAlloc;
+  v45 = this->m_collisionObjects.m_size;
+  v11 = this->m_constraintSolver;
+  v30 = 0;
+  v28 = 0;
+  v29 = 0;
+  v35 = 0;
+  v33 = 0;
+  v34 = 0;
+  v40 = 0;
+  v38 = 0;
+  v39 = 0;
+  callback.__vftable = (btSimulationIslandManager::IslandCallback_vtbl *)&`btDiscreteDynamicsWorld::solveConstraints'::`2'::InplaceSolverIslandCallback::`vftable';
+  v20 = solverInfo;
+  v26 = m_dispatcher1;
+  v31 = 1;
+  v36 = 1;
+  v41 = 1;
+  p_prepareSolve = &v11->prepareSolve;
+  v13 = m_dispatcher1->getNumManifolds(m_dispatcher1);
+  (*p_prepareSolve)(this->m_constraintSolver, v45, v13);
+  btSimulationIslandManager::buildAndProcessIslands(this->m_islandManager, this->m_dispatcher1, this, &callback);
+  btDiscreteDynamicsWorld::solveConstraints_::_2_::InplaceSolverIslandCallback::processConstraints(v14, (int)&callback);
+  this->m_constraintSolver->allSolved(this->m_constraintSolver, solverInfo, this->m_debugDrawer, this->m_stackAlloc);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v15, (int)v37);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v16, (int)v32);
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v17, (int)v27);
+  callback.__vftable = (btSimulationIslandManager::IslandCallback_vtbl *)&btSimulationIslandManager::IslandCallback::`vftable';
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v18, (int)&v42);
 }

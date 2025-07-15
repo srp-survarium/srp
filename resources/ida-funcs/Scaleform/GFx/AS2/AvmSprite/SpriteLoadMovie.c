@@ -14,7 +14,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLoadMovie(const Scaleform::GF
   Scaleform::GFx::ASStringNode *v12; // esi
   Scaleform::GFx::AS2::Environment *Env; // [esp-10h] [ebp-20h]
   Scaleform::GFx::AS2::Environment *v14; // [esp-10h] [ebp-20h]
-  Scaleform::GFx::ASString str; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::GFx::ASString v15; // [esp+Ch] [ebp-4h] BYREF
 
   v1 = fn;
   ThisPtr = fn->ThisPtr;
@@ -45,14 +45,14 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLoadMovie(const Scaleform::GF
         ++v8->RefCount;
         v9 = (Scaleform::GFx::ASStringNode *)fn;
         --fn->ThisFunctionRef.Function;
-        str.pNode = v8;
+        v15.pNode = v8;
         if ( !v9->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v9);
-        if ( Scaleform::GFx::ASString::operator==(&str, "get") )
+        if ( Scaleform::GFx::ASString::operator==(&v15, "get") )
         {
           v6 = LM_Get;
         }
-        else if ( Scaleform::GFx::ASString::operator==(&str, "post") )
+        else if ( Scaleform::GFx::ASString::operator==(&v15, "post") )
         {
           v6 = LM_Post;
         }
@@ -66,8 +66,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteLoadMovie(const Scaleform::GF
       v12 = (Scaleform::GFx::ASStringNode *)fn;
       Scaleform::GFx::AS2::MovieRoot::AddLoadQueueEntry(
         (Scaleform::GFx::AS2::MovieRoot *)Target->pASRoot,
-        Target,
-        (char *)fn->__vftable,
+        (Scaleform::String)Target,
+        (const __m128i *)fn->__vftable,
         v6,
         0);
       v10 = v12->RefCount-- == 1;

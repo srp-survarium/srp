@@ -11,18 +11,18 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteStartDrag(const Scaleform::GF
   unsigned int Flags; // eax
   bool v10; // al
   int v11; // eax
-  Scaleform::GFx::AS2::Environment *st_32; // [esp+A8h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *st_32a; // [esp+A8h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *st_32b; // [esp+A8h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *st_32c; // [esp+A8h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *st_32d; // [esp+A8h] [ebp-64h]
-  char v17; // [esp+C4h] [ebp-48h]
-  float v18; // [esp+C8h] [ebp-44h]
-  float v19; // [esp+C8h] [ebp-44h]
-  float v20; // [esp+C8h] [ebp-44h]
-  float v21; // [esp+C8h] [ebp-44h]
-  Scaleform::Render::Rect<float> v22; // [esp+CCh] [ebp-40h] BYREF
-  Scaleform::GFx::MovieImpl::DragState st; // [esp+E8h] [ebp-24h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v13; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v14; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v15; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v16; // [esp-4h] [ebp-64h]
+  bool lockCenter; // [esp+18h] [ebp-48h]
+  float v18; // [esp+1Ch] [ebp-44h]
+  float v19; // [esp+1Ch] [ebp-44h]
+  float v20; // [esp+1Ch] [ebp-44h]
+  float v21; // [esp+1Ch] [ebp-44h]
+  Scaleform::Render::Rect<float> v22; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::GFx::MovieImpl::DragState st; // [esp+3Ch] [ebp-24h] BYREF
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -48,31 +48,31 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteStartDrag(const Scaleform::GF
     st.BoundRB.x = 0.0;
     st.MouseIndex = -1;
     st.CenterDelta.y = 0.0;
-    v17 = 0;
+    lockCenter = 0;
     st.CenterDelta.x = 0.0;
     if ( !v3 )
     {
-      st_32 = fn->Env;
+      Env = fn->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      v17 = Scaleform::GFx::AS2::Value::ToBool(v4, st_32);
+      lockCenter = Scaleform::GFx::AS2::Value::ToBool(v4, (int)Target, Env);
       if ( fn->NArgs > 4 )
       {
-        st_32a = fn->Env;
+        v13 = fn->Env;
         st.Bound = 1;
         v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-        v18 = Scaleform::GFx::AS2::Value::ToNumber(v5, st_32a);
-        st_32b = fn->Env;
+        v18 = Scaleform::GFx::AS2::Value::ToNumber(v5, v13);
+        v14 = fn->Env;
         v22.x1 = v18 * 20.0;
         v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-        v19 = Scaleform::GFx::AS2::Value::ToNumber(v6, st_32b);
-        st_32c = fn->Env;
+        v19 = Scaleform::GFx::AS2::Value::ToNumber(v6, v14);
+        v15 = fn->Env;
         v22.y1 = v19 * 20.0;
         v7 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-        v20 = Scaleform::GFx::AS2::Value::ToNumber(v7, st_32c);
-        st_32d = fn->Env;
+        v20 = Scaleform::GFx::AS2::Value::ToNumber(v7, v15);
+        v16 = fn->Env;
         v22.x2 = v20 * 20.0;
         v8 = Scaleform::GFx::AS2::FnCall::Arg(fn, 4);
-        v21 = Scaleform::GFx::AS2::Value::ToNumber(v8, st_32d);
+        v21 = Scaleform::GFx::AS2::Value::ToNumber(v8, v16);
         v22.y2 = v21 * 20.0;
         Scaleform::Render::Rect<float>::Normalize(&v22);
         st.BoundLT.x = v22.x1;
@@ -82,14 +82,14 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteStartDrag(const Scaleform::GF
       }
     }
     st.pCharacter = Target;
-    Scaleform::GFx::MovieImpl::DragState::InitCenterDelta(&st, v17, 0);
+    Scaleform::GFx::MovieImpl::DragState::InitCenterDelta(&st, lockCenter, 0);
     Scaleform::GFx::MovieImpl::SetDragState(Target->pASRoot->pMovieImpl, &st);
     Flags = Target->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags;
     v10 = (Flags & 0x200000) != 0 && (Flags & 0x400000) == 0;
     v11 = Scaleform::GFx::Sprite::CheckAdvanceStatus(Target, v10);
     if ( v11 == -1 )
     {
-      Target->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+      Target->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     }
     else if ( v11 == 1 )
     {

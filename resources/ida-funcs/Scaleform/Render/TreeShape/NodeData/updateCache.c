@@ -2,15 +2,15 @@ Scaleform::Render::TreeCacheNode *__thiscall Scaleform::Render::TreeShape::NodeD
         Scaleform::Render::TreeShape::NodeData *this,
         Scaleform::Render::TreeCacheNode *pparent,
         Scaleform::Render::TreeCacheNode *pinsert,
-        unsigned int pnode,
-        unsigned __int16 depth)
+        int pnode,
+        int depth)
 {
   Scaleform::Render::TreeShape *v5; // ebx
   Scaleform::Render::TreeCacheNode *v6; // esi
   Scaleform::Render::ShapeMeshProvider *v7; // ebp
   int v8; // eax
-  int v9; // ecx
-  unsigned int v10; // esi
+  __int16 v9; // cx
+  __int16 v10; // si
   Scaleform::Render::TreeCacheShape *v11; // eax
   Scaleform::Render::TreeCacheNode *v12; // eax
 
@@ -26,10 +26,10 @@ Scaleform::Render::TreeCacheNode *__thiscall Scaleform::Render::TreeShape::NodeD
   pnode = v7->GetLayerCount(&v7->Scaleform::Render::MeshProvider);
   if ( !pparent )
   {
-    v8 = 4;
+    LOWORD(v8) = 4;
 LABEL_6:
     v9 = this->Flags & 0xC;
-    if ( !v9 )
+    if ( (this->Flags & 0xC) == 0 )
       v9 = v8;
     goto LABEL_8;
   }

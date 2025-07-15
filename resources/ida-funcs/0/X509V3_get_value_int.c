@@ -1,11 +1,11 @@
-int __cdecl X509V3_get_value_int(CONF_VALUE *value, asn1_string_st **aint)
+int __usercall X509V3_get_value_int@<eax>(int a1@<ebx>, CONF_VALUE *value, asn1_string_st **aint)
 {
-  asn1_string_st *v2; // eax
+  asn1_string_st *v3; // eax
 
-  v2 = s2i_ASN1_INTEGER(0, value->value);
-  if ( v2 )
+  v3 = s2i_ASN1_INTEGER(a1, 0, value->value);
+  if ( v3 )
   {
-    *aint = v2;
+    *aint = v3;
     return 1;
   }
   else

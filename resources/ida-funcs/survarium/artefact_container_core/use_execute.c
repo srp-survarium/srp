@@ -1,44 +1,53 @@
-char __thiscall survarium::artefact_container_core::use_execute(
-        survarium::artefact_container_core *this,
+char __userpurge survarium::artefact_container_core::use_execute@<al>(
+        survarium::artefact_container_core *this@<ecx>,
+        float a2@<xmm0>,
         survarium::usable_object_user_data *user)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::inventory_holder *v3; // eax
-  float value; // [esp+0h] [ebp-5Ch]
-  unsigned int v6; // [esp+14h] [ebp-48h]
-  vostok::sound::encoded_sound_interface *(__thiscall *v8)(vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *); // [esp+34h] [ebp-28h]
-  unsigned int left_ms; // [esp+50h] [ebp-Ch]
-  float artsearch_time; // [esp+54h] [ebp-8h]
+  unsigned int v3; // ebx
+  survarium::base_player *v5; // eax
+  float v6; // xmm0_4
+  unsigned int v7; // eax
+  survarium::inventory_holder *v8; // eax
+  survarium::artefact_container_core *v9; // ecx
+  survarium::statistics_events_handler *m_statistics_events_handler; // esi
+  survarium::statistics_events_handler_vtbl *v11; // ebx
+  survarium::base_player *v12; // eax
+  float m_artefact_search_time_ms; // [esp+0h] [ebp-14h]
+  float v15; // [esp+4h] [ebp-10h]
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  survarium::weapon_user_dead_state::finalize(v2);
-  left_ms = user->current_time_ms - user->start_using_time_ms;
-  artsearch_time = (double)this->m_artefact_search_time_ms * user->booster_artcont_time_factor;
-  if ( artsearch_time <= 0.0 )
-    v6 = 0;
-  else
-    v6 = (__int64)artsearch_time;
-  value = (double)left_ms / (double)v6 * 100.0;
-  user->current_progress = vostok::math::floor(value);
-  if ( left_ms >= v6 )
+  v3 = user->current_time_ms - user->start_using_time_ms;
+  v5 = user->owner->cast_to_base_player(user->owner);
+  m_artefact_search_time_ms = (float)this->m_artefact_search_time_ms;
+  v6 = survarium::player_params_modifiers_container::apply_modifier(
+         (survarium::player_params_modifiers_container *)&(*(survarium::base_player_vtbl **)((char *)&v5->vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable
+                                                                                           + (_DWORD)&loc_11066
+                                                                                           + 2))[7],
+         artefact_search_time_modifier,
+         a2,
+         m_artefact_search_time_ms,
+         1.0);
+  v7 = vostok::math::ceil(v6);
+  if ( v3 < v7 )
   {
-    if ( this->m_owner )
-      survarium::generic_anomaly_core::on_artefact_container_use(this->m_owner, this);
-    user->start_using_time_ms = user->current_time_ms;
-    if ( this->m_artefact.m_object )
-      v8 = vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr;
-    else
-      v8 = 0;
-    if ( v8 )
-    {
-      v3 = (survarium::inventory_holder *)((int (__thiscall *)(survarium::collision_user *, unsigned int, _DWORD, unsigned int, _DWORD))user->owner->cast_to_inventory_holder)(
-                                            user->owner,
-                                            v6,
-                                            0,
-                                            left_ms,
-                                            0);
-      survarium::artefact_container_core::transfer_artefact(this, v3);
-    }
+    v15 = (double)v3 / (double)v7 * s_spot_max_distance;
+    user->current_progress = vostok::math::floor(v15);
+    return 1;
   }
-  return 1;
+  else
+  {
+    user->current_progress = -1;
+    this->on_artefact_search_complete(this, user->owner);
+    v8 = user->owner->cast_to_inventory_holder(user->owner);
+    survarium::artefact_container_core::transfer_artefact(v9, (int)this, v8);
+    if ( this->m_owner )
+      this->m_owner->on_artefact_container_use(this->m_owner, this, user->current_time_ms);
+    m_statistics_events_handler = this->m_game_world_core->m_statistics_events_handler;
+    if ( m_statistics_events_handler )
+    {
+      v11 = m_statistics_events_handler->__vftable;
+      v12 = user->owner->cast_to_base_player(user->owner);
+      v11->on_artefact_took(m_statistics_events_handler, v12->id);
+    }
+    return 0;
+  }
 }

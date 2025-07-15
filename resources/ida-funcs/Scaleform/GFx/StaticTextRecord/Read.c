@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::StaticTextRecord::Read(
         Scaleform::GFx::Stream *in,
         int glyphCount,
         int glyphBits,
-        unsigned int advanceBits)
+        int advanceBits)
 {
   int i; // edi
   Scaleform::GFx::StaticTextRecord::GlyphEntry *v7; // esi

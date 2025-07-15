@@ -1,6 +1,6 @@
 Scaleform::GFx::AS2::Value (*__thiscall Scaleform::GFx::AS2::MatrixObject::GetMatrixAsValuesArray(
         Scaleform::GFx::AS2::MatrixObject *this,
-        Scaleform::GFx::AS2::ASStringContext *psc,
+        Scaleform::GFx::ASStringNode *psc,
         Scaleform::GFx::AS2::Value (*marr)[6]))[6]
 {
   Scaleform::GFx::AS2::ObjectInterface *v3; // esi
@@ -10,7 +10,7 @@ Scaleform::GFx::AS2::Value (*__thiscall Scaleform::GFx::AS2::MatrixObject::GetMa
   if ( !Scaleform::GFx::AS2::ObjectInterface::GetConstMemberRaw(
           &this->Scaleform::GFx::AS2::ObjectInterface,
           psc,
-          "a",
+          (char *)&stru_809F70,
           (Scaleform::GFx::AS2::Value *)marr) )
   {
     v.T.Type = 4;

@@ -18,8 +18,8 @@ char __thiscall Scaleform::GFx::AS2::TransformObject::SetMember(
   Scaleform::GFx::AS2::MatrixObject *v16; // edi
   void (__thiscall *SetMatrix)(Scaleform::GFx::DisplayObjectBase *, const Scaleform::Render::Matrix2x4<float> *); // edx
   unsigned int v18; // eax
-  Scaleform::Render::Cxform result; // [esp+170h] [ebp-80h] BYREF
-  Scaleform::GFx::DisplayObjectBase::GeomDataType gd; // [esp+190h] [ebp-60h] BYREF
+  Scaleform::Render::Cxform result; // [esp+10h] [ebp-80h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+30h] [ebp-60h] BYREF
 
   if ( !strcmp(name->pNode->pData, "pixelBounds") )
     return 1;
@@ -47,7 +47,7 @@ char __thiscall Scaleform::GFx::AS2::TransformObject::SetMember(
             v7->SetAcceptAnimMoves(v7, 0);
           }
           RefCount = v9->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v9->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
@@ -82,17 +82,17 @@ char __thiscall Scaleform::GFx::AS2::TransformObject::SetMember(
           result.M[0][3] = result.M[0][3] * 20.0;
           result.M[1][3] = 20.0 * result.M[1][3];
           SetMatrix(v14, (const Scaleform::Render::Matrix2x4<float> *)&result);
-          Scaleform::GFx::DisplayObjectBase::GeomDataType::GeomDataType(&gd);
-          Scaleform::GFx::DisplayObjectBase::GetGeomData(v14, &gd);
-          gd.X = (int)result.M[0][3];
-          gd.Y = (int)result.M[1][3];
-          gd.Rotation = atan2(result.M[1][0], result.M[0][0]) * 180.0 / 3.141592653589793;
-          gd.XScale = sqrt(result.M[1][0] * result.M[1][0] + result.M[0][0] * result.M[0][0]) * 100.0;
-          gd.YScale = sqrt(result.M[1][1] * result.M[1][1] + result.M[0][1] * result.M[0][1]) * 100.0;
-          Scaleform::GFx::DisplayObjectBase::SetGeomData(v14, &gd);
+          Scaleform::GFx::DisplayObjectBase::GeomDataType::GeomDataType(&geomData);
+          Scaleform::GFx::DisplayObjectBase::GetGeomData(v14, &geomData);
+          geomData.X = (int)result.M[0][3];
+          geomData.Y = (int)result.M[1][3];
+          geomData.Rotation = atan2(result.M[1][0], result.M[0][0]) * 180.0 / 3.141592653589793;
+          geomData.XScale = sqrt(result.M[1][0] * result.M[1][0] + result.M[0][0] * result.M[0][0]) * 100.0;
+          geomData.YScale = sqrt(result.M[1][1] * result.M[1][1] + result.M[0][1] * result.M[0][1]) * 100.0;
+          Scaleform::GFx::DisplayObjectBase::SetGeomData(v14, &geomData);
         }
         v18 = v16->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v18) != 0 )
+        if ( (v18 & 0x3FFFFFF) != 0 )
         {
           v16->RefCount = v18 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);

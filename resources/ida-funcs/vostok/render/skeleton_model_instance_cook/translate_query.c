@@ -2,128 +2,87 @@ void __thiscall vostok::render::skeleton_model_instance_cook::translate_query(
         vostok::render::skeleton_model_instance_cook *this,
         vostok::resources::query_result_for_cook *parent)
 {
-  vostok::render::skeleton_model_instance_cook_data *v3; // eax
-  char *m_requery_path; // eax
-  char *m_request_path; // eax
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v7)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > v8; // [esp-8h] [ebp-280h]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > v9; // [esp-8h] [ebp-280h]
-  vostok::resources::request requests; // [esp+Ch] [ebp-26Ch] BYREF
-  vostok::render::skeleton_model_instance_cook_data *cook_data; // [esp+18h] [ebp-260h]
-  vostok::variant<32> *v12; // [esp+1Ch] [ebp-25Ch] BYREF
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+20h] [ebp-258h] BYREF
-  vostok::variant<32> *user_data; // [esp+44h] [ebp-234h] BYREF
-  vostok::fs_new::virtual_path_string skeleton_config_path; // [esp+48h] [ebp-230h] BYREF
-  vostok::fs_new::virtual_path_string render_model_path; // [esp+160h] [ebp-118h] BYREF
+  vostok::memory::doug_lea_allocator *v2; // esi
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  char *v6; // eax
+  int v7; // ebx
+  const char *requested_path; // eax
+  vostok::buffer_string *v9; // ecx
+  const char *v10; // eax
+  vostok::buffer_string *v11; // ecx
+  boost::function<void __cdecl(vostok::resources::queries_result &)> *v12; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v13; // ecx
+  boost::function<void __cdecl(vostok::resources::queries_result &)> *v14; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v15; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_model_instance_cook,vostok::resources::queries_result &,vostok::render::skeleton_model_instance_cook_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::skeleton_model_instance_cook_data *> > > v16; // [esp-10h] [ebp-280h]
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_model_instance_cook,vostok::resources::queries_result &,vostok::render::skeleton_model_instance_cook_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::skeleton_model_instance_cook_data *> > > v17; // [esp-10h] [ebp-280h]
+  const char *v18; // [esp+0h] [ebp-270h]
+  const char *v19; // [esp+4h] [ebp-26Ch]
+  unsigned int v20; // [esp+8h] [ebp-268h]
+  int f[8]; // [esp+20h] [ebp-250h] BYREF
+  const char *v23[3]; // [esp+40h] [ebp-230h] BYREF
+  _BYTE v24[260]; // [esp+4Ch] [ebp-224h] BYREF
+  char v25; // [esp+150h] [ebp-120h] BYREF
+  const char *v26[3]; // [esp+158h] [ebp-118h] BYREF
+  _BYTE v27[260]; // [esp+164h] [ebp-10Ch] BYREF
+  char v28; // [esp+268h] [ebp-8h] BYREF
 
-  v12 = (vostok::variant<32> *)this;
-  v3 = (vostok::render::skeleton_model_instance_cook_data *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                              (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                              0x10u);
-  if ( v3 )
+  v2 = vostok::render::g_allocator;
+  v4 = type_info::raw_name(&vostok::render::skeleton_model_instance_cook_data `RTTI Type Descriptor');
+  v6 = vostok::memory::doug_lea_allocator::malloc_impl(v5, (int)v2, 0x10u, v4, v18, v19, v20);
+  v7 = 0;
+  if ( v6 )
   {
-    v3->render_model_ready = 0;
-    v3->skeleton_ready = 0;
-    v3->parent_query = parent;
-    v3->render_model.m_object = 0;
-    v3->skeleton.m_object = 0;
-    cook_data = v3;
+    *v6 = 0;
+    v6[1] = 0;
+    *((_DWORD *)v6 + 1) = parent;
+    *((_DWORD *)v6 + 2) = 0;
+    *((_DWORD *)v6 + 3) = 0;
+    v7 = (int)v6;
   }
-  else
-  {
-    cook_data = 0;
-  }
-  skeleton_config_path.m_string.m_begin = skeleton_config_path.m_string.m_buffer;
-  skeleton_config_path.m_string.m_end = skeleton_config_path.m_string.m_buffer;
-  skeleton_config_path.m_string.m_max_end = &skeleton_config_path.m_separator;
-  skeleton_config_path.m_separator = 47;
-  render_model_path.m_separator = 47;
-  m_requery_path = parent->m_requery_path;
-  render_model_path.m_string.m_begin = render_model_path.m_string.m_buffer;
-  skeleton_config_path.m_string.m_buffer[0] = 0;
-  render_model_path.m_string.m_end = render_model_path.m_string.m_buffer;
-  render_model_path.m_string.m_max_end = &render_model_path.m_separator;
-  render_model_path.m_string.m_buffer[0] = 0;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  vostok::fs_new::path_string_impl::assignf(
-    &skeleton_config_path,
-    "resources/models/%s.skinned_model/skeleton",
-    m_requery_path);
-  m_request_path = parent->m_requery_path;
-  if ( !m_request_path )
-    m_request_path = parent->m_request_path;
-  vostok::fs_new::path_string_impl::assignf(&render_model_path, "%s.skinned_model/render", m_request_path);
-  requests.id = (vostok::resources::class_id_enum)this;
-  requests.path = (const char *)vostok::render::skeleton_model_instance_cook::on_skeleton_config_loaded;
-  v8.f_.f_ = (void (__thiscall *)(survarium::animated_model_instance_cook *, vostok::resources::queries_result *, survarium::animated_model_instance *))this;
-  callback.vtable = 0;
-  v8.l_.a1_.t_ = (survarium::animated_model_instance_cook *)cook_data;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         &callback.functor,
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::render::skeleton_model_instance_cook::on_skeleton_config_loaded,
-         v8) )
-  {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_model_instance_cook,vostok::resources::queries_result &,vostok::render::skeleton_model_instance_cook_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::skeleton_model_instance_cook_data *>>>>'::`2'::stored_vtable
-                                                             + 1);
-  }
-  else
-  {
-    callback.vtable = 0;
-  }
-  requests.path = skeleton_config_path.m_string.m_begin;
-  requests.id = binary_config_class_impl;
-  user_data = 0;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-    (const vostok::variant<32> **)&user_data,
-    parent,
+  v23[0] = v24;
+  v23[1] = v24;
+  v23[2] = &v25;
+  v26[0] = v27;
+  v26[1] = v27;
+  v24[0] = 0;
+  v25 = 47;
+  v26[2] = &v28;
+  v27[0] = 0;
+  v28 = 47;
+  requested_path = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fs_new::path_string_impl::assignf(v23, v9, (vostok::buffer_string *)&stru_8010B4, requested_path);
+  v10 = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fs_new::path_string_impl::assignf(v26, v11, (vostok::buffer_string *)"%s.skinned_model/render", v10);
+  v16.l_.a1_.t_ = (vostok::render::skeleton_model_instance_cook *)vostok::render::skeleton_model_instance_cook::on_skeleton_config_loaded;
+  v16.l_.a3_.t_ = (vostok::render::skeleton_model_instance_cook_data *)this;
+  v16.f_.f_ = (void (__thiscall *)(vostok::render::skeleton_model_instance_cook *, vostok::resources::queries_result *, vostok::render::skeleton_model_instance_cook_data *))f;
+  boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
+    v12,
+    v16,
+    v7);
+  vostok::resources::query_resource(
+    v23[0],
+    (vostok::variant<32> *)0x20,
+    vostok::render::g_allocator,
+    0,
+    (const vostok::variant<32> **)parent,
     assert_on_fail_true);
-  if ( callback.vtable )
-  {
-    if ( ((int)callback.vtable & 1) == 0 )
-    {
-      v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-      if ( v6 )
-        v6(&callback.functor, &callback.functor, 2);
-    }
-  }
-  requests.id = (vostok::resources::class_id_enum)v12;
-  requests.path = (const char *)vostok::render::skeleton_model_instance_cook::on_render_model_loaded;
-  v9.f_.f_ = (void (__thiscall *)(survarium::animated_model_instance_cook *, vostok::resources::queries_result *, survarium::animated_model_instance *))v12;
-  callback.vtable = 0;
-  v9.l_.a1_.t_ = (survarium::animated_model_instance_cook *)cook_data;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         &callback.functor,
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::render::skeleton_model_instance_cook::on_render_model_loaded,
-         v9) )
-  {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_model_instance_cook,vostok::resources::queries_result &,vostok::render::skeleton_model_instance_cook_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::skeleton_model_instance_cook_data *>>>>'::`2'::stored_vtable
-                                                             + 1);
-  }
-  else
-  {
-    callback.vtable = 0;
-  }
-  requests.path = render_model_path.m_string.m_begin;
-  requests.id = skeleton_render_model_instance_class;
-  v12 = 0;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-    (const vostok::variant<32> **)&v12,
-    parent,
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v13, f);
+  v17.l_.a1_.t_ = (vostok::render::skeleton_model_instance_cook *)vostok::render::skeleton_model_instance_cook::on_render_model_loaded;
+  v17.l_.a3_.t_ = (vostok::render::skeleton_model_instance_cook_data *)this;
+  v17.f_.f_ = (void (__thiscall *)(vostok::render::skeleton_model_instance_cook *, vostok::resources::queries_result *, vostok::render::skeleton_model_instance_cook_data *))f;
+  boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
+    v14,
+    v17,
+    v7);
+  vostok::resources::query_resource(
+    v26[0],
+    (vostok::variant<32> *)0x16,
+    vostok::render::g_allocator,
+    0,
+    (const vostok::variant<32> **)parent,
     assert_on_fail_true);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-  {
-    v7 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v7 )
-      v7(&callback.functor, &callback.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v15, f);
 }

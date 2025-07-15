@@ -6,12 +6,12 @@ void __thiscall Scaleform::Render::DICommand_FillRect::ExecuteHW(
   int y1; // eax
   int y2; // edx
   _DWORD v7[4]; // [esp+8h] [ebp-10h] BYREF
-  unsigned int fill; // [esp+1Ch] [ebp+4h]
+  unsigned int Raw; // [esp+1Ch] [ebp+4h]
 
   Scaleform::Render::HAL::applyBlendMode(context->pHAL, Blend_OverwriteAll, 1, (Scaleform::String::DataDesc *)1);
-  fill = this->FillColor.Raw;
+  Raw = this->FillColor.Raw;
   if ( !this->pImage.pObject->Transparent )
-    HIBYTE(fill) = -1;
+    HIBYTE(Raw) = -1;
   x2 = this->ApplyRect.x2;
   y1 = this->ApplyRect.y1;
   v7[0] = this->ApplyRect.x1;
@@ -22,5 +22,5 @@ void __thiscall Scaleform::Render::DICommand_FillRect::ExecuteHW(
   ((void (__thiscall *)(Scaleform::Render::HAL *, _DWORD *, unsigned int))context->pHAL->clearSolidRectangle)(
     context->pHAL,
     v7,
-    fill);
+    Raw);
 }

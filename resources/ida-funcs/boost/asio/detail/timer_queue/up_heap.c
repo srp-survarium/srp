@@ -1,15 +1,28 @@
-void __thiscall boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::up_heap(
-        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this,
-        unsigned int index)
+void __userpurge boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::up_heap(
+        unsigned int index@<eax>,
+        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this)
 {
-  unsigned int parent; // [esp+60h] [ebp-4h]
+  unsigned int v2; // edi
+  unsigned int i; // esi
+  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *v4; // ecx
+  unsigned int v5; // esi
 
-  for ( parent = (index - 1) >> 1;
-        index
-     && this->heap_._M_impl._M_start[index].time_.time_.time_count_.value_ < this->heap_._M_impl._M_start[parent].time_.time_.time_count_.value_;
-        parent = (parent - 1) >> 1 )
+  v2 = index;
+  for ( i = index - 1; ; i = v5 - 1 )
   {
-    boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(this, index, parent);
-    index = parent;
+    v5 = i >> 1;
+    if ( !v2
+      || !boost::asio::time_traits<boost::posix_time::ptime>::less_than(
+            &this->heap_._M_impl._M_start[v2].time_,
+            &this->heap_._M_impl._M_start[v5].time_) )
+    {
+      break;
+    }
+    boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(
+      v4,
+      (int)this,
+      v2,
+      v5);
+    v2 = v5;
   }
 }

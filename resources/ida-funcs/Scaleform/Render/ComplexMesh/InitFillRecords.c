@@ -17,24 +17,26 @@ char __thiscall Scaleform::Render::ComplexMesh::InitFillRecords(
   unsigned int Layer; // eax
   Scaleform::Render::MeshProvider *pObject; // ecx
   void (__thiscall *GetFillData)(Scaleform::Render::MeshProvider *, Scaleform::Render::FillData *, unsigned int, unsigned int, unsigned int); // edx
-  Scaleform::Render::PrimitiveFill *MergedFill; // eax
+  Scaleform::Render::PrimitiveFill *v18; // eax
   Scaleform::Ptr<Scaleform::Render::Image> *v19; // ebx
   Scaleform::Ptr<Scaleform::Render::Image> *v20; // ebx
-  Scaleform::Render::FillData *v21; // esi
-  int j; // ebx
+  Scaleform::Render::FillData *p_fd0; // esi
+  int i; // ebx
   const Scaleform::Render::VertexFormat *pVFormat; // ecx
   Scaleform::Render::FillData *v25; // esi
-  int k; // edi
+  int j; // edi
   const Scaleform::Render::VertexFormat *v27; // ecx
   unsigned int v28; // [esp+20h] [ebp-58h]
   unsigned int morphRatio; // [esp+24h] [ebp-54h]
   int v30; // [esp+38h] [ebp-40h]
-  unsigned int i; // [esp+3Ch] [ebp-3Ch]
+  int v31; // [esp+3Ch] [ebp-3Ch]
   Scaleform::Render::TextureManager *textureManager; // [esp+40h] [ebp-38h]
-  const Scaleform::Render::VertexFormat *tempBatchVF; // [esp+44h] [ebp-34h] BYREF
-  Scaleform::Ptr<Scaleform::Render::Image> gi[2]; // [esp+48h] [ebp-30h] BYREF
-  Scaleform::Render::FillData fd[2]; // [esp+50h] [ebp-28h] BYREF
-  const Scaleform::Render::VertexOutput::Fill *fillsa; // [esp+7Ch] [ebp+4h]
+  int v33; // [esp+44h] [ebp-34h] BYREF
+  Scaleform::Ptr<Scaleform::Render::Image> gradientImg0; // [esp+48h] [ebp-30h] BYREF
+  Scaleform::Ptr<Scaleform::Render::Image> gradientImg1; // [esp+4Ch] [ebp-2Ch] BYREF
+  Scaleform::Render::FillData fd0; // [esp+50h] [ebp-28h] BYREF
+  Scaleform::Render::FillData fd1; // [esp+64h] [ebp-14h] BYREF
+  Scaleform::Render::PrimitiveFill *v38; // [esp+7Ch] [ebp+4h]
 
   Size = this->FillRecords.Data.Size;
   p_FillRecords = &this->FillRecords;
@@ -71,7 +73,7 @@ char __thiscall Scaleform::Render::ComplexMesh::InitFillRecords(
     *vbSize = 0;
     *indexCount = 0;
     *vertexCount = 0;
-    i = 0;
+    v31 = 0;
     if ( !fillRecordCount )
     {
 LABEL_31:
@@ -84,51 +86,46 @@ LABEL_31:
     while ( 1 )
     {
       v14 = &this->FillRecords.Data.Data[v30];
-      fd[0].Type = Fill_VColor;
-      fd[1].Type = Fill_VColor;
+      fd0.Type = Fill_VColor;
+      fd1.Type = Fill_VColor;
       morphRatio = this->MGFlags;
       v28 = *p_FillIndex0;
       Layer = this->Layer;
-      fd[0].pVFormat = &Scaleform::Render::VertexXY16iCF32::Format;
-      fd[1].pVFormat = &Scaleform::Render::VertexXY16iCF32::Format;
+      fd0.pVFormat = &Scaleform::Render::VertexXY16iCF32::Format;
+      fd1.pVFormat = &Scaleform::Render::VertexXY16iCF32::Format;
       pObject = this->pProvider.pObject;
-      fd[0].PrimFill = PrimFill_VColor_EAlpha;
-      fd[1].PrimFill = PrimFill_VColor_EAlpha;
-      fd[0].Color = 0;
-      fd[0].FillMode.Fill = 0;
-      fd[1].Color = 0;
-      fd[1].FillMode.Fill = 0;
+      fd0.PrimFill = PrimFill_VColor_EAlpha;
+      fd1.PrimFill = PrimFill_VColor_EAlpha;
+      fd0.Color = 0;
+      fd0.FillMode.Fill = 0;
+      fd1.Color = 0;
+      fd1.FillMode.Fill = 0;
       GetFillData = pObject->GetFillData;
-      gi[0].pObject = 0;
-      gi[1].pObject = 0;
-      GetFillData(pObject, fd, Layer, v28, morphRatio);
+      gradientImg0.pObject = 0;
+      gradientImg1.pObject = 0;
+      GetFillData(pObject, &fd0, Layer, v28, morphRatio);
       if ( (p_FillIndex0[2] & 2) != 0 )
-        this->pProvider.pObject->GetFillData(
-          this->pProvider.pObject,
-          &fd[1],
-          this->Layer,
-          p_FillIndex0[1],
-          this->MGFlags);
-      MergedFill = Scaleform::Render::PrimitiveFillManager::CreateMergedFill(
-                     this->pFillManager,
-                     p_FillIndex0[2],
-                     (const Scaleform::Render::VertexFormat *)*(p_FillIndex0 - 1),
-                     fd,
-                     &fd[1],
-                     gi,
-                     &gi[1],
-                     textureManager,
-                     this->MorphRatio);
-      fillsa = (const Scaleform::Render::VertexOutput::Fill *)MergedFill;
+        this->pProvider.pObject->GetFillData(this->pProvider.pObject, &fd1, this->Layer, p_FillIndex0[1], this->MGFlags);
+      v18 = Scaleform::Render::PrimitiveFillManager::CreateMergedFill(
+              this->pFillManager,
+              p_FillIndex0[2],
+              (const Scaleform::Render::VertexFormat *)*(p_FillIndex0 - 1),
+              &fd0,
+              &fd1,
+              &gradientImg0,
+              &gradientImg1,
+              textureManager,
+              this->MorphRatio);
+      v38 = v18;
       if ( v14->pFill.pObject )
       {
         Scaleform::RefCountNTSImpl::Release(v14->pFill.pObject);
-        MergedFill = (Scaleform::Render::PrimitiveFill *)fillsa;
+        v18 = v38;
       }
-      v14->pFill.pObject = MergedFill;
-      if ( !MergedFill )
+      v14->pFill.pObject = v18;
+      if ( !v18 )
         break;
-      if ( !this->UpdateListNode.pPrev && (fd[0].Type == Fill_Image || fd[1].Type == Fill_Image) )
+      if ( !this->UpdateListNode.pPrev && (fd0.Type == Fill_Image || fd1.Type == Fill_Image) )
         Scaleform::Render::Renderer2DImpl::AddComplexMeshToUpdateList(this->pRenderer2D, &this->UpdateListNode);
       v14->IndexOffset = *indexCount;
       v14->IndexCount = *(p_FillIndex0 - 2);
@@ -137,7 +134,7 @@ LABEL_31:
       v14->FillMatrixIndex[0] = *p_FillIndex0;
       v14->FillMatrixIndex[1] = p_FillIndex0[1];
       v14->MergeFlags = p_FillIndex0[2];
-      if ( gi[0].pObject )
+      if ( gradientImg0.pObject )
       {
         Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::Render::Image>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Image>,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
           &this->GradientImages.Data,
@@ -146,11 +143,11 @@ LABEL_31:
         v19 = &this->GradientImages.Data.Data[this->GradientImages.Data.Size - 1];
         if ( &this->GradientImages.Data.Data[this->GradientImages.Data.Size] != (Scaleform::Ptr<Scaleform::Render::Image> *)4 )
         {
-          gi[0].pObject->AddRef(gi[0].pObject);
-          v19->pObject = (Scaleform::Render::Image *)gi[0];
+          gradientImg0.pObject->AddRef(gradientImg0.pObject);
+          v19->pObject = gradientImg0.pObject;
         }
       }
-      if ( gi[1].pObject )
+      if ( gradientImg1.pObject )
       {
         Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::Render::Image>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Image>,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
           &this->GradientImages.Data,
@@ -159,8 +156,8 @@ LABEL_31:
         v20 = &this->GradientImages.Data.Data[this->GradientImages.Data.Size - 1];
         if ( &this->GradientImages.Data.Data[this->GradientImages.Data.Size] != (Scaleform::Ptr<Scaleform::Render::Image> *)4 )
         {
-          gi[1].pObject->AddRef(gi[1].pObject);
-          v20->pObject = (Scaleform::Render::Image *)gi[1];
+          gradientImg1.pObject->AddRef(gradientImg1.pObject);
+          v20->pObject = gradientImg1.pObject;
         }
       }
       hal->MapVertexFormat(
@@ -168,27 +165,27 @@ LABEL_31:
         v14->pFill.pObject->Data.Type,
         v14->pFill.pObject->Data.pFormat,
         v14->pFormats,
-        &tempBatchVF,
+        (const Scaleform::Render::VertexFormat **)&v33,
         &v14->pFormats[1],
         1u);
       *vbSize += *(p_FillIndex0 - 3) * v14->pFormats[0]->Size;
       *vertexCount += *(p_FillIndex0 - 3);
       *indexCount += *(p_FillIndex0 - 2);
-      v21 = fd;
-      for ( j = 1; j >= 0; --j )
+      p_fd0 = &fd0;
+      for ( i = 1; i >= 0; --i )
       {
-        pVFormat = v21[-1].pVFormat;
-        v21 = (Scaleform::Render::FillData *)((char *)v21 - 4);
+        pVFormat = p_fd0[-1].pVFormat;
+        p_fd0 = (Scaleform::Render::FillData *)((char *)p_fd0 - 4);
         if ( pVFormat )
           (*(void (__thiscall **)(const Scaleform::Render::VertexFormat *))(pVFormat->Size + 8))(pVFormat);
       }
       ++v30;
       p_FillIndex0 += 7;
-      if ( ++i >= fillRecordCount )
+      if ( ++v31 >= fillRecordCount )
         goto LABEL_31;
     }
-    v25 = fd;
-    for ( k = 1; k >= 0; --k )
+    v25 = &fd0;
+    for ( j = 1; j >= 0; --j )
     {
       v27 = v25[-1].pVFormat;
       v25 = (Scaleform::Render::FillData *)((char *)v25 - 4);

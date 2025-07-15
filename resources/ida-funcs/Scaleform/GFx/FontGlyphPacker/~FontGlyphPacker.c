@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::FontGlyphPacker::~FontGlyphPacker(Scaleform::GFx::FontGlyphPacker *this)
 {
-  Scaleform::Log *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::RefCountVImpl *v3; // ecx
 
   this->__vftable = (Scaleform::GFx::FontGlyphPacker_vtbl *)&Scaleform::GFx::FontGlyphPacker::`vftable';
@@ -12,9 +12,9 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::~FontGlyphPacker(Scaleform::GFx
   Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2>>::ClearAndRelease((Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2> > *)&this->Packer.Packs);
   Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2>>::ClearAndRelease((Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2> > *)&this->Packer.PackedRects);
   Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2>>::ClearAndRelease((Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2> > *)&this->Packer.SrcRects);
-  pObject = this->pLog.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pLog.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   v3 = (Scaleform::RefCountVImpl *)this->pImageCreator.pObject;
   if ( v3 )
     Scaleform::RefCountImpl::Release(v3);

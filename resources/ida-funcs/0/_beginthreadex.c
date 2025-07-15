@@ -1,11 +1,11 @@
 HANDLE __usercall _beginthreadex@<eax>(
-        unsigned int a1@<esi>,
+        int a1@<esi>,
         _SECURITY_ATTRIBUTES *security,
         SIZE_T stacksize,
         unsigned int (__stdcall *initialcode)(void *),
         void *argument,
         DWORD createflag,
-        unsigned int *thrdaddr)
+        LPDWORD thrdaddr)
 {
   unsigned int (__stdcall *v7)(void *); // edi
   HANDLE result; // eax
@@ -13,10 +13,10 @@ HANDLE __usercall _beginthreadex@<eax>(
   _tiddata *v10; // eax
   void *v11; // eax
   unsigned int *p_initialcode; // eax
-  DWORD err; // [esp+8h] [ebp-4h]
+  DWORD oserrno; // [esp+8h] [ebp-4h]
 
   v7 = initialcode;
-  err = 0;
+  oserrno = 0;
   if ( !initialcode )
   {
     *_errno() = 22;
@@ -26,7 +26,7 @@ HANDLE __usercall _beginthreadex@<eax>(
   __set_flsgetvalue();
   v9 = (_tiddata *)_calloc_crt(1u, 0x214u);
   if ( !v9 )
-    goto error_return_2;
+    goto error_return;
   v10 = _getptd();
   _initptd(v9, v10->ptlocinfo);
   v11 = argument;
@@ -39,11 +39,11 @@ HANDLE __usercall _beginthreadex@<eax>(
   result = CreateThread(security, stacksize, (LPTHREAD_START_ROUTINE)threadstartex, v9, createflag, p_initialcode);
   if ( !result )
   {
-    err = GetLastError();
-error_return_2:
+    oserrno = GetLastError();
+error_return:
     free(v9);
-    if ( err )
-      _dosmaperr(err);
+    if ( oserrno )
+      _dosmaperr(oserrno);
     return 0;
   }
   return result;

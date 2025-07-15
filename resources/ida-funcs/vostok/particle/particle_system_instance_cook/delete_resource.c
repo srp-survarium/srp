@@ -1,13 +1,20 @@
 void __thiscall vostok::particle::particle_system_instance_cook::delete_resource(
         vostok::particle::particle_system_instance_cook *this,
-        vostok::particle::particle_system_instance *res)
+        vostok::resources::resource_base *res)
 {
-  vostok::memory::pthreads3_allocator *v2; // eax
-  vostok::particle::particle_system_instance *ps_instance; // [esp+14h] [ebp-4h] BYREF
+  vostok::memory::base_allocator *m_allocator; // esi
+  _BYTE *v3; // ebx
 
-  ps_instance = res;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::memory::detail::delete_helper_impl<vostok::memory::pthreads3_allocator,vostok::particle::particle_system_instance,vostok::memory::detail::call_destructor_predicate>(
-    v2,
-    (vostok::sound::sound_order **)&ps_instance);
+  m_allocator = this->m_allocator;
+  if ( res )
+  {
+    v3 = __RTCastToVoid((void **)&res->__vftable);
+    ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))res->~vostok::resources::resource_base)(res, 0);
+    m_allocator->call_free(
+      m_allocator,
+      v3,
+      "vostok::particle::particle_system_instance_cook::delete_resource",
+      ".\\particle_system_instance_cook.cpp",
+      154u);
+  }
 }

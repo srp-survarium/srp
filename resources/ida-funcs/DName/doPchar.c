@@ -1,7 +1,7 @@
-void __thiscall DName::doPchar(DName *this, char *str, int len)
+void __thiscall DName::doPchar(DName *this, char *str, unsigned int len)
 {
   char *v4; // eax
-  char *Memory; // eax
+  DNameNode *Memory; // eax
   char v6; // cl
 
   if ( this->node )
@@ -16,12 +16,12 @@ void __thiscall DName::doPchar(DName *this, char *str, int len)
   }
   if ( len == 1 )
   {
-    Memory = HeapManager::getMemory(&heap, 8u, 0);
+    Memory = (DNameNode *)HeapManager::getMemory(&heap, 8u, 0);
     if ( Memory )
     {
       v6 = *str;
-      *(_DWORD *)Memory = &charNode::`vftable';
-      Memory[4] = v6;
+      Memory->__vftable = (DNameNode_vtbl *)&charNode::`vftable';
+      LOBYTE(Memory[1].__vftable) = v6;
       goto LABEL_11;
     }
   }
@@ -30,13 +30,13 @@ void __thiscall DName::doPchar(DName *this, char *str, int len)
     v4 = HeapManager::getMemory(&heap, 0xCu, 0);
     if ( v4 )
     {
-      Memory = (char *)pcharNode::pcharNode((pcharNode *)v4, str, len);
+      Memory = pcharNode::pcharNode((pcharNode *)v4, str, len);
       goto LABEL_11;
     }
   }
   Memory = 0;
 LABEL_11:
-  this->node = (DNameNode *)Memory;
+  this->node = Memory;
   if ( !Memory )
     *((_BYTE *)this + 4) = 3;
 }

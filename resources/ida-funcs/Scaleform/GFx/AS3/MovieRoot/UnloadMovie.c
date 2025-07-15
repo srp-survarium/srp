@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::UnloadMovie(
         bool gc)
 {
   char v5; // bl
-  Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo *ContentLoaderInfo; // eax
+  Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo *ImageId; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *pObject; // eax
   Scaleform::GFx::InteractiveObject *v8; // ecx
   Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *p_pDispObj; // eax
@@ -75,14 +75,14 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::UnloadMovie(
   v5 = 0;
   v65 = this;
   doc = 0;
-  ContentLoaderInfo = Scaleform::GFx::AS3::Instances::fl_display::Loader::GetContentLoaderInfo(ploader);
-  loaderInfo.pObject = ContentLoaderInfo;
-  if ( ContentLoaderInfo )
-    ContentLoaderInfo->RefCount = (ContentLoaderInfo->RefCount + 1) & 0x8FBFFFFF;
+  ImageId = Scaleform::Render::RawImage::GetImageId(ploader);
+  loaderInfo.pObject = ImageId;
+  if ( ImageId )
+    ImageId->RefCount = (ImageId->RefCount + 1) & 0x8FBFFFFF;
   contentDisplayObj.pObject = 0;
-  if ( ContentLoaderInfo )
+  if ( ImageId )
   {
-    pObject = ContentLoaderInfo->Content.pObject;
+    pObject = ImageId->Content.pObject;
     if ( pObject )
     {
       v8 = obj.pObject;
@@ -150,7 +150,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::UnloadMovie(
       if ( ((int)vis.__vftable & 1) == 0 )
       {
         v18 = vis.__vftable[2].~Scaleform::GFx::AS3::MovieRoot::UnloadMovie::__l46::TextFormatVisitor;
-        if ( ((unsigned int)&byte_3FFFFF & (unsigned int)v18) != 0 )
+        if ( ((unsigned int)v18 & 0x3FFFFF) != 0 )
         {
           v19 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)vis.__vftable;
           vis.__vftable[2].~Scaleform::GFx::AS3::MovieRoot::UnloadMovie::__l46::TextFormatVisitor = (void (__thiscall *)(struct Scaleform::GFx::AS3::MovieRoot::UnloadMovie::__l46::TextFormatVisitor *))((char *)v18 - 1);
@@ -283,8 +283,8 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::UnloadMovie(
                 if ( (v48 & 1) != 0 )
                   --v48;
                 if ( v48
-                  && (v49 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v48 + 20) + 28))(*(_DWORD *)(v48 + 20))) != 0
-                  && *(Scaleform::GFx::Resource **)(*(_DWORD *)(v49 + 60) + 184) == ploadera )
+                  && (v49 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v48 + 20) + 40))(*(_DWORD *)(v48 + 20))) != 0
+                  && *(Scaleform::GFx::Resource **)(*(_DWORD *)(v49 + 60) + 192) == ploadera )
                 {
                   if ( *(p_pObject - 2) == (Scaleform::RefCountNTSImpl *)1 )
                   {
@@ -316,8 +316,8 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::UnloadMovie(
                     if ( (&(*(p_pObject - 3))->__vftable)[v43] )
                       Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)(&(*(p_pObject - 3))->__vftable)[v43]);
                     memmove(
-                      (unsigned __int8 *)*(p_pObject - 3) + v43 * 4,
-                      (unsigned __int8 *)&(*(p_pObject - 3))->RefCount + v43 * 4,
+                      (int)*(p_pObject - 3) + v43 * 4,
+                      (const __m128i *)((char *)&(*(p_pObject - 3))->RefCount + v43 * 4),
                       4 * ((_DWORD)*(p_pObject - 2) - v41) - 4);
                     *(p_pObject - 2) = (Scaleform::RefCountNTSImpl *)((char *)*(p_pObject - 2) - 1);
                   }
@@ -343,10 +343,10 @@ LABEL_89:
                 --v53;
               if ( v53 )
               {
-                v54 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v53 + 20) + 28))(*(_DWORD *)(v53 + 20));
+                v54 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(v53 + 20) + 40))(*(_DWORD *)(v53 + 20));
                 if ( v54 )
                 {
-                  if ( *(Scaleform::GFx::Resource **)(*(_DWORD *)(v54 + 60) + 184) == ploadera )
+                  if ( *(Scaleform::GFx::Resource **)(*(_DWORD *)(v54 + 60) + 192) == ploadera )
                   {
                     if ( *p_pObject )
                       Scaleform::RefCountNTSImpl::Release(*p_pObject);
@@ -381,7 +381,7 @@ LABEL_89:
       else
       {
         RefCount = v57->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v57->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v57);
@@ -415,7 +415,7 @@ LABEL_89:
     if ( ((int)loaderInfo.pObject & 1) == 0 )
     {
       v63 = loaderInfo.pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v63) != 0 )
+      if ( (v63 & 0x3FFFFF) != 0 )
       {
         loaderInfo.pObject->RefCount = v63 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v62);

@@ -1,7 +1,13 @@
-void __thiscall vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(
-        vostok::fs_new::synchronous_device_interface *this)
+void __usercall vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(
+        vostok::fs_new::synchronous_device_interface *this@<ecx>,
+        int *a2@<eax>)
 {
-  if ( this->m_synchronize_query )
-    vostok::fs_new::synchronize_device_query::on_synchronized_ended(this->m_synchronize_query);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
+  int v2; // eax
+
+  v2 = *a2;
+  if ( v2 )
+  {
+    *(_DWORD *)(*(_DWORD *)(v2 + 32) + 180) = -1;
+    SetEvent(*(HANDLE *)(v2 + 48));
+  }
 }

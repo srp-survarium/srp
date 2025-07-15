@@ -1,6 +1,11 @@
-void vostok::threading::_dynamic_initializer_for__g_core_affinity__()
+void __thiscall vostok::threading::_dynamic_initializer_for__g_core_affinity__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &vostok::threading::g_core_affinity);
+  vostok::command_line::key::key(
+    this,
+    &vostok::threading::g_core_affinity,
+    "core_affinity",
+    uri,
+    "threading",
+    "string mask with 1 and 0",
+    uri);
 }

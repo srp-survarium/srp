@@ -1,84 +1,158 @@
-// local variable allocation has failed, the output may be wrong!
-survarium::collision_result __thiscall survarium::bullet::check_collision(
-        survarium::bullet *this,
-        __int128 start_position,
-        float current_time)
+int __userpurge survarium::bullet::check_collision@<eax>(
+        survarium::bullet *this@<ecx>,
+        float a2@<xmm0>,
+        survarium::bullet *time,
+        __int128 a4,
+        float *a5,
+        float *a6)
 {
-  survarium::game_camera *v3; // ecx
-  vostok::math::float3_pod *v4; // ecx
-  vostok::math::float3 *v6; // eax
-  vostok::math::float3_pod *v7; // ecx
-  long double v8; // st7
-  vostok::math::float3_pod *v9; // ecx
-  vostok::math::float3 *v10; // eax
-  vostok::math::float3 *v11; // eax
-  bool v12; // [esp+2Fh] [ebp-BDh]
-  vostok::math::float3 v14; // [esp+44h] [ebp-A8h] BYREF
-  vostok::math::float3 v15; // [esp+50h] [ebp-9Ch] BYREF
-  vostok::math::float3 v16; // [esp+5Ch] [ebp-90h] BYREF
-  float value; // [esp+68h] [ebp-84h] BYREF
-  vostok::math::float3 v18; // [esp+6Ch] [ebp-80h] BYREF
-  char v19; // [esp+7Ah] [ebp-72h]
-  bool ignorable_object_was_hit; // [esp+7Bh] [ebp-71h]
-  vostok::math::float3 triangle_normal; // [esp+7Ch] [ebp-70h] BYREF
-  vostok::physics::closest_ray_result ray_result; // [esp+88h] [ebp-64h] BYREF
-  float cos_alpha; // [esp+B0h] [ebp-3Ch]
-  survarium::triangle_orientation orientation; // [esp+B4h] [ebp-38h]
-  const vostok::math::float3 *target_position; // [esp+B8h] [ebp-34h]
-  survarium::collision_result result; // [esp+BCh] [ebp-30h]
-  vostok::physics::world *p_world; // [esp+C0h] [ebp-2Ch]
-  float distance; // [esp+C4h] [ebp-28h] BYREF
-  vostok::math::float3 new_start_position; // [esp+C8h] [ebp-24h] BYREF
-  vostok::math::float3 v30; // [esp+D4h] [ebp-18h] BYREF
-  vostok::math::float3 direction; // [esp+E0h] [ebp-Ch] BYREF
+  float v7; // xmm0_4
+  float v8; // xmm1_4
+  float v9; // xmm3_4
+  float v10; // xmm4_4
+  survarium::bullet_manager *m_bullet_manager; // eax
+  int v13; // esi
+  vostok::physics::world *m_physics_world; // ecx
+  vostok::physics::world_vtbl *v15; // eax
+  survarium::bullet *v16; // ecx
+  vostok::physics::base_physics_object *object; // eax
+  bool v18; // zf
+  int v19; // edi
+  unsigned __int16 v20; // ax
+  survarium::game_material_manager *v21; // ecx
+  const survarium::game_material *material; // eax
+  survarium::bullet *v23; // ecx
+  const vostok::math::float3 *p_m_gravity; // [esp+30h] [ebp-68h]
+  survarium::triangle_orientation v25; // [esp+30h] [ebp-68h]
+  vostok::physics::closest_ray_result ray_result; // [esp+44h] [ebp-54h] BYREF
+  vostok::math::float3 v27; // [esp+6Ch] [ebp-2Ch] BYREF
+  vostok::math::float3 direction; // [esp+78h] [ebp-20h] BYREF
+  vostok::physics::world *v29; // [esp+84h] [ebp-14h]
+  float gravity; // [esp+88h] [ebp-10h]
+  survarium::triangle_orientation orientation; // [esp+8Ch] [ebp-Ch]
+  float v32; // [esp+90h] [ebp-8h]
+  survarium::hit_receiver *timea; // [esp+A0h] [ebp+8h]
 
-  result = collision_result_no_collision;
-  survarium::bullet::compute_trajectory_position(this, &v30, current_time, &this->m_bullet_manager->m_gravity);
-  target_position = &v30;
-  v19 = 0;
-  survarium::weapon_user_dead_state::finalize(v3);
-  vostok::math::operator-((const vostok::math::float3_pod *)&start_position, &v30, &direction);
-  distance = vostok::math::float3_pod::length(v4, &direction.x);
-  if ( vostok::math::is_zero<float>(&distance, &epsilon_5_84) )
-    return result;
-  vostok::math::float3_pod::operator*=(&direction.x, *(float *)&clear_value / distance);
-  p_world = this->m_bullet_manager->m_physics_world;
-  for ( new_start_position = (vostok::math::float3)start_position;
-        ;
-        new_start_position = *vostok::math::operator+(v11, &ray_result.hit_point_world, &v14) )
+  survarium::bullet::compute_trajectory_position(time, this, &v27, a2, *a5);
+  v7 = v27.y - *((float *)&a4 + 1);
+  v8 = v27.z - *((float *)&a4 + 2);
+  v9 = v27.x - *(float *)&a4;
+  v10 = fsqrt((float)((float)(v8 * v8) + (float)(v7 * v7)) + (float)(v9 * v9));
+  v32 = v10;
+  if ( COERCE_FLOAT(LODWORD(v10) & 0x7FFFFFFF) < 0.0000099999997 )
+    return 0;
+  m_bullet_manager = time->m_bullet_manager;
+  v13 = 1;
+  direction.x = (float)(s_bm_current_air_resistance / v10) * v9;
+  direction.y = v7 * (float)(s_bm_current_air_resistance / v10);
+  direction.z = v8 * (float)(s_bm_current_air_resistance / v10);
+  m_physics_world = m_bullet_manager->m_physics_world;
+  v15 = m_physics_world->__vftable;
+  v29 = m_physics_world;
+  ((void (__stdcall *)(vostok::physics::closest_ray_result *, __int128 *, vostok::math::float3 *, float, int, int, survarium::bullet *, int))v15->ray_test)(
+    &ray_result,
+    &a4,
+    &direction,
+    COERCE_FLOAT(LODWORD(v32)),
+    16,
+    72,
+    time,
+    1);
+  object = ray_result.object;
+  if ( !ray_result.object )
+    return 0;
+  while ( 1 )
   {
-    ((void (__thiscall *)(vostok::physics::world *, vostok::physics::closest_ray_result *, vostok::math::float3 *, vostok::math::float3 *, _DWORD, int, int))p_world->ray_test)(
-      p_world,
-      &ray_result,
-      &new_start_position,
-      &direction,
-      LODWORD(distance),
-      16,
-      8);
-    if ( !ray_result.object )
-      return result;
-    triangle_normal = ray_result.hit_normal_world;
-    cos_alpha = vostok::math::operator|(&triangle_normal, &direction);
-    orientation = cos_alpha >= 0.0;
-    v12 = this->m_ignorable_object
-       && ray_result.object->user_data
-       && ray_result.object->user_data->cast_to_hit_receiver(ray_result.object->user_data) == this->m_ignorable_object;
-    ignorable_object_was_hit = v12;
-    if ( !v12 && orientation != triangle_orientation_back_face )
+    orientation = (float)((float)((float)(ray_result.hit_normal_world.z * direction.z)
+                                + (float)(ray_result.hit_normal_world.y * direction.y))
+                        + (float)(ray_result.hit_normal_world.x * direction.x)) >= 0.0;
+    v18 = object->user_data == 0;
+    gravity = fsqrt(
+                (float)((float)((float)(ray_result.hit_point_world.z - *((float *)&a4 + 2))
+                              * (float)(ray_result.hit_point_world.z - *((float *)&a4 + 2)))
+                      + (float)((float)(ray_result.hit_point_world.y - *((float *)&a4 + 1))
+                              * (float)(ray_result.hit_point_world.y - *((float *)&a4 + 1))))
+              + (float)((float)(ray_result.hit_point_world.x - *(float *)&a4)
+                      * (float)(ray_result.hit_point_world.x - *(float *)&a4)));
+    v19 = (int)object;
+    timea = v18 ? 0 : object->user_data->cast_to_hit_receiver(object->user_data);
+    if ( orientation != triangle_orientation_back_face || timea )
       break;
-    v6 = vostok::math::operator-(&new_start_position, &ray_result.hit_point_world, &v18);
-    v8 = vostok::math::float3_pod::length(v7, &v6->x);
-    distance = distance - v8;
-    value = vostok::math::float3_pod::length(v9, &new_start_position.x);
-    v10 = vostok::math::operator*(&direction, &v16, (float *)&epsilon_5_84);
-    v11 = vostok::math::operator*(v10, &v15, &value);
+    survarium::bullet::process_back_face_piercing(v16, (int)time, &ray_result, &direction, 0);
+    v27.x = (float)(direction.x * 0.001) + ray_result.hit_point_world.x;
+    v27.y = (float)(direction.y * 0.001) + ray_result.hit_point_world.y;
+    v27.z = (float)(direction.z * 0.001) + ray_result.hit_point_world.z;
+    *(vostok::math::float3 *)&a4 = v27;
+    v32 = v32 - (float)(gravity + 0.001);
+    if ( v32 <= 0.0 )
+      return 0;
+    ((void (__stdcall *)(vostok::physics::closest_ray_result *, __int128 *, vostok::math::float3 *, float, int, int, survarium::bullet *, int))v29->ray_test)(
+      &ray_result,
+      &a4,
+      &direction,
+      COERCE_FLOAT(LODWORD(v32)),
+      16,
+      72,
+      time,
+      1);
+    object = ray_result.object;
+    if ( !ray_result.object )
+      return 0;
+    v13 = 1;
   }
-  return survarium::bullet::process_ray_query(
-           this,
-           &ray_result,
-           distance,
-           (vostok::math::float3 *)&start_position,
-           &direction,
-           (float *)&start_position + 3,
-           &current_time);
+  p_m_gravity = &time->m_bullet_manager->m_gravity;
+  gravity = (float)((float)((float)(*a5 - *(float *)HIDWORD(a4)) / v32) * gravity) + *(float *)HIDWORD(a4);
+  if ( survarium::bullet::update_bullet_position(
+         v16,
+         (int)time,
+         v19,
+         1,
+         gravity,
+         time,
+         (const vostok::math::float3 *)LODWORD(gravity),
+         *(float *)&p_m_gravity) )
+  {
+    v20 = (*(int (__thiscall **)(int, int, _DWORD))(*(_DWORD *)v19 + 16))(
+            v19,
+            ray_result.triangle_index,
+            *(_DWORD *)&ray_result.is_shape_index);
+    material = survarium::game_material_manager::get_material(
+                 v21,
+                 (int)time->m_bullet_manager->m_game_material_manager,
+                 v20);
+    v25 = orientation;
+    time->m_collided_material = material;
+    if ( survarium::bullet::try_pierce(timea, *(float *)&v19, time, &ray_result, &direction, v25) )
+    {
+      v13 = 2;
+    }
+    else
+    {
+      if ( orientation )
+        goto LABEL_24;
+      if ( survarium::bullet::try_reflect(v23, time, (const vostok::math::float3 *)&ray_result, &direction.x) )
+      {
+        v13 = 3;
+        survarium::bullet::process_reflection(v23, (int)time, &ray_result, &direction, timea);
+LABEL_26:
+        *(_DWORD *)HIDWORD(a4) = 0;
+        *a5 = 0.0;
+        *a6 = *a6 - gravity;
+        return v13;
+      }
+    }
+    if ( orientation == triangle_orientation_front_face )
+    {
+      if ( v13 == 2 )
+        survarium::bullet::process_front_face_piercing(v23, (int)time, &ray_result, &direction, timea);
+      else
+        survarium::bullet::process_collision(v23, (int)time, &ray_result, &direction, timea);
+      goto LABEL_26;
+    }
+LABEL_24:
+    if ( v13 == 2 )
+      survarium::bullet::process_back_face_piercing(v23, (int)time, &ray_result, &direction, timea);
+    goto LABEL_26;
+  }
+  return v13;
 }

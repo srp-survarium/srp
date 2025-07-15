@@ -1,25 +1,14 @@
-vostok::logging::log_file *__cdecl vostok::logging::new_log_file(
-        vostok::memory::base_allocator *allocator,
-        vostok::fs_new::device_file_system_no_watcher_proxy *device,
-        const char *log_file_name,
-        vostok::logging::log_file_usage_enum log_file_usage)
+void __cdecl vostok::logging::new_log_file(vostok::logging::base_allocator *log_file_name)
 {
-  survarium::game_camera *v4; // ecx
-  vostok::memory::base_allocator *v5; // eax
-  int v6; // eax
-  void *_Where; // [esp+4h] [ebp-Ch]
-  vostok::logging::log_file *v10; // [esp+Ch] [ebp-4h]
+  vostok::logging::fs_new_device_impl *v1; // ebx
+  vostok::threading::mutex_tasks_unaware *v2; // esi
+  vostok::logging::memory_base_allocator_wrapper *v3; // ebp
+  vostok::logging::log_file *v4; // edi
 
-  survarium::weapon_user_dead_state::finalize(v4);
-  _Where = vostok::memory::base_allocator::malloc_impl(v5, 0x4680u);
-  v10 = (vostok::logging::log_file *)operator new(0x4680u, _Where);
-  if ( !v10 )
-    return 0;
-  vostok::logging::log_file::log_file(
-    v10,
-    allocator,
-    log_file_usage,
-    log_file_name,
-    (vostok::fs_new::device_file_system_no_watcher_proxy)device->m_device_file_system);
-  return (vostok::logging::log_file *)v6;
+  v1 = s_logging_fs_device_impl;
+  v2 = (vostok::threading::mutex_tasks_unaware *)vostok::core::g_log_file_usage;
+  v3 = s_logging_allocator_wrapper;
+  v4 = (vostok::logging::log_file *)((int (__stdcall *)(int))s_logging_allocator_wrapper->allocate)(17504);
+  if ( v4 )
+    vostok::logging::log_file::log_file(v4, v2, v1, v3, (char *)log_file_name);
 }

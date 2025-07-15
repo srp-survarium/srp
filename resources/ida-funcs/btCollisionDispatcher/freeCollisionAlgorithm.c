@@ -1,25 +1,19 @@
 void __thiscall btCollisionDispatcher::freeCollisionAlgorithm(btCollisionDispatcher *this, void **ptr)
 {
-  btPoolAllocator *m_collisionAlgorithmPoolAllocator; // eax
-  unsigned int m_pool; // edx
+  btPoolAllocator *m_collisionAlgorithmPoolAllocator; // esi
 
   m_collisionAlgorithmPoolAllocator = this->m_collisionAlgorithmPoolAllocator;
-  if ( ptr )
+  if ( btPoolAllocator::validPtr((btPoolAllocator *)this, m_collisionAlgorithmPoolAllocator, (unsigned int)ptr) )
   {
-    m_pool = (unsigned int)m_collisionAlgorithmPoolAllocator->m_pool;
-    if ( (unsigned int)ptr < m_pool
-      || (unsigned int)ptr >= m_pool
-                            + m_collisionAlgorithmPoolAllocator->m_elemSize
-                            * m_collisionAlgorithmPoolAllocator->m_maxElements )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(ptr);
-    }
-    else
+    if ( ptr )
     {
       *ptr = m_collisionAlgorithmPoolAllocator->m_firstFree;
       ++m_collisionAlgorithmPoolAllocator->m_freeCount;
       m_collisionAlgorithmPoolAllocator->m_firstFree = ptr;
     }
+  }
+  else
+  {
+    btAlignedFreeInternal(ptr);
   }
 }

@@ -4,64 +4,58 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::setVecto
         Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *rect,
         Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint *inputVector)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
-  int y1; // eax
-  Scaleform::GFx::ASStringNode *v8; // ecx
-  const Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *v9; // ebp
-  Scaleform::GFx::AS3::VM *v10; // esi
-  const Scaleform::GFx::AS3::VM::Error *v11; // eax
-  int v12; // eax
-  Scaleform::GFx::AS3::Instances::fl_vec::Vector_String *v13; // ebx
-  Scaleform::GFx::AS3::VM *v14; // esi
-  const Scaleform::GFx::AS3::VM::Error *v15; // eax
-  int v16; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
+  const Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *v6; // ebp
+  const Scaleform::GFx::AS3::VM::Error *v7; // eax
+  Scaleform::GFx::AS3::Instances::fl_vec::Vector_String *v8; // ebx
+  const Scaleform::GFx::AS3::VM::Error *v9; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // edi
-  const Scaleform::Render::Rect<long> *v18; // eax
-  Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *v19; // edi
-  Scaleform::GFx::AS3::VM *v20; // esi
-  const Scaleform::GFx::AS3::VM::Error *v21; // eax
-  int v22; // eax
-  Scaleform::Render::Rect<long> v23; // [esp+4h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider pixelProvider; // [esp+14h] [ebp-Ch] BYREF
+  const Scaleform::Render::Rect<long> *v11; // eax
+  Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *v12; // edi
+  Scaleform::GFx::AS3::VM *pVM; // esi
+  const Scaleform::GFx::AS3::VM::Error *v14; // eax
+  Scaleform::GFx::ASStringNode *y1; // eax
+  Scaleform::StringDataPtr v16; // [esp-8h] [ebp-34h] BYREF
+  Scaleform::Render::Rect<long> v17; // [esp+10h] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider pixelProvider; // [esp+20h] [ebp-Ch] BYREF
 
   if ( !this->pImage.pObject )
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v23, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
-    y1 = v23.y1;
-    --*(_DWORD *)(v23.y1 + 12);
-    v8 = (Scaleform::GFx::ASStringNode *)y1;
-    if ( *(_DWORD *)(y1 + 12) )
-      return;
-    goto LABEL_13;
+    v16.pStr = "Invalid BitmapData";
+    v16.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&v17,
+      eArgumentError,
+      this->pTraits.pObject->pVM,
+      v16);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
+    goto LABEL_10;
   }
-  v9 = rect;
+  v6 = rect;
   if ( !rect )
   {
-    v10 = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v23, eNullPointerError, v10);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v10, v11);
-    v12 = v23.y1;
-    --*(_DWORD *)(v23.y1 + 12);
-    v8 = (Scaleform::GFx::ASStringNode *)v12;
-    if ( *(_DWORD *)(v12 + 12) )
-      return;
-    goto LABEL_13;
+    v16.pStr = "rect";
+    v16.Size = 4;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&v17,
+      eNullPointerError,
+      this->pTraits.pObject->pVM,
+      v16);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v7);
+    goto LABEL_10;
   }
-  v13 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_String *)inputVector;
+  v8 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_String *)inputVector;
   if ( !inputVector )
   {
-    v14 = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v23, eNullPointerError, v14);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v14, v15);
-    v16 = v23.y1;
-    --*(_DWORD *)(v23.y1 + 12);
-    v8 = (Scaleform::GFx::ASStringNode *)v16;
-    if ( *(_DWORD *)(v16 + 12) )
-      return;
-    goto LABEL_13;
+    v16.pStr = "inputVector";
+    v16.Size = 11;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&v17,
+      eNullPointerError,
+      this->pTraits.pObject->pVM,
+      v16);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v9);
+    goto LABEL_10;
   }
   pixelProvider.__vftable = (Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider_vtbl *)&Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider::`vftable';
   pixelProvider.Location = 0;
@@ -69,25 +63,25 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::setVecto
   DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
                                   this,
                                   this);
-  v18 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v23, v9);
-  if ( !Scaleform::Render::DrawableImage::SetPixels(DrawableImageFromBitmapData, v18, &pixelProvider) )
+  v11 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v17, v6);
+  if ( !Scaleform::Render::DrawableImage::SetPixels(DrawableImageFromBitmapData, v11, &pixelProvider) )
   {
-    Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::lengthGet(v13, (unsigned int *)&rect);
-    v19 = rect;
+    Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::lengthGet(v8, (unsigned int *)&rect);
+    v12 = rect;
     Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::lengthGet(
       (Scaleform::GFx::AS3::Instances::fl_vec::Vector_String *)pixelProvider.PixelVector,
       (unsigned int *)&inputVector);
-    if ( v19 < (Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *)inputVector )
+    if ( v12 < (Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *)inputVector )
     {
-      v20 = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v23, eInvalidRangeError, v20);
-      Scaleform::GFx::AS3::VM::ThrowError(v20, v21);
-      v22 = v23.y1;
-      --*(_DWORD *)(v23.y1 + 12);
-      v8 = (Scaleform::GFx::ASStringNode *)v22;
-      if ( !*(_DWORD *)(v22 + 12) )
-LABEL_13:
-        Scaleform::GFx::ASStringNode::ReleaseNode(v8);
+      pVM = this->pTraits.pObject->pVM;
+      Scaleform::StringDataPtr::StringDataPtr(&v16, "inputVector not large enough to read all the pixel data.");
+      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v17, eInvalidRangeError, pVM, v16);
+      Scaleform::GFx::AS3::VM::ThrowError(pVM, v14);
+LABEL_10:
+      y1 = (Scaleform::GFx::ASStringNode *)v17.y1;
+      --*(_DWORD *)(v17.y1 + 12);
+      if ( !y1->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(y1);
     }
   }
 }

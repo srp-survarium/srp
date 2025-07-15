@@ -18,9 +18,9 @@ void __cdecl ssl_sess_cert_free(sess_cert_st *sc)
     }
     while ( v2 );
     if ( sc->peer_rsa_tmp )
-      RSA_free((unsigned int)sc, sc->peer_rsa_tmp);
+      RSA_free((int)sc, v2, sc->peer_rsa_tmp);
     if ( sc->peer_dh_tmp )
-      DH_free((unsigned int)sc, sc->peer_dh_tmp);
+      DH_free((int)sc, v2, sc->peer_dh_tmp);
     if ( sc->peer_ecdh_tmp )
       EC_KEY_free(sc->peer_ecdh_tmp);
     CRYPTO_free(sc);

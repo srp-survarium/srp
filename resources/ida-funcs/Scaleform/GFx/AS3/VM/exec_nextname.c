@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_nextname(Scaleform::GFx::AS3::VM *
     if ( (v6->Flags & 0x1F) == 0xB )
       Scaleform::GFx::AS3::Instances::fl::Namespace::GetNextPropertyName(VNs, v10, v5);
     else
-      ((void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::Namespace *, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::GlobalSlotIndex))VNs->__vftable[3].ForEachChild_GC)(
+      ((void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::Namespace *, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::GlobalSlotIndex))VNs->__vftable[2].IsAS3Object)(
         VNs,
         v10,
         v5);

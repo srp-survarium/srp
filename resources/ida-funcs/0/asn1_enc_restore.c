@@ -17,7 +17,7 @@ int __cdecl asn1_enc_restore(int *len, unsigned __int8 **out, struct ASN1_VALUE_
     return 0;
   if ( out )
   {
-    memcpy(*out, *(unsigned __int8 **)v5, *((_DWORD *)v5 + 1));
+    memcpy((int)*out, *(const __m128i **)v5, *((_DWORD *)v5 + 1));
     *out += *((_DWORD *)v5 + 1);
   }
   if ( len )

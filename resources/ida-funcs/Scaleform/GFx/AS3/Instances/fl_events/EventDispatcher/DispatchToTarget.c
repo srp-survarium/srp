@@ -68,7 +68,7 @@ char __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Disp
     {
       RefCount = evtObj.pObject->RefCount;
       v15 = evtObj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         evtObj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);

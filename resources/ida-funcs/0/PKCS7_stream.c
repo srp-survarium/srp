@@ -1,27 +1,27 @@
-int __cdecl PKCS7_stream(unsigned __int8 ***boundary, pkcs7_st *p7)
+int __usercall PKCS7_stream@<eax>(int a1@<ebx>, unsigned __int8 ***boundary, pkcs7_st *p7)
 {
   char *ptr; // eax
 
-  switch ( OBJ_obj2nid(p7->type) )
+  switch ( (unsigned int)OBJ_obj2nid(p7->type) )
   {
-    case 21:
+    case 0x15u:
       ptr = p7->d.ptr;
       break;
-    case 22:
+    case 0x16u:
       ptr = *(char **)(*((_DWORD *)p7->d.ptr + 5) + 20);
       break;
-    case 23:
+    case 0x17u:
       ptr = *(char **)(*((_DWORD *)p7->d.ptr + 2) + 8);
       if ( ptr )
         goto LABEL_10;
-      ptr = (char *)ASN1_STRING_type_new(4);
+      ptr = (char *)ASN1_STRING_type_new(a1, 4);
       *(_DWORD *)(*((_DWORD *)p7->d.ptr + 2) + 8) = ptr;
       break;
-    case 24:
+    case 0x18u:
       ptr = *(char **)(*((_DWORD *)p7->d.ptr + 5) + 8);
       if ( ptr )
         goto LABEL_10;
-      ptr = (char *)ASN1_STRING_type_new(4);
+      ptr = (char *)ASN1_STRING_type_new(a1, 4);
       *(_DWORD *)(*((_DWORD *)p7->d.ptr + 5) + 8) = ptr;
       break;
     default:

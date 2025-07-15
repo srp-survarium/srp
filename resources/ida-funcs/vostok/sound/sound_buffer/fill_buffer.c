@@ -1,45 +1,32 @@
-void __thiscall vostok::sound::sound_buffer::fill_buffer(
-        vostok::sound::sound_buffer *this,
-        const vostok::resources::resource_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base> *encoded_sound,
-        unsigned int pcm_offset,
+void __userpurge vostok::sound::sound_buffer::fill_buffer(
+        vostok::sound::sound_buffer *this@<esi>,
+        const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *encoded_sound@<eax>,
+        unsigned int start_pcm_offset,
         unsigned int *next_pcm_offset)
 {
-  unsigned int v4; // [esp+0h] [ebp-58h]
-  vostok::resources::resource_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base> *p_m_encoded_sound; // [esp+3Ch] [ebp-1Ch]
-  vostok::sound::encoded_sound_interface *m_object; // [esp+44h] [ebp-14h]
-  vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v8; // [esp+48h] [ebp-10h] BYREF
-  unsigned int audio_bytes; // [esp+4Ch] [ebp-Ch]
-  unsigned __int64 total_pcm; // [esp+50h] [ebp-8h]
+  vostok::sound::encoded_sound_interface *m_object; // ecx
+  unsigned int v5; // ecx
+  unsigned int v6; // ebx
+  unsigned int v7; // eax
+  unsigned __int64 m_length_in_pcm; // [esp+8h] [ebp-8h]
 
-  p_m_encoded_sound = &this->m_encoded_sound;
-  v8.m_object = 0;
-  vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &v8,
-    encoded_sound);
-  m_object = v8.m_object;
-  v8.m_object = p_m_encoded_sound->m_object;
-  p_m_encoded_sound->m_object = m_object;
-  vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::sound::panning_lut,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v8);
-  this->m_cached_offset = pcm_offset;
-  total_pcm = this->m_encoded_sound.m_object->m_length_in_pcm;
-  audio_bytes = this->m_encoded_sound.m_object->decompress(
-                  this->m_encoded_sound.m_object,
-                  this->m_buff,
-                  pcm_offset,
-                  next_pcm_offset,
-                  44100u);
-  this->m_last_value_in_buffer = *(&this->m_last_value_in_buffer + *next_pcm_offset - pcm_offset);
-  this->m_xaudio_buffer.PlayLength = audio_bytes
-                                   / (this->m_encoded_sound.m_object->m_bytes_per_sample
-                                    * this->m_encoded_sound.m_object->m_channels_num);
+  vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+    encoded_sound,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_encoded_sound);
+  m_object = this->m_encoded_sound.m_object;
+  this->m_cached_offset = start_pcm_offset;
+  m_length_in_pcm = m_object->m_length_in_pcm;
+  v5 = m_object->decompress(m_object, this->m_buff, start_pcm_offset, next_pcm_offset, 88200u);
+  v6 = this->m_encoded_sound.m_object->m_bytes_per_sample * this->m_encoded_sound.m_object->m_channels_num;
   this->m_xaudio_buffer.PlayBegin = 0;
+  this->m_xaudio_buffer.PlayLength = v5 / v6;
   this->m_cached_offset_after_decompress = *next_pcm_offset;
-  if ( total_pcm == *next_pcm_offset )
-    v4 = 64;
+  if ( m_length_in_pcm == *next_pcm_offset )
+    v7 = 64;
   else
-    v4 = 0;
-  this->m_xaudio_buffer.Flags = v4;
-  this->m_xaudio_buffer.AudioBytes = audio_bytes;
+    v7 = 0;
+  this->m_xaudio_buffer.Flags = v7;
+  this->m_xaudio_buffer.AudioBytes = v5;
   this->m_xaudio_buffer.pAudioData = this->m_buff;
   this->m_xaudio_buffer.LoopBegin = 0;
   this->m_xaudio_buffer.LoopLength = 0;

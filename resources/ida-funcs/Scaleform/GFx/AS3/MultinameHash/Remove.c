@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Remove(
         Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329> *this,
         const Scaleform::GFx::ASString *name,
-        Scaleform::GFx::AS3::Instances::fl::Namespace *ns)
+        const Scaleform::GFx::AS3::Instances::fl::Namespace *ns)
 {
   Scaleform::GFx::ASStringNode *pNode; // esi
   unsigned int RefCount; // eax
@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTra
     if ( ((unsigned __int8)ns & 1) == 0 )
     {
       RefCount = ns->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         ns->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(ns);

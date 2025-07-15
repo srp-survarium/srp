@@ -1,14 +1,18 @@
-void __thiscall vostok::vfs::mounter::destroy_this_if_needed(vostok::vfs::mounter *this)
+void __usercall vostok::vfs::mounter::destroy_this_if_needed(vostok::vfs::mounter *this@<ecx>, void **a2@<esi>)
 {
-  vostok::memory::base_allocator *v1; // eax
-  vostok::vfs::mounter *this_ptr; // [esp+18h] [ebp-4h] BYREF
+  void *v2; // edi
+  _BYTE *v3; // ebx
 
-  if ( this->m_args.submount_type == submount_type_subfat && !this->m_args.synchronous_device )
+  if ( a2[325] == (void *)2 && !a2[303] )
   {
-    this_ptr = this;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-    vostok::memory::detail::delete_helper_impl<vostok::memory::base_allocator,vostok::sound::sound_order,vostok::memory::detail::call_destructor_predicate>(
-      v1,
-      (vostok::sound::sound_order **)&this_ptr);
+    v2 = a2[304];
+    v3 = __RTCastToVoid(a2);
+    (*(void (__thiscall **)(void **, _DWORD))*a2)(a2, 0);
+    (*(void (__thiscall **)(void *, _BYTE *, const char *, const char *, int))(*(_DWORD *)v2 + 24))(
+      v2,
+      v3,
+      "vostok::vfs::mounter::destroy_this_if_needed",
+      ".\\mounter.cpp",
+      110);
   }
 }

@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::OnKeyDown(
                                                                                        * *((unsigned __int8 *)&this[-1].LoadedMovieDefs.mHash.pTable[2026].SizeMask
                                                                                          + evt->ControllerIndex)
                                                                                        + 1900].SizeMask,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&evt);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&evt);
   v6 = (Scaleform::GFx::DisplayObject *)evt;
   if ( evt )
   {

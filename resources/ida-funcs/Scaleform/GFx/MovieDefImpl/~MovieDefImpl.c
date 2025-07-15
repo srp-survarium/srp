@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::MovieDefImpl::~MovieDefImpl(Scaleform::GFx::Movi
   Scaleform::RefCountVImpl *v3; // ecx
   Scaleform::RefCountVImpl *v4; // ecx
   Scaleform::RefCountVImpl *v5; // ecx
-  Scaleform::GFx::StateBagImpl *v6; // ecx
+  Scaleform::RefCountVImpl *v6; // ecx
 
   pObject = this->pBindData.pObject;
   this->Scaleform::GFx::MovieDef::Scaleform::GFx::Resource::__vftable = (Scaleform::GFx::MovieDefImpl_vtbl *)&Scaleform::GFx::MovieDefImpl::`vftable'{for `Scaleform::GFx::Resource'};
@@ -19,9 +19,9 @@ void __thiscall Scaleform::GFx::MovieDefImpl::~MovieDefImpl(Scaleform::GFx::Movi
   v5 = (Scaleform::RefCountVImpl *)this->pLoaderImpl.pObject;
   if ( v5 )
     Scaleform::RefCountImpl::Release(v5);
-  v6 = this->pStateBag.pObject;
+  v6 = (Scaleform::RefCountVImpl *)this->pStateBag.pObject;
   if ( v6 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v6);
+    Scaleform::RefCountImpl::Release(v6);
   this->Scaleform::GFx::MovieDef::Scaleform::GFx::Resource::__vftable = (Scaleform::GFx::MovieDefImpl_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->Scaleform::GFx::MovieDef::Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::StateBag::`vftable';
 }

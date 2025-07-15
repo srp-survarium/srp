@@ -38,7 +38,7 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateSetDate(const Scaleform::GFx::A
           return;
       }
       if ( v6 )
-        v9 = dword_865024[12 * Scaleform::GFx::AS2::IsLeapYear(LYear) + v6];
+        v9 = dword_6F8914[12 * Scaleform::GFx::AS2::IsLeapYear(LYear) + v6];
       else
         v9 = 0;
       v10 = v9 - LJDate + (int)v4 - 1;

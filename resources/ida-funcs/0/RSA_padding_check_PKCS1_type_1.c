@@ -1,64 +1,65 @@
-int __cdecl RSA_padding_check_PKCS1_type_1(
+int __usercall RSA_padding_check_PKCS1_type_1@<eax>(
+        int a1@<ebx>,
         unsigned __int8 *to,
         int tlen,
         const unsigned __int8 *from,
         int flen,
         int num)
 {
-  unsigned __int8 *v5; // ecx
-  int v6; // esi
-  int v7; // eax
-  signed int v9; // esi
+  const __m128i *v6; // ecx
+  int v7; // esi
+  int v8; // eax
+  signed int v10; // esi
 
-  if ( num == flen + 1 && (v5 = (unsigned __int8 *)(from + 1), *from == 1) )
+  if ( num == flen + 1 && (v6 = (const __m128i *)(from + 1), *from == 1) )
   {
-    v6 = flen - 1;
-    v7 = 0;
+    v7 = flen - 1;
+    v8 = 0;
     if ( flen - 1 > 0 )
     {
-      while ( *v5 == 0xFF )
+      while ( v6->m128i_i8[0] == -1 )
       {
-        ++v7;
-        ++v5;
-        if ( v7 >= v6 )
+        ++v8;
+        v6 = (const __m128i *)((char *)v6 + 1);
+        if ( v8 >= v7 )
           goto LABEL_6;
       }
-      if ( *v5 )
+      if ( v6->m128i_i8[0] )
       {
-        ERR_put_error(4u, 112, 102, ".\\crypto\\rsa\\rsa_pk1.c", 113);
+        ERR_put_error(a1, 4u, 112, 102, ".\\crypto\\rsa\\rsa_pk1.c", 113);
         return -1;
       }
-      ++v5;
+      v6 = (const __m128i *)((char *)v6 + 1);
     }
 LABEL_6:
-    if ( v7 == v6 )
+    if ( v8 == v7 )
     {
-      ERR_put_error(4u, 112, 113, ".\\crypto\\rsa\\rsa_pk1.c", 122);
+      ERR_put_error(a1, 4u, 112, 113, ".\\crypto\\rsa\\rsa_pk1.c", 122);
       return -1;
     }
-    else if ( v7 >= 8 )
+    else if ( v8 >= 8 )
     {
-      v9 = -1 - v7 + v6;
-      if ( v9 <= tlen )
+      v10 = -1 - v8 + v7;
+      if ( v10 <= tlen )
       {
-        memcpy(to, v5, v9);
-        return v9;
+        memcpy((int)to, v6, v10);
+        return v10;
       }
       else
       {
-        ERR_put_error(4u, 112, 109, ".\\crypto\\rsa\\rsa_pk1.c", 135);
+        ERR_put_error(a1, 4u, 112, 109, ".\\crypto\\rsa\\rsa_pk1.c", 135);
         return -1;
       }
     }
     else
     {
-      ERR_put_error(4u, 112, 103, ".\\crypto\\rsa\\rsa_pk1.c", 128);
+      ERR_put_error(a1, 4u, 112, 103, ".\\crypto\\rsa\\rsa_pk1.c", 128);
       return -1;
     }
   }
   else
   {
-    ERR_put_error(4u, 112, 106, ".\\crypto\\rsa\\rsa_pk1.c", 100);
+    ERR_put_error(a1, 4u, 112, 106, ".\\crypto\\rsa\\rsa_pk1.c", 100);
     return -1;
   }
 }

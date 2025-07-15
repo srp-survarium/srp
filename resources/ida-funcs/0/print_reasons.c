@@ -4,7 +4,7 @@ int __usercall print_reasons@<eax>(bio_st *out@<edi>, const char *rname@<edx>, a
   const char **p_lname; // esi
 
   v4 = 1;
-  BIO_printf(out, "%*s%s:\n%*s", indent, (const char *)&buf, rname, indent + 2, (const char *)&buf);
+  BIO_printf(out, "%*s%s:\n%*s", indent, uri, rname, indent + 2, uri);
   if ( !reason_flags[0].lname )
     goto LABEL_10;
   p_lname = &reason_flags[0].lname;
@@ -15,21 +15,21 @@ int __usercall print_reasons@<eax>(bio_st *out@<edi>, const char *rname@<edx>, a
       if ( v4 )
         v4 = 0;
       else
-        BIO_puts(out, (const char *)&stru_95AF78.m_key_bindings[32]);
-      BIO_puts(out, *p_lname);
+        BIO_puts(0, out, ", ");
+      BIO_puts(0, out, *p_lname);
     }
     p_lname += 3;
   }
   while ( *p_lname );
   if ( !v4 )
   {
-    BIO_puts(out, "\n");
+    BIO_puts(0, out, "\n");
     return 1;
   }
   else
   {
 LABEL_10:
-    BIO_puts(out, "<EMPTY>\n");
+    BIO_puts(v4, out, "<EMPTY>\n");
     return 1;
   }
 }

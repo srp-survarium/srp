@@ -10,12 +10,12 @@ void __thiscall Scaleform::Render::ComplexPrimitiveBundle::Draw(
   unsigned int v8; // eax
   unsigned int v9; // ecx
   Scaleform::Ptr<Scaleform::Render::ComplexMesh> *p_pMesh; // edx
-  unsigned int count; // [esp+8h] [ebp-Ch]
+  unsigned int Size; // [esp+8h] [ebp-Ch]
   _DWORD v12[2]; // [esp+Ch] [ebp-8h] BYREF
 
   v3 = 0;
-  count = this->Instances.Data.Size;
-  if ( count )
+  Size = this->Instances.Data.Size;
+  if ( Size )
   {
     do
     {
@@ -42,6 +42,6 @@ void __thiscall Scaleform::Render::ComplexPrimitiveBundle::Draw(
       }
       v3 = v9 + 1;
     }
-    while ( v9 + 1 < count );
+    while ( v9 + 1 < Size );
   }
 }

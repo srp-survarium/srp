@@ -15,15 +15,15 @@ Scaleform::Render::SortKey *__cdecl Scaleform::Render::TreeCacheShapeLayer::Crea
   Scaleform::Render::TextureManager *v13; // edi
   Scaleform::Render::PrimitiveFillManager *PrimitiveFillManager; // ebx
   Scaleform::Render::PrimitiveFill *v15; // esi
-  unsigned int meshGenFlags; // [esp+2Ch] [ebp-18h]
-  Scaleform::Render::FillData fillData; // [esp+30h] [ebp-14h] BYREF
+  unsigned int v16; // [esp+2Ch] [ebp-18h]
+  Scaleform::Render::FillData initdata; // [esp+30h] [ebp-14h] BYREF
   bool is3D; // [esp+58h] [ebp+14h]
 
-  meshGenFlags = (flags & 0xC) == 4;
+  v16 = (flags & 0xC) == 4;
   if ( (flags & 0x40) != 0 )
-    meshGenFlags = 2;
+    v16 = 2;
   if ( (flags & 0x80u) != 0 )
-    meshGenFlags |= 8u;
+    v16 |= 8u;
   v7 = refNode;
   v8 = (flags & 0x200) != 0;
   do
@@ -35,16 +35,16 @@ Scaleform::Render::SortKey *__cdecl Scaleform::Render::TreeCacheShapeLayer::Crea
   while ( v7 && !v8 );
   is3D = v8;
   v10 = &provider->Scaleform::Render::MeshProvider;
-  if ( provider->GetFillCount(&provider->Scaleform::Render::MeshProvider, drawLayer, meshGenFlags) <= 1 )
+  if ( provider->GetFillCount(&provider->Scaleform::Render::MeshProvider, drawLayer, v16) <= 1 )
   {
     HAL = Scaleform::Render::TreeCacheNode::GetHAL(refNode);
     v13 = HAL->GetTextureManager(HAL);
     PrimitiveFillManager = Scaleform::Render::TreeCacheNode::GetPrimitiveFillManager(refNode);
-    Scaleform::Render::FillData::FillData(&fillData, Fill_VColor);
-    v10->GetFillData(v10, &fillData, drawLayer, 0, meshGenFlags);
+    Scaleform::Render::FillData::FillData(&initdata, Fill_VColor);
+    v10->GetFillData(v10, &initdata, drawLayer, 0, v16);
     v15 = Scaleform::Render::PrimitiveFillManager::CreateFill(
             PrimitiveFillManager,
-            &fillData,
+            &initdata,
             gradientImage,
             v13,
             morphRatio);

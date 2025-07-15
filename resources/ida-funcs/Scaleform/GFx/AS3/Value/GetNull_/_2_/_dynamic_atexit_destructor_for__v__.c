@@ -1,4 +1,4 @@
-void __cdecl Scaleform::GFx::AS3::Value::GetNull_::_2_::_dynamic_atexit_destructor_for__v__()
+void Scaleform::GFx::AS3::Value::GetNull_::_2_::_dynamic_atexit_destructor_for__v__()
 {
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // eax
 

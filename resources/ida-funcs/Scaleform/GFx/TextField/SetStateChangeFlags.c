@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::TextField::SetStateChangeFlags(Scaleform::GFx::T
   v6 = Scaleform::GFx::TextField::CheckAdvanceStatus(this, v5);
   if ( v6 == -1 )
   {
-    this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
   }
   else if ( v6 == 1 )
   {

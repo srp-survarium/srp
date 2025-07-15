@@ -17,15 +17,15 @@ void __thiscall Scaleform::GFx::DrawTextManager::DrawTextManager(
   Scaleform::Ptr<Scaleform::GFx::StateBagImpl> *p_pStateBag; // edi
   Scaleform::Log *v17; // ebp
   Scaleform::GFx::Resource **Log; // eax
-  Scaleform::Log *v19; // ecx
+  Scaleform::RefCountVImpl *v19; // ecx
   Scaleform::GFx::Resource *v20; // eax
   Scaleform::GFx::Resource *v21; // ebp
   Scaleform::Render::Text::Allocator *v22; // eax
-  Scaleform::GFx::Loader *v23; // eax
+  Scaleform::GFx::StateBag *v23; // eax
   Scaleform::GFx::DrawTextManagerImpl *v24; // ebp
   Scaleform::RefCountNTSImpl *v25; // ecx
   _DWORD *p_pObject; // ebp
-  Scaleform::GFx::Loader *v27; // eax
+  Scaleform::GFx::StateBag *v27; // eax
   Scaleform::GFx::StateBagImpl *v28; // ecx
   Scaleform::GFx::StateBag *v29; // ecx
   Scaleform::GFx::DrawTextManagerImpl *v30; // ebp
@@ -65,9 +65,9 @@ void __thiscall Scaleform::GFx::DrawTextManager::DrawTextManager(
   Scaleform::Ptr<Scaleform::Log> v65; // [esp+84h] [ebp-28h] BYREF
   Scaleform::Render::Color color; // [esp+88h] [ebp-24h] BYREF
   _DWORD v67[8]; // [esp+8Ch] [ebp-20h] BYREF
-  Scaleform::GFx::Loader *ploadera; // [esp+B0h] [ebp+4h]
-  Scaleform::GFx::Loader *ploaderb; // [esp+B0h] [ebp+4h]
-  Scaleform::RefCountVImpl *ploaderc; // [esp+B0h] [ebp+4h]
+  Scaleform::GFx::StateBag *v68; // [esp+B0h] [ebp+4h]
+  Scaleform::GFx::StateBag *v69; // [esp+B0h] [ebp+4h]
+  Scaleform::RefCountVImpl *v70; // [esp+B0h] [ebp+4h]
 
   this->RefCount = 1;
   this->Scaleform::GFx::StateBag::__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::StateBag::`vftable';
@@ -146,7 +146,7 @@ void __thiscall Scaleform::GFx::DrawTextManager::DrawTextManager(
   {
     Log = (Scaleform::GFx::Resource **)Scaleform::GFx::StateBag::GetLog(ploader, &v65);
     Scaleform::GFx::StateBag::SetLog(&this->pImpl->pStateBag.pObject->Scaleform::GFx::StateBag, *Log);
-    v19 = v65.pObject;
+    v19 = (Scaleform::RefCountVImpl *)v65.pObject;
     if ( !v65.pObject )
       goto LABEL_24;
     goto LABEL_23;
@@ -166,28 +166,28 @@ void __thiscall Scaleform::GFx::DrawTextManager::DrawTextManager(
   Scaleform::GFx::StateBag::SetLog(&this->pImpl->pStateBag.pObject->Scaleform::GFx::StateBag, v21);
   if ( v21 )
   {
-    v19 = (Scaleform::Log *)v21;
+    v19 = (Scaleform::RefCountVImpl *)v21;
 LABEL_23:
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v19);
+    Scaleform::RefCountImpl::Release(v19);
   }
 LABEL_24:
   v22 = (Scaleform::Render::Text::Allocator *)this->pHeap->Alloc(this->pHeap, 76, 0);
   if ( v22 )
   {
     Scaleform::Render::Text::Allocator::Allocator(v22, this->pHeap, 0);
-    ploadera = v23;
+    v68 = v23;
   }
   else
   {
-    ploadera = 0;
+    v68 = 0;
   }
   v24 = this->pImpl;
   v25 = v24->pTextAllocator.pObject;
   p_pObject = &v24->pTextAllocator.pObject;
   if ( v25 )
     Scaleform::RefCountNTSImpl::Release(v25);
-  *p_pObject = ploadera;
-  v27 = (Scaleform::GFx::Loader *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
+  *p_pObject = v68;
+  v27 = (Scaleform::GFx::StateBag *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
   if ( v27 )
   {
     v28 = this->pImpl->pStateBag.pObject;
@@ -195,27 +195,27 @@ LABEL_24:
       v29 = &v28->Scaleform::GFx::StateBag;
     else
       v29 = 0;
-    v27->pImpl = (Scaleform::GFx::LoaderImpl *)1;
-    v27->pStrongResourceLib = (Scaleform::GFx::ResourceLib *)&Scaleform::GFx::StateBag::`vftable';
-    v27->__vftable = (Scaleform::GFx::Loader_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>'};
-    v27->pStrongResourceLib = (Scaleform::GFx::ResourceLib *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::GFx::StateBag'};
-    v27->DefLoadFlags = 0;
-    v27[1].__vftable = 0;
-    v27[1].pImpl = 0;
-    v27[1].pStrongResourceLib = 0;
-    v27[1].DefLoadFlags = (unsigned int)v29;
-    ploaderb = v27;
+    v27[1].__vftable = (Scaleform::GFx::StateBag_vtbl *)1;
+    v27[2].__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::StateBag::`vftable';
+    v27->__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::RefCountBaseNTS<Scaleform::GFx::FontManagerStates,327>'};
+    v27[2].__vftable = (Scaleform::GFx::StateBag_vtbl *)&Scaleform::GFx::FontManagerStates::`vftable'{for `Scaleform::GFx::StateBag'};
+    v27[3].__vftable = 0;
+    v27[4].__vftable = 0;
+    v27[5].__vftable = 0;
+    v27[6].__vftable = 0;
+    v27[7].__vftable = (Scaleform::GFx::StateBag_vtbl *)v29;
+    v69 = v27;
   }
   else
   {
-    ploaderb = 0;
+    v69 = 0;
   }
   v30 = this->pImpl;
   v31 = v30->pFontStates.pObject;
   v32 = &v30->pFontStates.pObject;
   if ( v31 )
     Scaleform::RefCountNTSImpl::Release(v31);
-  *v32 = ploaderb;
+  *v32 = v69;
   v33 = (Scaleform::RefCountVImpl *)ploader->GetStateAddRef(ploader, 17);
   if ( v33 )
   {
@@ -254,7 +254,7 @@ LABEL_24:
   }
   ContextNotify = (Scaleform::GFx::Resource *)Scaleform::Render::Renderer2D::GetContextNotify((Scaleform::GFx::AS3::SoundObject *)ploader);
   v40 = ContextNotify;
-  ploaderc = (Scaleform::RefCountVImpl *)ContextNotify;
+  v70 = (Scaleform::RefCountVImpl *)ContextNotify;
   if ( ContextNotify )
   {
     Scaleform::RefCountImpl::AddRef(ContextNotify);
@@ -327,6 +327,6 @@ LABEL_24:
     Scaleform::RefCountImpl::Release(*p_DispHandle);
   *p_DispHandle = (Scaleform::RefCountVImpl *)v63.pData.pObject;
   Scaleform::Render::ContextImpl::RTHandle::~RTHandle(&v63);
-  if ( ploaderc )
-    Scaleform::RefCountImpl::Release(ploaderc);
+  if ( v70 )
+    Scaleform::RefCountImpl::Release(v70);
 }

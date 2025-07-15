@@ -1,5 +1,5 @@
 Scaleform::GFx::FontResource *__cdecl Scaleform::GFx::FontResource::CreateFontResource(
-        char *pname,
+        const __m128i *pname,
         unsigned int fontFlags,
         Scaleform::GFx::Resource *pprovider,
         Scaleform::GFx::ResourceWeakLib *plib)
@@ -11,8 +11,8 @@ Scaleform::GFx::FontResource *__cdecl Scaleform::GFx::FontResource::CreateFontRe
   Scaleform::GFx::Resource *v8; // esi
   Scaleform::GFx::FontResource *v9; // eax
   Scaleform::GFx::Resource *v10; // eax
-  Scaleform::GFx::ResourceLib::BindHandle phandle; // [esp+14h] [ebp-10h] BYREF
-  Scaleform::GFx::ResourceKey fontKey; // [esp+1Ch] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceLib::BindHandle v12; // [esp+14h] [ebp-10h] BYREF
+  Scaleform::GFx::ResourceKey v13; // [esp+1Ch] [ebp-8h] BYREF
 
   v4 = 0;
   v5 = (Scaleform::GFx::GFxSystemFontResourceKey *)Scaleform::Memory::pGlobalHeap->Alloc(
@@ -28,17 +28,17 @@ Scaleform::GFx::FontResource *__cdecl Scaleform::GFx::FontResource::CreateFontRe
   {
     v7 = 0;
   }
-  Scaleform::GFx::ResourceKey::ResourceKey(&fontKey, &GFxSystemFontResourceKeyInterface_Instance, v7);
+  Scaleform::GFx::ResourceKey::ResourceKey(&v13, &GFxSystemFontResourceKeyInterface_Instance, v7);
   if ( v7 )
     Scaleform::RefCountImpl::Release(v7);
-  phandle.State = RS_Unbound;
-  phandle.pResource = 0;
-  if ( Scaleform::GFx::ResourceWeakLib::BindResourceKey(plib, &phandle, &fontKey) != 3 )
+  v12.State = RS_Unbound;
+  v12.pResource = 0;
+  if ( Scaleform::GFx::ResourceWeakLib::BindResourceKey(plib, &v12, &v13) != RS_NeedsResolve )
   {
-    v4 = Scaleform::GFx::ResourceLib::BindHandle::WaitForResolve(&phandle);
+    v4 = Scaleform::GFx::ResourceLib::BindHandle::WaitForResolve(&v12);
     goto LABEL_16;
   }
-  v8 = (Scaleform::GFx::Resource *)((int (__thiscall *)(Scaleform::GFx::Resource *, char *, unsigned int))pprovider->GetKey)(
+  v8 = (Scaleform::GFx::Resource *)((int (__thiscall *)(Scaleform::GFx::Resource *, const __m128i *, unsigned int))pprovider->GetKey)(
                                      pprovider,
                                      pname,
                                      fontFlags);
@@ -47,11 +47,11 @@ Scaleform::GFx::FontResource *__cdecl Scaleform::GFx::FontResource::CreateFontRe
     v9 = (Scaleform::GFx::FontResource *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
     if ( v9 )
     {
-      Scaleform::GFx::FontResource::FontResource(v9, v8, &fontKey);
+      Scaleform::GFx::FontResource::FontResource(v9, v8, &v13);
       v4 = v10;
       if ( v10 )
       {
-        Scaleform::GFx::ResourceLib::ResourceSlot::Resolve(phandle.pSlot, v10);
+        Scaleform::GFx::ResourceLib::ResourceSlot::Resolve(v12.pSlot, v10);
         goto LABEL_13;
       }
     }
@@ -60,20 +60,20 @@ Scaleform::GFx::FontResource *__cdecl Scaleform::GFx::FontResource::CreateFontRe
       v4 = 0;
     }
   }
-  Scaleform::GFx::ResourceLib::ResourceSlot::CancelResolve(phandle.pSlot, (char *)&buf);
+  Scaleform::GFx::ResourceLib::ResourceSlot::CancelResolve(v12.pSlot, (const __m128i *)uri);
 LABEL_13:
   if ( v8 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v8);
 LABEL_16:
-  if ( phandle.State == RS_Available )
+  if ( v12.State == RS_Available )
   {
-    Scaleform::GFx::Resource::Release(phandle.pResource);
+    Scaleform::GFx::Resource::Release(v12.pResource);
   }
-  else if ( phandle.State >= RS_WaitingResolve )
+  else if ( v12.State >= RS_WaitingResolve )
   {
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)phandle.pResource);
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v12.pResource);
   }
-  if ( fontKey.pKeyInterface )
-    fontKey.pKeyInterface->Release(fontKey.pKeyInterface, fontKey.hKeyData);
+  if ( v13.pKeyInterface )
+    v13.pKeyInterface->Release(v13.pKeyInterface, v13.hKeyData);
   return (Scaleform::GFx::FontResource *)v4;
 }

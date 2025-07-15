@@ -1,8 +1,8 @@
-void __thiscall btCollisionObject::setActivationState(btCollisionObject *this, int newState)
+void __userpurge btCollisionObject::setActivationState(btCollisionObject *this@<ecx>, int a2@<eax>, int newState)
 {
-  int m_activationState1; // eax
+  _DWORD *v3; // eax
 
-  m_activationState1 = this->m_activationState1;
-  if ( m_activationState1 != 4 && m_activationState1 != 5 )
-    this->m_activationState1 = newState;
+  v3 = (_DWORD *)(a2 + 228);
+  if ( *v3 != 4 && *v3 != 5 )
+    *v3 = newState;
 }

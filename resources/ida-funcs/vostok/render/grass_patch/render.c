@@ -1,102 +1,164 @@
-void __userpurge vostok::render::grass_patch::render(
-        vostok::render::grass_patch *this@<edi>,
-        const vostok::math::float3 *viewer_position@<eax>,
-        unsigned int a3@<esi>,
-        vostok::render::grass_world *in_grass_world,
+void __thiscall vostok::render::grass_patch::render(
+        vostok::render::grass_patch *this,
+        vostok::particle::particle_system_instance_impl *in_grass_world,
         vostok::render::renderer_context *context,
-        vostok::render::enum_render_stage_type stage_type,
-        vostok::render::res_effect *tech_index,
-        float draw_distance,
+        vostok::render::renderer_context *viewer_position,
+        const vostok::math::float3 *stage_type,
+        const unsigned int tech_index,
+        vostok::render::res_effect *draw_distance,
         vostok::render::res_effect *debug_effect,
-        unsigned int cascade_index)
+        int __formal)
 {
+  vostok::particle::particle_system_instance_impl *v9; // ecx
   float v10; // xmm3_4
   float v11; // xmm0_4
-  float z; // xmm1_4
-  unsigned int m_current_lod_index; // eax
-  float v14; // xmm1_4
-  vostok::render::grass_render_model *m_object; // ecx
-  vostok::render::grass_render_surface *v16; // eax
-  vostok::render::material_effects_instance *v17; // ecx
-  vostok::render::material_effects *v18; // ecx
-  vostok::render::material_effects_instance *v19; // ecx
-  vostok::render::material_effects *p_m_material_effects; // ecx
-  vostok::render::material_effects *material_effects; // eax
-  const vostok::math::float4x4 *v22; // eax
-  const char *m_conflicted_key_name; // ebx
-  float *v24; // eax
-  double v25; // st7
-  vostok::render::grass_world *v26; // ecx
-  vostok::render::grass_render_model *strength; // [esp+0h] [ebp-5Ch]
-  float strengtha; // [esp+0h] [ebp-5Ch]
-  vostok::math::float2 dir; // [esp+14h] [ebp-48h] BYREF
-  vostok::math::float4x4 v30; // [esp+1Ch] [ebp-40h] BYREF
+  vostok::resources::resource_link *m_first; // eax
+  float v13; // xmm1_4
+  const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *p_next_link; // edi
+  float v15; // xmm6_4
+  float v16; // xmm1_4
+  float v17; // xmm7_4
+  float v18; // xmm2_4
+  float v19; // xmm1_4
+  float v20; // xmm2_4
+  float v21; // xmm3_4
+  float v22; // xmm5_4
+  unsigned int v23; // xmm2_4
+  unsigned int v24; // xmm3_4
+  vostok::math::float4x4 *v25; // eax
+  vostok::particle::particle_system_instance_impl *v26; // ecx
+  vostok::render::grass_render_surface *v27; // eax
+  int v28; // edi
+  vostok::render::render_surface *m_object; // ecx
+  unsigned int v30; // esi
+  vostok::render::render_surface *v31; // ecx
+  int v32; // eax
+  vostok::math::float4x4 *v33; // ecx
+  vostok::math::float4x4 *v34; // eax
+  vostok::render::base_scene_view *v35; // eax
+  unsigned int v36; // xmm1_4
+  int z_low; // esi
+  volatile int m_reference_count; // xmm0_4
+  const vostok::render::shader_constant_host *v39; // eax
+  vostok::render::res_geometry *v40; // ecx
+  vostok::render::backend *v41; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v42[5]; // [esp-4h] [ebp-6Ch] BYREF
+  float v43; // [esp+10h] [ebp-58h]
+  float v44; // [esp+14h] [ebp-54h]
+  float v45; // [esp+18h] [ebp-50h]
+  vostok::math::float3 arg; // [esp+1Ch] [ebp-4Ch] BYREF
+  vostok::math::float4x4 v47; // [esp+28h] [ebp-40h] BYREF
 
-  v10 = viewer_position->x - (float)((float)(this->m_aabb.max.x + this->m_aabb.min.x) * 0.5);
-  v11 = viewer_position->y - (float)((float)(this->m_aabb.max.y + this->m_aabb.min.y) * 0.5);
-  z = viewer_position->z;
-  m_current_lod_index = this->m_current_lod_index;
-  v14 = z - (float)((float)(this->m_aabb.max.z + this->m_aabb.min.z) * 0.5);
-  strength = 0;
-  m_object = this->m_template->m_render_model.m_object;
-  if ( m_object )
+  if ( !vostok::render::grass_patch::is_occluded(this, (int)in_grass_world) )
   {
-    strength = this->m_template->m_render_model.m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  v16 = vostok::render::surface_by_lod(
-          m_current_lod_index,
-          (vostok::resources::resource_ptr<vostok::render::grass_render_model,vostok::resources::unmanaged_intrusive_base>)strength);
-  if ( v16 )
-  {
-    if ( stage_type != sun_shadows_accumulate_render_stage && stage_type != shadow_render_stage
-      || ((v17 = v16->m_materail_effects_instance.m_object) == 0 || s_use_one_material_value
-        ? (v18 = s_nomaterial_material_effects[v16->m_vertex_input_type])
-        : (v18 = &v17->m_material_effects),
-          v18->is_cast_shadow) )
+    v10 = stage_type->x
+        - (float)((float)(*(float *)&in_grass_world->m_memory_usage_self.size
+                        + *(float *)&in_grass_world->m_next_in_increase_quality_queue)
+                * 0.5);
+    v11 = stage_type->y
+        - (float)((float)(*(float *)&in_grass_world->m_quality_levels_count
+                        + *(float *)&in_grass_world->m_current_satisfaction_update_tick)
+                * 0.5);
+    m_first = in_grass_world->m_parent_resources.m_first;
+    v13 = stage_type->z
+        - (float)((float)(in_grass_world->m_current_satisfaction
+                        + *((float *)&in_grass_world->m_current_satisfaction_update_tick + 1))
+                * 0.5);
+    v42[0].m_object = v9;
+    p_next_link = (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_first[1].next_link;
+    v45 = (float)((float)(v10 * v10) + (float)(v11 * v11)) + (float)(v13 * v13);
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      v42,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_first[1].next_link);
+    v15 = (float)(*(float *)&in_grass_world->m_next_in_increase_quality_queue
+                - *(float *)&in_grass_world->m_memory_usage_self.size)
+        * 0.5;
+    v16 = *(float *)&in_grass_world->m_next_in_increase_quality_queue
+        + *(float *)&in_grass_world->m_memory_usage_self.size;
+    v17 = (float)(*(float *)&in_grass_world->m_quality_levels_count
+                - *(float *)&in_grass_world->m_current_satisfaction_update_tick)
+        * 0.5;
+    v18 = *(float *)&in_grass_world->m_quality_levels_count
+        + *(float *)&in_grass_world->m_current_satisfaction_update_tick;
+    v44 = (float)(in_grass_world->m_current_satisfaction
+                - *((float *)&in_grass_world->m_current_satisfaction_update_tick + 1))
+        * 0.5;
+    v19 = stage_type->x - (float)(v16 * 0.5);
+    v20 = stage_type->y - (float)(v18 * 0.5);
+    v43 = (float)(in_grass_world->m_current_satisfaction
+                + *((float *)&in_grass_world->m_current_satisfaction_update_tick + 1))
+        * 0.5;
+    v21 = stage_type->z - v43;
+    v22 = fsqrt((float)((float)(v19 * v19) + (float)(v20 * v20)) + (float)(v21 * v21));
+    *(float *)&v23 = (float)((float)(*(float *)&in_grass_world->m_quality_levels_count
+                                   + *(float *)&in_grass_world->m_current_satisfaction_update_tick)
+                           * 0.5)
+                   + (float)((float)(v20 * (float)(s_bm_current_air_resistance / v22)) * v17);
+    *(float *)&v24 = (float)((float)(in_grass_world->m_current_satisfaction
+                                   + *((float *)&in_grass_world->m_current_satisfaction_update_tick + 1))
+                           * 0.5)
+                   + (float)((float)(v21 * (float)(s_bm_current_air_resistance / v22)) * v44);
+    arg.x = (float)((float)(*(float *)&in_grass_world->m_memory_usage_self.size
+                          + *(float *)&in_grass_world->m_next_in_increase_quality_queue)
+                  * 0.5)
+          + (float)((float)(v19 * (float)(s_bm_current_air_resistance / v22)) * v15);
+    *(_QWORD *)&arg.elements[1] = __PAIR64__(v24, v23);
+    v25 = vostok::math::create_translation(&arg, &v47);
+    v43 = COERCE_FLOAT(vostok::render::get_patch_lod((vostok::math::aabb *)v25, &viewer_position->m_vp, stage_type, v42[0]));
+    if ( tech_index == 27 )
+      ++LODWORD(v43);
+    v42[0].m_object = v26;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      v42,
+      p_next_link);
+    v27 = vostok::render::surface_by_lod(LODWORD(v43), v42[0]);
+    v28 = (int)v27;
+    m_object = (vostok::render::render_surface *)v42[0].m_object;
+    v44 = *(float *)&v27;
+    if ( v27
+      && (tech_index && tech_index != 27
+       || vostok::render::render_surface::get_material_effects(
+            (vostok::render::render_surface *)v42[0].m_object,
+            (int)v27)->is_cast_shadow) )
     {
-      v19 = v16->m_materail_effects_instance.m_object;
-      if ( !v19 || s_use_one_material_value )
-        p_m_material_effects = s_nomaterial_material_effects[v16->m_vertex_input_type];
-      else
-        p_m_material_effects = &v19->m_material_effects;
-      if ( p_m_material_effects->m_effects[stage_type].m_object
-        && (float)((float)((float)(v10 * v10) + (float)(v11 * v11)) + (float)(v14 * v14)) <= (float)(draw_distance * draw_distance) )
+      v30 = 4 * tech_index + 40;
+      if ( *(_DWORD *)(&vostok::render::render_surface::get_material_effects(m_object, v28)->is_emissive + v30)
+        && v45 <= (float)(*(float *)&debug_effect * *(float *)&debug_effect) )
       {
-        material_effects = vostok::render::render_surface::get_material_effects(v16);
-        vostok::render::res_effect::apply(tech_index, &material_effects->m_effects[stage_type].m_object->__vftable);
-        v22 = vostok::math::float4x4::identity(&v30);
-        vostok::render::renderer_context::set_w(context, v22);
-        vostok::render::res_geometry::apply(this->m_geometry[this->m_current_lod_index].m_object);
-        m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-        vostok::render::backend::set_vb_stream_1(
-          (vostok::render::backend *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-          this->m_vb_stream_1[this->m_current_lod_index].m_object,
-          0x10u);
-        if ( *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-             + 304) )
-        {
-          *((_BYTE *)m_conflicted_key_name + 151) = vostok::render::textures_handler<0>::set_overwrite(
-                                                      (vostok::render::textures_handler<0> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start,
-                                                      (char *)m_conflicted_key_name + 208,
-                                                      (vostok::render::res_texture *)&stru_966A14,
-                                                      this->m_movement_texture.m_object);
-          vostok::render::grass_world::set_patch_parameters(in_grass_world, this);
-        }
-        v24 = (float *)context->m_scene_view.m_object;
-        v25 = v24[164];
-        dir.x = v24[161];
-        strengtha = v25;
-        dir.y = v24[163];
-        vostok::render::grass_world::set_wind_parameters(in_grass_world, &dir, strengtha);
-        if ( stage_type == sun_shadows_accumulate_render_stage )
-          vostok::render::grass_world::set_shadow_parameters(v26, a3);
-        vostok::render::backend::render_indexed(
-          (vostok::render::backend *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-          this->m_num_merged_indices[this->m_current_lod_index],
-          D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
-          0,
-          0);
+        v32 = __formal;
+        if ( !__formal )
+          v32 = *(_DWORD *)(&vostok::render::render_surface::get_material_effects(v31, v28)->is_emissive + v30);
+        vostok::render::res_effect::apply(draw_distance, v32);
+        v34 = vostok::math::float4x4::identity(v33, &v47);
+        vostok::render::renderer_context::set_w(v34, viewer_position);
+        v35 = viewer_position->m_scene_view.m_object;
+        v36 = *((_DWORD *)&v35[2].m_memory_type_data + 1);
+        z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+        LODWORD(arg.x) = v35[2].m_construct_thread_id;
+        m_reference_count = v35[2].m_reference_count;
+        v42[0].m_object = (vostok::particle::particle_system_instance_impl *)&arg;
+        v39 = *(const vostok::render::shader_constant_host **)&context->m_family[2].name.m_buffer[44];
+        *(_QWORD *)&arg.elements[1] = __PAIR64__(m_reference_count, v36);
+        vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+          (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+          v39,
+          (const unsigned int *)&arg);
+        vostok::render::res_geometry::apply(v40, *(_DWORD *)(v28 + 4));
+        vostok::render::backend::set_declaration(
+          (vostok::render::backend *)z_low,
+          *(vostok::render::res_declaration **)&context->m_family[1].name.m_buffer[12]);
+        vostok::render::backend::set_vb_instance_data(
+          (vostok::render::backend *)in_grass_world->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
+          z_low);
+        vostok::render::backend::render_indexed_instanced(
+          (vostok::render::backend *)z_low,
+          3 * *(_DWORD *)(LODWORD(v44) + 24),
+          v41,
+          *((_DWORD *)&in_grass_world->vostok::resources::resource_flags + 3),
+          (unsigned int)v42[1].m_object,
+          (unsigned int)v42[2].m_object,
+          (unsigned int)v42[3].m_object,
+          (unsigned int)v42[4].m_object);
         ++vostok::quasi_singleton<vostok::render::statistics>::pinst->grass_stat_group.num_rendered_patches.value;
       }
     }

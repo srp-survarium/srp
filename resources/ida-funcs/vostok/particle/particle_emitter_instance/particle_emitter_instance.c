@@ -1,113 +1,108 @@
 void __thiscall vostok::particle::particle_emitter_instance::particle_emitter_instance(
         vostok::particle::particle_emitter_instance *this,
+        vostok::memory::base_allocator *allocator,
         vostok::particle::particle_emitter *emitter,
-        bool is_child_emitter_instance,
+        int is_child_emitter_instance,
         bool need_query_material)
 {
-  vostok::math::float4x4 *v4; // eax
-  vostok::math::float4 *v5; // ecx
-  vostok::math::float2 *v6; // ecx
-  float v7; // [esp+Ch] [ebp-E4h]
-  vostok::network_core::packet_reader *v8; // [esp+Ch] [ebp-E4h]
-  float v9; // [esp+Ch] [ebp-E4h]
-  vostok::particle::particle_emitter *v10; // [esp+14h] [ebp-DCh]
-  survarium::game_options var4C; // [esp+A4h] [ebp-4Ch] BYREF
+  vostok::memory::base_allocator_vtbl *v5; // xmm0_4
+  vostok::threading::mutex_tasks_unaware *v6; // ecx
+  float v7; // xmm0_4
+  _DWORD *i; // edi
+  int v9; // eax
+  const char *m_arena_id; // ecx
+  const char *v11; // ecx
+  const char *v12; // ecx
+  _BYTE *m_arena_end; // eax
+  const char *v14; // ecx
+  vostok::math::float4x4 v15; // [esp+18h] [ebp-140h] BYREF
+  vostok::math::float4x4 v16; // [esp+58h] [ebp-100h] BYREF
+  vostok::math::float4x4 v17; // [esp+98h] [ebp-C0h] BYREF
+  vostok::math::float4x4 v18; // [esp+D8h] [ebp-80h] BYREF
+  vostok::math::float4x4 v19; // [esp+118h] [ebp-40h] BYREF
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_transform);
-  this->__vftable = (vostok::particle::particle_emitter_instance_vtbl *)&vostok::particle::particle_emitter_instance::`vftable';
-  v4 = (vostok::math::float4x4 *)survarium::weapon_core::cast_weapon_core(&var4C);
-  qmemcpy((void *)&this->m_transform, vostok::math::float4x4::identity(v4), sizeof(this->m_transform));
-  vostok::math::create_zero_aabb(&this->m_aabbox);
-  vostok::math::float4::float4(v5, (int)&this->m_instance_color, (int)clear_value, 1.0, 1.0, 1.0, v7);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)&this->m_particle_list,
-    &this->m_particle_list.m_size);
-  vostok::threading::mutex::mutex(&this->m_particle_list.vostok::threading::mutex);
-  this->m_particle_list.m_first = 0;
-  this->m_particle_list.m_last = 0;
-  vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>((vostok::render::stage_lights::lights_instance *)&this->m_scene);
-  this->m_engine = 0;
-  vostok::resources::memory_usage_type::memory_usage_type(
-    0,
-    (boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> **)&this->m_subuv_pos_uv,
-    0,
-    v8);
-  vostok::math::float2::float2(v6, (int)&this->m_subuv_size_uv, (int)clear_value, 1.0, v9);
-  vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>((vostok::render::stage_lights::lights_instance *)&this->m_material);
-  this->m_particle_world = 0;
-  vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>((vostok::render::stage_lights::lights_instance *)&this->m_particle_system_instance_ptr);
-  this->m_render_instance = 0;
-  this->m_data_type_action = 0;
-  this->m_cook_data_to_delete = 0;
-  this->m_emitter = emitter;
-  this->m_billboard_parameters = 0;
-  this->m_beamtrail_parameters = 0;
-  this->m_next = 0;
-  this->m_num_live_particles = 0;
-  this->m_num_created_particles = 0;
-  this->m_delay_time = *(float *)&FLOAT_0_0;
-  this->m_emitter_time = *(float *)&FLOAT_0_0;
-  this->m_current_loop = 0;
-  this->m_time_to_create_new_one = *(float *)&FLOAT_0_0;
-  this->m_num_particles_to_create = 0;
-  this->m_current_max_num_particles = emitter->m_max_num_particles;
-  this->m_current_calc_num_max_particles = 0;
-  this->m_create_rate = retry_to_increase_quality_period_sec;
-  this->m_current_create_rate = retry_to_increase_quality_period_sec;
-  this->m_current_duration = vostok::particle::calc_duration(emitter->m_duration, emitter->m_duration_variance);
-  this->m_subimage_index = *(float *)&FLOAT_0_0;
-  this->m_max_num_particles = emitter->m_max_num_particles;
-  this->m_is_child_emitter_instance = is_child_emitter_instance;
-  this->m_waiting_for_end = 0;
-  this->m_delayed = 0;
-  this->m_visible = 1;
-  this->m_particle_added = 0;
-  for ( var4C.m_conflicted_action_ids._M_impl._M_finish = (survarium::game_action_id *)emitter->m_actions.pointer;
-        var4C.m_conflicted_action_ids._M_impl._M_finish;
-        var4C.m_conflicted_action_ids._M_impl._M_finish = (survarium::game_action_id *)*((_DWORD *)var4C.m_conflicted_action_ids._M_impl._M_finish
-                                                                                       + 2) )
+  allocator->__vftable = (vostok::memory::base_allocator_vtbl *)&vostok::particle::particle_emitter_instance::`vftable';
+  qmemcpy(&allocator->m_arena_id, vostok::math::float4x4::identity((vostok::math::float4x4 *)this, &v18), 0x40u);
+  qmemcpy(&allocator[3].m_use_memory_monitor, vostok::math::float4x4::identity(0, &v16), 0x40u);
+  qmemcpy(&allocator[7], vostok::math::float4x4::identity(0, &v19), 0x40u);
+  qmemcpy(&allocator[10].m_arena_start, vostok::math::float4x4::identity(0, &v17), 0x40u);
+  qmemcpy(&allocator[13].m_arena_end, vostok::math::float4x4::identity(0, &v15), 0x40u);
+  vostok::math::create_zero_aabb((vostok::math::aabb *)&allocator[16].m_arena_id);
+  v5 = (vostok::memory::base_allocator_vtbl *)LODWORD(s_bm_current_air_resistance);
+  *(float *)&allocator[17].m_use_memory_monitor = s_bm_current_air_resistance;
+  allocator[18].__vftable = v5;
+  allocator[18].m_arena_start = v5;
+  allocator[18].m_arena_end = v5;
+  allocator[18].m_arena_id = (const char *)emitter;
+  *(_DWORD *)&allocator[18].m_use_memory_monitor = 0;
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(v6, (_RTL_CRITICAL_SECTION *)&allocator[19].m_arena_start);
+  v7 = s_bm_current_air_resistance;
+  allocator[20].m_arena_id = 0;
+  *(_DWORD *)&allocator[20].m_use_memory_monitor = 0;
+  allocator[21].m_arena_start = 0;
+  allocator[21].m_arena_end = 0;
+  allocator[21].m_arena_id = 0;
+  *(_DWORD *)&allocator[21].m_use_memory_monitor = 0;
+  allocator[22].__vftable = 0;
+  allocator[22].m_arena_id = 0;
+  *(float *)&allocator[22].m_arena_start = v7;
+  *(float *)&allocator[22].m_arena_end = v7;
+  *(_DWORD *)&allocator[22].m_use_memory_monitor = 0;
+  allocator[23].__vftable = 0;
+  allocator[23].m_arena_end = 0;
+  allocator[23].m_arena_id = 0;
+  *(_DWORD *)&allocator[23].m_use_memory_monitor = 0;
+  allocator[24].__vftable = 0;
+  allocator[24].m_arena_start = 0;
+  allocator[24].m_arena_end = (void *)is_child_emitter_instance;
+  allocator[24].m_arena_id = 0;
+  *(_DWORD *)&allocator[24].m_use_memory_monitor = 0;
+  allocator[25].__vftable = 0;
+  allocator[25].m_arena_start = 0;
+  allocator[25].m_arena_end = 0;
+  *(_DWORD *)&allocator[25].m_use_memory_monitor = 0;
+  allocator[26].__vftable = 0;
+  allocator[26].m_arena_start = 0;
+  allocator[26].m_arena_end = *(void **)(is_child_emitter_instance + 360);
+  allocator[26].m_arena_id = 0;
+  *(_DWORD *)&allocator[26].m_use_memory_monitor = 0;
+  allocator[27].__vftable = 0;
+  *(float *)&allocator[27].m_arena_start = vostok::particle::calc_duration(
+                                             *(float *)(is_child_emitter_instance + 352),
+                                             *(float *)(is_child_emitter_instance + 356));
+  allocator[27].m_arena_end = 0;
+  allocator[27].m_arena_id = *(const char **)(is_child_emitter_instance + 360);
+  allocator[27].m_use_memory_monitor = need_query_material;
+  *(&allocator[27].m_use_memory_monitor + 1) = 0;
+  *(&allocator[27].m_use_memory_monitor + 2) = 0;
+  *(&allocator[27].m_use_memory_monitor + 3) = 1;
+  LOBYTE(allocator[28].__vftable) = 0;
+  allocator[28].m_arena_start = 0;
+  for ( i = *(_DWORD **)(is_child_emitter_instance + 296); i; i = (_DWORD *)i[2] )
   {
-    var4C.m_conflicted_action_ids._M_impl._M_start = (survarium::game_action_id *)__RTDynamicCast(
-                                                                                    (void **)var4C.m_conflicted_action_ids._M_impl._M_finish,
-                                                                                    0,
-                                                                                    (TypeDescriptor *)&vostok::particle::particle_action `RTTI Type Descriptor',
-                                                                                    (TypeDescriptor *)&vostok::particle::particle_action_data_type `RTTI Type Descriptor',
-                                                                                    0);
-    if ( var4C.m_conflicted_action_ids._M_impl._M_start
-      && *((_BYTE *)var4C.m_conflicted_action_ids._M_impl._M_start + 16) )
+    v9 = (*(int (__thiscall **)(_DWORD *))(*i + 52))(i);
+    if ( v9 && *(_BYTE *)(v9 + 16) )
     {
-      this->m_data_type_action = (vostok::particle::particle_action_data_type *)var4C.m_conflicted_action_ids._M_impl._M_start;
-      var4C.m_conflicted_action_ids._M_impl._M_finish = (survarium::game_action_id *)*((_DWORD *)var4C.m_conflicted_action_ids._M_impl._M_finish
-                                                                                     + 2);
+      allocator[23].m_arena_id = (const char *)v9;
       break;
     }
   }
-  if ( this->m_data_type_action
-    && this->m_data_type_action->get_data_type(this->m_data_type_action) == particle_data_type_billboard )
+  m_arena_id = allocator[23].m_arena_id;
+  if ( m_arena_id && !(*(int (__thiscall **)(const char *))(*(_DWORD *)m_arena_id + 60))(m_arena_id) )
+    allocator[24].__vftable = (vostok::memory::base_allocator_vtbl *)(allocator[23].m_arena_id + 96);
+  v11 = allocator[23].m_arena_id;
+  if ( v11 && (*(int (__thiscall **)(const char *))(*(_DWORD *)v11 + 60))(v11) == 2
+    || (v12 = allocator[23].m_arena_id) != 0 && (*(int (__thiscall **)(const char *))(*(_DWORD *)v12 + 60))(v12) == 3 )
   {
-    this->m_billboard_parameters = (vostok::particle::billboard_parameters *)&this->m_data_type_action[4];
+    allocator[24].m_arena_start = (void *)(allocator[23].m_arena_id + 24);
   }
-  if ( this->m_data_type_action
-    && this->m_data_type_action->get_data_type(this->m_data_type_action) == particle_data_type_trail )
+  m_arena_end = allocator[24].m_arena_end;
+  BYTE1(allocator[28].__vftable) = m_arena_end[369];
+  v14 = allocator[23].m_arena_id;
+  LOBYTE(allocator->m_arena_end) = m_arena_end[368];
+  if ( v14 )
   {
-    this->m_beamtrail_parameters = (vostok::particle::beamtrail_parameters *)&this->m_data_type_action[1];
-  }
-  else if ( this->m_data_type_action
-         && this->m_data_type_action->get_data_type(this->m_data_type_action) == particle_data_type_beam )
-  {
-    this->m_beamtrail_parameters = (vostok::particle::beamtrail_parameters *)&this->m_data_type_action[1];
-  }
-  this->m_world_space = this->m_emitter->m_world_space;
-  if ( (!this->m_data_type_action
-     || this->m_data_type_action->get_data_type(this->m_data_type_action) != particle_data_type_mesh
-     && this->m_data_type_action->get_data_type(this->m_data_type_action) != particle_data_type_decal)
-    && need_query_material )
-  {
-    if ( emitter->m_material_name[0] )
-      v10 = emitter;
-    else
-      v10 = (vostok::particle::particle_emitter *)"default_particle";
-    var4C.m_conflicted_action_to_bind = (survarium::game_action_id)v10;
-    vostok::particle::particle_emitter_instance::load_material(this, v10->m_material_name);
+    if ( (*(int (__thiscall **)(const char *))(*(_DWORD *)v14 + 60))(v14) != 1 )
+      (*(void (__thiscall **)(const char *))(*(_DWORD *)allocator[23].m_arena_id + 60))(allocator[23].m_arena_id);
   }
 }

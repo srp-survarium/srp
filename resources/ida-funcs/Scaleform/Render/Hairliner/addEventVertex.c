@@ -4,22 +4,22 @@ unsigned int __thiscall Scaleform::Render::Hairliner::addEventVertex(
 {
   unsigned int v3; // edi
   Scaleform::Render::Hairliner::OutVertexType *v4; // eax
-  float v2; // [esp+4h] [ebp-Ch]
-  float v2_4; // [esp+8h] [ebp-8h]
+  float x; // [esp+4h] [ebp-Ch]
+  float y; // [esp+8h] [ebp-8h]
 
   if ( this->LastY != v1->y || this->LastX != v1->x )
   {
     *(Scaleform::Render::Hairliner::SrcVertexType *)&this->LastX = *v1;
-    v2 = v1->x;
+    x = v1->x;
     v3 = this->OutVertices.Size >> 4;
-    v2_4 = v1->y;
+    y = v1->y;
     if ( v3 >= this->OutVertices.NumPages )
       Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::FanEdgeType,4,16>::allocPage(
         (Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType,4,16> *)&this->OutVertices,
         v3);
     v4 = &this->OutVertices.Pages[v3][this->OutVertices.Size & 0xF];
-    v4->x = v2;
-    v4->y = v2_4;
+    v4->x = x;
+    v4->y = y;
     v4->alpha = 1;
     ++this->OutVertices.Size;
   }
@@ -39,10 +39,10 @@ unsigned int __thiscall Scaleform::Render::Hairliner::addEventVertex(
   unsigned int lower; // ecx
   Scaleform::Render::Hairliner::SrcVertexType **Pages; // edi
   double v11; // st6
-  Scaleform::Render::Hairliner::OutVertexType v2; // [esp+8h] [ebp-Ch] BYREF
-  float x; // [esp+20h] [ebp+Ch]
-  float xa; // [esp+20h] [ebp+Ch]
-  float xb; // [esp+20h] [ebp+Ch]
+  Scaleform::Render::Tessellator::MonoVertexType val; // [esp+8h] [ebp-Ch] BYREF
+  float v13; // [esp+20h] [ebp+Ch]
+  float v14; // [esp+20h] [ebp+Ch]
+  float v15; // [esp+20h] [ebp+Ch]
 
   if ( enforce )
   {
@@ -61,35 +61,35 @@ unsigned int __thiscall Scaleform::Render::Hairliner::addEventVertex(
       }
       else
       {
-        x = (v7 - Pages[lower >> 4][lower & 0xF].y) * mc->edge->slope + Pages[lower >> 4][lower & 0xF].x;
-        v11 = x;
+        v13 = (v7 - Pages[lower >> 4][lower & 0xF].y) * mc->edge->slope + Pages[lower >> 4][lower & 0xF].x;
+        v11 = v13;
         if ( this->LastY == v7 )
         {
-          xa = v11 - this->LastX;
-          xb = fabs(xa);
-          if ( this->Epsilon < (double)xb )
+          v14 = v11 - this->LastX;
+          v15 = fabs(v14);
+          if ( this->Epsilon < (double)v15 )
           {
             this->LastX = v11;
-            v2.x = v11;
+            *(float *)&val.srcVer = v11;
             this->LastY = yb;
-            v2.alpha = 1;
-            v2.y = yb;
+            val.next = (Scaleform::Render::Tessellator::MonoVertexType *)1;
+            *(float *)&val.aaVer = yb;
             Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::OutVertexType,4,16>::PushBack(
               (Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType,4,16> *)&this->OutVertices,
-              (const Scaleform::Render::Tessellator::MonoVertexType *)&v2);
+              &val);
           }
           return this->OutVertices.Size - 1;
         }
         else
         {
-          this->LastX = x;
-          v2.x = x;
+          this->LastX = v13;
+          *(float *)&val.srcVer = v13;
           this->LastY = yb;
-          v2.alpha = 1;
-          v2.y = yb;
+          val.next = (Scaleform::Render::Tessellator::MonoVertexType *)1;
+          *(float *)&val.aaVer = yb;
           Scaleform::Render::ArrayPaged<Scaleform::Render::Hairliner::OutVertexType,4,16>::PushBack(
             (Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonoVertexType,4,16> *)&this->OutVertices,
-            (const Scaleform::Render::Tessellator::MonoVertexType *)&v2);
+            &val);
           return this->OutVertices.Size - 1;
         }
       }

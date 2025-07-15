@@ -1,42 +1,38 @@
-unsigned int __thiscall vostok::threading::spawn_internal(vostok::threading::thread_entry_params *argument)
+unsigned int __cdecl vostok::threading::spawn_internal(
+        vostok::threading::thread_entry_params *argument,
+        SIZE_T stack_size)
 {
-  char v1; // bl
-  HANDLE v2; // edi
-  DWORD LastError; // esi
-  char *v4; // ebp
-  void (__cdecl *v5)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // edi
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  unsigned int result; // [esp+14h] [ebp-28h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+18h] [ebp-24h] BYREF
+  DWORD LastError; // ebx
+  char *v3; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  bool has_passed_filters; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // [esp-4h] [ebp-44h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v8; // [esp-4h] [ebp-44h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-30h] BYREF
+  unsigned int ThreadId; // [esp+30h] [ebp-10h] BYREF
+  HANDLE hObject; // [esp+34h] [ebp-Ch]
+  HLOCAL hMem; // [esp+38h] [ebp-8h]
+  int v13; // [esp+3Ch] [ebp-4h]
 
-  v1 = 0;
-  result = 0;
-  v2 = CreateThread(0, (SIZE_T)&unk_800000, vostok::threading::thread_entry_protected, argument, 0, &result);
-  if ( !v2 )
+  v13 = 0;
+  hObject = CreateThread(0, stack_size, vostok::threading::thread_entry_protected, argument, 0, &ThreadId);
+  if ( !hObject )
   {
     LastError = GetLastError();
-    v4 = vostok::debug::platform::fill_format_message(LastError);
+    v3 = vostok::debug::platform::fill_format_message(LastError);
+    v4 = v7;
+    hMem = v3;
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "debug:", error) )
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)&stru_802CB8,
+                                 (const char *)2),
+          v4 = v8,
+          has_passed_filters) )
     {
-      v5 = vostok::core::g_log_callback;
-      log_callback.vtable = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          &log_callback.functor,
-          &log_callback.functor,
-          destroy_functor_tag);
-      if ( v5 )
-      {
-        log_callback.functor.obj_ptr = v5;
-        log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                     + 1);
-      }
-      else
-      {
-        log_callback.vtable = 0;
-      }
-      v1 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v4,
+        &log_callback);
+      v13 = 1;
       vostok::logging::append(
         &log_callback,
         (void *const)vostok::core::g_log_flags,
@@ -44,27 +40,18 @@ unsigned int __thiscall vostok::threading::spawn_internal(vostok::threading::thr
         ".\\threading_functions_win_xbox360.cpp",
         0x98u,
         "unsigned int __cdecl vostok::threading::spawn_internal(struct vostok::threading::thread_entry_params &,const unsigned int)",
-        "debug:",
+        (char *)&stru_802CB8,
         error,
-        "CreateThread failed with error_code %d: %s",
+        (char *)&stru_802CB8.initiator_tree,
         LastError,
-        v4);
-      v2 = 0;
+        hMem);
     }
-    if ( (v1 & 1) != 0 )
-    {
-      if ( log_callback.vtable )
-      {
-        if ( ((int)log_callback.vtable & 1) == 0 )
-        {
-          v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-          if ( v6 )
-            v6(&log_callback.functor, &log_callback.functor, 2);
-        }
-      }
-    }
-    vostok::debug::platform::free_format_message(v4);
+    if ( (v13 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+        (int *)&log_callback);
+    LocalFree(hMem);
   }
-  CloseHandle(v2);
-  return result;
+  CloseHandle(hObject);
+  return ThreadId;
 }

@@ -52,14 +52,14 @@ void __thiscall Scaleform::GFx::AS2::Value::ForEachChild_GC<Scaleform::GFx::AS2:
       return;
     pObjectValue = this->V.pObjectValue;
   }
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & --pObjectValue->RefCount) != 0 )
+  if ( (--pObjectValue->RefCount & 0x3FFFFFF) != 0 )
   {
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObjectValue);
   }
   else
   {
     Scaleform::GFx::AS2::RefCountCollector<323>::RemoveFromRoots(prcc, pObjectValue);
-    pObjectValue->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
+    pObjectValue->RefCount |= 0x4000000u;
     if ( (pObjectValue->RefCount & 0x8000000) == 0 )
     {
       pObjectValue->RootIndex = *(_DWORD *)&prcc->pLastPtr->pRCC->Roots.gap0;

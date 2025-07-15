@@ -2,41 +2,41 @@ DName *__cdecl UnDecorator::getPtrRefType(DName *result, const DName *cvType, co
 {
   char v4; // al
   DName *v5; // eax
-  DName trunk; // [esp+8h] [ebp-8h] BYREF
+  DName superTypea; // [esp+8h] [ebp-8h] BYREF
 
   v4 = *UnDecorator::gName;
   if ( *UnDecorator::gName )
   {
     if ( v4 >= 54 && v4 <= 57 || v4 == 95 )
     {
-      DName::operator=(&trunk, ptrChar);
+      DName::operator=(&superTypea, ptrChar);
       if ( cvType->node && (!superType->node || (*((_DWORD *)superType + 1) & 0x100) == 0) )
-        DName::operator+=(&trunk, cvType);
+        DName::operator+=(&superTypea, cvType);
       if ( superType->node )
-        DName::operator+=(&trunk, superType);
-      UnDecorator::getFunctionIndirectType(result, &trunk);
+        DName::operator+=(&superTypea, superType);
+      UnDecorator::getFunctionIndirectType(result, &superTypea);
     }
     else
     {
-      UnDecorator::getDataIndirectType(&trunk, superType, ptrChar, cvType, 0);
-      UnDecorator::getPtrRefDataType(result, &trunk, ptrChar == 42);
+      UnDecorator::getDataIndirectType(&superTypea, superType, ptrChar, cvType, 0);
+      UnDecorator::getPtrRefDataType(result, &superTypea, ptrChar == 42);
     }
     return result;
   }
   else
   {
-    DName::DName(&trunk, DN_truncated);
-    DName::operator+=(&trunk, ptrChar);
+    DName::DName(&superTypea, DN_truncated);
+    DName::operator+=(&superTypea, ptrChar);
     if ( cvType->node )
-      DName::operator+=(&trunk, cvType);
+      DName::operator+=(&superTypea, cvType);
     if ( superType->node )
     {
       if ( cvType->node )
-        DName::operator+=(&trunk, 32);
-      DName::operator+=(&trunk, superType);
+        DName::operator+=(&superTypea, 32);
+      DName::operator+=(&superTypea, superType);
     }
     v5 = result;
-    *result = trunk;
+    *result = superTypea;
   }
   return v5;
 }

@@ -14,8 +14,8 @@ const Scaleform::Render::Text::LineBuffer::GlyphEntry *__thiscall Scaleform::GFx
   Scaleform::Render::Text::LineBuffer::GlyphEntry *pGlyphs; // eax
   int v13; // esi
   unsigned int v14; // edi
-  Scaleform::Render::Text::LineBuffer::GlyphIterator git; // [esp+8h] [ebp-60h] BYREF
-  unsigned int posInLine; // [esp+6Ch] [ebp+4h]
+  Scaleform::Render::Text::LineBuffer::GlyphIterator v16; // [esp+8h] [ebp-60h] BYREF
+  unsigned int indexOfChar; // [esp+6Ch] [ebp+4h]
 
   LineIndexOfChar = Scaleform::Render::Text::DocView::GetLineIndexOfChar(this->pDocView.pObject, charIndex);
   if ( LineIndexOfChar == -1 )
@@ -28,12 +28,12 @@ const Scaleform::Render::Text::LineBuffer::GlyphEntry *__thiscall Scaleform::GFx
   TextPos = Line->Data32.TextPos;
   if ( (Line->MemSize & 0x80000000) != 0 )
   {
-    TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+    TextPos &= 0xFFFFFFu;
+    if ( TextPos == 0xFFFFFF )
       TextPos = -1;
   }
   v7 = TextPos;
-  posInLine = charIndex - TextPos;
+  indexOfChar = charIndex - TextPos;
   if ( (Line->MemSize & 0x80000000) == 0 )
     GlyphsCount = Line->Data32.GlyphsCount;
   else
@@ -42,19 +42,19 @@ const Scaleform::Render::Text::LineBuffer::GlyphEntry *__thiscall Scaleform::GFx
   if ( (Line->MemSize & 0x80000000) == 0 )
     v9 = (Scaleform::Render::Text::LineBuffer::GlyphEntry *)((char *)&Line->Data8 + 38);
   FormatData = Scaleform::Render::Text::LineBuffer::Line::GetFormatData(Line);
-  Scaleform::Render::Text::LineBuffer::GlyphIterator::GlyphIterator(&git, v9, GlyphsCount, FormatData);
+  Scaleform::Render::Text::LineBuffer::GlyphIterator::GlyphIterator(&v16, v9, GlyphsCount, FormatData);
   v11 = 0;
   while ( 1 )
   {
-    pGlyphs = git.pGlyphs;
-    if ( !git.pGlyphs
-      || git.pGlyphs >= git.pEndGlyphs
-      || (git.pGlyphs->LenAndFontSize & 0xF000) != 0
-      || (git.pGlyphs->Flags & 0x100) != 0 )
+    pGlyphs = v16.pGlyphs;
+    if ( !v16.pGlyphs
+      || v16.pGlyphs >= v16.pEndGlyphs
+      || (v16.pGlyphs->LenAndFontSize & 0xF000) != 0
+      || (v16.pGlyphs->Flags & 0x100) != 0 )
     {
       break;
     }
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&v16);
   }
   v13 = 0;
   v14 = 0;
@@ -63,21 +63,21 @@ const Scaleform::Render::Text::LineBuffer::GlyphEntry *__thiscall Scaleform::GFx
     v7 += v13;
     if ( !pGlyphs )
       break;
-    if ( pGlyphs >= git.pEndGlyphs )
+    if ( pGlyphs >= v16.pEndGlyphs )
       break;
     v13 = pGlyphs->LenAndFontSize >> 12;
     v11 = pGlyphs;
     v14 += v13;
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
-    if ( v14 > posInLine )
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&v16);
+    if ( v14 > indexOfChar )
       break;
-    pGlyphs = git.pGlyphs;
+    pGlyphs = v16.pGlyphs;
   }
   if ( ptextPos )
     *ptextPos = v7;
-  if ( git.pImage.pObject )
-    Scaleform::RefCountNTSImpl::Release(git.pImage.pObject);
-  if ( git.pFontHandle.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)git.pFontHandle.pObject);
+  if ( v16.pImage.pObject )
+    Scaleform::RefCountNTSImpl::Release(v16.pImage.pObject);
+  if ( v16.pFontHandle.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v16.pFontHandle.pObject);
   return v11;
 }

@@ -1,28 +1,28 @@
 Scaleform::Render::Text::TextFormat *__thiscall Scaleform::Render::Text::Paragraph::GetTextFormatPtr(
         Scaleform::Render::Text::Paragraph *this,
-        unsigned int startPos)
+        int startPos)
 {
   Scaleform::Render::Text::TextFormat *v2; // edi
   Scaleform::Render::Text::TextFormat *pObject; // eax
   Scaleform::Render::Text::TextFormat *v4; // esi
-  Scaleform::Render::Text::Paragraph::FormatRunIterator it; // [esp+8h] [ebp-24h] BYREF
+  Scaleform::Render::Text::Paragraph::FormatRunIterator v6; // [esp+8h] [ebp-24h] BYREF
 
   Scaleform::Render::Text::Paragraph::FormatRunIterator::FormatRunIterator(
-    &it,
+    &v6,
     &this->FormatInfo,
     &this->Text,
     startPos);
   v2 = 0;
-  if ( it.CurTextIndex < it.pText->Size )
+  if ( v6.CurTextIndex < v6.pText->Size )
   {
-    pObject = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&it)->PlaceHolder.pFormat.pObject;
+    pObject = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&v6)->PlaceHolder.pFormat.pObject;
     if ( pObject )
       v2 = pObject;
   }
-  v4 = it.PlaceHolder.pFormat.pObject;
-  if ( it.PlaceHolder.pFormat.pObject )
+  v4 = v6.PlaceHolder.pFormat.pObject;
+  if ( v6.PlaceHolder.pFormat.pObject )
   {
-    --it.PlaceHolder.pFormat.pObject->RefCount;
+    --v6.PlaceHolder.pFormat.pObject->RefCount;
     if ( !v4->RefCount )
     {
       Scaleform::Render::Text::TextFormat::~TextFormat(v4);

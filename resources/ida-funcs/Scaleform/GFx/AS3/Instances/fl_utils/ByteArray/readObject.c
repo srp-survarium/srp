@@ -2,16 +2,17 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readObject(
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray *this,
         Scaleform::GFx::AS3::Value *result)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v3; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v5; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v5; // [esp-8h] [ebp-14h]
+  Scaleform::GFx::AS3::VM::Error v6; // [esp+4h] [ebp-8h] BYREF
 
-  pVM = this->pTraits.pObject->pVM;
-  Scaleform::GFx::AS3::VM::Error::Error(&v5, eNotImplementedError, pVM);
-  Scaleform::GFx::AS3::VM::ThrowError(pVM, v3);
-  pNode = v5.Message.pNode;
-  --v5.Message.pNode->RefCount;
+  v5.pStr = "ByteArray::readObject()";
+  v5.Size = 23;
+  Scaleform::GFx::AS3::VM::Error::Error(&v6, eNotImplementedError, this->pTraits.pObject->pVM, v5);
+  Scaleform::GFx::AS3::VM::ThrowError(this->pTraits.pObject->pVM, v3);
+  pNode = v6.Message.pNode;
+  --v6.Message.pNode->RefCount;
   if ( !pNode->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 }

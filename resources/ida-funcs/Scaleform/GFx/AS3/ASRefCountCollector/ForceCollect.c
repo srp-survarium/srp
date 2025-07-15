@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS3::ASRefCountCollector::ForceCollect(
   unsigned int PeakRootCount; // eax
   unsigned int v7; // ecx
   bool v8; // zf
-  const Scaleform::GFx::AS3::RefCountBaseGC<328> *upgradeGen; // [esp+4h] [ebp-20h] BYREF
+  BOOL upgradeGen; // [esp+4h] [ebp-20h] BYREF
   unsigned int curRootCount; // [esp+8h] [ebp-1Ch]
   Scaleform::GFx::AS3::RefCountCollector<328>::Stats stats; // [esp+Ch] [ebp-18h] BYREF
 

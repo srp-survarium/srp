@@ -21,7 +21,7 @@ int __cdecl ssl3_setup_write_buffer(ssl_st *s)
     v6 = (unsigned __int8 *)freelist_extract(s->ctx, v5, 0);
     if ( !v6 )
     {
-      ERR_put_error(0x14u, 291, 65, ".\\ssl\\s3_both.c", 780);
+      ERR_put_error(v5, 0x14u, 291, 65, ".\\ssl\\s3_both.c", 780);
       return 0;
     }
     s->s3->wbuf.buf = v6;

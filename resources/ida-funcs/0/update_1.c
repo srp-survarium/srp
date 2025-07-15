@@ -1,4 +1,4 @@
-int __cdecl update_1(env_md_ctx_st *ctx, const void *data, unsigned int count)
+int __cdecl update_1(env_md_ctx_st *ctx, const unsigned __int8 *data, unsigned int count)
 {
-  return RIPEMD160_Update((RIPEMD160state_st *)ctx->md_data, data, count);
+  return MDC2_Update((mdc2_ctx_st *)ctx->md_data, data, count);
 }

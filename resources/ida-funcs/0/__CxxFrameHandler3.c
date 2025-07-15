@@ -1,4 +1,4 @@
-_EXCEPTION_DISPOSITION __usercall __CxxFrameHandler3@<eax>(
+int __usercall __CxxFrameHandler3@<eax>(
         const _s_FuncInfo *a1@<eax>,
         EHExceptionRecord *pExcept,
         EHRegistrationNode *pRN,

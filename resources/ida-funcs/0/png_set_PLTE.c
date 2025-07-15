@@ -1,4 +1,4 @@
-void __cdecl png_set_PLTE(int a1, int a2, unsigned __int8 *src, unsigned int a4)
+void __cdecl png_set_PLTE(int a1, int a2, const __m128i *src, unsigned int a4)
 {
   if ( a1 && a2 )
   {
@@ -6,7 +6,7 @@ void __cdecl png_set_PLTE(int a1, int a2, unsigned __int8 *src, unsigned int a4)
     {
       png_free_data(a1, a2, 4096, 0);
       *(_DWORD *)(a1 + 296) = png_calloc(a1, 0x300u);
-      memcpy(*(unsigned __int8 **)(a1 + 296), src, 3 * a4);
+      memcpy(*(_DWORD *)(a1 + 296), src, 3 * a4);
       *(_DWORD *)(a2 + 16) = *(_DWORD *)(a1 + 296);
       *(_WORD *)(a1 + 300) = a4;
       *(_WORD *)(a2 + 20) = a4;

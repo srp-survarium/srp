@@ -14,12 +14,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::writeMultiByte(
   const Scaleform::GFx::AS3::VM::Error *v11; // eax
   Scaleform::GFx::ASStringNode *v12; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v14; // [esp+4h] [ebp-18h] BYREF
-  Scaleform::WStringBuffer wbuff; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::StringDataPtr v14; // [esp-8h] [ebp-30h]
+  Scaleform::GFx::AS3::VM::Error v15; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::WStringBuffer wbuff; // [esp+18h] [ebp-10h] BYREF
 
   ID = (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)this;
   pObject = this->SockMgr.pObject;
-  v14.ID = (Scaleform::GFx::AS3::VM::ErrorID)ID;
+  v15.ID = (Scaleform::GFx::AS3::VM::ErrorID)ID;
   if ( Scaleform::GFx::AS3::SocketThreadMgr::IsRunning(pObject) )
   {
     v6 = Scaleform::GFx::AS3::Instances::fl_net::Socket::UTF8_Names[0];
@@ -28,15 +29,15 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::writeMultiByte(
     {
       while ( strcmp(charSet->pNode->pData, v6) )
       {
-        v6 = off_9B4A30[v7++];
+        v6 = off_8766D8[v7++];
         if ( !v6 )
         {
-          ID = (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)v14.ID;
+          ID = (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)v15.ID;
           goto LABEL_7;
         }
       }
       Scaleform::GFx::AS3::SocketThreadMgr::SendBytes(
-        *(Scaleform::GFx::AS3::SocketThreadMgr **)(v14.ID + 44),
+        *(Scaleform::GFx::AS3::SocketThreadMgr **)(v15.ID + 44),
         value->pNode->pData,
         value->pNode->Size);
     }
@@ -49,18 +50,18 @@ LABEL_7:
       {
         while ( strcmp(charSet->pNode->pData, v8) )
         {
-          v8 = (&off_9B4A44)[v9++];
+          v8 = (&off_8766EC)[v9++];
           if ( !v8 )
           {
-            ID = (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)v14.ID;
+            ID = (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)v15.ID;
             goto LABEL_13;
           }
         }
         pNode = value->pNode;
         memset(&wbuff, 0, sizeof(wbuff));
-        Scaleform::WStringBuffer::SetString(&wbuff, pNode->pData, pNode->Size);
+        Scaleform::WStringBuffer::SetString(&wbuff, (char *)pNode->pData, pNode->Size);
         Scaleform::GFx::AS3::SocketThreadMgr::SendBytes(
-          *(Scaleform::GFx::AS3::SocketThreadMgr **)(v14.ID + 44),
+          *(Scaleform::GFx::AS3::SocketThreadMgr **)(v15.ID + 44),
           (const char *)wbuff.pText,
           2 * wbuff.Length);
         Scaleform::WStringBuffer::~WStringBuffer(&wbuff);
@@ -69,10 +70,12 @@ LABEL_7:
       {
 LABEL_13:
         pVM = ID->pTraits.pObject->pVM;
-        Scaleform::GFx::AS3::VM::Error::Error(&v14, eInvalidArgumentError, pVM);
+        v14.pStr = "charSet";
+        v14.Size = 7;
+        Scaleform::GFx::AS3::VM::Error::Error(&v15, eInvalidArgumentError, pVM, v14);
         Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v11);
-        v12 = v14.Message.pNode;
-        --v14.Message.pNode->RefCount;
+        v12 = v15.Message.pNode;
+        --v15.Message.pNode->RefCount;
         if ( !v12->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v12);
       }

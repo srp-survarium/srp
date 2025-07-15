@@ -12,7 +12,7 @@ int __cdecl md_write(bio_st *b, const char *in, int inl)
   {
     next_bio = b->next_bio;
     if ( next_bio )
-      v3 = BIO_write(next_bio, in, inl);
+      v3 = BIO_write((int)in, next_bio, in, inl);
   }
   if ( b->init && v3 > 0 )
     EVP_DigestUpdate(ptr);

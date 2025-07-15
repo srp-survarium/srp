@@ -1,524 +1,442 @@
-int __cdecl mapping0_forward(int vb)
+int __usercall mapping0_forward@<eax>(__int128 a1@<xmm6>, vorbis_block *vb)
 {
-  vorbis_dsp_state *v2; // eax
-  private_state *backend_state; // edx
-  vorbis_info *v4; // edi
-  vorbis_block_internal *v5; // eax
-  int v6; // esi
-  oggpack_buffer *v7; // ecx
-  void *v8; // esp
-  int ***v9; // eax
-  double ampmax; // st7
-  int channels; // eax
-  void *v12; // esp
-  int v13; // ecx
-  int v14; // eax
-  vorbis_look_psy *v15; // eax
-  bool v16; // cc
-  float *v17; // eax
-  int v18; // edi
-  double v19; // st7
-  float **v20; // edi
-  float *v21; // eax
-  float *v22; // eax
-  float *v23; // esi
-  drft_lookup *v24; // eax
-  int *v25; // esi
-  float *v26; // edx
-  int v27; // ecx
-  char *v28; // edi
-  double v29; // st4
-  double v30; // st3
-  double v31; // st0
-  double v32; // st2
-  float *v33; // eax
-  int ***v34; // edi
+  vorbis_dsp_state *vd; // eax
+  vorbis_info *vi; // ebx
+  char *v5; // edi
+  int v6; // eax
+  void *v7; // esp
+  int v8; // eax
+  void *v9; // esp
+  int W; // eax
+  vorbis_look_psy *v11; // edi
+  bool v12; // cc
+  char *v13; // eax
+  char *v14; // eax
+  int *v15; // edx
+  int *v16; // eax
+  float *v17; // ecx
+  double v18; // st7
+  float *v19; // edx
+  float *v20; // eax
+  double v21; // st6
+  double v22; // st6
+  float v23; // xmm0_4
+  float *v24; // eax
+  oggpack_buffer *v25; // ecx
+  float *v26; // ecx
+  char *v27; // eax
+  float *v28; // ecx
+  int v29; // edx
+  double v30; // st7
+  float *v31; // ecx
+  int *v32; // edi
+  int v33; // edx
+  int *v34; // eax
   int v35; // ecx
-  int v36; // eax
-  float *v37; // eax
-  float **v38; // ecx
-  float *v39; // eax
-  float *v40; // ecx
-  int **v41; // eax
-  int v42; // eax
-  float *v43; // esi
-  float *v44; // edx
-  float *v45; // ecx
-  unsigned int v46; // eax
-  int **v47; // esi
+  int *v36; // eax
+  int *v37; // eax
+  char *v38; // eax
+  float *v39; // edx
+  char **v40; // ecx
+  char *v41; // eax
+  float *v42; // edx
+  char **v43; // ecx
+  void *v44; // esp
+  void *v45; // esp
+  BOOL v46; // eax
+  int v47; // ecx
   float *v48; // ecx
-  int v49; // edx
-  vorbis_look_psy *v50; // esi
+  char *v49; // edx
   int v51; // eax
-  float *v52; // esi
-  float *v53; // esi
-  int *v54; // eax
-  float *v55; // edx
-  HINSTANCE__ *v56; // esi
-  int *v57; // eax
-  int **v58; // ecx
-  HINSTANCE__ *v59; // esi
-  int *v60; // eax
-  int **v61; // ecx
-  void *v62; // esp
-  int **v63; // esi
-  void *v64; // esp
-  char *v65; // eax
-  bool v66; // zf
-  _DWORD *v67; // eax
-  BOOL v68; // eax
-  int v70; // eax
-  int v71; // edx
-  int ***v72; // esi
-  int **v73; // ecx
-  int v74; // eax
-  int v75; // eax
-  float *v76; // eax
-  float v77; // ecx
-  float v78; // eax
-  int v79; // ecx
-  int v80; // eax
-  int v81; // eax
-  int v82; // edx
-  _BYTE v83[12]; // [esp+8h] [ebp-74h] BYREF
-  int **classifications; // [esp+14h] [ebp-68h]
-  unsigned int value; // [esp+18h] [ebp-64h]
-  int j; // [esp+1Ch] [ebp-60h]
-  int *nonzero; // [esp+20h] [ebp-5Ch]
-  float **gmdct; // [esp+24h] [ebp-58h]
-  int ***floor_posts; // [esp+28h] [ebp-54h]
-  vorbis_block_internal *vbi; // [esp+2Ch] [ebp-50h]
-  int ch_in_bundle; // [esp+30h] [ebp-4Ch]
-  int **couple_bundle; // [esp+34h] [ebp-48h]
-  int resnum; // [esp+38h] [ebp-44h]
-  int *residuesubmap; // [esp+3Ch] [ebp-40h]
-  float *pcm; // [esp+40h] [ebp-3Ch]
-  int *zerobundle; // [esp+44h] [ebp-38h]
-  vorbis_info *vi; // [esp+48h] [ebp-34h]
-  float *tone; // [esp+4Ch] [ebp-30h]
-  float *noise; // [esp+50h] [ebp-2Ch]
-  int **iwork; // [esp+54h] [ebp-28h]
-  vorbis_look_psy *psy_look; // [esp+58h] [ebp-24h]
-  oggpack_buffer *opb; // [esp+5Ch] [ebp-20h]
-  float *logfft; // [esp+60h] [ebp-1Ch]
-  float *mdct; // [esp+64h] [ebp-18h]
-  codec_setup_info *ci; // [esp+68h] [ebp-14h]
-  float v106; // [esp+6Ch] [ebp-10h]
-  float *logmdct; // [esp+70h] [ebp-Ch]
-  vorbis_info_mapping0 *info; // [esp+74h] [ebp-8h]
-  private_state *b; // [esp+78h] [ebp-4h]
-  int i; // [esp+84h] [ebp+8h]
-  int ia; // [esp+84h] [ebp+8h]
-  int id; // [esp+84h] [ebp+8h]
-  int ib; // [esp+84h] [ebp+8h]
-  float **ic; // [esp+84h] [ebp+8h]
+  float *v52; // edx
+  vorbis_info_mapping0 *v53; // eax
+  float v54; // ecx
+  float v55; // eax
+  vorbis_block *v56; // edx
+  float v57; // ecx
+  int v58; // ecx
+  vorbis_block *v59; // eax
+  int v60; // ecx
+  const vorbis_func_residue *v61; // eax
+  int v62; // eax
+  BOOL v63; // eax
+  float *v64; // [esp-28h] [ebp-9Ch]
+  float *v65; // [esp-24h] [ebp-98h]
+  float *v66; // [esp-20h] [ebp-94h]
+  int v67; // [esp-8h] [ebp-7Ch]
+  float *v68; // [esp+4h] [ebp-70h]
+  _BYTE v69[12]; // [esp+8h] [ebp-6Ch] BYREF
+  vorbis_block *v70; // [esp+14h] [ebp-60h]
+  float v71; // [esp+18h] [ebp-5Ch] BYREF
+  unsigned int value; // [esp+1Ch] [ebp-58h]
+  float v73; // [esp+20h] [ebp-54h] BYREF
+  unsigned __int8 *v74; // [esp+24h] [ebp-50h]
+  float **v75; // [esp+28h] [ebp-4Ch]
+  int v76; // [esp+2Ch] [ebp-48h]
+  float v77; // [esp+30h] [ebp-44h]
+  float v78; // [esp+34h] [ebp-40h]
+  _BYTE *v79; // [esp+38h] [ebp-3Ch]
+  char *codec_setup; // [esp+3Ch] [ebp-38h]
+  float *internal; // [esp+40h] [ebp-34h]
+  float v82; // [esp+44h] [ebp-30h]
+  int **v83; // [esp+48h] [ebp-2Ch]
+  float *v84; // [esp+4Ch] [ebp-28h]
+  int pcmend; // [esp+50h] [ebp-24h]
+  oggpack_buffer *b; // [esp+54h] [ebp-20h]
+  float v87; // [esp+58h] [ebp-1Ch]
+  int v88; // [esp+5Ch] [ebp-18h]
+  float *in; // [esp+60h] [ebp-14h]
+  float *logmdct; // [esp+64h] [ebp-10h]
+  vorbis_info_mapping0 *v91; // [esp+68h] [ebp-Ch]
+  _DWORD *backend_state; // [esp+6Ch] [ebp-8h]
+  int v93; // [esp+70h] [ebp-4h]
+  vorbis_block *vba; // [esp+7Ch] [ebp+8h]
+  vorbis_block *vbb; // [esp+7Ch] [ebp+8h]
+  vorbis_block *vbe; // [esp+7Ch] [ebp+8h]
+  vorbis_block *vbc; // [esp+7Ch] [ebp+8h]
+  vorbis_block *vbd; // [esp+7Ch] [ebp+8h]
 
-  v2 = *(vorbis_dsp_state **)(vb + 64);
-  backend_state = (private_state *)v2->backend_state;
-  v4 = v2->vi;
-  v5 = *(vorbis_block_internal **)(vb + 104);
-  v6 = 2 * v4->channels;
-  ci = (codec_setup_info *)v4->codec_setup;
-  v7 = *(oggpack_buffer **)(vb + 36);
-  vbi = v5;
-  v6 *= 2;
-  vi = v4;
-  b = backend_state;
-  opb = v7;
-  v8 = alloca(v6);
-  nonzero = (int *)v83;
-  gmdct = (float **)_vorbis_block_alloc((vorbis_block *)vb, v6);
-  iwork = (int **)_vorbis_block_alloc((vorbis_block *)vb, 4 * v4->channels);
-  v9 = (int ***)_vorbis_block_alloc((vorbis_block *)vb, 4 * v4->channels);
-  ampmax = vbi->ampmax;
-  floor_posts = v9;
-  channels = v4->channels;
-  *(float *)&zerobundle = ampmax;
-  v12 = alloca(4 * channels);
-  v13 = *(_DWORD *)(vb + 28);
-  info = (vorbis_info_mapping0 *)ci->map_param[v13];
-  v14 = vbi->blocktype + (v13 != 0 ? 2 : 0);
-  couple_bundle = (int **)v83;
-  v15 = &b->psy[v14];
-  *(_DWORD *)(vb + 40) = v13;
-  v16 = v4->channels <= 0;
-  value = v13;
-  psy_look = v15;
-  i = 0;
-  if ( !v16 )
+  vd = vb->vd;
+  vi = vd->vi;
+  backend_state = vd->backend_state;
+  internal = (float *)vb->internal;
+  pcmend = vb->pcmend;
+  v6 = 4 * vi->channels;
+  codec_setup = (char *)vi->codec_setup;
+  v5 = codec_setup;
+  v7 = alloca(v6);
+  v74 = v69;
+  v75 = (float **)_vorbis_block_alloc(vb, v6);
+  v87 = COERCE_FLOAT(_vorbis_block_alloc(vb, 4 * vi->channels));
+  v76 = (int)_vorbis_block_alloc(vb, 4 * vi->channels);
+  v8 = 4 * vi->channels;
+  v82 = internal[1];
+  v9 = alloca(v8);
+  W = vb->W;
+  vba = 0;
+  v91 = *(vorbis_info_mapping0 **)&v5[4 * W + 544];
+  v11 = (vorbis_look_psy *)(backend_state[14] + 52 * (*((_DWORD *)internal + 2) + (W != 0 ? 2 : 0)));
+  vb->mode = W;
+  v12 = vi->channels <= 0;
+  v79 = v69;
+  value = W;
+  v88 = (int)v11;
+  if ( !v12 )
   {
-    v17 = (float *)(4 * ((int)opb / 2));
-    logfft = v17;
-    *(float *)&j = 4.0 / (double)(int)opb;
-    classifications = (int **)(j & 0x7FFFFFFF);
-    v18 = (char *)gmdct - v83;
-    tone = (float *)v83;
-    *(float *)&j = (double)(j & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-    residuesubmap = (int *)((char *)gmdct - v83);
-    v19 = *(float *)&j;
-    j = (char *)iwork - (char *)gmdct;
-    *(float *)&noise = v19 + 0.345;
-    while ( 1 )
+    logmdct = (float *)(4 * (pcmend / 2));
+    v73 = 4.0 / (float)pcmend;
+    v77 = todB(&v73) + 0.345;
+    b = (oggpack_buffer *)((char *)v75 - v69);
+    v84 = (float *)v69;
+    LODWORD(v73) = LODWORD(v87) - (_DWORD)v75;
+    do
     {
-      pcm = *(float **)(*(_DWORD *)vb + 4 * i);
-      v20 = (float **)((char *)tone + v18);
-      v21 = (float *)_vorbis_block_alloc((vorbis_block *)vb, (int)v17);
-      *(float **)((char *)v20 + j) = v21;
-      v22 = (float *)_vorbis_block_alloc((vorbis_block *)vb, (int)logfft);
-      v23 = pcm;
-      *v20 = v22;
-      _vorbis_apply_window(
-        v23,
-        b->window,
-        ci->blocksizes,
-        *(_DWORD *)(vb + 24),
-        *(_DWORD *)(vb + 28),
-        *(_DWORD *)(vb + 32));
-      mdct_forward(*(mdct_lookup **)b->transform[*(_DWORD *)(vb + 28)], v23, *v20);
-      v24 = &b->fft_look[*(_DWORD *)(vb + 28)];
-      v25 = (int *)pcm;
-      if ( v24->n != 1 )
-        drftf1(
-          v24->n,
-          pcm,
-          b->fft_look[*(_DWORD *)(vb + 28)].trigcache,
-          &b->fft_look[*(_DWORD *)(vb + 28)].trigcache[v24->n],
-          b->fft_look[*(_DWORD *)(vb + 28)].splitcache);
-      ch_in_bundle = *v25;
-      classifications = (int **)(ch_in_bundle & 0x7FFFFFFF);
-      v26 = tone;
-      v27 = 1;
-      v28 = (char *)&opb[-1].storage + 3;
-      v16 = (int)&opb[-1].storage + 3 <= 1;
-      *(float *)&resnum = (double)(ch_in_bundle & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-      v29 = *(float *)&noise;
-      *(float *)&resnum = *(float *)&resnum + *(float *)&noise + 0.345;
-      v30 = *(float *)&resnum;
-      *v25 = resnum;
-      *v26 = v30;
-      if ( !v16 )
+      in = vb->pcm[(_DWORD)vba];
+      v83 = (int **)((char *)b + (_DWORD)v84);
+      v13 = _vorbis_block_alloc(vb, (int)logmdct);
+      *(int **)((char *)v83 + LODWORD(v73)) = (int *)v13;
+      v14 = _vorbis_block_alloc(vb, (int)logmdct);
+      v15 = (int *)codec_setup;
+      *v83 = (int *)v14;
+      _vorbis_apply_window(v15, vb->W, in, backend_state + 1, vb->lW, vb->nW);
+      mdct_forward(*(mdct_lookup **)backend_state[vb->W + 3], in, (float *)*v83);
+      v16 = &backend_state[3 * vb->W + 5];
+      if ( *v16 != 1 )
+      {
+        v68 = (float *)backend_state[3 * vb->W + 6];
+        drftf1(&v68[*v16], (int *)backend_state[3 * vb->W + 7], *v16, in, v68);
+        v11 = (vorbis_look_psy *)v88;
+      }
+      v18 = todB(in);
+      v19 = v84;
+      v20 = (float *)(pcmend - 1);
+      v12 = pcmend - 1 <= 1;
+      v21 = v18 + v77 + 0.345;
+      v93 = 1;
+      *v17 = v21;
+      v83 = (int **)v20;
+      *v19 = v21;
+      if ( !v12 )
       {
         do
         {
-          v31 = *(float *)&v25[v27 + 1];
-          *(float *)&mdct = v31 * v31 + *(float *)&v25[v27] * *(float *)&v25[v27];
-          classifications = (int **)((unsigned int)mdct & 0x7FFFFFFF);
-          *(float *)&resnum = (double)((unsigned int)mdct & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          *(float *)&resnum = *(float *)&resnum * 0.5 + v29 + 0.345;
-          v32 = *(float *)&resnum;
-          v25[(v27 + 1) >> 1] = resnum;
-          *(float *)&resnum = v32;
-          if ( *v26 < (double)*(float *)&resnum )
-            *v26 = *(float *)&resnum;
-          v27 += 2;
+          v71 = (float)(v17[v93 + 1] * v17[v93 + 1]) + (float)(v17[v93] * v17[v93]);
+          v22 = todB(&v71);
+          v78 = v22 * 0.5 + v77 + 0.345;
+          v23 = v78;
+          v12 = v78 <= *v19;
+          v17[(v93 + 1) >> 1] = v78;
+          if ( !v12 )
+            *v19 = v23;
+          v93 += 2;
         }
-        while ( v27 < (int)v28 );
+        while ( v93 < (int)v83 );
       }
-      if ( *v26 > 0.0 )
-        *v26 = 0.0;
-      if ( *(float *)&zerobundle < (double)*v26 )
-        zerobundle = *(int **)v26;
-      v16 = ++i < vi->channels;
-      tone = v26 + 1;
-      if ( !v16 )
-        break;
-      v18 = (int)residuesubmap;
-      v17 = logfft;
+      if ( *v19 > 0.0 )
+        *v19 = 0.0;
+      if ( *v19 > v82 )
+        v82 = *v19;
+      vba = (vorbis_block *)((char *)vba + 1);
+      v12 = (int)vba < vi->channels;
+      v84 = v19 + 1;
     }
-    v4 = vi;
+    while ( v12 );
   }
-  resnum = (int)opb / 2;
-  logfft = (float *)(4 * ((int)opb / 2));
-  *(float *)&noise = COERCE_FLOAT(_vorbis_block_alloc((vorbis_block *)vb, (int)logfft));
-  v33 = (float *)_vorbis_block_alloc((vorbis_block *)vb, (int)logfft);
-  v16 = v4->channels <= 0;
-  tone = v33;
-  ia = 0;
-  if ( v16 )
+  LODWORD(v78) = pcmend / 2;
+  logmdct = (float *)(4 * (pcmend / 2));
+  v84 = (float *)_vorbis_block_alloc(vb, (int)logmdct);
+  v24 = (float *)_vorbis_block_alloc(vb, (int)logmdct);
+  vbb = 0;
+  v12 = vi->channels <= 0;
+  v83 = (int **)v24;
+  if ( v12 )
   {
-LABEL_36:
-    vbi->ampmax = *(float *)&zerobundle;
-    id = 4 * v4->channels;
-    v62 = alloca(id);
-    v63 = (int **)v83;
-    couple_bundle = (int **)v83;
-    v64 = alloca(id);
-    v65 = *(char **)(*(_DWORD *)(vb + 64) + 104);
-    v66 = v65 + 80 == 0;
-    v67 = v65 + 80;
-    *(float *)&zerobundle = COERCE_FLOAT(v83);
-    v68 = !v66 && *v67;
-    vi = v68 ? 0 : (vorbis_info *)7;
-    v70 = vorbis_bitrate_managed((vorbis_block *)vb);
-    if ( v71 <= (v70 != 0 ? 14 : 7) )
+LABEL_28:
+    internal[1] = v82;
+    vbe = (vorbis_block *)(4 * vi->channels);
+    v44 = alloca((int)vbe);
+    v83 = (int **)v69;
+    v45 = alloca((int)vbe);
+    v82 = COERCE_FLOAT(v69);
+    v88 = vorbis_bitrate_managed(vb) ? 0 : 7;
+    v46 = vorbis_bitrate_managed(vb);
+    if ( v47 <= (v46 ? 14 : 7) )
     {
-      tone = (float *)(4 * v71);
-      noise = (float *)&vbi->packetblob[v71];
+      v84 = &internal[v47 + 3];
       do
       {
-        opb = *(oggpack_buffer **)noise;
-        oggpack_write(opb, 0, 1u);
-        oggpack_write(opb, value, b->modebits);
-        if ( *(_DWORD *)(vb + 28) )
+        b = *(oggpack_buffer **)v84;
+        oggpack_write(b, 0, 1u);
+        oggpack_write(b, value, backend_state[11]);
+        if ( vb->W )
         {
-          oggpack_write(opb, *(_DWORD *)(vb + 24), 1u);
-          oggpack_write(opb, *(_DWORD *)(vb + 32), 1u);
+          oggpack_write(b, vb->lW, 1u);
+          oggpack_write(b, vb->nW, 1u);
         }
-        ib = 0;
-        if ( v4->channels > 0 )
+        vbc = 0;
+        if ( vi->channels > 0 )
         {
-          v72 = floor_posts;
-          v73 = (int **)((char *)iwork - (char *)floor_posts);
-          vbi = (vorbis_block_internal *)info->chmuxlist;
-          classifications = (int **)((char *)iwork - (char *)floor_posts);
-          j = (char *)nonzero - (char *)floor_posts;
+          v48 = (float *)v76;
+          LODWORD(v77) = v91->chmuxlist;
+          v49 = (char *)(LODWORD(v87) - v76);
+          internal = (float *)v76;
+          v70 = (vorbis_block *)(LODWORD(v87) - v76);
+          LODWORD(v71) = &v74[-v76];
           while ( 1 )
           {
-            v74 = floor1_encode(
-                    opb,
-                    (vorbis_block *)vb,
-                    (vorbis_look_floor1 *)b->flr[info->floorsubmap[(int)vbi->pcmdelay]],
-                    *(char **)((char *)tone + (_DWORD)*v72),
-                    *(int **)((char *)v72 + (_DWORD)v73));
-            vbi = (vorbis_block_internal *)((char *)vbi + 4);
-            *(int ***)((char *)v72++ + j) = (int **)v74;
-            if ( ++ib >= v4->channels )
+            v51 = floor1_encode(
+                    b,
+                    vb,
+                    *(vorbis_look_floor1 **)(backend_state[12] + 4 * v91->floorsubmap[*(_DWORD *)LODWORD(v77)]),
+                    *(unsigned int **)(*(_DWORD *)v48 + 4 * v88),
+                    *(int **)((char *)v48 + (_DWORD)v49));
+            v52 = internal;
+            LODWORD(v77) += 4;
+            ++internal;
+            vbc = (vorbis_block *)((char *)vbc + 1);
+            *(_DWORD *)((char *)v52 + LODWORD(v71)) = v51;
+            if ( (int)vbc >= vi->channels )
               break;
-            v73 = classifications;
+            v49 = (char *)v70;
+            v48 = internal;
           }
-          v63 = couple_bundle;
         }
         _vp_couple_quantize_normalize(
-          (int)vi,
-          &ci->psy_g_param,
-          psy_look,
-          info,
-          gmdct,
-          iwork,
-          nonzero,
-          ci->blocksizes[(_DWORD)vi + 15 * *(_DWORD *)(vb + 28) + 810],
-          v4->channels);
-        ic = 0;
-        if ( info->submaps > 0 )
+          v88,
+          (vorbis_info_psy_global *)(codec_setup + 2868),
+          v11,
+          v91,
+          v75,
+          (int **)LODWORD(v87),
+          v74,
+          *(_DWORD *)&codec_setup[60 * vb->W + 3240 + 4 * v88],
+          vi->channels);
+        v53 = v91;
+        vbd = 0;
+        if ( v91->submaps > 0 )
         {
-          residuesubmap = info->residuesubmap;
+          internal = (float *)v91->residuesubmap;
           do
           {
-            v16 = v4->channels <= 0;
-            v75 = *residuesubmap;
-            *(float *)&ch_in_bundle = 0.0;
-            resnum = v75;
-            pcm = 0;
-            if ( !v16 )
-            {
-              v76 = (float *)iwork;
-              j = (int)zerobundle;
-              classifications = (int **)((char *)nonzero - (char *)iwork);
-              logfft = (float *)iwork;
-              vbi = (vorbis_block_internal *)info->chmuxlist;
-              mdct = (float *)((char *)v63 - (char *)zerobundle);
-              do
-              {
-                if ( vbi->pcmdelay == ic )
-                {
-                  v66 = *(_DWORD *)((char *)v76 + (_DWORD)classifications) == 0;
-                  v77 = *(float *)&j;
-                  *(_DWORD *)j = 0;
-                  if ( !v66 )
-                    *(_DWORD *)LODWORD(v77) = 1;
-                  v78 = *v76;
-                  ++ch_in_bundle;
-                  *(float *)((char *)mdct + LODWORD(v77)) = v78;
-                  v76 = logfft;
-                  j = LODWORD(v77) + 4;
-                }
-                vbi = (vorbis_block_internal *)((char *)vbi + 4);
-                ++v76;
-                v16 = (int)pcm + 1 < v4->channels;
-                pcm = (float *)((char *)pcm + 1);
-                logfft = v76;
-              }
-              while ( v16 );
-              v75 = resnum;
-            }
-            *(float *)&classifications = COERCE_FLOAT((int)_residue_P[ci->residue_type[v75]]->class(
-                                                             vb,
-                                                             b->residue[v75],
-                                                             v63,
-                                                             zerobundle,
-                                                             ch_in_bundle));
+            v12 = vi->channels <= 0;
+            v54 = *internal;
             v79 = 0;
-            v80 = 0;
-            if ( v4->channels > 0 )
+            pcmend = LODWORD(v54);
+            v93 = 0;
+            if ( !v12 )
             {
-              vbi = (vorbis_block_internal *)info->chmuxlist;
+              LODWORD(v77) = v53->chmuxlist;
+              v78 = v87;
+              v70 = (vorbis_block *)&v74[-LODWORD(v87)];
+              v73 = v82;
+              LODWORD(v71) = (char *)v83 - LODWORD(v82);
               do
               {
-                v63 = couple_bundle;
-                if ( vbi->pcmdelay == ic )
-                  couple_bundle[v80++] = iwork[v79];
-                vbi = (vorbis_block_internal *)((char *)vbi + 4);
-                ++v79;
+                if ( *(vorbis_block **)LODWORD(v77) == vbd )
+                {
+                  v55 = v73;
+                  v56 = v70;
+                  v57 = v78;
+                  *(_DWORD *)LODWORD(v73) = 0;
+                  if ( *(float ***)((char *)&v56->pcm + LODWORD(v57)) )
+                    *(_DWORD *)LODWORD(v55) = 1;
+                  v58 = *(_DWORD *)LODWORD(v57);
+                  ++v79;
+                  *(_DWORD *)(LODWORD(v71) + LODWORD(v55)) = v58;
+                  v54 = *(float *)&pcmend;
+                  LODWORD(v73) = LODWORD(v55) + 4;
+                }
+                ++v93;
+                LODWORD(v77) += 4;
+                LODWORD(v78) += 4;
               }
-              while ( v79 < v4->channels );
+              while ( v93 < vi->channels );
             }
-            _residue_P[ci->residue_type[resnum]]->forward(
-              opb,
-              (vorbis_block *)vb,
-              b->residue[resnum],
-              v63,
-              zerobundle,
-              v80,
-              classifications,
-              (int)ic);
-            ++residuesubmap;
-            ic = (float **)((char *)ic + 1);
+            v59 = (vorbis_block *)&codec_setup[4 * LODWORD(v54) + 1312];
+            v60 = 4 * LODWORD(v54);
+            v67 = *(_DWORD *)(backend_state[13] + v60);
+            v70 = v59;
+            v61 = _residue_P[(int)v59->pcm];
+            v73 = *(float *)&v60;
+            v71 = COERCE_FLOAT(
+                    ((int (__cdecl *)(vorbis_block *, int, int **, float, _BYTE *))v61->class)(
+                      vb,
+                      v67,
+                      v83,
+                      COERCE_FLOAT(LODWORD(v82)),
+                      v79));
+            v62 = 0;
+            v12 = vi->channels <= 0;
+            v93 = 0;
+            if ( !v12 )
+            {
+              LODWORD(v77) = v91->chmuxlist;
+              do
+              {
+                if ( *(vorbis_block **)LODWORD(v77) == vbd )
+                  v83[v62++] = *(int **)(LODWORD(v87) + 4 * v93);
+                ++v93;
+                LODWORD(v77) += 4;
+              }
+              while ( v93 < vi->channels );
+            }
+            _residue_P[(int)v70->pcm]->forward(
+              b,
+              vb,
+              *(void **)(backend_state[13] + LODWORD(v73)),
+              v83,
+              (int *)LODWORD(v82),
+              v62,
+              (int **)LODWORD(v71),
+              (int)vbd);
+            v53 = v91;
+            ++internal;
+            vbd = (vorbis_block *)((char *)vbd + 1);
           }
-          while ( (int)ic < info->submaps );
+          while ( (int)vbd < v91->submaps );
         }
-        ++tone;
-        ++noise;
-        vi = (vorbis_info *)((char *)vi + 1);
-        v81 = vorbis_bitrate_managed((vorbis_block *)vb);
+        ++v88;
+        ++v84;
+        v63 = vorbis_bitrate_managed(vb);
       }
-      while ( v82 <= (v81 != 0 ? 14 : 7) );
+      while ( v88 <= (v63 ? 14 : 7) );
     }
     return 0;
   }
   else
   {
-    v34 = floor_posts;
-    v35 = (char *)gmdct - (char *)couple_bundle;
-    v36 = (char *)couple_bundle - (char *)floor_posts;
-    ch_in_bundle = (int)info->chmuxlist;
-    residuesubmap = (int *)((char *)gmdct - (char *)couple_bundle);
-    for ( j = (char *)couple_bundle - (char *)floor_posts; ; v36 = j )
+    LODWORD(v77) = v91->chmuxlist;
+    v25 = (oggpack_buffer *)((char *)v75 - v79);
+    v79 -= v76;
+    v93 = v76;
+    for ( b = v25; ; v25 = b )
     {
-      v37 = *(float **)((char *)v34 + v36 + v35);
-      v38 = *(float ***)vb;
-      opb = *(oggpack_buffer **)ch_in_bundle;
-      mdct = v37;
-      v39 = v38[ia];
-      v40 = &v39[resnum];
-      logfft = v39;
-      *(_DWORD *)(vb + 40) = value;
-      logmdct = v40;
-      v41 = (int **)_vorbis_block_alloc((vorbis_block *)vb, 60);
-      *v34 = v41;
-      memset((int)v41, 0, 0x3Cu);
-      v42 = resnum;
-      v43 = 0;
-      if ( resnum >= 4 )
+      v70 = *(vorbis_block **)LODWORD(v77);
+      LODWORD(v71) = &v79[v93];
+      pcmend = *(_DWORD *)&v79[v93 + (_DWORD)v25];
+      v26 = &vb->pcm[(_DWORD)vbb][LODWORD(v78)];
+      in = vb->pcm[(_DWORD)vbb];
+      vb->mode = value;
+      logmdct = v26;
+      v27 = _vorbis_block_alloc(vb, 60);
+      *(_DWORD *)v93 = v27;
+      memset((int)v27, 0, 0x3Cu);
+      if ( SLODWORD(v78) > 0 )
       {
-        v44 = mdct + 3;
-        v45 = logmdct + 1;
-        v46 = ((unsigned int)(resnum - 4) >> 2) + 1;
-        couple_bundle = (int **)((char *)mdct - (char *)logmdct);
-        pcm = (float *)(4 * v46);
+        v28 = logmdct;
+        v29 = pcmend - (_DWORD)logmdct;
+        v73 = v78;
         do
         {
-          v106 = *(v44 - 3);
-          v47 = couple_bundle;
-          *(float *)&classifications = (double)(LODWORD(v106) & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          *(v45 - 1) = *(float *)&classifications + 0.345;
-          v106 = *(float *)((char *)v45 + (_DWORD)v47);
-          *(float *)&classifications = (double)(LODWORD(v106) & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          *v45 = *(float *)&classifications + 0.345;
-          v106 = *(v44 - 1);
-          *(float *)&classifications = (double)(LODWORD(v106) & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          v45[1] = *(float *)&classifications + 0.345;
-          v106 = *v44;
-          v45 += 4;
-          v44 += 4;
-          --v46;
-          *(float *)&classifications = (double)(LODWORD(v106) & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          *(v45 - 2) = *(float *)&classifications + 0.345;
+          v30 = todB((float *)((char *)v28 + v29));
+          *v31 = v30 + 0.345;
+          v28 = v31 + 1;
+          --LODWORD(v73);
         }
-        while ( v46 );
-        v43 = pcm;
-        v42 = resnum;
+        while ( v73 != 0.0 );
       }
-      if ( (int)v43 < v42 )
-      {
-        couple_bundle = (int **)((char *)mdct - (char *)logmdct);
-        v48 = &logmdct[(_DWORD)v43];
-        v49 = v42 - (_DWORD)v43;
-        do
-        {
-          v106 = *(float *)((char *)couple_bundle + (_DWORD)v48++);
-          --v49;
-          *(float *)&classifications = (double)(LODWORD(v106) & 0x7FFFFFFF) * 0.0000007177114298428933 - 764.6162109375;
-          *(v48 - 1) = *(float *)&classifications + 0.345;
-        }
-        while ( v49 );
-      }
-      v50 = psy_look;
-      _vp_noisemask(psy_look, logmdct, noise);
-      _vp_tonemask(v50, logfft, tone, *(float *)&zerobundle, *(float *)((char *)v34 + j));
-      _vp_offset_and_mix(v50, noise, tone, 1, logfft, mdct, logmdct);
-      v51 = info->floorsubmap[(_DWORD)opb];
-      if ( ci->floor_type[v51] != 1 )
+      _vp_noisemask(v11, logmdct, v84);
+      _vp_tonemask((vorbis_look_psy *)v88, in, (float *)v83, v82, *(float *)LODWORD(v71));
+      _vp_offset_and_mix((float *)v83, 1, (vorbis_look_psy *)v88, v84, in, (float *)pcmend, logmdct);
+      v32 = &v91->floorsubmap[(_DWORD)v70];
+      if ( *(_DWORD *)&codec_setup[4 * *v32 + 800] != v33 )
         break;
-      v52 = logfft;
-      (*v34)[7] = floor1_fit((vorbis_block *)vb, (vorbis_look_floor1 *)b->flr[v51], logmdct, logfft);
-      if ( vorbis_bitrate_managed((vorbis_block *)vb) && (*v34)[7] )
+      v34 = floor1_fit(a1, vb, *(vorbis_look_floor1 **)(backend_state[12] + 4 * *v32), logmdct, in);
+      *(_DWORD *)(*(_DWORD *)v93 + 28) = v34;
+      if ( vorbis_bitrate_managed(vb) && *(_DWORD *)(*(_DWORD *)v35 + 28) )
       {
-        _vp_offset_and_mix(psy_look, noise, tone, 2, v52, mdct, logmdct);
-        v53 = logfft;
-        v54 = floor1_fit(
-                (vorbis_block *)vb,
-                (vorbis_look_floor1 *)b->flr[info->floorsubmap[(_DWORD)opb]],
-                logmdct,
-                logfft);
-        v55 = logmdct;
-        (*v34)[14] = v54;
-        _vp_offset_and_mix(psy_look, noise, tone, 0, v53, mdct, v55);
-        **v34 = floor1_fit(
-                  (vorbis_block *)vb,
-                  (vorbis_look_floor1 *)b->flr[info->floorsubmap[(_DWORD)opb]],
-                  logmdct,
-                  logfft);
-        couple_bundle = (int **)4;
-        v56 = &_sbh_sizeHeaderList;
+        _vp_offset_and_mix((float *)v83, 2, (vorbis_look_psy *)v88, v84, in, (float *)pcmend, logmdct);
+        v36 = floor1_fit(a1, vb, *(vorbis_look_floor1 **)(backend_state[12] + 4 * *v32), logmdct, in);
+        v66 = logmdct;
+        v65 = (float *)pcmend;
+        v64 = in;
+        *(_DWORD *)(*(_DWORD *)v93 + 56) = v36;
+        _vp_offset_and_mix((float *)v83, 0, (vorbis_look_psy *)v88, v84, v64, v65, v66);
+        v37 = floor1_fit(a1, vb, *(vorbis_look_floor1 **)(backend_state[12] + 4 * *v32), logmdct, in);
+        **(_DWORD **)v93 = v37;
+        in = (float *)4;
+        pcmend = (int)&_sbh_sizeHeaderList;
         do
         {
-          v57 = (int *)floor1_interpolate_fit(
-                         (vorbis_look_floor1 *)b->flr[info->floorsubmap[(_DWORD)opb]],
-                         (char *)**v34,
-                         (vorbis_block *)vb,
-                         (*v34)[7],
-                         (int)v56 / 7);
-          v58 = couple_bundle;
-          *(int **)((char *)*v34 + (_DWORD)couple_bundle) = v57;
-          v56 = (HINSTANCE__ *)((char *)&_sbh_sizeHeaderList + (_DWORD)v56);
-          couple_bundle = v58 + 1;
+          v38 = floor1_interpolate_fit(
+                  vb,
+                  *(vorbis_look_floor1 **)(backend_state[12] + 4 * *v32),
+                  **(char ***)v93,
+                  *(char **)(*(_DWORD *)v93 + 28),
+                  pcmend / 7);
+          v39 = in;
+          pcmend += (int)&_sbh_sizeHeaderList;
+          v40 = *(char ***)v93;
+          ++in;
+          v12 = pcmend < (int)&loc_6FFFB + 5;
+          *(char **)((char *)v40 + (_DWORD)v39) = v38;
         }
-        while ( (int)v56 < (int)((char *)&loc_6FFFF + 1) );
-        couple_bundle = (int **)32;
-        v59 = &_sbh_sizeHeaderList;
+        while ( v12 );
+        in = (float *)32;
+        pcmend = (int)&_sbh_sizeHeaderList;
         do
         {
-          v60 = (int *)floor1_interpolate_fit(
-                         (vorbis_look_floor1 *)b->flr[info->floorsubmap[(_DWORD)opb]],
-                         (char *)(*v34)[7],
-                         (vorbis_block *)vb,
-                         (*v34)[14],
-                         (int)v59 / 7);
-          v61 = couple_bundle;
-          *(int **)((char *)*v34 + (_DWORD)couple_bundle) = v60;
-          v59 = (HINSTANCE__ *)((char *)&_sbh_sizeHeaderList + (_DWORD)v59);
-          couple_bundle = v61 + 1;
+          v41 = floor1_interpolate_fit(
+                  vb,
+                  *(vorbis_look_floor1 **)(backend_state[12] + 4 * *v32),
+                  *(char **)(*(_DWORD *)v93 + 28),
+                  *(char **)(*(_DWORD *)v93 + 56),
+                  pcmend / 7);
+          v42 = in;
+          pcmend += (int)&_sbh_sizeHeaderList;
+          v43 = *(char ***)v93;
+          ++in;
+          v12 = pcmend < (int)&loc_6FFFB + 5;
+          *(char **)((char *)v43 + (_DWORD)v42) = v41;
         }
-        while ( (int)v59 < (int)((char *)&loc_6FFFF + 1) );
+        while ( v12 );
       }
-      ch_in_bundle += 4;
-      ++v34;
-      if ( ++ia >= vi->channels )
-      {
-        v4 = vi;
-        goto LABEL_36;
-      }
-      v35 = (int)residuesubmap;
+      vbb = (vorbis_block *)((char *)vbb + 1);
+      LODWORD(v77) += 4;
+      v93 += 4;
+      v11 = (vorbis_look_psy *)v88;
+      if ( (int)vbb >= vi->channels )
+        goto LABEL_28;
     }
     return -1;
   }

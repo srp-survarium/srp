@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::AS2::ASRefCountCollector::AdvanceFrame(
   unsigned int v15; // ecx
   unsigned int v16; // eax
   unsigned int v17; // ecx
-  Scaleform::GFx::AS2::RefCountCollector<323>::Stats stats; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::AS2::RefCountCollector<323>::Stats v18; // [esp+Ch] [ebp-8h] BYREF
 
   LastCollectionFrameNum = this->LastCollectionFrameNum;
   if ( *movieLastCollectFrame == LastCollectionFrameNum )
@@ -39,12 +39,12 @@ void __thiscall Scaleform::GFx::AS2::ASRefCountCollector::AdvanceFrame(
         && v6 >= MaxFramesBetweenCollections
         && Size > PresetMaxRootCount )
       {
-        stats.RootsFreedTotal = 0;
-        stats.RootsNumber = 0;
-        Scaleform::GFx::AS2::RefCountCollector<323>::Collect(this, &stats);
+        v18.RootsFreedTotal = 0;
+        v18.RootsNumber = 0;
+        Scaleform::GFx::AS2::RefCountCollector<323>::Collect(this, &v18);
         v11 = this->PresetMaxRootCount;
-        RootsFreedTotal = stats.RootsFreedTotal;
-        if ( stats.RootsFreedTotal > v11 )
+        RootsFreedTotal = v18.RootsFreedTotal;
+        if ( v18.RootsFreedTotal > v11 )
         {
           this->PeakRootCount = Size;
           this->MaxRootCount = v11;
@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::AS2::ASRefCountCollector::AdvanceFrame(
         v15 = this->PeakRootCount;
         if ( v15 < v14 )
           this->MaxRootCount = v14;
-        v16 = stats.RootsFreedTotal;
+        v16 = v18.RootsFreedTotal;
         this->LastCollectionFrameNum = this->TotalFramesCount;
         this->FrameCnt = 0;
         this->LastPeakRootCount = v15;

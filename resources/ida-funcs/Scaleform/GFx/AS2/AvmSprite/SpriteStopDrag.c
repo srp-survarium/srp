@@ -26,7 +26,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteStopDrag(const Scaleform::GFx
     v5 = Scaleform::GFx::Sprite::CheckAdvanceStatus(Target, v4);
     if ( v5 == -1 )
     {
-      Target->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+      Target->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     }
     else if ( v5 == 1 )
     {

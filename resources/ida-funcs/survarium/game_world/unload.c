@@ -1,175 +1,69 @@
 void __thiscall survarium::game_world::unload(
         survarium::game_world *this,
-        vostok::resources::resource_ptr<survarium::human_npc,vostok::resources::unmanaged_intrusive_base> it_npc)
+        vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> a2)
 {
-  survarium::human_npc *m_object; // ebp
-  float m_current_satisfaction; // edi
-  int v4; // ecx
-  vostok::resources::unmanaged_intrusive_base *v5; // ecx
-  survarium::human_npc *v6; // esi
-  vostok::resources::unmanaged_intrusive_base *v7; // ecx
-  survarium::human_npc *v8; // eax
-  survarium::human_npc *v9; // edi
-  survarium::human_npc *v10; // eax
-  survarium::human_npc *v11; // ecx
-  survarium::human_npc *v12; // eax
-  survarium::affect_subscriber *next; // eax
-  char *v14; // eax
-  char *v15; // eax
-  survarium::simple_game_project *v16; // ecx
-  int outfit_id; // esi
-  vostok::resources::unmanaged_resource *v18; // eax
-  survarium::animation_space_graph *i; // esi
-  vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *v20; // eax
-  vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *v21; // ecx
-  vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *v22; // esi
-  int v23; // eax
-  float y; // [esp-8h] [ebp-18h]
+  vostok::particle::particle_system_instance_impl *m_object; // ebx
+  vostok::particle::particle_system_instance_impl *m_first; // eax
+  survarium::game_world *v4; // ecx
+  vostok::vfs::base_node<1> *v5; // ecx
+  vostok::particle::particle_emitter_instance *m_last; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  vostok::render::game::renderer *v8; // ecx
+  vostok::memory::doug_lea_allocator *v9; // ecx
+  unsigned int i; // esi
+  const char *v11; // [esp+0h] [ebp-34h]
+  const char *v12; // [esp+4h] [ebp-30h]
+  unsigned int v13; // [esp+8h] [ebp-2Ch]
+  int v14[9]; // [esp+10h] [ebp-24h] BYREF
 
-  m_object = it_npc.m_object;
-  m_current_satisfaction = it_npc.m_object->m_current_satisfaction;
-  y = it_npc.m_object->m_transform.i.y;
-  *((_DWORD *)&it_npc.m_object->m_affects_subscription.next + 1) = 1;
-  survarium::camera_director::switch_to_camera(
-    (survarium::camera_director *)this,
-    (survarium::camera_director *)LODWORD(m_current_satisfaction),
-    (survarium::game_camera *)LODWORD(y),
-    (const char *)&stru_96A440.m_inverted_view.lines[1]);
-  v4 = *(_DWORD *)(LODWORD(m_object->m_last_fail_of_increasing_quality) + 952);
-  if ( v4 )
-    (*(void (__thiscall **)(int))(*(_DWORD *)v4 + 32))(v4);
-  it_npc.m_object = 0;
-  vostok::intrusive_ptr<survarium::human_npc,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &it_npc,
-    (const vostok::intrusive_ptr<survarium::human_npc,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_object->m_affects_subscription.subscription_callback.functor.data
-  + 2);
-  v6 = it_npc.m_object;
-  while ( v6 )
+  m_object = a2.m_object;
+  if ( a2.m_object[17].m_lods[0].m_emitter_instance_list.m_first
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-    {
-      v5 = &v6->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v5, &v6->survarium::game_object_);
-      break;
-    }
-    survarium::delete_weapons(&it_npc);
-    v6->clear_resources(v6);
-    v7 = &v6->vostok::resources::unmanaged_intrusive_base;
-    _InterlockedExchangeAdd(&v6->m_reference_count, 1u);
-    v8 = v6->next_npc.m_object;
-    v9 = 0;
-    if ( v8 )
-    {
-      v9 = v6->next_npc.m_object;
-      _InterlockedExchangeAdd(&v8->m_reference_count, 1u);
-    }
-    if ( !_InterlockedExchangeAdd(&v7->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v7, &v6->survarium::game_object_);
-    v10 = 0;
-    if ( v9 )
-    {
-      v10 = v9;
-      _InterlockedExchangeAdd(&v9->m_reference_count, 1u);
-    }
-    v11 = v10;
-    v12 = v6;
-    v6 = v11;
-    it_npc.m_object = v11;
-    v5 = &v12->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&v12->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v5, &v12->survarium::game_object_);
-    if ( v9 )
-    {
-      v5 = &v9->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&v9->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v5, &v9->survarium::game_object_);
-    }
+    survarium::pvp_match_core::clear_resources(
+      (survarium::pvp_match_core *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr,
+      (int)a2.m_object[17].m_lods[0].m_emitter_instance_list.m_first);
   }
-  next = m_object->m_affects_subscription.next;
-  m_object->m_affects_subscription.next = 0;
-  if ( next )
+  m_first = (vostok::particle::particle_system_instance_impl *)m_object[17].m_lods[0].m_emitter_instance_list.m_first;
+  m_object[17].m_lods[0].m_emitter_instance_list.m_first = 0;
+  a2.m_object = m_first;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&a2);
+  survarium::game_world::switch_to_free_fly_camera(v4, m_object);
+  v5 = m_object->m_fat_it.m_hashset->m_hashset.m_buffer[3413];
+  if ( v5 )
+    ((void (__thiscall *)(vostok::vfs::base_node<1> *))v5->m_mount_root.pointer->physical_path.pointer)(v5);
+  survarium::camera_director::switch_to_camera((survarium::camera_director *)m_object->m_next_in_memory_type, 0);
+  a2.m_object = (vostok::particle::particle_system_instance_impl *)m_object[1].m_lods[2].m_emitter_instance_list.m_last;
+  m_object[1].m_lods[2].m_emitter_instance_list.m_last = 0;
+  vostok::intrusive_ptr<survarium::simple_game_project,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<survarium::simple_game_project,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&a2);
+  m_last = m_object->m_lods[8].m_emitter_instance_list.m_last;
+  m_object->m_lods[8].m_distance = 0.0;
+  BYTE1(m_object[1].m_deleter) = 0;
+  m_object[1].m_sub_fat.m_parent = 0;
+  v14[0] = 0;
+  (*(void (__thiscall **)(_DWORD, int *))(**(_DWORD **)(LODWORD(m_last->m_second_transform.j.y) + 13912) + 48))(
+    *(_DWORD *)(LODWORD(m_last->m_second_transform.j.y) + 13912),
+    v14);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v7, v14);
+  vostok::render::game::renderer::hide_text_manager(
+    v8,
+    (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)m_object->m_fat_it.m_hashset->m_hashlocks[21].m_readers_writers_counter.writer_thread_id,
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_object->vostok::particle::particle_system_instance::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
+    (survarium::flash_text_manager *)m_object->m_prev_in_memory_type);
+  for ( i = 0; i < LODWORD(m_object[1].m_lods[2].m_time_fade_in); ++i )
+    vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>::~intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>((vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy> *)(LODWORD(m_object[1].m_lods[2].m_distance) + 4 * i));
+  if ( LODWORD(m_object[1].m_lods[2].m_distance) )
   {
-    v5 = (vostok::resources::unmanaged_intrusive_base *)(&next[6].subscription_callback.functor.data + 8);
-    if ( !_InterlockedExchangeAdd(
-            (volatile signed __int32 *)&next[6].subscription_callback.functor.vostok_pointer_size_alignment[2],
-            0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        v5,
-        (vostok::resources::unmanaged_resource *)&next[1].subscription_callback.functor);
+    vostok::memory::doug_lea_allocator::free_impl(
+      v9,
+      (int)survarium::g_allocator,
+      (char *)LODWORD(m_object[1].m_lods[2].m_distance),
+      v11,
+      v12,
+      v13);
+    m_object[1].m_lods[2].m_distance = 0.0;
   }
-  m_object->m_sound_produced = 0;
-  v14 = (char *)m_object->m_affects_subscription.subscription_callback.functor.vostok_pointer_size_alignment[2];
-  m_object->m_affects_subscription.subscription_callback.functor.vostok_pointer_size_alignment[2] = 0;
-  if ( v14 )
-  {
-    v5 = (vostok::resources::unmanaged_intrusive_base *)(v14 + 256);
-    if ( !_InterlockedExchangeAdd((volatile signed __int32 *)v14 + 64, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v5, (vostok::resources::unmanaged_resource *)(v14 + 48));
-  }
-  v15 = (char *)m_object->m_affects_subscription.subscription_callback.functor.vostok_pointer_size_alignment[3];
-  m_object->m_affects_subscription.subscription_callback.functor.vostok_pointer_size_alignment[3] = 0;
-  if ( v15 )
-  {
-    v5 = (vostok::resources::unmanaged_intrusive_base *)(v15 + 256);
-    if ( !_InterlockedExchangeAdd((volatile signed __int32 *)v15 + 64, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v5, (vostok::resources::unmanaged_resource *)(v15 + 48));
-  }
-  m_object->m_affects_subscription.subscription_callback.functor.obj_ptr = 0;
-  survarium::camera_director::switch_to_camera(
-    (survarium::camera_director *)v5,
-    (survarium::camera_director *)LODWORD(m_object->m_current_satisfaction),
-    0,
-    (const char *)&stru_96A440.m_projection.lines[0].elements[1]);
-  outfit_id = m_object->m_game_attributes.outfit_id;
-  if ( outfit_id )
-  {
-    if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-    {
-      if ( *(_BYTE *)(outfit_id + 436) )
-      {
-        survarium::simple_game_project::remove(v16, outfit_id);
-        v18 = (vostok::resources::unmanaged_resource *)m_object->m_game_attributes.outfit_id;
-        m_object->m_game_attributes.outfit_id = 0;
-        if ( v18 )
-        {
-          if ( !_InterlockedExchangeAdd(&v18->m_reference_count, 0xFFFFFFFF) )
-            vostok::resources::unmanaged_intrusive_base::destroy(&v18->vostok::resources::unmanaged_intrusive_base, v18);
-        }
-      }
-    }
-  }
-  for ( i = (survarium::animation_space_graph *)m_object->m_default_animation.m_object;
-        i != m_object->m_animation_space_graph.m_object;
-        i = (survarium::animation_space_graph *)((char *)i + 4) )
-  {
-    if ( LOBYTE(i->__vftable[13].~vostok::resources::resource_base) )
-      (*((void (__thiscall **)(survarium::animation_space_graph_vtbl *))i->~vostok::resources::resource_base + 12))(i->__vftable);
-  }
-  v20 = (vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *)m_object->m_animation_space_graph.m_object;
-  v21 = (vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *)m_object->m_default_animation.m_object;
-  if ( v21 != v20 )
-  {
-    v22 = stlp_std::priv::__copy<vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *,int>(
-            v20,
-            v21,
-            (vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *)m_object->m_animation_space_graph.m_object);
-    stlp_std::__destroy_range_aux<vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base>>(
-      v22,
-      (vostok::resources::resource_ptr<survarium::victory_item,vostok::resources::unmanaged_intrusive_base> *)m_object->m_animation_space_graph.m_object);
-    m_object->m_animation_space_graph.m_object = (survarium::animation_space_graph *)v22;
-  }
-  v23 = *(_DWORD *)&m_object->m_game_attributes.name.m_buffer[12];
-  if ( v23 )
-  {
-    if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(*(_DWORD *)(v23 + 264) + 4) + 88))(
-        *(_DWORD *)(*(_DWORD *)(v23 + 264) + 4),
-        1);
-    *(_WORD *)&m_object->m_game_attributes.description.m_buffer[12] = 0;
-  }
-  else
-  {
-    *(_WORD *)&m_object->m_game_attributes.description.m_buffer[12] = 0;
-  }
+  m_object[1].m_lods[2].m_time_fade_in = 0.0;
+  m_object->m_raw_resource_ptr.m_object = 0;
+  m_object->m_next_delay_delete = 0;
 }

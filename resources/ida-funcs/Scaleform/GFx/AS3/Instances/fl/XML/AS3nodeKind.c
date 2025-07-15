@@ -2,25 +2,25 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3nodeKind(
         Scaleform::GFx::AS3::Instances::fl::XML *this,
         Scaleform::GFx::ASString *result)
 {
-  char *v2; // esi
+  Scaleform::GFx::ASStringNode *v2; // esi
 
   v2 = 0;
   switch ( this->GetKind(this) )
   {
     case kElement:
-      Scaleform::GFx::ASString::operator=(result, "element");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"element");
       break;
     case kText:
-      Scaleform::GFx::ASString::operator=(result, "text");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"text");
       break;
     case kComment:
-      Scaleform::GFx::ASString::operator=(result, "comment");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"comment");
       break;
     case kInstruction:
-      Scaleform::GFx::ASString::operator=(result, "processing-instruction");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"processing-instruction");
       break;
     case kAttr:
-      v2 = "attribute";
+      v2 = (Scaleform::GFx::ASStringNode *)"attribute";
       goto LABEL_7;
     default:
 LABEL_7:

@@ -1,42 +1,38 @@
-void __thiscall survarium::scheduler::unregister(
+void __fastcall survarium::scheduler::unregister(
         survarium::scheduler *this,
+        int a2,
         survarium::scheduler::identifier *identifier)
 {
-  unsigned int m_current_index; // edx
-  vostok::vectora<survarium::scheduler::record> *v3; // ebx
-  survarium::scheduler::record *M_finish; // esi
-  survarium::scheduler::identifier *m_id; // eax
-  int v6; // ebp
-  survarium::scheduler::record *v7; // ebx
-  boost::detail::function::vtable_base *vtable; // eax
-  void (__cdecl *v9)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
+  unsigned int v3; // esi
+  _DWORD *v4; // ebx
+  int v5; // eax
+  int v6; // esi
+  _DWORD *v7; // eax
+  int v8; // ecx
+  int v9; // [esp+10h] [ebp-4h]
 
-  m_current_index = this->m_current_index;
-  if ( m_current_index >= (*(_DWORD *)identifier & 0x7FFFFFFFu) )
-    this->m_current_index = m_current_index - 1;
-  v3 = this->m_objects[*(unsigned int *)identifier >> 31];
-  M_finish = v3->_M_impl._M_finish;
-  m_id = M_finish[-1].m_id;
-  v6 = (int)&v3->_M_impl._M_start[*(_DWORD *)identifier & 0x7FFFFFFF];
-  --M_finish;
-  *(_DWORD *)v6 = m_id;
-  boost::function<void __cdecl (unsigned char,vostok::network_core::packet_reader &)>::operator=(
-    &M_finish->m_callback,
-    (boost::function2<void,unsigned int,unsigned int> *)(v6 + 8));
-  *(_QWORD *)(v6 + 40) = M_finish->survarium::scheduler::scheduler_record;
-  *(_DWORD *)(v6 + 48) = M_finish->m_last_update_time;
-  **(_DWORD **)v6 ^= (*(_DWORD *)identifier ^ **(_DWORD **)v6) & 0x7FFFFFFF;
-  v7 = --v3->_M_impl._M_finish;
-  vtable = v7->m_callback.vtable;
-  if ( vtable )
-  {
-    if ( ((unsigned __int8)vtable & 1) == 0 )
-    {
-      v9 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((unsigned int)vtable & 0xFFFFFFFE);
-      if ( v9 )
-        v9(&v7->m_callback.functor, &v7->m_callback.functor, 2);
-    }
-    v7->m_callback.vtable = 0;
-  }
+  v3 = *(_DWORD *)(a2 + 40);
+  if ( v3 >= (*(_DWORD *)identifier & 0x7FFFFFFFu) )
+    *(_DWORD *)(a2 + 40) = v3 - 1;
+  v4 = *(_DWORD **)(a2 + 4 * (*(unsigned int *)identifier >> 31) + 32);
+  v5 = *v4 + 56 * (*(_DWORD *)identifier & 0x7FFFFFFF);
+  v6 = v4[1] - 56;
+  *(_DWORD *)v5 = *(_DWORD *)v6;
+  v9 = v5;
+  boost::function<void __cdecl (unsigned int,unsigned int)>::operator=(
+    (boost::function<void __cdecl(unsigned int,unsigned int)> *)(v6 + 8),
+    (boost::function1<void,vostok::physics::contact_point const &> *)(v5 + 8));
+  v7 = *(_DWORD **)v9;
+  v6 += 40;
+  *(_DWORD *)(v9 + 40) = *(_DWORD *)v6;
+  v6 += 4;
+  *(_DWORD *)(v9 + 44) = *(_DWORD *)v6;
+  *(_DWORD *)(v9 + 48) = *(_DWORD *)(v6 + 4);
+  v8 = (*(_DWORD *)identifier ^ *v7) & 0x7FFFFFFF;
+  *v7 ^= v8;
+  v4[1] -= 56;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v8,
+    (int *)(v4[1] + 8));
   *(_DWORD *)identifier &= ~0x80000000;
 }

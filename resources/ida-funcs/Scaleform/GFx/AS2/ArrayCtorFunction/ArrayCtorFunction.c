@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayCtorFunction::ArrayCtorFunction(
   Scaleform::GFx::AS2::GlobalContext *pContext; // ecx
   Scaleform::GFx::ASStringNode *v10; // eax
   Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+10h] [ebp-1Ch] BYREF
-  int i; // [esp+14h] [ebp-18h]
+  int v12; // [esp+14h] [ebp-18h]
   Scaleform::GFx::AS2::ArrayCtorFunction *v13; // [esp+18h] [ebp-14h]
   Scaleform::GFx::AS2::Value v14; // [esp+1Ch] [ebp-10h] BYREF
 
@@ -30,7 +30,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayCtorFunction::ArrayCtorFunction(
   v6 = 0;
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::ArrayCtorFunction_vtbl *)&Scaleform::GFx::AS2::ArrayCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::TextSnapshotCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
-  i = 0;
+  v12 = 0;
   if ( GASArrayConstTable[0].Name )
   {
     v7 = GASArrayConstTable;
@@ -59,8 +59,8 @@ void __thiscall Scaleform::GFx::AS2::ArrayCtorFunction::ArrayCtorFunction(
         Scaleform::GFx::ASStringNode::ReleaseNode(v10);
       if ( v14.T.Type >= 5u )
         Scaleform::GFx::AS2::Value::DropRefs(&v14);
-      v6 = ++i;
-      v7 = &GASArrayConstTable[i];
+      v6 = ++v12;
+      v7 = &GASArrayConstTable[v12];
     }
     while ( v7->Name );
   }

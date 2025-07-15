@@ -72,7 +72,8 @@ int __usercall do_dsa_print@<eax>(bio_st *bp@<ebx>, const dsa_st *x@<ecx>, int o
   if ( v13 )
   {
     if ( priv_key
-      && (!BIO_indent(bp, off, 128) || (v15 = BN_num_bits(x->p), (int)BIO_printf(bp, "%s: (%d bit)\n", v19, v15) <= 0))
+      && (!BIO_indent((int)bp, bp, off, 128)
+       || (v15 = BN_num_bits(x->p), BIO_printf(bp, "%s: (%d bit)\n", v19, v15) <= 0))
       || !ASN1_bn_print(bp, "priv:", priv_key, v13, off)
       || !ASN1_bn_print(bp, "pub: ", a, v13, off)
       || !ASN1_bn_print(bp, "P:   ", x->p, v13, off)
@@ -86,7 +87,7 @@ int __usercall do_dsa_print@<eax>(bio_st *bp@<ebx>, const dsa_st *x@<ecx>, int o
   }
   else
   {
-    ERR_put_error(0xAu, 104, 65, ".\\crypto\\dsa\\dsa_ameth.c", 465);
+    ERR_put_error((int)bp, 0xAu, 104, 65, ".\\crypto\\dsa\\dsa_ameth.c", 465);
     return 0;
   }
 }

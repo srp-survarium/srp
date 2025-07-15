@@ -6,32 +6,32 @@ void __cdecl Scaleform::GFx::AS2::SetupAttributes(
   Scaleform::MemoryHeap *pHeap; // ecx
   void *(__thiscall *Alloc)(Scaleform::MemoryHeap *, unsigned int, const Scaleform::AllocInfo *); // eax
   Scaleform::GFx::XML::ElementNode *v5; // esi
-  Scaleform::GFx::AS2::XMLShadowRef *v6; // edi
+  Scaleform::GFx::AS3::Object::UserDataHolder *pShadow; // edi
   Scaleform::GFx::AS2::Object *v7; // eax
-  Scaleform::GFx::AS2::Object *v8; // eax
-  Scaleform::GFx::AS2::Object *v9; // ebx
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *pObject; // ecx
+  Scaleform::GFx::Movie *v8; // eax
+  Scaleform::GFx::Movie *v9; // ebx
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *pMovieView; // ecx
   unsigned int RefCount; // eax
   Scaleform::GFx::XML::Attribute *FirstAttribute; // ebx
-  char *pData; // esi
+  __m128i *pData; // esi
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
-  char **pNode; // edx
-  Scaleform::GFx::AS2::Object *v17; // edi
+  __m128i **pNode; // edx
+  Scaleform::GFx::Movie *v17; // edi
   Scaleform::GFx::AS2::GlobalContext *pContext; // ecx
   Scaleform::GFx::AS2::StringManager *v19; // eax
   Scaleform::GFx::ASStringNode *v20; // eax
   Scaleform::GFx::ASStringNode *v22; // [esp+18h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::XMLShadowRef *pshadow; // [esp+1Ch] [ebp-18h]
-  char *pstr; // [esp+20h] [ebp-14h]
+  Scaleform::GFx::AS3::Object::UserDataHolder *v23; // [esp+1Ch] [ebp-18h]
+  __m128i *v24; // [esp+20h] [ebp-14h]
   Scaleform::GFx::AS2::Value v25; // [esp+24h] [ebp-10h] BYREF
 
   v2 = penv;
   pHeap = penv->StringContext.pContext->pHeap;
   Alloc = pHeap->Alloc;
   v5 = preal;
-  v6 = (Scaleform::GFx::AS2::XMLShadowRef *)preal->pShadow;
-  pshadow = v6;
+  pShadow = (Scaleform::GFx::AS3::Object::UserDataHolder *)preal->pShadow;
+  v23 = pShadow;
   v7 = (Scaleform::GFx::AS2::Object *)Alloc(pHeap, 52u, 0);
   if ( v7 )
   {
@@ -42,17 +42,17 @@ void __cdecl Scaleform::GFx::AS2::SetupAttributes(
   {
     v9 = 0;
   }
-  pObject = v6->pAttributes.pObject;
-  if ( pObject )
+  pMovieView = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)pShadow[1].pMovieView;
+  if ( pMovieView )
   {
-    RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    RefCount = pMovieView->RefCount;
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
-      pObject->RefCount = RefCount - 1;
-      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
+      pMovieView->RefCount = RefCount - 1;
+      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pMovieView);
     }
   }
-  v6->pAttributes.pObject = v9;
+  pShadow[1].pMovieView = v9;
   if ( Scaleform::GFx::XML::ElementNode::HasAttributes((Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *)v5) )
   {
     FirstAttribute = v5->FirstAttribute;
@@ -60,27 +60,27 @@ void __cdecl Scaleform::GFx::AS2::SetupAttributes(
     {
       while ( 1 )
       {
-        pData = (char *)FirstAttribute->Value.pNode->pData;
+        pData = (__m128i *)FirstAttribute->Value.pNode->pData;
         StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v2->StringContext.pContext);
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, pData);
         ++StringNode->RefCount;
         v25.T.Type = 5;
         v25.NV.Int32Value = (int)StringNode;
         ++StringNode->RefCount;
-        pNode = (char **)FirstAttribute->Name.pNode;
-        v17 = v6->pAttributes.pObject;
+        pNode = (__m128i **)FirstAttribute->Name.pNode;
+        v17 = pShadow[1].pMovieView;
         pContext = v2->StringContext.pContext;
         LOBYTE(penv) = 0;
-        pstr = *pNode;
+        v24 = *pNode;
         v19 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(pContext);
-        v22 = Scaleform::GFx::ASStringManager::CreateStringNode(v19->pStringManager, pstr);
+        v22 = Scaleform::GFx::ASStringManager::CreateStringNode(v19->pStringManager, v24);
         ++v22->RefCount;
-        v17->SetMember(
-          &v17->Scaleform::GFx::AS2::ObjectInterface,
+        ((void (__thiscall *)(Scaleform::GFx::Movie *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *, Scaleform::GFx::AS2::Environment **))v17[1].HasLooped)(
+          &v17[1],
           v2,
-          (const Scaleform::GFx::ASString *)&v22,
+          &v22,
           &v25,
-          (const Scaleform::GFx::AS2::PropFlags *)&penv);
+          &penv);
         v20 = v22;
         --v22->RefCount;
         if ( !v20->RefCount )
@@ -91,7 +91,7 @@ void __cdecl Scaleform::GFx::AS2::SetupAttributes(
         FirstAttribute = FirstAttribute->Next;
         if ( !FirstAttribute )
           break;
-        v6 = pshadow;
+        pShadow = v23;
       }
       v5 = preal;
     }

@@ -1,7 +1,7 @@
 unsigned int __thiscall Scaleform::Render::Text::DocView::GetBottomVScroll(Scaleform::Render::Text::DocView *this)
 {
   Scaleform::Render::Text::LineBuffer *p_mLineBuffer; // esi
-  unsigned int VScrollOffsetInFixp; // eax
+  int VScrollOffsetInFixp; // eax
   unsigned int FirstVisibleLinePos; // edi
   bool v5; // bl
   unsigned int v6; // ebp
@@ -15,7 +15,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetBottomVScroll(Scale
   p_mLineBuffer = &this->mLineBuffer;
   VScrollOffsetInFixp = Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(p_mLineBuffer);
   FirstVisibleLinePos = p_mLineBuffer->Geom.FirstVisibleLinePos;
-  yOffset = -(double)VScrollOffsetInFixp;
+  yOffset = -(double)(unsigned int)VScrollOffsetInFixp;
   v5 = (p_mLineBuffer->Geom.Flags & 4) != 0;
   v6 = 0;
   while ( FirstVisibleLinePos < p_mLineBuffer->Lines.Data.Size

@@ -1,74 +1,76 @@
 void __userpurge btAxisSweep3Internal<unsigned short>::sortMaxUp(
-        unsigned __int16 edge@<cx>,
+        unsigned __int16 edge@<ax>,
         btAxisSweep3Internal<unsigned short> *this,
         int axis,
         btDispatcher *__formal,
         bool updateOverlaps)
 {
-  btAxisSweep3Internal<unsigned short> *v5; // eax
-  btAxisSweep3Internal<unsigned short>::Edge *v6; // ecx
+  int v5; // ecx
+  btAxisSweep3Internal<unsigned short> *v6; // esi
   btAxisSweep3Internal<unsigned short>::Edge *v7; // ebx
-  int v8; // ebp
-  char *v9; // esi
+  btAxisSweep3Internal<unsigned short>::Edge *v8; // edi
+  const btAxisSweep3Internal<unsigned short>::Handle *v9; // edx
   int v10; // eax
-  int v11; // edx
-  btAxisSweep3Internal<unsigned short>::Handle *v12; // ecx
-  btAxisSweep3Internal<unsigned short>::Handle *m_pHandles; // eax
-  btBroadphaseProxy *v14; // ebp
-  btBroadphaseProxy *v15; // edi
-  int v16; // eax
-  btAxisSweep3Internal<unsigned short>::Edge v17; // ecx
-  btAxisSweep3Internal<unsigned short>::Handle *pHandleEdge; // [esp+10h] [ebp-8h]
-  btAxisSweep3Internal<unsigned short>::Edge *pEdge; // [esp+14h] [ebp-4h]
+  bool v11; // al
+  btAxisSweep3Internal<unsigned short>::Handle *m_pHandles; // ecx
+  unsigned __int16 *v13; // edx
+  btAxisSweep3Internal<unsigned short>::Edge v14; // eax
+  btBroadphaseProxy *v15; // [esp+Ch] [ebp-10h]
+  int v16; // [esp+10h] [ebp-Ch]
+  btBroadphaseProxy *v17; // [esp+10h] [ebp-Ch]
+  btAxisSweep3Internal<unsigned short>::Handle *pHandleA; // [esp+14h] [ebp-8h]
+  const btAxisSweep3Internal<unsigned short>::Handle *v19; // [esp+18h] [ebp-4h]
 
-  v5 = this;
-  v6 = &this->m_pEdges[axis][edge];
-  v7 = v6 + 1;
-  pEdge = v6;
-  pHandleEdge = &this->m_pHandles[v6->m_handle];
-  if ( v6[1].m_handle )
+  LOBYTE(v5) = axis;
+  v6 = this;
+  v7 = &this->m_pEdges[axis][edge];
+  v8 = v7 + 1;
+  pHandleA = &this->m_pHandles[v7->m_handle];
+  while ( v8->m_handle && v7->m_pos >= v8->m_pos )
   {
-    while ( v6->m_pos >= v7->m_pos )
+    v9 = &v6->m_pHandles[v8->m_handle];
+    v16 = v8->m_handle << 6;
+    v10 = (1 << v5) & 3;
+    v19 = v9;
+    if ( (v8->m_pos & 1) != 0 )
     {
-      v8 = v7->m_handle << 6;
-      v9 = (char *)v5->m_pHandles + v8;
-      v10 = (1 << axis) & 3;
-      v11 = (1 << ((1 << axis) & 3)) & 3;
-      if ( (v7->m_pos & 1) != 0 )
-      {
-        v16 = axis;
-        --*(_WORD *)&v9[2 * axis + 54];
-        v12 = pHandleEdge;
-      }
-      else
-      {
-        v12 = pHandleEdge;
-        if ( (_BYTE)__formal
-          && pHandleEdge->m_maxEdges[v10] >= *(_WORD *)&v9[2 * v10 + 48]
-          && *(_WORD *)&v9[2 * v10 + 54] >= pHandleEdge->m_minEdges[v10]
-          && pHandleEdge->m_maxEdges[v11] >= *(_WORD *)&v9[2 * v11 + 48]
-          && *(_WORD *)&v9[2 * v11 + 54] >= pHandleEdge->m_minEdges[v11] )
-        {
-          m_pHandles = this->m_pHandles;
-          v14 = (btAxisSweep3Internal<unsigned short>::Handle *)((char *)m_pHandles + v8);
-          v15 = &m_pHandles[pEdge->m_handle];
-          this->m_pairCache->addOverlappingPair(this->m_pairCache, v15, v14);
-          if ( this->m_userPairCallback )
-            this->m_userPairCallback->addOverlappingPair(this->m_userPairCallback, v15, v14);
-          v12 = pHandleEdge;
-        }
-        v16 = axis;
-        --*(_WORD *)&v9[2 * axis + 48];
-      }
-      ++v12->m_maxEdges[v16];
-      v17 = *pEdge;
-      *pEdge = *v7;
-      *v7++ = v17;
-      ++pEdge;
-      if ( !v7->m_handle )
-        break;
-      v6 = pEdge;
-      v5 = this;
+      v5 = axis;
+      v13 = &v9->m_maxEdges[axis];
     }
+    else
+    {
+      if ( (_BYTE)__formal )
+      {
+        if ( pHandleA->m_maxEdges[v10] < v9->m_minEdges[v10] )
+        {
+          v11 = 0;
+        }
+        else
+        {
+          v11 = btAxisSweep3Internal<unsigned short>::testOverlap2D(pHandleA, v10, (1 << v10) & 3, v9);
+          v6 = this;
+          v9 = v19;
+        }
+        if ( v11 )
+        {
+          m_pHandles = v6->m_pHandles;
+          v17 = (btAxisSweep3Internal<unsigned short>::Handle *)((char *)m_pHandles + v16);
+          v15 = &m_pHandles[v7->m_handle];
+          v6->m_pairCache->addOverlappingPair(v6->m_pairCache, v15, v17);
+          if ( v6->m_userPairCallback )
+            v6->m_userPairCallback->addOverlappingPair(v6->m_userPairCallback, v15, v17);
+          v9 = v19;
+        }
+      }
+      v5 = axis;
+      v13 = &v9->m_minEdges[axis];
+    }
+    --*v13;
+    ++pHandleA->m_maxEdges[v5];
+    v14 = *v7;
+    *v7 = *v8;
+    *v8 = v14;
+    ++v7;
+    ++v8;
   }
 }

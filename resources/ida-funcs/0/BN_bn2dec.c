@@ -26,7 +26,7 @@ char *__cdecl BN_bn2dec(const bignum_st *a)
   v6 = (char *)CRYPTO_malloc(v4 + 3, ".\\crypto\\bn\\bn_print.c", 119);
   if ( v6 && v5 )
   {
-    v7 = BN_dup(a);
+    v7 = BN_dup((int)v6, a);
     v13 = v7;
     if ( v7 )
     {
@@ -73,7 +73,7 @@ char *__cdecl BN_bn2dec(const bignum_st *a)
   }
   else
   {
-    ERR_put_error(3u, 104, 65, ".\\crypto\\bn\\bn_print.c", 122);
+    ERR_put_error((int)v6, 3u, 104, 65, ".\\crypto\\bn\\bn_print.c", 122);
   }
   if ( v5 )
     CRYPTO_free(v5);

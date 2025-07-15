@@ -1,60 +1,46 @@
-void __userpurge survarium::base_network_client::attach_to_player(
-        survarium::base_network_client *this@<ecx>,
-        int a2@<eax>,
-        vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> player)
+void __thiscall survarium::base_network_client::attach_to_player(
+        survarium::base_network_client *this,
+        vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> player)
 {
-  int v4; // esi
-  survarium::player *m_object; // eax
-  vostok::resources::unmanaged_intrusive_base *v6; // ecx
-  int v7; // eax
-  survarium::player *v8; // eax
-  vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> v9; // [esp-4h] [ebp-Ch] BYREF
+  survarium::game *m_game; // esi
+  vostok::particle::particle_system_instance_impl *m_object; // eax
+  survarium::stats_graph *m_linear_speed_graph; // edx
+  survarium::player_input_handler *m_input_handler; // ecx
+  vostok::particle::particle_system_instance_impl *v7; // ecx
+  survarium::game *v8; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v9; // [esp-4h] [ebp-10h] BYREF
 
-  v4 = *(_DWORD *)(a2 + 8);
-  if ( v4
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+  this->detach_from_player(this);
+  this->m_input_handler->m_game_toggle_actions.m_end = this->m_input_handler->m_game_toggle_actions.m_begin;
+  this->m_input_handler->m_is_enabled = 1;
+  vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+    &player,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_current_player);
+  vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+    &player,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_last_current_player);
+  m_game = this->m_game;
+  m_object = player.m_object;
+  m_linear_speed_graph = this->m_linear_speed_graph;
+  m_input_handler = this->m_input_handler;
+  *(_DWORD *)((char *)&loc_11403 + (unsigned int)player.m_object + 5) = m_input_handler;
+  *(vostok::particle::particle_system_instance_impl_vtbl **)((char *)&m_object->__vftable + (_DWORD)&loc_1140A + 2) = (vostok::particle::particle_system_instance_impl_vtbl *)m_linear_speed_graph;
+  *(int *)((char *)&dword_1141C + (_DWORD)m_object) = (int)&m_game->m_game_world.game_ui;
+  *(_DWORD *)(*(int *)((char *)&dword_11410 + (_DWORD)m_object) + 13616) = m_input_handler;
+  survarium::player::set_effect_presenter(
+    (survarium::player *)m_input_handler,
+    (int)player.m_object,
+    &this->m_game->m_game_world.m_first_person_game_effect_presenter);
+  if ( this->m_is_spectator )
   {
-    survarium::player::detach_controller((survarium::player *)this, v4);
+    v9.m_object = v7;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v9,
+      &player);
+    survarium::game::draw_player_name(
+      v8,
+      (vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base>)this->m_game,
+      v9);
   }
-  m_object = 0;
-  if ( player.m_object )
-  {
-    m_object = player.m_object;
-    _InterlockedExchangeAdd(&player.m_object->m_reference_count, 1u);
-  }
-  v6 = (vostok::resources::unmanaged_intrusive_base *)m_object;
-  v7 = *(_DWORD *)(a2 + 8);
-  *(_DWORD *)(a2 + 8) = v6;
-  if ( v7 )
-  {
-    v6 = (vostok::resources::unmanaged_intrusive_base *)(v7 + 496);
-    if ( !_InterlockedExchangeAdd((volatile signed __int32 *)(v7 + 496), 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v6, (vostok::resources::unmanaged_resource *)(v7 + 288));
-  }
-  v9.m_object = 0;
-  if ( *(_DWORD *)(a2 + 8) )
-  {
-    vostok::memory::detail::call_destructor_predicate::operator()<survarium::profile_player_character>((vostok::memory::detail::call_destructor_predicate *)&v9);
-    v8 = *(survarium::player **)(a2 + 8);
-    v9.m_object = v8;
-    if ( v8 )
-      v6 = (vostok::resources::unmanaged_intrusive_base *)_InterlockedExchangeAdd(&v8->m_reference_count, 1u);
-  }
-  survarium::game_world_ui::on_attached_to_player(
-    (survarium::game_world_ui *)v6,
-    (survarium::game_world_ui *)(*(_DWORD *)(a2 + 24) + 620),
-    v9);
-  survarium::player::attach_controller(
-    player.m_object,
-    *(survarium::player_input_handler **)(a2 + 12),
-    (survarium::game_world_ui *)(*(_DWORD *)(a2 + 24) + 620),
-    *(survarium::stats_graph **)(a2 + 16),
-    *(survarium::stats_graph **)(a2 + 20));
-  if ( player.m_object )
-  {
-    if ( !_InterlockedExchangeAdd(&player.m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &player.m_object->vostok::resources::unmanaged_intrusive_base,
-        &player.m_object->vostok::resources::unmanaged_resource);
-  }
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&player);
 }

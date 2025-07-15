@@ -1,22 +1,18 @@
-btAlignedObjectArray<btConvexHullInternal::Vertex *> *__userpurge btAlignedObjectArray<int>::btAlignedObjectArray<int>@<eax>(
-        btAlignedObjectArray<btConvexHullInternal::Vertex *> *this@<ecx>,
-        btAlignedObjectArray<btConvexHullInternal::Vertex *> *a2@<esi>,
-        const btAlignedObjectArray<btConvexHullInternal::Vertex *> *otherArray)
+btAlignedObjectArray<int> *__userpurge btAlignedObjectArray<int>::btAlignedObjectArray<int>@<eax>(
+        btAlignedObjectArray<int> *this@<ecx>,
+        btAlignedObjectArray<int> *a2@<esi>,
+        const btAlignedObjectArray<int> *otherArray)
 {
-  const btAlignedObjectArray<btConvexHullInternal::Vertex *> *v3; // edx
   int m_size; // edi
-  _DWORD *v5; // eax
-  int v6; // edx
-  _DWORD *v7; // ebp
-  int v8; // eax
-  _DWORD *v9; // ecx
-  btConvexHullInternal::Vertex **m_data; // eax
-  int i; // eax
-  btConvexHullInternal::Vertex **v12; // ecx
-  btConvexHullInternal::Vertex **v13; // ecx
-  int v14; // eax
+  int *v4; // edx
+  int v5; // eax
+  int v6; // ecx
+  int j; // ecx
+  int *v8; // eax
+  int *m_data; // ecx
+  int v10; // eax
+  int *i; // [esp+8h] [ebp-4h]
 
-  v3 = otherArray;
   a2->m_ownsMemory = 1;
   a2->m_data = 0;
   a2->m_size = 0;
@@ -26,52 +22,39 @@ btAlignedObjectArray<btConvexHullInternal::Vertex *> *__userpurge btAlignedObjec
   {
     if ( m_size > 0 )
     {
-      ++gNumAlignedAllocs;
-      v5 = sAlignedAllocFunc(4 * m_size, 16);
-      v6 = a2->m_size;
-      v7 = v5;
-      v8 = 0;
-      if ( v6 > 0 )
+      v4 = (int *)btAlignedAllocInternal(4 * m_size);
+      v5 = a2->m_size;
+      v6 = 0;
+      for ( i = v4; v6 < v5; ++v4 )
       {
-        v9 = v7;
-        do
-        {
-          if ( v9 )
-            *v9 = a2->m_data[v8];
-          ++v8;
-          ++v9;
-        }
-        while ( v8 < v6 );
+        if ( v4 )
+          *v4 = a2->m_data[v6];
+        ++v6;
       }
-      m_data = a2->m_data;
-      if ( m_data )
+      if ( a2->m_data )
       {
         if ( a2->m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
+          btAlignedFreeInternal(a2->m_data);
         a2->m_data = 0;
       }
-      v3 = otherArray;
       a2->m_ownsMemory = 1;
-      a2->m_data = (btConvexHullInternal::Vertex **)v7;
+      a2->m_data = i;
       a2->m_capacity = m_size;
     }
-    for ( i = 0; i < m_size; ++i )
+    for ( j = 0; j < m_size; ++j )
     {
-      v12 = &a2->m_data[i];
-      if ( v12 )
-        *v12 = 0;
+      v8 = &a2->m_data[j];
+      if ( v8 )
+        *v8 = 0;
     }
   }
-  v13 = a2->m_data;
-  v14 = 0;
-  for ( a2->m_size = m_size; v14 < m_size; ++v13 )
+  m_data = a2->m_data;
+  v10 = 0;
+  for ( a2->m_size = m_size; v10 < m_size; ++m_data )
   {
-    if ( v13 )
-      *v13 = v3->m_data[v14];
-    ++v14;
+    if ( m_data )
+      *m_data = otherArray->m_data[v10];
+    ++v10;
   }
   return a2;
 }

@@ -1,17 +1,11 @@
-void __thiscall survarium::weapon_core::update_recoil(
-        survarium::weapon_core *this,
-        unsigned int current_time_in_ms,
-        float time_scale)
+void __usercall survarium::weapon_core::update_recoil(
+        survarium::weapon_core *this@<edi>,
+        unsigned int current_time_in_ms@<esi>)
 {
-  survarium::weapon_user_state_enum current_state_id; // eax
-  bool is_aimed; // [esp-8h] [ebp-10h]
-
-  is_aimed = survarium::weapon_core::is_aimed(this, (int)this);
-  current_state_id = survarium::weapon_user_animations_selector::get_current_state_id(&this->m_user_animations_selector);
-  survarium::recoil_calculator::tick(
-    &this->m_recoil_calculator,
-    current_state_id,
-    is_aimed,
+  survarium::character_recoil_calculator::tick(
+    &this->m_recoil_calculator.m_character_calculator,
+    this->m_portable_interactive_object->m_user_animations_selector.m_logic.m_current_state[1].transitions.m_size,
     current_time_in_ms,
-    time_scale);
+    this->m_aimed);
+  this->m_recoil_calculator.m_weapon_calculator.m_player_recoil_multiplier = this->m_recoil_calculator.m_character_calculator.m_current_value;
 }

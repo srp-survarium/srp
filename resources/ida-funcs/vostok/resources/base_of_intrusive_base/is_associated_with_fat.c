@@ -1,28 +1,12 @@
-bool __usercall vostok::resources::base_of_intrusive_base::is_associated_with_fat@<al>(
-        vostok::resources::managed_resource *const object@<esi>,
-        vostok::resources::base_of_intrusive_base *this)
+char __thiscall vostok::resources::base_of_intrusive_base::is_associated_with_fat(
+        vostok::resources::base_of_intrusive_base *this,
+        vostok::vfs::vfs_hashset *object)
 {
-  vostok::vfs::vfs_iterator v3; // [esp-14h] [ebp-28h] BYREF
-  vostok::resources::resource_base *v4; // [esp-4h] [ebp-18h]
-  vostok::vfs::vfs_iterator fat_it; // [esp+0h] [ebp-14h] BYREF
+  vostok::vfs::vfs_iterator v3; // [esp-4h] [ebp-24h]
 
-  vostok::vfs::vfs_iterator::vfs_iterator(&fat_it, &object->m_fat_it);
-  v4 = object;
-  vostok::vfs::vfs_iterator::vfs_iterator(&v3, &fat_it);
-  return vostok::resources::is_associated_with(v3, v4);
-}
-
-
-bool __usercall vostok::resources::base_of_intrusive_base::is_associated_with_fat@<al>(
-        vostok::resources::unmanaged_resource *const object@<esi>,
-        vostok::resources::base_of_intrusive_base *this)
-{
-  vostok::vfs::vfs_iterator v3; // [esp-14h] [ebp-28h] BYREF
-  vostok::resources::resource_base *v4; // [esp-4h] [ebp-18h]
-  vostok::vfs::vfs_iterator fat_it; // [esp+0h] [ebp-14h] BYREF
-
-  vostok::vfs::vfs_iterator::vfs_iterator(&fat_it, &object->m_fat_it);
-  v4 = object;
-  vostok::vfs::vfs_iterator::vfs_iterator(&v3, &fat_it);
-  return vostok::resources::is_associated_with(v3, v4);
+  v3.m_hashset = object;
+  v3.m_node = *(vostok::vfs::base_node<1> **)&object->m_hashlocks[20].m_readers_writers_counter.readers_count;
+  *(_QWORD *)&v3.m_link_target = *(volatile __int64 *)((char *)&object->m_hashlocks[20].m_readers_writers_counter.whole
+                                                     + 4);
+  return vostok::resources::is_associated_with(v3);
 }

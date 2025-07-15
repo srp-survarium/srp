@@ -1,24 +1,13 @@
-vostok::render::enum_vertex_input_type __usercall vostok::render::render_particle_emitter_instance::get_vertex_input_type@<eax>(
+int __usercall vostok::render::render_particle_emitter_instance::get_vertex_input_type@<eax>(
         vostok::render::render_particle_emitter_instance *this@<ecx>,
         int a2@<eax>)
 {
-  vostok::render::enum_vertex_input_type result; // eax
+  int v2; // eax
 
-  switch ( *(_DWORD *)(a2 + 1120) )
-  {
-    case 0:
-      result = particle_vertex_input_type;
-      break;
-    case 1:
-      result = particle_subuv_vertex_input_type;
-      break;
-    case 2:
-    case 3:
-      result = particle_beamtrail_vertex_input_type;
-      break;
-    default:
-      result = null_vertex_input_type;
-      break;
-  }
-  return result;
+  v2 = *(_DWORD *)(a2 + 364);
+  if ( !v2 )
+    return 128;
+  if ( v2 == 1 )
+    return 256;
+  return (unsigned int)(v2 - 2) > 1 ? 1 : 512;
 }

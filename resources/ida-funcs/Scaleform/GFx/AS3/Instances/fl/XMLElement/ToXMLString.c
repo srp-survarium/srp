@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::ToXMLString(
   Scaleform::GFx::AS3::Instances::fl::Namespace *v15; // ebp
   unsigned int pRCCRaw; // ebx
   unsigned int j; // edi
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v18; // esi
+  const Scaleform::GFx::AS3::Instances::fl::Namespace *v18; // esi
   Scaleform::GFx::AS3::Instances::fl::Namespace *v19; // eax
   Scaleform::GFx::AS3::VM *VMRef; // ecx
   Scaleform::GFx::AS3::Instances::fl::Namespace *pV; // edx
@@ -146,7 +146,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::ToXMLString(
     pRCCRaw = usedNotDeclared->pRCCRaw;
     for ( j = 0; j < pRCCRaw; ++j )
     {
-      v18 = (Scaleform::GFx::AS3::Instances::fl::Namespace *)*((_DWORD *)&v15->ForEachChild_GC + j);
+      v18 = (const Scaleform::GFx::AS3::Instances::fl::Namespace *)*((_DWORD *)&v15->ForEachChild_GC + j);
       if ( !Scaleform::GFx::AS3::NamespaceArray::Find(&ancestorsAndDeclarations, v18) )
       {
         Scaleform::GFx::AS3::NamespaceArray::Add(&namespaceDeclarations, v18, 1);
@@ -215,7 +215,7 @@ LABEL_28:
         if ( ((unsigned __int8)v27 & 1) == 0 )
         {
           RefCount = v27->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v27->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v27);
@@ -242,7 +242,7 @@ LABEL_28:
                   (const Scaleform::GFx::ASString *)&ancestorNamespaces) )
           Scaleform::GFx::ASString::Append(
             (Scaleform::GFx::ASString *)&ancestorNamespaces,
-            "aaa",
+            (const __m128i *)"aaa",
             (Scaleform::GFx::ASStringNode *)3);
         Scaleform::GFx::AS3::Value::Value(&other, (const Scaleform::GFx::ASString *)&ancestorNamespaces);
         Scaleform::GFx::AS3::Value::Assign(&v33->Prefix, &other);
@@ -272,11 +272,11 @@ LABEL_28:
     v39 = v38->Prefix.value.VS._1;
     if ( *(_DWORD *)(v39.VInt + 20) )
     {
-      Scaleform::StringBuffer::AppendString(v36, *(char **)v39.VInt, *(_DWORD *)(v39.VInt + 20));
+      Scaleform::StringBuffer::AppendString(v36, *(const __m128i **)v39.VInt, *(_DWORD *)(v39.VInt + 20));
       Scaleform::StringBuffer::AppendChar(v36, 0x3Au);
     }
   }
-  Scaleform::StringBuffer::AppendString(v36, (char *)v85->Text.pNode->pData, v85->Text.pNode->Size);
+  Scaleform::StringBuffer::AppendString(v36, (const __m128i *)v85->Text.pNode->pData, v85->Text.pNode->Size);
   v40 = v85->Attrs.Data.Size == 0;
   i = 0;
   if ( !v40 )
@@ -285,7 +285,7 @@ LABEL_28:
     {
       Scaleform::StringBuffer::AppendChar(v36, 0x20u);
       v41 = (Scaleform::StringBuffer *)v85->Attrs.Data.Data[i].pObject;
-      v42 = (int (__thiscall *)(Scaleform::StringBuffer *))*((_DWORD *)v41->pData + 28);
+      v42 = (int (__thiscall *)(Scaleform::StringBuffer *))*((_DWORD *)v41->pData + 31);
       buf = v41;
       v43 = v42(v41);
       Scaleform::GFx::AS3::VM::MakeNamespace(
@@ -328,7 +328,7 @@ LABEL_60:
                     (const Scaleform::GFx::ASString *)&ancestorNamespaces) )
             Scaleform::GFx::ASString::Append(
               (Scaleform::GFx::ASString *)&ancestorNamespaces,
-              "aaa",
+              (const __m128i *)"aaa",
               (Scaleform::GFx::ASStringNode *)3);
           Scaleform::GFx::AS3::Value::Value(&other, (const Scaleform::GFx::ASString *)&ancestorNamespaces);
           Scaleform::GFx::AS3::Value::Assign(p_Policy, &other);
@@ -383,14 +383,17 @@ LABEL_82:
         VInt = (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace> *)usedNotDeclared->Prefix.value.VS._1.VInt;
         if ( VInt[5].pObject )
         {
-          Scaleform::StringBuffer::AppendString(v36, (char *)VInt->pObject, (unsigned int)VInt[5].pObject);
+          Scaleform::StringBuffer::AppendString(v36, (const __m128i *)VInt->pObject, (unsigned int)VInt[5].pObject);
           Scaleform::StringBuffer::AppendChar(v36, 0x3Au);
         }
       }
-      Scaleform::StringBuffer::AppendString(v36, *(char **)v41[1].BufferSize, *(_DWORD *)(v41[1].BufferSize + 20));
-      Scaleform::StringBuffer::AppendString(v36, "=\"", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(
+        v36,
+        *(const __m128i **)v41[1].BufferSize,
+        *(_DWORD *)(v41[1].BufferSize + 20));
+      Scaleform::StringBuffer::AppendString(v36, (const __m128i *)"=\"", 0xFFFFFFFF);
       (*((void (__thiscall **)(Scaleform::StringBuffer *, Scaleform::StringBuffer *, int, Scaleform::GFx::AS3::NamespaceArray *, _DWORD))v41->pData
-       + 22))(
+       + 25))(
         v41,
         v36,
         ident,
@@ -401,7 +404,7 @@ LABEL_82:
       if ( ((unsigned __int8)usedNotDeclared & 1) == 0 )
       {
         v57 = usedNotDeclared->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v57) != 0 )
+        if ( (v57 & 0x3FFFFF) != 0 )
         {
           usedNotDeclared->RefCount = v57 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v56);
@@ -414,7 +417,7 @@ LABEL_82:
   for ( m = 0; m < namespaceDeclarations.Namespaces.Data.Size; ++m )
   {
     v59 = namespaceDeclarations.Namespaces.Data.Data[m].pObject;
-    Scaleform::StringBuffer::AppendString(v36, " xmlns", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)" xmlns", 0xFFFFFFFF);
     Namespace = Scaleform::GFx::AS3::VM::MakeNamespace(
                   vm,
                   (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *)&ancestorNamespaces,
@@ -430,7 +433,10 @@ LABEL_82:
       while ( Scaleform::GFx::AS3::NamespaceArray::FindByPrefix(
                 &ancestorsAndDeclarations,
                 (const Scaleform::GFx::ASString *)&buf) )
-        Scaleform::GFx::ASString::Append((Scaleform::GFx::ASString *)&buf, "aaa", (Scaleform::GFx::ASStringNode *)3);
+        Scaleform::GFx::ASString::Append(
+          (Scaleform::GFx::ASString *)&buf,
+          (const __m128i *)"aaa",
+          (Scaleform::GFx::ASStringNode *)3);
       Scaleform::GFx::AS3::Value::Value(&other, (const Scaleform::GFx::ASString *)&buf);
       Scaleform::GFx::AS3::Value::Assign(&v61->Prefix, &other);
       if ( (other.Flags & 0x1F) > 9 )
@@ -453,16 +459,16 @@ LABEL_82:
       if ( *(_DWORD *)(v65.VInt + 20) )
       {
         Scaleform::StringBuffer::AppendChar(v36, 0x3Au);
-        Scaleform::StringBuffer::AppendString(v36, *(char **)v65.VInt, *(_DWORD *)(v65.VInt + 20));
+        Scaleform::StringBuffer::AppendString(v36, *(const __m128i **)v65.VInt, *(_DWORD *)(v65.VInt + 20));
       }
     }
-    Scaleform::StringBuffer::AppendString(v36, "=\"", 0xFFFFFFFF);
-    Scaleform::StringBuffer::AppendString(v36, (char *)v61->Uri.pNode->pData, v61->Uri.pNode->Size);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)"=\"", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)v61->Uri.pNode->pData, v61->Uri.pNode->Size);
     Scaleform::StringBuffer::AppendChar(v36, 0x22u);
     if ( ((unsigned __int8)v61 & 1) == 0 )
     {
       v66 = v61->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v66) != 0 )
+      if ( (v66 & 0x3FFFFF) != 0 )
       {
         v61->RefCount = v66 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v61);
@@ -497,11 +503,11 @@ LABEL_82:
           v76 = ii;
           if ( ii >= 10 )
             v76 = 10;
-          Scaleform::StringBuffer::AppendString(v36, (char *)offsets[v76], v76);
+          Scaleform::StringBuffer::AppendString(v36, (const __m128i *)offsets[v76], v76);
         }
       }
     }
-    Scaleform::StringBuffer::AppendString(v36, "</", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)"</", 0xFFFFFFFF);
     v77 = v85->pTraits.pObject->pVM->DefXMLNamespace.pObject;
     Data = attrNamespaces.Namespaces.Data.Data;
     v79 = attrNamespaces.Namespaces.Data.Data->pObject;
@@ -511,11 +517,11 @@ LABEL_82:
       v80 = v79->Prefix.value.VS._1;
       if ( *(_DWORD *)(v80.VInt + 20) )
       {
-        Scaleform::StringBuffer::AppendString(v36, *(char **)v80.VInt, *(_DWORD *)(v80.VInt + 20));
+        Scaleform::StringBuffer::AppendString(v36, *(const __m128i **)v80.VInt, *(_DWORD *)(v80.VInt + 20));
         Scaleform::StringBuffer::AppendChar(v36, 0x3Au);
       }
     }
-    Scaleform::StringBuffer::AppendString(v36, (char *)v85->Text.pNode->pData, v85->Text.pNode->Size);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)v85->Text.pNode->pData, v85->Text.pNode->Size);
     Scaleform::StringBuffer::AppendChar(v36, 0x3Eu);
     v81 = nsCopy.pObject;
     if ( nsCopy.pObject )
@@ -523,7 +529,7 @@ LABEL_82:
       if ( ((int)nsCopy.pObject & 1) == 0 )
       {
         v82 = nsCopy.pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v82) != 0 )
+        if ( (v82 & 0x3FFFFF) != 0 )
         {
           nsCopy.pObject->RefCount = v82 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v81);
@@ -537,13 +543,13 @@ LABEL_82:
   }
   else
   {
-    Scaleform::StringBuffer::AppendString(v36, "/>", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(v36, (const __m128i *)"/>", 0xFFFFFFFF);
     if ( v68 )
     {
       if ( ((unsigned __int8)v68 & 1) == 0 )
       {
         v69 = v68->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v69) != 0 )
+        if ( (v69 & 0x3FFFFF) != 0 )
         {
           v68->RefCount = v69 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v68);

@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3charAt(
 {
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
   Scaleform::GFx::AS3::Value *v7; // ecx
-  const char *v8; // esi
+  char *v8; // esi
   unsigned int CharAt; // eax
   Scaleform::GFx::ASStringNode *appended; // esi
   Scaleform::GFx::ASStringNode *pNode; // eax
@@ -28,7 +28,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3charAt(
     if ( !argc
       || Scaleform::GFx::AS3::Value::Convert2Number(argv, (Scaleform::GFx::AS3::CheckResult *)&vm, &index)->Result )
     {
-      v8 = (const char *)(int)index;
+      v8 = (char *)(int)index;
       retVal.pNode = &StringManagerRef->pStringManager->EmptyStringNode;
       ++retVal.pNode->RefCount;
       if ( (int)v8 >= 0 && (unsigned int)v8 < Scaleform::GFx::ASConstString::GetLength(&thisStr) )

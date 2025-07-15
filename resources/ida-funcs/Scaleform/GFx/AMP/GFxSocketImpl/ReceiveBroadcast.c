@@ -1,17 +1,17 @@
-SOCKET __thiscall Scaleform::GFx::AMP::GFxSocketImpl::ReceiveBroadcast(
+unsigned int __thiscall Scaleform::GFx::AMP::GFxSocketImpl::ReceiveBroadcast(
         Scaleform::GFx::AMP::GFxSocketImpl *this,
         char *dataBuffer,
         int dataSize)
 {
-  SOCKET result; // eax
-  int addrLength; // [esp+0h] [ebp-4h] BYREF
+  unsigned int result; // eax
 
-  addrLength = (int)this;
   result = this->Socket;
   if ( result != -1 )
-  {
-    addrLength = 16;
-    return recvfrom(result, dataBuffer, dataSize, 0, (struct sockaddr *)&this->SocketAddress, &addrLength);
-  }
+    return ((int (__stdcall *)(unsigned int, char *, int, _DWORD, sockaddr_in *))(&off_8E3A98 + 4))(
+             result,
+             dataBuffer,
+             dataSize,
+             0,
+             &this->SocketAddress);
   return result;
 }

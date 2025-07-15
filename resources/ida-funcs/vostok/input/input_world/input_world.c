@@ -1,18 +1,24 @@
-void __fastcall vostok::input::input_world::input_world(
-        vostok::input::engine *engine,
+void __userpurge vostok::input::input_world::input_world(
+        vostok::input::input_world *this@<ecx>,
+        int a2@<eax>,
+        HWND__ *engine,
         HWND__ *window_handle,
-        vostok::input::input_world *this)
+        bool use_journaling_devices)
 {
-  this->__vftable = (vostok::input::input_world_vtbl *)&vostok::input::input_world::`vftable';
-  this->m_handlers._M_impl._M_start = 0;
-  this->m_handlers._M_impl._M_finish = 0;
-  this->m_handlers._M_impl._M_end_of_storage._M_data = 0;
-  this->m_engine = engine;
-  this->m_direct_input = 0;
-  this->m_gamepad = 0;
-  this->m_keyboard = 0;
-  this->m_mouse = 0;
-  this->m_target_state = 2;
-  this->m_acquired = 0;
-  vostok::input::input_world::create_devices((vostok::input::input_world *)engine, window_handle);
+  *(_DWORD *)(a2 + 4) = &vostok::debug::crash_handler::`vftable';
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_DWORD *)a2 = &vostok::input::input_world::`vftable'{for `vostok::input::world'};
+  *(_DWORD *)(a2 + 4) = &vostok::input::input_world::`vftable'{for `vostok::debug::crash_handler'};
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 16) = 0;
+  *(_DWORD *)(a2 + 20) = 0;
+  *(_DWORD *)(a2 + 24) = this;
+  *(_DWORD *)(a2 + 28) = 0;
+  *(_DWORD *)(a2 + 32) = 0;
+  *(_DWORD *)(a2 + 36) = 0;
+  *(_DWORD *)(a2 + 40) = 0;
+  *(_DWORD *)(a2 + 44) = &vostok::journaling::input_handler::`vftable';
+  *(_DWORD *)(a2 + 48) = 2;
+  *(_BYTE *)(a2 + 52) = 0;
+  vostok::input::input_world::create_devices(this, a2, engine, (char)window_handle);
 }

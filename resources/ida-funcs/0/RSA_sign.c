@@ -1,6 +1,6 @@
 int __cdecl RSA_sign(
         unsigned int type,
-        unsigned __int8 *m,
+        const unsigned __int8 *m,
         unsigned int m_len,
         unsigned __int8 *sigret,
         unsigned int *siglen,
@@ -34,7 +34,7 @@ int __cdecl RSA_sign(
     v11 = 36;
     if ( m_len != 36 )
     {
-      ERR_put_error(4u, 117, 131, ".\\crypto\\rsa\\rsa_sign.c", 88);
+      ERR_put_error(0, 4u, 117, 131, ".\\crypto\\rsa\\rsa_sign.c", 88);
       return 0;
     }
     v7 = m;
@@ -42,15 +42,15 @@ int __cdecl RSA_sign(
   else
   {
     a.algor = (X509_algor_st *)&v18;
-    v18 = OBJ_nid2obj(type);
+    v18 = OBJ_nid2obj(0, type);
     if ( !v18 )
     {
-      ERR_put_error(4u, 117, 117, ".\\crypto\\rsa\\rsa_sign.c", 98);
+      ERR_put_error(0, 4u, 117, 117, ".\\crypto\\rsa\\rsa_sign.c", 98);
       return 0;
     }
     if ( !v18->length )
     {
-      ERR_put_error(4u, 117, 116, ".\\crypto\\rsa\\rsa_sign.c", 103);
+      ERR_put_error(0, 4u, 117, 116, ".\\crypto\\rsa\\rsa_sign.c", 103);
       return 0;
     }
     v17[0] = 5;
@@ -65,7 +65,7 @@ int __cdecl RSA_sign(
   v15 = v12;
   if ( v11 > v12 - 11 )
   {
-    ERR_put_error(4u, 117, 112, ".\\crypto\\rsa\\rsa_sign.c", 119);
+    ERR_put_error((int)v7, 4u, 117, 112, ".\\crypto\\rsa\\rsa_sign.c", 119);
     return 0;
   }
   if ( type != 114 )
@@ -73,7 +73,7 @@ int __cdecl RSA_sign(
     v8 = (rsa_st *)CRYPTO_malloc(v12 + 1, ".\\crypto\\rsa\\rsa_sign.c", 123);
     if ( !v8 )
     {
-      ERR_put_error(4u, 117, 65, ".\\crypto\\rsa\\rsa_sign.c", 126);
+      ERR_put_error((int)v7, 4u, 117, 65, ".\\crypto\\rsa\\rsa_sign.c", 126);
       return 0;
     }
     rsa = v8;

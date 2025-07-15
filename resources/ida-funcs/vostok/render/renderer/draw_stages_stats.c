@@ -1,166 +1,147 @@
 void __thiscall vostok::render::renderer::draw_stages_stats(
         vostok::render::renderer *this,
-        const vostok::ui::font *default_font)
+        vostok::ui::font *default_font)
 {
-  unsigned int v2; // esi
-  vostok::render::stage_stat *v3; // edi
-  long double v4; // st7
-  int v5; // edi
-  int v6; // edi
-  unsigned int v7; // eax
-  const char *v8; // edi
-  unsigned int string_index; // [esp+1Ch] [ebp-19Ch]
-  vostok::render::stage_stat *v10; // [esp+28h] [ebp-190h]
-  unsigned int v11; // [esp+2Ch] [ebp-18Ch]
-  unsigned int total_dips; // [esp+30h] [ebp-188h]
-  const char *m_begin; // [esp+48h] [ebp-170h]
-  const char *v14; // [esp+48h] [ebp-170h]
-  const char *v15; // [esp+48h] [ebp-170h]
-  const char *v16; // [esp+48h] [ebp-170h]
-  const char *v17; // [esp+48h] [ebp-170h]
-  const char *v18; // [esp+48h] [ebp-170h]
-  unsigned int y_pos; // [esp+4Ch] [ebp-16Ch]
-  unsigned int clr; // [esp+5Ch] [ebp-15Ch]
-  unsigned int v21; // [esp+64h] [ebp-154h]
-  unsigned int char_color; // [esp+68h] [ebp-150h]
-  unsigned int stage_index; // [esp+94h] [ebp-124h]
-  double total_gpu_time; // [esp+98h] [ebp-120h]
-  double total_cpu_time; // [esp+A8h] [ebp-110h]
-  vostok::fixed_string<32> result_string_cpu_time; // [esp+B0h] [ebp-108h] BYREF
-  vostok::fixed_string<32> total_result_string_gpu_time; // [esp+DCh] [ebp-DCh] BYREF
-  vostok::fixed_string<32> result_string_gpu_time; // [esp+108h] [ebp-B0h] BYREF
-  vostok::fixed_string<32> total_result_string_cpu_time; // [esp+134h] [ebp-84h] BYREF
-  vostok::fixed_string<32> result_string_dips; // [esp+160h] [ebp-58h] BYREF
-  vostok::fixed_string<32> total_result_string_dips; // [esp+18Ch] [ebp-2Ch] BYREF
-  _UNKNOWN *retaddr; // [esp+1B8h] [ebp+0h] BYREF
+  int v2; // eax
+  unsigned int v3; // esi
+  vostok::render::stage_stat *v4; // ebx
+  unsigned __int64 v5; // st7
+  vostok::buffer_string *v6; // ecx
+  vostok::buffer_string *v7; // ecx
+  double v8; // st7
+  float v9; // xmm0_4
+  double v10; // st7
+  long double v11; // xmm0_8
+  unsigned int v12; // esi
+  int v13; // ebx
+  vostok::buffer_string *v14; // ecx
+  vostok::buffer_string *v15; // ecx
+  vostok::buffer_string *v16; // ecx
+  float v17; // [esp+0h] [ebp-148h]
+  float v18; // [esp+4h] [ebp-144h]
+  const char *v19[3]; // [esp+1Ch] [ebp-12Ch] BYREF
+  _BYTE v20[32]; // [esp+28h] [ebp-120h] BYREF
+  const char *v21[3]; // [esp+48h] [ebp-100h] BYREF
+  _BYTE v22[32]; // [esp+54h] [ebp-F4h] BYREF
+  const char *v23[3]; // [esp+74h] [ebp-D4h] BYREF
+  _BYTE v24[32]; // [esp+80h] [ebp-C8h] BYREF
+  const char *v25[3]; // [esp+A0h] [ebp-A8h] BYREF
+  _BYTE v26[32]; // [esp+ACh] [ebp-9Ch] BYREF
+  const char *v27[3]; // [esp+CCh] [ebp-7Ch] BYREF
+  _BYTE v28[32]; // [esp+D8h] [ebp-70h] BYREF
+  const char *v29[3]; // [esp+F8h] [ebp-50h] BYREF
+  _BYTE v30[32]; // [esp+104h] [ebp-44h] BYREF
+  long double v31; // [esp+124h] [ebp-24h] BYREF
+  long double v32; // [esp+12Ch] [ebp-1Ch]
+  const char *v33; // [esp+134h] [ebp-14h]
+  int v34; // [esp+138h] [ebp-10h]
+  unsigned int v35; // [esp+13Ch] [ebp-Ch]
+  int v36; // [esp+140h] [ebp-8h]
 
   v2 = 0;
-  string_index = 0;
-  total_gpu_time = 0.0;
-  total_cpu_time = 0.0;
-  total_dips = 0;
-  stage_index = 0;
-  v21 = 5;
+  v34 = 0;
+  v31 = 0.0;
+  v32 = 0.0;
+  v33 = 0;
+  v35 = 0;
+  v3 = 5;
   do
   {
-    if ( v2 == 29 )
-    {
-      v3 = &s_visibility_stage_stats;
-      v10 = &s_visibility_stage_stats;
-    }
+    if ( v35 == 28 )
+      v4 = &s_visibility_stage_stats;
     else
+      v4 = &s_render_stages[v35];
+    if ( v4->stg )
     {
-      v10 = &s_render_stages[v2];
-      v3 = v10;
-    }
-    if ( v3->stg )
-    {
-      v4 = v3->elapsed_gpu_msec[0];
-      result_string_gpu_time.m_begin = result_string_gpu_time.m_buffer;
-      result_string_gpu_time.m_end = result_string_gpu_time.m_buffer;
-      result_string_cpu_time.m_begin = result_string_cpu_time.m_buffer;
-      result_string_gpu_time.m_max_end = (char *)&total_result_string_cpu_time;
-      result_string_cpu_time.m_end = result_string_cpu_time.m_buffer;
-      result_string_dips.m_begin = result_string_dips.m_buffer;
-      result_string_cpu_time.m_max_end = (char *)&total_result_string_gpu_time;
-      result_string_gpu_time.m_buffer[0] = 0;
-      result_string_cpu_time.m_buffer[0] = 0;
-      result_string_dips.m_end = result_string_dips.m_buffer;
-      result_string_dips.m_max_end = (char *)&total_result_string_dips;
-      result_string_dips.m_buffer[0] = 0;
-      vostok::buffer_string::assignf(&result_string_gpu_time, "all: %4.4f", (double)v4);
-      vostok::buffer_string::assignf(&result_string_cpu_time, "cpu: %4.4f", (double)v3->elapsed_cpu_msec[0]);
-      vostok::buffer_string::assignf(&result_string_dips, "dips: %d", (unsigned int)(__int64)(double)v3->dips[0]);
-      if ( (string_index & 1) != 0 )
+      v5 = *(unsigned __int64 *)&v4->elapsed_gpu_msec[0];
+      v21[0] = v22;
+      v21[1] = v22;
+      v21[2] = (const char *)v23;
+      v25[0] = v26;
+      v25[1] = v26;
+      v25[2] = (const char *)v27;
+      v29[0] = v30;
+      v29[1] = v30;
+      v29[2] = (const char *)&v31;
+      v22[0] = 0;
+      v26[0] = 0;
+      v30[0] = 0;
+      vostok::fs_new::path_string_impl::assignf(
+        v21,
+        (vostok::buffer_string *)this,
+        (vostok::buffer_string *)"all: %4.4f",
+        (const char *)v5,
+        (_DWORD)HIDWORD(v5));
+      vostok::fs_new::path_string_impl::assignf(
+        v25,
+        v6,
+        (vostok::buffer_string *)"cpu: %4.4f",
+        (const char *)COERCE_UNSIGNED_INT64(v4->elapsed_cpu_msec[0]),
+        (_DWORD)HIDWORD(COERCE_UNSIGNED_INT64(v4->elapsed_cpu_msec[0])));
+      vostok::fs_new::path_string_impl::assignf(
+        v29,
+        v7,
+        (vostok::buffer_string *)"dips: %d",
+        (const char *)(unsigned __int64)(double)v4->dips[0]);
+      v8 = 1.0;
+      if ( (v34 & 1) != 0 )
       {
-        v6 = (unsigned __int8)vostok::math::floor(191.25);
-        v7 = vostok::math::floor(255.0);
-        clr = v6 | (((unsigned __int8)v7 | ((v6 | (v7 << 8)) << 8)) << 8);
+        v9 = FLOAT_0_75;
+        v18 = 1.0;
+        v8 = 0.75;
       }
       else
       {
-        v11 = vostok::math::floor(255.0);
-        v5 = ((v11 << 8) | (unsigned __int8)vostok::math::floor(127.5)) << 8;
-        clr = (unsigned __int8)v11 | (((unsigned __int8)vostok::math::floor(191.25) | v5) << 8);
+        v9 = c_anim_center;
+        v18 = 0.75;
       }
-      v8 = vostok::render::render_stage_names[v2];
-      vostok::render::draw_text(v8, default_font, 6u, v21 + 1, (vostok::math::color)-16777216);
-      vostok::render::draw_text(v8, default_font, 5u, v21, (vostok::math::color)clr);
-      m_begin = result_string_gpu_time.m_begin;
-      vostok::render::draw_text(
-        result_string_gpu_time.m_begin,
-        default_font,
-        0xCAu,
-        v21 + 1,
-        (vostok::math::color)-16777216);
-      vostok::render::draw_text(m_begin, default_font, 0xC9u, v21, (vostok::math::color)clr);
-      v14 = result_string_cpu_time.m_begin;
-      vostok::render::draw_text(
-        result_string_cpu_time.m_begin,
-        default_font,
-        0x11Eu,
-        v21 + 1,
-        (vostok::math::color)-16777216);
-      vostok::render::draw_text(v14, default_font, 0x11Du, v21, (vostok::math::color)clr);
-      v15 = result_string_dips.m_begin;
-      vostok::render::draw_text(
-        result_string_dips.m_begin,
-        default_font,
-        0x172u,
-        v21 + 1,
-        (vostok::math::color)-16777216);
-      vostok::render::draw_text(v15, default_font, 0x171u, v21, (vostok::math::color)clr);
-      ++string_index;
-      total_gpu_time = v10->elapsed_gpu_msec[0] + total_gpu_time;
-      v21 += 12;
-      total_cpu_time = v10->elapsed_cpu_msec[0] + total_cpu_time;
-      v2 = stage_index;
-      total_dips += (__int64)(double)v10->dips[0];
+      v17 = v8;
+      v36 = vostok::math::color_rgba(v9, (vostok::math *)LODWORD(v17), v18, 1.0);
+      vostok::render::draw_text_shadowed(5u, v3, default_font, vostok::render::render_stage_names[v35], v36);
+      vostok::render::draw_text_shadowed(0xC9u, v3, default_font, v21[0], v36);
+      vostok::render::draw_text_shadowed(0x11Du, v3, default_font, v25[0], v36);
+      vostok::render::draw_text_shadowed(0x171u, v3, default_font, v29[0], v36);
+      v10 = (double)v4->dips[0];
+      v11 = v4->elapsed_gpu_msec[0] + v31;
+      ++v34;
+      v31 = v11;
+      v3 += 12;
+      v32 = v4->elapsed_cpu_msec[0] + v32;
+      v33 += (unsigned __int64)v10;
+      v2 = v34;
     }
-    stage_index = ++v2;
+    ++v35;
   }
-  while ( v2 < 0x1E );
-  total_result_string_gpu_time.m_begin = total_result_string_gpu_time.m_buffer;
-  total_result_string_gpu_time.m_end = total_result_string_gpu_time.m_buffer;
-  total_result_string_cpu_time.m_begin = total_result_string_cpu_time.m_buffer;
-  total_result_string_cpu_time.m_end = total_result_string_cpu_time.m_buffer;
-  total_result_string_gpu_time.m_max_end = (char *)&result_string_gpu_time;
-  total_result_string_dips.m_begin = total_result_string_dips.m_buffer;
-  total_result_string_dips.m_end = total_result_string_dips.m_buffer;
-  total_result_string_cpu_time.m_max_end = (char *)&result_string_dips;
-  total_result_string_dips.m_max_end = (char *)&retaddr;
-  y_pos = 12 * string_index + 5;
-  total_result_string_gpu_time.m_buffer[0] = 0;
-  total_result_string_cpu_time.m_buffer[0] = 0;
-  total_result_string_dips.m_buffer[0] = 0;
-  char_color = (unsigned int)&vostok::memory::s_CRT_arena[5508664] & 0x7F0000 | 0xFF00FF7F;
-  vostok::buffer_string::assignf(&total_result_string_gpu_time, "all: %4.4f", total_gpu_time);
-  vostok::buffer_string::assignf(&total_result_string_cpu_time, "cpu: %4.4f", total_cpu_time);
-  vostok::buffer_string::assignf(&total_result_string_dips, "dips: %d", total_dips);
-  vostok::render::draw_text("total", default_font, 6u, 12 * string_index + 6, (vostok::math::color)-16777216);
-  vostok::render::draw_text("total", default_font, 5u, y_pos, (vostok::math::color)char_color);
-  v16 = total_result_string_gpu_time.m_begin;
-  vostok::render::draw_text(
-    total_result_string_gpu_time.m_begin,
-    default_font,
-    0xCAu,
-    12 * string_index + 6,
-    (vostok::math::color)-16777216);
-  vostok::render::draw_text(v16, default_font, 0xC9u, y_pos, (vostok::math::color)char_color);
-  v17 = total_result_string_cpu_time.m_begin;
-  vostok::render::draw_text(
-    total_result_string_cpu_time.m_begin,
-    default_font,
-    0x11Eu,
-    12 * string_index + 6,
-    (vostok::math::color)-16777216);
-  vostok::render::draw_text(v17, default_font, 0x11Du, y_pos, (vostok::math::color)char_color);
-  v18 = total_result_string_dips.m_begin;
-  vostok::render::draw_text(
-    total_result_string_dips.m_begin,
-    default_font,
-    0x172u,
-    12 * string_index + 6,
-    (vostok::math::color)-16777216);
-  vostok::render::draw_text(v18, default_font, 0x171u, y_pos, (vostok::math::color)char_color);
+  while ( v35 < 0x1D );
+  v27[0] = v28;
+  v27[1] = v28;
+  v27[2] = (const char *)v29;
+  v23[0] = v24;
+  v23[1] = v24;
+  v23[2] = (const char *)v25;
+  v19[0] = v20;
+  v19[1] = v20;
+  v28[0] = 0;
+  v24[0] = 0;
+  v19[2] = (const char *)v21;
+  v20[0] = 0;
+  v12 = 12 * v2 + 5;
+  v13 = vostok::math::color_rgba(0.5, COERCE_VOSTOK_MATH_(0.5), 1.0, 1.0);
+  vostok::fs_new::path_string_impl::assignf(
+    v27,
+    v14,
+    (vostok::buffer_string *)"all: %4.4f",
+    (const char *)LODWORD(v31),
+    HIDWORD(v31));
+  vostok::fs_new::path_string_impl::assignf(
+    v23,
+    v15,
+    (vostok::buffer_string *)"cpu: %4.4f",
+    (const char *)LODWORD(v32),
+    HIDWORD(v32));
+  vostok::fs_new::path_string_impl::assignf(v19, v16, (vostok::buffer_string *)"dips: %d", v33);
+  vostok::render::draw_text_shadowed(5u, v12, default_font, "total", v13);
+  vostok::render::draw_text_shadowed(0xC9u, v12, default_font, v27[0], v13);
+  vostok::render::draw_text_shadowed(0x11Du, v12, default_font, v23[0], v13);
+  vostok::render::draw_text_shadowed(0x171u, v12, default_font, v19[0], v13);
 }

@@ -1,4 +1,13 @@
-int __cdecl png_XYZ_from_xy(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
+int __cdecl png_XYZ_from_xy(
+        int a1,
+        unsigned int a2,
+        int a3,
+        unsigned int a4,
+        int a5,
+        unsigned int a6,
+        int a7,
+        unsigned int a8,
+        int a9)
 {
   int v10; // esi
   int v11; // esi
@@ -9,21 +18,21 @@ int __cdecl png_XYZ_from_xy(int a1, int a2, int a3, int a4, int a5, int a6, int 
   int v16; // [esp+14h] [ebp-8h]
   int v17; // [esp+18h] [ebp-4h] BYREF
 
-  if ( a2 < 0 || a2 > (int)&loc_186A0 )
+  if ( a2 > 0x186A0 )
     return 1;
-  if ( a3 < 0 || a3 > (int)&loc_186A0 - a2 )
+  if ( a3 < 0 || a3 > (int)(100000 - a2) )
     return 1;
-  if ( a4 < 0 || a4 > (int)&loc_186A0 )
+  if ( a4 > 0x186A0 )
     return 1;
-  if ( a5 < 0 || a5 > (int)&loc_186A0 - a4 )
+  if ( a5 < 0 || a5 > (int)(100000 - a4) )
     return 1;
-  if ( a6 < 0 || a6 > (int)&loc_186A0 )
+  if ( a6 > 0x186A0 )
     return 1;
-  if ( a7 < 0 || a7 > (int)&loc_186A0 - a6 )
+  if ( a7 < 0 || a7 > (int)(100000 - a6) )
     return 1;
-  if ( a8 < 0 || a8 > (int)&loc_186A0 )
+  if ( a8 > 0x186A0 )
     return 1;
-  if ( a9 < 0 || a9 > (int)&loc_186A0 - a8 )
+  if ( a9 < 0 || a9 > (int)(100000 - a8) )
     return 1;
   if ( !png_muldiv(&v15, a4 - a6, a3 - a7, 7) )
     return 2;
@@ -47,21 +56,21 @@ int __cdecl png_XYZ_from_xy(int a1, int a2, int a3, int a4, int a5, int a6, int 
   v14 = v11 - png_reciprocal(v17);
   if ( v14 <= 0 )
     return 1;
-  if ( !png_muldiv(a1, a2, &loc_186A0, v12) )
+  if ( !png_muldiv(a1, a2, 100000, v12) )
     return 1;
-  if ( !png_muldiv(a1 + 4, a3, &loc_186A0, v12) )
+  if ( !png_muldiv(a1 + 4, a3, 100000, v12) )
     return 1;
-  if ( !png_muldiv(a1 + 8, (char *)&loc_186A0 - a2 - a3, &loc_186A0, v12) )
+  if ( !png_muldiv(a1 + 8, 100000 - a2 - a3, 100000, v12) )
     return 1;
-  if ( !png_muldiv(a1 + 12, a4, &loc_186A0, v17) )
+  if ( !png_muldiv(a1 + 12, a4, 100000, v17) )
     return 1;
-  if ( !png_muldiv(a1 + 16, a5, &loc_186A0, v17) )
+  if ( !png_muldiv(a1 + 16, a5, 100000, v17) )
     return 1;
-  if ( !png_muldiv(a1 + 20, (char *)&loc_186A0 - a4 - a5, &loc_186A0, v17) )
+  if ( !png_muldiv(a1 + 20, 100000 - a4 - a5, 100000, v17) )
     return 1;
-  if ( !png_muldiv(a1 + 24, a6, v14, &loc_186A0) )
+  if ( !png_muldiv(a1 + 24, a6, v14, 100000) )
     return 1;
-  if ( png_muldiv(a1 + 28, a7, v14, &loc_186A0) )
-    return png_muldiv(a1 + 32, (char *)&loc_186A0 - a6 - a7, v14, &loc_186A0) == 0;
+  if ( png_muldiv(a1 + 28, a7, v14, 100000) )
+    return png_muldiv(a1 + 32, 100000 - a6 - a7, v14, 100000) == 0;
   return 1;
 }

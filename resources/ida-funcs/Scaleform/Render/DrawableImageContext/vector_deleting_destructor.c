@@ -9,7 +9,9 @@ Scaleform::Render::DrawableImageContext *__thiscall Scaleform::Render::DrawableI
 }
 
 
-void *__thiscall Scaleform::Render::DrawableImageContext::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::DrawableImageContext *__thiscall Scaleform::Render::DrawableImageContext::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::DrawableImageContext::`vector deleting destructor'(
            (Scaleform::Render::DrawableImageContext *)(this - 8),

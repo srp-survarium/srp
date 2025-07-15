@@ -17,13 +17,13 @@ char __thiscall Scaleform::GFx::AS3::IntervalTimer::ClearFor(
                         (Scaleform::GFx::AS3::VM *)proot->pASMovieRoot.pObject[2].__vftable,
                         p_Function),
         (v7 = (int)ValueTraits->GetFilePtr(ValueTraits)) == 0)
-    || *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v7 + 60) + 184) != defimpl )
+    || *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v7 + 60) + 192) != defimpl )
   {
     pObject = this->TimerObj.pObject;
     if ( !pObject )
       return 0;
     v10 = (int)pObject->pTraits.pObject->GetFilePtr(pObject->pTraits.pObject);
-    if ( !v10 || *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v10 + 60) + 184) != defimpl )
+    if ( !v10 || *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v10 + 60) + 192) != defimpl )
       return 0;
   }
   this->Clear(this);

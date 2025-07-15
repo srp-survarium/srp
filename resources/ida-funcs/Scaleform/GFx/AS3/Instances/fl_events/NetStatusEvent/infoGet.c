@@ -17,7 +17,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoG
   StringManagerRef = this->pTraits.pObject->pVM->StringManagerRef;
   pobj.pObject = pV;
   Scaleform::GFx::AS3::Value::Value(&v, &this->Code);
-  prop_name.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "code");
+  prop_name.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                      StringManagerRef->pStringManager,
+                      (__m128i *)"code");
   ++prop_name.pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &prop_name, &v, aNone);
   pNode = prop_name.pNode;
@@ -32,7 +34,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoG
       Scaleform::GFx::AS3::Value::ReleaseInternal(&v);
   }
   Scaleform::GFx::AS3::Value::Value(&v, &this->Level);
-  prop_name.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "level");
+  prop_name.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                      StringManagerRef->pStringManager,
+                      (__m128i *)"level");
   ++prop_name.pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &prop_name, &v, aNone);
   v6 = prop_name.pNode;
@@ -52,7 +56,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::NetStatusEvent::infoG
   if ( pV && ((unsigned __int8)pV & 1) == 0 )
   {
     RefCount = pV->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       pV->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);

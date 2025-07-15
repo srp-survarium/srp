@@ -2,8 +2,8 @@ void __thiscall Scaleform::GFx::PlaceObjectTag::CheckForCxForm(
         Scaleform::GFx::PlaceObjectTag *this,
         unsigned int dataSz)
 {
-  Scaleform::GFx::StreamContext v3; // [esp+60h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> pm; // [esp+70h] [ebp-20h] BYREF
+  Scaleform::GFx::StreamContext v3; // [esp+10h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> pm; // [esp+20h] [ebp-20h] BYREF
 
   pm.M[0][0] = 1.0;
   pm.M[0][1] = 0.0;

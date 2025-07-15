@@ -1,12 +1,12 @@
 void __thiscall Scaleform::GFx::GFxMovieDataDefFileKeyData::GFxMovieDataDefFileKeyData(
         Scaleform::GFx::GFxMovieDataDefFileKeyData *this,
-        char *pfilename,
+        const __m128i *pfilename,
         __int64 modifyTime,
         Scaleform::GFx::Resource *pfileOpener,
         Scaleform::GFx::Resource *pimageCreator)
 {
   Scaleform::String *p_FileName; // edi
-  Scaleform::GFx::FileOpener *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::RefCountVImpl *v8; // ecx
 
   this->__vftable = (Scaleform::GFx::GFxMovieDataDefFileKeyData_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -20,9 +20,9 @@ void __thiscall Scaleform::GFx::GFxMovieDataDefFileKeyData::GFxMovieDataDefFileK
   this->ModifyTime = modifyTime;
   if ( pfileOpener )
     Scaleform::RefCountImpl::AddRef(pfileOpener);
-  pObject = this->pFileOpener.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pFileOpener.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pFileOpener.pObject = (Scaleform::GFx::FileOpener *)pfileOpener;
   if ( pimageCreator )
     Scaleform::RefCountImpl::AddRef(pimageCreator);

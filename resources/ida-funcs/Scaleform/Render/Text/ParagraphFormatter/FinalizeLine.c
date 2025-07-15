@@ -24,10 +24,10 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
   bool v22; // al
   unsigned __int16 ModCounter; // cx
   Scaleform::Render::Text::LineBuffer::Line *pTempLine; // ecx
-  unsigned __int8 *v25; // ecx
+  const __m128i *v25; // ecx
   bool v26; // zf
-  unsigned __int8 *v27; // eax
-  unsigned __int8 *v28; // eax
+  int v27; // eax
+  Scaleform::Render::Text::LineBuffer::FormatDataEntry *v28; // eax
   Scaleform::Render::Text::LineBuffer::Line *v29; // eax
   int MemSize; // edx
   int TextPos; // eax
@@ -60,15 +60,15 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
   double v58; // st6
   double v59; // st7
   Scaleform::RefCountVImpl *v60; // ecx
-  unsigned __int8 *FormatData; // [esp-4h] [ebp-84h]
-  int lineHeight; // [esp+14h] [ebp-6Ch]
-  float lineHeighta; // [esp+14h] [ebp-6Ch]
-  float lineHeightb; // [esp+14h] [ebp-6Ch]
-  float leadinga; // [esp+18h] [ebp-68h]
-  int leading; // [esp+18h] [ebp-68h]
-  float fleading; // [esp+1Ch] [ebp-64h]
-  unsigned int fleadinga; // [esp+1Ch] [ebp-64h]
-  Scaleform::Render::Text::LineBuffer::GlyphIterator git; // [esp+20h] [ebp-60h] BYREF
+  const __m128i *FormatData; // [esp-4h] [ebp-84h]
+  int v62; // [esp+14h] [ebp-6Ch]
+  float v63; // [esp+14h] [ebp-6Ch]
+  float v64; // [esp+14h] [ebp-6Ch]
+  float v65; // [esp+18h] [ebp-68h]
+  int v66; // [esp+18h] [ebp-68h]
+  float formatDataElementsCount; // [esp+1Ch] [ebp-64h]
+  unsigned int formatDataElementsCounta; // [esp+1Ch] [ebp-64h]
+  Scaleform::Render::Text::LineBuffer::GlyphIterator result; // [esp+20h] [ebp-60h] BYREF
 
   LastAdvance = this->LineCursor.LastAdvance;
   if ( LastAdvance <= 0.0 )
@@ -106,20 +106,20 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     MaxFontLeading = (double)pParaFormat->Leading * 20.0;
   else
     MaxFontLeading = this->LineCursor.MaxFontLeading;
-  fleading = MaxFontLeading;
-  leadinga = this->LineCursor.MaxFontDescent + this->LineCursor.MaxFontAscent;
-  v9 = leadinga;
-  if ( leadinga <= 0.0 )
+  formatDataElementsCount = MaxFontLeading;
+  v65 = this->LineCursor.MaxFontDescent + this->LineCursor.MaxFontAscent;
+  v9 = v65;
+  if ( v65 <= 0.0 )
     v10 = v9 - 0.5;
   else
     v10 = v9 + 0.5;
-  lineHeight = (int)v10;
-  v11 = fleading;
-  if ( fleading <= 0.0 )
+  v62 = (int)v10;
+  v11 = formatDataElementsCount;
+  if ( formatDataElementsCount <= 0.0 )
     v12 = v11 - 0.5;
   else
     v12 = v11 + 0.5;
-  leading = (int)v12;
+  v66 = (int)v12;
   GlyphIndex = this->LineCursor.GlyphIns.GlyphIndex;
   v14 = this->LineCursor.LineWidth < 0 ? 0 : this->LineCursor.LineWidth;
   LineWidthWithoutTrailingSpaces = this->LineCursor.LineWidthWithoutTrailingSpaces;
@@ -128,11 +128,11 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
   this->LineCursor.LineWidthWithoutTrailingSpaces = LineWidthWithoutTrailingSpaces < 0
                                                   ? 0
                                                   : LineWidthWithoutTrailingSpaces;
-  fleadinga = this->LineCursor.GlyphIns.FormatDataIndex;
+  formatDataElementsCounta = this->LineCursor.GlyphIns.FormatDataIndex;
   if ( (pDocView->AlignProps & 0x30) != 0
     || this->LineCursor.LineLength > 0xFF
     || GlyphIndex > 0xFF
-    || (unsigned int)(leading + 128) > 0xFF
+    || (unsigned int)(v66 + 128) > 0xFF
     || (unsigned int)(int)v10 > 0xFFFF
     || v14 < 0
     || v14 >= (int)&_sbh_sizeHeaderList )
@@ -145,8 +145,8 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
                  pLinesIter->pLineBuffer,
                  CurrentPos,
                  GlyphIndex,
-                 fleadinga,
-                 Line32);
+                 formatDataElementsCounta,
+                 (Scaleform::Render::Text::LineBuffer::Line *)1);
     ++pLinesIter->CurrentPos;
   }
   else
@@ -155,7 +155,7 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
                  this->pLinesIter,
                  GlyphIndex,
                  this->LineCursor.GlyphIns.FormatDataIndex,
-                 Line8);
+                 0);
   }
   UniqueId = this->LineCursor.pParagraph->UniqueId;
   v21 = inserted;
@@ -171,30 +171,30 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     v21->Data32.ParagraphModId = ModCounter;
   pTempLine = this->pTempLine;
   if ( (pTempLine->MemSize & 0x80000000) == 0 )
-    v25 = (unsigned __int8 *)&pTempLine->Data8 + 38;
+    v25 = (const __m128i *)((char *)&pTempLine->Data8 + 38);
   else
-    v25 = (unsigned __int8 *)(&pTempLine->Data8.Leading + 1);
+    v25 = (const __m128i *)(&pTempLine->Data8.Leading + 1);
   v26 = !v22;
-  v27 = (unsigned __int8 *)(&v21->Data8.Leading + 1);
+  v27 = (int)(&v21->Data8.Leading + 1);
   if ( v26 )
-    v27 = (unsigned __int8 *)&v21->Data8 + 38;
+    v27 = (int)&v21->Data8 + 38;
   memcpy(v27, v25, 8 * GlyphIndex);
-  FormatData = (unsigned __int8 *)Scaleform::Render::Text::LineBuffer::Line::GetFormatData(this->pTempLine);
-  v28 = (unsigned __int8 *)Scaleform::Render::Text::LineBuffer::Line::GetFormatData(v21);
-  memcpy(v28, FormatData, 4 * fleadinga);
+  FormatData = (const __m128i *)Scaleform::Render::Text::LineBuffer::Line::GetFormatData(this->pTempLine);
+  v28 = Scaleform::Render::Text::LineBuffer::Line::GetFormatData(v21);
+  memcpy((int)v28, FormatData, 4 * formatDataElementsCounta);
   v29 = this->pTempLine;
   MemSize = v29->MemSize;
   TextPos = v29->Data32.TextPos;
   if ( MemSize < 0 )
   {
-    TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+    TextPos &= 0xFFFFFFu;
+    if ( TextPos == 0xFFFFFF )
       TextPos = -1;
   }
   if ( (v21->MemSize & 0x80000000) == 0 )
     v21->Data32.TextPos = TextPos;
   else
-    v21->Data32.TextPos ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199] & (TextPos ^ v21->Data32.TextPos);
+    v21->Data32.TextPos ^= (TextPos ^ v21->Data32.TextPos) & 0xFFFFFF;
   LineLength = this->LineCursor.LineLength;
   if ( (v21->MemSize & 0x80000000) == 0 )
     v21->Data32.TextLength = LineLength;
@@ -217,26 +217,26 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
         if ( v35 > 0 )
         {
           v36 = v35 / v33;
-          Scaleform::Render::Text::LineBuffer::Line::Begin(v21, &git);
-          while ( git.pGlyphs && git.pGlyphs < git.pEndGlyphs )
+          Scaleform::Render::Text::LineBuffer::Line::Begin(v21, &result);
+          while ( result.pGlyphs && result.pGlyphs < result.pEndGlyphs )
           {
-            Flags = git.pGlyphs->Flags;
+            Flags = result.pGlyphs->Flags;
             if ( (Flags & 2) != 0 )
             {
               v26 = (Flags & 0x40) == 0;
-              Advance = git.pGlyphs->Advance;
+              Advance = result.pGlyphs->Advance;
               if ( !v26 )
                 Advance = -Advance;
-              Scaleform::Render::Text::LineBuffer::GlyphEntry::SetAdvance(git.pGlyphs, v36 + Advance);
+              Scaleform::Render::Text::LineBuffer::GlyphEntry::SetAdvance(result.pGlyphs, v36 + Advance);
             }
-            Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
+            Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&result);
           }
-          pObject = git.pImage.pObject;
+          pObject = result.pImage.pObject;
           this->LineCursor.LineWidth += v35;
           if ( pObject )
             Scaleform::RefCountNTSImpl::Release(pObject);
-          if ( git.pFontHandle.pObject )
-            Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)git.pFontHandle.pObject);
+          if ( result.pFontHandle.pObject )
+            Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pFontHandle.pObject);
         }
       }
     }
@@ -247,9 +247,9 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
   v21->Data32.OffsetY = NextOffsetY;
   v42 = v21->MemSize;
   if ( (v21->MemSize & 0x80000000) == 0 )
-    v21->Data32.Leading = leading;
+    v21->Data32.Leading = v66;
   else
-    v21->Data8.Leading = leading;
+    v21->Data8.Leading = v66;
   v43 = (int)v10;
   if ( ((this->pParaFormat->PresentMask >> 9) & 3) == 1 )
   {
@@ -259,12 +259,12 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     if ( v51 >= 0 )
     {
       v21->Data32.Width = v52;
-      v21->Data32.Height = lineHeight;
+      v21->Data32.Height = v62;
     }
     else
     {
       v21->Data8.Width = v52;
-      v21->Data8.Height = lineHeight;
+      v21->Data8.Height = v62;
     }
     TextRectWidth = this->TextRectWidth;
     if ( TextRectWidth <= 0.0 )
@@ -287,18 +287,18 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     if ( v47 >= 0 )
     {
       v21->Data32.Width = v48;
-      v21->Data32.Height = lineHeight;
+      v21->Data32.Height = v62;
     }
     else
     {
       v21->Data8.Width = v48;
-      v21->Data8.Height = lineHeight;
+      v21->Data8.Height = v62;
     }
-    lineHeighta = this->TextRectWidth - (double)this->LineCursor.LeftMargin;
+    v63 = this->TextRectWidth - (double)this->LineCursor.LeftMargin;
     v44 = 0.5;
-    lineHeightb = lineHeighta * 0.5 - (double)(this->LineCursor.LineWidthWithoutTrailingSpaces / 2);
-    v49 = lineHeightb;
-    if ( lineHeightb <= 0.0 )
+    v64 = v63 * 0.5 - (double)(this->LineCursor.LineWidthWithoutTrailingSpaces / 2);
+    v49 = v64;
+    if ( v64 <= 0.0 )
       v50 = v49 - 0.5;
     else
       v50 = v49 + 0.5;
@@ -315,12 +315,12 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     if ( v45 >= 0 )
     {
       v21->Data32.Width = LineWidth;
-      v21->Data32.Height = lineHeight;
+      v21->Data32.Height = v62;
     }
     else
     {
       v21->Data8.Width = LineWidth;
-      v21->Data8.Height = lineHeight;
+      v21->Data8.Height = v62;
     }
   }
   ParaWidth = v40 + this->LineCursor.LineWidth;
@@ -328,7 +328,7 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::FinalizeLine(
     ParaWidth = this->ParaWidth;
   v57 = this->NextOffsetY;
   this->ParaWidth = ParaWidth;
-  v58 = (double)(v43 + leading);
+  v58 = (double)(v43 + v66);
   this->ParaHeight = v43 + v57 - this->ParaYOffset;
   if ( v58 <= 0.0 )
     v59 = v58 - v44;

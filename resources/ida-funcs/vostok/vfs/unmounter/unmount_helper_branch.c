@@ -1,60 +1,119 @@
 void __thiscall vostok::vfs::unmounter::unmount_helper_branch(
         vostok::vfs::unmounter *this,
-        vostok::vfs::mount_helper_node<1> *parent_to_unmount_helper,
+        vostok::vfs::virtual_file_system **parent_to_unmount_helper,
         vostok::vfs::base_node<1> *child_to_unmount,
         vostok::vfs::base_node<1> *overlap_of_unmount,
-        unsigned int child_to_unmount_hash)
+        vostok::vfs::base_node<1> *child_to_unmount_hash,
+        vostok::vfs::is_exact_node *predicate)
 {
-  char *v5; // eax
-  survarium::game_camera *v6; // ecx
-  const char *v7; // eax
-  signed int v8; // [esp-8h] [ebp-150h]
-  vostok::vfs::mount_helper_node<1> *next_parent; // [esp+20h] [ebp-128h]
-  vostok::vfs::base_node<1> *parent_to_unmount; // [esp+24h] [ebp-124h]
-  unsigned int hash; // [esp+28h] [ebp-120h]
-  bool root_visited; // [esp+2Fh] [ebp-119h]
-  vostok::fs_new::virtual_path_string branch_path; // [esp+30h] [ebp-118h] BYREF
+  vostok::vfs::virtual_file_system **v7; // edi
+  char *v8; // eax
+  vostok::vfs::base_node<1> *p_m_next; // ebx
+  vostok::vfs::is_exact_node *v10; // eax
+  vostok::vfs::base_node<1> *v11; // esi
+  vostok::vfs::unmounter *v12; // ecx
+  char *v13; // eax
+  int v14; // eax
+  vostok::vfs::base_node<1> *v15; // ecx
+  vostok::fs_new::virtual_path_string hash; // [esp+Ch] [ebp-128h] BYREF
+  vostok::vfs::base_node<1> *pointer; // [esp+124h] [ebp-10h]
+  vostok::vfs::is_exact_node v18; // [esp+128h] [ebp-Ch] BYREF
+  vostok::vfs::base_node<1> *last_to_unmount; // [esp+12Ch] [ebp-8h] BYREF
+  vostok::vfs::base_node<1> *v20; // [esp+130h] [ebp-4h] BYREF
+  char v21; // [esp+143h] [ebp+Fh]
 
-  vostok::fs_new::virtual_path_string::virtual_path_string(&branch_path);
-  v5 = (char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)this->m_args);
-  vostok::fs_new::get_path_without_last_item<vostok::fs_new::virtual_path_string>(&branch_path, v5);
-  hash = child_to_unmount_hash;
-  root_visited = 0;
-  while ( (vostok::fs_new::path_string_impl::length(&branch_path) || !root_visited) && parent_to_unmount_helper )
+  hash.m_string.m_begin = hash.m_string.m_buffer;
+  hash.m_string.m_end = hash.m_string.m_buffer;
+  v7 = parent_to_unmount_helper;
+  hash.m_string.m_max_end = &hash.m_separator;
+  v8 = (char *)*parent_to_unmount_helper;
+  hash.m_string.m_buffer[0] = 0;
+  hash.m_separator = 47;
+  vostok::fs_new::get_path_without_last_item<vostok::fs_new::virtual_path_string>(&hash, *(char **)v8);
+  v21 = 0;
+  while ( (hash.m_string.m_end != hash.m_string.m_begin
+        || v21 == LOBYTE(hash.m_string.m_end) - LOBYTE(hash.m_string.m_begin))
+       && child_to_unmount )
   {
-    survarium::weapon_user_dead_state::finalize(v6);
-    parent_to_unmount = vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::mount_helper_node,1>(parent_to_unmount_helper);
-    next_parent = (vostok::vfs::mount_helper_node<1> *)parent_to_unmount->m_mount_root.pointer;
-    v8 = vostok::fs_new::path_string_impl::length(&branch_path);
-    v7 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&branch_path);
-    hash = vostok::fs_new::path_crc32(v7, v8, 0);
-    if ( child_to_unmount )
-      vostok::vfs::unmounter::unmount_helper(
-        this,
-        &branch_path,
-        hash,
-        parent_to_unmount,
-        child_to_unmount,
-        &overlap_of_unmount);
-    child_to_unmount = parent_to_unmount;
-    if ( !vostok::fs_new::path_string_impl::length(&branch_path) && !root_visited )
-      root_visited = 1;
-    parent_to_unmount_helper = next_parent;
-    vostok::fs_new::cut_last_item_from_path<vostok::fs_new::virtual_path_string>(&branch_path);
-  }
-  if ( child_to_unmount )
-  {
+    p_m_next = (vostok::vfs::base_node<1> *)&child_to_unmount->m_next;
+    pointer = (vostok::vfs::base_node<1> *)p_m_next->m_mount_root.pointer;
+    v10 = (vostok::vfs::is_exact_node *)vostok::fs_new::path_crc32(
+                                          hash.m_string.m_begin,
+                                          hash.m_string.m_end - hash.m_string.m_begin,
+                                          0);
+    v11 = overlap_of_unmount;
+    predicate = v10;
     if ( overlap_of_unmount )
-      overlap_of_unmount->m_next_overlapped.pointer = child_to_unmount->m_next_overlapped.pointer;
-    vostok::vfs::free_node(
-      this->m_file_system,
-      child_to_unmount,
-      &this->m_args->root_write_lock,
-      hash,
-      this->m_args->allocator);
+    {
+      last_to_unmount = 0;
+      v20 = 0;
+      overlap_of_unmount = 0;
+      child_to_unmount_hash = p_m_next;
+      vostok::vfs::unmounter::find_range_to_unmount<vostok::vfs::is_exact_node>(
+        (vostok::vfs::unmounter *)parent_to_unmount_helper,
+        &hash,
+        &last_to_unmount,
+        (__int16)v10,
+        (const vostok::vfs::is_exact_node *)&child_to_unmount_hash,
+        &v20,
+        &overlap_of_unmount);
+      child_to_unmount_hash = overlap_of_unmount;
+      v18.helper_node = v11;
+      vostok::vfs::unmounter::recursive_unmount_folder_range<vostok::vfs::is_exact_node const>(
+        v12,
+        (vostok::vfs::unmounter *)parent_to_unmount_helper,
+        &hash,
+        predicate,
+        &v18,
+        last_to_unmount,
+        v20);
+      v7 = parent_to_unmount_helper;
+    }
+    overlap_of_unmount = p_m_next;
+    if ( hash.m_string.m_end == hash.m_string.m_begin
+      && v21 == LOBYTE(hash.m_string.m_end) - LOBYTE(hash.m_string.m_begin) )
+    {
+      v21 = 1;
+    }
+    child_to_unmount = pointer;
+    v13 = hash.m_string.m_end - 1;
+    if ( hash.m_string.m_end - 1 < hash.m_string.m_begin )
+      goto LABEL_18;
+    while ( 1 )
+    {
+      if ( *v13 == 47 )
+      {
+        v14 = v13 - hash.m_string.m_begin;
+        goto LABEL_17;
+      }
+      if ( v13 == hash.m_string.m_begin )
+        break;
+      --v13;
+    }
+    v14 = -1;
+LABEL_17:
+    if ( v14 == -1 )
+    {
+LABEL_18:
+      hash.m_string.m_end = hash.m_string.m_begin;
+      *hash.m_string.m_begin = 0;
+    }
+    else
+    {
+      hash.m_string.m_end = &hash.m_string.m_begin[v14];
+      hash.m_string.m_begin[v14] = 0;
+    }
   }
-  else
+  v15 = overlap_of_unmount;
+  if ( overlap_of_unmount )
   {
-    survarium::weapon_user_dead_state::finalize(v6);
+    if ( child_to_unmount_hash )
+      child_to_unmount_hash->m_next_overlapped.pointer = overlap_of_unmount->m_next_overlapped.pointer;
+    vostok::vfs::free_node(
+      v7[2],
+      v15,
+      &(*v7)->hashset.m_hashset.m_buffer[232],
+      (unsigned int)predicate,
+      (vostok::memory::base_allocator *)(*v7)->hashset.m_hashset.m_buffer[215]);
   }
 }

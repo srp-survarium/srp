@@ -17,25 +17,25 @@ char __thiscall Scaleform::GFx::Text::EditorKit::CalcCursorRectInLineBuffer(
   Scaleform::Render::Text::LineBuffer::GlyphEntry *pGlyphs; // eax
   unsigned __int16 Flags; // cx
   int Advance; // eax
-  unsigned int i; // esi
+  unsigned int j; // esi
   unsigned __int16 v19; // dx
   int v20; // ecx
   double v21; // st7
   double v22; // st6
   double v23; // st7
-  float w; // [esp+8h] [ebp-68h]
-  unsigned int lineIndex; // [esp+Ch] [ebp-64h]
-  Scaleform::Render::Text::LineBuffer::GlyphIterator git; // [esp+10h] [ebp-60h] BYREF
-  int xoffset; // [esp+74h] [ebp+4h]
-  int avoidComposStra; // [esp+84h] [ebp+14h]
-  float avoidComposStrc; // [esp+84h] [ebp+14h]
-  float avoidComposStrd; // [esp+84h] [ebp+14h]
-  int avoidComposStrb; // [esp+84h] [ebp+14h]
-  unsigned int nGlyph; // [esp+88h] [ebp+18h]
+  float v25; // [esp+8h] [ebp-68h]
+  unsigned int v26; // [esp+Ch] [ebp-64h]
+  Scaleform::Render::Text::LineBuffer::GlyphIterator v27; // [esp+10h] [ebp-60h] BYREF
+  signed int indexOfChar; // [esp+74h] [ebp+4h]
+  int v29; // [esp+84h] [ebp+14h]
+  float v30; // [esp+84h] [ebp+14h]
+  float OffsetY; // [esp+84h] [ebp+14h]
+  int Height; // [esp+84h] [ebp+14h]
+  unsigned int i; // [esp+88h] [ebp+18h]
 
   Scaleform::Render::Text::DocView::ForceReformat(this->pDocView.pObject);
   LineIndexOfChar = Scaleform::Render::Text::DocView::GetLineIndexOfChar(this->pDocView.pObject, charIndex);
-  lineIndex = LineIndexOfChar;
+  v26 = LineIndexOfChar;
   if ( LineIndexOfChar == -1 )
     return 0;
   v9 = this->pDocView.pObject->mLineBuffer.Lines.Data.Data[LineIndexOfChar];
@@ -44,12 +44,12 @@ char __thiscall Scaleform::GFx::Text::EditorKit::CalcCursorRectInLineBuffer(
   TextPos = v9->Data32.TextPos;
   if ( (v9->MemSize & 0x80000000) != 0 )
   {
-    TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+    TextPos &= 0xFFFFFFu;
+    if ( TextPos == 0xFFFFFF )
       TextPos = -1;
   }
   v11 = charIndex - TextPos;
-  xoffset = 0;
+  indexOfChar = 0;
   if ( (v9->MemSize & 0x80000000) == 0 )
     GlyphsCount = v9->Data32.GlyphsCount;
   else
@@ -58,68 +58,68 @@ char __thiscall Scaleform::GFx::Text::EditorKit::CalcCursorRectInLineBuffer(
   if ( (v9->MemSize & 0x80000000) == 0 )
     v13 = (Scaleform::Render::Text::LineBuffer::GlyphEntry *)((char *)&v9->Data8 + 38);
   FormatData = Scaleform::Render::Text::LineBuffer::Line::GetFormatData(v9);
-  Scaleform::Render::Text::LineBuffer::GlyphIterator::GlyphIterator(&git, v13, GlyphsCount, FormatData);
-  for ( nGlyph = 0; ; ++nGlyph )
+  Scaleform::Render::Text::LineBuffer::GlyphIterator::GlyphIterator(&v27, v13, GlyphsCount, FormatData);
+  for ( i = 0; ; ++i )
   {
-    pGlyphs = git.pGlyphs;
-    if ( !git.pGlyphs )
+    pGlyphs = v27.pGlyphs;
+    if ( !v27.pGlyphs )
       break;
-    if ( git.pGlyphs >= git.pEndGlyphs )
+    if ( v27.pGlyphs >= v27.pEndGlyphs )
       break;
-    if ( (git.pGlyphs->LenAndFontSize & 0xF000) != 0 )
+    if ( (v27.pGlyphs->LenAndFontSize & 0xF000) != 0 )
       break;
-    Flags = git.pGlyphs->Flags;
+    Flags = v27.pGlyphs->Flags;
     if ( (Flags & 0x100) != 0 )
       break;
-    Advance = git.pGlyphs->Advance;
+    Advance = v27.pGlyphs->Advance;
     if ( (Flags & 0x40) != 0 )
       Advance = -Advance;
-    xoffset += Advance;
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
+    indexOfChar += Advance;
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&v27);
   }
-  for ( i = 0; i < v11; pGlyphs = git.pGlyphs )
+  for ( j = 0; j < v11; pGlyphs = v27.pGlyphs )
   {
-    if ( !pGlyphs || pGlyphs >= git.pEndGlyphs )
+    if ( !pGlyphs || pGlyphs >= v27.pEndGlyphs )
       break;
     v19 = pGlyphs->Flags;
     v20 = pGlyphs->Advance;
     if ( (v19 & 0x40) != 0 )
       v20 = -v20;
-    xoffset += v20;
+    indexOfChar += v20;
     if ( !avoidComposStr || (v19 & 4) == 0 )
-      i += pGlyphs->LenAndFontSize >> 12;
-    ++nGlyph;
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&git);
+      j += pGlyphs->LenAndFontSize >> 12;
+    ++i;
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::operator++(&v27);
   }
-  w = 0.0;
-  if ( pGlyphs && pGlyphs < git.pEndGlyphs )
+  v25 = 0.0;
+  if ( pGlyphs && pGlyphs < v27.pEndGlyphs )
   {
     if ( (pGlyphs->Flags & 0x40) != 0 )
-      avoidComposStra = -pGlyphs->Advance;
+      v29 = -pGlyphs->Advance;
     else
-      avoidComposStra = pGlyphs->Advance;
-    w = (float)avoidComposStra;
+      v29 = pGlyphs->Advance;
+    v25 = (float)v29;
   }
-  avoidComposStrc = (double)v9->Data32.OffsetX + (double)xoffset;
-  v21 = avoidComposStrc;
-  pcursorRect->x1 = avoidComposStrc;
-  avoidComposStrd = (float)v9->Data32.OffsetY;
-  pcursorRect->y1 = avoidComposStrd;
-  v22 = v21 + w;
-  v23 = avoidComposStrd;
+  v30 = (double)v9->Data32.OffsetX + (double)indexOfChar;
+  v21 = v30;
+  pcursorRect->x1 = v30;
+  OffsetY = (float)v9->Data32.OffsetY;
+  pcursorRect->y1 = OffsetY;
+  v22 = v21 + v25;
+  v23 = OffsetY;
   pcursorRect->x2 = v22;
   if ( (v9->MemSize & 0x80000000) == 0 )
-    avoidComposStrb = v9->Data32.Height;
+    Height = v9->Data32.Height;
   else
-    avoidComposStrb = v9->Data8.Height;
-  pcursorRect->y2 = v23 + (double)avoidComposStrb;
+    Height = v9->Data8.Height;
+  pcursorRect->y2 = v23 + (double)Height;
   if ( plineIndex )
-    *plineIndex = lineIndex;
+    *plineIndex = v26;
   if ( pglyphIndex )
-    *pglyphIndex = nGlyph;
-  if ( git.pImage.pObject )
-    Scaleform::RefCountNTSImpl::Release(git.pImage.pObject);
-  if ( git.pFontHandle.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)git.pFontHandle.pObject);
+    *pglyphIndex = i;
+  if ( v27.pImage.pObject )
+    Scaleform::RefCountNTSImpl::Release(v27.pImage.pObject);
+  if ( v27.pFontHandle.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v27.pFontHandle.pObject);
   return 1;
 }

@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
+bool __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
         Scaleform::Render::TextMeshProvider *this,
         Scaleform::Render::VertexOutput *verOut,
         const Scaleform::Render::TextMeshLayer *layer)
@@ -8,7 +8,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
   Scaleform::Render::GlyphCache *pCache; // eax
   unsigned int v6; // esi
   bool (__thiscall *BeginOutput)(Scaleform::Render::VertexOutput *, const Scaleform::Render::VertexOutput::Fill *, unsigned int, const Scaleform::Render::Matrix2x4<float> *); // edx
-  char result; // al
+  bool result; // al
   int v9; // edi
   Scaleform::Render::TextMeshEntry *v10; // eax
   unsigned __int16 *pGlyph; // ecx
@@ -39,8 +39,8 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
   int v37; // [esp+38h] [ebp-1760h]
   int v38; // [esp+3Ch] [ebp-175Ch]
   unsigned int v40; // [esp+44h] [ebp-1754h]
-  Scaleform::Render::Rect<float> tex; // [esp+48h] [ebp-1750h] BYREF
-  Scaleform::Render::Rect<float> chr; // [esp+58h] [ebp-1740h] BYREF
+  Scaleform::Render::Rect<float> v41; // [esp+48h] [ebp-1750h] BYREF
+  Scaleform::Render::Rect<float> v42; // [esp+58h] [ebp-1740h] BYREF
   float ScaleV; // [esp+70h] [ebp-1728h]
   float ScaleU; // [esp+74h] [ebp-1724h]
   unsigned int v45; // [esp+78h] [ebp-1720h]
@@ -88,14 +88,14 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
         v10 = &this->Entries.Data.Data[v38 + layer->Start];
         pGlyph = (unsigned __int16 *)v10->EntryData.RasterData.pGlyph;
         v12 = pGlyph[14];
-        chr.x1 = v10->EntryData.RasterData.Coord[0];
+        v42.x1 = v10->EntryData.RasterData.Coord[0];
         v13 = *(float *)&v10->mColor;
-        chr.y1 = v10->EntryData.RasterData.Coord[1];
+        v42.y1 = v10->EntryData.RasterData.Coord[1];
         pGlyph += 14;
-        chr.x2 = v10->EntryData.RasterData.Coord[2];
+        v42.x2 = v10->EntryData.RasterData.Coord[2];
         v14 = v10->EntryData.RasterData.Coord[3];
         v15 = pGlyph[1];
-        chr.y2 = v14;
+        v42.y2 = v14;
         v16 = (double)(v12 + 1);
         v17 = pGlyph[2];
         v34 = v15 + 1;
@@ -103,41 +103,41 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateRasterMesh(
         v18 = pGlyph[3] - 2;
         v35 = (double)v34 * ScaleV;
         v19 = 6 * v6;
-        tex.x1 = v36;
-        tex.y1 = v35;
-        tex.x2 = v36 + ScaleU * (double)(v17 - 2);
-        tex.y2 = v35 + ScaleV * (double)v18;
-        Scaleform::Render::TextMeshProvider::clipGlyphRect(this, &chr, &tex);
-        x1 = chr.x1;
+        v41.x1 = v36;
+        v41.y1 = v35;
+        v41.x2 = v36 + ScaleU * (double)(v17 - 2);
+        v41.y2 = v35 + ScaleV * (double)v18;
+        Scaleform::Render::TextMeshProvider::clipGlyphRect(this, &v42, &v41);
+        x1 = v42.x1;
         v21 = 20 * v33;
-        v48[v21] = chr.x1;
+        v48[v21] = v42.x1;
         v48[v21 + 2] = v13;
-        y1 = chr.y1;
-        v48[v21 + 1] = chr.y1;
-        v23 = tex.x1;
-        v48[v21 + 3] = tex.x1;
-        v24 = tex.y1;
-        v48[v21 + 4] = tex.y1;
-        x2 = chr.x2;
-        v48[v21 + 5] = chr.x2;
+        y1 = v42.y1;
+        v48[v21 + 1] = v42.y1;
+        v23 = v41.x1;
+        v48[v21 + 3] = v41.x1;
+        v24 = v41.y1;
+        v48[v21 + 4] = v41.y1;
+        x2 = v42.x2;
+        v48[v21 + 5] = v42.x2;
         v26 = x2;
         v48[v21 + 6] = y1;
-        v27 = tex.x2;
-        v48[v21 + 8] = tex.x2;
+        v27 = v41.x2;
+        v48[v21 + 8] = v41.x2;
         v48[v21 + 7] = v13;
         ++v33;
         v48[v21 + 9] = v24;
         v48[v21 + 12] = v13;
         v48[v21 + 10] = v26;
         v47[v19] = v9;
-        y2 = chr.y2;
+        y2 = v42.y2;
         v47[v19 + 5] = v9;
         v48[v21 + 11] = y2;
         v47[v19 + 4] = v9 + 3;
         v29 = y2;
         v48[v21 + 13] = v27;
-        v30 = tex.y2;
-        v48[v21 + 14] = tex.y2;
+        v30 = v41.y2;
+        v48[v21 + 14] = v41.y2;
         v31 = &v48[v21 + 15];
         v31[2] = v13;
         *v31 = x1;

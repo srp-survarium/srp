@@ -4,9 +4,9 @@ void __thiscall Scaleform::GFx::SpriteDef::AddFrameName(
         Scaleform::GFx::LogState *plog)
 {
   int LoadingFrame; // eax
-  Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor> *v5; // eax
-  Scaleform::Render::Text::ImageDesc *pObject; // eax
-  Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeRef key; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::TableType *v5; // eax
+  unsigned int SizeMask; // eax
+  Scaleform::StringLH_HashNode<unsigned long,Scaleform::String::NoCaseHashFunctor>::NodeRef v7; // [esp+4h] [ebp-8h] BYREF
 
   LoadingFrame = this->LoadingFrame;
   if ( LoadingFrame < 0 || LoadingFrame >= this->FrameCount )
@@ -26,14 +26,14 @@ void __thiscall Scaleform::GFx::SpriteDef::AddFrameName(
            name);
     if ( v5 )
     {
-      pObject = v5->Second.pObject;
+      SizeMask = v5->SizeMask;
       if ( plog )
         Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogError(
           &plog->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
           "AddFrameName(%d, '%s') -- frame name already assigned to frame %d; overriding",
           this->LoadingFrame,
           (const char *)((name->HeapTypeBits & 0xFFFFFFFC) + 8),
-          pObject);
+          SizeMask);
     }
     if ( Scaleform::String::GetLength(name) && *(_BYTE *)((name->HeapTypeBits & 0xFFFFFFFC) + 8) == 95 )
     {
@@ -51,11 +51,11 @@ void __thiscall Scaleform::GFx::SpriteDef::AddFrameName(
       }
     }
     plog = (Scaleform::GFx::LogState *)this->LoadingFrame;
-    key.pFirst = name;
-    key.pSecond = (const unsigned int *)&plog;
+    v7.pFirst = name;
+    v7.pSecond = (const unsigned int *)&plog;
     Scaleform::HashSetBase<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<unsigned int,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF>>::Set<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeRef>(
       &this->NamedFrames.mHash,
       &this->NamedFrames,
-      (const Scaleform::StringLH_HashNode<unsigned long,Scaleform::String::NoCaseHashFunctor>::NodeRef *)&key);
+      &v7);
   }
 }

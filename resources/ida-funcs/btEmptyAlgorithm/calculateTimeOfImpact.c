@@ -1,9 +1,9 @@
 double __thiscall btEmptyAlgorithm::calculateTimeOfImpact(
-        btEmptyAlgorithm *this,
-        btCollisionObject *__formal,
-        btCollisionObject *a3,
-        const btDispatcherInfo *a4,
-        btManifoldResult *a5)
+        btSoftRigidCollisionAlgorithm *this,
+        btCollisionObject *col0,
+        btCollisionObject *col1,
+        const btDispatcherInfo *dispatchInfo,
+        btManifoldResult *resultOut)
 {
   return 1.0;
 }

@@ -1,28 +1,28 @@
 void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetFocus(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v2; // edi
+  Scaleform::GFx::AS2::Value *Result; // edi
   Scaleform::GFx::AS2::Environment *Env; // edi
   Scaleform::GFx::Sprite *v4; // ebp
   Scaleform::GFx::AS2::Value *v5; // eax
   Scaleform::GFx::AS2::Environment *v6; // ecx
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v7; // eax
   Scaleform::GFx::InteractiveObject *v8; // eax
   Scaleform::GFx::AS2::Value *v9; // eax
   Scaleform::GFx::InteractiveObject *v10; // eax
-  unsigned int v11; // edi
+  Scaleform::Ptr<Scaleform::GFx::Sprite> v11; // edi
   Scaleform::GFx::AS2::Value *v12; // eax
   Scaleform::GFx::AS2::Value *v13; // esi
   Scaleform::GFx::AS2::Value *v14; // esi
   Scaleform::GFx::AS2::Environment *v15; // [esp-8h] [ebp-40h]
-  Scaleform::GFx::ASString result; // [esp+Ch] [ebp-2Ch] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::Environment::GetVarParams params; // [esp+20h] [ebp-18h] BYREF
-  char retVal; // [esp+3Ch] [ebp+4h]
+  Scaleform::GFx::ASStringNode *v16; // [esp+Ch] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+10h] [ebp-28h] BYREF
+  Scaleform::GFx::AS2::Environment::GetVarParams v18; // [esp+20h] [ebp-18h] BYREF
+  char Variable; // [esp+3Ch] [ebp+4h]
 
-  v2 = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(v2);
-  v2->T.Type = 2;
-  v2->V.BooleanValue = 0;
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 2;
+  Result->V.BooleanValue = 0;
   if ( fn->NArgs >= 1 )
   {
     Env = fn->Env;
@@ -31,27 +31,27 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetFocus(const Scalefor
       v4 = 0;
       if ( Scaleform::GFx::AS2::FnCall::Arg(fn, 0)->T.Type == 5 )
       {
-        val.T.Type = 0;
+        v17.T.Type = 0;
         v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-        Scaleform::GFx::AS2::Value::ToStringImpl(v5, &result, Env, -1, 0);
-        params.VarName = &result;
+        Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&v16, Env, -1, 0);
+        v18.VarName = (const Scaleform::GFx::ASString *)&v16;
         v6 = fn->Env;
-        params.pResult = &val;
-        memset(&params.pWithStack, 0, 16);
-        retVal = Scaleform::GFx::AS2::Environment::FindVariable(v6, 0, (int)fn, &params, 0, 0);
-        pNode = result.pNode;
-        --result.pNode->RefCount;
-        if ( !pNode->RefCount )
-          Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-        if ( retVal && val.T.Type == 7 )
+        v18.pResult = &v17;
+        memset(&v18.pWithStack, 0, 16);
+        Variable = Scaleform::GFx::AS2::Environment::FindVariable(v6, 0, (int)fn, &v18, 0, 0);
+        v7 = v16;
+        --v16->RefCount;
+        if ( !v7->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+        if ( Variable && v17.T.Type == 7 )
         {
-          v8 = Scaleform::GFx::AS2::Value::ToCharacter(&val, fn->Env);
+          v8 = Scaleform::GFx::AS2::Value::ToCharacter(&v17, fn->Env);
           if ( v8 )
             ++v8->RefCount;
           v4 = (Scaleform::GFx::Sprite *)v8;
         }
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
+        if ( v17.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v17);
       }
       else
       {
@@ -61,12 +61,12 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetFocus(const Scalefor
           ++v10->RefCount;
         v4 = (Scaleform::GFx::Sprite *)v10;
       }
-      v11 = 0;
+      v11.pObject = 0;
       if ( fn->Env->StringContext.pContext->GFxExtensions.Value == 1 && fn->NArgs >= 2 )
       {
         v15 = fn->Env;
         v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-        v11 = Scaleform::GFx::AS2::Value::ToUInt32(v12, v15);
+        v11.pObject = (Scaleform::GFx::Sprite *)Scaleform::GFx::AS2::Value::ToUInt32(v12, v15);
       }
       if ( v4 )
       {

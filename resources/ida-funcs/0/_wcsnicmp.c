@@ -1,9 +1,4 @@
-int __usercall _wcsnicmp@<eax>(
-        unsigned int a1@<ebx>,
-        unsigned __int16 *a2@<edi>,
-        wchar_t *first,
-        wchar_t *last,
-        unsigned int count)
+int __usercall _wcsnicmp@<eax>(int a1@<ebx>, wchar_t *a2@<edi>, wchar_t *first, wchar_t *last, unsigned int count)
 {
   int result; // eax
   wchar_t *v6; // edi
@@ -39,7 +34,7 @@ int __usercall _wcsnicmp@<eax>(
     else
     {
       *_errno() = 22;
-      _invalid_parameter(a1, (unsigned int)first, 0);
+      _invalid_parameter(a1, (int)first, 0);
       return 0x7FFFFFFF;
     }
   }

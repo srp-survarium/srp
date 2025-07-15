@@ -5,12 +5,12 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_external::ExternalInterface::ca
         Scaleform::GFx::AS3::Value *argv)
 {
   Scaleform::GFx::AS3::VM *pVM; // ecx
-  Scaleform::GFx::MovieImpl *v6; // edi
+  Scaleform::GFx::MovieImpl *v6; // ebx
   unsigned int v7; // ebp
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASStringNode *v9; // ecx
   bool v10; // zf
-  void **v11; // eax
+  Scaleform::GFx::Value *v11; // eax
   Scaleform::GFx::Value *v12; // esi
   const Scaleform::GFx::AS3::Value *v13; // edi
   unsigned int v14; // ebx
@@ -19,15 +19,22 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_external::ExternalInterface::ca
   Scaleform::GFx::AS3::Value *v17; // ecx
   Scaleform::GFx::ASStringNode *v18; // eax
   const char *pData; // eax
-  Scaleform::GFx::Value *v20; // esi
-  unsigned int v21; // edi
-  Scaleform::GFx::ASStringNode *v22; // eax
-  Scaleform::GFx::Value *pargArray; // [esp+18h] [ebp-104h]
-  Scaleform::GFx::ASString methodName; // [esp+1Ch] [ebp-100h] BYREF
-  Scaleform::GFx::AS3::CheckResult v25; // [esp+23h] [ebp-F9h] BYREF
-  Scaleform::GFx::AS3::MovieRoot *proot; // [esp+24h] [ebp-F8h]
-  Scaleform::GFx::MovieImpl *pmovie; // [esp+28h] [ebp-F4h]
-  void *argArrayOnStack[60]; // [esp+2Ch] [ebp-F0h] BYREF
+  Scaleform::GFx::Value *v20; // edi
+  Scaleform::GFx::Value *v21; // esi
+  unsigned int v22; // edi
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::ASStringNode *v26; // eax
+  Scaleform::GFx::ASStringNode *v27; // eax
+  Scaleform::GFx::ASString methodName; // [esp+24h] [ebp-118h] BYREF
+  Scaleform::GFx::ASString fullMethodName; // [esp+28h] [ebp-114h] BYREF
+  Scaleform::GFx::Value *pargArray; // [esp+2Ch] [ebp-110h]
+  Scaleform::GFx::AS3::CheckResult v31; // [esp+33h] [ebp-109h] BYREF
+  Scaleform::GFx::AS3::MovieRoot *proot; // [esp+34h] [ebp-108h]
+  Scaleform::GFx::MovieImpl *pmovie; // [esp+38h] [ebp-104h]
+  Scaleform::AmpFunctionTimer _amp_timer_; // [esp+3Ch] [ebp-100h] BYREF
+  void *argArrayOnStack[60]; // [esp+4Ch] [ebp-F0h] BYREF
 
   pVM = this->pTraits.pObject->pVM;
   v6 = (Scaleform::GFx::MovieImpl *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
@@ -39,29 +46,44 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_external::ExternalInterface::ca
     methodName.pNode = pVM->StringManagerRef->Builtins[0].pNode;
     ++methodName.pNode->RefCount;
     v7 = 0;
-    if ( !argc )
-      goto LABEL_10;
-    if ( !Scaleform::GFx::AS3::Value::Convert2String(argv, &v25, &methodName)->Result )
+    if ( argc )
     {
-      pNode = methodName.pNode;
-      --methodName.pNode->RefCount;
-      v9 = pNode;
-      v10 = pNode->RefCount == 0;
+      if ( !Scaleform::GFx::AS3::Value::Convert2String(argv, &v31, &methodName)->Result )
+      {
+        pNode = methodName.pNode;
+        --methodName.pNode->RefCount;
+        v9 = pNode;
+        v10 = pNode->RefCount == 0;
 LABEL_5:
-      if ( v10 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v9);
-      return;
+        if ( v10 )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+        return;
+      }
+      v7 = argc - 1;
     }
-    v7 = argc - 1;
-    if ( argc - 1 > 0xA )
-      v11 = (void **)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, this, 24 * v7, 0);
+    fullMethodName.pNode = this->pTraits.pObject->pVM->StringManagerRef->Builtins[0].pNode;
+    ++fullMethodName.pNode->RefCount;
+    Scaleform::GFx::ASString::operator=(&fullMethodName, (Scaleform::GFx::ASStringNode *)"ExternalInterface::call(");
+    Scaleform::GFx::ASString::Append(&fullMethodName, (Scaleform::GFx::ASStringNode *)&methodName);
+    Scaleform::GFx::ASString::Append(&fullMethodName, (const __m128i *)")", (Scaleform::GFx::ASStringNode *)1);
+    Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+      &_amp_timer_,
+      v6->AdvanceStats.pObject,
+      fullMethodName.pNode->pData,
+      Amp_Profile_Level_Medium,
+      Amp_Native_Function_Id_Invalid);
+    if ( v7 <= 0xA )
+      v11 = (Scaleform::GFx::Value *)argArrayOnStack;
     else
-LABEL_10:
-      v11 = argArrayOnStack;
-    pargArray = (Scaleform::GFx::Value *)v11;
+      v11 = (Scaleform::GFx::Value *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+                                       Scaleform::Memory::pGlobalHeap,
+                                       this,
+                                       24 * v7,
+                                       0);
+    pargArray = v11;
     if ( v7 )
     {
-      v12 = (Scaleform::GFx::Value *)v11;
+      v12 = v11;
       v13 = argv + 1;
       v14 = v7;
       do
@@ -95,33 +117,48 @@ LABEL_10:
       pData = v18->pData;
     else
       pData = 0;
+    v20 = pargArray;
     v6->pExtIntfHandler.pObject->Callback(v6->pExtIntfHandler.pObject, v6, pData, pargArray, v7);
     Scaleform::GFx::AS3::Value::Assign(result, p_ExternalIntfRetVal);
     if ( v7 )
     {
-      v20 = pargArray;
-      v21 = v7;
+      v21 = v20;
+      v22 = v7;
       do
       {
-        if ( (v20->Type & 0x40) != 0 )
+        if ( (v21->Type & 0x40) != 0 )
         {
-          ((void (__stdcall *)(Scaleform::GFx::Value *, int))v20->pObjectInterface->ObjectRelease)(
-            v20,
-            v20->mValue.IValue);
-          v20->pObjectInterface = 0;
+          ((void (__stdcall *)(Scaleform::GFx::Value *, int))v21->pObjectInterface->ObjectRelease)(
+            v21,
+            v21->mValue.IValue);
+          v21->pObjectInterface = 0;
         }
-        v20->Type = VT_Undefined;
-        ++v20;
-        --v21;
+        v21->Type = VT_Undefined;
+        ++v21;
+        --v22;
       }
-      while ( v21 );
+      while ( v22 );
     }
     if ( v7 > 0xA )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pargArray);
-    v22 = methodName.pNode;
+    Stats = _amp_timer_.Stats;
+    if ( _amp_timer_.Stats )
+    {
+      p_NativePopCallstack = &_amp_timer_.Stats->NativePopCallstack;
+      ProfileTicks = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+        Stats,
+        ProfileTicks - LODWORD(_amp_timer_.StartTicks),
+        (ProfileTicks - _amp_timer_.StartTicks) >> 32);
+    }
+    v26 = fullMethodName.pNode;
+    --fullMethodName.pNode->RefCount;
+    if ( !v26->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v26);
+    v27 = methodName.pNode;
     --methodName.pNode->RefCount;
-    v9 = v22;
-    v10 = v22->RefCount == 0;
+    v9 = v27;
+    v10 = v27->RefCount == 0;
     goto LABEL_5;
   }
   pVM->UI->Output(pVM->UI, Output_Warning, "Warning: ExternalInterface.call - handler is not installed.\n");

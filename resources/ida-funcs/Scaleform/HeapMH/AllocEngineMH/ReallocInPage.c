@@ -1,12 +1,12 @@
-void *__thiscall Scaleform::HeapMH::AllocEngineMH::ReallocInPage(
+unsigned __int8 *__thiscall Scaleform::HeapMH::AllocEngineMH::ReallocInPage(
         Scaleform::HeapMH::AllocEngineMH *this,
         Scaleform::HeapMH::PageMH *page,
-        void *oldPtr,
+        unsigned __int8 *oldPtr,
         unsigned int newSize,
         Scaleform::HeapMH::PageInfoMH *newInfo,
         bool __formal)
 {
-  void *result; // eax
+  unsigned __int8 *result; // eax
   unsigned int v8; // esi
   Scaleform::HeapMH::PageInfoMH *v9; // ecx
   Scaleform::HeapMH::PageMH *v10; // edx

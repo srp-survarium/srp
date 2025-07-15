@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::FontCompactor::MoveTo(Scaleform::GFx::FontCompac
   Scaleform::GFx::FontCompactor::ContourType *v6; // edi
   unsigned int v7; // eax
   unsigned int v8; // edi
-  Scaleform::GFx::FontCompactor::VertexType v; // [esp+14h] [ebp+4h]
+  Scaleform::GFx::FontCompactor::VertexType v9; // [esp+14h] [ebp+4h]
 
   if ( this->TmpContours.Size )
     Scaleform::GFx::FontCompactor::normalizeLastContour(this);
@@ -21,11 +21,11 @@ void __thiscall Scaleform::GFx::FontCompactor::MoveTo(Scaleform::GFx::FontCompac
   v6[v7].DataSize = 1;
   ++this->TmpContours.Size;
   v8 = this->TmpVertices.Size >> 6;
-  v.x = 2 * x;
-  v.y = y;
+  v9.x = 2 * x;
+  v9.y = y;
   if ( v8 >= this->TmpVertices.NumPages )
     Scaleform::ArrayPagedBase<Scaleform::GFx::FontCompactor::VertexType,6,64,Scaleform::AllocatorPagedGH_POD<Scaleform::GFx::FontCompactor::VertexType,261>>::allocatePage(
       &this->TmpVertices,
       v8);
-  this->TmpVertices.Pages[v8][this->TmpVertices.Size++ & 0x3F] = v;
+  this->TmpVertices.Pages[v8][this->TmpVertices.Size++ & 0x3F] = v9;
 }

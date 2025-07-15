@@ -12,6 +12,7 @@ int __cdecl ec_wNAF_precompute_mult(ec_group_st *group, bignum_ctx *ctx)
   ec_point_st **v13; // ebx
   ec_point_st *v14; // eax
   ec_point_st *v15; // eax
+  int v16; // eax
   unsigned int v17; // esi
   int v18; // esi
   ec_point_st *v19; // eax
@@ -26,7 +27,7 @@ int __cdecl ec_wNAF_precompute_mult(ec_group_st *group, bignum_ctx *ctx)
   unsigned int v28; // [esp+28h] [ebp-10h]
   bignum_ctx *v29; // [esp+2Ch] [ebp-Ch]
   int v30; // [esp+30h] [ebp-8h]
-  ec_extra_data_st **ex_data; // [esp+34h] [ebp-4h]
+  ec_extra_data_st **p_extra_data; // [esp+34h] [ebp-4h]
   int groupa; // [esp+3Ch] [ebp+4h]
 
   v3 = 0;
@@ -35,20 +36,20 @@ int __cdecl ec_wNAF_precompute_mult(ec_group_st *group, bignum_ctx *ctx)
   v29 = 0;
   points = 0;
   v30 = 0;
-  ex_data = &group->extra_data;
+  p_extra_data = &group->extra_data;
   EC_EX_DATA_free_data(
     &group->extra_data,
     (void *(__cdecl *)(void *))ec_pre_comp_dup,
     ec_pre_comp_free,
     ec_pre_comp_clear_free);
-  v4 = ec_pre_comp_new(group);
+  v4 = ec_pre_comp_new(group, 0);
   if ( !v4 )
     return 0;
   src = (const ec_point_st *)EVP_CIPHER_block_size((const env_md_st *)group);
   if ( !src )
   {
-    ERR_put_error(0x10u, 188, 113, ".\\crypto\\ec\\ec_mult.c", 785);
-err_163:
+    ERR_put_error(0, 0x10u, 188, 113, ".\\crypto\\ec\\ec_mult.c", 785);
+err_165:
     if ( ctx )
       BN_CTX_end(ctx);
     if ( v29 )
@@ -56,10 +57,10 @@ err_163:
     v3 = points;
     goto LABEL_48;
   }
-  if ( ctx || (v29 = BN_CTX_new(), (ctx = v29) != 0) )
+  if ( ctx || (v29 = BN_CTX_new(0), (ctx = v29) != 0) )
   {
-    BN_CTX_start(ctx);
-    v6 = BN_CTX_get(ctx);
+    BN_CTX_start((int)ctx, ctx);
+    v6 = BN_CTX_get((int)ctx, ctx);
     v7 = (const bignum_st *)v6;
     if ( v6 && EC_GROUP_get_order(group, v6->vals) )
     {
@@ -95,29 +96,31 @@ err_163:
           {
             while ( 1 )
             {
-              v14 = EC_POINT_new(group);
+              v14 = EC_POINT_new((int)v13, group);
               points[v12] = v14;
               if ( !v14 )
                 break;
               if ( ++v12 >= num )
                 goto LABEL_23;
             }
-            ERR_put_error(0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 841);
+            ERR_put_error((int)v13, 0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 841);
           }
           else
           {
 LABEL_23:
-            r = EC_POINT_new(group);
-            if ( r && (v15 = EC_POINT_new(group), (a = v15) != 0) )
+            r = EC_POINT_new((int)v13, group);
+            if ( r && (v15 = EC_POINT_new((int)v13, group), (a = v15) != 0) )
             {
-              if ( EC_POINT_copy(v15, src) )
+              if ( EC_POINT_copy((int)v13, v15, src) )
               {
                 srca = 0;
                 if ( v24 )
                 {
-                  while ( EC_POINT_dbl(group, r, a, ctx) )
+                  while ( EC_POINT_dbl((int)v13, group, r, a, ctx) )
                   {
-                    if ( !EC_POINT_copy(*v13++, a) )
+                    v16 = EC_POINT_copy((int)v13, *v13, a);
+                    ++v13;
+                    if ( !v16 )
                       break;
                     v17 = 1;
                     if ( v28 > 1 )
@@ -129,21 +132,21 @@ LABEL_23:
                         if ( v17 >= v28 )
                           goto LABEL_32;
                       }
-                      goto err_163;
+                      goto err_165;
                     }
 LABEL_32:
                     if ( (unsigned int)srca < v24 - 1 )
                     {
-                      if ( EC_POINT_dbl(group, a, r, ctx) )
+                      if ( EC_POINT_dbl((int)v13, group, a, r, ctx) )
                       {
                         v18 = 2;
-                        while ( EC_POINT_dbl(group, a, a, ctx) )
+                        while ( EC_POINT_dbl((int)v13, group, a, a, ctx) )
                         {
                           if ( (unsigned int)++v18 >= 8 )
                             goto LABEL_37;
                         }
                       }
-                      goto err_163;
+                      goto err_165;
                     }
 LABEL_37:
                     srca = (const ec_point_st *)((char *)srca + 1);
@@ -164,7 +167,7 @@ LABEL_38:
                     points = 0;
                     v4->num = num;
                     if ( EC_EX_DATA_set_data(
-                           ex_data,
+                           p_extra_data,
                            v4,
                            (void *(__cdecl *)(void *))ec_pre_comp_dup,
                            ec_pre_comp_free,
@@ -179,21 +182,21 @@ LABEL_38:
             }
             else
             {
-              ERR_put_error(0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 848);
+              ERR_put_error((int)v13, 0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 848);
             }
           }
         }
         else
         {
-          ERR_put_error(0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 831);
+          ERR_put_error((int)ctx, 0x10u, 188, 65, ".\\crypto\\ec\\ec_mult.c", 831);
         }
       }
       else
       {
-        ERR_put_error(0x10u, 188, 114, ".\\crypto\\ec\\ec_mult.c", 803);
+        ERR_put_error((int)ctx, 0x10u, 188, 114, ".\\crypto\\ec\\ec_mult.c", 803);
       }
     }
-    goto err_163;
+    goto err_165;
   }
 LABEL_48:
   if ( v4 )

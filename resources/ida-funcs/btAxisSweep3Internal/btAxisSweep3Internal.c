@@ -8,39 +8,43 @@ btAxisSweep3Internal<unsigned short> *__userpurge btAxisSweep3Internal<unsigned 
         btOverlappingPairCache *pairCache,
         bool disableRaycastAccelerator)
 {
-  btHashedOverlappingPairCache *v8; // ecx
+  btHashedOverlappingPairCache *v8; // eax
   btHashedOverlappingPairCache *v9; // eax
   btOverlappingPairCache *v10; // eax
-  btDbvtBroadphase *v11; // eax
-  int v12; // eax
-  unsigned __int64 v13; // xmm0_8
+  void *v11; // eax
+  btDbvtBroadphase *v12; // eax
   float m_handleSentinel; // xmm3_4
-  char *v15; // eax
-  int v16; // esi
+  btAxisSweep3Internal<unsigned short>::Handle *v14; // eax
+  btAxisSweep3Internal<unsigned short>::Handle *v15; // ecx
+  int i; // edx
   __int16 v17; // ax
   int v18; // ecx
   btAxisSweep3Internal<unsigned short>::Edge **m_pEdges; // esi
-  int v20; // edi
-  btAxisSweep3Internal<unsigned short>::Edge *v21; // eax
-  btAxisSweep3Internal<unsigned short> *result; // eax
-  btVector3 v23; // [esp+10h] [ebp-10h]
+  btAxisSweep3Internal<unsigned short>::Edge *v20; // eax
+  int v21; // ecx
+  btAxisSweep3Internal<unsigned short>::Edge **v22; // eax
+  btAxisSweep3Internal<unsigned short>::Edge *v23; // edx
+  btHashedOverlappingPairCache *v25; // [esp-4h] [ebp-24h]
+  btDbvtBroadphase *v26; // [esp-4h] [ebp-24h]
+  int v27; // [esp+Ch] [ebp-14h]
+  unsigned __int64 v28; // [esp+14h] [ebp-Ch]
 
-  ++gNumAlignedAllocs;
+  worldAabbMin->m_bpHandleMask = -2;
   worldAabbMin->__vftable = (btAxisSweep3Internal<unsigned short>_vtbl *)&btAxisSweep3Internal<unsigned short>::`vftable';
-  *(float *)&worldAabbMin->m_bpHandleMask = NAN;
+  worldAabbMin->m_handleSentinel = -1;
   worldAabbMin->m_pairCache = 0;
   worldAabbMin->m_userPairCallback = 0;
   worldAabbMin->m_ownsPairCache = 0;
   worldAabbMin->m_invalidPair = 0;
   worldAabbMin->m_raycastAccelerator = 0;
-  if ( sAlignedAllocFunc(0x4Cu, 16) )
-    v9 = btHashedOverlappingPairCache::btHashedOverlappingPairCache(v8);
+  v8 = (btHashedOverlappingPairCache *)btAlignedAllocInternal(0x4Cu);
+  if ( v8 )
+    v9 = btHashedOverlappingPairCache::btHashedOverlappingPairCache(v25, v8);
   else
     v9 = 0;
-  ++gNumAlignedAllocs;
   worldAabbMin->m_pairCache = v9;
   worldAabbMin->m_ownsPairCache = 1;
-  v10 = (btOverlappingPairCache *)sAlignedAllocFunc(0x18u, 16);
+  v10 = (btOverlappingPairCache *)btAlignedAllocInternal(0x18u);
   if ( v10 )
   {
     v10->__vftable = (btOverlappingPairCache_vtbl *)&btNullPairCache::`vftable';
@@ -53,79 +57,81 @@ btAxisSweep3Internal<unsigned short> *__userpurge btAxisSweep3Internal<unsigned 
   {
     v10 = 0;
   }
-  ++gNumAlignedAllocs;
   worldAabbMin->m_nullPairCache = v10;
-  v11 = (btDbvtBroadphase *)sAlignedAllocFunc(0x9Cu, 16);
+  v11 = btAlignedAllocInternal(0x9Cu);
   if ( v11 )
-    btDbvtBroadphase::btDbvtBroadphase(v11, worldAabbMin->m_nullPairCache);
+    v12 = btDbvtBroadphase::btDbvtBroadphase(
+            v26,
+            (int)v11,
+            (btHashedOverlappingPairCache *)worldAabbMin->m_nullPairCache);
   else
     v12 = 0;
-  worldAabbMin->m_raycastAccelerator = (btDbvtBroadphase *)v12;
-  *(_BYTE *)(v12 + 153) = 1;
-  v13 = worldAabbMax->mVec128.m128_u64[0];
-  ++gNumAlignedAllocs;
-  worldAabbMin->m_worldAabbMin.mVec128.m128_u64[0] = v13;
-  worldAabbMin->m_worldAabbMin.mVec128.m128_u64[1] = worldAabbMax->mVec128.m128_u64[1];
-  worldAabbMin->m_worldAabbMax.mVec128.m128_u64[0] = handleMask->mVec128.m128_u64[0];
+  worldAabbMin->m_raycastAccelerator = v12;
+  v12->m_deferedcollide = 1;
+  worldAabbMin->m_worldAabbMin = (btVector3)worldAabbMax->mVec128;
+  worldAabbMin->m_worldAabbMax = (btVector3)handleMask->mVec128;
   m_handleSentinel = (float)worldAabbMin->m_handleSentinel;
-  worldAabbMin->m_worldAabbMax.mVec128.m128_u64[1] = handleMask->mVec128.m128_u64[1];
-  v23.mVec128.m128_i32[3] = 0;
-  v23.mVec128.m128_f32[0] = m_handleSentinel
-                          / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[0]
-                                  - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[0]);
-  v23.mVec128.m128_f32[1] = m_handleSentinel
-                          / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[1]
-                                  - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[1]);
-  v23.mVec128.m128_f32[2] = m_handleSentinel
-                          / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[2]
-                                  - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[2]);
-  worldAabbMin->m_quantize = (btVector3)v23.mVec128;
-  v15 = (char *)sAlignedAllocFunc(0x1FFFC0u, 16);
-  v16 = (int)v15;
-  if ( v15 )
-    `vector constructor iterator'(
-      v15,
-      0x40u,
-      0x7FFF,
-      (void *(__thiscall *)(void *))btAxisSweep3Internal<unsigned short>::Handle::Handle);
+  *(float *)&v28 = m_handleSentinel
+                 / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[1]
+                         - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[1]);
+  *((float *)&v28 + 1) = m_handleSentinel
+                       / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[2]
+                               - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[2]);
+  worldAabbMin->m_quantize.mVec128.m128_f32[0] = m_handleSentinel
+                                               / (float)(worldAabbMin->m_worldAabbMax.mVec128.m128_f32[0]
+                                                       - worldAabbMin->m_worldAabbMin.mVec128.m128_f32[0]);
+  *(unsigned __int64 *)((char *)worldAabbMin->m_quantize.mVec128.m128_u64 + 4) = v28;
+  worldAabbMin->m_quantize.mVec128.m128_i32[3] = 0;
+  v14 = (btAxisSweep3Internal<unsigned short>::Handle *)btAlignedAllocInternal(0x1FFFC0u);
+  if ( v14 )
+  {
+    v15 = v14;
+    for ( i = 32766; i >= 0; --i )
+    {
+      v15->m_clientObject = 0;
+      v15->m_multiSapParentProxy = 0;
+      ++v15;
+    }
+  }
   else
-    v16 = 0;
-  *(float *)&worldAabbMin->m_numHandles = NAN;
-  worldAabbMin->m_pHandles = (btAxisSweep3Internal<unsigned short>::Handle *)v16;
-  worldAabbMin->m_firstFreeHandle = 1;
+  {
+    v14 = 0;
+  }
+  worldAabbMin->m_pHandles = v14;
+  worldAabbMin->m_maxHandles = 0x7FFF;
+  worldAabbMin->m_numHandles = 0;
   v17 = 1;
+  worldAabbMin->m_firstFreeHandle = 1;
   v18 = 1;
   do
     worldAabbMin->m_pHandles[v18++].m_minEdges[0] = ++v17;
   while ( (unsigned __int16)v17 < 0x7FFFu );
-  *(_WORD *)((char *)&loc_1FFFAE + (unsigned int)worldAabbMin->m_pHandles + 2) = 0;
+  *(_WORD *)((char *)&loc_1FFFB0 + (unsigned int)worldAabbMin->m_pHandles) = 0;
   m_pEdges = worldAabbMin->m_pEdges;
-  v20 = 3;
+  v27 = 3;
   do
   {
-    ++gNumAlignedAllocs;
-    v21 = (btAxisSweep3Internal<unsigned short>::Edge *)sAlignedAllocFunc(0x3FFF8u, 16);
-    m_pEdges[3] = v21;
-    *m_pEdges++ = v21;
-    --v20;
+    v20 = (btAxisSweep3Internal<unsigned short>::Edge *)btAlignedAllocInternal((unsigned int)&loc_3FFF6 + 2);
+    m_pEdges[3] = v20;
+    *m_pEdges++ = v20;
+    --v27;
   }
-  while ( v20 );
+  while ( v27 );
   worldAabbMin->m_pHandles->m_clientObject = 0;
-  worldAabbMin->m_pHandles->m_minEdges[0] = 0;
-  worldAabbMin->m_pHandles->m_maxEdges[0] = 1;
-  *(float *)worldAabbMin->m_pEdges[0] = 0.0;
-  worldAabbMin->m_pEdges[0][1].m_pos = worldAabbMin->m_handleSentinel;
-  worldAabbMin->m_pEdges[0][1].m_handle = 0;
-  worldAabbMin->m_pHandles->m_minEdges[1] = 0;
-  worldAabbMin->m_pHandles->m_maxEdges[1] = 1;
-  *(float *)worldAabbMin->m_pEdges[1] = 0.0;
-  worldAabbMin->m_pEdges[1][1].m_pos = worldAabbMin->m_handleSentinel;
-  worldAabbMin->m_pEdges[1][1].m_handle = 0;
-  worldAabbMin->m_pHandles->m_minEdges[2] = 0;
-  worldAabbMin->m_pHandles->m_maxEdges[2] = 1;
-  *(float *)worldAabbMin->m_pEdges[2] = 0.0;
-  worldAabbMin->m_pEdges[2][1].m_pos = worldAabbMin->m_handleSentinel;
-  result = worldAabbMin;
-  worldAabbMin->m_pEdges[2][1].m_handle = 0;
-  return result;
+  v21 = 54;
+  v22 = worldAabbMin->m_pEdges;
+  do
+  {
+    *(_WORD *)((char *)worldAabbMin->m_pHandles + v21 - 6) = 0;
+    *(_WORD *)((char *)&worldAabbMin->m_pHandles->m_clientObject + v21) = 1;
+    (*v22)->m_pos = 0;
+    (*v22)->m_handle = 0;
+    (*v22)[1].m_pos = worldAabbMin->m_handleSentinel;
+    v23 = *v22;
+    v21 += 2;
+    ++v22;
+    v23[1].m_handle = 0;
+  }
+  while ( v21 < 60 );
+  return worldAabbMin;
 }

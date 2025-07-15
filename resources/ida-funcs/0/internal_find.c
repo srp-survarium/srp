@@ -1,11 +1,11 @@
-int __usercall internal_find@<eax>(stack_st *st@<esi>, char *data, int ret_val_options)
+int __usercall internal_find@<eax>(stack_st *st@<esi>, int a2@<edi>, char *data, char ret_val_options)
 {
-  char *v3; // edx
+  char *v4; // edx
   int result; // eax
   char **i; // ecx
-  const void *v6; // eax
+  char *v7; // eax
 
-  v3 = data;
+  v4 = data;
   if ( !st )
     return -1;
   result = (int)st->comp;
@@ -13,15 +13,15 @@ int __usercall internal_find@<eax>(stack_st *st@<esi>, char *data, int ret_val_o
   {
     if ( !st->sorted )
     {
-      qsort((char *)st->data, st->num, 4u, st->comp);
-      v3 = data;
+      qsort(a2, (char *)st->data, st->num, 4u, st->comp);
+      v4 = data;
       st->sorted = 1;
     }
-    if ( v3 )
+    if ( v4 )
     {
-      v6 = OBJ_bsearch_ex_(&data, st->data, st->num, 4, st->comp, ret_val_options);
-      if ( v6 )
-        return (signed int)((int)v6 - (unsigned int)st->data) >> 2;
+      v7 = OBJ_bsearch_ex_(&data, (char *)st->data, st->num, 4, st->comp, ret_val_options);
+      if ( v7 )
+        return (v7 - (char *)st->data) >> 2;
     }
     return -1;
   }

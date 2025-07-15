@@ -10,7 +10,7 @@ void __cdecl bn_mul_part_recursive(
   int v8; // ebp
   unsigned int *v9; // eax
   unsigned int *v10; // ecx
-  unsigned int v11; // edx
+  int v11; // edx
   int v12; // eax
   int v13; // ecx
   int v14; // ecx
@@ -25,8 +25,8 @@ void __cdecl bn_mul_part_recursive(
   unsigned int *v23; // [esp+4h] [ebp-1Ch]
   unsigned int *v24; // [esp+8h] [ebp-18h]
   unsigned int *ta; // [esp+Ch] [ebp-14h]
-  unsigned int count; // [esp+10h] [ebp-10h]
-  unsigned int counta; // [esp+10h] [ebp-10h]
+  int v26; // [esp+10h] [ebp-10h]
+  int v27; // [esp+10h] [ebp-10h]
   int v28; // [esp+14h] [ebp-Ch]
   unsigned int *v29; // [esp+14h] [ebp-Ch]
   int v30; // [esp+18h] [ebp-8h]
@@ -39,7 +39,7 @@ void __cdecl bn_mul_part_recursive(
     v23 = &a[n];
     v8 = bn_cmp_part_words((char *)a, (char *)v23, tna, n - tna);
     v30 = 0;
-    count = tnb - n;
+    v26 = tnb - n;
     n2 = &b[n];
     switch ( bn_cmp_part_words((char *)&b[n], (char *)b, tnb, tnb - n) + 3 * v8 )
     {
@@ -52,7 +52,7 @@ void __cdecl bn_mul_part_recursive(
       case -3:
       case -2:
         bn_sub_part_words(t, v23, a, tna, tna - n);
-        bn_sub_part_words(&t[n], n2, b, tnb, count);
+        bn_sub_part_words(&t[n], n2, b, tnb, v26);
         v30 = 1;
         break;
       case -1:
@@ -66,7 +66,7 @@ void __cdecl bn_mul_part_recursive(
       case 3:
       case 4:
         bn_sub_part_words(t, a, v23, tna, v28);
-        v11 = count;
+        v11 = v26;
         v9 = b;
         v10 = n2;
 LABEL_8:
@@ -87,7 +87,7 @@ LABEL_8:
     else
     {
       ta = &t[4 * n];
-      counta = 2 * n;
+      v27 = 2 * n;
       v29 = &t[2 * n];
       bn_mul_recursive(v29, t, &t[n], n, 0, 0, ta);
       bn_mul_recursive(r, a, b, n, 0, 0, ta);
@@ -101,8 +101,8 @@ LABEL_8:
       {
         if ( v14 <= 0 )
         {
-          v24 = &r[counta];
-          memset((int)&r[counta], 0, counta * 4);
+          v24 = &r[v27];
+          memset((int)&r[v27], 0, v27 * 4);
           if ( tna >= 16 || tnb >= 16 )
           {
             v15 = v31 / 2;
@@ -129,16 +129,16 @@ LABEL_8:
         }
         else
         {
-          v24 = &r[counta];
-          bn_mul_part_recursive(&r[counta], v23, n2, n / 2, tna - v12, tnb - v12, ta);
+          v24 = &r[v27];
+          bn_mul_part_recursive(&r[v27], v23, n2, n / 2, tna - v12, tnb - v12, ta);
           memset((int)&r[2 * n + tnb + tna], 0, 4 * (2 * n - tna - tnb));
         }
       }
       else
       {
-        v24 = &r[counta];
-        bn_mul_recursive(&r[counta], v23, n2, n / 2, tna - v12, tnb - v12, ta);
-        memset((int)&r[2 * n + 2 * v31], 0, counta * 4 - 8 * v31);
+        v24 = &r[v27];
+        bn_mul_recursive(&r[v27], v23, n2, n / 2, tna - v12, tnb - v12, ta);
+        memset((int)&r[2 * n + 2 * v31], 0, v27 * 4 - 8 * v31);
       }
     }
 LABEL_26:

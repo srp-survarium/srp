@@ -2,17 +2,17 @@ void __thiscall vostok::collision::colliders::cuboid_object::add_triangles(
         vostok::collision::colliders::cuboid_object *this,
         const vostok::collision::oct_node *const node)
 {
-  const vostok::collision::oct_node *v3; // esi
+  const vostok::collision::oct_node *v2; // ebx
   vostok::collision::object *i; // esi
 
-  v3 = node;
+  v2 = node;
   do
   {
-    if ( v3->octants[0] )
-      vostok::collision::colliders::cuboid_object::add_triangles(this, v3->octants[0]);
-    v3 = (const vostok::collision::oct_node *)((char *)v3 + 4);
+    if ( v2->octants[0] )
+      vostok::collision::colliders::cuboid_object::add_triangles(this, v2->octants[0]);
+    v2 = (const vostok::collision::oct_node *)((char *)v2 + 4);
   }
-  while ( v3 != (const vostok::collision::oct_node *)&node->parent );
+  while ( v2 != (const vostok::collision::oct_node *)&node->parent );
   for ( i = node->objects; i; i = i->m_next )
   {
     if ( (i->m_type & this->m_query_type) != 0 )

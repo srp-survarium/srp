@@ -2,7 +2,7 @@ char __thiscall Scaleform::GFx::AS3::AvmInteractiveObj::OnEvent(
         Scaleform::GFx::AS3::AvmInteractiveObj *this,
         const Scaleform::GFx::EventId *id)
 {
-  unsigned __int8 *v2; // eax
+  unsigned int v2; // eax
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *pAS3RawPtr; // eax
   Scaleform::GFx::DisplayObject *v5; // edx
   Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *v6; // ecx
@@ -15,12 +15,12 @@ char __thiscall Scaleform::GFx::AS3::AvmInteractiveObj::OnEvent(
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // eax
   Scaleform::RefCountVImpl *v15; // ecx
 
-  v2 = (unsigned __int8 *)id->Id;
+  v2 = id->Id;
   if ( id->Id > 0x2000 )
   {
-    if ( v2 > &vostok::memory::s_CRT_arena[5574214] )
+    if ( v2 > 0x100000E )
     {
-      if ( v2 != &vostok::memory::s_CRT_arena[5574220] )
+      if ( v2 != 16777236 )
         return Scaleform::GFx::AS3::AvmDisplayObj::OnEvent(this, id);
       pDispObj = this->pDispObj;
       inserted = Scaleform::GFx::AS3::MovieRoot::InsertEmptyAction(
@@ -52,7 +52,7 @@ char __thiscall Scaleform::GFx::AS3::AvmInteractiveObj::OnEvent(
         else
         {
           RefCount = v10->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v10->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -85,10 +85,10 @@ char __thiscall Scaleform::GFx::AS3::AvmInteractiveObj::OnEvent(
       inserted->pNLoadInitCL.pObject = 0;
       return 1;
     }
-    if ( v2 < &vostok::memory::s_CRT_arena[5574210] && v2 != (unsigned __int8 *)0x4000 )
+    if ( v2 < 0x100000A && v2 != 0x4000 )
       return Scaleform::GFx::AS3::AvmDisplayObj::OnEvent(this, id);
   }
-  else if ( id->Id != 0x2000 && v2 != (unsigned __int8 *)8 && v2 != (unsigned __int8 *)16 && v2 != (unsigned __int8 *)32 )
+  else if ( id->Id != 0x2000 && v2 != 8 && v2 != 16 && v2 != 32 )
   {
     return Scaleform::GFx::AS3::AvmDisplayObj::OnEvent(this, id);
   }

@@ -1,4 +1,4 @@
-void __cdecl recsig(int i)
+void __cdecl recsig(int a1)
 {
-  intr_signal = i;
+  intr_signal = a1;
 }

@@ -1,4 +1,4 @@
-int __cdecl vostok::particle::domain_type_from_string(char *name)
+int __usercall vostok::particle::domain_type_from_string@<eax>(char *name@<esi>)
 {
   int v1; // eax
   int v3; // eax
@@ -43,8 +43,5 @@ int __cdecl vostok::particle::domain_type_from_string(char *name)
   if ( v11 )
     return 9;
   strstr((unsigned __int8 *)name, "Rectangle");
-  if ( v12 )
-    return 10;
-  else
-    return 0;
+  return v12 != 0 ? 0xA : 0;
 }

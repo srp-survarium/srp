@@ -72,7 +72,7 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
         Scaleform::Render::Text::GFxLineCursor *this)
 {
   Scaleform::Render::Text::Paragraph::CharactersIterator *p_CharIter; // ebx
-  Scaleform::Render::Text::Paragraph::CharacterInfo *v3; // eax
+  Scaleform::Render::Text::Paragraph::CharactersIterator *v3; // eax
   Scaleform::Render::Text::CompositionStringBase *pObject; // ecx
   unsigned int v5; // edi
   const wchar_t *v6; // eax
@@ -88,8 +88,8 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
   bool v16; // zf
   const Scaleform::Render::Text::Paragraph::CharacterInfo *v17; // eax
   Scaleform::Render::Text::CompositionStringBase *v18; // edi
-  Scaleform::Render::Text::Paragraph::CharacterInfo *v19; // ebp
-  Scaleform::Render::Text::Paragraph::CharacterInfo *v20; // ebp
+  Scaleform::Render::Text::Paragraph::CharactersIterator *v19; // ebp
+  Scaleform::Render::Text::Paragraph::CharactersIterator *v20; // ebp
   Scaleform::Render::Text::TextFormat *v21; // eax
   Scaleform::Render::Text::Paragraph::CharacterInfo *RefCount; // ecx
   Scaleform::Render::Text::TextFormat *v23; // edi
@@ -100,7 +100,7 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
   p_CharIter = &this->CharIter;
   v3 = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(&this->CharIter);
   pObject = this->pComposStr.pObject;
-  this->CharInfoHolder.Index = v3->Index;
+  this->CharInfoHolder.Index = v3->PlaceHolder.Index;
   if ( pObject )
   {
     if ( pObject->GetLength(pObject) )
@@ -112,11 +112,11 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
           && this->ComposStrCurPos < this->pComposStr.pObject->GetLength(this->pComposStr.pObject) )
         {
           this->CharInfoHolder.Index = this->ComposStrCurPos
-                                     + Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->Index;
+                                     + Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->PlaceHolder.Index;
           v6 = this->pComposStr.pObject->GetText(this->pComposStr.pObject);
           v7 = this->pComposStr.pObject;
           this->CharInfoHolder.Character = v6[this->ComposStrCurPos];
-          v8 = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->pFormat.pObject;
+          v8 = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->PlaceHolder.pFormat.pObject;
           ComposStrCurPos = (const Scaleform::Render::Text::TextFormat *)this->ComposStrCurPos;
           v9 = (const Scaleform::Render::Text::TextFormat *)((int (__thiscall *)(Scaleform::Render::Text::CompositionStringBase *))v7->GetTextFormat)(v7);
           v10 = Scaleform::Render::Text::TextFormat::Merge(v8, &result, v9);
@@ -142,12 +142,12 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
         }
         v18 = this->pComposStr.pObject;
         v19 = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter);
-        this->CharInfoHolder.Index = v19->Index + v18->GetLength(v18);
+        this->CharInfoHolder.Index = v19->PlaceHolder.Index + v18->GetLength(v18);
       }
     }
   }
   v20 = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter);
-  v21 = v20->pFormat.pObject;
+  v21 = v20->PlaceHolder.pFormat.pObject;
   RefCount = &this->CharInfoHolder;
   result.RefCount = (unsigned int)&this->CharInfoHolder;
   if ( v21 )
@@ -163,16 +163,16 @@ const Scaleform::Render::Text::Paragraph::CharacterInfo *__thiscall Scaleform::R
       RefCount = (Scaleform::Render::Text::Paragraph::CharacterInfo *)result.RefCount;
     }
   }
-  RefCount->pFormat.pObject = v20->pFormat.pObject;
+  RefCount->pFormat.pObject = v20->PlaceHolder.pFormat.pObject;
   if ( (this->pDocView->Flags & 0x10) != 0
-    && Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->Character )
+    && Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->PlaceHolder.Character )
   {
     v17 = (const Scaleform::Render::Text::Paragraph::CharacterInfo *)result.RefCount;
     this->CharInfoHolder.Character = 42;
   }
   else
   {
-    Character = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->Character;
+    Character = Scaleform::Render::Text::Paragraph::CharactersIterator::operator*(p_CharIter)->PlaceHolder.Character;
     v17 = (const Scaleform::Render::Text::Paragraph::CharacterInfo *)result.RefCount;
     this->CharInfoHolder.Character = Character;
   }

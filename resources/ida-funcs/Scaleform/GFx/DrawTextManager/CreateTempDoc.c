@@ -8,7 +8,7 @@ Scaleform::Render::Text::DocView *__thiscall Scaleform::GFx::DrawTextManager::Cr
 {
   char v6; // bl
   Scaleform::Render::Text::DocView *v8; // edi
-  Scaleform::Ptr<Scaleform::Log> *Log; // eax
+  Scaleform::GFx::Resource **Log; // eax
   Scaleform::Render::Text::DocView *v10; // eax
   Scaleform::Render::Text::DocView *v11; // esi
   Scaleform::Ptr<Scaleform::Log> result; // [esp+Ch] [ebp-14h] BYREF
@@ -20,12 +20,12 @@ Scaleform::Render::Text::DocView *__thiscall Scaleform::GFx::DrawTextManager::Cr
   if ( v8 )
   {
     v6 = 1;
-    Log = Scaleform::GFx::StateBag::GetLog(&this->Scaleform::GFx::StateBag, &result);
+    Log = (Scaleform::GFx::Resource **)Scaleform::GFx::StateBag::GetLog(&this->Scaleform::GFx::StateBag, &result);
     Scaleform::Render::Text::DocView::DocView(
       v8,
       this->pImpl->pTextAllocator.pObject,
-      this->pImpl->pFontManager.pObject,
-      Log->pObject);
+      (Scaleform::GFx::Resource *)this->pImpl->pFontManager.pObject,
+      *Log);
     v11 = v10;
   }
   else

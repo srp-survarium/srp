@@ -1,10 +1,10 @@
-unsigned int __usercall whiteout@<eax>(int *counter@<esi>, unsigned int a2@<ebx>, _iobuf *fileptr)
+int __usercall whiteout@<eax>(int *counter@<esi>, int ebx0@<ebx>, _iobuf *fileptr)
 {
   do
   {
     ++*counter;
-    a2 = inc(fileptr, a2);
+    ebx0 = inc(fileptr, ebx0);
   }
-  while ( a2 != -1 && isspace((unsigned __int8)a2) );
-  return a2;
+  while ( ebx0 != -1 && isspace((unsigned __int8)ebx0) );
+  return ebx0;
 }

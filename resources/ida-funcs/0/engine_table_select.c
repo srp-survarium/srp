@@ -1,57 +1,57 @@
-engine_st *__cdecl engine_table_select(lhash_st **table, int nid)
+engine_st *__usercall engine_table_select@<eax>(int a1@<ebx>, lhash_st **table, int nid)
 {
-  st_engine_table **v2; // edi
-  engine_st *v3; // esi
-  lhash_st *v5; // eax
-  void **v6; // eax
-  int v7; // ebp
-  engine_st *v8; // eax
-  int data[4]; // [esp+8h] [ebp-10h] BYREF
+  lhash_st **v3; // edi
+  engine_st *v4; // esi
+  lhash_st *v6; // eax
+  void ***v7; // eax
+  int v8; // ebp
+  engine_st *v9; // eax
+  int v10[4]; // [esp+8h] [ebp-10h] BYREF
 
-  v2 = (st_engine_table **)table;
-  v3 = 0;
+  v3 = table;
+  v4 = 0;
   if ( !*table )
     return 0;
   ERR_set_mark();
-  CRYPTO_lock((unsigned int)table, 9, 30, ".\\crypto\\engine\\eng_table.c", 258);
-  v5 = *table;
+  CRYPTO_lock((int)table, a1, 9, 30, ".\\crypto\\engine\\eng_table.c", 258);
+  v6 = *table;
   if ( *table )
   {
-    data[0] = nid;
-    v6 = lh_retrieve(v5, data);
-    v2 = (st_engine_table **)v6;
-    if ( v6 )
+    v10[0] = nid;
+    v7 = lh_retrieve(v6, v10);
+    v3 = (lhash_st **)v7;
+    if ( v7 )
     {
-      if ( v6[2] && engine_unlocked_init((engine_st *)v6[2]) || v2[3] )
+      if ( v7[2] && engine_unlocked_init((engine_st *)v7[2]) || v3[3] )
       {
-        v3 = (engine_st *)v2[2];
+        v4 = (engine_st *)v3[2];
       }
       else
       {
-        v3 = (engine_st *)sk_value((const stack_st *)v2[1], 0);
-        v7 = 1;
-        if ( v3 )
+        v4 = (engine_st *)sk_value((const stack_st *)v3[1], 0);
+        v8 = 1;
+        if ( v4 )
         {
-          while ( v3->funct_ref <= 0 && (table_flags & 1) != 0 || !engine_unlocked_init(v3) )
+          while ( v4->funct_ref <= 0 && (table_flags & 1) != 0 || !engine_unlocked_init(v4) )
           {
-            v3 = (engine_st *)sk_value((const stack_st *)v2[1], v7++);
-            if ( !v3 )
+            v4 = (engine_st *)sk_value((const stack_st *)v3[1], v8++);
+            if ( !v4 )
               goto end_2;
           }
-          if ( v2[2] != (st_engine_table *)v3 && engine_unlocked_init(v3) )
+          if ( v3[2] != (lhash_st *)v4 && engine_unlocked_init(v4) )
           {
-            v8 = (engine_st *)v2[2];
-            if ( v8 )
-              engine_unlocked_finish(v8, 0);
-            v2[2] = (st_engine_table *)v3;
+            v9 = (engine_st *)v3[2];
+            if ( v9 )
+              engine_unlocked_finish(v9, 0);
+            v3[2] = (lhash_st *)v4;
           }
         }
       }
 end_2:
-      v2[3] = (st_engine_table *)1;
+      v3[3] = (lhash_st *)1;
     }
   }
-  CRYPTO_lock((unsigned int)v2, 10, 30, ".\\crypto\\engine\\eng_table.c", 328);
-  ERR_pop_to_mark();
-  return v3;
+  CRYPTO_lock((int)v3, a1, 10, 30, ".\\crypto\\engine\\eng_table.c", 328);
+  ERR_pop_to_mark(a1);
+  return v4;
 }

@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS2::ActionBufferData::Read(
         unsigned int eventLength)
 {
   unsigned __int8 *v4; // eax
-  bool v5; // zf
+  Scaleform::AmpServer *Instance; // eax
 
   if ( psc->CurBitIndex )
     ++psc->CurByteIndex;
@@ -15,13 +15,17 @@ void __thiscall Scaleform::GFx::AS2::ActionBufferData::Read(
                             eventLength,
                             0);
   this->pBuffer = v4;
-  memcpy(v4, (unsigned __int8 *)&psc->pData[psc->CurByteIndex], eventLength);
+  memcpy((int)v4, (const __m128i *)&psc->pData[psc->CurByteIndex], eventLength);
   this->BufferLen = eventLength;
-  v5 = psc->CurBitIndex == 0;
-  psc->CurBitIndex = 0;
-  if ( !v5 )
+  if ( psc->CurBitIndex )
     ++psc->CurByteIndex;
   psc->CurByteIndex += eventLength;
+  psc->CurBitIndex = 0;
+  if ( !this->SwdHandle )
+  {
+    Instance = Scaleform::AmpServer::GetInstance();
+    this->SwdHandle = Instance->GetNextSwdHandle(Instance);
+  }
 }
 
 
@@ -31,12 +35,14 @@ void __thiscall Scaleform::GFx::AS2::ActionBufferData::Read(
         unsigned int actionLength)
 {
   unsigned __int8 *v4; // eax
-  unsigned __int8 *pBuffer; // edi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v6; // esi
+  unsigned __int8 *pBuffer; // ebp
+  int v6; // esi
   char v7; // bl
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v8; // ecx
+  int v8; // eax
+  Scaleform::AmpServer *Instance; // eax
   unsigned int BufferLen; // [esp+0h] [ebp-14h]
-  Scaleform::GFx::AS2::Disasm da; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::AS2::Disasm v11; // [esp+Ch] [ebp-8h] BYREF
+  int v12; // [esp+1Ch] [ebp+8h]
 
   this->BufferLen = actionLength;
   v4 = (unsigned __int8 *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
@@ -51,20 +57,23 @@ void __thiscall Scaleform::GFx::AS2::ActionBufferData::Read(
   {
     pBuffer = this->pBuffer;
     v6 = 0;
-    da.MsgId.Id = 20483;
+    v11.MsgId.Id = 20483;
     do
     {
-      v7 = *((_BYTE *)&v6->__vftable + (_DWORD)pBuffer);
-      v8 = v6;
-      v6 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)v6 + 1);
+      v7 = pBuffer[v6];
+      v12 = v6;
+      v8 = v6++;
       if ( v7 < 0 )
-        v6 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)v6
-                                                        + *(unsigned __int16 *)((char *)&v6->__vftable + (_DWORD)pBuffer)
-                                                        + 2);
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v8);
-      da.pLog = (Scaleform::Log *)Scaleform::GFx::AS3::Multiname::GetNamespace((Scaleform::GFx::AS3::SoundObject *)in);
-      Scaleform::GFx::AS2::Disasm::LogF(&da, "<disasm is disabled>\n");
+        v6 += *(unsigned __int16 *)&pBuffer[v6] + 2;
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseAction(in, "%4d\t", v8);
+      v11.pLog = (Scaleform::Log *)Scaleform::GFx::AS3::Multiname::GetNamespace((Scaleform::GFx::AS3::SoundObject *)in);
+      Scaleform::GFx::AS2::Disasm::LogDisasm(&v11, &this->pBuffer[v12]);
     }
     while ( v7 );
+  }
+  if ( !this->SwdHandle )
+  {
+    Instance = Scaleform::AmpServer::GetInstance();
+    this->SwdHandle = Instance->GetNextSwdHandle(Instance);
   }
 }

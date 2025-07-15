@@ -1,55 +1,53 @@
 vostok::ai::planning::base_lexeme_ptr *__thiscall vostok::ai::planning::base_lexeme::generate_permutations_as_or(
         vostok::ai::planning::base_lexeme *this,
         vostok::ai::planning::base_lexeme_ptr *result,
-        vostok::memory::stack_allocator *allocator,
-        const vostok::ai::planning::base_lexeme *left)
+        vostok::ai::planning::base_lexeme_ptr *allocator,
+        vostok::memory::stack_allocator *left)
 {
-  vostok::memory::stack_allocator *v4; // eax
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  const vostok::ai::planning::base_lexeme *const v7; // eax
-  vostok::ai::planning::base_lexeme_ptr *v10; // [esp+Ch] [ebp-34h]
-  vostok::ai::planning::base_lexeme *right; // [esp+18h] [ebp-28h]
-  vostok::ai::planning::base_lexeme_ptr *v12; // [esp+1Ch] [ebp-24h]
-  void *_Where; // [esp+28h] [ebp-18h]
-  char v14; // [esp+30h] [ebp-10h]
-  vostok::ai::planning::base_lexeme_ptr v15; // [esp+34h] [ebp-Ch] BYREF
-  vostok::ai::planning::base_lexeme_ptr v16; // [esp+38h] [ebp-8h] BYREF
-  vostok::ai::planning::base_lexeme *v17; // [esp+3Ch] [ebp-4h]
+  const vostok::ai::planning::base_lexeme *m_lexeme; // eax
+  vostok::ai::planning::base_lexeme_ptr *v7; // ecx
+  vostok::ai::planning::base_lexeme *v8; // ecx
+  vostok::ai::planning::base_lexeme_ptr *v9; // eax
+  vostok::ai::planning::base_lexeme *v10; // ecx
+  vostok::ai::planning::base_lexeme_ptr *v11; // eax
+  const vostok::ai::planning::base_lexeme *v12; // eax
+  const vostok::ai::planning::base_lexeme *v14; // [esp+0h] [ebp-1Ch]
+  const vostok::ai::planning::base_lexeme *v15; // [esp+0h] [ebp-1Ch]
+  int v16; // [esp+Ch] [ebp-10h] BYREF
+  int v17; // [esp+10h] [ebp-Ch] BYREF
+  const vostok::ai::planning::base_lexeme *v18; // [esp+14h] [ebp-8h]
+  int v19; // [esp+18h] [ebp-4h]
+  vostok::ai::planning::base_lexeme *v20; // [esp+28h] [ebp+Ch]
 
-  v14 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  _Where = vostok::memory::stack_allocator::malloc_impl(v4, 0x18u);
-  v17 = (vostok::ai::planning::base_lexeme *)operator new(0x18u, _Where);
-  if ( v17 )
+  v19 = 0;
+  type_info::raw_name(&vostok::ai::planning::base_lexeme `RTTI Type Descriptor');
+  m_lexeme = allocator[5].m_lexeme;
+  v7 = (vostok::ai::planning::base_lexeme_ptr *)&m_lexeme[1];
+  v20 = (vostok::ai::planning::base_lexeme *)m_lexeme;
+  allocator[5].m_lexeme = m_lexeme + 1;
+  if ( m_lexeme )
   {
-    v14 = 3;
-    v12 = vostok::ai::planning::base_lexeme::generate_permutations(
-            (vostok::ai::planning::base_lexeme *)this->m_right.m_lexeme,
-            &v16,
-            allocator,
-            left);
-    survarium::weapon_user_dead_state::finalize(v5);
-    right = (vostok::ai::planning::base_lexeme *)v12->m_lexeme;
-    v10 = vostok::ai::planning::base_lexeme::generate_permutations(
-            (vostok::ai::planning::base_lexeme *)this->m_left.m_lexeme,
-            &v15,
-            allocator,
-            left);
-    survarium::weapon_user_dead_state::finalize(v6);
-    vostok::ai::planning::base_lexeme::base_lexeme(v17, operation_type_or, v10->m_lexeme, right, 1u);
-    vostok::ai::planning::base_lexeme_ptr::base_lexeme_ptr(result, v7);
+    v8 = (vostok::ai::planning::base_lexeme *)this->m_right.m_lexeme;
+    v19 = 3;
+    v9 = vostok::ai::planning::base_lexeme::generate_permutations(v8, &v16, allocator, left, v14);
+    v10 = (vostok::ai::planning::base_lexeme *)this->m_left.m_lexeme;
+    v18 = v9->m_lexeme;
+    v11 = vostok::ai::planning::base_lexeme::generate_permutations(v10, &v17, allocator, left, v15);
+    vostok::ai::planning::base_lexeme::base_lexeme(v11->m_lexeme, v18, v20, operation_type_or, 1u);
   }
   else
   {
-    vostok::ai::planning::base_lexeme_ptr::base_lexeme_ptr(result, 0);
+    v12 = 0;
   }
-  if ( (v14 & 2) != 0 )
+  result->m_lexeme = v12;
+  if ( v12 && v12->m_destroy_manually )
+    ++v12->m_counter;
+  if ( (v19 & 2) != 0 )
   {
-    v14 &= ~2u;
-    vostok::ai::planning::base_lexeme_ptr::~base_lexeme_ptr(&v15);
+    v19 &= ~2u;
+    vostok::ai::planning::base_lexeme_ptr::~base_lexeme_ptr(v7, &v17);
   }
-  if ( (v14 & 1) != 0 )
-    vostok::ai::planning::base_lexeme_ptr::~base_lexeme_ptr(&v16);
+  if ( (v19 & 1) != 0 )
+    vostok::ai::planning::base_lexeme_ptr::~base_lexeme_ptr(v7, &v16);
   return result;
 }

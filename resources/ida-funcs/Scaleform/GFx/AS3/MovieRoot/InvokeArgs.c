@@ -1,12 +1,12 @@
 bool __thiscall Scaleform::GFx::AS3::MovieRoot::InvokeArgs(
         Scaleform::GFx::AS3::MovieRoot *this,
-        char *pmethodName,
+        __m128i *pmethodName,
         Scaleform::GFx::Value *presult,
         const char *pargFmt,
         char *args)
 {
-  char *v5; // ebp
-  const Scaleform::GFx::AS3::Value *v7; // edi
+  __m128i *v5; // ebp
+  Scaleform::GFx::AS3::Value *v7; // edi
   char *v8; // eax
   Scaleform::GFx::AS3::ASVM *pObject; // edi
   bool HandleException; // al
@@ -19,10 +19,10 @@ bool __thiscall Scaleform::GFx::AS3::MovieRoot::InvokeArgs(
 
   v5 = pmethodName;
   memset(&valArray, 0, sizeof(valArray));
-  Scaleform::GFx::AS3::MovieRoot::ParseValueArguments(this, &valArray, pmethodName, pargFmt, args);
+  Scaleform::GFx::AS3::MovieRoot::ParseValueArguments(this, &valArray, pmethodName->m128i_i8, pargFmt, args);
   v7 = valArray.Data.Size != 0 ? valArray.Data.Data : 0;
-  _controlfp_s((unsigned int *)&pargFmt, 0, 0);
-  _controlfp_s((unsigned int *)&args, (unsigned int)&_sbh_sizeHeaderList, 0x30000u);
+  _controlfp_s(0, (unsigned int *)&pargFmt, 0, 0);
+  _controlfp_s(0, (unsigned int *)&args, (unsigned int)&_sbh_sizeHeaderList, (unsigned int)&loc_30000);
   resultVal.Flags = 0;
   resultVal.Bonus.pWeakProxy = 0;
   if ( this->pInvokeAliases )
@@ -31,9 +31,9 @@ bool __thiscall Scaleform::GFx::AS3::MovieRoot::InvokeArgs(
     args = v8;
     if ( v8 )
     {
-      if ( (_S10_0 & 1) == 0 )
+      if ( (_S15 & 1) == 0 )
       {
-        _S10_0 |= 1u;
+        _S15 |= 1u;
         v.Flags = 0;
         v.Bonus.pWeakProxy = 0;
         atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -75,7 +75,7 @@ LABEL_10:
           Scaleform::GFx::AS3::Value::ReleaseInternal(&resultVal);
         }
       }
-      _controlfp_s((unsigned int *)&pmethodName, (unsigned int)pargFmt, 0x30000u);
+      _controlfp_s(0, (unsigned int *)&pmethodName, (unsigned int)pargFmt, (unsigned int)&loc_30000);
       Data = valArray.Data.Data;
       Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(valArray.Data.Data, valArray.Data.Size);
       if ( Data )
@@ -85,11 +85,11 @@ LABEL_10:
   }
   resolvedVal.Flags = 0;
   resolvedVal.Bonus.pWeakProxy = 0;
-  if ( Scaleform::GFx::AS3::MovieRoot::GetASVariableAtPath(this, &resolvedVal, v5) )
+  if ( Scaleform::GFx::AS3::MovieRoot::GetASVariableAtPath(this, &resolvedVal, v5->m128i_i8) )
   {
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -107,7 +107,7 @@ LABEL_10:
   }
   Scaleform::GFx::AS3::Value::~Value(&resolvedVal);
   Scaleform::GFx::AS3::Value::~Value(&resultVal);
-  _controlfp_s((unsigned int *)&args, (unsigned int)pargFmt, 0x30000u);
+  _controlfp_s(0, (unsigned int *)&args, (unsigned int)pargFmt, (unsigned int)&loc_30000);
   v14 = valArray.Data.Data;
   Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(valArray.Data.Data, valArray.Data.Size);
   if ( v14 )

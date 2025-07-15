@@ -21,7 +21,7 @@ int __cdecl ssl_check_clienthello_tlsext(ssl_st *s)
   {
 LABEL_12:
     s->tlsext_status_expected = 0;
-    goto err_242;
+    goto err_244;
   }
   v6 = tlsext_status_cb(s, v4->tlsext_status_arg);
   if ( v6 )
@@ -30,7 +30,7 @@ LABEL_12:
     if ( v7 )
     {
       if ( v7 != 1 )
-        goto err_242;
+        goto err_244;
       goto LABEL_12;
     }
     v2 = 2;
@@ -40,7 +40,7 @@ LABEL_12:
   {
     s->tlsext_status_expected = s->tlsext_ocsp_resp != 0;
   }
-err_242:
+err_244:
   switch ( v2 )
   {
     case 1:

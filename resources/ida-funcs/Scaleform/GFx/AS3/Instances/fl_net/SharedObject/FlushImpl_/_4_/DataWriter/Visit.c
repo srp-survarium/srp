@@ -5,8 +5,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
 {
   const Scaleform::GFx::AS3::Instances::fl::Namespace *CurrNamespace; // eax
   unsigned int Size; // eax
-  Scaleform::GFx::ASStringNode *VStr; // edi
-  char *v8; // eax
+  Scaleform::GFx::AS3::Value::V1U v6; // edi
+  const __m128i *v8; // eax
   Scaleform::GFx::AS3::Traits *pObject; // eax
   Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl::__l4::DataWriter *v10; // ecx
   Scaleform::GFx::AS3::Instances::fl::Object *pobj; // [esp+Ch] [ebp-1E8h] BYREF
@@ -19,14 +19,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
   switch ( val->Flags & 0x1F )
   {
     case 0u:
-      Scaleform::String::String(&v14, (char *)&buf);
+      Scaleform::String::String(&v14, (const __m128i *)uri);
       this->pWriter->AddProperty(this->pWriter, name, &v14, VT_Undefined);
       Scaleform::String::~String(&v14);
       break;
     case 1u:
-      v8 = (char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1];
+      v8 = (const __m128i *)"true";
       if ( !val->value.VS._1.VBool )
-        v8 = (char *)&stru_95AF78.m_key_bindings[6];
+        v8 = (const __m128i *)"false";
       Scaleform::String::String(&v12, v8);
       this->pWriter->AddProperty(this->pWriter, name, &v12, VT_Boolean);
       Scaleform::String::~String(&v12);
@@ -56,11 +56,11 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
       Scaleform::Formatter::~Formatter(&f);
       break;
     case 0xAu:
-      VStr = val->value.VS._1.VStr;
-      ++VStr->RefCount;
-      Scaleform::String::String((Scaleform::String *)&pobj, (char *)VStr->pData);
-      if ( VStr->RefCount-- == 1 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(VStr);
+      v6 = val->value.VS._1;
+      ++*(_DWORD *)(v6.VInt + 12);
+      Scaleform::String::String((Scaleform::String *)&pobj, *(const __m128i **)v6.VInt);
+      if ( (*(_DWORD *)(v6.VInt + 12))-- == 1 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v6.VStr);
       this->pWriter->AddProperty(this->pWriter, name, (const Scaleform::String *)&pobj, VT_String);
       Scaleform::String::~String((Scaleform::String *)&pobj);
       break;
@@ -99,7 +99,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
       }
       else
       {
-        Scaleform::String::String(&v13, (char *)&buf);
+        Scaleform::String::String(&v13, (const __m128i *)uri);
         this->pWriter->AddProperty(this->pWriter, name, &v13, VT_Null);
         Scaleform::String::~String(&v13);
       }

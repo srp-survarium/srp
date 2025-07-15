@@ -1,19 +1,23 @@
-void __userpurge vostok::physics::character_move_test_callback::character_move_test_callback(
-        vostok::physics::character_move_test_callback *this@<eax>,
-        const btVector3 *up_vector@<ecx>,
-        btCollisionObject *self,
-        float minSlopeDot)
+void __thiscall vostok::physics::character_move_test_callback::character_move_test_callback(
+        vostok::physics::character_move_test_callback *this,
+        btCollisionWorld::ClosestConvexResultCallback *self,
+        const btVector3 *up_vector,
+        btCollisionWorld::ClosestConvexResultCallback_vtbl **minSlopeDot,
+        int a5)
 {
-  LODWORD(this->m_closestHitFraction) = clear_value;
-  this->m_convexFromWorld.mVec128.m128_u64[0] = 0;
-  this->m_convexFromWorld.mVec128.m128_u64[1] = 0;
-  this->m_convexToWorld.mVec128.m128_u64[0] = 0;
-  this->m_collisionFilterGroup = 1;
-  this->m_convexToWorld.mVec128.m128_u64[1] = 0;
-  this->m_collisionFilterMask = -1;
-  this->m_hitCollisionObject = 0;
-  this->__vftable = (vostok::physics::character_move_test_callback_vtbl *)&vostok::physics::character_move_test_callback::`vftable';
-  this->m_up_vector = (const btVector3)up_vector->mVec128;
-  this->m_self = self;
-  this->m_minSlopeDot = minSlopeDot;
+  btVector3 v5; // [esp+4h] [ebp-20h] BYREF
+  btVector3 v6; // [esp+14h] [ebp-10h] BYREF
+
+  memset(&v5, 0, sizeof(v5));
+  memset(&v6, 0, sizeof(v6));
+  btCollisionWorld::ClosestConvexResultCallback::ClosestConvexResultCallback(self, &v6, &v5);
+  self->__vftable = (btCollisionWorld::ClosestConvexResultCallback_vtbl *)&vostok::physics::character_move_test_callback::`vftable';
+  self[1].__vftable = *minSlopeDot;
+  LODWORD(self[1].m_closestHitFraction) = minSlopeDot[1];
+  *(_DWORD *)&self[1].m_collisionFilterGroup = minSlopeDot[2];
+  *((_DWORD *)&self[1].btCollisionWorld::ConvexResultCallback + 3) = minSlopeDot[3];
+  self[1].m_convexFromWorld.mVec128.m128_i32[0] = (int)up_vector;
+  self->m_collisionFilterGroup = 4;
+  self->m_collisionFilterMask = 2;
+  self[1].m_convexFromWorld.mVec128.m128_i32[1] = a5;
 }

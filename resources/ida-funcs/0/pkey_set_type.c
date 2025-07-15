@@ -1,4 +1,4 @@
-int __usercall pkey_set_type@<eax>(evp_pkey_st *pkey@<esi>, const char *str@<ecx>, int type, int len)
+int __usercall pkey_set_type@<eax>(evp_pkey_st *pkey@<esi>, char *str@<ecx>, void *type, engine_st *len)
 {
   const evp_pkey_asn1_method_st *ameth; // eax
   void (__cdecl *pkey_free)(evp_pkey_st *); // eax
@@ -24,28 +24,28 @@ int __usercall pkey_set_type@<eax>(evp_pkey_st *pkey@<esi>, const char *str@<ecx
       }
       if ( pkey->engine )
       {
-        ENGINE_finish(pkey->engine);
+        ENGINE_finish((int)str, pkey->engine);
         pkey->engine = 0;
       }
     }
-    if ( type == pkey->save_type && pkey->ameth )
+    if ( type == (void *)pkey->save_type && pkey->ameth )
       return 1;
     if ( pkey->engine )
     {
-      ENGINE_finish(pkey->engine);
+      ENGINE_finish((int)str, pkey->engine);
       pkey->engine = 0;
     }
   }
   if ( str )
     v7 = EVP_PKEY_asn1_find_str(&pe, str, len);
   else
-    v7 = EVP_PKEY_asn1_find(&pe, type);
+    v7 = (const evp_pkey_asn1_method_st *)EVP_PKEY_asn1_find(&pe, type);
   v8 = v7;
   if ( !pkey && pe )
-    ENGINE_finish(pe);
+    ENGINE_finish((int)v7, pe);
   if ( !v8 )
   {
-    ERR_put_error(6u, 158, 156, ".\\crypto\\evp\\p_lib.c", 239);
+    ERR_put_error(0, 6u, 158, 156, ".\\crypto\\evp\\p_lib.c", 239);
     return 0;
   }
   if ( pkey )
@@ -54,7 +54,7 @@ int __usercall pkey_set_type@<eax>(evp_pkey_st *pkey@<esi>, const char *str@<ecx
     pkey->ameth = v8;
     pkey->engine = v10;
     pkey->type = v8->pkey_id;
-    pkey->save_type = type;
+    pkey->save_type = (int)type;
   }
   return 1;
 }

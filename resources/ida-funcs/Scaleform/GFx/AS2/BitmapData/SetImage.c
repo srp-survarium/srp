@@ -17,8 +17,14 @@ void __thiscall Scaleform::GFx::AS2::BitmapData::SetImage(
   Scaleform::GFx::AS2::Value *v15; // esi
   int i; // edi
   Scaleform::GFx::AS2::Value v; // [esp+14h] [ebp-60h] BYREF
-  Scaleform::Render::Rect<unsigned long> dims; // [esp+24h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value params[4]; // [esp+34h] [ebp-40h] BYREF
+  int v18; // [esp+24h] [ebp-50h] BYREF
+  int v19; // [esp+28h] [ebp-4Ch]
+  int v20; // [esp+2Ch] [ebp-48h]
+  int v21; // [esp+30h] [ebp-44h]
+  Scaleform::GFx::AS2::Value v22; // [esp+34h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v23; // [esp+44h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v24; // [esp+54h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v25; // [esp+64h] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+74h] [ebp+0h] BYREF
 
   v4 = pimg;
@@ -35,31 +41,31 @@ void __thiscall Scaleform::GFx::AS2::BitmapData::SetImage(
   if ( v8 )
     Scaleform::GFx::Resource::Release(v8);
   this->pMovieDef.pObject = v7;
-  v4->pImage->GetRect(v4->pImage, &dims);
-  params[0].T.Type = 0;
-  params[1].T.Type = 0;
-  params[2].T.Type = 0;
-  params[3].T.Type = 0;
+  v4->pImage->GetRect(v4->pImage, (Scaleform::Render::Rect<unsigned long> *)&v18);
+  v22.T.Type = 0;
+  v23.T.Type = 0;
+  v24.T.Type = 0;
+  v25.T.Type = 0;
   v.T.Type = 4;
   v.NV.Int32Value = 0;
-  Scaleform::GFx::AS2::Value::operator=(params, &v);
+  Scaleform::GFx::AS2::Value::operator=(&v22, &v);
   if ( v.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v);
   v.T.Type = 4;
   v.NV.Int32Value = 0;
-  Scaleform::GFx::AS2::Value::operator=(&params[1], &v);
+  Scaleform::GFx::AS2::Value::operator=(&v23, &v);
   if ( v.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v);
   v.T.Type = 3;
-  pimg = (Scaleform::GFx::ImageResource *)(dims.x2 - dims.x1);
-  v.NV.NumberValue = (double)(dims.x2 - dims.x1);
-  Scaleform::GFx::AS2::Value::operator=(&params[2], &v);
+  pimg = (Scaleform::GFx::ImageResource *)(v20 - v18);
+  v.NV.NumberValue = (double)(unsigned int)(v20 - v18);
+  Scaleform::GFx::AS2::Value::operator=(&v24, &v);
   if ( v.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v);
   v.T.Type = 3;
-  pimg = (Scaleform::GFx::ImageResource *)(dims.y2 - dims.y1);
-  v.NV.NumberValue = (double)(dims.y2 - dims.y1);
-  Scaleform::GFx::AS2::Value::operator=(&params[3], &v);
+  pimg = (Scaleform::GFx::ImageResource *)(v21 - v19);
+  v.NV.NumberValue = (double)(unsigned int)(v21 - v19);
+  Scaleform::GFx::AS2::Value::operator=(&v25, &v);
   if ( v.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v);
   v9 = (Scaleform::GFx::AS2::RectangleObject *)Scaleform::GFx::AS2::Environment::OperatorNew(
@@ -68,7 +74,7 @@ void __thiscall Scaleform::GFx::AS2::BitmapData::SetImage(
                                                  (const Scaleform::GFx::ASString *)&penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[11].RefCount,
                                                  0,
                                                  -1);
-  Scaleform::GFx::AS2::RectangleObject::SetProperties(v9, &penv->StringContext, params);
+  Scaleform::GFx::AS2::RectangleObject::SetProperties(v9, (Scaleform::GFx::ASStringNode *)&penv->StringContext, &v22);
   pContext = penv->StringContext.pContext;
   LOBYTE(pimg) = 4;
   pmovieDef = (Scaleform::GFx::MovieDef *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -94,7 +100,7 @@ void __thiscall Scaleform::GFx::AS2::BitmapData::SetImage(
   if ( v9 )
   {
     RefCount = v9->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v9->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

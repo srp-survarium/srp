@@ -1,72 +1,66 @@
-void __usercall vostok::collision::triangle_mesh_geometry::calculate_aabb(
-        vostok::collision::triangle_mesh_geometry *this@<edi>,
-        const vostok::math::float3 *const vertices@<eax>,
-        const unsigned int vertex_count@<ecx>)
+void __userpurge vostok::collision::triangle_mesh_geometry::calculate_aabb(
+        const vostok::math::float3 *const vertices@<ecx>,
+        const unsigned int vertex_count@<eax>,
+        vostok::collision::triangle_mesh_geometry *this,
+        const unsigned int *const indices,
+        const unsigned int index_count)
 {
-  __int64 v3; // xmm4_8
-  float z; // esi
-  const vostok::math::float3 *v5; // edx
-  const vostok::math::float3 *v6; // eax
-  float v7; // ecx
-  __int64 v8; // xmm0_8
-  float x; // xmm0_4
-  float y; // xmm3_4
-  float v11; // xmm2_4
-  _BYTE v12[12]; // [esp+8h] [ebp-30h]
-  vostok::math::float3 v13; // [esp+14h] [ebp-24h]
-  vostok::math::float3 min; // [esp+20h] [ebp-18h]
-  vostok::math::float3 max; // [esp+2Ch] [ebp-Ch]
+  const vostok::math::float3 *v5; // eax
+  const vostok::math::float3 *i; // esi
+  float x; // xmm2_4
+  float y; // xmm1_4
+  float z; // xmm0_4
+  _DWORD *p_y; // esi
+  _BYTE v11[12]; // [esp+0h] [ebp-30h]
+  vostok::math::float3 v12; // [esp+Ch] [ebp-24h]
+  float v13; // [esp+18h] [ebp-18h] BYREF
+  float v14; // [esp+1Ch] [ebp-14h]
+  float v15; // [esp+20h] [ebp-10h]
+  vostok::math::float3 v16; // [esp+24h] [ebp-Ch]
 
   if ( vertex_count )
   {
-    v3 = *(_QWORD *)&vertices->x;
-    z = vertices->z;
+    v12 = *vertices;
     v5 = &vertices[vertex_count];
-    v6 = vertices + 1;
-    v7 = z;
-    v8 = v3;
-    *(_QWORD *)&min.x = v3;
-    min.z = z;
-    *(_QWORD *)&max.x = v3;
-    for ( max.z = z; v6 != v5; max = v13 )
+    for ( i = vertices; ; i = (const vostok::math::float3 *)&v13 )
     {
-      x = v6->x;
-      if ( v6->x <= min.x )
-        *(float *)v12 = v6->x;
+      *(float *)v11 = i->x;
+      p_y = (_DWORD *)&i->y;
+      *(_DWORD *)&v11[4] = *p_y;
+      ++vertices;
+      *(_DWORD *)&v11[8] = p_y[1];
+      if ( vertices == v5 )
+        break;
+      x = vertices->x;
+      if ( vertices->x <= v12.x )
+        v16.x = vertices->x;
       else
-        *(float *)v12 = min.x;
-      y = v6->y;
-      if ( y <= min.y )
-        *(float *)&v12[4] = v6->y;
+        v16.x = v12.x;
+      y = vertices->y;
+      if ( y <= v12.y )
+        v16.y = vertices->y;
       else
-        *(float *)&v12[4] = min.y;
-      v11 = v6->z;
-      if ( v11 <= min.z )
-        *(float *)&v12[8] = v6->z;
+        v16.y = v12.y;
+      z = vertices->z;
+      if ( z <= v12.z )
+        v16.z = vertices->z;
       else
-        *(float *)&v12[8] = min.z;
-      z = *(float *)&v12[8];
-      v3 = *(_QWORD *)v12;
-      min = *(vostok::math::float3 *)v12;
-      if ( max.x <= x )
-        v13.x = x;
+        v16.z = v12.z;
+      v12 = v16;
+      if ( *(float *)v11 <= x )
+        v13 = x;
       else
-        v13.x = max.x;
-      if ( max.y <= y )
-        v13.y = y;
+        v13 = *(float *)v11;
+      if ( *(float *)&v11[4] <= y )
+        v14 = y;
       else
-        v13.y = max.y;
-      if ( max.z <= v11 )
-        v13.z = v11;
+        v14 = *(float *)&v11[4];
+      if ( *(float *)&v11[8] <= z )
+        v15 = z;
       else
-        v13.z = max.z;
-      v7 = v13.z;
-      v8 = *(_QWORD *)&v13.x;
-      ++v6;
+        v15 = *(float *)&v11[8];
     }
-    *(_QWORD *)&this->m_bounding_aabb.min.x = v3;
-    *(_QWORD *)&this->m_bounding_aabb.max.x = v8;
-    this->m_bounding_aabb.min.z = z;
-    this->m_bounding_aabb.max.z = v7;
+    this->m_bounding_aabb.min = v12;
+    this->m_bounding_aabb.max = *(vostok::math::float3 *)v11;
   }
 }

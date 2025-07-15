@@ -11,22 +11,22 @@ int __cdecl X509_policy_check(
   stack_st_X509_POLICY_NODE *v8; // ebp
   stack_st_X509_POLICY_NODE *v9; // eax
   bool v10; // cc
-  X509_POLICY_TREE_st *ptreea; // [esp+10h] [ebp-8h] BYREF
+  X509_POLICY_TREE_st *tree; // [esp+10h] [ebp-8h] BYREF
   stack_st_X509_POLICY_NODE *pnodes; // [esp+14h] [ebp-4h] BYREF
 
   *ptree = 0;
-  ptreea = 0;
+  tree = 0;
   pnodes = 0;
   *pexplicit_policy = 0;
-  switch ( tree_init(&ptreea, certs) )
+  switch ( tree_init(&tree, certs) )
   {
     case -1:
       return -1;
     case 0:
       return 0;
     case 1:
-      v5 = ptreea;
-      if ( ptreea )
+      v5 = tree;
+      if ( tree )
         goto LABEL_6;
       return 1;
     case 2:
@@ -39,8 +39,8 @@ int __cdecl X509_policy_check(
       return -2;
     default:
 LABEL_5:
-      v5 = ptreea;
-      if ( !ptreea )
+      v5 = tree;
+      if ( !tree )
         goto error_0;
 LABEL_6:
       v6 = tree_evaluate(v5);
@@ -62,7 +62,7 @@ LABEL_6:
             *ptree = v5;
           if ( !*pexplicit_policy )
             return 1;
-          v9 = X509_policy_tree_get0_user_policies(v5);
+          v9 = X509_policy_tree_get0_user_policies((stack_st_X509_POLICY_NODE *)v5);
           v10 = sk_num(&v9->stack) <= 0;
           result = -2;
           if ( !v10 )

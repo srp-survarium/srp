@@ -1,43 +1,32 @@
-void __thiscall vostok::network_core::http_client::http_client(
-        vostok::network_core::http_client *this,
+void __userpurge vostok::network_core::http_client::http_client(
+        vostok::network_core::http_client *this@<ecx>,
+        int a2@<edi>,
         boost::asio::io_service *io_service)
 {
-  survarium::game_options *v2; // eax
-  survarium::game_options *v3; // eax
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v4; // ecx
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v5; // ecx
-  stlp_std::allocator<char> *__a; // [esp+8h] [ebp-90h]
-  char v8; // [esp+95h] [ebp-3h] BYREF
-  char v9; // [esp+96h] [ebp-2h] BYREF
-  char v10; // [esp+97h] [ebp-1h] BYREF
+  boost::asio::basic_streambuf<stlp_std::allocator<char> > *v3; // ecx
+  boost::asio::basic_streambuf<stlp_std::allocator<char> > *v4; // ecx
+  const stlp_std::allocator<char> *v5; // [esp+0h] [ebp-8h]
+  const stlp_std::allocator<char> *v6; // [esp+0h] [ebp-8h]
 
-  boost::asio::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::tcp>>::basic_io_object<boost::asio::ip::resolver_service<boost::asio::ip::tcp>>(
-    &this->m_resolver,
-    io_service);
-  boost::asio::basic_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>::basic_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>(
-    &this->m_socket,
-    io_service);
-  v2 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v10);
+  boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp>>::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp>>(
+    io_service,
+    (boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp> > *)a2);
+  boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>(
+    io_service,
+    (boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > *)(a2 + 12));
   boost::asio::basic_streambuf<stlp_std::allocator<char>>::basic_streambuf<stlp_std::allocator<char>>(
-    &this->m_request_buff,
+    v3,
+    a2 + 80,
     0xFFFFFFFF,
-    (const stlp_std::allocator<char> *)v2);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&v10);
-  v3 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v9);
+    v5);
   boost::asio::basic_streambuf<stlp_std::allocator<char>>::basic_streambuf<stlp_std::allocator<char>>(
-    &this->m_response_buff,
+    v4,
+    a2 + 128,
     0xFFFFFFFF,
-    (const stlp_std::allocator<char> *)v3);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&v9);
-  __a = (stlp_std::allocator<char> *)survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v8);
-  this->m_result_content._M_finish = (char *)&this->m_result_content;
-  stlp_std::priv::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>(
-    &this->m_result_content._M_start_of_storage,
-    __a,
-    (char *)&this->m_result_content);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_allocate_block(&this->m_result_content, 0x10u);
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_terminate_string(&this->m_result_content);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&v8);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v4, &this->m_on_content_downloaded.vtable);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v5, &this->m_on_error.vtable);
+    v6);
+  *(_DWORD *)(a2 + 192) = a2 + 176;
+  *(_DWORD *)(a2 + 196) = a2 + 176;
+  **(_BYTE **)(a2 + 192) = 0;
+  *(_DWORD *)(a2 + 200) = 0;
+  *(_DWORD *)(a2 + 232) = 0;
 }

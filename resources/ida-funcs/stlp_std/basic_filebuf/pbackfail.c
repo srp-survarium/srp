@@ -52,11 +52,11 @@ LABEL_15:
 }
 
 
-unsigned __int16 __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::pbackfail(
+wchar_t __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::pbackfail(
         stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *this,
         wchar_t __c)
 {
-  unsigned __int16 result; // ax
+  wchar_t result; // ax
   wchar_t *M_gnext; // edx
   wchar_t *M_gbegin; // edi
   wchar_t *v5; // edx

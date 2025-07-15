@@ -11,7 +11,7 @@ int __cdecl ec_GF2m_simple_is_on_curve(const ec_group_st *group, const ec_point_
 
   v9 = -1;
   v8 = 0;
-  if ( EC_POINT_is_at_infinity(group, point) )
+  if ( EC_POINT_is_at_infinity((int)group, group, point) )
     return 1;
   field_mul = group->meth->field_mul;
   field_sqr = group->meth->field_sqr;
@@ -20,14 +20,14 @@ int __cdecl ec_GF2m_simple_is_on_curve(const ec_group_st *group, const ec_point_
   v4 = ctx;
   if ( !ctx )
   {
-    v8 = BN_CTX_new();
+    v8 = BN_CTX_new((int)group);
     v4 = v8;
     if ( !v8 )
       return -1;
   }
-  BN_CTX_start(v4);
-  b = BN_CTX_get(v4);
-  v5 = BN_CTX_get(v4);
+  BN_CTX_start((int)group, v4);
+  b = BN_CTX_get((int)group, v4);
+  v5 = BN_CTX_get((int)group, v4);
   if ( v5 )
   {
     p_X = &point->X;

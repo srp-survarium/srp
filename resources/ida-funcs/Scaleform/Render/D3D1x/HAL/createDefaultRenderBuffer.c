@@ -3,114 +3,105 @@ bool __thiscall Scaleform::Render::D3D1x::HAL::createDefaultRenderBuffer(Scalefo
   Scaleform::Render::RenderTarget *v2; // eax
   unsigned int v3; // edx
   ID3D11DeviceContext *pDeviceContext; // eax
-  void *(__thiscall *AllocAutoHeap)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // eax
-  Scaleform::Render::RenderTarget *v6; // eax
-  Scaleform::Render::RenderTarget *v7; // eax
-  Scaleform::Render::RenderTarget *v8; // ebx
-  Scaleform::Render::DepthStencilBuffer *v9; // edi
-  void *(__thiscall *v10)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // eax
-  Scaleform::Render::DepthStencilBuffer *v11; // eax
-  Scaleform::Render::DepthStencilBuffer *v12; // eax
-  Scaleform::Ptr<ID3D11RenderTargetView> prtView; // [esp+5Ch] [ebp-7Ch] BYREF
-  Scaleform::Ptr<ID3D11DepthStencilView> pdsView; // [esp+60h] [ebp-78h] BYREF
-  Scaleform::Ptr<ID3D11Texture2D> pdepthStencilTarget; // [esp+64h] [ebp-74h] BYREF
-  Scaleform::Ptr<ID3D11Texture2D> prenderTarget; // [esp+68h] [ebp-70h] BYREF
-  int v18; // [esp+6Ch] [ebp-6Ch] BYREF
-  Scaleform::Render::Size<unsigned long> rtSize; // [esp+70h] [ebp-68h] BYREF
-  Scaleform::Render::Size<unsigned long> dsSize; // [esp+78h] [ebp-60h] BYREF
-  D3D11_TEXTURE2D_DESC rtDesc; // [esp+80h] [ebp-58h] BYREF
-  D3D11_TEXTURE2D_DESC dsDesc; // [esp+ACh] [ebp-2Ch] BYREF
+  Scaleform::Render::RenderTarget *v5; // eax
+  Scaleform::Render::RenderBuffer *v6; // eax
+  Scaleform::Render::DepthStencilBuffer *v7; // edi
+  Scaleform::Render::DepthStencilBuffer *v8; // eax
+  Scaleform::Render::DepthStencilBuffer *v9; // eax
+  Scaleform::Render::Size<unsigned long> v11; // [esp+Ch] [ebp-7Ch] BYREF
+  Scaleform::Render::Size<unsigned long> v12; // [esp+38h] [ebp-50h] BYREF
+  Scaleform::Render::Size<unsigned long> v13; // [esp+64h] [ebp-24h] BYREF
+  Scaleform::Render::Size<unsigned long> bufferSize; // [esp+6Ch] [ebp-1Ch] BYREF
+  int v15; // [esp+74h] [ebp-14h] BYREF
+  int v16; // [esp+78h] [ebp-10h] BYREF
+  ID3D11View *v17; // [esp+7Ch] [ebp-Ch] BYREF
+  Scaleform::Render::RenderTarget *v18; // [esp+80h] [ebp-8h]
+  ID3D11View *v19; // [esp+84h] [ebp-4h] BYREF
 
   if ( this->GetDefaultRenderTarget(this) )
   {
     v2 = this->GetDefaultRenderTarget(this);
     v3 = v2->ViewRect.x2 - v2->ViewRect.x1;
-    rtSize.Height = v2->ViewRect.y2 - v2->ViewRect.y1;
-    rtSize.Width = v3;
+    bufferSize.Height = v2->ViewRect.y2 - v2->ViewRect.y1;
+    bufferSize.Width = v3;
     return this->pRenderBufferManager.pObject->Initialize(
              this->pRenderBufferManager.pObject,
              this->pTextureManager.pObject,
              Image_R8G8B8A8,
-             &rtSize);
+             &bufferSize);
   }
   pDeviceContext = this->pDeviceContext;
-  prtView.pObject = 0;
-  pdsView.pObject = 0;
-  prenderTarget.pObject = 0;
-  pdepthStencilTarget.pObject = 0;
-  pDeviceContext->OMGetRenderTargets(pDeviceContext, 1u, &prtView.pObject, &pdsView.pObject);
-  prtView.pObject->GetResource(prtView.pObject, (ID3D11Resource **)&prenderTarget);
-  prenderTarget.pObject->GetDesc(prenderTarget.pObject, &rtDesc);
-  rtSize.Height = rtDesc.Height;
-  rtSize.Width = rtDesc.Width;
-  AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-  v18 = 75;
-  v6 = (Scaleform::Render::RenderTarget *)AllocAutoHeap(
-                                            Scaleform::Memory::pGlobalHeap,
-                                            this,
-                                            44u,
-                                            (const Scaleform::AllocInfo *)&v18);
-  if ( v6 )
+  v19 = 0;
+  v17 = 0;
+  v15 = 0;
+  v16 = 0;
+  pDeviceContext->OMGetRenderTargets(
+    pDeviceContext,
+    1u,
+    (ID3D11RenderTargetView **)&v19,
+    (ID3D11DepthStencilView **)&v17);
+  v19->GetResource(v19, (ID3D11Resource **)&v15);
+  (*(void (__stdcall **)(int, Scaleform::Render::Size<unsigned long> *))(*(_DWORD *)v15 + 40))(v15, &v12);
+  bufferSize = v12;
+  v5 = (Scaleform::Render::RenderTarget *)Scaleform::NewOverrideBase<75>::operator new(
+                                            0x2Cu,
+                                            (Scaleform::MemAddressStub *)this);
+  if ( v5 )
   {
-    Scaleform::Render::RenderTarget::RenderTarget(v6, 0, RBuffer_Default, &rtSize);
-    v8 = v7;
+    Scaleform::Render::RenderTarget::RenderTarget(v5, 0, RBuffer_Default, &bufferSize);
+    v18 = (Scaleform::Render::RenderTarget *)v6;
   }
   else
   {
-    v8 = 0;
+    v18 = 0;
   }
-  v9 = 0;
-  if ( pdsView.pObject )
+  v7 = 0;
+  if ( v17 )
   {
-    prtView.pObject->GetResource(prtView.pObject, (ID3D11Resource **)&pdepthStencilTarget);
-    pdepthStencilTarget.pObject->GetDesc(pdepthStencilTarget.pObject, &dsDesc);
-    dsSize.Height = dsDesc.Height;
-    dsSize.Width = dsDesc.Width;
-    v10 = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-    v18 = 75;
-    v11 = (Scaleform::Render::DepthStencilBuffer *)v10(
-                                                     Scaleform::Memory::pGlobalHeap,
-                                                     this,
-                                                     28u,
-                                                     (const Scaleform::AllocInfo *)&v18);
-    if ( v11 )
-      Scaleform::Render::DepthStencilBuffer::DepthStencilBuffer(v11, 0, &dsSize);
-    else
-      v12 = 0;
-    v9 = v12;
-  }
-  Scaleform::Render::D3D1x::RenderTargetData::UpdateData(v9, v8, prtView.pObject, pdsView.pObject);
-  if ( this->SetRenderTarget(this, v8, 1) )
-  {
-    if ( v9 )
-      v9->Release(v9);
+    v19->GetResource(v19, (ID3D11Resource **)&v16);
+    (*(void (__stdcall **)(int, Scaleform::Render::Size<unsigned long> *))(*(_DWORD *)v16 + 40))(v16, &v11);
+    v13 = v11;
+    v8 = (Scaleform::Render::DepthStencilBuffer *)Scaleform::NewOverrideBase<75>::operator new(
+                                                    0x1Cu,
+                                                    (Scaleform::MemAddressStub *)this);
     if ( v8 )
-      v8->Release(v8);
-    if ( pdepthStencilTarget.pObject )
-      pdepthStencilTarget.pObject->Release(pdepthStencilTarget.pObject);
-    if ( prenderTarget.pObject )
-      prenderTarget.pObject->Release(prenderTarget.pObject);
-    if ( pdsView.pObject )
-      pdsView.pObject->Release(pdsView.pObject);
-    if ( prtView.pObject )
-      prtView.pObject->Release(prtView.pObject);
+      Scaleform::Render::DepthStencilBuffer::DepthStencilBuffer(v8, 0, &v13);
+    else
+      v9 = 0;
+    v7 = v9;
+  }
+  Scaleform::Render::D3D1x::RenderTargetData::UpdateData(v17, v18, v19, v7);
+  if ( this->SetRenderTarget(this, v18, 1) )
+  {
+    if ( v7 )
+      v7->Release(v7);
+    if ( v18 )
+      v18->Release(v18);
+    if ( v16 )
+      (*(void (__stdcall **)(int))(*(_DWORD *)v16 + 8))(v16);
+    if ( v15 )
+      (*(void (__stdcall **)(int))(*(_DWORD *)v15 + 8))(v15);
+    if ( v17 )
+      v17->Release(v17);
+    if ( v19 )
+      v19->Release(v19);
     return this->pRenderBufferManager.pObject->Initialize(
              this->pRenderBufferManager.pObject,
              this->pTextureManager.pObject,
              Image_R8G8B8A8,
-             &rtSize);
+             &bufferSize);
   }
-  if ( v9 )
-    v9->Release(v9);
-  if ( v8 )
-    v8->Release(v8);
-  if ( pdepthStencilTarget.pObject )
-    pdepthStencilTarget.pObject->Release(pdepthStencilTarget.pObject);
-  if ( prenderTarget.pObject )
-    prenderTarget.pObject->Release(prenderTarget.pObject);
-  if ( pdsView.pObject )
-    pdsView.pObject->Release(pdsView.pObject);
-  if ( prtView.pObject )
-    prtView.pObject->Release(prtView.pObject);
+  if ( v7 )
+    v7->Release(v7);
+  if ( v18 )
+    v18->Release(v18);
+  if ( v16 )
+    (*(void (__stdcall **)(int))(*(_DWORD *)v16 + 8))(v16);
+  if ( v15 )
+    (*(void (__stdcall **)(int))(*(_DWORD *)v15 + 8))(v15);
+  if ( v17 )
+    v17->Release(v17);
+  if ( v19 )
+    v19->Release(v19);
   return 0;
 }

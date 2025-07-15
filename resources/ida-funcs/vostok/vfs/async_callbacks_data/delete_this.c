@@ -1,9 +1,17 @@
-void __thiscall vostok::vfs::async_callbacks_data::delete_this(vostok::vfs::async_callbacks_data *this)
+void __usercall vostok::vfs::async_callbacks_data::delete_this(
+        vostok::vfs::async_callbacks_data *this@<ecx>,
+        int a2@<edi>)
 {
-  vostok::memory::base_allocator *v1; // eax
+  int v2; // ebx
 
-  vostok::vfs::async_callbacks_data::~async_callbacks_data(this);
-  survarium::weapon_user_dead_state::finalize(0);
-  if ( this )
-    vostok::memory::base_allocator::free_impl(v1, this);
+  v2 = *(_DWORD *)(a2 + 88);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+    (int *)(a2 + 40));
+  (*(void (__thiscall **)(int, int, const char *, const char *, int))(*(_DWORD *)v2 + 24))(
+    v2,
+    a2,
+    "vostok::vfs::async_callbacks_data::delete_this",
+    ".\\find_async_callbacks.cpp",
+    184);
 }

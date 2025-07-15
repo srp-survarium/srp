@@ -1,20 +1,19 @@
-int __cdecl nc_dns(asn1_string_st *dns)
+int __usercall nc_dns@<eax>(int *a1@<ecx>, int a2@<ebx>, int a3@<edi>, asn1_string_st *dns)
 {
-  asn1_string_st *base; // ecx
   unsigned __int8 *data; // edx
-  const char *v3; // esi
-  int length; // ecx
+  char *v5; // esi
+  int v7; // ecx
 
   data = dns->data;
-  v3 = (const char *)base->data;
-  if ( !*v3 )
+  v5 = (char *)a1[2];
+  if ( !*v5 )
     return 0;
-  length = base->length;
-  if ( dns->length <= length )
-    return _stricmp(v3, (const char *)data) != 0 ? 0x2F : 0;
-  data += dns->length - length;
+  v7 = *a1;
+  if ( dns->length <= v7 )
+    return _stricmp(a2, a3, v5, (char *)data) != 0 ? 0x2F : 0;
+  data += dns->length - v7;
   if ( *(data - 1) == 46 )
-    return _stricmp(v3, (const char *)data) != 0 ? 0x2F : 0;
+    return _stricmp(a2, a3, v5, (char *)data) != 0 ? 0x2F : 0;
   else
     return 47;
 }

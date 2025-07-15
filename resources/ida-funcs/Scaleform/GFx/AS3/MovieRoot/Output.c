@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::Output(
     switch ( type )
     {
       case Output_Error:
-        v3.Id = (int)&loc_34000;
+        v3.Id = 212992;
         break;
       case Output_Warning:
         v3.Id = 147456;
@@ -31,11 +31,15 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::Output(
     v5 = v4;
     if ( v4 >= 0x7D0 )
       v5 = 1999;
-    strncpy_s(buffStr, 0x7D0u, msg, v5);
+    strncpy_s(v5, buffStr, 2000, msg, v5);
     buffStr[v5] = 0;
     if ( v4 >= 0x7D0 )
       Scaleform::GFx::LogState::LogMessageByType((Scaleform::GFx::LogState *)log, v3, "%s ...<truncated>", buffStr);
     else
-      Scaleform::GFx::LogState::LogMessageByType((Scaleform::GFx::LogState *)log, v3, "%s", buffStr);
+      Scaleform::GFx::LogState::LogMessageByType(
+        (Scaleform::GFx::LogState *)log,
+        v3,
+        (const char *)&stru_7F9BE8.allocator,
+        buffStr);
   }
 }

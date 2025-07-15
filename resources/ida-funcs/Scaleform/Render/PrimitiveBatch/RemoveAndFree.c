@@ -1,7 +1,7 @@
 void __thiscall Scaleform::Render::PrimitiveBatch::RemoveAndFree(Scaleform::Render::PrimitiveBatch *this)
 {
   this->pPrev->pNext = this->pNext;
-  this->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$C512BB809886916B7F681A9EBDF58E11::pPrev = this->pPrev;
+  this->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$B6E31D4B7F8069B2127C6EE45BDFC5DE::pPrev = this->pPrev;
   if ( this->MeshNode.pMeshItem )
   {
     this->MeshNode.pPrev->pNext = this->MeshNode.pNext;

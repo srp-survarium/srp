@@ -17,7 +17,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
   int v16; // eax
   unsigned __int8 v17; // al
   Scaleform::GFx::XML::ObjectManager *v18; // ecx
-  Scaleform::GFx::AS2::Environment_vtbl *v19; // ebx
+  char *v19; // ebx
   int v20; // eax
   Scaleform::GFx::XML::ObjectManager *v21; // ecx
   int v22; // ebp
@@ -34,10 +34,10 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
   Scaleform::GFx::AS2::Object *v33; // esi
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v34; // ecx
   unsigned int RefCount; // eax
-  Scaleform::GFx::XML::DOMString result; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::XML::DOMString v36; // [esp+10h] [ebp-10h] BYREF
   Scaleform::GFx::XML::DOMString v37; // [esp+14h] [ebp-Ch] BYREF
   Scaleform::GFx::XML::DOMString v38; // [esp+18h] [ebp-8h] BYREF
-  Scaleform::GFx::XML::ElementNode *elemNode; // [esp+1Ch] [ebp-4h]
+  Scaleform::GFx::XML::DOMString *v39; // [esp+1Ch] [ebp-4h]
 
   v5 = penv;
   Log = Scaleform::GFx::AS2::Environment::GetLog(penv);
@@ -74,7 +74,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
           String = Scaleform::GFx::XML::ObjectManager::CreateString(
                      *(Scaleform::GFx::XML::ObjectManager **)(*(_DWORD *)&this->ResolveHandler.Flags + 8),
                      (Scaleform::GFx::XML::DOMString *)&flags,
-                     *(const char **)&val->T.Type,
+                     *(char **)&val->T.Type,
                      val[1].NV.UInt32Value);
           Scaleform::GFx::XML::DOMString::AssignNode(
             (Scaleform::GFx::XML::DOMString *)(*(_DWORD *)&this->ResolveHandler.Flags + 12),
@@ -99,22 +99,22 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
       if ( v17 == 1 )
       {
         v18 = *(Scaleform::GFx::XML::ObjectManager **)(*(_DWORD *)&this->ResolveHandler.Flags + 8);
-        elemNode = *(Scaleform::GFx::XML::ElementNode **)&this->ResolveHandler.Flags;
+        v39 = *(Scaleform::GFx::XML::DOMString **)&this->ResolveHandler.Flags;
         Scaleform::GFx::XML::ObjectManager::EmptyString(v18, (Scaleform::GFx::XML::DOMString *)&name);
         Scaleform::GFx::AS2::Value::ToStringImpl(val, (Scaleform::GFx::ASString *)&penv, v5, -1, 0);
-        v19 = penv->__vftable;
+        v19 = (char *)penv->__vftable;
         strchr((char *)penv->__vftable, 0x3Au);
         v21 = *(Scaleform::GFx::XML::ObjectManager **)(*(_DWORD *)&this->ResolveHandler.Flags + 8);
         v22 = v20;
         if ( v20 )
         {
-          v23 = Scaleform::GFx::XML::ObjectManager::CreateString(v21, &result, (const char *)v19, v20 - (_DWORD)v19);
+          v23 = Scaleform::GFx::XML::ObjectManager::CreateString(v21, &v36, v19, v20 - (_DWORD)v19);
           Scaleform::GFx::XML::DOMString::AssignNode((Scaleform::GFx::XML::DOMString *)&name, v23->pNode);
-          Scaleform::GFx::XML::DOMString::~DOMString(&result);
+          Scaleform::GFx::XML::DOMString::~DOMString(&v36);
           v24 = Scaleform::GFx::XML::ObjectManager::CreateString(
                   *(Scaleform::GFx::XML::ObjectManager **)(*(_DWORD *)&this->ResolveHandler.Flags + 8),
                   &v37,
-                  (const char *)(v22 + 1),
+                  (char *)(v22 + 1),
                   strlen((const char *)(v22 + 1)));
           Scaleform::GFx::XML::DOMString::AssignNode(
             (Scaleform::GFx::XML::DOMString *)(*(_DWORD *)&this->ResolveHandler.Flags + 12),
@@ -126,7 +126,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
           v26 = Scaleform::GFx::XML::ObjectManager::CreateString(
                   v21,
                   &v38,
-                  (const char *)penv->__vftable,
+                  (char *)penv->__vftable,
                   (unsigned int)penv->Stack.Pages.Data.Data);
           Scaleform::GFx::XML::DOMString::AssignNode(
             (Scaleform::GFx::XML::DOMString *)(*(_DWORD *)&this->ResolveHandler.Flags + 12),
@@ -134,8 +134,8 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
           v25 = &v38;
         }
         Scaleform::GFx::XML::DOMString::~DOMString(v25);
-        v27 = (Scaleform::GFx::ASStringNode *)elemNode;
-        Scaleform::GFx::XML::DOMString::AssignNode(&elemNode->Prefix, (Scaleform::GFx::XML::DOMStringNode *)name);
+        v27 = (Scaleform::GFx::ASStringNode *)v39;
+        Scaleform::GFx::XML::DOMString::AssignNode(v39 + 9, (Scaleform::GFx::XML::DOMStringNode *)name);
         Scaleform::GFx::AS2::ResolveNamespace(
           v5,
           v27,
@@ -202,7 +202,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::SetMember(
   if ( v34 )
   {
     RefCount = v34->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v34->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v34);

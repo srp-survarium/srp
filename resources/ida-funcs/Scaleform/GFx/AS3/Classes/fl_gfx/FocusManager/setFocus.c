@@ -2,12 +2,12 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::setFocus(
         Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager *this,
         const Scaleform::GFx::AS3::Value *result,
         Scaleform::RefCountNTSImpl *obj,
-        unsigned int controllerIdx)
+        Scaleform::GFx::Sprite *controllerIdx)
 {
   Scaleform::GFx::AS3::VM *pVM; // ebx
   Scaleform::GFx::Sprite *v5; // edi
   Scaleform::GFx::DisplayObject *v6; // eax
-  unsigned int v7; // ebp
+  Scaleform::Ptr<Scaleform::GFx::Sprite> v7; // ebp
   Scaleform::RefCountNTSImpl *v8; // esi
 
   pVM = this->pTraits.pObject->pVM;
@@ -19,12 +19,12 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::setFocus(
       ++v6->RefCount;
     v5 = (Scaleform::GFx::Sprite *)v6;
   }
-  v7 = controllerIdx;
+  v7.pObject = controllerIdx;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM
-  + 16 * *((unsigned __int8 *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + controllerIdx + 16212)
+  + 16 * *((unsigned __int8 *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + (unsigned int)controllerIdx + 16212)
   + 3801,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&obj);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&obj);
   v8 = obj;
   if ( obj )
   {

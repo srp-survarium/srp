@@ -1,43 +1,48 @@
 void __userpurge vostok::console_commands::save_storage::save_to(
-        vostok::memory::writer *f@<esi>,
-        vostok::console_commands::save_storage *this)
+        vostok::console_commands::save_storage *this@<ecx>,
+        survarium::anomaly_state ***a2@<eax>,
+        vostok::memory::writer *f)
 {
-  const void **M_start; // ebx
-  const void **M_finish; // edi
-  int v4; // eax
-  int i; // ecx
-  const void **v6; // edi
-  const void **v7; // ebp
+  survarium::anomaly_state **v5; // ecx
+  survarium::anomaly_state **v6; // esi
+  int v7; // eax
+  int v8; // edx
+  const void **v9; // esi
+  char **__first; // [esp+14h] [ebp+8h]
+  survarium::anomaly_state **__firsta; // [esp+14h] [ebp+8h]
 
-  M_start = this->m_lines._M_impl._M_start;
-  M_finish = this->m_lines._M_impl._M_finish;
-  if ( this->m_lines._M_impl._M_start != M_finish )
+  v5 = *a2;
+  v6 = a2[1];
+  __first = (char **)*a2;
+  if ( *a2 != v6 )
   {
-    v4 = M_finish - M_start;
-    for ( i = 0; v4 != 1; ++i )
-      v4 >>= 1;
+    v7 = v6 - v5;
+    v8 = 0;
+    while ( v7 != 1 )
+    {
+      ++v8;
+      v7 >>= 1;
+    }
     stlp_std::priv::__introsort_loop<char const * *,char const *,int,bool (__cdecl *)(char const *,char const *)>(
-      (bool (__cdecl *)(const char *, const char *))M_finish,
-      (const char **)M_start,
-      (const char **)M_finish,
+      v5,
+      v6,
       0,
-      2 * i,
-      vostok::strings::less);
+      2 * v8,
+      (survarium::anomaly_state **)vostok::strings::less);
     stlp_std::priv::__final_insertion_sort<char const * *,bool (__cdecl *)(char const *,char const *)>(
-      (const char **)M_start,
-      (bool (__cdecl *)(const char *, const char *))M_start,
-      (const char **)M_finish);
+      (const char **)__first,
+      (const char **)v6);
   }
-  v6 = this->m_lines._M_impl._M_start;
-  v7 = this->m_lines._M_impl._M_finish;
-  if ( this->m_lines._M_impl._M_start != v7 )
+  v9 = (const void **)*a2;
+  __firsta = a2[1];
+  if ( *a2 != __firsta )
   {
     do
     {
-      f->write(f, *v6, strlen((const char *)*v6));
+      f->write(f, *v9, strlen((const char *)*v9));
       f->write(f, "\r\n", 2u);
-      ++v6;
+      ++v9;
     }
-    while ( v6 != v7 );
+    while ( v9 != (const void **)__firsta );
   }
 }

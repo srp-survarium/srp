@@ -1,18 +1,18 @@
-void __usercall vostok::resources::resource_freeing_functionality::collect_to_free(
-        vostok::resources::resource_freeing_functionality *this@<edi>,
-        vostok::resources::resource_base *resource@<esi>)
+void __fastcall vostok::resources::resource_freeing_functionality::collect_to_free(
+        vostok::resources::resource_freeing_functionality *this,
+        int a2)
 {
-  vostok::resources::resources_to_free_collection *m_collection; // eax
+  _DWORD *v2; // eax
 
-  m_collection = this->m_collection;
-  resource->m_next_for_grm_observer_list = 0;
-  ++m_collection->resources.m_size;
-  if ( m_collection->resources.m_first )
-    m_collection->resources.m_last->m_next_for_grm_observer_list = resource;
+  v2 = *(_DWORD **)a2;
+  this[23].m_collection = 0;
+  ++*v2;
+  if ( v2[2] )
+    *(_DWORD *)(v2[3] + 184) = this;
   else
-    m_collection->resources.m_first = resource;
-  m_collection->resources.m_last = resource;
-  vostok::threading::interlocked_or(&resource->m_flags.m_flags, 0x20u);
-  if ( this->m_collection->collected_memory.type == resource->m_memory_usage_self.vostok::resources::resource_quality::type )
-    this->m_collection->collected_memory.size += resource->m_memory_usage_self.size;
+    v2[2] = this;
+  v2[3] = this;
+  _InterlockedOr((volatile signed __int32 *)&this[1], 0x20u);
+  if ( *(vostok::resources::resources_to_free_collection **)(*(_DWORD *)a2 + 16) == this[11].m_collection )
+    *(_DWORD *)(*(_DWORD *)a2 + 20) += this[11].m_data;
 }

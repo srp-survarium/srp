@@ -1,20 +1,20 @@
-void __stdcall btSoftBodyTriangleCallback::btSoftBodyTriangleCallback(
-        btSoftBodyTriangleCallback *this,
-        btSoftBody *body0)
+void __userpurge btSoftBodyTriangleCallback::btSoftBodyTriangleCallback(
+        btSoftBodyTriangleCallback *this@<esi>,
+        btDispatcher *dispatcher@<eax>,
+        btSoftBody *body0,
+        btSoftBody *body1,
+        bool isSwapped)
 {
-  btDispatcher *dispatcher; // eax
-  bool isSwapped; // dl
-  btSoftBody *body1; // esi
-  btSoftBody *v5; // ecx
-  btCollisionObject *v6; // eax
+  btSoftBody *v5; // eax
+  btSoftBody *v6; // eax
 
   this->m_dispatcher = dispatcher;
   this->__vftable = (btSoftBodyTriangleCallback_vtbl *)&btSoftBodyTriangleCallback::`vftable';
   this->m_dispatchInfoPtr = 0;
+  this->m_shapeCache.m_hashTable.m_ownsMemory = 1;
   this->m_shapeCache.m_hashTable.m_data = 0;
   this->m_shapeCache.m_hashTable.m_size = 0;
   this->m_shapeCache.m_hashTable.m_capacity = 0;
-  this->m_shapeCache.m_hashTable.m_ownsMemory = 1;
   this->m_shapeCache.m_next.m_ownsMemory = 1;
   this->m_shapeCache.m_next.m_data = 0;
   this->m_shapeCache.m_next.m_size = 0;
@@ -35,5 +35,5 @@ void __stdcall btSoftBodyTriangleCallback::btSoftBodyTriangleCallback(
   if ( !isSwapped )
     v6 = body1;
   this->m_triBody = v6;
-  btSoftBodyTriangleCallback::clearCache((btSoftBodyTriangleCallback *)v5, this);
+  btSoftBodyTriangleCallback::clearCache(0, this);
 }

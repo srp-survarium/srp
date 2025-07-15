@@ -1,4 +1,4 @@
-int __cdecl BN_pseudo_rand(bignum_st *rnd, int bits, int top, int bottom)
+int __usercall BN_pseudo_rand@<eax>(int a1@<ebx>, bignum_st *rnd, int bits, int top, int bottom)
 {
-  return bnrand(bits, 1, rnd, top, bottom);
+  return bnrand(bits, 1, a1, rnd, top, bottom);
 }

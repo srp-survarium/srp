@@ -8,5 +8,10 @@ void __thiscall Scaleform::GFx::SetBackgroundColorTag::Read(
   if ( !pAltStream )
     pAltStream = &p->ProcessInfo;
   Scaleform::GFx::Stream::ReadRgb(&pAltStream->Stream, &this->Color);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)this->Color.Channels.Green);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  SetBackgroundColor: (%d %d %d)\n",
+    this->Color.Channels.Red,
+    this->Color.Channels.Green,
+    this->Color.Channels.Blue);
 }

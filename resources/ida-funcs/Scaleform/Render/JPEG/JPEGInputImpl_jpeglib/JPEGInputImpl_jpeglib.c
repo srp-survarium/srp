@@ -68,17 +68,17 @@ void __thiscall Scaleform::Render::JPEG::JPEGInputImpl_jpeglib::JPEGInputImpl_jp
   Scaleform::Render::JPEG::JpegErrorHandler *p_JErr; // esi
   jpeg_source_mgr *v6; // eax
   jpeg_source_mgr *v7; // ebp
-  jpeg_source_mgr smgr; // [esp+Ch] [ebp-1Ch] BYREF
+  _DWORD v8[7]; // [esp+Ch] [ebp-1Ch] BYREF
 
   p_JErr = &this->JErr;
   this->__vftable = (Scaleform::Render::JPEG::JPEGInputImpl_jpeglib_vtbl *)&Scaleform::Render::JPEG::JPEGInputImpl_jpeglib::`vftable';
   Scaleform::Render::JPEG::JpegErrorHandler::JpegErrorHandler(&this->JErr);
   *((_BYTE *)this + 792) &= 0xF8u;
-  memset(&smgr.fill_input_buffer, 0, 12);
-  smgr.bytes_in_buffer = bufSize;
-  smgr.next_input_byte = pbuf;
-  smgr.init_source = (void (__cdecl *)(jpeg_decompress_struct *))Scaleform::Render::JPEG::JPEGRwSource::TermSource;
-  smgr.term_source = (void (__cdecl *)(jpeg_decompress_struct *))Scaleform::Render::JPEG::JPEGRwSource::TermSource;
+  memset(&v8[3], 0, 12);
+  v8[1] = bufSize;
+  v8[0] = pbuf;
+  v8[2] = Scaleform::Render::JPEG::JPEGRwSource::TermSource;
+  v8[6] = Scaleform::Render::JPEG::JPEGRwSource::TermSource;
   this->CInfo.err = Scaleform::Render::JPEG::SetupJpegErr(p_JErr);
   if ( Scaleform::Render::JPEG::JPEGInputImpl_jpeglib::JpegCreateDecompress(&this->CInfo, p_JErr) )
   {
@@ -89,7 +89,7 @@ void __thiscall Scaleform::Render::JPEG::JPEGInputImpl_jpeglib::JPEGInputImpl_jp
       v6[1].next_input_byte = 0;
       v6[1].next_input_byte = 0;
       LOBYTE(v6[1].bytes_in_buffer) = 1;
-      qmemcpy(v6, &smgr, sizeof(jpeg_source_mgr));
+      qmemcpy(v6, v8, sizeof(jpeg_source_mgr));
     }
     else
     {

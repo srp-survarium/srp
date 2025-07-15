@@ -1,60 +1,57 @@
 void __userpurge Scaleform::Render::D3D1x::SysVertexFormat::SysVertexFormat(
-        const Scaleform::Render::VertexFormat *vf@<eax>,
+        const Scaleform::Render::D3D1x::VertexShaderDesc *pvdesc@<eax>,
         Scaleform::Render::D3D1x::SysVertexFormat *this,
         ID3D11Device *pdevice,
-        const Scaleform::Render::D3D1x::VertexShaderDesc *pvdesc)
+        const Scaleform::Render::VertexFormat *vf)
 {
-  $B996288B4BA8DC1872D28A6FA0F1BFD9 *v4; // ecx
-  unsigned int i; // eax
-  int NumAttribs; // edx
+  int NumAttribs; // eax
   unsigned int *p_SemanticIndex; // ecx
-  int v8; // eax
-  D3D11_INPUT_ELEMENT_DESC *v9; // eax
-  unsigned int v10; // edi
-  unsigned int Count; // esi
+  int v8; // edi
+  int v9; // eax
+  unsigned __int8 *v10; // eax
+  unsigned int v11; // edi
+  bool v12; // zf
+  unsigned int v13; // edi
   ID3D11InputLayout *pObject; // eax
-  Scaleform::Render::D3D1x::D3D1xVertexDeclBuilder builder; // [esp+1Ch] [ebp-E4h] BYREF
+  unsigned __int8 src[224]; // [esp+Ch] [ebp-74h] BYREF
+  unsigned __int16 v16; // [esp+ECh] [ebp+6Ch]
+  int v17; // [esp+F8h] [ebp+78h]
 
   this->__vftable = (Scaleform::Render::D3D1x::SysVertexFormat_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
   this->__vftable = (Scaleform::Render::D3D1x::SysVertexFormat_vtbl *)&Scaleform::Render::D3D1x::SysVertexFormat::`vftable';
   this->pVDecl.pObject = 0;
-  v4 = &vf->pElements->4;
-  for ( i = v4->Attribute; i; v4 += 2 )
-  {
-    if ( (i & 0xF00) == 0x100 )
-      break;
-    i = v4[2].Attribute;
-  }
-  builder.Count = 0;
+  v16 = 0;
   NumAttribs = pvdesc->NumAttribs;
   if ( NumAttribs > 0 )
   {
     p_SemanticIndex = &pvdesc->Attributes[0].SemanticIndex;
+    v17 = NumAttribs;
     do
     {
-      v8 = builder.Count++;
-      v9 = &builder.Elements[v8];
-      v9->SemanticName = (const char *)*(p_SemanticIndex - 1);
-      v9->SemanticIndex = *p_SemanticIndex;
-      v10 = p_SemanticIndex[1];
+      v8 = *(p_SemanticIndex - 1);
+      v9 = 28 * v16++;
+      v10 = &src[v9];
+      *((_DWORD *)v10 + 4) = -1;
+      *(_DWORD *)v10 = v8;
+      *((_DWORD *)v10 + 1) = *p_SemanticIndex;
+      v11 = p_SemanticIndex[1];
       p_SemanticIndex += 5;
-      --NumAttribs;
-      v9->Format = v10;
-      v9->InputSlot = 0;
-      v9->AlignedByteOffset = -1;
-      v9->InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-      v9->InstanceDataStepRate = 0;
+      v12 = v17-- == 1;
+      *((_DWORD *)v10 + 2) = v11;
+      *((_DWORD *)v10 + 3) = 0;
+      *((_DWORD *)v10 + 5) = 0;
+      *((_DWORD *)v10 + 6) = 0;
     }
-    while ( NumAttribs );
+    while ( !v12 );
   }
-  Count = builder.Count;
-  memcpy((unsigned __int8 *)this->VertexElements, (unsigned __int8 *)&builder, 28 * builder.Count);
-  this->VertexElementCount = Count;
+  v13 = v16;
+  memcpy((unsigned __int8 *)this->VertexElements, src, 28 * v16);
+  this->VertexElementCount = v13;
   if ( pdevice->CreateInputLayout(
          pdevice,
-         (const D3D11_INPUT_ELEMENT_DESC *)&builder,
-         Count,
+         (const D3D11_INPUT_ELEMENT_DESC *)src,
+         v13,
          pvdesc->pBinary,
          pvdesc->BinarySize,
          (ID3D11InputLayout **)&this->pVDecl) < 0 )
@@ -64,5 +61,5 @@ void __userpurge Scaleform::Render::D3D1x::SysVertexFormat::SysVertexFormat(
       pObject->Release(this->pVDecl.pObject);
     this->pVDecl.pObject = 0;
   }
-  qmemcpy((void *)this->VertexElements, &builder, sizeof(this->VertexElements));
+  qmemcpy((void *)this->VertexElements, src, sizeof(this->VertexElements));
 }

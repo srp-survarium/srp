@@ -1,10 +1,10 @@
-void __cdecl strrchr(unsigned __int8 *string, unsigned __int8 chr)
+void __cdecl strrchr(const char *string, unsigned __int8 chr)
 {
   unsigned int v2; // ecx
-  unsigned __int8 *v3; // edi
+  const char *v3; // edi
   bool v4; // zf
 
-  v2 = strlen((const char *)string) + 1;
+  v2 = strlen(string) + 1;
   v3 = &string[v2 - 1];
   do
   {
@@ -14,10 +14,4 @@ void __cdecl strrchr(unsigned __int8 *string, unsigned __int8 chr)
     --v2;
   }
   while ( !v4 );
-}
-
-
-void __cdecl strrchr(char *_Str, unsigned __int8 _Ch)
-{
-  strrchr((unsigned __int8 *)_Str, _Ch);
 }

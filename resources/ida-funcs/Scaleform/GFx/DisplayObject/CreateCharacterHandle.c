@@ -5,10 +5,10 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
   Scaleform::GFx::MovieImpl *pMovieImpl; // esi
   Scaleform::GFx::CharacterHandle *v4; // edi
   int v5; // eax
-  Scaleform::GFx::ASStringNode *pNode; // esi
+  Scaleform::GFx::ASStringNode *v6; // esi
   int v7; // eax
   Scaleform::GFx::CharacterHandle *pObject; // ebp
-  Scaleform::GFx::ASStringNode *v9; // ecx
+  Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v10; // zf
   Scaleform::GFx::ASStringNode *v11; // ecx
   Scaleform::GFx::ASStringNode *v12; // ecx
@@ -21,7 +21,7 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
   Scaleform::GFx::ASStringNode *v20; // ecx
   unsigned int *p_RefCount; // eax
   char v22; // [esp+10h] [ebp-8h]
-  Scaleform::GFx::ASString name; // [esp+14h] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *v23; // [esp+14h] [ebp-4h] BYREF
 
   v1 = 0;
   v22 = 0;
@@ -36,20 +36,20 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
         v22 = 1;
         v5 = (int)pMovieImpl->pASMovieRoot.pObject->GetStringManager(pMovieImpl->pASMovieRoot.pObject);
         ++*(_DWORD *)(v5 + 44);
-        pNode = (Scaleform::GFx::ASStringNode *)(v5 + 32);
+        v6 = (Scaleform::GFx::ASStringNode *)(v5 + 32);
         v4->Name.pNode = (Scaleform::GFx::ASStringNode *)(v5 + 32);
         ++*(_DWORD *)(v5 + 44);
         v7 = *(_DWORD *)(v5 + 36) + 32;
         v4->NamePath.pNode = (Scaleform::GFx::ASStringNode *)v7;
         ++*(_DWORD *)(v7 + 12);
-        v4->OriginalName.pNode = pNode;
-        ++pNode->RefCount;
+        v4->OriginalName.pNode = v6;
+        ++v6->RefCount;
         v4->RefCount = 1;
         v4->pCharacter = 0;
       }
       else
       {
-        pNode = name.pNode;
+        v6 = v23;
         v4 = 0;
       }
       pObject = this->pNameHandle.pObject;
@@ -57,10 +57,10 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
       {
         if ( --pObject->RefCount <= 0 )
         {
-          v9 = pObject->OriginalName.pNode;
-          v10 = v9->RefCount-- == 1;
+          pNode = pObject->OriginalName.pNode;
+          v10 = pNode->RefCount-- == 1;
           if ( v10 )
-            Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+            Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
           v11 = pObject->NamePath.pNode;
           v10 = v11->RefCount-- == 1;
           if ( v10 )
@@ -75,21 +75,21 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
       this->pNameHandle.pObject = v4;
       if ( (v22 & 1) != 0 )
       {
-        v10 = pNode->RefCount-- == 1;
+        v10 = v6->RefCount-- == 1;
         if ( v10 )
         {
-          Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+          Scaleform::GFx::ASStringNode::ReleaseNode(v6);
           return this->pNameHandle.pObject;
         }
       }
     }
     else
     {
-      this->CreateNewInstanceName(this, &name);
+      this->CreateNewInstanceName(this, (Scaleform::GFx::ASString *)&v23);
       v14 = (Scaleform::GFx::CharacterHandle *)pMovieImpl->pHeap->Alloc(pMovieImpl->pHeap, 20u, 0);
       if ( v14 )
       {
-        Scaleform::GFx::CharacterHandle::CharacterHandle(v14, (Scaleform::String)&name, this->pParent, this);
+        Scaleform::GFx::CharacterHandle::CharacterHandle(v14, (Scaleform::String)&v23, this->pParent, this);
         v1 = v15;
       }
       v16 = this->pNameHandle.pObject;
@@ -112,8 +112,8 @@ Scaleform::GFx::CharacterHandle *__thiscall Scaleform::GFx::DisplayObject::Creat
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v16);
         }
       }
-      v20 = name.pNode;
-      p_RefCount = &name.pNode->RefCount;
+      v20 = v23;
+      p_RefCount = &v23->RefCount;
       this->pNameHandle.pObject = v1;
       if ( !--*p_RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v20);

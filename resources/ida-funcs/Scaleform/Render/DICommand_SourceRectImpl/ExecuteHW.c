@@ -51,84 +51,84 @@ void __thiscall Scaleform::Render::DICommand_SourceRectImpl<Scaleform::Render::D
   Scaleform::Render::Texture *(__thiscall *GetTexture)(Scaleform::Render::RenderTarget *); // eax
   int v49; // ebx
   int v50; // eax
-  Scaleform::Render::Point<long> *v51; // [esp+6810h] [ebp-170h]
-  unsigned int v53; // [esp+6824h] [ebp-15Ch]
-  unsigned int v54; // [esp+6824h] [ebp-15Ch]
-  float v55; // [esp+6824h] [ebp-15Ch]
-  float v56; // [esp+6824h] [ebp-15Ch]
-  float v57; // [esp+6824h] [ebp-15Ch]
-  int v58; // [esp+6824h] [ebp-15Ch]
-  float v59; // [esp+6828h] [ebp-158h] BYREF
-  float v60; // [esp+682Ch] [ebp-154h]
-  float v61; // [esp+6830h] [ebp-150h]
-  __int16 v62; // [esp+6836h] [ebp-14Ah]
-  float v63; // [esp+6838h] [ebp-148h]
-  float v64; // [esp+683Ch] [ebp-144h]
-  __int64 v65; // [esp+6840h] [ebp-140h] BYREF
-  float v66; // [esp+6848h] [ebp-138h]
-  float v67; // [esp+684Ch] [ebp-134h]
-  int v68; // [esp+6854h] [ebp-12Ch]
-  float v69; // [esp+6858h] [ebp-128h]
-  float v70; // [esp+685Ch] [ebp-124h]
-  float v71; // [esp+6860h] [ebp-120h]
-  float v72; // [esp+6864h] [ebp-11Ch]
-  int v73; // [esp+6868h] [ebp-118h]
-  int v74; // [esp+686Ch] [ebp-114h]
-  Scaleform::Render::Rect<long> srcRect; // [esp+6870h] [ebp-110h] BYREF
-  float v76; // [esp+6880h] [ebp-100h] BYREF
-  float v77; // [esp+6884h] [ebp-FCh]
-  float v78; // [esp+6888h] [ebp-F8h]
-  float v79; // [esp+688Ch] [ebp-F4h]
-  float v80; // [esp+6890h] [ebp-F0h]
-  float v81; // [esp+6894h] [ebp-ECh]
-  float v82; // [esp+6898h] [ebp-E8h]
-  float v83; // [esp+689Ch] [ebp-E4h]
-  int v84; // [esp+68A8h] [ebp-D8h] BYREF
-  int v85; // [esp+68ACh] [ebp-D4h]
-  float v86; // [esp+68B0h] [ebp-D0h] BYREF
-  float v87; // [esp+68B4h] [ebp-CCh]
-  float v88; // [esp+68B8h] [ebp-C8h]
-  float v89; // [esp+68BCh] [ebp-C4h]
-  float v90; // [esp+68C0h] [ebp-C0h]
-  float v91; // [esp+68C4h] [ebp-BCh]
-  float v92; // [esp+68C8h] [ebp-B8h]
-  float v93; // [esp+68CCh] [ebp-B4h]
-  float v94; // [esp+68D0h] [ebp-B0h] BYREF
-  float v95; // [esp+68D4h] [ebp-ACh]
-  float v96; // [esp+68D8h] [ebp-A8h]
-  float v97; // [esp+68DCh] [ebp-A4h]
-  float v98; // [esp+68E0h] [ebp-A0h]
-  float v99; // [esp+68E4h] [ebp-9Ch]
-  float v100; // [esp+68E8h] [ebp-98h]
-  float v101; // [esp+68ECh] [ebp-94h]
-  float v102; // [esp+68F0h] [ebp-90h]
-  float v103; // [esp+68F4h] [ebp-8Ch]
-  float v104; // [esp+68F8h] [ebp-88h]
-  float v105; // [esp+68FCh] [ebp-84h]
-  float v106; // [esp+6900h] [ebp-80h]
-  float v107; // [esp+6904h] [ebp-7Ch]
-  float v108; // [esp+6908h] [ebp-78h]
-  float v109; // [esp+690Ch] [ebp-74h]
-  float v110; // [esp+6910h] [ebp-70h]
-  float v111; // [esp+6914h] [ebp-6Ch]
-  float v112; // [esp+6918h] [ebp-68h]
-  float v113; // [esp+691Ch] [ebp-64h]
-  float v114; // [esp+6920h] [ebp-60h]
-  float v115; // [esp+6924h] [ebp-5Ch]
-  float v116; // [esp+6928h] [ebp-58h]
-  float v117; // [esp+692Ch] [ebp-54h]
-  float v118; // [esp+693Ch] [ebp-44h] BYREF
-  int v119; // [esp+6940h] [ebp-40h]
-  float v120; // [esp+6944h] [ebp-3Ch]
-  _DWORD v121[3]; // [esp+6948h] [ebp-38h] BYREF
-  float v122; // [esp+6954h] [ebp-2Ch] BYREF
-  float v123; // [esp+6958h] [ebp-28h]
-  float v124; // [esp+695Ch] [ebp-24h]
-  float v125; // [esp+6960h] [ebp-20h]
-  float v126; // [esp+6964h] [ebp-1Ch]
-  float v127; // [esp+6968h] [ebp-18h]
-  _DWORD v128[3]; // [esp+696Ch] [ebp-14h]
-  int v129; // [esp+6978h] [ebp-8h] BYREF
+  Scaleform::Render::Point<long> *v51; // [esp+14h] [ebp-170h]
+  unsigned int v53; // [esp+28h] [ebp-15Ch]
+  unsigned int v54; // [esp+28h] [ebp-15Ch]
+  float v55; // [esp+28h] [ebp-15Ch]
+  float v56; // [esp+28h] [ebp-15Ch]
+  float v57; // [esp+28h] [ebp-15Ch]
+  int v58; // [esp+28h] [ebp-15Ch]
+  float v59; // [esp+2Ch] [ebp-158h] BYREF
+  float v60; // [esp+30h] [ebp-154h]
+  float v61; // [esp+34h] [ebp-150h]
+  __int16 v62; // [esp+3Ah] [ebp-14Ah]
+  float v63; // [esp+3Ch] [ebp-148h]
+  float v64; // [esp+40h] [ebp-144h]
+  __int64 v65; // [esp+44h] [ebp-140h] BYREF
+  float v66; // [esp+4Ch] [ebp-138h]
+  float v67; // [esp+50h] [ebp-134h]
+  int v68; // [esp+58h] [ebp-12Ch]
+  float v69; // [esp+5Ch] [ebp-128h]
+  float v70; // [esp+60h] [ebp-124h]
+  float v71; // [esp+64h] [ebp-120h]
+  float v72; // [esp+68h] [ebp-11Ch]
+  int v73; // [esp+6Ch] [ebp-118h]
+  int v74; // [esp+70h] [ebp-114h]
+  Scaleform::Render::Rect<long> srcRect; // [esp+74h] [ebp-110h] BYREF
+  float v76; // [esp+84h] [ebp-100h] BYREF
+  float v77; // [esp+88h] [ebp-FCh]
+  float v78; // [esp+8Ch] [ebp-F8h]
+  float v79; // [esp+90h] [ebp-F4h]
+  float v80; // [esp+94h] [ebp-F0h]
+  float v81; // [esp+98h] [ebp-ECh]
+  float v82; // [esp+9Ch] [ebp-E8h]
+  float v83; // [esp+A0h] [ebp-E4h]
+  int v84; // [esp+ACh] [ebp-D8h] BYREF
+  int v85; // [esp+B0h] [ebp-D4h]
+  float v86; // [esp+B4h] [ebp-D0h] BYREF
+  float v87; // [esp+B8h] [ebp-CCh]
+  float v88; // [esp+BCh] [ebp-C8h]
+  float v89; // [esp+C0h] [ebp-C4h]
+  float v90; // [esp+C4h] [ebp-C0h]
+  float v91; // [esp+C8h] [ebp-BCh]
+  float v92; // [esp+CCh] [ebp-B8h]
+  float v93; // [esp+D0h] [ebp-B4h]
+  float v94; // [esp+D4h] [ebp-B0h] BYREF
+  float v95; // [esp+D8h] [ebp-ACh]
+  float v96; // [esp+DCh] [ebp-A8h]
+  float v97; // [esp+E0h] [ebp-A4h]
+  float v98; // [esp+E4h] [ebp-A0h]
+  float v99; // [esp+E8h] [ebp-9Ch]
+  float v100; // [esp+ECh] [ebp-98h]
+  float v101; // [esp+F0h] [ebp-94h]
+  float v102; // [esp+F4h] [ebp-90h]
+  float v103; // [esp+F8h] [ebp-8Ch]
+  float v104; // [esp+FCh] [ebp-88h]
+  float v105; // [esp+100h] [ebp-84h]
+  float v106; // [esp+104h] [ebp-80h]
+  float v107; // [esp+108h] [ebp-7Ch]
+  float v108; // [esp+10Ch] [ebp-78h]
+  float v109; // [esp+110h] [ebp-74h]
+  float v110; // [esp+114h] [ebp-70h]
+  float v111; // [esp+118h] [ebp-6Ch]
+  float v112; // [esp+11Ch] [ebp-68h]
+  float v113; // [esp+120h] [ebp-64h]
+  float v114; // [esp+124h] [ebp-60h]
+  float v115; // [esp+128h] [ebp-5Ch]
+  float v116; // [esp+12Ch] [ebp-58h]
+  float v117; // [esp+130h] [ebp-54h]
+  float v118; // [esp+140h] [ebp-44h] BYREF
+  int v119; // [esp+144h] [ebp-40h]
+  float v120; // [esp+148h] [ebp-3Ch]
+  _DWORD v121[3]; // [esp+14Ch] [ebp-38h] BYREF
+  float v122; // [esp+158h] [ebp-2Ch] BYREF
+  float v123; // [esp+15Ch] [ebp-28h]
+  float v124; // [esp+160h] [ebp-24h]
+  float v125; // [esp+164h] [ebp-20h]
+  float v126; // [esp+168h] [ebp-1Ch]
+  float v127; // [esp+16Ch] [ebp-18h]
+  _DWORD v128[3]; // [esp+170h] [ebp-14h]
+  int v129; // [esp+17Ch] [ebp-8h] BYREF
 
   v2 = this;
   v3 = context->pHAL->GetTextureManager(context->pHAL);
@@ -140,13 +140,13 @@ void __thiscall Scaleform::Render::DICommand_SourceRectImpl<Scaleform::Render::D
   {
     v7 = v121[i];
     if ( v7 )
-      v8 = (*(int (__thiscall **)(int))(*(_DWORD *)v7 + 104))(v7);
+      v8 = (*(int (__thiscall **)(int))(*(_DWORD *)v7 + 116))(v7);
     else
       v8 = 0;
     v9 = v121[i];
     v128[i] = v8;
     if ( v9 )
-      v10 = (*(int (__thiscall **)(int, Scaleform::Render::TextureManager *))(*(_DWORD *)v9 + 84))(v9, v5);
+      v10 = (*(int (__thiscall **)(int, Scaleform::Render::TextureManager *))(*(_DWORD *)v9 + 96))(v9, v5);
     else
       v10 = 0;
     *(_DWORD *)((char *)&v118 + i * 4) = v10;

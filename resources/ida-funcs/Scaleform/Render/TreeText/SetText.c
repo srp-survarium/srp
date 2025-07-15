@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::TreeText::SetText(
         Scaleform::Render::TreeText *this,
-        const char *putf8Str,
+        char *putf8Str,
         unsigned int lengthInBytes)
 {
   Scaleform::Render::Text::DocView *v4; // ecx
@@ -23,7 +23,7 @@ void __thiscall Scaleform::Render::TreeText::SetText(
 
 void __thiscall Scaleform::Render::TreeText::SetText(
         Scaleform::Render::TreeText *this,
-        const wchar_t *pstr,
+        wchar_t *pstr,
         unsigned int lengthInChars)
 {
   Scaleform::Render::Text::DocView *v4; // ecx

@@ -1,13 +1,11 @@
 unsigned int __thiscall vostok::memory::doug_lea_mt_allocator::total_size(vostok::memory::doug_lea_mt_allocator *this)
 {
   unsigned int v2; // esi
-  mutex_mt_raii guard; // [esp+8h] [ebp-8h] BYREF
+  mutex_mt_raii *v3; // ecx
+  mutex_mt_raii v5; // [esp+8h] [ebp-8h] BYREF
 
-  mutex_mt_raii::mutex_mt_raii((mutex_mt_raii *)this, &guard);
+  mutex_mt_raii::mutex_mt_raii(&v5, this, (vostok::threading::mutex *)this);
   v2 = vostok::memory::doug_lea_allocator::total_size(this);
-  if ( guard.m_is_tasks_aware )
-    LeaveCriticalSection((LPCRITICAL_SECTION)&guard.m_instance->m_mutex);
-  else
-    LeaveCriticalSection((LPCRITICAL_SECTION)&guard.m_instance->m_mutex_tasks_unaware);
+  mutex_mt_raii::~mutex_mt_raii(v3, (int *)&v5);
   return v2;
 }

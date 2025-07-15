@@ -1,8 +1,8 @@
 void __thiscall Scaleform::Render::ContextImpl::RTHandle::~RTHandle(Scaleform::Render::ContextImpl::RTHandle *this)
 {
-  Scaleform::RefCountVImpl *pObject; // ecx
+  Scaleform::Render::ContextImpl::RTHandle::HandleData *pObject; // ecx
 
-  pObject = (Scaleform::RefCountVImpl *)this->pData.pObject;
+  pObject = this->pData.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release(pObject);
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
 }

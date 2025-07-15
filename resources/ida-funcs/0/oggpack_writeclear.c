@@ -1,16 +1,15 @@
-void __usercall oggpack_writeclear(oggpack_buffer *b@<esi>, vostok::memory::doug_lea_mt_allocator *a2@<ecx>)
+void __usercall oggpack_writeclear(oggpack_buffer *b@<eax>)
 {
-  unsigned __int8 *buffer; // edi
-  vostok::memory *v3; // [esp+0h] [ebp-4h]
+  unsigned __int8 *buffer; // eax
+  int *p_endbit; // edi
 
   buffer = b->buffer;
   if ( buffer )
-  {
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-      vostok::memory::initialize_crt_allocator(v3);
-    vostok::memory::doug_lea_mt_allocator::free_impl(a2, buffer);
-  }
-  *(_QWORD *)&b->endbyte = 0;
-  *(_QWORD *)&b->buffer = 0;
-  b->storage = 0;
+    ogg_free_impl(buffer);
+  b->endbyte = 0;
+  p_endbit = &b->endbit;
+  *p_endbit++ = 0;
+  *p_endbit++ = 0;
+  *p_endbit = 0;
+  p_endbit[1] = 0;
 }

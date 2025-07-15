@@ -39,7 +39,7 @@ Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *__cdecl Scaleform::GFx::AS2:
     v6 = 0;
   }
   result->pObject = (Scaleform::GFx::AS2::XmlNodeObject *)v6;
-  Scaleform::GFx::AS2::SetupShadow(preal, penv, (Scaleform::GFx::XML::ShadowRefBase_vtbl *)v6);
+  Scaleform::GFx::AS2::SetupShadow(preal, penv, (Scaleform::GFx::ASUserData *)v6);
   if ( proot )
   {
     pObject = result->pObject;

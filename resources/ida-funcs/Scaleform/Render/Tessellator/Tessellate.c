@@ -1,76 +1,92 @@
 void __thiscall Scaleform::Render::Tessellator::Tessellate(Scaleform::Render::Tessellator *this, bool autoSplitMeshes)
 {
-  unsigned int v3; // esi
-  Scaleform::Render::LinearHeap *pHeap; // ecx
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpStats *v4; // eax
   unsigned int v5; // esi
-  unsigned int v6; // esi
-  unsigned __int8 *v7; // eax
+  Scaleform::Render::LinearHeap *pHeap; // ecx
+  unsigned int v7; // esi
+  int v8; // esi
+  unsigned __int8 *v9; // eax
   unsigned int i; // esi
-  Scaleform::Render::Tessellator::PathType *v9; // eax
+  Scaleform::Render::Tessellator::PathType *v11; // eax
   unsigned int leftStyle; // ecx
   unsigned int rightStyle; // eax
   unsigned int j; // edi
-  Scaleform::Render::Tessellator::PathType *v13; // esi
-  unsigned int v14; // esi
+  Scaleform::Render::Tessellator::PathType *v15; // esi
+  unsigned int v16; // esi
   unsigned int k; // edi
   unsigned int NumArrays; // ecx
   unsigned int MaxArrays; // eax
-  bool v18; // zf
-  Scaleform::Render::LinearHeap *v19; // ecx
-  unsigned __int8 *v20; // esi
-  unsigned int v21; // ecx
-  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v22; // eax
-  unsigned int v23; // esi
+  bool v20; // zf
+  Scaleform::Render::LinearHeap *v21; // ecx
+  unsigned __int8 *v22; // esi
+  unsigned int v23; // ecx
+  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v24; // eax
+  unsigned int v25; // esi
   unsigned int m; // esi
   unsigned int n; // edx
-  Scaleform::Render::TessVertex *v26; // ecx
+  Scaleform::Render::TessVertex *v28; // ecx
   unsigned __int16 Mesh; // ax
-  int v28; // ebx
-  Scaleform::Render::TessMesh *v29; // eax
+  int v30; // ebx
+  Scaleform::Render::TessMesh *v31; // eax
   unsigned int VertexLimit; // eax
-  Scaleform::Render::TessMesh solidMesh; // [esp+8h] [ebp-1Ch] BYREF
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::AmpFunctionTimer v36; // [esp+10h] [ebp-2Ch] BYREF
+  _DWORD v37[7]; // [esp+20h] [ebp-1Ch] BYREF
 
+  Instance = Scaleform::AmpServer::GetInstance();
+  v4 = Instance->GetDisplayStats(Instance);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v36,
+    v4,
+    "Tessellator::Tessellate",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_Tessellate);
   this->MinX = 1.0e30;
   this->MinY = 1.0e30;
   this->MaxX = -1.0e30;
   this->MaxY = -1.0e30;
   Scaleform::Render::Tessellator::monotonize(this);
-  v3 = this->Meshes.Size >> 4;
-  memset(&solidMesh, 0, sizeof(solidMesh));
-  if ( v3 >= this->Meshes.NumPages )
-    Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::BaseLineType,4,4>::allocPage(&this->Meshes, v3);
+  memset(v37, 0, sizeof(v37));
+  v5 = this->Meshes.Size >> 4;
+  if ( v5 >= this->Meshes.NumPages )
+    Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::BaseLineType,4,4>::allocPage(
+      &this->Meshes,
+      this->Meshes.Size >> 4);
   qmemcpy(
-    &this->Meshes.Pages[v3][this->Meshes.Size++ & 0xF],
-    &solidMesh,
-    sizeof(this->Meshes.Pages[v3][this->Meshes.Size++ & 0xF]));
+    &this->Meshes.Pages[v5][this->Meshes.Size++ & 0xF],
+    v37,
+    sizeof(this->Meshes.Pages[v5][this->Meshes.Size++ & 0xF]));
   if ( this->HasComplexFill )
   {
     pHeap = this->StyleMatrix.pHeap;
-    v5 = this->MaxStyle + 1;
-    this->StyleMatrix.Size = v5;
-    v6 = 2 * v5 * v5;
-    v7 = Scaleform::Render::LinearHeap::Alloc(pHeap, v6);
-    this->StyleMatrix.Array = (unsigned __int16 *)v7;
-    memset((int)v7, (unsigned __int8 *)0xFF, v6);
+    v7 = this->MaxStyle + 1;
+    this->StyleMatrix.Size = v7;
+    v8 = 2 * v7 * v7;
+    v9 = Scaleform::Render::LinearHeap::Alloc(pHeap, v8);
+    this->StyleMatrix.Array = (unsigned __int16 *)v9;
+    memset((int)v9, 255, v8);
     for ( i = 0; i < this->Paths.Size; ++i )
     {
-      v9 = &this->Paths.Pages[i >> 4][i & 0xF];
-      leftStyle = v9->leftStyle;
+      v11 = &this->Paths.Pages[i >> 4][i & 0xF];
+      leftStyle = v11->leftStyle;
       if ( leftStyle )
       {
-        rightStyle = v9->rightStyle;
+        rightStyle = v11->rightStyle;
         if ( rightStyle )
           Scaleform::Render::Tessellator::setMesh(this, leftStyle, rightStyle);
       }
     }
     for ( j = 0; j < this->Paths.Size; ++j )
     {
-      v13 = &this->Paths.Pages[j >> 4][j & 0xF];
-      if ( v13->leftStyle )
-        Scaleform::Render::Tessellator::setMesh(this, v13->leftStyle);
-      v14 = v13->rightStyle;
-      if ( v14 )
-        Scaleform::Render::Tessellator::setMesh(this, v14);
+      v15 = &this->Paths.Pages[j >> 4][j & 0xF];
+      if ( v15->leftStyle )
+        Scaleform::Render::Tessellator::setMesh(this, v15->leftStyle);
+      v16 = v15->rightStyle;
+      if ( v16 )
+        Scaleform::Render::Tessellator::setMesh(this, v16);
     }
   }
   Scaleform::Render::Tessellator::clearHeap1(this);
@@ -80,39 +96,39 @@ void __thiscall Scaleform::Render::Tessellator::Tessellate(Scaleform::Render::Te
     MaxArrays = this->MeshTriangles.MaxArrays;
     if ( NumArrays >= MaxArrays )
     {
-      v18 = NumArrays == 0;
-      v19 = this->MeshTriangles.pHeap;
-      if ( v18 )
+      v20 = NumArrays == 0;
+      v21 = this->MeshTriangles.pHeap;
+      if ( v20 )
       {
         this->MeshTriangles.MaxArrays = 16;
-        this->MeshTriangles.Arrays = (Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *)Scaleform::Render::LinearHeap::Alloc(v19, 0x100u);
+        this->MeshTriangles.Arrays = (Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *)Scaleform::Render::LinearHeap::Alloc(v21, 0x100u);
       }
       else
       {
-        v20 = Scaleform::Render::LinearHeap::Alloc(v19, 32 * MaxArrays);
-        memcpy(v20, (unsigned __int8 *)this->MeshTriangles.Arrays, 16 * this->MeshTriangles.NumArrays);
-        v21 = this->MeshTriangles.MaxArrays;
-        this->MeshTriangles.Arrays = (Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *)v20;
-        this->MeshTriangles.MaxArrays = 2 * v21;
+        v22 = Scaleform::Render::LinearHeap::Alloc(v21, 32 * MaxArrays);
+        memcpy((int)v22, (const __m128i *)this->MeshTriangles.Arrays, 16 * this->MeshTriangles.NumArrays);
+        v23 = this->MeshTriangles.MaxArrays;
+        this->MeshTriangles.Arrays = (Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *)v22;
+        this->MeshTriangles.MaxArrays = 2 * v23;
       }
     }
-    v22 = &this->MeshTriangles.Arrays[this->MeshTriangles.NumArrays];
+    v24 = &this->MeshTriangles.Arrays[this->MeshTriangles.NumArrays];
     ++k;
-    v22->Size = 0;
-    v22->NumPages = 0;
-    v22->MaxPages = 0;
-    v22->Pages = 0;
+    v24->Size = 0;
+    v24->NumPages = 0;
+    v24->MaxPages = 0;
+    v24->Pages = 0;
   }
   if ( this->EdgeAAFlag )
   {
     if ( this->StrokerMode )
     {
       Scaleform::Render::Tessellator::setMesh(this, 1u);
-      v23 = 0;
-      for ( this->EdgeAAFlag = 0; v23 < this->Monotones.Size; ++v23 )
+      v25 = 0;
+      for ( this->EdgeAAFlag = 0; v25 < this->Monotones.Size; ++v25 )
         Scaleform::Render::Tessellator::triangulateMonotoneAA(
           this,
-          (Scaleform::Render::Tessellator::MonoVertexType *)&this->Monotones.Pages[v23 >> 4][v23 & 0xF]);
+          (Scaleform::Render::Tessellator::MonoVertexType *)&this->Monotones.Pages[v25 >> 4][v25 & 0xF]);
       this->EdgeAAFlag = 1;
       Scaleform::Render::Tessellator::processStrokerEdges(this);
     }
@@ -130,13 +146,13 @@ void __thiscall Scaleform::Render::Tessellator::Tessellate(Scaleform::Render::Te
   }
   for ( n = 0; n < this->MeshVertices.Size; ++n )
   {
-    v26 = &this->MeshVertices.Pages[n >> 4][n & 0xF];
-    Mesh = v26->Mesh;
+    v28 = &this->MeshVertices.Pages[n >> 4][n & 0xF];
+    Mesh = v28->Mesh;
     if ( Mesh != 0xFFFF )
     {
-      v28 = Mesh & 0xF;
-      v29 = this->Meshes.Pages[Mesh >> 4];
-      v26->Idx = v29[v28].VertexCount++;
+      v30 = Mesh & 0xF;
+      v31 = this->Meshes.Pages[Mesh >> 4];
+      v28->Idx = v31[v30].VertexCount++;
     }
   }
   if ( autoSplitMeshes )
@@ -147,5 +163,15 @@ void __thiscall Scaleform::Render::Tessellator::Tessellate(Scaleform::Render::Te
       if ( this->MeshVertices.Size > VertexLimit )
         Scaleform::Render::Tessellator::SplitMeshes(this);
     }
+  }
+  Stats = v36.Stats;
+  if ( v36.Stats )
+  {
+    p_NativePopCallstack = &v36.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(v36.StartTicks),
+      (ProfileTicks - v36.StartTicks) >> 32);
   }
 }

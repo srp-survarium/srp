@@ -15,7 +15,12 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Traits::AddSlo
   v6 = file;
   v10 = 0;
   if ( Scaleform::GFx::AS3::Traits::AddSlotsWithID(this, (Scaleform::GFx::AS3::CheckResult *)&file, traits, file)->Result
-    && Scaleform::GFx::AS3::Traits::AddSlotsWithoutID(this, (Scaleform::GFx::AS3::CheckResult *)&traits, v5, v6, 1)->Result
+    && Scaleform::GFx::AS3::Traits::AddSlotsWithoutID(
+         this,
+         (Scaleform::GFx::AS3::CheckResult *)&traits,
+         v5,
+         v6,
+         (Scaleform::GFx::ASStringNode *)1)->Result
     && Scaleform::GFx::AS3::Traits::AddSlotsWithoutID(this, &v9, v5, v6, 0)->Result )
   {
     Scaleform::GFx::AS3::Traits::CalculateMemSize(this, parent_size);

@@ -6,7 +6,7 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
 {
   unsigned int v4; // ebp
   unsigned int MinAlignShift; // edi
-  Scaleform::HeapPT::BinLNode *v6; // eax
+  Scaleform::HeapPT::BinTNode *v6; // eax
   Scaleform::HeapPT::BinTNode *v7; // esi
   unsigned int *v8; // ebx
   unsigned int ShortSize; // eax
@@ -22,29 +22,29 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
   unsigned int v19; // eax
   unsigned __int8 v20; // al
   unsigned __int8 *result; // eax
-  unsigned __int8 *aligned; // [esp+Ch] [ebp-14h]
-  unsigned __int8 *base; // [esp+10h] [ebp-10h]
-  Scaleform::Heap::HeapSegment *seg; // [esp+14h] [ebp-Ch]
+  unsigned __int8 *AlignedPtr; // [esp+Ch] [ebp-14h]
+  unsigned __int8 *pData; // [esp+10h] [ebp-10h]
+  Scaleform::Heap::HeapSegment *pSegment; // [esp+14h] [ebp-Ch]
   Scaleform::HeapPT::FreeBin *p_Bin; // [esp+18h] [ebp-8h]
-  unsigned int tailBytes; // [esp+1Ch] [ebp-4h]
+  unsigned int v26; // [esp+1Ch] [ebp-4h]
 
   v4 = bytes;
   MinAlignShift = this->MinAlignShift;
   p_Bin = &this->Bin;
   v6 = Scaleform::HeapPT::FreeBin::PullBest(&this->Bin, bytes >> MinAlignShift, MinAlignShift, alignSize - 1);
-  v7 = (Scaleform::HeapPT::BinTNode *)v6;
+  v7 = v6;
   if ( !v6 )
     return 0;
-  seg = v6->pSegment;
-  v8 = (unsigned int *)&seg[1];
-  base = seg->pData;
-  aligned = Scaleform::HeapPT::ListBin::GetAlignedPtr((unsigned __int8 *)v6, alignSize - 1);
+  pSegment = v6->pSegment;
+  v8 = (unsigned int *)&pSegment[1];
+  pData = pSegment->pData;
+  AlignedPtr = Scaleform::HeapPT::ListBin::GetAlignedPtr((unsigned __int8 *)v6, alignSize - 1);
   ShortSize = v7->ShortSize;
-  v10 = aligned - (unsigned __int8 *)v7;
+  v10 = AlignedPtr - (unsigned __int8 *)v7;
   if ( ShortSize >= 0x21 )
     ShortSize = v7->Size;
-  v11 = (unsigned int)v7 + (ShortSize << MinAlignShift) - (_DWORD)aligned - bytes;
-  tailBytes = v11;
+  v11 = (unsigned int)v7 + (ShortSize << MinAlignShift) - (_DWORD)AlignedPtr - bytes;
+  v26 = v11;
   if ( v10 )
   {
     v12 = v10 >> MinAlignShift;
@@ -61,14 +61,14 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
       *(_WORD *)((char *)v7 + v13 - 2) = v12;
       v7->ShortSize = v12;
     }
-    v7->pSegment = seg;
+    v7->pSegment = pSegment;
     Scaleform::HeapPT::FreeBin::Push(p_Bin, v7);
-    v14 = ((char *)v7 - (char *)base) >> MinAlignShift;
+    v14 = ((char *)v7 - (char *)pData) >> MinAlignShift;
     v8[v14 >> 4] &= ~(3 << ((2 * v14) & 0x1E));
     v15 = v14 + v12 - 1;
     v4 = bytes;
     v8[v15 >> 4] &= ~(3 << ((2 * v15) & 0x1E));
-    v11 = tailBytes;
+    v11 = v26;
   }
   if ( v11 < 0x10 )
   {
@@ -77,7 +77,7 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
   else
   {
     v16 = v11 >> MinAlignShift;
-    v17 = (Scaleform::HeapPT::BinTNode *)&aligned[v4];
+    v17 = (Scaleform::HeapPT::BinTNode *)&AlignedPtr[v4];
     v18 = v16 << MinAlignShift;
     if ( v16 >= 0x21 )
     {
@@ -91,16 +91,20 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
       *(_WORD *)((char *)v17 + v18 - 2) = v16;
       v17->ShortSize = v16;
     }
-    v17->pSegment = seg;
+    v17->pSegment = pSegment;
     Scaleform::HeapPT::FreeBin::Push(p_Bin, v17);
-    v19 = (int)(v4 + aligned - base) >> MinAlignShift;
+    v19 = (int)(v4 + AlignedPtr - pData) >> MinAlignShift;
     v8[v19 >> 4] &= ~(3 << ((2 * v19) & 0x1E));
     v8[(v16 + v19 - 1) >> 4] &= ~(3 << ((2 * (v16 + v19 - 1)) & 0x1E));
   }
   v20 = Scaleform::Alg::UpperBit(alignSize);
-  Scaleform::Heap::BitSet2::MarkBusy(v8, (aligned - base) >> MinAlignShift, v4 >> MinAlignShift, v20 - MinAlignShift);
-  result = aligned;
-  *allocSeg = seg;
+  Scaleform::Heap::BitSet2::MarkBusy(
+    v8,
+    (AlignedPtr - pData) >> MinAlignShift,
+    v4 >> MinAlignShift,
+    v20 - MinAlignShift);
+  result = AlignedPtr;
+  *allocSeg = pSegment;
   return result;
 }
 
@@ -118,10 +122,10 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
   unsigned int v10; // edx
   char *v11; // eax
   unsigned int v12; // eax
-  unsigned int *bitSet; // [esp+Ch] [ebp-10h]
-  unsigned __int8 *base; // [esp+10h] [ebp-Ch]
+  unsigned int *buf; // [esp+Ch] [ebp-10h]
+  unsigned __int8 *pData; // [esp+10h] [ebp-Ch]
   Scaleform::HeapPT::FreeBin *p_Bin; // [esp+14h] [ebp-8h]
-  unsigned int tailBlocks; // [esp+20h] [ebp+4h]
+  unsigned int v16; // [esp+20h] [ebp+4h]
 
   p_Bin = &this->Bin;
   result = Scaleform::HeapPT::FreeBin::PullBest(&this->Bin, bytes >> this->MinAlignShift);
@@ -130,44 +134,44 @@ Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocBitSet2::Alloc(
   {
     MinAlignShift = this->MinAlignShift;
     pSegment = result->pSegment;
-    bitSet = (unsigned int *)&pSegment[1];
+    buf = (unsigned int *)&pSegment[1];
     ShortSize = result->ShortSize;
-    base = pSegment->pData;
+    pData = pSegment->pData;
     if ( ShortSize >= 0x21 )
       ShortSize = result->Size;
-    tailBlocks = ShortSize - (bytes >> MinAlignShift);
-    v10 = tailBlocks << MinAlignShift;
-    if ( tailBlocks << MinAlignShift < 0x10 )
+    v16 = ShortSize - (bytes >> MinAlignShift);
+    v10 = v16 << MinAlignShift;
+    if ( v16 << MinAlignShift < 0x10 )
     {
       Scaleform::Heap::BitSet2::MarkBusy(
-        bitSet,
-        ((char *)result - (char *)base) >> MinAlignShift,
+        buf,
+        ((char *)result - (char *)pData) >> MinAlignShift,
         (v10 + bytes) >> MinAlignShift,
         0);
     }
     else
     {
       v11 = (char *)result + bytes;
-      if ( tailBlocks >= 0x21 )
+      if ( v16 >= 0x21 )
       {
         *(_WORD *)&v11[v10 - 2] = 33;
         *((_WORD *)v11 + 6) = 33;
-        *(_DWORD *)&v11[v10 - 8] = tailBlocks;
-        *((_DWORD *)v11 + 4) = tailBlocks;
+        *(_DWORD *)&v11[v10 - 8] = v16;
+        *((_DWORD *)v11 + 4) = v16;
       }
       else
       {
-        *(_WORD *)&v11[v10 - 2] = tailBlocks;
-        *((_WORD *)v11 + 6) = tailBlocks;
+        *(_WORD *)&v11[v10 - 2] = v16;
+        *((_WORD *)v11 + 6) = v16;
       }
       *((_DWORD *)v11 + 2) = pSegment;
       Scaleform::HeapPT::FreeBin::Push(p_Bin, (Scaleform::HeapPT::BinTNode *)((char *)v6 + bytes));
-      v12 = (int)(bytes + (char *)v6 - (char *)base) >> MinAlignShift;
-      bitSet[v12 >> 4] &= ~(3 << ((2 * v12) & 0x1E));
-      *((_DWORD *)&pSegment[1].pPrev + ((v12 + tailBlocks - 1) >> 4)) &= ~(3 << ((2 * (v12 + tailBlocks - 1)) & 0x1E));
+      v12 = (int)(bytes + (char *)v6 - (char *)pData) >> MinAlignShift;
+      buf[v12 >> 4] &= ~(3 << ((2 * v12) & 0x1E));
+      *((_DWORD *)&pSegment[1].pPrev + ((v12 + v16 - 1) >> 4)) &= ~(3 << ((2 * (v12 + v16 - 1)) & 0x1E));
       Scaleform::Heap::BitSet2::MarkBusy(
         (unsigned int *)&pSegment[1],
-        ((char *)v6 - (char *)base) >> MinAlignShift,
+        ((char *)v6 - (char *)pData) >> MinAlignShift,
         bytes >> MinAlignShift,
         0);
     }

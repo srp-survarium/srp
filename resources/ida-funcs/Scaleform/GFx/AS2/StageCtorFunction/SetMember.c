@@ -8,10 +8,10 @@ char __thiscall Scaleform::GFx::AS2::StageCtorFunction::SetMember(
   bool v5; // bl
   Scaleform::GFx::ASStringNode *ConstStringNode; // eax
   Scaleform::GFx::ASStringNode *v7; // esi
-  const Scaleform::GFx::ASString *v8; // ebp
+  Scaleform::GFx::ASString *v8; // ebp
   bool v9; // zf
   bool v10; // bl
-  const Scaleform::GFx::ASString *v11; // eax
+  Scaleform::GFx::ASString *v11; // eax
   Scaleform::GFx::MovieImpl *pMovieRoot; // edx
   Scaleform::GFx::ASStringNode *v13; // eax
   Scaleform::GFx::ASStringNode *v14; // esi
@@ -65,9 +65,9 @@ char __thiscall Scaleform::GFx::AS2::StageCtorFunction::SetMember(
   if ( v10 )
   {
     Scaleform::GFx::AS2::Value::ToStringImpl(val, (Scaleform::GFx::ASString *)&val, penv, -1, 0);
-    v11 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)&this->ResolveHandler.Flags + 56))(*(_DWORD *)&this->ResolveHandler.Flags);
+    v11 = (Scaleform::GFx::ASString *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)&this->ResolveHandler.Flags + 56))(*(_DWORD *)&this->ResolveHandler.Flags);
     pMovieRoot = penv->StringContext.pContext->pMovieRoot;
-    name = (Scaleform::GFx::ASString *)v11;
+    name = v11;
     v13 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
             (Scaleform::GFx::ASStringManager *)pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
             "noScale",
@@ -180,7 +180,7 @@ char __thiscall Scaleform::GFx::AS2::StageCtorFunction::SetMember(
     goto LABEL_75;
   CharAt = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&val, 0);
   if ( Length >= 2 )
-    v31 = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&val, (const char *)1);
+    v31 = Scaleform::GFx::ASConstString::GetCharAt((Scaleform::GFx::ASConstString *)&val, (char *)1);
   if ( CharAt != 84 )
   {
     switch ( CharAt )

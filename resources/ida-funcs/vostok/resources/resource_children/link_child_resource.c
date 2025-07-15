@@ -1,39 +1,45 @@
 void __userpurge vostok::resources::resource_children::link_child_resource(
         vostok::resources::resource_children *this@<ecx>,
-        unsigned int a2@<ebx>,
+        int a3@<edi>,
+        int a4@<esi>,
         vostok::resources::resource_base *child,
-        unsigned int quality)
+        vostok::threading::simple_lock *quality)
 {
-  unsigned int v4; // edi
-  vostok::resources::resource_link *v6; // eax
-  vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *v7; // ecx
+  char *v6; // eax
+  vostok::resources::resource_link *v7; // eax
   unsigned int v8; // eax
-  bool *v9; // [esp+0h] [ebp-Ch]
+  vostok::threading::simple_lock *v9; // ecx
 
-  v4 = quality;
-  if ( quality != -1 )
-    vostok::threading::interlocked_or(&child->m_flags.m_flags, 0x100u);
-  v6 = (vostok::resources::resource_link *)vostok::memory::g_resources_links_allocator.call_malloc(
+  if ( quality != (vostok::threading::simple_lock *)-1 )
+    _InterlockedOr(&child->m_flags.m_flags, 0x100u);
+  v6 = type_info::raw_name(&vostok::resources::resource_link `RTTI Type Descriptor');
+  v7 = (vostok::resources::resource_link *)((int (__thiscall *)(vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex> *, int, char *, const char *, const char *, int, int, int))vostok::memory::g_resources_links_allocator.call_malloc)(
                                              &vostok::memory::g_resources_links_allocator,
-                                             12);
-  if ( v6 )
+                                             12,
+                                             v6,
+                                             "vostok::resources::resource_children::link_child_resource",
+                                             ".\\resources_resource_children.cpp",
+                                             32,
+                                             a3,
+                                             a4);
+  if ( v7 )
   {
-    v6->resource = 0;
-    v6->next_link = 0;
-    v6->quality_value = -1;
+    v7->quality_value = -1;
+    v7->resource = 0;
+    v7->next_link = 0;
   }
   else
   {
-    v6 = 0;
+    v7 = 0;
   }
-  if ( debug_macro_helper_ignore_always_9 || v6 )
+  if ( debug_macro_helper_ignore_always_10 || v7 )
   {
-    v6->resource = child;
-    v6->quality_value = v4;
+    v7->resource = child;
+    v9 = quality;
+    v7->quality_value = (unsigned int)quality;
     vostok::intrusive_list<vostok::resources::resource_link,vostok::resources::resource_link *,4,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::push_back(
+      &this->m_children_resources,
       v7,
-      &this->m_children_resources.m_size,
-      v6,
       v9);
   }
   else
@@ -44,19 +50,15 @@ void __userpurge vostok::resources::resource_children::link_child_resource(
     occurances_left_9 = v8 - 1;
     if ( v8 )
     {
-      LOBYTE(quality) = 0;
+      HIBYTE(child) = 0;
       vostok::debug::on_error(
-        a2,
-        (bool *)&quality,
+        (bool *)&child + 3,
         process_error_false,
-        &debug_macro_helper_ignore_always_9,
-        assert_untyped,
-        "assertion_failed",
-        "new_link",
+        (bool *)"new_link",
         ".\\resources_resource_children.cpp",
         "vostok::resources::resource_children::link_child_resource",
-        0x21u);
-      if ( vostok::debug::is_debugger_present() || (_BYTE)quality )
+        (const char *)0x21);
+      if ( vostok::debug::is_debugger_present() || HIBYTE(child) )
         __debugbreak();
     }
   }

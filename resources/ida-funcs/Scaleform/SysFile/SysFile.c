@@ -16,7 +16,7 @@ void __thiscall Scaleform::SysFile::SysFile(Scaleform::SysFile *this)
 {
   Scaleform::File *v2; // eax
   Scaleform::File *v3; // edi
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   this->__vftable = (Scaleform::SysFile_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -34,8 +34,8 @@ void __thiscall Scaleform::SysFile::SysFile(Scaleform::SysFile *this)
   {
     v3 = 0;
   }
-  pObject = this->pFile.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pFile.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pFile.pObject = v3;
 }

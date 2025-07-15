@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::VM::exec_getsuper(
         Scaleform::GFx::AS3::VM *this,
         Scaleform::GFx::AS3::VMFile *file,
-        Scaleform::GFx::AS3::Traits *ot,
+        const Scaleform::GFx::AS3::Traits *ot,
         Scaleform::GFx::AS3::Abc::Multiname *mn)
 {
   const Scaleform::GFx::AS3::VM::Error *v5; // eax
@@ -29,7 +29,11 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_getsuper(
             (const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *)&args.ArgMN,
             valGet)->Result )
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v7, eIllegalSuperCallError, this);
+      Scaleform::GFx::AS3::VM::Error::Error(
+        &v7,
+        (Scaleform::GFx::AS3::VM_vtbl *)0x40B,
+        (Scaleform::GFx::ASStringNode *)this,
+        &args.ArgMN.Name);
       Scaleform::GFx::AS3::VM::ThrowErrorInternal(
         this,
         v5,

@@ -1,4 +1,4 @@
-int __cdecl obj_trust(int id, x509_st *x)
+int __cdecl obj_trust(void *id, x509_st *x)
 {
   x509_cert_aux_st *aux; // esi
   const stack_st *p_stack; // eax

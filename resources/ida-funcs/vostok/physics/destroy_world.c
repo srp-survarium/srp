@@ -5,5 +5,10 @@ void __usercall vostok::physics::destroy_world(vostok::physics::world *w@<esi>)
   w->destroy(w);
   v1 = __RTCastToVoid((void **)&w->__vftable);
   ((void (__thiscall *)(vostok::physics::world *, _DWORD))w->~vostok::physics::world)(w, 0);
-  vostok::memory::g_mt_allocator.call_free(&vostok::memory::g_mt_allocator, v1);
+  vostok::memory::g_mt_allocator.call_free(
+    &vostok::memory::g_mt_allocator,
+    v1,
+    "vostok::physics::destroy_world",
+    ".\\physics_entry_point.cpp",
+    40u);
 }

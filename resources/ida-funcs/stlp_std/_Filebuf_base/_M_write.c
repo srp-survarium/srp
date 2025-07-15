@@ -16,7 +16,7 @@ char __thiscall stlp_std::_Filebuf_base::_M_write(stlp_std::_Filebuf_base *this,
   int *v18; // eax
   unsigned __int8 *v19; // ebp
   int v20; // esi
-  DWORD *v21; // eax
+  int *v21; // eax
   int v23; // [esp+10h] [ebp-1038h] BYREF
   int v24; // [esp+14h] [ebp-1034h] BYREF
   char *v25; // [esp+18h] [ebp-1030h] BYREF
@@ -103,9 +103,9 @@ LABEL_28:
       v26 = -1;
       do
       {
-        v21 = (DWORD *)&v23;
+        v21 = &v23;
         if ( v20 == -1 )
-          v21 = (DWORD *)&v26;
+          v21 = &v26;
         WriteFile(v27->_M_file_id, v19, *v21, &v34, 0);
         if ( !v34 )
           return 0;

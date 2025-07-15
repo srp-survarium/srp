@@ -27,7 +27,7 @@ int __cdecl png_handle_gAMA(_DWORD *a1, int a2, unsigned int a3)
       result = png_crc_finish((int)a1, 0);
       if ( !result )
       {
-        v6 = sub_365060(0, buf);
+        v6 = sub_471D20(0, buf);
         if ( v6 > 0 )
         {
           if ( a2 && (*(_DWORD *)(a2 + 8) & 0x800) != 0 && (v6 < 45000 || v6 > 46000) )

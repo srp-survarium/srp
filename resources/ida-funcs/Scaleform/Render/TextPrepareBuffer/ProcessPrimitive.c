@@ -3,7 +3,7 @@ int __thiscall Scaleform::Render::TextPrepareBuffer::ProcessPrimitive(
         BOOL waitForCache)
 {
   Scaleform::Render::TextPrimitiveBundle *pBundle; // ecx
-  $445CB3699B64BB30984BADDF1BBAFC2D *v4; // eax
+  $037AF80D9AEBE352D643A8853E25724C *v4; // eax
   Scaleform::Render::Primitive *v6; // [esp-18h] [ebp-24h]
 
   if ( this->LayersFinished )
@@ -21,7 +21,7 @@ int __thiscall Scaleform::Render::TextPrepareBuffer::ProcessPrimitive(
     {
       v4 = this->pBundle->Layers.Size <= 2
          ? &this->pBundle->Layers.4
-         : ($445CB3699B64BB30984BADDF1BBAFC2D *)this->pBundle->Layers.AD.pData;
+         : ($037AF80D9AEBE352D643A8853E25724C *)this->pBundle->Layers.AD.pData;
       v6 = (Scaleform::Render::Primitive *)(&v4->AD.pData)[this->ProcessingLayer];
       if ( Scaleform::Render::Primitive::prepare(
              v6,

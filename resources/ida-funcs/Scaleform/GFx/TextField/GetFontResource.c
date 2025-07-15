@@ -5,13 +5,13 @@ Scaleform::GFx::FontResource *__thiscall Scaleform::GFx::TextField::GetFontResou
   Scaleform::Log *v5; // edi
   Scaleform::GFx::Resource *v6; // eax
   Scaleform::GFx::Resource *v7; // esi
-  Scaleform::GFx::ResourceBindData fontData; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceBindData result; // [esp+4h] [ebp-8h] BYREF
 
   pObject = this->pDef.pObject;
   if ( !LOWORD(pObject->FontId.Id) )
     return 0;
-  Scaleform::GFx::ResourceBinding::GetResourceData(this->pBinding, &fontData, &pObject->pFont);
-  if ( !fontData.pResource.pObject )
+  Scaleform::GFx::ResourceBinding::GetResourceData(this->pBinding, &result, &pObject->pFont);
+  if ( !result.pResource.pObject )
   {
     v4 = (Scaleform::GFx::Resource *)this->GetLog(this);
     v5 = (Scaleform::Log *)v4;
@@ -30,7 +30,7 @@ LABEL_9:
     }
     goto LABEL_10;
   }
-  if ( (fontData.pResource.pObject->GetResourceTypeCode(fontData.pResource.pObject) & 0xFF00) != 0x200 )
+  if ( (result.pResource.pObject->GetResourceTypeCode(result.pResource.pObject) & 0xFF00) != 0x200 )
   {
     v6 = (Scaleform::GFx::Resource *)this->GetLog(this);
     v5 = (Scaleform::Log *)v6;
@@ -46,12 +46,12 @@ LABEL_9:
       goto LABEL_9;
     }
 LABEL_10:
-    if ( fontData.pResource.pObject )
-      Scaleform::GFx::Resource::Release(fontData.pResource.pObject);
+    if ( result.pResource.pObject )
+      Scaleform::GFx::Resource::Release(result.pResource.pObject);
     return 0;
   }
-  v7 = fontData.pResource.pObject;
-  if ( fontData.pResource.pObject )
-    Scaleform::GFx::Resource::Release(fontData.pResource.pObject);
+  v7 = result.pResource.pObject;
+  if ( result.pResource.pObject )
+    Scaleform::GFx::Resource::Release(result.pResource.pObject);
   return (Scaleform::GFx::FontResource *)v7;
 }

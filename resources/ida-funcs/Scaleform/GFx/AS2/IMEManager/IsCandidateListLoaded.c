@@ -3,28 +3,28 @@ char __thiscall Scaleform::GFx::AS2::IMEManager::IsCandidateListLoaded(Scaleform
   char v1; // bl
   Scaleform::GFx::Movie *pMovie; // ecx
   Scaleform::GFx::AS2::MovieRoot *pObject; // esi
-  Scaleform::GFx::Value v; // [esp+8h] [ebp-18h] BYREF
+  Scaleform::GFx::Value pval; // [esp+8h] [ebp-18h] BYREF
 
   v1 = 0;
   if ( !this->pMovie )
     return 0;
   pMovie = this->pMovie;
-  v.pObjectInterface = 0;
-  v.Type = VT_Undefined;
+  pval.pObjectInterface = 0;
+  pval.Type = VT_Undefined;
   pObject = (Scaleform::GFx::AS2::MovieRoot *)pMovie->pASMovieRoot.pObject;
-  if ( !(unsigned __int8)Scaleform::GFx::Movie::GetVariable(pMovie, &v, "_global.gfx_ime_candidate_list_state") )
+  if ( !Scaleform::GFx::Movie::GetVariable(pMovie, &pval, "_global.gfx_ime_candidate_list_state") )
   {
-    if ( (v.Type & 0x40) != 0 )
+    if ( (pval.Type & 0x40) != 0 )
     {
-      v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
-      v.pObjectInterface = 0;
+      pval.pObjectInterface->ObjectRelease(pval.pObjectInterface, &pval, (void *)pval.mValue.IValue);
+      pval.pObjectInterface = 0;
     }
-    v.Type = VT_Number;
-    v.mValue.NValue = 0.0;
+    pval.Type = VT_Number;
+    pval.mValue.NValue = 0.0;
   }
-  if ( Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 9999) && 2.0 == v.mValue.NValue )
+  if ( Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 9999) && 2.0 == pval.mValue.NValue )
     v1 = 1;
-  if ( (v.Type & 0x40) != 0 )
-    v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
+  if ( (pval.Type & 0x40) != 0 )
+    pval.pObjectInterface->ObjectRelease(pval.pObjectInterface, &pval, (void *)pval.mValue.IValue);
   return v1;
 }

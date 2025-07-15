@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObjectBase::SetViewMatrix3D(
         Scaleform::GFx::DisplayObjectBase *this,
-        Scaleform::Render::Matrix3x4<float> *m)
+        const __m128i *m)
 {
   Scaleform::Render::TreeNode *pObject; // eax
   bool v4; // bl
@@ -11,11 +11,11 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetViewMatrix3D(
   double Width; // st7
   double Height; // st6
   Scaleform::Render::TreeNode *RenderNode; // eax
-  int v12; // [esp+9Ch] [ebp-C4h] BYREF
-  Scaleform::Render::Matrix3x4<float> m1; // [esp+A0h] [ebp-C0h] BYREF
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+D0h] [ebp-90h] BYREF
-  Scaleform::Render::Matrix3x4<float> mat3D; // [esp+100h] [ebp-60h] BYREF
-  Scaleform::Render::Matrix3x4<float> m2; // [esp+130h] [ebp-30h] BYREF
+  int v12; // [esp+Ch] [ebp-C4h] BYREF
+  Scaleform::Render::Matrix3x4<float> m1; // [esp+10h] [ebp-C0h] BYREF
+  Scaleform::Render::Matrix3x4<float> m2; // [esp+40h] [ebp-90h] BYREF
+  Scaleform::Render::Matrix3x4<float> mat3D; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix3x4<float> v16; // [esp+A0h] [ebp-30h] BYREF
 
   pObject = this->pRenNode.pObject;
   v4 = pObject
@@ -41,19 +41,16 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetViewMatrix3D(
         v7 = 0;
       this->pPerspectiveData = v7;
     }
-    memcpy(
-      (unsigned __int8 *)&this->pPerspectiveData->ViewMatrix3D,
-      (unsigned __int8 *)m,
-      sizeof(this->pPerspectiveData->ViewMatrix3D));
+    memcpy((int)&this->pPerspectiveData->ViewMatrix3D, m, sizeof(this->pPerspectiveData->ViewMatrix3D));
     pMovieImpl = this->pASRoot->pMovieImpl;
-    memset((int)&dst, 0, sizeof(dst));
+    memset((int)&m2, 0, sizeof(m2));
     Width = (double)pMovieImpl->mViewport.Width;
     *(float *)&v12 = pMovieImpl->VisibleFrameRect.x2 - pMovieImpl->VisibleFrameRect.x1;
-    dst.M[0][0] = 1.0 / (Width / *(float *)&v12);
+    m2.M[0][0] = 1.0 / (Width / *(float *)&v12);
     Height = (double)pMovieImpl->mViewport.Height;
     *(float *)&v12 = pMovieImpl->VisibleFrameRect.y2 - pMovieImpl->VisibleFrameRect.y1;
-    dst.M[1][1] = 1.0 / (Height / *(float *)&v12);
-    dst.M[2][2] = 1.0;
+    m2.M[1][1] = 1.0 / (Height / *(float *)&v12);
+    m2.M[2][2] = 1.0;
     memset((int)&m1, 0, sizeof(m1));
     m1.M[0][0] = 1.0;
     m1.M[1][1] = 1.0;
@@ -61,8 +58,8 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetViewMatrix3D(
     m1.M[0][3] = pMovieImpl->VisibleFrameRect.x1;
     m1.M[1][3] = pMovieImpl->VisibleFrameRect.y1;
     m1.M[2][3] = 0.0;
-    Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&m2, &m1, &dst);
-    Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&mat3D, m, &m2);
+    Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&v16, &m1, &m2);
+    Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&mat3D, (const Scaleform::Render::Matrix3x4<float> *)m, &v16);
     RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(this);
     Scaleform::Render::TreeNode::SetViewMatrix3D(RenderNode, &mat3D);
     if ( pMovieImpl->MovieLevels.Data.Data->pSprite.pObject == this )

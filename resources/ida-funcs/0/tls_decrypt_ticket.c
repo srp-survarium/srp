@@ -1,6 +1,6 @@
 int __fastcall tls_decrypt_ticket(
         ssl_session_st **psess,
-        unsigned __int8 *etick,
+        const __m128i *etick,
         ssl_st *s,
         int eticklen,
         unsigned __int8 *sess_id,
@@ -16,7 +16,7 @@ int __fastcall tls_decrypt_ticket(
   int v14; // eax
   int v16; // esi
   unsigned int v17; // eax
-  const unsigned __int8 *v18; // ecx
+  unsigned __int8 *v18; // ecx
   unsigned __int8 *v19; // ebp
   int v20; // esi
   unsigned __int8 *v21; // edi
@@ -24,16 +24,16 @@ int __fastcall tls_decrypt_ticket(
   ssl_session_st **v23; // eax
   BOOL v24; // ecx
   ssl_st *v25; // edx
-  int outl; // [esp+10h] [ebp-1BCh] BYREF
-  int v27; // [esp+14h] [ebp-1B8h] BYREF
-  unsigned __int8 *in; // [esp+18h] [ebp-1B4h] BYREF
+  int length; // [esp+10h] [ebp-1BCh] BYREF
+  int outl; // [esp+14h] [ebp-1B8h] BYREF
+  unsigned __int8 *pp; // [esp+18h] [ebp-1B4h] BYREF
   ssl_st *v29; // [esp+1Ch] [ebp-1B0h]
   BOOL v30; // [esp+20h] [ebp-1ACh]
   ssl_session_st **v31; // [esp+24h] [ebp-1A8h]
   unsigned __int8 *src; // [esp+28h] [ebp-1A4h]
-  evp_cipher_ctx_st c; // [esp+2Ch] [ebp-1A0h] BYREF
+  evp_cipher_ctx_st v33; // [esp+2Ch] [ebp-1A0h] BYREF
   hmac_ctx_st ctx; // [esp+B8h] [ebp-114h] BYREF
-  unsigned __int8 md[64]; // [esp+188h] [ebp-44h] BYREF
+  unsigned __int8 v35[64]; // [esp+188h] [ebp-44h] BYREF
 
   initial_ctx = s->initial_ctx;
   v29 = s;
@@ -47,49 +47,57 @@ tickerr:
     return 0;
   }
   HMAC_CTX_init(&ctx);
-  EVP_CIPHER_CTX_init(&c);
+  EVP_CIPHER_CTX_init(&v33);
   tlsext_ticket_key_cb = initial_ctx->tlsext_ticket_key_cb;
   if ( !tlsext_ticket_key_cb )
   {
     tlsext_tick_key_name = initial_ctx->tlsext_tick_key_name;
     v11 = 16;
-    while ( *(_DWORD *)&tlsext_tick_key_name[etick - initial_ctx->tlsext_tick_key_name] == *(_DWORD *)tlsext_tick_key_name )
+    while ( *(_DWORD *)&tlsext_tick_key_name[(char *)etick - (char *)initial_ctx->tlsext_tick_key_name] == *(_DWORD *)tlsext_tick_key_name )
     {
       v11 -= 4;
       tlsext_tick_key_name += 4;
       if ( v11 < 4 )
       {
         v12 = EVP_sha256();
-        HMAC_Init_ex((unsigned int)etick, &ctx, initial_ctx->tlsext_tick_hmac_key, 0x10u, v12, 0);
+        HMAC_Init_ex(
+          (int)etick,
+          (env_md_ctx_st *)initial_ctx,
+          &ctx,
+          (const __m128i *)initial_ctx->tlsext_tick_hmac_key,
+          16,
+          v12,
+          0);
+        initial_ctx = (ssl_ctx_st *)((char *)initial_ctx + 296);
         v13 = EVP_aes_128_cbc();
-        EVP_DecryptInit_ex(&c, v13, 0, initial_ctx->tlsext_tick_aes_key, etick + 16);
+        EVP_DecryptInit_ex(&v33, v13, 0, (const unsigned __int8 *)initial_ctx, etick + 1);
         goto LABEL_10;
       }
     }
     goto tickerr;
   }
-  v9 = tlsext_ticket_key_cb(s, etick, etick + 16, &c, &ctx, 0);
+  v9 = tlsext_ticket_key_cb(s, (unsigned __int8 *)etick, (unsigned __int8 *)&etick[1], &v33, &ctx, 0);
   if ( v9 < 0 )
     return -1;
   if ( !v9 )
     goto tickerr;
   v30 = v9 == 2;
 LABEL_10:
-  v14 = EVP_MD_size(ctx.md);
-  v27 = v14;
+  v14 = EVP_MD_size((int)initial_ctx, ctx.md);
+  outl = v14;
   if ( v14 < 0 )
   {
-    EVP_CIPHER_CTX_cleanup((unsigned int)etick, &c);
+    EVP_CIPHER_CTX_cleanup((int)etick, (int)initial_ctx, &v33);
     return -1;
   }
   v16 = eticklen - v14;
   HMAC_Update(&ctx);
-  HMAC_Final(&ctx, md, 0);
-  HMAC_CTX_cleanup((unsigned int)etick, &ctx);
-  v17 = v27;
-  v18 = &etick[v16];
-  v19 = md;
-  if ( (unsigned int)v27 >= 4 )
+  HMAC_Final(&ctx, v35, 0);
+  HMAC_CTX_cleanup((int)etick, (int)initial_ctx, &ctx);
+  v17 = outl;
+  v18 = &etick->m128i_u8[v16];
+  v19 = v35;
+  if ( (unsigned int)outl >= 4 )
   {
     while ( *(_DWORD *)v19 == *(_DWORD *)v18 )
     {
@@ -104,26 +112,26 @@ LABEL_10:
 LABEL_16:
   if ( v17 && (*v18 != *v19 || v17 > 1 && (v18[1] != v19[1] || v17 > 2 && v18[2] != v19[2])) )
     goto tickerr;
-  in = &etick[(_DWORD)X509_get_issuer_name((x509_st *)&c) + 16];
-  v20 = -16 - (_DWORD)X509_get_issuer_name((x509_st *)&c) + v16;
+  pp = &etick[1].m128i_u8[(_DWORD)X509_get_issuer_name((x509_st *)&v33)];
+  v20 = -16 - (_DWORD)X509_get_issuer_name((x509_st *)&v33) + v16;
   v21 = (unsigned __int8 *)CRYPTO_malloc(v20, ".\\ssl\\t1_lib.c", 1716);
   if ( !v21 )
   {
-    EVP_CIPHER_CTX_cleanup(0, &c);
+    EVP_CIPHER_CTX_cleanup(0, (int)initial_ctx, &v33);
     return -1;
   }
-  EVP_DecryptUpdate(&c, v21, &outl, in, v20);
-  if ( EVP_DecryptFinal(&c, &v21[outl], &v27) <= 0 )
+  EVP_DecryptUpdate(&v33, v21, &length, (const __m128i *)pp, v20);
+  if ( EVP_DecryptFinal(&v33, &v21[length], &outl) <= 0 )
     goto tickerr;
-  outl += v27;
-  EVP_CIPHER_CTX_cleanup((unsigned int)v21, &c);
-  in = v21;
-  v22 = d2i_SSL_SESSION(0, (const unsigned __int8 **)&in, outl);
+  length += outl;
+  EVP_CIPHER_CTX_cleanup((int)v21, (int)initial_ctx, &v33);
+  pp = v21;
+  v22 = d2i_SSL_SESSION((int)v21, 0, (const unsigned __int8 **)&pp, length);
   CRYPTO_free(v21);
   if ( !v22 )
     goto tickerr;
   if ( sesslen )
-    memcpy(v22->session_id, src, sesslen);
+    memcpy((int)v22->session_id, (const __m128i *)src, sesslen);
   v23 = v31;
   v24 = v30;
   v25 = v29;

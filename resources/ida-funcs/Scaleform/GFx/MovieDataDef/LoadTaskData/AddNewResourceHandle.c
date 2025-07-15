@@ -5,7 +5,7 @@ Scaleform::GFx::ResourceHandle *__thiscall Scaleform::GFx::MovieDataDef::LoadTas
 {
   unsigned int ResIndexCounter; // eax
   Scaleform::GFx::MovieDataDef::LoadTaskData *v5; // ebx
-  Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeRef key; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeRef v7; // [esp+Ch] [ebp-8h] BYREF
 
   ResIndexCounter = this->ResIndexCounter;
   result->HType = RH_Index;
@@ -17,12 +17,12 @@ Scaleform::GFx::ResourceHandle *__thiscall Scaleform::GFx::MovieDataDef::LoadTas
     v5 = this;
     EnterCriticalSection(&this->ResourceLock.cs);
   }
-  key.pFirst = &rid;
-  key.pSecond = result;
+  v7.pFirst = &rid;
+  v7.pSecond = result;
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeRef>(
     &this->Resources.mHash,
     (Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> *)&this->Resources,
-    &key,
+    &v7,
     rid.Id ^ (rid.Id >> 8));
   if ( v5 )
     LeaveCriticalSection(&v5->ResourceLock.cs);

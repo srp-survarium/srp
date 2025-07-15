@@ -34,7 +34,7 @@ char *__cdecl hex_to_string(const unsigned __int8 *buffer, int len)
   }
   else
   {
-    ERR_put_error(0x22u, 111, 65, ".\\crypto\\x509v3\\v3_utl.c", 371);
+    ERR_put_error((int)buffer, 0x22u, 111, 65, ".\\crypto\\x509v3\\v3_utl.c", 371);
     return 0;
   }
   return result;

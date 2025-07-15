@@ -3,27 +3,22 @@ Scaleform::Render::DepthStencilSurface *__thiscall Scaleform::Render::D3D1x::Tex
         const Scaleform::Render::Size<unsigned long> *size,
         struct Scaleform::Render::MemoryManager *manager)
 {
-  void *(__thiscall *AllocAutoHeap)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // eax
-  Scaleform::Render::D3D1x::DepthStencilSurface *v6; // eax
-  Scaleform::Render::DepthStencilSurface *v7; // eax
-  int v8; // [esp+4h] [ebp-4h] BYREF
+  Scaleform::Render::D3D1x::DepthStencilSurface *v5; // eax
+  Scaleform::Render::DepthStencilSurface *v6; // eax
 
   if ( !this->pDevice )
     return 0;
-  AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-  v8 = 75;
-  v6 = (Scaleform::Render::D3D1x::DepthStencilSurface *)AllocAutoHeap(
-                                                          Scaleform::Memory::pGlobalHeap,
-                                                          this,
-                                                          40u,
-                                                          (const Scaleform::AllocInfo *)&v8);
-  if ( !v6 )
-    return Scaleform::Render::TextureManager::postCreateDepthStencilSurface(this, 0);
-  Scaleform::Render::D3D1x::DepthStencilSurface::DepthStencilSurface(
-    v6,
-    (Scaleform::GFx::Resource *)this->pLocks.pObject,
-    size);
-  return Scaleform::Render::TextureManager::postCreateDepthStencilSurface(this, v7);
+  v5 = (Scaleform::Render::D3D1x::DepthStencilSurface *)Scaleform::NewOverrideBase<75>::operator new(
+                                                          0x28u,
+                                                          (Scaleform::MemAddressStub *)this);
+  if ( v5 )
+    Scaleform::Render::D3D1x::DepthStencilSurface::DepthStencilSurface(
+      v5,
+      size,
+      (Scaleform::GFx::Resource *)this->pLocks.pObject);
+  else
+    v6 = 0;
+  return Scaleform::Render::TextureManager::postCreateDepthStencilSurface(this, v6);
 }
 
 
@@ -31,39 +26,30 @@ void __thiscall Scaleform::Render::D3D1x::TextureManager::CreateDepthStencilSurf
         Scaleform::Render::D3D1x::TextureManager *this,
         ID3D11Texture2D *psurface)
 {
-  ID3D11Texture2D *v2; // ebx
-  void *(__thiscall *AllocAutoHeap)(Scaleform::MemoryHeap *, const void *, unsigned int, const Scaleform::AllocInfo *); // edx
-  Scaleform::Render::D3D1x::DepthStencilSurface *v5; // eax
-  Scaleform::GFx::Resource *pObject; // esi
-  int v7; // eax
-  Scaleform::Render::Size<unsigned long> size; // [esp+18h] [ebp-34h] BYREF
-  D3D11_TEXTURE2D_DESC desc; // [esp+20h] [ebp-2Ch] BYREF
+  Scaleform::Render::D3D1x::DepthStencilSurface *v3; // eax
+  int v4; // eax
+  Scaleform::Render::TextureManagerLocks *pObject; // [esp-8h] [ebp-44h]
+  Scaleform::Render::Size<unsigned long> v6; // [esp+8h] [ebp-34h] BYREF
+  Scaleform::Render::Size<unsigned long> v7; // [esp+34h] [ebp-8h] BYREF
 
-  v2 = psurface;
   if ( psurface )
   {
     psurface->AddRef(psurface);
-    v2->GetDesc(v2, &desc);
-    AllocAutoHeap = Scaleform::Memory::pGlobalHeap->AllocAutoHeap;
-    psurface = (ID3D11Texture2D *)75;
-    v5 = (Scaleform::Render::D3D1x::DepthStencilSurface *)AllocAutoHeap(
-                                                            Scaleform::Memory::pGlobalHeap,
-                                                            this,
-                                                            40u,
-                                                            (const Scaleform::AllocInfo *)&psurface);
-    if ( v5 )
+    psurface->GetDesc(psurface, (D3D11_TEXTURE2D_DESC *)&v6);
+    v3 = (Scaleform::Render::D3D1x::DepthStencilSurface *)Scaleform::NewOverrideBase<75>::operator new(
+                                                            0x28u,
+                                                            (Scaleform::MemAddressStub *)this);
+    if ( v3 )
     {
-      pObject = (Scaleform::GFx::Resource *)this->pLocks.pObject;
-      size.Width = desc.Width;
-      size.Height = desc.Height;
-      Scaleform::Render::D3D1x::DepthStencilSurface::DepthStencilSurface(v5, pObject, &size);
-      *(_DWORD *)(v7 + 32) = v2;
-      *(_DWORD *)(v7 + 20) = 2;
+      pObject = this->pLocks.pObject;
+      v7 = v6;
+      Scaleform::Render::D3D1x::DepthStencilSurface::DepthStencilSurface(v3, &v7, (Scaleform::GFx::Resource *)pObject);
     }
     else
     {
-      MEMORY[0x20] = v2;
-      MEMORY[0x14] = 2;
+      v4 = 0;
     }
+    *(_DWORD *)(v4 + 32) = psurface;
+    *(_DWORD *)(v4 + 20) = 2;
   }
 }

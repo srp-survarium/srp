@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl::RegExp::multilineGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl::RegExp,3,bool>::Method) = Scaleform::GFx::AS3::Instances::fl::RegExp::multilineGet;
-  dword_AAD2B4 = 0;
+  dword_8F1A6C = 0;
   return result;
 }

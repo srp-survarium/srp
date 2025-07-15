@@ -1,75 +1,69 @@
-char __usercall btGjkEpaSolver2::Penetration@<al>(
-        const btConvexShape *shape0@<edx>,
-        const btTransform *wtrs0@<esi>,
-        const btConvexShape *shape1@<ecx>,
+char __cdecl btGjkEpaSolver2::Penetration(
+        const btConvexShape *shape0,
+        const btTransform *wtrs0,
+        const btConvexShape *shape1,
         const btTransform *wtrs1,
-        const gjkepa2_impl::MinkowskiDiff *guess,
         btGjkEpaSolver2::sResults *results,
         bool usemargins)
 {
-  float v7; // xmm2_4
-  float v8; // xmm2_4
-  unsigned int v9; // xmm2_4
-  gjkepa2_impl::MinkowskiDiff *v10; // edx
-  __int32 v11; // eax
+  _DWORD *v6; // ecx
+  _DWORD *v7; // esi
+  gjkepa2_impl::GJK *v8; // ecx
+  gjkepa2_impl::GJK *v9; // ecx
+  __int32 v10; // eax
+  gjkepa2_impl::EPA *v11; // ecx
   gjkepa2_impl::EPA *v12; // ecx
-  unsigned int v14; // edi
-  float v15; // xmm0_4
-  float v16; // xmm1_4
-  float v17; // xmm2_4
-  btVector3 *v18; // eax
-  float v19; // xmm2_4
-  float v20; // xmm6_4
-  float v21; // xmm5_4
-  float v22; // xmm4_4
-  float v23; // xmm5_4
-  float v24; // xmm4_4
-  float v25; // xmm4_4
-  float m_depth; // xmm3_4
+  gjkepa2_impl::MinkowskiDiff *v13; // ecx
+  unsigned int v14; // esi
+  float v15; // xmm1_4
+  float v16; // xmm3_4
+  float v17; // xmm4_4
+  float v18; // xmm3_4
+  float v19; // xmm0_4
+  float v20; // xmm5_4
+  float v21; // xmm2_4
+  float v22; // xmm5_4
+  unsigned int v23; // xmm2_4
+  float v24; // xmm5_4
+  float v25; // xmm2_4
+  float v26; // xmm6_4
   float v27; // xmm1_4
-  float v28; // xmm2_4
-  float v29; // xmm0_4
+  float v28; // xmm3_4
+  float v29; // xmm4_4
   float v30; // xmm7_4
-  float v31; // xmm1_4
-  unsigned int v32; // xmm4_4
-  unsigned int v33; // xmm6_4
-  btVector3 guessa; // [esp+10h] [ebp-2AC0h] BYREF
-  unsigned __int64 v35; // [esp+20h] [ebp-2AB0h]
-  unsigned __int64 v36; // [esp+28h] [ebp-2AA8h]
-  btVector3 result; // [esp+30h] [ebp-2AA0h] BYREF
-  gjkepa2_impl::MinkowskiDiff shape; // [esp+40h] [ebp-2A90h] BYREF
-  gjkepa2_impl::GJK v39; // [esp+D0h] [ebp-2A00h] BYREF
-  gjkepa2_impl::EPA gjk; // [esp+260h] [ebp-2870h] BYREF
+  float v31; // xmm4_4
+  float v32; // xmm7_4
+  unsigned int v33; // xmm4_4
+  float v34; // xmm3_4
+  btVector3 v36; // [esp+10h] [ebp-2AB0h] BYREF
+  btVector3 v37; // [esp+20h] [ebp-2AA0h] BYREF
+  gjkepa2_impl::MinkowskiDiff v38; // [esp+30h] [ebp-2A90h] BYREF
+  gjkepa2_impl::GJK v39; // [esp+C0h] [ebp-2A00h] BYREF
+  gjkepa2_impl::GJK::sSV v40; // [esp+250h] [ebp-2870h] BYREF
+  unsigned int v41; // [esp+274h] [ebp-284Ch]
+  float v42; // [esp+280h] [ebp-2840h]
+  float v43; // [esp+284h] [ebp-283Ch]
+  float v44; // [esp+288h] [ebp-2838h]
+  float v45; // [esp+290h] [ebp-2830h]
 
-  gjkepa2_impl::Initialize(wtrs1, &shape, shape0, wtrs0, shape1, results, usemargins);
-  v7 = *(float *)guess->m_shapes;
-  memset(&guessa, 0, sizeof(guessa));
-  v39.m_ray = (btVector3)_mm_load_si128((const __m128i *)&guessa);
-  guessa.mVec128.m128_f32[0] = -v7;
-  v8 = *(float *)&guess->m_shapes[1];
-  v39.m_nfree = 0;
-  v39.m_current = 0;
-  guessa.mVec128.m128_f32[1] = -v8;
-  *(float *)&v9 = -*(float *)&guess->m_shapes[2];
-  v39.m_status = Failed;
-  v39.m_distance = 0.0;
-  guessa.mVec128.m128_u64[1] = v9;
-  v11 = gjkepa2_impl::GJK::Evaluate(&guessa, guess, &v39, v10) - 1;
-  if ( v11 )
+  v7 = v6;
+  gjkepa2_impl::Initialize(results, (const float *)results, shape0, wtrs0, shape1, wtrs1, &v38, usemargins);
+  gjkepa2_impl::GJK::GJK(v8, &v39);
+  v36.mVec128.m128_i32[0] = *v7 ^ _mask__NegFloat_;
+  v36.mVec128.m128_i32[1] = v7[1] ^ _mask__NegFloat_;
+  v36.mVec128.m128_u64[1] = (unsigned int)v7[2] ^ (unsigned __int64)(unsigned int)_mask__NegFloat_;
+  v10 = gjkepa2_impl::GJK::Evaluate(v9, &v39, &v38, (int *)&v36) - 1;
+  if ( v10 )
   {
-    if ( v11 == 1 )
-    {
+    if ( v10 == 1 )
       results->status = GJK_Failed;
-      return 0;
-    }
     return 0;
   }
-  memset(&gjk.m_hull, 0, 16);
-  gjkepa2_impl::EPA::Initialize(v12, (int)&gjk);
-  guessa.mVec128.m128_f32[0] = -*(float *)guess->m_shapes;
-  guessa.mVec128.m128_f32[1] = -*(float *)&guess->m_shapes[1];
-  guessa.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(-*(float *)&guess->m_shapes[2]);
-  if ( gjkepa2_impl::EPA::Evaluate(&gjk, &gjk, &v39, &guessa) == 9 )
+  gjkepa2_impl::EPA::EPA(v11, (int)&v40);
+  v36.mVec128.m128_i32[0] = *v7 ^ _mask__NegFloat_;
+  v36.mVec128.m128_i32[1] = v7[1] ^ _mask__NegFloat_;
+  v36.mVec128.m128_u64[1] = (unsigned int)v7[2] ^ (unsigned __int64)(unsigned int)_mask__NegFloat_;
+  if ( gjkepa2_impl::EPA::Evaluate(v12, &v40, &v39, &v36) == 9 )
   {
     results->status = EPA_Failed;
     return 0;
@@ -78,72 +72,67 @@ char __usercall btGjkEpaSolver2::Penetration@<al>(
   v15 = 0.0;
   v16 = 0.0;
   v17 = 0.0;
-  memset(&guessa, 0, 12);
-  if ( gjk.m_result.rank )
+  v36.mVec128.m128_u64[0] = 0;
+  for ( v36.mVec128.m128_i32[2] = 0; v14 < v41; v36.mVec128.m128_f32[2] = v19 )
   {
-    do
-    {
-      v18 = shape.Ls(shape.m_shapes[0], &result, gjk.m_result.c[v14]);
-      v19 = gjk.m_result.p[v14];
-      v35 = v18->mVec128.m128_u64[0];
-      v36 = v18->mVec128.m128_u64[1];
-      v15 = (float)(v19 * *(float *)&v35) + guessa.mVec128.m128_f32[0];
-      v16 = (float)(v19 * *((float *)&v35 + 1)) + guessa.mVec128.m128_f32[1];
-      v17 = (float)(v19 * *(float *)&v36) + guessa.mVec128.m128_f32[2];
-      ++v14;
-      guessa.mVec128.m128_u64[0] = __PAIR64__(LODWORD(v16), LODWORD(v15));
-      guessa.mVec128.m128_f32[2] = v17;
-    }
-    while ( v14 < gjk.m_result.rank );
+    gjkepa2_impl::MinkowskiDiff::Support0(v13, (int)&v38, &v37, (const btVector3 *)v40.d.mVec128.m128_i32[v14 + 1]);
+    v15 = (float)(v40.w.mVec128.m128_f32[v14 + 1] * v37.mVec128.m128_f32[0]) + v36.mVec128.m128_f32[0];
+    v18 = v40.w.mVec128.m128_f32[v14 + 1];
+    v19 = (float)(v18 * v37.mVec128.m128_f32[2]) + v36.mVec128.m128_f32[2];
+    v16 = (float)(v18 * v37.mVec128.m128_f32[1]) + v36.mVec128.m128_f32[1];
+    ++v14;
+    v17 = v19;
+    v36.mVec128.m128_u64[0] = __PAIR64__(LODWORD(v16), LODWORD(v15));
   }
   results->status = Penetrating;
-  v20 = gjk.m_normal.mVec128.m128_f32[1];
-  v21 = wtrs0->m_basis.m_el[1].mVec128.m128_f32[1] * v16;
-  guessa.mVec128.m128_f32[0] = (float)((float)((float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[0] * v15)
-                                             + (float)(v17 * wtrs0->m_basis.m_el[0].mVec128.m128_f32[2]))
-                                     + (float)(v16 * wtrs0->m_basis.m_el[0].mVec128.m128_f32[1]))
-                             + wtrs0->m_origin.mVec128.m128_f32[0];
-  v22 = (float)((float)((float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[2] * v17) + v21)
+  v20 = wtrs0->m_basis.m_el[1].mVec128.m128_f32[1];
+  v36.mVec128.m128_f32[0] = (float)((float)((float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[0] * v15)
+                                          + (float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[2] * v17))
+                                  + (float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[1] * v16))
+                          + wtrs0->m_origin.mVec128.m128_f32[0];
+  v21 = (float)((float)((float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[2] * v17) + (float)(v20 * v16))
               + (float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[0] * v15))
       + wtrs0->m_origin.mVec128.m128_f32[1];
-  v23 = wtrs0->m_basis.m_el[2].mVec128.m128_f32[1] * v16;
-  guessa.mVec128.m128_f32[1] = v22;
-  v24 = (float)((float)((float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[2] * v17) + v23)
-              + (float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[0] * v15))
-      + wtrs0->m_origin.mVec128.m128_f32[2];
-  guessa.mVec128.m128_i32[3] = 0;
-  results->witnesses[0].mVec128.m128_u64[0] = guessa.mVec128.m128_u64[0];
-  guessa.mVec128.m128_f32[2] = v24;
-  v25 = gjk.m_normal.mVec128.m128_f32[0];
-  results->witnesses[0].mVec128.m128_u64[1] = guessa.mVec128.m128_u64[1];
-  m_depth = gjk.m_depth;
-  *((float *)&v35 + 1) = v20 * gjk.m_depth;
-  v27 = v16 - (float)(v20 * gjk.m_depth);
-  v28 = v17 - (float)(gjk.m_normal.mVec128.m128_f32[2] * gjk.m_depth);
-  v29 = v15 - (float)(v25 * gjk.m_depth);
-  v30 = wtrs0->m_basis.m_el[1].mVec128.m128_f32[1];
-  guessa.mVec128.m128_f32[0] = (float)((float)((float)(v28 * wtrs0->m_basis.m_el[0].mVec128.m128_f32[2])
-                                             + (float)(v27 * wtrs0->m_basis.m_el[0].mVec128.m128_f32[1]))
-                                     + (float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[0] * v29))
-                             + wtrs0->m_origin.mVec128.m128_f32[0];
-  guessa.mVec128.m128_f32[1] = (float)((float)((float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[2] * v28)
-                                             + (float)(v30 * v27))
-                                     + (float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[0] * v29))
-                             + wtrs0->m_origin.mVec128.m128_f32[1];
-  guessa.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(
-                                 (float)((float)((float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[2] * v28)
-                                               + (float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[1] * v27))
-                                       + (float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[0] * v29))
-                               + wtrs0->m_origin.mVec128.m128_f32[2]);
-  v31 = gjk.m_normal.mVec128.m128_f32[2];
-  results->witnesses[1] = (btVector3)guessa.mVec128;
-  *(float *)&v32 = -v25;
-  *(float *)&v33 = -v20;
-  guessa.mVec128.m128_f32[2] = -v31;
-  guessa.mVec128.m128_u64[0] = __PAIR64__(v33, v32);
-  results->normal.mVec128.m128_u64[0] = __PAIR64__(v33, v32);
-  guessa.mVec128.m128_i32[3] = 0;
-  results->normal.mVec128.m128_u64[1] = guessa.mVec128.m128_u32[2];
-  results->distance = -m_depth;
+  v22 = wtrs0->m_basis.m_el[2].mVec128.m128_f32[1];
+  v36.mVec128.m128_f32[1] = v21;
+  *(float *)&v23 = (float)((float)((float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[2] * v17) + (float)(v22 * v16))
+                         + (float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[0] * v15))
+                 + wtrs0->m_origin.mVec128.m128_f32[2];
+  v24 = v42;
+  v36.mVec128.m128_u64[1] = v23;
+  v25 = v45;
+  results->witnesses[0] = (btVector3)v36.mVec128;
+  v36.mVec128.m128_f32[0] = v24 * v25;
+  v26 = v43;
+  v27 = v15 - (float)(v24 * v25);
+  v36.mVec128.m128_f32[1] = v43 * v25;
+  v28 = v16 - (float)(v43 * v25);
+  v29 = v17 - (float)(v44 * v25);
+  v36.mVec128.m128_f32[2] = v44 * v25;
+  v30 = wtrs0->m_basis.m_el[0].mVec128.m128_f32[2] * v29;
+  v37.mVec128.m128_f32[2] = v29;
+  v31 = wtrs0->m_basis.m_el[1].mVec128.m128_f32[2] * v29;
+  v36.mVec128.m128_f32[0] = (float)((float)(v30 + (float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[1] * v28))
+                                  + (float)(wtrs0->m_basis.m_el[0].mVec128.m128_f32[0] * v27))
+                          + wtrs0->m_origin.mVec128.m128_f32[0];
+  v32 = wtrs0->m_basis.m_el[2].mVec128.m128_f32[1];
+  v36.mVec128.m128_f32[1] = (float)((float)(v31 + (float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[1] * v28))
+                                  + (float)(wtrs0->m_basis.m_el[1].mVec128.m128_f32[0] * v27))
+                          + wtrs0->m_origin.mVec128.m128_f32[1];
+  *(float *)&v33 = (float)((float)((float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[2] * v37.mVec128.m128_f32[2])
+                                 + (float)(v32 * v28))
+                         + (float)(wtrs0->m_basis.m_el[2].mVec128.m128_f32[0] * v27))
+                 + wtrs0->m_origin.mVec128.m128_f32[2];
+  v34 = v44;
+  v36.mVec128.m128_u64[1] = v33;
+  results->witnesses[1] = (btVector3)v36.mVec128;
+  v36.mVec128.m128_i32[0] = LODWORD(v24) ^ _mask__NegFloat_;
+  v36.mVec128.m128_i32[1] = LODWORD(v26) ^ _mask__NegFloat_;
+  v36.mVec128.m128_u64[1] = LODWORD(v34) ^ (unsigned __int64)(unsigned int)_mask__NegFloat_;
+  results->normal.mVec128.m128_i32[0] = LODWORD(v24) ^ _mask__NegFloat_;
+  *(unsigned __int64 *)((char *)results->normal.mVec128.m128_u64 + 4) = *(unsigned __int64 *)((char *)v36.mVec128.m128_u64
+                                                                                            + 4);
+  LODWORD(results->distance) = LODWORD(v25) ^ _mask__NegFloat_;
+  results->normal.mVec128.m128_i32[3] = v36.mVec128.m128_i32[3];
   return 1;
 }

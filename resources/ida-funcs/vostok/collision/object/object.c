@@ -1,10 +1,7 @@
-void __usercall vostok::collision::object::object(vostok::collision::object *this@<ecx>, int a2@<eax>)
+void __usercall vostok::collision::object::object(vostok::collision::object *this@<ecx>, int a2@<esi>)
 {
   *(_DWORD *)a2 = &vostok::collision::object::`vftable';
-  *(_QWORD *)(a2 + 4) = 0;
-  *(_DWORD *)(a2 + 12) = 0;
-  *(_QWORD *)(a2 + 16) = 0;
-  *(_DWORD *)(a2 + 24) = 0;
+  vostok::math::create_zero_aabb((vostok::math::aabb *)(a2 + 4));
   *(_DWORD *)(a2 + 28) = 0;
   *(_DWORD *)(a2 + 32) = 0;
   *(_DWORD *)(a2 + 40) = -33698355;

@@ -1,4 +1,4 @@
-int __cdecl rc2_init_key(evp_cipher_ctx_st *ctx, const unsigned __int8 *key)
+int __cdecl rc2_init_key(evp_cipher_ctx_st *ctx, unsigned __int8 *key)
 {
   int v2; // eax
   int v4; // [esp-4h] [ebp-8h]

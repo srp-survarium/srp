@@ -6,15 +6,15 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringLocaleCompare(const Scalefo
   Scaleform::GFx::ASConstString *p_pProto; // ebp
   Scaleform::GFx::AS2::Value *v5; // eax
   Scaleform::GFx::AS2::Value *v6; // eax
-  Scaleform::GFx::AS2::FnCall_vtbl *v7; // edi
+  char *v7; // edi
   unsigned int Length; // eax
   int v9; // eax
   Scaleform::GFx::AS2::Value *v10; // esi
   Scaleform::GFx::ASStringNode *v11; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-10h] [ebp-1Ch]
   const Scaleform::GFx::AS2::Environment *v13; // [esp-8h] [ebp-14h]
-  bool caseSensitive; // [esp+8h] [ebp-4h]
-  int caseSensitivea; // [esp+8h] [ebp-4h]
+  bool v14; // [esp+8h] [ebp-4h]
+  int v15; // [esp+8h] [ebp-4h]
 
   v1 = fn;
   Result = fn->Result;
@@ -34,26 +34,22 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringLocaleCompare(const Scalefo
         Env = v1->Env;
         v5 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
         Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
-        caseSensitive = 1;
+        v14 = 1;
         if ( v1->NArgs >= 2 )
         {
           v13 = v1->Env;
           v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
-          caseSensitive = Scaleform::GFx::AS2::Value::ToBool(v6, v13) == 0;
+          v14 = !Scaleform::GFx::AS2::Value::ToBool(v6, (int)Result, v13);
         }
-        v7 = fn->__vftable;
+        v7 = (char *)fn->__vftable;
         Length = Scaleform::GFx::ASConstString::GetLength((Scaleform::GFx::ASConstString *)&fn);
-        v9 = Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(
-               p_pProto + 13,
-               (const char *)v7,
-               Length,
-               caseSensitive);
+        v9 = Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(p_pProto + 13, v7, Length, v14);
         v10 = v1->Result;
-        caseSensitivea = v9;
+        v15 = v9;
         if ( v10->T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(v10);
         v10->T.Type = 3;
-        v10->NV.NumberValue = (double)caseSensitivea;
+        v10->NV.NumberValue = (double)v15;
         v11 = (Scaleform::GFx::ASStringNode *)fn;
         --fn->ThisFunctionRef.Function;
         if ( !v11->RefCount )

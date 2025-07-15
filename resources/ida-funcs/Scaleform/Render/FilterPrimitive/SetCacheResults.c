@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::FilterPrimitive::SetCacheResults(
   Scaleform::Render::MatrixPoolImpl::EntryHandle *pHandle; // ecx
   Scaleform::Render::MatrixPoolImpl::DataHeader *pHeader; // ecx
   const Scaleform::Render::Matrix2x4<float> *v10; // eax
-  Scaleform::Render::Matrix2x4<float> m; // [esp+30h] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+10h] [ebp-20h] BYREF
 
   v4 = this;
   this->Caching = state;
@@ -48,7 +48,7 @@ void __thiscall Scaleform::Render::FilterPrimitive::SetCacheResults(
       if ( (pHeader->Format & 2) != 0 )
         v10 = (const Scaleform::Render::Matrix2x4<float> *)(&pHeader[1].RefCount
                                                           + 4
-                                                          * (unsigned __int8)byte_9B2B71[5 * (pHeader->Format & 0xF)]);
+                                                          * (unsigned __int8)byte_874211[5 * (pHeader->Format & 0xF)]);
       else
         v10 = &Scaleform::Render::Matrix2x4<float>::Identity;
       m.M[0][0] = 0.0;

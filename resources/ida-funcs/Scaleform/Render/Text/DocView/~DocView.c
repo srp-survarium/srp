@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::Text::DocView::~DocView(Scaleform::Render::Te
 {
   Scaleform::Render::Text::DocView::ImageSubstitutor *pImageSubstitutor; // edi
   Scaleform::Render::Text::DocView::HighlightDescLoc *pHighlight; // edi
-  Scaleform::Log *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::RefCountVImpl *v5; // ecx
   Scaleform::Render::Text::DocView::DocumentListener *v6; // ecx
   Scaleform::RefCountVImpl *v7; // ecx
@@ -28,9 +28,9 @@ void __thiscall Scaleform::Render::Text::DocView::~DocView(Scaleform::Render::Te
       pHighlight->HighlightManager.Highlighters.Data.Data);
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pHighlight);
   }
-  pObject = this->pLog.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pLog.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   Scaleform::RefCountNTSImplCore::~RefCountNTSImplCore(&this->Filter);
   v5 = (Scaleform::RefCountVImpl *)this->pEditorKit.pObject;
   if ( v5 )

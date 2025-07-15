@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::MovieRoot(
   this->Scaleform::GFx::AS3::FlashUI::__vftable = (Scaleform::GFx::AS3::FlashUI_vtbl *)&Scaleform::GFx::AMP::SocketImplFactory::`vftable';
   this->State = sError;
   this->NeedToCheck = 0;
-  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::Text::CSSHandler<wchar_t>::`vftable';
+  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   this->Scaleform::GFx::ASMovieRootBase::Scaleform::RefCountBase<Scaleform::GFx::ASMovieRootBase,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,327>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::GFx::AS3::MovieRoot_vtbl *)&Scaleform::GFx::AS3::MovieRoot::`vftable'{for `Scaleform::GFx::ASMovieRootBase'};
   this->Scaleform::GFx::AS3::FlashUI::__vftable = (Scaleform::GFx::AS3::FlashUI_vtbl *)&Scaleform::GFx::AS3::MovieRoot::`vftable'{for `Scaleform::GFx::AS3::FlashUI'};
   this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::AS3::MovieRoot::`vftable'{for `Scaleform::GFx::KeyboardState::IListener'};
@@ -81,6 +81,6 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::MovieRoot(
     pmovie,
     (Scaleform::GFx::MovieImpl *)&this->Scaleform::GFx::KeyboardState::IListener);
   this->pInvokeAliases = 0;
-  pmovie->Flags = (unsigned int)Scaleform::GFx::AS2::CreateShadow & 0xDFFFFFFF | pmovie->Flags & 0xDF7FFFFF | 0x10000000;
+  pmovie->Flags = (unsigned int)&loc_400000 & 0xDFFFFFFF | pmovie->Flags & 0xDF7FFFFF | 0x10000000;
   this->MainLoaderInfoEventsState = 0;
 }

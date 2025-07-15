@@ -1,282 +1,173 @@
-vostok::render::effect_compiler *__userpurge vostok::render::effect_compiler::set_texture@<eax>(
-        unsigned int num_last_mips_used@<eax>,
+vostok::render::effect_compiler *__thiscall vostok::render::effect_compiler::set_texture(
         vostok::render::effect_compiler *this,
-        const char *name,
+        int name,
         char *physical_name,
-        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *out_texture,
-        bool streamed)
+        char *streamed,
+        char num_last_mips_used,
+        unsigned int streaming_priority,
+        unsigned int tiling,
+        float a8)
 {
-  int v7; // eax
-  int v8; // eax
-  const char *v9; // ecx
-  char *m_buffer; // eax
-  vostok::render::xs_descriptor<vostok::render::vs_data> *v11; // ecx
-  const char *v12; // esi
-  char v13; // bl
-  survarium::game_action_id *M_start; // ecx
-  vostok::render::res_texture *texture; // edi
-  stlp_std::priv::_Impl_vector<vostok::render::effect_compiler::texture_query_desc,vostok::render::std_allocator<vostok::render::effect_compiler::texture_query_desc> > *m_begin; // ecx
-  char *p_m_max_end; // eax
-  vostok::render::effect_compiler::texture_query_desc *M_finish; // esi
-  unsigned int v20; // [esp+0h] [ebp-45Ch]
-  unsigned int v21; // [esp+4h] [ebp-458h]
-  char res; // [esp+13h] [ebp-449h]
-  vostok::render::texture_named_instance instance; // [esp+18h] [ebp-444h] BYREF
-  unsigned int v24; // [esp+12Ch] [ebp-330h] BYREF
-  vostok::fixed_string<512> s; // [esp+130h] [ebp-32Ch] BYREF
-  char v26; // [esp+33Ch] [ebp-120h] BYREF
-  vostok::fs_new::virtual_path_string physical_name_lower_case; // [esp+340h] [ebp-11Ch] BYREF
+  int v9; // eax
+  int v10; // eax
+  vostok::fixed_string<260> *v11; // ecx
+  vostok::command_line::key *v12; // ecx
+  vostok::buffer_string *v13; // ecx
+  char v15; // al
+  vostok::render::effect_compiler::texture_query_desc *v16; // edi
+  int v17; // eax
+  vostok::render::res_texture *texture; // esi
+  unsigned int v19; // eax
+  float max_tiling; // xmm0_4
+  vostok::render::effect_compiler *v21; // ecx
+  bool v22; // zf
+  bool v23; // al
+  vostok::render::effect_compiler *v24; // [esp-4h] [ebp-570h]
+  vostok::render::effect_compiler *v25; // [esp-4h] [ebp-570h]
+  vostok::command_line::key *v26; // [esp-4h] [ebp-570h]
+  vostok::buffer_vector<vostok::render::effect_compiler::texture_query_desc> *v27; // [esp-4h] [ebp-570h]
+  bool v28; // [esp+0h] [ebp-56Ch]
+  unsigned int v29; // [esp+4h] [ebp-568h]
+  unsigned int v30; // [esp+8h] [ebp-564h]
+  float v31; // [esp+Ch] [ebp-560h]
+  vostok::buffer_string v32[44]; // [esp+10h] [ebp-55Ch] BYREF
+  vostok::buffer_string string; // [esp+220h] [ebp-34Ch] BYREF
+  char v34; // [esp+330h] [ebp-23Ch]
+  vostok::render::effect_compiler::texture_query_desc __pred; // [esp+338h] [ebp-234h] BYREF
+  unsigned int v36; // [esp+560h] [ebp-Ch]
+  char v37; // [esp+567h] [ebp-5h]
+  char v38; // [esp+577h] [ebp+Bh]
 
-  if ( physical_name
-    && strcmp(physical_name, (const char *)&buf)
-    && (!vostok::command_line::key::is_set(&s_one_texture_result)
-     || (strstr((unsigned __int8 *)physical_name, "$user$"), v7)
-     || (strstr((unsigned __int8 *)physical_name, "ui/"), v8)) )
+  if ( !streamed
+    || !vostok::strings::compare(streamed, uri)
+    || vostok::command_line::key::is_set((vostok::command_line::key *)this, (int)&s_one_texture_result)
+    && (strstr((unsigned __int8 *)streamed, "$user$"), this = v24, !v9)
+    && (strstr((unsigned __int8 *)streamed, "ui/"), this = v25, !v10) )
   {
-    v9 = physical_name;
+    streamed = "editor/default";
   }
-  else
+  vostok::fixed_string<512>::fixed_string<512>((vostok::fixed_string<512> *)this, v32, streamed);
+  v36 = streaming_priority;
+  if ( !vostok::quasi_singleton<vostok::render::options>::pinst->current.m_use_texture_streaming )
+    streaming_priority = -1;
+  vostok::fixed_string<260>::fixed_string<260>(v11, &string, streamed);
+  v34 = 47;
+  if ( string.m_end != string.m_begin )
   {
-    v9 = "editor/default";
-    physical_name = "editor/default";
+    _strlwr_s(string.m_begin, string.m_end - string.m_begin + 1);
+    v12 = v26;
   }
-  m_buffer = s.m_buffer;
-  s.m_begin = s.m_buffer;
-  s.m_end = s.m_buffer;
-  s.m_max_end = &v26;
-  s.m_buffer[0] = 0;
-  if ( v9 )
-  {
-    for ( ; *v9; ++s.m_end )
-    {
-      if ( m_buffer >= s.m_max_end )
-        break;
-      *m_buffer = *v9;
-      m_buffer = s.m_end + 1;
-      ++v9;
-    }
-    *m_buffer = 0;
-  }
-  if ( !*((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-        + 302) )
-    num_last_mips_used = -1;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&physical_name_lower_case, (const char **)&physical_name);
-  vostok::fs_new::path_string_impl::make_lowercase(&physical_name_lower_case);
-  if ( this->m_shaders_cache_mode )
-    goto LABEL_36;
-  if ( s_no_effect_result.m_type == type_unset )
-  {
-    s_no_effect_result.m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-  }
-  if ( s_no_effect_result.m_type != type_recursive )
-  {
-LABEL_36:
-    instance.path.m_end = &instance.path.m_buffer[256];
-    m_begin = (stlp_std::priv::_Impl_vector<vostok::render::effect_compiler::texture_query_desc,vostok::render::std_allocator<vostok::render::effect_compiler::texture_query_desc> > *)physical_name_lower_case.m_string.m_begin;
-    p_m_max_end = (char *)&instance.path.m_max_end;
-    instance.texture = (vostok::render::res_texture *)&instance.path.m_max_end;
-    instance.path.m_begin = (char *)&instance.path.m_max_end;
-    LOBYTE(instance.path.m_max_end) = 0;
-    if ( &instance.path.m_max_end != (char **)physical_name_lower_case.m_string.m_begin )
-    {
-      instance.path.m_begin = (char *)&instance.path.m_max_end;
-      LOBYTE(instance.path.m_max_end) = 0;
-      if ( physical_name_lower_case.m_string.m_begin )
-      {
-        if ( *physical_name_lower_case.m_string.m_begin )
-        {
-          do
-          {
-            if ( p_m_max_end >= instance.path.m_end )
-              break;
-            *p_m_max_end = (char)m_begin->_M_start;
-            p_m_max_end = instance.path.m_begin + 1;
-            m_begin = (stlp_std::priv::_Impl_vector<vostok::render::effect_compiler::texture_query_desc,vostok::render::std_allocator<vostok::render::effect_compiler::texture_query_desc> > *)((char *)m_begin + 1);
-            ++instance.path.m_begin;
-          }
-          while ( LOBYTE(m_begin->_M_start) );
-        }
-        *p_m_max_end = 0;
-      }
-    }
-    M_finish = this->m_textures_for_query._M_impl._M_finish;
-    *(_DWORD *)&instance.path.m_buffer[256] = 0;
-    v24 = num_last_mips_used;
-    if ( M_finish == this->m_textures_for_query._M_impl._M_end_of_storage._M_data )
-    {
-      stlp_std::priv::_Impl_vector<vostok::render::effect_compiler::texture_query_desc,vostok::render::std_allocator<vostok::render::effect_compiler::texture_query_desc>>::_M_insert_overflow_aux(
-        m_begin,
-        (vostok::render::effect_compiler::texture_query_desc *)&this->m_textures_for_query,
-        M_finish,
-        (const vostok::render::effect_compiler::texture_query_desc *)&instance,
-        v20,
-        v21);
-      return this;
-    }
-    else
-    {
-      if ( M_finish )
-        vostok::render::effect_compiler::texture_query_desc::texture_query_desc(
-          M_finish,
-          (const vostok::render::effect_compiler::texture_query_desc *)&instance);
-      ++this->m_textures_for_query._M_impl._M_finish;
-      return this;
-    }
-  }
-  else
-  {
-    res = 0;
-    if ( this->m_vs_hw.m_object
-      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-    {
-      v12 = name;
-      res = vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(v11, (int)&this->m_vs_descriptor, name);
-    }
-    else
-    {
-      v12 = name;
-    }
-    if ( this->m_gs_hw.m_object )
-    {
-      v11 = (vostok::render::xs_descriptor<vostok::render::vs_data> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr;
-      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-        res |= vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(
-                 (vostok::render::xs_descriptor<vostok::render::vs_data> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr,
-                 (int)&this->m_gs_descriptor,
-                 v12);
-    }
-    v13 = 0;
-    if ( this->m_ps_hw.m_object
-      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-    {
-      v13 = vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(v11, (int)&this->m_ps_descriptor, v12);
-      res |= v13;
-    }
-    if ( res )
-    {
-      texture = (vostok::render::res_texture *)vostok::render::resource_manager::create_texture(
-                                                 (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                                                 physical_name_lower_case.m_string.m_begin,
-                                                 0,
-                                                 0,
-                                                 0,
-                                                 1,
-                                                 1,
-                                                 num_last_mips_used);
-      if ( v13 && (_BYTE)out_texture )
-      {
-        M_start = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start;
-        if ( *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-             + 302) )
-        {
-          instance.path.m_max_end = (char *)&v24;
-          instance.path.m_begin = instance.path.m_buffer;
-          instance.path.m_end = instance.path.m_buffer;
-          instance.path.m_buffer[0] = 0;
-          instance.texture = texture;
-          vostok::fixed_string<16>::operator=((vostok::fixed_string<16> *)physical_name, &instance.path);
-          stlp_std::vector<vostok::render::texture_named_instance,vostok::render::std_allocator<vostok::render::texture_named_instance>>::push_back(
-            &this->m_ps_used_textures,
-            &instance);
-          v12 = name;
-        }
-      }
-      return vostok::render::effect_compiler::set_texture(
-               this,
-               texture,
-               (vostok::render::xs_descriptor<vostok::render::vs_data> *)M_start,
-               v12,
-               v20,
-               v21);
-    }
-    else
-    {
-      return this;
-    }
-  }
-}
-
-
-vostok::render::effect_compiler *__userpurge vostok::render::effect_compiler::set_texture@<eax>(
-        vostok::render::effect_compiler *this@<esi>,
-        vostok::render::res_texture *texture@<edi>,
-        vostok::render::xs_descriptor<vostok::render::vs_data> *a3@<ecx>,
-        const char *name,
-        bool streamed,
-        unsigned int num_last_mips_used)
-{
-  if ( !this->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      if ( this->m_vs_hw.m_object )
-      {
-        a3 = (vostok::render::xs_descriptor<vostok::render::vs_data> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr;
-        if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-          vostok::render::xs_descriptor<vostok::render::gs_data>::set_texture(
-            (vostok::render::xs_descriptor<vostok::render::vs_data> *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr,
-            (int)&this->m_vs_descriptor,
-            name,
-            texture);
-      }
-      if ( this->m_gs_hw.m_object
-        && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      {
-        vostok::render::xs_descriptor<vostok::render::gs_data>::set_texture(
-          a3,
-          (int)&this->m_gs_descriptor,
-          name,
-          texture);
-      }
-      if ( this->m_ps_hw.m_object
-        && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      {
-        vostok::render::xs_descriptor<vostok::render::gs_data>::set_texture(
-          a3,
-          (int)&this->m_ps_descriptor,
-          name,
-          texture);
-      }
-    }
-  }
-  return this;
-}
-
-
-vostok::render::effect_compiler *__fastcall vostok::render::effect_compiler::set_texture(
-        int a1,
-        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *streamed,
-        vostok::render::effect_compiler *this,
-        const char *hlsl_name,
-        vostok::shared_string phisical_name,
-        unsigned int num_last_mips_used)
-{
-  const char *v6; // eax
-  vostok::render::effect_compiler *v7; // esi
-  bool v9; // [esp+0h] [ebp-4h]
-
-  if ( phisical_name.m_pointer.m_object
+  if ( vostok::command_line::key::is_set(v12, (int)&s_no_effect_result) )
+    return (vostok::render::effect_compiler *)name;
+  v38 = 0;
+  if ( *(_DWORD *)((char *)&loc_50338 + name)
     && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    v6 = (const char *)&phisical_name.m_pointer.m_object[1];
+    v38 = vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(
+            (vostok::render::xs_descriptor<vostok::render::vs_data> *)((char *)&loc_504E3 + name + 1),
+            physical_name);
   }
-  else
+  if ( *(_DWORD *)((char *)&loc_50332 + name + 2)
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    v6 = 0;
+    v38 |= vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(
+             (vostok::render::xs_descriptor<vostok::render::vs_data> *)((char *)&loc_561F6 + name + 2),
+             physical_name);
   }
-  v7 = vostok::render::effect_compiler::set_texture(this, hlsl_name, v6, streamed, v9, num_last_mips_used);
-  if ( phisical_name.m_pointer.m_object
-    && !_InterlockedExchangeAdd(&phisical_name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF) )
+  v37 = 0;
+  if ( *(_DWORD *)((char *)&loc_5032F + name + 1)
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    vostok::strings::shared::manager::remove(
-      s_manager.m_variable,
-      (vostok::strings::shared::profile *)s_manager.m_variable);
+    v15 = vostok::render::xs_descriptor<vostok::render::gs_data>::use_texture(
+            (vostok::render::xs_descriptor<vostok::render::vs_data> *)((char *)&loc_5BF08 + name),
+            physical_name);
+    v38 |= v15;
+    v37 = v15;
   }
-  return v7;
+  if ( !v38 )
+    return (vostok::render::effect_compiler *)name;
+  if ( v37
+    && (!num_last_mips_used || !vostok::quasi_singleton<vostok::render::options>::pinst->current.m_use_texture_streaming) )
+  {
+    streaming_priority = -1;
+  }
+  if ( !byte_61F4C[name] )
+  {
+    __pred.m_query_physicaly_path.m_begin = __pred.m_query_physicaly_path.m_buffer;
+    __pred.m_query_physicaly_path.m_end = __pred.m_query_physicaly_path.m_buffer;
+    __pred.m_query_physicaly_path.m_max_end = (char *)&__pred.m_query_short_path;
+    __pred.m_query_short_path.m_begin = __pred.m_query_short_path.m_buffer;
+    __pred.m_query_short_path.m_end = __pred.m_query_short_path.m_buffer;
+    __pred.m_query_short_path.m_max_end = (char *)&__pred.m_mip_level_cut;
+    __pred.m_query_physicaly_path.m_buffer[0] = 0;
+    __pred.m_query_short_path.m_buffer[0] = 0;
+    if ( __pred.m_query_short_path.m_buffer != string.m_begin )
+    {
+      __pred.m_query_short_path.m_end = __pred.m_query_short_path.m_buffer;
+      __pred.m_query_short_path.m_buffer[0] = 0;
+      vostok::buffer_string::operator+=(&__pred.m_query_short_path, string.m_begin);
+    }
+    vostok::fs_new::path_string_impl::assignf(&__pred, v13, (vostok::buffer_string *)&stru_80B1B4, string.m_begin);
+    __pred.m_mip_level_cut = 0;
+    v16 = *(vostok::render::effect_compiler::texture_query_desc **)((char *)&loc_4BE28 + name);
+    __pred.m_num_last_mips_used = streaming_priority;
+    if ( stlp_std::priv::__find_if<vostok::render::effect_compiler::texture_query_desc *,vostok::render::find_texture_predicate>(
+           *(vostok::render::effect_compiler::texture_query_desc **)((char *)&loc_4BE23 + name + 1),
+           v16,
+           __pred.m_query_physicaly_path.m_begin) == v16 )
+    {
+      strstr((unsigned __int8 *)streamed, "$user$");
+      v13 = (vostok::buffer_string *)v27;
+      if ( !v17 )
+        vostok::buffer_vector<vostok::render::effect_compiler::texture_query_desc>::push_back(
+          v27,
+          (int)&loc_4BE23 + name + 1,
+          &__pred);
+    }
+  }
+  texture = vostok::render::resource_manager::create_texture(
+              (vostok::render::resource_manager *)v13,
+              vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+              (vostok::resources::query_result_for_cook *)string.m_begin,
+              0,
+              0,
+              0,
+              1,
+              1,
+              streaming_priority,
+              *(_BYTE *)(name + 4),
+              0,
+              0);
+  v19 = texture->streaming_priority;
+  max_tiling = texture->max_tiling;
+  v21 = (vostok::render::effect_compiler *)((v19 - tiling) & ((v19 - (unsigned __int64)tiling) >> 32));
+  texture->streaming_priority = v19 - (_DWORD)v21;
+  if ( max_tiling <= a8 )
+    max_tiling = a8;
+  v22 = !texture->m_streamed;
+  texture->max_tiling = max_tiling;
+  v23 = (!v22 || num_last_mips_used)
+     && vostok::quasi_singleton<vostok::render::options>::pinst->current.m_use_texture_streaming;
+  v22 = v36 == 0;
+  texture->m_streamed = v23;
+  if ( v22 )
+    texture->m_always_closer = 1;
+  if ( v37 )
+  {
+    __pred.m_query_short_path.m_end = &__pred.m_query_short_path.m_buffer[4];
+    __pred.m_query_short_path.m_max_end = &__pred.m_query_short_path.m_buffer[4];
+    *(_DWORD *)__pred.m_query_short_path.m_buffer = &__pred.m_num_last_mips_used;
+    __pred.m_query_short_path.m_buffer[4] = 0;
+    __pred.m_query_short_path.m_begin = (char *)texture;
+    if ( &__pred.m_query_short_path.m_buffer[4] != streamed )
+    {
+      __pred.m_query_short_path.m_max_end = &__pred.m_query_short_path.m_buffer[4];
+      __pred.m_query_short_path.m_buffer[4] = 0;
+      vostok::buffer_string::operator+=((vostok::buffer_string *)&__pred.m_query_short_path.m_end, streamed);
+    }
+    vostok::buffer_vector<vostok::render::texture_named_instance>::push_back(
+      (vostok::buffer_vector<vostok::render::texture_named_instance> *)(name + 28184),
+      (const vostok::render::texture_named_instance *)&__pred.m_query_short_path);
+  }
+  return vostok::render::effect_compiler::set_texture_impl(v21, name, physical_name, texture, v28, v29, v30, v31);
 }

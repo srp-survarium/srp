@@ -4,7 +4,7 @@ _BYTE *__cdecl png_do_write_transformations(int a1, unsigned int *a2)
 
   if ( a1 )
   {
-    if ( (*(_DWORD *)(a1 + 116) & 0x100000) != 0 && *(_DWORD *)(a1 + 96) )
+    if ( ((unsigned int)&loc_100000 & *(_DWORD *)(a1 + 116)) != 0 && *(_DWORD *)(a1 + 96) )
       (*(void (__cdecl **)(int, unsigned int *, int))(a1 + 96))(a1, a2, *(_DWORD *)(a1 + 264) + 1);
     if ( (*(_DWORD *)(a1 + 116) & 0x8000) != 0 )
     {

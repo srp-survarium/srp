@@ -1,16 +1,16 @@
-int __cdecl X509_TRUST_get_by_id(int id)
+int __usercall X509_TRUST_get_by_id@<eax>(int a1@<edi>, int id)
 {
-  int v2; // eax
-  int data[6]; // [esp+0h] [ebp-18h] BYREF
+  int v3; // eax
+  int v4[6]; // [esp+0h] [ebp-18h] BYREF
 
   if ( (unsigned int)(id - 1) <= 7 )
     return id - 1;
-  data[0] = id;
+  v4[0] = id;
   if ( !trtable )
     return -1;
-  v2 = sk_find(&trtable->stack, (char *)data);
-  if ( v2 == -1 )
+  v3 = sk_find(a1, &trtable->stack, (char *)v4);
+  if ( v3 == -1 )
     return -1;
   else
-    return v2 + 8;
+    return v3 + 8;
 }

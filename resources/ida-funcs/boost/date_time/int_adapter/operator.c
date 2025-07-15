@@ -1,171 +1,164 @@
-boost::date_time::int_adapter<__int64> *__thiscall boost::date_time::int_adapter<__int64>::operator-<__int64>(
-        boost::date_time::int_adapter<__int64> *this,
+boost::date_time::int_adapter<__int64> *__userpurge boost::date_time::int_adapter<__int64>::operator-<__int64>@<eax>(
+        boost::date_time::int_adapter<__int64> *this@<ecx>,
+        int *a2@<edi>,
+        int *a3@<esi>,
         boost::date_time::int_adapter<__int64> *result,
-        boost::date_time::int_adapter<__int64> *rhs)
+        const boost::date_time::int_adapter<__int64> *rhs)
 {
-  int value_high; // ecx
-  char v8; // [esp+14h] [ebp-D4h]
-  char v9; // [esp+18h] [ebp-D0h]
-  char v10; // [esp+1Ch] [ebp-CCh]
-  bool v11; // [esp+20h] [ebp-C8h]
-  char v12; // [esp+24h] [ebp-C4h]
-  bool v13; // [esp+2Ch] [ebp-BCh]
+  boost::date_time::int_adapter<__int64> *v5; // ecx
+  boost::date_time::int_adapter<__int64> *v6; // ecx
+  bool is_neg_inf; // al
+  boost::date_time::int_adapter<__int64> *v8; // ecx
+  bool v9; // al
+  boost::date_time::int_adapter<__int64> *v11; // [esp-4h] [ebp-Ch]
+  boost::date_time::int_adapter<__int64> *v12; // [esp-4h] [ebp-Ch]
 
-  if ( !boost::date_time::int_adapter<__int64>::is_special(this)
-    && !boost::date_time::int_adapter<__int64>::is_special(rhs) )
+  if ( !boost::date_time::int_adapter<__int64>::is_special(this, (int)a2)
+    && !boost::date_time::int_adapter<__int64>::is_special(v5, (int)result) )
   {
-    goto LABEL_55;
+    goto LABEL_15;
   }
-  v13 = LODWORD(this->value_) == -2 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v13 || (LODWORD(rhs->value_) != -2 || HIDWORD(rhs->value_) != 0x7FFFFFFF ? (v12 = 0) : (v12 = 1), v12) )
+  if ( boost::date_time::int_adapter<__int64>::is_nan(v5, a2)
+    || boost::date_time::int_adapter<__int64>::is_nan(v6, result)
+    || boost::date_time::int_adapter<__int64>::is_pos_inf(*(_QWORD *)a2)
+    && boost::date_time::int_adapter<__int64>::is_pos_inf(result->value_)
+    || (is_neg_inf = boost::date_time::int_adapter<__int64>::is_neg_inf(*(_QWORD *)a2), v8 = v11, is_neg_inf)
+    && (v9 = boost::date_time::int_adapter<__int64>::is_neg_inf(result->value_), v8 = v12, v9) )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    *a3 = -2;
+    goto LABEL_17;
   }
-  v11 = LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v11 && (LODWORD(rhs->value_) != -1 || HIDWORD(rhs->value_) != 0x7FFFFFFF ? (v10 = 0) : (v10 = 1), v10)
-    || (LODWORD(this->value_) || HIDWORD(this->value_) != 0x80000000 ? (v9 = 0) : (v9 = 1),
-        v9 && (LODWORD(rhs->value_) || HIDWORD(rhs->value_) != 0x80000000 ? (v8 = 0) : (v8 = 1), v8)) )
+  if ( !boost::date_time::int_adapter<__int64>::is_infinity(v8, a2) )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    if ( boost::date_time::int_adapter<__int64>::is_pos_inf(result->value_) )
+    {
+      *a3 = 0;
+      a3[1] = 0x80000000;
+      return (boost::date_time::int_adapter<__int64> *)a3;
+    }
+    if ( boost::date_time::int_adapter<__int64>::is_neg_inf(result->value_) )
+    {
+      *a3 = -1;
+LABEL_17:
+      a3[1] = 0x7FFFFFFF;
+      return (boost::date_time::int_adapter<__int64> *)a3;
+    }
+LABEL_15:
+    *(_QWORD *)a3 = *(_QWORD *)a2 - result->value_;
+    return (boost::date_time::int_adapter<__int64> *)a3;
   }
-  if ( !LODWORD(this->value_) && HIDWORD(this->value_) == 0x80000000
-    || LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF )
-  {
-    value_high = HIDWORD(this->value_);
-    LODWORD(result->value_) = this->value_;
-    HIDWORD(result->value_) = value_high;
-    return result;
-  }
-  if ( LODWORD(rhs->value_) == -1 && HIDWORD(rhs->value_) == 0x7FFFFFFF )
-  {
-    result->value_ = 0x8000000000000000uLL;
-    return result;
-  }
-  if ( !LODWORD(rhs->value_) && HIDWORD(rhs->value_) == 0x80000000 )
-  {
-    result->value_ = 0x7FFFFFFFFFFFFFFFLL;
-    return result;
-  }
-  else
-  {
-LABEL_55:
-    result->value_ = this->value_ - rhs->value_;
-    return result;
-  }
+  *a3 = *a2;
+  a3[1] = a2[1];
+  return (boost::date_time::int_adapter<__int64> *)a3;
 }
 
 
-boost::date_time::int_adapter<__int64> *__thiscall boost::date_time::int_adapter<__int64>::operator+<unsigned int>(
-        boost::date_time::int_adapter<__int64> *this,
+boost::date_time::int_adapter<__int64> *__userpurge boost::date_time::int_adapter<__int64>::operator+<unsigned int>@<eax>(
+        boost::date_time::int_adapter<__int64> *this@<ecx>,
+        _DWORD *a2@<esi>,
         boost::date_time::int_adapter<__int64> *result,
-        boost::date_time::int_adapter<unsigned int> *rhs)
+        const boost::date_time::int_adapter<unsigned int> *rhs)
 {
-  int value_high; // edx
-  char v6; // [esp+Ch] [ebp-90h]
-  bool v7; // [esp+10h] [ebp-8Ch]
-  bool v8; // [esp+14h] [ebp-88h]
+  boost::date_time::int_adapter<__int64> *v4; // ecx
+  unsigned int value; // edi
+  int value_high; // eax
+  boost::date_time::int_adapter<__int64> *v8; // [esp-4h] [ebp-10h]
 
-  if ( !boost::date_time::int_adapter<__int64>::is_special(this)
-    && !boost::date_time::int_adapter<unsigned int>::is_special(rhs) )
+  if ( !boost::date_time::int_adapter<__int64>::is_special(this, (int)result) )
   {
-    goto LABEL_35;
+    value = rhs->value_;
+    if ( rhs->value_ )
+    {
+      if ( value < 0xFFFFFFFE )
+        goto LABEL_17;
+    }
   }
-  v8 = LODWORD(this->value_) == -2 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v8 || rhs->value_ == -2 )
+  if ( boost::date_time::int_adapter<__int64>::is_nan(v4, result)
+    || (value = rhs->value_, rhs->value_ == -2)
+    || boost::date_time::int_adapter<__int64>::is_pos_inf(result->value_) && !value
+    || boost::date_time::int_adapter<__int64>::is_neg_inf(result->value_) && value == -1 )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    *a2 = -2;
+    goto LABEL_19;
   }
-  v7 = LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v7 && !rhs->value_
-    || (LODWORD(this->value_) || HIDWORD(this->value_) != 0x80000000 ? (v6 = 0) : (v6 = 1), v6 && rhs->value_ == -1) )
+  if ( !boost::date_time::int_adapter<__int64>::is_infinity(v8, (int *)result) )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    if ( value == -1 )
+    {
+      *a2 = -1;
+LABEL_19:
+      a2[1] = 0x7FFFFFFF;
+      return (boost::date_time::int_adapter<__int64> *)a2;
+    }
+    if ( !value )
+    {
+      *a2 = 0;
+      a2[1] = 0x80000000;
+      return (boost::date_time::int_adapter<__int64> *)a2;
+    }
+LABEL_17:
+    value_high = (result->value_ + (unsigned __int64)value) >> 32;
+    *a2 = LODWORD(result->value_) + value;
+    goto LABEL_12;
   }
-  if ( !LODWORD(this->value_) && HIDWORD(this->value_) == 0x80000000
-    || LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF )
-  {
-    value_high = HIDWORD(this->value_);
-    LODWORD(result->value_) = this->value_;
-    HIDWORD(result->value_) = value_high;
-    return result;
-  }
-  if ( rhs->value_ == -1 )
-  {
-    result->value_ = 0x7FFFFFFFFFFFFFFFLL;
-    return result;
-  }
-  if ( !rhs->value_ )
-  {
-    result->value_ = 0x8000000000000000uLL;
-    return result;
-  }
-  else
-  {
-LABEL_35:
-    result->value_ = this->value_ + rhs->value_;
-    return result;
-  }
+  *a2 = result->value_;
+  value_high = HIDWORD(result->value_);
+LABEL_12:
+  a2[1] = value_high;
+  return (boost::date_time::int_adapter<__int64> *)a2;
 }
 
 
-boost::date_time::int_adapter<__int64> *__thiscall boost::date_time::int_adapter<__int64>::operator+<__int64>(
-        boost::date_time::int_adapter<__int64> *this,
+boost::date_time::int_adapter<__int64> *__userpurge boost::date_time::int_adapter<__int64>::operator+<__int64>@<eax>(
+        boost::date_time::int_adapter<__int64> *this@<ecx>,
+        int *a2@<edi>,
+        int *a3@<esi>,
         boost::date_time::int_adapter<__int64> *result,
-        boost::date_time::int_adapter<__int64> *rhs)
+        const boost::date_time::int_adapter<__int64> *rhs)
 {
-  int value_high; // ecx
-  char v8; // [esp+14h] [ebp-D4h]
-  char v9; // [esp+18h] [ebp-D0h]
-  char v10; // [esp+1Ch] [ebp-CCh]
-  bool v11; // [esp+20h] [ebp-C8h]
-  char v12; // [esp+24h] [ebp-C4h]
-  bool v13; // [esp+2Ch] [ebp-BCh]
+  boost::date_time::int_adapter<__int64> *v5; // ecx
+  boost::date_time::int_adapter<__int64> *v6; // ecx
+  bool is_neg_inf; // al
+  boost::date_time::int_adapter<__int64> *v8; // ecx
+  bool is_pos_inf; // al
+  boost::date_time::int_adapter<__int64> *v11; // [esp-4h] [ebp-Ch]
+  boost::date_time::int_adapter<__int64> *v12; // [esp-4h] [ebp-Ch]
 
-  if ( !boost::date_time::int_adapter<__int64>::is_special(this)
-    && !boost::date_time::int_adapter<__int64>::is_special(rhs) )
+  if ( !boost::date_time::int_adapter<__int64>::is_special(this, (int)a2)
+    && !boost::date_time::int_adapter<__int64>::is_special(v5, (int)result) )
   {
-    goto LABEL_55;
+    goto LABEL_15;
   }
-  v13 = LODWORD(this->value_) == -2 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v13 || (LODWORD(rhs->value_) != -2 || HIDWORD(rhs->value_) != 0x7FFFFFFF ? (v12 = 0) : (v12 = 1), v12) )
+  if ( boost::date_time::int_adapter<__int64>::is_nan(v5, a2)
+    || boost::date_time::int_adapter<__int64>::is_nan(v6, result)
+    || boost::date_time::int_adapter<__int64>::is_pos_inf(*(_QWORD *)a2)
+    && boost::date_time::int_adapter<__int64>::is_neg_inf(result->value_)
+    || (is_neg_inf = boost::date_time::int_adapter<__int64>::is_neg_inf(*(_QWORD *)a2), v8 = v11, is_neg_inf)
+    && (is_pos_inf = boost::date_time::int_adapter<__int64>::is_pos_inf(result->value_), v8 = v12, is_pos_inf) )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    *a3 = -2;
+    goto LABEL_17;
   }
-  v11 = LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF;
-  if ( v11 && (LODWORD(rhs->value_) || HIDWORD(rhs->value_) != 0x80000000 ? (v10 = 0) : (v10 = 1), v10)
-    || (LODWORD(this->value_) || HIDWORD(this->value_) != 0x80000000 ? (v9 = 0) : (v9 = 1),
-        v9 && (LODWORD(rhs->value_) != -1 || HIDWORD(rhs->value_) != 0x7FFFFFFF ? (v8 = 0) : (v8 = 1), v8)) )
+  if ( !boost::date_time::int_adapter<__int64>::is_infinity(v8, a2) )
   {
-    result->value_ = 0x7FFFFFFFFFFFFFFELL;
-    return result;
+    if ( boost::date_time::int_adapter<__int64>::is_pos_inf(result->value_) )
+    {
+      *a3 = -1;
+LABEL_17:
+      a3[1] = 0x7FFFFFFF;
+      return (boost::date_time::int_adapter<__int64> *)a3;
+    }
+    if ( boost::date_time::int_adapter<__int64>::is_neg_inf(result->value_) )
+    {
+      *a3 = 0;
+      a3[1] = 0x80000000;
+      return (boost::date_time::int_adapter<__int64> *)a3;
+    }
+LABEL_15:
+    *(_QWORD *)a3 = *(_QWORD *)a2 + result->value_;
+    return (boost::date_time::int_adapter<__int64> *)a3;
   }
-  if ( !LODWORD(this->value_) && HIDWORD(this->value_) == 0x80000000
-    || LODWORD(this->value_) == -1 && HIDWORD(this->value_) == 0x7FFFFFFF )
-  {
-    value_high = HIDWORD(this->value_);
-    LODWORD(result->value_) = this->value_;
-    HIDWORD(result->value_) = value_high;
-    return result;
-  }
-  if ( LODWORD(rhs->value_) == -1 && HIDWORD(rhs->value_) == 0x7FFFFFFF )
-  {
-    result->value_ = 0x7FFFFFFFFFFFFFFFLL;
-    return result;
-  }
-  if ( !LODWORD(rhs->value_) && HIDWORD(rhs->value_) == 0x80000000 )
-  {
-    result->value_ = 0x8000000000000000uLL;
-    return result;
-  }
-  else
-  {
-LABEL_55:
-    result->value_ = rhs->value_ + this->value_;
-    return result;
-  }
+  *a3 = *a2;
+  a3[1] = a2[1];
+  return (boost::date_time::int_adapter<__int64> *)a3;
 }

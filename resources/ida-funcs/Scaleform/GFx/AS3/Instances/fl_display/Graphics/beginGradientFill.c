@@ -4,13 +4,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Graphics::beginGradi
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv)
 {
-  Scaleform::GFx::Resource *NewComplexFill; // eax
+  Scaleform::Render::ComplexFill *NewComplexFill; // eax
 
-  NewComplexFill = Scaleform::GFx::DrawingContext::CreateNewComplexFill(this->pDrawing.pObject);
-  Scaleform::GFx::AS3::Instances::fl_display::Graphics::CreateGradientHelper(
-    this,
-    argc,
-    argv,
-    (Scaleform::Render::ComplexFill *)NewComplexFill);
+  NewComplexFill = (Scaleform::Render::ComplexFill *)Scaleform::GFx::DrawingContext::CreateNewComplexFill(this->pDrawing.pObject);
+  Scaleform::GFx::AS3::Instances::fl_display::Graphics::CreateGradientHelper(this, argc, argv, NewComplexFill);
   Scaleform::GFx::DrawingContext::BeginFill(this->pDrawing.pObject);
 }

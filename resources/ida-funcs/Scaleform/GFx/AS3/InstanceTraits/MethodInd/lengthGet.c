@@ -5,19 +5,19 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::MethodInd::lengthGet(
         Scaleform::GFx::AS3::Value *result)
 {
   Scaleform::GFx::AS3::Value::V1U v4; // edi
-  Scaleform::GFx::AS3::Traits *VObj; // esi
+  Scaleform::GFx::AS3::Traits *pTraits; // esi
   int v6; // eax
 
   v4 = _this->value.VS._1;
   if ( (_this->Flags & 0x1F) == 6 )
-    VObj = (Scaleform::GFx::AS3::Traits *)_this->value.VS._2.VObj;
+    pTraits = _this->value.VS._2.pTraits;
   else
-    VObj = _this->value.VS._2.VObj->pTraits.pObject;
-  if ( VObj->GetFilePtr(VObj) )
+    pTraits = _this->value.VS._2.VObj->pTraits.pObject;
+  if ( pTraits->GetFilePtr(pTraits) )
   {
-    v6 = (int)VObj->GetFilePtr(VObj);
+    v6 = (int)pTraits->GetFilePtr(pTraits);
     Scaleform::GFx::AS3::Value::SetUInt32(
       result,
-      *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v6 + 60) + 112) + 4 * v4.VInt) + 16));
+      *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v6 + 60) + 120) + 4 * v4.VInt) + 16));
   }
 }

@@ -1,52 +1,59 @@
-unsigned int __cdecl survarium::calculate_model_size(vostok::configs::binary_config_value *model_value)
+int __usercall survarium::calculate_model_size@<eax>(const vostok::configs::binary_config_value *model_value@<eax>)
 {
-  vostok::configs::binary_config_value *affects_value; // [esp+60h] [ebp-3Ch]
-  vostok::configs::binary_config_value *bdbs_value; // [esp+6Ch] [ebp-30h]
-  vostok::configs::binary_config_value *types_value; // [esp+70h] [ebp-2Ch]
-  vostok::configs::binary_config_value *thresholds_value; // [esp+74h] [ebp-28h]
-  vostok::configs::binary_config_value *it_type; // [esp+78h] [ebp-24h]
-  const vostok::configs::binary_config_value *it_type_end; // [esp+7Ch] [ebp-20h]
-  vostok::configs::binary_config_value *it_threshold; // [esp+84h] [ebp-18h]
-  const vostok::configs::binary_config_value *it_threshold_end; // [esp+88h] [ebp-14h]
-  unsigned int result; // [esp+8Ch] [ebp-10h]
-  unsigned int resulta; // [esp+8Ch] [ebp-10h]
-  vostok::configs::binary_config_value *it_model; // [esp+90h] [ebp-Ch]
-  const vostok::configs::binary_config_value *it_model_end; // [esp+94h] [ebp-8h]
+  int count; // ecx
+  vostok::configs::binary_config_value *pointer; // eax
+  int v3; // esi
+  const vostok::configs::binary_config_value *v4; // eax
+  vostok::configs::binary_config_value *v5; // ebx
+  int v6; // esi
+  const vostok::configs::binary_config_value *v7; // eax
+  const vostok::configs::binary_config_value *v8; // eax
+  vostok::configs::binary_config_value *v9; // ebx
+  const vostok::configs::binary_config_value *v10; // eax
+  vostok::configs::binary_config_value *v12; // [esp+8h] [ebp-Ch]
+  int v13; // [esp+Ch] [ebp-8h]
+  int v14; // [esp+Ch] [ebp-8h]
+  vostok::configs::binary_config_value *v15; // [esp+10h] [ebp-4h]
 
-  result = 184 * vostok::configs::binary_config_value::size(model_value) + 832;
-  it_model = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)model_value);
-  it_model_end = vostok::configs::binary_config_value::end(model_value);
-  while ( it_model != it_model_end )
+  count = model_value->count;
+  pointer = (vostok::configs::binary_config_value *)model_value->data.pointer;
+  v3 = 224 * (count * 24 / 24) + 1800;
+  v15 = pointer;
+  v12 = &pointer[count];
+  if ( pointer != &pointer[count] )
   {
-    types_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            it_model,
-                                                            "hit_types");
-    resulta = result + 48 * vostok::configs::binary_config_value::size(types_value);
-    it_type = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)types_value);
-    it_type_end = vostok::configs::binary_config_value::end(types_value);
-    while ( it_type != it_type_end )
+    while ( 1 )
     {
-      bdbs_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                             it_type,
-                                                             "bdb_coeff");
-      resulta += 8 * vostok::configs::binary_config_value::size(bdbs_value);
-      ++it_type;
+      v4 = vostok::configs::binary_config_value::operator[](pointer, "hit_types");
+      v5 = (vostok::configs::binary_config_value *)v4->data.pointer;
+      v13 = (int)v4->data.pointer + 24 * v4->count;
+      v6 = 32 * (24 * v4->count / 24) + v3;
+      if ( v4->data.pointer != (const void *)v13 )
+      {
+        do
+        {
+          v7 = vostok::configs::binary_config_value::operator[](v5++, "bdb_coeff");
+          v6 += 8 * (24 * v7->count / 24);
+        }
+        while ( v5 != (vostok::configs::binary_config_value *)v13 );
+      }
+      v8 = vostok::configs::binary_config_value::operator[](v15, "thresholds");
+      v9 = (vostok::configs::binary_config_value *)v8->data.pointer;
+      v14 = (int)v8->data.pointer + 24 * v8->count;
+      v3 = 20 * (24 * v8->count / 24) + v6;
+      if ( v8->data.pointer != (const void *)v14 )
+      {
+        do
+        {
+          v10 = vostok::configs::binary_config_value::operator[](v9++, "affects");
+          v3 += 4 * (24 * v10->count / 24);
+        }
+        while ( v9 != (vostok::configs::binary_config_value *)v14 );
+      }
+      if ( ++v15 == v12 )
+        break;
+      pointer = v15;
     }
-    thresholds_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                                 it_model,
-                                                                 "thresholds");
-    result = resulta + 16 * vostok::configs::binary_config_value::size(thresholds_value);
-    it_threshold = (vostok::configs::binary_config_value *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)thresholds_value);
-    it_threshold_end = vostok::configs::binary_config_value::end(thresholds_value);
-    while ( it_threshold != it_threshold_end )
-    {
-      affects_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                                it_threshold,
-                                                                "affects");
-      result += 4 * vostok::configs::binary_config_value::size(affects_value);
-      ++it_threshold;
-    }
-    ++it_model;
   }
-  return result;
+  return v3;
 }

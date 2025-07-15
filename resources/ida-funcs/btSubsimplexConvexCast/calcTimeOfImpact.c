@@ -4,368 +4,375 @@ char __thiscall btSubsimplexConvexCast::calcTimeOfImpact(
         const btTransform *toA,
         const btTransform *fromB,
         const btTransform *toB,
-        btConvexCast::CastResult *result)
+        btVoronoiSimplexSolver *result)
 {
-  btSubsimplexConvexCast *v6; // esi
-  btVoronoiSimplexSolver *m_simplexSolver; // eax
-  float *v9; // edi
+  float v6; // xmm4_4
+  float v7; // xmm5_4
+  float v8; // xmm6_4
   float v10; // xmm0_4
   float v11; // xmm1_4
   float v12; // xmm2_4
-  float v13; // xmm3_4
-  float v14; // xmm4_4
-  float v15; // xmm5_4
-  float v16; // xmm1_4
-  float v17; // xmm4_4
-  unsigned __int64 v18; // xmm7_8
-  float v19; // xmm0_4
+  float v13; // xmm0_4
+  float v14; // xmm1_4
+  float v15; // xmm4_4
+  float v16; // xmm5_4
+  float v17; // xmm2_4
+  float v18; // xmm6_4
+  float v19; // xmm5_4
   float v20; // xmm1_4
-  float v21; // xmm2_4
-  float v22; // xmm3_4
-  float v23; // xmm4_4
-  float v24; // xmm3_4
-  float v25; // xmm4_4
-  unsigned __int64 v26; // xmm7_8
-  float v27; // xmm3_4
-  unsigned __int64 v28; // xmm7_8
   const btConvexShape *m_convexA; // ecx
-  float *v30; // eax
-  float v31; // xmm2_4
-  float v32; // xmm3_4
-  float v33; // xmm1_4
-  float v34; // xmm4_4
-  float v35; // xmm0_4
-  float v36; // xmm4_4
-  float v37; // xmm0_4
-  float v38; // xmm2_4
-  float v39; // xmm1_4
-  float v40; // xmm3_4
-  float v41; // xmm0_4
-  float v42; // xmm1_4
-  float v43; // xmm3_4
-  float v44; // xmm4_4
+  float v22; // xmm4_4
+  float v23; // xmm0_4
+  float v24; // xmm5_4
+  float *v25; // eax
+  float v26; // xmm2_4
+  float v27; // xmm3_4
+  float v28; // xmm1_4
+  float v30; // xmm4_4
+  float v31; // xmm1_4
+  btSubsimplexConvexCast *v32; // ebx
   const btConvexShape *m_convexB; // ecx
-  float *v46; // eax
-  btVoronoiSimplexSolver *v47; // ecx
-  float v48; // xmm4_4
-  float v49; // xmm5_4
-  unsigned int v50; // xmm0_4
-  unsigned int v51; // xmm1_4
-  int v52; // eax
-  float v53; // xmm2_4
-  float v54; // xmm1_4
-  float v55; // xmm0_4
-  float v56; // xmm1_4
-  float v57; // xmm2_4
-  float v58; // xmm0_4
-  const btConvexShape *v59; // ecx
-  float *v60; // eax
-  float v61; // xmm2_4
-  float v62; // xmm1_4
-  float v63; // xmm3_4
-  const btConvexShape *v64; // ecx
-  float *v65; // eax
-  float v66; // xmm4_4
-  float v67; // xmm5_4
+  float v34; // xmm0_4
+  float v35; // xmm1_4
+  float *v36; // eax
+  float v37; // xmm5_4
+  float v38; // xmm4_4
+  unsigned int v39; // xmm0_4
+  float v40; // xmm3_4
+  unsigned int v41; // xmm1_4
+  float v42; // xmm2_4
+  float v43; // xmm5_4
+  float v44; // xmm2_4
+  float v45; // xmm4_4
+  float v46; // xmm2_4
+  float v47; // xmm1_4
+  const btConvexShape *v49; // ecx
+  float *v50; // eax
+  float v51; // xmm2_4
+  float v52; // xmm1_4
+  float v53; // xmm3_4
+  const btConvexShape *v54; // ecx
+  float *v55; // eax
+  float v56; // xmm4_4
+  float v57; // xmm5_4
+  float v58; // xmm2_4
+  float v59; // xmm3_4
+  float v60; // xmm1_4
+  float v61; // xmm6_4
+  float v62; // xmm3_4
+  float v63; // xmm6_4
+  float v64; // xmm1_4
+  float v65; // xmm6_4
+  float v66; // xmm1_4
+  float v67; // xmm6_4
   float v68; // xmm1_4
-  unsigned int v69; // xmm2_4
-  float v70; // xmm5_4
-  float v71; // xmm0_4
-  float v72; // xmm7_4
-  float v73; // xmm0_4
-  float v74; // xmm7_4
-  float v75; // xmm2_4
-  float v76; // xmm7_4
-  float v77; // xmm2_4
-  float v78; // xmm2_4
-  __m128i v79; // xmm0
-  btVoronoiSimplexSolver *v80; // ecx
-  btVoronoiSimplexSolver *v81; // esi
-  char updated; // al
-  __int64 v83; // xmm0_8
-  float v85; // xmm1_4
-  long double v86; // st7
-  float v87; // [esp+B64h] [ebp-1A4h]
-  float v88; // [esp+B64h] [ebp-1A4h]
-  float _X; // [esp+B64h] [ebp-1A4h]
-  btVector3 p; // [esp+B68h] [ebp-1A0h] BYREF
-  __int128 v91; // [esp+B78h] [ebp-190h]
-  __m128i v92; // [esp+B88h] [ebp-180h] BYREF
-  __m128i v93; // [esp+B98h] [ebp-170h] BYREF
-  float v94; // [esp+BB4h] [ebp-154h]
-  float v95; // [esp+BB8h] [ebp-150h]
-  float v96; // [esp+BBCh] [ebp-14Ch]
-  float v97; // [esp+BC0h] [ebp-148h]
-  float v98; // [esp+BD4h] [ebp-134h]
-  __m128i v99; // [esp+BD8h] [ebp-130h]
-  int v100; // [esp+BF4h] [ebp-114h]
-  btTransform v101; // [esp+BF8h] [ebp-110h]
-  unsigned __int64 v102; // [esp+C38h] [ebp-D0h]
-  unsigned __int64 v103; // [esp+C40h] [ebp-C8h]
-  btVector3 v104; // [esp+C48h] [ebp-C0h]
-  unsigned __int64 v105; // [esp+C58h] [ebp-B0h]
-  unsigned __int64 v106; // [esp+C60h] [ebp-A8h]
-  unsigned __int64 v107; // [esp+C68h] [ebp-A0h]
-  unsigned __int64 v108; // [esp+C70h] [ebp-98h]
-  btVector3 p2; // [esp+C78h] [ebp-90h] BYREF
-  float v110[4]; // [esp+C88h] [ebp-80h] BYREF
-  float v111[4]; // [esp+C98h] [ebp-70h] BYREF
-  __m128i v112; // [esp+CA8h] [ebp-60h] BYREF
-  __m128i v113; // [esp+CB8h] [ebp-50h] BYREF
-  __m128i v114; // [esp+CC8h] [ebp-40h] BYREF
-  btVector3 q; // [esp+CD8h] [ebp-30h] BYREF
-  btVector3 p1; // [esp+CE8h] [ebp-20h] BYREF
-  btVector3 v117; // [esp+CF8h] [ebp-10h] BYREF
+  float v69; // xmm6_4
+  float v70; // xmm1_4
+  float v71; // xmm3_4
+  const btVector3 *v72; // edx
+  btVoronoiSimplexSolver *v73; // ecx
+  int *p_m_numVertices; // esi
+  bool updated; // al
+  float v76; // xmm1_4
+  float v77; // xmm3_4
+  float v78; // xmm3_4
+  int v81; // [esp+1Ch] [ebp-194h]
+  float v82; // [esp+20h] [ebp-190h]
+  float v83; // [esp+24h] [ebp-18Ch]
+  float v84; // [esp+28h] [ebp-188h]
+  int v85; // [esp+2Ch] [ebp-184h]
+  float v86; // [esp+30h] [ebp-180h] BYREF
+  float v87; // [esp+34h] [ebp-17Ch]
+  float v88; // [esp+38h] [ebp-178h]
+  int v89; // [esp+3Ch] [ebp-174h]
+  float v90; // [esp+40h] [ebp-170h]
+  float v91; // [esp+44h] [ebp-16Ch]
+  float v92; // [esp+48h] [ebp-168h]
+  float v93; // [esp+5Ch] [ebp-154h]
+  btVector3 q; // [esp+60h] [ebp-150h] BYREF
+  btVector3 p; // [esp+70h] [ebp-140h] BYREF
+  btVector3 *p_m_origin; // [esp+88h] [ebp-128h]
+  btVector3 *v97; // [esp+8Ch] [ebp-124h]
+  float v98; // [esp+90h] [ebp-120h]
+  float v99; // [esp+94h] [ebp-11Ch]
+  float v100; // [esp+98h] [ebp-118h]
+  int v101; // [esp+9Ch] [ebp-114h]
+  btVector3 w; // [esp+A0h] [ebp-110h] BYREF
+  float v103; // [esp+BCh] [ebp-F4h]
+  unsigned __int64 v104; // [esp+C0h] [ebp-F0h]
+  unsigned __int64 v105; // [esp+C8h] [ebp-E8h]
+  btVector3 v106; // [esp+D0h] [ebp-E0h]
+  unsigned __int64 v107; // [esp+E0h] [ebp-D0h]
+  unsigned __int64 v108; // [esp+E8h] [ebp-C8h]
+  unsigned __int64 v109; // [esp+F0h] [ebp-C0h]
+  float v110; // [esp+F8h] [ebp-B8h]
+  int v111; // [esp+FCh] [ebp-B4h]
+  btTransform v112; // [esp+100h] [ebp-B0h]
+  float v113[4]; // [esp+140h] [ebp-70h] BYREF
+  float v114[12]; // [esp+150h] [ebp-60h] BYREF
+  float v115; // [esp+180h] [ebp-30h]
+  float v116; // [esp+184h] [ebp-2Ch]
+  float v117; // [esp+188h] [ebp-28h]
+  int v118; // [esp+18Ch] [ebp-24h]
+  btVector3 p2; // [esp+190h] [ebp-20h] BYREF
+  btVector3 v120; // [esp+1A0h] [ebp-10h] BYREF
 
-  v6 = this;
-  m_simplexSolver = this->m_simplexSolver;
-  HIDWORD(v91) = this;
-  btVoronoiSimplexSolver::reset((btVoronoiSimplexSolver *)this, (int)m_simplexSolver);
-  v9 = (float *)fromB;
-  v10 = toA->m_origin.mVec128.m128_f32[0] - fromA->m_origin.mVec128.m128_f32[0];
-  v11 = toA->m_origin.mVec128.m128_f32[1] - fromA->m_origin.mVec128.m128_f32[1];
-  v12 = toA->m_origin.mVec128.m128_f32[2] - fromA->m_origin.mVec128.m128_f32[2];
-  v13 = toB->m_origin.mVec128.m128_f32[0] - fromB->m_origin.mVec128.m128_f32[0];
-  v14 = toB->m_origin.mVec128.m128_f32[1] - fromB->m_origin.mVec128.m128_f32[1];
-  v15 = toB->m_origin.mVec128.m128_f32[2] - fromB->m_origin.mVec128.m128_f32[2];
-  v101 = *fromA;
-  v102 = fromB->m_basis.m_el[0].mVec128.m128_u64[0];
-  v16 = v11 - v14;
-  v17 = fromA->m_basis.m_el[2].mVec128.m128_f32[0];
-  v103 = fromB->m_basis.m_el[0].mVec128.m128_u64[1];
-  v104.mVec128 = (__m128)fromB->m_basis.m_el[1];
-  v18 = fromB->m_basis.m_el[2].mVec128.m128_u64[0];
-  v95 = v10 - v13;
-  v19 = -(float)(v10 - v13);
-  v96 = v16;
-  v20 = -v16;
-  v97 = v12 - v15;
-  v21 = -(float)(v12 - v15);
-  v22 = (float)(v20 * fromA->m_basis.m_el[1].mVec128.m128_f32[0]) + (float)(v17 * v21);
-  v23 = fromA->m_basis.m_el[0].mVec128.m128_f32[0];
-  v105 = v18;
-  v24 = v22 + (float)(v23 * v19);
-  v25 = fromA->m_basis.m_el[1].mVec128.m128_f32[1];
-  v106 = fromB->m_basis.m_el[2].mVec128.m128_u64[1];
-  v26 = fromB->m_origin.mVec128.m128_u64[0];
-  p.mVec128.m128_f32[0] = v24;
-  v27 = fromA->m_basis.m_el[2].mVec128.m128_f32[1];
-  v107 = v26;
-  v28 = fromB->m_origin.mVec128.m128_u64[1];
-  v94 = 0.0;
-  v108 = v28;
-  m_convexA = v6->m_convexA;
-  p.mVec128.m128_f32[1] = (float)((float)(v27 * v21) + (float)(v25 * v20))
-                        + (float)(v19 * fromA->m_basis.m_el[0].mVec128.m128_f32[1]);
+  btVoronoiSimplexSolver::reset((btVoronoiSimplexSolver *)this, (int)this->m_simplexSolver);
+  v6 = toB->m_origin.mVec128.m128_f32[0];
+  v7 = toB->m_origin.mVec128.m128_f32[1];
+  v8 = toB->m_origin.mVec128.m128_f32[2];
+  v112 = *fromA;
+  v10 = toA->m_origin.mVec128.m128_f32[0];
+  v11 = toA->m_origin.mVec128.m128_f32[1];
+  v12 = toA->m_origin.mVec128.m128_f32[2];
+  v104 = fromB->m_basis.m_el[0].mVec128.m128_u64[0];
+  v105 = fromB->m_basis.m_el[0].mVec128.m128_u64[1];
+  v106.mVec128 = (__m128)fromB->m_basis.m_el[1];
+  v107 = fromB->m_basis.m_el[2].mVec128.m128_u64[0];
+  v13 = v10 - fromA->m_origin.mVec128.m128_f32[0];
+  v14 = v11 - fromA->m_origin.mVec128.m128_f32[1];
+  v15 = v6 - fromB->m_origin.mVec128.m128_f32[0];
+  v16 = v7 - fromB->m_origin.mVec128.m128_f32[1];
+  v17 = v12 - fromA->m_origin.mVec128.m128_f32[2];
+  v18 = v8 - fromB->m_origin.mVec128.m128_f32[2];
+  v108 = fromB->m_basis.m_el[2].mVec128.m128_u64[1];
+  v109 = fromB->m_origin.mVec128.m128_u64[0];
+  v110 = fromB->m_origin.mVec128.m128_f32[2];
+  p_m_origin = &fromA->m_origin;
+  v97 = &fromB->m_origin;
+  v93 = 0.0;
+  v111 = fromB->m_origin.mVec128.m128_i32[3];
+  v90 = v13 - v15;
+  v91 = v14 - v16;
+  v19 = fromA->m_basis.m_el[2].mVec128.m128_f32[0];
+  LODWORD(v20) = COERCE_UNSIGNED_INT(v13 - v15) ^ _mask__NegFloat_;
+  m_convexA = this->m_convexA;
+  v92 = v17 - v18;
+  LODWORD(v22) = COERCE_UNSIGNED_INT(v17 - v18) ^ _mask__NegFloat_;
+  v23 = (float)((float)(COERCE_FLOAT(LODWORD(v91) ^ _mask__NegFloat_) * fromA->m_basis.m_el[1].mVec128.m128_f32[0])
+              + (float)(v19 * v22))
+      + (float)(fromA->m_basis.m_el[0].mVec128.m128_f32[0] * v20);
+  v24 = fromA->m_basis.m_el[1].mVec128.m128_f32[1];
+  p.mVec128.m128_f32[0] = v23;
+  p.mVec128.m128_f32[1] = (float)((float)(fromA->m_basis.m_el[2].mVec128.m128_f32[1] * v22)
+                                + (float)(v24 * COERCE_FLOAT(LODWORD(v91) ^ _mask__NegFloat_)))
+                        + (float)(v20 * fromA->m_basis.m_el[0].mVec128.m128_f32[1]);
   p.mVec128.m128_u64[1] = COERCE_UNSIGNED_INT(
-                            (float)((float)(fromA->m_basis.m_el[2].mVec128.m128_f32[2] * v21)
-                                  + (float)(fromA->m_basis.m_el[1].mVec128.m128_f32[2] * v20))
-                          + (float)(fromA->m_basis.m_el[0].mVec128.m128_f32[2] * v19));
-  v30 = (float *)m_convexA->localGetSupportingVertex(m_convexA, &q, &p);
-  v31 = v30[1];
-  v32 = *v30;
-  v33 = v30[2];
-  v34 = fromA->m_basis.m_el[1].mVec128.m128_f32[2] * v33;
-  p.mVec128.m128_f32[0] = (float)((float)((float)(fromA->m_basis.m_el[0].mVec128.m128_f32[0] * *v30)
-                                        + (float)(v31 * fromA->m_basis.m_el[0].mVec128.m128_f32[1]))
-                                + (float)(fromA->m_basis.m_el[0].mVec128.m128_f32[2] * v33))
-                        + fromA->m_origin.mVec128.m128_f32[0];
-  v35 = (float)((float)((float)(fromA->m_basis.m_el[1].mVec128.m128_f32[1] * v31) + v34)
-              + (float)(fromA->m_basis.m_el[1].mVec128.m128_f32[0] * v32))
-      + fromA->m_origin.mVec128.m128_f32[1];
-  v36 = fromB->m_basis.m_el[1].mVec128.m128_f32[0];
-  p.mVec128.m128_f32[1] = v35;
-  v37 = fromA->m_basis.m_el[2].mVec128.m128_f32[1] * v31;
-  v38 = fromA->m_basis.m_el[2].mVec128.m128_f32[2] * v33;
-  v39 = fromA->m_basis.m_el[2].mVec128.m128_f32[0] * v32;
-  v40 = fromB->m_basis.m_el[0].mVec128.m128_f32[0];
-  v41 = (float)((float)(v37 + v38) + v39) + fromA->m_origin.mVec128.m128_f32[2];
-  v42 = v97 * fromB->m_basis.m_el[2].mVec128.m128_f32[0];
-  p.mVec128.m128_f32[2] = v41;
-  v43 = (float)((float)(v40 * v95) + v42) + (float)(v36 * v96);
-  v44 = fromB->m_basis.m_el[1].mVec128.m128_f32[1];
-  *(float *)v93.m128i_i32 = v43;
-  *(float *)&v93.m128i_i32[1] = (float)((float)(v9[9] * v97) + (float)(v44 * v96)) + (float)(v9[1] * v95);
-  m_convexB = v6->m_convexB;
-  *(float *)&v93.m128i_i32[2] = (float)((float)(v9[10] * v97) + (float)(v9[6] * v96)) + (float)(v95 * v9[2]);
-  v93.m128i_i32[3] = 0;
-  v46 = (float *)m_convexB->localGetSupportingVertex(m_convexB, &q, (const btVector3 *)&v93);
-  v48 = v46[2];
-  v49 = v46[1];
-  *(float *)&v50 = p.mVec128.m128_f32[1]
-                 - (float)((float)((float)((float)(v9[5] * v49) + (float)(v9[6] * v48)) + (float)(*v46 * v9[4])) + v9[13]);
-  *(float *)&v51 = p.mVec128.m128_f32[2]
-                 - (float)((float)((float)((float)(fromB->m_basis.m_el[2].mVec128.m128_f32[1] * v49)
-                                         + (float)(fromB->m_basis.m_el[2].mVec128.m128_f32[2] * v48))
-                                 + (float)(*v46 * v9[8]))
-                         + v9[14]);
-  *(float *)v93.m128i_i32 = p.mVec128.m128_f32[0]
-                          - (float)((float)((float)((float)(v48 * v9[2]) + (float)(*v9 * *v46)) + (float)(v9[1] * v49))
-                                  + v9[12]);
-  *(__int64 *)((char *)v93.m128i_i64 + 4) = __PAIR64__(v51, v50);
-  v93.m128i_i32[3] = 0;
-  v92 = _mm_load_si128(&v93);
-  v52 = 32;
-  v99.m128i_i64[0] = 0;
-  v99.m128i_i32[2] = 0;
-  if ( (float)((float)((float)(*(float *)v93.m128i_i32 * *(float *)v93.m128i_i32)
-                     + (float)(*(float *)&v51 * *(float *)&v51))
-             + (float)(*(float *)&v50 * *(float *)&v50)) > 0.000099999997 )
+                            (float)((float)(fromA->m_basis.m_el[2].mVec128.m128_f32[2] * v22)
+                                  + (float)(fromA->m_basis.m_el[1].mVec128.m128_f32[2]
+                                          * COERCE_FLOAT(LODWORD(v91) ^ _mask__NegFloat_)))
+                          + (float)(fromA->m_basis.m_el[0].mVec128.m128_f32[2] * v20));
+  v25 = (float *)m_convexA->localGetSupportingVertex(m_convexA, &w, &p);
+  v26 = v25[1];
+  v27 = *v25;
+  v28 = v25[2];
+  v30 = fromA->m_basis.m_el[1].mVec128.m128_f32[2];
+  p.mVec128.m128_f32[0] = (float)((float)((float)(fromA->m_basis.m_el[0].mVec128.m128_f32[0] * *v25)
+                                        + (float)(v26 * fromA->m_basis.m_el[0].mVec128.m128_f32[1]))
+                                + (float)(fromA->m_basis.m_el[0].mVec128.m128_f32[2] * v28))
+                        + p_m_origin->mVec128.m128_f32[0];
+  p.mVec128.m128_f32[1] = (float)((float)((float)(fromA->m_basis.m_el[1].mVec128.m128_f32[1] * v26) + (float)(v30 * v28))
+                                + (float)(fromA->m_basis.m_el[1].mVec128.m128_f32[0] * v27))
+                        + fromA->m_origin.mVec128.m128_f32[1];
+  p.mVec128.m128_f32[2] = (float)((float)((float)(fromA->m_basis.m_el[2].mVec128.m128_f32[1] * v26)
+                                        + (float)(fromA->m_basis.m_el[2].mVec128.m128_f32[2] * v28))
+                                + (float)(fromA->m_basis.m_el[2].mVec128.m128_f32[0] * v27))
+                        + fromA->m_origin.mVec128.m128_f32[2];
+  v31 = fromB->m_basis.m_el[1].mVec128.m128_f32[1] * v91;
+  v32 = this;
+  m_convexB = this->m_convexB;
+  v86 = (float)((float)(fromB->m_basis.m_el[0].mVec128.m128_f32[0] * v90)
+              + (float)(v92 * fromB->m_basis.m_el[2].mVec128.m128_f32[0]))
+      + (float)(fromB->m_basis.m_el[1].mVec128.m128_f32[0] * v91);
+  v34 = (float)((float)(fromB->m_basis.m_el[2].mVec128.m128_f32[1] * v92) + v31)
+      + (float)(fromB->m_basis.m_el[0].mVec128.m128_f32[1] * v90);
+  v35 = fromB->m_basis.m_el[1].mVec128.m128_f32[2] * v91;
+  v87 = v34;
+  v88 = (float)((float)(fromB->m_basis.m_el[2].mVec128.m128_f32[2] * v92) + v35)
+      + (float)(fromB->m_basis.m_el[0].mVec128.m128_f32[2] * v90);
+  v89 = 0;
+  v36 = (float *)m_convexB->localGetSupportingVertex(m_convexB, &w, (const btVector3 *)&v86);
+  v37 = v36[1];
+  v38 = v36[2];
+  *(float *)&v39 = (float)((float)((float)(v37 * fromB->m_basis.m_el[0].mVec128.m128_f32[1])
+                                 + (float)(fromB->m_basis.m_el[0].mVec128.m128_f32[2] * v38))
+                         + (float)(fromB->m_basis.m_el[0].mVec128.m128_f32[0] * *v36))
+                 + v97->mVec128.m128_f32[0];
+  v40 = *v36 * fromB->m_basis.m_el[2].mVec128.m128_f32[0];
+  *(float *)&v41 = (float)((float)((float)(fromB->m_basis.m_el[1].mVec128.m128_f32[1] * v37)
+                                 + (float)(fromB->m_basis.m_el[1].mVec128.m128_f32[2] * v38))
+                         + (float)(*v36 * fromB->m_basis.m_el[1].mVec128.m128_f32[0]))
+                 + fromB->m_origin.mVec128.m128_f32[1];
+  v42 = fromB->m_basis.m_el[2].mVec128.m128_f32[1] * v37;
+  v43 = fromB->m_basis.m_el[2].mVec128.m128_f32[2];
+  q.mVec128.m128_u64[0] = __PAIR64__(v41, v39);
+  v44 = (float)((float)(v42 + (float)(v43 * v38)) + v40) + fromB->m_origin.mVec128.m128_f32[2];
+  v87 = p.mVec128.m128_f32[1] - *(float *)&v41;
+  v88 = p.mVec128.m128_f32[2] - v44;
+  q.mVec128.m128_f32[2] = v44;
+  v86 = p.mVec128.m128_f32[0] - *(float *)&v39;
+  v89 = 0;
+  v82 = p.mVec128.m128_f32[0] - *(float *)&v39;
+  v83 = p.mVec128.m128_f32[1] - *(float *)&v41;
+  v84 = p.mVec128.m128_f32[2] - v44;
+  v45 = (float)((float)(v86 * v86) + (float)((float)(p.mVec128.m128_f32[2] - v44) * (float)(p.mVec128.m128_f32[2] - v44)))
+      + (float)((float)(p.mVec128.m128_f32[1] - *(float *)&v41) * (float)(p.mVec128.m128_f32[1] - *(float *)&v41));
+  v46 = 0.0;
+  v47 = 0.0;
+  v85 = 0;
+  v81 = 32;
+  v98 = 0.0;
+  v99 = 0.0;
+  v100 = 0.0;
+  if ( v45 > 0.000099999997 )
   {
-    v53 = *(float *)&v92.m128i_i32[2];
-    v54 = *(float *)&v92.m128i_i32[1];
-    v55 = *(float *)v92.m128i_i32;
-    while ( 1 )
+    do
     {
-      v47 = (btVoronoiSimplexSolver *)v52;
-      v100 = v52 - 1;
-      if ( !v52 )
+      if ( !v81-- )
         break;
-      v56 = -v54;
-      v57 = -v53;
-      v58 = -v55;
-      v59 = v6->m_convexA;
-      v110[0] = (float)((float)(v101.m_basis.m_el[0].mVec128.m128_f32[0] * v58)
-                      + (float)(v101.m_basis.m_el[2].mVec128.m128_f32[0] * v57))
-              + (float)(v101.m_basis.m_el[1].mVec128.m128_f32[0] * v56);
-      v110[1] = (float)((float)(v101.m_basis.m_el[2].mVec128.m128_f32[1] * v57)
-                      + (float)(v101.m_basis.m_el[1].mVec128.m128_f32[1] * v56))
-              + (float)(v101.m_basis.m_el[0].mVec128.m128_f32[1] * v58);
-      v110[2] = (float)((float)(v101.m_basis.m_el[2].mVec128.m128_f32[2] * v57)
-                      + (float)(v101.m_basis.m_el[1].mVec128.m128_f32[2] * v56))
-              + (float)(v101.m_basis.m_el[0].mVec128.m128_f32[2] * v58);
-      v110[3] = 0.0;
-      v60 = (float *)v59->localGetSupportingVertex(v59, &v117, (const btVector3 *)v110);
-      v61 = v60[1];
-      v62 = v60[2];
-      v63 = *v60;
-      *(float *)v93.m128i_i32 = (float)((float)((float)(v101.m_basis.m_el[0].mVec128.m128_f32[1] * v61)
-                                              + (float)(v101.m_basis.m_el[0].mVec128.m128_f32[2] * v62))
-                                      + (float)(*v60 * v101.m_basis.m_el[0].mVec128.m128_f32[0]))
-                              + v101.m_origin.mVec128.m128_f32[0];
-      *(float *)&v93.m128i_i32[1] = (float)((float)((float)(v101.m_basis.m_el[1].mVec128.m128_f32[1] * v61)
-                                                  + (float)(v101.m_basis.m_el[1].mVec128.m128_f32[0] * v63))
-                                          + (float)(v101.m_basis.m_el[1].mVec128.m128_f32[2] * v62))
-                                  + v101.m_origin.mVec128.m128_f32[1];
-      *(float *)&v93.m128i_i32[2] = (float)((float)((float)(v101.m_basis.m_el[2].mVec128.m128_f32[1] * v61)
-                                                  + (float)(v101.m_basis.m_el[2].mVec128.m128_f32[0] * v63))
-                                          + (float)(v101.m_basis.m_el[2].mVec128.m128_f32[2] * v62))
-                                  + v101.m_origin.mVec128.m128_f32[2];
-      v93.m128i_i32[3] = 0;
-      p.mVec128 = (__m128)_mm_load_si128(&v93);
-      v64 = v6->m_convexB;
-      v111[0] = (float)((float)(*(float *)&v102 * *(float *)v92.m128i_i32)
-                      + (float)(v104.mVec128.m128_f32[0] * *(float *)&v92.m128i_i32[1]))
-              + (float)(*(float *)&v105 * *(float *)&v92.m128i_i32[2]);
-      v111[1] = (float)((float)(v104.mVec128.m128_f32[1] * *(float *)&v92.m128i_i32[1])
-                      + (float)(*((float *)&v105 + 1) * *(float *)&v92.m128i_i32[2]))
-              + (float)(*((float *)&v102 + 1) * *(float *)v92.m128i_i32);
-      v111[2] = (float)((float)(v104.mVec128.m128_f32[2] * *(float *)&v92.m128i_i32[1])
-                      + (float)(*(float *)&v106 * *(float *)&v92.m128i_i32[2]))
-              + (float)(*(float *)&v103 * *(float *)v92.m128i_i32);
-      v111[3] = 0.0;
-      v65 = (float *)v64->localGetSupportingVertex(v64, &p1, (const btVector3 *)v111);
-      v66 = v65[2];
-      v67 = v65[1];
-      v68 = (float)((float)((float)(v104.mVec128.m128_f32[1] * v67) + (float)(*v65 * v104.mVec128.m128_f32[0]))
-                  + (float)(v104.mVec128.m128_f32[2] * v66))
-          + *((float *)&v107 + 1);
-      *(float *)&v69 = (float)((float)((float)(*((float *)&v105 + 1) * v67) + (float)(*v65 * *(float *)&v105))
-                             + (float)(*(float *)&v106 * v66))
-                     + *(float *)&v108;
-      *(float *)v113.m128i_i32 = (float)((float)((float)(*((float *)&v102 + 1) * v67) + (float)(*(float *)&v103 * v66))
-                                       + (float)(*v65 * *(float *)&v102))
-                               + *(float *)&v107;
-      *(float *)&v113.m128i_i32[1] = v68;
-      v113.m128i_i64[1] = v69;
-      q.mVec128 = (__m128)_mm_load_si128(&v113);
-      *(float *)v112.m128i_i32 = *(float *)v93.m128i_i32 - *(float *)v113.m128i_i32;
-      *(float *)&v112.m128i_i32[1] = *(float *)&v93.m128i_i32[1] - v68;
-      v70 = *(float *)&v93.m128i_i32[2] - *(float *)&v69;
-      *(float *)&v112.m128i_i32[2] = *(float *)&v93.m128i_i32[2] - *(float *)&v69;
-      v71 = (float)((float)((float)(*(float *)v93.m128i_i32 - *(float *)v113.m128i_i32) * *(float *)v92.m128i_i32)
-                  + (float)((float)(*(float *)&v93.m128i_i32[1] - v68) * *(float *)&v92.m128i_i32[1]))
-          + (float)((float)(*(float *)&v93.m128i_i32[2] - *(float *)&v69) * *(float *)&v92.m128i_i32[2]);
-      v112.m128i_i32[3] = 0;
-      p2.mVec128 = (__m128)_mm_load_si128(&v112);
-      if ( v94 > *(float *)&clear_value )
+      v49 = v32->m_convexA;
+      v113[0] = (float)((float)(v112.m_basis.m_el[0].mVec128.m128_f32[0] * COERCE_FLOAT(LODWORD(v82) ^ _mask__NegFloat_))
+                      + (float)(v112.m_basis.m_el[2].mVec128.m128_f32[0] * COERCE_FLOAT(LODWORD(v84) ^ _mask__NegFloat_)))
+              + (float)(v112.m_basis.m_el[1].mVec128.m128_f32[0] * COERCE_FLOAT(LODWORD(v83) ^ _mask__NegFloat_));
+      v113[1] = (float)((float)(v112.m_basis.m_el[2].mVec128.m128_f32[1] * COERCE_FLOAT(LODWORD(v84) ^ _mask__NegFloat_))
+                      + (float)(v112.m_basis.m_el[1].mVec128.m128_f32[1] * COERCE_FLOAT(LODWORD(v83) ^ _mask__NegFloat_)))
+              + (float)(v112.m_basis.m_el[0].mVec128.m128_f32[1] * COERCE_FLOAT(LODWORD(v82) ^ _mask__NegFloat_));
+      v113[2] = (float)((float)(v112.m_basis.m_el[2].mVec128.m128_f32[2] * COERCE_FLOAT(LODWORD(v84) ^ _mask__NegFloat_))
+                      + (float)(v112.m_basis.m_el[1].mVec128.m128_f32[2] * COERCE_FLOAT(LODWORD(v83) ^ _mask__NegFloat_)))
+              + (float)(v112.m_basis.m_el[0].mVec128.m128_f32[2] * COERCE_FLOAT(LODWORD(v82) ^ _mask__NegFloat_));
+      v113[3] = 0.0;
+      v50 = (float *)v49->localGetSupportingVertex(v49, &v120, (const btVector3 *)v113);
+      v51 = v50[1];
+      v52 = v50[2];
+      v53 = *v50;
+      v86 = (float)((float)((float)(v112.m_basis.m_el[0].mVec128.m128_f32[1] * v51)
+                          + (float)(v112.m_basis.m_el[0].mVec128.m128_f32[2] * v52))
+                  + (float)(*v50 * v112.m_basis.m_el[0].mVec128.m128_f32[0]))
+          + v112.m_origin.mVec128.m128_f32[0];
+      v87 = (float)((float)((float)(v112.m_basis.m_el[1].mVec128.m128_f32[1] * v51)
+                          + (float)(v112.m_basis.m_el[1].mVec128.m128_f32[0] * v53))
+                  + (float)(v112.m_basis.m_el[1].mVec128.m128_f32[2] * v52))
+          + v112.m_origin.mVec128.m128_f32[1];
+      v88 = (float)((float)((float)(v112.m_basis.m_el[2].mVec128.m128_f32[1] * v51)
+                          + (float)(v112.m_basis.m_el[2].mVec128.m128_f32[0] * v53))
+                  + (float)(v112.m_basis.m_el[2].mVec128.m128_f32[2] * v52))
+          + v112.m_origin.mVec128.m128_f32[2];
+      v89 = 0;
+      p.mVec128.m128_f32[0] = v86;
+      p.mVec128.m128_f32[1] = v87;
+      v54 = v32->m_convexB;
+      v114[0] = (float)((float)(*(float *)&v104 * v82) + (float)(v106.mVec128.m128_f32[0] * v83))
+              + (float)(*(float *)&v107 * v84);
+      v114[1] = (float)((float)(v106.mVec128.m128_f32[1] * v83) + (float)(*((float *)&v107 + 1) * v84))
+              + (float)(*((float *)&v104 + 1) * v82);
+      p.mVec128.m128_u64[1] = LODWORD(v88);
+      v114[2] = (float)((float)(v106.mVec128.m128_f32[2] * v83) + (float)(*(float *)&v108 * v84))
+              + (float)(*(float *)&v105 * v82);
+      v114[3] = 0.0;
+      v55 = (float *)v54->localGetSupportingVertex(v54, &p2, (const btVector3 *)v114);
+      v56 = v55[2];
+      v57 = v55[1];
+      v58 = (float)((float)((float)(v106.mVec128.m128_f32[1] * v57) + (float)(*v55 * v106.mVec128.m128_f32[0]))
+                  + (float)(v106.mVec128.m128_f32[2] * v56))
+          + *((float *)&v109 + 1);
+      v59 = (float)(*((float *)&v107 + 1) * v57) + (float)(*v55 * *(float *)&v107);
+      v115 = (float)((float)((float)(*((float *)&v104 + 1) * v57) + (float)(*(float *)&v105 * v56))
+                   + (float)(*v55 * *(float *)&v104))
+           + *(float *)&v109;
+      v116 = v58;
+      v117 = (float)(v59 + (float)(*(float *)&v108 * v56)) + v110;
+      v118 = 0;
+      q.mVec128.m128_u64[0] = __PAIR64__(LODWORD(v58), LODWORD(v115));
+      q.mVec128.m128_u64[1] = LODWORD(v117);
+      v114[8] = v86 - v115;
+      v114[10] = v88 - v117;
+      v114[11] = 0.0;
+      v114[9] = v87 - v58;
+      w.mVec128.m128_f32[0] = v86 - v115;
+      w.mVec128.m128_f32[1] = v87 - v58;
+      v103 = v88 - v117;
+      w.mVec128.m128_f32[2] = v88 - v117;
+      v60 = (float)((float)((float)(v86 - v115) * v82) + (float)((float)(v87 - v58) * v83))
+          + (float)((float)(v88 - v117) * v84);
+      w.mVec128.m128_i32[3] = 0;
+      if ( v93 > s_bm_current_air_resistance )
         return 0;
-      if ( v71 > 0.0 )
+      if ( v60 > 0.0 )
       {
-        v72 = (float)((float)(*(float *)v92.m128i_i32 * v95) + (float)(*(float *)&v92.m128i_i32[2] * v97))
-            + (float)(*(float *)&v92.m128i_i32[1] * v96);
-        if ( v72 >= -1.4210855e-14 )
+        v61 = (float)((float)(v82 * v90) + (float)(v84 * v92)) + (float)(v83 * v91);
+        if ( v61 >= -1.4210855e-14 )
           return 0;
-        v73 = v94 - (float)(v71 / v72);
-        v87 = toA->m_origin.mVec128.m128_f32[0] * v73;
-        v74 = fromA->m_origin.mVec128.m128_f32[0] * (float)(*(float *)&clear_value - v73);
-        v98 = *(float *)&clear_value - v73;
-        v101.m_origin.mVec128.m128_f32[0] = v87 + v74;
-        v88 = toA->m_origin.mVec128.m128_f32[2] * v73;
-        v75 = fromA->m_origin.mVec128.m128_f32[2] * (float)(*(float *)&clear_value - v73);
-        v101.m_origin.mVec128.m128_f32[1] = (float)(toA->m_origin.mVec128.m128_f32[1] * v73)
-                                          + (float)(fromA->m_origin.mVec128.m128_f32[1]
-                                                  * (float)(*(float *)&clear_value - v73));
-        v101.m_origin.mVec128.m128_f32[2] = v88 + v75;
-        v76 = v9[13];
-        *(float *)&v107 = (float)((float)(*(float *)&clear_value - v73) * v9[12])
-                        + (float)(toB->m_origin.mVec128.m128_f32[0] * v73);
-        *((float *)&v107 + 1) = (float)(toB->m_origin.mVec128.m128_f32[1] * v73)
-                              + (float)(v76 * (float)(*(float *)&clear_value - v73));
-        v77 = toB->m_origin.mVec128.m128_f32[2];
-        v94 = v73;
-        v78 = (float)(v77 * v73) + (float)(v9[14] * (float)(*(float *)&clear_value - v73));
-        *(float *)v114.m128i_i32 = *(float *)v93.m128i_i32 - *(float *)v113.m128i_i32;
-        *(float *)&v114.m128i_i32[1] = *(float *)&v93.m128i_i32[1] - v68;
-        v114.m128i_i64[1] = LODWORD(v70);
-        p2.mVec128 = (__m128)_mm_load_si128(&v114);
-        v79 = _mm_load_si128(&v92);
-        *(float *)&v108 = v78;
-        v99 = v79;
+        v62 = v93 - (float)(v60 / v61);
+        v63 = p_m_origin->mVec128.m128_f32[1];
+        v112.m_origin.mVec128.m128_f32[0] = (float)(toA->m_origin.mVec128.m128_f32[0] * v62)
+                                          + (float)(p_m_origin->mVec128.m128_f32[0]
+                                                  * (float)(s_bm_current_air_resistance - v62));
+        v64 = (float)(toA->m_origin.mVec128.m128_f32[1] * v62)
+            + (float)(v63 * (float)(s_bm_current_air_resistance - v62));
+        v65 = p_m_origin->mVec128.m128_f32[2];
+        v112.m_origin.mVec128.m128_f32[1] = v64;
+        v66 = (float)(toA->m_origin.mVec128.m128_f32[2] * v62)
+            + (float)(v65 * (float)(s_bm_current_air_resistance - v62));
+        v67 = toB->m_origin.mVec128.m128_f32[0];
+        v112.m_origin.mVec128.m128_f32[2] = v66;
+        v68 = (float)((float)(s_bm_current_air_resistance - v62) * v97->mVec128.m128_f32[0]) + (float)(v67 * v62);
+        v69 = v97->mVec128.m128_f32[1];
+        *(float *)&v109 = v68;
+        *((float *)&v109 + 1) = (float)(toB->m_origin.mVec128.m128_f32[1] * v62)
+                              + (float)(v69 * (float)(s_bm_current_air_resistance - v62));
+        v70 = toB->m_origin.mVec128.m128_f32[2] * v62;
+        v93 = v62;
+        v71 = v97->mVec128.m128_f32[2] * (float)(s_bm_current_air_resistance - v62);
+        v114[4] = v86 - v115;
+        v114[5] = v87 - v58;
+        v114[7] = 0.0;
+        v110 = v70 + v71;
+        v114[6] = v103;
+        w.mVec128.m128_f32[0] = v86 - v115;
+        w.mVec128.m128_f32[1] = v87 - v58;
+        w.mVec128.m128_u64[1] = LODWORD(v103);
+        v98 = v82;
+        v99 = v83;
+        v100 = v84;
+        v101 = v85;
       }
-      if ( !btVoronoiSimplexSolver::inSimplex(v6->m_simplexSolver, &p2) )
-      {
-        btVoronoiSimplexSolver::addVertex(*(btVoronoiSimplexSolver **)(HIDWORD(v91) + 4), &p2, &p, &q);
-        v9 = (float *)fromB;
-      }
-      v81 = *(btVoronoiSimplexSolver **)(HIDWORD(v91) + 4);
-      updated = btVoronoiSimplexSolver::updateClosestVectorAndPoints(v80, v81);
-      v92.m128i_i64[0] = v81->m_cachedV.mVec128.m128_i64[0];
-      v83 = v81->m_cachedV.mVec128.m128_i64[1];
-      v6 = (btSubsimplexConvexCast *)HIDWORD(v91);
-      v92.m128i_i64[1] = v83;
-      if ( !updated )
-        break;
-      v55 = *(float *)v92.m128i_i32;
-      v54 = *(float *)&v92.m128i_i32[1];
-      v53 = *(float *)&v92.m128i_i32[2];
-      if ( (float)((float)((float)(v55 * v55) + (float)(v54 * v54)) + (float)(v53 * v53)) <= 0.000099999997 )
-        break;
-      v52 = v100;
+      if ( !btVoronoiSimplexSolver::inSimplex(v32->m_simplexSolver, &w) )
+        btVoronoiSimplexSolver::addVertex(v73, (btVector3 *)v73, v72, &p, &q);
+      p_m_numVertices = &v32->m_simplexSolver->m_numVertices;
+      updated = btVoronoiSimplexSolver::updateClosestVectorAndPoints(v73, p_m_numVertices);
+      p_m_numVertices += 72;
+      v82 = *(float *)p_m_numVertices++;
+      v83 = *(float *)p_m_numVertices++;
+      v84 = *(float *)p_m_numVertices;
+      v85 = p_m_numVertices[1];
+      v76 = updated ? (float)((float)(v82 * v82) + (float)(v83 * v83)) + (float)(v84 * v84) : 0.0;
     }
+    while ( v76 > 0.000099999997 );
+    v46 = v99;
+    v47 = v100;
   }
-  v85 = *(float *)&v99.m128i_i32[2];
-  result->m_fraction = v94;
-  _X = (float)((float)(*(float *)v99.m128i_i32 * *(float *)v99.m128i_i32) + (float)(v85 * v85))
-     + (float)(*(float *)&v99.m128i_i32[1] * *(float *)&v99.m128i_i32[1]);
-  if ( _X < 1.4210855e-14 )
+  result->m_simplexPointsQ[0].mVec128.m128_f32[0] = v93;
+  v77 = (float)((float)(v98 * v98) + (float)(v47 * v47)) + (float)(v46 * v46);
+  q.mVec128.m128_i32[3] = 0;
+  if ( v77 < 1.4210855e-14 )
   {
-    memset(&p, 0, sizeof(p));
+    memset(&q, 0, 12);
   }
   else
   {
-    v86 = 1.0 / sqrtf(_X);
-    p.mVec128.m128_i32[3] = 0;
-    p.mVec128.m128_f32[0] = *(float *)v99.m128i_i32 * v86;
-    p.mVec128.m128_f32[1] = *(float *)&v99.m128i_i32[1] * v86;
-    p.mVec128.m128_f32[2] = v86 * *(float *)&v99.m128i_i32[2];
+    v78 = s_bm_current_air_resistance / fsqrt(v77);
+    q.mVec128.m128_f32[0] = v78 * v98;
+    q.mVec128.m128_f32[1] = v46 * v78;
+    q.mVec128.m128_f32[2] = v47 * v78;
   }
-  result->m_normal = (btVector3)p.mVec128;
-  if ( (float)((float)((float)(result->m_normal.mVec128.m128_f32[2] * v97)
-                     + (float)(result->m_normal.mVec128.m128_f32[1] * v96))
-             + (float)(result->m_normal.mVec128.m128_f32[0] * v95)) >= (float)-result->m_allowedPenetration )
+  result->m_simplexPointsP[3] = (btVector3)q.mVec128;
+  if ( (float)((float)((float)(result->m_simplexPointsP[3].mVec128.m128_f32[2] * v92)
+                     + (float)(result->m_simplexPointsP[3].mVec128.m128_f32[1] * v91))
+             + (float)(result->m_simplexPointsP[3].mVec128.m128_f32[0] * v90)) >= COERCE_FLOAT(
+                                                                                    result->m_simplexPointsQ[0].mVec128.m128_i32[2]
+                                                                                  ^ _mask__NegFloat_) )
     return 0;
-  btVoronoiSimplexSolver::compute_points(v6->m_simplexSolver, &p2, v47, &p1);
-  result->m_hitPoint = (btVector3)p2.mVec128;
+  btVoronoiSimplexSolver::compute_points(result, (btVector3 *)v32->m_simplexSolver, &p2, &w);
+  result->m_simplexPointsP[4] = (btVector3)w.mVec128;
   return 1;
 }

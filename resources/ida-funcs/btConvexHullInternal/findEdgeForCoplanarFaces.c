@@ -1,453 +1,409 @@
-// local variable allocation has failed, the output may be wrong!
 void __userpurge btConvexHullInternal::findEdgeForCoplanarFaces(
-        btConvexHullInternal::Vertex *c0@<eax>,
         btConvexHullInternal::Vertex *c1@<edx>,
         btConvexHullInternal *this,
+        btConvexHullInternal::Vertex *c0,
         btConvexHullInternal::Edge **e0,
         btConvexHullInternal::Edge **e1,
         btConvexHullInternal::Vertex *stop0,
         btConvexHullInternal::Vertex *stop1)
 {
-  btConvexHullInternal::Edge *v8; // ebx
+  btConvexHullInternal::Edge *v7; // ecx
+  btConvexHullInternal::Edge **v8; // ebx
   btConvexHullInternal::Edge *v9; // eax
-  btConvexHullInternal::Point32 *p_point; // ecx
-  btConvexHullInternal::Point32 *v11; // ecx
-  __int64 v12; // xmm0_8
-  int v13; // ecx
-  btConvexHullInternal::Vertex *target; // eax
-  int v15; // edx
-  btConvexHullInternal::Vertex *prev; // edx
-  int v17; // eax
-  int v18; // edx
-  unsigned int v19; // ebp
-  btConvexHullInternal::Vertex *v20; // esi
-  __int64 v21; // kr50_8
-  __int64 v22; // xmm0_8
-  bool v23; // zf
-  __int64 v24; // xmm0_8
-  btConvexHullInternal::Vertex *v25; // esi
-  __int64 v26; // kr78_8
-  __int64 v27; // xmm0_8
-  __int64 v28; // kr80_8
-  bool v29; // cc
-  btConvexHullInternal::Edge *v30; // eax
-  btConvexHullInternal::Vertex *v31; // esi
-  int v32; // eax
-  __int64 v33; // rax
-  unsigned int v34; // ebp
-  int v35; // ecx
-  __int64 v36; // rax
-  btConvexHullInternal::Edge *v37; // eax
-  btConvexHullInternal::Edge **p_next; // ecx
-  btConvexHullInternal::Vertex *v39; // ebx
-  int v40; // esi
-  int v41; // edi
-  unsigned int v42; // ebp
-  int v43; // eax
-  int v44; // edi
-  int v45; // eax
-  int v46; // esi
-  __int64 v47; // rax
-  unsigned int v48; // esi
-  __int64 v49; // rax
-  signed __int64 v50; // kr90_8
-  const btConvexHullInternal::Rational64 *v51; // eax
-  const btConvexHullInternal::Rational64 *v52; // esi
-  btConvexHullInternal::Rational64 *v53; // eax
-  btConvexHullInternal::Point32 *v54; // eax
-  const btConvexHullInternal::Rational64 *v55; // eax
-  const btConvexHullInternal::Rational64 *v56; // esi
-  btConvexHullInternal::Rational64 *v57; // eax
-  __int64 v58; // xmm0_8
-  unsigned int v59; // edx
-  btConvexHullInternal::Edge *v60; // eax
-  btConvexHullInternal::Vertex *v61; // esi
-  int v62; // eax
-  __int64 v63; // rax
-  unsigned int v64; // ebp
-  int v65; // ecx
-  __int64 v66; // rax
-  btConvexHullInternal::Edge *v67; // eax
-  btConvexHullInternal::Edge *v68; // eax
-  btConvexHullInternal::Vertex *v69; // ebx
-  int v70; // esi
-  int v71; // edi
-  int v72; // eax
-  int v73; // edi
-  int v74; // eax
-  int v75; // esi
-  int v76; // ebp
-  const btConvexHullInternal::Rational64 *v77; // eax
-  const btConvexHullInternal::Rational64 *v78; // esi
-  btConvexHullInternal::Rational64 *v79; // eax
-  btConvexHullInternal::Point32 *v80; // eax
-  const btConvexHullInternal::Rational64 *v81; // eax
-  const btConvexHullInternal::Rational64 *v82; // esi
-  btConvexHullInternal::Rational64 *v83; // eax
-  __int64 v84; // rcx
-  __int64 v85; // xmm0_8
-  __int64 v86; // [esp-10h] [ebp-168h]
-  btConvexHullInternal::Edge *f1; // [esp+14h] [ebp-144h]
-  btConvexHullInternal::Edge *f1a; // [esp+14h] [ebp-144h]
-  btConvexHullInternal::Edge *f1b; // [esp+14h] [ebp-144h]
-  btConvexHullInternal::Edge *f1c; // [esp+14h] [ebp-144h]
-  btConvexHullInternal::Edge *f1d; // [esp+14h] [ebp-144h]
-  __int64 maxDot1; // [esp+18h] [ebp-140h]
-  __int64 maxDot1a; // [esp+18h] [ebp-140h]
-  btConvexHullInternal::Point64 perp; // [esp+20h] [ebp-138h] BYREF
-  __int64 dy0; // [esp+38h] [ebp-120h]
-  btConvexHullInternal::Point32 et1; // [esp+40h] [ebp-118h]
-  btConvexHullInternal::Point32 et0; // [esp+50h] [ebp-108h]
-  __int64 dy1; // [esp+60h] [ebp-F8h]
-  __int64 v99; // [esp+68h] [ebp-F0h]
-  __int64 numerator; // [esp+70h] [ebp-E8h]
-  btConvexHullInternal::Point32 s; // [esp+78h] [ebp-E0h] BYREF
-  __int64 dy; // [esp+88h] [ebp-D0h]
-  __int64 dxn; // [esp+90h] [ebp-C8h]
-  __int64 dist; // [esp+98h] [ebp-C0h]
-  btConvexHullInternal::Point64 normal; // [esp+A0h] [ebp-B8h] BYREF
-  int v106; // [esp+BCh] [ebp-9Ch]
-  __int64 dx0; // [esp+C0h] [ebp-98h]
-  btConvexHullInternal::Edge *f0; // [esp+CCh] [ebp-8Ch]
-  __int64 start1; // [esp+D0h] [ebp-88h] OVERLAPPED
-  int v110; // [esp+DCh] [ebp-7Ch]
-  __int64 x; // [esp+E0h] [ebp-78h]
-  __int64 dx1; // [esp+E8h] [ebp-70h]
-  btConvexHullInternal::Point32 v113; // [esp+F0h] [ebp-68h] BYREF
-  btConvexHullInternal::Point32 d1; // [esp+100h] [ebp-58h]
-  _BYTE v115[24]; // [esp+110h] [ebp-48h] BYREF
-  btConvexHullInternal::Point32 d0; // [esp+128h] [ebp-30h] BYREF
-  _BYTE v117[24]; // [esp+140h] [ebp-18h] BYREF
+  btConvexHullInternal::Vertex *target; // esi
+  int *p_x; // esi
+  btConvexHullInternal::Point32 *p_point; // esi
+  int *p_y; // esi
+  btConvexHullInternal::Point32 *v14; // esi
+  int v15; // eax
+  btConvexHullInternal::Point32 *v16; // eax
+  btConvexHullInternal::Point32 *v17; // ecx
+  btConvexHullInternal::Edge *v18; // eax
+  btConvexHullInternal::Edge *prev; // edi
+  __int64 v20; // rax
+  __int64 v21; // rax
+  btConvexHullInternal::Edge **v22; // eax
+  btConvexHullInternal::Edge *next; // edi
+  __int64 v24; // rax
+  __int64 v25; // rax
+  __int64 v26; // kr00_8
+  bool v27; // cc
+  btConvexHullInternal::Edge *v28; // eax
+  btConvexHullInternal::Vertex *v29; // ebx
+  int *v30; // ebx
+  __int64 v31; // rax
+  unsigned int v32; // esi
+  int v33; // ecx
+  __int64 v34; // rax
+  btConvexHullInternal::Edge *v35; // eax
+  btConvexHullInternal::Vertex *v36; // ebx
+  int v37; // eax
+  btConvexHullInternal::Point32 *v38; // ebx
+  int v39; // edi
+  const btConvexHullInternal::Rational64 *v40; // eax
+  const btConvexHullInternal::Rational64 *v41; // edi
+  btConvexHullInternal::Rational64 *v42; // ecx
+  btConvexHullInternal::Rational64 *v43; // eax
+  const btConvexHullInternal::Rational64 *v44; // eax
+  const btConvexHullInternal::Rational64 *v45; // edi
+  btConvexHullInternal::Rational64 *v46; // ecx
+  btConvexHullInternal::Rational64 *v47; // eax
+  int *v48; // esi
+  btConvexHullInternal::Edge *v49; // eax
+  btConvexHullInternal::Vertex *v50; // ebx
+  btConvexHullInternal::Point32 *v51; // ebx
+  __int64 v52; // rax
+  unsigned int v53; // esi
+  int v54; // ecx
+  __int64 v55; // rax
+  btConvexHullInternal::Edge *v56; // eax
+  btConvexHullInternal::Vertex *v57; // ebx
+  int v58; // eax
+  int *v59; // ebx
+  int v60; // edi
+  const btConvexHullInternal::Rational64 *v61; // eax
+  const btConvexHullInternal::Rational64 *v62; // edi
+  btConvexHullInternal::Rational64 *v63; // ecx
+  btConvexHullInternal::Rational64 *v64; // eax
+  const btConvexHullInternal::Rational64 *v65; // eax
+  const btConvexHullInternal::Rational64 *v66; // edi
+  btConvexHullInternal::Rational64 *v67; // ecx
+  btConvexHullInternal::Rational64 *v68; // eax
+  const btConvexHullInternal::Point32 *v69; // [esp+0h] [ebp-120h]
+  const btConvexHullInternal::Point32 *v70; // [esp+0h] [ebp-120h]
+  int v71[6]; // [esp+10h] [ebp-110h] BYREF
+  int v72[6]; // [esp+28h] [ebp-F8h] BYREF
+  btConvexHullInternal::Point64 v73; // [esp+40h] [ebp-E0h] BYREF
+  btConvexHullInternal::Point64 v74; // [esp+58h] [ebp-C8h] BYREF
+  btConvexHullInternal::Point32 v75; // [esp+70h] [ebp-B0h] BYREF
+  btConvexHullInternal::Point32 v76; // [esp+80h] [ebp-A0h] BYREF
+  btConvexHullInternal::Point32 v77; // [esp+90h] [ebp-90h] BYREF
+  __int64 v78; // [esp+A0h] [ebp-80h]
+  __int64 v79; // [esp+A8h] [ebp-78h]
+  __int64 v80; // [esp+B0h] [ebp-70h]
+  btConvexHullInternal::Point32 v81; // [esp+B8h] [ebp-68h] BYREF
+  __int64 v82; // [esp+C8h] [ebp-58h]
+  __int64 v83; // [esp+D0h] [ebp-50h]
+  btConvexHullInternal::Point64 v84; // [esp+D8h] [ebp-48h] BYREF
+  int z; // [esp+F0h] [ebp-30h]
+  int index; // [esp+F4h] [ebp-2Ch]
+  btConvexHullInternal::Point32 v87; // [esp+F8h] [ebp-28h] BYREF
+  __int64 v88; // [esp+108h] [ebp-18h]
+  __int64 v89; // [esp+110h] [ebp-10h]
+  __int64 v90; // [esp+118h] [ebp-8h]
+  btConvexHullInternal::Point32 *v91; // [esp+12Ch] [ebp+Ch]
+  btConvexHullInternal::Point32 *v92; // [esp+12Ch] [ebp+Ch]
+  btConvexHullInternal::Edge *reverse; // [esp+12Ch] [ebp+Ch]
+  btConvexHullInternal::Edge *v94; // [esp+12Ch] [ebp+Ch]
+  btConvexHullInternal::Edge *v95; // [esp+12Ch] [ebp+Ch]
+  btConvexHullInternal::Edge *v96; // [esp+12Ch] [ebp+Ch]
 
-  v8 = *e0;
-  v9 = *e1;
-  f0 = v8;
-  LODWORD(start1) = v9;
-  if ( v8 )
-    p_point = &v8->target->point;
-  else
-    p_point = &c0->point;
-  et0 = *p_point;
+  v7 = *e1;
+  v8 = e0;
+  v9 = *e0;
+  HIDWORD(v83) = v9;
+  HIDWORD(v82) = v7;
   if ( v9 )
-    v11 = &v9->target->point;
+    target = v9->target;
   else
-    v11 = &c1->point;
-  *(_QWORD *)&et1.x = *(_QWORD *)&v11->x;
-  v12 = *(_QWORD *)&v11->z;
-  v13 = c1->point.x - c0->point.x;
-  *(_QWORD *)&et1.z = v12;
-  s.x = v13;
-  s.y = c1->point.y - c0->point.y;
-  s.z = c1->point.z - c0->point.z;
-  s.index = -1;
-  if ( v8 )
-    v9 = v8;
-  target = v9->target;
-  v15 = target->point.x - c0->point.x;
-  target = (btConvexHullInternal::Vertex *)((char *)target + 88);
-  v113.x = v15;
-  prev = target->prev;
-  v17 = (int)target->edges - c0->point.z;
-  v18 = (int)prev - c0->point.y;
-  v113.index = -1;
-  v113.z = v17;
-  v113.y = v18;
-  btConvexHullInternal::Point32::cross(&s, &normal, &v113);
-  v19 = (unsigned __int64)(c0->point.x * normal.x + c0->point.z * normal.z + c0->point.y * normal.y) >> 32;
-  LODWORD(dist) = c0->point.x * LODWORD(normal.x) + c0->point.z * LODWORD(normal.z) + c0->point.y * LODWORD(normal.y);
-  btConvexHullInternal::Point32::cross(&normal, (int)&perp, &s);
-  dy0 = et0.z * perp.z + et0.y * perp.y + et0.x * perp.x;
-  if ( v8 && v8->target )
+    target = c0;
+  p_x = &target->point.x;
+  v87.x = *p_x++;
+  v87.y = *p_x++;
+  v87.z = *p_x;
+  v87.index = p_x[1];
+  if ( v7 )
+    p_point = &v7->target->point;
+  else
+    p_point = &c1->point;
+  LODWORD(v84.z) = p_point->x;
+  p_y = &p_point->y;
+  HIDWORD(v84.z) = *p_y++;
+  z = *p_y;
+  index = p_y[1];
+  v14 = &c0->point;
+  btConvexHullInternal::Point32::operator-(&c0->point, (btConvexHullInternal::Point32 *)&v84, &c1->point, v69);
+  v15 = HIDWORD(v83);
+  if ( !HIDWORD(v83) )
+    v15 = HIDWORD(v82);
+  v16 = btConvexHullInternal::Point32::operator-(
+          v14,
+          &v77,
+          (btConvexHullInternal::Point32 *)(*(_DWORD *)(v15 + 12) + 88),
+          v70);
+  btConvexHullInternal::Point32::cross((const btConvexHullInternal::Point32 *)&v84, &v73, v16);
+  v88 = btConvexHullInternal::Point32::dot(&v73, v14);
+  btConvexHullInternal::Point32::cross(v17, (int)&v74, &v84, &v73);
+  v89 = btConvexHullInternal::Point32::dot(&v74, &v87);
+  v18 = *e0;
+  if ( *e0 )
   {
-    do
+    while ( v18->target )
     {
-      v20 = (*e0)->reverse->prev->target;
-      f1 = (*e0)->reverse->prev;
-      if ( v20->point.x * normal.x + v20->point.z * normal.z + v20->point.y * normal.y < __SPAIR64__(v19, dist) )
+      prev = (*e0)->reverse->prev;
+      v91 = &prev->target->point;
+      v20 = btConvexHullInternal::Point32::dot(&v73, v91);
+      if ( v20 < v88 )
         break;
-      if ( f1->copy == this->mergeStamp )
+      if ( prev->copy == this->mergeStamp )
         break;
-      v21 = v20->point.x * perp.x + v20->point.z * perp.z + v20->point.y * perp.y;
-      if ( v21 <= dy0 )
+      v21 = btConvexHullInternal::Point32::dot(&v74, v91);
+      if ( v21 <= v89 )
         break;
-      v22 = *(_QWORD *)&v20->point.x;
-      *e0 = f1;
-      v23 = f1->target == 0;
-      *(_QWORD *)&et0.x = v22;
-      v24 = *(_QWORD *)&v20->point.z;
-      dy0 = v21;
-      *(_QWORD *)&et0.z = v24;
+      *e0 = prev;
+      v87.x = v91->x;
+      v87.y = v91->y;
+      v87.z = v91->z;
+      v89 = v21;
+      v18 = *e0;
+      v87.index = v91->index;
     }
-    while ( !v23 );
   }
-  maxDot1 = et1.z * perp.z + et1.y * perp.y + et1.x * perp.x;
-  if ( *e1 && (*e1)->target )
+  v90 = btConvexHullInternal::Point32::dot(&v74, (btConvexHullInternal::Point32 *)&v84.z);
+  v22 = e1;
+  if ( *e1 )
   {
-    do
+    while ( (*v22)->target )
     {
-      v25 = (*e1)->reverse->next->target;
-      f1a = (*e1)->reverse->next;
-      if ( v25->point.x * normal.x + v25->point.z * normal.z + v25->point.y * normal.y < __SPAIR64__(v19, dist) )
+      next = (*e1)->reverse->next;
+      v92 = &next->target->point;
+      v24 = btConvexHullInternal::Point32::dot(&v73, v92);
+      if ( v24 < v88 )
         break;
-      if ( f1a->copy == this->mergeStamp )
+      if ( next->copy == this->mergeStamp )
         break;
-      v26 = v25->point.x * perp.x + v25->point.z * perp.z + v25->point.y * perp.y;
-      if ( v26 <= maxDot1 )
+      v25 = btConvexHullInternal::Point32::dot(&v74, v92);
+      if ( v25 <= v90 )
         break;
-      v27 = *(_QWORD *)&v25->point.x;
-      *e1 = f1a;
-      v23 = f1a->target == 0;
-      *(_QWORD *)&et1.x = v27;
-      maxDot1 = v26;
-      *(_QWORD *)&et1.z = *(_QWORD *)&v25->point.z;
+      LODWORD(v90) = v25;
+      v22 = e1;
+      *e1 = next;
+      v84.z = *(_QWORD *)&v92->x;
+      z = v92->z;
+      HIDWORD(v90) = HIDWORD(v25);
+      index = v92->index;
     }
-    while ( !v23 );
   }
-  v28 = maxDot1 - dy0;
-  v29 = maxDot1 < dy0 || (unsigned __int64)(maxDot1 - dy0) >> 32 == 0;
-  maxDot1a = maxDot1 - dy0;
-  if ( maxDot1a >= 0 && (!v29 || (_DWORD)v28) )
+  v26 = v90 - v89;
+  v27 = v90 < v89 || (unsigned __int64)(v90 - v89) >> 32 == 0;
+  v90 -= v89;
+  if ( v90 >= 0 && (!v27 || (_DWORD)v26) )
   {
     while ( 1 )
     {
-      dy = s.y * (et1.y - et0.y) + s.z * (et1.z - et0.z) + s.x * (et1.x - et0.x);
-      v30 = *e0;
-      if ( !*e0 )
-        goto LABEL_29;
-      if ( !v30->target )
-        goto LABEL_29;
-      f1b = v30->next->reverse;
-      if ( f1b->copy <= this->mergeStamp )
-        goto LABEL_29;
-      v31 = f1b->target;
-      v32 = v31->point.x - et0.x;
-      v113.y = v31->point.y - et0.y;
-      v113.z = v31->point.z - et0.z;
-      v33 = v32 * perp.x;
-      v110 = (unsigned __int64)(v113.y * perp.y + v33) >> 32;
-      v34 = v113.z * LODWORD(perp.z) + v113.y * LODWORD(perp.y) + v33;
-      v35 = v31->point.y - et0.y;
-      HIDWORD(dx0) = (unsigned __int64)(v113.z * perp.z + v113.y * perp.y + v33) >> 32;
-      v36 = s.y * v35 + s.z * (v31->point.z - et0.z) + s.x * (v31->point.x - et0.x);
-      dy0 = v36;
-      if ( __PAIR64__(HIDWORD(dx0), v34) )
+      v88 = LODWORD(v84.x) * (LODWORD(v84.z) - v87.x)
+          + (HIDWORD(v84.z) - v87.y) * HIDWORD(v84.x)
+          + (z - v87.z) * LODWORD(v84.y);
+      v28 = *v8;
+      if ( !*v8 )
+        goto LABEL_31;
+      if ( !v28->target )
+        goto LABEL_31;
+      reverse = v28->next->reverse;
+      if ( reverse->copy <= this->mergeStamp )
+        goto LABEL_31;
+      v29 = reverse->target;
+      v75.index = -1;
+      v30 = &v29->point.x;
+      v75.x = *v30 - v87.x;
+      v75.y = v30[1] - v87.y;
+      v75.z = v30[2] - v87.z;
+      v31 = btConvexHullInternal::Point32::dot(&v74, &v75);
+      v32 = v31;
+      v33 = LODWORD(v84.x) * (*v30 - v87.x);
+      LODWORD(v31) = v30[1] - v87.y;
+      HIDWORD(v79) = HIDWORD(v31);
+      v34 = v33 + LODWORD(v84.y) * (v30[2] - v87.z) + HIDWORD(v84.x) * (int)v31;
+      v78 = v34;
+      if ( __PAIR64__(HIDWORD(v79), v32) )
       {
-        if ( dx0 < 0 )
+        if ( v79 < 0 )
         {
           btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)(HIDWORD(dx0) | v34),
-            (int)&d0,
-            dy,
-            v28);
-          v52 = v51;
-          btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)HIDWORD(dx0),
-            (int)v115,
-            dy0,
-            __SPAIR64__(HIDWORD(dx0), v34));
-          if ( btConvexHullInternal::Rational64::compare(v53, v52) >= 0 )
+            (btConvexHullInternal::Rational64 *)(HIDWORD(v79) | v32),
+            v72,
+            v88,
+            v90);
+          v41 = v40;
+          btConvexHullInternal::Rational64::Rational64(v42, v71, v78, __SPAIR64__(HIDWORD(v79), v32));
+          if ( btConvexHullInternal::Rational64::compare(v41, v43) >= 0 )
             goto LABEL_41;
         }
-LABEL_29:
-        v37 = *e1;
+LABEL_31:
+        v35 = *e1;
         if ( !*e1 )
           return;
-        if ( !v37->target )
+        if ( !v35->target )
           return;
-        p_next = &v37->reverse->next;
-        f1c = *p_next;
-        if ( (*p_next)->copy <= this->mergeStamp )
+        v94 = v35->reverse->next;
+        if ( v94->copy <= this->mergeStamp )
           return;
-        v39 = f1c->target;
-        v40 = v39->point.y - et1.y;
-        v41 = v39->point.z - et1.z;
-        d1.x = v39->point.x - et1.x;
-        numerator = v40;
-        start1 = v41;
-        x = d1.x;
-        v106 = (unsigned __int64)(normal.z * v41 + d1.x * normal.x) >> 32;
-        if ( normal.y * v40 + normal.z * v41 + d1.x * normal.x )
+        v36 = v94->target;
+        v37 = v36->point.y - HIDWORD(v84.z);
+        v81.index = -1;
+        v38 = &v36->point;
+        v39 = v38->x - LODWORD(v84.z);
+        v81.y = v37;
+        v81.z = v38->z - z;
+        v81.x = v39;
+        if ( btConvexHullInternal::Point32::dot(&v73, &v81) )
           return;
-        HIDWORD(dist) = (unsigned __int64)(perp.z * start1 + x * perp.x) >> 32;
-        v42 = LODWORD(perp.y) * numerator + LODWORD(perp.z) * start1 + x * LODWORD(perp.x);
-        HIDWORD(dx1) = (unsigned __int64)(perp.y * numerator + perp.z * start1 + x * perp.x) >> 32;
-        v43 = s.z * v41 + s.x * d1.x;
-        v44 = v39->point.z - et0.z;
-        v45 = s.y * v40 + v43;
-        v46 = v39->point.y - et0.y;
-        dy1 = v45;
-        v99 = (v39->point.x - et0.x) * perp.x;
-        v47 = v46 * perp.y;
-        v48 = v47 + v99;
-        HIDWORD(v99) = (unsigned __int64)(v47 + v99) >> 32;
-        v49 = v44 * perp.z;
-        v50 = v49 + __PAIR64__(HIDWORD(v99), v48);
-        dxn = v49 + __PAIR64__(HIDWORD(v99), v48);
-        if ( (((v49 + __PAIR64__(HIDWORD(v99), v48)) >> 32) & 0x80000000) != 0LL
-          || (v50 < 0)
-           ^ (__OFADD__(__CFADD__((_DWORD)v49, v48), HIDWORD(v99))
-            | __OFADD__(HIDWORD(v49), __CFADD__((_DWORD)v49, v48) + HIDWORD(v99)))
-           | (HIDWORD(v50) == 0)
-          && !(_DWORD)v50 )
+        v89 = btConvexHullInternal::Point32::dot(&v74, &v81);
+        v77.index = -1;
+        v82 = LODWORD(v84.x) * v39 + LODWORD(v84.y) * v81.z + HIDWORD(v84.x) * v81.y;
+        v77.x = v38->x - v87.x;
+        v77.y = v38->y - v87.y;
+        v77.z = v38->z - v87.z;
+        v80 = btConvexHullInternal::Point32::dot(&v74, &v77);
+        if ( v80 <= 0 )
+          return;
+        if ( v89 )
         {
-          return;
-        }
-        if ( HIDWORD(dx1) | v42 )
-        {
-          if ( dx1 >= 0 )
+          if ( v89 >= 0 )
             return;
-          btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)HIDWORD(dy),
-            (int)v115,
-            dy,
-            maxDot1a);
-          v56 = v55;
-          btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)HIDWORD(dy1),
-            (int)&d0,
-            dy1,
-            __SPAIR64__(HIDWORD(dx1), v42));
-          if ( btConvexHullInternal::Rational64::compare(v57, v56) <= 0 )
+          btConvexHullInternal::Rational64::Rational64(0, v71, v88, v90);
+          v45 = v44;
+          btConvexHullInternal::Rational64::Rational64(v46, v72, v82, v89);
+          if ( btConvexHullInternal::Rational64::compare(v45, v47) <= 0 )
             return;
         }
-        else if ( dy1 >= 0 )
+        else if ( v82 >= 0 )
         {
           return;
         }
-        v58 = *(_QWORD *)&v39->point.x;
-        v59 = dxn;
-        *e1 = f1c;
-        *(_QWORD *)&et1.x = v58;
-        *(_QWORD *)&et1.z = *(_QWORD *)&v39->point.z;
-        maxDot1a = __PAIR64__(HIDWORD(dxn), v59);
-        v28 = __PAIR64__(HIDWORD(dxn), v59);
+        v48 = &v38->x;
+        v8 = e0;
+        LODWORD(v84.z) = *v48++;
+        HIDWORD(v84.z) = *v48++;
+        *e1 = v94;
+        z = *v48;
+        v90 = v80;
+        index = v48[1];
       }
       else
       {
-        if ( v36 >= 0 )
-          goto LABEL_29;
+        if ( v34 >= 0 )
+          goto LABEL_31;
 LABEL_41:
-        v54 = &f1b->target->point;
-        et0 = *v54;
-        maxDot1a = (et1.z - et0.z) * perp.z + (et1.y - et0.y) * perp.y + (et1.x - et0.x) * perp.x;
-        *e0 = *e0 != f0 ? f1b : 0;
-        v28 = maxDot1a;
+        v87.x = *v30;
+        v87.y = v30[1];
+        v76.index = -1;
+        v87.z = v30[2];
+        v87.index = v30[3];
+        v76.x = LODWORD(v84.z) - v87.x;
+        v76.y = HIDWORD(v84.z) - v87.y;
+        v76.z = z - v87.z;
+        v90 = btConvexHullInternal::Point32::dot(&v74, &v76);
+        v8 = e0;
+        *e0 = HIDWORD(v83) != (_DWORD)*e0 ? reverse : 0;
       }
     }
   }
-  if ( v28 < 0 )
+  if ( v26 < 0 )
   {
     while ( 1 )
     {
-      numerator = s.y * (et1.y - et0.y) + s.z * (et1.z - et0.z) + s.x * (et1.x - et0.x);
-      v60 = *e1;
+      v88 = LODWORD(v84.x) * (LODWORD(v84.z) - v87.x)
+          + LODWORD(v84.y) * (z - v87.z)
+          + HIDWORD(v84.x) * (HIDWORD(v84.z) - v87.y);
+      v49 = *e1;
       if ( !*e1 )
         goto LABEL_52;
-      if ( !v60->target )
+      if ( !v49->target )
         goto LABEL_52;
-      f1d = v60->prev->reverse;
-      if ( f1d->copy <= this->mergeStamp )
+      v95 = v49->prev->reverse;
+      if ( v95->copy <= this->mergeStamp )
         goto LABEL_52;
-      v61 = f1d->target;
-      v62 = v61->point.x - et1.x;
-      d1.y = v61->point.y - et1.y;
-      d1.z = v61->point.z - et1.z;
-      v63 = v62 * perp.x;
-      HIDWORD(dist) = (unsigned __int64)(d1.y * perp.y + v63) >> 32;
-      v64 = d1.z * LODWORD(perp.z) + d1.y * LODWORD(perp.y) + v63;
-      v65 = v61->point.y - et1.y;
-      HIDWORD(x) = (unsigned __int64)(d1.z * perp.z + d1.y * perp.y + v63) >> 32;
-      v66 = s.y * v65 + s.z * (v61->point.z - et1.z) + s.x * (v61->point.x - et1.x);
-      dy1 = v66;
-      if ( __PAIR64__(HIDWORD(x), v64) )
+      v50 = v95->target;
+      v77.index = -1;
+      v51 = &v50->point;
+      v77.x = v51->x - LODWORD(v84.z);
+      v77.y = v51->y - HIDWORD(v84.z);
+      v77.z = v51->z - z;
+      v52 = btConvexHullInternal::Point32::dot(&v74, &v77);
+      v53 = v52;
+      v54 = LODWORD(v84.x) * (v51->x - LODWORD(v84.z));
+      LODWORD(v52) = v51->y - HIDWORD(v84.z);
+      HIDWORD(v80) = HIDWORD(v52);
+      v55 = v54 + LODWORD(v84.y) * (v51->z - z) + HIDWORD(v84.x) * (int)v52;
+      v78 = v55;
+      if ( __PAIR64__(HIDWORD(v80), v53) )
       {
-        if ( x < 0 )
+        if ( v80 < 0 )
         {
           btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)(HIDWORD(x) | v64),
-            (int)v115,
-            numerator,
-            v28);
-          v78 = v77;
-          btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)HIDWORD(x),
-            (int)v117,
-            dy1,
-            __SPAIR64__(HIDWORD(x), v64));
-          if ( btConvexHullInternal::Rational64::compare(v79, v78) <= 0 )
+            (btConvexHullInternal::Rational64 *)(HIDWORD(v80) | v53),
+            v71,
+            v88,
+            v90);
+          v62 = v61;
+          btConvexHullInternal::Rational64::Rational64(v63, v72, v78, __SPAIR64__(HIDWORD(v80), v53));
+          if ( btConvexHullInternal::Rational64::compare(v62, v64) <= 0 )
             goto LABEL_62;
         }
 LABEL_52:
-        v67 = *e0;
+        v56 = *e0;
         if ( !*e0 )
           return;
-        if ( !v67->target )
+        if ( !v56->target )
           return;
-        v68 = v67->reverse->prev;
-        v29 = v68->copy <= this->mergeStamp;
-        f0 = v68;
-        if ( v29 )
+        v96 = v56->reverse->prev;
+        if ( v96->copy <= this->mergeStamp )
           return;
-        v69 = v68->target;
-        v70 = v69->point.y - et0.y;
-        v71 = v69->point.z - et0.z;
-        d0.x = v69->point.x - et0.x;
-        v99 = v70;
-        dy = v71;
-        dx0 = d0.x;
-        v106 = (unsigned __int64)(v71 * normal.z + d0.x * normal.x) >> 32;
-        if ( v70 * normal.y + v71 * normal.z + d0.x * normal.x )
+        v57 = v96->target;
+        v58 = v57->point.y - v87.y;
+        v81.index = -1;
+        v59 = &v57->point.x;
+        v60 = *v59 - v87.x;
+        v81.y = v58;
+        v81.z = v59[2] - v87.z;
+        v81.x = v60;
+        if ( btConvexHullInternal::Point32::dot(&v73, &v81) )
           return;
-        v110 = (unsigned __int64)(dy * perp.z + dx0 * perp.x) >> 32;
-        v72 = s.z * v71 + s.x * d0.x;
-        v73 = et1.z - v69->point.z;
-        v74 = s.y * v70 + v72;
-        v75 = et1.y - v69->point.y;
-        dxn = v74;
-        v86 = et1.x - v69->point.x;
-        dy0 = v99 * perp.y + dy * perp.z + dx0 * perp.x;
-        v113.x = v86 * LODWORD(perp.x);
-        v76 = (unsigned __int64)(v73 * perp.z + v75 * perp.y + v86 * perp.x) >> 32;
-        LODWORD(dx1) = v73 * LODWORD(perp.z) + v75 * LODWORD(perp.y) + v86 * LODWORD(perp.x);
-        if ( v76 >= 0 )
+        v89 = btConvexHullInternal::Point32::dot(&v74, &v81);
+        v75.index = -1;
+        v83 = HIDWORD(v84.x) * v81.y + LODWORD(v84.x) * v60 + LODWORD(v84.y) * v81.z;
+        v75.x = LODWORD(v84.z) - *v59;
+        v75.y = HIDWORD(v84.z) - v59[1];
+        v75.z = z - v59[2];
+        v79 = btConvexHullInternal::Point32::dot(&v74, &v75);
+        if ( v79 >= 0 )
           return;
-        if ( dy0 )
+        if ( v89 )
         {
-          if ( dy0 >= 0 )
+          if ( v89 >= 0 )
             return;
-          btConvexHullInternal::Rational64::Rational64(
-            (btConvexHullInternal::Rational64 *)maxDot1a,
-            (int)v117,
-            numerator,
-            maxDot1a);
-          v82 = v81;
-          btConvexHullInternal::Rational64::Rational64((btConvexHullInternal::Rational64 *)dxn, (int)v115, dxn, dy0);
-          if ( btConvexHullInternal::Rational64::compare(v83, v82) >= 0 )
+          btConvexHullInternal::Rational64::Rational64(0, v71, v88, v90);
+          v66 = v65;
+          btConvexHullInternal::Rational64::Rational64(v67, v72, v83, v89);
+          if ( btConvexHullInternal::Rational64::compare(v66, v68) >= 0 )
             return;
         }
-        else if ( dxn <= 0 )
+        else if ( v83 <= 0 )
         {
           return;
         }
-        LODWORD(v84) = dx1;
-        *(_QWORD *)&et0.x = *(_QWORD *)&v69->point.x;
-        v85 = *(_QWORD *)&v69->point.z;
-        *e0 = f0;
-        *(_QWORD *)&et0.z = v85;
-        maxDot1a = __PAIR64__(v76, v84);
-        HIDWORD(v84) = v76;
-        v28 = v84;
+        v87.x = *v59;
+        v87.y = v59[1];
+        *e0 = v96;
+        v87.z = v59[2];
+        v90 = v79;
+        v87.index = v59[3];
       }
       else
       {
-        if ( v66 < 0 || !(_DWORD)v66 )
+        if ( v55 < 0 || !(_DWORD)v55 )
           goto LABEL_52;
 LABEL_62:
-        v80 = &f1d->target->point;
-        et1 = *v80;
-        maxDot1a = (et1.z - et0.z) * perp.z + (et1.y - et0.y) * perp.y + (et1.x - et0.x) * perp.x;
-        *e1 = *e1 != (btConvexHullInternal::Edge *)start1 ? f1d : 0;
-        v28 = maxDot1a;
+        v84.z = *(_QWORD *)&v51->x;
+        v76.index = -1;
+        z = v51->z;
+        index = v51->index;
+        v76.x = LODWORD(v84.z) - v87.x;
+        v76.y = HIDWORD(v84.z) - v87.y;
+        v76.z = z - v87.z;
+        v90 = btConvexHullInternal::Point32::dot(&v74, &v76);
+        *e1 = *e1 != (btConvexHullInternal::Edge *)HIDWORD(v82) ? v95 : 0;
       }
     }
   }

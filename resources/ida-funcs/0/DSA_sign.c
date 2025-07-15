@@ -10,7 +10,7 @@ int __cdecl DSA_sign(
   DSA_SIG_st *v7; // esi
   unsigned int v9; // eax
 
-  RAND_seed();
+  RAND_seed((int)dgst);
   v6 = (DSA_SIG_st *)((int (__cdecl *)(const unsigned __int8 *, int, dsa_st *, const unsigned __int8 *, int))dsa->meth->dsa_do_sign)(
                        dgst,
                        dlen,

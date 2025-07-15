@@ -1,16 +1,16 @@
-void __userpurge btDbvt::update(btDbvtNode *leaf@<edi>, btDbvt *this, btDbvtAabbMm *volume)
+void __thiscall btDbvt::update(btDbvt *this, btDbvt *leaf, btDbvtNode *volume, const void *a4)
 {
   btDbvtNode *m_root; // eax
-  int m_lkhd; // esi
-  int i; // edx
+  int m_lkhd; // edx
+  int i; // esi
 
-  m_root = removeleaf(leaf, this);
+  m_root = removeleaf(volume, leaf);
   if ( m_root )
   {
-    m_lkhd = this->m_lkhd;
+    m_lkhd = leaf->m_lkhd;
     if ( m_lkhd < 0 )
     {
-      m_root = this->m_root;
+      m_root = leaf->m_root;
     }
     else
     {
@@ -22,40 +22,28 @@ void __userpurge btDbvt::update(btDbvtNode *leaf@<edi>, btDbvt *this, btDbvtAabb
       }
     }
   }
-  leaf->volume = *volume;
-  insertleaf(m_root, this, leaf);
-}
-
-
-void __usercall btDbvt::update(btDbvt *this@<esi>, btDbvtNode *leaf@<edi>)
-{
-  btDbvtNode *m_root; // eax
-  btDbvt *v3; // [esp+0h] [ebp-8h]
-
-  m_root = removeleaf(leaf, v3);
-  if ( m_root )
-    m_root = this->m_root;
-  insertleaf(m_root, this, leaf);
+  qmemcpy(volume, a4, 0x20u);
+  insertleaf(m_root, leaf, volume);
 }
 
 
 char __userpurge btDbvt::update@<al>(
         btDbvtAabbMm *volume@<eax>,
-        const btVector3 *velocity@<ecx>,
+        const btVector3 *velocity@<edx>,
         btDbvt *this,
-        btDbvtNode *leaf,
+        btDbvt *leaf,
         float margin)
 {
   float v6; // xmm0_4
   float v7; // xmm0_4
   float v8; // xmm0_4
 
-  if ( volume->mi.mVec128.m128_f32[0] >= leaf->volume.mi.mVec128.m128_f32[0]
-    && volume->mi.mVec128.m128_f32[1] >= leaf->volume.mi.mVec128.m128_f32[1]
-    && volume->mi.mVec128.m128_f32[2] >= leaf->volume.mi.mVec128.m128_f32[2]
-    && leaf->volume.mx.mVec128.m128_f32[0] >= volume->mx.mVec128.m128_f32[0]
-    && leaf->volume.mx.mVec128.m128_f32[1] >= volume->mx.mVec128.m128_f32[1]
-    && leaf->volume.mx.mVec128.m128_f32[2] >= volume->mx.mVec128.m128_f32[2] )
+  if ( volume->mi.mVec128.m128_f32[0] >= *(float *)&leaf->m_root
+    && volume->mi.mVec128.m128_f32[1] >= *(float *)&leaf->m_free
+    && volume->mi.mVec128.m128_f32[2] >= *(float *)&leaf->m_lkhd
+    && *(float *)&leaf->m_opath >= volume->mx.mVec128.m128_f32[0]
+    && *(float *)&leaf->m_stkStack.m_allocator >= volume->mx.mVec128.m128_f32[1]
+    && *(float *)&leaf->m_stkStack.m_size >= volume->mx.mVec128.m128_f32[2] )
   {
     return 0;
   }
@@ -80,6 +68,6 @@ char __userpurge btDbvt::update@<al>(
     volume->mi.mVec128.m128_f32[2] = v8 + volume->mi.mVec128.m128_f32[2];
   else
     volume->mx.mVec128.m128_f32[2] = volume->mx.mVec128.m128_f32[2] + v8;
-  btDbvt::update(leaf, this, volume);
+  btDbvt::update(leaf, this, (btDbvtNode *)leaf, volume);
   return 1;
 }

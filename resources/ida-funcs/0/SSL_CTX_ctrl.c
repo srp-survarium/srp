@@ -1,4 +1,4 @@
-int __cdecl SSL_CTX_ctrl(ssl_ctx_st *ctx, int cmd, int larg, void *parg)
+int __cdecl SSL_CTX_ctrl(ssl_ctx_st *ctx, int cmd, unsigned int larg, void *parg)
 {
   int result; // eax
 
@@ -81,7 +81,7 @@ int __cdecl SSL_CTX_ctrl(ssl_ctx_st *ctx, int cmd, int larg, void *parg)
       ctx->max_cert_list = larg;
       break;
     case 52:
-      if ( (unsigned int)(larg - 512) > 0x3E00 )
+      if ( larg - 512 > 0x3E00 )
       {
         result = 0;
       }

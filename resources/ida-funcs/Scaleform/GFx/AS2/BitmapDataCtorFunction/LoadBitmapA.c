@@ -21,15 +21,13 @@ void __cdecl Scaleform::GFx::AS2::BitmapDataCtorFunction::LoadBitmapA(const Scal
       v4 = &Env->Stack.Pages.Data.Data[(unsigned int)v1->FirstArgBottomIndex >> 5]->Values[v1->FirstArgBottomIndex
                                                                                          & 0x1F];
     Scaleform::GFx::AS2::Value::ToStringImpl(v4, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
-    v5 = Scaleform::GFx::AS2::GFx_LoadBitmap<Scaleform::GFx::ASString>(
-           (Scaleform::GFx::ImageResource *)v1->Env,
-           (const Scaleform::GFx::ASString *)&fn);
+    v5 = Scaleform::GFx::AS2::GFx_LoadBitmap<Scaleform::GFx::ASString>(v1->Env, (const Scaleform::GFx::ASString *)&fn);
     v6 = v5;
     if ( v5 )
     {
       Scaleform::GFx::AS2::Value::SetAsObject(v1->Result, v5);
       RefCount = v6->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v6->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

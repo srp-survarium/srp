@@ -13,7 +13,7 @@ DName *__cdecl UnDecorator::getDataIndirectType(
   bool v10; // dl
   unsigned int v11; // ebx
   const char *v12; // eax
-  DName *p_msExtension; // ecx
+  DName *p_resulta; // ecx
   DName *v14; // eax
   DName *v15; // eax
   DName *v16; // eax
@@ -71,17 +71,17 @@ DName *__cdecl UnDecorator::getDataIndirectType(
   DName v68; // [esp+1Ch] [ebp-44h] BYREF
   DName v69; // [esp+24h] [ebp-3Ch] BYREF
   DName v70; // [esp+2Ch] [ebp-34h] BYREF
-  DName v71; // [esp+34h] [ebp-2Ch] BYREF
-  DName szComPlusIndirSpecifier; // [esp+3Ch] [ebp-24h] BYREF
-  DName name; // [esp+44h] [ebp-1Ch] BYREF
-  DName msExtension; // [esp+4Ch] [ebp-14h] BYREF
-  DName ditType; // [esp+54h] [ebp-Ch] BYREF
-  bool bIsPinPtr; // [esp+5Fh] [ebp-1h] BYREF
+  char v71; // [esp+34h] [ebp-2Ch] BYREF
+  DName v72; // [esp+3Ch] [ebp-24h] BYREF
+  DName resulta; // [esp+44h] [ebp-1Ch] BYREF
+  DName v74; // [esp+4Ch] [ebp-14h] BYREF
+  DName rd; // [esp+54h] [ebp-Ch] BYREF
+  bool fIsPinPtr; // [esp+5Fh] [ebp-1h] BYREF
 
   v5 = *UnDecorator::gName;
-  *((_DWORD *)&szComPlusIndirSpecifier + 1) &= 0xFFFF0000;
-  szComPlusIndirSpecifier.node = 0;
-  bIsPinPtr = 0;
+  *((_DWORD *)&v72 + 1) &= 0xFFFF0000;
+  v72.node = 0;
+  fIsPinPtr = 0;
   if ( !v5 )
   {
     if ( !thisFlag )
@@ -111,12 +111,12 @@ LABEL_74:
   }
   if ( v5 == 36 )
   {
-    UnDecorator::getExtendedDataIndirectType(&name, &prType, &bIsPinPtr, thisFlag);
-    if ( name.node )
+    UnDecorator::getExtendedDataIndirectType(&resulta, &prType, &fIsPinPtr, thisFlag);
+    if ( resulta.node )
     {
       v6 = result;
-      result->node = name.node;
-      v7 = *((_DWORD *)&name + 1);
+      result->node = resulta.node;
+      v7 = *((_DWORD *)&resulta + 1);
 LABEL_5:
       *((_DWORD *)v6 + 1) = v7;
       return v6;
@@ -125,22 +125,22 @@ LABEL_5:
   v8 = UnDecorator::gName;
   v9 = *UnDecorator::gName;
   v10 = *UnDecorator::gName < 65;
-  *((_DWORD *)&msExtension + 1) &= 0xFFFF0000;
-  msExtension.node = 0;
+  *((_DWORD *)&v74 + 1) &= 0xFFFF0000;
+  v74.node = 0;
   v11 = v9 - (v10 ? 22 : 65);
-  *((_DWORD *)&name + 1) &= 0xFFFF0000;
-  name.node = 0;
+  *((_DWORD *)&resulta + 1) &= 0xFFFF0000;
+  resulta.node = 0;
   while ( v11 == 4 )
   {
     if ( (~(UnDecorator::disableFlags >> 1) & 1) != 0 && (~(UnDecorator::disableFlags >> 17) & 1) != 0 )
     {
       v24 = UnDecorator::UScore(TOK_ptr64);
-      p_msExtension = &msExtension;
+      p_resulta = &v74;
       v65 = (char *)v24;
-      if ( !msExtension.node )
+      if ( !v74.node )
       {
 LABEL_21:
-        DName::operator=(p_msExtension, v65);
+        DName::operator=(p_resulta, v65);
         goto LABEL_22;
       }
       v64 = &v67;
@@ -150,12 +150,12 @@ LABEL_21:
 LABEL_22:
     if ( *++UnDecorator::gName == 36 )
     {
-      UnDecorator::getExtendedDataIndirectType(&ditType, &prType, &bIsPinPtr, thisFlag);
-      if ( ditType.node )
+      UnDecorator::getExtendedDataIndirectType(&rd, &prType, &fIsPinPtr, thisFlag);
+      if ( rd.node )
       {
         v6 = result;
-        result->node = ditType.node;
-        v7 = *((_DWORD *)&ditType + 1);
+        result->node = rd.node;
+        v7 = *((_DWORD *)&rd + 1);
         goto LABEL_5;
       }
     }
@@ -167,16 +167,16 @@ LABEL_22:
     if ( (~(UnDecorator::disableFlags >> 1) & 1) != 0 )
     {
       v19 = UnDecorator::UScore(TOK_unaligned);
-      p_msExtension = &name;
+      p_resulta = &resulta;
       v65 = (char *)v19;
-      if ( !name.node )
+      if ( !resulta.node )
         goto LABEL_21;
-      v20 = DName::operator+(&name, &v68, 32);
+      v20 = DName::operator+(&resulta, &v68, 32);
       v21 = DName::operator+(v20, &v69, v65);
       node = v21->node;
       v23 = *((_DWORD *)v21 + 1);
-      name.node = node;
-      *((_DWORD *)&name + 1) = v23;
+      resulta.node = node;
+      *((_DWORD *)&resulta + 1) = v23;
     }
     goto LABEL_22;
   }
@@ -185,19 +185,19 @@ LABEL_22:
     if ( (~(UnDecorator::disableFlags >> 1) & 1) != 0 )
     {
       v12 = UnDecorator::UScore(TOK_restrict);
-      p_msExtension = &msExtension;
+      p_resulta = &v74;
       v65 = (char *)v12;
-      if ( !msExtension.node )
+      if ( !v74.node )
         goto LABEL_21;
-      v64 = &v71;
+      v64 = (DName *)&v71;
       v14 = &v70;
 LABEL_13:
-      v15 = DName::operator+(&msExtension, v14, 32);
+      v15 = DName::operator+(&v74, v14, 32);
       v16 = DName::operator+(v15, v64, v65);
       v17 = v16->node;
       v18 = *((_DWORD *)v16 + 1);
-      msExtension.node = v17;
-      *((_DWORD *)&msExtension + 1) = v18;
+      v74.node = v17;
+      *((_DWORD *)&v74 + 1) = v18;
       goto LABEL_22;
     }
     goto LABEL_22;
@@ -206,29 +206,29 @@ LABEL_13:
     UnDecorator::gName = v8 + 1;
   if ( v11 > 0x1F )
     goto LABEL_35;
-  DName::operator=(&ditType, prType);
-  v25 = DName::operator+(&szComPlusIndirSpecifier, &v66, &ditType);
+  DName::operator=(&rd, prType);
+  v25 = DName::operator+(&v72, &v66, &rd);
   v26 = v25->node;
   v27 = *((_DWORD *)v25 + 1);
-  ditType.node = v26;
-  *((_DWORD *)&ditType + 1) = v27;
-  if ( msExtension.node )
+  rd.node = v26;
+  *((_DWORD *)&rd + 1) = v27;
+  if ( v74.node )
   {
-    v28 = DName::operator+(&ditType, &v67, 32);
-    v29 = DName::operator+(v28, &v66, &msExtension);
+    v28 = DName::operator+(&rd, &v67, 32);
+    v29 = DName::operator+(v28, &v66, &v74);
     v30 = v29->node;
     v31 = *((_DWORD *)v29 + 1);
-    ditType.node = v30;
-    *((_DWORD *)&ditType + 1) = v31;
+    rd.node = v30;
+    *((_DWORD *)&rd + 1) = v31;
   }
-  if ( name.node )
+  if ( resulta.node )
   {
-    v32 = DName::operator+(&name, &v67, 32);
-    v33 = DName::operator+(v32, &v66, &ditType);
+    v32 = DName::operator+(&resulta, &v67, 32);
+    v33 = DName::operator+(v32, &v66, &rd);
     v34 = v33->node;
     v35 = *((_DWORD *)v33 + 1);
-    ditType.node = v34;
-    *((_DWORD *)&ditType + 1) = v35;
+    rd.node = v34;
+    *((_DWORD *)&rd + 1) = v35;
   }
   if ( (v11 & 0x10) == 0 )
     goto LABEL_46;
@@ -239,18 +239,18 @@ LABEL_13:
     if ( *UnDecorator::gName )
     {
       Scope = UnDecorator::getScope(&v66);
-      DName::operator|=(&ditType, Scope);
+      DName::operator|=(&rd, Scope);
       goto LABEL_43;
     }
 LABEL_44:
-    DName::operator+=(&ditType, DN_truncated);
+    DName::operator+=(&rd, DN_truncated);
 LABEL_46:
     if ( (UnDecorator::disableFlags & 2) != 0 )
     {
       if ( (v11 & 0xC) == 0xC )
       {
         BasedType = UnDecorator::getBasedType(&v66);
-        DName::operator|=(&ditType, BasedType);
+        DName::operator|=(&rd, BasedType);
       }
     }
     else if ( (v11 & 0xC) == 0xC )
@@ -258,27 +258,27 @@ LABEL_46:
       if ( thisFlag )
         goto LABEL_35;
       v45 = UnDecorator::getBasedType(&v67);
-      v46 = DName::operator+(v45, &v66, &ditType);
+      v46 = DName::operator+(v45, &v66, &rd);
       v47 = v46->node;
       v48 = *((_DWORD *)v46 + 1);
-      ditType.node = v47;
-      *((_DWORD *)&ditType + 1) = v48;
+      rd.node = v47;
+      *((_DWORD *)&rd + 1) = v48;
     }
     if ( (v11 & 2) != 0 )
     {
-      v50 = operator+(&v66, "volatile ", &ditType);
+      v50 = operator+(&v66, "volatile ", &rd);
       v51 = v50->node;
       v52 = *((_DWORD *)v50 + 1);
-      ditType.node = v51;
-      *((_DWORD *)&ditType + 1) = v52;
+      rd.node = v51;
+      *((_DWORD *)&rd + 1) = v52;
     }
     if ( (v11 & 1) != 0 )
     {
-      v53 = operator+(&v66, "const ", &ditType);
+      v53 = operator+(&v66, "const ", &rd);
       v54 = v53->node;
       v55 = *((_DWORD *)v53 + 1);
-      ditType.node = v54;
-      *((_DWORD *)&ditType + 1) = v55;
+      rd.node = v54;
+      *((_DWORD *)&rd + 1) = v55;
     }
     if ( thisFlag )
       goto LABEL_66;
@@ -292,19 +292,19 @@ LABEL_46:
         v59 = DName::operator+(v58, &v67, 32);
         v60 = DName::operator+(v59, &v66, superType);
 LABEL_65:
-        DName::operator+=(&ditType, v60);
+        DName::operator+=(&rd, v60);
         goto LABEL_66;
       }
       if ( (v57 & 0x800) != 0 )
       {
-        ditType.node = superType->node;
-        *((_DWORD *)&ditType + 1) = v57;
+        rd.node = superType->node;
+        *((_DWORD *)&rd + 1) = v57;
 LABEL_66:
-        v7 = *((_DWORD *)&ditType + 1) | 0x100;
-        if ( bIsPinPtr )
-          v7 = *((_DWORD *)&ditType + 1) | 0x2100;
+        v7 = *((_DWORD *)&rd + 1) | 0x100;
+        if ( fIsPinPtr )
+          v7 = *((_DWORD *)&rd + 1) | 0x2100;
         v6 = result;
-        result->node = ditType.node;
+        result->node = rd.node;
         goto LABEL_5;
       }
     }
@@ -317,24 +317,24 @@ LABEL_66:
     v60 = operator+(&v66, 32, v56);
     goto LABEL_65;
   }
-  v36 = operator+(&v66, "::", &ditType);
+  v36 = operator+(&v66, "::", &rd);
   v37 = v36->node;
-  *((_DWORD *)&ditType + 1) = *((_DWORD *)v36 + 1);
+  *((_DWORD *)&rd + 1) = *((_DWORD *)v36 + 1);
   v38 = *UnDecorator::gName == 0;
-  ditType.node = v37;
+  rd.node = v37;
   if ( v38 )
   {
-    v40 = operator+(&v66, DN_truncated, &ditType);
+    v40 = operator+(&v66, DN_truncated, &rd);
   }
   else
   {
     v39 = UnDecorator::getScope(&v67);
-    v40 = DName::operator+(v39, &v66, &ditType);
+    v40 = DName::operator+(v39, &v66, &rd);
   }
   v41 = v40->node;
   v42 = *((_DWORD *)v40 + 1);
-  ditType.node = v41;
-  *((_DWORD *)&ditType + 1) = v42;
+  rd.node = v41;
+  *((_DWORD *)&rd + 1) = v42;
 LABEL_43:
   v44 = *UnDecorator::gName;
   if ( !*UnDecorator::gName )

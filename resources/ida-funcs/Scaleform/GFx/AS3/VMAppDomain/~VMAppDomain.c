@@ -40,8 +40,8 @@ void __thiscall Scaleform::GFx::AS3::VMAppDomain::~VMAppDomain(Scaleform::GFx::A
       else
       {
         memmove(
-          (unsigned __int8 *)&this->ChildDomains.Data.Data[v3],
-          (unsigned __int8 *)&this->ChildDomains.Data.Data[v3 + 1],
+          (int)&this->ChildDomains.Data.Data[v3],
+          (const __m128i *)&this->ChildDomains.Data.Data[v3 + 1],
           4 * (Size - v3) - 4);
         --this->ChildDomains.Data.Size;
       }

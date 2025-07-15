@@ -30,9 +30,9 @@ int __usercall hw_cw@<eax>(unsigned int abstr@<ebx>)
         break;
     }
   }
-  if ( (abstr & 0x30000) != 0 )
+  if ( ((unsigned int)&loc_30000 & abstr) != 0 )
   {
-    if ( (HINSTANCE__ *)(abstr & 0x30000) == &_sbh_sizeHeaderList )
+    if ( (HINSTANCE__ *)((unsigned int)&loc_30000 & abstr) == &_sbh_sizeHeaderList )
       result |= 0x200u;
   }
   else

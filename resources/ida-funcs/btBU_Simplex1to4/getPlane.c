@@ -1,4 +1,8 @@
-void __thiscall btBU_Simplex1to4::getPlane(btBU_Simplex1to4 *this, btVector3 *__formal, btVector3 *a3, int a4)
+void __thiscall btBU_Simplex1to4::getPlane(
+        vostok::particle::particle_action *this,
+        vostok::particle::particle_emitter_instance *__formal,
+        vostok::particle::base_particle *time_delta,
+        float current_time)
 {
   ;
 }

@@ -1,22 +1,22 @@
 Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *__thiscall Scaleform::GFx::MouseState::GetMouseButtonDownEntity(
         Scaleform::GFx::MouseState *this,
         Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *result,
-        unsigned int buttonIdx)
+        Scaleform::Ptr<Scaleform::GFx::Sprite> buttonIdx)
 {
   Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *v3; // eax
-  Scaleform::GFx::InteractiveObject *v4; // ecx
+  Scaleform::GFx::Sprite *pObject; // ecx
 
-  if ( buttonIdx < this->MouseButtonDownEntities.Data.Size )
+  if ( (unsigned int)buttonIdx.pObject < this->MouseButtonDownEntities.Data.Size )
   {
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->MouseButtonDownEntities.Data.Data[buttonIdx],
-      (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&buttonIdx);
-    v4 = (Scaleform::GFx::InteractiveObject *)buttonIdx;
-    if ( buttonIdx )
-      ++*(_DWORD *)(buttonIdx + 4);
-    result->pObject = v4;
-    if ( v4 )
-      Scaleform::RefCountNTSImpl::Release(v4);
+      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->MouseButtonDownEntities.Data.Data[(int)buttonIdx.pObject],
+      &buttonIdx);
+    pObject = buttonIdx.pObject;
+    if ( buttonIdx.pObject )
+      ++buttonIdx.pObject->RefCount;
+    result->pObject = pObject;
+    if ( pObject )
+      Scaleform::RefCountNTSImpl::Release(pObject);
     return result;
   }
   else

@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::Text::LineBuffer::Scale(
         Scaleform::Render::Text::LineBuffer *this,
         float scaleFactor)
 {
-  signed int CurrentPos; // eax
+  signed int v2; // eax
   double v3; // st7
   Scaleform::Render::Text::LineBuffer::Line *v4; // esi
   bool v5; // bl
@@ -22,54 +22,54 @@ void __thiscall Scaleform::Render::Text::LineBuffer::Scale(
   int v19; // eax
   double v20; // st6
   unsigned int Delta; // eax
-  int newH; // [esp+14h] [ebp-84h]
-  int newHa; // [esp+14h] [ebp-84h]
-  int newHb; // [esp+14h] [ebp-84h]
-  float newHc; // [esp+14h] [ebp-84h]
-  float newHe; // [esp+14h] [ebp-84h]
-  float newHf; // [esp+14h] [ebp-84h]
-  int newHd; // [esp+14h] [ebp-84h]
-  float newHg; // [esp+14h] [ebp-84h]
-  float newW; // [esp+18h] [ebp-80h]
-  int newWa; // [esp+18h] [ebp-80h]
-  float newWb; // [esp+18h] [ebp-80h]
-  float newWc; // [esp+18h] [ebp-80h]
+  int Leading; // [esp+14h] [ebp-84h]
+  int Width; // [esp+14h] [ebp-84h]
+  int Height; // [esp+14h] [ebp-84h]
+  float v25; // [esp+14h] [ebp-84h]
+  float v26; // [esp+14h] [ebp-84h]
+  float v27; // [esp+14h] [ebp-84h]
+  int v28; // [esp+14h] [ebp-84h]
+  float v29; // [esp+14h] [ebp-84h]
+  float v30; // [esp+18h] [ebp-80h]
+  int BaseLineOffset; // [esp+18h] [ebp-80h]
+  float v32; // [esp+18h] [ebp-80h]
+  float v33; // [esp+18h] [ebp-80h]
   Scaleform::Render::Text::LineBuffer *v34; // [esp+1Ch] [ebp-7Ch]
-  float newLeading; // [esp+20h] [ebp-78h]
-  Scaleform::Render::Text::LineBuffer::GlyphIterator git; // [esp+24h] [ebp-74h] BYREF
-  Scaleform::Render::Text::LineBuffer::Iterator it; // [esp+84h] [ebp-14h]
+  float v35; // [esp+20h] [ebp-78h]
+  Scaleform::Render::Text::LineBuffer::GlyphIterator v36; // [esp+24h] [ebp-74h] BYREF
+  unsigned int i; // [esp+8Ch] [ebp-Ch]
 
-  CurrentPos = 0;
+  v2 = 0;
   v34 = this;
-  for ( it.CurrentPos = 0; ; CurrentPos = it.CurrentPos )
+  for ( i = 0; ; v2 = i )
   {
     v3 = scaleFactor;
-    if ( !this || CurrentPos >= this->Lines.Data.Size || CurrentPos < 0 )
+    if ( !this || v2 >= this->Lines.Data.Size || v2 < 0 )
       break;
-    v4 = this->Lines.Data.Data[CurrentPos];
+    v4 = this->Lines.Data.Data[v2];
     v5 = (v4->MemSize & 0x80000000) != 0;
     if ( (v4->MemSize & 0x80000000) == 0 )
-      newH = v4->Data32.Leading;
+      Leading = v4->Data32.Leading;
     else
-      newH = v4->Data8.Leading;
-    newLeading = (double)newH * v3;
+      Leading = v4->Data8.Leading;
+    v35 = (double)Leading * v3;
     if ( (v4->MemSize & 0x80000000) == 0 )
-      newHa = v4->Data32.Width;
+      Width = v4->Data32.Width;
     else
-      newHa = v4->Data8.Width;
-    newW = (double)newHa * v3;
+      Width = v4->Data8.Width;
+    v30 = (double)Width * v3;
     if ( (v4->MemSize & 0x80000000) == 0 )
-      newHb = v4->Data32.Height;
+      Height = v4->Data32.Height;
     else
-      newHb = v4->Data8.Height;
-    newHc = (double)newHb * v3;
-    v6 = (int)newLeading;
+      Height = v4->Data8.Height;
+    v25 = (double)Height * v3;
+    v6 = (int)v35;
     if ( (v4->MemSize & 0x80000000) == 0 )
       v4->Data32.Leading = v6;
     else
       v4->Data8.Leading = v6;
-    v7 = (int)newHc;
-    v8 = (int)newW;
+    v7 = (int)v25;
+    v8 = (int)v30;
     if ( v5 )
     {
       v4->Data8.Width = v8;
@@ -82,12 +82,12 @@ void __thiscall Scaleform::Render::Text::LineBuffer::Scale(
     }
     v9 = (v4->MemSize & 0x80000000) != 0;
     if ( (v4->MemSize & 0x80000000) == 0 )
-      newWa = v4->Data32.BaseLineOffset;
+      BaseLineOffset = v4->Data32.BaseLineOffset;
     else
-      newWa = v4->Data8.BaseLineOffset;
-    newHe = (float)newWa;
-    newHf = newHe * v3;
-    v10 = newHf;
+      BaseLineOffset = v4->Data8.BaseLineOffset;
+    v26 = (float)BaseLineOffset;
+    v27 = v26 * v3;
+    v10 = v27;
     if ( (v4->MemSize & 0x80000000) == 0 )
       v4->Data32.BaseLineOffset = (int)v10;
     else
@@ -113,27 +113,27 @@ void __thiscall Scaleform::Render::Text::LineBuffer::Scale(
       v15 = (Scaleform::Render::Text::LineBuffer::GlyphEntry *)(&v4->Data8.Leading + 1);
     else
       v15 = (Scaleform::Render::Text::LineBuffer::GlyphEntry *)((char *)&v4->Data8 + 38);
-    git.HighlighterIter.CurDesc.StartPos = -1;
-    git.HighlighterIter.CurDesc.Length = 0;
-    git.HighlighterIter.CurDesc.Offset = -1;
-    memset(&git.HighlighterIter.CurDesc.AdjStartPos, 0, 25);
-    git.HighlighterIter.NumGlyphs = 0;
-    git.HighlighterIter.CurAdjStartPos = 0;
-    memset(&git.ColorV, 0, 28);
-    git.pGlyphs = v15;
-    git.pEndGlyphs = &v15[v14];
-    git.pNextFormatData = (Scaleform::Render::Text::LineBuffer::FormatDataEntry *)((unsigned int)(v13 + 3) & 0xFFFFFFFC);
+    v36.HighlighterIter.CurDesc.StartPos = -1;
+    v36.HighlighterIter.CurDesc.Length = 0;
+    v36.HighlighterIter.CurDesc.Offset = -1;
+    memset(&v36.HighlighterIter.CurDesc.AdjStartPos, 0, 25);
+    v36.HighlighterIter.NumGlyphs = 0;
+    v36.HighlighterIter.CurAdjStartPos = 0;
+    memset(&v36.ColorV, 0, 28);
+    v36.pGlyphs = v15;
+    v36.pEndGlyphs = &v15[v14];
+    v36.pNextFormatData = (Scaleform::Render::Text::LineBuffer::FormatDataEntry *)((unsigned int)(v13 + 3) & 0xFFFFFFFC);
 LABEL_37:
-    git.Delta = 0;
+    v36.Delta = 0;
 LABEL_38:
-    Scaleform::Render::Text::LineBuffer::GlyphIterator::UpdateDesc(&git);
-    pGlyphs = git.pGlyphs;
-    while ( pGlyphs && pGlyphs < git.pEndGlyphs )
+    Scaleform::Render::Text::LineBuffer::GlyphIterator::UpdateDesc(&v36);
+    pGlyphs = v36.pGlyphs;
+    while ( pGlyphs && pGlyphs < v36.pEndGlyphs )
     {
       p_Flags = &pGlyphs->Flags;
-      newHd = (pGlyphs->Flags & 0x40) != 0 ? -pGlyphs->Advance : pGlyphs->Advance;
-      newWb = (double)newHd * scaleFactor;
-      v18 = (int)newWb;
+      v28 = (pGlyphs->Flags & 0x40) != 0 ? -pGlyphs->Advance : pGlyphs->Advance;
+      v32 = (double)v28 * scaleFactor;
+      v18 = (int)v32;
       if ( v18 < 0 )
       {
         *p_Flags |= 0x40u;
@@ -146,38 +146,38 @@ LABEL_38:
       }
       v19 = pGlyphs->LenAndFontSize & 0xFFF;
       v20 = (*(_BYTE *)p_Flags & 0x10) != 0 ? (double)(unsigned int)v19 * 0.0625 : (double)(unsigned int)v19;
-      newHg = v20;
-      newWc = scaleFactor * newHg;
-      Scaleform::Render::Text::LineBuffer::GlyphEntry::SetFontSize(pGlyphs, newWc);
-      pGlyphs = git.pGlyphs;
-      if ( !git.pGlyphs )
+      v29 = v20;
+      v33 = scaleFactor * v29;
+      Scaleform::Render::Text::LineBuffer::GlyphEntry::SetFontSize(pGlyphs, v33);
+      pGlyphs = v36.pGlyphs;
+      if ( !v36.pGlyphs )
         break;
-      if ( git.pGlyphs < git.pEndGlyphs )
+      if ( v36.pGlyphs < v36.pEndGlyphs )
       {
-        Delta = git.Delta;
-        if ( !git.Delta )
+        Delta = v36.Delta;
+        if ( !v36.Delta )
         {
-          Delta = git.pGlyphs->LenAndFontSize >> 12;
-          git.Delta = Delta;
+          Delta = v36.pGlyphs->LenAndFontSize >> 12;
+          v36.Delta = Delta;
         }
-        ++git.pGlyphs;
-        if ( (git.pGlyphs->LenAndFontSize & 0xF000) != 0
+        ++v36.pGlyphs;
+        if ( (v36.pGlyphs->LenAndFontSize & 0xF000) != 0
           && Delta
-          && !Scaleform::Render::Text::HighlighterPosIterator::IsFinished(&git.HighlighterIter) )
+          && !Scaleform::Render::Text::HighlighterPosIterator::IsFinished(&v36.HighlighterIter) )
         {
-          Scaleform::Render::Text::HighlighterPosIterator::operator+=(&git.HighlighterIter, git.Delta);
+          Scaleform::Render::Text::HighlighterPosIterator::operator+=(&v36.HighlighterIter, v36.Delta);
           goto LABEL_37;
         }
         goto LABEL_38;
       }
     }
-    if ( git.pImage.pObject )
-      Scaleform::RefCountNTSImpl::Release(git.pImage.pObject);
-    if ( git.pFontHandle.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)git.pFontHandle.pObject);
+    if ( v36.pImage.pObject )
+      Scaleform::RefCountNTSImpl::Release(v36.pImage.pObject);
+    if ( v36.pFontHandle.pObject )
+      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v36.pFontHandle.pObject);
     this = v34;
-    if ( it.CurrentPos < v34->Lines.Data.Size )
-      ++it.CurrentPos;
+    if ( i < v34->Lines.Data.Size )
+      ++i;
   }
   this->Geom.Flags |= 1u;
 }

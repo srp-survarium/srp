@@ -45,14 +45,14 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::ForEachChild_GC<Scaleform::GFx
   unsigned int v4; // edi
   Scaleform::GFx::AS2::Value *v5; // ecx
   unsigned __int8 Type; // dl
-  Scaleform::GFx::AS2::RefCountBaseGC<323> *pObjectValue; // eax
+  Scaleform::GFx::AS2::RefCountCollector<323> *pStringNode; // eax
   unsigned int v8; // ecx
-  unsigned int n; // [esp+10h] [ebp+4h]
+  Scaleform::GFx::AS2::RefCountCollector<323> *prcca; // [esp+10h] [ebp+4h]
 
   Scaleform::GFx::AS2::Object::ForEachChild_GC<Scaleform::GFx::AS2::RefCountBaseGC<323>::ScanInUseFunctor>(this, prcc);
   v4 = 0;
-  n = this->Elements.Data.Size;
-  if ( n )
+  prcca = (Scaleform::GFx::AS2::RefCountCollector<323> *)this->Elements.Data.Size;
+  if ( prcca )
   {
     do
     {
@@ -70,25 +70,25 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::ForEachChild_GC<Scaleform::GFx
         {
           if ( Type == 6 )
           {
-            pObjectValue = v5->V.pObjectValue;
-            if ( pObjectValue )
+            pStringNode = (Scaleform::GFx::AS2::RefCountCollector<323> *)v5->V.pStringNode;
+            if ( pStringNode )
               goto LABEL_9;
           }
           if ( Type == 9 )
           {
-            pObjectValue = v5->V.pObjectValue;
+            pStringNode = (Scaleform::GFx::AS2::RefCountCollector<323> *)v5->V.pStringNode;
 LABEL_9:
-            v8 = ++pObjectValue->RefCount;
+            v8 = ++pStringNode->Roots.Size;
             if ( (v8 & 0x70000000) != 0 )
             {
-              pObjectValue->RefCount = v8 & 0x8FFFFFFF;
-              Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pObjectValue);
+              pStringNode->Roots.Size = v8 & 0x8FFFFFFF;
+              Scaleform::GFx::AS2::RefCountCollector<323>::ReinsertToList(prcc, pStringNode);
             }
           }
         }
       }
       ++v4;
     }
-    while ( v4 < n );
+    while ( v4 < (unsigned int)prcca );
   }
 }

@@ -60,31 +60,31 @@ int __cdecl do_dh_print(bio_st *bp, const dh_st *x, int indent, asn1_pctx_st *ct
     v4 = (unsigned __int8 *)CRYPTO_malloc(v5 + 10, ".\\crypto\\dh\\dh_ameth.c", 356);
     if ( v4 )
     {
-      BIO_indent(bp, indent, 128);
+      BIO_indent((int)v9, bp, indent, 128);
       v10 = BN_num_bits(x->p);
-      if ( (int)BIO_printf(bp, "%s: (%d bit)\n", v9, v10) > 0
+      if ( BIO_printf(bp, "%s: (%d bit)\n", v9, v10) > 0
         && (v11 = indent + 4, ASN1_bn_print(bp, "private-key:", num, v4, indent + 4))
         && ASN1_bn_print(bp, "public-key:", a, v4, v11)
-        && ASN1_bn_print(bp, "prime:", x->p, v4, v11)
+        && (v9 = (const char *)x, ASN1_bn_print(bp, "prime:", x->p, v4, v11))
         && ASN1_bn_print(bp, "generator:", x->g, v4, v11)
         && (!x->length
-         || (BIO_indent(bp, v11, 128), (int)BIO_printf(bp, "recommended-private-length: %d bits\n", x->length) > 0)) )
+         || (BIO_indent((int)x, bp, v11, 128), BIO_printf(bp, "recommended-private-length: %d bits\n", x->length) > 0)) )
       {
         v15 = 1;
       }
       else
       {
-        ERR_put_error(5u, 100, 7, ".\\crypto\\dh\\dh_ameth.c", 385);
+        ERR_put_error((int)v9, 5u, 100, 7, ".\\crypto\\dh\\dh_ameth.c", 385);
       }
     }
     else
     {
-      ERR_put_error(5u, 100, 65, ".\\crypto\\dh\\dh_ameth.c", 385);
+      ERR_put_error((int)v9, 5u, 100, 65, ".\\crypto\\dh\\dh_ameth.c", 385);
     }
   }
   else
   {
-    ERR_put_error(5u, 100, 67, ".\\crypto\\dh\\dh_ameth.c", 385);
+    ERR_put_error((int)x, 5u, 100, 67, ".\\crypto\\dh\\dh_ameth.c", 385);
   }
   if ( v4 )
     CRYPTO_free(v4);

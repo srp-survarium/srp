@@ -1,54 +1,45 @@
-void __thiscall vostok::resources::queries_result::push_to_grm_cache(
-        vostok::resources::queries_result *this,
-        vostok::resources::queries_result *thisa)
+void __thiscall vostok::resources::queries_result::push_to_grm_cache(vostok::resources::queries_result *this, int a2)
 {
-  unsigned int v2; // edi
-  vostok::resources::class_id_enum *p_m_class_id; // esi
-  boost::function1<void,char const *> *v4; // ecx
-  volatile signed __int32 *v5; // eax
+  unsigned int v2; // ebp
+  int v3; // edi
+  vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *v4; // esi
+  vostok::resources::base_of_intrusive_base *v5; // eax
 
   v2 = 0;
-  if ( thisa->m_size )
+  if ( *(_DWORD *)(a2 + 56) )
   {
-    p_m_class_id = &thisa->m_queries[0].m_class_id;
+    v3 = a2 + 80;
     do
     {
-      if ( *p_m_class_id != fs_iterator_class && *p_m_class_id != fs_iterator_recursive_class )
+      if ( !vostok::resources::query_result::is_fs_iterator_query((vostok::resources::query_result *)this, v3) )
       {
-        v4 = (boost::function1<void,char const *> *)*((_DWORD *)p_m_class_id + 143);
+        v4 = *(vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> **)(v3 + 720);
         if ( v4 )
         {
-          if ( *((_DWORD *)p_m_class_id + 31) || *((_DWORD *)p_m_class_id + 32) == 1 )
+          if ( vostok::resources::query_result_for_user::is_successful(
+                 (vostok::resources::query_result_for_user *)this,
+                 v3) )
           {
-            if ( ((int)v4->functor.obj_ptr & 1) != 0 )
-            {
-              v5 = (volatile signed __int32 *)&v4[6].functor.vostok_pointer_size_alignment[5];
-            }
-            else if ( ((int)v4->functor.obj_ptr & 4) != 0 )
-            {
-              v5 = (volatile signed __int32 *)&v4[6].functor.vostok_pointer_size_alignment[2];
-            }
-            else
-            {
-              v5 = 0;
-            }
-            _InterlockedExchangeAdd(v5, 0xFFFFFFFF);
-            vostok::threading::interlocked_and(v5 + 1, 0xFFFFFFFD);
+            if ( (s_resources_manager_buffer.m_query_finished_callback.vtable != 0
+                ? (unsigned int)vostok::memory::process_allocator::finalize_impl
+                : 0) != 0 )
+              boost::function1<void,vostok::collision::object const &>::operator()(
+                (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)this,
+                &s_resources_manager_buffer.m_query_finished_callback.vtable,
+                v4);
           }
-          else if ( (*(int *)((char *)&dword_205B0 + (unsigned int)vostok::resources::g_resources_manager.m_variable) != 0
-                   ? (unsigned int)survarium::weapon_user_dead_state::finalize
-                   : 0) != 0 )
+          else
           {
-            boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-              v4,
-              (int *)((char *)&dword_205B0 + (unsigned int)vostok::resources::g_resources_manager.m_variable),
-              *((const char **)p_m_class_id + 143));
+            v5 = vostok::resources::resource_flags::cast_base_of_intrusive_base((vostok::resources::resource_flags *)v4);
+            _InterlockedExchangeAdd(&v5->m_reference_count, 0xFFFFFFFF);
+            this = (vostok::resources::queries_result *)-3;
+            _InterlockedAnd(&v5->m_flags.m_flags, 0xFFFFFFFD);
           }
         }
       }
       ++v2;
-      p_m_class_id += 180;
+      v3 += 736;
     }
-    while ( v2 < thisa->m_size );
+    while ( v2 < *(_DWORD *)(a2 + 56) );
   }
 }

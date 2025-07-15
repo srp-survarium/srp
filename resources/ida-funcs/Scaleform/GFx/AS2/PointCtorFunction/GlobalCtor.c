@@ -14,7 +14,8 @@ void __cdecl Scaleform::GFx::AS2::PointCtorFunction::GlobalCtor(const Scaleform:
   Scaleform::GFx::AS2::Value *v12; // esi
   int i; // ebx
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Value params[2]; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v16; // [esp+1Ch] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+2Ch] [ebp+0h] BYREF
 
   if ( !fn->ThisPtr
@@ -47,20 +48,20 @@ LABEL_10:
   {
     Env = fn->Env;
     FirstArgBottomIndex = fn->FirstArgBottomIndex;
-    params[0].T.Type = 0;
-    params[1].T.Type = 0;
+    params.T.Type = 0;
+    v16.T.Type = 0;
     v8 = (char *)Env->Stack.pCurrent - (char *)Env->Stack.pPageStart;
     p_Stack = &Env->Stack;
     v10 = 0;
     if ( FirstArgBottomIndex <= 32 * (p_Stack->Pages.Data.Size - 1) + (v8 >> 4) )
       v10 = &p_Stack->Pages.Data.Data[FirstArgBottomIndex >> 5]->Values[FirstArgBottomIndex & 0x1F];
-    Scaleform::GFx::AS2::Value::operator=(params, v10);
+    Scaleform::GFx::AS2::Value::operator=(&params, v10);
     if ( fn->NArgs > 1 )
     {
       v11 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-      Scaleform::GFx::AS2::Value::operator=(&params[1], v11);
+      Scaleform::GFx::AS2::Value::operator=(&v16, v11);
     }
-    Scaleform::GFx::AS2::PointObject::SetProperties(v5, &fn->Env->StringContext, params);
+    Scaleform::GFx::AS2::PointObject::SetProperties(v5, &fn->Env->StringContext, &params);
     v12 = (Scaleform::GFx::AS2::Value *)&retaddr;
     for ( i = 1; i >= 0; --i )
     {
@@ -72,7 +73,7 @@ LABEL_10:
   if ( v5 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

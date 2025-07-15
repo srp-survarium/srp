@@ -1,67 +1,24 @@
-int __usercall vostok::render::compare@<eax>(
-        const vostok::render::res_declaration *left@<ecx>,
-        const vostok::render::res_declaration *right@<eax>)
+int __usercall vostok::render::compare@<eax>(const vostok::render::res_declaration *right@<eax>, unsigned int left)
 {
-  unsigned int v5; // ecx
-  unsigned int *v6; // eax
-  D3D11_INPUT_ELEMENT_DESC *M_start; // esi
-  D3D11_INPUT_ELEMENT_DESC *v8; // edi
-  unsigned int v9; // ecx
-  int v10; // eax
-  unsigned int v11; // [esp+Ch] [ebp-8h] BYREF
-  unsigned int v12; // [esp+10h] [ebp-4h] BYREF
+  unsigned int v2; // ebx
+  bool v5; // cf
+  int *p_left; // eax
+  int v7; // [esp+Ch] [ebp-4h] BYREF
 
-  if ( left->dcl_code._M_impl._M_finish - left->dcl_code._M_impl._M_start < (unsigned int)(right->dcl_code._M_impl._M_finish
-                                                                                         - right->dcl_code._M_impl._M_start) )
+  v2 = left;
+  if ( (*(_DWORD *)(left + 1044) - *(_DWORD *)(left + 1040)) / 28 < (unsigned int)(right->dcl_code.m_end
+                                                                                 - right->dcl_code.m_begin) )
     return -1;
-  if ( left->dcl_code._M_impl._M_finish - left->dcl_code._M_impl._M_start > (unsigned int)(right->dcl_code._M_impl._M_finish
-                                                                                         - right->dcl_code._M_impl._M_start) )
+  if ( (*(_DWORD *)(left + 1044) - *(_DWORD *)(left + 1040)) / 28 > (unsigned int)(right->dcl_code.m_end
+                                                                                 - right->dcl_code.m_begin) )
     return 1;
-  v5 = right->dcl_code._M_impl._M_finish - right->dcl_code._M_impl._M_start;
-  v12 = left->dcl_code._M_impl._M_finish - left->dcl_code._M_impl._M_start;
-  v11 = v5;
-  v6 = &v11;
-  if ( v5 >= v12 )
-    v6 = &v12;
-  M_start = right->dcl_code._M_impl._M_start;
-  v8 = left->dcl_code._M_impl._M_start;
-  v9 = 28 * *v6;
-  if ( v9 < 4 )
-  {
-LABEL_10:
-    if ( !v9 )
-      return 0;
-  }
-  else
-  {
-    while ( v8->SemanticName == M_start->SemanticName )
-    {
-      v9 -= 4;
-      M_start = (D3D11_INPUT_ELEMENT_DESC *)((char *)M_start + 4);
-      v8 = (D3D11_INPUT_ELEMENT_DESC *)((char *)v8 + 4);
-      if ( v9 < 4 )
-        goto LABEL_10;
-    }
-  }
-  v10 = LOBYTE(v8->SemanticName) - LOBYTE(M_start->SemanticName);
-  if ( v10 )
-    return (v10 >> 31) | 1;
-  if ( v9 <= 1 )
-    return 0;
-  v10 = BYTE1(v8->SemanticName) - BYTE1(M_start->SemanticName);
-  if ( v10 )
-    return (v10 >> 31) | 1;
-  if ( v9 <= 2 )
-    return 0;
-  v10 = BYTE2(v8->SemanticName) - BYTE2(M_start->SemanticName);
-  if ( v10 )
-    return (v10 >> 31) | 1;
-  if ( v9 > 3 )
-  {
-    v10 = HIBYTE(v8->SemanticName) - HIBYTE(M_start->SemanticName);
-    return (v10 >> 31) | 1;
-  }
-  return 0;
+  left = right->dcl_code.m_end - right->dcl_code.m_begin;
+  v5 = left < (*(_DWORD *)(v2 + 1044) - *(_DWORD *)(v2 + 1040)) / 28;
+  v7 = (*(_DWORD *)(v2 + 1044) - *(_DWORD *)(v2 + 1040)) / 28;
+  p_left = (int *)&left;
+  if ( !v5 )
+    p_left = &v7;
+  return memcmp(*(const char **)(v2 + 1040), (const char *)right->dcl_code.m_begin, 28 * *p_left);
 }
 
 
@@ -119,96 +76,103 @@ int __fastcall vostok::render::compare(const vostok::render::res_pass *right, co
 }
 
 
-int __cdecl vostok::render::compare(
-        const vostok::render::res_shader_technique *left,
-        const vostok::render::res_shader_technique *right)
+int __usercall vostok::render::compare@<eax>(
+        const vostok::render::res_shader_technique *left@<ecx>,
+        const vostok::render::res_shader_technique *right@<eax>)
 {
-  const vostok::render::res_shader_technique *v2; // ebx
   vostok::render::res_shader_technique::sflags m_flags; // edx
-  const vostok::render::res_shader_technique *v4; // ebp
   vostok::render::res_shader_technique::sflags v5; // ecx
+  unsigned int v6; // eax
+  unsigned int v7; // ebx
   int result; // eax
-  unsigned int v7; // eax
-  unsigned int v8; // esi
   unsigned int v9; // eax
-  unsigned int v10; // esi
+  unsigned int v10; // ebx
   unsigned int v11; // eax
-  unsigned int v12; // esi
-  unsigned int v13; // ecx
-  unsigned int v14; // edx
-  unsigned int v15; // edx
-  const vostok::render::res_shader_technique *v16; // ecx
-  unsigned int v17; // edi
-  const vostok::render::res_shader_technique **p_right; // eax
-  const vostok::render::res_pass **p_m_object; // esi
-  int v20; // ebx
+  unsigned int v12; // ebx
+  unsigned int v13; // eax
+  unsigned int v14; // ebx
+  unsigned int v15; // ecx
+  unsigned int v16; // edx
+  unsigned int v17; // ecx
+  int v18; // eax
+  int v19; // ecx
+  bool v20; // cf
+  int *v21; // eax
+  unsigned int v22; // ebx
+  vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *m_begin; // edi
+  char *v24; // esi
+  int v25; // [esp+Ch] [ebp-Ch] BYREF
+  int v26; // [esp+10h] [ebp-8h] BYREF
+  unsigned int v27; // [esp+14h] [ebp-4h]
 
-  v2 = right;
   m_flags = right->m_flags;
-  v4 = left;
   v5 = left->m_flags;
-  if ( (*(_BYTE *)&m_flags & 3u) > (*(_BYTE *)&v5 & 3u) )
+  v6 = *(_BYTE *)&v5 & 3;
+  v7 = *(_BYTE *)&m_flags & 3;
+  if ( v7 > v6 )
     return -1;
-  result = (*(_BYTE *)&m_flags & 3u) < (*(_BYTE *)&v5 & 3u);
-  if ( (*(_BYTE *)&m_flags & 3u) >= (*(_BYTE *)&v5 & 3u) )
+  result = v7 < v6;
+  if ( !result )
   {
-    v7 = (*(unsigned int *)&v5 >> 2) & 1;
-    v8 = (*(unsigned int *)&m_flags >> 2) & 1;
-    if ( v8 > v7 )
-      return -1;
-    result = v8 < v7;
-    if ( result )
-      return result;
-    v9 = (*(unsigned int *)&v5 >> 3) & 1;
-    v10 = (*(unsigned int *)&m_flags >> 3) & 1;
+    v9 = (*(unsigned int *)&v5 >> 2) & 1;
+    v10 = (*(unsigned int *)&m_flags >> 2) & 1;
     if ( v10 > v9 )
       return -1;
     result = v10 < v9;
     if ( result )
       return result;
-    v11 = (*(unsigned int *)&v5 >> 5) & 1;
-    v12 = (*(unsigned int *)&m_flags >> 5) & 1;
+    v11 = (*(unsigned int *)&v5 >> 3) & 1;
+    v12 = (*(unsigned int *)&m_flags >> 3) & 1;
     if ( v12 > v11 )
       return -1;
     result = v12 < v11;
     if ( result )
       return result;
-    v13 = (*(unsigned int *)&v5 >> 4) & 1;
-    v14 = (*(unsigned int *)&m_flags >> 4) & 1;
+    v13 = (*(unsigned int *)&v5 >> 5) & 1;
+    v14 = (*(unsigned int *)&m_flags >> 5) & 1;
     if ( v14 > v13 )
       return -1;
     result = v14 < v13;
-    if ( v14 < v13 )
+    if ( result )
       return result;
-    if ( left->m_passes._M_impl._M_finish - left->m_passes._M_impl._M_start < (unsigned int)(right->m_passes._M_impl._M_finish
-                                                                                           - right->m_passes._M_impl._M_start) )
+    v15 = (*(unsigned int *)&v5 >> 4) & 1;
+    v16 = (*(unsigned int *)&m_flags >> 4) & 1;
+    if ( v16 > v15 )
       return -1;
-    v15 = right->m_passes._M_impl._M_finish - right->m_passes._M_impl._M_start;
-    result = v15 < left->m_passes._M_impl._M_finish - left->m_passes._M_impl._M_start;
-    if ( v15 >= left->m_passes._M_impl._M_finish - left->m_passes._M_impl._M_start )
+    result = v16 < v15;
+    if ( v16 < v15 )
+      return result;
+    if ( left->m_passes.m_end - left->m_passes.m_begin < (unsigned int)(right->m_passes.m_end - right->m_passes.m_begin) )
+      return -1;
+    v17 = left->m_passes.m_end - left->m_passes.m_begin;
+    result = right->m_passes.m_end - right->m_passes.m_begin < v17;
+    if ( right->m_passes.m_end - right->m_passes.m_begin >= v17 )
     {
-      v16 = (const vostok::render::res_shader_technique *)(left->m_passes._M_impl._M_finish
-                                                         - left->m_passes._M_impl._M_start);
-      v17 = 0;
-      right = (const vostok::render::res_shader_technique *)(right->m_passes._M_impl._M_finish
-                                                           - right->m_passes._M_impl._M_start);
-      left = v16;
-      p_right = &right;
-      if ( right >= v16 )
-        p_right = &left;
-      right = *p_right;
-      if ( right )
+      v18 = (char *)right->m_passes.m_end - (char *)right->m_passes.m_begin;
+      v19 = (char *)left->m_passes.m_end - (char *)left->m_passes.m_begin;
+      v27 = 0;
+      v19 >>= 2;
+      v26 = v18 >> 2;
+      v20 = v18 >> 2 < (unsigned int)v19;
+      v25 = v19;
+      v21 = &v26;
+      if ( !v20 )
+        v21 = &v25;
+      v22 = *v21;
+      if ( *v21 )
       {
-        p_m_object = (const vostok::render::res_pass **)&v4->m_passes._M_impl._M_start->m_object;
-        v20 = (char *)v2->m_passes._M_impl._M_start - (char *)p_m_object;
+        m_begin = left->m_passes.m_begin;
+        v24 = (char *)((char *)right->m_passes.m_begin - (char *)m_begin);
         while ( 1 )
         {
-          result = vostok::render::compare(*(const vostok::render::res_pass **)((char *)p_m_object + v20), *p_m_object);
+          result = vostok::render::compare(
+                     *(const vostok::render::res_pass **)((char *)&m_begin->m_object + (_DWORD)v24),
+                     m_begin->m_object);
           if ( result )
             break;
-          ++v17;
-          ++p_m_object;
-          if ( v17 >= (unsigned int)right )
+          ++v27;
+          ++m_begin;
+          if ( v27 >= v22 )
             return 0;
         }
       }
@@ -223,121 +187,51 @@ int __cdecl vostok::render::compare(
 
 
 int __usercall vostok::render::compare@<eax>(
-        const vostok::render::shader_constant *right@<eax>,
-        const vostok::render::shader_constant *left)
+        const vostok::render::shader_constant *left@<ecx>,
+        const vostok::render::shader_constant *right@<eax>)
 {
-  int result; // eax
+  vostok::shared_string *p_m_name; // ebx
+  vostok::strings::shared::profile *v6; // ebx
   void *m_pointer; // eax
-  void *v5; // ecx
+  void *v8; // ecx
   unsigned int m_size; // eax
-  unsigned int v7; // ecx
-  unsigned int v8; // eax
-  unsigned int v9; // ecx
-  unsigned int m_value_high; // ebx
-  unsigned int v11; // edi
+  unsigned int v10; // ecx
+  unsigned int v11; // eax
+  unsigned int v12; // ecx
+  unsigned int m_value_high; // edi
+  unsigned int v14; // esi
+  vostok::shared_string *v15; // [esp+Ch] [ebp-Ch]
+  vostok::shared_string *v16; // [esp+10h] [ebp-8h]
+  vostok::strings::shared::profile *v17; // [esp+14h] [ebp-4h]
 
-  result = vostok::render::compare(left->m_host, right->m_host);
-  if ( !result )
-  {
-    m_pointer = left->m_source.m_pointer;
-    v5 = right->m_source.m_pointer;
-    if ( m_pointer < v5 )
-      return -1;
-    if ( m_pointer > v5 )
-      return 1;
-    m_size = left->m_source.m_size;
-    v7 = right->m_source.m_size;
-    if ( m_size < v7 )
-      return -1;
-    if ( m_size > v7 )
-      return 1;
-    v8 = *(_DWORD *)&left->m_slot.m_class_id;
-    v9 = *(_DWORD *)&right->m_slot.m_class_id;
-    m_value_high = HIDWORD(left->m_slot.m_value);
-    v11 = HIDWORD(right->m_slot.m_value);
-    if ( m_value_high > v11 )
-      return 1;
-    if ( m_value_high < v11 || v8 < v9 )
-      return -1;
-    return __PAIR64__(m_value_high, v8) > __PAIR64__(v11, v9);
-  }
-  return result;
-}
-
-
-int __usercall vostok::render::compare@<eax>(
-        const vostok::render::shader_constant_host *left@<edx>,
-        const vostok::render::shader_constant_host *right@<esi>)
-{
-  vostok::strings::shared::profile *m_object; // eax
-  unsigned int v3; // ecx
-  vostok::strings::shared::profile *v4; // eax
-  vostok::strings::shared::profile *v6; // eax
-  unsigned int v7; // ecx
-  vostok::strings::shared::profile *v8; // eax
-
-  m_object = left->m_name.m_pointer.m_object;
-  if ( m_object
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-  {
-    v3 = (unsigned int)&m_object[1];
-  }
-  else
-  {
-    v3 = 0;
-  }
-  v4 = right->m_name.m_pointer.m_object;
-  if ( v4
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-    && v3 < (unsigned int)&v4[1] )
-  {
+  p_m_name = &left->m_host->m_name;
+  v15 = p_m_name;
+  v16 = &right->m_host->m_name;
+  v17 = vostok::shared_string::c_str(v16);
+  if ( vostok::shared_string::c_str(p_m_name) < v17 )
     return -1;
-  }
-  v6 = left->m_name.m_pointer.m_object;
-  if ( v6
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-  {
-    v7 = (unsigned int)&v6[1];
-  }
-  else
-  {
-    v7 = 0;
-  }
-  v8 = right->m_name.m_pointer.m_object;
-  if ( v8
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-  {
-    return (unsigned int)&v8[1] < v7;
-  }
-  else
-  {
-    return v7 != 0;
-  }
-}
-
-
-int __cdecl vostok::render::compare(
-        const vostok::render::res_xs<vostok::render::vs_data> *left,
-        const vostok::render::res_xs<vostok::render::vs_data> *right)
-{
-  vostok::render::res_xs_hw<vostok::render::vs_data> *m_object; // ecx
-  vostok::render::res_xs_hw<vostok::render::vs_data> *v3; // eax
-  int result; // eax
-
-  m_object = right->m_hardware_shader.m_object;
-  v3 = left->m_hardware_shader.m_object;
-  if ( m_object > v3 )
+  v6 = vostok::shared_string::c_str(v16);
+  if ( vostok::shared_string::c_str(v15) > v6 )
+    return 1;
+  m_pointer = left->m_source.m_pointer;
+  v8 = right->m_source.m_pointer;
+  if ( m_pointer < v8 )
     return -1;
-  result = m_object < v3;
-  if ( !result )
-  {
-    result = vostok::render::shader_constant_table::compare(left->m_constants.m_object, right->m_constants.m_object);
-    if ( !result )
-    {
-      result = vostok::render::res_texture_list::compare(left->m_textures.m_object, right->m_textures.m_object);
-      if ( !result )
-        return vostok::render::res_sampler_list::compare(left->m_samplers.m_object, right->m_samplers.m_object);
-    }
-  }
-  return result;
+  if ( m_pointer > v8 )
+    return 1;
+  m_size = left->m_source.m_size;
+  v10 = right->m_source.m_size;
+  if ( m_size < v10 )
+    return -1;
+  if ( m_size > v10 )
+    return 1;
+  v11 = *(_DWORD *)&left->m_slot.m_class_id;
+  v12 = *(_DWORD *)&right->m_slot.m_class_id;
+  m_value_high = HIDWORD(left->m_slot.m_value);
+  v14 = HIDWORD(right->m_slot.m_value);
+  if ( m_value_high > v14 )
+    return 1;
+  if ( m_value_high < v14 || v11 < v12 )
+    return -1;
+  return __PAIR64__(m_value_high, v11) > __PAIR64__(v14, v12);
 }

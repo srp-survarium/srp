@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl::Date::AS3getFullYear;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl::Date,17,double>::Method) = Scaleform::GFx::AS3::Instances::fl::Date::AS3getFullYear;
-  dword_AAD164 = 0;
+  dword_8F191C = 0;
   return result;
 }

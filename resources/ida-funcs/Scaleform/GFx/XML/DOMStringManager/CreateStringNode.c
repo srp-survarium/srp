@@ -1,6 +1,6 @@
 Scaleform::GFx::XML::DOMStringNode *__thiscall Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
         Scaleform::GFx::XML::DOMStringManager *this,
-        char *pstr,
+        __m128i *pstr,
         Scaleform::GFx::XML::DOMStringNode *length)
 {
   unsigned int v3; // ebp
@@ -13,10 +13,10 @@ Scaleform::GFx::XML::DOMStringNode *__thiscall Scaleform::GFx::XML::DOMStringMan
   Scaleform::GFx::XML::DOMStringKey key; // [esp+Ch] [ebp-Ch] BYREF
 
   v3 = (unsigned int)length;
-  key.pStr = pstr;
-  v5 = Scaleform::String::BernsteinHashFunction(pstr, (unsigned int)length, 0x1505u);
+  key.pStr = (const char *)pstr;
+  v5 = Scaleform::String::BernsteinHashFunction(pstr->m128i_i8, (unsigned int)length, 0x1505u);
   pTable = this->StringSet.pTable;
-  v7 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v5;
+  v7 = v5 & 0xFFFFFF;
   key.HashValue = v7;
   key.Length = v3;
   if ( pTable )

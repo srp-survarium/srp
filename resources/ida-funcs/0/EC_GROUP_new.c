@@ -31,19 +31,19 @@ ec_group_st *__cdecl EC_GROUP_new(const ec_method_st *meth)
       }
       else
       {
-        ERR_put_error(0x10u, 108, 65, ".\\crypto\\ec\\ec_lib.c", 94);
+        ERR_put_error((int)meth, 0x10u, 108, 65, ".\\crypto\\ec\\ec_lib.c", 94);
         return 0;
       }
     }
     else
     {
-      ERR_put_error(0x10u, 108, 66, ".\\crypto\\ec\\ec_lib.c", 87);
+      ERR_put_error((int)meth, 0x10u, 108, 66, ".\\crypto\\ec\\ec_lib.c", 87);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x10u, 108, 108, ".\\crypto\\ec\\ec_lib.c", 82);
+    ERR_put_error(0, 0x10u, 108, 108, ".\\crypto\\ec\\ec_lib.c", 82);
     return 0;
   }
 }

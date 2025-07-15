@@ -9,7 +9,9 @@ Scaleform::GFx::AS2::TextSnapshotProto *__thiscall Scaleform::GFx::AS2::TextSnap
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::TextSnapshotProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::TextSnapshotProto *__thiscall Scaleform::GFx::AS2::TextSnapshotProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::TextSnapshotProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::TextSnapshotProto *)(this - 72),

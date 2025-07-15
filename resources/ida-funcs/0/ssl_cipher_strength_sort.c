@@ -83,7 +83,7 @@ int __cdecl ssl_cipher_strength_sort(cipher_order_st **head_p, cipher_order_st *
   }
   else
   {
-    ERR_put_error(0x14u, 231, 65, ".\\ssl\\ssl_ciph.c", 999);
+    ERR_put_error(0, 0x14u, 231, 65, ".\\ssl\\ssl_ciph.c", 999);
     return 0;
   }
 }

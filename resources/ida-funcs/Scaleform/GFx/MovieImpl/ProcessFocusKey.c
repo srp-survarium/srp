@@ -13,14 +13,14 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessFocusKey(
   Scaleform::GFx::InteractiveObject *pObject; // ecx
   Scaleform::GFx::InteractiveObject *v11; // ecx
   Scaleform::GFx::InteractiveObject *v12; // ecx
-  const Scaleform::Render::Rect<float> *v13; // eax
+  __m128 *v13; // eax
   unsigned int v14; // eax
   unsigned int v15; // eax
   int v16; // ebx
   double v17; // st7
   Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *v18; // ecx
   Scaleform::GFx::DisplayObjectBase *v19; // esi
-  const Scaleform::Render::Rect<float> *v20; // eax
+  __m128 *v20; // eax
   unsigned int v21; // edi
   double v22; // st6
   double x1; // st7
@@ -40,7 +40,7 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessFocusKey(
   Scaleform::GFx::InteractiveObject *v37; // eax
   Scaleform::GFx::DisplayObjectBase **p_pObject; // ecx
   Scaleform::GFx::DisplayObjectBase *v39; // esi
-  const Scaleform::Render::Rect<float> *v40; // eax
+  __m128 *v40; // eax
   unsigned int v41; // edi
   double v42; // st6
   double y1; // st7
@@ -58,107 +58,107 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessFocusKey(
   int v55; // esi
   Scaleform::RefCountNTSImpl *v56; // ecx
   Scaleform::RefCountNTSImpl *v57; // ecx
-  float v58; // [esp+2860h] [ebp-1A0h]
-  float v59; // [esp+2860h] [ebp-1A0h]
-  float v60; // [esp+2860h] [ebp-1A0h]
-  float v61; // [esp+2860h] [ebp-1A0h]
-  float v62; // [esp+2860h] [ebp-1A0h]
-  float v63; // [esp+2860h] [ebp-1A0h]
-  float v64; // [esp+2860h] [ebp-1A0h]
-  float v65; // [esp+2860h] [ebp-1A0h]
-  float v66; // [esp+2860h] [ebp-1A0h]
-  float v67; // [esp+2860h] [ebp-1A0h]
-  float v68; // [esp+2860h] [ebp-1A0h]
-  float v69; // [esp+2860h] [ebp-1A0h]
-  float v70; // [esp+2860h] [ebp-1A0h]
-  float v71; // [esp+2860h] [ebp-1A0h]
-  float v72; // [esp+2860h] [ebp-1A0h]
-  float v73; // [esp+2860h] [ebp-1A0h]
-  float v74; // [esp+2860h] [ebp-1A0h]
-  float v75; // [esp+2860h] [ebp-1A0h]
-  float v76; // [esp+2860h] [ebp-1A0h]
-  float v77; // [esp+2860h] [ebp-1A0h]
-  float v78; // [esp+2860h] [ebp-1A0h]
-  float v79; // [esp+2860h] [ebp-1A0h]
-  float v80; // [esp+2860h] [ebp-1A0h]
-  float v81; // [esp+2860h] [ebp-1A0h]
-  float v82; // [esp+2860h] [ebp-1A0h]
-  float v83; // [esp+2860h] [ebp-1A0h]
-  float v84; // [esp+2860h] [ebp-1A0h]
-  float v85; // [esp+2860h] [ebp-1A0h]
-  float v86; // [esp+2860h] [ebp-1A0h]
-  float v87; // [esp+2860h] [ebp-1A0h]
-  float v88; // [esp+2860h] [ebp-1A0h]
-  int v89; // [esp+2864h] [ebp-19Ch]
-  float v90; // [esp+2864h] [ebp-19Ch]
-  float v91; // [esp+2864h] [ebp-19Ch]
-  float v92; // [esp+2864h] [ebp-19Ch]
-  float v93; // [esp+2864h] [ebp-19Ch]
-  float v94; // [esp+2864h] [ebp-19Ch]
-  float v95; // [esp+2864h] [ebp-19Ch]
-  float v96; // [esp+2864h] [ebp-19Ch]
-  float v97; // [esp+2864h] [ebp-19Ch]
-  float v98; // [esp+2864h] [ebp-19Ch]
-  float v99; // [esp+2864h] [ebp-19Ch]
-  float v100; // [esp+2864h] [ebp-19Ch]
-  float v101; // [esp+2864h] [ebp-19Ch]
-  float v102; // [esp+2864h] [ebp-19Ch]
-  float v103; // [esp+2864h] [ebp-19Ch]
-  float v104; // [esp+2864h] [ebp-19Ch]
-  float v105; // [esp+2864h] [ebp-19Ch]
-  float v106; // [esp+2864h] [ebp-19Ch]
-  float v107; // [esp+2864h] [ebp-19Ch]
-  float v108; // [esp+2864h] [ebp-19Ch]
-  float v109; // [esp+2864h] [ebp-19Ch]
-  float v110; // [esp+2864h] [ebp-19Ch]
-  float v111; // [esp+2864h] [ebp-19Ch]
-  float v112; // [esp+2864h] [ebp-19Ch]
-  float v113; // [esp+2864h] [ebp-19Ch]
-  float v114; // [esp+2864h] [ebp-19Ch]
-  float v115; // [esp+2864h] [ebp-19Ch]
-  float v116; // [esp+2864h] [ebp-19Ch]
-  float v117; // [esp+2864h] [ebp-19Ch]
-  float v118; // [esp+2864h] [ebp-19Ch]
-  char v119; // [esp+286Bh] [ebp-195h]
-  char v120; // [esp+286Bh] [ebp-195h]
-  int v121; // [esp+286Ch] [ebp-194h]
-  float v122; // [esp+286Ch] [ebp-194h]
-  float v123; // [esp+286Ch] [ebp-194h]
-  int v124; // [esp+286Ch] [ebp-194h]
-  Scaleform::Render::Rect<float> pr; // [esp+2870h] [ebp-190h] BYREF
-  float v126; // [esp+2884h] [ebp-17Ch]
-  float v127; // [esp+2888h] [ebp-178h]
-  int v128; // [esp+288Ch] [ebp-174h]
-  Scaleform::Render::Rect<float> rc; // [esp+2890h] [ebp-170h] BYREF
-  Scaleform::Render::Rect<float> top; // [esp+28A0h] [ebp-160h] BYREF
-  Scaleform::GFx::MovieImpl *v131; // [esp+28BCh] [ebp-144h]
-  float v132; // [esp+28C0h] [ebp-140h]
-  float v133; // [esp+28C4h] [ebp-13Ch]
-  float v134; // [esp+28C8h] [ebp-138h]
-  float v135; // [esp+28CCh] [ebp-134h]
-  Scaleform::Render::Rect<float> v136; // [esp+28D0h] [ebp-130h] BYREF
-  Scaleform::GFx::FocusGroupDescr *v137; // [esp+28E4h] [ebp-11Ch]
-  float v138; // [esp+28E8h] [ebp-118h]
-  float v139; // [esp+28ECh] [ebp-114h]
-  Scaleform::Render::Rect<float> v140; // [esp+28F0h] [ebp-110h] BYREF
-  float v141; // [esp+2908h] [ebp-F8h]
-  float v142; // [esp+290Ch] [ebp-F4h]
-  Scaleform::Render::Rect<float> v143; // [esp+2910h] [ebp-F0h] BYREF
-  Scaleform::Render::Rect<float> v144; // [esp+2920h] [ebp-E0h] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+2930h] [ebp-D0h] BYREF
-  Scaleform::Render::Rect<float> v146; // [esp+2940h] [ebp-C0h] BYREF
-  Scaleform::Render::Rect<float> v147; // [esp+2950h] [ebp-B0h] BYREF
-  float v148; // [esp+2968h] [ebp-98h]
-  float v149; // [esp+296Ch] [ebp-94h]
-  float v150; // [esp+2970h] [ebp-90h]
-  float v151; // [esp+2974h] [ebp-8Ch]
-  float v152; // [esp+2978h] [ebp-88h]
-  float v153; // [esp+297Ch] [ebp-84h]
-  Scaleform::Render::Rect<float> v154; // [esp+2980h] [ebp-80h] BYREF
-  Scaleform::Render::Rect<float> v155; // [esp+2990h] [ebp-70h] BYREF
-  Scaleform::Render::Matrix2x4<float> v156; // [esp+29A0h] [ebp-60h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+29C0h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v158; // [esp+29E0h] [ebp-20h] BYREF
+  float v58; // [esp+28h] [ebp-1A0h]
+  float v59; // [esp+28h] [ebp-1A0h]
+  float v60; // [esp+28h] [ebp-1A0h]
+  float v61; // [esp+28h] [ebp-1A0h]
+  float v62; // [esp+28h] [ebp-1A0h]
+  float v63; // [esp+28h] [ebp-1A0h]
+  float v64; // [esp+28h] [ebp-1A0h]
+  float v65; // [esp+28h] [ebp-1A0h]
+  float v66; // [esp+28h] [ebp-1A0h]
+  float v67; // [esp+28h] [ebp-1A0h]
+  float v68; // [esp+28h] [ebp-1A0h]
+  float v69; // [esp+28h] [ebp-1A0h]
+  float v70; // [esp+28h] [ebp-1A0h]
+  float v71; // [esp+28h] [ebp-1A0h]
+  float v72; // [esp+28h] [ebp-1A0h]
+  float v73; // [esp+28h] [ebp-1A0h]
+  float v74; // [esp+28h] [ebp-1A0h]
+  float v75; // [esp+28h] [ebp-1A0h]
+  float v76; // [esp+28h] [ebp-1A0h]
+  float v77; // [esp+28h] [ebp-1A0h]
+  float v78; // [esp+28h] [ebp-1A0h]
+  float v79; // [esp+28h] [ebp-1A0h]
+  float v80; // [esp+28h] [ebp-1A0h]
+  float v81; // [esp+28h] [ebp-1A0h]
+  float v82; // [esp+28h] [ebp-1A0h]
+  float v83; // [esp+28h] [ebp-1A0h]
+  float v84; // [esp+28h] [ebp-1A0h]
+  float v85; // [esp+28h] [ebp-1A0h]
+  float v86; // [esp+28h] [ebp-1A0h]
+  float v87; // [esp+28h] [ebp-1A0h]
+  float v88; // [esp+28h] [ebp-1A0h]
+  int v89; // [esp+2Ch] [ebp-19Ch]
+  float v90; // [esp+2Ch] [ebp-19Ch]
+  float v91; // [esp+2Ch] [ebp-19Ch]
+  float v92; // [esp+2Ch] [ebp-19Ch]
+  float v93; // [esp+2Ch] [ebp-19Ch]
+  float v94; // [esp+2Ch] [ebp-19Ch]
+  float v95; // [esp+2Ch] [ebp-19Ch]
+  float v96; // [esp+2Ch] [ebp-19Ch]
+  float v97; // [esp+2Ch] [ebp-19Ch]
+  float v98; // [esp+2Ch] [ebp-19Ch]
+  float v99; // [esp+2Ch] [ebp-19Ch]
+  float v100; // [esp+2Ch] [ebp-19Ch]
+  float v101; // [esp+2Ch] [ebp-19Ch]
+  float v102; // [esp+2Ch] [ebp-19Ch]
+  float v103; // [esp+2Ch] [ebp-19Ch]
+  float v104; // [esp+2Ch] [ebp-19Ch]
+  float v105; // [esp+2Ch] [ebp-19Ch]
+  float v106; // [esp+2Ch] [ebp-19Ch]
+  float v107; // [esp+2Ch] [ebp-19Ch]
+  float v108; // [esp+2Ch] [ebp-19Ch]
+  float v109; // [esp+2Ch] [ebp-19Ch]
+  float v110; // [esp+2Ch] [ebp-19Ch]
+  float v111; // [esp+2Ch] [ebp-19Ch]
+  float v112; // [esp+2Ch] [ebp-19Ch]
+  float v113; // [esp+2Ch] [ebp-19Ch]
+  float v114; // [esp+2Ch] [ebp-19Ch]
+  float v115; // [esp+2Ch] [ebp-19Ch]
+  float v116; // [esp+2Ch] [ebp-19Ch]
+  float v117; // [esp+2Ch] [ebp-19Ch]
+  float v118; // [esp+2Ch] [ebp-19Ch]
+  char v119; // [esp+33h] [ebp-195h]
+  char v120; // [esp+33h] [ebp-195h]
+  int v121; // [esp+34h] [ebp-194h]
+  float v122; // [esp+34h] [ebp-194h]
+  float v123; // [esp+34h] [ebp-194h]
+  int v124; // [esp+34h] [ebp-194h]
+  Scaleform::Render::Rect<float> pr; // [esp+38h] [ebp-190h] BYREF
+  float v126; // [esp+4Ch] [ebp-17Ch]
+  float v127; // [esp+50h] [ebp-178h]
+  int v128; // [esp+54h] [ebp-174h]
+  Scaleform::Render::Rect<float> rc; // [esp+58h] [ebp-170h] BYREF
+  Scaleform::Render::Rect<float> top; // [esp+68h] [ebp-160h] BYREF
+  Scaleform::GFx::MovieImpl *v131; // [esp+84h] [ebp-144h]
+  float v132; // [esp+88h] [ebp-140h]
+  float v133; // [esp+8Ch] [ebp-13Ch]
+  float v134; // [esp+90h] [ebp-138h]
+  float v135; // [esp+94h] [ebp-134h]
+  Scaleform::Render::Rect<float> v136; // [esp+98h] [ebp-130h] BYREF
+  Scaleform::GFx::FocusGroupDescr *v137; // [esp+ACh] [ebp-11Ch]
+  float v138; // [esp+B0h] [ebp-118h]
+  float v139; // [esp+B4h] [ebp-114h]
+  Scaleform::Render::Rect<float> v140; // [esp+B8h] [ebp-110h] BYREF
+  float v141; // [esp+D0h] [ebp-F8h]
+  float v142; // [esp+D4h] [ebp-F4h]
+  Scaleform::Render::Rect<float> v143; // [esp+D8h] [ebp-F0h] BYREF
+  Scaleform::Render::Rect<float> v144; // [esp+E8h] [ebp-E0h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+F8h] [ebp-D0h] BYREF
+  Scaleform::Render::Rect<float> v146; // [esp+108h] [ebp-C0h] BYREF
+  Scaleform::Render::Rect<float> v147; // [esp+118h] [ebp-B0h] BYREF
+  float v148; // [esp+130h] [ebp-98h]
+  float v149; // [esp+134h] [ebp-94h]
+  float v150; // [esp+138h] [ebp-90h]
+  float v151; // [esp+13Ch] [ebp-8Ch]
+  float v152; // [esp+140h] [ebp-88h]
+  float v153; // [esp+144h] [ebp-84h]
+  Scaleform::Render::Rect<float> v154; // [esp+148h] [ebp-80h] BYREF
+  Scaleform::Render::Rect<float> v155; // [esp+158h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix2x4<float> v156; // [esp+168h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+188h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v158; // [esp+1A8h] [ebp-20h] BYREF
 
   v131 = this;
   if ( event != KeyDown )
@@ -217,8 +217,8 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessFocusKey(
   if ( !v12 || !v12->IsFocusRectEnabled(v12) && (HIBYTE(v131->Flags) & 3) != 1 && !pfocusInfo->ManualFocus )
     goto LABEL_159;
   Scaleform::GFx::DisplayObjectBase::GetLevelMatrix(pfocusInfo->CurFocused.pObject, &result);
-  v13 = pfocusInfo->CurFocused.pObject->GetFocusRect(pfocusInfo->CurFocused.pObject, &v155);
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&result, &pr, v13);
+  v13 = (__m128 *)pfocusInfo->CurFocused.pObject->GetFocusRect(pfocusInfo->CurFocused.pObject, &v155);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&result, (__m128 *)&pr, v13);
   v14 = keyEntry->Code;
   if ( pfocusInfo->PrevKeyCode == v14 )
   {
@@ -287,10 +287,10 @@ void __thiscall Scaleform::GFx::MovieImpl::ProcessFocusKey(
         goto LABEL_158;
       }
       Scaleform::GFx::DisplayObjectBase::GetLevelMatrix(v39, &v158);
-      v40 = (const Scaleform::Render::Rect<float> *)((int (__thiscall *)(Scaleform::GFx::DisplayObjectBase *, Scaleform::Render::Matrix2x4<float> *))v39->Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].UpdateTransform3D)(
-                                                      v39,
-                                                      &v156);
-      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v158, &top, v40);
+      v40 = (__m128 *)((int (__thiscall *)(Scaleform::GFx::DisplayObjectBase *, Scaleform::Render::Matrix2x4<float> *))v39->Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].UpdateTransform3D)(
+                        v39,
+                        &v156);
+      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v158, (__m128 *)&top, v40);
       v136.x1 = 0.0;
       v41 = keyEntry->Code;
       v136.y1 = 0.0;
@@ -499,10 +499,10 @@ LABEL_97:
           goto LABEL_159;
       }
       Scaleform::GFx::DisplayObjectBase::GetLevelMatrix(v19, &v156);
-      v20 = (const Scaleform::Render::Rect<float> *)((int (__thiscall *)(Scaleform::GFx::DisplayObjectBase *, Scaleform::Render::Rect<float> *))v19->Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].UpdateTransform3D)(
-                                                      v19,
-                                                      &v155);
-      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v156, &rc, v20);
+      v20 = (__m128 *)((int (__thiscall *)(Scaleform::GFx::DisplayObjectBase *, Scaleform::Render::Rect<float> *))v19->Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].UpdateTransform3D)(
+                        v19,
+                        &v155);
+      Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v156, (__m128 *)&rc, v20);
       v144.x1 = 0.0;
       v21 = keyEntry->Code;
       v144.y1 = 0.0;

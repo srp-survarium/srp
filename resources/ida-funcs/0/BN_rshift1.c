@@ -1,6 +1,6 @@
 int __cdecl BN_rshift1(bignum_st *r, const bignum_st *a)
 {
-  unsigned int *top; // eax
+  int top; // eax
   int result; // eax
   unsigned int *d; // eax
   int v5; // esi
@@ -11,15 +11,15 @@ int __cdecl BN_rshift1(bignum_st *r, const bignum_st *a)
   int v10; // eax
   unsigned int *v11; // ecx
 
-  top = (unsigned int *)a->top;
+  top = a->top;
   if ( !top )
   {
-    BN_set_word(r, 0);
+    BN_set_word((int)a, r, 0);
     return 1;
   }
   if ( a != r )
   {
-    if ( (int)top > r->dmax )
+    if ( top > r->dmax )
       result = (int)bn_expand2(r, top);
     else
       result = (int)r;

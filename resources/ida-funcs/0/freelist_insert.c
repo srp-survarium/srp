@@ -7,7 +7,7 @@ void __usercall freelist_insert(
   ssl3_buf_freelist_st *rbuf_freelist; // eax
   ssl3_buf_freelist_entry_st *head; // edx
 
-  CRYPTO_lock(sz, 9, 12, ".\\ssl\\s3_both.c", 678);
+  CRYPTO_lock(sz, (int)ctx, 9, 12, ".\\ssl\\s3_both.c", 678);
   if ( for_read )
     rbuf_freelist = ctx->rbuf_freelist;
   else
@@ -24,7 +24,7 @@ void __usercall freelist_insert(
     rbuf_freelist->head = mem;
     mem = 0;
   }
-  CRYPTO_lock(sz, 10, 12, ".\\ssl\\s3_both.c", 693);
+  CRYPTO_lock(sz, (int)ctx, 10, 12, ".\\ssl\\s3_both.c", 693);
   if ( mem )
     CRYPTO_free(mem);
 }

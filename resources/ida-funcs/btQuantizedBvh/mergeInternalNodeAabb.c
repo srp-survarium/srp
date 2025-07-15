@@ -5,112 +5,97 @@ void __fastcall btQuantizedBvh::mergeInternalNodeAabb(
         int nodeIndex)
 {
   float v4; // xmm0_4
-  float v5; // xmm3_4
-  float v6; // xmm1_4
-  unsigned __int16 v7; // cx
-  unsigned __int16 v8; // si
-  btQuantizedBvhNode *v9; // ebx
-  unsigned __int16 v10; // dx
-  btQuantizedBvhNode *m_data; // ecx
-  bool v12; // cf
-  unsigned __int16 *m_quantizedAabbMax; // ecx
-  btQuantizedBvhNode *v14; // edx
-  btQuantizedBvhNode *v15; // ecx
-  unsigned __int16 *v16; // ecx
-  unsigned __int16 *v17; // ecx
-  btQuantizedBvhNode *v18; // eax
-  unsigned __int16 *v19; // eax
-  int v20; // edi
-  btOptimizedBvhNode *v21; // esi
-  float v22; // xmm1_4
-  float *m128_f32; // esi
+  float v5; // xmm1_4
+  float v6; // xmm2_4
+  int v7; // ecx
+  float v8; // xmm0_4
+  float v9; // xmm3_4
+  float v10; // xmm1_4
+  float v11; // xmm2_4
+  int v12; // edi
+  float v13; // xmm3_4
+  int v14; // edi
+  float v15; // xmm1_4
+  float v16; // xmm2_4
+  int v17; // esi
+  int i; // ecx
+  unsigned __int16 v19; // di
+  unsigned __int16 *v20; // edx
+  unsigned __int16 v21; // di
+  unsigned __int16 *v22; // edx
+  btOptimizedBvhNode *v23; // esi
   float v24; // xmm0_4
   float v25; // xmm0_4
   float v26; // xmm0_4
-  btOptimizedBvhNode *v27; // ecx
+  btVector3 *p_m_aabbMaxOrg; // eax
   float v28; // xmm0_4
   float v29; // xmm0_4
   float v30; // xmm0_4
-  unsigned __int16 v31; // [esp+Ah] [ebp-Eh]
-  unsigned __int16 v32; // [esp+Ch] [ebp-Ch]
-  unsigned __int16 quantizedAabbMin_4; // [esp+14h] [ebp-4h]
+  _WORD v31[4]; // [esp+0h] [ebp-10h]
+  _WORD v32[4]; // [esp+8h] [ebp-8h]
 
   v4 = newAabbMin->mVec128.m128_f32[0];
   if ( this->m_useQuantization )
   {
-    v5 = this->m_bvhQuantization.mVec128.m128_f32[1]
-       * (float)(newAabbMin->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1]);
-    v6 = this->m_bvhQuantization.mVec128.m128_f32[2]
-       * (float)(newAabbMin->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2]);
-    v7 = (int)(float)((float)(v4 - this->m_bvhAabbMin.mVec128.m128_f32[0]) * this->m_bvhQuantization.mVec128.m128_f32[0])
-       & 0xFFFE;
-    v8 = (int)v5 & 0xFFFE;
-    quantizedAabbMin_4 = (int)v6 & 0xFFFE;
-    v31 = (int)(float)((float)(this->m_bvhQuantization.mVec128.m128_f32[1]
-                             * (float)(newAabbMax->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1]))
-                     + *(float *)&clear_value)
-        | 1;
-    v32 = (int)(float)((float)(this->m_bvhQuantization.mVec128.m128_f32[2]
-                             * (float)(newAabbMax->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2]))
-                     + *(float *)&clear_value)
-        | 1;
-    v9 = &this->m_quantizedContiguousNodes.m_data[nodeIndex];
-    v10 = (int)(float)((float)(this->m_bvhQuantization.mVec128.m128_f32[0]
-                             * (float)(newAabbMax->mVec128.m128_f32[0] - this->m_bvhAabbMin.mVec128.m128_f32[0]))
-                     + *(float *)&clear_value)
-        | 1;
-    if ( v9->m_quantizedAabbMin[0] > v7 )
-      v9->m_quantizedAabbMin[0] = v7;
-    m_data = this->m_quantizedContiguousNodes.m_data;
-    v12 = m_data[nodeIndex].m_quantizedAabbMax[0] < v10;
-    m_quantizedAabbMax = m_data[nodeIndex].m_quantizedAabbMax;
-    if ( v12 )
-      *m_quantizedAabbMax = v10;
-    v14 = this->m_quantizedContiguousNodes.m_data;
-    if ( v14[nodeIndex].m_quantizedAabbMin[1] > v8 )
-      v14[nodeIndex].m_quantizedAabbMin[1] = v8;
-    v15 = this->m_quantizedContiguousNodes.m_data;
-    v12 = v15[nodeIndex].m_quantizedAabbMax[1] < v31;
-    v16 = &v15[nodeIndex].m_quantizedAabbMax[1];
-    if ( v12 )
-      *v16 = v31;
-    v17 = &this->m_quantizedContiguousNodes.m_data[nodeIndex].m_quantizedAabbMin[2];
-    if ( *v17 > quantizedAabbMin_4 )
-      *v17 = quantizedAabbMin_4;
-    v18 = this->m_quantizedContiguousNodes.m_data;
-    v12 = v18[nodeIndex].m_quantizedAabbMax[2] < v32;
-    v19 = &v18[nodeIndex].m_quantizedAabbMax[2];
-    if ( v12 )
-      *v19 = v32;
+    v5 = newAabbMin->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1];
+    v6 = newAabbMin->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2];
+    v7 = (int)(float)((float)(v4 - this->m_bvhAabbMin.mVec128.m128_f32[0]) * this->m_bvhQuantization.mVec128.m128_f32[0]);
+    v8 = this->m_bvhQuantization.mVec128.m128_f32[0];
+    v9 = this->m_bvhQuantization.mVec128.m128_f32[1] * v5;
+    v10 = this->m_bvhQuantization.mVec128.m128_f32[2] * v6;
+    v11 = newAabbMax->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1];
+    v31[0] = v7 & 0xFFFE;
+    v12 = (int)v9;
+    v13 = newAabbMax->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2];
+    v31[1] = v12 & 0xFFFE;
+    v14 = (int)v10;
+    v15 = this->m_bvhQuantization.mVec128.m128_f32[1] * v11;
+    v16 = this->m_bvhQuantization.mVec128.m128_f32[2] * v13;
+    v32[0] = (int)(float)((float)(v8 * (float)(newAabbMax->mVec128.m128_f32[0] - this->m_bvhAabbMin.mVec128.m128_f32[0]))
+                        + s_bm_current_air_resistance)
+           | 1;
+    v32[1] = (int)(float)(v15 + s_bm_current_air_resistance) | 1;
+    v32[2] = (int)(float)(v16 + s_bm_current_air_resistance) | 1;
+    v17 = 16 * nodeIndex + 6;
+    v31[2] = v14 & 0xFFFE;
+    for ( i = 0; i < 3; ++i )
+    {
+      v19 = v31[i];
+      v20 = (unsigned __int16 *)((char *)&this->m_quantizedContiguousNodes.m_data->m_quantizedAabbMin[-3] + v17);
+      if ( *v20 > v19 )
+        *v20 = v19;
+      v21 = v32[i];
+      v22 = (unsigned __int16 *)((char *)this->m_quantizedContiguousNodes.m_data->m_quantizedAabbMin + v17);
+      if ( *v22 < v21 )
+        *v22 = v21;
+      v17 += 2;
+    }
   }
   else
   {
-    v20 = nodeIndex << 6;
-    v21 = this->m_contiguousNodes.m_data;
-    v22 = v21[nodeIndex].m_aabbMinOrg.mVec128.m128_f32[0];
-    m128_f32 = v21[nodeIndex].m_aabbMinOrg.mVec128.m128_f32;
-    if ( v22 > v4 )
-      *m128_f32 = v4;
+    v23 = &this->m_contiguousNodes.m_data[nodeIndex];
+    if ( v23->m_aabbMinOrg.mVec128.m128_f32[0] > v4 )
+      v23->m_aabbMinOrg.mVec128.m128_f32[0] = v4;
     v24 = newAabbMin->mVec128.m128_f32[1];
-    if ( m128_f32[1] > v24 )
-      m128_f32[1] = v24;
+    if ( v23->m_aabbMinOrg.mVec128.m128_f32[1] > v24 )
+      v23->m_aabbMinOrg.mVec128.m128_f32[1] = v24;
     v25 = newAabbMin->mVec128.m128_f32[2];
-    if ( m128_f32[2] > v25 )
-      m128_f32[2] = v25;
+    if ( v23->m_aabbMinOrg.mVec128.m128_f32[2] > v25 )
+      v23->m_aabbMinOrg.mVec128.m128_f32[2] = v25;
     v26 = newAabbMin->mVec128.m128_f32[3];
-    if ( m128_f32[3] > v26 )
-      m128_f32[3] = v26;
-    v27 = this->m_contiguousNodes.m_data;
-    if ( newAabbMax->mVec128.m128_f32[0] > *(float *)((char *)v27->m_aabbMaxOrg.mVec128.m128_f32 + v20) )
-      *(int *)((char *)v27->m_aabbMaxOrg.mVec128.m128_i32 + v20) = newAabbMax->mVec128.m128_i32[0];
+    if ( v23->m_aabbMinOrg.mVec128.m128_f32[3] > v26 )
+      v23->m_aabbMinOrg.mVec128.m128_f32[3] = v26;
+    p_m_aabbMaxOrg = &this->m_contiguousNodes.m_data[nodeIndex].m_aabbMaxOrg;
+    if ( newAabbMax->mVec128.m128_f32[0] > p_m_aabbMaxOrg->mVec128.m128_f32[0] )
+      p_m_aabbMaxOrg->mVec128.m128_i32[0] = newAabbMax->mVec128.m128_i32[0];
     v28 = newAabbMax->mVec128.m128_f32[1];
-    if ( v28 > *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[1] + v20) )
-      *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[1] + v20) = v28;
+    if ( v28 > p_m_aabbMaxOrg->mVec128.m128_f32[1] )
+      p_m_aabbMaxOrg->mVec128.m128_f32[1] = v28;
     v29 = newAabbMax->mVec128.m128_f32[2];
-    if ( v29 > *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[2] + v20) )
-      *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[2] + v20) = v29;
+    if ( v29 > p_m_aabbMaxOrg->mVec128.m128_f32[2] )
+      p_m_aabbMaxOrg->mVec128.m128_f32[2] = v29;
     v30 = newAabbMax->mVec128.m128_f32[3];
-    if ( v30 > *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[3] + v20) )
-      *(float *)((char *)&v27->m_aabbMaxOrg.mVec128.m128_f32[3] + v20) = v30;
+    if ( v30 > p_m_aabbMaxOrg->mVec128.m128_f32[3] )
+      p_m_aabbMaxOrg->mVec128.m128_f32[3] = v30;
   }
 }

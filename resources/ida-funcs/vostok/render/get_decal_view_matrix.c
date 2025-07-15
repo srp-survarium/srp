@@ -1,32 +1,36 @@
-// local variable allocation has failed, the output may be wrong!
 vostok::math::float4x4 *__cdecl vostok::render::get_decal_view_matrix(
         vostok::math::float4x4 *result,
         vostok::render::decal_instance *decal)
 {
-  float z; // eax
-  vostok::math::float3 v4; // [esp+0h] [ebp-ACh] BYREF
-  vostok::math::float4_pod scale; // [esp+Ch] [ebp-A0h] OVERLAPPED
-  vostok::math::float3 decal_direction; // [esp+1Ch] [ebp-90h] BYREF
-  vostok::math::float4x4 decal_world_matrix; // [esp+28h] [ebp-84h] BYREF
-  vostok::math::float4x4 v8; // [esp+68h] [ebp-44h] BYREF
+  float v2; // xmm3_4
+  float v3; // xmm5_4
+  vostok::math::float4x4 *v4; // ecx
+  vostok::math::float4x4 v6; // [esp+4h] [ebp-A8h] BYREF
+  vostok::math::float4x4 v7; // [esp+44h] [ebp-68h] BYREF
+  vostok::math::float3 v8; // [esp+84h] [ebp-28h] BYREF
+  float v9; // [esp+90h] [ebp-1Ch]
+  vostok::math::float3 width_height_far_distance; // [esp+94h] [ebp-18h]
+  vostok::math::float3 scale; // [esp+A0h] [ebp-Ch] BYREF
 
-  qmemcpy((void *)&decal_world_matrix, &decal->m_properties, sizeof(decal_world_matrix));
-  LODWORD(v4.x) = clear_value;
-  LODWORD(v4.y) = clear_value;
-  LODWORD(v4.z) = clear_value;
-  vostok::math::float4x4::set_scale(&decal_world_matrix, &v4);
-  z = decal->m_properties.width_height_far_distance.z;
-  *(_QWORD *)&scale.x = *(_QWORD *)&decal->m_properties.width_height_far_distance.x;
-  *(_QWORD *)&v4.x = 0;
-  scale.z = z;
-  LODWORD(v4.z) = clear_value;
-  vostok::math::normalize_safe((const vostok::math::float3_pod *)&decal_world_matrix.lines[2], &decal_direction, &v4);
-  scale.w = decal_world_matrix.c.w;
-  scale.x = decal_world_matrix.c.x - (float)(scale.z * decal_direction.x);
-  scale.y = decal_world_matrix.c.y - (float)(scale.z * decal_direction.y);
-  scale.z = decal_world_matrix.c.z - (float)(scale.z * decal_direction.z);
-  decal_world_matrix.c = scale;
-  qmemcpy((void *)result, vostok::math::float4x4::identity(&v8), sizeof(vostok::math::float4x4));
-  vostok::math::float4x4::try_invert(result, &decal_world_matrix);
+  qmemcpy(&v7, &decal->m_properties, sizeof(v7));
+  scale.x = s_bm_current_air_resistance;
+  scale.y = s_bm_current_air_resistance;
+  scale.z = s_bm_current_air_resistance;
+  vostok::math::float4x4::set_scale(&v7, &scale);
+  width_height_far_distance = decal->m_properties.width_height_far_distance;
+  *(_QWORD *)&scale.x = 0;
+  scale.z = s_bm_current_air_resistance;
+  vostok::math::normalize_safe((const vostok::math::float3_pod *)&v7.lines[2], &scale, &v8);
+  v2 = width_height_far_distance.z * (float)(v8.z * 0.0);
+  v3 = width_height_far_distance.z * (float)(v8.y * 0.0);
+  v9 = v7.c.x - (float)(width_height_far_distance.z * (float)(v8.x * 0.0));
+  width_height_far_distance.z = v7.c.w;
+  width_height_far_distance.x = v7.c.y - v3;
+  width_height_far_distance.y = v7.c.z - v2;
+  v7.c.x = v9;
+  v7.c.y = v7.c.y - v3;
+  v7.c.z = v7.c.z - v2;
+  qmemcpy(result, vostok::math::float4x4::identity(v4, &v6), sizeof(vostok::math::float4x4));
+  vostok::math::float4x4::try_invert(&v7, result);
   return result;
 }

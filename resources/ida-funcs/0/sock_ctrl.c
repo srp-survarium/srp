@@ -10,10 +10,10 @@ int __cdecl sock_ctrl(bio_st *b, int cmd, int num, int *ptr)
       break;
     case 9:
       b->shutdown = num;
-      goto $LN2_106;
+      goto $LN2_115;
     case 11:
     case 12:
-$LN2_106:
+$LN2_115:
       result = 1;
       break;
     case 104:

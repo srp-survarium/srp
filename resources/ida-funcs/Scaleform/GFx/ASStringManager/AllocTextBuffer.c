@@ -1,6 +1,6 @@
 Scaleform::GFx::ASStringManager::TextPage::Entry *__thiscall Scaleform::GFx::ASStringManager::AllocTextBuffer(
         Scaleform::GFx::ASStringManager *this,
-        char *pbuffer,
+        const __m128i *pbuffer,
         unsigned int length)
 {
   Scaleform::GFx::ASStringManager::TextPage::Entry *pFreeTextBuffers; // eax
@@ -24,7 +24,7 @@ Scaleform::GFx::ASStringManager::TextPage::Entry *__thiscall Scaleform::GFx::ASS
   }
   if ( v5 )
   {
-    memcpy((unsigned __int8 *)v5, (unsigned __int8 *)pbuffer, length);
+    memcpy((int)v5, pbuffer, length);
     v5->Buff[length] = 0;
   }
   return v5;

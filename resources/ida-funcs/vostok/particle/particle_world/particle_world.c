@@ -1,13 +1,26 @@
-void __thiscall vostok::particle::particle_world::particle_world(
-        vostok::particle::particle_world *this,
+void __userpurge vostok::particle::particle_world::particle_world(
+        vostok::particle::particle_world *this@<ecx>,
+        int a2@<esi>,
         vostok::particle::engine *engine)
 {
-  vostok::resources::unmanaged_resource::unmanaged_resource(this, 1u);
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_allocator);
-  this->__vftable = (vostok::particle::particle_world_vtbl *)&vostok::particle::particle_world::`vftable';
-  vostok::memory::fixed_size_allocator<vostok::particle::base_particle,vostok::threading::mutex>::fixed_size_allocator<vostok::particle::base_particle,vostok::threading::mutex>(&this->m_allocator);
-  vostok::intrusive_list<vostok::particle::particle_system_instance_impl,vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base>,656,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::intrusive_list<vostok::particle::particle_system_instance_impl,vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base>,656,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>(&this->m_ticked_instances_list);
-  this->m_engine = engine;
-  this->m_num_particles = 0;
-  this->m_max_particles = 50000;
+  vostok::threading::mutex_tasks_unaware *v3; // ecx
+
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, (_DWORD *)a2, fs_iterator_class);
+  *(_DWORD *)a2 = &vostok::particle::particle_world::`vftable';
+  *(_DWORD *)(a2 + 268) = 0;
+  *(_DWORD *)(a2 + 272) = 0;
+  *(_DWORD *)(a2 + 276) = 0;
+  *(_BYTE *)(a2 + 280) = 0;
+  *(_DWORD *)(a2 + 264) = &vostok::memory::fixed_size_allocator<vostok::particle::base_particle,vostok::threading::mutex>::`vftable';
+  *(_DWORD *)(a2 + 344) = a2 + 288;
+  *(_DWORD *)(a2 + 348) = 0;
+  *(_DWORD *)(a2 + 352) = 0;
+  *(_DWORD *)(a2 + 360) = 0;
+  *(_DWORD *)(a2 + 368) = 0;
+  vostok::threading::mutex_tasks_unaware::mutex_tasks_unaware(v3, (_RTL_CRITICAL_SECTION *)(a2 + 376));
+  *(_DWORD *)(a2 + 404) = 0;
+  *(_DWORD *)(a2 + 408) = 0;
+  *(_DWORD *)(a2 + 416) = engine;
+  *(_DWORD *)(a2 + 420) = 0;
+  *(_DWORD *)(a2 + 424) = 50000;
 }

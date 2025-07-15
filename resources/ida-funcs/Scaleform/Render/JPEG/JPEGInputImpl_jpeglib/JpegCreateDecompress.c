@@ -9,7 +9,7 @@ int __cdecl Scaleform::Render::JPEG::JPEGInputImpl_jpeglib::JpegCreateDecompress
   }
   else
   {
-    jpeg_CreateDecompress((unsigned __int8 *)pcinfo, 80, 448);
+    jpeg_CreateDecompress(pcinfo, 80, 448);
     return 1;
   }
 }

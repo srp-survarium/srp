@@ -1,59 +1,45 @@
 void __usercall mdct_butterflies(mdct_lookup *init@<eax>, float *x, int points)
 {
   int v3; // esi
-  int v4; // ebx
-  int v5; // ebx
-  int v6; // ecx
-  float *v7; // ebx
-  unsigned int v8; // edi
-  int v9; // esi
-  int v10; // ebp
-  float *v11; // edi
-  unsigned int v12; // esi
-  int i; // [esp+Ch] [ebp-Ch]
-  int stages; // [esp+10h] [ebp-8h]
-  float *T; // [esp+14h] [ebp-4h]
+  int v4; // esi
+  float *v5; // edi
+  unsigned int v6; // esi
+  float *trig; // [esp+8h] [ebp-14h]
+  int v8; // [esp+Ch] [ebp-10h]
+  float *v9; // [esp+10h] [ebp-Ch]
+  char i; // [esp+18h] [ebp-4h]
 
-  v3 = points;
-  v4 = init->log2n - 6;
-  T = init->trig;
-  if ( v4 > 0 )
+  v3 = init->log2n - 6;
+  trig = init->trig;
+  if ( v3 > 0 )
     mdct_butterfly_first(init->trig, x, points);
-  v5 = v4 - 1;
-  v6 = 1;
-  i = 1;
-  for ( stages = v5; v5 > 0; stages = v5 )
+  v4 = v3 - 1;
+  for ( i = 1; v4 > 0; --v4 )
   {
-    if ( 1 << v6 > 0 )
+    if ( 1 << i > 0 )
     {
-      v7 = x;
-      v8 = 4 << v6;
-      v9 = v3 >> v6;
-      v10 = 1 << v6;
+      v9 = x;
+      v8 = 1 << i;
       do
       {
-        mdct_butterfly_generic(v9, T, v7, v8);
-        v7 += v9;
-        --v10;
+        mdct_butterfly_generic(points >> i, trig, v9, 4 << i);
+        v9 += points >> i;
+        --v8;
       }
-      while ( v10 );
-      v3 = points;
-      v5 = stages;
-      v6 = i;
+      while ( v8 );
     }
-    --v5;
-    i = ++v6;
+    ++i;
   }
-  if ( v3 > 0 )
+  if ( points > 0 )
   {
-    v11 = x;
-    v12 = ((unsigned int)(v3 - 1) >> 5) + 1;
+    v5 = x;
+    v6 = ((unsigned int)(points - 1) >> 5) + 1;
     do
     {
-      mdct_butterfly_32(v11);
-      v11 += 32;
-      --v12;
+      mdct_butterfly_32(v5);
+      v5 += 32;
+      --v6;
     }
-    while ( v12 );
+    while ( v6 );
   }
 }

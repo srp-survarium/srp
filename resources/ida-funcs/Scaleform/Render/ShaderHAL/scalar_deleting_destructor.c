@@ -4,7 +4,7 @@ Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::
 {
   Scaleform::Render::D3D1x::ShaderManager::~ShaderManager(
     (Scaleform::Render::D3D1x::ShaderManager *)this,
-    &this->SManager.VFormats.KeyBuffer.pPages);
+    (int)&this->SManager);
   Scaleform::Render::HAL::~HAL(this);
   if ( (a2 & 1) != 0 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this);

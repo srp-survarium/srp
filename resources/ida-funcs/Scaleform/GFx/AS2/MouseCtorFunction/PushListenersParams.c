@@ -16,7 +16,7 @@ int __cdecl Scaleform::GFx::AS2::MouseCtorFunction::PushListenersParams(
   bool v14; // zf
   Scaleform::GFx::AS2::LocalFrame *v15; // ecx
   unsigned int v16; // eax
-  int result; // eax
+  int v17; // eax
   unsigned __int8 v18; // bl
   unsigned int v19; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
@@ -39,29 +39,29 @@ int __cdecl Scaleform::GFx::AS2::MouseCtorFunction::PushListenersParams(
   Scaleform::GFx::AS2::Value *v37; // esi
   Scaleform::GFx::AS2::Value *v38; // esi
   Scaleform::GFx::AS2::Value *v39; // esi
-  int nArgs; // [esp+18h] [ebp-18h]
-  float pt; // [esp+1Ch] [ebp-14h]
-  Scaleform::GFx::AS2::FunctionRef mfref; // [esp+24h] [ebp-Ch] BYREF
-  bool noExtraParams; // [esp+34h] [ebp+4h]
+  int v40; // [esp+18h] [ebp-18h]
+  float x; // [esp+1Ch] [ebp-14h]
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+24h] [ebp-Ch] BYREF
+  bool penva; // [esp+34h] [ebp+4h]
 
   Value = penv->StringContext.pContext->GFxExtensions.Value;
-  noExtraParams = Value != 1;
+  penva = Value != 1;
   v10 = eventName;
   if ( Value != 1 || !button || eventName != ASBuiltin_onMouseDown && eventName != ASBuiltin_onMouseUp )
     goto LABEL_25;
-  Scaleform::GFx::AS2::Value::ToFunction(eventMethod, &mfref, penv);
-  Function = mfref.Function;
-  if ( mfref.Function )
+  Scaleform::GFx::AS2::Value::ToFunction(eventMethod, &result, penv);
+  Function = result.Function;
+  if ( result.Function )
   {
-    if ( mfref.Function->GetNumArgs(mfref.Function) <= 0 )
+    if ( result.Function->GetNumArgs(result.Function) <= 0 )
     {
       if ( button > 1 )
       {
-        Flags = mfref.Flags;
-        if ( (mfref.Flags & 2) == 0 )
+        Flags = result.Flags;
+        if ( (result.Flags & 2) == 0 )
         {
           RefCount = Function->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             Function->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -70,13 +70,13 @@ int __cdecl Scaleform::GFx::AS2::MouseCtorFunction::PushListenersParams(
         v14 = (Flags & 1) == 0;
         goto LABEL_12;
       }
-      noExtraParams = 1;
+      penva = 1;
     }
-    v18 = mfref.Flags;
-    if ( (mfref.Flags & 2) == 0 )
+    v18 = result.Flags;
+    if ( (result.Flags & 2) == 0 )
     {
       v19 = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v19) != 0 )
+      if ( (v19 & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = v19 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -84,20 +84,20 @@ int __cdecl Scaleform::GFx::AS2::MouseCtorFunction::PushListenersParams(
     }
     if ( (v18 & 1) == 0 )
     {
-      pLocalFrame = mfref.pLocalFrame;
-      if ( mfref.pLocalFrame )
+      pLocalFrame = result.pLocalFrame;
+      if ( result.pLocalFrame )
       {
-        v21 = mfref.pLocalFrame->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v21) != 0 )
+        v21 = result.pLocalFrame->RefCount;
+        if ( (v21 & 0x3FFFFFF) != 0 )
         {
-          mfref.pLocalFrame->RefCount = v21 - 1;
+          result.pLocalFrame->RefCount = v21 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
         }
       }
     }
 LABEL_25:
-    nArgs = 0;
-    if ( penv->StringContext.pContext->GFxExtensions.Value == 1 && !noExtraParams )
+    v40 = 0;
+    if ( penv->StringContext.pContext->GFxExtensions.Value == 1 && !penva )
     {
       if ( eventName == ASBuiltin_onMouseDown && dblClick )
       {
@@ -109,35 +109,35 @@ LABEL_25:
           pCurrent->T.Type = 2;
           pCurrent->V.BooleanValue = dblClick;
         }
-        nArgs = 1;
+        v40 = 1;
       }
       if ( mouseIndex < 6 )
         v23 = &penv->Target->pASRoot->pMovieImpl->mMouseState[mouseIndex];
       else
         v23 = 0;
-      pt = v23->LastPosition.x;
+      x = v23->LastPosition.x;
       v24 = floor(v23->LastPosition.y + 0.5);
       v25 = ++penv->Stack.pCurrent;
       p_Stack = &penv->Stack;
-      *(double *)&mfref.Function = v24 * 0.05;
+      *(double *)&result.Function = v24 * 0.05;
       if ( v25 >= penv->Stack.pPageEnd )
         Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
       v27 = p_Stack->pCurrent;
       if ( p_Stack->pCurrent )
       {
-        v28 = *(double *)&mfref.Function;
+        v28 = *(double *)&result.Function;
         v27->T.Type = 3;
         v27->NV.NumberValue = v28;
       }
-      v29 = floor(pt + 0.5);
+      v29 = floor(x + 0.5);
       v30 = ++p_Stack->pCurrent;
-      *(double *)&mfref.Function = v29 * 0.05;
+      *(double *)&result.Function = v29 * 0.05;
       if ( v30 >= penv->Stack.pPageEnd )
         Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
       v31 = p_Stack->pCurrent;
       if ( p_Stack->pCurrent )
       {
-        v32 = *(double *)&mfref.Function;
+        v32 = *(double *)&result.Function;
         v31->T.Type = 3;
         v31->NV.NumberValue = v32;
       }
@@ -150,7 +150,7 @@ LABEL_25:
         v33->T.Type = 4;
         v33->NV.Int32Value = mouseIndex;
       }
-      nArgs += 3;
+      v40 += 3;
     }
     if ( eventName == ASBuiltin_onMouseMove )
     {
@@ -159,23 +159,23 @@ LABEL_66:
       {
         if ( v10 <= ASBuiltin_onMouseUp )
         {
-          if ( button && !noExtraParams )
+          if ( button && !penva )
           {
             ++penv->Stack.pCurrent;
-            *(double *)&mfref.Function = (double)button;
+            *(double *)&result.Function = (double)button;
             if ( penv->Stack.pCurrent >= penv->Stack.pPageEnd )
               Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
             v38 = penv->Stack.pCurrent;
             if ( v38 )
             {
-              result = nArgs + 1;
-              v38->NV.NumberValue = *(double *)&mfref.Function;
+              v17 = v40 + 1;
+              v38->NV.NumberValue = *(double *)&result.Function;
               v38->T.Type = 3;
-              return result;
+              return v17;
             }
             goto LABEL_84;
           }
-          if ( nArgs > 0 )
+          if ( v40 > 0 )
           {
             if ( ++penv->Stack.pCurrent >= penv->Stack.pPageEnd )
               Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
@@ -183,7 +183,7 @@ LABEL_66:
             if ( v39 )
               v39->T.Type = 1;
 LABEL_84:
-            ++nArgs;
+            ++v40;
           }
         }
         else if ( v10 == ASBuiltin_onMouseWheel )
@@ -194,16 +194,16 @@ LABEL_84:
           if ( v37 )
           {
             v37->NV.Int32Value = delta;
-            result = nArgs + 1;
+            v17 = v40 + 1;
             v37->T.Type = 4;
-            return result;
+            return v17;
           }
           goto LABEL_84;
         }
       }
-      return nArgs;
+      return v40;
     }
-    if ( ptargetName && (eventName == ASBuiltin_onMouseWheel || !noExtraParams) )
+    if ( ptargetName && (eventName == ASBuiltin_onMouseWheel || !penva) )
     {
       if ( ++penv->Stack.pCurrent >= penv->Stack.pPageEnd )
         Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&penv->Stack);
@@ -218,7 +218,7 @@ LABEL_84:
     }
     else
     {
-      if ( nArgs <= 0 )
+      if ( v40 <= 0 )
       {
 LABEL_65:
         v10 = eventName;
@@ -230,20 +230,20 @@ LABEL_65:
       if ( v36 )
         v36->T.Type = 1;
     }
-    ++nArgs;
+    ++v40;
     goto LABEL_65;
   }
-  v14 = (mfref.Flags & 1) == 0;
+  v14 = (result.Flags & 1) == 0;
 LABEL_12:
   if ( v14 )
   {
-    v15 = mfref.pLocalFrame;
-    if ( mfref.pLocalFrame )
+    v15 = result.pLocalFrame;
+    if ( result.pLocalFrame )
     {
-      v16 = mfref.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v16) != 0 )
+      v16 = result.pLocalFrame->RefCount;
+      if ( (v16 & 0x3FFFFFF) != 0 )
       {
-        mfref.pLocalFrame->RefCount = v16 - 1;
+        result.pLocalFrame->RefCount = v16 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v15);
       }
     }

@@ -1,28 +1,40 @@
-void __thiscall boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>(
-        boost::asio::detail::op_queue<boost::asio::detail::timer_op> *this)
+void __usercall boost::asio::detail::op_queue<boost::asio::detail::timer_op>::~op_queue<boost::asio::detail::timer_op>(
+        boost::asio::detail::op_queue<boost::asio::detail::timer_op> *this@<ecx>,
+        int *a2@<edi>)
 {
-  _DWORD v2[2]; // [esp+4h] [ebp-14h] BYREF
-  boost::asio::detail::timer_op *next; // [esp+Ch] [ebp-Ch]
-  boost::asio::detail::timer_op *front; // [esp+10h] [ebp-8h]
-  boost::asio::detail::timer_op *op; // [esp+14h] [ebp-4h]
+  boost::asio::detail::win_iocp_operation *v2; // ecx
+  int v3; // eax
+  int v4; // esi
 
   while ( 1 )
   {
-    op = this->front_;
-    if ( !op )
+    v4 = *a2;
+    if ( !*a2 )
       break;
-    if ( this->front_ )
-    {
-      front = this->front_;
-      next = (boost::asio::detail::timer_op *)this->front_->next_;
-      this->front_ = next;
-      if ( !this->front_ )
-        this->back_ = 0;
-      front->next_ = 0;
-    }
-    v2[0] = 0;
-    v2[1] = boost::system::system_category();
-    op->func_(0, op, (const boost::system::error_code *)v2, 0);
+    v2 = (boost::asio::detail::win_iocp_operation *)*a2;
+    v3 = *(_DWORD *)(*a2 + 20);
+    *a2 = v3;
+    if ( !v3 )
+      a2[1] = 0;
+    v2->next_ = 0;
+    boost::asio::detail::win_iocp_operation::destroy(v2, v4);
   }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
+}
+
+
+void __usercall boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>(
+        boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *this@<ecx>,
+        int *a2@<edi>)
+{
+  boost::asio::detail::win_iocp_operation *v2; // ecx
+  int v3; // esi
+
+  while ( 1 )
+  {
+    v3 = *a2;
+    if ( !*a2 )
+      break;
+    boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::pop(this, a2);
+    boost::asio::detail::win_iocp_operation::destroy(v2, v3);
+  }
 }

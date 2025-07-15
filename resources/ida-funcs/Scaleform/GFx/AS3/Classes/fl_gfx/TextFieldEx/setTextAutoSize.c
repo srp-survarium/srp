@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx::setTextAutoSi
   Scaleform::Render::Text::DocView *v6; // eax
   Scaleform::Render::Text::DocView *v7; // eax
 
-  if ( LOBYTE(this->pTraits.pObject->pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&this->pTraits.pObject->pVM[1].HandleException + 4) )
   {
     pObject = (Scaleform::GFx::TextField *)textField->pDispObj.pObject;
     if ( !strcmp(autoSz->pNode->pData, "none") )

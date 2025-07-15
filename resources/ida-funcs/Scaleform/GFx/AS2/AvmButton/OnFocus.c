@@ -1,7 +1,7 @@
 // attributes: thunk
 void __thiscall Scaleform::GFx::AS2::AvmButton::OnFocus(
         Scaleform::GFx::AS2::AvmButton *this,
-        Scaleform::GFx::InteractiveObject::FocusEventType event,
+        Scaleform::GFx::AS2::Value *event,
         Scaleform::GFx::InteractiveObject *oldOrNewFocusCh,
         unsigned int controllerIdx,
         Scaleform::GFx::FocusMovedType fmt)
@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS2::AvmButton::OnFocus(
 
 void __thiscall Scaleform::GFx::AS2::AvmButton::OnFocus(
         char *this,
-        Scaleform::GFx::InteractiveObject::FocusEventType a2,
+        Scaleform::GFx::AS2::Value *a2,
         Scaleform::GFx::InteractiveObject *a3,
         unsigned int a4,
         Scaleform::GFx::FocusMovedType a5)

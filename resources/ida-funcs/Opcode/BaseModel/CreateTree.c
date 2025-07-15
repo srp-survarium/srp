@@ -1,112 +1,114 @@
-bool __userpurge Opcode::BaseModel::CreateTree@<al>(
-        Opcode::BaseModel *this@<ecx>,
-        _DWORD *a2@<esi>,
-        bool no_leaf,
-        bool quantized)
+bool __thiscall Opcode::BaseModel::CreateTree(Opcode::BaseModel *this, int no_leaf, bool quantized, char a4)
 {
-  void **v4; // eax
-  int v5; // edi
-  _BYTE *v6; // ebp
+  Opcode::AABBOptimizedTree **v5; // eax
+  Opcode::AABBOptimizedTree **v6; // esi
   int v7; // eax
-  int v8; // ecx
-  int (__stdcall *v9)(int); // edx
-  _DWORD *v10; // eax
-  int v11; // ecx
-  _DWORD *v13; // eax
-  int v14; // ecx
-  int (__stdcall *v15)(int); // edx
-  _DWORD *v16; // eax
-  int v17; // ecx
-  _DWORD *v18; // eax
-  int v19; // ecx
+  int v8; // edi
+  char *v9; // eax
+  Opcode::AABBOptimizedTree *v10; // eax
+  vostok::memory::base_allocator *v11; // ebx
+  char *v12; // eax
+  char *v13; // eax
+  char *v14; // eax
+  Opcode::AABBOptimizedTree **v16; // [esp+14h] [ebp+8h]
 
-  if ( a2[4] )
+  v5 = (Opcode::AABBOptimizedTree **)(no_leaf + 16);
+  v16 = v5;
+  if ( *v5 )
   {
-    v4 = (void **)a2[4];
-    v5 = a2[5];
-    if ( v4 )
-    {
-      v6 = __RTCastToVoid(v4);
-      (**(void (__thiscall ***)(_DWORD, _DWORD))a2[4])(a2[4], 0);
-      (*(void (__thiscall **)(int, _BYTE *))(*(_DWORD *)v5 + 24))(v5, v6);
-      a2[4] = 0;
-    }
-    a2[4] = 0;
+    v6 = v5;
+    vostok::memory::delete_helper<vostok::memory::base_allocator,Opcode::AABBOptimizedTree>(
+      *(vostok::memory::base_allocator **)(no_leaf + 20),
+      v5,
+      "Opcode::BaseModel::CreateTree",
+      (const char *const)0x5E);
+    *v6 = 0;
   }
-  if ( no_leaf )
-    a2[2] |= 2u;
-  else
-    a2[2] &= ~2u;
   if ( quantized )
-    a2[2] |= 1u;
+    *(_DWORD *)(no_leaf + 8) |= 2u;
   else
-    a2[2] &= ~1u;
-  v7 = a2[2];
-  v8 = a2[5];
-  if ( (v7 & 2) != 0 )
+    *(_DWORD *)(no_leaf + 8) &= ~2u;
+  if ( a4 )
+    *(_DWORD *)(no_leaf + 8) |= 1u;
+  else
+    *(_DWORD *)(no_leaf + 8) &= ~1u;
+  v7 = *(_DWORD *)(no_leaf + 8);
+  v8 = *(_DWORD *)(no_leaf + 20);
+  if ( (v7 & 2) == 0 )
   {
-    v9 = *(int (__stdcall **)(int))(*(_DWORD *)v8 + 16);
     if ( (v7 & 1) != 0 )
     {
-      v10 = (_DWORD *)v9(40);
+      v13 = type_info::raw_name(&Opcode::AABBQuantizedTree `RTTI Type Descriptor');
+      v10 = (Opcode::AABBOptimizedTree *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v8 + 16))(
+                                           v8,
+                                           40,
+                                           v13,
+                                           "Opcode::BaseModel::CreateTree",
+                                           ".\\OPC_BaseModel.cpp",
+                                           111);
       if ( v10 )
       {
-        v11 = a2[5];
-        v10[1] = 0;
-        v10[3] = 0;
-        v10[2] = v11;
-        *v10 = &Opcode::AABBQuantizedNoLeafTree::`vftable';
-        a2[4] = v10;
-        return v10 != 0;
+        v11 = *(vostok::memory::base_allocator **)(no_leaf + 20);
+        v10->__vftable = (Opcode::AABBOptimizedTree_vtbl *)&Opcode::AABBQuantizedTree::`vftable';
+        goto LABEL_20;
       }
     }
     else
     {
-      v13 = (_DWORD *)v9(16);
-      if ( v13 )
+      v14 = type_info::raw_name(&Opcode::AABBCollisionTree `RTTI Type Descriptor');
+      v10 = (Opcode::AABBOptimizedTree *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v8 + 16))(
+                                           v8,
+                                           16,
+                                           v14,
+                                           "Opcode::BaseModel::CreateTree",
+                                           ".\\OPC_BaseModel.cpp",
+                                           112);
+      if ( v10 )
       {
-        v14 = a2[5];
-        v13[1] = 0;
-        v13[3] = 0;
-        v13[2] = v14;
-        *v13 = &Opcode::AABBNoLeafTree::`vftable';
-        a2[4] = v13;
-        return v13 != 0;
+        v11 = *(vostok::memory::base_allocator **)(no_leaf + 20);
+        v10->__vftable = (Opcode::AABBOptimizedTree_vtbl *)&Opcode::AABBCollisionTree::`vftable';
+        goto LABEL_20;
       }
     }
+    goto LABEL_21;
   }
-  else
+  if ( (v7 & 1) == 0 )
   {
-    v15 = *(int (__stdcall **)(int))(*(_DWORD *)v8 + 16);
-    if ( (v7 & 1) != 0 )
+    v12 = type_info::raw_name(&Opcode::AABBNoLeafTree `RTTI Type Descriptor');
+    v10 = (Opcode::AABBOptimizedTree *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v8 + 16))(
+                                         v8,
+                                         16,
+                                         v12,
+                                         "Opcode::BaseModel::CreateTree",
+                                         ".\\OPC_BaseModel.cpp",
+                                         107);
+    if ( v10 )
     {
-      v16 = (_DWORD *)v15(40);
-      if ( v16 )
-      {
-        v17 = a2[5];
-        v16[1] = 0;
-        v16[3] = 0;
-        v16[2] = v17;
-        *v16 = &Opcode::AABBQuantizedTree::`vftable';
-        a2[4] = v16;
-        return v16 != 0;
-      }
+      v11 = *(vostok::memory::base_allocator **)(no_leaf + 20);
+      v10->__vftable = (Opcode::AABBOptimizedTree_vtbl *)&Opcode::AABBNoLeafTree::`vftable';
+      goto LABEL_20;
     }
-    else
-    {
-      v18 = (_DWORD *)v15(16);
-      if ( v18 )
-      {
-        v19 = a2[5];
-        v18[1] = 0;
-        v18[3] = 0;
-        v18[2] = v19;
-        *v18 = &Opcode::AABBCollisionTree::`vftable';
-        a2[4] = v18;
-        return v18 != 0;
-      }
-    }
+LABEL_21:
+    v10 = 0;
+    goto LABEL_22;
   }
-  a2[4] = 0;
-  return 0;
+  v9 = type_info::raw_name(&Opcode::AABBQuantizedNoLeafTree `RTTI Type Descriptor');
+  v10 = (Opcode::AABBOptimizedTree *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v8 + 16))(
+                                       v8,
+                                       40,
+                                       v9,
+                                       "Opcode::BaseModel::CreateTree",
+                                       ".\\OPC_BaseModel.cpp",
+                                       106);
+  if ( !v10 )
+    goto LABEL_21;
+  v11 = *(vostok::memory::base_allocator **)(no_leaf + 20);
+  v10->__vftable = (Opcode::AABBOptimizedTree_vtbl *)&Opcode::AABBQuantizedNoLeafTree::`vftable';
+LABEL_20:
+  v10->m_allocator = v11;
+  v10->mNbNodes = 0;
+  v10[1].__vftable = 0;
+LABEL_22:
+  *v16 = v10;
+  return *v16 != 0;
 }

@@ -14,7 +14,7 @@ void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::SetCursorType(const Scalefo
   __int64 v12; // [esp+10h] [ebp-14h] BYREF
   int v13; // [esp+18h] [ebp-Ch]
   int v14; // [esp+1Ch] [ebp-8h]
-  Scaleform::GFx::MovieImpl *proot; // [esp+20h] [ebp-4h]
+  Scaleform::GFx::MovieImpl *v15; // [esp+20h] [ebp-4h]
 
   Result = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(Result);
@@ -23,7 +23,7 @@ void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::SetCursorType(const Scalefo
   pMovieImpl = Env->Target->pASRoot->pMovieImpl;
   v4 = 0;
   v5 = fn->NArgs <= 0;
-  proot = pMovieImpl;
+  v15 = pMovieImpl;
   if ( !v5 )
   {
     v6 = 0;
@@ -41,7 +41,7 @@ void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::SetCursorType(const Scalefo
     v10 = 0;
     if ( v9 <= 32 * (v8->Stack.Pages.Data.Size - 1) + v8->Stack.pCurrent - v8->Stack.pPageStart )
       v10 = &v8->Stack.Pages.Data.Data[v9 >> 5]->Values[v9 & 0x1F];
-    pMovieImpl = proot;
+    pMovieImpl = v15;
     v12 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(v10, fn->Env);
     v7 = v12;
   }

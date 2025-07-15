@@ -1,46 +1,33 @@
-void __usercall btSoftRigidDynamicsWorld::debugDrawWorld(btSoftRigidDynamicsWorld *this@<ecx>, double a2@<st1>)
+void __thiscall btSoftRigidDynamicsWorld::debugDrawWorld(btSoftRigidDynamicsWorld *this)
 {
-  __int64 v2; // rdi
-  float v3; // ebx
-  int v4; // eax
+  int i; // ebp
+  btSoftBody *v3; // edi
+  btIDebugDraw *v4; // eax
 
-  HIDWORD(v2) = this;
-  btDiscreteDynamicsWorld::debugDrawWorld(this, a2);
-  if ( (*(int (__thiscall **)(_DWORD))(*(_DWORD *)HIDWORD(v2) + 12))(HIDWORD(v2)) )
+  btDiscreteDynamicsWorld::debugDrawWorld(this);
+  if ( this->getDebugDrawer(this) )
   {
-    v3 = 0.0;
-    if ( *(int *)(HIDWORD(v2) + 276) > 0 )
+    for ( i = 0; i < this->m_softBodies.m_size; ++i )
     {
-      do
+      v3 = this->m_softBodies.m_data[i];
+      if ( this->getDebugDrawer(this) )
       {
-        LODWORD(v2) = *(_DWORD *)(*(_DWORD *)(HIDWORD(v2) + 284) + 4 * LODWORD(v3));
-        if ( (*(int (__thiscall **)(_DWORD))(*(_DWORD *)HIDWORD(v2) + 12))(HIDWORD(v2)) )
+        v4 = this->getDebugDrawer(this);
+        if ( (v4->getDebugMode(v4) & 1) != 0 )
         {
-          v4 = (*(int (__thiscall **)(_DWORD))(*(_DWORD *)HIDWORD(v2) + 12))(HIDWORD(v2));
-          if ( ((*(int (__thiscall **)(int))(*(_DWORD *)v4 + 48))(v4) & 1) != 0 )
-          {
-            btSoftBodyHelpers::DrawFrame(*(btIDebugDraw **)(HIDWORD(v2) + 80), (btSoftBody *)v2);
-            btSoftBodyHelpers::Draw(
-              *(btIDebugDraw **)(HIDWORD(v2) + 80),
-              v3,
-              v2,
-              (btSoftBody *)v2,
-              *(_DWORD *)(HIDWORD(v2) + 292));
-          }
+          btSoftBodyHelpers::DrawFrame(v3, this->m_debugDrawer);
+          btSoftBodyHelpers::Draw(0.0, (int)v3, (int)this, v3, this->m_debugDrawer, this->m_drawFlags);
         }
-        if ( *(_DWORD *)(HIDWORD(v2) + 80)
-          && ((*(int (__thiscall **)(_DWORD))(**(_DWORD **)(HIDWORD(v2) + 80) + 48))(*(_DWORD *)(HIDWORD(v2) + 80)) & 2) != 0 )
-        {
-          if ( *(_BYTE *)(HIDWORD(v2) + 296) )
-            btSoftBodyHelpers::DrawNodeTree((btSoftBody *)v2, *(btIDebugDraw **)(HIDWORD(v2) + 80));
-          if ( *(_BYTE *)(HIDWORD(v2) + 297) )
-            btSoftBodyHelpers::DrawFaceTree((btSoftBody *)v2, *(btIDebugDraw **)(HIDWORD(v2) + 80));
-          if ( *(_BYTE *)(HIDWORD(v2) + 298) )
-            btSoftBodyHelpers::DrawClusterTree((btSoftBody *)v2, *(btIDebugDraw **)(HIDWORD(v2) + 80));
-        }
-        ++LODWORD(v3);
       }
-      while ( SLODWORD(v3) < *(_DWORD *)(HIDWORD(v2) + 276) );
+      if ( this->m_debugDrawer && (this->m_debugDrawer->getDebugMode(this->m_debugDrawer) & 2) != 0 )
+      {
+        if ( this->m_drawNodeTree )
+          btSoftBodyHelpers::DrawNodeTree(v3, this->m_debugDrawer);
+        if ( this->m_drawFaceTree )
+          btSoftBodyHelpers::DrawFaceTree(v3, this->m_debugDrawer);
+        if ( this->m_drawClusterTree )
+          btSoftBodyHelpers::DrawClusterTree(v3, this->m_debugDrawer);
+      }
     }
   }
 }

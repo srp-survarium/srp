@@ -14,12 +14,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
   Scaleform::GFx::AS3::Traits *pObject; // edx
   int v12; // ecx
   Scaleform::GFx::AS3::VM *pVM; // ecx
-  Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
+  int StringManagerRef; // edi
   Scaleform::GFx::AS3::Instances::fl::Array *pV; // ebx
   char *v16; // esi
   int v17; // eax
   unsigned int v18; // esi
-  Scaleform::GFx::ASStringManager *pStringManager; // ecx
+  Scaleform::GFx::ASStringManager *v19; // ecx
   Scaleform::GFx::AS3::Value *v20; // eax
   unsigned int v21; // ecx
   __int16 Flags; // ax
@@ -87,7 +87,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
       v3->MatchOffset = outputVector[0];
       v3->MatchLength = v12;
       pVM = pObject->pVM;
-      StringManagerRef = pVM->StringManagerRef;
+      StringManagerRef = (int)pVM->StringManagerRef;
       pV = Scaleform::GFx::AS3::VM::MakeArray(pVM, &v59)->pV;
       v16 = 0;
       for ( nameTable = 0; (int)v16 < matchCount; nameTable = v16 )
@@ -118,10 +118,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
         else
         {
           v18 = outputVector[2 * (_DWORD)v16 + 1] - v17;
-          strncpy_s(value, 0x400u, &subject[v17], v18);
-          pStringManager = StringManagerRef->pStringManager;
+          strncpy_s(StringManagerRef, value, 1024, &subject[v17], v18);
+          v19 = *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248);
           value[v18] = 0;
-          v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(pStringManager, value);
+          v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v19, (__m128i *)value);
           ++v.pNode->RefCount;
           Scaleform::GFx::AS3::Value::Value(&v51, &v);
           v21 = pV->SA.Length;
@@ -159,10 +159,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
         ++v16;
       }
       MatchOffset = v3->MatchOffset;
-      v24 = StringManagerRef->pStringManager;
+      v24 = *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248);
       nameEntrySize = 2;
       v53 = 0;
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v24, (char *)&stru_962594.m_gs_ids);
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v24, (__m128i *)"index");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(
         pV,
@@ -181,10 +181,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
           Scaleform::GFx::AS3::Value::ReleaseInternal((Scaleform::GFx::AS3::Value *)&nameEntrySize);
       }
       matchCount = (int)Scaleform::GFx::ASStringManager::CreateStringNode(
-                          StringManagerRef->pStringManager,
-                          (char *)subject);
+                          *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248),
+                          (__m128i *)subject);
       ++*(_DWORD *)(matchCount + 12);
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "input");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248),
+                  (__m128i *)"input");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v51, (const Scaleform::GFx::ASString *)&matchCount);
       Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &v, v28, aNone);
@@ -214,20 +216,22 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
           v31 = nameTable;
           do
           {
-            strncpy_s(name, 0x400u, v31 + 2, strlen(v31 + 2));
+            strncpy_s(StringManagerRef, name, 1024, v31 + 2, strlen(v31 + 2));
             v32 = nameTable;
             v33 = subject;
             name[strlen(nameTable + 2)] = 0;
             v34 = v32[1] + (*v32 << 8);
             v35 = outputVector[2 * v34];
             v36 = outputVector[2 * v34 + 1] - v35;
-            strncpy_s(value, 0x400u, &v33[v35], v36);
-            v37 = StringManagerRef->pStringManager;
+            strncpy_s(StringManagerRef, value, 1024, &v33[v35], v36);
+            v37 = *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248);
             value[v36] = 0;
-            matchCount = (int)Scaleform::GFx::ASStringManager::CreateStringNode(v37, value);
+            matchCount = (int)Scaleform::GFx::ASStringManager::CreateStringNode(v37, (__m128i *)value);
             ++*(_DWORD *)(matchCount + 12);
             Scaleform::GFx::AS3::Value::Value(&v51, (const Scaleform::GFx::ASString *)&matchCount);
-            v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, name);
+            v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                        *(Scaleform::GFx::ASStringManager **)(StringManagerRef + 248),
+                        (__m128i *)name);
             ++v.pNode->RefCount;
             Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &v, &v51, aNone);
             v38 = v.pNode;
@@ -273,7 +277,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
           else
           {
             RefCount = v42->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               v42->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v42);
@@ -285,7 +289,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
       if ( pV && ((unsigned __int8)pV & 1) == 0 )
       {
         v44 = pV->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v44) != 0 )
+        if ( (v44 & 0x3FFFFF) != 0 )
         {
           pV->RefCount = v44 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);
@@ -307,7 +311,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3exec(
     else
     {
       v46 = v45->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v46) != 0 )
+      if ( (v46 & 0x3FFFFF) != 0 )
       {
         v45->RefCount = v46 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v45);

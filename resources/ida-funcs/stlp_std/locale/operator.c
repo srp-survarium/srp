@@ -24,7 +24,7 @@ char __thiscall stlp_std::locale::operator==(stlp_std::locale *this, stlp_std::l
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v13; // [esp+30h] [ebp-3Ch] BYREF
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > result; // [esp+48h] [ebp-24h] BYREF
   int v15; // [esp+68h] [ebp-4h]
-  char La; // [esp+70h] [ebp+4h]
+  char v16; // [esp+70h] [ebp+4h]
 
   v3 = 0;
   if ( this->_M_impl == L->_M_impl )
@@ -47,11 +47,11 @@ char __thiscall stlp_std::locale::operator==(stlp_std::locale *this, stlp_std::l
   if ( !stlp_std::operator!=<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(v10, &Nameless) )
   {
 LABEL_12:
-    La = 0;
+    v16 = 0;
     goto LABEL_6;
   }
 LABEL_5:
-  La = 1;
+  v16 = 1;
 LABEL_6:
   if ( (v3 & 4) != 0 )
   {
@@ -98,7 +98,7 @@ LABEL_6:
     else
       operator delete(result._M_start_of_storage._M_data);
   }
-  return La;
+  return v16;
 }
 
 

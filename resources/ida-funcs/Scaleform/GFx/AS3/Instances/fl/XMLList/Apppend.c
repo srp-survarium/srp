@@ -80,7 +80,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::Apppend(
   if ( v && ((unsigned __int8)v & 1) == 0 )
   {
     RefCount = v->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       v->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v);

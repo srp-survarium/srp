@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = stlp_std::basic_streambuf<wchar_t,stlp_std::char_traits<wchar_t>>::imbue;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_events::IMEEvent,1,Scaleform::GFx::ASString>::Method) = stlp_std::basic_streambuf<wchar_t,stlp_std::char_traits<wchar_t>>::imbue;
-  dword_AADB04 = 0;
+  dword_8F22BC = 0;
   return result;
 }

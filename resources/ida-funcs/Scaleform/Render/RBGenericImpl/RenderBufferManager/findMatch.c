@@ -13,17 +13,17 @@ Scaleform::Render::RBGenericImpl::CacheData *__thiscall Scaleform::Render::RBGen
   unsigned int Height; // edx
   unsigned int v12; // ecx
   Scaleform::List<Scaleform::Render::RBGenericImpl::CacheData,Scaleform::Render::RBGenericImpl::CacheData> *v13; // [esp+10h] [ebp-4h]
-  bool ltypea; // [esp+18h] [ebp+4h]
+  bool RequireExactDepthStencil; // [esp+18h] [ebp+4h]
 
   pPrev = this->BufferCache[ltype].Root.pPrev;
   v6 = &this->BufferCache[ltype];
   v13 = v6;
   if ( pPrev != (Scaleform::Render::RBGenericImpl::CacheData *)v6 )
   {
-    ltypea = this->RequireExactDepthStencil;
+    RequireExactDepthStencil = this->RequireExactDepthStencil;
     do
     {
-      v7 = ltypea && bufferType == RBuffer_DepthStencil;
+      v7 = RequireExactDepthStencil && bufferType == RBuffer_DepthStencil;
       v8 = &pPrev->pBuffer->__vftable;
       if ( v8[2] == bufferType && pPrev->Format == format )
       {

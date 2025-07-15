@@ -1,4 +1,4 @@
-int __cdecl int_ec_size(const evp_pkey_st *pkey)
+int __cdecl int_ec_size(ec_key_st *pkey)
 {
-  return ECDSA_size(pkey->pkey.ec);
+  return ECDSA_size((const ec_key_st *)pkey->conv_form);
 }

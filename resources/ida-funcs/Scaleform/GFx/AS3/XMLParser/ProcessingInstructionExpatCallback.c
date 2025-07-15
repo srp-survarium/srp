@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::AS3::XMLParser::ProcessingInstructionExpatCallback(
         Scaleform::GFx::AS3::XMLParser *userData,
-        char *target,
-        char *data)
+        __m128i *target,
+        __m128i *data)
 {
   Scaleform::GFx::AS3::XMLParser *v3; // ebx
   Scaleform::GFx::AS3::InstanceTraits::Traits *ITr; // esi
@@ -86,7 +86,7 @@ void __cdecl Scaleform::GFx::AS3::XMLParser::ProcessingInstructionExpatCallback(
   {
     v17 = userData->pCurrElem.pObject;
     v18 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)userData;
-    if ( ((unsigned int)&byte_3FFFFF & (unsigned int)v17) != 0 )
+    if ( ((unsigned int)v17 & 0x3FFFFF) != 0 )
     {
       userData->pCurrElem.pObject = (Scaleform::GFx::AS3::Instances::fl::XML *)((char *)v17 - 1);
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v18);

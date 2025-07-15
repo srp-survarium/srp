@@ -17,9 +17,9 @@ void __thiscall Scaleform::GFx::DisplayList::ReplaceDisplayObjectAtIndex(
     if ( ch )
       ++ch->RefCount;
     if ( v5->TreeIndex == -1 )
-      Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, index);
+      Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, (Scaleform::GFx::DisplayObjectBase *)index);
     else
-      Scaleform::GFx::DisplayList::ReplaceRenderTreeNode(this, owner, index);
+      Scaleform::GFx::DisplayList::ReplaceRenderTreeNode(this, owner, (Scaleform::GFx::DisplayObjectBase *)index);
     Flags = this->Flags;
     if ( (Flags & 2) != 0 )
       this->Flags = Flags | 1;

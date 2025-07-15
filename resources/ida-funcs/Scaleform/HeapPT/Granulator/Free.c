@@ -1,7 +1,7 @@
 bool __thiscall Scaleform::HeapPT::Granulator::Free(
         Scaleform::HeapPT::Granulator *this,
         Scaleform::HeapPT::DualTNode *ptr,
-        Scaleform::HeapPT::DualTNode *size,
+        unsigned int size,
         unsigned int alignSize)
 {
   Scaleform::HeapPT::TreeSeg *LeEq; // esi

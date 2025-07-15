@@ -16,12 +16,12 @@ int __cdecl ssl23_get_client_hello(ssl_st *s)
   int v14; // ecx
   int v15; // eax
   int v16; // ecx
-  unsigned int v17; // ebx
+  int v17; // ebx
   unsigned int v18; // eax
   char *data; // esi
   unsigned __int8 *v20; // ebp
   unsigned __int8 *v21; // esi
-  unsigned __int8 *v22; // esi
+  _DWORD *v22; // esi
   unsigned int v23; // edx
   _BYTE *v24; // esi
   _BYTE *v25; // edx
@@ -30,39 +30,34 @@ int __cdecl ssl23_get_client_hello(ssl_st *s)
   unsigned int i; // eax
   _BYTE *v29; // esi
   unsigned int v30; // eax
-  int v31; // ebx
-  unsigned int v32; // eax
+  unsigned int v31; // eax
   ssl2_state_st *s2; // edx
-  const ssl_method_st *v34; // eax
+  const ssl_method_st *v33; // eax
   ssl3_state_st *s3; // edx
-  ssl3_state_st *v36; // ecx
-  const ssl_method_st *v37; // eax
+  ssl3_state_st *v35; // ecx
+  const ssl_method_st *v36; // eax
   unsigned __int8 *rbuf; // [esp-Ch] [ebp-40h]
   unsigned __int8 *buf; // [esp-Ch] [ebp-40h]
-  int v40; // [esp+10h] [ebp-24h]
+  int v39; // [esp+10h] [ebp-24h]
   int count; // [esp+14h] [ebp-20h]
-  unsigned __int8 v42; // [esp+1Ch] [ebp-18h]
-  _BYTE *v43; // [esp+20h] [ebp-14h]
-  unsigned __int8 src[4]; // [esp+24h] [ebp-10h] BYREF
-  int v45; // [esp+28h] [ebp-Ch]
-  __int16 v46; // [esp+2Ch] [ebp-8h]
-  unsigned __int8 v47; // [esp+2Eh] [ebp-6h]
+  unsigned __int8 v41; // [esp+1Ch] [ebp-18h]
+  _BYTE *v42; // [esp+20h] [ebp-14h]
+  __m128i src; // [esp+24h] [ebp-10h] BYREF
 
   count = 0;
-  v40 = 0;
+  v39 = 0;
   if ( s->state != 8720 )
     goto LABEL_35;
   if ( !ssl3_setup_buffers(s) )
     return -1;
-  result = ssl23_read_bytes(s, 11);
+  result = ssl23_read_bytes(s, 0xBu);
   count = result;
   if ( result != 11 )
     return result;
   packet = s->packet;
-  *(_DWORD *)src = *(_DWORD *)packet;
-  v45 = *((_DWORD *)packet + 1);
-  v46 = *((_WORD *)packet + 4);
-  v47 = packet[10];
+  src.m128i_i64[0] = *(_QWORD *)packet;
+  src.m128i_i16[4] = *((_WORD *)packet + 4);
+  src.m128i_i8[10] = packet[10];
   if ( (*packet & 0x80u) != 0 && packet[2] == 1 )
   {
     v3 = packet[3];
@@ -71,12 +66,12 @@ int __cdecl ssl23_get_client_hello(ssl_st *s)
       if ( v3 == 3 )
       {
         options = s->options;
-        if ( !packet[4] || ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & options) != 0 )
+        if ( !packet[4] || (options & 0x4000000) != 0 )
         {
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & options) != 0 )
+          if ( (options & 0x2000000) != 0 )
           {
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[5574200] & options) == 0 )
-              v40 = 1;
+            if ( (options & 0x1000000) == 0 )
+              v39 = 1;
           }
           else
           {
@@ -93,7 +88,7 @@ int __cdecl ssl23_get_client_hello(ssl_st *s)
     }
     else
     {
-      v40 = ((unsigned int)&vostok::memory::s_CRT_arena[5574200] & s->options) == 0;
+      v39 = (s->options & 0x1000000) == 0;
     }
     goto LABEL_35;
   }
@@ -102,22 +97,22 @@ int __cdecl ssl23_get_client_hello(ssl_st *s)
     if ( (v5 || packet[4] >= 6u) && packet[9] <= 3u && !packet[10] )
     {
       v7 = s->options;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & v7) == 0 )
+      if ( (v7 & 0x2000000) == 0 )
       {
         s->version = 768;
 LABEL_34:
-        v40 = 3;
+        v39 = 3;
         goto LABEL_35;
       }
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & v7) != 0 )
+      if ( (v7 & 0x4000000) != 0 )
         goto LABEL_35;
     }
     else
     {
       v6 = s->options;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & v6) != 0 )
+      if ( (v6 & 0x4000000) != 0 )
       {
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & v6) != 0 )
+        if ( (v6 & 0x2000000) != 0 )
           goto LABEL_35;
         s->version = 768;
         goto LABEL_34;
@@ -131,12 +126,12 @@ LABEL_34:
     || !strncmp("HEAD ", (const char *)packet, 5u)
     || !strncmp("PUT ", (const char *)packet, 4u) )
   {
-    ERR_put_error(0x14u, 118, 156, ".\\ssl\\s23_srvr.c", 386);
+    ERR_put_error(8721, 0x14u, 118, 156, ".\\ssl\\s23_srvr.c", 386);
     return -1;
   }
   if ( !strncmp("CONNECT", (const char *)packet, 7u) )
   {
-    ERR_put_error(0x14u, 118, 155, ".\\ssl\\s23_srvr.c", 391);
+    ERR_put_error(8721, 0x14u, 118, 155, ".\\ssl\\s23_srvr.c", 391);
     return -1;
   }
 LABEL_35:
@@ -144,18 +139,18 @@ LABEL_35:
   {
     v8 = s->packet;
     v9 = v8[1] | ((*v8 & 0x7F) << 8);
-    v40 = 2;
-    v42 = v8[4];
+    v39 = 2;
+    v41 = v8[4];
     count = v9;
     if ( v9 > 4096 )
     {
-      ERR_put_error(0x14u, 118, 214, ".\\ssl\\s23_srvr.c", 409);
+      ERR_put_error(8721, 0x14u, 118, 214, ".\\ssl\\s23_srvr.c", 409);
       return -1;
     }
     result = ssl23_read_bytes(s, v9 + 2);
     if ( result <= 0 )
       return result;
-    ssl3_finish_mac(s, (const unsigned __int8 *)s->packet + 2, s->packet_length - 2);
+    ssl3_finish_mac(s, (const char *)s->packet + 2, s->packet_length - 2);
     msg_callback = s->msg_callback;
     if ( msg_callback )
       msg_callback(0, 2, 0, s->packet + 2, s->packet_length - 2, s, s->msg_callback_arg);
@@ -173,28 +168,28 @@ LABEL_35:
     v20 = v11 + 2;
     if ( v18 + v16 + v17 + 11 != s->packet_length )
     {
-      ERR_put_error(0x14u, 118, 213, ".\\ssl\\s23_srvr.c", 430);
+      ERR_put_error(v17, 0x14u, 118, 213, ".\\ssl\\s23_srvr.c", 430);
       return -1;
     }
     *data = 1;
-    v43 = data + 1;
+    v42 = data + 1;
     v21 = (unsigned __int8 *)(data + 4);
     *v21++ = 3;
-    *v21 = v42;
+    *v21 = v41;
     v22 = v21 + 1;
     v23 = 32;
     if ( v18 <= 0x20 )
       v23 = v18;
-    *(_DWORD *)v22 = 0;
-    *((_DWORD *)v22 + 1) = 0;
-    *((_DWORD *)v22 + 2) = 0;
-    *((_DWORD *)v22 + 3) = 0;
-    *((_DWORD *)v22 + 4) = 0;
-    *((_DWORD *)v22 + 5) = 0;
-    *((_DWORD *)v22 + 6) = 0;
-    *((_DWORD *)v22 + 7) = 0;
-    memcpy(&v22[-v23 + 32], &v20[v17 + v16], v23);
-    v24 = v22 + 32;
+    *v22 = 0;
+    v22[1] = 0;
+    v22[2] = 0;
+    v22[3] = 0;
+    v22[4] = 0;
+    v22[5] = 0;
+    v22[6] = 0;
+    v22[7] = 0;
+    memcpy((int)v22 - v23 + 32, (const __m128i *)&v20[v17 + v16], v23);
+    v24 = v22 + 8;
     *v24 = 0;
     v25 = v24 + 1;
     v26 = 0;
@@ -215,18 +210,18 @@ LABEL_35:
     *v27 = 1;
     v27[1] = 0;
     v30 = v27 + 1 - s->init_buf->data - 3;
-    *v43 = BYTE2(v30);
-    v43[2] = v30;
-    v43[1] = BYTE1(v30);
+    *v42 = BYTE2(v30);
+    v42[2] = v30;
+    v42[1] = BYTE1(v30);
     s->s3->tmp.reuse_message = 1;
     s->s3->tmp.message_type = 1;
     s->s3->tmp.message_size = v30;
 LABEL_71:
-    if ( !ssl_init_wbio_buffer(s, 1) )
+    if ( !ssl_init_wbio_buffer(v17, s, 1) )
       return -1;
-    v31 = v40;
+    v17 = v39;
     s->state = 8464;
-    if ( v40 == 3 )
+    if ( v39 == 3 )
     {
       s3 = s->s3;
       s->rstate = 240;
@@ -235,36 +230,36 @@ LABEL_71:
         return -1;
       buf = s->s3->rbuf.buf;
       s->packet = buf;
-      memcpy(buf, src, count);
+      memcpy((int)buf, &src, count);
       s->s3->rbuf.left = count;
       s->s3->rbuf.offset = 0;
     }
     else
     {
-      v36 = s->s3;
+      v35 = s->s3;
       s->packet_length = 0;
-      v36->rbuf.left = 0;
+      v35->rbuf.left = 0;
       s->s3->rbuf.offset = 0;
     }
     if ( s->version == 769 )
-      v37 = TLSv1_server_method();
+      v36 = TLSv1_server_method();
     else
-      v37 = SSLv3_server_method();
-    s->method = v37;
-    s->handshake_func = v37->ssl_accept;
+      v36 = SSLv3_server_method();
+    s->method = v36;
+    s->handshake_func = v36->ssl_accept;
 LABEL_81:
-    if ( v31 >= 1 )
+    if ( v17 >= 1 )
     {
       s->init_num = 0;
-      return SSL_accept(s);
+      return SSL_accept(v17, s);
     }
-    ERR_put_error(0x14u, 118, 252, ".\\ssl\\s23_srvr.c", 584);
+    ERR_put_error(v17, 0x14u, 118, 252, ".\\ssl\\s23_srvr.c", 584);
     return -1;
   }
-  v31 = v40;
-  if ( v40 != 1 )
+  v17 = v39;
+  if ( v39 != 1 )
   {
-    if ( v40 != 3 )
+    if ( v39 != 3 )
       goto LABEL_81;
     goto LABEL_71;
   }
@@ -277,24 +272,23 @@ LABEL_81:
     return -1;
   }
   if ( s->s3 )
-    ssl3_free(s);
+    ssl3_free((int)s, s);
   if ( !BUF_MEM_grow_clean(s->init_buf, 0x3FFFu) )
     return -1;
-  v32 = s->options;
+  v31 = s->options;
   s->state = 8208;
-  s->s2->ssl2_rollback = ((unsigned int)&vostok::memory::s_CRT_arena[55905848] & v32) == 0
-                      || ((unsigned int)&vostok::memory::s_CRT_arena[22351416] & v32) == 0;
+  s->s2->ssl2_rollback = (v31 & 0x4000000) == 0 || (v31 & 0x2000000) == 0;
   s2 = s->s2;
   s->rstate = 240;
   s->packet_length = count;
   rbuf = s2->rbuf;
   s->packet = rbuf;
-  memcpy(rbuf, src, count);
+  memcpy((int)rbuf, &src, count);
   s->s2->rbuf_left = count;
   s->s2->rbuf_offs = 0;
-  v34 = SSLv2_server_method();
-  s->method = v34;
-  s->handshake_func = v34->ssl_accept;
+  v33 = SSLv2_server_method();
+  s->method = v33;
+  s->handshake_func = v33->ssl_accept;
   s->init_num = 0;
-  return SSL_accept(s);
+  return SSL_accept(1, s);
 }

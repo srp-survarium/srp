@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::AS3::SoundObject::ReleaseTarget(Scaleform::GFx::
     else
     {
       RefCount = Volume->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         Volume->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(Volume);

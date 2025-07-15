@@ -10,11 +10,11 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Stage::scaleModeSet(
   pNode = value->pNode;
   ++pNode->RefCount;
   v4 = this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
-  v5 = Scaleform::String::CompareNoCase(pNode->pData, "noScale");
+  v5 = Scaleform::String::CompareNoCase((char *)pNode->pData, "noScale");
   if ( v5 )
   {
-    if ( Scaleform::String::CompareNoCase(pNode->pData, "exactFit") )
-      v5 = Scaleform::String::CompareNoCase(pNode->pData, "noBorder") != 0 ? 1 : 3;
+    if ( Scaleform::String::CompareNoCase((char *)pNode->pData, "exactFit") )
+      v5 = Scaleform::String::CompareNoCase((char *)pNode->pData, "noBorder") != 0 ? 1 : 3;
     else
       v5 = 2;
   }

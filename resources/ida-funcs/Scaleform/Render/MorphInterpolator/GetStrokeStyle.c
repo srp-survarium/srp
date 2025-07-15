@@ -1,33 +1,38 @@
 void __thiscall Scaleform::Render::MorphInterpolator::GetStrokeStyle(
         Scaleform::Render::MorphInterpolator *this,
         unsigned int idx,
-        Scaleform::Render::StrokeStyleType *s1)
+        float s1)
 {
-  Scaleform::Render::StrokeStyleType *v3; // esi
+  float v3; // esi
   Scaleform::Render::MorphShapeData *pObject; // ecx
   bool v6; // zf
-  Scaleform::Render::StrokeStyleType s2; // [esp+20h] [ebp-1Ch] BYREF
+  float v7[5]; // [esp+20h] [ebp-1Ch] BYREF
+  Scaleform::RefCountVImpl *v8; // [esp+34h] [ebp-8h]
+  Scaleform::RefCountVImpl *v9; // [esp+38h] [ebp-4h]
 
   v3 = s1;
-  this->pShapeData.pObject->GetStrokeStyle(this->pShapeData.pObject, idx, s1);
+  this->pShapeData.pObject->GetStrokeStyle(
+    this->pShapeData.pObject,
+    idx,
+    (Scaleform::Render::StrokeStyleType *)LODWORD(s1));
   pObject = this->pMorphData.pObject;
   if ( pObject && 0.0 != this->MorphRatio )
   {
-    s2.pFill.pObject = 0;
-    s2.pDashes.pObject = 0;
-    pObject->pMorphTo.pObject->GetStrokeStyle(pObject->pMorphTo.pObject, idx, &s2);
-    v6 = v3->pFill.pObject == 0;
-    s1 = (Scaleform::Render::StrokeStyleType *)LODWORD(v3->Width);
-    v3->Width = (s2.Width - *(float *)&s1) * this->MorphRatio + *(float *)&s1;
+    v8 = 0;
+    v9 = 0;
+    pObject->pMorphTo.pObject->GetStrokeStyle(pObject->pMorphTo.pObject, idx, (Scaleform::Render::StrokeStyleType *)v7);
+    v6 = *(_DWORD *)(LODWORD(v3) + 20) == 0;
+    s1 = *(float *)LODWORD(v3);
+    *(float *)LODWORD(v3) = (v7[0] - s1) * this->MorphRatio + s1;
     if ( v6 )
-      v3->Color = Scaleform::Render::Color::Blend(
-                    (Scaleform::Render::Color *)&s1,
-                    (Scaleform::Render::Color)v3->Color,
-                    (Scaleform::Render::Color)s2.Color,
-                    this->MorphRatio)->Raw;
-    if ( s2.pDashes.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)s2.pDashes.pObject);
-    if ( s2.pFill.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)s2.pFill.pObject);
+      *(Scaleform::Render::Color *)(LODWORD(v3) + 16) = *Scaleform::Render::Color::Blend(
+                                                           (Scaleform::Render::Color *)&s1,
+                                                           *(Scaleform::Render::Color *)(LODWORD(v3) + 16),
+                                                           LODWORD(v7[4]),
+                                                           this->MorphRatio);
+    if ( v9 )
+      Scaleform::RefCountImpl::Release(v9);
+    if ( v8 )
+      Scaleform::RefCountImpl::Release(v8);
   }
 }

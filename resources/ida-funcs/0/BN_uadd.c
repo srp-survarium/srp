@@ -25,7 +25,7 @@ bignum_st *__cdecl BN_uadd(bignum_st *r, const bignum_st *a, const bignum_st *b)
   v7 = v6 - top;
   if ( v6 + 1 > r->dmax )
   {
-    result = bn_expand2(r, (unsigned int *)(v6 + 1));
+    result = bn_expand2(r, v6 + 1);
     v3 = a;
   }
   else

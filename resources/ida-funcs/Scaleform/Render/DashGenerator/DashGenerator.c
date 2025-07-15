@@ -19,21 +19,21 @@ void __thiscall Scaleform::Render::DashGenerator::DashGenerator(
   Scaleform::Render::StrokeSorter::VertexType *v17; // edi
   Scaleform::Render::StrokeSorter::VertexType *v18; // ebp
   int v19; // eax
-  unsigned int i1; // [esp+4h] [ebp+4h]
-  float i1a; // [esp+4h] [ebp+4h]
-  float i1b; // [esp+4h] [ebp+4h]
-  float dista; // [esp+8h] [ebp+8h]
-  float distb; // [esp+8h] [ebp+8h]
-  float dist; // [esp+8h] [ebp+8h]
-  float dashStarta; // [esp+Ch] [ebp+Ch]
-  float i2; // [esp+18h] [ebp+18h]
-  unsigned int i2a; // [esp+18h] [ebp+18h]
-  float i2c; // [esp+18h] [ebp+18h]
-  float i2d; // [esp+18h] [ebp+18h]
-  float i2b; // [esp+18h] [ebp+18h]
-  float i2e; // [esp+18h] [ebp+18h]
-  float i2f; // [esp+18h] [ebp+18h]
-  float i2g; // [esp+18h] [ebp+18h]
+  unsigned int v20; // [esp+4h] [ebp+4h]
+  float v21; // [esp+4h] [ebp+4h]
+  float v22; // [esp+4h] [ebp+4h]
+  float v23; // [esp+8h] [ebp+8h]
+  float v24; // [esp+8h] [ebp+8h]
+  float v25; // [esp+8h] [ebp+8h]
+  float v26; // [esp+Ch] [ebp+Ch]
+  float v27; // [esp+18h] [ebp+18h]
+  unsigned int v28; // [esp+18h] [ebp+18h]
+  float v29; // [esp+18h] [ebp+18h]
+  float v30; // [esp+18h] [ebp+18h]
+  float v31; // [esp+18h] [ebp+18h]
+  float v32; // [esp+18h] [ebp+18h]
+  float v33; // [esp+18h] [ebp+18h]
+  float v34; // [esp+18h] [ebp+18h]
 
   this->DashStart = dashStart;
   this->Vertices = ver;
@@ -61,47 +61,47 @@ void __thiscall Scaleform::Render::DashGenerator::DashGenerator(
         break;
       v11 = v9 - dashArray[CurrDash];
       this->CurrDash = CurrDash + 1;
-      i2 = v11;
+      v27 = v11;
       this->CurrDashStart = 0.0;
       if ( CurrDash + 1 >= dashCount )
         this->CurrDash = 0;
-      v9 = i2;
-      if ( i2 <= 0.0 )
+      v9 = v27;
+      if ( v27 <= 0.0 )
         goto LABEL_7;
     }
     this->CurrDashStart = v9;
   }
 LABEL_7:
   v12 = 0;
-  i2a = 0;
-  i1 = 1;
+  v28 = 0;
+  v20 = 1;
   if ( this->VerCount > 1 )
   {
     v13 = 1;
     do
     {
       Vertices = this->Vertices;
-      dashStarta = Vertices[v13].x - Vertices[v13 - 1].x;
-      dista = Vertices[v13].y - Vertices[v13 - 1].y;
-      distb = dista * dista + dashStarta * dashStarta;
-      dist = sqrt(distb);
-      if ( dist > 1.000000013351432e-10 )
+      v26 = Vertices[v13].x - Vertices[v13 - 1].x;
+      v23 = Vertices[v13].y - Vertices[v13 - 1].y;
+      v24 = v23 * v23 + v26 * v26;
+      v25 = sqrt(v24);
+      if ( v25 > 1.000000013351432e-10 )
       {
-        if ( i2a < i1 - 1 )
+        if ( v28 < v20 - 1 )
         {
           Vertices[v8].x = Vertices[v13 - 1].x;
           Vertices[v8].y = Vertices[v13 - 1].y;
           Vertices[v8].Dist = Vertices[v13 - 1].Dist;
           *(_DWORD *)&Vertices[v8].segType = *(_DWORD *)&Vertices[v13 - 1].segType;
         }
-        ++i2a;
-        this->Vertices[v8++].Dist = dist;
+        ++v28;
+        this->Vertices[v8++].Dist = v25;
       }
       ++v13;
-      ++i1;
+      ++v20;
     }
-    while ( i1 < this->VerCount );
-    v12 = i2a;
+    while ( v20 < this->VerCount );
+    v12 = v28;
   }
   this->Vertices[v12].Dist = 1.0e10;
   v15 = !this->Closed;
@@ -111,23 +111,23 @@ LABEL_7:
   {
     v17 = this->Vertices;
     v18 = &v17[v16];
-    i1a = v18[-1].x - v17->x;
-    i2c = v18[-1].y - v17->y;
-    i2d = i2c * i2c + i1a * i1a;
-    i2b = sqrt(i2d);
-    if ( i2b <= 1.000000013351432e-10 )
+    v21 = v18[-1].x - v17->x;
+    v29 = v18[-1].y - v17->y;
+    v30 = v29 * v29 + v21 * v21;
+    v31 = sqrt(v30);
+    if ( v31 <= 1.000000013351432e-10 )
     {
       this->VerCount = v12;
       v19 = v12;
-      i1b = v17[v19 - 1].x - v17->x;
-      i2e = v17[v19 - 1].y - v17->y;
-      i2f = i2e * i2e + i1b * i1b;
-      i2g = sqrt(i2f);
-      v17[v19 - 1].Dist = i2g;
+      v22 = v17[v19 - 1].x - v17->x;
+      v32 = v17[v19 - 1].y - v17->y;
+      v33 = v32 * v32 + v22 * v22;
+      v34 = sqrt(v33);
+      v17[v19 - 1].Dist = v34;
     }
     else
     {
-      v18[-1].Dist = i2b;
+      v18[-1].Dist = v31;
     }
   }
 }

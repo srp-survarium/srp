@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::AS3concat(
         Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint *this,
         Scaleform::GFx::AS3::Value *result,
-        unsigned int argc,
+        Scaleform::GFx::ASStringNode *argc,
         const Scaleform::GFx::AS3::Value *const argv)
 {
   Scaleform::GFx::AS3::VectorBase<unsigned long>::Concat<Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint>(
@@ -9,5 +9,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::AS3concat(
     result,
     argc,
     argv,
-    (const Scaleform::GFx::AS3::ClassTraits::Traits *)this);
+    this);
 }

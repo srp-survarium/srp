@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::TextField::thicknessSet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_text::TextField,60,Scaleform::GFx::AS3::Value const,double>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextField::thicknessSet;
-  dword_AACEE4 = 0;
+  dword_8F169C = 0;
   return result;
 }

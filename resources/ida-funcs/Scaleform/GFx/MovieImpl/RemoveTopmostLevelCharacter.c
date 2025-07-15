@@ -34,8 +34,8 @@ void __thiscall Scaleform::GFx::MovieImpl::RemoveTopmostLevelCharacter(
       if ( p_TopmostLevelCharacters->Data[v3].pObject )
         Scaleform::RefCountNTSImpl::Release(p_TopmostLevelCharacters->Data[v3].pObject);
       memmove(
-        (unsigned __int8 *)&p_TopmostLevelCharacters->Data[v3],
-        (unsigned __int8 *)&p_TopmostLevelCharacters->Data[v3 + 1],
+        (int)&p_TopmostLevelCharacters->Data[v3],
+        (const __m128i *)&p_TopmostLevelCharacters->Data[v3 + 1],
         4 * (p_TopmostLevelCharacters->Size - v3) - 4);
       --p_TopmostLevelCharacters->Size;
     }

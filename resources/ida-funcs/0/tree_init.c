@@ -1,12 +1,12 @@
 int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
 {
-  unsigned int flags; // ecx
+  __int16 v2; // cx
   __int16 v3; // si
   int v4; // eax
   int v5; // ebp
   int v6; // ebx
   int result; // eax
-  unsigned int v8; // edi
+  int v8; // edi
   x509_st *v9; // esi
   const X509_POLICY_CACHE_st *v10; // eax
   unsigned int ex_flags; // ecx
@@ -16,7 +16,7 @@ int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
   X509_POLICY_LEVEL_st *v15; // eax
   X509_POLICY_LEVEL_st *levels; // edi
   asn1_object_st *v17; // eax
-  const X509_POLICY_DATA_st *v18; // eax
+  asn1_object_st *v18; // eax
   int v19; // eax
   char *v20; // esi
   const X509_POLICY_CACHE_st *v21; // ebp
@@ -29,9 +29,9 @@ int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
   int v28; // [esp+14h] [ebp-10h]
   int v29; // [esp+18h] [ebp-Ch]
   int v30; // [esp+1Ch] [ebp-8h]
-  int i; // [esp+20h] [ebp-4h]
+  int v31; // [esp+20h] [ebp-4h]
 
-  v3 = flags;
+  v3 = v2;
   v27 = 1;
   *ptree = 0;
   v4 = sk_num(&certs->stack);
@@ -57,14 +57,14 @@ int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
   if ( v4 == 1 )
     return 1;
   v8 = v4 - 2;
-  i = v4 - 2;
+  v31 = v4 - 2;
   if ( v4 - 2 >= 0 )
   {
     while ( 1 )
     {
       v9 = (x509_st *)sk_value(&certs->stack, v8);
-      X509_check_purpose(v8, v9, -1, -1);
-      v10 = policy_cache_set(v9);
+      X509_check_purpose(v8, v6, v9, -1, -1);
+      v10 = policy_cache_set((stack_st_X509_EXTENSION *)v9);
       if ( !v10 )
         return 0;
       ex_flags = v9->ex_flags;
@@ -87,7 +87,7 @@ int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
           v6 = explicit_skip;
         }
       }
-      if ( (--v8 & 0x80000000) != 0 )
+      if ( --v8 < 0 )
       {
         result = v27;
         if ( v27 == 1 )
@@ -117,22 +117,22 @@ int __cdecl tree_init(X509_POLICY_TREE_st **ptree, stack_st_X509 *certs)
   memset((int)v15, 0, 16 * v5);
   levels = v14->levels;
   v14->nlevel = v5;
-  v17 = OBJ_nid2obj(0x2EAu);
+  v17 = OBJ_nid2obj((int)v14, 0x2EAu);
   v18 = policy_data_new(0, v17, 0);
-  if ( !v18 || !level_add_node(levels, v18, 0, v14) )
+  if ( !v18 || !level_add_node(levels, (X509_POLICY_DATA_st *)v18, 0, v14) )
   {
     X509_policy_tree_free(v14);
     return 0;
   }
-  v19 = i;
-  v28 = i;
-  if ( i >= 0 )
+  v19 = v31;
+  v28 = v31;
+  if ( v31 >= 0 )
   {
     while ( 1 )
     {
       ++levels;
       v20 = sk_value(&certs->stack, v19);
-      v21 = policy_cache_set((x509_st *)v20);
+      v21 = policy_cache_set((stack_st_X509_EXTENSION *)v20);
       CRYPTO_add_lock((int *)v20 + 4, 1, 3, ".\\crypto\\x509v3\\pcy_tree.c", 258);
       levels->cert = (x509_st *)v20;
       if ( !v21->anyPolicy )

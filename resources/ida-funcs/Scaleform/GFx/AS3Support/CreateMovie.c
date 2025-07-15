@@ -13,7 +13,7 @@ Scaleform::GFx::MovieImpl *__thiscall Scaleform::GFx::AS3Support::CreateMovie(
   v4 = (Scaleform::GFx::MovieImpl *)Heap->Alloc(Heap, 16496u, 0);
   if ( v4 )
   {
-    Scaleform::GFx::MovieImpl::MovieImpl(v4, Heap);
+    Scaleform::GFx::MovieImpl::MovieImpl(v4, (int)memContext, Heap);
     v6 = v5;
   }
   else

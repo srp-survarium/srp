@@ -1,18 +1,12 @@
-void __thiscall survarium::weapon::on_after_fire(survarium::weapon *this)
+void __thiscall survarium::weapon::on_after_fire(survarium::weapon *this, unsigned int time_in_ms)
 {
-  survarium::game_world_ui *m_game_ui; // edx
-  survarium::game_world_ui *v3; // edx
+  survarium::weapon *v3; // ecx
+  survarium::fx_history_item item; // [esp+4h] [ebp-8h] BYREF
 
-  m_game_ui = this->m_game_ui;
-  if ( m_game_ui )
-    survarium::game_world_ui::set_ammo_in_magazine(m_game_ui, this->m_ammo_in_magazine);
-  survarium::weapon::play_weapon_fire_pfx(this, (int)this);
-  v3 = this->m_game_ui;
-  if ( v3 )
-  {
-    if ( this->m_inventory )
-      survarium::game_world_ui::set_ammo_in_magazine(
-        v3,
-        (unsigned __int16)(this->m_ammo_in_magazine + this->m_is_round_chambered));
-  }
+  item.uid = (char *)&this->survarium::weapon_core::survarium::interactive_object::__vftable + 1;
+  item.time_in_ms = time_in_ms;
+  if ( !survarium::weapon::is_fx_already_beeing_played(this, (int)this, &item) )
+    survarium::weapon::play_weapon_fire_pfx(
+      v3,
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)this);
 }

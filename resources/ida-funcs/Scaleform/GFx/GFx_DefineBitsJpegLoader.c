@@ -16,13 +16,17 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsJpegLoader(
   Scaleform::GFx::SWFProcessInfo *v14; // esi
   int v15; // eax
   unsigned __int16 v16; // [esp+18h] [ebp-2Ch]
-  Scaleform::Render::ImageCreateArgs args; // [esp+1Ch] [ebp-28h] BYREF
-  int v18; // [esp+30h] [ebp-14h] BYREF
-  Scaleform::MemoryHeap *pHeap; // [esp+34h] [ebp-10h]
-  int v20; // [esp+38h] [ebp-Ch]
-  int v21; // [esp+3Ch] [ebp-8h]
-  int v22; // [esp+40h] [ebp-4h]
-  Scaleform::GFx::LoadProcess *pa; // [esp+48h] [ebp+4h]
+  int v17; // [esp+1Ch] [ebp-28h] BYREF
+  Scaleform::MemoryHeap *pHeap; // [esp+20h] [ebp-24h]
+  int v19; // [esp+24h] [ebp-20h]
+  int v20; // [esp+28h] [ebp-1Ch]
+  int v21; // [esp+2Ch] [ebp-18h]
+  int v22; // [esp+30h] [ebp-14h] BYREF
+  Scaleform::MemoryHeap *v23; // [esp+34h] [ebp-10h]
+  int v24; // [esp+38h] [ebp-Ch]
+  int v25; // [esp+3Ch] [ebp-8h]
+  int v26; // [esp+40h] [ebp-4h]
+  Scaleform::GFx::LoadProcess *v27; // [esp+48h] [ebp+4h]
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -39,7 +43,7 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsJpegLoader(
   pObject = p->pLoadStates.pObject->pImageFileHandlerRegistry.pObject;
   v9 = 0;
   v16 = (unsigned __int16)pBuffer | (v7 << 8);
-  pa = (Scaleform::GFx::LoadProcess *)pObject;
+  v27 = (Scaleform::GFx::LoadProcess *)pObject;
   if ( pObject )
   {
     Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject);
@@ -57,17 +61,20 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsJpegLoader(
       v14 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
       if ( v12 )
       {
-        memset(&args.pHeap, 0, 16);
-        args.Use = 0;
-        args.pHeap = v13->pHeap;
+        pHeap = 0;
+        v17 = 0;
+        v19 = 0;
+        v20 = 0;
+        v21 = 0;
+        pHeap = v13->pHeap;
         if ( !v14 )
           v14 = &p->ProcessInfo;
         Scaleform::GFx::Stream::SyncFileStream(&v14->Stream);
         v14->Stream.ResyncFile = 1;
-        v15 = ((int (__thiscall *)(Scaleform::Render::ImageFileReader *, Scaleform::File *, Scaleform::Render::ImageCreateArgs *, Scaleform::Render::JPEG::TablesHeader *, int, int, _DWORD))Reader->__vftable[1].~Scaleform::Render::ImageFileReader)(
+        v15 = ((int (__thiscall *)(Scaleform::Render::ImageFileReader *, Scaleform::File *, int *, Scaleform::Render::JPEG::TablesHeader *, int, int, _DWORD))Reader->__vftable[1].~Scaleform::Render::ImageFileReader)(
                 Reader,
                 v14->Stream.pInput.pObject,
-                &args,
+                &v17,
                 v12,
                 tagInfo->TagLength - 2,
                 (tagInfo->TagLength - 2) >> 31,
@@ -75,12 +82,12 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsJpegLoader(
       }
       else
       {
-        pHeap = 0;
-        v18 = 0;
-        v20 = 0;
-        v21 = 0;
+        v23 = 0;
         v22 = 0;
-        pHeap = v13->pHeap;
+        v24 = 0;
+        v25 = 0;
+        v26 = 0;
+        v23 = v13->pHeap;
         if ( !v14 )
           v14 = &p->ProcessInfo;
         Scaleform::GFx::Stream::SyncFileStream(&v14->Stream);
@@ -88,13 +95,13 @@ void __stdcall Scaleform::GFx::GFx_DefineBitsJpegLoader(
         v15 = ((int (__thiscall *)(Scaleform::Render::ImageFileReader *, Scaleform::File *, int *, _DWORD, int, int, _DWORD))Reader->__vftable[1].~Scaleform::Render::ImageFileReader)(
                 Reader,
                 v14->Stream.pInput.pObject,
-                &v18,
+                &v22,
                 0,
                 tagInfo->TagLength - 2,
                 (tagInfo->TagLength - 2) >> 31,
                 0);
       }
-      pObject = (Scaleform::GFx::ImageFileHandlerRegistry *)pa;
+      pObject = (Scaleform::GFx::ImageFileHandlerRegistry *)v27;
       v9 = (Scaleform::Render::ImageSource *)v15;
     }
     else

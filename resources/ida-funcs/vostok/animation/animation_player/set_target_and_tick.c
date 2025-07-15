@@ -1,63 +1,71 @@
 char __userpurge vostok::animation::animation_player::set_target_and_tick@<al>(
-        vostok::animation::animation_player *this@<edi>,
-        const vostok::math::float4x4 *transform_in_case_of_a_single_object_usage@<ecx>,
-        const vostok::animation::mixing::expression *expression,
-        vostok::animation::subscribed_channel **current_time_in_ms)
+        vostok::animation::animation_player *this@<ecx>,
+        float a2@<xmm4>,
+        const vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy> *expression,
+        vostok::animation::mixing::expression *current_time_in_ms,
+        vostok::animation::subscribed_channel **transform_in_case_of_a_single_object_usage,
+        int a5)
 {
-  vostok::animation::animation_player *v4; // ecx
-  vostok::animation::animation_player *v5; // ecx
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<vostok::math::float4x4,vostok::math::float4x4 (__cdecl*)(vostok::math::float4x4 const &,void const *),boost::_bi::list2<boost::reference_wrapper<vostok::math::float4x4 const >,boost::arg<1> > > v8; // [esp-8h] [ebp-38h]
-  char v9; // [esp+Fh] [ebp-21h]
-  boost::function<vostok::math::float4x4 __cdecl(void const *)> get_transform_functor; // [esp+10h] [ebp-20h] BYREF
+  char v6; // bl
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  __int64 v9; // [esp+8h] [ebp-28h] BYREF
+  boost::function<vostok::math::float4x4 __cdecl(void const *)> v10; // [esp+10h] [ebp-20h] BYREF
 
-  v8.l_.a1_.t_ = transform_in_case_of_a_single_object_usage;
-  v8.f_ = (vostok::math::float4x4 *(__cdecl *)(vostok::math::float4x4 *, const vostok::math::float4x4 *, const void *))vostok::animation::single_object_get_transform;
-  get_transform_functor.vtable = 0;
-  boost::function1<vostok::math::float4x4,void const *>::assign_to<boost::_bi::bind_t<vostok::math::float4x4,vostok::math::float4x4 (__cdecl *)(vostok::math::float4x4 const &,void const *),boost::_bi::list2<boost::reference_wrapper<vostok::math::float4x4 const>,boost::arg<1>>>>(
-    (boost::function1<vostok::math::float4x4,void const *> *)transform_in_case_of_a_single_object_usage,
-    (boost::_bi::bind_t<vostok::math::float4x4,vostok::math::float4x4 (__cdecl*)(vostok::math::float4x4 const &,void const *),boost::_bi::list2<boost::reference_wrapper<vostok::math::float4x4 const >,boost::arg<1> > > *)&get_transform_functor,
-    v8);
-  if ( this->m_mixing_tree.m_animations_count )
-    vostok::animation::animation_player::tick(v4, (int)this, current_time_in_ms);
-  v9 = vostok::animation::animation_player::set_target(
-         expression,
-         (vostok::animation::mixing::n_ary_tree_converter *)v4,
-         this,
-         (char *)current_time_in_ms,
-         &get_transform_functor);
-  vostok::animation::animation_player::tick(v5, (int)this, current_time_in_ms);
-  if ( get_transform_functor.vtable )
+  LODWORD(v9) = vostok::animation::single_object_get_transform;
+  HIDWORD(v9) = a5;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *)this) )
   {
-    if ( ((int)get_transform_functor.vtable & 1) == 0 )
-    {
-      v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)get_transform_functor.vtable & 0xFFFFFFFE);
-      if ( v6 )
-        v6(&get_transform_functor.functor, &get_transform_functor.functor, 2);
-    }
+    v10.vtable = 0;
   }
-  return v9;
+  else
+  {
+    *(_QWORD *)&v10.functor.obj_ptr = v9;
+    v10.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<vostok::math::float4x4,void const *>::assign_to<boost::_bi::bind_t<vostok::math::float4x4,vostok::math::float4x4 (__cdecl *)(vostok::math::float4x4 const &,void const *),boost::_bi::list2<boost::reference_wrapper<vostok::math::float4x4 const>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                        + 1);
+  }
+  v6 = vostok::animation::animation_player::set_target_and_tick(
+         (vostok::animation::animation_player *)&v9,
+         expression,
+         a2,
+         current_time_in_ms,
+         transform_in_case_of_a_single_object_usage,
+         &v10);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&v10);
+  return v6;
 }
 
 
 char __userpurge vostok::animation::animation_player::set_target_and_tick@<al>(
-        vostok::animation::animation_player *this@<esi>,
-        vostok::animation::subscribed_channel **current_time_in_ms@<edi>,
-        vostok::animation::animation_player *a3@<ecx>,
-        const vostok::animation::mixing::expression *expression,
-        boost::function<vostok::math::float4x4 __cdecl(void const *)> *get_transform_functor)
+        vostok::animation::animation_player *this@<ecx>,
+        const vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy> *a2@<eax>,
+        float a3@<xmm4>,
+        vostok::animation::mixing::expression *expression,
+        vostok::animation::subscribed_channel **current_time_in_ms,
+        const boost::function<vostok::math::float4x4 __cdecl(void const *)> *get_transform_functor)
 {
-  char v5; // bl
-  vostok::animation::animation_player *v6; // ecx
+  vostok::particle::particle_system_instance_impl *(__thiscall *v7)(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *); // edi
+  vostok::animation::animation_player *v8; // ecx
+  char v9; // bl
+  vostok::animation::animation_player *v10; // ecx
+  unsigned int v12; // [esp+0h] [ebp-14h]
+  bool v13; // [esp+4h] [ebp-10h]
+  vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy> v14; // [esp+10h] [ebp-4h] BYREF
 
-  if ( this->m_mixing_tree.m_animations_count )
-    vostok::animation::animation_player::tick(a3, (int)this, current_time_in_ms);
-  v5 = vostok::animation::animation_player::set_target(
+  v7 = vostok::animation::tree(a2 + 16432, &v14)->m_object != 0
+     ? vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
+     : 0;
+  vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy>::dec(&v14);
+  if ( v7 )
+    vostok::animation::animation_player::tick_impl(v8, (int)a2, a3, current_time_in_ms, v12, v13);
+  v9 = vostok::animation::animation_player::set_target(
+         v8,
+         a3,
+         (vostok::intrusive_ptr<vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::animation::mixing::n_ary_tree_intrusive_base,vostok::threading::single_threading_policy>)a2,
          expression,
-         (vostok::animation::mixing::n_ary_tree_converter *)a3,
-         this,
-         (char *)current_time_in_ms,
-         get_transform_functor);
-  vostok::animation::animation_player::tick(v6, (int)this, current_time_in_ms);
-  return v5;
+         (boost::function<vostok::math::float4x4 __cdecl(void const *)> *)current_time_in_ms,
+         *(float *)&get_transform_functor);
+  vostok::animation::animation_player::tick_impl(v10, (int)a2, a3, current_time_in_ms, v12, v13);
+  return v9;
 }

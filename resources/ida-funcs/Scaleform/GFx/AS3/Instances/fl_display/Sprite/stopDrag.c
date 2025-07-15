@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Sprite::stopDrag(
   v5 = pObject->CheckAdvanceStatus(pObject, Flags);
   if ( v5 == -1 )
   {
-    pObject->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    pObject->Flags |= (unsigned int)&loc_400000;
   }
   else if ( v5 == 1 )
   {

@@ -33,7 +33,7 @@ BOOL __usercall Scaleform::GFx::AS3::MovieRoot::CheckAvm@<eax>(
     retaddr = &`Scaleform::GFx::AS3::MovieRoot::CheckAvm'::`10'::Loader::`vftable';
     v6 = (Scaleform::GFx::AS3::ASVM *)((int (__thiscall *)(Scaleform::MemoryHeap *, int))pMovieImpl->pHeap->Alloc)(
                                         pMovieImpl->pHeap,
-                                        488);
+                                        528);
     if ( v6 )
     {
       Scaleform::GFx::AS3::ASVM::ASVM(

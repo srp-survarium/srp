@@ -21,7 +21,7 @@ int __cdecl png_write_cHRM_fixed(_DWORD *a1, int a2, int a3, int a4, int a5, int
     png_save_uint_32(v15, a7);
     png_save_uint_32(v16, a8);
     png_save_uint_32(v17, a9);
-    return sub_36AEC0(a1, 1665684045, buf, 32);
+    return sub_477B80(a1, 1665684045, buf, 32);
   }
   return result;
 }

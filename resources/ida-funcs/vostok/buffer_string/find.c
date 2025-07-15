@@ -1,24 +1,14 @@
-unsigned int __usercall vostok::buffer_string::find@<eax>(vostok::buffer_string *this@<esi>, unsigned __int8 c@<cl>)
-{
-  int v2; // eax
-
-  strchr((unsigned __int8 *)this->m_begin, c);
-  if ( v2 )
-    return v2 - (unsigned int)this->m_begin;
-  else
-    return -1;
-}
-
-
-unsigned int __usercall vostok::buffer_string::find@<eax>(
+unsigned int __userpurge vostok::buffer_string::find@<eax>(
         vostok::buffer_string *this@<ecx>,
-        unsigned __int8 **a2@<esi>)
+        unsigned __int8 **a2@<esi>,
+        char *s,
+        unsigned int offs)
 {
-  int v2; // eax
+  int v4; // eax
 
-  strstr(*a2, (unsigned __int8 *)this);
-  if ( v2 )
-    return v2 - (_DWORD)*a2;
+  strstr(*a2, (unsigned __int8 *)s);
+  if ( v4 )
+    return v4 - (_DWORD)*a2;
   else
     return -1;
 }

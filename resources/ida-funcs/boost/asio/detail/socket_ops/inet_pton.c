@@ -1,80 +1,76 @@
-int __cdecl boost::asio::detail::socket_ops::inet_pton(
-        INT af,
+int __usercall boost::asio::detail::socket_ops::inet_pton@<eax>(
+        INT af@<eax>,
         char *src,
-        __int64 *dest,
+        _DWORD *dest,
         unsigned int *scope_id,
         boost::system::error_code *ec)
 {
-  const boost::system::error_category *v5; // edx
-  const boost::system::error_category *v7; // edx
-  const boost::system::error_category *v8; // edx
-  const boost::system::error_category *v9; // [esp+1Ch] [ebp-CCh]
-  INT v10; // [esp+20h] [ebp-C8h]
-  const boost::system::error_category *v11; // [esp+28h] [ebp-C0h]
-  const boost::system::error_category *v12; // [esp+44h] [ebp-A4h]
-  const boost::system::error_category *v13; // [esp+54h] [ebp-94h]
-  boost::asio::detail::socket_ops::inet_pton::__l5::<unnamed_type_address> address; // [esp+60h] [ebp-88h] BYREF
-  int address_length; // [esp+E0h] [ebp-8h] BYREF
-  int result; // [esp+E4h] [ebp-4h]
+  INT v7; // eax
+  int v8; // eax
+  const boost::system::error_category *v9; // eax
+  bool v10; // zf
+  const boost::system::error_category *v11; // eax
+  const boost::system::error_category *v12; // eax
+  sockaddr Address; // [esp+10h] [ebp-88h] BYREF
+  int v14; // [esp+20h] [ebp-78h]
+  int v15; // [esp+24h] [ebp-74h]
+  unsigned int v16; // [esp+28h] [ebp-70h]
+  int AddressLength; // [esp+90h] [ebp-8h] BYREF
+  int v18; // [esp+94h] [ebp-4h]
 
   WSASetLastError(0);
-  if ( af == 2 || af == 23 )
+  if ( af != 2 && af != 23 )
   {
-    address_length = 128;
-    v10 = WSAStringToAddressA(src, af, 0, &address.base, &address_length);
-    v11 = boost::system::system_category();
-    ec->m_val = WSAGetLastError();
-    ec->m_cat = v11;
-    result = v10;
-    if ( af == 2 )
+    ec->m_cat = boost::system::system_category();
+    ec->m_val = 10047;
+    return -1;
+  }
+  AddressLength = 128;
+  v7 = WSAStringToAddressA(src, af, 0, &Address, &AddressLength);
+  v8 = boost::asio::detail::socket_ops::error_wrapper<int>(ec, v7);
+  v18 = v8;
+  if ( af == 2 )
+  {
+    if ( v8 == -1 )
     {
-      if ( result == -1 )
-      {
-        if ( !strcmp(src, &stru_984D24.m_working_macro_list.m_buffer[1].m_store[364]) )
-        {
-          *(_DWORD *)dest = -1;
-          v13 = boost::system::system_category();
-          ec->m_val = 0;
-          ec->m_cat = v13;
-        }
-      }
-      else
-      {
-        *(_DWORD *)dest = address.v4.sin_addr.S_un.S_addr;
-        v7 = boost::system::system_category();
-        ec->m_val = 0;
-        ec->m_cat = v7;
-      }
+      if ( strcmp(src, "255.255.255.255") )
+        goto LABEL_13;
+      *dest = -1;
     }
-    else if ( result != -1 )
+    else
     {
-      *dest = address.storage.__ss_align;
-      dest[1] = *(_QWORD *)&address.v6.sin6_addr.u.Word[4];
-      if ( scope_id )
-        *scope_id = address.v6.sin6_scope_id;
-      v8 = boost::system::system_category();
-      ec->m_val = 0;
-      ec->m_cat = v8;
+      *dest = *(_DWORD *)&Address.sa_data[2];
     }
-    if ( result == -1 && !ec->m_val )
-    {
-      v9 = boost::system::system_category();
-      ec->m_val = 10022;
-      ec->m_cat = v9;
-    }
-    if ( result != -1 )
-    {
-      v12 = boost::system::system_category();
-      ec->m_val = 0;
-      ec->m_cat = v12;
-    }
-    return 2 * (result != -1) - 1;
   }
   else
   {
-    v5 = boost::system::system_category();
-    ec->m_val = 10047;
-    ec->m_cat = v5;
-    return -1;
+    if ( v8 == -1 )
+      goto LABEL_13;
+    *dest = *(_DWORD *)&Address.sa_data[6];
+    dest[1] = *(_DWORD *)&Address.sa_data[10];
+    dest[2] = v14;
+    dest[3] = v15;
+    if ( scope_id )
+      *scope_id = v16;
   }
+  v9 = boost::system::system_category();
+  v10 = v18 == -1;
+  ec->m_val = 0;
+  ec->m_cat = v9;
+  if ( v10 )
+  {
+LABEL_13:
+    if ( !ec->m_val )
+    {
+      v11 = boost::system::system_category();
+      ec->m_val = 10022;
+      ec->m_cat = v11;
+    }
+    if ( v18 == -1 )
+      return 2 * (v18 != -1) - 1;
+  }
+  v12 = boost::system::system_category();
+  ec->m_val = 0;
+  ec->m_cat = v12;
+  return 2 * (v18 != -1) - 1;
 }

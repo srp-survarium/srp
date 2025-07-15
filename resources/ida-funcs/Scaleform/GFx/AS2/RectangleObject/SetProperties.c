@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS2::RectangleObject::SetProperties(
         Scaleform::GFx::AS2::RectangleObject *this,
-        Scaleform::GFx::AS2::ASStringContext *psc,
+        Scaleform::GFx::ASStringNode *psc,
         const Scaleform::GFx::AS2::Value *params)
 {
   Scaleform::GFx::AS2::ObjectInterface *v3; // esi
@@ -19,33 +19,33 @@ void __thiscall Scaleform::GFx::AS2::RectangleObject::SetProperties(
         const Scaleform::Render::Rect<double> *r)
 {
   Scaleform::GFx::AS2::ObjectInterface *v3; // ebp
-  Scaleform::GFx::AS2::ASStringContext *p_StringContext; // edi
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *p_StringContext; // edi
+  Scaleform::GFx::AS2::Value v5; // [esp+10h] [ebp-10h] BYREF
 
-  val.NV.NumberValue = r->x1;
+  v5.NV.NumberValue = r->x1;
   v3 = &this->Scaleform::GFx::AS2::ObjectInterface;
-  p_StringContext = &penv->StringContext;
-  val.T.Type = 3;
+  p_StringContext = (Scaleform::GFx::ASStringNode *)&penv->StringContext;
+  v5.T.Type = 3;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    &penv->StringContext,
+    (Scaleform::GFx::ASStringNode *)&penv->StringContext,
     "x",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.NV.NumberValue = r->y1;
-  val.T.Type = 3;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "y", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.NV.NumberValue = r->x2 - r->x1;
-  val.T.Type = 3;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "width", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.NV.NumberValue = r->y2 - r->y1;
-  val.T.Type = 3;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "height", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+    &v5);
+  if ( v5.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v5);
+  v5.NV.NumberValue = r->y1;
+  v5.T.Type = 3;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "y", &v5);
+  if ( v5.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v5);
+  v5.NV.NumberValue = r->x2 - r->x1;
+  v5.T.Type = 3;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "width", &v5);
+  if ( v5.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v5);
+  v5.NV.NumberValue = r->y2 - r->y1;
+  v5.T.Type = 3;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v3, p_StringContext, "height", &v5);
+  if ( v5.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v5);
 }

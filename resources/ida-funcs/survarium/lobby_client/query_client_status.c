@@ -1,24 +1,24 @@
 void __thiscall survarium::lobby_client::query_client_status(
         survarium::lobby_client *this,
-        survarium::lobby_client *type,
-        lobby::query_info_types typea)
+        const vostok::network_core::tcp_packet *type,
+        unsigned __int8 a3)
 {
-  vostok::network_core::packet<vostok::network_core::tcp_packet> *v3; // ecx
-  unsigned __int8 buffer[4]; // [esp+4h] [ebp-18h] BYREF
-  vostok::network_core::tcp_packet packet; // [esp+8h] [ebp-14h] BYREF
+  vostok::network_core::buffer_writer *v3; // ecx
+  vostok::network_core::buffer_writer *v4; // ecx
+  vostok::network::tcp_packet_client *v5; // ecx
+  vostok::network_core::buffer_writer *v6; // ecx
+  vostok::network_core::mutable_buffer *v7; // ecx
+  unsigned __int8 v8; // [esp+7h] [ebp-29h] BYREF
+  vostok::network_core::tcp_packet v9; // [esp+8h] [ebp-28h] BYREF
 
-  vostok::network_core::tcp_packet::tcp_packet(&packet, &vostok::memory::g_mt_allocator);
-  buffer[0] = 33;
-  vostok::network_core::packet<vostok::network_core::tcp_packet>::append(v3, (int)&packet, buffer, 1u);
-  vostok::network_core::packet<vostok::network_core::tcp_packet>::append(
-    (vostok::network_core::packet<vostok::network_core::tcp_packet> *)typea,
-    (int)&packet,
-    (unsigned __int8 *)&typea,
-    4u);
-  vostok::network::tcp_packet_client::send(&type->m_packet_client, &packet);
-  if ( packet.m_buffer )
-  {
-    if ( packet.m_buffer != (unsigned __int8 *)3 )
-      packet.m_allocator->call_free(packet.m_allocator, packet.m_buffer - 3);
-  }
+  vostok::network_core::tcp_packet::tcp_packet(
+    (vostok::network_core::tcp_packet *)&vostok::memory::g_mt_allocator,
+    (int)&v9);
+  v8 = 33;
+  vostok::network_core::buffer_writer::w(v3, &v9.m_writer.serialization_operations_descriptors.m_size, &v8, 1u);
+  v8 = a3;
+  vostok::network_core::buffer_writer::w(v4, &v9.m_writer.serialization_operations_descriptors.m_size, &v8, 1u);
+  vostok::network::tcp_packet_client::send(v5, type + 5, &v9);
+  vostok::network_core::buffer_writer::~buffer_writer(v6, &v9.m_writer.serialization_operations_descriptors);
+  vostok::network_core::mutable_buffer::~mutable_buffer(v7, &v9);
 }

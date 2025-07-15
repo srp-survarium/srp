@@ -1,18 +1,20 @@
 void __cdecl Scaleform::GFx::AS2::AvmSprite::InitObjectMembers(const Scaleform::GFx::AS2::FnCall *fn)
 {
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // esi
-  Scaleform::GFx::InteractiveObject *v2; // esi
+  Scaleform::RefCountNTSImpl *v2; // esi
   Scaleform::GFx::AS2::Environment *Env; // eax
   Scaleform::GFx::AS2::Value *v4; // ecx
   Scaleform::GFx::AS2::AvmCharacter *v5; // eax
   Scaleform::GFx::AS2::ObjectInterface *v6; // ecx
   Scaleform::GFx::AS2::Object *v7; // eax
-  Scaleform::GFx::AS2::AvmSprite::InitObjectMembers::__l4::InitVisitor memberVisitor; // [esp+10h] [ebp-Ch] BYREF
+  void **v8; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::GFx::AS2::Environment *v9; // [esp+14h] [ebp-8h]
+  Scaleform::RefCountNTSImpl *v10; // [esp+18h] [ebp-4h]
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr->GetObjectType(ThisPtr) == Object_Sprite )
   {
-    v2 = (Scaleform::GFx::InteractiveObject *)ThisPtr[1].__vftable;
+    v2 = (Scaleform::RefCountNTSImpl *)ThisPtr[1].__vftable;
     if ( v2 )
     {
       ++v2->RefCount;
@@ -30,11 +32,11 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::InitObjectMembers(const Scaleform::
         {
           v6 = &v5->Scaleform::GFx::AS2::ObjectInterface;
 LABEL_11:
-          memberVisitor.pEnv = fn->Env;
-          memberVisitor.__vftable = (Scaleform::GFx::AS2::AvmSprite::InitObjectMembers::__l4::InitVisitor_vtbl *)&`Scaleform::GFx::AS2::AvmSprite::InitObjectMembers'::`4'::InitVisitor::`vftable';
-          memberVisitor.pCharacter = v2;
-          v6->VisitMembers(v6, &memberVisitor.pEnv->StringContext, &memberVisitor, 0, 0);
-          memberVisitor.__vftable = (Scaleform::GFx::AS2::AvmSprite::InitObjectMembers::__l4::InitVisitor_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+          v9 = fn->Env;
+          v8 = (void **)&`Scaleform::GFx::AS2::AvmSprite::InitObjectMembers'::`4'::InitVisitor::`vftable';
+          v10 = v2;
+          v6->VisitMembers(v6, &v9->StringContext, (Scaleform::GFx::AS2::ObjectInterface::MemberVisitor *)&v8, 0, 0);
+          v8 = &Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
           Scaleform::RefCountNTSImpl::Release(v2);
           return;
         }

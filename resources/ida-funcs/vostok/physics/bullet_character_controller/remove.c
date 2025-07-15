@@ -1,41 +1,26 @@
-void __thiscall vostok::physics::bullet_character_controller::remove(
-        vostok::physics::bullet_character_controller *this,
-        vostok::physics::bullet_character_controller *world)
+void __usercall vostok::physics::bullet_character_controller::remove(
+        vostok::physics::bullet_character_controller *this@<ecx>,
+        int a2@<esi>)
 {
-  void (__cdecl *M_next)(btDynamicsWorld *, float); // edi
-  stlp_std::list<btVector3,stlp_std::allocator<btVector3> > *p_m_positions; // esi
-  _STLP_atomic_freelist::item *v4; // eax
-  float v5; // esi
-  void *v6; // eax
-  int v7; // esi
-
-  world->m_collision_world->removeAction(world->m_collision_world, world);
-  world->m_collision_world->removeCollisionObject(world->m_collision_world, world->m_ghost_object);
-  M_next = (void (__cdecl *)(btDynamicsWorld *, float))world->m_positions._M_impl._M_node._M_data._M_next;
-  p_m_positions = &world->m_positions;
-  while ( (char *)M_next != (char *)p_m_positions )
+  (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(a2 + 20) + 60))(*(_DWORD *)(a2 + 20), a2);
+  (*(void (__thiscall **)(_DWORD, int))(**(_DWORD **)(a2 + 20) + 32))(*(_DWORD *)(a2 + 20), a2 + 96);
+  if ( *(_DWORD *)(a2 + 380) )
   {
-    v4 = (_STLP_atomic_freelist::item *)M_next;
-    M_next = *(void (__cdecl **)(btDynamicsWorld *, float))M_next;
-    stlp_std::__node_alloc::_M_deallocate(v4, 0x20u);
+    if ( *(_BYTE *)(a2 + 384) )
+      btAlignedFreeInternal(*(void **)(a2 + 380));
+    *(_DWORD *)(a2 + 380) = 0;
   }
-  p_m_positions->_M_impl._M_node._M_data._M_next = (stlp_std::priv::_List_node_base *)p_m_positions;
-  world->m_positions._M_impl._M_node._M_data._M_prev = &world->m_positions._M_impl._M_node._M_data;
-  v5 = *(float *)&world->m_ghost_object;
-  v6 = *(void **)(LODWORD(v5) + 284);
-  v7 = LODWORD(v5) + 272;
-  if ( v6 )
-  {
-    if ( *(_BYTE *)(v7 + 16) )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v6);
-    }
-    *(_DWORD *)(v7 + 12) = 0;
-  }
-  *(_DWORD *)(v7 + 12) = 0;
-  *(_DWORD *)(v7 + 4) = 0;
-  *(_DWORD *)(v7 + 8) = 0;
-  *(_BYTE *)(v7 + 16) = 1;
-  world->m_collision_world = 0;
+  *(_DWORD *)(a2 + 380) = 0;
+  *(_DWORD *)(a2 + 372) = 0;
+  *(_DWORD *)(a2 + 376) = 0;
+  *(_BYTE *)(a2 + 384) = 1;
+  *(_DWORD *)(a2 + 20) = 0;
+  *(_DWORD *)(a2 + 568) = 0;
+  *(_DWORD *)(a2 + 776) = 0;
+  *(_DWORD *)(a2 + 840) = 0;
+  *(_DWORD *)(a2 + 904) = 0;
+  *(_DWORD *)(a2 + 968) = 0;
+  *(_DWORD *)(a2 + 1008) = 0;
+  *(_DWORD *)(a2 + 1080) = 0;
+  *(_DWORD *)(a2 + 1144) = 0;
 }

@@ -1,12 +1,12 @@
 int __thiscall Scaleform::String::CompareNoCase(Scaleform::String *this, const Scaleform::String *str)
 {
   return Scaleform::String::CompareNoCase(
-           (const char *)((this->HeapTypeBits & 0xFFFFFFFC) + 8),
-           (const char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8));
+           (char *)((this->HeapTypeBits & 0xFFFFFFFC) + 8),
+           (char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8));
 }
 
 
-int __stdcall Scaleform::String::CompareNoCase(const char *a, const char *b)
+int __stdcall Scaleform::String::CompareNoCase(char *a, char *b)
 {
   return Scaleform::SFstricmp(a, b);
 }

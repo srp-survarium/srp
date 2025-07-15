@@ -1,12 +1,12 @@
 void __thiscall Scaleform::Render::Renderer2DImpl::EntryChanges(
         Scaleform::Render::Renderer2DImpl *this,
         Scaleform::Render::ContextImpl::Context *context,
-        Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *cb,
+        Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126> *cb,
         bool forceUpdateImages)
 {
   Scaleform::Render::Renderer2DImpl *v4; // ebp
   Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *v5; // ecx
-  $96F74105F51F6E3CCD0F3538EFBECFF0 *v6; // ebp
+  $1E231573BF54D36D8D040C7EE0E1266F *v6; // ebp
   unsigned int ChangeBits; // eax
   int v8; // esi
   Scaleform::Render::TreeCacheRoot *v9; // edi
@@ -19,21 +19,21 @@ void __thiscall Scaleform::Render::Renderer2DImpl::EntryChanges(
   Scaleform::Render::TreeCacheRoot *pNext; // esi
   Scaleform::List<Scaleform::Render::TreeCacheNode,Scaleform::Render::TreeCacheNode> *p_RenderRoots; // ebp
   int v18; // eax
-  Scaleform::Render::TreeCacheRoot *root; // [esp+10h] [ebp-Ch]
-  unsigned int iitem; // [esp+14h] [ebp-8h]
-  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *pcbPage; // [esp+24h] [ebp+8h]
+  Scaleform::Render::TreeCacheRoot *v19; // [esp+10h] [ebp-Ch]
+  unsigned int v20; // [esp+14h] [ebp-8h]
+  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *pPages; // [esp+24h] [ebp+8h]
 
   v4 = this;
-  pcbPage = cb->pNext;
-  if ( !pcbPage )
+  pPages = cb->pPages;
+  if ( !pPages )
     goto LABEL_29;
   do
   {
-    v5 = pcbPage;
-    iitem = 0;
-    if ( !pcbPage->Count )
+    v5 = pPages;
+    v20 = 0;
+    if ( !pPages->Count )
       goto LABEL_28;
-    v6 = &pcbPage->Items[0].4;
+    v6 = &pPages->Items[0].4;
     do
     {
       ChangeBits = v6[-1].ChangeBits;
@@ -45,14 +45,14 @@ void __thiscall Scaleform::Render::Renderer2DImpl::EntryChanges(
       if ( (v6->ChangeBits & 0x3730) != 0 )
         (*(void (__thiscall **)(int, unsigned int))(*(_DWORD *)v8 + 4))(v8, v6->ChangeBits);
       v9 = *(Scaleform::Render::TreeCacheRoot **)(v8 + 24);
-      root = v9;
-      if ( ((unsigned int)byte_7E008C & v6->ChangeBits) == 0 )
+      v19 = v9;
+      if ( ((unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1516] & v6->ChangeBits) == 0 )
         goto LABEL_21;
       v10 = 0;
       if ( (v6->ChangeBits & 4) != 0 )
       {
         v9 = *(Scaleform::Render::TreeCacheRoot **)(v8 + 24);
-        v10 = (unsigned int)&vostok::memory::s_CRT_arena[5574200];
+        v10 = 0x1000000;
         *(_WORD *)(v8 + 50) ^= (*(_WORD *)(v8 + 50)
                               ^ *(_WORD *)((*(_DWORD *)(*(_DWORD *)((*(_DWORD *)(v8 + 28) & 0xFFFFF000) + 0x14)
                                                       + 4
@@ -78,17 +78,17 @@ void __thiscall Scaleform::Render::Renderer2DImpl::EntryChanges(
                                                                      / 28)
                                                                     + 20)
                                                         & 0xFFFFFFFE),
-          *(_WORD *)(v8 + 48) + 1,
+          (unsigned __int16)(*(_WORD *)(v8 + 48) + 1),
           0);
-        v9 = root;
+        v9 = v19;
       }
       if ( (v6->ChangeBits & 8) != 0 )
-        v10 |= (unsigned int)&vostok::memory::s_CRT_arena[22351416];
-      v11 = (unsigned int)sub_7E0000 & v6->ChangeBits;
+        v10 |= 0x2000000u;
+      v11 = (unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376] & v6->ChangeBits;
       if ( v11 )
       {
         *(_DWORD *)(v8 + 52) |= v11;
-        v10 |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
+        v10 |= 0x1000000u;
       }
       if ( v9 )
       {
@@ -101,29 +101,29 @@ void __thiscall Scaleform::Render::Renderer2DImpl::EntryChanges(
 LABEL_21:
         if ( v9 )
         {
-          if ( ((unsigned int)&loc_12003 & v6->ChangeBits) != 0 )
+          if ( (v6->ChangeBits & 0x12003) != 0 )
           {
             Scaleform::Render::TreeCacheRoot::AddToUpdate(
               v9,
               (Scaleform::Render::TreeCacheNode *)v8,
-              (unsigned int)&loc_12003 & v6->ChangeBits);
+              v6->ChangeBits & 0x12003);
             if ( (v6->ChangeBits & 1) != 0 && (*(_BYTE *)(v8 + 50) & 0x20) != 0 )
               Scaleform::Render::TreeCacheRoot::AddToUpdate(
                 v9,
                 *(Scaleform::Render::TreeCacheNode **)(v8 + 36),
-                (unsigned int)&vostok::memory::s_CRT_arena[22351417]);
+                0x2000001u);
           }
         }
       }
 LABEL_26:
-      v5 = pcbPage;
+      v5 = pPages;
       v6 += 2;
-      ++iitem;
+      ++v20;
     }
-    while ( iitem < pcbPage->Count );
+    while ( v20 < pPages->Count );
     v4 = this;
 LABEL_28:
-    pcbPage = v5->pNext;
+    pPages = v5->pNext;
   }
   while ( v5->pNext );
 LABEL_29:

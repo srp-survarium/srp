@@ -1,16 +1,10 @@
-vostok::vfs::physical_file_node<1> *__cdecl vostok::vfs::cast_physical_file<1>(vostok::vfs::base_node<1> *node)
+vostok::vfs::physical_file_node<1> *__thiscall vostok::vfs::cast_physical_file<1>(vostok::vfs::base_node<1> *node)
 {
-  survarium::game_camera *v1; // ecx
+  unsigned __int16 m_flags; // ax
 
-  survarium::weapon_user_dead_state::finalize(v1);
-  if ( (node->m_flags & 1) != 1 && (node->m_flags & 2) == 2 )
-    return (vostok::vfs::physical_file_node<1> *)((char *)node - 8);
-  else
+  m_flags = node->m_flags;
+  if ( (m_flags & 1) != 0 || (m_flags & 2) == 0 )
     return 0;
-}
-
-
-const vostok::vfs::physical_file_node<1> *__cdecl vostok::vfs::cast_physical_file<1>(vostok::vfs::base_node<1> *node)
-{
-  return vostok::vfs::cast_physical_file<1>(node);
+  else
+    return (vostok::vfs::physical_file_node<1> *)((char *)node - 8);
 }

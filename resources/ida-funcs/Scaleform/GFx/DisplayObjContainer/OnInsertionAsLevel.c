@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::OnInsertionAsLevel(
   v5 = this->CheckAdvanceStatus(this, Flags);
   if ( v5 == -1 )
   {
-    this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+    this->Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     this->FocusGroupMask = -1;
   }
   else

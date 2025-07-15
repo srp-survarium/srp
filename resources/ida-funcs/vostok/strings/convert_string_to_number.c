@@ -1,78 +1,59 @@
-bool __usercall vostok::strings::convert_string_to_number@<al>(
-        char *string@<edi>,
-        float *const out_result@<esi>,
-        int a3@<ecx>,
-        unsigned int a4@<ebx>)
+bool __usercall vostok::strings::convert_string_to_number@<al>(char *string@<edi>, float *const out_result@<esi>)
 {
+  unsigned int v2; // eax
   unsigned int v4; // eax
-  unsigned int v6; // eax
-  long double v7; // st7
-  bool do_debug_break; // [esp+1h] [ebp-1h] BYREF
+  long double v5; // st7
+  const char *v6; // [esp-14h] [ebp-1Ch]
+  int v7; // [esp-8h] [ebp-10h]
+  char *v8; // [esp-4h] [ebp-Ch]
+  const char *v9; // [esp+0h] [ebp-8h]
+  bool do_debug_break; // [esp+7h] [ebp-1h] BYREF
 
-  do_debug_break = HIBYTE(a3);
-  if ( BYTE4(vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[1]) || string )
+  if ( !debug_macro_helper_ignore_always_21 && !string )
   {
-    if ( BYTE5(vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[1])
-      || out_result )
-    {
-      v7 = atof(string);
-      *out_result = v7;
-      return v7 != 0.0
-          || !strcmp(string, (const char *)&stru_95AF78.m_key_bindings[6].m_keyboard[1])
-          || !strcmp(string, "0.")
-          || vostok::strings::equal(string, "0.0");
-    }
-    else
-    {
-      v6 = occurances_left_15;
-      if ( occurances_left_15 == -1 )
-        v6 = 10;
-      occurances_left_15 = v6 - 1;
-      if ( v6 )
-      {
-        do_debug_break = 0;
-        vostok::debug::on_error(
-          a4,
-          &do_debug_break,
-          process_error_false,
-          (bool *)&vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[1] + 5,
-          assert_untyped,
-          "assertion_failed",
-          "out_result",
-          ".\\strings_functions.cpp",
-          "vostok::strings::convert_string_to_number",
-          0x10u,
-          "2nd argument is null pointer");
-        if ( vostok::debug::is_debugger_present() || do_debug_break )
-          __debugbreak();
-      }
-      return 0;
-    }
-  }
-  else
-  {
-    v4 = occurances_left_14;
+    v2 = occurances_left_14;
     if ( occurances_left_14 == -1 )
-      v4 = 10;
-    occurances_left_14 = v4 - 1;
-    if ( v4 )
-    {
-      do_debug_break = 0;
-      vostok::debug::on_error(
-        a4,
-        &do_debug_break,
-        process_error_false,
-        (bool *)&vostok::testing::suite_base<vostok::core_test_suite>::s_suite_creation_flag.m_tests.m_mutex[1] + 4,
-        assert_untyped,
-        "assertion_failed",
-        "string",
-        ".\\strings_functions.cpp",
-        "vostok::strings::convert_string_to_number",
-        0xFu,
-        "1st argument is null pointer");
-      if ( vostok::debug::is_debugger_present() || do_debug_break )
-        __debugbreak();
-    }
+      v2 = 10;
+    occurances_left_14 = v2 - 1;
+    if ( !v2 )
+      return 0;
+    v8 = "1st argument is null pointer";
+    v7 = 15;
+    v6 = "string";
+LABEL_7:
+    do_debug_break = 0;
+    vostok::debug::on_error(
+      &do_debug_break,
+      process_error_false,
+      0,
+      "assertion_failed",
+      v6,
+      ".\\strings_functions.cpp",
+      "vostok::strings::convert_string_to_number",
+      (const char *)v7,
+      v8,
+      v9);
+    if ( vostok::debug::is_debugger_present() || do_debug_break )
+      __debugbreak();
     return 0;
   }
+  if ( !debug_macro_helper_ignore_always_22 && !out_result )
+  {
+    v4 = occurances_left_15;
+    if ( occurances_left_15 == -1 )
+      v4 = 10;
+    occurances_left_15 = v4 - 1;
+    if ( !v4 )
+      return 0;
+    v8 = "2nd argument is null pointer";
+    v7 = 16;
+    v6 = "out_result";
+    goto LABEL_7;
+  }
+  v5 = atof(string);
+  *out_result = v5;
+  return v5 != 0.0
+      || !vostok::strings::compare(string, "0")
+      || !vostok::strings::compare(string, "0.")
+      || !vostok::strings::compare(string, "0.0");
 }

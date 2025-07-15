@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS2::LoadVarsProto::Send(const Scaleform::GFx::AS2:
     if ( v1 )
       Scaleform::GFx::LogState::LogMessageByType(
         v1,
-        (Scaleform::LogMessageId)&loc_34000,
+        (Scaleform::LogMessageId)212992,
         "LoadVars.send is not implemented.");
   }
   else

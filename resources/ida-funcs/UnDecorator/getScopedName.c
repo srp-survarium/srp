@@ -9,12 +9,12 @@ DName *__cdecl UnDecorator::getScopedName(DName *result)
   const DName *v7; // eax
   DName v9; // [esp+Ch] [ebp-18h] BYREF
   DName v10; // [esp+14h] [ebp-10h] BYREF
-  DName v11; // [esp+1Ch] [ebp-8h] BYREF
+  DName resulta; // [esp+1Ch] [ebp-8h] BYREF
 
   *((_BYTE *)result + 4) = 0;
   *((_DWORD *)result + 1) &= 0xFFFF00FF;
   result->node = 0;
-  ZName = UnDecorator::getZName(&v11, 1, 0);
+  ZName = UnDecorator::getZName(&resulta, 1, 0);
   DName::operator=(result, ZName);
   if ( !*((_BYTE *)result + 4) && *UnDecorator::gName )
   {
@@ -26,7 +26,7 @@ LABEL_6:
     }
     Scope = UnDecorator::getScope(&v9);
     v3 = DName::operator+(Scope, &v10, "::");
-    v4 = DName::operator+(v3, &v11, result);
+    v4 = DName::operator+(v3, &resulta, result);
     DName::operator=(result, v4);
   }
   if ( *UnDecorator::gName == 64 )
@@ -37,7 +37,7 @@ LABEL_6:
   }
   else if ( result->node )
   {
-    v5 = DName::DName(&v11, DN_truncated);
+    v5 = DName::DName(&resulta, DN_truncated);
     v6 = DName::operator+(v5, &v10, "::");
     v7 = DName::operator+(v6, &v9, result);
     DName::operator=(result, v7);

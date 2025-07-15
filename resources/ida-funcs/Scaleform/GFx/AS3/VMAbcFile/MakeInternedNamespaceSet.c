@@ -89,7 +89,7 @@ Scaleform::Pickable<Scaleform::GFx::AS3::NamespaceSet> *__thiscall Scaleform::GF
       if ( v12 && ((unsigned __int8)v12 & 1) == 0 )
       {
         RefCount = v12->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v12->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);

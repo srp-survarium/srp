@@ -1,6 +1,6 @@
 double __thiscall Scaleform::GFx::DisplayObjectBase::GetX(Scaleform::GFx::DisplayObjectBase *this)
 {
-  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+60h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+0h] [ebp-60h] BYREF
 
   geomData.OrigMatrix.M[0][0] = 1.0;
   geomData.Y = 0;

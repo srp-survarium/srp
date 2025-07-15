@@ -17,8 +17,8 @@ void __cdecl Scaleform::GFx::SkipButtonSoundDef(Scaleform::GFx::LoadProcess *p)
   int v15; // edx
   int v16; // ecx
   int v17; // edx
-  bool HasLoops; // [esp+12h] [ebp-6h]
-  bool HasEnvelope; // [esp+13h] [ebp-5h]
+  bool v18; // [esp+12h] [ebp-6h]
+  bool v19; // [esp+13h] [ebp-5h]
   int v20; // [esp+14h] [ebp-4h]
 
   v1 = p;
@@ -43,8 +43,8 @@ void __cdecl Scaleform::GFx::SkipButtonSoundDef(Scaleform::GFx::LoadProcess *p)
       Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 2);
       Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1);
       Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1);
-      HasEnvelope = Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) != 0;
-      HasLoops = Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) != 0;
+      v19 = Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) != 0;
+      v18 = Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) != 0;
       v7 = Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) != 0;
       if ( Scaleform::GFx::Stream::ReadUInt(&pAltStream->Stream, 1) )
       {
@@ -62,7 +62,7 @@ void __cdecl Scaleform::GFx::SkipButtonSoundDef(Scaleform::GFx::LoadProcess *p)
           Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 4);
         pAltStream->Stream.Pos += 4;
       }
-      if ( HasLoops )
+      if ( v18 )
       {
         v10 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
         pAltStream->Stream.UnusedBits = 0;
@@ -70,7 +70,7 @@ void __cdecl Scaleform::GFx::SkipButtonSoundDef(Scaleform::GFx::LoadProcess *p)
           Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
         pAltStream->Stream.Pos += 2;
       }
-      if ( HasEnvelope )
+      if ( v19 )
       {
         v11 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
         pAltStream->Stream.UnusedBits = 0;

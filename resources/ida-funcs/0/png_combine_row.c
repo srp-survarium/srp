@@ -13,7 +13,7 @@ void __cdecl png_combine_row(int a1, unsigned __int8 *dst, int a3)
   unsigned __int8 *v13; // [esp+30h] [ebp-4Ch]
   unsigned int v14; // [esp+34h] [ebp-48h]
   unsigned int v15; // [esp+38h] [ebp-44h]
-  unsigned __int8 *v16; // [esp+3Ch] [ebp-40h]
+  int *v16; // [esp+3Ch] [ebp-40h]
   unsigned __int8 *v17; // [esp+40h] [ebp-3Ch]
   unsigned int v18; // [esp+44h] [ebp-38h]
   int v19; // [esp+48h] [ebp-34h]
@@ -29,8 +29,8 @@ void __cdecl png_combine_row(int a1, unsigned __int8 *dst, int a3)
   int v29; // [esp+6Ch] [ebp-10h]
   unsigned int v30; // [esp+70h] [ebp-Ch]
   unsigned int v31; // [esp+70h] [ebp-Ch]
-  unsigned __int8 *src; // [esp+74h] [ebp-8h]
-  unsigned __int8 *srca; // [esp+74h] [ebp-8h]
+  const __m128i *src; // [esp+74h] [ebp-8h]
+  __m128i *srca; // [esp+74h] [ebp-8h]
   unsigned __int8 *srcb; // [esp+74h] [ebp-8h]
   unsigned __int8 *srcc; // [esp+74h] [ebp-8h]
   unsigned __int8 v36; // [esp+7Bh] [ebp-1h]
@@ -39,7 +39,7 @@ void __cdecl png_combine_row(int a1, unsigned __int8 *dst, int a3)
   unsigned __int8 *dstc; // [esp+88h] [ebp+Ch]
 
   v30 = *(unsigned __int8 *)(a1 + 323);
-  src = (unsigned __int8 *)(*(_DWORD *)(a1 + 264) + 1);
+  src = (const __m128i *)(*(_DWORD *)(a1 + 264) + 1);
   v27 = *(_DWORD *)(a1 + 228);
   v25 = *(unsigned __int8 *)(a1 + 313);
   v26 = 0;
@@ -71,9 +71,9 @@ void __cdecl png_combine_row(int a1, unsigned __int8 *dst, int a3)
   if ( !*(_BYTE *)(a1 + 312) || (*(_DWORD *)(a1 + 116) & 2) == 0 || v25 >= 6 || a3 && (a3 != 1 || (v25 & 1) == 0) )
   {
     if ( v30 < 8 )
-      memcpy(dst, src, (v30 * v27 + 7) >> 3);
+      memcpy((int)dst, src, (v30 * v27 + 7) >> 3);
     else
-      memcpy(dst, src, v27 * (v30 >> 3));
+      memcpy((int)dst, src, v27 * (v30 >> 3));
 LABEL_104:
     if ( v26 )
       *v26 = ~(_BYTE)v29 & *v26 | v29 & v36;
@@ -92,7 +92,7 @@ LABEL_104:
           v8 = 0;
         else
           v8 = (v30 != 2) + 1;
-        v7 = dword_85F348[3 * v8 + (v25 >> 1)];
+        v7 = dword_6F2C90[3 * v8 + (v25 >> 1)];
       }
       else
       {
@@ -100,7 +100,7 @@ LABEL_104:
           v6 = 0;
         else
           v6 = (v30 != 2) + 1;
-        v7 = dword_85F2B8[6 * v6 + v25];
+        v7 = dword_6F2C00[6 * v6 + v25];
       }
       v24 = v7;
     }
@@ -112,7 +112,7 @@ LABEL_104:
           v5 = 0;
         else
           v5 = (v30 != 2) + 1;
-        v4 = dword_85F36C[3 * v5 + (v25 >> 1)];
+        v4 = dword_6F2CB4[3 * v5 + (v25 >> 1)];
       }
       else
       {
@@ -120,7 +120,7 @@ LABEL_104:
           v3 = 0;
         else
           v3 = (v30 != 2) + 1;
-        v4 = dword_85F300[6 * v3 + v25];
+        v4 = dword_6F2C48[6 * v3 + v25];
       }
       v24 = v4;
     }
@@ -131,15 +131,15 @@ LABEL_104:
       if ( v22 )
       {
         if ( v22 == 255 )
-          *dst = *src;
+          *dst = src->m128i_i8[0];
         else
-          *dst = v22 & *src | ~v22 & *dst;
+          *dst = v22 & src->m128i_i8[0] | ~v22 & *dst;
       }
       if ( v27 <= v23 )
         break;
       v27 -= v23;
       ++dst;
-      ++src;
+      src = (const __m128i *)((char *)src + 1);
     }
     goto LABEL_104;
   }
@@ -149,7 +149,7 @@ LABEL_104:
   v19 = v31 * (((v25 & 1) << (3 - ((v25 + 1) >> 1))) & 7);
   v28 = v31 * v27 - v19;
   dsta = &dst[v19];
-  srca = &src[v19];
+  srca = (__m128i *)((char *)src + v19);
   if ( a3 )
   {
     count = v31 * (1 << ((6 - v25) >> 1));
@@ -166,27 +166,27 @@ LABEL_104:
     case 1u:
       while ( 1 )
       {
-        *dsta = *srca;
+        *dsta = srca->m128i_i8[0];
         if ( v28 <= v20 )
           break;
         dsta += v20;
-        srca += v20;
+        srca = (__m128i *)((char *)srca + v20);
         v28 -= v20;
       }
       break;
     case 2u:
       while ( 1 )
       {
-        *dsta = *srca;
-        dsta[1] = srca[1];
+        *dsta = srca->m128i_i8[0];
+        dsta[1] = srca->m128i_u8[1];
         if ( v28 <= v20 )
           break;
-        srca += v20;
+        srca = (__m128i *)((char *)srca + v20);
         dsta += v20;
         v28 -= v20;
         if ( v28 <= 1 )
         {
-          *dsta = *srca;
+          *dsta = srca->m128i_i8[0];
           return;
         }
       }
@@ -194,12 +194,12 @@ LABEL_104:
     case 3u:
       while ( 1 )
       {
-        *dsta = *srca;
-        dsta[1] = srca[1];
-        dsta[2] = srca[2];
+        *dsta = srca->m128i_i8[0];
+        dsta[1] = srca->m128i_u8[1];
+        dsta[2] = srca->m128i_u8[2];
         if ( v28 <= v20 )
           break;
-        srca += v20;
+        srca = (__m128i *)((char *)srca + v20);
         dsta += v20;
         v28 -= v20;
       }
@@ -209,10 +209,10 @@ LABEL_104:
       {
         while ( 1 )
         {
-          memcpy(dsta, srca, count);
+          memcpy((int)dsta, srca, count);
           if ( v28 <= v20 )
             break;
-          srca += v20;
+          srca = (__m128i *)((char *)srca + v20);
           dsta += v20;
           v28 -= v20;
           if ( count > v28 )
@@ -222,7 +222,7 @@ LABEL_104:
       else if ( ((unsigned __int8)dsta & 3) != 0 || ((unsigned __int8)srca & 3) != 0 || count % 4 || v20 % 4 )
       {
         v12 = dsta;
-        v13 = srca;
+        v13 = (unsigned __int8 *)srca;
         v14 = (v20 - count) >> 1;
         while ( 1 )
         {
@@ -257,28 +257,28 @@ LABEL_104:
       else
       {
         v17 = dsta;
-        v16 = srca;
+        v16 = (int *)srca;
         v18 = (v20 - count) >> 2;
         while ( 1 )
         {
           v15 = count;
           do
           {
-            *(_DWORD *)v17 = *(_DWORD *)v16;
+            *(_DWORD *)v17 = *v16;
             v17 += 4;
-            v16 += 4;
+            ++v16;
             v15 -= 4;
           }
           while ( v15 );
           if ( v28 <= v20 )
             break;
           v17 += 4 * v18;
-          v16 += 4 * v18;
+          v16 += v18;
           v28 -= v20;
           if ( count > v28 )
           {
             dstb = v17;
-            srcb = v16;
+            srcb = (unsigned __int8 *)v16;
             do
             {
               *dstb++ = *srcb++;

@@ -1,18 +1,14 @@
 vostok::math::aabb *__thiscall vostok::collision::box_geometry_instance::get_geometry_aabb(
-        vostok::collision::box_geometry_instance *this,
+        vostok::collision::sphere_geometry_instance *this,
         vostok::math::aabb *result)
 {
-  vostok::math::aabb *v2; // eax
-  const vostok::math::float4x4 *v3; // edx
-  __int64 v4; // [esp+0h] [ebp-Ch]
+  vostok::math::float3 v3; // [esp+0h] [ebp-18h] BYREF
+  vostok::math::float3 v4; // [esp+Ch] [ebp-Ch] BYREF
 
-  v2 = result;
-  *(_QWORD *)&result->min.x = 0xBF800000BF800000uLL;
-  v3 = clear_value;
-  LODWORD(v4) = clear_value;
-  HIDWORD(v4) = clear_value;
-  *(_QWORD *)&result->max.x = v4;
-  result->min.z = -1.0;
-  LODWORD(result->max.z) = v3;
-  return v2;
+  v4.x = s_bm_current_air_resistance;
+  v4.y = s_bm_current_air_resistance;
+  v4.z = s_bm_current_air_resistance;
+  memset(&v3, 0, sizeof(v3));
+  vostok::math::create_aabb_center_radius(&v4, &v3, result);
+  return result;
 }

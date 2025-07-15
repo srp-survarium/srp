@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::MovieRoot(
         Scaleform::GFx::Resource *pas)
 {
   Scaleform::MemoryHeap *pLib; // eax
-  Scaleform::GFx::ASStringManager *v6; // ebp
+  Scaleform::GFx::Resource_vtbl *v6; // ebp
   Scaleform::GFx::AS2::GlobalContext *pObject; // ecx
   Scaleform::GFx::MovieImpl *pMovieImpl; // edi
   Scaleform::GFx::Value::ObjectInterface *v9; // eax
@@ -54,11 +54,15 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::MovieRoot(
   this->ActionQueue.LastSessionId = 1;
   this->ActionQueue.CurrentSessionId = 1;
   this->ActionQueue.FreeEntriesCount = 0;
-  v6 = (Scaleform::GFx::ASStringManager *)memContext[1].__vftable;
+  v6 = memContext[1].__vftable;
   memset(&this->BuiltinsMgr, 0, 0x270u);
-  this->BuiltinsMgr.pStringManager = v6;
+  this->BuiltinsMgr.pStringManager = (Scaleform::GFx::ASStringManager *)v6;
   this->BuiltinsMgr.pStaticStrings = GFx_pASBuiltinTable;
-  Scaleform::GFx::ASStringManager::InitBuiltinArray(v6, this->BuiltinsMgr.Builtins, GFx_pASBuiltinTable, 0x9Cu);
+  Scaleform::GFx::ASStringManager::InitBuiltinArray(
+    (Scaleform::GFx::ASStringManager *)v6,
+    this->BuiltinsMgr.Builtins,
+    GFx_pASBuiltinTable,
+    0x9Cu);
   this->SpritesWithHitArea.Data.Data = 0;
   this->SpritesWithHitArea.Data.Size = 0;
   this->SpritesWithHitArea.Data.Policy.Capacity = 0;

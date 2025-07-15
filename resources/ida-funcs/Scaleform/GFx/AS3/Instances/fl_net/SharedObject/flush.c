@@ -15,8 +15,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::flush(
   bool v13; // zf
   const Scaleform::GFx::AS3::VM::Error *v14; // eax
   Scaleform::GFx::ASStringNode *v15; // eax
+  Scaleform::StringDataPtr v16; // [esp-4h] [ebp-24h]
+  Scaleform::StringDataPtr v17; // [esp-4h] [ebp-24h]
   Scaleform::GFx::SharedObjectVisitor *pwriter; // [esp+14h] [ebp-Ch]
-  Scaleform::GFx::AS3::VM::Error v17; // [esp+18h] [ebp-8h] BYREF
+  Scaleform::GFx::AS3::VM::Error v19; // [esp+18h] [ebp-8h] BYREF
 
   pVM = this->pTraits.pObject->pVM;
   v5 = (int)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + 8;
@@ -51,10 +53,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::flush(
     }
     else
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v17, eFileWriteError, pVM);
+      v16.pStr = "Unable to flush shared object data!";
+      v16.Size = 35;
+      Scaleform::GFx::AS3::VM::Error::Error(&v19, eFileWriteError, pVM, v16);
       Scaleform::GFx::AS3::VM::ThrowError(pVM, v8);
-      v9 = v17.Message.pNode;
-      --v17.Message.pNode->RefCount;
+      v9 = v19.Message.pNode;
+      --v19.Message.pNode->RefCount;
       v10 = v9;
       if ( v9->RefCount )
       {
@@ -68,10 +72,12 @@ LABEL_12:
     Scaleform::GFx::ASStringNode::ReleaseNode(v10);
     goto LABEL_12;
   }
-  Scaleform::GFx::AS3::VM::Error::Error(&v17, eFileWriteError, pVM);
+  v17.pStr = "SharedObjectManager state is not installed!";
+  v17.Size = 43;
+  Scaleform::GFx::AS3::VM::Error::Error(&v19, eFileWriteError, pVM, v17);
   Scaleform::GFx::AS3::VM::ThrowError(pVM, v14);
-  v15 = v17.Message.pNode;
-  --v17.Message.pNode->RefCount;
+  v15 = v19.Message.pNode;
+  --v19.Message.pNode->RefCount;
   if ( !v15->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v15);
 }

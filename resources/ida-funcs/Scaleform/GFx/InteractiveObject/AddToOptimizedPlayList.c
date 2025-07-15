@@ -43,10 +43,10 @@ LABEL_10:
         pPlayListOptHead->pPlayPrevOpt = this;
       pMovieImpl->pPlayListOptHead = this;
     }
-    this->Flags |= 0x200000u;
+    this->Flags |= (unsigned int)&loc_200000;
     Flags = this->Flags;
     if ( (pMovieImpl->Flags2 & 8) != 0 )
-      v6 = (unsigned int)&unk_800000 | Flags;
+      v6 = Flags | 0x800000;
     else
       v6 = Flags & 0xFF7FFFFF;
     this->Flags = v6;

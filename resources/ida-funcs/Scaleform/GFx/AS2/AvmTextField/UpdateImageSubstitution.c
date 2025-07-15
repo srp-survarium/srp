@@ -7,7 +7,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
   Scaleform::GFx::AS2::Environment *Env; // ebp
   Scaleform::GFx::AS2::Value *v6; // eax
   Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *p_mHash; // ebp
-  Scaleform::GFx::ASStringNode *pNode; // ebx
+  Scaleform::String *pNode; // ebx
   Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::TableType *v9; // eax
   Scaleform::Render::Text::ImageDesc **v10; // ebp
   bool v11; // cc
@@ -32,10 +32,10 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
   Scaleform::Render::Image *pObject; // ecx
   Scaleform::Render::Text::DocView::ImageSubstitutor *ImageSubstitutor; // eax
   Scaleform::GFx::AS2::Environment *v33; // [esp+0h] [ebp-40h]
-  Scaleform::GFx::ASString idStr; // [esp+14h] [ebp-2Ch] BYREF
+  Scaleform::GFx::ASString v34; // [esp+14h] [ebp-2Ch] BYREF
   Scaleform::GFx::Resource *v35; // [esp+18h] [ebp-28h]
-  Scaleform::Render::Text::ImageDesc *pimageDesc; // [esp+1Ch] [ebp-24h]
-  Scaleform::GFx::ImageCreateInfo cinfo; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::Render::Text::ImageDesc *v36; // [esp+1Ch] [ebp-24h]
+  _DWORD v37[8]; // [esp+20h] [ebp-20h] BYREF
 
   v1 = fn;
   Result = fn->Result;
@@ -50,12 +50,12 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
     {
       Env = v1->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v6, &idStr, Env, -1, 0);
+      Scaleform::GFx::AS2::Value::ToStringImpl(v6, &v34, Env, -1, 0);
       p_mHash = &v4->pImageDescAssoc->mHash;
-      pNode = idStr.pNode;
+      pNode = (Scaleform::String *)v34.pNode;
       if ( p_mHash )
       {
-        Scaleform::String::String((Scaleform::String *)&fn, (char *)idStr.pNode->pData);
+        Scaleform::String::String((Scaleform::String *)&fn, (const __m128i *)v34.pNode->pData);
         v9 = Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>,Scaleform::String::NoCaseHashFunctor>::NodeHashF>>::GetAlt<Scaleform::String>(
                p_mHash,
                (const Scaleform::String *)&fn);
@@ -65,7 +65,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
         {
           v11 = v1->NArgs < 2;
           v12 = *v10;
-          pimageDesc = v12;
+          v36 = v12;
           if ( !v11 )
           {
             if ( Scaleform::GFx::AS2::FnCall::Arg(v1, 1)->T.Type == 1
@@ -76,7 +76,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
               {
                 Scaleform::Render::Text::DocView::ImageSubstitutor::RemoveImageDesc(ImageSubstitutor, v12);
                 v4->pDocument.pObject->RTFlags |= 2u;
-                Scaleform::GFx::TextField::RemoveIdImageDescAssoc(v4, (char *)pNode->pData);
+                Scaleform::GFx::TextField::RemoveIdImageDescAssoc(v4, (Scaleform::String)pNode->pData);
                 Scaleform::GFx::TextField::SetDirtyFlag(v4);
               }
             }
@@ -115,25 +115,25 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
                   if ( (_BYTE)fn )
                   {
                     Scaleform::LogDebugMessage(
-                      (Scaleform::LogMessageId)135168,
+                      (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
                       "ImageCreator is null in UpdateImageSubstitution");
                   }
                   else
                   {
                     v25 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, v4);
                     v26 = v23->__vftable;
-                    cinfo.pHeap = v25;
-                    cinfo.Use = 1;
-                    cinfo.RUse = Use_Bitmap;
-                    memset(&cinfo.pLog, 0, 16);
+                    v37[1] = v25;
+                    v37[2] = 1;
+                    v37[3] = 1;
+                    memset(&v37[4], 0, 16);
                     v27 = v26->GetResourceReport;
-                    cinfo.Type = Create_SourceImage;
+                    v37[0] = 3;
                     v28 = (Scaleform::RefCountVImpl *)((int (__thiscall *)(Scaleform::GFx::Resource *, int))v27)(
                                                         v23,
                                                         11);
-                    v20 = ((int (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::ImageCreateInfo *, _DWORD))v28->__vftable[1].AddRef)(
+                    v20 = ((int (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *, _DWORD))v28->__vftable[1].AddRef)(
                             v28,
-                            &cinfo,
+                            v37,
                             v17->SetValue);
                     Scaleform::RefCountImpl::Release(v28);
                   }
@@ -141,8 +141,8 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
                 }
                 if ( v20 )
                   (*(void (__thiscall **)(int))(*(_DWORD *)v20 + 4))(v20);
-                v29 = pimageDesc;
-                pObject = pimageDesc->pImage.pObject;
+                v29 = v36;
+                pObject = v36->pImage.pObject;
                 if ( pObject )
                   pObject->Release(pObject);
                 v29->pImage.pObject = (Scaleform::Render::Image *)v20;
@@ -151,14 +151,14 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::UpdateImageSubstitution(const Sc
                   (*(void (__thiscall **)(int))(*(_DWORD *)v20 + 8))(v20);
                 if ( v19 )
                   Scaleform::GFx::Resource::Release(v19);
-                pNode = idStr.pNode;
+                pNode = (Scaleform::String *)v34.pNode;
               }
             }
           }
         }
       }
-      if ( pNode->RefCount-- == 1 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+      if ( pNode[3].HeapTypeBits-- == 1 )
+        Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)pNode);
     }
   }
 }

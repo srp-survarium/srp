@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::ASUtils::Unescape(const char *psrc, unsigned int length, Scaleform::String *punescapedStr)
 {
   const char *v3; // esi
-  char *v4; // edi
+  __m128i *v4; // edi
   int v5; // ebx
   int v6; // eax
   int v7; // ecx
@@ -9,18 +9,19 @@ void __cdecl Scaleform::GFx::ASUtils::Unescape(const char *psrc, unsigned int le
   int v9; // edx
   int v10; // eax
   int v11; // edx
-  char buf[256]; // [esp+Ch] [ebp-100h] BYREF
+  __m128i v12[15]; // [esp+Ch] [ebp-100h] BYREF
+  char v13; // [esp+10Bh] [ebp-1h] BYREF
 
   v3 = psrc;
-  v4 = buf;
+  v4 = v12;
   while ( v3 < &psrc[length] )
   {
     v5 = *(unsigned __int8 *)v3++;
-    if ( v4 + 1 >= &buf[255] )
+    if ( &v4->m128i_i8[1] >= &v13 )
     {
-      *v4 = 0;
-      Scaleform::String::AppendString(punescapedStr, buf, 0xFFFFFFFF);
-      v4 = buf;
+      v4->m128i_i8[0] = 0;
+      Scaleform::String::AppendString(punescapedStr, v12, 0xFFFFFFFF);
+      v4 = v12;
     }
     if ( v5 == 37 )
     {
@@ -43,14 +44,14 @@ void __cdecl Scaleform::GFx::ASUtils::Unescape(const char *psrc, unsigned int le
         v11 = v9 - 55;
       if ( v10 >= 16 || v11 >= 16 )
         continue;
-      *v4 = v11 + 16 * v10;
+      v4->m128i_i8[0] = v11 + 16 * v10;
     }
     else
     {
-      *v4 = v5;
+      v4->m128i_i8[0] = v5;
     }
-    ++v4;
+    v4 = (__m128i *)((char *)v4 + 1);
   }
-  *v4 = 0;
-  Scaleform::String::AppendString(punescapedStr, buf, 0xFFFFFFFF);
+  v4->m128i_i8[0] = 0;
+  Scaleform::String::AppendString(punescapedStr, v12, 0xFFFFFFFF);
 }

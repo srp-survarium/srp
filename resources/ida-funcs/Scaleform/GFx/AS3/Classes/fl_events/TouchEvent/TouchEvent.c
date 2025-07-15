@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_events::TouchEvent::TouchEvent(
         Scaleform::GFx::AS3::ClassTraits::Traits *t)
 {
   Scaleform::GFx::AS3::Class::Class(this, t);
-  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::TouchEvent_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::TouchEvent_vtbl *)&Scaleform::GFx::AS3::Classes::fl_events::TouchEvent::`vftable';
   this->TOUCH_BEGIN = "touchBegin";
   this->TOUCH_END = "touchEnd";
   this->TOUCH_MOVE = "touchMove";

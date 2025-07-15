@@ -3,10 +3,10 @@ double __thiscall Scaleform::Render::GlyphCache::SnapShadowSizeToRamp(
         float screenSize)
 {
   unsigned int v3; // eax
-  float screenSizea; // [esp+18h] [ebp+4h]
+  float v6; // [esp+18h] [ebp+4h]
 
-  screenSizea = floor(screenSize);
-  v3 = (__int64)screenSizea;
+  v6 = floor(screenSize);
+  v3 = (__int64)v6;
   if ( v3 > 0xFF )
     return (double)255;
   else

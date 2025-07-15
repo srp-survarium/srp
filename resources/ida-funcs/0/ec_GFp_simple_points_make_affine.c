@@ -1,197 +1,206 @@
-int __cdecl ec_GFp_simple_points_make_affine(
+int __usercall ec_GFp_simple_points_make_affine@<eax>(
+        int a1@<ebx>,
         const ec_group_st *group,
         unsigned int num,
         ec_point_st **points,
         bignum_ctx *ctx)
 {
-  bignum_pool_item *v5; // eax
+  bignum_ctx *v6; // ebx
+  bignum_pool_item *v7; // eax
   unsigned int i; // eax
-  bignum_st **v7; // eax
-  bignum_st **v8; // ebx
-  unsigned int v9; // edx
-  int v10; // eax
-  unsigned int v11; // eax
-  bignum_st **v12; // ecx
-  int v13; // edi
-  bignum_st *v14; // eax
-  const bignum_st *v15; // edx
-  const bignum_st *v16; // ecx
-  bignum_st *v17; // eax
-  bignum_st *v18; // eax
+  bignum_st **v9; // eax
+  int v10; // ebx
+  unsigned int v11; // edx
+  int v12; // eax
+  unsigned int v13; // eax
+  bignum_st **v14; // ecx
+  int v15; // edi
+  bignum_st *v16; // eax
+  const bignum_st *v17; // edx
+  const bignum_st *v18; // ecx
+  bignum_st *v19; // eax
+  bignum_st *v20; // eax
   int (__cdecl *field_encode)(const ec_group_st *, bignum_st *, const bignum_st *, bignum_ctx *); // eax
-  unsigned int v20; // ebp
-  bignum_st **v21; // ebx
-  bignum_st *v22; // eax
-  const bignum_st **v23; // edi
+  unsigned int v22; // ebp
+  bignum_st **v23; // ebx
   bignum_st *v24; // eax
-  unsigned int v25; // eax
-  ec_point_st *v26; // edi
+  const bignum_st **v25; // edi
+  bignum_st *v26; // eax
+  unsigned int v27; // eax
+  ec_point_st *v28; // edi
   int (__cdecl *field_set_to_one)(const ec_group_st *, bignum_st *, bignum_ctx *); // eax
-  int v29; // esi
+  int v31; // esi
   bignum_st **str; // [esp+8h] [ebp-20h]
-  unsigned int v31; // [esp+Ch] [ebp-1Ch]
+  unsigned int v33; // [esp+Ch] [ebp-1Ch]
   bignum_pool_item *b; // [esp+10h] [ebp-18h]
-  unsigned int v33; // [esp+14h] [ebp-14h]
-  unsigned int v34; // [esp+14h] [ebp-14h]
-  bignum_st *v35; // [esp+18h] [ebp-10h]
-  bignum_ctx *v36; // [esp+1Ch] [ebp-Ch]
-  int v37; // [esp+20h] [ebp-8h]
+  unsigned int v35; // [esp+14h] [ebp-14h]
+  unsigned int v36; // [esp+14h] [ebp-14h]
+  bignum_st *v37; // [esp+18h] [ebp-10h]
+  bignum_ctx *v38; // [esp+1Ch] [ebp-Ch]
+  int v39; // [esp+20h] [ebp-8h]
 
-  v36 = 0;
-  v31 = 0;
+  v38 = 0;
+  v33 = 0;
   str = 0;
-  v37 = 0;
+  v39 = 0;
   if ( !num )
     return 1;
   if ( !ctx )
   {
-    v36 = BN_CTX_new();
-    ctx = v36;
-    if ( !v36 )
+    v38 = BN_CTX_new(a1);
+    ctx = v38;
+    if ( !v38 )
       return 0;
   }
-  BN_CTX_start(ctx);
-  b = BN_CTX_get(ctx);
-  v5 = BN_CTX_get(ctx);
-  v35 = (bignum_st *)v5;
-  if ( b && v5 )
+  v6 = ctx;
+  BN_CTX_start((int)ctx, ctx);
+  b = BN_CTX_get((int)v6, v6);
+  v7 = BN_CTX_get((int)v6, v6);
+  v37 = (bignum_st *)v7;
+  if ( b && v7 )
   {
     for ( i = 1; num > i; i *= 2 )
       ;
-    v31 = 2 * i;
-    v7 = (bignum_st **)CRYPTO_malloc(8 * i, ".\\crypto\\ec\\ecp_smpl.c", 1576);
-    str = v7;
-    if ( v7 )
+    v33 = 2 * i;
+    v9 = (bignum_st **)CRYPTO_malloc(8 * i, ".\\crypto\\ec\\ecp_smpl.c", 1576);
+    str = v9;
+    if ( v9 )
     {
-      v8 = v7;
-      *v7 = 0;
-      v9 = v31 >> 1;
-      v10 = (v31 >> 1) - 1;
-      if ( v31 >> 1 != 1 )
-      {
-        do
-          v8[v10--] = 0;
-        while ( v10 );
-      }
-      v11 = 0;
-      v12 = &v8[v9];
-      do
-        *v12++ = &points[v11++]->Z;
-      while ( v11 < num );
-      v33 = v9 + num;
-      if ( v9 + num < v31 )
-        memset(&v8[v9] + num, 0, 4 * (v31 - (v9 + num)));
-      v13 = (v31 >> 1) - 1;
-      if ( v31 >> 1 != 1 )
+      v10 = (int)v9;
+      *v9 = 0;
+      v11 = v33 >> 1;
+      v12 = (v33 >> 1) - 1;
+      if ( v33 >> 1 != 1 )
       {
         do
         {
-          v14 = BN_new();
-          v8[v13] = v14;
-          if ( !v14 )
-            goto err_206;
-          v15 = str[2 * v13];
-          if ( v15 )
-          {
-            v16 = str[2 * v13 + 1];
-            if ( v16 && v16->top )
-              v17 = v15->top ? (bignum_st *)group->meth->field_mul(group, v14, v15, v16, ctx) : BN_copy(v14, v16);
-            else
-              v17 = BN_copy(v14, str[2 * v13]);
-            if ( !v17 )
-              goto err_206;
-          }
-          --v13;
-          v8 = str;
+          --v12;
+          *(_DWORD *)(v10 + 4 * v12 + 4) = 0;
         }
-        while ( v13 );
+        while ( v12 );
       }
-      v18 = v8[1];
-      if ( !v18->top || BN_mod_inverse(v18, v18, &group->field, ctx) )
+      v13 = 0;
+      v14 = (bignum_st **)(v10 + 4 * v11);
+      do
+        *v14++ = &points[v13++]->Z;
+      while ( v13 < num );
+      v35 = v11 + num;
+      if ( v11 + num < v33 )
+        memset((void *)(v10 + 4 * (v11 + num)), 0, 4 * (v33 - (v11 + num)));
+      v15 = (v33 >> 1) - 1;
+      if ( v33 >> 1 != 1 )
+      {
+        do
+        {
+          v16 = BN_new(v10);
+          *(_DWORD *)(v10 + 4 * v15) = v16;
+          if ( !v16 )
+            goto err_208;
+          v17 = str[2 * v15];
+          if ( v17 )
+          {
+            v18 = str[2 * v15 + 1];
+            if ( v18 && v18->top )
+              v19 = v17->top ? (bignum_st *)group->meth->field_mul(group, v16, v17, v18, ctx) : BN_copy(v16, v18);
+            else
+              v19 = BN_copy(v16, str[2 * v15]);
+            if ( !v19 )
+              goto err_208;
+          }
+          --v15;
+          v10 = (int)str;
+        }
+        while ( v15 );
+      }
+      v20 = *(bignum_st **)(v10 + 4);
+      if ( !v20->top || BN_mod_inverse(v10, v20, v20, &group->field, ctx) )
       {
         field_encode = group->meth->field_encode;
         if ( field_encode )
         {
-          if ( !field_encode(group, v8[1], v8[1], ctx) || !group->meth->field_encode(group, str[1], str[1], ctx) )
-            goto err_206;
-          v8 = str;
+          if ( !field_encode(group, *(bignum_st **)(v10 + 4), *(const bignum_st **)(v10 + 4), ctx)
+            || !group->meth->field_encode(group, str[1], str[1], ctx) )
+          {
+            goto err_208;
+          }
+          v10 = (int)str;
         }
-        v20 = 2;
-        if ( v33 > 2 )
+        v22 = 2;
+        if ( v35 > 2 )
         {
-          v21 = v8 + 3;
+          v23 = (bignum_st **)(v10 + 12);
           do
           {
-            v22 = *v21;
-            if ( *v21 && v22->top )
+            v24 = *v23;
+            if ( *v23 && v24->top )
             {
-              v23 = (const bignum_st **)&str[v20 >> 1];
-              if ( !group->meth->field_mul(group, (bignum_st *)b, *v23, v22, ctx)
-                || !group->meth->field_mul(group, v35, *v23, *(v21 - 1), ctx)
-                || !BN_copy(*(v21 - 1), b->vals) )
+              v25 = (const bignum_st **)&str[v22 >> 1];
+              if ( !group->meth->field_mul(group, (bignum_st *)b, *v25, v24, ctx)
+                || !group->meth->field_mul(group, v37, *v25, *(v23 - 1), ctx)
+                || !BN_copy(*(v23 - 1), b->vals) )
               {
-                goto err_206;
+                goto err_208;
               }
-              v24 = BN_copy(*v21, v35);
+              v26 = BN_copy(*v23, v37);
             }
             else
             {
-              v24 = BN_copy(*(v21 - 1), str[v20 >> 1]);
+              v26 = BN_copy(*(v23 - 1), str[v22 >> 1]);
             }
-            if ( !v24 )
-              goto err_206;
-            v20 += 2;
-            v21 += 2;
+            if ( !v26 )
+              goto err_208;
+            v22 += 2;
+            v23 += 2;
           }
-          while ( v20 < v33 );
+          while ( v22 < v35 );
         }
-        v25 = 0;
-        v34 = 0;
+        v27 = 0;
+        v36 = 0;
         do
         {
-          v26 = points[v25];
-          if ( v26->Z.top )
+          v28 = points[v27];
+          if ( v28->Z.top )
           {
-            if ( !group->meth->field_sqr(group, v35, &v26->Z, ctx)
-              || !group->meth->field_mul(group, &v26->X, &v26->X, v35, ctx)
-              || !group->meth->field_mul(group, v35, v35, &v26->Z, ctx)
-              || !group->meth->field_mul(group, &v26->Y, &v26->Y, v35, ctx) )
+            if ( !group->meth->field_sqr(group, v37, &v28->Z, ctx)
+              || !group->meth->field_mul(group, &v28->X, &v28->X, v37, ctx)
+              || !group->meth->field_mul(group, v37, v37, &v28->Z, ctx)
+              || !group->meth->field_mul(group, &v28->Y, &v28->Y, v37, ctx) )
             {
-              goto err_206;
+              goto err_208;
             }
             field_set_to_one = group->meth->field_set_to_one;
-            if ( !(field_set_to_one ? field_set_to_one(group, &v26->Z, ctx) : BN_set_word(&v26->Z, 1u)) )
-              goto err_206;
-            v25 = v34;
-            v26->Z_is_one = 1;
+            if ( !(field_set_to_one ? field_set_to_one(group, &v28->Z, ctx) : BN_set_word((int)v37, &v28->Z, 1u)) )
+              goto err_208;
+            v27 = v36;
+            v28->Z_is_one = 1;
           }
-          v34 = ++v25;
+          v36 = ++v27;
         }
-        while ( v25 < num );
-        v37 = 1;
-        goto err_206;
+        while ( v27 < num );
+        v39 = 1;
+        goto err_208;
       }
-      ERR_put_error(0x10u, 137, 3, ".\\crypto\\ec\\ecp_smpl.c", 1633);
+      ERR_put_error(v10, 0x10u, 137, 3, ".\\crypto\\ec\\ecp_smpl.c", 1633);
     }
   }
-err_206:
+err_208:
   BN_CTX_end(ctx);
-  if ( v36 )
-    BN_CTX_free(v36);
+  if ( v38 )
+    BN_CTX_free(v38);
   if ( str )
   {
-    v29 = (v31 >> 1) - 1;
-    if ( v31 >> 1 != 1 )
+    v31 = (v33 >> 1) - 1;
+    if ( v33 >> 1 != 1 )
     {
       do
       {
-        if ( str[v29] )
-          BN_clear_free(str[v29]);
-        --v29;
+        if ( str[v31] )
+          BN_clear_free(str[v31]);
+        --v31;
       }
-      while ( v29 );
+      while ( v31 );
     }
     CRYPTO_free(str);
   }
-  return v37;
+  return v39;
 }

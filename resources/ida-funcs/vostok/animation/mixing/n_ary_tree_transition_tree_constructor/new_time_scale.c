@@ -1,285 +1,248 @@
-vostok::animation::mixing::n_ary_tree_time_scale_transition_node *__userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_time_scale@<eax>(
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this@<ecx>,
-        int a2@<eax>,
-        vostok::animation::mixing::n_ary_tree_animation_node *new_time_driving_animation,
-        float animation_interval_id,
-        vostok::animation::mixing::n_ary_tree_base_node *animation_interval_time)
+void __userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_time_scale(
+        vostok::animation::mixing::n_ary_tree_animation_node *new_time_driving_animation@<eax>,
+        const vostok::animation::base_interpolator *this,
+        unsigned int *animation_interval_id,
+        float *animation_interval_time)
 {
   unsigned int m_time_synchronization_group_id; // ecx
-  int v7; // esi
-  vostok::animation::mixing::n_ary_tree_time_scale_transition_node *result; // eax
-  int v9; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node *v10; // eax
-  unsigned int v11; // ebx
-  vostok::animation::mixing::animation_interval *v12; // ecx
-  double v13; // st7
-  vostok::animation::mixing::n_ary_tree_animation_node *v14; // ebp
-  char m_is_positive_event_direction; // al
+  vostok::animation::mixing::n_ary_tree_animation_node *i; // esi
+  vostok::animation::mixing::n_ary_tree_animation_node *j; // eax
+  vostok::animation::mixing::animation_state *m_animation_state; // eax
+  unsigned int v10; // eax
+  const vostok::animation::mixing::animation_interval *m_animation_intervals; // edx
+  float v12; // xmm1_4
+  float v13; // xmm0_4
+  float v14; // xmm0_4
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v15; // edi
   float v16; // xmm0_4
-  bool v17; // zf
-  float v18; // xmm0_4
-  unsigned int v19; // eax
-  float *v20; // ebx
-  void (__thiscall *v21)(float *, vostok::animation::mixing::n_ary_tree_time_scale_calculator *); // edx
-  float m_time_scale; // xmm0_4
-  char v23; // al
-  const vostok::animation::base_interpolator *m_interpolator; // ebx
-  vostok::animation::mixing::n_ary_tree_cloner *v25; // ecx
-  int v26; // ecx
-  float v27; // xmm0_4
-  int v28; // ebp
-  int v29; // esi
-  vostok::animation::mixing::n_ary_tree_base_node *v30; // xmm0_4
-  vostok::animation::mixing::n_ary_tree_cloner *v31; // ecx
+  void ***v17; // eax
+  int v18; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *accept; // edi
+  bool v20; // zf
+  vostok::animation::mixing::n_ary_tree_node_cloner *v21; // ecx
+  vostok::animation::mixing::n_ary_tree_base_node *v22; // edi
+  vostok::animation::mixing::n_ary_tree_node_cloner *v23; // ecx
+  const vostok::animation::base_interpolator *v24; // eax
+  char *v25; // ecx
+  unsigned int v26; // edx
+  vostok::mutable_buffer *v27; // ecx
+  char *v28; // ecx
+  unsigned int v29; // edx
+  vostok::mutable_buffer *v30; // edx
+  char *v31; // esi
   const vostok::animation::base_interpolator *v32; // eax
-  vostok::animation::mixing::n_ary_tree_base_node *v33; // ecx
-  vostok::animation::mixing::n_ary_tree_base_node_vtbl *v34; // edx
-  float v35; // xmm0_4
-  _DWORD *v36; // ecx
-  _DWORD *v37; // ecx
-  int v38; // ecx
-  int v39; // edx
-  float v40; // xmm0_4
-  _DWORD *v41; // edx
-  vostok::animation::mixing::n_ary_tree_time_scale_transition_node *v42; // esi
-  unsigned int v43; // edx
-  vostok::animation::mixing::n_ary_tree_base_node *v44; // ebx
-  _DWORD *v45; // edi
-  _DWORD *v46; // edi
-  const vostok::animation::base_interpolator *v47; // eax
-  int v48; // ecx
-  int v49; // edx
-  float v50; // xmm0_4
-  _DWORD *v51; // edi
-  _DWORD *v52; // edi
-  bool v53; // [esp+0h] [ebp-48h]
-  vostok::animation::mixing::n_ary_tree_base_node *time_scale_node[2]; // [esp+10h] [ebp-38h] BYREF
-  float new_time_driving_animation_time_offset; // [esp+18h] [ebp-30h]
-  float new_driving_animation_length; // [esp+1Ch] [ebp-2Ch]
-  vostok::animation::mixing::n_ary_tree_time_scale_calculator time_scale_calculator; // [esp+20h] [ebp-28h] BYREF
+  char *interpolated_value; // ecx
+  unsigned int v34; // edx
+  vostok::mutable_buffer *v35; // ebx
+  unsigned int v36; // [esp+0h] [ebp-4Ch]
+  bool v37; // [esp+0h] [ebp-4Ch]
+  struct vostok::animation::mixing::n_ary_tree_animation_node *v38; // [esp+4h] [ebp-48h]
+  _BYTE v39[12]; // [esp+Ch] [ebp-40h] BYREF
+  void ***v40; // [esp+18h] [ebp-34h]
+  float v41; // [esp+28h] [ebp-24h]
+  vostok::animation::mixing::n_ary_tree_target_time_scale_calculator v42; // [esp+34h] [ebp-18h] BYREF
+  void **v43; // [esp+3Ch] [ebp-10h] BYREF
+  float v44; // [esp+40h] [ebp-Ch]
+  float v45; // [esp+44h] [ebp-8h]
+  const vostok::animation::base_interpolator *interpolator; // [esp+54h] [ebp+8h]
+  char interpolator_3; // [esp+57h] [ebp+Bh]
+  float v48; // [esp+58h] [ebp+Ch]
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v49; // [esp+5Ch] [ebp+10h]
 
   m_time_synchronization_group_id = new_time_driving_animation->m_time_synchronization_group_id;
-  v7 = *(_DWORD *)(*(_DWORD *)(a2 + 72) + 4);
-  time_scale_node[0] = 0;
-  if ( !v7 )
-    return 0;
-  while ( *(_DWORD *)(v7 + 20) || *(_DWORD *)(v7 + 52) != m_time_synchronization_group_id )
+  for ( i = (vostok::animation::mixing::n_ary_tree_animation_node *)this[18].clone; i; i = i->m_next_weight_animation )
   {
-    v7 = *(_DWORD *)(v7 + 40);
-    if ( !v7 )
-      return 0;
-  }
-  v9 = *(_DWORD *)(v7 + 28);
-  if ( *(_BYTE *)(v9 + 117) )
-    return 0;
-  v10 = *(vostok::animation::mixing::n_ary_tree_animation_node **)(*(_DWORD *)(a2 + 76) + 8);
-  if ( v10 )
-  {
-    while ( v10->m_time_synchronization_group_id != m_time_synchronization_group_id )
+    if ( !i->m_time_driving_animation && i->m_time_synchronization_group_id == m_time_synchronization_group_id )
     {
-      v10 = v10->m_next_time_animation;
-      if ( !v10 )
-        goto LABEL_12;
-    }
-    if ( v10 != new_time_driving_animation )
-      return 0;
-  }
-LABEL_12:
-  if ( new_time_driving_animation->m_override_existing_animation )
-    v11 = new_time_driving_animation->m_animation_state->animation_interval_id;
-  else
-    v11 = *(_DWORD *)(v9 + 92);
-  new_driving_animation_length = vostok::animation::mixing::animation_interval::length(&new_time_driving_animation->m_animation_intervals[v11]);
-  v12 = (vostok::animation::mixing::animation_interval *)(*(_DWORD *)(v7 + 16) + 12 * v11);
-  *(_DWORD *)LODWORD(animation_interval_id) = v11;
-  v13 = vostok::animation::mixing::animation_interval::length(v12);
-  v14 = new_time_driving_animation;
-  m_is_positive_event_direction = new_time_driving_animation->m_is_positive_event_direction;
-  animation_interval_id = new_driving_animation_length / v13;
-  if ( m_is_positive_event_direction == *(_BYTE *)(v7 + 83) )
-    v16 = *(float *)&clear_value;
-  else
-    v16 = -1.0;
-  v17 = !new_time_driving_animation->m_override_existing_animation;
-  new_driving_animation_length = v16 * animation_interval_id;
-  if ( v17 )
-    v18 = *(float *)(*(_DWORD *)(v7 + 28) + 100) * animation_interval_id;
-  else
-    v18 = new_time_driving_animation->m_animation_state->animation_interval_time;
-  *(float *)&animation_interval_time->__vftable = v18;
-  v19 = *(_DWORD *)(a2 + 132);
-  new_time_driving_animation_time_offset = v18;
-  time_scale_calculator.__vftable = (vostok::animation::mixing::n_ary_tree_time_scale_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_time_scale_calculator::`vftable';
-  memset((void *)&time_scale_calculator.m_animation, 0, 12);
-  time_scale_calculator.m_current_time_in_ms = v19;
-  time_scale_calculator.m_previous_animation_time = 0.0;
-  time_scale_calculator.m_previous_time_in_ms = v19;
-  memset(&time_scale_calculator.m_time_scale, 0, 12);
-  if ( v14->m_operands_count )
-  {
-    v20 = (float *)v14[1].__vftable;
-    animation_interval_time = (vostok::animation::mixing::n_ary_tree_base_node *)v20;
-    if ( v20 && (*(unsigned __int8 (__thiscall **)(float *))(*(_DWORD *)v20 + 12))(v20) )
-    {
-      v21 = *(void (__thiscall **)(float *, vostok::animation::mixing::n_ary_tree_time_scale_calculator *))(*(_DWORD *)v20 + 8);
-      LOBYTE(animation_interval_id) = 1;
-      v21(v20, &time_scale_calculator);
-      m_time_scale = time_scale_calculator.m_time_scale;
-      v23 = LOBYTE(animation_interval_id);
-      goto LABEL_27;
-    }
-  }
-  else
-  {
-    animation_interval_time = 0;
-  }
-  m_time_scale = *(float *)&clear_value;
-  v23 = 0;
-LABEL_27:
-  m_interpolator = time_scale_calculator.m_interpolator;
-  animation_interval_id = m_time_scale;
-  if ( !v23 )
-    m_interpolator = v14->m_weight_interpolator;
-  if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))m_interpolator->transition_time)(m_interpolator) <= 0.0 )
-  {
-    if ( animation_interval_id != *(float *)&clear_value )
-    {
-      v47 = vostok::animation::mixing::n_ary_tree_cloner::clone(v25, a2 + 32, m_interpolator, v53);
-      v48 = **(_DWORD **)(a2 + 68);
-      if ( v48 )
+      if ( !i->m_animation_state->is_freezed )
       {
-        v49 = *(_DWORD *)(a2 + 132);
-        *(float *)(v48 + 8) = animation_interval_id;
-        v50 = new_time_driving_animation_time_offset;
-        *(_DWORD *)(v48 + 4) = v47;
-        *(_DWORD *)v48 = &vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
-        *(float *)(v48 + 12) = v50;
-        *(_DWORD *)(v48 + 16) = v49;
-        v51 = *(_DWORD **)(a2 + 68);
-        *v51 += 20;
-        v51[1] -= 20;
-        time_scale_node[0] = (vostok::animation::mixing::n_ary_tree_base_node *)v48;
-        return (vostok::animation::mixing::n_ary_tree_time_scale_transition_node *)v48;
+        for ( j = (vostok::animation::mixing::n_ary_tree_animation_node *)this[19].clone; j; j = j->m_next_time_animation )
+        {
+          if ( j->m_time_synchronization_group_id == m_time_synchronization_group_id )
+          {
+            if ( j != new_time_driving_animation )
+              return;
+            break;
+          }
+        }
+        if ( new_time_driving_animation->m_override_existing_animation )
+          m_animation_state = new_time_driving_animation->m_animation_state;
+        else
+          m_animation_state = i->m_animation_state;
+        v10 = m_animation_state->animation_interval_id;
+        m_animation_intervals = i->m_animation_intervals;
+        *animation_interval_id = v10;
+        v12 = new_time_driving_animation->m_animation_intervals[v10].m_length / m_animation_intervals[v10].m_length;
+        if ( new_time_driving_animation->m_is_positive_event_direction == i->m_is_positive_event_direction )
+          v13 = s_bm_current_air_resistance;
+        else
+          v13 = FLOAT_N1_0;
+        v20 = !new_time_driving_animation->m_override_existing_animation;
+        v44 = v13 * v12;
+        if ( v20 )
+          v14 = i->m_animation_state->animation_interval_time * v12;
+        else
+          v14 = new_time_driving_animation->m_animation_state->animation_interval_time;
+        *animation_interval_time = v14;
+        v48 = v14;
+        vostok::animation::mixing::n_ary_tree_time_scale_calculator::n_ary_tree_time_scale_calculator(
+          0,
+          (int)v39,
+          0,
+          (unsigned int)this[33].__vftable,
+          *(float *)&this[33].__vftable,
+          v36,
+          v38);
+        if ( new_time_driving_animation->m_operands_count
+          && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))new_time_driving_animation[1].~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+              + 3))(new_time_driving_animation[1].__vftable) )
+        {
+          v15 = new_time_driving_animation[1].__vftable;
+          v49 = v15;
+        }
+        else
+        {
+          v49 = 0;
+          v15 = 0;
+        }
+        if ( v15
+          && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v15->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+              + 3))(v15) )
+        {
+          interpolator_3 = 1;
+          (*((void (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, _BYTE *))v15->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+           + 2))(
+            v15,
+            v39);
+          v16 = v41;
+        }
+        else
+        {
+          v16 = s_bm_current_air_resistance;
+          interpolator_3 = 0;
+        }
+        v45 = v16;
+        if ( interpolator_3 )
+        {
+          v17 = v40;
+        }
+        else
+        {
+          v43 = &vostok::animation::instant_interpolator::`vftable';
+          v17 = &v43;
+        }
+        interpolator = (const vostok::animation::base_interpolator *)v17;
+        vostok::animation::mixing::n_ary_tree_target_time_scale_calculator::n_ary_tree_target_time_scale_calculator(
+          &v42,
+          i);
+        accept = v49;
+        if ( v45 != (float)(*(float *)(v18 + 4) * v44)
+          && (!v49
+           || !(*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v49->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+                + 5))(v49)) )
+        {
+          goto LABEL_42;
+        }
+        if ( v49 )
+        {
+          if ( (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))v49->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+                + 5))(v49) )
+            accept = (vostok::animation::mixing::n_ary_tree_animation_node_vtbl *)v49->accept;
+          v20 = v48 == *(float *)&accept->is_time_scale;
+        }
+        else
+        {
+          v20 = v48 == 0.0;
+        }
+        if ( !v20 )
+        {
+LABEL_42:
+          if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))interpolator->transition_time)(interpolator) <= 0.0 )
+          {
+            v32 = vostok::animation::mixing::n_ary_tree_node_cloner::clone(v21, (int)&this[8], interpolator, v37);
+            interpolated_value = (char *)this[17].interpolated_value;
+            if ( interpolated_value )
+            {
+              v34 = (unsigned int)this[33].__vftable;
+              *((float *)interpolated_value + 2) = v45;
+              *((_DWORD *)interpolated_value + 1) = v32;
+              *(_DWORD *)interpolated_value = &vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
+              *((float *)interpolated_value + 3) = v48;
+              *((_DWORD *)interpolated_value + 4) = v34;
+            }
+          }
+          else
+          {
+            v22 = 0;
+            if ( i->m_operands_count
+              && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))i[1].~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+                  + 3))(i[1].__vftable) )
+            {
+              v23 = (vostok::animation::mixing::n_ary_tree_node_cloner *)i[1].__vftable;
+            }
+            else
+            {
+              v23 = 0;
+            }
+            if ( v23 )
+              v22 = (vostok::animation::mixing::n_ary_tree_base_node *)vostok::animation::mixing::n_ary_tree_node_cloner::clone(
+                                                                         v23,
+                                                                         (vostok::animation::mixing::n_ary_tree_addition_node *)&this[8],
+                                                                         (vostok::animation::mixing::n_ary_tree_addition_node_vtbl *)LODWORD(v44));
+            v24 = vostok::animation::mixing::n_ary_tree_node_cloner::clone(v23, (int)&this[8], interpolator, v37);
+            if ( !v22 )
+            {
+              v25 = (char *)this[17].interpolated_value;
+              if ( v25 )
+              {
+                v26 = (unsigned int)this[33].__vftable;
+                *((float *)v25 + 2) = s_bm_current_air_resistance;
+                *(_DWORD *)v25 = &vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
+                *((_DWORD *)v25 + 1) = v24;
+                *((float *)v25 + 3) = v48;
+                *((_DWORD *)v25 + 4) = v26;
+                v22 = (vostok::animation::mixing::n_ary_tree_base_node *)v25;
+              }
+              else
+              {
+                v22 = 0;
+              }
+              v27 = (vostok::mutable_buffer *)this[17].__vftable;
+              v27->m_data += 20;
+              v27->m_size -= 20;
+            }
+            v28 = (char *)this[17].interpolated_value;
+            if ( v28 )
+            {
+              v29 = (unsigned int)this[33].__vftable;
+              *((float *)v28 + 2) = v45;
+              *(_DWORD *)v28 = &vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
+              *((_DWORD *)v28 + 1) = v24;
+              *((float *)v28 + 3) = v48;
+              *((_DWORD *)v28 + 4) = v29;
+            }
+            else
+            {
+              v28 = 0;
+            }
+            v30 = (vostok::mutable_buffer *)this[17].__vftable;
+            v30->m_data += 20;
+            v30->m_size -= 20;
+            v31 = (char *)this[17].interpolated_value;
+            if ( v31 )
+              vostok::animation::mixing::n_ary_tree_time_scale_transition_node::n_ary_tree_time_scale_transition_node(
+                (vostok::animation::mixing::n_ary_tree_time_scale_transition_node *)v31,
+                v22,
+                (vostok::animation::mixing::n_ary_tree_base_node *)v28,
+                v24,
+                (unsigned int)this[33].__vftable);
+          }
+          v35 = (vostok::mutable_buffer *)this[17].__vftable;
+          v35->m_data += 20;
+          v35->m_size -= 20;
+        }
       }
-      v52 = *(_DWORD **)(a2 + 68);
-      *v52 += 20;
-      v52[1] -= 20;
-      time_scale_node[0] = 0;
+      return;
     }
-    return (vostok::animation::mixing::n_ary_tree_time_scale_transition_node *)time_scale_node[0];
-  }
-  if ( *(_DWORD *)(v7 + 4)
-    && (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(v7 + 88) + 12))(*(_DWORD *)(v7 + 88))
-    && (v26 = *(_DWORD *)(v7 + 88)) != 0 )
-  {
-    v27 = new_driving_animation_length;
-    *(_DWORD *)(a2 + 36) = 0;
-    *(float *)(a2 + 64) = v27;
-    *(_DWORD *)(a2 + 52) = 0;
-    (*(void (__thiscall **)(int, int))(*(_DWORD *)v26 + 8))(v26, a2 + 32);
-    *(_DWORD *)(a2 + 64) = clear_value;
-    v28 = *(_DWORD *)(a2 + 36);
-  }
-  else
-  {
-    v28 = 0;
-  }
-  v17 = *(_DWORD *)(v7 + 4) == 0;
-  time_scale_node[0] = (vostok::animation::mixing::n_ary_tree_base_node *)&vostok::animation::mixing::n_ary_tree_target_time_scale_calculator::`vftable';
-  if ( !v17 && (v29 = *(_DWORD *)(v7 + 88)) != 0 && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v29 + 12))(v29) )
-  {
-    (*(void (__thiscall **)(int, vostok::animation::mixing::n_ary_tree_base_node **))(*(_DWORD *)v29 + 8))(
-      v29,
-      time_scale_node);
-    v30 = time_scale_node[1];
-  }
-  else
-  {
-    v30 = (vostok::animation::mixing::n_ary_tree_base_node *)clear_value;
-  }
-  time_scale_node[0] = (vostok::animation::mixing::n_ary_tree_base_node *)v28;
-  if ( animation_interval_id == (float)(*(float *)&v30 * new_driving_animation_length)
-    || (v31 = (vostok::animation::mixing::n_ary_tree_cloner *)animation_interval_time) != 0
-    && animation_interval_time->is_transition(animation_interval_time) )
-  {
-    if ( animation_interval_id == 0.0 && !(*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v28 + 20))(v28) )
-    {
-      result = (vostok::animation::mixing::n_ary_tree_time_scale_transition_node *)time_scale_node[0];
-      *(float *)(v28 + 12) = new_time_driving_animation->m_animation_state->animation_time;
-      return result;
-    }
-    return (vostok::animation::mixing::n_ary_tree_time_scale_transition_node *)time_scale_node[0];
-  }
-  v32 = vostok::animation::mixing::n_ary_tree_cloner::clone(v31, a2 + 32, m_interpolator, v53);
-  if ( !v28 )
-  {
-    v33 = **(vostok::animation::mixing::n_ary_tree_base_node ***)(a2 + 68);
-    if ( v33 )
-    {
-      v34 = *(vostok::animation::mixing::n_ary_tree_base_node_vtbl **)(a2 + 132);
-      v33[2].__vftable = (vostok::animation::mixing::n_ary_tree_base_node_vtbl *)clear_value;
-      v35 = new_time_driving_animation_time_offset;
-      v33->__vftable = (vostok::animation::mixing::n_ary_tree_base_node_vtbl *)&vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
-      v33[1].__vftable = (vostok::animation::mixing::n_ary_tree_base_node_vtbl *)v32;
-      *(float *)&v33[3].__vftable = v35;
-      v33[4].__vftable = v34;
-      time_scale_node[0] = v33;
-      v36 = *(_DWORD **)(a2 + 68);
-      *v36 += 20;
-      v36[1] -= 20;
-    }
-    else
-    {
-      v37 = *(_DWORD **)(a2 + 68);
-      *v37 += 20;
-      v37[1] -= 20;
-      time_scale_node[0] = 0;
-    }
-  }
-  v38 = **(_DWORD **)(a2 + 68);
-  if ( v38 )
-  {
-    v39 = *(_DWORD *)(a2 + 132);
-    *(float *)(v38 + 8) = animation_interval_id;
-    v40 = new_time_driving_animation_time_offset;
-    *(_DWORD *)v38 = &vostok::animation::mixing::n_ary_tree_time_scale_node::`vftable';
-    *(_DWORD *)(v38 + 4) = v32;
-    *(float *)(v38 + 12) = v40;
-    *(_DWORD *)(v38 + 16) = v39;
-  }
-  else
-  {
-    v38 = 0;
-  }
-  v41 = *(_DWORD **)(a2 + 68);
-  *v41 += 20;
-  v41[1] -= 20;
-  v42 = **(vostok::animation::mixing::n_ary_tree_time_scale_transition_node ***)(a2 + 68);
-  if ( v42 )
-  {
-    v43 = *(_DWORD *)(a2 + 132);
-    v44 = time_scale_node[0];
-    v42->m_interpolator = v32;
-    v42->m_to = (vostok::animation::mixing::n_ary_tree_base_node *)v38;
-    v42->m_from = v44;
-    v42->m_start_time_in_ms = v43;
-    v42->__vftable = (vostok::animation::mixing::n_ary_tree_time_scale_transition_node_vtbl *)&vostok::animation::mixing::n_ary_tree_time_scale_transition_node::`vftable';
-    new_time_driving_animation = (vostok::animation::mixing::n_ary_tree_animation_node *)&vostok::animation::mixing::time_scale_transition_debug::`vftable';
-    vostok::animation::mixing::n_ary_tree_time_scale_transition_node::accept(
-      v42,
-      (vostok::animation::mixing::n_ary_tree_visitor *)&new_time_driving_animation);
-    v45 = *(_DWORD **)(a2 + 68);
-    *v45 += 20;
-    v45[1] -= 20;
-    time_scale_node[0] = v42;
-    return v42;
-  }
-  else
-  {
-    v46 = *(_DWORD **)(a2 + 68);
-    *v46 += 20;
-    v46[1] -= 20;
-    time_scale_node[0] = 0;
-    return 0;
   }
 }

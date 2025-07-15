@@ -1,83 +1,97 @@
 void __thiscall Scaleform::GFx::MovieImpl::ProcessKeyboard(
         Scaleform::GFx::MovieImpl *this,
-        Scaleform::GFx::Event::EventType qe,
+        Scaleform::Ptr<Scaleform::GFx::Sprite> qe,
         Scaleform::GFx::ProcessFocusKeyInfo *focusKeyInfo)
 {
-  unsigned int v3; // eax
-  Scaleform::GFx::InputEventsQueueEntry::Entry *v4; // esi
+  Scaleform::WeakPtrProxy *pWeakProxy; // eax
+  const Scaleform::GFx::InputEventsQueueEntry::KeyEntry *p_RefCount; // esi
   unsigned __int8 v6; // cl
-  unsigned __int8 KeysState; // dl
-  unsigned __int8 AsciiCode; // al
-  char WheelScrollDelta; // cl
+  Scaleform::GFx::Event::EventType v7; // ebx
+  char v8; // dl
+  unsigned __int8 v9; // al
+  char v10; // cl
   unsigned int i; // ebp
   Scaleform::GFx::InteractiveObject *pObject; // ecx
   unsigned int KeyboardIndex; // eax
-  Scaleform::GFx::KeyboardState *v13; // ecx
-  Scaleform::RefCountNTSImpl *v14; // edi
-  int keyMask; // [esp+8h] [ebp-18h] BYREF
-  Scaleform::GFx::EventId eventId; // [esp+Ch] [ebp-14h] BYREF
+  Scaleform::GFx::KeyboardState *v14; // ecx
+  Scaleform::GFx::Sprite *v15; // edi
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  int keyMask; // [esp+Ch] [ebp-28h] BYREF
+  Scaleform::AmpFunctionTimer v20; // [esp+10h] [ebp-24h] BYREF
+  Scaleform::GFx::EventId evt; // [esp+20h] [ebp-14h] BYREF
 
-  v3 = *(_DWORD *)(qe + 8);
-  v4 = (Scaleform::GFx::InputEventsQueueEntry::Entry *)(qe + 4);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v20,
+    this->AdvanceStats.pObject,
+    "MovieImpl::ProcessKeyboard",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
+  pWeakProxy = qe.pObject->pWeakProxy;
+  p_RefCount = (const Scaleform::GFx::InputEventsQueueEntry::KeyEntry *)&qe.pObject->RefCount;
   keyMask = 0;
-  if ( v3 )
+  if ( pWeakProxy )
   {
-    if ( *(_BYTE *)(qe + 15) )
+    if ( HIBYTE(qe.pObject->__vftable) )
     {
       v6 = 64;
-      qe = KeyDown;
+      v7 = KeyDown;
     }
     else
     {
       v6 = 0x80;
-      qe = KeyUp;
+      v7 = KeyUp;
     }
-    eventId.WcharCode = v4->keyEntry.WcharCode;
-    KeysState = v4->keyEntry.KeysState;
-    eventId.KeyCode = v3;
-    AsciiCode = v4->keyEntry.AsciiCode;
-    eventId.Id = v6;
-    WheelScrollDelta = v4->mouseEntry.WheelScrollDelta;
-    eventId.AsciiCode = AsciiCode;
-    eventId.RollOverCnt = 0;
-    eventId.MouseWheelDelta = 0;
-    eventId.ControllerIndex = WheelScrollDelta;
-    eventId.KeysState.States = KeysState | 0x80;
-    if ( !AsciiCode )
-      eventId.AsciiCode = Scaleform::GFx::EventId::ConvertKeyCodeToAscii(&eventId);
+    evt.WcharCode = p_RefCount->WcharCode;
+    v8 = BYTE1(qe.pObject->__vftable);
+    evt.KeyCode = (unsigned int)pWeakProxy;
+    v9 = (unsigned __int8)qe.pObject->__vftable;
+    evt.Id = v6;
+    v10 = BYTE2(qe.pObject->__vftable);
+    evt.AsciiCode = v9;
+    evt.RollOverCnt = 0;
+    evt.MouseWheelDelta = 0;
+    evt.ControllerIndex = v10;
+    evt.KeysState.States = v8 | 0x80;
+    if ( !v9 )
+      evt.AsciiCode = Scaleform::GFx::EventId::ConvertKeyCodeToAscii(&evt);
     for ( i = this->MovieLevels.Data.Size; i; --i )
     {
       pObject = this->MovieLevels.Data.Data[i - 1].pSprite.pObject;
-      pObject->PropagateKeyEvent(pObject, &eventId, &keyMask);
+      pObject->PropagateKeyEvent(pObject, &evt, &keyMask);
     }
-    KeyboardIndex = v4->keyEntry.KeyboardIndex;
+    KeyboardIndex = p_RefCount->KeyboardIndex;
     if ( KeyboardIndex >= 6 )
-      v13 = 0;
+      v14 = 0;
     else
-      v13 = &this->KeyboardStates[KeyboardIndex];
-    Scaleform::GFx::KeyboardState::NotifyListeners(v13, this->pMainMovie, &eventId, keyMask);
+      v14 = &this->KeyboardStates[KeyboardIndex];
+    Scaleform::GFx::KeyboardState::NotifyListeners(v14, this->pMainMovie, &evt, keyMask);
     if ( this->Flags >> 30 != 1 )
-      Scaleform::GFx::MovieImpl::ProcessFocusKey(
-        this,
-        qe,
-        (const Scaleform::GFx::InputEventsQueueEntry::KeyEntry *)v4,
-        focusKeyInfo);
+      Scaleform::GFx::MovieImpl::ProcessFocusKey(this, v7, p_RefCount, focusKeyInfo);
   }
-  else if ( v4->keyEntry.WcharCode )
+  else if ( p_RefCount->WcharCode )
   {
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[*(unsigned __int8 *)(qe + 14)]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&qe);
-    v14 = (Scaleform::RefCountNTSImpl *)qe;
-    if ( qe )
+      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->FocusGroups[this->FocusGroupIndexes[BYTE2(qe.pObject->__vftable)]].LastFocused,
+      &qe);
+    v15 = qe.pObject;
+    if ( qe.pObject )
     {
-      ++*(_DWORD *)(qe + 4);
-      Scaleform::RefCountNTSImpl::Release(v14);
-      ((void (__thiscall *)(Scaleform::RefCountNTSImpl *, unsigned int, _DWORD))v14->__vftable[95].~Scaleform::RefCountNTSImpl)(
-        v14,
-        v4->keyEntry.WcharCode,
-        v4->keyEntry.KeyboardIndex);
-      Scaleform::RefCountNTSImpl::Release(v14);
+      ++qe.pObject->RefCount;
+      Scaleform::RefCountNTSImpl::Release(v15);
+      v15->OnCharEvent(v15, p_RefCount->WcharCode, p_RefCount->KeyboardIndex);
+      Scaleform::RefCountNTSImpl::Release(v15);
     }
+  }
+  Stats = v20.Stats;
+  if ( v20.Stats )
+  {
+    p_NativePopCallstack = &v20.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(v20.StartTicks),
+      (ProfileTicks - v20.StartTicks) >> 32);
   }
 }

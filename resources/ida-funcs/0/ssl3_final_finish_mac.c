@@ -1,4 +1,4 @@
-const char *__cdecl ssl3_final_finish_mac(ssl_st *s, const char *sender, unsigned int len, unsigned __int8 *p)
+const char *__cdecl ssl3_final_finish_mac(ssl_st *s, engine_st *sender, int len, unsigned __int8 *p)
 {
   const char *v4; // esi
 

@@ -1,4 +1,4 @@
-int __cdecl _flushall()
+int __usercall _flushall@<eax>(int a1@<ebx>)
 {
-  return flsall(1);
+  return flsall(a1, 1);
 }

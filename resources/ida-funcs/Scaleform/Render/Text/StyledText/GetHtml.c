@@ -5,9 +5,9 @@ Scaleform::StringBuffer *__thiscall Scaleform::Render::Text::StyledText::GetHtml
   unsigned int v3; // edi
   Scaleform::ArrayLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2,Scaleform::ArrayDefaultPolicy> *p_Paragraphs; // ecx
   unsigned int Size; // ebx
-  int CurIndex; // eax
+  int v6; // eax
   int v7; // edx
-  int v8; // ebp
+  int pPara; // ebp
   unsigned int v9; // eax
   bool v10; // zf
   unsigned int v11; // edx
@@ -54,18 +54,18 @@ Scaleform::StringBuffer *__thiscall Scaleform::Render::Text::StyledText::GetHtml
   Scaleform::RefCountNTSImpl *v52; // ecx
   volatile LONG *v53; // edi
   volatile LONG *v54; // edi
-  __int16 fontTagOpened; // [esp+12h] [ebp-43Ah] BYREF
-  __int64 ppara; // [esp+14h] [ebp-438h] BYREF
-  Scaleform::Ptr<Scaleform::Render::Text::TextFormat> pprevFmt; // [esp+1Ch] [ebp-430h] BYREF
+  __int16 v56; // [esp+12h] [ebp-43Ah] BYREF
+  __int64 v; // [esp+14h] [ebp-438h] BYREF
+  Scaleform::Render::Text::TextFormat *v58; // [esp+1Ch] [ebp-430h] BYREF
   int v59; // [esp+20h] [ebp-42Ch]
   Scaleform::Render::Text::StyledText *v60; // [esp+24h] [ebp-428h]
-  unsigned int n; // [esp+28h] [ebp-424h] BYREF
+  unsigned int v61; // [esp+28h] [ebp-424h] BYREF
   Scaleform::RefCountNTSImpl *v62; // [esp+2Ch] [ebp-420h] BYREF
-  Scaleform::Render::Text::Paragraph::FormatRunIterator it; // [esp+30h] [ebp-41Ch] BYREF
-  const Scaleform::Render::Text::ParagraphFormat *paraFormat; // [esp+54h] [ebp-3F8h]
-  unsigned int nn; // [esp+58h] [ebp-3F4h]
+  Scaleform::Render::Text::Paragraph::FormatRunIterator v63; // [esp+30h] [ebp-41Ch] BYREF
+  int v64; // [esp+54h] [ebp-3F8h]
+  unsigned int v65; // [esp+58h] [ebp-3F4h]
   int v66; // [esp+5Ch] [ebp-3F0h]
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+60h] [ebp-3ECh]
+  int v67; // [esp+64h] [ebp-3E8h]
   Scaleform::MsgFormat::Sink v68; // [esp+68h] [ebp-3E4h] BYREF
   Scaleform::MsgFormat::Sink v69; // [esp+74h] [ebp-3D8h] BYREF
   Scaleform::MsgFormat::Sink v70; // [esp+80h] [ebp-3CCh] BYREF
@@ -90,27 +90,27 @@ Scaleform::StringBuffer *__thiscall Scaleform::Render::Text::StyledText::GetHtml
   v3 = 0;
   v60 = this;
   v59 = 0;
-  Scaleform::StringBuffer::operator=(strBuf, (char *)&buf);
+  Scaleform::StringBuffer::operator=(strBuf, (const __m128i *)uri);
   p_Paragraphs = &this->Paragraphs;
   Size = this->Paragraphs.Data.Size;
-  CurIndex = 0;
-  paraIter.CurIndex = 0;
+  v6 = 0;
+  v67 = 0;
   v7 = 0;
-  nn = Size;
-  while ( p_Paragraphs && CurIndex >= 0 && CurIndex < (signed int)p_Paragraphs->Data.Size )
+  v65 = Size;
+  while ( p_Paragraphs && v6 >= 0 && v6 < (signed int)p_Paragraphs->Data.Size )
   {
-    v8 = (int)p_Paragraphs->Data.Data[CurIndex].pPara;
-    LODWORD(ppara) = v8;
+    pPara = (int)p_Paragraphs->Data.Data[v6].pPara;
+    LODWORD(v) = pPara;
     v66 = v7 + 1;
-    if ( v7 + 1 != nn )
+    if ( v7 + 1 != v65 )
       goto LABEL_15;
-    v9 = *(_DWORD *)(v8 + 4);
+    v9 = *(_DWORD *)(pPara + 4);
     v10 = v9 == 0;
     if ( v9 )
     {
       v11 = v9 - 1;
-      if ( *(_DWORD *)v8 && v11 < v9 )
-        v12 = (_WORD *)(*(_DWORD *)v8 + 2 * v11);
+      if ( *(_DWORD *)pPara && v11 < v9 )
+        v12 = (_WORD *)(*(_DWORD *)pPara + 2 * v11);
       else
         v12 = 0;
       if ( !*v12 )
@@ -120,130 +120,130 @@ Scaleform::StringBuffer *__thiscall Scaleform::Render::Text::StyledText::GetHtml
     if ( !v10 )
     {
 LABEL_15:
-      Scaleform::StringBuffer::AppendString(strBuf, "<TEXTFORMAT", 0xFFFFFFFF);
-      v13 = *(_DWORD *)(v8 + 12);
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<TEXTFORMAT", 0xFFFFFFFF);
+      v13 = *(_DWORD *)(pPara + 12);
       v14 = *(_BYTE *)(v13 + 18) >> 2;
-      paraFormat = (const Scaleform::Render::Text::ParagraphFormat *)v13;
+      v64 = v13;
       if ( (v14 & 1) != 0 )
       {
-        pprevFmt.pObject = (Scaleform::Render::Text::TextFormat *)*(__int16 *)(v13 + 10);
+        v58 = (Scaleform::Render::Text::TextFormat *)*(__int16 *)(v13 + 10);
         r.Type = tStrBuffer;
         r.SinkData.pStr = (Scaleform::String *)strBuf;
         Scaleform::MsgFormat::MsgFormat(&v87, &r);
         Scaleform::MsgFormat::Parse(&v87, " INDENT=\"{0}\"");
-        Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&pprevFmt);
+        Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v58);
         Scaleform::MsgFormat::FinishFormatD(&v87);
         Scaleform::MsgFormat::~MsgFormat(&v87);
       }
       if ( (*(_BYTE *)(v13 + 18) & 2) != 0 )
       {
-        pprevFmt.pObject = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 8);
+        v58 = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 8);
         v85.Type = tStrBuffer;
         v85.SinkData.pStr = (Scaleform::String *)strBuf;
         Scaleform::MsgFormat::MsgFormat(&v87, &v85);
         Scaleform::MsgFormat::Parse(&v87, " BLOCKINDENT=\"{0}\"");
-        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&pprevFmt);
+        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v58);
         Scaleform::MsgFormat::FinishFormatD(&v87);
         Scaleform::MsgFormat::~MsgFormat(&v87);
       }
       if ( (*(_BYTE *)(v13 + 18) & 0x10) != 0 )
       {
-        pprevFmt.pObject = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 14);
+        v58 = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 14);
         v70.Type = tStrBuffer;
         v70.SinkData.pStr = (Scaleform::String *)strBuf;
         Scaleform::MsgFormat::MsgFormat(&v87, &v70);
         Scaleform::MsgFormat::Parse(&v87, " LEFTMARGIN=\"{0}\"");
-        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&pprevFmt);
+        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v58);
         Scaleform::MsgFormat::FinishFormatD(&v87);
         Scaleform::MsgFormat::~MsgFormat(&v87);
       }
       if ( (*(_BYTE *)(v13 + 18) & 0x20) != 0 )
       {
-        pprevFmt.pObject = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 16);
+        v58 = (Scaleform::Render::Text::TextFormat *)*(unsigned __int16 *)(v13 + 16);
         v86.Type = tStrBuffer;
         v86.SinkData.pStr = (Scaleform::String *)strBuf;
         Scaleform::MsgFormat::MsgFormat(&v87, &v86);
         Scaleform::MsgFormat::Parse(&v87, " RIGHTMARGIN=\"{0}\"");
-        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&pprevFmt);
+        Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v58);
         Scaleform::MsgFormat::FinishFormatD(&v87);
         Scaleform::MsgFormat::~MsgFormat(&v87);
       }
       if ( (*(_BYTE *)(v13 + 18) & 8) != 0 )
       {
-        pprevFmt.pObject = (Scaleform::Render::Text::TextFormat *)*(__int16 *)(v13 + 12);
+        v58 = (Scaleform::Render::Text::TextFormat *)*(__int16 *)(v13 + 12);
         v68.Type = tStrBuffer;
         v68.SinkData.pStr = (Scaleform::String *)strBuf;
         Scaleform::MsgFormat::MsgFormat(&v87, &v68);
         Scaleform::MsgFormat::Parse(&v87, " LEADING=\"{0}\"");
-        Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&pprevFmt);
+        Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v58);
         Scaleform::MsgFormat::FinishFormatD(&v87);
         Scaleform::MsgFormat::~MsgFormat(&v87);
       }
       if ( (*(_BYTE *)(v13 + 18) & 0x40) != 0 )
       {
-        Scaleform::StringBuffer::AppendString(strBuf, " TABSTOPS=\"", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)" TABSTOPS=\"", 0xFFFFFFFF);
         TabStops = Scaleform::Render::Text::ParagraphFormat::GetTabStops(
                      (Scaleform::Render::Text::ParagraphFormat *)v13,
-                     &n);
-        if ( n )
+                     &v61);
+        if ( v61 )
         {
           v16 = TabStops;
           do
           {
-            LOBYTE(fontTagOpened) = v3 != 0;
+            LOBYTE(v56) = v3 != 0;
             v80.Type = tStrBuffer;
             v80.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v80);
             Scaleform::MsgFormat::Parse(&v87, "{0:sw:,:}{1}");
-            Scaleform::MsgFormat::FormatD1<bool>(&v87, (bool *)&fontTagOpened);
+            Scaleform::MsgFormat::FormatD1<bool>(&v87, (bool *)&v56);
             Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, v16);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
             ++v3;
             ++v16;
           }
-          while ( v3 < n );
+          while ( v3 < v61 );
         }
-        Scaleform::StringBuffer::AppendString(strBuf, "\"", 0xFFFFFFFF);
-        v8 = ppara;
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"\"", 0xFFFFFFFF);
+        pPara = v;
       }
-      Scaleform::StringBuffer::AppendString(strBuf, "><", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"><", 0xFFFFFFFF);
       if ( (*(_WORD *)(v13 + 18) & 0x80u) != 0 && (*(_WORD *)(v13 + 18) & 0x8000) != 0 )
-        Scaleform::StringBuffer::AppendString(strBuf, "LI", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"LI", 0xFFFFFFFF);
       else
-        Scaleform::StringBuffer::AppendString(strBuf, "P", 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(strBuf, " ALIGN=\"", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"P", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)" ALIGN=\"", 0xFFFFFFFF);
       switch ( (*(unsigned __int16 *)(v13 + 18) >> 9) & 3 )
       {
         case 0:
-          Scaleform::StringBuffer::AppendString(strBuf, "LEFT", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"LEFT", 0xFFFFFFFF);
           break;
         case 1:
-          Scaleform::StringBuffer::AppendString(strBuf, "RIGHT", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"RIGHT", 0xFFFFFFFF);
           break;
         case 2:
-          Scaleform::StringBuffer::AppendString(strBuf, "JUSTIFY", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"JUSTIFY", 0xFFFFFFFF);
           break;
         case 3:
-          Scaleform::StringBuffer::AppendString(strBuf, "CENTER", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"CENTER", 0xFFFFFFFF);
           break;
         default:
           break;
       }
-      Scaleform::StringBuffer::AppendString(strBuf, "\">", 0xFFFFFFFF);
-      memset(&it, 0, 16);
-      it.pFormatInfo = (const Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> > *)(v8 + 16);
-      it.FormatIterator.pArray = (const Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> > *)(v8 + 16);
-      it.FormatIterator.Index = 0;
-      it.pText = (const Scaleform::Render::Text::Paragraph::TextBuffer *)v8;
-      it.CurTextIndex = 0;
-      pprevFmt.pObject = 0;
-      LOBYTE(fontTagOpened) = 0;
-      if ( *(_DWORD *)(v8 + 4) )
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"\">", 0xFFFFFFFF);
+      memset(&v63, 0, 16);
+      v63.pFormatInfo = (const Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> > *)(pPara + 16);
+      v63.FormatIterator.pArray = (const Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> > *)(pPara + 16);
+      v63.FormatIterator.Index = 0;
+      v63.pText = (const Scaleform::Render::Text::Paragraph::TextBuffer *)pPara;
+      v63.CurTextIndex = 0;
+      v58 = 0;
+      LOBYTE(v56) = 0;
+      if ( *(_DWORD *)(pPara + 4) )
       {
         while ( 1 )
         {
-          v17 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&it);
+          v17 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&v63);
           pObject = v17->PlaceHolder.pFormat.pObject;
           if ( pObject )
             break;
@@ -260,22 +260,22 @@ LABEL_101:
                 switch ( v40 )
                 {
                   case 0x22u:
-                    Scaleform::StringBuffer::AppendString(strBuf, aQuo, 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)aQuo, 0xFFFFFFFF);
                     break;
                   case 0x26u:
-                    Scaleform::StringBuffer::AppendString(strBuf, aAmp_0, 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)aAmp_3, 0xFFFFFFFF);
                     break;
                   case 0x27u:
-                    Scaleform::StringBuffer::AppendString(strBuf, aApo, 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)aApo, 0xFFFFFFFF);
                     break;
                   case 0x3Cu:
-                    Scaleform::StringBuffer::AppendString(strBuf, "&lt;", 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"&lt;", 0xFFFFFFFF);
                     break;
                   case 0x3Eu:
-                    Scaleform::StringBuffer::AppendString(strBuf, "&gt;", 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"&gt;", 0xFFFFFFFF);
                     break;
                   case 0xA0u:
-                    Scaleform::StringBuffer::AppendString(strBuf, "&nbsp;", 0xFFFFFFFF);
+                    Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"&nbsp;", 0xFFFFFFFF);
                     break;
                   default:
                     Scaleform::StringBuffer::AppendChar(strBuf, v40);
@@ -290,39 +290,39 @@ LABEL_101:
           if ( v41 )
           {
             if ( (v41->FormatFlags & 4) != 0 )
-              Scaleform::StringBuffer::AppendString(strBuf, "</U>", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</U>", 0xFFFFFFFF);
             if ( (v17->PlaceHolder.pFormat.pObject->FormatFlags & 2) != 0 )
-              Scaleform::StringBuffer::AppendString(strBuf, "</I>", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</I>", 0xFFFFFFFF);
             if ( (v17->PlaceHolder.pFormat.pObject->FormatFlags & 1) != 0 )
-              Scaleform::StringBuffer::AppendString(strBuf, "</B>", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</B>", 0xFFFFFFFF);
             v42 = v17->PlaceHolder.pFormat.pObject;
             if ( (v42->PresentMask & 0x100) != 0 && Scaleform::String::GetLength(&v42->Url) )
-              Scaleform::StringBuffer::AppendString(strBuf, "</A>", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</A>", 0xFFFFFFFF);
           }
 LABEL_124:
-          if ( it.FormatIterator.Index < 0 || it.FormatIterator.Index >= it.FormatIterator.pArray->Ranges.Data.Size )
+          if ( v63.FormatIterator.Index < 0 || v63.FormatIterator.Index >= v63.FormatIterator.pArray->Ranges.Data.Size )
           {
-            Index = it.pText->Size;
+            Index = v63.pText->Size;
           }
           else
           {
-            v43 = &it.FormatIterator.pArray->Ranges.Data.Data[it.FormatIterator.Index];
-            if ( it.CurTextIndex >= v43->Index )
+            v43 = &v63.FormatIterator.pArray->Ranges.Data.Data[v63.FormatIterator.Index];
+            if ( v63.CurTextIndex >= v43->Index )
             {
-              Index = v43->Length + it.CurTextIndex;
-              it.CurTextIndex = Index;
-              if ( it.FormatIterator.Index < (signed int)it.FormatIterator.pArray->Ranges.Data.Size )
-                ++it.FormatIterator.Index;
+              Index = v43->Length + v63.CurTextIndex;
+              v63.CurTextIndex = Index;
+              if ( v63.FormatIterator.Index < (signed int)v63.FormatIterator.pArray->Ranges.Data.Size )
+                ++v63.FormatIterator.Index;
               goto LABEL_132;
             }
-            Index = it.FormatIterator.pArray->Ranges.Data.Data[it.FormatIterator.Index].Index;
+            Index = v63.FormatIterator.pArray->Ranges.Data.Data[v63.FormatIterator.Index].Index;
           }
-          it.CurTextIndex = Index;
+          v63.CurTextIndex = Index;
 LABEL_132:
-          if ( Index >= it.pText->Size )
+          if ( Index >= v63.pText->Size )
           {
-            if ( (_BYTE)fontTagOpened )
-              Scaleform::StringBuffer::AppendString(strBuf, "</FONT>", 0xFFFFFFFF);
+            if ( (_BYTE)v56 )
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</FONT>", 0xFFFFFFFF);
             goto LABEL_135;
           }
         }
@@ -360,57 +360,57 @@ LABEL_132:
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
-          Scaleform::StringBuffer::AppendString(strBuf, "<IMG SRC=\"", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<IMG SRC=\"", 0xFFFFFFFF);
           Scaleform::StringBuffer::AppendString(
             strBuf,
-            (char *)(((int)v21[8].__vftable & 0xFFFFFFFC) + 8),
+            (const __m128i *)(((int)v21[8].__vftable & 0xFFFFFFFC) + 8),
             *(_DWORD *)((int)v21[8].__vftable & 0xFFFFFFFC) & 0x7FFFFFFF);
-          Scaleform::StringBuffer::AppendString(strBuf, "\"", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"\"", 0xFFFFFFFF);
           if ( *(float *)&v21[2].RefCount > 0.0 )
           {
-            *(float *)&ppara = *(float *)&v21[2].RefCount * 0.05000000074505806;
-            LODWORD(ppara) = (int)*(float *)&ppara;
+            *(float *)&v = *(float *)&v21[2].RefCount * 0.05000000074505806;
+            LODWORD(v) = (int)*(float *)&v;
             v84.Type = tStrBuffer;
             v84.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v84);
             Scaleform::MsgFormat::Parse(&v87, " WIDTH=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
           if ( *(float *)&v21[3].__vftable > 0.0 )
           {
-            *(float *)&ppara = *(float *)&v21[3].__vftable * 0.05000000074505806;
-            LODWORD(ppara) = (int)*(float *)&ppara;
+            *(float *)&v = *(float *)&v21[3].__vftable * 0.05000000074505806;
+            LODWORD(v) = (int)*(float *)&v;
             v76.Type = tStrBuffer;
             v76.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v76);
             Scaleform::MsgFormat::Parse(&v87, " HEIGHT=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
           v24 = v21[9].__vftable;
           if ( v24 )
           {
-            LODWORD(ppara) = (int)v24 / 20;
+            LODWORD(v) = (int)v24 / 20;
             v82.Type = tStrBuffer;
             v82.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v82);
             Scaleform::MsgFormat::Parse(&v87, " VSPACE=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
           RefCount = v21[9].RefCount;
           if ( RefCount )
           {
-            LODWORD(ppara) = RefCount / 20;
+            LODWORD(v) = RefCount / 20;
             v78.Type = tStrBuffer;
             v78.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v78);
             Scaleform::MsgFormat::Parse(&v87, " HSPACE=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<int>(&v87, (const int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<int>(&v87, (int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
@@ -424,45 +424,42 @@ LABEL_132:
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
-          Scaleform::StringBuffer::AppendString(strBuf, " ALIGN=\"", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)" ALIGN=\"", 0xFFFFFFFF);
           if ( LOBYTE(v21[10].RefCount) )
           {
             if ( LOBYTE(v21[10].RefCount) == 1 )
             {
-              Scaleform::StringBuffer::AppendString(strBuf, "right", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"right", 0xFFFFFFFF);
             }
             else if ( LOBYTE(v21[10].RefCount) == 2 )
             {
-              Scaleform::StringBuffer::AppendString(strBuf, "left", 0xFFFFFFFF);
+              Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"left", 0xFFFFFFFF);
             }
           }
           else
           {
-            Scaleform::StringBuffer::AppendString(strBuf, "baseline", 0xFFFFFFFF);
+            Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"baseline", 0xFFFFFFFF);
           }
-          Scaleform::StringBuffer::AppendString(strBuf, "\">", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"\">", 0xFFFFFFFF);
           v26 = v17->PlaceHolder.pFormat.pObject;
           if ( (v26->PresentMask & 0x100) != 0 && Scaleform::String::GetLength(&v26->Url) )
-            Scaleform::StringBuffer::AppendString(strBuf, "</A>", 0xFFFFFFFF);
+            Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</A>", 0xFFFFFFFF);
           Scaleform::RefCountNTSImpl::Release(v21);
           goto LABEL_124;
         }
-        v27 = pprevFmt.pObject;
-        if ( (_BYTE)fontTagOpened )
+        v27 = v58;
+        if ( (_BYTE)v56 )
         {
-          if ( pprevFmt.pObject
-            && !Scaleform::Render::Text::TextFormat::IsHTMLFontTagSame(
-                  pprevFmt.pObject,
-                  v17->PlaceHolder.pFormat.pObject) )
+          if ( v58 && !Scaleform::Render::Text::TextFormat::IsHTMLFontTagSame(v58, v17->PlaceHolder.pFormat.pObject) )
           {
-            Scaleform::StringBuffer::AppendString(strBuf, "</FONT>", 0xFFFFFFFF);
+            Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</FONT>", 0xFFFFFFFF);
             goto LABEL_75;
           }
         }
         else
         {
 LABEL_75:
-          Scaleform::StringBuffer::AppendString(strBuf, "<FONT", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<FONT", 0xFFFFFFFF);
           v28 = v17->PlaceHolder.pFormat.pObject;
           if ( (v28->PresentMask & 4) != 0 )
           {
@@ -478,26 +475,26 @@ LABEL_75:
           v30 = v17->PlaceHolder.pFormat.pObject;
           if ( (v30->PresentMask & 8) != 0 )
           {
-            LODWORD(ppara) = v30->FontSize;
+            LODWORD(v) = v30->FontSize;
             v73.Type = tStrBuffer;
-            *(float *)&ppara = (double)(int)ppara * 0.05000000074505806;
+            *(float *)&v = (double)(int)v * 0.05000000074505806;
             v73.SinkData.pStr = (Scaleform::String *)strBuf;
-            ppara = (__int64)*(float *)&ppara;
+            v = (__int64)*(float *)&v;
             Scaleform::MsgFormat::MsgFormat(&v87, &v73);
             Scaleform::MsgFormat::Parse(&v87, " SIZE=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
           v31 = v17->PlaceHolder.pFormat.pObject;
           if ( (v31->PresentMask & 1) != 0 )
           {
-            LODWORD(ppara) = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v31->ColorV;
+            LODWORD(v) = v31->ColorV & 0xFFFFFF;
             v75.Type = tStrBuffer;
             v75.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v75);
             Scaleform::MsgFormat::Parse(&v87, " COLOR=\"#{0:X:.6}\"");
-            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
@@ -506,36 +503,36 @@ LABEL_75:
           {
             v33 = (double)(v32->LetterSpacing / 20);
             v77.Type = tStrBuffer;
-            *(float *)&ppara = v33;
+            *(float *)&v = v33;
             v77.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v77);
             Scaleform::MsgFormat::Parse(&v87, " LETTERSPACING=\"{0}\"");
-            Scaleform::MsgFormat::FormatD1<float>(&v87, (const float *)&ppara);
+            Scaleform::MsgFormat::FormatD1<float>(&v87, (const float *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
           v34 = v17->PlaceHolder.pFormat.pObject;
           if ( (v34->PresentMask & 0x400) != 0 )
           {
-            LODWORD(ppara) = HIBYTE(v34->ColorV);
+            LODWORD(v) = HIBYTE(v34->ColorV);
             v79.Type = tStrBuffer;
             v79.SinkData.pStr = (Scaleform::String *)strBuf;
             Scaleform::MsgFormat::MsgFormat(&v87, &v79);
             Scaleform::MsgFormat::Parse(&v87, " ALPHA=\"#{0:X:.2}\"");
-            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&ppara);
+            Scaleform::MsgFormat::FormatD1<unsigned int>(&v87, (unsigned int *)&v);
             Scaleform::MsgFormat::FinishFormatD(&v87);
             Scaleform::MsgFormat::~MsgFormat(&v87);
           }
-          LOBYTE(fontTagOpened) = (v17->PlaceHolder.pFormat.pObject->FormatFlags & 8) != 0;
+          LOBYTE(v56) = (v17->PlaceHolder.pFormat.pObject->FormatFlags & 8) != 0;
           v81.Type = tStrBuffer;
           v81.SinkData.pStr = (Scaleform::String *)strBuf;
           Scaleform::MsgFormat::MsgFormat(&v87, &v81);
           Scaleform::MsgFormat::Parse(&v87, " KERNING=\"{0:sw:1:0}\"");
-          Scaleform::MsgFormat::FormatD1<bool>(&v87, (bool *)&fontTagOpened);
+          Scaleform::MsgFormat::FormatD1<bool>(&v87, (bool *)&v56);
           Scaleform::MsgFormat::FinishFormatD(&v87);
           Scaleform::MsgFormat::~MsgFormat(&v87);
-          Scaleform::StringBuffer::AppendString(strBuf, ">", 0xFFFFFFFF);
-          LOBYTE(fontTagOpened) = 1;
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)">", 0xFFFFFFFF);
+          LOBYTE(v56) = 1;
         }
         v35 = v17->PlaceHolder.pFormat.pObject;
         if ( (v35->PresentMask & 0x100) != 0 && Scaleform::String::GetLength(&v35->Url) )
@@ -550,11 +547,11 @@ LABEL_75:
           Scaleform::MsgFormat::~MsgFormat(&v87);
         }
         if ( (v17->PlaceHolder.pFormat.pObject->FormatFlags & 1) != 0 )
-          Scaleform::StringBuffer::AppendString(strBuf, "<B>", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<B>", 0xFFFFFFFF);
         if ( (v17->PlaceHolder.pFormat.pObject->FormatFlags & 2) != 0 )
-          Scaleform::StringBuffer::AppendString(strBuf, "<I>", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<I>", 0xFFFFFFFF);
         if ( (v17->PlaceHolder.pFormat.pObject->FormatFlags & 4) != 0 )
-          Scaleform::StringBuffer::AppendString(strBuf, "<U>", 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"<U>", 0xFFFFFFFF);
         v37 = v17->PlaceHolder.pFormat.pObject;
         if ( v37 )
           ++v37->RefCount;
@@ -567,20 +564,20 @@ LABEL_75:
             Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v27);
           }
         }
-        pprevFmt.pObject = v17->PlaceHolder.pFormat.pObject;
+        v58 = v17->PlaceHolder.pFormat.pObject;
         goto LABEL_101;
       }
 LABEL_135:
-      Scaleform::StringBuffer::AppendString(strBuf, "</", 0xFFFFFFFF);
-      if ( (paraFormat->PresentMask & 0x80u) != 0 && (paraFormat->PresentMask & 0x8000) != 0 )
-        Scaleform::StringBuffer::AppendString(strBuf, "LI", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"</", 0xFFFFFFFF);
+      if ( (*(_WORD *)(v64 + 18) & 0x80u) != 0 && (*(_WORD *)(v64 + 18) & 0x8000) != 0 )
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"LI", 0xFFFFFFFF);
       else
-        Scaleform::StringBuffer::AppendString(strBuf, "P", 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(strBuf, "></TEXTFORMAT>", 0xFFFFFFFF);
-      v45 = pprevFmt.pObject;
-      if ( pprevFmt.pObject )
+        Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"P", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(strBuf, (const __m128i *)"></TEXTFORMAT>", 0xFFFFFFFF);
+      v45 = v58;
+      if ( v58 )
       {
-        v10 = pprevFmt.pObject->RefCount-- == 1;
+        v10 = v58->RefCount-- == 1;
         if ( v10 )
         {
           v46 = (Scaleform::RefCountVImpl *)v45->pFontHandle.pObject;
@@ -598,10 +595,10 @@ LABEL_135:
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v45);
         }
       }
-      v50 = it.PlaceHolder.pFormat.pObject;
-      if ( it.PlaceHolder.pFormat.pObject )
+      v50 = v63.PlaceHolder.pFormat.pObject;
+      if ( v63.PlaceHolder.pFormat.pObject )
       {
-        --it.PlaceHolder.pFormat.pObject->RefCount;
+        --v63.PlaceHolder.pFormat.pObject->RefCount;
         if ( !v50->RefCount )
         {
           v51 = (Scaleform::RefCountVImpl *)v50->pFontHandle.pObject;
@@ -620,10 +617,10 @@ LABEL_135:
         }
       }
     }
-    CurIndex = paraIter.CurIndex;
+    v6 = v67;
     p_Paragraphs = &v60->Paragraphs;
-    if ( paraIter.CurIndex < (signed int)v60->Paragraphs.Data.Size )
-      CurIndex = ++paraIter.CurIndex;
+    if ( v67 < (signed int)v60->Paragraphs.Data.Size )
+      v6 = ++v67;
     v7 = v66;
     v3 = 0;
   }
@@ -636,11 +633,11 @@ Scaleform::String *__thiscall Scaleform::Render::Text::StyledText::GetHtml(
         Scaleform::String *result)
 {
   const Scaleform::StringBuffer *Html; // eax
-  Scaleform::StringBuffer retStr; // [esp+4h] [ebp-18h] BYREF
+  Scaleform::StringBuffer strBuf; // [esp+4h] [ebp-18h] BYREF
 
-  Scaleform::StringBuffer::StringBuffer(&retStr, Scaleform::Memory::pGlobalHeap);
-  Html = Scaleform::Render::Text::StyledText::GetHtml(this, &retStr);
+  Scaleform::StringBuffer::StringBuffer(&strBuf, Scaleform::Memory::pGlobalHeap);
+  Html = Scaleform::Render::Text::StyledText::GetHtml(this, &strBuf);
   Scaleform::String::String(result, Html);
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&retStr);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&strBuf);
   return result;
 }

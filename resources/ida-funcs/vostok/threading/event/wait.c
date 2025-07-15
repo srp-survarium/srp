@@ -1,44 +1,41 @@
-int __thiscall vostok::threading::event::wait(
-        vostok::threading::event *this,
-        vostok::threading::event *max_wait_time_ms,
-        unsigned int max_wait_time_msa)
+int __userpurge vostok::threading::event::wait@<eax>(
+        vostok::threading::event *this@<ecx>,
+        HANDLE *a2@<eax>,
+        DWORD max_wait_time_ms)
 {
-  DWORD v3; // eax
-  int v5; // esi
-  vostok::tasks::thread_pool *v6; // ecx
-  DWORD v7; // eax
-  int v8; // ebx
-  vostok::tasks::thread_pool *v9; // ecx
+  DWORD v4; // eax
+  void *v5; // ecx
+  int v7; // ebx
+  DWORD v8; // eax
+  void *v9; // ecx
+  DWORD v10; // eax
+  void *v11; // ecx
+  int v12; // esi
 
-  if ( !max_wait_time_msa )
+  if ( !max_wait_time_ms )
   {
-    v3 = WaitForSingleObject(*(HANDLE *)max_wait_time_ms->m_event.m_event, 0);
-    if ( v3 )
-      return v3 != 258 ? 0 : 2;
+    v4 = WaitForSingleObject(*a2, 0);
+    if ( v4 )
+      return vostok::threading::event_tasks_unaware::wait(v5, v4);
     return 1;
   }
-  v5 = 0;
+  v7 = 0;
   if ( s_spin_count.m_begin )
   {
-    while ( WaitForSingleObject(*(HANDLE *)max_wait_time_ms->m_event.m_event, 0) )
+    do
     {
-      if ( (vostok::tasks::thread_tls *)++v5 >= s_spin_count.m_begin )
-        goto LABEL_7;
+      v8 = WaitForSingleObject(*a2, 0);
+      if ( !v8 || vostok::threading::event_tasks_unaware::wait(v9, v8) == 1 )
+        return 1;
     }
-    return 1;
+    while ( (vostok::tasks::thread_tls *)++v7 < s_spin_count.m_begin );
   }
-LABEL_7:
-  if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-    vostok::tasks::thread_pool::on_current_thread_locks(v6, s_thread_pool.m_variable);
-  v7 = WaitForSingleObject(*(HANDLE *)max_wait_time_ms->m_event.m_event, max_wait_time_msa);
-  if ( v7 )
-    v8 = v7 != 258 ? 0 : 2;
+  vostok::tasks::on_current_thread_locks();
+  v10 = WaitForSingleObject(*a2, max_wait_time_ms);
+  if ( v10 )
+    v12 = vostok::threading::event_tasks_unaware::wait(v11, v10);
   else
-    v8 = 1;
-  if ( s_thread_pool.m_initialized )
-  {
-    if ( TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_unlocks(v9, s_thread_pool.m_variable);
-  }
-  return v8;
+    v12 = 1;
+  vostok::tasks::on_current_thread_unlocks();
+  return v12;
 }

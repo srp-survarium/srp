@@ -12,23 +12,23 @@ char __thiscall Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRec
   Scaleform::Render::ImagePlane *v9; // eax
   unsigned int v10; // edx
   unsigned int v11; // eax
-  Scaleform::Render::Size<unsigned long> destSize; // [esp+0h] [ebp-10h] BYREF
-  Scaleform::Render::Size<unsigned long> srcSize; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::Size<unsigned long> v13; // [esp+0h] [ebp-10h] BYREF
+  Scaleform::Render::Size<unsigned long> v14; // [esp+8h] [ebp-8h] BYREF
 
   pPlanes = dest->pPlanes;
   Width = pPlanes->Width;
   Height = pPlanes->Height;
-  destSize.Width = Width;
-  destSize.Height = Height;
+  v13.Width = Width;
+  v13.Height = Height;
   v9 = src->pPlanes;
   v10 = v9->Width;
   v11 = v9->Height;
-  srcSize.Width = v10;
-  srcSize.Height = v11;
+  v14.Width = v10;
+  v14.Height = v11;
   return Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
            this,
-           &srcSize,
-           &destSize,
+           &v14,
+           &v13,
            srcRect,
            dstClippedRect,
            delta);
@@ -48,33 +48,33 @@ char __thiscall Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRec
   unsigned int v8; // ebx
   char result; // al
   int v10; // eax
-  Scaleform::Render::Rect<long> srcClippedRect; // [esp+Ch] [ebp-30h] BYREF
-  Scaleform::Render::Rect<long> srcImageRect; // [esp+1Ch] [ebp-20h] BYREF
-  Scaleform::Render::Rect<long> dstImageRect; // [esp+2Ch] [ebp-10h] BYREF
+  Scaleform::Render::Rect<long> v11; // [esp+Ch] [ebp-30h] BYREF
+  Scaleform::Render::Rect<long> v12; // [esp+1Ch] [ebp-20h] BYREF
+  Scaleform::Render::Rect<long> v13; // [esp+2Ch] [ebp-10h] BYREF
 
   v6 = this->DestPoint.y - srcRect->y1;
   delta->x = this->DestPoint.x - srcRect->x1;
   delta->y = v6;
   Width = srcSize->Width;
-  srcImageRect.y2 = srcSize->Height;
-  srcImageRect.x2 = Width;
+  v12.y2 = srcSize->Height;
+  v12.x2 = Width;
   v8 = destSize->Width;
-  dstImageRect.y2 = destSize->Height;
-  srcImageRect.x1 = 0;
-  srcImageRect.y1 = 0;
-  dstImageRect.x1 = 0;
-  dstImageRect.y1 = 0;
-  dstImageRect.x2 = v8;
-  memset(&srcClippedRect, 0, sizeof(srcClippedRect));
-  result = Scaleform::Render::Rect<long>::IntersectRect(&srcImageRect, &srcClippedRect, srcRect);
+  v13.y2 = destSize->Height;
+  v12.x1 = 0;
+  v12.y1 = 0;
+  v13.x1 = 0;
+  v13.y1 = 0;
+  v13.x2 = v8;
+  memset(&v11, 0, sizeof(v11));
+  result = Scaleform::Render::Rect<long>::IntersectRect(&v12, &v11, srcRect);
   if ( result )
   {
-    v10 = srcClippedRect.x2 + delta->x;
-    srcImageRect.x1 = delta->x + srcClippedRect.x1;
-    srcImageRect.x2 = v10;
-    srcImageRect.y1 = v6 + srcClippedRect.y1;
-    srcImageRect.y2 = v6 + srcClippedRect.y2;
-    return Scaleform::Render::Rect<long>::IntersectRect(&srcImageRect, dstClippedRect, &dstImageRect) != 0;
+    v10 = v11.x2 + delta->x;
+    v12.x1 = delta->x + v11.x1;
+    v12.x2 = v10;
+    v12.y1 = v6 + v11.y1;
+    v12.y2 = v6 + v11.y2;
+    return Scaleform::Render::Rect<long>::IntersectRect(&v12, dstClippedRect, &v13) != 0;
   }
   return result;
 }

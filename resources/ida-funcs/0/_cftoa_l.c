@@ -1,5 +1,5 @@
-unsigned int __usercall _cftoa_l@<eax>(
-        unsigned int a1@<ebx>,
+int __usercall _cftoa_l@<eax>(
+        int a1@<ebx>,
         _CRT_DOUBLE *pvalue,
         char *buf,
         unsigned int sizeInBytes,
@@ -9,10 +9,10 @@ unsigned int __usercall _cftoa_l@<eax>(
 {
   char *v7; // esi
   int *v8; // eax
-  unsigned int result; // eax
+  int result; // eax
   unsigned int v10; // eax
   bool v11; // zf
-  _BYTE *v12; // esi
+  char *v12; // esi
   _BYTE *v13; // eax
   _BYTE *v14; // esi
   _BYTE *v15; // esi
@@ -20,54 +20,53 @@ unsigned int __usercall _cftoa_l@<eax>(
   char *v17; // eax
   char *v18; // esi
   int x_low; // eax
-  unsigned __int64 v20; // rax
-  unsigned __int16 v21; // ax
-  unsigned int v22; // ecx
-  unsigned __int64 v23; // rax
+  unsigned __int16 v20; // ax
+  unsigned int v21; // ecx
   char *i; // eax
-  _BYTE *v25; // esi
-  __int64 v26; // rax
-  __int64 v27; // rcx
-  _BYTE *v28; // esi
-  _BYTE *v29; // edi
+  _BYTE *v23; // esi
+  __int64 v24; // rax
+  __int64 v25; // rcx
+  _BYTE *v26; // esi
+  _BYTE *v27; // edi
+  __int64 v28; // rax
+  __int64 v29; // rcx
   __int64 v30; // rax
   __int64 v31; // rcx
-  __int64 v32; // rax
-  __int64 v33; // rcx
-  __int64 v34; // rcx
-  __int64 v35; // [esp-Ch] [ebp-38h]
-  unsigned int v36; // [esp-4h] [ebp-30h]
-  _LocaleUpdate _loc_update; // [esp+8h] [ebp-24h] BYREF
-  __int64 exponent; // [esp+18h] [ebp-14h]
-  unsigned __int64 mask; // [esp+20h] [ebp-Ch]
-  int maskpos; // [esp+28h] [ebp-4h]
-  char *pos; // [esp+38h] [ebp+Ch]
+  __int64 v32; // rcx
+  __int64 v33; // [esp-Ch] [ebp-38h]
+  int v34; // [esp-4h] [ebp-30h]
+  _LocaleUpdate v35; // [esp+8h] [ebp-24h] BYREF
+  int v36; // [esp+18h] [ebp-14h]
+  int v37; // [esp+1Ch] [ebp-10h]
+  unsigned __int64 v38; // [esp+20h] [ebp-Ch]
+  int v39; // [esp+28h] [ebp-4h]
+  char *v40; // [esp+38h] [ebp+Ch]
 
-  LODWORD(exponent) = 1023;
-  maskpos = 48;
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  v36 = 1023;
+  v39 = 48;
+  _LocaleUpdate::_LocaleUpdate(&v35, plocinfo);
   if ( ndec < 0 )
     ndec = 0;
   v7 = buf;
   if ( !buf || !sizeInBytes )
   {
     v8 = _errno();
-    v36 = 22;
+    v34 = 22;
 LABEL_5:
-    *v8 = v36;
-    _invalid_parameter(a1, 0, v36);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return v36;
+    *v8 = v34;
+    _invalid_parameter(a1, 0, v34);
+    if ( v35.updated )
+      v35.ptd->_ownlocale &= ~2u;
+    return v34;
   }
   *buf = 0;
   if ( sizeInBytes <= ndec + 11 )
   {
     v8 = _errno();
-    v36 = 34;
+    v34 = 34;
     goto LABEL_5;
   }
-  LODWORD(mask) = LODWORD(pvalue->x);
+  LODWORD(v38) = LODWORD(pvalue->x);
   if ( ((HIDWORD(pvalue->x) >> 20) & 0x7FF) == 0x7FF )
   {
     v10 = sizeInBytes;
@@ -76,10 +75,10 @@ LABEL_5:
     result = _cftoe(pvalue, buf + 2, v10, ndec, 0);
     if ( result )
     {
-      v11 = !_loc_update.updated;
+      v11 = !v35.updated;
       *buf = 0;
       if ( !v11 )
-        _loc_update.ptd->_ownlocale &= ~2u;
+        v35.ptd->_ownlocale &= ~2u;
       return result;
     }
     if ( buf[2] == 45 )
@@ -117,122 +116,116 @@ LABEL_5:
     {
       *v15 = 48;
       v16 = v15 + 1;
-      if ( (unsigned int)&loc_FFFFF & HIDWORD(pvalue->x) | LODWORD(pvalue->x) )
-        LODWORD(exponent) = 1022;
+      if ( HIDWORD(pvalue->x) & 0xFFFFF | LODWORD(pvalue->x) )
+        v36 = 1022;
       else
-        LODWORD(exponent) = 0;
+        v36 = 0;
     }
     v17 = v16;
     v18 = v16 + 1;
-    pos = v17;
+    v40 = v17;
     if ( ndec )
-      *v17 = *_loc_update.localeinfo.locinfo->lconv->decimal_point;
+      *v17 = *v35.localeinfo.locinfo->lconv->decimal_point;
     else
       *v17 = 0;
     x_low = LODWORD(pvalue->x);
-    HIDWORD(mask) = (unsigned int)&loc_FFFFF & HIDWORD(pvalue->x);
-    if ( HIDWORD(mask) || x_low )
+    HIDWORD(v38) = HIDWORD(pvalue->x) & 0xFFFFF;
+    if ( HIDWORD(v38) || x_low )
     {
-      mask = 0xF000000000000LL;
+      LODWORD(v38) = 0;
+      HIDWORD(v38) = &locret_F0000;
       do
       {
         if ( ndec <= 0 )
           break;
-        LODWORD(v20) = mask & LODWORD(pvalue->x);
-        HIDWORD(v20) = (unsigned int)&loc_FFFFF & HIDWORD(mask) & HIDWORD(pvalue->x);
-        v21 = (v20 >> maskpos) + 48;
-        if ( v21 > 0x39u )
-          LOBYTE(v21) = (caps != 0 ? 7 : 39) + v21;
-        v22 = HIDWORD(mask);
-        maskpos -= 4;
-        *v18++ = v21;
+        v20 = ((v38 & *(_QWORD *)&pvalue->x & 0xFFFFFFFFFFFFFLL) >> v39) + 48;
+        if ( v20 > 0x39u )
+          LOBYTE(v20) = (caps != 0 ? 7 : 39) + v20;
+        v21 = HIDWORD(v38);
+        v39 -= 4;
+        *v18++ = v20;
         --ndec;
-        mask = __PAIR64__(v22, mask) >> 4;
+        v38 = __PAIR64__(v21, v38) >> 4;
       }
-      while ( (maskpos & 0x8000u) == 0 );
-      if ( (maskpos & 0x8000u) == 0 )
+      while ( (v39 & 0x8000u) == 0 );
+      if ( (v39 & 0x8000u) == 0 && (unsigned __int16)((v38 & *(_QWORD *)&pvalue->x & 0xFFFFFFFFFFFFFLL) >> v39) > 8u )
       {
-        LODWORD(v23) = mask & LODWORD(pvalue->x);
-        HIDWORD(v23) = (unsigned int)&loc_FFFFF & HIDWORD(mask) & HIDWORD(pvalue->x);
-        if ( (unsigned __int16)(v23 >> maskpos) > 8u )
+        for ( i = v18 - 1; *i == 102 || *i == 70; --i )
+          *i = 48;
+        if ( i == v40 )
         {
-          for ( i = v18 - 1; *i == 102 || *i == 70; --i )
-            *i = 48;
-          if ( i == pos )
-          {
-            ++*(i - 1);
-          }
-          else if ( *i == 57 )
-          {
-            *i = caps != 0 ? 65 : 97;
-          }
-          else
-          {
-            ++*i;
-          }
+          ++*(i - 1);
+        }
+        else if ( *i == 57 )
+        {
+          *i = caps != 0 ? 65 : 97;
+        }
+        else
+        {
+          ++*i;
         }
       }
     }
     if ( ndec > 0 )
     {
-      memset((int)v18, (unsigned __int8 *)0x30, ndec);
+      memset((int)v18, 48, ndec);
       v18 += ndec;
     }
-    if ( !*pos )
-      v18 = pos;
+    if ( !*v40 )
+      v18 = v40;
     *v18 = caps == 0 ? 112 : 80;
-    v25 = v18 + 1;
-    HIDWORD(v27) = 0;
-    v26 = ((*(_QWORD *)&pvalue->x >> 52) & 0x7FFLL) - (unsigned int)exponent;
-    if ( v26 < 0 )
+    v23 = v18 + 1;
+    HIDWORD(v25) = 0;
+    v24 = ((*(_QWORD *)&pvalue->x >> 52) & 0x7FFLL) - (unsigned int)v36;
+    if ( v24 < 0 )
     {
-      *v25 = 45;
-      v28 = v25 + 1;
-      v26 = -v26;
+      *v23 = 45;
+      v26 = v23 + 1;
+      v24 = -v24;
     }
     else
     {
-      *v25 = 43;
-      v28 = v25 + 1;
+      *v23 = 43;
+      v26 = v23 + 1;
     }
-    v29 = v28;
-    *v28 = 48;
-    if ( v26 >= 0 )
+    v27 = v26;
+    *v26 = 48;
+    if ( v24 >= 0 )
     {
-      LODWORD(v27) = 1000;
-      if ( v26 >= 1000 )
+      LODWORD(v25) = 1000;
+      if ( v24 >= 1000 )
       {
-        v35 = v27;
-        v31 = v26 % v27;
-        v30 = v26 / v35;
-        *v28++ = v30 + 48;
-        HIDWORD(exponent) = HIDWORD(v30);
-        v26 = v31;
-        if ( v28 != v29 )
+        v33 = v25;
+        v29 = v24 % v25;
+        v28 = v24 / v33;
+        *v26++ = v28 + 48;
+        v37 = HIDWORD(v28);
+        v24 = v29;
+        if ( v26 != v27 )
           goto LABEL_60;
       }
     }
-    if ( v26 >= 100 )
+    if ( v24 >= 100 )
     {
 LABEL_60:
-      v33 = v26 % 100;
-      v32 = v26 / 100;
-      *v28 = v32 + 48;
-      HIDWORD(exponent) = HIDWORD(v32);
-      ++v28;
-      v26 = v33;
+      v31 = v24 % 100;
+      v30 = v24 / 100;
+      *v26 = v30 + 48;
+      v37 = HIDWORD(v30);
+      ++v26;
+      v24 = v31;
     }
-    if ( v28 != v29 || v26 >= 10 )
+    if ( v26 != v27 || v24 >= 10 )
     {
-      v34 = v26 % 10;
-      *v28++ = v26 / 10 + 48;
-      LOBYTE(v26) = v26 % 10;
-      HIDWORD(exponent) = HIDWORD(v34);
+      v32 = v24 % 10;
+      *v26++ = v24 / 10 + 48;
+      LOBYTE(v24) = v24 % 10;
+      v37 = HIDWORD(v32);
     }
-    *v28 = v26 + 48;
-    v28[1] = 0;
+    *v26 = v24 + 48;
+    v26[1] = 0;
   }
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
+  if ( v35.updated )
+    v35.ptd->_ownlocale &= ~2u;
   return 0;
 }

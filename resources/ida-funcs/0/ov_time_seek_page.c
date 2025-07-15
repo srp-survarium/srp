@@ -1,30 +1,28 @@
-int __cdecl ov_time_seek_page(OggVorbis_File *vf, double seconds)
+int __cdecl ov_time_seek_page(OggVorbis_File *vf, double a2)
 {
-  double addsec; // [esp+Ch] [ebp-20h]
-  int link; // [esp+18h] [ebp-14h]
-  double time_total; // [esp+1Ch] [ebp-10h]
-  __int64 pcm_total; // [esp+24h] [ebp-8h]
+  double v3; // [esp+Ch] [ebp-20h]
+  int i; // [esp+18h] [ebp-14h]
+  double v5; // [esp+1Ch] [ebp-10h]
+  __int64 v6; // [esp+24h] [ebp-8h]
 
-  pcm_total = 0;
-  time_total = 0.0;
+  v6 = 0;
+  v5 = 0.0;
   if ( vf->ready_state < 2 )
     return -131;
   if ( !vf->seekable )
     return -138;
-  if ( seconds < 0.0 )
+  if ( a2 < 0.0 )
     return -131;
-  for ( link = 0; link < vf->links; ++link )
+  for ( i = 0; i < vf->links; ++i )
   {
-    addsec = ov_time_total(vf, link);
-    if ( time_total + addsec > seconds )
+    v3 = ov_time_total(vf, i);
+    if ( v5 + v3 > a2 )
       break;
-    time_total = time_total + addsec;
-    pcm_total += vf->pcmlengths[2 * link + 1];
+    v5 = v5 + v3;
+    v6 += vf->pcmlengths[2 * i + 1];
   }
-  if ( link == vf->links )
+  if ( i == vf->links )
     return -131;
   else
-    return ov_pcm_seek_page(
-             vf,
-             (unsigned __int64)((double)pcm_total + (seconds - time_total) * (double)vf->vi[link].rate));
+    return ov_pcm_seek_page(vf, (unsigned __int64)((double)v6 + (a2 - v5) * (double)vf->vi[i].rate));
 }

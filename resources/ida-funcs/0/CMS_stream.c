@@ -1,21 +1,21 @@
-int __cdecl CMS_stream(unsigned __int8 ***boundary, asn1_string_st *cms)
+int __usercall CMS_stream@<eax>(int a1@<ebx>, unsigned __int8 ***boundary, asn1_string_st *cms)
 {
-  asn1_string_st **v2; // eax
-  asn1_string_st **v3; // esi
-  asn1_string_st *v4; // eax
+  asn1_string_st **v3; // eax
+  asn1_string_st **v4; // esi
+  asn1_string_st *v5; // eax
 
-  v2 = CMS_get0_content(cms);
-  v3 = v2;
-  if ( v2 )
+  v3 = CMS_get0_content(a1, cms);
+  v4 = v3;
+  if ( v3 )
   {
-    if ( *v2 || (v4 = ASN1_OCTET_STRING_new(), (*v3 = v4) != 0) )
+    if ( *v3 || (v5 = ASN1_OCTET_STRING_new(), (*v4 = v5) != 0) )
     {
-      (*v3)->flags |= 0x10u;
-      (*v3)->flags &= ~0x20u;
-      *boundary = &(*v3)->data;
+      (*v4)->flags |= 0x10u;
+      (*v4)->flags &= ~0x20u;
+      *boundary = &(*v4)->data;
       return 1;
     }
-    ERR_put_error(0x2Eu, 155, 65, ".\\crypto\\cms\\cms_io.c", 76);
+    ERR_put_error(a1, 0x2Eu, 155, 65, ".\\crypto\\cms\\cms_io.c", 76);
   }
   return 0;
 }

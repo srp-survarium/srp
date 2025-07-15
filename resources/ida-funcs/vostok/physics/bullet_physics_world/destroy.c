@@ -1,84 +1,99 @@
 void __thiscall vostok::physics::bullet_physics_world::destroy(vostok::physics::bullet_physics_world *this)
 {
   btOverlappingPairCache *v2; // eax
-  vostok::memory::base_allocator *m_allocator; // edi
-  _BYTE *v4; // ebp
-  vostok::memory::base_allocator *v5; // edi
-  _BYTE *v6; // ebp
-  vostok::memory::base_allocator *v7; // edi
-  _BYTE *v8; // ebp
-  vostok::memory::base_allocator *v9; // edi
-  _BYTE *v10; // ebp
-  vostok::memory::base_allocator *v11; // edi
-  _BYTE *v12; // ebp
-  vostok::memory::base_allocator *v13; // edi
-  _BYTE *v14; // ebp
+  btAlignedObjectArray<GrahamVector2> *v3; // ecx
+  btSoftBodyWorldInfo *m_softBodyWorldInfo; // eax
+  vostok::memory::base_allocator *m_allocator; // [esp+7Ch] [ebp-8h]
+  _BYTE *v6; // [esp+7Ch] [ebp-8h]
+  _BYTE *v7; // [esp+7Ch] [ebp-8h]
+  _BYTE *v8; // [esp+7Ch] [ebp-8h]
+  _BYTE *v9; // [esp+7Ch] [ebp-8h]
+  _BYTE *v10; // [esp+7Ch] [ebp-8h]
+  btSoftBodyWorldInfo *v11; // [esp+7Ch] [ebp-8h]
+  _BYTE *v12; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v13; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v14; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v15; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v16; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v17; // [esp+80h] [ebp-4h]
+  vostok::memory::base_allocator *v18; // [esp+80h] [ebp-4h]
 
   v2 = this->m_dynamicsWorld->m_broadphasePairCache->getOverlappingPairCache(this->m_dynamicsWorld->m_broadphasePairCache);
   v2->setInternalGhostPairCallback(v2, 0);
   m_allocator = this->m_allocator;
   if ( this->m_ghost_pair_callback )
   {
-    v4 = __RTCastToVoid((void **)&this->m_ghost_pair_callback->__vftable);
+    v12 = __RTCastToVoid((void **)&this->m_ghost_pair_callback->__vftable);
     ((void (__thiscall *)(btGhostPairCallback *, _DWORD))this->m_ghost_pair_callback->~btGhostPairCallback)(
       this->m_ghost_pair_callback,
       0);
-    m_allocator->call_free(m_allocator, v4);
+    m_allocator->call_free(
+      m_allocator,
+      v12,
+      "vostok::physics::bullet_physics_world::destroy",
+      ".\\bullet_physics_world.cpp",
+      182u);
     this->m_ghost_pair_callback = 0;
   }
-  v5 = this->m_allocator;
+  v13 = this->m_allocator;
   if ( this->m_dynamicsWorld )
   {
     v6 = __RTCastToVoid((void **)&this->m_dynamicsWorld->__vftable);
     ((void (__thiscall *)(btSoftRigidDynamicsWorld *, _DWORD))this->m_dynamicsWorld->~btSoftRigidDynamicsWorld)(
       this->m_dynamicsWorld,
       0);
-    v5->call_free(v5, v6);
+    v13->call_free(v13, v6, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 183u);
     this->m_dynamicsWorld = 0;
   }
-  v7 = this->m_allocator;
+  v14 = this->m_allocator;
   if ( this->m_constraintSolver )
   {
-    v8 = __RTCastToVoid((void **)&this->m_constraintSolver->__vftable);
+    v7 = __RTCastToVoid((void **)&this->m_constraintSolver->__vftable);
     ((void (__thiscall *)(btConstraintSolver *, _DWORD))this->m_constraintSolver->~btConstraintSolver)(
       this->m_constraintSolver,
       0);
-    v7->call_free(v7, v8);
+    v14->call_free(v14, v7, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 184u);
     this->m_constraintSolver = 0;
   }
-  v9 = this->m_allocator;
+  v15 = this->m_allocator;
   if ( this->m_overlappingPairCache )
   {
-    v10 = __RTCastToVoid((void **)&this->m_overlappingPairCache->__vftable);
+    v8 = __RTCastToVoid((void **)&this->m_overlappingPairCache->__vftable);
     ((void (__thiscall *)(btBroadphaseInterface *, _DWORD))this->m_overlappingPairCache->~btBroadphaseInterface)(
       this->m_overlappingPairCache,
       0);
-    v9->call_free(v9, v10);
+    v15->call_free(v15, v8, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 185u);
     this->m_overlappingPairCache = 0;
   }
-  v11 = this->m_allocator;
+  v16 = this->m_allocator;
   if ( this->m_dispatcher )
   {
-    v12 = __RTCastToVoid((void **)&this->m_dispatcher->__vftable);
+    v9 = __RTCastToVoid((void **)&this->m_dispatcher->__vftable);
     ((void (__thiscall *)(btCollisionDispatcher *, _DWORD))this->m_dispatcher->~btCollisionDispatcher)(
       this->m_dispatcher,
       0);
-    v11->call_free(v11, v12);
+    v16->call_free(v16, v9, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 186u);
     this->m_dispatcher = 0;
   }
-  v13 = this->m_allocator;
+  v17 = this->m_allocator;
   if ( this->m_collisionConfiguration )
   {
-    v14 = __RTCastToVoid((void **)&this->m_collisionConfiguration->__vftable);
+    v10 = __RTCastToVoid((void **)&this->m_collisionConfiguration->__vftable);
     ((void (__thiscall *)(btCollisionConfiguration *, _DWORD))this->m_collisionConfiguration->~btCollisionConfiguration)(
       this->m_collisionConfiguration,
       0);
-    v13->call_free(v13, v14);
+    v17->call_free(v17, v10, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 187u);
     this->m_collisionConfiguration = 0;
   }
-  vostok::memory::detail::delete_helper_impl<vostok::memory::base_allocator,btSoftBodyWorldInfo,vostok::memory::detail::call_destructor_predicate>(
-    this->m_allocator,
-    &this->m_softBodyWorldInfo);
-  this->m_last_frame_time = 0.0;
-  this->m_last_frame_delta = 0.0;
+  v18 = this->m_allocator;
+  m_softBodyWorldInfo = this->m_softBodyWorldInfo;
+  v11 = m_softBodyWorldInfo;
+  if ( m_softBodyWorldInfo )
+  {
+    btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+      v3,
+      (int)&m_softBodyWorldInfo->m_sparsesdf);
+    v18->call_free(v18, v11, "vostok::physics::bullet_physics_world::destroy", ".\\bullet_physics_world.cpp", 188u);
+    this->m_softBodyWorldInfo = 0;
+  }
 }

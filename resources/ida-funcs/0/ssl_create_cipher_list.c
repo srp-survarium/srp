@@ -75,28 +75,38 @@ stack_st_SSL_CIPHER *__cdecl ssl_create_cipher_list(
   cipher_order_st *tail_p; // [esp+0h] [ebp-24h] BYREF
   cipher_order_st *head_p; // [esp+4h] [ebp-20h] BYREF
   void *str; // [esp+8h] [ebp-1Ch]
-  unsigned int ssl; // [esp+Ch] [ebp-18h] BYREF
-  unsigned int auth; // [esp+10h] [ebp-14h] BYREF
-  unsigned int mkey; // [esp+14h] [ebp-10h] BYREF
-  unsigned int mac; // [esp+18h] [ebp-Ch] BYREF
-  unsigned int enc; // [esp+1Ch] [ebp-8h] BYREF
+  unsigned int disabled_ssl; // [esp+Ch] [ebp-18h] BYREF
+  unsigned int disabled_auth; // [esp+10h] [ebp-14h] BYREF
+  unsigned int disabled_mkey; // [esp+14h] [ebp-10h] BYREF
+  unsigned int disabled_mac; // [esp+18h] [ebp-Ch] BYREF
+  unsigned int disabled_enc; // [esp+1Ch] [ebp-8h] BYREF
   int v81; // [esp+20h] [ebp-4h]
 
   head_p = 0;
   tail_p = 0;
   if ( !rule_str || !cipher_list || !cipher_list_by_id )
     return 0;
-  ssl_cipher_get_disabled(&auth, &enc, &mac, &mkey, &ssl);
+  ssl_cipher_get_disabled(&disabled_auth, &disabled_enc, &disabled_mac, &disabled_mkey, &disabled_ssl);
   v4 = ssl_method->num_ciphers();
   v81 = v4;
   v5 = (cipher_order_st *)CRYPTO_malloc(20 * v4, ".\\ssl\\ssl_ciph.c", 1309);
   str = v5;
   if ( !v5 )
   {
-    ERR_put_error(0x14u, 166, 65, ".\\ssl\\ssl_ciph.c", 1312);
+    ERR_put_error((int)&disabled_auth, 0x14u, 166, 65, ".\\ssl\\ssl_ciph.c", 1312);
     return 0;
   }
-  ssl_cipher_collect_ciphers(ssl_method, v4, mkey, auth, enc, mac, ssl, v5, &head_p, &tail_p);
+  ssl_cipher_collect_ciphers(
+    ssl_method,
+    v4,
+    disabled_mkey,
+    disabled_auth,
+    disabled_enc,
+    disabled_mac,
+    disabled_ssl,
+    v5,
+    &head_p,
+    &tail_p);
   v7 = head_p;
   v8 = tail_p;
   v9 = head_p;
@@ -485,10 +495,10 @@ stack_st_SSL_CIPHER *__cdecl ssl_create_cipher_list(
   if ( !v66 )
   {
     CRYPTO_free(str);
-    ERR_put_error(0x14u, 166, 65, ".\\ssl\\ssl_ciph.c", 1377);
+    ERR_put_error((int)v65, 0x14u, 166, 65, ".\\ssl\\ssl_ciph.c", 1377);
     return 0;
   }
-  ssl_cipher_collect_aliases(mac, enc, v66, 67, mkey, auth, ssl, v64);
+  ssl_cipher_collect_aliases(disabled_mac, disabled_enc, v66, 67, disabled_mkey, disabled_auth, disabled_ssl, v64);
   v67 = rule_str;
   v68 = 1;
   if ( strncmp(rule_str, "DEFAULT", 7u) )
@@ -523,7 +533,7 @@ LABEL_169:
         sk_free(&(*cipher_list_by_id)->stack);
       *cipher_list_by_id = v72;
       sk_set_cmp_func(&v72->stack, (int (__cdecl *)(const void *, const void *))ssl_cipher_ptr_id_cmp);
-      sk_sort(&(*cipher_list_by_id)->stack);
+      sk_sort((int)v70, &(*cipher_list_by_id)->stack);
       return v70;
     }
     else

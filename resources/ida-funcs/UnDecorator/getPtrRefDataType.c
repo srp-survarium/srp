@@ -5,7 +5,7 @@ DName *__cdecl UnDecorator::getPtrRefDataType(DName *result, DName *superType, i
   int v5; // ecx
   DName *v6; // eax
   DName v7; // [esp+0h] [ebp-10h] BYREF
-  DName bdt; // [esp+8h] [ebp-8h] BYREF
+  DName v8; // [esp+8h] [ebp-8h] BYREF
 
   if ( !*UnDecorator::gName )
   {
@@ -23,26 +23,26 @@ DName *__cdecl UnDecorator::getPtrRefDataType(DName *result, DName *superType, i
   }
   if ( *UnDecorator::gName != 89 )
   {
-    UnDecorator::getBasicDataType(&bdt, superType);
+    UnDecorator::getBasicDataType(&v8, superType);
     v3 = *((_DWORD *)superType + 1);
     if ( (v3 & 0x4000) != 0 )
     {
-      v4 = operator+(&v7, "cli::array<", &bdt);
+      v4 = operator+(&v7, "cli::array<", &v8);
     }
     else
     {
       if ( (v3 & 0x2000) == 0 )
       {
-        v5 = *((_DWORD *)&bdt + 1);
+        v5 = *((_DWORD *)&v8 + 1);
         goto LABEL_15;
       }
-      v4 = operator+(&v7, "cli::pin_ptr<", &bdt);
+      v4 = operator+(&v7, "cli::pin_ptr<", &v8);
     }
-    bdt.node = v4->node;
+    v8.node = v4->node;
     v5 = *((_DWORD *)v4 + 1);
 LABEL_15:
     v6 = result;
-    result->node = bdt.node;
+    result->node = v8.node;
     *((_DWORD *)result + 1) = v5;
     return v6;
   }

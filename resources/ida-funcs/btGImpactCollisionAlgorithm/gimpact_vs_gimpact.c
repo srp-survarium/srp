@@ -3,80 +3,95 @@ void __thiscall btGImpactCollisionAlgorithm::gimpact_vs_gimpact(
         btCollisionObject *body0,
         btCollisionObject *body1,
         btGImpactMeshShapePart *shape0,
-        btGImpactMeshShapePart *shape1)
+        btGImpactShapeInterface *shape1)
 {
-  btGImpactMeshShapePart *v5; // edi
   btStridingMeshInterface *m_meshInterface; // eax
-  btPairSet *v8; // ecx
-  btStridingMeshInterface *v9; // eax
-  btPairSet *v10; // ecx
-  btPairSet *v11; // ecx
+  btPairSet *v7; // ecx
+  void *m_userPointer; // eax
+  btGImpactMeshShapePart *v9; // esi
+  btAlignedObjectArray<GrahamVector2> *v10; // ecx
+  btGImpactCollisionAlgorithm *v11; // ecx
   GIM_ShapeRetriever *v12; // ecx
-  btGImpactMeshShapePart *v13; // esi
-  int m_size; // eax
-  GIM_PAIR *m_data; // ecx
-  int m_index1; // edx
-  int m_index2; // eax
-  GIM_ShapeRetriever::ChildShapeRetriever *m_current_retriever; // ecx
-  btCollisionShape *v19; // esi
-  float *v20; // eax
-  float v21; // xmm5_4
-  float v22; // xmm2_4
-  float v23; // xmm7_4
-  float v24; // xmm6_4
-  unsigned int v25; // xmm5_4
-  float v26; // xmm7_4
-  __m128i v27; // xmm0
-  float *v28; // eax
-  float v29; // xmm2_4
-  float v30; // xmm3_4
-  float v31; // xmm0_4
-  float v32; // xmm5_4
-  float v33; // xmm0_4
-  float v34; // xmm3_4
-  GIM_ShapeRetriever *v35; // ecx
-  GIM_ShapeRetriever *v36; // ecx
-  bool v37; // [esp+22FEh] [ebp-4D6h]
-  bool v38; // [esp+22FFh] [ebp-4D5h]
-  float v39; // [esp+2300h] [ebp-4D4h]
-  float v40; // [esp+2304h] [ebp-4D0h]
-  float v41; // [esp+2308h] [ebp-4CCh]
-  float v42; // [esp+230Ch] [ebp-4C8h]
-  float v43; // [esp+2310h] [ebp-4C4h]
-  float v44; // [esp+2314h] [ebp-4C0h]
-  float v45; // [esp+2318h] [ebp-4BCh]
-  float v46; // [esp+231Ch] [ebp-4B8h]
-  float v47; // [esp+2320h] [ebp-4B4h]
-  float v48; // [esp+232Ch] [ebp-4A8h]
-  float v49; // [esp+2330h] [ebp-4A4h]
-  int v50; // [esp+2334h] [ebp-4A0h]
-  float v51; // [esp+233Ch] [ebp-498h]
-  float v52; // [esp+2340h] [ebp-494h]
-  __m128i v53; // [esp+2344h] [ebp-490h] BYREF
-  __m128i v54; // [esp+2354h] [ebp-480h] BYREF
-  __m128i v55; // [esp+2364h] [ebp-470h] BYREF
-  btTransform trans1; // [esp+2374h] [ebp-460h] BYREF
-  btTransform trans0; // [esp+23B4h] [ebp-420h] BYREF
-  float v58; // [esp+23F4h] [ebp-3E0h]
-  float v59; // [esp+23F8h] [ebp-3DCh]
-  float v60; // [esp+23FCh] [ebp-3D8h]
-  btCollisionShape *v61; // [esp+2400h] [ebp-3D4h]
-  float v62; // [esp+2404h] [ebp-3D0h]
-  float v63; // [esp+2408h] [ebp-3CCh]
-  float v64; // [esp+240Ch] [ebp-3C8h]
-  btPairSet v65; // [esp+2410h] [ebp-3C4h] BYREF
-  int v66; // [esp+2424h] [ebp-3B0h]
-  float v67; // [esp+2428h] [ebp-3ACh]
-  float v68; // [esp+242Ch] [ebp-3A8h]
-  float v69; // [esp+2430h] [ebp-3A4h]
-  __m128i v70; // [esp+2434h] [ebp-3A0h] BYREF
-  __m128i v71; // [esp+2444h] [ebp-390h] BYREF
-  btTransform worldTrans; // [esp+2454h] [ebp-380h] BYREF
-  btTransform v73; // [esp+2494h] [ebp-340h] BYREF
-  GIM_ShapeRetriever v74; // [esp+24D4h] [ebp-300h] BYREF
-  GIM_ShapeRetriever v75; // [esp+2654h] [ebp-180h] BYREF
+  GIM_ShapeRetriever *v13; // ecx
+  GIM_PAIR *v14; // eax
+  int m_index1; // ecx
+  btCollisionShape *v16; // eax
+  GIM_ShapeRetriever::ChildShapeRetriever_vtbl *v17; // edx
+  float *v18; // eax
+  float v19; // xmm2_4
+  float v20; // xmm5_4
+  float v21; // xmm7_4
+  float v22; // xmm5_4
+  float v23; // xmm6_4
+  float v24; // xmm7_4
+  float v25; // xmm6_4
+  float v26; // xmm5_4
+  float v27; // xmm2_4
+  float v28; // xmm5_4
+  float v29; // xmm6_4
+  float v30; // xmm6_4
+  float v31; // xmm5_4
+  float v32; // xmm6_4
+  float v33; // xmm5_4
+  float *v34; // eax
+  float v35; // xmm6_4
+  float v36; // xmm2_4
+  unsigned int v37; // xmm5_4
+  float v38; // xmm6_4
+  float v39; // xmm5_4
+  float v40; // xmm7_4
+  float v41; // xmm6_4
+  float v42; // xmm7_4
+  float v43; // xmm6_4
+  float v44; // xmm5_4
+  float v45; // xmm2_4
+  float v46; // xmm5_4
+  float v47; // xmm6_4
+  float v48; // xmm6_4
+  float v49; // xmm5_4
+  float v50; // xmm6_4
+  float v51; // xmm5_4
+  GIM_ShapeRetriever *v52; // ecx
+  GIM_ShapeRetriever *v53; // ecx
+  btPairSet *v54; // [esp+Ah] [ebp-520h]
+  const float *v55; // [esp+Ah] [ebp-520h]
+  bool v56; // [esp+18h] [ebp-512h]
+  bool v57; // [esp+19h] [ebp-511h]
+  int i; // [esp+1Ah] [ebp-510h]
+  float v59; // [esp+1Eh] [ebp-50Ch]
+  float v60; // [esp+22h] [ebp-508h]
+  float v61; // [esp+26h] [ebp-504h]
+  float v62; // [esp+2Ah] [ebp-500h]
+  float v63; // [esp+2Eh] [ebp-4FCh]
+  float v64; // [esp+32h] [ebp-4F8h]
+  float v65; // [esp+36h] [ebp-4F4h]
+  float v66; // [esp+3Ah] [ebp-4F0h]
+  float v67; // [esp+3Eh] [ebp-4ECh]
+  float v68; // [esp+4Ah] [ebp-4E0h] BYREF
+  float v69; // [esp+4Eh] [ebp-4DCh]
+  float v70; // [esp+52h] [ebp-4D8h] BYREF
+  float v71; // [esp+56h] [ebp-4D4h]
+  float v72; // [esp+5Ah] [ebp-4D0h] BYREF
+  float v73; // [esp+5Eh] [ebp-4CCh] BYREF
+  float v74; // [esp+62h] [ebp-4C8h] BYREF
+  float v75; // [esp+66h] [ebp-4C4h] BYREF
+  float v76; // [esp+6Ah] [ebp-4C0h] BYREF
+  float v77; // [esp+6Eh] [ebp-4BCh] BYREF
+  float v78; // [esp+72h] [ebp-4B8h] BYREF
+  float v79; // [esp+76h] [ebp-4B4h] BYREF
+  float v80; // [esp+7Ah] [ebp-4B0h] BYREF
+  btMatrix3x3 v81; // [esp+7Eh] [ebp-4ACh] BYREF
+  float v82; // [esp+AEh] [ebp-47Ch]
+  float v83[2]; // [esp+B2h] [ebp-478h] BYREF
+  float v84; // [esp+BAh] [ebp-470h]
+  float v85; // [esp+BEh] [ebp-46Ch] BYREF
+  btPairSet v86; // [esp+C2h] [ebp-468h] BYREF
+  float v87; // [esp+D6h] [ebp-454h] BYREF
+  btCollisionObject v88; // [esp+DAh] [ebp-450h] BYREF
+  btTransform v89; // [esp+1EAh] [ebp-340h] BYREF
+  GIM_ShapeRetriever v90; // [esp+22Ah] [ebp-300h] BYREF
+  GIM_ShapeRetriever v91; // [esp+3AAh] [ebp-180h] BYREF
 
-  v5 = shape0;
   if ( shape0->getGImpactShapeType(shape0) == CONST_GIMPACT_TRIMESH_SHAPE )
   {
     m_meshInterface = shape0->m_primitive_manager.m_meshInterface;
@@ -86,7 +101,7 @@ void __thiscall btGImpactCollisionAlgorithm::gimpact_vs_gimpact(
             this,
             body0,
             body1,
-            *(btGImpactShapeInterface **)(shape0->m_primitive_manager.m_scale.mVec128.m128_i32[0] + 4 * this->m_part0),
+            *(btGImpactMeshShapePart **)(shape0->m_primitive_manager.m_scale.mVec128.m128_i32[0] + 4 * this->m_part0),
             shape1) )
     {
       --this->m_part0;
@@ -95,15 +110,15 @@ void __thiscall btGImpactCollisionAlgorithm::gimpact_vs_gimpact(
   }
   else if ( shape1->getGImpactShapeType(shape1) == CONST_GIMPACT_TRIMESH_SHAPE )
   {
-    v9 = shape1->m_primitive_manager.m_meshInterface;
-    for ( this->m_part1 = (int)v9;
+    m_userPointer = shape1[1].m_userPointer;
+    for ( this->m_part1 = (int)m_userPointer;
           this->m_part1;
           btGImpactCollisionAlgorithm::gimpact_vs_gimpact(
             this,
             body0,
             body1,
             shape0,
-            *(btGImpactShapeInterface **)(shape1->m_primitive_manager.m_scale.mVec128.m128_i32[0] + 4 * this->m_part1)) )
+            *(btGImpactShapeInterface **)(shape1[1].m_localAABB.m_min.mVec128.m128_i32[0] + 4 * this->m_part1)) )
     {
       --this->m_part1;
     }
@@ -111,211 +126,258 @@ void __thiscall btGImpactCollisionAlgorithm::gimpact_vs_gimpact(
   }
   else
   {
-    trans0 = body0->m_worldTransform;
-    trans1 = body1->m_worldTransform;
-    btPairSet::btPairSet(v8, &v65);
+    v88.m_worldTransform.m_origin = body0->m_worldTransform.m_basis.m_el[0];
+    v88.m_interpolationWorldTransform.m_basis.m_el[0] = body0->m_worldTransform.m_basis.m_el[1];
+    v88.m_interpolationWorldTransform.m_basis.m_el[1] = body0->m_worldTransform.m_basis.m_el[2];
+    v88.m_interpolationWorldTransform.m_basis.m_el[2] = body0->m_worldTransform.m_origin;
+    *(_QWORD *)&v88.__vftable = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
+    *((_QWORD *)&v88.__vftable + 1) = body1->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
+    v88.m_worldTransform.m_basis.m_el[0] = body1->m_worldTransform.m_basis.m_el[1];
+    v88.m_worldTransform.m_basis.m_el[1] = body1->m_worldTransform.m_basis.m_el[2];
+    v88.m_worldTransform.m_basis.m_el[2] = body1->m_worldTransform.m_origin;
+    btPairSet::btPairSet(v7, &v86);
+    v9 = shape0;
     btGImpactCollisionAlgorithm::gimpact_vs_gimpact_find_pairs(
-      (btGImpactCollisionAlgorithm *)&trans0,
-      &trans0,
-      &trans1,
       shape0,
-      shape1,
-      &v65);
-    if ( v65.m_size )
+      (const btTransform *)&v88.m_worldTransform.m_origin,
+      (const btTransform *)&v88,
+      (const btTransform *)shape1,
+      &v86,
+      v54);
+    if ( v86.m_size )
     {
       if ( shape0->getGImpactShapeType(shape0) == CONST_GIMPACT_TRIMESH_SHAPE_PART
         && shape1->getGImpactShapeType(shape1) == CONST_GIMPACT_TRIMESH_SHAPE_PART )
       {
         btGImpactCollisionAlgorithm::collide_sat_triangles(
-          (btGImpactCollisionAlgorithm *)body0,
-          (int)this,
+          v11,
+          (btCollisionObject *)this,
           body0,
           body1,
           shape0,
-          shape1,
-          &v65.m_data->m_index1,
-          v65.m_size);
-        btPairSet::~btPairSet(v11, (int)&v65);
-        return;
+          (btVector3 *)shape1,
+          &v86.m_data->m_index1,
+          v86.m_size);
       }
-      shape0->lockChildShapes(shape0);
-      shape1->lockChildShapes(shape1);
-      GIM_ShapeRetriever::GIM_ShapeRetriever(v12, &v75, shape0);
-      GIM_ShapeRetriever::GIM_ShapeRetriever((GIM_ShapeRetriever *)shape1, &v74, shape1);
-      v13 = shape1;
-      v38 = shape0->childrenHasTransform(shape0);
-      v37 = shape1->childrenHasTransform(shape1);
-      m_size = v65.m_size;
-      if ( v65.m_size )
+      else
       {
-        while ( 1 )
+        shape0->lockChildShapes(shape0);
+        shape1->lockChildShapes(shape1);
+        GIM_ShapeRetriever::GIM_ShapeRetriever(v12, &v91, shape0);
+        GIM_ShapeRetriever::GIM_ShapeRetriever(v13, &v90, shape1);
+        v57 = shape0->childrenHasTransform(shape0);
+        v56 = shape1->childrenHasTransform(shape1);
+        for ( i = v86.m_size; i; v9 = shape0 )
         {
-          m_data = v65.m_data;
-          m_index1 = v65.m_data[m_size - 1].m_index1;
-          v50 = m_size - 1;
-          this->m_triface0 = m_index1;
-          m_index2 = m_data[m_size - 1].m_index2;
-          m_current_retriever = v75.m_current_retriever;
-          this->m_triface1 = m_index2;
-          v19 = (btCollisionShape *)m_current_retriever->getChildShape(m_current_retriever, m_index1);
-          v61 = v74.m_current_retriever->getChildShape(v74.m_current_retriever, this->m_triface1);
-          if ( v38 )
+          v14 = &v86.m_data[--i];
+          m_index1 = v14->m_index1;
+          this->m_triface0 = v14->m_index1;
+          this->m_triface1 = v14->m_index2;
+          v16 = v91.m_current_retriever->getChildShape(v91.m_current_retriever, m_index1);
+          v17 = v90.m_current_retriever->__vftable;
+          v81.m_el[1].mVec128.m128_i32[3] = (int)v16;
+          v81.m_el[1].mVec128.m128_i32[1] = (int)v17->getChildShape(v90.m_current_retriever, this->m_triface1);
+          if ( v57 )
           {
-            v20 = (float *)v5->getChildTransform(v5, &v73, this->m_triface0);
-            v21 = v20[13];
-            v22 = v20[14];
-            v58 = v20[12];
-            *(float *)v71.m128i_i32 = (float)((float)((float)(trans0.m_basis.m_el[0].mVec128.m128_f32[0] * v58)
-                                                    + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[1] * v21))
-                                            + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[2] * v22))
-                                    + trans0.m_origin.mVec128.m128_f32[0];
-            *(float *)&v71.m128i_i32[1] = (float)((float)((float)(trans0.m_basis.m_el[1].mVec128.m128_f32[0] * v58)
-                                                        + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[1] * v21))
-                                                + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[2] * v22))
-                                        + trans0.m_origin.mVec128.m128_f32[1];
-            v67 = v22;
-            v23 = v20[2];
-            *(float *)&v71.m128i_i32[2] = (float)((float)((float)(trans0.m_basis.m_el[2].mVec128.m128_f32[0] * v58)
-                                                        + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[1] * v21))
-                                                + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[2] * v22))
-                                        + trans0.m_origin.mVec128.m128_f32[2];
-            v24 = v20[6];
-            v71.m128i_i32[3] = 0;
-            v44 = v20[10];
-            v51 = v23;
-            *(float *)&v25 = (float)((float)(trans0.m_basis.m_el[2].mVec128.m128_f32[0] * v23)
-                                   + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[1] * v24))
-                           + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[2] * v44);
-            v42 = v20[9];
-            v47 = v20[5];
-            v49 = v20[1];
-            v68 = (float)((float)(trans0.m_basis.m_el[2].mVec128.m128_f32[0] * v49)
-                        + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[1] * v47))
-                + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[2] * v42);
-            v26 = v20[4];
-            v46 = v20[8];
-            v52 = *v20;
-            v63 = (float)((float)(trans0.m_basis.m_el[2].mVec128.m128_f32[0] * *v20)
-                        + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[1] * v26))
-                + (float)(trans0.m_basis.m_el[2].mVec128.m128_f32[2] * v46);
-            v69 = (float)((float)(trans0.m_basis.m_el[1].mVec128.m128_f32[0] * v52)
-                        + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[1] * v26))
-                + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[2] * v46);
-            v60 = (float)((float)(trans0.m_basis.m_el[1].mVec128.m128_f32[0] * v49)
-                        + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[1] * v47))
-                + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[2] * v42);
-            *(float *)&v53.m128i_i32[1] = (float)((float)(trans0.m_basis.m_el[0].mVec128.m128_f32[0] * v49)
-                                                + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[1] * v47))
-                                        + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[2] * v42);
-            *(float *)v54.m128i_i32 = v69;
-            *(float *)&v54.m128i_i32[1] = v60;
-            *(float *)v53.m128i_i32 = (float)((float)(trans0.m_basis.m_el[0].mVec128.m128_f32[0] * v52)
-                                            + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[1] * v26))
-                                    + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[2] * v46);
-            *(float *)v55.m128i_i32 = v63;
-            *(float *)&v53.m128i_i32[2] = (float)((float)(trans0.m_basis.m_el[0].mVec128.m128_f32[0] * v51)
-                                                + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[1] * v24))
-                                        + (float)(trans0.m_basis.m_el[0].mVec128.m128_f32[2] * v44);
-            v53.m128i_i32[3] = 0;
-            v27 = _mm_load_si128(&v53);
-            v54.m128i_i64[1] = COERCE_UNSIGNED_INT(
-                                 (float)((float)(trans0.m_basis.m_el[1].mVec128.m128_f32[0] * v51)
-                                       + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[1] * v24))
-                               + (float)(trans0.m_basis.m_el[1].mVec128.m128_f32[2] * v44));
-            *(float *)&v55.m128i_i32[1] = v68;
-            v55.m128i_i64[1] = v25;
-            worldTrans.m_basis.m_el[0] = (btVector3)v27;
-            worldTrans.m_basis.m_el[1] = (btVector3)_mm_load_si128(&v54);
-            worldTrans.m_basis.m_el[2] = (btVector3)_mm_load_si128(&v55);
-            worldTrans.m_origin = (btVector3)_mm_load_si128(&v71);
-            btCollisionObject::setWorldTransform(body0, &worldTrans);
+            v18 = (float *)v9->getChildTransform(v9, &v89, this->m_triface0);
+            v19 = v18[13];
+            v20 = v18[14];
+            v84 = v18[12];
+            v88.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[0] = (float)((float)((float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[0] * v84)
+                                                                                           + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[1] * v19))
+                                                                                   + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[2]
+                                                                                           * v20))
+                                                                           + v88.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+            v88.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[1] = (float)((float)((float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v84)
+                                                                                           + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v19))
+                                                                                   + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2]
+                                                                                           * v20))
+                                                                           + v88.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[1];
+            v88.m_interpolationWorldTransform.m_origin.mVec128.m128_i32[3] = 0;
+            v21 = v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v18[10];
+            v88.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[2] = (float)((float)((float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v20)
+                                                                                           + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v84))
+                                                                                   + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1]
+                                                                                           * v19))
+                                                                           + v88.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[2];
+            v22 = v18[5];
+            v23 = v18[1];
+            v73 = (float)(v21 + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v18[2]))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v18[6]);
+            v24 = (float)((float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v23)
+                        + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v22))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v18[9]);
+            v25 = v18[8];
+            v65 = v18[9];
+            v26 = *v18;
+            v87 = v24;
+            v61 = v26;
+            v63 = v25;
+            v59 = v18[4];
+            v27 = (float)((float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v26)
+                        + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v59))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v25);
+            v28 = v18[6];
+            v75 = v27;
+            v29 = v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v18[2];
+            v82 = v18[2];
+            v69 = v28;
+            v30 = (float)(v29 + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v28))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v18[10]);
+            v81.m_el[2].mVec128.m128_f32[0] = v18[10];
+            v31 = v18[1];
+            v81.m_el[2].mVec128.m128_f32[3] = v30;
+            v32 = v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v31;
+            v71 = v31;
+            v33 = v18[5];
+            v85 = (float)((float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v61)
+                        + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v59))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v63);
+            v79 = (float)((float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[0] * v82)
+                        + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[1] * v69))
+                + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[2] * v81.m_el[2].mVec128.m128_f32[0]);
+            v83[1] = v33;
+            v77 = (float)(v32 + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v33))
+                + (float)(v88.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v65);
+            v83[0] = (float)((float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[0] * v71)
+                           + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[1] * v33))
+                   + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[2] * v65);
+            v81.m_el[0].mVec128.m128_f32[0] = (float)((float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[0] * v61)
+                                                    + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[1] * v59))
+                                            + (float)(v88.m_worldTransform.m_origin.mVec128.m128_f32[2] * v63);
+            btMatrix3x3::setValue(
+              &v81,
+              (int)&v88.m_interpolationAngularVelocity,
+              v83,
+              &v79,
+              &v85,
+              &v77,
+              &v81.m_el[2].mVec128.m128_f32[3],
+              &v75,
+              &v87,
+              &v73,
+              v55);
+            *(btVector3 *)&v88.m_extensionPointer = v88.m_interpolationAngularVelocity;
+            *(btVector3 *)&v88.m_companionId = v88.m_anisotropicFriction;
+            LODWORD(v88.m_restitution) = v88.m_hasAnisotropicFriction;
+            v88.m_internalType = LODWORD(v88.m_contactProcessingThreshold);
+            v88.m_userObjectPointer = v88.m_broadphaseHandle;
+            LODWORD(v88.m_hitFraction) = v88.m_collisionShape;
+            *(btVector3 *)&v88.m_ccdSweptSphereRadius = v88.m_interpolationWorldTransform.m_origin;
+            btCollisionObject::setWorldTransform((btCollisionObject *)&v88.m_extensionPointer, (btVector3 *)body0);
           }
-          if ( v37 )
+          if ( v56 )
           {
-            v28 = (float *)shape1->getChildTransform(shape1, &v73, this->m_triface1);
-            v29 = v28[14];
-            v30 = v28[13];
-            v31 = v28[12];
-            *(float *)v70.m128i_i32 = (float)((float)((float)(trans1.m_basis.m_el[0].mVec128.m128_f32[1] * v30)
-                                                    + (float)(trans1.m_basis.m_el[0].mVec128.m128_f32[2] * v29))
-                                            + (float)(v31 * trans1.m_basis.m_el[0].mVec128.m128_f32[0]))
-                                    + trans1.m_origin.mVec128.m128_f32[0];
-            *(float *)&v70.m128i_i32[1] = (float)((float)((float)(v31 * trans1.m_basis.m_el[1].mVec128.m128_f32[0])
-                                                        + (float)(v30 * trans1.m_basis.m_el[1].mVec128.m128_f32[1]))
-                                                + (float)(v29 * trans1.m_basis.m_el[1].mVec128.m128_f32[2]))
-                                        + trans1.m_origin.mVec128.m128_f32[1];
-            v32 = v28[6];
-            *(float *)&v70.m128i_i32[2] = (float)((float)((float)(v31 * trans1.m_basis.m_el[2].mVec128.m128_f32[0])
-                                                        + (float)(v30 * trans1.m_basis.m_el[2].mVec128.m128_f32[1]))
-                                                + (float)(v29 * trans1.m_basis.m_el[2].mVec128.m128_f32[2]))
-                                        + trans1.m_origin.mVec128.m128_f32[2];
-            v70.m128i_i32[3] = 0;
-            v40 = v28[10];
-            v33 = v28[2];
-            v43 = v28[9];
-            v41 = v28[5];
-            v34 = v28[1];
-            v39 = v28[8];
-            v45 = v28[4];
-            v48 = *v28;
-            v59 = (float)((float)(*v28 * trans1.m_basis.m_el[2].mVec128.m128_f32[0])
-                        + (float)(v45 * trans1.m_basis.m_el[2].mVec128.m128_f32[1]))
-                + (float)(v39 * trans1.m_basis.m_el[2].mVec128.m128_f32[2]);
-            v64 = (float)((float)(v33 * trans1.m_basis.m_el[1].mVec128.m128_f32[0])
-                        + (float)(v32 * trans1.m_basis.m_el[1].mVec128.m128_f32[1]))
-                + (float)(v40 * trans1.m_basis.m_el[1].mVec128.m128_f32[2]);
-            *(float *)&v66 = (float)((float)(v34 * trans1.m_basis.m_el[1].mVec128.m128_f32[0])
-                                   + (float)(v41 * trans1.m_basis.m_el[1].mVec128.m128_f32[1]))
-                           + (float)(v43 * trans1.m_basis.m_el[1].mVec128.m128_f32[2]);
-            v62 = (float)((float)(v48 * trans1.m_basis.m_el[1].mVec128.m128_f32[0])
-                        + (float)(v45 * trans1.m_basis.m_el[1].mVec128.m128_f32[1]))
-                + (float)(v39 * trans1.m_basis.m_el[1].mVec128.m128_f32[2]);
-            *(float *)v53.m128i_i32 = (float)((float)(trans1.m_basis.m_el[0].mVec128.m128_f32[1] * v45)
-                                            + (float)(trans1.m_basis.m_el[0].mVec128.m128_f32[2] * v39))
-                                    + (float)(v48 * trans1.m_basis.m_el[0].mVec128.m128_f32[0]);
-            *(float *)v54.m128i_i32 = v62;
-            v54.m128i_i32[1] = v66;
-            *(float *)&v53.m128i_i32[1] = (float)((float)(trans1.m_basis.m_el[0].mVec128.m128_f32[1] * v41)
-                                                + (float)(trans1.m_basis.m_el[0].mVec128.m128_f32[2] * v43))
-                                        + (float)(v34 * trans1.m_basis.m_el[0].mVec128.m128_f32[0]);
-            v54.m128i_i64[1] = LODWORD(v64);
-            v53.m128i_i64[1] = COERCE_UNSIGNED_INT(
-                                 (float)((float)(trans1.m_basis.m_el[0].mVec128.m128_f32[1] * v32)
-                                       + (float)(trans1.m_basis.m_el[0].mVec128.m128_f32[2] * v40))
-                               + (float)(v33 * trans1.m_basis.m_el[0].mVec128.m128_f32[0]));
-            *(float *)v55.m128i_i32 = (float)((float)(v48 * trans1.m_basis.m_el[2].mVec128.m128_f32[0])
-                                            + (float)(v45 * trans1.m_basis.m_el[2].mVec128.m128_f32[1]))
-                                    + (float)(v39 * trans1.m_basis.m_el[2].mVec128.m128_f32[2]);
-            *(float *)&v55.m128i_i32[1] = (float)((float)(v34 * trans1.m_basis.m_el[2].mVec128.m128_f32[0])
-                                                + (float)(v41 * trans1.m_basis.m_el[2].mVec128.m128_f32[1]))
-                                        + (float)(v43 * trans1.m_basis.m_el[2].mVec128.m128_f32[2]);
-            *(float *)&v55.m128i_i32[2] = (float)((float)(v33 * trans1.m_basis.m_el[2].mVec128.m128_f32[0])
-                                                + (float)(v32 * trans1.m_basis.m_el[2].mVec128.m128_f32[1]))
-                                        + (float)(v40 * trans1.m_basis.m_el[2].mVec128.m128_f32[2]);
-            v55.m128i_i32[3] = 0;
-            worldTrans.m_basis.m_el[0] = (btVector3)_mm_load_si128(&v53);
-            worldTrans.m_basis.m_el[1] = (btVector3)_mm_load_si128(&v54);
-            worldTrans.m_basis.m_el[2] = (btVector3)_mm_load_si128(&v55);
-            worldTrans.m_origin = (btVector3)_mm_load_si128(&v70);
-            btCollisionObject::setWorldTransform(body1, &worldTrans);
+            v34 = (float *)shape1->getChildTransform(shape1, &v89, this->m_triface1);
+            v35 = v34[13];
+            v36 = v34[14];
+            v67 = v34[12];
+            v88.m_interpolationLinearVelocity.mVec128.m128_f32[0] = (float)((float)((float)(*(float *)&v88.__vftable
+                                                                                          * v67)
+                                                                                  + (float)(*((float *)&v88.__vftable + 1)
+                                                                                          * v35))
+                                                                          + (float)(*((float *)&v88.__vftable + 2) * v36))
+                                                                  + v88.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+            v88.m_interpolationLinearVelocity.mVec128.m128_f32[1] = (float)((float)((float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0]
+                                                                                          * v67)
+                                                                                  + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1]
+                                                                                          * v35))
+                                                                          + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2]
+                                                                                  * v36))
+                                                                  + v88.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[1];
+            v81.m_el[0].mVec128.m128_f32[2] = v36;
+            *(float *)&v37 = (float)((float)((float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v67)
+                                           + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v35))
+                                   + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v36))
+                           + v88.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[2];
+            v38 = v34[2];
+            v88.m_interpolationLinearVelocity.mVec128.m128_u64[1] = v37;
+            v39 = v34[5];
+            v40 = (float)((float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v38)
+                        + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v34[6]))
+                + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v34[10]);
+            v41 = v34[1];
+            v68 = v40;
+            v42 = (float)((float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v41)
+                        + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v39))
+                + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v34[9]);
+            v43 = v34[8];
+            v60 = v34[9];
+            v44 = *v34;
+            v70 = v42;
+            v62 = v44;
+            v66 = v43;
+            v64 = v34[4];
+            v45 = (float)((float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v44)
+                        + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v64))
+                + (float)(v88.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v43);
+            v46 = v34[6];
+            v72 = v45;
+            v47 = v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v34[2];
+            v81.m_el[2].mVec128.m128_f32[1] = v34[2];
+            v81.m_el[1].mVec128.m128_f32[0] = v46;
+            v48 = (float)(v47 + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v46))
+                + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v34[10]);
+            v81.m_el[2].mVec128.m128_f32[2] = v34[10];
+            v49 = v34[1];
+            v74 = v48;
+            v50 = v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v49;
+            v81.m_el[1].mVec128.m128_f32[2] = v49;
+            v51 = v34[5];
+            v78 = (float)((float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0] * v62)
+                        + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v64))
+                + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v66);
+            v80 = (float)((float)(*(float *)&v88.__vftable * v81.m_el[2].mVec128.m128_f32[1])
+                        + (float)(*((float *)&v88.__vftable + 1) * v81.m_el[1].mVec128.m128_f32[0]))
+                + (float)(*((float *)&v88.__vftable + 2) * v81.m_el[2].mVec128.m128_f32[2]);
+            v76 = (float)(v50 + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1] * v51))
+                + (float)(v88.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2] * v60);
+            v81.m_el[0].mVec128.m128_f32[1] = (float)((float)(*(float *)&v88.__vftable * v81.m_el[1].mVec128.m128_f32[2])
+                                                    + (float)(*((float *)&v88.__vftable + 1) * v51))
+                                            + (float)(*((float *)&v88.__vftable + 2) * v60);
+            v81.m_el[0].mVec128.m128_f32[3] = (float)((float)(*(float *)&v88.__vftable * v62)
+                                                    + (float)(*((float *)&v88.__vftable + 1) * v64))
+                                            + (float)(*((float *)&v88.__vftable + 2) * v66);
+            btMatrix3x3::setValue(
+              (btMatrix3x3 *)&v81.m_el[0].m_floats[3],
+              (int)&v88.m_interpolationAngularVelocity,
+              &v81.m_el[0].mVec128.m128_f32[1],
+              &v80,
+              &v78,
+              &v76,
+              &v74,
+              &v72,
+              &v70,
+              &v68,
+              v55);
+            *(btVector3 *)&v88.m_extensionPointer = v88.m_interpolationAngularVelocity;
+            *(btVector3 *)&v88.m_companionId = v88.m_anisotropicFriction;
+            LODWORD(v88.m_restitution) = v88.m_hasAnisotropicFriction;
+            v88.m_internalType = LODWORD(v88.m_contactProcessingThreshold);
+            v88.m_userObjectPointer = v88.m_broadphaseHandle;
+            LODWORD(v88.m_hitFraction) = v88.m_collisionShape;
+            *(btVector3 *)&v88.m_ccdSweptSphereRadius = v88.m_interpolationLinearVelocity;
+            btCollisionObject::setWorldTransform((btCollisionObject *)&v88.m_extensionPointer, (btVector3 *)body1);
           }
-          btGImpactCollisionAlgorithm::convex_vs_convex_collision(this, body1, v19, v61, body0);
-          if ( v38 )
-            btCollisionObject::setWorldTransform(body0, &trans0);
-          if ( v37 )
-            btCollisionObject::setWorldTransform(body1, &trans1);
-          v5 = shape0;
-          if ( !v50 )
-            break;
-          m_size = v50;
+          btGImpactCollisionAlgorithm::convex_vs_convex_collision(
+            this,
+            body1,
+            body0,
+            (btCollisionShape *)v81.m_el[1].mVec128.m128_i32[3],
+            (btCollisionShape *)v81.m_el[1].mVec128.m128_i32[1]);
+          if ( v57 )
+            btCollisionObject::setWorldTransform(
+              (btCollisionObject *)&v88.m_worldTransform.m_origin,
+              (btVector3 *)body0);
+          if ( v56 )
+            btCollisionObject::setWorldTransform(&v88, (btVector3 *)body1);
         }
-        v13 = shape1;
+        v9->unlockChildShapes(v9);
+        shape1->unlockChildShapes(shape1);
+        GIM_ShapeRetriever::~GIM_ShapeRetriever(v52, (int)&v90);
+        GIM_ShapeRetriever::~GIM_ShapeRetriever(v53, (int)&v91);
       }
-      v5->unlockChildShapes(v5);
-      v13->unlockChildShapes(v13);
-      GIM_ShapeRetriever::~GIM_ShapeRetriever(v35, &v74);
-      GIM_ShapeRetriever::~GIM_ShapeRetriever(v36, &v75);
     }
-    btPairSet::~btPairSet(v10, (int)&v65);
+    btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v10, (int)&v86);
   }
 }

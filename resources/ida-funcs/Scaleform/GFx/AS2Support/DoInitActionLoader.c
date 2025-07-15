@@ -6,8 +6,8 @@ void __thiscall Scaleform::GFx::AS2Support::DoInitActionLoader(
   Scaleform::GFx::SWFProcessInfo *pAltStream; // esi
   int v4; // eax
   unsigned int Pos; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v6; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v7; // ecx
+  unsigned __int16 v6; // cx
+  int v7; // ebp
   Scaleform::GFx::MovieDataDef::LoadTaskData *pObject; // ecx
   unsigned int BytesLeft; // eax
   Scaleform::GFx::DataAllocator *p_TagMemAllocator; // ecx
@@ -27,10 +27,17 @@ void __thiscall Scaleform::GFx::AS2Support::DoInitActionLoader(
   if ( v4 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
   Pos = pAltStream->Stream.Pos;
-  v6 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[Pos];
+  v6 = *(_WORD *)&pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 2;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v6);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v7);
+  v7 = v6;
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  tag %d: DoInitActionLoader\n",
+    tagInfo->TagType);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParseAction(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  -- init actions for sprite %d\n",
+    v7);
   pObject = p->pLoadData.pObject;
   BytesLeft = pObject->TagMemAllocator.BytesLeft;
   p_TagMemAllocator = &pObject->TagMemAllocator;

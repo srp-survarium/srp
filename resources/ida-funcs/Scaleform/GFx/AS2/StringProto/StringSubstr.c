@@ -3,7 +3,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstr(const Scaleform::GFx
   const Scaleform::GFx::AS2::FnCall *v1; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   const Scaleform::GFx::ASString *p_pProto; // ebp
-  const char *v4; // ebx
+  char *v4; // ebx
   int v5; // edi
   Scaleform::GFx::AS2::Value *v6; // eax
   Scaleform::GFx::AS2::Value *v7; // eax
@@ -29,7 +29,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringSubstr(const Scaleform::GFx
     {
       Env = v1->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-      v4 = (const char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v6, Env);
+      v4 = (char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v6, Env);
       if ( (int)v4 < 0 )
         v4 += Scaleform::GFx::ASConstString::GetLength(&p_pProto[13].Scaleform::GFx::ASConstString);
     }

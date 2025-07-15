@@ -6,7 +6,7 @@ void __cdecl CONF_free(lhash_st_CONF_VALUE *conf)
   v1 = default_CONF_method;
   if ( !default_CONF_method )
   {
-    v1 = (conf_method_st *)NCONF_default();
+    v1 = NCONF_default();
     default_CONF_method = v1;
   }
   v1->init((conf_st *)v2);

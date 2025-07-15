@@ -13,5 +13,5 @@ void __thiscall Scaleform::GFx::DrawTextImpl::SetDepth(Scaleform::GFx::DrawTextI
   Scaleform::Render::TreeContainer::Insert(
     this->pDrawTextCtxt.pObject->pImpl->pRootNode.pObject,
     Size,
-    this->pTextNode.pObject);
+    (Scaleform::Render::TreeNodeArray *)this->pTextNode.pObject);
 }

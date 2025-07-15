@@ -1,6 +1,6 @@
 void __cdecl look_str_cb(int nid, stack_st_ENGINE *sk, engine_st *def, void *arg)
 {
-  unsigned int v4; // ebx
+  int v4; // ebx
   char *v5; // esi
   int v6; // eax
   int v7; // eax
@@ -21,7 +21,7 @@ void __cdecl look_str_cb(int nid, stack_st_ENGINE *sk, engine_st *def, void *arg
           if ( !v6 )
             break;
         }
-        if ( (int)++v4 >= sk_num(&sk->stack) )
+        if ( ++v4 >= sk_num(&sk->stack) )
           return;
       }
       v7 = v8;

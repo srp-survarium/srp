@@ -64,7 +64,7 @@ LABEL_24:
   {
     while ( 1 )
     {
-      v12 = Scaleform::GFx::ASConstString::GetCharAt(&name, (const char *)v11);
+      v12 = Scaleform::GFx::ASConstString::GetCharAt(&name, (char *)v11);
       v13 = v12;
       v14 = HIBYTE(v12);
       v15 = Scaleform::UnicodeDigitBits[v14];

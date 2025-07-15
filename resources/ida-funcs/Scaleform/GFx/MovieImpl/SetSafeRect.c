@@ -4,13 +4,13 @@ void __thiscall Scaleform::GFx::MovieImpl::SetSafeRect(
 {
   float x2; // [esp+0h] [ebp-8h]
   float y2; // [esp+4h] [ebp-4h]
-  float recta; // [esp+Ch] [ebp+4h]
+  float y1; // [esp+Ch] [ebp+4h]
 
-  recta = rect->y1;
+  y1 = rect->y1;
   x2 = rect->x2;
   y2 = rect->y2;
   this->SafeRect.x1 = rect->x1;
-  this->SafeRect.y1 = recta;
+  this->SafeRect.y1 = y1;
   this->SafeRect.x2 = x2;
   this->SafeRect.y2 = y2;
 }

@@ -1,15 +1,16 @@
-void __fastcall vostok::buffer_string::substr(
-        vostok::buffer_string *out_dest,
-        char *count,
-        vostok::buffer_string *this,
-        unsigned int pos)
+void __userpurge vostok::buffer_string::substr(
+        unsigned int pos@<edi>,
+        char *count@<eax>,
+        vostok::buffer_string *out_dest@<ecx>,
+        vostok::buffer_string *this)
 {
-  char *m_begin; // eax
-  char *v5; // edi
-  char *v6; // eax
-  char *v7; // eax
-  char *v8; // eax
-  char *v9; // esi
+  char *m_begin; // edx
+  char *v5; // edx
+  char *v6; // esi
+  char *v7; // esi
+  char *v8; // edx
+  char *i; // esi
+  char v10; // bl
 
   m_begin = out_dest->m_begin;
   out_dest->m_end = out_dest->m_begin;
@@ -32,16 +33,10 @@ void __fastcall vostok::buffer_string::substr(
       count = (char *)(out_dest->m_max_end - out_dest->m_begin);
   }
   v8 = &v5[pos];
-  v9 = &v5[pos + (_DWORD)count];
-  if ( &v5[pos] == v9 )
+  for ( i = &count[(_DWORD)v8]; v8 != i; ++out_dest->m_end )
   {
-    *out_dest->m_end = 0;
+    v10 = *v8++;
+    *out_dest->m_end = v10;
   }
-  else
-  {
-    do
-      *out_dest->m_end++ = *v8++;
-    while ( v8 != v9 );
-    *out_dest->m_end = 0;
-  }
+  *out_dest->m_end = 0;
 }

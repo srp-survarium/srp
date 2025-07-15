@@ -8,11 +8,11 @@ void __thiscall Scaleform::Render::Tessellator::perceiveStyles(
   int *v6; // ecx
   unsigned int Size; // ecx
   int *v8; // edx
-  unsigned __int16 leftAbove; // [esp+Ch] [ebp-4h]
+  unsigned __int16 i; // [esp+Ch] [ebp-4h]
 
   memset((int)this->StyleCounts.Array, 0, 4 * this->StyleCounts.Size);
   v3 = 0;
-  for ( leftAbove = 0; v3 < aet->Size; ++v3 )
+  for ( i = 0; v3 < aet->Size; ++v3 )
   {
     v4 = aet->Pages[v3 >> 4][v3 & 0xF];
     v4->flags &= ~4u;
@@ -50,10 +50,10 @@ LABEL_10:
         LOWORD(Size) = 0;
       }
       v4->rightAbove = Size;
-      v4->leftAbove = leftAbove;
-      if ( leftAbove != (_WORD)Size )
+      v4->leftAbove = i;
+      if ( i != (_WORD)Size )
         v4->flags |= 4u;
-      leftAbove = Size;
+      i = Size;
     }
   }
 }

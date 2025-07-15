@@ -1,10 +1,10 @@
 DName *__thiscall DName::DName(DName *this, char **name, char terminator)
 {
-  int v4; // edx
+  unsigned int v4; // edx
   char v6; // al
-  const char *v7; // eax
+  char *v7; // eax
   char v8; // cl
-  char *s; // [esp+10h] [ebp+8h]
+  char *v10; // [esp+10h] [ebp+8h]
 
   v4 = 0;
   *((_BYTE *)this + 4) = 0;
@@ -18,7 +18,7 @@ LABEL_24:
   }
   if ( !**name )
     goto LABEL_23;
-  s = *name;
+  v10 = *name;
   do
   {
     v6 = **name;
@@ -39,10 +39,10 @@ LABEL_24:
     }
     ++v4;
     v7 = *name + 1;
-    *name = (char *)v7;
+    *name = v7;
   }
   while ( *v7 );
-  DName::doPchar(this, s, v4);
+  DName::doPchar(this, v10, v4);
   v8 = **name;
   if ( !v8 )
   {
@@ -89,7 +89,7 @@ DName *__thiscall DName::DName(DName *this, DName *pd)
 
 DName *__thiscall DName::DName(DName *this, char *s)
 {
-  int v3; // ecx
+  unsigned int v3; // ecx
 
   *((_BYTE *)this + 4) = 0;
   *((_DWORD *)this + 1) &= 0xFFFF00FF;
@@ -123,7 +123,7 @@ DName *__thiscall DName::DName(DName *this, DNameStatus st)
   *((_BYTE *)this + 4) = v3;
   if ( st == DN_truncated )
   {
-    v4 = DNameStatusNode::make(DN_truncated);
+    v4 = DNameStatusNode::make(1u);
     this->node = v4;
     if ( !v4 )
       *((_BYTE *)this + 4) = 3;
@@ -138,19 +138,19 @@ DName *__thiscall DName::DName(DName *this, __int64 num)
   char *v4; // edi
   unsigned __int64 v5; // rax
   unsigned __int64 v6; // rcx
-  bool fSigned; // [esp+13h] [ebp-1Dh]
-  char buf[24]; // [esp+14h] [ebp-1Ch] BYREF
+  char v8; // [esp+13h] [ebp-1Dh]
+  _BYTE v9[3]; // [esp+29h] [ebp-7h] BYREF
 
   v2 = HIDWORD(num);
   *((_BYTE *)this + 4) = 0;
   *((_DWORD *)this + 1) &= 0xFFFF00FF;
-  v4 = &buf[21];
+  v4 = v9;
   this->node = 0;
-  buf[21] = 0;
-  fSigned = 0;
+  v9[0] = 0;
+  v8 = 0;
   if ( num < 0 )
   {
-    fSigned = 1;
+    v8 = 1;
     v2 = (unsigned __int64)-num >> 32;
     LODWORD(num) = -(int)num;
   }
@@ -164,9 +164,9 @@ DName *__thiscall DName::DName(DName *this, __int64 num)
     v2 = HIDWORD(v5);
   }
   while ( __PAIR64__(HIDWORD(v5), num) );
-  if ( fSigned )
+  if ( v8 )
     *--v4 = 45;
-  DName::doPchar(this, v4, &buf[21] - v4);
+  DName::doPchar(this, v4, v9 - v4);
   return this;
 }
 
@@ -175,13 +175,13 @@ DName *__thiscall DName::DName(DName *this, unsigned __int64 num)
 {
   char *v3; // edi
   unsigned __int64 v4; // rcx
-  char buf[24]; // [esp+14h] [ebp-1Ch] BYREF
+  _BYTE v6[4]; // [esp+28h] [ebp-8h] BYREF
 
   *((_BYTE *)this + 4) = 0;
   *((_DWORD *)this + 1) &= 0xFFFF00FF;
-  v3 = &buf[20];
+  v3 = v6;
   this->node = 0;
-  buf[20] = 0;
+  v6[0] = 0;
   do
   {
     --v3;
@@ -190,6 +190,6 @@ DName *__thiscall DName::DName(DName *this, unsigned __int64 num)
     *v3 = v4 + 48;
   }
   while ( num );
-  DName::doPchar(this, v3, &buf[20] - v3);
+  DName::doPchar(this, v3, v6 - v3);
   return this;
 }

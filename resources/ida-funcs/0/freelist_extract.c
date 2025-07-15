@@ -7,7 +7,7 @@ ssl3_buf_freelist_entry_st *__usercall freelist_extract@<eax>(ssl_ctx_st *ctx@<e
   bool v7; // zf
 
   v3 = 0;
-  CRYPTO_lock((unsigned int)ctx, 9, 12, ".\\ssl\\s3_both.c", 655);
+  CRYPTO_lock((int)ctx, sz, 9, 12, ".\\ssl\\s3_both.c", 655);
   if ( for_read )
     rbuf_freelist = ctx->rbuf_freelist;
   else
@@ -28,7 +28,7 @@ ssl3_buf_freelist_entry_st *__usercall freelist_extract@<eax>(ssl_ctx_st *ctx@<e
       }
     }
   }
-  CRYPTO_lock((unsigned int)ctx, 10, 12, ".\\ssl\\s3_both.c", 666);
+  CRYPTO_lock((int)ctx, sz, 10, 12, ".\\ssl\\s3_both.c", 666);
   if ( v3 )
     return v3;
   else

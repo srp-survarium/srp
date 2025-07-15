@@ -16,9 +16,9 @@ const Scaleform::ArrayLH_POD<unsigned int,338,Scaleform::ArrayDefaultPolicy> *__
     Scaleform::GFx::AS3::Tracer::Tracer(
       &tracer,
       VMRef->MHeap,
-      cf,
-      (int)v5,
-      (const Scaleform::GFx::AS3::Abc::MethodInfo *)&this->Exceptions.Data.Data[ind.Ind]);
+      (unsigned int)cf,
+      (Scaleform::GFx::AS3::VM *)v5,
+      &this->Exceptions.Data.Data[ind.Ind]);
     if ( !VMRef->HandleException )
       Scaleform::GFx::AS3::Tracer::EmitCode(&tracer);
     Scaleform::GFx::AS3::Tracer::~Tracer(&tracer);

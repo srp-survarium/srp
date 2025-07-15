@@ -2,7 +2,7 @@ void __thiscall vostok::collision::colliders::convex_geometry::query(
         vostok::collision::colliders::convex_geometry *this,
         const Opcode::AABBNoLeafNode *node)
 {
-  __int32 v4; // eax
+  int v4; // eax
 
   while ( 1 )
   {

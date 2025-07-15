@@ -1,31 +1,22 @@
 char __userpurge vostok::resources::game_resources_manager::try_free_or_decrease_quality@<al>(
         vostok::resources::query_result *query@<eax>,
-        vostok::resources::memory_type *info@<edx>,
-        double a3@<st0>,
-        vostok::resources::game_resources_manager *this)
+        vostok::resources::game_resources_manager *this,
+        vostok::resources::memory_type *info)
 {
-  const vostok::resources::memory_type *type; // edx
-  vostok::resources::resource_freeing_functionality resource_freeing; // [esp+0h] [ebp-30h] BYREF
-  vostok::resources::resources_to_free_collection collection; // [esp+8h] [ebp-28h] BYREF
+  vostok::resources::resource_freeing_functionality *v3; // ecx
+  vostok::resources::resource_freeing_functionality *v4; // ecx
+  vostok::resources::resources_to_free_collection v6; // [esp+8h] [ebp-38h] BYREF
+  vostok::resources::memory_usage_type m_out_of_memory; // [esp+30h] [ebp-10h] BYREF
+  vostok::resources::resource_freeing_functionality v8; // [esp+38h] [ebp-8h] BYREF
 
-  collection.info = info;
-  collection.required_memory = query->m_out_of_memory;
-  type = query->m_out_of_memory.vostok::resources::query_result_for_cook::type;
-  collection.query = query;
-  collection.collected_memory.type = type;
-  collection.resources.m_size = 0;
-  collection.resources.m_first = 0;
-  collection.resources.m_last = 0;
-  collection.collected_memory.size = 0;
-  resource_freeing.m_collection = &collection;
-  resource_freeing.m_data = &this->m_data;
-  if ( !vostok::resources::resource_freeing_functionality::try_collect_to_free(
-          (vostok::resources::resource_freeing_functionality *)&collection,
-          a3,
-          &resource_freeing) )
+  m_out_of_memory = query->m_out_of_memory;
+  vostok::resources::resources_to_free_collection::resources_to_free_collection(&v6, &m_out_of_memory, info, query);
+  v8.m_collection = &v6;
+  v8.m_data = &this->m_data;
+  if ( !vostok::resources::resource_freeing_functionality::try_collect_to_free(v3, &v8) )
     return 0;
   vostok::resources::resource_freeing_functionality::free_collected(
-    &resource_freeing,
-    (vostok::resources::releasing_functionality)&resource_freeing);
+    v4,
+    (vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> **)&v8);
   return 1;
 }

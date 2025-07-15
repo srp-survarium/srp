@@ -1,5 +1,5 @@
 int __usercall _sopen_helper@<eax>(
-        unsigned int a1@<ebx>,
+        int a1@<ebx>,
         const char *path,
         int oflag,
         int shflag,
@@ -17,13 +17,13 @@ int __usercall _sopen_helper@<eax>(
   if ( !pfh || (*pfh = -1, !path) || bSecure && (pmode & 0xFFFFFE7F) != 0 )
   {
     *_errno() = 22;
-    _invalid_parameter(a1, 0x16u, 0);
+    _invalid_parameter(a1, 22, 0);
     return 22;
   }
   else
   {
     ms_exc.registration.TryLevel = 0;
-    retval = tsopen_nolock(pfh, (unsigned int)pfh, &unlock_flag, path, oflag, shflag, pmode);
+    retval = tsopen_nolock(pfh, (int)pfh, &unlock_flag, path, oflag, shflag, pmode);
     ms_exc.registration.TryLevel = -2;
     if ( unlock_flag )
     {

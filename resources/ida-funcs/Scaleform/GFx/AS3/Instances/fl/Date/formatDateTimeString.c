@@ -12,9 +12,9 @@ unsigned int __cdecl Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeStr
   int v10; // eax
   char *v11; // ebx
   int v12; // eax
-  const char *v13; // ebx
+  char *v13; // ebx
   unsigned int v14; // eax
-  const char *v15; // ecx
+  char *v15; // ecx
   int tzaDelta; // [esp+48h] [ebp-88h] BYREF
   const char *gmtString; // [esp+4Ch] [ebp-84h] BYREF
   int v3; // [esp+50h] [ebp-80h] BYREF
@@ -26,8 +26,7 @@ unsigned int __cdecl Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeStr
 
   time = t;
   *(double *)&result.Type = t;
-  if ( ((int)result.SinkData.pStr & 0x7FF00000) == 0x7FF00000
-    && (unsigned int)&loc_FFFFF & (unsigned int)result.SinkData.pStr | result.Type )
+  if ( ((int)result.SinkData.pStr & 0x7FF00000) == 0x7FF00000 && (int)result.SinkData.pStr & 0xFFFFF | result.Type )
   {
     strcpy(buffer, "Invalid Date");
     return 12;
@@ -53,7 +52,7 @@ unsigned int __cdecl Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeStr
              "{0} {1} {2} ",
              &(&Scaleform::GFx::AS3::Instances::fl::Date::DayNames[v10])[v10 < 0 ? 7 : 0],
              &Scaleform::GFx::AS3::Instances::fl::Date::MonthNames[(int)v22.Entries[1]],
-             (const int *)&gmtString);
+             (int *)&gmtString);
     }
     else
     {
@@ -81,14 +80,7 @@ unsigned int __cdecl Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeStr
       v21.SinkData.pStr = (Scaleform::String *)&buffer[v9];
       v21.SinkData.DataPtr.Size = bufferSize - v9;
       v21.Type = tDataPtr;
-      v14 = Scaleform::Format<int,int,int,char const *,int>(
-              &v21,
-              v13,
-              (const int *)&result,
-              &v2,
-              &v3,
-              &gmtString,
-              &tzaDelta);
+      v14 = Scaleform::Format<int,int,int,char const *,int>(&v21, v13, (int *)&result, &v2, &v3, &gmtString, &tzaDelta);
       v11 = buffer;
       v9 += v14;
     }
@@ -101,7 +93,7 @@ unsigned int __cdecl Scaleform::GFx::AS3::Instances::fl::Date::formatDateTimeStr
       v21.SinkData.pStr = (Scaleform::String *)&v11[v9];
       v21.Type = tDataPtr;
       v21.SinkData.DataPtr.Size = bufferSize - v9;
-      v9 += Scaleform::Format<long>(&v21, v15, (const int *)&result);
+      v9 += Scaleform::Format<long>(&v21, v15, (int *)&result);
     }
     if ( needTime && utc )
     {

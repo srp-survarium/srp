@@ -8,26 +8,29 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Union(const Scaleform::GFx::AS
   Scaleform::GFx::AS2::Value *v6; // eax
   Scaleform::GFx::AS2::Object *v7; // ebx
   long double v8; // st7
-  long double v; // st7
+  long double v9; // st7
   long double v10; // st7
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *v_4; // [esp+Ch] [ebp-104h]
-  Scaleform::GFx::AS2::RectangleObject *pthis; // [esp+58h] [ebp-B8h]
-  long double pthisa; // [esp+58h] [ebp-B8h]
-  Scaleform::Render::Rect<double> ret; // [esp+60h] [ebp-B0h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp+Ch] [ebp-104h]
+  Scaleform::GFx::AS2::RectangleObject *p_pProto; // [esp+58h] [ebp-B8h]
+  long double v14; // [esp+58h] [ebp-B8h]
+  Scaleform::Render::Rect<double> pdest; // [esp+60h] [ebp-B0h] BYREF
   long double v16; // [esp+80h] [ebp-90h]
   long double v17; // [esp+88h] [ebp-88h]
-  Scaleform::Render::Rect<double> o1; // [esp+90h] [ebp-80h] BYREF
-  Scaleform::Render::Rect<double> o2; // [esp+B0h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::Value o2v[4]; // [esp+D0h] [ebp-40h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+90h] [ebp-80h] BYREF
+  Scaleform::Render::Rect<double> v19; // [esp+B0h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v20; // [esp+D0h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v21; // [esp+E0h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v22; // [esp+F0h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v23; // [esp+100h] [ebp-10h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Rectangle )
   {
     ThisPtr = fn->ThisPtr;
     if ( ThisPtr )
-      pthis = (Scaleform::GFx::AS2::RectangleObject *)&ThisPtr[-2].pProto;
+      p_pProto = (Scaleform::GFx::AS2::RectangleObject *)&ThisPtr[-2].pProto;
     else
-      pthis = 0;
+      p_pProto = 0;
     pHeap = fn->Env->StringContext.pContext->pHeap;
     v3 = (Scaleform::GFx::AS2::RectangleObject *)pHeap->Alloc(pHeap, 52u, 0);
     if ( v3 )
@@ -42,59 +45,62 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Union(const Scaleform::GFx::AS
     Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v5);
     if ( fn->NArgs <= 0 )
     {
-      Scaleform::GFx::AS2::RectangleObject::SetProperties(v5, &fn->Env->StringContext, Rectangle_NaNParams);
+      Scaleform::GFx::AS2::RectangleObject::SetProperties(
+        v5,
+        (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+        Rectangle_NaNParams);
     }
     else
     {
-      ret.x1 = Scaleform::GFx::NumberUtil::NaN();
-      ret.y1 = Scaleform::GFx::NumberUtil::NaN();
-      ret.x2 = Scaleform::GFx::NumberUtil::NaN();
-      ret.y2 = Scaleform::GFx::NumberUtil::NaN();
-      v_4 = fn->Env;
+      pdest.x1 = Scaleform::GFx::NumberUtil::NaN();
+      pdest.y1 = Scaleform::GFx::NumberUtil::NaN();
+      pdest.x2 = Scaleform::GFx::NumberUtil::NaN();
+      pdest.y2 = Scaleform::GFx::NumberUtil::NaN();
+      Env = fn->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      v7 = Scaleform::GFx::AS2::Value::ToObject(v6, v_4);
+      v7 = Scaleform::GFx::AS2::Value::ToObject(v6, Env);
       if ( v7 )
       {
-        o1.x1 = 0.0;
-        o1.y1 = 0.0;
-        o1.x2 = 0.0;
-        o1.y2 = 0.0;
+        r.x1 = 0.0;
+        r.y1 = 0.0;
+        r.x2 = 0.0;
+        r.y2 = 0.0;
         `vector constructor iterator'(
-          (char *)o2v,
+          (char *)&v20,
           0x10u,
           4,
           (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
-        Scaleform::GFx::AS2::RectangleObject::GetProperties(pthis, fn->Env, &o1);
-        Scaleform::GFx::AS2::GFxObject_GetRectangleProperties(fn->Env, v7, o2v);
-        v16 = Scaleform::GFx::AS2::Value::ToNumber(&o2v[2], fn->Env);
-        v17 = Scaleform::GFx::AS2::Value::ToNumber(&o2v[3], fn->Env);
-        pthisa = Scaleform::GFx::AS2::Value::ToNumber(o2v, fn->Env);
-        v8 = Scaleform::GFx::AS2::Value::ToNumber(&o2v[1], fn->Env);
-        o2.x1 = pthisa;
-        o2.y1 = v8;
-        o2.x2 = pthisa + v16;
-        o2.y2 = v8 + v17;
-        Scaleform::GFx::AS2::ValidateRect(&o1);
-        Scaleform::GFx::AS2::ValidateRect(&o2);
-        Scaleform::Render::Rect<double>::UnionRect(&o1, &ret, &o2);
-        v = Scaleform::GFx::AS2::Value::ToNumber(o2v, fn->Env);
-        if ( Scaleform::GFx::NumberUtil::IsNaN(v) )
-          ret.x1 = Scaleform::GFx::NumberUtil::NaN();
-        v10 = Scaleform::GFx::AS2::Value::ToNumber(&o2v[1], fn->Env);
+        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, fn->Env, &r);
+        Scaleform::GFx::AS2::GFxObject_GetRectangleProperties(fn->Env, v7, &v20);
+        v16 = Scaleform::GFx::AS2::Value::ToNumber(&v22, fn->Env);
+        v17 = Scaleform::GFx::AS2::Value::ToNumber(&v23, fn->Env);
+        v14 = Scaleform::GFx::AS2::Value::ToNumber(&v20, fn->Env);
+        v8 = Scaleform::GFx::AS2::Value::ToNumber(&v21, fn->Env);
+        v19.x1 = v14;
+        v19.y1 = v8;
+        v19.x2 = v14 + v16;
+        v19.y2 = v8 + v17;
+        Scaleform::GFx::AS2::ValidateRect(&r);
+        Scaleform::GFx::AS2::ValidateRect(&v19);
+        Scaleform::Render::Rect<double>::UnionRect(&r, &pdest, &v19);
+        v9 = Scaleform::GFx::AS2::Value::ToNumber(&v20, fn->Env);
+        if ( Scaleform::GFx::NumberUtil::IsNaN(v9) )
+          pdest.x1 = Scaleform::GFx::NumberUtil::NaN();
+        v10 = Scaleform::GFx::AS2::Value::ToNumber(&v21, fn->Env);
         if ( Scaleform::GFx::NumberUtil::IsNaN(v10) )
-          ret.y1 = Scaleform::GFx::NumberUtil::NaN();
+          pdest.y1 = Scaleform::GFx::NumberUtil::NaN();
         `vector destructor iterator'(
-          (char *)o2v,
+          (char *)&v20,
           0x10u,
           4,
           (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);
       }
-      Scaleform::GFx::AS2::RectangleObject::SetProperties(v5, fn->Env, &ret);
+      Scaleform::GFx::AS2::RectangleObject::SetProperties(v5, fn->Env, &pdest);
     }
     if ( v5 )
     {
       RefCount = v5->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v5->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

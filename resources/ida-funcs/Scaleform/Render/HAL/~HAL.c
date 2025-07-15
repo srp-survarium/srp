@@ -5,18 +5,9 @@ void __thiscall Scaleform::Render::HAL::~HAL(Scaleform::Render::HAL *this)
 
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->UserDataStack.Data.Data);
   Scaleform::ListAllocBase<Scaleform::Render::BeginDisplayData,127,Scaleform::AllocatorLH_POD<Scaleform::Render::BeginDisplayData,2>>::freeMem(&this->BeginDisplayDataList);
-  Scaleform::ConstructorMov<Scaleform::Render::HAL::FilterStackEntry>::DestructArray(
-    this->FilterStack.Data.Data,
-    this->FilterStack.Data.Size);
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)this->FilterStack.Data.Data);
-  Scaleform::ConstructorMov<Scaleform::Render::HAL::RenderTargetEntry>::DestructArray(
-    this->RenderTargetStack.Data.Data,
-    this->RenderTargetStack.Data.Size);
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->RenderTargetStack.Data.Data);
-  Scaleform::ConstructorMov<Scaleform::Render::HAL::MaskStackEntry>::DestructArray(
-    this->MaskStack.Data.Data,
-    this->MaskStack.Data.Size);
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->MaskStack.Data.Data);
+  Scaleform::ArrayDataBase<Scaleform::Render::HAL::FilterStackEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::FilterStackEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>::~ArrayDataBase<Scaleform::Render::HAL::FilterStackEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::FilterStackEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>(&this->FilterStack.Data);
+  Scaleform::ArrayDataBase<Scaleform::Render::HAL::RenderTargetEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::RenderTargetEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>::~ArrayDataBase<Scaleform::Render::HAL::RenderTargetEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::RenderTargetEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>(&this->RenderTargetStack.Data);
+  Scaleform::ArrayDataBase<Scaleform::Render::HAL::MaskStackEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::MaskStackEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>::~ArrayDataBase<Scaleform::Render::HAL::MaskStackEntry,Scaleform::AllocatorLH<Scaleform::Render::HAL::MaskStackEntry,2>,Scaleform::ArrayConstPolicy<0,8,1>>(&this->MaskStack.Data);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->BlendModeStack.Data.Data);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->ProjectionMatrix3DStack.Data.Data);
   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->ViewMatrix3DStack.Data.Data);

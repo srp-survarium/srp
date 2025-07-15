@@ -1,611 +1,658 @@
 void __thiscall vostok::render::material_effects_instance_cook::on_effect_ready(
         vostok::render::material_effects_instance_cook *this,
         vostok::resources::queries_result *data,
-        vostok::render::material_effects_instance_cook_data *cook_data)
+        vostok::render::material_effects_instance_cook_data *cook_data,
+        vostok::variant<32> *exists_stages,
+        bool *exists_vertex_inputs,
+        const vostok::configs::binary_config_value *num_vertex_inputs)
 {
-  vostok::resources::unmanaged_resource *v3; // ebp
-  void *v4; // eax
-  vostok::render::material_effects_instance *v5; // ecx
-  int v6; // eax
-  int v7; // edi
-  vostok::resources::unmanaged_resource *m_object; // eax
-  vostok::resources::unmanaged_resource_vtbl *v9; // eax
-  unsigned int v10; // ebx
-  vostok::resources::queries_result *v11; // eax
-  bool v12; // al
-  vostok::resources::unmanaged_resource *v13; // eax
-  vostok::resources::unmanaged_resource *v14; // ebp
-  vostok::configs::binary_config_value *v15; // esi
-  vostok::configs::binary_config_value *v16; // eax
-  vostok::configs::binary_config_value *v17; // eax
-  vostok::configs::binary_config_value *v18; // eax
-  vostok::configs::binary_config_value *v19; // eax
-  vostok::configs::binary_config_value *v20; // eax
-  vostok::configs::binary_config_value *v21; // eax
-  vostok::configs::binary_config_value *v22; // eax
-  vostok::configs::binary_config_value *v23; // eax
-  vostok::configs::binary_config_value *v24; // eax
+  vostok::memory::doug_lea_allocator *v6; // esi
+  char *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  vostok::render::material_effects_instance *v9; // ecx
+  vostok::render::material_effects_instance *v10; // eax
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  char *v12; // edx
+  vostok::fs_new::virtual_path_string *p_m_material_name; // eax
+  char *m_begin; // ecx
+  vostok::variant<32> *v15; // ecx
+  vostok::variant<32> *v16; // edi
+  vostok::render::enum_vertex_input_type v17; // esi
+  vostok::render::material_effects *material_effects_or_new; // eax
+  int v19; // edi
+  vostok::particle::particle_system_instance_impl *v20; // esi
+  vostok::configs::binary_config_value *v21; // ecx
+  vostok::configs::binary_config_value *v22; // ecx
+  const vostok::configs::binary_config_value *v23; // eax
+  vostok::configs::binary_config_value *v24; // ecx
   vostok::configs::binary_config_value *v25; // eax
-  vostok::configs::binary_config_value *v26; // eax
-  vostok::configs::binary_config_value *v27; // eax
+  const vostok::configs::binary_config_value *v26; // eax
+  vostok::configs::binary_config_value *v27; // ecx
   vostok::configs::binary_config_value *v28; // eax
   vostok::configs::binary_config_value *v29; // eax
   vostok::configs::binary_config_value *v30; // eax
-  vostok::configs::binary_config_value *v31; // eax
-  vostok::configs::binary_config_value *v32; // eax
-  vostok::configs::binary_config_value *v33; // eax
-  vostok::configs::binary_config_value *v34; // eax
+  const vostok::configs::binary_config_value *v31; // eax
+  vostok::configs::binary_config_value *v32; // ecx
+  const vostok::configs::binary_config_value *v33; // eax
+  vostok::configs::binary_config_value *v34; // ecx
   vostok::configs::binary_config_value *v35; // eax
   vostok::configs::binary_config_value *v36; // eax
-  vostok::configs::binary_config_value *v37; // eax
-  vostok::configs::binary_config_value *v38; // eax
-  vostok::configs::binary_config_value *v39; // eax
-  vostok::configs::binary_config_value *v40; // eax
+  const vostok::configs::binary_config_value *v37; // eax
+  vostok::configs::binary_config_value *v38; // ecx
+  const vostok::configs::binary_config_value *v39; // eax
+  vostok::configs::binary_config_value *v40; // ecx
   vostok::configs::binary_config_value *v41; // eax
-  vostok::configs::binary_config_value *v42; // eax
-  vostok::configs::binary_config_value *v43; // eax
+  const vostok::configs::binary_config_value *v42; // eax
+  vostok::configs::binary_config_value *v43; // ecx
   vostok::configs::binary_config_value *v44; // eax
   vostok::configs::binary_config_value *v45; // eax
   vostok::configs::binary_config_value *v46; // eax
-  vostok::configs::binary_config_value *v47; // eax
-  vostok::configs::binary_config_value *v48; // eax
-  vostok::configs::binary_config_value *v49; // eax
-  vostok::configs::binary_config_value *v50; // eax
+  const vostok::configs::binary_config_value *v47; // eax
+  vostok::configs::binary_config_value *v48; // ecx
+  const vostok::configs::binary_config_value *v49; // eax
+  vostok::configs::binary_config_value *v50; // ecx
   vostok::configs::binary_config_value *v51; // eax
-  vostok::configs::binary_config_value *v52; // eax
-  vostok::configs::binary_config_value *v53; // eax
+  const vostok::configs::binary_config_value *v52; // eax
+  vostok::configs::binary_config_value *v53; // ecx
   vostok::configs::binary_config_value *v54; // eax
   vostok::configs::binary_config_value *v55; // eax
   vostok::configs::binary_config_value *v56; // eax
-  vostok::configs::binary_config_value *v57; // eax
-  vostok::resources::unmanaged_resource *v58; // eax
-  vostok::resources::unmanaged_resource *v59; // ebp
-  vostok::configs::binary_config_value *v60; // esi
+  const vostok::configs::binary_config_value *v57; // eax
+  vostok::configs::binary_config_value *v58; // ecx
+  const vostok::configs::binary_config_value *v59; // eax
+  vostok::configs::binary_config_value *v60; // ecx
   vostok::configs::binary_config_value *v61; // eax
-  vostok::configs::binary_config_value *v62; // eax
-  vostok::configs::binary_config_value *v63; // eax
+  const vostok::configs::binary_config_value *v62; // eax
+  vostok::configs::binary_config_value *v63; // ecx
   vostok::configs::binary_config_value *v64; // eax
   vostok::configs::binary_config_value *v65; // eax
   vostok::configs::binary_config_value *v66; // eax
-  _QWORD *pointer; // eax
-  __int64 v68; // xmm1_8
-  vostok::resources::unmanaged_resource *v69; // eax
-  vostok::resources::unmanaged_resource *v70; // ebp
-  vostok::configs::binary_config_value *v71; // esi
-  vostok::configs::binary_config_value *v72; // eax
-  vostok::configs::binary_config_value *v73; // eax
+  const vostok::configs::binary_config_value *v67; // eax
+  vostok::configs::binary_config_value *v68; // ecx
+  const vostok::configs::binary_config_value *v69; // eax
+  vostok::configs::binary_config_value *v70; // ecx
+  vostok::configs::binary_config_value *v71; // eax
+  const vostok::configs::binary_config_value *v72; // eax
+  vostok::configs::binary_config_value *v73; // ecx
   vostok::configs::binary_config_value *v74; // eax
   vostok::configs::binary_config_value *v75; // eax
   vostok::configs::binary_config_value *v76; // eax
-  vostok::configs::binary_config_value *v77; // eax
-  vostok::configs::binary_config_value *v78; // eax
-  vostok::configs::binary_config_value *v79; // eax
-  vostok::configs::binary_config_value *v80; // eax
+  const vostok::configs::binary_config_value *v77; // eax
+  vostok::configs::binary_config_value *v78; // ecx
+  const vostok::configs::binary_config_value *v79; // eax
+  vostok::configs::binary_config_value *v80; // ecx
   vostok::configs::binary_config_value *v81; // eax
-  vostok::configs::binary_config_value *v82; // eax
-  vostok::configs::binary_config_value *v83; // eax
+  const vostok::configs::binary_config_value *v82; // eax
+  vostok::configs::binary_config_value *v83; // ecx
   vostok::configs::binary_config_value *v84; // eax
   vostok::configs::binary_config_value *v85; // eax
   vostok::configs::binary_config_value *v86; // eax
-  vostok::configs::binary_config_value *v87; // eax
-  vostok::configs::binary_config_value *v88; // eax
-  vostok::configs::binary_config_value *v89; // eax
+  const vostok::configs::binary_config_value *v87; // eax
+  const vostok::configs::binary_config_value *v88; // eax
+  vostok::configs::binary_config_value *v89; // ecx
   vostok::configs::binary_config_value *v90; // eax
-  vostok::configs::binary_config_value *v91; // eax
-  vostok::configs::binary_config_value *v92; // eax
-  vostok::resources::unmanaged_resource *v93; // eax
-  vostok::resources::unmanaged_resource *v94; // ebp
-  vostok::resources::unmanaged_resource *v95; // esi
-  vostok::resources::unmanaged_resource *v96; // eax
-  vostok::resources::unmanaged_resource *v97; // ecx
-  vostok::resources::unmanaged_resource *v98; // eax
-  bool v99; // al
-  vostok::resources::query_result_for_cook *v100; // ecx
-  vostok::resources::unmanaged_resource *v101; // eax
-  vostok::render::grass_render_model *v102; // esi
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v103; // [esp-Ch] [ebp-38h]
-  const char *v104; // [esp-4h] [ebp-30h]
-  vostok::resources::queries_result *v105; // [esp+18h] [ebp-14h]
-  unsigned int i; // [esp+1Ch] [ebp-10h]
-  vostok::resources::query_result_for_cook *parent; // [esp+20h] [ebp-Ch]
+  const vostok::configs::binary_config_value *v91; // eax
+  vostok::configs::binary_config_value *v92; // ecx
+  vostok::configs::binary_config_value *v93; // eax
+  vostok::configs::binary_config_value *v94; // eax
+  vostok::configs::binary_config_value *v95; // eax
+  const vostok::configs::binary_config_value *v96; // eax
+  const vostok::configs::binary_config_value *v97; // esi
+  vostok::configs::binary_config_value *v98; // esi
+  vostok::configs::binary_config_value *v99; // ecx
+  const vostok::configs::binary_config_value *v100; // eax
+  vostok::configs::binary_config_value *v101; // ecx
+  vostok::configs::binary_config_value *v102; // eax
+  vostok::configs::binary_config_value *v103; // eax
+  const vostok::configs::binary_config_value *v104; // eax
+  vostok::particle::particle_system_instance_impl *v105; // esi
+  vostok::configs::binary_config_value *v106; // ecx
+  vostok::configs::binary_config_value *v107; // ecx
+  const vostok::configs::binary_config_value *v108; // eax
+  vostok::configs::binary_config_value *v109; // ecx
+  vostok::configs::binary_config_value *v110; // eax
+  const vostok::configs::binary_config_value *v111; // eax
+  vostok::configs::binary_config_value *v112; // ecx
+  vostok::configs::binary_config_value *v113; // eax
+  vostok::configs::binary_config_value *v114; // eax
+  const char **v115; // eax
+  int v116; // eax
+  vostok::configs::binary_config_value *v117; // ecx
+  const vostok::configs::binary_config_value *v118; // eax
+  vostok::configs::binary_config_value *v119; // ecx
+  vostok::configs::binary_config_value *v120; // eax
+  const vostok::configs::binary_config_value *v121; // eax
+  vostok::configs::binary_config_value *v122; // ecx
+  vostok::configs::binary_config_value *v123; // eax
+  vostok::configs::binary_config_value *v124; // eax
+  const char **v125; // eax
+  vostok::configs::binary_config_value *v126; // ecx
+  const vostok::configs::binary_config_value *v127; // eax
+  vostok::configs::binary_config_value *v128; // ecx
+  vostok::configs::binary_config_value *v129; // eax
+  const vostok::configs::binary_config_value *v130; // eax
+  vostok::configs::binary_config_value *v131; // ecx
+  vostok::configs::binary_config_value *v132; // eax
+  vostok::configs::binary_config_value *v133; // eax
+  const char **v134; // eax
+  vostok::configs::binary_config_value *v135; // ecx
+  const vostok::configs::binary_config_value *v136; // eax
+  vostok::configs::binary_config_value *v137; // ecx
+  vostok::configs::binary_config_value *v138; // eax
+  const vostok::configs::binary_config_value *v139; // eax
+  vostok::configs::binary_config_value *v140; // ecx
+  vostok::configs::binary_config_value *v141; // eax
+  vostok::configs::binary_config_value *v142; // eax
+  vostok::configs::binary_config_value *v143; // eax
+  const vostok::configs::binary_config_value *v144; // eax
+  vostok::configs::binary_config_value *v145; // ecx
+  const vostok::configs::binary_config_value *v146; // eax
+  vostok::configs::binary_config_value *v147; // ecx
+  vostok::configs::binary_config_value *v148; // eax
+  vostok::configs::binary_config_value *v149; // eax
+  const vostok::configs::binary_config_value *v150; // eax
+  vostok::configs::binary_config_value *v151; // ecx
+  const vostok::configs::binary_config_value *v152; // eax
+  vostok::configs::binary_config_value *v153; // ecx
+  vostok::configs::binary_config_value *v154; // eax
+  vostok::configs::binary_config_value *v155; // eax
+  const vostok::configs::binary_config_value *v156; // eax
+  const vostok::configs::binary_config_value *v157; // eax
+  vostok::configs::binary_config_value *v158; // ecx
+  vostok::configs::binary_config_value *v159; // eax
+  vostok::configs::binary_config_value *v160; // eax
+  const vostok::configs::binary_config_value *v161; // eax
+  const vostok::configs::binary_config_value *v162; // esi
+  vostok::configs::binary_config_value *v163; // esi
+  vostok::configs::binary_config_value *v164; // ecx
+  const vostok::configs::binary_config_value *v165; // eax
+  vostok::configs::binary_config_value *v166; // ecx
+  vostok::configs::binary_config_value *v167; // eax
+  vostok::configs::binary_config_value *v168; // eax
+  const vostok::configs::binary_config_value *v169; // eax
+  const vostok::configs::binary_config_value *v170; // esi
+  vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *v171; // edi
+  vostok::resources::query_result_for_cook *v172; // ecx
+  vostok::resources::query_result_for_cook *v173; // ecx
+  vostok::memory::doug_lea_allocator *v174; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v175; // [esp-Ch] [ebp-50h] BYREF
+  const vostok::resources::memory_type *v176; // [esp-8h] [ebp-4Ch]
+  unsigned int v177; // [esp-4h] [ebp-48h]
+  const char *v178; // [esp+0h] [ebp-44h]
+  const char *v179; // [esp+4h] [ebp-40h]
+  unsigned int v180; // [esp+8h] [ebp-3Ch]
+  vostok::resources::query_result_for_cook *m_parent_query; // [esp+10h] [ebp-34h]
+  int v182; // [esp+14h] [ebp-30h]
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v183; // [esp+18h] [ebp-2Ch] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v184; // [esp+1Ch] [ebp-28h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v185; // [esp+20h] [ebp-24h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v186; // [esp+24h] [ebp-20h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v187; // [esp+28h] [ebp-1Ch] BYREF
+  unsigned int v188; // [esp+2Ch] [ebp-18h]
+  vostok::variant<32> *v189; // [esp+30h] [ebp-14h]
+  vostok::render::material_effects_instance *v190; // [esp+34h] [ebp-10h]
+  int v191; // [esp+38h] [ebp-Ch]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v192; // [esp+3Ch] [ebp-8h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v193; // [esp+40h] [ebp-4h] BYREF
 
-  v3 = 0;
-  parent = data->m_parent_query;
-  v4 = vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-         0x5B0u);
-  if ( v4 )
+  v6 = vostok::render::g_allocator;
+  m_parent_query = data->m_parent_query;
+  v7 = type_info::raw_name(&vostok::render::material_effects_instance `RTTI Type Descriptor');
+  if ( vostok::memory::doug_lea_allocator::malloc_impl(v8, (int)v6, 0x228u, v7, v178, v179, v180) )
   {
-    vostok::render::material_effects_instance::material_effects_instance(v5, (int)v4);
-    v7 = v6;
+    vostok::render::material_effects_instance::material_effects_instance(v9, (unsigned int)num_vertex_inputs);
+    v190 = v10;
   }
   else
   {
-    v7 = 0;
+    v190 = 0;
   }
-  m_object = cook_data->material.m_object;
+  m_object = (vostok::particle::particle_system_instance_impl *)cook_data->material.m_object;
+  v193.m_object = 0;
   if ( m_object )
   {
-    v3 = cook_data->material.m_object;
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v193);
+    v193.m_object = m_object;
     _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
   }
-  v9 = *(vostok::resources::unmanaged_resource_vtbl **)(v7 + 1176);
-  if ( v9 != v3[1].__vftable )
+  v12 = (char *)v193.m_object->m_lods[0].m_template.m_object;
+  p_m_material_name = &v190->m_material_name;
+  m_begin = v190->m_material_name.m_string.m_begin;
+  if ( m_begin != v12 )
   {
-    v104 = (const char *)v3[1].__vftable;
-    *(_DWORD *)(v7 + 1180) = v9;
-    LOBYTE(v9->~vostok::resources::resource_base) = 0;
-    vostok::buffer_string::operator+=((vostok::buffer_string *)(v7 + 1176), v104);
+    v190->m_material_name.m_string.m_end = m_begin;
+    *m_begin = 0;
+    vostok::buffer_string::operator+=(&p_m_material_name->m_string, v12);
   }
-  if ( !_InterlockedExchangeAdd(&v3->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v3->vostok::resources::unmanaged_intrusive_base, v3);
-  v10 = 0;
-  *(_DWORD *)(v7 + 1052) = cook_data->vertex_input_type;
-  i = 0;
-  do
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v193);
+  v188 = 0;
+  if ( data->m_size )
   {
-    v11 = data + 9 * v10;
-    v105 = v11;
-    v12 = v11->m_queries[0].m_error_type == error_type_unset
-       && v11->m_queries[0].m_create_resource_result != result_error;
-    *(_BYTE *)(v7 + v10 + 988) = v12;
-    if ( v10 )
+    v15 = exists_stages;
+    v189 = exists_stages;
+    v193.m_object = (vostok::particle::particle_system_instance_impl *)data->m_queries;
+    v182 = exists_vertex_inputs - (bool *)exists_stages;
+    while ( 1 )
     {
-      if ( v10 == 22 )
+      num_vertex_inputs = 0;
+      vostok::variant<32>::try_get<vostok::render::effect_compile_data *>(
+        v15,
+        (int)v193.m_object->m_lods[0].m_template.m_object,
+        (vostok::render::effect_compile_data **)&num_vertex_inputs);
+      vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::effect_compile_data>(
+        vostok::render::g_allocator,
+        (vostok::render::effect_compile_data **)&num_vertex_inputs,
+        v178,
+        v179,
+        v180);
+      if ( vostok::resources::query_result_for_user::is_successful(
+             (vostok::resources::query_result_for_user *)v177,
+             (int)v193.m_object) )
       {
-        v58 = cook_data->material.m_object;
-        v59 = 0;
-        if ( v58 )
+        break;
+      }
+LABEL_90:
+      v15 = (vostok::variant<32> *)++v188;
+      v189 = (vostok::variant<32> *)((char *)v189 + 4);
+      v193.m_object = (vostok::particle::particle_system_instance_impl *)((char *)v193.m_object + 736);
+      if ( v188 >= data->m_size )
+        goto LABEL_91;
+    }
+    v16 = v189;
+    v17 = *(_DWORD *)&v189->m_helper_storage[v182];
+    material_effects_or_new = vostok::render::material_effects_instance::get_material_effects_or_new(v190, v17);
+    material_effects_or_new->m_vertex_input_type = v17;
+    v19 = *(_DWORD *)v16->m_helper_storage;
+    exists_vertex_inputs = &material_effects_or_new->is_emissive;
+    v191 = v19;
+    if ( v19 == 1 )
+    {
+      v20 = (vostok::particle::particle_system_instance_impl *)cook_data->material.m_object;
+      v192.m_object = 0;
+      if ( v20 )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v192);
+        v192.m_object = v20;
+        _InterlockedExchangeAdd(&v20->m_reference_count, 1u);
+      }
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        &v187,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v192.m_object->m_lods[4].m_emitter_instance_list.m_first);
+      num_vertex_inputs = vostok::configs::binary_config_value::operator[](
+                            (vostok::configs::binary_config_value *)v187.m_object->m_lods[0].m_template.m_object,
+                            "material");
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v187);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v192);
+      if ( vostok::configs::binary_config_value::value_exists(v21, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v23 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v24, (int)v23, (unsigned int)"effect") )
         {
-          v59 = cook_data->material.m_object;
-          _InterlockedExchangeAdd(&v58->m_reference_count, 1u);
-        }
-        v60 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        (vostok::configs::binary_config_value *)v59[1].grm_satisfaction_tree_hook.left_[16].right_,
-                                                        "material");
-        if ( !_InterlockedExchangeAdd(&v59->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(&v59->vostok::resources::unmanaged_intrusive_base, v59);
-        if ( vostok::configs::binary_config_value::value_exists(v60, (const char *)&stru_960A90.type) )
-        {
-          v61 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v60,
-                                                          (const char *)&stru_960A90.type);
-          if ( vostok::configs::binary_config_value::value_exists(v61, "is_organic") )
+          v25 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v26 = vostok::configs::binary_config_value::operator[](v25, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v27, (int)v26, (unsigned int)"use_emissive") )
           {
-            v62 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v60,
-                                                            (const char *)&stru_960A90.type);
-            v63 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v62,
-                                                            "is_organic");
-            *(_BYTE *)(v7 + 1018) = vostok::configs::binary_config_value::operator[](v63, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-        if ( vostok::configs::binary_config_value::value_exists(v60, (const char *)&stru_960A90.type) )
-        {
-          v64 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v60,
-                                                          (const char *)&stru_960A90.type);
-          if ( vostok::configs::binary_config_value::value_exists(v64, "constant_clear_color") )
-          {
-            v65 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v60,
-                                                            (const char *)&stru_960A90.type);
-            v66 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v65,
-                                                            "constant_clear_color");
-            pointer = vostok::configs::binary_config_value::operator[](v66, (const char *)&stru_955964)->data.pointer;
-            v68 = pointer[1];
-            *(_QWORD *)(v7 + 1036) = *pointer;
-            *(_QWORD *)(v7 + 1044) = v68;
+            v28 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v29 = vostok::configs::binary_config_value::operator[](v28, "effect");
+            v30 = vostok::configs::binary_config_value::operator[](v29, "use_emissive");
+            v31 = vostok::configs::binary_config_value::operator[](v30, "value");
+            v22 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            *exists_vertex_inputs = v31->data.pointer != 0;
           }
         }
       }
-      else if ( v10 == 17 )
+      if ( vostok::configs::binary_config_value::value_exists(v22, (int)num_vertex_inputs, (unsigned int)"g_stage") )
       {
-        v69 = cook_data->material.m_object;
-        v70 = 0;
-        if ( v69 )
+        v33 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v34, (int)v33, (unsigned int)"is_cast_shadow") )
         {
-          v70 = cook_data->material.m_object;
-          _InterlockedExchangeAdd(&v69->m_reference_count, 1u);
+          v35 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v36 = vostok::configs::binary_config_value::operator[](v35, "is_cast_shadow");
+          v37 = vostok::configs::binary_config_value::operator[](v36, "value");
+          v32 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+          exists_vertex_inputs[3] = v37->data.pointer != 0;
         }
-        v71 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        (vostok::configs::binary_config_value *)v70[1].grm_satisfaction_tree_hook.left_[16].right_,
-                                                        "material");
-        if ( !_InterlockedExchangeAdd(&v70->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(&v70->vostok::resources::unmanaged_intrusive_base, v70);
-        if ( vostok::configs::binary_config_value::value_exists(v71, "forward") )
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v32, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v39 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v40, (int)v39, (unsigned int)"effect") )
         {
-          v72 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v71, "forward");
-          if ( vostok::configs::binary_config_value::value_exists(v72, (const char *)&stru_9609EC) )
+          v41 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v42 = vostok::configs::binary_config_value::operator[](v41, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v43, (int)v42, (unsigned int)"use_alpha_test") )
           {
-            v73 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v71,
-                                                            "forward");
-            v74 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v73,
-                                                            (const char *)&stru_9609EC);
-            if ( vostok::configs::binary_config_value::value_exists(v74, "effect_id") )
-            {
-              v75 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v71,
-                                                              "forward");
-              v76 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v75,
-                                                              (const char *)&stru_9609EC);
-              *(_BYTE *)(v7 + 1024) = strcmp(
-                                        (const char *)vostok::configs::binary_config_value::operator[](v76, "effect_id")->data.pointer,
-                                        (const char *)&stru_960AE0.m_is_effects_query_processing) == 0;
-            }
+            v44 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v45 = vostok::configs::binary_config_value::operator[](v44, "effect");
+            v46 = vostok::configs::binary_config_value::operator[](v45, "use_alpha_test");
+            v47 = vostok::configs::binary_config_value::operator[](v46, "value");
+            v38 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[4] = v47->data.pointer != 0;
           }
         }
-        if ( vostok::configs::binary_config_value::value_exists(v71, "forward") )
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v38, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v49 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v50, (int)v49, (unsigned int)"effect") )
         {
-          v77 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v71, "forward");
-          if ( vostok::configs::binary_config_value::value_exists(v77, (const char *)&stru_9609EC) )
+          v51 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v52 = vostok::configs::binary_config_value::operator[](v51, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v53, (int)v52, (unsigned int)"wind_motion") )
           {
-            v78 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v71,
-                                                            "forward");
-            v79 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v78,
-                                                            (const char *)&stru_9609EC);
-            if ( vostok::configs::binary_config_value::value_exists(v79, "effect_id") )
-            {
-              v80 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v71,
-                                                              "forward");
-              v81 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v80,
-                                                              (const char *)&stru_9609EC);
-              if ( !strcmp(
-                      (const char *)vostok::configs::binary_config_value::operator[](v81, "effect_id")->data.pointer,
-                      (const char *)&stru_960AE0.m_shader_cache_info._M_impl._M_end_of_storage) )
-                *(_BYTE *)(v7 + 1025) = 1;
-            }
+            v54 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v55 = vostok::configs::binary_config_value::operator[](v54, "effect");
+            v56 = vostok::configs::binary_config_value::operator[](v55, "wind_motion");
+            v57 = vostok::configs::binary_config_value::operator[](v56, "value");
+            v48 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[5] = v57->data.pointer != 0;
           }
         }
-        if ( vostok::configs::binary_config_value::value_exists(v71, "forward") )
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v48, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v59 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v60, (int)v59, (unsigned int)"effect") )
         {
-          v82 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v71, "forward");
-          if ( vostok::configs::binary_config_value::value_exists(v82, (const char *)&stru_9609EC) )
+          v61 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v62 = vostok::configs::binary_config_value::operator[](v61, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v63, (int)v62, (unsigned int)"use_ttranslucency") )
           {
-            v83 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v71,
-                                                            "forward");
-            v84 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v83,
-                                                            (const char *)&stru_9609EC);
-            if ( vostok::configs::binary_config_value::value_exists(v84, "effect_id") )
-            {
-              v85 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v71,
-                                                              "forward");
-              v86 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v85,
-                                                              (const char *)&stru_9609EC);
-              if ( !strcmp(
-                      (const char *)vostok::configs::binary_config_value::operator[](v86, "effect_id")->data.pointer,
-                      (const char *)&stru_960AE0.m_passes._M_t._M_node_count) )
-                *(_BYTE *)(v7 + 1028) = 1;
-            }
+            v64 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v65 = vostok::configs::binary_config_value::operator[](v64, "effect");
+            v66 = vostok::configs::binary_config_value::operator[](v65, "use_ttranslucency");
+            v67 = vostok::configs::binary_config_value::operator[](v66, "value");
+            v58 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[8] = v67->data.pointer != 0;
           }
         }
-        if ( vostok::configs::binary_config_value::value_exists(v71, "forward") )
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v58, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v69 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v70, (int)v69, (unsigned int)"effect") )
         {
-          v87 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](v71, "forward");
-          if ( vostok::configs::binary_config_value::value_exists(v87, (const char *)&stru_9609EC) )
+          v71 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v72 = vostok::configs::binary_config_value::operator[](v71, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(
+                 v73,
+                 (int)v72,
+                 (unsigned int)"use_subsurface_scattering") )
           {
-            v88 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v71,
-                                                            "forward");
-            v89 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v88,
-                                                            (const char *)&stru_9609EC);
-            if ( vostok::configs::binary_config_value::value_exists(
-                   v89,
-                   (const char *)&stru_960AE0.m_techniques._M_t._M_header._M_data._M_left) )
-            {
-              v90 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v71,
-                                                              "forward");
-              v91 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v90,
-                                                              (const char *)&stru_9609EC);
-              v92 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                              v91,
-                                                              (const char *)&stru_960AE0.m_techniques._M_t._M_header._M_data._M_left);
-              *(_DWORD *)(v7 + 1032) = vostok::configs::binary_config_value::operator[](v92, (const char *)&stru_955964)->data.pointer;
-            }
+            v74 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v75 = vostok::configs::binary_config_value::operator[](v74, "effect");
+            v76 = vostok::configs::binary_config_value::operator[](v75, "use_subsurface_scattering");
+            v77 = vostok::configs::binary_config_value::operator[](v76, "value");
+            v68 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[2] = v77->data.pointer != 0;
           }
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v68, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+      {
+        v79 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+        if ( vostok::configs::binary_config_value::value_exists(v80, (int)v79, (unsigned int)"effect") )
+        {
+          v81 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+          v82 = vostok::configs::binary_config_value::operator[](v81, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v83, (int)v82, (unsigned int)"use_olta") )
+          {
+            v84 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+            v85 = vostok::configs::binary_config_value::operator[](v84, "effect");
+            v86 = vostok::configs::binary_config_value::operator[](v85, "use_olta");
+            v87 = vostok::configs::binary_config_value::operator[](v86, "value");
+            v78 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[11] = v87->data.pointer != 0;
+          }
+        }
+      }
+      if ( !vostok::configs::binary_config_value::value_exists(v78, (int)num_vertex_inputs, (unsigned int)"g_stage") )
+        goto LABEL_87;
+      v88 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+      if ( !vostok::configs::binary_config_value::value_exists(v89, (int)v88, (unsigned int)"effect") )
+        goto LABEL_87;
+      v90 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+      v91 = vostok::configs::binary_config_value::operator[](v90, "effect");
+      if ( !vostok::configs::binary_config_value::value_exists(v92, (int)v91, (unsigned int)"two_sided") )
+        goto LABEL_87;
+      v93 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "g_stage");
+      v94 = vostok::configs::binary_config_value::operator[](v93, "effect");
+      v95 = vostok::configs::binary_config_value::operator[](v94, "two_sided");
+      v96 = vostok::configs::binary_config_value::operator[](v95, "value");
+      exists_vertex_inputs[13] = v96->data.pointer != 0;
+    }
+    if ( v191 == 17 )
+    {
+      v97 = (const vostok::configs::binary_config_value *)cook_data->material.m_object;
+      num_vertex_inputs = 0;
+      if ( v97 )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+        num_vertex_inputs = v97;
+        _InterlockedExchangeAdd((volatile signed __int32 *)&v97[8].id_crc, 1u);
+      }
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        &v186,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs[16].type);
+      v98 = vostok::configs::binary_config_value::operator[](
+              (vostok::configs::binary_config_value *)v186.m_object->m_lods[0].m_template.m_object,
+              "material");
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v186);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+      if ( !vostok::configs::binary_config_value::value_exists(v99, (int)v98, (unsigned int)"lighting") )
+        goto LABEL_87;
+      v100 = vostok::configs::binary_config_value::operator[](v98, "lighting");
+      if ( !vostok::configs::binary_config_value::value_exists(v101, (int)v100, (unsigned int)"two_sided") )
+        goto LABEL_87;
+      v102 = vostok::configs::binary_config_value::operator[](v98, "lighting");
+      v103 = vostok::configs::binary_config_value::operator[](v102, "two_sided");
+      v104 = vostok::configs::binary_config_value::operator[](v103, "value");
+      exists_vertex_inputs[13] = v104->data.pointer != 0;
+    }
+    if ( v191 == 16 )
+    {
+      v105 = (vostok::particle::particle_system_instance_impl *)cook_data->material.m_object;
+      v192.m_object = 0;
+      if ( v105 )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v192);
+        v192.m_object = v105;
+        _InterlockedExchangeAdd(&v105->m_reference_count, 1u);
+      }
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        &v185,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v192.m_object->m_lods[4].m_emitter_instance_list.m_first);
+      num_vertex_inputs = vostok::configs::binary_config_value::operator[](
+                            (vostok::configs::binary_config_value *)v185.m_object->m_lods[0].m_template.m_object,
+                            "material");
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v185);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v192);
+      if ( vostok::configs::binary_config_value::value_exists(v106, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v108 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v109, (int)v108, (unsigned int)"effect") )
+        {
+          v110 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v111 = vostok::configs::binary_config_value::operator[](v110, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v112, (int)v111, (unsigned int)"effect_id") )
+          {
+            v113 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+            v114 = vostok::configs::binary_config_value::operator[](v113, "effect");
+            v115 = (const char **)vostok::configs::binary_config_value::operator[](v114, "effect_id");
+            v116 = vostok::strings::compare(*v115, (const char *)&stru_80B4E8);
+            v107 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            exists_vertex_inputs[6] = v116 == 0;
+          }
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v107, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v118 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v119, (int)v118, (unsigned int)"effect") )
+        {
+          v120 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v121 = vostok::configs::binary_config_value::operator[](v120, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v122, (int)v121, (unsigned int)"effect_id") )
+          {
+            v123 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+            v124 = vostok::configs::binary_config_value::operator[](v123, "effect");
+            v125 = (const char **)vostok::configs::binary_config_value::operator[](v124, "effect_id");
+            if ( !vostok::strings::compare(*v125, (const char *)&stru_80B4F4) )
+              exists_vertex_inputs[7] = 1;
+          }
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v117, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v127 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v128, (int)v127, (unsigned int)"effect") )
+        {
+          v129 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v130 = vostok::configs::binary_config_value::operator[](v129, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v131, (int)v130, (unsigned int)"effect_id") )
+          {
+            v132 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+            v133 = vostok::configs::binary_config_value::operator[](v132, "effect");
+            v134 = (const char **)vostok::configs::binary_config_value::operator[](v133, "effect_id");
+            if ( !vostok::strings::compare(*v134, (const char *)&stru_80B510) )
+              exists_vertex_inputs[12] = 1;
+          }
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v126, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v136 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v137, (int)v136, (unsigned int)"effect") )
+        {
+          v138 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v139 = vostok::configs::binary_config_value::operator[](v138, "effect");
+          if ( vostok::configs::binary_config_value::value_exists(v140, (int)v139, (unsigned int)&include_getter) )
+          {
+            v141 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+            v142 = vostok::configs::binary_config_value::operator[](v141, "effect");
+            v143 = vostok::configs::binary_config_value::operator[](v142, (char *)&include_getter);
+            v144 = vostok::configs::binary_config_value::operator[](v143, "value");
+            v135 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+            *((_DWORD *)exists_vertex_inputs + 4) = v144->data.pointer;
+          }
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v135, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v146 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v147, (int)v146, (unsigned int)"force_pre_distortion") )
+        {
+          v148 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v149 = vostok::configs::binary_config_value::operator[](v148, "force_pre_distortion");
+          v150 = vostok::configs::binary_config_value::operator[](v149, "value");
+          v145 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+          exists_vertex_inputs[9] = v150->data.pointer != 0;
+        }
+      }
+      if ( vostok::configs::binary_config_value::value_exists(v145, (int)num_vertex_inputs, (unsigned int)"forward") )
+      {
+        v152 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+        if ( vostok::configs::binary_config_value::value_exists(v153, (int)v152, (unsigned int)"draw_to_gbuffer") )
+        {
+          v154 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+          v155 = vostok::configs::binary_config_value::operator[](v154, "draw_to_gbuffer");
+          v156 = vostok::configs::binary_config_value::operator[](v155, "value");
+          v151 = (vostok::configs::binary_config_value *)exists_vertex_inputs;
+          exists_vertex_inputs[10] = v156->data.pointer != 0;
+        }
+      }
+      if ( !vostok::configs::binary_config_value::value_exists(v151, (int)num_vertex_inputs, (unsigned int)"forward") )
+        goto LABEL_87;
+      v157 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+      if ( !vostok::configs::binary_config_value::value_exists(v158, (int)v157, (unsigned int)"two_sided") )
+        goto LABEL_87;
+      v159 = vostok::configs::binary_config_value::operator[](num_vertex_inputs, "forward");
+      v160 = vostok::configs::binary_config_value::operator[](v159, "two_sided");
+      v161 = vostok::configs::binary_config_value::operator[](v160, "value");
+      exists_vertex_inputs[13] = v161->data.pointer != 0;
+    }
+    if ( v191 == 3 )
+    {
+      v162 = (const vostok::configs::binary_config_value *)cook_data->material.m_object;
+      num_vertex_inputs = 0;
+      if ( v162 )
+      {
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+        num_vertex_inputs = v162;
+        _InterlockedExchangeAdd((volatile signed __int32 *)&v162[8].id_crc, 1u);
+      }
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        &v184,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs[16].type);
+      v163 = vostok::configs::binary_config_value::operator[](
+               (vostok::configs::binary_config_value *)v184.m_object->m_lods[0].m_template.m_object,
+               "material");
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v184);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+      if ( vostok::configs::binary_config_value::value_exists(v164, (int)v163, (unsigned int)"distortion") )
+      {
+        v165 = vostok::configs::binary_config_value::operator[](v163, "distortion");
+        if ( vostok::configs::binary_config_value::value_exists(v166, (int)v165, (unsigned int)"two_sided") )
+        {
+          v167 = vostok::configs::binary_config_value::operator[](v163, "distortion");
+          v168 = vostok::configs::binary_config_value::operator[](v167, "two_sided");
+          v169 = vostok::configs::binary_config_value::operator[](v168, "value");
+          exists_vertex_inputs[13] = v169->data.pointer != 0;
         }
       }
     }
-    else
+LABEL_87:
+    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v183,
+      (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v193.m_object->m_sub_fat.m_parent);
+    v170 = (const vostok::configs::binary_config_value *)v183.m_object;
+    num_vertex_inputs = 0;
+    if ( v183.m_object )
     {
-      v13 = cook_data->material.m_object;
-      v14 = 0;
-      if ( v13 )
-      {
-        v14 = cook_data->material.m_object;
-        _InterlockedExchangeAdd(&v13->m_reference_count, 1u);
-      }
-      v15 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      (vostok::configs::binary_config_value *)v14[1].grm_satisfaction_tree_hook.left_[16].right_,
-                                                      "material");
-      if ( !_InterlockedExchangeAdd(&v14->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(&v14->vostok::resources::unmanaged_intrusive_base, v14);
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v16 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v16, (const char *)&stru_9609EC) )
-        {
-          v17 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v18 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v17,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v18, (const char *)&stru_960A14.type) )
-          {
-            v19 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v20 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v19,
-                                                            (const char *)&stru_9609EC);
-            v21 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v20,
-                                                            (const char *)&stru_960A14.type);
-            *(_BYTE *)(v7 + 1017) = vostok::configs::binary_config_value::operator[](v21, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v22 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v22, (const char *)&stru_9555EC.configuration[1]) )
-        {
-          v23 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v24 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v23,
-                                                          (const char *)&stru_9555EC.configuration[1]);
-          *(_BYTE *)(v7 + 1020) = vostok::configs::binary_config_value::operator[](v24, (const char *)&stru_955964)->data.pointer != 0;
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v25 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v25, (const char *)&stru_960A30) )
-        {
-          v26 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v27 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v26,
-                                                          (const char *)&stru_960A30);
-          *(_BYTE *)(v7 + 1021) = vostok::configs::binary_config_value::operator[](v27, (const char *)&stru_955964)->data.pointer != 0;
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v28 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v28, (const char *)&stru_9609EC) )
-        {
-          v29 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v30 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v29,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v30, (const char *)&stru_960A44) )
-          {
-            v31 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v32 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v31,
-                                                            (const char *)&stru_9609EC);
-            v33 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v32,
-                                                            (const char *)&stru_960A44);
-            *(_BYTE *)(v7 + 1022) = vostok::configs::binary_config_value::operator[](v33, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v34 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v34, (const char *)&stru_9609EC) )
-        {
-          v35 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v36 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v35,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v36, (const char *)&stru_960A44.destroyer) )
-          {
-            v37 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v38 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v37,
-                                                            (const char *)&stru_9609EC);
-            v39 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v38,
-                                                            (const char *)&stru_960A44.destroyer);
-            *(_BYTE *)(v7 + 1023) = vostok::configs::binary_config_value::operator[](v39, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v40 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v40, (const char *)&stru_9609EC) )
-        {
-          v41 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v42 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v41,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v42, "use_ttranslucency") )
-          {
-            v43 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v44 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v43,
-                                                            (const char *)&stru_9609EC);
-            v45 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v44,
-                                                            "use_ttranslucency");
-            *(_BYTE *)(v7 + 1026) = vostok::configs::binary_config_value::operator[](v45, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v46 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v46, (const char *)&stru_9609EC) )
-        {
-          v47 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v48 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v47,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v48, "use_subsurface_scattering") )
-          {
-            v49 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v50 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v49,
-                                                            (const char *)&stru_9609EC);
-            v51 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v50,
-                                                            "use_subsurface_scattering");
-            *(_BYTE *)(v7 + 1019) = vostok::configs::binary_config_value::operator[](v51, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
-      if ( vostok::configs::binary_config_value::value_exists(v15, (const char *)&stru_960978) )
-      {
-        v52 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        v15,
-                                                        (const char *)&stru_960978);
-        if ( vostok::configs::binary_config_value::value_exists(v52, (const char *)&stru_9609EC) )
-        {
-          v53 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v15,
-                                                          (const char *)&stru_960978);
-          v54 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          v53,
-                                                          (const char *)&stru_9609EC);
-          if ( vostok::configs::binary_config_value::value_exists(v54, (const char *)&stru_960A90) )
-          {
-            v55 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v15,
-                                                            (const char *)&stru_960978);
-            v56 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v55,
-                                                            (const char *)&stru_9609EC);
-            v57 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            v56,
-                                                            (const char *)&stru_960A90);
-            *(_BYTE *)(v7 + 1027) = vostok::configs::binary_config_value::operator[](v57, (const char *)&stru_955964)->data.pointer != 0;
-          }
-        }
-      }
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+      num_vertex_inputs = v170;
+      _InterlockedExchangeAdd((volatile signed __int32 *)&v170[8].id_crc, 1u);
     }
-    if ( v105->m_queries[0].m_error_type == error_type_unset
-      && v105->m_queries[0].m_create_resource_result != result_error )
-    {
-      v93 = v105->m_queries[0].m_unmanaged_resource.m_object;
-      v94 = 0;
-      if ( v93 )
-      {
-        v94 = v105->m_queries[0].m_unmanaged_resource.m_object;
-        _InterlockedExchangeAdd(&v93->m_reference_count, 1u);
-      }
-      v95 = 0;
-      if ( v94 )
-      {
-        v95 = v94;
-        _InterlockedExchangeAdd(&v94->m_reference_count, 1u);
-      }
-      v96 = 0;
-      if ( v95 )
-      {
-        v96 = v95;
-        _InterlockedExchangeAdd(&v95->m_reference_count, 1u);
-      }
-      v97 = v96;
-      v98 = *(vostok::resources::unmanaged_resource **)(v7 + 4 * v10 + 1060);
-      *(_DWORD *)(v7 + 4 * v10 + 1060) = v97;
-      if ( v98 )
-      {
-        if ( !_InterlockedExchangeAdd(&v98->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(&v98->vostok::resources::unmanaged_intrusive_base, v98);
-        v10 = i;
-      }
-      if ( v95 && !_InterlockedExchangeAdd(&v95->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(&v95->vostok::resources::unmanaged_intrusive_base, v95);
-      if ( v94 && !_InterlockedExchangeAdd(&v94->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(&v94->vostok::resources::unmanaged_intrusive_base, v94);
-    }
-    v99 = *(_BYTE *)(v7 + v10 + 988) && *(_DWORD *)(v7 + 4 * v10 + 1060);
-    *(_BYTE *)(v7 + v10++ + 988) = v99;
-    i = v10;
+    vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+      (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&num_vertex_inputs,
+      (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&exists_vertex_inputs[4 * v191 + 40]);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&num_vertex_inputs);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v183);
+    goto LABEL_90;
   }
-  while ( v10 < 0x1D );
-  v103.m_object = 0;
-  if ( v7 )
-  {
-    v103.m_object = (vostok::resources::unmanaged_resource *)v7;
-    _InterlockedExchangeAdd((volatile signed __int32 *)(v7 + 208), 1u);
-  }
+LABEL_91:
+  v177 = 552;
+  v176 = &vostok::resources::nocache_memory;
+  v175.m_object = (survarium::pure_game_effect_emitter_base *)v15;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    &v175,
+    (survarium::pure_game_effect_emitter_base *)v190);
+  v171 = (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)m_parent_query;
   vostok::resources::query_result_for_cook::set_unmanaged_resource(
-    parent,
-    v103,
-    &vostok::resources::nocache_memory,
-    0x5B0u);
+    v172,
+    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)m_parent_query,
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)v175.m_object,
+    v176,
+    v177);
   vostok::resources::query_result_for_cook::finish_query_impl(
-    v100,
-    result_success,
+    v173,
+    v171,
+    result_out_of_memory,
     assert_on_fail_true,
-    error_type_unset);
+    result_fail);
+  if ( exists_stages )
+    vostok::memory::doug_lea_allocator::free_impl(
+      v174,
+      (int)vostok::render::g_allocator,
+      (char *)&exists_stages[-1].m_helper,
+      v178,
+      v179,
+      v180);
   if ( cook_data->delete_in_cook )
-  {
-    v101 = cook_data->material.m_object;
-    v102 = vostok::render::g_allocator.m_object;
-    if ( v101 )
-    {
-      if ( !_InterlockedExchangeAdd(&v101->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(
-          &cook_data->material.m_object->vostok::resources::unmanaged_intrusive_base,
-          cook_data->material.m_object);
-    }
-    BYTE2(v102->m_children_resources.m_lock) = 0;
-    vostok_mspace_free((void *)HIDWORD(v102->m_reconstruction_info_actuality_tick), cook_data);
-  }
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::material_effects_instance_cook_data>(
+      vostok::render::g_allocator,
+      &cook_data,
+      v178,
+      v179,
+      v180);
 }

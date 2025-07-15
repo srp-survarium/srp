@@ -20,7 +20,7 @@ void __thiscall Scaleform::Render::RBGenericImpl::RenderBufferManager::evictOver
       if ( (Scaleform::List<Scaleform::Render::RBGenericImpl::CacheData,Scaleform::Render::RBGenericImpl::CacheData> *)v3->Root.pPrev == v3 )
         return;
       pPrev->pPrev->pNext = pPrev->pNext;
-      pPrev->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$EA02E2A925554C6B16FA29F8B6C1D51A::pPrev = pPrev->pPrev;
+      pPrev->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$33C6E2185EE5619ED4522D9BD84BBA53::pPrev = pPrev->pPrev;
       DataSize = pPrev->DataSize;
       pPrev->ListType = RBCL_Uncached;
       this->AllocSize -= DataSize;

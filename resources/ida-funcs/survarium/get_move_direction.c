@@ -1,64 +1,42 @@
-int __cdecl survarium::get_move_direction(const survarium::player_input *input)
+int __thiscall survarium::get_move_direction(const survarium::player_input *input)
 {
-  bool move_bwd_pressed; // [esp+0h] [ebp-4h]
-  bool move_right_pressed; // [esp+1h] [ebp-3h]
-  bool move_fwd_pressed; // [esp+2h] [ebp-2h]
-  bool move_left_pressed; // [esp+3h] [ebp-1h]
+  unsigned int actions_mask; // esi
+  char v2; // al
+  bool v3; // dl
+  bool v4; // cl
+  bool v5; // bl
 
-  move_fwd_pressed = (input->actions_mask & 1) != 0;
-  move_bwd_pressed = (input->actions_mask & 2) != 0;
-  move_left_pressed = (input->actions_mask & 4) != 0;
-  move_right_pressed = (input->actions_mask & 8) != 0;
-  if ( (input->actions_mask & 1) != 0 && (input->actions_mask & 2) != 0 )
+  actions_mask = input->actions_mask;
+  v2 = actions_mask & 1;
+  v3 = (actions_mask & 2) != 0;
+  v4 = (actions_mask & 4) != 0;
+  v5 = (actions_mask & 8) != 0;
+  if ( (actions_mask & 1) != 0 && (actions_mask & 2) != 0 )
   {
-    move_fwd_pressed = 0;
-    move_bwd_pressed = 0;
+    v2 = 0;
+    v3 = 0;
   }
-  if ( (input->actions_mask & 4) != 0 && (input->actions_mask & 8) != 0 )
+  if ( (actions_mask & 4) != 0 && (actions_mask & 8) != 0 )
   {
-    move_left_pressed = 0;
-    move_right_pressed = 0;
+    v4 = 0;
+    v5 = 0;
   }
-  if ( move_fwd_pressed )
+  if ( v2 )
   {
-    if ( move_left_pressed )
-    {
+    if ( v4 )
       return 8;
-    }
-    else if ( move_right_pressed )
-    {
-      return 2;
-    }
-    else
-    {
-      return 1;
-    }
+    return v5 + 1;
   }
-  else if ( move_bwd_pressed )
+  else if ( v3 )
   {
-    if ( move_left_pressed )
-    {
+    if ( v4 )
       return 6;
-    }
-    else if ( move_right_pressed )
-    {
-      return 4;
-    }
-    else
-    {
-      return 5;
-    }
-  }
-  else if ( move_left_pressed )
-  {
-    return 7;
-  }
-  else if ( move_right_pressed )
-  {
-    return 3;
+    return !v5 + 4;
   }
   else
   {
-    return 0;
+    if ( v4 )
+      return 7;
+    return v5 ? 3 : 0;
   }
 }

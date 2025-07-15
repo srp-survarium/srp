@@ -1,7 +1,14 @@
-void __thiscall survarium::usable_object::insert(survarium::usable_object *this, vostok::physics::world *world)
+void __userpurge survarium::usable_object::insert(
+        survarium::usable_object *this@<ecx>,
+        survarium::collision_geometry_subscriber *a2@<esi>,
+        vostok::physics::world *world)
 {
-  unsigned int i; // [esp+4h] [ebp-4h]
+  survarium::collision_geometry_subscriber_vtbl *i; // edi
 
-  for ( i = 0; i < this->m_collision_geometries_count; ++i )
-    survarium::collision_geometry::subscribe(this->m_collision_geometries[i], world, this);
+  for ( i = 0; i < a2[15].__vftable; i = (survarium::collision_geometry_subscriber_vtbl *)((char *)i + 1) )
+    survarium::collision_geometry::subscribe(
+      (survarium::collision_geometry *)this,
+      *((_DWORD *)&a2[14].~survarium::collision_geometry_subscriber + (_DWORD)i),
+      world,
+      a2);
 }

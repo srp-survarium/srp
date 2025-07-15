@@ -1,4 +1,5 @@
 void _check_overflow_exit()
 {
-  JUMPOUT(0x19982D);
+  __asm { fst     [esp+8+var_8] }
+  JUMPOUT(0x2AE12D);
 }

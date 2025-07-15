@@ -16,11 +16,11 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ParseValueArguments(
   int v; // edx
   long double v14; // st7
   char v15; // al
-  char *v16; // eax
+  __m128i *v16; // eax
   Scaleform::GFx::ASString *String; // eax
   Scaleform::GFx::ASStringNode *v18; // eax
   char v19; // al
-  const wchar_t *v20; // eax
+  wchar_t *v20; // eax
   const Scaleform::GFx::ASString *v21; // eax
   char i; // al
   Scaleform::GFx::LogState *pObject; // [esp+18h] [ebp-3Ch]
@@ -122,7 +122,7 @@ LABEL_16:
                   &arg);
                 goto LABEL_34;
               case 's':
-                v16 = (char *)*((_DWORD *)v10 + 1);
+                v16 = (__m128i *)*((_DWORD *)v10 + 1);
                 v10 += 4;
                 v11 += 4;
                 String = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
@@ -149,7 +149,7 @@ LABEL_16:
                       v19);
                   goto LABEL_34;
                 }
-                v20 = (const wchar_t *)*((_DWORD *)v10 + 1);
+                v20 = (wchar_t *)*((_DWORD *)v10 + 1);
                 v10 += 4;
                 v11 += 4;
                 v21 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(

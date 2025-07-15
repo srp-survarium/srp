@@ -1,18 +1,18 @@
-BOOL __usercall isindst_nolock@<eax>(tm *tb@<edi>, unsigned int a2@<ebx>)
+BOOL __usercall isindst_nolock@<eax>(tm *tb@<edi>, int a2@<ebx>)
 {
   int tm_year; // edx
   int v4; // eax
   int v5; // ecx
   int tm_yday; // edx
   int v7; // eax
-  int endmonth; // [esp+4h] [ebp-Ch]
-  int endweek; // [esp+8h] [ebp-8h]
-  int daylight; // [esp+Ch] [ebp-4h] BYREF
+  int v9; // [esp+4h] [ebp-Ch]
+  int v10; // [esp+8h] [ebp-8h]
+  int _Daylight; // [esp+Ch] [ebp-4h] BYREF
 
-  daylight = 0;
-  if ( _get_daylight(&daylight) )
-    _invoke_watson(a2, (unsigned int)tb, 0);
-  if ( !daylight )
+  _Daylight = 0;
+  if ( _get_daylight(a2, (int)tb, &_Daylight) )
+    _invoke_watson(a2, (int)tb, 0);
+  if ( !_Daylight )
     return 0;
   tm_year = tb->tm_year;
   if ( tm_year != dststart.yr || tm_year != dstend.yr )
@@ -76,17 +76,17 @@ BOOL __usercall isindst_nolock@<eax>(tm *tb@<edi>, unsigned int a2@<ebx>)
     {
       v4 = 3;
       v5 = 2;
-      endmonth = 11;
-      endweek = 1;
+      v9 = 11;
+      v10 = 1;
       if ( tm_year < 107 )
       {
         v4 = 4;
         v5 = 1;
-        endmonth = 10;
-        endweek = 5;
+        v9 = 10;
+        v10 = 5;
       }
       cvtdate(v4, 2, 1, 1, tm_year, v5, 0, 0, 0, 0, 0);
-      cvtdate(endmonth, 2, 0, 1, tb->tm_year, endweek, 0, 0, 0, 0, 0);
+      cvtdate(v9, 2, 0, 1, tb->tm_year, v10, 0, 0, 0, 0, 0);
     }
   }
   tm_yday = tb->tm_yday;

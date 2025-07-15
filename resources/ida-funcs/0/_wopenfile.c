@@ -1,5 +1,5 @@
 _iobuf *__usercall _wopenfile@<eax>(
-        int a1@<ebx>,
+        unsigned int a1@<ebx>,
         const wchar_t *filename,
         const wchar_t *mode,
         int shflag,
@@ -47,7 +47,7 @@ _iobuf *__usercall _wopenfile@<eax>(
     default:
 LABEL_7:
       *_errno() = 22;
-      _invalid_parameter(a1, 0, (unsigned int)v5);
+      _invalid_parameter(a1, 0, (int)v5);
       return 0;
   }
   streamflag = _commode | 2;

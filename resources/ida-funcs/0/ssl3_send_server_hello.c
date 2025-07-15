@@ -23,11 +23,11 @@ int __cdecl ssl3_send_server_hello(ssl_st *s)
     {
       v7 = 1350;
 LABEL_7:
-      ERR_put_error(0x14u, 242, 68, ".\\ssl\\s3_srvr.c", v7);
+      ERR_put_error((int)s, 0x14u, 242, 68, ".\\ssl\\s3_srvr.c", v7);
       return -1;
     }
     data[38] = sa;
-    memcpy((unsigned __int8 *)data + 39, s->session->session_id, sa);
+    memcpy((int)(data + 39), (const __m128i *)s->session->session_id, sa);
     v3 = &data[sa + 39 + ssl3_put_cipher_by_char(s->s3->tmp.new_cipher, (unsigned __int8 *)&data[sa + 39])];
     new_compression = s->s3->tmp.new_compression;
     if ( new_compression )
@@ -37,7 +37,7 @@ LABEL_7:
     v5 = (unsigned __int8 *)(v3 + 1);
     if ( ssl_prepare_serverhello_tlsext(s) <= 0 )
     {
-      ERR_put_error(0x14u, 242, 275, ".\\ssl\\s3_srvr.c", 1373);
+      ERR_put_error((int)s, 0x14u, 242, 275, ".\\ssl\\s3_srvr.c", 1373);
       return -1;
     }
     v6 = ssl_add_serverhello_tlsext(s, v5, (unsigned __int8 *)data + 0x4000);

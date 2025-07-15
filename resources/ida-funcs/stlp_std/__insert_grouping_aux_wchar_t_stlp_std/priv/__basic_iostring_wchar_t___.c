@@ -21,7 +21,7 @@ void __usercall stlp_std::__insert_grouping_aux_wchar_t_stlp_std::priv::__basic_
   unsigned int v18; // eax
   int *v19; // ecx
   unsigned int v20; // ecx
-  int __first_pos; // [esp+0h] [ebp-Ch]
+  int v21; // [esp+0h] [ebp-Ch]
   unsigned int v22; // [esp+4h] [ebp-8h] BYREF
   int v23; // [esp+8h] [ebp-4h] BYREF
 
@@ -33,7 +33,7 @@ void __usercall stlp_std::__insert_grouping_aux_wchar_t_stlp_std::priv::__basic_
       v8 = 1;
     v9 = basechars + v8;
     v10 = 0;
-    __first_pos = v9;
+    v21 = v9;
     inserted = &M_data[__group_pos];
     v12 = 0;
     while ( 1 )
@@ -53,7 +53,7 @@ void __usercall stlp_std::__insert_grouping_aux_wchar_t_stlp_std::priv::__basic_
         if ( v14 == iostr )
         {
           v17 = 16 - (((char *)M_finish - (char *)iostr) >> 1);
-          v9 = __first_pos;
+          v9 = v21;
         }
         else
         {

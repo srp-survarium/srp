@@ -4,6 +4,6 @@ void (__userpurge *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc3_Scal
 
   result = Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::hitTestPoint;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc3<Scaleform::GFx::AS3::Instances::fl_display::DisplayObject,59,bool,double,double,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::hitTestPoint;
-  dword_AAE71C = 0;
+  dword_8F2ED4 = 0;
   return result;
 }

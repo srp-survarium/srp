@@ -70,7 +70,7 @@ void __usercall Scaleform::GFx::AS2::XmlProto::ParseXML(
         if ( v8 )
         {
           RefCount = v8->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v8->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);

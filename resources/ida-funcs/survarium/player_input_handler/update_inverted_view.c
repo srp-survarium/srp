@@ -1,51 +1,65 @@
 void __thiscall survarium::player_input_handler::update_inverted_view(
         survarium::player_input_handler *this,
-        survarium::player_input_handler *player_head_transform,
-        const vostok::math::float4x4 *player_head_transforma)
+        const vostok::math::float4x4 *player_head_transform,
+        float *a3)
 {
-  vostok::math::float4x4 *p_new_inverted_view; // esi
-  double m_yaw; // st7
-  vostok::math::float4x4 *rotation_y; // eax
-  const vostok::math::float4x4 *rotation; // eax
-  float v7; // xmm1_4
-  vostok::math::float4x4 *result; // [esp+0h] [ebp-E8h]
-  float resulta; // [esp+0h] [ebp-E8h]
-  __int64 v10; // [esp+18h] [ebp-D0h]
-  float v11; // [esp+20h] [ebp-C8h]
-  vostok::math::float4x4 new_inverted_view; // [esp+24h] [ebp-C4h] BYREF
-  vostok::math::float4x4 v13; // [esp+64h] [ebp-84h] BYREF
-  _QWORD v14[8]; // [esp+A4h] [ebp-44h] BYREF
+  float *v3; // esi
+  double y; // st7
+  long double v5; // rdi
+  vostok::math::float4x4 *v6; // eax
+  double z; // st7
+  vostok::math::float3 *v8; // edx
+  vostok::math::float4x4 *rotation; // eax
+  float v10; // xmm6_4
+  float v11; // xmm2_4
+  float w; // xmm3_4
+  unsigned int v13; // xmm1_4
+  float v14; // xmm0_4
+  float *v15; // edx
+  float v16; // [esp+0h] [ebp-E4h]
+  float v17; // [esp+0h] [ebp-E4h]
+  vostok::math::float4x4 v18; // [esp+14h] [ebp-D0h] BYREF
+  vostok::math::float4x4 v19; // [esp+54h] [ebp-90h] BYREF
+  vostok::math::float4x4 v20; // [esp+98h] [ebp-4Ch] BYREF
+  float v21; // [esp+D8h] [ebp-Ch]
+  unsigned int v22; // [esp+DCh] [ebp-8h]
+  float v23; // [esp+E0h] [ebp-4h]
+  int savedregs; // [esp+E4h] [ebp+0h] BYREF
 
-  p_new_inverted_view = player_head_transforma;
-  if ( player_head_transform->m_input_mode )
+  v3 = a3;
+  if ( LODWORD(player_head_transform[13].k.x) )
   {
-    m_yaw = player_head_transform->m_yaw;
-    qmemcpy((void *)&new_inverted_view, player_head_transforma, sizeof(new_inverted_view));
-    *(float *)&result = m_yaw;
-    memset(&new_inverted_view.lines[3], 0, 12);
-    rotation_y = vostok::math::create_rotation_y(v14, result);
-    vostok::math::mul4x3(&v13, &new_inverted_view, rotation_y);
-    resulta = player_head_transform->m_pitch;
-    qmemcpy((void *)&new_inverted_view, &v13, sizeof(new_inverted_view));
-    rotation = vostok::math::create_rotation((const vostok::math::float3 *)&new_inverted_view, resulta);
-    vostok::math::mul4x3(&v13, &new_inverted_view, rotation);
-    *(float *)&v10 = player_head_transforma->c.x
-                   + (float)(player_head_transform->m_distance_to_focus_point
-                           * (float)(COERCE_FLOAT(LODWORD(v13.k.x) ^ 0x80000000) + (float)(v13.i.x * 0.2)));
-    v7 = player_head_transforma->c.y
-       + (float)(player_head_transform->m_distance_to_focus_point
-               * (float)(COERCE_FLOAT(LODWORD(v13.k.y) ^ 0x80000000) + (float)(v13.i.y * 0.2)));
-    v11 = player_head_transforma->c.z
-        + (float)(player_head_transform->m_distance_to_focus_point * (float)((float)(v13.i.z * 0.2) - v13.k.z));
-    qmemcpy((void *)&new_inverted_view, &v13, sizeof(new_inverted_view));
-    *((float *)&v10 + 1) = v7;
-    *(_QWORD *)&new_inverted_view.lines[3].x = v10;
-    new_inverted_view.c.z = v11;
-    p_new_inverted_view = &new_inverted_view;
+    y = player_head_transform[13].j.y;
+    qmemcpy(&v19, a3, sizeof(v19));
+    v21 = 0.0;
+    v22 = 0;
+    v23 = 0.0;
+    memset(&v19.lines[3], 0, 12);
+    v16 = y;
+    HIDWORD(v5) = &savedregs;
+    LODWORD(v5) = &v19.c.w;
+    v6 = vostok::math::create_rotation_y(v5, (__m128i)0LL, &v18, v16);
+    vostok::math::mul4x3(v6, &v19, &v20);
+    z = player_head_transform[13].j.z;
+    qmemcpy(v8, &v20, 0x40u);
+    LODWORD(v5) = v8;
+    v17 = z;
+    rotation = vostok::math::create_rotation(v8, (int)&v18, (__m128i)0LL, v17);
+    vostok::math::mul4x3(rotation, (const vostok::math::float4x4 *)LODWORD(v5), &v20);
+    v10 = v20.i.z * 0.2;
+    LODWORD(v11) = LODWORD(v20.k.z) ^ _mask__NegFloat_;
+    w = player_head_transform[13].j.w;
+    v21 = a3[12] + (float)(w * (float)(COERCE_FLOAT(LODWORD(v20.k.x) ^ _mask__NegFloat_) + (float)(v20.i.x * 0.2)));
+    *(float *)&v13 = a3[13]
+                   + (float)(w * (float)(COERCE_FLOAT(LODWORD(v20.k.y) ^ _mask__NegFloat_) + (float)(v20.i.y * 0.2)));
+    v14 = a3[14];
+    qmemcpy((void *)LODWORD(v5), &v20, 0x40u);
+    v22 = v13;
+    v23 = v14 + (float)(w * (float)(v11 + v10));
+    *(_QWORD *)&v19.lines[3].x = __PAIR64__(v13, LODWORD(v21));
+    v19.c.z = v23;
+    v3 = v15;
   }
-  qmemcpy(
-    (void *)&player_head_transform->m_inverted_view_matrix,
-    p_new_inverted_view,
-    sizeof(player_head_transform->m_inverted_view_matrix));
-  player_head_transform->m_input_mode_changed = 0;
+  qmemcpy(&player_head_transform[1].lines[0].elements[2], v3, sizeof(const vostok::math::float4x4));
+  LOBYTE(player_head_transform[13].lines[2].elements[1]) = 0;
 }

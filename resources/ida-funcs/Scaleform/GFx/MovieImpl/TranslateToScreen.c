@@ -6,10 +6,10 @@ Scaleform::Render::Point<float> *__thiscall Scaleform::GFx::MovieImpl::Translate
 {
   Scaleform::GFx::InteractiveObject *pMainMovie; // ecx
   Scaleform::Render::Point<float> *v6; // eax
-  float v7; // [esp+78h] [ebp-48h]
-  float v8; // [esp+7Ch] [ebp-44h]
-  Scaleform::Render::Matrix2x4<float> v9; // [esp+80h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+A0h] [ebp-20h] BYREF
+  float v7; // [esp+18h] [ebp-48h]
+  float v8; // [esp+1Ch] [ebp-44h]
+  Scaleform::Render::Matrix2x4<float> v9; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+40h] [ebp-20h] BYREF
 
   pmat.M[0][0] = 1.0;
   pMainMovie = this->pMainMovie;
@@ -41,16 +41,16 @@ Scaleform::Render::Point<float> *__thiscall Scaleform::GFx::MovieImpl::Translate
 }
 
 
-Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::MovieImpl::TranslateToScreen(
+__m128 *__thiscall Scaleform::GFx::MovieImpl::TranslateToScreen(
         Scaleform::GFx::MovieImpl *this,
-        Scaleform::Render::Rect<float> *result,
+        __m128 *result,
         const Scaleform::Render::Rect<float> *r,
         Scaleform::Render::Matrix2x4<float> *puserMatrix)
 {
   Scaleform::GFx::InteractiveObject *pMainMovie; // ecx
-  Scaleform::Render::Rect<float> v7; // [esp+70h] [ebp-50h] BYREF
-  Scaleform::Render::Matrix2x4<float> v8; // [esp+80h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+A0h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> ra; // [esp+10h] [ebp-50h] BYREF
+  Scaleform::Render::Matrix2x4<float> v8; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+40h] [ebp-20h] BYREF
 
   pmat.M[0][0] = 1.0;
   pMainMovie = this->pMainMovie;
@@ -73,10 +73,10 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::MovieImpl::TranslateT
   if ( puserMatrix )
     Scaleform::Render::Matrix2x4<float>::Prepend(&v8, puserMatrix);
   Scaleform::Render::Matrix2x4<float>::Prepend(&v8, &pmat);
-  v7.x1 = r->x1 * 20.0;
-  v7.y1 = r->y1 * 20.0;
-  v7.x2 = r->x2 * 20.0;
-  v7.y2 = 20.0 * r->y2;
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8, result, &v7);
+  ra.x1 = r->x1 * 20.0;
+  ra.y1 = r->y1 * 20.0;
+  ra.x2 = r->x2 * 20.0;
+  ra.y2 = 20.0 * r->y2;
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v8, result, (__m128 *)&ra);
   return result;
 }

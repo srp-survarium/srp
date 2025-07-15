@@ -20,18 +20,18 @@ void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::GetTopMostEntity(const Scal
   Scaleform::GFx::DisplayObjectBase *pMainMovie; // ecx
   double v19; // st7
   Scaleform::GFx::InteractiveObject *TopMostEntity; // eax
-  Scaleform::GFx::AS2::Environment *v21; // [esp+160h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v22; // [esp+160h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v23; // [esp+160h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v24; // [esp+160h] [ebp-64h]
-  double v25; // [esp+17Ch] [ebp-48h]
-  char v26; // [esp+184h] [ebp-40h]
-  Scaleform::GFx::MovieImpl *pMovieImpl; // [esp+188h] [ebp-3Ch]
-  float v28; // [esp+18Ch] [ebp-38h]
-  float v29; // [esp+190h] [ebp-34h]
-  float controllerIdx_4; // [esp+198h] [ebp-2Ch]
-  Scaleform::Render::Point<float> v31; // [esp+19Ch] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+1A4h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *v21; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v22; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v23; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v24; // [esp-4h] [ebp-64h]
+  double v25; // [esp+18h] [ebp-48h]
+  bool v26; // [esp+20h] [ebp-40h]
+  Scaleform::GFx::MovieImpl *pMovieImpl; // [esp+24h] [ebp-3Ch]
+  float v28; // [esp+28h] [ebp-38h]
+  float v29; // [esp+2Ch] [ebp-34h]
+  float v30; // [esp+34h] [ebp-2Ch]
+  Scaleform::Render::Point<float> v31; // [esp+38h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+40h] [ebp-20h] BYREF
 
   Result = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(Result);
@@ -50,7 +50,7 @@ void __cdecl Scaleform::GFx::AS2::MouseCtorFunction::GetTopMostEntity(const Scal
   {
     v21 = fn->Env;
     v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-    v26 = Scaleform::GFx::AS2::Value::ToBool(v5, v21);
+    v26 = Scaleform::GFx::AS2::Value::ToBool(v5, 0, v21);
     if ( fn->NArgs >= 2 )
     {
       v22 = fn->Env;
@@ -73,9 +73,9 @@ LABEL_8:
       v8 = (int)&pMovieImpl->mMouseState[v3];
     else
       v8 = 0;
-    controllerIdx_4 = *(float *)(v8 + 36);
+    v30 = *(float *)(v8 + 36);
     v31.x = *(float *)(v8 + 32);
-    v19 = controllerIdx_4;
+    v19 = v30;
     goto LABEL_22;
   }
   if ( NArgs < 2 )
@@ -84,7 +84,7 @@ LABEL_8:
   {
     v24 = fn->Env;
     v11 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-    v26 = Scaleform::GFx::AS2::Value::ToBool(v11, v24);
+    v26 = Scaleform::GFx::AS2::Value::ToBool(v11, 0, v24);
   }
   v12 = fn->Env;
   v13 = 0;
@@ -117,7 +117,7 @@ LABEL_8:
     v19 = v28 * pmat.M[1][1] + v29 * pmat.M[1][0] + pmat.M[1][3];
 LABEL_22:
     v31.y = v19;
-    TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v7, &v31, v3, v26, 0);
+    TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v7, &v31, *(float *)&v3, v26, 0);
     if ( TopMostEntity )
       Scaleform::GFx::AS2::Value::SetAsCharacter(fn->Result, TopMostEntity);
   }

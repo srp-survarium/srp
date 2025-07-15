@@ -13,25 +13,25 @@ int __cdecl X509_STORE_add_crl(x509_store_st *ctx, X509_crl_st *x)
   {
     v4->type = 2;
     v4->data.ptr = (char *)x;
-    CRYPTO_lock((unsigned int)x, 9, 11, ".\\crypto\\x509\\x509_lu.c", 382);
+    CRYPTO_lock((int)x, 1, 9, 11, ".\\crypto\\x509\\x509_lu.c", 382);
     X509_OBJECT_up_ref_count(v5);
     if ( X509_OBJECT_retrieve_match(ctx->objs, v5) )
     {
       X509_OBJECT_free_contents(v5);
       CRYPTO_free(v5);
-      ERR_put_error(0xBu, 125, 101, ".\\crypto\\x509\\x509_lu.c", 390);
+      ERR_put_error(1, 0xBu, 125, 101, ".\\crypto\\x509\\x509_lu.c", 390);
       v2 = 0;
     }
     else
     {
       sk_push(&ctx->objs->stack, (char *)v5);
     }
-    CRYPTO_lock((unsigned int)ctx, 10, 11, ".\\crypto\\x509\\x509_lu.c", 395);
+    CRYPTO_lock((int)ctx, v2, 10, 11, ".\\crypto\\x509\\x509_lu.c", 395);
     return v2;
   }
   else
   {
-    ERR_put_error(0xBu, 125, 65, ".\\crypto\\x509\\x509_lu.c", 376);
+    ERR_put_error(1, 0xBu, 125, 65, ".\\crypto\\x509\\x509_lu.c", 376);
     return 0;
   }
 }

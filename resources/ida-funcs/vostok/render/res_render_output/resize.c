@@ -1,181 +1,192 @@
-void __usercall vostok::render::res_render_output::resize(
-        vostok::render::res_render_output *this@<ecx>,
-        HWND force_resize@<eax>)
-{
-  vostok::render::res_render_output::resize(this, 0, 0, this->m_windowed, force_resize);
-}
-
-
 void __userpurge vostok::render::res_render_output::resize(
-        vostok::render::res_render_output *this@<esi>,
-        unsigned int size_x@<eax>,
-        unsigned int size_y@<ecx>,
-        bool windowed,
-        HWND force_resize)
+        unsigned int *size_x@<ecx>,
+        unsigned int size_y@<eax>,
+        vostok::render::res_render_output *this,
+        HWND__ *windowed,
+        const char *force_resize)
 {
-  unsigned int y; // edi
-  unsigned int x; // ebp
-  HWND__ *m_window; // eax
-  ID3D11RenderTargetView *m_base_rt; // eax
-  vostok::render::res_texture *m_object; // edi
-  ID3D11Resource *m_surface; // eax
-  ID3D11ShaderResourceView *m_sh_res_view; // eax
+  unsigned int *v5; // esi
+  unsigned int v6; // edi
+  unsigned __int8 v7; // cl
+  vostok::render::options *v8; // eax
+  unsigned int m_monitor_index; // eax
+  IDXGISwapChain *v10; // eax
+  IDXGISwapChain_vtbl *v11; // ecx
+  BOOL v12; // edx
+  HRESULT v13; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v14; // ecx
+  bool *v15; // eax
+  ID3D11DepthStencilView *m_base_zb; // esi
+  ID3D11RenderTargetView *m_base_rt; // esi
+  float z; // eax
+  bool v19; // zf
+  vostok::render::res_texture *v20; // ecx
+  ID3D11DepthStencilView *v21; // eax
+  ID3D11RenderTargetView *v22; // eax
+  vostok::render::res_render_output *v23; // ecx
   IDXGISwapChain *m_swap_chain; // eax
-  unsigned int BufferCount; // edx
-  HRESULT v14; // eax
-  const char *d3d11_error_string; // eax
-  bool m_windowed; // cl
-  IDXGIOutput *v17; // edi
-  IDXGISwapChain *v18; // eax
-  IDXGISwapChain_vtbl *v19; // edx
-  int v20; // eax
-  vostok::render::res_render_output *v21; // ecx
-  HWND v22; // ebx
-  HWND i; // eax
-  IDXGISwapChain *v24; // eax
-  BOOL v25; // edx
-  HRESULT v26; // eax
-  const char *v27; // eax
-  unsigned int Width; // [esp+18h] [ebp-50h]
-  unsigned int Height; // [esp+1Ch] [ebp-4Ch]
-  DXGI_FORMAT Format; // [esp+20h] [ebp-48h]
-  vostok::math::uint2 new_size; // [esp+40h] [ebp-28h] BYREF
-  tagMSG msg; // [esp+48h] [ebp-20h] BYREF
+  IDXGISwapChain_vtbl *v25; // ecx
+  HRESULT v26; // edi
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v27; // ecx
+  bool *d3d11_error_string; // eax
+  IDXGISwapChain *v29; // eax
+  IDXGISwapChain_vtbl *v30; // ecx
+  BOOL v31; // edx
+  HRESULT v32; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v33; // ecx
+  bool *v34; // eax
+  DXGI_FORMAT Format; // [esp-14h] [ebp-30h]
+  bool v36; // [esp+0h] [ebp-1Ch]
+  unsigned int *v37; // [esp+10h] [ebp-Ch] BYREF
+  unsigned int v38; // [esp+14h] [ebp-8h] BYREF
+  IDXGIOutput *v39; // [esp+28h] [ebp+Ch]
 
-  y = size_y;
-  x = size_x;
-  new_size = (vostok::math::uint2)__PAIR64__(size_y, size_x);
+  v5 = size_x;
+  v6 = size_y;
+  v37 = size_x;
+  v38 = size_y;
   if ( !size_x || !size_y )
   {
-    m_window = this->m_window;
-    if ( m_window )
+    if ( this->m_window )
     {
-      vostok::render::res_render_output::select_resolution(m_window, &new_size.x, &new_size.y, windowed);
-      y = new_size.y;
-      x = new_size.x;
+      vostok::render::res_render_output::select_resolution(size_x, (unsigned int *)&v37, &v38, windowed, this->m_window);
+      v6 = v38;
+      v5 = v37;
     }
     else
     {
       GetLastError();
     }
   }
-  if ( ((_BYTE)force_resize
-     || this->m_swap_chain_desc.BufferDesc.Width != x
-     || this->m_swap_chain_desc.BufferDesc.Height != y
-     || this->m_windowed != windowed)
-    && x >= 0x10
-    && y >= 0x10 )
+  if ( !(_BYTE)force_resize
+    && (unsigned int *)this->m_swap_chain_desc.BufferDesc.Width == v5
+    && this->m_swap_chain_desc.BufferDesc.Height == v6 )
   {
-    this->m_swap_chain_desc.Windowed = windowed;
-    this->m_windowed = windowed;
-    this->m_swap_chain_desc.BufferDesc.Width = x;
-    this->m_swap_chain_desc.BufferDesc.Height = y;
-    log_ref_count<ID3D11DepthStencilView>(this->m_base_zb, "ref_count : m_base_zb");
-    log_ref_count<ID3D11RenderTargetView>(this->m_base_rt, "ref_count : m_base_rt");
-    m_base_rt = this->m_base_rt;
-    if ( m_base_rt )
+    v7 = (unsigned __int8)windowed;
+    if ( this->m_windowed == (_BYTE)windowed )
+      return;
+  }
+  else
+  {
+    v7 = (unsigned __int8)windowed;
+  }
+  if ( (unsigned int)v5 >= 0x10 && v6 >= 0x10 )
+  {
+    if ( (unsigned int *)this->m_swap_chain_desc.BufferDesc.Width != v5
+      || (HIBYTE(force_resize) = 0, this->m_swap_chain_desc.BufferDesc.Height != v6) )
     {
-      m_base_rt->Release(this->m_base_rt);
-      this->m_base_rt = 0;
+      HIBYTE(force_resize) = 1;
     }
-    m_object = this->m_texture_zb.m_object;
-    m_object->m_mip_level_cut = 0;
-    m_surface = m_object->m_surface;
-    if ( m_surface )
-    {
-      m_surface->Release(m_object->m_surface);
-      m_object->m_surface = 0;
-    }
-    m_sh_res_view = m_object->m_sh_res_view;
-    if ( m_sh_res_view )
-    {
-      m_sh_res_view->Release(m_object->m_sh_res_view);
-      m_object->m_sh_res_view = 0;
-    }
-    m_object->m_surface = 0;
-    m_object->m_desc_valid = 0;
-    m_object->m_desc_3d_valid = 0;
-    if ( !BYTE1(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish)
-      && this->m_swap_chain->ResizeBuffers(
-           this->m_swap_chain,
-           this->m_swap_chain_desc.BufferCount,
-           this->m_swap_chain_desc.BufferDesc.Width,
-           this->m_swap_chain_desc.BufferDesc.Height,
-           this->m_swap_chain_desc.BufferDesc.Format,
-           0) < 0 )
-    {
-      m_swap_chain = this->m_swap_chain;
-      Format = this->m_swap_chain_desc.BufferDesc.Format;
-      Height = this->m_swap_chain_desc.BufferDesc.Height;
-      Width = this->m_swap_chain_desc.BufferDesc.Width;
-      BufferCount = this->m_swap_chain_desc.BufferCount;
-      LOBYTE(force_resize) = 1;
-      v14 = m_swap_chain->ResizeBuffers(m_swap_chain, BufferCount, Width, Height, Format, 0);
-      d3d11_error_string = make_d3d11_error_string(v14);
-      vostok::debug::on_error(
-        (bool *)&force_resize,
-        process_error_true,
-        (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish
-      + 1,
-        assert_untyped,
-        "assertion_failed",
-        d3d11_error_string,
-        ".\\res_render_output.cpp",
-        "vostok::render::res_render_output::resize",
-        0x136u);
-      if ( vostok::debug::is_debugger_present() || (_BYTE)force_resize )
-        __debugbreak();
-    }
-    m_windowed = this->m_windowed;
-    if ( m_windowed )
-      v17 = 0;
+    this->m_swap_chain_desc.Windowed = v7;
+    v8 = vostok::quasi_singleton<vostok::render::options>::pinst;
+    this->m_windowed = v7;
+    m_monitor_index = v8->current.m_monitor_index;
+    if ( v7 )
+      v39 = 0;
     else
-      v17 = (IDXGIOutput *)*((_DWORD *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_sound_scene.m_object
-                           + *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                             + 47));
-    v18 = this->m_swap_chain;
-    v19 = v18->lpVtbl;
-    force_resize = 0;
-    v20 = v19->SetFullscreenState(v18, !m_windowed, v17);
-    v22 = force_resize;
-    if ( v20 )
+      v39 = vostok::quasi_singleton<vostok::render::device>::pinst->m_outputs[m_monitor_index];
+    if ( HIBYTE(force_resize) )
     {
-      SetFocus(this->m_swap_chain_desc.OutputWindow);
-      for ( i = (HWND)GetMessageA(&msg, v22, (UINT)v22, (UINT)v22);
-            i != v22;
-            i = (HWND)GetMessageA(&msg, v22, (UINT)v22, (UINT)v22) )
+      this->m_swap_chain_desc.BufferDesc.Width = (unsigned int)v5;
+      this->m_swap_chain_desc.BufferDesc.Height = v6;
+      m_base_zb = this->m_base_zb;
+      force_resize = "ref_count : m_base_zb";
+      m_base_zb->AddRef(m_base_zb);
+      m_base_zb->Release(m_base_zb);
+      m_base_rt = this->m_base_rt;
+      force_resize = "ref_count : m_base_rt";
+      m_base_rt->AddRef(m_base_rt);
+      m_base_rt->Release(m_base_rt);
+      z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+      v19 = *(_DWORD *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7384) == 0;
+      *(_DWORD *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7384) = 0;
+      LOBYTE(v20) = !v19;
+      *(_BYTE *)(LODWORD(z) + 117) |= !v19;
+      v21 = this->m_base_zb;
+      if ( v21 )
       {
-        if ( i != HWND_MESSAGE|0x2 )
-        {
-          TranslateMessage(&msg);
-          DispatchMessageA(&msg);
-        }
+        v21->Release(this->m_base_zb);
+        this->m_base_zb = 0;
       }
-      if ( BYTE2(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish) == (_BYTE)v22
-        && this->m_swap_chain->SetFullscreenState(this->m_swap_chain, this->m_windowed == (unsigned __int8)v22, v17) < 0 )
+      v22 = this->m_base_rt;
+      if ( v22 )
       {
-        v24 = this->m_swap_chain;
-        v25 = this->m_windowed == (unsigned __int8)v22;
-        LOBYTE(force_resize) = 1;
-        v26 = v24->SetFullscreenState(v24, v25, v17);
-        v27 = make_d3d11_error_string(v26);
+        v22->Release(this->m_base_rt);
+        this->m_base_rt = 0;
+      }
+      vostok::render::res_texture::set_hw_texture(v20, (int)this->m_texture_zb.m_object, 0, 0, 0, 0, v36);
+      vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+        0,
+        (vostok::render::res_texture *)&this->m_texture_zb);
+      if ( !ignore_always_25
+        && this->m_swap_chain->ResizeBuffers(
+             this->m_swap_chain,
+             this->m_swap_chain_desc.BufferCount,
+             this->m_swap_chain_desc.BufferDesc.Width,
+             this->m_swap_chain_desc.BufferDesc.Height,
+             this->m_swap_chain_desc.BufferDesc.Format,
+             0) < 0 )
+      {
+        m_swap_chain = this->m_swap_chain;
+        v25 = m_swap_chain->lpVtbl;
+        Format = this->m_swap_chain_desc.BufferDesc.Format;
+        HIBYTE(force_resize) = 1;
+        v26 = v25->ResizeBuffers(
+                m_swap_chain,
+                this->m_swap_chain_desc.BufferCount,
+                this->m_swap_chain_desc.BufferDesc.Width,
+                this->m_swap_chain_desc.BufferDesc.Height,
+                Format,
+                0);
+        d3d11_error_string = (bool *)make_d3d11_error_string(v26, v27);
         vostok::debug::on_error(
-          (bool *)&force_resize,
+          (bool *)&force_resize + 3,
           process_error_true,
-          (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_ids._M_impl._M_finish
-        + 2,
-          (vostok::assert_enum)v22,
-          "assertion_failed",
-          v27,
+          d3d11_error_string,
           ".\\res_render_output.cpp",
           "vostok::render::res_render_output::resize",
-          0x14Cu);
-        if ( vostok::debug::is_debugger_present() || (_BYTE)force_resize != (_BYTE)v22 )
+          (const char *)0x153);
+        if ( vostok::debug::is_debugger_present() || HIBYTE(force_resize) )
           __debugbreak();
       }
+      if ( !ignore_always_26 && this->m_swap_chain->SetFullscreenState(this->m_swap_chain, !this->m_windowed, v39) < 0 )
+      {
+        v29 = this->m_swap_chain;
+        v30 = v29->lpVtbl;
+        v31 = !this->m_windowed;
+        HIBYTE(force_resize) = 1;
+        v32 = v30->SetFullscreenState(v29, v31, v39);
+        v34 = (bool *)make_d3d11_error_string(v32, v33);
+        vostok::debug::on_error(
+          (bool *)&force_resize + 3,
+          process_error_true,
+          v34,
+          ".\\res_render_output.cpp",
+          "vostok::render::res_render_output::resize",
+          (const char *)0x167);
+        if ( vostok::debug::is_debugger_present() || HIBYTE(force_resize) )
+          __debugbreak();
+      }
+      vostok::render::res_render_output::update_targets(v23, (int)this);
+      this->m_present_sync_mode = vostok::quasi_singleton<vostok::render::options>::pinst->current.m_vsync;
     }
-    vostok::render::res_render_output::update_targets(v21, (int)this);
-    this->m_present_sync_mode = *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                                + 241) != 0;
+    else if ( !ignore_always_24 && this->m_swap_chain->SetFullscreenState(this->m_swap_chain, v7 == 0, v39) < 0 )
+    {
+      v10 = this->m_swap_chain;
+      v11 = v10->lpVtbl;
+      v12 = !this->m_windowed;
+      HIBYTE(force_resize) = 1;
+      v13 = v11->SetFullscreenState(v10, v12, v39);
+      v15 = (bool *)make_d3d11_error_string(v13, v14);
+      vostok::debug::on_error(
+        (bool *)&force_resize + 3,
+        process_error_true,
+        v15,
+        ".\\res_render_output.cpp",
+        "vostok::render::res_render_output::resize",
+        (const char *)0x129);
+      if ( vostok::debug::is_debugger_present() || HIBYTE(force_resize) )
+        __debugbreak();
+    }
   }
 }

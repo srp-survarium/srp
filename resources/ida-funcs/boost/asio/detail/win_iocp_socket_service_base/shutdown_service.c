@@ -1,19 +1,14 @@
-void __thiscall boost::asio::detail::win_iocp_socket_service_base::shutdown_service(
-        boost::asio::detail::win_iocp_socket_service_base *this)
+void __usercall boost::asio::detail::win_iocp_socket_service_base::shutdown_service(
+        boost::asio::detail::win_iocp_socket_service_base *this@<ecx>,
+        boost::asio::detail::win_iocp_socket_service_base *a2@<edi>)
 {
-  boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl; // [esp+CCh] [ebp-Ch]
-  boost::asio::detail::scoped_lock<boost::asio::detail::win_mutex> lock; // [esp+D0h] [ebp-8h] BYREF
+  boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *i; // esi
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&lock);
-  lock.mutex_ = &this->mutex_;
-  EnterCriticalSection(&this->mutex_.crit_section_);
-  lock.locked_ = 1;
-  for ( impl = this->impl_list_; impl; impl = impl->next_ )
+  EnterCriticalSection(&a2->mutex_.crit_section_);
+  for ( i = a2->impl_list_; i; i = i->next_ )
   {
     boost::system::system_category();
-    boost::asio::detail::win_iocp_socket_service_base::close_for_destruction(this, impl);
+    boost::asio::detail::win_iocp_socket_service_base::close_for_destruction(a2, i);
   }
-  if ( lock.locked_ )
-    LeaveCriticalSection(&lock.mutex_->crit_section_);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&lock);
+  LeaveCriticalSection(&a2->mutex_.crit_section_);
 }

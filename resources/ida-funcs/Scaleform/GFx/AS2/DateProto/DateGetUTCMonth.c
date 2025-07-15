@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateGetUTCMonth(const Scaleform::GF
   bool v7; // al
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::Value *v9; // esi
-  int i; // [esp+8h] [ebp+4h]
+  int v10; // [esp+8h] [ebp+4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Date )
   {
@@ -35,11 +35,11 @@ void __cdecl Scaleform::GFx::AS2::DateProto::DateGetUTCMonth(const Scaleform::GF
         return;
       }
     }
-    i = v5;
+    v10 = v5;
     v9 = fn->Result;
     if ( v9->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(fn->Result);
-    v9->NV.NumberValue = (double)i;
+    v9->NV.NumberValue = (double)v10;
     v9->T.Type = 3;
   }
   else

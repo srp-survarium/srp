@@ -1,42 +1,43 @@
-int __cdecl long_c2i(
+int __usercall long_c2i@<eax>(
+        int a1@<ebx>,
         struct ASN1_VALUE_st **pval,
-        const unsigned __int8 *cont,
+        char *cont,
         int len,
         int utype,
         char *free_cont,
         const ASN1_ITEM_st *it)
 {
-  BOOL v7; // ebp
-  int v8; // ecx
+  BOOL v8; // ebp
+  int v9; // ecx
   int i; // eax
-  int v10; // ecx
-  int v11; // edx
-  struct ASN1_VALUE_st *v12; // eax
+  int v11; // ecx
+  int v12; // edx
+  struct ASN1_VALUE_st *v13; // eax
 
   if ( len > 4 )
   {
-    ERR_put_error(0xDu, 166, 128, ".\\crypto\\asn1\\x_long.c", 150);
+    ERR_put_error(a1, 0xDu, 166, 128, ".\\crypto\\asn1\\x_long.c", 150);
     return 0;
   }
-  v7 = len && *(char *)cont < 0;
-  v8 = 0;
-  for ( i = 0; i < len; v8 = v11 | v10 )
+  v8 = len && *cont < 0;
+  v9 = 0;
+  for ( i = 0; i < len; v9 = v12 | v11 )
   {
-    v10 = v8 << 8;
-    if ( v7 )
-      v11 = (unsigned __int8)~cont[i];
+    v11 = v9 << 8;
+    if ( v8 )
+      v12 = (unsigned __int8)~cont[i];
     else
-      v11 = cont[i];
+      v12 = (unsigned __int8)cont[i];
     ++i;
   }
-  v12 = (struct ASN1_VALUE_st *)v8;
-  if ( v7 )
-    v12 = (struct ASN1_VALUE_st *)(-1 - v8);
-  if ( v12 == (struct ASN1_VALUE_st *)it->size )
+  v13 = (struct ASN1_VALUE_st *)v9;
+  if ( v8 )
+    v13 = (struct ASN1_VALUE_st *)(-1 - v9);
+  if ( v13 == (struct ASN1_VALUE_st *)it->size )
   {
-    ERR_put_error(0xDu, 166, 128, ".\\crypto\\asn1\\x_long.c", 168);
+    ERR_put_error(a1, 0xDu, 166, 128, ".\\crypto\\asn1\\x_long.c", 168);
     return 0;
   }
-  *pval = v12;
+  *pval = v13;
   return 1;
 }

@@ -4,17 +4,17 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::toString(
 {
   Scaleform::GFx::AS3::Traits *pObject; // eax
   Scaleform::GFx::AS3::VM *pVM; // edi
-  Scaleform::GFx::ASString *v4; // esi
+  const __m128i ***v4; // esi
   const Scaleform::GFx::ASString *v5; // eax
   Scaleform::String *v6; // eax
   Scaleform::String *v7; // ebp
   const Scaleform::String *v8; // eax
   void *v9; // esi
-  Scaleform::GFx::ASString *v10; // esi
+  const __m128i ***v10; // esi
   Scaleform::String *v11; // edi
   const Scaleform::String *v12; // eax
   void *v13; // esi
-  char *v14; // ecx
+  const __m128i *v14; // ecx
   void *v15; // esi
   void *v16; // esi
   void *v17; // esi
@@ -50,24 +50,24 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::toString(
   value.Bonus.pWeakProxy = 0;
   v35.Flags = 4;
   v35.Bonus.pWeakProxy = 0;
-  v4 = Scaleform::GFx::AS3::VM::AsString(pVM, &v33, &value);
+  v4 = (const __m128i ***)Scaleform::GFx::AS3::VM::AsString(pVM, &v33, &value);
   v5 = Scaleform::GFx::AS3::VM::AsString(pVM, &v32, &v35);
-  v6 = Scaleform::operator+(&v31, "(x=", v5);
-  v7 = Scaleform::String::operator+(v6, &v30, ", y=");
-  Scaleform::String::String(&v26, (char *)v4->pNode->pData, v4->pNode->Size);
+  v6 = Scaleform::operator+(&v31, (const __m128i *)"(x=", v5);
+  v7 = Scaleform::String::operator+(v6, &v30, (const __m128i *)", y=");
+  Scaleform::String::String(&v26, **v4, (unsigned int)(*v4)[5]);
   Scaleform::String::operator+(v7, &v25, v8);
   v9 = (void *)(v26.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((v26.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
-  v10 = Scaleform::GFx::AS3::VM::AsString(pVM, &v34, &v37);
-  v11 = Scaleform::String::operator+(&v25, &v29, ", z=");
-  Scaleform::String::String(&v27, (char *)v10->pNode->pData, v10->pNode->Size);
+  v10 = (const __m128i ***)Scaleform::GFx::AS3::VM::AsString(pVM, &v34, &v37);
+  v11 = Scaleform::String::operator+(&v25, &v29, (const __m128i *)", z=");
+  Scaleform::String::String(&v27, **v10, (unsigned int)(*v10)[5]);
   Scaleform::String::operator+(v11, &v24, v12);
   v13 = (void *)(v27.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((v27.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
-  v14 = (char *)((Scaleform::String::operator+(&v24, &v28, ")")->HeapTypeBits & 0xFFFFFFFC) + 8);
-  Scaleform::GFx::ASString::Append(result, v14, (Scaleform::GFx::ASStringNode *)strlen(v14));
+  v14 = (const __m128i *)((Scaleform::String::operator+(&v24, &v28, (const __m128i *)")")->HeapTypeBits & 0xFFFFFFFC) + 8);
+  Scaleform::GFx::ASString::Append(result, v14, (Scaleform::GFx::ASStringNode *)strlen(v14->m128i_i8));
   v15 = (void *)(v28.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((v28.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v15);

@@ -11,7 +11,7 @@ double __cdecl pow(double X, double Y)
     if ( v2 == 8064 )
       v3 = (v5 & 0x7F) == 127;
     if ( v3 )
-      JUMPOUT(0x1CCD49);
+      JUMPOUT(0x667DA9);
   }
-  JUMPOUT(0x1CBCD4);
+  JUMPOUT(0x665724);
 }

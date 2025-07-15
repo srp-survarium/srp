@@ -1,21 +1,21 @@
-char __thiscall Scaleform::GFx::TextField::SetShadowStyle(Scaleform::GFx::TextField *this, char *pstr)
+char __thiscall Scaleform::GFx::TextField::SetShadowStyle(Scaleform::GFx::TextField *this, __m128i *pstr)
 {
   Scaleform::GFx::TextField *v2; // ebp
   Scaleform::ArrayData<Scaleform::Render::Point<float>,Scaleform::AllocatorLH<Scaleform::Render::Point<float>,2>,Scaleform::ArrayDefaultPolicy> *p_Data; // ebx
   Scaleform::GFx::TextField::ShadowParams *v4; // esi
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // eax
-  unsigned int v7; // eax
+  int v7; // eax
   Scaleform::ArrayDataBase<Scaleform::GFx::Button::CharToRec,Scaleform::AllocatorLH<Scaleform::GFx::Button::CharToRec,2>,Scaleform::ArrayDefaultPolicy> *p_ShadowOffsets; // esi
   Scaleform::ArrayDataBase<Scaleform::GFx::Button::CharToRec,Scaleform::AllocatorLH<Scaleform::GFx::Button::CharToRec,2>,Scaleform::ArrayDefaultPolicy> *p_TextOffsets; // esi
-  char *v10; // edi
+  __m128i *v10; // edi
   char v11; // al
   char v12; // al
-  unsigned __int8 *v13; // edi
-  unsigned __int8 *v14; // esi
+  const __m128i *v13; // edi
+  const __m128i *v14; // esi
   long double v15; // st7
-  unsigned __int8 v16; // al
-  _BYTE *v17; // esi
-  unsigned __int8 *v18; // ecx
+  char v16; // al
+  char *v17; // esi
+  const __m128i *v18; // ecx
   int v19; // edi
   Scaleform::GFx::ASStringManager *StringManager; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
@@ -25,20 +25,20 @@ char __thiscall Scaleform::GFx::TextField::SetShadowStyle(Scaleform::GFx::TextFi
   Scaleform::Render::TreeText *RenderNode; // eax
   Scaleform::Render::Point<float> val; // [esp+Ch] [ebp-28h] BYREF
   Scaleform::GFx::TextField *v27; // [esp+14h] [ebp-20h]
-  int x; // [esp+18h] [ebp-1Ch] BYREF
-  char pn[24]; // [esp+1Ch] [ebp-18h] BYREF
+  float v28; // [esp+18h] [ebp-1Ch] BYREF
+  char dst[24]; // [esp+1Ch] [ebp-18h] BYREF
 
   v2 = this;
   p_Data = 0;
   v27 = this;
   if ( !this->pShadow )
   {
-    x = 323;
+    LODWORD(v28) = 323;
     v4 = (Scaleform::GFx::TextField::ShadowParams *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                       Scaleform::Memory::pGlobalHeap,
                                                       this,
                                                       32,
-                                                      &x);
+                                                      &v28);
     if ( v4 )
     {
       p_EmptyStringNode = &Scaleform::GFx::InteractiveObject::GetStringManager(v2)->EmptyStringNode;
@@ -61,8 +61,9 @@ char __thiscall Scaleform::GFx::TextField::SetShadowStyle(Scaleform::GFx::TextFi
     if ( !v4 )
       return 0;
   }
-  v7 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v2->pDocument.pObject->Filter.ShadowParams.Colors[0].Raw;
-  *(_WORD *)v2->pShadow = v7;
+  v7 = v2->pDocument.pObject->Filter.ShadowParams.Colors[0].Raw & 0xFFFFFF;
+  v2->pShadow->ShadowColor.Channels.Blue = v2->pDocument.pObject->Filter.ShadowParams.Colors[0].Channels.Blue;
+  v2->pShadow->ShadowColor.Channels.Green = BYTE1(v7);
   v2->pShadow->ShadowColor.Channels.Red = BYTE2(v7);
   v2->pDocument.pObject->Filter.ShadowFlags |= 1u;
 reset:
@@ -111,52 +112,53 @@ reset:
   p_TextOffsets->Size = 0;
   while ( 1 )
   {
-    v11 = *v10;
-    if ( !*v10 )
+    v11 = v10->m128i_i8[0];
+    if ( !v10->m128i_i8[0] )
       break;
     if ( v11 == 115 || v11 == 83 )
     {
       p_Data = &v2->pShadow->ShadowOffsets.Data;
-      ++v10;
+      v10 = (__m128i *)((char *)v10 + 1);
     }
     else if ( v11 == 116 || v11 == 84 )
     {
       p_Data = &v2->pShadow->TextOffsets.Data;
-      ++v10;
+      v10 = (__m128i *)((char *)v10 + 1);
     }
     else
     {
       if ( v11 != 123 || !p_Data )
         goto LABEL_46;
-      v12 = v10[1];
-      v13 = (unsigned __int8 *)(v10 + 1);
+      v12 = v10->m128i_i8[1];
+      v13 = (const __m128i *)&v10->m128i_i8[1];
       v14 = v13;
       if ( v12 )
       {
         while ( v12 != 44 )
         {
-          v12 = *++v14;
+          v12 = v14->m128i_i8[1];
+          v14 = (const __m128i *)((char *)v14 + 1);
           if ( !v12 )
             goto LABEL_46;
         }
       }
-      if ( !*v14 )
+      if ( !v14->m128i_i8[0] )
         goto LABEL_46;
-      if ( v14 - v13 > 23 )
+      if ( (char *)v14 - (char *)v13 > 23 )
       {
         v2 = v27;
 LABEL_46:
-        pstr = (char *)v2->pShadow->ShadowStyleStr.pNode->pData;
+        pstr = (__m128i *)v2->pShadow->ShadowStyleStr.pNode->pData;
         p_Data = 0;
         goto reset;
       }
-      memcpy((unsigned __int8 *)pn, v13, v14 - v13);
-      pn[v14 - v13] = 0;
-      v15 = Scaleform::SFstrtod(pn, 0);
-      v16 = v14[1];
-      v17 = v14 + 1;
-      *(float *)&x = v15 * 20.0;
-      v18 = v17;
+      memcpy((int)dst, v13, (char *)v14 - (char *)v13);
+      dst[(char *)v14 - (char *)v13] = 0;
+      v15 = Scaleform::SFstrtod((int)v13, dst, 0);
+      v16 = v14->m128i_i8[1];
+      v17 = &v14->m128i_i8[1];
+      v28 = v15 * 20.0;
+      v18 = (const __m128i *)v17;
       if ( !v16 )
         goto LABEL_39;
       while ( v16 != 125 )
@@ -165,26 +167,26 @@ LABEL_46:
         if ( !v16 )
           goto LABEL_39;
       }
-      if ( !*v17 || (v19 = v17 - v18, v17 - v18 > 23) )
+      if ( !*v17 || (v19 = v17 - (char *)v18, v17 - (char *)v18 > 23) )
       {
 LABEL_39:
         v2 = v27;
-        pstr = (char *)v27->pShadow->ShadowStyleStr.pNode->pData;
+        pstr = (__m128i *)v27->pShadow->ShadowStyleStr.pNode->pData;
         p_Data = 0;
         goto reset;
       }
-      memcpy((unsigned __int8 *)pn, v18, v17 - v18);
-      val.x = *(float *)&x;
-      pn[v19] = 0;
-      v10 = v17 + 1;
-      val.y = Scaleform::SFstrtod(pn, 0) * 20.0;
+      memcpy((int)dst, v18, v17 - (char *)v18);
+      val.x = v28;
+      dst[v19] = 0;
+      v10 = (__m128i *)(v17 + 1);
+      val.y = Scaleform::SFstrtod((int)(v17 + 1), dst, 0) * 20.0;
       Scaleform::ArrayData<Scaleform::Render::Point<float>,Scaleform::AllocatorLH<Scaleform::Render::Point<float>,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
         p_Data,
         &val);
       v2 = v27;
     }
   }
-  if ( *pstr )
+  if ( pstr->m128i_i8[0] )
   {
     StringManager = Scaleform::GFx::InteractiveObject::GetStringManager(v2);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager, pstr);

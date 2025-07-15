@@ -15,31 +15,31 @@ void __usercall cvtdate(
   int v13; // eax
   int v14; // esi
   int v15; // esi
-  unsigned int v16; // ebx
+  int v16; // ebx
   int v17; // edx
   int v18; // eax
   int v19; // esi
   int v20; // eax
   int v21; // esi
   int v22; // ecx
-  int dstbias; // [esp+14h] [ebp-4h] BYREF
-  int datetypea; // [esp+24h] [ebp+Ch]
+  int _Daylight_savings_bias; // [esp+14h] [ebp-4h] BYREF
+  int v24; // [esp+24h] [ebp+Ch]
 
-  dstbias = 0;
+  _Daylight_savings_bias = 0;
   v11 = year;
   if ( datetype == 1 )
   {
     if ( (year % 4 || !(year % 100)) && (year + 1900) % 400 )
     {
       v13 = 4 * month;
-      v14 = dword_9AEFF8[month];
+      v14 = dword_8700A4[month];
     }
     else
     {
       v13 = 4 * month;
-      v14 = (int)*(&off_9AEFC4 + month);
+      v14 = (int)*(&flt + month);
     }
-    datetypea = v13;
+    v24 = v13;
     v15 = v14 + 1;
     v11 = year;
     v16 = 7;
@@ -52,9 +52,9 @@ void __usercall cvtdate(
     if ( week == 5 )
     {
       if ( (year % 4 || (v16 = 100, !(year % 100))) && (v16 = 400, (year + 1900) % 400) )
-        v20 = *(int *)((char *)_days + datetypea);
+        v20 = *(int *)((char *)_days + v24);
       else
-        v20 = *(int *)((char *)_lpdays + datetypea);
+        v20 = *(int *)((char *)_lpdays + v24);
       if ( v19 > v20 )
         v19 -= 7;
     }
@@ -62,9 +62,9 @@ void __usercall cvtdate(
   else
   {
     if ( (year % 4 || (v16 = 100, !(year % 100))) && (v16 = 400, (year + 1900) % 400) )
-      v21 = dword_9AEFF8[month];
+      v21 = dword_8700A4[month];
     else
-      v21 = (int)*(&off_9AEFC4 + month);
+      v21 = (int)*(&flt + month);
     v19 = date + v21;
   }
   v22 = msec + 1000 * (sec + 60 * (min + 60 * hour));
@@ -78,9 +78,9 @@ void __usercall cvtdate(
   {
     dstend.yd = v19;
     dstend.ms = v22;
-    if ( _get_dstbias(&dstbias) )
+    if ( _get_dstbias(v16, v11, &_Daylight_savings_bias) )
       _invoke_watson(v16, v11, v19);
-    dstend.ms += 1000 * dstbias;
+    dstend.ms += 1000 * _Daylight_savings_bias;
     if ( dstend.ms >= 0 )
     {
       if ( dstend.ms >= 86400000 )

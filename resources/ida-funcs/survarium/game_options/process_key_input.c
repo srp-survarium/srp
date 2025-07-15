@@ -1,127 +1,117 @@
-char __fastcall survarium::game_options::process_key_input(int a1, int dik, survarium::game_options *this)
+char __thiscall survarium::game_options::process_key_input(
+        survarium::game_options *this,
+        survarium::game_options *dik,
+        int _dik)
 {
-  survarium::keyboard_key_descr *v3; // eax
   survarium::game_action_id *M_start; // ecx
-  survarium::key_bind_descr *v5; // eax
   survarium::game_action_id m_waiting_for_bind_action; // edi
-  unsigned int action_id; // ebx
-  int key_group; // ecx
   survarium::game_action_id *M_finish; // eax
-  bool v10; // zf
-  survarium::game_action_id v11; // edx
-  survarium::text_translator *p_m_text_translator; // eax
-  survarium::game_action_id *i; // ebx
-  const char **p_str_description; // esi
-  int v15; // edx
-  survarium::key_binder *v17; // [esp+0h] [ebp-838h]
-  const stlp_std::__false_type *v18; // [esp+0h] [ebp-838h]
-  unsigned int v19; // [esp+4h] [ebp-834h]
-  bool v20; // [esp+8h] [ebp-830h]
-  int v21; // [esp+10h] [ebp-828h]
-  int v22; // [esp+10h] [ebp-828h]
-  const char *key_name; // [esp+14h] [ebp-824h]
-  survarium::key_bind_descr *__x; // [esp+18h] [ebp-820h]
-  survarium::key_binder *binder; // [esp+1Ch] [ebp-81Ch]
-  survarium::flash_value message_txt; // [esp+20h] [ebp-818h] BYREF
-  wchar_t w_text[512]; // [esp+38h] [ebp-800h] BYREF
-  wchar_t action_txt[512]; // [esp+438h] [ebp-400h] BYREF
+  survarium::game_action_id *i; // esi
+  survarium::game_options *v8; // ecx
+  const stlp_std::__false_type *v9; // [esp+0h] [ebp-438h]
+  unsigned int v10; // [esp+4h] [ebp-434h]
+  bool v11; // [esp+8h] [ebp-430h]
+  survarium::key_bind_descr *__x; // [esp+Ch] [ebp-42Ch]
+  const char **__xa; // [esp+Ch] [ebp-42Ch]
+  int v14; // [esp+10h] [ebp-428h]
+  int v15; // [esp+10h] [ebp-428h]
+  char *left; // [esp+14h] [ebp-424h]
+  survarium::game_action_id action_id; // [esp+18h] [ebp-420h]
+  survarium::key_binder *m_key_binder; // [esp+1Ch] [ebp-41Ch]
+  survarium::flash_value v19; // [esp+20h] [ebp-418h] BYREF
+  char _Dst[512]; // [esp+38h] [ebp-400h] BYREF
+  char _Src[512]; // [esp+238h] [ebp-200h] BYREF
 
-  if ( dik != 1 )
+  if ( _dik != 1 )
   {
-    binder = this->m_game->m_key_binder;
-    v3 = survarium::key_binder::dik_to_ptr(dik, v17);
-    if ( !v3 )
+    m_key_binder = dik->m_game->m_key_binder;
+    left = (char *)survarium::key_binder::dik_to_keyname((survarium::key_binder *)this, _dik);
+    if ( !left )
       return 0;
-    key_name = v3->key_name;
-    if ( !v3->key_name )
-      return 0;
-    M_start = this->m_conflicted_action_ids._M_impl._M_start;
-    if ( M_start != this->m_conflicted_action_ids._M_impl._M_finish )
-      this->m_conflicted_action_ids._M_impl._M_finish = M_start;
-    v5 = survarium::key_bind_descriptions;
+    M_start = dik->m_conflicted_action_ids._M_impl._M_start;
+    if ( M_start != dik->m_conflicted_action_ids._M_impl._M_finish )
+      dik->m_conflicted_action_ids._M_impl._M_finish = M_start;
     __x = survarium::key_bind_descriptions;
-    v21 = 33;
+    v14 = 41;
     do
     {
-      m_waiting_for_bind_action = this->m_waiting_for_bind_action;
-      action_id = v5->action_id;
-      if ( m_waiting_for_bind_action != v5->action_id && !strcmp(key_name, v5->new_binded_key.m_begin) )
+      m_waiting_for_bind_action = dik->m_waiting_for_bind_action;
+      action_id = __x->action_id;
+      if ( m_waiting_for_bind_action != __x->action_id && !vostok::strings::compare(left, __x->new_binded_key.m_begin) )
       {
-        key_group = binder->m_key_bindings[action_id].m_action->key_group;
-        if ( (key_group & binder->m_key_bindings[m_waiting_for_bind_action].m_action->key_group) != 0 )
+        M_start = (survarium::game_action_id *)action_id;
+        if ( (m_key_binder->m_key_bindings[action_id].m_action->key_group
+            & m_key_binder->m_key_bindings[m_waiting_for_bind_action].m_action->key_group) != 0 )
         {
-          M_finish = this->m_conflicted_action_ids._M_impl._M_finish;
-          if ( M_finish == this->m_conflicted_action_ids._M_impl._M_end_of_storage._M_data )
+          M_finish = dik->m_conflicted_action_ids._M_impl._M_finish;
+          if ( M_finish == dik->m_conflicted_action_ids._M_impl._M_end_of_storage._M_data )
           {
             stlp_std::priv::_Impl_vector<enum survarium::game_action_id,survarium::std_allocator<enum survarium::game_action_id>>::_M_insert_overflow_aux(
-              &this->m_conflicted_action_ids._M_impl,
+              &dik->m_conflicted_action_ids._M_impl,
               M_finish,
-              (stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base>,survarium::std_allocator<vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> > > *)key_group,
-              (survarium::damage_zone **)__x,
-              v18,
-              v19,
-              v20);
+              (vostok::memory::doug_lea_allocator **)__x,
+              v9,
+              v10,
+              v11);
           }
           else
           {
             if ( M_finish )
               *M_finish = action_id;
-            ++this->m_conflicted_action_ids._M_impl._M_finish;
+            ++dik->m_conflicted_action_ids._M_impl._M_finish;
           }
         }
       }
-      v5 = __x + 1;
-      v10 = v21-- == 1;
       ++__x;
+      --v14;
     }
-    while ( !v10 );
-    if ( this->m_conflicted_action_ids._M_impl._M_start != this->m_conflicted_action_ids._M_impl._M_finish )
+    while ( v14 );
+    if ( dik->m_conflicted_action_ids._M_impl._M_start != dik->m_conflicted_action_ids._M_impl._M_finish )
     {
-      v11 = this->m_waiting_for_bind_action;
-      *(_DWORD *)message_txt.body = 0;
-      *(_DWORD *)&message_txt.body[4] = 0;
-      p_m_text_translator = &this->m_game->m_text_translator;
-      this->m_conflicted_key_name = key_name;
-      this->m_conflicted_action_to_bind = v11;
-      survarium::text_translator::translate_text(p_m_text_translator, "st_conflict_message", w_text);
-      wcscat_s(action_id, w_text, 0x400u, L"\n");
-      for ( i = this->m_conflicted_action_ids._M_impl._M_start; i != this->m_conflicted_action_ids._M_impl._M_finish; ++i )
+      *(_DWORD *)v19.body = 0;
+      *(_DWORD *)&v19.body[4] = 0;
+      dik->m_conflicted_key_name = left;
+      dik->m_conflicted_action_to_bind = dik->m_waiting_for_bind_action;
+      survarium::text_translator::translate_text(
+        (survarium::text_translator *)M_start,
+        (int)&dik->m_game->m_text_translator,
+        "st_conflict_message",
+        _Dst);
+      strcat_s(_Dst, 0x200u, "\n");
+      for ( i = dik->m_conflicted_action_ids._M_impl._M_start; i != dik->m_conflicted_action_ids._M_impl._M_finish; ++i )
       {
-        p_str_description = &survarium::key_bind_descriptions[0].str_description;
-        v22 = 33;
+        __xa = &survarium::key_bind_descriptions[0].str_description;
+        v15 = 41;
         do
         {
-          if ( *(const char **)i == *(p_str_description - 1) )
-            survarium::text_translator::translate_text(&this->m_game->m_text_translator, *p_str_description, action_txt);
-          p_str_description += 26;
-          --v22;
+          if ( *(const char **)i == *(__xa - 1) )
+            survarium::text_translator::translate_text(
+              (survarium::text_translator *)__xa,
+              (int)&dik->m_game->m_text_translator,
+              (char *)*__xa,
+              _Src);
+          __xa += 26;
+          --v15;
         }
-        while ( v22 );
-        wcscat_s((unsigned int)i, w_text, 0x400u, L"\"");
-        wcscat_s((unsigned int)i, w_text, 0x400u, action_txt);
-        wcscat_s((unsigned int)i, w_text, 0x400u, L"\"");
-        if ( i != this->m_conflicted_action_ids._M_impl._M_finish - 1 )
-          wcscat_s((unsigned int)i, w_text, 0x400u, L",\n");
+        while ( v15 );
+        strcat_s(_Dst, 0x200u, "\"");
+        strcat_s(_Dst, 0x200u, _Src);
+        strcat_s(_Dst, 0x200u, "\"");
+        if ( i != dik->m_conflicted_action_ids._M_impl._M_finish - 1 )
+          strcat_s(_Dst, 0x200u, ",\n");
       }
-      survarium::flash_value::SetStringW(&message_txt, w_text);
+      survarium::flash_value::SetString(&v19, _Dst);
       Scaleform::GFx::Movie::Invoke(
-        this->m_options_ui.m_object->movie->m_movie,
+        dik->m_options_ui.m_object->movie->m_movie,
         "root.show_reassign_message",
         0,
-        (const Scaleform::GFx::Value *)&message_txt,
+        (const Scaleform::GFx::Value *)&v19,
         1u);
-      Scaleform::GFx::Movie::Invoke(this->m_options_ui.m_object->movie->m_movie, "root.end_keybind", 0, 0, 0);
-      survarium::base_game_scene::show_movie(&this->m_cursor_ui, this->m_parent_scene, this->m_parent_scene);
-      v15 = *(_DWORD *)&message_txt.body[4] >> 6;
-      this->m_waiting_for_bind_action = kLASTACTION;
-      if ( (v15 & 1) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_txt.body + 8))(
-          *(_DWORD *)message_txt.body,
-          &message_txt,
-          *(_DWORD *)&message_txt.body[8]);
+      survarium::game_options::finish_binding(v8, (int)dik);
+      Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v19);
       return 0;
     }
-    survarium::game_options::assign_binding(key_name, this, this->m_waiting_for_bind_action);
+    survarium::game_options::assign_binding(dik->m_waiting_for_bind_action, dik, left);
   }
   return 1;
 }

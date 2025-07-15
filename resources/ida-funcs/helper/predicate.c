@@ -8,18 +8,27 @@ char __thiscall helper::predicate(
         const char *function,
         unsigned int address)
 {
-  char _Dest[4096]; // [esp+4h] [ebp-1008h] BYREF
-  void (__cdecl *log_callback)(const char *, bool, bool, const char *); // [esp+1008h] [ebp-4h]
+  char _Dest[16384]; // [esp+4h] [ebp-4000h] BYREF
 
-  if ( call_stack_id < this->m_num_first_to_ignore )
-    return 1;
-  if ( call_stack_id >= num_call_stack_lines - this->m_num_last_to_ignore )
-    return 1;
-  if ( line_number > 0 )
-    JUMPOUT(0x60000);
-  sprintf_s<4096>((char (*)[4096])_Dest, s_call_stack_line_format, module_name, function, address);
-  log_callback = vostok::debug::get_log_callback();
-  if ( log_callback )
-    log_callback(this->m_initiator, this->m_use_error_verbosity, 1, _Dest);
+  if ( call_stack_id >= this->m_num_first_to_ignore && call_stack_id < num_call_stack_lines - this->m_num_last_to_ignore )
+  {
+    if ( line_number <= 0 )
+      sprintf_s<16384>((char (*)[16384])_Dest, "%-60s       : %-70s : 0x%08x", module_name, function, address);
+    else
+      sprintf_s<16384>(
+        (char (*)[16384])_Dest,
+        "%-60s(%-3d) : %-70s : %-36s : 0x%08x",
+        file_name,
+        line_number,
+        function,
+        module_name,
+        address);
+    if ( (s_log_disable_counter == 0 ? (unsigned int)s_log_callback : 0) != 0 )
+      ((void (__cdecl *)(helper *, bool, int, char *))(s_log_disable_counter == 0 ? (unsigned int)s_log_callback : 0))(
+        this,
+        this->m_use_error_verbosity,
+        1,
+        _Dest);
+  }
   return 1;
 }

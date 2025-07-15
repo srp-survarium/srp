@@ -23,7 +23,7 @@ int __cdecl i2d_ASN1_bytes(asn1_string_st *a, unsigned __int8 **pp, int tag, cha
     a = (asn1_string_st *)*pp;
     v9 = v6 == 16 || v6 == 17;
     ASN1_put_object((unsigned __int8 **)&a, v9, length, v6, xclass);
-    memcpy((unsigned __int8 *)a, v4->data, v4->length);
+    memcpy((int)a, (const __m128i *)v4->data, v4->length);
     result = v10;
     *v8 = (unsigned __int8 *)a + v4->length;
   }

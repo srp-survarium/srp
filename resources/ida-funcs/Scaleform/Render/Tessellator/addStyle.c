@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::Tessellator::addStyle(
   unsigned int Size; // eax
   unsigned int v6; // ebp
   unsigned __int8 *v7; // ebx
-  unsigned __int8 *Array; // eax
+  const __m128i *Array; // eax
   unsigned int v9; // ecx
   unsigned int *v10; // eax
 
@@ -26,12 +26,12 @@ void __thiscall Scaleform::Render::Tessellator::addStyle(
         {
           v7 = Scaleform::Render::LinearHeap::Alloc(this->ComplexFlags.pHeap, 4 * v6);
           memset((int)v7, 0, 4 * v6);
-          Array = (unsigned __int8 *)this->ComplexFlags.Array;
+          Array = (const __m128i *)this->ComplexFlags.Array;
           if ( Array )
           {
             v9 = this->ComplexFlags.Size;
             if ( v9 )
-              memcpy(v7, Array, 4 * v9);
+              memcpy((int)v7, Array, 4 * v9);
           }
           v3 = style;
           this->ComplexFlags.Array = (unsigned int *)v7;

@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::cl
   Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter *v6; // esi
   Scaleform::Render::Filter *v7; // eax
   Scaleform::Render::Filter_vtbl *v8; // ecx
-  unsigned int v9; // edi
+  int v9; // edi
   bool v10; // bl
   double v11; // st6
   Scaleform::Render::Filter *v12; // eax
@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::cl
   v17 = *(&v7[2].Frozen + 3);
   v8 = v7[1].__vftable;
   qual = *(float *)&v7[1].Type * 0.05000000074505806;
-  v9 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & *(_DWORD *)&v7[2].Frozen;
+  v9 = *(_DWORD *)&v7[2].Frozen & 0xFFFFFF;
   blurX = qual;
   v10 = ((unsigned __int8)v8 & 0x20) != 0;
   quala = *(float *)&v7[1].Frozen * 0.05000000074505806;
@@ -102,7 +102,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::cl
       else
       {
         RefCount = v15->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v15->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);

@@ -1,15 +1,20 @@
-int __usercall btUnionFind::find@<eax>(btUnionFind *this@<esi>, int x@<eax>)
+int __usercall btUnionFind::find@<eax>(btUnionFind *this@<edx>, int x@<eax>)
 {
-  int i; // ecx
   btElement *m_data; // eax
-  int m_id; // edx
+  btElement *v3; // ecx
+  btElement *v4; // eax
+  int v5; // ecx
 
-  for ( i = x; x != this->m_elements.m_data[x].m_id; i = x )
+  while ( 1 )
   {
+    v5 = x;
+    if ( x == this->m_elements.m_data[x].m_id )
+      break;
     m_data = this->m_elements.m_data;
-    m_id = m_data[i].m_id;
-    m_data[i].m_id = m_data[m_id].m_id;
-    x = m_data[m_id].m_id;
+    v3 = &m_data[v5];
+    v4 = &m_data[v3->m_id];
+    v3->m_id = v4->m_id;
+    x = v4->m_id;
   }
   return x;
 }

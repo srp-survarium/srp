@@ -2,7 +2,7 @@ vostok::render::stage_ambient_lighting *__thiscall vostok::render::stage_ambient
         vostok::render::stage_ambient_lighting *this,
         char a2)
 {
-  vostok::render::stage_ambient_lighting::~stage_ambient_lighting(this);
+  vostok::render::stage_ambient_lighting::~stage_ambient_lighting(this, (int)this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

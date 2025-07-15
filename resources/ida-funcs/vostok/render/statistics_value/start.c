@@ -1,64 +1,68 @@
 void __thiscall vostok::render::statistics_value<int>::start(vostok::render::statistics_value<int> *this)
 {
-  int min_value_temp; // edx
+  int v2; // eax
   int v3; // eax
-  int max_value_temp; // [esp-8h] [ebp-10h]
-  int value; // [esp-4h] [ebp-Ch]
+  int v4; // eax
 
   this->history[this->history_index++] = this->value;
-  if ( this->history_index == 1 )
+  if ( this->history_index == 16 )
     this->history_index = 0;
   if ( this->min_max_frame_index <= 0x20 )
   {
-    value = this->value;
-    max_value_temp = this->max_value_temp;
-    this->min_value_temp = value + (this->min_value_temp < value ? this->min_value_temp - value : 0);
-    v3 = vostok::math::max(max_value_temp, value);
+    v3 = vostok::render::statistics_value<int>::average(this);
+    this->min_value_temp = v3 + (this->min_value_temp < v3 ? this->min_value_temp - v3 : 0);
+    v4 = vostok::render::statistics_value<int>::average(this);
+    this->max_value_temp -= this->max_value_temp < v4 ? this->max_value_temp - v4 : 0;
   }
   else
   {
-    min_value_temp = this->min_value_temp;
+    this->min_value = this->min_value_temp;
     this->max_value = this->max_value_temp;
-    v3 = this->value;
-    this->min_value = min_value_temp;
-    this->min_value_temp = v3;
+    this->min_value_temp = vostok::render::statistics_value<int>::average(this);
+    v2 = vostok::render::statistics_value<int>::average(this);
     this->min_max_frame_index = 0;
+    this->max_value_temp = v2;
   }
   ++this->min_max_frame_index;
   this->value = 0;
-  this->max_value_temp = v3;
 }
 
 
-void __thiscall vostok::render::statistics_value<double>::start(vostok::render::statistics_value<double> *this)
+void __usercall vostok::render::statistics_value<double>::start(
+        vostok::render::statistics_value<double> *this@<ecx>,
+        long double min_value_temp@<xmm0>)
 {
-  double max_value_temp; // xmm0_8
-  long double v2; // st7
-  double min_value_temp; // xmm0_8
+  unsigned int *p_history_index; // eax
+  vostok::render::statistics_value<double> *history_index; // ecx
+  vostok::render::statistics_value<double> *v5; // ecx
+  vostok::render::statistics_value<double> *v6; // ecx
 
+  p_history_index = &this->history_index;
   this->history[this->history_index++] = this->value;
-  if ( this->history_index == 1 )
-    this->history_index = 0;
+  history_index = (vostok::render::statistics_value<double> *)this->history_index;
+  if ( history_index == (vostok::render::statistics_value<double> *)16 )
+    *p_history_index = 0;
   if ( this->min_max_frame_index <= 0x20 )
   {
-    min_value_temp = this->min_value_temp;
-    if ( this->value <= min_value_temp )
-      min_value_temp = this->value;
+    vostok::render::statistics_value<double>::average(history_index, (int)this);
+    if ( min_value_temp > this->min_value_temp )
+      min_value_temp = this->min_value_temp;
     this->min_value_temp = min_value_temp;
-    max_value_temp = this->max_value_temp;
-    if ( max_value_temp <= this->value )
-      max_value_temp = this->value;
+    vostok::render::statistics_value<double>::average(v6, (int)this);
+    if ( this->max_value_temp > min_value_temp )
+      min_value_temp = this->max_value_temp;
+    this->max_value_temp = min_value_temp;
   }
   else
   {
-    max_value_temp = this->value;
     this->min_value = this->min_value_temp;
-    this->min_value_temp = max_value_temp;
-    v2 = this->max_value_temp;
+    this->max_value = this->max_value_temp;
+    vostok::render::statistics_value<double>::average(history_index, (int)this);
+    this->min_value_temp = min_value_temp;
+    vostok::render::statistics_value<double>::average(v5, (int)this);
     this->min_max_frame_index = 0;
-    this->max_value = v2;
+    this->max_value_temp = min_value_temp;
   }
   ++this->min_max_frame_index;
-  this->max_value_temp = max_value_temp;
   this->value = 0.0;
 }

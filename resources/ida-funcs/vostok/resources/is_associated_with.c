@@ -1,39 +1,37 @@
-bool __cdecl vostok::resources::is_associated_with(
-        vostok::vfs::vfs_iterator it,
-        vostok::resources::resource_base *resource)
+char __cdecl vostok::resources::is_associated_with(vostok::vfs::vfs_iterator it)
 {
-  void (__cdecl *manager)(const boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, boost::detail::function::functor_manager_operation_type); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::association_callback_helper,vostok::vfs::vfs_association * &>,boost::_bi::list2<boost::_bi::value<vostok::resources::association_callback_helper *>,boost::arg<1> > > v4; // [esp-8h] [ebp-50h]
-  bool associated; // [esp+Fh] [ebp-39h]
-  vostok::resources::association_callback_helper helper; // [esp+10h] [ebp-38h] BYREF
-  boost::function<void __cdecl(vostok::vfs::vfs_association * &)> callback; // [esp+28h] [ebp-20h] BYREF
+  vostok::vfs::vfs_iterator *v1; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  char v3; // bl
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::association_callback_helper,vostok::vfs::vfs_association * &>,boost::_bi::list2<boost::_bi::value<vostok::resources::association_callback_helper *>,boost::arg<1> > > v5; // [esp-8h] [ebp-4Ch]
+  int v6; // [esp+0h] [ebp-44h]
+  boost::function<void __cdecl(vostok::vfs::vfs_association * &)> v7; // [esp+8h] [ebp-3Ch] BYREF
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v8; // [esp+28h] [ebp-1Ch] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v9; // [esp+2Ch] [ebp-18h] BYREF
+  int v10; // [esp+30h] [ebp-14h]
+  vostok::vfs::vfs_hashset *m_hashset; // [esp+34h] [ebp-10h]
+  int v12; // [esp+38h] [ebp-Ch]
+  char v13; // [esp+3Dh] [ebp-7h]
 
-  helper.resource = resource;
-  v4.l_.a1_.t_ = &helper;
-  v4.f_.f_ = vostok::resources::association_callback_helper::is_associated;
-  memset(&helper, 0, 12);
-  helper.reference_count = 0;
-  helper.associated = 0;
-  callback.vtable = 0;
-  boost::function1<void,vostok::vfs::vfs_association * &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::association_callback_helper,vostok::vfs::vfs_association * &>,boost::_bi::list2<boost::_bi::value<vostok::resources::association_callback_helper *>,boost::arg<1>>>>(
-    (boost::function1<void,vostok::vfs::vfs_association * &> *)&helper,
-    (boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::association_callback_helper,vostok::vfs::vfs_association * &>,boost::_bi::list2<boost::_bi::value<vostok::resources::association_callback_helper *>,boost::arg<1> > > *)&callback,
-    v4);
-  vostok::vfs::vfs_iterator::access_association(&it, &callback);
-  if ( callback.vtable )
-  {
-    if ( ((int)callback.vtable & 1) == 0 )
-    {
-      manager = boost::function1<void,vostok::vfs::vfs_association * &>::get_vtable((boost::function1<void,vostok::vfs::base_node<1> *> *)&callback)->base.manager;
-      if ( manager )
-        manager(&callback.functor, &callback.functor, destroy_functor_tag);
-    }
-  }
-  associated = helper.associated;
-  if ( helper.unmanaged.m_object && !_InterlockedExchangeAdd(&helper.unmanaged.m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &helper.unmanaged.m_object->vostok::resources::unmanaged_intrusive_base,
-      helper.unmanaged.m_object);
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&helper.managed);
-  return associated;
+  v8.m_object = 0;
+  v9.m_object = 0;
+  v10 = 0;
+  v12 = 0;
+  v13 = 0;
+  m_hashset = it.m_hashset;
+  v5.l_.a1_.t_ = (vostok::resources::association_callback_helper *)&v8;
+  v5.f_.f_ = (void (__thiscall *)(vostok::resources::association_callback_helper *, vostok::vfs::vfs_association **))vostok::resources::association_callback_helper::is_associated;
+  boost::function<void __cdecl (vostok::vfs::vfs_association * &)>::function<void __cdecl (vostok::vfs::vfs_association * &)>(
+    (boost::function<void __cdecl(vostok::vfs::vfs_association * &)> *)vostok::resources::association_callback_helper::is_associated,
+    (boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::association_callback_helper,vostok::vfs::vfs_association * &>,boost::_bi::list2<boost::_bi::value<vostok::resources::association_callback_helper *>,boost::arg<1> > > *)&v7,
+    v5,
+    v6);
+  vostok::vfs::vfs_iterator::access_association(v1, (int)&it.m_node, &v7);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v7);
+  v3 = v13;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v9);
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(&v8);
+  return v3;
 }

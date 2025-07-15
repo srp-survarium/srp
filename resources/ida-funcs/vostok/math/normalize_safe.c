@@ -1,79 +1,77 @@
 vostok::math::float2 *__usercall vostok::math::normalize_safe@<eax>(
-        const vostok::math::float2_pod *object@<esi>,
-        vostok::math::float2 *a2@<edi>,
-        vostok::math::float2 *result_in_case_of_zero)
+        const vostok::math::float2_pod *object@<eax>,
+        vostok::math::float2 *result_in_case_of_zero@<edi>,
+        vostok::math::float2 *a3@<esi>)
 {
-  int v3; // xmm0_4
-  int v4; // xmm2_4
-  float v5; // xmm0_4
+  bool v3; // zf
   vostok::math::float2 *result; // eax
-  float x; // [esp+Ch] [ebp-8h]
-  float length; // [esp+10h] [ebp-4h]
+  float v5; // xmm0_4
+  float y; // [esp+8h] [ebp-14h]
+  float x; // [esp+Ch] [ebp-10h]
+  float v8; // [esp+14h] [ebp-8h]
+  int v9; // [esp+18h] [ebp-4h]
 
+  v8 = fsqrt((float)(object->y * object->y) + (float)(object->x * object->x));
   x = object->x;
-  length = sqrtf((float)(object->y * object->y) + (float)(object->x * object->x));
-  v3 = LODWORD(x) & 0x7FFFFFFF;
-  if ( COERCE_FLOAT(LODWORD(x) & 0x7FFFFFFF) <= COERCE_FLOAT(LODWORD(object->y) & 0x7FFFFFFF) )
-    v3 = LODWORD(object->y) & 0x7FFFFFFF;
-  v4 = v3 & 0x7FFFFFFF;
-  if ( COERCE_FLOAT(LODWORD(length) & 0x7FFFFFFF) <= COERCE_FLOAT(v3 & 0x7FFFFFFF)
-    && (*(float *)&v4 == 0.0 || (float)(COERCE_FLOAT(LODWORD(length) & 0x7FFFFFFF) / *(float *)&v4) < 0.0000001) )
+  y = object->y;
+  if ( COERCE_FLOAT(LODWORD(object->x) & 0x7FFFFFFF) <= COERCE_FLOAT(LODWORD(y) & 0x7FFFFFFF) )
+    v9 = LODWORD(object->y) & 0x7FFFFFFF;
+  else
+    v9 = LODWORD(object->x) & 0x7FFFFFFF;
+  v3 = !vostok::math::is_relatively_zero(*(float *)&v9, v8);
+  result = a3;
+  if ( v3 )
   {
-    result = a2;
-    *a2 = *result_in_case_of_zero;
+    v5 = (float)(s_bm_current_air_resistance / v8) * y;
+    a3->x = (float)(s_bm_current_air_resistance / v8) * x;
+    a3->y = v5;
   }
   else
   {
-    v5 = (float)(*(float *)&clear_value / length) * object->y;
-    a2->x = (float)(*(float *)&clear_value / length) * x;
-    a2->y = v5;
-    return a2;
+    *a3 = *result_in_case_of_zero;
   }
   return result;
 }
 
 
 vostok::math::float3 *__usercall vostok::math::normalize_safe@<eax>(
-        const vostok::math::float3_pod *object@<esi>,
-        vostok::math::float3 *a2@<edi>,
-        vostok::math::float3 *result_in_case_of_zero)
+        const vostok::math::float3_pod *object@<eax>,
+        vostok::math::float3 *result_in_case_of_zero@<edi>,
+        vostok::math::float3 *a3@<esi>)
 {
-  float z; // xmm1_4
-  float y; // xmm2_4
-  float v5; // xmm5_4
-  int v6; // xmm0_4
-  int v7; // xmm4_4
-  float v8; // xmm0_4
+  int v3; // xmm0_4
+  bool v4; // zf
   vostok::math::float3 *result; // eax
-  float x; // [esp+Ch] [ebp-Ch]
-  int v11; // [esp+Ch] [ebp-Ch]
-  float length; // [esp+14h] [ebp-4h]
+  float v6; // xmm0_4
+  float z; // [esp+8h] [ebp-1Ch]
+  float y; // [esp+Ch] [ebp-18h]
+  float x; // [esp+10h] [ebp-14h]
+  float v10; // [esp+1Ch] [ebp-8h]
+  int v11; // [esp+20h] [ebp-4h]
 
-  x = object->x;
-  length = sqrtf((float)((float)(object->y * object->y) + (float)(object->x * object->x)) + (float)(object->z * object->z));
+  v10 = fsqrt((float)((float)(object->y * object->y) + (float)(object->x * object->x)) + (float)(object->z * object->z));
   z = object->z;
+  x = object->x;
+  v3 = LODWORD(object->y) & 0x7FFFFFFF;
   y = object->y;
-  v5 = x;
-  v6 = LODWORD(y) & 0x7FFFFFFF;
-  v11 = LODWORD(x) & 0x7FFFFFFF;
-  if ( COERCE_FLOAT(LODWORD(y) & 0x7FFFFFFF) <= COERCE_FLOAT(LODWORD(z) & 0x7FFFFFFF) )
-    v6 = LODWORD(object->z) & 0x7FFFFFFF;
-  if ( *(float *)&v11 > *(float *)&v6 )
-    v6 = v11;
-  v7 = v6 & 0x7FFFFFFF;
-  if ( COERCE_FLOAT(LODWORD(length) & 0x7FFFFFFF) <= COERCE_FLOAT(v6 & 0x7FFFFFFF)
-    && (*(float *)&v7 == 0.0 || (float)(COERCE_FLOAT(LODWORD(length) & 0x7FFFFFFF) / *(float *)&v7) < 0.0000001) )
+  if ( *(float *)&v3 <= COERCE_FLOAT(LODWORD(z) & 0x7FFFFFFF) )
+    v3 = LODWORD(z) & 0x7FFFFFFF;
+  if ( COERCE_FLOAT(LODWORD(object->x) & 0x7FFFFFFF) <= *(float *)&v3 )
+    v11 = v3;
+  else
+    v11 = LODWORD(object->x) & 0x7FFFFFFF;
+  v4 = !vostok::math::is_relatively_zero(*(float *)&v11, v10);
+  result = a3;
+  if ( v4 )
   {
-    result = a2;
-    *a2 = *result_in_case_of_zero;
+    v6 = s_bm_current_air_resistance / v10;
+    a3->x = (float)(s_bm_current_air_resistance / v10) * x;
+    a3->y = v6 * y;
+    a3->z = v6 * z;
   }
   else
   {
-    v8 = *(float *)&clear_value / length;
-    a2->x = (float)(*(float *)&clear_value / length) * v5;
-    a2->y = v8 * y;
-    a2->z = v8 * z;
-    return a2;
+    *a3 = *result_in_case_of_zero;
   }
   return result;
 }

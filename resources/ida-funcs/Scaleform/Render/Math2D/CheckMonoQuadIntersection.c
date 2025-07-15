@@ -15,17 +15,17 @@ bool __cdecl Scaleform::Render::Math2D::CheckMonoQuadIntersection(
   BOOL v12; // edx
   BOOL v13; // ecx
   double v15; // st7
-  double denb; // [esp+10h] [ebp-18h]
-  float den; // [esp+10h] [ebp-18h]
-  float dena; // [esp+10h] [ebp-18h]
+  double v16; // [esp+10h] [ebp-18h]
+  float v17; // [esp+10h] [ebp-18h]
+  float v18; // [esp+10h] [ebp-18h]
   double v19; // [esp+18h] [ebp-10h]
   double v20; // [esp+20h] [ebp-8h]
-  float tc; // [esp+48h] [ebp+20h]
-  float td; // [esp+48h] [ebp+20h]
-  float t; // [esp+48h] [ebp+20h]
-  float ta; // [esp+48h] [ebp+20h]
-  float tb; // [esp+48h] [ebp+20h]
-  float te; // [esp+48h] [ebp+20h]
+  float v21; // [esp+48h] [ebp+20h]
+  float v22; // [esp+48h] [ebp+20h]
+  float v23; // [esp+48h] [ebp+20h]
+  float v24; // [esp+48h] [ebp+20h]
+  float v25; // [esp+48h] [ebp+20h]
+  float v26; // [esp+48h] [ebp+20h]
 
   v8 = y;
   v9 = y1;
@@ -35,39 +35,39 @@ bool __cdecl Scaleform::Render::Math2D::CheckMonoQuadIntersection(
   if ( y3 <= v8 )
     return 0;
   v11 = y2;
-  tc = (x - x2) * (y2 - v9) - (x2 - x1) * (v8 - y2);
-  v12 = tc > 0.0;
-  denb = x - x3;
+  v21 = (x - x2) * (y2 - v9) - (x2 - x1) * (v8 - y2);
+  v12 = v21 > 0.0;
+  v16 = x - x3;
   v19 = v8 - v10;
-  td = (v10 - y2) * denb - (x3 - x2) * v19;
-  v13 = td > 0.0;
+  v22 = (v10 - y2) * v16 - (x3 - x2) * v19;
+  v13 = v22 > 0.0;
   v20 = v10 - v9;
-  t = v20 * denb - (x3 - x1) * v19;
-  if ( v13 && t > 0.0 && v12 )
+  v23 = v20 * v16 - (x3 - x1) * v19;
+  if ( v13 && v23 > 0.0 && v12 )
     return 1;
-  if ( !v13 && t <= 0.0 && !v12 )
+  if ( !v13 && v23 <= 0.0 && !v12 )
     return 0;
-  den = v9 - (v11 + v11) + v10;
-  ta = -1.0;
-  if ( 0.0 == den )
+  v17 = v9 - (v11 + v11) + v10;
+  v24 = -1.0;
+  if ( 0.0 == v17 )
   {
-    dena = v20;
-    if ( dena != 0.0 )
-      ta = (v8 - v9) / dena;
+    v18 = v20;
+    if ( v18 != 0.0 )
+      v24 = (v8 - v9) / v18;
   }
   else
   {
-    tb = v8 * y3 + v11 * v11 - (v10 - v8) * v9 - (v8 + v8) * v11;
-    if ( tb <= 0.0 )
+    v25 = v8 * y3 + v11 * v11 - (v10 - v8) * v9 - (v8 + v8) * v11;
+    if ( v25 <= 0.0 )
     {
-      v15 = (v9 + (float)0.0 - y2) / den;
+      v15 = (v9 + (float)0.0 - y2) / v17;
     }
     else
     {
-      te = sqrt(tb);
-      v15 = (y1 + te - y2) / den;
+      v26 = sqrt(v25);
+      v15 = (y1 + v26 - y2) / v17;
     }
-    ta = v15;
+    v24 = v15;
   }
-  return x > Scaleform::Render::Math2D::CalcPointOnQuadCurve1D(x1, x2, x3, ta);
+  return x > Scaleform::Render::Math2D::CalcPointOnQuadCurve1D(x1, x2, x3, v24);
 }

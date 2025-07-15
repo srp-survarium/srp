@@ -4,9 +4,9 @@ bignum_st *__usercall rsa_get_public_exp@<eax>(
         const bignum_st *p,
         const bignum_st *q)
 {
-  bignum_st *v4; // ebx
-  bignum_st *v5; // ebp
-  bignum_st *v6; // edi
+  bignum_pool_item *v4; // ebx
+  bignum_pool_item *v5; // ebp
+  bignum_pool_item *v6; // edi
   const bignum_st *v7; // eax
   const bignum_st *v8; // eax
   bignum_st *v9; // edi
@@ -18,11 +18,11 @@ bignum_st *__usercall rsa_get_public_exp@<eax>(
   v5 = BN_CTX_get(ctx);
   v6 = BN_CTX_get(ctx);
   if ( v6
-    && (v7 = BN_value_one(), BN_sub(v5, p, v7))
-    && (v8 = BN_value_one(), BN_sub(v6, q, v8))
+    && (v7 = BN_value_one(), BN_sub(v5->vals, p, v7))
+    && (v8 = BN_value_one(), BN_sub(v6->vals, q, v8))
     && BN_mul(v4, v5, v6, ctx) )
   {
-    v9 = BN_mod_inverse(0, d, v4, ctx);
+    v9 = BN_mod_inverse(0, d, v4->vals, ctx);
     BN_CTX_end(ctx);
     return v9;
   }

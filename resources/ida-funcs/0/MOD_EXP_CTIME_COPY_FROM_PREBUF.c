@@ -15,7 +15,7 @@ bignum_st *__usercall MOD_EXP_CTIME_COPY_FROM_PREBUF@<eax>(
 
   v5 = top;
   if ( top > b->dmax )
-    result = bn_expand2(b, (unsigned int *)top);
+    result = bn_expand2(b, top);
   else
     result = b;
   if ( result )

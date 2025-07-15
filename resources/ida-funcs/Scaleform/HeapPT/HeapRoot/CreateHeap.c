@@ -2,51 +2,51 @@ Scaleform::MemoryHeapPT *__thiscall Scaleform::HeapPT::HeapRoot::CreateHeap(
         Scaleform::HeapPT::HeapRoot *this,
         const char *name,
         Scaleform::MemoryHeapPT *parent,
-        const Scaleform::MemoryHeap::HeapDesc *desc)
+        Scaleform::SysAllocPaged *desc)
 {
   Scaleform::LockSafe *p_RootLock; // edi
-  unsigned int v6; // esi
+  Scaleform::Heap::HeapSegment *v6; // esi
   Scaleform::MemoryHeapPT *result; // eax
   Scaleform::MemoryHeapPT *v9; // eax
   Scaleform::MemoryHeapPT *v10; // ebx
   Scaleform::HeapPT::HeapRoot *v11; // eax
   Scaleform::HeapPT::AllocEngine *v12; // eax
-  unsigned int Flags; // ecx
-  unsigned int engineFlags; // [esp+Ch] [ebp-10h]
-  unsigned __int8 *heapBuf; // [esp+10h] [ebp-Ch]
+  Scaleform::SysAllocPaged_vtbl *v13; // ecx
+  char allocFlags; // [esp+Ch] [ebp-10h]
+  Scaleform::MemoryHeapPT *ptr; // [esp+10h] [ebp-Ch]
   Scaleform::HeapPT::Bookkeeper *p_AllocBookkeeper; // [esp+18h] [ebp-4h]
-  const Scaleform::MemoryHeap::HeapDesc *desca; // [esp+28h] [ebp+Ch]
-  const Scaleform::MemoryHeap::HeapDesc *descb; // [esp+28h] [ebp+Ch]
+  Scaleform::SysAllocPaged *sysAlloc; // [esp+28h] [ebp+Ch]
+  Scaleform::SysAllocPaged *sysAlloca; // [esp+28h] [ebp+Ch]
 
   p_RootLock = &this->RootLock;
   EnterCriticalSection(&this->RootLock.mLock.cs);
   LeaveCriticalSection(&p_RootLock->mLock.cs);
-  v6 = (strlen(name) + 680) & 0xFFFFFFF0;
+  v6 = (Scaleform::Heap::HeapSegment *)((strlen(name) + 680) & 0xFFFFFFF0);
   p_AllocBookkeeper = &this->AllocBookkeeper;
   result = (Scaleform::MemoryHeapPT *)Scaleform::HeapPT::Bookkeeper::Alloc(&this->AllocBookkeeper, v6);
-  heapBuf = (unsigned __int8 *)result;
+  ptr = result;
   if ( result )
   {
-    engineFlags = 0;
-    if ( (desc->Flags & 2) != 0 )
-      engineFlags = 16;
-    if ( (desc->Flags & 4) == 0 )
-      engineFlags |= 0x20u;
+    allocFlags = 0;
+    if ( ((int)desc->__vftable & 2) != 0 )
+      allocFlags = 16;
+    if ( ((int)desc->__vftable & 4) == 0 )
+      allocFlags |= 0x20u;
     Scaleform::MemoryHeapPT::MemoryHeapPT(result);
     v10 = v9;
-    if ( heapBuf == (unsigned __int8 *)-112 )
+    if ( ptr == (Scaleform::MemoryHeapPT *)-112 )
     {
       v12 = 0;
     }
     else
     {
-      desca = (const Scaleform::MemoryHeap::HeapDesc *)desc->Arena;
+      sysAlloc = (Scaleform::SysAllocPaged *)desc[7].__vftable;
       EnterCriticalSection(&p_RootLock->mLock.cs);
-      if ( desca )
+      if ( sysAlloc )
       {
-        descb = (const Scaleform::MemoryHeap::HeapDesc *)this->pArenas[(_DWORD)desca - 1];
+        sysAlloca = this->pArenas[(_DWORD)sysAlloc - 1];
         LeaveCriticalSection(&p_RootLock->mLock.cs);
-        v11 = (Scaleform::HeapPT::HeapRoot *)descb;
+        v11 = (Scaleform::HeapPT::HeapRoot *)sysAlloca;
       }
       else
       {
@@ -54,34 +54,34 @@ Scaleform::MemoryHeapPT *__thiscall Scaleform::HeapPT::HeapRoot::CreateHeap(
         v11 = this;
       }
       Scaleform::HeapPT::AllocEngine::AllocEngine(
-        (Scaleform::HeapPT::AllocEngine *)(heapBuf + 112),
+        (Scaleform::HeapPT::AllocEngine *)&ptr[1],
         &v11->AllocWrapper,
         v10,
-        engineFlags,
-        desc->MinAlign,
-        desc->Granularity,
-        desc->Reserve,
-        desc->Threshold,
-        desc->Limit);
+        allocFlags,
+        (unsigned int)desc[1].__vftable,
+        (unsigned int)desc[2].__vftable,
+        (unsigned int)desc[3].__vftable,
+        (unsigned int)desc[4].__vftable,
+        (unsigned int)desc[5].__vftable);
     }
     if ( v12->Valid )
     {
-      v10->SelfSize = v6;
+      v10->SelfSize = (unsigned int)v6;
       v10->RefCount = 1;
       v10->pAutoRelease = 0;
       qmemcpy(&v10->Info, desc, 0x20u);
       v10->Info.pParent = parent;
-      v10->Info.pName = (char *)(heapBuf + 664);
-      v10->UseLocks = (desc->Flags & 1) == 0;
-      Flags = desc->Flags;
+      v10->Info.pName = (char *)&ptr[5].pEngine;
+      v10->UseLocks = ((int)desc->__vftable & 1) == 0;
+      v13 = desc->__vftable;
       v10->pEngine = v12;
-      v10->TrackDebugInfo = (Flags & 0x10) == 0;
-      strcpy((char *)heapBuf + 664, name);
+      v10->TrackDebugInfo = ((unsigned __int8)v13 & 0x10) == 0;
+      strcpy((char *)&ptr[5].pEngine, name);
       return v10;
     }
     else
     {
-      Scaleform::HeapPT::Bookkeeper::Free(p_AllocBookkeeper, heapBuf, v6);
+      Scaleform::HeapPT::Bookkeeper::Free(p_AllocBookkeeper, (unsigned int)ptr, (unsigned int)v6);
       return 0;
     }
   }

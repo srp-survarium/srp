@@ -4,7 +4,7 @@ void __thiscall Scaleform::Render::DICommand_CopyPixels::ExecuteSW(
         Scaleform::Render::ImageData *dest,
         Scaleform::Render::ImageData **psrc)
 {
-  Scaleform::Render::Color v5; // ecx
+  Scaleform::Render::ImageData *v5; // ecx
   Scaleform::Render::ImagePlane *pPlanes; // eax
   int Height; // edx
   int *v8; // eax
@@ -17,176 +17,188 @@ void __thiscall Scaleform::Render::DICommand_CopyPixels::ExecuteSW(
   Scaleform::Render::TextureManager *v15; // eax
   Scaleform::Render::TextureManager *v16; // eax
   Scaleform::Render::ImageData *v17; // ebx
-  Scaleform::Render::ImageData *Raw; // ebx
+  unsigned int v18; // ebx
   Scaleform::Render::TextureManager *v19; // eax
   int y1; // ebx
   int v21; // esi
-  unsigned int v22; // edi
+  int v22; // edi
   int x1; // esi
-  unsigned int v24; // edi
+  int v24; // edi
   int v25; // eax
-  Scaleform::Render::Color *p_s; // eax
+  Scaleform::Render::ImageData **v26; // eax
   int v27; // eax
   int v28; // ecx
   unsigned __int8 v29; // bl
-  Scaleform::Render::Color final; // [esp+50h] [ebp-A0h]
-  float finala; // [esp+50h] [ebp-A0h]
-  Scaleform::Render::Color finalb; // [esp+50h] [ebp-A0h]
+  Scaleform::Render::ImageData *v30; // [esp+50h] [ebp-A0h]
+  float v31; // [esp+50h] [ebp-A0h]
+  unsigned int Raw; // [esp+50h] [ebp-A0h]
   float f; // [esp+54h] [ebp-9Ch]
-  bool alphaImage; // [esp+5Bh] [ebp-95h]
-  Scaleform::Render::Color s; // [esp+5Ch] [ebp-94h] BYREF
-  Scaleform::Render::Point<long> deltaAlpha; // [esp+60h] [ebp-90h] BYREF
+  bool v34; // [esp+5Bh] [ebp-95h]
+  Scaleform::Render::ImageData *v35; // [esp+5Ch] [ebp-94h] BYREF
+  Scaleform::Render::Point<long> v36; // [esp+60h] [ebp-90h] BYREF
   int v37; // [esp+68h] [ebp-88h]
-  int y; // [esp+6Ch] [ebp-84h]
-  Scaleform::Render::Color d; // [esp+70h] [ebp-80h] BYREF
-  Scaleform::Render::Rect<long> dstClippedRect; // [esp+74h] [ebp-7Ch] BYREF
-  Scaleform::Render::Point<long> delta; // [esp+84h] [ebp-6Ch] BYREF
-  Scaleform::Render::Rect<long> srcSize; // [esp+8Ch] [ebp-64h] BYREF
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+9Ch] [ebp-54h] BYREF
-  _BYTE v44[4]; // [esp+B4h] [ebp-3Ch] BYREF
+  int v38; // [esp+6Ch] [ebp-84h]
+  Scaleform::Render::Color v39; // [esp+70h] [ebp-80h] BYREF
+  Scaleform::Render::Rect<long> v40; // [esp+74h] [ebp-7Ch] BYREF
+  Scaleform::Render::Point<long> v41; // [esp+84h] [ebp-6Ch] BYREF
+  Scaleform::Render::Rect<long> result; // [esp+8Ch] [ebp-64h] BYREF
+  Scaleform::Render::Color c2; // [esp+9Ch] [ebp-54h] BYREF
+  int v44; // [esp+A0h] [ebp-50h]
+  Scaleform::Render::ImageData *v45; // [esp+A4h] [ebp-4Ch]
+  int v46; // [esp+A8h] [ebp-48h]
+  int v47; // [esp+ACh] [ebp-44h]
+  int v48; // [esp+B0h] [ebp-40h]
+  _BYTE v49[4]; // [esp+B4h] [ebp-3Ch] BYREF
   int i; // [esp+B8h] [ebp-38h]
   int j; // [esp+BCh] [ebp-34h]
-  Scaleform::Render::ImageSwizzlerContext srcSwiz; // [esp+C0h] [ebp-30h] BYREF
-  Scaleform::Render::ImageSwizzlerContext alphaSwiz; // [esp+D8h] [ebp-18h] BYREF
+  _DWORD v52[6]; // [esp+C0h] [ebp-30h] BYREF
+  _DWORD v53[6]; // [esp+D8h] [ebp-18h] BYREF
 
-  v5 = (Scaleform::Render::Color)*psrc;
+  v5 = *psrc;
   pPlanes = dest->pPlanes;
   Height = pPlanes->Height;
-  deltaAlpha.x = pPlanes->Width;
-  v8 = *(int **)(*(_DWORD *)&v5 + 12);
+  v36.x = pPlanes->Width;
+  v8 = (int *)v5->pPlanes;
   v9 = v8[1];
-  deltaAlpha.y = Height;
+  v36.y = Height;
   v10 = *v8;
-  srcSize.y1 = v9;
-  srcSize.x1 = v10;
-  memset(&dstClippedRect, 0, sizeof(dstClippedRect));
+  result.y1 = v9;
+  result.x1 = v10;
+  memset(&v40, 0, sizeof(v40));
   if ( Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
          this,
-         (const Scaleform::Render::Size<unsigned long> *)&srcSize,
-         (const Scaleform::Render::Size<unsigned long> *)&deltaAlpha,
+         (const Scaleform::Render::Size<unsigned long> *)&result,
+         (const Scaleform::Render::Size<unsigned long> *)&v36,
          &this->SourceRect,
-         &dstClippedRect,
-         &delta) )
+         &v40,
+         &v41) )
   {
-    alphaImage = this->pAlphaSource.pObject != 0;
+    v34 = this->pAlphaSource.pObject != 0;
     if ( this->pAlphaSource.pObject )
     {
       v11 = this->SourceRect.y2 - this->SourceRect.y1;
       v12 = this->SourceRect.x2 - this->SourceRect.x1;
       x = this->AlphaPoint.x;
-      s = (Scaleform::Render::Color)psrc[1];
+      v35 = psrc[1];
       v14 = this->AlphaPoint.y + v11;
-      srcSize.y1 = this->AlphaPoint.y;
-      srcSize.y2 = v14;
-      srcSize.x2 = x + v12;
-      srcSize.x1 = x;
-      if ( !Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
-              this,
-              (const Scaleform::Render::ImageData *)s.Raw,
-              dest,
-              &srcSize,
-              &dstClippedRect,
-              &deltaAlpha) )
+      result.y1 = this->AlphaPoint.y;
+      result.y2 = v14;
+      result.x2 = x + v12;
+      result.x1 = x;
+      if ( !Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(this, v35, dest, &result, &v40, &v36) )
         return;
     }
     else
     {
-      s = (Scaleform::Render::Color)*psrc;
-      deltaAlpha = delta;
+      v35 = *psrc;
+      v36 = v41;
     }
     v15 = context->pHAL->GetTextureManager(context->pHAL);
-    dstSwiz.Swizzler = v15->GetImageSwizzler(v15);
-    dstSwiz.pCurrentScanline = 0;
-    dstSwiz.pImage = dest;
-    memset(&dstSwiz.CachedBlockY, 0, 12);
-    dstSwiz.Swizzler->Initialize(dstSwiz.Swizzler, &dstSwiz);
+    c2 = (Scaleform::Render::Color)v15->GetImageSwizzler(v15);
+    v44 = 0;
+    v45 = dest;
+    v46 = 0;
+    v47 = 0;
+    v48 = 0;
+    (*(void (__thiscall **)(Scaleform::Render::Color, Scaleform::Render::Color *))(*(_DWORD *)c2.Raw + 4))(c2, &c2);
     v16 = context->pHAL->GetTextureManager(context->pHAL);
     v17 = *psrc;
-    srcSwiz.Swizzler = v16->GetImageSwizzler(v16);
-    srcSwiz.pCurrentScanline = 0;
-    srcSwiz.pImage = v17;
-    memset(&srcSwiz.CachedBlockY, 0, 12);
-    srcSwiz.Swizzler->Initialize(srcSwiz.Swizzler, &srcSwiz);
-    if ( alphaImage )
-      Raw = (Scaleform::Render::ImageData *)s.Raw;
+    v52[0] = v16->GetImageSwizzler(v16);
+    v52[1] = 0;
+    v52[2] = v17;
+    memset(&v52[3], 0, 12);
+    (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v52[0] + 4))(v52[0], v52);
+    if ( v34 )
+      v18 = (unsigned int)v35;
     else
-      Raw = *psrc;
+      v18 = (unsigned int)*psrc;
     v19 = context->pHAL->GetTextureManager(context->pHAL);
-    alphaSwiz.Swizzler = v19->GetImageSwizzler(v19);
-    alphaSwiz.pCurrentScanline = 0;
-    alphaSwiz.pImage = Raw;
-    memset(&alphaSwiz.CachedBlockY, 0, 12);
-    alphaSwiz.Swizzler->Initialize(alphaSwiz.Swizzler, &alphaSwiz);
-    y1 = dstClippedRect.y1;
-    y = dstClippedRect.y1;
-    if ( dstClippedRect.y1 < dstClippedRect.y2 )
+    v53[0] = v19->GetImageSwizzler(v19);
+    v53[1] = 0;
+    v53[2] = v18;
+    memset(&v53[3], 0, 12);
+    (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v53[0] + 4))(v53[0], v53);
+    y1 = v40.y1;
+    v38 = v40.y1;
+    if ( v40.y1 < v40.y2 )
     {
-      v21 = deltaAlpha.y - delta.y;
-      v22 = dstClippedRect.y1 - deltaAlpha.y;
-      v37 = dstClippedRect.y1 - deltaAlpha.y;
-      for ( i = deltaAlpha.y - delta.y; ; v21 = i )
+      v21 = v36.y - v41.y;
+      v22 = v40.y1 - v36.y;
+      v37 = v40.y1 - v36.y;
+      for ( i = v36.y - v41.y; ; v21 = i )
       {
-        dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, y1);
-        srcSwiz.Swizzler->CacheScanline(srcSwiz.Swizzler, &srcSwiz, v22 + v21);
-        alphaSwiz.Swizzler->CacheScanline(alphaSwiz.Swizzler, &alphaSwiz, v22);
-        x1 = dstClippedRect.x1;
-        if ( dstClippedRect.x1 < dstClippedRect.x2 )
+        (*(void (__thiscall **)(Scaleform::Render::Color, Scaleform::Render::Color *, int))(*(_DWORD *)c2.Raw + 8))(
+          c2,
+          &c2,
+          y1);
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v52[0] + 8))(v52[0], v52, v22 + v21);
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v53[0] + 8))(v53[0], v53, v22);
+        x1 = v40.x1;
+        if ( v40.x1 < v40.x2 )
         {
-          v24 = dstClippedRect.x1 - deltaAlpha.x;
-          v25 = deltaAlpha.x - delta.x;
-          for ( j = deltaAlpha.x - delta.x; ; v25 = j )
+          v24 = v40.x1 - v36.x;
+          v25 = v36.x - v41.x;
+          for ( j = v36.x - v41.x; ; v25 = j )
           {
-            srcSwiz.Swizzler->GetPixelInScanline(srcSwiz.Swizzler, &s, &srcSwiz, v24 + v25);
+            (*(void (__thiscall **)(_DWORD, Scaleform::Render::ImageData **, _DWORD *, int))(*(_DWORD *)v52[0] + 20))(
+              v52[0],
+              &v35,
+              v52,
+              v24 + v25);
             if ( !this->pSource.pObject->Transparent )
-              s.Channels.Alpha = -1;
-            if ( alphaImage )
+              HIBYTE(v35) = -1;
+            if ( v34 )
             {
-              alphaSwiz.Swizzler->GetPixelInScanline(
-                alphaSwiz.Swizzler,
-                (Scaleform::Render::Color *)v44,
-                &alphaSwiz,
-                v24);
-              p_s = (Scaleform::Render::Color *)v44;
+              (*(void (__thiscall **)(_DWORD, _BYTE *, _DWORD *, int))(*(_DWORD *)v53[0] + 20))(v53[0], v49, v53, v24);
+              v26 = (Scaleform::Render::ImageData **)v49;
             }
             else
             {
-              p_s = &s;
+              v26 = &v35;
             }
-            final = (Scaleform::Render::Color)p_s->Raw;
-            dstSwiz.Swizzler->GetPixelInScanline(dstSwiz.Swizzler, &d, &dstSwiz, x1);
-            if ( alphaImage )
-              v27 = final.Channels.Alpha + 1;
+            v30 = *v26;
+            (*(void (__thiscall **)(Scaleform::Render::Color, Scaleform::Render::Color *, Scaleform::Render::Color *, int))(*(_DWORD *)c2.Raw + 20))(
+              c2,
+              &v39,
+              &c2,
+              x1);
+            if ( v34 )
+              v27 = HIBYTE(v30) + 1;
             else
               v27 = 256;
-            v28 = (v27 * s.Channels.Alpha) >> 8;
-            v29 = (unsigned __int16)(v27 * s.Channels.Alpha) >> 8;
+            v28 = (v27 * HIBYTE(v35)) >> 8;
+            v29 = (unsigned __int16)(v27 * HIBYTE(v35)) >> 8;
             if ( this->MergeAlpha )
             {
-              finala = (double)d.Channels.Alpha / 255.0;
-              v29 = (int)(finala * (double)(255 - (unsigned __int8)v28) + (double)(unsigned __int8)v28);
+              v31 = (double)v39.Channels.Alpha / 255.0;
+              v29 = (int)(v31 * (double)(255 - (unsigned __int8)v28) + (double)(unsigned __int8)v28);
             }
             if ( !this->pImage.pObject->Transparent )
               v29 = -1;
             f = (double)(unsigned __int8)v28 / (double)v29;
-            finalb = (Scaleform::Render::Color)Scaleform::Render::Color::Blend(
-                                                 (Scaleform::Render::Color *)&srcSize,
-                                                 d,
-                                                 s,
-                                                 f)->Raw;
-            finalb.Channels.Alpha = v29;
-            dstSwiz.Swizzler->SetPixelInScanline(dstSwiz.Swizzler, &dstSwiz, x1++, (unsigned int)finalb);
+            Raw = Scaleform::Render::Color::Blend(
+                    (Scaleform::Render::Color *)&result,
+                    v39,
+                    (Scaleform::Render::Color)v35,
+                    f)->Raw;
+            HIBYTE(Raw) = v29;
+            (*(void (__thiscall **)(Scaleform::Render::Color, Scaleform::Render::Color *, int, unsigned int))(*(_DWORD *)c2.Raw + 12))(
+              c2,
+              &c2,
+              x1++,
+              Raw);
             ++v24;
-            if ( x1 >= dstClippedRect.x2 )
+            if ( x1 >= v40.x2 )
               break;
           }
-          y1 = y;
+          y1 = v38;
           v22 = v37;
         }
         ++y1;
         ++v22;
-        y = y1;
+        v38 = y1;
         v37 = v22;
-        if ( y1 >= dstClippedRect.y2 )
+        if ( y1 >= v40.y2 )
           break;
       }
     }

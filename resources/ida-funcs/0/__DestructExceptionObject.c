@@ -3,7 +3,7 @@ void __cdecl __DestructExceptionObject(EHExceptionRecord *pExcept)
   const _s_ThrowInfo *pThrowInfo; // eax
   void (__cdecl *pmfnUnwind)(); // eax
   void *v3; // [esp+0h] [ebp-28h]
-  void *v4; // [esp+4h] [ebp-24h]
+  int v4; // [esp+4h] [ebp-24h]
 
   if ( pExcept )
   {

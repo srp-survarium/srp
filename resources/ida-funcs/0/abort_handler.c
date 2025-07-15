@@ -1,4 +1,4 @@
-void __thiscall abort_handler(survarium::game_camera *this)
+void __cdecl abort_handler()
 {
-  handler_base(this);
+  handler_base("application is aborting");
 }

@@ -4,7 +4,7 @@ btDiscreteDynamicsWorld::solveConstraints::__l2::InplaceSolverIslandCallback *__
 {
   `btDiscreteDynamicsWorld::solveConstraints'::`2'::InplaceSolverIslandCallback::~InplaceSolverIslandCallback(
     this,
-    (int)this);
+    this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

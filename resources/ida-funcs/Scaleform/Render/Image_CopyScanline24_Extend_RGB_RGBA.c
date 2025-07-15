@@ -1,6 +1,6 @@
 void __stdcall Scaleform::Render::Image_CopyScanline24_Extend_RGB_RGBA(
         unsigned __int8 *pd,
-        const unsigned __int8 *ps,
+        unsigned __int8 *ps,
         unsigned int size,
         Scaleform::Render::Palette *__formal,
         void *a5)

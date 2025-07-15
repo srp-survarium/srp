@@ -1,6 +1,6 @@
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::ArrayProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::ArrayProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::ArrayProto *)(this - 16),
@@ -42,9 +42,9 @@ Scaleform::GFx::AS2::BevelFilterProto *__thiscall Scaleform::GFx::AS2::Prototype
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BevelFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BevelFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BevelFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BevelFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::BevelFilterProto *)(this - 16),
@@ -62,9 +62,9 @@ Scaleform::GFx::AS2::BevelFilterProto *__thiscall Scaleform::GFx::AS2::Prototype
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BitmapFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::BitmapFilterProto *)(this - 16),
@@ -72,9 +72,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilte
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BitmapFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilterObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::BitmapFilterProto *)(this - 56),
@@ -82,9 +82,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BitmapFilte
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BlurFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BlurFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BlurFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::BlurFilterProto::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::BlurFilterProto *)(this - 16),
@@ -120,9 +120,9 @@ Scaleform::GFx::AS2::BooleanProto *__thiscall Scaleform::GFx::AS2::Prototype<Sca
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BooleanProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::BooleanProto *)(this - 16),
@@ -130,9 +130,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObje
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::BooleanProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::BooleanProto *)(this - 56),
@@ -140,9 +140,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::BooleanObje
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorMatrixFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::ColorMatrixFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorMatrixFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::ColorMatrixFilterProto::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::ColorMatrixFilterProto *)(this - 56),
@@ -150,9 +150,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorMatrix
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::ColorProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::ColorProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::ColorProto *)(this - 16),
@@ -160,9 +160,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorObject
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DropShadowFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::DropShadowFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DropShadowFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::DropShadowFilterProto::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::DropShadowFilterProto *)(this - 56),
@@ -180,9 +180,9 @@ Scaleform::GFx::AS2::GASImeProto *__thiscall Scaleform::GFx::AS2::Prototype<Scal
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::GlowFilterProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::GlowFilterProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::GlowFilterProto *)(this - 16),
@@ -190,17 +190,17 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterO
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::KeyObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::KeyProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::KeyObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::KeyProto::`vector deleting destructor'((Scaleform::GFx::AS2::KeyProto *)(this - 52), a2);
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::LoadVarsObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::LoadVarsProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::LoadVarsObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::LoadVarsProto::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::LoadVarsProto *)(this - 16),
@@ -226,9 +226,9 @@ Scaleform::GFx::AS2::MatrixProto *__thiscall Scaleform::GFx::AS2::Prototype<Scal
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::MatrixProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::MatrixProto *)(this - 16),
@@ -236,9 +236,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::MatrixProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::MatrixProto *)(this - 52),
@@ -246,9 +246,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MatrixObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MouseObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::SelectionProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MouseObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::FunctionProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::SelectionProto *)(this - 16),
@@ -275,9 +275,9 @@ Scaleform::GFx::AS2::MovieClipLoaderProto *__thiscall Scaleform::GFx::AS2::Proto
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipLoader,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::MovieClipLoaderProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipLoader,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipLoader,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::MovieClipLoaderProto *)(this - 56),
@@ -296,9 +296,9 @@ Scaleform::GFx::AS2::NumberProto *__thiscall Scaleform::GFx::AS2::Prototype<Scal
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::NumberProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::NumberProto *)(this - 16),
@@ -306,9 +306,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::NumberProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::NumberProto *)(this - 72),
@@ -316,9 +316,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::NumberObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::PointObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::PointProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::PointObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::PointProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::PointProto *)(this - 16),
@@ -326,9 +326,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::PointObject
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::RectangleProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::RectangleProto *)(this - 16),
@@ -336,9 +336,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleOb
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::RectangleProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::RectangleProto *)(this - 52),
@@ -346,9 +346,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleOb
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::SharedObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::SharedObjectProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::SharedObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::SharedObjectProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::SharedObjectProto *)(this - 60),
@@ -356,9 +356,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::SharedObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::StringProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::StringProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::StringProto *)(this - 16),
@@ -366,9 +366,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObjec
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::TextFieldProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::TextFieldProto *)(this - 60),
@@ -406,9 +406,9 @@ Scaleform::GFx::AS2::TextFormatProto *__thiscall Scaleform::GFx::AS2::Prototype<
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextSnapshotObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::TextSnapshotProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextSnapshotObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::TextSnapshotProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::TextSnapshotProto *)(this - 16),
@@ -416,9 +416,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextSnapsho
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::TransformProto *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::TransformProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::TransformProto *)(this - 16),
@@ -437,9 +437,9 @@ Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment> *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment> *)(this - 16),
@@ -447,9 +447,9 @@ void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObje
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
+Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment> *__thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
         char *this,
-        unsigned int a2)
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::`vector deleting destructor'(
            (Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment> *)(this - 60),

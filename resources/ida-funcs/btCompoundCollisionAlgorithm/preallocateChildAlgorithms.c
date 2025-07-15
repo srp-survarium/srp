@@ -4,120 +4,113 @@ void __usercall btCompoundCollisionAlgorithm::preallocateChildAlgorithms(
         btCollisionObject *body1@<ecx>)
 {
   bool m_isSwapped; // al
-  btCollisionObject *v4; // ebp
-  int m_shapeType; // ebx
-  int m_size; // edi
-  int v7; // edx
-  int v8; // eax
-  btCollisionAlgorithm **v9; // ecx
-  btCollisionAlgorithm **m_data; // eax
-  int i; // eax
-  btCollisionAlgorithm **v12; // ecx
-  int v13; // edi
-  btCollisionShape *m_collisionShape; // ebx
-  btCollisionAlgorithm **v15; // ebp
-  btCollisionObject *colObj; // [esp+Ch] [ebp-18h]
-  btCollisionAlgorithm **v17; // [esp+10h] [ebp-14h]
-  int v18; // [esp+10h] [ebp-14h]
-  btCollisionObject *otherObj; // [esp+14h] [ebp-10h]
-  int v20; // [esp+18h] [ebp-Ch]
-  btCompoundShape *compoundShape; // [esp+1Ch] [ebp-8h]
-  int numChildren; // [esp+20h] [ebp-4h]
+  btCollisionObject *v4; // ebx
+  btCollisionShape *m_collisionShape; // edx
+  int m_shapeType; // edi
+  int m_size; // ecx
+  int v8; // ecx
+  btCollisionAlgorithm **v9; // eax
+  btCollisionAlgorithm **v10; // eax
+  btCollisionShape *v11; // edi
+  btCollisionAlgorithm **v12; // ebx
+  int v13; // [esp+8h] [ebp-1Ch]
+  int v14; // [esp+Ch] [ebp-18h]
+  btCollisionObject *v15; // [esp+10h] [ebp-14h]
+  btCollisionShape *v16; // [esp+14h] [ebp-10h]
+  int v17; // [esp+18h] [ebp-Ch]
+  int v18; // [esp+18h] [ebp-Ch]
+  btCollisionAlgorithm **v19; // [esp+1Ch] [ebp-8h]
+  int v20; // [esp+1Ch] [ebp-8h]
+  btCollisionObject *v21; // [esp+20h] [ebp-4h]
 
   m_isSwapped = this->m_isSwapped;
   if ( m_isSwapped )
   {
     v4 = body1;
-    colObj = body1;
+    v21 = body1;
   }
   else
   {
-    colObj = body0;
+    v21 = body0;
     v4 = body0;
   }
-  otherObj = body0;
+  v15 = body0;
   if ( !m_isSwapped )
-    otherObj = body1;
-  m_shapeType = v4->m_collisionShape[1].m_shapeType;
+    v15 = body1;
+  m_collisionShape = v4->m_collisionShape;
+  m_shapeType = m_collisionShape[1].m_shapeType;
   m_size = this->m_childCollisionAlgorithms.m_size;
-  compoundShape = (btCompoundShape *)v4->m_collisionShape;
-  numChildren = m_shapeType;
-  v20 = m_size;
+  v16 = m_collisionShape;
+  v13 = m_shapeType;
+  v14 = m_size;
   if ( m_shapeType >= m_size )
   {
     if ( m_shapeType > m_size && this->m_childCollisionAlgorithms.m_capacity < m_shapeType )
     {
       if ( m_shapeType )
-      {
-        ++gNumAlignedAllocs;
-        v17 = (btCollisionAlgorithm **)sAlignedAllocFunc(4 * m_shapeType, 16);
-      }
+        v19 = (btCollisionAlgorithm **)btAlignedAllocInternal(4 * m_shapeType);
       else
-      {
-        v17 = 0;
-      }
-      v7 = this->m_childCollisionAlgorithms.m_size;
+        v19 = 0;
       v8 = 0;
-      if ( v7 > 0 )
+      v17 = this->m_childCollisionAlgorithms.m_size;
+      if ( v17 > 0 )
       {
-        v9 = v17;
+        v9 = v19;
         do
         {
           if ( v9 )
-          {
             *v9 = this->m_childCollisionAlgorithms.m_data[v8];
-            m_size = v20;
-          }
           ++v8;
           ++v9;
         }
-        while ( v8 < v7 );
+        while ( v8 < v17 );
       }
-      m_data = this->m_childCollisionAlgorithms.m_data;
-      if ( m_data )
+      if ( this->m_childCollisionAlgorithms.m_data )
       {
         if ( this->m_childCollisionAlgorithms.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
+          btAlignedFreeInternal(this->m_childCollisionAlgorithms.m_data);
         this->m_childCollisionAlgorithms.m_data = 0;
       }
+      m_size = v14;
+      m_collisionShape = v16;
       this->m_childCollisionAlgorithms.m_ownsMemory = 1;
-      this->m_childCollisionAlgorithms.m_data = v17;
+      this->m_childCollisionAlgorithms.m_data = v19;
       this->m_childCollisionAlgorithms.m_capacity = m_shapeType;
     }
-    for ( i = m_size; i < m_shapeType; ++i )
+    while ( m_size < m_shapeType )
     {
-      v12 = &this->m_childCollisionAlgorithms.m_data[i];
-      if ( v12 )
-        *v12 = 0;
+      v10 = &this->m_childCollisionAlgorithms.m_data[m_size];
+      if ( v10 )
+        *v10 = 0;
+      ++m_size;
     }
   }
-  v13 = 0;
+  v20 = 0;
   this->m_childCollisionAlgorithms.m_size = m_shapeType;
   if ( m_shapeType > 0 )
   {
     v18 = 0;
-    do
+    while ( 1 )
     {
-      if ( compoundShape->m_dynamicAabbTree )
+      if ( m_collisionShape[5].m_shapeType )
       {
-        this->m_childCollisionAlgorithms.m_data[v13] = 0;
+        this->m_childCollisionAlgorithms.m_data[v20] = 0;
       }
       else
       {
-        m_collisionShape = v4->m_collisionShape;
-        v4->m_collisionShape = compoundShape->m_children.m_data[v18].m_childShape;
-        v15 = &this->m_childCollisionAlgorithms.m_data[v13];
-        *v15 = this->m_dispatcher->findAlgorithm(this->m_dispatcher, colObj, otherObj, this->m_sharedManifold);
-        colObj->m_collisionShape = m_collisionShape;
-        m_shapeType = numChildren;
-        v4 = colObj;
+        v11 = v4->m_collisionShape;
+        v4->m_collisionShape = *(btCollisionShape **)((char *)&m_collisionShape[2].__vftable[1].getBoundingSphere + v18);
+        v12 = &this->m_childCollisionAlgorithms.m_data[v20];
+        *v12 = this->m_dispatcher->findAlgorithm(this->m_dispatcher, v21, v15, this->m_sharedManifold);
+        v21->m_collisionShape = v11;
+        m_shapeType = v13;
+        v4 = v21;
       }
-      ++v18;
-      ++v13;
+      ++v20;
+      v18 += 80;
+      if ( v20 >= m_shapeType )
+        break;
+      m_collisionShape = v16;
     }
-    while ( v13 < m_shapeType );
   }
 }

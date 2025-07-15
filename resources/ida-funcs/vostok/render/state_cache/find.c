@@ -1,146 +1,74 @@
-ID3D11BlendState *__userpurge vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC>::find@<eax>(
-        vostok::render::state_cache<ID3D11BlendState,D3D11_BLEND_DESC> *this@<ecx>,
-        int *a2@<edi>,
-        const D3D11_BLEND_DESC *desc,
+ID3D11RasterizerState *__userpurge vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::find@<eax>(
+        vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32> *this@<eax>,
+        const D3D11_RASTERIZER_DESC *desc@<esi>,
         unsigned int CRC)
 {
-  int v4; // eax
-  int v5; // esi
-  D3D11_BLEND_DESC desc_candidate; // [esp+10h] [ebp-10Ch] BYREF
+  int v3; // ebx
+  unsigned int v4; // edx
+  vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC,32>::state_record *i; // ecx
 
-  v4 = *a2;
-  v5 = 0;
-  if ( !((a2[1] - *a2) >> 3) )
+  v3 = 0;
+  v4 = this->states.m_end - this->states.m_begin;
+  if ( !v4 )
     return 0;
-  while ( 1 )
+  for ( i = this->states.m_begin;
+        i->crc != CRC
+     || i->desc.FillMode != desc->FillMode
+     || i->desc.CullMode != desc->CullMode
+     || i->desc.FrontCounterClockwise != desc->FrontCounterClockwise
+     || i->desc.DepthBias != desc->DepthBias
+     || i->desc.DepthBiasClamp != desc->DepthBiasClamp
+     || i->desc.SlopeScaledDepthBias != desc->SlopeScaledDepthBias
+     || i->desc.DepthClipEnable != desc->DepthClipEnable
+     || i->desc.ScissorEnable != desc->ScissorEnable
+     || i->desc.MultisampleEnable != desc->MultisampleEnable
+     || i->desc.AntialiasedLineEnable != desc->AntialiasedLineEnable;
+        ++i )
   {
-    if ( *(_DWORD *)(v4 + 8 * v5) == CRC )
-    {
-      (*(void (__stdcall **)(_DWORD, D3D11_BLEND_DESC *))(**(_DWORD **)(v4 + 8 * v5 + 4) + 28))(
-        *(_DWORD *)(v4 + 8 * v5 + 4),
-        &desc_candidate);
-      if ( vostok::render::state_utils::operator==(&desc_candidate, desc) )
-        break;
-    }
-    v4 = *a2;
-    if ( ++v5 >= (unsigned int)((a2[1] - *a2) >> 3) )
+    if ( ++v3 >= v4 )
       return 0;
   }
-  if ( v5 == -1 )
+  if ( v3 == -1 )
     return 0;
   else
-    return *(ID3D11BlendState **)(*a2 + 8 * v5 + 4);
+    return this->states.m_begin[v3].state;
 }
 
 
-ID3D11DepthStencilState *__userpurge vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC>::find@<eax>(
-        vostok::render::state_cache<ID3D11DepthStencilState,D3D11_DEPTH_STENCIL_DESC> *this@<ecx>,
-        int *a2@<edi>,
-        const D3D11_DEPTH_STENCIL_DESC *desc,
+ID3D11SamplerState *__userpurge vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC,32>::find@<eax>(
+        vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC,32> *this@<eax>,
+        const D3D11_SAMPLER_DESC *desc@<esi>,
         unsigned int CRC)
 {
-  int v4; // eax
-  int v5; // esi
-  D3D11_DEPTH_STENCIL_DESC desc_candidate; // [esp+Ch] [ebp-34h] BYREF
+  int v3; // ebx
+  vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC,32>::state_record *i; // ecx
+  unsigned int v6; // [esp+8h] [ebp-4h]
 
-  v4 = *a2;
-  v5 = 0;
-  if ( !((a2[1] - *a2) >> 3) )
+  v3 = 0;
+  v6 = this->states.m_end - this->states.m_begin;
+  if ( !v6 )
     return 0;
-  while ( 1 )
+  for ( i = this->states.m_begin;
+        i->crc != CRC
+     || i->desc.Filter != desc->Filter
+     || i->desc.AddressU != desc->AddressU
+     || i->desc.AddressV != desc->AddressV
+     || i->desc.AddressW != desc->AddressW
+     || i->desc.MipLODBias != desc->MipLODBias
+     || i->desc.ComparisonFunc != desc->ComparisonFunc
+     || i->desc.BorderColor[0] != desc->BorderColor[0]
+     || i->desc.BorderColor[1] != desc->BorderColor[1]
+     || i->desc.BorderColor[2] != desc->BorderColor[2]
+     || i->desc.BorderColor[3] != desc->BorderColor[3]
+     || i->desc.MinLOD != desc->MinLOD
+     || i->desc.MaxLOD != desc->MaxLOD;
+        ++i )
   {
-    if ( *(_DWORD *)(v4 + 8 * v5) == CRC )
-    {
-      (*(void (__stdcall **)(_DWORD, D3D11_DEPTH_STENCIL_DESC *))(**(_DWORD **)(v4 + 8 * v5 + 4) + 28))(
-        *(_DWORD *)(v4 + 8 * v5 + 4),
-        &desc_candidate);
-      if ( vostok::render::state_utils::operator==(&desc_candidate, desc) )
-        break;
-    }
-    v4 = *a2;
-    if ( ++v5 >= (unsigned int)((a2[1] - *a2) >> 3) )
+    if ( ++v3 >= v6 )
       return 0;
   }
-  if ( v5 == -1 )
+  if ( v3 == -1 )
     return 0;
   else
-    return *(ID3D11DepthStencilState **)(*a2 + 8 * v5 + 4);
-}
-
-
-ID3D11RasterizerState *__userpurge vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::find@<eax>(
-        const D3D11_RASTERIZER_DESC *desc@<edi>,
-        vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC> *this,
-        unsigned int CRC)
-{
-  vostok::render::state_cache<ID3D11RasterizerState,D3D11_RASTERIZER_DESC>::state_record *M_start; // eax
-  int v4; // esi
-  D3D11_RASTERIZER_DESC desc_candidate; // [esp+10h] [ebp-2Ch] BYREF
-
-  M_start = this->states._M_impl._M_start;
-  v4 = 0;
-  if ( !(this->states._M_impl._M_finish - this->states._M_impl._M_start) )
-    return 0;
-  while ( 1 )
-  {
-    if ( M_start[v4].crc == CRC )
-    {
-      M_start[v4].state->GetDesc(M_start[v4].state, &desc_candidate);
-      if ( desc_candidate.FillMode == desc->FillMode
-        && desc_candidate.CullMode == desc->CullMode
-        && desc_candidate.FrontCounterClockwise == desc->FrontCounterClockwise
-        && desc_candidate.DepthBias == desc->DepthBias
-        && desc_candidate.DepthBiasClamp == desc->DepthBiasClamp
-        && desc_candidate.SlopeScaledDepthBias == desc->SlopeScaledDepthBias
-        && desc_candidate.DepthClipEnable == desc->DepthClipEnable
-        && desc_candidate.ScissorEnable == desc->ScissorEnable
-        && desc_candidate.MultisampleEnable == desc->MultisampleEnable
-        && desc_candidate.AntialiasedLineEnable == desc->AntialiasedLineEnable )
-      {
-        break;
-      }
-    }
-    M_start = this->states._M_impl._M_start;
-    if ( ++v4 >= (unsigned int)(this->states._M_impl._M_finish - this->states._M_impl._M_start) )
-      return 0;
-  }
-  if ( v4 == -1 )
-    return 0;
-  else
-    return this->states._M_impl._M_start[v4].state;
-}
-
-
-ID3D11SamplerState *__userpurge vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC>::find@<eax>(
-        vostok::render::state_cache<ID3D11SamplerState,D3D11_SAMPLER_DESC> *this@<ecx>,
-        int *a2@<edi>,
-        const D3D11_SAMPLER_DESC *desc,
-        unsigned int CRC)
-{
-  int v4; // eax
-  int v5; // esi
-  D3D11_SAMPLER_DESC desc_candidate; // [esp+Ch] [ebp-34h] BYREF
-
-  v4 = *a2;
-  v5 = 0;
-  if ( !((a2[1] - *a2) >> 3) )
-    return 0;
-  while ( 1 )
-  {
-    if ( *(_DWORD *)(v4 + 8 * v5) == CRC )
-    {
-      (*(void (__stdcall **)(_DWORD, D3D11_SAMPLER_DESC *))(**(_DWORD **)(v4 + 8 * v5 + 4) + 28))(
-        *(_DWORD *)(v4 + 8 * v5 + 4),
-        &desc_candidate);
-      if ( vostok::render::state_utils::operator==(&desc_candidate, desc) )
-        break;
-    }
-    v4 = *a2;
-    if ( ++v5 >= (unsigned int)((a2[1] - *a2) >> 3) )
-      return 0;
-  }
-  if ( v5 == -1 )
-    return 0;
-  else
-    return *(ID3D11SamplerState **)(*a2 + 8 * v5 + 4);
+    return this->states.m_begin[v3].state;
 }

@@ -5,7 +5,7 @@ void __cdecl Scaleform::GFx::AS3::escapeMultiByteInternal(
 {
   Scaleform::GFx::AS3::VM *pData; // esi
   char v4; // bl
-  const Scaleform::GFx::AS3::ClassTraits::Traits *v5; // eax
+  Scaleform::GFx::AS3::ClassTraits::Traits *v5; // eax
   Scaleform::GFx::ASStringNode *StringNode; // eax
   Scaleform::GFx::ASString *v7; // edi
   Scaleform::GFx::ASStringNode *v8; // esi
@@ -22,17 +22,20 @@ void __cdecl Scaleform::GFx::AS3::escapeMultiByteInternal(
   qname.pStr = "flash.utils.System";
   qname.Size = 18;
   Scaleform::GFx::AS3::Multiname::Multiname(&mn, (const Scaleform::GFx::AS3::VM *)vm.pData, &qname);
-  v5 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(pData, &mn, pData->CurrentDomain);
+  v5 = (Scaleform::GFx::AS3::ClassTraits::Traits *)Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
+                                                     pData,
+                                                     &mn,
+                                                     pData->CurrentDomain);
   if ( v5 && v5->ITraits.pObject )
-    v4 = (char)Scaleform::GFx::AS3::Traits::GetConstructor(&v5->Scaleform::GFx::AS3::Traits)[1].__vftable;
+    v4 = (char)Scaleform::GFx::AS3::Traits::GetConstructor(v5)[1].__vftable;
   Scaleform::String::String(&vm);
   if ( v4 )
-    Scaleform::GFx::ASUtils::Escape(value->pNode->pData, value->pNode->Size, &vm);
+    Scaleform::GFx::ASUtils::Escape((char *)value->pNode->pData, value->pNode->Size, &vm);
   else
-    Scaleform::GFx::ASUtils::AS3::Escape(value->pNode->pData, value->pNode->Size, &vm, 0);
+    Scaleform::GFx::ASUtils::AS3::Escape((char *)value->pNode->pData, value->pNode->Size, &vm, 0);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  pData->StringManagerRef->pStringManager,
-                 (char *)((vm.HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((vm.HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(vm.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   v7 = result;
   v8 = StringNode;
@@ -59,7 +62,7 @@ void __cdecl Scaleform::GFx::AS3::escapeMultiByteInternal(
   {
     RefCount = mn.Obj.pObject->RefCount;
     pObject = mn.Obj.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       mn.Obj.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

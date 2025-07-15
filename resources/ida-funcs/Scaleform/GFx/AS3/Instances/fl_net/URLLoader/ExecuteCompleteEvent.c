@@ -27,7 +27,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::ExecuteComple
       {
         RefCount = efe.pObject->RefCount;
         pObject = efe.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           efe.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

@@ -13,5 +13,5 @@ void __thiscall btDefaultSoftBodySolver::processCollision(
         btSoftBody *softBody,
         btCollisionObject *collisionObject)
 {
-  btSoftBody::defaultCollisionHandler((btSoftBody *)this, softBody, collisionObject);
+  btSoftBody::defaultCollisionHandler((btSoftBody *)this, softBody);
 }

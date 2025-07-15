@@ -9,7 +9,7 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::ParseCSS(const Scaleform::GFx
   bool v7; // al
   Scaleform::GFx::AS2::Value *Result; // esi
   bool v9; // bl
-  Scaleform::GFx::AS2::Value csstxt; // [esp+4h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+4h] [ebp-10h] BYREF
 
   v1 = fn;
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_StyleSheet )
@@ -23,8 +23,8 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::ParseCSS(const Scaleform::GFx
         if ( v1->NArgs >= 1 )
         {
           v5 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-          Scaleform::GFx::AS2::Value::Value(&csstxt, v5);
-          Scaleform::GFx::AS2::Value::ToStringImpl(&csstxt, (Scaleform::GFx::ASString *)&fn, v1->Env, -1, 0);
+          Scaleform::GFx::AS2::Value::Value(&v11, v5);
+          Scaleform::GFx::AS2::Value::ToStringImpl(&v11, (Scaleform::GFx::ASString *)&fn, v1->Env, -1, 0);
           v6 = (Scaleform::GFx::ASStringNode *)fn;
           v7 = Scaleform::GFx::Text::StyleManager::ParseCSS(
                  (Scaleform::GFx::Text::StyleManager *)&p_pProto[13],
@@ -37,8 +37,8 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::ParseCSS(const Scaleform::GFx
           Result->V.BooleanValue = v9;
           if ( v6->RefCount-- == 1 )
             Scaleform::GFx::ASStringNode::ReleaseNode(v6);
-          if ( csstxt.T.Type >= 5u )
-            Scaleform::GFx::AS2::Value::DropRefs(&csstxt);
+          if ( v11.T.Type >= 5u )
+            Scaleform::GFx::AS2::Value::DropRefs(&v11);
         }
         else
         {

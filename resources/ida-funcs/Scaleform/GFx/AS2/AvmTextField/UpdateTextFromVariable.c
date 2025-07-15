@@ -5,9 +5,9 @@ char __thiscall Scaleform::GFx::AS2::AvmTextField::UpdateTextFromVariable(Scalef
   Scaleform::GFx::AS2::Environment *v4; // eax
   Scaleform::GFx::AS2::Environment *v5; // esi
   Scaleform::GFx::AS2::ObjectInterface::UserDataHolder **p_pUserDataHolder; // ebx
-  Scaleform::GFx::ASStringNode *pNode; // esi
-  Scaleform::GFx::ASString str; // [esp+8h] [ebp-14h] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v7; // esi
+  Scaleform::GFx::ASStringNode *v10; // [esp+8h] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+Ch] [ebp-10h] BYREF
 
   v2 = &this->Scaleform::GFx::AS2::ObjectInterface;
   if ( !this->FindMember )
@@ -18,25 +18,25 @@ char __thiscall Scaleform::GFx::AS2::AvmTextField::UpdateTextFromVariable(Scalef
   v5 = v4;
   if ( !v4 )
     return 0;
-  val.T.Type = 0;
-  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v4, (const Scaleform::GFx::ASString *)v2, &val, 0, 0, 0, 0) )
+  v.T.Type = 0;
+  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v4, __SPAIR64__(&v, (unsigned int)v2), 0, 0, 0) )
   {
-    Scaleform::GFx::TextField::SetTextValue(v3, (char *)&buf, 0, 0);
+    Scaleform::GFx::TextField::SetTextValue(v3, (const __m128i *)uri, 0, 0);
 LABEL_11:
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
+    if ( v.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v);
     return 0;
   }
   p_pUserDataHolder = &this->pUserDataHolder;
-  if ( Scaleform::GFx::AS2::Value::IsEqual(&val, v5, (Scaleform::GFx::AS2::Value *)p_pUserDataHolder) )
+  if ( Scaleform::GFx::AS2::Value::IsEqual(&v, v5, (Scaleform::GFx::AS2::Value *)p_pUserDataHolder) )
     goto LABEL_11;
-  Scaleform::GFx::AS2::Value::operator=((Scaleform::GFx::AS2::Value *)p_pUserDataHolder, &val);
-  Scaleform::GFx::AS2::Value::ToStringImpl(&val, &str, v5, -1, 0);
-  pNode = str.pNode;
-  Scaleform::GFx::TextField::SetTextValue(v3, (char *)str.pNode->pData, 0, 0);
-  if ( pNode->RefCount-- == 1 )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  Scaleform::GFx::AS2::Value::operator=((Scaleform::GFx::AS2::Value *)p_pUserDataHolder, &v);
+  Scaleform::GFx::AS2::Value::ToStringImpl(&v, (Scaleform::GFx::ASString *)&v10, v5, -1, 0);
+  v7 = v10;
+  Scaleform::GFx::TextField::SetTextValue(v3, (const __m128i *)v10->pData, 0, 0);
+  if ( v7->RefCount-- == 1 )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+  if ( v.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v);
   return 1;
 }

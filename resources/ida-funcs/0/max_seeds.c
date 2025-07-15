@@ -1,71 +1,73 @@
-void __usercall max_seeds(vorbis_look_psy *p@<edi>, float *seed, float *flr)
+void __usercall max_seeds(vorbis_look_psy *p@<esi>, float *seed, float *flr)
 {
-  int eighth_octave_lines; // ebx
-  int v4; // esi
-  int v5; // edx
-  double v6; // st7
-  double tone_abs_limit; // st6
-  int v8; // ecx
-  vorbis_info_psy *vi; // ebx
-  int i; // ebx
-  double v11; // rt0
-  double v12; // st6
-  double v13; // st7
-  double v14; // rt1
-  int j; // ebx
-  float minV; // [esp+10h] [ebp+4h]
+  int eighth_octave_lines; // edi
+  int v4; // ebx
+  int v5; // ecx
+  int n; // edi
+  int v7; // ecx
+  float v8; // xmm1_4
+  vorbis_info_psy *vi; // eax
+  int v10; // edx
+  float tone_abs_limit; // xmm0_4
+  int v12; // edx
+  float *v13; // eax
+  float v14; // xmm0_4
+  float *v15; // eax
+  int v16; // [esp+8h] [ebp-4h]
 
   eighth_octave_lines = p->eighth_octave_lines;
   v4 = 0;
   seed_chase(seed, eighth_octave_lines, p->total_octave_lines);
-  v5 = *p->octave - (eighth_octave_lines >> 1) - p->firstoc;
+  v5 = *p->octave - (eighth_octave_lines >> 1);
+  n = p->n;
+  v7 = v5 - p->firstoc;
   if ( p->n > 1 )
   {
-    v6 = -9999.0;
+    v8 = seed[v7];
     do
     {
-      tone_abs_limit = seed[v5];
-      v8 = ((p->octave[v4] + p->octave[v4 + 1]) >> 1) - p->firstoc;
       vi = p->vi;
-      if ( vi->tone_abs_limit < tone_abs_limit )
+      v10 = ((p->octave[v4] + p->octave[v4 + 1]) >> 1) - p->firstoc;
+      tone_abs_limit = v8;
+      if ( v8 > vi->tone_abs_limit )
         tone_abs_limit = vi->tone_abs_limit;
-      for ( i = v5 + 1; i <= v8; ++i )
+      if ( v7 + 1 <= v10 )
       {
-        ++v5;
-        v11 = tone_abs_limit;
-        v12 = v6;
-        v13 = v11;
-        if ( v12 < seed[v5] && seed[v5] < v13 || v12 == v13 )
+        v16 = v7 + 1;
+        do
         {
-          v6 = v12;
-          tone_abs_limit = seed[v5];
+          ++v7;
+          ++v16;
+          v8 = seed[v7];
+          if ( v8 > -9999.0 && tone_abs_limit > v8 || tone_abs_limit == -9999.0 )
+            tone_abs_limit = seed[v7];
         }
-        else
-        {
-          v14 = v12;
-          tone_abs_limit = v13;
-          v6 = v14;
-        }
+        while ( v16 <= v10 );
       }
-      for ( j = p->firstoc + v5; v4 < p->n; ++v4 )
+      v12 = p->firstoc + v7;
+      if ( v4 < n )
       {
-        if ( p->octave[v4] > j )
-          break;
-        if ( flr[v4] < tone_abs_limit )
-          flr[v4] = tone_abs_limit;
+        do
+        {
+          if ( p->octave[v4] > v12 )
+            break;
+          v13 = &flr[v4];
+          if ( tone_abs_limit > *v13 )
+            *v13 = tone_abs_limit;
+          ++v4;
+        }
+        while ( v4 < p->n );
       }
+      n = p->n;
     }
     while ( v4 + 1 < p->n );
   }
-  if ( v4 < p->n )
+  v14 = seed[p->total_octave_lines - 1];
+  while ( v4 < p->n )
   {
-    minV = seed[p->total_octave_lines - 1];
-    do
-    {
-      if ( flr[v4] < (double)minV )
-        flr[v4] = minV;
-      ++v4;
-    }
-    while ( v4 < p->n );
+    v15 = &flr[v4];
+    if ( v14 > *v15 )
+      *v15 = v14;
+    ++v4;
   }
 }

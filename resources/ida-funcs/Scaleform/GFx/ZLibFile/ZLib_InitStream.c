@@ -6,8 +6,8 @@ int __cdecl Scaleform::GFx::ZLibFile::ZLib_InitStream(
 {
   pstream->opaque = pallocowner;
   pstream->next_out = pbuffer;
-  pstream->zalloc = Scaleform::GFx::ZLibAllocFunc;
-  pstream->zfree = Scaleform::GFx::ZLibFreeFunc;
+  pstream->zalloc = Scaleform::GFx::AMP::ZLibAllocFunc_AMP;
+  pstream->zfree = Scaleform::GFx::AMP::ZLibFreeFunc_AMP;
   pstream->next_in = 0;
   pstream->avail_in = 0;
   pstream->avail_out = bufferSize;

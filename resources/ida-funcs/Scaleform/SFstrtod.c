@@ -1,22 +1,22 @@
-long double __cdecl Scaleform::SFstrtod(const char *string, char **tailptr)
+long double __usercall Scaleform::SFstrtod@<st0>(int a1@<edi>, char *string, char **tailptr)
 {
-  char v2; // bl
-  char *v3; // eax
-  char buffer[348]; // [esp+4h] [ebp-15Ch] BYREF
+  char v3; // bl
+  char *v4; // eax
+  char _Dst[348]; // [esp+4h] [ebp-15Ch] BYREF
 
-  v2 = *localeconv()->decimal_point;
-  if ( v2 == 46 )
+  v3 = *localeconv()->decimal_point;
+  if ( v3 == 46 )
     return strtod(string, tailptr);
-  strcpy_s(buffer, 0x15Cu, string);
-  v3 = buffer;
-  if ( buffer[0] )
+  strcpy_s(a1, _Dst, 348, string);
+  v4 = _Dst;
+  if ( _Dst[0] )
   {
-    while ( *v3 != 46 )
+    while ( *v4 != 46 )
     {
-      if ( !*++v3 )
-        return strtod(buffer, tailptr);
+      if ( !*++v4 )
+        return strtod(_Dst, tailptr);
     }
-    *v3 = v2;
+    *v4 = v3;
   }
-  return strtod(buffer, tailptr);
+  return strtod(_Dst, tailptr);
 }

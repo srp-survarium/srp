@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetVariablesDataString(
         Scaleform::GFx::AS3::Instances::fl_net::URLLoader *this,
-        char *pdata)
+        __m128i *pdata)
 {
   Scaleform::GFx::AS3::ASVM *pVM; // esi
   Scaleform::GFx::AS3::Class *Class; // eax
@@ -48,7 +48,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetVariablesD
     {
       RefCount = varObj.pObject->RefCount;
       pObject = varObj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         varObj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -69,7 +69,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetVariablesD
   if ( v5 && ((unsigned __int8)v5 & 1) == 0 )
   {
     v9 = v5->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+    if ( (v9 & 0x3FFFFF) != 0 )
     {
       v5->RefCount = v9 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);

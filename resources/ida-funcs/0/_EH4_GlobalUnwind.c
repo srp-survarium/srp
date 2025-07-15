@@ -1,4 +1,4 @@
-void __thiscall _EH4_GlobalUnwind(PVOID TargetFrame)
+void __thiscall _EH4_GlobalUnwind(void *this)
 {
-  RtlUnwind(TargetFrame, &ReturnPoint_0, 0, 0);
+  RtlUnwind(this, &ReturnPoint_0, 0, 0);
 }

@@ -195,7 +195,7 @@ int __cdecl whirlpool_block_mmx(__m64 *a1, __m64 *a2, int a3)
       LOBYTE(v5) = v142.m64_i8[1];
       LOBYTE(v4) = v142.m64_i8[0];
       v15 = _m_pxor(
-              *(__m64 *)((char *)&_L001table[2 * v14] + (_DWORD)&qword_7D11B2 - 8192434),
+              *(__m64 *)((char *)&_L001table[2 * v14] + (_DWORD)&qword_684032 - 6828082),
               *(__m64 *)&_L001table[4 * v4]);
       v16 = *(__m64 *)((char *)&_L001table[4 * v5 + 1] + 3);
       LOBYTE(v5) = v142.m64_i8[3];

@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::SetMatrix(
         const Scaleform::Render::Matrix2x4<float> *m)
 {
   Scaleform::Render::Matrix2x4<float> *p_MatrixPriv; // eax
-  Scaleform::Render::Matrix2x4<float> mt; // [esp+30h] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> mt; // [esp+10h] [ebp-20h] BYREF
 
   this->OrigMatrix = *m;
   mt.M[0][0] = m->M[0][0];

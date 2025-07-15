@@ -11,18 +11,18 @@ bool __thiscall Scaleform::Render::TreeText::NodeData::PropagateUp(
   Scaleform::Render::TextLayout *v9; // eax
   __int16 v10; // ax
   float *v11; // eax
-  float y1; // [esp+129Ch] [ebp-64Ch] BYREF
-  float y2; // [esp+12A0h] [ebp-648h]
-  float x2; // [esp+12A4h] [ebp-644h]
-  Scaleform::Render::Rect<float> r; // [esp+12A8h] [ebp-640h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+12B8h] [ebp-630h] BYREF
-  Scaleform::Render::TextLayout::Builder builder; // [esp+12C8h] [ebp-620h] BYREF
+  float y1; // [esp+Ch] [ebp-64Ch] BYREF
+  float y2; // [esp+10h] [ebp-648h]
+  float x2; // [esp+14h] [ebp-644h]
+  Scaleform::Render::Rect<float> bounds; // [esp+18h] [ebp-640h] BYREF
+  Scaleform::Render::Rect<float> pr; // [esp+28h] [ebp-630h] BYREF
+  Scaleform::Render::TextLayout::Builder bld; // [esp+38h] [ebp-620h] BYREF
 
-  r.x1 = 0.0;
-  r.y1 = 0.0;
+  bounds.x1 = 0.0;
+  bounds.y1 = 0.0;
   pObject = this->pDocView.pObject;
-  r.x2 = 0.0;
-  r.y2 = 0.0;
+  bounds.x2 = 0.0;
+  bounds.y2 = 0.0;
   pr.x1 = 0.0;
   pr.y1 = 0.0;
   pr.x2 = 0.0;
@@ -33,8 +33,8 @@ bool __thiscall Scaleform::Render::TreeText::NodeData::PropagateUp(
       Scaleform::Render::Text::DocView::Format(pObject);
     if ( (this->TextFlags & 1) != 0 )
     {
-      Scaleform::Render::TextLayout::Builder::Builder(&builder, Scaleform::Memory::pGlobalHeap);
-      Scaleform::Render::Text::DocView::CreateVisibleTextLayout(this->pDocView.pObject, &builder);
+      Scaleform::Render::TextLayout::Builder::Builder(&bld, Scaleform::Memory::pGlobalHeap);
+      Scaleform::Render::Text::DocView::CreateVisibleTextLayout(this->pDocView.pObject, &bld);
       WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(entry, 0x400u);
       LODWORD(y1) = 78;
       v5 = (Scaleform::Render::TextLayout *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
@@ -44,7 +44,7 @@ bool __thiscall Scaleform::Render::TreeText::NodeData::PropagateUp(
                                               &y1);
       if ( v5 )
       {
-        Scaleform::Render::TextLayout::TextLayout(v5, &builder);
+        Scaleform::Render::TextLayout::TextLayout(v5, &bld);
         v7 = v6;
       }
       else
@@ -56,7 +56,7 @@ bool __thiscall Scaleform::Render::TreeText::NodeData::PropagateUp(
         Scaleform::RefCountImpl::Release(v8);
       *(_DWORD *)&WritableData[18].Type = v7;
       LOBYTE(WritableData[19].__vftable) &= ~1u;
-      Scaleform::Render::TextLayout::Builder::~Builder(&builder);
+      Scaleform::Render::TextLayout::Builder::~Builder(&bld);
     }
   }
   v9 = this->pLayout.pObject;
@@ -65,37 +65,37 @@ bool __thiscall Scaleform::Render::TreeText::NodeData::PropagateUp(
     y1 = v9->Bounds.y1;
     x2 = v9->Bounds.x2;
     y2 = v9->Bounds.y2;
-    r.x1 = v9->Bounds.x1;
-    r.y1 = y1;
-    r.x2 = x2;
-    r.y2 = y2;
-    Scaleform::Render::TreeNode::NodeData::expandByFilterBounds(this, &r, 0);
+    bounds.x1 = v9->Bounds.x1;
+    bounds.y1 = y1;
+    bounds.x2 = x2;
+    bounds.y2 = y2;
+    Scaleform::Render::TreeNode::NodeData::expandByFilterBounds(this, &bounds, 0);
     if ( (this->Flags & 0x200) != 0 )
-      Scaleform::Render::Matrix3x4<float>::EncloseTransform(&this->M34, &pr, &r);
+      Scaleform::Render::Matrix3x4<float>::EncloseTransform(&this->M34, &pr, &bounds);
     else
       Scaleform::Render::Matrix2x4<float>::EncloseTransform(
         (Scaleform::Render::Matrix2x4<float> *)&this->M34,
-        &pr,
-        (__m128 *)&r);
+        (__m128 *)&pr,
+        (__m128 *)&bounds);
   }
-  if ( this->AproxLocalBounds.x1 == r.x1
-    && this->AproxLocalBounds.x2 == r.x2
-    && this->AproxLocalBounds.y1 == r.y1
-    && this->AproxLocalBounds.y2 == r.y2
-    && pr.x1 == r.x1
-    && pr.x2 == r.x2
-    && pr.y1 == r.y1
-    && pr.y2 == r.y2 )
+  if ( this->AproxLocalBounds.x1 == bounds.x1
+    && this->AproxLocalBounds.x2 == bounds.x2
+    && this->AproxLocalBounds.y1 == bounds.y1
+    && this->AproxLocalBounds.y2 == bounds.y2
+    && pr.x1 == bounds.x1
+    && pr.x2 == bounds.x2
+    && pr.y1 == bounds.y1
+    && pr.y2 == bounds.y2 )
   {
     LOBYTE(v10) = 0;
   }
   else
   {
     v11 = (float *)Scaleform::Render::ContextImpl::Entry::getWritableData(entry, 8u);
-    y2 = r.y1;
-    x2 = r.x2;
-    y1 = r.y2;
-    v11[28] = r.x1;
+    y2 = bounds.y1;
+    x2 = bounds.x2;
+    y1 = bounds.y2;
+    v11[28] = bounds.x1;
     v11[29] = y2;
     v11[30] = x2;
     v11[31] = y1;

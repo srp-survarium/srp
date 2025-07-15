@@ -1,8 +1,8 @@
 Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::PropRef::SetSlotValue(
         Scaleform::GFx::AS3::PropRef *this,
         Scaleform::GFx::AS3::CheckResult *result,
-        Scaleform::GFx::AS3::VM *vm,
-        const Scaleform::GFx::AS3::Value *value)
+        Scaleform::GFx::ASStringNode *vm,
+        Scaleform::GFx::AS3::Value *value)
 {
   Scaleform::GFx::AS3::SlotInfo *pSI; // ecx
   Scaleform::GFx::AS3::CheckResult *v6; // eax
@@ -33,7 +33,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::PropRef::SetSl
                        (Scaleform::GFx::AS3::CheckResult *)&value,
                        vm,
                        value,
-                       &this->This,
+                       (Scaleform::GFx::ASStringNode *)&this->This,
                        0)->Result;
     return result;
   }

@@ -1,128 +1,127 @@
-unsigned int __thiscall boost::asio::detail::win_iocp_io_service::do_one(
-        boost::asio::detail::win_iocp_io_service *this,
+unsigned int __userpurge boost::asio::detail::win_iocp_io_service::do_one@<eax>(
+        boost::asio::detail::win_iocp_io_service *this@<ecx>,
+        int a2@<eax>,
         bool block,
         boost::system::error_code *ec)
 {
-  const boost::system::error_category *v5; // [esp+4h] [ebp-C4h]
-  const boost::system::error_category *v6; // [esp+8h] [ebp-C0h]
-  const boost::system::error_category *v7; // [esp+20h] [ebp-A8h]
-  boost::asio::detail::timer_queue_base *i; // [esp+50h] [ebp-78h]
-  const boost::system::error_category *v9; // [esp+64h] [ebp-64h]
-  const boost::system::error_category *v10; // [esp+74h] [ebp-54h]
-  const boost::system::error_category *v11; // [esp+88h] [ebp-40h]
-  const boost::system::error_category *Internal; // [esp+90h] [ebp-38h]
-  boost::asio::detail::win_iocp_operation *op; // [esp+98h] [ebp-30h]
-  boost::system::error_code result_ec; // [esp+9Ch] [ebp-2Ch] BYREF
-  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> ops; // [esp+A4h] [ebp-24h] BYREF
-  boost::asio::detail::scoped_lock<boost::asio::detail::win_mutex> lock; // [esp+ACh] [ebp-1Ch] BYREF
-  _OVERLAPPED *overlapped; // [esp+B4h] [ebp-14h] BYREF
-  unsigned int completion_key; // [esp+B8h] [ebp-10h] BYREF
-  unsigned int last_error; // [esp+BCh] [ebp-Ch]
-  unsigned int bytes_transferred; // [esp+C0h] [ebp-8h] BYREF
-  int ok; // [esp+C4h] [ebp-4h]
+  boost::system::error_code *v4; // ebx
+  DWORD v5; // edi
+  boost::asio::detail::win_iocp_io_service *v7; // ecx
+  _DWORD *j; // edi
+  boost::asio::detail::win_iocp_io_service *v9; // ecx
+  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *v10; // ecx
+  DWORD LastError; // eax
+  LPOVERLAPPED v12; // edi
+  const struct boost::system::error_category *v13; // eax
+  unsigned int Internal; // ecx
+  DWORD v15; // esi
+  const struct boost::system::error_category *v16; // eax
+  boost::asio::detail::win_iocp_io_service *v18; // ecx
+  unsigned int Offset; // [esp+Ch] [ebp-24h] BYREF
+  const struct boost::system::error_category *v20; // [esp+10h] [ebp-20h]
+  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> v21; // [esp+14h] [ebp-1Ch] BYREF
+  BOOL QueuedCompletionStatus; // [esp+1Ch] [ebp-14h]
+  DWORD v23; // [esp+20h] [ebp-10h]
+  DWORD i; // [esp+24h] [ebp-Ch]
+  unsigned int CompletionKey; // [esp+28h] [ebp-8h] BYREF
+  LPOVERLAPPED Overlapped; // [esp+2Ch] [ebp-4h] BYREF
 
-  do
+  v4 = ec;
+  v5 = block ? 0x1F4 : 0;
+  for ( i = v5; ; v5 = i )
   {
     while ( 1 )
     {
-      while ( 1 )
+      if ( InterlockedCompareExchange((volatile LONG *)(a2 + 44), 0, 1) == 1 )
       {
-        if ( InterlockedCompareExchange(&this->dispatch_required_, 0, 1) == 1 )
-        {
-          survarium::weapon_core::cast_weapon_core((survarium::game_options *)&lock);
-          lock.mutex_ = &this->dispatch_mutex_;
-          EnterCriticalSection(&this->dispatch_mutex_.crit_section_);
-          lock.locked_ = 1;
-          survarium::weapon_core::cast_weapon_core((survarium::game_options *)&ops);
-          ops.front_ = 0;
-          ops.back_ = 0;
-          if ( this->completed_ops_.front_ )
-          {
-            ops = this->completed_ops_;
-            this->completed_ops_.front_ = 0;
-            this->completed_ops_.back_ = 0;
-          }
-          for ( i = this->timer_queues_.first_; i; i = i->next_ )
-            i->get_ready_timers(i, &ops);
-          boost::asio::detail::win_iocp_io_service::post_deferred_completions(this, &ops);
-          boost::asio::detail::win_iocp_io_service::update_timeout(this);
-          boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>((boost::asio::detail::op_queue<boost::asio::detail::timer_op> *)&ops);
-          if ( lock.locked_ )
-            LeaveCriticalSection(&lock.mutex_->crit_section_);
-          survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&lock);
-        }
-        bytes_transferred = 0;
-        completion_key = 0;
-        overlapped = 0;
-        SetLastError(0);
-        ok = GetQueuedCompletionStatus(
-               this->iocp_.handle,
-               &bytes_transferred,
-               &completion_key,
-               &overlapped,
-               block ? 0x1F4 : 0);
-        last_error = GetLastError();
-        if ( !overlapped )
-          break;
-        op = (boost::asio::detail::win_iocp_operation *)overlapped;
-        v7 = boost::system::system_category();
-        result_ec.m_val = last_error;
-        result_ec.m_cat = v7;
-        if ( completion_key == 2 )
-        {
-          Internal = (const boost::system::error_category *)op->Internal;
-          result_ec.m_val = op->Offset;
-          result_ec.m_cat = Internal;
-          bytes_transferred = op->OffsetHigh;
-        }
-        else
-        {
-          op->Internal = (unsigned int)result_ec.m_cat;
-          op->Offset = result_ec.m_val;
-          op->OffsetHigh = bytes_transferred;
-        }
-        if ( InterlockedCompareExchange(&op->ready_, 1, 0) == 1 )
-        {
-          op->func_(this, op, &result_ec, bytes_transferred);
-          v11 = boost::system::system_category();
-          ec->m_val = 0;
-          ec->m_cat = v11;
-          if ( !InterlockedDecrement(&this->outstanding_work_) )
-            boost::asio::detail::win_iocp_io_service::stop(this);
-          return 1;
-        }
+        EnterCriticalSection((LPCRITICAL_SECTION)(a2 + 48));
+        v21.front_ = 0;
+        v21.back_ = 0;
+        boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::push<boost::asio::detail::win_iocp_operation>(
+          &v21,
+          (boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *)(a2 + 76));
+        for ( j = *(_DWORD **)(a2 + 72); j; j = (_DWORD *)j[1] )
+          (*(void (__thiscall **)(_DWORD *, boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *))(*j + 16))(
+            j,
+            &v21);
+        boost::asio::detail::win_iocp_io_service::post_deferred_completions(v7, a2, &v21);
+        boost::asio::detail::win_iocp_io_service::update_timeout(v9, a2);
+        boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>(
+          v10,
+          (int *)&v21);
+        LeaveCriticalSection((LPCRITICAL_SECTION)(a2 + 48));
+        v5 = i;
       }
-      if ( ok )
+      ec = 0;
+      CompletionKey = 0;
+      Overlapped = 0;
+      SetLastError(0);
+      QueuedCompletionStatus = GetQueuedCompletionStatus(
+                                 *(HANDLE *)(a2 + 20),
+                                 (LPDWORD)&ec,
+                                 &CompletionKey,
+                                 &Overlapped,
+                                 v5);
+      LastError = GetLastError();
+      v23 = LastError;
+      if ( Overlapped )
         break;
-      if ( last_error != 258 )
+      if ( QueuedCompletionStatus )
       {
-        v6 = boost::system::system_category();
-        ec->m_val = last_error;
-        ec->m_cat = v6;
-        return 0;
+        if ( CompletionKey != 1 && InterlockedExchangeAdd((volatile LONG *)(a2 + 28), 0) )
+        {
+          if ( PostQueuedCompletionStatus(*(HANDLE *)(a2 + 20), 0, 0, 0) )
+LABEL_16:
+            v15 = 0;
+          else
+            v15 = GetLastError();
+          v16 = boost::system::system_category();
+          v4->m_val = v15;
+LABEL_18:
+          v4->m_cat = v16;
+          return 0;
+        }
       }
-      if ( !block )
+      else
       {
-        v10 = boost::system::system_category();
-        ec->m_val = 0;
-        ec->m_cat = v10;
-        return 0;
+        if ( LastError != 258 )
+        {
+          v16 = boost::system::system_category();
+          v4->m_val = v23;
+          goto LABEL_18;
+        }
+        if ( !block )
+          goto LABEL_16;
       }
     }
+    v12 = Overlapped;
+    v13 = boost::system::system_category();
+    Offset = v23;
+    v20 = v13;
+    if ( CompletionKey == 2 )
+    {
+      Internal = v12->Internal;
+      Offset = v12->Offset;
+      v20 = (const struct boost::system::error_category *)Internal;
+      ec = (boost::system::error_code *)v12->OffsetHigh;
+    }
+    else
+    {
+      v12->Internal = (unsigned int)v13;
+      v12->Offset = Offset;
+      v12->OffsetHigh = (unsigned int)ec;
+    }
+    if ( InterlockedCompareExchange((volatile LONG *)&v12[1].8, 1, 0) == 1 )
+      break;
   }
-  while ( completion_key == 1 || !InterlockedExchangeAdd(&this->stopped_, 0) );
-  if ( PostQueuedCompletionStatus(this->iocp_.handle, 0, 0, 0) )
-  {
-    v9 = boost::system::system_category();
-    ec->m_val = 0;
-    ec->m_cat = v9;
-  }
-  else
-  {
-    last_error = GetLastError();
-    v5 = boost::system::system_category();
-    ec->m_val = last_error;
-    ec->m_cat = v5;
-  }
-  return 0;
+  ((void (__cdecl *)(int, LPOVERLAPPED, unsigned int *, boost::system::error_code *))v12[1].InternalHigh)(
+    a2,
+    v12,
+    &Offset,
+    ec);
+  v4->m_cat = boost::system::system_category();
+  v4->m_val = 0;
+  if ( !InterlockedDecrement((volatile LONG *)(a2 + 24)) )
+    boost::asio::detail::win_iocp_io_service::stop(v18, a2);
+  return 1;
 }

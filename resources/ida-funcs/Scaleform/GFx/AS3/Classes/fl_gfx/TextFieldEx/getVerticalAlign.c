@@ -6,16 +6,16 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx::getVerticalAl
   switch ( (LOBYTE(textField->pDispObj.pObject[1].pRenNode.pObject[9].pNative) >> 2) & 3 )
   {
     case 1:
-      Scaleform::GFx::ASString::operator=(result, "top");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"top");
       break;
     case 2:
-      Scaleform::GFx::ASString::operator=(result, "bottom");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"bottom");
       break;
     case 3:
-      Scaleform::GFx::ASString::operator=(result, "center");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"center");
       break;
     default:
-      Scaleform::GFx::ASString::operator=(result, "none");
+      Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"none");
       break;
   }
 }

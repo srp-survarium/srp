@@ -11,8 +11,8 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::allocDirect(
   Scaleform::LockSafe *p_RootLock; // ebp
   char *result; // eax
   Scaleform::HeapMH::NodeMH *v11; // ebp
-  char *ptr; // [esp+10h] [ebp-4h]
-  Scaleform::HeapMH::RootMH *sizea; // [esp+18h] [ebp+4h]
+  char *v12; // [esp+10h] [ebp-4h]
+  Scaleform::HeapMH::RootMH *v13; // [esp+18h] [ebp+4h]
 
   v5 = (size + 3) & 0xFFFFFFFC;
   v7 = alignSize > 0x10 ? 20 : 16;
@@ -33,18 +33,18 @@ char *__thiscall Scaleform::HeapMH::AllocEngineMH::allocDirect(
   {
     *limHandlerOK = 0;
     result = (char *)this->pSysAlloc->Alloc(this->pSysAlloc, v7 + v5, alignSize);
-    ptr = result;
+    v12 = result;
     if ( result )
     {
       v11 = (Scaleform::HeapMH::NodeMH *)&result[v5];
-      sizea = Scaleform::HeapMH::GlobalRootMH;
+      v13 = Scaleform::HeapMH::GlobalRootMH;
       Scaleform::HeapMH::NodeMH::SetHeap((Scaleform::HeapMH::NodeMH *)&result[v5], (unsigned int)this->pHeap, alignSize);
-      Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Insert(&sizea->HeapTree, v11);
+      Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::Insert(&v13->HeapTree, v11);
       info->UsableSize = v5;
       info->Page = 0;
       info->Node = v11;
       ++this->UseCount;
-      result = ptr;
+      result = v12;
       this->Footprint += v5 + v7;
       this->UsedSpace += v5;
       *limHandlerOK = 1;

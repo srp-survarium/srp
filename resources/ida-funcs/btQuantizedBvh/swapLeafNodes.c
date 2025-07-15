@@ -1,36 +1,40 @@
-void __userpurge btQuantizedBvh::swapLeafNodes(int i@<ecx>, unsigned int splitIndex@<eax>, btQuantizedBvh *this)
+void __userpurge btQuantizedBvh::swapLeafNodes(btQuantizedBvh *this@<edx>, int i@<eax>, int splitIndex)
 {
-  btQuantizedBvhNode *m_data; // esi
-  int v4; // ecx
-  __int64 v5; // xmm0_8
-  __int64 v6; // xmm1_8
-  btQuantizedBvhNode *v7; // ecx
-  unsigned int v8; // eax
-  btQuantizedBvhNode *v9; // ecx
-  btOptimizedBvhNode *v10; // ebx
-  int v11; // eax
-  _BYTE v12[64]; // [esp+50h] [ebp-40h] BYREF
+  btQuantizedBvhNode *m_data; // ecx
+  btQuantizedBvhNode *v4; // ebx
+  btQuantizedBvhNode *v5; // edi
+  btOptimizedBvhNode *v6; // ebx
+  int v7; // [esp+10h] [ebp-50h]
+  int v8; // [esp+14h] [ebp-4Ch]
+  int v9; // [esp+18h] [ebp-48h]
+  int m_escapeIndexOrTriangleIndex; // [esp+1Ch] [ebp-44h]
+  _BYTE v11[64]; // [esp+20h] [ebp-40h] BYREF
 
   if ( this->m_useQuantization )
   {
     m_data = this->m_quantizedLeafNodes.m_data;
-    v4 = i;
-    v5 = *(_QWORD *)m_data[v4].m_quantizedAabbMin;
-    v6 = *(_QWORD *)&m_data[v4].m_quantizedAabbMax[1];
-    v7 = &m_data[v4];
-    v8 = splitIndex;
-    *(_QWORD *)v7->m_quantizedAabbMin = *(_QWORD *)m_data[v8].m_quantizedAabbMin;
-    *(_QWORD *)&v7->m_quantizedAabbMax[1] = *(_QWORD *)&m_data[v8].m_quantizedAabbMax[1];
-    v9 = &this->m_quantizedLeafNodes.m_data[v8];
-    *(_QWORD *)v9->m_quantizedAabbMin = v5;
-    *(_QWORD *)&v9->m_quantizedAabbMax[1] = v6;
+    v4 = &m_data[i];
+    v7 = *(_DWORD *)v4->m_quantizedAabbMin;
+    v8 = *(_DWORD *)&v4->m_quantizedAabbMin[2];
+    v9 = *(_DWORD *)&v4->m_quantizedAabbMax[1];
+    m_escapeIndexOrTriangleIndex = v4->m_escapeIndexOrTriangleIndex;
+    *(_DWORD *)v4->m_quantizedAabbMin = *(_DWORD *)m_data[splitIndex].m_quantizedAabbMin;
+    *(_DWORD *)&v4->m_quantizedAabbMin[2] = *(_DWORD *)&m_data[splitIndex].m_quantizedAabbMin[2];
+    *(_DWORD *)&v4->m_quantizedAabbMax[1] = *(_DWORD *)&m_data[splitIndex].m_quantizedAabbMax[1];
+    v4->m_escapeIndexOrTriangleIndex = m_data[splitIndex].m_escapeIndexOrTriangleIndex;
+    v5 = &this->m_quantizedLeafNodes.m_data[splitIndex];
+    *(_DWORD *)v5->m_quantizedAabbMin = v7;
+    v5 = (btQuantizedBvhNode *)((char *)v5 + 4);
+    *(_DWORD *)v5->m_quantizedAabbMin = v8;
+    v5 = (btQuantizedBvhNode *)((char *)v5 + 4);
+    *(_DWORD *)v5->m_quantizedAabbMin = v9;
+    *(_DWORD *)&v5->m_quantizedAabbMin[2] = m_escapeIndexOrTriangleIndex;
   }
   else
   {
-    v10 = this->m_leafNodes.m_data;
-    qmemcpy(v12, &v10[i], sizeof(v12));
-    v11 = splitIndex << 6;
-    qmemcpy(&v10[i], (char *)v10 + v11, sizeof(btOptimizedBvhNode));
-    qmemcpy((char *)this->m_leafNodes.m_data + v11, v12, sizeof(btOptimizedBvhNode));
+    v6 = this->m_leafNodes.m_data;
+    qmemcpy(v11, &v6[i], sizeof(v11));
+    qmemcpy(&v6[i], &v6[splitIndex], sizeof(btOptimizedBvhNode));
+    qmemcpy(&this->m_leafNodes.m_data[splitIndex], v11, sizeof(this->m_leafNodes.m_data[splitIndex]));
   }
 }

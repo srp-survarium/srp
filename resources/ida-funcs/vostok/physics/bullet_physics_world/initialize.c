@@ -1,177 +1,259 @@
 void __thiscall vostok::physics::bullet_physics_world::initialize(vostok::physics::bullet_physics_world *this)
 {
-  vostok::memory::base_allocator *m_allocator; // ecx
-  void *(__thiscall *call_malloc)(vostok::memory::base_allocator *, unsigned int); // eax
-  int v4; // eax
-  btCollisionDispatcher *v5; // esi
-  btVector3 *p_water_normal; // eax
+  vostok::memory::base_allocator *m_allocator; // esi
+  char *v3; // eax
+  btSoftBodyWorldInfo *v4; // eax
+  btSoftBodyWorldInfo *v5; // ecx
+  btSoftBodyWorldInfo *v6; // eax
+  btSoftBodyWorldInfo *m_softBodyWorldInfo; // edi
+  vostok::memory::base_allocator *v8; // esi
   btVector3 *p_m_gravity; // eax
-  btSoftBodyRigidBodyCollisionConfiguration *v8; // eax
-  vostok::memory::base_allocator *v9; // ecx
-  btCollisionDispatcher *v10; // ecx
-  btCollisionDispatcher *v11; // eax
-  btAxisSweep3Internal<unsigned short> *v12; // esi
-  btSoftBodyWorldInfo *m_softBodyWorldInfo; // edx
-  btSequentialImpulseConstraintSolver *v14; // eax
-  btSequentialImpulseConstraintSolver *v15; // ecx
-  btSequentialImpulseConstraintSolver *v16; // eax
-  vostok::memory::base_allocator *v17; // ecx
-  btSoftRigidDynamicsWorld *v18; // edi
-  btSoftRigidDynamicsWorld *v19; // eax
+  char *v10; // eax
+  btSoftBodyRigidBodyCollisionConfiguration *v11; // eax
+  btSoftBodyRigidBodyCollisionConfiguration *v12; // eax
+  vostok::memory::base_allocator *v13; // esi
+  char *v14; // eax
+  btCollisionDispatcher *v15; // esi
+  btCollisionDispatcher *v16; // eax
+  btCollisionDispatcher *v17; // esi
+  bool v18; // zf
+  btCollisionAlgorithmCreateFunc **v19; // esi
+  int v20; // ecx
+  vostok::memory::base_allocator *v21; // esi
+  char *v22; // eax
+  btAxisSweep3Internal<unsigned short> *v23; // eax
+  btBroadphaseInterface *v24; // eax
+  btSoftBodyWorldInfo *v25; // ecx
+  char *v26; // eax
+  btSequentialImpulseConstraintSolver *v27; // eax
+  btSequentialImpulseConstraintSolver *v28; // ecx
+  btSequentialImpulseConstraintSolver *v29; // eax
+  char *v30; // eax
+  btSoftRigidDynamicsWorld *v31; // eax
+  btSoftRigidDynamicsWorld *v32; // eax
   btSoftRigidDynamicsWorld *m_dynamicsWorld; // ecx
-  btVector3 *v21; // eax
-  btSparseSdf<3> *v22; // ecx
-  btSparseSdf<3> *v23; // ecx
-  btGhostPairCallback *v24; // eax
-  btOverlappingPairCache *v25; // eax
-  btSoftBodySolver *v26; // [esp+30h] [ebp-50h]
-  unsigned __int16 v27; // [esp+34h] [ebp-4Ch]
-  btOverlappingPairCache *v28; // [esp+38h] [ebp-48h]
-  btDefaultCollisionConstructionInfo constructionInfo; // [esp+3Ch] [ebp-44h] BYREF
-  int v30; // [esp+5Ch] [ebp-24h]
-  btVector3 handleMask; // [esp+60h] [ebp-20h] BYREF
-  btVector3 worldAabbMax; // [esp+70h] [ebp-10h] BYREF
+  btSoftBodyWorldInfo *v34; // eax
+  btSparseSdf<3> *v35; // ecx
+  btSparseSdf<3> *v36; // ecx
+  vostok::memory::base_allocator *v37; // esi
+  char *v38; // eax
+  btGhostPairCallback *v39; // eax
+  int v40; // eax
+  btSoftBodySolver *v41; // [esp+58h] [ebp-50h]
+  unsigned __int16 v42; // [esp+5Ch] [ebp-4Ch]
+  btOverlappingPairCache *v43; // [esp+60h] [ebp-48h]
+  btBroadphaseInterface *disableRaycastAccelerator; // [esp+64h] [ebp-44h]
+  vostok::memory::base_allocator *disableRaycastAcceleratora; // [esp+64h] [ebp-44h]
+  vostok::memory::base_allocator *disableRaycastAcceleratorb; // [esp+64h] [ebp-44h]
+  btDefaultCollisionConstructionInfo constructionInfo; // [esp+68h] [ebp-40h] BYREF
+  btVector3 handleMask; // [esp+88h] [ebp-20h] BYREF
+  btVector3 worldAabbMax; // [esp+98h] [ebp-10h] BYREF
 
   sAllocFunc = bullet_alloc;
   if ( !bullet_alloc )
-    sAllocFunc = btAllocDefault;
+    sAllocFunc = _malloc_crt;
   sFreeFunc = bullet_free;
   if ( !bullet_free )
     sFreeFunc = btFreeDefault;
   m_allocator = this->m_allocator;
-  call_malloc = m_allocator->call_malloc;
-  worldAabbMax.mVec128.m128_u64[0] = 0xC47A0000C47A0000uLL;
-  worldAabbMax.mVec128.m128_u64[1] = 3296329728LL;
-  handleMask.mVec128.m128_u64[0] = 0x447A0000447A0000LL;
-  handleMask.mVec128.m128_u64[1] = 1148846080;
-  v4 = (int)call_malloc(m_allocator, 112u);
-  v5 = 0;
+  worldAabbMax.mVec128.m128_f32[0] = FLOAT_N1000_0;
+  worldAabbMax.mVec128.m128_f32[1] = FLOAT_N1000_0;
+  worldAabbMax.mVec128.m128_u64[1] = LODWORD(FLOAT_N1000_0);
+  handleMask.mVec128.m128_f32[0] = FLOAT_1000_0;
+  handleMask.mVec128.m128_f32[1] = FLOAT_1000_0;
+  handleMask.mVec128.m128_u64[1] = LODWORD(FLOAT_1000_0);
+  v3 = type_info::raw_name(&btSoftBodyWorldInfo `RTTI Type Descriptor');
+  v4 = (btSoftBodyWorldInfo *)m_allocator->call_malloc(
+                                m_allocator,
+                                112u,
+                                v3,
+                                "vostok::physics::bullet_physics_world::initialize",
+                                ".\\bullet_physics_world.cpp",
+                                141u);
   if ( v4 )
-  {
-    *(_DWORD *)v4 = 1067030938;
-    *(_DWORD *)(v4 + 4) = 0;
-    *(_DWORD *)(v4 + 8) = 0;
-    *(_DWORD *)(v4 + 16) = 0;
-    *(_DWORD *)(v4 + 20) = 0;
-    *(_DWORD *)(v4 + 24) = 0;
-    *(_DWORD *)(v4 + 28) = 0;
-    *(_DWORD *)(v4 + 32) = 0;
-    *(_DWORD *)(v4 + 36) = 0;
-    *(_DWORD *)(v4 + 48) = 0;
-    *(_DWORD *)(v4 + 52) = -1054867456;
-    *(_DWORD *)(v4 + 56) = 0;
-    *(_DWORD *)(v4 + 60) = 0;
-    *(_BYTE *)(v4 + 80) = 1;
-    *(_DWORD *)(v4 + 76) = 0;
-    *(_DWORD *)(v4 + 68) = 0;
-    *(_DWORD *)(v4 + 72) = 0;
-  }
+    v6 = btSoftBodyWorldInfo::btSoftBodyWorldInfo(v5, v4);
   else
-  {
-    v4 = 0;
-  }
-  this->m_softBodyWorldInfo = (btSoftBodyWorldInfo *)v4;
-  *(_DWORD *)v4 = 1067030938;
-  this->m_softBodyWorldInfo->water_density = 0.0;
+    v6 = 0;
+  v6->air_density = FLOAT_1_2;
+  this->m_softBodyWorldInfo = v6;
+  v6->water_density = 0.0;
   this->m_softBodyWorldInfo->water_offset = 0.0;
-  p_water_normal = &this->m_softBodyWorldInfo->water_normal;
-  *(_QWORD *)&constructionInfo.m_persistentManifoldPool = 0;
-  p_water_normal->mVec128.m128_u64[0] = 0;
-  *(_QWORD *)&constructionInfo.m_defaultMaxPersistentManifoldPoolSize = 0;
-  p_water_normal->mVec128.m128_u64[1] = 0;
+  m_softBodyWorldInfo = this->m_softBodyWorldInfo;
+  memset(&constructionInfo, 0, 16);
+  m_softBodyWorldInfo = (btSoftBodyWorldInfo *)((char *)m_softBodyWorldInfo + 16);
+  m_softBodyWorldInfo->air_density = 0.0;
+  m_softBodyWorldInfo = (btSoftBodyWorldInfo *)((char *)m_softBodyWorldInfo + 4);
+  LODWORD(m_softBodyWorldInfo->air_density) = constructionInfo.m_persistentManifoldPool;
+  m_softBodyWorldInfo = (btSoftBodyWorldInfo *)((char *)m_softBodyWorldInfo + 4);
+  LODWORD(m_softBodyWorldInfo->air_density) = constructionInfo.m_collisionAlgorithmPool;
+  LODWORD(m_softBodyWorldInfo->water_density) = constructionInfo.m_defaultMaxPersistentManifoldPoolSize;
+  v8 = this->m_allocator;
   p_m_gravity = &this->m_softBodyWorldInfo->m_gravity;
   p_m_gravity->mVec128.m128_i32[0] = 0;
-  p_m_gravity->mVec128.m128_i32[1] = -1054867456;
+  p_m_gravity->mVec128.m128_f32[1] = FLOAT_N10_0;
   p_m_gravity->mVec128.m128_i32[2] = 0;
   p_m_gravity->mVec128.m128_i32[3] = 0;
-  if ( this->m_allocator->call_malloc(this->m_allocator, 108) )
+  v10 = type_info::raw_name(&btSoftBodyRigidBodyCollisionConfiguration `RTTI Type Descriptor');
+  v11 = (btSoftBodyRigidBodyCollisionConfiguration *)v8->call_malloc(
+                                                       v8,
+                                                       108u,
+                                                       v10,
+                                                       "vostok::physics::bullet_physics_world::initialize",
+                                                       ".\\bullet_physics_world.cpp",
+                                                       149u);
+  if ( v11 )
   {
+    constructionInfo.m_defaultMaxPersistentManifoldPoolSize = 4096;
     constructionInfo.m_defaultMaxCollisionAlgorithmPoolSize = 4096;
-    constructionInfo.m_customCollisionAlgorithmMaxElementSize = 4096;
-    memset(&constructionInfo.m_persistentManifoldPool, 0, 12);
+    memset(&constructionInfo, 0, 12);
+    constructionInfo.m_customCollisionAlgorithmMaxElementSize = 0;
     constructionInfo.m_defaultStackAllocatorSize = 0;
-    constructionInfo.m_useEpaPenetrationAlgorithm = 0;
-    v30 = 1;
-    v8 = btSoftBodyRigidBodyCollisionConfiguration::btSoftBodyRigidBodyCollisionConfiguration(
-           (btSoftBodyRigidBodyCollisionConfiguration *)&constructionInfo.m_persistentManifoldPool,
-           (const btDefaultCollisionConstructionInfo *)&constructionInfo.m_persistentManifoldPool);
-  }
-  else
-  {
-    v8 = 0;
-  }
-  v9 = this->m_allocator;
-  this->m_collisionConfiguration = v8;
-  v10 = (btCollisionDispatcher *)v9->call_malloc(v9, 5408u);
-  if ( v10 )
-  {
-    btCollisionDispatcher::btCollisionDispatcher(v10, this->m_collisionConfiguration);
-    v5 = v11;
-  }
-  this->m_dispatcher = v5;
-  btGImpactCollisionAlgorithm::registerAlgorithm(v5);
-  this->m_softBodyWorldInfo->m_dispatcher = this->m_dispatcher;
-  v12 = (btAxisSweep3Internal<unsigned short> *)this->m_allocator->call_malloc(this->m_allocator, 128);
-  if ( v12 )
-  {
-    btAxisSweep3Internal<unsigned short>::btAxisSweep3Internal<unsigned short>(
-      (btAxisSweep3Internal<unsigned short> *)&worldAabbMax,
-      v12,
-      &worldAabbMax,
-      &handleMask,
-      (unsigned __int16)v26,
-      v27,
-      v28,
-      (bool)constructionInfo.m_stackAlloc);
-    v12->__vftable = (btAxisSweep3Internal<unsigned short>_vtbl *)&btAxisSweep3::`vftable';
+    constructionInfo.m_useEpaPenetrationAlgorithm = 1;
+    v12 = btSoftBodyRigidBodyCollisionConfiguration::btSoftBodyRigidBodyCollisionConfiguration(
+            (btSoftBodyRigidBodyCollisionConfiguration *)&constructionInfo,
+            v11,
+            &constructionInfo);
   }
   else
   {
     v12 = 0;
   }
-  m_softBodyWorldInfo = this->m_softBodyWorldInfo;
-  this->m_overlappingPairCache = v12;
-  m_softBodyWorldInfo->m_broadphase = v12;
-  v14 = (btSequentialImpulseConstraintSolver *)this->m_allocator->call_malloc(this->m_allocator, 128);
-  if ( v14 )
-    v16 = btSequentialImpulseConstraintSolver::btSequentialImpulseConstraintSolver(v15, v14);
+  v13 = this->m_allocator;
+  this->m_collisionConfiguration = v12;
+  v14 = type_info::raw_name(&btCollisionDispatcher `RTTI Type Descriptor');
+  v15 = (btCollisionDispatcher *)v13->call_malloc(
+                                   v13,
+                                   5408u,
+                                   v14,
+                                   "vostok::physics::bullet_physics_world::initialize",
+                                   ".\\bullet_physics_world.cpp",
+                                   150u);
+  if ( v15 )
+  {
+    btCollisionDispatcher::btCollisionDispatcher(v15, this->m_collisionConfiguration);
+    v17 = v16;
+  }
   else
-    v16 = 0;
-  v17 = this->m_allocator;
-  this->m_constraintSolver = v16;
-  v18 = (btSoftRigidDynamicsWorld *)v17->call_malloc(v17, 432u);
+  {
+    v17 = 0;
+  }
+  v18 = (_S1_7 & 1) == 0;
+  this->m_dispatcher = v17;
   if ( v18 )
+  {
+    _S1_7 |= 1u;
+    byte_47EA3AC = 0;
+    dword_47EA3A8 = (int)&btGImpactCollisionAlgorithm::CreateFunc::`vftable';
+    atexit((int (__cdecl *)())btGImpactCollisionAlgorithm::registerAlgorithm_::_2_::_dynamic_atexit_destructor_for__s_gimpact_cf__);
+  }
+  memset32(v17->m_doubleDispatch[25], (int)&dword_47EA3A8, 0x24u);
+  v19 = &v17->m_doubleDispatch[0][25];
+  v20 = 36;
+  do
+  {
+    *v19 = (btCollisionAlgorithmCreateFunc *)&dword_47EA3A8;
+    v19 += 36;
+    --v20;
+  }
+  while ( v20 );
+  this->m_softBodyWorldInfo->m_dispatcher = this->m_dispatcher;
+  v21 = this->m_allocator;
+  v22 = type_info::raw_name(&btAxisSweep3 `RTTI Type Descriptor');
+  v23 = (btAxisSweep3Internal<unsigned short> *)v21->call_malloc(
+                                                  v21,
+                                                  128u,
+                                                  v22,
+                                                  "vostok::physics::bullet_physics_world::initialize",
+                                                  ".\\bullet_physics_world.cpp",
+                                                  154u);
+  if ( v23 )
+  {
+    btAxisSweep3Internal<unsigned short>::btAxisSweep3Internal<unsigned short>(
+      (btAxisSweep3Internal<unsigned short> *)&worldAabbMax,
+      v23,
+      &worldAabbMax,
+      &handleMask,
+      (unsigned __int16)v41,
+      v42,
+      v43,
+      (bool)v23);
+    v24 = disableRaycastAccelerator;
+    disableRaycastAccelerator->__vftable = (btBroadphaseInterface_vtbl *)&btAxisSweep3::`vftable';
+  }
+  else
+  {
+    v24 = 0;
+  }
+  v25 = this->m_softBodyWorldInfo;
+  this->m_overlappingPairCache = v24;
+  v25->m_broadphase = v24;
+  disableRaycastAcceleratora = this->m_allocator;
+  v26 = type_info::raw_name(&btSequentialImpulseConstraintSolver `RTTI Type Descriptor');
+  v27 = (btSequentialImpulseConstraintSolver *)disableRaycastAcceleratora->call_malloc(
+                                                 disableRaycastAcceleratora,
+                                                 128u,
+                                                 v26,
+                                                 "vostok::physics::bullet_physics_world::initialize",
+                                                 ".\\bullet_physics_world.cpp",
+                                                 157u);
+  if ( v27 )
+    v29 = btSequentialImpulseConstraintSolver::btSequentialImpulseConstraintSolver(v28, v27);
+  else
+    v29 = 0;
+  this->m_constraintSolver = v29;
+  disableRaycastAcceleratorb = this->m_allocator;
+  v30 = type_info::raw_name(&btSoftRigidDynamicsWorld `RTTI Type Descriptor');
+  v31 = (btSoftRigidDynamicsWorld *)disableRaycastAcceleratorb->call_malloc(
+                                      disableRaycastAcceleratorb,
+                                      432u,
+                                      v30,
+                                      "vostok::physics::bullet_physics_world::initialize",
+                                      ".\\bullet_physics_world.cpp",
+                                      158u);
+  if ( v31 )
     btSoftRigidDynamicsWorld::btSoftRigidDynamicsWorld(
-      v18,
+      v31,
       this->m_dispatcher,
       this->m_overlappingPairCache,
       this->m_constraintSolver,
-      this->m_collisionConfiguration,
-      v26);
+      v41);
   else
-    v19 = 0;
-  this->m_dynamicsWorld = v19;
-  v19->m_dispatchInfo.m_enableSPU = 0;
+    v32 = 0;
+  this->m_dynamicsWorld = v32;
+  v32->m_dispatchInfo.m_enableSPU = 0;
   m_dynamicsWorld = this->m_dynamicsWorld;
-  worldAabbMax.mVec128.m128_u64[0] = 0xC120000000000000uLL;
-  worldAabbMax.mVec128.m128_u64[1] = 0;
-  m_dynamicsWorld->setGravity(m_dynamicsWorld, &worldAabbMax);
-  v21 = &this->m_softBodyWorldInfo->m_gravity;
-  v21->mVec128.m128_i32[0] = 0;
-  v21->mVec128.m128_i32[1] = -1054867456;
-  v21->mVec128.m128_i32[2] = 0;
-  v21->mVec128.m128_i32[3] = 0;
-  btSparseSdf<3>::Initialize(v22, (int)&this->m_softBodyWorldInfo->m_sparsesdf);
-  btSparseSdf<3>::Reset(v23, &this->m_softBodyWorldInfo->m_sparsesdf);
-  v24 = (btGhostPairCallback *)this->m_allocator->call_malloc(this->m_allocator, 4);
-  if ( v24 )
-    v24->__vftable = (btGhostPairCallback_vtbl *)&btGhostPairCallback::`vftable';
+  worldAabbMax.mVec128.m128_i32[0] = 0;
+  *(unsigned __int64 *)((char *)worldAabbMax.mVec128.m128_u64 + 4) = LODWORD(FLOAT_N10_0);
+  worldAabbMax.mVec128.m128_i32[3] = 0;
+  ((void (__thiscall *)(btSoftRigidDynamicsWorld *, btVector3 *, btSoftBodySolver *))m_dynamicsWorld->setGravity)(
+    m_dynamicsWorld,
+    &worldAabbMax,
+    v41);
+  v34 = this->m_softBodyWorldInfo;
+  v34->m_gravity.mVec128.m128_i32[0] = 0;
+  v34->m_gravity.mVec128.m128_f32[1] = FLOAT_N10_0;
+  v34->m_gravity.mVec128.m128_i32[2] = 0;
+  v34->m_gravity.mVec128.m128_i32[3] = 0;
+  btSparseSdf<3>::Initialize(v35, (int)&v34->m_sparsesdf);
+  btSparseSdf<3>::Reset(v36, (int)&this->m_softBodyWorldInfo->m_sparsesdf);
+  this->m_dynamicsWorld->m_solverInfo.m_numIterations = 2;
+  this->m_dynamicsWorld->m_solverInfo.m_solverMode = 256;
+  v37 = this->m_allocator;
+  v38 = type_info::raw_name(&btGhostPairCallback `RTTI Type Descriptor');
+  v39 = (btGhostPairCallback *)((int (__thiscall *)(vostok::memory::base_allocator *, int, char *, const char *, const char *))v37->call_malloc)(
+                                 v37,
+                                 4,
+                                 v38,
+                                 "vostok::physics::bullet_physics_world::initialize",
+                                 ".\\bullet_physics_world.cpp");
+  if ( v39 )
+    v39->__vftable = (btGhostPairCallback_vtbl *)&btGhostPairCallback::`vftable';
   else
-    v24 = 0;
-  this->m_ghost_pair_callback = v24;
-  v25 = this->m_dynamicsWorld->m_broadphasePairCache->getOverlappingPairCache(this->m_dynamicsWorld->m_broadphasePairCache);
-  v25->setInternalGhostPairCallback(v25, this->m_ghost_pair_callback);
-  this->m_last_frame_time = 0.0;
-  this->m_last_frame_delta = 0.0;
+    v39 = 0;
+  this->m_ghost_pair_callback = v39;
+  v40 = ((int (__thiscall *)(btBroadphaseInterface *, int))this->m_dynamicsWorld->m_broadphasePairCache->getOverlappingPairCache)(
+          this->m_dynamicsWorld->m_broadphasePairCache,
+          172);
+  (*(void (__thiscall **)(int, btGhostPairCallback *))(*(_DWORD *)v40 + 56))(v40, this->m_ghost_pair_callback);
   physics_log_fn = vostok::physics::log_cb;
 }

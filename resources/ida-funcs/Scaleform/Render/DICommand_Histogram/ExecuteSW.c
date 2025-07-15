@@ -1,28 +1,28 @@
 void __thiscall Scaleform::Render::DICommand_Histogram::ExecuteSW(
         Scaleform::Render::DICommand_Histogram *this,
-        Scaleform::Render::Color context,
+        unsigned int context,
         Scaleform::Render::ImageData *dst,
         Scaleform::Render::ImageData **__formal)
 {
-  Scaleform::Render::TextureManager *v5; // eax
-  Scaleform::Render::ImageSwizzler *v6; // eax
+  int v5; // eax
+  int v6; // eax
   Scaleform::Render::ImageData *v7; // ebx
-  signed int i; // ebp
+  int i; // ebp
   Scaleform::Render::ImagePlane *pPlanes; // edx
   int y2; // eax
-  signed int j; // edi
+  int j; // edi
   int Width; // eax
-  unsigned int Raw; // eax
-  Scaleform::Render::ImageSwizzlerContext mappedSwizzler; // [esp+10h] [ebp-18h] BYREF
+  unsigned int v13; // eax
+  _DWORD v14[6]; // [esp+10h] [ebp-18h] BYREF
 
-  v5 = (Scaleform::Render::TextureManager *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)&context + 4) + 220))(*(_DWORD *)(*(_DWORD *)&context + 4));
-  v6 = v5->GetImageSwizzler(v5);
+  v5 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(context + 4) + 220))(*(_DWORD *)(context + 4));
+  v6 = (*(int (__thiscall **)(int))(*(_DWORD *)v5 + 60))(v5);
   v7 = dst;
-  mappedSwizzler.Swizzler = v6;
-  mappedSwizzler.pCurrentScanline = 0;
-  mappedSwizzler.pImage = dst;
-  memset(&mappedSwizzler.CachedBlockY, 0, 12);
-  v6->Initialize(v6, &mappedSwizzler);
+  v14[0] = v6;
+  v14[1] = 0;
+  v14[2] = dst;
+  memset(&v14[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v6 + 4))(v6, v14);
   for ( i = this->SourceRect.y1 < 0 ? 0 : this->SourceRect.y1; ; ++i )
   {
     pPlanes = v7->pPlanes;
@@ -31,7 +31,7 @@ void __thiscall Scaleform::Render::DICommand_Histogram::ExecuteSW(
       y2 = pPlanes->Height;
     if ( i >= y2 )
       break;
-    mappedSwizzler.Swizzler->CacheScanline(mappedSwizzler.Swizzler, &mappedSwizzler, i);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v14[0] + 8))(v14[0], v14, i);
     for ( j = this->SourceRect.x1 < 0 ? 0 : this->SourceRect.x1; ; ++j )
     {
       Width = v7->pPlanes->Width;
@@ -39,14 +39,14 @@ void __thiscall Scaleform::Render::DICommand_Histogram::ExecuteSW(
         Width = this->SourceRect.x2;
       if ( j >= Width )
         break;
-      mappedSwizzler.Swizzler->GetPixelInScanline(mappedSwizzler.Swizzler, &context, &mappedSwizzler, j);
-      Raw = context.Raw;
-      ++this->Result[context.Channels.Blue + 512];
-      Raw >>= 8;
-      ++this->Result[(unsigned __int8)Raw + 256];
-      Raw >>= 8;
-      ++this->Result[(unsigned __int8)Raw];
-      ++this->Result[BYTE1(Raw) + 768];
+      (*(void (__thiscall **)(_DWORD, unsigned int *, _DWORD *, int))(*(_DWORD *)v14[0] + 20))(v14[0], &context, v14, j);
+      v13 = context;
+      ++this->Result[(unsigned __int8)context + 512];
+      v13 >>= 8;
+      ++this->Result[(unsigned __int8)v13 + 256];
+      v13 >>= 8;
+      ++this->Result[(unsigned __int8)v13];
+      ++this->Result[BYTE1(v13) + 768];
     }
   }
 }

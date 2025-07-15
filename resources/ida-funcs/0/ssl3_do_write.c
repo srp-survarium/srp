@@ -4,11 +4,11 @@ int __cdecl ssl3_do_write(ssl_st *s, int type)
   int init_num; // eax
   void (__cdecl *msg_callback)(int, int, int, const void *, unsigned int, ssl_st *, void *); // ecx
 
-  v2 = ssl3_write_bytes(s, type, &s->init_buf->data[s->init_off], s->init_num);
+  v2 = ssl3_write_bytes(type, s, type, &s->init_buf->data[s->init_off], s->init_num);
   if ( v2 < 0 )
     return -1;
   if ( type == 22 )
-    ssl3_finish_mac(s, (const unsigned __int8 *)&s->init_buf->data[s->init_off], v2);
+    ssl3_finish_mac(s, &s->init_buf->data[s->init_off], v2);
   init_num = s->init_num;
   if ( v2 == init_num )
   {

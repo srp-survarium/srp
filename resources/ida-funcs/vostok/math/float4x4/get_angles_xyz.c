@@ -1,50 +1,67 @@
 vostok::math::float3 *__usercall vostok::math::float4x4::get_angles_xyz@<eax>(
         vostok::math::float4x4 *this@<ecx>,
-        float *a2@<edi>,
-        float *a3@<esi>)
+        int a2@<edi>,
+        int a3@<esi>)
 {
-  long double v3; // st6
-  long double v4; // st7
-  float v5; // xmm0_4
-  float v7; // xmm0_4
-  long double v8; // st7
-  float _Y; // [esp+4h] [ebp-1Ch]
-  float _X; // [esp+8h] [ebp-18h]
-  float iz_wo_scale; // [esp+Ch] [ebp-14h]
-  float v12; // [esp+10h] [ebp-10h]
-  float v13; // [esp+14h] [ebp-Ch]
-  float v14; // [esp+18h] [ebp-8h]
-  float v15; // [esp+1Ch] [ebp-4h]
+  float v3; // xmm0_4
+  double v4; // xmm0_8
+  double v5; // xmm0_8
+  float v6; // xmm0_4
+  double v7; // xmm0_8
+  float v8; // xmm0_4
+  double v9; // xmm0_8
+  long double v11; // [esp+0h] [ebp-10h]
+  long double v12; // [esp+0h] [ebp-10h]
+  long double v13; // [esp+0h] [ebp-10h]
+  long double x; // [esp+8h] [ebp-8h]
+  long double xa; // [esp+8h] [ebp-8h]
 
-  v15 = *a3;
-  v3 = 1.0 / sqrtf((float)((float)(v15 * v15) + (float)(a3[1] * a3[1])) + (float)(a3[2] * a3[2])) * a3[2];
-  iz_wo_scale = v3;
-  if ( v3 >= 1.0 )
+  HIDWORD(x) = *(_DWORD *)a3;
+  v3 = (float)(s_bm_current_air_resistance
+             / fsqrt(
+                 (float)((float)(*(float *)a3 * *(float *)a3) + (float)(*(float *)(a3 + 4) * *(float *)(a3 + 4)))
+               + (float)(*(float *)(a3 + 8) * *(float *)(a3 + 8))))
+     * *(float *)(a3 + 8);
+  *(float *)&x = v3;
+  if ( s_bm_current_air_resistance <= v3 )
   {
-    v8 = atan2f(a3[4], a3[5]);
-    v7 = pi_d2_8;
+    v9 = *(float *)(a3 + 16);
+    __libm_sse2_atan2(v11, x);
+    *(float *)&v9 = v9;
+    *(_DWORD *)a2 = LODWORD(v9);
+    v8 = pi_d2_11;
+    goto LABEL_6;
   }
-  else
+  if ( v3 <= -1.0 )
   {
-    if ( iz_wo_scale > -1.0 )
-    {
-      v14 = a3[6];
-      v13 = a3[5];
-      v12 = a3[4];
-      _X = 1.0 / sqrtf((float)((float)(a3[8] * a3[8]) + (float)(a3[9] * a3[9])) + (float)(a3[10] * a3[10])) * a3[10];
-      _Y = -(1.0 / sqrtf((float)((float)(v12 * v12) + (float)(v13 * v13)) + (float)(v14 * v14)) * a3[6]);
-      *a2 = atan2f(_Y, _X);
-      v4 = asinf(iz_wo_scale);
-      v5 = a3[1];
-      a2[1] = v4;
-      a2[2] = atan2f(-v5, v15);
-      return (vostok::math::float3 *)a2;
-    }
-    v7 = -1.5707964;
-    v8 = -atan2f(a3[4], a3[5]);
+    v7 = *(float *)(a3 + 16);
+    __libm_sse2_atan2(v11, x);
+    *(float *)&v7 = v7;
+    *(_DWORD *)a2 = LODWORD(v7) ^ _mask__NegFloat_;
+    v8 = FLOAT_N1_5707964;
+LABEL_6:
+    *(float *)(a2 + 4) = v8;
+    v6 = 0.0;
+    goto LABEL_7;
   }
-  a2[1] = v7;
-  *a2 = v8;
-  a2[2] = 0.0;
+  v4 = COERCE_FLOAT(
+         COERCE_UNSIGNED_INT(
+           (float)(s_bm_current_air_resistance
+                 / fsqrt(
+                     (float)((float)(*(float *)(a3 + 24) * *(float *)(a3 + 24))
+                           + (float)(*(float *)(a3 + 16) * *(float *)(a3 + 16)))
+                   + (float)(*(float *)(a3 + 20) * *(float *)(a3 + 20))))
+         * *(float *)(a3 + 24))
+       ^ _mask__NegFloat_);
+  __libm_sse2_atan2(v11, x);
+  *(float *)&v4 = v4;
+  *(_DWORD *)a2 = LODWORD(v4);
+  __libm_sse2_asin(v12);
+  *(_DWORD *)(a2 + 4) = LODWORD(xa);
+  v5 = COERCE_FLOAT(*(_DWORD *)(a3 + 4) ^ _mask__NegFloat_);
+  __libm_sse2_atan2(v13, xa);
+  v6 = v5;
+LABEL_7:
+  *(float *)(a2 + 8) = v6;
   return (vostok::math::float3 *)a2;
 }

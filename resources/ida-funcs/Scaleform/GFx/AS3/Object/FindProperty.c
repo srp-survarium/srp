@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::Object::FindProperty(
        || ((int)result->pSI & 2) != 0 && ((int)result->pSI & 0xFFFFFFFD) == 0)
       && attr != FindSet )
     {
-      for ( i = this->pTraits.pObject; i; i = (Scaleform::GFx::AS3::Traits *)i->pParent.pObject )
+      for ( i = this->pTraits.pObject; i; i = i->pParent.pObject )
       {
         if ( !i->pConstructor.pObject )
           i->InitOnDemand(i);

@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS2::AvmSwfEvent::Read(
         Scaleform::GFx::AS2::AvmSwfEvent *this,
         Scaleform::GFx::StreamContext *psc,
-        unsigned int flags)
+        Scaleform::GFx::AS2::ActionBufferData *flags)
 {
   unsigned int CurByteIndex; // ecx
   const unsigned __int8 *pData; // edx
@@ -17,9 +17,9 @@ void __thiscall Scaleform::GFx::AS2::AvmSwfEvent::Read(
   unsigned int v15; // edx
   unsigned int CurBitIndex; // ecx
   unsigned int v17; // eax
-  Scaleform::GFx::AS2::ActionBufferData *flagsa; // [esp+2Ch] [ebp+8h]
+  Scaleform::GFx::AS2::ActionBufferData *v18; // [esp+2Ch] [ebp+8h]
 
-  this->Event.Id = flags;
+  this->Event.Id = (unsigned int)flags;
   this->Event.WcharCode = 0;
   this->Event.KeyCode = 0;
   this->Event.AsciiCode = 0;
@@ -59,17 +59,17 @@ void __thiscall Scaleform::GFx::AS2::AvmSwfEvent::Read(
     v12->BufferLen = 0;
     v12->SwdHandle = 0;
     v12->SWFFileOffset = 0;
-    flagsa = v12;
+    v18 = v12;
   }
   else
   {
-    flagsa = 0;
+    v18 = 0;
   }
   pObject = (Scaleform::RefCountVImpl *)this->pActionOpData.pObject;
   if ( pObject )
     Scaleform::RefCountImpl::Release(pObject);
-  this->pActionOpData.pObject = flagsa;
-  Scaleform::GFx::AS2::ActionBufferData::Read(flagsa, psc, v10);
+  this->pActionOpData.pObject = v18;
+  Scaleform::GFx::AS2::ActionBufferData::Read(v18, psc, v10);
   BufferLen = this->pActionOpData.pObject->BufferLen;
   if ( v10 != BufferLen )
   {

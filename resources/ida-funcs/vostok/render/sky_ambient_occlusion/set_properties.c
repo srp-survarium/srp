@@ -1,69 +1,83 @@
-void __userpurge vostok::render::sky_ambient_occlusion::set_properties(
-        const vostok::render::sky_ambient_occlusion_properties *in_properties@<eax>,
-        vostok::render::sky_ambient_occlusion *this)
+void __thiscall vostok::render::sky_ambient_occlusion::set_properties(
+        vostok::render::sky_ambient_occlusion *this,
+        const vostok::render::sky_ambient_occlusion_properties *in_properties,
+        vostok::fixed_string<260> *a3)
 {
-  vostok::render::res_texture *v3; // ecx
-  vostok::render::res_texture *m_object; // esi
-  bool v5; // zf
-  stlp_std::priv::_Rb_tree_node_base *texture; // eax
-  vostok::render::res_texture *v7; // ecx
-  vostok::render::res_texture *v8; // esi
-  const vostok::math::float4x4 *v9; // ecx
-  __int64 v10; // xmm0_8
-  vostok::math::float3 scale; // [esp+Ch] [ebp-64h] BYREF
-  __int128 v12; // [esp+20h] [ebp-50h]
-  vostok::math::float4x4 new_transform; // [esp+30h] [ebp-40h] BYREF
+  const vostok::render::sky_ambient_occlusion_properties *v3; // edi
+  int v4; // ecx
+  const char *v5; // edi
+  char *v6; // esi
+  bool v7; // cf
+  bool v8; // zf
+  vostok::render::res_texture *texture; // eax
+  vostok::render::resource_manager *v10; // esi
+  vostok::math::aabb scale; // [esp+10h] [ebp-58h] BYREF
+  vostok::math::float4x4 v12; // [esp+28h] [ebp-40h] BYREF
 
-  vostok::render::sky_ambient_occlusion_properties::operator=(&this->m_properties, in_properties);
-  if ( in_properties->texture_invalidated )
+  vostok::fixed_string<260>::operator=(a3, (const vostok::fixed_string<260> *)&in_properties->texture_name.m_end);
+  *(_QWORD *)&in_properties->location.elements[1] = *(_QWORD *)&a3[1].m_begin;
+  LODWORD(in_properties->width) = a3[1].m_max_end;
+  in_properties->height = *(float *)a3[1].m_buffer;
+  v3 = in_properties;
+  in_properties->depth = *(float *)&a3[1].m_buffer[4];
+  *(float *)&in_properties->enabled = *(float *)&a3[1].m_buffer[8];
+  LOBYTE(in_properties[1].texture_name.m_begin) = a3[1].m_buffer[12];
+  BYTE1(in_properties[1].texture_name.m_begin) = a3[1].m_buffer[13];
+  if ( a3[1].m_buffer[13] )
   {
-    m_object = this->m_texture.m_object;
-    this->m_texture.m_object = 0;
-    if ( m_object )
-    {
-      v5 = m_object->m_reference_count-- == 1;
-      if ( v5 )
-        vostok::render::res_texture::destroy_impl(v3, m_object);
-    }
-    texture = vostok::render::resource_manager::create_texture(
-                (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                this->m_properties.texture_name.m_buffer,
-                0,
-                0,
-                0,
-                1,
-                1,
-                0xFFFFFFFF);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)&in_properties[1].texture_name.m_buffer[16]);
+    if ( in_properties == (const vostok::render::sky_ambient_occlusion_properties *)-16 )
+      goto LABEL_9;
+    v5 = "null";
+    v6 = &in_properties->texture_name.m_buffer[4];
+    v4 = 5;
+    texture = 0;
     v7 = 0;
+    v8 = 1;
+    do
+    {
+      if ( !v4 )
+        break;
+      v7 = (unsigned __int8)*v6 < (unsigned int)*v5;
+      v8 = *v6++ == *v5++;
+      --v4;
+    }
+    while ( v8 );
+    if ( !v8 )
+      texture = (vostok::render::res_texture *)(-v7 - (v7 - 1));
+    v3 = in_properties;
     if ( texture )
     {
-      ++texture->_M_parent;
-      v7 = (vostok::render::res_texture *)texture;
+LABEL_9:
+      v10 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+      texture = (vostok::render::res_texture *)vostok::render::resource_manager::find_texture(
+                                                 (vostok::render::resource_manager *)v4,
+                                                 (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                                                 &in_properties->texture_name.m_buffer[4]);
+      if ( !texture )
+        texture = vostok::render::resource_manager::load_texture(
+                    v10,
+                    &v3->texture_name.m_buffer[4],
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    0xFFFFFFFF,
+                    1,
+                    0);
     }
-    v8 = this->m_texture.m_object;
-    this->m_texture.m_object = v7;
-    if ( v8 )
-    {
-      v5 = v8->m_reference_count-- == 1;
-      if ( v5 )
-        vostok::render::res_texture::destroy_impl(v7, v8);
-    }
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      texture,
+      (vostok::render::res_texture *)&v3[1].texture_name.m_buffer[16]);
   }
-  vostok::math::create_translation(&new_transform, &in_properties->location);
-  scale.x = in_properties->width;
-  scale.y = in_properties->depth;
-  scale.z = in_properties->height;
-  vostok::math::float4x4::set_scale(&new_transform, &scale);
-  LODWORD(scale.z) = clear_value;
-  v9 = clear_value;
-  LODWORD(scale.x) = clear_value;
-  LODWORD(scale.y) = clear_value;
-  LODWORD(v12) = -1082130432;
-  *(_QWORD *)((char *)&v12 + 4) = *(_QWORD *)&scale.x;
-  v10 = v12;
-  *(_QWORD *)&this->m_aabb.min.x = 0xBF800000BF800000uLL;
-  HIDWORD(v12) = v9;
-  *(_QWORD *)&this->m_aabb.min.elements[2] = v10;
-  *(_QWORD *)&this->m_aabb.max.elements[1] = *((_QWORD *)&v12 + 1);
-  vostok::math::aabb::modify((vostok::math::aabb *)&new_transform, &this->m_aabb);
+  vostok::math::create_translation((const vostok::math::float3 *)&a3[1], &v12);
+  scale.min.x = *(float *)a3[1].m_buffer;
+  scale.min.y = *(float *)&a3[1].m_buffer[8];
+  scale.min.z = *(float *)&a3[1].m_buffer[4];
+  vostok::math::float4x4::set_scale(&v12, &scale.min);
+  qmemcpy(&v3[1].texture_name.m_end, vostok::math::create_identity_aabb(&scale), 0x18u);
+  vostok::math::aabb::modify((vostok::math::aabb *)&v12, (vostok::math::aabb *)&v3[1].texture_name.m_end);
 }

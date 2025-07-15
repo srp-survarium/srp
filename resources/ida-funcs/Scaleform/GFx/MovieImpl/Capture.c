@@ -6,27 +6,27 @@ void __thiscall Scaleform::GFx::MovieImpl::Capture(Scaleform::GFx::MovieImpl *th
   Scaleform::Render::ContextImpl::Entry *pPrev; // eax
   Scaleform::Render::TreeRoot *pObject; // eax
   int v7; // esi
-  unsigned __int8 *pIndXFormData; // esi
+  const __m128i *pIndXFormData; // esi
   Scaleform::Render::TreeRoot *v9; // ebx
   int v10; // edi
   Scaleform::Render::TreeRoot *pParent; // eax
   Scaleform::Render::TreeRoot *v12; // ebx
   int v13; // edi
-  unsigned __int8 *Inverse; // eax
+  const __m128i *Inverse; // eax
   bool HasChanges; // al
-  bool v16; // [esp+75Fh] [ebp-191h]
-  char j; // [esp+75Fh] [ebp-191h]
-  Scaleform::Render::TreeNode *v19; // [esp+764h] [ebp-18Ch]
-  int v20; // [esp+768h] [ebp-188h]
-  unsigned int i; // [esp+76Ch] [ebp-184h]
-  Scaleform::Render::Matrix3x4<float> src; // [esp+770h] [ebp-180h] BYREF
-  Scaleform::Render::Matrix3x4<float> result; // [esp+7A0h] [ebp-150h] BYREF
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+7D0h] [ebp-120h] BYREF
-  Scaleform::Render::Matrix3x4<float> v25; // [esp+800h] [ebp-F0h] BYREF
-  Scaleform::Render::Matrix3x4<float> v26; // [esp+830h] [ebp-C0h] BYREF
-  Scaleform::Render::Matrix3x4<float> v27; // [esp+860h] [ebp-90h] BYREF
-  Scaleform::Render::Matrix3x4<float> m2; // [esp+890h] [ebp-60h] BYREF
-  Scaleform::Render::Matrix3x4<float> m1; // [esp+8C0h] [ebp-30h] BYREF
+  bool v16; // [esp+Fh] [ebp-191h]
+  char j; // [esp+Fh] [ebp-191h]
+  Scaleform::Render::TreeNode *v19; // [esp+14h] [ebp-18Ch]
+  int v20; // [esp+18h] [ebp-188h]
+  unsigned int i; // [esp+1Ch] [ebp-184h]
+  Scaleform::Render::Matrix3x4<float> src; // [esp+20h] [ebp-180h] BYREF
+  Scaleform::Render::Matrix3x4<float> result; // [esp+50h] [ebp-150h] BYREF
+  Scaleform::Render::Matrix3x4<float> dst; // [esp+80h] [ebp-120h] BYREF
+  Scaleform::Render::Matrix3x4<float> v25; // [esp+B0h] [ebp-F0h] BYREF
+  Scaleform::Render::Matrix3x4<float> v26; // [esp+E0h] [ebp-C0h] BYREF
+  Scaleform::Render::Matrix3x4<float> v27; // [esp+110h] [ebp-90h] BYREF
+  Scaleform::Render::Matrix3x4<float> m2; // [esp+140h] [ebp-60h] BYREF
+  Scaleform::Render::Matrix3x4<float> m1; // [esp+170h] [ebp-30h] BYREF
 
   v2 = this;
   if ( onChangeOnly
@@ -102,17 +102,17 @@ void __thiscall Scaleform::GFx::MovieImpl::Capture(Scaleform::GFx::MovieImpl *th
         v3->OrigParentDepth = v7;
       }
 LABEL_20:
-      pIndXFormData = (unsigned __int8 *)v3->Obj.pObject->pIndXFormData;
-      memcpy((unsigned __int8 *)&dst, pIndXFormData, sizeof(dst));
+      pIndXFormData = (const __m128i *)v3->Obj.pObject->pIndXFormData;
+      memcpy((int)&dst, pIndXFormData, sizeof(dst));
       v9 = (Scaleform::Render::TreeRoot *)v3->TransformParent.pObject;
-      for ( j = pIndXFormData[48]; v9; v2 = this )
+      for ( j = pIndXFormData[3].m128i_i8[0]; v9; v2 = this )
       {
         if ( v9 == v2->pRenderRoot.pObject )
           break;
         v10 = (int)((int)&v9[-1] - ((unsigned int)v9 & 0xFFFFF000)) / 28;
         if ( (*(_WORD *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v9 & 0xFFFFF000) + 0x10) + 4 * v10 + 20) + 6) & 0x200) != 0 )
         {
-          memcpy((unsigned __int8 *)&m2, (unsigned __int8 *)&dst, sizeof(m2));
+          memcpy((int)&m2, (const __m128i *)&dst, sizeof(m2));
           Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(
             &dst,
             (const Scaleform::Render::Matrix3x4<float> *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v9 & 0xFFFFF000) + 0x10)
@@ -124,7 +124,7 @@ LABEL_20:
         }
         else
         {
-          memcpy((unsigned __int8 *)&v25, (unsigned __int8 *)&dst, sizeof(v25));
+          memcpy((int)&v25, (const __m128i *)&dst, sizeof(v25));
           Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(
             &dst,
             (const Scaleform::Render::Matrix2x4<float> *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v9 & 0xFFFFF000) + 0x10)
@@ -146,7 +146,7 @@ LABEL_20:
         v13 = (int)((int)&v12[-1] - ((unsigned int)v12 & 0xFFFFF000)) / 28;
         if ( (*(_WORD *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v12 & 0xFFFFF000) + 0x10) + 4 * v13 + 20) + 6) & 0x200) != 0 )
         {
-          memcpy((unsigned __int8 *)&v26, (unsigned __int8 *)&src, sizeof(v26));
+          memcpy((int)&v26, (const __m128i *)&src, sizeof(v26));
           Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(
             &src,
             (const Scaleform::Render::Matrix3x4<float> *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v12 & 0xFFFFF000) + 0x10)
@@ -158,7 +158,7 @@ LABEL_20:
         }
         else
         {
-          memcpy((unsigned __int8 *)&v27, (unsigned __int8 *)&src, sizeof(v27));
+          memcpy((int)&v27, (const __m128i *)&src, sizeof(v27));
           Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(
             &src,
             (const Scaleform::Render::Matrix2x4<float> *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v12 & 0xFFFFF000) + 0x10)
@@ -171,9 +171,9 @@ LABEL_20:
       }
       if ( j )
       {
-        Inverse = (unsigned __int8 *)Scaleform::Render::Matrix3x4<float>::GetInverse(&src, &result);
-        memcpy((unsigned __int8 *)&src, Inverse, sizeof(src));
-        memcpy((unsigned __int8 *)&m1, (unsigned __int8 *)&src, sizeof(m1));
+        Inverse = (const __m128i *)Scaleform::Render::Matrix3x4<float>::GetInverse(&src, &result);
+        memcpy((int)&src, Inverse, sizeof(src));
+        memcpy((int)&m1, (const __m128i *)&src, sizeof(m1));
         Scaleform::Render::Matrix3x4<float>::MultiplyMatrix(&src, &m1, &dst);
         Scaleform::Render::TreeNode::SetMatrix3D(v19, &src);
       }

@@ -21,7 +21,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::AppendText(const Scaleform::GFx:
       v4 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
       Scaleform::GFx::AS2::Value::ToStringImpl(v4, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
       v5 = (Scaleform::GFx::ASStringNode *)fn;
-      Scaleform::GFx::TextField::AppendText(v3, (const char *)fn->__vftable, 0xFFFFFFFF);
+      Scaleform::GFx::TextField::AppendText(v3, (char *)fn->__vftable, 0xFFFFFFFF);
       Scaleform::GFx::TextField::SetDirtyFlag(v3);
       if ( v5->RefCount-- == 1 )
         Scaleform::GFx::ASStringNode::ReleaseNode(v5);

@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::FillTabableArray(
         {
           Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::InteractiveObject>,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::InteractiveObject>,327>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
             &v4->Array->Data,
-            v4->Array->Data.pHeap,
+            (void *)v4->Array->Data.pHeap,
             0);
           v4->TabIndexed = 1;
         }

@@ -9,10 +9,10 @@ bio_st *__usercall PKCS7_find_digest@<eax>(ui_string_st **pmd@<edi>, int nid@<eb
   {
     while ( 1 )
     {
-      BIO_ctrl(type, 120, 0, pmd);
+      BIO_ctrl(nid, type, 120, 0, pmd);
       if ( !*pmd )
       {
-        ERR_put_error(0x21u, 127, 68, ".\\crypto\\pkcs7\\pk7_doit.c", 652);
+        ERR_put_error(nid, 0x21u, 127, 68, ".\\crypto\\pkcs7\\pk7_doit.c", 652);
         return 0;
       }
       object = X509_EXTENSION_get_object(*pmd);
@@ -27,7 +27,7 @@ bio_st *__usercall PKCS7_find_digest@<eax>(ui_string_st **pmd@<edi>, int nid@<eb
   else
   {
 LABEL_5:
-    ERR_put_error(0x21u, 127, 108, ".\\crypto\\pkcs7\\pk7_doit.c", 646);
+    ERR_put_error(nid, 0x21u, 127, 108, ".\\crypto\\pkcs7\\pk7_doit.c", 646);
     return 0;
   }
 }

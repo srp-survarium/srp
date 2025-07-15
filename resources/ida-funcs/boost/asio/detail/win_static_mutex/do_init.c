@@ -1,44 +1,37 @@
-DWORD __thiscall boost::asio::detail::win_static_mutex::do_init(boost::asio::detail::win_static_mutex *this)
+DWORD __thiscall boost::asio::detail::win_static_mutex::do_init(
+        boost::asio::detail::win_static_mutex *this,
+        char *mutex)
 {
   DWORD CurrentProcessId; // eax
-  HANDLE mutex; // [esp+1Ch] [ebp-120h]
-  DWORD last_error; // [esp+20h] [ebp-11Ch]
-  DWORD last_errora; // [esp+20h] [ebp-11Ch]
-  wchar_t mutex_name[128]; // [esp+24h] [ebp-118h] BYREF
-  CPPEH_RECORD ms_exc; // [esp+124h] [ebp-18h]
+  HANDLE MutexW; // edi
+  DWORD LastError; // eax
+  DWORD v6; // esi
+  wchar_t mutex_name[128]; // [esp+Ch] [ebp-118h] BYREF
+  CPPEH_RECORD ms_exc; // [esp+10Ch] [ebp-18h]
 
   CurrentProcessId = GetCurrentProcessId();
-  swprintf_s(mutex_name, 0x80u, L"asio-58CCDC44-6264-4842-90C2-F3C545CB8AA7-%u-%p", CurrentProcessId, this);
-  mutex = CreateMutexW(0, 1, mutex_name);
-  last_error = GetLastError();
-  if ( !mutex )
+  swprintf_s(mutex_name, 0x80u, (wchar_t *)L"asio-58CCDC44-6264-4842-90C2-F3C545CB8AA7-%u-%p", CurrentProcessId, mutex);
+  MutexW = CreateMutexW(0, 1, mutex_name);
+  LastError = GetLastError();
+  if ( !MutexW )
     return GetLastError();
-  if ( last_error == 183 )
-    WaitForSingleObject(mutex, 0xFFFFFFFF);
-  if ( this->initialised_ )
+  if ( LastError == 183 )
+    WaitForSingleObject(MutexW, 0xFFFFFFFF);
+  if ( *mutex )
+    goto LABEL_6;
+  ms_exc.registration.TryLevel = 0;
+  if ( InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)(mutex + 4), 0x80000000) )
   {
-    ReleaseMutex(mutex);
-    CloseHandle(mutex);
+    ms_exc.registration.TryLevel = -1;
+    *mutex = 1;
+LABEL_6:
+    ReleaseMutex(MutexW);
+    CloseHandle(MutexW);
     return 0;
   }
-  else
-  {
-    ms_exc.registration.TryLevel = 0;
-    if ( InitializeCriticalSectionAndSpinCount(&this->crit_section_, 0x80000000) )
-    {
-      ms_exc.registration.TryLevel = -1;
-      this->initialised_ = 1;
-      ReleaseMutex(mutex);
-      CloseHandle(mutex);
-      return 0;
-    }
-    else
-    {
-      last_errora = GetLastError();
-      ReleaseMutex(mutex);
-      CloseHandle(mutex);
-      ms_exc.registration.TryLevel = -1;
-      return last_errora;
-    }
-  }
+  v6 = GetLastError();
+  ReleaseMutex(MutexW);
+  CloseHandle(MutexW);
+  ms_exc.registration.TryLevel = -1;
+  return v6;
 }

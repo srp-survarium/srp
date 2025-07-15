@@ -11,7 +11,7 @@ unsigned __int32 __cdecl Camellia_decrypt(int a1, unsigned __int32 *a2, int a3)
   v3 = alloca(((unsigned int)&v8[31] - a3 + 3) & 0x3C0);
   v8[5] = a3;
   v8[6] = &v9;
-  v8[0] = 8134479;
+  v8[0] = 6770127;
   v4 = _byteswap_ulong(*(_DWORD *)(a1 + 4));
   v5 = _x86_Camellia_decrypt(v8[1], v8[2], v8[3], v8[4], a3);
   result = _byteswap_ulong(v5);

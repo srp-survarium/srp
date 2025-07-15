@@ -1,4 +1,4 @@
-unsigned int __usercall stlp_std::priv::__format_float_fixed@<eax>(
+int __usercall stlp_std::priv::__format_float_fixed@<eax>(
         stlp_std::priv::__basic_iostring<char> *buf@<esi>,
         char *bp,
         int decpt,
@@ -21,7 +21,7 @@ unsigned int __usercall stlp_std::priv::__format_float_fixed@<eax>(
   stlp_std::priv::__basic_iostring<char> *v18; // ecx
   char *v19; // ecx
   unsigned int v20; // eax
-  const char *v21; // edi
+  char *v21; // edi
   char i; // cl
   char v23; // bl
   stlp_std::priv::__basic_iostring<char> *v24; // edx
@@ -30,7 +30,7 @@ unsigned int __usercall stlp_std::priv::__format_float_fixed@<eax>(
   int *v27; // ecx
   unsigned int v28; // ecx
   int v30; // [esp+Ch] [ebp-8h] BYREF
-  unsigned int __group_pos; // [esp+10h] [ebp-4h]
+  int v31; // [esp+10h] [ebp-4h]
 
   if ( sign && decpt > -precision && *bp )
   {
@@ -103,7 +103,7 @@ LABEL_32:
   }
   while ( v8 > 0 );
   v18 = (stlp_std::priv::__basic_iostring<char> *)buf->_M_start_of_storage._M_data;
-  __group_pos = v17 - (char *)v18;
+  v31 = v17 - (char *)v18;
   if ( (flags & 0x400) != 0 || precision > 0 )
   {
     if ( v18 == buf )
@@ -168,5 +168,5 @@ LABEL_32:
       buf,
       precision,
       48);
-  return __group_pos;
+  return v31;
 }

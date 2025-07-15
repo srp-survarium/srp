@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl::Catch::Catch(
 
   Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(this, vm, &Scaleform::GFx::AS3::fl::CatchCI);
   v5 = e;
-  this->__vftable = (Scaleform::GFx::AS3::InstanceTraits::fl::Catch_vtbl *)&Scaleform::GFx::AS3::InstanceTraits::fl::Object::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::InstanceTraits::fl::Catch_vtbl *)&Scaleform::GFx::AS3::InstanceTraits::fl::Catch::`vftable';
   this->TraitsType = Traits_Catch;
   var_name_ind = v5->var_name_ind;
   if ( var_name_ind )

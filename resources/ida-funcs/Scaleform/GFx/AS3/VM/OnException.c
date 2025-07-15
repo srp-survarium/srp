@@ -43,7 +43,7 @@ int __thiscall Scaleform::GFx::AS3::VM::OnException(
         v9 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
                this,
                *(Scaleform::GFx::AS3::VMFile **)(v3 + 20),
-               (Scaleform::GFx::AS3::Abc::Multiname *)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v3 + 20) + 60) + 88)
+               (Scaleform::GFx::AS3::Abc::Multiname *)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v3 + 20) + 60) + 96)
                                                      + 16 * exc_type_ind));
         v10 = v9;
         this->HandleException = 1;

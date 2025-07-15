@@ -1,6 +1,6 @@
 char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
         Scaleform::GFx::AS2::Environment *this@<ecx>,
-        int a2@<ebp>,
+        const Scaleform::GFx::ASString *a2@<ebp>,
         int a3@<esi>,
         const Scaleform::GFx::AS2::Environment::GetVarParams *params,
         bool onlyTargets,
@@ -53,19 +53,20 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
   Scaleform::GFx::AS2::Value *v52; // ecx
   Scaleform::GFx::ASStringNode *v53; // eax
   int v54; // [esp-6h] [ebp-74h]
-  int v55; // [esp-2h] [ebp-70h]
-  char sep[4]; // [esp+Ah] [ebp-64h] BYREF
-  const char *delim; // [esp+Eh] [ebp-60h]
-  Scaleform::GFx::AS2::Environment *first_token; // [esp+12h] [ebp-5Ch]
-  Scaleform::GFx::AS2::Value current; // [esp+16h] [ebp-58h] BYREF
-  Scaleform::GFx::AS2::Value member; // [esp+26h] [ebp-48h] BYREF
-  Scaleform::GFx::AS2::StringTokenizer parser; // [esp+36h] [ebp-38h] BYREF
+  const Scaleform::GFx::ASString *v55; // [esp-2h] [ebp-70h]
+  char VariableRaw; // [esp+Ch] [ebp-62h]
+  char v57; // [esp+Dh] [ebp-61h] BYREF
+  const char *v58; // [esp+Eh] [ebp-60h]
+  Scaleform::GFx::AS2::Environment *penv; // [esp+12h] [ebp-5Ch]
+  Scaleform::GFx::AS2::Value v; // [esp+16h] [ebp-58h] BYREF
+  Scaleform::GFx::AS2::Value v61; // [esp+26h] [ebp-48h] BYREF
+  Scaleform::GFx::AS2::StringTokenizer v62; // [esp+36h] [ebp-38h] BYREF
   Scaleform::GFx::AS2::Value result; // [esp+46h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::Environment::GetVarParams v63; // [esp+56h] [ebp-18h] BYREF
+  _DWORD v64[6]; // [esp+56h] [ebp-18h] BYREF
 
   pNode = params->VarName->pNode;
   Size = pNode->Size;
-  first_token = this;
+  penv = this;
   if ( !Size )
   {
     pResult = params->pResult;
@@ -81,8 +82,8 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
   pData = pNode->pData;
   pOwner = params->pOwner;
   v13 = 0;
-  current.T.Type = 0;
-  delim = ":./";
+  v.T.Type = 0;
+  v58 = ":./";
   if ( pOwner )
   {
     Scaleform::GFx::AS2::Value::DropRefs(pOwner);
@@ -93,40 +94,40 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
     *ppNewTarget = 0;
   if ( *pData == 47 )
   {
-    v15 = first_token->Target->GetTopParent(first_token->Target, 0);
-    Scaleform::GFx::AS2::Value::SetAsCharacter(&current, v15);
+    v15 = penv->Target->GetTopParent(penv->Target, 0);
+    Scaleform::GFx::AS2::Value::SetAsCharacter(&v, v15);
     v16 = params->pOwner;
     ++pData;
     --Size;
     v13 = 1;
-    delim = onlySlashesDelim;
+    v58 = onlySlashesDelim;
     if ( v16 )
-      Scaleform::GFx::AS2::Value::operator=(v16, &current);
+      Scaleform::GFx::AS2::Value::operator=(v16, &v);
   }
   else if ( *pData == 46 )
   {
-    delim = onlySlashesDelim;
+    v58 = onlySlashesDelim;
   }
-  v17 = first_token;
-  pContext = first_token->StringContext.pContext;
-  parser.Delimiters = delim;
-  parser.Str = pData;
-  parser.EndStr = &pData[Size];
-  parser.Token.pNode = (Scaleform::GFx::ASStringNode *)pContext->pMovieRoot->pASMovieRoot.pObject[8].RefCount;
-  ++parser.Token.pNode->RefCount;
-  sep[3] = 0;
-  LOBYTE(first_token) = 1;
-  if ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&parser, &sep[3]) )
+  v17 = penv;
+  pContext = penv->StringContext.pContext;
+  v62.Delimiters = v58;
+  v62.Str = pData;
+  v62.EndStr = &pData[Size];
+  v62.Token.pNode = (Scaleform::GFx::ASStringNode *)pContext->pMovieRoot->pASMovieRoot.pObject[8].RefCount;
+  ++v62.Token.pNode->RefCount;
+  v57 = 0;
+  LOBYTE(penv) = 1;
+  if ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&v62, &v57) )
   {
     v19 = varName;
     do
     {
-      v20 = parser.Token.pNode;
-      if ( !parser.Token.pNode->Size )
+      v20 = v62.Token.pNode;
+      if ( !v62.Token.pNode->Size )
         goto LABEL_91;
       if ( v19 )
       {
-        ++parser.Token.pNode->RefCount;
+        ++v62.Token.pNode->RefCount;
         v21 = v19->pNode;
         v22 = v19->pNode->RefCount-- == 1;
         v23 = v20;
@@ -134,10 +135,10 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
           Scaleform::GFx::ASStringNode::ReleaseNode(v21);
         v19->pNode = v23;
       }
-      Type = current.T.Type;
-      member.T.Type = 0;
-      sep[2] = 0;
-      if ( current.T.Type == 7 )
+      Type = v.T.Type;
+      v61.T.Type = 0;
+      VariableRaw = 0;
+      if ( v.T.Type == 7 )
       {
         if ( v13 )
           goto LABEL_43;
@@ -146,20 +147,20 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
       {
         if ( v13 )
           goto LABEL_57;
-        if ( !Scaleform::GFx::AS2::GAS_IsRelativePathToken(&v17->StringContext, &parser.Token) )
+        if ( !Scaleform::GFx::AS2::GAS_IsRelativePathToken(&v17->StringContext, &v62.Token) )
         {
-          v63.VarName = &parser.Token;
+          v64[0] = &v62.Token;
           pWithStack = params->pWithStack;
-          v63.pResult = &member;
-          v63.pWithStack = pWithStack;
-          memset(&v63.ppNewTarget, 0, 12);
-          sep[2] = Scaleform::GFx::AS2::Environment::GetVariableRaw(
-                     v17,
-                     (int)v17,
-                     (int)&parser.Token,
-                     (Scaleform::GFx::AS2::Object *)&v63,
-                     v54,
-                     v55);
+          v64[1] = &v61;
+          v64[2] = pWithStack;
+          memset(&v64[3], 0, 12);
+          VariableRaw = Scaleform::GFx::AS2::Environment::GetVariableRaw(
+                          v17,
+                          (int)v17,
+                          (int)&v62.Token,
+                          (Scaleform::GFx::AS2::Object *)v64,
+                          v54,
+                          v55);
           goto LABEL_75;
         }
       }
@@ -175,12 +176,12 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
               v27 = 0;
             else
               v27 = (Scaleform::GFx::InteractiveObject *)ObjectInterface[1].__vftable;
-            Scaleform::GFx::AS2::Value::SetAsCharacter(&current, v27);
+            Scaleform::GFx::AS2::Value::SetAsCharacter(&v, v27);
           }
         }
       }
-      v28 = current.T.Type;
-      if ( !current.T.Type || current.T.Type == 10 )
+      v28 = v.T.Type;
+      if ( !v.T.Type || v.T.Type == 10 )
       {
         Target = v17->Target;
         if ( Target )
@@ -193,23 +194,21 @@ char __userpurge Scaleform::GFx::AS2::Environment::FindVariable@<al>(
         {
           pObject = 0;
         }
-        if ( v28 != 7 || current.V.pCharHandle != pObject )
+        if ( v28 != 7 || v.V.pCharHandle != pObject )
         {
-          Scaleform::GFx::AS2::Value::DropRefs(&current);
-          current.T.Type = 7;
-          current.NV.Int32Value = (int)pObject;
+          Scaleform::GFx::AS2::Value::DropRefs(&v);
+          v.T.Type = 7;
+          v.NV.Int32Value = (int)pObject;
           if ( pObject )
             ++pObject->RefCount;
         }
       }
-      if ( current.T.Type == 7 )
+      if ( v.T.Type == 7 )
       {
 LABEL_43:
-        if ( current.NV.Int32Value )
+        if ( v.NV.Int32Value )
         {
-          v31 = Scaleform::GFx::CharacterHandle::ResolveCharacter(
-                  current.V.pCharHandle,
-                  v17->Target->pASRoot->pMovieImpl);
+          v31 = Scaleform::GFx::CharacterHandle::ResolveCharacter(v.V.pCharHandle, v17->Target->pASRoot->pMovieImpl);
           if ( v31 )
           {
             if ( (LOBYTE(v31->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags) >> 7 != 0
@@ -227,77 +226,77 @@ LABEL_43:
                                                + 4))((int)v32 + 4 * v33);
               v35 = (Scaleform::GFx::DisplayObject *)(*(int (__thiscall **)(int, Scaleform::GFx::ASString *, Scaleform::GFx::AS2::Environment *))(*(_DWORD *)v34 + 108))(
                                                        v34,
-                                                       &parser.Token,
-                                                       first_token);
+                                                       &v62.Token,
+                                                       penv);
               if ( v35 )
               {
                 CharacterHandle = v35->pNameHandle.pObject;
                 if ( !CharacterHandle )
                   CharacterHandle = Scaleform::GFx::DisplayObject::CreateCharacterHandle(v35);
-                if ( member.T.Type != 7 || member.V.pCharHandle != CharacterHandle )
+                if ( v61.T.Type != 7 || v61.V.pCharHandle != CharacterHandle )
                 {
-                  Scaleform::GFx::AS2::Value::DropRefs(&member);
-                  member.T.Type = 7;
-                  member.NV.Int32Value = (int)CharacterHandle;
+                  Scaleform::GFx::AS2::Value::DropRefs(&v61);
+                  v61.T.Type = 7;
+                  v61.NV.Int32Value = (int)CharacterHandle;
                   if ( CharacterHandle )
                     ++CharacterHandle->RefCount;
                 }
-                sep[2] = 1;
+                VariableRaw = 1;
                 goto LABEL_75;
               }
             }
           }
         }
 LABEL_68:
-        v39 = Scaleform::GFx::AS2::Value::ToAvmCharacter(&current, v17);
+        v39 = Scaleform::GFx::AS2::Value::ToAvmCharacter(&v, v17);
         if ( !v39 )
           goto LABEL_75;
         v40 = &v39->Scaleform::GFx::AS2::ObjectInterface;
         goto LABEL_72;
       }
-      Type = current.T.Type;
+      Type = v.T.Type;
 LABEL_57:
       if ( Type == 3 || Type == 4 || Type == 2 || Type == 5 )
       {
-        v38 = Scaleform::GFx::AS2::Environment::PrimitiveToTempObject(v17, &result, &current);
-        Scaleform::GFx::AS2::Value::operator=(&current, v38);
+        v38 = Scaleform::GFx::AS2::Environment::PrimitiveToTempObject(v17, &result, &v);
+        Scaleform::GFx::AS2::Value::operator=(&v, v38);
         if ( result.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&result);
       }
-      if ( current.T.Type != 6 )
+      if ( v.T.Type != 6 )
       {
-        if ( current.T.Type == 7 )
+        if ( v.T.Type == 7 )
           goto LABEL_68;
-        if ( current.T.Type != 8 && current.T.Type != 11 )
+        if ( v.T.Type != 8 && v.T.Type != 11 )
         {
 LABEL_74:
-          Scaleform::GFx::AS2::Value::DropRefs(&member);
-          sep[2] = 0;
-          member.T.Type = 0;
+          Scaleform::GFx::AS2::Value::DropRefs(&v61);
+          VariableRaw = 0;
+          v61.T.Type = 0;
           goto LABEL_75;
         }
       }
-      v41 = Scaleform::GFx::AS2::Value::ToObject(&current, v17);
+      v41 = Scaleform::GFx::AS2::Value::ToObject(&v, v17);
       if ( !v41 )
         goto LABEL_75;
       v40 = &v41->Scaleform::GFx::AS2::ObjectInterface;
 LABEL_72:
       if ( v40 )
       {
-        sep[2] = v40->GetMember(v40, v17, &parser.Token, &member);
-        if ( !sep[2] )
+        VariableRaw = v40->GetMember(v40, v17, &v62.Token, &v61);
+        if ( !VariableRaw )
           goto LABEL_74;
       }
 LABEL_75:
       v42 = params->pOwner;
       if ( v42 )
-        Scaleform::GFx::AS2::Value::operator=(v42, &current);
-      if ( onlyTargets && member.T.Type != 7 || !sep[2] )
+        Scaleform::GFx::AS2::Value::operator=(v42, &v);
+      if ( onlyTargets && v61.T.Type != 7 || !VariableRaw )
       {
-        Scaleform::GFx::AS2::Value::DropRefs(&current);
-        current.T.Type = 0;
+        Scaleform::GFx::AS2::Value::DropRefs(&v);
+        v.T.Type = 0;
         v13 = 0;
-        if ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&parser, &sep[3]) )
+        if ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&v62, &v57) )
         {
           v45 = params->pOwner;
           if ( v45 )
@@ -319,72 +318,72 @@ LABEL_75:
             varName->pNode = RefCount;
           }
         }
-        if ( member.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&member);
+        if ( v61.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v61);
         break;
       }
-      if ( member.T.Type != 9 )
+      if ( v61.T.Type != 9 )
       {
-        Scaleform::GFx::AS2::Value::operator=(&current, &member);
+        Scaleform::GFx::AS2::Value::operator=(&v, &v61);
         goto LABEL_88;
       }
-      if ( current.T.Type == 7 )
+      if ( v.T.Type == 7 )
       {
-        v43 = Scaleform::GFx::AS2::Value::ToAvmCharacter(&current, v17);
+        v43 = Scaleform::GFx::AS2::Value::ToAvmCharacter(&v, v17);
         if ( !v43 )
           goto LABEL_86;
-        Scaleform::GFx::AS2::Value::GetPropertyValue(&member, v17, &v43->Scaleform::GFx::AS2::ObjectInterface, &current);
+        Scaleform::GFx::AS2::Value::GetPropertyValue(&v61, v17, &v43->Scaleform::GFx::AS2::ObjectInterface, &v);
       }
       else
       {
-        v44 = Scaleform::GFx::AS2::Value::ToObject(&current, v17);
+        v44 = Scaleform::GFx::AS2::Value::ToObject(&v, v17);
         if ( !v44 )
         {
 LABEL_86:
-          Scaleform::GFx::AS2::Value::GetPropertyValue(&member, v17, 0, &current);
+          Scaleform::GFx::AS2::Value::GetPropertyValue(&v61, v17, 0, &v);
           goto LABEL_88;
         }
-        Scaleform::GFx::AS2::Value::GetPropertyValue(&member, v17, &v44->Scaleform::GFx::AS2::ObjectInterface, &current);
+        Scaleform::GFx::AS2::Value::GetPropertyValue(&v61, v17, &v44->Scaleform::GFx::AS2::ObjectInterface, &v);
       }
 LABEL_88:
-      v13 = sep[2];
-      if ( member.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&member);
+      v13 = VariableRaw;
+      if ( v61.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v61);
       v19 = varName;
 LABEL_91:
-      if ( delim == onlySlashesDelim )
+      if ( v58 == onlySlashesDelim )
       {
-        if ( sep[3] != 58 )
+        if ( v57 != 58 )
           goto LABEL_100;
         v22 = params->ppNewTarget == 0;
-        parser.Delimiters = ":./";
-        delim = ":./";
-        if ( !v22 && current.T.Type == 7 )
+        v62.Delimiters = ":./";
+        v58 = ":./";
+        if ( !v22 && v.T.Type == 7 )
           goto LABEL_95;
       }
       else
       {
-        if ( sep[3] != 46 )
+        if ( v57 != 46 )
         {
 LABEL_100:
-          if ( sep[3] == 47 )
+          if ( v57 == 47 )
           {
-            parser.Delimiters = onlySlashesDelim;
-            delim = onlySlashesDelim;
+            v62.Delimiters = onlySlashesDelim;
+            v58 = onlySlashesDelim;
           }
           goto LABEL_102;
         }
-        if ( params->ppNewTarget && current.T.Type == 7 )
+        if ( params->ppNewTarget && v.T.Type == 7 )
 LABEL_95:
-          *params->ppNewTarget = Scaleform::GFx::AS2::Value::ToCharacter(&current, v17);
+          *params->ppNewTarget = Scaleform::GFx::AS2::Value::ToCharacter(&v, v17);
       }
 LABEL_102:
-      LOBYTE(first_token) = 0;
+      LOBYTE(penv) = 0;
     }
-    while ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&parser, &sep[3]) );
+    while ( Scaleform::GFx::AS2::StringTokenizer::NextToken(&v62, &v57) );
   }
-  if ( params->ppNewTarget && current.T.Type == 7 )
-    *params->ppNewTarget = Scaleform::GFx::AS2::Value::ToCharacter(&current, v17);
+  if ( params->ppNewTarget && v.T.Type == 7 )
+    *params->ppNewTarget = Scaleform::GFx::AS2::Value::ToCharacter(&v, v17);
   v49 = params->pOwner;
   if ( v49 )
   {
@@ -399,20 +398,20 @@ LABEL_102:
   {
     v52 = params->pResult;
     if ( v52 )
-      Scaleform::GFx::AS2::Value::operator=(v52, &current);
-    v53 = parser.Token.pNode;
-    --parser.Token.pNode->RefCount;
+      Scaleform::GFx::AS2::Value::operator=(v52, &v);
+    v53 = v62.Token.pNode;
+    --v62.Token.pNode->RefCount;
     if ( !v53->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v53);
-    if ( current.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&current);
+    if ( v.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v);
     return 1;
   }
-  v51 = parser.Token.pNode;
-  --parser.Token.pNode->RefCount;
+  v51 = v62.Token.pNode;
+  --v62.Token.pNode->RefCount;
   if ( !v51->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v51);
-  if ( current.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&current);
+  if ( v.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v);
   return 0;
 }

@@ -1,5 +1,5 @@
 double __stdcall Scaleform::GFx::NumberUtil::StringToInt(
-        char *str,
+        __m128i *str,
         unsigned int strLen,
         int radix,
         unsigned int *endIndex)
@@ -7,7 +7,7 @@ double __stdcall Scaleform::GFx::NumberUtil::StringToInt(
   unsigned int *v4; // esi
   bool v5; // bl
   int v6; // eax
-  const char *ByteIndex; // eax
+  char *ByteIndex; // eax
   unsigned int v8; // edi
   volatile LONG *v9; // edi
   unsigned int v10; // eax
@@ -38,11 +38,11 @@ double __stdcall Scaleform::GFx::NumberUtil::StringToInt(
   double v36; // st7
   double v37; // st6
   double v38; // rt0
-  char round; // [esp+Bh] [ebp-5h]
-  int sign; // [esp+Ch] [ebp-4h]
+  char v39; // [esp+Bh] [ebp-5h]
+  int v40; // [esp+Ch] [ebp-4h]
 
   v4 = endIndex;
-  sign = 1;
+  v40 = 1;
   *endIndex = 0;
   v5 = 1;
   if ( radix )
@@ -57,7 +57,7 @@ double __stdcall Scaleform::GFx::NumberUtil::StringToInt(
   }
   Scaleform::String::String((Scaleform::String *)&endIndex, str);
   v6 = Scaleform::GFx::ASUtils::SkipWhiteSpace((Scaleform::String *)&endIndex);
-  ByteIndex = Scaleform::UTF8Util::GetByteIndex(v6, str, strLen);
+  ByteIndex = Scaleform::UTF8Util::GetByteIndex(v6, str->m128i_i8, strLen);
   v8 = (unsigned int)endIndex;
   *v4 = (unsigned int)ByteIndex;
   v9 = (volatile LONG *)(v8 & 0xFFFFFFFC);
@@ -66,10 +66,10 @@ double __stdcall Scaleform::GFx::NumberUtil::StringToInt(
   v10 = *v4;
   if ( *v4 == strLen )
     return 0.0;
-  v12 = str[v10];
+  v12 = str->m128i_i8[v10];
   if ( v12 == 45 )
   {
-    sign = -1;
+    v40 = -1;
 LABEL_12:
     *v4 = v10 + 1;
     goto LABEL_13;
@@ -80,9 +80,9 @@ LABEL_13:
   if ( v5 )
   {
     v13 = *v4;
-    if ( strLen - *v4 > 1 && str[v13] == 48 )
+    if ( strLen - *v4 > 1 && str->m128i_i8[v13] == 48 )
     {
-      v14 = str[v13 + 1];
+      v14 = str->m128i_i8[v13 + 1];
       if ( v14 == 120 || v14 == 88 )
       {
         v15 = v13 + 2;
@@ -101,7 +101,7 @@ LABEL_13:
     do
     {
       v19 = *v4;
-      v20 = str[*v4];
+      v20 = str->m128i_i8[*v4];
       if ( (unsigned __int8)(v20 - 48) > 9u )
       {
         if ( (unsigned __int8)(v20 - 97) > 0x19u )
@@ -134,7 +134,7 @@ LABEL_13:
   if ( *v4 == v16 )
     return NAN;
   if ( v18 < 9.007199254740992e15 || radix != 2 && radix != 8 && radix != 16 )
-    return v18 * (double)sign;
+    return v18 * (double)v40;
   v22 = 1;
   if ( radix == 8 )
   {
@@ -146,7 +146,7 @@ LABEL_13:
   }
   for ( ; v16 < strLen; ++v16 )
   {
-    if ( str[v16] != 48 )
+    if ( str->m128i_i8[v16] != 48 )
       break;
   }
   v23 = 0;
@@ -156,7 +156,7 @@ LABEL_13:
     v24 = 0;
     while ( v24 <= 0x34 )
     {
-      v25 = str[v16];
+      v25 = str->m128i_i8[v16];
       if ( (unsigned __int8)(v25 - 48) > 9u )
       {
         if ( (unsigned __int8)(v25 - 97) > 0x19u )
@@ -190,17 +190,17 @@ LABEL_13:
     }
   }
   if ( (unsigned int)(v22 * v23) <= 0x34 )
-    return v18 * (double)sign;
+    return v18 * (double)v40;
   v26 = 0;
   v27 = 0;
-  round = 0;
+  v39 = 0;
   LOBYTE(endIndex) = 0;
   if ( radix == 2 )
   {
     LOBYTE(endIndex) = v17 & 1;
     if ( v16 < strLen )
     {
-      v32 = str[v16];
+      v32 = str->m128i_i8[v16];
       if ( (unsigned __int8)(v32 - 48) <= 9u )
       {
         v31 = v32 - 48;
@@ -228,7 +228,7 @@ LABEL_92:
   {
     if ( v16 < strLen )
     {
-      v30 = str[v16];
+      v30 = str->m128i_i8[v16];
       if ( (unsigned __int8)(v30 - 48) <= 9u )
       {
         v31 = v30 - 48;
@@ -259,7 +259,7 @@ LABEL_93:
   LOBYTE(endIndex) = v17 & 1;
   if ( v16 < strLen )
   {
-    v28 = str[v16];
+    v28 = str->m128i_i8[v16];
     if ( (unsigned __int8)(v28 - 48) > 9u )
     {
       if ( (unsigned __int8)(v28 - 97) > 0x19u )
@@ -280,18 +280,18 @@ LABEL_93:
     if ( v29 != -1 && v29 < 16 )
     {
       v26 = (v29 & 8) != 0;
-      round = (v29 & 3) != 0;
+      v39 = (v29 & 3) != 0;
 LABEL_94:
       v27 = v22;
       goto LABEL_95;
     }
   }
 LABEL_71:
-  round = (_BYTE)endIndex != 0;
+  v39 = (_BYTE)endIndex != 0;
 LABEL_95:
   for ( i = v16 + 1; i < strLen; v27 += v22 )
   {
-    v34 = str[i];
+    v34 = str->m128i_i8[i];
     if ( (unsigned __int8)(v34 - 48) > 9u )
     {
       if ( (unsigned __int8)(v34 - 97) > 0x19u )
@@ -313,10 +313,10 @@ LABEL_95:
       break;
     if ( v35 >= radix )
       break;
-    round |= v35 != 0;
+    v39 |= v35 != 0;
     ++i;
   }
-  if ( v26 && ((_BYTE)endIndex || round) )
+  if ( v26 && ((_BYTE)endIndex || v39) )
   {
     v36 = v18;
     v37 = 1.0;
@@ -327,5 +327,5 @@ LABEL_95:
     v37 = 0.0;
     v36 = v38;
   }
-  return (v36 + v37) * (double)(1 << v27) * (double)sign;
+  return (v36 + v37) * (double)(1 << v27) * (double)v40;
 }

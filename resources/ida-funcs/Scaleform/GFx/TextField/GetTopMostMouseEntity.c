@@ -10,19 +10,19 @@ Scaleform::GFx::DisplayObjectBase::TopMostResult __thiscall Scaleform::GFx::Text
   const Scaleform::Render::Matrix2x4<float> *WorldMatrix; // eax
   const Scaleform::Render::Matrix2x4<float> *v8; // eax
   Scaleform::Render::Point<float> *v9; // eax
-  int p_ScreenToWorld; // ebx
+  Scaleform::Render::ScreenToWorld *p_ScreenToWorld; // ebx
   Scaleform::GFx::DisplayObjectBase::TopMostResult v11; // eax
   Scaleform::Render::Text::DocView *pObject; // ecx
   unsigned __int8 AvmObjOffset; // al
   int v14; // eax
   Scaleform::GFx::TextField *pIgnoreMC; // eax
-  Scaleform::Render::Point<float> p; // [esp+370h] [ebp-BCh] BYREF
-  float y; // [esp+378h] [ebp-B4h]
-  Scaleform::Render::Point<float> ptOut; // [esp+37Ch] [ebp-B0h] BYREF
-  Scaleform::Render::Point<float> v19; // [esp+384h] [ebp-A8h] BYREF
-  Scaleform::Render::Matrix3x4<float> v20; // [esp+38Ch] [ebp-A0h] BYREF
-  Scaleform::Render::Matrix3x4<float> result; // [esp+3BCh] [ebp-70h] BYREF
-  Scaleform::Render::Matrix4x4<float> v22; // [esp+3ECh] [ebp-40h] BYREF
+  Scaleform::Render::Point<float> p; // [esp+28h] [ebp-BCh] BYREF
+  float y; // [esp+30h] [ebp-B4h]
+  Scaleform::Render::Point<float> ptOut; // [esp+34h] [ebp-B0h] BYREF
+  Scaleform::Render::Point<float> v19; // [esp+3Ch] [ebp-A8h] BYREF
+  Scaleform::Render::Matrix3x4<float> v20; // [esp+44h] [ebp-A0h] BYREF
+  Scaleform::Render::Matrix3x4<float> result; // [esp+74h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix4x4<float> v22; // [esp+A4h] [ebp-40h] BYREF
 
   v3 = pdescr;
   pParent = this;
@@ -44,13 +44,13 @@ Scaleform::GFx::DisplayObjectBase::TopMostResult __thiscall Scaleform::GFx::Text
       Scaleform::Render::Matrix3x4<float>::Matrix3x4<float>(&result);
       Scaleform::Render::Matrix4x4<float>::Matrix4x4<float>(&v22);
       Scaleform::GFx::DisplayObjectBase::GetWorldMatrix3D(v6, &v20);
-      p_ScreenToWorld = (int)&pParent->pASRoot->pMovieImpl->ScreenToWorld;
+      p_ScreenToWorld = &pParent->pASRoot->pMovieImpl->ScreenToWorld;
       if ( v6->GetProjectionMatrix3D(v6, &v22, 0) )
-        memcpy((unsigned __int8 *)(p_ScreenToWorld + 16), (unsigned __int8 *)&v22, 0x40u);
+        memcpy((int)&p_ScreenToWorld->MatProj, (const __m128i *)&v22, sizeof(p_ScreenToWorld->MatProj));
       if ( v6->GetViewMatrix3D(v6, &result, 0) )
-        memcpy((unsigned __int8 *)(p_ScreenToWorld + 80), (unsigned __int8 *)&result, 0x30u);
-      memcpy((unsigned __int8 *)(p_ScreenToWorld + 128), (unsigned __int8 *)&v20, 0x30u);
-      Scaleform::Render::ScreenToWorld::GetWorldPoint((Scaleform::Render::ScreenToWorld *)p_ScreenToWorld, &ptOut);
+        memcpy((int)&p_ScreenToWorld->MatView, (const __m128i *)&result, sizeof(p_ScreenToWorld->MatView));
+      memcpy((int)&p_ScreenToWorld->MatWorld, (const __m128i *)&v20, sizeof(p_ScreenToWorld->MatWorld));
+      Scaleform::Render::ScreenToWorld::GetWorldPoint(p_ScreenToWorld, &ptOut);
       v3 = pdescr;
     }
     else

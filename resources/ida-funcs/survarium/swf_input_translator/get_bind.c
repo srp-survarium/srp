@@ -1,13 +1,12 @@
-stlp_std::less<enum vostok::input::enum_keyboard> *__userpurge survarium::swf_input_translator::get_bind@<eax>(
-        survarium::swf_input_translator *this@<ecx>,
-        stlp_std::map<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind,stlp_std::less<enum vostok::input::enum_keyboard>,survarium::std_allocator<stlp_std::pair<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind> > > *a2@<eax>,
+stlp_std::priv::_Rb_tree_node_base **__thiscall survarium::swf_input_translator::get_bind(
+        survarium::swf_input_translator *this,
         vostok::input::enum_keyboard key)
 {
-  stlp_std::priv::_Rb_tree_node_base *M_parent; // ecx
-  stlp_std::map<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind,stlp_std::less<enum vostok::input::enum_keyboard>,survarium::std_allocator<stlp_std::pair<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind> > > *v4; // edx
+  stlp_std::priv::_Rb_tree_node_base *M_parent; // eax
+  survarium::swf_input_translator *v3; // edx
 
-  M_parent = a2->_M_t._M_header._M_data._M_parent;
-  v4 = a2;
+  M_parent = this->char_map._M_t._M_header._M_data._M_parent;
+  v3 = this;
   if ( M_parent )
   {
     do
@@ -18,19 +17,19 @@ stlp_std::less<enum vostok::input::enum_keyboard> *__userpurge survarium::swf_in
       }
       else
       {
-        v4 = (stlp_std::map<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind,stlp_std::less<enum vostok::input::enum_keyboard>,survarium::std_allocator<stlp_std::pair<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind> > > *)M_parent;
+        v3 = (survarium::swf_input_translator *)M_parent;
         M_parent = M_parent->_M_left;
       }
     }
     while ( M_parent );
-    if ( a2 == v4 )
+    if ( this == v3 )
       return 0;
-    if ( key < (signed int)v4->_M_t._M_node_count )
-      v4 = a2;
+    if ( key < (signed int)v3->char_map._M_t._M_node_count )
+      v3 = this;
   }
-  if ( a2 == v4 )
+  if ( this == v3 )
     return 0;
   return stlp_std::map<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind,stlp_std::less<enum vostok::input::enum_keyboard>,survarium::std_allocator<stlp_std::pair<enum vostok::input::enum_keyboard,survarium::dik_to_swf_bind>>>::operator[]<enum vostok::input::enum_keyboard>(
-           a2,
+           &this->char_map,
            &key);
 }

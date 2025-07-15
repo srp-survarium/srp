@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::MakeDeepCopyFrom(
   unsigned int v7; // ebp
   Scaleform::GFx::AS2::Value *v8; // eax
   Scaleform::GFx::AS3::ClassTraits::Traits *v9; // eax
-  unsigned int n; // [esp+10h] [ebp-4h]
+  unsigned int i; // [esp+10h] [ebp-4h]
 
   Size = ao->Elements.Data.Size;
   p_Elements = (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)&this->Elements;
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::MakeDeepCopyFrom(
   p_Elements->Size = Size;
   v6 = this->Elements.Data.Size;
   v7 = 0;
-  for ( n = v6; v7 < v6; ++v7 )
+  for ( i = v6; v7 < v6; ++v7 )
   {
     if ( ao->Elements.Data.Data[v7] )
     {
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS2::ArrayObject::MakeDeepCopyFrom(
       else
         v9 = 0;
       p_Elements->Data[v7].pObject = v9;
-      v6 = n;
+      v6 = i;
     }
   }
 }

@@ -7,8 +7,8 @@ void __thiscall Scaleform::Render::TreeCacheContainer::BuildChildPattern(
   unsigned int State; // eax
   int v5; // eax
   BOOL v6; // eax
-  Scaleform::Render::TreeCacheNode *v7; // ecx
-  Scaleform::Render::TreeCacheNode *v8; // esi
+  Scaleform::Render::TreeCacheContainer *v7; // ecx
+  Scaleform::Render::TreeCacheNode *pNext; // esi
   int v9; // eax
   bool (__thiscall *GetPatternChain)(Scaleform::Render::TreeCacheNode *, Scaleform::Render::BundleEntryRange *, unsigned int); // eax
   Scaleform::Render::BundleEntry *v11; // eax
@@ -17,26 +17,26 @@ void __thiscall Scaleform::Render::TreeCacheContainer::BuildChildPattern(
   Scaleform::Render::BundleEntry *pLast; // eax
   Scaleform::Render::BundleEntry *v15; // eax
   unsigned int v16; // esi
-  Scaleform::Render::TreeCacheNode *v17; // ecx
+  Scaleform::Render::TreeCacheContainer *v17; // ecx
   double y2; // st6
   double x2; // st5
   double y1; // rt0
-  char v21; // [esp+28A2h] [ebp-4B2h]
-  Scaleform::Render::Rect<float> v22; // [esp+28A4h] [ebp-4B0h] BYREF
-  Scaleform::Render::TreeCacheNode *pNext; // [esp+28BCh] [ebp-498h]
-  Scaleform::Render::TreeCacheNode *v24; // [esp+28C0h] [ebp-494h]
-  Scaleform::Render::Rect<float> pdest; // [esp+28C4h] [ebp-490h] BYREF
-  Scaleform::Render::BundleEntryRange other; // [esp+28D8h] [ebp-47Ch] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+28E4h] [ebp-470h] BYREF
-  Scaleform::Render::BundleEntryRangeMatcher v28; // [esp+2900h] [ebp-454h] BYREF
-  unsigned int mergeDepth; // [esp+2930h] [ebp-424h] BYREF
-  Scaleform::Render::FixedSizeArrayRect2F v30; // [esp+2934h] [ebp-420h] BYREF
+  char v21; // [esp+8h] [ebp-4B2h]
+  Scaleform::Render::Rect<float> v22; // [esp+Ah] [ebp-4B0h] BYREF
+  Scaleform::Render::TreeCacheNode *v23; // [esp+22h] [ebp-498h]
+  Scaleform::Render::TreeCacheContainer *v24; // [esp+26h] [ebp-494h]
+  Scaleform::Render::Rect<float> pdest; // [esp+2Ah] [ebp-490h] BYREF
+  Scaleform::Render::BundleEntryRange other; // [esp+3Eh] [ebp-47Ch] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+4Ah] [ebp-470h] BYREF
+  Scaleform::Render::BundleEntryRangeMatcher v28; // [esp+66h] [ebp-454h] BYREF
+  unsigned int mergeDepth; // [esp+96h] [ebp-424h] BYREF
+  Scaleform::Render::FixedSizeArrayRect2F v30; // [esp+9Ah] [ebp-420h] BYREF
 
   pdest.x1 = 0.0;
   pdest.y1 = 0.0;
   pdest.x2 = 0.0;
   pdest.y2 = 0.0;
-  v30.pData = (Scaleform::Render::Rect2F *)&v30.DataReserve[12];
+  v30.pData = (Scaleform::Render::Rect2F *)&v30.DataReserve[8];
   pattern->pLast = 0;
   pattern->pFirst = 0;
   pattern->Length = 0;
@@ -64,16 +64,16 @@ void __thiscall Scaleform::Render::TreeCacheContainer::BuildChildPattern(
     flags |= v6;
   }
   v7 = v24;
-  v8 = (Scaleform::Render::TreeCacheNode *)*((_DWORD *)&v24[1].__vftable + 1);
-  pNext = v8;
+  pNext = v24->Children.Root.pNext;
+  v23 = pNext;
   while ( 1 )
   {
-    v9 = v7 == (Scaleform::Render::TreeCacheNode *)-80 ? 0 : (int)&v7->SortParentBounds;
-    if ( v8 == (Scaleform::Render::TreeCacheNode *)v9 )
+    v9 = v7 == (Scaleform::Render::TreeCacheContainer *)-80 ? 0 : (int)&v7->SortParentBounds;
+    if ( pNext == (Scaleform::Render::TreeCacheNode *)v9 )
       break;
-    GetPatternChain = v8->GetPatternChain;
+    GetPatternChain = pNext->GetPatternChain;
     memset(&other, 0, sizeof(other));
-    if ( !GetPatternChain(v8, &other, flags) )
+    if ( !GetPatternChain(pNext, &other, flags) )
       goto LABEL_61;
     if ( (other.Length & 0x7FFFFFFF) <= 8 )
     {
@@ -81,22 +81,22 @@ void __thiscall Scaleform::Render::TreeCacheContainer::BuildChildPattern(
       v22.y1 = 0.0;
       v22.x2 = 0.0;
       v22.y2 = 0.0;
-      if ( v8->pNode )
+      if ( pNext->pNode )
       {
-        v22.x1 = v8->SortParentBounds.x1;
-        v22.y1 = v8->SortParentBounds.y1;
-        v22.x2 = v8->SortParentBounds.x2;
-        v22.y2 = v8->SortParentBounds.y2;
+        v22.x1 = pNext->SortParentBounds.x1;
+        v22.y1 = pNext->SortParentBounds.y1;
+        v22.x2 = pNext->SortParentBounds.x2;
+        v22.y2 = pNext->SortParentBounds.y2;
       }
-      if ( (v8->Flags & 0x410) != 0 )
+      if ( (pNext->Flags & 0x410) != 0 )
       {
-        if ( v8->pMask )
+        if ( pNext->pMask )
         {
           r.x1 = 0.0;
           r.y1 = 0.0;
           r.x2 = 0.0;
           r.y2 = 0.0;
-          if ( Scaleform::Render::TreeCacheNode::calcChildMaskBounds(v24, &r, v8) )
+          if ( Scaleform::Render::TreeCacheNode::calcChildMaskBounds(v24, &r, pNext) )
           {
             if ( v21 )
             {
@@ -131,7 +131,7 @@ void __thiscall Scaleform::Render::TreeCacheContainer::BuildChildPattern(
       {
         if ( (flags & 1) != 1 )
         {
-          if ( (pNext->Flags & 0x200) == 0 && Scaleform::Render::FixedSizeArrayRect2F::Intersects(&v30, (__m128 *)&v22) )
+          if ( (v23->Flags & 0x200) == 0 && Scaleform::Render::FixedSizeArrayRect2F::Intersects(&v30, (__m128 *)&v22) )
           {
             if ( (v28.Length & 0x7FFFFFFF) == 1
               && (other.Length & 0x7FFFFFFF) == 1
@@ -168,11 +168,11 @@ LABEL_45:
 LABEL_57:
       if ( v22.x2 > (double)v22.x1 && v22.y2 > (double)v22.y1 )
         Scaleform::Render::FixedSizeArrayRect2F::PushBack(&v30, (__m128 *)&v22);
-      v8 = pNext;
+      pNext = v23;
 LABEL_61:
       v7 = v24;
-      pNext = v8->pNext;
-      v8 = pNext;
+      v23 = pNext->pNext;
+      pNext = v23;
     }
     else
     {
@@ -200,8 +200,8 @@ LABEL_61:
       memset(&v28, 0, 12);
       v30.Size = 0;
       v30.HalfRect = 0;
-      pNext = v8->pNext;
-      v8 = pNext;
+      v23 = pNext->pNext;
+      pNext = v23;
     }
   }
   if ( v28.pFirst )
@@ -224,7 +224,7 @@ LABEL_61:
       Scaleform::Render::Rect<float>::UnionRect(&pdest, &pdest, (const Scaleform::Render::Rect<float> *)(v16 + 112));
     Scaleform::Render::Matrix2x4<float>::EncloseTransform(
       (Scaleform::Render::Matrix2x4<float> *)(v16 + 16),
-      &pdest,
+      (__m128 *)&pdest,
       (__m128 *)&pdest);
     v17 = v24;
     y2 = pdest.y2;
@@ -244,6 +244,6 @@ LABEL_61:
   }
   ++BuildPatternCount;
   v30.Size = 0;
-  if ( (unsigned __int8 *)v30.pData != &v30.DataReserve[12] )
+  if ( (unsigned __int8 *)v30.pData != &v30.DataReserve[8] )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v30.pData);
 }

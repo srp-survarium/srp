@@ -5,33 +5,21 @@ void __thiscall btPairCachingGhostObject::removeOverlappingObjectInternal(
         btBroadphaseProxy *thisProxy1)
 {
   btBroadphaseProxy *m_broadphaseHandle; // ebx
-  int m_size; // eax
-  int v6; // edx
-  btCollisionObject **m_data; // esi
-  int v8; // esi
+  int LinearSearch; // eax
+  int m_size; // edx
+  void *m_clientObject; // [esp+Ch] [ebp-4h] BYREF
 
   m_broadphaseHandle = thisProxy1;
+  m_clientObject = otherProxy->m_clientObject;
   if ( !thisProxy1 )
     m_broadphaseHandle = this->m_broadphaseHandle;
+  LinearSearch = btAlignedObjectArray<int>::findLinearSearch(
+                   (btAlignedObjectArray<int> *)&this->m_overlappingObjects,
+                   (int *)&m_clientObject);
   m_size = this->m_overlappingObjects.m_size;
-  v6 = 0;
-  if ( m_size > 0 )
+  if ( LinearSearch < m_size )
   {
-    m_data = this->m_overlappingObjects.m_data;
-    while ( *m_data != otherProxy->m_clientObject )
-    {
-      ++v6;
-      ++m_data;
-      if ( v6 >= m_size )
-        goto LABEL_9;
-    }
-    m_size = v6;
-  }
-LABEL_9:
-  v8 = this->m_overlappingObjects.m_size;
-  if ( m_size < v8 )
-  {
-    this->m_overlappingObjects.m_data[m_size] = this->m_overlappingObjects.m_data[v8 - 1];
+    this->m_overlappingObjects.m_data[LinearSearch] = this->m_overlappingObjects.m_data[m_size - 1];
     --this->m_overlappingObjects.m_size;
     this->m_hashPairCache->removeOverlappingPair(this->m_hashPairCache, m_broadphaseHandle, otherProxy, dispatcher);
   }

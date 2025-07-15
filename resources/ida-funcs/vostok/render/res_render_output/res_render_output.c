@@ -1,49 +1,55 @@
 void __userpurge vostok::render::res_render_output::res_render_output(
-        vostok::render::res_render_output *this@<eax>,
-        HWND__ *window@<edi>,
+        vostok::render::res_render_output *this@<ecx>,
+        int a2@<esi>,
+        HWND__ *window,
         bool windowed)
 {
-  char *m_buffer; // eax
-  vostok::render::res_render_output *v5; // ecx
-  HWND__ *m_window; // eax
+  unsigned int *v4; // ecx
+  HWND v5; // eax
+  vostok::render::res_render_output *v6; // ecx
 
-  m_buffer = this->m_depth_rexture_name.m_buffer;
-  this->m_reference_count = 0;
-  this->m_depth_rexture_name.m_begin = m_buffer;
-  this->m_depth_rexture_name.m_end = m_buffer;
-  *m_buffer = 0;
-  this->m_depth_rexture_name.m_max_end = m_buffer + 128;
-  this->m_swap_chain = 0;
-  this->m_base_rt = 0;
-  this->m_base_zb = 0;
-  this->m_texture_zb.m_object = 0;
-  this->m_present_sync_mode = 0;
-  this->m_valid_previous_present = 1;
-  this->m_is_registered = 0;
-  memset((int)&this->m_swap_chain_desc, 0, sizeof(this->m_swap_chain_desc));
-  this->m_window = window;
-  this->m_windowed = windowed;
-  this->m_swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  this->m_swap_chain_desc.BufferCount = 1;
-  this->m_swap_chain_desc.BufferUsage = 32;
-  if ( window )
+  *(_DWORD *)a2 = 0;
+  *(_DWORD *)(a2 + 4) = &unk_C80000;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_DWORD *)(a2 + 12) = a2 + 24;
+  *(_DWORD *)(a2 + 16) = a2 + 24;
+  *(_BYTE *)(a2 + 24) = 0;
+  *(_DWORD *)(a2 + 20) = a2 + 152;
+  *(_DWORD *)(a2 + 212) = 0;
+  *(_DWORD *)(a2 + 216) = 0;
+  *(_DWORD *)(a2 + 220) = 0;
+  *(_DWORD *)(a2 + 224) = 0;
+  *(_DWORD *)(a2 + 228) = window;
+  *(_DWORD *)(a2 + 232) = 0;
+  *(_BYTE *)(a2 + 236) = 1;
+  *(_BYTE *)(a2 + 237) = windowed;
+  *(_BYTE *)(a2 + 238) = 0;
+  memset(a2 + 152, 0, 0x3Cu);
+  if ( !*(_BYTE *)(a2 + 237) )
+  {
+    SetWindowLongA(*(HWND *)(a2 + 228), -16, *(_DWORD *)(a2 + 8));
+    SetWindowLongA(*(HWND *)(a2 + 228), -20, *(_DWORD *)(a2 + 8));
+  }
+  v5 = *(HWND *)(a2 + 228);
+  *(_DWORD *)(a2 + 168) = 28;
+  *(_DWORD *)(a2 + 192) = 1;
+  *(_DWORD *)(a2 + 188) = 32;
+  if ( v5 )
     vostok::render::res_render_output::select_resolution(
-      window,
-      &this->m_swap_chain_desc.BufferDesc.Width,
-      &this->m_swap_chain_desc.BufferDesc.Height,
-      windowed);
+      v4,
+      (unsigned int *)(a2 + 152),
+      (_DWORD *)(a2 + 156),
+      (HWND__ *)*(unsigned __int8 *)(a2 + 237),
+      v5);
   else
     GetLastError();
-  LOBYTE(v5) = this->m_windowed;
-  this->m_swap_chain_desc.BufferDesc.RefreshRate.Numerator = 0;
-  this->m_swap_chain_desc.BufferDesc.RefreshRate.Denominator = 1;
-  m_window = this->m_window;
-  this->m_swap_chain_desc.SampleDesc.Count = 1;
-  this->m_swap_chain_desc.SampleDesc.Quality = 0;
-  this->m_swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-  this->m_swap_chain_desc.OutputWindow = m_window;
-  this->m_swap_chain_desc.Windowed = (unsigned __int8)v5;
-  if ( !(_BYTE)v5 )
-    this->m_swap_chain_desc.Flags = 0;
-  vostok::render::res_render_output::initialize_swap_chain(v5, (int)this);
+  *(_DWORD *)(a2 + 196) = *(_DWORD *)(a2 + 228);
+  *(_DWORD *)(a2 + 200) = *(unsigned __int8 *)(a2 + 237);
+  *(_DWORD *)(a2 + 160) = 0;
+  *(_DWORD *)(a2 + 164) = 0;
+  *(_DWORD *)(a2 + 180) = 1;
+  *(_DWORD *)(a2 + 184) = 0;
+  *(_DWORD *)(a2 + 204) = 0;
+  *(_DWORD *)(a2 + 208) = 0;
+  vostok::render::res_render_output::initialize_swap_chain(v6, a2);
 }

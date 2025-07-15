@@ -11,17 +11,20 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::decodeURI(
   Scaleform::GFx::ASStringNode *v9; // ecx
   bool v10; // zf
   void *v11; // esi
-  Scaleform::String unescapedStr; // [esp+4h] [ebp-Ch] BYREF
-  Scaleform::GFx::AS3::VM::Error v13; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v12; // [esp-8h] [ebp-1Ch]
+  Scaleform::String unescapedStr; // [esp+8h] [ebp-Ch] BYREF
+  Scaleform::GFx::AS3::VM::Error v14; // [esp+Ch] [ebp-8h] BYREF
 
   Scaleform::String::String(&unescapedStr);
-  if ( !Scaleform::GFx::ASUtils::AS3::Unescape(uri->pNode->pData, (const char *)uri->pNode->Size, &unescapedStr, 0) )
+  if ( !Scaleform::GFx::ASUtils::AS3::Unescape((char *)uri->pNode->pData, (char *)uri->pNode->Size, &unescapedStr, 0) )
   {
     pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v13, eInvalidURIError, pVM);
+    v12.pStr = "decodeURI";
+    v12.Size = 9;
+    Scaleform::GFx::AS3::VM::Error::Error(&v14, eInvalidURIError, pVM, v12);
     Scaleform::GFx::AS3::VM::ThrowURIError(pVM, v5);
-    pNode = v13.Message.pNode;
-    --v13.Message.pNode->RefCount;
+    pNode = v14.Message.pNode;
+    --v14.Message.pNode->RefCount;
     v7 = pNode;
     if ( pNode->RefCount )
       goto LABEL_9;
@@ -29,7 +32,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::decodeURI(
   }
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)((unescapedStr.HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((unescapedStr.HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(unescapedStr.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   StringNode->RefCount += 2;
   v9 = result->pNode;

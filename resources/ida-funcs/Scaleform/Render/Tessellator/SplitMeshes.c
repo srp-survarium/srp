@@ -4,7 +4,7 @@ void __thiscall Scaleform::Render::Tessellator::SplitMeshes(Scaleform::Render::T
   unsigned int v3; // edi
   Scaleform::Render::TessMesh *v4; // eax
   unsigned int VertexCount; // ecx
-  Scaleform::Render::Tessellator::TriangleType *v6; // eax
+  Scaleform::Render::TessMesh *v6; // eax
   unsigned int v7; // edx
   unsigned int i; // ecx
   int v9; // ebp
@@ -13,29 +13,29 @@ void __thiscall Scaleform::Render::Tessellator::SplitMeshes(Scaleform::Render::T
   unsigned __int16 Mesh; // ax
   int v13; // ebp
   Scaleform::Render::TessMesh *v14; // eax
-  bool done; // [esp+13h] [ebp-1h]
+  char v15; // [esp+13h] [ebp-1h]
 
   while ( 1 )
   {
     Size = this->Meshes.Size;
     v3 = 0;
-    done = 1;
+    v15 = 1;
     if ( !Size )
       break;
     do
     {
       v4 = this->Meshes.Pages[v3 >> 4];
       VertexCount = v4[v3 & 0xF].VertexCount;
-      v6 = (Scaleform::Render::Tessellator::TriangleType *)&v4[v3 & 0xF];
+      v6 = &v4[v3 & 0xF];
       if ( VertexCount > this->VertexLimit )
       {
         Scaleform::Render::Tessellator::splitMesh(this, v6);
-        done = 0;
+        v15 = 0;
       }
       ++v3;
     }
     while ( v3 < Size );
-    if ( done )
+    if ( v15 )
       break;
     v7 = 0;
     for ( i = 0; i < this->Meshes.Size; v10[v9].VertexCount = 0 )

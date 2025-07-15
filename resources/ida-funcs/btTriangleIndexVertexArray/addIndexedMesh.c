@@ -1,81 +1,56 @@
-void __userpurge btTriangleIndexVertexArray::addIndexedMesh(
-        btTriangleIndexVertexArray *this@<ecx>,
-        int a2@<esi>,
+void __thiscall btTriangleIndexVertexArray::addIndexedMesh(
+        btTriangleIndexVertexArray *this,
         const btIndexedMesh *mesh,
         PHY_ScalarType indexType)
 {
-  int v4; // ecx
-  int v5; // eax
-  int v6; // ebx
-  _QWORD *v7; // ebp
-  int v8; // edx
-  _QWORD *v9; // ecx
-  int v10; // edi
-  int v11; // eax
-  __int64 v12; // xmm0_8
-  _QWORD *v13; // eax
-  void *v14; // eax
-  btIndexedMesh *v15; // eax
+  int m_triangleIndexStride; // ecx
+  const unsigned __int8 *m_triangleIndexBase; // eax
+  const unsigned __int8 *v6; // eax
+  char *v7; // edx
+  void *v8; // edi
+  char *v9; // [esp+Ch] [ebp-8h]
+  int v10; // [esp+10h] [ebp-4h]
+  int v11; // [esp+1Ch] [ebp+8h]
 
-  v4 = *(_DWORD *)(a2 + 40);
-  v5 = *(_DWORD *)(a2 + 36);
-  if ( v5 == v4 )
+  m_triangleIndexStride = mesh[1].m_triangleIndexStride;
+  m_triangleIndexBase = mesh[1].m_triangleIndexBase;
+  if ( m_triangleIndexBase == (const unsigned __int8 *)m_triangleIndexStride )
   {
-    v6 = 2 * v5;
-    if ( !v5 )
-      v6 = 1;
-    if ( v4 < v6 )
+    v11 = m_triangleIndexBase ? 2 * (_DWORD)m_triangleIndexBase : 1;
+    if ( m_triangleIndexStride < v11 )
     {
-      if ( v6 )
-      {
-        ++gNumAlignedAllocs;
-        v7 = sAlignedAllocFunc(32 * v6, 16);
-      }
+      if ( v11 )
+        v9 = (char *)btAlignedAllocInternal(32 * v11);
       else
+        v9 = 0;
+      v6 = mesh[1].m_triangleIndexBase;
+      if ( (int)v6 > 0 )
       {
-        v7 = 0;
-      }
-      if ( *(int *)(a2 + 36) > 0 )
-      {
-        v8 = 0;
-        v9 = v7;
-        v10 = *(_DWORD *)(a2 + 36);
+        v7 = v9;
+        v10 = 0;
         do
         {
-          if ( v9 )
-          {
-            v11 = *(_DWORD *)(a2 + 44);
-            v12 = *(_QWORD *)(v11 + v8);
-            v13 = (_QWORD *)(v8 + v11);
-            *v9 = v12;
-            v9[1] = v13[1];
-            v9[2] = v13[2];
-            v9[3] = v13[3];
-          }
-          v8 += 32;
-          v9 += 4;
-          --v10;
+          if ( v7 )
+            qmemcpy(v7, (const void *)(v10 + mesh[1].m_numVertices), 0x20u);
+          v10 += 32;
+          v7 += 32;
+          --v6;
         }
-        while ( v10 );
+        while ( v6 );
       }
-      v14 = *(void **)(a2 + 44);
-      if ( v14 )
+      if ( mesh[1].m_numVertices )
       {
-        if ( *(_BYTE *)(a2 + 48) )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v14);
-        }
-        *(_DWORD *)(a2 + 44) = 0;
+        if ( LOBYTE(mesh[1].m_vertexBase) )
+          btAlignedFreeInternal((void *)mesh[1].m_numVertices);
+        mesh[1].m_numVertices = 0;
       }
-      *(_DWORD *)(a2 + 44) = v7;
-      *(_BYTE *)(a2 + 48) = 1;
-      *(_DWORD *)(a2 + 40) = v6;
+      mesh[1].m_numVertices = (int)v9;
+      LOBYTE(mesh[1].m_vertexBase) = 1;
+      mesh[1].m_triangleIndexStride = v11;
     }
   }
-  v15 = (btIndexedMesh *)(*(_DWORD *)(a2 + 44) + 32 * *(_DWORD *)(a2 + 36));
-  if ( v15 )
-    *v15 = *mesh;
-  ++*(_DWORD *)(a2 + 36);
-  *(_DWORD *)(32 * *(_DWORD *)(a2 + 36) + *(_DWORD *)(a2 + 44) - 8) = 2;
+  v8 = (void *)(mesh[1].m_numVertices + 32 * (int)mesh[1].m_triangleIndexBase);
+  if ( v8 )
+    qmemcpy(v8, (const void *)indexType, 0x20u);
+  *(_DWORD *)(32 * (int)++mesh[1].m_triangleIndexBase + mesh[1].m_numVertices - 8) = 2;
 }

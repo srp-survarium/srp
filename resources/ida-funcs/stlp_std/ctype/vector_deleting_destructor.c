@@ -8,8 +8,8 @@ stlp_std::ctype<char> *__thiscall stlp_std::ctype<char>::`vector deleting destru
   this->__vftable = (stlp_std::ctype<char>_vtbl *)&stlp_std::ctype<char>::`vftable';
   if ( !v3 )
     operator delete[]((void *)this->_M_ctype_table);
-  stlp_std::locale::facet::~facet(this);
+  stlp_std::locale::facet::~facet(&this->stlp_std::locale::facet);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

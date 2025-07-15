@@ -37,8 +37,7 @@ unsigned int __thiscall Scaleform::Render::TreeText::GetFilters(
       v6->Blur.BlurX = *(float *)(v3 + 196) * 0.05000000074505806;
       v6->Blur.BlurY = 0.05000000074505806 * *(float *)(v3 + 200);
       v6->Blur.Strength = 100.0 * *(float *)(v3 + 212);
-      v6->Glow.Color = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & *(_DWORD *)(v3 + 216)
-                     | (*(unsigned __int8 *)(v3 + 236) << 24);
+      v6->Glow.Color = *(_DWORD *)(v3 + 216) & 0xFFFFFF | (*(unsigned __int8 *)(v3 + 236) << 24);
       return v4 + 1;
     }
   }
@@ -52,8 +51,7 @@ unsigned int __thiscall Scaleform::Render::TreeText::GetFilters(
   v8->Blur.BlurX = *(float *)(v3 + 196) * 0.05000000074505806;
   v8->Blur.BlurY = *(float *)(v3 + 200) * 0.05000000074505806;
   v8->Blur.Strength = v5 * *(float *)(v3 + 212);
-  v8->Glow.Color = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & *(_DWORD *)(v3 + 216)
-                 | (*(unsigned __int8 *)(v3 + 236) << 24);
+  v8->Glow.Color = *(_DWORD *)(v3 + 216) & 0xFFFFFF | (*(unsigned __int8 *)(v3 + 236) << 24);
   v8->DropShadow.Angle = *(float *)(v3 + 228) * 180.0 / 3.141592653589793;
   v8->DropShadow.Distance = 0.05000000074505806 * *(float *)(v3 + 232);
   return v4 + 1;

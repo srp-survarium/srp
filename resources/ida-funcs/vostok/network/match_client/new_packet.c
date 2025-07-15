@@ -1,14 +1,16 @@
-vostok::network_core::udp_match_packet *__thiscall vostok::network::match_client::new_packet(
-        vostok::network::match_client *this,
-        unsigned __int8 message_type)
+vostok::network_core::udp_match_packet *__userpurge vostok::network::match_client::new_packet@<eax>(
+        vostok::network::match_client *this@<ecx>,
+        int a2@<edi>,
+        int message_type)
 {
-  const vostok::variant<32> **v2; // eax
-  vostok::network_core::udp_match_packet *result; // [esp+58h] [ebp-4h]
+  vostok::network_core::udp_match_packet *matched; // esi
+  vostok::network_core::buffer_writer *v4; // ecx
 
-  v2 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-         (stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *)this,
-         (int)this);
-  result = vostok::network_core::new_udp_match_packet((vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy> *)v2);
-  vostok::network_core::udp_match_connection::construct_packet(this->m_packets_orderer, result, message_type);
-  return result;
+  matched = (vostok::network_core::udp_match_packet *)vostok::network_core::new_udp_match_packet(*(vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> **)a2);
+  vostok::network_core::udp_match_connection::construct_packet(
+    matched,
+    v4,
+    *(vostok::network_core::udp_match_packets_orderer **)(a2 + 232),
+    message_type);
+  return matched;
 }

@@ -1,22 +1,21 @@
-void __userpurge vostok::render::res_render_output::select_resolution(
-        HWND window@<eax>,
+void __thiscall vostok::render::res_render_output::select_resolution(
         unsigned int *width,
         unsigned int *height,
-        bool windowed)
+        _DWORD *windowed,
+        HWND__ *window,
+        HWND hWnd)
 {
   BOOL ClientRect; // eax
-  int v5; // edx
-  tagRECT rect; // [esp+0h] [ebp-10h] BYREF
+  tagRECT Rect; // [esp+0h] [ebp-10h] BYREF
 
-  if ( windowed )
-    ClientRect = GetClientRect(window, &rect);
+  if ( (_BYTE)window )
+    ClientRect = GetClientRect(hWnd, &Rect);
   else
-    ClientRect = GetWindowRect(window, &rect);
+    ClientRect = GetWindowRect(hWnd, &Rect);
   if ( ClientRect )
   {
-    v5 = rect.bottom - rect.top;
-    *width = rect.right - rect.left;
-    *height = v5;
+    *height = Rect.right - Rect.left;
+    *windowed = Rect.bottom - Rect.top;
   }
   else
   {

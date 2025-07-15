@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineText(Scaleform::String fn)
 {
-  const Scaleform::GFx::AS2::FnCall *pData; // edi
+  Scaleform::GFx::AS2::FnCall *pData; // edi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // esi
   Scaleform::GFx::AS2::ObjectInterface_vtbl *v3; // esi
   Scaleform::GFx::AS2::Value *v4; // eax
@@ -11,13 +11,13 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineText(Scaleform::String fn
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::AS2::Value *Result; // ecx
   bool v11; // zf
-  const Scaleform::GFx::AS2::FnCall *ConstStringNode; // esi
+  Scaleform::String::DataDesc *ConstStringNode; // esi
   Scaleform::GFx::AS2::Value *v13; // ecx
   Scaleform::GFx::AS2::Environment *Env; // [esp-8h] [ebp-14h]
-  unsigned int len; // [esp+4h] [ebp-8h] BYREF
-  Scaleform::GFx::ASString asstr; // [esp+8h] [ebp-4h] BYREF
+  int len; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::GFx::ASString str; // [esp+8h] [ebp-4h] BYREF
 
-  pData = (const Scaleform::GFx::AS2::FnCall *)fn.pData;
+  pData = (Scaleform::GFx::AS2::FnCall *)fn.pData;
   if ( *(_DWORD *)fn.pData->Data
     && (*(int (__thiscall **)(_DWORD))(**(_DWORD **)fn.pData->Data + 8))(*(_DWORD *)fn.pData->Data) == 4 )
   {
@@ -39,12 +39,12 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineText(Scaleform::String fn
           Scaleform::String::AppendString(&fn, LineText, len);
           StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                          (Scaleform::GFx::ASStringManager *)pData->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                         (char *)((fn.HeapTypeBits & 0xFFFFFFFC) + 8),
+                         (__m128i *)((fn.HeapTypeBits & 0xFFFFFFFC) + 8),
                          *(_DWORD *)(fn.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
           ++StringNode->RefCount;
           Result = pData->Result;
-          asstr.pNode = StringNode;
-          Scaleform::GFx::AS2::Value::SetString(Result, &asstr);
+          str.pNode = StringNode;
+          Scaleform::GFx::AS2::Value::SetString(Result, &str);
           v11 = StringNode->RefCount-- == 1;
           if ( v11 )
             Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
@@ -52,16 +52,16 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetLineText(Scaleform::String fn
         }
         else
         {
-          ConstStringNode = (const Scaleform::GFx::AS2::FnCall *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                                                                   (Scaleform::GFx::ASStringManager *)pData->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                                                                   (char *)&buf,
-                                                                   0,
-                                                                   0);
-          ++ConstStringNode->ThisFunctionRef.Function;
+          ConstStringNode = (Scaleform::String::DataDesc *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                                                             (Scaleform::GFx::ASStringManager *)pData->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                                                             (char *)uri,
+                                                             0,
+                                                             0);
+          ++ConstStringNode[1].Size;
           v13 = pData->Result;
-          fn.pData = (Scaleform::String::DataDesc *)ConstStringNode;
+          fn.pData = ConstStringNode;
           Scaleform::GFx::AS2::Value::SetString(v13, (const Scaleform::GFx::ASString *)&fn);
-          v11 = ConstStringNode->ThisFunctionRef.Function-- == (Scaleform::GFx::AS2::FunctionObject *)1;
+          v11 = ConstStringNode[1].Size-- == 1;
           if ( v11 )
             Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)ConstStringNode);
         }

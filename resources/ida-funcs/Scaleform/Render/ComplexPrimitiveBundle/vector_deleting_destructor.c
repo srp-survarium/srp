@@ -9,7 +9,9 @@ Scaleform::Render::ComplexPrimitiveBundle *__thiscall Scaleform::Render::Complex
 }
 
 
-void *__thiscall Scaleform::Render::ComplexPrimitiveBundle::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::ComplexPrimitiveBundle *__thiscall Scaleform::Render::ComplexPrimitiveBundle::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::ComplexPrimitiveBundle::`vector deleting destructor'(
            (Scaleform::Render::ComplexPrimitiveBundle *)(this - 32),

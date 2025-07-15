@@ -50,9 +50,9 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(
   this->ImplementsInterfaces.Data.Size = 0;
   this->ImplementsInterfaces.Data.Policy.Capacity = 0;
   for ( i = 0; i < v3->InstanceMemberNum; ++i )
-    Scaleform::GFx::AS3::Traits::AddSlot(this, (Scaleform::GFx::ASStringNode *)&v3->InstanceMember[i]);
+    Scaleform::GFx::AS3::Traits::AddSlot(this, &v3->InstanceMember[i]);
   for ( j = 0; j < v3->InstanceMethodNum; ++j )
-    Scaleform::GFx::AS3::Traits::Add2VT(this, v3, &v3->InstanceMethod[j]);
+    Scaleform::GFx::AS3::Traits::Add2VT(this, (Scaleform::GFx::ASStringNode *)v3, &v3->InstanceMethod[j]);
   Type = (const Scaleform::GFx::AS3::ClassInfo *)v3->Type;
   v12 = (unsigned int)Type->Type >> 4;
   ci = (Scaleform::GFx::ASStringNode *)Type;

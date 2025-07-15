@@ -31,7 +31,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::Add(
       if ( r->value.VS._1.VInt )
       {
         v7 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(l->value.VS._1.VInt + 20) + 64) + 36);
-        if ( (*(unsigned __int8 (__thiscall **)(int, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v7 + 28))(
+        if ( (*(unsigned __int8 (__thiscall **)(int, Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v7 + 40))(
                v7,
                resulta,
                l->value.VS._1,

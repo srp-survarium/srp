@@ -19,7 +19,7 @@ Scaleform::Mutex *__thiscall Scaleform::Mutex::`vector deleting destructor'(Scal
 }
 
 
-void *__thiscall Scaleform::Mutex::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Mutex *__thiscall Scaleform::Mutex::`vector deleting destructor'(char *this, char a2)
 {
   return Scaleform::Mutex::`vector deleting destructor'((Scaleform::Mutex *)(this - 12), a2);
 }

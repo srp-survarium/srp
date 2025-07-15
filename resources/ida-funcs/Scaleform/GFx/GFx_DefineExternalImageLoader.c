@@ -1,9 +1,9 @@
 void __stdcall Scaleform::GFx::GFx_DefineExternalImageLoader(
         Scaleform::String p,
-        Scaleform::GFx::AS3::RefCountBaseGC<328> *tagInfo)
+        const Scaleform::GFx::TagInfo *tagInfo)
 {
   Scaleform::GFx::LoadProcess *pData; // ebx
-  Scaleform::GFx::SWFProcessInfo *Size; // eax
+  Scaleform::GFx::Stream *Size; // eax
   int U32; // eax
   Scaleform::GFx::Stream *pAltStream; // esi
   int v6; // ebp
@@ -22,16 +22,16 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalImageLoader(
   Scaleform::GFx::Stream *v19; // esi
   void *v20; // esi
   void *v21; // esi
-  Scaleform::String imageExportName; // [esp+10h] [ebp-14h] BYREF
-  Scaleform::GFx::Stream *pin; // [esp+14h] [ebp-10h]
-  unsigned __int16 targetWidth[2]; // [esp+18h] [ebp-Ch]
-  Scaleform::GFx::ResourceHandle result; // [esp+1Ch] [ebp-8h] BYREF
+  Scaleform::String pstr; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::GFx::Stream *v23; // [esp+14h] [ebp-10h]
+  int v24; // [esp+18h] [ebp-Ch]
+  Scaleform::GFx::ResourceHandle v25; // [esp+1Ch] [ebp-8h] BYREF
 
   pData = (Scaleform::GFx::LoadProcess *)p.pData;
-  Size = (Scaleform::GFx::SWFProcessInfo *)p.pData[71].Size;
+  Size = (Scaleform::GFx::Stream *)p.pData[71].Size;
   if ( !Size )
-    Size = (Scaleform::GFx::SWFProcessInfo *)&p.pData[4];
-  pin = &Size->Stream;
+    Size = (Scaleform::GFx::Stream *)&p.pData[4];
+  v23 = Size;
   U32 = Scaleform::GFx::LoadProcess::ReadU32((Scaleform::GFx::LoadProcess *)p.pData);
   pAltStream = pData->pAltStream;
   v6 = U32;
@@ -45,7 +45,7 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalImageLoader(
   v9 = (unsigned __int16)(pAltStream->pBuffer[Pos] | (pAltStream->pBuffer[Pos + 1] << 8));
   pAltStream->Pos = Pos + 2;
   p_Stream = pData->pAltStream;
-  result.HType = v9;
+  v25.HType = v9;
   if ( !p_Stream )
     p_Stream = &pData->ProcessInfo.Stream;
   v11 = p_Stream->DataSize - p_Stream->Pos;
@@ -58,7 +58,7 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalImageLoader(
   LOWORD(pBuffer) = pBuffer[v12];
   p_Stream->Pos = v12 + 2;
   v15 = pData->pAltStream;
-  *(_DWORD *)targetWidth = (unsigned __int16)((unsigned __int16)pBuffer | (v14 << 8));
+  v24 = (unsigned __int16)((unsigned __int16)pBuffer | (v14 << 8));
   if ( !v15 )
     v15 = &pData->ProcessInfo.Stream;
   v16 = v15->DataSize - v15->Pos;
@@ -68,27 +68,36 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalImageLoader(
   v17 = v15->Pos;
   v18 = *(_WORD *)&v15->pBuffer[v17];
   v15->Pos = v17 + 2;
-  Scaleform::String::String(&imageExportName);
+  Scaleform::String::String(&pstr);
   Scaleform::String::String(&p);
-  v19 = pin;
-  Scaleform::GFx::Stream::ReadStringWithLength(pin, &imageExportName);
+  v19 = v23;
+  Scaleform::GFx::Stream::ReadStringWithLength(v23, &pstr);
   Scaleform::GFx::Stream::ReadStringWithLength(v19, &p);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(tagInfo);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    v19,
+    "  DefineExternalImage: tagInfo.TagType = %d, id = 0x%X, fmt = %d, name = '%s', exp = '%s', w = %d, h = %d\n",
+    tagInfo->TagType,
+    v6,
+    LOWORD(v25.HType),
+    (const char *)((p.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const char *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (unsigned __int16)v24,
+    v18);
   Scaleform::GFx::GFx_CreateImageFileResourceHandle(
-    &result,
+    &v25,
     pData,
     (Scaleform::GFx::ResourceId)(v6 & 0x9FFFF),
-    (char *)((p.HeapTypeBits & 0xFFFFFFFC) + 8),
-    (char *)((imageExportName.HeapTypeBits & 0xFFFFFFFC) + 8),
-    result.HType,
-    targetWidth[0],
+    (const __m128i *)((p.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const __m128i *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    v25.HType,
+    v24,
     v18);
-  if ( result.HType == RH_Pointer && result.BindIndex )
-    Scaleform::GFx::Resource::Release(result.pResource);
+  if ( v25.HType == RH_Pointer && v25.BindIndex )
+    Scaleform::GFx::Resource::Release(v25.pResource);
   v20 = (void *)(p.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((p.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v20);
-  v21 = (void *)(imageExportName.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((imageExportName.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v21 = (void *)(pstr.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v21);
 }

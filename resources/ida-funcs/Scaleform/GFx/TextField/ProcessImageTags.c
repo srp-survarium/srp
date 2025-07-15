@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
   Scaleform::GFx::MovieDefImpl *v8; // edi
   char IsProtocolImage; // al
   Scaleform::Log *v10; // eax
-  Scaleform::Render::ImageBase *pImage; // esi
+  Scaleform::GFx::Resource_vtbl *v11; // esi
   Scaleform::RefCountVImpl *v12; // eax
   Scaleform::Log *v13; // eax
   Scaleform::GFx::State *(__thiscall *v14)(Scaleform::GFx::StateBag *, Scaleform::GFx::State::StateType); // eax
@@ -27,9 +27,9 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
   Scaleform::GFx::StateBag v24; // edx
   Scaleform::RefCountVImpl *v25; // eax
   Scaleform::RefCountVImpl *v26; // esi
-  Scaleform::Ptr<Scaleform::Render::Image> *p_pImage; // edi
-  unsigned int v28; // eax
-  unsigned int v29; // ecx
+  _DWORD *p_pObject; // edi
+  int v28; // eax
+  int v29; // ecx
   int Width; // edx
   double v31; // st7
   bool v32; // cc
@@ -42,23 +42,23 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
   double v39; // st7
   const char *v40; // [esp-4h] [ebp-9Ch]
   const char *v41; // [esp-4h] [ebp-9Ch]
-  char *v42; // [esp+0h] [ebp-98h]
-  bool userImageProtocol; // [esp+17h] [ebp-81h]
-  bool userImageProtocola; // [esp+17h] [ebp-81h]
-  float origHeight; // [esp+18h] [ebp-80h]
-  float origHeighta; // [esp+18h] [ebp-80h]
-  float origHeightb; // [esp+18h] [ebp-80h]
-  float origHeightc; // [esp+18h] [ebp-80h]
-  float origHeightd; // [esp+18h] [ebp-80h]
-  float origHeighte; // [esp+18h] [ebp-80h]
-  Scaleform::GFx::MovieImpl *screenHeight; // [esp+20h] [ebp-78h]
-  float screenHeighta; // [esp+20h] [ebp-78h]
-  unsigned int *screenWidth; // [esp+24h] [ebp-74h]
-  float screenWidtha; // [esp+24h] [ebp-74h]
+  const __m128i *v42; // [esp+0h] [ebp-98h]
+  char v43; // [esp+17h] [ebp-81h]
+  bool v44; // [esp+17h] [ebp-81h]
+  float v45; // [esp+18h] [ebp-80h]
+  float v46; // [esp+18h] [ebp-80h]
+  float v47; // [esp+18h] [ebp-80h]
+  float v48; // [esp+18h] [ebp-80h]
+  float v49; // [esp+18h] [ebp-80h]
+  float v50; // [esp+18h] [ebp-80h]
+  Scaleform::GFx::MovieImpl *v52; // [esp+20h] [ebp-78h]
+  float v53; // [esp+20h] [ebp-78h]
+  unsigned int *p_Url; // [esp+24h] [ebp-74h]
+  float v55; // [esp+24h] [ebp-74h]
   Scaleform::GFx::MovieDefImpl *v56; // [esp+28h] [ebp-70h]
-  Scaleform::Ptr<Scaleform::GFx::ImageResource> pimgRes; // [esp+2Ch] [ebp-6Ch] BYREF
-  float origWidth; // [esp+30h] [ebp-68h]
-  Scaleform::GFx::ResourceBindData resBindData; // [esp+34h] [ebp-64h] BYREF
+  Scaleform::GFx::Resource *v57; // [esp+2Ch] [ebp-6Ch] BYREF
+  float v58; // [esp+30h] [ebp-68h]
+  Scaleform::GFx::ResourceBindData v59; // [esp+34h] [ebp-64h] BYREF
   unsigned int v60; // [esp+3Ch] [ebp-5Ch]
   unsigned int v61; // [esp+40h] [ebp-58h]
   Scaleform::Ptr<Scaleform::Log> result; // [esp+44h] [ebp-54h] BYREF
@@ -67,8 +67,11 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
   Scaleform::RefCountVImpl *v65; // [esp+5Ch] [ebp-3Ch]
   Scaleform::RefCountVImpl *v66; // [esp+60h] [ebp-38h]
   Scaleform::GFx::MovieImpl *pMovieImpl; // [esp+64h] [ebp-34h]
-  Scaleform::Render::Rect<unsigned long> dimr; // [esp+68h] [ebp-30h] BYREF
-  Scaleform::GFx::ImageCreateInfo cinfo; // [esp+78h] [ebp-20h] BYREF
+  int v68; // [esp+68h] [ebp-30h] BYREF
+  int v69; // [esp+6Ch] [ebp-2Ch]
+  int v70; // [esp+70h] [ebp-28h]
+  int v71; // [esp+74h] [ebp-24h]
+  _DWORD v72[8]; // [esp+78h] [ebp-20h] BYREF
 
   Size = imageInfoArray->Data.Size;
   v3 = this;
@@ -82,20 +85,20 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
     {
       GetResourceMovieDef = v3->GetResourceMovieDef;
       v6 = &imageInfoArray->Data.Data[v60 / 0x2C];
-      resBindData.pResource.pObject = 0;
-      resBindData.pBinding = 0;
+      v59.pResource.pObject = 0;
+      v59.pBinding = 0;
       v7 = GetResourceMovieDef(v3);
       v8 = (Scaleform::GFx::MovieDefImpl *)v7;
       v56 = (Scaleform::GFx::MovieDefImpl *)v7;
       if ( !v7 )
         goto LABEL_55;
       Scaleform::RefCountImpl::AddRef(v7);
-      screenWidth = (unsigned int *)&v6->Url;
+      p_Url = (unsigned int *)&v6->Url;
       IsProtocolImage = Scaleform::GFx::LoaderImpl::IsProtocolImage(&v6->Url, 0, 0);
-      userImageProtocol = IsProtocolImage;
+      v43 = IsProtocolImage;
       if ( IsProtocolImage )
         goto LABEL_13;
-      if ( !Scaleform::GFx::MovieImpl::FindExportedResource(this->pASRoot->pMovieImpl, v8, &resBindData, &v6->Url) )
+      if ( !Scaleform::GFx::MovieImpl::FindExportedResource(this->pASRoot->pMovieImpl, v8, &v59, &v6->Url) )
       {
         if ( this->GetLog(this) )
         {
@@ -107,22 +110,22 @@ void __thiscall Scaleform::GFx::TextField::ProcessImageTags(
         }
         goto LABEL_54;
       }
-      if ( (resBindData.pResource.pObject->GetResourceTypeCode(resBindData.pResource.pObject) & 0xFF00) == 0x100 )
+      if ( (v59.pResource.pObject->GetResourceTypeCode(v59.pResource.pObject) & 0xFF00) == 0x100 )
         break;
-      resBindData.pResource.pObject->GetResourceTypeCode(resBindData.pResource.pObject);
+      v59.pResource.pObject->GetResourceTypeCode(v59.pResource.pObject);
 LABEL_54:
       Scaleform::GFx::Resource::Release(v8);
 LABEL_55:
-      if ( resBindData.pResource.pObject )
-        Scaleform::GFx::Resource::Release(resBindData.pResource.pObject);
+      if ( v59.pResource.pObject )
+        Scaleform::GFx::Resource::Release(v59.pResource.pObject);
       v60 += 44;
       if ( !--v61 )
         return;
       v3 = this;
     }
-    IsProtocolImage = userImageProtocol;
+    IsProtocolImage = v43;
 LABEL_13:
-    pImage = 0;
+    v11 = 0;
     if ( IsProtocolImage )
     {
       v19 = &v8->Scaleform::GFx::StateBag;
@@ -154,94 +157,100 @@ LABEL_13:
       if ( !v25 )
       {
         Scaleform::LogDebugMessage(
-          (Scaleform::LogMessageId)135168,
+          (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
           "Image resource creation failed - ImageCreator not installed");
         v8 = v56;
 LABEL_31:
         Scaleform::LogDebugMessage(
-          (Scaleform::LogMessageId)135168,
+          (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
           "Image '%s' wasn't created in ProcessImageTags",
-          (const char *)((*screenWidth & 0xFFFFFFFC) + 8));
+          (const char *)((*p_Url & 0xFFFFFFFC) + 8));
         goto LABEL_54;
       }
       Scaleform::RefCountImpl::Release(v25);
       v8 = v56;
-      pImage = (Scaleform::Render::ImageBase *)((int (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *, unsigned int *))v26->AddRef)(
-                                                 v26,
-                                                 v63,
-                                                 screenWidth);
+      v11 = (Scaleform::GFx::Resource_vtbl *)((int (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *, unsigned int *))v26->AddRef)(
+                                               v26,
+                                               v63,
+                                               p_Url);
     }
     else
     {
-      v42 = (char *)((*screenWidth & 0xFFFFFFFC) + 8);
-      screenHeight = this->pASRoot->pMovieImpl;
+      v42 = (const __m128i *)((*p_Url & 0xFFFFFFFC) + 8);
+      v52 = this->pASRoot->pMovieImpl;
       v12 = (Scaleform::RefCountVImpl *)this->GetResourceMovieDef(this);
-      Scaleform::GFx::MovieImpl::GetImageResourceByLinkageId(screenHeight, &pimgRes, v12, v42);
-      if ( !pimgRes.pObject )
+      Scaleform::GFx::MovieImpl::GetImageResourceByLinkageId(
+        v52,
+        (Scaleform::Ptr<Scaleform::GFx::ImageResource> *)&v57,
+        v12,
+        v42);
+      if ( !v57 )
       {
         if ( this->GetLog(this) )
         {
           v13 = (Scaleform::Log *)((int (__thiscall *)(Scaleform::GFx::TextField *, const char *, unsigned int))this->GetLog)(
                                     this,
                                     "ProcessImageTags: can't load the image '%s'\n",
-                                    (*screenWidth & 0xFFFFFFFC) + 8);
+                                    (*p_Url & 0xFFFFFFFC) + 8);
           Scaleform::Log::LogWarning(v13, v41);
         }
-        if ( pimgRes.pObject )
-          Scaleform::GFx::Resource::Release(pimgRes.pObject);
+        if ( v57 )
+          Scaleform::GFx::Resource::Release(v57);
         goto LABEL_54;
       }
-      if ( pimgRes.pObject->pImage->GetImageType(pimgRes.pObject->pImage) )
+      if ( (*((int (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v57[1].~Scaleform::GFx::Resource + 3))(v57[1].__vftable) )
       {
-        pImage = pimgRes.pObject->pImage;
-        if ( pImage )
-          pImage->AddRef(pimgRes.pObject->pImage);
+        v11 = v57[1].__vftable;
+        if ( v11 )
+          (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v11->~Scaleform::GFx::Resource + 1))(v57[1].__vftable);
       }
       else
       {
         v14 = v8->GetStateAddRef;
         v15 = &v8->Scaleform::GFx::StateBag;
         v16 = (Scaleform::RefCountVImpl *)v14(v15, State_ImageCreator);
-        userImageProtocola = v16 == 0;
+        v44 = v16 == 0;
         if ( v16 )
           Scaleform::RefCountImpl::Release(v16);
-        if ( userImageProtocola )
+        if ( v44 )
         {
-          Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "ImageCreator is null in ProcessImageTags");
+          Scaleform::LogDebugMessage(
+            (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+            "ImageCreator is null in ProcessImageTags");
         }
         else
         {
-          cinfo.pHeap = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-          cinfo.Use = 1;
-          cinfo.RUse = Use_Bitmap;
+          v72[1] = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
+          v72[2] = 1;
+          v72[3] = 1;
           v17 = v15->GetStateAddRef;
-          cinfo.Type = Create_SourceImage;
-          memset(&cinfo.pLog, 0, 16);
+          v72[0] = 3;
+          memset(&v72[4], 0, 16);
           v18 = (Scaleform::RefCountVImpl *)v17(v15, State_ImageCreator);
-          pImage = (Scaleform::Render::ImageBase *)((int (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::ImageCreateInfo *, Scaleform::Render::ImageBase *))v18->__vftable[1].AddRef)(
-                                                     v18,
-                                                     &cinfo,
-                                                     pimgRes.pObject->pImage);
+          v11 = (Scaleform::GFx::Resource_vtbl *)((int (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *, Scaleform::GFx::Resource_vtbl *))v18->__vftable[1].AddRef)(
+                                                   v18,
+                                                   v72,
+                                                   v57[1].__vftable);
           Scaleform::RefCountImpl::Release(v18);
         }
         v8 = v56;
       }
-      if ( pimgRes.pObject )
-        Scaleform::GFx::Resource::Release(pimgRes.pObject);
+      if ( v57 )
+        Scaleform::GFx::Resource::Release(v57);
     }
-    if ( pImage )
+    if ( v11 )
     {
-      pImage->GetRect(pImage, &dimr);
-      p_pImage = &v6->pTextImageDesc.pObject->pImage;
-      pImage->AddRef(pImage);
-      if ( p_pImage->pObject )
-        p_pImage->pObject->Release(p_pImage->pObject);
-      p_pImage->pObject = (Scaleform::Render::Image *)pImage;
-      v28 = dimr.x2 - dimr.x1;
-      origWidth = (float)(dimr.x2 - dimr.x1);
-      v29 = dimr.y2 - dimr.y1;
+      (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *, int *))v11->~Scaleform::GFx::Resource + 6))(v11, &v68);
+      p_pObject = &v6->pTextImageDesc.pObject->pImage.pObject;
+      (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v11->~Scaleform::GFx::Resource + 1))(v11);
+      if ( *p_pObject )
+        (*(void (__thiscall **)(_DWORD))(*(_DWORD *)*p_pObject + 8))(*p_pObject);
+      *p_pObject = v11;
+      v28 = v70 - v68;
+      v58 = (float)(unsigned int)(v70 - v68);
+      v29 = v71 - v69;
       Width = v6->Width;
-      origHeight = (float)(dimr.y2 - dimr.y1);
+      v45 = (float)(unsigned int)(v71 - v69);
       if ( Width )
       {
         v31 = (double)Width;
@@ -249,13 +258,13 @@ LABEL_31:
       }
       else
       {
-        v31 = (double)(int)(20 * v28);
-        v32 = ((20 * v28) & 0x80000000) != 0;
+        v31 = (double)(20 * v28);
+        v32 = 20 * v28 < 0;
       }
       if ( v32 )
         v31 = v31 + 4294967300.0;
       Height = v6->Height;
-      screenWidtha = v31;
+      v55 = v31;
       if ( Height )
       {
         v34 = (double)Height;
@@ -263,37 +272,37 @@ LABEL_31:
       }
       else
       {
-        v34 = (double)(int)(20 * v29);
-        v35 = ((20 * v29) & 0x80000000) != 0;
+        v34 = (double)(20 * v29);
+        v35 = 20 * v29 < 0;
       }
       if ( v35 )
         v34 = v34 + 4294967300.0;
-      screenHeighta = v34;
-      v36 = origHeight;
-      origHeighta = 20.0 * origHeight;
-      origHeightb = origHeighta + (double)v6->VSpace;
-      v6->pTextImageDesc.pObject->ScreenWidth = screenWidtha;
-      v6->pTextImageDesc.pObject->ScreenHeight = screenHeighta;
-      origHeightc = origHeightb * 0.05000000074505806;
-      v6->pTextImageDesc.pObject->BaseLineY = origHeightc;
+      v53 = v34;
+      v36 = v45;
+      v46 = 20.0 * v45;
+      v47 = v46 + (double)v6->VSpace;
+      v6->pTextImageDesc.pObject->ScreenWidth = v55;
+      v6->pTextImageDesc.pObject->ScreenHeight = v53;
+      v48 = v47 * 0.05000000074505806;
+      v6->pTextImageDesc.pObject->BaseLineY = v48;
       v37 = v6->pTextImageDesc.pObject;
-      origHeightd = -v6->pTextImageDesc.pObject->BaseLineY;
+      v49 = -v6->pTextImageDesc.pObject->BaseLineY;
       v37->Matrix.M[0][3] = v37->Matrix.M[0][3] + 0.0;
-      v37->Matrix.M[1][3] = v37->Matrix.M[1][3] + origHeightd;
+      v37->Matrix.M[1][3] = v37->Matrix.M[1][3] + v49;
       p_Matrix = (float *)&v6->pTextImageDesc.pObject->Matrix;
-      origHeighte = screenHeighta / v36;
-      origWidth = screenWidtha / origWidth;
-      v39 = origWidth;
-      *p_Matrix = origWidth * *p_Matrix;
+      v50 = v53 / v36;
+      v58 = v55 / v58;
+      v39 = v58;
+      *p_Matrix = v58 * *p_Matrix;
       p_Matrix[1] = p_Matrix[1] * v39;
       p_Matrix[2] = v39 * p_Matrix[2];
       p_Matrix[3] = v39 * p_Matrix[3];
-      p_Matrix[4] = origHeighte * p_Matrix[4];
-      p_Matrix[5] = origHeighte * p_Matrix[5];
-      p_Matrix[6] = p_Matrix[6] * origHeighte;
-      p_Matrix[7] = origHeighte * p_Matrix[7];
+      p_Matrix[4] = v50 * p_Matrix[4];
+      p_Matrix[5] = v50 * p_Matrix[5];
+      p_Matrix[6] = p_Matrix[6] * v50;
+      p_Matrix[7] = v50 * p_Matrix[7];
       this->pDocument.pObject->RTFlags |= 2u;
-      pImage->Release(pImage);
+      (*((void (__thiscall **)(Scaleform::GFx::Resource_vtbl *))v11->~Scaleform::GFx::Resource + 2))(v11);
       v8 = v56;
       goto LABEL_54;
     }

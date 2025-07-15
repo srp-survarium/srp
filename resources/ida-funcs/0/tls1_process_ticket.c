@@ -12,7 +12,7 @@ int __cdecl tls1_process_ticket(
   unsigned __int16 *v10; // esi
   unsigned __int16 v11; // dx
   unsigned __int16 v12; // di
-  unsigned __int8 *v13; // esi
+  const __m128i *v13; // esi
   unsigned int v14; // ecx
 
   v5 = &session_id[len];
@@ -44,13 +44,13 @@ int __cdecl tls1_process_ticket(
   {
     v11 = _byteswap_ushort(*v10);
     v12 = _byteswap_ushort(v10[1]);
-    v13 = (unsigned __int8 *)(v10 + 2);
-    v14 = (unsigned int)&v13[v12];
+    v13 = (const __m128i *)(v10 + 2);
+    v14 = (unsigned int)v13->m128i_u32 + v12;
     if ( v14 > (unsigned int)limit )
       return 1;
     if ( v11 == 35 )
       break;
-    v10 = (unsigned __int16 *)&v13[v12];
+    v10 = (unsigned __int16 *)((char *)v13->m128i_u16 + v12);
     if ( v14 + 4 > (unsigned int)limit )
       return 1;
   }

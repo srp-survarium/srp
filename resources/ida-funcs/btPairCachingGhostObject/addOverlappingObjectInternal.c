@@ -4,99 +4,73 @@ void __thiscall btPairCachingGhostObject::addOverlappingObjectInternal(
         btBroadphaseProxy *thisProxy)
 {
   btBroadphaseProxy *m_broadphaseHandle; // eax
-  btCollisionObject *m_clientObject; // ebx
-  int m_size; // eax
-  int v7; // ecx
-  btCollisionObject **m_data; // edx
+  btPairCachingGhostObject *v4; // ebx
+  btAlignedObjectArray<btCollisionObject *> *p_m_overlappingObjects; // esi
   int m_capacity; // ecx
-  int v10; // eax
-  int v11; // edi
-  btCollisionObject **v12; // ebp
-  int v13; // edx
-  int v14; // eax
-  btCollisionObject **v15; // ecx
-  btCollisionObject **v16; // eax
-  btCollisionObject **v17; // eax
-  btCollisionObject *otherObject; // [esp+8h] [ebp-4h]
-  btBroadphaseProxy *thisProxya; // [esp+14h] [ebp+8h]
+  int m_size; // eax
+  int v8; // edi
+  int v9; // edx
+  int v10; // ecx
+  _DWORD *v11; // eax
+  btCollisionObject **v12; // eax
+  btBroadphaseProxy *v14; // [esp+Ch] [ebp-8h]
+  btCollisionObject *m_clientObject; // [esp+10h] [ebp-4h] BYREF
+  _DWORD *v16; // [esp+20h] [ebp+Ch]
 
   m_broadphaseHandle = thisProxy;
+  v4 = this;
   if ( !thisProxy )
     m_broadphaseHandle = this->m_broadphaseHandle;
+  v14 = m_broadphaseHandle;
+  p_m_overlappingObjects = &this->m_overlappingObjects;
   m_clientObject = (btCollisionObject *)otherProxy->m_clientObject;
-  thisProxya = m_broadphaseHandle;
-  m_size = this->m_overlappingObjects.m_size;
-  v7 = 0;
-  otherObject = (btCollisionObject *)otherProxy->m_clientObject;
-  if ( m_size > 0 )
+  if ( btAlignedObjectArray<int>::findLinearSearch(
+         (btAlignedObjectArray<int> *)&this->m_overlappingObjects,
+         (int *)&m_clientObject) == this->m_overlappingObjects.m_size )
   {
-    m_data = this->m_overlappingObjects.m_data;
-    while ( *m_data != m_clientObject )
+    m_capacity = v4->m_overlappingObjects.m_capacity;
+    m_size = v4->m_overlappingObjects.m_size;
+    if ( m_size == m_capacity )
     {
-      ++v7;
-      ++m_data;
-      if ( v7 >= m_size )
-        goto LABEL_9;
-    }
-    m_size = v7;
-  }
-LABEL_9:
-  if ( m_size == this->m_overlappingObjects.m_size )
-  {
-    m_capacity = this->m_overlappingObjects.m_capacity;
-    v10 = this->m_overlappingObjects.m_size;
-    if ( v10 == m_capacity )
-    {
-      v11 = 2 * v10;
-      if ( !v10 )
-        v11 = 1;
-      if ( m_capacity < v11 )
+      v8 = m_size ? 2 * m_size : 1;
+      if ( m_capacity < v8 )
       {
-        if ( v11 )
-        {
-          ++gNumAlignedAllocs;
-          v12 = (btCollisionObject **)sAlignedAllocFunc(4 * v11, 16);
-        }
+        if ( v8 )
+          v16 = btAlignedAllocInternal(4 * v8);
         else
+          v16 = 0;
+        v9 = v4->m_overlappingObjects.m_size;
+        v10 = 0;
+        if ( v9 > 0 )
         {
-          v12 = 0;
-        }
-        v13 = this->m_overlappingObjects.m_size;
-        v14 = 0;
-        if ( v13 > 0 )
-        {
-          v15 = v12;
+          v11 = v16;
           do
           {
-            if ( v15 )
+            if ( v11 )
             {
-              *v15 = this->m_overlappingObjects.m_data[v14];
-              m_clientObject = otherObject;
+              *v11 = p_m_overlappingObjects->m_data[v10];
+              v4 = this;
             }
-            ++v14;
-            ++v15;
+            ++v10;
+            ++v11;
           }
-          while ( v14 < v13 );
+          while ( v10 < v9 );
         }
-        v16 = this->m_overlappingObjects.m_data;
-        if ( v16 )
+        if ( p_m_overlappingObjects->m_data )
         {
-          if ( this->m_overlappingObjects.m_ownsMemory )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v16);
-          }
-          this->m_overlappingObjects.m_data = 0;
+          if ( p_m_overlappingObjects->m_ownsMemory )
+            btAlignedFreeInternal(p_m_overlappingObjects->m_data);
+          p_m_overlappingObjects->m_data = 0;
         }
-        this->m_overlappingObjects.m_data = v12;
-        this->m_overlappingObjects.m_ownsMemory = 1;
-        this->m_overlappingObjects.m_capacity = v11;
+        p_m_overlappingObjects->m_ownsMemory = 1;
+        p_m_overlappingObjects->m_data = (btCollisionObject **)v16;
+        p_m_overlappingObjects->m_capacity = v8;
       }
     }
-    v17 = &this->m_overlappingObjects.m_data[this->m_overlappingObjects.m_size];
-    if ( v17 )
-      *v17 = m_clientObject;
-    ++this->m_overlappingObjects.m_size;
-    this->m_hashPairCache->addOverlappingPair(this->m_hashPairCache, thisProxya, otherProxy);
+    v12 = &p_m_overlappingObjects->m_data[p_m_overlappingObjects->m_size];
+    if ( v12 )
+      *v12 = m_clientObject;
+    ++p_m_overlappingObjects->m_size;
+    v4->m_hashPairCache->addOverlappingPair(v4->m_hashPairCache, v14, otherProxy);
   }
 }

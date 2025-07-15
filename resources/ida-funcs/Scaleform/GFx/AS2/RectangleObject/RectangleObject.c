@@ -12,5 +12,8 @@ void __thiscall Scaleform::GFx::AS2::RectangleObject::RectangleObject(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     &penv->StringContext,
     Prototype);
-  Scaleform::GFx::AS2::RectangleObject::SetProperties(this, &penv->StringContext, Rectangle_DefaultParams);
+  Scaleform::GFx::AS2::RectangleObject::SetProperties(
+    this,
+    (Scaleform::GFx::ASStringNode *)&penv->StringContext,
+    Rectangle_DefaultParams);
 }

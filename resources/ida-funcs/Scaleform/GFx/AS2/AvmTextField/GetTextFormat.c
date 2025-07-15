@@ -21,8 +21,8 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetTextFormat(const Scaleform::G
   Scaleform::GFx::AS2::Environment *Env; // [esp-10h] [ebp-58h]
   Scaleform::GFx::AS2::Environment *v20; // [esp-10h] [ebp-58h]
   Scaleform::GFx::AS2::Environment *v21; // [esp-10h] [ebp-58h]
-  Scaleform::Render::Text::ParagraphFormat paraFmt; // [esp+Ch] [ebp-3Ch] BYREF
-  Scaleform::Render::Text::TextFormat textFmt; // [esp+20h] [ebp-28h] BYREF
+  Scaleform::Render::Text::ParagraphFormat pdestParaFmt; // [esp+Ch] [ebp-3Ch] BYREF
+  Scaleform::Render::Text::TextFormat pdestTextFmt; // [esp+20h] [ebp-28h] BYREF
 
   if ( !fn->ThisPtr || fn->ThisPtr->GetObjectType(fn->ThisPtr) != Object_TextField )
     goto LABEL_26;
@@ -66,14 +66,14 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetTextFormat(const Scaleform::G
   }
   if ( v3 <= v4 )
   {
-    Scaleform::Render::Text::TextFormat::TextFormat(&textFmt, fn->Env->StringContext.pContext->pHeap);
+    Scaleform::Render::Text::TextFormat::TextFormat(&pdestTextFmt, fn->Env->StringContext.pContext->pHeap);
     GetMemberRaw = v2[1].GetMemberRaw;
-    paraFmt.RefCount = 1;
-    memset(&paraFmt.pTabStops, 0, 16);
+    pdestParaFmt.RefCount = 1;
+    memset(&pdestParaFmt.pTabStops, 0, 16);
     Scaleform::Render::Text::StyledText::GetTextAndParagraphFormat(
       *((Scaleform::Render::Text::StyledText **)GetMemberRaw + 2),
-      &textFmt,
-      &paraFmt,
+      &pdestTextFmt,
+      &pdestParaFmt,
       v3,
       v4);
     pHeap = fn->Env->StringContext.pContext->pHeap;
@@ -87,20 +87,23 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetTextFormat(const Scaleform::G
     {
       v16 = 0;
     }
-    Scaleform::GFx::AS2::TextFormatObject::SetTextFormat(v16, &fn->Env->StringContext, &textFmt);
-    Scaleform::GFx::AS2::TextFormatObject::SetParagraphFormat(v16, (signed int)&fn->Env->StringContext, &paraFmt);
+    Scaleform::GFx::AS2::TextFormatObject::SetTextFormat(
+      v16,
+      (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+      &pdestTextFmt);
+    Scaleform::GFx::AS2::TextFormatObject::SetParagraphFormat(v16, (unsigned int)&fn->Env->StringContext, &pdestParaFmt);
     Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v16);
     if ( v16 )
     {
       RefCount = v16->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v16->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);
       }
     }
-    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
-    Scaleform::Render::Text::TextFormat::~TextFormat(&textFmt);
+    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&pdestParaFmt);
+    Scaleform::Render::Text::TextFormat::~TextFormat(&pdestTextFmt);
   }
   else
   {

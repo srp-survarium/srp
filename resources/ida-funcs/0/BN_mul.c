@@ -7,10 +7,10 @@ int __cdecl BN_mul(bignum_pool_item *r, bignum_pool_item *a, bignum_pool_item *b
   bignum_st *v8; // eax
   int v9; // edi
   bignum_pool_item *v10; // ecx
-  unsigned int *v11; // edx
+  int v11; // edx
   bignum_st *v12; // eax
   bignum_st *v13; // eax
-  unsigned int *v14; // edx
+  int v14; // edx
   bignum_st *v15; // eax
   bignum_st *v16; // eax
   bignum_st *v17; // eax
@@ -18,7 +18,7 @@ int __cdecl BN_mul(bignum_pool_item *r, bignum_pool_item *a, bignum_pool_item *b
   unsigned int *v19; // ecx
   char v22; // [esp+Ch] [ebp-10h]
   bignum_pool_item *v23; // [esp+Ch] [ebp-10h]
-  unsigned int *words; // [esp+10h] [ebp-Ch]
+  int words; // [esp+10h] [ebp-Ch]
   int v25; // [esp+14h] [ebp-8h]
 
   top = b->vals[0].top;
@@ -27,13 +27,13 @@ int __cdecl BN_mul(bignum_pool_item *r, bignum_pool_item *a, bignum_pool_item *b
   v22 = 0;
   if ( v5 && top )
   {
-    words = (unsigned int *)(v5 + top);
-    BN_CTX_start(ctx);
+    words = v5 + top;
+    BN_CTX_start(v5, ctx);
     if ( r == a || r == b )
     {
-      v6 = BN_CTX_get(ctx);
+      v6 = BN_CTX_get(v5, ctx);
       if ( !v6 )
-        goto err_114;
+        goto err_116;
     }
     else
     {
@@ -44,7 +44,7 @@ int __cdecl BN_mul(bignum_pool_item *r, bignum_pool_item *a, bignum_pool_item *b
     if ( v5 == top && v5 == 8 )
     {
       if ( v6->vals[0].dmax < 16 )
-        v8 = bn_expand2(v6->vals, (unsigned int *)0x10);
+        v8 = bn_expand2(v6->vals, 16);
       else
         v8 = (bignum_st *)v6;
       if ( v8 )
@@ -72,13 +72,13 @@ end_5:
     }
     else if ( v5 < 16 || top < 16 || (unsigned int)(v7 + 1) > 2 )
     {
-      if ( (int)words > v6->vals[0].dmax )
+      if ( words > v6->vals[0].dmax )
         v17 = bn_expand2(v6->vals, words);
       else
         v17 = (bignum_st *)v6;
       if ( v17 )
       {
-        v6->vals[0].top = (int)words;
+        v6->vals[0].top = words;
         bn_mul_normal(v6->vals[0].d, a->vals[0].d, v5, b->vals[0].d, top);
         goto end_5;
       }
@@ -90,18 +90,18 @@ end_5:
       if ( v7 == -1 )
         v22 = BN_num_bits_word(top);
       v9 = 1 << (v22 - 1);
-      v10 = BN_CTX_get(ctx);
+      v10 = BN_CTX_get(v5, ctx);
       v23 = v10;
       if ( !v10 )
-        goto err_114;
+        goto err_116;
       if ( v5 > v9 || top > v9 )
       {
-        v14 = (unsigned int *)(8 * v9);
+        v14 = 8 * v9;
         if ( 8 * v9 > v10->vals[0].dmax )
         {
-          v15 = bn_expand2(v10->vals, (unsigned int *)(8 * v9));
+          v15 = bn_expand2(v10->vals, 8 * v9);
           v10 = v23;
-          v14 = (unsigned int *)(8 * v9);
+          v14 = 8 * v9;
         }
         else
         {
@@ -109,7 +109,7 @@ end_5:
         }
         if ( v15 )
         {
-          if ( (int)v14 > v6->vals[0].dmax )
+          if ( v14 > v6->vals[0].dmax )
           {
             v16 = bn_expand2(v6->vals, v14);
             v10 = v23;
@@ -121,19 +121,19 @@ end_5:
           if ( v16 )
           {
             bn_mul_part_recursive(v6->vals[0].d, a->vals[0].d, b->vals[0].d, v9, v5 - v9, top - v9, v10->vals[0].d);
-            v6->vals[0].top = (int)words;
+            v6->vals[0].top = words;
             goto end_5;
           }
         }
       }
       else
       {
-        v11 = (unsigned int *)(4 * v9);
+        v11 = 4 * v9;
         if ( 4 * v9 > v10->vals[0].dmax )
         {
-          v12 = bn_expand2(v10->vals, (unsigned int *)(4 * v9));
+          v12 = bn_expand2(v10->vals, 4 * v9);
           v10 = v23;
-          v11 = (unsigned int *)(4 * v9);
+          v11 = 4 * v9;
         }
         else
         {
@@ -141,7 +141,7 @@ end_5:
         }
         if ( v12 )
         {
-          if ( (int)v11 > v6->vals[0].dmax )
+          if ( v11 > v6->vals[0].dmax )
           {
             v13 = bn_expand2(v6->vals, v11);
             v10 = v23;
@@ -153,16 +153,16 @@ end_5:
           if ( v13 )
           {
             bn_mul_recursive(v6->vals[0].d, a->vals[0].d, b->vals[0].d, v9, v5 - v9, top - v9, v10->vals[0].d);
-            v6->vals[0].top = (int)words;
+            v6->vals[0].top = words;
             goto end_5;
           }
         }
       }
     }
-err_114:
+err_116:
     BN_CTX_end(ctx);
     return v25;
   }
-  BN_set_word(r->vals, 0);
+  BN_set_word(v5, r->vals, 0);
   return 1;
 }

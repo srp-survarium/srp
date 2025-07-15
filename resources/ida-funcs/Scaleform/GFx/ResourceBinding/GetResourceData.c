@@ -39,7 +39,7 @@ Scaleform::GFx::ResourceBindData *__thiscall Scaleform::GFx::ResourceBinding::Ge
 void __thiscall Scaleform::GFx::ResourceBinding::GetResourceData(
         Scaleform::GFx::ResourceBinding *this,
         Scaleform::GFx::ResourceBindData *pdata,
-        volatile unsigned int index)
+        unsigned int index)
 {
   Scaleform::GFx::ResourceBindData *v3; // esi
 

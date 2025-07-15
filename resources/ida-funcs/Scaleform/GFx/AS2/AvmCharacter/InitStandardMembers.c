@@ -4,8 +4,8 @@ void __cdecl Scaleform::GFx::AS2::AvmCharacter::InitStandardMembers(Scaleform::G
   Scaleform::GFx::MovieImpl *pMovieImpl; // ebx
   Scaleform::GFx::ASStringHash<char> *p_StandardMemberMap; // edi
   Scaleform::GFx::AS2::AvmCharacter::MemberTableType *v4; // esi
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASString name; // [esp+Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::ASStringNode *v5; // eax
+  Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+Ch] [ebp-Ch] BYREF
   Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>::NodeRef key; // [esp+10h] [ebp-8h] BYREF
 
   pTable = pcontext->StandardMemberMap.mHash.pTable;
@@ -19,26 +19,26 @@ void __cdecl Scaleform::GFx::AS2::AvmCharacter::InitStandardMembers(Scaleform::G
   v4 = Scaleform::GFx::AS2::AvmCharacter::MemberTable;
   if ( Scaleform::GFx::AS2::AvmCharacter::MemberTable[0].pName )
   {
-    key.pFirst = &name;
+    key.pFirst = (const Scaleform::GFx::ASString *)&ConstStringNode;
     key.pSecond = (const char *)&pcontext;
     do
     {
-      name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                     (Scaleform::GFx::ASStringManager *)pMovieImpl,
-                     (char *)v4->pName,
-                     strlen(v4->pName),
-                     (v4->CaseInsensitive ? 0x10000000 : 0) | 0x20000000);
-      ++name.pNode->RefCount;
+      ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                          (Scaleform::GFx::ASStringManager *)pMovieImpl,
+                          (char *)v4->pName,
+                          strlen(v4->pName),
+                          (v4->CaseInsensitive ? 0x10000000 : 0) | 0x20000000);
+      ++ConstStringNode->RefCount;
       LOBYTE(pcontext) = v4->Id;
       Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::add<Scaleform::HashNode<Scaleform::GFx::ASString,char,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
         &p_StandardMemberMap->mHash,
         p_StandardMemberMap,
         &key,
-        name.pNode->HashFlags);
-      pNode = name.pNode;
-      --name.pNode->RefCount;
-      if ( !pNode->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        ConstStringNode->HashFlags);
+      v5 = ConstStringNode;
+      --ConstStringNode->RefCount;
+      if ( !v5->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v5);
       ++v4;
     }
     while ( v4->pName );

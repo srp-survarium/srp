@@ -7,3 +7,13 @@ survarium::victory_items_container_core *__thiscall survarium::victory_items_con
     operator delete(this);
   return this;
 }
+
+
+survarium::victory_items_container_core *__thiscall survarium::victory_items_container_core::`vector deleting destructor'(
+        char *this,
+        char a2)
+{
+  return survarium::victory_items_container_core::`vector deleting destructor'(
+           (survarium::victory_items_container_core *)(this - 72),
+           a2);
+}

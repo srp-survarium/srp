@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_media::SoundChannel::Dispatch
     {
       RefCount = eventObj.pObject->RefCount;
       pObject = eventObj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         eventObj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

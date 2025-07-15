@@ -1,27 +1,31 @@
-unsigned __int8 *__thiscall Scaleform::HeapPT::Granulator::Alloc(
+Scaleform::HeapPT::DualTNode *__thiscall Scaleform::HeapPT::Granulator::Alloc(
         Scaleform::HeapPT::Granulator *this,
         unsigned int size,
-        Scaleform::HeapPT::TreeSeg *alignSize)
+        unsigned int alignSize)
 {
   unsigned int v3; // esi
   Scaleform::HeapPT::AllocLite *p_Allocator; // ebx
-  unsigned __int8 *result; // eax
+  Scaleform::HeapPT::DualTNode *result; // eax
 
-  v3 = (unsigned int)alignSize;
+  v3 = alignSize;
   p_Allocator = &this->Allocator;
-  result = Scaleform::HeapPT::AllocLite::Alloc(&this->Allocator, size, (unsigned int)alignSize, &alignSize);
+  result = Scaleform::HeapPT::AllocLite::Alloc(
+             &this->Allocator,
+             size,
+             alignSize,
+             (Scaleform::HeapPT::TreeSeg **)&alignSize);
   if ( result )
     goto LABEL_7;
   if ( !Scaleform::HeapPT::Granulator::allocSegment(this, size, v3) )
     return 0;
-  result = Scaleform::HeapPT::AllocLite::Alloc(p_Allocator, size, v3, &alignSize);
+  result = Scaleform::HeapPT::AllocLite::Alloc(p_Allocator, size, v3, (Scaleform::HeapPT::TreeSeg **)&alignSize);
   if ( result )
     goto LABEL_7;
   if ( !Scaleform::HeapPT::Granulator::allocSegment(this, size, v3) )
     return 0;
-  result = Scaleform::HeapPT::AllocLite::Alloc(p_Allocator, size, v3, &alignSize);
+  result = Scaleform::HeapPT::AllocLite::Alloc(p_Allocator, size, v3, (Scaleform::HeapPT::TreeSeg **)&alignSize);
   if ( result )
 LABEL_7:
-    ++alignSize->UseCount;
+    ++*(_DWORD *)(alignSize + 24);
   return result;
 }

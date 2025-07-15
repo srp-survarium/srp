@@ -1,13 +1,12 @@
-unsigned int __stdcall boost::asio::detail::win_thread_function(HANDLE *arg)
+unsigned int __stdcall boost::asio::detail::win_thread_function(HANDLE *a1)
 {
-  HANDLE exit_event; // [esp+20h] [ebp-4h]
+  HANDLE v2; // ebx
 
-  SetEvent(arg[1]);
-  (*((void (__thiscall **)(HANDLE *))*arg + 1))(arg);
-  exit_event = arg[2];
-  if ( arg )
-    (*(void (__thiscall **)(HANDLE *, int))*arg)(arg, 1);
-  SetEvent(exit_event);
+  SetEvent(a1[1]);
+  (*((void (__thiscall **)(HANDLE *))*a1 + 1))(a1);
+  v2 = a1[2];
+  (*(void (__thiscall **)(HANDLE *, int))*a1)(a1, 1);
+  SetEvent(v2);
   SleepEx(0xFFFFFFFF, 1);
   return 0;
 }

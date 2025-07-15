@@ -1,7 +1,7 @@
 unsigned int __thiscall Scaleform::HeapMH::AllocBitSet2MH::GetUsableSize(
         Scaleform::HeapMH::AllocBitSet2MH *this,
         const Scaleform::HeapMH::PageMH *page,
-        const void *ptr)
+        int ptr)
 {
   Scaleform::HeapMH::MagicHeadersInfo headers; // [esp+0h] [ebp-1Ch] BYREF
 
@@ -9,5 +9,5 @@ unsigned int __thiscall Scaleform::HeapMH::AllocBitSet2MH::GetUsableSize(
   return 16
        * Scaleform::Heap::BitSet2::GetBlockSize(
            headers.BitSet,
-           (signed int)((int)ptr - (unsigned int)headers.AlignedStart) >> 4);
+           (signed int)(ptr - (unsigned int)headers.AlignedStart) >> 4);
 }

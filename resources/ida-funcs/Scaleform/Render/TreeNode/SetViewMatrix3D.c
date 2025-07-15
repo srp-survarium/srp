@@ -16,7 +16,7 @@ void __thiscall Scaleform::Render::TreeNode::SetViewMatrix3D(
   if ( v4 )
   {
     v6 = v4 + 4;
-    memset((int)(v4 + 4), 0, 0x30u);
+    memset((int)(v4 + 4), 0, 48);
     *v6 = 1.0;
     v5[9] = 1.0;
     v7 = (Scaleform::RefCountVImpl *)v5;

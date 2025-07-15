@@ -1,50 +1,38 @@
-int __thiscall btSparseSdf<3>::RemoveReferences(btSparseSdf<3> *this, btSparseSdf<3> *pcs, btCollisionShape *pcsa)
+int __thiscall btSparseSdf<3>::RemoveReferences(btSparseSdf<3> *this, btCollisionShape *pcs, int a3)
 {
-  btCollisionShape *v3; // ecx
-  int result; // eax
-  int v5; // ebp
-  void (__thiscall **v6)(btCollisionShape *); // ebx
-  void (__thiscall *v7)(btCollisionShape *); // eax
-  void (__thiscall *v8)(btCollisionShape *); // esi
-  void (__thiscall *v9)(btCollisionShape *); // edi
-  int refcount; // [esp+4h] [ebp-4h]
+  void (__thiscall **v4)(btCollisionShape *); // esi
+  void (__thiscall *v5)(btCollisionShape *); // eax
+  void (__thiscall *v6)(btCollisionShape *); // edi
+  int v8; // [esp+4h] [ebp-8h]
+  void (__thiscall *v9)(btCollisionShape *); // [esp+8h] [ebp-4h]
+  int i; // [esp+14h] [ebp+8h]
 
-  v3 = (btCollisionShape *)pcs;
-  result = 0;
-  v5 = 0;
-  refcount = 0;
-  if ( pcs->cells.m_size > 0 )
+  v8 = 0;
+  for ( i = 0; i < pcs->m_shapeType; ++i )
   {
-    do
+    v9 = 0;
+    v4 = &pcs[1].~btCollisionShape + i;
+    v5 = *v4;
+    if ( *v4 )
     {
-      v6 = &v3[1].~btCollisionShape + v5;
-      v7 = *v6;
-      v8 = 0;
-      if ( *v6 )
+      do
       {
-        do
+        v6 = (void (__thiscall *)(btCollisionShape *))*((_DWORD *)v5 + 70);
+        if ( *((_DWORD *)v5 + 69) == a3 )
         {
-          v9 = (void (__thiscall *)(btCollisionShape *))*((_DWORD *)v7 + 70);
-          if ( *((btCollisionShape **)v7 + 69) == pcsa )
-          {
-            if ( v8 )
-              *((_DWORD *)v8 + 70) = v9;
-            else
-              *v6 = v9;
-            operator delete(v7);
-            ++refcount;
-            v7 = v8;
-          }
-          v8 = v7;
-          v7 = v9;
+          if ( v9 )
+            *((_DWORD *)v9 + 70) = v6;
+          else
+            *v4 = v6;
+          operator delete(v5);
+          v5 = v9;
+          ++v8;
         }
-        while ( v9 );
-        v3 = (btCollisionShape *)pcs;
+        v9 = v5;
+        v5 = v6;
       }
-      ++v5;
+      while ( v6 );
     }
-    while ( v5 < v3->m_shapeType );
-    return refcount;
   }
-  return result;
+  return v8;
 }

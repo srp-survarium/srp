@@ -1,53 +1,38 @@
-vostok::render::vs_data *__userpurge vostok::render::vs_data::operator=@<eax>(
+vostok::render::vs_data *__usercall vostok::render::vs_data::operator=@<eax>(
+        vostok::render::vs_data *this@<edi>,
         const vostok::render::vs_data *__that@<eax>,
-        vostok::render::vs_data *this)
+        vostok::render::shader_constant_table *a3@<ecx>)
 {
-  vostok::render::vs_data *v2; // ebx
-  stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> > > *v4; // ecx
-  vostok::render::sampler_slot *m_begin; // eax
-  vostok::render::texture_slot *v6; // eax
-  const vostok::render::res_signature *m_object; // edi
-  const vostok::render::res_signature *v8; // eax
-  const vostok::render::res_signature *v9; // ecx
+  const vostok::render::res_signature *m_object; // esi
+  const vostok::render::res_signature *v5; // eax
+  vostok::intrusive_ptr<vostok::render::res_signature const ,vostok::render::res_signature const ,vostok::threading::single_threading_policy> *p_signature; // ecx
+  const vostok::render::res_signature *v7; // edx
+  vostok::render::res_pass *v8; // eax
 
-  v2 = this;
   this->instruction_count = __that->instruction_count;
-  v2->hardware_shader = __that->hardware_shader;
-  v2->constants.m_reference_count = __that->constants.m_reference_count;
-  stlp_std::priv::_Impl_vector<vostok::render::shader_constant,vostok::render::std_allocator<vostok::render::shader_constant>>::operator=(
-    &v2->constants.m_table._M_impl,
-    &v2->constants.m_table._M_impl);
-  stlp_std::priv::_Impl_vector<vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,vostok::render::std_allocator<vostok::intrusive_ptr<vostok::render::shader_constant_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>>>::operator=(
-    v4,
-    &__that->constants.m_const_buffers._M_impl);
-  v2->constants.m_is_registered = __that->constants.m_is_registered;
-  m_begin = __that->samplers.m_begin;
-  this = (vostok::render::vs_data *)__that->samplers.m_end;
-  vostok::buffer_vector<vostok::render::sampler_slot>::assign<vostok::render::sampler_slot const *>(
-    &v2->samplers,
-    m_begin,
-    (const vostok::render::sampler_slot *const *)&this);
-  v6 = __that->textures.m_begin;
-  this = (vostok::render::vs_data *)__that->textures.m_end;
-  vostok::buffer_vector<vostok::render::texture_slot>::assign<vostok::render::texture_slot const *>(
-    &v2->textures,
-    v6,
-    (const vostok::render::texture_slot *const *)&this);
+  this->hardware_shader = __that->hardware_shader;
+  vostok::render::shader_constant_table::operator=(
+    a3,
+    &this->constants,
+    (const vostok::render::shader_constant *)&__that->constants);
+  vostok::fixed_vector<vostok::render::sampler_slot,16>::operator=(&__that->samplers, &this->samplers);
+  vostok::fixed_vector<vostok::render::texture_slot,128>::operator=(&__that->textures, &this->textures);
+  vostok::fixed_vector<vostok::render::buffer_slot,128>::operator=(&__that->buffers, &this->buffers);
   m_object = __that->signature.m_object;
-  v8 = 0;
+  v5 = 0;
+  p_signature = &this->signature;
   if ( m_object )
   {
-    v8 = m_object;
+    v5 = m_object;
     ++m_object->m_reference_count;
   }
-  v9 = v2->signature.m_object;
-  v2->signature.m_object = v8;
-  if ( v9 )
+  v7 = v5;
+  v8 = (vostok::render::res_pass *)p_signature->m_object;
+  p_signature->m_object = v7;
+  if ( v8 )
   {
-    if ( v9->m_reference_count-- == 1 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v9);
+    if ( v8->m_reference_count-- == 1 )
+      vostok::render::resource_manager::release(vostok::quasi_singleton<vostok::render::resource_manager>::pinst, v8);
   }
-  return v2;
+  return this;
 }

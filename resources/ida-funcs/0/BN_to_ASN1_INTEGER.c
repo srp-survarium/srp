@@ -12,7 +12,7 @@ asn1_string_st *__cdecl BN_to_ASN1_INTEGER(const bignum_st *bn, asn1_string_st *
     v2 = ASN1_STRING_type_new(2);
   if ( !v2 )
   {
-    ERR_put_error(0xDu, 139, 58, ".\\crypto\\asn1\\a_int.c", 415);
+    ERR_put_error((int)ai, 0xDu, 139, 58, ".\\crypto\\asn1\\a_int.c", 415);
 LABEL_11:
     if ( v2 != ai )
       ASN1_STRING_free(v2);
@@ -28,7 +28,7 @@ LABEL_11:
     v5 = (unsigned __int8 *)CRYPTO_realloc(v2->data, v4, ".\\crypto\\asn1\\a_int.c", 425);
     if ( !v5 )
     {
-      ERR_put_error(0xDu, 139, 65, ".\\crypto\\asn1\\a_int.c", 428);
+      ERR_put_error((int)ai, 0xDu, 139, 65, ".\\crypto\\asn1\\a_int.c", 428);
       goto LABEL_11;
     }
     v2->data = v5;

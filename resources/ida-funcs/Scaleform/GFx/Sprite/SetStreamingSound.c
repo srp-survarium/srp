@@ -50,7 +50,7 @@ void __thiscall Scaleform::GFx::Sprite::SetStreamingSound(
       v7 = v6->__vftable;
       RealSoundVolume = Scaleform::GFx::Sprite::GetRealSoundVolume(this);
       ((void (__thiscall *)(Scaleform::Sound::SoundChannel *, _DWORD))v7->SetVolume)(v6, LODWORD(RealSoundVolume));
-      Scaleform::GFx::Sprite::AddActiveSound(this, (Scaleform::Sound::SoundChannel *)pchan, 0, 0);
+      Scaleform::GFx::Sprite::AddActiveSound(this, pchan, 0, 0);
     }
   }
 }

@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::toString(
 LABEL_11:
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                   (char *)Data,
+                   (__m128i *)Data,
                    Size);
     goto LABEL_12;
   }
@@ -30,7 +30,7 @@ LABEL_11:
       v6 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS3::BuiltinType,62>::CreateString(
              this->pTraits.pObject->pVM->StringManagerRef,
              &v11,
-             (char *)Data + 3,
+             (__m128i *)(Data + 3),
              Size - 3);
       Scaleform::GFx::ASString::operator=(result, v6);
       pNode = v11.pNode;
@@ -43,7 +43,7 @@ LABEL_11:
   }
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (const wchar_t *)Data + 1,
+                 (wchar_t *)Data + 1,
                  (Size - 2) >> 1);
 LABEL_12:
   v8 = StringNode;

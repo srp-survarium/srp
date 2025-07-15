@@ -5,5 +5,5 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::DisplayObjectEx::setRender
         const Scaleform::GFx::ASString *s)
 {
   if ( o )
-    Scaleform::GFx::DisplayObjectBase::SetRendererString(o->pDispObj.pObject, (char *)s->pNode->pData);
+    Scaleform::GFx::DisplayObjectBase::SetRendererString(o->pDispObj.pObject, (const __m128i *)s->pNode->pData);
 }

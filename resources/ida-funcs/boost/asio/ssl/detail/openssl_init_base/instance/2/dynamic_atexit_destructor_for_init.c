@@ -1,5 +1,7 @@
-void __cdecl `boost::asio::ssl::detail::openssl_init_base::instance'::`2'::`dynamic atexit destructor for 'init''()
+void __thiscall `boost::asio::ssl::detail::openssl_init_base::instance'::`2'::`dynamic atexit destructor for 'init''(
+        boost::detail::shared_count *this)
 {
-  if ( `boost::asio::ssl::detail::openssl_init_base::instance'::`2'::init.pn.pi_ )
-    boost::detail::sp_counted_base::release(`boost::asio::ssl::detail::openssl_init_base::instance'::`2'::init.pn.pi_);
+  boost::detail::shared_count::~shared_count(
+    this,
+    (volatile signed __int32 **)&`boost::asio::ssl::detail::openssl_init_base::instance'::`2'::init.pn);
 }

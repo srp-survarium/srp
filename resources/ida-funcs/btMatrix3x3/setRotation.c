@@ -1,54 +1,59 @@
-void __usercall btMatrix3x3::setRotation(btMatrix3x3 *this@<ecx>, int a2@<eax>)
+void __userpurge btMatrix3x3::setRotation(const btQuaternion *q@<eax>, btMatrix3x3 *this)
 {
-  float v2; // xmm2_4
-  float v3; // xmm3_4
-  float v4; // xmm1_4
-  float v5; // xmm5_4
+  float v2; // xmm0_4
+  float v3; // xmm2_4
+  float v4; // xmm3_4
+  float v5; // xmm1_4
   float v6; // xmm4_4
   float v7; // xmm6_4
   float v8; // xmm7_4
-  float v9; // xmm3_4
-  float v10; // xmm1_4
-  float v11; // xmm0_4
-  float v12; // xmm5_4
-  float v13; // xmm2_4
-  float v14; // xmm6_4
-  const vostok::math::float4x4 *v15; // xmm4_4
-  float wz; // [esp+0h] [ebp-Ch]
-  float wy; // [esp+4h] [ebp-8h]
-  float wx; // [esp+8h] [ebp-4h]
+  float v9; // xmm5_4
+  float v10; // xmm3_4
+  float v11; // xmm7_4
+  float v12; // xmm2_4
+  float v13; // xmm7_4
+  int v14; // [esp+0h] [ebp-24h] BYREF
+  float v15; // [esp+4h] [ebp-20h] BYREF
+  float v16; // [esp+8h] [ebp-1Ch] BYREF
+  float v17; // [esp+Ch] [ebp-18h] BYREF
+  float v18; // [esp+10h] [ebp-14h] BYREF
+  float v19; // [esp+14h] [ebp-10h] BYREF
+  float v20; // [esp+18h] [ebp-Ch] BYREF
+  float v21; // [esp+1Ch] [ebp-8h] BYREF
+  float v22; // [esp+20h] [ebp-4h] BYREF
 
-  v2 = this->m_el[0].mVec128.m128_f32[1];
-  v3 = this->m_el[0].mVec128.m128_f32[2];
-  v4 = this->m_el[0].mVec128.m128_f32[3];
-  v5 = 2.0
-     / (float)((float)((float)((float)(this->m_el[0].mVec128.m128_f32[0] * this->m_el[0].mVec128.m128_f32[0])
-                             + (float)(v2 * v2))
-                     + (float)(v3 * v3))
-             + (float)(v4 * v4));
-  v6 = v3 * v5;
-  v7 = this->m_el[0].mVec128.m128_f32[0] * v5;
-  v8 = v2 * v5;
-  wx = v4 * v7;
-  wy = v4 * (float)(v2 * v5);
-  v9 = v3 * (float)(v3 * v5);
-  wz = v4 * v6;
-  v10 = this->m_el[0].mVec128.m128_f32[0] * v7;
-  v11 = this->m_el[0].mVec128.m128_f32[0] * v6;
-  v12 = this->m_el[0].mVec128.m128_f32[0] * (float)(v2 * v5);
-  v13 = v2 * v6;
-  v14 = this->m_el[0].mVec128.m128_f32[1] * v8;
-  *(float *)a2 = *(float *)&clear_value - (float)(v9 + v14);
-  *(float *)(a2 + 4) = v12 - wz;
-  *(_DWORD *)(a2 + 12) = 0;
-  *(float *)(a2 + 8) = v11 + wy;
-  v15 = clear_value;
-  *(float *)(a2 + 16) = v12 + wz;
-  *(float *)(a2 + 20) = *(float *)&v15 - (float)(v9 + v10);
-  *(_DWORD *)(a2 + 28) = 0;
-  *(float *)(a2 + 24) = v13 - wx;
-  *(float *)(a2 + 32) = v11 - wy;
-  *(float *)(a2 + 36) = v13 + wx;
-  *(float *)(a2 + 40) = *(float *)&v15 - (float)(v14 + v10);
-  *(_DWORD *)(a2 + 44) = 0;
+  v2 = q->m_floats[0];
+  v3 = q->m_floats[1];
+  v4 = q->m_floats[2];
+  v5 = q->m_floats[3];
+  v6 = 2.0 / (float)((float)((float)((float)(v2 * v2) + (float)(v3 * v3)) + (float)(v4 * v4)) + (float)(v5 * v5));
+  v7 = v3 * v6;
+  v8 = q->m_floats[0] * v6;
+  v9 = v4 * v6;
+  v22 = v5 * v8;
+  v10 = v4 * (float)(v4 * v6);
+  v21 = v2 * v8;
+  v11 = v3;
+  v12 = v3 * v9;
+  v13 = v11 * v7;
+  v17 = v12 + v22;
+  v22 = v12 - v22;
+  v16 = (float)(v2 * v9) - (float)(v5 * v7);
+  v18 = s_bm_current_air_resistance - (float)(v13 + v21);
+  v21 = s_bm_current_air_resistance - (float)(v10 + v21);
+  v15 = (float)(v2 * v7) + (float)(v5 * v9);
+  v20 = (float)(v2 * v9) + (float)(v5 * v7);
+  v19 = (float)(v2 * v7) - (float)(v5 * v9);
+  btMatrix3x3::setValue(
+    (btMatrix3x3 *)&v14,
+    (int)this,
+    &v19,
+    &v20,
+    &v15,
+    &v21,
+    &v22,
+    &v16,
+    &v17,
+    &v18,
+    COERCE_CONST_FLOAT_(s_bm_current_air_resistance - (float)(v10 + v13)));
 }

@@ -2,83 +2,62 @@ void __thiscall __noreturn vostok::engine::engine_world::terminate_on_timeout(
         vostok::engine::engine_world *this,
         float time_limit)
 {
-  unsigned __int64 QuadPart; // rax
-  vostok::tasks::thread_pool *v3; // ecx
-  vostok::tasks::thread_pool *v4; // ecx
-  void (__cdecl *v5)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  float v7; // [esp+40h] [ebp-48h]
-  char v8; // [esp+44h] [ebp-44h]
-  LARGE_INTEGER PerformanceCount; // [esp+48h] [ebp-40h] BYREF
-  vostok::timing::timer app_closing_timer; // [esp+50h] [ebp-38h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+68h] [ebp-20h] BYREF
+  LARGE_INTEGER QPC; // rax
+  vostok::timing::timer *v3; // ecx
+  int elapsed_msec; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  double i; // st7
+  vostok::timing::timer *v7; // ecx
+  bool has_passed_filters; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp+4h] [ebp-3Ch]
+  float v10; // [esp+14h] [ebp-2Ch]
+  char v11; // [esp+18h] [ebp-28h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+20h] [ebp-20h] BYREF
 
-  v8 = 0;
-  vostok::timing::timer::timer(&app_closing_timer);
-  if ( vostok::timing::g_cpu_supports_time_stamp )
+  v11 = 0;
+  vostok::timing::timer::timer((vostok::timing::timer *)this, (LARGE_INTEGER *)&log_callback);
+  QPC = vostok::timing::get_QPC();
+  log_callback.vtable = 0;
+  (&log_callback.vtable)[1] = 0;
+  *(LARGE_INTEGER *)&log_callback.functor.obj_ptr = QPC;
+  elapsed_msec = vostok::timing::timer::get_elapsed_msec(v3, (int)&log_callback);
+  for ( i = (double)elapsed_msec; ; i = (double)elapsed_msec )
   {
-    QuadPart = __rdtsc();
-  }
-  else
-  {
-    QueryPerformanceCounter(&PerformanceCount);
-    QuadPart = PerformanceCount.QuadPart;
-  }
-  app_closing_timer.m_start_time = QuadPart;
-  app_closing_timer.m_current_time = 0;
-  v7 = time_limit * 1000.0;
-  for ( PerformanceCount.LowPart = 1000
-                                 * vostok::timing::timer::get_elapsed_ticks(&app_closing_timer)
-                                 / vostok::timing::g_qpc_per_second.QuadPart;
-        v7 > (double)PerformanceCount.LowPart;
-        PerformanceCount.LowPart = 1000
-                                 * vostok::timing::timer::get_elapsed_ticks(&app_closing_timer)
-                                 / vostok::timing::g_qpc_per_second.QuadPart )
-  {
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_locks(v3, s_thread_pool.m_variable);
-    Sleep(0x3E8u);
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_unlocks(v4, s_thread_pool.m_variable);
-  }
-  if ( !vostok::core::g_log_filter_tree
-    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "process termination thread:", error) )
-  {
-    v5 = vostok::core::g_log_callback;
-    log_callback.vtable = 0;
-    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-        &log_callback.functor,
-        &log_callback.functor,
-        destroy_functor_tag);
-    if ( v5 )
+    if ( elapsed_msec < 0 )
+      i = i + 4294967300.0;
+    v10 = time_limit * 1000.0;
+    if ( v10 <= i )
     {
-      log_callback.functor.obj_ptr = v5;
-      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                   + 1);
+      if ( !vostok::core::g_log_filter_tree
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&stru_7F9A50,
+                                   (const char *)2),
+            v5 = v9,
+            has_passed_filters) )
+      {
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v5,
+          &log_callback);
+        v11 = 1;
+        vostok::logging::append(
+          &log_callback,
+          (void *const)vostok::core::g_log_flags,
+          &vostok::core::g_log_format,
+          ".\\engine_world_terminate_on_timeout.cpp",
+          0x20u,
+          "void __thiscall vostok::engine::engine_world::terminate_on_timeout(float)",
+          (char *)&stru_7F9A50,
+          error,
+          (char *)&stru_7F9A50.filter_stack.m_last + 4,
+          time_limit);
+      }
+      if ( (v11 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v5,
+          (int *)&log_callback);
+      vostok::debug::terminate((char *)uri);
     }
-    else
-    {
-      log_callback.vtable = 0;
-    }
-    v8 = 1;
-    vostok::logging::append(
-      &log_callback,
-      (void *const)vostok::core::g_log_flags,
-      &vostok::core::g_log_format,
-      ".\\engine_world_terminate_on_timeout.cpp",
-      0x20u,
-      "void __thiscall vostok::engine::engine_world::terminate_on_timeout(float)",
-      "process termination thread:",
-      error,
-      "interval %d sec for application closing expired",
-      (unsigned int)COERCE_UNSIGNED_INT64(time_limit));
+    vostok::threading::yield(0x3E8u, (vostok::tasks *)v5);
+    elapsed_msec = vostok::timing::timer::get_elapsed_msec(v7, (int)&log_callback);
   }
-  if ( (v8 & 1) != 0 && log_callback.vtable && ((int)log_callback.vtable & 1) == 0 )
-  {
-    v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-    if ( v6 )
-      v6(&log_callback.functor, &log_callback.functor, 2);
-  }
-  vostok::debug::terminate((char *)&buf);
 }

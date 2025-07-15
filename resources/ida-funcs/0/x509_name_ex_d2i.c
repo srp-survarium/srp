@@ -1,14 +1,14 @@
 int __cdecl x509_name_ex_d2i(
         struct ASN1_VALUE_st **val,
         unsigned __int8 **in,
-        int len,
+        const unsigned __int8 *len,
         const ASN1_ITEM_st *it,
         int tag,
         int aclass,
-        char opt,
+        int opt,
         ASN1_TLC_st *ctx)
 {
-  unsigned __int8 *v8; // esi
+  const __m128i *v8; // esi
   int v9; // ebx
   int result; // eax
   struct ASN1_VALUE_st **v11; // edi
@@ -20,28 +20,29 @@ int __cdecl x509_name_ex_d2i(
   unsigned __int8 *v17; // ecx
   struct ASN1_VALUE_st *pval; // [esp+8h] [ebp-Ch] BYREF
   unsigned __int8 *ina; // [esp+Ch] [ebp-8h] BYREF
-  struct ASN1_VALUE_st *vala; // [esp+10h] [ebp-4h] BYREF
+  X509_name_st *a; // [esp+10h] [ebp-4h] BYREF
 
-  v8 = *in;
+  v8 = (const __m128i *)*in;
   v9 = 0;
   ina = *in;
   pval = 0;
-  vala = 0;
-  result = ASN1_item_ex_d2i(&pval, (const unsigned __int8 **)&ina, len, &stru_83C4F4, tag, aclass, opt, ctx);
+  a = 0;
+  result = ASN1_item_ex_d2i(&pval, &ina, len, &stru_6CE1B0, tag, aclass, opt, ctx);
   if ( result > 0 )
   {
     v11 = val;
     if ( *val )
       x509_name_ex_free(val);
-    v12 = x509_name_ex_new((stack_st ***)&vala);
-    v13 = (X509_name_st *)vala;
-    if ( v12 && BUF_MEM_grow(*((buf_mem_st **)vala + 2), ina - v8) )
+    v12 = x509_name_ex_new(0, (struct ASN1_VALUE_st **)&a);
+    v13 = a;
+    if ( v12 && BUF_MEM_grow(a->bytes, ina - (unsigned __int8 *)v8) )
     {
-      memcpy((unsigned __int8 *)v13->bytes->data, v8, ina - v8);
+      memcpy((int)v13->bytes->data, v8, ina - (unsigned __int8 *)v8);
       if ( sk_num((const stack_st *)pval) <= 0 )
       {
 LABEL_12:
         sk_free((stack_st *)pval);
+        v9 = (int)v13;
         result = x509_name_canon(v13);
         if ( result )
         {
@@ -81,7 +82,7 @@ LABEL_10:
     }
     if ( v13 )
       ASN1_item_free((struct ASN1_VALUE_st *)v13, &local_it_37);
-    ERR_put_error(0xDu, 158, 58, ".\\crypto\\asn1\\x_name.c", 220);
+    ERR_put_error(v9, 0xDu, 158, 58, ".\\crypto\\asn1\\x_name.c", 220);
     return 0;
   }
   return result;

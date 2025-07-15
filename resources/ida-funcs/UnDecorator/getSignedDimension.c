@@ -1,14 +1,14 @@
 DName *__cdecl UnDecorator::getSignedDimension(DName *result)
 {
   const DName *Dimension; // eax
-  DName v3; // [esp+0h] [ebp-8h] BYREF
+  DName resulta; // [esp+0h] [ebp-8h] BYREF
 
   if ( *UnDecorator::gName )
   {
     if ( *UnDecorator::gName == 63 )
     {
       ++UnDecorator::gName;
-      Dimension = UnDecorator::getDimension(&v3, 0);
+      Dimension = UnDecorator::getDimension(&resulta, 0);
       operator+(result, 45, Dimension);
     }
     else

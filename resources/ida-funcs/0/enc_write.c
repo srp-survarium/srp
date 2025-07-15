@@ -4,11 +4,10 @@ int __cdecl enc_write(bio_st *b, char *in, int inl)
   char *ptr; // esi
   int v6; // edi
   int v7; // eax
-  int v8; // ebx
+  int v8; // edi
   int v9; // edi
-  int v10; // edi
-  int v11; // eax
-  int inla; // [esp+1Ch] [ebp+Ch]
+  int v10; // eax
+  int v14; // [esp+1Ch] [ebp+Ch]
 
   v3 = inl;
   ptr = (char *)b->ptr;
@@ -18,8 +17,8 @@ int __cdecl enc_write(bio_st *b, char *in, int inl)
   {
     while ( 1 )
     {
-      v7 = BIO_write(b->next_bio, &ptr[*((_DWORD *)ptr + 1) + 160], v6);
-      v8 = v7;
+      v7 = BIO_write(v3, b->next_bio, &ptr[*((_DWORD *)ptr + 1) + 160], v6);
+      v3 = v7;
       if ( v7 <= 0 )
         break;
       *((_DWORD *)ptr + 1) += v7;
@@ -31,7 +30,7 @@ int __cdecl enc_write(bio_st *b, char *in, int inl)
       }
     }
     BIO_copy_next_retry(b);
-    return v8;
+    return v3;
   }
 LABEL_5:
   if ( !in || v3 <= 0 )
@@ -39,21 +38,21 @@ LABEL_5:
   *((_DWORD *)ptr + 1) = 0;
   while ( 1 )
   {
-    v9 = 4096;
+    v8 = 4096;
     if ( v3 <= 4096 )
-      v9 = v3;
+      v8 = v3;
     EVP_CipherUpdate(
       (evp_cipher_ctx_st *)(ptr + 20),
       (unsigned __int8 *)ptr + 160,
       (int *)ptr,
       (unsigned __int8 *)in,
-      v9);
-    in += v9;
-    v3 -= v9;
-    v10 = *(_DWORD *)ptr;
-    inla = v3;
+      v8);
+    in += v8;
+    v3 -= v8;
+    v9 = *(_DWORD *)ptr;
+    v14 = v3;
     *((_DWORD *)ptr + 1) = 0;
-    if ( v10 > 0 )
+    if ( v9 > 0 )
       break;
 LABEL_14:
     *(_DWORD *)ptr = 0;
@@ -66,20 +65,20 @@ LABEL_14:
   }
   while ( 1 )
   {
-    v11 = BIO_write(b->next_bio, &ptr[*((_DWORD *)ptr + 1) + 160], v10);
-    v8 = v11;
-    if ( v11 <= 0 )
-      break;
-    *((_DWORD *)ptr + 1) += v11;
-    v10 -= v11;
+    v10 = BIO_write(v3, b->next_bio, &ptr[*((_DWORD *)ptr + 1) + 160], v9);
+    v3 = v10;
     if ( v10 <= 0 )
+      break;
+    *((_DWORD *)ptr + 1) += v10;
+    v9 -= v10;
+    if ( v9 <= 0 )
     {
-      v3 = inla;
+      v3 = v14;
       goto LABEL_14;
     }
   }
   BIO_copy_next_retry(b);
-  if ( inl == inla )
-    return v8;
-  return inl - inla;
+  if ( inl == v14 )
+    return v3;
+  return inl - v14;
 }

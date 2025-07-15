@@ -36,7 +36,7 @@ unsigned int __usercall bio_nwrite0@<eax>(bio_st *bio@<ebx>, char **buf)
   }
   else
   {
-    ERR_put_error(0x20u, 122, 124, ".\\crypto\\bio\\bss_bio.c", 450);
+    ERR_put_error((int)bio, 0x20u, 122, 124, ".\\crypto\\bio\\bss_bio.c", 450);
     return -1;
   }
   return result;

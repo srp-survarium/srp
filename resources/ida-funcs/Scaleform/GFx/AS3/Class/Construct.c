@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Class::Construct(
   pObject = this->pTraits.pObject;
   pVM = pObject->pVM;
   (*((void (__stdcall **)(Scaleform::GFx::AS3::Value *, Scaleform::GFx::AS3::Traits_vtbl *))pObject[1].ForEachChild_GC
-   + 12))(
+   + 15))(
     _this,
     pObject[1].__vftable);
   if ( (v5->Flags & 0x1F) - 12 <= 3 && !v5->value.VS._1.VInt )
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::Class::Construct(
   }
   if ( this->PreInit(this, &_this, v5)->Result )
   {
-    (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int))(*(_DWORD *)v5->value.VS._1.VInt + 40))(
+    (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, int))(*(_DWORD *)v5->value.VS._1.VInt + 52))(
       v5->value.VS._1,
       extCall);
     this->PostInit(this, v5, argc, argv);

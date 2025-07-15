@@ -128,7 +128,7 @@ LABEL_72:
           *(_DWORD *)(a1 + 260) + 1,
           **(unsigned __int8 **)(a1 + 264));
       }
-      memcpy(*(unsigned __int8 **)(a1 + 260), *(unsigned __int8 **)(a1 + 264), v7 + 1);
+      memcpy(*(_DWORD *)(a1 + 260), *(const __m128i **)(a1 + 264), v7 + 1);
       if ( (*(_DWORD *)(a1 + 600) & 4) != 0 && *(_BYTE *)(a1 + 604) == 64 )
         png_do_read_intrapixel(&v6, *(_DWORD *)(a1 + 264) + 1);
       if ( *(_DWORD *)(a1 + 116) )

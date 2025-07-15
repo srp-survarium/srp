@@ -1,614 +1,529 @@
-__int64 __userpurge btConvexHullComputer::compute@<xmm0>(
+void __userpurge btConvexHullComputer::compute(
         btConvexHullComputer *this@<ecx>,
-        int count@<eax>,
-        char *coords,
-        bool doubleCoords,
+        const void *coords,
+        int doubleCoords,
         int stride,
+        int count,
         float shrink,
         float shrinkClamp)
 {
-  btVector3 *v8; // eax
-  btConvexHullComputer::Edge *v9; // eax
-  int *v10; // eax
-  __int64 v11; // xmm0_8
-  int m_size; // esi
-  btVector3 *m_data; // eax
-  unsigned __int64 v14; // xmm0_8
-  unsigned __int64 v15; // xmm1_8
-  int v16; // esi
-  btVector3 *v17; // eax
-  int v18; // esi
-  btConvexHullComputer::Edge *v19; // eax
-  int v20; // edx
-  unsigned __int64 v21; // xmm0_8
-  int v22; // ecx
-  btConvexHullComputer::Edge *v23; // eax
-  int v24; // esi
-  int *v25; // eax
-  int v26; // ecx
-  int *v27; // eax
-  int edges; // ecx
-  const btConvexHullInternal::Vertex *v29; // ebx
+  int v7; // esi
+  int v8; // ecx
+  btVector3 *v9; // eax
+  int v10; // esi
+  int v11; // ecx
+  int v12; // eax
+  int v13; // esi
+  int v14; // ecx
+  _DWORD *v15; // eax
+  btConvexHullInternal::Vertex **edges; // ecx
   btVector3 *Coordinates; // eax
-  int m_capacity; // ecx
-  btVector3 *v32; // edx
-  int v33; // eax
-  int v34; // eax
-  btVector3 *v35; // ebx
-  int v36; // edx
-  btVector3 *v37; // ecx
-  int v38; // esi
-  btVector3 *v39; // eax
-  btVector3 *v40; // eax
-  btVector3 *v41; // eax
-  int v42; // esi
-  int v43; // eax
-  int v44; // esi
-  int v45; // ecx
-  int v46; // eax
-  btConvexHullComputer::Edge *v47; // ecx
-  int v48; // edx
-  int v49; // ebx
-  btConvexHullComputer::Edge *v50; // eax
-  btConvexHullComputer::Edge *v51; // eax
-  btConvexHullComputer::Edge *v52; // eax
+  int v18; // ecx
+  int v19; // eax
+  int v20; // esi
+  int v21; // eax
+  _DWORD *v22; // ecx
+  int v23; // edx
+  _DWORD *v24; // esi
+  _DWORD *v25; // edi
+  _DWORD *v26; // edi
+  int v27; // esi
+  int v28; // eax
+  btConvexHullInternal::Vertex *v29; // eax
+  int v30; // ecx
+  int v31; // esi
+  int v32; // eax
+  _DWORD *v33; // ecx
+  int v34; // edx
+  _DWORD *v35; // esi
+  int v36; // edi
+  int v37; // ecx
+  int v38; // eax
+  int v39; // esi
+  int v40; // eax
+  _DWORD *v41; // ecx
+  int v42; // edx
+  _DWORD *v43; // esi
+  int v44; // edi
+  btConvexHullInternal::Vertex *v45; // ecx
+  _DWORD *v46; // edi
+  btConvexHullInternal::Vertex *v47; // edx
+  int v48; // eax
+  btConvexHullInternal::Edge *v49; // edx
+  int v50; // ecx
+  int v51; // eax
+  int v52; // esi
   int v53; // edx
-  int v54; // ecx
-  int v55; // eax
-  int v56; // ebx
-  btConvexHullComputer::Edge *v57; // ecx
-  int v58; // edx
-  int v59; // esi
-  btConvexHullComputer::Edge *v60; // eax
-  btConvexHullComputer::Edge *v61; // eax
-  btConvexHullComputer::Edge *v62; // eax
-  int v63; // ecx
-  btConvexHullComputer::Edge *v64; // ebx
-  int v65; // edx
-  btConvexHullInternal::Edge *v66; // ebx
-  int v67; // eax
-  int v68; // esi
-  int v69; // edx
-  int v70; // eax
-  int *v71; // ecx
-  int *v72; // eax
-  int *v73; // eax
+  int v54; // eax
+  _DWORD *v55; // ecx
+  btConvexHullInternal::Vertex ***v56; // eax
   btConvexHullInternal::Edge *prev; // eax
-  btConvexHullInternal::Edge *reverse; // edx
-  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v76; // ecx
-  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v77; // ecx
-  btConvexHullInternal::Vertex *vertexList; // [esp+860h] [ebp-E4h]
-  int v79; // [esp+864h] [ebp-E0h]
-  int v80; // [esp+868h] [ebp-DCh]
-  int v81; // [esp+878h] [ebp-CCh]
-  btConvexHullComputer::Edge *v82; // [esp+878h] [ebp-CCh]
-  btConvexHullComputer::Edge *v83; // [esp+878h] [ebp-CCh]
-  int j; // [esp+878h] [ebp-CCh]
-  btVector3 *v85; // [esp+87Ch] [ebp-C8h]
-  int v86; // [esp+87Ch] [ebp-C8h]
-  btConvexHullInternal::Edge *v87; // [esp+87Ch] [ebp-C8h]
-  const btConvexHullInternal::Vertex *v88; // [esp+880h] [ebp-C4h]
-  int v89; // [esp+880h] [ebp-C4h]
-  btConvexHullInternal::Edge *v90; // [esp+880h] [ebp-C4h]
-  int v91; // [esp+884h] [ebp-C0h]
-  int *v92; // [esp+884h] [ebp-C0h]
-  int i; // [esp+888h] [ebp-BCh]
-  int v94; // [esp+88Ch] [ebp-B8h]
-  btAlignedObjectArray<btConvexHullInternal::Vertex *> vertices; // [esp+890h] [ebp-B4h] BYREF
-  btVector3 result; // [esp+8A4h] [ebp-A0h] BYREF
-  int v97; // [esp+8BCh] [ebp-88h]
-  int v98; // [esp+8C0h] [ebp-84h]
-  btConvexHullInternal v99; // [esp+8C4h] [ebp-80h] BYREF
+  btAlignedObjectArray<GrahamVector2> *v58; // ecx
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v59; // ecx
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v60; // ecx
+  btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *v61; // ecx
+  btConvexHullInternal::Vertex *vertexList; // [esp-4h] [ebp-D4h]
+  btConvexHullInternal::Vertex **v63; // [esp-4h] [ebp-D4h]
+  int v64; // [esp+0h] [ebp-D0h]
+  __m128 *p_mVec128; // [esp+Ch] [ebp-C4h]
+  int v66; // [esp+Ch] [ebp-C4h]
+  int v67; // [esp+Ch] [ebp-C4h]
+  _DWORD *v68; // [esp+10h] [ebp-C0h]
+  _DWORD *v69; // [esp+10h] [ebp-C0h]
+  _DWORD *v70; // [esp+10h] [ebp-C0h]
+  int v71; // [esp+14h] [ebp-BCh]
+  btConvexHullInternal::Vertex **v72; // [esp+14h] [ebp-BCh]
+  _DWORD *v73; // [esp+14h] [ebp-BCh]
+  int v74; // [esp+18h] [ebp-B8h]
+  int v75; // [esp+18h] [ebp-B8h]
+  int j; // [esp+18h] [ebp-B8h]
+  int i; // [esp+1Ch] [ebp-B4h]
+  btConvexHullInternal::Vertex *v78; // [esp+20h] [ebp-B0h]
+  int v79; // [esp+20h] [ebp-B0h]
+  btConvexHullInternal::Edge *v80; // [esp+20h] [ebp-B0h]
+  btConvexHullInternal::Vertex **v81; // [esp+24h] [ebp-ACh]
+  btConvexHullInternal::Edge *v82; // [esp+24h] [ebp-ACh]
+  btAlignedObjectArray<btConvexHullInternal::Vertex *> v83; // [esp+28h] [ebp-A8h] BYREF
+  btConvexHullInternal::Vertex *v84; // [esp+3Ch] [ebp-94h]
+  btVector3 v85; // [esp+40h] [ebp-90h] BYREF
+  btConvexHullInternal v86; // [esp+50h] [ebp-80h] BYREF
 
-  if ( count > 0 )
+  if ( stride > 0 )
   {
-    memset(&v99.vertexPool, 0, 12);
-    v99.vertexPool.arraySize = 256;
-    memset(&v99.edgePool, 0, 12);
-    v99.edgePool.arraySize = 256;
-    memset(&v99.facePool, 0, 12);
-    v99.facePool.arraySize = 256;
-    v99.originalVertices.m_ownsMemory = 1;
-    memset(&v99.originalVertices.m_size, 0, 12);
-    btConvexHullInternal::compute((btConvexHullInternal *)0x100, &v99, coords, count, v79, v80);
-    m_size = this->vertices.m_size;
-    if ( m_size <= 0 )
+    v86.vertexPool.arraySize = 256;
+    v86.edgePool.arraySize = 256;
+    v86.facePool.arraySize = 256;
+    memset(&v86.vertexPool, 0, 12);
+    memset(&v86.edgePool, 0, 12);
+    memset(&v86.facePool, 0, 12);
+    v86.originalVertices.m_ownsMemory = 1;
+    memset(&v86.originalVertices.m_size, 0, 12);
+    btConvexHullInternal::compute((btConvexHullInternal *)this, &v86, doubleCoords, stride, v64);
+    v7 = *((_DWORD *)coords + 1);
+    if ( v7 <= 0 )
     {
-      if ( m_size < 0 && this->vertices.m_capacity < 0 )
+      if ( v7 < 0 && *((int *)coords + 2) < 0 )
       {
-        m_data = this->vertices.m_data;
-        if ( m_data )
+        if ( *((_DWORD *)coords + 3) )
         {
-          if ( this->vertices.m_ownsMemory )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(m_data);
-          }
-          this->vertices.m_data = 0;
+          if ( *((_BYTE *)coords + 16) )
+            btAlignedFreeInternal(*((void **)coords + 3));
+          *((_DWORD *)coords + 3) = 0;
         }
-        this->vertices.m_ownsMemory = 1;
-        this->vertices.m_data = 0;
-        this->vertices.m_capacity = 0;
+        *((_BYTE *)coords + 16) = 1;
+        *((_DWORD *)coords + 3) = 0;
+        *((_DWORD *)coords + 2) = 0;
       }
-      if ( m_size < 0 )
+      if ( v7 < 0 )
       {
-        v14 = result.mVec128.m128_u64[1];
-        v15 = result.mVec128.m128_u64[0];
-        v16 = m_size;
+        v8 = 16 * v7;
         do
         {
-          v17 = &this->vertices.m_data[v16];
-          if ( v17 )
-          {
-            v17->mVec128.m128_u64[0] = v15;
-            v17->mVec128.m128_u64[1] = v14;
-          }
-          ++v16;
+          v9 = (btVector3 *)(v8 + *((_DWORD *)coords + 3));
+          if ( v9 )
+            *v9 = (btVector3)v85.mVec128;
+          v8 += 16;
         }
-        while ( v16 < 0 );
+        while ( v8 < 0 );
       }
     }
-    this->vertices.m_size = 0;
-    v18 = this->edges.m_size;
-    if ( v18 <= 0 )
+    *((_DWORD *)coords + 1) = 0;
+    v10 = *((_DWORD *)coords + 6);
+    if ( v10 <= 0 )
     {
-      if ( v18 < 0 && this->edges.m_capacity < 0 )
+      if ( v10 < 0 && *((int *)coords + 7) < 0 )
       {
-        v19 = this->edges.m_data;
-        if ( v19 )
+        if ( *((_DWORD *)coords + 8) )
         {
-          if ( this->edges.m_ownsMemory )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v19);
-          }
-          this->edges.m_data = 0;
+          if ( *((_BYTE *)coords + 36) )
+            btAlignedFreeInternal(*((void **)coords + 8));
+          *((_DWORD *)coords + 8) = 0;
         }
-        this->edges.m_ownsMemory = 1;
-        this->edges.m_data = 0;
-        this->edges.m_capacity = 0;
+        *((_BYTE *)coords + 36) = 1;
+        *((_DWORD *)coords + 8) = 0;
+        *((_DWORD *)coords + 7) = 0;
       }
-      if ( v18 < 0 )
+      if ( v10 < 0 )
       {
-        v20 = result.mVec128.m128_i32[2];
-        v21 = result.mVec128.m128_u64[0];
-        v22 = v18;
+        v11 = 12 * v10;
         do
         {
-          v23 = &this->edges.m_data[v22];
-          if ( v23 )
+          v12 = v11 + *((_DWORD *)coords + 8);
+          if ( v12 )
           {
-            *(_QWORD *)&v23->next = v21;
-            v23->targetVertex = v20;
+            *(_QWORD *)v12 = v85.mVec128.m128_u64[0];
+            *(_DWORD *)(v12 + 8) = v85.mVec128.m128_i32[2];
           }
-          ++v22;
+          v11 += 12;
         }
-        while ( v22 < 0 );
+        while ( v11 < 0 );
       }
     }
-    this->edges.m_size = 0;
-    v24 = this->faces.m_size;
-    if ( v24 <= 0 )
+    *((_DWORD *)coords + 6) = 0;
+    v13 = *((_DWORD *)coords + 11);
+    if ( v13 <= 0 )
     {
-      if ( v24 < 0 && this->faces.m_capacity < 0 )
+      if ( v13 < 0 && *((int *)coords + 12) < 0 )
       {
-        v25 = this->faces.m_data;
-        if ( v25 )
+        if ( *((_DWORD *)coords + 13) )
         {
-          if ( this->faces.m_ownsMemory )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v25);
-          }
-          this->faces.m_data = 0;
+          if ( *((_BYTE *)coords + 56) )
+            btAlignedFreeInternal(*((void **)coords + 13));
+          *((_DWORD *)coords + 13) = 0;
         }
-        this->faces.m_ownsMemory = 1;
-        this->faces.m_data = 0;
-        this->faces.m_capacity = 0;
+        *((_BYTE *)coords + 56) = 1;
+        *((_DWORD *)coords + 13) = 0;
+        *((_DWORD *)coords + 12) = 0;
       }
-      if ( v24 < 0 )
+      if ( v13 < 0 )
       {
-        v26 = v24;
+        v14 = 4 * v13;
         do
         {
-          v27 = &this->faces.m_data[v26];
-          if ( v27 )
-            *v27 = 0;
-          ++v26;
+          v15 = (_DWORD *)(v14 + *((_DWORD *)coords + 13));
+          if ( v15 )
+            *v15 = 0;
+          v14 += 4;
         }
-        while ( v26 < 0 );
+        while ( v14 < 0 );
       }
     }
-    vertexList = v99.vertexList;
-    this->faces.m_size = 0;
-    vertices.m_ownsMemory = 1;
-    memset(&vertices.m_size, 0, 12);
-    getVertexCopy(&vertices, vertexList);
-    for ( i = 0; i < vertices.m_size; ++i )
+    vertexList = v86.vertexList;
+    *((_DWORD *)coords + 11) = 0;
+    v83.m_ownsMemory = 1;
+    memset(&v83.m_size, 0, 12);
+    getVertexCopy(&v83, vertexList);
+    edges = v63;
+    for ( i = 0; i < v83.m_size; ++i )
     {
-      v88 = vertices.m_data[i];
-      v29 = v88;
-      Coordinates = btConvexHullInternal::getCoordinates((btConvexHullInternal *)i, (int)&v99, &result, v88);
-      m_capacity = this->vertices.m_capacity;
-      v32 = Coordinates;
-      v33 = this->vertices.m_size;
-      v85 = v32;
-      if ( v33 == m_capacity )
+      v78 = v83.m_data[i];
+      Coordinates = btConvexHullInternal::getCoordinates(&v86, v78, &v85);
+      v18 = *((_DWORD *)coords + 2);
+      p_mVec128 = &Coordinates->mVec128;
+      v19 = *((_DWORD *)coords + 1);
+      if ( v19 == v18 )
       {
-        v34 = v33 ? 2 * v33 : 1;
-        v81 = v34;
-        if ( m_capacity < v34 )
+        v20 = v19 ? 2 * v19 : 1;
+        v71 = v20;
+        if ( v18 < v20 )
         {
-          if ( v34 )
-          {
-            ++gNumAlignedAllocs;
-            v35 = (btVector3 *)sAlignedAllocFunc(16 * v34, 16);
-          }
+          if ( v20 )
+            v68 = btAlignedAllocInternal(16 * v20);
           else
+            v68 = 0;
+          v21 = *((_DWORD *)coords + 1);
+          if ( v21 > 0 )
           {
-            v35 = 0;
-          }
-          if ( this->vertices.m_size > 0 )
-          {
-            v36 = 0;
-            v37 = v35;
-            v38 = this->vertices.m_size;
+            v22 = v68;
+            v23 = 0;
             do
             {
-              if ( v37 )
+              if ( v22 )
               {
-                v39 = this->vertices.m_data;
-                v37->mVec128.m128_u64[0] = v39[v36].mVec128.m128_u64[0];
-                v37->mVec128.m128_u64[1] = v39[v36].mVec128.m128_u64[1];
+                v24 = (_DWORD *)(v23 + *((_DWORD *)coords + 3));
+                *v22 = *v24++;
+                v22[1] = *v24++;
+                v22[2] = *v24;
+                v22[3] = v24[1];
+                v20 = v71;
               }
-              ++v36;
-              ++v37;
-              --v38;
+              v23 += 16;
+              v22 += 4;
+              --v21;
             }
-            while ( v38 );
+            while ( v21 );
           }
-          v40 = this->vertices.m_data;
-          if ( v40 )
+          if ( *((_DWORD *)coords + 3) )
           {
-            if ( this->vertices.m_ownsMemory )
-            {
-              ++gNumAlignedFree;
-              sAlignedFreeFunc(v40);
-            }
-            this->vertices.m_data = 0;
+            if ( *((_BYTE *)coords + 16) )
+              btAlignedFreeInternal(*((void **)coords + 3));
+            *((_DWORD *)coords + 3) = 0;
           }
-          v32 = v85;
-          this->vertices.m_data = v35;
-          v29 = v88;
-          this->vertices.m_ownsMemory = 1;
-          this->vertices.m_capacity = v81;
+          *((_BYTE *)coords + 16) = 1;
+          *((_DWORD *)coords + 3) = v68;
+          *((_DWORD *)coords + 2) = v20;
         }
       }
-      v41 = &this->vertices.m_data[this->vertices.m_size];
-      if ( v41 )
+      v25 = (_DWORD *)(*((_DWORD *)coords + 3) + 16 * *((_DWORD *)coords + 1));
+      if ( v25 )
       {
-        v41->mVec128.m128_u64[0] = v32->mVec128.m128_u64[0];
-        v41->mVec128.m128_u64[1] = v32->mVec128.m128_u64[1];
+        *v25 = p_mVec128->m128_i32[0];
+        v26 = v25 + 1;
+        *v26++ = p_mVec128->m128_i32[1];
+        *v26 = p_mVec128->m128_i32[2];
+        v26[1] = p_mVec128->m128_i32[3];
       }
-      ++this->vertices.m_size;
-      edges = (int)v29->edges;
-      v98 = edges;
+      ++*((_DWORD *)coords + 1);
+      edges = (btConvexHullInternal::Vertex **)v78->edges;
+      v81 = edges;
       if ( edges )
       {
-        v42 = -1;
-        v43 = -1;
-        v89 = -1;
-        v86 = -1;
-        v91 = edges;
+        v27 = -1;
+        v79 = -1;
+        v28 = -1;
+        v66 = -1;
+        v72 = edges;
         do
         {
-          if ( *(int *)(edges + 20) < 0 )
+          if ( (int)edges[5] < 0 )
           {
-            v45 = this->edges.m_capacity;
-            v97 = this->edges.m_size;
-            v44 = v97;
-            if ( v97 == v45 )
+            v29 = (btConvexHullInternal::Vertex *)*((_DWORD *)coords + 6);
+            v30 = *((_DWORD *)coords + 7);
+            v84 = v29;
+            if ( v29 == (btConvexHullInternal::Vertex *)v30 )
             {
-              v46 = v97 ? 2 * v97 : 1;
-              v94 = v46;
-              if ( v45 < v46 )
+              v31 = v29 ? 2 * (_DWORD)v29 : 1;
+              v74 = v31;
+              if ( v30 < v31 )
               {
-                if ( v46 )
-                {
-                  ++gNumAlignedAllocs;
-                  v82 = (btConvexHullComputer::Edge *)sAlignedAllocFunc(12 * v46, 16);
-                }
+                if ( v31 )
+                  v69 = btAlignedAllocInternal(12 * v31);
                 else
+                  v69 = 0;
+                v32 = *((_DWORD *)coords + 6);
+                if ( v32 > 0 )
                 {
-                  v82 = 0;
-                }
-                if ( this->edges.m_size > 0 )
-                {
-                  v47 = v82;
-                  v48 = 0;
-                  v49 = this->edges.m_size;
+                  v33 = v69;
+                  v34 = 0;
                   do
                   {
-                    if ( v47 )
+                    if ( v33 )
                     {
-                      v50 = this->edges.m_data;
-                      *(_QWORD *)&v47->next = *(_QWORD *)&v50[v48].next;
-                      v47->targetVertex = v50[v48].targetVertex;
+                      v35 = (_DWORD *)(v34 + *((_DWORD *)coords + 8));
+                      *v33 = *v35++;
+                      v33[1] = *v35;
+                      v33[2] = v35[1];
+                      v31 = v74;
                     }
-                    ++v48;
-                    ++v47;
-                    --v49;
+                    v34 += 12;
+                    v33 += 3;
+                    --v32;
                   }
-                  while ( v49 );
+                  while ( v32 );
                 }
-                v51 = this->edges.m_data;
-                if ( v51 )
+                if ( *((_DWORD *)coords + 8) )
                 {
-                  if ( this->edges.m_ownsMemory )
-                  {
-                    ++gNumAlignedFree;
-                    sAlignedFreeFunc(v51);
-                  }
-                  this->edges.m_data = 0;
+                  if ( *((_BYTE *)coords + 36) )
+                    btAlignedFreeInternal(*((void **)coords + 8));
+                  *((_DWORD *)coords + 8) = 0;
                 }
-                this->edges.m_ownsMemory = 1;
-                this->edges.m_data = v82;
-                this->edges.m_capacity = v94;
+                *((_BYTE *)coords + 36) = 1;
+                *((_DWORD *)coords + 8) = v69;
+                *((_DWORD *)coords + 7) = v31;
               }
             }
-            v52 = &this->edges.m_data[this->edges.m_size];
-            if ( v52 )
+            v36 = *((_DWORD *)coords + 8) + 12 * *((_DWORD *)coords + 6);
+            if ( v36 )
             {
-              v53 = result.mVec128.m128_i32[2];
-              *(_QWORD *)&v52->next = result.mVec128.m128_u64[0];
-              v52->targetVertex = v53;
+              *(_DWORD *)v36 = v85.mVec128.m128_i32[0];
+              *(_QWORD *)(v36 + 4) = *(unsigned __int64 *)((char *)v85.mVec128.m128_u64 + 4);
             }
-            ++this->edges.m_size;
-            v54 = this->edges.m_capacity;
-            v55 = this->edges.m_size;
-            if ( v55 == v54 )
+            ++*((_DWORD *)coords + 6);
+            v37 = *((_DWORD *)coords + 7);
+            v38 = *((_DWORD *)coords + 6);
+            if ( v38 == v37 )
             {
-              v56 = 2 * v55;
-              if ( !v55 )
-                v56 = 1;
-              if ( v54 < v56 )
+              v39 = v38 ? 2 * v38 : 1;
+              v75 = v39;
+              if ( v37 < v39 )
               {
-                if ( v56 )
-                {
-                  ++gNumAlignedAllocs;
-                  v83 = (btConvexHullComputer::Edge *)sAlignedAllocFunc(12 * v56, 16);
-                }
+                if ( v39 )
+                  v70 = btAlignedAllocInternal(12 * v39);
                 else
+                  v70 = 0;
+                v40 = *((_DWORD *)coords + 6);
+                if ( v40 > 0 )
                 {
-                  v83 = 0;
-                }
-                if ( this->edges.m_size > 0 )
-                {
-                  v57 = v83;
-                  v58 = 0;
-                  v59 = this->edges.m_size;
+                  v41 = v70;
+                  v42 = 0;
                   do
                   {
-                    if ( v57 )
+                    if ( v41 )
                     {
-                      v60 = this->edges.m_data;
-                      *(_QWORD *)&v57->next = *(_QWORD *)&v60[v58].next;
-                      v57->targetVertex = v60[v58].targetVertex;
+                      v43 = (_DWORD *)(v42 + *((_DWORD *)coords + 8));
+                      *v41 = *v43++;
+                      v41[1] = *v43;
+                      v41[2] = v43[1];
+                      v39 = v75;
                     }
-                    ++v58;
-                    ++v57;
-                    --v59;
+                    v42 += 12;
+                    v41 += 3;
+                    --v40;
                   }
-                  while ( v59 );
-                  v44 = v97;
+                  while ( v40 );
                 }
-                v61 = this->edges.m_data;
-                if ( v61 )
+                if ( *((_DWORD *)coords + 8) )
                 {
-                  if ( this->edges.m_ownsMemory )
-                  {
-                    ++gNumAlignedFree;
-                    sAlignedFreeFunc(v61);
-                  }
-                  this->edges.m_data = 0;
+                  if ( *((_BYTE *)coords + 36) )
+                    btAlignedFreeInternal(*((void **)coords + 8));
+                  *((_DWORD *)coords + 8) = 0;
                 }
-                this->edges.m_ownsMemory = 1;
-                this->edges.m_data = v83;
-                this->edges.m_capacity = v56;
+                *((_BYTE *)coords + 36) = 1;
+                *((_DWORD *)coords + 8) = v70;
+                *((_DWORD *)coords + 7) = v39;
               }
             }
-            v62 = &this->edges.m_data[this->edges.m_size];
-            if ( v62 )
+            v44 = *((_DWORD *)coords + 8) + 12 * *((_DWORD *)coords + 6);
+            if ( v44 )
             {
-              v63 = result.mVec128.m128_i32[2];
-              *(_QWORD *)&v62->next = result.mVec128.m128_u64[0];
-              v62->targetVertex = v63;
+              *(_DWORD *)v44 = v85.mVec128.m128_i32[0];
+              *(_QWORD *)(v44 + 4) = *(unsigned __int64 *)((char *)v85.mVec128.m128_u64 + 4);
             }
-            ++this->edges.m_size;
-            v64 = &this->edges.m_data[v44];
-            v65 = *(_DWORD *)(v91 + 8);
-            *(_DWORD *)(v91 + 20) = v44;
-            *(_DWORD *)(v65 + 20) = v44 + 1;
-            v64->reverse = 1;
-            v64[1].reverse = -1;
-            v42 = v89;
-            v64->targetVertex = getVertexCopy(&vertices, *(btConvexHullInternal::Vertex **)(v91 + 12));
-            v43 = v86;
-            v64[1].targetVertex = i;
-            edges = v91;
+            v45 = v84;
+            ++*((_DWORD *)coords + 6);
+            v46 = (_DWORD *)(12 * (_DWORD)v45 + *((_DWORD *)coords + 8));
+            v47 = v72[2];
+            v72[5] = v45;
+            *((_DWORD *)&v47->lastNearbyFace + 1) = (char *)&v45->next + 1;
+            v46[1] = 1;
+            v46[4] = -1;
+            v27 = v79;
+            v46[2] = getVertexCopy(&v83, v72[3]);
+            edges = v72;
+            v46[5] = i;
+            v28 = v66;
           }
-          if ( v43 < 0 )
+          if ( v28 < 0 )
           {
-            v42 = *(_DWORD *)(edges + 20);
-            v89 = v42;
+            v27 = (int)edges[5];
+            v79 = v27;
           }
           else
           {
-            this->edges.m_data[*(_DWORD *)(edges + 20)].next = v43 - *(_DWORD *)(edges + 20);
+            *(_DWORD *)(12 * (_DWORD)edges[5] + *((_DWORD *)coords + 8)) = v28 - (_DWORD)edges[5];
           }
-          v43 = *(_DWORD *)(edges + 20);
-          edges = *(_DWORD *)edges;
-          v86 = v43;
-          v91 = edges;
+          v28 = (int)edges[5];
+          edges = (btConvexHullInternal::Vertex **)*edges;
+          v66 = v28;
+          v72 = edges;
         }
-        while ( edges != v98 );
-        edges = 3 * v42;
-        this->edges.m_data[v42].next = v43 - v42;
+        while ( edges != v81 );
+        edges = (btConvexHullInternal::Vertex **)*((_DWORD *)coords + 8);
+        edges[3 * v27] = (btConvexHullInternal::Vertex *)(v28 - v27);
       }
     }
+    v48 = 0;
     for ( j = 0; j < i; ++j )
     {
-      edges = j;
-      v90 = vertices.m_data[j]->edges;
-      if ( v90 )
+      edges = v83.m_data;
+      v49 = v83.m_data[v48]->edges;
+      v82 = v49;
+      if ( v49 )
       {
-        v66 = vertices.m_data[j]->edges;
-        v87 = v66;
+        v80 = v83.m_data[v48]->edges;
         do
         {
-          if ( v66->copy >= 0 )
+          if ( v49->copy >= 0 )
           {
-            edges = this->faces.m_capacity;
-            v67 = this->faces.m_size;
-            if ( v67 == edges )
+            v50 = *((_DWORD *)coords + 12);
+            v51 = *((_DWORD *)coords + 11);
+            if ( v51 == v50 )
             {
-              v68 = 2 * v67;
-              if ( !v67 )
-                v68 = 1;
-              if ( edges < v68 )
+              v52 = v51 ? 2 * v51 : 1;
+              v67 = v52;
+              if ( v50 < v52 )
               {
-                if ( v68 )
-                {
-                  ++gNumAlignedAllocs;
-                  v92 = (int *)sAlignedAllocFunc(4 * v68, 16);
-                }
+                if ( v52 )
+                  v73 = btAlignedAllocInternal(4 * v52);
                 else
+                  v73 = 0;
+                v53 = *((_DWORD *)coords + 11);
+                v54 = 0;
+                if ( v53 > 0 )
                 {
-                  v92 = 0;
-                }
-                v69 = this->faces.m_size;
-                v70 = 0;
-                if ( v69 > 0 )
-                {
-                  v71 = v92;
+                  v55 = v73;
                   do
                   {
-                    if ( v71 )
+                    if ( v55 )
                     {
-                      *v71 = this->faces.m_data[v70];
-                      v66 = v87;
+                      *v55 = *(_DWORD *)(*((_DWORD *)coords + 13) + 4 * v54);
+                      v52 = v67;
                     }
-                    ++v70;
-                    ++v71;
+                    ++v54;
+                    ++v55;
                   }
-                  while ( v70 < v69 );
+                  while ( v54 < v53 );
                 }
-                v72 = this->faces.m_data;
-                if ( v72 )
+                if ( *((_DWORD *)coords + 13) )
                 {
-                  if ( this->faces.m_ownsMemory )
-                  {
-                    ++gNumAlignedFree;
-                    sAlignedFreeFunc(v72);
-                  }
-                  this->faces.m_data = 0;
+                  if ( *((_BYTE *)coords + 56) )
+                    btAlignedFreeInternal(*((void **)coords + 13));
+                  *((_DWORD *)coords + 13) = 0;
                 }
-                edges = (int)v92;
-                this->faces.m_ownsMemory = 1;
-                this->faces.m_data = v92;
-                this->faces.m_capacity = v68;
+                v49 = v80;
+                *((_BYTE *)coords + 56) = 1;
+                *((_DWORD *)coords + 13) = v73;
+                *((_DWORD *)coords + 12) = v52;
               }
             }
-            v73 = &this->faces.m_data[this->faces.m_size];
-            if ( v73 )
+            edges = (btConvexHullInternal::Vertex **)*((_DWORD *)coords + 13);
+            v56 = (btConvexHullInternal::Vertex ***)&edges[*((_DWORD *)coords + 11)];
+            if ( v56 )
             {
-              edges = v66->copy;
-              *v73 = edges;
+              edges = (btConvexHullInternal::Vertex **)v49->copy;
+              *v56 = edges;
             }
-            ++this->faces.m_size;
-            prev = v66;
+            ++*((_DWORD *)coords + 11);
+            prev = v49;
             do
             {
-              reverse = prev->reverse;
               prev->copy = -1;
-              prev = reverse->prev;
+              prev = prev->reverse->prev;
             }
-            while ( prev != v66 );
+            while ( prev != v49 );
           }
-          v66 = v66->next;
-          v87 = v66;
+          v49 = v49->next;
+          v80 = v49;
         }
-        while ( v66 != v90 );
+        while ( v49 != v82 );
       }
+      v48 = j + 1;
     }
-    if ( vertices.m_data && vertices.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(vertices.m_data);
-    }
-    if ( v99.originalVertices.m_data && v99.originalVertices.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v99.originalVertices.m_data);
-    }
-    v99.originalVertices.m_ownsMemory = 1;
-    memset(&v99.originalVertices.m_size, 0, 12);
+    btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+      (btAlignedObjectArray<GrahamVector2> *)edges,
+      (int)&v83);
+    btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v58, (int)&v86.originalVertices);
     btConvexHullInternal::Pool<btConvexHullInternal::Face>::~Pool<btConvexHullInternal::Face>(
-      (btConvexHullInternal::Pool<btConvexHullInternal::Vertex> *)edges,
-      (void ***)&v99.facePool);
+      v59,
+      (void ***)&v86.facePool);
     btConvexHullInternal::Pool<btConvexHullInternal::Face>::~Pool<btConvexHullInternal::Face>(
-      v76,
-      (void ***)&v99.edgePool);
+      v60,
+      (void ***)&v86.edgePool);
     btConvexHullInternal::Pool<btConvexHullInternal::Face>::~Pool<btConvexHullInternal::Face>(
-      v77,
-      (void ***)&v99.vertexPool);
-    return 0;
+      v61,
+      (void ***)&v86.vertexPool);
   }
   else
   {
-    v8 = this->vertices.m_data;
-    if ( v8 )
+    if ( *((_DWORD *)coords + 3) )
     {
-      if ( this->vertices.m_ownsMemory )
-      {
-        ++gNumAlignedFree;
-        sAlignedFreeFunc(v8);
-      }
-      this->vertices.m_data = 0;
+      if ( *((_BYTE *)coords + 16) )
+        btAlignedFreeInternal(*((void **)coords + 3));
+      *((_DWORD *)coords + 3) = 0;
     }
-    this->vertices.m_ownsMemory = 1;
-    this->vertices.m_data = 0;
-    this->vertices.m_size = 0;
-    this->vertices.m_capacity = 0;
-    v9 = this->edges.m_data;
-    if ( v9 )
+    *((_BYTE *)coords + 16) = 1;
+    *((_DWORD *)coords + 3) = 0;
+    *((_DWORD *)coords + 1) = 0;
+    *((_DWORD *)coords + 2) = 0;
+    if ( *((_DWORD *)coords + 8) )
     {
-      if ( this->edges.m_ownsMemory )
-      {
-        ++gNumAlignedFree;
-        sAlignedFreeFunc(v9);
-      }
-      this->edges.m_data = 0;
+      if ( *((_BYTE *)coords + 36) )
+        btAlignedFreeInternal(*((void **)coords + 8));
+      *((_DWORD *)coords + 8) = 0;
     }
-    this->edges.m_ownsMemory = 1;
-    this->edges.m_data = 0;
-    this->edges.m_size = 0;
-    this->edges.m_capacity = 0;
-    v10 = this->faces.m_data;
-    if ( v10 )
+    *((_BYTE *)coords + 36) = 1;
+    *((_DWORD *)coords + 8) = 0;
+    *((_DWORD *)coords + 6) = 0;
+    *((_DWORD *)coords + 7) = 0;
+    if ( *((_DWORD *)coords + 13) )
     {
-      if ( this->faces.m_ownsMemory )
-      {
-        ++gNumAlignedFree;
-        sAlignedFreeFunc(v10);
-      }
-      this->faces.m_data = 0;
+      if ( *((_BYTE *)coords + 56) )
+        btAlignedFreeInternal(*((void **)coords + 13));
+      *((_DWORD *)coords + 13) = 0;
     }
-    v11 = 0;
-    this->faces.m_ownsMemory = 1;
-    this->faces.m_data = 0;
-    this->faces.m_size = 0;
-    this->faces.m_capacity = 0;
+    *((_BYTE *)coords + 56) = 1;
+    *((_DWORD *)coords + 13) = 0;
+    *((_DWORD *)coords + 11) = 0;
+    *((_DWORD *)coords + 12) = 0;
   }
-  return v11;
 }

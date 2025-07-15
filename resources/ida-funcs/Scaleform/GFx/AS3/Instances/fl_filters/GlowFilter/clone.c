@@ -55,7 +55,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter::clone(
   v15 = v6->FilterData.pObject;
   v16 = *(&v15[2].Frozen + 3);
   v15 = (Scaleform::Render::Filter *)((char *)v15 + 44);
-  v15->__vftable = (Scaleform::Render::Filter_vtbl *)((unsigned int)&vostok::memory::s_CRT_arena[5574199] & v8);
+  v15->__vftable = (Scaleform::Render::Filter_vtbl *)(v8 & 0xFFFFFF);
   HIBYTE(v15->__vftable) = v16;
   *(&v6->FilterData.pObject[2].Frozen + 3) = (int)((double)v19 / 255.0 * 255.0);
   v22 = v10;
@@ -85,7 +85,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter::clone(
       else
       {
         v18 = v17->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v18) != 0 )
+        if ( (v18 & 0x3FFFFF) != 0 )
         {
           v17->RefCount = v18 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);

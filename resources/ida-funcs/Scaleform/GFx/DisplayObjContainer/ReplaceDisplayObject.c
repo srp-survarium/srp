@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObjContainer::ReplaceDisplayObject(
         Scaleform::GFx::DisplayObjContainer *this,
-        const Scaleform::GFx::CharPosInfo *pos,
+        Scaleform::GFx::DisplayObjectBase *pos,
         Scaleform::GFx::InteractiveObject *ch,
         const Scaleform::GFx::ASString *name)
 {

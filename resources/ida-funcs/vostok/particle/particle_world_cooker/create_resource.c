@@ -1,83 +1,60 @@
 void __thiscall vostok::particle::particle_world_cooker::create_resource(
         vostok::particle::particle_world_cooker *this,
-        vostok::resources::query_result_for_cook *in_out_query,
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *in_out_query,
         vostok::const_buffer raw_file_data,
         vostok::mutable_buffer in_out_unmanaged_resource_buffer)
 {
-  vostok::variant<32> *v4; // eax
-  survarium::game_camera *v5; // ecx
-  _BYTE *v6; // eax
-  survarium::game_camera *v7; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v8; // ecx
-  const vostok::variant<32> **v9; // eax
-  vostok::particle::particle_world *v10; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v11; // ecx
-  const vostok::variant<32> **v12; // eax
-  unsigned int v13; // ecx
-  unsigned __int64 v14; // [esp-Ch] [ebp-34h] BYREF
-  unsigned int v15; // [esp-4h] [ebp-2Ch]
-  vostok::particle::particle_world *v16; // [esp+0h] [ebp-28h]
-  vostok::particle::particle_world_cooker *thisa; // [esp+4h] [ebp-24h]
-  unsigned __int64 value; // [esp+Ch] [ebp-1Ch]
-  vostok::particle::particle_world *v19; // [esp+18h] [ebp-10h]
-  char v20; // [esp+1Dh] [ebp-Bh]
-  char v21; // [esp+1Eh] [ebp-Ah]
-  bool result; // [esp+1Fh] [ebp-9h]
-  vostok::particle::engine *engine; // [esp+20h] [ebp-8h] BYREF
-  vostok::particle::particle_world *new_particle_world; // [esp+24h] [ebp-4h]
+  vostok::particle::particle_world *v4; // ecx
+  vostok::particle::engine *v5; // eax
+  vostok::particle::engine *v6; // edi
+  unsigned __int64 v7; // rax
+  survarium::pure_game_effect_emitter_base *v8; // ecx
+  vostok::resources::query_result_for_cook *v9; // ecx
+  vostok::resources::query_result_for_cook *v10; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v11; // [esp-4h] [ebp-1Ch] BYREF
+  const vostok::resources::memory_type *v12; // [esp+0h] [ebp-18h]
+  unsigned int v13; // [esp+4h] [ebp-14h]
+  vostok::particle::engine *out_value; // [esp+10h] [ebp-8h] BYREF
 
-  thisa = this;
-  engine = 0;
-  v4 = vostok::resources::query_result_for_cook::user_data(
-         (vostok::resources::query_result_for_cook *)this,
-         (int)in_out_query);
-  result = vostok::variant<32>::try_get<vostok::particle::engine *>(v4, &engine);
-  v21 = 0;
-  survarium::weapon_user_dead_state::finalize(v5);
-  v7 = (survarium::game_camera *)(unsigned __int8)*v6;
-  if ( *v6 )
+  out_value = 0;
+  vostok::variant<32>::try_get<vostok::particle::engine *>(
+    (vostok::variant<32> *)this,
+    (int)in_out_query[66].m_object,
+    &out_value);
+  if ( in_out_unmanaged_resource_buffer.m_data )
   {
-    v15 = result;
-    HIDWORD(v14) = 0;
-    survarium::weapon_user_dead_state::finalize(v7);
-  }
-  v20 = 0;
-  survarium::weapon_user_dead_state::finalize(v7);
-  v9 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-         v8,
-         (int)&in_out_unmanaged_resource_buffer);
-  v19 = (vostok::particle::particle_world *)operator new(0x188u, v9);
-  if ( v19 )
-  {
-    vostok::particle::particle_world::particle_world(v19, engine);
-    v16 = v10;
+    vostok::particle::particle_world::particle_world(v4, (int)in_out_unmanaged_resource_buffer.m_data, out_value);
+    v6 = v5;
+    out_value = v5;
   }
   else
   {
-    v16 = 0;
+    v6 = 0;
+    out_value = 0;
   }
-  new_particle_world = v16;
-  vostok::mutable_buffer::operator+=((vostok::mutable_buffer *)0x188, &in_out_unmanaged_resource_buffer);
-  LODWORD(value) = in_out_unmanaged_resource_buffer.m_size;
-  v14 = vostok::math::align_down<unsigned __int64>(in_out_unmanaged_resource_buffer.m_size, 0xD0u);
-  v12 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-          v11,
-          (int)&in_out_unmanaged_resource_buffer);
-  ((void (__thiscall *)(vostok::memory::fixed_size_allocator<vostok::particle::base_particle,vostok::threading::mutex> *, const vostok::variant<32> **, _DWORD, _DWORD, const char *))new_particle_world->m_allocator.initialize)(
-    &new_particle_world->m_allocator,
-    v12,
-    v14,
-    HIDWORD(v14),
+  v7 = vostok::math::align_down<unsigned __int64>(in_out_unmanaged_resource_buffer.m_size - 432, 0x124u);
+  ((void (__thiscall *)(vostok::particle::engine *, char *, _DWORD, _DWORD, const char *))v6[66].destroy)(
+    &v6[66],
+    in_out_unmanaged_resource_buffer.m_data + 432,
+    v7,
+    HIDWORD(v7),
     "particle_world");
-  v15 = 392;
-  v14 = __PAIR64__(&vostok::resources::nocache_memory, v13);
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
-    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)&v14,
-    (vostok::configs::binary_config *)new_particle_world);
+  v13 = 432;
+  v12 = &vostok::resources::nocache_memory;
+  v11.m_object = v8;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    &v11,
+    (survarium::pure_game_effect_emitter_base *)out_value);
   vostok::resources::query_result_for_cook::set_unmanaged_resource(
+    v9,
     in_out_query,
-    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v14,
-    (const vostok::resources::memory_type *)HIDWORD(v14),
-    v15);
-  vostok::resources::query_result_for_cook::finish_query(in_out_query, result_success, assert_on_fail_true);
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)v11.m_object,
+    v12,
+    v13);
+  vostok::resources::query_result_for_cook::finish_query_impl(
+    v10,
+    (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)in_out_query,
+    result_out_of_memory,
+    assert_on_fail_true,
+    result_fail);
 }

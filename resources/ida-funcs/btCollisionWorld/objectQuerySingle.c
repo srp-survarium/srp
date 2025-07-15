@@ -1,626 +1,637 @@
 void __cdecl btCollisionWorld::objectQuerySingle(
-        btConvexShape *castShape,
-        const btTransform *convexFromTrans,
-        const btTransform *convexToTrans,
-        btCollisionObject *collisionObject,
-        btBvhTriangleMeshShape *collisionShape,
-        const btTransform *colObjWorldTransform,
-        btCollisionWorld::ConvexResultCallback *resultCallback,
-        float allowedPenetration)
+        unsigned __int64 castShape,
+        unsigned __int64 convexToTrans,
+        unsigned __int64 collisionShape,
+        unsigned __int64 resultCallback)
 {
-  const char *v8; // ecx
-  int m_shapeType; // eax
-  CProfileNode *Sub_Node; // eax
-  int RecursionCounter; // ecx
-  float v12; // xmm0_4
-  CProfileNode *v13; // ecx
-  long double v14; // st7
+  int v4; // eax
+  float v5; // xmm0_4
+  int v6; // xmm1_4
+  float v7; // xmm2_4
+  int v8; // eax
+  btTransform *v9; // ecx
+  float v10; // xmm2_4
+  float v11; // xmm0_4
+  float v12; // xmm1_4
+  float v13; // xmm3_4
+  float v14; // xmm0_4
   float v15; // xmm2_4
   float v16; // xmm0_4
   float v17; // xmm1_4
   float v18; // xmm3_4
-  float v19; // xmm0_4
-  float v20; // xmm2_4
-  float v21; // xmm0_4
-  float v22; // xmm1_4
-  float v23; // xmm3_4
-  float v24; // xmm4_4
-  float v25; // xmm5_4
-  float v26; // xmm1_4
-  float v27; // xmm2_4
-  float v28; // xmm3_4
-  btVector3 v29; // xmm0
-  void (__thiscall *v30)(struct btConvexShape *, const btTransform *, btVector3 *, btVector3 *); // edx
-  CProfileNode *v31; // ecx
-  float m_closestHitFraction; // xmm0_4
-  long double v33; // st7
-  float v34; // xmm6_4
-  float v35; // xmm4_4
-  float v36; // xmm3_4
-  float v37; // xmm0_4
-  float v38; // xmm0_4
-  float v39; // xmm0_4
-  float v40; // xmm6_4
-  unsigned int v41; // xmm6_4
-  float v42; // xmm3_4
-  float v43; // xmm7_4
-  float v44; // xmm1_4
-  float v45; // xmm5_4
-  void (__thiscall *v46)(struct btConvexShape *, const btTransform *, btVector3 *, btVector3 *); // edx
-  __m128 si128; // xmm2
-  float v48; // xmm0_4
-  float v49; // xmm5_4
-  float v50; // xmm2_4
-  float v51; // xmm1_4
-  btCollisionShape_vtbl *v52; // eax
-  void (__thiscall *v53)(btCollisionShape *); // edx
-  float v55; // xmm6_4
-  float v56; // xmm5_4
-  float v57; // xmm1_4
-  float v58; // xmm0_4
-  float v59; // xmm1_4
-  float v60; // xmm7_4
-  float v61; // xmm6_4
-  float v62; // xmm1_4
-  float v63; // xmm6_4
-  float v64; // xmm7_4
+  float v19; // xmm4_4
+  float v20; // xmm1_4
+  float v21; // xmm3_4
+  float v22; // xmm4_4
+  float v23; // xmm0_4
+  float v24; // xmm1_4
+  int v25; // xmm2_4
+  float v26; // xmm2_4
+  float v27; // xmm7_4
+  float v28; // xmm0_4
+  int v29; // eax
+  unsigned int v30; // xmm0_4
+  float v31; // xmm5_4
+  float v32; // xmm4_4
+  float v33; // xmm3_4
+  float v34; // xmm0_4
+  float v35; // xmm6_4
+  float v36; // xmm0_4
+  float v37; // xmm4_4
+  float v38; // xmm7_4
+  float v39; // xmm4_4
+  float v40; // xmm7_4
+  float v41; // xmm7_4
+  float v42; // xmm0_4
+  float v43; // xmm6_4
+  float v44; // xmm7_4
+  float v45; // xmm6_4
+  float v46; // xmm0_4
+  float v47; // xmm4_4
+  float v48; // xmm4_4
+  float v49; // xmm6_4
+  float v50; // xmm4_4
+  float v51; // xmm6_4
+  float v52; // xmm2_4
+  float v53; // xmm1_4
+  float v54; // xmm0_4
+  int v55; // eax
+  float v56; // xmm6_4
+  float v57; // xmm5_4
+  int v58; // eax
+  float v59; // xmm2_4
+  float v60; // xmm3_4
+  float v61; // xmm1_4
+  float v62; // xmm0_4
+  float v63; // xmm3_4
+  float v64; // xmm2_4
   float v65; // xmm1_4
-  float v66; // xmm7_4
-  float v67; // xmm6_4
+  float v66; // xmm0_4
+  float v67; // xmm2_4
   float v68; // xmm1_4
-  float v69; // xmm5_4
-  float v70; // xmm1_4
-  unsigned int v71; // xmm6_4
-  float v72; // xmm5_4
-  float v73; // xmm5_4
-  unsigned int v74; // xmm5_4
-  void (__thiscall *getAabb)(struct btConvexShape *, const btTransform *, btVector3 *, btVector3 *); // eax
-  unsigned int v76; // xmm3_4
-  __m128 v77; // xmm2
-  float v78; // xmm0_4
-  float v79; // xmm3_4
-  float v80; // xmm5_4
-  float v81; // xmm4_4
-  float v82; // xmm2_4
-  float v83; // xmm1_4
-  const btDbvtNode **m_bvh; // esi
-  CProfileSample *v85; // ecx
-  const btDbvtNode *v86; // esi
-  unsigned int v87; // [esp+79F4h] [ebp-41Ch] BYREF
-  float v88; // [esp+79F8h] [ebp-418h]
-  float v89; // [esp+79FCh] [ebp-414h]
-  float v90; // [esp+7A00h] [ebp-410h]
-  float _X; // [esp+7A04h] [ebp-40Ch]
-  float v92; // [esp+7A08h] [ebp-408h]
-  CProfileSample v93; // [esp+7A0Fh] [ebp-401h] BYREF
-  __m128i v94; // [esp+7A10h] [ebp-400h] BYREF
-  __m128i v95; // [esp+7A20h] [ebp-3F0h] BYREF
-  __m128i v96; // [esp+7A30h] [ebp-3E0h] BYREF
-  float v97; // [esp+7A40h] [ebp-3D0h]
-  float rayTarget; // [esp+7A44h] [ebp-3CCh]
-  float rayTarget_4; // [esp+7A48h] [ebp-3C8h]
-  btVector3 rayTarget_12; // [esp+7A50h] [ebp-3C0h] BYREF
-  btVector3 raySource_12; // [esp+7A60h] [ebp-3B0h] BYREF
-  float v102; // [esp+7A7Ch] [ebp-394h]
-  __int64 v103; // [esp+7A80h] [ebp-390h]
-  __int64 policy_4; // [esp+7A88h] [ebp-388h]
-  btCollisionWorld::objectQuerySingle::__l47::VolumeTester policy_12[2]; // [esp+7A90h] [ebp-380h] BYREF
-  __m128i v106; // [esp+7AA0h] [ebp-370h] BYREF
-  btContinuousConvexCollision v107; // [esp+7AB0h] [ebp-360h] BYREF
-  __m128i v108; // [esp+7AD0h] [ebp-340h] BYREF
-  __m128i v109; // [esp+7AE0h] [ebp-330h] BYREF
-  __m128i v110; // [esp+7AF0h] [ebp-320h] BYREF
-  btVector3 aabbMin; // [esp+7B00h] [ebp-310h] BYREF
-  btDbvtAabbMm vol; // [esp+7B10h] [ebp-300h] BYREF
-  __m128i v113; // [esp+7B30h] [ebp-2E0h]
-  __m128i v114; // [esp+7B40h] [ebp-2D0h]
-  btCollisionWorld::LocalConvexResult v115; // [esp+7B50h] [ebp-2C0h] BYREF
-  btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback result; // [esp+7B90h] [ebp-280h] BYREF
-  char v117; // [esp+7C80h] [ebp-190h] BYREF
-  float v118; // [esp+7DC0h] [ebp-50h]
-  __int16 v119; // [esp+7DE0h] [ebp-30h]
+  float v69; // xmm4_4
+  float v70; // xmm3_4
+  float v71; // xmm0_4
+  float v72; // xmm1_4
+  float v73; // xmm2_4
+  int v74; // eax
+  float v75; // xmm6_4
+  float v76; // xmm5_4
+  const btDbvtNode **v77; // eax
+  const btDbvtNode *v78; // eax
+  float triangleCollisionMargin; // [esp+0h] [ebp-434h]
+  float triangleCollisionMargina; // [esp+0h] [ebp-434h]
+  const float *v81; // [esp+4h] [ebp-430h]
+  btMatrix3x3 v82; // [esp+14h] [ebp-420h] BYREF
+  btVector3 v83; // [esp+44h] [ebp-3F0h]
+  float v84; // [esp+54h] [ebp-3E0h]
+  float v85; // [esp+58h] [ebp-3DCh]
+  float v86; // [esp+5Ch] [ebp-3D8h]
+  btVector3 v87; // [esp+64h] [ebp-3D0h] BYREF
+  btVector3 rayTarget; // [esp+74h] [ebp-3C0h] BYREF
+  float v89; // [esp+8Ch] [ebp-3A8h] BYREF
+  float v90; // [esp+90h] [ebp-3A4h] BYREF
+  float v91; // [esp+94h] [ebp-3A0h] BYREF
+  float v92; // [esp+98h] [ebp-39Ch] BYREF
+  float v93; // [esp+9Ch] [ebp-398h] BYREF
+  float v94; // [esp+A0h] [ebp-394h] BYREF
+  btVector3 raySource; // [esp+A4h] [ebp-390h] BYREF
+  btCollisionWorld::objectQuerySingle::__l47::VolumeTester nodeCallback; // [esp+B8h] [ebp-37Ch] BYREF
+  btTriangleConvexcastCallback *p_result; // [esp+C0h] [ebp-374h]
+  float v98; // [esp+C4h] [ebp-370h]
+  float v99; // [esp+C8h] [ebp-36Ch]
+  float v100; // [esp+CCh] [ebp-368h]
+  int v101; // [esp+D0h] [ebp-364h]
+  btContinuousConvexCollision v102; // [esp+D4h] [ebp-360h] BYREF
+  btVector3 aabbMin; // [esp+F4h] [ebp-340h] BYREF
+  btDbvtAabbMm v104; // [esp+104h] [ebp-330h] BYREF
+  unsigned __int64 v105; // [esp+124h] [ebp-310h]
+  unsigned __int64 v106; // [esp+12Ch] [ebp-308h]
+  btDbvtAabbMm vol; // [esp+134h] [ebp-300h] BYREF
+  unsigned __int64 v108; // [esp+154h] [ebp-2E0h]
+  unsigned __int64 v109; // [esp+15Ch] [ebp-2D8h]
+  float v110; // [esp+164h] [ebp-2D0h]
+  float v111; // [esp+168h] [ebp-2CCh]
+  float v112; // [esp+16Ch] [ebp-2C8h]
+  int v113; // [esp+170h] [ebp-2C4h]
+  btTriangleConvexcastCallback result; // [esp+174h] [ebp-2C0h] BYREF
+  int v115; // [esp+254h] [ebp-1E0h]
+  int v116; // [esp+258h] [ebp-1DCh]
+  int v117; // [esp+25Ch] [ebp-1D8h]
+  btVector3 v118; // [esp+264h] [ebp-1D0h] BYREF
+  btVector3 v119; // [esp+274h] [ebp-1C0h]
+  unsigned __int64 v120; // [esp+284h] [ebp-1B0h]
+  unsigned __int64 v121; // [esp+28Ch] [ebp-1A8h]
+  unsigned __int64 v122; // [esp+294h] [ebp-1A0h]
+  unsigned __int64 v123; // [esp+29Ch] [ebp-198h]
+  char v124; // [esp+2A4h] [ebp-190h] BYREF
+  float v125; // [esp+3E4h] [ebp-50h]
+  __int16 v126; // [esp+404h] [ebp-30h]
 
-  m_shapeType = collisionShape->m_shapeType;
-  if ( m_shapeType >= 20 )
+  v4 = *(_DWORD *)(collisionShape + 4);
+  if ( v4 >= 20 )
   {
-    if ( (unsigned int)(m_shapeType - 21) > 8 )
+    v9 = (btTransform *)(v4 - 21);
+    if ( (unsigned int)(v4 - 21) > 8 )
     {
-      if ( m_shapeType == 31 )
+      if ( v4 == 31 )
       {
-        CProfileSample::CProfileSample((CProfileSample *)&stru_958404, &v93);
-        v108.m128i_i64[0] = __PAIR64__((unsigned int)convexFromTrans, (unsigned int)castShape);
-        v108.m128i_i64[1] = __PAIR64__((unsigned int)collisionObject, (unsigned int)convexToTrans);
-        v109.m128i_i32[0] = (int)collisionShape;
-        *(__int64 *)((char *)v109.m128i_i64 + 4) = __PAIR64__(
-                                                     (unsigned int)resultCallback,
-                                                     (unsigned int)colObjWorldTransform);
-        *(float *)&v109.m128i_i32[3] = allowedPenetration;
-        btTransform::inverse(colObjWorldTransform, (btTransform *)&v94);
-        v55 = convexFromTrans->m_origin.mVec128.m128_f32[1];
-        v56 = convexFromTrans->m_origin.mVec128.m128_f32[0];
-        v57 = convexFromTrans->m_origin.mVec128.m128_f32[2];
-        *(float *)v106.m128i_i32 = (float)((float)((float)(*(float *)v94.m128i_i32 * v56)
-                                                 + (float)(*(float *)&v94.m128i_i32[1] * v55))
-                                         + (float)(*(float *)&v94.m128i_i32[2] * v57))
-                                 + v97;
-        *(float *)&v106.m128i_i32[1] = (float)((float)((float)(*(float *)v95.m128i_i32 * v56)
-                                                     + (float)(*(float *)&v95.m128i_i32[1] * v55))
-                                             + (float)(*(float *)&v95.m128i_i32[2] * v57))
-                                     + rayTarget;
-        v58 = (float)((float)(*(float *)v96.m128i_i32 * v56) + (float)(*(float *)&v96.m128i_i32[1] * v55))
-            + (float)(*(float *)&v96.m128i_i32[2] * v57);
-        raySource_12.mVec128.m128_f32[0] = (float)((float)((float)(*(float *)v94.m128i_i32
-                                                                 * convexToTrans->m_origin.mVec128.m128_f32[0])
-                                                         + (float)(*(float *)&v94.m128i_i32[1]
-                                                                 * convexToTrans->m_origin.mVec128.m128_f32[1]))
-                                                 + (float)(*(float *)&v94.m128i_i32[2]
-                                                         * convexToTrans->m_origin.mVec128.m128_f32[2]))
-                                         + v97;
-        v59 = *(float *)v95.m128i_i32 * convexToTrans->m_origin.mVec128.m128_f32[0];
-        v60 = *(float *)&v95.m128i_i32[1] * convexToTrans->m_origin.mVec128.m128_f32[1];
-        v61 = convexToTrans->m_origin.mVec128.m128_f32[2];
-        *(float *)&v106.m128i_i32[2] = v58 + rayTarget_4;
-        v106.m128i_i32[3] = 0;
-        raySource_12.mVec128.m128_f32[1] = (float)((float)(v59 + v60) + (float)(*(float *)&v95.m128i_i32[2] * v61))
-                                         + rayTarget;
-        v62 = *(float *)v96.m128i_i32 * convexToTrans->m_basis.m_el[0].mVec128.m128_f32[2];
-        raySource_12.mVec128.m128_f32[2] = (float)((float)((float)(*(float *)v96.m128i_i32
-                                                                 * convexToTrans->m_origin.mVec128.m128_f32[0])
-                                                         + (float)(*(float *)&v96.m128i_i32[1]
-                                                                 * convexToTrans->m_origin.mVec128.m128_f32[1]))
-                                                 + (float)(*(float *)&v96.m128i_i32[2]
-                                                         * convexToTrans->m_origin.mVec128.m128_f32[2]))
-                                         + rayTarget_4;
-        v63 = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[1];
-        v64 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1];
-        *(float *)&policy_12[0].m_input_params = (float)(v62
-                                                       + (float)(*(float *)&v96.m128i_i32[1]
-                                                               * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[2]))
-                                               + (float)(*(float *)&v96.m128i_i32[2]
-                                                       * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[2]);
-        v65 = *(float *)v96.m128i_i32 * v64;
-        v66 = *(float *)&v96.m128i_i32[1] * v63;
-        v67 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[0];
-        v68 = (float)(v65 + v66)
-            + (float)(*(float *)&v96.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[1]);
-        v69 = *(float *)&v96.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0];
-        _X = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0];
-        v88 = v67;
-        v92 = v68;
-        v70 = convexToTrans->m_basis.m_el[2].mVec128.m128_f32[0];
-        *(float *)&v71 = (float)((float)(v67 * *(float *)v96.m128i_i32) + v69)
-                       + (float)(*(float *)&v96.m128i_i32[2] * v70);
-        v72 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[2];
-        *(float *)&v87 = *(float *)v95.m128i_i32 * v72;
-        v90 = v72;
-        LODWORD(v103) = convexToTrans->m_basis.m_el[1].mVec128.m128_i32[2];
-        *(float *)&v87 = (float)(*(float *)v95.m128i_i32 * v72) + (float)(*(float *)&v95.m128i_i32[1] * *(float *)&v103);
-        v102 = convexToTrans->m_basis.m_el[2].mVec128.m128_f32[2];
-        v89 = *(float *)&v87 + (float)(*(float *)&v95.m128i_i32[2] * v102);
-        v73 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1];
-        *(float *)&v87 = *(float *)v95.m128i_i32 * v73;
+        v104.mi.mVec128.m128_u64[0] = castShape;
+        v104.mx.mVec128.m128_u64[1] = resultCallback;
+        v104.mi.mVec128.m128_u64[1] = convexToTrans;
+        v104.mx.mVec128.m128_u64[0] = collisionShape;
+        btTransform::inverse((btTransform *)&v82.m_el[1], SHIDWORD(collisionShape), (btTransform *)&v82.m_el[1]);
+        v59 = *(float *)(HIDWORD(castShape) + 52);
+        v60 = *(float *)(HIDWORD(castShape) + 48);
+        v61 = *(float *)(HIDWORD(castShape) + 56);
+        raySource.mVec128.m128_f32[0] = (float)((float)((float)(v82.m_el[1].mVec128.m128_f32[0] * v60)
+                                                      + (float)(v82.m_el[1].mVec128.m128_f32[1] * v59))
+                                              + (float)(v82.m_el[1].mVec128.m128_f32[2] * v61))
+                                      + v84;
+        raySource.mVec128.m128_f32[1] = (float)((float)((float)(v82.m_el[2].mVec128.m128_f32[0] * v60)
+                                                      + (float)(v82.m_el[2].mVec128.m128_f32[1] * v59))
+                                              + (float)(v82.m_el[2].mVec128.m128_f32[2] * v61))
+                                      + v85;
+        v62 = (float)(v83.mVec128.m128_f32[0] * v60) + (float)(v83.mVec128.m128_f32[1] * v59);
+        v63 = *(float *)(convexToTrans + 52);
+        v64 = v83.mVec128.m128_f32[2] * v61;
+        v65 = *(float *)(convexToTrans + 48);
+        v66 = v62 + v64;
+        v67 = *(float *)(convexToTrans + 56);
+        v98 = (float)((float)((float)(v65 * v82.m_el[1].mVec128.m128_f32[0])
+                            + (float)(v63 * v82.m_el[1].mVec128.m128_f32[1]))
+                    + (float)(v67 * v82.m_el[1].mVec128.m128_f32[2]))
+            + v84;
+        raySource.mVec128.m128_f32[2] = v66 + v86;
+        raySource.mVec128.m128_i32[3] = 0;
+        v99 = (float)((float)((float)(v65 * v82.m_el[2].mVec128.m128_f32[0])
+                            + (float)(v63 * v82.m_el[2].mVec128.m128_f32[1]))
+                    + (float)(v67 * v82.m_el[2].mVec128.m128_f32[2]))
+            + v85;
+        v68 = (float)(v65 * v83.mVec128.m128_f32[0]) + (float)(v63 * v83.mVec128.m128_f32[1]);
+        v69 = *(float *)(convexToTrans + 24);
+        v70 = *(float *)(convexToTrans + 40);
+        v100 = (float)(v68 + (float)(v67 * v83.mVec128.m128_f32[2])) + v86;
         memset(&vol, 0, 16);
-        *((float *)&policy_4 + 1) = v73;
-        LODWORD(policy_4) = convexToTrans->m_basis.m_el[1].mVec128.m128_i32[1];
-        *(float *)&v87 = (float)(*(float *)v95.m128i_i32 * v73)
-                       + (float)(*(float *)&v95.m128i_i32[1] * *(float *)&policy_4);
-        HIDWORD(v103) = convexToTrans->m_basis.m_el[2].mVec128.m128_i32[1];
-        *(float *)&v87 = *(float *)&v87 + (float)(*(float *)&v95.m128i_i32[2] * *((float *)&v103 + 1));
-        *(float *)&v74 = (float)((float)(v88 * *(float *)v95.m128i_i32) + (float)(*(float *)&v95.m128i_i32[1] * _X))
-                       + (float)(*(float *)&v95.m128i_i32[2] * v70);
-        getAabb = castShape->getAabb;
-        *(float *)&v76 = (float)((float)(*(float *)&v94.m128i_i32[2] * v102) + (float)(*(float *)v94.m128i_i32 * v90))
-                       + (float)(*(float *)&v94.m128i_i32[1] * *(float *)&v103);
-        v102 = (float)((float)(*(float *)&v94.m128i_i32[2] * *((float *)&v103 + 1))
-                     + (float)(*(float *)v94.m128i_i32 * *((float *)&policy_4 + 1)))
-             + (float)(*(float *)&v94.m128i_i32[1] * *(float *)&policy_4);
-        *(float *)v94.m128i_i32 = (float)((float)(v70 * *(float *)&v94.m128i_i32[2])
-                                        + (float)(v88 * *(float *)v94.m128i_i32))
-                                + (float)(*(float *)&v94.m128i_i32[1] * _X);
-        *(float *)&v94.m128i_i32[1] = v102;
-        v95.m128i_i64[1] = LODWORD(v89);
-        v94.m128i_i64[1] = v76;
-        *(__m128i *)&v115.m_hitCollisionObject = _mm_load_si128(&v94);
-        v95.m128i_i64[0] = __PAIR64__(v87, v74);
-        v115.m_hitNormalLocal = (btVector3)_mm_load_si128(&v95);
-        v96.m128i_i64[0] = __PAIR64__(LODWORD(v92), v71);
-        v96.m128i_i64[1] = (unsigned int)policy_12[0].m_input_params;
-        v115.m_hitPointLocal = (btVector3)_mm_load_si128(&v96);
-        *(__m128i *)&v115.m_hitFraction = _mm_load_si128((const __m128i *)&vol);
-        getAabb(castShape, (const btTransform *)&v115, (btVector3 *)&v107, &aabbMin);
-        v77 = (__m128)_mm_load_si128(&v106);
-        v78 = raySource_12.mVec128.m128_f32[0];
-        rayTarget_12.mVec128 = v77;
-        if ( *(float *)v106.m128i_i32 > raySource_12.mVec128.m128_f32[0] )
-          rayTarget_12.mVec128.m128_i32[0] = raySource_12.mVec128.m128_i32[0];
-        v79 = raySource_12.mVec128.m128_f32[1];
-        if ( rayTarget_12.mVec128.m128_f32[1] > raySource_12.mVec128.m128_f32[1] )
-          rayTarget_12.mVec128.m128_i32[1] = raySource_12.mVec128.m128_i32[1];
-        v80 = rayTarget_12.mVec128.m128_f32[2];
-        v81 = raySource_12.mVec128.m128_f32[2];
-        if ( rayTarget_12.mVec128.m128_f32[2] > raySource_12.mVec128.m128_f32[2] )
-          v80 = raySource_12.mVec128.m128_f32[2];
-        if ( rayTarget_12.mVec128.m128_f32[3] > 0.0 )
-          rayTarget_12.mVec128.m128_i32[3] = 0;
-        raySource_12.mVec128 = v77;
-        if ( v78 <= *(float *)v106.m128i_i32 )
-          v78 = raySource_12.mVec128.m128_f32[0];
-        v82 = raySource_12.mVec128.m128_f32[1];
-        if ( v79 > raySource_12.mVec128.m128_f32[1] )
-          v82 = v79;
-        v83 = raySource_12.mVec128.m128_f32[2];
-        if ( v81 > raySource_12.mVec128.m128_f32[2] )
-          v83 = v81;
-        if ( raySource_12.mVec128.m128_f32[3] < 0.0 )
-          raySource_12.mVec128.m128_i32[3] = 0;
-        m_bvh = (const btDbvtNode **)collisionShape->m_bvh;
-        rayTarget_12.mVec128.m128_f32[0] = *(float *)&v107.__vftable + rayTarget_12.mVec128.m128_f32[0];
-        rayTarget_12.mVec128.m128_f32[1] = *(float *)&v107.m_simplexSolver + rayTarget_12.mVec128.m128_f32[1];
-        rayTarget_12.mVec128.m128_f32[2] = *(float *)&v107.m_penetrationDepthSolver + v80;
-        raySource_12.mVec128.m128_f32[1] = aabbMin.mVec128.m128_f32[1] + v82;
-        v85 = (CProfileSample *)&v108;
-        raySource_12.mVec128.m128_f32[0] = aabbMin.mVec128.m128_f32[0] + v78;
-        raySource_12.mVec128.m128_f32[2] = aabbMin.mVec128.m128_f32[2] + v83;
-        policy_12[0].m_input_params = (btCollisionWorld::objectQuerySingle::__l45::input_params *)&v108;
-        policy_12[0].m_compoundShape = (const btCompoundShape *)collisionShape;
-        if ( m_bvh )
+        v71 = *(float *)(convexToTrans + 8);
+        *(float *)&nodeCallback.m_input_params = (float)((float)(v71 * v83.mVec128.m128_f32[0])
+                                                       + (float)(v69 * v83.mVec128.m128_f32[1]))
+                                               + (float)(v70 * v83.mVec128.m128_f32[2]);
+        v82.m_el[0].mVec128.m128_i32[2] = *(_DWORD *)(convexToTrans + 36);
+        v82.m_el[0].mVec128.m128_i32[1] = *(_DWORD *)(convexToTrans + 20);
+        v72 = *(float *)(convexToTrans + 4);
+        v82.m_el[0].mVec128.m128_i32[0] = *(_DWORD *)convexToTrans;
+        v89 = (float)((float)(v72 * v83.mVec128.m128_f32[0])
+                    + (float)(v82.m_el[0].mVec128.m128_f32[1] * v83.mVec128.m128_f32[1]))
+            + (float)(v82.m_el[0].mVec128.m128_f32[2] * v83.mVec128.m128_f32[2]);
+        v82.m_el[0].mVec128.m128_i32[3] = *(_DWORD *)(convexToTrans + 32);
+        v73 = *(float *)(convexToTrans + 16);
+        v94 = (float)((float)(v73 * v83.mVec128.m128_f32[1])
+                    + (float)(v82.m_el[0].mVec128.m128_f32[3] * v83.mVec128.m128_f32[2]))
+            + (float)(v82.m_el[0].mVec128.m128_f32[0] * v83.mVec128.m128_f32[0]);
+        v93 = (float)((float)(v71 * v82.m_el[2].mVec128.m128_f32[0]) + (float)(v69 * v82.m_el[2].mVec128.m128_f32[1]))
+            + (float)(v70 * v82.m_el[2].mVec128.m128_f32[2]);
+        v92 = (float)((float)(v72 * v82.m_el[2].mVec128.m128_f32[0])
+                    + (float)(v82.m_el[0].mVec128.m128_f32[1] * v82.m_el[2].mVec128.m128_f32[1]))
+            + (float)(v82.m_el[0].mVec128.m128_f32[2] * v82.m_el[2].mVec128.m128_f32[2]);
+        v90 = (float)((float)(v73 * v82.m_el[2].mVec128.m128_f32[1])
+                    + (float)(v82.m_el[0].mVec128.m128_f32[3] * v82.m_el[2].mVec128.m128_f32[2]))
+            + (float)(v82.m_el[0].mVec128.m128_f32[0] * v82.m_el[2].mVec128.m128_f32[0]);
+        v91 = (float)((float)(v71 * v82.m_el[1].mVec128.m128_f32[0]) + (float)(v69 * v82.m_el[1].mVec128.m128_f32[1]))
+            + (float)(v70 * v82.m_el[1].mVec128.m128_f32[2]);
+        v82.m_el[0].mVec128.m128_f32[1] = (float)((float)(v72 * v82.m_el[1].mVec128.m128_f32[0])
+                                                + (float)(v82.m_el[0].mVec128.m128_f32[1]
+                                                        * v82.m_el[1].mVec128.m128_f32[1]))
+                                        + (float)(v82.m_el[0].mVec128.m128_f32[2] * v82.m_el[1].mVec128.m128_f32[2]);
+        v82.m_el[0].mVec128.m128_f32[0] = (float)((float)(v73 * v82.m_el[1].mVec128.m128_f32[1])
+                                                + (float)(v82.m_el[0].mVec128.m128_f32[3]
+                                                        * v82.m_el[1].mVec128.m128_f32[2]))
+                                        + (float)(v82.m_el[0].mVec128.m128_f32[0] * v82.m_el[1].mVec128.m128_f32[0]);
+        btMatrix3x3::setValue(
+          &v82,
+          (int)&v82.m_el[1],
+          &v82.m_el[0].mVec128.m128_f32[1],
+          &v91,
+          &v90,
+          &v92,
+          &v93,
+          &v94,
+          &v89,
+          (const float *)&nodeCallback,
+          v81);
+        v118.mVec128 = (__m128)v82.m_el[1];
+        v119.mVec128 = (__m128)v82.m_el[2];
+        v120 = v83.mVec128.m128_u64[0];
+        v74 = *(_DWORD *)castShape;
+        v121 = v83.mVec128.m128_u64[1];
+        v122 = vol.mi.mVec128.m128_u64[0];
+        v123 = vol.mi.mVec128.m128_u64[1];
+        (*(void (__thiscall **)(_DWORD, btVector3 *, btContinuousConvexCollision *, btVector3 *))(v74 + 4))(
+          castShape,
+          &v118,
+          &v102,
+          &aabbMin);
+        rayTarget.mVec128 = raySource.mVec128;
+        if ( raySource.mVec128.m128_f32[0] > v98 )
+          rayTarget.mVec128.m128_f32[0] = v98;
+        v75 = rayTarget.mVec128.m128_f32[1];
+        if ( rayTarget.mVec128.m128_f32[1] > v99 )
+          v75 = v99;
+        v76 = rayTarget.mVec128.m128_f32[2];
+        if ( rayTarget.mVec128.m128_f32[2] > v100 )
+          v76 = v100;
+        if ( rayTarget.mVec128.m128_f32[3] > 0.0 )
+          rayTarget.mVec128.m128_i32[3] = 0;
+        v87.mVec128 = raySource.mVec128;
+        if ( v98 > raySource.mVec128.m128_f32[0] )
+          v87.mVec128.m128_f32[0] = v98;
+        if ( v99 > v87.mVec128.m128_f32[1] )
+          v87.mVec128.m128_f32[1] = v99;
+        if ( v100 > v87.mVec128.m128_f32[2] )
+          v87.mVec128.m128_f32[2] = v100;
+        if ( v87.mVec128.m128_f32[3] < 0.0 )
+          v87.mVec128.m128_i32[3] = 0;
+        v77 = *(const btDbvtNode ***)(collisionShape + 64);
+        rayTarget.mVec128.m128_f32[0] = *(float *)&v102.__vftable + rayTarget.mVec128.m128_f32[0];
+        rayTarget.mVec128.m128_f32[1] = *(float *)&v102.m_simplexSolver + v75;
+        rayTarget.mVec128.m128_f32[2] = *(float *)&v102.m_penetrationDepthSolver + v76;
+        v87.mVec128.m128_f32[0] = aabbMin.mVec128.m128_f32[0] + v87.mVec128.m128_f32[0];
+        v87.mVec128.m128_f32[1] = aabbMin.mVec128.m128_f32[1] + v87.mVec128.m128_f32[1];
+        v87.mVec128.m128_f32[2] = aabbMin.mVec128.m128_f32[2] + v87.mVec128.m128_f32[2];
+        nodeCallback.m_input_params = (btCollisionWorld::objectQuerySingle::__l45::input_params *)&v104;
+        nodeCallback.m_compoundShape = (const btCompoundShape *)collisionShape;
+        if ( v77 )
         {
-          btDbvtAabbMm::FromMM(&raySource_12, &rayTarget_12, &vol);
-          v86 = *m_bvh;
-          if ( v86 )
+          vol.mi.mVec128.m128_u64[0] = rayTarget.mVec128.m128_u64[0];
+          v78 = *v77;
+          vol.mi.mVec128.m128_u64[1] = rayTarget.mVec128.m128_u64[1];
+          vol.mx = (btVector3)v87.mVec128;
+          if ( v78 )
             ___collideTV_UVolumeTester__CP___objectQuerySingle_btCollisionWorld__SAXPBVbtConvexShape__ABVbtTransform__1PAVbtCollisionObject__PBVbtCollisionShape__1AAUConvexResultCallback_3_M_Z__btDbvt__QAEXPBUbtDbvtNode__ABUbtDbvtAabbMm__AAUVolumeTester__CP___objectQuerySingle_btCollisionWorld__SAXPBVbtConvexShape__ABVbtTransform__3PAVbtCollisionObject__PBVbtCollisionShape__3AAUConvexResultCallback_5_M_Z__Z(
               &vol,
-              v86,
-              policy_12);
+              v78,
+              &nodeCallback);
         }
-        CProfileSample::~CProfileSample(v85);
       }
     }
-    else if ( m_shapeType == 21 )
+    else if ( v4 == 21 )
     {
-      CProfileSample::CProfileSample((CProfileSample *)&stru_9583E4, &v93);
-      btTransform::inverse(colObjWorldTransform, (btTransform *)&v94);
-      v15 = convexFromTrans->m_origin.mVec128.m128_f32[1];
-      v16 = convexFromTrans->m_origin.mVec128.m128_f32[0];
-      v17 = convexFromTrans->m_origin.mVec128.m128_f32[2];
-      raySource_12.mVec128.m128_f32[0] = (float)((float)((float)(v16 * *(float *)v94.m128i_i32)
-                                                       + (float)(v15 * *(float *)&v94.m128i_i32[1]))
-                                               + (float)(v17 * *(float *)&v94.m128i_i32[2]))
-                                       + v97;
-      v18 = (float)((float)(v16 * *(float *)v95.m128i_i32) + (float)(v15 * *(float *)&v95.m128i_i32[1]))
-          + (float)(v17 * *(float *)&v95.m128i_i32[2]);
-      v19 = (float)(v16 * *(float *)v96.m128i_i32) + (float)(v15 * *(float *)&v96.m128i_i32[1]);
-      v20 = convexToTrans->m_origin.mVec128.m128_f32[2];
-      v21 = v19 + (float)(v17 * *(float *)&v96.m128i_i32[2]);
-      v22 = convexToTrans->m_origin.mVec128.m128_f32[0];
-      raySource_12.mVec128.m128_f32[1] = v18 + rayTarget;
-      v23 = convexToTrans->m_origin.mVec128.m128_f32[1];
-      rayTarget_12.mVec128.m128_f32[0] = (float)((float)((float)(v22 * *(float *)v94.m128i_i32)
-                                                       + (float)(v23 * *(float *)&v94.m128i_i32[1]))
-                                               + (float)(v20 * *(float *)&v94.m128i_i32[2]))
-                                       + v97;
-      raySource_12.mVec128.m128_f32[2] = v21 + rayTarget_4;
-      rayTarget_12.mVec128.m128_f32[1] = (float)((float)((float)(v22 * *(float *)v95.m128i_i32)
-                                                       + (float)(v23 * *(float *)&v95.m128i_i32[1]))
-                                               + (float)(v20 * *(float *)&v95.m128i_i32[2]))
-                                       + rayTarget;
-      v24 = convexToTrans->m_basis.m_el[2].mVec128.m128_f32[2];
-      raySource_12.mVec128.m128_i32[3] = 0;
-      rayTarget_12.mVec128.m128_f32[2] = (float)((float)((float)(v22 * *(float *)v96.m128i_i32)
-                                                       + (float)(v23 * *(float *)&v96.m128i_i32[1]))
-                                               + (float)(v20 * *(float *)&v96.m128i_i32[2]))
-                                       + rayTarget_4;
-      rayTarget_12.mVec128.m128_i32[3] = 0;
-      memset(&v106, 0, sizeof(v106));
-      v25 = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[2];
-      v26 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[2];
-      _X = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[1];
-      v90 = (float)((float)(v26 * *(float *)v96.m128i_i32) + (float)(v25 * *(float *)&v96.m128i_i32[1]))
-          + (float)(v24 * *(float *)&v96.m128i_i32[2]);
-      v92 = convexToTrans->m_basis.m_el[2].mVec128.m128_f32[1];
-      v27 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1];
-      *(float *)&v103 = (float)((float)(v27 * *(float *)v96.m128i_i32) + (float)(_X * *(float *)&v96.m128i_i32[1]))
-                      + (float)(v92 * *(float *)&v96.m128i_i32[2]);
-      v87 = convexToTrans->m_basis.m_el[2].mVec128.m128_u32[0];
-      v89 = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0];
-      v28 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[0];
-      *((float *)&v103 + 1) = (float)((float)(convexToTrans->m_basis.m_el[0].mVec128.m128_f32[0]
-                                            * *(float *)v96.m128i_i32)
-                                    + (float)(v89 * *(float *)&v96.m128i_i32[1]))
-                            + (float)(*(float *)&v87 * *(float *)&v96.m128i_i32[2]);
-      *((float *)&policy_4 + 1) = (float)((float)(v26 * *(float *)v95.m128i_i32)
-                                        + (float)(v25 * *(float *)&v95.m128i_i32[1]))
-                                + (float)(v24 * *(float *)&v95.m128i_i32[2]);
-      *(float *)&policy_4 = (float)((float)(v27 * *(float *)v95.m128i_i32) + (float)(_X * *(float *)&v95.m128i_i32[1]))
-                          + (float)(v92 * *(float *)&v95.m128i_i32[2]);
-      v88 = (float)((float)(v28 * *(float *)v95.m128i_i32) + (float)(v89 * *(float *)&v95.m128i_i32[1]))
-          + (float)(*(float *)&v87 * *(float *)&v95.m128i_i32[2]);
-      *(float *)&v108.m128i_i32[2] = (float)((float)(v26 * *(float *)v94.m128i_i32)
-                                           + (float)(v25 * *(float *)&v94.m128i_i32[1]))
-                                   + (float)(v24 * *(float *)&v94.m128i_i32[2]);
-      *(float *)v109.m128i_i32 = v88;
-      *(__int64 *)((char *)v109.m128i_i64 + 4) = policy_4;
-      v108.m128i_i32[3] = 0;
-      v109.m128i_i32[3] = 0;
-      v110.m128i_i32[0] = HIDWORD(v103);
-      *(float *)v108.m128i_i32 = (float)((float)(v28 * *(float *)v94.m128i_i32)
-                                       + (float)(v89 * *(float *)&v94.m128i_i32[1]))
-                               + (float)(*(float *)&v87 * *(float *)&v94.m128i_i32[2]);
-      *(float *)&v108.m128i_i32[1] = (float)((float)(v27 * *(float *)v94.m128i_i32)
-                                           + (float)(_X * *(float *)&v94.m128i_i32[1]))
-                                   + (float)(v92 * *(float *)&v94.m128i_i32[2]);
-      vol.mi = (btVector3)_mm_load_si128(&v108);
-      v29.mVec128 = (__m128)_mm_load_si128(&v109);
-      v110.m128i_i32[1] = v103;
-      vol.mx = (btVector3)v29.mVec128;
-      v110.m128i_i64[1] = LODWORD(v90);
-      v113 = _mm_load_si128(&v110);
-      v114 = _mm_load_si128(&v106);
-      btCollisionWorld::objectQuerySingle_::_22_::BridgeTriangleConvexcastCallback::BridgeTriangleConvexcastCallback(
-        (btCollisionWorld::objectQuerySingle::__l22::BridgeTriangleConvexcastCallback *)&result,
-        castShape,
-        convexFromTrans,
-        convexToTrans,
-        resultCallback,
-        collisionObject,
-        collisionShape,
-        colObjWorldTransform);
-      v30 = castShape->getAabb;
-      result.m_hitFraction = resultCallback->m_closestHitFraction;
-      result.m_allowedPenetration = allowedPenetration;
-      v30(castShape, (const btTransform *)&vol, &aabbMin, (btVector3 *)&v107);
-      btBvhTriangleMeshShape::performConvexcast(
-        &rayTarget_12,
-        &aabbMin,
-        (const btVector3 *)&v107,
-        collisionShape,
+      btTransform::inverse(v9, SHIDWORD(collisionShape), (btTransform *)&v82.m_el[1]);
+      v10 = *(float *)(HIDWORD(castShape) + 52);
+      v11 = *(float *)(HIDWORD(castShape) + 48);
+      v12 = *(float *)(HIDWORD(castShape) + 56);
+      raySource.mVec128.m128_f32[0] = (float)((float)((float)(v11 * v82.m_el[1].mVec128.m128_f32[0])
+                                                    + (float)(v10 * v82.m_el[1].mVec128.m128_f32[1]))
+                                            + (float)(v12 * v82.m_el[1].mVec128.m128_f32[2]))
+                                    + v84;
+      v13 = (float)((float)((float)(v11 * v82.m_el[2].mVec128.m128_f32[0])
+                          + (float)(v10 * v82.m_el[2].mVec128.m128_f32[1]))
+                  + (float)(v12 * v82.m_el[2].mVec128.m128_f32[2]))
+          + v85;
+      v14 = (float)(v11 * v83.mVec128.m128_f32[0]) + (float)(v10 * v83.mVec128.m128_f32[1]);
+      v15 = *(float *)(convexToTrans + 56);
+      v16 = v14 + (float)(v12 * v83.mVec128.m128_f32[2]);
+      v17 = *(float *)(convexToTrans + 48);
+      raySource.mVec128.m128_f32[1] = v13;
+      v18 = *(float *)(convexToTrans + 52);
+      rayTarget.mVec128.m128_f32[0] = (float)((float)((float)(v17 * v82.m_el[1].mVec128.m128_f32[0])
+                                                    + (float)(v18 * v82.m_el[1].mVec128.m128_f32[1]))
+                                            + (float)(v15 * v82.m_el[1].mVec128.m128_f32[2]))
+                                    + v84;
+      v19 = (float)(v17 * v82.m_el[2].mVec128.m128_f32[0]) + (float)(v18 * v82.m_el[2].mVec128.m128_f32[1]);
+      v20 = (float)(v17 * v83.mVec128.m128_f32[0]) + (float)(v18 * v83.mVec128.m128_f32[1]);
+      v21 = *(float *)(convexToTrans + 40);
+      raySource.mVec128.m128_f32[2] = v16 + v86;
+      raySource.mVec128.m128_i32[3] = 0;
+      rayTarget.mVec128.m128_f32[1] = (float)(v19 + (float)(v15 * v82.m_el[2].mVec128.m128_f32[2])) + v85;
+      v22 = *(float *)(convexToTrans + 24);
+      rayTarget.mVec128.m128_f32[2] = (float)(v20 + (float)(v15 * v83.mVec128.m128_f32[2])) + v86;
+      rayTarget.mVec128.m128_i32[3] = 0;
+      v98 = 0.0;
+      v99 = 0.0;
+      v100 = 0.0;
+      v101 = 0;
+      v23 = *(float *)(convexToTrans + 8);
+      v82.m_el[0].mVec128.m128_i32[0] = *(_DWORD *)(convexToTrans + 20);
+      v91 = (float)((float)(v23 * v83.mVec128.m128_f32[0]) + (float)(v22 * v83.mVec128.m128_f32[1]))
+          + (float)(v21 * v83.mVec128.m128_f32[2]);
+      v82.m_el[0].mVec128.m128_i32[2] = *(_DWORD *)(convexToTrans + 36);
+      v24 = *(float *)(convexToTrans + 4);
+      v25 = *(_DWORD *)(convexToTrans + 32);
+      v90 = (float)((float)(v24 * v83.mVec128.m128_f32[0])
+                  + (float)(v82.m_el[0].mVec128.m128_f32[0] * v83.mVec128.m128_f32[1]))
+          + (float)(v82.m_el[0].mVec128.m128_f32[2] * v83.mVec128.m128_f32[2]);
+      v82.m_el[0].mVec128.m128_i32[3] = *(_DWORD *)(convexToTrans + 16);
+      v82.m_el[0].mVec128.m128_i32[1] = v25;
+      v26 = *(float *)convexToTrans;
+      v27 = (float)((float)(*(float *)convexToTrans * v83.mVec128.m128_f32[0])
+                  + (float)(v82.m_el[0].mVec128.m128_f32[3] * v83.mVec128.m128_f32[1]))
+          + (float)(v82.m_el[0].mVec128.m128_f32[1] * v83.mVec128.m128_f32[2]);
+      v93 = (float)((float)(v23 * v82.m_el[2].mVec128.m128_f32[0]) + (float)(v22 * v82.m_el[2].mVec128.m128_f32[1]))
+          + (float)(v21 * v82.m_el[2].mVec128.m128_f32[2]);
+      *(float *)&nodeCallback.m_input_params = (float)((float)(v23 * v82.m_el[1].mVec128.m128_f32[0])
+                                                     + (float)(v22 * v82.m_el[1].mVec128.m128_f32[1]))
+                                             + (float)(v21 * v82.m_el[1].mVec128.m128_f32[2]);
+      v94 = (float)((float)(v24 * v82.m_el[2].mVec128.m128_f32[0])
+                  + (float)(v82.m_el[0].mVec128.m128_f32[0] * v82.m_el[2].mVec128.m128_f32[1]))
+          + (float)(v82.m_el[0].mVec128.m128_f32[2] * v82.m_el[2].mVec128.m128_f32[2]);
+      v92 = v27;
+      v89 = (float)((float)(v26 * v82.m_el[2].mVec128.m128_f32[0])
+                  + (float)(v82.m_el[0].mVec128.m128_f32[3] * v82.m_el[2].mVec128.m128_f32[1]))
+          + (float)(v82.m_el[0].mVec128.m128_f32[1] * v82.m_el[2].mVec128.m128_f32[2]);
+      v82.m_el[0].mVec128.m128_f32[0] = (float)((float)(v24 * v82.m_el[1].mVec128.m128_f32[0])
+                                              + (float)(v82.m_el[0].mVec128.m128_f32[0] * v82.m_el[1].mVec128.m128_f32[1]))
+                                      + (float)(v82.m_el[0].mVec128.m128_f32[2] * v82.m_el[1].mVec128.m128_f32[2]);
+      v82.m_el[0].mVec128.m128_f32[3] = (float)((float)(v26 * v82.m_el[1].mVec128.m128_f32[0])
+                                              + (float)(v82.m_el[0].mVec128.m128_f32[3] * v82.m_el[1].mVec128.m128_f32[1]))
+                                      + (float)(v82.m_el[0].mVec128.m128_f32[1] * v82.m_el[1].mVec128.m128_f32[2]);
+      btMatrix3x3::setValue(
+        (btMatrix3x3 *)&v82.m_el[0].m_floats[3],
+        (int)&v104,
+        (float *)&v82,
+        (float *)&nodeCallback,
+        &v89,
+        &v94,
+        &v93,
+        &v92,
+        &v90,
+        &v91,
+        v81);
+      vol = v104;
+      v108 = v105;
+      v109 = v106;
+      v110 = v98;
+      v111 = v99;
+      v112 = v100;
+      v113 = v101;
+      triangleCollisionMargin = ((double (__thiscall *)(_DWORD))*(_DWORD *)(*(_DWORD *)collisionShape + 40))(collisionShape);
+      btTriangleConvexcastCallback::btTriangleConvexcastCallback(
         &result,
-        &raySource_12);
-      result.__vftable = (btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback_vtbl *)&btTriangleCallback::`vftable';
-      if ( CProfileNode::Return(v31) )
-        CProfileManager::CurrentNode = CProfileManager::CurrentNode->Parent;
+        (const btTransform *)HIDWORD(collisionShape),
+        (const btConvexShape *)castShape,
+        (const btTransform *)HIDWORD(castShape),
+        (const btTransform *)convexToTrans,
+        triangleCollisionMargin);
+      v28 = *(float *)(resultCallback + 4);
+      v116 = HIDWORD(convexToTrans);
+      v115 = resultCallback;
+      v29 = *(_DWORD *)castShape;
+      result.m_hitFraction = v28;
+      result.__vftable = (btTriangleConvexcastCallback_vtbl *)&`btCollisionWorld::objectQuerySingle'::`22'::BridgeTriangleConvexcastCallback::`vftable';
+      v117 = collisionShape;
+      result.m_allowedPenetration = *((float *)&resultCallback + 1);
+      (*(void (__thiscall **)(_DWORD, btDbvtAabbMm *, btVector3 *, btContinuousConvexCollision *))(v29 + 4))(
+        castShape,
+        &vol,
+        &aabbMin,
+        &v102);
+      nodeCallback.m_compoundShape = *(const btCompoundShape **)(collisionShape + 48);
+      p_result = &result;
+      nodeCallback.m_input_params = (btCollisionWorld::objectQuerySingle::__l45::input_params *)&`btBvhTriangleMeshShape::performConvexcast'::`2'::MyNodeOverlapCallback::`vftable';
+      btQuantizedBvh::reportBoxCastOverlappingNodex(
+        *(btQuantizedBvh **)(collisionShape + 64),
+        (btNodeOverlapCallback *)&nodeCallback,
+        &raySource,
+        &rayTarget,
+        &aabbMin,
+        (const btVector3 *)&v102);
     }
-    else if ( m_shapeType == 28 )
+    else if ( v4 == 28 )
     {
-      v107.m_convexA = castShape;
-      result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[2] = allowedPenetration;
-      m_closestHitFraction = resultCallback->m_closestHitFraction;
-      result.__vftable = (btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback_vtbl *)&btConvexCast::CastResult::`vftable';
-      result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_u64[0] = LODWORD(m_closestHitFraction);
-      v107.__vftable = (btContinuousConvexCollision_vtbl *)&btContinuousConvexCollision::`vftable';
-      v107.m_simplexSolver = 0;
-      v107.m_penetrationDepthSolver = 0;
-      v107.m_convexB1 = 0;
-      v107.m_planeShape = (const btStaticPlaneShape *)collisionShape;
+      v102.m_convexA = (const btConvexShape *)castShape;
+      result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_i32[2] = HIDWORD(resultCallback);
+      v30 = *(_DWORD *)(resultCallback + 4);
+      result.__vftable = (btTriangleConvexcastCallback_vtbl *)&btConvexCast::CastResult::`vftable';
+      result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_u64[0] = v30;
+      v102.__vftable = (btContinuousConvexCollision_vtbl *)&btContinuousConvexCollision::`vftable';
+      v102.m_simplexSolver = 0;
+      v102.m_penetrationDepthSolver = 0;
+      v102.m_convexB1 = 0;
+      v102.m_planeShape = (const btStaticPlaneShape *)collisionShape;
       if ( btContinuousConvexCollision::calcTimeOfImpact(
-             &v107,
-             convexFromTrans,
-             convexToTrans,
-             colObjWorldTransform,
-             colObjWorldTransform,
+             &v102,
+             (const btTransform *)HIDWORD(castShape),
+             (const btTransform *)convexToTrans,
+             (const btTransform *)HIDWORD(collisionShape),
+             (const btTransform *)HIDWORD(collisionShape),
              (btConvexCast::CastResult *)&result) )
       {
-        v90 = (float)((float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]
-                            * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1])
-                    + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]
-                            * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]))
-            + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
-                    * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]);
-        if ( v90 > 0.000099999997
-          && resultCallback->m_closestHitFraction > result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0] )
+        v5 = (float)((float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]
+                           * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1])
+                   + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]
+                           * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]))
+           + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
+                   * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]);
+        if ( v5 > 0.000099999997 )
         {
-          v33 = 1.0 / sqrtf(v90);
-          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
-                                                                       * v33;
-          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]
-                                                                       * v33;
-          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2] = v33
-                                                                       * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2];
-          btCollisionWorld::LocalConvexResult::LocalConvexResult(
-            &result.m_triangleToWorld.m_basis.m_el[1],
-            result.m_triangleToWorld.m_basis.m_el,
-            &v115,
-            collisionObject,
-            0,
-            result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0]);
-          resultCallback->addSingleResult(resultCallback, &v115, 1);
+          v6 = result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_i32[0];
+          if ( *(float *)(resultCallback + 4) > result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0] )
+          {
+            v82.m_el[1].mVec128.m128_i32[1] = 0;
+            goto LABEL_6;
+          }
         }
       }
     }
     else
     {
-      btTransform::inverse(colObjWorldTransform, (btTransform *)&v94);
-      v34 = convexFromTrans->m_origin.mVec128.m128_f32[1];
-      v35 = convexFromTrans->m_origin.mVec128.m128_f32[2];
-      v36 = convexFromTrans->m_origin.mVec128.m128_f32[0] * *(float *)v95.m128i_i32;
-      v37 = convexFromTrans->m_origin.mVec128.m128_f32[0] * *(float *)v96.m128i_i32;
-      raySource_12.mVec128.m128_f32[0] = (float)((float)((float)(convexFromTrans->m_origin.mVec128.m128_f32[0]
-                                                               * *(float *)v94.m128i_i32)
-                                                       + (float)(v34 * *(float *)&v94.m128i_i32[1]))
-                                               + (float)(v35 * *(float *)&v94.m128i_i32[2]))
-                                       + v97;
-      raySource_12.mVec128.m128_f32[1] = (float)((float)(v36 + (float)(v34 * *(float *)&v95.m128i_i32[1]))
-                                               + (float)(v35 * *(float *)&v95.m128i_i32[2]))
-                                       + rayTarget;
-      raySource_12.mVec128.m128_f32[2] = (float)((float)(v37 + (float)(v34 * *(float *)&v96.m128i_i32[1]))
-                                               + (float)(v35 * *(float *)&v96.m128i_i32[2]))
-                                       + rayTarget_4;
-      v89 = convexToTrans->m_origin.mVec128.m128_f32[2];
-      v87 = convexToTrans->m_origin.mVec128.m128_u32[1];
-      v38 = convexToTrans->m_origin.mVec128.m128_f32[0];
-      *(float *)v106.m128i_i32 = (float)((float)((float)(v38 * *(float *)v94.m128i_i32)
-                                               + (float)(*(float *)&v87 * *(float *)&v94.m128i_i32[1]))
-                                       + (float)(v89 * *(float *)&v94.m128i_i32[2]))
-                               + v97;
-      v90 = (float)(v38 * *(float *)v95.m128i_i32) + (float)(*(float *)&v87 * *(float *)&v95.m128i_i32[1]);
-      *(float *)&v106.m128i_i32[1] = (float)(v90 + (float)(v89 * *(float *)&v95.m128i_i32[2])) + rayTarget;
-      raySource_12.mVec128.m128_i32[3] = 0;
-      *(float *)&v106.m128i_i32[2] = (float)((float)((float)(v38 * *(float *)v96.m128i_i32)
-                                                   + (float)(*(float *)&v87 * *(float *)&v96.m128i_i32[1]))
-                                           + (float)(v89 * *(float *)&v96.m128i_i32[2]))
-                                   + rayTarget_4;
+      btTransform::inverse(v9, SHIDWORD(collisionShape), (btTransform *)&v82.m_el[1]);
+      v31 = *(float *)(HIDWORD(castShape) + 52);
+      v32 = *(float *)(HIDWORD(castShape) + 56);
+      v33 = *(float *)(HIDWORD(castShape) + 48) * v82.m_el[2].mVec128.m128_f32[0];
+      v34 = *(float *)(HIDWORD(castShape) + 48) * v83.mVec128.m128_f32[0];
+      raySource.mVec128.m128_f32[0] = (float)((float)((float)(*(float *)(HIDWORD(castShape) + 48)
+                                                            * v82.m_el[1].mVec128.m128_f32[0])
+                                                    + (float)(v31 * v82.m_el[1].mVec128.m128_f32[1]))
+                                            + (float)(v32 * v82.m_el[1].mVec128.m128_f32[2]))
+                                    + v84;
+      v35 = *(float *)(convexToTrans + 48);
+      raySource.mVec128.m128_f32[1] = (float)((float)(v33 + (float)(v31 * v82.m_el[2].mVec128.m128_f32[1]))
+                                            + (float)(v32 * v82.m_el[2].mVec128.m128_f32[2]))
+                                    + v85;
+      v36 = (float)(v34 + (float)(v31 * v83.mVec128.m128_f32[1])) + (float)(v32 * v83.mVec128.m128_f32[2]);
+      v37 = *(float *)(convexToTrans + 56);
+      v82.m_el[0].mVec128.m128_f32[2] = (float)(v37 * v82.m_el[1].mVec128.m128_f32[2])
+                                      + (float)(v82.m_el[1].mVec128.m128_f32[0] * v35);
+      v98 = (float)(v82.m_el[0].mVec128.m128_f32[2]
+                  + (float)(v82.m_el[1].mVec128.m128_f32[1] * *(float *)(convexToTrans + 52)))
+          + v84;
+      v82.m_el[0].mVec128.m128_f32[1] = v37 * v82.m_el[2].mVec128.m128_f32[2];
+      v82.m_el[0].mVec128.m128_f32[1] = (float)(v37 * v82.m_el[2].mVec128.m128_f32[2])
+                                      + (float)(v82.m_el[2].mVec128.m128_f32[0] * *(float *)(convexToTrans + 48));
+      v99 = (float)(v82.m_el[0].mVec128.m128_f32[1]
+                  + (float)(v82.m_el[2].mVec128.m128_f32[1] * *(float *)(convexToTrans + 52)))
+          + v85;
+      v38 = v83.mVec128.m128_f32[0] * *(float *)(convexToTrans + 48);
+      raySource.mVec128.m128_f32[2] = v36 + v86;
+      raySource.mVec128.m128_i32[3] = 0;
+      v39 = (float)((float)((float)(v37 * v83.mVec128.m128_f32[2]) + v38)
+                  + (float)(v83.mVec128.m128_f32[1] * *(float *)(convexToTrans + 52)))
+          + v86;
+      v40 = v83.mVec128.m128_f32[0] * *(float *)(convexToTrans + 8);
+      v100 = v39;
+      v41 = v40 + (float)(v83.mVec128.m128_f32[1] * *(float *)(convexToTrans + 24));
       memset(&vol, 0, 16);
-      v92 = convexToTrans->m_basis.m_el[2].mVec128.m128_f32[2];
-      v89 = convexToTrans->m_basis.m_el[1].mVec128.m128_f32[2];
-      v39 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[2];
-      v90 = (float)(v39 * *(float *)v96.m128i_i32) + (float)(v89 * *(float *)&v96.m128i_i32[1]);
-      v40 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1];
-      v102 = v90 + (float)(v92 * *(float *)&v96.m128i_i32[2]);
-      *(float *)&v87 = (float)(*(float *)v96.m128i_i32 * v40)
-                     + (float)(*(float *)&v96.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[1]);
-      *(float *)&v41 = *(float *)&v87
-                     + (float)(*(float *)&v96.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[1]);
-      v88 = convexToTrans->m_basis.m_el[0].mVec128.m128_f32[0];
-      _X = *(float *)&v41;
-      *(float *)&policy_4 = (float)((float)(*(float *)&v96.m128i_i32[1]
-                                          * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0])
-                                  + (float)(v88 * *(float *)v96.m128i_i32))
-                          + (float)(*(float *)&v96.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[0]);
-      *((float *)&policy_4 + 1) = (float)((float)(v39 * *(float *)v95.m128i_i32)
-                                        + (float)(v89 * *(float *)&v95.m128i_i32[1]))
-                                + (float)(v92 * *(float *)&v95.m128i_i32[2]);
-      *(float *)&v87 = (float)(*(float *)v95.m128i_i32 * convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1])
-                     + (float)(*(float *)&v95.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[1]);
-      *((float *)&v103 + 1) = *(float *)&v87
-                            + (float)(*(float *)&v95.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[1]);
-      *(float *)&v103 = (float)((float)(*(float *)&v95.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0])
-                              + (float)(*(float *)&v95.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[0]))
-                      + (float)(v88 * *(float *)v95.m128i_i32);
-      v90 = (float)((float)(v39 * *(float *)v94.m128i_i32) + (float)(v89 * *(float *)&v94.m128i_i32[1]))
-          + (float)(v92 * *(float *)&v94.m128i_i32[2]);
-      v42 = (float)(*(float *)v94.m128i_i32 * convexToTrans->m_basis.m_el[0].mVec128.m128_f32[1])
-          + (float)(*(float *)&v94.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[1]);
-      v43 = *(float *)&v94.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[1];
-      v44 = *(float *)&v94.m128i_i32[1] * convexToTrans->m_basis.m_el[1].mVec128.m128_f32[0];
-      v45 = *(float *)&v94.m128i_i32[2] * convexToTrans->m_basis.m_el[2].mVec128.m128_f32[0];
-      *(float *)&v108.m128i_i32[2] = v90;
-      v109.m128i_i64[0] = v103;
-      v109.m128i_i32[2] = SHIDWORD(policy_4);
-      v110.m128i_i64[0] = __PAIR64__(v41, policy_4);
-      v110.m128i_i64[1] = LODWORD(v102);
-      *(float *)v108.m128i_i32 = (float)(v44 + v45) + (float)(v88 * *(float *)v94.m128i_i32);
-      *(float *)&v108.m128i_i32[1] = v42 + v43;
-      v108.m128i_i32[3] = 0;
-      *(__m128i *)&v115.m_hitCollisionObject = _mm_load_si128(&v108);
-      v109.m128i_i32[3] = 0;
-      v115.m_hitNormalLocal = (btVector3)_mm_load_si128(&v109);
-      v115.m_hitPointLocal = (btVector3)_mm_load_si128(&v110);
-      *(__m128i *)&v115.m_hitFraction = _mm_load_si128((const __m128i *)&vol);
-      btCollisionWorld::objectQuerySingle_::_39_::BridgeTriangleConvexcastCallback::BridgeTriangleConvexcastCallback(
+      v42 = *(float *)(convexToTrans + 20);
+      v43 = *(float *)(convexToTrans + 4);
+      *(float *)&nodeCallback.m_input_params = v41 + (float)(v83.mVec128.m128_f32[2] * *(float *)(convexToTrans + 40));
+      v44 = v83.mVec128.m128_f32[0] * v43;
+      v45 = v83.mVec128.m128_f32[1] * v42;
+      v46 = *(float *)convexToTrans;
+      v47 = v83.mVec128.m128_f32[2] * *(float *)(convexToTrans + 32);
+      v89 = (float)(v44 + v45) + (float)(v83.mVec128.m128_f32[2] * *(float *)(convexToTrans + 36));
+      v94 = (float)((float)(v83.mVec128.m128_f32[1] * *(float *)(convexToTrans + 16)) + v47)
+          + (float)(v46 * v83.mVec128.m128_f32[0]);
+      v48 = *(float *)(convexToTrans + 4);
+      v93 = (float)((float)(v82.m_el[2].mVec128.m128_f32[0] * *(float *)(convexToTrans + 8))
+                  + (float)(v82.m_el[2].mVec128.m128_f32[1] * *(float *)(convexToTrans + 24)))
+          + (float)(v82.m_el[2].mVec128.m128_f32[2] * *(float *)(convexToTrans + 40));
+      v49 = v82.m_el[2].mVec128.m128_f32[0] * v48;
+      v50 = *(float *)(convexToTrans + 36);
+      v92 = (float)(v49 + (float)(v82.m_el[2].mVec128.m128_f32[1] * *(float *)(convexToTrans + 20)))
+          + (float)(v82.m_el[2].mVec128.m128_f32[2] * v50);
+      v51 = *(float *)(convexToTrans + 32);
+      v90 = (float)((float)(v82.m_el[2].mVec128.m128_f32[1] * *(float *)(convexToTrans + 16))
+                  + (float)(v82.m_el[2].mVec128.m128_f32[2] * v51))
+          + (float)(v46 * v82.m_el[2].mVec128.m128_f32[0]);
+      v52 = *(float *)(convexToTrans + 4);
+      v91 = (float)((float)(v82.m_el[1].mVec128.m128_f32[0] * *(float *)(convexToTrans + 8))
+                  + (float)(v82.m_el[1].mVec128.m128_f32[1] * *(float *)(convexToTrans + 24)))
+          + (float)(v82.m_el[1].mVec128.m128_f32[2] * *(float *)(convexToTrans + 40));
+      v53 = (float)((float)(v82.m_el[1].mVec128.m128_f32[1] * *(float *)(convexToTrans + 16))
+                  + (float)(v82.m_el[1].mVec128.m128_f32[2] * v51))
+          + (float)(v46 * v82.m_el[1].mVec128.m128_f32[0]);
+      v82.m_el[0].mVec128.m128_f32[0] = (float)((float)(v82.m_el[1].mVec128.m128_f32[0] * v52)
+                                              + (float)(v82.m_el[1].mVec128.m128_f32[1] * *(float *)(convexToTrans + 20)))
+                                      + (float)(v82.m_el[1].mVec128.m128_f32[2] * v50);
+      v82.m_el[0].mVec128.m128_f32[3] = v53;
+      btMatrix3x3::setValue(
+        (btMatrix3x3 *)&v82.m_el[0].m_floats[3],
+        (int)&v104,
+        (float *)&v82,
+        &v91,
+        &v90,
+        &v92,
+        &v93,
+        &v94,
+        &v89,
+        (const float *)&nodeCallback,
+        v81);
+      v118.mVec128 = (__m128)v104.mi;
+      v119.mVec128 = (__m128)v104.mx;
+      v120 = v105;
+      v121 = v106;
+      v122 = vol.mi.mVec128.m128_u64[0];
+      v123 = vol.mi.mVec128.m128_u64[1];
+      triangleCollisionMargina = ((double (__thiscall *)(_DWORD))*(_DWORD *)(*(_DWORD *)collisionShape + 40))(collisionShape);
+      btTriangleConvexcastCallback::btTriangleConvexcastCallback(
         &result,
+        (const btTransform *)HIDWORD(collisionShape),
+        (const btConvexShape *)castShape,
+        (const btTransform *)HIDWORD(castShape),
+        (const btTransform *)convexToTrans,
+        triangleCollisionMargina);
+      v54 = *(float *)(resultCallback + 4);
+      v116 = HIDWORD(convexToTrans);
+      v115 = resultCallback;
+      v55 = *(_DWORD *)castShape;
+      result.m_hitFraction = v54;
+      result.__vftable = (btTriangleConvexcastCallback_vtbl *)&`btCollisionWorld::objectQuerySingle'::`39'::BridgeTriangleConvexcastCallback::`vftable';
+      v117 = collisionShape;
+      result.m_allowedPenetration = *((float *)&resultCallback + 1);
+      (*(void (__thiscall **)(_DWORD, btVector3 *, btVector3 *, btContinuousConvexCollision *))(v55 + 4))(
         castShape,
-        convexFromTrans,
-        convexToTrans,
-        resultCallback,
-        collisionObject,
-        collisionShape,
-        colObjWorldTransform);
-      v46 = castShape->getAabb;
-      result.m_hitFraction = resultCallback->m_closestHitFraction;
-      result.m_allowedPenetration = allowedPenetration;
-      v46(castShape, (const btTransform *)&v115, &aabbMin, (btVector3 *)&v107);
-      si128 = (__m128)_mm_load_si128((const __m128i *)&raySource_12);
-      *(__m128 *)&policy_12[0].m_input_params = si128;
-      v48 = *(float *)v106.m128i_i32;
-      if ( raySource_12.mVec128.m128_f32[0] > *(float *)v106.m128i_i32 )
-        policy_12[0].m_input_params = (btCollisionWorld::objectQuerySingle::__l45::input_params *)v106.m128i_i32[0];
-      if ( *(float *)&policy_12[0].m_compoundShape > *(float *)&v106.m128i_i32[1] )
-        policy_12[0].m_compoundShape = (const btCompoundShape *)v106.m128i_i32[1];
-      v49 = *(float *)&policy_12[1].m_input_params;
-      if ( *(float *)&policy_12[1].m_input_params > *(float *)&v106.m128i_i32[2] )
-        v49 = *(float *)&v106.m128i_i32[2];
-      if ( *(float *)&policy_12[1].m_compoundShape > 0.0 )
-        policy_12[1].m_compoundShape = 0;
-      rayTarget_12.mVec128 = si128;
-      if ( *(float *)v106.m128i_i32 <= raySource_12.mVec128.m128_f32[0] )
-        v48 = rayTarget_12.mVec128.m128_f32[0];
-      v50 = rayTarget_12.mVec128.m128_f32[1];
-      if ( *(float *)&v106.m128i_i32[1] > rayTarget_12.mVec128.m128_f32[1] )
-        v50 = *(float *)&v106.m128i_i32[1];
-      v51 = rayTarget_12.mVec128.m128_f32[2];
-      if ( *(float *)&v106.m128i_i32[2] > rayTarget_12.mVec128.m128_f32[2] )
-        v51 = *(float *)&v106.m128i_i32[2];
-      if ( rayTarget_12.mVec128.m128_f32[3] < 0.0 )
-        rayTarget_12.mVec128.m128_i32[3] = 0;
-      v52 = (btCollisionShape_vtbl *)collisionShape->__vftable;
-      *(float *)&policy_12[0].m_input_params = aabbMin.mVec128.m128_f32[0] + *(float *)&policy_12[0].m_input_params;
-      *(float *)&policy_12[0].m_compoundShape = aabbMin.mVec128.m128_f32[1] + *(float *)&policy_12[0].m_compoundShape;
-      *(float *)&policy_12[1].m_input_params = aabbMin.mVec128.m128_f32[2] + v49;
-      v53 = v52[1].~btCollisionShape;
-      rayTarget_12.mVec128.m128_f32[1] = *(float *)&v107.m_simplexSolver + v50;
-      rayTarget_12.mVec128.m128_f32[0] = *(float *)&v107.__vftable + v48;
-      rayTarget_12.mVec128.m128_f32[2] = *(float *)&v107.m_penetrationDepthSolver + v51;
-      ((void (__thiscall *)(btBvhTriangleMeshShape *, btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback *, btCollisionWorld::objectQuerySingle::__l47::VolumeTester *, btVector3 *))v53)(
+        &v118,
+        &aabbMin,
+        &v102);
+      rayTarget.mVec128 = raySource.mVec128;
+      if ( raySource.mVec128.m128_f32[0] > v98 )
+        rayTarget.mVec128.m128_f32[0] = v98;
+      v56 = rayTarget.mVec128.m128_f32[1];
+      if ( rayTarget.mVec128.m128_f32[1] > v99 )
+        v56 = v99;
+      v57 = rayTarget.mVec128.m128_f32[2];
+      if ( rayTarget.mVec128.m128_f32[2] > v100 )
+        v57 = v100;
+      if ( rayTarget.mVec128.m128_f32[3] > 0.0 )
+        rayTarget.mVec128.m128_i32[3] = 0;
+      v87.mVec128 = raySource.mVec128;
+      if ( v98 > raySource.mVec128.m128_f32[0] )
+        v87.mVec128.m128_f32[0] = v98;
+      if ( v99 > v87.mVec128.m128_f32[1] )
+        v87.mVec128.m128_f32[1] = v99;
+      if ( v100 > v87.mVec128.m128_f32[2] )
+        v87.mVec128.m128_f32[2] = v100;
+      if ( v87.mVec128.m128_f32[3] < 0.0 )
+        v87.mVec128.m128_i32[3] = 0;
+      v58 = *(_DWORD *)collisionShape;
+      rayTarget.mVec128.m128_f32[0] = aabbMin.mVec128.m128_f32[0] + rayTarget.mVec128.m128_f32[0];
+      rayTarget.mVec128.m128_f32[1] = aabbMin.mVec128.m128_f32[1] + v56;
+      rayTarget.mVec128.m128_f32[2] = aabbMin.mVec128.m128_f32[2] + v57;
+      v87.mVec128.m128_f32[0] = *(float *)&v102.__vftable + v87.mVec128.m128_f32[0];
+      v87.mVec128.m128_f32[1] = *(float *)&v102.m_simplexSolver + v87.mVec128.m128_f32[1];
+      v87.mVec128.m128_f32[2] = *(float *)&v102.m_penetrationDepthSolver + v87.mVec128.m128_f32[2];
+      (*(void (__thiscall **)(_DWORD, btTriangleConvexcastCallback *, btVector3 *, btVector3 *))(v58 + 56))(
         collisionShape,
         &result,
-        policy_12,
-        &rayTarget_12);
+        &rayTarget,
+        &v87);
     }
   }
   else
   {
-    Sub_Node = CProfileManager::CurrentNode;
-    if ( CProfileManager::CurrentNode->Name != "convexSweepConvex" )
-    {
-      Sub_Node = CProfileNode::Get_Sub_Node(v8);
-      CProfileManager::CurrentNode = Sub_Node;
-    }
-    RecursionCounter = Sub_Node->RecursionCounter;
-    ++Sub_Node->TotalCalls;
-    Sub_Node->RecursionCounter = RecursionCounter + 1;
-    if ( !RecursionCounter )
-      Sub_Node->StartTime = btClock::getTimeMicroseconds(0);
-    v119 &= 0xFFF0u;
-    v107.m_simplexSolver = (btVoronoiSimplexSolver *)&v117;
-    v107.m_penetrationDepthSolver = (btConvexPenetrationDepthSolver *)&v87;
-    result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[2] = allowedPenetration;
-    v12 = resultCallback->m_closestHitFraction;
-    v107.m_convexA = castShape;
-    result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_u64[0] = LODWORD(v12);
-    result.__vftable = (btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback_vtbl *)&btConvexCast::CastResult::`vftable';
-    v118 = FLOAT_0_000099999997;
-    v87 = (unsigned int)&btGjkEpaPenetrationDepthSolver::`vftable';
-    v107.__vftable = (btContinuousConvexCollision_vtbl *)&btContinuousConvexCollision::`vftable';
-    v107.m_convexB1 = (const btConvexShape *)collisionShape;
-    v107.m_planeShape = 0;
+    v126 &= ~1u;
+    v126 &= ~2u;
+    v126 &= ~4u;
+    v126 &= ~8u;
+    v102.m_simplexSolver = (btVoronoiSimplexSolver *)&v124;
+    v102.m_penetrationDepthSolver = (btConvexPenetrationDepthSolver *)&v82;
+    v102.m_convexA = (const btConvexShape *)castShape;
+    result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_i32[2] = HIDWORD(resultCallback);
+    result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_u64[0] = *(unsigned int *)(resultCallback + 4);
+    result.__vftable = (btTriangleConvexcastCallback_vtbl *)&btConvexCast::CastResult::`vftable';
+    v125 = FLOAT_0_000099999997;
+    v82.m_el[0].mVec128.m128_i32[0] = (int)&btGjkEpaPenetrationDepthSolver::`vftable';
+    v102.__vftable = (btContinuousConvexCollision_vtbl *)&btContinuousConvexCollision::`vftable';
+    v102.m_convexB1 = (const btConvexShape *)collisionShape;
+    v102.m_planeShape = 0;
     if ( btContinuousConvexCollision::calcTimeOfImpact(
-           &v107,
-           convexFromTrans,
-           convexToTrans,
-           colObjWorldTransform,
-           colObjWorldTransform,
+           &v102,
+           (const btTransform *)HIDWORD(castShape),
+           (const btTransform *)convexToTrans,
+           (const btTransform *)HIDWORD(collisionShape),
+           (const btTransform *)HIDWORD(collisionShape),
            (btConvexCast::CastResult *)&result) )
     {
-      _X = (float)((float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
+      v5 = (float)((float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
                          * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0])
                  + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]
                          * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]))
          + (float)(result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]
                  * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2]);
-      if ( _X > 0.000099999997
-        && resultCallback->m_closestHitFraction > result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0] )
+      if ( v5 > 0.000099999997 )
       {
-        v14 = 1.0 / sqrtf(_X);
-        result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0]
-                                                                     * v14;
-        result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1]
-                                                                     * v14;
-        result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2] = v14
-                                                                     * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2];
-        btCollisionWorld::LocalConvexResult::LocalConvexResult(
-          &result.m_triangleToWorld.m_basis.m_el[1],
-          result.m_triangleToWorld.m_basis.m_el,
-          &v115,
-          collisionObject,
-          0,
-          result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0]);
-        resultCallback->addSingleResult(resultCallback, &v115, 1);
+        v6 = result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_i32[0];
+        if ( *(float *)(resultCallback + 4) > result.m_triangleToWorld.m_basis.m_el[2].mVec128.m128_f32[0] )
+        {
+          v82.m_el[1].mVec128.m128_i32[1] = 0;
+LABEL_6:
+          v7 = fsqrt(v5);
+          v82.m_el[1].mVec128.m128_i32[0] = HIDWORD(convexToTrans);
+          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0] = (float)(s_bm_current_air_resistance / v7)
+                                                                       * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[0];
+          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2] = (float)(s_bm_current_air_resistance / v7)
+                                                                       * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[2];
+          result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1] = (float)(s_bm_current_air_resistance / v7)
+                                                                       * result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_f32[1];
+          v82.m_el[2].mVec128.m128_u64[0] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_u64[0];
+          v8 = *(_DWORD *)resultCallback;
+          v82.m_el[2].mVec128.m128_u64[1] = result.m_triangleToWorld.m_basis.m_el[0].mVec128.m128_u64[1];
+          v83.mVec128 = (__m128)result.m_triangleToWorld.m_basis.m_el[1];
+          v84 = *(float *)&v6;
+          (*(void (__thiscall **)(_DWORD, btVector3 *, int))(v8 + 8))(resultCallback, &v82.m_el[1], 1);
+        }
       }
     }
-    v107.__vftable = (btContinuousConvexCollision_vtbl *)&btConvexCast::`vftable';
-    v87 = (unsigned int)&btConvexPenetrationDepthSolver::`vftable';
-    result.__vftable = (btCollisionWorld::objectQuerySingle::__l39::BridgeTriangleConvexcastCallback_vtbl *)&btConvexCast::CastResult::`vftable';
-    if ( CProfileNode::Return(v13) )
-      CProfileManager::CurrentNode = CProfileManager::CurrentNode->Parent;
   }
 }

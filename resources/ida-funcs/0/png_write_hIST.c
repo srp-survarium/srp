@@ -5,7 +5,7 @@ int __cdecl png_write_hIST(int a1, int a2, int a3)
 
   if ( a3 > *(unsigned __int16 *)(a1 + 300) )
     return png_warning(a1, "Invalid number of histogram entries specified");
-  sub_36AD20((_DWORD *)a1, 1749635924, 2 * a3);
+  sub_4779E0((_DWORD *)a1, 1749635924, 2 * a3);
   for ( i = 0; i < a3; ++i )
   {
     png_save_uint_16(buf, *(_WORD *)(a2 + 2 * i));

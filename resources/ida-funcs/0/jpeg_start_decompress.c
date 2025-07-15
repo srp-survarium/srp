@@ -45,7 +45,7 @@ char __cdecl jpeg_start_decompress(int a1)
     {
 LABEL_17:
       *(_DWORD *)(a1 + 132) = *(_DWORD *)(a1 + 124);
-      return sub_370B10(a1);
+      return sub_47D7D0(a1);
     }
   }
   else
@@ -56,6 +56,6 @@ LABEL_17:
       *(_DWORD *)(*(_DWORD *)a1 + 24) = *(_DWORD *)(a1 + 20);
       (**(void (__cdecl ***)(int))a1)(a1);
     }
-    return sub_370B10(a1);
+    return sub_47D7D0(a1);
   }
 }

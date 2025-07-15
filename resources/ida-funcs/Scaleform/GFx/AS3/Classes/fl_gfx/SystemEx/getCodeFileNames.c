@@ -26,9 +26,9 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::SystemEx::getCodeFileNames
     {
       destArr.pObject = (Scaleform::GFx::AS3::Instances::fl::Array *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                                        this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                                                                       (char *)((srcArr.Data.Data[v4].pObject->File.pObject->Source.HeapTypeBits
-                                                                               & 0xFFFFFFFC)
-                                                                              + 8));
+                                                                       (__m128i *)((srcArr.Data.Data[v4].pObject->File.pObject->Source.HeapTypeBits
+                                                                                  & 0xFFFFFFFC)
+                                                                                 + 8));
       ++destArr.pObject->pPrev;
       Scaleform::GFx::AS3::Value::Value(&v, (const Scaleform::GFx::ASString *)&destArr);
       v7 = (Scaleform::GFx::ASStringNode *)destArr.pObject;
@@ -61,7 +61,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::SystemEx::getCodeFileNames
       else
       {
         RefCount = v8->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v8->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);
@@ -75,7 +75,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::SystemEx::getCodeFileNames
     if ( ((unsigned __int8)pV & 1) == 0 )
     {
       v10 = pV->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v10) != 0 )
+      if ( (v10 & 0x3FFFFF) != 0 )
       {
         pV->RefCount = v10 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);

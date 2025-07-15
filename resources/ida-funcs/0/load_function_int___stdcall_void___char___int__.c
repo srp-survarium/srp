@@ -1,28 +1,24 @@
-void __cdecl load_function_int___stdcall_void___char___int__(
-        int (__stdcall **result)(void *, char *, int),
-        HINSTANCE__ *const module,
-        const char *module_id,
-        const char *function_id)
+void __cdecl load_function_int___stdcall_void___char___int__()
 {
-  char string[512]; // [esp+0h] [ebp-208h] BYREF
-  void (__cdecl *log_callback)(const char *, bool, bool, const char *); // [esp+204h] [ebp-4h]
+  void (__cdecl *v0)(const char *, bool, bool, const char *); // edi
+  char buffer[512]; // [esp+0h] [ebp-200h] BYREF
 
   if ( s_use_dbghelp )
   {
-    *result = (int (__stdcall *)(void *, char *, int))GetProcAddress(module, function_id);
-    if ( !*result )
+    s_SymInitialize = (int (__stdcall *)(void *, char *, int))GetProcAddress(s_dbghelp_handle, "SymInitialize");
+    if ( !s_SymInitialize )
     {
-      log_callback = vostok::debug::get_log_callback();
-      if ( log_callback )
+      v0 = s_log_disable_counter == 0 ? s_log_callback : 0;
+      if ( v0 )
       {
-        sprintf_s<512>((char (*)[512])string, "can't find function %s in %s", function_id, module_id);
-        log_callback("debug", 1, 0, string);
+        vostok::sprintf<512>((char (*)[512])buffer, "can't find function %s in %s", "SymInitialize", "dbghelp.dll");
+        v0((const char *)&stru_802CB8, 1, 0, buffer);
       }
       s_use_dbghelp = 0;
     }
   }
   else
   {
-    *result = 0;
+    s_SymInitialize = 0;
   }
 }

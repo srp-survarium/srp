@@ -49,21 +49,27 @@ void __usercall vostok::animation::mixing::binary_tree_animation_node::binary_tr
 
 void __usercall vostok::animation::mixing::binary_tree_animation_node::binary_tree_animation_node(
         vostok::animation::mixing::binary_tree_animation_node *this@<esi>,
-        vostok::animation::mixing::animation_lexeme_parameters *parameters@<edi>)
+        const vostok::animation::mixing::animation_lexeme_parameters *parameters@<edi>)
 {
-  unsigned int m_animation_intervals_count; // ebp
-  const vostok::animation::mixing::animation_interval *v3; // eax
-  vostok::animation::instant_interpolator *v4; // eax
+  vostok::animation::mixing::animation_interval *m_animation_intervals; // ecx
+  unsigned int m_animation_intervals_count; // ebx
+  vostok::animation::instant_interpolator_vtbl *v4; // ebx
+  int v5; // eax
+  float (__thiscall *v6)(vostok::animation::base_interpolator *, float); // edx
+  vostok::animation::instant_interpolator_vtbl *v7; // ecx
+  vostok::animation::mixing::animation_interval *v8; // eax
+  vostok::animation::instant_interpolator_vtbl *p_m_start_time; // eax
+  vostok::animation::instant_interpolator *v10; // eax
   const vostok::animation::base_interpolator *m_weight_interpolator; // ecx
-  vostok::animation::instant_interpolator *v6; // eax
+  vostok::animation::instant_interpolator *v12; // eax
   const vostok::animation::base_interpolator *m_time_scale_interpolator; // ecx
-  vostok::animation::mixing::animation_lexeme *m_weight_driving_animation; // edx
-  const vostok::animation::mixing::animation_interval *v9; // [esp-4h] [ebp-10h]
-  vostok::mutable_buffer *m_buffer; // [esp-4h] [ebp-10h]
-  vostok::mutable_buffer *v11; // [esp-4h] [ebp-10h]
-  vostok::mutable_buffer *buffer; // [esp+8h] [ebp-4h] BYREF
+  vostok::mutable_buffer *m_buffer; // [esp+4h] [ebp-14h]
+  vostok::mutable_buffer *v15; // [esp+4h] [ebp-14h]
+  vostok::animation::instant_interpolator v16; // [esp+Ch] [ebp-Ch] BYREF
+  const vostok::animation::mixing::animation_interval *interpolated_value; // [esp+10h] [ebp-8h]
+  vostok::animation::mixing::animation_interval *v18; // [esp+14h] [ebp-4h]
 
-  buffer = 0;
+  v16.__vftable = 0;
   this->m_next_weight = 0;
   this->m_same_weight = 0;
   this->m_next_unique_interpolator = 0;
@@ -73,54 +79,82 @@ void __usercall vostok::animation::mixing::binary_tree_animation_node::binary_tr
   this->m_time_calculator.m_Closure.m_pFunction = 0;
   this->m_time_calculator = parameters->m_time_calculator;
   this->m_buffer = parameters->m_buffer;
+  m_animation_intervals = parameters->m_animation_intervals;
   m_animation_intervals_count = parameters->m_animation_intervals_count;
-  buffer = parameters->m_buffer;
-  v9 = &stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Start(parameters)[m_animation_intervals_count];
-  v3 = stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Start(parameters);
-  this->m_animation_intervals = vostok::animation::mixing::binary_tree_animation_node::clone(buffer, v3, v9);
-  if ( parameters->m_weight_driving_animation )
+  v16.__vftable = (vostok::animation::instant_interpolator_vtbl *)parameters->m_buffer;
+  interpolated_value = (const vostok::animation::mixing::animation_interval *)v16.interpolated_value;
+  v4 = (vostok::animation::instant_interpolator_vtbl *)&m_animation_intervals[m_animation_intervals_count];
+  v18 = m_animation_intervals;
+  v5 = ((char *)v4 - (char *)m_animation_intervals) / 20;
+  v6 = (float (__thiscall *)(vostok::animation::base_interpolator *, float))&interpolated_value[v5];
+  v7 = v16.__vftable;
+  v16.clone = (vostok::animation::base_interpolator *(__thiscall *)(vostok::animation::base_interpolator *, vostok::memory::base_allocator *))((char *)v16.clone - v5 * 20);
+  v8 = v18;
+  v7->interpolated_value = v6;
+  if ( v8 != (vostok::animation::mixing::animation_interval *)v4 )
   {
-    v4 = 0;
+    p_m_start_time = (vostok::animation::instant_interpolator_vtbl *)&v8->m_start_time;
+    v18 = interpolated_value;
+    v16.__vftable = p_m_start_time;
+    do
+    {
+      if ( v18 )
+      {
+        vostok::animation::mixing::animation_interval::animation_interval(
+          (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&p_m_start_time[-1].visit,
+          v18,
+          (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&p_m_start_time[-1].visit,
+          *(float *)&p_m_start_time->interpolated_value,
+          *(float *)&p_m_start_time->clone);
+        p_m_start_time = v16.__vftable;
+      }
+      ++v18;
+      p_m_start_time = (vostok::animation::instant_interpolator_vtbl *)((char *)p_m_start_time + 20);
+      v16.__vftable = p_m_start_time;
+    }
+    while ( &p_m_start_time[-1].visit != (void (__thiscall **)(vostok::animation::base_interpolator *, vostok::animation::interpolator_comparer *, const vostok::animation::linear_interpolator *))v4 );
   }
-  else
+  this->m_animation_intervals = interpolated_value;
+  v10 = 0;
+  if ( !parameters->m_weight_driving_animation )
   {
     m_weight_interpolator = parameters->m_weight_interpolator;
-    m_buffer = parameters->m_buffer;
     if ( m_weight_interpolator )
     {
-      v4 = (vostok::animation::instant_interpolator *)m_weight_interpolator->clone(m_weight_interpolator, m_buffer);
+      v10 = (vostok::animation::instant_interpolator *)m_weight_interpolator->clone(
+                                                         m_weight_interpolator,
+                                                         parameters->m_buffer);
     }
     else
     {
-      buffer = (vostok::mutable_buffer *)&vostok::animation::instant_interpolator::`vftable';
-      v4 = vostok::animation::instant_interpolator::clone((vostok::animation::instant_interpolator *)&buffer, m_buffer);
+      m_buffer = parameters->m_buffer;
+      v16.__vftable = (vostok::animation::instant_interpolator_vtbl *)&vostok::animation::instant_interpolator::`vftable';
+      v10 = vostok::animation::instant_interpolator::clone(&v16, m_buffer);
     }
   }
-  this->m_weight_interpolator = v4;
-  if ( vostok::animation::mixing::animation_lexeme_parameters::time_driving_animation(parameters) )
-  {
-    v6 = 0;
-  }
-  else
+  this->m_weight_interpolator = v10;
+  v12 = 0;
+  if ( !parameters->m_time_driving_animation )
   {
     m_time_scale_interpolator = parameters->m_time_scale_interpolator;
-    v11 = parameters->m_buffer;
     if ( m_time_scale_interpolator )
     {
-      v6 = (vostok::animation::instant_interpolator *)m_time_scale_interpolator->clone(m_time_scale_interpolator, v11);
+      v12 = (vostok::animation::instant_interpolator *)m_time_scale_interpolator->clone(
+                                                         m_time_scale_interpolator,
+                                                         parameters->m_buffer);
     }
     else
     {
-      buffer = (vostok::mutable_buffer *)&vostok::animation::instant_interpolator::`vftable';
-      v6 = vostok::animation::instant_interpolator::clone((vostok::animation::instant_interpolator *)&buffer, v11);
+      v15 = parameters->m_buffer;
+      v16.__vftable = (vostok::animation::instant_interpolator_vtbl *)&vostok::animation::instant_interpolator::`vftable';
+      v12 = vostok::animation::instant_interpolator::clone(&v16, v15);
     }
   }
-  this->m_time_scale_interpolator = v6;
+  this->m_time_scale_interpolator = v12;
   this->m_animated_object = parameters->m_animated_object;
-  this->m_time_driving_animation = vostok::animation::mixing::animation_lexeme_parameters::time_driving_animation(parameters);
-  m_weight_driving_animation = parameters->m_weight_driving_animation;
+  this->m_time_driving_animation = parameters->m_time_driving_animation;
+  this->m_weight_driving_animation = parameters->m_weight_driving_animation;
   this->m_n_ary_animation = 0;
-  this->m_weight_driving_animation = m_weight_driving_animation;
   this->m_next_weight_animation.m_object = 0;
   this->m_unique_weights_count = 0;
   this->user_data = parameters->m_user_data;

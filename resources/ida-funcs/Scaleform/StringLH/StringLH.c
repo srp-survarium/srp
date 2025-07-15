@@ -1,10 +1,10 @@
-void __thiscall Scaleform::StringLH::StringLH(Scaleform::StringLH *this, char *pdata)
+void __thiscall Scaleform::StringLH::StringLH(Scaleform::StringLH *this, const __m128i *pdata)
 {
   unsigned int v3; // edi
   Scaleform::MemoryHeap *v4; // eax
 
   if ( pdata )
-    v3 = strlen(pdata);
+    v3 = strlen(pdata->m128i_i8);
   else
     v3 = 0;
   v4 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);

@@ -1,313 +1,236 @@
-void __userpurge vostok::vfs::vfs_intrusive_mount_base::destroy(
-        vostok::vfs::vfs_intrusive_mount_base *this@<ecx>,
-        survarium::game_camera object)
+void __thiscall vostok::vfs::vfs_intrusive_mount_base::destroy(
+        vostok::vfs::vfs_intrusive_mount_base *this,
+        vostok::vfs::vfs_mount *object)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::game_camera *v3; // ecx
-  vostok::memory::base_allocator *v4; // eax
-  vostok::threading::simple_lock *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  vostok::memory::base_allocator *v7; // eax
-  BOOL v8; // ecx
-  bool v9; // al
-  BOOL v10; // ecx
-  bool has_passed_filters; // al
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v12; // ecx
-  survarium::game_camera *v13; // ecx
-  vostok::fs_new::asynchronous_device_interface *v14; // ecx
-  vostok::memory::base_allocator *v15; // eax
-  _BYTE v16[44]; // [esp-2Ch] [ebp-15C4h] BYREF
-  survarium::game_camera_vtbl *v17; // [esp+4h] [ebp-1594h]
-  char v18; // [esp+Bh] [ebp-158Dh]
-  vostok::vfs::unmounter v19; // [esp+Ch] [ebp-158Ch] BYREF
-  vostok::vfs::query_mount_arguments *v20; // [esp+1Ch] [ebp-157Ch]
-  vostok::vfs::query_mount_arguments v21; // [esp+20h] [ebp-1578h] BYREF
-  boost::function<bool __cdecl(void)> *v22; // [esp+4F8h] [ebp-10A0h]
-  vostok::fs_new::path_string_impl v23; // [esp+4FCh] [ebp-109Ch] BYREF
-  vostok::fs_new::path_string_impl v24; // [esp+610h] [ebp-F88h] BYREF
-  vostok::vfs::query_mount_arguments *__that; // [esp+724h] [ebp-E74h]
-  vostok::vfs::query_mount_arguments result; // [esp+728h] [ebp-E70h] BYREF
-  boost::function<bool __cdecl(void)> *v27; // [esp+C04h] [ebp-994h]
-  vostok::fs_new::path_string_impl v28; // [esp+C08h] [ebp-990h] BYREF
-  vostok::fs_new::path_string_impl v29; // [esp+D1Ch] [ebp-87Ch] BYREF
-  vostok::fs_new::path_string_impl v30; // [esp+E30h] [ebp-768h] BYREF
-  vostok::vfs::archive_folder_mount_root_node<1> *v31; // [esp+F44h] [ebp-654h]
-  vostok::fs_new::asynchronous_device_interface async_device; // [esp+F48h] [ebp-650h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v33; // [esp+1010h] [ebp-588h] BYREF
-  survarium::game_camera_vtbl *v34; // [esp+1030h] [ebp-568h]
-  char v35; // [esp+1037h] [ebp-561h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v36; // [esp+1038h] [ebp-560h] BYREF
-  vostok::vfs::base_node<1> *out_locked_branch; // [esp+105Ch] [ebp-53Ch] BYREF
-  vostok::vfs::query_mount_arguments m_args; // [esp+1060h] [ebp-538h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+1538h] [ebp-60h] BYREF
-  vostok::memory::detail::call_destructor_predicate v40; // [esp+155Bh] [ebp-3Dh] BYREF
-  vostok::memory::base_allocator *v41; // [esp+155Ch] [ebp-3Ch]
-  survarium::game_camera_vtbl *v42; // [esp+1560h] [ebp-38h]
-  vostok::threading::simple_lock::mutex_raii v43; // [esp+1564h] [ebp-34h] BYREF
-  vostok::intrusive_double_linked_list<vostok::vfs::vfs_mount,vostok::vfs::vfs_mount *,16,12,vostok::threading::simple_lock,vostok::no_size_policy,vostok::debug_policy> *p_mount_history; // [esp+156Ch] [ebp-2Ch]
-  vostok::vfs::virtual_file_system *__formal; // [esp+1570h] [ebp-28h]
-  vostok::memory::detail::call_destructor_predicate call_destructor_predicate; // [esp+1577h] [ebp-21h] BYREF
-  vostok::memory::base_allocator *allocator; // [esp+1578h] [ebp-20h]
-  char v48; // [esp+157Fh] [ebp-19h]
-  signed __int32 v49; // [esp+1580h] [ebp-18h]
-  survarium::game_camera_vtbl *v50; // [esp+1584h] [ebp-14h]
-  void (__thiscall *tick)(survarium::game_camera *); // [esp+1588h] [ebp-10h]
-  vostok::vfs::mount_root_node_base<1> *node; // [esp+158Ch] [ebp-Ch]
-  int v53; // [esp+1590h] [ebp-8h]
-  vostok::vfs::vfs_intrusive_mount_base *v54; // [esp+1594h] [ebp-4h]
+  vostok::vfs::vfs_mount *v2; // edi
+  vostok::vfs::mount_root_node_base<1> *m_mount_root; // ebx
+  vostok::memory::base_allocator *m_allocator; // eax
+  bool v5; // zf
+  const vostok::threading::simple_lock *pointer; // esi
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *v7; // ecx
+  vostok::intrusive_double_linked_list<vostok::vfs::vfs_mount,vostok::vfs::vfs_mount *,16,12,vostok::threading::simple_lock,vostok::no_size_policy,vostok::debug_policy> *v8; // ecx
+  vostok::vfs::query_mount_arguments *v9; // ecx
+  vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *v10; // ecx
+  vostok::vfs::virtual_file_system *v11; // esi
+  vostok::threading::simple_lock *v12; // ecx
+  vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *v13; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v14; // ecx
+  vostok::fs_new::asynchronous_device_interface *v15; // ecx
+  vostok::fixed_string<260> *v16; // ecx
+  vostok::vfs::base_node<1> *v17; // edi
+  vostok::fixed_string<260> *v18; // ecx
+  vostok::fixed_string<260> *v19; // ecx
+  vostok::fixed_string<260> *v20; // ecx
+  vostok::vfs::query_mount_arguments *v21; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v22; // ecx
+  int *v23; // esi
+  vostok::fixed_string<260> *v24; // ecx
+  vostok::vfs::query_mount_arguments *v25; // eax
+  vostok::vfs::vfs_mount *v26; // esi
+  vostok::fs_new::asynchronous_device_interface *v27; // ecx
+  _BYTE v28[40]; // [esp-2Ch] [ebp-151Ch] BYREF
+  vostok::vfs::lock_operation_enum v29; // [esp-4h] [ebp-14F4h]
+  bool *v30; // [esp+0h] [ebp-14F0h]
+  vostok::vfs::virtual_file_system *file_system; // [esp+Ch] [ebp-14E4h]
+  vostok::threading::simple_lock::mutex_raii v32; // [esp+10h] [ebp-14E0h] BYREF
+  vostok::memory::base_allocator *allocator; // [esp+18h] [ebp-14D8h]
+  vostok::vfs::base_node<1> *out_locked_branch; // [esp+1Ch] [ebp-14D4h] BYREF
+  vostok::vfs::unmounter v35; // [esp+24h] [ebp-14CCh] BYREF
+  HANDLE descriptor[51]; // [esp+34h] [ebp-14BCh] BYREF
+  vostok::fs_new::native_path_string archive_physical_path; // [esp+100h] [ebp-13F0h] BYREF
+  vostok::fixed_string<260> v38; // [esp+214h] [ebp-12DCh] BYREF
+  char v39; // [esp+324h] [ebp-11CCh]
+  vostok::fs_new::virtual_path_string virtual_path; // [esp+328h] [ebp-11C8h] BYREF
+  vostok::fs_new::virtual_path_string v41; // [esp+43Ch] [ebp-10B4h] BYREF
+  vostok::fixed_string<260> v42; // [esp+550h] [ebp-FA0h] BYREF
+  char v43; // [esp+660h] [ebp-E90h]
+  vostok::vfs::query_mount_arguments m_args; // [esp+664h] [ebp-E8Ch] BYREF
+  _BYTE v45[1104]; // [esp+B3Ch] [ebp-9B4h] BYREF
+  char v46; // [esp+F8Ch] [ebp-564h] BYREF
+  _BYTE v47[1104]; // [esp+1014h] [ebp-4DCh] BYREF
+  char v48; // [esp+1464h] [ebp-8Ch] BYREF
 
-  v54 = this;
-  v53 = 0;
-  node = (vostok::vfs::mount_root_node_base<1> *)object.__vftable[2].on_focus;
-  tick = object.__vftable[2].tick;
-  if ( node )
+  v2 = object;
+  m_mount_root = object->m_mount_root;
+  m_allocator = object->m_allocator;
+  out_locked_branch = (vostok::vfs::base_node<1> *)m_allocator;
+  if ( m_mount_root )
   {
-    __formal = node->file_system.pointer;
-    vostok::vfs::vfs_intrusive_mount_base::unlink_children(v54, (vostok::vfs::vfs_mount *)object.__vftable, __formal);
-    p_mount_history = &__formal->mount_history;
-    vostok::threading::simple_lock::mutex_raii::mutex_raii(&v43, &__formal->mount_history.m_policy, v5);
-    if ( vostok::intrusive_double_linked_list<vostok::vfs::vfs_mount,vostok::vfs::vfs_mount *,16,12,vostok::threading::simple_lock,vostok::no_size_policy,vostok::debug_policy>::contains_object(
-           p_mount_history,
-           (vostok::vfs::vfs_mount *)object.__vftable) )
+    v5 = object->children.m_first.m_object == 0;
+    pointer = (const vostok::threading::simple_lock *)m_mount_root->file_system.pointer;
+    v32.lock = (const vostok::threading::simple_lock *)m_mount_root->file_system.pointer;
+    if ( !v5 )
     {
-      if ( *(_DWORD *)((char *)&loc_20160 + (_DWORD)__formal) == -1
-        || *(_DWORD *)((char *)&loc_20160 + (_DWORD)__formal) == vostok::threading::current_thread_id() )
+      do
       {
-        vostok::vfs::query_mount_arguments::query_mount_arguments(&m_args);
+        vostok::intrusive_double_linked_list<vostok::vfs::vfs_intrusive_mount_base,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,4,8,vostok::threading::simple_lock,vostok::size_policy,vostok::debug_policy>::pop_back(
+          (vostok::intrusive_double_linked_list<vostok::vfs::vfs_intrusive_mount_base,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,4,8,vostok::threading::simple_lock,vostok::size_policy,vostok::debug_policy> *)this,
+          (int)&v2->children,
+          (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v35,
+          v30);
+        vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::operator=(
+          v7,
+          (int *)&v35,
+          0);
+        vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v35);
+      }
+      while ( v2->children.m_first.m_object );
+      pointer = v32.lock;
+    }
+    *(_DWORD *)&v32.locked = (char *)pointer + 12;
+    vostok::threading::simple_lock::lock((vostok::threading::simple_lock *)this, (int)&pointer[1].m_thread_id);
+    v32.locked = 1;
+    if ( vostok::intrusive_double_linked_list<vostok::vfs::vfs_mount,vostok::vfs::vfs_mount *,16,12,vostok::threading::simple_lock,vostok::no_size_policy,vostok::debug_policy>::contains_object(
+           v8,
+           (int)pointer,
+           v2) )
+    {
+      if ( *(unsigned int *)((char *)&pointer->m_lock + (_DWORD)&loc_2015E + 2) == -1
+        || *(unsigned int *)((char *)&pointer->m_lock + (_DWORD)&loc_2015E + 2) == GetCurrentThreadId() )
+      {
+        vostok::vfs::query_mount_arguments::query_mount_arguments(v9, (int)&m_args);
+        v11 = file_system;
         out_locked_branch = 0;
         if ( vostok::vfs::vfs_hashset::find_and_lock_branch(
-               &__formal->hashset,
+               uri,
+               &file_system->hashset,
                &out_locked_branch,
-               (const char *)&buf,
-               lock_type_write,
-               lock_operation_try_lock) )
+               lock_type_read,
+               v29) )
         {
-          v35 = 0;
-          survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v10);
-          v34 = object.__vftable;
-          if ( object.get_projection_matrix )
+          if ( v2->m_reference_count )
           {
-            if ( !vostok::core::g_log_filter_tree
-              || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "vfs:", info) )
-            {
-              boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(v12);
-              v53 |= 4u;
-              *(vostok::platform_pointer_selector<char const ,1>::helper *)&v16[36] = (vostok::platform_pointer_selector<char const ,1>::helper)node->virtual_path.max_storage;
-              vostok::logging::append(
-                &v33,
-                (void *const)vostok::core::g_log_flags,
-                &vostok::core::g_log_format,
-                ".\\mount_ptr.cpp",
-                0x7Eu,
-                "void __thiscall vostok::vfs::vfs_intrusive_mount_base::destroy(class vostok::vfs::vfs_mount *) const",
-                "vfs:",
-                info,
-                "unmount canceled (mount-reclaimed) '%s' on '%s'",
-                node->physical_path.pointer,
-                (const char *)HIDWORD(node->physical_path.max_storage));
-            }
-            if ( (v53 & 4) != 0 )
-            {
-              v53 &= ~4u;
-              boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-                (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v12,
-                (int *)&v33);
-            }
             vostok::vfs::unlock_branch(m_args.root_write_lock, lock_type_write);
-            boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&m_args.callback);
-            vostok::threading::simple_lock::mutex_raii::clear(&v43);
+            v14 = *(boost::function1<void,vostok::sound::create_sound_propagator_params const &> **)&v28[36];
           }
           else
           {
-            vostok::vfs::erase_from_mount_history((vostok::vfs::vfs_mount *)object.__vftable, __formal);
-            vostok::threading::simple_lock::mutex_raii::clear(&v43);
+            vostok::vfs::erase_from_mount_history(object, file_system, v12);
+            v5 = file_system->mount_history.m_policy.m_lock-- == 1;
+            if ( v5 )
+              v15 = (vostok::fs_new::asynchronous_device_interface *)_InterlockedExchange(
+                                                                       &v11->mount_history.m_policy.m_thread_id,
+                                                                       0);
+            *(_DWORD *)&v28[36] = m_mount_root->device.pointer;
+            v32.locked = 0;
             vostok::fs_new::asynchronous_device_interface::asynchronous_device_interface(
-              &async_device,
-              node->device.pointer,
-              watcher_enabled_true);
-            if ( node->mount_type == mount_type_archive )
+              v15,
+              descriptor,
+              *(vostok::fs_new::device_file_system_interface **)&v28[36],
+              (vostok::fs_new::watcher_enabled_bool)v29);
+            if ( m_mount_root->mount_type == mount_type_archive )
             {
-              v31 = vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::mount_root_node_base,1>(node);
-              vostok::fs_new::path_string_impl::path_string_impl(&v30, 92, (const char (*)[1])v31->fat_path_holder);
-              vostok::fs_new::path_string_impl::path_string_impl(&v29, 92, (const char (*)[1])v31->archive_path_holder);
-              vostok::fs_new::path_string_impl::path_string_impl(
-                &v28,
-                47,
-                (const vostok::platform_pointer_selector<char,1>::helper *)&node->virtual_path);
-              *(_DWORD *)&v16[40] = 0;
-              v27 = (boost::function<bool __cdecl(void)> *)&v16[8];
-              boost::function1<void,vostok::ai::brain_unit const *>::function1<void,vostok::ai::brain_unit const *>((boost::function<bool __cdecl(void)> *)&v16[8]);
-              __that = vostok::vfs::query_mount_arguments::mount_archive(
-                         &result,
-                         node->allocator.pointer,
-                         (const vostok::fs_new::virtual_path_string *)&v28,
-                         (const vostok::fs_new::native_path_string *)&v29,
-                         (const vostok::fs_new::native_path_string *)&v30,
-                         v31->descriptor,
-                         &async_device,
-                         0,
-                         *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)&v16[8],
-                         *(vostok::vfs::lock_operation_enum *)&v16[40]);
-              vostok::vfs::query_mount_arguments::operator=(&m_args, __that);
-              boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&result.callback);
+              v17 = vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::mount_root_node_base,1>(m_mount_root);
+              vostok::fixed_string<260>::fixed_string<260>(v18, &archive_physical_path.m_string, &v17->m_name[313]);
+              archive_physical_path.m_separator = 92;
+              vostok::fixed_string<260>::fixed_string<260>(v19, &virtual_path.m_string, &v17->m_name[573]);
+              *(_DWORD *)&v28[36] = m_mount_root->virtual_path.pointer;
+              virtual_path.m_separator = 92;
+              vostok::fixed_string<260>::fixed_string<260>(v20, &v42, *(char **)&v28[36]);
+              v43 = 47;
+              *(_DWORD *)&v28[8] = 0;
+              v21 = vostok::vfs::query_mount_arguments::mount_archive(
+                      0,
+                      (int)v45,
+                      (vostok::vfs::query_mount_arguments *)m_mount_root->allocator.pointer,
+                      &v42,
+                      &virtual_path,
+                      &archive_physical_path,
+                      (const vostok::fs_new::native_path_string *)&v17->m_name[833],
+                      (const char *)descriptor,
+                      0,
+                      0,
+                      *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)&v28[8]);
+              vostok::vfs::query_mount_arguments::operator=(&m_args, v21);
+              v23 = (int *)&v46;
             }
             else
             {
-              vostok::fs_new::path_string_impl::path_string_impl(
-                &v24,
-                92,
-                (const vostok::platform_pointer_selector<char,1>::helper *)&node->physical_path);
-              vostok::fs_new::path_string_impl::path_string_impl(
-                &v23,
-                47,
-                (const vostok::platform_pointer_selector<char,1>::helper *)&node->virtual_path);
-              *(_DWORD *)&v16[40] = node->watcher_enabled;
-              *(_DWORD *)&v16[36] = 0;
-              *(_DWORD *)&v16[32] = 1;
-              v22 = (boost::function<bool __cdecl(void)> *)v16;
-              boost::function1<void,vostok::ai::brain_unit const *>::function1<void,vostok::ai::brain_unit const *>((boost::function<bool __cdecl(void)> *)v16);
-              v20 = vostok::vfs::query_mount_arguments::mount_physical_path(
-                      &v21,
-                      node->allocator.pointer,
-                      (const vostok::fs_new::virtual_path_string *)&v23,
-                      (const vostok::fs_new::native_path_string *)&v24,
-                      node->descriptor.pointer,
-                      &async_device,
+              vostok::fixed_string<260>::fixed_string<260>(
+                v16,
+                &v41.m_string,
+                (char *)m_mount_root->physical_path.pointer);
+              *(_DWORD *)&v28[36] = m_mount_root->virtual_path.pointer;
+              v41.m_separator = 92;
+              vostok::fixed_string<260>::fixed_string<260>(v24, &v38, *(char **)&v28[36]);
+              v39 = 47;
+              *(_DWORD *)&v28[8] = 0;
+              *(_DWORD *)&v28[4] = m_mount_root->watcher_enabled;
+              *(_DWORD *)v28 = 0;
+              v25 = vostok::vfs::query_mount_arguments::mount_physical_path(
                       0,
-                      *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)v16,
-                      *(vostok::vfs::recursive_bool *)&v16[32],
-                      *(vostok::vfs::lock_operation_enum *)&v16[36],
-                      *(vostok::fs_new::watcher_enabled_bool *)&v16[40]);
-              vostok::vfs::query_mount_arguments::operator=(&m_args, v20);
-              boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&v21.callback);
+                      (int)v47,
+                      (vostok::vfs::query_mount_arguments *)m_mount_root->allocator.pointer,
+                      &v38,
+                      &v41,
+                      (const vostok::fs_new::native_path_string *)m_mount_root->descriptor.pointer,
+                      (const char *)descriptor,
+                      0,
+                      (vostok::fs_new::synchronous_device_interface *)1,
+                      *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)v28);
+              vostok::vfs::query_mount_arguments::operator=(&m_args, v25);
+              v23 = (int *)&v48;
             }
-            m_args.mount_ptr = (vostok::vfs::vfs_mount *)object.__vftable;
+            boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+              v22,
+              v23);
+            v26 = object;
             m_args.root_write_lock = out_locked_branch;
-            vostok::vfs::unmounter::unmounter(&v19, &m_args, __formal);
-            v18 = 1;
-            survarium::weapon_user_dead_state::finalize(v13);
-            v17 = object.__vftable;
-            if ( !vostok::threading::multi_threading_policy::intrusive_ptr_decrement<vostok::resources::unmanaged_intrusive_base>((vostok::resources::unmanaged_intrusive_base *)&object.__vftable[3]) )
+            m_args.mount_ptr = object;
+            vostok::vfs::unmounter::unmounter(&m_args, file_system, &v35);
+            if ( !_InterlockedExchangeAdd(&v26->m_destroy_count, 0xFFFFFFFF) )
             {
-              *(_DWORD *)&v16[40] = &object;
-              survarium::weapon_user_dead_state::finalize(&object);
               vostok::memory::delete_helper<vostok::memory::base_allocator,vostok::vfs::vfs_mount>(
-                v15,
-                *(vostok::vfs::vfs_mount ***)&v16[40]);
+                (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> **)&object,
+                allocator,
+                (const char *const)0xAD);
+              v27 = *(vostok::fs_new::asynchronous_device_interface **)&v28[36];
             }
-            vostok::fs_new::asynchronous_device_interface::~asynchronous_device_interface(v14, (int)&async_device);
-            boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&m_args.callback);
-            vostok::threading::simple_lock::mutex_raii::clear(&v43);
+            vostok::fs_new::asynchronous_device_interface::~asynchronous_device_interface(v27, (int)descriptor);
           }
         }
         else
         {
-          if ( !vostok::core::g_log_filter_tree
-            || (has_passed_filters = vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "vfs:", info),
-                v10 = has_passed_filters) )
-          {
-            boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>((boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v10);
-            v53 |= 2u;
-            vostok::logging::append(
-              &v36,
-              (void *const)vostok::core::g_log_flags,
-              &vostok::core::g_log_format,
-              ".\\mount_ptr.cpp",
-              0x74u,
-              "void __thiscall vostok::vfs::vfs_intrusive_mount_base::destroy(class vostok::vfs::vfs_mount *) const",
-              "vfs:",
-              info,
-              "rescheduling unmount (cannot lock) '%s' on '%s'",
-              node->physical_path.pointer,
-              node->virtual_path.pointer);
-          }
-          if ( (v53 & 2) != 0 )
-          {
-            v53 &= ~2u;
-            boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-              (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v10,
-              (int *)&v36);
-          }
-          *(_DWORD *)&v16[40] = 0;
-          *(_DWORD *)&v16[36] = v10;
-          vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-            (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v16[36],
-            (vostok::vfs::vfs_mount *)object.__vftable);
+          *(_DWORD *)&v28[36] = 0;
+          vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::set(
+            (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v28[36],
+            v2);
           vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::push_back(
-            (vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *)(&__formal->mount_history.gap0 + (_DWORD)&loc_20146 + 2),
-            *(vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v16[36],
-            *(bool **)&v16[40]);
-          boost::function2<bool,vostok::ai::brain_unit const *,vostok::ai::npc const *>::clear((boost::function4<float,char const *,char const *,float,float> *)&m_args.callback);
-          vostok::threading::simple_lock::mutex_raii::clear(&v43);
+            v13,
+            (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>)((char *)v11 + (_DWORD)&loc_20144 + 4),
+            *(bool **)&v28[36]);
         }
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v14,
+          (int *)&m_args.callback);
       }
       else
       {
-        if ( !vostok::core::g_log_filter_tree
-          || (v9 = vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "vfs:", info), v8 = v9) )
-        {
-          boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>((boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8);
-          v53 |= 1u;
-          vostok::logging::append(
-            &log_callback,
-            (void *const)vostok::core::g_log_flags,
-            &vostok::core::g_log_format,
-            ".\\mount_ptr.cpp",
-            0x6Au,
-            "void __thiscall vostok::vfs::vfs_intrusive_mount_base::destroy(class vostok::vfs::vfs_mount *) const",
-            "vfs:",
-            info,
-            "rescheduling unmount (wrong thread) '%s' on '%s'",
-            node->physical_path.pointer,
-            node->virtual_path.pointer);
-        }
-        if ( (v53 & 1) != 0 )
-        {
-          v53 &= ~1u;
-          boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-            (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v8,
-            (int *)&log_callback);
-        }
-        *(_DWORD *)&v16[40] = 0;
-        *(_DWORD *)&v16[36] = v8;
-        vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-          (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v16[36],
-          (vostok::vfs::vfs_mount *)object.__vftable);
+        *(_DWORD *)&v28[36] = 0;
+        vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::set(
+          (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v28[36],
+          v2);
         vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy>::push_back(
-          (vostok::intrusive_list<vostok::vfs::vfs_mount,vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>,20,vostok::threading::simple_lock,vostok::size_policy,vostok::no_debug_policy> *)(&__formal->mount_history.gap0 + (_DWORD)&loc_20146 + 2),
-          *(vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v16[36],
-          *(bool **)&v16[40]);
-        vostok::threading::simple_lock::mutex_raii::clear(&v43);
+          v10,
+          (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>)((char *)pointer + (_DWORD)&loc_20144 + 4),
+          *(bool **)&v28[36]);
       }
     }
-    else
+    else if ( !_InterlockedExchangeAdd(&v2->m_destroy_count, 0xFFFFFFFF) )
     {
-      v42 = object.__vftable;
-      if ( !vostok::threading::multi_threading_policy::intrusive_ptr_decrement<vostok::resources::unmanaged_intrusive_base>((vostok::resources::unmanaged_intrusive_base *)&object.__vftable[3]) )
-      {
-        survarium::weapon_user_dead_state::finalize(v6);
-        v41 = v7;
-        v40 = 0;
-        *(_DWORD *)&v16[40] = &v40;
-        vostok::memory::detail::delete_helper_impl<vostok::memory::base_allocator,vostok::vfs::vfs_mount,vostok::memory::detail::call_destructor_predicate>(
-          v7,
-          (vostok::vfs::vfs_mount **)&object);
-      }
-      vostok::threading::simple_lock::mutex_raii::clear(&v43);
+      vostok::memory::delete_helper<vostok::memory::base_allocator,vostok::vfs::vfs_mount>(
+        (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> **)&object,
+        allocator,
+        (const char *const)0x61);
     }
+    vostok::threading::simple_lock::mutex_raii::~mutex_raii(&v32);
   }
   else
   {
-    v50 = object.__vftable;
-    v49 = vostok::threading::multi_threading_policy::intrusive_ptr_decrement<vostok::resources::unmanaged_intrusive_base>((vostok::resources::unmanaged_intrusive_base *)&object.__vftable[3]);
-    v48 = 0;
-    survarium::weapon_user_dead_state::finalize(v2);
-    survarium::weapon_user_dead_state::finalize(v3);
-    allocator = v4;
-    call_destructor_predicate = 0;
-    *(_DWORD *)&v16[40] = &call_destructor_predicate;
-    vostok::memory::detail::delete_helper_impl<vostok::memory::base_allocator,vostok::vfs::vfs_mount,vostok::memory::detail::call_destructor_predicate>(
-      v4,
-      (vostok::vfs::vfs_mount **)&object);
+    _InterlockedExchangeAdd(&object->m_destroy_count, 0xFFFFFFFF);
+    vostok::memory::delete_helper<vostok::memory::base_allocator,vostok::vfs::vfs_mount>(
+      (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> **)&object,
+      m_allocator,
+      (const char *const)0x51);
   }
 }

@@ -3,11 +3,11 @@ Scaleform::Render::TreeCacheNode *__thiscall Scaleform::Render::TreeText::NodeDa
         Scaleform::Render::TreeCacheNode *pparent,
         Scaleform::Render::TreeCacheNode *pinsert,
         Scaleform::Render::TreeText *pnode,
-        unsigned __int16 depth)
+        int depth)
 {
   Scaleform::Render::TreeCacheNode *pRenderer; // esi
   Scaleform::Render::TreeCacheNode *v6; // esi
-  int v7; // ebp
+  __int16 v7; // bp
   bool v8; // bl
   unsigned int v9; // ecx
   int v10; // edi

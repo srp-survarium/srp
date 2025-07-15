@@ -15,5 +15,5 @@ void __thiscall Scaleform::GFx::KeyboardState::KeyQueue::KeyQueue(Scaleform::GFx
   this->PutIdx = 0;
   this->GetIdx = 0;
   this->Count = 0;
-  memset((int)this, 0, 0x640u);
+  memset((int)this, 0, 1600);
 }

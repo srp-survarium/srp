@@ -8,33 +8,34 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::loadKerningPairs(Scalefor
   int v7; // edx
   HDC__ *WinHDC; // [esp-Ch] [ebp-38h]
   char v9; // [esp+Fh] [ebp-1Dh]
-  Scaleform::Render::ExternalFontWinAPI::KerningPairType pair; // [esp+10h] [ebp-1Ch] BYREF
+  _WORD v10[2]; // [esp+10h] [ebp-1Ch] BYREF
   float v11; // [esp+14h] [ebp-18h] BYREF
   Scaleform::HashNode<Scaleform::Render::ExternalFontWinAPI::KerningPairType,float,Scaleform::FixedSizeHash<Scaleform::Render::ExternalFontWinAPI::KerningPairType> >::NodeRef key; // [esp+18h] [ebp-14h] BYREF
-  Scaleform::Array<tagKERNINGPAIR,2,Scaleform::ArrayDefaultPolicy> pairs; // [esp+20h] [ebp-Ch] BYREF
+  Scaleform::ArrayDataBase<tagKERNINGPAIR,Scaleform::AllocatorGH<tagKERNINGPAIR,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+20h] [ebp-Ch] BYREF
 
   v1 = 0;
   WinHDC = this->pSysData->WinHDC;
-  memset(&pairs, 0, sizeof(pairs));
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
   KerningPairsW = GetKerningPairsW(WinHDC, 0, 0);
   if ( KerningPairsW )
   {
     Scaleform::ArrayDataBase<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,Scaleform::AllocatorGH<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      &pairs.Data,
-      &pairs,
+      &pheapAddr,
+      &pheapAddr,
       KerningPairsW + (KerningPairsW >> 2));
     v1 = KerningPairsW;
-    GetKerningPairsW(this->pSysData->WinHDC, KerningPairsW, pairs.Data.Data);
+    GetKerningPairsW(this->pSysData->WinHDC, KerningPairsW, pheapAddr.Data);
   }
   Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp>>::Clear(&this->KerningPairs.mHash);
   if ( v1 )
   {
-    key.pFirst = &pair;
+    key.pFirst = (const Scaleform::Render::ExternalFontWinAPI::KerningPairType *)v10;
     key.pSecond = &v11;
-    p_iKernAmount = &pairs.Data.Data->iKernAmount;
+    p_iKernAmount = &pheapAddr.Data->iKernAmount;
     do
     {
-      pair = (Scaleform::Render::ExternalFontWinAPI::KerningPairType)*(p_iKernAmount - 1);
+      v10[0] = *((_WORD *)p_iKernAmount - 2);
+      v10[1] = *((_WORD *)p_iKernAmount - 1);
       v5 = 4;
       v6 = 5381;
       v11 = (double)*p_iKernAmount * this->Scale1024;
@@ -54,6 +55,6 @@ void __thiscall Scaleform::Render::ExternalFontWinAPI::loadKerningPairs(Scalefor
     }
     while ( v1 );
   }
-  if ( pairs.Data.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pairs.Data.Data);
+  if ( pheapAddr.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pheapAddr.Data);
 }

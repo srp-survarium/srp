@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringCharAt(const Scaleform::GFx
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // eax
   Scaleform::GFx::ASConstString *v7; // ebx
   Scaleform::GFx::AS2::Value *v8; // ecx
-  const char *v9; // esi
+  char *v9; // esi
   unsigned int CharAt; // eax
   const Scaleform::GFx::AS2::FnCall *appended; // esi
   Scaleform::GFx::ASStringNode *v12; // eax
@@ -32,7 +32,7 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringCharAt(const Scaleform::GFx
     v8 = 0;
     if ( v1->FirstArgBottomIndex <= 32 * (p_Stack->Pages.Data.Size - 1) + (v5 >> 4) )
       v8 = &p_Stack->Pages.Data.Data[(unsigned int)v1->FirstArgBottomIndex >> 5]->Values[v1->FirstArgBottomIndex & 0x1F];
-    v9 = (const char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v8, v1->Env);
+    v9 = (char *)(int)Scaleform::GFx::AS2::Value::ToNumber(v8, v1->Env);
     if ( (int)v9 >= 0 && (int)v9 < (int)Scaleform::GFx::ASConstString::GetLength(v7) )
     {
       CharAt = Scaleform::GFx::ASConstString::GetCharAt(v7, v9);

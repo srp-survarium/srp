@@ -1,163 +1,168 @@
 Scaleform::GFx::AS2::Value *__thiscall Scaleform::GFx::AS2::Value::Compare(
         Scaleform::GFx::AS2::Value *this,
         Scaleform::GFx::AS2::Value *result,
-        Scaleform::GFx::AS2::Environment *penv,
-        Scaleform::GFx::AS2::Value *v,
+        __int64 penv,
         int action)
 {
   bool IsEqual; // cl
-  Scaleform::GFx::AS2::Value *v6; // eax
+  Scaleform::GFx::AS2::Value *v5; // eax
   unsigned __int8 Type; // al
-  unsigned __int8 v8; // bl
-  Scaleform::GFx::AS2::Value *v9; // esi
-  Scaleform::GFx::ASStringNode *v10; // eax
-  bool v11; // zf
-  Scaleform::GFx::ASStringNode *v12; // eax
-  Scaleform::GFx::ASStringNode *v13; // eax
-  bool v14; // cl
-  Scaleform::GFx::ASStringNode *v15; // eax
-  Scaleform::GFx::AS2::Value *v16; // esi
-  bool v17; // cf
-  long double v18; // st7
-  long double val1; // [esp+18h] [ebp-30h] BYREF
-  long double val2; // [esp+20h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::Value pv1; // [esp+28h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value pv2; // [esp+38h] [ebp-10h] BYREF
+  unsigned __int8 v7; // bl
+  Scaleform::GFx::AS2::Value *v8; // esi
+  Scaleform::GFx::ASStringNode *v9; // eax
+  bool v10; // zf
+  Scaleform::GFx::ASStringNode *v11; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  bool v13; // cl
+  Scaleform::GFx::ASStringNode *v14; // eax
+  Scaleform::GFx::AS2::Value *v15; // esi
+  bool v16; // cf
+  double v17; // st7
+  Scaleform::GFx::ASString str[2]; // [esp+18h] [ebp-30h] BYREF
+  Scaleform::GFx::ASString v19[2]; // [esp+20h] [ebp-28h] BYREF
+  Scaleform::GFx::AS2::Value resulta; // [esp+28h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v21; // [esp+38h] [ebp-10h] BYREF
 
   if ( !action )
   {
-    IsEqual = Scaleform::GFx::AS2::Value::IsEqual(this, penv, v);
-    v6 = result;
+    IsEqual = Scaleform::GFx::AS2::Value::IsEqual(
+                this,
+                (Scaleform::GFx::AS2::Environment *)penv,
+                (Scaleform::GFx::AS2::Value *)HIDWORD(penv));
+    v5 = result;
     result->T.Type = 2;
     result->V.BooleanValue = IsEqual;
-    return v6;
+    return v5;
   }
-  Scaleform::GFx::AS2::Value::ToPrimitive(this, &pv1, penv, NoHint);
-  Scaleform::GFx::AS2::Value::ToPrimitive(v, &pv2, penv, NoHint);
-  Type = pv1.T.Type;
-  v8 = pv2.T.Type;
-  if ( pv1.T.Type == 5 && pv2.T.Type == 5 )
+  Scaleform::GFx::AS2::Value::ToPrimitive(this, &resulta, (Scaleform::GFx::AS2::Environment *)penv, NoHint);
+  Scaleform::GFx::AS2::Value::ToPrimitive(
+    (Scaleform::GFx::AS2::Value *)HIDWORD(penv),
+    &v21,
+    (Scaleform::GFx::AS2::Environment *)penv,
+    NoHint);
+  Type = resulta.T.Type;
+  v7 = v21.T.Type;
+  if ( resulta.T.Type == 5 && v21.T.Type == 5 )
   {
     if ( action >= 0 )
     {
-      Scaleform::GFx::AS2::Value::ToStringImpl(&pv2, (Scaleform::GFx::ASString *)&val2, penv, -1, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(&pv1, (Scaleform::GFx::ASString *)&val1, penv, -1, 0);
-      v13 = (Scaleform::GFx::ASStringNode *)LODWORD(val1);
-      if ( LODWORD(val1) == LODWORD(val2) )
+      Scaleform::GFx::AS2::Value::ToStringImpl(&v21, v19, (Scaleform::GFx::AS2::Environment *)penv, -1, 0);
+      Scaleform::GFx::AS2::Value::ToStringImpl(&resulta, str, (Scaleform::GFx::AS2::Environment *)penv, -1, 0);
+      pNode = str[0].pNode;
+      if ( str[0].pNode == v19[0].pNode )
       {
-        v14 = 0;
+        v13 = 0;
       }
       else
       {
-        v11 = !Scaleform::GFx::ASString::operator<(
-                 (Scaleform::GFx::ASString *)&val1,
-                 (const Scaleform::GFx::ASString *)&val2);
-        v13 = (Scaleform::GFx::ASStringNode *)LODWORD(val1);
-        v14 = v11;
+        v10 = !Scaleform::GFx::ASString::operator<(str, v19);
+        pNode = str[0].pNode;
+        v13 = v10;
       }
-      v9 = result;
-      --v13->RefCount;
-      result->V.BooleanValue = v14;
-      v11 = v13->RefCount == 0;
+      v8 = result;
+      --pNode->RefCount;
+      result->V.BooleanValue = v13;
+      v10 = pNode->RefCount == 0;
       result->T.Type = 2;
-      if ( v11 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v13);
-      v15 = (Scaleform::GFx::ASStringNode *)LODWORD(val2);
-      --*(_DWORD *)(LODWORD(val2) + 12);
-      if ( !v15->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v15);
+      if ( v10 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+      v14 = v19[0].pNode;
+      --v19[0].pNode->RefCount;
+      if ( !v14->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v14);
     }
     else
     {
-      Scaleform::GFx::AS2::Value::ToStringImpl(&pv2, (Scaleform::GFx::ASString *)&val1, penv, -1, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(&pv1, (Scaleform::GFx::ASString *)&val2, penv, -1, 0);
-      v9 = result;
-      result->V.BooleanValue = Scaleform::GFx::ASString::operator<(
-                                 (Scaleform::GFx::ASString *)&val2,
-                                 (const Scaleform::GFx::ASString *)&val1);
-      v10 = (Scaleform::GFx::ASStringNode *)LODWORD(val2);
-      --*(_DWORD *)(LODWORD(val2) + 12);
-      v11 = v10->RefCount == 0;
+      Scaleform::GFx::AS2::Value::ToStringImpl(&v21, str, (Scaleform::GFx::AS2::Environment *)penv, -1, 0);
+      Scaleform::GFx::AS2::Value::ToStringImpl(&resulta, v19, (Scaleform::GFx::AS2::Environment *)penv, -1, 0);
+      v8 = result;
+      result->V.BooleanValue = Scaleform::GFx::ASString::operator<(v19, str);
+      v9 = v19[0].pNode;
+      --v19[0].pNode->RefCount;
+      v10 = v9->RefCount == 0;
       result->T.Type = 2;
-      if ( v11 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v10);
-      v12 = (Scaleform::GFx::ASStringNode *)LODWORD(val1);
-      --*(_DWORD *)(LODWORD(val1) + 12);
-      if ( !v12->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v12);
+      if ( v10 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v9);
+      v11 = str[0].pNode;
+      --str[0].pNode->RefCount;
+      if ( !v11->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v11);
     }
-    Scaleform::GFx::AS2::Value::DropRefs(&pv2);
-    Scaleform::GFx::AS2::Value::DropRefs(&pv1);
-    return v9;
+    Scaleform::GFx::AS2::Value::DropRefs(&v21);
+    Scaleform::GFx::AS2::Value::DropRefs(&resulta);
+    return v8;
   }
-  if ( penv->StringContext.SWFVersion <= 6u || pv1.T.Type && pv1.T.Type != 10 && pv2.T.Type && pv2.T.Type != 10 )
+  if ( *(_BYTE *)(penv + 120) <= 6u || resulta.T.Type && resulta.T.Type != 10 && v21.T.Type && v21.T.Type != 10 )
   {
-    v18 = Scaleform::GFx::AS2::Value::ToNumber(&pv1, penv);
+    v17 = Scaleform::GFx::AS2::Value::ToNumber(&resulta, (Scaleform::GFx::AS2::Environment *)penv);
     if ( action >= 0 )
     {
-      val2 = v18;
-      val1 = Scaleform::GFx::AS2::Value::ToNumber(&pv2, penv);
+      *(double *)&v19[0].pNode = v17;
+      *(double *)&str[0].pNode = Scaleform::GFx::AS2::Value::ToNumber(&v21, (Scaleform::GFx::AS2::Environment *)penv);
     }
     else
     {
-      val1 = v18;
-      val2 = Scaleform::GFx::AS2::Value::ToNumber(&pv2, penv);
+      *(double *)&str[0].pNode = v17;
+      *(double *)&v19[0].pNode = Scaleform::GFx::AS2::Value::ToNumber(&v21, (Scaleform::GFx::AS2::Environment *)penv);
     }
-    if ( Scaleform::GFx::NumberUtil::IsNaN(val1) || Scaleform::GFx::NumberUtil::IsNaN(val2) )
+    if ( Scaleform::GFx::NumberUtil::IsNaN(*(long double *)&str[0].pNode)
+      || Scaleform::GFx::NumberUtil::IsNaN(*(long double *)&v19[0].pNode) )
     {
-      v16 = result;
+      v15 = result;
       result->T.Type = 0;
       goto LABEL_47;
     }
-    if ( val1 != val2
-      && (!Scaleform::GFx::NumberUtil::IsNEGATIVE_ZERO(val1) || !Scaleform::GFx::NumberUtil::IsPOSITIVE_ZERO(val2))
-      && (!Scaleform::GFx::NumberUtil::IsNEGATIVE_ZERO(val2) || !Scaleform::GFx::NumberUtil::IsPOSITIVE_ZERO(val1))
-      && !Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(val1) )
+    if ( *(double *)&str[0].pNode != *(double *)&v19[0].pNode
+      && (!Scaleform::GFx::NumberUtil::IsNEGATIVE_ZERO(*(long double *)&str[0].pNode)
+       || !Scaleform::GFx::NumberUtil::IsPOSITIVE_ZERO(*(long double *)&v19[0].pNode))
+      && (!Scaleform::GFx::NumberUtil::IsNEGATIVE_ZERO(*(long double *)&v19[0].pNode)
+       || !Scaleform::GFx::NumberUtil::IsPOSITIVE_ZERO(*(long double *)&str[0].pNode))
+      && !Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(*(long double *)&str[0].pNode) )
     {
-      if ( Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(val2) )
+      if ( Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(*(long double *)&v19[0].pNode) )
       {
-        v16 = result;
+        v15 = result;
         result->T.Type = 2;
         result->V.BooleanValue = 1;
         goto LABEL_47;
       }
-      if ( !Scaleform::GFx::NumberUtil::IsNEGATIVE_INFINITY(val2) )
+      if ( !Scaleform::GFx::NumberUtil::IsNEGATIVE_INFINITY(*(long double *)&v19[0].pNode) )
       {
-        if ( Scaleform::GFx::NumberUtil::IsNEGATIVE_INFINITY(val1) )
+        if ( Scaleform::GFx::NumberUtil::IsNEGATIVE_INFINITY(*(long double *)&str[0].pNode) )
         {
-          v16 = result;
+          v15 = result;
           result->T.Type = 2;
           result->V.BooleanValue = 1;
           goto LABEL_47;
         }
-        if ( val2 > val1 )
+        if ( *(double *)&v19[0].pNode > *(double *)&str[0].pNode )
         {
-          v16 = result;
+          v15 = result;
           result->T.Type = 2;
           result->V.BooleanValue = 1;
           goto LABEL_47;
         }
       }
     }
-    v16 = result;
+    v15 = result;
     result->T.Type = 2;
     result->V.BooleanValue = 0;
 LABEL_47:
-    if ( v8 >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&pv2);
-    v17 = pv1.T.Type < 5u;
+    if ( v7 >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v21);
+    v16 = resulta.T.Type < 5u;
     goto LABEL_50;
   }
-  v16 = result;
+  v15 = result;
   result->T.Type = 0;
-  if ( v8 >= 5u )
+  if ( v7 >= 5u )
   {
-    Scaleform::GFx::AS2::Value::DropRefs(&pv2);
-    Type = pv1.T.Type;
+    Scaleform::GFx::AS2::Value::DropRefs(&v21);
+    Type = resulta.T.Type;
   }
-  v17 = Type < 5u;
+  v16 = Type < 5u;
 LABEL_50:
-  if ( !v17 )
-    Scaleform::GFx::AS2::Value::DropRefs(&pv1);
-  return v16;
+  if ( !v16 )
+    Scaleform::GFx::AS2::Value::DropRefs(&resulta);
+  return v15;
 }

@@ -1,4 +1,4 @@
-char __usercall Scaleform::GFx::MatchFileNames@<al>(
+bool __usercall Scaleform::GFx::MatchFileNames@<al>(
         const Scaleform::String *path1@<eax>,
         const Scaleform::String *path2@<ecx>)
 {

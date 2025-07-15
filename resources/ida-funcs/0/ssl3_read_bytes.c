@@ -41,14 +41,14 @@ int __cdecl ssl3_read_bytes(ssl_st *s, int type, unsigned __int8 *buf, int len, 
   int v43; // [esp-Ch] [ebp-38h]
   void (__cdecl *v44)(const ssl_st *, int, int); // [esp+8h] [ebp-24h]
   unsigned __int8 *v45; // [esp+14h] [ebp-18h]
-  char bufa[16]; // [esp+18h] [ebp-14h] BYREF
+  char v46[16]; // [esp+18h] [ebp-14h] BYREF
 
   v44 = 0;
   if ( !s->s3->rbuf.buf && !ssl3_setup_read_buffer(s) )
     return -1;
   if ( type && type != 23 && type != 22 || peek && type != 23 )
   {
-    ERR_put_error(0x14u, 148, 68, ".\\ssl\\s3_pkt.c", 911);
+    ERR_put_error(0, 0x14u, 148, 68, ".\\ssl\\s3_pkt.c", 911);
     return -1;
   }
   if ( type == 22 )
@@ -73,25 +73,25 @@ int __cdecl ssl3_read_bytes(ssl_st *s, int type, unsigned __int8 *buf, int len, 
     }
   }
   if ( s->in_handshake || (SSL_state(s) & 0x3000) == 0 )
-    goto start_12;
+    goto start_5;
   result = s->handshake_func(s);
   if ( result >= 0 )
   {
     if ( !result )
     {
-      ERR_put_error(0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 945);
+      ERR_put_error(0, 0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 945);
       return -1;
     }
     while ( 1 )
     {
       while ( 1 )
       {
-start_12:
+start_5:
         p_rrec = &s->s3->rrec;
         s->rwstate = 1;
         if ( !p_rrec->length || s->rstate == 241 )
         {
-          result = ssl3_get_record(s);
+          result = ssl3_get_record(s, 0);
           if ( result <= 0 )
             return result;
         }
@@ -102,7 +102,7 @@ start_12:
           v42 = 145;
 LABEL_142:
           v31 = 10;
-          ERR_put_error(0x14u, 148, v42, ".\\ssl\\s3_pkt.c", v43);
+          ERR_put_error(0, 0x14u, 148, v42, ".\\ssl\\s3_pkt.c", v43);
           goto LABEL_143;
         }
         if ( (s->shutdown & 2) != 0 )
@@ -126,7 +126,7 @@ LABEL_142:
             length = p_rrec->length;
             if ( len <= length )
               length = len;
-            memcpy(buf, &p_rrec->data[p_rrec->off], length);
+            memcpy((int)buf, (const __m128i *)&p_rrec->data[p_rrec->off], length);
             if ( !peek )
             {
               p_rrec->length -= length;
@@ -199,7 +199,7 @@ LABEL_39:
           if ( v19->handshake_fragment[1] || v19->handshake_fragment[2] || v19->handshake_fragment[3] )
           {
             v31 = 50;
-            ERR_put_error(0x14u, 148, 105, ".\\ssl\\s3_pkt.c", 1081);
+            ERR_put_error(0, 0x14u, 148, 105, ".\\ssl\\s3_pkt.c", 1081);
             goto LABEL_143;
           }
           msg_callback = s->msg_callback;
@@ -218,7 +218,7 @@ LABEL_39:
                   return result;
                 if ( !result )
                 {
-                  ERR_put_error(0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 1099);
+                  ERR_put_error(0, 0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 1099);
                   return -1;
                 }
                 if ( (s->mode & 4) == 0 )
@@ -256,7 +256,7 @@ LABEL_69:
               if ( p_rrec->length != 1 || p_rrec->off || (data = p_rrec->data, *data != 1) )
               {
                 v31 = 47;
-                ERR_put_error(0x14u, 148, 103, ".\\ssl\\s3_pkt.c", 1227);
+                ERR_put_error(0, 0x14u, 148, 103, ".\\ssl\\s3_pkt.c", 1227);
                 goto LABEL_143;
               }
               if ( !v26->tmp.new_cipher )
@@ -270,7 +270,7 @@ LABEL_69:
               if ( v34 )
                 v34(0, s->version, 20, data, 1u, s, s->msg_callback_arg);
               s->s3->change_cipher_spec = 1;
-              if ( !ssl3_do_change_cipher_spec(s) )
+              if ( !ssl3_do_change_cipher_spec(0, s) )
                 return -1;
             }
             else if ( v26->handshake_fragment_len < 4 || s->in_handshake )
@@ -320,7 +320,7 @@ LABEL_141:
                 return result;
               if ( !result )
               {
-                ERR_put_error(0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 1272);
+                ERR_put_error(0, 0x14u, 148, 229, ".\\ssl\\s3_pkt.c", 1272);
                 return -1;
               }
               if ( (s->mode & 4) == 0 )
@@ -350,17 +350,17 @@ LABEL_141:
                 v37 = s->s3;
                 s->rwstate = 1;
                 v37->fatal_alert = v28;
-                ERR_put_error(0x14u, 148, v28 + 1000, ".\\ssl\\s3_pkt.c", 1195);
-                BIO_snprintf(bufa, 0x10u, "%d", v28);
-                ERR_add_error_data(2, "SSL alert number ", bufa);
+                ERR_put_error(0, 0x14u, 148, v28 + 1000, ".\\ssl\\s3_pkt.c", 1195);
+                BIO_snprintf(v46, 0x10u, "%d", v28);
+                ERR_add_error_data(2, "SSL alert number ", v46);
                 v38 = s->session;
                 ctx = s->ctx;
                 s->shutdown |= 2u;
-                SSL_CTX_remove_session(ctx, v38);
+                SSL_CTX_remove_session(0, ctx, v38);
                 return 0;
               }
               v31 = 47;
-              ERR_put_error(0x14u, 148, 246, ".\\ssl\\s3_pkt.c", 1205);
+              ERR_put_error(0, 0x14u, 148, 246, ".\\ssl\\s3_pkt.c", 1205);
               goto LABEL_143;
             }
             s->s3->warn_alert = v28;
@@ -372,7 +372,7 @@ LABEL_141:
             if ( v28 == 100 )
             {
               v31 = 40;
-              ERR_put_error(0x14u, 148, 339, ".\\ssl\\s3_pkt.c", 1185);
+              ERR_put_error(0, 0x14u, 148, 339, ".\\ssl\\s3_pkt.c", 1185);
 LABEL_143:
               ssl3_send_alert(s, 2, v31);
               return -1;

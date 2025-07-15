@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::TreeNodeArray::Remove(
   _DWORD *v14; // ecx
   _DWORD *v15; // edx
   int v16; // eax
-  unsigned int newCapacity; // [esp+4h] [ebp-4h]
+  unsigned int v17; // [esp+4h] [ebp-4h]
 
   if ( !count )
     return 1;
@@ -67,7 +67,7 @@ char __thiscall Scaleform::Render::TreeNodeArray::Remove(
       v11 = Scaleform::Render::TreeNodeArray::calcRemoveCapacity(this, (unsigned int)v10, v8);
     else
       v11 = ((v8 + 1) & 0xFFFFFFFC) + 2;
-    newCapacity = v11;
+    v17 = v11;
     if ( (Scaleform::Render::TreeNode *)v11 == v10 )
     {
       if ( index < v8 )
@@ -83,7 +83,7 @@ char __thiscall Scaleform::Render::TreeNodeArray::Remove(
         while ( v16 );
       }
       *(_DWORD *)(v6 + 4) = v8;
-      this->pData[1] = newCapacity;
+      this->pData[1] = v17;
       return 1;
     }
     else
@@ -92,16 +92,13 @@ char __thiscall Scaleform::Render::TreeNodeArray::Remove(
       if ( v12 )
       {
         if ( index )
-          memcpy((unsigned __int8 *)(v12 + 8), (unsigned __int8 *)(v6 + 8), 4 * index);
+          memcpy(v12 + 8, (const __m128i *)(v6 + 8), 4 * index);
         v13 = *(_DWORD *)(v6 + 4);
         if ( count + index < v13 )
-          memcpy(
-            (unsigned __int8 *)(v12 + 4 * index + 8),
-            (unsigned __int8 *)(v6 + 4 * (count + index) + 8),
-            4 * (v13 - index - count));
+          memcpy(v12 + 4 * index + 8, (const __m128i *)(v6 + 4 * (count + index) + 8), 4 * (v13 - index - count));
         Scaleform::Render::TreeNodeArray::ArrayData::Release((Scaleform::Render::TreeNodeArray::ArrayData *)v6);
         this->pData[0] = v12 | 1;
-        this->pData[1] = newCapacity;
+        this->pData[1] = v17;
         return 1;
       }
       else

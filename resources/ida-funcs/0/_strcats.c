@@ -9,8 +9,8 @@ void _strcats(char *outstr, unsigned int sizeInBytes, int n, ...)
     p_n = (const char **)&n;
     do
     {
-      if ( strcat_s(outstr, sizeInBytes, *++p_n) )
-        _invoke_watson(0, 0, 0, 0, 0);
+      if ( strcat_s(v3, outstr, sizeInBytes, *++p_n) )
+        _invoke_watson(0, v3, (int)p_n);
       --v3;
     }
     while ( v3 );

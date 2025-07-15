@@ -1,4 +1,5 @@
-int __cdecl EC_POINT_get_affine_coordinates_GF2m(
+int __usercall EC_POINT_get_affine_coordinates_GF2m@<eax>(
+        int a1@<ebx>,
         const ec_group_st *group,
         const ec_point_st *point,
         bignum_st *x,
@@ -16,13 +17,13 @@ int __cdecl EC_POINT_get_affine_coordinates_GF2m(
     }
     else
     {
-      ERR_put_error(0x10u, 183, 101, ".\\crypto\\ec\\ec_lib.c", 904);
+      ERR_put_error(a1, 0x10u, 183, 101, ".\\crypto\\ec\\ec_lib.c", 904);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x10u, 183, 66, ".\\crypto\\ec\\ec_lib.c", 899);
+    ERR_put_error(a1, 0x10u, 183, 66, ".\\crypto\\ec\\ec_lib.c", 899);
     return 0;
   }
 }

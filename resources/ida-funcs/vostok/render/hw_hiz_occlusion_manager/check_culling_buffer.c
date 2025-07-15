@@ -1,134 +1,148 @@
-void __usercall vostok::render::hw_hiz_occlusion_manager::check_culling_buffer(
-        vostok::render::hw_hiz_occlusion_manager *this@<edi>,
+void __userpurge vostok::render::hw_hiz_occlusion_manager::check_culling_buffer(
         unsigned int in_num_bounds@<eax>,
-        bool a3@<bl>,
-        unsigned int a4@<esi>)
+        vostok::render::hw_hiz_occlusion_manager *this)
 {
-  unsigned int v4; // ecx
-  unsigned int v5; // eax
-  vostok::render::res_texture *v6; // ecx
-  vostok::render::res_texture *m_object; // esi
+  unsigned int v3; // ecx
+  unsigned int v4; // eax
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v5; // eax
+  vostok::render::resource_manager *v6; // ecx
   vostok::render::res_texture *texture2d; // eax
-  vostok::render::res_texture *v9; // ecx
-  vostok::render::res_texture *v10; // esi
-  vostok::render::render_target *v11; // eax
-  vostok::render::render_target *render_target; // eax
-  vostok::render::render_target *v13; // ecx
-  const char *v14; // eax
-  bool v15; // zf
-  vostok::render::res_texture *v16; // eax
-  vostok::render::res_texture *v17; // ebx
+  vostok::render::resource_manager *v8; // ecx
+  stlp_std::priv::_Rb_tree_node_base *render_target; // eax
+  int z_low; // edi
+  vostok::render::backend *v11; // ecx
+  vostok::render::res_texture *m_object; // esi
+  vostok::render::resource_manager *v13; // ecx
+  bool v14; // zf
+  vostok::render::render_target *v15; // eax
+  vostok::render::res_texture *v16; // esi
+  vostok::render::resource_manager *v17; // ecx
   vostok::render::res_texture *v18; // eax
-  vostok::render::res_texture *v19; // esi
-  float value; // [esp+0h] [ebp-10h]
-  unsigned int v22; // [esp+4h] [ebp-Ch]
-  unsigned int v23; // [esp+8h] [ebp-8h]
+  vostok::render::resource_manager *v19; // [esp-Ch] [ebp-2Ch]
+  float v20; // [esp+8h] [ebp-18h]
+  unsigned int v21; // [esp+Ch] [ebp-14h]
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> object; // [esp+1Ch] [ebp-4h] BYREF
+  ID3D11DeviceContext *m_context; // [esp+28h] [ebp+8h]
+  char v24; // [esp+28h] [ebp+8h]
 
-  v4 = this->m_culling_buffer_height * this->m_culling_buffer_width;
+  v3 = this->m_culling_buffer_height * this->m_culling_buffer_width;
   this->m_current_num_bounds = in_num_bounds;
-  if ( in_num_bounds > v4 )
+  if ( in_num_bounds > v3 )
   {
     this->m_culling_buffer_width = 256;
-    value = (double)in_num_bounds * 0.00390625 + *(float *)&clear_value;
-    v5 = vostok::math::floor(value);
-    this->m_culling_buffer_height = v5;
-    vostok::render::hw_hiz_point_list::initialize(&this->m_hw_hiz_point_list, v5 << 8);
-    m_object = this->m_t_culling_result_lockable.m_object;
-    this->m_t_culling_result_lockable.m_object = 0;
-    if ( m_object )
-    {
-      if ( !--m_object->m_reference_count )
-        vostok::render::res_texture::destroy_impl(v6, m_object);
-    }
+    v20 = (double)in_num_bounds * 0.00390625 + s_bm_current_air_resistance;
+    v4 = vostok::math::floor(v20);
+    this->m_culling_buffer_height = v4;
+    v4 <<= 8;
+    v19 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+    this->m_hw_hiz_point_list.m_num_points = v4;
+    vostok::render::resource_manager::create_buffer(24 * v4, v19, (void *)0x18, enum_buffer_type_vertex, 0, 1, 0);
+    vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      v5,
+      (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&this->m_hw_hiz_point_list.m_vertex_buffer,
+      0);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)&this->m_t_culling_result_lockable);
     texture2d = vostok::render::resource_manager::create_texture2d(
+                  v6,
+                  (const char *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                  "$user$hiz_lockable",
+                  this->m_culling_buffer_width,
+                  (const D3D11_SUBRESOURCE_DATA *)this->m_culling_buffer_height,
+                  0,
+                  DXGI_FORMAT_R8_UNORM,
                   D3D11_USAGE_STAGING,
-                  (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                  (const char *)&stru_967C04.m_rescale_min.elements[1],
-                  (vostok::render::resource_manager *)this->m_culling_buffer_width,
-                  this->m_culling_buffer_height,
-                  (ID3D11Texture2D *)0x3D,
-                  (const D3D11_SUBRESOURCE_DATA *)1,
-                  DXGI_FORMAT_UNKNOWN,
-                  a4,
-                  a3);
-    v9 = 0;
-    if ( texture2d )
-    {
-      ++texture2d->m_reference_count;
-      v9 = texture2d;
-    }
-    v10 = this->m_t_culling_result_lockable.m_object;
-    this->m_t_culling_result_lockable.m_object = v9;
-    if ( v10 )
-    {
-      if ( !--v10->m_reference_count )
-        vostok::render::res_texture::destroy_impl(v9, v10);
-    }
-    v11 = this->m_rt_culling_result.m_object;
-    this->m_rt_culling_result.m_object = 0;
-    if ( v11 )
-    {
-      if ( !--v11->m_reference_count )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)v9,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          (const char *)v11);
-    }
+                  1u,
+                  0);
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      texture2d,
+      (vostok::render::res_texture *)&this->m_t_culling_result_lockable);
+    vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      &this->m_rt_culling_result,
+      0);
     render_target = vostok::render::resource_manager::create_render_target(
-                      (vostok::render::resource_manager *)this->m_culling_buffer_width,
-                      (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                      (const char *)&stru_967C04.m_rescale_max.elements[2],
-                      (vostok::render::res_texture *)this->m_culling_buffer_width,
-                      (ID3D11Texture2D **)this->m_culling_buffer_height,
-                      (const char *)0x3D,
-                      enum_rt_usage_render_target,
+                      v8,
+                      (const char **)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                      "$user$hiz_result",
+                      this->m_culling_buffer_width,
+                      this->m_culling_buffer_height,
+                      (char *)0x3D,
+                      DXGI_FORMAT_R32G32B32A32_TYPELESS,
                       0,
                       0,
-                      v22,
-                      v23);
-    v13 = 0;
-    if ( render_target )
-    {
-      ++render_target->m_reference_count;
-      v13 = render_target;
-    }
-    v14 = (const char *)this->m_rt_culling_result.m_object;
-    this->m_rt_culling_result.m_object = v13;
+                      0,
+                      v21);
+    vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      &this->m_rt_culling_result,
+      (vostok::render::render_target *)render_target);
+    z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+    vostok::render::backend::set_render_targets(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      this->m_rt_culling_result.m_object,
+      0,
+      0,
+      0);
+    vostok::render::backend::clear_render_targets(v11, z_low, SLODWORD(s_bm_current_air_resistance), 1.0, 1.0, 1.0);
+    m_context = vostok::quasi_singleton<vostok::render::device>::pinst->m_context;
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+      &object,
+      &this->m_rt_culling_result.m_object->m_texture);
+    m_object = object.m_object;
+    m_context->CopyResource(
+      m_context,
+      this->m_t_culling_result_lockable.m_object->m_surface,
+      object.m_object->m_surface);
+    v14 = m_object->m_reference_count-- == 1;
     if ( v14 )
+      vostok::render::resource_manager::release(
+        v13,
+        (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        m_object);
+    v15 = this->m_rt_culling_result.m_object;
+    if ( v15
+      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
     {
-      v15 = (*(_DWORD *)v14)-- == 1;
-      if ( v15 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)v13,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v14);
+      v24 = 1;
+      vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        &object,
+        &v15->m_texture);
+      v16 = object.m_object;
     }
-    v16 = this->m_rt_culling_result.m_object->m_texture.m_object;
-    v17 = 0;
-    if ( v16 )
+    else
     {
-      v17 = this->m_rt_culling_result.m_object->m_texture.m_object;
-      ++v16->m_reference_count;
+      v16 = 0;
+      v24 = 2;
+      object.m_object = 0;
     }
-    v18 = 0;
-    if ( v17 )
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      &object,
+      (vostok::render::res_texture *)&this->m_t_culling_result);
+    if ( (v24 & 2) != 0 )
     {
-      ++v17->m_reference_count;
-      v18 = v17;
+      v24 &= ~2u;
+      if ( v16 )
+      {
+        v14 = v16->m_reference_count-- == 1;
+        if ( v14 )
+          vostok::render::resource_manager::release(
+            v17,
+            (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+            v16);
+      }
     }
-    v19 = this->m_t_culling_result.m_object;
-    this->m_t_culling_result.m_object = v18;
-    if ( v19 )
+    if ( (v24 & 1) != 0 )
     {
-      v15 = v19->m_reference_count-- == 1;
-      if ( v15 )
-        vostok::render::res_texture::destroy_impl((vostok::render::res_texture *)v13, v19);
-    }
-    if ( v17 )
-    {
-      v15 = v17->m_reference_count-- == 1;
-      if ( v15 )
-        vostok::render::res_texture::destroy_impl((vostok::render::res_texture *)v13, v17);
+      v18 = object.m_object;
+      if ( object.m_object )
+      {
+        v14 = object.m_object->m_reference_count-- == 1;
+        if ( v14 )
+          vostok::render::resource_manager::release(
+            v17,
+            (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+            v18);
+      }
     }
   }
 }

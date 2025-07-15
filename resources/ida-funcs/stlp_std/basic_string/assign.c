@@ -9,7 +9,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   unsigned __int8 *v7; // edi
   int v8; // edx
   stlp_std::allocator<char> __a; // [esp+17h] [ebp-29h] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > __str; // [esp+18h] [ebp-28h] BYREF
+  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v11; // [esp+18h] [ebp-28h] BYREF
   int v12; // [esp+3Ch] [ebp-4h]
 
   M_finish = this->_M_finish;
@@ -23,27 +23,27 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
     if ( __n >= v8 - 1 )
     {
       stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-        &__str,
+        &v11,
         __n,
         __c,
         &__a);
       v12 = 0;
-      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_swap(this, &__str);
+      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_swap(this, &v11);
       v12 = -1;
-      if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)__str._M_start_of_storage._M_data != &__str
-        && __str._M_start_of_storage._M_data )
+      if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)v11._M_start_of_storage._M_data != &v11
+        && v11._M_start_of_storage._M_data )
       {
-        if ( (unsigned int)(__str._M_buffers._M_end_of_storage - __str._M_start_of_storage._M_data) <= 0x80 )
+        if ( (unsigned int)(v11._M_buffers._M_end_of_storage - v11._M_start_of_storage._M_data) <= 0x80 )
           stlp_std::__node_alloc::_M_deallocate(
-            (_STLP_atomic_freelist::item *)__str._M_start_of_storage._M_data,
-            __str._M_buffers._M_end_of_storage - __str._M_start_of_storage._M_data);
+            (_STLP_atomic_freelist::item *)v11._M_start_of_storage._M_data,
+            v11._M_buffers._M_end_of_storage - v11._M_start_of_storage._M_data);
         else
-          operator delete(__str._M_start_of_storage._M_data);
+          operator delete(v11._M_start_of_storage._M_data);
       }
     }
     else
     {
-      memset((unsigned __int8 *)M_data, __c, M_finish - (char *)M_data);
+      memset((int)M_data, __c, M_finish - (char *)M_data);
       stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::append(
         this,
         __n + this->_M_start_of_storage._M_data - this->_M_finish,
@@ -52,7 +52,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   }
   else
   {
-    memset((unsigned __int8 *)M_data, __c, __n);
+    memset((int)M_data, __c, __n);
     v6 = (unsigned __int8 *)this->_M_finish;
     v7 = (unsigned __int8 *)&this->_M_start_of_storage._M_data[__n];
     if ( v7 != v6 )
@@ -81,7 +81,7 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocato
   wchar_t *v12; // edi
   int i; // ecx
   stlp_std::allocator<wchar_t> __a; // [esp+17h] [ebp-39h] BYREF
-  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > __str; // [esp+18h] [ebp-38h] BYREF
+  stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > v16; // [esp+18h] [ebp-38h] BYREF
   int v17; // [esp+4Ch] [ebp-4h]
 
   M_finish = this->_M_finish;
@@ -95,22 +95,22 @@ stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocato
     if ( __n >= v10 - 1 )
     {
       stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>(
-        &__str,
+        &v16,
         __n,
         __c,
         &__a);
       v17 = 0;
-      stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t>>::_M_swap(this, &__str);
+      stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t>>::_M_swap(this, &v16);
       v17 = -1;
-      if ( (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *)__str._M_start_of_storage._M_data != &__str
-        && __str._M_start_of_storage._M_data )
+      if ( (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *)v16._M_start_of_storage._M_data != &v16
+        && v16._M_start_of_storage._M_data )
       {
-        if ( (unsigned int)(2 * (__str._M_buffers._M_end_of_storage - __str._M_start_of_storage._M_data)) <= 0x80 )
+        if ( (unsigned int)(2 * (v16._M_buffers._M_end_of_storage - v16._M_start_of_storage._M_data)) <= 0x80 )
           stlp_std::__node_alloc::_M_deallocate(
-            (_STLP_atomic_freelist::item *)__str._M_start_of_storage._M_data,
-            2 * (__str._M_buffers._M_end_of_storage - __str._M_start_of_storage._M_data));
+            (_STLP_atomic_freelist::item *)v16._M_start_of_storage._M_data,
+            2 * (v16._M_buffers._M_end_of_storage - v16._M_start_of_storage._M_data));
         else
-          operator delete(__str._M_start_of_storage._M_data);
+          operator delete(v16._M_start_of_storage._M_data);
       }
     }
     else

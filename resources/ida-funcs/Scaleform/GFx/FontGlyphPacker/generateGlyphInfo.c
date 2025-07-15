@@ -11,18 +11,18 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
   Scaleform::GFx::FontPackParams::TextureConfig *p_PackTextureConfig; // ebx
   Scaleform::Render::Font *pObject; // ecx
   unsigned int (__thiscall *GetGlyphShapeCount)(Scaleform::Render::Font *); // eax
-  unsigned int *v12; // ebx
+  _BYTE *v12; // ebx
   const Scaleform::Render::ShapeDataInterface *v13; // eax
-  float *v14; // esi
+  const Scaleform::Render::ShapeDataInterface *v14; // esi
   unsigned int v15; // eax
   unsigned int *v16; // eax
-  Scaleform::GFx::TextureGlyphData *v17; // [esp+1C8h] [ebp-60h]
-  unsigned int value; // [esp+1D0h] [ebp-58h] BYREF
-  float v20; // [esp+1D4h] [ebp-54h]
-  int v21; // [esp+1D8h] [ebp-50h]
-  Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey v22; // [esp+1DCh] [ebp-4Ch] BYREF
-  Scaleform::Render::Rect<float> bounds; // [esp+1E8h] [ebp-40h] BYREF
-  Scaleform::GFx::FontGlyphPacker::GlyphInfo trans; // [esp+1F8h] [ebp-30h] BYREF
+  Scaleform::GFx::TextureGlyphData *v17; // [esp+10h] [ebp-60h]
+  unsigned int value; // [esp+18h] [ebp-58h] BYREF
+  float v20; // [esp+1Ch] [ebp-54h]
+  int v21; // [esp+20h] [ebp-50h]
+  Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey key; // [esp+24h] [ebp-4Ch] BYREF
+  Scaleform::Render::Rect<float> bounds; // [esp+30h] [ebp-40h] BYREF
+  Scaleform::GFx::FontGlyphPacker::GlyphInfo trans; // [esp+40h] [ebp-30h] BYREF
 
   if ( font->pFont.pObject->GetGlyphShapeCount(font->pFont.pObject) )
   {
@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
         if ( !Scaleform::GFx::TextureGlyphData::GetTextureGlyph(v7, (unsigned int)v12)->pImage.pObject )
         {
           v13 = font->pFont.pObject->GetPermanentGlyphShape(font->pFont.pObject, v12);
-          v14 = (float *)v13;
+          v14 = v13;
           if ( v13 )
           {
             *(float *)&trans.pFont = 1.0;
@@ -100,16 +100,13 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
                     trans.pFont = font;
                     trans.GlyphIndex = (unsigned int)v12;
                     *(_QWORD *)&trans.GlyphReuse = -1;
-                    v15 = Scaleform::GFx::ComputeGeometryHash(
-                            v12,
-                            v14,
-                            (const Scaleform::Render::ShapeDataInterface *)v14);
-                    v22.pShape = (const Scaleform::Render::ShapeDataInterface *)v14;
-                    v22.pFont = font;
-                    v22.Hash = v15;
+                    v15 = Scaleform::GFx::ComputeGeometryHash(v12, v14, v14);
+                    key.pShape = v14;
+                    key.pFont = font;
+                    key.Hash = v15;
                     v16 = Scaleform::Hash<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,Scaleform::AllocatorLH<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,2>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF>,Scaleform::HashSet<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF>>>::Get(
                             &this->GlyphGeometryHash,
-                            &v22);
+                            &key);
                     if ( v16 )
                     {
                       trans.GlyphReuse = *v16;
@@ -119,7 +116,7 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
                       value = glyphs->Data.Size;
                       Scaleform::Hash<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,Scaleform::AllocatorLH<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,2>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF>,Scaleform::HashSet<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>,Scaleform::HashNode<Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey,unsigned int,Scaleform::GFx::FontGlyphPacker::GlyphGeometryKey>::NodeHashF>>>::Add(
                         &this->GlyphGeometryHash,
-                        &v22,
+                        &key,
                         &value);
                     }
                     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::FontGlyphPacker::GlyphInfo,Scaleform::AllocatorGH<Scaleform::GFx::FontGlyphPacker::GlyphInfo,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
@@ -132,7 +129,7 @@ void __thiscall Scaleform::GFx::FontGlyphPacker::generateGlyphInfo(
           }
           v7 = v17;
         }
-        v12 = (unsigned int *)((char *)v12 + 1);
+        ++v12;
       }
       while ( (unsigned int)v12 < v21 );
     }

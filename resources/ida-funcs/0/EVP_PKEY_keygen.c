@@ -1,6 +1,6 @@
-int __cdecl EVP_PKEY_keygen(evp_pkey_ctx_st *ctx, evp_pkey_st **ppkey)
+int __usercall EVP_PKEY_keygen@<eax>(int a1@<ebx>, evp_pkey_ctx_st *ctx, evp_pkey_st **ppkey)
 {
-  int v3; // edi
+  int v4; // edi
 
   if ( ctx && ctx->pmeth && ctx->pmeth->keygen )
   {
@@ -9,14 +9,14 @@ int __cdecl EVP_PKEY_keygen(evp_pkey_ctx_st *ctx, evp_pkey_st **ppkey)
       if ( ppkey )
       {
         if ( !*ppkey )
-          *ppkey = EVP_PKEY_new();
-        v3 = ctx->pmeth->keygen(ctx, *ppkey);
-        if ( v3 <= 0 )
+          *ppkey = EVP_PKEY_new(a1);
+        v4 = ctx->pmeth->keygen(ctx, *ppkey);
+        if ( v4 <= 0 )
         {
-          EVP_PKEY_free(*ppkey);
+          EVP_PKEY_free(v4, *ppkey);
           *ppkey = 0;
         }
-        return v3;
+        return v4;
       }
       else
       {
@@ -25,13 +25,13 @@ int __cdecl EVP_PKEY_keygen(evp_pkey_ctx_st *ctx, evp_pkey_st **ppkey)
     }
     else
     {
-      ERR_put_error(6u, 146, 151, ".\\crypto\\evp\\pmeth_gn.c", 146);
+      ERR_put_error(a1, 6u, 146, 151, ".\\crypto\\evp\\pmeth_gn.c", 146);
       return -1;
     }
   }
   else
   {
-    ERR_put_error(6u, 146, 150, ".\\crypto\\evp\\pmeth_gn.c", 141);
+    ERR_put_error(a1, 6u, 146, 150, ".\\crypto\\evp\\pmeth_gn.c", 141);
     return -2;
   }
 }

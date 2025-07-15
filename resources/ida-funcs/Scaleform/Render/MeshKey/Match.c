@@ -21,12 +21,12 @@ char __thiscall Scaleform::Render::MeshKey::Match(
   float *v20; // esi
   unsigned int v21; // edx
   float *v22; // esi
-  float sx; // [esp+8h] [ebp+4h]
-  float upperScale; // [esp+Ch] [ebp+8h]
-  float upperScalea; // [esp+Ch] [ebp+8h]
-  float sy; // [esp+10h] [ebp+Ch]
-  float lowerScale; // [esp+14h] [ebp+10h]
-  float lowerScalea; // [esp+14h] [ebp+10h]
+  float v23; // [esp+8h] [ebp+4h]
+  float FillUpperScale; // [esp+Ch] [ebp+8h]
+  float StrokeUpperScale; // [esp+Ch] [ebp+8h]
+  float v26; // [esp+10h] [ebp+Ch]
+  float FillLowerScale; // [esp+14h] [ebp+10h]
+  float StrokeLowerScale; // [esp+14h] [ebp+10h]
 
   v5 = flags;
   if ( flags != this->Flags || layer != this->pMesh.pObject->Layer )
@@ -75,19 +75,19 @@ char __thiscall Scaleform::Render::MeshKey::Match(
   else
   {
     v10 = cfg;
-    lowerScale = cfg->FillLowerScale;
-    upperScale = v10->FillUpperScale;
+    FillLowerScale = cfg->FillLowerScale;
+    FillUpperScale = v10->FillUpperScale;
     if ( (v5 & 0x40) == 0 || v5 < 0 )
     {
-      lowerScale = v10->FillAliasedLowerScale;
-      upperScale = v10->FillAliasedUpperScale;
+      FillLowerScale = v10->FillAliasedLowerScale;
+      FillUpperScale = v10->FillAliasedUpperScale;
     }
     switch ( v5 & 7 )
     {
       case 1:
         v21 = 0;
         v22 = this->Data;
-        while ( *v22 * lowerScale <= keyData[v21] && *v22 * upperScale >= keyData[v21] )
+        while ( *v22 * FillLowerScale <= keyData[v21] && *v22 * FillUpperScale >= keyData[v21] )
         {
           ++v21;
           ++v22;
@@ -96,24 +96,24 @@ char __thiscall Scaleform::Render::MeshKey::Match(
         }
         break;
       case 2:
-        lowerScalea = v10->StrokeLowerScale;
-        upperScalea = v10->StrokeUpperScale;
+        StrokeLowerScale = v10->StrokeLowerScale;
+        StrokeUpperScale = v10->StrokeUpperScale;
         if ( (v5 & 0x20) != 0 )
         {
-          sx = *(float *)&this[1].pPrev * *keyData;
-          sy = keyData[1] * this->Data[0];
+          v23 = *(float *)&this[1].pPrev * *keyData;
+          v26 = keyData[1] * this->Data[0];
           if ( keyData[2] >= *(float *)&this[1].pNext * 0.9990000128746033
             && keyData[2] <= *(float *)&this[1].pNext * 1.001000046730042
-            && 0.9990000128746033 * sy <= sx
-            && 1.001000046730042 * sy >= sx )
+            && 0.9990000128746033 * v26 <= v23
+            && 1.001000046730042 * v26 >= v23 )
           {
-            lowerScalea = v10->FillLowerScale;
-            upperScalea = v10->FillUpperScale;
+            StrokeLowerScale = v10->FillLowerScale;
+            StrokeUpperScale = v10->FillUpperScale;
           }
         }
         v19 = 0;
         v20 = this->Data;
-        while ( *v20 * lowerScalea <= keyData[v19] && *v20 * upperScalea >= keyData[v19] )
+        while ( *v20 * StrokeLowerScale <= keyData[v19] && *v20 * StrokeUpperScale >= keyData[v19] )
         {
           ++v19;
           ++v20;

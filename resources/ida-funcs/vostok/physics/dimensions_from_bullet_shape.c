@@ -1,40 +1,39 @@
-vostok::math::float3 *__usercall vostok::physics::dimensions_from_bullet_shape@<eax>(
-        const btCollisionShape *bullet_shape@<ecx>,
-        int a2@<esi>)
+vostok::math::float3 *__cdecl vostok::physics::dimensions_from_bullet_shape(int a1)
 {
-  float v2; // xmm0_4
-  vostok::math::float3 *result; // eax
-  float v4; // edx
-  int m_shapeType; // eax
-  __int64 dimensions; // [esp+0h] [ebp-Ch]
+  int v1; // ecx
+  int v2; // eax
+  int v3; // eax
+  int v4; // eax
+  int v5; // xmm0_4
+  float v7; // [esp+Ch] [ebp-Ch]
+  int v8; // [esp+10h] [ebp-8h]
 
-  switch ( byte_6BCC18[bullet_shape->m_shapeType] )
+  v2 = *(_DWORD *)(v1 + 4);
+  if ( !v2 )
+    goto LABEL_6;
+  v3 = v2 - 8;
+  if ( !v3 )
   {
-    case 0:
-      dimensions = *(_QWORD *)&bullet_shape[2].m_userPointer;
-      v2 = -*(float *)&bullet_shape[3].m_shapeType;
-      goto LABEL_6;
-    case 1:
-      *(_QWORD *)a2 = COERCE_UNSIGNED_INT(*(float *)&bullet_shape[2].m_userPointer * *(float *)&bullet_shape[1].m_shapeType);
-      *(_DWORD *)(a2 + 8) = 0;
-      result = (vostok::math::float3 *)a2;
-      break;
-    case 2:
-      m_shapeType = bullet_shape[5].m_shapeType;
-      LODWORD(dimensions) = *((_DWORD *)&bullet_shape[2].m_userPointer + m_shapeType);
-      HIDWORD(dimensions) = *((_DWORD *)&bullet_shape[2].m_userPointer + (m_shapeType + 2) % 3);
-      v2 = 0.0;
-LABEL_6:
-      *(_QWORD *)a2 = dimensions;
-      *(float *)(a2 + 8) = v2;
-      result = (vostok::math::float3 *)a2;
-      break;
-    case 3:
-      v4 = -*(float *)&bullet_shape[3].m_shapeType;
-      *(_QWORD *)a2 = *(_QWORD *)&bullet_shape[2].m_userPointer;
-      *(float *)(a2 + 8) = v4;
-      result = (vostok::math::float3 *)a2;
-      break;
+    v7 = *(float *)(v1 + 32) * *(float *)(v1 + 16);
+    v5 = 0;
+    v8 = 0;
+    goto LABEL_7;
   }
-  return result;
+  if ( v3 != 2 )
+  {
+LABEL_6:
+    v7 = *(float *)(v1 + 32);
+    v8 = *(_DWORD *)(v1 + 36);
+    v5 = *(_DWORD *)(v1 + 40) ^ _mask__NegFloat_;
+    goto LABEL_7;
+  }
+  v4 = *(_DWORD *)(v1 + 64);
+  v7 = *(float *)(v1 + 4 * v4 + 32);
+  v8 = *(_DWORD *)(v1 + 4 * ((v4 + 2) % 3) + 32);
+  v5 = 0;
+LABEL_7:
+  *(float *)a1 = v7;
+  *(_DWORD *)(a1 + 4) = v8;
+  *(_DWORD *)(a1 + 8) = v5;
+  return (vostok::math::float3 *)a1;
 }

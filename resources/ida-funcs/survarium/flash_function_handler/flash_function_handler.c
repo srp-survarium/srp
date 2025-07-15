@@ -14,10 +14,10 @@ void __usercall survarium::flash_function_handler::flash_function_handler(
     v3[1] = 1;
     *v3 = &survarium::flash_function_handler_impl::`vftable';
     v3[2] = a2;
-    a2[1] = v3;
   }
   else
   {
-    a2[1] = 0;
+    v3 = 0;
   }
+  a2[1] = v3;
 }

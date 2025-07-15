@@ -1,34 +1,39 @@
 int __userpurge Opcode::AABBTreeNode::Split@<eax>(
-        Opcode::AABBTreeNode *this@<ecx>,
-        int a2@<esi>,
-        unsigned int axis,
-        Opcode::AABBTreeBuilder *builder)
+        Opcode::AABBTreeNode *this@<esi>,
+        Opcode::AABBTreeBuilder *builder@<edi>,
+        unsigned int axis)
 {
-  int v5; // ebx
-  unsigned int i; // edi
-  int v7; // eax
-  int v8; // ecx
-  float SplitValue; // [esp+18h] [ebp+8h]
+  unsigned int *mNodePrimitives; // eax
+  unsigned int *v4; // ecx
+  unsigned int v5; // edx
+  int v6; // ebx
+  unsigned int v7; // eax
+  float v9; // [esp+0h] [ebp-Ch]
+  int v10; // [esp+4h] [ebp-8h]
+  unsigned int i; // [esp+8h] [ebp-4h]
 
-  SplitValue = builder->GetSplittingValue(
-                 builder,
-                 *(const unsigned int **)(a2 + 28),
-                 *(_DWORD *)(a2 + 32),
-                 (const IceMaths::AABB *)a2,
-                 axis);
-  v5 = 0;
-  for ( i = 0; i < *(_DWORD *)(a2 + 32); ++i )
+  v9 = builder->GetSplittingValue(
+         builder,
+         this->mNodePrimitives,
+         this->mNbPrimitives,
+         (const IceMaths::AABB *)this,
+         axis);
+  v10 = 0;
+  for ( i = 0; i < this->mNbPrimitives; ++i )
   {
-    if ( ((double (__thiscall *)(Opcode::AABBTreeBuilder *, _DWORD, unsigned int))builder->GetSplittingValue)(
+    if ( ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, unsigned int))builder->GetSplittingValue)(
            builder,
-           *(_DWORD *)(*(_DWORD *)(a2 + 28) + 4 * i),
-           axis) > SplitValue )
+           this->mNodePrimitives[i],
+           axis) > v9 )
     {
-      v7 = *(_DWORD *)(a2 + 28);
-      v8 = *(_DWORD *)(v7 + 4 * i);
-      *(_DWORD *)(v7 + 4 * i) = *(_DWORD *)(v7 + 4 * v5);
-      *(_DWORD *)(*(_DWORD *)(a2 + 28) + 4 * v5++) = v8;
+      mNodePrimitives = this->mNodePrimitives;
+      v4 = &mNodePrimitives[i];
+      v5 = *v4;
+      v6 = v10;
+      v7 = mNodePrimitives[v10++];
+      *v4 = v7;
+      this->mNodePrimitives[v6] = v5;
     }
   }
-  return v5;
+  return v10;
 }

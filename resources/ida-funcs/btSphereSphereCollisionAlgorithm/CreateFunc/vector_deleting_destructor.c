@@ -1,8 +1,8 @@
-btGImpactCollisionAlgorithm::CreateFunc *__thiscall btSphereSphereCollisionAlgorithm::CreateFunc::`vector deleting destructor'(
-        btGImpactCollisionAlgorithm::CreateFunc *this,
+btConvexPlaneCollisionAlgorithm::CreateFunc *__thiscall btSphereSphereCollisionAlgorithm::CreateFunc::`vector deleting destructor'(
+        btConvexPlaneCollisionAlgorithm::CreateFunc *this,
         char a2)
 {
-  this->__vftable = (btGImpactCollisionAlgorithm::CreateFunc_vtbl *)&stru_957BE0.m_sub_fat;
+  this->__vftable = (btConvexPlaneCollisionAlgorithm::CreateFunc_vtbl *)&btCollisionAlgorithmCreateFunc::`vftable';
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

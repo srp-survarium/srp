@@ -1,201 +1,127 @@
-void __thiscall vostok::memory::base_allocator::dump_statistics(
-        vostok::memory::base_allocator *this,
-        const vostok::memory::base_allocator *thisa)
+void __usercall vostok::memory::base_allocator::dump_statistics(
+        vostok::memory::base_allocator *this@<ecx>,
+        int a2@<edi>)
 {
-  int v3; // eax
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  int v5; // edi
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  double v7; // st7
-  void (__cdecl *v8)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // eax
-  void (__cdecl *v9)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v10)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // eax
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  const char *v12; // edi
-  void (__cdecl *v13)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // ebx
-  void (__cdecl *v14)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  float v15; // [esp+1Ch] [ebp-34h]
-  void (__cdecl *v16)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // [esp+20h] [ebp-30h]
-  void (__cdecl *v17)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // [esp+20h] [ebp-30h]
-  int total_size; // [esp+28h] [ebp-28h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+30h] [ebp-20h] BYREF
-  float thisb; // [esp+54h] [ebp+4h]
-  float thisc; // [esp+54h] [ebp+4h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v2; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // ecx
+  bool v8; // zf
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v9; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-48h] BYREF
+  __int64 v11; // [esp+30h] [ebp-28h]
+  int v12; // [esp+38h] [ebp-20h]
+  int v13; // [esp+40h] [ebp-18h]
+  char *format[2]; // [esp+48h] [ebp-10h]
+  int v15; // [esp+50h] [ebp-8h]
+  float v16; // [esp+54h] [ebp-4h]
 
-  total_size = thisa->total_size((vostok::memory::base_allocator *)thisa);
-  v3 = thisa->allocated_size((vostok::memory::base_allocator *)thisa);
-  v4 = vostok::core::g_log_callback;
-  v5 = v3;
-  log_callback.vtable = 0;
-  if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-    `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-      &log_callback.functor,
-      &log_callback.functor,
-      destroy_functor_tag);
-  if ( v4 )
-  {
-    log_callback.functor.obj_ptr = v4;
-    log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                 + 1);
-  }
-  else
-  {
-    log_callback.vtable = 0;
-  }
+  v12 = (*(int (__thiscall **)(int))(*(_DWORD *)a2 + 8))(a2);
+  v13 = (*(int (__thiscall **)(int))(*(_DWORD *)a2 + 12))(a2);
+  boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+    v2,
+    &log_callback);
   vostok::logging::append(
     &log_callback,
     0,
-    &vostok::logging::format_message,
+    (vostok::logging::log_format *)&vostok::logging::format_message,
     ".\\memory_base_allocator.cpp",
     0x4Eu,
     "void __thiscall vostok::memory::base_allocator::dump_statistics(void) const",
     "core:",
     info,
     "--------------- memory stats for arena [%s] ---------------",
-    thisa->m_arena_id);
-  if ( log_callback.vtable )
+    *(const char **)(a2 + 12));
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v3,
+    (int *)&log_callback);
+  *(_QWORD *)format = 0;
+  v15 = v12;
+  v16 = (double)(unsigned int)v12 - (double)0LL;
+  if ( v16 == 0.0 )
   {
-    if ( ((int)log_callback.vtable & 1) == 0 )
-    {
-      v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-      if ( v6 )
-        v6(&log_callback.functor, &log_callback.functor, 2);
-    }
-  }
-  v7 = (double)(unsigned int)total_size - (double)0LL;
-  v15 = v7;
-  if ( v7 == 0.0 )
-    thisb = 0.0;
-  else
-    thisb = (double)(unsigned int)v5 / v7 * 100.0;
-  v8 = vostok::core::g_log_callback;
-  v16 = vostok::core::g_log_callback;
-  log_callback.vtable = 0;
-  if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-  {
-    `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-      &log_callback.functor,
-      &log_callback.functor,
-      destroy_functor_tag);
-    v8 = v16;
-  }
-  if ( v8 )
-  {
-    log_callback.functor.obj_ptr = v8;
-    log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                 + 1);
+    format[1] = 0;
   }
   else
   {
-    log_callback.vtable = 0;
+    v11 = (unsigned int)v13;
+    format[0] = 0;
+    *(float *)&format[1] = ((double)(unsigned int)v13 - (double)0LL) / v16 * s_spot_max_distance;
   }
+  boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+    (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)0x80000000,
+    &log_callback);
   vostok::logging::append(
     &log_callback,
     0,
-    &vostok::logging::format_message,
+    (vostok::logging::log_format *)&vostok::logging::format_message,
     ".\\memory_base_allocator.cpp",
     0x4Fu,
     "void __thiscall vostok::memory::base_allocator::dump_statistics(void) const",
     "core:",
     info,
-    "used: %10I64d (%6.2f%%)",
-    (unsigned __int64)(unsigned int)v5,
-    thisb);
-  if ( log_callback.vtable )
+    "used:   %11I64d (%6.2f%%)",
+    (unsigned __int64)(unsigned int)v13,
+    *(float *)&format[1]);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v4,
+    (int *)&log_callback);
+  if ( v16 == 0.0 )
   {
-    if ( ((int)log_callback.vtable & 1) == 0 )
-    {
-      v9 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-      if ( v9 )
-        v9(&log_callback.functor, &log_callback.functor, 2);
-    }
-  }
-  if ( v15 == 0.0 )
-    thisc = 0.0;
-  else
-    thisc = (double)((unsigned int)total_size - (unsigned __int64)(unsigned int)v5) / v15 * 100.0;
-  v10 = vostok::core::g_log_callback;
-  v17 = vostok::core::g_log_callback;
-  log_callback.vtable = 0;
-  if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-  {
-    `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-      &log_callback.functor,
-      &log_callback.functor,
-      destroy_functor_tag);
-    v10 = v17;
-  }
-  if ( v10 )
-  {
-    log_callback.functor.obj_ptr = v10;
-    log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                 + 1);
+    format[1] = 0;
   }
   else
   {
-    log_callback.vtable = 0;
+    v5 = 0;
+    LODWORD(v11) = v12 - v13;
+    format[0] = 0;
+    HIDWORD(v11) = (((unsigned int)v12 - (unsigned __int64)(unsigned int)v13) >> 32) & 0x7FFFFFFF;
+    *(float *)&format[1] = (double)((unsigned int)v12 - (unsigned __int64)(unsigned int)v13) / v16 * s_spot_max_distance;
   }
+  boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+    v5,
+    &log_callback);
   vostok::logging::append(
     &log_callback,
     0,
-    &vostok::logging::format_message,
+    (vostok::logging::log_format *)&vostok::logging::format_message,
     ".\\memory_base_allocator.cpp",
     0x50u,
     "void __thiscall vostok::memory::base_allocator::dump_statistics(void) const",
     "core:",
     info,
-    "free: %10I64d (%6.2f%%)",
-    (unsigned int)total_size - (unsigned __int64)(unsigned int)v5,
-    thisc);
-  if ( log_callback.vtable )
-  {
-    if ( ((int)log_callback.vtable & 1) == 0 )
-    {
-      v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-      if ( v11 )
-        v11(&log_callback.functor, &log_callback.functor, 2);
-    }
-  }
-  v12 = "size: %10I64d, start address: 0x%09I64x, end address: 0x%09I64x";
-  if ( !thisa->m_arena_start )
-    v12 = "size: %10I64d";
-  v13 = vostok::core::g_log_callback;
-  log_callback.vtable = 0;
-  if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-    `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-      &log_callback.functor,
-      &log_callback.functor,
-      destroy_functor_tag);
-  if ( v13 )
-  {
-    log_callback.functor.obj_ptr = v13;
-    log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                 + 1);
-  }
-  else
-  {
-    log_callback.vtable = 0;
-  }
+    "free:   %11I64d (%6.2f%%)",
+    (unsigned int)v12 - (unsigned __int64)(unsigned int)v13,
+    *(float *)&format[1]);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v6,
+    (int *)&log_callback);
+  v8 = *(_DWORD *)(a2 + 4) == 0;
+  format[1] = "size:   %11I64d, start address: 0x%09I64x, end address: 0x%09I64x";
+  if ( v8 )
+    format[1] = "size:   %11I64d";
+  boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+    v7,
+    &log_callback);
   vostok::logging::append(
     &log_callback,
     0,
-    &vostok::logging::format_message,
+    (vostok::logging::log_format *)&vostok::logging::format_message,
     ".\\memory_base_allocator.cpp",
     0x5Cu,
     "void __thiscall vostok::memory::base_allocator::dump_statistics(void) const",
     "core:",
     info,
+    format[1],
     v12,
-    total_size,
     0,
-    thisa->m_arena_start,
+    *(_DWORD *)(a2 + 4),
     0,
-    thisa->m_arena_end,
+    *(_DWORD *)(a2 + 8),
     0);
-  if ( log_callback.vtable && ((int)log_callback.vtable & 1) == 0 )
-  {
-    v14 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-    if ( v14 )
-      v14(&log_callback.functor, &log_callback.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v9,
+    (int *)&log_callback);
 }

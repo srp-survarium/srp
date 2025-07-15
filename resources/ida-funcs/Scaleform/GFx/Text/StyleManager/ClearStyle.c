@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::Text::StyleManager::ClearStyle(
 void __thiscall Scaleform::GFx::Text::StyleManager::ClearStyle(
         Scaleform::GFx::Text::StyleManager *this,
         Scaleform::Render::Text::StyleManagerBase::KeyType type,
-        char *name,
+        const __m128i *name,
         Scaleform::String len)
 {
   unsigned int HeapTypeBits; // eax
@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::Text::StyleManager::ClearStyle(
 
   HeapTypeBits = len.HeapTypeBits;
   if ( len.pData == (Scaleform::String::DataDesc *)-1 )
-    HeapTypeBits = strlen(name);
+    HeapTypeBits = strlen(name->m128i_i8);
   Scaleform::String::String(&len, name, HeapTypeBits);
   Scaleform::GFx::Text::StyleManager::ClearStyle(this, type, &len);
   v6 = (void *)(len.HeapTypeBits & 0xFFFFFFFC);

@@ -1,173 +1,145 @@
 int __cdecl 01inverse(
         vorbis_block *vb,
-        vorbis_info_residue0 **vl,
+        _DWORD **vl,
         float **in,
         int ch,
         int (__cdecl *decodepart)(codebook *, float *, oggpack_buffer *, int))
 {
-  vorbis_info_residue0 *v5; // edx
-  int begin; // esi
-  int end; // ecx
-  int grouping; // edi
+  _DWORD *v6; // edi
+  int v7; // ecx
+  int v8; // esi
   int v9; // eax
   int v10; // eax
   int v11; // esi
   void *v12; // esp
-  int v13; // edi
-  int v14; // ecx
-  bool v15; // cc
-  int v16; // edx
-  int v17; // eax
-  int v18; // esi
-  codebook *v19; // edi
-  int v20; // eax
-  int v21; // ecx
-  int *v22; // ecx
-  int ***v23; // edi
-  int v24; // esi
-  int v25; // ebx
-  int v26; // ecx
-  codebook *v27; // ecx
-  _DWORD v29[3]; // [esp+0h] [ebp-38h] BYREF
-  int partitions_per_word; // [esp+Ch] [ebp-2Ch]
-  int j; // [esp+10h] [ebp-28h]
-  int partvals; // [esp+14h] [ebp-24h]
-  int v33; // [esp+18h] [ebp-20h]
-  int samples_per_partition; // [esp+1Ch] [ebp-1Ch]
-  int i; // [esp+20h] [ebp-18h]
-  int k; // [esp+24h] [ebp-14h]
-  vorbis_info_residue0 *info; // [esp+28h] [ebp-10h]
-  int s; // [esp+2Ch] [ebp-Ch]
-  unsigned int v39; // [esp+30h] [ebp-8h]
-  int ***partword; // [esp+34h] [ebp-4h]
+  bool v13; // cc
+  int v14; // eax
+  int v15; // edx
+  int v16; // eax
+  _DWORD *v17; // esi
+  int v18; // ecx
+  codebook *v19; // ecx
+  _DWORD v21[3]; // [esp+0h] [ebp-38h] BYREF
+  char *v22; // [esp+Ch] [ebp-2Ch]
+  int v23; // [esp+10h] [ebp-28h]
+  int v24; // [esp+14h] [ebp-24h]
+  int v25; // [esp+18h] [ebp-20h]
+  int v26; // [esp+1Ch] [ebp-1Ch]
+  _DWORD *v27; // [esp+20h] [ebp-18h]
+  int v28; // [esp+24h] [ebp-14h]
+  int v29; // [esp+28h] [ebp-10h]
+  int v30; // [esp+2Ch] [ebp-Ch]
+  int v31; // [esp+30h] [ebp-8h]
+  int v32; // [esp+34h] [ebp-4h]
+  int v33; // [esp+44h] [ebp+Ch]
+  int v34; // [esp+44h] [ebp+Ch]
+  int v35; // [esp+44h] [ebp+Ch]
 
-  v5 = *vl;
-  begin = vl[4]->begin;
-  end = (*vl)->end;
-  grouping = (*vl)->grouping;
+  v6 = *vl;
+  v7 = (*vl)[1];
+  v30 = (*vl)[2];
+  v8 = *vl[4];
   v9 = vb->pcmend >> 1;
-  info = *vl;
-  samples_per_partition = grouping;
-  partitions_per_word = begin;
-  if ( end < v9 )
-    v9 = end;
-  v10 = v9 - v5->begin;
+  if ( v7 < v9 )
+    v9 = v7;
+  v10 = v9 - *v6;
+  v23 = *vl[4];
   if ( v10 > 0 )
   {
-    partvals = v10 / grouping;
-    v11 = (v10 / grouping + begin - 1) / begin;
+    v24 = v10 / v30;
+    v11 = (v10 / v30 + v8 - 1) / v8;
     v12 = alloca(4 * ch);
-    v13 = 0;
-    for ( partword = (int ***)v29; v13 < ch; ++v13 )
-      v29[v13] = _vorbis_block_alloc(vb, 4 * v11);
-    v14 = 0;
-    v15 = (int)vl[2] <= 0;
-    s = 0;
-    if ( !v15 )
+    v27 = v21;
+    v33 = 0;
+    if ( ch > 0 )
     {
-      v16 = partvals;
+      v25 = 4 * v11;
+      do
+        v21[v33++] = _vorbis_block_alloc(vb, v25);
+      while ( v33 < ch );
+    }
+    v13 = (int)vl[2] <= 0;
+    v32 = 0;
+    if ( !v13 )
+    {
       while ( 1 )
       {
-        v17 = 0;
-        i = 0;
-        if ( v16 > 0 )
+        v31 = 0;
+        if ( v24 > 0 )
           break;
-LABEL_32:
-        v15 = ++v14 < (int)vl[2];
-        s = v14;
-        if ( !v15 )
+LABEL_27:
+        if ( ++v32 >= (int)vl[2] )
           return 0;
       }
-      v39 = 0;
+      v28 = 0;
       while ( 1 )
       {
-        if ( !v14 )
+        if ( !v32 )
         {
-          v18 = 0;
+          v34 = 0;
           if ( ch > 0 )
             break;
         }
-LABEL_19:
-        k = 0;
-        if ( partitions_per_word <= 0 )
+LABEL_16:
+        v29 = 0;
+        if ( v23 > 0 )
         {
-LABEL_30:
-          v16 = partvals;
-        }
-        else
-        {
-          v33 = samples_per_partition * v17;
-          while ( 1 )
+          v25 = v30 * v31;
+          while ( v31 < v24 )
           {
-            v16 = partvals;
-            if ( v17 >= partvals )
-              break;
-            j = 0;
+            v35 = 0;
             if ( ch > 0 )
             {
-              v23 = partword;
-              v24 = 1 << v14;
-              v25 = (char *)in - (char *)partword;
-              while ( 1 )
+              v17 = v27;
+              v26 = 1 << v32;
+              v22 = (char *)((char *)in - (char *)v27);
+              do
               {
-                v26 = (*v23)[v39 / 4][k];
-                if ( (v24 & info->secondstages[v26]) != 0 )
+                v18 = *(_DWORD *)(*(_DWORD *)(v28 + *v17) + 4 * v29);
+                if ( (v26 & v6[v18 + 6]) != 0 )
                 {
-                  v27 = *(codebook **)(*(&vl[5]->begin + v26) + 4 * s);
-                  if ( v27 )
+                  v19 = *(codebook **)(vl[5][v18] + 4 * v32);
+                  if ( v19 )
                   {
                     if ( decodepart(
-                           v27,
-                           (float *)&(&(*(int ***)((char *)v23 + v25))[v33])[info->begin],
+                           v19,
+                           (float *)(*(_DWORD *)((char *)v17 + (_DWORD)v22) + 4 * (v25 + *v6)),
                            &vb->opb,
-                           samples_per_partition) == -1 )
+                           v30) == -1 )
                       return 0;
                   }
                 }
-                ++v23;
-                if ( ++j >= ch )
-                {
-                  v17 = i;
-                  v14 = s;
-                  break;
-                }
+                ++v35;
+                ++v17;
               }
+              while ( v35 < ch );
             }
-            v33 += samples_per_partition;
-            ++v17;
-            v15 = ++k < partitions_per_word;
-            i = v17;
-            if ( !v15 )
-              goto LABEL_30;
+            ++v29;
+            v25 += v30;
+            ++v31;
+            if ( v29 >= v23 )
+              break;
           }
         }
-        v39 += 4;
-        if ( v17 >= v16 )
-          goto LABEL_32;
+        v28 += 4;
+        if ( v31 >= v24 )
+          goto LABEL_27;
       }
       while ( 1 )
       {
-        v19 = (codebook *)vl[4];
-        if ( v19->used_entries <= 0 )
+        v14 = vorbis_book_decode((codebook *)vl[4], &vb->opb);
+        if ( v14 == -1 )
           break;
-        v20 = decode_packed_entry_number(v19, &vb->opb);
-        if ( v20 < 0 )
+        if ( v14 >= v6[4] )
           break;
-        v21 = v19->dec_index[v20];
-        if ( v21 == -1 )
+        v15 = v34;
+        v16 = vl[7][v14];
+        *(_DWORD *)(v28 + v27[v34]) = v16;
+        if ( !v16 )
           break;
-        if ( v21 >= info->partvals )
-          break;
-        v22 = (int *)*(&vl[7]->begin + v21);
-        partword[v18][v39 / 4] = v22;
-        if ( !v22 )
-          break;
-        if ( ++v18 >= ch )
-        {
-          v17 = i;
-          v14 = s;
-          goto LABEL_19;
-        }
+        ++v34;
+        if ( v15 + 1 >= ch )
+          goto LABEL_16;
       }
     }
   }

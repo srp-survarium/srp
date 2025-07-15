@@ -5,17 +5,17 @@ void __thiscall Scaleform::GFx::FontHandle::~FontHandle(Scaleform::GFx::FontHand
   Scaleform::GFx::MovieDef *v4; // ecx
   Scaleform::RefCountVImpl *v5; // ecx
   volatile LONG *v6; // edi
-  Scaleform::GFx::FontHandle *key; // [esp+8h] [ebp-4h] BYREF
+  const Scaleform::GFx::FontHandle *v7; // [esp+8h] [ebp-4h] BYREF
 
   pFontManager = this->pFontManager;
   this->__vftable = (Scaleform::GFx::FontHandle_vtbl *)&Scaleform::GFx::FontHandle::`vftable';
   if ( pFontManager )
   {
-    key = this;
+    v7 = this;
     if ( this != (Scaleform::GFx::FontHandle *)pFontManager[4].RefCount )
       Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp>>::RemoveAlt<Scaleform::GFx::FontHandle *>(
         (Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> > *)&pFontManager[1],
-        (const Scaleform::GFx::FontHandle **)&key);
+        &v7);
   }
   pObject = (Scaleform::RefCountVImpl *)this->pFont.pObject;
   if ( pObject )

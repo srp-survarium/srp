@@ -1,4 +1,6 @@
-void *__thiscall Scaleform::GFx::AS2::StyleSheetProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::StyleSheetProto *__thiscall Scaleform::GFx::AS2::StyleSheetProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::StyleSheetProto *)(this - 16),
@@ -6,7 +8,9 @@ void *__thiscall Scaleform::GFx::AS2::StyleSheetProto::`vector deleting destruct
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::StyleSheetProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::StyleSheetProto *__thiscall Scaleform::GFx::AS2::StyleSheetProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::StyleSheetProto *)(this - 76),

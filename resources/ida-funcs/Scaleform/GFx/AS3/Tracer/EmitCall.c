@@ -11,7 +11,7 @@ char __thiscall Scaleform::GFx::AS3::Tracer::EmitCall(
   unsigned int ArgNum; // edx
   Scaleform::GFx::AS3::Multiname *p_ArgMN; // ebx
   const Scaleform::GFx::AS3::CallFrame *CF; // eax
-  Scaleform::GFx::AS3::Traits *v13; // esi
+  const Scaleform::GFx::AS3::Traits *v13; // esi
   Scaleform::GFx::AS3::VM *VMRef; // eax
   const Scaleform::GFx::AS3::SlotInfo *FixedSlot; // eax
   Scaleform::GFx::AS3::SlotInfo *v16; // ebp
@@ -30,7 +30,7 @@ char __thiscall Scaleform::GFx::AS3::Tracer::EmitCall(
   Scaleform::GFx::AS3::Value::V1U pNode; // eax
   Scaleform::GFx::AS3::VMAppDomain *AppDomain; // [esp-4h] [ebp-34h]
   bool tr; // [esp+10h] [ebp-20h]
-  Scaleform::GFx::AS3::Traits *tra; // [esp+10h] [ebp-20h]
+  const Scaleform::GFx::AS3::Traits *tra; // [esp+10h] [ebp-20h]
   unsigned int slot_index; // [esp+14h] [ebp-1Ch] BYREF
   const Scaleform::GFx::AS3::Multiname *mn; // [esp+18h] [ebp-18h]
   Scaleform::GFx::AS3::VM *vm; // [esp+1Ch] [ebp-14h]

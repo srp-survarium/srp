@@ -34,8 +34,8 @@ char __thiscall Scaleform::GFx::AS3::VM::RemoveVMAbcFileWeak(
   else
   {
     memmove(
-      (unsigned __int8 *)&this->VMAbcFilesWeak.Data.Data[v4],
-      (unsigned __int8 *)&this->VMAbcFilesWeak.Data.Data[v4 + 1],
+      (int)&this->VMAbcFilesWeak.Data.Data[v4],
+      (const __m128i *)&this->VMAbcFilesWeak.Data.Data[v4 + 1],
       4 * (this->VMAbcFilesWeak.Data.Size - v4) - 4);
     --this->VMAbcFilesWeak.Data.Size;
     return 1;

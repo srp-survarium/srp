@@ -1,8 +1,9 @@
-unsigned int __cdecl pkey_rsa_verify(
+unsigned int __usercall pkey_rsa_verify@<eax>(
+        int a1@<ebx>,
         evp_pkey_ctx_st *ctx,
-        unsigned __int8 *sig,
-        unsigned int siglen,
-        const unsigned __int8 *tbs,
+        const unsigned __int8 *sig,
+        int siglen,
+        unsigned __int8 *tbs,
         unsigned int tbslen)
 {
   evp_pkey_st *pkey; // eax
@@ -10,16 +11,16 @@ unsigned int __cdecl pkey_rsa_verify(
   const ssl_st *md; // edx
   rsa_st *rsa; // edi
   int pad_mode; // eax
-  unsigned int v10; // eax
+  void *v11; // eax
   unsigned int result; // eax
-  int v12; // eax
-  unsigned __int8 *v13; // eax
+  int v13; // eax
+  unsigned __int8 *v14; // eax
   unsigned __int8 *tbuf; // esi
-  const unsigned __int8 *v15; // ecx
-  const unsigned __int8 *v16; // [esp-14h] [ebp-1Ch]
-  unsigned int v17; // [esp-10h] [ebp-18h]
-  unsigned __int8 *v18; // [esp-Ch] [ebp-14h]
-  unsigned int v19; // [esp-8h] [ebp-10h]
+  unsigned __int8 *v16; // ecx
+  const unsigned __int8 *v17; // [esp-14h] [ebp-1Ch]
+  unsigned int v18; // [esp-10h] [ebp-18h]
+  const unsigned __int8 *v19; // [esp-Ch] [ebp-14h]
+  int v20; // [esp-8h] [ebp-10h]
 
   pkey = ctx->pkey;
   data = (RSA_PKEY_CTX *)ctx->data;
@@ -28,9 +29,9 @@ unsigned int __cdecl pkey_rsa_verify(
   if ( !md )
   {
     if ( data->tbuf
-      || (v12 = EVP_PKEY_size(pkey),
-          v13 = (unsigned __int8 *)CRYPTO_malloc(v12, ".\\crypto\\rsa\\rsa_pmeth.c", 132),
-          (data->tbuf = v13) != 0) )
+      || (v13 = EVP_PKEY_size(pkey),
+          v14 = (unsigned __int8 *)CRYPTO_malloc(v13, ".\\crypto\\rsa\\rsa_pmeth.c", 132),
+          (data->tbuf = v14) != 0) )
     {
       result = RSA_public_decrypt(siglen, sig, data->tbuf, rsa);
       if ( !result )
@@ -42,12 +43,12 @@ unsigned int __cdecl pkey_rsa_verify(
   pad_mode = data->pad_mode;
   if ( pad_mode == 1 )
   {
-    v19 = siglen;
-    v18 = sig;
-    v17 = tbslen;
-    v16 = tbs;
-    v10 = EVP_CIPHER_CTX_cipher(md);
-    return RSA_verify(v10, v16, v17, v18, v19, rsa);
+    v20 = siglen;
+    v19 = sig;
+    v18 = tbslen;
+    v17 = tbs;
+    v11 = (void *)EVP_CIPHER_CTX_cipher(md);
+    return RSA_verify(a1, v11, v17, v18, v19, v20, rsa);
   }
   if ( pad_mode != 5 )
   {
@@ -59,25 +60,25 @@ unsigned int __cdecl pkey_rsa_verify(
     }
     return -1;
   }
-  if ( pkey_rsa_verifyrecover(ctx, 0, (unsigned int *)&ctx, sig, siglen) <= 0 )
+  if ( pkey_rsa_verifyrecover(a1, ctx, 0, &ctx, sig, siglen) <= 0 )
     return 0;
   result = (unsigned int)ctx;
 LABEL_17:
   if ( result != tbslen )
     return 0;
   tbuf = data->tbuf;
-  v15 = tbs;
+  v16 = tbs;
   if ( result >= 4 )
   {
-    while ( *(_DWORD *)v15 == *(_DWORD *)tbuf )
+    while ( *(_DWORD *)v16 == *(_DWORD *)tbuf )
     {
       result -= 4;
       tbuf += 4;
-      v15 += 4;
+      v16 += 4;
       if ( result < 4 )
-        return !result || *tbuf == *v15 && (result <= 1 || tbuf[1] == v15[1] && (result <= 2 || tbuf[2] == v15[2]));
+        return !result || *tbuf == *v16 && (result <= 1 || tbuf[1] == v16[1] && (result <= 2 || tbuf[2] == v16[2]));
     }
     return 0;
   }
-  return !result || *tbuf == *v15 && (result <= 1 || tbuf[1] == v15[1] && (result <= 2 || tbuf[2] == v15[2]));
+  return !result || *tbuf == *v16 && (result <= 1 || tbuf[1] == v16[1] && (result <= 2 || tbuf[2] == v16[2]));
 }

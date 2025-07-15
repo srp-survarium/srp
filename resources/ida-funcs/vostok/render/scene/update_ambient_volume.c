@@ -1,55 +1,60 @@
 void __userpurge vostok::render::scene::update_ambient_volume(
         vostok::render::scene *this@<ecx>,
         int a2@<eax>,
-        unsigned int id,
-        const vostok::render::ambient_volume_properties *properties)
+        vostok::render::find_by_id_predicate<vostok::render::ambient_volume> id,
+        vostok::math::aabb *properties)
 {
-  const vostok::render::ambient_volume_properties *v4; // ebp
-  vostok::render::ambient_volume **v5; // esi
-  int v6; // edi
-  vostok::render::ambient_volume **v7; // eax
-  vostok::render::ambient_volume *v8; // eax
-  const vostok::render::ambient_volume_properties *v9; // eax
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *v10; // ecx
-  bool v11; // [esp+0h] [ebp-14h]
+  vostok::render::ambient_volume **v4; // esi
+  char *v5; // edi
+  const vostok::render::ambient_volume_properties **v6; // eax
+  vostok::memory::doug_lea_allocator *v7; // esi
+  char *v8; // eax
+  vostok::memory::doug_lea_allocator *v9; // ecx
+  char *v10; // eax
+  vostok::buffer_vector<vostok::render::ambient_volume *> *v11; // ecx
+  char *v12; // esi
+  vostok::render::ambient_volume *v13; // ecx
+  vostok::render::ambient_volume *v14; // [esp-4h] [ebp-14h]
+  vostok::math::aabb *v15; // [esp-4h] [ebp-14h]
+  const char *v16; // [esp+0h] [ebp-10h]
+  const char *v17; // [esp+4h] [ebp-Ch]
+  unsigned int v18; // [esp+8h] [ebp-8h]
 
-  v4 = properties;
-  v5 = *(vostok::render::ambient_volume ***)(a2 + 868);
-  v6 = a2 + 864;
-  v7 = stlp_std::priv::__find_if<vostok::render::ambient_volume * *,vostok::render::find_by_id_predicate<vostok::render::ambient_volume>>(
-         *(vostok::render::ambient_volume ***)(a2 + 864),
-         v5,
-         (vostok::render::find_by_id_predicate<vostok::render::ambient_volume>)id);
-  if ( v7 == v5 )
+  v4 = *(vostok::render::ambient_volume ***)((char *)&vostok::memory::s_resources.m_buffer[9315] + a2);
+  v5 = (char *)&vostok::memory::s_resources.m_buffer[9314] + a2;
+  v6 = (const vostok::render::ambient_volume_properties **)stlp_std::find_if<vostok::render::ambient_volume * *,vostok::render::find_by_id_predicate<vostok::render::ambient_volume>>(
+                                                             *(vostok::render::ambient_volume ***)((char *)&vostok::memory::s_resources.m_buffer[9314]
+                                                                                                 + a2),
+                                                             v4,
+                                                             id);
+  if ( v6 == (const vostok::render::ambient_volume_properties **)v4 )
   {
-    v8 = (vostok::render::ambient_volume *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                             (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                             0x70u);
-    if ( v8 )
-      vostok::render::ambient_volume::ambient_volume(v8, v4, id);
-    else
-      v9 = 0;
-    v10 = *(stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > **)(v6 + 4);
-    properties = v9;
-    if ( v10 == *(stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > **)(v6 + 8) )
+    v7 = vostok::render::g_allocator;
+    v8 = type_info::raw_name(&vostok::render::ambient_volume `RTTI Type Descriptor');
+    v10 = vostok::memory::doug_lea_allocator::malloc_impl(v9, (int)v7, 0x70u, v8, v16, v17, v18);
+    v12 = v10;
+    if ( v10 )
     {
-      stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-        v10,
-        v6,
-        (void **)&v10->_M_start,
-        (void *const *)&properties,
-        (const stlp_std::__true_type *)1,
-        1,
-        v11);
+      *(_DWORD *)v10 = 0;
+      vostok::math::create_identity_aabb((vostok::math::aabb *)(v10 + 76));
+      v15 = properties;
+      *((_DWORD *)v12 + 26) = -1;
+      *((vostok::render::find_by_id_predicate<vostok::render::ambient_volume> *)v12 + 25) = id;
+      v12[108] = 0;
+      vostok::render::ambient_volume::set_properties(v13, (const vostok::render::ambient_volume_properties *)v12, v15);
+      properties = (vostok::math::aabb *)v12;
     }
     else
     {
-      v10->_M_start = (void **)v9;
-      *(_DWORD *)(v6 + 4) += 4;
+      properties = 0;
     }
+    vostok::buffer_vector<vostok::render::ambient_volume *>::push_back(
+      v11,
+      (int)v5,
+      (vostok::render::ambient_volume **)&properties);
   }
   else
   {
-    vostok::render::ambient_volume::set_properties(*v7, v4);
+    vostok::render::ambient_volume::set_properties(v14, *v6, properties);
   }
 }

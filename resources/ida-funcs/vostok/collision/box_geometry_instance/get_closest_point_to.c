@@ -4,62 +4,68 @@ vostok::math::float3 *__thiscall vostok::collision::box_geometry_instance::get_c
         const vostok::math::float3 *source,
         const vostok::math::float4x4 *origin)
 {
-  float z; // edx
-  float _X; // xmm1_4
-  int v6; // edi
-  vostok::math::float4x4 *p_transform; // ebx
-  float v8; // xmm0_4
-  float v9; // xmm4_4
-  float v10; // xmm4_4
-  float v12; // [esp+14h] [ebp-68h]
-  __int64 axis; // [esp+18h] [ebp-64h]
-  float axis_8; // [esp+20h] [ebp-5Ch]
-  float dir; // [esp+24h] [ebp-58h]
-  float dir_4; // [esp+28h] [ebp-54h]
-  float dir_8; // [esp+2Ch] [ebp-50h]
-  vostok::math::float3 half_sides; // [esp+30h] [ebp-4Ch]
-  vostok::math::float4x4 transform; // [esp+3Ch] [ebp-40h] BYREF
+  float v4; // xmm0_4
+  float v5; // xmm0_4
+  float x; // xmm5_4
+  float y; // xmm6_4
+  float z; // xmm7_4
+  int v9; // ecx
+  vostok::math::float4x4 *v10; // eax
+  float v11; // xmm2_4
+  float v12; // xmm0_4
+  float v13; // xmm3_4
+  float v14; // xmm1_4
+  float v15; // xmm2_4
+  float v16; // xmm0_4
+  float v17; // xmm4_4
+  float v18; // xmm4_4
+  float v20; // [esp+10h] [ebp-60h]
+  float v21; // [esp+18h] [ebp-58h]
+  float v22; // [esp+1Ch] [ebp-54h]
+  float v23; // [esp+20h] [ebp-50h]
+  vostok::math::float3 v24; // [esp+24h] [ebp-4Ch] BYREF
+  vostok::math::float4x4 v25; // [esp+30h] [ebp-40h] BYREF
 
-  vostok::math::mul4x3(&transform, origin, &this->m_matrix);
-  z = transform.c.z;
-  dir = source->x - transform.c.x;
-  dir_4 = source->y - transform.c.y;
-  dir_8 = source->z - transform.c.z;
-  *(_QWORD *)&result->x = *(_QWORD *)&transform.lines[3].x;
-  _X = (float)((float)(transform.i.z * transform.i.z) + (float)(transform.i.y * transform.i.y))
-     + (float)(transform.i.x * transform.i.x);
-  result->z = z;
-  half_sides.x = sqrtf(_X);
-  half_sides.y = sqrtf(
-                   (float)((float)(transform.j.z * transform.j.z) + (float)(transform.j.x * transform.j.x))
-                 + (float)(transform.j.y * transform.j.y));
-  half_sides.z = sqrtf(
-                   (float)((float)(transform.k.x * transform.k.x) + (float)(transform.k.y * transform.k.y))
-                 + (float)(transform.k.z * transform.k.z));
-  v6 = 0;
-  p_transform = &transform;
+  vostok::math::mul4x3(&this->m_matrix, origin, &v25);
+  v4 = source->x - v25.c.x;
+  result->x = v25.c.x;
+  v21 = v4;
+  v5 = source->y - v25.c.y;
+  result->y = v25.c.y;
+  v22 = v5;
+  v23 = source->z - v25.c.z;
+  result->z = v25.c.z;
+  vostok::math::float4x4::get_scale(&v25, &v24);
+  x = result->x;
+  y = result->y;
+  z = result->z;
+  v9 = 0;
+  v10 = &v25;
   do
   {
-    axis = *(_QWORD *)&p_transform->i.x;
-    axis_8 = p_transform->i.z;
-    v12 = 1.0
-        / sqrtf(
-            (float)((float)(axis_8 * axis_8) + (float)(*((float *)&axis + 1) * *((float *)&axis + 1)))
-          + (float)(p_transform->i.x * p_transform->i.x));
-    v8 = (float)((float)((float)(axis_8 * v12) * dir_8) + (float)((float)(*((float *)&axis + 1) * v12) * dir_4))
-       + (float)((float)(v12 * *(float *)&axis) * dir);
-    v9 = *(&half_sides.x + v6);
-    if ( v8 > v9 )
-      v8 = *(&half_sides.x + v6);
-    v10 = -v9;
-    if ( v10 > v8 )
-      v8 = v10;
-    result->x = result->x + (float)((float)(v12 * *(float *)&axis) * v8);
-    result->y = result->y + (float)((float)(*((float *)&axis + 1) * v12) * v8);
-    ++v6;
-    p_transform = (vostok::math::float4x4 *)((char *)p_transform + 16);
-    result->z = result->z + (float)((float)(axis_8 * v12) * v8);
+    v20 = v10->i.y;
+    v11 = v10->i.z;
+    v12 = s_bm_current_air_resistance
+        / fsqrt((float)((float)(v11 * v11) + (float)(v20 * v20)) + (float)(v10->i.x * v10->i.x));
+    v13 = v20 * v12;
+    v14 = v12 * v10->i.x;
+    v15 = v11 * v12;
+    v16 = (float)((float)(v15 * v23) + (float)((float)(v20 * v12) * v22)) + (float)(v14 * v21);
+    v17 = *(&v24.x + v9);
+    if ( v16 > v17 )
+      v16 = *(&v24.x + v9);
+    LODWORD(v18) = LODWORD(v17) ^ _mask__NegFloat_;
+    if ( v18 > v16 )
+      v16 = v18;
+    ++v9;
+    v10 = (vostok::math::float4x4 *)((char *)v10 + 16);
+    x = x + (float)(v14 * v16);
+    y = y + (float)(v13 * v16);
+    z = z + (float)(v15 * v16);
   }
-  while ( v6 < 3 );
+  while ( v9 < 3 );
+  result->x = x;
+  result->y = y;
+  result->z = z;
   return result;
 }

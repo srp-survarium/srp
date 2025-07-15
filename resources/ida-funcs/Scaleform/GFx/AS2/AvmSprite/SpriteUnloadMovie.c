@@ -18,8 +18,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteUnloadMovie(const Scaleform::
   if ( Target )
     Scaleform::GFx::AS2::MovieRoot::AddLoadQueueEntry(
       (Scaleform::GFx::AS2::MovieRoot *)Target->pASRoot,
-      Target,
-      (char *)&buf,
+      (Scaleform::String)Target,
+      (const __m128i *)uri,
       LM_None,
       0);
 }

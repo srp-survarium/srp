@@ -13,7 +13,7 @@ Scaleform::Render::Image *__thiscall Scaleform::Render::ImageFileReader::Read(
   v4 = (int)ReadImageSource(this, file, (const Scaleform::Render::ImageCreateArgs *)v7);
   if ( !v4 )
     return 0;
-  v5 = (*(int (__thiscall **)(int, const Scaleform::Render::ImageCreateArgs *))(*(_DWORD *)v4 + 48))(v4, args);
+  v5 = (*(int (__thiscall **)(int, const Scaleform::Render::ImageCreateArgs *))(*(_DWORD *)v4 + 60))(v4, args);
   (*(void (__thiscall **)(int))(*(_DWORD *)v4 + 8))(v4);
   return (Scaleform::Render::Image *)v5;
 }

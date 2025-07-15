@@ -1,4 +1,4 @@
-void __cdecl png_set_iCCP(int a1, int a2, char *lpString, char a4, unsigned __int8 *src, unsigned int size)
+void __cdecl png_set_iCCP(int a1, int a2, const __m128i *lpString, char a4, const __m128i *src, unsigned int size)
 {
   unsigned __int8 *dst; // [esp+0h] [ebp-Ch]
   unsigned __int8 *v7; // [esp+4h] [ebp-8h]
@@ -6,15 +6,15 @@ void __cdecl png_set_iCCP(int a1, int a2, char *lpString, char a4, unsigned __in
 
   if ( a1 && a2 && lpString && src )
   {
-    count = lstrlenA(lpString) + 1;
+    count = lstrlenA(lpString->m128i_i8) + 1;
     dst = (unsigned __int8 *)png_malloc_warn(a1, count);
     if ( dst )
     {
-      memcpy(dst, (unsigned __int8 *)lpString, count);
+      memcpy((int)dst, lpString, count);
       v7 = (unsigned __int8 *)png_malloc_warn(a1, size);
       if ( v7 )
       {
-        memcpy(v7, src, size);
+        memcpy((int)v7, src, size);
         png_free_data(a1, a2, 16, 0);
         *(_DWORD *)(a2 + 204) = size;
         *(_DWORD *)(a2 + 196) = dst;

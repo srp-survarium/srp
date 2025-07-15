@@ -1,129 +1,134 @@
-void __usercall survarium::game::update_stats(survarium::game *this@<ecx>, int a2@<edi>)
+void __userpurge survarium::game::update_stats(
+        survarium::game *this@<ecx>,
+        const char *a2@<edi>,
+        unsigned int current_frame_id)
 {
-  double v2; // st7
-  float v3; // ecx
-  vostok::console_commands::cc_value<bool> *v4; // ecx
+  vostok::console_commands::cc_bool *v4; // ecx
   float v5; // edx
-  volatile int m_pending_queries_count; // eax
-  int v7; // eax
-  const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *v8; // esi
-  vostok::render::ui::renderer *v9; // eax
-  int v10; // eax
-  int v11; // eax
-  const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *v12; // esi
-  vostok::render::ui::renderer *v13; // eax
-  survarium::stats_graph *v14; // ecx
-  int v15; // eax
-  vostok::sound::sound_debug_stats *v16; // esi
-  vostok::sound::world_user *v17; // eax
-  int v18; // eax
-  float time; // [esp+0h] [ebp-5Ch]
-  vostok::ui::world *value; // [esp+4h] [ebp-58h]
-  vostok::console_commands::command_type v21; // [esp+8h] [ebp-54h]
-  vostok::console_commands::execution_filter v22; // [esp+Ch] [ebp-50h]
-  float v23; // [esp+10h] [ebp-4Ch]
-  float last_frame_time; // [esp+14h] [ebp-48h]
-  float last_frame_timea; // [esp+14h] [ebp-48h]
-  char buff[64]; // [esp+18h] [ebp-44h] BYREF
+  int v6; // eax
+  unsigned int *v7; // eax
+  float *v8; // eax
+  int v9; // eax
+  const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *v10; // esi
+  const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *v11; // eax
+  survarium::stats_graph *v12; // ecx
+  float *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // esi
+  char *v15; // eax
+  vostok::memory::doug_lea_allocator *v16; // ecx
+  char *v17; // esi
+  vostok::sound::world_user *v18; // eax
+  int v19; // eax
+  vostok::sound::sound_debug_stats *v20; // edi
+  _DWORD *v21; // eax
+  int v22; // ebx
+  float value; // [esp+4h] [ebp-18h]
+  vostok::console_commands::cc_bool *valuea; // [esp+4h] [ebp-18h]
+  const char *v25; // [esp+8h] [ebp-14h]
+  const char *v26; // [esp+Ch] [ebp-10h]
+  unsigned int v27; // [esp+10h] [ebp-Ch]
+  unsigned int v28; // [esp+14h] [ebp-8h]
+  float v29; // [esp+18h] [ebp-4h]
+  float time; // [esp+24h] [ebp+8h]
 
-  v2 = (double)(unsigned int)(*(_DWORD *)(a2 + 1000) - *(_DWORD *)(a2 + 992)) * 0.001;
-  last_frame_time = v2;
-  v3 = fabs(last_frame_time - *(float *)(a2 + 1004));
-  if ( v3 >= 0.0000099999997 )
-    v23 = *(float *)&clear_value / (float)(last_frame_time - *(float *)(a2 + 1004));
+  v25 = a2;
+  time = (double)(unsigned int)(*(_DWORD *)(current_frame_id + 13956) - *(_DWORD *)(current_frame_id + 13948)) * 0.001;
+  if ( fabs(time - *(float *)(current_frame_id + 13960)) >= 0.0000099999997 )
+    v29 = s_bm_current_air_resistance / (float)(time - *(float *)(current_frame_id + 13960));
   else
-    v23 = 10000.0;
-  time = v2;
-  survarium::stats_graph::add_value((survarium::stats_graph *)LODWORD(v3), *(float **)(a2 + 108), time, v23);
-  *(_DWORD *)(a2 + 996) = *(_DWORD *)(a2 + 1000);
-  v5 = *(float *)(a2 + 884);
-  *(float *)(a2 + 1004) = last_frame_time;
-  if ( v5 != 0.0 && *(_BYTE *)(LODWORD(v5) + 180) )
-    survarium::lobby_menu::set_fps_stats(**(survarium::lobby_menu ***)(a2 + 108), v5);
-  if ( BYTE5(survarium::g_allocator.f_.f_) && !*(_BYTE *)(a2 + 11) && *(_BYTE *)(a2 + 332) )
+    v29 = FLOAT_10000_0;
+  survarium::stats_graph::add_value((survarium::stats_graph *)this, time, v29);
+  v5 = *(float *)(current_frame_id + 13840);
+  v6 = *(_DWORD *)(current_frame_id + 13956);
+  *(float *)(current_frame_id + 13960) = time;
+  *(_DWORD *)(current_frame_id + 13952) = v6;
+  if ( v5 != 0.0 && *(_BYTE *)(LODWORD(v5) + 216) )
   {
-    last_frame_timea = (double)*(unsigned int *)(*(_DWORD *)(a2 + 108) + 32)
-                     / (*(float *)(**(_DWORD **)(a2 + 108) + 8) - *(float *)(***(_DWORD ***)(a2 + 108) + 8));
-    survarium::stats::set_fps_stats(*(survarium::stats **)(a2 + 116), last_frame_timea, *(float *)(a2 + 116));
-    if ( vostok::resources::g_resources_manager.m_initialized )
-      m_pending_queries_count = vostok::resources::g_resources_manager.m_variable->m_pending_queries_count;
-    else
-      m_pending_queries_count = 0;
-    vostok::sprintf<64>((char (*)[64])buff, "pending queries: %d", m_pending_queries_count);
-    (*(void (__thiscall **)(_DWORD, char *))(**(_DWORD **)(*(_DWORD *)(a2 + 116) + 24) + 8))(
-      *(_DWORD *)(*(_DWORD *)(a2 + 116) + 24),
-      buff);
-    v7 = (*(int (__thiscall **)(int))(*(_DWORD *)a2 + 36))(a2);
-    v8 = (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(a2 + 940) + 8);
-    v9 = (vostok::render::ui::renderer *)(*(int (__thiscall **)(int))(*(_DWORD *)v7 + 52))(v7);
-    survarium::stats::draw(*(survarium::stats **)(a2 + 116), v8, v9);
+    v7 = *(unsigned int **)(current_frame_id + 132);
+    value = (double)v7[8] / (*(float *)(*v7 + 8) - *(float *)(*(_DWORD *)*v7 + 8));
+    survarium::lobby_menu::set_fps_stats((survarium::lobby_menu *)*v7, v5, value);
   }
-  if ( (_S10_1 & 1) == 0 )
+  if ( (_S14_0 & 1) == 0 )
   {
-    _S10_1 |= 1u;
-    vostok::console_commands::cc_value<bool>::cc_value<bool>(
+    _S14_0 |= 1u;
+    vostok::console_commands::cc_bool::cc_bool(
       v4,
       (int)&fps_graph,
       "draw_fps_graph",
       &draw_fps_graph,
       0,
       command_type_user_specific,
-      execution_filter_general,
-      v21,
-      v22);
-    fps_graph.__vftable = (vostok::console_commands::cc_bool_vtbl *)stru_95AF78.m_key_bindings[45].m_keyboard;
-    fps_graph.m_need_args = 1;
-    atexit(survarium::game::update_stats_::_7_::_dynamic_atexit_destructor_for__fps_graph__);
+      (const vostok::console_commands::execution_filter)a2);
+    atexit((int (__cdecl *)())survarium::game::update_stats_::_4_::_dynamic_atexit_destructor_for__fps_graph__);
+    v4 = valuea;
   }
-  if ( draw_fps_graph && !*(_BYTE *)(a2 + 11) && *(_BYTE *)(a2 + 332) )
+  if ( draw_fps_graph && !*(_BYTE *)(current_frame_id + 11) && *(_BYTE *)(current_frame_id + 408) )
   {
-    v10 = *(_DWORD *)(a2 + 108);
-    *(_DWORD *)(v10 + 8) = 1084227584;
-    survarium::stats_graph::adjust_time_interval((survarium::stats_graph *)v4, (float *)v10);
-    v11 = (*(int (__thiscall **)(int))(*(_DWORD *)a2 + 36))(a2);
-    v12 = (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(a2 + 940) + 8);
-    v13 = (vostok::render::ui::renderer *)(*(int (__thiscall **)(int))(*(_DWORD *)v11 + 52))(v11);
-    v14 = *(survarium::stats_graph **)(a2 + 108);
-    if ( v14->m_newest_value )
-      survarium::stats_graph::render(v14, v14, v13, v12, 0x23Eu, 0x80u, v21, v22);
+    v8 = *(float **)(current_frame_id + 132);
+    v8[2] = FLOAT_5_0;
+    survarium::stats_graph::adjust_time_interval((survarium::stats_graph *)v4, v8);
+    v9 = (*(int (__thiscall **)(unsigned int))(*(_DWORD *)current_frame_id + 44))(current_frame_id);
+    v10 = (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(current_frame_id + 13900) + 8);
+    v11 = (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(int (__thiscall **)(int))(*(_DWORD *)v9 + 52))(v9);
+    v12 = *(survarium::stats_graph **)(current_frame_id + 132);
+    if ( v12->m_newest_value )
+      survarium::stats_graph::render(v12, (unsigned int)v12, v11, v10, (unsigned int)v25, (unsigned int)v26, v27, v28);
   }
   else
   {
-    v15 = *(_DWORD *)(a2 + 108);
-    *(_DWORD *)(v15 + 8) = clear_value;
-    survarium::stats_graph::adjust_time_interval((survarium::stats_graph *)v4, (float *)v15);
+    v13 = *(float **)(current_frame_id + 132);
+    v13[2] = s_bm_current_air_resistance;
+    survarium::stats_graph::adjust_time_interval((survarium::stats_graph *)v4, v13);
   }
-  if ( BYTE4(survarium::g_allocator.f_.f_) && *(_BYTE *)(a2 + 332) )
+  if ( s_draw_snd_stats_value && *(_BYTE *)(current_frame_id + 408) )
   {
-    if ( !*(_DWORD *)(a2 + 2156) )
+    if ( !*(_DWORD *)(current_frame_id + 15160) )
     {
-      v16 = (vostok::sound::sound_debug_stats *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                  (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-                                                  0x24u);
-      if ( v16 )
+      v14 = survarium::g_allocator;
+      v15 = type_info::raw_name(&vostok::sound::sound_debug_stats `RTTI Type Descriptor');
+      v17 = vostok::memory::doug_lea_allocator::malloc_impl(v16, (int)v14, 0x24u, v15, v25, v26, v27);
+      if ( v17 )
       {
-        value = *(vostok::ui::world **)(a2 + 144);
-        v17 = (vostok::sound::world_user *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 132) + 8))(*(_DWORD *)(a2 + 132));
+        v18 = (vostok::sound::world_user *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(current_frame_id + 156) + 8))(*(_DWORD *)(current_frame_id + 156));
         vostok::sound::sound_debug_stats::sound_debug_stats(
-          v16,
-          (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
-          v17,
-          (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)(a2 + 308),
-          value);
+          (vostok::sound::sound_debug_stats *)v17,
+          *(vostok::ui::world **)(current_frame_id + 168),
+          v18,
+          (vostok::sound::world_user *)(current_frame_id + 340),
+          (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)v25);
       }
       else
       {
-        v18 = 0;
+        v19 = 0;
       }
-      *(_DWORD *)(a2 + 2156) = v18;
+      *(_DWORD *)(current_frame_id + 15160) = v19;
     }
-    if ( *(_DWORD *)(*(_DWORD *)(a2 + 2156) + 24) != -1 )
+    v20 = *(vostok::sound::sound_debug_stats **)(current_frame_id + 15160);
+    if ( !v20->m_started )
+      vostok::sound::sound_debug_stats::start((vostok::sound::sound_debug_stats *)v12, v20);
+    v21 = *(_DWORD **)(current_frame_id + 15160);
+    if ( v21[5] != -1 )
     {
-      vostok::sound::sound_debug_stats::set_debug_draw_mode(move_forward);
-      vostok::sound::sound_debug_stats::draw(
-        *(vostok::sound::sound_debug_stats **)(a2 + 2156),
-        (const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(a2 + 940) + 4),
-        (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(a2 + 940) + 8));
+      if ( *v21 )
+      {
+        _InterlockedExchange(&vostok::sound::sound_debug_stats::m_s_debug_draw_mode, 1);
+        if ( vostok::sound::sound_debug_stats::m_s_debug_draw_mode == 1 )
+          vostok::sound::sound_debug_stats::draw_overall_stats(
+            (vostok::sound::sound_debug_stats *)(*(_DWORD *)(current_frame_id + 13900) + 8),
+            (vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)(*(_DWORD *)(current_frame_id + 13900) + 8),
+            (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)v25);
+      }
     }
   }
+  else
+  {
+    v22 = *(_DWORD *)(current_frame_id + 15160);
+    if ( v22 && *(_BYTE *)(v22 + 32) )
+    {
+      _InterlockedExchange((volatile __int32 *)(v22 + 20), -1);
+      *(_BYTE *)(v22 + 32) = 0;
+    }
+  }
+  if ( !(++qpf_checker % 0x3E8) )
+    vostok::timing::check_qpf();
 }

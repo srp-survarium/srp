@@ -1,11 +1,11 @@
-evp_pkey_ctx_st *__fastcall int_ctx_new(int id, evp_pkey_st *pkey, engine_st *e)
+evp_pkey_ctx_st *__usercall int_ctx_new@<eax>(int id@<ecx>, evp_pkey_st *pkey@<edx>, int a3@<edi>, engine_st *e)
 {
   int pkey_id; // esi
   const evp_pkey_asn1_method_st *ameth; // eax
-  engine_st *pkey_meth; // eax
-  const evp_pkey_method_st *v9; // edi
-  evp_pkey_ctx_st *v10; // esi
-  int (__cdecl *init)(evp_pkey_ctx_st *); // edi
+  void *pkey_meth; // eax
+  int v10; // edi
+  evp_pkey_ctx_st *v11; // esi
+  int (__cdecl *v12)(evp_pkey_ctx_st *); // edi
 
   pkey_id = id;
   if ( id == -1 )
@@ -21,9 +21,9 @@ evp_pkey_ctx_st *__fastcall int_ctx_new(int id, evp_pkey_st *pkey, engine_st *e)
     e = pkey->engine;
   if ( e )
   {
-    if ( !ENGINE_init(e) )
+    if ( !ENGINE_init(a3, e) )
     {
-      ERR_put_error(6u, 157, 38, ".\\crypto\\evp\\pmeth_lib.c", 144);
+      ERR_put_error((int)pkey, 6u, 157, 38, ".\\crypto\\evp\\pmeth_lib.c", 144);
       return 0;
     }
   }
@@ -32,35 +32,35 @@ evp_pkey_ctx_st *__fastcall int_ctx_new(int id, evp_pkey_st *pkey, engine_st *e)
     e = ENGINE_get_pkey_meth_engine(pkey_id);
   }
   if ( e )
-    pkey_meth = ENGINE_get_pkey_meth((evp_pkey_method_st *)e, pkey_id);
+    pkey_meth = ENGINE_get_pkey_meth((int)pkey, e, pkey_id);
   else
-    pkey_meth = (engine_st *)EVP_PKEY_meth_find(pkey_id);
-  v9 = (const evp_pkey_method_st *)pkey_meth;
+    pkey_meth = (void *)EVP_PKEY_meth_find(a3, pkey_id);
+  v10 = (int)pkey_meth;
   if ( !pkey_meth )
   {
-    ERR_put_error(6u, 157, 156, ".\\crypto\\evp\\pmeth_lib.c", 163);
+    ERR_put_error((int)pkey, 6u, 157, 156, ".\\crypto\\evp\\pmeth_lib.c", 163);
     return 0;
   }
-  v10 = (evp_pkey_ctx_st *)CRYPTO_malloc(40, ".\\crypto\\evp\\pmeth_lib.c", 167);
-  if ( !v10 )
+  v11 = (evp_pkey_ctx_st *)CRYPTO_malloc(40, ".\\crypto\\evp\\pmeth_lib.c", 167);
+  if ( !v11 )
   {
     if ( e )
-      ENGINE_finish(e);
-    ERR_put_error(6u, 157, 65, ".\\crypto\\evp\\pmeth_lib.c", 174);
+      ENGINE_finish(v10, e);
+    ERR_put_error((int)pkey, 6u, 157, 65, ".\\crypto\\evp\\pmeth_lib.c", 174);
     return 0;
   }
-  v10->engine = e;
-  v10->pmeth = v9;
-  v10->operation = 0;
-  v10->pkey = pkey;
-  v10->peerkey = 0;
-  v10->pkey_gencb = 0;
+  v11->engine = e;
+  v11->pmeth = (const evp_pkey_method_st *)v10;
+  v11->operation = 0;
+  v11->pkey = pkey;
+  v11->peerkey = 0;
+  v11->pkey_gencb = 0;
   if ( pkey )
     CRYPTO_add_lock(&pkey->references, 1, 10, ".\\crypto\\evp\\pmeth_lib.c", 184);
-  v10->data = 0;
-  init = v9->init;
-  if ( !init || init(v10) > 0 )
-    return v10;
-  EVP_PKEY_CTX_free(v10);
+  v11->data = 0;
+  v12 = *(int (__cdecl **)(evp_pkey_ctx_st *))(v10 + 8);
+  if ( !v12 || v12(v11) > 0 )
+    return v11;
+  EVP_PKEY_CTX_free((int)v12, v11);
   return 0;
 }

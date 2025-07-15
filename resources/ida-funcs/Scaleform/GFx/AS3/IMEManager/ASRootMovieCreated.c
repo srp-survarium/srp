@@ -30,7 +30,9 @@ void __thiscall Scaleform::GFx::AS3::IMEManager::ASRootMovieCreated(
   v7 = &spr.pObject->__vftable + spr.pObject->AvmObjOffset;
   if ( v7 )
   {
-    v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v5->BuiltinsMgr.pStringManager, "SendLangBarMessage");
+    v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                v5->BuiltinsMgr.pStringManager,
+                (__m128i *)"SendLangBarMessage");
     ++v.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Value(&name, &v);
     Scaleform::GFx::AS3::Multiname::Multiname(&mn1, v5->pAVM.pObject->PublicNamespace.pObject, &name);
@@ -58,7 +60,7 @@ void __thiscall Scaleform::GFx::AS3::IMEManager::ASRootMovieCreated(
       if ( ((unsigned __int8)v9 & 1) != 0 )
         v9 = (Scaleform::GFx::Sprite_vtbl *)((char *)v9 - 1);
       if ( !*(_BYTE *)(*((int (__thiscall **)(Scaleform::GFx::Sprite_vtbl *, char *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))v9->~Scaleform::GFx::DisplayObjectBase
-                       + 3))(
+                       + 6))(
                         v9,
                         &v11,
                         &mn1,

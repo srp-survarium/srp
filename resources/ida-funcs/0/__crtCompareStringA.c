@@ -1,19 +1,19 @@
 int __cdecl __crtCompareStringA(
         localeinfo_struct *plocinfo,
-        LCID Locale,
+        unsigned int Locale,
         DWORD dwCmpFlags,
         const char *lpString1,
         int cchCount1,
         char *lpString2,
         int cchCount2,
-        UINT code_page)
+        unsigned int code_page)
 {
   int result; // eax
-  _LocaleUpdate _loc_update; // [esp+0h] [ebp-10h] BYREF
+  _LocaleUpdate v9; // [esp+0h] [ebp-10h] BYREF
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v9, plocinfo);
   result = _crtCompareStringA_stat(
-             &_loc_update.localeinfo,
+             &v9.localeinfo,
              lpString1,
              Locale,
              dwCmpFlags,
@@ -21,7 +21,7 @@ int __cdecl __crtCompareStringA(
              lpString2,
              cchCount2,
              code_page);
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
+  if ( v9.updated )
+    v9.ptd->_ownlocale &= ~2u;
   return result;
 }

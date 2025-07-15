@@ -22,21 +22,21 @@ void __thiscall Scaleform::Render::ContextImpl::Snapshot::Merge(
   Scaleform::List<Scaleform::Render::ContextImpl::Snapshot::HeapNode,Scaleform::Render::ContextImpl::Snapshot::HeapNode> *p_Heaps; // eax
   Scaleform::Render::ContextImpl::Snapshot::HeapNode *v20; // esi
   Scaleform::Render::ContextImpl::EntryChange *Items; // [esp+Ch] [ebp-10h]
-  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *poldPage; // [esp+10h] [ebp-Ch]
-  unsigned int iitem; // [esp+14h] [ebp-8h]
+  Scaleform::Render::PagedItemBuffer<Scaleform::Render::ContextImpl::EntryChange,126>::Page *pPages; // [esp+10h] [ebp-Ch]
+  unsigned int v23; // [esp+14h] [ebp-8h]
 
   v2 = pold;
   v3 = this;
-  poldPage = pold->Changes.pPages;
-  if ( poldPage )
+  pPages = pold->Changes.pPages;
+  if ( pPages )
   {
     do
     {
-      v4 = poldPage;
-      iitem = 0;
-      if ( poldPage->Count )
+      v4 = pPages;
+      v23 = 0;
+      if ( pPages->Count )
       {
-        Items = poldPage->Items;
+        Items = pPages->Items;
         do
         {
           pNode = Items->pNode;
@@ -82,15 +82,15 @@ void __thiscall Scaleform::Render::ContextImpl::Snapshot::Merge(
                 pPrev->RefCount |= Items->ChangeBits & 0x7FFFFFFF;
             }
           }
-          v4 = poldPage;
+          v4 = pPages;
           ++Items;
-          ++iitem;
+          ++v23;
         }
-        while ( iitem < poldPage->Count );
+        while ( v23 < pPages->Count );
         v2 = pold;
         v3 = this;
       }
-      poldPage = v4->pNext;
+      pPages = v4->pNext;
     }
     while ( v4->pNext );
   }

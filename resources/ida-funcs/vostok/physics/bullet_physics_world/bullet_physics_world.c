@@ -1,30 +1,23 @@
-void __userpurge vostok::physics::bullet_physics_world::bullet_physics_world(
-        vostok::physics::bullet_physics_world *this@<ecx>,
-        int a2@<eax>,
-        vostok::physics::engine *allocator,
+void __thiscall vostok::physics::bullet_physics_world::bullet_physics_world(
+        vostok::physics::bullet_physics_world *this,
+        vostok::memory::base_allocator *allocator,
         vostok::physics::engine *engine)
 {
-  float v4; // xmm0_4
-  __int64 v5; // [esp+0h] [ebp-Ch]
-
-  *(_DWORD *)a2 = &vostok::physics::bullet_physics_world::`vftable';
-  *(_QWORD *)(a2 + 4) = 0;
-  *(_QWORD *)(a2 + 12) = 0;
-  v4 = infinity_7;
-  *(_BYTE *)(a2 + 4) = 0;
-  *(_DWORD *)(a2 + 8) = 0;
-  *(_DWORD *)(a2 + 20) = 0;
-  *(_BYTE *)(a2 + 24) = (_BYTE)allocator;
-  *(_DWORD *)(a2 + 12) = a2 + 4;
-  *(_DWORD *)(a2 + 16) = a2 + 4;
-  *(_DWORD *)(a2 + 60) = allocator;
-  *(_DWORD *)(a2 + 28) = &vostok::memory::g_mt_allocator;
-  *(float *)&v5 = v4;
-  *((float *)&v5 + 1) = v4;
-  *(_QWORD *)(a2 + 64) = v5;
-  *(float *)(a2 + 72) = v4;
-  *(float *)&v5 = -v4;
-  *((float *)&v5 + 1) = -v4;
-  *(_QWORD *)(a2 + 76) = v5;
-  *(float *)(a2 + 84) = -v4;
+  allocator->__vftable = (vostok::memory::base_allocator_vtbl *)&vostok::physics::bullet_physics_world::`vftable';
+  LOBYTE(allocator->m_arena_start) = 0;
+  BYTE1(allocator->m_arena_start) = 0;
+  BYTE2(allocator->m_arena_start) = 0;
+  allocator->m_arena_end = 0;
+  allocator->m_arena_id = 0;
+  *(_DWORD *)&allocator->m_use_memory_monitor = 0;
+  allocator[1].__vftable = 0;
+  LOBYTE(allocator[1].m_arena_end) = HIBYTE(allocator);
+  LOBYTE(allocator->m_arena_end) = 0;
+  allocator->m_arena_id = 0;
+  *(_DWORD *)&allocator->m_use_memory_monitor = &allocator->m_arena_end;
+  allocator[1].__vftable = (vostok::memory::base_allocator_vtbl *)&allocator->m_arena_end;
+  allocator[1].m_arena_start = 0;
+  allocator[3].m_arena_start = engine;
+  allocator[1].m_arena_id = (const char *)&vostok::memory::g_mt_allocator;
+  vostok::math::create_invalid_aabb((vostok::math::aabb *)&allocator[3].m_arena_end);
 }

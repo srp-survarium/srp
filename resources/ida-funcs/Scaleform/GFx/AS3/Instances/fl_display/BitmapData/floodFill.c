@@ -5,31 +5,32 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::floodFil
         Scaleform::GFx::ASStringNode *y,
         unsigned int color)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v6; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // eax
-  Scaleform::GFx::AS3::VM::Error v9; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v9; // [esp-8h] [ebp-14h]
+  Scaleform::GFx::AS3::VM::Error v10; // [esp+4h] [ebp-8h] BYREF
 
   if ( this->pImage.pObject )
   {
     DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
                                     this,
                                     this);
-    v9.ID = x;
-    v9.Message.pNode = y;
+    v10.ID = x;
+    v10.Message.pNode = y;
     Scaleform::Render::DrawableImage::FloodFill(
       DrawableImageFromBitmapData,
-      (const Scaleform::Render::Point<long> *)&v9,
+      (const Scaleform::Render::Point<long> *)&v10,
       (Scaleform::Render::Color)color);
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v9, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
-    pNode = v9.Message.pNode;
-    --v9.Message.pNode->RefCount;
+    v9.pStr = "Invalid BitmapData";
+    v9.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v10, eArgumentError, this->pTraits.pObject->pVM, v9);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v6);
+    pNode = v10.Message.pNode;
+    --v10.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

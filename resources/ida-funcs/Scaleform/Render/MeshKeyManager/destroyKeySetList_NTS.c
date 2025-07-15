@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::MeshKeyManager::destroyKeySetList_NTS(
   Scaleform::Render::MeshProvider_KeySupport *pDelegate; // eax
   Scaleform::RefCountVImpl *v9; // eax
   int v10; // [esp+0h] [ebp-Ch] BYREF
-  Scaleform::List<Scaleform::Render::MeshKeySet,Scaleform::Render::MeshKeySet> list; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::List<Scaleform::Render::MeshKeySet,Scaleform::Render::MeshKeySet> v11; // [esp+4h] [ebp-8h] BYREF
 
   v2 = &this->KeySets[type];
   if ( (Scaleform::Render::MeshKeyManager *)((char *)this + 8 * type) == (Scaleform::Render::MeshKeyManager *)-32 )
@@ -21,8 +21,8 @@ void __thiscall Scaleform::Render::MeshKeyManager::destroyKeySetList_NTS(
   if ( (unsigned int *)v2->Root.pNext != v3 )
   {
     v4 = (Scaleform::Render::MeshKeySet *)&v10;
-    list.Root.pPrev = (Scaleform::Render::MeshKeySet *)&v10;
-    list.Root.pNext = (Scaleform::Render::MeshKeySet *)&v10;
+    v11.Root.pPrev = (Scaleform::Render::MeshKeySet *)&v10;
+    v11.Root.pNext = (Scaleform::Render::MeshKeySet *)&v10;
     if ( v2 )
       v5 = (Scaleform::Render::MeshKeySet *)&v2[-1].Root.4;
     else
@@ -36,8 +36,8 @@ void __thiscall Scaleform::Render::MeshKeyManager::destroyKeySetList_NTS(
       pPrev->pNext = (Scaleform::Render::MeshKeySet *)&v10;
       pNext->pPrev = (Scaleform::Render::MeshKeySet *)&v10;
       v4 = pNext;
-      list.Root.pNext->pPrev = pPrev;
-      list.Root.pNext = pNext;
+      v11.Root.pNext->pPrev = pPrev;
+      v11.Root.pNext = pNext;
     }
     while ( 1 )
     {
@@ -57,9 +57,9 @@ void __thiscall Scaleform::Render::MeshKeyManager::destroyKeySetList_NTS(
       v4->pNext->pPrev = v4->pPrev;
       if ( v4 )
         ((void (__thiscall *)(Scaleform::Render::MeshKeySet *, int))v4->~Scaleform::Render::MeshKeySet)(v4, 1);
-      if ( Scaleform::List<Scaleform::Render::MeshKeySet,Scaleform::Render::MeshKeySet>::IsEmpty(&list) )
+      if ( Scaleform::List<Scaleform::Render::MeshKeySet,Scaleform::Render::MeshKeySet>::IsEmpty(&v11) )
         break;
-      v4 = list.Root.pNext;
+      v4 = v11.Root.pNext;
     }
   }
 }

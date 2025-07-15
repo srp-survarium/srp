@@ -10,11 +10,14 @@ int __usercall probable_prime_dh@<eax>(
   int v9; // [esp+8h] [ebp-4h]
 
   v9 = 0;
-  BN_CTX_start(ctx);
-  v5 = BN_CTX_get(ctx);
-  if ( v5 && BN_rand(rnd, bits, 0, 1) && BN_div(0, v5->vals, rnd, add, ctx) && BN_sub(rnd, rnd, v5->vals) )
+  BN_CTX_start((int)rem, ctx);
+  v5 = BN_CTX_get((int)rem, ctx);
+  if ( v5
+    && BN_rand((int)rem, rnd, bits, 0, 1)
+    && BN_div((int)rem, 0, v5->vals, rnd, add, ctx)
+    && BN_sub(rnd, rnd, v5->vals) )
   {
-    if ( rem ? BN_add(rnd, rnd, rem) : BN_add_word(rnd, 1u) )
+    if ( rem ? BN_add(rnd, rnd, rem) : BN_add_word(0, rnd, 1u) )
     {
       while ( 2 )
       {
@@ -23,7 +26,7 @@ int __usercall probable_prime_dh@<eax>(
           if ( (int)i >= (int)"%lu:%s:%s:%d:%s\n" )
           {
             v9 = 1;
-            goto err_191;
+            goto err_193;
           }
           if ( BN_mod_word(rnd, *i) <= 1 )
             break;
@@ -34,7 +37,7 @@ int __usercall probable_prime_dh@<eax>(
       }
     }
   }
-err_191:
+err_193:
   BN_CTX_end(ctx);
   return v9;
 }

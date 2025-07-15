@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Class::toString;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Class,1370,Scaleform::GFx::ASString>::Method) = Scaleform::GFx::AS3::Class::toString;
-  dword_AAEDF0 = 0;
+  dword_8F35A8 = 0;
   return result;
 }

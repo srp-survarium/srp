@@ -1,4 +1,4 @@
-void __cdecl __noreturn unexpected()
+void __noreturn unexpected()
 {
   void (*v0)(void); // eax
 

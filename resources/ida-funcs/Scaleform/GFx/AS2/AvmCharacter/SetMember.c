@@ -10,10 +10,10 @@ char __thiscall Scaleform::GFx::AS2::AvmCharacter::SetMember(
   Scaleform::HashLH<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor,323,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF> > *p_EventHandlers; // esi
   Scaleform::GFx::AS2::Value *v9; // ebx
   const Scaleform::GFx::AS2::Environment *v11; // eax
-  char v12; // al
+  bool v12; // al
   Scaleform::GFx::AS2::Object *pObject; // eax
   const Scaleform::GFx::AS2::Environment *v14; // eax
-  char v15; // al
+  bool v15; // al
   Scaleform::GFx::InteractiveObject *v16; // esi
   Scaleform::GFx::AS2::FunctionObject *Function; // eax
   Scaleform::GFx::AS2::Environment *v18; // eax
@@ -36,19 +36,19 @@ char __thiscall Scaleform::GFx::AS2::AvmCharacter::SetMember(
   bool (__thiscall **p_ActsAsButton)(Scaleform::GFx::AvmInteractiveObjBase *); // esi
   Scaleform::GFx::AS2::Object *v36; // eax
   int v37; // eax
-  int v38; // [esp+28Ch] [ebp-90h]
-  unsigned int v39; // [esp+290h] [ebp-8Ch]
-  int v; // [esp+2A4h] [ebp-78h]
-  void (__thiscall **vb)(struct Scaleform::GFx::AS2::Object *); // [esp+2A4h] [ebp-78h]
-  bool (__thiscall **vc)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::AS2::Object *); // [esp+2A4h] [ebp-78h]
-  void (__thiscall **vd)(struct Scaleform::GFx::AS2::Object *); // [esp+2A4h] [ebp-78h]
-  bool va[4]; // [esp+2A4h] [ebp-78h]
-  int v45; // [esp+2A8h] [ebp-74h]
-  const Scaleform::GFx::InteractiveObject *(__thiscall **p_GetASCharacter)(Scaleform::GFx::AS2::Object *); // [esp+2A8h] [ebp-74h]
-  void (__thiscall **p_CheckAndResetCtorRef)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::FunctionObject *); // [esp+2A8h] [ebp-74h]
-  Scaleform::Render::Matrix3x4<float> v48; // [esp+2ACh] [ebp-70h] BYREF
-  Scaleform::Render::Matrix4x4<float> m; // [esp+2DCh] [ebp-40h] BYREF
-  int savedregs; // [esp+31Ch] [ebp+0h] BYREF
+  int v38; // [esp+14h] [ebp-90h]
+  Scaleform::GFx::Sprite *v39; // [esp+18h] [ebp-8Ch]
+  int v; // [esp+2Ch] [ebp-78h]
+  void (__thiscall **vb)(struct Scaleform::GFx::AS2::Object *); // [esp+2Ch] [ebp-78h]
+  bool (__thiscall **vc)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::AS2::Object *); // [esp+2Ch] [ebp-78h]
+  void (__thiscall **vd)(struct Scaleform::GFx::AS2::Object *); // [esp+2Ch] [ebp-78h]
+  bool va[4]; // [esp+2Ch] [ebp-78h]
+  int v45; // [esp+30h] [ebp-74h]
+  const Scaleform::GFx::InteractiveObject *(__thiscall **p_GetASCharacter)(Scaleform::GFx::AS2::Object *); // [esp+30h] [ebp-74h]
+  void (__thiscall **p_CheckAndResetCtorRef)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::FunctionObject *); // [esp+30h] [ebp-74h]
+  Scaleform::Render::Matrix3x4<float> v48; // [esp+34h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix4x4<float> m; // [esp+64h] [ebp-40h] BYREF
+  int savedregs; // [esp+A4h] [ebp+0h] BYREF
 
   if ( (name->pNode->HashFlags & 0x20000000) == 0 )
   {
@@ -92,7 +92,7 @@ LABEL_7:
                     + 52) == 1 )
       {
         v11 = (const Scaleform::GFx::AS2::Environment *)((int (__thiscall *)(Scaleform::HashLH<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor,323,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF> > *))p_EventHandlers->mHash.pTable[15].SizeMask)(&this[-1].EventHandlers);
-        v12 = Scaleform::GFx::AS2::Value::ToBool(val, v11);
+        v12 = Scaleform::GFx::AS2::Value::ToBool(val, (int)this, v11);
         Scaleform::GFx::DisplayObjectBase::SetTopmostLevelFlag(
           (Scaleform::GFx::DisplayObjectBase *)this->pProto.pObject,
           v12);
@@ -117,7 +117,7 @@ LABEL_7:
                     + 52) == 1 )
       {
         v14 = (const Scaleform::GFx::AS2::Environment *)((int (__thiscall *)(Scaleform::HashLH<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor,323,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF> > *))p_EventHandlers->mHash.pTable[15].SizeMask)(&this[-1].EventHandlers);
-        v15 = Scaleform::GFx::AS2::Value::ToBool(val, v14);
+        v15 = Scaleform::GFx::AS2::Value::ToBool(val, (int)this, v14);
         v16 = (Scaleform::GFx::InteractiveObject *)this->pProto.pObject;
         if ( v15 != ((v16->Flags & 4) != 0) )
         {

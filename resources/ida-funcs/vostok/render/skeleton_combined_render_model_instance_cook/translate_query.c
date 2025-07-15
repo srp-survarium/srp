@@ -3,62 +3,54 @@ void __thiscall vostok::render::skeleton_combined_render_model_instance_cook::tr
         vostok::resources::query_result_for_cook *parent)
 {
   vostok::variant<32> *m_user_data; // esi
-  char *m_requery_path; // eax
-  vostok::variant<32> *v5; // ecx
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > v7; // [esp-8h] [ebp-160h]
-  vostok::render::skeleton_combined_cook_data *cook_data; // [esp+10h] [ebp-148h] BYREF
-  vostok::resources::request requests; // [esp+14h] [ebp-144h] BYREF
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+20h] [ebp-138h] BYREF
-  vostok::fs_new::virtual_path_string render_path; // [esp+40h] [ebp-118h] BYREF
+  char *requested_path; // eax
+  vostok::fixed_string<260> *v5; // ecx
+  vostok::particle::particle_action *v6; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  vostok::render::skeleton_combined_cook_data *out_value[4]; // [esp+Ch] [ebp-154h] BYREF
+  __int64 v9; // [esp+1Ch] [ebp-144h]
+  vostok::resources::query_result_for_cook *v10; // [esp+24h] [ebp-13Ch]
+  int v11; // [esp+28h] [ebp-138h] BYREF
+  __int64 v12; // [esp+30h] [ebp-130h]
+  vostok::resources::query_result_for_cook *v13; // [esp+38h] [ebp-128h]
+  vostok::buffer_string v14[22]; // [esp+48h] [ebp-118h] BYREF
+  char v15; // [esp+158h] [ebp-8h]
 
   m_user_data = parent->m_user_data;
   if ( m_user_data )
   {
-    cook_data = 0;
+    out_value[0] = 0;
     vostok::variant<32>::try_get<vostok::render::skeleton_combined_cook_data *>(
       (vostok::variant<32> *)this,
       (int)m_user_data,
-      &cook_data);
+      out_value);
   }
-  m_requery_path = parent->m_requery_path;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  cook_data = (vostok::render::skeleton_combined_cook_data *)m_requery_path;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&render_path, (const char **)&cook_data);
-  requests.id = (vostok::resources::class_id_enum)this;
-  requests.path = (const char *)vostok::render::skeleton_combined_render_model_instance_cook::on_resources_loaded;
-  v7.f_.f_ = (void (__thiscall *)(survarium::animated_model_instance_cook *, vostok::resources::queries_result *, survarium::animated_model_instance *))this;
-  callback.vtable = 0;
-  v7.l_.a1_.t_ = (survarium::animated_model_instance_cook *)parent;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         &callback.functor,
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::render::skeleton_combined_render_model_instance_cook::on_resources_loaded,
-         v7) )
+  requested_path = (char *)vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::fixed_string<260>::fixed_string<260>(v5, v14, requested_path);
+  out_value[2] = (vostok::render::skeleton_combined_cook_data *)this;
+  out_value[1] = (vostok::render::skeleton_combined_cook_data *)vostok::render::skeleton_combined_render_model_instance_cook::on_resources_loaded;
+  out_value[3] = (vostok::render::skeleton_combined_cook_data *)parent;
+  LODWORD(v9) = vostok::render::skeleton_combined_render_model_instance_cook::on_resources_loaded;
+  HIDWORD(v9) = this;
+  v15 = 47;
+  v10 = parent;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(v6) )
   {
-    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_combined_render_model_instance_cook,vostok::resources::queries_result &,vostok::resources::query_result_for_cook *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_combined_render_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result_for_cook *>>>>'::`2'::stored_vtable
-                                                             + 1);
+    v11 = 0;
   }
   else
   {
-    callback.vtable = 0;
+    v12 = v9;
+    v13 = v10;
+    v11 = (int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::skeleton_combined_render_model_instance_cook,vostok::resources::queries_result &,vostok::resources::query_result_for_cook *>,boost::_bi::list3<boost::_bi::value<vostok::render::skeleton_combined_render_model_instance_cook *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result_for_cook *>>>>'::`2'::stored_vtable
+        + 1;
   }
-  v5 = parent->m_user_data;
-  requests.path = render_path.m_string.m_begin;
-  cook_data = (vostok::render::skeleton_combined_cook_data *)v5;
-  requests.id = skeleton_combined_model_class;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    &callback,
-    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-    (const vostok::variant<32> **)&cook_data,
-    parent,
+  vostok::resources::query_resource(
+    v14[0].m_begin,
+    (vostok::variant<32> *)0x18,
+    vostok::render::g_allocator,
+    parent->m_user_data,
+    (const vostok::variant<32> **)parent,
     assert_on_fail_true);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-  {
-    v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v6 )
-      v6(&callback.functor, &callback.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v7, &v11);
 }

@@ -3,7 +3,7 @@ unsigned __int16 *__cdecl _wgetdcwd_nolock(unsigned int drive, unsigned __int16 
   unsigned int v3; // esi
   unsigned __int16 *v4; // edi
   signed int FullPathNameW; // eax
-  wchar_t *v7; // eax
+  unsigned __int8 *v7; // eax
   signed int v8; // eax
   DWORD LastError; // eax
   unsigned __int16 *pname; // [esp+Ch] [ebp-14h] BYREF
@@ -54,15 +54,15 @@ LABEL_6:
       }
       if ( FullPathNameW > maxlen )
         maxlen = FullPathNameW;
-      v7 = (wchar_t *)calloc(maxlen, 2u);
-      v4 = v7;
+      v7 = calloc(maxlen, 2u);
+      v4 = (unsigned __int16 *)v7;
       if ( !v7 )
       {
         *_errno() = 12;
         *__doserrno() = 8;
         return 0;
       }
-      v8 = GetFullPathNameW(drvstr, maxlen, v7, &pname);
+      v8 = GetFullPathNameW(drvstr, maxlen, (LPWSTR)v7, &pname);
       if ( v8 && v8 < maxlen )
         return v4;
     }
@@ -75,6 +75,6 @@ LABEL_6:
   *__doserrno() = 15;
   *_errno() = 13;
 LABEL_4:
-  _invalid_parameter(0, (unsigned int)pnbuf, v3);
+  _invalid_parameter(0, (int)pnbuf, v3);
   return 0;
 }

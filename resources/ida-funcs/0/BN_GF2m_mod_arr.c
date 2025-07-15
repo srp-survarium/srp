@@ -1,44 +1,44 @@
-int __cdecl BN_GF2m_mod_arr(bignum_st *r, const bignum_st *a, const int *p)
+int __usercall BN_GF2m_mod_arr@<eax>(int a1@<ebx>, bignum_st *r, const bignum_st *a, const int *p)
 {
-  const int *v3; // esi
+  const int *v4; // esi
   int result; // eax
-  bignum_st *v5; // ebp
+  bignum_st *v6; // ebp
   int i; // eax
   unsigned int *d; // edi
-  int v8; // ecx
-  int v9; // ebx
-  bool v10; // zf
-  unsigned int *v11; // eax
-  unsigned int v12; // ebp
-  const int *v13; // ecx
-  int v14; // eax
-  int v15; // esi
-  unsigned int *v16; // eax
-  int v17; // edx
+  int v9; // ecx
+  int v10; // ebx
+  bool v11; // zf
+  unsigned int *v12; // eax
+  unsigned int v13; // ebp
+  const int *v14; // ecx
+  int v15; // eax
+  int v16; // esi
+  unsigned int *v17; // eax
+  int v18; // edx
   int top; // eax
-  unsigned int *v19; // ecx
-  int v21; // edx
-  unsigned int v22; // ebx
-  const int *v23; // eax
-  int v24; // ebp
-  int v25; // edx
-  int v26; // eax
-  unsigned int v27; // esi
-  int v28; // [esp+4h] [ebp-Ch]
-  int v29; // [esp+8h] [ebp-8h]
-  unsigned int *v30; // [esp+Ch] [ebp-4h]
+  unsigned int *v20; // ecx
+  int v22; // edx
+  unsigned int v23; // ebx
+  const int *v24; // eax
+  int v25; // ebp
+  int v26; // edx
+  int v27; // eax
+  unsigned int v28; // esi
+  int v29; // [esp+4h] [ebp-Ch]
+  int v30; // [esp+8h] [ebp-8h]
+  unsigned int *v31; // [esp+Ch] [ebp-4h]
 
-  v3 = p;
+  v4 = p;
   if ( !*p )
   {
-    BN_set_word(r, 0);
+    BN_set_word(a1, r, 0);
     return 1;
   }
-  v5 = r;
+  v6 = r;
   if ( a != r )
   {
     if ( a->top > r->dmax )
-      result = (int)bn_expand2(r, (unsigned int *)a->top);
+      result = (int)bn_expand2(r, a->top);
     else
       result = (int)r;
     if ( !result )
@@ -48,102 +48,102 @@ int __cdecl BN_GF2m_mod_arr(bignum_st *r, const bignum_st *a, const int *p)
     r->top = a->top;
   }
   d = r->d;
-  v8 = *p / 32;
-  v9 = r->top - 1;
-  v10 = v9 == v8;
-  v28 = v8;
-  if ( v9 > v8 )
+  v9 = *p / 32;
+  v10 = r->top - 1;
+  v11 = v10 == v9;
+  v29 = v9;
+  if ( v10 > v9 )
   {
-    v11 = &d[v9 - v8];
-    v30 = v11;
+    v12 = &d[v10 - v9];
+    v31 = v12;
     do
     {
-      v12 = d[v9];
-      if ( v12 )
+      v13 = d[v10];
+      if ( v13 )
       {
-        v13 = v3 + 1;
-        d[v9] = 0;
-        v29 = 1;
-        if ( v3[1] )
+        v14 = v4 + 1;
+        d[v10] = 0;
+        v30 = 1;
+        if ( v4[1] )
         {
           do
           {
-            v14 = *v3 - *v13;
-            v15 = v14 % 32;
-            v16 = &d[v9 - v14 / 32];
-            *v16 ^= v12 >> v15;
-            if ( v15 )
-              *(v16 - 1) ^= v12 << (32 - v15);
-            v3 = p;
-            v10 = p[v29 + 1] == 0;
-            v13 = &p[++v29];
+            v15 = *v4 - *v14;
+            v16 = v15 % 32;
+            v17 = &d[v10 - v15 / 32];
+            *v17 ^= v13 >> v16;
+            if ( v16 )
+              *(v17 - 1) ^= v13 << (32 - v16);
+            v4 = p;
+            v11 = p[v30 + 1] == 0;
+            v14 = &p[++v30];
           }
-          while ( !v10 );
+          while ( !v11 );
         }
-        v17 = *v3 % 32;
-        v11 = v30;
-        *v30 ^= v12 >> v17;
-        if ( v17 )
-          *(v30 - 1) ^= v12 << (32 - v17);
-        v8 = v28;
+        v18 = *v4 % 32;
+        v12 = v31;
+        *v31 ^= v13 >> v18;
+        if ( v18 )
+          *(v31 - 1) ^= v13 << (32 - v18);
+        v9 = v29;
       }
       else
       {
-        --v9;
-        v30 = --v11;
+        --v10;
+        v31 = --v12;
       }
-      v10 = v9 == v8;
+      v11 = v10 == v9;
     }
-    while ( v9 > v8 );
-    v5 = r;
+    while ( v10 > v9 );
+    v6 = r;
   }
-  if ( v10 )
+  if ( v11 )
   {
     while ( 1 )
     {
-      v21 = *v3 % 32;
-      v22 = d[v8] >> v21;
-      if ( !v22 )
+      v22 = *v4 % 32;
+      v23 = d[v9] >> v22;
+      if ( !v23 )
         break;
-      if ( v21 )
-        d[v28] = d[v8] << (32 - v21) >> (32 - v21);
+      if ( v22 )
+        d[v29] = d[v9] << (32 - v22) >> (32 - v22);
       else
-        d[v28] = 0;
-      *d ^= v22;
-      v23 = v3 + 1;
-      v24 = 1;
-      if ( v3[1] )
+        d[v29] = 0;
+      *d ^= v23;
+      v24 = v4 + 1;
+      v25 = 1;
+      if ( v4[1] )
       {
         do
         {
-          v25 = *v23;
-          v26 = *v23 / 32;
-          v25 %= 32;
-          d[v26] ^= v22 << v25;
-          v27 = v22 >> (32 - v25);
-          if ( v25 && v27 )
-            d[v26 + 1] ^= v27;
-          v23 = &p[++v24];
+          v26 = *v24;
+          v27 = *v24 / 32;
+          v26 %= 32;
+          d[v27] ^= v23 << v26;
+          v28 = v23 >> (32 - v26);
+          if ( v26 && v28 )
+            d[v27 + 1] ^= v28;
+          v24 = &p[++v25];
         }
-        while ( *v23 );
-        v3 = p;
+        while ( *v24 );
+        v4 = p;
       }
-      v5 = r;
-      v8 = v28;
+      v6 = r;
+      v9 = v29;
     }
   }
-  top = v5->top;
+  top = v6->top;
   if ( top > 0 )
   {
-    v19 = &v5->d[top - 1];
+    v20 = &v6->d[top - 1];
     do
     {
-      if ( *v19-- )
+      if ( *v20-- )
         break;
       --top;
     }
     while ( top > 0 );
-    v5->top = top;
+    v6->top = top;
   }
   return 1;
 }

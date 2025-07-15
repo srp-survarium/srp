@@ -36,7 +36,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
     if ( ((unsigned __int8)v5 & 1) == 0 )
     {
       RefCount = v5->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v5->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);
@@ -47,7 +47,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
   {
     v7 = ts.pObject->RefCount;
     pObject = ts.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & v7) != 0 )
+    if ( (v7 & 0x3FFFFF) != 0 )
     {
       ts.pObject->RefCount = v7 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

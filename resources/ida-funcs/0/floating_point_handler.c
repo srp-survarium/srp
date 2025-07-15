@@ -1,52 +1,47 @@
 void __cdecl floating_point_handler(int signal, int error_code)
 {
-  survarium::game_camera *v2; // ecx
-  const char *description; // [esp+4h] [ebp-104h]
-  char error[256]; // [esp+8h] [ebp-100h] BYREF
+  const char *v2; // ecx
+  char reason_string[256]; // [esp+0h] [ebp-100h] BYREF
 
-  description = (const char *)&buf;
+  v2 = uri;
   switch ( error_code )
   {
     case 129:
-      sprintf_s<256>(
-        (char (*)[256])error,
-        "floating point error ( %s ) ",
-        "invalid instruction (SNaN, probably, uninitialized variable)");
+      v2 = "invalid instruction (SNaN, probably, uninitialized variable)";
       break;
     case 130:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "denormal occured");
+      v2 = "denormal occured";
       break;
     case 131:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "division by zero");
+      v2 = "division by zero";
       break;
     case 132:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "overflow");
+      v2 = "overflow";
       break;
     case 133:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "underflow");
+      v2 = "underflow";
       break;
     case 134:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "inexact result");
+      v2 = "inexact result";
       break;
     case 135:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "_FPE_UNEMULATED");
+      v2 = "_FPE_UNEMULATED";
       break;
     case 136:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "negative value passed to sqrt");
+      v2 = "negative value passed to sqrt";
       break;
     case 138:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "stack overflow");
+      v2 = "stack overflow";
       break;
     case 139:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", "stack underflow");
+      v2 = "stack underflow";
       break;
     case 140:
-      description = "someone raised signal SIGFPE";
-      goto LABEL_13;
+      v2 = "someone raised signal SIGFPE";
+      break;
     default:
-LABEL_13:
-      sprintf_s<256>((char (*)[256])error, "floating point error ( %s ) ", description);
       break;
   }
-  handler_base(v2);
+  sprintf_s<256>((char (*)[256])reason_string, "floating point error ( %s ) ", v2);
+  handler_base(reason_string);
 }

@@ -8,6 +8,7 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   Scaleform::Render::ImageBase *v6; // ecx
   Scaleform::Render::Image *v7; // ecx
   Scaleform::Render::Image *pObject; // eax
+  Scaleform::AmpServer *Instance; // eax
 
   this->__vftable = (Scaleform::GFx::ImageResource_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->RefCount.Value = 1;
@@ -43,6 +44,8 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   this->pImage = p_Delegate;
   Scaleform::GFx::ResourceKey::operator=(&this->Key, key);
   this->UseType = use;
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->AddImage(Instance, this);
 }
 
 
@@ -54,6 +57,7 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   Scaleform::GFx::ImageResource::ImageDelegate *p_Delegate; // edi
   Scaleform::Render::ImageBase *v5; // ecx
   Scaleform::Render::Image *pObject; // ecx
+  Scaleform::AmpServer *Instance; // eax
 
   this->__vftable = (Scaleform::GFx::ImageResource_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->RefCount.Value = 1;
@@ -81,6 +85,8 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   this->Delegate.pImage.pObject = pimage;
   this->pImage = p_Delegate;
   this->UseType = use;
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->AddImage(Instance, this);
 }
 
 
@@ -89,6 +95,8 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
         Scaleform::Render::ImageSource *pimageBase,
         Scaleform::GFx::Resource::ResourceUse use)
 {
+  Scaleform::AmpServer *Instance; // eax
+
   this->__vftable = (Scaleform::GFx::ImageResource_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->RefCount.Value = 1;
   this->pLib = 0;
@@ -111,6 +119,8 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
     else
       Scaleform::GFx::ImageResource::SetImage(this, (Scaleform::Render::Image *)pimageBase);
   }
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->AddImage(Instance, this);
 }
 
 
@@ -123,6 +133,7 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   Scaleform::Render::ImageBase *pImage; // ecx
   Scaleform::Render::Image *pObject; // ecx
   Scaleform::Render::ImageBase *v7; // ecx
+  Scaleform::AmpServer *Instance; // eax
 
   this->__vftable = (Scaleform::GFx::ImageResource_vtbl *)&Scaleform::GFx::Resource::`vftable';
   this->RefCount.Value = 1;
@@ -151,4 +162,6 @@ void __thiscall Scaleform::GFx::ImageResource::ImageResource(
   if ( v7 )
     v7->AddRef(v7);
   this->UseType = use;
+  Instance = Scaleform::AmpServer::GetInstance();
+  Instance->AddImage(Instance, this);
 }

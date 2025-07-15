@@ -1,27 +1,26 @@
-void __usercall vostok::render::scene::render_triangles(vostok::render::scene *this@<eax>)
+void __userpurge vostok::render::scene::render_triangles(
+        vostok::render::scene *this@<ecx>,
+        int a2@<eax>,
+        bool covering_effect)
 {
-  vostok::render::system_renderer **p_m_triangle_vertices; // esi
-  vostok::render::vector<unsigned short> *p_m_triangle_indices; // edi
-  unsigned __int16 v4[2]; // [esp+Ch] [ebp-14h] BYREF
-  vostok::render::vertex_colored __x; // [esp+10h] [ebp-10h]
+  vostok::buffer_vector<vostok::render::vertex_colored> *v3; // edi
+  vostok::render::system_renderer *v4; // ecx
+  int *v5; // esi
 
-  p_m_triangle_vertices = (vostok::render::system_renderer **)&this->m_triangle_vertices;
-  if ( this->m_triangle_vertices._M_impl._M_start != this->m_triangle_vertices._M_impl._M_finish )
+  v3 = (vostok::buffer_vector<vostok::render::vertex_colored> *)((char *)&off_6F34D4 + a2);
+  v4 = *(vostok::render::system_renderer **)((char *)&off_6F34D4 + a2);
+  if ( v4 != (vostok::render::system_renderer *)*(_UNKNOWN **)((char *)&off_6F34D4 + a2 + 4) )
   {
-    p_m_triangle_indices = &this->m_triangle_indices;
+    v5 = (int *)(a2 + 8336608);
     vostok::render::system_renderer::draw_triangles(
-      *p_m_triangle_vertices,
-      (const vostok::render::vertex_colored *const)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-      (const vostok::render::vertex_colored *const)*p_m_triangle_vertices,
-      (const unsigned __int16 *const)this->m_triangle_vertices._M_impl._M_finish,
-      this->m_triangle_indices._M_impl._M_start,
-      (bool)this->m_triangle_indices._M_impl._M_finish);
-    __x.color.m_value = -1;
-    stlp_std::priv::_Impl_vector<vostok::render::vertex_colored,vostok::render::std_allocator<vostok::render::vertex_colored>>::resize((stlp_std::priv::_Impl_vector<vostok::render::vertex_colored,vostok::render::std_allocator<vostok::render::vertex_colored> > *)p_m_triangle_vertices);
-    *(_DWORD *)v4 = 0;
-    stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short>>::resize(
-      &p_m_triangle_indices->_M_impl,
-      0,
-      v4);
+      *(const vostok::render::vertex_colored *const *)&aSpltChunkTooLo[a2],
+      v4,
+      (unsigned int)vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+      (unsigned int)v4,
+      *(unsigned __int8 **)(a2 + 8336608),
+      *(char **)(a2 + 8336612),
+      covering_effect);
+    vostok::buffer_vector<vostok::render::vertex_colored>::resize(v3, 0);
+    vostok::buffer_vector<unsigned short>::resize(0, v5);
   }
 }

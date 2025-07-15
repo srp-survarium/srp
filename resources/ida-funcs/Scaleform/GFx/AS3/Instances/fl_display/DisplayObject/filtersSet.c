@@ -36,7 +36,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::filte
       while ( 1 )
       {
         v8 = Scaleform::GFx::AS3::Impl::SparseArray::At(v7, i);
-        (*(void (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v8->value.VS._1.VInt + 20) + 16))(
+        (*(void (__thiscall **)(_DWORD, Scaleform::GFx::ASStringNode **))(**(_DWORD **)(v8->value.VS._1.VInt + 20) + 28))(
           *(_DWORD *)(v8->value.VS._1.VInt + 20),
           &value);
         if ( !strcmp(value->pData, "GlowFilter") )

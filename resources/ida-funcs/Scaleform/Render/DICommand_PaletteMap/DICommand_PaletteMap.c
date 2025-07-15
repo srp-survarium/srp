@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::DICommand_PaletteMap::DICommand_PaletteMap(
   this->ChannelMask = other->ChannelMask;
   v3 = (unsigned int *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 4096, 0);
   this->Channels = v3;
-  memcpy((unsigned __int8 *)v3, (unsigned __int8 *)other->Channels, 0x1000u);
+  memcpy((int)v3, (const __m128i *)other->Channels, 0x1000u);
 }
 
 
@@ -19,7 +19,7 @@ void __thiscall Scaleform::Render::DICommand_PaletteMap::DICommand_PaletteMap(
         Scaleform::Render::DrawableImage *source,
         const Scaleform::Render::Rect<long> *sr,
         const Scaleform::Render::Point<long> *dp,
-        unsigned int **channels)
+        const void **channels)
 {
   unsigned int *v7; // eax
 
@@ -28,7 +28,7 @@ void __thiscall Scaleform::Render::DICommand_PaletteMap::DICommand_PaletteMap(
   this->ChannelMask = 0;
   v7 = (unsigned int *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 4096, 0);
   this->Channels = v7;
-  memset((int)v7, 0, 0x1000u);
+  memset((int)v7, 0, 4096);
   if ( *channels )
   {
     this->ChannelMask |= 1u;

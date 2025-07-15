@@ -1,28 +1,50 @@
-void __thiscall survarium::damage_zone_core::damage_zone_core(survarium::damage_zone_core *this)
+void __usercall survarium::damage_zone_core::damage_zone_core(survarium::damage_zone_core *this@<ecx>, int a2@<esi>)
 {
-  survarium::collision_sensor::collision_sensor(this);
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->id);
-  this->survarium::hit_initiator::__vftable = (survarium::hit_initiator_vtbl *)&survarium::hit_initiator::`vftable';
-  this->id = -1;
-  this->is_local = 1;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)(&this->survarium::player_actions_subscriber + 1));
-  this->survarium::player_actions_subscriber::__vftable = (survarium::player_actions_subscriber_vtbl *)&survarium::player_actions_subscriber::`vftable';
-  this->survarium::collision_sensor::survarium::collision_geometry_subscriber::__vftable = (survarium::damage_zone_core_vtbl *)&survarium::damage_zone_core::`vftable'{for `survarium::collision_geometry_subscriber'};
-  this->survarium::collision_sensor::survarium::link_resolver::__vftable = (survarium::link_resolver_vtbl *)&survarium::damage_zone_core::`vftable'{for `survarium::link_resolver'};
-  this->survarium::hit_initiator::__vftable = (survarium::hit_initiator_vtbl *)&survarium::damage_zone_core::`vftable'{for `survarium::hit_initiator'};
-  this->survarium::player_actions_subscriber::__vftable = (survarium::player_actions_subscriber_vtbl *)&survarium::damage_zone_core::`vftable'{for `survarium::player_actions_subscriber'};
-  vostok::math::curve_line_points<float,0>::curve_line_points<float,0>(&this->m_hit_curve);
-  vostok::math::curve_line_points<float,0>::curve_line_points<float,0>(&this->m_motion_on_bound_curve);
-  vostok::math::curve_line_points<float,0>::curve_line_points<float,0>(&this->m_motion_on_center_curve);
-  this->m_physics_world = 0;
-  this->m_owner = 0;
-  this->m_receivers._M_impl._M_start = 0;
-  this->m_receivers._M_impl._M_finish = 0;
-  this->m_receivers._M_impl._M_end_of_storage._M_data = 0;
-  this->m_body_parts_filter._M_impl._M_start = 0;
-  this->m_body_parts_filter._M_impl._M_finish = 0;
-  this->m_body_parts_filter._M_impl._M_end_of_storage._M_data = 0;
-  vostok::fixed_string<32>::fixed_string<32>(&this->m_damage_type);
-  this->m_accumulated_hit_time_ms = 0;
-  this->m_standalone = 1;
+  survarium::collision_sensor *v2; // ecx
+  _DWORD *v3; // eax
+
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, (_DWORD *)a2, fs_iterator_class);
+  survarium::collision_sensor::collision_sensor(v2, a2 + 264);
+  *(_DWORD *)(a2 + 300) = &survarium::hit_initiator::`vftable';
+  *(_BYTE *)(a2 + 304) = -1;
+  *(_BYTE *)(a2 + 305) = 1;
+  *(_DWORD *)(a2 + 312) = &survarium::player_actions_subscriber::`vftable';
+  *(_DWORD *)(a2 + 316) = &survarium::tickable_object::`vftable';
+  *(_DWORD *)(a2 + 328) = &survarium::serializable_object::`vftable';
+  *(_DWORD *)(a2 + 328) = &survarium::damage_zone_core::`vftable'{for `survarium::serializable_object'};
+  *v3 = &survarium::damage_zone_core::`vftable'{for `survarium::collision_geometry_subscriber'};
+  *(_DWORD *)(a2 + 312) = &survarium::damage_zone_core::`vftable'{for `survarium::player_actions_subscriber'};
+  *(_DWORD *)(a2 + 316) = &survarium::damage_zone_core::`vftable'{for `survarium::tickable_object'};
+  *(_DWORD *)a2 = &survarium::damage_zone_core::`vftable'{for `vostok::resources::unmanaged_resource'};
+  *(_DWORD *)(a2 + 268) = &survarium::damage_zone_core::`vftable'{for `survarium::link_resolver'};
+  *(_DWORD *)(a2 + 300) = &survarium::damage_zone_core::`vftable'{for `survarium::hit_initiator'};
+  *(_DWORD *)(a2 + 344) = 0;
+  *(_DWORD *)(a2 + 348) = 0;
+  *(_DWORD *)(a2 + 352) = 0;
+  *(_DWORD *)(a2 + 376) = 0;
+  *(_DWORD *)(a2 + 380) = 0;
+  *(_DWORD *)(a2 + 408) = 0;
+  *(_DWORD *)(a2 + 412) = 0;
+  *(_DWORD *)(a2 + 424) = 0;
+  *(_DWORD *)(a2 + 428) = 0;
+  *(_DWORD *)(a2 + 432) = 0;
+  *(_DWORD *)(a2 + 436) = 0;
+  *(_DWORD *)(a2 + 440) = 0;
+  *(_DWORD *)(a2 + 460) = -1;
+  *(_BYTE *)(a2 + 464) = 1;
+  *(_BYTE *)(a2 + 465) = 0;
+  *(_DWORD *)(a2 + 468) = 0;
+  memset((void *)(a2 + 472), 0, 0x50u);
+  *(_DWORD *)(a2 + 376) = 0;
+  *(_DWORD *)(a2 + 384) = 0;
+  *(_DWORD *)(a2 + 368) = 0;
+  *(_DWORD *)(a2 + 372) = 0;
+  *(_DWORD *)(a2 + 360) = 0;
+  *(_DWORD *)(a2 + 364) = 0;
+  *(_DWORD *)(a2 + 408) = 0;
+  *(_DWORD *)(a2 + 416) = 0;
+  *(_DWORD *)(a2 + 400) = 0;
+  *(_DWORD *)(a2 + 404) = 0;
+  *(_DWORD *)(a2 + 392) = 0;
+  *(_DWORD *)(a2 + 396) = 0;
 }

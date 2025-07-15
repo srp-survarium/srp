@@ -1,4 +1,4 @@
-unsigned int __usercall cftoe2_l@<eax>(
+int __usercall cftoe2_l@<eax>(
         char *buf@<eax>,
         unsigned int sizeInBytes,
         int ndec,
@@ -11,25 +11,25 @@ unsigned int __usercall cftoe2_l@<eax>(
   int v10; // eax
   char *v11; // esi
   char *v12; // esi
-  unsigned int v13; // ebx
-  unsigned __int8 *v14; // ecx
+  int v13; // ebx
+  int v14; // ecx
   _BYTE *v15; // esi
   int v16; // eax
   _BYTE *v17; // esi
   _BYTE *v18; // esi
-  unsigned int v19; // [esp-4h] [ebp-20h]
-  _LocaleUpdate _loc_update; // [esp+Ch] [ebp-10h] BYREF
+  int v19; // [esp-4h] [ebp-20h]
+  _LocaleUpdate v20; // [esp+Ch] [ebp-10h] BYREF
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v20, plocinfo);
   if ( !buf || !sizeInBytes )
   {
     v8 = _errno();
     v19 = 22;
 LABEL_3:
     *v8 = v19;
-    _invalid_parameter((unsigned int)buf, v19, 0);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
+    _invalid_parameter((int)buf, v19, 0);
+    if ( v20.updated )
+      v20.ptd->_ownlocale &= ~2u;
     return v19;
   }
   if ( ndec <= 0 )
@@ -43,7 +43,7 @@ LABEL_3:
     goto LABEL_3;
   }
   if ( g_fmt )
-    shift(&buf[pflt->sign == 45], ndec > 0);
+    shift((__m128i *)&buf[pflt->sign == 45], ndec > 0);
   v11 = buf;
   if ( pflt->sign == 45 )
   {
@@ -53,16 +53,16 @@ LABEL_3:
   if ( ndec > 0 )
   {
     *v11 = v11[1];
-    *++v11 = *_loc_update.localeinfo.locinfo->lconv->decimal_point;
+    *++v11 = *v20.localeinfo.locinfo->lconv->decimal_point;
   }
   v12 = &v11[ndec + (g_fmt == 0)];
   if ( sizeInBytes == -1 )
     v13 = -1;
   else
     v13 = sizeInBytes + buf - v12;
-  if ( strcpy_s(v12, v13, "e+000") )
-    _invoke_watson(0, (unsigned int)pflt, (unsigned int)v12);
-  v14 = (unsigned __int8 *)(v12 + 2);
+  if ( strcpy_s((int)pflt, v12, v13, "e+000") )
+    _invoke_watson(0, (int)pflt, (int)v12);
+  v14 = (int)(v12 + 2);
   if ( caps )
     *v12 = 69;
   v15 = v12 + 1;
@@ -88,9 +88,9 @@ LABEL_3:
     }
     v18[1] += v16;
   }
-  if ( (_outputformat & 1) != 0 && *v14 == 48 )
-    memmove(v14, v14 + 1, 3u);
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
+  if ( (_outputformat & 1) != 0 && *(_BYTE *)v14 == 48 )
+    memmove(v14, (const __m128i *)(v14 + 1), 3u);
+  if ( v20.updated )
+    v20.ptd->_ownlocale &= ~2u;
   return 0;
 }

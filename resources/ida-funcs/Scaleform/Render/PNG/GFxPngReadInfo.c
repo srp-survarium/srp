@@ -2,7 +2,7 @@ int __cdecl Scaleform::Render::PNG::GFxPngReadInfo(Scaleform::Render::PNG::PngCo
 {
   int v1; // eax
   int *p_colorType; // ebx
-  double dGamma; // [esp+1Ch] [ebp-8h] BYREF
+  double v5; // [esp+1Ch] [ebp-8h] BYREF
 
   v1 = png_set_longjmp_fn(context->png_ptr, longjmp, 64);
   if ( _setjmp3(v1, 0) )
@@ -30,8 +30,8 @@ int __cdecl Scaleform::Render::PNG::GFxPngReadInfo(Scaleform::Render::PNG::PngCo
     png_set_tRNS_to_alpha(context->png_ptr);
   if ( !*p_colorType || *p_colorType == 4 )
     png_set_gray_to_rgb(context->png_ptr);
-  if ( png_get_gAMA(context->png_ptr, context->info_ptr, &dGamma) )
-    png_set_gamma((int)context->png_ptr, 2.2, dGamma);
+  if ( png_get_gAMA(context->png_ptr, context->info_ptr, &v5) )
+    png_set_gamma((int)context->png_ptr, 2.2, v5);
   png_read_update_info(context->png_ptr, context->info_ptr);
   png_get_IHDR(
     context->png_ptr,

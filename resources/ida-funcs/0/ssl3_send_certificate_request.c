@@ -16,7 +16,7 @@ int __cdecl ssl3_send_certificate_request(ssl_st *s)
   ssl_st *v15; // [esp-8h] [ebp-30h]
   int v16; // [esp+10h] [ebp-18h]
   int v17; // [esp+14h] [ebp-14h]
-  int i; // [esp+18h] [ebp-10h]
+  int v18; // [esp+18h] [ebp-10h]
   stack_st *st; // [esp+1Ch] [ebp-Ch]
   char *v20; // [esp+20h] [ebp-8h]
   int v21; // [esp+24h] [ebp-4h]
@@ -37,7 +37,7 @@ int __cdecl ssl3_send_certificate_request(ssl_st *s)
   client_CA_list = SSL_get_client_CA_list(v1);
   st = &client_CA_list->stack;
   v16 = 0;
-  if ( !client_CA_list || (i = 0, sk_num(&client_CA_list->stack) <= 0) )
+  if ( !client_CA_list || (v18 = 0, sk_num(&client_CA_list->stack) <= 0) )
   {
 LABEL_4:
     s = (ssl_st *)&init_buf->data[v21 + 4];
@@ -68,7 +68,7 @@ LABEL_4:
   }
   while ( 1 )
   {
-    v12 = sk_value(&client_CA_list->stack, i);
+    v12 = sk_value(&client_CA_list->stack, v18);
     v17 = i2d_X509_NAME((X509_name_st *)v12, 0);
     if ( !BUF_MEM_grow_clean(init_buf, v17 + v6 + 6) )
       break;
@@ -93,10 +93,10 @@ LABEL_4:
       v16 += v17;
       *v20 = (unsigned __int16)(v17 - 2) >> 8;
     }
-    if ( ++i >= sk_num(st) )
+    if ( ++v18 >= sk_num(st) )
       goto LABEL_4;
     client_CA_list = (stack_st_X509_NAME *)st;
   }
-  ERR_put_error(0x14u, 150, 7, ".\\ssl\\s3_srvr.c", 1898);
+  ERR_put_error(v6, 0x14u, 150, 7, ".\\ssl\\s3_srvr.c", 1898);
   return -1;
 }

@@ -1,4 +1,4 @@
-int __usercall _wcsicmp_l@<eax>(unsigned int a1@<edi>, wchar_t *dst, wchar_t *src, localeinfo_struct *plocinfo)
+int __usercall _wcsicmp_l@<eax>(int a1@<edi>, wchar_t *dst, wchar_t *src, localeinfo_struct *plocinfo)
 {
   unsigned __int16 *v4; // ebx
   int result; // eax
@@ -47,7 +47,7 @@ int __usercall _wcsicmp_l@<eax>(unsigned int a1@<edi>, wchar_t *dst, wchar_t *sr
     else
     {
       *_errno() = 22;
-      _invalid_parameter((unsigned int)dst, 0, 0);
+      _invalid_parameter((int)dst, 0, 0);
       if ( _loc_update.updated )
         _loc_update.ptd->_ownlocale &= ~2u;
       return 0x7FFFFFFF;

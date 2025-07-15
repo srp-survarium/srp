@@ -12,7 +12,7 @@ int __cdecl BN_lshift1(bignum_st *r, const bignum_st *a)
   if ( r == a )
   {
     if ( a->top + 1 > r->dmax )
-      v4 = bn_expand2(r, (unsigned int *)(a->top + 1));
+      v4 = bn_expand2(r, a->top + 1);
     else
       v4 = r;
     if ( !v4 )
@@ -22,7 +22,7 @@ int __cdecl BN_lshift1(bignum_st *r, const bignum_st *a)
   {
     r->neg = a->neg;
     if ( a->top + 1 > r->dmax )
-      v2 = bn_expand2(r, (unsigned int *)(a->top + 1));
+      v2 = bn_expand2(r, a->top + 1);
     else
       v2 = r;
     if ( !v2 )

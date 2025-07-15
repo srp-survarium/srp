@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
         unsigned int startPos,
         unsigned int endPos)
 {
-  unsigned int Index; // ebx
+  unsigned int v5; // ebx
   Scaleform::Render::Text::Paragraph *v6; // esi
   unsigned int v7; // eax
   Scaleform::Render::Text::Paragraph::FormatRunIterator *v8; // edi
@@ -23,18 +23,18 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
   void *v20; // esi
   Scaleform::Render::Text::TextFormat *v21; // eax
   Scaleform::Render::Text::TextFormat *v22; // esi
-  int length; // [esp+10h] [ebp-90h]
-  unsigned int runIndex; // [esp+18h] [ebp-88h]
-  unsigned int runLength; // [esp+1Ch] [ebp-84h]
+  int v23; // [esp+10h] [ebp-90h]
+  unsigned int Index; // [esp+18h] [ebp-88h]
+  unsigned int Length; // [esp+1Ch] [ebp-84h]
   Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> > range; // [esp+20h] [ebp-80h] BYREF
-  Scaleform::Render::Text::TextFormat format; // [esp+2Ch] [ebp-74h] BYREF
-  Scaleform::Render::Text::Paragraph::FormatRunIterator it; // [esp+54h] [ebp-4Ch] BYREF
+  Scaleform::Render::Text::TextFormat v28; // [esp+2Ch] [ebp-74h] BYREF
+  Scaleform::Render::Text::Paragraph::FormatRunIterator v29; // [esp+54h] [ebp-4Ch] BYREF
   Scaleform::Render::Text::TextFormat result; // [esp+78h] [ebp-28h] BYREF
 
-  Index = startPos;
+  v5 = startPos;
   v6 = this;
   Scaleform::Render::Text::Paragraph::FormatRunIterator::FormatRunIterator(
-    &it,
+    &v29,
     &this->FormatInfo,
     &this->Text,
     startPos);
@@ -43,37 +43,37 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
     v7 = startPos;
   if ( v7 == -1 )
   {
-    length = 0x7FFFFFFF;
+    v23 = 0x7FFFFFFF;
   }
   else
   {
-    length = v7 - startPos;
+    v23 = v7 - startPos;
     if ( (int)(v7 - startPos) <= 0 )
       goto LABEL_41;
   }
-  while ( it.CurTextIndex < it.pText->Size )
+  while ( v29.CurTextIndex < v29.pText->Size )
   {
-    v8 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&it);
-    runIndex = v8->PlaceHolder.Index;
-    runLength = v8->PlaceHolder.Length;
-    if ( Index <= runIndex )
-      Index = v8->PlaceHolder.Index;
+    v8 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&v29);
+    Index = v8->PlaceHolder.Index;
+    Length = v8->PlaceHolder.Length;
+    if ( v5 <= Index )
+      v5 = v8->PlaceHolder.Index;
     pHeap = pallocator->pHeap;
-    format.RefCount = 1;
-    Scaleform::StringDH::StringDH(&format.FontList, pHeap);
-    Scaleform::StringDH::StringDH(&format.Url, pHeap);
-    format.pImageDesc.pObject = 0;
-    format.pFontHandle.pObject = 0;
-    format.ColorV = -16777216;
-    format.LetterSpacing = 0;
-    format.FontSize = 0;
-    format.FormatFlags = 0;
-    format.PresentMask = 0;
+    v28.RefCount = 1;
+    Scaleform::StringDH::StringDH(&v28.FontList, pHeap);
+    Scaleform::StringDH::StringDH(&v28.Url, pHeap);
+    v28.pImageDesc.pObject = 0;
+    v28.pFontHandle.pObject = 0;
+    v28.ColorV = -16777216;
+    v28.LetterSpacing = 0;
+    v28.FontSize = 0;
+    v28.FormatFlags = 0;
+    v28.PresentMask = 0;
     pObject = v8->PlaceHolder.pFormat.pObject;
     if ( pObject )
     {
       v11 = Scaleform::Render::Text::TextFormat::Merge(pObject, &result, fmt);
-      Scaleform::Render::Text::TextFormat::operator=(&format, v11);
+      Scaleform::Render::Text::TextFormat::operator=(&v28, v11);
       if ( result.pFontHandle.pObject )
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pFontHandle.pObject);
       if ( result.pImageDesc.pObject )
@@ -84,17 +84,17 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
       v13 = (void *)(result.FontList.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((result.FontList.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
-      TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(pallocator, &format);
+      TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(pallocator, &v28);
     }
     else
     {
       TextFormat = Scaleform::Render::Text::Allocator::AllocateTextFormat(pallocator, fmt);
     }
-    v15 = length;
+    v15 = v23;
     v16 = TextFormat;
-    if ( runIndex + runLength - Index < length )
-      v15 = runIndex + runLength - Index;
-    range.Index = Index;
+    if ( Index + Length - v5 < v23 )
+      v15 = Index + Length - v5;
+    range.Index = v5;
     range.Length = v15;
     if ( TextFormat )
       ++TextFormat->RefCount;
@@ -112,8 +112,8 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v17);
       }
     }
-    length -= v15;
-    Scaleform::Render::Text::Paragraph::FormatRunIterator::SetTextPos(&it, runIndex + runLength);
+    v23 -= v15;
+    Scaleform::Render::Text::Paragraph::FormatRunIterator::SetTextPos(&v29, Index + Length);
     if ( v16 )
     {
       v18 = v16->RefCount-- == 1;
@@ -123,23 +123,23 @@ void __thiscall Scaleform::Render::Text::Paragraph::SetTextFormat(
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v16);
       }
     }
-    if ( format.pFontHandle.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)format.pFontHandle.pObject);
-    if ( format.pImageDesc.pObject )
-      Scaleform::RefCountNTSImpl::Release(format.pImageDesc.pObject);
-    v19 = (void *)(format.Url.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((format.Url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    if ( v28.pFontHandle.pObject )
+      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v28.pFontHandle.pObject);
+    if ( v28.pImageDesc.pObject )
+      Scaleform::RefCountNTSImpl::Release(v28.pImageDesc.pObject);
+    v19 = (void *)(v28.Url.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v28.Url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v19);
-    v20 = (void *)(format.FontList.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((format.FontList.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    v20 = (void *)(v28.FontList.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v28.FontList.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v20);
     v6 = this;
-    if ( length <= 0 )
+    if ( v23 <= 0 )
       break;
-    Index = startPos;
+    v5 = startPos;
   }
 LABEL_41:
-  v21 = it.PlaceHolder.pFormat.pObject;
+  v21 = v29.PlaceHolder.pFormat.pObject;
   ++v6->ModCounter;
   if ( v21 )
   {

@@ -1,6 +1,6 @@
-vostok::render::render_target *__userpurge vostok::render::resource_manager::create_volume_render_target@<eax>(
+stlp_std::priv::_Rb_tree_node_base *__userpurge vostok::render::resource_manager::create_volume_render_target@<eax>(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::resource_manager *name,
+        char *name,
         unsigned int w,
         unsigned int h,
         unsigned int d,
@@ -8,84 +8,98 @@ vostok::render::render_target *__userpurge vostok::render::resource_manager::cre
         vostok::render::enum_rt_usage usage,
         D3D11_USAGE memory_usage)
 {
-  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *p_M_t; // ebp
-  const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v9; // eax
-  vostok::render::render_target *v11; // eax
-  vostok::render::render_target *v12; // edi
-  volatile signed __int32 *p_m_reference_count; // eax
-  vostok::strings::shared::manager *m_object; // esi
+  char *v8; // esi
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v9; // ecx
+  stlp_std::priv::_Rb_tree_node_base *v10; // eax
+  vostok::memory::doug_lea_allocator *v12; // esi
+  char *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // ecx
   char *v15; // eax
-  vostok::render::enum_rt_usage v16; // [esp+0h] [ebp-140h]
-  D3D11_USAGE v17; // [esp+4h] [ebp-13Ch]
-  const char *namea; // [esp+14h] [ebp-12Ch] BYREF
-  char *other; // [esp+18h] [ebp-128h] BYREF
-  vostok::render::render_target *v20; // [esp+1Ch] [ebp-124h]
-  stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >,bool> v21; // [esp+20h] [ebp-120h] BYREF
-  stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> v22; // [esp+28h] [ebp-118h] BYREF
+  vostok::render::render_target *v16; // ecx
+  int v17; // eax
+  int v18; // edi
+  volatile signed __int32 *v19; // eax
+  char *v20; // eax
+  vostok::fixed_string<260> *v21; // ecx
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *v22; // ecx
+  vostok::render::render_target *v23; // ecx
+  vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *v24; // eax
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > v25[12]; // [esp-4h] [ebp-258h] BYREF
+  vostok::buffer_string v26[22]; // [esp+12Ch] [ebp-128h] BYREF
+  char v27; // [esp+23Ch] [ebp-18h]
+  int v28; // [esp+240h] [ebp-14h]
+  char v29; // [esp+244h] [ebp-10h] BYREF
+  stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >,bool> *result; // [esp+248h] [ebp-Ch]
+  const char *v31; // [esp+24Ch] [ebp-8h] BYREF
 
-  p_M_t = &name->m_rt_registry._M_t;
-  namea = 0;
-  v9 = stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
-         (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)this,
-         (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&name->m_rt_registry,
-         &namea);
-  if ( namea
-    && v9 != (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)p_M_t )
+  v31 = "$user$color_grading";
+  vostok::render::resource_manager::create_unique_user_name(
+    (vostok::fs_new::virtual_path_string *)this,
+    &v25[0]._M_key_compare);
+  v8 = name + 557196;
+  result = (stlp_std::pair<stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >,bool> *)(name + 557196);
+  v10 = stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
+          v9,
+          (const char *const *)name + 139299,
+          &v31);
+  if ( v10 != (stlp_std::priv::_Rb_tree_node_base *)v8 )
+    return v10[18]._M_parent;
+  v12 = vostok::render::g_allocator;
+  v13 = type_info::raw_name(&vostok::render::render_target `RTTI Type Descriptor');
+  v15 = vostok::memory::doug_lea_allocator::malloc_impl(
+          v14,
+          (int)v12,
+          0x48u,
+          v13,
+          (const char *const)&v25[0]._M_header._M_data._M_parent->_M_color,
+          (const char *const)&v25[0]._M_header._M_data._M_left->_M_color,
+          (const unsigned int)v25[0]._M_header._M_data._M_right);
+  if ( v15 )
   {
-    return (vostok::render::render_target *)v9[12]._M_header._M_data._M_parent;
-  }
-  v11 = (vostok::render::render_target *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                           (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                           0x40u);
-  if ( v11 )
-  {
-    v11->m_reference_count = 0;
-    v11->m_name.m_pointer.m_object = 0;
-    v11->m_texture.m_object = 0;
-    v11->m_is_registered = 0;
-    v11->m_memory_usage = 0;
-    v11->m_surface_3d = 0;
-    v11->m_surface = 0;
-    v11->m_rt = 0;
-    v11->m_width = 0;
-    v11->m_height = 0;
-    v11->m_format = DXGI_FORMAT_UNKNOWN;
-    v12 = v11;
+    vostok::render::render_target::render_target(v16, (int)v15);
+    v18 = v17;
   }
   else
   {
-    v12 = 0;
+    v18 = 0;
   }
-  vostok::render::render_target::set_name(v12);
-  v12->m_is_registered = 1;
-  p_m_reference_count = &v12->m_name.m_pointer.m_object->m_reference_count;
-  m_object = 0;
-  if ( p_m_reference_count
-    && (m_object = (vostok::strings::shared::manager *)v12->m_name.m_pointer.m_object,
-        _InterlockedExchangeAdd(p_m_reference_count, 1u),
-        vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) )
+  vostok::render::render_target::set_name(
+    v16,
+    (vostok::shared_string *)v18,
+    (vostok::shared_string)"$user$color_grading");
+  name = 0;
+  *(_BYTE *)(v18 + 64) = 1;
+  v19 = *(volatile signed __int32 **)(v18 + 4);
+  if ( v19 )
   {
-    v15 = (char *)&m_object->m_mutex.m_mutex.m_mutex[2];
+    name = *(char **)(v18 + 4);
+    _InterlockedExchangeAdd(v19, 1u);
   }
-  else
-  {
-    v15 = 0;
-  }
-  other = v15;
-  v20 = v12;
-  vostok::fs_new::virtual_path_string::virtual_path_string(
-    (vostok::fs_new::virtual_path_string *)&v22.first,
-    (const char **)&other);
-  v22.second = v20;
+  v20 = (char *)vostok::shared_string::c_str((vostok::shared_string *)&name);
+  vostok::fixed_string<260>::fixed_string<260>(v21, v26, v20);
+  *(_DWORD *)&v25[0]._M_header._M_data._M_color = v26;
+  v27 = 47;
+  v28 = v18;
   stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::render_target *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *>>>::insert_unique(
-    &v22,
-    p_M_t,
-    &v21);
-  if ( m_object )
+    v22,
+    (stlp_std::priv::_Rb_tree_node_base *)result,
+    (const stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> *)&v29,
+    v25[0]);
+  if ( name )
   {
-    if ( !_InterlockedExchangeAdd((volatile signed __int32 *)m_object, 0xFFFFFFFF) )
-      vostok::strings::shared::manager::remove(m_object, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v24 = (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name;
+    v23 = (vostok::render::render_target *)_InterlockedExchangeAdd((volatile signed __int32 *)name, 0xFFFFFFFF);
+    if ( !v23 )
+      vostok::strings::shared::detail::intrusive_base::destroy(0, v24);
   }
-  vostok::render::render_target::create_3d(w, h, v12, namea, d, fmt, v16, v17);
-  return v12;
+  vostok::render::render_target::create_3d(
+    v23,
+    (const char *)v18,
+    "$user$color_grading",
+    (unsigned int)v25[0]._M_header._M_data._M_parent,
+    (unsigned int)v25[0]._M_header._M_data._M_left,
+    (DXGI_FORMAT)v25[0]._M_header._M_data._M_right,
+    (vostok::render::enum_rt_usage)v25[0]._M_node_count,
+    *(D3D11_USAGE *)&v25[0]._M_key_compare.stlp_std::binary_function<char *,char *,bool>);
+  return (stlp_std::priv::_Rb_tree_node_base *)v18;
 }

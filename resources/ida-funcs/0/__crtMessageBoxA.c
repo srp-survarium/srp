@@ -9,17 +9,17 @@ int __cdecl __crtMessageBoxA(const char *lpText, const char *lpCaption, unsigned
   BOOL (__stdcall *GetUserObjectInformationA)(HANDLE, int, PVOID, DWORD, LPDWORD); // eax
   HWINSTA (__stdcall *GetProcessWindowStation)(); // eax
   int (*v11)(void); // esi
-  int (__stdcall *v12)(int, int, tagUSEROBJECTFLAGS *, int, unsigned int *); // eax
-  int (__stdcall *v13)(int, int, tagUSEROBJECTFLAGS *, int, unsigned int *); // edi
+  PVOID v12; // eax
+  int (__stdcall *v13)(int, int, _BYTE *, int, _BYTE *); // edi
   int v14; // eax
   int (*v15)(void); // eax
-  int (__stdcall *v16)(HWND__ *); // eax
-  int (__stdcall *v17)(HWND__ *, const char *, const char *, unsigned int); // eax
-  tagUSEROBJECTFLAGS uof; // [esp+10h] [ebp-14h] BYREF
-  unsigned int nDummy; // [esp+1Ch] [ebp-8h] BYREF
-  HWND__ *hWndParent; // [esp+20h] [ebp-4h]
+  int (__stdcall *v16)(int); // eax
+  int (__stdcall *v17)(int, const char *, const char *, unsigned int); // eax
+  _BYTE v19[12]; // [esp+10h] [ebp-14h] BYREF
+  _BYTE v20[4]; // [esp+1Ch] [ebp-8h] BYREF
+  int v21; // [esp+20h] [ebp-4h]
 
-  hWndParent = 0;
+  v21 = 0;
   v3 = (HWND__ *(__stdcall *)(HWND__ *))_encoded_null();
   if ( !pfnMessageBox )
   {
@@ -48,25 +48,25 @@ int __cdecl __crtMessageBoxA(const char *lpText, const char *lpCaption, unsigned
   if ( (char *)pfnGetProcessWindowStation == (char *)v3
     || (char *)pfnGetUserObjectInformation == (char *)v3
     || (v11 = (int (*)(void))_decode_pointer(pfnGetProcessWindowStation),
-        v12 = (int (__stdcall *)(int, int, tagUSEROBJECTFLAGS *, int, unsigned int *))_decode_pointer(pfnGetUserObjectInformation),
-        v13 = v12,
+        v12 = _decode_pointer(pfnGetUserObjectInformation),
+        v13 = (int (__stdcall *)(int, int, _BYTE *, int, _BYTE *))v12,
         !v11)
     || !v12
-    || (v14 = v11()) != 0 && v13(v14, 1, &uof, 12, &nDummy) && (uof.dwFlags & 1) != 0 )
+    || (v14 = v11()) != 0 && v13(v14, 1, v19, 12, v20) && (v19[8] & 1) != 0 )
   {
     if ( (char *)pfnGetActiveWindow != (char *)v3 )
     {
       v15 = (int (*)(void))_decode_pointer(pfnGetActiveWindow);
       if ( v15 )
       {
-        hWndParent = (HWND__ *)v15();
-        if ( hWndParent )
+        v21 = v15();
+        if ( v21 )
         {
           if ( pfnGetLastActivePopup != v3 )
           {
-            v16 = (int (__stdcall *)(HWND__ *))_decode_pointer(pfnGetLastActivePopup);
+            v16 = (int (__stdcall *)(int))_decode_pointer(pfnGetLastActivePopup);
             if ( v16 )
-              hWndParent = (HWND__ *)v16(hWndParent);
+              v21 = v16(v21);
           }
         }
       }
@@ -74,10 +74,10 @@ int __cdecl __crtMessageBoxA(const char *lpText, const char *lpCaption, unsigned
   }
   else
   {
-    uType |= (unsigned int)&loc_1FFFFE + 2;
+    uType |= (unsigned int)&loc_200000;
   }
-  v17 = (int (__stdcall *)(HWND__ *, const char *, const char *, unsigned int))_decode_pointer(pfnMessageBox);
+  v17 = (int (__stdcall *)(int, const char *, const char *, unsigned int))_decode_pointer(pfnMessageBox);
   if ( v17 )
-    return v17(hWndParent, lpText, lpCaption, uType);
+    return v17(v21, lpText, lpCaption, uType);
   return 0;
 }

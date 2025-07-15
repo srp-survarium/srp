@@ -1,14 +1,19 @@
-void __thiscall boost::asio::ssl::detail::stream_core::~stream_core(boost::asio::ssl::detail::stream_core *this)
+void __usercall boost::asio::ssl::detail::stream_core::~stream_core(
+        boost::asio::ssl::detail::stream_core *this@<ecx>,
+        int a2@<eax>,
+        int a3@<edi>)
 {
-  stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *v1; // ecx
+  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime> > > *v4; // ecx
+  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime> > > *v5; // ecx
+  boost::asio::ssl::detail::engine *v6; // ecx
 
-  stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>(
-    (stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *)this,
-    (int)&this->input_buffer_space_);
-  stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>(
-    v1,
-    (int)&this->output_buffer_space_);
-  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>::~basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>(&this->pending_write_);
-  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>::~basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>(&this->pending_read_);
-  boost::asio::ssl::detail::engine::~engine(&this->engine_);
+  stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>((stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *)(a2 + 108));
+  stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>((stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *)(a2 + 88));
+  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>::~basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>(
+    v4,
+    (int *)(a2 + 48));
+  boost::asio::basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>::~basic_io_object<boost::asio::deadline_timer_service<boost::posix_time::ptime,boost::asio::time_traits<boost::posix_time::ptime>>>(
+    v5,
+    (int *)(a2 + 8));
+  boost::asio::ssl::detail::engine::~engine(v6, a2, a3);
 }

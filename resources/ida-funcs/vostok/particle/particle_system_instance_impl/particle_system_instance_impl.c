@@ -1,33 +1,69 @@
 void __thiscall vostok::particle::particle_system_instance_impl::particle_system_instance_impl(
-        vostok::particle::particle_system_instance_impl *this)
+        vostok::particle::particle_system_instance_impl *this,
+        vostok::memory::base_allocator *allocator,
+        vostok::memory::base_allocator_vtbl *a3)
 {
-  vostok::math::float4x4 *v1; // eax
-  char v3; // [esp+60h] [ebp-40h] BYREF
+  void **p_m_arena_start; // ecx
+  int v4; // esi
+  vostok::memory::base_allocator *v5; // eax
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *v6; // ecx
+  float v7; // xmm0_4
+  vostok::math::float4x4 *v8; // ecx
+  vostok::memory::base_allocator_vtbl *v9; // eax
+  vostok::particle::particle_system_instance_impl *m_arena_start; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v11; // [esp+Ch] [ebp-44h] BYREF
+  vostok::math::float4x4 v12; // [esp+10h] [ebp-40h] BYREF
 
-  vostok::particle::particle_system_instance::particle_system_instance(this);
-  this->__vftable = (vostok::particle::particle_system_instance_impl_vtbl *)&vostok::particle::particle_system_instance_impl::`vftable';
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_transform);
-  this->m_next.m_object = 0;
-  vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>((vostok::render::stage_lights::lights_instance *)&this->m_scene);
-  this->m_pinned = 0;
-  vostok::threading::interlocked_exchange_pointer(&this->m_is_playing, 0);
-  this->m_no_more_create = 0;
-  this->m_paused = 0;
-  this->m_visible = 1;
-  this->m_current_lod = 0;
-  this->m_old_lod = 0;
-  this->m_num_lods = 1;
-  this->m_use_lods = 1;
-  LODWORD(this->m_lods[0].m_distance) = clear_value;
-  LODWORD(this->m_lods_lerp_alpha) = clear_value;
-  this->m_lerped = 0;
-  this->m_ticked = 1;
-  this->m_always_looping = 0;
-  this->m_child_played = 0;
-  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator=(
-    &this->m_next,
-    0);
-  v1 = (vostok::math::float4x4 *)survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v3);
-  qmemcpy((void *)&this->m_transform, vostok::math::float4x4::identity(v1), sizeof(this->m_transform));
-  this->m_particle_system_time = *(float *)&FLOAT_0_0;
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, allocator, fs_iterator_class);
+  p_m_arena_start = &allocator[13].m_arena_start;
+  allocator->__vftable = (vostok::memory::base_allocator_vtbl *)&vostok::particle::particle_system_instance::`vftable';
+  v4 = 9;
+  v5 = allocator + 14;
+  do
+  {
+    *p_m_arena_start = 0;
+    v5[-1].m_arena_end = 0;
+    *(_DWORD *)&v5[-1].m_use_memory_monitor = 0;
+    v5->__vftable = 0;
+    p_m_arena_start += 8;
+    v5 = (vostok::memory::base_allocator *)((char *)v5 + 32);
+    --v4;
+  }
+  while ( v4 >= 0 );
+  allocator[36].__vftable = a3;
+  allocator[29].m_arena_start = 0;
+  allocator->__vftable = (vostok::memory::base_allocator_vtbl *)&vostok::particle::particle_system_instance_impl::`vftable';
+  allocator[36].m_arena_start = 0;
+  allocator[36].m_arena_end = 0;
+  allocator[38].__vftable = 0;
+  allocator[38].m_arena_start = 0;
+  LOBYTE(allocator[38].m_arena_end) = 0;
+  v6 = (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)_InterlockedExchange((volatile __int32 *)&allocator[37].m_arena_start, 0);
+  v7 = s_bm_current_air_resistance;
+  BYTE1(allocator[38].m_arena_end) = 0;
+  BYTE2(allocator[38].m_arena_end) = 0;
+  HIBYTE(allocator[38].m_arena_end) = 1;
+  allocator[36].m_arena_id = 0;
+  *(_DWORD *)&allocator[36].m_use_memory_monitor = 0;
+  allocator[37].__vftable = (vostok::memory::base_allocator_vtbl *)1;
+  *(&allocator[37].m_use_memory_monitor + 1) = 1;
+  *(float *)&allocator[14].m_arena_start = v7;
+  *(float *)&allocator[37].m_arena_id = v7;
+  allocator[37].m_use_memory_monitor = 0;
+  LOBYTE(allocator[38].m_arena_id) = 1;
+  *(&allocator[37].m_use_memory_monitor + 2) = 0;
+  *(&allocator[37].m_use_memory_monitor + 3) = 0;
+  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>::operator=(
+    v6,
+    (vostok::particle::particle_system_instance_impl **)&allocator[36].m_arena_start);
+  qmemcpy(&allocator[29].m_arena_id, vostok::math::float4x4::identity(v8, &v12), 0x40u);
+  allocator[37].m_arena_end = 0;
+  v9 = allocator[38].__vftable;
+  allocator[38].__vftable = 0;
+  v11.m_object = (vostok::particle::particle_system_instance_impl *)v9;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v11);
+  m_arena_start = (vostok::particle::particle_system_instance_impl *)allocator[38].m_arena_start;
+  allocator[38].m_arena_start = 0;
+  v11.m_object = m_arena_start;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v11);
 }

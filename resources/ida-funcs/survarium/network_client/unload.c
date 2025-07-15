@@ -1,32 +1,22 @@
 void __thiscall survarium::network_client::unload(survarium::network_client *this)
 {
-  survarium::network_client *v2; // ecx
-  bool v3; // bl
-  vostok::resources::unmanaged_resource *v4; // eax
-  vostok::resources::resource_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base> id; // [esp+10h] [ebp-8h]
-  vostok::resources::unmanaged_intrusive_base *v6; // [esp+14h] [ebp-4h] BYREF
+  survarium::game_statistics_handler *v2; // ecx
+  vostok::particle::particle_system_instance_impl *m_object; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v4; // [esp+Ch] [ebp-4h] BYREF
 
-  LOBYTE(id.m_object) = 0;
-  do
-  {
-    v3 = (this->get_player(this, &v6, id.m_object)->m_object != 0
-        ? (unsigned int)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-        : 0) != 0;
-    if ( v6 )
-    {
-      v2 = (survarium::network_client *)_InterlockedExchangeAdd(&v6[62].m_reference_count, 0xFFFFFFFF);
-      if ( !v2 )
-      {
-        if ( v6 )
-          v4 = (vostok::resources::unmanaged_resource *)&v6[36];
-        else
-          v4 = 0;
-        vostok::resources::unmanaged_intrusive_base::destroy(v6 + 62, v4);
-      }
-    }
-    if ( v3 )
-      survarium::network_client::destroy_player_impl(v2, this, id);
-    ++LOBYTE(id.m_object);
-  }
-  while ( LOBYTE(id.m_object) < 0x14u );
+  if ( !vostok::command_line::key::is_set((vostok::command_line::key *)this, (int)&s_disable_game_statistics_gathering) )
+    survarium::game_statistics_handler::clear(v2, (int)&this->m_game_statistics);
+  vostok::resources::resource_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base>::operator=(
+    &this->m_current_player,
+    0);
+  vostok::resources::resource_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base>::operator=(
+    &this->m_local_player,
+    0);
+  vostok::resources::resource_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base>::operator=(
+    &this->m_last_current_player,
+    0);
+  m_object = (vostok::particle::particle_system_instance_impl *)this->m_match.m_object;
+  this->m_match.m_object = 0;
+  v4.m_object = m_object;
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v4);
 }

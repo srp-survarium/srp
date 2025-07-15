@@ -1,6 +1,4 @@
-void __thiscall vostok::ui::ui_progress_bar::set_text_color(
-        vostok::ui::ui_progress_bar *this,
-        vostok::math::color color)
+void __thiscall vostok::ui::ui_progress_bar::set_text_color(btCollisionWorld *this, btIDebugDraw *debugDrawer)
 {
-  this->m_text_color = color;
+  this->m_debugDrawer = debugDrawer;
 }

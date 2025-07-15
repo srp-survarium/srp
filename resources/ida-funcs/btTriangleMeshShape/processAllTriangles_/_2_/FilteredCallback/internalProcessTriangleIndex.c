@@ -5,27 +5,27 @@ void __thiscall btTriangleMeshShape::processAllTriangles_::_2_::FilteredCallback
         int triangleIndex)
 {
   float v4; // xmm1_4
-  btVector3 *v5; // eax
-  float v6; // xmm2_4
+  float v5; // xmm2_4
+  btVector3 *v6; // eax
   btVector3 *v7; // eax
-  float *v8; // edx
-  float *v9; // eax
-  float *v10; // edx
-  float *v11; // eax
+  float *v8; // eax
+  float *v9; // edi
+  float *v10; // eax
+  float *v11; // edi
 
   v4 = triangle[1].mVec128.m128_f32[0];
-  v5 = triangle;
+  v5 = triangle[2].mVec128.m128_f32[0];
+  v6 = triangle;
   if ( v4 <= triangle->mVec128.m128_f32[0] )
-    v5 = triangle + 1;
-  v6 = triangle[2].mVec128.m128_f32[0];
-  if ( v6 <= v5->mVec128.m128_f32[0] )
-    v5 = triangle + 2;
-  if ( v5->mVec128.m128_f32[0] <= this->m_aabbMax.mVec128.m128_f32[0] )
+    v6 = triangle + 1;
+  if ( v5 <= v6->mVec128.m128_f32[0] )
+    v6 = triangle + 2;
+  if ( v6->mVec128.m128_f32[0] <= this->m_aabbMax.mVec128.m128_f32[0] )
   {
     v7 = triangle;
     if ( triangle->mVec128.m128_f32[0] <= v4 )
       v7 = triangle + 1;
-    if ( v7->mVec128.m128_f32[0] <= v6 )
+    if ( v7->mVec128.m128_f32[0] <= v5 )
       v7 = triangle + 2;
     if ( this->m_aabbMin.mVec128.m128_f32[0] <= v7->mVec128.m128_f32[0] )
     {

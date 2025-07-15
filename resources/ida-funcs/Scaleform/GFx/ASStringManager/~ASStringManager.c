@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::ASStringManager::~ASStringManager(Scaleform::GFx
   unsigned int v2; // ebx
   Scaleform::GFx::ASStringManager::StringNodePage *pStringNodePages; // ebp
   Scaleform::GFx::ASStringManager::StringNodePage *v4; // esi
-  char *v5; // eax
+  const __m128i *v5; // eax
   Scaleform::GFx::ASStringManager::TextPage::Entry *pData; // eax
   Scaleform::GFx::ASStringManager::TextPage *pTextBufferPages; // eax
   void *pMem; // edx
@@ -18,10 +18,10 @@ void __thiscall Scaleform::GFx::ASStringManager::~ASStringManager(Scaleform::GFx
   bool v17; // zf
   Scaleform::HashSetBase<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *>,Scaleform::AllocatorLH<Scaleform::GFx::ASStringNode *,324>,Scaleform::HashsetEntry<Scaleform::GFx::ASStringNode *,Scaleform::GFx::ASStringNodeHashFunc<Scaleform::GFx::ASStringNode *> > >::TableType *v18; // ecx
   int v19; // [esp+Ch] [ebp-1Ch]
-  Scaleform::StringBuffer leakReport; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v20; // [esp+10h] [ebp-18h] BYREF
 
   this->__vftable = (Scaleform::GFx::ASStringManager_vtbl *)&Scaleform::GFx::ASStringManager::`vftable';
-  Scaleform::StringBuffer::StringBuffer(&leakReport, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v20, Scaleform::Memory::pGlobalHeap);
   v2 = 0;
   while ( this->pStringNodePages )
   {
@@ -35,12 +35,12 @@ void __thiscall Scaleform::GFx::ASStringManager::~ASStringManager(Scaleform::GFx
       {
         if ( v2 < 0x10 )
         {
-          v5 = ", '";
+          v5 = (const __m128i *)", '";
           if ( !v2 )
-            v5 = "'";
-          Scaleform::StringBuffer::AppendString(&leakReport, v5, 0xFFFFFFFF);
-          Scaleform::StringBuffer::AppendString(&leakReport, (char *)v4->Nodes[0].pData, 0xFFFFFFFF);
-          Scaleform::StringBuffer::AppendString(&leakReport, "'", 0xFFFFFFFF);
+            v5 = (const __m128i *)"'";
+          Scaleform::StringBuffer::AppendString(&v20, v5, 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(&v20, (const __m128i *)v4->Nodes[0].pData, 0xFFFFFFFF);
+          Scaleform::StringBuffer::AppendString(&v20, (const __m128i *)"'", 0xFFFFFFFF);
         }
         ++v2;
         if ( (v4->Nodes[0].HashFlags & 0x40000000) == 0 )
@@ -80,16 +80,16 @@ void __thiscall Scaleform::GFx::ASStringManager::~ASStringManager(Scaleform::GFx
         "ActionScript Memory leaks in movie '%s', including %d string nodes",
         (const char *)((this->FileName.HeapTypeBits & 0xFFFFFFFC) + 8),
         v2);
-      v10 = leakReport.pData;
-      if ( !leakReport.pData )
-        v10 = (char *)&buf;
+      v10 = v20.pData;
+      if ( !v20.pData )
+        v10 = (char *)uri;
       Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptError(
         &this->pLog.pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
         "Leaked string content: %s\n",
         v10);
     }
   }
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&leakReport);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v20);
   v11 = (volatile LONG *)(this->FileName.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd(v11 + 1, -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)v11);

@@ -1,23 +1,24 @@
-X509_name_entry_st *__cdecl X509_NAME_ENTRY_create_by_txt(
+X509_name_entry_st *__usercall X509_NAME_ENTRY_create_by_txt@<eax>(
+        int a1@<ebx>,
         X509_name_entry_st **ne,
         char *field,
         int type,
-        unsigned __int8 *bytes,
+        __m128i *bytes,
         int len)
 {
-  asn1_object_st *v5; // esi
-  X509_name_entry_st *v7; // edi
+  asn1_object_st *v6; // esi
+  X509_name_entry_st *v8; // edi
 
-  v5 = OBJ_txt2obj(field, 0);
-  if ( v5 )
+  v6 = OBJ_txt2obj(a1, field, 0);
+  if ( v6 )
   {
-    v7 = X509_NAME_ENTRY_create_by_OBJ(ne, v5, type, bytes, len);
-    ASN1_OBJECT_free(v5);
-    return v7;
+    v8 = X509_NAME_ENTRY_create_by_OBJ(a1, ne, v6, type, bytes, len);
+    ASN1_OBJECT_free(v6);
+    return v8;
   }
   else
   {
-    ERR_put_error(0xBu, 131, 119, ".\\crypto\\x509\\x509name.c", 285);
+    ERR_put_error(a1, 0xBu, 131, 119, ".\\crypto\\x509\\x509name.c", 285);
     ERR_add_error_data(2, "name=", field);
     return 0;
   }

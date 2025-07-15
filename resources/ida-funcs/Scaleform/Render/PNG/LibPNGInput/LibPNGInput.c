@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::PNG::LibPNGInput::LibPNGInput(
         Scaleform::GFx::Resource *pin)
 {
   const char *v3; // eax
-  unsigned __int8 pbSig[8]; // [esp+8h] [ebp-8h] BYREF
+  _BYTE v4[8]; // [esp+8h] [ebp-8h] BYREF
 
   this->__vftable = (Scaleform::Render::PNG::LibPNGInput_vtbl *)&Scaleform::Render::PNG::LibPNGInput::`vftable';
   if ( pin )
@@ -16,12 +16,12 @@ void __thiscall Scaleform::Render::PNG::LibPNGInput::LibPNGInput(
     {
       memset((int)&this->Context, 0, sizeof(this->Context));
       v3 = (const char *)((int (__thiscall *)(Scaleform::GFx::Resource *))pin->GetKey)(pin);
-      strcpy_s(this->Context.filePath, 0x100u, v3);
-      if ( ((int (__thiscall *)(Scaleform::GFx::Resource *, unsigned __int8 *, int))pin->__vftable[2].GetResourceTypeCode)(
+      strcpy_s((int)this, this->Context.filePath, 256, v3);
+      if ( ((int (__thiscall *)(Scaleform::GFx::Resource *, _BYTE *, int))pin->__vftable[2].GetResourceTypeCode)(
              pin,
-             pbSig,
+             v4,
              8) == 8
-        && !png_sig_cmp((int)pbSig, 0, 8u) )
+        && !png_sig_cmp(v4, 0, 8) )
       {
         Scaleform::Render::PNG::LibPNGInput::StartImage(this);
       }

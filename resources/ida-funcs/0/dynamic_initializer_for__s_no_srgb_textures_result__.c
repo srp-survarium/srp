@@ -1,6 +1,4 @@
-void dynamic_initializer_for__s_no_srgb_textures_result__()
+void __thiscall dynamic_initializer_for__s_no_srgb_textures_result__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_no_srgb_textures_result);
+  vostok::command_line::key::key(this, &s_no_srgb_textures_result, "no_srgb_textures", uri, uri, uri, uri);
 }

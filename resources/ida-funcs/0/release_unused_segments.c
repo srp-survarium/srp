@@ -1,247 +1,226 @@
-unsigned int __cdecl release_unused_segments(malloc_state *m)
+int __cdecl release_unused_segments(malloc_state *m)
 {
-  char *v2; // edx
-  malloc_chunk *bk; // edi
+  malloc_state *v1; // edi
   unsigned int sflags; // eax
-  int v5; // eax
-  malloc_chunk *v6; // esi
-  int v7; // eax
-  malloc_chunk *fd; // ebp
-  malloc_chunk *v9; // eax
-  char *p_head; // ecx
-  char *v11; // eax
-  malloc_chunk *v12; // eax
-  bool v13; // zf
-  malloc_tree_chunk **v14; // eax
-  unsigned int prev_foot; // eax
-  unsigned int head; // eax
-  unsigned int v17; // eax
-  unsigned int v18; // ecx
-  unsigned int treemap; // edi
-  malloc_tree_chunk **v20; // edx
-  malloc_chunk *v21; // eax
-  char v22; // di
-  unsigned int v23; // edx
-  char *v24; // edi
-  char *least_addr; // edx
-  malloc_chunk *v26; // ecx
-  unsigned int v27; // eax
-  unsigned int released; // [esp+8h] [ebp-1Ch]
-  int nsegs; // [esp+Ch] [ebp-18h]
-  unsigned int size; // [esp+10h] [ebp-14h]
-  malloc_segment *pred; // [esp+14h] [ebp-10h]
-  malloc_segment *next; // [esp+18h] [ebp-Ch]
-  char *base; // [esp+1Ch] [ebp-8h]
-  unsigned int K; // [esp+20h] [ebp-4h]
-  malloc_segment *ma; // [esp+28h] [ebp+4h]
+  malloc_tree_chunk *v3; // ebx
+  virtual_alloc_arena *p_size; // ecx
+  virtual_alloc_region *bk; // esi
+  malloc_tree_chunk *parent; // edx
+  malloc_tree_chunk *fd; // eax
+  virtual_alloc_arena *child; // eax
+  malloc_tree_chunk **v9; // eax
+  malloc_tree_chunk *v10; // eax
+  malloc_tree_chunk *v11; // eax
+  unsigned int v12; // eax
+  unsigned int treemap; // ecx
+  malloc_tree_chunk **v14; // edx
+  unsigned int v15; // eax
+  char *v16; // ecx
+  char *least_addr; // esi
+  malloc_tree_chunk *v18; // eax
+  int v19; // eax
+  char *ptr; // [esp+4h] [ebp-24h]
+  malloc_segment *v22; // [esp+8h] [ebp-20h]
+  malloc_segment *p_seg; // [esp+Ch] [ebp-1Ch]
+  unsigned int size; // [esp+10h] [ebp-18h]
+  int v25; // [esp+14h] [ebp-14h]
+  int v26; // [esp+18h] [ebp-10h]
+  malloc_segment *next; // [esp+20h] [ebp-8h]
+  unsigned int v28; // [esp+24h] [ebp-4h]
 
-  pred = &m->seg;
-  released = 0;
-  nsegs = 0;
-  ma = m->seg.next;
-  if ( !ma )
+  v25 = 0;
+  v26 = 0;
+  v1 = m;
+  p_seg = &m->seg;
+  next = m->seg.next;
+  if ( !next )
   {
-LABEL_63:
-    v27 = 255;
-    goto LABEL_64;
+LABEL_61:
+    v19 = 255;
+    goto LABEL_62;
   }
   do
   {
-    v2 = ma->base;
-    bk = (malloc_chunk *)ma->size;
-    sflags = ma->sflags;
-    ++nsegs;
-    base = ma->base;
-    size = (unsigned int)bk;
-    next = ma->next;
-    if ( (sflags & 1) == 0 || (sflags & 8) != 0 )
-      goto LABEL_61;
-    v5 = (int)ma->base & 7;
-    if ( ((unsigned __int8)v2 & 7) != 0 )
-      v5 = -v5 & 7;
-    v6 = (malloc_chunk *)&v2[v5];
-    v7 = *(_DWORD *)&v2[v5 + 4];
-    K = v7 & 0xFFFFFFF8;
-    if ( (v7 & 2) != 0 || (char *)((unsigned int)v6 + (v7 & 0xFFFFFFF8)) < &v2[(int)bk - 40] )
-      goto LABEL_61;
-    if ( v6 == m->dv )
+    sflags = next->sflags;
+    ++v26;
+    ptr = next->base;
+    size = next->size;
+    v22 = next->next;
+    if ( (sflags & 1) == 0 )
+      goto LABEL_59;
+    if ( (sflags & 8) != 0 )
+      goto LABEL_59;
+    v3 = (malloc_tree_chunk *)&next->base[((int)next->base & 7) != 0 ? -((int)next->base & 7) & 7 : 0];
+    v28 = v3->head & 0xFFFFFFF8;
+    if ( (v3->head & 2) != 0 )
+      goto LABEL_59;
+    p_size = (virtual_alloc_arena *)&next->base[next->size - 40];
+    if ( (char *)v3 + (v3->head & 0xFFFFFFF8) < (char *)p_size )
+      goto LABEL_59;
+    if ( v3 == (malloc_tree_chunk *)v1->dv )
     {
-      m->dv = 0;
-      m->dvsize = 0;
-      goto LABEL_40;
-    }
-    bk = v6->bk;
-    fd = v6[1].fd;
-    if ( bk == v6 )
-    {
-      bk = (malloc_chunk *)v6[1].head;
-      p_head = (char *)&v6[1].head;
-      if ( bk || (bk = (malloc_chunk *)v6[1].prev_foot, p_head = (char *)&v6[1], bk) )
-      {
-        while ( 1 )
-        {
-          v11 = (char *)&bk[1].head;
-          if ( !bk[1].head )
-          {
-            v11 = (char *)&bk[1];
-            if ( !bk[1].prev_foot )
-              break;
-          }
-          bk = *(malloc_chunk **)v11;
-          p_head = v11;
-        }
-        if ( p_head < m->least_addr )
-LABEL_20:
-          abort();
-        *(_DWORD *)p_head = 0;
-      }
+      v1->dv = 0;
+      v1->dvsize = 0;
     }
     else
     {
-      v9 = v6->fd;
-      if ( (char *)v9 < m->least_addr )
-        goto LABEL_20;
-      v9->bk = bk;
-      bk->fd = v9;
-    }
-    if ( fd )
-    {
-      v12 = v6[1].bk;
-      v13 = v6 == (malloc_chunk *)m->treebins[(_DWORD)v12];
-      v14 = &m->treebins[(_DWORD)v12];
-      if ( v13 )
+      bk = (virtual_alloc_region *)v3->bk;
+      parent = v3->parent;
+      if ( bk == (virtual_alloc_region *)v3 )
       {
-        *v14 = (malloc_tree_chunk *)bk;
-        if ( !bk )
-        {
-          m->treemap &= ~(1 << (int)v6[1].bk);
-          goto LABEL_40;
-        }
-      }
-      else
-      {
-        if ( (char *)fd < m->least_addr )
-          abort();
-        if ( (malloc_chunk *)fd[1].prev_foot == v6 )
-          fd[1].prev_foot = (unsigned int)bk;
-        else
-          fd[1].head = (unsigned int)bk;
-        if ( !bk )
-          goto LABEL_40;
-      }
-      if ( (char *)bk < m->least_addr )
-        goto LABEL_39;
-      bk[1].fd = fd;
-      prev_foot = v6[1].prev_foot;
-      if ( prev_foot )
-      {
-        if ( (char *)prev_foot < m->least_addr )
-          abort();
-        bk[1].prev_foot = prev_foot;
-        *(_DWORD *)(prev_foot + 24) = bk;
-      }
-      head = v6[1].head;
-      if ( head )
-      {
-        if ( (char *)head < m->least_addr )
-LABEL_39:
-          abort();
-        bk[1].head = head;
-        *(_DWORD *)(head + 24) = bk;
-      }
-    }
-LABEL_40:
-    if ( munmap((virtual_alloc_arena *)bk, base, size) )
-    {
-      v17 = K >> 8;
-      if ( K >> 8 )
-      {
-        if ( v17 <= 0xFFFF )
-        {
-          _BitScanReverse(&v17, v17);
-          v18 = ((K >> (v17 + 7)) & 1) + 2 * v17;
-        }
-        else
-        {
-          v18 = 31;
-        }
-      }
-      else
-      {
-        v18 = 0;
-      }
-      v6[1].bk = (malloc_chunk *)v18;
-      v6[1].head = 0;
-      v6[1].prev_foot = 0;
-      treemap = m->treemap;
-      v20 = &m->treebins[v18];
-      if ( ((1 << v18) & treemap) != 0 )
-      {
-        v21 = (malloc_chunk *)*v20;
-        if ( v18 == 31 )
-          v22 = 0;
-        else
-          v22 = 25 - (v18 >> 1);
-        v23 = K << v22;
-        if ( (v21->head & 0xFFFFFFF8) == K )
-        {
-LABEL_55:
-          least_addr = m->least_addr;
-          v26 = v21->fd;
-          if ( v21 < (malloc_chunk *)least_addr || v26 < (malloc_chunk *)least_addr )
-            goto LABEL_60;
-          v26->bk = v6;
-          v21->fd = v6;
-          v6->fd = v26;
-          v6->bk = v21;
-          v6[1].fd = 0;
-        }
-        else
+        child = (virtual_alloc_arena *)&v3->child[1];
+        bk = (virtual_alloc_region *)v3->child[1];
+        if ( bk || (child = (virtual_alloc_arena *)v3->child, (bk = (virtual_alloc_region *)v3->child[0]) != 0) )
         {
           while ( 1 )
           {
-            v24 = (char *)(&v21[1].prev_foot + (v23 >> 31));
-            v23 *= 2;
-            if ( !*(_DWORD *)v24 )
-              break;
-            v21 = *(malloc_chunk **)v24;
-            if ( (*(_DWORD *)(*(_DWORD *)v24 + 4) & 0xFFFFFFF8) == K )
-              goto LABEL_55;
+            p_size = (virtual_alloc_arena *)&bk[1].size;
+            if ( !bk[1].size )
+            {
+              p_size = (virtual_alloc_arena *)&bk[1].next_free_region;
+              if ( !bk[1].next_free_region )
+                break;
+            }
+            bk = p_size->first_free_region;
+            child = p_size;
           }
-          if ( v24 < m->least_addr )
-LABEL_60:
+          if ( (char *)child < v1->least_addr )
+LABEL_18:
             abort();
-          *(_DWORD *)v24 = v6;
-          v6[1].fd = v21;
-          v6->bk = v6;
-          v6->fd = v6;
+          child->first_free_region = 0;
         }
       }
       else
       {
-        m->treemap = treemap | (1 << v18);
-        *v20 = (malloc_tree_chunk *)v6;
-        v6[1].fd = (malloc_chunk *)v20;
-        v6->bk = v6;
-        v6->fd = v6;
+        fd = v3->fd;
+        if ( (char *)fd < v1->least_addr )
+          goto LABEL_18;
+        fd->bk = (malloc_tree_chunk *)bk;
+        bk->size = (unsigned int)fd;
       }
+      if ( parent )
+      {
+        v9 = &v1->treebins[v3->index];
+        if ( v3 == *v9 )
+        {
+          *v9 = (malloc_tree_chunk *)bk;
+          if ( bk )
+            goto LABEL_29;
+          p_size = (virtual_alloc_arena *)v3->index;
+          v1->treemap &= ~(1 << (char)p_size);
+        }
+        else
+        {
+          if ( (char *)parent < v1->least_addr )
+            abort();
+          if ( parent->child[0] == v3 )
+            parent->child[0] = (malloc_tree_chunk *)bk;
+          else
+            parent->child[1] = (malloc_tree_chunk *)bk;
+          if ( bk )
+          {
+LABEL_29:
+            if ( (char *)bk < v1->least_addr )
+              goto LABEL_37;
+            bk[2].previous_free_region = (virtual_alloc_region *)parent;
+            v10 = v3->child[0];
+            if ( v10 )
+            {
+              if ( (char *)v10 < v1->least_addr )
+                abort();
+              bk[1].next_free_region = (virtual_alloc_region *)v10;
+              v10->parent = (malloc_tree_chunk *)bk;
+            }
+            v11 = v3->child[1];
+            if ( v11 )
+            {
+              if ( (char *)v11 < v1->least_addr )
+LABEL_37:
+                abort();
+              bk[1].size = (unsigned int)v11;
+              v11->parent = (malloc_tree_chunk *)bk;
+            }
+          }
+        }
+      }
+    }
+    if ( munmap(ptr, size, p_size) )
+    {
+      v12 = v28 >> 8;
+      if ( v28 >> 8 )
+      {
+        if ( v12 <= 0xFFFF )
+        {
+          _BitScanReverse(&v12, v12);
+          v12 = ((v28 >> (v12 + 7)) & 1) + 2 * v12;
+        }
+        else
+        {
+          v12 = 31;
+        }
+      }
+      v3->child[1] = 0;
+      v3->child[0] = 0;
+      v3->index = v12;
+      treemap = m->treemap;
+      v14 = &m->treebins[v12];
+      if ( ((1 << v12) & treemap) != 0 )
+      {
+        v14 = (malloc_tree_chunk **)*v14;
+        v15 = v28 << (v12 != 31 ? 25 - (v12 >> 1) : 0);
+        while ( 1 )
+        {
+          if ( ((unsigned int)v14[1] & 0xFFFFFFF8) == v28 )
+          {
+            least_addr = m->least_addr;
+            v18 = v14[2];
+            if ( v14 < (malloc_tree_chunk **)least_addr || v18 < (malloc_tree_chunk *)least_addr )
+              abort();
+            v18->bk = v3;
+            v14[2] = v3;
+            v3->parent = 0;
+            v3->fd = v18;
+            v3->bk = (malloc_tree_chunk *)v14;
+            goto LABEL_58;
+          }
+          v16 = (char *)&v14[(v15 >> 31) + 4];
+          v15 *= 2;
+          if ( !*(_DWORD *)v16 )
+            break;
+          v14 = *(malloc_tree_chunk ***)v16;
+        }
+        if ( v16 < m->least_addr )
+          abort();
+        *(_DWORD *)v16 = v3;
+      }
+      else
+      {
+        m->treemap = treemap | (1 << v12);
+        *v14 = v3;
+      }
+      v3->parent = (malloc_tree_chunk *)v14;
+      v3->bk = v3;
+      v3->fd = v3;
+      v1 = m;
     }
     else
     {
-      released += size;
+      v25 += size;
       m->footprint -= size;
-      ma = pred;
-      pred->next = next;
+      next = p_seg;
+      p_seg->next = v22;
+LABEL_58:
+      v1 = m;
     }
-LABEL_61:
-    pred = ma;
-    ma = next;
+LABEL_59:
+    p_seg = next;
+    next = v22;
   }
-  while ( next );
-  v27 = nsegs;
-  if ( nsegs <= 255 )
-    goto LABEL_63;
-LABEL_64:
-  m->release_checks = v27;
-  return released;
+  while ( v22 );
+  v19 = v26;
+  if ( v26 <= 255 )
+    goto LABEL_61;
+LABEL_62:
+  v1->release_checks = v19;
+  return v25;
 }

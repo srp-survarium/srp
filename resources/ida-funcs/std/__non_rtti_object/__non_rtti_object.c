@@ -7,7 +7,7 @@ void __thiscall std::__non_rtti_object::__non_rtti_object(
 }
 
 
-void __thiscall std::__non_rtti_object::__non_rtti_object(std::__non_rtti_object *this, const char *_Message)
+void __thiscall std::__non_rtti_object::__non_rtti_object(std::__non_rtti_object *this, char *_Message)
 {
   std::bad_typeid::bad_typeid(this, _Message);
   this->__vftable = (std::__non_rtti_object_vtbl *)&std::__non_rtti_object::`vftable';

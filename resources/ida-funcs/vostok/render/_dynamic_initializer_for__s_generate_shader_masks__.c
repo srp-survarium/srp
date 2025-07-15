@@ -1,6 +1,11 @@
-void vostok::render::_dynamic_initializer_for__s_generate_shader_masks__()
+void __thiscall vostok::render::_dynamic_initializer_for__s_generate_shader_masks__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_generate_shader_masks);
+  vostok::command_line::key::key(
+    this,
+    &s_generate_shader_masks,
+    "generate_shader_masks",
+    uri,
+    uri,
+    "generate shader masks config, for shader writers only",
+    uri);
 }

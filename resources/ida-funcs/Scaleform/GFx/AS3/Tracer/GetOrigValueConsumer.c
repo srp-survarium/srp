@@ -35,7 +35,7 @@ Scaleform::GFx::AS3::Abc::Code::OpCode __thiscall Scaleform::GFx::AS3::Tracer::G
       else
       {
         v9 = v5 - ((*(_BYTE *)&Scaleform::GFx::AS3::Abc::Code::opcode_info[v7] >> 4) & 3);
-        if ( (byte_8876B9[2 * v7] & 2) != 0 )
+        if ( (byte_72A671[8 * v7] & 2) != 0 )
         {
           switch ( this->CF->pFile->File.pObject->Const_Pool.const_multiname.Data.Data[Scaleform::GFx::AS3::Abc::ReadU30<unsigned char>(
                                                                                          pCode,
@@ -55,7 +55,7 @@ Scaleform::GFx::AS3::Abc::Code::OpCode __thiscall Scaleform::GFx::AS3::Tracer::G
               break;
           }
         }
-        if ( (byte_8876B9[2 * v7] & 1) != 0 )
+        if ( (byte_72A671[8 * v7] & 1) != 0 )
         {
           v10 = Scaleform::GFx::AS3::Abc::ReadU30<unsigned char>(this->pCode, &bcp);
           if ( v7 == 85 )
@@ -67,7 +67,7 @@ Scaleform::GFx::AS3::Abc::Code::OpCode __thiscall Scaleform::GFx::AS3::Tracer::G
           return v7;
         v11 = (unsigned __int8)Scaleform::GFx::AS3::Abc::Code::opcode_info[v7];
         v5 = (v11 >> 6) + v9;
-        if ( !(byte_8876B9[2 * v7] & 1 | ((byte_8876B9[2 * v7] & 2) != 0)) )
+        if ( !(byte_72A671[8 * v7] & 1 | ((byte_72A671[8 * v7] & 2) != 0)) )
         {
           switch ( v7 )
           {

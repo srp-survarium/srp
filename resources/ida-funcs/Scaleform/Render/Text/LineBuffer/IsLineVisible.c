@@ -2,10 +2,10 @@ BOOL __thiscall Scaleform::Render::Text::LineBuffer::IsLineVisible(
         Scaleform::Render::Text::LineBuffer *this,
         unsigned int lineIndex)
 {
-  float yOffset; // [esp+8h] [ebp-4h]
+  float v4; // [esp+8h] [ebp-4h]
 
-  yOffset = -(double)(unsigned int)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(this);
-  return Scaleform::Render::Text::LineBuffer::IsLineVisible(this, lineIndex, yOffset);
+  v4 = -(double)(unsigned int)Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(this);
+  return Scaleform::Render::Text::LineBuffer::IsLineVisible(this, lineIndex, v4);
 }
 
 
@@ -20,16 +20,16 @@ BOOL __thiscall Scaleform::Render::Text::LineBuffer::IsLineVisible(
   double v6; // st6
   int OffsetY; // esi
   unsigned int Height; // eax
-  float yOffseta; // [esp+Ch] [ebp+8h]
-  float yOffsetb; // [esp+Ch] [ebp+8h]
+  float v10; // [esp+Ch] [ebp+8h]
+  float v11; // [esp+Ch] [ebp+8h]
 
   v3 = this->Lines.Data.Data[lineIndex];
   FirstVisibleLinePos = this->Geom.FirstVisibleLinePos;
   if ( lineIndex == FirstVisibleLinePos )
   {
     v5 = (double)v3->Data32.OffsetY + yOffset;
-    yOffseta = this->Geom.VisibleRect.y2 - this->Geom.VisibleRect.y1;
-    v6 = yOffseta;
+    v10 = this->Geom.VisibleRect.y2 - this->Geom.VisibleRect.y1;
+    v6 = v10;
   }
   else
   {
@@ -41,8 +41,8 @@ BOOL __thiscall Scaleform::Render::Text::LineBuffer::IsLineVisible(
     else
       Height = v3->Data8.Height;
     v5 = (double)(int)(OffsetY + Height) + yOffset;
-    yOffsetb = this->Geom.VisibleRect.y2 - this->Geom.VisibleRect.y1;
-    v6 = yOffsetb;
+    v11 = this->Geom.VisibleRect.y2 - this->Geom.VisibleRect.y1;
+    v6 = v11;
   }
   return v6 + 20.0 >= v5;
 }

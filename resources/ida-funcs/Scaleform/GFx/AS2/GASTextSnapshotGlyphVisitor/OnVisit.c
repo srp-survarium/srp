@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   Scaleform::GFx::AS2::Environment *pEnv; // edx
   Scaleform::GFx::AS2::ObjectInterface *v7; // edi
   Scaleform::GFx::ASStringNode *v8; // eax
-  char *v9; // eax
+  __m128i *v9; // eax
   Scaleform::GFx::ASStringNode *StringNode; // ebp
   Scaleform::GFx::AS2::Environment *v11; // eax
   Scaleform::GFx::ASStringNode *v12; // eax
@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   long double v56; // [esp+14Ch] [ebp-30h]
   long double v57; // [esp+154h] [ebp-28h]
   Scaleform::GFx::AS2::Value v58; // [esp+15Ch] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+16Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v59; // [esp+16Ch] [ebp-10h] BYREF
 
   pHeap = this->pEnv->StringContext.pContext->pHeap;
   v3 = (Scaleform::GFx::AS2::Object *)pHeap->Alloc(pHeap, 52u, 0);
@@ -72,8 +72,8 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   }
   RunIdx = this->RunIdx;
   pEnv = this->pEnv;
-  val.T.Type = 4;
-  val.NV.Int32Value = RunIdx;
+  v59.T.Type = 4;
+  v59.NV.Int32Value = RunIdx;
   HIBYTE(v52) = 0;
   v7 = &v53->Scaleform::GFx::AS2::ObjectInterface;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -86,13 +86,13 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v8 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
   if ( !v8->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v8);
-  v9 = (char *)this->pFont->GetName(this->pFont);
+  v9 = (__m128i *)this->pFont->GetName(this->pFont);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  (Scaleform::GFx::ASStringManager *)this->pEnv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                  v9);
@@ -123,16 +123,16 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   if ( StringNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
   Raw = this->ColorValue.Raw;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   LODWORD(v54) = Raw;
-  val.T.Type = 3;
+  v59.T.Type = 3;
   v15 = this->pEnv;
-  val.NV.NumberValue = (double)Raw;
+  v59.NV.NumberValue = (double)Raw;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                    (Scaleform::GFx::ASStringManager *)v15->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   (char *)&stru_9555EC,
+                   "color",
                    5u,
                    0);
   ++*(_DWORD *)(LODWORD(v54) + 12);
@@ -140,31 +140,31 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v16 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
   if ( !v16->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v16);
   *(float *)&v54 = this->Height;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v17 = this->pEnv;
-  val.NV.NumberValue = *(float *)&v54;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(float *)&v54;
+  v59.T.Type = 3;
   SetMember = v7->SetMember;
   HIBYTE(v52) = 0;
   SetMember(
     v7,
     v17,
     (const Scaleform::GFx::ASString *)&v17->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[33].pASSupport,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   HIBYTE(v52) = this->bSelected;
-  Scaleform::GFx::AS2::Value::DropRefs(&val);
+  Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v19 = this->pEnv;
-  val.T.Type = 2;
-  val.V.BooleanValue = HIBYTE(v52);
+  v59.T.Type = 2;
+  v59.V.BooleanValue = HIBYTE(v52);
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                    (Scaleform::GFx::ASStringManager *)v19->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
@@ -176,7 +176,7 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v20 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -184,21 +184,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v20);
   *(float *)&v54 = this->Matrix.M[0][0] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v21 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v21->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_a");
+                   (__m128i *)"matrix_a");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v22 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -206,21 +206,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v22);
   *(float *)&v54 = this->Matrix.M[1][0] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v23 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v23->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_b");
+                   (__m128i *)"matrix_b");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v24 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -228,21 +228,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v24);
   *(float *)&v54 = this->Matrix.M[0][1] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v25 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v25->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_c");
+                   (__m128i *)"matrix_c");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v26 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -250,21 +250,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v26);
   *(float *)&v54 = this->Matrix.M[1][1] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v27 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v27->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_d");
+                   (__m128i *)"matrix_d");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v28 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -272,21 +272,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v28);
   *(float *)&v54 = this->Matrix.M[0][3] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v29 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v29->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_tx");
+                   (__m128i *)"matrix_tx");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v30 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -294,21 +294,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v30);
   *(float *)&v54 = this->Matrix.M[1][3] * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v31 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v31->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "matrix_ty");
+                   (__m128i *)"matrix_ty");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v32 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -324,21 +324,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   *((float *)&v57 + 1) = this->Corners.y1;
   *(float *)&v54 = *(float *)&v55 * 0.05000000074505806;
   v54 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v33 = this->pEnv;
-  val.NV.NumberValue = v54;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v54;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v33->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner0x");
+                   (__m128i *)"corner0x");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v34 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -346,21 +346,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v34);
   *(float *)&v54 = *((float *)&v55 + 1) * 0.05000000074505806;
   v55 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v35 = this->pEnv;
-  val.NV.NumberValue = v55;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v55;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v35->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner0y");
+                   (__m128i *)"corner0y");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v36 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -368,21 +368,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v36);
   *(float *)&v54 = *(float *)&v56 * 0.05000000074505806;
   v55 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v37 = this->pEnv;
-  val.NV.NumberValue = v55;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v55;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v37->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner1x");
+                   (__m128i *)"corner1x");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v38 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -390,21 +390,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v38);
   *(float *)&v54 = *((float *)&v56 + 1) * 0.05000000074505806;
   v56 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v39 = this->pEnv;
-  val.NV.NumberValue = v56;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v56;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v39->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner1y");
+                   (__m128i *)"corner1y");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v40 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -412,21 +412,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v40);
   *(float *)&v54 = *(float *)&v57 * 0.05000000074505806;
   v56 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v41 = this->pEnv;
-  val.NV.NumberValue = v56;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v56;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v41->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner2x");
+                   (__m128i *)"corner2x");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v42 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -434,21 +434,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v42);
   *(float *)&v54 = *((float *)&v57 + 1) * 0.05000000074505806;
   v57 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v43 = this->pEnv;
-  val.NV.NumberValue = v57;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v57;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v43->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner2y");
+                   (__m128i *)"corner2y");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v44 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -456,21 +456,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v44);
   *(float *)&v54 = *(float *)&v58.T.Type * 0.05000000074505806;
   v57 = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v45 = this->pEnv;
-  val.NV.NumberValue = v57;
-  val.T.Type = 3;
+  v59.NV.NumberValue = v57;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v45->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner3x");
+                   (__m128i *)"corner3x");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v46 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -478,21 +478,21 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
     Scaleform::GFx::ASStringNode::ReleaseNode(v46);
   *(float *)&v54 = *(float *)&v58.V.pStringNode * 0.05000000074505806;
   *(double *)&v58.T.Type = *(float *)&v54;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   v47 = this->pEnv;
-  val.NV.NumberValue = *(double *)&v58.T.Type;
-  val.T.Type = 3;
+  v59.NV.NumberValue = *(double *)&v58.T.Type;
+  v59.T.Type = 3;
   HIBYTE(v52) = 0;
   LODWORD(v54) = Scaleform::GFx::ASStringManager::CreateStringNode(
                    (Scaleform::GFx::ASStringManager *)v47->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                   "corner3y");
+                   (__m128i *)"corner3y");
   ++*(_DWORD *)(LODWORD(v54) + 12);
   v7->SetMember(
     v7,
     this->pEnv,
     (const Scaleform::GFx::ASString *)&v54,
-    &val,
+    &v59,
     (const Scaleform::GFx::AS2::PropFlags *)&v52 + 3);
   v48 = (Scaleform::GFx::ASStringNode *)LODWORD(v54);
   --*(_DWORD *)(LODWORD(v54) + 12);
@@ -503,10 +503,10 @@ void __thiscall Scaleform::GFx::AS2::GASTextSnapshotGlyphVisitor::OnVisit(
   Scaleform::GFx::AS2::ArrayObject::PushBack(this->pArrayObj, v50);
   if ( v58.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v58);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v59.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v59);
   RefCount = v49->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFFF) != 0 )
   {
     v49->RefCount = RefCount - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v49);

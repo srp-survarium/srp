@@ -7,7 +7,7 @@ unsigned __int8 __cdecl Scaleform::Render::DDS::DDSDescr::CalcShiftByMask(unsign
   result = 0;
   if ( !mask )
     return 0;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[5574199] & mask) != 0 )
+  if ( (mask & 0xFFFFFF) != 0 )
   {
     if ( (_WORD)mask )
     {

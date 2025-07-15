@@ -58,7 +58,7 @@ bool __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnUnloading(Scaleform::GFx::
   if ( pObject )
     Scaleform::RefCountNTSImpl::Release(pObject);
   NewEntry->pCharacter.pObject = pDispObj;
-  NewEntry->mEventId.Id = (unsigned int)&vostok::memory::s_CRT_arena[5574216];
+  NewEntry->mEventId.Id = 16777232;
   NewEntry->mEventId.WcharCode = 0;
   NewEntry->mEventId.KeyCode = 0;
   NewEntry->mEventId.AsciiCode = 0;
@@ -77,7 +77,7 @@ bool __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnUnloading(Scaleform::GFx::
     else
     {
       RefCount = v10->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v10->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

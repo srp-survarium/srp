@@ -20,7 +20,10 @@ void __thiscall Scaleform::GFx::DisplayList::MoveDisplayObject(
     {
       pCharacter->Flags &= ~0x40u;
       if ( v8->TreeIndex == -1 )
-        Scaleform::GFx::DisplayList::InsertIntoRenderTree(this, owner, DisplayIndex);
+        Scaleform::GFx::DisplayList::InsertIntoRenderTree(
+          this,
+          owner,
+          (Scaleform::GFx::DisplayObjectBase *)DisplayIndex);
       if ( !pCharacter->GetAcceptAnimMoves(pCharacter) )
       {
         if ( !pCharacter->GetContinueAnimationFlag(pCharacter) )

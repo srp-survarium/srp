@@ -1,7 +1,7 @@
-void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetCaretIndex(const Scaleform::GFx::AS2::FnCall *fn)
+void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetCaretIndex(Scaleform::GFx::AS2::FnCall *fn)
 {
-  const Scaleform::GFx::AS2::FnCall *v1; // esi
-  Scaleform::GFx::AS2::Value *Result; // edi
+  Scaleform::GFx::AS2::FnCall *v1; // esi
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeAltHashF,Scaleform::AllocatorDH<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,329>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeHashF> >::TableType *Result; // edi
   Scaleform::GFx::AS2::Environment *Env; // ecx
   unsigned int v4; // eax
   Scaleform::GFx::AS2::Value *v5; // eax
@@ -14,11 +14,11 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetCaretIndex(const Sca
   double v12; // [esp+8h] [ebp-8h]
 
   v1 = fn;
-  Result = fn->Result;
-  if ( Result->T.Type >= 5u )
+  Result = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeAltHashF,Scaleform::AllocatorDH<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,329>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeHashF> >::TableType *)fn->Result;
+  if ( LOBYTE(Result->EntryCount) >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(fn->Result);
-  Result->T.Type = 3;
-  Result->NV.NumberValue = -1.0;
+  LOBYTE(Result->EntryCount) = 3;
+  *(double *)&Result->SizeMask = -1.0;
   Env = v1->Env;
   if ( Env )
   {
@@ -32,7 +32,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetCaretIndex(const Sca
     pMovieImpl = v1->Env->Target->pASRoot->pMovieImpl;
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
       (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[v4]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&fn);
+      (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&fn);
     v7 = (Scaleform::GFx::TextField *)fn;
     if ( fn )
     {
@@ -43,7 +43,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetCaretIndex(const Sca
         CaretIndex = Scaleform::GFx::TextField::GetCaretIndex(v7);
         v9 = v1->Result;
         v10 = v9->T.Type < 5u;
-        fn = (const Scaleform::GFx::AS2::FnCall *)CaretIndex;
+        fn = (Scaleform::GFx::AS2::FnCall *)CaretIndex;
         v12 = (double)(int)CaretIndex;
         if ( !v10 )
           Scaleform::GFx::AS2::Value::DropRefs(v9);

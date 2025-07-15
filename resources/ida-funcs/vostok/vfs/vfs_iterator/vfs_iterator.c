@@ -1,37 +1,8 @@
-void __thiscall vostok::vfs::vfs_iterator::vfs_iterator(
-        vostok::vfs::vfs_iterator *this,
-        const vostok::vfs::vfs_iterator *it)
+void __usercall vostok::vfs::vfs_iterator::vfs_iterator(vostok::vfs::vfs_iterator *this@<ecx>, int a2@<eax>)
 {
-  *this = *it;
-}
-
-
-void __thiscall vostok::vfs::vfs_iterator::vfs_iterator(
-        vostok::vfs::vfs_iterator *this,
-        vostok::vfs::base_node<1> *node,
-        vostok::vfs::base_node<1> *link_target,
-        vostok::vfs::vfs_hashset *hashset,
-        vostok::vfs::vfs_iterator::type_enum type)
-{
-  this->m_hashset = hashset;
-  this->m_node = node;
-  this->m_link_target = link_target;
-  this->m_type = type;
-  if ( node )
+  if ( ((int)this[3].m_hashset & 0x800) == 0x800 )
   {
-    if ( (node->m_flags & 0x800) == 0x800 )
-    {
-      this->m_node = 0;
-      this->m_link_target = 0;
-    }
+    *(_DWORD *)(a2 + 4) = 0;
+    *(_DWORD *)(a2 + 8) = 0;
   }
-}
-
-
-void __thiscall vostok::vfs::vfs_iterator::vfs_iterator(vostok::vfs::vfs_iterator *this)
-{
-  this->m_hashset = 0;
-  this->m_node = 0;
-  this->m_link_target = 0;
-  this->m_type = type_unset;
 }

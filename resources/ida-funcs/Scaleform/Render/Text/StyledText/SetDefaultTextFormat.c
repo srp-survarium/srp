@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::Text::StyledText::SetDefaultTextFormat(
         Scaleform::Render::Text::StyledText *this,
         Scaleform::Render::Text::TextFormat *defaultTextFmt)
 {
-  const Scaleform::Render::Text::TextFormat *v2; // esi
+  Scaleform::Render::Text::TextFormat *v2; // esi
   char v4; // al
   Scaleform::RefCountNTSImpl *v5; // ecx
   Scaleform::Ptr<Scaleform::Render::Text::HTMLImageTagDesc> *p_pImageDesc; // edx
@@ -23,7 +23,7 @@ void __thiscall Scaleform::Render::Text::StyledText::SetDefaultTextFormat(
   Scaleform::Render::Text::TextFormat *v21; // esi
   Scaleform::Render::Text::TextFormat *v22; // ebx
   Scaleform::MemoryHeap *pHeap; // [esp-4h] [ebp-3Ch]
-  Scaleform::Render::Text::TextFormat textfmt; // [esp+10h] [ebp-28h] BYREF
+  Scaleform::Render::Text::TextFormat srcfmt; // [esp+10h] [ebp-28h] BYREF
 
   v2 = defaultTextFmt;
   v4 = 0;
@@ -45,36 +45,36 @@ void __thiscall Scaleform::Render::Text::StyledText::SetDefaultTextFormat(
   if ( pObject )
   {
     pHeap = v2->FontList.pHeap;
-    textfmt.RefCount = 1;
-    Scaleform::StringDH::CopyConstructHelper(&textfmt.FontList, &v2->FontList, pHeap);
-    Scaleform::StringDH::CopyConstructHelper(&textfmt.Url, &v2->Url, v2->FontList.pHeap);
+    srcfmt.RefCount = 1;
+    Scaleform::StringDH::CopyConstructHelper(&srcfmt.FontList, &v2->FontList, pHeap);
+    Scaleform::StringDH::CopyConstructHelper(&srcfmt.Url, &v2->Url, v2->FontList.pHeap);
     v8 = v2->pImageDesc.pObject;
     if ( v8 )
       ++v8->RefCount;
     v9 = (Scaleform::GFx::Resource *)v2->pFontHandle.pObject;
     v10 = v2->pImageDesc.pObject;
-    textfmt.pImageDesc.pObject = v10;
+    srcfmt.pImageDesc.pObject = v10;
     if ( v9 )
     {
       Scaleform::RefCountImpl::AddRef(v9);
-      v10 = textfmt.pImageDesc.pObject;
+      v10 = srcfmt.pImageDesc.pObject;
     }
     v11 = v2->pFontHandle.pObject;
-    textfmt.ColorV = v2->ColorV;
+    srcfmt.ColorV = v2->ColorV;
     FontSize = v2->FontSize;
-    textfmt.pFontHandle.pObject = v11;
+    srcfmt.pFontHandle.pObject = v11;
     LOWORD(v11) = v2->LetterSpacing;
-    textfmt.FontSize = FontSize;
+    srcfmt.FontSize = FontSize;
     PresentMask = v2->PresentMask;
-    textfmt.LetterSpacing = (__int16)v11;
-    textfmt.FormatFlags = v2->FormatFlags;
-    textfmt.PresentMask = PresentMask;
+    srcfmt.LetterSpacing = (__int16)v11;
+    srcfmt.FormatFlags = v2->FormatFlags;
+    srcfmt.PresentMask = PresentMask;
     if ( v10 )
       Scaleform::RefCountNTSImpl::Release(v10);
-    textfmt.PresentMask |= 0x200u;
-    textfmt.pImageDesc.pObject = 0;
+    srcfmt.PresentMask |= 0x200u;
+    srcfmt.pImageDesc.pObject = 0;
     Allocator = Scaleform::Render::Text::StyledText::GetAllocator(this);
-    v15 = Scaleform::Render::Text::Allocator::AllocateTextFormat(Allocator, &textfmt);
+    v15 = Scaleform::Render::Text::Allocator::AllocateTextFormat(Allocator, &srcfmt);
     v16 = this->pDefaultTextFormat.pObject;
     v17 = v15;
     if ( v16 )
@@ -87,7 +87,7 @@ void __thiscall Scaleform::Render::Text::StyledText::SetDefaultTextFormat(
       }
     }
     this->pDefaultTextFormat.pObject = v17;
-    Scaleform::Render::Text::TextFormat::~TextFormat(&textfmt);
+    Scaleform::Render::Text::TextFormat::~TextFormat(&srcfmt);
   }
   else
   {

@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
         Scaleform::GFx::TextField *this,
         Scaleform::GFx::TextField::LinkEvent event,
-        const Scaleform::Render::Text::Style *mouseIndex,
+        Scaleform::Render::Text::TextFormat *mouseIndex,
         const Scaleform::Range *purlRange)
 {
   unsigned __int8 AvmObjOffset; // al
@@ -46,11 +46,11 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
   const Scaleform::Render::Text::TextFormat *v46; // eax
   const Scaleform::Render::Text::TextFormat *v47; // eax
   const Scaleform::Render::Text::TextFormat *v48; // eax
-  Scaleform::Render::Text::TextFormat fmt; // [esp+34h] [ebp-50h] BYREF
+  Scaleform::Render::Text::TextFormat v49; // [esp+34h] [ebp-50h] BYREF
   Scaleform::Render::Text::TextFormat result; // [esp+5Ch] [ebp-28h] BYREF
-  const Scaleform::Render::Text::Style *pstyle; // [esp+8Ch] [ebp+8h]
-  const Scaleform::Render::Text::Style *pstylea; // [esp+8Ch] [ebp+8h]
-  const Scaleform::Render::Text::Style *pstyleb; // [esp+8Ch] [ebp+8h]
+  Scaleform::Render::Text::TextFormat *fmt; // [esp+8Ch] [ebp+8h]
+  Scaleform::Render::Text::TextFormat *fmta; // [esp+8Ch] [ebp+8h]
+  Scaleform::Render::Text::TextFormat *fmtb; // [esp+8Ch] [ebp+8h]
 
   AvmObjOffset = this->AvmObjOffset;
   if ( AvmObjOffset )
@@ -84,14 +84,14 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
           }
           else
           {
-            pstyle = (const Scaleform::Render::Text::Style *)pObject->UrlZones.Ranges.Data.Size;
-            if ( !pstyle )
+            fmt = (Scaleform::Render::Text::TextFormat *)pObject->UrlZones.Ranges.Data.Size;
+            if ( !fmt )
               return;
             for ( i = pObject->UrlZones.Ranges.Data.Data;
                   !Scaleform::Range::Intersects(i, purlRange);
                   i = (Scaleform::Range *)((char *)i + 20) )
             {
-              if ( ++v7 >= (const char *)pstyle )
+              if ( ++v7 >= (const char *)fmt )
                 return;
             }
             v15 = this->pCSSData.pObject;
@@ -149,7 +149,7 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
                                                     + 16))(
                         (char *)&this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                       + 4 * v25);
-                (*(void (__thiscall **)(int, int, int, const Scaleform::Render::Text::Style *))(*(_DWORD *)v26 + 104))(
+                (*(void (__thiscall **)(int, int, int, Scaleform::Render::Text::TextFormat *))(*(_DWORD *)v26 + 104))(
                   v26,
                   2,
                   v13->Index,
@@ -160,14 +160,14 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
           }
           else
           {
-            pstylea = (const Scaleform::Render::Text::Style *)v21->UrlZones.Ranges.Data.Size;
-            if ( !pstylea )
+            fmta = (Scaleform::Render::Text::TextFormat *)v21->UrlZones.Ranges.Data.Size;
+            if ( !fmta )
               return;
             for ( j = v21->UrlZones.Ranges.Data.Data;
                   !Scaleform::Range::Intersects(j, purlRange);
                   j = (Scaleform::Range *)((char *)j + 20) )
             {
-              if ( ++v7 >= (const char *)pstylea )
+              if ( ++v7 >= (const char *)fmta )
                 return;
             }
             v28 = this->pCSSData.pObject;
@@ -183,7 +183,7 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
                                                   + 16))(
                       (char *)&this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                     + 4 * v30);
-              (*(void (__thiscall **)(int, int, int, const Scaleform::Render::Text::Style *))(*(_DWORD *)v31 + 104))(
+              (*(void (__thiscall **)(int, int, int, Scaleform::Render::Text::TextFormat *))(*(_DWORD *)v31 + 104))(
                 v31,
                 2,
                 v13->Index,
@@ -224,7 +224,7 @@ void __thiscall Scaleform::GFx::TextField::ChangeUrlFormat(
                                                 + 16))(
                     (char *)&this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                   + 4 * v35);
-            (*(void (__thiscall **)(int, int, int, const Scaleform::Render::Text::Style *))(*(_DWORD *)v36 + 104))(
+            (*(void (__thiscall **)(int, int, int, Scaleform::Render::Text::TextFormat *))(*(_DWORD *)v36 + 104))(
               v36,
               3,
               v13->Index,
@@ -258,36 +258,40 @@ LABEL_51:
             if ( v7 )
             {
               v40 = this->pCSSData.pObject->GetTextStyleManager(this->pCSSData.pObject);
-              pstyleb = v40->GetStyle(v40, CSS_Tag, v7, -1u);
-              if ( pstyleb )
+              fmtb = (Scaleform::Render::Text::TextFormat *)v40->GetStyle(v40, CSS_Tag, v7, -1u);
+              if ( fmtb )
               {
                 v41 = this->pCSSData.pObject->GetTextStyleManager(this->pCSSData.pObject);
-                v42 = (const Scaleform::Render::Text::TextFormat *)v41->GetStyle(v41, CSS_Tag, "a", -1u);
+                v42 = (const Scaleform::Render::Text::TextFormat *)v41->GetStyle(
+                                                                     v41,
+                                                                     CSS_Tag,
+                                                                     (const char *)&stru_809F70,
+                                                                     -1u);
                 v43 = this->pCSSData.pObject->GetTextStyleManager(this->pCSSData.pObject);
                 v44 = (const Scaleform::Render::Text::TextFormat *)v43->GetStyle(v43, CSS_Tag, "a:link", -1u);
                 v45 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-                Scaleform::Render::Text::TextFormat::TextFormat(&fmt, v45);
+                Scaleform::Render::Text::TextFormat::TextFormat(&v49, v45);
                 if ( v42 )
                 {
-                  v46 = Scaleform::Render::Text::TextFormat::Merge(&fmt, &result, v42);
-                  Scaleform::Render::Text::TextFormat::operator=(&fmt, v46);
+                  v46 = Scaleform::Render::Text::TextFormat::Merge(&v49, &result, v42);
+                  Scaleform::Render::Text::TextFormat::operator=(&v49, v46);
                   Scaleform::Render::Text::TextFormat::~TextFormat(&result);
                 }
                 if ( v44 )
                 {
-                  v47 = Scaleform::Render::Text::TextFormat::Merge(&fmt, &result, v44);
-                  Scaleform::Render::Text::TextFormat::operator=(&fmt, v47);
+                  v47 = Scaleform::Render::Text::TextFormat::Merge(&v49, &result, v44);
+                  Scaleform::Render::Text::TextFormat::operator=(&v49, v47);
                   Scaleform::Render::Text::TextFormat::~TextFormat(&result);
                 }
-                v48 = Scaleform::Render::Text::TextFormat::Merge(&fmt, &result, &pstyleb->mTextFormat);
-                Scaleform::Render::Text::TextFormat::operator=(&fmt, v48);
+                v48 = Scaleform::Render::Text::TextFormat::Merge(&v49, &result, fmtb);
+                Scaleform::Render::Text::TextFormat::operator=(&v49, v48);
                 Scaleform::Render::Text::TextFormat::~TextFormat(&result);
                 Scaleform::Render::Text::DocView::SetTextFormat(
                   this->pDocument.pObject,
-                  &fmt,
+                  &v49,
                   v13->Index,
                   v13->Index + v13->Length);
-                Scaleform::Render::Text::TextFormat::~TextFormat(&fmt);
+                Scaleform::Render::Text::TextFormat::~TextFormat(&v49);
               }
             }
           }

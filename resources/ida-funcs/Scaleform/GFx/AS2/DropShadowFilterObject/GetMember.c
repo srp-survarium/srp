@@ -15,12 +15,12 @@ char __thiscall Scaleform::GFx::AS2::DropShadowFilterObject::GetMember(
   const Scaleform::Render::BlurFilterParams *v15; // eax
   const Scaleform::Render::BlurFilterParams *v16; // eax
   const Scaleform::Render::BlurFilterParams *v17; // eax
-  float namec; // [esp+24h] [ebp+8h]
-  float named; // [esp+24h] [ebp+8h]
-  float namea; // [esp+24h] [ebp+8h]
-  float nameb; // [esp+24h] [ebp+8h]
-  float vala; // [esp+28h] [ebp+Ch]
-  float valb; // [esp+28h] [ebp+Ch]
+  float v18; // [esp+24h] [ebp+8h]
+  float v19; // [esp+24h] [ebp+8h]
+  float BlurX; // [esp+24h] [ebp+8h]
+  float BlurY; // [esp+24h] [ebp+8h]
+  float v22; // [esp+28h] [ebp+Ch]
+  float v23; // [esp+28h] [ebp+Ch]
 
   if ( !strcmp(name->pNode->pData, "alpha") )
   {
@@ -31,8 +31,8 @@ char __thiscall Scaleform::GFx::AS2::DropShadowFilterObject::GetMember(
       v6 = 0.0;
     if ( val->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(val);
-    namec = v6;
-    val->NV.NumberValue = namec;
+    v18 = v6;
+    val->NV.NumberValue = v18;
     val->T.Type = 3;
     return 1;
   }
@@ -45,31 +45,29 @@ char __thiscall Scaleform::GFx::AS2::DropShadowFilterObject::GetMember(
       v9 = 0.0;
     if ( val->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(val);
-    named = v9;
-    val->NV.NumberValue = named;
+    v19 = v9;
+    val->NV.NumberValue = v19;
     val->T.Type = 3;
     return 1;
   }
   else if ( !strcmp(name->pNode->pData, "blurX") )
   {
-    namea = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::DropShadowFilterObject *)((char *)this - 16))->BlurX;
+    BlurX = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::DropShadowFilterObject *)((char *)this - 16))->BlurX;
     if ( val->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(val);
     val->T.Type = 3;
     result = 1;
-    vala = namea * 0.05000000074505806;
-    val->NV.NumberValue = vala;
+    v22 = BlurX * 0.05000000074505806;
+    val->NV.NumberValue = v22;
   }
   else
   {
     if ( !Scaleform::GFx::ASString::operator==(name, "blurY") )
     {
-      if ( Scaleform::GFx::ASString::operator==(name, (const char *)&stru_9555EC) )
+      if ( Scaleform::GFx::ASString::operator==(name, "color") )
       {
         v12 = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::DropShadowFilterObject *)((char *)this - 16));
-        Scaleform::GFx::AS2::Value::SetInt(
-          val,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v12->Colors[0].Raw);
+        Scaleform::GFx::AS2::Value::SetInt(val, v12->Colors[0].Raw & 0xFFFFFF);
         return 1;
       }
       if ( Scaleform::GFx::ASString::operator==(name, "distance") )
@@ -113,13 +111,13 @@ char __thiscall Scaleform::GFx::AS2::DropShadowFilterObject::GetMember(
       Scaleform::GFx::AS2::Value::SetNumber(val, Distance);
       return 1;
     }
-    nameb = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::DropShadowFilterObject *)((char *)this - 16))->BlurY;
+    BlurY = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::DropShadowFilterObject *)((char *)this - 16))->BlurY;
     if ( val->T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(val);
     val->T.Type = 3;
     result = 1;
-    valb = nameb * 0.05000000074505806;
-    val->NV.NumberValue = valb;
+    v23 = BlurY * 0.05000000074505806;
+    val->NV.NumberValue = v23;
   }
   return result;
 }

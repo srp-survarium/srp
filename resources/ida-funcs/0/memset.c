@@ -1,8 +1,8 @@
-void __cdecl memset(int dst, unsigned __int8 *value, unsigned int count)
+void __cdecl memset(int dst, int value, int count)
 {
-  unsigned int v3; // edx
+  int v3; // edx
   int v4; // eax
-  unsigned __int8 *v5; // edi
+  _BYTE *v5; // edi
   int v6; // ecx
   unsigned int v7; // ecx
   unsigned int v8; // ecx
@@ -10,11 +10,11 @@ void __cdecl memset(int dst, unsigned __int8 *value, unsigned int count)
   v3 = count;
   if ( count )
   {
-    LOBYTE(v4) = (_BYTE)value;
-    if ( (_BYTE)value || count < 0x100 || !__sse2_available )
+    LOBYTE(v4) = value;
+    if ( (_BYTE)value || (unsigned int)count < 0x100 || !__sse2_available )
     {
-      v5 = (unsigned __int8 *)dst;
-      if ( count < 4 )
+      v5 = (_BYTE *)dst;
+      if ( (unsigned int)count < 4 )
         goto LABEL_15;
       v6 = -dst & 3;
       if ( v6 )
@@ -22,7 +22,7 @@ void __cdecl memset(int dst, unsigned __int8 *value, unsigned int count)
         v3 = count - v6;
         do
         {
-          *v5++ = (unsigned __int8)value;
+          *v5++ = value;
           --v6;
         }
         while ( v6 );
@@ -44,7 +44,7 @@ LABEL_15:
     }
     else
     {
-      _VEC_memzero((void *)dst, (int)value, count);
+      _VEC_memzero(dst, value, count);
     }
   }
 }

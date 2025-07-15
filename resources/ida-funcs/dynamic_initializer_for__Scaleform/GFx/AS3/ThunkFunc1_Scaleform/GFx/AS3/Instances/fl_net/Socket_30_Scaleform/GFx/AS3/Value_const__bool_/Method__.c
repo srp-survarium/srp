@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_net::Socket::writeBoolean;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_net::Socket,30,Scaleform::GFx::AS3::Value const,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_net::Socket::writeBoolean;
-  dword_AAC49C = 0;
+  dword_8F0C54 = 0;
   return result;
 }

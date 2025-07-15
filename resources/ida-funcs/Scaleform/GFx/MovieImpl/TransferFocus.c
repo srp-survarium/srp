@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::MovieImpl::TransferFocus(
   Scaleform::GFx::MovieImpl *v4; // ebx
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject> *p_LastFocused; // edi
   Scaleform::GFx::Sprite *pObject; // ebp
-  Scaleform::GFx::InteractiveObject *v7; // esi
+  Scaleform::GFx::Sprite *v7; // esi
   Scaleform::GFx::ASMovieRootBase *v8; // eax
   Scaleform::WeakPtrProxy *v9; // eax
   bool v10; // zf
@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::MovieImpl::TransferFocus(
   Scaleform::WeakPtrProxy *v15; // eax
   Scaleform::WeakPtrProxy *v16; // eax
   Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+1Ch] [ebp-4h] BYREF
-  int avmVersion; // [esp+24h] [ebp+4h]
+  Scaleform::RefCountWeakSupportImpl *AVMVersion; // [esp+24h] [ebp+4h]
 
   v4 = this;
   p_LastFocused = &this->FocusGroups[this->FocusGroupIndexes[controllerIdx]].LastFocused;
@@ -36,8 +36,8 @@ void __thiscall Scaleform::GFx::MovieImpl::TransferFocus(
   {
     v8 = v4->pASMovieRoot.pObject;
     v4->FocusRectChanged = 1;
-    avmVersion = v8->AVMVersion;
-    if ( avmVersion == 2 )
+    AVMVersion = (Scaleform::RefCountWeakSupportImpl *)v8->AVMVersion;
+    if ( AVMVersion == (Scaleform::RefCountWeakSupportImpl *)2 )
     {
       if ( !v7 )
       {
@@ -78,7 +78,7 @@ LABEL_18:
 LABEL_19:
     if ( pObject && pObject->pParent )
       pObject->OnFocus(pObject, Unknown, v7, controllerIdx, fmt);
-    if ( avmVersion == 1 )
+    if ( AVMVersion == (Scaleform::RefCountWeakSupportImpl *)1 )
     {
       if ( !v7 )
       {

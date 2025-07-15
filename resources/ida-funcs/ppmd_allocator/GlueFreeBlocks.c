@@ -1,112 +1,111 @@
-void __thiscall ppmd_allocator::GlueFreeBlocks(ppmd_allocator *this)
+void __usercall ppmd_allocator::GlueFreeBlocks(ppmd_allocator *this@<ecx>, _DWORD *a2@<esi>)
 {
-  unsigned __int8 *LoUnit; // eax
-  MEM_BLK *p_s0; // ebx
-  BLK_NODE **p_next; // esi
-  MEM_BLK *v4; // eax
-  BLK_NODE *next; // edx
-  unsigned int NU; // edx
+  _BYTE *v2; // eax
+  int *v3; // edi
+  int **v4; // ecx
+  int *v5; // eax
+  int *v6; // edx
   int v7; // edx
-  bool v8; // zf
-  MEM_BLK *v9; // edx
-  BLK_NODE *v10; // ebp
-  BLK_NODE *v11; // eax
-  unsigned int Stamp; // edx
-  unsigned int v13; // esi
-  int v14; // edi
-  int v15; // ebx
-  unsigned int v16; // esi
-  unsigned int v17; // ebx
-  unsigned int *v18; // edx
-  unsigned int v19; // edx
-  int v20; // [esp+0h] [ebp-10h]
-  MEM_BLK s0; // [esp+4h] [ebp-Ch] BYREF
+  int *v8; // edx
+  _DWORD *i; // ecx
+  _DWORD *v10; // eax
+  unsigned int v11; // eax
+  unsigned int v12; // edx
+  int v13; // edx
+  unsigned int v14; // edi
+  _DWORD *v15; // edx
+  _DWORD *v16; // eax
+  int v17; // edi
+  _DWORD *v18; // eax
+  int v19; // [esp+0h] [ebp-14h] BYREF
+  _DWORD *v20; // [esp+4h] [ebp-10h]
+  int v21; // [esp+Ch] [ebp-8h]
+  int v22; // [esp+10h] [ebp-4h]
 
-  LoUnit = this->LoUnit;
-  if ( LoUnit != this->HiUnit )
-    *LoUnit = 0;
-  p_s0 = &s0;
-  s0.next = 0;
-  p_next = &this->BList[0].next;
-  v20 = 38;
+  v2 = (_BYTE *)a2[124];
+  if ( v2 != (_BYTE *)a2[125] )
+    *v2 = 0;
+  v20 = 0;
+  v3 = &v19;
+  v4 = (int **)(a2 + 2);
+  v22 = 38;
   do
   {
-    while ( *p_next )
+    while ( *v4 )
     {
-      v4 = (MEM_BLK *)*p_next;
-      next = (*p_next)->next;
-      *(p_next - 1) = (BLK_NODE *)((char *)*(p_next - 1) - 1);
-      *p_next = next;
-      NU = v4->NU;
-      if ( NU )
+      v5 = *v4;
+      v6 = (int *)(*v4)[1];
+      *(v4 - 1) = (int *)((char *)*(v4 - 1) - 1);
+      *v4 = v6;
+      v7 = v5[2];
+      if ( v7 )
       {
-        v7 = NU;
-        v8 = v4[v7].Stamp == -1;
-        v9 = &v4[v7];
-        if ( v8 )
+        while ( 1 )
         {
-          do
-          {
-            v4->NU += v9->NU;
-            v9->NU = 0;
-            v9 = &v4[v4->NU];
-          }
-          while ( v9->Stamp == -1 );
+          v8 = &v5[3 * v7];
+          if ( *v8 != -1 )
+            break;
+          v5[2] += v8[2];
+          v8[2] = 0;
+          v7 = v5[2];
         }
-        v4->next = p_s0->next;
-        p_s0->next = v4;
-        p_s0 = v4;
+        v5[1] = v3[1];
+        v3[1] = (int)v5;
+        v3 = v5;
       }
     }
-    p_next += 2;
-    --v20;
+    v4 += 2;
+    --v22;
   }
-  while ( v20 );
-  v10 = s0.next;
-  while ( v10 )
+  while ( v22 );
+  for ( i = v20; v20; i = v20 )
   {
-    --s0.Stamp;
-    v11 = v10;
-    Stamp = v10[1].Stamp;
-    v10 = v10->next;
-    if ( Stamp )
+    v10 = (_DWORD *)i[1];
+    --v19;
+    v20 = v10;
+    v11 = i[2];
+    if ( v11 )
     {
-      if ( Stamp > 0x80 )
+      if ( v11 > 0x80 )
       {
-        v13 = ((Stamp - 129) >> 7) + 1;
+        v12 = ((v11 - 129) >> 7) + 1;
         do
         {
-          v11->next = this->BList[37].next;
-          this->BList[37].next = v11;
-          v11->Stamp = -1;
-          v11[1].Stamp = 128;
-          ++this->BList[37].Stamp;
-          Stamp -= 128;
-          v11 += 192;
-          --v13;
+          i[1] = a2[76];
+          a2[76] = i;
+          *i = -1;
+          i[2] = 128;
+          ++a2[75];
+          v11 -= 128;
+          i += 384;
+          --v12;
         }
-        while ( v13 );
+        while ( v12 );
       }
-      v14 = this->Indx2Units[Stamp + 37];
-      if ( this->Indx2Units[v14] != Stamp )
+      v13 = *((unsigned __int8 *)a2 + v11 + 345);
+      v22 = (int)a2 + v13 + 308;
+      if ( *(unsigned __int8 *)v22 != v11 )
       {
-        v15 = *((unsigned __int8 *)&this->BList[37].next + v14-- + 3);
-        v16 = Stamp - v15;
-        v17 = *((_DWORD *)&this->m_allocator + 2 * (Stamp - v15));
-        v18 = &v11->Stamp + 3 * (Stamp - v16);
-        v18[1] = v17;
-        *((_DWORD *)&this->m_allocator + 2 * v16) = v18;
-        *v18 = -1;
-        v18[2] = v16;
-        ++*((_DWORD *)this + 2 * v16 - 1);
+        v21 = v13 - 1;
+        v22 = (int)a2 + v13 + 307;
+        v14 = v11 - *(unsigned __int8 *)v22;
+        v15 = &a2[2 * v14 - 1];
+        v16 = &i[3 * *(unsigned __int8 *)v22];
+        v16[1] = a2[2 * v14];
+        v15[1] = v16;
+        *v16 = -1;
+        v16[2] = v14;
+        ++*v15;
+        v13 = v21;
       }
-      v19 = this->Indx2Units[v14];
-      v11->next = this->BList[v14].next;
-      this->BList[v14].next = v11;
-      v11->Stamp = -1;
-      v11[1].Stamp = v19;
-      ++this->BList[v14].Stamp;
+      v17 = *(unsigned __int8 *)v22;
+      v18 = &a2[2 * v13 + 1];
+      i[1] = a2[2 * v13 + 2];
+      v18[1] = i;
+      *i = -1;
+      i[2] = v17;
+      ++*v18;
     }
   }
-  this->GlueCount = 0x2000;
+  a2[119] = 0x2000;
 }

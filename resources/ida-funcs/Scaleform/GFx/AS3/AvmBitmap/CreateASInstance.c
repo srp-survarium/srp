@@ -106,7 +106,7 @@ unsigned int __thiscall Scaleform::GFx::AS3::AvmBitmap::CreateASInstance(
   if ( NameOfExportedResource )
     Scaleform::String::operator=(&className, NameOfExportedResource);
   else
-    Scaleform::String::operator=(&className, "flash.display.BitmapData");
+    Scaleform::String::operator=(&className, (const __m128i *)"flash.display.BitmapData");
   Scaleform::GFx::AS3::VM::constructBuiltinObject(
     *((Scaleform::GFx::AS3::VM **)this->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::__vftable[2].~Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>
     + 10),
@@ -133,7 +133,7 @@ unsigned int __thiscall Scaleform::GFx::AS3::AvmBitmap::CreateASInstance(
   if ( Width && ((unsigned __int8)Width & 1) == 0 )
   {
     v16 = Width->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+    if ( (v16 & 0x3FFFFF) != 0 )
     {
       Width->RefCount = v16 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(Width);

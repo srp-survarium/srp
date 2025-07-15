@@ -13,12 +13,12 @@ void __thiscall Scaleform::GFx::Text::EditorKit::AddDrawCursorInfo(
   Scaleform::Render::Text::DocView::HighlightDescLoc *pHighlight; // ecx
   Scaleform::Render::Text::DocView *v12; // eax
   Scaleform::Render::Rect<float> *p_VisibleRect; // edi
-  unsigned int Raw; // [esp+1B8h] [ebp-84h]
-  Scaleform::Render::Point<float> plineIndex; // [esp+1CCh] [ebp-70h] BYREF
-  Scaleform::Render::Point<float> pglyphIndex; // [esp+1D4h] [ebp-68h] BYREF
-  Scaleform::Render::Rect<float> pcursorRect; // [esp+1DCh] [ebp-60h] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+1ECh] [ebp-50h] BYREF
-  Scaleform::Render::Text::HighlighterPosIterator result; // [esp+208h] [ebp-34h] BYREF
+  unsigned int Raw; // [esp-4h] [ebp-84h]
+  Scaleform::Render::Point<float> pt; // [esp+10h] [ebp-70h] BYREF
+  Scaleform::Render::Point<float> v16; // [esp+18h] [ebp-68h] BYREF
+  Scaleform::Render::Rect<float> v; // [esp+20h] [ebp-60h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+30h] [ebp-50h] BYREF
+  Scaleform::Render::Text::HighlighterPosIterator result; // [esp+4Ch] [ebp-34h] BYREF
 
   if ( !this->IsReadOnly(this) )
   {
@@ -34,28 +34,28 @@ void __thiscall Scaleform::GFx::Text::EditorKit::AddDrawCursorInfo(
         pObject = this->pDocView.pObject;
         FormatCounter = this->CursorRect.FormatCounter;
         x_low = -1;
-        plineIndex.x = NAN;
+        pt.x = NAN;
         if ( FormatCounter != pObject->FormatCounter )
         {
           HasCompositionString = this->HasCompositionString;
-          pcursorRect.x1 = 0.0;
+          v.x1 = 0.0;
           CursorPos = this->CursorPos;
-          pcursorRect.y1 = 0.0;
-          pcursorRect.x2 = 0.0;
-          pcursorRect.y2 = 0.0;
+          v.y1 = 0.0;
+          v.x2 = 0.0;
+          v.y2 = 0.0;
           if ( HasCompositionString(this) )
             CursorPos += this->pComposStr.pObject->CursorPos;
           if ( Scaleform::GFx::Text::EditorKit::CalcCursorRectInLineBuffer(
                  this,
                  CursorPos,
-                 &pcursorRect,
-                 (unsigned int *)&plineIndex,
-                 (unsigned int *)&pglyphIndex,
+                 &v,
+                 (unsigned int *)&pt,
+                 (unsigned int *)&v16,
                  0,
                  0) )
           {
             v9 = this->pDocView.pObject->pDocument.pObject;
-            pcursorRect.x2 = pcursorRect.x1;
+            v.x2 = v.x1;
             v10 = v9->pDefaultTextFormat.pObject;
             if ( v10 && (v10->PresentMask & 1) != 0 )
               this->CursorColor.Raw = v10->ColorV;
@@ -70,33 +70,33 @@ void __thiscall Scaleform::GFx::Text::EditorKit::AddDrawCursorInfo(
               if ( (result.CurDesc.Info.Flags & 0x10) != 0 )
                 this->CursorColor = *Scaleform::Render::Text::HighlightInfo::GetTextColor(
                                        &result.CurDesc.Info,
-                                       (Scaleform::Render::Color *)&pglyphIndex);
+                                       (Scaleform::Render::Color *)&v16);
             }
           }
           else
           {
-            pcursorRect.x1 = 0.0;
-            pcursorRect.y1 = 0.0;
-            pglyphIndex.x = 0.0 + 0.0;
-            pcursorRect.x2 = pglyphIndex.x;
-            pcursorRect.y2 = pglyphIndex.x;
+            v.x1 = 0.0;
+            v.y1 = 0.0;
+            v16.x = 0.0 + 0.0;
+            v.x2 = v16.x;
+            v.y2 = v16.x;
           }
           Scaleform::Render::Text::CachedValue<Scaleform::Render::Rect<float>>::SetValue(
             &this->CursorRect,
-            &pcursorRect,
+            &v,
             this->pDocView.pObject->FormatCounter);
-          x_low = LODWORD(plineIndex.x);
+          x_low = LODWORD(pt.x);
         }
         Scaleform::Render::Rect<float>::Rect<float>(&r, &this->CursorRect.Value);
         v12 = this->pDocView.pObject;
         p_VisibleRect = &v12->mLineBuffer.Geom.VisibleRect;
-        plineIndex.x = (float)v12->mLineBuffer.Geom.HScrollOffset;
-        LODWORD(pglyphIndex.x) = Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(&v12->mLineBuffer);
-        plineIndex.y = (float)LODWORD(pglyphIndex.x);
-        Scaleform::Render::Rect<float>::operator-=(&r, &plineIndex);
-        pglyphIndex.x = p_VisibleRect->x1;
-        pglyphIndex.y = p_VisibleRect->y1;
-        Scaleform::Render::Rect<float>::operator+=(&r, &pglyphIndex);
+        pt.x = (float)v12->mLineBuffer.Geom.HScrollOffset;
+        LODWORD(v16.x) = Scaleform::Render::Text::LineBuffer::GetVScrollOffsetInFixp(&v12->mLineBuffer);
+        pt.y = (float)LODWORD(v16.x);
+        Scaleform::Render::Rect<float>::operator-=(&r, &pt);
+        v16.x = p_VisibleRect->x1;
+        v16.y = p_VisibleRect->y1;
+        Scaleform::Render::Rect<float>::operator+=(&r, &v16);
         if ( p_VisibleRect->y2 < (double)r.y2 )
         {
           if ( x_low == -1 )

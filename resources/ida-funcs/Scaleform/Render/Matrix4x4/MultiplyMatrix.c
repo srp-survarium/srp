@@ -12,7 +12,7 @@ void __thiscall Scaleform::Render::Matrix4x4<float>::MultiplyMatrix(
   __m128 v9; // xmm7
   __m128 v10; // xmm6
   __m128 v11; // xmm0
-  __m128 v12; // [esp+30h] [ebp-20h]
+  __m128 v12; // [esp+0h] [ebp-20h]
 
   v3 = *(__m128 *)&m1->M[0][0];
   v4 = *(__m128 *)&m1->M[1][0];
@@ -64,7 +64,7 @@ void __thiscall Scaleform::Render::Matrix4x4<float>::MultiplyMatrix(
   __m128 v6; // xmm4
   __m128 v7; // xmm5
   __m128 v8; // xmm0
-  __m128 v9; // [esp+60h] [ebp-30h]
+  __m128 v9; // [esp+0h] [ebp-30h]
 
   v3 = *(__m128 *)&m1->M[1][0];
   v4 = *(__m128 *)&m1->M[2][0];

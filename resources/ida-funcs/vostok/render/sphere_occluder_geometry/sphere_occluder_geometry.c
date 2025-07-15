@@ -1,93 +1,75 @@
-void __userpurge vostok::render::sphere_occluder_geometry::sphere_occluder_geometry(
-        vostok::render::sphere_occluder_geometry *this@<ecx>,
-        bool a2@<dil>,
-        vostok::render::sphere_occluder_geometry *thisa)
+void __thiscall vostok::render::sphere_occluder_geometry::sphere_occluder_geometry(
+        vostok::render::sphere_occluder_geometry *this,
+        vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *a2)
 {
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::render::untyped_buffer *v4; // esi
-  vostok::render::untyped_buffer *v5; // eax
-  vostok::render::untyped_buffer *v6; // edi
-  vostok::render::res_geometry *geometry; // eax
-  vostok::render::res_geometry *v8; // ecx
-  vostok::render::res_geometry *m_object; // eax
-  bool v10; // zf
-  vostok::render::resource_manager *v11; // [esp-14h] [ebp-44h]
-  D3D11_INPUT_ELEMENT_DESC layout[1]; // [esp+14h] [ebp-1Ch] BYREF
+  vostok::render::untyped_buffer *v2; // eax
+  const vostok::render::untyped_buffer *v3; // eax
+  vostok::render::resource_manager *v4; // ecx
+  const vostok::render::untyped_buffer *v5; // edi
+  vostok::render::res_geometry *v6; // eax
+  bool v7; // zf
+  vostok::render::untyped_buffer *v8; // esi
+  vostok::render::resource_manager *v9; // [esp-18h] [ebp-44h]
+  vostok::render::hw_buffer_pool *v10; // [esp+0h] [ebp-2Ch]
+  D3D11_INPUT_ELEMENT_DESC decl_size; // [esp+Ch] [ebp-20h] BYREF
+  vostok::render::untyped_buffer *ib; // [esp+28h] [ebp-4h]
 
-  v11 = (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-  thisa->m_geometry.m_object = 0;
-  buffer = vostok::render::resource_manager::create_buffer(
-             0x450u,
-             a2,
-             v11,
-             du_sphere_vertices,
-             enum_buffer_type_vertex,
-             0,
-             0);
-  v4 = 0;
-  if ( buffer )
+  v9 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+  a2->m_object = 0;
+  vostok::render::resource_manager::create_buffer(
+    0x450u,
+    v9,
+    (void *)0xC,
+    (vostok::render::enum_buffer_type)du_sphere_vertices,
+    0,
+    0,
+    0);
+  ib = 0;
+  if ( v2 )
   {
-    ++buffer->m_reference_count;
-    v4 = buffer;
+    ++v2->m_reference_count;
+    ib = v2;
   }
-  v5 = vostok::render::resource_manager::create_buffer(
-         0x438u,
-         a2,
-         (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-         du_sphere_faces,
-         enum_buffer_type_index,
-         0,
-         0);
-  v6 = 0;
+  vostok::render::resource_manager::create_buffer(
+    0x438u,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)2,
+    (vostok::render::enum_buffer_type)du_sphere_faces,
+    1,
+    0,
+    0);
+  v5 = 0;
+  if ( v3 )
+  {
+    ++v3->m_reference_count;
+    v5 = v3;
+  }
+  decl_size.SemanticName = "POSITION";
+  decl_size.SemanticIndex = 0;
+  decl_size.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+  memset(&decl_size.InputSlot, 0, 16);
+  v6 = vostok::render::resource_manager::create_geometry(
+         v4,
+         (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+         &decl_size,
+         1u,
+         (vostok::render::untyped_buffer *)0xC,
+         ib,
+         (int)v5);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    a2,
+    v6);
   if ( v5 )
   {
-    ++v5->m_reference_count;
-    v6 = v5;
+    v7 = v5->m_reference_count-- == 1;
+    if ( v7 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v5, v10);
   }
-  layout[0].SemanticName = "POSITION";
-  layout[0].SemanticIndex = 0;
-  layout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-  layout[0].InputSlot = 0;
-  layout[0].AlignedByteOffset = 0;
-  layout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-  layout[0].InstanceDataStepRate = 0;
-  geometry = vostok::render::resource_manager::create_geometry(
-               (stlp_std::forward_iterator_tag *)layout,
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               1u,
-               0xCu,
-               v4,
-               v6);
-  v8 = 0;
-  if ( geometry )
+  v8 = ib;
+  if ( ib )
   {
-    ++geometry->m_reference_count;
-    v8 = geometry;
-  }
-  m_object = thisa->m_geometry.m_object;
-  thisa->m_geometry.m_object = v8;
-  if ( m_object )
-  {
-    v10 = m_object->m_reference_count-- == 1;
-    if ( v10 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        m_object);
-  }
-  if ( v6 )
-  {
-    v10 = v6->m_reference_count-- == 1;
-    if ( v10 )
-      vostok::render::resource_manager::release(
-        (vostok::render::res_state *)v6,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
-  }
-  if ( v4 )
-  {
-    v10 = v4->m_reference_count-- == 1;
-    if ( v10 )
-      vostok::render::resource_manager::release(
-        (vostok::render::res_state *)v4,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
+    v7 = ib->m_reference_count-- == 1;
+    if ( v7 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(v8, v10);
   }
 }

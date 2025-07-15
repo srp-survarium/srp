@@ -1,99 +1,126 @@
-void __thiscall survarium::bullet::tick(survarium::bullet *this, unsigned int current_time_in_ms)
+void __userpurge survarium::bullet::tick(
+        unsigned int current_time_in_ms@<eax>,
+        survarium::bullet *a2@<ecx>,
+        vostok::math::float3 this)
 {
-  survarium::game_camera *v2; // ecx
-  vostok::math::float3_pod *v3; // ecx
-  const vostok::math::float3_pod *v4; // eax
-  vostok::math::float3_pod *v5; // ecx
-  float v6; // xmm0_4
-  survarium::game_camera *v7; // ecx
-  __int128 _FFFFFFF8; // [esp-8h] [ebp-A4h]
-  vostok::math::float3 v10; // [esp+50h] [ebp-4Ch] BYREF
-  char v11; // [esp+5Fh] [ebp-3Dh]
-  vostok::math::float3 d; // [esp+60h] [ebp-3Ch] BYREF
-  float d_len; // [esp+6Ch] [ebp-30h]
-  float speed; // [esp+70h] [ebp-2Ch]
-  float length; // [esp+74h] [ebp-28h]
-  survarium::collision_result result; // [esp+78h] [ebp-24h]
-  float time; // [esp+7Ch] [ebp-20h] BYREF
-  unsigned __int16 invalid_tracer_idx; // [esp+80h] [ebp-1Ch]
-  float high_time; // [esp+84h] [ebp-18h] BYREF
-  float low_time; // [esp+88h] [ebp-14h]
-  const vostok::math::float3 *gravity; // [esp+8Ch] [ebp-10h]
-  vostok::math::float3 zero_velocity; // [esp+90h] [ebp-Ch] BYREF
+  int x_low; // ebx
+  float x; // xmm3_4
+  float permissible_time; // xmm0_4
+  unsigned int v7; // xmm2_4
+  unsigned int v8; // xmm1_4
+  survarium::bullet_manager *v9; // ecx
+  float v10; // xmm1_4
+  float v11; // xmm2_4
+  float v12; // xmm3_4
+  int v13; // eax
+  float v14; // xmm3_4
+  __int128 v15; // [esp-10h] [ebp-54h] BYREF
+  vostok::math::float3 *low_time; // [esp+0h] [ebp-44h]
+  float *high_time; // [esp+4h] [ebp-40h]
+  float v18[3]; // [esp+18h] [ebp-2Ch] BYREF
+  vostok::math::float3 v19; // [esp+24h] [ebp-20h] BYREF
+  float v20; // [esp+30h] [ebp-14h]
+  float v21; // [esp+34h] [ebp-10h]
+  float v22; // [esp+38h] [ebp-Ch]
+  float next_time; // [esp+3Ch] [ebp-8h] BYREF
+  float v24; // [esp+40h] [ebp-4h] BYREF
 
-  this->m_current_time_in_ms = current_time_in_ms;
-  vostok::math::float3::float3(&zero_velocity, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 0.0);
-  invalid_tracer_idx = -1;
-  low_time = this->m_life_time;
-  high_time = (double)(current_time_in_ms - this->m_born_time_in_ms) / 1000.0 * survarium::s_bm_bullet_time_factor;
-  v11 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  gravity = &this->m_bullet_manager->m_gravity;
+  x_low = LODWORD(this.x);
+  x = *(float *)(LODWORD(this.x) + 100);
+  *(_DWORD *)(LODWORD(this.x) + 96) = current_time_in_ms;
+  LODWORD(this.x) = current_time_in_ms - *(_DWORD *)(x_low + 92);
+  next_time = x;
+  LODWORD(v22) = *(_DWORD *)(x_low + 60) + 20;
+  v24 = (double)LODWORD(this.x) * 0.001;
   while ( 1 )
   {
-    if ( vostok::math::float3_pod::squared_length((SpeedTree::Vec3 *)&this->m_velocity) < 1.0 )
+    if ( s_bm_current_air_resistance > (float)((float)((float)(*(float *)(x_low + 16) * *(float *)(x_low + 16))
+                                                     + (float)(*(float *)(x_low + 20) * *(float *)(x_low + 20)))
+                                             + (float)(*(float *)(x_low + 24) * *(float *)(x_low + 24)))
+      || *(_DWORD *)(x_low + 132) >= 0x1Eu )
     {
-      this->m_start_velocity = zero_velocity;
+      goto LABEL_11;
+    }
+    if ( x == v24 )
+      return;
+    permissible_time = survarium::bullet::pick_next_permissible_time(
+                         (survarium::bullet *)x_low,
+                         a2,
+                         s_bm_current_air_resistance,
+                         next_time,
+                         v24);
+    this.x = permissible_time;
+    if ( next_time == permissible_time
+      || (high_time = &v24,
+          low_time = &this,
+          HIDWORD(v15) = &next_time,
+          *(_QWORD *)&v15 = *(_QWORD *)(x_low + 4),
+          DWORD2(v15) = *(_DWORD *)(x_low + 12),
+          survarium::bullet::check_collision(a2, permissible_time, (survarium::bullet *)x_low, v15, &this.x, &v24) == 1)
+      || this.x != 0.0
+      && !survarium::bullet::update_bullet_position(
+            a2,
+            x_low,
+            (int)&v15 + 12,
+            x_low + 16,
+            0.0,
+            (survarium::bullet *)x_low,
+            (const vostok::math::float3 *)LODWORD(this.x),
+            v22) )
+    {
+LABEL_11:
+      survarium::bullet::finish_flying(a2, (_DWORD *)x_low);
       return;
     }
-    if ( this->m_change_trajectory_count >= 0x20 )
-    {
-      this->m_start_velocity = zero_velocity;
-      return;
-    }
-    if ( low_time == high_time )
-      return;
-    time = survarium::bullet::pick_next_permissible_time(this, low_time, high_time, gravity);
-    if ( low_time == time )
-    {
-      this->m_start_velocity = zero_velocity;
-      return;
-    }
-    *((float *)&_FFFFFFF8 + 3) = low_time;
-    *(_QWORD *)&_FFFFFFF8 = *(_QWORD *)&this->m_position.x;
-    DWORD2(_FFFFFFF8) = LODWORD(this->m_position.z);
-    result = survarium::bullet::check_collision(this, _FFFFFFF8, time);
-    if ( result == collision_result_collide )
-    {
-      this->m_start_velocity = zero_velocity;
-      return;
-    }
-    if ( result == collision_result_pierced || result == collision_result_reflected )
-    {
-      low_time = this->m_life_time;
-      high_time = high_time - time;
-      time = this->m_life_time;
-    }
-    if ( time != 0.0 && !survarium::bullet::update_bullet_position(this, time, gravity) )
-    {
-      this->m_start_velocity = zero_velocity;
-      return;
-    }
-    if ( vostok::math::is_similar<float>(&time, &high_time, 0.0000099999997) )
+    x = this.x;
+    v21 = this.x - v24;
+    v20 = fabs(this.x - v24);
+    if ( v20 < 0.0000099999997 )
       break;
-    survarium::weapon_user_dead_state::finalize(v2);
-    low_time = time;
-    survarium::weapon_user_dead_state::finalize(v7);
+    next_time = this.x;
   }
-  if ( this->m_tracer_idx != 0xFFFF )
+  *(float *)&v7 = *(float *)(x_low + 8) - *(float *)(x_low + 32);
+  *(float *)&v8 = *(float *)(x_low + 4) - *(float *)(x_low + 28);
+  v19.z = *(float *)(x_low + 12) - *(float *)(x_low + 36);
+  *(_QWORD *)&v19.x = __PAIR64__(v7, v8);
+  v18[0] = 0.0;
+  v18[1] = 0.0;
+  v22 = fsqrt(
+          (float)((float)(v19.z * v19.z) + (float)(*(float *)&v7 * *(float *)&v7))
+        + (float)(*(float *)&v8 * *(float *)&v8));
+  v18[2] = s_bm_current_air_resistance;
+  vostok::math::float3_pod::normalize_safe((vostok::math::float3_pod *)a2, &v19, v18);
+  v10 = *(float *)(x_low + 100);
+  v11 = fsqrt(
+          (float)((float)(*(float *)(x_low + 24) * *(float *)(x_low + 24))
+                + (float)(*(float *)(x_low + 16) * *(float *)(x_low + 16)))
+        + (float)(*(float *)(x_low + 20) * *(float *)(x_low + 20)));
+  if ( g_bullet_tracer_exposition <= v10 )
+    v12 = g_bullet_tracer_exposition;
+  else
+    v12 = *(float *)(x_low + 100);
+  v13 = *(_DWORD *)(x_low + 132);
+  v14 = v12 * v11;
+  this.x = v14;
+  if ( v13 )
   {
-    vostok::math::operator-(&this->m_start_position, &this->m_position, &d);
-    d_len = vostok::math::float3_pod::length(v3, &d.x);
-    vostok::math::float3::float3(&v10, COERCE_UNSIGNED_INT(0.0), COERCE_UNSIGNED_INT(0.0), 1.0);
-    vostok::math::float3_pod::normalize_safe(&d, v4);
-    speed = vostok::math::float3_pod::length(v5, &this->m_velocity.x);
-    v6 = g_bullet_tracer_exposition;
-    vostok::math::min();
-    length = v6 * speed;
-    if ( this->m_initiator->is_local
-      && !this->m_change_trajectory_count
-      && g_bullet_tracer_exposition > this->m_life_time )
+    if ( v14 > v22 )
     {
-      length = length - 5.0;
+      v14 = v22;
+      this.x = v22;
     }
-    if ( this->m_change_trajectory_count && length > d_len )
-      length = d_len;
-    if ( length > 0.0 )
-      survarium::bullet_manager::update_tracer(this->m_bullet_manager, this, &this->m_position, &d, length);
   }
+  else if ( g_bullet_tracer_exposition > v10 )
+  {
+    v14 = v14 - 3.0;
+    this.x = v14;
+  }
+  if ( v14 > 0.0 )
+    survarium::bullet_manager::update_tracer(
+      v9,
+      *(survarium::bullet **)(x_low + 60),
+      (const vostok::math::float3 *)x_low,
+      (const vostok::math::float3 *)(x_low + 4),
+      &v19.x,
+      SLODWORD(this.x));
 }

@@ -1,72 +1,59 @@
-void __thiscall vostok::vfs::unmounter::unmounter(
-        vostok::vfs::unmounter *this,
-        vostok::vfs::query_mount_arguments *m_args,
-        vostok::vfs::virtual_file_system *file_system)
+void __userpurge vostok::vfs::unmounter::unmounter(
+        vostok::vfs::query_mount_arguments *m_args@<ecx>,
+        vostok::vfs::virtual_file_system *file_system@<eax>,
+        vostok::vfs::unmounter *this)
 {
-  survarium::game_camera *v3; // ecx
-  survarium::game_camera *v4; // ecx
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  vostok::vfs::mount_result v7[2]; // [esp-8h] [ebp-280h] BYREF
-  vostok::vfs::unmounter *thisa; // [esp+8h] [ebp-270h]
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *v9; // [esp+144h] [ebp-134h]
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *v10; // [esp+148h] [ebp-130h]
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> other; // [esp+14Ch] [ebp-12Ch] BYREF
-  vostok::vfs::mount_root_node_base<1> *m_mount_root; // [esp+150h] [ebp-128h]
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> v13; // [esp+268h] [ebp-10h] BYREF
-  int v14; // [esp+26Ch] [ebp-Ch]
-  char v15; // [esp+274h] [ebp-4h]
-  char v16; // [esp+275h] [ebp-3h]
-  char v17; // [esp+276h] [ebp-2h]
-  char v18; // [esp+277h] [ebp-1h]
+  vostok::vfs::vfs_hashset *p_hashset; // ecx
+  _DWORD *v5; // eax
+  int v6; // ecx
+  vostok::vfs::unmounter *v7; // ecx
+  vostok::vfs::vfs_mount *p_callback; // esi
+  vostok::vfs::mount_result *v9; // ecx
+  vostok::vfs::vfs_mount *v10; // ecx
+  const vostok::vfs::mount_result *v11; // eax
+  boost::function1<void,vostok::vfs::mount_result> *v12; // ecx
+  vostok::vfs::mount_result v13; // [esp-Ch] [ebp-1Ch] BYREF
+  int v14; // [esp-4h] [ebp-14h]
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> v15; // [esp+8h] [ebp-8h] BYREF
 
-  thisa = this;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  thisa->m_args = m_args;
-  thisa->m_hashset = &file_system->hashset;
-  thisa->m_file_system = file_system;
-  thisa->m_root_node_to_unmount = 0;
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)&dword_201A8 + (_DWORD)file_system))
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
-    boost::function0<void>::operator()((boost::function0<void> *)((char *)&dword_201A8 + (_DWORD)file_system));
-  vostok::vfs::query_mount_arguments::convert_pathes_to_absolute(m_args);
-  v18 = 0;
-  survarium::weapon_user_dead_state::finalize(v3);
-  v17 = 0;
-  survarium::weapon_user_dead_state::finalize(v4);
-  m_mount_root = m_args->mount_ptr->m_mount_root;
-  v5 = (survarium::game_camera *)thisa;
-  thisa->m_root_node_to_unmount = m_mount_root;
-  v16 = 0;
-  survarium::weapon_user_dead_state::finalize(v5);
-  v15 = 0;
-  survarium::weapon_user_dead_state::finalize(v6);
+  this->m_root_node_to_unmount = 0;
+  p_hashset = &file_system->hashset;
+  this->m_file_system = file_system;
+  v5 = (int *)((char *)&dword_201A8 + (_DWORD)file_system);
+  this->m_hashset = p_hashset;
+  this->m_args = m_args;
+  v6 = -(*v5 != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v6) != 0 )
+    boost::function0<void>::operator()((boost::function0<bool> *)v6, v5);
+  vostok::vfs::query_mount_arguments::convert_pathes_to_absolute((vostok::vfs::query_mount_arguments *)v6, (int)m_args);
+  this->m_root_node_to_unmount = m_args->mount_ptr->m_mount_root;
   if ( m_args->submount_type == submount_type_hot_unmount )
-    vostok::vfs::unmounter::hot_unmount(thisa);
+    vostok::vfs::unmounter::hot_unmount(v7, this);
   else
-    vostok::vfs::unmounter::unmount(thisa);
+    vostok::vfs::unmounter::unmount(v7, (vostok::fs_new::virtual_path_string *)this);
   if ( m_args->unlock_after_mount )
     vostok::vfs::unlock_branch(m_args->root_write_lock, lock_type_write);
-  if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_args->callback)
-      ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-      : 0) != 0 )
+  p_callback = (vostok::vfs::vfs_mount *)&m_args->callback;
+  if ( (p_callback->m_reference_count != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
   {
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-      &other,
-      0);
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-      &v13,
-      &other);
     v14 = 1;
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&other);
-    v9 = &v13;
-    v10 = (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)v7;
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-      &v7[0].mount,
-      &v13);
-    v10[1].m_object = v9[1].m_object;
-    boost::function1<void,vostok::vfs::mount_result>::operator()(&m_args->callback, v7[0]);
-    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(&v13);
+    v13.result = result_fail;
+    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::set(
+      (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v13.result,
+      0);
+    vostok::vfs::mount_result::mount_result(
+      v9,
+      &v15,
+      (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>)v13.result,
+      (vostok::vfs::vfs_mount *)v14);
+    v14 = (int)v10;
+    v13.result = (vostok::vfs::result_enum)v10;
+    vostok::vfs::mount_result::mount_result((vostok::vfs::mount_result *)&v13.result, v11);
+    v13.mount.m_object = p_callback;
+    boost::function1<void,vostok::vfs::mount_result>::operator()(
+      v12,
+      v13,
+      (boost::function1<void,vostok::vfs::mount_result> *)v14);
+    vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec(&v15);
   }
 }

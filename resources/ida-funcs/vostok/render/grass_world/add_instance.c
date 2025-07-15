@@ -1,60 +1,62 @@
-unsigned int __userpurge vostok::render::grass_world::add_instance@<eax>(
-        unsigned int in_template_id@<eax>,
-        vostok::render::grass_world *a2@<ecx>,
-        vostok::render::grass_world *this,
+boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *__userpurge vostok::render::grass_world::add_instance@<eax>(
+        vostok::render::grass_world *this@<ecx>,
+        _DWORD *a2@<eax>,
+        const unsigned int in_template_id,
         const vostok::math::color *in_color,
         const vostok::math::float4x4 *in_transform,
-        vostok::render::grass_instance *in_layer,
+        char in_layer,
         float in_wind_scale)
 {
-  vostok::sound::sound_world_vtbl *v7; // eax
-  unsigned int v8; // ebx
-  vostok::sound::sound_world_vtbl *v9; // ebp
-  vostok::render::grass_instance *v10; // eax
-  float v11; // xmm0_4
-  unsigned __int8 v12; // cl
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *start_destruction; // ecx
-  bool v15; // [esp+0h] [ebp-10h]
+  vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *v7; // ecx
+  vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *v8; // ebx
+  _DWORD *v9; // esi
+  vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *v10; // eax
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *v12; // [esp+14h] [ebp+8h]
 
-  v7 = vostok::render::grass_world::id_to_template(a2, (int)this, in_template_id);
-  v8 = g_instance_counter + 1;
-  v9 = v7;
-  ++g_instance_counter;
-  v10 = (vostok::render::grass_instance *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                            (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                            0x54u);
+  v7 = (vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *)a2[67];
+  v8 = 0;
+  while ( v7 != (vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *)a2[68] )
+  {
+    if ( *(_DWORD *)&v7->data[32] == in_template_id )
+    {
+      v8 = v7;
+      break;
+    }
+    v7 = (vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node *)((char *)v7 + 36);
+  }
+  g_instance_counter = (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)((char *)g_instance_counter + 1);
+  v9 = a2 + 70;
+  v12 = g_instance_counter;
+  if ( a2[79] >= a2[80] && (*v9 != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      g_instance_counter,
+      v9,
+      (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)v9);
+  v10 = vostok::memory::single_threading_single_size_allocator_policy<vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node>::allocate(
+          (vostok::memory::single_threading_single_size_allocator_policy<vostok::memory::single_size_buffer_allocator<92,vostok::threading::single_threading_policy>::node>::free_list_type *)v9
+        + 8);
+  ++v9[9];
   if ( v10 )
   {
-    v11 = in_wind_scale;
-    v10->m_template = (vostok::render::grass_template *)v9;
-    v10->m_color = *in_color;
-    qmemcpy((void *)&v10->m_transform, in_transform, sizeof(v10->m_transform));
-    v12 = (unsigned __int8)in_layer;
-    v10->m_wind_scale = v11;
-    v10->m_index = v8;
-    v10->m_layer_id = v12;
+    *(_DWORD *)&v10->data[4] = 0;
+    *(_DWORD *)&v10->data[8] = 0;
+    v10->next = v8;
+    qmemcpy(&v10->data[12], in_transform, 0x40u);
+    *(float *)&v10->data[76] = in_wind_scale;
+    *(vostok::math::color *)&v10->data[80] = *in_color;
+    *(_DWORD *)&v10->data[84] = v12;
+    v10->data[88] = in_layer;
   }
   else
   {
     v10 = 0;
   }
-  start_destruction = (stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *)v9->start_destruction;
-  in_layer = v10;
-  if ( start_destruction == (stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *)v9->get_speed_of_sound )
-  {
-    stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-      start_destruction,
-      (int)&v9->get_logic_world_user,
-      (void **)&start_destruction->_M_start,
-      (void *const *)&in_layer,
-      (const stlp_std::__true_type *)1,
-      1,
-      v15);
-  }
+  *(_DWORD *)&v10->data[4] = 0;
+  ++v8->next;
+  if ( *(_DWORD *)&v8->data[8] )
+    *(_DWORD *)(*(_DWORD *)&v8->data[12] + 4) = v10;
   else
-  {
-    start_destruction->_M_start = (void **)&v10->m_template;
-    v9->start_destruction = (void (__thiscall *)(vostok::sound::world *))((char *)v9->start_destruction + 4);
-  }
-  return v8;
+    *(_DWORD *)&v8->data[8] = v10;
+  *(_DWORD *)&v8->data[12] = v10;
+  return v12;
 }

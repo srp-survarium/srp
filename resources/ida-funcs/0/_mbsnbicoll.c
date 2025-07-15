@@ -1,9 +1,4 @@
-int __usercall _mbsnbicoll@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
-        const unsigned __int8 *s1,
-        const unsigned __int8 *s2,
-        unsigned int n)
+void __usercall _mbsnbicoll(const char *a1@<edi>, int a2@<esi>, char *s1, char *s2, unsigned int n)
 {
-  return _mbsnbicoll_l(a1, a2, s1, s2, n, 0);
+  _mbsnbicoll_l(a1, a2, s1, s2, n, 0);
 }

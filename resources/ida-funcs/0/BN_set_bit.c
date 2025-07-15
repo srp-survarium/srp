@@ -12,7 +12,7 @@ bignum_st *__cdecl BN_set_bit(bignum_st *a, int n)
     goto LABEL_11;
   v4 = v3 + 1;
   if ( v3 + 1 > a->dmax )
-    result = bn_expand2(a, (unsigned int *)(v3 + 1));
+    result = bn_expand2(a, v3 + 1);
   else
     result = a;
   if ( result )

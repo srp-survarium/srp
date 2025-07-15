@@ -1,163 +1,130 @@
-void __userpurge vostok::render::hw_hiz_occlusion_manager::render_model_bounds(
-        vostok::render::hw_hiz_occlusion_manager *this@<ecx>,
-        unsigned int in_num_bounds@<eax>,
-        bool a3@<bl>,
-        unsigned int a4@<esi>,
+void __thiscall vostok::render::hw_hiz_occlusion_manager::render_model_bounds(
+        vostok::render::hw_hiz_occlusion_manager *this,
         vostok::render::renderer_context *in_context,
-        vostok::render::hw_hiz_point_list *in_bounds)
+        vostok::render::renderer_context *in_bounds,
+        unsigned int *in_num_bounds,
+        unsigned int in_num_boundsa)
 {
-  const vostok::math::float4x4 *v7; // eax
-  int v8; // ecx
-  int y; // eax
-  signed int m_culling_buffer_height; // edx
-  double v11; // st7
-  vostok::render::render_target *m_object; // eax
-  vostok::render::backend *m_rt; // ecx
-  const char *m_conflicted_key_name; // eax
-  vostok::render::res_effect *v15; // ecx
-  vostok::render::res_effect *v16; // eax
-  const char *v17; // esi
-  signed int v18; // ecx
-  double v19; // st7
-  vostok::render::shader_constant_host *m_render_target_size_parameter; // eax
-  unsigned int v21; // edx
-  const char *v22; // esi
-  int m_buffer_index; // ecx
-  signed int m_rasterize_height; // eax
-  double v25; // st7
-  vostok::render::shader_constant_host *m_rasterize_size_parameter; // eax
-  unsigned int v27; // ecx
-  int v28; // ecx
-  float v29; // [esp+24h] [ebp-9Ch]
-  char src_ptr[4]; // [esp+38h] [ebp-88h] BYREF
-  float v31; // [esp+3Ch] [ebp-84h]
-  int v32; // [esp+40h] [ebp-80h]
-  int v33; // [esp+44h] [ebp-7Ch]
-  int v34; // [esp+48h] [ebp-78h] BYREF
-  D3D11_VIEWPORT view_port; // [esp+4Ch] [ebp-74h] BYREF
-  D3D11_VIEWPORT prev_view_port; // [esp+64h] [ebp-5Ch] BYREF
-  vostok::math::float4x4 v37; // [esp+7Ch] [ebp-44h] BYREF
+  vostok::render::renderer_context *v5; // ebx
+  vostok::render::hw_hiz_point_list *v6; // ecx
+  vostok::math::float4x4 *v7; // ecx
+  vostok::math::float4x4 *v8; // eax
+  double v9; // st7
+  int z_low; // esi
+  vostok::render::backend *v11; // ecx
+  int m_begin; // eax
+  vostok::render::res_effect *v13; // ecx
+  vostok::render::backend *v14; // ecx
+  int v15; // eax
+  double v16; // st7
+  float z; // esi
+  const vostok::render::shader_constant_host *m_end; // eax
+  vostok::render::backend *v19; // ecx
+  int v20; // eax
+  double v21; // st7
+  vostok::render::hw_hiz_point_list *v22; // ecx
+  const vostok::render::shader_constant_host *m_max_end; // [esp+4h] [ebp-98h]
+  unsigned int v24; // [esp+8h] [ebp-94h]
+  const D3D11_VIEWPORT *v25; // [esp+Ch] [ebp-90h]
+  const D3D11_VIEWPORT *v26; // [esp+Ch] [ebp-90h]
+  vostok::math::float4x4 v27; // [esp+1Ch] [ebp-80h] BYREF
+  D3D11_VIEWPORT v28; // [esp+5Ch] [ebp-40h] BYREF
+  D3D11_VIEWPORT v29; // [esp+74h] [ebp-28h] BYREF
+  vostok::math::float3 arg; // [esp+8Ch] [ebp-10h] BYREF
+  int v31; // [esp+98h] [ebp-4h]
 
-  vostok::render::hw_hiz_occlusion_manager::check_culling_buffer(this, in_num_bounds, a3, a4);
-  vostok::render::hw_hiz_point_list::set_points(
-    in_bounds,
-    (const vostok::math::float4 *)&this->m_hw_hiz_point_list,
-    (const unsigned int)in_bounds);
-  v7 = vostok::math::float4x4::identity(&v37);
-  vostok::render::renderer_context::set_w(v8, v7, in_context);
-  y = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y;
-  v34 = 1;
-  (*(void (__stdcall **)(int, int *, D3D11_VIEWPORT *))(*(_DWORD *)y + 380))(y, &v34, &prev_view_port);
-  m_culling_buffer_height = this->m_culling_buffer_height;
-  view_port.Width = (float)this->m_culling_buffer_width;
-  v11 = (double)(int)this->m_culling_buffer_height;
-  if ( m_culling_buffer_height < 0 )
-    v11 = v11 + 4294967300.0;
-  view_port.Height = v11;
-  view_port.MinDepth = 0.0;
-  LODWORD(view_port.MaxDepth) = clear_value;
-  view_port.TopLeftX = 0.0;
-  view_port.TopLeftY = 0.0;
-  (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                    + 176))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    1,
-    &view_port);
-  m_object = this->m_rt_culling_result.m_object;
-  if ( m_object )
-    m_rt = (vostok::render::backend *)m_object->m_rt;
-  else
-    m_rt = 0;
-  m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  if ( *((vostok::render::backend **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-       + 535) != m_rt )
+  v5 = in_context;
+  if ( !s_hiz3 )
   {
-    *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = m_rt;
-    *((_BYTE *)m_conflicted_key_name + 163) = 1;
+    pix_event_wrapper_dx11::pix_event_wrapper_dx11(
+      (pix_event_wrapper_dx11 *)this,
+      (pix_event_wrapper_dx11 *)&in_context + 3,
+      (int)L"render_model_bounds");
+    vostok::render::hw_hiz_occlusion_manager::check_culling_buffer(
+      in_num_boundsa,
+      (vostok::render::hw_hiz_occlusion_manager *)v5);
+    v24 = *(_DWORD *)&v5->m_family[1].name.m_buffer[8];
+    in_context = (vostok::render::renderer_context *)&v5->m_family[1].name.m_buffer[28];
+    vostok::render::hw_hiz_point_list::set_points(
+      v6,
+      (const vostok::math::float4 *)&v5->m_family[1].name.m_buffer[28],
+      in_num_bounds,
+      v24);
+    v8 = vostok::math::float4x4::identity(v7, &v27);
+    vostok::render::renderer_context::set_w(v8, in_bounds);
+    v9 = (double)*(unsigned int *)&v5->m_family[1].name.m_buffer[8];
+    qmemcpy(
+      (void *)&v28,
+      (const void *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 120),
+      sizeof(v28));
+    v29.Width = v9;
+    v29.Height = (float)*(unsigned int *)&v5->m_family[1].name.m_buffer[12];
+    v29.MinDepth = 0.0;
+    v29.MaxDepth = s_bm_current_air_resistance;
+    v29.TopLeftX = 0.0;
+    v29.TopLeftY = 0.0;
+    vostok::render::backend::set_viewports(
+      (vostok::render::backend *)&v29,
+      SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      &v29,
+      v25);
+    z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+    vostok::render::backend::set_render_targets(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      *(const vostok::render::render_target **)&v5->m_family[1].name.m_buffer[16],
+      0,
+      0,
+      0);
+    LOBYTE(v11) = *(_DWORD *)(z_low + 7384) != 0;
+    *(_DWORD *)(z_low + 7384) = 0;
+    *(_BYTE *)(z_low + 117) |= (unsigned __int8)v11;
+    vostok::render::backend::clear_render_targets(v11, z_low, 0, 0.0, 0.0, 0.0);
+    m_begin = (int)v5->m_family[0].orig_name.m_begin;
+    *(_DWORD *)(m_begin + 22048) = 6;
+    vostok::render::res_effect::apply_pass(v13, m_begin);
+    vostok::render::backend::set_ps_texture(
+      v14,
+      SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      "hiz_depth_texture",
+      *(vostok::render::res_texture **)&v5->m_family[1].orig_name.m_buffer[28]);
+    v15 = *(_DWORD *)&v5->m_family[1].name.m_buffer[12];
+    arg.x = (float)*(unsigned int *)&v5->m_family[1].name.m_buffer[8];
+    v16 = (double)*(int *)&v5->m_family[1].name.m_buffer[12];
+    if ( v15 < 0 )
+      v16 = v16 + 4294967300.0;
+    arg.y = v16;
+    z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+    m_end = (const vostok::render::shader_constant_host *)v5->m_family[1].name.m_end;
+    arg.z = 0.0;
+    v31 = 0;
+    vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      m_end,
+      (const unsigned int *)&arg);
+    v20 = *(_DWORD *)&v5->m_family[1].orig_name.m_buffer[44];
+    arg.x = (float)*(unsigned int *)&v5->m_family[1].orig_name.m_buffer[40];
+    v21 = (double)*(int *)&v5->m_family[1].orig_name.m_buffer[44];
+    if ( v20 < 0 )
+      v21 = v21 + 4294967300.0;
+    arg.y = v21;
+    m_max_end = (const vostok::render::shader_constant_host *)v5->m_family[1].name.m_max_end;
+    arg.z = 0.0;
+    v31 = 0;
+    vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+      v19,
+      (vostok::render::constants_handler<1> *)LODWORD(z),
+      m_max_end,
+      &arg);
+    if ( !s_hiz4 )
+      vostok::render::hw_hiz_point_list::render(
+        v22,
+        (const unsigned int)in_context,
+        *(_DWORD *)&v5->m_family[1].name.m_buffer[4]);
+    vostok::render::backend::set_viewports(
+      (vostok::render::backend *)v22,
+      SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      &v28,
+      v26);
+    D3DPERF_EndEvent();
   }
-  if ( *((_DWORD *)m_conflicted_key_name + 536) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 536) = 0;
-    *((_BYTE *)m_conflicted_key_name + 164) = 1;
-  }
-  if ( *((_DWORD *)m_conflicted_key_name + 537) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 537) = 0;
-    *((_BYTE *)m_conflicted_key_name + 165) = 1;
-  }
-  if ( *((_DWORD *)m_conflicted_key_name + 538) )
-  {
-    *((_DWORD *)m_conflicted_key_name + 538) = 0;
-    *((_BYTE *)m_conflicted_key_name + 166) = 1;
-  }
-  LOBYTE(m_rt) = *((_DWORD *)m_conflicted_key_name + 539) != 0;
-  *((_BYTE *)m_conflicted_key_name + 167) |= (unsigned __int8)m_rt;
-  *((_DWORD *)m_conflicted_key_name + 539) = 0;
-  vostok::render::backend::clear_render_targets(m_rt, (int)m_conflicted_key_name, 0.0, 0.0, 0.0, 0.0, v29);
-  v16 = this->m_hiz_occlusion_effect.m_object;
-  if ( (unsigned int)(v16->m_techniques._M_impl._M_finish - v16->m_techniques._M_impl._M_start) > 6 )
-  {
-    v16->m_cur_technique = 6;
-    vostok::render::res_effect::apply_pass(v15, (int)v16);
-  }
-  v17 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  *((_BYTE *)v17 + 159) = vostok::render::textures_handler<0>::set_overwrite(
-                            (vostok::render::textures_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                  + 1488),
-                            (char *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                          + 1488,
-                            (vostok::render::res_texture *)&stru_967C04,
-                            this->m_t_depth_mips.m_object);
-  v18 = this->m_culling_buffer_height;
-  *(float *)src_ptr = (float)this->m_culling_buffer_width;
-  v19 = (double)(int)this->m_culling_buffer_height;
-  if ( v18 < 0 )
-    v19 = v19 + 4294967300.0;
-  m_render_target_size_parameter = this->m_render_target_size_parameter;
-  v31 = v19;
-  v21 = m_render_target_size_parameter->m_update_markers[0];
-  v22 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  v32 = 0;
-  v33 = 0;
-  if ( v21 == *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 572) )
-  {
-    m_buffer_index = m_render_target_size_parameter->m_shader_slots[0].m_buffer_index;
-    if ( m_buffer_index != 0xFFFF )
-      vostok::render::shader_constant_buffer::set_memory(
-        m_render_target_size_parameter->m_shader_slots[0].m_slot_index,
-        (unsigned __int8)m_render_target_size_parameter->m_shader_slots[0].m_class_id,
-        *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                                                 + 51)
-                                                               + 16)
-                                                   + 4 * m_buffer_index),
-        src_ptr);
-  }
-  ++*((_DWORD *)v22 + 23);
-  m_rasterize_height = this->m_rasterize_height;
-  *(float *)src_ptr = (float)this->m_rasterize_width;
-  v25 = (double)(int)this->m_rasterize_height;
-  if ( m_rasterize_height < 0 )
-    v25 = v25 + 4294967300.0;
-  m_rasterize_size_parameter = this->m_rasterize_size_parameter;
-  v31 = v25;
-  v27 = m_rasterize_size_parameter->m_update_markers[1];
-  v32 = 0;
-  v33 = 0;
-  if ( v27 == *((_DWORD *)v22 + 573) )
-  {
-    v28 = m_rasterize_size_parameter->m_shader_slots[1].m_buffer_index;
-    if ( v28 != 0xFFFF )
-      vostok::render::shader_constant_buffer::set_memory(
-        m_rasterize_size_parameter->m_shader_slots[1].m_slot_index,
-        (unsigned __int8)m_rasterize_size_parameter->m_shader_slots[1].m_class_id,
-        *(vostok::render::shader_constant_buffer **)(*(_DWORD *)(*((_DWORD *)v22 + 371) + 16) + 4 * v28),
-        src_ptr);
-  }
-  ++*((_DWORD *)v22 + 23);
-  vostok::render::hw_hiz_point_list::render(&this->m_hw_hiz_point_list, this->m_current_num_bounds);
-  (*(void (__stdcall **)(int, int, D3D11_VIEWPORT *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                    + 176))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    1,
-    &prev_view_port);
 }

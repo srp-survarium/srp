@@ -1,18 +1,17 @@
 void __userpurge vostok::animation::mixing::n_ary_tree_comparer::new_weight_driving_animation(
-        vostok::animation::mixing::n_ary_tree_comparer *this@<edi>,
-        vostok::animation::mixing::n_ary_tree_animation_node *new_weight_driving_animation@<esi>,
+        vostok::animation::mixing::n_ary_tree_comparer *this@<esi>,
+        vostok::animation::mixing::n_ary_tree_animation_node *new_weight_driving_animation@<edi>,
         vostok::animation::mixing::n_ary_tree_animation_node *new_driving_animation_in_previous_target)
 {
-  vostok::animation::mixing::n_ary_tree_animation_node *v3; // ebp
+  vostok::animation::mixing::n_ary_tree_animation_node *v3; // ebx
   bool v4; // al
   vostok::animation::mixing::animation_state *m_animation_state; // ecx
   vostok::animation::mixing::animation_state *v6; // eax
   bool v7; // al
-  vostok::animation::mixing::n_ary_tree_comparer *v8; // ecx
-  vostok::animation::interpolator_comparer interpolator_comparer; // [esp+8h] [ebp-10h] BYREF
-  unsigned int operands_offset; // [esp+Ch] [ebp-Ch] BYREF
-  int v11; // [esp+10h] [ebp-8h] BYREF
-  vostok::animation::mixing::n_ary_tree_animation_node *v12; // [esp+14h] [ebp-4h]
+  stlp_std::pair<unsigned int,unsigned int> v8; // [esp+4h] [ebp-18h] BYREF
+  unsigned int v9; // [esp+Ch] [ebp-10h] BYREF
+  unsigned int v10; // [esp+10h] [ebp-Ch] BYREF
+  int v11; // [esp+14h] [ebp-8h] BYREF
 
   v3 = new_driving_animation_in_previous_target;
   if ( new_driving_animation_in_previous_target->m_weight_driving_animation )
@@ -24,9 +23,9 @@ void __userpurge vostok::animation::mixing::n_ary_tree_comparer::new_weight_driv
   }
   v3->m_weight_interpolator->accept(
     v3->m_weight_interpolator,
-    &interpolator_comparer,
+    (vostok::animation::interpolator_comparer *)&v11,
     new_weight_driving_animation->m_weight_interpolator);
-  v4 = this->m_equal && interpolator_comparer.result == equal;
+  v4 = this->m_equal && !v11;
   this->m_equal = v4;
   if ( new_weight_driving_animation->m_override_existing_animation )
   {
@@ -43,89 +42,81 @@ void __userpurge vostok::animation::mixing::n_ary_tree_comparer::new_weight_driv
     }
     this->m_equal = v7;
   }
-  vostok::animation::mixing::computed_operands_count(v3, (vostok::animation::mixing::n_ary_tree_animation_node *)&v11);
-  new_driving_animation_in_previous_target = v12;
+  vostok::animation::mixing::computed_operands_count(v3, &v8, (int)new_weight_driving_animation);
+  new_driving_animation_in_previous_target = (vostok::animation::mixing::n_ary_tree_animation_node *)v8.second;
   vostok::animation::mixing::n_ary_tree_comparer::new_animation(
-    &operands_offset,
-    (vostok::animation::mixing::n_ary_tree_comparer *)v12,
+    &v10,
     this,
     new_weight_driving_animation,
-    (unsigned int *)&new_driving_animation_in_previous_target);
-  v8 = (vostok::animation::mixing::n_ary_tree_comparer *)(4 * ((_DWORD)new_driving_animation_in_previous_target + v11));
-  this->m_needed_buffer_size += (unsigned int)v8;
-  vostok::animation::mixing::n_ary_tree_comparer::add_operands(
-    v8,
-    this,
-    v3,
-    new_weight_driving_animation,
-    operands_offset != 0);
+    (unsigned int *)&new_driving_animation_in_previous_target,
+    &v9,
+    (const void *)1);
+  this->m_needed_buffer_size += 4 * ((_DWORD)new_driving_animation_in_previous_target + v8.first);
+  vostok::animation::mixing::n_ary_tree_comparer::add_operands(v3, this, new_weight_driving_animation, v10 != 0);
 }
 
 
 void __userpurge vostok::animation::mixing::n_ary_tree_comparer::new_weight_driving_animation(
-        vostok::animation::mixing::n_ary_tree_comparer *this@<ecx>,
-        vostok::animation::mixing::n_ary_tree_comparer *a2@<edi>,
-        vostok::animation::mixing::n_ary_tree_animation_node *animation)
+        vostok::animation::mixing::n_ary_tree_animation_node *animation@<eax>,
+        BOOL this)
 {
+  vostok::animation::mixing::n_ary_tree_comparer *v2; // ebx
   bool v4; // zf
-  const vostok::animation::base_interpolator *m_weight_interpolator; // ebx
-  unsigned int v6; // esi
-  float (__thiscall *transition_time)(vostok::animation::base_interpolator *); // eax
-  unsigned int v8; // ebx
-  const vostok::animation::base_interpolator *v9; // ecx
-  const vostok::math::float4x4 *v10; // xmm0_4
-  vostok::animation::mixing::n_ary_tree_animation_node_vtbl **v11; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node_vtbl **v12; // esi
-  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v13; // ecx
-  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v14; // ecx
-  void (__thiscall *v15)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, void ***); // eax
-  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v16; // ecx
-  void (__thiscall *v17)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, void ***); // edx
-  unsigned int time_scale_operands_count; // [esp+Ch] [ebp-2Ch] BYREF
-  unsigned int operands_offset; // [esp+10h] [ebp-28h] BYREF
-  vostok::animation::mixing::n_ary_tree_node_comparer comparer; // [esp+14h] [ebp-24h] BYREF
-  vostok::animation::mixing::n_ary_tree_weight_node temp; // [esp+1Ch] [ebp-1Ch] BYREF
-  void **v22; // [esp+28h] [ebp-10h]
-  void **v23; // [esp+2Ch] [ebp-Ch] BYREF
-  vostok::animation::mixing::n_ary_tree_comparer *v24; // [esp+30h] [ebp-8h]
-  int v25; // [esp+34h] [ebp-4h]
-  const vostok::animation::base_interpolator *interpolator; // [esp+3Ch] [ebp+4h]
+  const vostok::animation::base_interpolator *m_weight_interpolator; // edi
+  double v6; // st6
+  unsigned int v7; // edi
+  const vostok::animation::base_interpolator *v8; // ecx
+  float v9; // xmm0_4
+  const boost::function<unsigned char __cdecl(void const *)> *m_animated_object_resolver; // eax
+  vostok::animation::mixing::n_ary_tree_comparer **v11; // edi
+  vostok::animation::mixing::n_ary_tree_comparer **v12; // esi
+  vostok::animation::mixing::n_ary_tree_comparer *v13; // ecx
+  _DWORD v14[2]; // [esp+10h] [ebp-2Ch] BYREF
+  int v15; // [esp+18h] [ebp-24h]
+  char v16; // [esp+1Ch] [ebp-20h]
+  _DWORD v17[3]; // [esp+20h] [ebp-1Ch] BYREF
+  unsigned int v18; // [esp+2Ch] [ebp-10h] BYREF
+  BOOL v19; // [esp+30h] [ebp-Ch] BYREF
+  const vostok::animation::base_interpolator *v20; // [esp+34h] [ebp-8h]
 
-  a2->m_equal = 0;
+  v2 = (vostok::animation::mixing::n_ary_tree_comparer *)this;
+  *(_BYTE *)(this + 36) = 0;
   v4 = animation->m_operands_count == 0;
   m_weight_interpolator = animation->m_weight_interpolator;
-  interpolator = m_weight_interpolator;
-  v6 = !v4
-    && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))animation[1].~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
-        + 3))(animation[1].__vftable) != 0;
-  transition_time = m_weight_interpolator->transition_time;
-  time_scale_operands_count = v6;
-  v8 = (((double (__thiscall *)(const vostok::animation::base_interpolator *))transition_time)(m_weight_interpolator) != 0.0)
-     + animation->m_operands_count
-     - v6;
+  v20 = m_weight_interpolator;
+  this = !v4
+      && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))animation[1].~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+          + 3))(animation[1].__vftable) != 0;
+  v19 = this;
+  v6 = ((double (__thiscall *)(const vostok::animation::base_interpolator *))m_weight_interpolator->transition_time)(m_weight_interpolator);
+  v7 = (v6 != 0.0) + animation->m_operands_count - this;
   vostok::animation::mixing::n_ary_tree_comparer::new_animation(
-    &operands_offset,
-    (vostok::animation::mixing::n_ary_tree_comparer *)&time_scale_operands_count,
-    a2,
+    &v18,
+    v2,
     animation,
-    &time_scale_operands_count);
-  v9 = interpolator;
-  v10 = clear_value;
-  a2->m_needed_buffer_size += 4 * (time_scale_operands_count + v8);
-  v11 = &animation[1].__vftable + animation->m_operands_count;
-  v12 = &animation[1].__vftable + (v6 != 0 ? operands_offset : 0);
-  temp.__vftable = (vostok::animation::mixing::n_ary_tree_weight_node_vtbl *)&vostok::animation::mixing::n_ary_tree_weight_node::`vftable';
-  temp.m_interpolator = interpolator;
-  LODWORD(temp.m_weight) = v10;
-  comparer.__vftable = (vostok::animation::mixing::n_ary_tree_node_comparer_vtbl *)&vostok::animation::mixing::n_ary_tree_node_comparer::`vftable';
-  comparer.result = equal;
+    (unsigned int *)&v19,
+    (unsigned int *)&this,
+    (const void *)1);
+  v8 = v20;
+  v15 = 0;
+  v9 = s_bm_current_air_resistance;
+  m_animated_object_resolver = v2->m_animated_object_resolver;
+  v2->m_needed_buffer_size += 4 * (v19 + v7);
+  v14[1] = m_animated_object_resolver;
+  v11 = (vostok::animation::mixing::n_ary_tree_comparer **)(&animation[1].__vftable + animation->m_operands_count);
+  v12 = (vostok::animation::mixing::n_ary_tree_comparer **)(&animation[1].__vftable + this);
+  v17[0] = &vostok::animation::mixing::n_ary_tree_weight_node::`vftable';
+  v17[1] = v8;
+  *(float *)&v17[2] = v9;
+  v14[0] = &vostok::animation::mixing::n_ary_tree_node_comparer::`vftable';
+  v16 = 0;
   if ( v12 == v11 )
   {
 LABEL_8:
-    if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))v9->transition_time)(v9) != 0.0 )
+    if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))v8->transition_time)(v8) != 0.0 )
     {
-      a2->m_needed_buffer_size += 44;
-      a2->m_equal = 0;
+      v2->m_needed_buffer_size += 44;
+      v2->m_equal = 0;
     }
   }
   else
@@ -133,41 +124,26 @@ LABEL_8:
     while ( 1 )
     {
       v13 = *v12;
-      comparer.result = equal;
-      (*((void (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, vostok::animation::mixing::n_ary_tree_node_comparer *, vostok::animation::mixing::n_ary_tree_weight_node *))v13->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
-       + 1))(
+      v15 = 0;
+      ((void (__thiscall *)(vostok::animation::mixing::n_ary_tree_comparer *, _DWORD *, _DWORD *))LODWORD(v13->m_animated_objects->transform.i.y))(
         v13,
-        &comparer,
-        &temp);
-      if ( comparer.result == more )
+        v14,
+        v17);
+      if ( v15 == 2 )
         break;
-      v14 = *v12;
-      v15 = (void (__thiscall *)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, void ***))*((_DWORD *)(*v12)->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node + 2);
-      v22 = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::binary_tree_visitor'};
-      v23 = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::n_ary_tree_visitor'};
-      v24 = a2;
-      v25 = 0;
-      v15(v14, &v23);
-      if ( ++v12 == v11 )
+      vostok::animation::mixing::n_ary_tree_comparer::increase_buffer_size(*v12++, (int)v2);
+      if ( v12 == v11 )
       {
-        v9 = interpolator;
+        v8 = v20;
         goto LABEL_8;
       }
     }
-    if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))interpolator->transition_time)(interpolator) != 0.0 )
+    if ( ((double (__thiscall *)(const vostok::animation::base_interpolator *))v20->transition_time)(v20) != 0.0 )
     {
-      a2->m_needed_buffer_size += 44;
-      a2->m_equal = 0;
+      v2->m_needed_buffer_size += 44;
+      v2->m_equal = 0;
     }
-    for ( ; v12 != v11; ++v12 )
-    {
-      v16 = *v12;
-      v17 = (void (__thiscall *)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *, void ***))*((_DWORD *)(*v12)->~vostok::animation::mixing::n_ary_tree_n_ary_operation_node + 2);
-      v22 = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::binary_tree_visitor'};
-      v23 = &vostok::animation::mixing::n_ary_tree_size_calculator::`vftable'{for `vostok::animation::mixing::n_ary_tree_visitor'};
-      v24 = a2;
-      v25 = 0;
-      v17(v16, &v23);
-    }
+    while ( v12 != v11 )
+      vostok::animation::mixing::n_ary_tree_comparer::increase_buffer_size(*v12++, (int)v2);
   }
 }

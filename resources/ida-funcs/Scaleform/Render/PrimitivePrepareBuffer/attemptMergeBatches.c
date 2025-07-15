@@ -11,8 +11,8 @@ bool __thiscall Scaleform::Render::PrimitivePrepareBuffer::attemptMergeBatches(
   unsigned int v9; // ebx
   const Scaleform::Render::VertexFormat *pBatchVFormat; // eax
   unsigned int v11; // edx
-  unsigned int otherVertexCount; // [esp+4h] [ebp-8h] BYREF
-  unsigned int otherIndexCount; // [esp+8h] [ebp-4h] BYREF
+  unsigned int ptotalVertices; // [esp+4h] [ebp-8h] BYREF
+  unsigned int ptotalIndices; // [esp+8h] [ebp-4h] BYREF
 
   if ( pother->LargeMesh || !this->pBatchVFormat || pother->Type > (unsigned int)DP_Batch )
     return 0;
@@ -20,9 +20,9 @@ bool __thiscall Scaleform::Render::PrimitivePrepareBuffer::attemptMergeBatches(
   v9 = psecond->MeshCount + pfirst->MeshCount;
   if ( v9 <= v8->MaxBatchInstances )
   {
-    Scaleform::Render::PrimitiveBatch::CalcMeshSizes(pother, &otherVertexCount, &otherIndexCount);
-    if ( *knownVerticesSize + otherVertexCount * this->pBatchVFormat->Size <= v8->MaxVerticesSizeInBatch
-      && otherIndexCount + *knownIndexCount <= v8->MaxIndicesInBatch )
+    Scaleform::Render::PrimitiveBatch::CalcMeshSizes(pother, &ptotalVertices, &ptotalIndices);
+    if ( *knownVerticesSize + ptotalVertices * this->pBatchVFormat->Size <= v8->MaxVerticesSizeInBatch
+      && ptotalIndices + *knownIndexCount <= v8->MaxIndicesInBatch )
     {
       pknown->MeshCount = v9;
       pknown->MeshIndex = pfirst->MeshIndex;
@@ -33,9 +33,9 @@ bool __thiscall Scaleform::Render::PrimitivePrepareBuffer::attemptMergeBatches(
       if ( this->pPrepare == pfirst )
         this->pPrepare = pknown;
       pBatchVFormat = this->pBatchVFormat;
-      v11 = otherIndexCount;
+      v11 = ptotalIndices;
       this->pConvert = pknown;
-      *knownVerticesSize += otherVertexCount * pBatchVFormat->Size;
+      *knownVerticesSize += ptotalVertices * pBatchVFormat->Size;
       *knownIndexCount += v11;
       this->Converting = 0;
     }

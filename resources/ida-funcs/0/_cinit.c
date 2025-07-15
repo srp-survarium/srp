@@ -8,7 +8,7 @@ int __cdecl _cinit(int initFloatingPrecision)
   result = _initterm_e(__xi_a, __xi_z);
   if ( !result )
   {
-    atexit(_RTC_Terminate);
+    atexit((int (__cdecl *)())_RTC_Terminate);
     initterm(__xc_a, __xc_z);
     if ( __dyn_tls_init_callback )
     {

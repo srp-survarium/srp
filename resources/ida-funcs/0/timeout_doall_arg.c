@@ -1,4 +1,4 @@
-void __usercall timeout_doall_arg(ssl_session_st *s@<esi>, timeout_param_st *p@<ecx>, unsigned int a3@<edi>)
+void __usercall timeout_doall_arg(ssl_session_st *s@<esi>, timeout_param_st *p@<ecx>, int a3@<edi>)
 {
   int time; // eax
   ssl_ctx_st *ctx; // ebx
@@ -14,6 +14,6 @@ void __usercall timeout_doall_arg(ssl_session_st *s@<esi>, timeout_param_st *p@<
     remove_session_cb = ctx->remove_session_cb;
     if ( remove_session_cb )
       remove_session_cb(ctx, s);
-    SSL_SESSION_free(a3, s);
+    SSL_SESSION_free(a3, (int)ctx, s);
   }
 }

@@ -1,20 +1,34 @@
-void __thiscall survarium::booby_trap_core::booby_trap_core(survarium::booby_trap_core *this)
+void __userpurge survarium::booby_trap_core::booby_trap_core(
+        survarium::booby_trap_core *this@<ecx>,
+        int a2@<esi>,
+        vostok::math::float4x4 *physics_world)
 {
-  vostok::resources::unmanaged_resource::unmanaged_resource(this, 1u);
-  this->survarium::game_world_object::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable = (survarium::booby_trap_core_vtbl *)&survarium::game_world_object::`vftable';
-  this->next.m_object = 0;
-  survarium::hittable_object::hittable_object(&this->survarium::hittable_object);
-  survarium::collision_sensor::collision_sensor(&this->survarium::collision_sensor);
-  survarium::usable_object::usable_object(&this->survarium::usable_object);
-  this->survarium::game_world_object::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable = (survarium::booby_trap_core_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::game_world_object'};
-  this->survarium::hittable_object::survarium::hit_receiver::vostok::collision::game_object::__vftable = (survarium::hittable_object_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::hittable_object'};
-  this->survarium::collision_sensor::survarium::collision_geometry_subscriber::__vftable = (survarium::collision_sensor_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::collision_geometry_subscriber's `survarium::collision_sensor'};
-  this->survarium::collision_sensor::survarium::link_resolver::__vftable = (survarium::link_resolver_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::link_resolver's `survarium::collision_sensor'};
-  this->survarium::usable_object::survarium::collision_geometry_subscriber::__vftable = (survarium::usable_object_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::collision_geometry_subscriber's `survarium::usable_object'};
-  this->survarium::usable_object::survarium::link_resolver::__vftable = (survarium::link_resolver_vtbl *)&survarium::booby_trap_core::`vftable'{for `survarium::link_resolver's `survarium::usable_object'};
-  this->m_owner = 0;
-  this->m_trap_state = booby_trap_state_removed;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_transform);
-  this->m_state_timer = 0;
-  vostok::math::float4x4::identity(&this->m_transform);
+  survarium::usable_object *v3; // ecx
+  vostok::resources::unmanaged_resource *v4; // ecx
+
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_WORD *)(a2 + 12) = 0;
+  *(_WORD *)(a2 + 14) = 0;
+  *(_DWORD *)a2 = &survarium::hittable_object::`vftable';
+  survarium::collision_sensor::collision_sensor((survarium::collision_sensor *)this, a2 + 16);
+  survarium::usable_object::usable_object(v3, a2 + 52, 1);
+  *(_DWORD *)(a2 + 120) = &survarium::tickable_object::`vftable';
+  *(_DWORD *)(a2 + 132) = &survarium::serializable_object::`vftable';
+  vostok::resources::unmanaged_resource::unmanaged_resource(v4, (_DWORD *)(a2 + 144), fs_iterator_class);
+  *(_DWORD *)(a2 + 492) = -1;
+  *(_DWORD *)(a2 + 408) = 0;
+  *(_DWORD *)(a2 + 412) = 0;
+  *(_DWORD *)(a2 + 484) = 0;
+  *(_DWORD *)(a2 + 488) = 0;
+  *(_DWORD *)a2 = &survarium::booby_trap_core::`vftable'{for `survarium::hittable_object'};
+  *(_DWORD *)(a2 + 16) = &survarium::booby_trap_core::`vftable'{for `survarium::collision_geometry_subscriber's `survarium::collision_sensor'};
+  *(_DWORD *)(a2 + 20) = &survarium::booby_trap_core::`vftable'{for `survarium::link_resolver's `survarium::collision_sensor'};
+  *(_DWORD *)(a2 + 52) = &survarium::booby_trap_core::`vftable'{for `survarium::collision_geometry_subscriber's `survarium::usable_object'};
+  *(_DWORD *)(a2 + 56) = &survarium::booby_trap_core::`vftable'{for `survarium::link_resolver's `survarium::usable_object'};
+  *(_DWORD *)(a2 + 120) = &survarium::booby_trap_core::`vftable'{for `survarium::tickable_object'};
+  *(_DWORD *)(a2 + 132) = &survarium::booby_trap_core::`vftable'{for `survarium::serializable_object'};
+  *(_DWORD *)(a2 + 144) = &survarium::booby_trap_core::`vftable'{for `vostok::resources::unmanaged_resource'};
+  *(_DWORD *)(a2 + 480) = physics_world;
+  vostok::math::float4x4::identity(physics_world, (vostok::math::float4x4 *)(a2 + 416));
 }

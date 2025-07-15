@@ -105,7 +105,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -122,7 +122,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v9 = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);
@@ -139,7 +139,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v11 = v10->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+      if ( (v11 & 0x3FFFFF) != 0 )
       {
         v10->RefCount = v11 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -156,7 +156,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v13 = v12->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v13) != 0 )
+      if ( (v13 & 0x3FFFFF) != 0 )
       {
         v12->RefCount = v13 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);
@@ -173,7 +173,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v15 = v14->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v15) != 0 )
+      if ( (v15 & 0x3FFFFF) != 0 )
       {
         v14->RefCount = v15 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v14);
@@ -190,7 +190,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v17 = v16->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v17) != 0 )
+      if ( (v17 & 0x3FFFFF) != 0 )
       {
         v16->RefCount = v17 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v16);
@@ -207,7 +207,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v19 = v18->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v19) != 0 )
+      if ( (v19 & 0x3FFFFF) != 0 )
       {
         v18->RefCount = v19 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v18);
@@ -224,7 +224,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v21 = v20->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v21) != 0 )
+      if ( (v21 & 0x3FFFFF) != 0 )
       {
         v20->RefCount = v21 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v20);
@@ -241,7 +241,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v23 = v22->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v23) != 0 )
+      if ( (v23 & 0x3FFFFF) != 0 )
       {
         v22->RefCount = v23 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v22);
@@ -258,7 +258,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v25 = v24->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v25) != 0 )
+      if ( (v25 & 0x3FFFFF) != 0 )
       {
         v24->RefCount = v25 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v24);
@@ -275,7 +275,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v27 = v26->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v27) != 0 )
+      if ( (v27 & 0x3FFFFF) != 0 )
       {
         v26->RefCount = v27 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v26);
@@ -292,7 +292,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v29 = v28->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v29) != 0 )
+      if ( (v29 & 0x3FFFFF) != 0 )
       {
         v28->RefCount = v29 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v28);
@@ -309,7 +309,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v31 = v30->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v31) != 0 )
+      if ( (v31 & 0x3FFFFF) != 0 )
       {
         v30->RefCount = v31 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v30);
@@ -326,7 +326,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v33 = v32->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v33) != 0 )
+      if ( (v33 & 0x3FFFFF) != 0 )
       {
         v32->RefCount = v33 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v32);
@@ -343,7 +343,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v35 = v34->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v35) != 0 )
+      if ( (v35 & 0x3FFFFF) != 0 )
       {
         v34->RefCount = v35 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v34);
@@ -360,7 +360,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v37 = v36->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v37) != 0 )
+      if ( (v37 & 0x3FFFFF) != 0 )
       {
         v36->RefCount = v37 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v36);
@@ -377,7 +377,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v39 = v38->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v39) != 0 )
+      if ( (v39 & 0x3FFFFF) != 0 )
       {
         v38->RefCount = v39 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v38);
@@ -394,7 +394,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v41 = v40->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v41) != 0 )
+      if ( (v41 & 0x3FFFFF) != 0 )
       {
         v40->RefCount = v41 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v40);
@@ -411,7 +411,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v43 = v42->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v43) != 0 )
+      if ( (v43 & 0x3FFFFF) != 0 )
       {
         v42->RefCount = v43 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v42);
@@ -428,7 +428,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v45 = v44->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v45) != 0 )
+      if ( (v45 & 0x3FFFFF) != 0 )
       {
         v44->RefCount = v45 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v44);
@@ -445,7 +445,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v47 = v46->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v47) != 0 )
+      if ( (v47 & 0x3FFFFF) != 0 )
       {
         v46->RefCount = v47 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v46);
@@ -462,7 +462,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v49 = v48->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v49) != 0 )
+      if ( (v49 & 0x3FFFFF) != 0 )
       {
         v48->RefCount = v49 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v48);
@@ -479,7 +479,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v51 = v50->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v51) != 0 )
+      if ( (v51 & 0x3FFFFF) != 0 )
       {
         v50->RefCount = v51 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v50);
@@ -496,7 +496,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v53 = v52->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v53) != 0 )
+      if ( (v53 & 0x3FFFFF) != 0 )
       {
         v52->RefCount = v53 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v52);
@@ -513,7 +513,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v55 = v54->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v55) != 0 )
+      if ( (v55 & 0x3FFFFF) != 0 )
       {
         v54->RefCount = v55 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v54);
@@ -530,7 +530,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v57 = v56->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v57) != 0 )
+      if ( (v57 & 0x3FFFFF) != 0 )
       {
         v56->RefCount = v57 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v56);
@@ -547,7 +547,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v59 = v58->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v59) != 0 )
+      if ( (v59 & 0x3FFFFF) != 0 )
       {
         v58->RefCount = v59 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v58);
@@ -564,7 +564,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v61 = v60->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v61) != 0 )
+      if ( (v61 & 0x3FFFFF) != 0 )
       {
         v60->RefCount = v61 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v60);
@@ -581,7 +581,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
     else
     {
       v63 = v62->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v63) != 0 )
+      if ( (v63 & 0x3FFFFF) != 0 )
       {
         v62->RefCount = v63 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v62);
@@ -625,7 +625,7 @@ void __usercall Scaleform::GFx::AS3::VM::~VM(Scaleform::GFx::AS3::VM *this@<ecx>
       return;
     }
     v66 = v65->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v66) != 0 )
+    if ( (v66 & 0x3FFFFF) != 0 )
     {
       v65->RefCount = v66 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v65);

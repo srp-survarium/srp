@@ -6,9 +6,9 @@ void __thiscall Scaleform::GFx::FontLib::LoadFontNames(
   unsigned int v3; // esi
   Scaleform::GFx::MovieDataDef *pObject; // edi
   Scaleform::GFx::FontDataUseNode *volatile Value; // edi
-  char *v6; // eax
+  const __m128i *v6; // eax
   void *v7; // esi
-  Scaleform::String fontname; // [esp+Ch] [ebp-14h] BYREF
+  Scaleform::String v8; // [esp+Ch] [ebp-14h] BYREF
   unsigned int i; // [esp+10h] [ebp-10h]
   Scaleform::GFx::FontLib *v10; // [esp+14h] [ebp-Ch]
   Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeRef key; // [esp+18h] [ebp-8h] BYREF
@@ -25,18 +25,18 @@ void __thiscall Scaleform::GFx::FontLib::LoadFontNames(
       Value = pObject->pData.pObject->BindData.pFonts.Value;
       if ( Value )
       {
-        key.pFirst = &fontname;
-        key.pSecond = &fontname;
+        key.pFirst = &v8;
+        key.pSecond = &v8;
         do
         {
-          v6 = (char *)Value->pFontData.pObject->GetName(Value->pFontData.pObject);
-          Scaleform::String::String(&fontname, v6);
+          v6 = (const __m128i *)Value->pFontData.pObject->GetName(Value->pFontData.pObject);
+          Scaleform::String::String(&v8, v6);
           Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::String,Scaleform::String,Scaleform::String::NoCaseHashFunctor>::NodeRef>(
             &fontnames->mHash,
             fontnames,
             &key);
-          v7 = (void *)(fontname.HeapTypeBits & 0xFFFFFFFC);
-          if ( InterlockedExchangeAdd((volatile LONG *)((fontname.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+          v7 = (void *)(v8.HeapTypeBits & 0xFFFFFFFC);
+          if ( InterlockedExchangeAdd((volatile LONG *)((v8.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
             Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
           Value = Value->pNext.Value;
         }

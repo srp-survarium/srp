@@ -9,17 +9,17 @@ char __thiscall Scaleform::Render::TextMeshProvider::clipGlyphRect(
   double v8; // st7
   double y2; // st6
   double v10; // st7
-  float y1; // [esp+3Ch] [ebp-24h]
-  float v12; // [esp+3Ch] [ebp-24h]
-  float v13; // [esp+3Ch] [ebp-24h]
-  float v14; // [esp+3Ch] [ebp-24h]
-  float v15; // [esp+3Ch] [ebp-24h]
-  float v16; // [esp+3Ch] [ebp-24h]
-  float v17; // [esp+3Ch] [ebp-24h]
-  float v18; // [esp+3Ch] [ebp-24h]
-  float v19; // [esp+3Ch] [ebp-24h]
-  Scaleform::Render::Rect<float> r; // [esp+40h] [ebp-20h] BYREF
-  Scaleform::Render::Rect<float> v21; // [esp+50h] [ebp-10h] BYREF
+  float y1; // [esp+1Ch] [ebp-24h]
+  float v12; // [esp+1Ch] [ebp-24h]
+  float v13; // [esp+1Ch] [ebp-24h]
+  float v14; // [esp+1Ch] [ebp-24h]
+  float v15; // [esp+1Ch] [ebp-24h]
+  float v16; // [esp+1Ch] [ebp-24h]
+  float v17; // [esp+1Ch] [ebp-24h]
+  float v18; // [esp+1Ch] [ebp-24h]
+  float v19; // [esp+1Ch] [ebp-24h]
+  Scaleform::Render::Rect<float> r; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> v21; // [esp+30h] [ebp-10h] BYREF
 
   if ( (this->Flags & 8) != 0 )
   {

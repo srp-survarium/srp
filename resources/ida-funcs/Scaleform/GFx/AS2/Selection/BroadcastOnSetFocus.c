@@ -14,29 +14,29 @@ void __cdecl Scaleform::GFx::AS2::Selection::BroadcastOnSetFocus(
   const Scaleform::GFx::AS2::Value *v12; // edi
   const Scaleform::GFx::AS2::Value *v13; // eax
   const Scaleform::GFx::AS2::Value *v14; // edi
-  int v15; // edi
+  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *v15; // edi
   Scaleform::GFx::ASStringNode *v16; // eax
   Scaleform::GFx::AS2::Value v17; // [esp+Ch] [ebp-24h] BYREF
-  Scaleform::GFx::AS2::ObjectInterface *pselectionObj; // [esp+1Ch] [ebp-14h]
-  Scaleform::GFx::AS2::Value selectionCtorVal; // [esp+20h] [ebp-10h] BYREF
-  int nargs; // [esp+34h] [ebp+4h]
+  Scaleform::GFx::AS2::ObjectInterface *v18; // [esp+1Ch] [ebp-14h]
+  Scaleform::GFx::AS2::Value v19; // [esp+20h] [ebp-10h] BYREF
+  unsigned int penva; // [esp+34h] [ebp+4h]
 
   pContext = penv->StringContext.pContext;
-  selectionCtorVal.T.Type = 0;
+  v19.T.Type = 0;
   p_StringContext = &penv->StringContext;
   if ( pContext->pGlobal.pObject->GetMemberRaw(
          &pContext->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface,
          &penv->StringContext,
          (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[12].pMovieImpl,
-         &selectionCtorVal) )
+         &v19) )
   {
-    v7 = Scaleform::GFx::AS2::Value::ToObject(&selectionCtorVal, penv);
+    v7 = Scaleform::GFx::AS2::Value::ToObject(&v19, penv);
     if ( v7 )
     {
-      pselectionObj = &v7->Scaleform::GFx::AS2::ObjectInterface;
+      v18 = &v7->Scaleform::GFx::AS2::ObjectInterface;
       if ( v7 != (Scaleform::GFx::AS2::Object *)-16 )
       {
-        nargs = 2;
+        penva = 2;
         if ( p_StringContext->pContext->GFxExtensions.Value == 1 )
         {
           ++penv->Stack.pCurrent;
@@ -50,7 +50,7 @@ void __cdecl Scaleform::GFx::AS2::Selection::BroadcastOnSetFocus(
             pCurrent->T.Type = 3;
             pCurrent->NV.NumberValue = v9;
           }
-          nargs = 3;
+          penva = 3;
         }
         if ( pNewFocus )
         {
@@ -93,7 +93,10 @@ void __cdecl Scaleform::GFx::AS2::Selection::BroadcastOnSetFocus(
           if ( p_Stack->pCurrent )
             p_Stack->pCurrent->T.Type = 1;
         }
-        v15 = p_Stack->pCurrent - p_Stack->pPageStart + 32 * p_Stack->Pages.Data.Size - 32;
+        v15 = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)(p_Stack->pCurrent
+                                                                        - p_Stack->pPageStart
+                                                                        + 32 * p_Stack->Pages.Data.Size
+                                                                        - 32);
         *(_DWORD *)&v17.T.Type = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                    (Scaleform::GFx::ASStringManager *)p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                                    "onSetFocus",
@@ -102,18 +105,18 @@ void __cdecl Scaleform::GFx::AS2::Selection::BroadcastOnSetFocus(
         ++*(_DWORD *)(*(_DWORD *)&v17.T.Type + 12);
         Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage(
           penv,
-          pselectionObj,
+          v18,
           (const Scaleform::GFx::ASString *)&v17,
-          nargs,
+          (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)penva,
           v15);
         v16 = *(Scaleform::GFx::ASStringNode **)&v17.T.Type;
         --*(_DWORD *)(*(_DWORD *)&v17.T.Type + 12);
         if ( !v16->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-        Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(p_Stack, nargs);
+        Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(p_Stack, penva);
       }
     }
   }
-  if ( selectionCtorVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&selectionCtorVal);
+  if ( v19.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v19);
 }

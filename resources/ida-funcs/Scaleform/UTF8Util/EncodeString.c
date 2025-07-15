@@ -2,10 +2,10 @@ void __stdcall Scaleform::UTF8Util::EncodeString(char *pbuff, wchar_t *pchar, in
 {
   int v3; // esi
   wchar_t v4; // ax
-  int ofs; // [esp+Ch] [ebp-4h] BYREF
+  int pindex; // [esp+Ch] [ebp-4h] BYREF
 
   v3 = 0;
-  ofs = 0;
+  pindex = 0;
   if ( length == -1 )
   {
     v4 = *pchar;
@@ -13,11 +13,11 @@ void __stdcall Scaleform::UTF8Util::EncodeString(char *pbuff, wchar_t *pchar, in
     {
       do
       {
-        Scaleform::UTF8Util::EncodeChar(pbuff, &ofs, v4);
+        Scaleform::UTF8Util::EncodeChar(pbuff, &pindex, v4);
         v4 = pchar[++v3];
       }
       while ( v4 );
-      pbuff[ofs] = 0;
+      pbuff[pindex] = 0;
     }
     else
     {
@@ -31,8 +31,8 @@ void __stdcall Scaleform::UTF8Util::EncodeString(char *pbuff, wchar_t *pchar, in
   else
   {
     do
-      Scaleform::UTF8Util::EncodeChar(pbuff, &ofs, pchar[v3++]);
+      Scaleform::UTF8Util::EncodeChar(pbuff, &pindex, pchar[v3++]);
     while ( v3 < length );
-    pbuff[ofs] = 0;
+    pbuff[pindex] = 0;
   }
 }

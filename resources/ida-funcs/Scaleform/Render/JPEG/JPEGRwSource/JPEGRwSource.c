@@ -2,14 +2,14 @@ void __thiscall Scaleform::Render::JPEG::JPEGRwSource::JPEGRwSource(
         Scaleform::Render::JPEG::JPEGRwSource *this,
         Scaleform::GFx::Resource *pin)
 {
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   this->pInStream.pObject = 0;
   if ( pin )
     Scaleform::RefCountImpl::AddRef(pin);
-  pObject = this->pInStream.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pInStream.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pInStream.pObject = (Scaleform::File *)pin;
   this->StartOfFile = 1;
   this->SMgr.init_source = Scaleform::Render::JPEG::JPEGRwSource::InitSource;

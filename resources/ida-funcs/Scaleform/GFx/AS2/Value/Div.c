@@ -7,19 +7,19 @@ void __thiscall Scaleform::GFx::AS2::Value::Div(
   double v5; // st6
   double v6; // st7
   double v7; // st7
-  double res; // [esp+8h] [ebp-8h]
-  double resa; // [esp+8h] [ebp-8h]
+  double v8; // [esp+8h] [ebp-8h]
+  double v9; // [esp+8h] [ebp-8h]
 
-  res = Scaleform::GFx::AS2::Value::ToNumber(this, penv);
+  v8 = Scaleform::GFx::AS2::Value::ToNumber(this, penv);
   v4 = Scaleform::GFx::AS2::Value::ToNumber(v, penv);
-  if ( (HIDWORD(res) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(res) | LODWORD(res) )
+  if ( (HIDWORD(v8) & 0x7FF00000) == 0x7FF00000 && HIDWORD(v8) & 0xFFFFF | LODWORD(v8) )
     goto LABEL_11;
   v5 = v4;
-  v6 = res;
-  resa = v5;
-  if ( (HIDWORD(resa) & 0x7FF00000) == 0x7FF00000 )
+  v6 = v8;
+  v9 = v5;
+  if ( (HIDWORD(v9) & 0x7FF00000) == 0x7FF00000 )
   {
-    if ( (unsigned int)&loc_FFFFF & HIDWORD(resa) | LODWORD(resa) )
+    if ( HIDWORD(v9) & 0xFFFFF | LODWORD(v9) )
       goto LABEL_11;
   }
   if ( 0.0 != v5 )

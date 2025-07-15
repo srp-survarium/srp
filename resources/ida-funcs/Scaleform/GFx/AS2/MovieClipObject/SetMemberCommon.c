@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS2::MovieClipObject::SetMemberCommon(
         Scaleform::GFx::AS2::MovieClipObject *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
         const Scaleform::GFx::ASString *name,
-        Scaleform::GFx::AS2::Value *val)
+        float val)
 {
   Scaleform::GFx::Sprite *pObject; // esi
   const char *pData; // eax
@@ -12,16 +12,16 @@ void __thiscall Scaleform::GFx::AS2::MovieClipObject::SetMemberCommon(
   char *v10; // ecx
   Scaleform::GFx::ASMovieRootBase *v11; // edx
   Scaleform::GFx::AS2::Environment *v12; // eax
-  Scaleform::GFx::ASStringNode *v13; // edi
+  float v13; // edi
   Scaleform::GFx::AS2::Environment *v15; // eax
   const Scaleform::GFx::AS2::Environment *v16; // eax
-  char v17; // al
+  bool v17; // al
   Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+24h] [ebp-14h] BYREF
   Scaleform::GFx::AS2::Value v19; // [esp+28h] [ebp-10h] BYREF
 
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     &this->pSprite,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+    &result);
   pObject = result.pObject;
   if ( !result.pObject
     || (++result.pObject->RefCount,
@@ -57,12 +57,17 @@ void __thiscall Scaleform::GFx::AS2::MovieClipObject::SetMemberCommon(
       if ( pNode == (Scaleform::GFx::ASStringNode *)v11[38].pMovieImpl )
       {
         v12 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(char *))(*(_DWORD *)v10 + 124))(v10);
-        Scaleform::GFx::AS2::Value::ToStringImpl(val, (Scaleform::GFx::ASString *)&val, v12, -1, 0);
-        v13 = (Scaleform::GFx::ASStringNode *)val;
-        Scaleform::GFx::DisplayObjectBase::SetRendererString(pObject, *(char **)&val->T.Type);
-        if ( v13->RefCount-- == 1 )
+        Scaleform::GFx::AS2::Value::ToStringImpl(
+          (Scaleform::GFx::AS2::Value *)LODWORD(val),
+          (Scaleform::GFx::ASString *)&val,
+          v12,
+          -1,
+          0);
+        v13 = val;
+        Scaleform::GFx::DisplayObjectBase::SetRendererString(pObject, *(const __m128i **)LODWORD(val));
+        if ( (*(_DWORD *)(LODWORD(v13) + 12))-- == 1 )
         {
-          Scaleform::GFx::ASStringNode::ReleaseNode(v13);
+          Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)LODWORD(v13));
           Scaleform::RefCountNTSImpl::Release(pObject);
           return;
         }
@@ -72,15 +77,15 @@ void __thiscall Scaleform::GFx::AS2::MovieClipObject::SetMemberCommon(
         if ( pNode == (Scaleform::GFx::ASStringNode *)v11[38].pASSupport.pObject )
         {
           v15 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(char *))(*(_DWORD *)v10 + 124))(v10);
-          *(float *)&val = Scaleform::GFx::AS2::Value::ToNumber(val, v15);
-          Scaleform::GFx::DisplayObjectBase::SetRendererFloat(pObject, (Scaleform::String::DataDesc *)val);
+          val = Scaleform::GFx::AS2::Value::ToNumber((Scaleform::GFx::AS2::Value *)LODWORD(val), v15);
+          Scaleform::GFx::DisplayObjectBase::SetRendererFloat(pObject, (Scaleform::String::DataDesc *)LODWORD(val));
           Scaleform::RefCountNTSImpl::Release(pObject);
           return;
         }
         if ( pNode == *(Scaleform::GFx::ASStringNode **)&v11[38].AVMVersion )
         {
           v16 = (const Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(char *))(*(_DWORD *)v10 + 124))(v10);
-          v17 = Scaleform::GFx::AS2::Value::ToBool(val, v16);
+          v17 = Scaleform::GFx::AS2::Value::ToBool((Scaleform::GFx::AS2::Value *)LODWORD(val), (int)this, v16);
           Scaleform::GFx::DisplayObjectBase::DisableBatching(pObject, v17);
         }
       }

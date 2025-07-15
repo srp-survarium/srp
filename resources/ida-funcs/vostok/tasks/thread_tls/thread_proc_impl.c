@@ -1,77 +1,76 @@
-void __usercall vostok::tasks::thread_tls::thread_proc_impl(
-        vostok::tasks::thread_tls *this@<ecx>,
-        vostok::tasks::thread_tls *a2@<eax>)
+void __usercall vostok::tasks::thread_tls::thread_proc_impl(vostok::tasks::thread_tls *this@<ecx>, int a2@<edi>)
 {
-  vostok::tasks::thread_pool *pool; // edi
-  char v4; // bl
-  vostok::tasks::task_manager *m_paused; // ecx
-  vostok::tasks::thread_pool *v6; // edi
+  int v2; // esi
+  signed __int32 v3; // ecx
+  int v4; // ecx
+  int v5; // eax
+  vostok::tasks::task *v6; // ecx
   vostok::tasks::thread_pool *v7; // eax
-  vostok::tasks::task *v8; // ecx
-  vostok::tasks::thread_pool *v9; // edi
-  __int64 elapsed_ticks; // rax
+  vostok::tasks::task_manager *v8; // ecx
+  vostok::timing::timer *v9; // ecx
+  unsigned __int64 elapsed_ticks; // rax
+  bool v11; // [esp+Bh] [ebp-5h]
+  vostok::tasks::task *task; // [esp+Ch] [ebp-4h]
 
-  pool = a2->pool;
-  v4 = 1;
-  TlsSetValue(pool->m_thread_tls_key, a2);
-  if ( _InterlockedIncrement(&pool->m_num_task_threads_started) == pool->m_task_thread_tls.m_end
-                                                                 - pool->m_task_thread_tls.m_begin )
-    SetEvent(*(HANDLE *)pool->m_all_task_threads_started.m_event);
+  v2 = *(_DWORD *)(a2 + 264);
+  v11 = 1;
+  vostok::threading::tls_set_value(*(_DWORD *)(v2 + 108), (void *)a2);
+  v3 = _InterlockedIncrement((volatile signed __int32 *)(v2 + 92));
+  if ( v3 == (*(_DWORD *)(v2 + 120) - *(_DWORD *)(v2 + 116)) / 360 )
+    SetEvent(*(HANDLE *)(v2 + 56));
   while ( 1 )
   {
     while ( 1 )
     {
-      if ( v4 )
+      if ( v11 )
       {
-        WaitForSingleObject(*(HANDLE *)a2->event_should_work.m_event, 0xFFFFFFFF);
-        vostok::threading::set_current_thread_affinity(a2->hardware_thread);
-        v4 = 0;
+        WaitForSingleObject(*(HANDLE *)(a2 + 64), 0xFFFFFFFF);
+        vostok::threading::set_current_thread_affinity(*(char **)(a2 + 284));
+        v11 = 0;
       }
-      m_paused = (vostok::tasks::task_manager *)a2->pool->m_paused;
-      if ( m_paused )
+      if ( *(_DWORD *)(*(_DWORD *)(a2 + 264) + 160) )
       {
-        v6 = a2->pool;
-        if ( _InterlockedIncrement(&v6->m_num_paused_threads) == v6->m_task_thread_tls.m_end
-                                                               - v6->m_task_thread_tls.m_begin )
-          SetEvent(*(HANDLE *)v6->m_all_task_threads_paused.m_event);
-        WaitForSingleObject(*(HANDLE *)a2->event_pause_ended.m_event, 0xFFFFFFFF);
-        v7 = a2->pool;
-        m_paused = (vostok::tasks::task_manager *)&v7->m_num_paused_threads;
-        if ( !_InterlockedExchangeAdd(&v7->m_num_paused_threads, 0xFFFFFFFF) )
-          SetEvent(*(HANDLE *)v7->m_all_task_threads_resumed.m_event);
+        v4 = *(_DWORD *)(a2 + 264);
+        if ( _InterlockedIncrement((volatile signed __int32 *)(v4 + 164)) == (*(_DWORD *)(v4 + 120)
+                                                                            - *(_DWORD *)(v4 + 116))
+                                                                           / 360 )
+          SetEvent(*(HANDLE *)(v4 + 40));
+        WaitForSingleObject(*(HANDLE *)(a2 + 248), 0xFFFFFFFF);
+        v5 = *(_DWORD *)(a2 + 264);
+        v3 = v5 + 164;
+        if ( !_InterlockedExchangeAdd((volatile signed __int32 *)(v5 + 164), 0xFFFFFFFF) )
+          SetEvent(*(HANDLE *)(v5 + 48));
       }
-      if ( !vostok::tasks::task_manager::grab_next_task(m_paused) )
+      task = vostok::tasks::task_manager::grab_next_task((vostok::tasks::task_manager *)v3);
+      if ( !task )
         break;
 LABEL_14:
-      vostok::tasks::task::execute(v8);
-      elapsed_ticks = vostok::timing::timer::get_elapsed_ticks(&a2->pool->m_timer);
-      vostok::threading::interlocked_exchange(&a2->last_task_end_tick, elapsed_ticks);
-      _InterlockedExchangeAdd(&a2->executed_tasks_count, 1u);
-      if ( !a2->pool->m_destroying )
-        v4 = vostok::tasks::thread_pool::deactivate_if_oversubscribed(a2->pool, a2);
+      vostok::tasks::task::execute(v6, task);
+      elapsed_ticks = vostok::timing::timer::get_elapsed_ticks(v9, *(_DWORD *)(a2 + 264) + 64);
+      vostok::threading::interlocked_exchange((volatile __int64 *)(a2 + 344), elapsed_ticks);
+      v3 = _InterlockedExchangeAdd((volatile signed __int32 *)(a2 + 352), 1u);
+      if ( !*(_DWORD *)(*(_DWORD *)(a2 + 264) + 156) )
+        v11 = vostok::tasks::thread_pool::deactivate_if_oversubscribed(
+                *(vostok::tasks::thread_pool **)(a2 + 264),
+                (vostok::tasks::thread_tls *)a2);
     }
-    if ( a2->pool->m_destroying )
+    v7 = *(vostok::tasks::thread_pool **)(a2 + 264);
+    if ( v7->m_destroying )
       break;
-    v9 = a2->pool;
-    v4 = 1;
-    vostok::tasks::thread_pool::log(
-      v9,
-      a2,
-      "%d>deactivated(%d)",
-      a2->hardware_thread,
-      v9->m_core_thread_count.m_begin[a2->hardware_thread]);
-    _InterlockedExchange(&a2->state, 1);
-    _InterlockedExchangeAdd(&v9->m_core_thread_count.m_begin[a2->hardware_thread], 0xFFFFFFFF);
-    if ( vostok::tasks::task_manager::grab_next_task((vostok::tasks::task_manager *)_InterlockedExchangeAdd(
-                                                                                      &v9->m_active_task_thread_count,
-                                                                                      0xFFFFFFFF)) )
+    v11 = 1;
+    vostok::tasks::thread_pool::deactivate_task_thread(v7, (vostok::tasks::thread_tls *)a2);
+    task = vostok::tasks::task_manager::grab_next_task(v8);
+    if ( task )
     {
-      v4 = 0;
-      vostok::tasks::thread_pool::try_activate_task_thread(a2->pool, a2, a2->hardware_thread);
-      WaitForSingleObject(*(HANDLE *)a2->event_should_work.m_event, 0xFFFFFFFF);
-      vostok::threading::set_current_thread_affinity(a2->hardware_thread);
+      v11 = 0;
+      vostok::tasks::thread_pool::try_activate_task_thread(
+        *(vostok::tasks::thread_pool **)(a2 + 264),
+        (vostok::tasks::thread_tls *)a2,
+        *(_DWORD *)(a2 + 284));
+      WaitForSingleObject(*(HANDLE *)(a2 + 64), 0xFFFFFFFF);
+      vostok::threading::set_current_thread_affinity(*(char **)(a2 + 284));
       goto LABEL_14;
     }
   }
-  vostok::tasks::thread_pool::deactivate_task_thread(a2->pool, a2);
+  vostok::tasks::thread_pool::deactivate_task_thread(v7, (vostok::tasks::thread_tls *)a2);
 }

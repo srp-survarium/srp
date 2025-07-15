@@ -35,12 +35,12 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS2::GlobalContext::FindCla
   unsigned int v33; // eax
   Scaleform::GFx::ASStringNode *pMovieImpl; // ecx
   int v35; // [esp+10h] [ebp-38h]
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::ConstIterator it; // [esp+18h] [ebp-30h] BYREF
-  Scaleform::GFx::AS2::FunctionRef v38; // [esp+20h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::FunctionRef f; // [esp+2Ch] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::Value protoVal; // [esp+38h] [ebp-10h] BYREF
-  Scaleform::GFx::ASString *nm; // [esp+50h] [ebp+8h]
-  Scaleform::GFx::AS2::Object *obj; // [esp+54h] [ebp+Ch]
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::ConstIterator v37; // [esp+18h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::FunctionRef resulta; // [esp+20h] [ebp-28h] BYREF
+  Scaleform::GFx::AS2::FunctionRef v39; // [esp+2Ch] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::Value v40; // [esp+38h] [ebp-10h] BYREF
+  Scaleform::GFx::ASString *penva; // [esp+50h] [ebp+8h]
+  Scaleform::GFx::AS2::Object *p_pProto; // [esp+54h] [ebp+Ch]
 
   v4 = this;
   v35 = 0;
@@ -58,26 +58,26 @@ LABEL_62:
   if ( v5 )
   {
     if ( (unsigned int)(GetObjectType(iobj) - 2) > 3 )
-      obj = (Scaleform::GFx::AS2::Object *)(*(int (**)(void))(MEMORY[0] + 104))();
+      p_pProto = (Scaleform::GFx::AS2::Object *)(*(int (**)(void))(MEMORY[0] + 104))();
     else
-      obj = (Scaleform::GFx::AS2::Object *)((int (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::Object> *))iobj[-1].pProto.pObject[2].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable)(&iobj[-1].pProto);
+      p_pProto = (Scaleform::GFx::AS2::Object *)((int (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::Object> *))iobj[-1].pProto.pObject[2].Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable)(&iobj[-1].pProto);
   }
   else if ( (unsigned int)(GetObjectType(iobj) - 6) > 0x26 )
   {
-    obj = 0;
+    p_pProto = 0;
   }
   else
   {
-    obj = (Scaleform::GFx::AS2::Object *)&iobj[-2].pProto;
+    p_pProto = (Scaleform::GFx::AS2::Object *)&iobj[-2].pProto;
   }
-  v7 = Scaleform::Hash<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>,Scaleform::HashSet<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>>::Begin(
+  v7 = Scaleform::Hash<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>,Scaleform::AllocatorLH<unsigned __int64,2>,Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>,Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>::NodeHashF>,Scaleform::HashSet<Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>,Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>::NodeHashF,Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>::NodeAltHashF,Scaleform::AllocatorLH<unsigned __int64,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>,Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64>>::NodeHashF>>>::Begin(
          &v4->pGlobal.pObject->Members,
-         (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::Iterator *)&v38);
+         (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> >::Iterator *)&resulta);
   pHash = v7->pHash;
   Index = v7->Index;
-  Function = v38.Function;
-  it.pHash = pHash;
-  it.Index = Index;
+  Function = resulta.Function;
+  v37.pHash = pHash;
+  v37.Index = Index;
   while ( 1 )
   {
     if ( !pHash || !pHash->pTable || (v12.pTable = pHash->pTable, Index > (signed int)v12.pTable->SizeMask) )
@@ -88,27 +88,27 @@ LABEL_62:
     v13 = &v12.pTable[3 * Index];
     p_SizeMask = (Scaleform::GFx::ASStringNode **)&v13[1].SizeMask;
     v15 = (Scaleform::GFx::AS2::Value *)&v13[2];
-    nm = (Scaleform::GFx::ASString *)&v13[1].SizeMask;
-    if ( obj->GetObjectType(&obj->Scaleform::GFx::AS2::ObjectInterface) == Object_Function )
+    penva = (Scaleform::GFx::ASString *)&v13[1].SizeMask;
+    if ( p_pProto->GetObjectType(&p_pProto->Scaleform::GFx::AS2::ObjectInterface) == Object_Function )
     {
       v17 = 0;
       if ( v15->T.Type == 8 || v15->T.Type == 11 )
       {
         v35 |= 1u;
-        v16 = Scaleform::GFx::AS2::Value::ToFunction(v15, &v38, penv);
-        Function = v38.Function;
-        if ( v16->Function == obj )
+        v16 = Scaleform::GFx::AS2::Value::ToFunction(v15, &resulta, penv);
+        Function = resulta.Function;
+        if ( v16->Function == p_pProto )
           v17 = 1;
       }
       if ( (v35 & 1) != 0 )
       {
         v35 &= ~1u;
-        if ( (v38.Flags & 2) == 0 )
+        if ( (resulta.Flags & 2) == 0 )
         {
           if ( Function )
           {
             RefCount = Function->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFFF) != 0 )
             {
               Function->RefCount = RefCount - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -116,34 +116,34 @@ LABEL_62:
           }
         }
         Function = 0;
-        v38.Function = 0;
-        if ( (v38.Flags & 1) == 0 )
+        resulta.Function = 0;
+        if ( (resulta.Flags & 1) == 0 )
         {
-          pLocalFrame = v38.pLocalFrame;
-          if ( v38.pLocalFrame )
+          pLocalFrame = resulta.pLocalFrame;
+          if ( resulta.pLocalFrame )
           {
-            v20 = v38.pLocalFrame->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v20) != 0 )
+            v20 = resulta.pLocalFrame->RefCount;
+            if ( (v20 & 0x3FFFFFF) != 0 )
             {
-              v38.pLocalFrame->RefCount = v20 - 1;
+              resulta.pLocalFrame->RefCount = v20 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
-              Function = v38.Function;
+              Function = resulta.Function;
             }
           }
         }
-        v38.pLocalFrame = 0;
+        resulta.pLocalFrame = 0;
       }
       if ( v17 )
       {
-        pNode = nm->pNode;
+        pNode = penva->pNode;
         v22 = result;
-        result->pNode = nm->pNode;
+        result->pNode = penva->pNode;
         ++pNode->RefCount;
         return v22;
       }
       goto LABEL_48;
     }
-    if ( v15->T.Type == 6 && Scaleform::GFx::AS2::Value::ToObject(v15, penv) == obj )
+    if ( v15->T.Type == 6 && Scaleform::GFx::AS2::Value::ToObject(v15, penv) == p_pProto )
     {
       v29 = *p_SizeMask;
       v22 = result;
@@ -154,61 +154,61 @@ LABEL_62:
     if ( v15->T.Type == 8 || v15->T.Type == 11 )
       break;
 LABEL_48:
-    Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::ConstIterator::operator++(&it);
-    Index = it.Index;
-    pHash = it.pHash;
+    Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Member,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::ConstIterator::operator++(&v37);
+    Index = v37.Index;
+    pHash = v37.pHash;
   }
-  Scaleform::GFx::AS2::Value::ToFunction(v15, &f, penv);
+  Scaleform::GFx::AS2::Value::ToFunction(v15, &v39, penv);
   pMovieRoot = this->pMovieRoot;
-  v24 = f.Function;
-  protoVal.T.Type = 0;
-  if ( !f.Function->GetMemberRaw(
-          &f.Function->Scaleform::GFx::AS2::ObjectInterface,
+  v24 = v39.Function;
+  v40.T.Type = 0;
+  if ( !v39.Function->GetMemberRaw(
+          &v39.Function->Scaleform::GFx::AS2::ObjectInterface,
           &penv->StringContext,
           (const Scaleform::GFx::ASString *)&pMovieRoot->pASMovieRoot.pObject[23].pASSupport,
-          &protoVal)
-    || protoVal.T.Type != 6
-    || Scaleform::GFx::AS2::Value::ToObject(&protoVal, penv) != obj )
+          &v40)
+    || v40.T.Type != 6
+    || Scaleform::GFx::AS2::Value::ToObject(&v40, penv) != p_pProto )
   {
-    if ( protoVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&protoVal);
-    Flags = f.Flags;
-    if ( (f.Flags & 2) == 0 )
+    if ( v40.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v40);
+    Flags = v39.Flags;
+    if ( (v39.Flags & 2) == 0 )
     {
       v26 = v24->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v26) != 0 )
+      if ( (v26 & 0x3FFFFFF) != 0 )
       {
         v24->RefCount = v26 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v24);
       }
     }
-    f.Function = 0;
+    v39.Function = 0;
     if ( (Flags & 1) == 0 )
     {
-      v27 = f.pLocalFrame;
-      if ( f.pLocalFrame )
+      v27 = v39.pLocalFrame;
+      if ( v39.pLocalFrame )
       {
-        v28 = f.pLocalFrame->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v28) != 0 )
+        v28 = v39.pLocalFrame->RefCount;
+        if ( (v28 & 0x3FFFFFF) != 0 )
         {
-          f.pLocalFrame->RefCount = v28 - 1;
+          v39.pLocalFrame->RefCount = v28 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v27);
         }
       }
     }
-    f.pLocalFrame = 0;
+    v39.pLocalFrame = 0;
     goto LABEL_48;
   }
-  Scaleform::GFx::ASString::operator+(nm, result, ".prototype");
-  if ( protoVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&protoVal);
-  v30 = f.Flags;
-  if ( (f.Flags & 2) == 0 )
+  Scaleform::GFx::ASString::operator+(penva, result, (const __m128i *)".prototype");
+  if ( v40.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v40);
+  v30 = v39.Flags;
+  if ( (v39.Flags & 2) == 0 )
   {
     if ( v24 )
     {
       v31 = v24->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v31) != 0 )
+      if ( (v31 & 0x3FFFFFF) != 0 )
       {
         v24->RefCount = v31 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v24);
@@ -217,13 +217,13 @@ LABEL_48:
   }
   if ( (v30 & 1) == 0 )
   {
-    v32 = f.pLocalFrame;
-    if ( f.pLocalFrame )
+    v32 = v39.pLocalFrame;
+    if ( v39.pLocalFrame )
     {
-      v33 = f.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v33) != 0 )
+      v33 = v39.pLocalFrame->RefCount;
+      if ( (v33 & 0x3FFFFFF) != 0 )
       {
-        f.pLocalFrame->RefCount = v33 - 1;
+        v39.pLocalFrame->RefCount = v33 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v32);
       }
     }

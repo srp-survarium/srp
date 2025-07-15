@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::ImageUpdateQueue::ProcessUpdates(
         int pmanager)
 {
   unsigned int v3; // ebx
-  Scaleform::Render::TextureManager *v4; // ebp
+  int v4; // ebp
   unsigned int v5; // eax
   unsigned int v6; // edi
   int v7; // eax
@@ -13,24 +13,22 @@ void __thiscall Scaleform::Render::ImageUpdateQueue::ProcessUpdates(
   v3 = 0;
   if ( !this->Queue.Data.Size )
     goto LABEL_20;
-  v4 = (Scaleform::Render::TextureManager *)pmanager;
+  v4 = pmanager;
   do
   {
     v5 = this->Queue.Data.Data[v3];
     if ( (v5 & 1) != 0 )
     {
       v6 = v5 & 0xFFFFFFFE;
-      v7 = (*(int (__thiscall **)(unsigned int, Scaleform::Render::TextureManager *))(*(_DWORD *)(v5 & 0xFFFFFFFE) + 84))(
-             v5 & 0xFFFFFFFE,
-             v4);
+      v7 = (*(int (__thiscall **)(unsigned int, int))(*(_DWORD *)(v5 & 0xFFFFFFFE) + 96))(v5 & 0xFFFFFFFE, v4);
       if ( v7 )
-        (*(void (__thiscall **)(int))(*(_DWORD *)v7 + 68))(v7);
+        (*(void (__thiscall **)(int))(*(_DWORD *)v7 + 72))(v7);
       (*(void (__thiscall **)(unsigned int))(*(_DWORD *)v6 + 8))(v6);
     }
     else
     {
       v8 = (Scaleform::RefCountVImpl *)this->Queue.Data.Data[v3];
-      (*(void (__thiscall **)(unsigned int, Scaleform::Render::TextureManager *))(*(_DWORD *)v5 + 4))(v5, v4);
+      (*(void (__thiscall **)(unsigned int, int))(*(_DWORD *)v5 + 4))(v5, v4);
       Scaleform::RefCountImpl::Release(v8);
     }
     ++v3;

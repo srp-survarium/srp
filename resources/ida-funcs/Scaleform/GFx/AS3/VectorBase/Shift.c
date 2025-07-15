@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::Shift<unsigned l
     }
     else
     {
-      memmove((unsigned __int8 *)p_ValueA->Data.Data, (unsigned __int8 *)p_ValueA->Data.Data + 4, 4 * Size - 4);
+      memmove((int)p_ValueA->Data.Data, (const __m128i *)(p_ValueA->Data.Data + 1), 4 * Size - 4);
       --p_ValueA->Data.Size;
     }
   }
@@ -47,7 +47,7 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::Shift<double>(
     }
     else
     {
-      memmove((unsigned __int8 *)p_ValueA->Data.Data, (unsigned __int8 *)p_ValueA->Data.Data + 8, 8 * Size - 8);
+      memmove((int)p_ValueA->Data.Data, (const __m128i *)(p_ValueA->Data.Data + 1), 8 * Size - 8);
       --p_ValueA->Data.Size;
     }
   }

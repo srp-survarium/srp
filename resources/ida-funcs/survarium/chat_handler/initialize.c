@@ -1,76 +1,55 @@
-void __usercall survarium::chat_handler::initialize(
-        survarium::chat_handler *this@<esi>,
-        const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *ui@<eax>)
+void __thiscall survarium::chat_handler::initialize(
+        survarium::chat_handler *this,
+        const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *ui,
+        vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *is_game_mode,
+        char a4)
 {
-  vostok::resources::unmanaged_resource *m_object; // eax
-  vostok::resources::unmanaged_resource *v3; // edi
-  survarium::flash_movie_resource *v4; // eax
-  survarium::flash_movie_resource *v5; // ecx
-  survarium::flash_movie_resource *v6; // eax
-  Scaleform::GFx::Movie *m_movie; // ecx
-  Scaleform::GFx::Movie *v8; // ecx
-  Scaleform::GFx::Movie *v9; // ecx
-  survarium::flash_movie_resource *v10; // ecx
-  survarium::flash_function_handler_impl *impl; // eax
-  survarium::flash_movie_resource *v12; // edx
-  survarium::flash_value func; // [esp+2Ch] [ebp-34h] BYREF
-  survarium::flash_value proxy; // [esp+44h] [ebp-1Ch] BYREF
+  unsigned int m_object; // eax
+  unsigned int v6; // eax
+  survarium::flash_movie *v7; // ecx
+  survarium::flash_movie *v8; // ecx
+  survarium::chat_channel *v9; // edi
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  survarium::chat_handler *v13; // ecx
+  unsigned int id; // [esp-4h] [ebp-60h]
+  Scaleform::GFx::Value pvalue; // [esp+Ch] [ebp-50h] BYREF
+  survarium::flash_value value; // [esp+24h] [ebp-38h] BYREF
+  Scaleform::GFx::Value v17; // [esp+3Ch] [ebp-20h] BYREF
+  int v18; // [esp+54h] [ebp-8h]
+  survarium::chat_channel *is_game_modea; // [esp+68h] [ebp+Ch]
 
-  m_object = ui->m_object;
-  v3 = 0;
-  if ( m_object )
+  m_object = (unsigned int)is_game_mode->m_object;
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(m_object + 264) + 4), &pvalue);
+  v6 = (unsigned int)is_game_mode->m_object;
+  v17.pObjectInterface = 0;
+  v17.Type = VT_Undefined;
+  survarium::flash_movie::CreateObject(v7, *(survarium::flash_value **)(v6 + 264), &v17);
+  v9 = survarium::chat_channels;
+  is_game_modea = survarium::chat_channels;
+  v18 = 9;
+  while ( 1 )
   {
-    v3 = m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
+    survarium::flash_movie::CreateObject(v8, (survarium::flash_value *)is_game_mode->m_object->movie, &v17);
+    id = v9->id;
+    *(_DWORD *)value.body = 0;
+    *(_DWORD *)&value.body[4] = 0;
+    survarium::flash_value::SetUInt(v10, (int)&value, id);
+    survarium::flash_value::SetMember(v11, &v17, "id", &value);
+    survarium::flash_value::SetString(&value, v9->color);
+    survarium::flash_value::SetMember(v12, &v17, "color", &value);
+    pvalue.pObjectInterface->PushBack(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, &v17);
+    Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+    ++is_game_modea;
+    if ( !--v18 )
+      break;
+    v9 = is_game_modea;
   }
-  v4 = 0;
-  if ( v3 )
-  {
-    v4 = (survarium::flash_movie_resource *)v3;
-    _InterlockedExchangeAdd(&v3->m_reference_count, 1u);
-  }
-  v5 = v4;
-  v6 = this->m_chat_ui.m_object;
-  this->m_chat_ui.m_object = v5;
-  if ( v6 && !_InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v6->vostok::resources::unmanaged_intrusive_base, v6);
-  if ( v3 && !_InterlockedExchangeAdd(&v3->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v3->vostok::resources::unmanaged_intrusive_base, v3);
-  ((void (__stdcall *)(_DWORD))this->m_chat_ui.m_object->movie->m_movie->SetBackgroundAlpha)(0.0);
-  m_movie = this->m_chat_ui.m_object->movie->m_movie;
-  m_movie->SetViewAlignment(m_movie, Align_TopLeft);
-  v8 = this->m_chat_ui.m_object->movie->m_movie;
-  v8->SetViewScaleMode(v8, SM_NoScale);
-  this->m_chat_ui.m_object->movie->m_priority = 30;
-  v9 = this->m_chat_ui.m_object->movie->m_movie;
-  v9->SetState(&v9->Scaleform::GFx::StateBag, State_ExternalInterface, this->survarium::flash_external_handler::impl);
-  v10 = this->m_chat_ui.m_object;
-  *(_DWORD *)proxy.body = 0;
-  *(_DWORD *)&proxy.body[4] = 0;
-  Scaleform::GFx::Movie::GetVariable(v10->movie->m_movie, (Scaleform::GFx::Value *)&proxy, "root.chat");
-  impl = this->survarium::flash_function_handler::impl;
-  v12 = this->m_chat_ui.m_object;
-  *(_DWORD *)func.body = 0;
-  *(_DWORD *)&func.body[4] = 0;
-  Scaleform::GFx::Movie::CreateFunction(v12->movie->m_movie, (Scaleform::GFx::Value *)&func, impl, 0);
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)proxy.body + 20))(
-    *(_DWORD *)proxy.body,
-    *(_DWORD *)&proxy.body[8],
-    "send_function",
-    &func,
-    (proxy.body[4] & 0x8F) == 10);
-  if ( (func.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)func.body + 8))(
-      *(_DWORD *)func.body,
-      &func,
-      *(_DWORD *)&func.body[8]);
-    *(_DWORD *)func.body = 0;
-  }
-  *(_DWORD *)&func.body[4] = 0;
-  if ( (proxy.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)proxy.body + 8))(
-      *(_DWORD *)proxy.body,
-      &proxy,
-      *(_DWORD *)&proxy.body[8]);
+  Scaleform::GFx::Movie::Invoke(is_game_mode->m_object->movie->m_movie, "root.set_channels", 0, &pvalue, 1u);
+  survarium::chat_handler::initialize_tabs(v13, ui, is_game_mode, a4);
+  Scaleform::GFx::Value::~Value(&v17);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

@@ -1,85 +1,124 @@
-void __thiscall vostok::render::resource_manager::bind_samplers_to_shaders(
-        vostok::render::resource_manager *this,
-        vostok::render::resource_manager *thisa)
+void __usercall vostok::render::resource_manager::bind_samplers_to_shaders(
+        vostok::render::resource_manager *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::render::resource_manager *v2; // ebp
-  stlp_std::priv::_Rb_tree_node_base *i; // edi
-  vostok::render::resource_manager *M_left; // eax
-  _DWORD *v5; // esi
-  unsigned int v6; // ebx
-  int v7; // ebp
-  vostok::render::resource_manager *v8; // eax
-  stlp_std::priv::_Rb_tree_node_base *p_M_data; // edi
-  _DWORD *v10; // esi
-  unsigned int v11; // ebx
-  int v12; // ebp
-  stlp_std::priv::_Rb_tree_node_base *it; // [esp+10h] [ebp-4h]
-  stlp_std::priv::_Rb_tree_iterator<vostok::render::res_xs<vostok::render::gs_data> *,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::gs_data> *> > ita; // [esp+10h] [ebp-4h]
-  vostok::render::resource_manager *thisb; // [esp+18h] [ebp+4h]
+  stlp_std::priv::_Rb_tree_node_base *i; // ebx
+  vostok::render::resource_manager *v4; // ecx
+  unsigned int sh_returned; // eax
+  vostok::render::res_sampler_list **v6; // eax
+  vostok::render::res_sampler_list *v7; // esi
+  stlp_std::priv::_Rb_tree_node_base *v8; // eax
+  stlp_std::priv::_Rb_tree_node_base *j; // ebx
+  vostok::render::resource_manager *v10; // ecx
+  unsigned int v11; // eax
+  vostok::render::res_sampler_list **v12; // eax
+  vostok::render::res_sampler_list *v13; // esi
+  stlp_std::priv::_Rb_tree_node_base *v14; // eax
+  stlp_std::priv::_Rb_tree_node_base *v15; // ebx
+  bool v16; // zf
+  int v17; // edi
+  int v18; // eax
+  vostok::render::res_sampler_list **v19; // eax
+  vostok::render::res_sampler_list *v20; // esi
+  vostok::render::resource_manager *v21; // [esp-4h] [ebp-18h]
+  vostok::render::resource_manager *v22; // [esp-4h] [ebp-18h]
+  vostok::render::resource_manager *v23; // [esp-4h] [ebp-18h]
+  vostok::render::res_sampler_list *v24; // [esp+Ch] [ebp-8h]
+  vostok::render::res_sampler_list *v25; // [esp+Ch] [ebp-8h]
+  vostok::render::res_sampler_list *v26; // [esp+Ch] [ebp-8h]
+  vostok::render::res_sampler_list *v27; // [esp+10h] [ebp-4h]
+  vostok::render::res_sampler_list *v28; // [esp+10h] [ebp-4h]
+  vostok::render::res_sampler_list *v29; // [esp+10h] [ebp-4h]
 
-  v2 = thisa;
-  for ( i = thisa->m_v_shaders._M_t._M_header._M_data._M_left;
-        i != (stlp_std::priv::_Rb_tree_node_base *)&thisa->m_v_shaders;
-        i = stlp_std::priv::_Rb_global<bool>::_M_increment(i) )
+  for ( i = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 557400);
+        i != (stlp_std::priv::_Rb_tree_node_base *)((char *)&loc_88150 + a2);
+        i = v8 )
   {
-    vostok::render::res_sampler_list::rebind((vostok::render::res_sampler_list *)this);
-  }
-  M_left = (vostok::render::resource_manager *)thisa->m_g_shaders._M_t._M_header._M_data._M_left;
-  it = (stlp_std::priv::_Rb_tree_node_base *)M_left;
-  if ( M_left != (vostok::render::resource_manager *)&thisa->m_g_shaders )
-  {
-    while ( 1 )
+    v4 = *(vostok::render::resource_manager **)&i[1]._M_color;
+    sh_returned = v4->sh_returned;
+    v24 = (vostok::render::res_sampler_list *)v4;
+    if ( sh_returned )
     {
-      v5 = *(_DWORD **)(M_left->sl_created + 16);
-      v6 = 0;
-      if ( (v5[2] - v5[1]) >> 2 )
+      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
       {
-        v7 = 0;
-        do
+        v6 = (vostok::render::res_sampler_list **)(sh_returned + 940);
+        v7 = *v6;
+        v27 = v6[1];
+        if ( *v6 != v27 )
         {
-          *(_DWORD *)(v5[1] + 4 * v6++) = vostok::render::resource_manager::find_registered_sampler(
-                                            (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                                            *(const char **)(v5[4] + v7));
-          v7 += 44;
+          do
+          {
+            v7->m_samplers.m_buffer[16] = (vostok::fixed_vector<ID3D11SamplerState *,32>::allign_helper)vostok::render::resource_manager::find_registered_sampler(v4, (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst, (const char *)v7->m_reference_count);
+            v7 = (vostok::render::res_sampler_list *)((char *)v7 + 84);
+          }
+          while ( v7 != v27 );
+          v4 = (vostok::render::resource_manager *)v24;
         }
-        while ( v6 < (v5[2] - v5[1]) >> 2 );
-        M_left = (vostok::render::resource_manager *)it;
-        v2 = thisa;
       }
-      it = stlp_std::priv::_Rb_global<bool>::_M_increment((stlp_std::priv::_Rb_tree_node_base *)M_left);
-      if ( it == (stlp_std::priv::_Rb_tree_node_base *)&v2->m_g_shaders )
-        break;
-      M_left = (vostok::render::resource_manager *)it;
     }
+    vostok::render::res_sampler_list::rebind((vostok::render::res_sampler_list *)v4, v4->sl_created);
+    v8 = stlp_std::priv::_Rb_global<bool>::_M_increment(i);
+    this = v21;
   }
-  v8 = (vostok::render::resource_manager *)v2->m_p_shaders._M_t._M_header._M_data._M_left;
-  p_M_data = &v2->m_p_shaders._M_t._M_header._M_data;
-  thisb = v8;
-  ita._M_node = &v2->m_p_shaders._M_t._M_header._M_data;
-  if ( v8 != (vostok::render::resource_manager *)&v2->m_p_shaders )
+  for ( j = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 557424);
+        j != (stlp_std::priv::_Rb_tree_node_base *)(a2 + 557416);
+        j = v14 )
   {
-    while ( 1 )
+    v10 = *(vostok::render::resource_manager **)&j[1]._M_color;
+    v11 = v10->sh_returned;
+    v28 = (vostok::render::res_sampler_list *)v10;
+    if ( v11 )
     {
-      v10 = *(_DWORD **)(v8->sl_created + 16);
-      v11 = 0;
-      if ( (v10[2] - v10[1]) >> 2 )
+      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
       {
-        v12 = 0;
-        do
+        v12 = (vostok::render::res_sampler_list **)(v11 + 940);
+        v13 = *v12;
+        v25 = v12[1];
+        if ( *v12 != v25 )
         {
-          *(_DWORD *)(v10[1] + 4 * v11++) = vostok::render::resource_manager::find_registered_sampler(
-                                              (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                                              *(const char **)(v10[4] + v12));
-          v12 += 44;
+          do
+          {
+            v13->m_samplers.m_buffer[16] = (vostok::fixed_vector<ID3D11SamplerState *,32>::allign_helper)vostok::render::resource_manager::find_registered_sampler(v10, (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst, (const char *)v13->m_reference_count);
+            v13 = (vostok::render::res_sampler_list *)((char *)v13 + 84);
+          }
+          while ( v13 != v25 );
+          v10 = (vostok::render::resource_manager *)v28;
         }
-        while ( v11 < (v10[2] - v10[1]) >> 2 );
-        v8 = thisb;
-        p_M_data = ita._M_node;
       }
-      thisb = (vostok::render::resource_manager *)stlp_std::priv::_Rb_global<bool>::_M_increment((stlp_std::priv::_Rb_tree_node_base *)v8);
-      if ( thisb == (vostok::render::resource_manager *)p_M_data )
-        break;
-      v8 = thisb;
     }
+    vostok::render::res_sampler_list::rebind((vostok::render::res_sampler_list *)v10, v10->sl_created);
+    v14 = stlp_std::priv::_Rb_global<bool>::_M_increment(j);
+    this = v22;
+  }
+  v15 = *(stlp_std::priv::_Rb_tree_node_base **)((char *)&loc_88188 + a2);
+  v29 = (vostok::render::res_sampler_list *)(a2 + 557440);
+  v16 = v15 == (stlp_std::priv::_Rb_tree_node_base *)(a2 + 557440);
+  while ( !v16 )
+  {
+    v17 = *(_DWORD *)&v15[1]._M_color;
+    v18 = *(_DWORD *)(v17 + 4);
+    if ( v18 )
+    {
+      this = (vostok::render::resource_manager *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr;
+      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+      {
+        v19 = (vostok::render::res_sampler_list **)(v18 + 940);
+        v20 = *v19;
+        v26 = v19[1];
+        if ( *v19 != v26 )
+        {
+          do
+          {
+            v20->m_samplers.m_buffer[16] = (vostok::fixed_vector<ID3D11SamplerState *,32>::allign_helper)vostok::render::resource_manager::find_registered_sampler(this, (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst, (const char *)v20->m_reference_count);
+            v20 = (vostok::render::res_sampler_list *)((char *)v20 + 84);
+          }
+          while ( v20 != v26 );
+        }
+      }
+    }
+    vostok::render::res_sampler_list::rebind((vostok::render::res_sampler_list *)this, *(_DWORD *)(v17 + 16));
+    v15 = stlp_std::priv::_Rb_global<bool>::_M_increment(v15);
+    v16 = v15 == (stlp_std::priv::_Rb_tree_node_base *)v29;
+    this = v23;
   }
 }

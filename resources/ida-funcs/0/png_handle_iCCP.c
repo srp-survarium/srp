@@ -65,7 +65,13 @@ int __cdecl png_handle_iCCP(int a1, int a2, unsigned int a3)
               v12 = size;
             if ( size <= v12 )
             {
-              png_set_iCCP(a1, a2, *(char **)(a1 + 680), v9, (unsigned __int8 *)(count + *(_DWORD *)(a1 + 680)), size);
+              png_set_iCCP(
+                a1,
+                a2,
+                *(const __m128i **)(a1 + 680),
+                v9,
+                (const __m128i *)(count + *(_DWORD *)(a1 + 680)),
+                size);
               png_free(a1, *(void **)(a1 + 680));
               result = a1;
               *(_DWORD *)(a1 + 680) = 0;

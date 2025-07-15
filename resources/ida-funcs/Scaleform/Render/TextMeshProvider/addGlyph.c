@@ -5,7 +5,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::addGlyph(
         unsigned int glyphIndex,
         bool fauxBold,
         bool fauxItalic,
-        bool snap,
+        BOOL snap,
         char meshGenFlags)
 {
   const Scaleform::Render::TextureGlyph *v9; // ecx
@@ -41,17 +41,17 @@ char __thiscall Scaleform::Render::TextMeshProvider::addGlyph(
   unsigned __int16 v40; // cx
   Scaleform::Render::GlyphCache *v41; // ecx
   Scaleform::Render::GlyphNode *v42; // eax
-  float y; // [esp+168h] [ebp-44h]
-  Scaleform::Render::PrimitiveFill *v44; // [esp+16Ch] [ebp-40h]
-  __int16 v45; // [esp+17Eh] [ebp-2Eh]
-  float colora; // [esp+180h] [ebp-2Ch]
-  unsigned int color; // [esp+180h] [ebp-2Ch]
-  float v48; // [esp+184h] [ebp-28h]
-  float v49; // [esp+184h] [ebp-28h]
-  Scaleform::Render::VectorGlyphShape *v50; // [esp+188h] [ebp-24h]
-  Scaleform::Render::Rect<float> rect; // [esp+18Ch] [ebp-20h] BYREF
-  Scaleform::Render::GlyphParam v52; // [esp+19Ch] [ebp-10h] BYREF
-  int savedregs; // [esp+1ACh] [ebp+0h] BYREF
+  float stretch; // [esp+14h] [ebp-44h]
+  int v44; // [esp+18h] [ebp-40h]
+  __int16 v45; // [esp+2Ah] [ebp-2Eh]
+  float colora; // [esp+2Ch] [ebp-2Ch]
+  unsigned int color; // [esp+2Ch] [ebp-2Ch]
+  float v48; // [esp+30h] [ebp-28h]
+  float v49; // [esp+30h] [ebp-28h]
+  Scaleform::Render::VectorGlyphShape *v50; // [esp+34h] [ebp-24h]
+  Scaleform::Render::Rect<float> rect; // [esp+38h] [ebp-20h] BYREF
+  Scaleform::Render::GlyphParam gp; // [esp+48h] [ebp-10h] BYREF
+  int savedregs; // [esp+58h] [ebp+0h] BYREF
 
   v48 = data->HeightRatio * data->FontSize;
   v45 = 256;
@@ -83,47 +83,47 @@ char __thiscall Scaleform::Render::TextMeshProvider::addGlyph(
   v11 = *(_DWORD *)&data->Param.TextParam.Flags;
   v50 = GlyphShape;
   v12 = *(_DWORD *)&data->Param.TextParam.GlyphIndex;
-  v52.pFont = data->Param.TextParam.pFont;
+  gp.pFont = data->Param.TextParam.pFont;
   v13 = *(_DWORD *)&data->Param.TextParam.BlurY;
-  *(_DWORD *)&v52.GlyphIndex = v12;
-  v52.pFont = data->pFontHandle;
+  *(_DWORD *)&gp.GlyphIndex = v12;
+  gp.pFont = data->pFontHandle;
   Flags = data->Param.TextParam.Flags;
-  *(_DWORD *)&v52.BlurY = v13;
-  *(_DWORD *)&v52.Flags = v11;
-  v52.GlyphIndex = glyphIndex;
+  *(_DWORD *)&gp.BlurY = v13;
+  *(_DWORD *)&gp.Flags = v11;
+  gp.GlyphIndex = glyphIndex;
   if ( fauxBold || (Flags & 8) != 0 )
-    v52.Flags |= 8u;
+    gp.Flags |= 8u;
   else
-    v52.Flags &= ~8u;
+    gp.Flags &= ~8u;
   if ( fauxItalic || (Flags & 0x10) != 0 )
-    v52.Flags |= 0x10u;
+    gp.Flags |= 0x10u;
   else
-    v52.Flags &= ~0x10u;
-  CachedFontSize = Scaleform::Render::GlyphCache::GetCachedFontSize(this->pCache, &v52, v48, data->pRaster != 0);
+    gp.Flags &= ~0x10u;
+  CachedFontSize = Scaleform::Render::GlyphCache::GetCachedFontSize(this->pCache, &gp, v48, data->pRaster != 0);
   LODWORD(rect.x1) = (int)floor(CachedFontSize * 16.0);
-  v52.FontSize = LOWORD(rect.x1);
+  gp.FontSize = LOWORD(rect.x1);
   RasterSize = data->RasterSize;
   if ( RasterSize )
-    v52.Flags |= 0x200u;
+    gp.Flags |= 0x200u;
   else
-    v52.Flags &= ~0x200u;
-  v52.Flags &= ~4u;
-  if ( (v52.Flags & 1) != 0
-    && (v52.Flags & 0x100) == 0
+    gp.Flags &= ~0x200u;
+  gp.Flags &= ~4u;
+  if ( (gp.Flags & 1) != 0
+    && (gp.Flags & 0x100) == 0
     && !data->VectorSize
     && !RasterSize
-    && (v52.pFont->pFont->Flags & 0x80) == 0 )
+    && (gp.pFont->pFont->Flags & 0x80) == 0 )
   {
-    rect.x1 = (double)v52.BlurX * 0.0625;
+    rect.x1 = (double)gp.BlurX * 0.0625;
     if ( 0.0 == rect.x1 )
     {
-      rect.x1 = 0.0625 * (double)v52.BlurY;
+      rect.x1 = 0.0625 * (double)gp.BlurY;
       if ( rect.x1 == 0.0 )
       {
-        v18 = ((double (__thiscall *)(Scaleform::Render::Font *, _DWORD))v52.pFont->pFont->GetGlyphWidth)(
-                v52.pFont->pFont,
-                v52.GlyphIndex);
-        pFont = v52.pFont->pFont;
+        v18 = ((double (__thiscall *)(Scaleform::Render::Font *, _DWORD))gp.pFont->pFont->GetGlyphWidth)(
+                gp.pFont->pFont,
+                gp.GlyphIndex);
+        pFont = gp.pFont->pFont;
         GetNominalGlyphHeight = pFont->GetNominalGlyphHeight;
         *(double *)&rect.x1 = v18 * v48;
         v21 = ((double (__thiscall *)(Scaleform::Render::Font *))GetNominalGlyphHeight)(pFont);
@@ -134,23 +134,23 @@ char __thiscall Scaleform::Render::TextMeshProvider::addGlyph(
         if ( MaxSlotHeight < 0 )
           v24 = v24 + 4294967300.0;
         if ( v24 > rect.x1 * 3.0 )
-          v52.Flags |= 4u;
+          gp.Flags |= 4u;
       }
     }
   }
   if ( this->pCache->GetParams(&this->pCache->Scaleform::Render::GlyphCacheConfig)->UseAutoFit
     && snap
-    && (v52.Flags & 0xF000) == 0
-    && (v52.Flags & 1) != 0
-    && (v52.Flags & 2) != 0
+    && (gp.Flags & 0xF000) == 0
+    && (gp.Flags & 1) != 0
+    && (gp.Flags & 2) != 0
     && v48 > 6.0
-    && ((v25 = v52.pFont->pFont->Flags, (v25 & 0x2000) != 0) || (v25 & 0x10) != 0) )
+    && ((v25 = gp.pFont->pFont->Flags, (v25 & 0x2000) != 0) || (v25 & 0x10) != 0) )
   {
-    v52.Flags |= 2u;
+    gp.Flags |= 2u;
   }
   else
   {
-    v52.Flags &= ~2u;
+    gp.Flags &= ~2u;
   }
   if ( (data->Param.ShadowParam.Flags & 0x20) != 0 )
   {
@@ -160,29 +160,29 @@ char __thiscall Scaleform::Render::TextMeshProvider::addGlyph(
   }
   if ( (_BYTE)v45 )
     goto LABEL_63;
-  if ( (v52.Flags & 4) != 0 )
+  if ( (gp.Flags & 4) != 0 )
     v26 = 2.5;
   else
     v26 = 1.0;
-  Glyph = Scaleform::Render::GlyphCache::FindGlyph(this->pCache, this, &v52);
+  Glyph = Scaleform::Render::GlyphCache::FindGlyph(this->pCache, this, &gp);
   if ( Glyph
-    || (v52.BlurX || v52.BlurY
+    || (gp.BlurX || gp.BlurY
       ? (Glyph = Scaleform::Render::GlyphCache::RasterizeShadow(
                    this->pCache,
+                   *(float *)&snap,
                    COERCE_FLOAT(&savedregs),
-                   *(float *)&this,
                    data,
                    this,
-                   &v52,
+                   &gp,
                    v48,
                    data->pRaster))
       : (Glyph = Scaleform::Render::GlyphCache::RasterizeGlyph(
                    this->pCache,
+                   *(float *)&snap,
                    COERCE_FLOAT(&savedregs),
-                   *(float *)&this,
                    data,
-                   (Scaleform::Render::GlyphNode *)this,
-                   &v52)),
+                   this,
+                   &gp)),
         Glyph) )
   {
     colora = v26;
@@ -234,7 +234,7 @@ LABEL_63:
         data->mColor,
         data->pFontHandle,
         glyphIndex,
-        v52.Flags,
+        gp.Flags,
         data->FontSize,
         data->NewLineX,
         data->NewLineY);
@@ -246,13 +246,13 @@ LABEL_66:
       goto LABEL_78;
     v34 = *(_DWORD *)&data->Param.ShadowParam.GlyphIndex;
     v35 = *(_DWORD *)&data->Param.ShadowParam.Flags;
-    v52.pFont = data->Param.ShadowParam.pFont;
+    gp.pFont = data->Param.ShadowParam.pFont;
     v36 = *(_DWORD *)&data->Param.ShadowParam.BlurY;
-    *(_DWORD *)&v52.Flags = v35;
-    *(_DWORD *)&v52.BlurY = v36;
+    *(_DWORD *)&gp.Flags = v35;
+    *(_DWORD *)&gp.BlurY = v36;
     pFontHandle = data->pFontHandle;
-    *(_DWORD *)&v52.GlyphIndex = v34;
-    v52.pFont = pFontHandle;
+    *(_DWORD *)&gp.GlyphIndex = v34;
+    gp.pFont = pFontHandle;
     v38 = data->Param.TextParam.Flags;
     if ( fauxBold || (v38 & 8) != 0 )
       v39 = v35 & 0xFFF4 | 8;
@@ -262,20 +262,20 @@ LABEL_66:
       v40 = v39 | 0x10;
     else
       v40 = v39 & 0xFFEF;
-    v52.Flags = v40;
-    y = Scaleform::Render::GlyphCache::GetCachedShadowSize(this->pCache, v48, data->pRaster);
-    Scaleform::Render::GlyphParam::SetFontSize(&v52, y);
+    gp.Flags = v40;
+    stretch = Scaleform::Render::GlyphCache::GetCachedShadowSize(this->pCache, v48, data->pRaster);
+    Scaleform::Render::GlyphParam::SetFontSize(&gp, stretch);
     v41 = this->pCache;
-    v52.GlyphIndex = glyphIndex;
-    v42 = Scaleform::Render::GlyphCache::FindGlyph(v41, this, &v52);
+    gp.GlyphIndex = glyphIndex;
+    v42 = Scaleform::Render::GlyphCache::FindGlyph(v41, this, &gp);
     if ( v42
       || (v42 = Scaleform::Render::GlyphCache::RasterizeShadow(
                   this->pCache,
+                  *(float *)&snap,
                   COERCE_FLOAT(&savedregs),
-                  *(float *)&this,
                   data,
                   this,
-                  &v52,
+                  &gp,
                   v48,
                   data->pRaster)) != 0 )
     {

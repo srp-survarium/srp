@@ -40,17 +40,17 @@ char __thiscall Scaleform::GFx::AS2::TransformObject::GetMember(
   Scaleform::RefCountNTSImpl *v38; // edi
   _DWORD *v39; // esi
   const Scaleform::Render::Matrix2x4<float> *v40; // eax
-  Scaleform::GFx::AS2::ASStringContext *p_StringContext; // edi
+  Scaleform::GFx::ASStringNode *p_StringContext; // edi
   Scaleform::GFx::AS2::MatrixObject *v42; // eax
   Scaleform::GFx::AS2::MatrixObject *v43; // eax
-  float v44; // [esp+15Ch] [ebp-38h]
-  float v45; // [esp+15Ch] [ebp-38h]
-  float v47; // [esp+160h] [ebp-34h]
-  float v48; // [esp+160h] [ebp-34h]
-  float v49; // [esp+160h] [ebp-34h]
-  float v50; // [esp+160h] [ebp-34h]
-  Scaleform::GFx::AS2::Value v51; // [esp+164h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> v52; // [esp+174h] [ebp-20h] BYREF
+  float v44; // [esp+18h] [ebp-38h]
+  float v45; // [esp+18h] [ebp-38h]
+  float v47; // [esp+1Ch] [ebp-34h]
+  float v48; // [esp+1Ch] [ebp-34h]
+  float v49; // [esp+1Ch] [ebp-34h]
+  float v50; // [esp+1Ch] [ebp-34h]
+  Scaleform::GFx::AS2::Value v51; // [esp+20h] [ebp-30h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+30h] [ebp-20h] BYREF
 
   if ( !strcmp(name->pNode->pData, "pixelBounds") )
   {
@@ -98,14 +98,14 @@ char __thiscall Scaleform::GFx::AS2::TransformObject::GetMember(
         else
           v18 = v17 + 0.5;
         pMovieRoot = this->pMovieRoot;
-        v52.x1 = (double)(int)v18;
-        v52.y1 = (double)(int)v16;
-        v52.x2 = v52.x1 + v14;
-        v52.y2 = (double)(int)v11 + v52.y1;
+        r.x1 = (double)(int)v18;
+        r.y1 = (double)(int)v16;
+        r.x2 = r.x1 + v14;
+        r.y2 = (double)(int)v11 + r.y1;
         Scaleform::GFx::AS2::RectangleObject::SetProperties(
           (Scaleform::GFx::AS2::RectangleObject *)pMovieRoot,
           penv,
-          &v52);
+          &r);
         Scaleform::GFx::AS2::Value::SetAsObject(val, (Scaleform::GFx::AS2::Object *)this->pMovieRoot);
         Scaleform::RefCountNTSImpl::Release(v7);
         return 1;
@@ -129,10 +129,10 @@ LABEL_17:
       if ( v22 )
       {
         ++v22->RefCount;
-        qmemcpy(&v52, Scaleform::GFx::DisplayObjectBase::GetCxform(v22), sizeof(v52));
+        qmemcpy(&r, Scaleform::GFx::DisplayObjectBase::GetCxform(v22), sizeof(r));
         Scaleform::GFx::AS2::ColorTransformObject::SetCxform(
           *(Scaleform::GFx::AS2::ColorTransformObject **)&this->ArePropertiesSet,
-          (const Scaleform::Render::Cxform *)&v52);
+          (const Scaleform::Render::Cxform *)&r);
         Scaleform::GFx::AS2::Value::SetAsObject(val, *(Scaleform::GFx::AS2::Object **)(v24 + 48));
         Scaleform::RefCountNTSImpl::Release(v23);
         return 1;
@@ -150,11 +150,11 @@ LABEL_17:
     {
       ++v25->RefCount;
       v27 = v25->GetMatrix(v25);
-      Scaleform::Render::Matrix2x4<float>::operator=((Scaleform::Render::Matrix2x4<float> *)&v52, v27);
+      Scaleform::Render::Matrix2x4<float>::operator=((Scaleform::Render::Matrix2x4<float> *)&r, v27);
       Scaleform::GFx::AS2::MatrixObject::SetMatrixTwips(
         (Scaleform::GFx::AS2::MatrixObject *)this->pWatchpoints,
-        &penv->StringContext,
-        (const Scaleform::Render::Matrix2x4<float> *)&v52);
+        (Scaleform::GFx::ASStringNode *)&penv->StringContext,
+        (const Scaleform::Render::Matrix2x4<float> *)&r);
       Scaleform::GFx::AS2::Value::SetAsObject(val, (Scaleform::GFx::AS2::Object *)this->pWatchpoints);
       Scaleform::RefCountNTSImpl::Release(v26);
       return 1;
@@ -170,7 +170,7 @@ LABEL_17:
   {
     if ( Scaleform::GFx::ASString::operator==(name, "concatenatedColorTransform") )
     {
-      Scaleform::Render::Cxform::Cxform((Scaleform::Render::Cxform *)&v52);
+      Scaleform::Render::Cxform::Cxform((Scaleform::Render::Cxform *)&r);
       if ( this->ResolveHandler.pLocalFrame )
       {
         v28 = Scaleform::GFx::CharacterHandle::ResolveCharacter(
@@ -184,7 +184,7 @@ LABEL_17:
           do
           {
             Cxform = Scaleform::GFx::DisplayObjectBase::GetCxform(pParent);
-            Scaleform::Render::Cxform::Prepend((Scaleform::Render::Cxform *)&v52, Cxform);
+            Scaleform::Render::Cxform::Prepend((Scaleform::Render::Cxform *)&r, Cxform);
             pParent = pParent->pParent;
           }
           while ( pParent );
@@ -204,7 +204,7 @@ LABEL_17:
       {
         v34 = 0;
       }
-      Scaleform::GFx::AS2::ColorTransformObject::SetCxform(v34, (const Scaleform::Render::Cxform *)&v52);
+      Scaleform::GFx::AS2::ColorTransformObject::SetCxform(v34, (const Scaleform::Render::Cxform *)&r);
     }
     else
     {
@@ -214,7 +214,7 @@ LABEL_17:
                  &penv->StringContext,
                  name,
                  val);
-      Scaleform::Render::Matrix2x4<float>::Matrix2x4<float>((Scaleform::Render::Matrix2x4<float> *)&v52);
+      Scaleform::Render::Matrix2x4<float>::Matrix2x4<float>((Scaleform::Render::Matrix2x4<float> *)&r);
       if ( this->ResolveHandler.pLocalFrame )
       {
         v37 = Scaleform::GFx::CharacterHandle::ResolveCharacter(
@@ -228,14 +228,14 @@ LABEL_17:
           do
           {
             v40 = (const Scaleform::Render::Matrix2x4<float> *)(*(int (__thiscall **)(_DWORD *))(*v39 + 8))(v39);
-            Scaleform::Render::Matrix2x4<float>::Prepend((Scaleform::Render::Matrix2x4<float> *)&v52, v40);
+            Scaleform::Render::Matrix2x4<float>::Prepend((Scaleform::Render::Matrix2x4<float> *)&r, v40);
             v39 = (_DWORD *)v39[8];
           }
           while ( v39 );
           Scaleform::RefCountNTSImpl::Release(v38);
         }
       }
-      p_StringContext = &penv->StringContext;
+      p_StringContext = (Scaleform::GFx::ASStringNode *)&penv->StringContext;
       v42 = (Scaleform::GFx::AS2::MatrixObject *)penv->StringContext.pContext->pHeap->Alloc(
                                                    penv->StringContext.pContext->pHeap,
                                                    52,
@@ -247,7 +247,7 @@ LABEL_17:
         Scaleform::GFx::AS2::MatrixObject::SetMatrixTwips(
           v43,
           p_StringContext,
-          (const Scaleform::Render::Matrix2x4<float> *)&v52);
+          (const Scaleform::Render::Matrix2x4<float> *)&r);
       }
       else
       {
@@ -255,7 +255,7 @@ LABEL_17:
         Scaleform::GFx::AS2::MatrixObject::SetMatrixTwips(
           0,
           p_StringContext,
-          (const Scaleform::Render::Matrix2x4<float> *)&v52);
+          (const Scaleform::Render::Matrix2x4<float> *)&r);
       }
     }
     Scaleform::GFx::AS2::Value::Value(&v51, v34);
@@ -265,7 +265,7 @@ LABEL_17:
     if ( v34 )
     {
       RefCount = v34->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v34->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v34);

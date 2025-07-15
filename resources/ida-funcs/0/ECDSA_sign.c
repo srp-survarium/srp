@@ -1,6 +1,6 @@
 int __cdecl ECDSA_sign(
         int type,
-        const unsigned __int8 *dgst,
+        unsigned __int8 *dgst,
         int dlen,
         unsigned __int8 *sig,
         unsigned int *siglen,

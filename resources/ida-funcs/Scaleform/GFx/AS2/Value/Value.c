@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v11; // ecx
   Scaleform::GFx::ASStringNode *v12; // esi
   Scaleform::GFx::ASStringNode *v13; // esi
-  $52EB37658F6E465B8DB431649A109BC1 *v14; // ecx
+  $998A3DB55198A9E0059CCBE6644E229E *v14; // ecx
   Scaleform::GFx::ASStringNode *v15; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // eax
   Scaleform::GFx::ASStringNode *v17; // esi
@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(
             {
               RefCount = v18->RefCount;
               v9 = v18;
-              if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFFF) != 0 )
               {
                 v18->RefCount = RefCount - 1;
                 Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
@@ -77,7 +77,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(
           {
             v10 = v19->RefCount;
             v11 = v19;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+            if ( (v10 & 0x3FFFFFF) != 0 )
             {
               v19->RefCount = v10 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -133,7 +133,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(
         Scaleform::GFx::AS2::Value *this,
         const Scaleform::GFx::AS2::FunctionRef *func)
 {
-  $52EB37658F6E465B8DB431649A109BC1 *v2; // ecx
+  $998A3DB55198A9E0059CCBE6644E229E *v2; // ecx
   Scaleform::GFx::AS2::FunctionObject *Function; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // eax
 
@@ -240,7 +240,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(Scaleform::GFx::AS2::Value *th
       {
         RefCount = v10->RefCount;
         v7 = v10;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v10->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);
@@ -252,7 +252,7 @@ void __thiscall Scaleform::GFx::AS2::Value::Value(Scaleform::GFx::AS2::Value *th
     {
       v8 = v11->RefCount;
       v9 = v11;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+      if ( (v8 & 0x3FFFFFF) != 0 )
       {
         v11->RefCount = v8 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

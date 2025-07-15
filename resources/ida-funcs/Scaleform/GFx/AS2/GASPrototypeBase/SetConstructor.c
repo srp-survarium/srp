@@ -21,7 +21,7 @@ char __thiscall Scaleform::GFx::AS2::GASPrototypeBase::SetConstructor(
     {
       v6 = *(_DWORD *)(*(_DWORD *)&result.T.Type + 12);
       v7 = *(Scaleform::GFx::AS2::RefCountBaseGC<323> **)&result.T.Type;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v6) != 0 )
+      if ( (v6 & 0x3FFFFFF) != 0 )
       {
         *(_DWORD *)(*(_DWORD *)&result.T.Type + 12) = v6 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);
@@ -35,7 +35,7 @@ char __thiscall Scaleform::GFx::AS2::GASPrototypeBase::SetConstructor(
     {
       v8 = *(_DWORD *)(result.NV.Int32Value + 12);
       pStringNode = result.V.pStringNode;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+      if ( (v8 & 0x3FFFFFF) != 0 )
       {
         *(_DWORD *)(result.NV.Int32Value + 12) = v8 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pStringNode);

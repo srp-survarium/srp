@@ -5,7 +5,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
   Scaleform::GFx::AS2::Object *p_pProto; // edi
   Scaleform::MemoryHeap *pHeap; // ecx
   Scaleform::GFx::AS2::TextFormatObject *v5; // eax
-  Scaleform::GFx::AS2::TextFormatObject *v6; // eax
+  Scaleform::GFx::AS2::Object *v6; // eax
   unsigned int FirstArgBottomIndex; // eax
   _DWORD *v8; // ebp
   Scaleform::GFx::AS2::ObjectInterface *v9; // edi
@@ -59,7 +59,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
   Scaleform::GFx::AS2::Value *v57; // eax
   Scaleform::GFx::ASStringNode *v58; // eax
   unsigned int RefCount; // eax
-  Scaleform::Ptr<Scaleform::GFx::AS2::TextFormatObject> ab; // [esp+D8h] [ebp-Ch]
+  Scaleform::GFx::AS2::Object *v60; // [esp+D8h] [ebp-Ch]
   int v61; // [esp+DCh] [ebp-8h]
   Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+E0h] [ebp-4h] BYREF
 
@@ -74,12 +74,12 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
       p_pProto = (Scaleform::GFx::AS2::Object *)&ThisPtr[-2].pProto;
       if ( ThisPtr != (Scaleform::GFx::AS2::ObjectInterface *)16 )
         p_pProto->RefCount = (p_pProto->RefCount + 1) & 0x8FFFFFFF;
-      ab.pObject = (Scaleform::GFx::AS2::TextFormatObject *)&ThisPtr[-2].pProto;
+      v60 = (Scaleform::GFx::AS2::Object *)&ThisPtr[-2].pProto;
     }
     else
     {
       p_pProto = 0;
-      ab.pObject = 0;
+      v60 = 0;
     }
   }
   else
@@ -90,7 +90,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
       Scaleform::GFx::AS2::TextFormatObject::TextFormatObject(v5, v1->Env);
     else
       v6 = 0;
-    ab.pObject = v6;
+    v60 = v6;
     p_pProto = v6;
   }
   if ( v1->NArgs >= 1 )
@@ -146,7 +146,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
         LOBYTE(fn) = 0;
         ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                             *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(v15 + 20) + 12) + 788),
-                            (char *)&stru_9555EC,
+                            "color",
                             5u,
                             0);
         ++ConstStringNode->RefCount;
@@ -401,13 +401,13 @@ void __cdecl Scaleform::GFx::AS2::TextFormatCtorFunction::GlobalCtor(const Scale
         }
       }
     }
-    p_pProto = ab.pObject;
+    p_pProto = v60;
   }
   Scaleform::GFx::AS2::Value::SetAsObject(v1->Result, p_pProto);
   if ( p_pProto )
   {
     RefCount = p_pProto->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       p_pProto->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(p_pProto);

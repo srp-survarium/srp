@@ -10,7 +10,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::InitializeClassInstance(const Scale
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
   unsigned int v10; // eax
-  Scaleform::GFx::AS2::FunctionRef ctorFunc; // [esp+Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+Ch] [ebp-Ch] BYREF
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr->GetObjectType(ThisPtr) == Object_Sprite )
@@ -21,20 +21,20 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::InitializeClassInstance(const Scale
   v4 = 0;
   if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
     v4 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-  Scaleform::GFx::AS2::Value::ToFunction(v4, &ctorFunc, Env);
-  Function = ctorFunc.Function;
-  if ( ctorFunc.Function )
-    v6 = &ctorFunc.Function->Scaleform::GFx::AS2::ObjectInterface;
+  Scaleform::GFx::AS2::Value::ToFunction(v4, &result, Env);
+  Function = result.Function;
+  if ( result.Function )
+    v6 = &result.Function->Scaleform::GFx::AS2::ObjectInterface;
   else
     v6 = 0;
   Scaleform::GFx::AS2::AvmCharacter::SetProtoToPrototypeOf(p_pProto, v6);
-  Flags = ctorFunc.Flags;
-  if ( (ctorFunc.Flags & 2) == 0 )
+  Flags = result.Flags;
+  if ( (result.Flags & 2) == 0 )
   {
     if ( Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -43,13 +43,13 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::InitializeClassInstance(const Scale
   }
   if ( (Flags & 1) == 0 )
   {
-    pLocalFrame = ctorFunc.pLocalFrame;
-    if ( ctorFunc.pLocalFrame )
+    pLocalFrame = result.pLocalFrame;
+    if ( result.pLocalFrame )
     {
-      v10 = ctorFunc.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+      v10 = result.pLocalFrame->RefCount;
+      if ( (v10 & 0x3FFFFFF) != 0 )
       {
-        ctorFunc.pLocalFrame->RefCount = v10 - 1;
+        result.pLocalFrame->RefCount = v10 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
       }
     }

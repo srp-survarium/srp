@@ -1,198 +1,184 @@
 void __userpurge vostok::animation::mixing::n_ary_tree_comparer::merge_trees(
         const vostok::animation::mixing::n_ary_tree *from@<eax>,
         vostok::animation::mixing::n_ary_tree_comparer *this,
-        vostok::animation::mixing::n_ary_tree_comparer *to)
+        const vostok::animation::mixing::n_ary_tree *to)
 {
-  vostok::animation::mixing::n_ary_tree_animation_node *m_weight_root; // edx
-  vostok::animation::mixing::n_ary_tree_animation_node *v4; // ebx
-  vostok::animation::mixing::n_ary_tree_comparer *v5; // ecx
-  vostok::animation::mixing::n_ary_tree_animation_node *m_animated_objects_end; // edi
-  vostok::animation::mixing::n_ary_tree_animation_node *v7; // esi
-  unsigned int m_weight_synchronization_group_id; // eax
+  vostok::animation::mixing::n_ary_tree_comparer *m_weight_root; // ecx
+  vostok::animation::mixing::n_ary_tree_animation_node *v4; // esi
+  vostok::animation::mixing::n_ary_tree_subtraction_node *v5; // ebx
+  vostok::animation::mixing::n_ary_tree_animation_node *v6; // edi
+  vostok::animation::mixing::n_ary_tree_subtraction_node_vtbl *v7; // eax
+  const boost::function<unsigned char __cdecl(void const *)> *m_animated_object_resolver; // edx
   vostok::animation::mixing::n_ary_tree_animation_node *v9; // eax
-  unsigned int v10; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node *v11; // ebp
-  vostok::animation::mixing::n_ary_tree_animation_node *i; // ebx
+  unsigned int m_weight_synchronization_group_id; // esi
+  vostok::animation::mixing::n_ary_tree_animation_node *v11; // eax
+  unsigned int v12; // edi
   vostok::animation::mixing::n_ary_tree_animation_node *v13; // eax
   unsigned int v14; // esi
-  vostok::animation::mixing::n_ary_tree_animation_node *v15; // ebp
-  vostok::animation::mixing::n_ary_tree_animation_node *v16; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node *v17; // eax
-  unsigned int v18; // esi
-  vostok::animation::mixing::n_ary_tree_animation_node *v19; // eax
-  unsigned int v20; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node *v21; // eax
-  unsigned int v22; // esi
-  vostok::animation::mixing::n_ary_tree_animation_node *v23; // eax
-  unsigned int v24; // ebx
-  vostok::animation::mixing::n_ary_tree_animation_node *i_end; // [esp+14h] [ebp-8h]
-  vostok::animation::mixing::n_ary_tree_animation_node *i_begin; // [esp+18h] [ebp-4h]
-  vostok::animation::mixing::n_ary_tree_animation_node *i_begina; // [esp+18h] [ebp-4h]
+  unsigned int v15; // edi
+  vostok::animation::mixing::n_ary_tree_animation_node *v16; // eax
+  unsigned int v17; // esi
+  vostok::animation::mixing::n_ary_tree_animation_node *v18; // eax
+  unsigned int v19; // edi
+  vostok::animation::mixing::n_ary_tree_comparer *v20; // [esp+Ch] [ebp-4h]
+  vostok::animation::mixing::n_ary_tree_animation_node *v21; // [esp+Ch] [ebp-4h]
 
-  m_weight_root = from->m_weight_root;
-  i_begin = m_weight_root;
-  v4 = m_weight_root;
+  m_weight_root = (vostok::animation::mixing::n_ary_tree_comparer *)from->m_weight_root;
+  v20 = m_weight_root;
+  v4 = (vostok::animation::mixing::n_ary_tree_animation_node *)m_weight_root;
   do
   {
-    if ( v4->m_weight_synchronization_group_id != m_weight_root->m_weight_synchronization_group_id )
+    if ( (const boost::function<unsigned char __cdecl(void const *)> *)v4->m_weight_synchronization_group_id != m_weight_root[1].m_animated_object_resolver )
       break;
     v4 = v4->m_next_weight_animation;
   }
   while ( v4 );
-  v5 = to;
-  m_animated_objects_end = (vostok::animation::mixing::n_ary_tree_animation_node *)to->m_animated_objects_end;
-  i_end = v4;
-  v7 = m_animated_objects_end;
+  v5 = (vostok::animation::mixing::n_ary_tree_subtraction_node *)to->m_weight_root;
+  v6 = (vostok::animation::mixing::n_ary_tree_animation_node *)v5;
   do
   {
-    if ( v7->m_weight_synchronization_group_id != m_animated_objects_end->m_weight_synchronization_group_id )
+    if ( (vostok::animation::mixing::n_ary_tree_subtraction_node_vtbl *)v6->m_weight_synchronization_group_id != v5[7].__vftable )
       break;
-    v7 = v7->m_next_weight_animation;
+    v6 = v6->m_next_weight_animation;
   }
-  while ( v7 );
-  while ( m_animated_objects_end )
+  while ( v6 );
+  while ( v5 )
   {
-    m_weight_synchronization_group_id = m_animated_objects_end->m_weight_synchronization_group_id;
-    v5 = (vostok::animation::mixing::n_ary_tree_comparer *)m_weight_root->m_weight_synchronization_group_id;
-    if ( (unsigned int)v5 >= m_weight_synchronization_group_id )
+    v7 = v5[7].__vftable;
+    m_animated_object_resolver = m_weight_root[1].m_animated_object_resolver;
+    if ( m_animated_object_resolver < (const boost::function<unsigned char __cdecl(void const *)> *)v7 )
     {
-      if ( (unsigned int)v5 <= m_weight_synchronization_group_id )
-      {
-        vostok::animation::mixing::n_ary_tree_comparer::change_weight_synchronization_group(
-          m_animated_objects_end,
-          this,
-          m_weight_root,
-          v4,
-          v7);
-        i_begin = v4;
-        if ( v4 )
-        {
-          v19 = v4;
-          v20 = v4->m_weight_synchronization_group_id;
-          do
-          {
-            if ( v19->m_weight_synchronization_group_id != v20 )
-              break;
-            v19 = v19->m_next_weight_animation;
-          }
-          while ( v19 );
-          i_end = v19;
-          v4 = v19;
-        }
-        m_animated_objects_end = v7;
-        if ( v7 )
-        {
-          v21 = v7;
-          v22 = v7->m_weight_synchronization_group_id;
-          do
-          {
-            if ( v21->m_weight_synchronization_group_id != v22 )
-              break;
-            v21 = v21->m_next_weight_animation;
-          }
-          while ( v21 );
-          v7 = v21;
-        }
-        m_weight_root = i_begin;
-        goto LABEL_15;
-      }
-      this->m_equal = 0;
-      v15 = m_animated_objects_end->m_weight_synchronization_group_id != -1 ? m_animated_objects_end : 0;
-      v16 = m_animated_objects_end;
-      if ( m_animated_objects_end != v7 )
-      {
-        do
-        {
-          vostok::animation::mixing::n_ary_tree_comparer::add_animation(this, v16, v15);
-          v16 = v16->m_next_weight_animation;
-        }
-        while ( v16 != v7 );
-        m_weight_root = i_begin;
-      }
-      m_animated_objects_end = v7;
-      if ( v7 )
-      {
-        v17 = v7;
-        v18 = v7->m_weight_synchronization_group_id;
-        do
-        {
-          if ( v17->m_weight_synchronization_group_id != v18 )
-            break;
-          v17 = v17->m_next_weight_animation;
-        }
-        while ( v17 );
-        v7 = v17;
-      }
-    }
-    else
-    {
-      vostok::animation::mixing::n_ary_tree_comparer::remove_weight_synchronization_group(v5, this, m_weight_root, v4);
-      i_begin = v4;
+      vostok::animation::mixing::n_ary_tree_comparer::remove_weight_synchronization_group(
+        m_weight_root,
+        this,
+        (vostok::animation::mixing::n_ary_tree_animation_node *)m_weight_root,
+        v4);
+      v20 = (vostok::animation::mixing::n_ary_tree_comparer *)v4;
       if ( !v4 )
-        goto LABEL_16;
+        goto LABEL_37;
       v9 = v4;
-      v10 = v4->m_weight_synchronization_group_id;
+      m_weight_synchronization_group_id = v4->m_weight_synchronization_group_id;
       do
       {
-        if ( v9->m_weight_synchronization_group_id != v10 )
+        if ( v9->m_weight_synchronization_group_id != m_weight_synchronization_group_id )
           break;
         v9 = v9->m_next_weight_animation;
       }
       while ( v9 );
-      m_weight_root = i_begin;
-      i_end = v9;
+      v4 = v9;
+      goto LABEL_30;
     }
-    v4 = i_end;
-LABEL_15:
-    if ( !m_weight_root )
+    if ( m_animated_object_resolver <= (const boost::function<unsigned char __cdecl(void const *)> *)v7 )
     {
-LABEL_16:
-      if ( m_animated_objects_end )
+      vostok::animation::mixing::n_ary_tree_comparer::change_weight_synchronization_group(
+        this,
+        v5,
+        (vostok::animation::mixing::n_ary_tree_animation_node *)m_weight_root,
+        v4,
+        v6);
+      v20 = (vostok::animation::mixing::n_ary_tree_comparer *)v4;
+      if ( v4 )
       {
-        while ( 1 )
+        v13 = v4;
+        v14 = v4->m_weight_synchronization_group_id;
+        do
         {
-          this->m_equal = 0;
-          v11 = m_animated_objects_end->m_weight_synchronization_group_id != -1 ? m_animated_objects_end : 0;
-          for ( i = m_animated_objects_end; i != v7; i = i->m_next_weight_animation )
-            vostok::animation::mixing::n_ary_tree_comparer::add_animation(this, i, v11);
-          m_animated_objects_end = v7;
-          if ( !v7 )
+          if ( v13->m_weight_synchronization_group_id != v14 )
             break;
-          v13 = v7;
-          v14 = v7->m_weight_synchronization_group_id;
-          do
-          {
-            if ( v13->m_weight_synchronization_group_id != v14 )
-              break;
-            v13 = v13->m_next_weight_animation;
-          }
-          while ( v13 );
-          v7 = v13;
+          v13 = v13->m_next_weight_animation;
         }
+        while ( v13 );
+        v4 = v13;
       }
-      return;
+      v5 = (vostok::animation::mixing::n_ary_tree_subtraction_node *)v6;
+      if ( !v6 )
+        goto LABEL_30;
+      v11 = v6;
+      v15 = v6->m_weight_synchronization_group_id;
+      do
+      {
+        if ( v11->m_weight_synchronization_group_id != v15 )
+          break;
+        v11 = v11->m_next_weight_animation;
+      }
+      while ( v11 );
+      goto LABEL_29;
     }
+    vostok::animation::mixing::n_ary_tree_comparer::add_weight_synchronization_group(
+      m_weight_root,
+      this,
+      (vostok::animation::mixing::n_ary_tree_animation_node *)v5,
+      v6);
+    v5 = (vostok::animation::mixing::n_ary_tree_subtraction_node *)v6;
+    if ( v6 )
+    {
+      v11 = v6;
+      v12 = v6->m_weight_synchronization_group_id;
+      do
+      {
+        if ( v11->m_weight_synchronization_group_id != v12 )
+          break;
+        v11 = v11->m_next_weight_animation;
+      }
+      while ( v11 );
+LABEL_29:
+      v6 = v11;
+    }
+LABEL_30:
+    m_weight_root = v20;
+    if ( !v20 )
+      break;
   }
   if ( m_weight_root )
   {
     while ( 1 )
     {
       this->m_equal = 0;
-      vostok::animation::mixing::n_ary_tree_comparer::remove_weight_synchronization_group(v5, this, m_weight_root, v4);
-      i_begina = v4;
+      vostok::animation::mixing::n_ary_tree_comparer::remove_weight_synchronization_group(
+        m_weight_root,
+        this,
+        (vostok::animation::mixing::n_ary_tree_animation_node *)m_weight_root,
+        v4);
+      v21 = v4;
       if ( !v4 )
         break;
-      v23 = v4;
-      v24 = v4->m_weight_synchronization_group_id;
+      v16 = v4;
+      v17 = v4->m_weight_synchronization_group_id;
       do
       {
-        if ( v23->m_weight_synchronization_group_id != v24 )
+        if ( v16->m_weight_synchronization_group_id != v17 )
           break;
-        v23 = v23->m_next_weight_animation;
+        v16 = v16->m_next_weight_animation;
       }
-      while ( v23 );
-      m_weight_root = i_begina;
-      v4 = v23;
+      while ( v16 );
+      m_weight_root = (vostok::animation::mixing::n_ary_tree_comparer *)v21;
+      v4 = v16;
+    }
+  }
+LABEL_37:
+  if ( v5 )
+  {
+    while ( 1 )
+    {
+      this->m_equal = 0;
+      vostok::animation::mixing::n_ary_tree_comparer::add_weight_synchronization_group(
+        m_weight_root,
+        this,
+        (vostok::animation::mixing::n_ary_tree_animation_node *)v5,
+        v6);
+      v5 = (vostok::animation::mixing::n_ary_tree_subtraction_node *)v6;
+      if ( !v6 )
+        break;
+      v18 = v6;
+      v19 = v6->m_weight_synchronization_group_id;
+      do
+      {
+        if ( v18->m_weight_synchronization_group_id != v19 )
+          break;
+        v18 = v18->m_next_weight_animation;
+      }
+      while ( v18 );
+      v6 = v18;
     }
   }
 }

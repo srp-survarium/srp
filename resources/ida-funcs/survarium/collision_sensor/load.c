@@ -1,18 +1,24 @@
 void __thiscall survarium::collision_sensor::load(
         survarium::collision_sensor *this,
-        vostok::configs::binary_config_value *cfg)
+        const vostok::configs::binary_config_value *cfg)
 {
-  unsigned int v2; // esi
-  survarium::game_camera *v3; // ecx
-  vostok::memory::doug_lea_allocator *v4; // eax
-  vostok::configs::binary_config_value collision_table; // [esp+18h] [ebp-18h] BYREF
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // eax
+  const char *v5; // [esp+0h] [ebp-28h]
+  const char *v6; // [esp+4h] [ebp-24h]
+  unsigned int v7; // [esp+8h] [ebp-20h]
+  _DWORD v8[6]; // [esp+10h] [ebp-18h] BYREF
 
-  collision_table = *vostok::configs::binary_config_value::operator[](cfg, "collision_geometries");
-  this->m_collision_geometries_count = vostok::configs::binary_config_value::size(&collision_table);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  v2 = 4 * this->m_collision_geometries_count;
-  survarium::weapon_user_dead_state::finalize(v3);
-  this->m_collision_geometries = (survarium::collision_geometry **)vostok::memory::malloc_helper<vostok::memory::doug_lea_allocator>(
+  qmemcpy(v8, vostok::configs::binary_config_value::operator[](cfg, "collision_geometries"), sizeof(v8));
+  v3 = survarium::g_allocator;
+  this->m_collision_geometries_count = 24 * HIWORD(v8[5]) / 24;
+  v4 = type_info::raw_name(&survarium::collision_geometry * `RTTI Type Descriptor');
+  this->m_collision_geometries = (survarium::collision_geometry **)vostok::memory::doug_lea_allocator::malloc_impl(
+                                                                     (vostok::memory::doug_lea_allocator *)(4 * this->m_collision_geometries_count),
+                                                                     (int)v3,
+                                                                     4 * this->m_collision_geometries_count,
                                                                      v4,
-                                                                     v2);
+                                                                     v5,
+                                                                     v6,
+                                                                     v7);
 }

@@ -11,7 +11,7 @@ double __cdecl acos(double X)
     if ( v1 == 8064 )
       v2 = (v4 & 0x7F) == 127;
     if ( v2 )
-      JUMPOUT(0x54ADC8);
+      JUMPOUT(0x2AD8B8);
   }
-  JUMPOUT(0x54A01F);
+  JUMPOUT(0x29D17F);
 }

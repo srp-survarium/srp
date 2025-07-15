@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS2::MovieRoot::CreateStringW(
         Scaleform::GFx::AS2::MovieRoot *this,
         Scaleform::GFx::Value *pvalue,
-        const wchar_t *pstring)
+        wchar_t *pstring)
 {
   Scaleform::GFx::AS2::Environment *v4; // ebx
   Scaleform::GFx::ASStringNode *StringNode; // esi

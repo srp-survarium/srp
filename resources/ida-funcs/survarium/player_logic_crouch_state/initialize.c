@@ -1,6 +1,6 @@
 void __thiscall survarium::player_logic_crouch_state::initialize(survarium::player_logic_crouch_state *this)
 {
-  ((void (__thiscall *)(survarium::base_player *, survarium::player_logic_crouch_state *))this->m_user->crouch)(
-    this->m_user,
-    this);
+  vostok::physics::bt_character_controller::set_crouch(
+    *(vostok::physics::bt_character_controller **)((char *)&dword_10E74 + (unsigned int)this->m_user),
+    1);
 }

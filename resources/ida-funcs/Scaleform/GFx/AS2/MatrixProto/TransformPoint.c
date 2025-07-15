@@ -12,15 +12,15 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::TransformPoint(const Scaleform::G
   Scaleform::GFx::AS2::Environment *v10; // ecx
   Scaleform::GFx::AS2::Environment *v11; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *Env; // [esp+1ACh] [ebp-A4h]
-  Scaleform::GFx::AS2::Value v14; // [esp+1BCh] [ebp-94h] BYREF
-  Scaleform::GFx::AS2::Value v15; // [esp+1CCh] [ebp-84h] BYREF
-  Scaleform::GFx::AS2::Value v16; // [esp+1DCh] [ebp-74h] BYREF
-  Scaleform::GFx::AS2::Value params; // [esp+1F0h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::Value v18; // [esp+200h] [ebp-50h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+210h] [ebp-40h] BYREF
-  Scaleform::GFx::AS2::Value __t; // [esp+230h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value v; // [esp+240h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-A4h]
+  Scaleform::GFx::AS2::Value v14; // [esp+Ch] [ebp-94h] BYREF
+  Scaleform::GFx::AS2::Value v15; // [esp+1Ch] [ebp-84h] BYREF
+  Scaleform::GFx::AS2::Value v16; // [esp+2Ch] [ebp-74h] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+40h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+50h] [ebp-50h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+60h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+80h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+90h] [ebp-10h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Matrix )
   {
@@ -42,11 +42,11 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::TransformPoint(const Scaleform::G
             {
               Scaleform::GFx::AS2::MatrixObject::GetMatrix(p_pProto, &result, fn->Env);
               `vector constructor iterator'(
-                (char *)&__t,
+                (char *)&params,
                 0x10u,
                 2,
                 (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
-              Scaleform::GFx::AS2::PointObject::GetProperties(v5, &fn->Env->StringContext, &__t);
+              Scaleform::GFx::AS2::PointObject::GetProperties(v5, &fn->Env->StringContext, &params);
               pHeap = fn->Env->StringContext.pContext->pHeap;
               v7 = (Scaleform::GFx::AS2::PointObject *)pHeap->Alloc(pHeap, 52u, 0);
               if ( v7 )
@@ -59,25 +59,25 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::TransformPoint(const Scaleform::G
                 v9 = 0;
               }
               `vector constructor iterator'(
-                (char *)&params,
+                (char *)&v17,
                 0x10u,
                 2,
                 (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
               v10 = fn->Env;
               *(double *)((char *)&v15.NV.NumberValue + 4) = result.M[0][0];
               v15.V.BooleanValue = 3;
-              Scaleform::GFx::AS2::Value::Mul((Scaleform::GFx::AS2::Value *)&v15.NV.4, v10, &__t);
+              Scaleform::GFx::AS2::Value::Mul((Scaleform::GFx::AS2::Value *)&v15.NV.4, v10, &params);
               v11 = fn->Env;
               *(double *)((char *)&v16.NV.NumberValue + 4) = result.M[0][1];
               v16.V.BooleanValue = 3;
               Scaleform::GFx::AS2::Value::Mul((Scaleform::GFx::AS2::Value *)&v16.NV.4, v11, &v);
               *(double *)((char *)&v14.NV.NumberValue + 4) = result.M[0][3];
               v14.V.BooleanValue = 3;
-              Scaleform::GFx::AS2::Value::operator=(&params, (const Scaleform::GFx::AS2::Value *)&v14.NV.4);
+              Scaleform::GFx::AS2::Value::operator=(&v17, (const Scaleform::GFx::AS2::Value *)&v14.NV.4);
               if ( v14.V.BooleanValue >= 5u )
                 Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v14.NV.4);
-              Scaleform::GFx::AS2::Value::Add(&params, fn->Env, (Scaleform::GFx::AS2::Value *)&v15.NV.4);
-              Scaleform::GFx::AS2::Value::Add(&params, fn->Env, (Scaleform::GFx::AS2::Value *)&v16.NV.4);
+              Scaleform::GFx::AS2::Value::Add(&v17, fn->Env, (Scaleform::GFx::AS2::Value *)&v15.NV.4);
+              Scaleform::GFx::AS2::Value::Add(&v17, fn->Env, (Scaleform::GFx::AS2::Value *)&v16.NV.4);
               *(double *)((char *)&v14.NV.NumberValue + 4) = result.M[1][0];
               v14.V.BooleanValue = 3;
               Scaleform::GFx::AS2::Value::operator=(
@@ -85,7 +85,7 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::TransformPoint(const Scaleform::G
                 (const Scaleform::GFx::AS2::Value *)&v14.NV.4);
               if ( v14.V.BooleanValue >= 5u )
                 Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v14.NV.4);
-              Scaleform::GFx::AS2::Value::Mul((Scaleform::GFx::AS2::Value *)&v15.NV.4, fn->Env, &__t);
+              Scaleform::GFx::AS2::Value::Mul((Scaleform::GFx::AS2::Value *)&v15.NV.4, fn->Env, &params);
               *(double *)((char *)&v14.NV.NumberValue + 4) = result.M[1][1];
               v14.V.BooleanValue = 3;
               Scaleform::GFx::AS2::Value::operator=(
@@ -101,28 +101,28 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::TransformPoint(const Scaleform::G
                 Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v14.NV.4);
               Scaleform::GFx::AS2::Value::Add(&v18, fn->Env, (Scaleform::GFx::AS2::Value *)&v15.NV.4);
               Scaleform::GFx::AS2::Value::Add(&v18, fn->Env, (Scaleform::GFx::AS2::Value *)&v16.NV.4);
-              Scaleform::GFx::AS2::PointObject::SetProperties(v9, &fn->Env->StringContext, &params);
+              Scaleform::GFx::AS2::PointObject::SetProperties(v9, &fn->Env->StringContext, &v17);
               Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v9);
               if ( v16.V.BooleanValue >= 5u )
                 Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v16.NV.4);
               if ( v15.V.BooleanValue >= 5u )
                 Scaleform::GFx::AS2::Value::DropRefs((Scaleform::GFx::AS2::Value *)&v15.NV.4);
               `vector destructor iterator'(
-                (char *)&params,
+                (char *)&v17,
                 0x10u,
                 2,
                 (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);
               if ( v9 )
               {
                 RefCount = v9->RefCount;
-                if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+                if ( (RefCount & 0x3FFFFFF) != 0 )
                 {
                   v9->RefCount = RefCount - 1;
                   Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
                 }
               }
               `vector destructor iterator'(
-                (char *)&__t,
+                (char *)&params,
                 0x10u,
                 2,
                 (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

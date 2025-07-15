@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::IMEEventEx::IMEEventEx(
         Scaleform::GFx::AS3::ClassTraits::Traits *t)
 {
   Scaleform::GFx::AS3::Class::Class(this, t);
-  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_gfx::IMEEventEx_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_gfx::IMEEventEx_vtbl *)&Scaleform::GFx::AS3::Classes::fl_gfx::IMEEventEx::`vftable';
   this->SET_CURRENT_INPUT_LANGUAGE = "SetCurrentInputLanguage";
   this->SET_SUPPORTED_LANGUAGES = "SetSupportedLanguages";
   this->SET_SUPPORTED_IMENAMES = "SetSupportedIMENames";

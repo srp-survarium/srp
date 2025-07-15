@@ -9,13 +9,13 @@ bignum_pool_item *__cdecl BN_GF2m_mod_sqr_arr(bignum_st *r, const bignum_st *a, 
   unsigned int *v10; // eax
 
   v4 = 0;
-  BN_CTX_start(ctx);
-  result = BN_CTX_get(ctx);
+  BN_CTX_start((int)ctx, ctx);
+  result = BN_CTX_get((int)ctx, ctx);
   v6 = result;
   if ( result )
   {
     if ( 2 * a->top > result->vals[0].dmax )
-      result = (bignum_pool_item *)bn_expand2(result->vals, (unsigned int *)(2 * a->top));
+      result = (bignum_pool_item *)bn_expand2(result->vals, 2 * a->top);
     if ( result )
     {
       v7 = a->top - 1;
@@ -49,7 +49,7 @@ bignum_pool_item *__cdecl BN_GF2m_mod_sqr_arr(bignum_st *r, const bignum_st *a, 
         while ( v9 > 0 );
         v6->vals[0].top = v9;
       }
-      if ( BN_GF2m_mod_arr(r, v6->vals, p) )
+      if ( BN_GF2m_mod_arr((int)ctx, r, v6->vals, p) )
         v4 = 1;
     }
     BN_CTX_end(ctx);

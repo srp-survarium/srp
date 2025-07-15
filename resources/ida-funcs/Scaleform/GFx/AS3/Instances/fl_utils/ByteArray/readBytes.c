@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readBytes(
   Position = this->Position;
   if ( Position + v6 <= this->Data.Data.Size )
   {
-    memcpy(&bytes->Data.Data.Data[offset], &this->Data.Data.Data[Position], v6);
+    memcpy((int)&bytes->Data.Data.Data[offset], (const __m128i *)&this->Data.Data.Data[Position], v6);
     this->Position += v6;
   }
   else

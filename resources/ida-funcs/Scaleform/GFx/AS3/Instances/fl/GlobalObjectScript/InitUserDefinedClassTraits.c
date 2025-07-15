@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript::InitUser
   Scaleform::GFx::AS3::Traits *pObject; // eax
   const Scaleform::GFx::AS3::Slots *Parent; // ebx
   Scaleform::GFx::AS3::VMFile *FirstOwnSlotNum; // ebp
-  const Scaleform::GFx::AS3::Abc::TraitTable *p_MakeActivationInstanceTraits; // eax
+  const Scaleform::GFx::AS3::Abc::TraitTable *v4; // eax
   bool v5; // zf
   Scaleform::GFx::AS3::Abc::TraitInfo *v6; // ecx
   Scaleform::GFx::AS3::VMFile_vtbl *v7; // edx
@@ -23,24 +23,24 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript::InitUser
   pObject = this->pTraits.pObject;
   Parent = pObject[1].Parent;
   FirstOwnSlotNum = (Scaleform::GFx::AS3::VMFile *)pObject[1].FirstOwnSlotNum;
-  p_MakeActivationInstanceTraits = (const Scaleform::GFx::AS3::Abc::TraitTable *)&FirstOwnSlotNum[1].__vftable[3].MakeActivationInstanceTraits;
+  v4 = (const Scaleform::GFx::AS3::Abc::TraitTable *)&FirstOwnSlotNum[1].__vftable[3];
   v5 = Parent->Parent == 0;
   p = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this;
-  tt = p_MakeActivationInstanceTraits;
+  tt = v4;
   i = 0;
   if ( !v5 )
   {
     while ( 1 )
     {
-      v6 = p_MakeActivationInstanceTraits->TraitInfos.Data.Data[*(_DWORD *)(Parent->FirstOwnSlotNum + 4 * i)];
+      v6 = v4->TraitInfos.Data.Data[*(_DWORD *)(Parent->FirstOwnSlotNum + 4 * i)];
       if ( (v6->kind & 0xF) == 4 )
       {
         v7 = FirstOwnSlotNum[1].__vftable;
         if ( (v6->kind & 0xF) != 0 && (v6->kind & 0xF) != 6 )
-          Ind = *(_DWORD *)(*((_DWORD *)v7[4].~Scaleform::GFx::AS3::VMFile + v6->Ind) + 20);
+          Ind = *(_DWORD *)(*((_DWORD *)v7[3].GetAS3ObjectName + v6->Ind) + 20);
         else
           Ind = v6->Ind;
-        v9 = (unsigned int *)((char *)v7[2].MakeInternedNamespace + 16 * Ind);
+        v9 = (unsigned int *)((char *)v7[2].ForEachChild_GC + 16 * Ind);
         InternedNamespace = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(FirstOwnSlotNum, *v9);
         Scaleform::GFx::AS3::VMFile::GetInternedString(FirstOwnSlotNum, &str_name, v9[2]);
         if ( !Scaleform::GFx::AS3::IsScaleformGFx(InternedNamespace) )
@@ -70,7 +70,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript::InitUser
       }
       if ( (const Scaleform::GFx::AS3::Slots *)++i >= Parent->Parent )
         break;
-      p_MakeActivationInstanceTraits = tt;
+      v4 = tt;
     }
   }
 }

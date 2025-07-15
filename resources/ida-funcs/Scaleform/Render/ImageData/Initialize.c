@@ -16,7 +16,7 @@ void __thiscall Scaleform::Render::ImageData::Initialize(
   if ( pplanes )
   {
     if ( planeCount == 1 )
-      this->Plane0 = *pplanes;
+      Scaleform::Render::ImagePlane::operator=(&this->Plane0, pplanes);
   }
 }
 
@@ -95,4 +95,15 @@ char __thiscall Scaleform::Render::ImageData::Initialize(
   }
   while ( v8 < source->RawPlaneCount );
   return 1;
+}
+
+
+char __thiscall Scaleform::Render::ImageData::Initialize(
+        Scaleform::Render::ImageData *this,
+        Scaleform::Render::ImageFormat format,
+        unsigned int mipLevels,
+        bool separateMipmaps)
+{
+  Scaleform::Render::ImageData::Clear(this);
+  return Scaleform::Render::ImageData::allocPlanes(this, format, mipLevels, separateMipmaps);
 }

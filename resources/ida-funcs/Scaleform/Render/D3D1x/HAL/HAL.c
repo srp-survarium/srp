@@ -1,36 +1,39 @@
-void __usercall Scaleform::Render::D3D1x::HAL::HAL(
+void __userpurge Scaleform::Render::D3D1x::HAL::HAL(
         Scaleform::Render::D3D1x::HAL *this@<ecx>,
-        Scaleform::Render::ThreadCommandQueue *commandQueue@<eax>)
+        int a2@<esi>,
+        Scaleform::Render::ThreadCommandQueue *commandQueue)
 {
   Scaleform::Render::D3D1x::MeshCache *v3; // ecx
-  Scaleform::Render::MeshCacheParams params; // [esp+Ch] [ebp-2Ch] BYREF
+  Scaleform::MemoryHeap *v4; // [esp-8h] [ebp-3Ch]
+  Scaleform::Render::MeshCacheParams params; // [esp+8h] [ebp-2Ch] BYREF
 
   Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>(
     this,
+    (Scaleform::Render::HAL *)a2,
     commandQueue);
-  v3 = (Scaleform::Render::D3D1x::MeshCache *)Scaleform::Memory::pGlobalHeap;
-  params.MemReserve = (unsigned int)&loc_2FFFFF + 1;
-  params.MemGranularity = (unsigned int)&loc_2FFFFF + 1;
-  this->__vftable = (Scaleform::Render::D3D1x::HAL_vtbl *)&Scaleform::Render::D3D1x::HAL::`vftable';
-  this->pDevice = 0;
-  this->pDeviceContext = 0;
-  this->pRenderTargetView.pObject = 0;
-  this->pDepthStencilView.pObject = 0;
-  params.MemLimit = (unsigned int)&vostok::memory::s_CRT_arena[5574200];
-  params.LRUTailSize = (unsigned int)&vostok::resources::g_resources_manager.m_static_memory[62144];
-  params.StagingBufferSize = (unsigned int)&loc_1FFFFE + 2;
-  params.VBLockEvictSizeLimit = 0x40000;
+  params.MemReserve = (unsigned int)&loc_300000;
+  params.MemGranularity = (unsigned int)&loc_300000;
+  v4 = Scaleform::Memory::pGlobalHeap;
+  *(_DWORD *)a2 = &Scaleform::Render::D3D1x::HAL::`vftable';
+  *(_DWORD *)(a2 + 63952) = 0;
+  *(_DWORD *)(a2 + 63956) = 0;
+  *(_DWORD *)(a2 + 63960) = 0;
+  *(_DWORD *)(a2 + 63964) = 0;
+  params.MemLimit = (unsigned int)&s_ui_commands_allocator.m_buffer[2035360];
+  params.LRUTailSize = 10485760;
+  params.StagingBufferSize = (unsigned int)&loc_200000;
+  params.VBLockEvictSizeLimit = (unsigned int)&loc_3FFFF + 1;
   params.MaxBatchInstances = 24;
   params.InstancingThreshold = 5;
   params.NoBatchVerticesSizeThreshold = 0x2000;
   params.MaxVerticesSizeInBatch = 0x4000;
   params.MaxIndicesInBatch = 6144;
-  Scaleform::Render::D3D1x::MeshCache::MeshCache(v3, (int)&this->Cache, (Scaleform::MemoryHeap *)v3, &params);
-  this->pTextureManager.pObject = 0;
-  this->StencilChecked = 0;
-  this->StencilAvailable = 0;
-  this->DepthBufferAvailable = 0;
-  this->RasterMode = RasterMode_Default;
-  this->CurrentConstantBuffer = 0;
-  this->PrevBatchType = DP_None;
+  Scaleform::Render::D3D1x::MeshCache::MeshCache(v3, a2 + 63968, v4, &params);
+  *(_DWORD *)(a2 + 64368) = 0;
+  *(_BYTE *)(a2 + 64376) = 0;
+  *(_BYTE *)(a2 + 64377) = 0;
+  *(_BYTE *)(a2 + 64378) = 0;
+  *(_DWORD *)(a2 + 64560) = 0;
+  *(_DWORD *)(a2 + 64604) = 0;
+  *(_DWORD *)(a2 + 64372) = 5;
 }

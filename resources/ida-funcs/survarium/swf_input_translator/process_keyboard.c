@@ -1,98 +1,64 @@
-char __userpurge survarium::swf_input_translator::process_keyboard@<al>(
-        vostok::input::enum_keyboard key@<eax>,
-        survarium::swf_input_translator *a2@<ecx>,
+char __thiscall survarium::swf_input_translator::process_keyboard(
         survarium::swf_input_translator *this,
-        vostok::input::world *input_world,
-        vostok::input::enum_keyboard_action action,
+        survarium::swf_input_translator *input_world,
+        vostok::input::enum_keyboard key,
+        survarium::flash_movie::keyb_btn_action action,
         survarium::flash_movie *movie,
         unsigned int time_current_ms)
 {
-  stlp_std::less<enum vostok::input::enum_keyboard> *bind; // eax
-  survarium::dik_to_swf_bind *v8; // esi
-  vostok::input::world *v10; // edi
-  const vostok::input::keyboard *v11; // eax
-  const vostok::input::keyboard *v12; // eax
-  wchar_t v13; // ax
-  const vostok::input::keyboard *v14; // edi
+  int v6; // esi
+  survarium::dik_to_swf_bind *bind; // edi
+  char v9; // al
+  int v10; // edx
   vostok::input::enum_keyboard i; // ebx
-  survarium::swf_input_translator *v16; // ecx
-  stlp_std::less<enum vostok::input::enum_keyboard> *v17; // eax
-  survarium::dik_to_swf_bind *v18; // esi
-  Scaleform::GFx::Movie *m_movie; // ecx
-  wchar_t v20; // ax
-  bool v21; // [esp+0h] [ebp-30h]
-  survarium::swf_input_translator *is_shift_now; // [esp+10h] [ebp-20h]
-  const vostok::input::keyboard *keyboard; // [esp+14h] [ebp-1Ch]
-  int v24; // [esp+18h] [ebp-18h] BYREF
-  int v25; // [esp+1Ch] [ebp-14h]
-  int v26; // [esp+20h] [ebp-10h]
-  char v27; // [esp+24h] [ebp-Ch]
-  int v28; // [esp+28h] [ebp-8h]
-  char v29; // [esp+2Ch] [ebp-4h]
+  survarium::dik_to_swf_bind *v12; // edi
+  char v13; // al
+  int v14; // edx
+  wchar_t c; // [esp+14h] [ebp-4h] BYREF
 
+  v6 = (*(int (__thiscall **)(survarium::swf_input_translator *))(*(_DWORD *)&this->char_map._M_t._M_header._M_data._M_color
+                                                                + 36))(this);
   if ( action == kb_key_down || action == kb_key_up )
   {
-    bind = survarium::swf_input_translator::get_bind(a2, &this->char_map, key);
-    v8 = (survarium::dik_to_swf_bind *)bind;
+    bind = survarium::swf_input_translator::get_bind(input_world, key);
     if ( !bind )
       return 0;
-    survarium::flash_movie::HandleKeyboard((int)movie, *(Scaleform::Key::Code *)&bind[8].gap0, movie, action);
-    if ( v8->is_character && action == kb_key_down )
+    v9 = (*(int (__thiscall **)(int))(*(_DWORD *)v6 + 16))(v6);
+    survarium::flash_movie::HandleKeyboard(v9, v10, movie, action, bind->scan);
+    if ( bind->is_character && action == kb_key_down )
     {
-      v10 = input_world;
-      v11 = input_world->get_keyboard(input_world);
-      if ( v11->is_key_down(v11, key_lshift)
-        || (v12 = input_world->get_keyboard(input_world), LOBYTE(is_shift_now) = 0, v12->is_key_down(v12, key_rshift)) )
-      {
-        LOBYTE(is_shift_now) = 1;
-      }
-      v13 = survarium::swf_input_translator::translate_key_action(input_world, v8, is_shift_now, v21);
-      if ( !v13 )
+      if ( !(*(unsigned __int8 (__thiscall **)(int, vostok::input::enum_keyboard, wchar_t *))(*(_DWORD *)v6 + 8))(
+              v6,
+              key,
+              &c) )
         return 0;
-      survarium::flash_movie::HandleChar((survarium::flash_movie *)v13, (int)movie);
-      movie->m_last_keyb_hold_time = time_current_ms + 500;
+      survarium::flash_movie::HandleChar(c, movie);
     }
-    else
-    {
-      v10 = input_world;
-      movie->m_last_keyb_hold_time = time_current_ms + 500;
-    }
-  }
-  else
-  {
-    v10 = input_world;
+    movie->m_last_keyb_hold_time = time_current_ms + 500;
   }
   if ( action == kb_key_hold && movie->m_last_keyb_hold_time + 100 < time_current_ms )
   {
-    v14 = v10->get_keyboard(v10);
-    keyboard = v14;
-    if ( v14->is_key_down(v14, key_lshift) || (LOBYTE(is_shift_now) = 0, v14->is_key_down(v14, key_rshift)) )
-      LOBYTE(is_shift_now) = 1;
     for ( i = 0; (unsigned int)i < 0x100; ++i )
     {
-      if ( v14->is_key_down(v14, i) )
+      if ( (**(unsigned __int8 (__thiscall ***)(int, vostok::input::enum_keyboard))v6)(v6, i) )
       {
-        v17 = survarium::swf_input_translator::get_bind(v16, &this->char_map, i);
-        v18 = (survarium::dik_to_swf_bind *)v17;
-        if ( v17 )
+        v12 = survarium::swf_input_translator::get_bind(input_world, i);
+        if ( v12 )
         {
-          if ( i == key_back || i == key_delete || i == key_left || i == key_right )
+          if ( i == key_back || i == key_delete || i == key_left || i == key_right || i == key_up || i == key_down )
           {
-            m_movie = movie->m_movie;
-            v26 = *(_DWORD *)&v17[8].gap0;
-            LOBYTE(v25) = 0;
-            v24 = 5;
-            v27 = 0;
-            v28 = 0;
-            v29 = 0;
-            m_movie->HandleEvent(m_movie, (const Scaleform::GFx::Event *)&v24);
+            v13 = (*(int (__thiscall **)(int))(*(_DWORD *)v6 + 16))(v6);
+            survarium::flash_movie::HandleKeyboard(v13, v14, movie, kb_key_down, v12->scan);
           }
-          if ( v18->is_character )
+          if ( v12->is_character )
           {
-            v20 = survarium::swf_input_translator::translate_key_action(input_world, v18, is_shift_now, v21);
-            if ( v20 )
-              survarium::flash_movie::HandleChar((survarium::flash_movie *)v20, (int)movie);
-            v14 = keyboard;
+            if ( (*(unsigned __int8 (__thiscall **)(int, vostok::input::enum_keyboard, wchar_t *))(*(_DWORD *)v6 + 8))(
+                   v6,
+                   key,
+                   &c) )
+            {
+              survarium::flash_movie::HandleChar(c, movie);
+            }
           }
         }
       }

@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeMetaData(
   Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // esi
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
   Scaleform::GFx::AS3::Abc::MetadataInfo *v9; // eax
-  char *pStr; // ebp
+  __m128i *pStr; // ebp
   unsigned int v11; // ebx
   Scaleform::GFx::AS3::CheckResult *(__thiscall *AppendChild)(struct Scaleform::GFx::AS3::Instances::fl::XMLElement *, Scaleform::GFx::AS3::CheckResult *, const Scaleform::GFx::AS3::Value *); // edx
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // eax
@@ -87,13 +87,13 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeMetaData(
       ++_arg.pNode->RefCount;
       _key.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                      StringManagerRef->pStringManager,
-                     (char *)&stru_955964.id_crc,
+                     "key",
                      3u,
                      0);
       ++_key.pNode->RefCount;
       _value.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                        StringManagerRef->pStringManager,
-                       (char *)&stru_955964,
+                       "value",
                        5u,
                        0);
       ++_value.pNode->RefCount;
@@ -102,7 +102,7 @@ void __thiscall Scaleform::GFx::AS3::XMLSupportImpl::DescribeMetaData(
       while ( 1 )
       {
         v9 = file->File.pObject->Metadata.Info.Data.Data[ti->meta_info.info.Data.Data[k]];
-        pStr = (char *)v9->Name.pStr;
+        pStr = (__m128i *)v9->Name.pStr;
         v11 = v9->Name.Size;
         mdi = v9;
         Scaleform::GFx::AS3::InstanceTraits::fl::XML::MakeInstanceElement(
@@ -202,7 +202,7 @@ LABEL_27:
           Scaleform::GFx::AS3::Abc::StringView::ToStringDataPtr(&cp->ConstStr.Data.Data[v17->KeyInd], &result);
           v47.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                         StringManagerRef->pStringManager,
-                        (char *)result.pStr,
+                        (__m128i *)result.pStr,
                         result.Size);
           ++v47.pNode->RefCount;
           Scaleform::GFx::AS3::Instances::fl::XMLElement::AddAttr(arg.pV, pObject, &_key, &v47);
@@ -214,7 +214,7 @@ LABEL_27:
         Scaleform::GFx::AS3::Abc::StringView::ToStringDataPtr(&cp->ConstStr.Data.Data[v17->ValueInd], &v53);
         v49.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                       StringManagerRef->pStringManager,
-                      (char *)v53.pStr,
+                      (__m128i *)v53.pStr,
                       v53.Size);
         ++v49.pNode->RefCount;
         Scaleform::GFx::AS3::Instances::fl::XMLElement::AddAttr(arg.pV, pObject, &_value, &v49);

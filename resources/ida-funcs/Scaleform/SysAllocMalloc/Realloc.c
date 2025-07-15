@@ -1,14 +1,12 @@
-void *__thiscall Scaleform::SysAllocMalloc::Realloc(
+Scaleform::DefaultAcquireInterface *__thiscall Scaleform::SysAllocMalloc::Realloc(
         Scaleform::SysAllocMalloc *this,
-        void *oldPtr,
+        unsigned int oldPtr,
         unsigned int oldSize,
         unsigned int newSize,
-        survarium::game_camera *align)
+        Scaleform::DefaultAcquireInterface *align)
 {
-  if ( newSize != oldSize )
-  {
-    survarium::weapon_user_dead_state::finalize(align);
-    JUMPOUT(0xAEA3F);
-  }
-  return oldPtr;
+  if ( newSize == oldSize )
+    return (Scaleform::DefaultAcquireInterface *)oldPtr;
+  vostok::memory::process_allocator::finalize_impl((vostok::render::stage_screen_space_reflections *)this);
+  return Scaleform::DefaultAcquireInterface::`vector deleting destructor'(align, oldPtr);
 }

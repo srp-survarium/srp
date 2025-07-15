@@ -1,4 +1,4 @@
-asn1_string_st *__cdecl ASN1_STRING_new()
+asn1_string_st *__usercall ASN1_STRING_new@<eax>(int a1@<ebx>)
 {
   asn1_string_st *result; // eax
 
@@ -12,7 +12,7 @@ asn1_string_st *__cdecl ASN1_STRING_new()
   }
   else
   {
-    ERR_put_error(0xDu, 130, 65, ".\\crypto\\asn1\\asn1_lib.c", 428);
+    ERR_put_error(a1, 0xDu, 130, 65, ".\\crypto\\asn1\\asn1_lib.c", 428);
     return 0;
   }
   return result;

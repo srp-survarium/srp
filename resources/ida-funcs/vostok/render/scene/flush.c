@@ -1,57 +1,59 @@
 void __userpurge vostok::render::scene::flush(
         vostok::render::scene *this@<ecx>,
         int a2@<esi>,
-        const boost::function<void __cdecl(bool)> *on_draw_scene,
+        boost::function<void __cdecl(bool)> *on_draw_scene,
         bool all_depth_used,
         bool all_depth_unused)
 {
-  const char *m_conflicted_key_name; // eax
-  int v6; // ecx
-  bool v7; // zf
-  const char *v8; // eax
-  int v9; // ecx
-  vostok::render::system_renderer *v10; // ecx
+  boost::detail::function::vtable_base *v5; // edi
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *v6; // ecx
+  vostok::render::scene *v7; // ecx
+  vostok::render::scene *v8; // ecx
+  int z_low; // eax
+  vostok::render::untyped_buffer *v10; // edi
+  vostok::render::backend *v11; // ecx
+  vostok::render::system_renderer *v12; // ecx
+  vostok::render::system_renderer *v13; // ecx
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *v14; // ecx
+  vostok::render::scene *v15; // ecx
+  vostok::render::scene *v16; // ecx
+  float v17; // [esp+0h] [ebp-8h]
+  unsigned __int8 v18; // [esp+4h] [ebp-4h]
 
   if ( all_depth_used )
   {
-    m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    v6 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 547);
-    v7 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 539) == v6;
-    *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 539) = v6;
-    *((_BYTE *)m_conflicted_key_name + 167) |= !v7;
-    boost::function1<void,bool>::operator()(&on_draw_scene->boost::function1<void,bool>, 1);
-    vostok::render::scene::render_lines((vostok::render::scene *)a2, 0);
-    vostok::render::scene::render_triangles((vostok::render::scene *)a2);
+    v5 = *(boost::detail::function::vtable_base **)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z)
+                                                  + 7440);
+    v6 = (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7384);
+    *(_BYTE *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 117) |= *(_DWORD *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7384) != (_DWORD)v5;
+    v6->vtable = v5;
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      v6,
+      on_draw_scene,
+      (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)1);
+    vostok::render::scene::render_lines(v7, a2, 0);
+    vostok::render::scene::render_triangles(v8, a2, 0);
   }
   if ( all_depth_unused )
   {
-    v8 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    v9 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 547);
-    v7 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 539) == v9;
-    *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 539) = v9;
-    *((_BYTE *)v8 + 167) |= !v7;
-    if ( s_debug_enabled_ds_clearing_value )
-    {
-      if ( v9 )
-        (*(void (__stdcall **)(int, int, int, _DWORD, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                             + 212))(
-          `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-          v9,
-          3,
-          1.0,
-          0);
-    }
+    z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+    v10 = *(vostok::render::untyped_buffer **)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z)
+                                             + 7440);
+    v11 = (vostok::render::backend *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z)
+                                    + 7384);
+    *(_BYTE *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 117) |= *(_DWORD *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7384) != (_DWORD)v10;
+    v11->vertex_small.m_buffer.m_object = v10;
+    vostok::render::backend::clear_depth_stencil(v11, z_low, 3u, v17, v18);
     vostok::render::system_renderer::draw_render_models_selection(
-      (vostok::render::system_renderer *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-      (vostok::render::vector<vostok::resources::resource_ptr<vostok::render::render_model_instance_impl,vostok::resources::unmanaged_intrusive_base> > *)(a2 + 804));
+      (vostok::fixed_vector<vostok::resources::resource_ptr<vostok::render::render_model_instance_impl,vostok::resources::unmanaged_intrusive_base>,2048> *)((char *)&vostok::memory::s_resources.m_buffer[4182] + a2),
+      v12,
+      vostok::quasi_singleton<vostok::render::system_renderer>::pinst);
     vostok::render::system_renderer::draw_particle_system_instance_selections(
-      v10,
-      (const vostok::render::vector<vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> > *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x);
-    vostok::render::system_renderer::draw_speedtree_instance_selections(
-      (vostok::render::system_renderer *)(a2 + 828),
-      (const vostok::render::vector<vostok::resources::resource_ptr<vostok::render::speedtree_instance,vostok::resources::unmanaged_intrusive_base> > *)(a2 + 828));
-    boost::function1<void,bool>::operator()(&on_draw_scene->boost::function1<void,bool>, 0);
-    vostok::render::scene::render_lines((vostok::render::scene *)a2, 1);
-    vostok::render::scene::render_triangles((vostok::render::scene *)a2);
+      v13,
+      (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+      (int)&vostok::memory::s_resources.m_buffer[6233] + a2);
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(v14, on_draw_scene, 0);
+    vostok::render::scene::render_lines(v15, a2, 1);
+    vostok::render::scene::render_triangles(v16, a2, 1);
   }
 }

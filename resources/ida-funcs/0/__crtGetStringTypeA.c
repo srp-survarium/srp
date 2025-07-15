@@ -1,19 +1,19 @@
 int __cdecl __crtGetStringTypeA(
         localeinfo_struct *plocinfo,
         DWORD dwInfoType,
-        const char *lpSrcStr,
+        char *lpSrcStr,
         int cchSrc,
         unsigned __int16 *lpCharType,
-        unsigned int code_page,
-        int lcid,
+        UINT code_page,
+        LCID lcid,
         int bError)
 {
   int result; // eax
-  _LocaleUpdate _loc_update; // [esp+0h] [ebp-10h] BYREF
+  _LocaleUpdate v9; // [esp+0h] [ebp-10h] BYREF
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v9, plocinfo);
   result = _crtGetStringTypeA_stat(dwInfoType, lpSrcStr, cchSrc, lpCharType, code_page, lcid, bError);
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
+  if ( v9.updated )
+    v9.ptd->_ownlocale &= ~2u;
   return result;
 }

@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS2::GASSharedObjectLoader::PushObject(
     v15 = 0;
     name = Scaleform::GFx::ASStringManager::CreateStringNode(
              (Scaleform::GFx::ASStringManager *)pEnv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-             (char *)(((int)name->pData & 0xFFFFFFFC) + 8),
+             (__m128i *)(((int)name->pData & 0xFFFFFFFC) + 8),
              *(_DWORD *)((int)name->pData & 0xFFFFFFFC) & 0x7FFFFFFF);
     ++name->RefCount;
     v16 = v3->Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable;
@@ -81,7 +81,7 @@ void __thiscall Scaleform::GFx::AS2::GASSharedObjectLoader::PushObject(
   if ( v6 )
   {
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v6->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

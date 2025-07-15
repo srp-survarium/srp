@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::getText(
     includeLineEndings);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)((endIndex.HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((endIndex.HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(endIndex.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   StringNode->RefCount += 2;
   pNode = result->pNode;

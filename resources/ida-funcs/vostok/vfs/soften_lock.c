@@ -1,4 +1,4 @@
-vostok::vfs::lock_type_enum __cdecl vostok::vfs::soften_lock(vostok::vfs::lock_type_enum lock)
+vostok::vfs::lock_type_enum __usercall vostok::vfs::soften_lock@<eax>(vostok::vfs::lock_type_enum lock@<eax>)
 {
   if ( lock == lock_type_read )
     return 3;

@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::NotifyMouseEvent(
         Scaleform::GFx::AS2::MovieRoot *this,
         const Scaleform::GFx::InputEventsQueueEntry *qe,
         const Scaleform::GFx::MouseState *ms,
-        unsigned int mi)
+        float mi)
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // edx
   unsigned int Size; // ecx
@@ -18,10 +18,10 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::NotifyMouseEvent(
   Scaleform::GFx::ASMovieRootBase *pASRoot; // ecx
   __int16 v18; // cx
   unsigned int v19; // edi
-  Scaleform::GFx::AS2::Environment *penv; // [esp+18h] [ebp-Ch]
-  Scaleform::Render::Point<float> mousePos; // [esp+1Ch] [ebp-8h] BYREF
-  bool extensions; // [esp+2Ch] [ebp+8h]
-  __int16 mask; // [esp+30h] [ebp+Ch]
+  Scaleform::GFx::AS2::Environment *v20; // [esp+18h] [ebp-Ch]
+  Scaleform::Render::Point<float> v21; // [esp+1Ch] [ebp-8h] BYREF
+  bool v22; // [esp+2Ch] [ebp+8h]
+  __int16 v23; // [esp+30h] [ebp+Ch]
 
   pMovieImpl = this->pMovieImpl;
   Size = pMovieImpl->MovieLevels.Data.Size;
@@ -47,7 +47,7 @@ LABEL_5:
   v11 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*((_DWORD *)&pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                                          + pObject->AvmObjOffset)
                                                                        + 124))((int)pObject + 4 * pObject->AvmObjOffset);
-  penv = v11;
+  v20 = v11;
   if ( this->pASMouseListener )
   {
     if ( !this->pASMouseListener->IsEmpty((Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener) )
@@ -55,15 +55,18 @@ LABEL_5:
       v12 = (*((_BYTE *)ms + 52) & 8) != 0;
       if ( (*((_BYTE *)ms + 52) & 8) != 0 || qe->u.mouseEntry.ButtonsState || (qe->u.mouseEntry.Flags & 0x20) != 0 )
       {
-        extensions = v11->StringContext.pContext->GFxExtensions.Value == 1;
+        v22 = v11->StringContext.pContext->GFxExtensions.Value == 1;
         if ( v12 )
-          this->pASMouseListener->OnMouseMove((Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener, v11, mi);
+          this->pASMouseListener->OnMouseMove(
+            (Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener,
+            v11,
+            LODWORD(mi));
         if ( (qe->u.mouseEntry.Flags & 0x20) != 0 || qe->u.mouseEntry.ButtonsState )
         {
           v14 = this->pMovieImpl;
-          mousePos.x = qe->u.mouseEntry.PosX;
-          mousePos.y = qe->u.mouseEntry.PosY;
-          TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v14, &mousePos, mi, 1, 0);
+          v21.x = qe->u.mouseEntry.PosX;
+          v21.y = qe->u.mouseEntry.PosY;
+          TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(v14, &v21, mi, 1, 0);
           v16 = TopMostEntity;
           if ( TopMostEntity )
           {
@@ -75,14 +78,14 @@ LABEL_5:
           if ( (qe->u.mouseEntry.Flags & 0x20) != 0 )
             this->pASMouseListener->OnMouseWheel(
               (Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener,
-              penv,
-              mi,
+              v20,
+              LODWORD(mi),
               qe->u.mouseEntry.WheelScrollDelta,
               TopMostEntity);
           if ( qe->u.mouseEntry.ButtonsState )
           {
             v18 = 1;
-            mask = 1;
+            v23 = 1;
             v19 = 1;
             do
             {
@@ -91,25 +94,25 @@ LABEL_5:
                 if ( (qe->u.mouseEntry.Flags & 0xC0) != 0 || !qe->u.mouseEntry.ButtonsState )
                   this->pASMouseListener->OnMouseUp(
                     (Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener,
-                    penv,
-                    mi,
+                    v20,
+                    LODWORD(mi),
                     v19,
                     v16);
                 else
                   this->pASMouseListener->OnMouseDown(
                     (Scaleform::GFx::AS2::MouseListener *)this->pASMouseListener,
-                    penv,
-                    mi,
+                    v20,
+                    LODWORD(mi),
                     v19,
                     v16);
               }
-              if ( !extensions )
+              if ( !v22 )
                 break;
-              v18 = 2 * mask;
+              v18 = 2 * v23;
               ++v19;
-              mask *= 2;
+              v23 *= 2;
             }
-            while ( mask );
+            while ( v23 );
           }
           if ( v16 )
 LABEL_30:

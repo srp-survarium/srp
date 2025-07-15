@@ -1,4 +1,4 @@
-void *__thiscall btGhostPairCallback::removeOverlappingPair(
+void __thiscall btGhostPairCallback::removeOverlappingPair(
         btGhostPairCallback *this,
         btBroadphaseProxy *proxy0,
         btBroadphaseProxy *proxy1,
@@ -7,8 +7,8 @@ void *__thiscall btGhostPairCallback::removeOverlappingPair(
   void *v4; // ecx
   void *v5; // esi
 
-  v4 = *((_DWORD *)proxy0->m_clientObject + 61) != 4 ? 0 : proxy0->m_clientObject;
-  v5 = *((_DWORD *)proxy1->m_clientObject + 61) != 4 ? 0 : proxy1->m_clientObject;
+  v4 = *((_DWORD *)proxy0->m_clientObject + 61) == 4 ? proxy0->m_clientObject : 0;
+  v5 = *((_DWORD *)proxy1->m_clientObject + 61) == 4 ? proxy1->m_clientObject : 0;
   if ( v4 )
     (*(void (__thiscall **)(void *, btBroadphaseProxy *, btDispatcher *, btBroadphaseProxy *))(*(_DWORD *)v4 + 28))(
       v4,
@@ -21,5 +21,4 @@ void *__thiscall btGhostPairCallback::removeOverlappingPair(
       proxy0,
       dispatcher,
       proxy1);
-  return 0;
 }

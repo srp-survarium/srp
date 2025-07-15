@@ -30,7 +30,7 @@ char __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_al
       return 0;
     this->_M_int_buf_dynamic = 1;
   }
-  v7 = this->_M_codecvt->do_max_length(this->_M_codecvt);
+  v7 = this->_M_codecvt->do_max_length((stlp_std::codecvt<char,char,int> *)this->_M_codecvt);
   M_width = this->_M_width;
   v14 = v7;
   __n = M_width * __PAIR64__(HIDWORD(__n), v3);
@@ -111,7 +111,7 @@ char __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>:
       return 0;
     this->_M_int_buf_dynamic = 1;
   }
-  v7 = this->_M_codecvt->do_max_length(this->_M_codecvt);
+  v7 = this->_M_codecvt->do_max_length((stlp_std::codecvt<wchar_t,char,int> *)this->_M_codecvt);
   HIDWORD(v15) = v3;
   v8 = __n;
   LODWORD(v15) = __n;

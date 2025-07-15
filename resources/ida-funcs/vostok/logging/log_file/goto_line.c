@@ -1,44 +1,36 @@
-void __thiscall vostok::logging::log_file::goto_line(vostok::logging::log_file *this, unsigned int line)
+void __thiscall vostok::logging::log_file::goto_line(
+        vostok::logging::log_file *this,
+        void (__thiscall *line)(vostok::render::stage_screen_space_reflections *this),
+        unsigned int a3)
 {
-  survarium::game_camera *v2; // ecx
-  unsigned int v3; // ecx
-  survarium::game_camera *v4; // ecx
-  survarium::game_camera *v5; // ecx
-  _BYTE *v6; // eax
-  vostok::fixed_vector<int,4096> *v8; // [esp+4h] [ebp-24h]
-  vostok::fixed_vector<int,4096> *v9; // [esp+Ch] [ebp-1Ch]
-  vostok::fixed_vector<int,4096> *v10; // [esp+14h] [ebp-14h]
-  unsigned int num2skip; // [esp+1Ch] [ebp-Ch]
-  unsigned int group; // [esp+20h] [ebp-8h]
+  void (__thiscall *v3)(vostok::render::stage_screen_space_reflections *); // ebx
+  unsigned int v4; // esi
+  void (__thiscall ***v5)(_DWORD, _DWORD, int, _DWORD); // ecx
+  __int64 v6; // rax
+  vostok::logging::log_file *v7; // ecx
+  int v8; // esi
+  int v9; // [esp-8h] [ebp-18h]
+  void (__cdecl *const *v10)(char); // [esp+0h] [ebp-10h]
 
-  vostok::logging::log_file::assert_transaction_in_current_thread(this);
-  survarium::weapon_user_dead_state::finalize(v2);
-  group = line >> 8;
-  v10 = vostok::uninitialized_reference<vostok::fixed_vector<int,4096>>::operator->(
-          (vostok::uninitialized_reference<vostok::fixed_vector<int,4096> > *)(line >> 8),
-          (int)this->m_line_groups.m_static_memory);
-  v3 = v10->m_end - v10->m_begin;
-  if ( line >> 8 >= v3 )
+  v3 = line;
+  v4 = a3 >> 8;
+  if ( a3 >> 8 >= (*((_DWORD *)line + 260) - *((_DWORD *)line + 259)) >> 2 )
+    v4 = ((*((_DWORD *)line + 260) - *((_DWORD *)line + 259)) >> 2) - 1;
+  v5 = (void (__thiscall ***)(_DWORD, _DWORD, int, _DWORD))*((_DWORD *)line + 256);
+  v6 = *(int *)(*((_DWORD *)line + 259) + 4 * v4);
+  *((_DWORD *)line + 4369) = HIDWORD(v6);
+  v9 = *((_DWORD *)v3 + 4369);
+  *((_DWORD *)v3 + 4368) = v6;
+  (**v5)(v5, *((_DWORD *)v3 + 4368), v9, 0);
+  v8 = a3 - (v4 << 8);
+  if ( v8 )
   {
-    v9 = vostok::uninitialized_reference<vostok::fixed_vector<int,4096>>::operator->(
-           (vostok::uninitialized_reference<vostok::fixed_vector<int,4096> > *)v3,
-           (int)this->m_line_groups.m_static_memory);
-    v3 = v9->m_end - v9->m_begin - 1;
-    group = v3;
+    line = vostok::memory::process_allocator::finalize_impl;
+    do
+    {
+      vostok::logging::log_file::process_next_line<void (__cdecl *)(char)>(v7, v3, (void (__cdecl **)(char))&line, v10);
+      --v8;
+    }
+    while ( v8 );
   }
-  v8 = vostok::uninitialized_reference<vostok::fixed_vector<int,4096>>::operator->(
-         (vostok::uninitialized_reference<vostok::fixed_vector<int,4096> > *)v3,
-         (int)this->m_line_groups.m_static_memory);
-  survarium::weapon_user_dead_state::finalize(v4);
-  this->m_current_pos = v8->m_begin[group];
-  vostok::fs_new::device_file_system_proxy_base::seek(
-    &this->m_device.m_device,
-    this->m_file,
-    this->m_current_pos,
-    seek_file_begin);
-  survarium::weapon_user_dead_state::finalize(v5);
-  if ( *v6 )
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)(unsigned __int8)*v6);
-  for ( num2skip = line - (group << 8); num2skip; --num2skip )
-    vostok::logging::log_file::skip_next_line(this);
 }

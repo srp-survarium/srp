@@ -4,20 +4,20 @@ void *__thiscall stlp_std::_Filebuf_base::_M_mmap(stlp_std::_Filebuf_base *this,
   unsigned int v5; // esi
   int v6; // edx
   void *result; // eax
-  void *base; // [esp+8h] [ebp+4h]
+  const void *dwFileOffsetLow; // [esp+8h] [ebp+4h]
 
   FileMappingA = CreateFileMappingA(this->_M_file_id, 0, 2u, 0, 0, 0);
   this->_M_view_id = FileMappingA;
   if ( !FileMappingA )
     return 0;
   v5 = offset;
-  base = MapViewOfFile(FileMappingA, 4u, HIDWORD(offset), offset, len);
-  if ( base )
+  dwFileOffsetLow = MapViewOfFile(FileMappingA, 4u, HIDWORD(offset), offset, len);
+  if ( dwFileOffsetLow )
   {
-    stlp_std::_Filebuf_base::_M_seek(this, (_LARGE_INTEGER)(len + __PAIR64__(HIDWORD(offset), v5)), 1);
+    stlp_std::_Filebuf_base::_M_seek(this, len + __PAIR64__(HIDWORD(offset), v5), 1);
     if ( v6 >= 0 )
-      return base;
-    UnmapViewOfFile(base);
+      return (void *)dwFileOffsetLow;
+    UnmapViewOfFile(dwFileOffsetLow);
   }
   if ( this->_M_view_id )
     CloseHandle(this->_M_view_id);

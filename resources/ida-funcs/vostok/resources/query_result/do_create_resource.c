@@ -1,74 +1,64 @@
-void __userpurge vostok::resources::query_result::do_create_resource(
-        vostok::resources::query_result *this@<ecx>,
-        int a2@<eax>,
-        bool *out_finished_create)
+void __usercall vostok::resources::query_result::do_create_resource(
+        vostok::resources::query_result *this@<eax>,
+        bool *out_finished_create@<esi>)
 {
-  bool *v3; // ebx
-  volatile signed __int32 *v5; // edi
+  volatile int *p_m_query_end_guard; // ebx
+  vostok::resources::query_result *v4; // ecx
+  vostok::resources::cook_base::result_enum m_create_resource_result; // eax
   vostok::resources::query_result *v6; // ecx
-  vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy> *v7; // ecx
-  vostok::resources::resources_manager *m_variable; // edi
-  int v9; // eax
-  vostok::resources::query_result *v10; // ecx
-  unsigned int v11; // eax
-  bool *v12; // [esp+0h] [ebp-10h]
+  vostok::resources::query_result *v7; // ecx
+  unsigned int v8; // eax
+  bool do_debug_break; // [esp+Fh] [ebp-1h] BYREF
 
-  v3 = out_finished_create;
-  v5 = (volatile signed __int32 *)(a2 + 684);
+  p_m_query_end_guard = &this->m_query_end_guard;
   vostok::resources::query_result::do_create_resource_impl(
-    (vostok::resources::query_result *)_InterlockedExchangeAdd((volatile signed __int32 *)(a2 + 684), 1u),
-    a2);
-  if ( v3 )
-    *v3 = *(_DWORD *)(a2 + 256) == 0;
-  if ( *(_DWORD *)(a2 + 224) )
+    (vostok::resources::query_result *)_InterlockedExchangeAdd(&this->m_query_end_guard, 1u),
+    (int)this);
+  if ( out_finished_create )
+    *out_finished_create = this->m_error_type == error_type_unset;
+  if ( this->m_save_generated_data )
   {
-    vostok::threading::interlocked_and((volatile int *)(a2 + 688), 0xFFDFFFFF);
-    v7 = (vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy> *)_InterlockedExchangeAdd(v5, 0xFFFFFFFF);
-    m_variable = vostok::resources::g_resources_manager.m_variable;
-    vostok::intrusive_list<vostok::resources::query_result,vostok::resources::query_result *,608,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::push_back(
-      v7,
-      (char *)&loc_2044D + (unsigned int)vostok::resources::g_resources_manager.m_variable + 3,
-      (vostok::resources::query_result *)a2,
-      v12);
-    SetEvent(*(HANDLE *)((char *)&dword_203D0 + (_DWORD)m_variable));
+    _InterlockedAnd(&this->m_flags, 0xFFDFFFFF);
+    _InterlockedExchangeAdd(p_m_query_end_guard, 0xFFFFFFFF);
+    vostok::resources::resources_manager::push_generated_resource_to_save(
+      this,
+      (vostok::threading::mutex *)&this->m_flags);
   }
   else
   {
-    v9 = *(_DWORD *)(a2 + 260);
-    if ( v9 == 2 || v9 == 5 )
+    m_create_resource_result = this->m_create_resource_result;
+    if ( m_create_resource_result == result_need_async
+      || m_create_resource_result == (result_cannot_lock|result_success) )
     {
-      if ( !_InterlockedExchangeAdd(v5, 0xFFFFFFFF) )
-        vostok::resources::query_result::end_query_might_destroy_this_impl(v6);
+      vostok::resources::query_result::end_query_might_destroy_this(v4, (int)this);
     }
     else
     {
-      vostok::resources::query_result::do_create_resource_end_part(v6, a2);
-      if ( _InterlockedExchangeAdd(v5, 0xFFFFFFFF)
-        || (vostok::resources::query_result::end_query_might_destroy_this_impl(v10), debug_macro_helper_ignore_always_20) )
+      vostok::resources::query_result::do_create_resource_end_part(
+        v4,
+        (vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)this);
+      if ( !vostok::resources::query_result::end_query_might_destroy_this(v6, (int)this)
+        || debug_macro_helper_ignore_always_31 )
       {
-        vostok::resources::query_result::try_push_created_resource_to_manager_might_destroy_this(v10);
+        vostok::resources::query_result::try_push_created_resource_to_manager_might_destroy_this(v7, (int)this);
       }
       else
       {
-        v11 = occurances_left_20;
+        v8 = occurances_left_20;
         if ( occurances_left_20 == -1 )
-          v11 = 10;
-        occurances_left_20 = v11 - 1;
-        if ( v11 )
+          v8 = 10;
+        occurances_left_20 = v8 - 1;
+        if ( v8 )
         {
-          LOBYTE(out_finished_create) = 0;
+          do_debug_break = 0;
           vostok::debug::on_error(
-            (unsigned int)v3,
-            (bool *)&out_finished_create,
+            &do_debug_break,
             process_error_false,
-            &debug_macro_helper_ignore_always_20,
-            assert_untyped,
-            "assertion_failed",
-            (const char *)&stru_95AF78.m_key_bindings[6],
+            (bool *)"false",
             ".\\resources_query_result_cook.cpp",
             "vostok::resources::query_result::do_create_resource",
-            0xF5u);
-          if ( vostok::debug::is_debugger_present() || (_BYTE)out_finished_create )
+            (const char *)0xF5);
+          if ( vostok::debug::is_debugger_present() || do_debug_break )
             __debugbreak();
         }
       }

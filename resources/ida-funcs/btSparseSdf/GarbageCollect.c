@@ -1,54 +1,43 @@
-void __thiscall btSparseSdf<3>::GarbageCollect(btSparseSdf<3> *this, _DWORD *lifetime)
+void __usercall btSparseSdf<3>::GarbageCollect(btSparseSdf<3> *this@<ecx>, _DWORD *a2@<esi>)
 {
-  int v3; // edx
-  int v4; // ecx
-  bool v5; // cc
-  _DWORD **v6; // ebp
-  _DWORD *v7; // eax
-  _DWORD *v8; // esi
-  _DWORD *v9; // edi
-  int life; // [esp+4h] [ebp-4h]
-  int i; // [esp+Ch] [ebp+4h]
+  int v2; // ecx
+  _DWORD **v3; // edi
+  _DWORD *v4; // eax
+  _DWORD *v5; // ebx
+  int i; // [esp+0h] [ebp-Ch]
+  _DWORD *v7; // [esp+4h] [ebp-8h]
+  int v8; // [esp+8h] [ebp-4h]
 
-  v3 = 0;
-  v4 = lifetime[6] - 256;
-  v5 = lifetime[1] <= 0;
-  life = v4;
-  i = 0;
-  if ( !v5 )
+  v8 = 0;
+  v2 = a2[6] - 256;
+  for ( i = v2; v8 < a2[1]; ++v8 )
   {
-    do
+    v7 = 0;
+    v3 = (_DWORD **)(a2[3] + 4 * v8);
+    v4 = *v3;
+    if ( *v3 )
     {
-      v6 = (_DWORD **)(lifetime[3] + 4 * v3);
-      v7 = *v6;
-      v8 = 0;
-      if ( *v6 )
+      do
       {
-        do
+        v5 = (_DWORD *)v4[70];
+        if ( v4[67] < v2 )
         {
-          v9 = (_DWORD *)v7[70];
-          if ( v7[67] < v4 )
-          {
-            if ( v8 )
-              v8[70] = v9;
-            else
-              *v6 = v9;
-            operator delete(v7);
-            v4 = life;
-            --lifetime[7];
-            v7 = v8;
-          }
-          v8 = v7;
-          v7 = v9;
+          if ( v7 )
+            v7[70] = v5;
+          else
+            *v3 = v5;
+          operator delete(v4);
+          v4 = v7;
+          --a2[7];
+          v2 = i;
         }
-        while ( v9 );
-        v3 = i;
+        v7 = v4;
+        v4 = v5;
       }
-      i = ++v3;
+      while ( v5 );
     }
-    while ( v3 < lifetime[1] );
   }
-  ++lifetime[6];
-  lifetime[9] = 1;
-  lifetime[8] = 1;
+  ++a2[6];
+  a2[9] = 1;
+  a2[8] = 1;
 }

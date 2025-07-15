@@ -1,145 +1,152 @@
-int __cdecl ssl_get_new_session(ssl_st *s, int session)
+int __usercall ssl_get_new_session@<eax>(int a1@<ebx>, ssl_st *s, int session)
 {
-  int (__cdecl *v2)(const ssl_st *, unsigned __int8 *, unsigned int *); // ebp
-  ssl_session_st *v3; // esi
+  int (__cdecl *v3)(const ssl_st *, const __m128i *, unsigned int *); // ebp
+  ssl_session_st *v4; // esi
+  int session_id; // ebx
   int session_timeout; // eax
   int version; // eax
   int (__cdecl *generate_session_id)(const ssl_st *, unsigned __int8 *, unsigned int *); // eax
   unsigned int session_id_length; // eax
-  char *v9; // eax
-  unsigned __int8 *v10; // eax
-  unsigned __int8 *v11; // eax
-  int v12; // edx
+  char *v11; // eax
+  unsigned __int8 *v12; // eax
+  unsigned __int8 *v13; // eax
+  int v14; // edx
+  int v15; // [esp-8h] [ebp-18h]
   unsigned int id_len; // [esp+Ch] [ebp-4h] BYREF
 
-  v2 = def_generate_session_id;
-  v3 = SSL_SESSION_new();
-  if ( !v3 )
+  v3 = def_generate_session_id;
+  v4 = SSL_SESSION_new(a1);
+  session_id = 0;
+  if ( !v4 )
     return 0;
   session_timeout = s->initial_ctx->session_timeout;
   if ( !session_timeout )
     session_timeout = SSL_get_default_timeout(s);
-  v3->timeout = session_timeout;
+  v4->timeout = session_timeout;
   if ( s->session )
   {
-    SSL_SESSION_free((unsigned int)s, s->session);
+    SSL_SESSION_free((int)s, 0, s->session);
     s->session = 0;
   }
   if ( !session )
   {
-    v3->session_id_length = 0;
-    goto LABEL_52;
+    v4->session_id_length = 0;
+    goto LABEL_53;
   }
   version = s->version;
   if ( s->version == 2 )
   {
-    v3->ssl_version = 2;
-    v3->session_id_length = 16;
+    v4->ssl_version = 2;
+    v4->session_id_length = 16;
   }
   else
   {
     switch ( version )
     {
       case 768:
-        v3->ssl_version = 768;
+        v4->ssl_version = 768;
         break;
       case 769:
-        v3->ssl_version = 769;
+        v4->ssl_version = 769;
         break;
       case 256:
-        v3->ssl_version = 256;
+        v4->ssl_version = 256;
         break;
       case 65279:
-        v3->ssl_version = 65279;
+        v4->ssl_version = 65279;
         break;
       default:
-        ERR_put_error(0x14u, 181, 259, ".\\ssl\\ssl_sess.c", 315);
-        goto LABEL_54;
+        ERR_put_error(0, 0x14u, 181, 259, ".\\ssl\\ssl_sess.c", 315);
+        goto LABEL_56;
     }
-    v3->session_id_length = 32;
+    v4->session_id_length = 32;
   }
-  if ( !s->tlsext_ticket_expected )
+  if ( s->tlsext_ticket_expected )
   {
-    CRYPTO_lock((unsigned int)s, 5, 12, ".\\ssl\\ssl_sess.c", 328);
-    generate_session_id = s->generate_session_id;
-    if ( generate_session_id || (generate_session_id = s->initial_ctx->generate_session_id) != 0 )
-      v2 = generate_session_id;
-    CRYPTO_lock((unsigned int)s, 6, 12, ".\\ssl\\ssl_sess.c", 333);
-    id_len = v3->session_id_length;
-    if ( v2(s, v3->session_id, &id_len) )
-    {
-      if ( !id_len || (session_id_length = v3->session_id_length, id_len > session_id_length) )
-      {
-        ERR_put_error(0x14u, 181, 303, ".\\ssl\\ssl_sess.c", 350);
-        goto LABEL_54;
-      }
-      if ( id_len < session_id_length && s->version == 2 )
-        memset((int)&v3->session_id[id_len], 0, session_id_length - id_len);
-      else
-        v3->session_id_length = id_len;
-      if ( !SSL_has_matching_session_id(s, v3->session_id, v3->session_id_length) )
-        goto sess_id_done;
-      ERR_put_error(0x14u, 181, 302, ".\\ssl\\ssl_sess.c", 364);
-    }
-    else
-    {
-      ERR_put_error(0x14u, 181, 301, ".\\ssl\\ssl_sess.c", 340);
-    }
-LABEL_54:
-    SSL_SESSION_free((unsigned int)s, v3);
+    v4->session_id_length = 0;
+    goto sess_id_done;
+  }
+  CRYPTO_lock((int)s, 0, 5, 12, ".\\ssl\\ssl_sess.c", 328);
+  generate_session_id = s->generate_session_id;
+  if ( generate_session_id || (generate_session_id = s->initial_ctx->generate_session_id) != 0 )
+    v3 = (int (__cdecl *)(const ssl_st *, const __m128i *, unsigned int *))generate_session_id;
+  CRYPTO_lock((int)s, 0, 6, 12, ".\\ssl\\ssl_sess.c", 333);
+  session_id = (int)v4->session_id;
+  id_len = v4->session_id_length;
+  if ( !v3(s, (const __m128i *)v4->session_id, &id_len) )
+  {
+    ERR_put_error(session_id, 0x14u, 181, 301, ".\\ssl\\ssl_sess.c", 340);
+LABEL_56:
+    SSL_SESSION_free((int)s, session_id, v4);
     return 0;
   }
-  v3->session_id_length = 0;
+  if ( !id_len || (session_id_length = v4->session_id_length, id_len > session_id_length) )
+  {
+    ERR_put_error(session_id, 0x14u, 181, 303, ".\\ssl\\ssl_sess.c", 350);
+    goto LABEL_56;
+  }
+  if ( id_len < session_id_length && s->version == 2 )
+    memset((int)&v4->session_id[id_len], 0, session_id_length - id_len);
+  else
+    v4->session_id_length = id_len;
+  if ( SSL_has_matching_session_id(session_id, s, (const __m128i *)v4->session_id, v4->session_id_length) )
+  {
+    ERR_put_error(session_id, 0x14u, 181, 302, ".\\ssl\\ssl_sess.c", 364);
+    goto LABEL_56;
+  }
+  session_id = 0;
 sess_id_done:
   if ( s->tlsext_hostname )
   {
-    v9 = BUF_strdup(s->tlsext_hostname);
-    v3->tlsext_hostname = v9;
-    if ( !v9 )
+    v11 = BUF_strdup(s->tlsext_hostname);
+    v4->tlsext_hostname = v11;
+    if ( !v11 )
     {
-      ERR_put_error(0x14u, 181, 68, ".\\ssl\\ssl_sess.c", 373);
-      goto LABEL_54;
+      v15 = 373;
+LABEL_55:
+      ERR_put_error(0, 0x14u, 181, 68, ".\\ssl\\ssl_sess.c", v15);
+      goto LABEL_56;
     }
   }
   if ( s->tlsext_ecpointformatlist )
   {
-    if ( v3->tlsext_ecpointformatlist )
-      CRYPTO_free(v3->tlsext_ecpointformatlist);
-    v10 = (unsigned __int8 *)CRYPTO_malloc(s->tlsext_ecpointformatlist_length, ".\\ssl\\ssl_sess.c", 382);
-    v3->tlsext_ecpointformatlist = v10;
-    if ( !v10 )
+    if ( v4->tlsext_ecpointformatlist )
+      CRYPTO_free(v4->tlsext_ecpointformatlist);
+    v12 = (unsigned __int8 *)CRYPTO_malloc(s->tlsext_ecpointformatlist_length, ".\\ssl\\ssl_sess.c", 382);
+    v4->tlsext_ecpointformatlist = v12;
+    if ( !v12 )
     {
-      ERR_put_error(0x14u, 181, 65, ".\\ssl\\ssl_sess.c", 384);
-      goto LABEL_54;
+      ERR_put_error(0, 0x14u, 181, 65, ".\\ssl\\ssl_sess.c", 384);
+      goto LABEL_56;
     }
-    v3->tlsext_ecpointformatlist_length = s->tlsext_ecpointformatlist_length;
-    memcpy(v10, s->tlsext_ecpointformatlist, s->tlsext_ecpointformatlist_length);
+    v4->tlsext_ecpointformatlist_length = s->tlsext_ecpointformatlist_length;
+    memcpy((int)v12, (const __m128i *)s->tlsext_ecpointformatlist, s->tlsext_ecpointformatlist_length);
   }
   if ( s->tlsext_ellipticcurvelist )
   {
-    if ( v3->tlsext_ellipticcurvelist )
-      CRYPTO_free(v3->tlsext_ellipticcurvelist);
-    v11 = (unsigned __int8 *)CRYPTO_malloc(s->tlsext_ellipticcurvelist_length, ".\\ssl\\ssl_sess.c", 394);
-    v3->tlsext_ellipticcurvelist = v11;
-    if ( !v11 )
+    if ( v4->tlsext_ellipticcurvelist )
+      CRYPTO_free(v4->tlsext_ellipticcurvelist);
+    v13 = (unsigned __int8 *)CRYPTO_malloc(s->tlsext_ellipticcurvelist_length, ".\\ssl\\ssl_sess.c", 394);
+    v4->tlsext_ellipticcurvelist = v13;
+    if ( !v13 )
     {
-      ERR_put_error(0x14u, 181, 65, ".\\ssl\\ssl_sess.c", 396);
-      goto LABEL_54;
+      ERR_put_error(0, 0x14u, 181, 65, ".\\ssl\\ssl_sess.c", 396);
+      goto LABEL_56;
     }
-    v3->tlsext_ellipticcurvelist_length = s->tlsext_ellipticcurvelist_length;
-    memcpy(v11, s->tlsext_ellipticcurvelist, s->tlsext_ellipticcurvelist_length);
+    v4->tlsext_ellipticcurvelist_length = s->tlsext_ellipticcurvelist_length;
+    memcpy((int)v13, (const __m128i *)s->tlsext_ellipticcurvelist, s->tlsext_ellipticcurvelist_length);
   }
-LABEL_52:
+LABEL_53:
   if ( s->sid_ctx_length > 0x20 )
   {
-    ERR_put_error(0x14u, 181, 68, ".\\ssl\\ssl_sess.c", 413);
-    goto LABEL_54;
+    v15 = 413;
+    goto LABEL_55;
   }
-  memcpy(v3->sid_ctx, s->sid_ctx, s->sid_ctx_length);
-  v3->sid_ctx_length = s->sid_ctx_length;
-  v12 = s->version;
-  s->session = v3;
-  v3->verify_result = 0;
-  v3->ssl_version = v12;
+  memcpy((int)v4->sid_ctx, (const __m128i *)s->sid_ctx, s->sid_ctx_length);
+  v4->sid_ctx_length = s->sid_ctx_length;
+  v14 = s->version;
+  s->session = v4;
+  v4->verify_result = 0;
+  v4->ssl_version = v14;
   return 1;
 }

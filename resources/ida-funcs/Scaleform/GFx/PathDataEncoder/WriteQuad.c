@@ -90,15 +90,15 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> *v89; // ecx
   int v90; // ebx
   Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> *v91; // ecx
-  int maxV; // [esp+10h] [ebp-8h]
-  int maxVa; // [esp+10h] [ebp-8h]
+  int v92; // [esp+10h] [ebp-8h]
+  Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> *v93; // [esp+10h] [ebp-8h]
 
   v5 = cx;
   v7 = cy;
   v8 = cy <= cx;
   v9 = cx;
   v10 = cx;
-  maxV = cx;
+  v92 = cx;
   if ( cy < cx )
   {
     v9 = cy;
@@ -107,19 +107,19 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   if ( !v8 )
   {
     v10 = cy;
-    maxV = cy;
+    v92 = cy;
   }
   v11 = ax;
   if ( ax < v9 )
     cx = ax;
   if ( ax > v10 )
-    maxV = ax;
+    v92 = ax;
   v12 = ay;
   if ( ay >= cx )
     v12 = cx;
   v13 = ay;
-  if ( ay <= maxV )
-    v13 = maxV;
+  if ( ay <= v92 )
+    v13 = v92;
   if ( v12 < -16 || v13 > 15 )
   {
     if ( v12 < -64 || v13 > 63 )
@@ -137,53 +137,53 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
                 LOBYTE(cx) = (16 * v5) | 0xF;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 Data = this->Data;
                 LOBYTE(cx) = v5 >> 4;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   Data,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 v84 = this->Data;
                 LOBYTE(cx) = ((_BYTE)cy << 7) | (v5 >> 12) & 0x7F;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v84,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 v85 = cy;
                 LOBYTE(cy) = cy >> 1;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v86 = this->Data;
                 LOBYTE(cy) = v85 >> 9;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v86,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v87 = this->Data;
                 cy = (v85 >> 17) & 0xFFFFFF03;
                 v88 = ax;
                 LOBYTE(cy) = (4 * ax) | cy;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v87,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 LOBYTE(cy) = v88 >> 6;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v89 = this->Data;
                 LOBYTE(cy) = (32 * ay) | (v88 >> 14) & 0x1F;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v89,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v90 = ay;
                 v91 = this->Data;
                 LOBYTE(ay) = ay >> 3;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v91,
-                  (const unsigned __int8 *)&ay);
+                  (unsigned __int8 *)&ay);
                 LOBYTE(ay) = v90 >> 11;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&ay);
+                  (unsigned __int8 *)&ay);
                 return 10;
               }
               else
@@ -192,49 +192,49 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
                 LOBYTE(cx) = (16 * v5) | 0xE;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v73,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 LOBYTE(cx) = v5 >> 4;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 v74 = this->Data;
                 LOBYTE(cx) = (32 * cy) | (v5 >> 12) & 0x1F;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v74,
-                  (const unsigned __int8 *)&cx);
+                  (unsigned __int8 *)&cx);
                 v75 = cy;
                 v76 = this->Data;
                 LOBYTE(cy) = cy >> 3;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v76,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 cy = (v75 >> 11) & 0xFFFFFF3F;
                 v77 = ax;
                 v78 = this->Data;
                 LOBYTE(cy) = ((_BYTE)ax << 6) | cy;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v78,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v79 = this->Data;
                 LOBYTE(cy) = v77 >> 2;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v79,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v80 = this->Data;
                 LOBYTE(cy) = ((_BYTE)ay << 7) | (v77 >> 10) & 0x7F;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v80,
-                  (const unsigned __int8 *)&cy);
+                  (unsigned __int8 *)&cy);
                 v81 = ay;
                 LOBYTE(ay) = ay >> 1;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   this->Data,
-                  (const unsigned __int8 *)&ay);
+                  (unsigned __int8 *)&ay);
                 v82 = this->Data;
                 LOBYTE(ay) = v81 >> 9;
                 Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                   v82,
-                  (const unsigned __int8 *)&ay);
+                  (unsigned __int8 *)&ay);
                 return 9;
               }
             }
@@ -244,44 +244,44 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
               LOBYTE(cx) = (16 * v5) | 0xD;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v64,
-                (const unsigned __int8 *)&cx);
+                (unsigned __int8 *)&cx);
               LOBYTE(cx) = v5 >> 4;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 this->Data,
-                (const unsigned __int8 *)&cx);
+                (unsigned __int8 *)&cx);
               v65 = this->Data;
               LOBYTE(cx) = (8 * cy) | (v5 >> 12) & 7;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v65,
-                (const unsigned __int8 *)&cx);
+                (unsigned __int8 *)&cx);
               v66 = cy;
               v67 = this->Data;
               LOBYTE(cy) = cy >> 5;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v67,
-                (const unsigned __int8 *)&cy);
+                (unsigned __int8 *)&cy);
               cy = (v66 >> 13) & 0xFFFFFF03;
               v68 = ax;
               v69 = this->Data;
               LOBYTE(cy) = (4 * ax) | cy;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v69,
-                (const unsigned __int8 *)&cy);
+                (unsigned __int8 *)&cy);
               v70 = this->Data;
               LOBYTE(cy) = v68 >> 6;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v70,
-                (const unsigned __int8 *)&cy);
+                (unsigned __int8 *)&cy);
               v71 = this->Data;
               LOBYTE(cy) = (2 * ay) | (v68 >> 14) & 1;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v71,
-                (const unsigned __int8 *)&cy);
+                (unsigned __int8 *)&cy);
               v72 = this->Data;
               LOBYTE(ay) = ay >> 7;
               Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
                 v72,
-                (const unsigned __int8 *)&ay);
+                (unsigned __int8 *)&ay);
               return 8;
             }
           }
@@ -291,38 +291,38 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
             LOBYTE(cx) = (16 * v5) | 0xC;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v56,
-              (const unsigned __int8 *)&cx);
+              (unsigned __int8 *)&cx);
             v57 = this->Data;
             LOBYTE(cx) = v5 >> 4;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v57,
-              (const unsigned __int8 *)&cx);
+              (unsigned __int8 *)&cx);
             v58 = this->Data;
             LOBYTE(cx) = (2 * cy) | (v5 >> 12) & 1;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v58,
-              (const unsigned __int8 *)&cx);
+              (unsigned __int8 *)&cx);
             v59 = ax;
             v60 = this->Data;
             LOBYTE(cy) = ((_BYTE)ax << 6) | (cy >> 7) & 0x3F;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v60,
-              (const unsigned __int8 *)&cy);
+              (unsigned __int8 *)&cy);
             v61 = this->Data;
             LOBYTE(cy) = v59 >> 2;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v61,
-              (const unsigned __int8 *)&cy);
+              (unsigned __int8 *)&cy);
             v62 = this->Data;
             LOBYTE(cy) = (8 * ay) | (v59 >> 10) & 7;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v62,
-              (const unsigned __int8 *)&cy);
+              (unsigned __int8 *)&cy);
             v63 = this->Data;
             LOBYTE(ay) = ay >> 5;
             Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
               v63,
-              (const unsigned __int8 *)&ay);
+              (unsigned __int8 *)&ay);
             return 7;
           }
         }
@@ -332,34 +332,34 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
           LOBYTE(cx) = (16 * v5) | 0xB;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             v49,
-            (const unsigned __int8 *)&cx);
+            (unsigned __int8 *)&cx);
           v50 = this->Data;
           LOBYTE(cx) = ((_BYTE)cy << 7) | (v5 >> 4) & 0x7F;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             v50,
-            (const unsigned __int8 *)&cx);
+            (unsigned __int8 *)&cx);
           v51 = cy;
           LOBYTE(cy) = cy >> 1;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             this->Data,
-            (const unsigned __int8 *)&cy);
+            (unsigned __int8 *)&cy);
           cy = (v51 >> 9) & 0xFFFFFF03;
           v52 = ax;
           v53 = this->Data;
           LOBYTE(cy) = (4 * ax) | cy;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             v53,
-            (const unsigned __int8 *)&cy);
+            (unsigned __int8 *)&cy);
           v54 = this->Data;
           LOBYTE(cy) = (32 * ay) | (v52 >> 6) & 0x1F;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             v54,
-            (const unsigned __int8 *)&cy);
+            (unsigned __int8 *)&cy);
           v55 = this->Data;
           LOBYTE(ay) = ay >> 3;
           Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
             v55,
-            (const unsigned __int8 *)&ay);
+            (unsigned __int8 *)&ay);
           return 6;
         }
       }
@@ -369,28 +369,28 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
         LOBYTE(cx) = (16 * v5) | 0xA;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v43,
-          (const unsigned __int8 *)&cx);
+          (unsigned __int8 *)&cx);
         v44 = this->Data;
         LOBYTE(cx) = (32 * cy) | (v5 >> 4) & 0x1F;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v44,
-          (const unsigned __int8 *)&cx);
+          (unsigned __int8 *)&cx);
         v45 = ax;
         v46 = this->Data;
         LOBYTE(cy) = ((_BYTE)ax << 6) | (cy >> 3) & 0x3F;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v46,
-          (const unsigned __int8 *)&cy);
+          (unsigned __int8 *)&cy);
         v47 = this->Data;
         LOBYTE(cy) = ((_BYTE)ay << 7) | (v45 >> 2) & 0x7F;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v47,
-          (const unsigned __int8 *)&cy);
+          (unsigned __int8 *)&cy);
         v48 = this->Data;
         LOBYTE(ay) = ay >> 1;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v48,
-          (const unsigned __int8 *)&ay);
+          (unsigned __int8 *)&ay);
         return 5;
       }
     }
@@ -457,7 +457,7 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
     v14 = this->Data;
     v15 = this->Data->Size >> 12;
     LOBYTE(cx) = (16 * v5) | 8;
-    maxVa = (int)v14;
+    v93 = v14;
     if ( v15 >= v14->NumPages )
     {
       Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::allocatePage(
@@ -471,7 +471,7 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
     v18 = Pages[v15];
     cy = v11;
     v18[v17 & 0xFFF] = cx;
-    ++*(_DWORD *)(maxVa + 4);
+    ++v93->Size;
     v19 = cy;
     v20 = this->Data;
     v21 = this->Data->Size >> 12;

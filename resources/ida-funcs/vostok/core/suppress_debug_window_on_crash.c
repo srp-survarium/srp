@@ -1,23 +1,22 @@
-bool __cdecl vostok::core::suppress_debug_window_on_crash()
+bool __thiscall vostok::core::suppress_debug_window_on_crash(vostok::command_line::key *this)
 {
-  unsigned int is_set; // eax
-  bool result; // al
+  unsigned int v1; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *command_line; // eax
 
-  is_set = s_out_result_0;
-  if ( s_out_result_0 != -1 )
-    return is_set != 0;
-  if ( !s_command_line_initialized )
+  v1 = s_out_result_0;
+  if ( s_out_result_0 == -1 )
   {
-    is_set = vostok::command_line::key_is_set("suppress_debug_window_on_crash");
-    s_out_result_0 = (unsigned __int8)is_set;
-    return is_set != 0;
+    if ( s_command_line_initialized )
+    {
+      LOBYTE(v1) = vostok::command_line::key::is_set(this, (int)&s_suppress_debug_window_on_crash);
+    }
+    else
+    {
+      command_line = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)vostok::core::get_command_line();
+      LOBYTE(v1) = vostok::command_line::key_is_set_impl(command_line, "suppress_debug_window_on_crash");
+    }
+    v1 = (unsigned __int8)v1;
+    s_out_result_0 = (unsigned __int8)v1;
   }
-  if ( s_suppress_debug_window_on_crash.m_type == type_unset )
-  {
-    s_suppress_debug_window_on_crash.m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-  }
-  result = s_suppress_debug_window_on_crash.m_type != type_recursive;
-  s_out_result_0 = s_suppress_debug_window_on_crash.m_type != type_recursive;
-  return result;
+  return v1 != 0;
 }

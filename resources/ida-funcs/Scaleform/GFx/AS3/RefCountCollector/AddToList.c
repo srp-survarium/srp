@@ -11,6 +11,6 @@ void __thiscall Scaleform::GFx::AS3::RefCountCollector<328>::AddToList(
     this->pLastPtr->pNext->pPrev = pchild;
     this->pLastPtr->pNext = pchild;
     this->pLastPtr = pchild;
-    pchild->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
+    pchild->RefCount |= 0x1000000u;
   }
 }

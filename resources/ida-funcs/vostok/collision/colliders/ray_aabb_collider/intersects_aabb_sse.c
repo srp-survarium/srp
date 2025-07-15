@@ -1,68 +1,44 @@
-BOOL __userpurge vostok::collision::colliders::ray_aabb_collider::intersects_aabb_sse@<eax>(
-        vostok::collision::colliders::ray_aabb_collider *this@<esi>,
+bool __userpurge vostok::collision::colliders::ray_aabb_collider::intersects_aabb_sse@<al>(
         const vostok::collision::colliders::sse::aabb_a16 *aabb@<eax>,
+        vostok::collision::colliders::ray_aabb_collider *this,
         float *distance)
 {
-  float z; // ecx
-  float v4; // edx
-  float v5; // xmm0_4
-  float v6; // xmm3_4
-  float v7; // xmm0_4
-  float v8; // xmm1_4
+  float x; // xmm1_4
+  float v4; // xmm0_4
+  float y; // xmm1_4
+  float v6; // xmm0_4
+  float v7; // xmm1_4
+  vostok::math::aabb *v8; // ecx
   int v9; // eax
-  int v10; // edi
-  float v11; // xmm0_4
-  float v13; // [esp+8h] [ebp-34h]
-  vostok::math::float3 result; // [esp+Ch] [ebp-30h] BYREF
-  vostok::math::float3 intersection_point; // [esp+18h] [ebp-24h] BYREF
-  vostok::math::aabb bbox; // [esp+24h] [ebp-18h] BYREF
+  float v10; // xmm0_4
+  vostok::math::float3 origin; // [esp+10h] [ebp-30h] BYREF
+  __int64 v13; // [esp+1Ch] [ebp-24h]
+  float z; // [esp+24h] [ebp-1Ch]
+  vostok::math::float3 v15; // [esp+28h] [ebp-18h] BYREF
+  vostok::math::float3 result; // [esp+34h] [ebp-Ch] BYREF
 
-  z = aabb->min.z;
-  v4 = aabb->max.z;
-  *(_QWORD *)&bbox.min.x = *(_QWORD *)&aabb->min.x;
-  *(_QWORD *)&bbox.max.x = *(_QWORD *)&aabb->max.x;
-  v5 = this->m_inverted_direction.z;
-  bbox.min.z = z;
-  bbox.max.z = v4;
-  if ( COERCE_FLOAT(LODWORD(v5) & 0x7FFFFFFF) >= 0.0000099999997 )
-    v6 = *(float *)&clear_value / v5;
-  else
-    v6 = 0.0;
-  if ( COERCE_FLOAT(LODWORD(this->m_inverted_direction.y) & 0x7FFFFFFF) >= 0.0000099999997 )
-    v7 = *(float *)&clear_value / this->m_inverted_direction.y;
-  else
-    v7 = 0.0;
-  if ( COERCE_FLOAT(LODWORD(this->m_inverted_direction.x) & 0x7FFFFFFF) >= 0.0000099999997 )
-    v8 = *(float *)&clear_value / this->m_inverted_direction.x;
-  else
-    v8 = 0.0;
-  result.x = v8;
-  result.y = v7;
-  result.z = v6;
-  v9 = vostok::math::aabb::intersect(
-         (vostok::math::aabb *)&result,
-         &bbox.min,
-         &this->m_origin,
-         (int)&result,
-         &intersection_point);
-  v10 = v9;
+  x = this->m_inverted_direction.x;
+  origin = aabb->min.vostok::math::float3;
+  v13 = *(_QWORD *)&aabb->max.x;
+  z = aabb->max.z;
+  v4 = invert(x);
+  y = this->m_inverted_direction.y;
+  result.x = v4;
+  v6 = invert(y);
+  v7 = this->m_inverted_direction.z;
+  result.y = v6;
+  result.z = invert(v7);
+  v9 = vostok::math::aabb::intersect(v8, &origin, &this->m_origin, &result, &v15);
   if ( v9 )
   {
     if ( v9 == 1 )
-    {
-      v11 = 0.0;
-    }
+      v10 = 0.0;
     else
-    {
-      v13 = sqrtf(
-              (float)((float)((float)(intersection_point.z - this->m_origin.z)
-                            * (float)(intersection_point.z - this->m_origin.z))
-                    + (float)((float)(intersection_point.y - this->m_origin.y)
-                            * (float)(intersection_point.y - this->m_origin.y)))
-            + (float)((float)(intersection_point.x - this->m_origin.x) * (float)(intersection_point.x - this->m_origin.x)));
-      v11 = v13;
-    }
-    *distance = v11;
+      v10 = fsqrt(
+              (float)((float)((float)(v15.z - this->m_origin.z) * (float)(v15.z - this->m_origin.z))
+                    + (float)((float)(v15.y - this->m_origin.y) * (float)(v15.y - this->m_origin.y)))
+            + (float)((float)(v15.x - this->m_origin.x) * (float)(v15.x - this->m_origin.x)));
+    *distance = v10;
   }
-  return v10 != 0;
+  return v9 != 0;
 }

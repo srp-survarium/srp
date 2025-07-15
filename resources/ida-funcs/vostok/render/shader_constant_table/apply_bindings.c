@@ -2,43 +2,57 @@ void __userpurge vostok::render::shader_constant_table::apply_bindings(
         const vostok::render::shader_constant_bindings *bindings@<eax>,
         vostok::render::shader_constant_table *this)
 {
-  vostok::render::shader_constant_binding *M_finish; // ebp
-  vostok::render::shader_constant_binding *i; // esi
-  vostok::render::shader_constant *M_start; // eax
-  vostok::render::shader_constant *v5; // ecx
+  vostok::render::shader_constant_binding *m_begin; // edx
+  vostok::render::shader_constant *v3; // eax
+  vostok::render::shader_constant *v4; // ecx
   vostok::render::shader_constant_source *p_m_source; // edi
   int m_class_id; // ecx
-  int v8; // eax
+  int v7; // eax
+  vostok::render::shader_constant_binding *m_end; // [esp+Ch] [ebp-4h]
 
-  M_finish = bindings->m_bindings._M_impl._M_finish;
-  for ( i = bindings->m_bindings._M_impl._M_start; i != M_finish; ++i )
+  m_begin = bindings->m_bindings.m_begin;
+  m_end = bindings->m_bindings.m_end;
+  if ( bindings->m_bindings.m_begin != m_end )
   {
-    M_start = this->m_table._M_impl._M_start;
-    v5 = this->m_table._M_impl._M_finish;
-    if ( M_start != v5 )
+    do
     {
-      while ( M_start->m_host->m_name.m_pointer.m_object != i->m_name.m_pointer.m_object )
+      v3 = this->m_table.m_begin;
+      v4 = this->m_table.m_end;
+      if ( v3 == v4 )
       {
-        if ( ++M_start == v5 )
-          goto LABEL_11;
+LABEL_5:
+        v3 = 0;
       }
-      p_m_source = &M_start->m_source;
-      if ( !M_start->m_source.m_pointer )
+      else
       {
-        m_class_id = M_start->m_slot.m_class_id;
-        if ( ((m_class_id ^ i->m_class_id) & 0xFF00) == 0 && M_start->m_host->m_type == i->m_type )
+        while ( v3->m_host->m_name.m_pointer.m_object != m_begin->m_name.m_pointer.m_object )
         {
-          v8 = (unsigned __int8)m_class_id
-             + (i->m_source.m_size < (unsigned __int8)m_class_id ? i->m_source.m_size - (unsigned __int8)m_class_id : 0);
-          if ( p_m_source )
+          if ( ++v3 == v4 )
+            goto LABEL_5;
+        }
+      }
+      if ( v3 )
+      {
+        p_m_source = &v3->m_source;
+        if ( !v3->m_source.m_pointer )
+        {
+          m_class_id = v3->m_slot.m_class_id;
+          if ( ((m_class_id ^ m_begin->m_class_id) & 0xFF00) == 0 && v3->m_host->m_type == m_begin->m_type )
           {
-            p_m_source->m_pointer = i->m_source.m_pointer;
-            p_m_source->m_size = v8;
+            v7 = (unsigned __int8)m_class_id
+               + (m_begin->m_source.m_size < (unsigned __int8)m_class_id
+                ? m_begin->m_source.m_size - (unsigned __int8)m_class_id
+                : 0);
+            if ( p_m_source )
+            {
+              p_m_source->m_pointer = m_begin->m_source.m_pointer;
+              p_m_source->m_size = v7;
+            }
           }
         }
       }
+      ++m_begin;
     }
-LABEL_11:
-    ;
+    while ( m_begin != m_end );
   }
 }

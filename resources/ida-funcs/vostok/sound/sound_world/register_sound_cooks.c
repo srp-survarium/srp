@@ -1,101 +1,128 @@
-void __thiscall vostok::sound::sound_world::register_sound_cooks(vostok::sound::sound_world *this)
+void __usercall vostok::sound::sound_world::register_sound_cooks(
+        vostok::sound::sound_world *this@<ecx>,
+        vostok::sound::sound_world *a2@<edi>)
 {
-  if ( (_S5 & 1) == 0 )
+  vostok::buffer_vector<vostok::resources::cook_base *> *v2; // ecx
+  vostok::buffer_vector<vostok::resources::cook_base *> *v3; // ecx
+  vostok::buffer_vector<vostok::resources::cook_base *> *v4; // ecx
+  vostok::buffer_vector<vostok::resources::cook_base *> *v5; // ecx
+  vostok::buffer_vector<vostok::resources::cook_base *> *v6; // ecx
+  vostok::buffer_vector<vostok::resources::cook_base *> *v7; // ecx
+  vostok::sound::sound_world *v8; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v9; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v10; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v11; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v12; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v13; // [esp-4h] [ebp-10h]
+  vostok::buffer_vector<vostok::resources::cook_base *> *v14; // [esp-4h] [ebp-10h]
+  vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> v15; // [esp+0h] [ebp-Ch]
+
+  if ( (_S5_10 & 1) == 0 )
   {
-    _S5 |= 1u;
-    vostok::sound::ogg_source_cook::ogg_source_cook(&s_ogg_source_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_ogg_source_cook__);
+    _S5_10 |= 1u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x102,
+      &s_sound_cll_cook,
+      (vostok::resources::cook_base::reuse_enum)(a2->m_editor_world_user == 0),
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_sound_cll_cook.__vftable = (vostok::sound::sound_collection_cook_vtbl *)&vostok::sound::sound_collection_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_cll_cook__);
+    this = v8;
   }
-  vostok::resources::register_cook(&s_ogg_source_cook);
-  if ( (_S5 & 2) == 0 )
+  vostok::resources::resources_manager::register_cook(
+    &s_sound_cll_cook,
+    (vostok::buffer_vector<vostok::resources::cook_base *> *)this);
+  if ( (_S5_10 & 2) == 0 )
   {
-    _S5 |= 2u;
-    vostok::sound::ogg_sound_cook::ogg_sound_cook(&s_ogg_sound_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_ogg_sound_cook__);
+    _S5_10 |= 2u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x101,
+      &s_composite_sound_cook,
+      (vostok::resources::cook_base::reuse_enum)(a2->m_editor_world_user == 0),
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_composite_sound_cook.__vftable = (vostok::sound::composite_sound_cook_vtbl *)&vostok::sound::composite_sound_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_composite_sound_cook__);
+    v2 = v9;
   }
-  vostok::resources::register_cook(&s_ogg_sound_cook);
-  if ( (_S5 & 4) == 0 )
+  vostok::resources::resources_manager::register_cook(&s_composite_sound_cook, v2);
+  if ( (_S5_10 & 4) == 0 )
   {
-    _S5 |= 4u;
-    vostok::sound::sound_rms_cook::sound_rms_cook(&s_sound_rms_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_rms_cook__);
+    _S5_10 |= 4u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x100,
+      &s_single_sound_cook,
+      (vostok::resources::cook_base::reuse_enum)(a2->m_editor_world_user == 0),
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_single_sound_cook.__vftable = (vostok::sound::single_sound_cook_vtbl *)&vostok::sound::single_sound_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_single_sound_cook__);
+    v3 = v10;
   }
-  vostok::resources::register_cook(&s_sound_rms_cook);
-  if ( (_S5 & 8) == 0 )
+  vostok::resources::resources_manager::register_cook(&s_single_sound_cook, v3);
+  if ( (_S5_10 & 8) == 0 )
   {
-    _S5 |= 8u;
-    vostok::sound::ogg_file_contents_cook::ogg_file_contents_cook(&s_ogg_file_contents_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_ogg_file_contents_cook__);
+    _S5_10 |= 8u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x28,
+      &s_encoded_sound_with_qualities_cook,
+      reuse_true,
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_encoded_sound_with_qualities_cook.__vftable = (vostok::sound::encoded_sound_with_qualities_cook_vtbl *)&vostok::sound::encoded_sound_with_qualities_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_encoded_sound_with_qualities_cook__);
+    v4 = v11;
   }
-  vostok::resources::register_cook(&s_ogg_file_contents_cook);
-  if ( (_S5 & 0x10) == 0 )
+  vostok::resources::resources_manager::register_cook(&s_encoded_sound_with_qualities_cook, v4);
+  if ( (_S5_10 & 0x10) == 0 )
   {
-    _S5 |= 0x10u;
-    vostok::sound::sound_collection_cook::sound_collection_cook(&s_sound_cll_cook, this);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_cll_cook__);
+    _S5_10 |= 0x10u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x29,
+      &s_ogg_encoded_sound_interface_cook,
+      reuse_true,
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_ogg_encoded_sound_interface_cook.__vftable = (vostok::sound::ogg_encoded_sound_interface_cook_vtbl *)&vostok::sound::ogg_encoded_sound_interface_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_ogg_encoded_sound_interface_cook__);
+    v5 = v12;
   }
-  vostok::resources::register_cook(&s_sound_cll_cook);
-  if ( (_S5 & 0x20) == 0 )
+  vostok::resources::resources_manager::register_cook(&s_ogg_encoded_sound_interface_cook, v5);
+  if ( (_S5_10 & 0x20) == 0 )
   {
-    _S5 |= 0x20u;
-    vostok::sound::composite_sound_cook::composite_sound_cook(&s_composite_sound_cook, this);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_composite_sound_cook__);
+    _S5_10 |= 0x20u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x2A,
+      &s_sound_spl_cook,
+      (vostok::resources::cook_base::reuse_enum)(a2->m_editor_world_user == 0),
+      0xFFFFFFFC,
+      0,
+      v15);
+    s_sound_spl_cook.__vftable = (vostok::sound::sound_spl_cook_vtbl *)&vostok::sound::sound_spl_cook::`vftable';
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_spl_cook__);
+    v6 = v13;
   }
-  vostok::resources::register_cook(&s_composite_sound_cook);
-  if ( (_S5 & 0x40) == 0 )
+  vostok::resources::resources_manager::register_cook(&s_sound_spl_cook, v6);
+  if ( (_S5_10 & 0x40) == 0 )
   {
-    _S5 |= 0x40u;
-    vostok::sound::single_sound_cook::single_sound_cook(&s_single_sound_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_single_sound_cook__);
+    _S5_10 |= 0x40u;
+    vostok::resources::translate_query_cook::translate_query_cook(
+      (vostok::resources::translate_query_cook *)0x27,
+      &s_sound_scene_cook,
+      reuse_false,
+      0xFFFFFFFD,
+      0,
+      v15);
+    s_sound_scene_cook.__vftable = (vostok::sound::sound_scene_cook_vtbl *)&vostok::sound::sound_scene_cook::`vftable';
+    s_sound_scene_cook.m_sound_world = a2;
+    atexit((int (__cdecl *)())vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_scene_cook__);
+    v7 = v14;
   }
-  vostok::resources::register_cook(&s_single_sound_cook);
-  if ( (_S5 & 0x80) == 0 )
-  {
-    _S5 |= 0x80u;
-    vostok::sound::encoded_sound_with_qualities_cook::encoded_sound_with_qualities_cook(&s_encoded_sound_with_qualities_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_encoded_sound_with_qualities_cook__);
-  }
-  vostok::resources::register_cook(&s_encoded_sound_with_qualities_cook);
-  if ( (_S5 & 0x100) == 0 )
-  {
-    _S5 |= 0x100u;
-    vostok::sound::ogg_encoded_sound_interface_cook::ogg_encoded_sound_interface_cook(&s_ogg_encoded_sound_interface_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_ogg_encoded_sound_interface_cook__);
-  }
-  vostok::resources::register_cook(&s_ogg_encoded_sound_interface_cook);
-  if ( (_S5 & 0x200) == 0 )
-  {
-    _S5 |= 0x200u;
-    vostok::sound::wav_encoded_sound_interface_cook::wav_encoded_sound_interface_cook(&s_wav_encoded_sound_interface_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_wav_encoded_sound_interface_cook__);
-  }
-  vostok::resources::register_cook(&s_wav_encoded_sound_interface_cook);
-  if ( (_S5 & 0x400) == 0 )
-  {
-    _S5 |= 0x400u;
-    vostok::sound::sound_spl_cook::sound_spl_cook(&s_sound_spl_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_spl_cook__);
-  }
-  vostok::resources::register_cook(&s_sound_spl_cook);
-  if ( (_S5 & 0x800) == 0 )
-  {
-    _S5 |= 0x800u;
-    vostok::sound::panning_lut_cook::panning_lut_cook(&s_panning_lut_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_panning_lut_cook__);
-  }
-  vostok::resources::register_cook(&s_panning_lut_cook);
-  if ( (_S5 & 0x1000) == 0 )
-  {
-    _S5 |= 0x1000u;
-    vostok::sound::sound_scene_cook::sound_scene_cook(&s_sound_scene_cook, this);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_scene_cook__);
-  }
-  if ( (_S5 & 0x2000) == 0 )
-  {
-    _S5 |= 0x2000u;
-    vostok::sound::sound_environment_cook::sound_environment_cook(&s_sound_environment_cook);
-    atexit(vostok::sound::sound_world::register_sound_cooks_::_2_::_dynamic_atexit_destructor_for__s_sound_environment_cook__);
-  }
-  vostok::resources::register_cook(&s_sound_scene_cook);
-  vostok::resources::register_cook(&s_sound_environment_cook);
+  vostok::resources::resources_manager::register_cook(&s_sound_scene_cook, v7);
 }

@@ -1,11 +1,11 @@
 void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
         Scaleform::Render::GradientRamp *this,
-        Scaleform::Render::GradientRecord *records,
+        const Scaleform::Render::GradientRecord *records,
         unsigned int recordCount,
         float gamma)
 {
   unsigned int v4; // edx
-  Scaleform::Render::GradientRecord *p_fakeColor; // eax
+  const Scaleform::Render::GradientRecord *v5; // eax
   unsigned __int8 *p_Red; // edi
   unsigned __int8 Alpha; // cl
   unsigned int v8; // esi
@@ -26,7 +26,7 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
   bool v23; // zf
   int v24; // [esp+3Ch] [ebp-4Ch]
   unsigned __int8 c[4]; // [esp+40h] [ebp-48h] BYREF
-  unsigned int end; // [esp+44h] [ebp-44h]
+  unsigned int v26; // [esp+44h] [ebp-44h]
   Scaleform::Render::GradientRamp *v27; // [esp+48h] [ebp-40h]
   int v28; // [esp+4Ch] [ebp-3Ch]
   int v29; // [esp+50h] [ebp-38h]
@@ -35,26 +35,27 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
   int v32; // [esp+5Ch] [ebp-2Ch]
   unsigned __int8 *v33; // [esp+60h] [ebp-28h]
   int v34; // [esp+64h] [ebp-24h]
-  float gammaInv; // [esp+68h] [ebp-20h]
+  float v35; // [esp+68h] [ebp-20h]
   Scaleform::Render::GradientRamp::ColorType c1; // [esp+6Ch] [ebp-1Ch] BYREF
-  Scaleform::Render::GradientRecord fakeColor; // [esp+74h] [ebp-14h] BYREF
+  char v37; // [esp+74h] [ebp-14h] BYREF
+  int v38; // [esp+78h] [ebp-10h]
   Scaleform::Render::GradientRamp::ColorType c2; // [esp+7Ch] [ebp-Ch] BYREF
 
   v4 = recordCount;
   v27 = this;
-  if ( !recordCount || (p_fakeColor = records) == 0 )
+  if ( !recordCount || (v5 = records) == 0 )
   {
-    fakeColor.Ratio = 0;
-    fakeColor.ColorV.Raw = -16777216;
+    v37 = 0;
+    v38 = -16777216;
     v4 = 1;
-    p_fakeColor = &fakeColor;
+    v5 = (const Scaleform::Render::GradientRecord *)&v37;
   }
-  p_Red = &p_fakeColor->ColorV.Channels.Red;
-  c[0] = p_fakeColor->ColorV.Channels.Red;
-  c[1] = p_fakeColor->ColorV.Channels.Green;
-  c[2] = p_fakeColor->ColorV.Channels.Blue;
-  Alpha = p_fakeColor->ColorV.Channels.Alpha;
-  v33 = &p_fakeColor->ColorV.Channels.Red;
+  p_Red = &v5->ColorV.Channels.Red;
+  c[0] = v5->ColorV.Channels.Red;
+  c[1] = v5->ColorV.Channels.Green;
+  c[2] = v5->ColorV.Channels.Blue;
+  Alpha = v5->ColorV.Channels.Alpha;
+  v33 = &v5->ColorV.Channels.Red;
   c[3] = Alpha;
   if ( v4 <= 1 )
   {
@@ -62,8 +63,8 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
   }
   else
   {
-    v8 = p_fakeColor->Ratio;
-    gammaInv = 1.0 / gamma;
+    v8 = v5->Ratio;
+    v35 = 1.0 / gamma;
     if ( v8 )
     {
       memset32(v27, *(int *)c, v8);
@@ -72,9 +73,9 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
     v33 = (unsigned __int8 *)(v4 - 1);
     do
     {
-      end = p_Red[2];
-      if ( end < v8 )
-        end = v8;
+      v26 = p_Red[2];
+      if ( v26 < v8 )
+        v26 = v8;
       v32 = *p_Red;
       v9 = p_Red[1];
       *(float *)&v32 = (double)v32 / 255.0;
@@ -120,13 +121,13 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
       *(float *)&v32 = *(float *)&v32 * 65535.0 + 0.5;
       v17 = floor(*(float *)&v32);
       v18 = v14 | (v14 << 8);
-      v19 = end - v8;
+      v19 = v26 - v8;
       v32 = (int)v17;
       c2.b = (int)v17;
       c2.a = v18;
       if ( 1.0 == gamma )
       {
-        if ( v8 < end )
+        if ( v8 < v26 )
         {
           v20 = v19 | (v19 << 8);
           v21 = v18 - c1.a;
@@ -151,18 +152,18 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
             v28 += v31;
             v29 += v32;
           }
-          while ( v8 < end );
+          while ( v8 < v26 );
         }
       }
-      else if ( v8 < end )
+      else if ( v8 < v26 )
       {
         ratio = 1;
         do
         {
-          Scaleform::Render::GradientRamp::blendColors(c, &c1, &c2, ratio++, v19, gammaInv);
+          Scaleform::Render::GradientRamp::blendColors(c, &c1, &c2, ratio++, v19, v35);
           *(_DWORD *)&v27->Ramp[4 * v8++] = *(_DWORD *)c;
         }
-        while ( v8 < end );
+        while ( v8 < v26 );
       }
       c[0] = HIBYTE(c2.r);
       p_Red += 8;
@@ -172,7 +173,7 @@ void __thiscall Scaleform::Render::GradientRamp::GradientRamp(
       c[3] = HIBYTE(c2.a);
     }
     while ( !v23 );
-    if ( end < 0x100 )
-      memset32((char *)v27 + 4 * end, *(int *)c, 256 - end);
+    if ( v26 < 0x100 )
+      memset32((char *)v27 + 4 * v26, *(int *)c, 256 - v26);
   }
 }

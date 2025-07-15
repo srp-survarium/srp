@@ -1,79 +1,58 @@
-void __usercall survarium::player::remove(survarium::player *this@<ecx>, int a2@<eax>)
+void __thiscall survarium::player::remove(
+        survarium::player *this,
+        vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy> real_remove)
 {
-  int v3; // edi
-  vostok::resources::unmanaged_resource **v4; // edi
-  void (__thiscall *v5)(int, int, vostok::resources::unmanaged_resource **); // edx
-  vostok::resources::unmanaged_intrusive_base *v6; // ecx
-  vostok::resources::unmanaged_resource *v7; // eax
-  vostok::resources::unmanaged_resource *v8; // eax
-  int v9; // eax
-  survarium::base_network_client *v10; // ecx
-  survarium::player *m_object; // eax
-  vostok::resources::unmanaged_resource *resource; // [esp+10h] [ebp-4h] BYREF
+  survarium::player *v3; // ecx
+  bool v4; // zf
+  survarium::base_network_client *v5; // ecx
+  bool is_player_current; // al
+  survarium::player *v7; // ecx
+  unsigned int v8; // ebx
+  unsigned int i; // edi
+  int v10; // eax
+  unsigned int v11; // ecx
+  int v12; // eax
+  survarium::game_effect *v13; // eax
 
-  *(_BYTE *)(a2 + 283) = 0;
-  if ( !byte_10F80[a2] )
+  survarium::base_player::remove(this, (BOOL)real_remove.m_object);
+  if ( *((_BYTE *)&this->survarium::base_player::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable
+       + (_DWORD)&loc_11437
+       + 1) )
   {
-    v3 = *(_DWORD *)(*(int *)((char *)&dword_10F00 + a2) + 164);
-    Scaleform::RefCountNTSImpl::Release(*(Scaleform::RefCountNTSImpl **)((char *)&dword_10EE4 + a2));
-    *(int *)((char *)&dword_10EE4 + a2) = 0;
-    *(int *)((char *)&dword_10EE8 + a2) = 0;
-    *((_BYTE *)&dword_10EEC + a2) = 0;
-    *(_BYTE *)(v3 + 4) = 1;
+    v4 = LOBYTE(real_remove.m_object) == 0;
+    *((_BYTE *)&this->survarium::base_player::vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::vostok::vfs::vfs_association::__vftable
+    + (_DWORD)&loc_11437
+    + 1) = 0;
+    if ( v4 )
+      return;
+    survarium::player::remove_models_from_scene(v3, (int)this);
+    is_player_current = survarium::base_network_client::is_player_current(
+                          v5,
+                          *(_DWORD *)(*(int *)((char *)&dword_11414 + (_DWORD)this) + 13912),
+                          this->id);
+    survarium::player::render_name(v7, (int)this, is_player_current);
   }
-  if ( byte_10F34[a2] )
+  if ( LOBYTE(real_remove.m_object) )
   {
-    byte_10F34[a2] = 0;
-    survarium::player::remove_models_from_scene(this, a2);
-  }
-  v4 = (vostok::resources::unmanaged_resource **)(a2 + 64);
-  (*(void (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 64) + 32))(*(_DWORD *)(a2 + 64));
-  v5 = *(void (__thiscall **)(int, int, vostok::resources::unmanaged_resource **))(*(_DWORD *)a2 + 124);
-  resource = 0;
-  v5(a2, a2 + 64, &resource);
-  if ( resource )
-  {
-    v6 = (vostok::resources::unmanaged_intrusive_base *)_InterlockedExchangeAdd(
-                                                          &resource->m_reference_count,
-                                                          0xFFFFFFFF);
-    if ( !v6 )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &resource->vostok::resources::unmanaged_intrusive_base,
-        resource);
-  }
-  v7 = *v4;
-  *v4 = 0;
-  if ( v7 )
-  {
-    v6 = &v7->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&v7->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v6, v7);
-  }
-  v8 = *(vostok::resources::unmanaged_resource **)(a2 + 68);
-  *(_DWORD *)(a2 + 68) = 0;
-  if ( v8 )
-  {
-    v6 = &v8->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&v8->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v6, v8);
-  }
-  if ( *(_BYTE *)(a2 + 281) )
-    survarium::player::remove_alive((survarium::player *)v6, a2);
-  if ( !byte_10F80[a2] )
-  {
-    v9 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(int *)((char *)&dword_10F04 + a2) + 952) + 52))(*(_DWORD *)(*(int *)((char *)&dword_10F04 + a2) + 952));
-    survarium::inventory::unload_to_profile(
-      *(survarium::inventory **)(a2 + 8),
-      (survarium::player_profile *)(v9 + 440 * *(unsigned __int8 *)(a2 + 52)),
-      *(const survarium::items_dictionary **)(*(int *)((char *)&dword_10F04 + a2) + 948));
-  }
-  survarium::inventory::remove(*(survarium::inventory **)(a2 + 8));
-  v10 = *(survarium::base_network_client **)(*(int *)((char *)&dword_10F04 + a2) + 952);
-  m_object = v10->m_current_player.m_object;
-  if ( m_object
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr
-    && m_object->id == *(_BYTE *)(a2 + 52) )
-  {
-    survarium::base_network_client::detach_from_player(v10);
+    v8 = *(_DWORD *)(*(int *)((char *)&dword_11414 + (_DWORD)this) + 1328);
+    for ( i = 0; i < v8; ++i )
+    {
+      v10 = *(int *)((char *)&dword_11414 + (_DWORD)this);
+      v11 = *(_DWORD *)(v10 + 13968);
+      v12 = *(_DWORD *)(v10 + 1324);
+      real_remove.m_object = 0;
+      v13 = *(survarium::game_effect **)(v12 + 4 * i);
+      if ( v13 )
+      {
+        ++v13->m_reference_count;
+        real_remove.m_object = v13;
+      }
+      survarium::game_effect_player::remove(
+        &this->m_effect_player,
+        &real_remove,
+        (const survarium::game_effect_transited_to_zero_predicate *)this,
+        v11);
+      vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>::~intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>(&real_remove);
+    }
   }
 }

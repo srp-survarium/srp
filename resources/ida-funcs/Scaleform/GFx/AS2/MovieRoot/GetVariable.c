@@ -1,7 +1,7 @@
 char __thiscall Scaleform::GFx::AS2::MovieRoot::GetVariable(
         Scaleform::GFx::AS2::MovieRoot *this,
-        Scaleform::GFx::ASStringNode *pval,
-        char *ppathToVar)
+        Scaleform::GFx::Value *pval,
+        __m128i *ppathToVar)
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
   unsigned int Size; // edx
@@ -19,9 +19,10 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::GetVariable(
   Scaleform::GFx::AS2::Environment *v18; // esi
   Scaleform::GFx::ASStringNode *v19; // eax
   Scaleform::GFx::ASStringNode *v20; // eax
-  Scaleform::GFx::DoublePrecisionGuard dpg; // [esp+Ch] [ebp-18h] BYREF
-  unsigned int _CurrentState; // [esp+10h] [ebp-14h] BYREF
-  Scaleform::GFx::AS2::Value retVal; // [esp+14h] [ebp-10h] BYREF
+  __int64 v21; // [esp-18h] [ebp-3Ch]
+  unsigned int _CurrentState; // [esp+Ch] [ebp-18h] BYREF
+  unsigned int v23; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::Value value; // [esp+14h] [ebp-10h] BYREF
 
   pMovieImpl = this->pMovieImpl;
   Size = pMovieImpl->MovieLevels.Data.Size;
@@ -36,11 +37,11 @@ char __thiscall Scaleform::GFx::AS2::MovieRoot::GetVariable(
   }
   if ( !Data[v6].pSprite.pObject )
     return 0;
-  v10 = (Scaleform::GFx::Value *)pval;
+  v10 = pval;
   if ( !pval )
     return 0;
-  _controlfp_s(&dpg.fpc, 0, 0);
-  _controlfp_s(&_CurrentState, (unsigned int)&_sbh_sizeHeaderList, 0x30000u);
+  _controlfp_s((int)pval, &_CurrentState, 0, 0);
+  _controlfp_s((int)v10, &v23, (unsigned int)&_sbh_sizeHeaderList, (unsigned int)&loc_30000);
   v11 = this->pMovieImpl;
   v12 = v11->MovieLevels.Data.Size;
   v13 = 0;
@@ -64,29 +65,31 @@ LABEL_12:
   }
   v17 = (int)pObject + 4 * pObject->AvmObjOffset;
   v18 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v17 + 124))(v17);
-  pval = Scaleform::GFx::ASStringManager::CreateStringNode(
-           (Scaleform::GFx::ASStringManager *)v18->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-           ppathToVar);
-  ++pval->RefCount;
-  retVal.T.Type = 0;
-  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v18, (const Scaleform::GFx::ASString *)&pval, &retVal, 0, 0, 0, 0) )
+  HIDWORD(v21) = &value;
+  pval = (Scaleform::GFx::Value *)Scaleform::GFx::ASStringManager::CreateStringNode(
+                                    (Scaleform::GFx::ASStringManager *)v18->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                                    ppathToVar);
+  ++*((_DWORD *)&pval->mValue.BValue + 1);
+  LODWORD(v21) = &pval;
+  value.T.Type = 0;
+  if ( !Scaleform::GFx::AS2::Environment::GetVariable(v18, v21, 0, 0, 0) )
   {
-    if ( retVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&retVal);
-    v20 = pval;
-    --pval->RefCount;
+    if ( value.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&value);
+    v20 = (Scaleform::GFx::ASStringNode *)pval;
+    --*((_DWORD *)&pval->mValue.BValue + 1);
     if ( !v20->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v20);
-    _controlfp_s((unsigned int *)&ppathToVar, dpg.fpc, 0x30000u);
+    _controlfp_s((int)v10, (unsigned int *)&ppathToVar, _CurrentState, (unsigned int)&loc_30000);
     return 0;
   }
-  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this, v18, &retVal, v10);
-  if ( retVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&retVal);
-  v19 = pval;
-  --pval->RefCount;
+  Scaleform::GFx::AS2::MovieRoot::ASValue2Value(this, v18, &value, v10);
+  if ( value.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&value);
+  v19 = (Scaleform::GFx::ASStringNode *)pval;
+  --*((_DWORD *)&pval->mValue.BValue + 1);
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  _controlfp_s((unsigned int *)&ppathToVar, dpg.fpc, 0x30000u);
+  _controlfp_s((int)v10, (unsigned int *)&ppathToVar, _CurrentState, (unsigned int)&loc_30000);
   return 1;
 }

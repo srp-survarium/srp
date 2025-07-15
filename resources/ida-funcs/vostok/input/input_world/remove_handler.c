@@ -2,21 +2,49 @@ void __thiscall vostok::input::input_world::remove_handler(
         vostok::input::input_world *this,
         vostok::input::handler *handler)
 {
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *M_finish; // esi
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v4; // eax
+  unsigned __int8 *M_start; // eax
+  unsigned __int8 *M_finish; // edi
+  int i; // ecx
 
-  M_finish = (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)this->m_handlers._M_impl._M_finish;
-  v4 = stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-         (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)this->m_handlers._M_impl._M_start,
-         M_finish,
-         (const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)&handler);
-  if ( &v4[1] != M_finish )
+  M_start = (unsigned __int8 *)this->m_handlers._M_impl._M_start;
+  M_finish = (unsigned __int8 *)this->m_handlers._M_impl._M_finish;
+  for ( i = (M_finish - M_start) >> 4; i > 0; --i )
   {
-    LOBYTE(handler) = 0;
-    stlp_std::priv::__copy_ptrs<void * *,void * *>(
-      (void **)&v4[1].m_object,
-      (void **)&M_finish->m_object,
-      (void **)&v4->m_object);
+    if ( *(vostok::input::handler **)M_start == handler )
+      goto LABEL_17;
+    M_start += 4;
+    if ( *(vostok::input::handler **)M_start == handler )
+      goto LABEL_17;
+    M_start += 4;
+    if ( *(vostok::input::handler **)M_start == handler )
+      goto LABEL_17;
+    M_start += 4;
+    if ( *(vostok::input::handler **)M_start == handler )
+      goto LABEL_17;
+    M_start += 4;
   }
+  switch ( (M_finish - M_start) >> 2 )
+  {
+    case 1:
+      goto LABEL_15;
+    case 2:
+LABEL_13:
+      if ( *(vostok::input::handler **)M_start == handler )
+        goto LABEL_17;
+      M_start += 4;
+LABEL_15:
+      if ( *(vostok::input::handler **)M_start == handler )
+        goto LABEL_17;
+      break;
+    case 3:
+      if ( *(vostok::input::handler **)M_start == handler )
+        goto LABEL_17;
+      M_start += 4;
+      goto LABEL_13;
+  }
+  M_start = M_finish;
+LABEL_17:
+  if ( M_start + 4 != M_finish )
+    stlp_std::priv::__copy_trivial(M_start + 4, M_finish, M_start);
   --this->m_handlers._M_impl._M_finish;
 }

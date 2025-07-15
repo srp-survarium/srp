@@ -1,7 +1,8 @@
-void __thiscall vostok::particle::particle_emitter_instance::recalc_duration(
-        vostok::particle::particle_emitter_instance *this)
+void __usercall vostok::particle::particle_emitter_instance::recalc_duration(
+        vostok::particle::particle_emitter_instance *this@<ecx>,
+        int a2@<esi>)
 {
-  this->m_current_duration = vostok::particle::calc_duration(
-                               this->m_emitter->m_duration,
-                               this->m_emitter->m_duration_variance);
+  *(float *)(a2 + 544) = vostok::particle::calc_duration(
+                           *(float *)(*(_DWORD *)(a2 + 488) + 352),
+                           *(float *)(*(_DWORD *)(a2 + 488) + 356));
 }

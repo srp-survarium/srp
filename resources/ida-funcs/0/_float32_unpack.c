@@ -1,9 +1,9 @@
-double __fastcall _float32_unpack(int val)
+long double __cdecl _float32_unpack(int val)
 {
-  long double x; // st7
+  double x; // [esp+Ch] [ebp-Ch]
 
-  x = (double)(int)(((unsigned int)&loc_1FFFFE + 1) & val);
+  x = (double)(val & 0x1FFFFF);
   if ( val < 0 )
-    x = -x;
-  return (float)ldexp(x, ((val >> 21) & 0x3FFu) - 788);
+    x = -(double)(val & 0x1FFFFF);
+  return ldexp(x, ((val >> 21) & 0x3FFu) - 788);
 }

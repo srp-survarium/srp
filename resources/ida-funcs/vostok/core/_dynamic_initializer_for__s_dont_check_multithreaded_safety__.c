@@ -1,6 +1,12 @@
-void vostok::core::_dynamic_initializer_for__s_dont_check_multithreaded_safety__()
+void __thiscall vostok::core::_dynamic_initializer_for__s_dont_check_multithreaded_safety__(
+        vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_dont_check_multithreaded_safety);
+  vostok::command_line::key::key(
+    this,
+    &s_dont_check_multithreaded_safety,
+    "dont_check_multithreaded_safety",
+    uri,
+    "threading",
+    "turn off checks of parallel use of code that is not multithreaded",
+    uri);
 }

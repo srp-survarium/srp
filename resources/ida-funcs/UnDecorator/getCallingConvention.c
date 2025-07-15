@@ -8,15 +8,15 @@ DName *__cdecl UnDecorator::getCallingConvention(DName *result)
   unsigned int v6; // eax
   char *v7; // eax
   DName *v8; // eax
-  DName callType; // [esp+0h] [ebp-8h] BYREF
+  DName v9; // [esp+0h] [ebp-8h] BYREF
 
   if ( *UnDecorator::gName )
   {
     v1 = *UnDecorator::gName++ - 65;
     if ( v1 <= 0xC )
     {
-      callType.node = 0;
-      *((_DWORD *)&callType + 1) &= 0xFFFF0000;
+      v9.node = 0;
+      *((_DWORD *)&v9 + 1) &= 0xFFFF0000;
       if ( (~(UnDecorator::disableFlags >> 1) & 1) != 0 )
       {
         v2 = v1 & 0xFFFFFFFE;
@@ -53,11 +53,11 @@ DName *__cdecl UnDecorator::getCallingConvention(DName *result)
         {
           v7 = (char *)UnDecorator::UScore(TOK_cocall);
 LABEL_16:
-          DName::operator=(&callType, v7);
+          DName::operator=(&v9, v7);
         }
       }
       v8 = result;
-      *result = callType;
+      *result = v9;
       return v8;
     }
     DName::DName(result, DN_invalid);

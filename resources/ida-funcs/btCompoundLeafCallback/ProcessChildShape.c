@@ -1,177 +1,246 @@
-void __userpurge btCompoundLeafCallback::ProcessChildShape(
-        btCompoundLeafCallback *this@<esi>,
-        int index@<edi>,
-        btCollisionShape *childShape)
+void __thiscall btCompoundLeafCallback::ProcessChildShape(
+        btCompoundLeafCallback *this,
+        btCollisionShape *childShape,
+        int index,
+        int a4)
 {
-  btCollisionObject *m_compoundColObj; // eax
-  btCollisionShape *m_collisionShape; // edx
-  float *v5; // eax
-  float v6; // xmm2_4
-  float v7; // xmm0_4
-  float v8; // xmm1_4
-  float v9; // xmm4_4
-  float v10; // xmm3_4
-  float v11; // xmm0_4
-  float v12; // xmm5_4
-  float v13; // xmm1_4
-  float v14; // xmm2_4
-  void (__thiscall *getAabb)(btCollisionShape *, const btTransform *, btVector3 *, btVector3 *); // eax
-  __m128i v16; // xmm0
-  char v17; // al
-  btCollisionShape *v18; // ebx
-  btManifoldResult_vtbl *v19; // edx
-  btCollisionAlgorithm *v20; // ecx
-  const btDispatcherInfo *m_dispatchInfo; // eax
-  const btDispatcherInfo *v22; // ecx
-  const btDispatcherInfo *v23; // eax
-  float v24; // [esp+4D8h] [ebp-168h]
-  float v25; // [esp+4DCh] [ebp-164h]
-  __m128i v26; // [esp+4E0h] [ebp-160h] BYREF
-  float v27; // [esp+4F8h] [ebp-148h]
-  float v28; // [esp+4FCh] [ebp-144h]
-  btTransform v29; // [esp+500h] [ebp-140h] BYREF
-  float v30; // [esp+540h] [ebp-100h]
-  float v31; // [esp+544h] [ebp-FCh]
-  float v32; // [esp+548h] [ebp-F8h]
-  float v33; // [esp+54Ch] [ebp-F4h]
-  float v34[4]; // [esp+550h] [ebp-F0h] BYREF
-  __m128i v35; // [esp+560h] [ebp-E0h] BYREF
-  __m128i v36; // [esp+570h] [ebp-D0h] BYREF
-  __m128i v37; // [esp+580h] [ebp-C0h] BYREF
-  float v38[4]; // [esp+590h] [ebp-B0h] BYREF
-  float v39[4]; // [esp+5A0h] [ebp-A0h] BYREF
-  float v40[4]; // [esp+5B0h] [ebp-90h] BYREF
-  btTransform trans; // [esp+5C0h] [ebp-80h] BYREF
-  btTransform worldTrans; // [esp+600h] [ebp-40h] BYREF
+  btCollisionShape_vtbl *v4; // ecx
+  float (__thiscall **p_getContactBreakingThreshold)(btCollisionShape *, float); // eax
+  void (__thiscall *setMargin)(btCollisionShape *, float); // edx
+  int v7; // eax
+  float v8; // xmm2_4
+  float v9; // xmm0_4
+  float v10; // xmm1_4
+  float v11; // xmm3_4
+  float v12; // xmm4_4
+  float v13; // xmm0_4
+  float v14; // xmm3_4
+  float v15; // xmm2_4
+  float v16; // xmm1_4
+  float v17; // xmm5_4
+  float v18; // xmm6_4
+  int v19; // xmm2_4
+  float v20; // xmm2_4
+  char v21; // al
+  int *p_setMargin; // eax
+  int v23; // ecx
+  int v24; // esi
+  bool v25; // zf
+  int v26; // eax
+  btCollisionShape_vtbl *v27; // eax
+  btCollisionShape_vtbl *v28; // eax
+  btCollisionShape_vtbl *v29; // eax
+  const float *v30; // [esp+38h] [ebp-190h]
+  btMatrix3x3 v31; // [esp+48h] [ebp-180h] BYREF
+  btCollisionObject v32; // [esp+78h] [ebp-150h] BYREF
+  _DWORD v33[16]; // [esp+188h] [ebp-40h] BYREF
 
-  m_compoundColObj = this->m_compoundColObj;
-  v29.m_basis.m_el[0].mVec128.m128_u64[0] = this->m_compoundColObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
-  v29.m_basis.m_el[0].mVec128.m128_u64[1] = m_compoundColObj->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-  v29.m_basis.m_el[1] = m_compoundColObj->m_worldTransform.m_basis.m_el[1];
-  v29.m_basis.m_el[2] = m_compoundColObj->m_worldTransform.m_basis.m_el[2];
-  m_collisionShape = m_compoundColObj->m_collisionShape;
-  v29.m_origin = m_compoundColObj->m_worldTransform.m_origin;
-  trans = m_compoundColObj->m_interpolationWorldTransform;
-  v5 = (float *)((char *)m_collisionShape[2].__vftable + 80 * index);
-  v6 = v5[13];
-  v7 = v5[12];
-  v8 = v5[14];
-  *(float *)v26.m128i_i32 = (float)((float)((float)(v7 * v29.m_basis.m_el[0].mVec128.m128_f32[0])
-                                          + (float)(v6 * v29.m_basis.m_el[0].mVec128.m128_f32[1]))
-                                  + (float)(v8 * v29.m_basis.m_el[0].mVec128.m128_f32[2]))
-                          + v29.m_origin.mVec128.m128_f32[0];
-  v9 = v5[6];
-  *(float *)&v26.m128i_i32[2] = (float)((float)((float)(v7 * v29.m_basis.m_el[2].mVec128.m128_f32[0])
-                                              + (float)(v6 * v29.m_basis.m_el[2].mVec128.m128_f32[1]))
-                                      + (float)(v8 * v29.m_basis.m_el[2].mVec128.m128_f32[2]))
-                              + v29.m_origin.mVec128.m128_f32[2];
-  *(float *)&v26.m128i_i32[1] = (float)((float)((float)(v7 * v29.m_basis.m_el[1].mVec128.m128_f32[0])
-                                              + (float)(v6 * v29.m_basis.m_el[1].mVec128.m128_f32[1]))
-                                      + (float)(v8 * v29.m_basis.m_el[1].mVec128.m128_f32[2]))
-                              + v29.m_origin.mVec128.m128_f32[1];
-  v10 = v5[10];
-  v26.m128i_i32[3] = 0;
-  v11 = v5[2];
-  v12 = (float)(v10 * v29.m_basis.m_el[2].mVec128.m128_f32[2]) + (float)(v11 * v29.m_basis.m_el[2].mVec128.m128_f32[0]);
-  v27 = v5[9];
-  v24 = v5[5];
-  v13 = v5[1];
-  v28 = v5[8];
-  v30 = (float)((float)(v27 * v29.m_basis.m_el[2].mVec128.m128_f32[2])
-              + (float)(v13 * v29.m_basis.m_el[2].mVec128.m128_f32[0]))
-      + (float)(v24 * v29.m_basis.m_el[2].mVec128.m128_f32[1]);
-  v25 = v5[4];
-  v14 = *v5;
-  v32 = (float)((float)(v28 * v29.m_basis.m_el[2].mVec128.m128_f32[2])
-              + (float)(*v5 * v29.m_basis.m_el[2].mVec128.m128_f32[0]))
-      + (float)(v25 * v29.m_basis.m_el[2].mVec128.m128_f32[1]);
-  v31 = (float)((float)(v11 * v29.m_basis.m_el[1].mVec128.m128_f32[0])
-              + (float)(v9 * v29.m_basis.m_el[1].mVec128.m128_f32[1]))
-      + (float)(v10 * v29.m_basis.m_el[1].mVec128.m128_f32[2]);
-  v33 = (float)((float)(v13 * v29.m_basis.m_el[1].mVec128.m128_f32[0])
-              + (float)(v24 * v29.m_basis.m_el[1].mVec128.m128_f32[1]))
-      + (float)(v27 * v29.m_basis.m_el[1].mVec128.m128_f32[2]);
-  getAabb = childShape->getAabb;
-  *(float *)&v35.m128i_i32[1] = (float)((float)(v13 * v29.m_basis.m_el[0].mVec128.m128_f32[0])
-                                      + (float)(v24 * v29.m_basis.m_el[0].mVec128.m128_f32[1]))
-                              + (float)(v27 * v29.m_basis.m_el[0].mVec128.m128_f32[2]);
-  *(float *)v36.m128i_i32 = (float)((float)(v14 * v29.m_basis.m_el[1].mVec128.m128_f32[0])
-                                  + (float)(v25 * v29.m_basis.m_el[1].mVec128.m128_f32[1]))
-                          + (float)(v28 * v29.m_basis.m_el[1].mVec128.m128_f32[2]);
-  v35.m128i_i64[1] = COERCE_UNSIGNED_INT(
-                       (float)((float)(v11 * v29.m_basis.m_el[0].mVec128.m128_f32[0])
-                             + (float)(v9 * v29.m_basis.m_el[0].mVec128.m128_f32[1]))
-                     + (float)(v10 * v29.m_basis.m_el[0].mVec128.m128_f32[2]));
-  *(float *)&v36.m128i_i32[1] = v33;
-  v36.m128i_i64[1] = LODWORD(v31);
-  *(float *)v35.m128i_i32 = (float)((float)(v14 * v29.m_basis.m_el[0].mVec128.m128_f32[0])
-                                  + (float)(v25 * v29.m_basis.m_el[0].mVec128.m128_f32[1]))
-                          + (float)(v28 * v29.m_basis.m_el[0].mVec128.m128_f32[2]);
-  worldTrans.m_basis.m_el[0] = (btVector3)_mm_load_si128(&v35);
-  v16 = _mm_load_si128(&v36);
-  *(float *)v37.m128i_i32 = v32;
-  worldTrans.m_basis.m_el[1] = (btVector3)v16;
-  *(float *)&v37.m128i_i32[1] = v30;
-  v37.m128i_i64[1] = COERCE_UNSIGNED_INT(v12 + (float)(v9 * v29.m_basis.m_el[2].mVec128.m128_f32[1]));
-  worldTrans.m_basis.m_el[2] = (btVector3)_mm_load_si128(&v37);
-  worldTrans.m_origin = (btVector3)_mm_load_si128(&v26);
-  getAabb(childShape, &worldTrans, (btVector3 *)v38, (btVector3 *)v40);
-  this->m_otherObj->m_collisionShape->getAabb(
-    this->m_otherObj->m_collisionShape,
-    &this->m_otherObj->m_worldTransform,
-    (btVector3 *)v39,
-    (btVector3 *)v34);
-  v17 = 1;
-  if ( v38[0] > v34[0] || v39[0] > v40[0] )
-    v17 = 0;
-  if ( v38[2] > v34[2] || v39[2] > v40[2] )
-    v17 = 0;
-  if ( v38[1] <= v34[1] && v39[1] <= v40[1] && v17 )
+  v4 = childShape->__vftable;
+  p_getContactBreakingThreshold = &childShape->getContactBreakingThreshold;
+  v32.__vftable = (btCollisionObject_vtbl *)*p_getContactBreakingThreshold;
+  *((_DWORD *)&v32.__vftable + 1) = p_getContactBreakingThreshold[1];
+  *((_DWORD *)&v32.__vftable + 2) = p_getContactBreakingThreshold[2];
+  *((_DWORD *)&v32.__vftable + 3) = p_getContactBreakingThreshold[3];
+  v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0] = *((_QWORD *)p_getContactBreakingThreshold + 2);
+  v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1] = *((_QWORD *)p_getContactBreakingThreshold + 3);
+  v32.m_worldTransform.m_basis.m_el[1] = (btVector3)*((_OWORD *)p_getContactBreakingThreshold + 2);
+  v32.m_worldTransform.m_basis.m_el[2] = (btVector3)*((_OWORD *)p_getContactBreakingThreshold + 3);
+  v33[0] = v4[1].getLocalScaling;
+  v33[1] = v4[1].calculateLocalInertia;
+  v33[2] = v4[1].getName;
+  v33[3] = v4[1].setMargin;
+  v33[4] = v4[1].getMargin;
+  v33[5] = v4[1].calculateSerializeBufferSize;
+  v33[6] = v4[1].serialize;
+  v33[7] = v4[1].serializeSingleShape;
+  setMargin = v4[3].setMargin;
+  v33[8] = v4[2].~btCollisionShape;
+  v33[9] = v4[2].getAabb;
+  v33[10] = v4[2].getBoundingSphere;
+  v33[11] = v4[2].getAngularMotionDisc;
+  v7 = *((_DWORD *)setMargin + 6) + 80 * a4;
+  v8 = *(float *)(v7 + 52);
+  v9 = *(float *)(v7 + 48);
+  v10 = *(float *)(v7 + 56);
+  v33[12] = v4[2].getContactBreakingThreshold;
+  v33[13] = v4[2].setLocalScaling;
+  v31.m_el[1].mVec128.m128_f32[0] = (float)((float)((float)(v9 * *(float *)&v32.__vftable)
+                                                  + (float)(v8 * *((float *)&v32.__vftable + 1)))
+                                          + (float)(v10 * *((float *)&v32.__vftable + 2)))
+                                  + v32.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+  v33[14] = v4[2].getLocalScaling;
+  v11 = (float)((float)((float)(v9 * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0])
+                      + (float)(v8 * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1]))
+              + (float)(v10 * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2]))
+      + v32.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[1];
+  v33[15] = v4[2].calculateLocalInertia;
+  v12 = *(float *)(v7 + 24);
+  v31.m_el[2].mVec128.m128_i32[3] = *(_DWORD *)(v7 + 20);
+  v31.m_el[1].mVec128.m128_f32[2] = (float)((float)((float)(v9 * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0])
+                                                  + (float)(v8 * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1]))
+                                          + (float)(v10 * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2]))
+                                  + v32.m_worldTransform.m_basis.m_el[2].mVec128.m128_f32[2];
+  v31.m_el[1].mVec128.m128_i32[3] = 0;
+  v13 = *(float *)(v7 + 8);
+  v31.m_el[1].mVec128.m128_f32[1] = v11;
+  v14 = *(float *)(v7 + 40);
+  v15 = *(float *)(v7 + 36);
+  v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2] = (float)((float)(v13
+                                                                                        * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0])
+                                                                                + (float)(v12
+                                                                                        * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1]))
+                                                                        + (float)(v14
+                                                                                * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2]);
+  v16 = *(float *)(v7 + 4);
+  v31.m_el[0].mVec128.m128_f32[1] = v15;
+  v17 = *(float *)(v7 + 16);
+  v18 = (float)((float)(v16 * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0])
+              + (float)(v31.m_el[2].mVec128.m128_f32[3] * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1]))
+      + (float)(v15 * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2]);
+  v19 = *(_DWORD *)(v7 + 32);
+  v32.m_worldTransform.m_origin.mVec128.m128_f32[3] = v18;
+  v31.m_el[0].mVec128.m128_f32[0] = v17;
+  v31.m_el[0].mVec128.m128_i32[2] = v19;
+  v20 = *(float *)v7;
+  v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1] = (float)((float)(*(float *)v7
+                                                                                        * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[0])
+                                                                                + (float)(v17
+                                                                                        * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[1]))
+                                                                        + (float)(v31.m_el[0].mVec128.m128_f32[2]
+                                                                                * v32.m_worldTransform.m_basis.m_el[1].mVec128.m128_f32[2]);
+  v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[0] = (float)((float)(v13
+                                                                                        * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0])
+                                                                                + (float)(v12
+                                                                                        * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1]))
+                                                                        + (float)(v14
+                                                                                * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2]);
+  v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[3] = (float)((float)(v16
+                                                                                        * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0])
+                                                                                + (float)(v31.m_el[2].mVec128.m128_f32[3]
+                                                                                        * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1]))
+                                                                        + (float)(v31.m_el[0].mVec128.m128_f32[1]
+                                                                                * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2]);
+  v32.m_worldTransform.m_origin.mVec128.m128_f32[2] = (float)((float)(v20
+                                                                    * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[0])
+                                                            + (float)(v17
+                                                                    * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[1]))
+                                                    + (float)(v31.m_el[0].mVec128.m128_f32[2]
+                                                            * v32.m_worldTransform.m_basis.m_el[0].mVec128.m128_f32[2]);
+  v31.m_el[0].mVec128.m128_f32[3] = (float)((float)(v13 * *(float *)&v32.__vftable)
+                                          + (float)(v12 * *((float *)&v32.__vftable + 1)))
+                                  + (float)(v14 * *((float *)&v32.__vftable + 2));
+  v31.m_el[0].mVec128.m128_f32[1] = (float)((float)(v16 * *(float *)&v32.__vftable)
+                                          + (float)(v31.m_el[2].mVec128.m128_f32[3] * *((float *)&v32.__vftable + 1)))
+                                  + (float)(v31.m_el[0].mVec128.m128_f32[1] * *((float *)&v32.__vftable + 2));
+  v31.m_el[0].mVec128.m128_f32[0] = (float)((float)(v20 * *(float *)&v32.__vftable)
+                                          + (float)(v17 * *((float *)&v32.__vftable + 1)))
+                                  + (float)(v31.m_el[0].mVec128.m128_f32[2] * *((float *)&v32.__vftable + 2));
+  btMatrix3x3::setValue(
+    &v31,
+    (int)&v32.m_companionId,
+    &v31.m_el[0].mVec128.m128_f32[1],
+    &v31.m_el[0].mVec128.m128_f32[3],
+    &v32.m_worldTransform.m_origin.mVec128.m128_f32[2],
+    &v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[3],
+    (float *)&v32.m_interpolationWorldTransform,
+    &v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[1],
+    &v32.m_worldTransform.m_origin.mVec128.m128_f32[3],
+    &v32.m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_f32[2],
+    v30);
+  v32.m_interpolationAngularVelocity = *(btVector3 *)&v32.m_companionId;
+  v32.m_anisotropicFriction = *(btVector3 *)&v32.m_restitution;
+  v32.m_hasAnisotropicFriction = LODWORD(v32.m_ccdSweptSphereRadius);
+  v32.m_contactProcessingThreshold = v32.m_ccdMotionThreshold;
+  v32.m_broadphaseHandle = (btBroadphaseProxy *)v32.m_checkCollideWith;
+  v32.m_collisionShape = (btCollisionShape *)*(&v32.m_checkCollideWith + 1);
+  *(btVector3 *)&v32.m_extensionPointer = v31.m_el[1];
+  (*(void (__thiscall **)(int, btVector3 *, btVector3 *, btVector3 *))(*(_DWORD *)index + 4))(
+    index,
+    &v32.m_interpolationAngularVelocity,
+    &v32.m_interpolationWorldTransform.m_basis.m_el[1],
+    &v32.m_interpolationLinearVelocity);
+  (*(void (__thiscall **)(_DWORD, int, btVector3 *, btVector3 *))(**(_DWORD **)(childShape->m_shapeType + 204) + 4))(
+    *(_DWORD *)(childShape->m_shapeType + 204),
+    childShape->m_shapeType + 16,
+    &v32.m_interpolationWorldTransform.m_basis.m_el[2],
+    &v32.m_interpolationWorldTransform.m_origin);
+  v21 = 1;
+  if ( v32.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[0] > v32.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[0]
+    || v32.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[0] > v32.m_interpolationLinearVelocity.mVec128.m128_f32[0] )
   {
-    btCollisionObject::setWorldTransform(this->m_compoundColObj, &worldTrans);
-    btCollisionObject::setInterpolationWorldTransform(this->m_compoundColObj, &worldTrans);
-    v18 = this->m_compoundColObj->m_collisionShape;
-    this->m_compoundColObj->m_collisionShape = childShape;
-    if ( !this->m_childCollisionAlgorithms[index] )
-      this->m_childCollisionAlgorithms[index] = this->m_dispatcher->findAlgorithm(
-                                                  this->m_dispatcher,
-                                                  this->m_compoundColObj,
-                                                  this->m_otherObj,
-                                                  this->m_sharedManifold);
-    v19 = this->m_resultOut->__vftable;
-    if ( this->m_resultOut->m_body0 == this->m_compoundColObj )
-      ((void (__stdcall *)(int, int))v19->setShapeIdentifiersA)(-1, index);
+    v21 = 0;
+  }
+  if ( v32.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[2] > v32.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[2]
+    || v32.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[2] > v32.m_interpolationLinearVelocity.mVec128.m128_f32[2] )
+  {
+    v21 = 0;
+  }
+  if ( v32.m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] > v32.m_interpolationWorldTransform.m_origin.mVec128.m128_f32[1]
+    || v32.m_interpolationWorldTransform.m_basis.m_el[2].mVec128.m128_f32[1] > v32.m_interpolationLinearVelocity.mVec128.m128_f32[1] )
+  {
+    v21 = 0;
+  }
+  if ( v21 )
+  {
+    btCollisionObject::setWorldTransform(
+      (btCollisionObject *)&v32.m_interpolationAngularVelocity,
+      (btVector3 *)childShape->__vftable);
+    btCollisionObject::setInterpolationWorldTransform(
+      (btCollisionObject *)&v32.m_interpolationAngularVelocity,
+      (btVector3 *)childShape->__vftable);
+    p_setMargin = (int *)&childShape->__vftable[3].setMargin;
+    v23 = *p_setMargin;
+    *p_setMargin = index;
+    v24 = 4 * a4;
+    v25 = *((_DWORD *)childShape[1].m_userPointer + a4) == 0;
+    v31.m_el[0].mVec128.m128_i32[3] = v23;
+    if ( v25 )
+      *(_DWORD *)((char *)childShape[1].m_userPointer + v24) = (*(int (__thiscall **)(void *, btCollisionShape_vtbl *, int, btCollisionShape_vtbl *))(*(_DWORD *)childShape->m_userPointer + 4))(
+                                                                 childShape->m_userPointer,
+                                                                 childShape->__vftable,
+                                                                 childShape->m_shapeType,
+                                                                 childShape[2].__vftable);
+    v26 = *(_DWORD *)childShape[1].m_shapeType;
+    if ( *(btCollisionShape_vtbl **)(childShape[1].m_shapeType + 144) == childShape->__vftable )
+      (*(void (__stdcall **)(int, int))(v26 + 4))(-1, a4);
     else
-      ((void (__stdcall *)(int, int))v19->setShapeIdentifiersB)(-1, index);
-    v20 = this->m_childCollisionAlgorithms[index];
-    v20->processCollision(v20, this->m_compoundColObj, this->m_otherObj, this->m_dispatchInfo, this->m_resultOut);
-    m_dispatchInfo = this->m_dispatchInfo;
-    if ( m_dispatchInfo->m_debugDraw )
+      (*(void (__stdcall **)(int, int))(v26 + 8))(-1, a4);
+    (*(void (__thiscall **)(_DWORD, btCollisionShape_vtbl *, int, btCollisionShape_vtbl *, int))(**(_DWORD **)((char *)childShape[1].m_userPointer + v24)
+                                                                                               + 4))(
+      *(_DWORD *)((char *)childShape[1].m_userPointer + v24),
+      childShape->__vftable,
+      childShape->m_shapeType,
+      childShape[1].__vftable,
+      childShape[1].m_shapeType);
+    v27 = childShape[1].__vftable;
+    if ( v27->setLocalScaling )
     {
-      if ( (m_dispatchInfo->m_debugDraw->getDebugMode(m_dispatchInfo->m_debugDraw) & 2) != 0 )
+      if ( ((*(int (__thiscall **)(void (__thiscall *)(btCollisionShape *, const btVector3 *)))(*(_DWORD *)v27->setLocalScaling
+                                                                                              + 48))(v27->setLocalScaling)
+          & 2) != 0 )
       {
-        v22 = this->m_dispatchInfo;
-        v26.m128i_i32[0] = (int)clear_value;
-        v26.m128i_i32[1] = (int)clear_value;
-        v26.m128i_i64[1] = (unsigned int)clear_value;
-        v22->m_debugDraw->drawAabb(
-          v22->m_debugDraw,
-          (const btVector3 *)v38,
-          (const btVector3 *)v40,
-          (const btVector3 *)&v26);
-        v23 = this->m_dispatchInfo;
-        v26.m128i_i32[0] = (int)clear_value;
-        v26.m128i_i32[1] = (int)clear_value;
-        v26.m128i_i64[1] = (unsigned int)clear_value;
-        v23->m_debugDraw->drawAabb(
-          v23->m_debugDraw,
-          (const btVector3 *)v39,
-          (const btVector3 *)v34,
-          (const btVector3 *)&v26);
+        v28 = childShape[1].__vftable;
+        v31.m_el[1].mVec128.m128_f32[0] = s_bm_current_air_resistance;
+        v31.m_el[1].mVec128.m128_f32[1] = s_bm_current_air_resistance;
+        v31.m_el[1].mVec128.m128_u64[1] = LODWORD(s_bm_current_air_resistance);
+        (*(void (__thiscall **)(void (__thiscall *)(btCollisionShape *, const btVector3 *), btVector3 *, btVector3 *, btVector3 *))(*(_DWORD *)v28->setLocalScaling + 52))(
+          v28->setLocalScaling,
+          &v32.m_interpolationWorldTransform.m_basis.m_el[1],
+          &v32.m_interpolationLinearVelocity,
+          &v31.m_el[1]);
+        v29 = childShape[1].__vftable;
+        v31.m_el[1].mVec128.m128_f32[0] = s_bm_current_air_resistance;
+        v31.m_el[1].mVec128.m128_f32[1] = s_bm_current_air_resistance;
+        v31.m_el[1].mVec128.m128_u64[1] = LODWORD(s_bm_current_air_resistance);
+        (*(void (__thiscall **)(void (__thiscall *)(btCollisionShape *, const btVector3 *), btVector3 *, btVector3 *, btVector3 *))(*(_DWORD *)v29->setLocalScaling + 52))(
+          v29->setLocalScaling,
+          &v32.m_interpolationWorldTransform.m_basis.m_el[2],
+          &v32.m_interpolationWorldTransform.m_origin,
+          &v31.m_el[1]);
       }
     }
-    this->m_compoundColObj->m_collisionShape = v18;
-    btCollisionObject::setWorldTransform(this->m_compoundColObj, &v29);
-    btCollisionObject::setInterpolationWorldTransform(this->m_compoundColObj, &trans);
+    childShape->__vftable[3].setMargin = (void (__thiscall *)(btCollisionShape *, float))v31.m_el[0].mVec128.m128_i32[3];
+    btCollisionObject::setWorldTransform(&v32, (btVector3 *)childShape->__vftable);
+    btCollisionObject::setInterpolationWorldTransform((btCollisionObject *)v33, (btVector3 *)childShape->__vftable);
   }
 }

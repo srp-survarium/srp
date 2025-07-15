@@ -1,5 +1,4 @@
-vostok::resources::unmanaged_cook *__fastcall vostok::resources::cook_base::find_unmanaged_cook(
-        int a1,
+vostok::resources::unmanaged_cook *__cdecl vostok::resources::cook_base::find_unmanaged_cook(
         vostok::resources::class_id_enum resource_class)
 {
   vostok::resources::unmanaged_cook *result; // eax

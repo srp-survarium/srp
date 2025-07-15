@@ -1,104 +1,58 @@
-void __usercall vostok::render::stage_lights::create_obb_geometry(
-        vostok::render::stage_lights *this@<ecx>,
-        bool a2@<dil>,
-        _DWORD *a3@<esi>)
+void __thiscall vostok::render::stage_lights::create_obb_geometry(vostok::render::stage_lights *this, int a2)
 {
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::render::untyped_buffer *v4; // ecx
-  vostok::render::res_state *v5; // edi
-  bool v6; // zf
-  void *v7; // esp
-  vostok::render::untyped_buffer *v8; // eax
-  vostok::render::untyped_buffer *v9; // ecx
-  vostok::render::res_state *v10; // edi
-  vostok::render::res_geometry *geometry; // eax
-  vostok::render::res_geometry *v12; // ecx
-  vostok::render::res_geometry *v13; // eax
-  vostok::render::untyped_buffer *v14; // [esp-50h] [ebp-78h]
-  vostok::render::untyped_buffer *v15; // [esp-4Ch] [ebp-74h]
-  unsigned __int8 v16[84]; // [esp-48h] [ebp-70h] BYREF
-  D3D11_INPUT_ELEMENT_DESC desc[1]; // [esp+Ch] [ebp-1Ch] BYREF
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v2; // eax
+  void *v3; // esp
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v4; // eax
+  vostok::render::res_geometry *v5; // eax
+  vostok::render::resource_manager *v6; // [esp-50h] [ebp-7Ch]
+  int v7; // [esp-4Ch] [ebp-78h]
+  unsigned __int8 v8[88]; // [esp-48h] [ebp-74h] BYREF
+  D3D11_INPUT_ELEMENT_DESC decl_size; // [esp+10h] [ebp-1Ch] BYREF
 
-  buffer = vostok::render::resource_manager::create_buffer(
-             0x60u,
-             a2,
-             (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-             vostok::geometry_utils::cube_solid::vertices,
-             enum_buffer_type_vertex,
-             0,
-             0);
-  v4 = 0;
-  if ( buffer )
-  {
-    ++buffer->m_reference_count;
-    v4 = buffer;
-  }
-  v5 = (vostok::render::res_state *)a3[544];
-  a3[544] = v4;
-  if ( v5 )
-  {
-    v6 = v5->m_reference_count-- == 1;
-    if ( v6 )
-      vostok::render::resource_manager::release(
-        v5,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
-  }
-  v7 = alloca(72);
-  memmove(v16, (unsigned __int8 *)vostok::geometry_utils::cube_solid::faces, 0x48u);
-  v8 = vostok::render::resource_manager::create_buffer(
-         0x48u,
-         (bool)v16,
-         (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-         v16,
-         enum_buffer_type_index,
-         0,
-         0);
-  v9 = 0;
-  if ( v8 )
-  {
-    ++v8->m_reference_count;
-    v9 = v8;
-  }
-  v10 = (vostok::render::res_state *)a3[545];
-  a3[545] = v9;
-  if ( v10 )
-  {
-    v6 = v10->m_reference_count-- == 1;
-    if ( v6 )
-      vostok::render::resource_manager::release(
-        v10,
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
-  }
-  v15 = (vostok::render::untyped_buffer *)a3[545];
-  v14 = (vostok::render::untyped_buffer *)a3[544];
-  desc[0].SemanticName = "POSITION";
-  desc[0].SemanticIndex = 0;
-  desc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-  desc[0].InputSlot = 0;
-  desc[0].AlignedByteOffset = 0;
-  desc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-  desc[0].InstanceDataStepRate = 0;
-  geometry = vostok::render::resource_manager::create_geometry(
-               (stlp_std::forward_iterator_tag *)desc,
-               (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-               1u,
-               0xCu,
-               v14,
-               v15);
-  v12 = 0;
-  if ( geometry )
-  {
-    ++geometry->m_reference_count;
-    v12 = geometry;
-  }
-  v13 = (vostok::render::res_geometry *)a3[546];
-  a3[546] = v12;
-  if ( v13 )
-  {
-    v6 = v13->m_reference_count-- == 1;
-    if ( v6 )
-      vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v13);
-  }
+  vostok::render::resource_manager::create_buffer(
+    0x60u,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)0xC,
+    (vostok::render::enum_buffer_type)vostok::geometry_utils::cube_solid::vertices,
+    0,
+    0,
+    0);
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    v2,
+    (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 2196),
+    0);
+  v3 = alloca(72);
+  stlp_std::priv::__copy_trivial(
+    (unsigned __int8 *)vostok::geometry_utils::cube_solid::faces,
+    (unsigned __int8 *)vostok::geometry_utils::rectangle_solid::vertices,
+    v8);
+  vostok::render::resource_manager::create_buffer(
+    0x48u,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)2,
+    (vostok::render::enum_buffer_type)v8,
+    1,
+    0,
+    0);
+  vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    v4,
+    (vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)(a2 + 2200),
+    0);
+  v7 = *(_DWORD *)(a2 + 2200);
+  v6 = *(vostok::render::resource_manager **)(a2 + 2196);
+  decl_size.SemanticName = "POSITION";
+  decl_size.SemanticIndex = 0;
+  decl_size.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+  memset(&decl_size.InputSlot, 0, 16);
+  v5 = vostok::render::resource_manager::create_geometry(
+         v6,
+         (vostok::render::res_declaration *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+         &decl_size,
+         1u,
+         (vostok::render::untyped_buffer *)0xC,
+         (vostok::render::untyped_buffer *)v6,
+         v7);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 2204),
+    v5);
 }

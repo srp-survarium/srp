@@ -1,162 +1,255 @@
-void __userpurge survarium::player::player(
-        survarium::player *this@<ecx>,
-        int a2@<edi>,
-        const survarium::player_creation_params *params)
+void __thiscall survarium::player::player(survarium::player *this, survarium::player_creation_params *params, int a3)
 {
-  vostok::animation::animation_player *v3; // ecx
-  vostok::animation::animation_player *v4; // ecx
-  unsigned int f; // ecx
-  int (__stdcall *v6)(int); // eax
-  int v7; // eax
-  survarium::interactive_object *m_object; // eax
-  const vostok::math::float4x4 *v9; // xmm0_4
-  char v10; // al
-  vostok::render::skeleton_model_instance *v11; // ecx
-  vostok::render::skeleton_model_instance *v12; // eax
-  vostok::resources::unmanaged_resource *v13; // edx
-  vostok::render::skeleton_model_instance *v14; // ecx
-  vostok::render::skeleton_model_instance *v15; // eax
-  vostok::resources::unmanaged_resource *v16; // edx
-  int v17; // edx
-  vostok::physics::bt_character_controller *v18; // eax
-  vostok::physics::bt_character_controller *v19; // ecx
-  int v20; // edx
-  vostok::physics::bt_character_controller *v21; // eax
-  vostok::physics::bt_character_controller *v22; // ecx
-  char *profile_name; // [esp-8h] [ebp-18h]
-  unsigned int pConvertedChars; // [esp+Ch] [ebp-4h] BYREF
+  vostok::math::float4x4 *v4; // ecx
+  survarium::damage_sound_effect *v6; // ecx
+  int v7; // xmm1_4
+  vostok::memory::doug_lea_allocator *v8; // esi
+  char *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  char *v11; // eax
+  vostok::memory::doug_lea_allocator *v12; // esi
+  char *v13; // eax
+  vostok::memory::doug_lea_allocator *v14; // ecx
+  char *v15; // eax
+  vostok::memory::doug_lea_allocator *v16; // esi
+  char *v17; // eax
+  vostok::memory::doug_lea_allocator *v18; // ecx
+  char *v19; // eax
+  vostok::memory::doug_lea_allocator *v20; // esi
+  char *v21; // eax
+  vostok::memory::doug_lea_allocator *v22; // ecx
+  char *v23; // eax
+  vostok::memory::doug_lea_allocator *v24; // esi
+  char *v25; // eax
+  vostok::memory::doug_lea_allocator *v26; // ecx
+  char *v27; // eax
+  bool v28; // zf
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v29; // ecx
+  const char *v30; // [esp+4h] [ebp-70h]
+  const char *v31; // [esp+4h] [ebp-70h]
+  const char *v32; // [esp+4h] [ebp-70h]
+  const char *v33; // [esp+4h] [ebp-70h]
+  const char *v34; // [esp+4h] [ebp-70h]
+  const char *v35; // [esp+8h] [ebp-6Ch]
+  const char *v36; // [esp+8h] [ebp-6Ch]
+  const char *v37; // [esp+8h] [ebp-6Ch]
+  const char *v38; // [esp+8h] [ebp-6Ch]
+  const char *v39; // [esp+8h] [ebp-6Ch]
+  unsigned int v40; // [esp+Ch] [ebp-68h]
+  unsigned int v41; // [esp+Ch] [ebp-68h]
+  unsigned int v42; // [esp+Ch] [ebp-68h]
+  unsigned int v43; // [esp+Ch] [ebp-68h]
+  unsigned int v44; // [esp+Ch] [ebp-68h]
+  unsigned __int8 v45; // [esp+13h] [ebp-61h]
+  vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *__result; // [esp+14h] [ebp-60h] BYREF
+  vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *v47; // [esp+18h] [ebp-5Ch]
+  vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *v48; // [esp+1Ch] [ebp-58h]
+  vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *v49; // [esp+20h] [ebp-54h]
+  vostok::math::float4x4 callback; // [esp+24h] [ebp-50h] BYREF
+  __int64 v51; // [esp+64h] [ebp-10h] BYREF
+  unsigned __int64 v52; // [esp+6Ch] [ebp-8h]
 
-  survarium::base_player::base_player((survarium::base_player *)a2, params, &params->game_scene->m_game->m_scheduler);
-  vostok::resources::unmanaged_resource::unmanaged_resource((vostok::resources::unmanaged_resource *)(a2 + 288), 1u);
-  *(_DWORD *)(a2 + 288) = &survarium::player::`vftable';
-  *(_DWORD *)a2 = &survarium::player::`vftable'{for `survarium::inventory_holder'};
-  *(_DWORD *)(a2 + 12) = &survarium::player::`vftable'{for `survarium::collision_user'};
-  *(_DWORD *)(a2 + 48) = &survarium::player::`vftable'{for `survarium::hit_initiator'};
-  *(_DWORD *)(a2 + 56) = &survarium::player::`vftable'{for `survarium::hit_receiver'};
-  vostok::animation::animation_player::animation_player(v3, a2 + 552);
-  *(_DWORD *)(a2 + 34800) = 0;
-  vostok::animation::animation_player::animation_player(v4, a2 + 34812);
-  f = (unsigned int)survarium::g_allocator.f_.f_;
-  *(int *)((char *)&dword_10DC4 + a2) = 0;
-  *(int *)((char *)&dword_10E10 + a2) = 0;
-  *(int *)((char *)&dword_10E14 + a2) = 0;
-  *(int *)((char *)&dword_10E18 + a2) = 0;
-  v6 = *(int (__stdcall **)(int))(*(_DWORD *)f + 16);
-  pConvertedChars = f;
-  v7 = v6(6144);
-  *(int *)((char *)&dword_10E20 + a2) = pConvertedChars;
-  *(int *)((char *)&dword_10E1C + a2) = v7;
-  *(int *)((char *)&dword_10E24 + a2) = 64;
-  *(int *)((char *)&dword_10E28 + a2) = 0;
-  *(int *)((char *)&dword_10E2C + a2) = 0;
-  survarium::player_stamina::player_stamina(
-    (survarium::player_stamina *)((char *)&unk_10E30 + a2),
-    &params->initial_stamina);
-  survarium::player_stealth::player_stealth(
-    (survarium::player_stealth *)((char *)&unk_10E98 + a2),
-    &params->initial_stealth);
-  *(int *)((char *)&dword_10EC4 + a2) = 0;
-  *(int *)((char *)&dword_10EC8 + a2) = 0;
-  *(int *)((char *)&dword_10ECC + a2) = 0;
-  survarium::player_input::player_input((survarium::player_input *)((char *)&dword_10ED0 + a2));
-  *(int *)((char *)&dword_10EE4 + a2) = 0;
-  *(int *)((char *)&dword_10EE8 + a2) = 0;
-  *((_BYTE *)&dword_10EEC + a2) = 0;
-  *(int *)((char *)&dword_10EF0 + a2) = (int)params->damage_collision;
-  *(int *)((char *)&dword_10EF4 + a2) = 0;
-  *(int *)((char *)&dword_10EF8 + a2) = 0;
-  *(int *)((char *)&dword_10EFC + a2) = 0;
-  *(int *)((char *)&dword_10F00 + a2) = (int)params->game_scene;
-  *(int *)((char *)&dword_10F04 + a2) = (int)params->game_scene->m_game;
-  *(int *)((char *)&dword_10F08 + a2) = 0;
-  m_object = params->empty_hands.m_object;
-  if ( m_object )
-  {
-    *(int *)((char *)&dword_10F08 + a2) = (int)m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  *(int *)((char *)&dword_10F10 + a2) = 0;
-  v9 = clear_value;
-  *(int *)((char *)&dword_10F0C + a2) = 0;
-  *(int *)((char *)&dword_10F14 + a2) = 0;
-  *(int *)((char *)&dword_10F18 + a2) = (int)v9;
-  *(int *)((char *)&dword_10F1C + a2) = (int)v9;
-  *(int *)((char *)&dword_10F20 + a2) = (int)v9;
-  *(int *)((char *)&dword_10F28 + a2) = 0;
-  byte_10F30[a2] = params->foot_3rd_view_game_material_id;
-  v10 = *(_BYTE *)(a2 + 53);
-  byte_10F31[a2] = params->foot_1st_view_game_material_id;
-  byte_10F32[a2] = 0;
-  byte_10F33[a2] = 1;
-  byte_10F34[a2] = 0;
-  byte_10F35[a2] = 1;
-  byte_10F36[a2] = 1;
-  byte_10F78[a2] = 1;
-  *(int *)((char *)&dword_10F7C + a2) = 0;
-  byte_10F80[a2] = params->initial_info.is_demo_player;
-  *(_BYTE *)(a2 + 34671) = v10;
-  byte_10F81[a2] = 0;
-  profile_name = params->initial_info.profile->profile_name;
-  pConvertedChars = 0;
-  mbstowcs_s(&pConvertedChars, (wchar_t *)((char *)&unk_10F38 + a2), 0x20u, profile_name, 0xFFFFFFFF);
-  *(int *)((char *)&dword_10F2C + a2) = params->initial_info.profile->team;
-  v11 = params->character_model.m_object;
-  v12 = 0;
+  survarium::base_player::base_player(this, params, (vostok::buffer_vector<float> *)a3);
+  params->speed_parameters.m_multipliers.m_begin = (float *)&survarium::player::`vftable'{for `vostok::resources::unmanaged_resource'};
+  LODWORD(params->dispersion_skill_influence.low_stamina_skill_influence) = &survarium::player::`vftable'{for `survarium::inventory_holder'};
+  LODWORD(params->breath_vibration_params.base_time_to_hold_breath) = &survarium::player::`vftable'{for `survarium::collision_user'};
+  LODWORD(params->breath_vibration_params.dispersion_to_time_to_hold_breath_ratio) = &survarium::player::`vftable'{for `survarium::hit_initiator'};
+  LODWORD(params->initial_stamina.sprint_spending_speed) = &survarium::player::`vftable'{for `survarium::hit_receiver'};
+  LODWORD(params->initial_stamina.regeneration_speed) = &survarium::player::`vftable'{for `survarium::spottable_object'};
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)params + (_DWORD)&loc_1119E + 2),
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a3 + 444));
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&params[115].initial_info.physics_world,
+    (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)(a3 + 572));
+  qmemcpy((char *)&loc_111A8 + (_DWORD)params, vostok::math::float4x4::identity(v4, &callback), 0x40u);
+  survarium::stamina_sound_effect::stamina_sound_effect(
+    0,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&params[115].dispersion_params.prone_aim_dispersion,
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 464),
+    (vostok::sound::sound_emitter *)params,
+    *(vostok::sound::sound_emitter **)(a3 + 452));
+  __result = (vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)((char *)&loc_11240 + (_DWORD)params + 20);
+  __result->m_object = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 24) = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 28) = 0;
+  v48 = (vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)((char *)&loc_11240 + (_DWORD)params + 32);
+  v48->m_object = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 36) = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 40) = 0;
+  v47 = (vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)((char *)&loc_11240 + (_DWORD)params + 44);
+  v47->m_object = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 48) = 0;
+  *(_DWORD *)((char *)&loc_11240 + (_DWORD)params + 52) = 0;
+  v49 = (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)((char *)&loc_11240 + (_DWORD)params + 52);
+  stlp_std::priv::__copy_trivial(
+    (unsigned __int8 *)(a3 + 576),
+    (unsigned __int8 *)(a3 + 596),
+    (unsigned __int8 *)&loc_11240 + (_DWORD)params);
+  stlp_std::copy<vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> const *,vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *>(
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 512),
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)__result,
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 500));
+  __result = (vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 520);
+  stlp_std::copy<vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> const *,vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *>(
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 520),
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)v47,
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 512));
+  stlp_std::copy<vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> const *,vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *>(
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 532),
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)v48,
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 520));
+  vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+    (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)(a3 + 532),
+    v49);
+  survarium::damage_sound_effect::damage_sound_effect(
+    v6,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)((char *)params + (_DWORD)&loc_11275 + 3),
+    (const vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *)(a3 + 536),
+    (survarium::player *)9,
+    (vostok::sound::sound_emitter *)params,
+    *(vostok::sound::sound_emitter **)(a3 + 452),
+    *(_WORD *)(a3 + 604),
+    *(_WORD *)(a3 + 606));
+  v7 = *(_DWORD *)(a3 + 600);
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_113F9 + 3) = *(float **)(a3 + 596);
+  *(_DWORD *)((char *)&loc_11400 + (_DWORD)params) = v7;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_113F6 + 2) = (float *)((char *)&loc_11240 + (_DWORD)params);
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11403 + 1) = 0;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11403 + 5) = 0;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_1140A + 2) = 0;
+  *(int *)((char *)&dword_11410 + (_DWORD)params) = *(_DWORD *)(a3 + 452);
+  *(int *)((char *)&dword_11414 + (_DWORD)params) = *(_DWORD *)(*(_DWORD *)(a3 + 452) + 160);
+  vostok::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)&dword_11418 + (_DWORD)params),
+    (const vostok::intrusive_ptr<survarium::empty_hands,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a3 + 460));
+  *(int *)((char *)&dword_1141C + (_DWORD)params) = 0;
+  v8 = survarium::g_allocator;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11433 + 1) = (float *)23;
+  *((_BYTE *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11437 + 1) = 0;
+  *((_BYTE *)&loc_11439 + (_DWORD)params) = 1;
+  *((_BYTE *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11439 + 1) = 0;
+  *((_BYTE *)&loc_1143B + (_DWORD)params) = *(_BYTE *)(a3 + 136);
+  v9 = type_info::raw_name(&vostok::render::material_parameter_host `RTTI Type Descriptor');
+  v11 = vostok::memory::doug_lea_allocator::malloc_impl(v10, (int)v8, 0xCu, v9, v30, v35, v40);
   if ( v11 )
   {
-    v12 = params->character_model.m_object;
-    _InterlockedExchangeAdd(&v11->m_reference_count, 1u);
-  }
-  v13 = *(vostok::resources::unmanaged_resource **)(a2 + 34800);
-  *(_DWORD *)(a2 + 34800) = v12;
-  if ( v13 && !_InterlockedExchangeAdd(&v13->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v13->vostok::resources::unmanaged_intrusive_base, v13);
-  v14 = params->server_character_model.m_object;
-  v15 = 0;
-  if ( v14 )
-  {
-    v15 = params->server_character_model.m_object;
-    _InterlockedExchangeAdd(&v14->m_reference_count, 1u);
-  }
-  v16 = *(vostok::resources::unmanaged_resource **)((char *)&dword_10DC4 + a2);
-  *(int *)((char *)&dword_10DC4 + a2) = (int)v15;
-  if ( v16 && !_InterlockedExchangeAdd(&v16->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v16->vostok::resources::unmanaged_intrusive_base, v16);
-  survarium::inventory::set_holder(*(survarium::inventory **)(a2 + 8), (survarium::inventory_holder *)a2);
-  v17 = *(_DWORD *)LODWORD(survarium::g_allocator.f_.f_);
-  pConvertedChars = *(_DWORD *)(*(int *)((char *)&dword_10F00 + a2) + 176);
-  v18 = (vostok::physics::bt_character_controller *)(*(int (__thiscall **)(_DWORD, int))(v17 + 16))(
-                                                      survarium::g_allocator.f_.f_,
-                                                      12);
-  if ( v18 )
-  {
-    v19 = (vostok::physics::bt_character_controller *)pConvertedChars;
-    v18->m_active = 0;
-    v18->m_bt_physics_world = (vostok::physics::bullet_physics_world *)v19;
+    *(_DWORD *)v11 = 0;
+    *((_DWORD *)v11 + 1) = "sphere_position";
+    *((_DWORD *)v11 + 2) = 2;
   }
   else
   {
-    v18 = 0;
+    v11 = 0;
   }
-  *(_DWORD *)(a2 + 34804) = v18;
-  vostok::physics::bt_character_controller::initialize(v19, v18);
-  v20 = *(_DWORD *)LODWORD(survarium::g_allocator.f_.f_);
-  pConvertedChars = *(_DWORD *)(*(int *)((char *)&dword_10F00 + a2) + 176);
-  v21 = (vostok::physics::bt_character_controller *)(*(int (__thiscall **)(_DWORD, int))(v20 + 16))(
-                                                      survarium::g_allocator.f_.f_,
-                                                      12);
-  if ( v21 )
+  v12 = survarium::g_allocator;
+  *(int *)((char *)&dword_11420 + (_DWORD)params) = (int)v11;
+  v13 = type_info::raw_name(&vostok::render::material_parameter_host `RTTI Type Descriptor');
+  v15 = vostok::memory::doug_lea_allocator::malloc_impl(v14, (int)v12, 0xCu, v13, v31, v36, v41);
+  if ( v15 )
   {
-    v22 = (vostok::physics::bt_character_controller *)pConvertedChars;
-    v21->m_active = 0;
-    v21->m_bt_physics_world = (vostok::physics::bullet_physics_world *)v22;
+    *(_DWORD *)v15 = 0;
+    *((_DWORD *)v15 + 1) = "sphere_radius";
+    *((_DWORD *)v15 + 2) = 4;
   }
   else
   {
-    v21 = 0;
+    v15 = 0;
   }
-  *(int *)((char *)&dword_10DC8 + a2) = (int)v21;
-  vostok::physics::bt_character_controller::initialize(v22, v21);
-  *(_DWORD *)(*(_DWORD *)(*(int *)((char *)&dword_10EF0 + a2) + 36) + 8) = a2 + 56;
-  survarium::player_parameters_modifyer::apply(params->player_parameters.m_object, (survarium::base_player *)a2);
+  v16 = survarium::g_allocator;
+  *(_DWORD *)((char *)vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>
+            + (_DWORD)params) = v15;
+  v17 = type_info::raw_name(&vostok::render::material_parameter_host `RTTI Type Descriptor');
+  v19 = vostok::memory::doug_lea_allocator::malloc_impl(v18, (int)v16, 0xCu, v17, v32, v37, v42);
+  if ( v19 )
+  {
+    *(_DWORD *)v19 = 0;
+    *((_DWORD *)v19 + 1) = "sphere_color";
+    *((_DWORD *)v19 + 2) = 1;
+  }
+  else
+  {
+    v19 = 0;
+  }
+  v20 = survarium::g_allocator;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11427 + 1) = (float *)v19;
+  v21 = type_info::raw_name(&vostok::render::material_parameter_host `RTTI Type Descriptor');
+  v23 = vostok::memory::doug_lea_allocator::malloc_impl(v22, (int)v20, 0xCu, v21, v33, v38, v43);
+  if ( v23 )
+  {
+    *(_DWORD *)v23 = 0;
+    *((_DWORD *)v23 + 1) = "sphere_blend_down";
+    *((_DWORD *)v23 + 2) = 4;
+  }
+  else
+  {
+    v23 = 0;
+  }
+  v24 = survarium::g_allocator;
+  *(_DWORD *)((char *)&loc_1142C + (_DWORD)params) = v23;
+  v25 = type_info::raw_name(&vostok::render::material_parameter_host `RTTI Type Descriptor');
+  v27 = vostok::memory::doug_lea_allocator::malloc_impl(v26, (int)v24, 0xCu, v25, v34, v39, v44);
+  if ( v27 )
+  {
+    *(_DWORD *)v27 = 0;
+    *((_DWORD *)v27 + 1) = "sphere_blend_up";
+    *((_DWORD *)v27 + 2) = 4;
+  }
+  else
+  {
+    v27 = 0;
+  }
+  v28 = *((_BYTE *)&loc_1143B + (_DWORD)params) == 0;
+  *(float **)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_1142E + 2) = (float *)v27;
+  byte_10427[(_DWORD)params] = BYTE1(params->initial_stamina.max_value);
+  if ( v28 )
+    vostok::strings::copy<64>(
+      (char (*)[64])((char *)params + (_DWORD)&loc_1143B + 1),
+      (char *)(*(_DWORD *)(a3 + 120) + 8));
+  if ( BYTE1(params->initial_stamina.max_value) )
+  {
+    v45 = 0;
+    while ( 1 )
+    {
+      vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&__result,
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(LODWORD(params->breath_vibration_params.max_breath_holding_time) + 4 * quick_slots_2[v45] + 272));
+      if ( __result )
+      {
+        if ( ((int (__thiscall *)(vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base> *))__result->m_object->m_parent_resources.m_first)(__result) )
+          break;
+      }
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&__result);
+      if ( ++v45 >= 6u )
+        goto LABEL_25;
+    }
+    *(survarium::profile_slot_enum *)((char *)&params->speed_parameters.m_multipliers.m_begin + (_DWORD)&loc_11433 + 1) = quick_slots_2[v45];
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&__result);
+  }
+LABEL_25:
+  LODWORD(callback.i.x) = survarium::player::on_landing;
+  callback.i.y = 0.0;
+  LODWORD(callback.i.z) = params;
+  LODWORD(v51) = survarium::player::on_landing;
+  HIDWORD(v51) = 0;
+  v52 = __PAIR64__(LODWORD(callback.i.w), (unsigned int)params);
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
+  {
+    callback.i.x = 0.0;
+  }
+  else
+  {
+    *(_QWORD *)&callback.lines[0].elements[2] = v51;
+    *(_QWORD *)&callback.lines[1].x = v52;
+    LODWORD(callback.i.x) = (char *)&`boost::function1<void,float>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::player,float>,boost::_bi::list2<boost::_bi::value<survarium::player *>,boost::arg<1>>>>'::`2'::stored_vtable
+                          + 1;
+  }
+  vostok::physics::bt_character_controller::set_landing_callback(
+    (vostok::physics::bt_character_controller *)&v51,
+    *(_DWORD **)((char *)&dword_10E74 + (_DWORD)params),
+    (boost::function<void __cdecl(float)> *)&callback,
+    *(float *)(a3 + 596));
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v29,
+    (int *)&callback);
 }

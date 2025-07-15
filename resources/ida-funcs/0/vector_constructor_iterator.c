@@ -1,6 +1,6 @@
 void __stdcall `vector constructor iterator'(char *__t, unsigned int __s, int __n, void *(__thiscall *__f)(void *))
 {
-  int i; // edi
+  int i; // [esp+10h] [ebp+10h]
 
   for ( i = __n - 1; i >= 0; --i )
   {

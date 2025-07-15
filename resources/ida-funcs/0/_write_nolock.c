@@ -1,7 +1,7 @@
-int __usercall _write_nolock@<eax>(char a1@<bl>, unsigned int a2@<edi>, int fh, char *buf, unsigned int cnt)
+int __usercall _write_nolock@<eax>(char a1@<bl>, int a2@<edi>, int fh, char *buf, unsigned int cnt)
 {
   stlp_std::ioinfo **v6; // esi
-  unsigned int v7; // edi
+  int v7; // edi
   char *v8; // eax
   char v9; // bl
   _tiddata *v10; // eax
@@ -9,7 +9,7 @@ int __usercall _write_nolock@<eax>(char a1@<bl>, unsigned int a2@<edi>, int fh, 
   char *v12; // ebx
   unsigned __int8 v13; // cl
   stlp_std::ioinfo **v14; // esi
-  unsigned int v15; // eax
+  int v15; // eax
   int v16; // eax
   DWORD v17; // eax
   signed int v18; // esi
@@ -76,8 +76,8 @@ int __usercall _write_nolock@<eax>(char a1@<bl>, unsigned int a2@<edi>, int fh, 
     return -1;
   }
   if ( (v8[4] & 0x20) != 0 )
-    _lseeki64_nolock(fh, 0, 2);
-  if ( _isatty(fh) )
+    _lseeki64_nolock(v9, v7, fh, 0, 2u);
+  if ( _isatty(v9, v7, fh) )
   {
     if ( *(&(*v6)->osfile + v7) < 0 )
     {
@@ -124,13 +124,13 @@ int __usercall _write_nolock@<eax>(char a1@<bl>, unsigned int a2@<edi>, int fh, 
             v13 = *v12;
             v14 = v43;
             v41 = *v12 == 10;
-            v15 = (unsigned int)*v43 + v7;
+            v15 = (int)*v43 + v7;
             if ( *(_DWORD *)(v15 + 56) )
             {
               MultiByteStr[0] = *(_BYTE *)(v15 + 52);
               MultiByteStr[1] = v13;
               *(_DWORD *)(v15 + 56) = 0;
-              v16 = mbtowc(pwc, MultiByteStr, 2u);
+              v16 = mbtowc(pwc, MultiByteStr, 2);
             }
             else
             {
@@ -145,13 +145,13 @@ int __usercall _write_nolock@<eax>(char a1@<bl>, unsigned int a2@<edi>, int fh, 
                   *(int *)((char *)&(*v14)[1].lock.RecursionCount + v7) = 1;
                   goto LABEL_86;
                 }
-                if ( mbtowc(pwc, v12, 2u) == -1 )
+                if ( mbtowc(pwc, v12, 2) == -1 )
                   goto LABEL_86;
                 ++v12;
                 ++v50;
                 goto LABEL_26;
               }
-              v16 = mbtowc(pwc, v12, 1u);
+              v16 = mbtowc(pwc, v12, 1);
             }
             if ( v16 == -1 )
               goto LABEL_86;

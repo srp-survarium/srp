@@ -1,24 +1,24 @@
 int __usercall parse_tagging@<eax>(const char *vstart@<edx>, int vlen@<ecx>, int *pclass@<ebx>, int *ptag)
 {
   signed int v6; // eax
-  char *v7; // ecx
+  const char *v7; // ecx
   int result; // eax
   char v9; // cl
   _BYTE v10[4]; // [esp+8h] [ebp-8h] BYREF
-  char *endptr; // [esp+Ch] [ebp-4h] BYREF
+  const char *v11; // [esp+Ch] [ebp-4h] BYREF
 
   if ( !vstart )
     return 0;
-  v6 = strtoul((unsigned int)pclass, vstart, &endptr, 0xAu);
-  v7 = endptr;
-  if ( endptr )
+  v6 = strtoul((int)pclass, vstart, &v11, 10);
+  v7 = v11;
+  if ( v11 )
   {
-    if ( *endptr && endptr > &vstart[vlen] )
+    if ( *v11 && v11 > &vstart[vlen] )
       return 0;
   }
   if ( v6 < 0 )
   {
-    ERR_put_error(0xDu, 182, 187, ".\\crypto\\asn1\\asn1_gen.c", 399);
+    ERR_put_error((int)pclass, 0xDu, 182, 187, ".\\crypto\\asn1\\asn1_gen.c", 399);
     return 0;
   }
   *ptag = v6;
@@ -32,7 +32,7 @@ int __usercall parse_tagging@<eax>(const char *vstart@<edx>, int vlen@<ecx>, int
         result = 1;
         break;
       case 'C':
-        goto $LN9_36;
+        goto $LN9_49;
       case 'P':
         *pclass = 192;
         result = 1;
@@ -44,7 +44,7 @@ int __usercall parse_tagging@<eax>(const char *vstart@<edx>, int vlen@<ecx>, int
       default:
         v10[0] = v9;
         v10[1] = 0;
-        ERR_put_error(0xDu, 182, 186, ".\\crypto\\asn1\\asn1_gen.c", 432);
+        ERR_put_error((int)pclass, 0xDu, 182, 186, ".\\crypto\\asn1\\asn1_gen.c", 432);
         ERR_add_error_data(2, "Char=", v10);
         result = 0;
         break;
@@ -52,7 +52,7 @@ int __usercall parse_tagging@<eax>(const char *vstart@<edx>, int vlen@<ecx>, int
   }
   else
   {
-$LN9_36:
+$LN9_49:
     *pclass = 128;
     return 1;
   }

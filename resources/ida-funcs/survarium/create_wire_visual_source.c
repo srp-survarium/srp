@@ -1,72 +1,58 @@
-void __usercall survarium::create_wire_visual_source(
-        vostok::memory::writer *writer@<eax>,
-        int a2@<ebx>,
-        int a3@<edi>,
-        int a4@<esi>,
+void __cdecl survarium::create_wire_visual_source(
+        vostok::memory::writer *writer,
         vostok::math::float3 *points,
-        unsigned int points_count,
-        const char *material_name,
-        unsigned int wire_width,
-        unsigned int a9,
-        unsigned int a10)
+        vostok::memory::writer *points_count,
+        vostok::memory::writer *material_name)
 {
-  unsigned int v10; // ebx
-  vostok::memory::writer_base *v12; // ecx
-  void (__thiscall *write)(struct vostok::memory::writer *, const void *, unsigned int); // edx
-  vostok::memory::writer_base *v14; // ecx
-  void (__thiscall *v15)(struct vostok::memory::writer *, const void *, unsigned int); // edx
-  float v16; // esi
-  unsigned int v17; // esi
-  vostok::memory::writer_vtbl *v18; // eax
-  __int64 v21; // [esp+0h] [ebp-38h]
-  const vostok::math::float4x4 *v22; // [esp+8h] [ebp-30h]
-  vostok::render::model_header hdr; // [esp+Ch] [ebp-2Ch] BYREF
+  vostok::memory::writer *v4; // ebx
+  vostok::memory::writer_base *v5; // ecx
+  vostok::memory::writer_vtbl *v6; // eax
+  vostok::memory::writer_base *v7; // ecx
+  vostok::memory::writer *v8; // esi
+  vostok::memory::writer_vtbl *v9; // eax
+  vostok::memory::writer_base *v10; // ecx
+  vostok::math::float3 *v11; // edi
+  _BYTE v12[4]; // [esp+Ch] [ebp-38h] BYREF
+  vostok::math::aabb v13; // [esp+10h] [ebp-34h] BYREF
+  float v14; // [esp+38h] [ebp-Ch]
+  float v15; // [esp+3Ch] [ebp-8h]
+  float v16; // [esp+40h] [ebp-4h]
 
-  v10 = points_count;
-  *(_QWORD *)&hdr.bb.min.x = 0xBF800000BF800000uLL;
-  v22 = clear_value;
-  hdr.bb.min.z = -1.0;
-  LODWORD(v21) = clear_value;
-  HIDWORD(v21) = clear_value;
-  hdr.platform_id = 0;
-  *(_QWORD *)&hdr.bb.max.x = v21;
-  LODWORD(hdr.bb.max.z) = clear_value;
-  hdr.type = 101;
-  vostok::memory::writer_base::open_chunk(writer, 1u);
-  ((void (__thiscall *)(vostok::memory::writer *, vostok::render::model_header *, int, int, int, int))writer->write)(
-    writer,
-    &hdr,
-    44,
-    a3,
-    a4,
-    a2);
-  vostok::memory::writer_base::close_chunk(v12, writer);
-  vostok::memory::writer_base::open_chunk(writer, 2u);
-  writer->write(writer, "editor/wire", strlen("editor/wire") + 1);
-  write = writer->write;
-  a9 = a10;
-  write(writer, &a9, 4u);
-  vostok::memory::writer_base::close_chunk(v14, writer);
-  vostok::memory::writer_base::open_chunk(writer, 3u);
-  v15 = writer->write;
-  a9 = points_count;
-  v15(writer, &a9, 4u);
-  if ( points_count )
+  v4 = writer;
+  vostok::math::create_zero_aabb(&v13);
+  v12[0] = 0;
+  v13.min.x = FLOAT_N1_0;
+  v13.min.y = FLOAT_N1_0;
+  v13.min.z = FLOAT_N1_0;
+  v14 = s_bm_current_air_resistance;
+  v15 = s_bm_current_air_resistance;
+  v16 = s_bm_current_air_resistance;
+  *(_QWORD *)&v13.max.x = __PAIR64__(LODWORD(s_bm_current_air_resistance), LODWORD(s_bm_current_air_resistance));
+  v13.max.z = s_bm_current_air_resistance;
+  v12[1] = 101;
+  vostok::memory::writer_base::open_chunk(v4, 1u);
+  v4->write(v4, v12, 44u);
+  vostok::memory::writer_base::close_chunk(v5, v4);
+  vostok::memory::writer_base::open_chunk(v4, 2u);
+  v4->write(v4, "editor/wire", strlen("editor/wire") + 1);
+  v6 = v4->__vftable;
+  writer = material_name;
+  v6->write(v4, &writer, 4u);
+  vostok::memory::writer_base::close_chunk(v7, v4);
+  vostok::memory::writer_base::open_chunk(v4, 3u);
+  v8 = points_count;
+  v9 = v4->__vftable;
+  writer = points_count;
+  v9->write(v4, &writer, 4u);
+  if ( v8 )
   {
-    v16 = *(float *)&wire_width;
+    v11 = points;
     do
     {
-      writer->write(writer, (const void *)LODWORD(v16), 12u);
-      LODWORD(v16) += 12;
-      --v10;
+      v4->write(v4, v11++, 12u);
+      v8 = (vostok::memory::writer *)((char *)v8 - 1);
     }
-    while ( v10 );
+    while ( v8 );
   }
-  v17 = writer->tell(writer);
-  writer->seek(writer, *(writer->m_chunk_pos._M_impl._M_finish - 1));
-  v18 = writer->__vftable;
-  wire_width = v17 - *(writer->m_chunk_pos._M_impl._M_finish - 1) - 4;
-  v18->write(writer, &wire_width, 4u);
-  writer->seek(writer, v17);
-  --writer->m_chunk_pos._M_impl._M_finish;
+  vostok::memory::writer_base::close_chunk(v10, v4);
 }

@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
 {
   Scaleform::GFx::LoadQueueEntry::LoadType v5; // eax
   void *v6; // edi
-  Scaleform::AutoPtr<Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *p_mBytes; // ebp
+  int **p_mBytes; // ebp
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *v9; // eax
   unsigned int Length; // ebx
@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
   volatile LONG *v12; // [esp-8h] [ebp-1Ch]
   Scaleform::String src; // [esp+10h] [ebp-4h] BYREF
 
-  Scaleform::String::String(&src, (char *)&buf);
+  Scaleform::String::String(&src, (const __m128i *)uri);
   this->__vftable = (Scaleform::GFx::AS3::LoadQueueEntry_vtbl *)&Scaleform::GFx::LoadQueueEntry::`vftable';
   Scaleform::String::String(&this->URL);
   v5 = (src.HeapTypeBits & 0xFFFFFFFC) == -8;
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
   this->mLoader.pObject = 0;
   this->mURLLoader.pObject = 0;
   this->mURLRequest.pObject = 0;
-  p_mBytes = &this->mBytes;
+  p_mBytes = (int **)&this->mBytes;
   this->mBytes.pObject = 0;
   this->mBytes.Owner = 1;
   this->NotifyLoadInitCInterface.pObject = 0;
@@ -63,8 +63,8 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
   }
   Scaleform::AutoPtr<Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::operator=(&this->mBytes, v9);
   Length = bytes->Length;
-  v11 = (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)p_mBytes->pObject;
-  if ( Length >= p_mBytes->pObject->Data.Size )
+  v11 = (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)*p_mBytes;
+  if ( Length >= (*p_mBytes)[1] )
   {
     if ( Length >= v11->Policy.Capacity )
       Scaleform::ArrayDataBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
@@ -80,7 +80,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
       bytes->Length);
   }
   v11->Size = Length;
-  memcpy(p_mBytes->pObject->Data.Data, bytes->Data.Data.Data, p_mBytes->pObject->Data.Size);
+  memcpy(**p_mBytes, (const __m128i *)bytes->Data.Data.Data, (*p_mBytes)[1]);
 }
 
 
@@ -92,7 +92,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
         bool quietOpen)
 {
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *v5; // ebp
-  char *pData; // eax
+  const __m128i *pData; // eax
   Scaleform::GFx::LoadQueueEntry::LoadMethod v8; // edx
   bool v9; // cl
   void *v10; // edi
@@ -102,9 +102,9 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
 
   v5 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)request;
   if ( request )
-    pData = (char *)Scaleform::GFx::AS3::Instances::fl::XML::GetName(request)->pNode->pData;
+    pData = (const __m128i *)Scaleform::GFx::AS3::Instances::fl::XML::GetName(request)->pNode->pData;
   else
-    pData = (char *)&buf;
+    pData = (const __m128i *)uri;
   Scaleform::String::String((Scaleform::String *)&request, pData);
   this->__vftable = (Scaleform::GFx::AS3::LoadQueueEntry_vtbl *)&Scaleform::GFx::LoadQueueEntry::`vftable';
   Scaleform::String::String(&this->URL);
@@ -151,7 +151,7 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
         bool quietOpen)
 {
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *v5; // ebp
-  char *pData; // eax
+  const __m128i *pData; // eax
   bool v8; // al
   void *v9; // edi
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *v10; // edx
@@ -160,9 +160,9 @@ void __thiscall Scaleform::GFx::AS3::LoadQueueEntry::LoadQueueEntry(
 
   v5 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)request;
   if ( request )
-    pData = (char *)Scaleform::GFx::AS3::Instances::fl::XML::GetName(request)->pNode->pData;
+    pData = (const __m128i *)Scaleform::GFx::AS3::Instances::fl::XML::GetName(request)->pNode->pData;
   else
-    pData = (char *)&buf;
+    pData = (const __m128i *)uri;
   Scaleform::String::String((Scaleform::String *)&request, pData);
   this->__vftable = (Scaleform::GFx::AS3::LoadQueueEntry_vtbl *)&Scaleform::GFx::LoadQueueEntry::`vftable';
   Scaleform::String::String(&this->URL);

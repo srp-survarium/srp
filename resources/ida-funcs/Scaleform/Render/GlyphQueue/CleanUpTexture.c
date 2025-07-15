@@ -17,7 +17,7 @@ void __thiscall Scaleform::Render::GlyphQueue::CleanUpTexture(
       {
         Scaleform::Render::GlyphQueue::releaseSlot(this, pNext);
         pNext->pPrev->pNext = pNext->pNext;
-        pNext->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = pNext->pPrev;
+        pNext->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = pNext->pPrev;
         pNext->pNext = p_SlotQueue->Root.pNext;
         pNext->pPrev = (Scaleform::Render::GlyphSlot *)p_SlotQueue;
         p_SlotQueue->Root.pNext->pPrev = pNext;

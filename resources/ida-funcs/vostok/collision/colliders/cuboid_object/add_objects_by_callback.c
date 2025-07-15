@@ -2,34 +2,27 @@ void __thiscall vostok::collision::colliders::cuboid_object::add_objects_by_call
         vostok::collision::colliders::cuboid_object *this,
         const vostok::collision::oct_node *const node)
 {
-  const vostok::collision::oct_node *v3; // esi
-  vostok::collision::object *i; // esi
-  boost::function<void __cdecl(vostok::collision::object const &)> *m_callback; // edi
-  survarium::game_camera *v6; // eax
-  boost::bad_function_call v7; // [esp+10h] [ebp-110h] BYREF
+  const vostok::collision::oct_node *v2; // ebx
+  const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *i; // esi
+  unsigned int m_max_count; // ecx
 
-  v3 = node;
+  v2 = node;
   do
   {
-    if ( v3->octants[0] )
-      vostok::collision::colliders::cuboid_object::add_objects_by_callback(this, v3->octants[0]);
-    v3 = (const vostok::collision::oct_node *)((char *)v3 + 4);
+    if ( v2->octants[0] )
+      vostok::collision::colliders::cuboid_object::add_objects_by_callback(this, v2->octants[0]);
+    v2 = (const vostok::collision::oct_node *)((char *)v2 + 4);
   }
-  while ( v3 != (const vostok::collision::oct_node *)&node->parent );
-  for ( i = node->objects; i; i = i->m_next )
+  while ( v2 != (const vostok::collision::oct_node *)&node->parent );
+  for ( i = (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)node->objects;
+        i;
+        i = (const vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)i->m_on_out_of_memory.functor.vostok_pointer_size_alignment[5] )
   {
-    if ( (i->m_type & this->m_query_type) != 0 )
-    {
-      m_callback = this->m_callback;
-      if ( !m_callback->vtable )
-      {
-        boost::bad_function_call::bad_function_call(&v7);
-        boost::throw_exception(v6);
-        stlp_std::__Named_exception::~__Named_exception((stlp_std::out_of_range *)&v7);
-      }
-      (*(void (__cdecl **)(boost::detail::function::function_buffer *, vostok::collision::object *))(((int)m_callback->vtable & 0xFFFFFFFE) + 4))(
-        &m_callback->functor,
+    m_max_count = i->m_max_count;
+    if ( (m_max_count & this->m_query_type) != 0 )
+      boost::function1<void,vostok::collision::object const &>::operator()(
+        (boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *)m_max_count,
+        &this->m_callback->vtable,
         i);
-    }
   }
 }

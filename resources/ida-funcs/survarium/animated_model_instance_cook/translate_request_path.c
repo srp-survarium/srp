@@ -5,6 +5,7 @@ void __thiscall survarium::animated_model_instance_cook::translate_request_path(
 {
   vostok::fs_new::path_string_impl::assignf(
     new_request,
-    "resources/animated_model_instances/%s.animated_model",
+    (vostok::buffer_string *)this,
+    (vostok::buffer_string *)"resources/animated_model_instances/%s.animated_model",
     request);
 }

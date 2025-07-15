@@ -7,10 +7,10 @@ unsigned int __thiscall Scaleform::SysAllocMapper::freeMem(
   unsigned int PageShift; // ecx
   unsigned int v7; // ebx
   unsigned int result; // eax
-  unsigned int pos; // [esp+14h] [ebp+4h]
+  unsigned int Segment; // [esp+14h] [ebp+4h]
 
-  pos = Scaleform::SysAllocMapper::findSegment(this, ptr);
-  v5 = &this->Segments[pos];
+  Segment = Scaleform::SysAllocMapper::findSegment(this, ptr);
+  v5 = &this->Segments[Segment];
   this->pMapper->UnmapPages(this->pMapper, ptr, size);
   PageShift = this->PageShift;
   v7 = size >> PageShift;
@@ -21,7 +21,7 @@ unsigned int __thiscall Scaleform::SysAllocMapper::freeMem(
     (ptr - v5->Memory) >> PageShift,
     size >> PageShift);
   v5->PageCount -= v7;
-  result = pos;
+  result = Segment;
   this->Footprint -= v7 << this->PageShift;
   return result;
 }

@@ -10,9 +10,9 @@ unsigned __int16 __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::ReadHex(
   char v8; // cl
   unsigned __int8 v9; // cl
   unsigned __int16 result; // ax
-  const char *prev_ptr; // [esp+10h] [ebp+4h]
+  const char *v11; // [esp+10h] [ebp+4h]
 
-  prev_ptr = *pStr;
+  v11 = *pStr;
   v5 = 0;
   v6 = 0;
   if ( max_chars )
@@ -43,7 +43,7 @@ unsigned __int16 __thiscall Scaleform::GFx::ASUtils::AS3::Formatter::ReadHex(
     while ( v6 < max_chars );
   }
   result = v5;
-  if ( *pStr - prev_ptr < max_chars )
-    *pStr = prev_ptr;
+  if ( *pStr - v11 < max_chars )
+    *pStr = v11;
   return result;
 }

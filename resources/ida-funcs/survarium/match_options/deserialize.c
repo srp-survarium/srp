@@ -1,52 +1,96 @@
-void __usercall survarium::match_options::deserialize(
-        survarium::match_options *this@<edi>,
-        vostok::network_core::packet_reader *reader@<esi>)
+void __thiscall survarium::match_options::deserialize(
+        survarium::match_options *this,
+        vostok::network_core::buffer_reader *reader,
+        vostok::network_core::buffer_reader *a3)
 {
-  const unsigned __int8 *m_pointer; // eax
-  unsigned __int8 v3; // cl
-  const unsigned __int8 *v4; // eax
-  unsigned int v5; // ebx
-  const unsigned __int8 *v6; // eax
-  unsigned __int8 v7; // cl
-  const unsigned __int8 *v8; // eax
-  unsigned __int8 v9; // cl
-  const unsigned __int8 *v10; // eax
-  unsigned __int8 v11; // cl
-  const unsigned __int8 *v12; // eax
-  unsigned __int8 v13; // cl
-  const unsigned __int8 *v14; // eax
-  unsigned __int16 v15; // cx
+  const unsigned __int8 *m_pointer; // esi
+  const unsigned __int8 *v5; // esi
+  unsigned int v6; // ecx
+  const unsigned __int8 *v7; // esi
+  const unsigned __int8 *v8; // esi
+  const unsigned __int8 *v9; // esi
+  unsigned __int16 v10; // ax
+  const unsigned __int8 *v12; // esi
+  const unsigned __int8 *v13; // esi
+  const unsigned __int8 *v14; // xmm0_4
+  const unsigned __int8 *v15; // esi
+  const unsigned __int8 *v16; // esi
+  const unsigned __int8 *v17; // esi
+  vostok::network_core::buffer_reader *v18; // eax
+  vostok::network_core::buffer_reader *v19; // edx
+  const unsigned __int8 *v20; // esi
+  const unsigned __int8 *v21; // eax
+  vostok::network_core::buffer_reader *v22; // esi
+  const unsigned __int8 *v23; // [esp+14h] [ebp+8h]
+  __int16 v24; // [esp+14h] [ebp+8h]
+  unsigned __int8 v25; // [esp+17h] [ebp+Bh]
+  vostok::network_core::buffer_reader *i; // [esp+18h] [ebp+Ch]
+  unsigned __int8 v27; // [esp+1Bh] [ebp+Fh]
+  unsigned __int8 v28; // [esp+1Bh] [ebp+Fh]
+  unsigned __int8 v29; // [esp+1Bh] [ebp+Fh]
 
-  m_pointer = reader->m_pointer;
-  v3 = *m_pointer;
-  reader->m_pointer = m_pointer + 1;
-  this->map_id = v3;
-  v4 = reader->m_pointer;
-  v5 = *v4;
-  reader->m_pointer = v4 + 1;
-  memcpy((unsigned __int8 *)this->map_name, (unsigned __int8 *)v4 + 1, v5);
-  reader->m_pointer += v5;
-  this->map_name[v5] = 0;
-  v6 = reader->m_pointer;
-  v7 = *v6;
-  reader->m_pointer = v6 + 1;
-  this->match_mode_ = v7;
-  v8 = reader->m_pointer;
-  v9 = *v8;
-  reader->m_pointer = v8 + 1;
-  this->players_count = v9;
-  v10 = reader->m_pointer;
-  v11 = *v10;
-  reader->m_pointer = v10 + 1;
-  this->victory_items_count = v11;
-  v12 = reader->m_pointer;
-  v13 = *v12;
-  reader->m_pointer = v12 + 1;
-  this->respawn_time = v13;
-  v14 = reader->m_pointer;
-  v15 = *(_WORD *)v14;
-  reader->m_pointer = v14 + 2;
-  this->match_time = v15;
-  this->match_id = -1;
-  this->received_players_count = -1;
+  m_pointer = a3->m_pointer;
+  LOBYTE(this) = *m_pointer;
+  a3->m_pointer = m_pointer + 1;
+  LOBYTE(reader[2480].m_pointer) = (_BYTE)this;
+  vostok::network_core::buffer_reader::r_string(
+    (vostok::network_core::buffer_reader *)this,
+    (char *)a3,
+    (unsigned __int8 *)&reader[2482].m_pointer);
+  v5 = a3->m_pointer;
+  v6 = *v5;
+  a3->m_pointer = v5 + 1;
+  reader[2480].m_buffer_size = v6;
+  v7 = a3->m_pointer;
+  v27 = *v7;
+  a3->m_pointer = v7 + 1;
+  LOBYTE(reader[2481].m_buffer) = v27;
+  v8 = a3->m_pointer;
+  v28 = *v8;
+  a3->m_pointer = v8 + 1;
+  HIBYTE(reader[2481].m_buffer_size) = v28;
+  v9 = a3->m_pointer;
+  v29 = *v9;
+  a3->m_pointer = v9 + 1;
+  BYTE1(reader[2481].m_buffer) = v29;
+  v10 = vostok::network_core::buffer_reader::r<unsigned short>(a3);
+  HIWORD(reader[2481].m_buffer) = v10;
+  v12 = a3->m_pointer;
+  v23 = *(const unsigned __int8 **)v12;
+  a3->m_pointer = v12 + 4;
+  reader[2480].m_buffer = v23;
+  v13 = a3->m_pointer;
+  v14 = *(const unsigned __int8 **)v13;
+  a3->m_pointer = v13 + 4;
+  reader[2481].m_pointer = v14;
+  v15 = a3->m_pointer;
+  HIBYTE(v23) = *v15;
+  a3->m_pointer = v15 + 1;
+  LOBYTE(reader[2481].m_buffer_size) = HIBYTE(v23);
+  v16 = a3->m_pointer;
+  HIBYTE(v23) = *v16;
+  a3->m_pointer = v16 + 1;
+  BYTE1(reader[2481].m_buffer_size) = HIBYTE(v23);
+  v17 = a3->m_pointer;
+  HIBYTE(v23) = *v17;
+  a3->m_pointer = v17 + 1;
+  BYTE2(reader[2481].m_buffer_size) = HIBYTE(v23);
+  v18 = reader + 2485;
+  v19 = (vostok::network_core::buffer_reader *)((char *)reader + 29862);
+  while ( v18 != v19 )
+  {
+    v24 = *(_WORD *)a3->m_pointer;
+    a3->m_pointer += 2;
+    LOWORD(v18->m_buffer) = v24;
+    v18 = (vostok::network_core::buffer_reader *)((char *)v18 + 2);
+  }
+  for ( i = 0; (unsigned int)i < LOBYTE(reader[2481].m_buffer); *((_BYTE *)&v22->m_buffer + (_DWORD)v19) = v25 )
+  {
+    v20 = a3->m_pointer;
+    v21 = v20 + 1;
+    v25 = *v20;
+    v22 = i;
+    i = (vostok::network_core::buffer_reader *)((char *)i + 1);
+    a3->m_pointer = v21;
+  }
 }

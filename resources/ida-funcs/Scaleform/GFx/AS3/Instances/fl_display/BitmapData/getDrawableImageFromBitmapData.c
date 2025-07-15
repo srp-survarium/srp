@@ -15,7 +15,7 @@ Scaleform::Render::DrawableImage *__thiscall Scaleform::GFx::AS3::Instances::fl_
     DrawableImageContext = (Scaleform::GFx::Resource *)Scaleform::GFx::MovieImpl::GetDrawableImageContext((Scaleform::GFx::MovieImpl *)this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM);
     v5 = (Scaleform::Render::DrawableImage *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                Scaleform::Memory::pGlobalHeap,
-                                               116,
+                                               120,
                                                0);
     if ( v5 )
     {

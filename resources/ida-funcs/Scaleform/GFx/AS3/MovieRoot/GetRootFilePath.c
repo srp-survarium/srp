@@ -3,12 +3,12 @@ char __thiscall Scaleform::GFx::AS3::MovieRoot::GetRootFilePath(
         Scaleform::String *ppath)
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // eax
-  char *v4; // eax
+  const __m128i *v4; // eax
 
   pMovieImpl = this->pMovieImpl;
   if ( pMovieImpl->pMainMovie )
   {
-    v4 = (char *)pMovieImpl->pMainMovieDef.pObject->GetFileURL(pMovieImpl->pMainMovieDef.pObject);
+    v4 = (const __m128i *)pMovieImpl->pMainMovieDef.pObject->GetFileURL(pMovieImpl->pMainMovieDef.pObject);
     Scaleform::String::operator=(ppath, v4);
     if ( Scaleform::GFx::URLBuilder::ExtractFilePath(ppath) )
       return 1;

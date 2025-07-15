@@ -7,26 +7,24 @@ int __cdecl _wcstombs_s_l(
         localeinfo_struct *plocinfo)
 {
   unsigned int v6; // eax
-  int v7; // eax
+  unsigned int v7; // eax
   int *v9; // eax
-  int v10; // esi
-  unsigned int v11; // eax
-  int v12; // [esp-4h] [ebp-14h]
-  int retvalue; // [esp+Ch] [ebp-4h]
+  unsigned int v10; // eax
+  int v11; // [esp-4h] [ebp-14h]
+  int v12; // [esp+Ch] [ebp-4h]
 
-  retvalue = 0;
+  v12 = 0;
   if ( dst )
   {
     if ( sizeInBytes )
       goto LABEL_3;
 LABEL_15:
     v9 = _errno();
-    v12 = 22;
+    v11 = 22;
 LABEL_16:
-    v10 = v12;
-    *v9 = v12;
-    _invalid_parameter(0, 0, 0, 0, 0);
-    return v10;
+    *v9 = v11;
+    _invalid_parameter(0, sizeInBytes, v11);
+    return v11;
   }
   if ( sizeInBytes )
     goto LABEL_15;
@@ -47,27 +45,27 @@ LABEL_3:
       *dst = 0;
     return *_errno();
   }
-  v11 = v7 + 1;
+  v10 = v7 + 1;
   if ( dst )
   {
-    if ( v11 > sizeInBytes )
+    if ( v10 > sizeInBytes )
     {
       if ( n != -1 )
       {
         *dst = 0;
-        if ( sizeInBytes <= v11 )
+        if ( sizeInBytes <= v10 )
         {
           v9 = _errno();
-          v12 = 34;
+          v11 = 34;
           goto LABEL_16;
         }
       }
-      v11 = sizeInBytes;
-      retvalue = 80;
+      v10 = sizeInBytes;
+      v12 = 80;
     }
-    dst[v11 - 1] = 0;
+    dst[v10 - 1] = 0;
   }
   if ( pConvertedChars )
-    *pConvertedChars = v11;
-  return retvalue;
+    *pConvertedChars = v10;
+  return v12;
 }

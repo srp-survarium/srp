@@ -1,8 +1,8 @@
-void __thiscall Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
-        Scaleform::GFx::AS2::TextFieldProto *this,
+void __userpurge Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
+        Scaleform::GFx::AS2::TextFieldProto *this@<ecx>,
         Scaleform::GFx::AS2::ASStringContext *psc,
         Scaleform::GFx::AS2::Object *prototype,
-        const Scaleform::GFx::AS2::FunctionRef *constructor)
+        Scaleform::GFx::ASStringNode constructor)
 {
   unsigned __int8 *v5; // ebx
   Scaleform::GFx::Text::IMEStyle *DefaultStyles; // eax
@@ -10,14 +10,14 @@ void __thiscall Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
   int v8; // [esp+0h] [ebp-74h]
   int v9; // [esp+4h] [ebp-70h]
   int v10; // [esp+4h] [ebp-70h]
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-64h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+10h] [ebp-64h] BYREF
   Scaleform::GFx::Text::IMEStyle result; // [esp+20h] [ebp-54h] BYREF
 
   Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>(
     this,
     psc,
     prototype,
-    constructor);
+    (const Scaleform::GFx::AS2::FunctionRef *)constructor.pData);
   v5 = (unsigned __int8 *)&this->Scaleform::GFx::AS2::GASPrototypeBase;
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::TextFieldObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::TextFieldProto_vtbl *)&Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::TextFieldObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFieldObject,Scaleform::GFx::AS2::Environment>::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
       GAS_AsBcFunctionTable,
       1u,
       v7);
-  LOBYTE(constructor) = 1;
+  LOBYTE(constructor.pData) = 1;
   Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
     &this->Scaleform::GFx::AS2::GASPrototypeBase,
     (int)v5,
@@ -39,321 +39,321 @@ void __thiscall Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
     this,
     psc,
     GAS_TextFieldFunctionTable,
-    (Scaleform::GFx::ASStringNode *)&constructor,
+    &constructor,
     v7,
     v9);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "scroll",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   LOBYTE(v5) = 5;
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "hscroll",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "maxscroll",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "maxhscroll",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "background",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "backgroundColor",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "border",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "borderColor",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "bottomScroll",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "mouseWheelEnabled",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "antiAliasType",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "autoSize",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "condenseWhite",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "embedFonts",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "html",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "htmlText",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "length",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "maxChars",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "multiline",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "password",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 1;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 1;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "restrict",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "selectable",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "styleSheet",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "tabIndex",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "text",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "textColor",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "textHeight",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "textWidth",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "type",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "variable",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 2;
-  val.T.Type = 10;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 2;
+  v11.T.Type = 10;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "wordWrap",
-    &val,
+    &v11,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  LOBYTE(constructor) = 1;
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  LOBYTE(constructor.pData) = 1;
   Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
     &this->Scaleform::GFx::AS2::GASPrototypeBase,
     (int)v5,
@@ -361,7 +361,7 @@ void __thiscall Scaleform::GFx::AS2::TextFieldProto::TextFieldProto(
     this,
     psc,
     GAS_TextFieldExtFunctionTable,
-    (Scaleform::GFx::ASStringNode *)&constructor,
+    &constructor,
     v8,
     v10);
   DefaultStyles = Scaleform::GFx::Text::CompositionString::GetDefaultStyles(&result);

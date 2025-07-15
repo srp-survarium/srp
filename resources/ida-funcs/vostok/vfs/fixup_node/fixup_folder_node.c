@@ -1,13 +1,15 @@
-void __thiscall vostok::vfs::fixup_node::fixup_folder_node(vostok::vfs::fixup_node *this)
+void __usercall vostok::vfs::fixup_node::fixup_folder_node(vostok::vfs::fixup_node *this@<ecx>, int a2@<esi>)
 {
-  char *v2; // [esp+Ch] [ebp-18h]
-  vostok::vfs::base_folder_node<1> *folder_node; // [esp+1Ch] [ebp-8h]
+  vostok::vfs::base_folder_node<1> *v2; // eax
+  int v3; // ecx
 
-  folder_node = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(this->node);
-  if ( folder_node->m_first_child.pointer )
-    v2 = (char *)folder_node->m_first_child.pointer + (unsigned int)this->buffer_origin;
+  v2 = *(vostok::vfs::base_folder_node<1> **)a2;
+  if ( *(_DWORD *)a2 )
+    v2 = vostok::vfs::cast_folder<1>((vostok::vfs::base_node<1> *)v2);
+  if ( v2->m_first_child.pointer )
+    v3 = (int)v2->m_first_child.pointer + *(_DWORD *)(a2 + 4);
   else
-    v2 = 0;
-  folder_node->m_first_child.pointer = (vostok::vfs::base_node<1> *)v2;
-  HIDWORD(folder_node->m_first_child.max_storage) = 0;
+    v3 = 0;
+  v2->m_first_child.pointer = (vostok::vfs::base_node<1> *)v3;
+  HIDWORD(v2->m_first_child.max_storage) = 0;
 }

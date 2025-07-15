@@ -7,7 +7,7 @@ char __thiscall Scaleform::HeapPT::PageTable::MapRange(
   unsigned int v4; // ebx
   unsigned int v5; // edi
   Scaleform::HeapPT::HeapHeader<Scaleform::HeapPT::HeapHeader1,256> *i; // esi
-  Scaleform::HeapPT::HeapHeader1 *v7; // eax
+  Scaleform::HeapPT::DualTNode *v7; // eax
   int v9; // esi
   unsigned int v10; // edi
   Scaleform::HeapPT::Starter *pStarter; // ecx
@@ -26,11 +26,11 @@ LABEL_6:
     if ( ++v5 > v4 )
       return 1;
   }
-  v7 = (Scaleform::HeapPT::HeapHeader1 *)Scaleform::HeapPT::Starter::Alloc(this->pStarter, 0x400u, 0x400u);
-  i->pTable = v7;
+  v7 = Scaleform::HeapPT::Starter::Alloc(this->pStarter, 0x400u, 0x400u);
+  i->pTable = (Scaleform::HeapPT::HeapHeader1 *)v7;
   if ( v7 )
   {
-    memset((int)v7, 0, 0x400u);
+    memset((int)v7, 0, 1024);
     this = v13;
     goto LABEL_6;
   }
@@ -43,7 +43,7 @@ LABEL_6:
       pStarter = v13->pStarter;
       if ( (*(_DWORD *)(v9 + 4))-- == 1 )
       {
-        Scaleform::HeapPT::Starter::Free(pStarter, *(void **)v9, 0x400u, 0x400u);
+        Scaleform::HeapPT::Starter::Free(pStarter, *(Scaleform::HeapPT::DualTNode **)v9, 0x400u, 0x400u);
         *(_DWORD *)v9 = 0;
       }
       v9 -= 8;

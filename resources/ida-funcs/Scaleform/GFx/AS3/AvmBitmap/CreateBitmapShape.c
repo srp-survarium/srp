@@ -27,14 +27,14 @@ char __thiscall Scaleform::GFx::AS3::AvmBitmap::CreateBitmapShape(Scaleform::GFx
   float x; // [esp+258h] [ebp-9Ch] BYREF
   Scaleform::RefCountVImpl *v28; // [esp+25Ch] [ebp-98h] BYREF
   int v29; // [esp+260h] [ebp-94h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+264h] [ebp-90h] BYREF
+  __m128 v30; // [esp+264h] [ebp-90h] BYREF
   Scaleform::Render::TreeShape *pObject; // [esp+280h] [ebp-74h]
   Scaleform::Render::FillStyleType v32; // [esp+284h] [ebp-70h] BYREF
   int v33; // [esp+28Ch] [ebp-68h] BYREF
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v34; // [esp+290h] [ebp-64h] BYREF
   float v35[4]; // [esp+294h] [ebp-60h] BYREF
   Scaleform::Render::Matrix2x4<float> v36; // [esp+2A4h] [ebp-50h] BYREF
-  Scaleform::Render::Rect<float> v37; // [esp+2C4h] [ebp-30h] BYREF
+  __m128 v37; // [esp+2C4h] [ebp-30h] BYREF
   _DWORD v38[8]; // [esp+2D4h] [ebp-20h] BYREF
 
   pObject = (Scaleform::Render::TreeShape *)this->pRenNode.pObject;
@@ -118,7 +118,9 @@ char __thiscall Scaleform::GFx::AS3::AvmBitmap::CreateBitmapShape(Scaleform::GFx
       v10 = v9;
       if ( !v9 )
       {
-        Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "Image is not created: can't find ImageCreator.");
+        Scaleform::LogDebugMessage(
+          (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+          "Image is not created: can't find ImageCreator.");
         if ( v28 )
           Scaleform::RefCountImpl::Release(v28);
         if ( v3 )
@@ -150,7 +152,9 @@ char __thiscall Scaleform::GFx::AS3::AvmBitmap::CreateBitmapShape(Scaleform::GFx
     v13[1].__vftable = (Scaleform::RefCountVImpl_vtbl *)v8;
     if ( !v8 )
     {
-      Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "Image is not created.");
+      Scaleform::LogDebugMessage(
+        (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+        "Image is not created.");
       if ( v28 )
         Scaleform::RefCountImpl::Release(v28);
       if ( v3 )
@@ -195,16 +199,16 @@ LABEL_33:
     v36.M[1][2] = 0.0;
     v36.M[1][3] = 0.0;
     v36.M[1][1] = 1.0;
-    (*(void (__thiscall **)(int, Scaleform::Render::Matrix2x4<float> *))(*(_DWORD *)v8 + 56))(v8, &v36);
-    pr.x1 = 0.0;
-    pr.y1 = 0.0;
-    pr.x2 = 0.0;
-    pr.y2 = 0.0;
-    v37.x1 = (float)LODWORD(v35[0]);
-    v37.y1 = (float)LODWORD(v35[1]);
-    v37.x2 = (float)LODWORD(v35[2]);
-    v37.y2 = (float)LODWORD(v35[3]);
-    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v36, &pr, (__m128 *)&v37);
+    (*(void (__thiscall **)(int, Scaleform::Render::Matrix2x4<float> *))(*(_DWORD *)v8 + 68))(v8, &v36);
+    v30.m128_f32[0] = 0.0;
+    v30.m128_f32[1] = 0.0;
+    v30.m128_f32[2] = 0.0;
+    v30.m128_f32[3] = 0.0;
+    v37.m128_f32[0] = (float)LODWORD(v35[0]);
+    v37.m128_f32[1] = (float)LODWORD(v35[1]);
+    v37.m128_f32[2] = (float)LODWORD(v35[2]);
+    v37.m128_f32[3] = (float)LODWORD(v35[3]);
+    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v36, &v30, &v37);
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::AddFillStyle(
       (Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)v3,
       &v32);
@@ -217,22 +221,22 @@ LABEL_33:
       (Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)v3,
       0.0,
       0.0);
-    x = pr.x2 - pr.x1;
+    x = v30.m128_f32[2] - v30.m128_f32[0];
     x = x * 20.0;
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
       (Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)v3,
       x,
       0.0);
-    x = pr.y2 - pr.y1;
+    x = v30.m128_f32[3] - v30.m128_f32[1];
     x = x * 20.0;
     scale = x;
-    x = pr.x2 - pr.x1;
+    x = v30.m128_f32[2] - v30.m128_f32[0];
     x = 20.0 * x;
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
       (Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)v3,
       x,
       scale);
-    x = pr.y2 - pr.y1;
+    x = v30.m128_f32[3] - v30.m128_f32[1];
     x = x * 20.0;
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
       (Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)v3,

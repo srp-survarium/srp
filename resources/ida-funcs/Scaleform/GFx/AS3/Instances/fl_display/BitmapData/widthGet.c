@@ -3,23 +3,24 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::widthGet
         int *result)
 {
   Scaleform::Render::ImageBase *pObject; // ecx
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v5; // eax
+  const Scaleform::GFx::AS3::VM::Error *v4; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::Render::Rect<unsigned long> *v7; // eax
-  Scaleform::GFx::AS3::VM::Error v8; // [esp+0h] [ebp-10h] BYREF
+  Scaleform::Render::Rect<unsigned long> *v6; // eax
+  Scaleform::StringDataPtr v7; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v8; // [esp+4h] [ebp-10h] BYREF
 
   pObject = this->pImage.pObject;
   if ( pObject )
   {
-    v7 = pObject->GetRect(pObject, (Scaleform::Render::Rect<unsigned long> *)&v8);
-    *result = v7->x2 - v7->x1;
+    v6 = pObject->GetRect(pObject, (Scaleform::Render::Rect<unsigned long> *)&v8);
+    *result = v6->x2 - v6->x1;
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v8, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v5);
+    v7.pStr = "Invalid BitmapData";
+    v7.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v8, eArgumentError, this->pTraits.pObject->pVM, v7);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v4);
     pNode = v8.Message.pNode;
     --v8.Message.pNode->RefCount;
     if ( !pNode->RefCount )

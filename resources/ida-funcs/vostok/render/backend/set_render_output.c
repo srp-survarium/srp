@@ -1,33 +1,37 @@
-void __usercall vostok::render::backend::set_render_output(vostok::render::backend *this@<ecx>, _DWORD *a2@<esi>)
+void __usercall vostok::render::backend::set_render_output(
+        vostok::render::backend *this@<esi>,
+        const vostok::render::res_render_output *render_output@<eax>)
 {
-  vostok::render::backend *v2; // eax
-  const vostok::render::res_render_output *v3; // edi
-  int v5; // eax
-  int v6; // ecx
+  const vostok::render::res_render_output *v2; // ecx
+  vostok::render::res_render_output *m_object; // eax
+  const vostok::render::res_render_output *v5; // eax
+  ID3D11RenderTargetView *m_base_rt; // ecx
+  ID3D11DepthStencilView *m_base_zb; // eax
 
   v2 = 0;
-  if ( this )
+  if ( render_output )
   {
-    ++this->num_vs_changes;
-    v2 = this;
+    ++render_output->m_reference_count;
+    v2 = render_output;
   }
-  v3 = (const vostok::render::res_render_output *)a2[540];
-  a2[540] = v2;
-  if ( v3 )
+  m_object = (vostok::render::res_render_output *)this->m_render_output.m_object;
+  this->m_render_output.m_object = v2;
+  if ( m_object )
   {
-    if ( v3->m_reference_count-- == 1 )
+    if ( m_object->m_reference_count-- == 1 )
       vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        v3);
+        vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        m_object);
   }
-  v5 = a2[540];
+  v5 = this->m_render_output.m_object;
   if ( v5 )
-    v6 = *(_DWORD *)(v5 + 208);
+    m_base_rt = v5->m_base_rt;
   else
-    v6 = 0;
-  a2[546] = v6;
+    m_base_rt = 0;
+  this->m_base_rt = m_base_rt;
   if ( v5 )
-    a2[547] = *(_DWORD *)(v5 + 212);
+    m_base_zb = v5->m_base_zb;
   else
-    a2[547] = 0;
+    m_base_zb = 0;
+  this->m_base_zb = m_base_zb;
 }

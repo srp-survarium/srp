@@ -5,12 +5,12 @@ int __thiscall Wm4::Query2<float>::ToTriangle(
         int iV1,
         int iV2)
 {
-  int v8; // ebp
+  int v6; // ebx
+  int v8; // edi
   int v9; // eax
-  int iSign0; // [esp+24h] [ebp+10h]
 
-  iSign0 = this->ToLine(this, rkP, iV1, iV2);
-  if ( iSign0 > 0 )
+  v6 = this->ToLine(this, rkP, iV1, iV2);
+  if ( v6 > 0 )
     return 1;
   v8 = this->ToLine(this, rkP, iV0, iV2);
   if ( v8 < 0 )
@@ -18,7 +18,7 @@ int __thiscall Wm4::Query2<float>::ToTriangle(
   v9 = this->ToLine(this, rkP, iV0, iV1);
   if ( v9 > 0 )
     return 1;
-  if ( iSign0 && v8 && v9 )
+  if ( v6 && v8 && v9 )
     return -1;
   return 0;
 }

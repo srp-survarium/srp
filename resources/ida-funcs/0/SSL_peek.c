@@ -1,4 +1,4 @@
-int __cdecl SSL_peek(ssl_st *s)
+int __usercall SSL_peek@<eax>(int a1@<ebx>, ssl_st *s)
 {
   if ( s->handshake_func )
   {
@@ -9,7 +9,7 @@ int __cdecl SSL_peek(ssl_st *s)
   }
   else
   {
-    ERR_put_error(0x14u, 270, 276, ".\\ssl\\ssl_lib.c", 961);
+    ERR_put_error(a1, 0x14u, 270, 276, ".\\ssl\\ssl_lib.c", 961);
     return -1;
   }
 }

@@ -1,9 +1,9 @@
 int __cdecl pkey_dsa_verify(
         evp_pkey_ctx_st *ctx,
-        unsigned __int8 *sig,
-        unsigned __int8 *siglen,
+        const unsigned __int8 *sig,
+        const unsigned __int8 **siglen,
         const unsigned __int8 *tbs,
-        unsigned int tbslen)
+        int tbslen)
 {
   const ssl_st **data; // ecx
   char *ptr; // esi

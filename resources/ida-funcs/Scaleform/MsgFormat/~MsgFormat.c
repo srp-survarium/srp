@@ -5,12 +5,12 @@ void __thiscall Scaleform::MsgFormat::~MsgFormat(Scaleform::MsgFormat *this)
   int v4; // ebx
   char *v5; // eax
   void (__thiscall ***v6)(void *, _DWORD); // esi
-  unsigned int data_size; // [esp+8h] [ebp-4h]
+  unsigned int v7; // [esp+8h] [ebp-4h]
 
   Size = this->Data.Size;
   v3 = 0;
   this->__vftable = (Scaleform::MsgFormat_vtbl *)&Scaleform::MsgFormat::`vftable';
-  data_size = Size;
+  v7 = Size;
   if ( Size )
   {
     v4 = 0;
@@ -39,7 +39,7 @@ void __thiscall Scaleform::MsgFormat::~MsgFormat(Scaleform::MsgFormat *this)
       ++v3;
       ++v4;
     }
-    while ( v3 < data_size );
+    while ( v3 < v7 );
   }
   if ( this->Data.DynamicArray.Data.Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->Data.DynamicArray.Data.Data);

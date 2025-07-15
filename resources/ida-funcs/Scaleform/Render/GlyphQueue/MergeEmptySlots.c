@@ -9,9 +9,9 @@ void __thiscall Scaleform::Render::GlyphQueue::MergeEmptySlots(Scaleform::Render
   unsigned __int16 x; // dx
   Scaleform::Render::GlyphNode *v9; // ecx
   int v10; // [esp+4h] [ebp-8h]
-  unsigned int i; // [esp+8h] [ebp-4h]
+  unsigned int v11; // [esp+8h] [ebp-4h]
 
-  i = 0;
+  v11 = 0;
   if ( this->NumUsedBands )
   {
     v10 = 0;
@@ -41,7 +41,7 @@ void __thiscall Scaleform::Render::GlyphQueue::MergeEmptySlots(Scaleform::Render
           pRoot->pNext = this->Glyphs.FirstEmptySlot;
           this->Glyphs.FirstEmptySlot = pRoot;
           v5->pPrev->pNext = v5->pNext;
-          v5->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = v5->pPrev;
+          v5->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = v5->pPrev;
           --this->SlotQueueSize;
           if ( (v5->TextureId & 0x8000u) == 0 )
           {
@@ -60,7 +60,7 @@ void __thiscall Scaleform::Render::GlyphQueue::MergeEmptySlots(Scaleform::Render
           pNextInBand->pRoot->mRect.w = v6;
           pNextInBand->pRoot->mRect.h = pNextInBand->pBand->h;
           pNextInBand->pPrev->pNext = pNextInBand->pNext;
-          pNextInBand->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = pNextInBand->pPrev;
+          pNextInBand->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = pNextInBand->pPrev;
           pNextInBand->pNext = this->SlotQueue.Root.pNext;
           pNextInBand->pPrev = (Scaleform::Render::GlyphSlot *)&this->SlotQueue;
           this->SlotQueue.Root.pNext->pPrev = pNextInBand;
@@ -68,8 +68,8 @@ void __thiscall Scaleform::Render::GlyphQueue::MergeEmptySlots(Scaleform::Render
         }
       }
       ++v10;
-      ++i;
+      ++v11;
     }
-    while ( i < this->NumUsedBands );
+    while ( v11 < this->NumUsedBands );
   }
 }

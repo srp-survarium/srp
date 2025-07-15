@@ -5,9 +5,9 @@ void __cdecl Scaleform::GFx::AS2::GASImeCtorFunction::SetEnabled(const Scaleform
   Scaleform::RefCountVImpl *v3; // eax
   Scaleform::RefCountVImpl *v4; // esi
   char v5; // bl
-  int (__thiscall **p_Release)(Scaleform::RefCountVImpl *, _DWORD); // edi
+  int (__thiscall **p_Release)(Scaleform::RefCountVImpl *, bool); // edi
   Scaleform::GFx::AS2::Value *v7; // eax
-  unsigned __int8 v8; // al
+  bool v8; // al
   Scaleform::GFx::AS2::Value *Result; // edi
   Scaleform::GFx::AS2::Environment *v10; // [esp-10h] [ebp-14h]
 
@@ -21,9 +21,9 @@ void __cdecl Scaleform::GFx::AS2::GASImeCtorFunction::SetEnabled(const Scaleform
     if ( v3 )
     {
       v10 = fn->Env;
-      p_Release = (int (__thiscall **)(Scaleform::RefCountVImpl *, _DWORD))&v3->__vftable[2].Release;
+      p_Release = (int (__thiscall **)(Scaleform::RefCountVImpl *, bool))&v3->__vftable[2].Release;
       v7 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      v8 = Scaleform::GFx::AS2::Value::ToBool(v7, v10);
+      v8 = Scaleform::GFx::AS2::Value::ToBool(v7, (int)p_Release, v10);
       v5 = (*p_Release)(v4, v8);
     }
     Result = fn->Result;

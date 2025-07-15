@@ -1,18 +1,15 @@
 vostok::animation::callback_return_type_enum __thiscall survarium::weapon_core_shotgun_reload_start_substate::on_animation_end(
         survarium::weapon_core_shotgun_reload_start_substate *this,
-        survarium::game_camera *params)
+        vostok::animation::animation_callback_params *params)
 {
-  BYTE2(params->m_inverted_view_matrix.lines[1].elements[0]) = 0;
-  if ( params->__vftable == (survarium::game_camera_vtbl *)this->m_weapon )
+  survarium::weapon_core *animated_object; // edx
+
+  animated_object = (survarium::weapon_core *)params->animated_object;
+  params->interrupt_animation_player_tick = 0;
+  if ( animated_object == this->m_weapon && params->animation->m_object == this->m_weapon_animation.m_object )
   {
-    survarium::weapon_user_dead_state::finalize(params);
-    if ( vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::operator==(
-           (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)LODWORD(params->m_inverted_view_matrix.i.x),
-           &this->m_animation_to_wait_for) )
-    {
-      this->m_animation_ended = 1;
-      BYTE2(params->m_inverted_view_matrix.lines[1].elements[0]) = 1;
-    }
+    this->m_animation_ended = 1;
+    params->interrupt_animation_player_tick = 1;
   }
   return 0;
 }

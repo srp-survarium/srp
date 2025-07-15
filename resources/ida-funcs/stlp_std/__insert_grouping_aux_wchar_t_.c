@@ -13,21 +13,21 @@ int __usercall stlp_std::__insert_grouping_aux_wchar_t_@<eax>(
   unsigned __int8 *v12; // esi
   int v13; // edi
   char *M_data; // eax
-  int sign; // [esp+4h] [ebp-4h]
-  wchar_t *firsta; // [esp+Ch] [ebp+4h]
+  int v15; // [esp+4h] [ebp-4h]
+  wchar_t *v16; // [esp+Ch] [ebp+4h]
 
   v8 = first;
   if ( first == last )
     return 0;
   v10 = 0;
-  sign = 0;
+  v15 = 0;
   if ( *first == Plus || *first == Minus )
   {
-    sign = 1;
+    v15 = 1;
     v8 = first + 1;
   }
   v11 = &v8[basechars];
-  firsta = v11;
+  v16 = v11;
   v12 = (unsigned __int8 *)last;
   v13 = 0;
   while ( 1 )
@@ -42,9 +42,9 @@ int __usercall stlp_std::__insert_grouping_aux_wchar_t_@<eax>(
     if ( (char *)last - (char *)v12 > 0 )
     {
       memmove(v12 + 2, v12, (char *)last - (char *)v12);
-      v11 = firsta;
+      v11 = v16;
     }
     *(_WORD *)v12 = separator;
   }
-  return basechars + sign + last - v11;
+  return basechars + v15 + last - v11;
 }

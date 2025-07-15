@@ -1,267 +1,255 @@
-void __userpurge vostok::animation::mixing::n_ary_tree_animation_event_iterator::advance(
-        vostok::animation::mixing::n_ary_tree_animation_event_iterator *this@<ecx>,
-        int a2@<edi>,
-        unsigned __int16 initial_event_types)
+void __thiscall vostok::animation::mixing::n_ary_tree_animation_event_iterator::advance(
+        vostok::animation::mixing::n_ary_tree_animation_event_iterator *this,
+        int initial_event_types,
+        __int16 disabled_channel_ids_at_start_time,
+        unsigned __int8 *a4)
 {
-  int v3; // eax
-  int v4; // eax
-  __int64 v5; // xmm0_8
-  _DWORD *v6; // eax
-  int v7; // eax
-  float v8; // xmm0_4
-  vostok::animation::mixing::animation_interval *v9; // ebp
-  int v10; // esi
-  unsigned int v11; // eax
-  int v12; // ecx
-  float m_time_scale; // xmm0_4
-  float v14; // xmm0_4
-  unsigned int v15; // eax
+  int v4; // ebx
+  int v5; // eax
+  int v6; // eax
+  _DWORD *v7; // eax
+  int v8; // eax
+  float v9; // xmm0_4
+  int v10; // eax
+  int v11; // edi
+  float v12; // xmm1_4
+  float v13; // xmm0_4
+  int v14; // esi
+  float v15; // xmm0_4
   int v16; // esi
-  int v17; // ecx
-  double v18; // st7
-  double v19; // st7
+  int v17; // eax
+  float v18; // xmm1_4
+  bool v19; // cf
   float v20; // xmm0_4
-  vostok::animation::mixing::n_ary_tree_animation_event_iterator *v21; // ecx
-  vostok::animation::mixing::n_ary_tree_animation_node *v22; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *v23; // ecx
-  unsigned int v24; // edx
-  unsigned int v25; // ecx
-  __int16 v26; // ax
+  _BYTE *v21; // esi
+  unsigned int v22; // eax
+  float v23; // xmm0_4
+  __int16 v24; // dx
+  int v25; // eax
+  unsigned int time_in_ms; // eax
   float v27; // xmm0_4
-  int v28; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *v29; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *m_time_driving_animation; // ecx
-  unsigned int v31; // edx
-  unsigned int m_current_time_in_ms; // ecx
-  __int16 v33; // ax
-  float v34; // xmm0_4
-  unsigned int v35; // ecx
-  _DWORD *v36; // eax
-  __int16 v37; // ax
-  float v38; // [esp+8h] [ebp-7Ch]
-  bool target_animation_time; // [esp+18h] [ebp-6Ch]
-  float animation_state_interval_time; // [esp+28h] [ebp-5Ch]
-  int event_type; // [esp+2Ch] [ebp-58h] BYREF
-  float time_scale; // [esp+30h] [ebp-54h]
-  float driving_animation_factor; // [esp+34h] [ebp-50h]
-  unsigned int iteration; // [esp+38h] [ebp-4Ch]
-  BOOL start_time_may_be_used; // [esp+3Ch] [ebp-48h]
-  float new_event_time; // [esp+40h] [ebp-44h]
-  float target_time; // [esp+44h] [ebp-40h]
-  float v48; // [esp+48h] [ebp-3Ch]
-  vostok::animation::mixing::animation_event value; // [esp+4Ch] [ebp-38h]
-  vostok::animation::mixing::n_ary_tree_time_scale_calculator time_scale_calculator; // [esp+5Ch] [ebp-28h] BYREF
+  unsigned int v28; // ecx
+  _DWORD *v29; // eax
+  bool v30; // zf
+  __int16 v31; // ax
+  unsigned int v32; // [esp+18h] [ebp-64h]
+  struct vostok::animation::mixing::n_ary_tree_animation_node *v33; // [esp+1Ch] [ebp-60h]
+  _BYTE v34[28]; // [esp+24h] [ebp-58h] BYREF
+  float v35; // [esp+40h] [ebp-3Ch]
+  int v36; // [esp+4Ch] [ebp-30h]
+  int v37; // [esp+50h] [ebp-2Ch]
+  int v38; // [esp+54h] [ebp-28h]
+  int v39; // [esp+58h] [ebp-24h]
+  float v40; // [esp+5Ch] [ebp-20h] BYREF
+  const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v41; // [esp+60h] [ebp-1Ch]
+  float v42; // [esp+64h] [ebp-18h] BYREF
+  int i; // [esp+68h] [ebp-14h]
+  float v44; // [esp+6Ch] [ebp-10h]
+  float v45; // [esp+70h] [ebp-Ch]
+  float v46; // [esp+74h] [ebp-8h]
 
-  LOBYTE(start_time_may_be_used) = initial_event_types & 1;
-  if ( !initial_event_types )
+  v4 = initial_event_types;
+  if ( !disabled_channel_ids_at_start_time )
   {
-    v3 = *(_DWORD *)(a2 + 16);
-    if ( *(_DWORD *)(v3 + 68) == 1
-      && ((v4 = *(_DWORD *)(v3 + 28)) != 0 && *(_BYTE *)(v4 + 117) || (*(_BYTE *)(a2 + 12) & 8) != 0) )
+    v5 = *(_DWORD *)(initial_event_types + 16);
+    if ( *(_DWORD *)(v5 + 68) == 1
+      && ((v6 = *(_DWORD *)(v5 + 28)) != 0 && *(_BYTE *)(v6 + 117) || (*(_BYTE *)(initial_event_types + 12) & 8) != 0) )
     {
-      value.event_type = 0;
+LABEL_6:
+      v36 = -1;
+      v38 = -1;
+      *(_DWORD *)(initial_event_types + 16) = 0;
+      BYTE2(v39) = 0;
 LABEL_7:
-      value.event_time_in_ms = -1;
-      value.animation_interval_id = -1;
-LABEL_8:
-      value.animation_interval_time = -4.2170408e37;
-      *(_QWORD *)a2 = *(_QWORD *)&value.animation_interval_id;
-      value.channel_ids = 0;
-      value.domain_data = -1;
-      v5 = *(_QWORD *)&value.event_time_in_ms;
-      *(_DWORD *)(a2 + 16) = 0;
-      *(_QWORD *)(a2 + 8) = v5;
+      LOWORD(v39) = 0;
+      v37 = -33698355;
+      HIBYTE(v39) = -1;
+      *(_DWORD *)v4 = v36;
+      *(_DWORD *)(v4 + 4) = v37;
+      *(_DWORD *)(v4 + 8) = v38;
+      *(_DWORD *)(v4 + 12) = v39;
       return;
     }
   }
-  v6 = *(_DWORD **)(a2 + 16);
-  if ( v6[2] || v6[3] )
+  v7 = *(_DWORD **)(initial_event_types + 16);
+  if ( v7[2] || v7[3] )
   {
-    if ( (initial_event_types & 1) != 0 )
+    if ( (disabled_channel_ids_at_start_time & 1) != 0 )
       return;
-    value.event_type = 0;
-    goto LABEL_7;
+    goto LABEL_6;
   }
-  v7 = v6[7];
-  if ( v7 )
-    v8 = *(float *)(v7 + 100);
+  v8 = v7[7];
+  if ( v8 )
+    v9 = *(float *)(v8 + 100);
   else
-    v8 = *(float *)(a2 + 4);
-  animation_state_interval_time = v8;
-  for ( iteration = 0; ; ++iteration )
+    v9 = *(float *)(initial_event_types + 4);
+  v46 = v9;
+  for ( i = 0; ; ++i )
   {
-    v9 = (vostok::animation::mixing::animation_interval *)(*(_DWORD *)(*(_DWORD *)(a2 + 16) + 16) + 12 * *(_DWORD *)a2);
-    if ( *(float *)(a2 + 4) > vostok::animation::mixing::animation_interval::length(v9) )
-      *(float *)(a2 + 4) = vostok::animation::mixing::animation_interval::length(v9);
-    if ( iteration )
-      animation_state_interval_time = *(float *)(a2 + 4);
-    v10 = *(_DWORD *)(*(_DWORD *)(a2 + 16) + 20);
-    if ( !v10 )
-      v10 = *(_DWORD *)(a2 + 16);
-    if ( *(_DWORD *)(v10 + 4)
-      && (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(v10 + 88) + 12))(*(_DWORD *)(v10 + 88)) )
+    v10 = *(_DWORD *)(v4 + 16);
+    v11 = *(_DWORD *)(v10 + 16) + 20 * *(_DWORD *)v4;
+    v12 = *(float *)(v4 + 4);
+    v13 = *(float *)(v11 + 16);
+    v41 = (const vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)v11;
+    if ( v12 > v13 )
+      *(float *)(v4 + 4) = v13;
+    if ( i )
+      v46 = *(float *)(v4 + 4);
+    v14 = *(_DWORD *)(v10 + 20);
+    if ( !v14 )
+      v14 = v10;
+    if ( *(_DWORD *)(v14 + 4)
+      && (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(v14 + 88) + 12))(*(_DWORD *)(v14 + 88)) )
     {
-      v11 = *(_DWORD *)(a2 + 8);
-      v12 = *(_DWORD *)(v10 + 88);
-      time_scale_calculator.m_previous_animation_time = *(const float *)(a2 + 4);
-      time_scale_calculator.m_current_time_in_ms = v11;
-      time_scale_calculator.m_previous_time_in_ms = v11;
-      time_scale_calculator.__vftable = (vostok::animation::mixing::n_ary_tree_time_scale_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_time_scale_calculator::`vftable';
-      memset((void *)&time_scale_calculator.m_animation, 0, 12);
-      memset(&time_scale_calculator.m_time_scale, 0, 12);
-      (*(void (__thiscall **)(int, vostok::animation::mixing::n_ary_tree_time_scale_calculator *))(*(_DWORD *)v12 + 8))(
-        v12,
-        &time_scale_calculator);
-      m_time_scale = time_scale_calculator.m_time_scale;
+      vostok::animation::mixing::n_ary_tree_time_scale_calculator::n_ary_tree_time_scale_calculator(
+        0,
+        (int)v34,
+        *(_DWORD *)(v4 + 4),
+        *(_DWORD *)(v4 + 8),
+        *(float *)(v4 + 8),
+        v32,
+        v33);
+      (*(void (__thiscall **)(_DWORD, _BYTE *))(**(_DWORD **)(v14 + 88) + 8))(*(_DWORD *)(v14 + 88), v34);
+      v15 = v35;
     }
     else
     {
-      m_time_scale = *(float *)&clear_value;
+      v15 = s_bm_current_air_resistance;
     }
-    time_scale = m_time_scale;
-    if ( !initial_event_types && m_time_scale == 0.0 )
+    if ( !disabled_channel_ids_at_start_time && v15 == 0.0 )
     {
-      v14 = *(float *)(a2 + 4);
-      v15 = *(_DWORD *)(a2 + 8) + 1;
-      time_scale_calculator.__vftable = (vostok::animation::mixing::n_ary_tree_time_scale_calculator_vtbl *)&vostok::animation::mixing::n_ary_tree_time_scale_calculator::`vftable';
-      memset((void *)&time_scale_calculator.m_animation, 0, 12);
-      time_scale_calculator.m_current_time_in_ms = v15;
-      time_scale_calculator.m_previous_animation_time = v14;
-      time_scale_calculator.m_previous_time_in_ms = v15;
-      memset(&time_scale_calculator.m_time_scale, 0, 12);
-      if ( *(_DWORD *)(v10 + 4)
-        && (v16 = *(_DWORD *)(v10 + 88)) != 0
-        && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v16 + 12))(v16) )
+      vostok::animation::mixing::n_ary_tree_time_scale_calculator::n_ary_tree_time_scale_calculator(
+        0,
+        (int)v34,
+        *(_DWORD *)(v4 + 4),
+        *(_DWORD *)(v4 + 8) + 1,
+        COERCE_FLOAT(*(_DWORD *)(v4 + 8) + 1),
+        v32,
+        v33);
+      v16 = *(_DWORD *)(v14 + 4) ? *(_DWORD *)(v14 + 88) : 0;
+      if ( v16 && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v16 + 12))(v16) )
       {
-        (*(void (__thiscall **)(int, vostok::animation::mixing::n_ary_tree_time_scale_calculator *))(*(_DWORD *)v16 + 8))(
-          v16,
-          &time_scale_calculator);
-        time_scale = time_scale_calculator.m_time_scale;
-        if ( time_scale_calculator.m_time_scale == 0.0 )
-        {
-          value.animation_interval_id = -1;
-          value.event_time_in_ms = -1;
-          value.event_type = 0;
-          goto LABEL_8;
-        }
+        (*(void (__thiscall **)(int, _BYTE *))(*(_DWORD *)v16 + 8))(v16, v34);
+        v15 = v35;
       }
       else
       {
-        time_scale = *(float *)&clear_value;
+        v15 = s_bm_current_air_resistance;
+      }
+      if ( v15 == 0.0 )
+      {
+        *(_DWORD *)(v4 + 16) = 0;
+        v36 = -1;
+        v38 = -1;
+        BYTE2(v39) = 0;
+        goto LABEL_7;
       }
     }
-    v17 = *(_DWORD *)(*(_DWORD *)(a2 + 16) + 20);
-    if ( !v17 )
-      v17 = *(_DWORD *)(a2 + 16);
-    driving_animation_factor = vostok::animation::mixing::animation_interval::length((vostok::animation::mixing::animation_interval *)(*(_DWORD *)(v17 + 16) + 12 * *(_DWORD *)a2));
-    v18 = vostok::animation::mixing::animation_interval::length(v9);
-    v19 = driving_animation_factor / v18;
-    *(_WORD *)(a2 + 12) = initial_event_types;
-    value = *(vostok::animation::mixing::animation_event *)a2;
-    v20 = *(float *)(a2 + 4);
-    driving_animation_factor = v19;
-    if ( time_scale < 0.0 )
+    v17 = *(_DWORD *)(v4 + 16);
+    if ( *(_DWORD *)(v17 + 20) )
+      v17 = *(_DWORD *)(v17 + 20);
+    v18 = *(float *)(*(_DWORD *)(v17 + 16) + 20 * *(_DWORD *)v4 + 16) / *(float *)(v11 + 16);
+    v19 = v15 < 0.0;
+    v20 = *(float *)(v4 + 4);
+    *(_WORD *)(v4 + 12) = disabled_channel_ids_at_start_time;
+    v36 = *(_DWORD *)v4;
+    v37 = *(_DWORD *)(v4 + 4);
+    v38 = *(_DWORD *)(v4 + 8);
+    v45 = v18;
+    v39 = *(_DWORD *)(v4 + 12);
+    v44 = v20;
+    if ( v19 )
     {
-      target_time = v20;
-      if ( v20 > animation_state_interval_time )
-        animation_state_interval_time = v20;
+      if ( v20 > v46 )
+        v46 = v20;
+      v21 = (_BYTE *)(v4 + 14);
       vostok::animation::mixing::n_ary_tree_animation_event_iterator::get_nearest_animation_interval_event_time(
-        (vostok::animation::mixing::n_ary_tree_animation_event_iterator *)(a2 + 15),
-        (const vostok::animation::mixing::animation_interval *)a2,
-        v9,
-        target_time,
+        v41,
+        (const vostok::animation::mixing::animation_interval *)LODWORD(v44),
         0.0,
-        (unsigned __int16 *)&event_type,
-        (unsigned __int8 *)(a2 + 14),
-        (unsigned __int8 *)(a2 + 15),
-        start_time_may_be_used);
-      v29 = *(vostok::animation::mixing::n_ary_tree_animation_node **)(a2 + 16);
-      m_time_driving_animation = v29->m_time_driving_animation;
-      v31 = *(_DWORD *)(a2 + 8);
-      v48 = v20 * driving_animation_factor;
-      if ( m_time_driving_animation )
-        v29 = m_time_driving_animation;
-      vostok::animation::mixing::n_ary_tree_time_in_ms_calculator::n_ary_tree_time_in_ms_calculator(
-        (vostok::animation::mixing::n_ary_tree_time_in_ms_calculator *)&time_scale_calculator,
-        v29,
-        event_type,
-        v31,
-        driving_animation_factor * animation_state_interval_time,
-        v48);
-      event_type = LOWORD(time_scale_calculator.m_previous_animation_time);
-      m_current_time_in_ms = time_scale_calculator.m_current_time_in_ms;
-      if ( initial_event_types && time_scale_calculator.m_current_time_in_ms != *(_DWORD *)(a2 + 8) )
+        &initial_event_types,
+        (unsigned __int16 *)(v4 + 14),
+        (unsigned __int8 *)(v4 + 15),
+        a4);
+      v40 = v20 * v45;
+      time_in_ms = vostok::animation::mixing::n_ary_tree_animation_event_iterator::get_time_in_ms(
+                     (vostok::animation::mixing::n_ary_tree_animation_event_iterator *)v4,
+                     (unsigned __int16 *)&initial_event_types,
+                     *(_DWORD *)(v4 + 8),
+                     v45 * v46,
+                     &v40);
+      if ( disabled_channel_ids_at_start_time && time_in_ms != *(_DWORD *)(v4 + 8) )
         return;
-      *(_WORD *)(a2 + 12) |= LOWORD(time_scale_calculator.m_previous_animation_time);
-      v33 = *(_WORD *)(a2 + 12);
-      v34 = *(float *)&time_scale_calculator.m_interpolator / driving_animation_factor;
-      *(_DWORD *)(a2 + 8) = m_current_time_in_ms;
-      *(float *)(a2 + 4) = v34;
-      if ( (v33 & 4) != 0 )
+      v27 = v40 / v45;
+      *(_DWORD *)(v4 + 8) = time_in_ms;
+      *(_WORD *)(v4 + 12) |= initial_event_types;
+      v24 = *(_WORD *)(v4 + 12);
+      *(float *)(v4 + 4) = v27;
+      if ( (v24 & 4) != 0 )
       {
-        if ( !*(_DWORD *)a2
-          || (v35 = *(_DWORD *)a2 - 1, v36 = *(_DWORD **)(a2 + 16), *(_DWORD *)a2 = v35, v35 < v36[16]) )
+        if ( !*(_DWORD *)v4
+          || (v28 = *(_DWORD *)v4 - 1, v29 = *(_DWORD **)(v4 + 16), *(_DWORD *)v4 = v28, v28 < v29[16]) )
         {
-          v36 = *(_DWORD **)(a2 + 16);
-          *(_DWORD *)a2 = v36[15] - 1;
+          v29 = *(_DWORD **)(v4 + 16);
+          *(_DWORD *)v4 = v29[15] - 1;
         }
-        *(float *)(a2 + 4) = vostok::animation::mixing::animation_interval::length((vostok::animation::mixing::animation_interval *)(v36[4] + 12 * *(_DWORD *)a2));
+        *(float *)(v4 + 4) = *(float *)(v29[4] + 20 * *(_DWORD *)v4 + 16);
       }
     }
     else
     {
-      if ( animation_state_interval_time > v20 )
-        animation_state_interval_time = v20;
-      target_animation_time = start_time_may_be_used;
-      v38 = vostok::animation::mixing::animation_interval::length(v9);
+      if ( v46 > v20 )
+        v46 = v20;
+      v21 = (_BYTE *)(v4 + 14);
       vostok::animation::mixing::n_ary_tree_animation_event_iterator::get_nearest_animation_interval_event_time(
-        v21,
-        (const vostok::animation::mixing::animation_interval *)a2,
-        v9,
-        *(float *)(a2 + 4),
-        v38,
-        (unsigned __int16 *)&event_type,
-        (unsigned __int8 *)(a2 + 14),
-        (unsigned __int8 *)(a2 + 15),
-        target_animation_time);
-      v22 = *(vostok::animation::mixing::n_ary_tree_animation_node **)(a2 + 16);
-      v23 = v22->m_time_driving_animation;
-      v24 = *(_DWORD *)(a2 + 8);
-      new_event_time = v20 * driving_animation_factor;
-      if ( v23 )
-        v22 = v23;
-      vostok::animation::mixing::n_ary_tree_time_in_ms_calculator::n_ary_tree_time_in_ms_calculator(
-        (vostok::animation::mixing::n_ary_tree_time_in_ms_calculator *)&time_scale_calculator,
-        v22,
-        event_type,
-        v24,
-        driving_animation_factor * animation_state_interval_time,
-        new_event_time);
-      event_type = LOWORD(time_scale_calculator.m_previous_animation_time);
-      v25 = time_scale_calculator.m_current_time_in_ms;
-      if ( initial_event_types && time_scale_calculator.m_current_time_in_ms != *(_DWORD *)(a2 + 8) )
+        v41,
+        (const vostok::animation::mixing::animation_interval *)LODWORD(v44),
+        *(float *)&v41[4].m_object,
+        &initial_event_types,
+        (unsigned __int16 *)(v4 + 14),
+        (unsigned __int8 *)(v4 + 15),
+        a4);
+      v42 = v20 * v45;
+      v22 = vostok::animation::mixing::n_ary_tree_animation_event_iterator::get_time_in_ms(
+              (vostok::animation::mixing::n_ary_tree_animation_event_iterator *)v4,
+              (unsigned __int16 *)&initial_event_types,
+              *(_DWORD *)(v4 + 8),
+              v45 * v46,
+              &v42);
+      if ( disabled_channel_ids_at_start_time && v22 != *(_DWORD *)(v4 + 8) )
         return;
-      *(_WORD *)(a2 + 12) |= LOWORD(time_scale_calculator.m_previous_animation_time);
-      v26 = *(_WORD *)(a2 + 12);
-      v27 = *(float *)&time_scale_calculator.m_interpolator / driving_animation_factor;
-      *(_DWORD *)(a2 + 8) = v25;
-      *(float *)(a2 + 4) = v27;
-      if ( (v26 & 4) != 0 )
+      v23 = v42 / v45;
+      *(_DWORD *)(v4 + 8) = v22;
+      *(_WORD *)(v4 + 12) |= initial_event_types;
+      v24 = *(_WORD *)(v4 + 12);
+      *(float *)(v4 + 4) = v23;
+      if ( (v24 & 4) != 0 )
       {
-        ++*(_DWORD *)a2;
-        v28 = *(_DWORD *)(a2 + 16);
-        if ( *(_DWORD *)a2 == *(_DWORD *)(v28 + 60) )
-          *(_DWORD *)a2 = *(_DWORD *)(v28 + 64);
-        *(_DWORD *)(a2 + 4) = 0;
+        ++*(_DWORD *)v4;
+        v25 = *(_DWORD *)(v4 + 16);
+        if ( *(_DWORD *)v4 == *(_DWORD *)(v25 + 60) )
+          *(_DWORD *)v4 = *(_DWORD *)(v25 + 64);
+        *(_DWORD *)(v4 + 4) = 0;
       }
     }
-    if ( initial_event_types || *(_DWORD *)(a2 + 8) != value.event_time_in_ms )
+    if ( v38 != *(_DWORD *)(v4 + 8) )
       break;
+    v30 = ((unsigned __int8)~(_BYTE)a4 & *v21) == 0;
+    *v21 &= ~(_BYTE)a4;
+    if ( v30 && disabled_channel_ids_at_start_time )
+      return;
+    if ( disabled_channel_ids_at_start_time )
+      break;
+    if ( (v24 & 0x20) != 0 )
+    {
+      *(_WORD *)(v4 + 12) = 32;
+      break;
+    }
   }
-  if ( *(_DWORD *)(*(_DWORD *)(a2 + 16) + 68) == 2 )
+  if ( *(_DWORD *)(*(_DWORD *)(v4 + 16) + 68) == 2 )
   {
-    v37 = *(_WORD *)(a2 + 12);
-    if ( (v37 & 8) != 0 )
-      *(_WORD *)(a2 + 12) = v37 | 2;
+    v31 = *(_WORD *)(v4 + 12);
+    if ( (v31 & 8) != 0 )
+      *(_WORD *)(v4 + 12) = v31 | 2;
   }
 }

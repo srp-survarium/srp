@@ -17,8 +17,8 @@ void __thiscall Scaleform::Render::MatrixPoolImpl::HMatrix::SetMatrix3D(
       Format | 0x10);
   }
   memcpy(
-    (unsigned __int8 *)&this->pHandle->pHeader[1].RefCount
-  + 16 * (unsigned __int8)byte_9B2B74[5 * (this->pHandle->pHeader->Format & 0xF)],
-    (unsigned __int8 *)m,
+    (int)(&this->pHandle->pHeader[1].RefCount
+        + 4 * (unsigned __int8)byte_874214[5 * (this->pHandle->pHeader->Format & 0xF)]),
+    (const __m128i *)m,
     0x30u);
 }

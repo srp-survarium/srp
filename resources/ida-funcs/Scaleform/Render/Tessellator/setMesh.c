@@ -2,7 +2,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
         Scaleform::Render::Tessellator *this,
         unsigned int style)
 {
-  Scaleform::Render::TessMesh mesh; // [esp+4h] [ebp-1Ch] BYREF
+  Scaleform::Render::TessMesh val; // [esp+4h] [ebp-1Ch] BYREF
 
   if ( !this->HasComplexFill )
     return 0;
@@ -11,14 +11,14 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
     if ( ((1 << (style & 0x1F)) & this->ComplexFlags.Array[style >> 5]) != 0 )
     {
       this->StyleMatrix.Array[style * (this->StyleMatrix.Size + 1)] = this->Meshes.Size;
-      mesh.MeshIdx = this->Meshes.Size;
-      mesh.Style2 = style;
-      mesh.Style1 = style;
-      mesh.Flags2 = 0x8000;
-      mesh.Flags1 = 0x8000;
-      mesh.VertexCount = 0;
-      mesh.StartVertex = 0;
-      Scaleform::Render::ArrayPaged<Scaleform::Render::TessMesh,4,4>::PushBack(&this->Meshes, &mesh);
+      val.MeshIdx = this->Meshes.Size;
+      val.Style2 = style;
+      val.Style1 = style;
+      val.Flags2 = 0x8000;
+      val.Flags1 = 0x8000;
+      val.VertexCount = 0;
+      val.StartVertex = 0;
+      Scaleform::Render::ArrayPaged<Scaleform::Render::TessMesh,4,4>::PushBack(&this->Meshes, &val);
       Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::AddArray(&this->MeshTriangles);
     }
     else
@@ -48,10 +48,10 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
   unsigned __int16 *v15; // ecx
   unsigned __int16 v16; // dx
   unsigned int v17; // eax
-  unsigned __int16 meshSt1; // [esp+4h] [ebp-20h]
-  Scaleform::Render::TessMesh mesh; // [esp+8h] [ebp-1Ch] BYREF
-  unsigned int cf1; // [esp+28h] [ebp+4h]
-  unsigned __int16 meshIdx; // [esp+2Ch] [ebp+8h]
+  unsigned __int16 v18; // [esp+4h] [ebp-20h]
+  Scaleform::Render::TessMesh val; // [esp+8h] [ebp-1Ch] BYREF
+  int v20; // [esp+28h] [ebp+4h]
+  unsigned __int16 Size; // [esp+2Ch] [ebp+8h]
 
   if ( !this->HasComplexFill )
     return 0;
@@ -61,7 +61,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
     return this->StyleMatrix.Array[v5 + v6 * this->StyleMatrix.Size];
   Array = this->ComplexFlags.Array;
   v8 = Array[style1 >> 5] & (1 << (style1 & 0x1F));
-  cf1 = v8;
+  v20 = v8;
   v9 = Array[style2 >> 5] & (1 << (style2 & 0x1F));
   if ( !(v8 | v9) )
   {
@@ -75,7 +75,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
   }
   if ( v8 )
   {
-    cf1 = 0x8000;
+    v20 = 0x8000;
     v8 = 0x8000;
   }
   if ( v9 )
@@ -83,35 +83,35 @@ unsigned int __thiscall Scaleform::Render::Tessellator::setMesh(
   if ( !v8 )
   {
     v10 = v6;
-    cf1 = v9;
+    v20 = v9;
     v6 = style2;
     v5 = v10;
     v8 = v9;
     v9 = 0;
   }
-  meshIdx = this->Meshes.Size;
+  Size = this->Meshes.Size;
   v11 = this->StyleMatrix.Array[v6 * (this->StyleMatrix.Size + 1)];
-  meshSt1 = this->StyleMatrix.Array[v6 * (this->StyleMatrix.Size + 1)];
+  v18 = this->StyleMatrix.Array[v6 * (this->StyleMatrix.Size + 1)];
   if ( !v9 && v11 != 0xFFFF )
   {
     if ( (Scaleform::Render::ArrayPaged<Scaleform::Render::TessMesh,4,4>::operator[](&this->Meshes, v11)->Flags2 & 0x8000) == 0 )
     {
-      v12 = meshSt1;
-      meshIdx = meshSt1;
+      v12 = v18;
+      Size = v18;
       goto LABEL_17;
     }
-    v8 = cf1;
+    v8 = v20;
   }
-  mesh.MeshIdx = this->Meshes.Size;
-  mesh.Flags1 = v8;
-  mesh.Style2 = v9 != 0 ? v5 : 0;
-  mesh.Style1 = v6;
-  mesh.Flags2 = v9;
-  mesh.VertexCount = 0;
-  mesh.StartVertex = 0;
-  Scaleform::Render::ArrayPaged<Scaleform::Render::TessMesh,4,4>::PushBack(&this->Meshes, &mesh);
+  val.MeshIdx = this->Meshes.Size;
+  val.Flags1 = v8;
+  val.Style2 = v9 != 0 ? v5 : 0;
+  val.Style1 = v6;
+  val.Flags2 = v9;
+  val.VertexCount = 0;
+  val.StartVertex = 0;
+  Scaleform::Render::ArrayPaged<Scaleform::Render::TessMesh,4,4>::PushBack(&this->Meshes, &val);
   Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::AddArray(&this->MeshTriangles);
-  v12 = meshIdx;
+  v12 = Size;
 LABEL_17:
   this->StyleMatrix.Array[v5 + v6 * this->StyleMatrix.Size] = v12;
   this->StyleMatrix.Array[v6 + v5 * this->StyleMatrix.Size] = v12;
@@ -126,9 +126,9 @@ LABEL_17:
     return this->StyleMatrix.Array[v5 + v6 * this->StyleMatrix.Size];
   }
   v15 = this->StyleMatrix.Array;
-  if ( v15[v6 * (this->StyleMatrix.Size + 1)] == 0xFFFF && cf1 && !v9 )
+  if ( v15[v6 * (this->StyleMatrix.Size + 1)] == 0xFFFF && v20 && !v9 )
   {
-    v16 = meshIdx;
+    v16 = Size;
     v17 = v6 * (this->StyleMatrix.Size + 1);
 LABEL_27:
     v15[v17] = v16;

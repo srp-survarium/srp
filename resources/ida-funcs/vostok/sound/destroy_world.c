@@ -1,5 +1,7 @@
 void __cdecl vostok::sound::destroy_world(vostok::sound::world **world)
 {
-  vostok::uninitialized_reference<vostok::sound::sound_world>::destroy(&s_world_3);
+  (*(void (__thiscall **)(vostok::sound::engine *, _DWORD))(*(_DWORD *)&s_sound_world_buffer + 20))(
+    &s_sound_world_buffer,
+    0);
   *world = 0;
 }

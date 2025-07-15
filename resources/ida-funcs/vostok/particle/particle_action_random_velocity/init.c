@@ -4,51 +4,85 @@ void __thiscall vostok::particle::particle_action_random_velocity::init(
         vostok::particle::base_particle *P,
         float time)
 {
-  _BYTE *v4; // eax
-  const vostok::math::float3 *v5; // eax
-  vostok::math::float3 *v6; // eax
-  vostok::math::float3 *v7; // [esp+8h] [ebp-A4h]
-  vostok::math::float3 *v8; // [esp+Ch] [ebp-A0h]
-  vostok::math::float3 v10; // [esp+34h] [ebp-78h] BYREF
-  vostok::math::float3 v11; // [esp+40h] [ebp-6Ch] BYREF
-  vostok::math::float3 v12; // [esp+4Ch] [ebp-60h] BYREF
-  vostok::math::float3 v13; // [esp+58h] [ebp-54h] BYREF
-  vostok::math::float3_pod *right; // [esp+64h] [ebp-48h]
-  vostok::math::float3 v15; // [esp+68h] [ebp-44h] BYREF
-  vostok::math::float3 v16; // [esp+74h] [ebp-38h] BYREF
-  vostok::math::float3 result; // [esp+80h] [ebp-2Ch] BYREF
-  vostok::math::float3 *v18; // [esp+8Ch] [ebp-20h]
-  char v19; // [esp+93h] [ebp-19h]
-  vostok::math::float3 target_location; // [esp+94h] [ebp-18h] BYREF
-  vostok::math::float3 start_location; // [esp+A0h] [ebp-Ch] BYREF
+  vostok::particle::particle_domain_complex *p_m_domain; // eax
+  vostok::math::float3 *v5; // esi
+  vostok::particle::particle_emitter_instance *v6; // ecx
+  vostok::math::float4x4 *transform; // eax
+  vostok::particle::particle_domain_complex *v8; // ecx
+  float y; // xmm1_4
+  float z; // xmm0_4
+  float x; // xmm2_4
+  float v12; // xmm4_4
+  vostok::math::float3 *v13; // eax
+  bool v14; // zf
+  vostok::math::float4x4 *v15; // eax
+  float v16; // xmm1_4
+  float v17; // xmm0_4
+  float v18; // xmm1_4
+  vostok::math::float3 *p_position; // eax
+  float m_velocity_multiplier; // xmm0_4
+  float v22; // [esp+14h] [ebp-64h] BYREF
+  float v23; // [esp+18h] [ebp-60h]
+  float v24; // [esp+1Ch] [ebp-5Ch]
+  vostok::math::float3 v25; // [esp+20h] [ebp-58h] BYREF
+  vostok::math::float3 position; // [esp+2Ch] [ebp-4Ch] BYREF
+  vostok::math::float4x4 v27; // [esp+38h] [ebp-40h] BYREF
 
-  v19 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *v4 )
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)instance);
+  p_m_domain = &this->m_domain;
   if ( instance->m_emitter->m_world_space )
   {
-    v5 = vostok::particle::particle_domain_complex::generate(&this->m_domain, &result);
-    v8 = vostok::math::float4x4::transform_direction(v5, &v16, &instance->m_transform);
+    v5 = vostok::particle::particle_domain_complex::generate(
+           (vostok::particle::particle_domain_complex *)&v25,
+           p_m_domain,
+           &v25.x);
+    transform = vostok::particle::particle_emitter_instance::get_transform(v6, instance, &v27);
+    y = v5->y;
+    z = v5->z;
+    x = v5->x;
+    v12 = transform->j.y;
+    position.x = (float)((float)(transform->j.x * y) + (float)(transform->k.x * z)) + (float)(transform->i.x * v5->x);
+    position.y = (float)((float)(transform->i.y * x) + (float)(v12 * y)) + (float)(transform->k.y * z);
+    position.z = (float)((float)(transform->i.z * x) + (float)(transform->j.z * y)) + (float)(transform->k.z * z);
+    v13 = &position;
   }
   else
   {
-    v8 = vostok::particle::particle_domain_complex::generate(&this->m_domain, &v15);
+    v13 = vostok::particle::particle_domain_complex::generate(
+            (vostok::particle::particle_domain_complex *)&v22,
+            p_m_domain,
+            &v22);
   }
-  v18 = v8;
-  P->start_velocity = *v8;
-  vostok::particle::particle_domain_complex::generate(&this->m_domain, &target_location);
-  start_location = P->position;
-  if ( instance->m_emitter->m_world_space )
+  P->start_velocity = *v13;
+  vostok::particle::particle_domain_complex::generate(v8, &this->m_domain, &v25.x);
+  v14 = !instance->m_emitter->m_world_space;
+  position = P->position;
+  v22 = v25.x - position.x;
+  v23 = v25.y - position.y;
+  v24 = v25.z - position.z;
+  if ( v14 )
   {
-    v6 = vostok::math::operator-(&start_location, &target_location, &v13);
-    v7 = vostok::math::float4x4::transform_direction(v6, &v12, &instance->m_transform);
+    p_position = (vostok::math::float3 *)&v22;
   }
   else
   {
-    v7 = vostok::math::operator-(&start_location, &target_location, &v11);
+    v15 = vostok::particle::particle_emitter_instance::get_transform(
+            (vostok::particle::particle_emitter_instance *)&v27,
+            instance,
+            &v27);
+    v16 = v15->j.y * v23;
+    position.x = (float)((float)(v15->k.x * v24) + (float)(v15->j.x * v23)) + (float)(v15->i.x * v22);
+    v17 = (float)((float)(v15->k.y * v24) + v16) + (float)(v15->i.y * v22);
+    v18 = v15->j.z * v23;
+    position.y = v17;
+    position.z = (float)((float)(v15->k.z * v24) + v18) + (float)(v15->i.z * v22);
+    p_position = &position;
   }
-  right = v7;
-  P->start_velocity = *vostok::math::operator*(v7, &v10, &this->m_velocity_multiplier);
-  vostok::math::float3_pod::operator+=(&P->start_velocity, &P->velocity);
+  m_velocity_multiplier = this->m_velocity_multiplier;
+  v25.x = p_position->x * m_velocity_multiplier;
+  v25.y = p_position->y * m_velocity_multiplier;
+  v25.z = p_position->z * m_velocity_multiplier;
+  P->start_velocity = v25;
+  P->velocity.x = P->velocity.x + P->start_velocity.x;
+  P->velocity.y = P->start_velocity.y + P->velocity.y;
+  P->velocity.z = P->start_velocity.z + P->velocity.z;
 }

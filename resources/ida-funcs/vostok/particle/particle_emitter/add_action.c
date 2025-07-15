@@ -1,6 +1,6 @@
-void __thiscall vostok::particle::particle_emitter::add_action(
-        vostok::particle::particle_emitter *this,
-        vostok::particle::particle_action *action)
+void __usercall vostok::particle::particle_emitter::add_action(
+        vostok::particle::particle_emitter *this@<edx>,
+        vostok::particle::particle_action *action@<eax>)
 {
   action->m_next.pointer = 0;
   if ( this->m_actions.pointer )

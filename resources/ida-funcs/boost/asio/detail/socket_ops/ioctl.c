@@ -1,42 +1,34 @@
-int __cdecl boost::asio::detail::socket_ops::ioctl(
-        SOCKET s,
+int __usercall boost::asio::detail::socket_ops::ioctl@<eax>(
+        boost::system::error_code *ec@<eax>,
+        unsigned int s,
         unsigned __int8 *state,
-        int cmd,
-        unsigned int *arg,
-        boost::system::error_code *ec)
+        _DWORD *cmd)
 {
-  const boost::system::error_category *v5; // edx
-  const boost::system::error_category *v7; // edx
-  int v8; // [esp+0h] [ebp-2Ch]
-  const boost::system::error_category *v9; // [esp+8h] [ebp-24h]
+  int v6; // eax
+  int v7; // [esp+0h] [ebp-Ch]
+  int v8; // [esp+4h] [ebp-8h]
+  int v9; // [esp+14h] [ebp+8h]
 
   if ( s == -1 )
   {
-    v5 = boost::system::system_category();
+    ec->m_cat = boost::system::system_category();
     ec->m_val = 10009;
-    ec->m_cat = v5;
     return -1;
   }
   else
   {
     WSASetLastError(0);
-    v8 = ioctlsocket(s, cmd, arg);
-    v9 = boost::system::system_category();
-    ec->m_val = WSAGetLastError();
-    ec->m_cat = v9;
-    if ( v8 >= 0 )
+    v6 = ((int (__stdcall *)(unsigned int, int, _DWORD *, int, int))(&off_8E3A98 + 22))(s, -2147195266, cmd, v7, v8);
+    v9 = boost::asio::detail::socket_ops::error_wrapper<int>(ec, v6);
+    if ( v9 >= 0 )
     {
-      v7 = boost::system::system_category();
+      ec->m_cat = boost::system::system_category();
       ec->m_val = 0;
-      ec->m_cat = v7;
-      if ( cmd == -2147195266 )
-      {
-        if ( *arg )
-          *state |= 1u;
-        else
-          *state &= 0xFCu;
-      }
+      if ( *cmd )
+        *state |= 1u;
+      else
+        *state &= 0xFCu;
     }
-    return v8;
+    return v9;
   }
 }

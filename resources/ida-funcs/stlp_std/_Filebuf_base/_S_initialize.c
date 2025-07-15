@@ -1,4 +1,4 @@
-void __cdecl stlp_std::_Filebuf_base::_S_initialize()
+void stlp_std::_Filebuf_base::_S_initialize()
 {
   _SYSTEM_INFO SystemInfo; // [esp+0h] [ebp-24h] BYREF
 

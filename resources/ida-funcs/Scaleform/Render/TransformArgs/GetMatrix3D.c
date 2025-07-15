@@ -19,7 +19,7 @@ void __thiscall Scaleform::Render::TransformArgs::GetMatrix3D(
     *(float *)&src[36] = 0.0;
     *(float *)&src[40] = 1.0;
     *(float *)&src[44] = 0.0;
-    memcpy((unsigned __int8 *)m, src, sizeof(Scaleform::Render::Matrix3x4<float>));
+    memcpy((int)m, (const __m128i *)src, sizeof(Scaleform::Render::Matrix3x4<float>));
   }
   else if ( (flags & 0x40) != 0 )
   {
@@ -27,6 +27,6 @@ void __thiscall Scaleform::Render::TransformArgs::GetMatrix3D(
   }
   else
   {
-    memcpy((unsigned __int8 *)m, (unsigned __int8 *)&this->Mat3D, sizeof(Scaleform::Render::Matrix3x4<float>));
+    memcpy((int)m, (const __m128i *)&this->Mat3D, sizeof(Scaleform::Render::Matrix3x4<float>));
   }
 }

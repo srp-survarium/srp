@@ -13,8 +13,8 @@ unsigned int __thiscall Scaleform::GFx::FontCompactor::navigateToEndGlyph(
   unsigned int v10; // esi
   unsigned int v11; // esi
   unsigned int i; // ebx
-  unsigned int numEdges; // [esp+8h] [ebp-10h] BYREF
-  unsigned __int8 edge[12]; // [esp+Ch] [ebp-Ch] BYREF
+  unsigned int v; // [esp+8h] [ebp-10h] BYREF
+  unsigned __int8 data[12]; // [esp+Ch] [ebp-Ch] BYREF
 
   v2 = pos;
   p_Decoder = &this->Decoder;
@@ -54,20 +54,20 @@ unsigned int __thiscall Scaleform::GFx::FontCompactor::navigateToEndGlyph(
       v8 = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadUInt30(
              p_Decoder,
              v11,
-             &numEdges)
+             &v)
          + v11;
-      if ( (numEdges & 1) == 0 )
+      if ( (v & 1) == 0 )
       {
-        for ( i = numEdges >> 1;
+        for ( i = v >> 1;
               i;
               v8 += Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadRawEdge(
                       p_Decoder,
                       v8,
-                      edge) )
+                      data) )
         {
           --i;
         }
-        numEdges = i - 1;
+        v = i - 1;
       }
     }
     while ( pos );

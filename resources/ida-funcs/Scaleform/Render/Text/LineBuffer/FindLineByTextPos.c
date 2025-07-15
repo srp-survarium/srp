@@ -28,8 +28,8 @@ Scaleform::Render::Text::LineBuffer::Iterator *__thiscall Scaleform::Render::Tex
   v8 = v7->Data32.TextPos;
   if ( (v7->MemSize & 0x80000000) != 0 )
   {
-    v8 &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)v8 == &vostok::memory::s_CRT_arena[5574199] )
+    v8 &= 0xFFFFFFu;
+    if ( v8 == 0xFFFFFF )
       v8 = -1;
   }
   if ( textPos >= v8

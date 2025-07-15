@@ -8,9 +8,9 @@ int __cdecl strncmp(const char *first, const char *last, unsigned int count)
   char v9; // dl
   int v10; // eax
   int v11; // ecx
-  unsigned int n; // [esp+4h] [ebp-4h]
+  unsigned int v12; // [esp+4h] [ebp-4h]
 
-  n = 0;
+  v12 = 0;
   if ( !count )
     return 0;
   if ( count <= 4 )
@@ -53,19 +53,19 @@ int __cdecl strncmp(const char *first, const char *last, unsigned int count)
       v11 = *((unsigned __int8 *)v4 - 1);
       return v10 - v11;
     }
-    n += 4;
+    v12 += 4;
   }
-  while ( n < count - 4 );
+  while ( v12 < count - 4 );
   while ( 1 )
   {
 LABEL_23:
-    if ( n >= count )
+    if ( v12 >= count )
       return 0;
     if ( !*v5 || *v5 != *v4 )
       break;
     ++v5;
     ++v4;
-    ++n;
+    ++v12;
   }
   v10 = *(unsigned __int8 *)v5;
   v11 = *(unsigned __int8 *)v4;

@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::TextFormat::underlineGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_text::TextFormat,32,Scaleform::GFx::AS3::Value>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextFormat::underlineGet;
-  dword_AACFC4 = 0;
+  dword_8F177C = 0;
   return result;
 }

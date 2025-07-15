@@ -9,7 +9,7 @@ int __cdecl X509_PUBKEY_set0_param(
   int result; // eax
   asn1_string_st *public_key; // ecx
 
-  result = X509_ALGOR_set0(pub->algor, aobj, ptype, pval);
+  result = X509_ALGOR_set0(pub->algor, aobj, ptype, (int)pval);
   if ( result )
   {
     if ( penc )

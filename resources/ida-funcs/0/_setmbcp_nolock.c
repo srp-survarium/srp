@@ -15,25 +15,25 @@ int __cdecl _setmbcp_nolock(int codepage, threadmbcinfostruct *ptmbci)
   unsigned __int8 *v15; // eax
   int v16; // ecx
   int v17; // edx
-  unsigned int irg; // [esp+Ch] [ebp-20h]
-  unsigned int icp; // [esp+10h] [ebp-1Ch]
-  unsigned int icpa; // [esp+10h] [ebp-1Ch]
-  _cpinfo cpinfo; // [esp+14h] [ebp-18h] BYREF
-  int codepagea; // [esp+34h] [ebp+8h]
+  unsigned int v18; // [esp+Ch] [ebp-20h]
+  int v19; // [esp+10h] [ebp-1Ch]
+  unsigned __int8 *v20; // [esp+10h] [ebp-1Ch]
+  _cpinfo CPInfo; // [esp+14h] [ebp-18h] BYREF
+  UINT v22; // [esp+34h] [ebp+8h]
 
   SystemCP = getSystemCP(codepage);
-  codepagea = SystemCP;
+  v22 = SystemCP;
   if ( SystemCP )
   {
-    icp = 0;
+    v19 = 0;
     for ( i = 0; i < 5; ++i )
     {
       if ( _rgcode_page_info[i].code_page == SystemCP )
       {
         memset((int)ptmbci->mbctype, 0, sizeof(ptmbci->mbctype));
-        irg = 0;
-        v8 = _rgcode_page_info[icp].rgrange[0];
-        icpa = (unsigned int)v8;
+        v18 = 0;
+        v8 = _rgcode_page_info[v19].rgrange[0];
+        v20 = v8;
         do
         {
           while ( *v8 )
@@ -45,18 +45,18 @@ int __cdecl _setmbcp_nolock(int codepage, threadmbcinfostruct *ptmbci)
             v9 = (unsigned __int8)v9;
             while ( v10 <= v9 )
             {
-              ptmbci->mbctype[v10 + 1] |= _rgctypeflag[irg];
+              ptmbci->mbctype[v10 + 1] |= _rgctypeflag[v18];
               v9 = v8[1];
               ++v10;
             }
-            SystemCP = codepagea;
+            SystemCP = v22;
             v8 += 2;
           }
-          ++irg;
-          v8 = (unsigned __int8 *)(icpa + 8);
-          icpa += 8;
+          ++v18;
+          v8 = v20 + 8;
+          v20 += 8;
         }
-        while ( irg < 4 );
+        while ( v18 < 4 );
         ptmbci->mbcodepage = SystemCP;
         ptmbci->ismbcodepage = 1;
         ptmbci->mblcid = CPtoLCID(SystemCP);
@@ -73,24 +73,24 @@ LABEL_26:
         setSBUpLow(ptmbci);
         return 0;
       }
-      ++icp;
+      ++v19;
     }
     if ( SystemCP == 65000 || SystemCP == 65001 || !IsValidCodePage((unsigned __int16)SystemCP) )
       return -1;
-    if ( GetCPInfo(SystemCP, &cpinfo) )
+    if ( GetCPInfo(SystemCP, &CPInfo) )
     {
       memset((int)ptmbci->mbctype, 0, sizeof(ptmbci->mbctype));
       ptmbci->mbcodepage = SystemCP;
       ptmbci->mblcid = 0;
-      if ( cpinfo.MaxCharSize <= 1 )
+      if ( CPInfo.MaxCharSize <= 1 )
       {
         ptmbci->ismbcodepage = 0;
       }
       else
       {
-        if ( cpinfo.LeadByte[0] )
+        if ( CPInfo.LeadByte[0] )
         {
-          v5 = &cpinfo.LeadByte[1];
+          v5 = &CPInfo.LeadByte[1];
           do
           {
             v6 = *v5;

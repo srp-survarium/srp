@@ -1,95 +1,45 @@
-void __thiscall survarium::lobby_menu::update_level_loading_progress(
-        survarium::lobby_menu *this,
-        survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::update_level_loading_progress(survarium::lobby_menu *this, int a2)
 {
-  volatile int m_initialized; // eax
-  volatile unsigned int m_pending_queries_count; // eax
-  volatile int v4; // ecx
-  double m_level_loading_progress; // st7
-  unsigned int v6; // edx
-  volatile int v7; // eax
-  float v8; // xmm0_4
-  survarium::flash_movie_resource *m_object; // ecx
-  char *m_begin; // [esp-8h] [ebp-C98h]
-  unsigned int pConvertedChars; // [esp+14h] [ebp-C7Ch] BYREF
-  unsigned int v12[2]; // [esp+18h] [ebp-C78h] BYREF
-  survarium::flash_value progress; // [esp+20h] [ebp-C70h] BYREF
-  survarium::flash_value text; // [esp+38h] [ebp-C58h] BYREF
-  char buff[64]; // [esp+50h] [ebp-C40h] BYREF
-  wchar_t w_text[512]; // [esp+90h] [ebp-C00h] BYREF
-  wchar_t level_name[512]; // [esp+490h] [ebp-800h] BYREF
-  wchar_t queries_count[512]; // [esp+890h] [ebp-400h] BYREF
+  int v2; // eax
+  unsigned int v3; // edx
+  int v4; // eax
+  const char *v5; // ecx
+  survarium::flash_value *v6; // ecx
+  float v7; // xmm1_4
+  char string[512]; // [esp+10h] [ebp-234h] BYREF
+  Scaleform::GFx::Value pargs; // [esp+210h] [ebp-34h] BYREF
+  survarium::flash_value v10; // [esp+228h] [ebp-1Ch] BYREF
 
-  m_initialized = vostok::resources::g_resources_manager.m_initialized;
-  if ( vostok::resources::g_resources_manager.m_initialized )
-    m_initialized = vostok::resources::g_resources_manager.m_variable->m_pending_queries_count;
-  vostok::sprintf<64>((char (*)[64])buff, "(%d)", m_initialized);
-  if ( vostok::resources::g_resources_manager.m_initialized )
-    m_pending_queries_count = vostok::resources::g_resources_manager.m_variable->m_pending_queries_count;
-  else
-    m_pending_queries_count = 0;
-  if ( thisa->m_last_queries_count > m_pending_queries_count )
+  if ( *(_DWORD *)(a2 + 1652) > (unsigned int)vostok::resources::pending_queries_count() )
   {
-    v4 = vostok::resources::g_resources_manager.m_initialized;
-    if ( vostok::resources::g_resources_manager.m_initialized )
-      v4 = vostok::resources::g_resources_manager.m_variable->m_pending_queries_count;
-    m_level_loading_progress = thisa->m_level_loading_progress;
-    v6 = thisa->m_last_queries_count - v4;
-    v12[0] = thisa->m_last_queries_count;
-    thisa->m_level_loading_progress = m_level_loading_progress
-                                    + (double)v6 / (double)v12[0] * (1.0 - m_level_loading_progress);
+    v2 = vostok::resources::pending_queries_count();
+    *(float *)(a2 + 1648) = *(float *)(a2 + 1648) + (double)(v3 - v2) / (double)v3 * (1.0 - *(float *)(a2 + 1648));
   }
-  v7 = vostok::resources::g_resources_manager.m_initialized;
-  if ( vostok::resources::g_resources_manager.m_initialized )
-    v7 = vostok::resources::g_resources_manager.m_variable->m_pending_queries_count;
-  thisa->m_last_queries_count = v7;
-  wcscpy(w_text, L"Загрузка уровня[");
-  memset((int)&w_text[17], 0, 0x3DEu);
-  m_begin = thisa->m_game->m_project_resource_name.m_begin;
-  pConvertedChars = 0;
-  mbstowcs_s(&pConvertedChars, level_name, 0x200u, m_begin, 0xFFFFFFFF);
-  v12[0] = 0;
-  mbstowcs_s(v12, queries_count, 0x200u, buff, 0xFFFFFFFF);
-  wcscat_s((unsigned int)thisa, w_text, 0x400u, level_name);
-  wcscat_s((unsigned int)thisa, w_text, 0x400u, L"]");
-  wcscat_s((unsigned int)thisa, w_text, 0x400u, queries_count);
-  *(_DWORD *)text.body = 0;
-  *(_DWORD *)&text.body[4] = 0;
-  survarium::flash_value::SetStringW(&text, w_text);
+  *(_DWORD *)(a2 + 1652) = vostok::resources::pending_queries_count();
+  v4 = vostok::resources::pending_queries_count();
+  sprintf_s(string, 0x200u, "%s - %d", v5, v4);
+  *(_DWORD *)v10.body = 0;
+  *(_DWORD *)&v10.body[4] = 0;
+  survarium::flash_value::SetString(&v10, string);
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_match_making_ui.m_object->movie->m_movie,
-    "root.set_status",
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
+    "root.set_mm_status",
     0,
-    (const Scaleform::GFx::Value *)&text,
+    (const Scaleform::GFx::Value *)&v10,
     1u);
-  v8 = thisa->m_level_loading_progress;
-  *(_DWORD *)progress.body = 0;
-  if ( (float)(*(float *)&clear_value - v8) < 0.001 )
-    v8 = *(float *)&clear_value;
-  m_object = thisa->m_match_making_ui.m_object;
-  pConvertedChars = LODWORD(v8);
-  thisa->m_level_loading_progress = v8;
-  *(_DWORD *)&progress.body[4] = 4;
-  *(_QWORD *)v12 = (__int64)(v8 * 100.0);
-  *(_DWORD *)&progress.body[8] = v12[0];
+  v7 = *(float *)(a2 + 1648);
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  if ( (float)(s_bm_current_air_resistance - v7) < 0.001 )
+    v7 = s_bm_current_air_resistance;
+  *(float *)(a2 + 1648) = v7;
+  survarium::flash_value::SetUInt(v6, (int)&pargs, (unsigned __int64)(v7 * s_spot_max_distance));
   Scaleform::GFx::Movie::Invoke(
-    m_object->movie->m_movie,
-    "root.set_percent",
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
+    "root.set_mm_percent",
     0,
-    (const Scaleform::GFx::Value *)&progress,
+    &pargs,
     1u);
-  if ( (progress.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)progress.body + 8))(
-      *(_DWORD *)progress.body,
-      &progress,
-      *(_DWORD *)&progress.body[8]);
-    *(_DWORD *)progress.body = 0;
-  }
-  *(_DWORD *)&progress.body[4] = 0;
-  if ( (text.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)text.body + 8))(
-      *(_DWORD *)text.body,
-      &text,
-      *(_DWORD *)&text.body[8]);
+  Scaleform::GFx::Value::~Value(&pargs);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v10);
 }

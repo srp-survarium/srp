@@ -27,7 +27,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::Characters(
       Scaleform::RefCountNTSImpl::Release(v7);
     this->pAppendChainRoot.pObject = v8;
   }
-  Scaleform::StringBuffer::AppendString(&this->AppendText, (char *)text->pStr, text->Size);
+  Scaleform::StringBuffer::AppendString(&this->AppendText, (const __m128i *)text->pStr, text->Size);
   if ( v5 )
     Scaleform::RefCountNTSImpl::Release(v5);
 }

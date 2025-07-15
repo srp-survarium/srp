@@ -1,6 +1,6 @@
-int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, void *p2)
+int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, const ssl_st *p2)
 {
-  _DWORD *data; // esi
+  void *data; // esi
   int result; // eax
   bool v6; // zf
 
@@ -11,14 +11,14 @@ int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, void *p2)
     {
       if ( p1 >= -2 )
       {
-        if ( data[4] == 6 )
+        if ( *((_DWORD *)data + 4) == 6 )
         {
-          data[6] = p1;
+          *((_DWORD *)data + 6) = p1;
           return 1;
         }
         else
         {
-          ERR_put_error(4u, 143, 146, ".\\crypto\\rsa\\rsa_pmeth.c", 411);
+          ERR_put_error((int)ctx, 4u, 143, 146, ".\\crypto\\rsa\\rsa_pmeth.c", 411);
           return -2;
         }
       }
@@ -29,18 +29,18 @@ int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, void *p2)
       {
         if ( p1 >= 256 )
         {
-          *data = p1;
+          *(_DWORD *)data = p1;
           return 1;
         }
         else
         {
-          ERR_put_error(4u, 143, 145, ".\\crypto\\rsa\\rsa_pmeth.c", 420);
+          ERR_put_error((int)ctx, 4u, 143, 145, ".\\crypto\\rsa\\rsa_pmeth.c", 420);
           return -2;
         }
       }
       if ( type == 4100 && p2 )
       {
-        data[1] = p2;
+        *((_DWORD *)data + 1) = p2;
         return 1;
       }
     }
@@ -50,7 +50,7 @@ int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, void *p2)
   {
     if ( (unsigned int)(p1 - 1) <= 5 )
     {
-      if ( !check_padding_md(p1) )
+      if ( !check_padding_md(*((const ssl_st **)data + 5), (int)ctx, p1) )
         return 0;
       if ( p1 == 6 )
       {
@@ -61,31 +61,31 @@ int __cdecl pkey_rsa_ctrl(evp_pkey_ctx_st *ctx, int type, int p1, void *p2)
         if ( p1 != 4 )
         {
 LABEL_17:
-          data[4] = p1;
+          *((_DWORD *)data + 4) = p1;
           return 1;
         }
         v6 = (ctx->operation & 0x300) == 0;
       }
       if ( !v6 )
       {
-        if ( !data[5] )
-          data[5] = EVP_sha1();
+        if ( !*((_DWORD *)data + 5) )
+          *((_DWORD *)data + 5) = EVP_sha1();
         goto LABEL_17;
       }
     }
-    ERR_put_error(4u, 143, 144, ".\\crypto\\rsa\\rsa_pmeth.c", 403);
+    ERR_put_error((int)ctx, 4u, 143, 144, ".\\crypto\\rsa\\rsa_pmeth.c", 403);
     return -2;
   }
   switch ( type )
   {
     case 1:
-      if ( !check_padding_md(data[4]) )
+      if ( !check_padding_md(p2, (int)ctx, *((_DWORD *)data + 4)) )
         return 0;
-      data[5] = p2;
+      *((_DWORD *)data + 5) = p2;
       result = 1;
       break;
     case 2:
-      ERR_put_error(4u, 143, 148, ".\\crypto\\rsa\\rsa_pmeth.c", 450);
+      ERR_put_error((int)ctx, 4u, 143, 148, ".\\crypto\\rsa\\rsa_pmeth.c", 450);
       result = -2;
       break;
     case 3:

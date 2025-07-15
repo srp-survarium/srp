@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Matrix4x4<float>::EncloseTransformHomogeneous(
         Scaleform::Render::Matrix4x4<float> *this,
-        Scaleform::Render::Rect<float> *pr,
+        __m128 *pr,
         __m128 *r)
 {
   __m128 v3; // xmm7
@@ -25,12 +25,12 @@ void __thiscall Scaleform::Render::Matrix4x4<float>::EncloseTransformHomogeneous
   __m128 v22; // xmm3
   __m128 v23; // xmm6
   __m128 v24; // xmm6
-  __m128 v25; // [esp+30h] [ebp-40h]
-  __m128 v26; // [esp+40h] [ebp-30h]
-  __m128 v27; // [esp+40h] [ebp-30h]
-  __m128 v28; // [esp+40h] [ebp-30h]
-  __m128 v29; // [esp+50h] [ebp-20h]
-  __m128 v30; // [esp+60h] [ebp-10h]
+  __m128 v25; // [esp+0h] [ebp-40h]
+  __m128 v26; // [esp+10h] [ebp-30h]
+  __m128 v27; // [esp+10h] [ebp-30h]
+  __m128 v28; // [esp+10h] [ebp-30h]
+  __m128 v29; // [esp+20h] [ebp-20h]
+  __m128 v30; // [esp+30h] [ebp-10h]
 
   v3 = *(__m128 *)&this->M[1][0];
   v4 = _mm_shuffle_ps(*r, (__m128)`Scaleform::SIMD::SSE::InstructionSet::Constant<0,0,0,0>'::`2'::v, 6);
@@ -139,8 +139,8 @@ void __thiscall Scaleform::Render::Matrix4x4<float>::EncloseTransformHomogeneous
               _mm_add_ps(_mm_shuffle_ps(v23, v23, 85), _mm_shuffle_ps(v23, v23, 0)),
               _mm_shuffle_ps(v23, v23, 170)),
             v25));
-  *(__m128 *)pr = _mm_shuffle_ps(
-                    _mm_min_ps(_mm_min_ps(_mm_min_ps(v11, v15), v19), v24),
-                    _mm_max_ps(_mm_max_ps(_mm_max_ps(v11, v15), v19), v24),
-                    68);
+  *pr = _mm_shuffle_ps(
+          _mm_min_ps(_mm_min_ps(_mm_min_ps(v11, v15), v19), v24),
+          _mm_max_ps(_mm_max_ps(_mm_max_ps(v11, v15), v19), v24),
+          68);
 }

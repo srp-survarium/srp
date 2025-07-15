@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3charCodeAt(
 {
   Scaleform::GFx::ASStringManager *pStringManager; // eax
   Scaleform::GFx::AS3::Value *v7; // ecx
-  const char *v8; // esi
+  char *v8; // esi
   double v; // st7
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASString thisStr; // [esp+Ch] [ebp-Ch] BYREF
@@ -24,7 +24,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3charCodeAt(
     if ( !argc
       || Scaleform::GFx::AS3::Value::Convert2Number(argv, (Scaleform::GFx::AS3::CheckResult *)&vm, &index)->Result )
     {
-      v8 = (const char *)(int)index;
+      v8 = (char *)(int)index;
       if ( (int)index < 0 || (unsigned int)v8 >= Scaleform::GFx::ASConstString::GetLength(&thisStr) )
       {
         v = Scaleform::GFx::NumberUtil::NaN();

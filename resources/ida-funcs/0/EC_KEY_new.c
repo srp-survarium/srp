@@ -1,4 +1,4 @@
-ec_key_st *__cdecl EC_KEY_new()
+ec_key_st *__usercall EC_KEY_new@<eax>(int a1@<ebx>)
 {
   ec_key_st *result; // eax
 
@@ -16,7 +16,7 @@ ec_key_st *__cdecl EC_KEY_new()
   }
   else
   {
-    ERR_put_error(0x10u, 182, 65, ".\\crypto\\ec\\ec_key.c", 76);
+    ERR_put_error(a1, 0x10u, 182, 65, ".\\crypto\\ec\\ec_key.c", 76);
     return 0;
   }
   return result;

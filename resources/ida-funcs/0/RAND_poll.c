@@ -62,7 +62,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
   DWORD (__stdcall *NetStatisticsGet)(LPTSTR, LPTSTR, DWORD, DWORD, LPBYTE *); // [esp+1B0h] [ebp-1Ch]
   unsigned __int64 *v64; // [esp+1B4h] [ebp-18h]
   _EXCEPTION_REGISTRATION_RECORD *ExceptionList; // [esp+1BCh] [ebp-10h]
-  _EXCEPTION_DISPOSITION (__cdecl *v66)(_EXCEPTION_RECORD *, _EXCEPTION_REGISTRATION_RECORD *, _CONTEXT *); // [esp+1C0h] [ebp-Ch]
+  int (__cdecl *v66)(_EXCEPTION_RECORD *, _EXCEPTION_REGISTRATION_RECORD *, _CONTEXT *); // [esp+1C0h] [ebp-Ch]
   _EH4_SCOPETABLE *v67; // [esp+1C4h] [ebp-8h]
   int v68; // [esp+1C8h] [ebp-4h]
   tagMODULEENTRY32 v69; // [esp+1CCh] [ebp+0h] BYREF
@@ -71,11 +71,11 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
   _BYTE v72[64]; // [esp+5ACh] [ebp+3E0h] BYREF
 
   v68 = -2;
-  v67 = stru_9A7A18;
+  v67 = stru_86ACE0;
   v66 = _except_handler4;
   ExceptionList = NtCurrentTeb()->NtTib.ExceptionList;
   v3 = alloca(188);
-  v67 = (_EH4_SCOPETABLE *)(__security_cookie ^ (unsigned int)stru_9A7A18);
+  v67 = (_EH4_SCOPETABLE *)(__security_cookie ^ (unsigned int)stru_86ACE0);
   entropy = __PAIR64__(a1, a3);
   HIDWORD(v36) = a2;
   v64 = &v36;
@@ -83,7 +83,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
   v60 = 0;
   VersionInformation.dwOSVersionInfoSize = 148;
   GetVersionExA(&VersionInformation);
-  hModule = LoadLibraryA(aAdvapi32);
+  hModule = LoadLibraryA("ADVAPI32.DLL");
   LibraryA = LoadLibraryA("KERNEL32.DLL");
   v43 = LibraryA;
   v5 = LoadLibraryA("NETAPI32.DLL");
@@ -115,7 +115,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
             Buffer.dwLength) )
     {
       v7 = alloca(8);
-      RAND_add(buf, 216, 45.0);
+      RAND_add((int)LibraryA, buf, 216, 45.0);
       NetApiBufferFree(buf);
     }
     Buffer.dwLength = (unsigned int)&buf;
@@ -125,7 +125,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
     if ( !((int (*)(void))NetStatisticsGet)() )
     {
       v8 = alloca(8);
-      RAND_add(buf, 68, 17.0);
+      RAND_add((int)LibraryA, buf, 68, 17.0);
       NetApiBufferFree(buf);
     }
   }
@@ -163,7 +163,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
              Buffer.dwTotalPhys) )
       {
         v11 = alloca(8);
-        RAND_add(v72, 64, 0.0);
+        RAND_add((int)LibraryA, v72, 64, 0.0);
         v60 = 1;
       }
       ((void (__cdecl *)(unsigned int, _DWORD))CryptReleaseContext)(v55, 0);
@@ -182,7 +182,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
              HIDWORD(v36)) )
       {
         v12 = alloca(8);
-        RAND_add(v72, 64, 64.0);
+        RAND_add((int)LibraryA, v72, 64, 64.0);
         v60 = 1;
       }
       v36 = v55;
@@ -206,7 +206,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
       {
         v54 = (BOOL (__stdcall *)(HANDLE, LPMODULEENTRY32))((int (*)(void))CryptAcquireContextW)();
         v15 = alloca(8);
-        RAND_add(&v54, 4, 0.0);
+        RAND_add((int)LibraryA, &v54, 4, 0.0);
       }
       if ( hModule && (VersionInformation.dwPlatformId != 2 || VersionInformation.dwMajorVersion >= 5) )
       {
@@ -214,14 +214,14 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
         if ( ((int (__stdcall *)(int *))hModule)(&num) )
         {
           v16 = alloca(8);
-          RAND_add(&num, num, 2.0);
+          RAND_add((int)LibraryA, &num, num, 2.0);
         }
       }
       if ( CryptReleaseContext )
       {
         CurrentProcessId = ((int (__stdcall *)(int))CryptReleaseContext)(191);
         v17 = alloca(8);
-        RAND_add(&CurrentProcessId, 4, 1.0);
+        RAND_add((int)LibraryA, &CurrentProcessId, 4, 1.0);
       }
       FreeLibrary(v14);
     }
@@ -291,7 +291,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
                               do
                               {
                                 v22 = alloca(8);
-                                RAND_add(&v48, v48, 3.0);
+                                RAND_add((int)LibraryA, &v48, v48, 3.0);
                                 v68 = 0;
                                 memset(&v40[1], 0, 32);
                                 v40[0] = 36;
@@ -308,7 +308,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
                                   do
                                   {
                                     v25 = alloca(8);
-                                    RAND_add(v40, v40[0], 5.0);
+                                    RAND_add((int)LibraryA, v40, v40[0], 5.0);
                                     if ( !((int (__stdcall *)(int *))CryptReleaseContext)(v40)
                                       || v60 && GetTickCount() - (unsigned int)v24 >= 0x3E8 )
                                     {
@@ -337,7 +337,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
                               do
                               {
                                 v28 = alloca(8);
-                                RAND_add(&v70, v70.dwSize, 9.0);
+                                RAND_add((int)LibraryA, &v70, v70.dwSize, 9.0);
                               }
                               while ( v27(buf, &v70) && (!v60 || GetTickCount() - (unsigned int)v26 < 0x3E8) );
                               v21 = buf;
@@ -352,7 +352,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
                               do
                               {
                                 v30 = alloca(8);
-                                RAND_add(&v39, v39.dwSize, 6.0);
+                                RAND_add((int)LibraryA, &v39, v39.dwSize, 6.0);
                               }
                               while ( Thread32Next(buf, &v39) && (!v60 || GetTickCount() - (unsigned int)v29 < 0x3E8) );
                               v21 = buf;
@@ -367,7 +367,7 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
                               do
                               {
                                 v32 = alloca(8);
-                                RAND_add(&v69, v69.dwSize, 9.0);
+                                RAND_add((int)LibraryA, &v69, v69.dwSize, 9.0);
                               }
                               while ( v31(v21, &v69)
                                    && (!v60 || GetTickCount() - (unsigned int)NetStatisticsGet < 0x3E8) );
@@ -390,12 +390,12 @@ int __usercall RAND_poll@<eax>(unsigned int a1@<ebx>, int a2@<edi>, unsigned int
     }
     FreeLibrary(LibraryA);
   }
-  readtimer();
+  readtimer((int)LibraryA);
   GlobalMemoryStatus(&Buffer);
   v33 = alloca(8);
-  RAND_add(&Buffer, 32, 1.0);
+  RAND_add((int)LibraryA, &Buffer, 32, 1.0);
   CurrentProcessId = GetCurrentProcessId();
   v34 = alloca(8);
-  RAND_add(&CurrentProcessId, 4, 1.0);
+  RAND_add((int)LibraryA, &CurrentProcessId, 4, 1.0);
   return 1;
 }

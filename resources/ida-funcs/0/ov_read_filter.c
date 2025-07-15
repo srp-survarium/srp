@@ -1,4 +1,5 @@
-int __cdecl ov_read_filter(
+int __usercall ov_read_filter@<eax>(
+        __int128 a1@<xmm0>,
         OggVorbis_File *vf,
         char *buffer,
         int length,
@@ -9,182 +10,187 @@ int __cdecl ov_read_filter(
         void (__cdecl *filter)(float **, int, int, void *),
         void *filter_param)
 {
-  int v10; // [esp+8h] [ebp-48h]
-  float *v11; // [esp+Ch] [ebp-44h]
-  char *v12; // [esp+10h] [ebp-40h]
-  float *src; // [esp+14h] [ebp-3Ch]
-  __int16 *dest; // [esp+18h] [ebp-38h]
-  int v15; // [esp+1Ch] [ebp-34h]
-  int val; // [esp+24h] [ebp-2Ch]
-  int vala; // [esp+24h] [ebp-2Ch]
-  int valb; // [esp+24h] [ebp-2Ch]
-  int valc; // [esp+24h] [ebp-2Ch]
-  __int16 vald; // [esp+24h] [ebp-2Ch]
+  int v11; // [esp+8h] [ebp-48h]
+  float *v12; // [esp+Ch] [ebp-44h]
+  char *v13; // [esp+10h] [ebp-40h]
+  float *v14; // [esp+14h] [ebp-3Ch]
+  char *v15; // [esp+18h] [ebp-38h]
+  int v16; // [esp+1Ch] [ebp-34h]
+  int v17; // [esp+24h] [ebp-2Ch]
+  int v18; // [esp+24h] [ebp-2Ch]
+  int v19; // [esp+24h] [ebp-2Ch]
+  int v20; // [esp+24h] [ebp-2Ch]
+  __int16 v21; // [esp+24h] [ebp-2Ch]
   int channels; // [esp+28h] [ebp-28h]
-  __int16 fpu; // [esp+2Ch] [ebp-24h] BYREF
-  int bytespersample; // [esp+30h] [ebp-20h]
-  int ret; // [esp+34h] [ebp-1Ch]
-  int j; // [esp+38h] [ebp-18h]
-  int host_endian; // [esp+3Ch] [ebp-14h]
-  int samples; // [esp+40h] [ebp-10h]
-  int i; // [esp+44h] [ebp-Ch]
-  int hs; // [esp+48h] [ebp-8h]
+  int v23; // [esp+30h] [ebp-20h]
+  int v24; // [esp+34h] [ebp-1Ch]
+  int i; // [esp+38h] [ebp-18h]
+  int m; // [esp+38h] [ebp-18h]
+  int jj; // [esp+38h] [ebp-18h]
+  int kk; // [esp+38h] [ebp-18h]
+  int nn; // [esp+38h] [ebp-18h]
+  int is_big_endian; // [esp+3Ch] [ebp-14h]
+  int n; // [esp+40h] [ebp-10h]
+  int j; // [esp+44h] [ebp-Ch]
+  int k; // [esp+44h] [ebp-Ch]
+  int ii; // [esp+44h] [ebp-Ch]
+  int mm; // [esp+44h] [ebp-Ch]
+  int i1; // [esp+44h] [ebp-Ch]
   float **pcm; // [esp+4Ch] [ebp-4h] BYREF
 
-  host_endian = host_is_big_endian();
+  is_big_endian = host_is_big_endian();
   if ( vf->ready_state < 2 )
     return -131;
   while ( 1 )
   {
     if ( vf->ready_state == 4 )
     {
-      samples = vorbis_synthesis_pcmout(&vf->vd, &pcm);
-      if ( samples )
+      n = vorbis_synthesis_pcmout(&vf->vd, &pcm);
+      if ( n )
         break;
     }
-    ret = fetch_and_process_packet(vf, 0, 1, 1);
-    if ( ret == -2 )
+    v24 = fetch_and_process_packet(a1, vf, 0, 1, 1);
+    if ( v24 == -2 )
       return 0;
-    if ( ret <= 0 )
-      return ret;
+    if ( v24 <= 0 )
+      return v24;
   }
-  if ( samples <= 0 )
-    return samples;
+  if ( n <= 0 )
+    return n;
   channels = ov_info(vf, -1)->channels;
-  bytespersample = channels * word;
-  if ( samples > length / (channels * word) )
-    samples = length / bytespersample;
-  if ( samples <= 0 )
+  v23 = channels * word;
+  if ( n > length / (channels * word) )
+    n = length / v23;
+  if ( n <= 0 )
     return -131;
   if ( filter )
-    filter(pcm, channels, samples, filter_param);
+    filter(pcm, channels, n, filter_param);
   if ( word == 1 )
   {
-    vorbis_fpu_setround(&fpu);
-    for ( j = 0; j < samples; ++j )
+    vorbis_fpu_setround();
+    for ( i = 0; i < n; ++i )
     {
-      for ( i = 0; i < channels; ++i )
+      for ( j = 0; j < channels; ++j )
       {
-        val = vorbis_ftoi(pcm[i][j] * 128.0);
-        if ( val <= 127 )
+        v17 = vorbis_ftoi(pcm[j][i] * 128.0);
+        if ( v17 <= 127 )
         {
-          if ( val < -128 )
-            LOBYTE(val) = 0x80;
+          if ( v17 < -128 )
+            LOBYTE(v17) = 0x80;
         }
         else
         {
-          LOBYTE(val) = 127;
+          LOBYTE(v17) = 127;
         }
-        *buffer++ = (sgned != 0 ? 0 : 0x80) + val;
+        *buffer++ = (sgned != 0 ? 0 : 0x80) + v17;
       }
     }
   }
   else
   {
-    v15 = sgned != 0 ? 0 : 0x8000;
-    if ( host_endian == bigendianp )
+    v16 = sgned != 0 ? 0 : 0x8000;
+    if ( is_big_endian == bigendianp )
     {
       if ( sgned )
       {
-        vorbis_fpu_setround(&fpu);
-        for ( i = 0; i < channels; ++i )
+        vorbis_fpu_setround();
+        for ( k = 0; k < channels; ++k )
         {
-          src = pcm[i];
-          dest = (__int16 *)&buffer[2 * i];
-          for ( j = 0; j < samples; ++j )
+          v14 = pcm[k];
+          v15 = &buffer[2 * k];
+          for ( m = 0; m < n; ++m )
           {
-            vala = vorbis_ftoi(src[j] * 32768.0);
-            if ( vala <= 0x7FFF )
+            v18 = vorbis_ftoi(v14[m] * 32768.0);
+            if ( v18 <= 0x7FFF )
             {
-              if ( vala < -32768 )
-                LOWORD(vala) = 0x8000;
+              if ( v18 < -32768 )
+                LOWORD(v18) = 0x8000;
             }
             else
             {
-              LOWORD(vala) = 0x7FFF;
+              LOWORD(v18) = 0x7FFF;
             }
-            *dest = vala;
-            dest += channels;
+            *(_WORD *)v15 = v18;
+            v15 += 2 * channels;
           }
         }
       }
       else
       {
-        vorbis_fpu_setround(&fpu);
-        for ( i = 0; i < channels; ++i )
+        vorbis_fpu_setround();
+        for ( ii = 0; ii < channels; ++ii )
         {
-          v11 = pcm[i];
-          v12 = &buffer[2 * i];
-          for ( j = 0; j < samples; ++j )
+          v12 = pcm[ii];
+          v13 = &buffer[2 * ii];
+          for ( jj = 0; jj < n; ++jj )
           {
-            valb = vorbis_ftoi(v11[j] * 32768.0);
-            if ( valb <= 0x7FFF )
+            v19 = vorbis_ftoi(v12[jj] * 32768.0);
+            if ( v19 <= 0x7FFF )
             {
-              if ( valb < -32768 )
-                LOWORD(valb) = 0x8000;
+              if ( v19 < -32768 )
+                LOWORD(v19) = 0x8000;
             }
             else
             {
-              LOWORD(valb) = 0x7FFF;
+              LOWORD(v19) = 0x7FFF;
             }
-            *(_WORD *)v12 = v15 + valb;
-            v12 += 2 * channels;
+            *(_WORD *)v13 = v16 + v19;
+            v13 += 2 * channels;
           }
         }
       }
     }
     else if ( bigendianp )
     {
-      vorbis_fpu_setround(&fpu);
-      for ( j = 0; j < samples; ++j )
+      vorbis_fpu_setround();
+      for ( kk = 0; kk < n; ++kk )
       {
-        for ( i = 0; i < channels; ++i )
+        for ( mm = 0; mm < channels; ++mm )
         {
-          valc = vorbis_ftoi(pcm[i][j] * 32768.0);
-          if ( valc <= 0x7FFF )
+          v20 = vorbis_ftoi(pcm[mm][kk] * 32768.0);
+          if ( v20 <= 0x7FFF )
           {
-            if ( valc < -32768 )
-              LOWORD(valc) = 0x8000;
+            if ( v20 < -32768 )
+              LOWORD(v20) = 0x8000;
           }
           else
           {
-            LOWORD(valc) = 0x7FFF;
+            LOWORD(v20) = 0x7FFF;
           }
-          vald = v15 + valc;
-          *buffer = HIBYTE(vald);
-          buffer[1] = vald;
+          v21 = v16 + v20;
+          *buffer = HIBYTE(v21);
+          buffer[1] = v21;
           buffer += 2;
         }
       }
     }
     else
     {
-      vorbis_fpu_setround(&fpu);
-      for ( j = 0; j < samples; ++j )
+      vorbis_fpu_setround();
+      for ( nn = 0; nn < n; ++nn )
       {
-        for ( i = 0; i < channels; ++i )
+        for ( i1 = 0; i1 < channels; ++i1 )
         {
-          v10 = vorbis_ftoi(pcm[i][j] * 32768.0);
-          if ( v10 <= 0x7FFF )
+          v11 = vorbis_ftoi(pcm[i1][nn] * 32768.0);
+          if ( v11 <= 0x7FFF )
           {
-            if ( v10 < -32768 )
-              LOWORD(v10) = 0x8000;
+            if ( v11 < -32768 )
+              LOWORD(v11) = 0x8000;
           }
           else
           {
-            LOWORD(v10) = 0x7FFF;
+            LOWORD(v11) = 0x7FFF;
           }
-          *(_WORD *)buffer = v15 + v10;
+          *(_WORD *)buffer = v16 + v11;
           buffer += 2;
         }
       }
     }
   }
-  vorbis_fpu_restore(fpu);
-  vorbis_synthesis_read(&vf->vd, samples);
-  hs = vorbis_synthesis_halfrate_p(vf->vi);
-  vf->pcm_offset += samples << hs;
+  vorbis_fpu_restore();
+  vorbis_synthesis_read(&vf->vd, n);
+  vf->pcm_offset += n << vorbis_synthesis_halfrate_p(vf->vi);
   if ( bitstream )
     *bitstream = vf->current_link;
-  return bytespersample * samples;
+  return v23 * n;
 }

@@ -1,25 +1,24 @@
-bool __cdecl Scaleform::GFx::AS2::GAS_ParseNumber(long double *retVal)
+bool __usercall Scaleform::GFx::AS2::GAS_ParseNumber@<al>(char *a1@<ecx>, int a2@<edi>, long double *retVal)
 {
-  char *str; // ecx
-  char v2; // al
-  long double v3; // st7
-  char *v4; // eax
+  char v3; // al
+  long double v4; // st7
+  char *v5; // eax
   bool result; // al
-  char *end; // [esp+0h] [ebp-4h] BYREF
+  char *v7; // [esp+0h] [ebp-4h] BYREF
 
-  end = str;
+  v7 = a1;
   result = 0;
-  if ( str )
+  if ( a1 )
   {
-    v2 = *str;
-    if ( *str )
+    v3 = *a1;
+    if ( *a1 )
     {
-      if ( v2 >= 48 && v2 <= 57 || v2 == 43 || v2 == 45 || v2 == 46 )
+      if ( v3 >= 48 && v3 <= 57 || v3 == 43 || v3 == 45 || v3 == 46 )
       {
-        v3 = Scaleform::SFstrtod(str, &end);
-        v4 = end;
-        *retVal = v3;
-        if ( !v4 || !*v4 )
+        v4 = Scaleform::SFstrtod(a2, a1, &v7);
+        v5 = v7;
+        *retVal = v4;
+        if ( !v5 || !*v5 )
           return 1;
       }
     }

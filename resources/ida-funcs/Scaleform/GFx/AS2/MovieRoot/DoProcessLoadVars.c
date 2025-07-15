@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::DoProcessLoadVars(
   Scaleform::GFx::MovieImpl::LevelInfo *v13; // edx
   Scaleform::GFx::InteractiveObject *pObject; // eax
   Scaleform::GFx::ASStringNode *v15; // edi
-  const Scaleform::String *StringNode; // eax
+  Scaleform::String *StringNode; // eax
   long double v17; // st7
   Scaleform::GFx::ASStringNode *v18; // esi
   Scaleform::GFx::InteractiveObject *v20; // eax
@@ -61,16 +61,16 @@ LABEL_6:
     v15 = (Scaleform::GFx::ASStringNode *)(*(int (__thiscall **)(int))(*((_DWORD *)&pObject->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                                        + pObject->AvmObjOffset)
                                                                      + 124))((int)pObject + 4 * pObject->AvmObjOffset);
-    StringNode = (const Scaleform::String *)Scaleform::GFx::ASStringManager::CreateStringNode(
-                                              *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(v15[4].Size + 20)
-                                                                                              + 12)
-                                                                                  + 788),
-                                              (char *)((data->HeapTypeBits & 0xFFFFFFFC) + 8),
-                                              *(_DWORD *)(data->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
+    StringNode = (Scaleform::String *)Scaleform::GFx::ASStringManager::CreateStringNode(
+                                        *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(v15[4].Size + 20)
+                                                                                        + 12)
+                                                                            + 788),
+                                        (__m128i *)((data->HeapTypeBits & 0xFFFFFFFC) + 8),
+                                        *(_DWORD *)(data->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
     v17 = (double)fileLen;
     v18 = (Scaleform::GFx::ASStringNode *)StringNode;
     ++StringNode[3].HeapTypeBits;
-    data = (Scaleform::String *)StringNode;
+    data = StringNode;
     if ( v10->BytesLoadedTotal < 0.0 )
       v10->BytesLoadedTotal = 0.0;
     v10->BytesLoadedCurrent = v17;

@@ -23,7 +23,7 @@ void __usercall nc_match(GENERAL_NAME_st *gen@<ebx>, NAME_CONSTRAINTS_st *nc@<ed
       {
         if ( !v2 )
           v2 = 1;
-        nc_match_single(gen, (unsigned int)gen, *(GENERAL_NAME_st **)v4);
+        nc_match_single(gen, (int)gen, (int)nc, *(GENERAL_NAME_st **)v4);
         if ( v5 )
         {
           if ( v5 != 47 )
@@ -50,7 +50,7 @@ LABEL_15:
           break;
         if ( *((_DWORD *)v7 + 2) )
           break;
-        nc_match_single(gen, (unsigned int)gen, *(GENERAL_NAME_st **)v7);
+        nc_match_single(gen, (int)gen, (int)nc, *(GENERAL_NAME_st **)v7);
         if ( v8 != 47 )
           break;
       }

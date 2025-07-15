@@ -3,43 +3,32 @@ vostok::math::float3 *__usercall mix_translations@<eax>(
         vostok::math::float3 *result@<eax>)
 {
   stlp_std::pair<vostok::math::float3,float> *m_begin; // ecx
-  __int128 v3; // xmm4
   stlp_std::pair<vostok::math::float3,float> *m_end; // edx
-  float v5; // xmm5_4
-  float v6; // xmm6_4
-  float second; // xmm0_4
-  float v8; // xmm2_4
-  float v9; // xmm3_4
-  float v10; // xmm1_4
-  __int128 v11; // xmm0
+  float x; // [esp+0h] [ebp-1Ch]
+  float v5; // [esp+0h] [ebp-1Ch]
+  float y; // [esp+4h] [ebp-18h]
+  float v7; // [esp+4h] [ebp-18h]
+  float z; // [esp+8h] [ebp-14h]
+  float v9; // [esp+8h] [ebp-14h]
+  vostok::math::float3 v10; // [esp+Ch] [ebp-10h] BYREF
+  float second; // [esp+18h] [ebp-4h]
 
   m_begin = transforms->m_begin;
-  v3 = 0;
   m_end = transforms->m_end;
-  result->x = 0.0;
-  result->y = 0.0;
-  result->z = 0.0;
-  if ( m_begin != m_end )
+  memset(&v10, 0, sizeof(v10));
+  for ( ; m_begin != m_end; v10.z = v10.z + v9 )
   {
-    v5 = 0.0;
-    v6 = 0.0;
-    do
-    {
-      second = m_begin->second;
-      v8 = m_begin->first.y * second;
-      v9 = m_begin->first.z * second;
-      v10 = m_begin->first.x * second;
-      v11 = v3;
-      ++m_begin;
-      *(float *)&v11 = *(float *)&v3 + v10;
-      v3 = v11;
-      v5 = v5 + v8;
-      v6 = v6 + v9;
-    }
-    while ( m_begin != m_end );
-    LODWORD(result->x) = v11;
-    result->y = v5;
-    result->z = v6;
+    x = m_begin->first.x;
+    y = m_begin->first.y;
+    z = m_begin->first.z;
+    second = m_begin->second;
+    ++m_begin;
+    v5 = x * second;
+    v7 = y * second;
+    v9 = z * second;
+    v10.x = v10.x + v5;
+    v10.y = v10.y + v7;
   }
+  *result = v10;
   return result;
 }

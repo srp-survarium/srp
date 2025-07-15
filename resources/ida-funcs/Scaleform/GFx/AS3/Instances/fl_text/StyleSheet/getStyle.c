@@ -30,21 +30,21 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
   Scaleform::GFx::AS3::CheckResult *(__thiscall **p_SetProperty)(struct Scaleform::GFx::AS3::Instances::fl::Object *, Scaleform::GFx::AS3::CheckResult *, const Scaleform::GFx::AS3::Multiname *, const Scaleform::GFx::AS3::Value *); // edi
   const Scaleform::GFx::AS3::Multiname *v29; // eax
   Scaleform::GFx::ASStringNode *v30; // eax
-  char *v31; // ebx
+  __m128i *v31; // ebx
   Scaleform::GFx::AS3::Instances::fl::Object *v32; // edi
   Scaleform::GFx::AS3::Instances::fl::Object_vtbl *v33; // ebx
   const Scaleform::GFx::AS3::Value *v34; // eax
   const Scaleform::GFx::AS3::Multiname *v35; // eax
   Scaleform::GFx::ASStringNode *v36; // eax
   Scaleform::GFx::ASStringNode *v37; // eax
-  char *v38; // ebx
+  __m128i *v38; // ebx
   Scaleform::GFx::AS3::Instances::fl::Object *v39; // edi
   Scaleform::GFx::AS3::Instances::fl::Object_vtbl *v40; // ebx
   const Scaleform::GFx::AS3::Value *v41; // eax
   const Scaleform::GFx::AS3::Multiname *v42; // eax
   Scaleform::GFx::ASStringNode *v43; // eax
   Scaleform::GFx::ASStringNode *v44; // eax
-  char *v45; // ebx
+  __m128i *v45; // ebx
   Scaleform::GFx::AS3::Instances::fl::Object *v46; // edi
   Scaleform::GFx::AS3::Instances::fl::Object_vtbl *v47; // ebx
   const Scaleform::GFx::AS3::Value *v48; // eax
@@ -73,14 +73,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
   const Scaleform::GFx::AS3::Multiname *v71; // eax
   Scaleform::GFx::ASStringNode *v72; // eax
   bool v73; // zf
-  char *v74; // ebx
+  __m128i *v74; // ebx
   Scaleform::GFx::AS3::Instances::fl::Object *v75; // edi
   Scaleform::GFx::AS3::Instances::fl::Object_vtbl *v76; // ebx
   const Scaleform::GFx::AS3::Value *v77; // eax
   const Scaleform::GFx::AS3::Multiname *v78; // eax
   Scaleform::GFx::ASStringNode *v79; // eax
   Scaleform::GFx::ASStringNode *v80; // eax
-  char *v81; // ebx
+  __m128i *v81; // ebx
   Scaleform::GFx::AS3::Instances::fl::Object *v82; // edi
   Scaleform::GFx::AS3::Instances::fl::Object_vtbl *v83; // ebx
   const Scaleform::GFx::AS3::Value *v84; // eax
@@ -141,16 +141,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
       Scaleform::String::AppendChar(&colorStr, a0123456789abcd_2[BYTE1(ColorV) & 0xF]);
       Scaleform::String::AppendChar(&colorStr, a0123456789abcd_2[(unsigned __int8)ColorV >> 4]);
       Scaleform::String::AppendChar(&colorStr, a0123456789abcd_2[ColorV & 0xF]);
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
-                  StringManagerRef->pStringManager,
-                  (char *)&stru_9555EC);
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, (__m128i *)"color");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&name, &v);
       pV = pobj.pV;
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  (char *)((colorStr.HeapTypeBits & 0xFFFFFFFC) + 8),
+                                  (__m128i *)((colorStr.HeapTypeBits & 0xFFFFFFFC) + 8),
                                   *(_DWORD *)(colorStr.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF));
       ++v107.pNode->RefCount;
       v14 = pV->__vftable;
@@ -190,14 +188,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "fontFamily"));
+                                  (__m128i *)"fontFamily"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&name, &v107);
       v20 = pobj.pV;
       FontList = Scaleform::Render::Text::TextFormat::GetFontList(&pstyle->mTextFormat);
       v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                   StringManagerRef->pStringManager,
-                  (char *)((FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
+                  (__m128i *)((FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
                   *(_DWORD *)(FontList->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
       ++v.pNode->RefCount;
       v22 = v20->__vftable;
@@ -231,7 +229,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mTextFormat.PresentMask & 8) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "fontSize");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"fontSize");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v107.pNode = (Scaleform::GFx::ASStringNode *)pstyle->mTextFormat.FontSize;
@@ -265,13 +265,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mTextFormat.PresentMask & 0x20) != 0 )
     {
-      v31 = "italic";
+      v31 = (__m128i *)"italic";
       if ( (pstyle->mTextFormat.FormatFlags & 2) == 0 )
-        v31 = "normal";
+        v31 = (__m128i *)"normal";
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "fontStyle"));
+                                  (__m128i *)"fontStyle"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v107);
       v32 = pobj.pV;
@@ -308,13 +308,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mTextFormat.PresentMask & 0x10) != 0 )
     {
-      v38 = "bold";
+      v38 = (__m128i *)"bold";
       if ( (pstyle->mTextFormat.FormatFlags & 1) == 0 )
-        v38 = "normal";
+        v38 = (__m128i *)"normal";
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "fontWeight"));
+                                  (__m128i *)"fontWeight"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v107);
       v39 = pobj.pV;
@@ -351,13 +351,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( SLOBYTE(pstyle->mTextFormat.PresentMask) < 0 )
     {
-      v45 = (char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1];
+      v45 = (__m128i *)"true";
       if ( (pstyle->mTextFormat.FormatFlags & 8) == 0 )
-        v45 = (char *)&stru_95AF78.m_key_bindings[6];
+        v45 = (__m128i *)"false";
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "kerning"));
+                                  (__m128i *)"kerning"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v107);
       v46 = pobj.pV;
@@ -394,7 +394,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mParagraphFormat.PresentMask & 8) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "leading");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"leading");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v52.VInt = pstyle->mParagraphFormat.Leading;
@@ -427,7 +429,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mTextFormat.PresentMask & 2) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "letterSpacing");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"letterSpacing");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v107.pNode = (Scaleform::GFx::ASStringNode *)(pstyle->mTextFormat.LetterSpacing / 20);
@@ -463,7 +467,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     colorStr.pData = (Scaleform::String::DataDesc *)&pstyle->mParagraphFormat;
     if ( (v62 & 1) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "marginLeft");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"marginLeft");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v63.VInt = pstyle->mParagraphFormat.LeftMargin;
@@ -497,7 +503,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (p_mParagraphFormat[1].RefCount & 0x200000) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "marginRight");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"marginRight");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v68.VInt = pstyle->mParagraphFormat.RightMargin;
@@ -536,23 +544,23 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
       {
         if ( ((pstyle->mParagraphFormat.PresentMask >> 9) & 3) == 3 )
         {
-          v74 = "center";
+          v74 = (__m128i *)"center";
         }
         else
         {
-          v74 = "right";
+          v74 = (__m128i *)"right";
           if ( !(unsigned __int8)Scaleform::Render::Text::ParagraphFormat::IsRightAlignment(&pstyle->mParagraphFormat) )
-            v74 = "justify";
+            v74 = (__m128i *)"justify";
         }
       }
       else
       {
-        v74 = "left";
+        v74 = (__m128i *)"left";
       }
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "textAlign"));
+                                  (__m128i *)"textAlign"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v107);
       v75 = pobj.pV;
@@ -589,13 +597,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     }
     if ( (pstyle->mTextFormat.PresentMask & 0x40) != 0 )
     {
-      v81 = "underline";
+      v81 = (__m128i *)"underline";
       if ( (pstyle->mTextFormat.FormatFlags & 4) == 0 )
-        v81 = "none";
+        v81 = (__m128i *)"none";
       *(float *)&v107.pNode = COERCE_FLOAT(
                                 Scaleform::GFx::ASStringManager::CreateStringNode(
                                   StringManagerRef->pStringManager,
-                                  "textDecoration"));
+                                  (__m128i *)"textDecoration"));
       ++v107.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v107);
       v82 = pobj.pV;
@@ -633,7 +641,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
     pData = colorStr.pData;
     if ( (colorStr.pData[1].RefCount & 0x40000) != 0 )
     {
-      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "textIndent");
+      v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                  StringManagerRef->pStringManager,
+                  (__m128i *)"textIndent");
       ++v.pNode->RefCount;
       Scaleform::GFx::AS3::Value::Value(&v110, &v);
       v89.VInt = *(__int16 *)&pData->Data[2];
@@ -677,7 +687,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
           return;
         }
         RefCount = v94->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v94->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v94);
@@ -699,7 +709,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::StyleSheet::getStyle(
       else
       {
         v8 = v7->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+        if ( (v8 & 0x3FFFFF) != 0 )
         {
           v7->RefCount = v8 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

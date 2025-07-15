@@ -1,6 +1,6 @@
-Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::AS2::GenericDisplayObj::GetBounds(
+__m128 *__thiscall Scaleform::GFx::AS2::GenericDisplayObj::GetBounds(
         Scaleform::GFx::AS2::GenericDisplayObj *this,
-        Scaleform::Render::Rect<float> *result,
+        __m128 *result,
         Scaleform::Render::Matrix2x4<float> *transform)
 {
   Scaleform::GFx::ShapeBaseCharacterDef *pObject; // edi

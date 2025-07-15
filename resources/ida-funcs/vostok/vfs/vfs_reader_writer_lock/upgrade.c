@@ -1,80 +1,85 @@
 char __thiscall vostok::vfs::vfs_reader_writer_lock::upgrade(
         vostok::vfs::vfs_reader_writer_lock *this,
-        vostok::vfs::lock_type_enum from_lock,
+        vostok::vfs::vfs_reader_writer_lock::counters_type *from_lock,
         vostok::vfs::lock_type_enum to_lock,
-        vostok::vfs::lock_operation_enum operation)
+        vostok::vfs::lock_type_enum operation)
 {
-  survarium::game_camera *v4; // ecx
-  int v6; // eax
-  bool v7; // [esp+0h] [ebp-28h]
-  bool v8; // [esp+4h] [ebp-24h]
-  bool v9; // [esp+8h] [ebp-20h]
-  vostok::vfs::vfs_reader_writer_lock::counters_type new_counters; // [esp+18h] [ebp-10h] BYREF
-  vostok::vfs::vfs_reader_writer_lock::counters_type previous_counters; // [esp+1Ch] [ebp-Ch]
-  bool check; // [esp+23h] [ebp-5h]
-  vostok::vfs::vfs_reader_writer_lock::counters_type allowed; // [esp+24h] [ebp-4h] BYREF
+  vostok::vfs::vfs_reader_writer_lock::counters_type v4; // ebx
+  vostok::vfs::lock_type_enum v5; // ecx
+  $E3F6406041541B22B272F6C75322E84C v6; // eax
+  vostok::vfs::vfs_reader_writer_lock::counters_type *v7; // eax
+  vostok::tasks *v9; // [esp+10h] [ebp-Ch]
+  vostok::vfs::vfs_reader_writer_lock::counters_type v10; // [esp+14h] [ebp-8h] BYREF
+  vostok::vfs::vfs_reader_writer_lock::counters_type v11; // [esp+18h] [ebp-4h] BYREF
 
-  allowed.0 = 0;
-  vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe((survarium::game_camera *)&allowed, 1, from_lock);
-  if ( from_lock == lock_type_read
-    || from_lock == (lock_type_write|lock_type_read)
-    || from_lock == lock_type_write
-    || from_lock == 4 )
+  v11.0 = 0;
+  vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(&v11, to_lock, 1);
+  while ( 2 )
   {
-    survarium::weapon_user_dead_state::finalize(v4);
-  }
-  while ( 1 )
-  {
-    survarium::weapon_user_dead_state::finalize(v4);
-    previous_counters.0 = ($E3F6406041541B22B272F6C75322E84C)this->m_counters;
-    check = 0;
-    switch ( to_lock )
+    v4.0 = v11.0;
+    while ( 1 )
     {
-      case 1:
-        v9 = ((*(_DWORD *)&previous_counters.0 >> 30) & 1u) <= ((*(_DWORD *)&allowed.0 >> 30) & 1u)
-          && (HIBYTE(previous_counters.whole) & 0x3Fu) <= (HIBYTE(allowed.whole) & 0x3Fu);
-        check = v9;
+      v5 = operation;
+      v6 = from_lock->0;
+      v9 = (vostok::tasks *)from_lock->0;
+      switch ( operation )
+      {
+        case lock_type_read:
+          v5 = *(_DWORD *)&v6 & 0x40000000;
+          if ( (*(unsigned int *)&v6 & 0x40000000) > (*(_DWORD *)&v4.0 & 0x40000000u) )
+            goto LABEL_21;
+          v5 = 1056964608;
+LABEL_6:
+          if ( (v5 & *(unsigned int *)&v6) <= ((unsigned int)v5 & *(_DWORD *)&v4.0) )
+            goto LABEL_7;
+          goto LABEL_21;
+        case lock_type_write|lock_type_read:
+          v5 = *(_DWORD *)&v6 & 0x40000000;
+          LOBYTE(v5) = (*(_DWORD *)&v4.0 & 0x40000000u) >= (*(unsigned int *)&v6 & 0x40000000);
+          goto LABEL_20;
+        case lock_type_write:
+          v5 = *(_DWORD *)&v6 & 0x40000000;
+          if ( (*(unsigned int *)&v6 & 0x40000000) > (*(_DWORD *)&v4.0 & 0x40000000u) )
+            goto LABEL_21;
+          v5 = 1056964608;
+          if ( (*(unsigned int *)&v6 & 0x3F000000) > (*(_DWORD *)&v4.0 & 0x3F000000u) )
+            goto LABEL_21;
+          v5 = (vostok::vfs::lock_type_enum)&s_ui_commands_allocator.m_buffer[2018976];
+          if ( ((unsigned int)&s_ui_commands_allocator.m_buffer[2018976] & *(_DWORD *)&v6) > ((unsigned int)&s_ui_commands_allocator.m_buffer[2018976]
+                                                                                            & *(_DWORD *)&v4.0) )
+            goto LABEL_21;
+          v5 = 0x3FFF;
+          goto LABEL_6;
+      }
+      if ( operation != 4 )
+        goto LABEL_21;
+      v5 = *(_DWORD *)&v6 & 0x40000000;
+      if ( (*(unsigned int *)&v6 & 0x40000000) <= (*(_DWORD *)&v4.0 & 0x40000000u) )
+      {
+        v5 = (vostok::vfs::lock_type_enum)&s_ui_commands_allocator.m_buffer[2018976];
+        if ( ((unsigned int)&s_ui_commands_allocator.m_buffer[2018976] & *(_DWORD *)&v6) <= ((unsigned int)&s_ui_commands_allocator.m_buffer[2018976]
+                                                                                           & *(_DWORD *)&v4.0) )
+          break;
+      }
+      LOBYTE(v5) = 0;
+LABEL_20:
+      if ( (_BYTE)v5 )
         break;
-      case 3:
-        check = ((*(_DWORD *)&allowed.0 >> 30) & 1u) >= ((*(_DWORD *)&previous_counters.0 >> 30) & 1u);
-        break;
-      case 2:
-        v8 = ((*(_DWORD *)&previous_counters.0 >> 30) & 1u) <= ((*(_DWORD *)&allowed.0 >> 30) & 1u)
-          && (HIBYTE(previous_counters.whole) & 0x3Fu) <= (HIBYTE(allowed.whole) & 0x3Fu)
-          && ((*(_DWORD *)&previous_counters.0 >> 14) & 0x3FFu) <= ((*(_DWORD *)&allowed.0 >> 14) & 0x3FFu)
-          && (*(_WORD *)&previous_counters.0 & 0x3FFFu) <= (*(_WORD *)&allowed.0 & 0x3FFFu);
-        check = v8;
-        break;
-      case 4:
-        v7 = ((*(_DWORD *)&previous_counters.0 >> 30) & 1u) <= ((*(_DWORD *)&allowed.0 >> 30) & 1u)
-          && ((*(_DWORD *)&previous_counters.0 >> 14) & 0x3FFu) <= ((*(_DWORD *)&allowed.0 >> 14) & 0x3FFu);
-        check = v7;
-        break;
+LABEL_21:
+      vostok::threading::yield(0, (vostok::tasks *)v5);
     }
-    if ( !check )
+LABEL_7:
+    v10.0 = from_lock->0;
+    vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(&v10, to_lock, -1);
+    vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(v7, operation, 1);
+    if ( (vostok::tasks *)_InterlockedCompareExchange(
+                            (volatile signed __int32 *)from_lock,
+                            v10.whole,
+                            (signed __int32)v9) != v9 )
     {
-      if ( operation == lock_operation_try_lock )
-        return 0;
-      goto LABEL_32;
+      vostok::threading::yield(0, v9);
+      continue;
     }
-    new_counters.0 = previous_counters.0;
-    vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(
-      (survarium::game_camera *)&new_counters,
-      -1,
-      from_lock);
-    vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(
-      (survarium::game_camera *)&new_counters,
-      1,
-      to_lock);
-    v6 = vostok::threading::interlocked_compare_exchange(
-           new_counters.whole,
-           (volatile int *)this,
-           previous_counters.whole);
-    if ( v6 == *(_DWORD *)&previous_counters.0 )
-      return 1;
-    if ( operation == lock_operation_try_lock )
-      return 0;
-LABEL_32:
-    vostok::threading::yield(0);
+    return 1;
   }
 }

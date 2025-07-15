@@ -1,13 +1,3 @@
-void __cdecl stlp_std::swap<unsigned int>(unsigned int *__a, unsigned int *__b)
-{
-  unsigned int v2; // ecx
-
-  v2 = *__a;
-  *__a = *__b;
-  *__b = v2;
-}
-
-
 void __cdecl stlp_std::swap<stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_Buffers>(
         stlp_std::priv::_String_base<char,stlp_std::allocator<char> >::_Buffers *__a,
         stlp_std::priv::_String_base<char,stlp_std::allocator<char> >::_Buffers *__b)
@@ -33,19 +23,9 @@ void __cdecl stlp_std::swap<stlp_std::priv::_String_base<wchar_t,stlp_std::alloc
         stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers *__a,
         stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers *__b)
 {
-  stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers __tmp; // [esp+8h] [ebp-24h] BYREF
+  _BYTE v2[32]; // [esp+8h] [ebp-24h] BYREF
 
-  qmemcpy(&__tmp, __a, sizeof(__tmp));
+  qmemcpy(v2, __a, sizeof(v2));
   qmemcpy(__a, __b, sizeof(stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers));
-  qmemcpy(__b, &__tmp, sizeof(stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers));
-}
-
-
-void __usercall stlp_std::swap<vostok::size_policy>(vostok::size_policy *__a@<ecx>, vostok::size_policy *__b@<eax>)
-{
-  unsigned int m_size; // edx
-
-  m_size = __a->m_size;
-  __a->m_size = __b->m_size;
-  __b->m_size = m_size;
+  qmemcpy(__b, v2, sizeof(stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t> >::_Buffers));
 }

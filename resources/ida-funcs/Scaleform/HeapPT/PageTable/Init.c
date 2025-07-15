@@ -1,15 +1,16 @@
-void __cdecl Scaleform::HeapPT::PageTable::Init()
+_DWORD *Scaleform::HeapPT::PageTable::Init()
 {
-  _DWORD *v0; // eax
+  _DWORD *result; // eax
   int i; // ecx
 
   Scaleform::HeapPT::PageTableMem[0] = 0;
-  v0 = &unk_AA4144;
+  result = &unk_8E88E4;
   for ( i = 4095; i >= 0; --i )
   {
-    *v0 = 0;
-    v0[1] = 0;
-    v0 += 2;
+    *result = 0;
+    result[1] = 0;
+    result += 2;
   }
   Scaleform::HeapPT::GlobalPageTable = (Scaleform::HeapPT::PageTable *)Scaleform::HeapPT::PageTableMem;
+  return result;
 }

@@ -13,7 +13,7 @@ char __thiscall Scaleform::GFx::AS2::IMEManager::IsTextFieldFocused(
     return 0;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovie[4 * LOBYTE(pMovie[1013].RefCount) + 950].RefCount,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+    &result);
   pObject = (Scaleform::GFx::TextField *)result.pObject;
   if ( !result.pObject
     || (v4 = 1,
@@ -43,7 +43,7 @@ char __thiscall Scaleform::GFx::AS2::IMEManager::IsTextFieldFocused(Scaleform::G
     return 0;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovie[4 * LOBYTE(pMovie[1013].RefCount) + 950].RefCount,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+    &result);
   pObject = (Scaleform::GFx::TextField *)result.pObject;
   if ( result.pObject )
   {

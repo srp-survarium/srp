@@ -10,5 +10,10 @@ void __thiscall vostok::core::configs::binary_config_cook::delete_resource(
   ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
     resource,
     0);
-  (*(void (__thiscall **)(unsigned int, _BYTE *))(*(_DWORD *)m_lock + 24))(m_lock, v3);
+  (*(void (__thiscall **)(unsigned int, _BYTE *, const char *, const char *, int))(*(_DWORD *)m_lock + 24))(
+    m_lock,
+    v3,
+    "vostok::core::configs::binary_config_cook::delete_resource",
+    ".\\configs_binary_config_cook.cpp",
+    266);
 }

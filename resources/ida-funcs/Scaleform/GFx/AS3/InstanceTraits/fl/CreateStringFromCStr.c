@@ -1,5 +1,5 @@
 Scaleform::GFx::ASString *__usercall Scaleform::GFx::AS3::InstanceTraits::fl::CreateStringFromCStr@<eax>(
-        char *start@<edx>,
+        __m128i *start@<edx>,
         const char *end@<eax>,
         Scaleform::GFx::ASStringNode **a3@<esi>,
         Scaleform::GFx::AS3::StringManager *sm)
@@ -9,9 +9,9 @@ Scaleform::GFx::ASString *__usercall Scaleform::GFx::AS3::InstanceTraits::fl::Cr
   Scaleform::GFx::ASStringManager *pStringManager; // eax
 
   if ( end )
-    v4 = end - start;
+    v4 = end - (const char *)start;
   else
-    v4 = strlen(start);
+    v4 = strlen(start->m128i_i8);
   if ( v4 <= 0 )
   {
     pStringManager = sm->pStringManager;

@@ -4,6 +4,6 @@ survarium::items_dictionary *__thiscall survarium::items_dictionary::`vector del
 {
   survarium::items_dictionary::~items_dictionary(this);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

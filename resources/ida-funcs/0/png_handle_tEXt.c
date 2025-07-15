@@ -1,4 +1,4 @@
-int __cdecl png_handle_tEXt(int a1, int a2, unsigned int a3)
+int __cdecl png_handle_tEXt(int a1, _DWORD *a2, unsigned int a3)
 {
   int result; // eax
   _DWORD *pointer; // [esp+0h] [ebp-18h]

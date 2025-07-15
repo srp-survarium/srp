@@ -1,183 +1,165 @@
-static_codebook *__usercall vorbis_staticbook_unpack@<eax>(
-        oggpack_buffer *opb@<eax>,
-        vostok::memory::doug_lea_mt_allocator *a2@<ecx>)
+static_codebook *__usercall vorbis_staticbook_unpack@<eax>(oggpack_buffer *opb@<eax>, __int128 a2@<xmm0>)
 {
-  static_codebook *v3; // esi
+  static_codebook *v3; // edi
   unsigned int v4; // eax
-  unsigned int dim; // ecx
-  int i; // edx
-  int j; // ecx
+  unsigned int v5; // ecx
+  int v6; // eax
+  int v7; // edx
   unsigned int v8; // eax
   unsigned int v9; // eax
-  unsigned int v10; // ebp
-  int *v11; // eax
-  int v12; // ebx
-  bool v13; // cc
-  unsigned int v14; // ecx
-  unsigned int m; // eax
-  signed int v16; // eax
-  unsigned int v17; // ebx
+  int *v10; // eax
+  int v11; // ebx
+  bool v12; // cc
+  unsigned int v13; // eax
+  signed int v14; // eax
+  unsigned int v15; // ebx
   int entries; // ecx
-  int k; // ebx
+  int i; // ebx
+  unsigned int v18; // eax
+  int j; // ebx
   unsigned int v20; // eax
-  int v21; // ebx
-  unsigned int v22; // eax
+  unsigned int v21; // eax
+  int v22; // ebx
   unsigned int v23; // eax
-  unsigned int v24; // eax
-  int v25; // ebx
-  int v26; // ebp
-  bool v27; // zf
-  vostok::memory *v29; // [esp+0h] [ebp-14h]
+  int v24; // eax
+  int *v25; // eax
+  bool v26; // zf
+  int v28; // [esp+Ch] [ebp-8h]
+  unsigned int v29; // [esp+10h] [ebp-4h]
   int v30; // [esp+10h] [ebp-4h]
 
-  if ( !vostok::memory::g_crt_allocator.__vftable )
-    vostok::memory::initialize_crt_allocator(v29);
-  v3 = (static_codebook *)vostok::memory::doug_lea_mt_allocator::malloc_impl(a2, 0x28u);
-  v3->dim = 0;
-  v3->entries = 0;
-  v3->lengthlist = 0;
-  v3->maptype = 0;
-  v3->q_min = 0;
-  v3->q_delta = 0;
-  v3->q_quant = 0;
-  v3->q_sequencep = 0;
-  v3->quantlist = 0;
+  v3 = (static_codebook *)ogg_calloc_impl(1u, 0x28u);
   v3->allocedp = 1;
-  if ( (_UNKNOWN *)oggpack_read(opb, 0x18u) != &loc_564342 )
+  if ( (_UNKNOWN *)oggpack_read(opb, 0x18u) != (_UNKNOWN *)((char *)&loc_56433F + 3) )
     goto _errout;
   v3->dim = oggpack_read(opb, 0x10u);
   v4 = oggpack_read(opb, 0x18u);
   v3->entries = v4;
   if ( v4 == -1 )
     goto _errout;
-  dim = v3->dim;
-  for ( i = 0; dim; dim >>= 1 )
-    ++i;
-  for ( j = 0; v4; v4 >>= 1 )
-    ++j;
-  if ( i + j > 24 )
+  _ilog(v3->dim);
+  v6 = _ilog(v5);
+  if ( v6 + v7 > 24 )
     goto _errout;
   v8 = oggpack_read(opb, 1u);
-  if ( !v8 )
+  if ( v8 )
   {
-    v17 = oggpack_read(opb, 1u);
-    entries = v3->entries;
-    if ( (entries * (4 * (v17 == 0) + 1) + 7) >> 3 <= opb->storage - (opb->endbit + 7) / 8 - opb->endbyte )
+    if ( v8 != 1 )
+      goto _errout;
+    v9 = oggpack_read(opb, 5u);
+    v29 = v9 + 1;
+    if ( v9 == -1 )
+      goto _errout;
+    v10 = (int *)ogg_malloc_impl(4 * v3->entries);
+    v11 = 0;
+    v12 = v3->entries <= 0;
+    v3->lengthlist = v10;
+    if ( !v12 )
     {
-      v3->lengthlist = (int *)malloc(4 * entries);
-      if ( v17 )
+      v28 = v29 - 1;
+      do
       {
-        for ( k = 0; k < v3->entries; ++k )
+        v13 = _ilog(v3->entries - v11);
+        v14 = oggpack_read(opb, v13);
+        if ( v14 == -1 || v28 > 31 || v14 > v3->entries - v11 )
+          goto _errout;
+        if ( v14 > 0 )
         {
-          if ( oggpack_read(opb, 1u) )
+          if ( (v14 - 1) >> v28 > 1 )
+            goto _errout;
+          do
           {
-            v20 = oggpack_read(opb, 5u);
-            if ( v20 == -1 )
-              goto _errout;
-            v3->lengthlist[k] = v20 + 1;
+            v3->lengthlist[v11++] = v29;
+            --v14;
           }
-          else
-          {
-            v3->lengthlist[k] = 0;
-          }
+          while ( v14 );
         }
+        ++v29;
+        ++v28;
       }
-      else
-      {
-        v21 = 0;
-        if ( v3->entries > 0 )
-        {
-          while ( 1 )
-          {
-            v22 = oggpack_read(opb, 5u);
-            if ( v22 == -1 )
-              goto _errout;
-            v3->lengthlist[v21++] = v22 + 1;
-            if ( v21 >= v3->entries )
-              goto LABEL_37;
-          }
-        }
-      }
-      goto LABEL_37;
+      while ( v11 < v3->entries );
     }
+  }
+  else
+  {
+    v15 = oggpack_read(opb, 1u);
+    entries = v3->entries;
+    if ( (entries * (4 * (v15 == 0) + 1) + 7) >> 3 > opb->storage - (opb->endbit + 7) / 8 - opb->endbyte )
+      goto _errout;
+    v3->lengthlist = (int *)ogg_malloc_impl(4 * entries);
+    if ( v15 )
+    {
+      for ( i = 0; i < v3->entries; ++i )
+      {
+        if ( oggpack_read(opb, 1u) )
+        {
+          v18 = oggpack_read(opb, 5u);
+          if ( v18 == -1 )
+            goto _errout;
+          v3->lengthlist[i] = v18 + 1;
+        }
+        else
+        {
+          v3->lengthlist[i] = 0;
+        }
+      }
+    }
+    else
+    {
+      for ( j = 0; j < v3->entries; v3->lengthlist[j++] = v20 + 1 )
+      {
+        v20 = oggpack_read(opb, 5u);
+        if ( v20 == -1 )
+          goto _errout;
+      }
+    }
+  }
+  v21 = oggpack_read(opb, 4u);
+  v22 = 0;
+  v3->maptype = v21;
+  if ( !v21 )
+    return v3;
+  if ( v21 - 1 > 1
+    || (v3->q_min = oggpack_read(opb, 0x20u),
+        v3->q_delta = oggpack_read(opb, 0x20u),
+        v3->q_quant = oggpack_read(opb, 4u) + 1,
+        v23 = oggpack_read(opb, 1u),
+        v3->q_sequencep = v23,
+        v23 == -1) )
+  {
 _errout:
     vorbis_staticbook_destroy(v3);
     return 0;
   }
-  if ( v8 != 1 )
-    goto _errout;
-  v9 = oggpack_read(opb, 5u);
-  v10 = v9 + 1;
-  if ( v9 == -1 )
-    goto _errout;
-  v11 = (int *)malloc(4 * v3->entries);
-  v12 = 0;
-  v13 = v3->entries <= 0;
-  v3->lengthlist = v11;
-  if ( !v13 )
+  v30 = 0;
+  if ( v3->maptype == 1 )
   {
-    v30 = v10 - 1;
+    if ( v3->dim )
+    {
+      v24 = _book_maptype1_quantvals(v3, 0, (int)v3, (int)opb, a2);
+      goto LABEL_38;
+    }
+    v30 = 0;
+  }
+  else if ( v3->maptype == 2 )
+  {
+    v24 = v3->entries * v3->dim;
+LABEL_38:
+    v30 = v24;
+  }
+  if ( (v30 * v3->q_quant + 7) >> 3 > opb->storage - (opb->endbit + 7) / 8 - opb->endbyte )
+    goto _errout;
+  v25 = (int *)ogg_malloc_impl(4 * v30);
+  v26 = v30 == 0;
+  v3->quantlist = v25;
+  if ( v30 > 0 )
+  {
     do
-    {
-      v14 = v3->entries - v12;
-      for ( m = 0; v14; v14 >>= 1 )
-        ++m;
-      v16 = oggpack_read(opb, m);
-      if ( v16 == -1 || v30 > 31 || v16 > v3->entries - v12 )
-        goto _errout;
-      if ( v16 > 0 )
-      {
-        if ( (v16 - 1) >> v30 > 1 )
-          goto _errout;
-        do
-        {
-          v3->lengthlist[v12++] = v10;
-          --v16;
-        }
-        while ( v16 );
-      }
-      ++v30;
-      ++v10;
-    }
-    while ( v12 < v3->entries );
+      v3->quantlist[v22++] = oggpack_read(opb, v3->q_quant);
+    while ( v22 < v30 );
+    v26 = v30 == 0;
   }
-LABEL_37:
-  v23 = oggpack_read(opb, 4u);
-  v3->maptype = v23;
-  if ( v23 )
-  {
-    if ( v23 - 1 > 1 )
-      goto _errout;
-    v3->q_min = oggpack_read(opb, 0x20u);
-    v3->q_delta = oggpack_read(opb, 0x20u);
-    v3->q_quant = oggpack_read(opb, 4u) + 1;
-    v24 = oggpack_read(opb, 1u);
-    v3->q_sequencep = v24;
-    if ( v24 == -1 )
-      goto _errout;
-    v25 = 0;
-    if ( v3->maptype == 1 )
-    {
-      v25 = v3->dim ? _book_maptype1_quantvals(v3) : 0;
-    }
-    else if ( v3->maptype == 2 )
-    {
-      v25 = v3->entries * v3->dim;
-    }
-    if ( (v25 * v3->q_quant + 7) >> 3 > opb->storage - (opb->endbit + 7) / 8 - opb->endbyte )
-      goto _errout;
-    v26 = 0;
-    v3->quantlist = (int *)malloc(4 * v25);
-    v27 = v25 == 0;
-    if ( v25 > 0 )
-    {
-      do
-        v3->quantlist[v26++] = oggpack_read(opb, v3->q_quant);
-      while ( v26 < v25 );
-      v27 = v25 == 0;
-    }
-    if ( !v27 && v3->quantlist[v25 - 1] == -1 )
-      goto _errout;
-  }
+  if ( !v26 && v3->quantlist[v30 - 1] == -1 )
+    goto _errout;
   return v3;
 }

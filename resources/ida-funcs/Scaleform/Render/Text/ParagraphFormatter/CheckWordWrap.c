@@ -13,8 +13,8 @@ char __thiscall Scaleform::Render::Text::ParagraphFormatter::CheckWordWrap(
   Scaleform::Render::Text::LineBuffer::GlyphEntry *pPrevGrec; // eax
   unsigned int v12; // ebp
   Scaleform::Render::Text::LineBuffer::Line *pTempLine; // eax
-  bool wordWrap; // [esp+Bh] [ebp-C5h]
-  Scaleform::Render::Text::LineBuffer::GlyphInserter ins; // [esp+10h] [ebp-C0h] BYREF
+  char v15; // [esp+Bh] [ebp-C5h]
+  Scaleform::Render::Text::LineBuffer::GlyphInserter savedPos; // [esp+10h] [ebp-C0h] BYREF
   Scaleform::Render::Text::GFxLineCursor v17; // [esp+24h] [ebp-ACh] BYREF
 
   Pass = this->Pass;
@@ -31,22 +31,22 @@ char __thiscall Scaleform::Render::Text::ParagraphFormatter::CheckWordWrap(
       return 1;
     this->NewLineWidth = 0;
     pText = this->WordWrapPoint.CharIter.pText;
-    wordWrap = 0;
+    v15 = 0;
     if ( pText && this->WordWrapPoint.CharIter.CurTextIndex < pText->Size )
     {
       pGlyphs = this->WordWrapPoint.GlyphIns.pGlyphs;
       pNextFormatData = this->WordWrapPoint.GlyphIns.pNextFormatData;
-      ins.GlyphIndex = this->WordWrapPoint.GlyphIns.GlyphIndex;
-      ins.pGlyphs = pGlyphs;
+      savedPos.GlyphIndex = this->WordWrapPoint.GlyphIns.GlyphIndex;
+      savedPos.pGlyphs = pGlyphs;
       GlyphsCount = this->WordWrapPoint.GlyphIns.GlyphsCount;
-      ins.pNextFormatData = pNextFormatData;
+      savedPos.pNextFormatData = pNextFormatData;
       FormatDataIndex = this->WordWrapPoint.GlyphIns.FormatDataIndex;
-      ins.GlyphsCount = GlyphsCount;
-      ins.FormatDataIndex = FormatDataIndex;
-      Scaleform::Render::Text::LineBuffer::GlyphInserter::ResetTo(&this->LineCursor.GlyphIns, &ins);
+      savedPos.GlyphsCount = GlyphsCount;
+      savedPos.FormatDataIndex = FormatDataIndex;
+      Scaleform::Render::Text::LineBuffer::GlyphInserter::ResetTo(&this->LineCursor.GlyphIns, &savedPos);
       Scaleform::Render::Text::GFxLineCursor::operator=(&this->LineCursor, &this->WordWrapPoint);
       this->isSpace = 0;
-      wordWrap = 1;
+      v15 = 1;
       this->DeltaText = 0;
     }
     Scaleform::Render::Text::GFxLineCursor::GFxLineCursor(&v17);
@@ -65,10 +65,8 @@ char __thiscall Scaleform::Render::Text::ParagraphFormatter::CheckWordWrap(
     if ( (pTempLine->MemSize & 0x80000000) == 0 )
       pTempLine->Data32.TextPos = v12;
     else
-      pTempLine->Data32.TextPos ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                 & (v12
-                                  ^ pTempLine->Data32.TextPos);
-    if ( wordWrap )
+      pTempLine->Data32.TextPos ^= (v12 ^ pTempLine->Data32.TextPos) & 0xFFFFFF;
+    if ( v15 )
     {
       this->LineCursor.LineWidth = 0;
       return 1;

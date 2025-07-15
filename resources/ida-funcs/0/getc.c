@@ -1,4 +1,4 @@
-int __usercall getc@<eax>(unsigned int a1@<ebx>, _iobuf *stream)
+int __usercall getc@<eax>(int a1@<ebx>, _iobuf *stream)
 {
   int v3; // eax
   ioinfo *v4; // ecx
@@ -12,7 +12,7 @@ int __usercall getc@<eax>(unsigned int a1@<ebx>, _iobuf *stream)
     _lock_file(stream);
     if ( (stream->_flag & 0x40) == 0 )
     {
-      v3 = _fileno(stream);
+      v3 = _fileno(a1, 0, stream);
       if ( v3 == -1 || v3 == -2 )
         v4 = &__badioinfo;
       else
@@ -24,14 +24,14 @@ int __usercall getc@<eax>(unsigned int a1@<ebx>, _iobuf *stream)
             *((char *)v5 + 36) < 0) )
       {
         *_errno() = 22;
-        _invalid_parameter(a1, 0, (unsigned int)stream);
+        _invalid_parameter(a1, 0, (int)stream);
         retval = -1;
       }
     }
     if ( !retval )
     {
       if ( --stream->_cnt < 0 )
-        v7 = _filbuf(stream);
+        v7 = _filbuf(a1, stream);
       else
         v7 = *(unsigned __int8 *)stream->_ptr++;
       retval = v7;

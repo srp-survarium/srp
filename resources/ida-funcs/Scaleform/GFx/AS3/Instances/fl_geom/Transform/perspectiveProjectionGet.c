@@ -23,7 +23,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::perspectiveP
   Scaleform::Render::Point<float> v21; // [esp+138h] [ebp-60h] BYREF
   Scaleform::Render::Point<float> v22; // [esp+140h] [ebp-58h] BYREF
   Scaleform::Render::Point<float> v23; // [esp+148h] [ebp-50h] BYREF
-  Scaleform::GFx::AS3::Value __t; // [esp+158h] [ebp-40h] BYREF
+  Scaleform::GFx::AS3::Value v24; // [esp+158h] [ebp-40h] BYREF
   Scaleform::GFx::AS3::Value v25; // [esp+168h] [ebp-30h] BYREF
   Scaleform::GFx::AS3::Value v26; // [esp+178h] [ebp-20h] BYREF
   Scaleform::GFx::AS3::Value v27; // [esp+188h] [ebp-10h] BYREF
@@ -34,13 +34,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::perspectiveP
     pVM = (Scaleform::GFx::AS3::ASVM *)this->pTraits.pObject->pVM;
     pobj.pObject = 0;
     `vector constructor iterator'(
-      (char *)&__t,
+      (char *)&v24,
       0x10u,
       4,
       (void *(__thiscall *)(void *))Scaleform::GFx::ResourceKey::ResourceKey);
     v5 = pVM->pMovieRoot->GetRootMovie(pVM->pMovieRoot, 0) == this->pDispObj;
     v = this->pDispObj->GetFOV(this->pDispObj);
-    Scaleform::GFx::AS3::Value::SetNumber(&__t, v);
+    Scaleform::GFx::AS3::Value::SetNumber(&v24, v);
     v7 = this->pDispObj->GetFocalLength(this->pDispObj);
     Scaleform::GFx::AS3::Value::SetNumber(&v25, v7 * 0.05);
     v8 = this->pDispObj;
@@ -67,7 +67,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::perspectiveP
     Scaleform::GFx::AS3::Value::SetNumber(&v26, *(float *)&pParent);
     *(float *)&pParent = y * 0.05000000074505806;
     Scaleform::GFx::AS3::Value::SetNumber(&v27, *(float *)&pParent);
-    if ( Scaleform::GFx::AS3::ASVM::_constructInstance(pVM, &pobj, pVM->PerspectiveProjectionClass.pObject, 4u, &__t) )
+    if ( Scaleform::GFx::AS3::ASVM::_constructInstance(pVM, &pobj, pVM->PerspectiveProjectionClass.pObject, 4u, &v24) )
     {
       pobj.pObject[1].DynAttrs.mHash.pTable = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)this->pDispObj;
       if ( v5 )
@@ -86,7 +86,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::perspectiveP
       result,
       (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&pobj);
     `vector destructor iterator'(
-      (char *)&__t,
+      (char *)&v24,
       0x10u,
       4,
       (void (__thiscall *)(void *))Scaleform::GFx::AS3::Value::~Value);
@@ -94,7 +94,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::perspectiveP
     {
       RefCount = pobj.pObject->RefCount;
       v16 = pobj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pobj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v16);

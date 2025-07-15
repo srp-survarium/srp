@@ -1,316 +1,113 @@
-vostok::vfs::archive_compressed_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(
+vostok::vfs::archive_compressed_file_node<1> *__thiscall vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(
         vostok::vfs::base_node<1> *node)
 {
-  if ( node )
-    return vostok::vfs::cast_archive_compressed_file<1>(node);
+  unsigned __int16 m_flags; // ax
+
+  if ( node
+    && (m_flags = node->m_flags, (m_flags & 1) == 0)
+    && (m_flags & 4) != 0
+    && (m_flags & 0x10) != 0
+    && (m_flags & 0x40) == 0 )
+  {
+    return (vostok::vfs::archive_compressed_file_node<1> *)((char *)node - 32);
+  }
   else
+  {
     return 0;
+  }
 }
 
 
-const vostok::vfs::archive_compressed_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_compressed_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
+vostok::vfs::archive_file_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
 {
-  if ( node )
-    return vostok::vfs::cast_archive_compressed_file<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::archive_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_file<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::archive_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_file<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_folder_mount_root<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::archive_folder_mount_root_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::mount_root_node_base,1>(
-        vostok::vfs::mount_root_node_base<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_folder_mount_root<1>(node->node.pointer);
-  else
-    return 0;
-}
-
-
-vostok::vfs::archive_inline_compressed_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_inline_compressed_file_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_inline_compressed_file<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::archive_inline_compressed_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_inline_compressed_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_inline_compressed_file<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::archive_inline_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_inline_file<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::archive_inline_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_archive_inline_file<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::archive_folder_mount_root_node,1>(
-        vostok::vfs::archive_folder_mount_root_node<1> *node)
-{
-  if ( node )
-    return &node->folder;
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_folder<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::base_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_folder<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::mount_helper_node,1>(
-        vostok::vfs::mount_helper_node<1> *node)
-{
-  if ( node )
-    return &node->folder;
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::physical_folder_mount_root_node,1>(
-        vostok::vfs::physical_folder_mount_root_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_folder<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::physical_folder_node,1>(
-        vostok::vfs::base_folder_node<1> *node)
-{
-  if ( node )
-    return &node->base;
-  else
-    return 0;
-}
-
-
-vostok::sound::sound_world *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::archive_folder_mount_root_node,1>(
-        vostok::vfs::archive_folder_mount_root_node<1> *node)
-{
-  if ( node )
-    return &node->folder.base;
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::hard_link_node,1>(
-        vostok::vfs::hard_link_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_node<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::mount_helper_node,1>(
-        vostok::vfs::mount_helper_node<1> *node)
-{
-  if ( node )
-    return &node->folder.base;
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::mount_root_node_base,1>(
-        vostok::vfs::mount_root_node_base<1> *node)
-{
-  if ( node )
-    return node->node.pointer;
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::physical_file_mount_root_node,1>(
-        vostok::vfs::physical_file_mount_root_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_node<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::physical_folder_mount_root_node,1>(
-        vostok::vfs::physical_folder_mount_root_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_node<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::base_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::physical_folder_node,1>(
-        vostok::vfs::physical_folder_node<1> *node)
-{
-  if ( node )
-    return &node->folder.base;
-  else
-    return 0;
-}
-
-
-vostok::vfs::erased_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::erased_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  survarium::game_camera *v1; // ecx
+  unsigned __int16 m_flags; // cx
 
   if ( !node )
     return 0;
-  survarium::weapon_user_dead_state::finalize(v1);
-  return (vostok::vfs::erased_node<1> *)node;
+  m_flags = node->m_flags;
+  if ( (m_flags & 1) != 0 || (m_flags & 4) == 0 || (m_flags & 0x50) != 0 )
+    return 0;
+  else
+    return (vostok::vfs::archive_file_node<1> *)((char *)node - 24);
 }
 
 
-vostok::vfs::external_subfat_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::external_subfat_node,vostok::vfs::base_node,1>(
+vostok::vfs::base_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
+{
+  unsigned __int16 m_flags; // cx
+
+  if ( node && (m_flags = node->m_flags, (m_flags & 1) != 0) && (m_flags & 8) != 0 && (m_flags & 4) != 0 )
+    return node - 17;
+  else
+    return 0;
+}
+
+
+vostok::vfs::archive_inline_file_node<1> *__thiscall vostok::vfs::node_cast<vostok::vfs::archive_inline_file_node,vostok::vfs::base_node,1>(
         vostok::vfs::base_node<1> *node)
 {
-  if ( node )
-    return vostok::vfs::cast_external_node<1>(node);
+  unsigned __int16 m_flags; // ax
+
+  if ( node
+    && (m_flags = node->m_flags, (m_flags & 1) == 0)
+    && (m_flags & 4) != 0
+    && (m_flags & 0x10) == 0
+    && (m_flags & 0x40) != 0 )
+  {
+    return (vostok::vfs::archive_inline_file_node<1> *)((char *)node - 40);
+  }
   else
+  {
     return 0;
+  }
 }
 
 
-const vostok::vfs::external_subfat_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::external_subfat_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_external_node<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::mount_helper_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::mount_helper_node,vostok::vfs::base_node,1>(
+vostok::vfs::mount_helper_node<1> *__thiscall vostok::vfs::node_cast<vostok::vfs::mount_helper_node,vostok::vfs::base_node,1>(
         vostok::vfs::base_node<1> *node)
 {
-  if ( node )
-    return vostok::vfs::cast_mount_helper_node<1>(node);
+  unsigned __int16 m_flags; // ax
+
+  if ( node && (m_flags = node->m_flags, (m_flags & 1) != 0) && (m_flags & 0x400) == 0x400 )
+    return (vostok::vfs::mount_helper_node<1> *)((char *)node - 24);
   else
     return 0;
 }
 
 
-vostok::vfs::mount_root_node_base<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
+vostok::vfs::physical_folder_mount_root_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<esi>)
 {
-  if ( node )
-    return vostok::vfs::cast_mount_root_node_base<1>(node);
-  else
+  vostok::vfs::physical_folder_mount_root_node<1> *result; // eax
+
+  if ( !node )
     return 0;
+  result = vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::base_node,1>(node);
+  if ( !result )
+  {
+    result = (vostok::vfs::physical_folder_mount_root_node<1> *)vostok::vfs::node_cast<vostok::vfs::physical_file_mount_root_node,vostok::vfs::base_node,1>(node);
+    if ( !result )
+      return (vostok::vfs::physical_folder_mount_root_node<1> *)vostok::vfs::node_cast<vostok::vfs::archive_folder_mount_root_node,vostok::vfs::base_node,1>(node);
+  }
+  return result;
 }
 
 
-vostok::vfs::physical_file_mount_root_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_file_mount_root_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
+vostok::vfs::base_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::physical_file_mount_root_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
 {
-  if ( node )
-    return vostok::vfs::cast_physical_file_mount_root<1>(node);
+  unsigned __int16 m_flags; // cx
+
+  if ( node && (m_flags = node->m_flags, (m_flags & 1) == 0) && (m_flags & 8) != 0 && (m_flags & 2) != 0 )
+    return node - 2;
   else
     return 0;
 }
 
 
-vostok::vfs::physical_file_mount_root_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_file_mount_root_node,vostok::vfs::mount_root_node_base,1>(
-        vostok::vfs::mount_root_node_base<1> *node)
-{
-  if ( node )
-    return vostok::vfs::node_cast<vostok::vfs::physical_file_mount_root_node,vostok::vfs::base_node,1>(node->node.pointer);
-  else
-    return 0;
-}
-
-
-vostok::vfs::physical_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_file_node,vostok::vfs::base_node,1>(
+vostok::vfs::physical_file_node<1> *__thiscall vostok::vfs::node_cast<vostok::vfs::physical_file_node,vostok::vfs::base_node,1>(
         vostok::vfs::base_node<1> *node)
 {
   if ( node )
@@ -320,91 +117,39 @@ vostok::vfs::physical_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::
 }
 
 
-const vostok::vfs::physical_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
+vostok::vfs::physical_folder_mount_root_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
 {
-  if ( node )
-    return vostok::vfs::cast_physical_file<1>(node);
+  unsigned __int16 m_flags; // cx
+
+  if ( node && (m_flags = node->m_flags, (m_flags & 1) != 0) && (m_flags & 8) != 0 && (m_flags & 2) != 0 )
+    return (vostok::vfs::physical_folder_mount_root_node<1> *)((char *)node - 136);
   else
     return 0;
 }
 
 
-vostok::vfs::physical_folder_mount_root_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
+vostok::vfs::physical_folder_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::physical_folder_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
 {
-  if ( node )
-    return vostok::vfs::cast_physical_folder_mount_root<1>(node);
-  else
+  unsigned __int16 m_flags; // cx
+
+  if ( !node )
     return 0;
+  m_flags = node->m_flags;
+  if ( (m_flags & 1) == 0 || (m_flags & 2) == 0 )
+    return 0;
+  if ( (m_flags & 8) != 0 )
+    return &vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::base_node,1>(node)->folder;
+  return (vostok::vfs::physical_folder_node<1> *)((char *)node - 32);
 }
 
 
-vostok::vfs::physical_folder_mount_root_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::mount_root_node_base,1>(
-        vostok::vfs::mount_root_node_base<1> *node)
+vostok::vfs::universal_file_node<1> *__usercall vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<eax>)
 {
-  if ( node )
-    return vostok::vfs::node_cast<vostok::vfs::physical_folder_mount_root_node,vostok::vfs::base_node,1>(node->node.pointer);
-  else
-    return 0;
-}
-
-
-vostok::vfs::physical_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_folder_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_physical_folder<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::physical_folder_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::physical_folder_node,vostok::vfs::physical_folder_mount_root_node,1>(
-        vostok::vfs::physical_folder_mount_root_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_physical_folder<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::hard_link_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::soft_link_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_soft_link<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::hard_link_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::soft_link_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_hard_link<1>(node);
-  else
-    return 0;
-}
-
-
-vostok::vfs::universal_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(
-        vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_universal_file_node<1>(node);
-  else
-    return 0;
-}
-
-
-const vostok::vfs::universal_file_node<1> *__cdecl vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(
-        const vostok::vfs::base_node<1> *node)
-{
-  if ( node )
-    return vostok::vfs::cast_universal_file_node<1>(node);
+  if ( node && (node->m_flags & 0x2000) == 0x2000 )
+    return (vostok::vfs::universal_file_node<1> *)((char *)node - 24);
   else
     return 0;
 }

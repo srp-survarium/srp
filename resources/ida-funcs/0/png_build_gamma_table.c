@@ -43,36 +43,36 @@ int __cdecl png_build_gamma_table(int a1, int a2)
     {
       if ( *(int *)(a1 + 380) <= 0 )
       {
-        sub_358240(a1, a1 + 388, v10, &loc_186A0);
+        sub_464F00(a1, a1 + 388, v10, 100000);
       }
       else
       {
-        v7 = sub_357FF0(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
-        sub_358240(a1, a1 + 388, v10, v7);
+        v7 = sub_464CB0(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
+        sub_464F00(a1, a1 + 388, v10, v7);
       }
     }
     else if ( *(int *)(a1 + 380) <= 0 )
     {
-      sub_358060(a1, a1 + 388, v10, &loc_186A0);
+      sub_464D20(a1, a1 + 388, v10, 100000);
     }
     else
     {
       v6 = png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
-      sub_358060(a1, a1 + 388, v10, v6);
+      sub_464D20(a1, a1 + 388, v10, v6);
     }
     result = a1;
-    if ( (*(_DWORD *)(a1 + 116) & 0x600080) != 0 )
+    if ( ((unsigned int)&loc_600080 & *(_DWORD *)(a1 + 116)) != 0 )
     {
       v4 = png_reciprocal(*(_DWORD *)(a1 + 376));
-      sub_358060(a1, a1 + 404, v10, v4);
+      sub_464D20(a1, a1 + 404, v10, v4);
       if ( *(int *)(a1 + 380) <= 0 )
       {
-        return sub_358060(a1, a1 + 400, v10, *(_DWORD *)(a1 + 376));
+        return sub_464D20(a1, a1 + 400, v10, *(_DWORD *)(a1 + 376));
       }
       else
       {
         v5 = png_reciprocal(*(_DWORD *)(a1 + 380));
-        return sub_358060(a1, a1 + 400, v10, v5);
+        return sub_464D20(a1, a1 + 400, v10, v5);
       }
     }
   }
@@ -80,26 +80,26 @@ int __cdecl png_build_gamma_table(int a1, int a2)
   {
     if ( *(int *)(a1 + 380) <= 0 )
     {
-      sub_3583C0(a1, a1 + 384, &loc_186A0);
+      sub_465080(a1, a1 + 384, 100000);
     }
     else
     {
       v9 = png_reciprocal2(*(_DWORD *)(a1 + 376), *(_DWORD *)(a1 + 380));
-      sub_3583C0(a1, a1 + 384, v9);
+      sub_465080(a1, a1 + 384, v9);
     }
     result = a1;
-    if ( (*(_DWORD *)(a1 + 116) & 0x600080) != 0 )
+    if ( ((unsigned int)&loc_600080 & *(_DWORD *)(a1 + 116)) != 0 )
     {
       v3 = png_reciprocal(*(_DWORD *)(a1 + 376));
-      sub_3583C0(a1, a1 + 396, v3);
+      sub_465080(a1, a1 + 396, v3);
       if ( *(int *)(a1 + 380) <= 0 )
       {
-        return sub_3583C0(a1, a1 + 392, *(_DWORD *)(a1 + 376));
+        return sub_465080(a1, a1 + 392, *(_DWORD *)(a1 + 376));
       }
       else
       {
         v8 = png_reciprocal(*(_DWORD *)(a1 + 380));
-        return sub_3583C0(a1, a1 + 392, v8);
+        return sub_465080(a1, a1 + 392, v8);
       }
     }
   }

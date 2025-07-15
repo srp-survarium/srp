@@ -1,52 +1,54 @@
-void __thiscall vostok::network::match_client::disconnect(vostok::network::match_client *this)
+void __thiscall vostok::network::match_client::disconnect(vostok::network::match_client *this, int a2)
 {
-  vostok::memory::base_allocator *v1; // eax
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v2; // ecx
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::jump_logic_state_landing,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::jump_logic_state_landing *>,boost::arg<1> > > f; // [esp+8h] [ebp-7Ch]
-  void *_Where; // [esp+38h] [ebp-4Ch]
-  vostok::network::network_world *m_world; // [esp+40h] [ebp-44h]
-  char v7; // [esp+4Ch] [ebp-38h]
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::match_client_impl>,boost::_bi::list1<boost::reference_wrapper<vostok::network::match_client_impl *> > > result; // [esp+50h] [ebp-34h] BYREF
-  boost::reference_wrapper<vostok::network::match_client_impl *> a1; // [esp+58h] [ebp-2Ch]
-  boost::function<void __cdecl(void)> v10; // [esp+5Ch] [ebp-28h] BYREF
-  vostok::network::response *v11; // [esp+80h] [ebp-4h]
+  int v2; // esi
+  char *v3; // eax
+  __int32 v4; // edi
+  int v5; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::match_client_impl>,boost::_bi::list1<boost::reference_wrapper<vostok::network::match_client_impl *> > > v7; // [esp+0h] [ebp-38h]
+  int v8; // [esp+8h] [ebp-30h]
+  char v9; // [esp+14h] [ebp-24h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v10; // [esp+18h] [ebp-20h] BYREF
 
-  v7 = 0;
-  m_world = this->m_world;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)m_world);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)m_world->m_channel.orders.m_owner_allocator);
-  _Where = vostok::memory::base_allocator::malloc_impl(v1, 0x28u);
-  v11 = (vostok::network::response *)operator new(0x28u, _Where);
-  if ( v11 )
+  v9 = 0;
+  v2 = *(_DWORD *)(*(_DWORD *)(a2 + 236) + 284);
+  v3 = type_info::raw_name(&vostok::network::functor_order `RTTI Type Descriptor');
+  v4 = (*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v2 + 16))(
+         v2,
+         48,
+         v3,
+         "vostok::network::match_client::disconnect",
+         ".\\match_client.cpp",
+         196);
+  if ( v4 )
   {
-    a1.t_ = (vostok::network::match_client_impl **)boost::addressof<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result>,boost::_bi::list2<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>>>>((boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)this->m_client);
-    f = (boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::jump_logic_state_landing,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::jump_logic_state_landing *>,boost::arg<1> > >)*boost::bind<void,vostok::network::match_client_impl,boost::reference_wrapper<vostok::network::match_client_impl *>>(&result, vostok::network::match_client_impl::disconnect, a1);
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v2, &v10);
-    if ( boost::detail::function::basic_vtable1<void,boost::system::error_code>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::network::http_client,boost::system::error_code>,boost::_bi::list2<boost::_bi::value<vostok::network::http_client *>,boost::arg<1>>>>(
-           (boost::detail::function::basic_vtable1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &> *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::match_client_impl>,boost::_bi::list1<boost::reference_wrapper<vostok::network::match_client_impl *>>>>'::`2'::stored_vtable,
-           f,
-           &v10.functor) )
-    {
-      v10.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::match_client_impl>,boost::_bi::list1<boost::reference_wrapper<vostok::network::match_client_impl *>>>>'::`2'::stored_vtable.base.manager
-                                                          + 1);
-    }
-    else
-    {
-      v10.vtable = 0;
-    }
-    v7 = 1;
-    survarium::weapon_core::cast_weapon_core((survarium::game_options *)&v11->next_for_responses);
-    v11->__vftable = (vostok::network::response_vtbl *)&vostok::network::order::`vftable';
-    v11->__vftable = (vostok::network::response_vtbl *)&vostok::network::functor_order::`vftable';
+    v7.l_.a1_.t_ = *(vostok::network::match_client_impl ***)(a2 + 240);
+    v7.f_.f_ = vostok::network::match_client_impl::disconnect;
     boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-      (boost::function<void __cdecl(void)> *)&v11[1],
-      &v10);
-    vostok::network::network_world::add_order(this->m_world, v11);
+      (boost::function<void __cdecl(void)> *)vostok::network::match_client_impl::disconnect,
+      (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::network::match_client_impl>,boost::_bi::list1<boost::reference_wrapper<vostok::network::match_client_impl *> > > *)&v10,
+      v7,
+      v8);
+    *(_DWORD *)(v4 + 4) = *(_DWORD *)(*(_DWORD *)(a2 + 236) + 284);
+    v9 = 1;
+    *(_DWORD *)v4 = &vostok::network::functor_order::`vftable';
+    boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+      &v10,
+      (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)(v4 + 16));
   }
   else
   {
-    vostok::network::network_world::add_order(this->m_world, 0);
+    v4 = 0;
   }
-  if ( (v7 & 1) != 0 )
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&v10);
+  v5 = *(_DWORD *)(a2 + 236);
+  *(_DWORD *)(v4 + 8) = 0;
+  v5 += 148;
+  v6 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)_InterlockedExchange(
+                                                                                         (volatile __int32 *)(*(_DWORD *)v5 + 8),
+                                                                                         v4);
+  *(_DWORD *)v5 = v4;
+  if ( (v9 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v6,
+      (int *)&v10);
 }

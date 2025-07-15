@@ -6,11 +6,11 @@ bool __thiscall Scaleform::Render::DDS::DDSFileImageSource::ReadHeader(
   int (__thiscall *Read)(Scaleform::File *, unsigned __int8 *, int); // edx
   unsigned int Height; // ecx
   int v6; // [esp+10h] [ebp-108h] BYREF
-  unsigned int fourcc; // [esp+14h] [ebp-104h] BYREF
+  int v7; // [esp+14h] [ebp-104h] BYREF
   unsigned __int8 buf[256]; // [esp+18h] [ebp-100h] BYREF
 
-  this->pFile.pObject->Read(this->pFile.pObject, (unsigned __int8 *)&fourcc, 4);
-  if ( fourcc != 542327876 )
+  this->pFile.pObject->Read(this->pFile.pObject, (unsigned __int8 *)&v7, 4);
+  if ( v7 != 542327876 )
     return 0;
   pObject = this->pFile.pObject;
   Read = pObject->Read;

@@ -11,28 +11,28 @@ void __thiscall Scaleform::HeapMH::ListBinMH::Merge(
   int v10; // eax
   int v11; // ecx
   Scaleform::HeapMH::BinNodeMH *v12; // eax
-  unsigned __int8 *nodea; // [esp+14h] [ebp+4h]
+  unsigned __int8 *v13; // [esp+14h] [ebp+4h]
 
   v6 = bytes >> 4;
   node[16 * (bytes >> 4) - 1] = bytes >> 4;
   v9 = node;
-  nodea = node + 12;
-  *nodea = bytes >> 4;
+  v13 = node + 12;
+  *v13 = bytes >> 4;
   if ( left )
   {
     v9 = &node[-16 * *(node - 1)];
-    nodea = v9 + 12;
+    v13 = v9 + 12;
     v6 += v9[12];
-    Scaleform::HeapMH::ListBinMH::Pull(this, v9);
+    Scaleform::HeapMH::ListBinMH::Pull(this, (Scaleform::HeapMH::BinNodeMH *)v9);
   }
   if ( right )
   {
     v10 = 16 * node[12];
     v6 += node[v10 + 12];
-    Scaleform::HeapMH::ListBinMH::Pull(this, &node[v10]);
+    Scaleform::HeapMH::ListBinMH::Pull(this, (Scaleform::HeapMH::BinNodeMH *)&node[v10]);
   }
   v9[16 * v6 - 1] = v6;
-  *nodea = v6;
+  *v13 = v6;
   *((_DWORD *)v9 + 2) = page;
   v11 = v6 - 1;
   if ( v6 - 1 >= 0x1F )

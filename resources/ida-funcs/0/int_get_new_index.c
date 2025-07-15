@@ -1,6 +1,6 @@
 int __usercall int_get_new_index@<eax>(
-        unsigned int a1@<edi>,
-        int class_index,
+        int a1@<edi>,
+        void *class_index,
         int argl,
         void *argp,
         int (__cdecl *new_func)(void *, void *, crypto_ex_data_st *, int, int, void *),

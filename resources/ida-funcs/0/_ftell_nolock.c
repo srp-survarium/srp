@@ -1,58 +1,58 @@
-int __cdecl _ftell_nolock(_iobuf *str)
+int __usercall _ftell_nolock@<eax>(int a1@<esi>, _iobuf *str)
 {
-  int v3; // eax
   int v4; // eax
+  int v5; // eax
   int flag; // edx
   char *ptr; // eax
   char *base; // ecx
-  char *v8; // edx
+  char *v9; // edx
   int cnt; // edx
-  stlp_std::ioinfo **v10; // ebx
-  int v11; // esi
-  char *v12; // eax
-  char *v13; // ecx
-  bool v14; // zf
+  stlp_std::ioinfo **v11; // ebx
+  int v12; // esi
+  char *v13; // eax
+  char *v14; // ecx
+  bool v15; // zf
   int bufsiz; // eax
-  int v16; // ecx
-  char *offset; // [esp+8h] [ebp-Ch]
-  int filepos; // [esp+Ch] [ebp-8h]
-  int fd; // [esp+10h] [ebp-4h]
-  unsigned int rdcnt; // [esp+1Ch] [ebp+8h]
+  int v17; // ecx
+  char *v18; // [esp+8h] [ebp-Ch]
+  int pos; // [esp+Ch] [ebp-8h]
+  int fh; // [esp+10h] [ebp-4h]
+  int stream; // [esp+1Ch] [ebp+8h]
 
   if ( !str )
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(0, 0, a1);
     return -1;
   }
-  v3 = _fileno(str);
-  fd = v3;
+  v4 = _fileno(0, (int)str, str);
+  fh = v4;
   if ( str->_cnt < 0 )
     str->_cnt = 0;
-  v4 = _lseek(v3, 0, 1);
-  filepos = v4;
-  if ( v4 < 0 )
+  v5 = _lseek(v4, 0, 1);
+  pos = v5;
+  if ( v5 < 0 )
     return -1;
   flag = str->_flag;
   if ( (flag & 0x108) == 0 )
-    return v4 - str->_cnt;
+    return v5 - str->_cnt;
   ptr = str->_ptr;
   base = str->_base;
-  offset = (char *)(str->_ptr - base);
+  v18 = (char *)(str->_ptr - base);
   if ( (flag & 3) != 0 )
   {
-    if ( *(&__pioinfo[fd >> 5]->osfile + 64 * (fd & 0x1F)) < 0 )
+    if ( *(&__pioinfo[fh >> 5]->osfile + 64 * (fh & 0x1F)) < 0 )
     {
-      v8 = str->_base;
+      v9 = str->_base;
       if ( base < ptr )
       {
         do
         {
-          if ( *v8 == 10 )
-            ++offset;
-          ++v8;
+          if ( *v9 == 10 )
+            ++v18;
+          ++v9;
         }
-        while ( v8 < ptr );
+        while ( v9 < ptr );
       }
     }
   }
@@ -61,49 +61,49 @@ int __cdecl _ftell_nolock(_iobuf *str)
     *_errno() = 22;
     return -1;
   }
-  if ( !filepos )
-    return (int)offset;
+  if ( !pos )
+    return (int)v18;
   if ( (str->_flag & 1) == 0 )
-    return (int)&offset[filepos];
+    return (int)&v18[pos];
   cnt = str->_cnt;
   if ( cnt )
   {
-    v10 = &__pioinfo[fd >> 5];
-    rdcnt = cnt + ptr - base;
-    v11 = (fd & 0x1F) << 6;
-    if ( *(&(*v10)->osfile + v11) >= 0 )
+    v11 = &__pioinfo[fh >> 5];
+    stream = cnt + ptr - base;
+    v12 = (fh & 0x1F) << 6;
+    if ( *(&(*v11)->osfile + v12) >= 0 )
     {
 LABEL_39:
-      filepos -= rdcnt;
-      return (int)&offset[filepos];
+      pos -= stream;
+      return (int)&v18[pos];
     }
-    if ( _lseek(fd, 0, 2) == filepos )
+    if ( _lseek(fh, 0, 2) == pos )
     {
-      v12 = str->_base;
-      v13 = &v12[rdcnt];
-      while ( v12 < v13 )
+      v13 = str->_base;
+      v14 = &v13[stream];
+      while ( v13 < v14 )
       {
-        if ( *v12 == 10 )
-          ++rdcnt;
-        ++v12;
+        if ( *v13 == 10 )
+          ++stream;
+        ++v13;
       }
-      v14 = (str->_flag & 0x2000) == 0;
+      v15 = (str->_flag & 0x2000) == 0;
 LABEL_37:
-      if ( !v14 )
-        ++rdcnt;
+      if ( !v15 )
+        ++stream;
       goto LABEL_39;
     }
-    if ( _lseek(fd, filepos, 0) >= 0 )
+    if ( _lseek(fh, pos, 0) >= 0 )
     {
       bufsiz = 512;
-      if ( rdcnt > 0x200 || (v16 = str->_flag, (v16 & 8) == 0) || (v16 & 0x400) != 0 )
+      if ( (unsigned int)stream > 0x200 || (v17 = str->_flag, (v17 & 8) == 0) || (v17 & 0x400) != 0 )
         bufsiz = str->_bufsiz;
-      rdcnt = bufsiz;
-      v14 = (*(&(*v10)->osfile + v11) & 4) == 0;
+      stream = bufsiz;
+      v15 = (*(&(*v11)->osfile + v12) & 4) == 0;
       goto LABEL_37;
     }
     return -1;
   }
-  offset = 0;
-  return (int)&offset[filepos];
+  v18 = 0;
+  return (int)&v18[pos];
 }

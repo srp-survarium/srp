@@ -16,7 +16,9 @@ Scaleform::GFx::AS2::TransformProto *__thiscall Scaleform::GFx::AS2::TransformPr
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::TransformProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::TransformProto *__thiscall Scaleform::GFx::AS2::TransformProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::TransformProto::`vector deleting destructor'(
            (Scaleform::GFx::AS2::TransformProto *)(this - 72),

@@ -15,7 +15,7 @@ Scaleform::GFx::Button::CharToRec *__thiscall Scaleform::GFx::AS2::AvmButton::Fi
   Scaleform::GFx::DisplayObjectBase *v12; // ebp
   Scaleform::RefCountNTSImpl **v13; // edi
   Scaleform::WeakPtrProxy *v14; // ebx
-  const Scaleform::GFx::ButtonRecord *chr_4; // [esp+10h] [ebp-4h]
+  const Scaleform::GFx::ButtonRecord *v15; // [esp+10h] [ebp-4h]
 
   v3 = 0;
   for ( i = &this->pDispObj[1].pWeakProxy; ; i += 4 )
@@ -49,7 +49,7 @@ LABEL_7:
   if ( RefCount )
     ++*(_DWORD *)(RefCount + 4);
   v12 = *(Scaleform::GFx::DisplayObjectBase **)v11;
-  chr_4 = *(const Scaleform::GFx::ButtonRecord **)(v11 + 4);
+  v15 = *(const Scaleform::GFx::ButtonRecord **)(v11 + 4);
   if ( i[1] == (Scaleform::WeakPtrProxy *)1 )
   {
     v13 = (Scaleform::RefCountNTSImpl **)*i;
@@ -81,13 +81,13 @@ LABEL_7:
   {
     if ( (*i)[v9].RefCount )
       Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)(*i)[v9].RefCount);
-    memmove((unsigned __int8 *)&(*i)[v9], (unsigned __int8 *)&(*i)[v9 + 1], 8 * ((_DWORD)i[1] - v6) - 8);
+    memmove((int)&(*i)[v9], (const __m128i *)&(*i)[v9 + 1], 8 * ((_DWORD)i[1] - v6) - 8);
     i[1] = (Scaleform::WeakPtrProxy *)((char *)i[1] - 1);
   }
   if ( v12 )
     ++v12->RefCount;
   result->Char.pObject = v12;
-  result->Record = chr_4;
+  result->Record = v15;
   if ( v12 )
     Scaleform::RefCountNTSImpl::Release(v12);
   return result;

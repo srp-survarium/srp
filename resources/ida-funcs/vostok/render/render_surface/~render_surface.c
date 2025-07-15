@@ -1,24 +1,11 @@
 void __thiscall vostok::render::render_surface::~render_surface(vostok::render::render_surface *this)
 {
-  vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> *p_m_materail_effects_instance; // esi
-  vostok::render::render_geometry *v3; // ecx
-  const vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> *y; // [esp-8h] [ebp-10h]
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *v1; // esi
 
-  p_m_materail_effects_instance = &this->m_materail_effects_instance;
-  y = (const vostok::resources::resource_ptr<vostok::render::material_effects_instance,vostok::resources::unmanaged_intrusive_base> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.y;
-  this->__vftable = (vostok::render::render_surface_vtbl *)&stru_962594.m_declarations;
-  vostok::render::material_manager::remove_material_effects((vostok::render::material_manager *)this, y);
-  if ( p_m_materail_effects_instance->m_object )
-  {
-    v3 = (vostok::render::render_geometry *)_InterlockedExchangeAdd(
-                                              &p_m_materail_effects_instance->m_object->m_reference_count,
-                                              0xFFFFFFFF);
-    if ( !v3 )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &p_m_materail_effects_instance->m_object->vostok::resources::unmanaged_intrusive_base,
-        p_m_materail_effects_instance->m_object);
-  }
-  vostok::render::render_geometry::~render_geometry(
-    v3,
-    (const vostok::render::res_geometry **)&this->m_render_geometry.geom.m_object);
+  v1 = (vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)this;
+  this->__vftable = (vostok::render::render_surface_vtbl *)&vostok::render::render_surface::`vftable';
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_materail_effects_instance);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(++v1 + 2);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(v1 + 1);
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(v1);
 }

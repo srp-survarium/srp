@@ -1,24 +1,32 @@
-boost::system::error_code *__thiscall boost::asio::detail::win_iocp_socket_service_base::close(
-        boost::asio::detail::win_iocp_socket_service_base *this,
-        boost::system::error_code *result,
-        boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl,
-        boost::system::error_code *ec)
+boost::system::error_code *__userpurge boost::asio::detail::win_iocp_socket_service_base::close@<eax>(
+        boost::asio::detail::win_iocp_socket_service_base *this@<eax>,
+        boost::asio::detail::win_iocp_socket_service_base::base_implementation_type *impl@<esi>,
+        boost::system::error_code *ec,
+        boost::system::error_code *a4)
 {
-  const boost::system::error_category *m_cat; // eax
-  boost::asio::detail::select_reactor *r; // [esp+110h] [ebp-4h]
+  _RTL_CRITICAL_SECTION *v4; // eax
+  boost::asio::detail::select_reactor *v5; // ecx
+  boost::shared_ptr<void> *v6; // ecx
+  boost::system::error_code *result; // eax
+  boost::asio::detail::select_reactor::per_descriptor_data *v8; // [esp+0h] [ebp-Ch]
+  bool v9; // [esp+4h] [ebp-8h]
 
   if ( impl->socket_ != -1 )
   {
-    r = (boost::asio::detail::select_reactor *)InterlockedCompareExchange((volatile LONG *)&this->reactor_, 0, 0);
-    if ( r )
-      boost::asio::detail::select_reactor::deregister_descriptor(r, impl->socket_, &impl->reactor_data_, 1);
+    v4 = (_RTL_CRITICAL_SECTION *)InterlockedCompareExchange((volatile LONG *)&this->reactor_, 0, 0);
+    if ( v4 )
+      boost::asio::detail::select_reactor::deregister_descriptor(
+        v5,
+        v4,
+        (stlp_std::priv::_List_node_base *)impl->socket_,
+        v8,
+        v9);
   }
-  boost::asio::detail::socket_ops::close(impl->socket_, &impl->state_, 0, ec);
+  boost::asio::detail::socket_ops::close(a4, impl->socket_, &impl->state_, 0);
   impl->socket_ = -1;
   impl->state_ = 0;
-  boost::shared_ptr<void>::reset(&impl->cancel_token_);
-  m_cat = ec->m_cat;
-  result->m_val = ec->m_val;
-  result->m_cat = m_cat;
+  boost::shared_ptr<void>::reset(v6, &impl->cancel_token_.px);
+  result = ec;
+  *ec = *a4;
   return result;
 }

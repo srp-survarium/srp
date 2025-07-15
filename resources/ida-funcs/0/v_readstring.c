@@ -1,10 +1,8 @@
-void __usercall v_readstring(oggpack_buffer *o@<ecx>, int bytes@<eax>, char *buf)
+void __usercall v_readstring(char *buf@<eax>, oggpack_buffer *o, int bytes)
 {
-  int i; // esi
-
-  for ( i = bytes; i; ++buf )
+  for ( ; bytes; ++buf )
   {
-    --i;
+    --bytes;
     *buf = oggpack_read(o, 8u);
   }
 }

@@ -52,10 +52,7 @@ update_on_mask_change:
     if ( this->pRoot )
     {
       if ( this->IsPatternChainValid(this) )
-        Scaleform::Render::TreeCacheRoot::AddToUpdate(
-          this->pRoot,
-          this,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+        Scaleform::Render::TreeCacheRoot::AddToUpdate(this->pRoot, this, 0x1000000u);
     }
   }
 }

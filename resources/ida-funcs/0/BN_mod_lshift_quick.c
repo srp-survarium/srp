@@ -3,7 +3,7 @@ int __cdecl BN_mod_lshift_quick(bignum_st *r, const bignum_st *a, int n, const b
   int result; // eax
   int v6; // ebx
   int v7; // esi
-  bignum_st *ra; // [esp+8h] [ebp+4h]
+  bignum_st *aa; // [esp+8h] [ebp+4h]
 
   if ( r == a || (result = (int)BN_copy(r, a)) != 0 )
   {
@@ -16,8 +16,8 @@ int __cdecl BN_mod_lshift_quick(bignum_st *r, const bignum_st *a, int n, const b
     {
       while ( 1 )
       {
-        ra = (bignum_st *)BN_num_bits(r);
-        v7 = BN_num_bits(m) - (_DWORD)ra;
+        aa = (bignum_st *)BN_num_bits(r);
+        v7 = BN_num_bits(m) - (_DWORD)aa;
         if ( v7 < 0 )
           break;
         if ( v7 > v6 )
@@ -39,7 +39,7 @@ int __cdecl BN_mod_lshift_quick(bignum_st *r, const bignum_st *a, int n, const b
         if ( v6 <= 0 )
           return 1;
       }
-      ERR_put_error(3u, 119, 110, ".\\crypto\\bn\\bn_mod.c", 273);
+      ERR_put_error(v6, 3u, 119, 110, ".\\crypto\\bn\\bn_mod.c", 273);
       return 0;
     }
   }

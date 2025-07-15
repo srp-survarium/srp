@@ -3,142 +3,183 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Traits::AddSlo
         Scaleform::GFx::AS3::CheckResult *result,
         const Scaleform::GFx::AS3::Abc::HasTraits *traits,
         Scaleform::GFx::AS3::VMAbcFile *file,
-        bool members)
+        Scaleform::GFx::ASStringNode *members)
 {
+  Scaleform::GFx::AS3::VMAbcFile *v5; // edx
   const Scaleform::GFx::AS3::Abc::HasTraits *v6; // esi
-  unsigned int v7; // eax
-  Scaleform::GFx::AS3::Abc::File *pObject; // ebp
-  Scaleform::GFx::AS3::Abc::TraitInfo *v9; // esi
-  int v10; // eax
-  const Scaleform::GFx::AS3::Abc::Multiname *v11; // edx
-  Scaleform::GFx::AS3::SlotInfo::BindingType v12; // edi
-  unsigned int FixedValueSlotNumber; // ebp
-  Scaleform::GFx::AS3::Abc::File *v14; // edx
+  Scaleform::GFx::AS3::Traits *v7; // ebx
+  unsigned int v8; // eax
+  Scaleform::GFx::AS3::Abc::File *pObject; // ecx
+  Scaleform::GFx::AS3::Abc::TraitInfo *v10; // edi
+  int v11; // eax
+  int v12; // esi
+  Scaleform::GFx::AS3::SlotInfo::BindingType v13; // ebp
+  Scaleform::GFx::AS3::Abc::File *v14; // ecx
   int name_ind; // eax
   Scaleform::GFx::AS3::SlotInfo::BindingType BindingType; // eax
-  Scaleform::GFx::AS3::Instances::fl::Namespace *InternedNamespace; // eax
-  unsigned int v18; // ecx
-  int v19; // eax
-  void *pWeakProxy; // eax
-  bool v21; // zf
-  Scaleform::GFx::AS3::Slots *v22; // esi
-  Scaleform::GFx::AS3::AbsoluteIndex *v23; // eax
-  Scaleform::GFx::AS3::Slots::Pair *Data; // edx
-  int v25; // ecx
-  int Value; // eax
-  unsigned __int32 *p_Value; // ecx
+  Scaleform::GFx::AS3::Instances::fl::Namespace *InternedNamespace; // esi
+  Scaleform::GFx::ASString *v18; // eax
+  Scaleform::GFx::ASString *v19; // eax
   Scaleform::GFx::ASStringNode *pNode; // ecx
-  Scaleform::GFx::AS3::CheckResult *v29; // eax
-  Scaleform::GFx::AS3::VM *v30; // esi
-  const Scaleform::GFx::AS3::VM::Error *v31; // eax
-  Scaleform::GFx::ASStringNode *v32; // eax
-  Scaleform::GFx::ASStringNode *v33; // ecx
-  char resulta; // [esp+12h] [ebp-42h]
-  Scaleform::GFx::AS3::CheckResult v35; // [esp+13h] [ebp-41h] BYREF
-  Scaleform::GFx::AS3::Traits *v36; // [esp+14h] [ebp-40h]
-  Scaleform::GFx::ASString mn_name; // [esp+18h] [ebp-3Ch] BYREF
-  const Scaleform::GFx::AS3::Abc::Multiname *mn; // [esp+1Ch] [ebp-38h]
-  Scaleform::GFx::AS3::AbsoluteIndex i; // [esp+20h] [ebp-34h]
-  Scaleform::GFx::AS3::VM *vm; // [esp+24h] [ebp-30h]
-  Scaleform::GFx::AS3::VM::Error v41; // [esp+28h] [ebp-2Ch] BYREF
-  Scaleform::GFx::AS3::Value v; // [esp+30h] [ebp-24h] BYREF
-  Scaleform::GFx::AS3::SlotInfo nsi; // [esp+40h] [ebp-14h] BYREF
-  char _const; // [esp+60h] [ebp+Ch]
+  unsigned int v21; // ebx
+  unsigned int v22; // eax
+  bool v23; // zf
+  Scaleform::GFx::ASStringNode *v24; // eax
+  Scaleform::GFx::ASStringNode *pStr; // eax
+  Scaleform::GFx::ASStringNode *Size; // eax
+  int v27; // eax
+  void *pWeakProxy; // eax
+  Scaleform::GFx::AS3::Slots *v29; // esi
+  _DWORD *p_Value; // ecx
+  Scaleform::GFx::ASStringNode *v31; // eax
+  Scaleform::GFx::AS3::CheckResult *v32; // eax
+  const char *pData; // eax
+  unsigned int v34; // eax
+  unsigned int v35; // eax
+  Scaleform::GFx::AS3::VM *v36; // esi
+  const Scaleform::GFx::AS3::VM::Error *v37; // eax
+  Scaleform::GFx::ASStringNode *v38; // eax
+  Scaleform::GFx::ASStringNode *v39; // eax
+  Scaleform::GFx::ASStringNode *v40; // eax
+  Scaleform::StringDataPtr v41; // [esp-10h] [ebp-74h]
+  Scaleform::StringDataPtr v42; // [esp-8h] [ebp-6Ch]
+  char resulta; // [esp+11h] [ebp-53h]
+  bool _const; // [esp+12h] [ebp-52h]
+  Scaleform::GFx::AS3::CheckResult v45; // [esp+13h] [ebp-51h] BYREF
+  Scaleform::GFx::ASString mn_name; // [esp+14h] [ebp-50h] BYREF
+  Scaleform::GFx::AS3::Traits *v47; // [esp+18h] [ebp-4Ch]
+  int FixedValueSlotNumber; // [esp+1Ch] [ebp-48h]
+  Scaleform::GFx::AS3::AbsoluteIndex i; // [esp+20h] [ebp-44h]
+  Scaleform::GFx::ASString v50; // [esp+24h] [ebp-40h] BYREF
+  Scaleform::StringDataPtr arg1; // [esp+28h] [ebp-3Ch] BYREF
+  Scaleform::GFx::AS3::VM *vm; // [esp+30h] [ebp-34h]
+  Scaleform::GFx::AS3::VM::Error v53; // [esp+34h] [ebp-30h] BYREF
+  Scaleform::GFx::AS3::Value v; // [esp+3Ch] [ebp-28h] BYREF
+  Scaleform::GFx::AS3::SlotInfo nsi; // [esp+4Ch] [ebp-18h] BYREF
 
+  v5 = file;
   v6 = traits;
+  v7 = this;
   vm = file->VMRef;
-  v7 = 0;
-  v36 = this;
+  v8 = 0;
+  v47 = this;
   resulta = 1;
   i.Index = 0;
   if ( !traits->obj_traits.Data.Size )
   {
-    v29 = result;
+    v32 = result;
     result->Result = 1;
-    return v29;
+    return v32;
   }
   while ( 1 )
   {
-    pObject = file->File.pObject;
-    v9 = pObject->Traits.TraitInfos.Data.Data[v6->obj_traits.Data.Data[v7]];
-    v10 = v9->kind & 0xF;
-    if ( ((v9->kind & 0xF) == 0 || v10 == 6 || v10 == 4 || v10 == 5) && (!members || v9->SlotId) )
-      goto LABEL_41;
-    v11 = &pObject->Const_Pool.const_multiname.Data.Data[v9->name_ind];
-    v12 = BT_ValueArray;
-    mn = v11;
-    if ( v10 == 1 || v10 == 2 || v10 == 3 )
+    pObject = v5->File.pObject;
+    v10 = pObject->Traits.TraitInfos.Data.Data[v6->obj_traits.Data.Data[v8]];
+    v11 = v10->kind & 0xF;
+    if ( ((v10->kind & 0xF) == 0 || v11 == 6 || v11 == 4 || v11 == 5) && (!(_BYTE)members || v10->SlotId) )
+      goto LABEL_54;
+    v12 = (int)&pObject->Const_Pool.const_multiname.Data.Data[v10->name_ind];
+    v13 = BT_ValueArray;
+    if ( v11 == 1 || v11 == 2 || v11 == 3 )
     {
       FixedValueSlotNumber = -1;
     }
     else
     {
-      FixedValueSlotNumber = this->FixedValueSlotNumber;
-      this->FixedValueSlotNumber = FixedValueSlotNumber + 1;
+      FixedValueSlotNumber = v7->FixedValueSlotNumber;
+      v7->FixedValueSlotNumber = FixedValueSlotNumber + 1;
     }
     _const = 0;
-    switch ( v9->kind & 0xF )
+    switch ( v10->kind & 0xF )
     {
       case 0:
-        goto $LN11_77;
+        goto $LN11_83;
       case 1:
-        v12 = BT_Code;
+        v13 = BT_Code;
         break;
       case 2:
-        v12 = BT_Get;
+        v13 = BT_Get;
         break;
       case 3:
-        v12 = BT_Set;
+        v13 = BT_Set;
         break;
       case 4:
       case 6:
         _const = 1;
-$LN11_77:
-        v14 = file->File.pObject;
-        if ( (v9->kind & 0xF) != 0 && (v9->kind & 0xF) != 6 )
-          name_ind = v14->AS3_Classes.Info.Data.Data[v9->Ind]->inst_info.name_ind;
+$LN11_83:
+        v14 = v5->File.pObject;
+        if ( (v10->kind & 0xF) != 0 && (v10->kind & 0xF) != 6 )
+          name_ind = v14->AS3_Classes.Info.Data.Data[v10->Ind]->inst_info.name_ind;
         else
-          name_ind = v9->Ind;
+          name_ind = v10->Ind;
         BindingType = Scaleform::GFx::AS3::Traits::GetBindingType(
-                        this,
-                        file,
+                        v7,
+                        v5,
                         &v14->Const_Pool.const_multiname.Data.Data[name_ind]);
-        v11 = mn;
-        v12 = BindingType;
+        v5 = file;
+        v13 = BindingType;
         break;
       case 5:
-        v12 = BT_Value;
+        v13 = BT_Value;
         break;
       default:
         break;
     }
-    Scaleform::GFx::AS3::VMFile::GetInternedString(file, &mn_name, (Scaleform::GFx::ASStringNode *)v11->NameIndex);
+    Scaleform::GFx::AS3::VMFile::GetInternedString(v5, &mn_name, *(Scaleform::GFx::ASStringNode **)(v12 + 8));
     InternedNamespace = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(
                           file,
-                          (Scaleform::GFx::AS3::Abc::Multiname *)mn);
+                          (Scaleform::GFx::AS3::Abc::Multiname *)v12);
+    v18 = v7->GetQualifiedName(v7, (Scaleform::GFx::ASString *)&arg1.Size, qnfWithColons);
+    v19 = Scaleform::GFx::ASString::operator+(v18, (Scaleform::GFx::ASString *)&arg1, (const __m128i *)"/");
+    pNode = Scaleform::GFx::ASString::operator+(v19, &v50, &mn_name)->pNode;
+    if ( pNode )
+      ++pNode->RefCount;
     if ( InternedNamespace )
       InternedNamespace->RefCount = (InternedNamespace->RefCount + 1) & 0x8FBFFFFF;
     nsi.pNs.pObject = InternedNamespace;
-    v18 = *(_DWORD *)&nsi & 0xFFFFFC00;
-    file->RefCount = (file->RefCount + 1) & 0x8FBFFFFF;
-    v19 = v9->kind & 0xF;
+    v21 = (file->RefCount + 1) & 0x8FBFFFFF;
+    v22 = *(_DWORD *)&nsi & 0xF8000000 | 0x7FFFC00;
     nsi.CTraits.pObject = 0;
     nsi.File.pObject = file;
-    nsi.TI = v9;
-    *(_DWORD *)&nsi = ((unsigned __int8)((_const != 0) + 2) ^ (unsigned __int8)v18) & 0x1F ^ (v18 | 0x7FFFC00);
-    if ( v19 == 1 || v19 == 2 || v19 == 3 )
+    file->RefCount = v21;
+    nsi.TI = v10;
+    if ( pNode )
+      ++pNode->RefCount;
+    nsi.Name.pObject = pNode;
+    *(_DWORD *)&nsi = ((unsigned __int8)(_const + 2) ^ (unsigned __int8)v22) & 0x1F ^ v22;
+    if ( pNode )
     {
-      v.value.VS._1.VInt = v9->Ind;
+      v23 = pNode->RefCount-- == 1;
+      if ( v23 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    }
+    v24 = v50.pNode;
+    --v50.pNode->RefCount;
+    if ( !v24->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v24);
+    pStr = (Scaleform::GFx::ASStringNode *)arg1.pStr;
+    --*((_DWORD *)arg1.pStr + 3);
+    if ( !pStr->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(pStr);
+    Size = (Scaleform::GFx::ASStringNode *)arg1.Size;
+    --*(_DWORD *)(arg1.Size + 12);
+    if ( !Size->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(Size);
+    v27 = v10->kind & 0xF;
+    if ( v27 == 1 || v27 == 2 || v27 == 3 )
+    {
+      v7 = v47;
+      v.value.VS._1.VInt = v10->Ind;
       v.Flags = 2;
       v.Bonus.pWeakProxy = 0;
-      resulta = Scaleform::GFx::AS3::Traits::RegisterWithVT(v36, &v35, &mn_name, &nsi, &v, v12)->Result;
+      resulta = Scaleform::GFx::AS3::Traits::RegisterWithVT(v47, &v45, &mn_name, &nsi, &v, v13)->Result;
       if ( (v.Flags & 0x1F) > 9 )
       {
         if ( (v.Flags & 0x200) != 0 )
         {
           pWeakProxy = v.Bonus.pWeakProxy;
-          v21 = v.Bonus.pWeakProxy->RefCount-- == 1;
-          if ( v21 )
+          v23 = v.Bonus.pWeakProxy->RefCount-- == 1;
+          if ( v23 )
             Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pWeakProxy);
           memset(&v.Bonus, 0, 12);
         }
@@ -147,59 +188,74 @@ $LN11_77:
           Scaleform::GFx::AS3::Value::ReleaseInternal(&v);
         }
       }
-      goto LABEL_37;
+      goto LABEL_50;
     }
-    v22 = &v36->Scaleform::GFx::AS3::Slots;
-    v23 = Scaleform::GFx::AS3::Slots::Add(
-            &v36->Scaleform::GFx::AS3::Slots,
-            (Scaleform::GFx::AS3::AbsoluteIndex *)&v41,
-            &mn_name,
-            &nsi);
-    Data = v22->VArray.Data.Data;
-    v25 = v23->Index - v22->FirstOwnSlotNum;
-    Value = (int)Data[v23->Index - v22->FirstOwnSlotNum].Value;
-    p_Value = (unsigned __int32 *)&Data[v25].Value;
-    if ( (Value & 0x3E0) != 0 )
+    v7 = v47;
+    v29 = &v47->Scaleform::GFx::AS3::Slots;
+    p_Value = &v29->VArray.Data.Data[Scaleform::GFx::AS3::Slots::Add(
+                                       &v47->Scaleform::GFx::AS3::Slots,
+                                       (Scaleform::GFx::AS3::AbsoluteIndex *)&v53,
+                                       &mn_name,
+                                       &nsi)->Index
+                                   - v29->FirstOwnSlotNum].Value;
+    if ( (*p_Value & 0x3E0) != 0 )
       break;
-    *p_Value = Value & 0xF800001F | (32 * (v12 & 0x1F | (32 * (FixedValueSlotNumber & 0x1FFFF))));
-LABEL_37:
+    *p_Value = *p_Value & 0xF800001F | (32 * (v13 & 0x1F | (32 * ((unsigned int)&loc_1FFFF & FixedValueSlotNumber))));
+LABEL_50:
     if ( !resulta )
-      goto LABEL_44;
+      goto LABEL_57;
     Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&nsi);
-    pNode = mn_name.pNode;
-    v21 = mn_name.pNode->RefCount-- == 1;
-    if ( v21 )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-    this = v36;
-LABEL_41:
+    v31 = mn_name.pNode;
+    --mn_name.pNode->RefCount;
+    if ( !v31->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v31);
+    v5 = file;
+LABEL_54:
     v6 = traits;
-    v7 = i.Index + 1;
-    i.Index = v7;
-    if ( v7 >= traits->obj_traits.Data.Size )
+    v8 = i.Index + 1;
+    i.Index = v8;
+    if ( v8 >= traits->obj_traits.Data.Size )
     {
-      v29 = result;
+      v32 = result;
       result->Result = resulta;
-      return v29;
+      return v32;
     }
   }
   resulta = 0;
-LABEL_44:
-  v30 = vm;
-  Scaleform::GFx::AS3::VM::Error::Error(&v41, eIllegalOverrideError, vm);
+LABEL_57:
+  pData = v7->GetName(v7, (Scaleform::GFx::ASString *)&members)->pNode->pData;
+  v42.pStr = pData;
+  if ( pData )
+    v34 = strlen(pData);
+  else
+    v34 = 0;
+  v42.Size = v34;
+  if ( mn_name.pNode->pData )
+    v35 = strlen(mn_name.pNode->pData);
+  else
+    v35 = 0;
+  v36 = vm;
+  v41.Size = v35;
+  v41.pStr = mn_name.pNode->pData;
+  Scaleform::GFx::AS3::VM::Error::Error(&v53, eIllegalOverrideError, (Scaleform::String)vm, v41, v42);
   Scaleform::GFx::AS3::VM::ThrowErrorInternal(
-    v30,
-    v31,
+    v36,
+    v37,
     (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
-  v32 = v41.Message.pNode;
-  --v41.Message.pNode->RefCount;
-  if ( !v32->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v32);
+  v38 = v53.Message.pNode;
+  --v53.Message.pNode->RefCount;
+  if ( !v38->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v38);
+  v39 = members;
+  --members->RefCount;
+  if ( !v39->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v39);
   Scaleform::GFx::AS3::SlotInfo::~SlotInfo(&nsi);
-  v33 = mn_name.pNode;
-  v21 = mn_name.pNode->RefCount-- == 1;
-  if ( v21 )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v33);
-  v29 = result;
+  v40 = mn_name.pNode;
+  --mn_name.pNode->RefCount;
+  if ( !v40->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v40);
+  v32 = result;
   result->Result = resulta;
-  return v29;
+  return v32;
 }

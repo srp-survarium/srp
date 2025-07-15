@@ -6,10 +6,10 @@ void __thiscall Scaleform::Render::Image::GetUVGenMatrix(
   Scaleform::Render::Texture *v4; // eax
   Scaleform::Render::Texture_vtbl *v5; // eax
   float *v6; // esi
-  float v7; // [esp+58h] [ebp-38h]
-  float v8; // [esp+5Ch] [ebp-34h]
-  _DWORD v9[4]; // [esp+60h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> m1; // [esp+70h] [ebp-20h] BYREF
+  float v7; // [esp+Ch] [ebp-38h]
+  float v8; // [esp+10h] [ebp-34h]
+  _DWORD v9[4]; // [esp+14h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> m1; // [esp+24h] [ebp-20h] BYREF
 
   v4 = this->GetTexture(this, manager);
   if ( v4 )

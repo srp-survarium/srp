@@ -11,8 +11,10 @@ bool __thiscall Scaleform::GFx::DrawingContext::SameLineStyle(
   unsigned int StrokeStyle; // eax
   Scaleform::GFx::DrawingContext::PackedShape *pObject; // ecx
   Scaleform::RefCountVImpl *v11; // eax
-  Scaleform::Render::StrokeStyleType ls; // [esp+8h] [ebp-1Ch] BYREF
-  bool hintinga; // [esp+30h] [ebp+Ch]
+  float v13[5]; // [esp+8h] [ebp-1Ch] BYREF
+  Scaleform::RefCountVImpl *v14; // [esp+1Ch] [ebp-8h]
+  Scaleform::RefCountVImpl *v15; // [esp+20h] [ebp-4h]
+  bool v16; // [esp+30h] [ebp+Ch]
 
   if ( !this->Shapes.pObject->GetStrokeStyleCount(this->Shapes.pObject) )
     return 0;
@@ -20,30 +22,30 @@ bool __thiscall Scaleform::GFx::DrawingContext::SameLineStyle(
   if ( !StrokeStyle )
     return 0;
   pObject = this->Shapes.pObject;
-  ls.pFill.pObject = 0;
-  ls.pDashes.pObject = 0;
-  pObject->GetStrokeStyle(pObject, StrokeStyle, &ls);
-  v11 = (Scaleform::RefCountVImpl *)ls.pFill.pObject;
-  if ( ls.pFill.pObject )
+  v14 = 0;
+  v15 = 0;
+  pObject->GetStrokeStyle(pObject, StrokeStyle, (Scaleform::Render::StrokeStyleType *)v13);
+  v11 = v14;
+  if ( v14 )
   {
-    if ( ls.pDashes.pObject )
+    if ( v15 )
     {
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pDashes.pObject);
-      v11 = (Scaleform::RefCountVImpl *)ls.pFill.pObject;
+      Scaleform::RefCountImpl::Release(v15);
+      v11 = v14;
     }
     if ( v11 )
       Scaleform::RefCountImpl::Release(v11);
     return 0;
   }
-  hintinga = ls.Color == rgba
-          && (int)(ls.Width * 20.0) == (int)(lineWidth * 20.0)
-          && ls.Flags == (joins | caps | scaling | hinting)
-          && (int)(ls.Miter * 20.0) == (int)(20.0 * miterLimit);
-  if ( ls.pDashes.pObject )
+  v16 = LODWORD(v13[4]) == rgba
+     && (int)(v13[0] * 20.0) == (int)(lineWidth * 20.0)
+     && LODWORD(v13[2]) == (joins | caps | scaling | hinting)
+     && (int)(v13[3] * 20.0) == (int)(20.0 * miterLimit);
+  if ( v15 )
   {
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pDashes.pObject);
-    if ( ls.pFill.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pFill.pObject);
+    Scaleform::RefCountImpl::Release(v15);
+    if ( v14 )
+      Scaleform::RefCountImpl::Release(v14);
   }
-  return hintinga;
+  return v16;
 }

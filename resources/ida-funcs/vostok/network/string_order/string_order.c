@@ -1,74 +1,87 @@
-void __thiscall vostok::network::string_order::string_order(
+void __userpurge vostok::network::string_order::string_order(
+        const boost::function<void __cdecl(char const *,char const *,char const *)> *functor@<ecx>,
         vostok::network::string_order *this,
         vostok::memory::base_allocator *allocator,
-        const boost::function1<void,enum vostok::handshaking_error_types_enum> *functor,
         char *string0,
         char *string1,
-        char *string2)
+        const char *const string2)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v6; // ecx
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v7; // ecx
+  boost::detail::function::vtable_base *vtable; // eax
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->next_for_orders);
-  this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::order::`vftable';
+  this->allocator = allocator;
   this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::string_order::`vftable';
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)this,
-    &this->m_functor0.vtable);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v6, &this->m_functor1.vtable);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v7, &this->m_functor2.vtable);
-  boost::function3<void,vostok::ai::brain_unit const *,vostok::ai::npc const *,vostok::ai::weapon const *>::assign_to_own(
-    (boost::function1<void,enum vostok::handshaking_error_types_enum> *)&this->m_functor2,
-    functor);
+  this->m_functor0.vtable = 0;
+  this->m_functor1.vtable = 0;
+  this->m_functor2.vtable = 0;
+  vtable = functor->vtable;
+  if ( functor->vtable )
+  {
+    this->m_functor2.vtable = vtable;
+    if ( ((unsigned __int8)vtable & 1) != 0 )
+      qmemcpy((void *)&this->m_functor2.functor, &functor->functor, sizeof(this->m_functor2.functor));
+    else
+      (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
+        &functor->functor,
+        &this->m_functor2.functor,
+        0);
+  }
   this->m_string0 = vostok::strings::duplicate<vostok::memory::base_allocator>(string0);
-  this->m_string1 = vostok::strings::duplicate<vostok::memory::base_allocator>(string1);
-  this->m_string2 = vostok::strings::duplicate<vostok::memory::base_allocator>(string2);
-  this->m_allocator = allocator;
+  this->m_string1 = vostok::strings::duplicate<vostok::memory::base_allocator>(s_net_client_account_name);
+  this->m_string2 = vostok::strings::duplicate<vostok::memory::base_allocator>(string1);
 }
 
 
 void __thiscall vostok::network::string_order::string_order(
+        const boost::function<void __cdecl(char const *,char const *)> *functor,
         vostok::network::string_order *this,
         vostok::memory::base_allocator *allocator,
-        const boost::function1<void,enum vostok::handshaking_error_types_enum> *functor,
         char *string0,
         char *string1)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v5; // ecx
+  boost::detail::function::vtable_base *vtable; // eax
+  char *v6; // eax
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->next_for_orders);
-  this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::order::`vftable';
+  this->allocator = allocator;
   this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::string_order::`vftable';
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>((boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v5);
-  boost::function3<void,vostok::ai::brain_unit const *,vostok::ai::npc const *,vostok::ai::weapon const *>::assign_to_own(
-    (boost::function1<void,enum vostok::handshaking_error_types_enum> *)&this->m_functor1,
-    functor);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>((boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)&this->m_functor2);
+  this->m_functor0.vtable = 0;
+  this->m_functor1.vtable = 0;
+  vtable = functor->vtable;
+  if ( functor->vtable )
+  {
+    this->m_functor1.vtable = vtable;
+    if ( ((unsigned __int8)vtable & 1) != 0 )
+      qmemcpy((void *)&this->m_functor1.functor, &functor->functor, sizeof(this->m_functor1.functor));
+    else
+      (*(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, _DWORD))((unsigned int)vtable & 0xFFFFFFFE))(
+        &functor->functor,
+        &this->m_functor1.functor,
+        0);
+  }
+  this->m_functor2.vtable = 0;
   this->m_string0 = vostok::strings::duplicate<vostok::memory::base_allocator>(string0);
-  this->m_string1 = vostok::strings::duplicate<vostok::memory::base_allocator>(string1);
+  v6 = vostok::strings::duplicate<vostok::memory::base_allocator>(string1);
   this->m_string2 = 0;
-  this->m_allocator = allocator;
+  this->m_string1 = v6;
 }
 
 
-void __thiscall vostok::network::string_order::string_order(
-        vostok::network::string_order *this,
-        vostok::memory::base_allocator *allocator,
-        boost::function<void __cdecl(unsigned int,float,float,char const *)> *functor,
+void __userpurge vostok::network::string_order::string_order(
+        vostok::network::string_order *this@<esi>,
+        vostok::memory::base_allocator *allocator@<edi>,
+        boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *functor@<ecx>,
         char *string0)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v4; // ecx
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v5; // ecx
+  char *v4; // eax
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->next_for_orders);
-  this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::order::`vftable';
+  this->allocator = allocator;
   this->__vftable = (vostok::network::string_order_vtbl *)&vostok::network::string_order::`vftable';
-  boost::function<void __cdecl (unsigned int,float,float,char const *)>::function<void __cdecl (unsigned int,float,float,char const *)>(functor);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v4, &this->m_functor1.vtable);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v5, &this->m_functor2.vtable);
-  this->m_string0 = vostok::strings::duplicate<vostok::memory::base_allocator>(string0);
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    functor,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&this->m_functor0);
+  this->m_functor1.vtable = 0;
+  this->m_functor2.vtable = 0;
+  v4 = vostok::strings::duplicate<vostok::memory::base_allocator>(string0);
   this->m_string1 = 0;
   this->m_string2 = 0;
-  this->m_allocator = allocator;
+  this->m_string0 = v4;
 }

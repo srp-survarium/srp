@@ -15,16 +15,16 @@ DName *__cdecl UnDecorator::getDimension(DName *result, bool fSigned)
   DName v15; // [esp+4h] [ebp-1Ch] BYREF
   DName v16; // [esp+Ch] [ebp-14h] BYREF
   DName v17; // [esp+14h] [ebp-Ch] BYREF
-  char *prefix; // [esp+1Ch] [ebp-4h]
+  char *v18; // [esp+1Ch] [ebp-4h]
 
   v2 = UnDecorator::gName;
   v3 = 0;
   v4 = *UnDecorator::gName == 81;
-  prefix = 0;
+  v18 = 0;
   if ( v4 )
   {
     v2 = UnDecorator::gName + 1;
-    prefix = "`non-type-template-parameter";
+    v18 = "`non-type-template-parameter";
     ++UnDecorator::gName;
   }
   v5 = *v2;
@@ -63,7 +63,7 @@ LABEL_18:
     }
     if ( fSigned )
     {
-      if ( !prefix )
+      if ( !v18 )
       {
         v14 = DName::DName(&v17, __SPAIR64__(v10, v3));
 LABEL_29:
@@ -74,22 +74,22 @@ LABEL_29:
     }
     else
     {
-      if ( !prefix )
+      if ( !v18 )
       {
         v14 = DName::DName(&v17, __PAIR64__(v10, v3));
         goto LABEL_29;
       }
       v13 = DName::DName(&v15, __PAIR64__(v10, v3));
     }
-    v14 = operator+(&v16, prefix, v13);
+    v14 = operator+(&v16, v18, v13);
     goto LABEL_29;
   }
   v7 = *v2 - 47;
   UnDecorator::gName = v2 + 1;
-  if ( prefix )
+  if ( v18 )
   {
     v8 = DName::DName(&v17, v7);
-    v9 = operator+(&v16, prefix, v8);
+    v9 = operator+(&v16, v18, v8);
   }
   else
   {

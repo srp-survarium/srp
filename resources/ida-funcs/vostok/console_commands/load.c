@@ -1,19 +1,13 @@
 void __usercall vostok::console_commands::load(
         vostok::memory::reader *F@<esi>,
-        int a2@<ecx>,
-        vostok::console_commands::execution_filter filter)
+        vostok::console_commands::execution_filter filter,
+        unsigned int command_types_to_execute)
 {
-  const unsigned __int8 *m_pointer; // edi
-  unsigned int v4; // eax
-  char _Dst[4096]; // [esp+8h] [ebp-1000h] BYREF
+  char v3[4096]; // [esp+0h] [ebp-1000h] BYREF
 
-  while ( 1 )
+  while ( F->m_pointer - F->m_data < F->m_size )
   {
-    m_pointer = F->m_pointer;
-    if ( m_pointer - F->m_data >= F->m_size )
-      break;
-    v4 = vostok::console_commands::advance_term_string(a2, F);
-    strncpy_s(_Dst, 0x1000u, (const char *)m_pointer, v4);
-    vostok::console_commands::execute(_Dst, filter);
+    vostok::console_commands::r_string(F, (char (*)[4096])v3);
+    vostok::console_commands::execute(v3, filter, command_types_to_execute);
   }
 }

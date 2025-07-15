@@ -8,7 +8,7 @@ _iobuf *__cdecl _getstream()
 
   v0 = 0;
   _lock(1);
-  for ( i = 0; i < (int)_nstream; ++i )
+  for ( i = 0; i < _nstream; ++i )
   {
     v2 = &__piob[i];
     if ( !*v2 )

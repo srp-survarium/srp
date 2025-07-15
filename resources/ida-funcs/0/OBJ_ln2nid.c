@@ -1,12 +1,12 @@
-int __cdecl OBJ_ln2nid(const char *s)
+void *__cdecl OBJ_ln2nid(const char *s)
 {
-  void **v1; // eax
+  void ***v1; // eax
   int v3; // ecx
   int v4; // ebp
   int v5; // esi
   const unsigned int *v6; // edi
   int v7; // eax
-  _DWORD data[2]; // [esp+0h] [ebp-20h] BYREF
+  _DWORD v8[2]; // [esp+0h] [ebp-20h] BYREF
   char v9; // [esp+8h] [ebp-18h] BYREF
   const char *v10; // [esp+Ch] [ebp-14h]
   int v11; // [esp+24h] [ebp+4h]
@@ -14,11 +14,11 @@ int __cdecl OBJ_ln2nid(const char *s)
   v10 = s;
   if ( added )
   {
-    data[0] = 2;
-    data[1] = &v9;
-    v1 = lh_retrieve((lhash_st *)added, data);
+    v8[0] = 2;
+    v8[1] = &v9;
+    v1 = lh_retrieve((lhash_st *)added, v8);
     if ( v1 )
-      return *((_DWORD *)v1[1] + 2);
+      return v1[1][2];
   }
   v3 = 886;
   v4 = 0;
@@ -42,7 +42,7 @@ int __cdecl OBJ_ln2nid(const char *s)
   }
   while ( v4 < v11 );
   if ( !v7 && v6 )
-    return nid_objs[*v6].nid;
+    return (void *)nid_objs[*v6].nid;
   else
     return 0;
 }

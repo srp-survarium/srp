@@ -13,8 +13,10 @@ void __thiscall Scaleform::DoubleFormatter::Convert(Scaleform::DoubleFormatter *
   char *ValueStr; // eax
   char *v13; // eax
   int v14; // [esp+4h] [ebp-4Ch]
-  char fmt[32]; // [esp+10h] [ebp-40h] BYREF
-  char format[32]; // [esp+30h] [ebp-20h] BYREF
+  char v15[2]; // [esp+10h] [ebp-40h] BYREF
+  char v16; // [esp+12h] [ebp-3Eh] BYREF
+  char v17; // [esp+13h] [ebp-3Dh] BYREF
+  char v18[32]; // [esp+30h] [ebp-20h] BYREF
 
   if ( !this->IsConverted )
   {
@@ -38,12 +40,12 @@ void __thiscall Scaleform::DoubleFormatter::Convert(Scaleform::DoubleFormatter *
       v3 = 102;
     }
     v5 = *((_BYTE *)&this->Scaleform::NumericBase + 5) >= 0;
-    memset(fmt, 37, 2);
-    v6 = &fmt[2];
+    memset(v15, 37, sizeof(v15));
+    v6 = &v16;
     if ( !v5 )
     {
-      fmt[2] = 43;
-      v6 = &fmt[3];
+      v16 = 43;
+      v6 = &v17;
     }
     v7 = *((_BYTE *)&this->Scaleform::NumericBase + 6);
     if ( (v7 & 8) != 0 )
@@ -64,7 +66,7 @@ void __thiscall Scaleform::DoubleFormatter::Convert(Scaleform::DoubleFormatter *
       *v10++ = 100;
       *v10 = v3;
       v10[1] = 0;
-      Scaleform::SFsprintf(format, 0x20u, fmt, v14);
+      Scaleform::SFsprintf(v18, 0x20u, v15, v14);
     }
     else
     {
@@ -77,10 +79,10 @@ void __thiscall Scaleform::DoubleFormatter::Convert(Scaleform::DoubleFormatter *
       *v9++ = 100;
       *v9 = v3;
       v9[1] = 0;
-      Scaleform::SFsprintf(format, 0x20u, fmt, v8, v14);
+      Scaleform::SFsprintf(v18, 0x20u, v15, v8, v14);
     }
     Buff = this->Buff;
-    this->Len = Scaleform::SFsprintf(this->Buff, 0x15Cu, format, this->Value);
+    this->Len = Scaleform::SFsprintf(this->Buff, 0x15Cu, v18, this->Value);
     this->ValueStr = this->Buff;
     if ( this->Buff[0] )
     {

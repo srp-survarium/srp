@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS2::IntervalTimer::~IntervalTimer(Scaleform::GF
   if ( v6 )
   {
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v6->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
@@ -50,7 +50,7 @@ void __thiscall Scaleform::GFx::AS2::IntervalTimer::~IntervalTimer(Scaleform::GF
     if ( Function )
     {
       v9 = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v9) != 0 )
+      if ( (v9 & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = v9 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::AS2::IntervalTimer::~IntervalTimer(Scaleform::GF
     if ( pLocalFrame )
     {
       v11 = pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v11) != 0 )
+      if ( (v11 & 0x3FFFFFF) != 0 )
       {
         pLocalFrame->RefCount = v11 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

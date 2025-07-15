@@ -2,165 +2,129 @@ void __thiscall btHashedOverlappingPairCache::sortOverlappingPairs(
         btHashedOverlappingPairCache *this,
         btDispatcher *dispatcher)
 {
-  int m_size; // ecx
-  btBroadphasePair *m_data; // edx
-  int m_capacity; // esi
-  bool v6; // cc
-  btBroadphasePair *v7; // ebx
-  btBroadphasePair *v8; // eax
-  btBroadphasePair *v9; // edi
-  btCollisionAlgorithm **p_m_algorithm; // eax
-  int v11; // ebx
-  btCollisionAlgorithm **v12; // ecx
-  btBroadphasePair *v13; // eax
+  btAlignedObjectArray<GrahamVector2> *v3; // ecx
+  bool v4; // cc
+  btBroadphasePair *v5; // esi
+  int v6; // edi
+  btCollisionAlgorithm **p_m_algorithm; // ecx
+  int v8; // edx
+  btCollisionAlgorithm **v9; // eax
+  btBroadphasePair *v10; // eax
+  int v11; // edi
+  int v12; // esi
+  int i; // eax
   int v14; // edi
   int v15; // esi
-  int v16; // eax
-  int v17; // edi
-  int v18; // esi
-  int v19; // [esp+10h] [ebp-24h]
-  int v20; // [esp+14h] [ebp-20h]
-  int i; // [esp+18h] [ebp-1Ch]
-  btBroadphasePair *v22; // [esp+1Ch] [ebp-18h]
-  btAlignedObjectArray<btBroadphasePair> tmpPairs; // [esp+20h] [ebp-14h] BYREF
+  btAlignedObjectArray<btBroadphasePair> v16; // [esp+Ch] [ebp-28h] BYREF
+  int v17; // [esp+20h] [ebp-14h]
+  int m_size; // [esp+24h] [ebp-10h]
+  int v19; // [esp+28h] [ebp-Ch]
+  unsigned int v20; // [esp+2Ch] [ebp-8h]
+  btBroadphasePair *v21; // [esp+30h] [ebp-4h]
 
-  m_size = 0;
-  m_data = 0;
-  m_capacity = 0;
-  v6 = this->m_overlappingPairArray.m_size <= 0;
-  tmpPairs.m_ownsMemory = 1;
-  memset(&tmpPairs.m_size, 0, 12);
-  i = 0;
-  if ( !v6 )
+  v3 = 0;
+  v4 = this->m_overlappingPairArray.m_size <= 0;
+  v16.m_ownsMemory = 1;
+  memset(&v16.m_size, 0, 12);
+  v19 = 0;
+  if ( !v4 )
   {
     v20 = 0;
     do
     {
-      v7 = &this->m_overlappingPairArray.m_data[v20];
-      v22 = v7;
-      if ( m_size == m_capacity )
+      v5 = &this->m_overlappingPairArray.m_data[v20 / 0x10];
+      if ( v16.m_size == v16.m_capacity )
       {
-        v19 = m_size ? 2 * m_size : 1;
-        if ( m_capacity < v19 )
+        v6 = v16.m_size ? 2 * v16.m_size : 1;
+        v17 = v6;
+        if ( v16.m_capacity < v6 )
         {
-          if ( v19 )
+          if ( v6 )
           {
-            ++gNumAlignedAllocs;
-            v8 = (btBroadphasePair *)sAlignedAllocFunc(16 * v19, 16);
-            m_data = tmpPairs.m_data;
-            m_size = tmpPairs.m_size;
-            v9 = v8;
+            v21 = (btBroadphasePair *)btAlignedAllocInternal(16 * v6);
+            v3 = 0;
           }
           else
           {
-            v9 = 0;
+            v21 = 0;
           }
-          if ( m_size > 0 )
+          if ( v16.m_size > 0 )
           {
-            p_m_algorithm = &v9->m_algorithm;
-            v11 = m_size;
+            p_m_algorithm = &v21->m_algorithm;
+            v8 = -8 - (_DWORD)v21;
+            m_size = v16.m_size;
             do
             {
               if ( p_m_algorithm != (btCollisionAlgorithm **)8 )
               {
-                v12 = (btCollisionAlgorithm **)((char *)p_m_algorithm + (_DWORD)m_data - (_DWORD)v9 - 8);
-                *(p_m_algorithm - 2) = *v12;
-                *(p_m_algorithm - 1) = v12[1];
-                *p_m_algorithm = v12[2];
-                p_m_algorithm[1] = v12[3];
-                m_data = tmpPairs.m_data;
+                v9 = (btCollisionAlgorithm **)((char *)v16.m_data + (unsigned int)p_m_algorithm + v8);
+                *(p_m_algorithm - 2) = *v9;
+                *(p_m_algorithm - 1) = v9[1];
+                *p_m_algorithm = v9[2];
+                p_m_algorithm[1] = v9[3];
               }
               p_m_algorithm += 4;
-              --v11;
+              --m_size;
             }
-            while ( v11 );
-            m_size = tmpPairs.m_size;
-            v7 = v22;
+            while ( m_size );
+            v6 = v17;
+            v3 = 0;
           }
-          if ( m_data && tmpPairs.m_ownsMemory )
+          if ( v16.m_data && v16.m_ownsMemory )
           {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(m_data);
-            m_size = tmpPairs.m_size;
+            btAlignedFreeInternal(v16.m_data);
+            v3 = 0;
           }
-          m_capacity = v19;
-          m_data = v9;
-          tmpPairs.m_ownsMemory = 1;
-          tmpPairs.m_data = v9;
-          tmpPairs.m_capacity = v19;
+          v16.m_ownsMemory = 1;
+          v16.m_data = v21;
+          v16.m_capacity = v6;
         }
       }
-      v13 = &m_data[m_size];
-      if ( v13 )
+      v10 = &v16.m_data[v16.m_size];
+      if ( v10 )
       {
-        v13->m_pProxy0 = v7->m_pProxy0;
-        v13->m_pProxy1 = v7->m_pProxy1;
-        v13->m_algorithm = v7->m_algorithm;
-        v13->m_internalTmpValue = v7->m_internalTmpValue;
-        m_data = tmpPairs.m_data;
-        m_capacity = tmpPairs.m_capacity;
-        m_size = tmpPairs.m_size;
+        v10->m_pProxy0 = v5->m_pProxy0;
+        v10->m_pProxy1 = v5->m_pProxy1;
+        v10->m_algorithm = v5->m_algorithm;
+        v10->m_internalTmpValue = v5->m_internalTmpValue;
       }
-      ++v20;
-      ++m_size;
-      v6 = i + 1 < this->m_overlappingPairArray.m_size;
-      tmpPairs.m_size = m_size;
-      ++i;
+      ++v16.m_size;
+      ++v19;
+      v20 += 16;
     }
-    while ( v6 );
+    while ( v19 < this->m_overlappingPairArray.m_size );
+  }
+  v11 = 0;
+  if ( v16.m_size > 0 )
+  {
+    v12 = 0;
+    do
+    {
+      this->removeOverlappingPair(this, v16.m_data[v12].m_pProxy0, v16.m_data[v12].m_pProxy1, dispatcher);
+      ++v11;
+      ++v12;
+    }
+    while ( v11 < v16.m_size );
+    v3 = 0;
+  }
+  for ( i = 0; i < this->m_next.m_size; ++i )
+    this->m_next.m_data[i] = -1;
+  if ( v16.m_size > 1 )
+  {
+    btAlignedObjectArray<btBroadphasePair>::quickSortInternal<btBroadphasePairSortPredicate>(&v16, 0, 0, v16.m_size - 1);
+    v3 = 0;
   }
   v14 = 0;
-  if ( m_size > 0 )
+  if ( v16.m_size > 0 )
   {
     v15 = 0;
     do
     {
-      this->removeOverlappingPair(this, m_data[v15].m_pProxy0, m_data[v15].m_pProxy1, dispatcher);
-      m_size = tmpPairs.m_size;
-      m_data = tmpPairs.m_data;
+      this->addOverlappingPair(this, v16.m_data[v15].m_pProxy0, v16.m_data[v15].m_pProxy1);
       ++v14;
       ++v15;
     }
-    while ( v14 < tmpPairs.m_size );
+    while ( v14 < v16.m_size );
   }
-  v16 = 0;
-  if ( this->m_next.m_size > 0 )
-  {
-    do
-      this->m_next.m_data[v16++] = -1;
-    while ( v16 < this->m_next.m_size );
-    m_data = tmpPairs.m_data;
-    m_size = tmpPairs.m_size;
-  }
-  if ( m_size > 1 )
-  {
-    btAlignedObjectArray<btBroadphasePair>::quickSortInternal<btBroadphasePairSortPredicate>(
-      &tmpPairs,
-      0,
-      0,
-      m_size - 1);
-    m_data = tmpPairs.m_data;
-    m_size = tmpPairs.m_size;
-  }
-  v17 = 0;
-  if ( m_size > 0 )
-  {
-    v18 = 0;
-    do
-    {
-      this->addOverlappingPair(this, m_data[v18].m_pProxy0, m_data[v18].m_pProxy1);
-      m_data = tmpPairs.m_data;
-      ++v17;
-      ++v18;
-    }
-    while ( v17 < tmpPairs.m_size );
-  }
-  if ( m_data )
-  {
-    if ( tmpPairs.m_ownsMemory )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(m_data);
-    }
-  }
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(v3, (int)&v16);
 }

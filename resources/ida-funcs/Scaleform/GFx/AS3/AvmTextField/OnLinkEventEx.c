@@ -5,8 +5,8 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::OnLinkEventEx(
         Scaleform::GFx::AS3::Instances::fl_events::TextEvent_vtbl *controllerIndex)
 {
   const char *pClassName; // ecx
-  char *v6; // ebp
-  char *v7; // eax
+  __m128i *v6; // ebp
+  __m128i *v7; // eax
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *pDispObj; // eax
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *v9; // ebx
   const char *v10; // edx
@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::OnLinkEventEx(
 
   (*(void (__thiscall **)(_DWORD))(**((_DWORD **)this[-1].pClassName + 4) + 16))(*((_DWORD *)this[-1].pClassName + 4));
   pClassName = this[-1].pClassName;
-  if ( *(_BYTE *)(*(_DWORD *)(*((_DWORD *)pClassName + 4) + 40) + 484)
+  if ( *(_BYTE *)(*(_DWORD *)(*((_DWORD *)pClassName + 4) + 40) + 524)
     && (unsigned __int8)Scaleform::Render::Text::StyledText::GetTextAndParagraphFormat(
                           *(Scaleform::Render::Text::StyledText **)(*((_DWORD *)pClassName + 32) + 8),
                           (Scaleform::Render::Text::TextFormat **)&ptextFmt,
@@ -29,16 +29,16 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::OnLinkEventEx(
     && (ptextFmt->PresentMask & 0x100) != 0
     && Scaleform::String::GetLength(&ptextFmt->Url) )
   {
-    v6 = (char *)((ptextFmt->Url.HeapTypeBits & 0xFFFFFFFC) + 8);
+    v6 = (__m128i *)((ptextFmt->Url.HeapTypeBits & 0xFFFFFFFC) + 8);
     if ( event == (Scaleform::GFx::ASStringNode *)2 )
     {
-      v7 = "linkMouseOver";
+      v7 = (__m128i *)"linkMouseOver";
     }
     else
     {
       if ( event != (Scaleform::GFx::ASStringNode *)3 )
         return;
-      v7 = "linkMouseOut";
+      v7 = (__m128i *)"linkMouseOut";
     }
     event = Scaleform::GFx::ASStringManager::CreateStringNode(
               *(Scaleform::GFx::ASStringManager **)(*((_DWORD *)this[-1].pClassName + 4) + 432),
@@ -67,7 +67,7 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::OnLinkEventEx(
       Scaleform::GFx::AS3::ASVM::_constructInstance(
         *(Scaleform::GFx::AS3::ASVM **)(*((_DWORD *)v10 + 4) + 40),
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&pos,
-        *(Scaleform::GFx::AS3::Object **)(*(_DWORD *)(*((_DWORD *)v10 + 4) + 40) + 444),
+        *(Scaleform::GFx::AS3::Object **)(*(_DWORD *)(*((_DWORD *)v10 + 4) + 40) + 484),
         3u,
         params);
       v11 = (Scaleform::GFx::AS3::Instances::fl_events::TextEvent *)pos;

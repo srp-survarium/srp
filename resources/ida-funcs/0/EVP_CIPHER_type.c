@@ -1,8 +1,8 @@
-int __cdecl EVP_CIPHER_type(const evp_cipher_st *ctx)
+int __usercall EVP_CIPHER_type@<eax>(int a1@<ebx>, const evp_cipher_st *ctx)
 {
   int nid; // esi
   int result; // eax
-  asn1_object_st *v3; // eax
+  asn1_object_st *v4; // eax
 
   nid = ctx->nid;
   if ( ctx->nid > 421 )
@@ -26,15 +26,15 @@ int __cdecl EVP_CIPHER_type(const evp_cipher_st *ctx)
       case 657:
       case 658:
       case 659:
-$LN5_24:
+$LN5_33:
         result = 30;
         break;
       default:
 LABEL_11:
-        v3 = OBJ_nid2obj(ctx->nid);
-        if ( !v3 || !v3->data )
+        v4 = OBJ_nid2obj(a1, ctx->nid);
+        if ( !v4 || !v4->data )
           nid = 0;
-        ASN1_OBJECT_free(v3);
+        ASN1_OBJECT_free(v4);
         result = nid;
         break;
     }
@@ -53,7 +53,7 @@ LABEL_11:
         break;
       case 30:
       case 61:
-        goto $LN5_24;
+        goto $LN5_33;
       case 37:
       case 98:
       case 166:

@@ -43,7 +43,7 @@ const Scaleform::Render::Text::Style *__thiscall Scaleform::GFx::Text::StyleMana
 const Scaleform::Render::Text::Style *__thiscall Scaleform::GFx::Text::StyleManager::GetStyle(
         Scaleform::GFx::Text::StyleManager *this,
         Scaleform::Render::Text::StyleManagerBase::KeyType type,
-        char *name,
+        const __m128i *name,
         Scaleform::String len)
 {
   unsigned int HeapTypeBits; // eax
@@ -53,7 +53,7 @@ const Scaleform::Render::Text::Style *__thiscall Scaleform::GFx::Text::StyleMana
 
   HeapTypeBits = len.HeapTypeBits;
   if ( len.pData == (Scaleform::String::DataDesc *)-1 )
-    HeapTypeBits = strlen(name);
+    HeapTypeBits = strlen(name->m128i_i8);
   Scaleform::String::String(&len, name, HeapTypeBits);
   v6 = this->GetStyle(this, type, &len);
   v7 = (void *)(len.HeapTypeBits & 0xFFFFFFFC);
@@ -67,7 +67,7 @@ const Scaleform::Render::Text::Style *__thiscall Scaleform::GFx::Text::StyleMana
 const Scaleform::Render::Text::Style *__thiscall Scaleform::GFx::Text::StyleManager::GetStyle(
         Scaleform::GFx::Text::StyleManager *this,
         Scaleform::Render::Text::StyleManagerBase::KeyType type,
-        const wchar_t *name,
+        wchar_t *name,
         Scaleform::String len)
 {
   int pData; // edi

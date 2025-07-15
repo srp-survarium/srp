@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::Text::EditorKit::EditorKit(
         Scaleform::GFx::Resource *pdocview)
 {
   Scaleform::RefCountVImpl *pLib; // ecx
-  float pdocviewa; // [esp+10h] [ebp+4h]
+  float v5; // [esp+10h] [ebp+4h]
 
   this->__vftable = (Scaleform::GFx::Text::EditorKit_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -30,9 +30,9 @@ void __thiscall Scaleform::GFx::Text::EditorKit::EditorKit(
   this->LastHorizCursorPos = -1.0;
   this->CursorRect.Value.x1 = 0.0;
   this->CursorRect.Value.y1 = 0.0;
-  pdocviewa = 0.0 + 0.0;
-  this->CursorRect.Value.x2 = pdocviewa;
-  this->CursorRect.Value.y2 = pdocviewa;
+  v5 = 0.0 + 0.0;
+  this->CursorRect.Value.x2 = v5;
+  this->CursorRect.Value.y2 = v5;
   this->ActiveSelectionBkColor = -16777216;
   this->ActiveSelectionTextColor = -1;
   this->InactiveSelectionBkColor = -8355712;

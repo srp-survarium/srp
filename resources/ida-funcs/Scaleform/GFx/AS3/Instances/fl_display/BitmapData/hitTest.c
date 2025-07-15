@@ -7,13 +7,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::hitTest(
         Scaleform::GFx::AS3::Instances::fl_geom::Point *secondBitmapDataPoint,
         unsigned int secondAlphaThreshold)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  const Scaleform::GFx::AS3::VM::Error *v8; // eax
+  Scaleform::GFx::AS3::VM *pVM; // ecx
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // eax
   long double x; // st7
   int v12; // eax
   long double y; // st7
-  Scaleform::GFx::AS3::Traits *pObject; // ecx
+  Scaleform::GFx::AS3::Traits *pObject; // edx
   double *VInt; // edi
   double v16; // st7
   double v17; // st6
@@ -22,23 +22,31 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::hitTest(
   Scaleform::GFx::AS3::Value::V1U v20; // edi
   int v21; // esi
   unsigned int v22; // eax
-  Scaleform::GFx::AS3::Traits *v23; // edx
+  Scaleform::GFx::AS3::Traits *v23; // eax
   Scaleform::GFx::AS3::Instances::fl_display::BitmapData *v24; // ecx
   Scaleform::GFx::ImageResource *ImageResource; // eax
   Scaleform::Render::DrawableImage *pImage; // eax
   Scaleform::Render::Point<long> *v27; // eax
   int v28; // ecx
-  Scaleform::GFx::ASStringNode *v29; // eax
+  Scaleform::GFx::AS3::VM *v29; // esi
+  Scaleform::GFx::ASStringNode *v30; // eax
+  Scaleform::StringDataPtr v31; // [esp-8h] [ebp-38h] BYREF
   Scaleform::Render::DrawableImage *image; // [esp+8h] [ebp-28h] BYREF
-  Scaleform::GFx::ASStringNode *v31; // [esp+Ch] [ebp-24h]
-  Scaleform::Render::Point<long> secondPoint; // [esp+10h] [ebp-20h] BYREF
+  Scaleform::GFx::ASStringNode *v33; // [esp+Ch] [ebp-24h]
+  Scaleform::Render::Point<long> v34; // [esp+10h] [ebp-20h] BYREF
   Scaleform::Render::Point<long> fp; // [esp+18h] [ebp-18h] BYREF
   Scaleform::Render::Rect<long> rect; // [esp+20h] [ebp-10h] BYREF
 
   if ( !this->pImage.pObject )
   {
+    v31.pStr = "Invalid BitmapData";
+    v31.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&image,
+      eArgumentError,
+      this->pTraits.pObject->pVM,
+      v31);
     pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&image, eArgumentError, pVM);
     goto LABEL_20;
   }
   DrawableImageFromBitmapData = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
@@ -76,8 +84,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::hitTest(
           this->pTraits.pObject->pVM->CurrentDomain) )
   {
     v23 = this->pTraits.pObject;
-    secondPoint.x = 0;
-    secondPoint.y = 0;
+    v34.x = 0;
+    v34.y = 0;
     if ( Scaleform::GFx::AS3::VM::IsOfType(v23->pVM, secondObject, "flash.display.Bitmap", v23->pVM->CurrentDomain) )
     {
       v24 = *(Scaleform::GFx::AS3::Instances::fl_display::BitmapData **)(secondObject->value.VS._1.VInt + 56);
@@ -98,14 +106,16 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::hitTest(
               "flash.display.BitmapData",
               this->pTraits.pObject->pVM->CurrentDomain) )
       {
-        pVM = this->pTraits.pObject->pVM;
-        Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&image, eInvalidArgumentError, pVM);
+        v29 = this->pTraits.pObject->pVM;
+        Scaleform::StringDataPtr::StringDataPtr(&v31, "secondObject");
+        Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&image, eInvalidArgumentError, v29, v31);
+        pVM = v29;
 LABEL_20:
-        Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v9);
-        v29 = v31;
-        --v31->RefCount;
-        if ( !v29->RefCount )
-          Scaleform::GFx::ASStringNode::ReleaseNode(v29);
+        Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v8);
+        v30 = v33;
+        --v33->RefCount;
+        if ( !v30->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v30);
         return;
       }
       if ( secondBitmapDataPoint )
@@ -115,8 +125,8 @@ LABEL_20:
                 (Scaleform::Render::Point<long> *)&rect,
                 secondBitmapDataPoint);
         v28 = v27->y;
-        secondPoint.x = v27->x;
-        secondPoint.y = v28;
+        v34.x = v27->x;
+        v34.y = v28;
       }
       pImage = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::getDrawableImageFromBitmapData(
                  this,
@@ -126,7 +136,7 @@ LABEL_20:
                 image,
                 pImage,
                 &fp,
-                &secondPoint,
+                &v34,
                 firstAlphaThreshold,
                 secondAlphaThreshold);
     return;

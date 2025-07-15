@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::navigateToU
     ++url.pNode->RefCount;
     Scaleform::GFx::AS3::Instances::fl_net::URLRequest::urlGet(v8, &url);
     v9 = (void (__thiscall **)(_DWORD *, int))(*v7 + 4);
-    Scaleform::String::String((Scaleform::String *)&request, (char *)url.pNode->pData, url.pNode->Size);
+    Scaleform::String::String((Scaleform::String *)&request, (const __m128i *)url.pNode->pData, url.pNode->Size);
     (*v9)(v7, v10);
     v11 = (void *)((unsigned int)request & 0xFFFFFFFC);
     if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)request & 0xFFFFFFFC) + 4), -1) == 1 )

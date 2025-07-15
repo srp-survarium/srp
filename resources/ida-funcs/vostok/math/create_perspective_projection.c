@@ -1,38 +1,34 @@
-struct vostok::math::float4x4 *__usercall vostok::math::create_perspective_projection@<eax>(
-        int a1@<esi>,
+vostok::math *__usercall vostok::math::create_perspective_projection@<eax>(
+        long double a1@<esi:edi>,
         float a2@<xmm0>,
         vostok::math *this,
-        struct vostok::math::float4x4 *__return_ptr retstr,
+        struct vostok::math::float4x4 *retstr,
+        float near_plane,
         float far_plane)
 {
-  long double v5; // st7
-  struct vostok::math::float4x4 *result; // eax
-  __int64 v7; // xmm3_8
-  __int64 v8; // xmm0_8
-  unsigned int v9; // [esp+4h] [ebp-10h]
-  __int64 v10; // [esp+4h] [ebp-10h]
-  __int64 v11; // [esp+Ch] [ebp-8h]
+  float v6; // xmm3_4
+  float v7; // xmm2_4
+  float v9; // [esp+Ch] [ebp-8h]
 
-  v5 = 1.0 / tanf(a2 * 0.5);
-  v11 = 0;
-  result = (struct vostok::math::float4x4 *)a1;
-  *(float *)&v9 = v5 / *(float *)&this;
-  *(_QWORD *)a1 = v9;
-  *((float *)&v10 + 1) = v5;
-  *(_QWORD *)(a1 + 8) = v11;
-  LODWORD(v10) = 0;
-  v11 = 0;
-  *(_QWORD *)(a1 + 16) = v10;
-  *(_QWORD *)(a1 + 24) = v11;
-  HIDWORD(v11) = clear_value;
-  *(float *)&v11 = far_plane / (float)(far_plane - *(float *)&retstr);
-  *(_QWORD *)(a1 + 32) = 0;
-  v7 = v11;
-  HIDWORD(v11) = 0;
-  *(_QWORD *)(a1 + 48) = 0;
-  *(float *)&v11 = -(float)((float)(far_plane / (float)(far_plane - *(float *)&retstr)) * *(float *)&retstr);
-  v8 = v11;
-  *(_QWORD *)(a1 + 40) = v7;
-  *(_QWORD *)(a1 + 56) = v8;
-  return result;
+  __libm_sse2_tan(a1);
+  v6 = s_bm_current_air_resistance;
+  v7 = s_bm_current_air_resistance / (float)(a2 * 0.5);
+  *(float *)this = v7 / *(float *)&retstr;
+  *((_DWORD *)this + 1) = 0;
+  *((_DWORD *)this + 2) = 0;
+  *((_DWORD *)this + 3) = 0;
+  *((_DWORD *)this + 4) = 0;
+  *((float *)this + 5) = v7;
+  *((_DWORD *)this + 6) = 0;
+  *((_DWORD *)this + 7) = 0;
+  v9 = far_plane / (float)(far_plane - near_plane);
+  *((_DWORD *)this + 8) = 0;
+  *((_DWORD *)this + 9) = 0;
+  *((float *)this + 10) = v9;
+  *((float *)this + 11) = v6;
+  *((_DWORD *)this + 12) = 0;
+  *((_DWORD *)this + 13) = 0;
+  *((_DWORD *)this + 14) = COERCE_UNSIGNED_INT(v9 * near_plane) ^ _mask__NegFloat_;
+  *((_DWORD *)this + 15) = 0;
+  return this;
 }

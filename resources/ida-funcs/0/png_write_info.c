@@ -1,7 +1,7 @@
 void __cdecl png_write_info(_DWORD *a1, int a2)
 {
   int v2; // [esp+0h] [ebp-10h]
-  char *lhs; // [esp+4h] [ebp-Ch]
+  unsigned int m; // [esp+4h] [ebp-Ch]
   int i; // [esp+8h] [ebp-8h]
   int j; // [esp+Ch] [ebp-4h]
   int k; // [esp+Ch] [ebp-4h]
@@ -102,17 +102,17 @@ void __cdecl png_write_info(_DWORD *a1, int a2)
     }
     if ( *(_DWORD *)(a2 + 192) )
     {
-      for ( lhs = *(char **)(a2 + 188); (unsigned int)lhs < *(_DWORD *)(a2 + 188) + 20 * *(_DWORD *)(a2 + 192); lhs += 20 )
+      for ( m = *(_DWORD *)(a2 + 188); m < *(_DWORD *)(a2 + 188) + 20 * *(_DWORD *)(a2 + 192); m += 20 )
       {
-        v2 = png_handle_as_unknown((int)a1, (unsigned __int8 *)lhs);
+        v2 = png_handle_as_unknown((int)a1, (unsigned __int8 *)m);
         if ( v2 != 1
-          && lhs[16]
-          && (lhs[16] & 2) != 0
-          && (lhs[16] & 4) == 0
-          && (lhs[16] & 8) == 0
-          && ((lhs[3] & 0x20) != 0 || v2 == 3 || ((unsigned int)&_sbh_sizeHeaderList & a1[28]) != 0) )
+          && *(_BYTE *)(m + 16)
+          && (*(_BYTE *)(m + 16) & 2) != 0
+          && (*(_BYTE *)(m + 16) & 4) == 0
+          && (*(_BYTE *)(m + 16) & 8) == 0
+          && ((*(_BYTE *)(m + 3) & 0x20) != 0 || v2 == 3 || ((unsigned int)&_sbh_sizeHeaderList & a1[28]) != 0) )
         {
-          png_write_chunk((int)a1, (int)lhs, *((unsigned __int8 **)lhs + 2), *((_DWORD *)lhs + 3));
+          png_write_chunk((int)a1, m, *(unsigned __int8 **)(m + 8), *(_DWORD *)(m + 12));
         }
       }
     }

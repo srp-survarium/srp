@@ -1,6 +1,6 @@
 void __thiscall vostok::resources::association_callback_helper::is_associated(
         vostok::resources::association_callback_helper *this,
-        vostok::vfs::vfs_association **association)
+        vostok::resources::resource_base **association)
 {
   vostok::resources::resource_base *resource; // eax
 

@@ -1,8 +1,8 @@
-void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
-        Scaleform::GFx::AS2::XmlProto *this,
+void __userpurge Scaleform::GFx::AS2::XmlProto::XmlProto(
+        Scaleform::GFx::AS2::XmlProto *this@<ecx>,
         Scaleform::GFx::AS2::ASStringContext *psc,
         Scaleform::GFx::AS2::Object *prototype,
-        const Scaleform::GFx::AS2::FunctionRef *constructor)
+        Scaleform::GFx::ASStringNode constructor)
 {
   Scaleform::GFx::AS2::GlobalContext *pContext; // ecx
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
@@ -30,17 +30,17 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
   const Scaleform::GFx::AS2::Value *v29; // eax
   int v30; // [esp+0h] [ebp-20h]
   int v31; // [esp+4h] [ebp-1Ch]
-  Scaleform::GFx::AS2::Value val; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v32; // [esp+10h] [ebp-10h] BYREF
 
   Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>(
     this,
     psc,
     prototype,
-    constructor);
+    (const Scaleform::GFx::AS2::FunctionRef *)constructor.pData);
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::XmlObject::Scaleform::GFx::AS2::XmlNodeObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::XmlProto_vtbl *)&Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::XmlObject::Scaleform::GFx::AS2::XmlNodeObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::GASPrototypeBase::__vftable = (Scaleform::GFx::AS2::GASPrototypeBase_vtbl *)&Scaleform::GFx::AS2::XmlProto::`vftable';
-  LOBYTE(constructor) = 6;
+  LOBYTE(constructor.pData) = 6;
   Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
     &this->Scaleform::GFx::AS2::GASPrototypeBase,
     (int)this,
@@ -48,11 +48,11 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     this,
     psc,
     Scaleform::GFx::AS2::XmlProto::FunctionTable,
-    (Scaleform::GFx::ASStringNode *)&constructor,
+    &constructor,
     v30,
     v31);
   pContext = psc->pContext;
-  LOBYTE(constructor) = 2;
+  LOBYTE(constructor.pData) = 2;
   StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(pContext);
   ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                       StringManager->pStringManager,
@@ -60,8 +60,8 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
                       0x21u,
                       0);
   ++ConstStringNode->RefCount;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)ConstStringNode;
+  v32.T.Type = 5;
+  v32.NV.Int32Value = (int)ConstStringNode;
   ++ConstStringNode->RefCount;
   v8 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -74,18 +74,18 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v9 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v9->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v9);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   if ( ConstStringNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(ConstStringNode);
   v11 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 0;
   v12 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v11);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v12->pStringManager,
@@ -97,16 +97,16 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v13 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v13->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v13);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   v14 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 0;
   v15 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v14);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v15->pStringManager,
@@ -118,17 +118,17 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v16 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v16->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   v17 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 2;
-  val.V.BooleanValue = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 2;
+  v32.V.BooleanValue = 0;
   v18 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v17);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v18->pStringManager,
@@ -140,16 +140,16 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v19 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   v20 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 0;
   v21 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v20);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v21->pStringManager,
@@ -161,17 +161,17 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v22 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v22->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v22);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   v23 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 4;
+  v32.NV.Int32Value = 0;
   v24 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v23);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v24->pStringManager,
@@ -183,16 +183,16 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v25 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v25->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v25);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
   v26 = psc->pContext;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  LOBYTE(constructor.pData) = 2;
+  v32.T.Type = 0;
   v27 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v26);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v27->pStringManager,
@@ -204,20 +204,20 @@ void __thiscall Scaleform::GFx::AS2::XmlProto::XmlProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v32,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v28 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v28->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v28);
-  Scaleform::GFx::AS2::Value::~Value(&val);
-  LOBYTE(constructor) = 1;
-  Scaleform::GFx::AS2::Value::Value(&val, psc, Scaleform::GFx::AS2::XmlProto::DefaultOnData);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
+  LOBYTE(constructor.pData) = 1;
+  Scaleform::GFx::AS2::Value::Value(&v32, psc, Scaleform::GFx::AS2::XmlProto::DefaultOnData);
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "onData",
     v29,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v32);
 }

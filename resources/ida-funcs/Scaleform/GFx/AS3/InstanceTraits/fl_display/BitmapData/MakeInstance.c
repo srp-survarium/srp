@@ -2,11 +2,11 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::BitmapData> *__c
         Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::BitmapData> *result,
         Scaleform::GFx::AS3::InstanceTraits::fl_display::BitmapData *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Catch *v2; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v2; // eax
   Scaleform::GFx::AS3::Instances::fl_display::BitmapData *v3; // esi
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::BitmapData> *v4; // eax
 
-  v2 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(t);
+  v2 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(t);
   v3 = (Scaleform::GFx::AS3::Instances::fl_display::BitmapData *)v2;
   if ( v2 )
   {

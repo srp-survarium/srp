@@ -24,27 +24,27 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
   {
     if ( v > 0x3FFF )
     {
-      if ( v > (unsigned int)&byte_3FFFFF )
+      if ( v > (unsigned int)&loc_3FFFFE + 1 )
       {
         LOBYTE(v) = (4 * v) | 3;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           this->Data,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         Data = this->Data;
         LOBYTE(v) = v2 >> 6;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           Data,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         v17 = this->Data;
         LOBYTE(v) = v2 >> 14;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v17,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         v18 = this->Data;
         LOBYTE(v) = v2 >> 22;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v18,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         return 4;
       }
       else
@@ -53,16 +53,16 @@ unsigned int __thiscall Scaleform::GFx::PathDataEncoder<Scaleform::ArrayPagedLH_
         LOBYTE(v) = (4 * v) | 2;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v14,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         LOBYTE(v) = v2 >> 6;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           this->Data,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         v15 = this->Data;
         LOBYTE(v) = v2 >> 14;
         Scaleform::ArrayPagedBase<unsigned char,12,256,Scaleform::AllocatorPagedLH_POD<unsigned char,261>>::PushBack(
           v15,
-          (const unsigned __int8 *)&v);
+          (unsigned __int8 *)&v);
         return 3;
       }
     }

@@ -1,23 +1,21 @@
-void __thiscall vostok::render::render_model_cook::delete_resource(
-        vostok::render::render_model_cook *this,
+void __userpurge vostok::render::render_model_cook::delete_resource(
+        vostok::render::material_effects_instance_cook *this@<ecx>,
+        const char *a2@<ebx>,
         vostok::resources::resource_base *resource)
 {
-  vostok::render::grass_render_model *m_object; // ebx
-  _BYTE *v3; // edi
-  void *m_reconstruction_info_actuality_tick_high; // esi
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // ebx
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  const char *v7; // [esp+0h] [ebp-8h]
+  unsigned int v8; // [esp+4h] [ebp-4h]
 
-  m_object = vostok::render::g_allocator.m_object;
+  v3 = vostok::render::g_allocator;
   if ( resource )
   {
-    v3 = __RTCastToVoid((void **)&resource->__vftable);
+    v4 = __RTCastToVoid((void **)&resource->__vftable);
     ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
       resource,
       0);
-    if ( v3 )
-    {
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v3);
-    }
+    vostok::memory::doug_lea_allocator::free_impl(v5, (int)v3, v4, a2, v7, v8);
   }
 }

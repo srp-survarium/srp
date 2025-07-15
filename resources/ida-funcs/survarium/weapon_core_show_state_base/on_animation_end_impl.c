@@ -1,8 +1,6 @@
 void __thiscall survarium::weapon_core_show_state_base::on_animation_end_impl(
-        survarium::weapon_core_show_state_base *this,
+        survarium::victory_item_core_put_state *this,
         bool *animation_player_tick_result)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  *this->m_is_shown = 1;
   *animation_player_tick_result = 1;
 }

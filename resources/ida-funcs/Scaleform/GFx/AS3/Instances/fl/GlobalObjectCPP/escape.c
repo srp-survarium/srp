@@ -25,14 +25,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::escape(
              (Scaleform::GFx::ASString *)&argv)->Result )
       {
         Scaleform::String::String(&argc);
-        Scaleform::GFx::ASUtils::AS3::Escape(
-          (const char *)argv->Flags,
-          (unsigned int)argv[1].Bonus.pWeakProxy,
-          &argc,
-          0);
+        Scaleform::GFx::ASUtils::AS3::Escape((char *)argv->Flags, (int)argv[1].Bonus.pWeakProxy, &argc, 0);
         v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                     this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                    (char *)((argc.HeapTypeBits & 0xFFFFFFFC) + 8),
+                    (__m128i *)((argc.HeapTypeBits & 0xFFFFFFFC) + 8),
                     *(_DWORD *)(argc.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
         ++v.pNode->RefCount;
         Scaleform::GFx::AS3::Value::Assign(result, &v);

@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::SceneInfo::AddFrameLabel(
 {
   Scaleform::ArrayDataBase<Scaleform::GFx::MovieDataDef::FrameLabelInfo,Scaleform::AllocatorDH<Scaleform::GFx::MovieDataDef::FrameLabelInfo,2>,Scaleform::ArrayDefaultPolicy> *v3; // esi
   unsigned int Capacity; // eax
-  const void *Size; // ecx
+  void *Size; // ecx
   Scaleform::StringDH *p_Name; // esi
   void *v7; // esi
   Scaleform::StringDH v8; // [esp+4h] [ebp-Ch] BYREF
@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::SceneInfo::AddFrameLabel(
   v3 = (Scaleform::ArrayDataBase<Scaleform::GFx::MovieDataDef::FrameLabelInfo,Scaleform::AllocatorDH<Scaleform::GFx::MovieDataDef::FrameLabelInfo,2>,Scaleform::ArrayDefaultPolicy> *)this;
   Scaleform::StringDH::CopyConstructHelper(&v8, n, this->Name.pHeap);
   Capacity = v3[1].Policy.Capacity;
-  Size = (const void *)v3[2].Size;
+  Size = (void *)v3[2].Size;
   v3 = (Scaleform::ArrayDataBase<Scaleform::GFx::MovieDataDef::FrameLabelInfo,Scaleform::AllocatorDH<Scaleform::GFx::MovieDataDef::FrameLabelInfo,2>,Scaleform::ArrayDefaultPolicy> *)((char *)v3 + 16);
   v9 = num;
   Scaleform::ArrayDataBase<Scaleform::GFx::MovieDataDef::FrameLabelInfo,Scaleform::AllocatorDH<Scaleform::GFx::MovieDataDef::FrameLabelInfo,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(

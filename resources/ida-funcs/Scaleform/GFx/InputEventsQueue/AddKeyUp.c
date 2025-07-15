@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::InputEventsQueue::AddKeyUp(
         unsigned int code,
         unsigned __int8 ascii,
         Scaleform::KeyModifiers specialKeysState,
-        unsigned __int8 keyboardIndex)
+        char keyboardIndex)
 {
   Scaleform::GFx::InputEventsQueue::AddKeyEvent(this, code, ascii, 0, 0, specialKeysState, keyboardIndex);
 }

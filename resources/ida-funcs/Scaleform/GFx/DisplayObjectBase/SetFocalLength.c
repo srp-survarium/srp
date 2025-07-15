@@ -1,8 +1,8 @@
 void __thiscall Scaleform::GFx::DisplayObjectBase::SetFocalLength(
         Scaleform::GFx::DisplayObjectBase *this,
-        double focalLength)
+        long double focalLength)
 {
-  double v2; // st7
+  long double v2; // st7
   Scaleform::GFx::DisplayObjectBase::PerspectiveDataType *v4; // eax
   Scaleform::GFx::DisplayObjectBase::PerspectiveDataType *v5; // eax
   Scaleform::GFx::DisplayObjectBase::PerspectiveDataType *pPerspectiveData; // ecx
@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetFocalLength(
 
   v2 = focalLength;
   v7 = focalLength;
-  if ( (HIDWORD(v7) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(v7) | LODWORD(v7)) )
+  if ( (HIDWORD(v7) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(v7) & 0xFFFFF | LODWORD(v7)) )
   {
     v7 = focalLength;
     if ( focalLength == -INFINITY || (v7 = focalLength, focalLength == INFINITY) )

@@ -1,4 +1,4 @@
-const btTransform *__usercall btSoftBody::Body::xform@<eax>(btSoftBody::Body *this@<ecx>, _DWORD *a2@<esi>)
+const btTransform *__thiscall btSoftBody::Body::xform(btSoftBody::Body *this, _DWORD *a2)
 {
   int v2; // eax
 

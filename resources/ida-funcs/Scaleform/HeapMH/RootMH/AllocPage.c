@@ -18,7 +18,7 @@ Scaleform::HeapMH::PageMH *__thiscall Scaleform::HeapMH::RootMH::AllocPage(
   if ( result )
   {
     pNext->pPrev->pNext = pNext->pNext;
-    pNext->pNext->Scaleform::ListNode<Scaleform::HeapMH::PageMH>::$175536D4FE6D43D2B2160FD1C4F2F895::pPrev = pNext->pPrev;
+    pNext->pNext->Scaleform::ListNode<Scaleform::HeapMH::PageMH>::$17E717CE4C6DC4C18BA375293F14B2A4::pPrev = pNext->pPrev;
     Start = (unsigned int)pNext->Start;
     pNext->pHeap = heap;
     Scaleform::HeapMH::GetMagicHeaders(Start, &headers);

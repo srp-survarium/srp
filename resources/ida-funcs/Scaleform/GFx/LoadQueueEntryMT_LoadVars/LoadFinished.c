@@ -8,21 +8,21 @@ char __thiscall Scaleform::GFx::LoadQueueEntryMT_LoadVars::LoadFinished(
   void *v6; // esi
   void *v8; // esi
   void *v9; // esi
-  Scaleform::String data; // [esp+14h] [ebp-8h] BYREF
-  unsigned int succeeded; // [esp+18h] [ebp-4h]
+  Scaleform::String v10; // [esp+14h] [ebp-8h] BYREF
+  unsigned int v11; // [esp+18h] [ebp-4h]
 
-  Scaleform::String::String(&data);
+  Scaleform::String::String(&v10);
   pObject = this->pTask.pObject;
   if ( pObject->Done == 1 )
   {
-    Scaleform::String::operator=(&data, &pObject->Data);
+    Scaleform::String::operator=(&v10, &pObject->Data);
     FileLen = pObject->FileLen;
-    LOBYTE(succeeded) = pObject->Succeeded;
+    LOBYTE(v11) = pObject->Succeeded;
     v4 = 1;
   }
   else
   {
-    FileLen = succeeded;
+    FileLen = v11;
     v4 = 0;
   }
   pQueueEntry = this->pQueueEntry;
@@ -30,8 +30,8 @@ char __thiscall Scaleform::GFx::LoadQueueEntryMT_LoadVars::LoadFinished(
   {
     if ( v4 )
     {
-      v6 = (void *)(data.HeapTypeBits & 0xFFFFFFFC);
-      if ( InterlockedExchangeAdd((volatile LONG *)((data.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+      v6 = (void *)(v10.HeapTypeBits & 0xFFFFFFFC);
+      if ( InterlockedExchangeAdd((volatile LONG *)((v10.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       {
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v6);
         return 1;
@@ -45,16 +45,16 @@ char __thiscall Scaleform::GFx::LoadQueueEntryMT_LoadVars::LoadFinished(
       this->pMovieImpl->pASMovieRoot.pObject,
       pQueueEntry,
       this->pLoadStates.pObject,
-      &data,
+      &v10,
       FileLen,
-      succeeded);
-    v9 = (void *)(data.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((data.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+      v11);
+    v9 = (void *)(v10.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v10.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
     return 1;
   }
-  v8 = (void *)(data.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((data.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v8 = (void *)(v10.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v10.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
   return 0;
 }

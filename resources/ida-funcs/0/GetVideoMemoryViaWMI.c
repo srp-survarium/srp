@@ -1,151 +1,158 @@
-unsigned int __cdecl GetVideoMemoryViaWMI(unsigned __int64 *pdwAdapterRam)
+HRESULT __cdecl GetVideoMemoryViaWMI(HMONITOR__ *hMonitor, unsigned __int64 *pdwAdapterRam)
 {
-  HMONITOR__ *hMonitor; // ecx
-  wchar_t *v2; // edi
-  HRESULT (__stdcall *ConnectServer)(IWbemLocator *, wchar_t *const, wchar_t *const, wchar_t *const, wchar_t *const, int, wchar_t *const, IWbemContext *, IWbemServices **); // eax
   HMODULE LibraryW; // eax
-  HMODULE v5; // esi
-  FARPROC ProcAddress; // eax
-  wchar_t *v7; // esi
-  HRESULT (__stdcall *CreateInstanceEnum)(IWbemServices *, wchar_t *const, int, IWbemContext *, IEnumWbemClassObject **); // edx
-  IEnumWbemClassObject *v9; // eax
-  int v10; // edi
-  wchar_t *v11; // esi
-  wchar_t *v12; // esi
-  unsigned int i; // esi
-  IWbemClassObject *v14; // eax
-  bool bGotMemory; // [esp+B0h] [ebp-456h]
-  bool bFound; // [esp+B1h] [ebp-455h]
-  IEnumWbemClassObject *pEnumVideoControllers; // [esp+B2h] [ebp-454h] BYREF
-  IWbemServices *pIWbemServices; // [esp+B6h] [ebp-450h] BYREF
-  IWbemLocator *pIWbemLocator; // [esp+BAh] [ebp-44Ch] BYREF
-  unsigned int uReturned; // [esp+BEh] [ebp-448h] BYREF
-  wchar_t *pClassName; // [esp+C2h] [ebp-444h]
-  wchar_t *pNamespace; // [esp+C6h] [ebp-440h]
-  HRESULT hrCoInitialize; // [esp+CAh] [ebp-43Ch]
-  tagVARIANT var; // [esp+CEh] [ebp-438h] BYREF
-  IWbemClassObject *pVideoControllers[10]; // [esp+DEh] [ebp-428h] BYREF
-  wchar_t strInputDeviceID[512]; // [esp+106h] [ebp-400h] BYREF
+  HMODULE v3; // edi
+  HRESULT (__stdcall *CoSetProxyBlanket)(IUnknown *, DWORD, DWORD, OLECHAR *, DWORD, DWORD, RPC_AUTH_IDENTITY_HANDLE, DWORD); // eax
+  int v5; // edi
+  wchar_t *v6; // esi
+  unsigned int i; // edi
+  _DWORD *v8; // esi
+  wchar_t wcs2[512]; // [esp+10h] [ebp-460h] BYREF
+  _DWORD v11[10]; // [esp+410h] [ebp-60h] BYREF
+  VARIANTARG pvarg; // [esp+438h] [ebp-38h] BYREF
+  HRESULT v13; // [esp+44Ch] [ebp-24h]
+  BSTR v14; // [esp+450h] [ebp-20h]
+  BSTR v15; // [esp+454h] [ebp-1Ch]
+  BSTR bstrString; // [esp+458h] [ebp-18h]
+  int v17; // [esp+45Ch] [ebp-14h] BYREF
+  unsigned int v18; // [esp+460h] [ebp-10h] BYREF
+  LPVOID ppv; // [esp+464h] [ebp-Ch] BYREF
+  IUnknown *v20; // [esp+468h] [ebp-8h] BYREF
+  char v21; // [esp+46Eh] [ebp-2h]
+  char v22; // [esp+46Fh] [ebp-1h]
 
-  GetDeviceIDFromHMonitor(hMonitor, strInputDeviceID);
-  bGotMemory = 0;
-  pIWbemLocator = 0;
-  pIWbemServices = 0;
+  GetDeviceIDFromHMonitor(hMonitor, wcs2);
+  v21 = 0;
+  ppv = 0;
+  v20 = 0;
   *pdwAdapterRam = 0;
-  hrCoInitialize = CoInitializeEx(0, 2u);
-  if ( CoCreateInstance(&CLSID_WbemLocator, 0, 1u, &IID_IWbemLocator, (LPVOID *)&pIWbemLocator) >= 0 )
+  v13 = CoInitializeEx(0, 2u);
+  if ( CoCreateInstance(&CLSID_WbemLocator, 0, 1u, &IID_IWbemLocator, &ppv) >= 0 )
   {
-    if ( !pIWbemLocator )
-      goto LABEL_41;
-    v2 = SysAllocString((const OLECHAR *)&stru_95DC74.m_buffer[88]);
-    ConnectServer = pIWbemLocator->ConnectServer;
-    pNamespace = v2;
-    if ( ConnectServer(pIWbemLocator, v2, 0, 0, 0, 0, 0, 0, &pIWbemServices) < 0 || !pIWbemServices )
-      goto LABEL_35;
-    LibraryW = LoadLibraryW((LPCWSTR)&stru_95DC74.m_buffer[120]);
-    v5 = LibraryW;
-    if ( LibraryW )
+    if ( !ppv )
+      goto LABEL_39;
+    v14 = SysAllocString(L"\\\\.\\root\\cimv2");
+    if ( (*(int (__stdcall **)(LPVOID, BSTR, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, IUnknown **))(*(_DWORD *)ppv + 12))(
+           ppv,
+           v14,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           &v20) >= 0
+      && v20 )
     {
-      ProcAddress = GetProcAddress(LibraryW, &stru_95DC74.m_buffer[140]);
-      if ( ProcAddress )
-        ((void (__stdcall *)(IWbemServices *, int, _DWORD, _DWORD, int, int, _DWORD, _DWORD))ProcAddress)(
-          pIWbemServices,
-          10,
-          0,
-          0,
-          3,
-          3,
-          0,
-          0);
-      FreeLibrary(v5);
-    }
-    pEnumVideoControllers = 0;
-    v7 = SysAllocString((const OLECHAR *)&stru_95DC74.m_buffer[160]);
-    CreateInstanceEnum = pIWbemServices->CreateInstanceEnum;
-    pClassName = v7;
-    if ( CreateInstanceEnum(pIWbemServices, v7, 0, 0, &pEnumVideoControllers) >= 0 )
-    {
-      v9 = pEnumVideoControllers;
-      if ( !pEnumVideoControllers )
+      LibraryW = LoadLibraryW(L"ole32.dll");
+      v3 = LibraryW;
+      if ( LibraryW )
       {
-LABEL_31:
-        if ( v7 )
-        {
-          SysFreeString(v7);
-          v9 = pEnumVideoControllers;
-        }
-        if ( v9 )
-          v9->Release(v9);
-LABEL_35:
-        if ( v2 )
-          SysFreeString(v2);
-        if ( pIWbemServices )
-        {
-          pIWbemServices->Release(pIWbemServices);
-          pIWbemServices = 0;
-        }
-        goto LABEL_39;
+        CoSetProxyBlanket = (HRESULT (__stdcall *)(IUnknown *, DWORD, DWORD, OLECHAR *, DWORD, DWORD, RPC_AUTH_IDENTITY_HANDLE, DWORD))GetProcAddress(LibraryW, "CoSetProxyBlanket");
+        if ( CoSetProxyBlanket )
+          CoSetProxyBlanket(v20, 10, 0, 0, 3, 3, 0, 0);
+        FreeLibrary(v3);
       }
-      memset(pVideoControllers, 0, sizeof(pVideoControllers));
-      uReturned = 0;
-      pEnumVideoControllers->Reset(pEnumVideoControllers);
-      if ( pEnumVideoControllers->Next(pEnumVideoControllers, 5000, 10u, pVideoControllers, &uReturned) >= 0 )
+      v17 = 0;
+      v15 = SysAllocString(L"Win32_VideoController");
+      if ( ((int (__stdcall *)(IUnknown *, BSTR, _DWORD, _DWORD, int *))v20->lpVtbl[6].QueryInterface)(
+             v20,
+             v15,
+             0,
+             0,
+             &v17) >= 0 )
       {
-        v10 = 0;
-        bFound = 0;
-        if ( uReturned )
+        if ( v17 )
         {
-          while ( 1 )
+          memset(v11, 0, sizeof(v11));
+          v18 = 0;
+          (*(void (__stdcall **)(int))(*(_DWORD *)v17 + 12))(v17);
+          if ( (*(int (__stdcall **)(int, int, int, _DWORD *, unsigned int *))(*(_DWORD *)v17 + 16))(
+                 v17,
+                 5000,
+                 10,
+                 v11,
+                 &v18) >= 0 )
           {
-            v11 = SysAllocString((const OLECHAR *)&stru_95DC74.m_buffer[204]);
-            if ( pVideoControllers[v10]->Get(pVideoControllers[v10], v11, 0, &var, 0, 0) >= 0
-              && wcsstr(var.bstrVal, strInputDeviceID) )
+            v5 = 0;
+            v22 = 0;
+            if ( v18 )
             {
-              bFound = 1;
+              while ( 1 )
+              {
+                bstrString = SysAllocString(L"PNPDeviceID");
+                if ( (*(int (__stdcall **)(_DWORD, BSTR, _DWORD, VARIANTARG *, _DWORD, _DWORD))(*(_DWORD *)v11[v5] + 16))(
+                       v11[v5],
+                       bstrString,
+                       0,
+                       &pvarg,
+                       0,
+                       0) >= 0
+                  && wcsstr(pvarg.bstrVal, wcs2) )
+                {
+                  v22 = 1;
+                }
+                VariantClear(&pvarg);
+                if ( bstrString )
+                  SysFreeString(bstrString);
+                if ( v22 )
+                  break;
+                if ( ++v5 >= v18 )
+                  goto LABEL_25;
+              }
+              v6 = SysAllocString(L"AdapterRAM");
+              if ( (*(int (__stdcall **)(_DWORD, wchar_t *, _DWORD, VARIANTARG *, _DWORD, _DWORD))(*(_DWORD *)v11[v5]
+                                                                                                 + 16))(
+                     v11[v5],
+                     v6,
+                     0,
+                     &pvarg,
+                     0,
+                     0) >= 0 )
+              {
+                v21 = 1;
+                *pdwAdapterRam = pvarg.decVal.Lo32;
+              }
+              VariantClear(&pvarg);
+              if ( v6 )
+                SysFreeString(v6);
             }
-            VariantClear(&var);
-            if ( v11 )
-              SysFreeString(v11);
-            if ( bFound )
-              break;
-            if ( ++v10 >= uReturned )
-              goto LABEL_25;
-          }
-          v12 = SysAllocString((const OLECHAR *)&stru_95DC74.m_buffer[228]);
-          if ( pVideoControllers[v10]->Get(pVideoControllers[v10], v12, 0, &var, 0, 0) >= 0 )
-          {
-            bGotMemory = 1;
-            *pdwAdapterRam = var.decVal.Lo32;
-          }
-          VariantClear(&var);
-          if ( v12 )
-            SysFreeString(v12);
-        }
 LABEL_25:
-        for ( i = 0; i < uReturned; ++i )
-        {
-          v14 = pVideoControllers[i];
-          if ( v14 )
-          {
-            v14->Release(pVideoControllers[i]);
-            pVideoControllers[i] = 0;
+            for ( i = 0; i < v18; ++i )
+            {
+              v8 = &v11[i];
+              if ( *v8 )
+              {
+                (*(void (__stdcall **)(_DWORD))(*(_DWORD *)*v8 + 8))(*v8);
+                *v8 = 0;
+              }
+            }
           }
         }
-        v2 = pNamespace;
-        v7 = pClassName;
       }
+      if ( v15 )
+        SysFreeString(v15);
+      if ( v17 )
+        (*(void (__stdcall **)(int))(*(_DWORD *)v17 + 8))(v17);
     }
-    v9 = pEnumVideoControllers;
-    goto LABEL_31;
+    if ( v14 )
+      SysFreeString(v14);
+    if ( v20 )
+    {
+      v20->Release(v20);
+      v20 = 0;
+    }
+  }
+  if ( ppv )
+  {
+    (*(void (__stdcall **)(LPVOID))(*(_DWORD *)ppv + 8))(ppv);
+    ppv = 0;
   }
 LABEL_39:
-  if ( pIWbemLocator )
-  {
-    pIWbemLocator->Release(pIWbemLocator);
-    pIWbemLocator = 0;
-  }
-LABEL_41:
-  if ( hrCoInitialize >= 0 )
+  if ( v13 >= 0 )
     CoUninitialize();
-  return bGotMemory ? 0 : 0x80004005;
+  if ( v21 )
+    return 0;
+  else
+    return -2147467259;
 }

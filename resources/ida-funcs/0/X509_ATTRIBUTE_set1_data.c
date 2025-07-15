@@ -1,66 +1,67 @@
-int __cdecl X509_ATTRIBUTE_set1_data(x509_attributes_st *attr, int attrtype, unsigned __int8 *data, int len)
+int __cdecl X509_ATTRIBUTE_set1_data(x509_attributes_st *attr, int attrtype, __m128i *data, int len)
 {
-  asn1_string_st *v4; // esi
-  int v6; // eax
-  int v7; // ebp
-  asn1_string_st *v8; // eax
-  char *v9; // eax
-  asn1_type_st *v10; // eax
-  char *v11; // ebx
+  char *v4; // ebx
+  asn1_string_st *v5; // esi
+  void *v7; // eax
+  int v8; // ebp
+  asn1_string_st *v9; // eax
+  char *v10; // eax
+  asn1_type_st *v11; // eax
   int type; // [esp+8h] [ebp-8h]
 
-  v4 = 0;
+  v4 = (char *)attr;
+  v5 = 0;
   type = 0;
   if ( !attr )
     return 0;
   if ( (attrtype & 0x1000) != 0 )
   {
-    v6 = OBJ_obj2nid(attr->object);
-    v7 = len;
-    v8 = ASN1_STRING_set_by_NID(0, data, len, attrtype, v6);
-    v4 = v8;
-    if ( !v8 )
+    v7 = OBJ_obj2nid(attr->object);
+    v8 = len;
+    v9 = ASN1_STRING_set_by_NID(attrtype, 0, (unsigned __int8 *)data, len, attrtype, (int)v7);
+    v5 = v9;
+    if ( !v9 )
     {
-      ERR_put_error(0xBu, 138, 13, ".\\crypto\\x509\\x509_att.c", 295);
+      ERR_put_error((int)attr, 0xBu, 138, 13, ".\\crypto\\x509\\x509_att.c", 295);
       return 0;
     }
-    type = v8->type;
+    type = v9->type;
   }
   else
   {
-    v7 = len;
+    v8 = len;
     if ( len != -1 )
     {
-      v4 = ASN1_STRING_type_new(attrtype);
-      if ( !v4 || !ASN1_STRING_set(v4, (char *)data, len) )
-        goto err_136;
+      v5 = ASN1_STRING_type_new((int)attr, attrtype);
+      if ( !v5 || !ASN1_STRING_set(v5, data, len) )
+        goto err_138;
       type = attrtype;
     }
   }
-  v9 = (char *)sk_new_null();
-  attr->value.ptr = v9;
-  if ( !v9 )
-    goto err_136;
+  v10 = (char *)sk_new_null();
+  attr->value.ptr = v10;
+  if ( !v10 )
+    goto err_138;
   attr->single = 0;
   if ( !attrtype )
     return 1;
-  v10 = ASN1_TYPE_new();
-  v11 = (char *)v10;
-  if ( !v10 )
-    goto err_136;
-  if ( v7 != -1 || (attrtype & 0x1000) != 0 )
+  v11 = ASN1_TYPE_new();
+  v4 = (char *)v11;
+  if ( !v11 )
+    goto err_138;
+  if ( v8 != -1 || (attrtype & 0x1000) != 0 )
   {
-    ASN1_TYPE_set(v10, type, v4);
+    ASN1_TYPE_set(v11, type, (int)v5);
     goto LABEL_19;
   }
-  if ( !ASN1_TYPE_set1((asn1_object_st *)v10, (const char *)attrtype, (asn1_object_st *)data) )
+  if ( !ASN1_TYPE_set1((int)v11, (asn1_object_st *)v11, (const char *)attrtype, (asn1_object_st *)data) )
   {
-err_136:
-    ERR_put_error(0xBu, 138, 65, ".\\crypto\\x509\\x509_att.c", 323);
+err_138:
+    ERR_put_error((int)v4, 0xBu, 138, 65, ".\\crypto\\x509\\x509_att.c", 323);
     return 0;
   }
 LABEL_19:
-  if ( !sk_push((stack_st *)attr->value.ptr, v11) )
-    goto err_136;
+  if ( !sk_push((stack_st *)attr->value.ptr, v4) )
+    goto err_138;
   return 1;
 }

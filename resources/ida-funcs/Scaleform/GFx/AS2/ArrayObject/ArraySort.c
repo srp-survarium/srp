@@ -28,10 +28,10 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySort(const Scaleform::GFx::A
   unsigned int v27; // eax
   Scaleform::GFx::AS2::Environment *v28; // [esp-Ch] [ebp-48h]
   Scaleform::GFx::AS2::Environment *Env; // [esp-Ch] [ebp-48h]
-  Scaleform::GFx::AS2::FunctionRef scriptFunctor; // [esp+8h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FunctionRefBase v30; // [esp+8h] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FunctionRef result; // [esp+14h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::ArraySortFunctor sortFunctor; // [esp+20h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::ArrayObject *pThis; // [esp+40h] [ebp+4h]
+  Scaleform::GFx::AS2::ArraySortFunctor v32; // [esp+20h] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::FnCall *v33; // [esp+40h] [ebp+4h]
 
   if ( !fn->ThisPtr || fn->ThisPtr->GetObjectType(fn->ThisPtr) != Object_Array )
   {
@@ -45,17 +45,17 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySort(const Scaleform::GFx::A
   if ( ThisPtr )
   {
     p_pProto = (Scaleform::GFx::AS2::ArrayObject *)&ThisPtr[-2].pProto;
-    pThis = (Scaleform::GFx::AS2::ArrayObject *)&ThisPtr[-2].pProto;
+    v33 = (Scaleform::GFx::AS2::FnCall *)&ThisPtr[-2].pProto;
   }
   else
   {
-    pThis = 0;
+    v33 = 0;
     p_pProto = 0;
   }
   p_pProto->LengthValueOverriden = 0;
   v4 = 0;
   v5 = fn->NArgs < 1;
-  memset(&scriptFunctor, 0, 9);
+  memset(&v30, 0, 9);
   if ( !v5 )
   {
     Type = Scaleform::GFx::AS2::FnCall::Arg(fn, 0)->T.Type;
@@ -68,14 +68,14 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySort(const Scaleform::GFx::A
     v28 = fn->Env;
     v7 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
     v8 = Scaleform::GFx::AS2::Value::ToFunction(v7, &result, v28);
-    Scaleform::GFx::AS2::FunctionRefBase::Assign(&scriptFunctor, v8);
+    Scaleform::GFx::AS2::FunctionRefBase::Assign(&v30, v8);
     if ( (result.Flags & 2) == 0 )
     {
       if ( result.Function )
       {
         RefCount = result.Function->RefCount;
         Function = result.Function;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           result.Function->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -89,14 +89,14 @@ void __cdecl Scaleform::GFx::AS2::ArrayObject::ArraySort(const Scaleform::GFx::A
       {
         v11 = result.pLocalFrame->RefCount;
         pLocalFrame = result.pLocalFrame;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v11) != 0 )
+        if ( (v11 & 0x3FFFFFF) != 0 )
         {
           result.pLocalFrame->RefCount = v11 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
         }
       }
     }
-    if ( scriptFunctor.Function && fn->NArgs >= 2 )
+    if ( v30.Function && fn->NArgs >= 2 )
     {
       Env = fn->Env;
       v13 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
@@ -115,13 +115,13 @@ LABEL_21:
   {
     Scaleform::GFx::AS2::ArrayObject::ShallowCopyFrom(v14, p_pProto);
     Scaleform::GFx::AS2::ArraySortFunctor::ArraySortFunctor(
-      &sortFunctor,
+      &v32,
       &v15->Scaleform::GFx::AS2::ObjectInterface,
       v4,
-      &scriptFunctor,
+      (const Scaleform::GFx::AS2::FunctionRef *)&v30,
       fn->Env,
       p_pProto->LogPtr);
-    if ( !Scaleform::GFx::AS2::ArrayObject::Sort<Scaleform::GFx::AS2::ArraySortFunctor>(v15, &sortFunctor) )
+    if ( !Scaleform::GFx::AS2::ArrayObject::Sort<Scaleform::GFx::AS2::ArraySortFunctor>(v15, &v32) )
       Scaleform::GFx::AS2::Environment::LogScriptError(fn->Env, "Array.sort - sorting failed, check your sort functor");
     if ( (v4 & 4) != 0 )
     {
@@ -129,7 +129,7 @@ LABEL_21:
       if ( (int)v15->Elements.Data.Size > 1 )
       {
         while ( Scaleform::GFx::AS2::ArraySortFunctor::Compare(
-                  &sortFunctor,
+                  &v32,
                   v15->Elements.Data.Data[v16 - 1],
                   v15->Elements.Data.Data[v16]) )
         {
@@ -142,36 +142,36 @@ LABEL_21:
         v17->T.Type = 4;
         v17->NV.Int32Value = 0;
         Scaleform::GFx::AS2::ArrayObject::DetachAll(v15);
-        Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(&sortFunctor);
+        Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(&v32);
         v18 = v15->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v18) != 0 )
+        if ( (v18 & 0x3FFFFFF) != 0 )
         {
           v15->RefCount = v18 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v15);
         }
-        Flags = scriptFunctor.Flags;
-        if ( (scriptFunctor.Flags & 2) == 0 )
+        Flags = v30.Flags;
+        if ( (v30.Flags & 2) == 0 )
         {
-          v20 = scriptFunctor.Function;
-          if ( scriptFunctor.Function )
+          v20 = v30.Function;
+          if ( v30.Function )
           {
-            v21 = scriptFunctor.Function->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v21) != 0 )
+            v21 = v30.Function->RefCount;
+            if ( (v21 & 0x3FFFFFF) != 0 )
             {
-              scriptFunctor.Function->RefCount = v21 - 1;
+              v30.Function->RefCount = v21 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v20);
             }
           }
         }
         if ( (Flags & 1) == 0 )
         {
-          v22 = scriptFunctor.pLocalFrame;
+          v22 = v30.pLocalFrame;
           goto LABEL_43;
         }
         return;
       }
 LABEL_29:
-      p_pProto = pThis;
+      p_pProto = (Scaleform::GFx::AS2::ArrayObject *)v33;
     }
     if ( (v4 & 8) != 0 )
     {
@@ -184,36 +184,36 @@ LABEL_29:
       Scaleform::GFx::AS2::ArrayObject::DetachAll(v15);
       Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, p_pProto);
     }
-    Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(&sortFunctor);
+    Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(&v32);
     v24 = v15->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v24) != 0 )
+    if ( (v24 & 0x3FFFFFF) != 0 )
     {
       v15->RefCount = v24 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v15);
     }
   }
-  v25 = scriptFunctor.Flags;
-  if ( (scriptFunctor.Flags & 2) == 0 )
+  v25 = v30.Flags;
+  if ( (v30.Flags & 2) == 0 )
   {
-    v26 = scriptFunctor.Function;
-    if ( scriptFunctor.Function )
+    v26 = v30.Function;
+    if ( v30.Function )
     {
-      v27 = scriptFunctor.Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v27) != 0 )
+      v27 = v30.Function->RefCount;
+      if ( (v27 & 0x3FFFFFF) != 0 )
       {
-        scriptFunctor.Function->RefCount = v27 - 1;
+        v30.Function->RefCount = v27 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v26);
       }
     }
   }
   if ( (v25 & 1) == 0 )
   {
-    v22 = scriptFunctor.pLocalFrame;
+    v22 = v30.pLocalFrame;
 LABEL_43:
     if ( v22 )
     {
       v23 = v22->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v23) != 0 )
+      if ( (v23 & 0x3FFFFFF) != 0 )
       {
         v22->RefCount = v23 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v22);

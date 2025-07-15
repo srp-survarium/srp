@@ -1,4 +1,4 @@
-int __cdecl file_free(bio_st *a)
+int __usercall file_free@<eax>(int a1@<ebx>, bio_st *a)
 {
   if ( !a )
     return 0;
@@ -8,7 +8,7 @@ int __cdecl file_free(bio_st *a)
     {
       if ( a->ptr )
       {
-        fclose((_iobuf *)a->ptr);
+        fclose(a1, (_iobuf *)a->ptr);
         a->ptr = 0;
         a->flags = 0;
       }

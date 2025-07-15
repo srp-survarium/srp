@@ -10,7 +10,7 @@ void __cdecl idea_cbc_encrypt(
   const unsigned __int8 *v7; // edi
   unsigned int v8; // edx
   unsigned int v9; // eax
-  unsigned int v10; // ebx
+  int v10; // ebx
   int v11; // eax
   int v12; // ecx
   const unsigned __int8 *v13; // edi
@@ -41,7 +41,7 @@ void __cdecl idea_cbc_encrypt(
   const unsigned __int8 *v38; // esi
   unsigned int v39; // ebx
   unsigned __int8 *v40; // ebp
-  unsigned int v41; // ecx
+  int v41; // ecx
   int v42; // ebp
   int v43; // eax
   const unsigned __int8 *v44; // esi
@@ -66,8 +66,8 @@ void __cdecl idea_cbc_encrypt(
   int v63; // edi
   _BYTE *v64; // ebp
   _BYTE *v65; // ebp
-  unsigned int v66; // [esp+10h] [ebp-10h]
-  unsigned int v67; // [esp+10h] [ebp-10h]
+  int v66; // [esp+10h] [ebp-10h]
+  int v67; // [esp+10h] [ebp-10h]
   unsigned int v68; // [esp+14h] [ebp-Ch]
   unsigned int v69; // [esp+14h] [ebp-Ch]
   unsigned int d; // [esp+18h] [ebp-8h] BYREF
@@ -136,41 +136,41 @@ void __cdecl idea_cbc_encrypt(
       v73 = 0;
       switch ( v10 )
       {
-        case 0xFFFFFFF9:
-          goto $LN52;
-        case 0xFFFFFFFA:
-          goto $LN51_4;
-        case 0xFFFFFFFB:
-          goto $LN50_9;
-        case 0xFFFFFFFC:
-          goto $LN49_9;
-        case 0xFFFFFFFD:
-          goto $LN48_2;
-        case 0xFFFFFFFE:
-          goto $LN47_3;
-        case 0xFFFFFFFF:
-          goto $LN46_3;
-        case 0u:
+        case -7:
+          goto $LN52_1;
+        case -6:
+          goto $LN51_5;
+        case -5:
+          goto $LN50_12;
+        case -4:
+          goto $LN49_11;
+        case -3:
+          goto $LN48_4;
+        case -2:
+          goto $LN47_4;
+        case -1:
+          goto $LN46_5;
+        case 0:
           v29 = *(unsigned __int8 *)--v27;
           v73 = v29;
-$LN46_3:
+$LN46_5:
           v30 = *(unsigned __int8 *)--v27;
           v73 |= v30 << 8;
-$LN47_3:
+$LN47_4:
           v31 = *(unsigned __int8 *)--v27;
           v73 |= v31 << 16;
-$LN48_2:
+$LN48_4:
           v32 = *(unsigned __int8 *)--v27;
           v73 |= v32 << 24;
-$LN49_9:
+$LN49_11:
           v28 = *(unsigned __int8 *)--v27;
-$LN50_9:
+$LN50_12:
           v33 = *(unsigned __int8 *)--v27;
           v28 |= v33 << 8;
-$LN51_4:
+$LN51_5:
           v34 = *(unsigned __int8 *)--v27;
           v28 |= v34 << 16;
-$LN52:
+$LN52_1:
           v28 |= *(unsigned __int8 *)(v27 - 1) << 24;
           break;
         default:
@@ -269,35 +269,35 @@ $LN52:
       v63 = (int)&v37[v67 + 8];
       switch ( v67 )
       {
-        case 0xFFFFFFF9:
-          goto $LN1_6;
-        case 0xFFFFFFFA:
+        case -7:
+          goto $LN1_10;
+        case -6:
           goto $LN45_3;
-        case 0xFFFFFFFB:
-          goto $LN44_4;
-        case 0xFFFFFFFC:
-          goto $LN43_40;
-        case 0xFFFFFFFD:
-          goto $LN42_30;
-        case 0xFFFFFFFE:
-          goto $LN41_2;
-        case 0xFFFFFFFF:
-          goto $LN40_0;
-        case 0u:
+        case -5:
+          goto $LN44_5;
+        case -4:
+          goto $LN43_8;
+        case -3:
+          goto $LN42_5;
+        case -2:
+          goto $LN41_3;
+        case -1:
+          goto $LN40_3;
+        case 0:
           *(_BYTE *)--v63 = v62;
-$LN40_0:
+$LN40_3:
           *(_BYTE *)--v63 = BYTE1(v62);
-$LN41_2:
+$LN41_3:
           *(_BYTE *)--v63 = BYTE2(v62);
-$LN42_30:
+$LN42_5:
           *(_BYTE *)--v63 = HIBYTE(v62);
-$LN43_40:
+$LN43_8:
           *(_BYTE *)--v63 = v61;
-$LN44_4:
+$LN44_5:
           *(_BYTE *)--v63 = BYTE1(v61);
 $LN45_3:
           *(_BYTE *)--v63 = BYTE2(v61);
-$LN1_6:
+$LN1_10:
           *(_BYTE *)(v63 - 1) = HIBYTE(v61);
           break;
         default:

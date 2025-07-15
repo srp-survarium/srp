@@ -1,22 +1,21 @@
 void __usercall vostok::resources::query_result::prepare_final_resource(
         vostok::resources::query_result *this@<ecx>,
-        vostok::resources::query_result *a2@<esi>)
+        vostok::resources::query_result *a2@<eax>)
 {
-  vostok::resources::cook_base *cook; // eax
-  unsigned int m_flags; // eax
-  vostok::resources::cook_base *v4; // eax
-  vostok::resources::query_result *v5; // ecx
+  vostok::resources::class_id_enum *p_m_class_id; // edi
+  vostok::resources::query_result *v4; // [esp-4h] [ebp-10h]
+  vostok::resources::resources_manager *v5; // [esp+0h] [ebp-Ch]
 
-  cook = vostok::resources::resources_manager::find_cook(a2->m_class_id);
-  if ( cook && (m_flags = cook->m_flags.m_flags, (m_flags & 0x20) != 0) && (m_flags & 0x18) == 0
-    || (v4 = vostok::resources::resources_manager::find_cook(a2->m_class_id)) != 0 && (v4->m_flags.m_flags & 0x38) == 0 )
+  p_m_class_id = &a2->m_class_id;
+  if ( vostok::resources::cook_base::find_managed_cook(a2->m_class_id)
+    || vostok::resources::cook_base::find_unmanaged_cook(*p_m_class_id) )
   {
     vostok::resources::allocate_functionality::prepare_final_resource(
-      &vostok::resources::g_resources_manager.m_variable->m_allocate_functionality,
-      a2);
+      a2,
+      &s_resources_manager_buffer.m_allocate_functionality);
   }
   else
   {
-    vostok::resources::query_result::send_to_create_resource(v5);
+    vostok::resources::query_result::send_to_create_resource(v4, (int)a2, v5);
   }
 }

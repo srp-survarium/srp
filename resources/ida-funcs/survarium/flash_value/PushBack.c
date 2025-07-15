@@ -1,8 +1,7 @@
-void __usercall survarium::flash_value::PushBack(
-        survarium::flash_value *this@<eax>,
-        survarium::flash_value *value@<esi>)
+void __userpurge survarium::flash_value::PushBack(
+        survarium::flash_value *this@<ecx>,
+        _DWORD *a2@<eax>,
+        survarium::flash_value *value)
 {
-  (*(void (__stdcall **)(_DWORD, survarium::flash_value *))(**(_DWORD **)this->body + 60))(
-    *(_DWORD *)&this->body[8],
-    value);
+  (*(void (__thiscall **)(_DWORD, _DWORD, survarium::flash_value *))(*(_DWORD *)*a2 + 60))(*a2, a2[2], value);
 }

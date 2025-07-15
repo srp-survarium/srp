@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::ComplexFill::ComplexFill(
         const Scaleform::Render::ComplexFill *o)
 {
   Scaleform::Render::Image *pObject; // ecx
-  Scaleform::GFx::Resource *v4; // ecx
+  Scaleform::Render::GradientData *v4; // ecx
   Scaleform::Render::GradientData *v5; // ecx
 
   this->__vftable = (Scaleform::Render::ComplexFill_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -13,9 +13,9 @@ void __thiscall Scaleform::Render::ComplexFill::ComplexFill(
   if ( pObject )
     pObject->AddRef(pObject);
   this->pImage.pObject = o->pImage.pObject;
-  v4 = (Scaleform::GFx::Resource *)o->pGradient.pObject;
+  v4 = o->pGradient.pObject;
   if ( v4 )
-    Scaleform::RefCountImpl::AddRef(v4);
+    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v4);
   v5 = o->pGradient.pObject;
   this->ImageMatrix.M[0][0] = o->ImageMatrix.M[0][0];
   this->pGradient.pObject = v5;

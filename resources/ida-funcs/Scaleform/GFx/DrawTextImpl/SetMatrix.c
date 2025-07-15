@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::DrawTextImpl::SetMatrix(
         const Scaleform::Render::Matrix2x4<float> *matrix)
 {
   Scaleform::Render::TreeText *pObject; // ecx
-  Scaleform::Render::Matrix2x4<float> m; // [esp+20h] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+0h] [ebp-20h] BYREF
 
   pObject = this->pTextNode.pObject;
   m.M[0][0] = matrix->M[0][0];

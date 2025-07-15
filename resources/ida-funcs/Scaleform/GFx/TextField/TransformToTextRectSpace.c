@@ -11,10 +11,10 @@ Scaleform::Render::Point<float> *__thiscall Scaleform::GFx::TextField::Transform
   double y1; // st7
   Scaleform::Render::Point<float> *v10; // eax
   double v11; // st7
-  Scaleform::Render::Point<float> r; // [esp+Ch] [ebp-8h] BYREF
-  float infoa; // [esp+1Ch] [ebp+8h]
-  float infob; // [esp+1Ch] [ebp+8h]
-  float infoc; // [esp+1Ch] [ebp+8h]
+  Scaleform::Render::Point<float> resulta; // [esp+Ch] [ebp-8h] BYREF
+  float v13; // [esp+1Ch] [ebp+8h]
+  float v14; // [esp+1Ch] [ebp+8h]
+  float v15; // [esp+1Ch] [ebp+8h]
 
   v4 = (Scaleform::Render::Matrix2x4<float> *)this->GetMatrix(this);
   if ( (info->VarsSet & 2) != 0 )
@@ -22,29 +22,29 @@ Scaleform::Render::Point<float> *__thiscall Scaleform::GFx::TextField::Transform
   else
     Y = (double)this->pGeomData->Y;
   v6 = (info->VarsSet & 1) == 0;
-  r.x = Y;
+  resulta.x = Y;
   if ( v6 )
     X = (double)this->pGeomData->X;
   else
     X = 20.0 * info->X;
-  infoa = X;
-  result->x = infoa;
-  result->y = r.x;
-  Scaleform::Render::Matrix2x4<float>::TransformByInverse(v4, &r, result);
-  *result = r;
+  v13 = X;
+  result->x = v13;
+  result->y = resulta.x;
+  Scaleform::Render::Matrix2x4<float>::TransformByInverse(v4, &resulta, result);
+  *result = resulta;
   ViewRect = Scaleform::Render::Text::DocView::GetViewRect(this->pDocument.pObject);
-  r.x = ViewRect->x1;
+  resulta.x = ViewRect->x1;
   y1 = ViewRect->y1;
   v10 = result;
-  r.y = y1;
-  infob = result->x - r.x;
-  v11 = infob;
-  result->x = infob;
-  infoc = result->y - r.y;
-  result->y = infoc;
-  r.x = v11 * v4->M[0][0] + v4->M[0][1] * infoc + v4->M[0][3];
-  r.y = infoc * v4->M[1][1] + v4->M[1][0] * result->x + v4->M[1][3];
-  result->x = r.x * 0.05000000074505806;
-  result->y = 0.05000000074505806 * r.y;
+  resulta.y = y1;
+  v14 = result->x - resulta.x;
+  v11 = v14;
+  result->x = v14;
+  v15 = result->y - resulta.y;
+  result->y = v15;
+  resulta.x = v11 * v4->M[0][0] + v4->M[0][1] * v15 + v4->M[0][3];
+  resulta.y = v15 * v4->M[1][1] + v4->M[1][0] * result->x + v4->M[1][3];
+  result->x = resulta.x * 0.05000000074505806;
+  result->y = 0.05000000074505806 * resulta.y;
   return v10;
 }

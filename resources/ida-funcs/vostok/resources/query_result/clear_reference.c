@@ -1,17 +1,15 @@
-void __usercall vostok::resources::query_result::clear_reference(
-        vostok::resources::query_result *this@<ecx>,
-        int a2@<esi>)
+void __thiscall vostok::resources::query_result::clear_reference(vostok::resources::query_result *this)
 {
-  int i; // eax
+  vostok::resources::query_result *i; // eax
 
-  if ( (*(_DWORD *)(a2 + 688) & 0x40) != 0 )
+  if ( (this->m_flags & 0x40) != 0 )
   {
-    for ( i = *(_DWORD *)(a2 + 620); (*(_DWORD *)(i + 688) & 0x40) == 0; i = *(_DWORD *)(i + 620) )
+    for ( i = this->m_next_referer; (i->m_flags & 0x40) == 0; i = i->m_next_referer )
       ;
-    for ( ; *(_DWORD *)(i + 620) != a2; i = *(_DWORD *)(i + 620) )
-      ;
-    *(_DWORD *)(i + 620) = *(_DWORD *)(a2 + 620);
-    vostok::threading::interlocked_and((volatile int *)(a2 + 688), 0xFFFFFFBF);
-    *(_DWORD *)(a2 + 620) = a2;
+    while ( i->m_next_referer != this )
+      i = i->m_next_referer;
+    i->m_next_referer = this->m_next_referer;
+    _InterlockedAnd(&this->m_flags, 0xFFFFFFBF);
+    this->m_next_referer = this;
   }
 }

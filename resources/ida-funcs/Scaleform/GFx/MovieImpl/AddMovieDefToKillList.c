@@ -15,8 +15,8 @@ void __thiscall Scaleform::GFx::MovieImpl::AddMovieDefToKillList(
   int v13; // eax
   Scaleform::GFx::MovieImpl::MDKillListEntry *v14; // ecx
   Scaleform::GFx::MovieImpl::MDKillListEntry *v15; // esi
-  int e; // [esp+8h] [ebp-10h]
-  int e_4; // [esp+Ch] [ebp-Ch]
+  int v16; // [esp+8h] [ebp-10h]
+  int v17; // [esp+Ch] [ebp-Ch]
 
   v2 = md;
   if ( md )
@@ -41,8 +41,8 @@ void __thiscall Scaleform::GFx::MovieImpl::AddMovieDefToKillList(
     else
     {
 LABEL_6:
-      e_4 = HIDWORD(this->RenderContext.SnapshotFrameIds[0]);
-      e = this->RenderContext.SnapshotFrameIds[0];
+      v17 = HIDWORD(this->RenderContext.SnapshotFrameIds[0]);
+      v16 = this->RenderContext.SnapshotFrameIds[0];
       Scaleform::RefCountImpl::AddRef(md);
       v8 = this->MovieDefKillList.Data.Size;
       p_MovieDefKillList = &this->MovieDefKillList;
@@ -79,8 +79,8 @@ LABEL_6:
       v15 = &v14[v10 - 1];
       if ( v15 )
       {
-        LODWORD(v15->KillFrameId) = e;
-        HIDWORD(v15->KillFrameId) = e_4;
+        LODWORD(v15->KillFrameId) = v16;
+        HIDWORD(v15->KillFrameId) = v17;
         Scaleform::RefCountImpl::AddRef(v2);
         v15->pMovieDef.pObject = v2;
       }

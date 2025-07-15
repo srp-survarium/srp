@@ -13,12 +13,13 @@ void __userpurge vostok::tasks::task::task(
   *(_DWORD *)(a2 + 28) = 0;
   *(_DWORD *)(a2 + 32) = 0;
   *(_DWORD *)(a2 + 36) = 0;
-  *(_DWORD *)(a2 + 40) = 0;
-  boost::function0<void>::assign_to_own((boost::function0<void> *)(a2 + 40), function);
-  *(_DWORD *)(a2 + 72) = ordinal;
-  *(_DWORD *)(a2 + 80) = type;
-  *(_DWORD *)(a2 + 76) = HIDWORD(ordinal);
-  *(_DWORD *)(a2 + 84) = parent;
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)this,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)(a2 + 40));
+  *(_DWORD *)(a2 + 72) = type;
+  *(_DWORD *)(a2 + 76) = ordinal;
+  *(_DWORD *)(a2 + 80) = function;
+  *(_DWORD *)(a2 + 84) = HIDWORD(ordinal);
   *(_DWORD *)(a2 + 88) = 1;
   *(_DWORD *)(a2 + 92) = 4;
 }

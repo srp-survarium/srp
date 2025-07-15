@@ -2,61 +2,61 @@ void __thiscall Scaleform::Render::D3D1x::HAL::drawCachedFilter(
         Scaleform::Render::D3D1x::HAL *this,
         Scaleform::Render::FilterPrimitive *primitive)
 {
-  __int32 v3; // eax
-  Scaleform::Render::RenderTarget *v4; // eax
-  Scaleform::Render::MatrixPoolImpl::DataHeader *pHeader; // ecx
-  int x1; // ecx
-  int y1; // edx
-  float v8; // xmm1_4
-  signed int Height; // esi
-  double v10; // st6
-  int v11; // ecx
-  int v12; // eax
-  double v13; // st6
-  Scaleform::Render::MatrixPoolImpl::DataHeader *v14; // eax
-  bool v15; // zf
-  void (__thiscall *SetInUse)(Scaleform::Render::RenderTarget *, bool); // edx
-  const Scaleform::Render::D3D1x::FragShaderDesc *pFDesc; // eax
-  Scaleform::Render::D3D1x::ShaderInterface *v18; // ecx
-  Scaleform::Render::BlendMode v19; // eax
-  Scaleform::Render::BlendMode v20; // eax
-  Scaleform::Render::RenderTarget *v21; // esi
-  Scaleform::Render::RenderTarget *(__thiscall *CreateTempRenderTarget)(struct Scaleform::Render::D3D1x::HAL *, const Scaleform::Render::Size<unsigned long> *, bool); // edx
-  const Scaleform::Render::D3D1x::ShaderPair *v23; // ecx
-  int v24; // esi
-  int v25; // esi
-  Scaleform::Render::BlendMode v26; // eax
+  unsigned int v3; // eax
+  Scaleform::Render::D3D1x::ShaderDesc::ShaderType v4; // eax
+  Scaleform::Render::D3D1x::ShaderInterface *v5; // ecx
+  int y2; // edx
+  float v7; // xmm1_4
+  int y1; // ecx
+  int v9; // eax
+  Scaleform::Render::Cxform *v10; // edx
+  double v11; // st7
+  Scaleform::Render::Cxform *Cxform; // eax
+  Scaleform::Render::D3D1x::ShaderInterface *v13; // ecx
+  Scaleform::Render::BlendMode v14; // esi
+  Scaleform::Render::BlendMode v15; // eax
+  Scaleform::Render::Cxform *v16; // eax
+  Scaleform::Render::Filter_vtbl *v17; // esi
+  int v18; // eax
+  Scaleform::Render::D3D1x::HAL_vtbl *v19; // eax
+  int v20; // edi
+  Scaleform::Render::FilterType v21; // esi
+  Scaleform::Render::D3D1x::HAL_vtbl *v22; // eax
+  Scaleform::Render::BlendMode v23; // eax
+  int v24; // edi
   unsigned int i; // esi
-  int v28; // ecx
-  Scaleform::Render::Matrix2x4<float> *p_m2; // esi
-  int j; // edi
-  float v31; // ecx
-  Scaleform::Render::D3D1x::ShaderInterface *v32; // [esp+2660h] [ebp-2B4h]
-  Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *FillFlags; // [esp+2660h] [ebp-2B4h]
-  const Scaleform::Render::VertexFormat *v34; // [esp+2664h] [ebp-2B0h]
-  Scaleform::Render::D3D1x::ShaderInterface *v35; // [esp+2664h] [ebp-2B0h]
-  float *v; // [esp+267Ch] [ebp-298h]
-  float vb; // [esp+267Ch] [ebp-298h]
-  Scaleform::Render::Cxform *va; // [esp+267Ch] [ebp-298h]
-  Scaleform::Render::RenderTarget *v39[2]; // [esp+2680h] [ebp-294h] BYREF
-  Scaleform::Render::RenderTarget *v40; // [esp+2688h] [ebp-28Ch] BYREF
-  unsigned int pass; // [esp+268Ch] [ebp-288h]
-  const Scaleform::Render::D3D1x::ShaderPair *sd; // [esp+2690h] [ebp-284h] BYREF
-  int v43; // [esp+2694h] [ebp-280h]
-  __int64 __t; // [esp+2698h] [ebp-27Ch] BYREF
-  int v45; // [esp+26A0h] [ebp-274h]
-  Scaleform::Render::Matrix2x4<float> m2; // [esp+26A4h] [ebp-270h] BYREF
-  ID3D11Buffer *pObject; // [esp+26C8h] [ebp-24Ch] BYREF
-  Scaleform::Render::RenderTarget *v48; // [esp+26CCh] [ebp-248h] BYREF
-  int v49; // [esp+26D0h] [ebp-244h]
-  Scaleform::Render::Matrix2x4<float> result; // [esp+26D4h] [ebp-240h] BYREF
-  __int64 v51; // [esp+26F4h] [ebp-220h] BYREF
-  float v52; // [esp+26FCh] [ebp-218h]
-  float v53; // [esp+2700h] [ebp-214h]
-  ID3D11ShaderResourceView *views[2]; // [esp+270Ch] [ebp-208h] BYREF
-  Scaleform::Render::Matrix2x4<float> v55; // [esp+2714h] [ebp-200h] BYREF
-  Scaleform::Ptr<Scaleform::Render::RenderTarget> targets; // [esp+2734h] [ebp-1E0h] BYREF
+  int v26; // ecx
+  bool *p_Frozen; // esi
+  Scaleform::Render::D3D1x::ShaderPair v28; // [esp+Ch] [ebp-2CCh] BYREF
+  int v29; // [esp+20h] [ebp-2B8h]
+  Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *v30; // [esp+24h] [ebp-2B4h]
+  Scaleform::Render::D3D1x::ShaderInterface *v31; // [esp+28h] [ebp-2B0h]
+  unsigned int fillflags; // [esp+38h] [ebp-2A0h] BYREF
+  int x1; // [esp+3Ch] [ebp-29Ch] BYREF
+  unsigned int v34; // [esp+40h] [ebp-298h]
+  Scaleform::Render::RenderTarget *results; // [esp+44h] [ebp-294h] BYREF
+  const Scaleform::Render::D3D1x::ShaderPair *sd; // [esp+48h] [ebp-290h]
+  Scaleform::Render::Cxform *v37; // [esp+4Ch] [ebp-28Ch]
+  Scaleform::Render::MatrixPoolImpl::HMatrix *FilterPasses; // [esp+50h] [ebp-288h]
+  Scaleform::Render::RenderTarget *v39; // [esp+54h] [ebp-284h] BYREF
+  Scaleform::Render::FilterType v40; // [esp+58h] [ebp-280h]
+  Scaleform::Render::Filter filter; // [esp+5Ch] [ebp-27Ch] BYREF
+  float v42; // [esp+6Ch] [ebp-26Ch]
+  float v43; // [esp+70h] [ebp-268h]
+  float v44; // [esp+74h] [ebp-264h]
+  float v45; // [esp+78h] [ebp-260h]
+  float v46; // [esp+7Ch] [ebp-25Ch]
+  float v47; // [esp+80h] [ebp-258h]
+  float v48; // [esp+84h] [ebp-254h]
+  ID3D11Buffer *pObject; // [esp+94h] [ebp-244h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+98h] [ebp-240h] BYREF
+  _DWORD v51[6]; // [esp+B8h] [ebp-220h] BYREF
+  ID3D11ShaderResourceView *views[2]; // [esp+D0h] [ebp-208h] BYREF
+  Scaleform::Render::Matrix2x4<float> v53; // [esp+D8h] [ebp-200h] BYREF
+  unsigned int passes[120]; // [esp+F8h] [ebp-1E0h] BYREF
 
+  v30 = (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)&FLOAT_0_0;
+  v29 = (int)&stride;
   pObject = this->Cache.pMaskEraseBatchVertexBuffer.pObject;
   this->pDeviceContext->IASetVertexBuffers(
     this->pDeviceContext,
@@ -65,208 +65,197 @@ void __thiscall Scaleform::Render::D3D1x::HAL::drawCachedFilter(
     &pObject,
     &stride,
     (const unsigned int *)&FLOAT_0_0);
-  v3 = primitive->Caching - 1;
-  *(_QWORD *)views = 0;
-  if ( v3 )
+  views[0] = 0;
+  views[1] = 0;
+  if ( primitive->Caching == Cache_Glyph )
   {
-    if ( v3 == 1 )
-    {
-      v32 = (Scaleform::Render::D3D1x::ShaderInterface *)this->MappedXY16iAlphaTexture[0];
-      v39[0] = (Scaleform::Render::RenderTarget *)(this->FillFlags | 6);
-      sd = Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::SetFill(
-             (unsigned int *)v39,
-             0,
-             &this->ShaderData,
-             (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)5,
-             v32,
-             v34);
-      Scaleform::Render::FilterPrimitive::GetCacheResults(primitive, &v40, 1u);
-      v4 = (Scaleform::Render::RenderTarget *)v40->GetTexture(v40);
-      pHeader = primitive->FilterArea.pHandle->pHeader;
-      v39[0] = v4;
-      Scaleform::Render::operator*(
-        &result,
-        &this->Matrices.pObject->UserView,
-        (const Scaleform::Render::Matrix2x4<float> *)(&pHeader[1].RefCount
-                                                    + 4 * (unsigned __int8)byte_9B2B74[5 * (pHeader->Format & 0xF)]));
-      x1 = v40->ViewRect.x1;
-      y1 = v40->ViewRect.y1;
-      v8 = (float)x1;
-      v = (float *)(v40->ViewRect.x2 - x1);
-      Height = v39[0]->BufferSize.Height;
-      v10 = (double)Height;
-      m2.M[1][3] = (float)y1;
-      if ( Height < 0 )
-        v10 = v10 + 4294967300.0;
-      v11 = v39[0]->ViewRect.x1;
-      v12 = v40->ViewRect.y2 - y1;
-      *(float *)&pass = (double)(int)v / v10;
-      v13 = (double)v12 / (double)(unsigned int)v11;
-      v14 = primitive->FilterArea.pHandle->pHeader;
-      v15 = (v14->Format & 1) == 0;
-      m2.M[0][1] = *(float *)&pass * 0.0;
-      m2.M[0][2] = *(float *)&pass * 0.0;
-      m2.M[0][3] = v8 * *(float *)&pass;
-      vb = v13;
-      m2.M[0][0] = *(float *)&pass;
-      m2.M[1][0] = vb * 0.0;
-      m2.M[1][1] = v13;
-      m2.M[1][2] = vb * 0.0;
-      m2.M[1][3] = v13 * m2.M[1][3];
-      if ( v15 )
-        va = &Scaleform::Render::Cxform::Identity;
-      else
-        va = (Scaleform::Render::Cxform *)(&v14[1].RefCount
-                                         + 4
-                                         * Scaleform::Render::MatrixPoolImpl::HMatrixConstants::MatrixElementSizeTable[v14->Format & 0xF].Offsets[0]);
-      Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
-        sd,
-        1u,
-        0,
-        &this->ShaderData,
-        (const float *)va,
-        4u,
-        0);
-      Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
-        sd,
-        0,
-        0,
-        &this->ShaderData,
-        va->M[1],
-        4u,
-        0);
-      Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
-        sd,
-        4u,
-        0,
-        &this->ShaderData,
-        (const float *)&result,
-        8u,
-        0);
-      Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
-        sd,
-        0xBu,
-        0,
-        &this->ShaderData,
-        (const float *)&m2,
-        8u,
-        0);
-      SetInUse = v39[0]->__vftable[1].SetInUse;
-      pFDesc = this->ShaderData.CurShaders.pFDesc;
-      HIBYTE(v39[1]) = 3;
-      ((void (__stdcall *)(_DWORD, char *))SetInUse)(pFDesc->Uniforms[10].Location, (char *)&v39[1] + 3);
-      Scaleform::Render::D3D1x::ShaderInterface::Finish(v18, (int)&this->ShaderData);
-      if ( this->BlendModeStack.Data.Size )
-        v19 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
-      else
-        v19 = Blend_Normal;
-      Scaleform::Render::HAL::applyBlendMode(this, v19, 1, (Scaleform::String::DataDesc *)1);
-      this->drawPrimitive(this, 6u, 1u);
-      if ( this->BlendModeStack.Data.Size )
-        v20 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
-      else
-        v20 = Blend_Normal;
-      Scaleform::Render::HAL::applyBlendMode(
-        this,
-        v20,
-        0,
-        (Scaleform::String::DataDesc *)((this->HALState & 0x10) != 0));
-      v40->SetInUse(v40, 0);
-    }
-  }
-  else
-  {
-    FillFlags = (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)this->FillFlags;
-    v40 = (Scaleform::Render::RenderTarget *)primitive->pFilters.pObject->Filters.Data.Data[primitive->pFilters.pObject->Filters.Data.Size
-                                                                                          - 1].pObject;
-    *(float *)&pass = COERCE_FLOAT(
-                        Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::GetFilterPasses(
-                          (const Scaleform::Render::Filter *)v40,
-                          (unsigned int *)&targets,
-                          FillFlags,
-                          (unsigned int)v34));
-    `vector constructor iterator'(
-      (char *)&__t,
-      4u,
-      3,
-      (void *(__thiscall *)(void *))vostok::resources::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::render::static_model_instance,vostok::resources::unmanaged_intrusive_base>);
-    __t = 0;
-    v45 = 0;
-    Scaleform::Render::FilterPrimitive::GetCacheResults(primitive, &v48, 2u);
-    v21 = v48;
-    if ( v48 )
-      v48->AddRef(v48);
-    if ( (_DWORD)__t )
-      (*(void (__thiscall **)(_DWORD))(*(_DWORD *)__t + 8))(__t);
-    CreateTempRenderTarget = this->CreateTempRenderTarget;
-    LODWORD(__t) = v21;
-    v23 = (const Scaleform::Render::D3D1x::ShaderPair *)(v21->ViewRect.x2 - v21->ViewRect.x1);
-    v43 = v21->ViewRect.y2 - v21->ViewRect.y1;
-    sd = v23;
-    v24 = (int)CreateTempRenderTarget(this, (const Scaleform::Render::Size<unsigned long> *)&sd, 0);
-    if ( HIDWORD(__t) )
-      (*(void (__thiscall **)(_DWORD))(*(_DWORD *)HIDWORD(__t) + 8))(HIDWORD(__t));
-    HIDWORD(__t) = v24;
-    v25 = v49;
-    if ( v49 )
-      (*(void (__thiscall **)(int))(*(_DWORD *)v49 + 4))(v49);
-    if ( v45 )
-      (*(void (__thiscall **)(int))(*(_DWORD *)v45 + 8))(v45);
-    v45 = v25;
-    v51 = 0;
-    v52 = (float)(unsigned int)sd;
-    v53 = (float)(unsigned int)v43;
-    this->PushRenderTarget(
-      this,
-      (const Scaleform::Render::Rect<float> *)&v51,
-      (Scaleform::Render::RenderTarget *)HIDWORD(__t),
-      0);
-    *(_QWORD *)&m2.M[0][0] = (unsigned int)clear_value;
-    *(_QWORD *)&m2.M[1][1] = (unsigned int)clear_value;
+    v16 = (Scaleform::Render::Cxform *)primitive->pFilters.pObject->Filters.Data.Data[primitive->pFilters.pObject->Filters.Data.Size
+                                                                                    - 1].pObject;
+    v30 = (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)this->FillFlags;
+    v37 = v16;
+    FilterPasses = (Scaleform::Render::MatrixPoolImpl::HMatrix *)Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::GetFilterPasses(
+                                                                   (const Scaleform::Render::Filter *)v16,
+                                                                   passes,
+                                                                   v30,
+                                                                   (unsigned int)v31);
+    memset(&filter, 0, 12);
+    Scaleform::Render::FilterPrimitive::GetCacheResults(primitive, &v39, 2u);
+    v17 = (Scaleform::Render::Filter_vtbl *)v39;
+    if ( *(float *)&v39 != 0.0 )
+      v39->AddRef(v39);
+    if ( filter.__vftable )
+      (*((void (__thiscall **)(Scaleform::Render::Filter_vtbl *))filter.~Scaleform::Render::Filter + 2))(filter.__vftable);
+    v18 = (char *)v17[2].IsContributing - (char *)v17[2].~Scaleform::Render::Filter;
+    x1 = (char *)v17[2].Clone - (char *)v17[1].CanCacheAcrossTransform;
+    v30 = 0;
+    v34 = v18;
+    v19 = this->__vftable;
+    filter.__vftable = v17;
+    v20 = (int)v19->CreateTempRenderTarget(this, (const Scaleform::Render::Size<unsigned long> *)&x1, 0);
+    if ( filter.RefCount )
+      (*(void (__thiscall **)(volatile int))(*(_DWORD *)filter.RefCount + 8))(filter.RefCount);
+    filter.RefCount = v20;
+    v21 = v40;
+    if ( v40 )
+      (*(void (__thiscall **)(Scaleform::Render::FilterType))(*(_DWORD *)v40 + 4))(v40);
+    if ( filter.Type )
+      (*(void (__thiscall **)(Scaleform::Render::FilterType))(*(_DWORD *)filter.Type + 8))(filter.Type);
+    filter.Type = v21;
+    v51[0] = 0;
+    v51[1] = 0;
+    *(float *)&v51[2] = (float)(unsigned int)x1;
+    v22 = this->__vftable;
+    *(float *)&v51[3] = (float)v34;
+    v22->PushRenderTarget(this, (const Scaleform::Render::Rect<float> *)v51, (Scaleform::Render::RenderTarget *)v20, 0);
+    *(float *)&filter.Frozen = s_bm_current_air_resistance;
+    v46 = s_bm_current_air_resistance;
     *(_QWORD *)&result.M[0][0] = LODWORD(retry_to_increase_quality_period_sec);
-    *(_QWORD *)&m2.M[0][2] = 0xBF00000000000000uLL;
-    m2.M[1][0] = 0.0;
-    m2.M[1][3] = -0.5;
-    *(_QWORD *)&result.M[0][2] = 0;
-    *(_QWORD *)&result.M[1][0] = 0xC000000000000000uLL;
-    *(_QWORD *)&result.M[1][2] = 0;
-    Scaleform::Render::operator*(&v55, &result, &m2);
+    v42 = 0.0;
+    v43 = 0.0;
+    v44 = FLOAT_N0_5;
+    v45 = 0.0;
+    v47 = 0.0;
+    v48 = FLOAT_N0_5;
+    memset(&result.M[0][2], 0, 12);
+    *(_QWORD *)&result.M[1][1] = LODWORD(FLOAT_N2_0);
+    result.M[1][3] = 0.0;
+    Scaleform::Render::operator*(&v53, &result, (const Scaleform::Render::Matrix2x4<float> *)&filter.Frozen);
     Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::SetFilterFill(
-      this->MappedXY16iAlphaTexture[0],
-      (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)&v55,
+      passes,
+      (Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *)&v53,
       &Scaleform::Render::Cxform::Identity,
-      (const Scaleform::Render::Filter *)v40,
-      (Scaleform::Ptr<Scaleform::Render::RenderTarget> *)&__t,
-      &targets,
-      pass - 1,
-      pass,
+      v37,
+      &filter,
+      (Scaleform::Render::D3D1x::ShaderInterface *)((char *)&FilterPasses[-1].pHandle + 3),
+      (unsigned int)FilterPasses,
+      this->MappedXY16iAlphaTexture[0],
       &this->ShaderData,
-      v35);
+      v31);
     if ( this->BlendModeStack.Data.Size )
-      v26 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
+      v23 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
     else
-      v26 = Blend_Normal;
-    Scaleform::Render::HAL::applyBlendMode(this, v26, 1, (Scaleform::String::DataDesc *)1);
+      v23 = Blend_Normal;
+    Scaleform::Render::HAL::applyBlendMode(this, v23, 1, (Scaleform::String::DataDesc *)1);
     this->drawPrimitive(this, 6u, 1u);
     this->PopRenderTarget(this, 0);
     Scaleform::Render::D3D1x::TextureManager::SetSamplerState(2u, this->pTextureManager.pObject, 0, views, 0);
-    v39[0] = (Scaleform::Render::RenderTarget *)HIDWORD(__t);
-    Scaleform::Render::FilterPrimitive::SetCacheResults(primitive, Cache_Count, v39, 1u);
-    v39[0]->pRenderTargetData->CacheID = (unsigned int)primitive;
+    fillflags = v20;
+    v24 = 2;
+    Scaleform::Render::FilterPrimitive::SetCacheResults(
+      primitive,
+      Cache_Count,
+      (Scaleform::Render::RenderTarget **)&fillflags,
+      1u);
+    *(_DWORD *)(*(_DWORD *)(fillflags + 16) + 12) = primitive;
     this->drawCachedFilter(this, primitive);
     for ( i = 0; i < 3; ++i )
     {
-      v28 = *((_DWORD *)&__t + i);
-      if ( v28 )
-        (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v28 + 20))(v28, 0);
+      v26 = *((_DWORD *)&filter.__vftable + i);
+      if ( v26 )
+        (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v26 + 20))(v26, 0);
     }
-    p_m2 = &m2;
-    for ( j = 2; j >= 0; --j )
+    p_Frozen = &filter.Frozen;
+    do
     {
-      v31 = p_m2[-1].M[1][3];
-      p_m2 = (Scaleform::Render::Matrix2x4<float> *)((char *)p_m2 - 4);
-      if ( v31 != 0.0 )
-        (*(void (__thiscall **)(float))(*(_DWORD *)LODWORD(v31) + 8))(COERCE_FLOAT(LODWORD(v31)));
+      p_Frozen -= 4;
+      if ( *(_DWORD *)p_Frozen )
+        (*(void (__thiscall **)(_DWORD))(**(_DWORD **)p_Frozen + 8))(*(_DWORD *)p_Frozen);
+      --v24;
     }
+    while ( v24 >= 0 );
+  }
+  else if ( primitive->Caching == Cache_Count )
+  {
+    v3 = this->FillFlags;
+    v29 = 5;
+    fillflags = v3 | 6;
+    v4 = Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::StaticShaderForFill(
+           PrimFill_Texture,
+           &fillflags,
+           0,
+           (unsigned int)v31);
+    Scaleform::Render::D3D1x::ShaderInterface::SetStaticShader(
+      v5,
+      this->ShaderData.UniformData,
+      v4,
+      this->MappedXY16iAlphaTexture[0]);
+    Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::BeginPrimitive(&this->ShaderData);
+    sd = &this->ShaderData.CurShaders;
+    Scaleform::Render::FilterPrimitive::GetCacheResults(primitive, &results, 1u);
+    fillflags = (unsigned int)results->GetTexture(results);
+    FilterPasses = &primitive->FilterArea;
+    Scaleform::Render::operator*(
+      &result,
+      &this->Matrices.pObject->UserView,
+      (const Scaleform::Render::Matrix2x4<float> *)(&primitive->FilterArea.pHandle->pHeader[1].RefCount
+                                                  + 4
+                                                  * (unsigned __int8)byte_874214[5
+                                                                               * (primitive->FilterArea.pHandle->pHeader->Format
+                                                                                & 0xF)]));
+    y2 = results->ViewRect.y2;
+    x1 = results->ViewRect.x1;
+    v7 = (float)x1;
+    y1 = results->ViewRect.y1;
+    v9 = results->ViewRect.x2 - x1;
+    v37 = (Scaleform::Render::Cxform *)(y2 - y1);
+    v10 = *(Scaleform::Render::Cxform **)(fillflags + 28);
+    x1 = *(int *)(fillflags + 24);
+    *(float *)&v39 = (double)v9 / (double)(unsigned int)x1;
+    v11 = (double)(int)v37;
+    v37 = v10;
+    v42 = *(float *)&v39 * 0.0;
+    v43 = *(float *)&v39 * 0.0;
+    v44 = v7 * *(float *)&v39;
+    *(float *)&x1 = v11 / (double)(unsigned int)v10;
+    *(float *)&filter.Frozen = *(float *)&v39;
+    v46 = *(float *)&x1;
+    v45 = *(float *)&x1 * 0.0;
+    v47 = *(float *)&x1 * 0.0;
+    v48 = (float)y1 * *(float *)&x1;
+    Cxform = (Scaleform::Render::Cxform *)Scaleform::Render::MatrixPoolImpl::HMatrix::GetCxform(FilterPasses);
+    Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetCxform(
+      Cxform,
+      &this->ShaderData,
+      sd,
+      0,
+      (unsigned int)v31);
+    Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
+      sd,
+      &this->ShaderData,
+      4u,
+      (float *)&result,
+      8u,
+      0,
+      0);
+    Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
+      sd,
+      &this->ShaderData,
+      0xBu,
+      (float *)&filter.Frozen,
+      8u,
+      0,
+      0);
+    qmemcpy((void *)&v28, sd, sizeof(v28));
+    Scaleform::Render::D3D1x::ShaderInterface::SetTexture(
+      0xAu,
+      (Scaleform::Render::Texture *)fillflags,
+      &this->ShaderData,
+      v28,
+      (Scaleform::Render::ImageFillMode)3,
+      0);
+    Scaleform::Render::D3D1x::ShaderInterface::Finish(v13, (unsigned int)&this->ShaderData);
+    v14 = Blend_Normal;
+    if ( this->BlendModeStack.Data.Size )
+      v15 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
+    else
+      v15 = Blend_Normal;
+    Scaleform::Render::HAL::applyBlendMode(this, v15, 1, (Scaleform::String::DataDesc *)1);
+    this->drawPrimitive(this, 6u, 1u);
+    if ( this->BlendModeStack.Data.Size )
+      v14 = this->BlendModeStack.Data.Data[this->BlendModeStack.Data.Size - 1];
+    Scaleform::Render::HAL::applyBlendMode(this, v14, 0, (Scaleform::String::DataDesc *)((this->HALState & 0x10) != 0));
+    results->SetInUse(results, 0);
+    if ( this->Profiler.NoFilterCaching )
+      Scaleform::Render::FilterPrimitive::SetCacheResults(primitive, Cache_Mesh, 0, 0);
   }
 }

@@ -1,55 +1,57 @@
-void __usercall vostok::render::render_model::~render_model(vostok::render::render_model *this@<ecx>, int a2@<edi>)
+void __thiscall vostok::render::render_model::~render_model(
+        vostok::render::render_model *this,
+        vostok::resources::unmanaged_resource *a2)
 {
-  unsigned __int8 v2; // al
-  int v3; // ecx
-  vostok::render::grass_render_model *m_object; // ebp
-  void (__thiscall ***v5)(_DWORD, _DWORD); // esi
-  _BYTE *v6; // ebx
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void *v8; // eax
-  void *v9; // esi
-  void *v10; // eax
-  void *v11; // esi
-  unsigned __int8 i; // [esp+Fh] [ebp-1h]
+  bool v3; // zf
+  char **p_m_reconstruction_size; // edi
+  vostok::render::render_model *v5; // [esp-4h] [ebp-18h]
+  const char *v6; // [esp+0h] [ebp-14h]
+  const char *v7; // [esp+4h] [ebp-10h]
+  unsigned int v8; // [esp+8h] [ebp-Ch]
+  vostok::ai::fsm_state *pointer; // [esp+10h] [ebp-4h] BYREF
+  unsigned __int8 v10; // [esp+1Fh] [ebp+Bh]
 
-  v2 = 0;
-  *(_DWORD *)a2 = &stru_962594.m_signatures;
-  for ( i = 0; v2 < *(_BYTE *)(a2 + 304); i = v2 )
+  v3 = LOBYTE(a2[1].m_children_resources.m_lock) == 0;
+  a2->__vftable = (vostok::resources::unmanaged_resource_vtbl *)&vostok::render::render_model::`vftable';
+  v10 = 0;
+  if ( !v3 )
   {
-    v3 = *(_DWORD *)(a2 + 300);
-    m_object = vostok::render::g_allocator.m_object;
-    v5 = *(void (__thiscall ****)(_DWORD, _DWORD))(v3 + 4 * v2);
-    if ( v5 )
+    do
     {
-      v6 = __RTCastToVoid(*(void ***)(v3 + 4 * v2));
-      (**v5)(v5, 0);
-      if ( v6 )
-      {
-        m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-        BYTE2(m_object->m_children_resources.m_lock) = 0;
-        vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
-      }
+      pointer = *(vostok::ai::fsm_state **)(a2[1].m_children_resources.m_size + 4 * v10);
+      vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::scene_view>(
+        vostok::render::g_allocator,
+        &pointer,
+        v6,
+        v7,
+        v8);
+      ++v10;
+      this = v5;
     }
-    v2 = i + 1;
+    while ( v10 < LOBYTE(a2[1].m_children_resources.m_lock) );
   }
-  if ( *(_DWORD *)(a2 + 288) )
+  p_m_reconstruction_size = (char **)&a2[1].m_reconstruction_size;
+  if ( a2[1].m_reconstruction_size )
   {
-    v8 = *(void **)(a2 + 288);
-    if ( v8 )
-    {
-      v9 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(v9, v8);
-      *(_DWORD *)(a2 + 288) = 0;
-    }
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)vostok::render::g_allocator,
+      *p_m_reconstruction_size,
+      v6,
+      v7,
+      v8);
+    *p_m_reconstruction_size = 0;
   }
-  v10 = *(void **)(a2 + 296);
-  if ( v10 )
+  if ( a2[1].m_uid )
   {
-    v11 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v11, v10);
-    *(_DWORD *)(a2 + 296) = 0;
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)vostok::render::g_allocator,
+      (char *)a2[1].m_uid,
+      v6,
+      v7,
+      v8);
+    a2[1].m_uid = 0;
   }
-  vostok::resources::unmanaged_resource::~unmanaged_resource((vostok::resources::unmanaged_resource *)a2);
+  vostok::resources::unmanaged_resource::~unmanaged_resource(a2);
 }

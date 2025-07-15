@@ -5,7 +5,7 @@ BOOL __thiscall Scaleform::Render::MeshVertexOutput::BeginOutput(
         const Scaleform::Render::Matrix2x4<float> *vertexMatrix)
 {
   Scaleform::Render::Mesh *pMesh; // ebx
-  Scaleform::Render::MeshBase **p_pMesh; // edi
+  Scaleform::Render::Mesh **p_pMesh; // edi
   const Scaleform::Render::VertexFormat *pBatchFormat; // ecx
   unsigned int VertexCount; // ecx
   const Scaleform::Render::VertexFormat *pSingleFormat; // edx
@@ -13,7 +13,7 @@ BOOL __thiscall Scaleform::Render::MeshVertexOutput::BeginOutput(
   Scaleform::Render::MeshCache::AllocResult v11; // eax
   Scaleform::Render::MeshCache *pCache; // ecx
   Scaleform::Render::MeshCacheItem *batchData; // [esp-4h] [ebp-24h]
-  Scaleform::Render::MeshCacheItem::MeshBaseContent mc; // [esp+10h] [ebp-10h] BYREF
+  _DWORD v15[4]; // [esp+10h] [ebp-10h] BYREF
 
   pMesh = this->pMesh;
   p_pMesh = &this->pMesh;
@@ -42,22 +42,22 @@ LABEL_6:
     }
   }
   VertexCount = fills->VertexCount;
-  mc.HashKey = (unsigned int)pMesh >> 5;
+  v15[3] = (unsigned int)pMesh >> 5;
   pSingleFormat = this->pSingleFormat;
-  mc.Meshes.pData = p_pMesh;
-  mc.Meshes.Size = 1;
-  mc.Meshes.StrideSize = 4;
+  v15[0] = p_pMesh;
+  v15[1] = 1;
+  v15[2] = 4;
   Size = pSingleFormat->Size;
   pMesh->VertexCount = VertexCount;
   (*p_pMesh)->IndexCount = fills->IndexCount;
-  LOBYTE((*p_pMesh)[1].pProvider.pObject) = 1;
+  (*p_pMesh)->LargeMesh = 1;
   v11 = this->pCache->AllocCacheItem(
           this->pCache,
           &this->batchData,
           &this->pVertexDataStart,
           &this->pIndexDataStart,
           Mesh_Regular,
-          &mc,
+          (Scaleform::Render::MeshCacheItem::MeshBaseContent *)v15,
           VertexCount * Size,
           fills->VertexCount,
           fills->IndexCount,
@@ -86,6 +86,6 @@ LABEL_6:
     this->Result.Value = Fail_LargeMesh_NeedCache;
   }
 LABEL_15:
-  *(Scaleform::Render::Matrix2x4<float> *)&(*p_pMesh)[1].pNext = *vertexMatrix;
+  (*p_pMesh)->VertexMatrix = *vertexMatrix;
   return this->Result.Value <= Success_LargeMesh;
 }

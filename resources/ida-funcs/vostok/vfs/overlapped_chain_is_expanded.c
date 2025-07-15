@@ -1,24 +1,24 @@
-int __cdecl vostok::vfs::overlapped_chain_is_expanded(
-        vostok::vfs::base_node<1> *topmost_node,
-        vostok::vfs::find_environment *env)
+int __usercall vostok::vfs::overlapped_chain_is_expanded@<eax>(
+        vostok::vfs::find_environment *env@<edi>,
+        vostok::vfs::base_node<1> *topmost_node)
 {
-  vostok::vfs::traverse_enum traverse_type; // [esp+Ch] [ebp-8h]
-  vostok::vfs::base_node<1> *it_node; // [esp+10h] [ebp-4h]
+  vostok::vfs::base_node<1> *i; // esi
+  vostok::vfs::traverse_enum v3; // ebx
 
-  for ( it_node = topmost_node; it_node; it_node = it_node->m_next_overlapped.pointer )
+  for ( i = topmost_node; ; i = i->m_next_overlapped.pointer )
   {
-    if ( (it_node->m_flags & 0x80) == 0x80 )
-      return 2;
-    traverse_type = traverse_branch;
-    if ( vostok::strings::equal(env->path_to_find, env->partial_path) )
-      traverse_type = (topmost_node != env->node) + 1;
-    if ( vostok::vfs::need_physical_mount_or_async(
-           it_node,
-           (vostok::vfs::find_enum)env->find_flags.m_flags,
-           traverse_type) )
+    if ( !i )
+      return 1;
+    if ( SLOBYTE(i->m_flags) < 0 )
+      break;
+    v3 = traverse_branch;
+    if ( !vostok::strings::compare(env->path_to_find, env->partial_path) )
     {
-      return 2;
+      LOBYTE(v3) = topmost_node != env->node;
+      ++v3;
     }
+    if ( vostok::vfs::need_physical_mount_or_async(i, (vostok::vfs::find_enum)env->find_flags.m_flags, v3) )
+      break;
   }
-  return 1;
+  return 2;
 }

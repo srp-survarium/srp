@@ -16,7 +16,7 @@ void __cdecl Scaleform::GFx::AS2::StringCtorFunction::GlobalCtor(const Scaleform
   Scaleform::GFx::ASStringNode *v14; // ecx
   bool v15; // zf
   Scaleform::GFx::AS2::Value v16; // [esp+10h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value retVal; // [esp+20h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+20h] [ebp-10h] BYREF
 
   v1 = fn;
   v2 = 0;
@@ -42,16 +42,16 @@ void __cdecl Scaleform::GFx::AS2::StringCtorFunction::GlobalCtor(const Scaleform
     {
       v5 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
     }
-    Scaleform::GFx::AS2::Value::Value(&retVal, v5);
+    Scaleform::GFx::AS2::Value::Value(&v, v5);
     if ( (v2 & 1) != 0 && v16.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&v16);
     ((void (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::Object> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Value *))p_pProto->pObject->RefCount)(
       p_pProto,
       v1->Env,
-      &retVal);
-    Scaleform::GFx::AS2::Value::operator=(v1->Result, &retVal);
-    if ( retVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&retVal);
+      &v);
+    Scaleform::GFx::AS2::Value::operator=(v1->Result, &v);
+    if ( v.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v);
   }
   else if ( v1->NArgs )
   {

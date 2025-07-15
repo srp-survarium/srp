@@ -1,19 +1,10 @@
-void __usercall stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>(
-        stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *this@<ecx>,
-        int a2@<eax>)
+void __thiscall stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char>>::~vector<unsigned char,stlp_std::allocator<unsigned char>>(
+        stlp_std::vector<unsigned char,stlp_std::allocator<unsigned char> > *this)
 {
-  void *v2; // ecx
-  unsigned int v3; // eax
-
-  v2 = *(void **)a2;
-  if ( *(_DWORD *)a2 )
-  {
-    v3 = *(_DWORD *)(a2 + 8) - (_DWORD)v2;
-    if ( v3 <= 0x80 )
-      stlp_std::__node_alloc::_M_deallocate(v2, v3);
-    else
-      operator delete(v2);
-  }
+  if ( this->_M_impl._M_start )
+    stlp_std::__node_alloc::deallocate(
+      (_STLP_atomic_freelist::item *)this->_M_impl._M_start,
+      this->_M_impl._M_end_of_storage._M_data - this->_M_impl._M_start);
 }
 
 

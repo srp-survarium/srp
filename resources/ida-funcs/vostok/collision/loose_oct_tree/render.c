@@ -1,7 +1,7 @@
 void __userpurge vostok::collision::loose_oct_tree::render(
         vostok::collision::loose_oct_tree *this@<ecx>,
         bool a2@<dil>,
-        const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *scene,
+        vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *scene,
         vostok::render::debug::renderer *renderer)
 {
   if ( this->m_initialized )

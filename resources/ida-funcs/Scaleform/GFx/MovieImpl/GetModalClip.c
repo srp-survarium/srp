@@ -3,8 +3,8 @@ Scaleform::GFx::Sprite *__thiscall Scaleform::GFx::MovieImpl::GetModalClip(
         unsigned int controllerIdx)
 {
   Scaleform::GFx::CharacterHandle *pObject; // ecx
-  Scaleform::GFx::DisplayObject *v4; // eax
-  Scaleform::GFx::DisplayObject *v5; // esi
+  Scaleform::GFx::InteractiveObject *v4; // eax
+  Scaleform::GFx::InteractiveObject *v5; // esi
 
   pObject = this->FocusGroups[this->FocusGroupIndexes[controllerIdx]].ModalClip.pObject;
   if ( !pObject )

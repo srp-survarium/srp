@@ -17,22 +17,22 @@ void __thiscall Scaleform::GFx::MovieImpl::GetMouseState(
         unsigned int *buttons)
 {
   float *v5; // eax
-  float p; // [esp+0h] [ebp-8h]
-  float p_4; // [esp+4h] [ebp-4h]
-  float mouseIndexa; // [esp+Ch] [ebp+4h]
-  float mouseIndexb; // [esp+Ch] [ebp+4h]
+  float v6; // [esp+0h] [ebp-8h]
+  float v7; // [esp+4h] [ebp-4h]
+  float v8; // [esp+Ch] [ebp+4h]
+  float v9; // [esp+Ch] [ebp+4h]
 
   if ( mouseIndex < this->MouseCursorCount )
   {
     v5 = (float *)((char *)this + 56 * mouseIndex);
-    mouseIndexa = v5[1155] * 0.05000000074505806;
-    p = (mouseIndexa - this->ViewOffsetX) / this->ViewScaleX;
-    mouseIndexb = 0.05000000074505806 * v5[1156];
-    p_4 = (mouseIndexb - this->ViewOffsetY) / this->ViewScaleY;
+    v8 = v5[1155] * 0.05000000074505806;
+    v6 = (v8 - this->ViewOffsetX) / this->ViewScaleX;
+    v9 = 0.05000000074505806 * v5[1156];
+    v7 = (v9 - this->ViewOffsetY) / this->ViewScaleY;
     if ( x )
-      *x = p;
+      *x = v6;
     if ( y )
-      *y = p_4;
+      *y = v7;
     if ( buttons )
       *buttons = *((_DWORD *)v5 + 1153);
   }

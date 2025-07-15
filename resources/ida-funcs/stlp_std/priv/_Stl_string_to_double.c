@@ -3,7 +3,7 @@ void __thiscall stlp_std::priv::_Stl_string_to_double(const char *s)
   int v1; // eax
   const char *v2; // ecx
   int v3; // edx
-  char *v4; // edi
+  double *v4; // edi
   int v5; // ebx
   unsigned int v6; // eax
   int v7; // eax
@@ -13,7 +13,7 @@ void __thiscall stlp_std::priv::_Stl_string_to_double(const char *s)
   unsigned int v11; // eax
   int v12; // edi
   int v13; // ecx
-  char digits[17]; // [esp+10h] [ebp-18h] BYREF
+  double v14[2]; // [esp+10h] [ebp-18h] BYREF
   char v15; // [esp+21h] [ebp-7h] BYREF
 
   v1 = *s;
@@ -21,7 +21,7 @@ void __thiscall stlp_std::priv::_Stl_string_to_double(const char *s)
   if ( v1 == 43 || v1 == 45 )
     v1 = *v2++;
   v3 = 0;
-  v4 = digits;
+  v4 = v14;
   v5 = 0;
   while ( 1 )
   {
@@ -30,15 +30,18 @@ void __thiscall stlp_std::priv::_Stl_string_to_double(const char *s)
       v6 = v1 - 48;
       if ( v6 >= 0xA )
         break;
-      if ( v4 == &v15 )
+      if ( v4 == (double *)&v15 )
       {
         v5 += v3 ^ 1;
         v1 = *v2++;
       }
       else
       {
-        if ( v6 || v4 != digits )
-          *v4++ = v6;
+        if ( v6 || v4 != v14 )
+        {
+          *(_BYTE *)v4 = v6;
+          v4 = (double *)((char *)v4 + 1);
+        }
         v1 = *v2;
         v5 -= v3;
         ++v2;
@@ -50,26 +53,19 @@ void __thiscall stlp_std::priv::_Stl_string_to_double(const char *s)
     v3 = 1;
     ++v2;
   }
-  if ( v4 != digits )
+  if ( v4 != v14 )
   {
     if ( v6 != 53 && v6 != 21 )
     {
 LABEL_28:
-      v12 = v4 - digits;
+      v12 = (char *)v4 - (char *)v14;
       v13 = v12 + v5 - 1;
       if ( v13 >= -307 )
       {
         if ( v13 <= 308 )
-        {
           stlp_std::priv::_Stl_atod(v12, v5);
-        }
         else
-        {
-          *(_WORD *)digits = 0;
-          *(_WORD *)&digits[2] = 0;
-          *(_WORD *)&digits[4] = 0;
-          *(_WORD *)&digits[6] = 32752;
-        }
+          v14[0] = INFINITY;
       }
       return;
     }

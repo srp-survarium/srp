@@ -5,20 +5,20 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::HitTestTextNearPos(const Sc
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::AS2::Value *v5; // eax
   Scaleform::GFx::AS2::Value *v6; // eax
-  unsigned int v7; // eax
+  int v7; // eax
   Scaleform::GFx::AS2::Value *Result; // esi
-  float v9; // [esp+4h] [ebp-18h]
+  float y; // [esp+4h] [ebp-18h]
   Scaleform::GFx::AS2::Environment *closedist; // [esp+8h] [ebp-14h]
   Scaleform::GFx::AS2::Environment *closedista; // [esp+8h] [ebp-14h]
   Scaleform::GFx::AS2::Environment *closedistb; // [esp+8h] [ebp-14h]
   float closedistc; // [esp+8h] [ebp-14h]
-  float y; // [esp+14h] [ebp-8h]
-  float x; // [esp+18h] [ebp-4h]
-  int idx; // [esp+20h] [ebp+4h]
-  float idxb; // [esp+20h] [ebp+4h]
-  float idxc; // [esp+20h] [ebp+4h]
-  float idxd; // [esp+20h] [ebp+4h]
-  int idxa; // [esp+20h] [ebp+4h]
+  float v14; // [esp+14h] [ebp-8h]
+  float v15; // [esp+18h] [ebp-4h]
+  float v16; // [esp+20h] [ebp+4h]
+  float v17; // [esp+20h] [ebp+4h]
+  float v18; // [esp+20h] [ebp+4h]
+  float x; // [esp+20h] [ebp+4h]
+  Scaleform::GFx::AS2::FnCall *v20; // [esp+20h] [ebp+4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextSnapshot )
   {
@@ -30,36 +30,36 @@ void __cdecl Scaleform::GFx::AS2::TextSnapshotProto::HitTestTextNearPos(const Sc
       {
         closedist = fn->Env;
         v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-        x = Scaleform::GFx::AS2::Value::ToNumber(v4, closedist);
+        v15 = Scaleform::GFx::AS2::Value::ToNumber(v4, closedist);
         closedista = fn->Env;
         v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-        y = Scaleform::GFx::AS2::Value::ToNumber(v5, closedista);
+        v14 = Scaleform::GFx::AS2::Value::ToNumber(v5, closedista);
         if ( fn->NArgs <= 2 )
         {
-          *(float *)&idx = 0.0;
+          v16 = 0.0;
         }
         else
         {
           closedistb = fn->Env;
           v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-          *(float *)&idx = Scaleform::GFx::AS2::Value::ToNumber(v6, closedistb);
+          v16 = Scaleform::GFx::AS2::Value::ToNumber(v6, closedistb);
         }
-        idxb = *(float *)&idx * 20.0;
-        closedistc = idxb;
-        idxc = y * 20.0;
-        v9 = idxc;
-        idxd = 20.0 * x;
+        v17 = v16 * 20.0;
+        closedistc = v17;
+        v18 = v14 * 20.0;
+        y = v18;
+        x = 20.0 * v15;
         v7 = Scaleform::GFx::StaticTextSnapshotData::HitTestTextNearPos(
                (Scaleform::GFx::StaticTextSnapshotData *)&p_pProto[13],
-               idxd,
-               v9,
+               x,
+               y,
                closedistc);
         Result = fn->Result;
-        idxa = v7;
+        v20 = (Scaleform::GFx::AS2::FnCall *)v7;
         if ( Result->T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(Result);
         Result->T.Type = 3;
-        Result->NV.NumberValue = (double)idxa;
+        Result->NV.NumberValue = (double)(int)v20;
       }
     }
   }

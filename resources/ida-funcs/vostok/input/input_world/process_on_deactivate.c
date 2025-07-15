@@ -1,12 +1,11 @@
-void __usercall vostok::input::input_world::process_on_deactivate(vostok::input::input_world *this@<ecx>, int a2@<esi>)
+void __usercall vostok::input::input_world::process_on_deactivate(
+        vostok::input::input_world *this@<ecx>,
+        _DWORD **a2@<esi>)
 {
-  int v2; // eax
-  int v3; // eax
-
-  v2 = *(_DWORD *)(a2 + 28);
-  if ( v2 )
-    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(v2 + 2316) + 32))(*(_DWORD *)(v2 + 2316));
-  v3 = *(_DWORD *)(a2 + 32);
-  if ( v3 )
-    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(v3 + 40) + 32))(*(_DWORD *)(v3 + 40));
+  if ( a2[8] )
+    (*(void (__thiscall **)(_DWORD *))(*a2[8] + 20))(a2[8]);
+  if ( a2[9] )
+    (*(void (__thiscall **)(_DWORD *))(*a2[9] + 28))(a2[9]);
+  if ( a2[10] )
+    (*(void (__thiscall **)(_DWORD *))(*a2[10] + 20))(a2[10]);
 }

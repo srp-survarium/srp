@@ -13,9 +13,9 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Value::ToPrimi
   Scaleform::GFx::AS3::Value v; // [esp+10h] [ebp-10h] BYREF
 
   v2 = 0;
-  if ( (_S10_0 & 1) == 0 )
+  if ( (_S15 & 1) == 0 )
   {
-    _S10_0 |= 1u;
+    _S15 |= 1u;
     ::v.Flags = 0;
     ::v.Bonus.pWeakProxy = 0;
     atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);

@@ -68,9 +68,9 @@ Scaleform::GFx::AS3::TR::Block *__thiscall Scaleform::GFx::AS3::Tracer::AddBlock
     {
       result = 0;
     }
-    result->pPrev = pPrev->pNext->Scaleform::ListNode<Scaleform::GFx::AS3::TR::Block>::$8EB7788630741AFED8F7DC5F2C94762D::pPrev;
+    result->pPrev = pPrev->pNext->Scaleform::ListNode<Scaleform::GFx::AS3::TR::Block>::$6643AF13A572F10E69CB15AA3AB9204F::pPrev;
     result->pNext = pPrev->pNext;
-    pPrev->pNext->Scaleform::ListNode<Scaleform::GFx::AS3::TR::Block>::$8EB7788630741AFED8F7DC5F2C94762D::pPrev = result;
+    pPrev->pNext->Scaleform::ListNode<Scaleform::GFx::AS3::TR::Block>::$6643AF13A572F10E69CB15AA3AB9204F::pPrev = result;
     pPrev->pNext = result;
     if ( v7 == tDead )
       *((_DWORD *)result + 2) &= ~1u;

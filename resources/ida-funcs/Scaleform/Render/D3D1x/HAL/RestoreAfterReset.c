@@ -1,12 +1,12 @@
-char __usercall Scaleform::Render::D3D1x::HAL::RestoreAfterReset@<al>(
+bool __usercall Scaleform::Render::D3D1x::HAL::RestoreAfterReset@<al>(
         Scaleform::Render::D3D1x::HAL *this@<ecx>,
         Scaleform::Render::HAL *a2@<esi>)
 {
-  char result; // al
+  bool result; // al
   Scaleform::Render::HAL::RenderTargetEntry *Data; // edi
   Scaleform::Render::RenderBuffer::RenderTargetData *pRenderTargetData; // eax
-  ID3D11RenderTargetView *rtView; // [esp+10h] [ebp-8h] BYREF
-  ID3D11DepthStencilView *dsView; // [esp+14h] [ebp-4h] BYREF
+  Scaleform::Render::RenderBuffer *v5; // [esp+0h] [ebp-8h] BYREF
+  Scaleform::Render::RenderBuffer::RenderTargetData_vtbl *v6; // [esp+4h] [ebp-4h] BYREF
 
   result = a2->IsInitialized(a2);
   if ( result )
@@ -16,20 +16,19 @@ char __usercall Scaleform::Render::D3D1x::HAL::RestoreAfterReset@<al>(
       if ( a2->RenderTargetStack.Data.Size )
       {
         Data = a2->RenderTargetStack.Data.Data;
-        (*(void (__stdcall **)(_DWORD, int, ID3D11RenderTargetView **, ID3D11DepthStencilView **))(**(_DWORD **)&a2[137].QueueProcessor.PrepareItemBufferBytes[88]
-                                                                                                 + 356))(
-          *(_DWORD *)&a2[137].QueueProcessor.PrepareItemBufferBytes[88],
+        (*(void (__stdcall **)(_DWORD, int, Scaleform::Render::RenderBuffer::RenderTargetData_vtbl **, Scaleform::Render::RenderBuffer **))(**(_DWORD **)&a2[102].QueueProcessor.PrepareItemBufferBytes[8] + 356))(
+          *(_DWORD *)&a2[102].QueueProcessor.PrepareItemBufferBytes[8],
           1,
-          &rtView,
-          &dsView);
+          &v6,
+          &v5);
         if ( Data->pRenderTarget.pObject )
         {
-          if ( rtView )
+          if ( v6 )
           {
             pRenderTargetData = Data->pRenderTarget.pObject->pRenderTargetData;
-            pRenderTargetData[1].__vftable = (Scaleform::Render::RenderBuffer::RenderTargetData_vtbl *)rtView;
-            if ( dsView )
-              pRenderTargetData[1].pBuffer = (Scaleform::Render::RenderBuffer *)dsView;
+            pRenderTargetData[1].__vftable = v6;
+            if ( v5 )
+              pRenderTargetData[1].pBuffer = v5;
           }
         }
       }

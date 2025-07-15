@@ -66,7 +66,7 @@ void __thiscall Scaleform::GFx::AS2::Value::operator=(
             {
               RefCount = v17->RefCount;
               v9 = v17;
-              if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFFF) != 0 )
               {
                 v17->RefCount = RefCount - 1;
                 Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
@@ -78,7 +78,7 @@ void __thiscall Scaleform::GFx::AS2::Value::operator=(
           {
             v10 = v18->RefCount;
             v11 = v18;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+            if ( (v10 & 0x3FFFFFF) != 0 )
             {
               v18->RefCount = v10 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);

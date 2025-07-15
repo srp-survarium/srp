@@ -1,40 +1,61 @@
-bool __userpurge vostok::resources::resource_freeing_functionality::try_collect_to_free@<al>(
+bool __usercall vostok::resources::resource_freeing_functionality::try_collect_to_free@<al>(
         vostok::resources::resource_freeing_functionality *this@<ecx>,
-        double a2@<st0>,
-        vostok::resources::resource_freeing_functionality *can_try_decrease_quality)
+        vostok::resources::resource_freeing_functionality *a2@<edi>)
 {
-  vostok::resources::resource_freeing_functionality *v3; // ebp
   vostok::resources::resources_to_free_collection *m_collection; // eax
   float m_target_satisfaction; // xmm0_4
   vostok::resources::resource_base *i; // esi
-  vostok::resources::quality_decreasing_functionality *v7; // ecx
-  bool can_try_free; // [esp+Fh] [ebp-9h] BYREF
-  vostok::resources::quality_decreasing_functionality quality_decreasing; // [esp+10h] [ebp-8h] BYREF
+  vostok::resources::resource_link *v5; // eax
+  vostok::resources::quality_decreasing_functionality *v6; // ecx
+  vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> out_quality_resources; // [esp+4h] [ebp-1Ch] BYREF
+  vostok::resources::quality_decreasing_functionality v9; // [esp+14h] [ebp-Ch] BYREF
+  bool v10; // [esp+1Eh] [ebp-2h] BYREF
+  bool v11; // [esp+1Fh] [ebp-1h] BYREF
 
-  v3 = can_try_decrease_quality;
-  m_collection = can_try_decrease_quality->m_collection;
-  m_target_satisfaction = can_try_decrease_quality->m_collection->query->m_target_satisfaction;
-  quality_decreasing.m_freeing_functionality = can_try_decrease_quality;
-  quality_decreasing.m_lowest_satisfaction_level = m_target_satisfaction;
+  m_collection = a2->m_collection;
+  m_target_satisfaction = a2->m_collection->query->m_target_satisfaction;
+  v9.m_freeing_functionality = a2;
+  v9.m_lowest_satisfaction_level = m_target_satisfaction;
   for ( i = m_collection->info->resources.m_first; i; i = i->m_next_in_memory_type )
   {
-    can_try_free = 0;
-    LOBYTE(can_try_decrease_quality) = 0;
-    if ( vostok::resources::resource_freeing_functionality::can_be_freed(
-           v3,
-           i,
-           &can_try_free,
-           (bool *)&can_try_decrease_quality) )
+    v10 = 0;
+    v11 = 0;
+    if ( vostok::resources::resource_freeing_functionality::can_be_freed(a2, i, &v10, &v11) )
     {
-      if ( (!(_BYTE)can_try_decrease_quality
-         || !vostok::resources::quality_decreasing_functionality::try_decrease(v7, &quality_decreasing, a2, i))
-        && can_try_free )
+      if ( !v11 )
+        goto LABEL_11;
+      if ( (i->m_flags.m_flags & 0x20) == 0 )
       {
-        vostok::resources::resource_freeing_functionality::try_collect_to_free_resource(v3, i);
+        if ( !vostok::resources::resource_quality::is_on_quality_branch(i) )
+          goto LABEL_11;
+        out_quality_resources.m_size = 0;
+        out_quality_resources.m_first = 0;
+        out_quality_resources.m_last = 0;
+        if ( !vostok::resources::quality_decreasing_functionality::collect_quality_resources(
+                &v9,
+                i,
+                &out_quality_resources) )
+          goto LABEL_11;
+        while ( out_quality_resources.m_first )
+        {
+          v5 = (vostok::resources::resource_link *)vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,184,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::pop_front(&out_quality_resources);
+          vostok::resources::quality_decreasing_functionality::decrease_for_parents(
+            v6,
+            (vostok::resources::resource_base *)&v9,
+            v5);
+        }
+        if ( !vostok::resources::resource_freeing_functionality::try_collect_to_free_resource(
+                v9.m_freeing_functionality,
+                i) )
+        {
+LABEL_11:
+          if ( v10 )
+            vostok::resources::resource_freeing_functionality::try_collect_to_free_resource(a2, i);
+        }
       }
-      if ( v3->m_collection->collected_memory.size >= v3->m_collection->required_memory.size )
+      if ( a2->m_collection->collected_memory.size >= a2->m_collection->required_memory.size )
         break;
     }
   }
-  return v3->m_collection->collected_memory.size != 0;
+  return a2->m_collection->collected_memory.size != 0;
 }

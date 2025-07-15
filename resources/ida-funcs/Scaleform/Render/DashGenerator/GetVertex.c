@@ -17,8 +17,8 @@ unsigned int __thiscall Scaleform::Render::DashGenerator::GetVertex(
   bool v14; // zf
   unsigned int SrcVertex; // edx
   unsigned int VerCount; // eax
-  float dashRest; // [esp+0h] [ebp-4h]
-  float dashResta; // [esp+0h] [ebp-4h]
+  float v17; // [esp+0h] [ebp-4h]
+  float v18; // [esp+0h] [ebp-4h]
 
   Status = this->Status;
   while ( 1 )
@@ -45,8 +45,8 @@ unsigned int __thiscall Scaleform::Render::DashGenerator::GetVertex(
   }
   CurrDash = this->CurrDash;
   v8 = (CurrDash & 1) == 0;
-  dashRest = (float)this->pDashArray[CurrDash] - this->CurrDashStart;
-  if ( dashRest >= (double)this->CurrRest )
+  v17 = (float)this->pDashArray[CurrDash] - this->CurrDashStart;
+  if ( v17 >= (double)this->CurrRest )
   {
     Ver2 = this->Ver2;
     this->CurrDashStart = this->CurrDashStart + this->CurrRest;
@@ -80,16 +80,16 @@ unsigned int __thiscall Scaleform::Render::DashGenerator::GetVertex(
     this->Status = Status_Stop;
     return result;
   }
-  v9 = this->CurrRest - dashRest;
+  v9 = this->CurrRest - v17;
   this->CurrDash = CurrDash + 1;
-  dashResta = v9;
-  this->CurrRest = dashResta;
+  v18 = v9;
+  this->CurrRest = v18;
   if ( CurrDash + 1 >= this->DashCount )
     this->CurrDash = 0;
   v10 = this->Ver2;
   v11 = this->Ver1;
   this->CurrDashStart = 0.0;
-  *x = v10->x - dashResta * (v10->x - v11->x) / v11->Dist;
+  *x = v10->x - v18 * (v10->x - v11->x) / v11->Dist;
   *y = this->Ver2->y - (this->Ver2->y - this->Ver1->y) * this->CurrRest / this->Ver1->Dist;
   return v8;
 }

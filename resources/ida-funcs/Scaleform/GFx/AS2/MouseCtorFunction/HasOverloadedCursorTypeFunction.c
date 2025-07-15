@@ -19,7 +19,7 @@ bool __thiscall Scaleform::GFx::AS2::MouseCtorFunction::HasOverloadedCursorTypeF
     {
       RefCount = result.Function->RefCount;
       Function = result.Function;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         result.Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -33,7 +33,7 @@ bool __thiscall Scaleform::GFx::AS2::MouseCtorFunction::HasOverloadedCursorTypeF
     {
       v7 = result.pLocalFrame->RefCount;
       pLocalFrame = result.pLocalFrame;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v7) != 0 )
+      if ( (v7 & 0x3FFFFFF) != 0 )
       {
         result.pLocalFrame->RefCount = v7 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

@@ -1,170 +1,131 @@
-vostok::fs_new::native_path_string *__cdecl vostok::vfs::get_node_physical_path<vostok::vfs::base_node,1>(
-        vostok::fs_new::native_path_string *result,
-        vostok::vfs::base_node<1> *node)
+vostok::fs_new::native_path_string *__usercall vostok::vfs::get_node_physical_path<vostok::vfs::base_node,1>@<eax>(
+        vostok::vfs::base_node<1> *node@<edi>,
+        vostok::vfs::base_node<1> *a2@<ecx>,
+        vostok::fs_new::native_path_string *a3)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::game_camera *v3; // ecx
-  vostok::vfs::mount_root_node_base<1> *pointer; // ecx
-  vostok::vfs::base_node<1> *v6; // eax
-  vostok::render::skeleton_model_instance *v7; // esi
-  unsigned int v8; // eax
-  survarium::game_camera *v9; // ecx
-  survarium::game_camera *v10; // ecx
-  vostok::vfs::mount_root_node_base<1> *v11; // [esp+4h] [ebp-6E0h]
-  char s[4]; // [esp+26Ch] [ebp-478h] BYREF
-  vostok::vfs::universal_file_node<1> *uni_node; // [esp+270h] [ebp-474h]
-  vostok::fs_new::virtual_path_string mount_root_path; // [esp+274h] [ebp-470h] BYREF
-  vostok::fs_new::native_path_string out_path; // [esp+38Ch] [ebp-358h] BYREF
-  vostok::vfs::mount_root_node_base<1> *mount_root; // [esp+4A8h] [ebp-23Ch]
-  vostok::fs_new::virtual_path_string node_path; // [esp+4ACh] [ebp-238h] BYREF
-  vostok::vfs::base_node<1> *base; // [esp+5C8h] [ebp-11Ch]
-  vostok::fs_new::native_path_string relative_to_mount_root_path; // [esp+5CCh] [ebp-118h] BYREF
+  vostok::fixed_string<260> *v3; // ecx
+  vostok::vfs::physical_folder_mount_root_node<1> *mount_root; // esi
+  unsigned __int16 m_flags; // ax
+  vostok::vfs::universal_file_node<1> *v6; // eax
+  vostok::vfs::base_node<1> *pointer; // ecx
+  vostok::fixed_string<260> *v9; // [esp-4h] [ebp-470h]
+  vostok::fs_new::native_path_string result; // [esp+Ch] [ebp-460h] BYREF
+  vostok::fixed_string<260> s; // [esp+124h] [ebp-348h] BYREF
+  char v12; // [esp+234h] [ebp-238h]
+  vostok::fs_new::virtual_path_string v13; // [esp+23Ch] [ebp-230h] BYREF
+  vostok::fs_new::virtual_path_string v14; // [esp+354h] [ebp-118h] BYREF
 
-  s[3] = 0;
-  survarium::weapon_user_dead_state::finalize(v2);
-  base = vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::base_node,1>(node);
-  s[2] = 0;
-  survarium::weapon_user_dead_state::finalize(v3);
-  if ( (base->m_flags & 8) == 8 )
+  mount_root = vostok::vfs::base_node<1>::get_mount_root(a2, (int)node);
+  m_flags = node->m_flags;
+  if ( (m_flags & 4) != 0 )
   {
-    v11 = vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>(base);
+    vostok::fixed_string<260>::fixed_string<260>(v3, &a3->m_string, (char *)mount_root->physical_path.pointer);
+LABEL_12:
+    a3->m_separator = 92;
+    return a3;
   }
-  else
+  if ( (m_flags & 0x2000) != 0x2000 )
   {
-    pointer = base->m_mount_root.pointer;
-    v11 = base->m_mount_root.pointer;
-  }
-  mount_root = v11;
-  s[1] = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)pointer);
-  if ( (base->m_flags & 4) == 4 )
-  {
-    vostok::fs_new::path_string_impl::path_string_impl(
-      result,
-      92,
-      (const vostok::platform_pointer_selector<char,1>::helper *)&mount_root->physical_path);
-    return result;
-  }
-  else if ( (base->m_flags & 0x2000) == 0x2000 )
-  {
-    uni_node = vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(base);
-    vostok::fs_new::native_path_string::native_path_string(result, &uni_node->physical_path);
-    return result;
-  }
-  else
-  {
-    vostok::fs_new::virtual_path_string::virtual_path_string(&node_path);
-    vostok::vfs::base_node<1>::get_full_path(base, (vostok::fs_new::native_path_string *)&node_path);
-    vostok::fs_new::virtual_path_string::virtual_path_string(&mount_root_path);
-    v6 = vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::mount_root_node_base,1>(mount_root);
-    vostok::vfs::base_node<1>::get_full_path(v6, (vostok::fs_new::native_path_string *)&mount_root_path);
-    v7 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&node_path);
-    v8 = vostok::fs_new::path_string_impl::length(&mount_root_path);
-    vostok::fs_new::native_path_string::convert((const char *)v7 + v8, &relative_to_mount_root_path);
-    vostok::fs_new::path_string_impl::path_string_impl(
-      &out_path,
-      92,
-      (const vostok::platform_pointer_selector<char,1>::helper *)&mount_root->physical_path);
-    if ( vostok::fs_new::path_string_impl::length(&relative_to_mount_root_path) )
+    v13.m_string.m_begin = v13.m_string.m_buffer;
+    v13.m_string.m_end = v13.m_string.m_buffer;
+    v13.m_string.m_max_end = &v13.m_separator;
+    v13.m_string.m_buffer[0] = 0;
+    v13.m_separator = 47;
+    vostok::vfs::base_node<1>::get_full_path(node, &v13);
+    v14.m_string.m_begin = v14.m_string.m_buffer;
+    v14.m_string.m_end = v14.m_string.m_buffer;
+    v14.m_string.m_max_end = &v14.m_separator;
+    v14.m_string.m_buffer[0] = 0;
+    v14.m_separator = 47;
+    if ( mount_root )
+      pointer = mount_root->node.pointer;
+    else
+      pointer = 0;
+    vostok::vfs::base_node<1>::get_full_path(pointer, &v14);
+    vostok::fs_new::native_path_string::convert(
+      &result,
+      &v13.m_string.m_begin[v14.m_string.m_end - v14.m_string.m_begin]);
+    vostok::fixed_string<260>::fixed_string<260>(v9, &s, (char *)mount_root->physical_path.pointer);
+    v12 = 92;
+    if ( result.m_string.m_end != result.m_string.m_begin && *result.m_string.m_begin != 92 )
     {
-      survarium::weapon_user_dead_state::finalize(v9);
-      survarium::weapon_user_dead_state::finalize(v10);
-      if ( *relative_to_mount_root_path.m_string.m_begin != 92 )
-      {
-        s[0] = 92;
-        vostok::fs_new::path_string_impl::operator+=<char>(&out_path, s);
-      }
+      *s.m_end++ = 92;
+      *s.m_end = 0;
     }
-    vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(
-      &out_path,
-      &relative_to_mount_root_path.m_string);
-    vostok::fs_new::native_path_string::native_path_string(result, &out_path);
-    return result;
+    vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(&result, &s);
+    vostok::fixed_string<260>::fixed_string<260>(&a3->m_string, &s);
+    goto LABEL_12;
   }
+  v6 = vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(node);
+  vostok::fs_new::native_path_string::native_path_string(a3, (char **)v6);
+  return a3;
 }
 
 
-vostok::fs_new::native_path_string *__cdecl vostok::vfs::get_node_physical_path<vostok::vfs::physical_file_node,1>(
-        vostok::fs_new::native_path_string *result,
-        vostok::vfs::physical_file_node<1> *node)
+vostok::fs_new::native_path_string *__usercall vostok::vfs::get_node_physical_path<vostok::vfs::physical_file_node,1>@<eax>(
+        vostok::vfs::physical_file_node<1> *node@<eax>,
+        vostok::vfs::base_node<1> *a2@<ecx>,
+        vostok::fs_new::native_path_string *a3)
 {
-  survarium::game_camera *v2; // ecx
-  survarium::game_camera *v3; // ecx
-  vostok::vfs::mount_root_node_base<1> *pointer; // ecx
-  vostok::vfs::base_node<1> *v6; // eax
-  vostok::render::skeleton_model_instance *v7; // esi
-  unsigned int v8; // eax
-  survarium::game_camera *v9; // ecx
-  survarium::game_camera *v10; // ecx
-  vostok::vfs::mount_root_node_base<1> *v11; // [esp+4h] [ebp-6E0h]
-  char s[4]; // [esp+26Ch] [ebp-478h] BYREF
-  vostok::vfs::universal_file_node<1> *uni_node; // [esp+270h] [ebp-474h]
-  vostok::fs_new::virtual_path_string mount_root_path; // [esp+274h] [ebp-470h] BYREF
-  vostok::fs_new::native_path_string out_path; // [esp+38Ch] [ebp-358h] BYREF
-  vostok::vfs::mount_root_node_base<1> *mount_root; // [esp+4A8h] [ebp-23Ch]
-  vostok::fs_new::virtual_path_string node_path; // [esp+4ACh] [ebp-238h] BYREF
-  vostok::vfs::base_node<1> *base; // [esp+5C8h] [ebp-11Ch]
-  vostok::fs_new::native_path_string relative_to_mount_root_path; // [esp+5CCh] [ebp-118h] BYREF
+  vostok::vfs::base_node<1> *p_base; // edi
+  vostok::fixed_string<260> *v4; // ecx
+  vostok::vfs::physical_folder_mount_root_node<1> *mount_root; // esi
+  unsigned __int16 m_flags; // ax
+  vostok::vfs::universal_file_node<1> *v7; // eax
+  vostok::vfs::base_node<1> *pointer; // ecx
+  vostok::fixed_string<260> *v10; // [esp-4h] [ebp-470h]
+  vostok::fs_new::native_path_string result; // [esp+Ch] [ebp-460h] BYREF
+  vostok::fixed_string<260> s; // [esp+124h] [ebp-348h] BYREF
+  char v13; // [esp+234h] [ebp-238h]
+  vostok::fs_new::virtual_path_string v14; // [esp+23Ch] [ebp-230h] BYREF
+  vostok::fs_new::virtual_path_string v15; // [esp+354h] [ebp-118h] BYREF
 
-  s[3] = 0;
-  survarium::weapon_user_dead_state::finalize(v2);
-  base = vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::hard_link_node,1>((vostok::vfs::hard_link_node<1> *)node);
-  s[2] = 0;
-  survarium::weapon_user_dead_state::finalize(v3);
-  if ( (base->m_flags & 8) == 8 )
-  {
-    v11 = vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>(base);
-  }
+  if ( node )
+    p_base = &node->base;
   else
+    p_base = 0;
+  mount_root = vostok::vfs::base_node<1>::get_mount_root(a2, (int)p_base);
+  m_flags = p_base->m_flags;
+  if ( (m_flags & 4) != 0 )
   {
-    pointer = base->m_mount_root.pointer;
-    v11 = base->m_mount_root.pointer;
+    vostok::fixed_string<260>::fixed_string<260>(v4, &a3->m_string, (char *)mount_root->physical_path.pointer);
+LABEL_15:
+    a3->m_separator = 92;
+    return a3;
   }
-  mount_root = v11;
-  s[1] = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)pointer);
-  if ( (base->m_flags & 4) == 4 )
+  if ( (m_flags & 0x2000) != 0x2000 )
   {
-    vostok::fs_new::path_string_impl::path_string_impl(
-      result,
-      92,
-      (const vostok::platform_pointer_selector<char,1>::helper *)&mount_root->physical_path);
-    return result;
-  }
-  else if ( (base->m_flags & 0x2000) == 0x2000 )
-  {
-    uni_node = vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(base);
-    vostok::fs_new::native_path_string::native_path_string(result, &uni_node->physical_path);
-    return result;
-  }
-  else
-  {
-    vostok::fs_new::virtual_path_string::virtual_path_string(&node_path);
-    vostok::vfs::base_node<1>::get_full_path(base, (vostok::fs_new::native_path_string *)&node_path);
-    vostok::fs_new::virtual_path_string::virtual_path_string(&mount_root_path);
-    v6 = vostok::vfs::node_cast<vostok::vfs::base_node,vostok::vfs::mount_root_node_base,1>(mount_root);
-    vostok::vfs::base_node<1>::get_full_path(v6, (vostok::fs_new::native_path_string *)&mount_root_path);
-    v7 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&node_path);
-    v8 = vostok::fs_new::path_string_impl::length(&mount_root_path);
-    vostok::fs_new::native_path_string::convert((const char *)v7 + v8, &relative_to_mount_root_path);
-    vostok::fs_new::path_string_impl::path_string_impl(
-      &out_path,
-      92,
-      (const vostok::platform_pointer_selector<char,1>::helper *)&mount_root->physical_path);
-    if ( vostok::fs_new::path_string_impl::length(&relative_to_mount_root_path) )
+    v14.m_string.m_begin = v14.m_string.m_buffer;
+    v14.m_string.m_end = v14.m_string.m_buffer;
+    v14.m_string.m_max_end = &v14.m_separator;
+    v14.m_string.m_buffer[0] = 0;
+    v14.m_separator = 47;
+    vostok::vfs::base_node<1>::get_full_path(p_base, &v14);
+    v15.m_string.m_begin = v15.m_string.m_buffer;
+    v15.m_string.m_end = v15.m_string.m_buffer;
+    v15.m_string.m_max_end = &v15.m_separator;
+    v15.m_string.m_buffer[0] = 0;
+    v15.m_separator = 47;
+    if ( mount_root )
+      pointer = mount_root->node.pointer;
+    else
+      pointer = 0;
+    vostok::vfs::base_node<1>::get_full_path(pointer, &v15);
+    vostok::fs_new::native_path_string::convert(
+      &result,
+      &v14.m_string.m_begin[v15.m_string.m_end - v15.m_string.m_begin]);
+    vostok::fixed_string<260>::fixed_string<260>(v10, &s, (char *)mount_root->physical_path.pointer);
+    v13 = 92;
+    if ( result.m_string.m_end != result.m_string.m_begin && *result.m_string.m_begin != 92 )
     {
-      survarium::weapon_user_dead_state::finalize(v9);
-      survarium::weapon_user_dead_state::finalize(v10);
-      if ( *relative_to_mount_root_path.m_string.m_begin != 92 )
-      {
-        s[0] = 92;
-        vostok::fs_new::path_string_impl::operator+=<char>(&out_path, s);
-      }
+      *s.m_end++ = 92;
+      *s.m_end = 0;
     }
-    vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(
-      &out_path,
-      &relative_to_mount_root_path.m_string);
-    vostok::fs_new::native_path_string::native_path_string(result, &out_path);
-    return result;
+    vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(&result, &s);
+    vostok::fixed_string<260>::fixed_string<260>(&a3->m_string, &s);
+    goto LABEL_15;
   }
+  v7 = vostok::vfs::node_cast<vostok::vfs::universal_file_node,vostok::vfs::base_node,1>(p_base);
+  vostok::fs_new::native_path_string::native_path_string(a3, (char **)v7);
+  return a3;
 }

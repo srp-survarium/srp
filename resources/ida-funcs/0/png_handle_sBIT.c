@@ -54,7 +54,7 @@ int __cdecl png_handle_sBIT(int a1, int a2, unsigned int a3)
             *(_BYTE *)(a1 + 410) = buf;
             *(_BYTE *)(a1 + 412) = v6;
           }
-          return png_set_sBIT(a1, a2, (unsigned __int8 *)(a1 + 408));
+          return png_set_sBIT(a1, a2, (const __m128i *)(a1 + 408));
         }
       }
       else

@@ -45,7 +45,7 @@ char __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(
       if ( v11 )
         Scaleform::GFx::Resource::Release(v11);
     }
-    *(Scaleform::GFx::ResourceHandle *)phandle = (Scaleform::GFx::ResourceHandle)*v9;
+    *phandle = *v9;
     if ( v4 )
       LeaveCriticalSection(&v4->ResourceLock.cs);
     return 1;

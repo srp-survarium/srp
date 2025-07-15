@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::JPEG::ImageSource::ImageSource(
         Scaleform::Render::JPEG::ImageSource *this,
-        Scaleform::File *file,
+        Scaleform::GFx::Resource *file,
         Scaleform::Render::ImageFormat format,
         Scaleform::GFx::Resource *exd,
         unsigned __int64 len,

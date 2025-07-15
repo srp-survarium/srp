@@ -9,9 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::TextFormat(
   Scaleform::GFx::AS3::Value n; // [esp+10h] [ebp-20h] BYREF
   Scaleform::GFx::AS3::Value r; // [esp+20h] [ebp-10h] BYREF
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object(
-    (Scaleform::GFx::AS3::Instances::fl::Catch *)this,
-    (Scaleform::GFx::AS3::InstanceTraits::Traits *)t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, (Scaleform::GFx::AS3::InstanceTraits::Traits *)t);
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_text::TextFormat_vtbl *)&Scaleform::GFx::AS3::Instances::fl_text::TextFormat::`vftable';
   this->mAlign.Flags = 0;
   this->mAlign.Bonus.pWeakProxy = 0;
@@ -79,7 +77,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextFormat::TextFormat(
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

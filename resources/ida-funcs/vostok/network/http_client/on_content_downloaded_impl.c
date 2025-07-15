@@ -1,17 +1,16 @@
 void __thiscall vostok::network::http_client::on_content_downloaded_impl(
         vostok::network::http_client *this,
-        const char *content)
+        vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *content)
 {
-  boost::function1<void,char const *> *v2; // ecx
+  boost::function<void __cdecl(char const *)> *p_m_on_content_downloaded; // eax
+  int v4; // ecx
 
-  if ( boost::function1<void,char const *>::operator void (__thiscall boost::function1<void,char const *>::dummy::*)(void)(
-         (boost::function1<void,char const *> *)this,
-         &this->m_on_content_downloaded.vtable) )
-  {
-    boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-      v2,
-      &this->m_on_content_downloaded.vtable,
+  p_m_on_content_downloaded = &this->m_on_content_downloaded;
+  v4 = -(this->m_on_content_downloaded.vtable != 0);
+  if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v4) != 0 )
+    boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+      (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)v4,
+      p_m_on_content_downloaded,
       content);
-  }
   this->m_busy = 0;
 }

@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::Dr
   Scaleform::Render::Filter *v5; // edi
   Scaleform::RefCountVImpl *pObject; // ecx
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   this->FilterData.pObject = 0;
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter_vtbl *)&Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter::`vftable';
   v3 = (Scaleform::Render::ShadowFilter *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 60, 0);

@@ -11,7 +11,7 @@ char __thiscall Scaleform::GFx::MovieImpl::SetLevelMovie(
   Scaleform::GFx::MovieDefImpl *pObject; // ecx
   Scaleform::GFx::MovieDefImpl *v10; // ecx
   Scaleform::GFx::AMP::ViewStats *v11; // ebx
-  const char *v12; // eax
+  Scaleform::String v12; // eax
   Scaleform::GFx::Resource *v13; // ebx
   Scaleform::RefCountVImpl **p_pDelegate; // ebp
   Scaleform::GFx::MovieDef *v15; // eax
@@ -25,9 +25,9 @@ char __thiscall Scaleform::GFx::MovieImpl::SetLevelMovie(
   Scaleform::GFx::MovieImpl_vtbl *v23; // edx
   void (__thiscall *SetViewport)(Scaleform::GFx::Movie *, const Scaleform::GFx::Viewport *); // edx
   Scaleform::GFx::InteractiveObject *v25; // ecx
-  Scaleform::GFx::MovieImpl::LevelInfo li; // [esp+8h] [ebp-3Ch] BYREF
-  Scaleform::GFx::Viewport desc; // [esp+10h] [ebp-34h] BYREF
-  int levela; // [esp+48h] [ebp+4h]
+  Scaleform::GFx::MovieImpl::LevelInfo val; // [esp+8h] [ebp-3Ch] BYREF
+  _DWORD v28[13]; // [esp+10h] [ebp-34h] BYREF
+  int v29; // [esp+48h] [ebp+4h]
 
   v4 = 0;
   if ( this->MovieLevels.Data.Size )
@@ -46,14 +46,14 @@ char __thiscall Scaleform::GFx::MovieImpl::SetLevelMovie(
   }
 LABEL_5:
   this->Flags |= 0x100u;
-  li.Level = level;
+  val.Level = level;
   if ( psprite )
     ++psprite->RefCount;
-  li.pSprite.pObject = psprite;
+  val.pSprite.pObject = psprite;
   Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::MovieImpl::LevelInfo,Scaleform::AllocatorLH<Scaleform::GFx::MovieImpl::LevelInfo,327>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
     &this->MovieLevels,
     v4,
-    &li);
+    &val);
   psprite->OnInsertionAsLevel(psprite, level);
   if ( !level )
   {
@@ -72,7 +72,7 @@ LABEL_5:
       v11 = this->AdvanceStats.pObject;
       if ( v11 )
       {
-        v12 = v10->GetFileURL(v10);
+        v12.pData = (Scaleform::String::DataDesc *)v10->GetFileURL(v10);
         Scaleform::GFx::AMP::ViewStats::SetName(v11, v12);
       }
     }
@@ -96,23 +96,23 @@ LABEL_5:
       v19->GetWidth(v19);
       v21 = (int)v18;
       v19->GetHeight(v19);
-      levela = (int)v18;
+      v29 = (int)v18;
       v22 = (int)v19->GetWidth(v19);
-      desc.AspectRatio = 1.0;
+      *(float *)&v28[12] = 1.0;
       v23 = this->Scaleform::GFx::Movie::Scaleform::RefCountBase<Scaleform::GFx::Movie,327>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,327>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable;
-      desc.Scale = 1.0;
+      *(float *)&v28[11] = 1.0;
       SetViewport = v23->SetViewport;
-      desc.BufferWidth = v22;
-      desc.Left = 0;
-      desc.Top = 0;
-      memset(&desc.ScissorLeft, 0, 20);
-      desc.BufferHeight = levela;
-      desc.Width = v21;
-      desc.Height = v20;
-      SetViewport(this, &desc);
+      v28[0] = v22;
+      v28[2] = 0;
+      v28[3] = 0;
+      memset(&v28[6], 0, 20);
+      v28[1] = v29;
+      v28[4] = v21;
+      v28[5] = v20;
+      SetViewport(this, (const Scaleform::GFx::Viewport *)v28);
     }
   }
-  v25 = li.pSprite.pObject;
+  v25 = val.pSprite.pObject;
   this->Flags |= 0x80u;
   if ( v25 )
     Scaleform::RefCountNTSImpl::Release(v25);

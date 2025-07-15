@@ -3,14 +3,14 @@ void __thiscall Scaleform::Render::ContextImpl::RTHandle::HandleData::HandleData
         Scaleform::Render::ContextImpl::Entry *entry,
         Scaleform::Render::ContextImpl::Context *context)
 {
-  Scaleform::GFx::Resource *pObject; // ecx
+  Scaleform::Render::ContextImpl::ContextLock *pObject; // ecx
 
   this->__vftable = (Scaleform::Render::ContextImpl::RTHandle::HandleData_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
   this->__vftable = (Scaleform::Render::ContextImpl::RTHandle::HandleData_vtbl *)&Scaleform::Render::ContextImpl::RTHandle::HandleData::`vftable';
-  pObject = (Scaleform::GFx::Resource *)context->pCaptureLock.pObject;
+  pObject = context->pCaptureLock.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::AddRef(pObject);
+    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject);
   this->pContextLock.pObject = context->pCaptureLock.pObject;
   this->State = State_PreCapture;
   this->pEntry = entry;

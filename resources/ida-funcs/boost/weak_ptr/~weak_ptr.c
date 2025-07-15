@@ -1,13 +1,11 @@
-void __thiscall boost::weak_ptr<void>::~weak_ptr<void>(boost::weak_ptr<void> *this)
+void __usercall boost::weak_ptr<void>::~weak_ptr<void>(boost::weak_ptr<void> *this@<ecx>, int a2@<eax>)
 {
-  boost::detail::weak_count *p_pn; // [esp+4h] [ebp-8h]
-  boost::detail::sp_counted_base *pi; // [esp+8h] [ebp-4h]
+  volatile signed __int32 *v2; // ecx
 
-  p_pn = &this->pn;
-  if ( this->pn.pi_ )
+  v2 = *(volatile signed __int32 **)(a2 + 4);
+  if ( v2 )
   {
-    pi = p_pn->pi_;
-    if ( !_InterlockedDecrement(&p_pn->pi_->weak_count_) )
-      ((void (__thiscall *)(boost::detail::sp_counted_base *, boost::weak_ptr<void> *))pi->destroy)(pi, this);
+    if ( !_InterlockedExchangeAdd(v2 + 2, 0xFFFFFFFF) )
+      (*(void (__thiscall **)(volatile signed __int32 *))(*v2 + 8))(v2);
   }
 }

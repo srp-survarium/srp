@@ -27,7 +27,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Traits::SetupS
   int v26; // edx
   int v27; // ecx
   Scaleform::GFx::AS3::Abc::MultinameKind v28; // edx
-  const Scaleform::GFx::AS3::Value *DefaultValue; // eax
+  Scaleform::GFx::AS3::Value *DefaultValue; // eax
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // eax
   Scaleform::GFx::AS3::CheckResult *v31; // eax
   Scaleform::GFx::AS3::CheckResult v32; // [esp+12h] [ebp-4Ah] BYREF

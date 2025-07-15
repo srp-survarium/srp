@@ -1,13 +1,13 @@
-Scaleform::GFx::AS3::RefCountBaseGC<328> *__thiscall Scaleform::GFx::ShapeSwfReader::ReadFillStyles(
+int __thiscall Scaleform::GFx::ShapeSwfReader::ReadFillStyles(
         Scaleform::GFx::ShapeSwfReader *this,
         Scaleform::GFx::LoadProcess *p,
-        Scaleform::GFx::TagType tagType)
+        int tagType)
 {
   Scaleform::GFx::SWFProcessInfo *pAltStream; // esi
   int v6; // eax
   unsigned int Pos; // eax
   unsigned __int8 v8; // cl
-  Scaleform::GFx::LoadProcess *U16; // esi
+  int U16; // esi
   Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // eax
   unsigned int Size; // edi
   unsigned int v12; // edi
@@ -15,9 +15,9 @@ Scaleform::GFx::AS3::RefCountBaseGC<328> *__thiscall Scaleform::GFx::ShapeSwfRea
   Scaleform::Render::FillStyleType *FillStyle; // esi
   Scaleform::Render::ComplexFill *pObject; // eax
   Scaleform::Render::ComplexFill *v16; // esi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *off; // [esp+10h] [ebp-8h]
-  Scaleform::GFx::FillStyleSwfReader fr; // [esp+14h] [ebp-4h] BYREF
-  Scaleform::GFx::LoadProcess *pa; // [esp+1Ch] [ebp+4h]
+  int v18; // [esp+10h] [ebp-8h]
+  Scaleform::GFx::FillStyleSwfReader v19; // [esp+14h] [ebp-4h] BYREF
+  int v20; // [esp+1Ch] [ebp+4h]
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
@@ -29,33 +29,34 @@ Scaleform::GFx::AS3::RefCountBaseGC<328> *__thiscall Scaleform::GFx::ShapeSwfRea
   Pos = pAltStream->Stream.Pos;
   v8 = pAltStream->Stream.pBuffer[Pos];
   pAltStream->Stream.Pos = Pos + 1;
-  U16 = (Scaleform::GFx::LoadProcess *)v8;
-  if ( tagType > Tag_DefineShape && v8 == 255 )
-    U16 = (Scaleform::GFx::LoadProcess *)(unsigned __int16)Scaleform::GFx::LoadProcess::ReadU16(p);
+  U16 = v8;
+  if ( tagType > 2 && v8 == 255 )
+    U16 = (unsigned __int16)Scaleform::GFx::LoadProcess::ReadU16(p);
   p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !p_ProcessInfo )
     p_ProcessInfo = &p->ProcessInfo;
-  off = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)(p_ProcessInfo->Stream.Pos
-                                                   + p_ProcessInfo->Stream.FilePos
-                                                   - p_ProcessInfo->Stream.DataSize);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(off);
+  v18 = p_ProcessInfo->Stream.Pos + p_ProcessInfo->Stream.FilePos - p_ProcessInfo->Stream.DataSize;
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "  GFx_ReadFillStyles: count = %d\n",
+    U16);
   Size = this->FillStyles.Data.Size;
   if ( U16 )
   {
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,259>,Scaleform::ArrayDefaultPolicy>>::Resize(
       &this->FillStyles,
-      (unsigned int)U16 + Size);
+      Size + U16);
     v12 = Size;
-    pa = U16;
+    v20 = U16;
     do
     {
       v13 = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
       if ( !v13 )
         v13 = &p->ProcessInfo;
       v13->Stream.UnusedBits = 0;
-      fr.FillStyle = &this->FillStyles.Data.Data[v12];
-      FillStyle = fr.FillStyle;
-      Scaleform::GFx::FillStyleSwfReader::Read(&fr, p, tagType);
+      v19.FillStyle = &this->FillStyles.Data.Data[v12];
+      FillStyle = v19.FillStyle;
+      Scaleform::GFx::FillStyleSwfReader::Read(&v19, p, tagType);
       pObject = FillStyle->pFill.pObject;
       if ( pObject && (pObject->pImage.pObject || pObject->BindIndex != -1) )
         this->Shape->Flags |= 1u;
@@ -63,9 +64,9 @@ Scaleform::GFx::AS3::RefCountBaseGC<328> *__thiscall Scaleform::GFx::ShapeSwfRea
       if ( v16 && v16->BindIndex != -1 )
         this->Shape->Flags |= 4u;
       ++v12;
-      pa = (Scaleform::GFx::LoadProcess *)((char *)pa - 1);
+      --v20;
     }
-    while ( pa );
+    while ( v20 );
   }
-  return off;
+  return v18;
 }

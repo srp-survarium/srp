@@ -1,108 +1,95 @@
-void __cdecl vostok::fs_new::convert_to_relative_path<vostok::fs_new::virtual_path_string,vostok::fs_new::virtual_path_string>(
+void __usercall vostok::fs_new::convert_to_relative_path<vostok::fs_new::virtual_path_string,vostok::fs_new::virtual_path_string>(
+        const vostok::fs_new::virtual_path_string *root_to_relate@<eax>,
         vostok::fs_new::virtual_path_string *out_relative_path,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *absolute_path,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *root_to_relate)
+        const vostok::fs_new::virtual_path_string *absolute_path)
 {
-  survarium::game_camera *v3; // ecx
-  vostok::render::skeleton_model_instance *v4; // eax
-  unsigned int v5; // [esp+4h] [ebp-174h]
-  unsigned int v6; // [esp+8h] [ebp-170h]
-  unsigned int v7; // [esp+Ch] [ebp-16Ch]
-  unsigned int v8; // [esp+10h] [ebp-168h]
-  unsigned int i; // [esp+18h] [ebp-160h]
-  unsigned int v10; // [esp+1Ch] [ebp-15Ch]
-  vostok::render::skeleton_model_instance *v11; // [esp+20h] [ebp-158h]
-  int v12; // [esp+24h] [ebp-154h]
-  vostok::render::skeleton_model_instance *v13; // [esp+30h] [ebp-148h]
-  int v14; // [esp+34h] [ebp-144h]
-  vostok::render::skeleton_model_instance *v15; // [esp+38h] [ebp-140h]
-  int v16; // [esp+3Ch] [ebp-13Ch]
-  char *s; // [esp+40h] [ebp-138h] BYREF
-  char v18; // [esp+47h] [ebp-131h]
-  unsigned int parts_in_root; // [esp+48h] [ebp-130h]
-  unsigned int parts_in_common; // [esp+4Ch] [ebp-12Ch]
-  vostok::fs_new::virtual_path_string common_path; // [esp+50h] [ebp-128h] BYREF
-  unsigned int up_count; // [esp+168h] [ebp-10h]
-  unsigned int skip; // [esp+16Ch] [ebp-Ch]
-  char up[4]; // [esp+170h] [ebp-8h] BYREF
-  unsigned int parts_in_absolute; // [esp+174h] [ebp-4h]
+  char *m_begin; // ecx
+  int v4; // edx
+  int v5; // ebx
+  char *v6; // ecx
+  int v7; // edx
+  vostok::fs_new::path_string_impl *v8; // edi
+  const vostok::fs_new::virtual_path_string *v9; // esi
+  char *v10; // ecx
+  char v11; // al
+  int v12; // edx
+  vostok::fs_new::path_string_impl *v13; // ecx
+  int v14; // eax
+  vostok::fs_new::virtual_path_string out_common_path; // [esp+8h] [ebp-A8h] BYREF
+  char *v16; // [esp+11Ch] [ebp+6Ch] BYREF
 
-  v18 = 0;
-  survarium::weapon_user_dead_state::finalize(v3);
-  if ( vostok::fs_new::path_string_impl::length((vostok::fs_new::path_string_impl *)root_to_relate) )
+  m_begin = root_to_relate->m_string.m_begin;
+  if ( root_to_relate->m_string.m_end == root_to_relate->m_string.m_begin )
   {
-    v15 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(root_to_relate);
-    v16 = 0;
-    while ( LOBYTE(v15->__vftable) )
-    {
-      if ( LOBYTE(v15->__vftable) == 47 )
-        ++v16;
-      v15 = (vostok::render::skeleton_model_instance *)((char *)v15 + 1);
-    }
-    v8 = v16 + 1;
+    v5 = 0;
   }
   else
   {
-    v8 = 0;
-  }
-  parts_in_root = v8;
-  if ( vostok::fs_new::path_string_impl::length((vostok::fs_new::path_string_impl *)absolute_path) )
-  {
-    v13 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(absolute_path);
-    v14 = 0;
-    while ( LOBYTE(v13->__vftable) )
+    v4 = 0;
+    while ( *m_begin )
     {
-      if ( LOBYTE(v13->__vftable) == 47 )
-        ++v14;
-      v13 = (vostok::render::skeleton_model_instance *)((char *)v13 + 1);
+      if ( *m_begin == 47 )
+        ++v4;
+      ++m_begin;
     }
-    v7 = v14 + 1;
+    v5 = v4 + 1;
+  }
+  v6 = absolute_path->m_string.m_begin;
+  if ( absolute_path->m_string.m_end == absolute_path->m_string.m_begin )
+  {
+    v8 = 0;
   }
   else
   {
     v7 = 0;
-  }
-  parts_in_absolute = v7;
-  vostok::fs_new::virtual_path_string::virtual_path_string(&common_path);
-  vostok::fs_new::common_prefix_path<vostok::fs_new::virtual_path_string>(
-    &common_path,
-    (const vostok::fs_new::virtual_path_string *)absolute_path,
-    (const vostok::fs_new::virtual_path_string *)root_to_relate);
-  if ( vostok::fs_new::path_string_impl::length(&common_path) )
-  {
-    v11 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&common_path);
-    v12 = 0;
-    while ( LOBYTE(v11->__vftable) )
+    while ( *v6 )
     {
-      if ( LOBYTE(v11->__vftable) == 47 )
-        ++v12;
-      v11 = (vostok::render::skeleton_model_instance *)((char *)v11 + 1);
+      if ( *v6 == 47 )
+        ++v7;
+      ++v6;
     }
-    v6 = v12 + 1;
+    v8 = (vostok::fs_new::path_string_impl *)(v7 + 1);
+  }
+  out_common_path.m_string.m_begin = out_common_path.m_string.m_buffer;
+  out_common_path.m_string.m_end = out_common_path.m_string.m_buffer;
+  v9 = absolute_path;
+  out_common_path.m_string.m_max_end = &out_common_path.m_separator;
+  out_common_path.m_string.m_buffer[0] = 0;
+  out_common_path.m_separator = 47;
+  vostok::fs_new::common_prefix_path<vostok::fs_new::virtual_path_string>(
+    &out_common_path,
+    absolute_path,
+    root_to_relate);
+  if ( out_common_path.m_string.m_end == out_common_path.m_string.m_begin )
+  {
+    v13 = 0;
   }
   else
   {
-    v6 = 0;
+    v10 = out_common_path.m_string.m_begin;
+    v11 = *out_common_path.m_string.m_begin;
+    v12 = 0;
+    while ( v11 )
+    {
+      if ( v11 == 47 )
+        ++v12;
+      v11 = *++v10;
+    }
+    v13 = (vostok::fs_new::path_string_impl *)(v12 + 1);
   }
-  parts_in_common = v6;
-  if ( parts_in_absolute == v6 )
+  if ( v8 == v13 )
   {
-    vostok::fs_new::path_string_impl::operator=<char const [1]>(out_relative_path, (const char (*)[1])&buf);
+    vostok::fs_new::path_string_impl::operator=<char const [1]>(v13, out_relative_path);
   }
   else
   {
-    up_count = parts_in_root - parts_in_common;
-    strcpy(up, "../");
-    v10 = vostok::strings::length(up);
-    for ( i = 0; i < up_count; ++i )
-      vostok::buffer_string::append(&out_relative_path->m_string, up, &up[v10]);
-    if ( vostok::fs_new::path_string_impl::length(&common_path) )
-      v5 = vostok::fs_new::path_string_impl::length(&common_path) + 1;
+    absolute_path = (const vostok::fs_new::virtual_path_string *)byte_2F2E2E;
+    vostok::buffer_string::append_repeat(v5 - (_DWORD)v13, &out_relative_path->m_string, (char *)&absolute_path);
+    if ( out_common_path.m_string.m_end == out_common_path.m_string.m_begin )
+      v14 = 0;
     else
-      v5 = 0;
-    skip = v5;
-    v4 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(absolute_path);
-    s = (char *)v4 + skip;
-    vostok::fs_new::path_string_impl::append_with_conversion<char const *>(out_relative_path, (const char **)&s);
+      v14 = out_common_path.m_string.m_end - out_common_path.m_string.m_begin + 1;
+    v16 = &v9->m_string.m_begin[v14];
+    vostok::fs_new::path_string_impl::append_with_conversion<char const *>(out_relative_path, &v16);
   }
 }

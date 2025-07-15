@@ -18,7 +18,7 @@ void __cdecl Scaleform::GFx::AS2::AmpMarkerCtorFunction::AddMarker(const Scalefo
     v4 = (Scaleform::GFx::ASStringNode *)fn;
     Scaleform::GFx::AMP::ViewStats::AddMarker(
       v1->Env->Target->pASRoot->pMovieImpl->AdvanceStats.pObject,
-      (char *)fn->__vftable);
+      (Scaleform::String)fn->__vftable);
     if ( v4->RefCount-- == 1 )
       Scaleform::GFx::ASStringNode::ReleaseNode(v4);
   }

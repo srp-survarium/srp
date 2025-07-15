@@ -1,48 +1,51 @@
-int __cdecl CMS_dataFinal(asn1_string_st *cms, bio_st *cmsbio)
+int __usercall CMS_dataFinal@<eax>(int a1@<ebx>, asn1_string_st *cms, bio_st *cmsbio)
 {
   int result; // eax
-  asn1_string_st **v3; // edi
-  asn1_string_st *v4; // eax
+  asn1_string_st **v4; // edi
+  asn1_string_st *v5; // eax
   bio_st *type; // eax
-  bio_st *v6; // esi
-  int v7; // ebx
-  int v8; // eax
+  bio_st *v7; // esi
+  int v8; // ebx
+  int v9; // eax
+  int v10; // [esp-8h] [ebp-14h]
   unsigned __int8 *parg; // [esp+8h] [ebp-4h] BYREF
 
-  result = (int)CMS_get0_content(cms);
-  v3 = (asn1_string_st **)result;
+  result = (int)CMS_get0_content(a1, cms);
+  v4 = (asn1_string_st **)result;
   if ( result )
   {
-    v4 = *(asn1_string_st **)result;
-    if ( v4 && (v4->flags & 0x20) != 0 )
+    v5 = *(asn1_string_st **)result;
+    if ( v5 && (v5->flags & 0x20) != 0 )
     {
       type = BIO_find_type(cmsbio, 1025);
-      v6 = type;
+      v7 = type;
       if ( !type )
       {
-        ERR_put_error(0x2Eu, 110, 105, ".\\crypto\\cms\\cms_lib.c", 172);
+        ERR_put_error(a1, 0x2Eu, 110, 105, ".\\crypto\\cms\\cms_lib.c", 172);
         return 0;
       }
-      v7 = BIO_ctrl(type, 3, 0, &parg);
-      BIO_set_flags(v6, 512);
-      BIO_ctrl(v6, 130, 0, 0);
-      ASN1_STRING_set0(*v3, parg, v7);
-      (*v3)->flags &= ~0x20u;
+      v10 = a1;
+      v8 = BIO_ctrl(a1, type, 3, 0, &parg);
+      BIO_set_flags(v7, 512);
+      BIO_ctrl(v8, v7, 130, 0, 0);
+      ASN1_STRING_set0(*v4, parg, v8);
+      (*v4)->flags &= ~0x20u;
+      a1 = v10;
     }
-    v8 = OBJ_obj2nid((const asn1_object_st *)cms->length);
-    if ( v8 > 786 )
+    v9 = (int)OBJ_obj2nid((const asn1_object_st *)cms->length);
+    if ( v9 > 786 )
     {
 LABEL_13:
-      ERR_put_error(0x2Eu, 110, 156, ".\\crypto\\cms\\cms_lib.c", 200);
+      ERR_put_error(a1, 0x2Eu, 110, 156, ".\\crypto\\cms\\cms_lib.c", 200);
       return 0;
     }
-    else if ( v8 == 786 )
+    else if ( v9 == 786 )
     {
       return 1;
     }
     else
     {
-      switch ( v8 )
+      switch ( v9 )
       {
         case 21:
         case 23:

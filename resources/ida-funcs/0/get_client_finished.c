@@ -23,15 +23,15 @@ LABEL_9:
     if ( conn_id_length > 0x10 )
     {
       ssl2_return_error(s, 0);
-      ERR_put_error(0x14u, 105, 68, ".\\ssl\\s2_srvr.c", 848);
+      ERR_put_error((int)data, 0x14u, 105, 68, ".\\ssl\\s2_srvr.c", 848);
       return -1;
     }
     v7 = conn_id_length + 1;
     init_num = s->init_num;
     v9 = v7 - init_num;
-    v10 = ssl2_read(s, &data[init_num], v7 - init_num);
+    v10 = ssl2_read(s, (unsigned __int8 *)&data[init_num], v7 - init_num);
     if ( v10 < v9 )
-      return ssl2_part_read(s, 0x69u, v10);
+      return ssl2_part_read(s, 105, v10);
     msg_callback = s->msg_callback;
     if ( msg_callback )
       msg_callback(0, s->version, 0, data, v7, s, s->msg_callback_arg);
@@ -57,13 +57,13 @@ LABEL_18:
       }
     }
     ssl2_return_error(s, 0);
-    ERR_put_error(0x14u, 105, 143, ".\\ssl\\s2_srvr.c", 864);
+    ERR_put_error((int)data, 0x14u, 105, 143, ".\\ssl\\s2_srvr.c", 864);
     return -1;
   }
-  v2 = ssl2_read(s, &data[s->init_num], 1 - s->init_num);
+  v2 = ssl2_read(s, (unsigned __int8 *)&data[s->init_num], 1 - s->init_num);
   v3 = s->init_num;
   if ( v2 < 1 - v3 )
-    return ssl2_part_read(s, 0x69u, v2);
+    return ssl2_part_read(s, 105, v2);
   s->init_num = v2 + v3;
   if ( *data == 3 )
   {
@@ -73,13 +73,13 @@ LABEL_18:
   if ( *data )
   {
     ssl2_return_error(s, 0);
-    ERR_put_error(0x14u, 105, 212, ".\\ssl\\s2_srvr.c", 830);
+    ERR_put_error((int)data, 0x14u, 105, 212, ".\\ssl\\s2_srvr.c", 830);
     return -1;
   }
   else
   {
-    ERR_put_error(0x14u, 105, 200, ".\\ssl\\s2_srvr.c", 834);
-    v5 = ssl2_read(s, &data[s->init_num], 3 - s->init_num);
-    return ssl2_part_read(s, 0x6Eu, v5);
+    ERR_put_error((int)data, 0x14u, 105, 200, ".\\ssl\\s2_srvr.c", 834);
+    v5 = ssl2_read(s, (unsigned __int8 *)&data[s->init_num], 3 - s->init_num);
+    return ssl2_part_read(s, 110, v5);
   }
 }

@@ -1,8 +1,8 @@
 __int64 __cdecl get_next_page(OggVorbis_File *vf, ogg_page *og, __int64 boundary)
 {
   __int64 offset; // [esp+8h] [ebp-10h]
-  int ret; // [esp+10h] [ebp-8h]
-  int more; // [esp+14h] [ebp-4h]
+  int data; // [esp+10h] [ebp-8h]
+  int v6; // [esp+14h] [ebp-4h]
 
   if ( boundary > 0 )
     boundary += vf->offset;
@@ -12,22 +12,22 @@ __int64 __cdecl get_next_page(OggVorbis_File *vf, ogg_page *og, __int64 boundary
     {
       if ( boundary > 0 && vf->offset >= boundary )
         return -1;
-      more = ogg_sync_pageseek(&vf->oy, og);
-      if ( more >= 0 )
+      v6 = ogg_sync_pageseek(&vf->oy, og);
+      if ( v6 >= 0 )
         break;
-      vf->offset -= more;
+      vf->offset -= v6;
     }
-    if ( more )
+    if ( v6 )
       break;
     if ( !boundary )
       return -1;
-    ret = get_data(vf);
-    if ( !ret )
+    data = get_data(vf);
+    if ( !data )
       return -2;
-    if ( ret < 0 )
+    if ( data < 0 )
       return -128;
   }
   offset = vf->offset;
-  vf->offset = offset + more;
+  vf->offset = offset + v6;
   return offset;
 }

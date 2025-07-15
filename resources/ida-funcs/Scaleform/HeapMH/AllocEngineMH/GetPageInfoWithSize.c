@@ -13,7 +13,7 @@ void __thiscall Scaleform::HeapMH::AllocEngineMH::GetPageInfoWithSize(
 void __thiscall Scaleform::HeapMH::AllocEngineMH::GetPageInfoWithSize(
         Scaleform::HeapMH::AllocEngineMH *this,
         Scaleform::HeapMH::PageMH *page,
-        const void *ptr,
+        void *ptr,
         Scaleform::HeapMH::PageInfoMH *info)
 {
   unsigned int UsableSize; // eax
@@ -21,7 +21,7 @@ void __thiscall Scaleform::HeapMH::AllocEngineMH::GetPageInfoWithSize(
   info->Page = 0;
   info->Node = 0;
   info->UsableSize = 0;
-  UsableSize = Scaleform::HeapMH::AllocBitSet2MH::GetUsableSize(&this->Allocator, page, ptr);
+  UsableSize = Scaleform::HeapMH::AllocBitSet2MH::GetUsableSize(&this->Allocator, page, (int)ptr);
   info->Page = page;
   info->UsableSize = UsableSize;
 }

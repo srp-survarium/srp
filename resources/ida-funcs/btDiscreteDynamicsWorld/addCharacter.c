@@ -1,4 +1,4 @@
-void __thiscall btDiscreteDynamicsWorld::addCharacter(btDiscreteDynamicsWorld *this, btActionInterface *character)
+void __thiscall btDiscreteDynamicsWorld::addCharacter(btDiscreteDynamicsWorld *this, btActionInterface *vehicle)
 {
-  this->addAction(this, character);
+  this->addAction(this, vehicle);
 }

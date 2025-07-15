@@ -1,4 +1,4 @@
-int __thiscall Scaleform::Render::DICommandQueue::allocCommandFromPage(
+unsigned __int8 *__thiscall Scaleform::Render::DICommandQueue::allocCommandFromPage(
         Scaleform::Render::DICommandQueue *this,
         unsigned int size,
         Scaleform::Lock *locked)
@@ -23,5 +23,5 @@ int __thiscall Scaleform::Render::DICommandQueue::allocCommandFromPage(
   if ( size > 496 - Offset )
     return 0;
   pPrev->Offset = size + Offset;
-  return (int)&pPrev->Buffer[Offset];
+  return &pPrev->Buffer[Offset];
 }

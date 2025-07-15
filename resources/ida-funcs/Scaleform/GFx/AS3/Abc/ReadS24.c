@@ -13,6 +13,6 @@ int __cdecl Scaleform::GFx::AS3::Abc::ReadS24<unsigned char>(const unsigned __in
   *cp = v3;
   result = v2 | ((v4 | (v5 << 8)) << 8);
   if ( (v5 & 0x80u) != 0 )
-    return -1 - ((unsigned int)&vostok::memory::s_CRT_arena[5574199] ^ result);
+    return -1 - (result ^ 0xFFFFFF);
   return result;
 }

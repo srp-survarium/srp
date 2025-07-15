@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Set(
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray *this,
-        unsigned __int8 *data,
+        const __m128i *data,
         unsigned int sz)
 {
   this->Position = 0;
@@ -13,6 +13,6 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Set(
   {
     Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Resize(this, sz);
   }
-  memcpy(&this->Data.Data.Data[this->Position], data, sz);
+  memcpy((int)&this->Data.Data.Data[this->Position], data, sz);
   this->Position = 0;
 }

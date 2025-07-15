@@ -1,69 +1,67 @@
 btPersistentManifold *__thiscall btCollisionDispatcher::getNewManifold(btCollisionDispatcher *this, float b0, float b1)
 {
-  float v3; // ebp
+  float v3; // ebx
   float *v4; // esi
   double v6; // st7
   int v7; // ecx
-  double v8; // st7
+  float *p_b1; // eax
+  float v9; // xmm0_4
+  float v10; // xmm1_4
   float *p_b0; // eax
-  float v10; // xmm0_4
-  float v11; // xmm1_4
-  float *v12; // eax
-  float v13; // xmm0_4
+  float v12; // xmm0_4
   btPoolAllocator *m_persistentManifoldPoolAllocator; // eax
-  bool v15; // zf
+  bool v14; // zf
   btPersistentManifold *m_firstFree; // ecx
   void *m_objectType; // edx
+  void *v17; // eax
   btPersistentManifold *v18; // eax
-  btPersistentManifold *v19; // ebx
   int m_capacity; // ecx
   int m_size; // eax
-  int v22; // esi
-  btPersistentManifold **v23; // ebp
-  int v24; // edx
-  int v25; // eax
-  btPersistentManifold **v26; // ecx
-  btPersistentManifold **m_data; // eax
-  btPersistentManifold **v28; // eax
-  float v30; // [esp+8h] [ebp-14h]
-  float v31; // [esp+18h] [ebp-4h] BYREF
+  int v21; // esi
+  int v22; // edx
+  int v23; // eax
+  float v24; // ecx
+  btPersistentManifold **v25; // eax
+  float *v26; // eax
+  btPersistentManifold *v28; // [esp+4h] [ebp-14h]
+  float v29; // [esp+8h] [ebp-10h]
+  float v30; // [esp+14h] [ebp-4h] BYREF
 
+  ++gNumManifold;
   v3 = b0;
   v4 = (float *)LODWORD(b1);
-  ++gNumManifold;
   if ( (this->m_dispatcherFlags & 2) != 0 )
   {
     v6 = ((double (__stdcall *)(_DWORD))*(_DWORD *)(**(_DWORD **)(LODWORD(b1) + 204) + 16))(LODWORD(gContactBreakingThreshold));
     v7 = *(_DWORD *)(LODWORD(v3) + 204);
-    b1 = v6;
-    v8 = ((double (__stdcall *)(_DWORD))*(_DWORD *)(*(_DWORD *)v7 + 16))(LODWORD(gContactBreakingThreshold));
-    b0 = v8;
-    p_b0 = &b0;
-    if ( b1 <= v8 )
-      p_b0 = &b1;
-    v10 = *p_b0;
+    b0 = v6;
+    b1 = ((double (__stdcall *)(_DWORD))*(_DWORD *)(*(_DWORD *)v7 + 16))(LODWORD(gContactBreakingThreshold));
+    p_b1 = &b1;
+    if ( b0 <= (double)b1 )
+      p_b1 = &b0;
+    v9 = *p_b1;
   }
   else
   {
-    v10 = gContactBreakingThreshold;
+    v9 = gContactBreakingThreshold;
   }
-  v11 = *(float *)(LODWORD(v3) + 196);
-  b1 = v10;
-  v31 = v4[49];
-  b0 = v11;
-  v12 = &b0;
-  if ( v31 <= v11 )
-    v12 = &v31;
-  v13 = *v12;
+  v10 = *(float *)(LODWORD(v3) + 196);
+  b1 = v9;
+  v30 = v4[49];
+  b0 = v10;
+  p_b0 = &b0;
+  if ( v30 <= v10 )
+    p_b0 = &v30;
+  v12 = *p_b0;
   m_persistentManifoldPoolAllocator = this->m_persistentManifoldPoolAllocator;
-  v15 = m_persistentManifoldPoolAllocator->m_freeCount == 0;
-  b0 = v13;
-  if ( v15 )
+  v14 = m_persistentManifoldPoolAllocator->m_freeCount == 0;
+  b0 = v12;
+  if ( v14 )
   {
     if ( (this->m_dispatcherFlags & 4) != 0 )
       return 0;
-    ++gNumAlignedAllocs;
-    v18 = (btPersistentManifold *)sAlignedAllocFunc(0x500u, 16);
+    v17 = btAlignedAllocInternal(0x500u);
+    m_firstFree = v28;
   }
   else
   {
@@ -71,80 +69,62 @@ btPersistentManifold *__thiscall btCollisionDispatcher::getNewManifold(btCollisi
     m_objectType = (void *)m_firstFree->m_objectType;
     --m_persistentManifoldPoolAllocator->m_freeCount;
     m_persistentManifoldPoolAllocator->m_firstFree = m_objectType;
-    v18 = m_firstFree;
+    v17 = m_firstFree;
   }
-  if ( v18 )
-  {
-    *(float *)&v19 = COERCE_FLOAT(
+  if ( v17 )
+    *(float *)&v18 = COERCE_FLOAT(
                        btPersistentManifold::btPersistentManifold(
                          m_firstFree,
-                         (int)v18,
+                         (int)v17,
                          (void *)LODWORD(v3),
                          v4,
                          SLODWORD(b1),
                          b0,
-                         v30));
-    b1 = *(float *)&v19;
-  }
+                         v29));
   else
-  {
-    *(float *)&v19 = 0.0;
-    b1 = 0.0;
-  }
-  v19->m_index1a = this->m_manifoldsPtr.m_size;
+    *(float *)&v18 = 0.0;
+  v18->m_index1a = this->m_manifoldsPtr.m_size;
   m_capacity = this->m_manifoldsPtr.m_capacity;
+  b0 = *(float *)&v18;
   m_size = this->m_manifoldsPtr.m_size;
   if ( m_size == m_capacity )
   {
-    v22 = 2 * m_size;
-    if ( !m_size )
-      v22 = 1;
-    if ( m_capacity < v22 )
+    v21 = m_size ? 2 * m_size : 1;
+    if ( m_capacity < v21 )
     {
-      if ( v22 )
-      {
-        ++gNumAlignedAllocs;
-        v23 = (btPersistentManifold **)sAlignedAllocFunc(4 * v22, 16);
-      }
+      if ( v21 )
+        b1 = COERCE_FLOAT(btAlignedAllocInternal(4 * v21));
       else
+        b1 = 0.0;
+      v22 = this->m_manifoldsPtr.m_size;
+      v23 = 0;
+      if ( v22 > 0 )
       {
-        v23 = 0;
-      }
-      v24 = this->m_manifoldsPtr.m_size;
-      v25 = 0;
-      if ( v24 > 0 )
-      {
-        v26 = v23;
+        v24 = b1;
         do
         {
-          if ( v26 )
-          {
-            *v26 = this->m_manifoldsPtr.m_data[v25];
-            *(float *)&v19 = b1;
-          }
-          ++v25;
-          ++v26;
+          if ( v24 != 0.0 )
+            *(_DWORD *)LODWORD(v24) = this->m_manifoldsPtr.m_data[v23];
+          ++v23;
+          LODWORD(v24) += 4;
         }
-        while ( v25 < v24 );
+        while ( v23 < v22 );
       }
-      m_data = this->m_manifoldsPtr.m_data;
-      if ( m_data )
+      if ( this->m_manifoldsPtr.m_data )
       {
         if ( this->m_manifoldsPtr.m_ownsMemory )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(m_data);
-        }
+          btAlignedFreeInternal(this->m_manifoldsPtr.m_data);
         this->m_manifoldsPtr.m_data = 0;
       }
+      v25 = (btPersistentManifold **)LODWORD(b1);
       this->m_manifoldsPtr.m_ownsMemory = 1;
-      this->m_manifoldsPtr.m_data = v23;
-      this->m_manifoldsPtr.m_capacity = v22;
+      this->m_manifoldsPtr.m_data = v25;
+      this->m_manifoldsPtr.m_capacity = v21;
     }
   }
-  v28 = &this->m_manifoldsPtr.m_data[this->m_manifoldsPtr.m_size];
-  if ( v28 )
-    *v28 = v19;
+  v26 = (float *)&this->m_manifoldsPtr.m_data[this->m_manifoldsPtr.m_size];
+  if ( v26 )
+    *v26 = b0;
   ++this->m_manifoldsPtr.m_size;
-  return v19;
+  return (btPersistentManifold *)LODWORD(b0);
 }

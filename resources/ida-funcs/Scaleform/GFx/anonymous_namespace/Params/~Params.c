@@ -1,10 +1,10 @@
 void __thiscall Scaleform::GFx::`anonymous namespace'::Params::~Params(Scaleform::GFx::Params *this)
 {
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
-  pObject = this->ZlibFile.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->ZlibFile.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   Scaleform::Render::ImageScanlineBufferImpl::~ImageScanlineBufferImpl(&this->FinalScanline);
   Scaleform::Render::ImageScanlineBufferImpl::~ImageScanlineBufferImpl(&this->ScanlineWithAlpha2);
   Scaleform::Render::ImageScanlineBufferImpl::~ImageScanlineBufferImpl(&this->ScanlineWithAlpha1);

@@ -1,28 +1,16 @@
-mutex_mt_raii *__usercall mutex_mt_raii::mutex_mt_raii@<eax>(mutex_mt_raii *this@<ecx>, mutex_mt_raii *a2@<edi>)
+void __usercall mutex_mt_raii::mutex_mt_raii(
+        mutex_mt_raii *this@<edi>,
+        const vostok::memory::doug_lea_mt_allocator *instance@<eax>,
+        vostok::threading::mutex *a3@<ecx>)
 {
-  char m_instance; // al
-  const vostok::memory::doug_lea_mt_allocator *v3; // esi
-  DWORD CurrentThreadId; // eax
-  const char *Value; // eax
+  vostok::memory::doug_lea_allocator *v3; // ecx
 
-  a2->m_instance = (const vostok::memory::doug_lea_mt_allocator *)this;
-  m_instance = (char)this[13].m_instance;
-  a2->m_is_tasks_aware = m_instance;
-  if ( m_instance )
-    vostok::threading::mutex::lock((vostok::threading::mutex *)&this[7]);
+  this->m_instance = instance;
+  LOBYTE(a3) = instance->m_is_tasks_aware;
+  this->m_is_tasks_aware = (char)a3;
+  if ( (_BYTE)a3 )
+    vostok::threading::mutex::lock(a3, (_RTL_CRITICAL_SECTION *)&instance->m_mutex);
   else
-    EnterCriticalSection((LPCRITICAL_SECTION)&this[10]);
-  v3 = a2->m_instance;
-  CurrentThreadId = GetCurrentThreadId();
-  if ( v3->m_user_thread_id != CurrentThreadId )
-  {
-    _InterlockedExchange((volatile __int32 *)&v3->m_user_thread_id, CurrentThreadId);
-    if ( v3->m_thread_id_const )
-      v3->m_user_thread_id_called = 1;
-  }
-  Value = (const char *)TlsGetValue(s_thread_logging_name_tls_key);
-  if ( !Value )
-    Value = "undefined";
-  v3->m_user_thread_logging_name = Value;
-  return a2;
+    EnterCriticalSection((LPCRITICAL_SECTION)&instance->m_mutex_tasks_unaware);
+  vostok::memory::doug_lea_allocator::user_current_thread_id(v3, (int)this->m_instance);
 }

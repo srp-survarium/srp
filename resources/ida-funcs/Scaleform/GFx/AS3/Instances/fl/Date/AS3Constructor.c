@@ -1,6 +1,6 @@
 void __userpurge Scaleform::GFx::AS3::Instances::fl::Date::AS3Constructor(
         Scaleform::GFx::AS3::Instances::fl::Date *this@<ecx>,
-        unsigned int a2@<ebx>,
+        int a2@<ebx>,
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {

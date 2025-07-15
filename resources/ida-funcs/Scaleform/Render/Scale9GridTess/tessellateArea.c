@@ -32,11 +32,11 @@ void __thiscall Scaleform::Render::Scale9GridTess::tessellateArea(
   float v31; // [esp+20h] [ebp-8h]
   float v32; // [esp+20h] [ebp-8h]
   float v33; // [esp+20h] [ebp-8h]
-  float x1; // [esp+20h] [ebp-8h]
+  float v34; // [esp+20h] [ebp-8h]
   unsigned int v35; // [esp+24h] [ebp-4h]
-  unsigned int i; // [esp+2Ch] [ebp+4h]
-  float ib; // [esp+2Ch] [ebp+4h]
-  unsigned int ia; // [esp+2Ch] [ebp+4h]
+  unsigned int v36; // [esp+2Ch] [ebp+4h]
+  float v37; // [esp+2Ch] [ebp+4h]
+  int v38; // [esp+2Ch] [ebp+4h]
 
   v4 = LODWORD(i1);
   v6 = i2;
@@ -53,7 +53,7 @@ void __thiscall Scaleform::Render::Scale9GridTess::tessellateArea(
         p_VerIdx = &v9->VerIdx;
         v11 = &v9[2].VerIdx;
         v12 = ((i2 - v4 - 4) >> 2) + 1;
-        i = v4 + 4 * v12;
+        v36 = v4 + 4 * v12;
         do
         {
           v13 = *p_VerIdx;
@@ -77,7 +77,7 @@ void __thiscall Scaleform::Render::Scale9GridTess::tessellateArea(
         }
         while ( v12 );
         v6 = i2;
-        v8 = i;
+        v8 = v36;
       }
       if ( v8 < v6 )
       {
@@ -94,26 +94,26 @@ void __thiscall Scaleform::Render::Scale9GridTess::tessellateArea(
         while ( v21 );
       }
     }
-    ib = (float)(v6 - v4);
-    x1 = v30 / ib;
-    i1 = i1 / ib;
+    v37 = (float)(v6 - v4);
+    v34 = v30 / v37;
+    i1 = i1 / v37;
     if ( v4 < v6 )
     {
       v23 = 12 * v4;
-      ia = 12 * v4;
+      v38 = 12 * v4;
       v35 = v6 - v4;
       while ( 1 )
       {
         Data = ver->Data;
-        ia += 12;
+        v38 += 12;
         *(float *)((char *)&Data->Slope + v23) = Scaleform::Render::Math2D::SlopeRatio(
-                                                   x1,
+                                                   v34,
                                                    i1,
                                                    this->Vertices[*(unsigned int *)((char *)&Data->VerIdx + v23)].x,
                                                    this->Vertices[*(unsigned int *)((char *)&Data->VerIdx + v23)].y);
         if ( !--v35 )
           break;
-        v23 = ia;
+        v23 = v38;
       }
       v6 = i2;
     }
@@ -133,11 +133,11 @@ void __thiscall Scaleform::Render::Scale9GridTess::tessellateArea(
       do
       {
         LODWORD(i1) = *(unsigned __int16 *)((char *)&ver->Data->VerIdx + v28);
-        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (const unsigned __int16 *)&i1);
+        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (unsigned __int16 *)&i1);
         LODWORD(i1) = LOWORD(ver->Data[v29 - 1].VerIdx);
-        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (const unsigned __int16 *)&i1);
+        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (unsigned __int16 *)&i1);
         LODWORD(i1) = LOWORD(ver->Data[v29].VerIdx);
-        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (const unsigned __int16 *)&i1);
+        Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(p_Indices, (unsigned __int16 *)&i1);
         ++v29;
         --i2;
       }

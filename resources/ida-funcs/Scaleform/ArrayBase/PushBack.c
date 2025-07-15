@@ -1,6 +1,6 @@
 void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
         Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorGH<unsigned char,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        const unsigned __int8 *val)
+        unsigned __int8 *val)
 {
   unsigned int v3; // esi
   unsigned __int8 *Data; // edx
@@ -30,7 +30,7 @@ void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scalefor
 
 void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
         Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        const unsigned __int8 *val)
+        unsigned __int8 *val)
 {
   unsigned int v3; // edi
   unsigned __int8 *Data; // edx
@@ -59,7 +59,7 @@ void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scalefor
 
 void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<int,Scaleform::AllocatorGH<int,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
         Scaleform::ArrayBase<Scaleform::ArrayData<int,Scaleform::AllocatorGH<int,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        const int *val)
+        int *val)
 {
   unsigned int v3; // esi
   int *Data; // edx
@@ -84,105 +84,6 @@ void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<int,Scaleform::Allocat
   this->Data.Size = v3;
   if ( &Data[v3] != (int *)4 )
     Data[v3 - 1] = *val;
-}
-
-
-void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value *,Scaleform::AllocatorLH<Scaleform::GFx::AS2::Value *,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
-        Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value *,Scaleform::AllocatorLH<Scaleform::GFx::AS2::Value *,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        Scaleform::GFx::AS2::Value *const *val)
-{
-  unsigned int v3; // esi
-  Scaleform::GFx::AS2::Value **Data; // edx
-
-  v3 = this->Data.Size + 1;
-  if ( v3 >= this->Data.Size )
-  {
-    if ( v3 >= this->Data.Policy.Capacity )
-      Scaleform::ArrayDataBase<Scaleform::Render::Text::LineBuffer::Line *,Scaleform::AllocatorLH<Scaleform::Render::Text::LineBuffer::Line *,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)this,
-        this,
-        v3 + (v3 >> 2));
-  }
-  else if ( v3 < this->Data.Policy.Capacity >> 1 )
-  {
-    Scaleform::ArrayDataBase<Scaleform::Render::Text::LineBuffer::Line *,Scaleform::AllocatorLH<Scaleform::Render::Text::LineBuffer::Line *,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)this,
-      this,
-      this->Data.Size + 1);
-  }
-  Data = this->Data.Data;
-  this->Data.Size = v3;
-  if ( &Data[v3] != (Scaleform::GFx::AS2::Value **)4 )
-    Data[v3 - 1] = *val;
-}
-
-
-void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
-        Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        const Scaleform::GFx::AS2::Value *val)
-{
-  Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-    &this->Data,
-    this,
-    this->Data.Size + 1);
-  if ( &this->Data.Data[this->Data.Size] != (Scaleform::GFx::AS2::Value *)16 )
-    Scaleform::GFx::AS2::Value::Value(&this->Data.Data[this->Data.Size - 1], val);
-}
-
-
-void __thiscall Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Point<long>,Scaleform::AllocatorGH<Scaleform::Render::Point<long>,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
-        Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Point<long>,Scaleform::AllocatorGH<Scaleform::Render::Point<long>,2>,Scaleform::ArrayDefaultPolicy> > *this,
-        const Scaleform::Render::Point<long> *val)
-{
-  unsigned int v3; // esi
-  Scaleform::Render::Point<long> *Data; // edx
-  Scaleform::Render::Point<long> *v5; // eax
-  int y; // edx
-
-  v3 = this->Data.Size + 1;
-  if ( v3 >= this->Data.Size )
-  {
-    if ( v3 >= this->Data.Policy.Capacity )
-      Scaleform::ArrayDataBase<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,Scaleform::AllocatorGH<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<tagKERNINGPAIR,Scaleform::AllocatorGH<tagKERNINGPAIR,2>,Scaleform::ArrayDefaultPolicy> *)this,
-        this,
-        v3 + (v3 >> 2));
-  }
-  else if ( v3 < this->Data.Policy.Capacity >> 1 )
-  {
-    Scaleform::ArrayDataBase<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,Scaleform::AllocatorGH<Scaleform::GFx::XML::DOMBuilder::PrefixOwnership,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      (Scaleform::ArrayDataBase<tagKERNINGPAIR,Scaleform::AllocatorGH<tagKERNINGPAIR,2>,Scaleform::ArrayDefaultPolicy> *)this,
-      this,
-      this->Data.Size + 1);
-  }
-  Data = this->Data.Data;
-  this->Data.Size = v3;
-  v5 = &Data[v3 - 1];
-  if ( &Data[v3] != (Scaleform::Render::Point<long> *)8 )
-  {
-    y = val->y;
-    v5->x = val->x;
-    v5->y = y;
-  }
-}
-
-
-void __thiscall Scaleform::ArrayBase<Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>>::PushBack(
-        Scaleform::ArrayBase<Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy> > *this,
-        const Scaleform::GFx::ASString *val)
-{
-  Scaleform::GFx::ASStringNode *pNode; // eax
-
-  Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-    &this->Data,
-    this,
-    this->Data.Size + 1);
-  if ( &this->Data.Data[this->Data.Size] != (Scaleform::GFx::ASString *)4 )
-  {
-    pNode = val->pNode;
-    this->Data.Data[this->Data.Size - 1] = (Scaleform::GFx::ASString)val->pNode;
-    ++pNode->RefCount;
-  }
 }
 
 

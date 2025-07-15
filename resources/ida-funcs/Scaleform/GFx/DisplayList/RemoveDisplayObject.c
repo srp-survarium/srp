@@ -4,17 +4,17 @@ void __thiscall Scaleform::GFx::DisplayList::RemoveDisplayObject(
         int depth,
         Scaleform::GFx::ResourceId id)
 {
-  unsigned int v5; // ebp
+  unsigned int Size; // ebp
   unsigned int DisplayIndex; // eax
   unsigned int v7; // ecx
   Scaleform::GFx::DisplayObjectBase *pCharacter; // ebx
   unsigned int v9; // edx
-  unsigned int size; // [esp+Ch] [ebp-4h]
+  unsigned int v10; // [esp+Ch] [ebp-4h]
 
-  v5 = this->DisplayObjectArray.Data.Size;
-  size = v5;
+  Size = this->DisplayObjectArray.Data.Size;
+  v10 = Size;
   DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(this, depth);
-  if ( DisplayIndex < v5 )
+  if ( DisplayIndex < Size )
   {
     v7 = DisplayIndex;
     pCharacter = this->DisplayObjectArray.Data.Data[DisplayIndex].pCharacter;
@@ -31,13 +31,13 @@ LABEL_12:
       else
       {
         v9 = DisplayIndex + 1;
-        while ( v9 < v5 && this->DisplayObjectArray.Data.Data[v7 + 1].pCharacter->Depth == depth )
+        while ( v9 < Size && this->DisplayObjectArray.Data.Data[v7 + 1].pCharacter->Depth == depth )
         {
           v7 = ++DisplayIndex;
           ++v9;
           if ( this->DisplayObjectArray.Data.Data[DisplayIndex].pCharacter->Id.Id == id.Id )
             goto LABEL_12;
-          v5 = size;
+          Size = v10;
         }
       }
     }

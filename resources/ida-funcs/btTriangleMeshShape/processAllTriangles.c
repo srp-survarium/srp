@@ -5,18 +5,16 @@ void __thiscall btTriangleMeshShape::processAllTriangles(
         const btVector3 *aabbMax)
 {
   btStridingMeshInterface *m_meshInterface; // ecx
-  unsigned __int64 v5; // xmm0_8
-  _DWORD v6[4]; // [esp+3Ch] [ebp-30h] BYREF
-  btVector3 v7; // [esp+4Ch] [ebp-20h]
-  unsigned __int64 v8; // [esp+5Ch] [ebp-10h]
-  unsigned __int64 v9; // [esp+64h] [ebp-8h]
+  _DWORD v5[4]; // [esp+10h] [ebp-30h] BYREF
+  unsigned __int64 v6; // [esp+20h] [ebp-20h]
+  unsigned __int64 v7; // [esp+28h] [ebp-18h]
+  btVector3 v8; // [esp+30h] [ebp-10h]
 
+  v5[0] = &`btTriangleMeshShape::processAllTriangles'::`2'::FilteredCallback::`vftable';
+  v5[1] = callback;
+  v6 = aabbMin->mVec128.m128_u64[0];
   m_meshInterface = this->m_meshInterface;
-  v6[1] = callback;
-  v7.mVec128 = aabbMin->mVec128;
-  v8 = aabbMax->mVec128.m128_u64[0];
-  v5 = aabbMax->mVec128.m128_u64[1];
-  v6[0] = &`btTriangleMeshShape::processAllTriangles'::`2'::FilteredCallback::`vftable';
-  v9 = v5;
-  m_meshInterface->InternalProcessAllTriangles(m_meshInterface, (btInternalTriangleIndexCallback *)v6, aabbMin, aabbMax);
+  v7 = aabbMin->mVec128.m128_u64[1];
+  v8.mVec128 = aabbMax->mVec128;
+  m_meshInterface->InternalProcessAllTriangles(m_meshInterface, (btInternalTriangleIndexCallback *)v5, aabbMin, aabbMax);
 }

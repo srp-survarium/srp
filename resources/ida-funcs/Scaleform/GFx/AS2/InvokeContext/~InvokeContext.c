@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS2::InvokeContext::~InvokeContext(Scaleform::GF
   if ( pObject )
   {
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS2::InvokeContext::~InvokeContext(Scaleform::GF
   if ( v4 )
   {
     v5 = v4->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v5) != 0 )
+    if ( (v5 & 0x3FFFFFF) != 0 )
     {
       v4->RefCount = v5 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);

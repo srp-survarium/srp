@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetZScale(
 {
   Scaleform::GFx::ASMovieRootBase *pASRoot; // eax
 
-  if ( ((HIDWORD(zscale) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(zscale) | LODWORD(zscale)))
+  if ( ((HIDWORD(zscale) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(zscale) & 0xFFFFF | LODWORD(zscale)))
     && zscale != -INFINITY
     && zscale != INFINITY )
   {

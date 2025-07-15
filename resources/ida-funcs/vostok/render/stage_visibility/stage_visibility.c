@@ -1,61 +1,60 @@
-void __usercall vostok::render::stage_visibility::stage_visibility(
-        vostok::render::stage_visibility *this@<edi>,
-        vostok::render::renderer *in_renderer@<ecx>,
-        vostok::render::renderer_context *context@<eax>)
+void __thiscall vostok::render::stage_visibility::stage_visibility(
+        vostok::render::renderer_context *context,
+        vostok::render::stage_visibility *this,
+        vostok::render::renderer *in_renderer)
 {
-  vostok::render::hw_hiz_occlusion_manager *v3; // eax
+  vostok::memory::doug_lea_allocator *v3; // esi
   char *v4; // eax
-  _DWORD *v5; // eax
-  unsigned __int8 *v6; // eax
-  unsigned __int8 *v7; // ecx
-  unsigned int v8; // [esp+0h] [ebp-4h]
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  char *v6; // eax
+  vostok::render::hw_hiz_occlusion_manager *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // esi
+  char *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  char *v11; // eax
+  vostok::memory::doug_lea_allocator *v12; // esi
+  unsigned __int8 *v13; // eax
+  const char *v14; // [esp+0h] [ebp-Ch]
+  const char *v15; // [esp+0h] [ebp-Ch]
+  const char *v16; // [esp+0h] [ebp-Ch]
+  const char *v17; // [esp+4h] [ebp-8h]
+  const char *v18; // [esp+4h] [ebp-8h]
+  const char *v19; // [esp+4h] [ebp-8h]
+  unsigned int v20; // [esp+8h] [ebp-4h]
+  unsigned int v21; // [esp+8h] [ebp-4h]
+  unsigned int v22; // [esp+8h] [ebp-4h]
 
-  this->m_context = context;
-  this->m_renderer = in_renderer;
-  this->m_enabled = 1;
-  this->m_prev_enabled = 1;
-  this->__vftable = (vostok::render::stage_visibility_vtbl *)&vostok::render::stage_visibility::`vftable';
+  vostok::render::stage::stage(this, context, in_renderer);
   this->m_portals_offset_to_results = 0;
+  v3 = vostok::render::g_allocator;
+  this->__vftable = (vostok::render::stage_visibility_vtbl *)&vostok::render::stage_visibility::`vftable';
+  this->m_use_hiz_culling = 1;
   this->m_data_ready = 1;
-  if ( vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-         0x120u) )
-  {
+  v4 = type_info::raw_name(&vostok::render::hw_hiz_occlusion_manager `RTTI Type Descriptor');
+  v6 = vostok::memory::doug_lea_allocator::malloc_impl(v5, (int)v3, 0x124u, v4, v14, v17, v20);
+  if ( v6 )
     vostok::render::hw_hiz_occlusion_manager::hw_hiz_occlusion_manager(
-      *((vostok::render::hw_hiz_occlusion_manager **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-      + 39),
-      *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-      + 39),
-      *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-      + 40),
-      v8);
-  }
+      (vostok::render::hw_hiz_occlusion_manager *)vostok::quasi_singleton<vostok::render::options>::pinst,
+      (unsigned int)v6,
+      vostok::quasi_singleton<vostok::render::options>::pinst->current.m_hiz_occlusion_culling_width,
+      vostok::quasi_singleton<vostok::render::options>::pinst->current.m_hiz_occlusion_culling_height);
   else
-  {
-    v3 = 0;
-  }
-  this->m_occlusion_manager = v3;
-  v4 = (char *)vostok::memory::doug_lea_allocator::malloc_impl(
-                 (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                 0x40008u);
-  *(_DWORD *)v4 = 0x4000;
-  v4 += 4;
-  *(_DWORD *)v4 = 16;
-  this->m_static_bounds_array = (vostok::math::float4 *)(v4 + 4);
-  v5 = vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-         0x4008u);
-  *v5 = 0x4000;
-  v6 = (unsigned __int8 *)(v5 + 2);
-  *((_DWORD *)v6 - 1) = 1;
-  v7 = v6;
-  do
-  {
-    if ( v7 )
-      *v7 = 0;
-    ++v7;
-  }
-  while ( v7 != v6 + 0x4000 );
-  this->m_static_results_array = v6;
+    v7 = 0;
+  v8 = vostok::render::g_allocator;
+  this->m_occlusion_manager = v7;
+  v9 = type_info::raw_name(&vostok::math::float4 `RTTI Type Descriptor');
+  v11 = vostok::memory::doug_lea_allocator::malloc_impl(v10, (int)v8, (unsigned int)&loc_100006 + 2, v9, v15, v18, v21);
+  v12 = vostok::render::g_allocator;
+  *(_DWORD *)v11 = &_sbh_sizeHeaderList;
+  v11 += 4;
+  *(_DWORD *)v11 = 16;
+  this->m_static_bounds_array = (vostok::math::float4 *)(v11 + 4);
+  v13 = vostok::memory::new_array_helper<unsigned char>::call<vostok::memory::doug_lea_allocator>(
+          v12,
+          (const unsigned int)&_sbh_sizeHeaderList,
+          v16,
+          v19,
+          v22);
   this->m_current_occlusion_buffer_size = 0;
+  this->m_static_results_array = v13;
 }

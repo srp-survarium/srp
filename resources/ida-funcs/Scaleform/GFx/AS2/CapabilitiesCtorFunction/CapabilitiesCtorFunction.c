@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
   Scaleform::GFx::AS2::ASStringContext *v2; // esi
   Scaleform::GFx::ASStringManager *pMovieImpl; // ecx
   Scaleform::GFx::AS2::ObjectInterface *v5; // edi
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v6; // eax
   Scaleform::GFx::ASStringNode *v7; // eax
   Scaleform::GFx::ASStringNode *v8; // eax
   Scaleform::GFx::ASStringNode *v9; // eax
@@ -53,13 +53,12 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
   Scaleform::GFx::ASStringNode *v51; // eax
   Scaleform::GFx::ASStringManager *v52; // ecx
   Scaleform::GFx::ASStringNode *v53; // eax
-  Scaleform::GFx::ASString name; // [esp+10h] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::CapabilitiesCtorFunction *v55; // [esp+14h] [ebp-24h]
-  Scaleform::GFx::AS2::Value falseVal; // [esp+18h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value val; // [esp+28h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v54[2]; // [esp+10h] [ebp-28h] BYREF
+  Scaleform::GFx::AS2::Value v55; // [esp+18h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v56; // [esp+28h] [ebp-10h] BYREF
 
   v2 = psc;
-  v55 = this;
+  v54[1] = (Scaleform::GFx::ASStringNode *)this;
   Scaleform::GFx::AS2::Object::Object(this, psc);
   this->pFunction = 0;
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::CapabilitiesCtorFunction_vtbl *)&Scaleform::GFx::AS2::AmpMarkerCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
@@ -67,242 +66,242 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
   pMovieImpl = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
   v5 = &this->Scaleform::GFx::AS2::ObjectInterface;
   LOBYTE(psc) = 6;
-  falseVal.T.Type = 2;
-  falseVal.V.BooleanValue = 0;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(pMovieImpl, "avHardwareDisable", 0x11u, 0);
-  ++name.pNode->RefCount;
+  v55.T.Type = 2;
+  v55.V.BooleanValue = 0;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(pMovieImpl, "avHardwareDisable", 0x11u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  pNode = name.pNode;
-  --name.pNode->RefCount;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasAccessibility",
-                 0x10u,
-                 0);
-  ++name.pNode->RefCount;
+  v6 = v54[0];
+  --v54[0]->RefCount;
+  if ( !v6->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v6);
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasAccessibility",
+             0x10u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v7 = name.pNode;
-  --name.pNode->RefCount;
+  v7 = v54[0];
+  --v54[0]->RefCount;
   if ( !v7->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasAudio",
-                 8u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasAudio",
+             8u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v8 = name.pNode;
-  --name.pNode->RefCount;
+  v8 = v54[0];
+  --v54[0]->RefCount;
   if ( !v8->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v8);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasAudioEncoder",
-                 0xFu,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasAudioEncoder",
+             0xFu,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v9 = name.pNode;
-  --name.pNode->RefCount;
+  v9 = v54[0];
+  --v54[0]->RefCount;
   if ( !v9->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v9);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasEmbeddedVideo",
-                 0x10u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasEmbeddedVideo",
+             0x10u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v10 = name.pNode;
-  --name.pNode->RefCount;
+  v10 = v54[0];
+  --v54[0]->RefCount;
   if ( !v10->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v10);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasIME",
-                 6u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasIME",
+             6u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v11 = name.pNode;
-  --name.pNode->RefCount;
+  v11 = v54[0];
+  --v54[0]->RefCount;
   if ( !v11->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v11);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasMP3",
-                 6u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasMP3",
+             6u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v12 = name.pNode;
-  --name.pNode->RefCount;
+  v12 = v54[0];
+  --v54[0]->RefCount;
   if ( !v12->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v12);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasPrinting",
-                 0xBu,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasPrinting",
+             0xBu,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v13 = name.pNode;
-  --name.pNode->RefCount;
+  v13 = v54[0];
+  --v54[0]->RefCount;
   if ( !v13->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v13);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasScreenBroadcast",
-                 0x12u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasScreenBroadcast",
+             0x12u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v14 = name.pNode;
-  --name.pNode->RefCount;
+  v14 = v54[0];
+  --v54[0]->RefCount;
   if ( !v14->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v14);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasScreenPlayback",
-                 0x11u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasScreenPlayback",
+             0x11u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v15 = name.pNode;
-  --name.pNode->RefCount;
+  v15 = v54[0];
+  --v54[0]->RefCount;
   if ( !v15->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v15);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasStreamingAudio",
-                 0x11u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasStreamingAudio",
+             0x11u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v16 = name.pNode;
-  --name.pNode->RefCount;
+  v16 = v54[0];
+  --v54[0]->RefCount;
   if ( !v16->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasStreamingVideo",
-                 0x11u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasStreamingVideo",
+             0x11u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v17 = name.pNode;
-  --name.pNode->RefCount;
+  v17 = v54[0];
+  --v54[0]->RefCount;
   if ( !v17->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v17);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "hasVideoEncoder",
-                 0xFu,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "hasVideoEncoder",
+             0xFu,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v18 = name.pNode;
-  --name.pNode->RefCount;
+  v18 = v54[0];
+  --v54[0]->RefCount;
   if ( !v18->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v18);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "isDebugger",
-                 0xAu,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "isDebugger",
+             0xAu,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v19 = name.pNode;
-  --name.pNode->RefCount;
+  v19 = v54[0];
+  --v54[0]->RefCount;
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "localFileReadDisable",
-                 0x14u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "localFileReadDisable",
+             0x14u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v20 = name.pNode;
-  --name.pNode->RefCount;
+  v20 = v54[0];
+  --v54[0]->RefCount;
   if ( !v20->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v20);
   ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -313,22 +312,22 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
   ++ConstStringNode->RefCount;
   ++ConstStringNode->RefCount;
   v22 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)ConstStringNode;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v22, "language", 8u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)ConstStringNode;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v22, "language", 8u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v23 = name.pNode;
-  --name.pNode->RefCount;
+  v23 = v54[0];
+  --v54[0]->RefCount;
   if ( !v23->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v23);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = ConstStringNode->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(ConstStringNode);
@@ -345,22 +344,22 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
     Scaleform::GFx::ASStringNode::ReleaseNode(v25);
   ++v26->RefCount;
   v27 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)v26;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v27, "manufacturer", 0xCu, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)v26;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v27, "manufacturer", 0xCu, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v28 = name.pNode;
-  --name.pNode->RefCount;
+  v28 = v54[0];
+  --v54[0]->RefCount;
   if ( !v28->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v28);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = v26->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v26);
@@ -377,42 +376,42 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
     Scaleform::GFx::ASStringNode::ReleaseNode(v29);
   ++v30->RefCount;
   v31 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)v30;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v31, "os", 2u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)v30;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v31, "os", 2u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v32 = name.pNode;
-  --name.pNode->RefCount;
+  v32 = v54[0];
+  --v54[0]->RefCount;
   if ( !v32->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v32);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = v30->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v30);
   v33 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 4;
-  val.NV.Int32Value = 1;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v33, "pixelAspectRatio", 0x10u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 4;
+  v56.NV.Int32Value = 1;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v33, "pixelAspectRatio", 0x10u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v34 = name.pNode;
-  --name.pNode->RefCount;
+  v34 = v54[0];
+  --v54[0]->RefCount;
   if ( !v34->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v34);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v35 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
           (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
           "External",
@@ -421,69 +420,69 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
   ++v35->RefCount;
   ++v35->RefCount;
   v36 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)v35;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v36, "playerType", 0xAu, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)v35;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v36, "playerType", 0xAu, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v37 = name.pNode;
-  --name.pNode->RefCount;
+  v37 = v54[0];
+  --v54[0]->RefCount;
   if ( !v37->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v37);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = v35->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v35);
   v38 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
           (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-          (char *)&stru_9555EC,
+          "color",
           5u,
           0);
   ++v38->RefCount;
   ++v38->RefCount;
   v39 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)v38;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v39, "screenColor", 0xBu, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)v38;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v39, "screenColor", 0xBu, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v40 = name.pNode;
-  --name.pNode->RefCount;
+  v40 = v54[0];
+  --v54[0]->RefCount;
   if ( !v40->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v40);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = v38->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v38);
   v41 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 4;
-  val.NV.Int32Value = 72;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v41, "screenDPI", 9u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 4;
+  v56.NV.Int32Value = 72;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v41, "screenDPI", 9u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v42 = name.pNode;
-  --name.pNode->RefCount;
+  v42 = v54[0];
+  --v54[0]->RefCount;
   if ( !v42->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v42);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v43 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
           (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
           "WIN 8,0,0,0",
@@ -497,89 +496,89 @@ void __thiscall Scaleform::GFx::AS2::CapabilitiesCtorFunction::CapabilitiesCtorF
     Scaleform::GFx::ASStringNode::ReleaseNode(v43);
   ++v44->RefCount;
   v45 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 5;
-  val.NV.Int32Value = (int)v44;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v45, "version", 7u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 5;
+  v56.NV.Int32Value = (int)v44;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v45, "version", 7u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v46 = name.pNode;
-  --name.pNode->RefCount;
+  v46 = v54[0];
+  --v54[0]->RefCount;
   if ( !v46->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v46);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v24 = v44->RefCount-- == 1;
   if ( v24 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v44);
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                 "windowlessDisable",
-                 0x11u,
-                 0);
-  ++name.pNode->RefCount;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+             (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+             "windowlessDisable",
+             0x11u,
+             0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &falseVal,
+    (const Scaleform::GFx::ASString *)v54,
+    &v55,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v47 = name.pNode;
-  --name.pNode->RefCount;
+  v47 = v54[0];
+  --v54[0]->RefCount;
   if ( !v47->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v47);
   v48 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 10;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v48, "screenResolutionX", 0x11u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 10;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v48, "screenResolutionX", 0x11u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v49 = name.pNode;
-  --name.pNode->RefCount;
+  v49 = v54[0];
+  --v54[0]->RefCount;
   if ( !v49->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v49);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v50 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 10;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v50, "screenResolutionY", 0x11u, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 10;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v50, "screenResolutionY", 0x11u, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v51 = name.pNode;
-  --name.pNode->RefCount;
+  v51 = v54[0];
+  --v54[0]->RefCount;
   if ( !v51->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v51);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
   v52 = (Scaleform::GFx::ASStringManager *)v2->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  val.T.Type = 10;
-  name.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v52, "serverString", 0xCu, 0);
-  ++name.pNode->RefCount;
+  v56.T.Type = 10;
+  v54[0] = Scaleform::GFx::ASStringManager::CreateConstStringNode(v52, "serverString", 0xCu, 0);
+  ++v54[0]->RefCount;
   Scaleform::GFx::AS2::Object::SetMemberRaw(
     (Scaleform::GFx::AS2::Object *)v5,
     v2,
-    &name,
-    &val,
+    (const Scaleform::GFx::ASString *)v54,
+    &v56,
     (const Scaleform::GFx::AS2::PropFlags *)&psc);
-  v53 = name.pNode;
-  --name.pNode->RefCount;
+  v53 = v54[0];
+  --v54[0]->RefCount;
   if ( !v53->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v53);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  if ( falseVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&falseVal);
+  if ( v56.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v56);
+  if ( v55.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v55);
 }

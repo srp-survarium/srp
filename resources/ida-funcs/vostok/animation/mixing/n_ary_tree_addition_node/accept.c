@@ -5,11 +5,3 @@ void __thiscall vostok::animation::mixing::n_ary_tree_addition_node::accept(
 {
   node->visit(node, dispatcher, this);
 }
-
-
-void __thiscall vostok::animation::mixing::n_ary_tree_addition_node::accept(
-        vostok::animation::mixing::n_ary_tree_addition_node *this,
-        vostok::animation::mixing::n_ary_tree_visitor *visitor)
-{
-  visitor->visit(visitor, this);
-}

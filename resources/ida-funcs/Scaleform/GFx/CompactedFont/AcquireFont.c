@@ -11,33 +11,33 @@ unsigned int __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayPagedLH_PO
   unsigned int v10; // esi
   unsigned int v11; // esi
   int v12; // eax
-  unsigned int i; // [esp+Ch] [ebp-4h]
-  signed int ia; // [esp+Ch] [ebp-4h]
-  signed int ib; // [esp+Ch] [ebp-4h]
-  signed int ic; // [esp+Ch] [ebp-4h]
+  int v13; // [esp+Ch] [ebp-4h]
+  int v14; // [esp+Ch] [ebp-4h]
+  int v15; // [esp+Ch] [ebp-4h]
+  int v16; // [esp+Ch] [ebp-4h]
 
   Data = this->Decoder.Data;
   p_Decoder = (Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *)&this->Decoder;
   if ( Data->Size < startPos + 15 )
     return 0;
-  i = 0;
+  v13 = 0;
   if ( Data->Pages[startPos >> 12][startPos & 0xFFF] )
   {
     v6 = startPos;
     do
     {
-      ++i;
+      ++v13;
       ++v6;
     }
     while ( p_Decoder->Data->Pages[v6 >> 12][v6 & 0xFFF] );
   }
   Scaleform::ArrayUnsafeBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>>::Reserve(
     (Scaleform::ArrayUnsafeBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2> > *)&this->Name,
-    i + 1,
+    v13 + 1,
     0);
   v7 = 0;
-  this->Name.Size = i + 1;
-  if ( i != -1 )
+  this->Name.Size = v13 + 1;
+  if ( v13 != -1 )
   {
     do
     {
@@ -53,18 +53,18 @@ unsigned int __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayPagedLH_PO
   this->NominalSize = p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
                     | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8);
   v8 += 2;
-  ia = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
-               | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
+  v14 = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
+                | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
   v8 += 2;
-  this->Ascent = (float)ia;
-  ib = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
-               | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
+  this->Ascent = (float)v14;
+  v15 = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
+                | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
   v8 += 2;
-  this->Descent = (float)ib;
-  ic = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
-               | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
+  this->Descent = (float)v15;
+  v16 = (__int16)(p_Decoder->Data->Pages[v8 >> 12][v8 & 0xFFF]
+                | (p_Decoder->Data->Pages[(v8 + 1) >> 12][(v8 + 1) & 0xFFF] << 8));
   v8 += 2;
-  this->Leading = (float)ic;
+  this->Leading = (float)v16;
   UInt32fixlen = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadUInt32fixlen(
                    p_Decoder,
                    v8);
@@ -102,10 +102,10 @@ unsigned int __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_P
   unsigned int v12; // ebx
   unsigned int v13; // ebx
   int v14; // eax
-  unsigned int startPosa; // [esp+10h] [ebp+4h]
-  signed int startPosb; // [esp+10h] [ebp+4h]
-  signed int startPosc; // [esp+10h] [ebp+4h]
-  signed int startPosd; // [esp+10h] [ebp+4h]
+  unsigned int v15; // [esp+10h] [ebp+4h]
+  int v16; // [esp+10h] [ebp+4h]
+  int v17; // [esp+10h] [ebp+4h]
+  int v18; // [esp+10h] [ebp+4h]
 
   Data = this->Decoder.Data;
   p_Decoder = (Scaleform::Render::PathDataDecoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)&this->Decoder;
@@ -122,13 +122,13 @@ unsigned int __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_P
     }
     while ( *v8 );
   }
-  startPosa = v7 + 1;
+  v15 = v7 + 1;
   Scaleform::ArrayUnsafeBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>>::Reserve(
     (Scaleform::ArrayUnsafeBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2> > *)&this->Name,
     v7 + 1,
     0);
   v9 = 0;
-  this->Name.Size = startPosa;
+  this->Name.Size = v15;
   if ( this->Name.Size )
   {
     do
@@ -143,15 +143,15 @@ unsigned int __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_P
   v10 += 2;
   this->NominalSize = *(unsigned __int16 *)&p_Decoder->Data->Data.Data[v10];
   v10 += 2;
-  startPosb = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
+  v16 = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
   v10 += 2;
-  this->Ascent = (float)startPosb;
-  startPosc = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
+  this->Ascent = (float)v16;
+  v17 = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
   v10 += 2;
-  this->Descent = (float)startPosc;
-  startPosd = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
+  this->Descent = (float)v17;
+  v18 = *(__int16 *)&p_Decoder->Data->Data.Data[v10];
   v10 += 2;
-  this->Leading = (float)startPosd;
+  this->Leading = (float)v18;
   this->NumGlyphs = p_Decoder->Data->Data.Data[v10]
                   | ((p_Decoder->Data->Data.Data[v10 + 1]
                     | (*(unsigned __int16 *)&p_Decoder->Data->Data.Data[v10 + 2] << 8)) << 8);

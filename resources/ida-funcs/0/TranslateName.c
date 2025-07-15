@@ -1,7 +1,7 @@
-BOOL __cdecl TranslateName(const tagLOCALETAB *lpTable, int high, const char **ppchName)
+BOOL __cdecl TranslateName(const tagLOCALETAB *lpTable, int high, char **ppchName)
 {
   int v3; // ebx
-  int v4; // eax
+  signed int v4; // eax
   int v5; // esi
   const tagLOCALETAB *v6; // edi
 
@@ -13,7 +13,7 @@ BOOL __cdecl TranslateName(const tagLOCALETAB *lpTable, int high, const char **p
       break;
     v5 = (v3 + high) / 2;
     v6 = &lpTable[v5];
-    v4 = _stricmp(*ppchName, v6->szName);
+    v4 = _stricmp(v3, (int)v6, *ppchName, v6->szName);
     if ( v4 )
     {
       if ( v4 >= 0 )

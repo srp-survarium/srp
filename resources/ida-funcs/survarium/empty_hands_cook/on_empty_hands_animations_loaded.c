@@ -1,129 +1,106 @@
 void __thiscall survarium::empty_hands_cook::on_empty_hands_animations_loaded(
         survarium::empty_hands_cook *this,
-        vostok::resources::queries_result *data)
+        survarium::pure_game_effect_emitter_base *data)
 {
-  unsigned int m_size; // ebx
-  int *v3; // esi
-  vostok::resources::managed_resource **v4; // ebx
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *p_m_managed_resource; // edi
-  vostok::resources::managed_resource *m_object; // ecx
-  vostok::resources::managed_resource *v7; // eax
-  vostok::resources::unmanaged_resource *v8; // ecx
-  vostok::resources::query_result_for_cook *m_parent_query; // ecx
-  vostok::resources::unmanaged_resource *v10; // ebx
-  vostok::resources::unmanaged_intrusive_base *v11; // ecx
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v12; // [esp-Ch] [ebp-2Ch]
-  unsigned int v13; // [esp-4h] [ebp-24h]
-  unsigned int v14; // [esp+0h] [ebp-20h]
-  int v15; // [esp+Ch] [ebp-14h]
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v16; // [esp+10h] [ebp-10h] BYREF
-  unsigned int v17; // [esp+14h] [ebp-Ch]
-  unsigned int animations_count; // [esp+18h] [ebp-8h]
-  unsigned int buffer_size; // [esp+1Ch] [ebp-4h]
+  vostok::resources::resource_link *m_last; // edi
+  vostok::resources::unmanaged_resource *v3; // ecx
+  char *v4; // ebx
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v5; // esi
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *managed_resource; // eax
+  char *v7; // eax
+  vostok::math::float4x4 *v8; // ecx
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *m_uid; // ebx
+  survarium::pure_game_effect_emitter_base *v10; // edi
+  survarium::pure_game_effect_emitter_base *v11; // ecx
+  vostok::resources::query_result_for_cook *v12; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v13[4]; // [esp-4h] [ebp-30h] BYREF
+  unsigned int v14; // [esp+Ch] [ebp-20h]
+  vostok::resources::memory_usage_type v15; // [esp+10h] [ebp-1Ch] BYREF
+  vostok::resources::resource_link *v16; // [esp+18h] [ebp-14h]
+  vostok::resources::resource_link *v17; // [esp+1Ch] [ebp-10h]
+  vostok::resources::resource_link **p_m_last; // [esp+20h] [ebp-Ch]
+  int v19; // [esp+24h] [ebp-8h]
 
-  m_size = data->m_size;
-  v15 = 0;
-  animations_count = m_size;
-  buffer_size = 4 * m_size + 344;
-  v3 = vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-         buffer_size);
-  if ( m_size )
+  v19 = 0;
+  m_last = data->m_children_resources.m_last;
+  v16 = m_last;
+  v14 = 4 * (_DWORD)m_last + 360;
+  v4 = vostok::memory::doug_lea_allocator::malloc_impl(
+         (vostok::memory::doug_lea_allocator *)this,
+         (int)survarium::g_allocator,
+         v14,
+         "empty_hands",
+         (const char *const)v13[1].m_object,
+         (const char *const)v13[2].m_object,
+         (const unsigned int)v13[3].m_object);
+  if ( m_last )
   {
-    v4 = (vostok::resources::managed_resource **)(v3 + 86);
-    p_m_managed_resource = &data->m_queries[0].m_managed_resource;
-    v17 = animations_count;
+    v5 = (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)(v4 + 360);
+    p_m_last = &data->m_parent_resources.m_last;
+    v17 = m_last;
     do
     {
-      if ( v4 )
+      if ( v5 )
       {
-        m_object = p_m_managed_resource->m_object;
-        v15 |= 1u;
-        v7 = 0;
-        v16.m_object = 0;
-        if ( m_object )
-        {
-          v7 = m_object;
-          v16.m_object = m_object;
-          _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-        }
-        *v4 = 0;
-        if ( v7 )
-        {
-          *v4 = v7;
-          _InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-        }
+        v19 |= 1u;
+        managed_resource = vostok::resources::query_result_for_user::get_managed_resource(
+                             (vostok::resources::query_result_for_user *)p_m_last,
+                             (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&v15.size);
+        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
+          v5,
+          managed_resource->m_object);
+        m_last = v16;
       }
-      if ( (v15 & 1) != 0 )
+      if ( (v19 & 1) != 0 )
       {
-        v15 &= ~1u;
-        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v16);
+        v19 &= ~1u;
+        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)&v15.size);
       }
-      ++v4;
-      p_m_managed_resource += 180;
-      --v17;
+      p_m_last += 184;
+      ++v5;
+      v17 = (vostok::resources::resource_link *)((char *)v17 - 1);
     }
     while ( v17 );
-    m_size = animations_count;
   }
-  if ( v3 )
+  v7 = 0;
+  if ( v4 )
   {
-    vostok::resources::resource_base::resource_base(
-      (vostok::resources::resource_base *)4,
-      (int)v3,
-      unknown_data_class,
-      1u,
-      v14);
-    v3[52] = 0;
-    animations_count = 0;
-    v3[53] = 0;
-    *v3 = (int)&vostok::resources::unmanaged_resource::`vftable';
-    v3[54] = 0;
-    v3[55] = 0;
-    v3[57] = 0;
-    v3[64] = 0;
-    vostok::resources::unmanaged_resource::constructor_impl(v8, (int)v3);
-    *v3 = (int)&survarium::empty_hands::`vftable';
-    v3[82] = 0;
-    v3[83] = (int)(v3 + 86);
-    v3[84] = m_size;
-    v3[85] = 0;
-    vostok::math::float4x4::identity((vostok::math::float4x4 *)(v3 + 66));
+    *((_DWORD *)v4 + 1) = 0;
+    *((_DWORD *)v4 + 2) = 0;
+    v4[13] = 0;
+    v13[0].m_object = (survarium::pure_game_effect_emitter_base *)1;
+    *(_DWORD *)v4 = &survarium::interactive_object::`vftable';
+    v4[12] = -1;
+    v4[14] = 1;
+    vostok::resources::unmanaged_resource::unmanaged_resource(
+      v3,
+      (_DWORD *)v4 + 4,
+      (vostok::resources::class_id_enum)v13[0].m_object);
+    *((_DWORD *)v4 + 86) = 0;
+    *((_DWORD *)v4 + 87) = v4 + 360;
+    *(_DWORD *)v4 = &survarium::empty_hands::`vftable'{for `survarium::interactive_object'};
+    *((_DWORD *)v4 + 4) = &survarium::empty_hands::`vftable'{for `vostok::resources::unmanaged_resource'};
+    *((_DWORD *)v4 + 88) = m_last;
+    *((_DWORD *)v4 + 89) = 0;
+    vostok::math::float4x4::identity(v8, (vostok::math::float4x4 *)(v4 + 280));
+    v7 = v4;
   }
+  m_uid = (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)data->m_uid;
+  if ( v7 )
+    v10 = (survarium::pure_game_effect_emitter_base *)(v7 + 16);
   else
-  {
-    v3 = 0;
-  }
-  m_parent_query = data->m_parent_query;
-  v10 = 0;
-  animations_count = (unsigned int)m_parent_query;
-  if ( v3 )
-  {
-    v10 = (vostok::resources::unmanaged_resource *)v3;
-    _InterlockedExchangeAdd(v3 + 52, 1u);
-  }
-  v13 = buffer_size;
-  v12.m_object = 0;
-  if ( v10 )
-  {
-    v12.m_object = v10;
-    _InterlockedExchangeAdd(&v10->m_reference_count, 1u);
-  }
-  vostok::resources::query_result_for_cook::set_unmanaged_resource(
-    m_parent_query,
-    v12,
-    &vostok::resources::nocache_memory,
-    v13);
-  if ( v10 )
-  {
-    v11 = &v10->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&v10->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v11, v10);
-  }
+    v10 = 0;
+  v13[0].m_object = data;
+  v15.type = &vostok::resources::nocache_memory;
+  v15.size = v14;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    v13,
+    v10);
+  vostok::resources::query_result_for_cook::set_unmanaged_resource(&v15, v11, m_uid, v13[0]);
   vostok::resources::query_result_for_cook::finish_query_impl(
-    (vostok::resources::query_result_for_cook *)v11,
-    animations_count,
-    result_success,
+    v12,
+    (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)m_uid,
+    result_out_of_memory,
     assert_on_fail_true,
-    0);
+    result_fail);
 }

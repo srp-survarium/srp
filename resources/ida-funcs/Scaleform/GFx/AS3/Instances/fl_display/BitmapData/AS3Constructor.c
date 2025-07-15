@@ -4,23 +4,23 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::AS3Const
         Scaleform::GFx::AS3::Value *argv)
 {
   unsigned int v3; // ebx
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pHAL; // eax
-  Scaleform::GFx::AS3::Value *v8; // edi
+  Scaleform::GFx::AS3::Value *v7; // edi
   Scaleform::Render::DrawableImageContext *DrawableImageContext; // eax
-  Scaleform::GFx::Resource *v10; // edi
+  Scaleform::GFx::Resource *v9; // edi
   Scaleform::Render::ThreadCommandQueue *pRTCommandQueue; // ecx
-  void (__thiscall *GetRenderInterfaces)(Scaleform::Render::ThreadCommandQueue *, Scaleform::Render::Interfaces *); // eax
+  void (__thiscall *GetRenderInterfaces)(Scaleform::Render::ThreadCommandQueue *, Scaleform::Render::Interfaces *); // edx
   Scaleform::Render::TextureManager *pTextureManager; // ebp
-  Scaleform::Render::DrawableImage *v14; // ebx
-  Scaleform::Render::ImageFormat v15; // eax
-  Scaleform::Render::ImageBase *v16; // eax
-  Scaleform::Render::ImageBase *v17; // edi
-  Scaleform::Render::ImageBase *v18; // ecx
-  Scaleform::Render::DrawableImage *v19; // eax
-  Scaleform::Render::ImageBase *v20; // eax
+  Scaleform::Render::DrawableImage *v13; // ebx
+  Scaleform::Render::ImageFormat v14; // eax
+  Scaleform::Render::ImageBase *v15; // eax
+  Scaleform::Render::ImageBase *v16; // edi
+  Scaleform::Render::ImageBase *v17; // ecx
+  Scaleform::Render::DrawableImage *v18; // eax
+  Scaleform::Render::ImageBase *v19; // eax
   Scaleform::Render::ImageBase *pObject; // ecx
+  Scaleform::StringDataPtr v21; // [esp-14h] [ebp-38h]
   Scaleform::Render::Size<unsigned long> v22; // [esp-14h] [ebp-38h]
   bool Transparent; // [esp-Ch] [ebp-30h]
   unsigned int v24; // [esp-8h] [ebp-2Ch]
@@ -30,20 +30,20 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::AS3Const
   v3 = argc;
   if ( argc >= 2 )
   {
-    v8 = argv;
+    v7 = argv;
     if ( Scaleform::GFx::AS3::Value::Convert2Int32(argv, (Scaleform::GFx::AS3::CheckResult *)&argc, (int *)&argv)->Result )
     {
       this->Width = (unsigned int)argv;
-      if ( Scaleform::GFx::AS3::Value::Convert2Int32(v8 + 1, (Scaleform::GFx::AS3::CheckResult *)&argc, (int *)&argv)->Result )
+      if ( Scaleform::GFx::AS3::Value::Convert2Int32(v7 + 1, (Scaleform::GFx::AS3::CheckResult *)&argc, (int *)&argv)->Result )
       {
         this->Height = (unsigned int)argv;
         clearColor = -1;
         if ( v3 >= 3 )
-          this->Transparent = Scaleform::GFx::AS3::Value::Convert2Boolean(v8 + 2);
+          this->Transparent = Scaleform::GFx::AS3::Value::Convert2Boolean(v7 + 2);
         if ( v3 >= 4 )
-          Scaleform::GFx::AS3::Value::Convert2UInt32(v8 + 3, (Scaleform::GFx::AS3::CheckResult *)&argc, &clearColor);
+          Scaleform::GFx::AS3::Value::Convert2UInt32(v7 + 3, (Scaleform::GFx::AS3::CheckResult *)&argc, &clearColor);
         DrawableImageContext = Scaleform::GFx::MovieImpl::GetDrawableImageContext((Scaleform::GFx::MovieImpl *)this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM);
-        v10 = (Scaleform::GFx::Resource *)DrawableImageContext;
+        v9 = (Scaleform::GFx::Resource *)DrawableImageContext;
         if ( DrawableImageContext )
         {
           pRTCommandQueue = DrawableImageContext->pRTCommandQueue;
@@ -55,15 +55,15 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::AS3Const
             pTextureManager = interfaces.pTextureManager;
             if ( this->pImageResource.pObject )
             {
-              v19 = (Scaleform::Render::DrawableImage *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x74u);
-              if ( v19 )
+              v18 = (Scaleform::Render::DrawableImage *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x78u);
+              if ( v18 )
               {
-                Scaleform::Render::DrawableImage::DrawableImage(v19, 1, this->pImageResource.pObject->pImage, v10);
-                v17 = v20;
+                Scaleform::Render::DrawableImage::DrawableImage(v18, 1, this->pImageResource.pObject->pImage, v9);
+                v16 = v19;
               }
               else
               {
-                v17 = 0;
+                v16 = 0;
               }
               pObject = this->pImage.pObject;
               if ( pObject )
@@ -71,35 +71,35 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::AS3Const
             }
             else
             {
-              v14 = (Scaleform::Render::DrawableImage *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x74u);
-              if ( v14 )
+              v13 = (Scaleform::Render::DrawableImage *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x78u);
+              if ( v13 )
               {
                 v24 = clearColor;
                 Transparent = this->Transparent;
                 v22 = *(Scaleform::Render::Size<unsigned long> *)&this->Width;
-                v15 = pTextureManager->GetDrawableImageFormat(pTextureManager);
+                v14 = pTextureManager->GetDrawableImageFormat(pTextureManager);
                 Scaleform::Render::DrawableImage::DrawableImage(
+                  v13,
                   v14,
-                  v15,
                   v22,
                   Transparent,
                   (Scaleform::Render::Color)v24,
-                  (Scaleform::Render::DrawableImageContext *)v10);
-                v17 = v16;
+                  v9);
+                v16 = v15;
               }
               else
               {
-                v17 = 0;
+                v16 = 0;
               }
-              v18 = this->pImage.pObject;
-              if ( v18 )
+              v17 = this->pImage.pObject;
+              if ( v17 )
               {
-                v18->Release(v18);
-                this->pImage.pObject = v17;
+                v17->Release(v17);
+                this->pImage.pObject = v16;
                 return;
               }
             }
-            this->pImage.pObject = v17;
+            this->pImage.pObject = v16;
           }
         }
       }
@@ -107,9 +107,17 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::AS3Const
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&interfaces, eWrongArgumentCountError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
+    v21.pStr = "BitmapData::AS3Constructor";
+    v21.Size = 26;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&interfaces,
+      eWrongArgumentCountError,
+      this->pTraits.pObject->pVM,
+      v21,
+      2,
+      2,
+      argc);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
     pHAL = (Scaleform::GFx::ASStringNode *)interfaces.pHAL;
     --interfaces.pHAL->CurrentPass;
     if ( !pHAL->RefCount )

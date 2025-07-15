@@ -9,21 +9,21 @@ void __thiscall Scaleform::GFx::AS2::FunctionObject::SetProtoAndCtor(
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
   unsigned int v8; // eax
-  Scaleform::GFx::AS2::FunctionRef ctor; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+10h] [ebp-Ch] BYREF
 
   v3 = &this->Scaleform::GFx::AS2::ObjectInterface;
   this->Set__proto__(&this->Scaleform::GFx::AS2::ObjectInterface, psc, pprototype);
-  Scaleform::GFx::AS2::ObjectInterface::Get_constructor(&pprototype->Scaleform::GFx::AS2::ObjectInterface, &ctor, psc);
-  Function = ctor.Function;
-  if ( ctor.Function )
-    Scaleform::GFx::AS2::ObjectInterface::Set_constructor(v3, psc, &ctor);
-  Flags = ctor.Flags;
-  if ( (ctor.Flags & 2) == 0 )
+  Scaleform::GFx::AS2::ObjectInterface::Get_constructor(&pprototype->Scaleform::GFx::AS2::ObjectInterface, &result, psc);
+  Function = result.Function;
+  if ( result.Function )
+    Scaleform::GFx::AS2::ObjectInterface::Set_constructor(v3, psc, &result);
+  Flags = result.Flags;
+  if ( (result.Flags & 2) == 0 )
   {
     if ( Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -32,13 +32,13 @@ void __thiscall Scaleform::GFx::AS2::FunctionObject::SetProtoAndCtor(
   }
   if ( (Flags & 1) == 0 )
   {
-    pLocalFrame = ctor.pLocalFrame;
-    if ( ctor.pLocalFrame )
+    pLocalFrame = result.pLocalFrame;
+    if ( result.pLocalFrame )
     {
-      v8 = ctor.pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+      v8 = result.pLocalFrame->RefCount;
+      if ( (v8 & 0x3FFFFFF) != 0 )
       {
-        ctor.pLocalFrame->RefCount = v8 - 1;
+        result.pLocalFrame->RefCount = v8 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
       }
     }

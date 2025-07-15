@@ -1,25 +1,15 @@
-void __thiscall survarium::jump_logic::~jump_logic(survarium::jump_logic *this)
+void __usercall survarium::jump_logic::~jump_logic(survarium::jump_logic *this@<ecx>, int a2@<eax>)
 {
-  survarium::game_camera *v1; // ecx
-  vostok::memory::doug_lea_allocator *v2; // eax
-  vostok::memory::doug_lea_allocator *v3; // eax
-  survarium::game_camera *v4; // ecx
-  vostok::ai::fsm_state *state; // [esp+28h] [ebp-4h] BYREF
+  survarium::jump_logic_state_start *v3; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
 
-  vostok::ai::fsm::clear_transitions(this->m_logic);
-  while ( 1 )
-  {
-    state = vostok::ai::fsm::pop_state(this->m_logic);
-    if ( !state )
-      break;
-    survarium::weapon_user_dead_state::finalize(v1);
-    vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,survarium::inventory,vostok::memory::detail::call_destructor_predicate>(
-      v2,
-      (vostok::sound::sound_scene **)&state);
-  }
-  survarium::weapon_user_dead_state::finalize(v1);
-  vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::ai::fsm,vostok::memory::detail::call_destructor_predicate>(
-    v3,
-    &this->m_logic);
-  survarium::weapon_user_dead_state::finalize(v4);
+  vostok::ai::fsm::clear_transitions(&this->m_logic, a2);
+  survarium::jump_logic_base_state::~jump_logic_base_state((survarium::jump_logic_base_state *)(a2 + 256));
+  survarium::jump_logic_state_start::~jump_logic_state_start(v3, a2 + 200);
+  survarium::jump_logic_base_state::~jump_logic_base_state((survarium::jump_logic_base_state *)(a2 + 148));
+  survarium::jump_logic_base_state::~jump_logic_base_state((survarium::jump_logic_base_state *)(a2 + 104));
+  survarium::jump_logic_base_state::~jump_logic_base_state((survarium::jump_logic_base_state *)(a2 + 56));
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v4,
+    (int *)(a2 + 24));
 }

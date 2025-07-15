@@ -1,4 +1,4 @@
-int __cdecl rc2_magic_to_meth(int i)
+int __usercall rc2_magic_to_meth@<eax>(int a1@<ebx>, int i)
 {
   switch ( i )
   {
@@ -9,6 +9,6 @@ int __cdecl rc2_magic_to_meth(int i)
     case 160:
       return 40;
   }
-  ERR_put_error(6u, 109, 108, ".\\crypto\\evp\\e_rc2.c", 163);
+  ERR_put_error(a1, 6u, 109, 108, ".\\crypto\\evp\\e_rc2.c", 163);
   return 0;
 }

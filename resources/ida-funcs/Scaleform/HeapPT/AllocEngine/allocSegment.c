@@ -8,7 +8,7 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
 {
   unsigned int Limit; // eax
   Scaleform::LockSafe *p_RootLock; // esi
-  unsigned int v10; // ebx
+  Scaleform::Heap::HeapSegment *v10; // ebx
   Scaleform::Heap::HeapSegment *v11; // esi
   unsigned __int8 *v12; // eax
   Scaleform::Heap::HeapSegment *pNext; // edx
@@ -27,11 +27,11 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
     return 0;
   }
   *limHandlerOK = 0;
-  v10 = (bookkeepingSize + 47) & 0xFFFFFFF0;
-  v11 = (Scaleform::Heap::HeapSegment *)Scaleform::HeapPT::Bookkeeper::Alloc(this->pBookkeeper, v10);
+  v10 = (Scaleform::Heap::HeapSegment *)((bookkeepingSize + 47) & 0xFFFFFFF0);
+  v11 = Scaleform::HeapPT::Bookkeeper::Alloc(this->pBookkeeper, v10);
   if ( !v11 )
     return 0;
-  v11->SelfSize = v10;
+  v11->SelfSize = (unsigned int)v10;
   v11->SegType = segType;
   v11->Alignment = (unsigned __int8)Scaleform::Alg::UpperBit(alignSize);
   v11->UseCount = 0;
@@ -50,7 +50,7 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
     {
       this->pSysAlloc->Free(this->pSysAlloc, v11->pData, dataSize, alignSize);
 LABEL_12:
-      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (void *)v11, v10);
+      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (unsigned int)v11, (unsigned int)v10);
       return 0;
     }
     Scaleform::HeapPT::PageTable::SetSegmentInRange(

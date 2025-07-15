@@ -1,7 +1,7 @@
 void __thiscall Scaleform::Render::ArrayReserveLH_Mov<Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive>,2>::~ArrayReserveLH_Mov<Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive>,2>(
         Scaleform::Render::ArrayReserveLH_Mov<Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive>,2> *this)
 {
-  $445CB3699B64BB30984BADDF1BBAFC2D *v2; // ebp
+  $037AF80D9AEBE352D643A8853E25724C *v2; // ebp
   Scaleform::RefCountVImpl **pData; // esi
   unsigned int Size; // edi
 

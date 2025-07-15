@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::TransformArgs::SetViewProj(
     this->viewState = t->viewState;
     this->projState = t->projState;
     this->bRecomputeViewProj = t->bRecomputeViewProj;
-    memcpy((unsigned __int8 *)&this->ViewProj, (unsigned __int8 *)&t->ViewProj, sizeof(this->ViewProj));
+    memcpy((int)&this->ViewProj, (const __m128i *)&t->ViewProj, sizeof(this->ViewProj));
   }
   if ( data )
   {

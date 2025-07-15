@@ -1,6 +1,4 @@
-void vostok::threading::_dynamic_initializer_for__s_fpe_disabled__()
+void __thiscall vostok::threading::_dynamic_initializer_for__s_fpe_disabled__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_fpe_disabled);
+  vostok::command_line::key::key(this, &s_fpe_disabled, "fpe_disabled", uri, "math", "turns off fpu exceptions", uri);
 }

@@ -133,12 +133,12 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
   v86 = v5;
   v90 = v6;
   v17 = _LCamellia_SBOX[-15] ^ v4;
-  v18 = *(int *)((char *)&v15[2 * (unsigned __int8)((v16 ^ (unsigned int)v3) >> 16)] + (_DWORD)&loc_7C2B1C - 8135452)
+  v18 = *(int *)((char *)&v15[2 * (unsigned __int8)((v16 ^ (unsigned int)v3) >> 16)] + (_DWORD)&loc_67599C - 6771100)
       ^ v15[2 * ((v16 ^ (unsigned int)v3) >> 24)]
       ^ v15[2 * (unsigned __int8)(v16 ^ v3) + 1]
-      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v16 ^ v3) >> 8)] + (_DWORD)&loc_7C2B1F - 8135451);
-  v19 = *(int *)((char *)&v15[2 * BYTE2(v17)] + (_DWORD)&loc_7C2B1F - 8135451)
-      ^ *(int *)((char *)&v15[2 * HIBYTE(v17)] + (_DWORD)&loc_7C2B1C - 8135452)
+      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v16 ^ v3) >> 8)] + (_DWORD)&loc_67599F - 6771099);
+  v19 = *(int *)((char *)&v15[2 * BYTE2(v17)] + (_DWORD)&loc_67599F - 6771099)
+      ^ *(int *)((char *)&v15[2 * HIBYTE(v17)] + (_DWORD)&loc_67599C - 6771100)
       ^ v18
       ^ v15[2 * BYTE1(v17) + 1]
       ^ v15[2 * (unsigned __int8)v17];
@@ -146,12 +146,12 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
   v91 = v19 ^ v90 ^ __ROR4__(v18, 8);
   v87 = v86 ^ v19;
   v21 = _LCamellia_SBOX[-13] ^ v91;
-  v22 = *(int *)((char *)&v15[2 * (unsigned __int8)((v20 ^ (unsigned int)v87) >> 16)] + (_DWORD)&loc_7C2B1C - 8135452)
+  v22 = *(int *)((char *)&v15[2 * (unsigned __int8)((v20 ^ (unsigned int)v87) >> 16)] + (_DWORD)&loc_67599C - 6771100)
       ^ v15[2 * ((v20 ^ (unsigned int)v87) >> 24)]
       ^ v15[2 * (unsigned __int8)(v20 ^ v87) + 1]
-      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v20 ^ v87) >> 8)] + (_DWORD)&loc_7C2B1F - 8135451);
-  v23 = *(int *)((char *)&v15[2 * BYTE2(v21)] + (_DWORD)&loc_7C2B1F - 8135451)
-      ^ *(int *)((char *)&v15[2 * HIBYTE(v21)] + (_DWORD)&loc_7C2B1C - 8135452)
+      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v20 ^ v87) >> 8)] + (_DWORD)&loc_67599F - 6771099);
+  v23 = *(int *)((char *)&v15[2 * BYTE2(v21)] + (_DWORD)&loc_67599F - 6771099)
+      ^ *(int *)((char *)&v15[2 * HIBYTE(v21)] + (_DWORD)&loc_67599C - 6771100)
       ^ v22
       ^ v15[2 * BYTE1(v21) + 1]
       ^ v15[2 * (unsigned __int8)v21];
@@ -159,12 +159,12 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
   v80 = *a3 ^ v79 ^ v23;
   v84 = a3[1] ^ v23 ^ v83 ^ __ROR4__(v22, 8);
   v25 = _LCamellia_SBOX[-11] ^ v84;
-  v26 = *(int *)((char *)&v15[2 * (unsigned __int8)((v24 ^ (unsigned int)v80) >> 16)] + (_DWORD)&loc_7C2B1C - 8135452)
+  v26 = *(int *)((char *)&v15[2 * (unsigned __int8)((v24 ^ (unsigned int)v80) >> 16)] + (_DWORD)&loc_67599C - 6771100)
       ^ v15[2 * ((v24 ^ (unsigned int)v80) >> 24)]
       ^ v15[2 * (unsigned __int8)(v24 ^ v80) + 1]
-      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v24 ^ v80) >> 8)] + (_DWORD)&loc_7C2B1F - 8135451);
-  v27 = *(int *)((char *)&v15[2 * BYTE2(v25)] + (_DWORD)&loc_7C2B1F - 8135451)
-      ^ *(int *)((char *)&v15[2 * HIBYTE(v25)] + (_DWORD)&loc_7C2B1C - 8135452)
+      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v24 ^ v80) >> 8)] + (_DWORD)&loc_67599F - 6771099);
+  v27 = *(int *)((char *)&v15[2 * BYTE2(v25)] + (_DWORD)&loc_67599F - 6771099)
+      ^ *(int *)((char *)&v15[2 * HIBYTE(v25)] + (_DWORD)&loc_67599C - 6771100)
       ^ v26
       ^ v15[2 * BYTE1(v25) + 1]
       ^ v15[2 * (unsigned __int8)v25];
@@ -172,12 +172,12 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
   v92 = v27 ^ a3[3] ^ v91 ^ __ROR4__(v26, 8);
   v88 = a3[2] ^ v87 ^ v27;
   v29 = _LCamellia_SBOX[-9] ^ v92;
-  v30 = *(int *)((char *)&v15[2 * (unsigned __int8)((v28 ^ (unsigned int)v88) >> 16)] + (_DWORD)&loc_7C2B1C - 8135452)
+  v30 = *(int *)((char *)&v15[2 * (unsigned __int8)((v28 ^ (unsigned int)v88) >> 16)] + (_DWORD)&loc_67599C - 6771100)
       ^ v15[2 * ((v28 ^ (unsigned int)v88) >> 24)]
       ^ v15[2 * (unsigned __int8)(v28 ^ v88) + 1]
-      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v28 ^ v88) >> 8)] + (_DWORD)&loc_7C2B1F - 8135451);
-  v31 = *(int *)((char *)&v15[2 * BYTE2(v29)] + (_DWORD)&loc_7C2B1F - 8135451)
-      ^ *(int *)((char *)&v15[2 * HIBYTE(v29)] + (_DWORD)&loc_7C2B1C - 8135452)
+      ^ *(int *)((char *)&v15[2 * (unsigned __int8)((unsigned __int16)(v28 ^ v88) >> 8)] + (_DWORD)&loc_67599F - 6771099);
+  v31 = *(int *)((char *)&v15[2 * BYTE2(v29)] + (_DWORD)&loc_67599F - 6771099)
+      ^ *(int *)((char *)&v15[2 * HIBYTE(v29)] + (_DWORD)&loc_67599C - 6771100)
       ^ v30
       ^ v15[2 * BYTE1(v29) + 1]
       ^ v15[2 * (unsigned __int8)v29];
@@ -300,15 +300,15 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
     v85 = a3[9] ^ HIDWORD(v33);
     v56 = _LCamellia_SBOX[-7] ^ v85;
     v57 = *(int *)((char *)&_LCamellia_SBOX[2 * (unsigned __int8)((v55 ^ (unsigned int)v81) >> 16)]
-                 + (_DWORD)&loc_7C2B1C
-                 - 8135452)
+                 + (_DWORD)&loc_67599C
+                 - 6771100)
         ^ _LCamellia_SBOX[2 * ((v55 ^ (unsigned int)v81) >> 24)]
         ^ _LCamellia_SBOX[2 * (unsigned __int8)(v55 ^ v81) + 1]
         ^ *(int *)((char *)&_LCamellia_SBOX[2 * (unsigned __int8)((unsigned __int16)(v55 ^ v81) >> 8)]
-                 + (_DWORD)&loc_7C2B1F
-                 - 8135451);
-    v58 = *(int *)((char *)&_LCamellia_SBOX[2 * BYTE2(v56)] + (_DWORD)&loc_7C2B1F - 8135451)
-        ^ *(int *)((char *)&_LCamellia_SBOX[2 * HIBYTE(v56)] + (_DWORD)&loc_7C2B1C - 8135452)
+                 + (_DWORD)&loc_67599F
+                 - 6771099);
+    v58 = *(int *)((char *)&_LCamellia_SBOX[2 * BYTE2(v56)] + (_DWORD)&loc_67599F - 6771099)
+        ^ *(int *)((char *)&_LCamellia_SBOX[2 * HIBYTE(v56)] + (_DWORD)&loc_67599C - 6771100)
         ^ v57
         ^ _LCamellia_SBOX[2 * BYTE1(v56) + 1]
         ^ _LCamellia_SBOX[2 * (unsigned __int8)v56];
@@ -317,15 +317,15 @@ int __cdecl Camellia_Ekeygen(int a1, unsigned int *a2, int *a3)
     v89 = a3[10] ^ v88 ^ v58;
     v60 = _LCamellia_SBOX[-5] ^ v93;
     v61 = *(int *)((char *)&_LCamellia_SBOX[2 * (unsigned __int8)((v59 ^ (unsigned int)v89) >> 16)]
-                 + (_DWORD)&loc_7C2B1C
-                 - 8135452)
+                 + (_DWORD)&loc_67599C
+                 - 6771100)
         ^ _LCamellia_SBOX[2 * ((v59 ^ (unsigned int)v89) >> 24)]
         ^ _LCamellia_SBOX[2 * (unsigned __int8)(v59 ^ v89) + 1]
         ^ *(int *)((char *)&_LCamellia_SBOX[2 * (unsigned __int8)((unsigned __int16)(v59 ^ v89) >> 8)]
-                 + (_DWORD)&loc_7C2B1F
-                 - 8135451);
-    v62 = *(int *)((char *)&_LCamellia_SBOX[2 * BYTE2(v60)] + (_DWORD)&loc_7C2B1F - 8135451)
-        ^ *(int *)((char *)&_LCamellia_SBOX[2 * HIBYTE(v60)] + (_DWORD)&loc_7C2B1C - 8135452)
+                 + (_DWORD)&loc_67599F
+                 - 6771099);
+    v62 = *(int *)((char *)&_LCamellia_SBOX[2 * BYTE2(v60)] + (_DWORD)&loc_67599F - 6771099)
+        ^ *(int *)((char *)&_LCamellia_SBOX[2 * HIBYTE(v60)] + (_DWORD)&loc_67599C - 6771100)
         ^ v61
         ^ _LCamellia_SBOX[2 * BYTE1(v60) + 1]
         ^ _LCamellia_SBOX[2 * (unsigned __int8)v60];

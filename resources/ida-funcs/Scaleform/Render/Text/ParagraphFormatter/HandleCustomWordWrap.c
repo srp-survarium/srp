@@ -60,31 +60,31 @@ char __thiscall Scaleform::Render::Text::ParagraphFormatter::HandleCustomWordWra
   double v59; // st7
   int v60; // ecx
   unsigned int v61; // eax
-  float v62; // [esp+4016h] [ebp-510h]
-  float v63; // [esp+4016h] [ebp-510h]
-  float v64; // [esp+4016h] [ebp-510h]
-  unsigned int v65; // [esp+401Ah] [ebp-50Ch]
-  float v66; // [esp+401Ah] [ebp-50Ch]
-  float v67; // [esp+401Ah] [ebp-50Ch]
-  unsigned int v68; // [esp+401Eh] [ebp-508h]
-  bool v69; // [esp+4025h] [ebp-501h]
-  _BYTE *v70; // [esp+4026h] [ebp-500h]
-  unsigned int v71; // [esp+402Ah] [ebp-4FCh]
-  float v72; // [esp+402Ah] [ebp-4FCh]
-  unsigned __int16 *v73; // [esp+402Eh] [ebp-4F8h]
-  int v74; // [esp+4032h] [ebp-4F4h]
-  _DWORD v75[4]; // [esp+4036h] [ebp-4F0h] BYREF
-  unsigned int v76; // [esp+4046h] [ebp-4E0h]
-  float TextRectWidth; // [esp+404Ah] [ebp-4DCh]
-  float v78; // [esp+404Eh] [ebp-4D8h]
-  float v79; // [esp+4052h] [ebp-4D4h]
-  float v80; // [esp+4056h] [ebp-4D0h]
-  char v81; // [esp+405Ah] [ebp-4CCh]
-  int v82; // [esp+405Eh] [ebp-4C8h]
-  float v83; // [esp+4062h] [ebp-4C4h]
-  float v84[5]; // [esp+4066h] [ebp-4C0h] BYREF
-  Scaleform::Render::Text::GFxLineCursor v85; // [esp+407Ah] [ebp-4ACh] BYREF
-  _BYTE v86[1024]; // [esp+4126h] [ebp-400h] BYREF
+  float v62; // [esp+22h] [ebp-510h]
+  float v63; // [esp+22h] [ebp-510h]
+  float v64; // [esp+22h] [ebp-510h]
+  unsigned int v65; // [esp+26h] [ebp-50Ch]
+  float v66; // [esp+26h] [ebp-50Ch]
+  float v67; // [esp+26h] [ebp-50Ch]
+  unsigned int v68; // [esp+2Ah] [ebp-508h]
+  bool v69; // [esp+31h] [ebp-501h]
+  _BYTE *v70; // [esp+32h] [ebp-500h]
+  unsigned int v71; // [esp+36h] [ebp-4FCh]
+  float v72; // [esp+36h] [ebp-4FCh]
+  unsigned __int16 *v73; // [esp+3Ah] [ebp-4F8h]
+  int v74; // [esp+3Eh] [ebp-4F4h]
+  _DWORD v75[4]; // [esp+42h] [ebp-4F0h] BYREF
+  unsigned int v76; // [esp+52h] [ebp-4E0h]
+  float TextRectWidth; // [esp+56h] [ebp-4DCh]
+  float v78; // [esp+5Ah] [ebp-4D8h]
+  float v79; // [esp+5Eh] [ebp-4D4h]
+  float v80; // [esp+62h] [ebp-4D0h]
+  char v81; // [esp+66h] [ebp-4CCh]
+  int v82; // [esp+6Ah] [ebp-4C8h]
+  float v83; // [esp+6Eh] [ebp-4C4h]
+  float v84[5]; // [esp+72h] [ebp-4C0h] BYREF
+  Scaleform::Render::Text::GFxLineCursor v85; // [esp+86h] [ebp-4ACh] BYREF
+  _BYTE v86[1024]; // [esp+132h] [ebp-400h] BYREF
 
   pObject = this->LineCursor.pLastFont.pObject;
   if ( pObject )
@@ -114,8 +114,8 @@ char __thiscall Scaleform::Render::Text::ParagraphFormatter::HandleCustomWordWra
       v65 = NumChars;
       if ( MemSize < 0 )
       {
-        TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-        if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+        TextPos &= 0xFFFFFFu;
+        if ( TextPos == 0xFFFFFF )
           TextPos = -1;
       }
       pParaFormat = this->pParaFormat;

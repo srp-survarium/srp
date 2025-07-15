@@ -1,25 +1,20 @@
-Scaleform::Render::HAL::RenderTargetEntry *__thiscall Scaleform::Render::HAL::RenderTargetEntry::operator=(
-        Scaleform::Render::HAL::RenderTargetEntry *this,
-        const Scaleform::Render::HAL::RenderTargetEntry *__that,
-        const Scaleform::Render::HAL::RenderTargetEntry *__thata)
+Scaleform::Render::HAL::RenderTargetEntry *__userpurge Scaleform::Render::HAL::RenderTargetEntry::operator=@<eax>(
+        const Scaleform::Render::HAL::RenderTargetEntry *__that@<eax>,
+        Scaleform::Render::HAL::RenderTargetEntry *this)
 {
-  int x2; // ecx
-  int x1; // esi
-  int y1; // edx
+  Scaleform::Render::RenderTarget *pObject; // ecx
 
-  if ( __thata->pRenderTarget.pObject )
-    __thata->pRenderTarget.pObject->AddRef(__thata->pRenderTarget.pObject);
   if ( __that->pRenderTarget.pObject )
-    __that->pRenderTarget.pObject->Release(__that->pRenderTarget.pObject);
-  __that->pRenderTarget.pObject = __thata->pRenderTarget.pObject;
-  Scaleform::Render::MatrixState::operator=(&__that->OldMatrixState, &__thata->OldMatrixState);
-  x2 = __thata->OldViewRect.x2;
-  x1 = __thata->OldViewRect.x1;
-  y1 = __thata->OldViewRect.y1;
-  __that->OldViewRect.y2 = __thata->OldViewRect.y2;
-  __that->OldViewRect.x1 = x1;
-  __that->OldViewRect.y1 = y1;
-  __that->OldViewRect.x2 = x2;
-  __that->OldViewport = __thata->OldViewport;
-  return (Scaleform::Render::HAL::RenderTargetEntry *)__that;
+    __that->pRenderTarget.pObject->AddRef(__that->pRenderTarget.pObject);
+  pObject = this->pRenderTarget.pObject;
+  if ( this->pRenderTarget.pObject )
+    pObject->Release(pObject);
+  this->pRenderTarget.pObject = __that->pRenderTarget.pObject;
+  Scaleform::Render::MatrixState::operator=(
+    (Scaleform::Render::MatrixState *)pObject,
+    &this->OldMatrixState,
+    (int)&__that->OldMatrixState);
+  Scaleform::Render::Rect<int>::SetRect(&this->OldViewRect, &__that->OldViewRect);
+  qmemcpy(&this->OldViewport, &__that->OldViewport, sizeof(this->OldViewport));
+  return this;
 }

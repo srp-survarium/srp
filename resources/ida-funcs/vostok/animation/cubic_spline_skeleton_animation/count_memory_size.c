@@ -1,73 +1,52 @@
-int __cdecl vostok::animation::cubic_spline_skeleton_animation::count_memory_size(
-        const vostok::animation::bi_spline_skeleton_animation_baked *animation)
+int __usercall vostok::animation::cubic_spline_skeleton_animation::count_memory_size@<eax>(
+        const vostok::animation::bi_spline_skeleton_animation_baked *animation@<edi>)
 {
-  const vostok::animation::bi_spline_skeleton_animation_baked *v1; // ecx
-  int result; // eax
-  int v3; // esi
-  const vostok::animation::bi_spline_channel_animation_baked **v4; // ebx
-  int v5; // ebp
-  unsigned int v6; // eax
-  bool v7; // zf
-  int v8; // edx
-  int v9; // ecx
-  int v10; // esi
-  _WORD *v11; // edx
-  int v12; // edi
-  int v13; // ecx
-  int v14; // [esp+8h] [ebp-Ch]
-  unsigned int size; // [esp+Ch] [ebp-8h]
-  int v16; // [esp+10h] [ebp-4h]
+  int v1; // esi
+  int v2; // ebx
+  int v3; // eax
+  unsigned int *v4; // esi
+  int v5; // ecx
+  _WORD *v6; // edx
+  int v7; // esi
+  int v8; // eax
+  int v10; // [esp+8h] [ebp-8h]
+  const vostok::animation::bi_spline_bone_animation_baked *p_type; // [esp+Ch] [ebp-4h]
 
-  v1 = animation;
-  result = 144 * LOWORD(animation[1].__vftable) + 28;
-  size = result;
+  v1 = LOWORD(animation[1].__vftable);
+  v2 = 144 * v1 + 28;
   if ( LOWORD(animation[1].__vftable) )
   {
-    v14 = 0;
-    v16 = LOWORD(animation[1].__vftable);
+    p_type = (const vostok::animation::bi_spline_bone_animation_baked *)&animation[1].type;
+    v10 = LOWORD(animation[1].__vftable);
     do
     {
-      v3 = 0;
-      v4 = (const vostok::animation::bi_spline_channel_animation_baked **)((char *)&v1[1].type + v14);
-      v5 = 9;
-      do
-      {
-        v6 = vostok::animation::poly_knots_count(*v4);
-        v4 += 2;
-        --v5;
-        v3 += 20 * v6;
-      }
-      while ( v5 );
-      size += v3;
-      v14 += 72;
-      v7 = v16-- == 1;
-      v1 = animation;
+      v3 = vostok::animation::bone_animation::count_internal_memory_size(p_type++);
+      v2 += v3;
+      --v10;
     }
-    while ( !v7 );
-    result = size;
+    while ( v10 );
   }
-  v8 = (int)(&v1[1].type + 18 * LOWORD(v1[1].__vftable));
-  if ( (const vostok::animation::bi_spline_skeleton_animation_baked *)((char *)v1 + 72 * LOWORD(v1[1].__vftable)) != (const vostok::animation::bi_spline_skeleton_animation_baked *)-276 )
+  v4 = &animation[1].type + 18 * v1;
+  if ( v4 )
   {
-    v9 = BYTE2(v1[1].__vftable);
-    v10 = 44 * v9;
-    if ( v9 )
+    v5 = 44 * BYTE2(animation[1].__vftable);
+    if ( BYTE2(animation[1].__vftable) )
     {
-      v11 = (_WORD *)(v8 + 8);
-      v12 = v9;
+      v6 = v4 + 2;
+      v7 = BYTE2(animation[1].__vftable);
       do
       {
-        if ( *v11 )
-          v13 = 5 * (unsigned __int16)*v11;
+        if ( *v6 )
+          v8 = 5 * (unsigned __int16)*v6;
         else
-          v13 = 0;
-        v10 += v13;
-        v11 += 8;
-        --v12;
+          v8 = 0;
+        v5 += v8;
+        v6 += 8;
+        --v7;
       }
-      while ( v12 );
+      while ( v7 );
     }
-    result += v10;
+    v2 += v5;
   }
-  return result;
+  return v2;
 }

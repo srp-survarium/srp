@@ -1,233 +1,236 @@
-int __cdecl BN_div_no_branch(bignum_st *rm, const bignum_st *num, const bignum_st *divisor, bignum_ctx *ctx)
+int __usercall BN_div_no_branch@<eax>(
+        bignum_pool_item *a1@<ecx>,
+        int a2@<ebx>,
+        bignum_st *rm,
+        const bignum_st *num,
+        const bignum_st *divisor,
+        bignum_ctx *ctx)
 {
-  bignum_st *dv; // ecx
-  bignum_st *v5; // esi
-  bignum_ctx *v7; // ebx
-  bignum_pool_item *v8; // edi
-  bignum_pool_item *v9; // ebp
-  int v10; // esi
+  bignum_ctx *v8; // ebx
+  bignum_pool_item *v9; // edi
+  bignum_pool_item *v10; // ebp
+  int v11; // esi
   int top; // ecx
-  int v12; // eax
-  unsigned int *v13; // eax
-  bignum_st *v14; // eax
+  int v13; // eax
+  int v14; // eax
+  bignum_st *v15; // eax
   int i; // eax
-  bignum_st *v16; // eax
-  int v17; // ebx
+  bignum_st *v17; // eax
+  int v18; // ebx
   unsigned int *d; // ebp
-  int v19; // esi
-  unsigned int *v20; // ebp
-  bignum_pool_item *v21; // ecx
-  bool v22; // cc
-  bignum_st *v23; // eax
-  int v24; // edx
-  bignum_st *v25; // eax
-  unsigned int v26; // eax
-  unsigned int v27; // edi
-  int v28; // esi
-  unsigned int v29; // edi
-  unsigned __int64 v30; // rax
-  int v31; // edi
-  bool v32; // zf
-  int v33; // eax
-  unsigned int *v34; // edx
+  int v20; // esi
+  unsigned int *v21; // ebp
+  bignum_pool_item *v22; // ecx
+  bool v23; // cc
+  bignum_st *v24; // eax
+  int v25; // edx
+  bignum_st *v26; // eax
+  unsigned int v27; // eax
+  unsigned int v28; // edi
+  int v29; // esi
+  unsigned int v30; // edi
+  unsigned __int64 v31; // rax
+  int v32; // edi
+  bool v33; // zf
+  int v34; // eax
+  unsigned int *v35; // edx
   int neg; // ebx
-  int v37; // eax
-  unsigned int *v38; // edx
+  int v38; // eax
+  unsigned int *v39; // edx
   bignum_pool_item *b; // [esp+4h] [ebp-44h]
-  unsigned int *v41; // [esp+8h] [ebp-40h]
-  unsigned int v42; // [esp+Ch] [ebp-3Ch]
-  unsigned int v43; // [esp+10h] [ebp-38h]
-  int v44; // [esp+14h] [ebp-34h]
-  bignum_pool_item *v45; // [esp+18h] [ebp-30h]
-  bignum_pool_item *v46; // [esp+1Ch] [ebp-2Ch]
-  int v47; // [esp+20h] [ebp-28h]
-  bignum_pool_item *v48; // [esp+24h] [ebp-24h]
+  unsigned int *v42; // [esp+8h] [ebp-40h]
+  unsigned int v43; // [esp+Ch] [ebp-3Ch]
+  unsigned int v44; // [esp+10h] [ebp-38h]
+  int v45; // [esp+14h] [ebp-34h]
+  bignum_pool_item *v46; // [esp+18h] [ebp-30h]
+  bignum_pool_item *v47; // [esp+1Ch] [ebp-2Ch]
+  int v48; // [esp+20h] [ebp-28h]
+  bignum_pool_item *v49; // [esp+24h] [ebp-24h]
   int n; // [esp+28h] [ebp-20h]
-  int v50; // [esp+2Ch] [ebp-1Ch]
-  int v51; // [esp+34h] [ebp-14h]
+  int v51; // [esp+2Ch] [ebp-1Ch]
+  int v52; // [esp+34h] [ebp-14h]
   bignum_st *a; // [esp+54h] [ebp+Ch]
 
-  v5 = dv;
   if ( !divisor->top )
   {
-    ERR_put_error(3u, 138, 103, ".\\crypto\\bn\\bn_div.c", 442);
+    ERR_put_error(a2, 3u, 138, 103, ".\\crypto\\bn\\bn_div.c", 442);
     return 0;
   }
-  v7 = ctx;
-  BN_CTX_start(ctx);
-  v45 = BN_CTX_get(ctx);
-  v8 = BN_CTX_get(ctx);
-  v48 = v8;
-  v9 = BN_CTX_get(ctx);
-  v46 = v9;
-  if ( v5 )
-    b = (bignum_pool_item *)v5;
+  v8 = ctx;
+  BN_CTX_start((int)ctx, ctx);
+  v46 = BN_CTX_get((int)v8, v8);
+  v9 = BN_CTX_get((int)v8, v8);
+  v49 = v9;
+  v10 = BN_CTX_get((int)v8, v8);
+  v47 = v10;
+  if ( a1 )
+    b = a1;
   else
-    b = BN_CTX_get(ctx);
-  if ( !v9 )
-    goto err_158;
+    b = BN_CTX_get((int)ctx, ctx);
+  if ( !v10 )
+    goto err_160;
   if ( !b )
-    goto err_158;
-  v10 = 32 - BN_num_bits(divisor) % 32;
-  if ( !BN_lshift(v9->vals, divisor, v10) )
-    goto err_158;
+    goto err_160;
+  v11 = 32 - BN_num_bits(divisor) % 32;
+  if ( !BN_lshift(v10->vals, divisor, v11) )
+    goto err_160;
+  v10->vals[0].neg = 0;
+  n = v11 + 32;
+  if ( !BN_lshift(v9->vals, num, v11 + 32) )
+    goto err_160;
+  top = v9->vals[0].top;
   v9->vals[0].neg = 0;
-  n = v10 + 32;
-  if ( !BN_lshift(v8->vals, num, v10 + 32) )
-    goto err_158;
-  top = v8->vals[0].top;
-  v8->vals[0].neg = 0;
-  v12 = v9->vals[0].top;
-  if ( top > v12 + 1 )
+  v13 = v10->vals[0].top;
+  if ( top > v13 + 1 )
   {
-    if ( top + 1 > v8->vals[0].dmax )
-      v16 = bn_expand2(v8->vals, (unsigned int *)(top + 1));
+    if ( top + 1 > v9->vals[0].dmax )
+      v17 = bn_expand2(v9->vals, top + 1);
     else
-      v16 = (bignum_st *)v8;
-    if ( !v16 )
-      goto err_158;
-    v8->vals[0].d[v8->vals[0].top++] = 0;
+      v17 = (bignum_st *)v9;
+    if ( !v17 )
+      goto err_160;
+    v9->vals[0].d[v9->vals[0].top++] = 0;
   }
   else
   {
-    v13 = (unsigned int *)(v12 + 2);
-    if ( (int)v13 > v8->vals[0].dmax )
-      v14 = bn_expand2(v8->vals, v13);
+    v14 = v13 + 2;
+    if ( v14 > v9->vals[0].dmax )
+      v15 = bn_expand2(v9->vals, v14);
     else
-      v14 = (bignum_st *)v8;
-    if ( !v14 )
-      goto err_158;
-    for ( i = v8->vals[0].top; i < v9->vals[0].top + 2; ++i )
-      v8->vals[0].d[i] = 0;
-    v8->vals[0].top = v9->vals[0].top + 2;
+      v15 = (bignum_st *)v9;
+    if ( !v15 )
+      goto err_160;
+    for ( i = v9->vals[0].top; i < v10->vals[0].top + 2; ++i )
+      v9->vals[0].d[i] = 0;
+    v9->vals[0].top = v10->vals[0].top + 2;
   }
-  v17 = v9->vals[0].top;
-  d = v9->vals[0].d;
-  v19 = v8->vals[0].top - v17;
-  v51 = (int)&v8->vals[0].d[v19];
-  v44 = v17;
-  v42 = d[v17 - 1];
-  if ( v17 == 1 )
-    v43 = 0;
+  v18 = v10->vals[0].top;
+  d = v10->vals[0].d;
+  v20 = v9->vals[0].top - v18;
+  v52 = (int)&v9->vals[0].d[v20];
+  v45 = v18;
+  v43 = d[v18 - 1];
+  if ( v18 == 1 )
+    v44 = 0;
   else
-    v43 = d[v17 - 2];
-  v20 = &v8->vals[0].d[v8->vals[0].top - 1];
-  v21 = b;
-  v22 = v19 + 1 <= b->vals[0].dmax;
-  v41 = v20;
+    v44 = d[v18 - 2];
+  v21 = &v9->vals[0].d[v9->vals[0].top - 1];
+  v22 = b;
+  v23 = v20 + 1 <= b->vals[0].dmax;
+  v42 = v21;
   b->vals[0].neg = num->neg ^ divisor->neg;
-  if ( v22 )
+  if ( v23 )
   {
-    v23 = (bignum_st *)b;
+    v24 = (bignum_st *)b;
   }
   else
   {
-    v23 = bn_expand2(b->vals, (unsigned int *)(v19 + 1));
-    v21 = b;
+    v24 = bn_expand2(b->vals, v20 + 1);
+    v22 = b;
   }
-  if ( !v23
-    || ((v24 = v19 - 1,
-         a = (bignum_st *)&v21->vals[0].d[v19 - 1],
-         v21->vals[0].top = v19 - 1,
-         v17 + 1 > v45->vals[0].dmax)
-      ? (v25 = bn_expand2(v45->vals, (unsigned int *)(v17 + 1)), v24 = v19 - 1, v21 = b)
-      : (bignum_pool_item *)(v25 = (bignum_st *)v45),
-        !v25) )
+  if ( !v24
+    || ((v25 = v20 - 1,
+         a = (bignum_st *)&v22->vals[0].d[v20 - 1],
+         v22->vals[0].top = v20 - 1,
+         v18 + 1 > v46->vals[0].dmax)
+      ? (v26 = bn_expand2(v46->vals, v18 + 1), v25 = v20 - 1, v22 = b)
+      : (bignum_pool_item *)(v26 = (bignum_st *)v46),
+        !v26) )
   {
-    v7 = ctx;
-err_158:
-    BN_CTX_end(v7);
+    v8 = ctx;
+err_160:
+    BN_CTX_end(v8);
     return 0;
   }
-  if ( v21->vals[0].top )
+  if ( v22->vals[0].top )
     a = (bignum_st *)((char *)a - 4);
   else
-    v21->vals[0].neg = 0;
-  if ( v24 > 0 )
+    v22->vals[0].neg = 0;
+  if ( v25 > 0 )
   {
-    v47 = v24;
+    v48 = v25;
     do
     {
-      v26 = *v20;
-      v27 = *(v20 - 1);
-      if ( *v20 == v42 )
+      v27 = *v21;
+      v28 = *(v21 - 1);
+      if ( *v21 == v43 )
       {
-        v28 = -1;
+        v29 = -1;
       }
       else
       {
-        v28 = __PAIR64__(v26, v27) / v42;
-        v29 = __PAIR64__(v26, v27) % v42;
-        v30 = (unsigned int)v28 * (unsigned __int64)v43;
-        v50 = v28 * v43;
-        if ( v30 > __PAIR64__(v29, *(v20 - 2)) )
+        v29 = __PAIR64__(v27, v28) / v43;
+        v30 = __PAIR64__(v27, v28) % v43;
+        v31 = (unsigned int)v29 * (unsigned __int64)v44;
+        v51 = v29 * v44;
+        if ( v31 > __PAIR64__(v30, *(v21 - 2)) )
         {
           do
           {
-            v29 += v42;
-            --v28;
-            if ( v29 < v42 )
+            v30 += v43;
+            --v29;
+            if ( v30 < v43 )
               break;
-            HIDWORD(v30) = (__PAIR64__(HIDWORD(v30), v50) - v43) >> 32;
-            v50 -= v43;
+            HIDWORD(v31) = (__PAIR64__(HIDWORD(v31), v51) - v44) >> 32;
+            v51 -= v44;
           }
-          while ( __PAIR64__(HIDWORD(v30), v50) > __PAIR64__(v29, *(v41 - 2)) );
+          while ( __PAIR64__(HIDWORD(v31), v51) > __PAIR64__(v30, *(v42 - 2)) );
         }
-        v17 = v44;
-        v20 = v41;
+        v18 = v45;
+        v21 = v42;
       }
-      v45->vals[0].d[v17] = bn_mul_words(v45->vals[0].d, v46->vals[0].d, v17, v28);
-      v31 = v51 - 4;
-      v51 = v31;
-      if ( bn_sub_words(v31, v31, v45->vals[0].d, v17 + 1) )
+      v46->vals[0].d[v18] = bn_mul_words(v46->vals[0].d, v47->vals[0].d, v18, v29);
+      v32 = v52 - 4;
+      v52 = v32;
+      if ( bn_sub_words(v32, v32, v46->vals[0].d, v18 + 1) )
       {
-        --v28;
-        if ( bn_add_words(v31, v31, v46->vals[0].d, v17) )
-          ++*v20;
+        --v29;
+        if ( bn_add_words(v32, v32, v47->vals[0].d, v18) )
+          ++*v21;
       }
-      a->d = (unsigned int *)v28;
-      --v20;
-      v32 = v47-- == 1;
-      v41 = v20;
+      a->d = (unsigned int *)v29;
+      --v21;
+      v33 = v48-- == 1;
+      v42 = v21;
       a = (bignum_st *)((char *)a - 4);
     }
-    while ( !v32 );
-    v8 = v48;
-    v21 = b;
+    while ( !v33 );
+    v9 = v49;
+    v22 = b;
   }
-  v33 = v8->vals[0].top;
-  if ( v33 > 0 )
+  v34 = v9->vals[0].top;
+  if ( v34 > 0 )
   {
-    v34 = &v8->vals[0].d[v33 - 1];
+    v35 = &v9->vals[0].d[v34 - 1];
     do
     {
-      if ( *v34-- )
+      if ( *v35-- )
         break;
-      --v33;
+      --v34;
     }
-    while ( v33 > 0 );
-    v8->vals[0].top = v33;
+    while ( v34 > 0 );
+    v9->vals[0].top = v34;
   }
   if ( rm )
   {
     neg = num->neg;
-    BN_rshift(rm, v8->vals, n);
-    v21 = b;
+    BN_rshift(rm, v9->vals, n);
+    v22 = b;
     if ( rm->top )
       rm->neg = neg;
   }
-  v37 = v21->vals[0].top;
-  if ( v37 > 0 )
+  v38 = v22->vals[0].top;
+  if ( v38 > 0 )
   {
-    v38 = &v21->vals[0].d[v37 - 1];
+    v39 = &v22->vals[0].d[v38 - 1];
     do
     {
-      if ( *v38-- )
+      if ( *v39-- )
         break;
-      --v37;
+      --v38;
     }
-    while ( v37 > 0 );
-    v21->vals[0].top = v37;
+    while ( v38 > 0 );
+    v22->vals[0].top = v38;
   }
   BN_CTX_end(ctx);
   return 1;

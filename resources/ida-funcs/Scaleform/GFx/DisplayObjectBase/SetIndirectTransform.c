@@ -6,7 +6,7 @@ Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::DisplayO
   Scaleform::Render::TreeNode *RenderNode; // eax
   Scaleform::Render::TreeNode *v5; // esi
   Scaleform::Render::TreeNode *v6; // ebp
-  Scaleform::Render::TreeNode *pParent; // eax
+  int v7; // eax
   Scaleform::GFx::InteractiveObject *v8; // eax
   Scaleform::GFx::DisplayObjContainer *v9; // edi
   unsigned int DisplayIndex; // eax
@@ -15,22 +15,22 @@ Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::DisplayO
   Scaleform::Ptr<Scaleform::Render::TreeNode> *v13; // edi
   bool v14; // zf
   Scaleform::Render::ContextImpl::Entry *pNext; // eax
-  Scaleform::Render::TreeContainer *oldParentNode; // [esp+10h] [ebp-4h]
+  Scaleform::Render::TreeNode *pParent; // [esp+10h] [ebp-4h]
 
   RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(this);
   v5 = RenderNode;
   if ( RenderNode )
     ++RenderNode->RefCount;
-  oldParentNode = (Scaleform::Render::TreeContainer *)RenderNode->pParent;
-  v6 = oldParentNode;
-  Scaleform::Render::TreeNode::SetOrigScale9Parent(RenderNode, oldParentNode);
-  pParent = (Scaleform::Render::TreeNode *)newParent;
+  pParent = (Scaleform::Render::TreeNode *)RenderNode->pParent;
+  v6 = pParent;
+  Scaleform::Render::TreeNode::SetOrigScale9Parent(RenderNode, pParent);
+  v7 = newParent;
   if ( newParent )
   {
-    while ( pParent != v5 )
+    while ( (Scaleform::Render::TreeNode *)v7 != v5 )
     {
-      pParent = (Scaleform::Render::TreeNode *)pParent->pParent;
-      if ( !pParent )
+      v7 = *(_DWORD *)(v7 + 16);
+      if ( !v7 )
         goto LABEL_6;
     }
     v13 = result;
@@ -51,7 +51,7 @@ LABEL_6:
       {
         DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(&v9->mDisplayList, this);
         Scaleform::GFx::DisplayList::RemoveFromRenderTree(&v9->mDisplayList, v9, DisplayIndex);
-        v6 = oldParentNode;
+        v6 = pParent;
       }
     }
     Scaleform::GFx::MovieImpl::AddIndirectTransformPair(this->pASRoot->pMovieImpl, v9, v6, this);
@@ -66,7 +66,7 @@ LABEL_6:
       v12 = v11;
       if ( v11 )
       {
-        memset((int)v11, 0, 0x30u);
+        memset((int)v11, 0, 48);
         v12->OrigTransformMatrix.M[0][0] = 1.0;
         v12->OrigTransformMatrix.M[1][1] = 1.0;
         v12->OrigTransformMatrix.M[2][2] = 1.0;
@@ -78,11 +78,11 @@ LABEL_6:
       this->pIndXFormData = v12;
     }
     memcpy(
-      (unsigned __int8 *)this->pIndXFormData,
-      (unsigned __int8 *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v5 & 0xFFFFF000) + 0x10)
-                                    + 4 * ((int)((int)&v5[-1] - ((unsigned int)v5 & 0xFFFFF000)) / 28)
-                                    + 20)
-                        + 16),
+      (int)this->pIndXFormData,
+      (const __m128i *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v5 & 0xFFFFF000) + 0x10)
+                                  + 4 * ((int)((int)&v5[-1] - ((unsigned int)v5 & 0xFFFFF000)) / 28)
+                                  + 20)
+                      + 16),
       0x30u);
     v13 = result;
     this->pIndXFormData->IsOrig3D = (*(_WORD *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)v5 & 0xFFFFF000) + 0x10)

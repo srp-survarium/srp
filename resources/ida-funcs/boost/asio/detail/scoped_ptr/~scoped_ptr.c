@@ -1,44 +1,34 @@
-void __thiscall boost::asio::detail::scoped_ptr<boost::asio::io_service>::~scoped_ptr<boost::asio::io_service>(
-        boost::asio::detail::scoped_ptr<boost::asio::io_service> *this)
+void __usercall boost::asio::detail::scoped_ptr<boost::asio::io_service>::~scoped_ptr<boost::asio::io_service>(
+        boost::asio::detail::scoped_ptr<boost::asio::io_service> *this@<ecx>,
+        _DWORD **a2@<eax>)
 {
-  boost::asio::io_service *p; // [esp+28h] [ebp-4h]
+  _DWORD *v3; // edi
+  _RTL_CRITICAL_SECTION *v4; // esi
 
-  p = this->p_;
-  if ( this->p_ )
+  v3 = *a2;
+  if ( *a2 )
   {
-    boost::asio::io_service::~io_service(p);
-    operator delete(p);
+    v4 = (_RTL_CRITICAL_SECTION *)v3[1];
+    if ( v4 )
+      boost::asio::detail::service_registry::`scalar deleting destructor'(
+        (boost::asio::detail::service_registry *)this,
+        v4);
+    boost::asio::detail::winsock_init<2,0>::~winsock_init<2,0>((boost::asio::detail::winsock_init<2,0> *)this);
+    operator delete(v3);
   }
 }
 
 
-void __thiscall boost::asio::detail::scoped_ptr<boost::asio::detail::win_thread>::~scoped_ptr<boost::asio::detail::win_thread>(
-        boost::asio::detail::scoped_ptr<boost::asio::detail::win_thread> *this)
+void __usercall boost::asio::detail::scoped_ptr<boost::asio::detail::win_thread>::~scoped_ptr<boost::asio::detail::win_thread>(
+        boost::asio::detail::scoped_ptr<boost::asio::detail::win_thread> *this@<ecx>,
+        HANDLE **a2@<eax>)
 {
-  boost::asio::detail::win_thread *p; // [esp+Ch] [ebp-4h]
+  HANDLE *v2; // esi
 
-  p = this->p_;
-  if ( this->p_ )
+  v2 = *a2;
+  if ( *a2 )
   {
-    CloseHandle(p->thread_);
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)p);
-    operator delete(p);
-  }
-}
-
-
-void __thiscall boost::asio::detail::scoped_ptr<boost::asio::io_service::work>::~scoped_ptr<boost::asio::io_service::work>(
-        boost::asio::detail::scoped_ptr<boost::asio::io_service::work> *this)
-{
-  boost::asio::detail::win_iocp_io_service *io_service_impl; // [esp+8h] [ebp-174h]
-  boost::asio::io_service::work *p; // [esp+178h] [ebp-4h]
-
-  p = this->p_;
-  if ( this->p_ )
-  {
-    io_service_impl = p->io_service_impl_;
-    if ( !InterlockedDecrement(&p->io_service_impl_->outstanding_work_) )
-      boost::asio::detail::win_iocp_io_service::stop(io_service_impl);
-    operator delete(p);
+    CloseHandle(v2[1]);
+    operator delete(v2);
   }
 }

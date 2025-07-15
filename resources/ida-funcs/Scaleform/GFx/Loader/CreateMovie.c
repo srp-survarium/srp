@@ -1,6 +1,6 @@
-Scaleform::GFx::MovieDef *__thiscall Scaleform::GFx::Loader::CreateMovie(
+Scaleform::GFx::MovieDefImpl *__thiscall Scaleform::GFx::Loader::CreateMovie(
         Scaleform::GFx::Loader *this,
-        const char *pfilename,
+        char *pfilename,
         unsigned int loadConstants,
         unsigned int memoryArena)
 {

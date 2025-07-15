@@ -3,10 +3,12 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::Transform(const Scaleform::GF
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::AS2::Value *v2; // eax
   Scaleform::GFx::AS2::Object *v3; // ebx
-  Scaleform::GFx::AS2::TextFormatObject *v4; // esi
+  Scaleform::GFx::AS2::Object *v4; // esi
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp+4h] [ebp-18h]
-  Scaleform::GFx::AS2::CSSTextFormatLoader tfl; // [esp+10h] [ebp-Ch] BYREF
+  void **v7; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::GFx::AS2::Environment *v8; // [esp+14h] [ebp-8h]
+  Scaleform::GFx::AS2::Object *v9; // [esp+18h] [ebp-4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_StyleSheet )
   {
@@ -20,22 +22,27 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::Transform(const Scaleform::GF
         v3 = Scaleform::GFx::AS2::Value::ToObject(v2, Env);
         if ( v3 )
         {
-          v4 = (Scaleform::GFx::AS2::TextFormatObject *)Scaleform::GFx::AS2::Environment::OperatorNew(
-                                                          fn->Env,
-                                                          fn->Env->StringContext.pContext->pGlobal.pObject,
-                                                          (const Scaleform::GFx::ASString *)&fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[14].pASSupport,
-                                                          0,
-                                                          -1);
-          tfl.pEnv = fn->Env;
-          tfl.__vftable = (Scaleform::GFx::AS2::CSSTextFormatLoader_vtbl *)&Scaleform::GFx::AS2::CSSTextFormatLoader::`vftable';
-          tfl.pTFO = v4;
-          v3->VisitMembers(&v3->Scaleform::GFx::AS2::ObjectInterface, &tfl.pEnv->StringContext, &tfl, 0, 0);
+          v4 = Scaleform::GFx::AS2::Environment::OperatorNew(
+                 fn->Env,
+                 fn->Env->StringContext.pContext->pGlobal.pObject,
+                 (const Scaleform::GFx::ASString *)&fn->Env->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[14].pASSupport,
+                 0,
+                 -1);
+          v8 = fn->Env;
+          v7 = &Scaleform::GFx::AS2::CSSTextFormatLoader::`vftable';
+          v9 = v4;
+          v3->VisitMembers(
+            &v3->Scaleform::GFx::AS2::ObjectInterface,
+            &v8->StringContext,
+            (Scaleform::GFx::AS2::ObjectInterface::MemberVisitor *)&v7,
+            0,
+            0);
           Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v4);
-          tfl.__vftable = (Scaleform::GFx::AS2::CSSTextFormatLoader_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+          v7 = &Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
           if ( v4 )
           {
             RefCount = v4->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFFF) != 0 )
             {
               v4->RefCount = RefCount - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);

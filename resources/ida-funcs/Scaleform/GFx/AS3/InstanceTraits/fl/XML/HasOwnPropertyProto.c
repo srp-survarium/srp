@@ -6,7 +6,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::HasOwnPropertyProto(
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  const Scaleform::GFx::AS3::Value *v6; // esi
+  const Scaleform::GFx::AS3::Value *v6; // edi
   Scaleform::GFx::AS3::InstanceTraits::Traits *v7; // eax
   Scaleform::GFx::AS3::Class *Constructor; // eax
   Scaleform::GFx::AS3::Object *VObj; // ebx
@@ -16,7 +16,9 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::HasOwnPropertyProto(
   Scaleform::GFx::ASStringNode *v13; // eax
   const Scaleform::GFx::AS3::VM::Error *v14; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v16; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v16; // [esp-8h] [ebp-1Ch]
+  Scaleform::StringDataPtr v17; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v18; // [esp+Ch] [ebp-8h] BYREF
 
   v6 = _this;
   if ( (_this->Flags & 0x1F) - 12 <= 3 )
@@ -32,25 +34,29 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::HasOwnPropertyProto(
   }
   if ( (v6->Flags & 0x1F) - 12 > 3 || !Scaleform::GFx::AS3::IsXMLObject(v6->value.VS._1.VObj) )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v16, eInvokeOnIncompatibleObjectError, vm);
+    v16.pStr = "XML::HasOwnPropertyProto";
+    v16.Size = 24;
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eInvokeOnIncompatibleObjectError, vm, v16);
     Scaleform::GFx::AS3::VM::ThrowTypeError(vm, v10);
     goto LABEL_12;
   }
   v11 = v6->value.VS._1;
   if ( !argc || (argv->Flags & 0x1F) != 0xA )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v16, eInvalidArgumentError, vm);
+    v17.pStr = "XML::HasOwnPropertyProto";
+    v17.Size = 24;
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eInvalidArgumentError, vm, v17);
     Scaleform::GFx::AS3::VM::ThrowArgumentError(vm, v14);
 LABEL_12:
-    pNode = v16.Message.pNode;
-    --v16.Message.pNode->RefCount;
+    pNode = v18.Message.pNode;
+    --v18.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     return;
   }
   _this = (Scaleform::GFx::AS3::Value *)argv->value.VS._1.VInt;
   ++_this->value.VS._2.VObj;
-  v12 = (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value **))(*(_DWORD *)v11.VInt + 104))(
+  v12 = (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value **))(*(_DWORD *)v11.VInt + 116))(
           v11,
           &_this);
   Scaleform::GFx::AS3::Value::SetBool(result, v12);

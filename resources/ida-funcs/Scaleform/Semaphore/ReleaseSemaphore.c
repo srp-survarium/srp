@@ -4,7 +4,7 @@ char __thiscall Scaleform::Semaphore::ReleaseSemaphore(
 {
   Scaleform::Waitable::HandlerArray *v2; // edi
   Scaleform::WaitCondition *p_ValueWaitCondition; // ecx
-  int v5; // esi
+  Scaleform::Waitable::HandlerArray *v5; // esi
 
   v2 = count;
   if ( count )
@@ -22,16 +22,16 @@ char __thiscall Scaleform::Semaphore::ReleaseSemaphore(
     count = 0;
     Scaleform::Waitable::GetCallableHandlers(this, (Scaleform::Waitable::CallableHandlers *)&count);
     Scaleform::Mutex::Unlock(&this->ValueMutex);
-    v5 = (int)count;
+    v5 = count;
     if ( count )
     {
       Scaleform::Waitable::HandlerArray::CallWaitHandlers(count);
-      if ( InterlockedExchangeAdd((volatile LONG *)v5, -1) == 1 )
+      if ( InterlockedExchangeAdd(&v5->RefCount.Value, -1) == 1 )
       {
-        Scaleform::Lock::~Lock((Scaleform::Lock *)(v5 + 16));
-        if ( *(_DWORD *)(v5 + 4) )
-          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, *(void **)(v5 + 4));
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)v5);
+        Scaleform::Lock::~Lock(&v5->HandlersLock);
+        if ( v5->Handlers.Data.Data )
+          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v5->Handlers.Data.Data);
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v5);
       }
     }
   }

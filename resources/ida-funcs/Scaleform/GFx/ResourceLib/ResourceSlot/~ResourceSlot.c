@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::ResourceLib::ResourceSlot::~ResourceSlot(
   Scaleform::GFx::ResourceLibBase *pLib; // ecx
   volatile LONG *v5; // edi
   Scaleform::GFx::ResourceKey::KeyInterface *pKeyInterface; // ecx
-  Scaleform::GFx::ResourceWeakLib *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   p_ResourceLock = &this->pLib.pObject->ResourceLock;
   this->__vftable = (Scaleform::GFx::ResourceLib::ResourceSlot_vtbl *)&Scaleform::GFx::ResourceLib::ResourceSlot::`vftable';
@@ -44,8 +44,8 @@ void __thiscall Scaleform::GFx::ResourceLib::ResourceSlot::~ResourceSlot(
   pKeyInterface = this->Key.pKeyInterface;
   if ( pKeyInterface )
     pKeyInterface->Release(pKeyInterface, this->Key.hKeyData);
-  pObject = this->pLib.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pLib.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   Scaleform::RefCountImplCore::~RefCountImplCore(this);
 }

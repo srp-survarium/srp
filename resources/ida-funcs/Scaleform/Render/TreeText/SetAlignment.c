@@ -8,7 +8,7 @@ void __thiscall Scaleform::Render::TreeText::SetAlignment(
   int v6; // esi
   const Scaleform::Render::Text::ParagraphFormat *v7; // eax
   Scaleform::Render::ContextImpl::EntryData *WritableData; // eax
-  Scaleform::Render::Text::ParagraphFormat parafmt; // [esp+8h] [ebp-28h] BYREF
+  Scaleform::Render::Text::ParagraphFormat fmt; // [esp+8h] [ebp-28h] BYREF
   Scaleform::Render::Text::ParagraphFormat result; // [esp+1Ch] [ebp-14h] BYREF
 
   v3 = *(_DWORD *)(*(_DWORD *)(((unsigned int)this & 0xFFFFF000) + 0x10)
@@ -32,20 +32,20 @@ void __thiscall Scaleform::Render::TreeText::SetAlignment(
         v5 = 0;
         break;
     }
-    parafmt.PresentMask = ((v5 & 3) << 9) | 1;
-    parafmt.RefCount = 1;
-    memset(&parafmt.pTabStops, 0, 14);
-    Scaleform::Render::Text::DocView::SetParagraphFormat(v4, &parafmt, 0, 0xFFFFFFFF);
+    fmt.PresentMask = ((v5 & 3) << 9) | 1;
+    fmt.RefCount = 1;
+    memset(&fmt.pTabStops, 0, 14);
+    Scaleform::Render::Text::DocView::SetParagraphFormat(v4, &fmt, 0, 0xFFFFFFFF);
     v6 = *(_DWORD *)(v3 + 144);
     v7 = Scaleform::Render::Text::ParagraphFormat::Merge(
            *(Scaleform::Render::Text::ParagraphFormat **)(*(_DWORD *)(v6 + 8) + 24),
            &result,
-           &parafmt);
+           &fmt);
     Scaleform::Render::Text::StyledText::SetDefaultParagraphFormat(
       *(Scaleform::Render::Text::StyledText **)(v6 + 8),
       v7);
     Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&result);
-    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&parafmt);
+    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&fmt);
   }
   WritableData = Scaleform::Render::ContextImpl::Entry::getWritableData(this, 0x400u);
   LOBYTE(WritableData[19].__vftable) |= 1u;

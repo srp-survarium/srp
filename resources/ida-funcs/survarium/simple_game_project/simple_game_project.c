@@ -3,27 +3,10 @@ void __userpurge survarium::simple_game_project::simple_game_project(
         int a2@<esi>,
         survarium::base_game_scene *s)
 {
-  vostok::resources::unmanaged_resource::unmanaged_resource((vostok::resources::unmanaged_resource *)a2, 1u);
-  survarium::base_project::base_project((survarium::base_project *)(a2 + 264));
-  *(_DWORD *)(a2 + 312) = s;
-  *(_DWORD *)(a2 + 264) = &survarium::simple_game_project::`vftable'{for `survarium::base_project'};
-  *(_DWORD *)a2 = &survarium::simple_game_project::`vftable'{for `vostok::resources::unmanaged_resource'};
-  *(_DWORD *)(a2 + 316) = 0;
-  *(_DWORD *)(a2 + 320) = 0;
-  *(_DWORD *)(a2 + 324) = 0;
-  *(_DWORD *)(a2 + 328) = 0;
-  *(_DWORD *)(a2 + 348) = 0;
-  *(_BYTE *)(a2 + 352) = (_BYTE)s;
-  *(_QWORD *)(a2 + 332) = 0;
-  *(_QWORD *)(a2 + 340) = 0;
-  *(_BYTE *)(a2 + 332) = 0;
-  *(_DWORD *)(a2 + 336) = 0;
-  *(_DWORD *)(a2 + 340) = a2 + 332;
-  *(_DWORD *)(a2 + 344) = a2 + 332;
-  *(_DWORD *)(a2 + 356) = 0;
-  *(_DWORD *)(a2 + 360) = 0;
-  *(_DWORD *)(a2 + 364) = 0;
-  *(_DWORD *)(a2 + 368) = 0;
+  survarium::server_game_project::server_game_project(this, a2);
+  *(_DWORD *)(a2 + 368) = s;
+  *(_DWORD *)a2 = &survarium::simple_game_project::`vftable'{for `survarium::base_project'};
+  *(_DWORD *)(a2 + 48) = &survarium::simple_game_project::`vftable'{for `vostok::resources::unmanaged_resource'};
   *(_DWORD *)(a2 + 372) = 0;
   *(_DWORD *)(a2 + 376) = 0;
   *(_DWORD *)(a2 + 380) = 0;
@@ -39,9 +22,23 @@ void __userpurge survarium::simple_game_project::simple_game_project(
   *(_DWORD *)(a2 + 420) = 0;
   *(_DWORD *)(a2 + 424) = 0;
   *(_DWORD *)(a2 + 428) = 0;
-  *(_BYTE *)(a2 + 436) = 0;
+  *(_DWORD *)(a2 + 432) = 0;
+  *(_DWORD *)(a2 + 436) = 0;
   *(_DWORD *)(a2 + 440) = 0;
-  *(_BYTE *)(a2 + 444) = 0;
-  *(_BYTE *)(a2 + 445) = 0;
-  *(_BYTE *)(a2 + 446) = 0;
+  *(_DWORD *)(a2 + 444) = 0;
+  *(_DWORD *)(a2 + 448) = 0;
+  *(_DWORD *)(a2 + 452) = 0;
+  *(_DWORD *)(a2 + 456) = 0;
+  *(_DWORD *)(a2 + 460) = 0;
+  *(_DWORD *)(a2 + 464) = 0;
+  *(_DWORD *)(a2 + 468) = 0;
+  *(_DWORD *)(a2 + 476) = 0;
+  *(_BYTE *)(a2 + 480) = 0;
+  *(_BYTE *)(a2 + 481) = 0;
+  *(_BYTE *)(a2 + 482) = 0;
+  *(_BYTE *)(a2 + 483) = 0;
+  *(_BYTE *)(a2 + 484) = 0;
+  *(_BYTE *)(a2 + 485) = 0;
+  *(_BYTE *)(a2 + 486) = 0;
+  *(_BYTE *)(a2 + 487) = 0;
 }

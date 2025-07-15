@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::VTable::ForEachChild_GC(
         Scaleform::GFx::AS3::VTable *this,
         Scaleform::GFx::AS3::RefCountCollector<328> *prcc,
-        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **))
+        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **, const Scaleform::GFx::AS3::RefCountBaseGC<328> *))
 {
   int v4; // esi
   unsigned int Size; // ebp
@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::VTable::ForEachChild_GC(
       Flags = Data[v4].Flags;
       v8 = &Data[v4];
       if ( (Flags & 0x1F) > 0xA && (Flags & 0x200) == 0 )
-        Scaleform::GFx::AS3::ForEachChild_GC_Internal(prcc, v8, op);
+        Scaleform::GFx::AS3::ForEachChild_GC_Internal(prcc, v8, op, this->pTraits);
       ++v4;
       --Size;
     }

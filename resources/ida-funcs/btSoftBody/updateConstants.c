@@ -1,249 +1,178 @@
-void __usercall btSoftBody::updateConstants(btSoftBody *this@<ecx>, _DWORD *a2@<esi>)
+void __usercall btSoftBody::updateConstants(btSoftBody *this@<ecx>, _DWORD *a2@<edi>)
 {
-  int v2; // edi
-  float *v3; // eax
-  float *v4; // ebx
-  float v5; // xmm1_4
-  float v6; // xmm2_4
-  float v7; // xmm0_4
-  long double v8; // st7
+  int v2; // esi
+  int v3; // ebx
+  int v4; // eax
+  float *v5; // ecx
+  float *v6; // edx
+  float v7; // xmm2_4
+  float v8; // xmm1_4
   float v9; // xmm0_4
-  bool v10; // zf
+  float v10; // xmm1_4
   int v11; // ebx
-  int v12; // edi
-  float *v13; // eax
-  float *v14; // ecx
-  float *v15; // edx
-  float v16; // xmm1_4
-  float v17; // xmm3_4
+  int v12; // eax
+  float *v13; // edx
+  float *v14; // esi
+  float v15; // xmm3_4
+  float v16; // xmm6_4
+  float v17; // xmm5_4
   float v18; // xmm4_4
-  float v19; // xmm6_4
-  float v20; // xmm5_4
-  float v21; // xmm2_4
-  float v22; // xmm1_4
-  float v23; // xmm0_4
-  float v24; // xmm3_4
-  int v25; // edi
-  _DWORD *v26; // eax
-  int v27; // edx
-  int v28; // edi
-  int v29; // eax
-  unsigned int v30; // ecx
-  int v31; // eax
-  int v32; // edx
-  int *v33; // edi
+  float v19; // xmm2_4
+  float v20; // xmm1_4
+  float v21; // xmm0_4
+  float v22; // xmm3_4
+  bool v23; // zf
+  btSoftBody *v24; // esi
+  _DWORD *v25; // eax
+  int v26; // eax
+  btSoftBody_vtbl **v27; // esi
+  _DWORD *v28; // eax
+  btSoftBody_vtbl *v29; // eax
+  const char *(__thiscall *v30)(struct btSoftBody *, void *, btSerializer *); // xmm1_4
+  int v31; // ebx
+  int v32; // esi
+  int v33; // edx
   int v34; // eax
-  int v35; // ebx
-  long double v36; // st7
-  int v37; // ebx
-  int v38; // edi
-  int v39; // eax
-  int *v40; // edx
-  unsigned int v41; // ebx
-  int v42; // edi
-  int v43; // ecx
-  int v44; // edi
-  int v45; // ecx
-  int v46; // ecx
-  int v47; // edi
-  int v48; // ecx
-  int v49; // eax
-  int v50; // edx
-  int v51; // [esp+6Ch] [ebp-24h]
-  int v52; // [esp+6Ch] [ebp-24h]
-  int v53; // [esp+70h] [ebp-20h]
-  int v54; // [esp+70h] [ebp-20h]
-  int v55; // [esp+70h] [ebp-20h]
-  int v56; // [esp+74h] [ebp-1Ch]
-  int v57; // [esp+74h] [ebp-1Ch]
-  int v58; // [esp+78h] [ebp-18h]
-  int v59; // [esp+78h] [ebp-18h]
-  _DWORD *ptr; // [esp+88h] [ebp-8h]
+  int v35; // [esp+10h] [ebp-20h]
+  int v36; // [esp+10h] [ebp-20h]
+  int v37; // [esp+14h] [ebp-1Ch]
+  int v38; // [esp+18h] [ebp-18h]
+  char v39[4]; // [esp+1Ch] [ebp-14h] BYREF
+  btSoftBody *v40; // [esp+20h] [ebp-10h]
+  btSoftBody *v41; // [esp+24h] [ebp-Ch]
+  _DWORD *v42; // [esp+28h] [ebp-8h]
+  char v43; // [esp+2Ch] [ebp-4h]
 
   if ( (int)a2[185] > 0 )
   {
-    v51 = 0;
-    v53 = a2[185];
+    v2 = 0;
+    v3 = a2[185];
     do
     {
-      v2 = v51 + a2[187];
-      v3 = *(float **)(v2 + 8);
-      v4 = *(float **)(v2 + 12);
-      v5 = v3[5] - v4[5];
-      v6 = v3[6] - v4[6];
-      v7 = v3[4] - v4[4];
-      v8 = sqrtf((float)((float)(v5 * v5) + (float)(v6 * v6)) + (float)(v7 * v7));
-      *(float *)(v2 + 16) = v8;
-      v9 = (float)(*(float *)(*(_DWORD *)(v2 + 8) + 96) + v4[24]) / *(float *)(*(_DWORD *)(v2 + 4) + 4);
-      *(float *)(v2 + 28) = v8 * v8;
-      v51 += 64;
-      v10 = v53-- == 1;
-      *(float *)(v2 + 24) = v9;
+      v4 = v2 + a2[187];
+      v5 = *(float **)(v4 + 12);
+      v6 = *(float **)(v4 + 8);
+      v7 = v6[6] - v5[6];
+      v8 = v6[5] - v5[5];
+      v9 = fsqrt((float)((float)(v7 * v7) + (float)(v8 * v8)) + (float)((float)(v6[4] - v5[4]) * (float)(v6[4] - v5[4])));
+      *(float *)(v4 + 16) = v9;
+      v10 = v6[24] + v5[24];
+      this = *(btSoftBody **)(v4 + 4);
+      *(float *)(v4 + 24) = v10 / *((float *)&this->__vftable + 1);
+      v2 += 64;
+      --v3;
+      *(float *)(v4 + 28) = v9 * v9;
     }
-    while ( !v10 );
+    while ( v3 );
   }
   if ( (int)a2[190] > 0 )
   {
     v11 = 0;
-    v54 = a2[190];
+    v35 = a2[190];
     do
     {
-      v12 = a2[192];
-      v13 = *(float **)(v12 + v11 + 16);
-      v14 = *(float **)(v12 + v11 + 12);
-      v15 = *(float **)(v12 + v11 + 8);
-      v16 = v15[4];
-      v17 = v15[5];
-      v18 = v15[6];
-      v19 = v13[4] - v16;
-      v20 = v14[4] - v16;
-      v21 = v14[5] - v17;
-      v22 = v13[5] - v17;
-      v23 = v14[6] - v18;
-      v24 = v13[6] - v18;
-      *(float *)(v11 + v12 + 48) = sqrtf(
-                                     (float)((float)((float)((float)(v22 * v20) - (float)(v21 * v19))
-                                                   * (float)((float)(v22 * v20) - (float)(v21 * v19)))
-                                           + (float)((float)((float)(v23 * v19) - (float)(v24 * v20))
-                                                   * (float)((float)(v23 * v19) - (float)(v24 * v20))))
-                                   + (float)((float)((float)(v24 * v21) - (float)(v22 * v23))
-                                           * (float)((float)(v24 * v21) - (float)(v22 * v23))));
+      v12 = v11 + a2[192];
+      v13 = *(float **)(v12 + 12);
+      v14 = *(float **)(v12 + 8);
+      v15 = v14[5];
+      v16 = v14[6];
+      this = (btSoftBody *)(*(_DWORD *)(v12 + 16) + 16);
+      v14 += 4;
+      v17 = *(float *)&this->__vftable - *v14;
+      v18 = v13[4] - *v14;
+      v19 = v13[5] - v15;
+      v20 = *(float *)(*(_DWORD *)(v12 + 16) + 20) - v15;
+      v21 = v13[6] - v16;
+      v22 = *(float *)(*(_DWORD *)(v12 + 16) + 24) - v16;
       v11 += 64;
-      --v54;
+      v23 = v35-- == 1;
+      *(float *)(v12 + 48) = fsqrt(
+                               (float)((float)((float)((float)(v20 * v18) - (float)(v19 * v17))
+                                             * (float)((float)(v20 * v18) - (float)(v19 * v17)))
+                                     + (float)((float)((float)(v21 * v17) - (float)(v22 * v18))
+                                             * (float)((float)(v21 * v17) - (float)(v22 * v18))))
+                             + (float)((float)((float)(v22 * v19) - (float)(v20 * v21))
+                                     * (float)((float)(v22 * v19) - (float)(v20 * v21))));
     }
-    while ( v54 );
+    while ( !v23 );
   }
-  v25 = a2[180];
-  ptr = 0;
-  if ( v25 > 0 )
+  v24 = (btSoftBody *)a2[180];
+  v42 = 0;
+  v41 = 0;
+  v43 = 1;
+  if ( (int)v24 > 0 )
   {
-    ++gNumAlignedAllocs;
-    ptr = sAlignedAllocFunc(4 * v25, 16);
-    v26 = ptr;
+    v43 = 1;
+    v42 = btAlignedAllocInternal(4 * (_DWORD)v24);
+    v41 = v24;
+    v25 = v42;
+    this = v24;
     do
     {
-      if ( v26 )
-        *v26 = 0;
-      ++v26;
-      --v25;
+      if ( v25 )
+        *v25 = 0;
+      ++v25;
+      this = (btSoftBody *)((char *)this - 1);
     }
-    while ( v25 );
+    while ( this );
   }
-  v27 = a2[180];
-  v28 = 0;
-  if ( v27 >= 4 )
+  v26 = a2[180];
+  v40 = v24;
+  if ( v26 > 0 )
   {
-    v29 = 0;
-    v30 = ((unsigned int)(v27 - 4) >> 2) + 1;
-    v28 = 4 * v30;
+    this = 0;
     do
     {
-      *(_DWORD *)(a2[182] + v29 + 100) = 0;
-      *(_DWORD *)(a2[182] + v29 + 212) = 0;
-      *(_DWORD *)(a2[182] + v29 + 324) = 0;
-      *(_DWORD *)(a2[182] + v29 + 436) = 0;
-      v29 += 448;
-      --v30;
+      *(int *)((char *)&this->m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_i32[1] + a2[182]) = 0;
+      this = (btSoftBody *)((char *)this + 112);
+      --v26;
     }
-    while ( v30 );
-  }
-  if ( v28 < v27 )
-  {
-    v31 = 112 * v28;
-    v32 = v27 - v28;
-    do
-    {
-      *(_DWORD *)(a2[182] + v31 + 100) = 0;
-      v31 += 112;
-      --v32;
-    }
-    while ( v32 );
+    while ( v26 );
   }
   if ( (int)a2[190] > 0 )
   {
-    v52 = 0;
-    v56 = a2[190];
+    v36 = 0;
+    v38 = a2[190];
     do
     {
-      v55 = 3;
-      v58 = v52 + a2[192];
-      v33 = (int *)(v58 + 8);
+      this = (btSoftBody *)(v36 + a2[192]);
+      v37 = 3;
+      v27 = &this->__vftable + 2;
       do
       {
-        v34 = (*v33 - a2[182]) / 112;
-        ++ptr[v34];
-        v35 = *v33;
-        v36 = fabsf(*(float *)(v58 + 48));
-        ++v33;
-        v10 = v55-- == 1;
-        *(float *)(v35 + 100) = v36 + *(float *)(v35 + 100);
+        v28 = &v42[((int)*v27 - a2[182]) / 112];
+        ++*v28;
+        v29 = *v27;
+        *(float *)&v30 = COERCE_FLOAT(this->m_worldTransform.m_basis.m_el[2].mVec128.m128_i32[0] & _mask__AbsFloat_)
+                       + *(float *)&(*v27++)[3].serialize;
+        v23 = v37-- == 1;
+        v29[3].serialize = v30;
       }
-      while ( !v10 );
-      v52 += 64;
-      --v56;
+      while ( !v23 );
+      v36 += 64;
+      --v38;
     }
-    while ( v56 );
+    while ( v38 );
   }
-  v37 = a2[180];
-  v38 = 0;
-  v57 = v37;
-  if ( v37 >= 4 )
+  v31 = a2[180];
+  v32 = 0;
+  if ( v31 > 0 )
   {
-    v39 = 0;
-    v40 = ptr + 2;
-    v41 = ((unsigned int)(v37 - 4) >> 2) + 1;
-    v59 = 4 * v41;
+    this = 0;
     do
     {
-      v42 = *(v40 - 2);
-      v43 = a2[182];
-      if ( v42 <= 0 )
-        *(_DWORD *)(v43 + v39 + 100) = 0;
+      v33 = v42[v32];
+      v34 = a2[182];
+      if ( v33 <= 0 )
+        *(int *)((char *)&this->m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_i32[1] + v34) = 0;
       else
-        *(float *)(v43 + v39 + 100) = *(float *)(v43 + v39 + 100) / (float)v42;
-      v44 = *(v40 - 1);
-      v45 = a2[182];
-      if ( v44 <= 0 )
-        *(_DWORD *)(v45 + v39 + 212) = 0;
-      else
-        *(float *)(v45 + v39 + 212) = *(float *)(v45 + v39 + 212) / (float)v44;
-      v46 = a2[182];
-      if ( *v40 <= 0 )
-        *(_DWORD *)(v46 + v39 + 324) = 0;
-      else
-        *(float *)(v46 + v39 + 324) = *(float *)(v46 + v39 + 324) / (float)*v40;
-      v47 = v40[1];
-      v48 = a2[182];
-      if ( v47 <= 0 )
-        *(_DWORD *)(v48 + v39 + 436) = 0;
-      else
-        *(float *)(v48 + v39 + 436) = *(float *)(v48 + v39 + 436) / (float)v47;
-      v40 += 4;
-      v39 += 448;
-      --v41;
+        *(float *)((char *)&this->m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] + v34) = *(float *)((char *)&this->m_interpolationWorldTransform.m_basis.m_el[1].mVec128.m128_f32[1] + v34) / (float)v33;
+      ++v32;
+      this = (btSoftBody *)((char *)this + 112);
     }
-    while ( v41 );
-    v38 = v59;
-    v37 = v57;
+    while ( v32 < v31 );
   }
-  if ( v38 < v37 )
-  {
-    v49 = 112 * v38;
-    do
-    {
-      v50 = ptr[v38];
-      if ( v50 <= 0 )
-        *(_DWORD *)(a2[182] + v49 + 100) = 0;
-      else
-        *(float *)(a2[182] + v49 + 100) = *(float *)(a2[182] + v49 + 100) / (float)v50;
-      ++v38;
-      v49 += 112;
-    }
-    while ( v38 < v57 );
-  }
-  if ( ptr )
-  {
-    ++gNumAlignedFree;
-    sAlignedFreeFunc(ptr);
-  }
+  btAlignedObjectArray<btInternalEdge>::~btAlignedObjectArray<btInternalEdge>(
+    (btAlignedObjectArray<GrahamVector2> *)this,
+    (int)v39);
 }

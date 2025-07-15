@@ -1,11 +1,11 @@
 void __thiscall Scaleform::HashsetCachedEntry<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp>::Clear(
         Scaleform::HashsetCachedEntry<Scaleform::GFx::StateBagImpl::StatePtr,Scaleform::GFx::StateBagImpl::StatePtrHashOp> *this)
 {
-  Scaleform::GFx::State *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
-  pObject = this->Value.pState.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->Value.pState.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->NextInChain = -2;
 }
 
@@ -18,18 +18,6 @@ void __thiscall Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::Render::
   pObject = this->Value.pObject;
   if ( pObject )
     pObject->Release(&pObject->Scaleform::Render::MeshProvider);
-  this->NextInChain = -2;
-}
-
-
-void __thiscall Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::GFx::Video::VideoProvider>,Scaleform::FixedSizeHash<Scaleform::Ptr<Scaleform::GFx::Video::VideoProvider>>>::Clear(
-        Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::GFx::Video::VideoProvider>,Scaleform::FixedSizeHash<Scaleform::Ptr<Scaleform::GFx::Video::VideoProvider> > > *this)
-{
-  Scaleform::GFx::Video::VideoProvider *pObject; // ecx
-
-  pObject = this->Value.pObject;
-  if ( pObject )
-    Scaleform::RefCountNTSImpl::Release(pObject);
   this->NextInChain = -2;
 }
 

@@ -1,19 +1,19 @@
-void *__thiscall Scaleform::MemoryHeapMH::Realloc(Scaleform::MemoryHeapMH *this, void *oldPtr, unsigned int newSize)
+char *__thiscall Scaleform::MemoryHeapMH::Realloc(Scaleform::MemoryHeapMH *this, void *oldPtr, unsigned int newSize)
 {
   Scaleform::HeapMH::PageMH *v4; // eax
   Scaleform::HeapMH::PageMH *v5; // ebx
   Scaleform::MemoryHeapMH *pHeap; // esi
-  void *v7; // eax
-  void *v8; // esi
+  char *v7; // eax
+  char *v8; // esi
   Scaleform::HeapMH::NodeMH *GrEq; // ebp
   unsigned int v11; // esi
-  void *v12; // esi
+  Scaleform::HeapMH::NodeMH *v12; // esi
   _RTL_CRITICAL_SECTION *p_cs; // [esp-4h] [ebp-24h]
-  _RTL_CRITICAL_SECTION *locker1; // [esp+10h] [ebp-10h]
+  _RTL_CRITICAL_SECTION *lpCriticalSection; // [esp+10h] [ebp-10h]
   Scaleform::HeapMH::PageInfoMH newInfo; // [esp+14h] [ebp-Ch] BYREF
-  Scaleform::LockSafe *locker2; // [esp+24h] [ebp+4h]
-  Scaleform::LockSafe *locker2a; // [esp+24h] [ebp+4h]
-  Scaleform::LockSafe *locker2b; // [esp+24h] [ebp+4h]
+  Scaleform::LockSafe *addr; // [esp+24h] [ebp+4h]
+  Scaleform::LockSafe *addra; // [esp+24h] [ebp+4h]
+  Scaleform::LockSafe *addrb; // [esp+24h] [ebp+4h]
 
   v4 = Scaleform::HeapMH::RootMH::ResolveAddress(Scaleform::HeapMH::GlobalRootMH, (unsigned int)oldPtr);
   v5 = v4;
@@ -36,42 +36,42 @@ void *__thiscall Scaleform::MemoryHeapMH::Realloc(Scaleform::MemoryHeapMH *this,
   }
   else
   {
-    locker2 = &Scaleform::HeapMH::GlobalRootMH->RootLock;
+    addr = &Scaleform::HeapMH::GlobalRootMH->RootLock;
     EnterCriticalSection(&Scaleform::HeapMH::GlobalRootMH->RootLock.mLock.cs);
     GrEq = (Scaleform::HeapMH::NodeMH *)Scaleform::RadixTree<Scaleform::HeapMH::NodeMH,Scaleform::HeapMH::TreeNodeAccessor>::FindGrEq(
                                           &Scaleform::HeapMH::GlobalRootMH->HeapTree,
                                           (unsigned int)oldPtr);
     v11 = GrEq->pHeap & 0xFFFFFFFC;
-    LeaveCriticalSection(&locker2->mLock.cs);
+    LeaveCriticalSection(&addr->mLock.cs);
     if ( *(_BYTE *)(v11 + 100) )
     {
-      locker1 = (_RTL_CRITICAL_SECTION *)(v11 + 76);
+      lpCriticalSection = (_RTL_CRITICAL_SECTION *)(v11 + 76);
       EnterCriticalSection((LPCRITICAL_SECTION)(v11 + 76));
-      locker2a = &Scaleform::HeapMH::GlobalRootMH->RootLock;
+      addra = &Scaleform::HeapMH::GlobalRootMH->RootLock;
       EnterCriticalSection(&Scaleform::HeapMH::GlobalRootMH->RootLock.mLock.cs);
       v12 = Scaleform::HeapMH::AllocEngineMH::ReallocInNode(
               *(Scaleform::HeapMH::AllocEngineMH **)(v11 + 104),
               GrEq,
-              oldPtr,
+              (char *)oldPtr,
               newSize,
               &newInfo,
               1);
-      LeaveCriticalSection(&locker2a->mLock.cs);
-      LeaveCriticalSection(locker1);
+      LeaveCriticalSection(&addra->mLock.cs);
+      LeaveCriticalSection(lpCriticalSection);
     }
     else
     {
-      locker2b = &Scaleform::HeapMH::GlobalRootMH->RootLock;
+      addrb = &Scaleform::HeapMH::GlobalRootMH->RootLock;
       EnterCriticalSection(&Scaleform::HeapMH::GlobalRootMH->RootLock.mLock.cs);
       v12 = Scaleform::HeapMH::AllocEngineMH::ReallocInNode(
               *(Scaleform::HeapMH::AllocEngineMH **)(v11 + 104),
               GrEq,
-              oldPtr,
+              (char *)oldPtr,
               newSize,
               &newInfo,
               1);
-      LeaveCriticalSection(&locker2b->mLock.cs);
+      LeaveCriticalSection(&addrb->mLock.cs);
     }
-    return v12;
+    return (char *)v12;
   }
 }

@@ -1,46 +1,50 @@
 void __thiscall vostok::sound::sound_instance_proxy_internal::free_object(
         vostok::sound::sound_instance_proxy_internal *this)
 {
-  vostok::sound::sound_order *v1; // eax
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v2; // [esp-4h] [ebp-48h] BYREF
-  vostok::sound::destroy_sound_instance_proxy_order *v3; // [esp+0h] [ebp-44h]
-  vostok::sound::sound_order *v4; // [esp+4h] [ebp-40h]
-  vostok::sound::sound_instance_proxy_internal *thisa; // [esp+8h] [ebp-3Ch]
-  vostok::configs::binary_config *object; // [esp+Ch] [ebp-38h]
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v7; // [esp+10h] [ebp-34h]
-  vostok::sound::destroy_sound_instance_proxy_order *v8; // [esp+28h] [ebp-1Ch]
-  vostok::memory::base_allocator *allocator; // [esp+2Ch] [ebp-18h]
-  vostok::sound::destroy_sound_instance_proxy_order *v10; // [esp+3Ch] [ebp-8h]
-  vostok::sound::destroy_sound_instance_proxy_order *order; // [esp+40h] [ebp-4h]
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  vostok::memory::base_allocator *m_orders_allocator; // esi
+  char *v4; // eax
+  survarium::pure_game_effect_emitter_base *v5; // ecx
+  survarium::pure_game_effect_emitter_base *m_scene; // edi
+  __int32 v7; // eax
+  vostok::sound::world_user *m_user; // ebx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v9; // [esp+4h] [ebp-34h] BYREF
+  vostok::sound::destroy_sound_instance_proxy_order *v10; // [esp+14h] [ebp-24h]
+  boost::function<void __cdecl(void)> v11; // [esp+18h] [ebp-20h] BYREF
 
-  thisa = this;
   _InterlockedExchange(&this->m_destruction_pending, 1);
-  boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&this->m_callback);
-  allocator = vostok::sound::world_user::get_allocator(thisa->m_user);
-  v8 = (vostok::sound::destroy_sound_instance_proxy_order *)vostok::memory::base_allocator::malloc_impl(
-                                                              allocator,
-                                                              0x1Cu);
-  v10 = v8;
-  if ( v8 )
+  v11.vtable = 0;
+  boost::function<void __cdecl (void)>::operator=(
+    &v11,
+    (boost::function1<void,vostok::physics::contact_point const &> *)&this->m_finished_callback);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v11);
+  m_orders_allocator = this->m_user->m_orders_allocator;
+  v4 = type_info::raw_name(&vostok::sound::destroy_sound_instance_proxy_order `RTTI Type Descriptor');
+  v10 = (vostok::sound::destroy_sound_instance_proxy_order *)m_orders_allocator->call_malloc(
+                                                               m_orders_allocator,
+                                                               32u,
+                                                               v4,
+                                                               "vostok::sound::sound_instance_proxy_internal::free_object",
+                                                               ".\\sound_instance_proxy_internal.cpp",
+                                                               227u);
+  if ( v10 )
   {
-    object = (vostok::configs::binary_config *)thisa->m_scene;
-    v7 = &v2;
-    v2.m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      &v2,
-      object);
-    vostok::sound::destroy_sound_instance_proxy_order::destroy_sound_instance_proxy_order(
-      v10,
-      thisa->m_user,
-      thisa,
-      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v2.m_object);
-    v4 = v1;
-    v3 = (vostok::sound::destroy_sound_instance_proxy_order *)v1;
+    m_scene = (survarium::pure_game_effect_emitter_base *)this->m_scene;
+    v9.m_object = v5;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      &v9,
+      m_scene);
+    vostok::sound::destroy_sound_instance_proxy_order::destroy_sound_instance_proxy_order(this->m_user, v10, this, v9);
   }
   else
   {
-    v3 = 0;
+    v7 = 0;
   }
-  order = v3;
-  vostok::sound::world_user::add_order(thisa->m_user, v3);
+  m_user = this->m_user;
+  *(_DWORD *)(v7 + 8) = 0;
+  m_user = (vostok::sound::world_user *)((char *)m_user + 136);
+  _InterlockedExchange((volatile __int32 *)&m_user->m_channel.responses.m_forward_queue.m_head->m_next, v7);
+  m_user->m_channel.responses.m_forward_queue.m_head = (vostok::sound::sound_response *)v7;
 }

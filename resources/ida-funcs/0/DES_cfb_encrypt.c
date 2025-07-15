@@ -85,41 +85,41 @@ void __cdecl DES_cfb_encrypt(
           switch ( v8 )
           {
             case 1u:
-              goto $LN52_0;
+              goto $LN52_2;
             case 2u:
-              goto $LN53;
+              goto $LN53_1;
             case 3u:
-              goto $LN98_2;
+              goto $LN98_4;
             case 4u:
               goto $LN97_3;
             case 5u:
-              goto $LN96_2;
+              goto $LN96_3;
             case 6u:
               goto $LN95_0;
             case 7u:
-              goto $LN94_1;
+              goto $LN94_2;
             case 8u:
               v16 = *--v13;
               v14 = v16 << 24;
-$LN94_1:
+$LN94_2:
               v17 = *--v13;
               v14 |= v17 << 16;
 $LN95_0:
               v18 = *--v13;
               v14 |= v18 << 8;
-$LN96_2:
+$LN96_3:
               v19 = *--v13;
               v14 |= v19;
 $LN97_3:
               v20 = *--v13;
               v15 = v20 << 24;
-$LN98_2:
+$LN98_4:
               v21 = *--v13;
               v15 |= v21 << 16;
-$LN53:
+$LN53_1:
               v22 = *--v13;
               v15 |= v22 << 8;
-$LN52_0:
+$LN52_2:
               v23 = *--v13;
               v15 |= v23;
               break;
@@ -133,34 +133,34 @@ $LN52_0:
           switch ( v8 )
           {
             case 1u:
-              goto $LN42_32;
+              goto $LN42_7;
             case 2u:
-              goto $LN43_41;
+              goto $LN43_9;
             case 3u:
-              goto $LN44_6;
+              goto $LN44_7;
             case 4u:
-              goto $LN99_0;
+              goto $LN99_1;
             case 5u:
-              goto $LN46_5;
+              goto $LN46_7;
             case 6u:
-              goto $LN47_5;
+              goto $LN47_6;
             case 7u:
-              goto $LN48_3;
+              goto $LN48_5;
             case 8u:
               *--v26 = HIBYTE(v25);
-$LN48_3:
+$LN48_5:
               *--v26 = BYTE2(v25);
-$LN47_5:
+$LN47_6:
               *--v26 = BYTE1(v25);
-$LN46_5:
+$LN46_7:
               *--v26 = v25;
-$LN99_0:
+$LN99_1:
               *--v26 = HIBYTE(v24);
-$LN44_6:
+$LN44_7:
               *--v26 = BYTE2(v24);
-$LN43_41:
+$LN43_9:
               *--v26 = BYTE1(v24);
-$LN42_32:
+$LN42_7:
               *--v26 = v24;
               break;
             default:
@@ -188,7 +188,7 @@ $LN42_32:
             }
             else
             {
-              memmove(dst, &dst[v44], 8u);
+              memmove((int)dst, (const __m128i *)&dst[v44], 8u);
             }
             v27 = *(_DWORD *)dst;
             v56 = v53;
@@ -226,26 +226,26 @@ LABEL_31:
         switch ( v8 )
         {
           case 1u:
-            goto $LN106_0;
+            goto $LN106_1;
           case 2u:
             goto $LN105_1;
           case 3u:
-            goto $LN104_1;
+            goto $LN104_14;
           case 4u:
             goto $LN103_1;
           case 5u:
             goto $LN102_0;
           case 6u:
-            goto $LN101_1;
+            goto $LN101_3;
           case 7u:
-            goto $LN100_1;
+            goto $LN100_7;
           case 8u:
             v33 = *--v31;
             v30 = v33 << 24;
-$LN100_1:
+$LN100_7:
             v34 = *--v31;
             v30 |= v34 << 16;
-$LN101_1:
+$LN101_3:
             v35 = *--v31;
             v30 |= v35 << 8;
 $LN102_0:
@@ -255,13 +255,13 @@ $LN102_0:
 $LN103_1:
             v37 = *--v31;
             v32 = v37 << 24;
-$LN104_1:
+$LN104_14:
             v38 = *--v31;
             v32 |= v38 << 16;
 $LN105_1:
             v39 = *--v31;
             v32 |= v39 << 8;
-$LN106_0:
+$LN106_1:
             v40 = *--v31;
             v32 |= v40;
             break;
@@ -298,7 +298,7 @@ $LN106_0:
           }
           else
           {
-            memmove(dst, &dst[v44], 8u);
+            memmove((int)dst, (const __m128i *)&dst[v44], 8u);
           }
           v30 = v49;
           v46 = *(_DWORD *)dst;
@@ -314,26 +314,26 @@ $LN106_0:
           case 2u:
             goto $LN113_2;
           case 3u:
-            goto $LN112_0;
+            goto $LN112_1;
           case 4u:
-            goto $LN111_0;
+            goto $LN111_2;
           case 5u:
-            goto $LN110;
+            goto $LN110_0;
           case 6u:
-            goto $LN109_0;
+            goto $LN109_1;
           case 7u:
-            goto $LN108_0;
+            goto $LN108_2;
           case 8u:
             *--v43 = HIBYTE(v42);
-$LN108_0:
+$LN108_2:
             *--v43 = BYTE2(v42);
-$LN109_0:
+$LN109_1:
             *--v43 = BYTE1(v42);
-$LN110:
+$LN110_0:
             *--v43 = v42;
-$LN111_0:
+$LN111_2:
             *--v43 = HIBYTE(v41);
-$LN112_0:
+$LN112_1:
             *--v43 = BYTE2(v41);
 $LN113_2:
             *--v43 = BYTE1(v41);

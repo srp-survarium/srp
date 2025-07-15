@@ -15,7 +15,7 @@ unsigned __int16 *__cdecl _wfullpath(unsigned __int16 *UserBuf, const wchar_t *p
     if ( !maxlen )
     {
       *_errno() = 22;
-      _invalid_parameter(0, 0, (unsigned int)GetFullPathNameW);
+      _invalid_parameter(0, 0, (int)GetFullPathNameW);
       return 0;
     }
     buf = UserBuf;

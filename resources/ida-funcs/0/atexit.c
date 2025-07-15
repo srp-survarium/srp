@@ -1,4 +1,4 @@
-int __cdecl atexit(void (__cdecl *func)())
+int __cdecl atexit(int (__cdecl *func)())
 {
-  return (_onexit((int (__cdecl *)())func) != 0) - 1;
+  return (_onexit(func) != 0) - 1;
 }

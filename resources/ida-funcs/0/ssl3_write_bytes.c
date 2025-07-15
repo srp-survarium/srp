@@ -1,26 +1,26 @@
-int __cdecl ssl3_write_bytes(ssl_st *s, int type, char *buf_, int len)
+int __usercall ssl3_write_bytes@<eax>(int a1@<ebx>, ssl_st *s, int type, char *buf_, int len)
 {
   ssl3_state_st *s3; // eax
   unsigned int wnum; // ebp
   int result; // eax
-  unsigned int v8; // ecx
+  unsigned int v9; // ecx
   unsigned int max_send_fragment; // edi
-  unsigned __int8 *v10; // ebp
+  __m128i *v11; // ebp
   ssl3_buffer_st *p_wbuf; // ebx
   ssl3_record_st *p_wrec; // edi
-  int v13; // eax
-  unsigned __int8 *v14; // ebp
-  _BYTE *v15; // ebp
-  unsigned __int8 *v16; // ebp
+  int v14; // eax
+  unsigned __int8 *v15; // ebp
+  _BYTE *v16; // ebp
+  int v17; // ebp
   ui_string_st *object; // eax
-  ssl3_state_st *v18; // eax
-  int v19; // eax
-  int v21; // [esp+8h] [ebp-18h]
+  ssl3_state_st *v19; // eax
+  int v20; // eax
+  int v22; // [esp+8h] [ebp-18h]
   unsigned int count; // [esp+Ch] [ebp-14h]
   unsigned int i; // [esp+10h] [ebp-10h]
-  int v24; // [esp+14h] [ebp-Ch]
-  unsigned __int8 *src; // [esp+18h] [ebp-8h]
-  _BYTE *v26; // [esp+1Ch] [ebp-4h]
+  int v25; // [esp+14h] [ebp-Ch]
+  const __m128i *src; // [esp+18h] [ebp-8h]
+  _BYTE *v27; // [esp+1Ch] [ebp-4h]
   unsigned int ssl; // [esp+24h] [ebp+4h]
 
   s3 = s->s3;
@@ -35,32 +35,32 @@ int __cdecl ssl3_write_bytes(ssl_st *s, int type, char *buf_, int len)
       return result;
     if ( !result )
     {
-      ERR_put_error(0x14u, 158, 229, ".\\ssl\\s3_pkt.c", 591);
+      ERR_put_error(a1, 0x14u, 158, 229, ".\\ssl\\s3_pkt.c", 591);
       return -1;
     }
   }
-  v8 = len - wnum;
-  for ( i = len - wnum; ; v8 = i )
+  v9 = len - wnum;
+  for ( i = len - wnum; ; v9 = i )
   {
-    if ( v8 <= s->max_send_fragment )
+    if ( v9 <= s->max_send_fragment )
     {
-      count = v8;
-      max_send_fragment = v8;
+      count = v9;
+      max_send_fragment = v9;
     }
     else
     {
       max_send_fragment = s->max_send_fragment;
       count = max_send_fragment;
     }
-    v10 = (unsigned __int8 *)&buf_[wnum];
+    v11 = (__m128i *)&buf_[wnum];
     p_wbuf = &s->s3->wbuf;
-    src = v10;
-    v21 = 0;
+    src = v11;
+    v22 = 0;
     if ( !p_wbuf->buf && !ssl3_setup_write_buffer(s) )
       goto LABEL_25;
     if ( p_wbuf->left )
     {
-      result = ssl3_write_pending(s, type, v10, max_send_fragment);
+      result = ssl3_write_pending((int)p_wbuf, s, type, (const unsigned __int8 *)v11, max_send_fragment);
       goto LABEL_40;
     }
     if ( s->s3->alert_dispatch )
@@ -78,52 +78,52 @@ int __cdecl ssl3_write_bytes(ssl_st *s, int type, char *buf_, int len)
     p_wrec = &s->s3->wrec;
     if ( !s->session || !s->enc_write_ctx || !X509_EXTENSION_get_object((ui_string_st *)s->write_hash) )
     {
-      v24 = 0;
+      v25 = 0;
 LABEL_21:
-      v13 = (3 - (unsigned __int8)p_wbuf->buf) & 7;
-      v14 = &p_wbuf->buf[v13];
-      p_wbuf->offset = v13;
+      v14 = (3 - (unsigned __int8)p_wbuf->buf) & 7;
+      v15 = &p_wbuf->buf[v14];
+      p_wbuf->offset = v14;
       goto LABEL_22;
     }
     object = X509_EXTENSION_get_object((ui_string_st *)s->write_hash);
-    v24 = EVP_MD_size((const env_md_st *)object);
-    if ( v24 < 0 )
+    v25 = EVP_MD_size((int)p_wbuf, (const env_md_st *)object);
+    if ( v25 < 0 )
       goto LABEL_25;
-    v18 = s->s3;
-    if ( v18->empty_fragment_done )
+    v19 = s->s3;
+    if ( v19->empty_fragment_done )
       goto LABEL_21;
-    if ( v18->need_empty_fragments && type == 23 )
+    if ( v19->need_empty_fragments && type == 23 )
     {
-      v19 = do_ssl3_write(s, 23, v10, 0, 1u);
-      v21 = v19;
-      if ( v19 <= 0 )
+      v20 = do_ssl3_write(s, 23, v11, 0, 1u);
+      v22 = v20;
+      if ( v20 <= 0 )
         goto LABEL_25;
-      if ( v19 > 85 )
+      if ( v20 > 85 )
       {
-        ERR_put_error(0x14u, 104, 68, ".\\ssl\\s3_pkt.c", 696);
+        ERR_put_error((int)p_wbuf, 0x14u, 104, 68, ".\\ssl\\s3_pkt.c", 696);
         goto LABEL_25;
       }
     }
     s->s3->empty_fragment_done = 1;
-    if ( !v21 )
+    if ( !v22 )
       goto LABEL_21;
-    v14 = &p_wbuf->buf[p_wbuf->offset + v21];
+    v15 = &p_wbuf->buf[p_wbuf->offset + v22];
 LABEL_22:
-    *v14 = type;
+    *v15 = type;
     p_wrec->type = type;
-    v15 = v14 + 1;
-    *v15 = BYTE1(s->version);
-    v15[1] = s->version;
-    v26 = v15 + 2;
-    v16 = v15 + 4;
-    p_wrec->data = v16;
+    v16 = v15 + 1;
+    *v16 = BYTE1(s->version);
+    v16[1] = s->version;
+    v27 = v16 + 2;
+    v17 = (int)(v16 + 4);
+    p_wrec->data = (unsigned __int8 *)v17;
     p_wrec->length = count;
-    p_wrec->input = src;
+    p_wrec->input = (unsigned __int8 *)src;
     if ( s->compress )
     {
       if ( !ssl3_do_compress(s) )
       {
-        ERR_put_error(0x14u, 104, 141, ".\\ssl\\s3_pkt.c", 756);
+        ERR_put_error((int)p_wbuf, 0x14u, 104, 141, ".\\ssl\\s3_pkt.c", 756);
 LABEL_25:
         result = -1;
 LABEL_26:
@@ -133,28 +133,28 @@ LABEL_26:
     }
     else
     {
-      memcpy(v16, src, count);
+      memcpy(v17, src, count);
       p_wrec->input = p_wrec->data;
     }
-    if ( v24 )
+    if ( v25 )
     {
-      if ( s->method->ssl3_enc->mac(s, &v16[p_wrec->length], 1) < 0 )
+      if ( s->method->ssl3_enc->mac(s, (unsigned __int8 *)(v17 + p_wrec->length), 1) < 0 )
         goto LABEL_25;
-      p_wrec->length += v24;
-      p_wrec->input = v16;
-      p_wrec->data = v16;
+      p_wrec->length += v25;
+      p_wrec->input = (unsigned __int8 *)v17;
+      p_wrec->data = (unsigned __int8 *)v17;
     }
     s->method->ssl3_enc->enc(s, 1);
-    *v26 = BYTE1(p_wrec->length);
-    v26[1] = p_wrec->length;
+    *v27 = BYTE1(p_wrec->length);
+    v27[1] = p_wrec->length;
     p_wrec->length += 5;
     p_wrec->type = type;
-    p_wbuf->left = v21 + p_wrec->length;
+    p_wbuf->left = v22 + p_wrec->length;
     s->s3->wpend_tot = count;
-    s->s3->wpend_buf = src;
+    s->s3->wpend_buf = (const unsigned __int8 *)src;
     s->s3->wpend_type = type;
     s->s3->wpend_ret = count;
-    result = ssl3_write_pending(s, type, src, count);
+    result = ssl3_write_pending((int)p_wbuf, s, type, (const unsigned __int8 *)src, count);
 LABEL_40:
     if ( result <= 0 )
       goto LABEL_26;

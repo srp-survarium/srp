@@ -2,8 +2,8 @@ int __cdecl pkey_dsa_sign(
         evp_pkey_ctx_st *ctx,
         unsigned __int8 *sig,
         unsigned int *siglen,
-        const unsigned __int8 *tbs,
-        unsigned int tbslen)
+        unsigned __int8 *tbs,
+        int tbslen)
 {
   const ssl_st **data; // ecx
   char *ptr; // esi

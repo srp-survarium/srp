@@ -22,16 +22,16 @@ void __thiscall Scaleform::Render::GradientImage::GradientImage(
   this->MorphRatio = morphRatio;
   if ( data )
   {
-    if ( BYTE1(data->pLib) )
+    if ( !BYTE1(data->pLib) )
     {
-      v5 = Scaleform::Render::GradientData::CalcImageSize((Scaleform::Render::GradientData *)data);
-      this->Size.Height = v5;
-      this->Size.Width = v5;
-    }
-    else
-    {
-      this->Size.Height = 1;
       this->Size.Width = 256;
+      this->Size.Height = 1;
+      this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
+      return;
     }
+    v5 = Scaleform::Render::GradientData::CalcImageSize((Scaleform::Render::GradientData *)data);
+    this->Size.Height = v5;
+    this->Size.Width = v5;
   }
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
 }

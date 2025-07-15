@@ -1,4 +1,4 @@
-int __cdecl BN_pseudo_rand_range(bignum_st *r, const bignum_st *range)
+int __usercall BN_pseudo_rand_range@<eax>(int a1@<ebx>, bignum_st *r, const bignum_st *range)
 {
-  return bn_rand_range(r, range, 1);
+  return bn_rand_range(r, range, a1, 1);
 }

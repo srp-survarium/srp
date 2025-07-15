@@ -6,7 +6,7 @@ int __cdecl png_handle_pCAL(int a1, int a2, unsigned int a3)
   unsigned __int8 v6; // [esp+Bh] [ebp-25h]
   _BYTE *i; // [esp+10h] [ebp-20h]
   _BYTE *j; // [esp+10h] [ebp-20h]
-  char *v9; // [esp+14h] [ebp-1Ch]
+  const __m128i *v9; // [esp+14h] [ebp-1Ch]
   _DWORD *pointer; // [esp+18h] [ebp-18h]
   unsigned __int8 v11; // [esp+1Fh] [ebp-11h]
   int k; // [esp+20h] [ebp-10h]
@@ -54,7 +54,7 @@ int __cdecl png_handle_pCAL(int a1, int a2, unsigned int a3)
              + ((unsigned __int8)i[5] << 24);
           v11 = i[9];
           v6 = i[10];
-          v9 = i + 11;
+          v9 = (const __m128i *)(i + 11);
           if ( (v11 || v6 == 2) && (v11 != 1 || v6 == 3) && (v11 != 2 || v6 == 3) && (v11 != 3 || v6 == 4) )
           {
             if ( v11 >= 4u )
@@ -77,7 +77,7 @@ int __cdecl png_handle_pCAL(int a1, int a2, unsigned int a3)
                   return png_free(a1, pointer);
                 }
               }
-              png_set_pCAL(a1, a2, *(char **)(a1 + 680), v5, v4, v11, v6, v9, (int)pointer);
+              png_set_pCAL(a1, a2, *(const __m128i **)(a1 + 680), v5, v4, v11, v6, v9, (int)pointer);
               png_free(a1, *(void **)(a1 + 680));
               *(_DWORD *)(a1 + 680) = 0;
               return png_free(a1, pointer);

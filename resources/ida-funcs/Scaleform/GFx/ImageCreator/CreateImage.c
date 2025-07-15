@@ -5,16 +5,17 @@ Scaleform::Render::Image *__thiscall Scaleform::GFx::ImageCreator::CreateImage(
 {
   Scaleform::Render::TextureManager *pObject; // ecx
   bool v4; // zf
-  Scaleform::Render::ImageCreateArgs args; // [esp+0h] [ebp-14h] BYREF
+  _DWORD v6[4]; // [esp+0h] [ebp-14h] BYREF
+  int v7; // [esp+10h] [ebp-4h]
 
   pObject = this->pTextureManager.pObject;
-  args.pUpdateSync = 0;
-  args.Format = Image_None;
+  v6[3] = 0;
+  v7 = 0;
   v4 = info->RUse == Use_FontTexture;
-  args.pHeap = info->pHeap;
-  args.Use = info->Use;
-  args.pManager = pObject;
+  v6[1] = info->pHeap;
+  v6[0] = info->Use;
+  v6[2] = pObject;
   if ( v4 )
-    args.Format = Image_A8;
-  return source->CreateCompatibleImage(source, &args);
+    v7 = 9;
+  return source->CreateCompatibleImage(source, v6);
 }

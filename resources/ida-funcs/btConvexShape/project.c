@@ -12,7 +12,7 @@ void __thiscall btConvexShape::project(
   float v11; // xmm3_4
   float v12; // xmm4_4
   float v13; // xmm0_4
-  btVector3 *(__thiscall *localGetSupportingVertex)(btConvexShape *, btVector3 *, const btVector3 *); // eax
+  btConvexShape_vtbl *v14; // eax
   float *v15; // eax
   float v16; // xmm2_4
   float v17; // xmm1_4
@@ -21,7 +21,7 @@ void __thiscall btConvexShape::project(
   float v20; // xmm0_4
   float v21; // xmm4_4
   float v22; // xmm1_4
-  btVector3 *(__thiscall *v23)(btConvexShape *, btVector3 *, const btVector3 *); // edx
+  btConvexShape_vtbl *v23; // eax
   float *v24; // eax
   float v25; // xmm1_4
   float v26; // xmm4_4
@@ -30,15 +30,15 @@ void __thiscall btConvexShape::project(
   float v29; // xmm3_4
   float v30; // xmm1_4
   int v31; // xmm0_4
-  float v32; // [esp+80h] [ebp-40h] BYREF
-  float v33; // [esp+84h] [ebp-3Ch]
-  float v34; // [esp+88h] [ebp-38h]
-  int v35; // [esp+8Ch] [ebp-34h]
-  float v36; // [esp+90h] [ebp-30h]
-  float v37; // [esp+94h] [ebp-2Ch]
-  float v38; // [esp+98h] [ebp-28h]
-  float v39[4]; // [esp+A0h] [ebp-20h] BYREF
-  btVector3 v40; // [esp+B0h] [ebp-10h] BYREF
+  float v32; // [esp+10h] [ebp-40h] BYREF
+  float v33; // [esp+14h] [ebp-3Ch]
+  float v34; // [esp+18h] [ebp-38h]
+  int v35; // [esp+1Ch] [ebp-34h]
+  float v36; // [esp+20h] [ebp-30h]
+  float v37; // [esp+24h] [ebp-2Ch]
+  float v38; // [esp+28h] [ebp-28h]
+  _DWORD v39[4]; // [esp+30h] [ebp-20h] BYREF
+  btVector3 v40; // [esp+40h] [ebp-10h] BYREF
 
   v7 = dir->mVec128.m128_f32[2];
   v8 = dir->mVec128.m128_f32[1];
@@ -50,13 +50,13 @@ void __thiscall btConvexShape::project(
   v11 = (float)(trans->m_basis.m_el[1].mVec128.m128_f32[1] * v8) + (float)(v10 * v7);
   v12 = trans->m_basis.m_el[0].mVec128.m128_f32[1] * v9;
   v13 = v9 * trans->m_basis.m_el[0].mVec128.m128_f32[2];
+  v14 = this->__vftable;
   v33 = v11 + v12;
-  localGetSupportingVertex = this->localGetSupportingVertex;
   v34 = (float)((float)(trans->m_basis.m_el[1].mVec128.m128_f32[2] * v8)
               + (float)(trans->m_basis.m_el[2].mVec128.m128_f32[2] * v7))
       + v13;
   v35 = 0;
-  v15 = (float *)localGetSupportingVertex(this, (btVector3 *)v39, (const btVector3 *)&v32);
+  v15 = (float *)v14->localGetSupportingVertex(this, (btVector3 *)v39, (const btVector3 *)&v32);
   v16 = v15[2];
   v17 = *v15;
   v18 = v15[1];
@@ -73,12 +73,12 @@ void __thiscall btConvexShape::project(
                       + (float)(trans->m_basis.m_el[2].mVec128.m128_f32[2] * v16))
               + v22)
       + trans->m_origin.mVec128.m128_f32[2];
-  v39[0] = -v32;
-  v23 = this->localGetSupportingVertex;
-  LODWORD(v39[1]) = LODWORD(v33) ^ 0x80000000;
-  v39[2] = -v34;
-  v39[3] = 0.0;
-  v24 = (float *)v23(this, &v40, (const btVector3 *)v39);
+  v39[0] = LODWORD(v32) ^ _mask__NegFloat_;
+  v23 = this->__vftable;
+  v39[1] = LODWORD(v33) ^ _mask__NegFloat_;
+  v39[2] = LODWORD(v34) ^ _mask__NegFloat_;
+  v39[3] = 0;
+  v24 = (float *)v23->localGetSupportingVertex(this, &v40, (const btVector3 *)v39);
   v25 = v24[2];
   v26 = v24[1];
   v27 = (float)((float)((float)(trans->m_basis.m_el[0].mVec128.m128_f32[0] * *v24)

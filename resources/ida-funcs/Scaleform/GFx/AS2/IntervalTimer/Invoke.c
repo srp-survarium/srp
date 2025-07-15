@@ -4,320 +4,349 @@ char __thiscall Scaleform::GFx::AS2::IntervalTimer::Invoke(
         float frameTime)
 {
   Scaleform::GFx::AS2::IntervalTimer *v3; // edi
-  Scaleform::GFx::MovieImpl *v5; // esi
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
   unsigned int TimeElapsed_high; // eax
-  char v7; // bl
-  const Scaleform::GFx::AS2::Environment *v8; // ebp
-  Scaleform::GFx::AS2::Object *v9; // eax
-  Scaleform::GFx::AS2::Object *v10; // esi
-  unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::ObjectInterface *v12; // esi
-  Scaleform::GFx::InteractiveObject *v13; // esi
+  char v9; // bl
+  Scaleform::GFx::CharacterHandle *v10; // ecx
+  Scaleform::GFx::InteractiveObject *v11; // eax
+  Scaleform::RefCountNTSImpl *v12; // esi
+  char v13; // dl
   int v14; // eax
-  int v15; // eax
-  Scaleform::GFx::Sprite *v16; // eax
-  int v17; // eax
-  int v18; // eax
-  Scaleform::GFx::AS2::FunctionRef *v19; // eax
-  unsigned int v20; // edx
-  Scaleform::GFx::AS2::FunctionObject *v21; // ecx
-  unsigned int v22; // edx
+  Scaleform::GFx::AS2::Object *v15; // eax
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v16; // esi
+  unsigned int RefCount; // eax
+  Scaleform::GFx::AS2::ObjectInterface *v18; // esi
+  Scaleform::GFx::Sprite *v19; // esi
+  int v20; // eax
+  int v21; // eax
+  Scaleform::GFx::Sprite *v22; // eax
+  int v23; // eax
+  int v24; // eax
+  Scaleform::GFx::AS2::FunctionRef *v25; // eax
+  unsigned int v26; // edx
+  Scaleform::GFx::AS2::FunctionObject *Function; // ecx
+  unsigned int v28; // edx
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
-  Scaleform::GFx::CharacterHandle *pObject; // ecx
-  Scaleform::GFx::InteractiveObject *v25; // eax
-  Scaleform::RefCountNTSImpl *v26; // esi
-  char v27; // cl
-  unsigned __int8 *v28; // eax
-  unsigned __int8 *v29; // ecx
+  int v30; // ecx
   Scaleform::GFx::Sprite *LevelMovie; // eax
-  int v31; // eax
+  int v32; // eax
   int Size; // ebp
-  int v33; // ebx
+  int v34; // ebx
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // esi
-  int v35; // ebp
+  int v36; // ebp
   Scaleform::GFx::AS2::Value *Data; // edi
-  const Scaleform::GFx::AS2::Value *v37; // edi
-  int v38; // eax
-  int v39; // ebp
-  int v40; // esi
-  __int64 v41; // rax
-  Scaleform::GFx::AS2::Object *v42; // ecx
-  unsigned int v43; // eax
-  Scaleform::GFx::AS2::FunctionObject *v44; // ecx
-  unsigned int v45; // eax
-  Scaleform::GFx::AS2::LocalFrame *v46; // ecx
-  unsigned int v47; // eax
-  Scaleform::GFx::AS2::Environment *penv; // [esp+Ch] [ebp-6Ch]
-  Scaleform::GFx::AS2::ObjectInterface *thisPtr; // [esp+10h] [ebp-68h]
-  Scaleform::GFx::AS2::MovieRoot *asroot; // [esp+14h] [ebp-64h]
-  Scaleform::Ptr<Scaleform::GFx::InteractiveObject> targetHolder; // [esp+1Ch] [ebp-5Ch] BYREF
-  Scaleform::Ptr<Scaleform::GFx::AS2::Object> thisHolder; // [esp+20h] [ebp-58h]
-  unsigned __int64 currentTime; // [esp+24h] [ebp-54h]
-  Scaleform::GFx::AS2::FunctionRef function; // [esp+2Ch] [ebp-4Ch] BYREF
-  Scaleform::GFx::AS2::FunctionRef v56; // [esp+38h] [ebp-40h] BYREF
-  Scaleform::GFx::AS2::Value result; // [esp+44h] [ebp-34h] BYREF
-  Scaleform::GFx::AS2::FnCall v58; // [esp+54h] [ebp-24h] BYREF
-  int nArgs; // [esp+7Ch] [ebp+4h]
+  const Scaleform::GFx::AS2::Value *v38; // edi
+  int v39; // eax
+  int v40; // ebp
+  int v41; // esi
+  __int64 v42; // rax
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v43; // ecx
+  unsigned int v44; // eax
+  Scaleform::GFx::AS2::FunctionObject *v45; // ecx
+  unsigned int v46; // eax
+  Scaleform::GFx::AS2::LocalFrame *v47; // ecx
+  unsigned int v48; // eax
+  Scaleform::AmpStats *v49; // edi
+  void (__thiscall **v50)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 v51; // rax
+  Scaleform::GFx::AS2::Environment *penv; // [esp+Ch] [ebp-7Ch]
+  Scaleform::GFx::AS2::ObjectInterface *v53; // [esp+10h] [ebp-78h]
+  Scaleform::GFx::AS2::MovieRoot *pObject; // [esp+14h] [ebp-74h]
+  Scaleform::GFx::AS2::MovieRoot *v55; // [esp+14h] [ebp-74h]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+1Ch] [ebp-6Ch] BYREF
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v58; // [esp+20h] [ebp-68h]
+  unsigned __int64 v59; // [esp+24h] [ebp-64h]
+  Scaleform::GFx::AS2::FunctionRefBase v60; // [esp+2Ch] [ebp-5Ch] BYREF
+  Scaleform::GFx::AS2::FunctionRef v61; // [esp+38h] [ebp-50h] BYREF
+  Scaleform::AmpFunctionTimer v62; // [esp+44h] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value v63; // [esp+54h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FnCall v64; // [esp+64h] [ebp-24h] BYREF
 
   v3 = this;
-  if ( !this->Active )
-    return 0;
-  v5 = proot;
-  asroot = (Scaleform::GFx::AS2::MovieRoot *)proot->pASMovieRoot.pObject;
-  TimeElapsed_high = HIDWORD(proot->TimeElapsed);
-  v7 = 0;
-  LODWORD(currentTime) = proot->TimeElapsed;
-  HIDWORD(currentTime) = TimeElapsed_high;
-  if ( __PAIR64__(TimeElapsed_high, currentTime) >= this->InvokeTime )
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v62,
+    proot->AdvanceStats.pObject,
+    "IntervalTimer::Invoke",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
+  if ( !v3->Active )
   {
-    v8 = 0;
-    memset(&function, 0, 9);
-    thisPtr = 0;
-    thisHolder.pObject = 0;
-    targetHolder.pObject = 0;
-    penv = 0;
-    if ( this->Function.Function )
+    Stats = v62.Stats;
+    if ( v62.Stats )
     {
-      Scaleform::GFx::AS2::FunctionRefBase::Assign(&function, &this->Function);
-LABEL_37:
-      if ( function.Function )
+      p_NativePopCallstack = &v62.Stats->NativePopCallstack;
+      ProfileTicks = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+        Stats,
+        ProfileTicks - LODWORD(v62.StartTicks),
+        (ProfileTicks - v62.StartTicks) >> 32);
+    }
+    return 0;
+  }
+  pObject = (Scaleform::GFx::AS2::MovieRoot *)proot->pASMovieRoot.pObject;
+  TimeElapsed_high = HIDWORD(proot->TimeElapsed);
+  v9 = 0;
+  LODWORD(v59) = proot->TimeElapsed;
+  HIDWORD(v59) = TimeElapsed_high;
+  if ( __PAIR64__(TimeElapsed_high, v59) >= v3->InvokeTime )
+  {
+    memset(&v60, 0, 9);
+    v53 = 0;
+    v58 = 0;
+    result.pObject = 0;
+    penv = 0;
+    if ( v3->Function.Function )
+    {
+      Scaleform::GFx::AS2::FunctionRefBase::Assign(&v60, &v3->Function);
+LABEL_8:
+      if ( v60.Function )
       {
-        result.T.Type = 0;
-        if ( !v8 )
+        v63.T.Type = 0;
+        if ( !penv )
         {
-          pObject = v3->LevelHandle.pObject;
-          if ( !pObject )
-            goto LABEL_46;
-          v25 = Scaleform::GFx::CharacterHandle::ResolveCharacter(pObject, v5);
-          v26 = v25;
-          if ( !v25 )
-            goto LABEL_46;
-          ++v25->RefCount;
-          v27 = LOBYTE(v25->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags) >> 7;
-          v28 = v27 != 0 ? (unsigned __int8 *)v25 : 0;
-          if ( (v27 != 0 ? (unsigned int)v26 : 0) != 0 )
+          v10 = v3->LevelHandle.pObject;
+          if ( !v10 )
+            goto LABEL_47;
+          v11 = Scaleform::GFx::CharacterHandle::ResolveCharacter(v10, proot);
+          v12 = v11;
+          if ( !v11 )
+            goto LABEL_47;
+          ++v11->RefCount;
+          v13 = LOBYTE(v11->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags) >> 7;
+          v14 = v13 != 0 ? (unsigned int)v11 : 0;
+          if ( (v13 != 0 ? (unsigned int)v12 : 0) != 0 )
           {
-            v29 = &v28[4 * v28[65]];
-            v28 = (unsigned __int8 *)(*(int (__thiscall **)(unsigned __int8 *))(*(_DWORD *)v29 + 4))(v29);
+            v30 = *(v13 != 0 ? (unsigned __int8 *)&v12[8].__vftable + 1 : (unsigned __int8 *)65);
+            v14 = (*(int (__thiscall **)(int))(*(_DWORD *)(v14 + 4 * v30) + 4))(v14 + 4 * v30);
           }
-          penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(unsigned __int8 *))(*(_DWORD *)v28 + 124))(v28);
-          Scaleform::RefCountNTSImpl::Release(v26);
+          penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v14 + 124))(v14);
+          Scaleform::RefCountNTSImpl::Release(v12);
           if ( !penv )
           {
-LABEL_46:
-            LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(asroot, 0);
+LABEL_47:
+            LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 0);
             if ( LevelMovie )
-              v31 = (*(int (__thiscall **)(int))(*((_DWORD *)&LevelMovie->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+              v32 = (*(int (__thiscall **)(int))(*((_DWORD *)&LevelMovie->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                  + LevelMovie->AvmObjOffset)
                                                + 4))((int)LevelMovie + 4 * LevelMovie->AvmObjOffset);
             else
-              v31 = 0;
-            penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v31 + 124))(v31);
+              v32 = 0;
+            penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v32 + 124))(v32);
           }
         }
         Size = v3->Params.Data.Size;
-        nArgs = Size;
+        v55 = (Scaleform::GFx::AS2::MovieRoot *)Size;
         if ( Size > 0 )
         {
-          v33 = Size - 1;
+          v34 = Size - 1;
           if ( Size - 1 >= 0 )
           {
             p_Stack = &penv->Stack;
-            v35 = v33;
+            v36 = v34;
             do
             {
               Data = v3->Params.Data.Data;
               ++p_Stack->pCurrent;
-              v37 = &Data[v35];
+              v38 = &Data[v36];
               if ( penv->Stack.pCurrent >= penv->Stack.pPageEnd )
                 Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(p_Stack);
               if ( p_Stack->pCurrent )
-                Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, v37);
+                Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, v38);
               v3 = this;
-              --v33;
-              --v35;
+              --v34;
+              --v36;
             }
-            while ( v33 >= 0 );
-            Size = nArgs;
+            while ( v34 >= 0 );
+            Size = (int)v55;
           }
         }
-        v38 = penv->Stack.pCurrent - penv->Stack.pPageStart + 32 * penv->Stack.Pages.Data.Size - 32;
-        v58.Result = &result;
-        v58.ThisPtr = thisPtr;
-        v58.Env = penv;
-        v58.FirstArgBottomIndex = v38;
-        v58.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
-        memset(&v58.ThisFunctionRef, 0, 9);
-        v58.NArgs = Size;
-        function.Function->Invoke(function.Function, &v58, function.pLocalFrame, 0);
-        Scaleform::GFx::AS2::FnCall::~FnCall(&v58);
+        v39 = penv->Stack.pCurrent - penv->Stack.pPageStart + 32 * penv->Stack.Pages.Data.Size - 32;
+        v64.Result = &v63;
+        v64.FirstArgBottomIndex = v39;
+        v64.Env = penv;
+        v64.ThisPtr = v53;
+        v64.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
+        memset(&v64.ThisFunctionRef, 0, 9);
+        v64.NArgs = Size;
+        v60.Function->Invoke(v60.Function, &v64, v60.pLocalFrame, 0);
+        Scaleform::GFx::AS2::FnCall::~FnCall(&v64);
         if ( Size > 0 )
           Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(&penv->Stack, Size);
-        if ( result.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&result);
+        if ( v63.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v63);
       }
-      goto LABEL_63;
+      goto LABEL_64;
     }
-    v9 = this->pObject.pObject;
-    if ( v9 )
-      v9->RefCount = (v9->RefCount + 1) & 0x8FFFFFFF;
-    v10 = this->pObject.pObject;
-    if ( v10 )
-      v10->RefCount = (v10->RefCount + 1) & 0x8FFFFFFF;
-    thisHolder.pObject = v10;
-    if ( v10 )
+    v15 = v3->pObject.pObject;
+    if ( v15 )
+      v15->RefCount = (v15->RefCount + 1) & 0x8FFFFFFF;
+    v16 = v3->pObject.pObject;
+    if ( v16 )
+      v16->RefCount = (v16->RefCount + 1) & 0x8FFFFFFF;
+    v58 = v16;
+    if ( v16 )
     {
-      RefCount = v10->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      RefCount = v16->RefCount;
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
-        v10->RefCount = RefCount - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);
+        v16->RefCount = RefCount - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);
       }
-      v12 = &v10->Scaleform::GFx::AS2::ObjectInterface;
-      thisPtr = v12;
+      v18 = (Scaleform::GFx::AS2::ObjectInterface *)&v16[1];
+      v53 = v18;
     }
     else
     {
       Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-        (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&this->Character,
-        &targetHolder);
-      v13 = targetHolder.pObject;
-      if ( targetHolder.pObject )
+        (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&v3->Character,
+        &result);
+      v19 = result.pObject;
+      if ( result.pObject )
       {
-        ++targetHolder.pObject->RefCount;
-        ++v13->RefCount;
+        ++result.pObject->RefCount;
+        ++v19->RefCount;
       }
-      targetHolder.pObject = v13;
-      if ( !v13 )
-        goto LABEL_43;
-      Scaleform::RefCountNTSImpl::Release(v13);
-      Scaleform::RefCountNTSImpl::Release(v13);
-      v14 = (*(int (__thiscall **)(int))(*((_DWORD *)&v13->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                         + v13->AvmObjOffset)
-                                       + 4))((int)v13 + 4 * v13->AvmObjOffset);
-      if ( v14 )
-        thisPtr = (Scaleform::GFx::AS2::ObjectInterface *)(v14 + 4);
+      result.pObject = v19;
+      if ( !v19 )
+        goto LABEL_44;
+      Scaleform::RefCountNTSImpl::Release(v19);
+      Scaleform::RefCountNTSImpl::Release(v19);
+      v20 = (*(int (__thiscall **)(int))(*((_DWORD *)&v19->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+                                         + v19->AvmObjOffset)
+                                       + 4))((int)v19 + 4 * v19->AvmObjOffset);
+      if ( v20 )
+        v53 = (Scaleform::GFx::AS2::ObjectInterface *)(v20 + 4);
       else
-        thisPtr = 0;
-      v15 = (*(int (__thiscall **)(int))(*((_DWORD *)&v13->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                         + v13->AvmObjOffset)
-                                       + 4))((int)v13 + 4 * v13->AvmObjOffset);
-      v12 = thisPtr;
-      penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v15 + 124))(v15);
-      v8 = penv;
+        v53 = 0;
+      v21 = (*(int (__thiscall **)(int))(*((_DWORD *)&v19->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+                                         + v19->AvmObjOffset)
+                                       + 4))((int)v19 + 4 * v19->AvmObjOffset);
+      v18 = v53;
+      penv = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v21 + 124))(v21);
     }
-    if ( v12 )
+    if ( v18 )
     {
-      result.T.Type = 0;
-      v16 = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(asroot, 0);
-      if ( v16 )
-        v17 = (*(int (__thiscall **)(int))(*((_DWORD *)&v16->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                           + v16->AvmObjOffset)
-                                         + 4))((int)v16 + 4 * v16->AvmObjOffset);
+      v63.T.Type = 0;
+      v22 = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 0);
+      if ( v22 )
+        v23 = (*(int (__thiscall **)(int))(*((_DWORD *)&v22->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+                                           + v22->AvmObjOffset)
+                                         + 4))((int)v22 + 4 * v22->AvmObjOffset);
       else
-        v17 = 0;
-      v18 = (*(int (__thiscall **)(int))(*(_DWORD *)v17 + 124))(v17);
-      if ( v12->GetMemberRaw(v12, (Scaleform::GFx::AS2::ASStringContext *)(v18 + 116), &v3->MethodName, &result) )
+        v23 = 0;
+      v24 = (*(int (__thiscall **)(int))(*(_DWORD *)v23 + 124))(v23);
+      if ( v18->GetMemberRaw(v18, (Scaleform::GFx::AS2::ASStringContext *)(v24 + 116), &v3->MethodName, &v63) )
       {
-        v19 = Scaleform::GFx::AS2::Value::ToFunction(&result, &v56, v8);
-        Scaleform::GFx::AS2::FunctionRefBase::Assign(&function, v19);
-        if ( (v56.Flags & 2) == 0 )
+        v25 = Scaleform::GFx::AS2::Value::ToFunction(&v63, &v61, penv);
+        Scaleform::GFx::AS2::FunctionRefBase::Assign(&v60, v25);
+        if ( (v61.Flags & 2) == 0 )
         {
-          if ( v56.Function )
+          if ( v61.Function )
           {
-            v20 = v56.Function->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v20) != 0 )
+            v26 = v61.Function->RefCount;
+            Function = v61.Function;
+            if ( (v26 & 0x3FFFFFF) != 0 )
             {
-              v21 = v56.Function;
-              v56.Function->RefCount = v20 - 1;
-              Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v21);
+              v61.Function->RefCount = v26 - 1;
+              Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
             }
           }
         }
-        v56.Function = 0;
-        if ( (v56.Flags & 1) == 0 )
+        v61.Function = 0;
+        if ( (v61.Flags & 1) == 0 )
         {
-          if ( v56.pLocalFrame )
+          if ( v61.pLocalFrame )
           {
-            v22 = v56.pLocalFrame->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v22) != 0 )
+            v28 = v61.pLocalFrame->RefCount;
+            pLocalFrame = v61.pLocalFrame;
+            if ( (v28 & 0x3FFFFFF) != 0 )
             {
-              pLocalFrame = v56.pLocalFrame;
-              v56.pLocalFrame->RefCount = v22 - 1;
+              v61.pLocalFrame->RefCount = v28 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
             }
           }
         }
       }
-      if ( result.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&result);
-      v5 = proot;
-      goto LABEL_37;
+      if ( v63.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v63);
+      goto LABEL_8;
     }
-LABEL_43:
+LABEL_44:
     v3->Active = 0;
-LABEL_63:
+LABEL_64:
     if ( v3->Timeout )
     {
       v3->Active = 0;
     }
     else
     {
-      v39 = HIDWORD(currentTime);
-      v40 = currentTime;
-      LODWORD(v41) = Scaleform::GFx::AS2::IntervalTimer::GetNextInterval(
+      v40 = HIDWORD(v59);
+      v41 = v59;
+      LODWORD(v42) = Scaleform::GFx::AS2::IntervalTimer::GetNextInterval(
                        v3,
-                       currentTime,
+                       v59,
                        (unsigned __int64)(frameTime * 1000000.0));
-      if ( v41 )
+      if ( v42 )
       {
-        v3->InvokeTime += v41;
+        v3->InvokeTime += v42;
       }
       else
       {
-        LODWORD(v3->InvokeTime) = v40;
-        HIDWORD(v3->InvokeTime) = v39;
+        LODWORD(v3->InvokeTime) = v41;
+        HIDWORD(v3->InvokeTime) = v40;
       }
     }
-    v7 = 1;
-    if ( targetHolder.pObject )
-      Scaleform::RefCountNTSImpl::Release(targetHolder.pObject);
-    v42 = thisHolder.pObject;
-    if ( thisHolder.pObject )
+    v9 = 1;
+    if ( result.pObject )
+      Scaleform::RefCountNTSImpl::Release(result.pObject);
+    v43 = v58;
+    if ( v58 )
     {
-      v43 = thisHolder.pObject->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v43) != 0 )
+      v44 = v58->RefCount;
+      if ( (v44 & 0x3FFFFFF) != 0 )
       {
-        thisHolder.pObject->RefCount = v43 - 1;
-        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v42);
+        v58->RefCount = v44 - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v43);
       }
     }
-    if ( (function.Flags & 2) == 0 )
+    if ( (v60.Flags & 2) == 0 )
     {
-      v44 = function.Function;
-      if ( function.Function )
+      v45 = v60.Function;
+      if ( v60.Function )
       {
-        v45 = function.Function->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v45) != 0 )
+        v46 = v60.Function->RefCount;
+        if ( (v46 & 0x3FFFFFF) != 0 )
         {
-          function.Function->RefCount = v45 - 1;
-          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v44);
+          v60.Function->RefCount = v46 - 1;
+          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v45);
         }
       }
     }
-    if ( (function.Flags & 1) == 0 )
+    if ( (v60.Flags & 1) == 0 )
     {
-      v46 = function.pLocalFrame;
-      if ( function.pLocalFrame )
+      v47 = v60.pLocalFrame;
+      if ( v60.pLocalFrame )
       {
-        v47 = function.pLocalFrame->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v47) != 0 )
+        v48 = v60.pLocalFrame->RefCount;
+        if ( (v48 & 0x3FFFFFF) != 0 )
         {
-          function.pLocalFrame->RefCount = v47 - 1;
-          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v46);
+          v60.pLocalFrame->RefCount = v48 - 1;
+          Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v47);
         }
       }
     }
   }
-  return v7;
+  v49 = v62.Stats;
+  if ( v62.Stats )
+  {
+    v50 = &v62.Stats->NativePopCallstack;
+    v51 = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v50)(
+      v49,
+      v51 - LODWORD(v62.StartTicks),
+      (v51 - v62.StartTicks) >> 32);
+  }
+  return v9;
 }

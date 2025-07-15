@@ -1,9 +1,9 @@
-void __thiscall Scaleform::AllocAddr::pullNode(Scaleform::AllocAddr *this, Scaleform::AllocAddrNode *node)
+void __thiscall Scaleform::AllocAddr::pullNode(Scaleform::AllocAddr *this, Scaleform::HeapPT::DualTNode *node)
 {
-  Scaleform::AllocAddrNode *pPrev; // eax
+  Scaleform::HeapPT::DualTNode *pPrev; // eax
   Scaleform::RadixTreeMulti<Scaleform::AllocAddrNode,Scaleform::AllocAddr::SizeAccessor> *p_SizeTree; // ecx
-  Scaleform::AllocAddrNode *pNext; // edx
-  Scaleform::AllocAddrNode *v6; // [esp-4h] [ebp-Ch]
+  Scaleform::HeapPT::DualTNode *pNext; // edx
+  Scaleform::HeapPT::DualTNode *v6; // [esp-4h] [ebp-Ch]
 
   pPrev = node->pPrev;
   p_SizeTree = &this->SizeTree;
@@ -11,7 +11,7 @@ void __thiscall Scaleform::AllocAddr::pullNode(Scaleform::AllocAddr *this, Scale
   {
     Scaleform::RadixTree<Scaleform::AllocAddrNode,Scaleform::AllocAddr::SizeAccessor>::Remove(
       (Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor> *)p_SizeTree,
-      (Scaleform::HeapPT::DualTNode *)node);
+      node);
   }
   else
   {
@@ -21,10 +21,10 @@ void __thiscall Scaleform::AllocAddr::pullNode(Scaleform::AllocAddr *this, Scale
     pPrev->pNext = pNext;
     Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor>::Remove(
       (Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor> *)p_SizeTree,
-      (Scaleform::HeapPT::DualTNode *)node,
-      (Scaleform::HeapPT::DualTNode *)v6);
+      node,
+      v6);
   }
   Scaleform::RadixTree<Scaleform::AllocAddrNode,Scaleform::AllocAddr::AddrAccessor>::Remove(
     (Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::SizeAccessor> *)&this->AddrTree,
-    (Scaleform::HeapPT::DualTNode *)node);
+    node);
 }

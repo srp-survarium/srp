@@ -16,14 +16,14 @@ void __thiscall Scaleform::Render::TreeCacheContainer::UpdateTransform(
   unsigned int State; // eax
   Scaleform::Render::FilterSet *v15; // eax
   char v16; // al
-  float y1; // [esp+662h] [ebp-11Ch]
-  Scaleform::Render::TreeCacheNode *v18; // [esp+662h] [ebp-11Ch]
-  float x2; // [esp+666h] [ebp-118h]
-  Scaleform::List<Scaleform::Render::TreeCacheNode,Scaleform::Render::TreeCacheNode> *v20; // [esp+666h] [ebp-118h]
-  float y2; // [esp+66Ah] [ebp-114h]
-  Scaleform::Render::Matrix3x4<float> m; // [esp+66Eh] [ebp-110h] BYREF
-  Scaleform::Render::TransformArgs v23; // [esp+69Eh] [ebp-E0h] BYREF
-  Scaleform::Render::TransformFlags flagsa; // [esp+78Eh] [ebp+10h]
+  float y1; // [esp+14h] [ebp-11Ch]
+  Scaleform::Render::TreeCacheNode *v18; // [esp+14h] [ebp-11Ch]
+  float x2; // [esp+18h] [ebp-118h]
+  Scaleform::List<Scaleform::Render::TreeCacheNode,Scaleform::Render::TreeCacheNode> *v20; // [esp+18h] [ebp-118h]
+  float y2; // [esp+1Ch] [ebp-114h]
+  Scaleform::Render::Matrix3x4<float> m; // [esp+20h] [ebp-110h] BYREF
+  Scaleform::Render::TransformArgs v23; // [esp+50h] [ebp-E0h] BYREF
+  Scaleform::Render::TransformFlags flagsa; // [esp+140h] [ebp+10h]
 
   Scaleform::Render::TransformArgs::TransformArgs(&v23, t);
   updated = Scaleform::Render::TreeCacheNode::updateCulling(this, pbaseData, t, &v23.CullRect, flags);
@@ -94,7 +94,7 @@ void __thiscall Scaleform::Render::TreeCacheContainer::UpdateTransform(
       }
       v13 = v12 | 0x40;
       if ( v9 < 0 )
-        memcpy((unsigned __int8 *)&v23.Mat3D, (unsigned __int8 *)&t->Mat3D, sizeof(v23.Mat3D));
+        memcpy((int)&v23.Mat3D, (const __m128i *)&t->Mat3D, sizeof(v23.Mat3D));
     }
     Scaleform::Render::TransformArgs::SetViewProj(&v23, v11, t);
     if ( (pbaseData->Flags & 0x400) != 0

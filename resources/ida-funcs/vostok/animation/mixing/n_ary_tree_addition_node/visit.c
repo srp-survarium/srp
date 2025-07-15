@@ -28,15 +28,6 @@ void __thiscall vostok::animation::mixing::n_ary_tree_addition_node::visit(
 void __thiscall vostok::animation::mixing::n_ary_tree_addition_node::visit(
         vostok::animation::mixing::n_ary_tree_addition_node *this,
         vostok::animation::mixing::n_ary_tree_double_dispatcher *dispatcher,
-        vostok::animation::mixing::n_ary_tree_subtraction_node *node)
-{
-  dispatcher->dispatch(dispatcher, node, this);
-}
-
-
-void __thiscall vostok::animation::mixing::n_ary_tree_addition_node::visit(
-        vostok::animation::mixing::n_ary_tree_addition_node *this,
-        vostok::animation::mixing::n_ary_tree_double_dispatcher *dispatcher,
         vostok::animation::mixing::n_ary_tree_time_scale_node *node)
 {
   dispatcher->dispatch(dispatcher, node, this);

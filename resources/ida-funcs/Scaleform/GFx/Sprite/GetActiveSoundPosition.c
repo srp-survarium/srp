@@ -6,7 +6,7 @@ double __thiscall Scaleform::GFx::Sprite::GetActiveSoundPosition(
   int v4; // edi
   Scaleform::RefCountNTSImpl **p_pObject; // ecx
   Scaleform::RefCountNTSImpl *v6; // esi
-  float psobja; // [esp+14h] [ebp+4h]
+  float v8; // [esp+14h] [ebp+4h]
 
   pActiveSounds = this->pActiveSounds;
   if ( !pActiveSounds )
@@ -32,7 +32,7 @@ double __thiscall Scaleform::GFx::Sprite::GetActiveSoundPosition(
     if ( ++v4 >= pActiveSounds->Sounds.Data.Size )
       return 0.0;
   }
-  psobja = ((double (__thiscall *)(Scaleform::RefCountNTSImpl_vtbl *))*((_DWORD *)v6[1].~Scaleform::RefCountNTSImpl + 7))(v6[1].__vftable);
+  v8 = ((double (__thiscall *)(Scaleform::RefCountNTSImpl_vtbl *))*((_DWORD *)v6[1].~Scaleform::RefCountNTSImpl + 7))(v6[1].__vftable);
   Scaleform::RefCountNTSImpl::Release(v6);
-  return psobja;
+  return v8;
 }

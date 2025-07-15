@@ -14,8 +14,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
   Scaleform::StringBuffer *p_name; // edi
   unsigned int Size; // ebp
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // esi
-  char *pData; // eax
-  char *v15; // eax
+  __m128i *pData; // eax
+  __m128i *v15; // eax
   Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // edi
   void (__thiscall **p_SetProperty)(Scaleform::GFx::AS3::Instances::fl_net::URLVariables *, char *, int, int); // esi
   int v18; // eax
@@ -25,9 +25,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASStringNode *v23; // eax
   Scaleform::StringBuffer *p_value; // ecx
-  char *v25; // eax
+  __m128i *v25; // eax
   Scaleform::GFx::AS3::StringManager *v26; // esi
-  char *v27; // eax
+  __m128i *v27; // eax
   Scaleform::GFx::AS3::Instances::fl::Namespace *v28; // edi
   void (__thiscall **v29)(Scaleform::GFx::AS3::Instances::fl_net::URLVariables *, char *, int, int); // esi
   int v30; // eax
@@ -55,13 +55,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
   parseName = 1;
   Scaleform::StringBuffer::StringBuffer(&name, Scaleform::Memory::pGlobalHeap);
   Scaleform::StringBuffer::StringBuffer(&value, Scaleform::Memory::pGlobalHeap);
-  FirstCharAt = Scaleform::GFx::ASConstString::GetFirstCharAt(&source->Scaleform::GFx::ASConstString, 0, &pstr);
+  FirstCharAt = Scaleform::GFx::ASConstString::GetFirstCharAt(&source->Scaleform::GFx::ASConstString, 0, (char **)&pstr);
   while ( FirstCharAt )
   {
     switch ( FirstCharAt )
     {
       case 0x25u:
-        FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(&source->Scaleform::GFx::ASConstString, &pstr);
+        FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(&source->Scaleform::GFx::ASConstString, (char **)&pstr);
         v5 = 0;
         if ( FirstCharAt )
         {
@@ -87,7 +87,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
             if ( FirstCharAt > 0x39 )
               v10 = FirstCharAt - 87;
             v5 = v10 | v9;
-            FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(&source->Scaleform::GFx::ASConstString, &pstr);
+            FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(
+                            &source->Scaleform::GFx::ASConstString,
+                            (char **)&pstr);
             v6 += 4;
           }
           while ( FirstCharAt );
@@ -109,15 +111,15 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
         break;
       case 0x26u:
         StringManagerRef = v3->pTraits.pObject->pVM->StringManagerRef;
-        pData = name.pData;
+        pData = (__m128i *)name.pData;
         if ( !name.pData )
-          pData = (char *)&buf;
+          pData = (__m128i *)uri;
         v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, pData);
         ++v.pNode->RefCount;
         Scaleform::GFx::AS3::Value::Value(&v44, &v);
-        v15 = value.pData;
+        v15 = (__m128i *)value.pData;
         if ( !value.pData )
-          v15 = (char *)&buf;
+          v15 = (__m128i *)uri;
         v41.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, v15);
         ++v41.pNode->RefCount;
         pObject = v3->pTraits.pObject->pVM->PublicNamespace.pObject;
@@ -142,7 +144,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLVariables::decode(
           else
           {
             RefCount = v45.Obj.pObject->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               v21 = v45.Obj.pObject;
               v45.Obj.pObject->RefCount = RefCount - 1;
@@ -193,20 +195,20 @@ LABEL_53:
         break;
     }
 LABEL_54:
-    FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(&source->Scaleform::GFx::ASConstString, &pstr);
+    FirstCharAt = Scaleform::GFx::ASConstString::GetNextChar(&source->Scaleform::GFx::ASConstString, (char **)&pstr);
   }
   if ( Scaleform::StringBuffer::GetLength(&name) )
   {
-    v25 = name.pData;
+    v25 = (__m128i *)name.pData;
     v26 = v3->pTraits.pObject->pVM->StringManagerRef;
     if ( !name.pData )
-      v25 = (char *)&buf;
+      v25 = (__m128i *)uri;
     v41.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v26->pStringManager, v25);
     ++v41.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Value(&v44, &v41);
-    v27 = value.pData;
+    v27 = (__m128i *)value.pData;
     if ( !value.pData )
-      v27 = (char *)&buf;
+      v27 = (__m128i *)uri;
     v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(v26->pStringManager, v27);
     ++v.pNode->RefCount;
     v28 = v3->pTraits.pObject->pVM->PublicNamespace.pObject;
@@ -231,7 +233,7 @@ LABEL_54:
       else
       {
         v32 = v45.Obj.pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v32) != 0 )
+        if ( (v32 & 0x3FFFFF) != 0 )
         {
           v33 = v45.Obj.pObject;
           v45.Obj.pObject->RefCount = v32 - 1;

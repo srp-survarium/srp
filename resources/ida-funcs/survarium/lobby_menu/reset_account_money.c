@@ -1,87 +1,41 @@
-void __thiscall survarium::lobby_menu::reset_account_money(survarium::lobby_menu *this, survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::reset_account_money(survarium::lobby_menu *this, int a2)
 {
-  survarium::flash_movie_resource *m_object; // ecx
-  survarium::game *m_game; // eax
-  char *v4; // eax
-  unsigned int generic_money; // esi
-  unsigned int premium_money; // esi
-  survarium::flash_value account_info_property; // [esp+48h] [ebp-234h] BYREF
-  survarium::flash_value account_info; // [esp+60h] [ebp-21Ch] BYREF
-  unsigned int pConvertedChars; // [esp+78h] [ebp-204h] BYREF
-  wchar_t an[256]; // [esp+7Ch] [ebp-200h] BYREF
+  int v2; // eax
+  survarium::lobby_menu *v3; // ecx
+  survarium::lobby_client *v4; // eax
+  survarium::flash_value *v5; // ecx
+  survarium::lobby_menu *v6; // ecx
+  survarium::lobby_client *v7; // eax
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  survarium::lobby_menu *v10; // ecx
+  survarium::lobby_client *v11; // eax
+  survarium::flash_value *v12; // ecx
+  survarium::flash_value *v13; // ecx
+  Scaleform::GFx::Value pargs; // [esp+10h] [ebp-34h] BYREF
+  survarium::flash_value value; // [esp+28h] [ebp-1Ch] BYREF
 
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)account_info.body = 0;
-  *(_DWORD *)&account_info.body[4] = 0;
-  Scaleform::GFx::Movie::CreateObject(m_object->movie->m_movie, (Scaleform::GFx::Value *)&account_info, 0, 0, 0);
-  m_game = thisa->m_game;
-  *(_DWORD *)account_info_property.body = 0;
-  *(_DWORD *)&account_info_property.body[4] = 0;
-  v4 = (char *)m_game->m_network_client->lobby_client(m_game->m_network_client);
-  pConvertedChars = 0;
-  mbstowcs_s(&pConvertedChars, an, 0x100u, v4, 0xFFFFFFFF);
-  survarium::flash_value::SetStringW(&account_info_property, an);
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)account_info.body
-                                                                                       + 20))(
-    *(_DWORD *)account_info.body,
-    *(_DWORD *)&account_info.body[8],
-    "nickname",
-    &account_info_property,
-    (account_info.body[4] & 0x8F) == 10);
-  generic_money = thisa->m_game->m_network_client->lobby_client(thisa->m_game->m_network_client)->m_account_money.generic_money;
-  if ( (account_info_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)account_info_property.body + 8))(
-      *(_DWORD *)account_info_property.body,
-      &account_info_property,
-      *(_DWORD *)&account_info_property.body[8]);
-    *(_DWORD *)account_info_property.body = 0;
-  }
-  *(_DWORD *)&account_info_property.body[4] = 4;
-  *(_DWORD *)&account_info_property.body[8] = generic_money;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)account_info.body
-                                                                                       + 20))(
-    *(_DWORD *)account_info.body,
-    *(_DWORD *)&account_info.body[8],
-    "generic_money",
-    &account_info_property,
-    (account_info.body[4] & 0x8F) == 10);
-  premium_money = thisa->m_game->m_network_client->lobby_client(thisa->m_game->m_network_client)->m_account_money.premium_money;
-  if ( (account_info_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)account_info_property.body + 8))(
-      *(_DWORD *)account_info_property.body,
-      &account_info_property,
-      *(_DWORD *)&account_info_property.body[8]);
-    *(_DWORD *)account_info_property.body = 0;
-  }
-  *(_DWORD *)&account_info_property.body[4] = 4;
-  *(_DWORD *)&account_info_property.body[8] = premium_money;
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)account_info.body
-                                                                                       + 20))(
-    *(_DWORD *)account_info.body,
-    *(_DWORD *)&account_info.body[8],
-    "premium_money",
-    &account_info_property,
-    (account_info.body[4] & 0x8F) == 10);
+  v2 = *(_DWORD *)(a2 + 1600);
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  survarium::flash_movie::CreateObject((survarium::flash_movie *)this, *(survarium::flash_value **)(v2 + 264), &pargs);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  v4 = survarium::lobby_menu::lobby_client(v3, a2);
+  survarium::flash_value::SetString(&value, v4->account_nickname);
+  survarium::flash_value::SetMember(v5, &pargs, "nickname", &value);
+  v7 = survarium::lobby_menu::lobby_client(v6, a2);
+  survarium::flash_value::SetUInt(v8, (int)&value, v7->m_account_money.generic_money);
+  survarium::flash_value::SetMember(v9, &pargs, "generic_money", &value);
+  v11 = survarium::lobby_menu::lobby_client(v10, a2);
+  survarium::flash_value::SetUInt(v12, (int)&value, v11->m_account_money.premium_money);
+  survarium::flash_value::SetMember(v13, &pargs, "premium_money", &value);
   Scaleform::GFx::Movie::Invoke(
-    thisa->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 1600) + 264) + 4),
     "root.setPlayerInfo",
     0,
-    (const Scaleform::GFx::Value *)&account_info,
+    &pargs,
     1u);
-  if ( (account_info_property.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)account_info_property.body + 8))(
-      *(_DWORD *)account_info_property.body,
-      &account_info_property,
-      *(_DWORD *)&account_info_property.body[8]);
-    *(_DWORD *)account_info_property.body = 0;
-  }
-  *(_DWORD *)&account_info_property.body[4] = 0;
-  if ( (account_info.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)account_info.body + 8))(
-      *(_DWORD *)account_info.body,
-      &account_info,
-      *(_DWORD *)&account_info.body[8]);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pargs);
 }

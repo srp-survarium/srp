@@ -1,15 +1,13 @@
-void __thiscall vostok::threading::simple_lock::lock(
-        vostok::threading::simple_lock *this,
-        vostok::threading::simple_lock *thisa)
+void __thiscall vostok::threading::simple_lock::lock(vostok::threading::simple_lock *this, int a2)
 {
-  if ( thisa->m_thread_id == GetCurrentThreadId() )
+  if ( *(_DWORD *)(a2 + 4) == GetCurrentThreadId() )
   {
-    ++thisa->m_lock;
+    ++*(_DWORD *)a2;
   }
   else
   {
-    while ( _InterlockedCompareExchange(&thisa->m_thread_id, GetCurrentThreadId(), 0) )
+    while ( _InterlockedCompareExchange((volatile signed __int32 *)(a2 + 4), GetCurrentThreadId(), 0) )
       ;
-    thisa->m_lock = 1;
+    *(_DWORD *)a2 = 1;
   }
 }

@@ -4,26 +4,27 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::writeUTF(
         const Scaleform::GFx::ASString *value)
 {
   unsigned int Size; // eax
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  unsigned __int16 v8; // di
-  Scaleform::GFx::AS3::VM::Error v9; // [esp+4h] [ebp-8h] BYREF
+  unsigned __int16 v7; // di
+  Scaleform::StringDataPtr v8; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v9; // [esp+Ch] [ebp-8h] BYREF
 
   if ( Scaleform::GFx::AS3::SocketThreadMgr::IsRunning(this->SockMgr.pObject) )
   {
     Size = value->pNode->Size;
     if ( Size <= 0xFFFF )
     {
-      v8 = value->pNode->Size;
+      v7 = value->pNode->Size;
       Scaleform::GFx::AS3::SocketThreadMgr::SendShort(this->SockMgr.pObject, Size);
-      Scaleform::GFx::AS3::SocketThreadMgr::SendBytes(this->SockMgr.pObject, value->pNode->pData, v8);
+      Scaleform::GFx::AS3::SocketThreadMgr::SendBytes(this->SockMgr.pObject, value->pNode->pData, v7);
     }
     else
     {
-      pVM = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error(&v9, eNotImplementedError, pVM);
-      Scaleform::GFx::AS3::VM::ThrowRangeError(pVM, v6);
+      v8.pStr = "ByteArray::writeUTF";
+      v8.Size = 19;
+      Scaleform::GFx::AS3::VM::Error::Error(&v9, eNotImplementedError, this->pTraits.pObject->pVM, v8);
+      Scaleform::GFx::AS3::VM::ThrowRangeError(this->pTraits.pObject->pVM, v5);
       pNode = v9.Message.pNode;
       --v9.Message.pNode->RefCount;
       if ( !pNode->RefCount )

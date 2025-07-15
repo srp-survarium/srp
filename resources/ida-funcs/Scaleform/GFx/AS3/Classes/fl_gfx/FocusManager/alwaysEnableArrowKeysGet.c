@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::alwaysEnable
   int v4; // eax
 
   pVM = this->pTraits.pObject->pVM;
-  if ( LOBYTE(pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&pVM[1].HandleException + 4) )
   {
     v3 = pVM[1].__vftable;
     v4 = *((_BYTE *)v3[1].~Scaleform::GFx::AS3::VM + 16247) & 3;

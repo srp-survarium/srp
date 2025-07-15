@@ -1,26 +1,3 @@
-void __thiscall stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_String_base<char,stlp_std::allocator<char>>(
-        stlp_std::priv::_String_base<char,stlp_std::allocator<char> > *this,
-        const stlp_std::allocator<char> *__a)
-{
-  this->_M_finish = (char *)this;
-  this->_M_start_of_storage._M_data = (char *)this;
-}
-
-
-void __thiscall stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_String_base<char,stlp_std::allocator<char>>(
-        stlp_std::priv::_String_base<char,stlp_std::allocator<char> > *this,
-        const stlp_std::allocator<char> *__a,
-        unsigned int __n)
-{
-  this->_M_finish = (char *)this;
-  stlp_std::priv::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>(
-    &this->_M_start_of_storage,
-    __a,
-    (char *)this);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_allocate_block(this, __n);
-}
-
-
 void __thiscall stlp_std::priv::_String_base<char,stlp_std::priv::__iostring_allocator<char>>::_String_base<char,stlp_std::priv::__iostring_allocator<char>>(
         stlp_std::priv::_String_base<char,stlp_std::priv::__iostring_allocator<char> > *this,
         const stlp_std::priv::__iostring_allocator<char> *__a,
@@ -56,7 +33,7 @@ void __thiscall stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t
   signed int v3; // eax
   stlp_std::priv::_STLP_alloc_proxy<wchar_t *,wchar_t,stlp_std::allocator<wchar_t> > *p_M_start_of_storage; // edi
   wchar_t *v6; // eax
-  unsigned int v7; // edx
+  signed int v7; // edx
 
   v3 = __n;
   p_M_start_of_storage = &this->_M_start_of_storage;
@@ -79,7 +56,7 @@ void __thiscall stlp_std::priv::_String_base<wchar_t,stlp_std::allocator<wchar_t
 void __thiscall stlp_std::priv::_String_base<wchar_t,stlp_std::priv::__iostring_allocator<wchar_t>>::_String_base<wchar_t,stlp_std::priv::__iostring_allocator<wchar_t>>(
         stlp_std::priv::_String_base<wchar_t,stlp_std::priv::__iostring_allocator<wchar_t> > *this,
         const stlp_std::priv::__iostring_allocator<wchar_t> *__a,
-        int __n)
+        unsigned int __n)
 {
   stlp_std::allocator<wchar_t> *p_M_start_of_storage; // eax
 
@@ -87,11 +64,11 @@ void __thiscall stlp_std::priv::_String_base<wchar_t,stlp_std::priv::__iostring_
   this->_M_finish = (wchar_t *)this;
   qmemcpy(&this->_M_start_of_storage, __a, 0x202u);
   this->_M_start_of_storage._M_data = (wchar_t *)this;
-  if ( __n <= 0 )
+  if ( (int)__n <= 0 )
     stlp_std::__stl_throw_length_error("basic_string");
-  if ( (unsigned int)__n > 0x10 )
+  if ( __n > 0x10 )
   {
-    if ( (unsigned int)__n > 0x101 )
+    if ( __n > 0x101 )
       p_M_start_of_storage = (stlp_std::allocator<wchar_t> *)stlp_std::allocator<wchar_t>::allocate(
                                                                p_M_start_of_storage,
                                                                __n,

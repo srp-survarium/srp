@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Stage::deviceOrienta
   switch ( *((_DWORD *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + 4120) )
   {
     case 0:
-      v3 = &::result.m_buffer[40];
+      v3 = "default";
       break;
     case 1:
       v3 = "rotatedLeft";

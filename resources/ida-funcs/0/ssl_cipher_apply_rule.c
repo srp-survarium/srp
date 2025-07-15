@@ -21,8 +21,8 @@ void __cdecl ssl_cipher_apply_rule(
   cipher_order_st *v18; // eax
   cipher_order_st *v19; // eax
   cipher_order_st *v20; // eax
-  cipher_order_st *head; // [esp+10h] [ebp-14h] BYREF
-  cipher_order_st *tail; // [esp+14h] [ebp-10h] BYREF
+  cipher_order_st *v21; // [esp+10h] [ebp-14h] BYREF
+  cipher_order_st *v22; // [esp+14h] [ebp-10h] BYREF
   BOOL v23; // [esp+18h] [ebp-Ch]
   cipher_order_st *v24; // [esp+1Ch] [ebp-8h]
   cipher_order_st *v25; // [esp+20h] [ebp-4h]
@@ -30,8 +30,8 @@ void __cdecl ssl_cipher_apply_rule(
   v23 = algo_strength == 3;
   next = *strength_bits;
   v11 = *head_p;
-  head = *strength_bits;
-  tail = v11;
+  v21 = *strength_bits;
+  v22 = v11;
   if ( algo_strength == 3 )
   {
     v12 = v11;
@@ -88,7 +88,7 @@ LABEL_26:
                 if ( v12 == next )
                 {
                   next = v12->next;
-                  head = next;
+                  v21 = next;
                 }
                 prev = v12->prev;
                 if ( prev )
@@ -100,7 +100,7 @@ LABEL_26:
                 v12->prev = v11;
                 v11 = v12;
                 v12->next = 0;
-                tail = v12;
+                v22 = v12;
               }
               v12->active = 1;
             }
@@ -111,7 +111,7 @@ LABEL_26:
               if ( v12 == next )
               {
                 next = v12->next;
-                head = next;
+                v21 = next;
               }
               v17 = v12->prev;
               if ( v17 )
@@ -123,15 +123,15 @@ LABEL_26:
               v12->prev = v11;
               v11 = v12;
               v12->next = 0;
-              tail = v12;
+              v22 = v12;
             }
             break;
           case 3u:
             if ( v12->active )
             {
-              ll_append_head(&tail, &head, v12);
-              next = head;
-              v11 = tail;
+              ll_append_head(&v22, &v21, v12);
+              next = v21;
+              v11 = v22;
               v12->active = 0;
             }
             break;
@@ -139,7 +139,7 @@ LABEL_26:
             if ( next == v12 )
             {
               next = v12->next;
-              head = next;
+              v21 = next;
             }
             else
             {
@@ -148,7 +148,7 @@ LABEL_26:
             if ( v11 == v12 )
             {
               v11 = v12->prev;
-              tail = v11;
+              v22 = v11;
             }
             v19 = v12->next;
             v12->active = 0;

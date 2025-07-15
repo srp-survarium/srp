@@ -3,7 +3,7 @@ bignum_pool_item *__usercall BN_POOL_get@<eax>(bignum_pool *p@<esi>)
   unsigned int used; // ecx
   bignum_pool_item *result; // eax
   bignum_pool_item *v3; // edi
-  bignum_st *v4; // ebx
+  bignum_pool_item *v4; // ebx
   int v5; // ebp
   bignum_pool_item *tail; // eax
   bignum_pool_item *next; // edx
@@ -33,11 +33,12 @@ LABEL_14:
   v3 = result;
   if ( result )
   {
-    v4 = (bignum_st *)result;
+    v4 = result;
     v5 = 16;
     do
     {
-      BN_init(v4++);
+      BN_init(v4->vals);
+      v4 = (bignum_pool_item *)((char *)v4 + 20);
       --v5;
     }
     while ( v5 );

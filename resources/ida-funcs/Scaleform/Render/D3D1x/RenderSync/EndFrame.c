@@ -1,6 +1,6 @@
-bool __thiscall Scaleform::Render::D3D1x::RenderSync::EndFrame(Scaleform::Render::D3D1x::RenderSync *this)
+char __thiscall Scaleform::Render::D3D1x::RenderSync::EndFrame(Scaleform::Render::D3D1x::RenderSync *this)
 {
-  bool result; // al
+  char result; // al
 
   if ( this->pDevice.pObject && this->pDeviceContext.pObject )
   {

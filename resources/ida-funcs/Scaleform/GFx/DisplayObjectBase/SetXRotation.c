@@ -5,8 +5,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetXRotation(
   Scaleform::GFx::ASMovieRootBase *pASRoot; // eax
   long double v4; // st7
 
-  if ( (HIDWORD(rotation) & 0x7FF00000) != 0x7FF00000
-    || !((unsigned int)&loc_FFFFF & HIDWORD(rotation) | LODWORD(rotation)) )
+  if ( (HIDWORD(rotation) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(rotation) & 0xFFFFF | LODWORD(rotation)) )
   {
     pASRoot = this->pASRoot;
     if ( pASRoot && pASRoot->pMovieImpl->AcceptAnimMovesWith3D(pASRoot->pMovieImpl) )

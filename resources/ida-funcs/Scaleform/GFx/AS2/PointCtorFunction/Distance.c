@@ -1,4 +1,3 @@
-// local variable allocation has failed, the output may be wrong!
 void __cdecl Scaleform::GFx::AS2::PointCtorFunction::Distance(const Scaleform::GFx::AS2::FnCall *fn)
 {
   Scaleform::GFx::AS2::Value *Result; // edi
@@ -16,17 +15,19 @@ void __cdecl Scaleform::GFx::AS2::PointCtorFunction::Distance(const Scaleform::G
   Scaleform::GFx::AS2::Value *v13; // esi
   long double v14; // st7
   Scaleform::GFx::AS2::Environment *v15; // [esp-8h] [ebp-80h]
-  Scaleform::GFx::AS2::Value d; // [esp+8h] [ebp-70h] OVERLAPPED BYREF
-  Scaleform::GFx::AS2::Value xd; // [esp+18h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::Value yd; // [esp+28h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value o2[2]; // [esp+38h] [ebp-40h] BYREF
-  Scaleform::GFx::AS2::Value o1[2]; // [esp+58h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v16; // [esp+8h] [ebp-70h] BYREF
+  Scaleform::GFx::AS2::Value v17; // [esp+18h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v18; // [esp+28h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+38h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v20; // [esp+48h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+58h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v22; // [esp+68h] [ebp-10h] BYREF
 
-  *(double *)&d.T.Type = Scaleform::GFx::NumberUtil::NaN();
+  *(double *)&v16.T.Type = Scaleform::GFx::NumberUtil::NaN();
   Result = fn->Result;
   if ( Result->T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(fn->Result);
-  v2 = *(double *)&d.T.Type;
+  v2 = *(double *)&v16.T.Type;
   Result->T.Type = 3;
   Result->NV.NumberValue = v2;
   if ( fn->NArgs > 1 )
@@ -51,45 +52,45 @@ void __cdecl Scaleform::GFx::AS2::PointCtorFunction::Distance(const Scaleform::G
         || v11->GetObjectType(&v11->Scaleform::GFx::AS2::ObjectInterface) == Object_Point )
       {
         `vector constructor iterator'(
-          (char *)o1,
+          (char *)&params,
           0x10u,
           2,
           (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
         `vector constructor iterator'(
-          (char *)o2,
+          (char *)&v,
           0x10u,
           2,
           (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
-        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v7, o1);
-        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v11, o2);
-        Scaleform::GFx::AS2::Value::Value(&xd, o2);
-        Scaleform::GFx::AS2::Value::Sub(&xd, fn->Env, o1);
-        Scaleform::GFx::AS2::Value::Mul(&xd, fn->Env, &xd);
-        Scaleform::GFx::AS2::Value::Value(&yd, &o2[1]);
-        Scaleform::GFx::AS2::Value::Sub(&yd, fn->Env, &o1[1]);
-        Scaleform::GFx::AS2::Value::Mul(&yd, fn->Env, &yd);
-        Scaleform::GFx::AS2::Value::Add(&xd, fn->Env, &yd);
+        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v7, &params);
+        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v11, &v);
+        Scaleform::GFx::AS2::Value::Value(&v17, &v);
+        Scaleform::GFx::AS2::Value::Sub(&v17, fn->Env, &params);
+        Scaleform::GFx::AS2::Value::Mul(&v17, fn->Env, &v17);
+        Scaleform::GFx::AS2::Value::Value(&v18, &v20);
+        Scaleform::GFx::AS2::Value::Sub(&v18, fn->Env, &v22);
+        Scaleform::GFx::AS2::Value::Mul(&v18, fn->Env, &v18);
+        Scaleform::GFx::AS2::Value::Add(&v17, fn->Env, &v18);
         v15 = fn->Env;
-        d.T.Type = 3;
-        d.NV.NumberValue = sqrt(Scaleform::GFx::AS2::Value::ToNumber(&xd, v15));
-        *(double *)&d.T.Type = Scaleform::GFx::AS2::Value::ToNumber(&d, fn->Env);
+        v16.T.Type = 3;
+        v16.NV.NumberValue = sqrt(Scaleform::GFx::AS2::Value::ToNumber(&v17, v15));
+        *(double *)&v16.T.Type = Scaleform::GFx::AS2::Value::ToNumber(&v16, fn->Env);
         v13 = fn->Result;
         if ( v13->T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(v13);
-        v14 = *(double *)&d.T.Type;
+        v14 = *(double *)&v16.T.Type;
         v13->T.Type = 3;
         v13->NV.NumberValue = v14;
-        if ( yd.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&yd);
-        if ( xd.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&xd);
+        if ( v18.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v18);
+        if ( v17.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v17);
         `vector destructor iterator'(
-          (char *)o2,
+          (char *)&v,
           0x10u,
           2,
           (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);
         `vector destructor iterator'(
-          (char *)o1,
+          (char *)&params,
           0x10u,
           2,
           (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

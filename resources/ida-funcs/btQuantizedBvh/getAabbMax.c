@@ -8,7 +8,6 @@ btVector3 *__userpurge btQuantizedBvh::getAabbMax@<eax>(
   float v5; // xmm0_4
   int v6; // esi
   int v7; // edx
-  btVector3 *p_m_aabbMaxOrg; // ecx
 
   if ( this->m_useQuantization )
   {
@@ -27,8 +26,7 @@ btVector3 *__userpurge btQuantizedBvh::getAabbMax@<eax>(
   }
   else
   {
-    p_m_aabbMaxOrg = &this->m_leafNodes.m_data[nodeIndex].m_aabbMaxOrg;
-    *result = (btVector3)p_m_aabbMaxOrg->mVec128;
+    *result = this->m_leafNodes.m_data[nodeIndex].m_aabbMaxOrg;
   }
   return result;
 }

@@ -8,51 +8,41 @@ char __thiscall Scaleform::Render::DICommand::executeSWHelper(
   Scaleform::Render::ImageData *MappedData; // ebp
   Scaleform::Render::DrawableImage *v7; // eax
   void (__thiscall *ExecuteSW)(Scaleform::Render::DICommand *, Scaleform::Render::DICommandContext *, Scaleform::Render::ImageData *, Scaleform::Render::ImageData **); // edx
-  Scaleform::Render::ImageData *ipdata[2]; // [esp+10h] [ebp-58h] BYREF
-  Scaleform::Render::ImageData idata[2]; // [esp+18h] [ebp-50h] BYREF
+  Scaleform::Render::ImageData *v10; // [esp+10h] [ebp-58h] BYREF
+  Scaleform::Render::ImageData *v11; // [esp+14h] [ebp-54h]
+  Scaleform::Render::ImageData v12; // [esp+18h] [ebp-50h] BYREF
+  Scaleform::Render::ImageData v13; // [esp+40h] [ebp-28h] BYREF
 
   MappedData = Scaleform::Render::DrawableImage::getMappedData(di);
   if ( imageCount )
   {
-    idata[0].RawPlaneCount = 1;
-    idata[1].pPlanes = &idata[1].Plane0;
+    v12.RawPlaneCount = 1;
+    v13.pPlanes = &v13.Plane0;
     v7 = (Scaleform::Render::DrawableImage *)images->pImages[0];
-    memset(idata, 0, 10);
-    idata[0].pPlanes = &idata[0].Plane0;
-    idata[0].pPalette.pObject = 0;
-    idata[0].Plane0.Width = 0;
-    idata[0].Plane0.Height = 0;
-    idata[0].Plane0.Pitch = 0;
-    idata[0].Plane0.DataSize = 0;
-    idata[0].Plane0.pData = 0;
-    memset(&idata[1], 0, 10);
-    idata[1].RawPlaneCount = 1;
-    idata[1].pPalette.pObject = 0;
-    idata[1].Plane0.Width = 0;
-    idata[1].Plane0.Height = 0;
-    idata[1].Plane0.Pitch = 0;
-    idata[1].Plane0.DataSize = 0;
-    idata[1].Plane0.pData = 0;
-    ipdata[0] = 0;
-    ipdata[1] = 0;
-    if ( v7 && !Scaleform::Render::DrawableImage::MapImageSource(idata, v7)
-      || (ipdata[0] = idata, images->pImages[1])
-      && !Scaleform::Render::DrawableImage::MapImageSource(
-            &idata[1],
-            (Scaleform::Render::DrawableImage *)images->pImages[1]) )
+    memset(&v12, 0, 10);
+    v12.pPlanes = &v12.Plane0;
+    memset(&v12.pPalette, 0, 24);
+    memset(&v13, 0, 10);
+    v13.RawPlaneCount = 1;
+    memset(&v13.pPalette, 0, 24);
+    v10 = 0;
+    v11 = 0;
+    if ( v7 && !Scaleform::Render::DrawableImage::MapImageSource(&v12, v7)
+      || (v10 = &v12, images->pImages[1])
+      && !Scaleform::Render::DrawableImage::MapImageSource(&v13, (Scaleform::Render::DrawableImage *)images->pImages[1]) )
     {
       `vector destructor iterator'(
-        (char *)idata,
+        (char *)&v12,
         0x28u,
         2,
         (void (__thiscall *)(void *))Scaleform::Render::ImageData::~ImageData);
       return 0;
     }
     ExecuteSW = this->ExecuteSW;
-    ipdata[1] = &idata[1];
-    ExecuteSW(this, context, MappedData, ipdata);
+    v11 = &v13;
+    ExecuteSW(this, context, MappedData, &v10);
     `vector destructor iterator'(
-      (char *)idata,
+      (char *)&v12,
       0x28u,
       2,
       (void (__thiscall *)(void *))Scaleform::Render::ImageData::~ImageData);

@@ -29,7 +29,7 @@ int __cdecl png_write_IDAT(int a1, unsigned __int8 *buf, unsigned int a3)
       }
     }
   }
-  sub_36AEC0((_DWORD *)a1, 1229209940, buf, a3);
+  sub_477B80((_DWORD *)a1, 1229209940, buf, a3);
   *(_DWORD *)(a1 + 108) |= 4u;
   *(_DWORD *)(a1 + 132) = *(_DWORD *)(a1 + 176);
   result = *(_DWORD *)(a1 + 180);

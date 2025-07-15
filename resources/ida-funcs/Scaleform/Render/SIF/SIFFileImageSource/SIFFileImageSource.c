@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::SIF::SIFFileImageSource::SIFFileImageSource(
         Scaleform::Render::SIF::SIFFileImageSource *this,
-        Scaleform::File *file,
+        Scaleform::GFx::Resource *file,
         Scaleform::Render::ImageFormat format)
 {
   Scaleform::Render::FileImageSource::FileImageSource(this, file, format, 0);

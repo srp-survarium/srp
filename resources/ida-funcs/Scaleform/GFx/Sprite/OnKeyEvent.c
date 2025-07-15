@@ -21,8 +21,12 @@ char __thiscall Scaleform::GFx::Sprite::OnKeyEvent(
   Scaleform::GFx::Sprite_vtbl **v21; // ecx
   int v22; // eax
   int v23; // eax
-  Scaleform::GFx::EventId e; // [esp+Ch] [ebp-14h] BYREF
-  char rv; // [esp+24h] [ebp+4h]
+  unsigned int v24; // [esp+Ch] [ebp-14h] BYREF
+  unsigned int v25; // [esp+10h] [ebp-10h]
+  unsigned int v26; // [esp+14h] [ebp-Ch]
+  unsigned int v27; // [esp+18h] [ebp-8h]
+  int v28; // [esp+1Ch] [ebp-4h]
+  char v29; // [esp+24h] [ebp+4h]
 
   AvmObjOffset = this->AvmObjOffset;
   if ( !AvmObjOffset )
@@ -35,7 +39,7 @@ char __thiscall Scaleform::GFx::Sprite::OnKeyEvent(
   if ( id->Id == 64 )
   {
     v10 = v8(v7);
-    rv = (*(int (__thiscall **)(int, const Scaleform::GFx::EventId *))(*(_DWORD *)v10 + 32))(v10, id);
+    v29 = (*(int (__thiscall **)(int, const Scaleform::GFx::EventId *))(*(_DWORD *)v10 + 32))(v10, id);
     if ( ((unsigned int)&_sbh_sizeHeaderList & *pkeyMask) == 0 )
     {
       v11 = Scaleform::GFx::EventId::ConvertToButtonKeyCode(id);
@@ -46,50 +50,50 @@ char __thiscall Scaleform::GFx::Sprite::OnKeyEvent(
                                             + 8))(
                 (char *)&this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
               + 4 * this->AvmObjOffset);
-        e.KeyCode = (__int16)v11;
-        e.Id = (unsigned int)&loc_20000;
-        e.WcharCode = 0;
-        e.AsciiCode = 0;
-        e.RollOverCnt = 0;
-        e.KeysState.States = 0;
-        e.MouseWheelDelta = 0;
-        e.ControllerIndex = 0;
-        rv = (*(int (__thiscall **)(int, Scaleform::GFx::EventId *))(*(_DWORD *)v12 + 32))(v12, &e);
-        if ( rv )
+        v26 = (__int16)v11;
+        v24 = (unsigned int)&loc_20000;
+        v25 = 0;
+        LOBYTE(v27) = 0;
+        v28 = 0;
+        v29 = (*(int (__thiscall **)(int, unsigned int *))(*(_DWORD *)v12 + 32))(v12, &v24);
+        if ( v29 )
           *pkeyMask |= (unsigned int)&_sbh_sizeHeaderList;
       }
     }
     pMovieImpl = this->pASRoot->pMovieImpl;
-    if ( Scaleform::GFx::MovieImpl::IsKeyboardFocused(pMovieImpl, this, id->ControllerIndex) )
+    if ( Scaleform::GFx::MovieImpl::IsKeyboardFocused(
+           pMovieImpl,
+           this,
+           (Scaleform::Ptr<Scaleform::GFx::Sprite>)id->ControllerIndex) )
     {
       KeyCode = id->KeyCode;
       if ( (KeyCode == 13 || KeyCode == 32) && (this->IsFocusRectEnabled(this) || ((pMovieImpl->Flags >> 26) & 3) == 1) )
       {
         v15 = id->KeyCode;
         WcharCode = id->WcharCode;
-        e.Id = id->Id;
+        v24 = id->Id;
         TouchID = id->TouchID;
-        e.KeyCode = v15;
+        v26 = v15;
         v18 = this->AvmObjOffset;
-        e.WcharCode = WcharCode;
+        v25 = WcharCode;
         v19 = *(_DWORD *)&id->RollOverCnt;
-        e.TouchID = TouchID;
-        *(_DWORD *)&e.RollOverCnt = v19;
-        e.Id = 1024;
+        v27 = TouchID;
+        v28 = v19;
+        v24 = 1024;
         v20 = (*(int (__thiscall **)(char *))(*((_DWORD *)&this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                               + v18)
                                             + 8))(
                 (char *)&this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
               + 4 * v18);
-        (*(void (__thiscall **)(int, Scaleform::GFx::EventId *))(*(_DWORD *)v20 + 32))(v20, &e);
+        (*(void (__thiscall **)(int, unsigned int *))(*(_DWORD *)v20 + 32))(v20, &v24);
         v21 = &this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
             + this->AvmObjOffset;
-        e.Id = 2048;
+        v24 = 2048;
         v22 = (int)(*v21)->GetMatrix((Scaleform::GFx::DisplayObjectBase *)v21);
-        (*(void (__thiscall **)(int, Scaleform::GFx::EventId *))(*(_DWORD *)v22 + 32))(v22, &e);
+        (*(void (__thiscall **)(int, unsigned int *))(*(_DWORD *)v22 + 32))(v22, &v24);
       }
     }
-    return rv;
+    return v29;
   }
   else
   {

@@ -1,19 +1,8 @@
-long double __thiscall vostok::collision::box_geometry_instance::get_surface_area(
+double __thiscall vostok::collision::box_geometry_instance::get_surface_area(
         vostok::collision::box_geometry_instance *this)
 {
-  float v3; // [esp+8h] [ebp-Ch]
-  float v4; // [esp+Ch] [ebp-8h]
+  vostok::math::float3 v2; // [esp+0h] [ebp-Ch] BYREF
 
-  v3 = sqrtf(
-         (float)((float)(this->m_matrix.i.y * this->m_matrix.i.y) + (float)(this->m_matrix.i.z * this->m_matrix.i.z))
-       + (float)(this->m_matrix.i.x * this->m_matrix.i.x));
-  v4 = sqrtf(
-         (float)((float)(this->m_matrix.j.y * this->m_matrix.j.y) + (float)(this->m_matrix.j.z * this->m_matrix.j.z))
-       + (float)(this->m_matrix.j.x * this->m_matrix.j.x));
-  return (sqrtf(
-            (float)((float)(this->m_matrix.k.z * this->m_matrix.k.z) + (float)(this->m_matrix.k.x * this->m_matrix.k.x))
-          + (float)(this->m_matrix.k.y * this->m_matrix.k.y))
-        * (v3 + v4)
-        + v3 * v4)
-       * 8.0;
+  vostok::math::float4x4::get_scale(&this->m_matrix, &v2);
+  return ((v2.x + v2.y) * v2.z + v2.x * v2.y) * gran1;
 }

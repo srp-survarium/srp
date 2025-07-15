@@ -1,7 +1,7 @@
-void __cdecl WHIRLPOOL_BitUpdate(WHIRLPOOL_CTX *c, unsigned __int8 *_inp, unsigned int bits)
+void __cdecl WHIRLPOOL_BitUpdate(WHIRLPOOL_CTX *c, __m128i *_inp, unsigned int bits)
 {
   unsigned int v3; // ecx
-  unsigned __int8 *v4; // ebp
+  __m128i *v4; // ebp
   unsigned int bitoff; // edi
   int v7; // ebx
   unsigned int v8; // edx
@@ -57,8 +57,9 @@ reconsider:
         v11 = bitoff >> 3;
         if ( v7 == v8 )
         {
-          _inp = ++v4;
-          c->data[v11] |= *(v4 - 1) & (255 >> v8);
+          v4 = (__m128i *)((char *)v4 + 1);
+          _inp = v4;
+          c->data[v11] |= v4[-1].m128i_i8[15] & (255 >> v8);
           bits -= 8 - v8;
           bitoff += 8 - v8;
           v25 = 0;
@@ -76,7 +77,7 @@ reconsider:
         }
         if ( v3 >= 8 )
           break;
-        v17 = *v4 << v8;
+        v17 = v4->m128i_i8[0] << v8;
         data = c->data;
         if ( v25 )
         {
@@ -108,8 +109,8 @@ LABEL_26:
         v3 = bits;
         c->bitoff = bitoff;
       }
-      v12 = v4[1] >> (8 - v8);
-      v13 = *v4 << v8;
+      v12 = (unsigned __int8)v4->m128i_i8[1] >> (8 - v8);
+      v13 = v4->m128i_i8[0] << v8;
       v14 = c->data;
       v15 = v13 | v12;
       if ( v25 )
@@ -119,7 +120,7 @@ LABEL_26:
       bits -= 8;
       bitoff += 8;
       v16 = v11 + 1;
-      ++_inp;
+      _inp = (__m128i *)((char *)_inp + 1);
       if ( bitoff >= 0x200 )
       {
         whirlpool_block(c, c->data, 1u);
@@ -146,7 +147,7 @@ LABEL_26:
         v22 = bitoff >> 3;
         if ( v3 < 512 - bitoff )
         {
-          memcpy(&c->data[v22], v4, v3 >> 3);
+          memcpy((int)&c->data[v22], v4, v3 >> 3);
           bitoff += bits;
           bits = 0;
         }
@@ -155,8 +156,8 @@ LABEL_26:
           v23 = v3 - v21;
           v24 = v21 >> 3;
           bits = v23;
-          memcpy(&c->data[v22], v4, v24);
-          v4 += v24;
+          memcpy((int)&c->data[v22], v4, v24);
+          v4 = (__m128i *)((char *)v4 + v24);
           whirlpool_block(c, c->data, 1u);
           bitoff = 0;
         }
@@ -165,7 +166,7 @@ LABEL_26:
       else
       {
         whirlpool_block(c, v4, v3 >> 9);
-        v4 += (v20 << 6) & 0x1FFFFFFF;
+        v4 = (__m128i *)((char *)v4 + ((v20 << 6) & 0x1FFFFFFF));
         bits &= 0x1FFu;
       }
       if ( !bits )

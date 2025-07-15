@@ -1,39 +1,40 @@
 void __thiscall btCollisionShape::getBoundingSphere(btCollisionShape *this, btVector3 *center, float *radius)
 {
-  void (__thiscall *getAabb)(btCollisionShape *, const btTransform *, btVector3 *, btVector3 *); // eax
-  long double v4; // st7
-  float v5; // xmm0_4
-  float v6; // xmm1_4
-  float v7; // xmm2_4
-  float v8; // xmm2_4
-  float v9; // [esp+F0h] [ebp-60h] BYREF
-  float v10; // [esp+F4h] [ebp-5Ch]
-  float v11; // [esp+F8h] [ebp-58h]
-  unsigned __int64 v12; // [esp+100h] [ebp-50h] BYREF
-  unsigned __int64 v13; // [esp+108h] [ebp-48h]
-  _DWORD v14[16]; // [esp+110h] [ebp-40h] BYREF
+  btCollisionShape_vtbl *v4; // eax
+  float v5; // xmm2_4
+  float v6; // xmm3_4
+  float v7; // xmm1_4
+  float v8; // [esp+10h] [ebp-60h] BYREF
+  unsigned __int64 v9; // [esp+14h] [ebp-5Ch]
+  int v10; // [esp+1Ch] [ebp-54h]
+  float v11; // [esp+20h] [ebp-50h] BYREF
+  float v12; // [esp+24h] [ebp-4Ch]
+  float v13; // [esp+28h] [ebp-48h]
+  _BYTE v14[48]; // [esp+30h] [ebp-40h] BYREF
+  int v15; // [esp+60h] [ebp-10h]
+  int v16; // [esp+64h] [ebp-Ch]
+  int v17; // [esp+68h] [ebp-8h]
+  int v18; // [esp+6Ch] [ebp-4h]
 
-  getAabb = this->getAabb;
-  v14[0] = clear_value;
-  memset(&v14[1], 0, 16);
-  v14[5] = clear_value;
-  memset(&v14[6], 0, 16);
-  v14[10] = clear_value;
-  memset(&v14[11], 0, 20);
-  getAabb(this, (const btTransform *)v14, (btVector3 *)&v9, (btVector3 *)&v12);
-  v4 = sqrtf(
-         (float)((float)((float)(*(float *)&v13 - v11) * (float)(*(float *)&v13 - v11))
-               + (float)((float)(*((float *)&v12 + 1) - v10) * (float)(*((float *)&v12 + 1) - v10)))
-       + (float)((float)(*(float *)&v12 - v9) * (float)(*(float *)&v12 - v9)));
-  v5 = v9 + *(float *)&v12;
-  v6 = *((float *)&v12 + 1) + v10;
-  v7 = v11;
-  *radius = v4 * 0.5;
-  *(float *)&v12 = v5 * 0.5;
-  HIDWORD(v13) = 0;
-  *((float *)&v12 + 1) = v6 * 0.5;
-  v8 = (float)(v7 + *(float *)&v13) * 0.5;
-  center->mVec128.m128_u64[0] = v12;
-  *(float *)&v13 = v8;
-  center->mVec128.m128_u64[1] = v13;
+  btMatrix3x3::setIdentity((btMatrix3x3 *)this, (int)v14);
+  v4 = this->__vftable;
+  v15 = 0;
+  v16 = 0;
+  v17 = 0;
+  v18 = 0;
+  v4->getAabb(this, (const btTransform *)v14, (btVector3 *)&v11, (btVector3 *)&v8);
+  v5 = v12 + *(float *)&v9;
+  v6 = v13 + *((float *)&v9 + 1);
+  v7 = v11 + v8;
+  *radius = fsqrt(
+              (float)((float)((float)(*((float *)&v9 + 1) - v13) * (float)(*((float *)&v9 + 1) - v13))
+                    + (float)((float)(*(float *)&v9 - v12) * (float)(*(float *)&v9 - v12)))
+            + (float)((float)(v8 - v11) * (float)(v8 - v11)))
+          * 0.5;
+  *(float *)&v9 = v5 * 0.5;
+  *((float *)&v9 + 1) = v6 * 0.5;
+  v10 = 0;
+  center->mVec128.m128_f32[0] = v7 * 0.5;
+  *(unsigned __int64 *)((char *)center->mVec128.m128_u64 + 4) = v9;
+  center->mVec128.m128_i32[3] = v10;
 }

@@ -1,47 +1,32 @@
-bool __usercall Scaleform::Render::PrimitiveFillData::RequiresBlend@<al>(
-        Scaleform::Render::PrimitiveFillData *this@<ecx>,
-        int a2@<eax>)
+bool __thiscall Scaleform::Render::PrimitiveFillData::RequiresBlend(Scaleform::Render::PrimitiveFillData *this)
 {
-  bool result; // al
-  int v3; // esi
-  _DWORD *i; // edi
+  Scaleform::Render::PrimitiveFillType Type; // eax
+  int v2; // edi
+  Scaleform::Ptr<Scaleform::Render::Texture> *i; // esi
+  int v4; // eax
 
-  switch ( *(_DWORD *)a2 )
+  Type = this->Type;
+  if ( this->Type >= PrimFill_None )
   {
-    case 0:
-    case 1:
-      result = 0;
-      break;
-    case 2:
-      result = *(_BYTE *)(a2 + 7) != 0xFF;
-      break;
-    case 5:
-    case 9:
-    case 0xB:
-      v3 = 0;
-      for ( i = (_DWORD *)(a2 + 12); !*i; ++i )
+    if ( Type <= PrimFill_Mask )
+      return 0;
+    if ( Type == PrimFill_SolidColor )
+      return this->SolidColor.Channels.Alpha != 0xFF;
+    if ( Type == PrimFill_Texture || Type == PrimFill_2Texture || Type == PrimFill_UVTexture )
+    {
+      v2 = 0;
+      for ( i = this->Textures; ; ++i )
       {
-$LN8_11:
-        if ( ++v3 >= 2 )
+        if ( i->pObject )
+        {
+          v4 = i->pObject->GetFormat(i->pObject);
+          if ( v4 < 3 || v4 > 4 && v4 != 53 && v4 != 55 && v4 != 59 && v4 != 200 )
+            break;
+        }
+        if ( ++v2 >= 2 )
           return 0;
       }
-      switch ( (*(int (__thiscall **)(_DWORD))(*(_DWORD *)*i + 16))(*i) )
-      {
-        case 3:
-        case 4:
-        case 53:
-        case 55:
-        case 59:
-        case 200:
-          goto $LN8_11;
-        default:
-          result = 1;
-          break;
-      }
-      break;
-    default:
-      result = 1;
-      break;
+    }
   }
-  return result;
+  return 1;
 }

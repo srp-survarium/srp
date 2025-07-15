@@ -16,7 +16,7 @@ char __thiscall Scaleform::Render::Text::DocView::SetBottomVScroll(
   unsigned int MaxVScroll; // eax
   Scaleform::Render::Text::DocView::DocumentListener *pObject; // ecx
   unsigned int v17; // [esp+Ch] [ebp-18h]
-  float top; // [esp+28h] [ebp+4h]
+  float line; // [esp+28h] [ebp+4h]
 
   Size = this->mLineBuffer.Lines.Data.Size;
   v3 = newBottomMostLine;
@@ -63,8 +63,8 @@ LABEL_15:
       break;
     if ( v11 < 0 )
       break;
-    top = v10 - this->mLineBuffer.Geom.VisibleRect.y2 + this->mLineBuffer.Geom.VisibleRect.y1;
-    if ( (double)(*v7)->Data32.OffsetY < top )
+    line = v10 - this->mLineBuffer.Geom.VisibleRect.y2 + this->mLineBuffer.Geom.VisibleRect.y1;
+    if ( (double)(*v7)->Data32.OffsetY < line )
       break;
     v3 = v4--;
     --v11;

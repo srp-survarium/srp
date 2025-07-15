@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Loader::ResetContent
     else
     {
       RefCount = v2->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v2->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v2);

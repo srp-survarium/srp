@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::
         Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection *this,
         Scaleform::GFx::AS3::InstanceTraits::Traits *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   this->projectionCenter.x = 250.0;
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection_vtbl *)&Scaleform::GFx::AS3::Instances::fl_geom::PerspectiveProjection::`vftable';
   this->projectionCenter.y = 250.0;

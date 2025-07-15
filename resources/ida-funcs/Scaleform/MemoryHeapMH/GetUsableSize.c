@@ -1,16 +1,16 @@
-unsigned int __thiscall Scaleform::MemoryHeapMH::GetUsableSize(Scaleform::MemoryHeapMH *this, const void *ptr)
+unsigned int __thiscall Scaleform::MemoryHeapMH::GetUsableSize(Scaleform::MemoryHeapMH *this, _BYTE *ptr)
 {
   Scaleform::HeapMH::PageMH *v2; // eax
   Scaleform::LockSafe *p_RootLock; // esi
   Scaleform::HeapMH::NodeMH *GrEq; // eax
   unsigned int UsableSize; // edi
-  Scaleform::HeapMH::PageInfoMH pageInfo; // [esp+4h] [ebp-Ch] BYREF
+  Scaleform::HeapMH::PageInfoMH info; // [esp+4h] [ebp-Ch] BYREF
 
   v2 = Scaleform::HeapMH::RootMH::ResolveAddress(Scaleform::HeapMH::GlobalRootMH, (unsigned int)ptr);
   if ( v2 )
   {
-    Scaleform::HeapMH::AllocEngineMH::GetPageInfoWithSize(v2->pHeap->pEngine, v2, ptr, &pageInfo);
-    return pageInfo.UsableSize;
+    Scaleform::HeapMH::AllocEngineMH::GetPageInfoWithSize(v2->pHeap->pEngine, v2, ptr, &info);
+    return info.UsableSize;
   }
   else
   {
@@ -23,8 +23,8 @@ unsigned int __thiscall Scaleform::MemoryHeapMH::GetUsableSize(Scaleform::Memory
       *(Scaleform::HeapMH::AllocEngineMH **)((GrEq->pHeap & 0xFFFFFFFC) + 104),
       GrEq,
       ptr,
-      &pageInfo);
-    UsableSize = pageInfo.UsableSize;
+      &info);
+    UsableSize = info.UsableSize;
     LeaveCriticalSection(&p_RootLock->mLock.cs);
     return UsableSize;
   }

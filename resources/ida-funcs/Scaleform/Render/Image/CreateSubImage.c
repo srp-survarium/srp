@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::Image::CreateSubImage(
 {
   Scaleform::Render::SubImage *v4; // eax
 
-  v4 = (Scaleform::Render::SubImage *)pheap->Alloc(pheap, 40, 0);
+  v4 = (Scaleform::Render::SubImage *)pheap->Alloc(pheap, 44, 0);
   if ( v4 )
     Scaleform::Render::SubImage::SubImage(v4, this, rect);
 }

@@ -1,23 +1,26 @@
 void __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this,
         char *__f,
-        const char *__l,
+        char *__l,
         const stlp_std::allocator<char> *__a)
 {
+  char *v4; // [esp-8h] [ebp-Ch]
+
+  v4 = __l;
   this->_M_finish = (char *)this;
   this->_M_start_of_storage._M_data = (char *)this;
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_range_initialize<char const *>(
     this,
     __f,
-    __l,
-    (const stlp_std::forward_iterator_tag *)&__l);
+    v4,
+    (const stlp_std::forward_iterator_tag *)&__l + 3);
 }
 
 
 void __thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t>>(
         stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::allocator<wchar_t> > *this,
         wchar_t *__f,
-        const wchar_t *__l,
+        wchar_t *__l,
         const stlp_std::allocator<wchar_t> *__a)
 {
   this->_M_finish = (wchar_t *)this;
@@ -34,29 +37,12 @@ void __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this,
         const stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__s)
 {
-  stlp_std::allocator<char> __a; // [esp+27h] [ebp-1h] BYREF
-
-  stlp_std::allocator<char>::allocator<char>(&__a, &__s->_M_start_of_storage);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_String_base<char,stlp_std::allocator<char>>(this, &__a);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&__a);
+  this->_M_finish = (char *)this;
+  this->_M_start_of_storage._M_data = (char *)this;
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_range_initialize(
     this,
     __s->_M_start_of_storage._M_data,
     __s->_M_finish);
-}
-
-
-void __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this,
-        const stlp_std::allocator<char> *__a)
-{
-  this->_M_finish = (char *)this;
-  stlp_std::priv::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>(
-    &this->_M_start_of_storage,
-    __a,
-    (char *)this);
-  stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_allocate_block(this, 0x10u);
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_terminate_string(this);
 }
 
 
@@ -84,7 +70,7 @@ void __thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std
     stlp_std::__stl_throw_length_error("basic_string");
   if ( v6 > 0x10 )
   {
-    v8 = stlp_std::allocator<char>::_M_allocate(&this->_M_start_of_storage, v6, &__n);
+    v8 = (char *)stlp_std::allocator<char>::_M_allocate(&this->_M_start_of_storage, v6, &__n);
     v9 = __n;
     p_M_start_of_storage->_M_data = v8;
     this->_M_finish = v8;

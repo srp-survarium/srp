@@ -17,8 +17,8 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie::GFxAS2Loa
   Scaleform::GFx::MoviePreloadTask *v15; // edi
   Scaleform::RefCountVImpl *v16; // ecx
   Scaleform::RefCountVImpl *v17; // edi
-  Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *qe; // [esp+Ch] [ebp-4h]
-  bool stripped; // [esp+18h] [ebp+8h]
+  const Scaleform::String *v18; // [esp+Ch] [ebp-4h]
+  bool pmovieRoota; // [esp+18h] [ebp+8h]
 
   Scaleform::GFx::LoadQueueEntryMT::LoadQueueEntryMT(this, pqueueEntry, pmovieRoot);
   this->__vftable = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie_vtbl *)&Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie::`vftable';
@@ -31,8 +31,8 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie::GFxAS2Loa
   this->BytesLoaded = 0;
   this->FirstFrameLoaded = 0;
   pNext = (Scaleform::GFx::CharacterHandle *)v4[1].pNext;
-  stripped = 0;
-  qe = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *)v4;
+  pmovieRoota = 0;
+  v18 = (const Scaleform::String *)v4;
   if ( pNext )
   {
     v6 = Scaleform::GFx::CharacterHandle::ResolveCharacter(pNext, this->pMovieImpl);
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie::GFxAS2Loa
     {
       ++v6->RefCount;
       v8 = (int)v6->GetResourceMovieDef(v6);
-      stripped = ((*(int (__thiscall **)(int))(*(_DWORD *)v8 + 44))(v8) & 0x10) != 0;
+      pmovieRoota = ((*(int (__thiscall **)(int))(*(_DWORD *)v8 + 44))(v8) & 0x10) != 0;
       Scaleform::RefCountNTSImpl::Release(v7);
     }
   }
@@ -62,7 +62,7 @@ void __thiscall Scaleform::GFx::AS2::GFxAS2LoadQueueEntryMT_LoadMovie::GFxAS2Loa
       LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 0);
     }
     v12 = (int)LevelMovie->GetResourceMovieDef(LevelMovie);
-    stripped = ((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 44))(v12) & 0x10) != 0;
+    pmovieRoota = ((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 44))(v12) & 0x10) != 0;
   }
 LABEL_10:
   v13 = (Scaleform::GFx::MoviePreloadTask *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 44, 0);
@@ -71,8 +71,8 @@ LABEL_10:
     Scaleform::GFx::MoviePreloadTask::MoviePreloadTask(
       v13,
       this->pMovieImpl,
-      &qe->URL,
-      stripped,
+      v18 + 4,
+      pmovieRoota,
       pqueueEntry->QuietOpen);
     v15 = v14;
   }

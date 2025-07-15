@@ -69,7 +69,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::RegExp::AS3Constructor(
 LABEL_19:
     Flags = (const char *)argv->Flags;
     pData = opt.pNode->pData;
-    Scaleform::String::operator=(&this->Pattern, (char *)argv->Flags);
+    Scaleform::String::operator=(&this->Pattern, (const __m128i *)argv->Flags);
     v18 = *Flags;
     v19 = 0;
     if ( *Flags )

@@ -109,7 +109,7 @@ void __thiscall Scaleform::Render::Text::DocView::Format(Scaleform::Render::Text
   double TextWidth; // st7
   double v109; // st7
   Scaleform::Render::Text::EditorKitBase *v110; // ecx
-  const Scaleform::Render::Text::CompositionStringBase *v111; // eax
+  Scaleform::Render::Text::CompositionStringBase *v111; // eax
   Scaleform::Render::Text::LineBuffer::Line **Data; // edx
   Scaleform::Render::Text::LineBuffer::Line *v113; // eax
   int v115; // eax
@@ -129,39 +129,39 @@ void __thiscall Scaleform::Render::Text::DocView::Format(Scaleform::Render::Text
   Scaleform::Render::Text::TextFormat *v129; // esi
   Scaleform::Render::Text::TextFormat *v130; // eax
   Scaleform::Render::Text::TextFormat *v131; // esi
-  float scaleFactor; // [esp+10E16h] [ebp-9E4h]
-  float v133; // [esp+10E32h] [ebp-9C8h]
-  float v134; // [esp+10E32h] [ebp-9C8h]
-  float v135; // [esp+10E32h] [ebp-9C8h]
-  float v136; // [esp+10E32h] [ebp-9C8h]
-  float v137; // [esp+10E32h] [ebp-9C8h]
-  float v138; // [esp+10E32h] [ebp-9C8h]
-  float v139; // [esp+10E32h] [ebp-9C8h]
-  float v140; // [esp+10E32h] [ebp-9C8h]
-  float v141; // [esp+10E32h] [ebp-9C8h]
-  float v142; // [esp+10E32h] [ebp-9C8h]
-  float v143; // [esp+10E32h] [ebp-9C8h]
-  int MinLineHeight; // [esp+10E32h] [ebp-9C8h]
-  float v145; // [esp+10E32h] [ebp-9C8h]
-  Scaleform::Render::Text::Paragraph *v146; // [esp+10E36h] [ebp-9C4h]
-  float v147; // [esp+10E36h] [ebp-9C4h]
-  float v148; // [esp+10E36h] [ebp-9C4h]
-  Scaleform::Render::Rect<float> rect; // [esp+10E3Ah] [ebp-9C0h] BYREF
-  int v150; // [esp+10E52h] [ebp-9A8h]
-  Scaleform::Render::Text::DocView *pdoc; // [esp+10E56h] [ebp-9A4h]
-  float v152; // [esp+10E5Ah] [ebp-9A0h]
-  int v153; // [esp+10E5Eh] [ebp-99Ch]
-  char v154; // [esp+10E65h] [ebp-995h]
-  float v155; // [esp+10E66h] [ebp-994h]
-  float v156; // [esp+10E6Ah] [ebp-990h]
-  float v157; // [esp+10E6Eh] [ebp-98Ch]
-  float v158; // [esp+10E72h] [ebp-988h]
-  Scaleform::Render::Text::LineBuffer *v159[2]; // [esp+10E76h] [ebp-984h] BYREF
-  unsigned int lineIdx; // [esp+10E7Eh] [ebp-97Ch]
-  float v161; // [esp+10E82h] [ebp-978h]
-  bool v162; // [esp+10E86h] [ebp-974h]
-  Scaleform::Render::Rect<float> v163; // [esp+10E8Ah] [ebp-970h] BYREF
-  Scaleform::Render::Text::ParagraphFormatter v164; // [esp+10EAAh] [ebp-950h] BYREF
+  float scaleFactor; // [esp+0h] [ebp-9E4h]
+  float v133; // [esp+1Ch] [ebp-9C8h]
+  float v134; // [esp+1Ch] [ebp-9C8h]
+  float v135; // [esp+1Ch] [ebp-9C8h]
+  float v136; // [esp+1Ch] [ebp-9C8h]
+  float v137; // [esp+1Ch] [ebp-9C8h]
+  float v138; // [esp+1Ch] [ebp-9C8h]
+  float v139; // [esp+1Ch] [ebp-9C8h]
+  float v140; // [esp+1Ch] [ebp-9C8h]
+  float v141; // [esp+1Ch] [ebp-9C8h]
+  float v142; // [esp+1Ch] [ebp-9C8h]
+  float v143; // [esp+1Ch] [ebp-9C8h]
+  int MinLineHeight; // [esp+1Ch] [ebp-9C8h]
+  float v145; // [esp+1Ch] [ebp-9C8h]
+  Scaleform::Render::Text::Paragraph *v146; // [esp+20h] [ebp-9C4h]
+  float v147; // [esp+20h] [ebp-9C4h]
+  float v148; // [esp+20h] [ebp-9C4h]
+  Scaleform::Render::Rect<float> rect; // [esp+24h] [ebp-9C0h] BYREF
+  int v150; // [esp+3Ch] [ebp-9A8h]
+  Scaleform::Render::Text::DocView *pdoc; // [esp+40h] [ebp-9A4h]
+  float v152; // [esp+44h] [ebp-9A0h]
+  int v153; // [esp+48h] [ebp-99Ch]
+  char v154; // [esp+4Fh] [ebp-995h]
+  float v155; // [esp+50h] [ebp-994h]
+  float v156; // [esp+54h] [ebp-990h]
+  float v157; // [esp+58h] [ebp-98Ch]
+  float v158; // [esp+5Ch] [ebp-988h]
+  Scaleform::Render::Text::LineBuffer *v159[2]; // [esp+60h] [ebp-984h] BYREF
+  unsigned int lineIdx; // [esp+68h] [ebp-97Ch]
+  float v161; // [esp+6Ch] [ebp-978h]
+  bool v162; // [esp+70h] [ebp-974h]
+  Scaleform::Render::Rect<float> v163; // [esp+74h] [ebp-970h] BYREF
+  Scaleform::Render::Text::ParagraphFormatter v164; // [esp+94h] [ebp-950h] BYREF
 
   rect.x1 = this->ViewRect.x1;
   pdoc = this;
@@ -243,9 +243,7 @@ LABEL_6:
             if ( (v16->MemSize & 0x80000000) == 0 )
               *(float *)&v16->Data32.TextPos = v152;
             else
-              v16->Data32.TextPos ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                   & (LODWORD(v152)
-                                    ^ v16->Data32.TextPos);
+              v16->Data32.TextPos ^= (LODWORD(v152) ^ v16->Data32.TextPos) & 0xFFFFFF;
             v18 = (v16->MemSize & 0x80000000) != 0;
             v158 = *(float *)&v16->Data32.OffsetX;
             v156 = *(float *)&v16->Data32.OffsetY;
@@ -328,9 +326,7 @@ LABEL_72:
       }
     }
     TextPos = v10->Data32.TextPos;
-    if ( (v10->MemSize & 0x80000000) == 0
-      || (TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199],
-          (unsigned __int8 *)TextPos != &vostok::memory::s_CRT_arena[5574199]) )
+    if ( (v10->MemSize & 0x80000000) == 0 || (TextPos &= 0xFFFFFFu, TextPos != 0xFFFFFF) )
     {
       if ( TextPos != -1 )
       {

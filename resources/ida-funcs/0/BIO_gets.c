@@ -1,4 +1,4 @@
-int __cdecl BIO_gets(bio_st *b, char *in, int inl)
+int __usercall BIO_gets@<eax>(int a1@<ebx>, bio_st *b, char *in, int inl)
 {
   int (__cdecl *callback)(bio_st *, int, const char *, int, int, int); // edi
   int result; // eax
@@ -16,14 +16,14 @@ int __cdecl BIO_gets(bio_st *b, char *in, int inl)
       }
       else
       {
-        ERR_put_error(0x20u, 104, 120, ".\\crypto\\bio\\bio_lib.c", 309);
+        ERR_put_error(inl, 0x20u, 104, 120, ".\\crypto\\bio\\bio_lib.c", 309);
         return -2;
       }
     }
   }
   else
   {
-    ERR_put_error(0x20u, 104, 121, ".\\crypto\\bio\\bio_lib.c", 297);
+    ERR_put_error(a1, 0x20u, 104, 121, ".\\crypto\\bio\\bio_lib.c", 297);
     return -2;
   }
   return result;

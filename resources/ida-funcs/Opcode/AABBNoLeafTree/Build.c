@@ -1,37 +1,53 @@
-char __thiscall Opcode::AABBNoLeafTree::Build(Opcode::AABBNoLeafTree *this, unsigned int tree)
+char __thiscall Opcode::AABBNoLeafTree::Build(Opcode::AABBNoLeafTree *this, Opcode::AABBTree *tree)
 {
-  Opcode::AABBTree *v2; // ebx
-  unsigned int v5; // eax
-  unsigned int v6; // eax
-  bool v7; // zf
-  Opcode::AABBNoLeafNode *v8; // eax
-  Opcode::AABBNoLeafNode *mNodes; // [esp-10h] [ebp-18h]
+  Opcode::AABBTree *v4; // ecx
+  unsigned int mNbPrimitives; // eax
+  unsigned int v7; // eax
+  bool v8; // zf
+  Opcode::AABBNoLeafNode *mNodes; // eax
+  Opcode::AABBNoLeafNode *v10; // eax
+  Opcode::AABBNoLeafNode *v11; // [esp-10h] [ebp-18h]
+  unsigned int v12; // [esp+4h] [ebp-4h] BYREF
 
-  v2 = (Opcode::AABBTree *)tree;
+  v4 = tree;
   if ( !tree )
     return 0;
-  v5 = *(_DWORD *)(tree + 32);
-  if ( *(_DWORD *)(tree + 48) != 2 * v5 - 1 )
+  mNbPrimitives = tree->mNbPrimitives;
+  if ( tree->mTotalNbNodes != 2 * mNbPrimitives - 1 )
     return 0;
-  v6 = v5 - 1;
-  if ( this->mNbNodes != v6 )
+  v7 = mNbPrimitives - 1;
+  if ( this->mNbNodes != v7 )
   {
-    v7 = this->mNodes == 0;
-    this->mNbNodes = v6;
-    if ( !v7 )
+    v8 = this->mNodes == 0;
+    this->mNbNodes = v7;
+    if ( !v8 )
     {
-      this->m_allocator->call_free(this->m_allocator, &this->mNodes[-1].mPosData);
+      mNodes = this->mNodes;
+      if ( mNodes )
+        this->m_allocator->call_free(
+          this->m_allocator,
+          &mNodes[-1].mPosData,
+          "Opcode::AABBNoLeafTree::Build",
+          ".\\OPC_OptimizedTree.cpp",
+          338u);
       this->mNodes = 0;
     }
-    v8 = vostok::memory::new_array_helper<Opcode::AABBNoLeafNode>::call<vostok::memory::base_allocator>(
-           this->m_allocator,
-           this->mNbNodes);
-    this->mNodes = v8;
-    if ( !v8 )
-      return 0;
+    v10 = vostok::memory::new_array_helper<Opcode::AABBNoLeafNode>::call<vostok::memory::base_allocator>(
+            this->mNbNodes,
+            this->m_allocator,
+            "Opcode::AABBNoLeafTree::Build",
+            (const char *const)0x153);
+    this->mNodes = v10;
+    if ( v10 )
+    {
+      v4 = tree;
+      goto LABEL_11;
+    }
+    return 0;
   }
-  mNodes = this->mNodes;
-  tree = 1;
-  BuildNoLeafTree(mNodes, 0, &tree, v2);
+LABEL_11:
+  v11 = this->mNodes;
+  v12 = 1;
+  BuildNoLeafTree(v11, 0, &v12, v4);
   return 1;
 }

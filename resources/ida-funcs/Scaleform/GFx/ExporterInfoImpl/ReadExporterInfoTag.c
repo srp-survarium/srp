@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
   unsigned int v8; // eax
   int v9; // ecx
   unsigned int v10; // edx
-  unsigned int v11; // eax
+  int v11; // eax
   int v12; // edx
   unsigned int v13; // eax
   int v14; // eax
@@ -20,24 +20,24 @@ void __thiscall Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
   int v17; // ecx
   unsigned int v18; // ecx
   unsigned int v19; // ebp
-  int v20; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object *v20; // edi
   unsigned int v21; // ebx
   Scaleform::GFx::FileTypeConstants::FileFormatType v22; // edi
   void *v23; // esi
   void *v24; // esi
-  Scaleform::String fxstr; // [esp+10h] [ebp-24h] BYREF
+  Scaleform::String pstr; // [esp+10h] [ebp-24h] BYREF
   int v26; // [esp+14h] [ebp-20h]
-  unsigned int flags; // [esp+18h] [ebp-1Ch]
+  unsigned int v27; // [esp+18h] [ebp-1Ch]
   int v28; // [esp+1Ch] [ebp-18h]
   int v29; // [esp+20h] [ebp-14h]
   Scaleform::GFx::ExporterInfoImpl *v30; // [esp+24h] [ebp-10h]
-  Scaleform::Array<unsigned long,2,Scaleform::ArrayDefaultPolicy> codeOffsets; // [esp+28h] [ebp-Ch] BYREF
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+28h] [ebp-Ch] BYREF
 
   pData = (Scaleform::GFx::Stream *)pin.pData;
   v4 = pin.pData[4].Size - *(_DWORD *)pin.pData[3].Data;
   v5 = 0;
   v30 = this;
-  flags = 0;
+  v27 = 0;
   pin.pData[1].Data[1] = 0;
   if ( v4 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(pData, 2);
@@ -55,7 +55,7 @@ void __thiscall Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
     v10 = pData->Pos;
     v11 = pData->pBuffer[v10] | ((pData->pBuffer[v10 + 1] | (*(unsigned __int16 *)&pData->pBuffer[v10 + 2] << 8)) << 8);
     pData->Pos = v10 + 4;
-    flags = v11;
+    v27 = v11;
   }
   v12 = pData->DataSize - pData->Pos;
   pData->UnusedBits = 0;
@@ -64,11 +64,11 @@ void __thiscall Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
   v13 = pData->Pos;
   v29 = *(unsigned __int16 *)&pData->pBuffer[v13];
   pData->Pos = v13 + 2;
-  Scaleform::String::String(&fxstr);
+  Scaleform::String::String(&pstr);
   Scaleform::String::String(&pin);
-  Scaleform::GFx::Stream::ReadStringWithLength(pData, &fxstr);
+  Scaleform::GFx::Stream::ReadStringWithLength(pData, &pstr);
   Scaleform::GFx::Stream::ReadStringWithLength(pData, &pin);
-  memset(&codeOffsets, 0, sizeof(codeOffsets));
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
   if ( (unsigned __int16)v7 >= 0x401u )
   {
     v14 = pData->DataSize - pData->Pos;
@@ -89,51 +89,61 @@ void __thiscall Scaleform::GFx::ExporterInfoImpl::ReadExporterInfoTag(
           Scaleform::GFx::Stream::PopulateBuffer(pData, 4);
         v18 = pData->Pos;
         v19 = v5 + 1;
-        v20 = pData->pBuffer[v18]
-            | ((pData->pBuffer[v18 + 1] | (*(unsigned __int16 *)&pData->pBuffer[v18 + 2] << 8)) << 8);
+        v20 = (Scaleform::GFx::AS3::Instances::fl::Object *)(pData->pBuffer[v18]
+                                                           | ((pData->pBuffer[v18 + 1]
+                                                             | (*(unsigned __int16 *)&pData->pBuffer[v18 + 2] << 8)) << 8));
         pData->Pos = v18 + 4;
         if ( v5 + 1 >= v5 )
         {
-          if ( v19 >= codeOffsets.Data.Policy.Capacity )
+          if ( v19 >= pheapAddr.Policy.Capacity )
             Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&codeOffsets,
-              &codeOffsets,
+              &pheapAddr,
+              &pheapAddr,
               v19 + (v19 >> 2));
         }
-        else if ( v19 < codeOffsets.Data.Policy.Capacity >> 1 )
+        else if ( v19 < pheapAddr.Policy.Capacity >> 1 )
         {
           Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&codeOffsets,
-            &codeOffsets,
+            &pheapAddr,
+            &pheapAddr,
             v5 + 1);
         }
         ++v5;
-        codeOffsets.Data.Size = v19;
-        if ( &codeOffsets.Data.Data[v19] != (unsigned int *)4 )
-          codeOffsets.Data.Data[v19 - 1] = v20;
+        pheapAddr.Size = v19;
+        if ( &pheapAddr.Data[v19] != (Scaleform::GFx::AS3::Instances::fl::Object **)4 )
+          pheapAddr.Data[v19 - 1] = v20;
         --v26;
       }
       while ( v26 );
       LOWORD(v7) = v28;
     }
   }
-  v21 = flags;
+  v21 = v27;
   v22 = (unsigned __int16)v29;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)(unsigned __int8)v7);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    pData,
+    "  ExportInfo: tagType = %d, tool ver = %d.%d, imgfmt = %d, prefix = '%s', swfname = '%s', flags = 0x%X\n",
+    tagType,
+    BYTE1(v7),
+    (unsigned __int8)v7,
+    (unsigned __int16)v29,
+    (const char *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const char *)((pin.HeapTypeBits & 0xFFFFFFFC) + 8),
+    v27);
   Scaleform::GFx::ExporterInfoImpl::SetData(
     v30,
     v7,
     v22,
-    (char *)((pin.HeapTypeBits & 0xFFFFFFFC) + 8),
-    (char *)((fxstr.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const __m128i *)((pin.HeapTypeBits & 0xFFFFFFFC) + 8),
+    (const __m128i *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 8),
     v21,
-    &codeOffsets);
-  if ( codeOffsets.Data.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, codeOffsets.Data.Data);
+    (const Scaleform::Array<unsigned long,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr);
+  if ( pheapAddr.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pheapAddr.Data);
   v23 = (void *)(pin.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((pin.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v23);
-  v24 = (void *)(fxstr.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((fxstr.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v24 = (void *)(pstr.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((pstr.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v24);
 }

@@ -3,13 +3,13 @@ stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *__thiscall stlp_std:
 {
   void *M_mmap_base; // eax
   bool v3; // al
-  bool __ok; // [esp+Bh] [ebp-1h]
+  bool v5; // [esp+Bh] [ebp-1h]
 
-  __ok = this->_M_base._M_is_open != 0;
+  v5 = this->_M_base._M_is_open != 0;
   if ( this->_M_in_output_mode )
   {
-    if ( !this->_M_base._M_is_open || (__ok = 1, this->overflow(this, -1) == -1) )
-      __ok = 0;
+    if ( !this->_M_base._M_is_open || (v5 = 1, this->overflow(this, -1) == -1) )
+      v5 = 0;
     stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_unshift(this);
   }
   else if ( this->_M_in_input_mode )
@@ -24,7 +24,7 @@ stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *__thiscall stlp_std:
     }
     this->_M_in_input_mode = 0;
   }
-  v3 = stlp_std::_Filebuf_base::_M_close(&this->_M_base) && __ok;
+  v3 = stlp_std::_Filebuf_base::_M_close(&this->_M_base) && v5;
   this->_M_end_state = 0;
   this->_M_state = 0;
   this->_M_ext_buf_end = 0;
@@ -54,13 +54,13 @@ stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *__thiscall stl
 {
   void *M_mmap_base; // eax
   bool v3; // al
-  bool __ok; // [esp+Bh] [ebp-1h]
+  bool v5; // [esp+Bh] [ebp-1h]
 
-  __ok = this->_M_base._M_is_open != 0;
+  v5 = this->_M_base._M_is_open != 0;
   if ( this->_M_in_output_mode )
   {
-    if ( !this->_M_base._M_is_open || (__ok = 1, this->overflow(this, 0xFFFFu) == 0xFFFF) )
-      __ok = 0;
+    if ( !this->_M_base._M_is_open || (v5 = 1, this->overflow(this, 0xFFFFu) == 0xFFFF) )
+      v5 = 0;
     stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_unshift((stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)this);
   }
   else if ( this->_M_in_input_mode )
@@ -75,7 +75,7 @@ stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *__thiscall stl
     }
     this->_M_in_input_mode = 0;
   }
-  v3 = stlp_std::_Filebuf_base::_M_close(&this->_M_base) && __ok;
+  v3 = stlp_std::_Filebuf_base::_M_close(&this->_M_base) && v5;
   this->_M_end_state = 0;
   this->_M_state = 0;
   this->_M_ext_buf_end = 0;

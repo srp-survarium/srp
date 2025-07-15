@@ -6,9 +6,9 @@ void __thiscall Scaleform::GFx::DisplayObjContainer::SetStateChangeFlags(
   int v4; // esi
 
   Size = this->mDisplayList.DisplayObjectArray.Data.Size;
-  this->Scaleform::GFx::InteractiveObject::Flags ^= (this->Scaleform::GFx::InteractiveObject::Flags
-                                                   ^ ((unsigned __int8)flags << 16))
-                                                  & 0xF0000;
+  this->Scaleform::GFx::InteractiveObject::Flags ^= (unsigned int)&locret_F0000
+                                                  & (this->Scaleform::GFx::InteractiveObject::Flags
+                                                   ^ ((unsigned __int8)flags << 16));
   if ( Size )
   {
     v4 = 0;

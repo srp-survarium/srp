@@ -1,9 +1,9 @@
 void __cdecl Scaleform::GFx::AS2::SharedObjectProto::GetSize(const Scaleform::GFx::AS2::FnCall *fn)
 {
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
-  unsigned int v2; // eax
+  int v2; // eax
   Scaleform::GFx::AS2::Value *Result; // esi
-  unsigned int v4; // edi
+  int v4; // edi
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_SharedObject )
   {

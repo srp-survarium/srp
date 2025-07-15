@@ -1,36 +1,18 @@
-vostok::sound::sound_order *__thiscall vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::sound::sound_order,vostok::sound::sound_order,4>,vostok::intrusive_spsc_queue<vostok::sound::sound_order,vostok::sound::sound_order,4>>::user_pop_front(
-        vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::sound::sound_order,vostok::sound::sound_order,4>,vostok::intrusive_spsc_queue<vostok::sound::sound_order,vostok::sound::sound_order,4> > *this)
+vostok::network::response *__fastcall vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,8>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,8>>::user_pop_front(
+        vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,8>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,8> > *this,
+        int a2)
 {
-  vostok::sound::sound_order *v3; // [esp+18h] [ebp-Ch]
-  vostok::sound::sound_order *item_to_delete; // [esp+1Ch] [ebp-8h] BYREF
-  char v5; // [esp+23h] [ebp-1h]
+  __int32 v2; // ecx
+  vostok::network::response *result; // eax
 
-  v5 = 0;
-  v3 = vostok::intrusive_spsc_queue<vostok::sound::sound_order,vostok::sound::sound_order,4>::pop_front(
-         &this->m_forward_queue,
-         &item_to_delete);
-  if ( v3 )
-    vostok::intrusive_spsc_queue<vostok::sound::sound_response,vostok::sound::sound_response,4>::push_back(
-      &this->m_backward_queue,
-      item_to_delete);
-  return v3;
-}
-
-
-vostok::network::response *__thiscall vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::order,vostok::network::order,4>,vostok::intrusive_spsc_queue<vostok::network::order,vostok::network::order,4>>::user_pop_front(
-        vostok::one_way_threads_channel<vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>,vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4> > *this)
-{
-  vostok::network::response *v3; // [esp+14h] [ebp-Ch]
-  vostok::network::response *item_to_delete; // [esp+18h] [ebp-8h] BYREF
-  char v5; // [esp+1Fh] [ebp-1h]
-
-  v5 = 0;
-  v3 = vostok::intrusive_spsc_queue<vostok::network::order,vostok::network::order,4>::pop_front(
-         &this->m_forward_queue,
-         &item_to_delete);
-  if ( v3 )
-    vostok::intrusive_spsc_queue<vostok::network::response,vostok::network::response,4>::push_back(
-      &this->m_backward_queue,
-      item_to_delete);
-  return v3;
+  v2 = *(_DWORD *)(a2 + 64);
+  result = *(vostok::network::response **)(v2 + 8);
+  if ( result )
+  {
+    *(_DWORD *)(a2 + 64) = result;
+    *(_DWORD *)(v2 + 8) = 0;
+    _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(a2 + 68) + 8), v2);
+    *(_DWORD *)(a2 + 68) = v2;
+  }
+  return result;
 }

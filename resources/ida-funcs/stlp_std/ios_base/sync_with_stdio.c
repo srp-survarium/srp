@@ -24,7 +24,7 @@ bool __cdecl stlp_std::ios_base::sync_with_stdio(bool sync)
   _iobuf *v22; // eax
   _iobuf *v23; // eax
   stlp_std::basic_streambuf<char,stlp_std::char_traits<char> > *v24; // [esp+4h] [ebp-38h]
-  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *cin_buf; // [esp+1Ch] [ebp-20h]
+  stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *__buf; // [esp+1Ch] [ebp-20h]
 
   result = sync;
   if ( sync != stlp_std::ios_base::_S_is_synced )
@@ -44,7 +44,7 @@ bool __cdecl stlp_std::ios_base::sync_with_stdio(bool sync)
         {
           v2 = 0;
         }
-        cin_buf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v2;
+        __buf = (stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *)v2;
         v4 = (stlp_std::priv::stdio_streambuf_base *)operator new(0x24u);
         if ( v4 )
         {
@@ -84,7 +84,7 @@ bool __cdecl stlp_std::ios_base::sync_with_stdio(bool sync)
       else
       {
         v6 = __iob_func();
-        cin_buf = stlp_std::_Stl_create_filebuf__iobuf___(v6, 8);
+        __buf = stlp_std::_Stl_create_filebuf__iobuf___(v6, 8);
         v7 = __iob_func();
         filebuf__iobuf = stlp_std::_Stl_create_filebuf__iobuf___(v7 + 1, 16);
         v9 = __iob_func();
@@ -92,10 +92,10 @@ bool __cdecl stlp_std::ios_base::sync_with_stdio(bool sync)
         v11 = __iob_func();
         v12 = (stlp_std::priv::stdio_streambuf_base *)stlp_std::_Stl_create_filebuf__iobuf___(v11 + 2, 16);
       }
-      if ( cin_buf && filebuf__iobuf && v10 && v12 )
+      if ( __buf && filebuf__iobuf && v10 && v12 )
       {
-        v24 = cin_buf;
-        cin_buf = 0;
+        v24 = __buf;
+        __buf = 0;
         v13 = stlp_std::basic_ios<char,stlp_std::char_traits<char>>::rdbuf(
                 (stlp_std::basic_ios<char,stlp_std::char_traits<char> > *)&stlp_std::cin.gap0[*(_DWORD *)(*(_DWORD *)stlp_std::cin.gap0 + 4)],
                 v24);
@@ -145,9 +145,9 @@ bool __cdecl stlp_std::ios_base::sync_with_stdio(bool sync)
         ((void (__thiscall *)(stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *, int))filebuf__iobuf->~stlp_std::basic_filebuf<char,stlp_std::char_traits<char> >)(
           filebuf__iobuf,
           1);
-      if ( cin_buf )
-        ((void (__thiscall *)(stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *, int))cin_buf->~stlp_std::basic_filebuf<char,stlp_std::char_traits<char> >)(
-          cin_buf,
+      if ( __buf )
+        ((void (__thiscall *)(stlp_std::basic_filebuf<char,stlp_std::char_traits<char> > *, int))__buf->~stlp_std::basic_filebuf<char,stlp_std::char_traits<char> >)(
+          __buf,
           1);
       return v20;
     }

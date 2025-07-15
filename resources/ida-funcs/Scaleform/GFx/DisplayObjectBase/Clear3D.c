@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::Clear3D(Scaleform::GFx::Displ
 {
   Scaleform::GFx::InteractiveObject *pParent; // ecx
   Scaleform::Render::TreeNode *pObject; // ecx
-  Scaleform::GFx::DisplayObjectBase::GeomDataType gd; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType gd; // [esp+10h] [ebp-60h] BYREF
 
   if ( bInherit )
   {

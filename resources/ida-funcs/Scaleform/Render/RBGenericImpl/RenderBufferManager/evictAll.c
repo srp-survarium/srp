@@ -14,7 +14,7 @@ void __thiscall Scaleform::Render::RBGenericImpl::RenderBufferManager::evictAll(
   {
     pNext = this->BufferCache[ltype].Root.pNext;
     pNext->pPrev->pNext = pNext->pNext;
-    pNext->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$EA02E2A925554C6B16FA29F8B6C1D51A::pPrev = pNext->pPrev;
+    pNext->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$33C6E2185EE5619ED4522D9BD84BBA53::pPrev = pNext->pPrev;
     DataSize = pNext->DataSize;
     pNext->ListType = RBCL_Uncached;
     this->AllocSize -= DataSize;

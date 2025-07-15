@@ -6,7 +6,7 @@ unsigned int __cdecl png_do_write_interlace(unsigned int *a1, _BYTE *a2, int a3)
   int count; // [esp+8h] [ebp-68h]
   unsigned int v7; // [esp+Ch] [ebp-64h]
   unsigned __int8 *dst; // [esp+10h] [ebp-60h]
-  unsigned __int8 *src; // [esp+14h] [ebp-5Ch]
+  const __m128i *src; // [esp+14h] [ebp-5Ch]
   unsigned int m; // [esp+18h] [ebp-58h]
   int v11; // [esp+1Ch] [ebp-54h]
   int v12; // [esp+20h] [ebp-50h]
@@ -34,7 +34,7 @@ unsigned int __cdecl png_do_write_interlace(unsigned int *a1, _BYTE *a2, int a3)
         v24 = a2;
         v22 = 0;
         v21 = 7;
-        for ( i = (unsigned __int8)byte_8608E0[a3]; i < v23; i += (unsigned __int8)byte_8608E8[a3] )
+        for ( i = (unsigned __int8)byte_6F4228[a3]; i < v23; i += (unsigned __int8)byte_6F4230[a3] )
         {
           v22 |= (((int)(unsigned __int8)a2[i >> 3] >> (7 - (i & 7))) & 1) << v21;
           if ( v21 )
@@ -56,7 +56,7 @@ unsigned int __cdecl png_do_write_interlace(unsigned int *a1, _BYTE *a2, int a3)
         v19 = a2;
         v16 = 6;
         v17 = 0;
-        for ( j = (unsigned __int8)byte_8608E0[a3]; j < v18; j += (unsigned __int8)byte_8608E8[a3] )
+        for ( j = (unsigned __int8)byte_6F4228[a3]; j < v18; j += (unsigned __int8)byte_6F4230[a3] )
         {
           v17 |= (((int)(unsigned __int8)a2[j >> 2] >> (2 * (3 - (j & 3)))) & 3) << v16;
           if ( v16 )
@@ -78,7 +78,7 @@ unsigned int __cdecl png_do_write_interlace(unsigned int *a1, _BYTE *a2, int a3)
         v14 = a2;
         v11 = 4;
         v12 = 0;
-        for ( k = (unsigned __int8)byte_8608E0[a3]; k < v13; k += (unsigned __int8)byte_8608E8[a3] )
+        for ( k = (unsigned __int8)byte_6F4228[a3]; k < v13; k += (unsigned __int8)byte_6F4230[a3] )
         {
           v12 |= (((int)(unsigned __int8)a2[k >> 1] >> (4 * (1 - (k & 1)))) & 0xF) << v11;
           if ( v11 )
@@ -99,17 +99,17 @@ unsigned int __cdecl png_do_write_interlace(unsigned int *a1, _BYTE *a2, int a3)
         v7 = *a1;
         dst = a2;
         count = (int)*((unsigned __int8 *)a1 + 11) >> 3;
-        for ( m = (unsigned __int8)byte_8608E0[a3]; m < v7; m += (unsigned __int8)byte_8608E8[a3] )
+        for ( m = (unsigned __int8)byte_6F4228[a3]; m < v7; m += (unsigned __int8)byte_6F4230[a3] )
         {
-          src = &a2[count * m];
-          if ( dst != src )
-            memcpy(dst, src, count);
+          src = (const __m128i *)&a2[count * m];
+          if ( dst != (unsigned __int8 *)src )
+            memcpy((int)dst, src, count);
           dst += count;
         }
         break;
     }
-    *a1 = (*a1 + (unsigned __int8)byte_8608E8[a3] - 1 - (unsigned __int8)byte_8608E0[a3])
-        / (unsigned __int8)byte_8608E8[a3];
+    *a1 = (*a1 + (unsigned __int8)byte_6F4230[a3] - 1 - (unsigned __int8)byte_6F4228[a3])
+        / (unsigned __int8)byte_6F4230[a3];
     if ( *((unsigned __int8 *)a1 + 11) < 8u )
       v4 = (*a1 * *((unsigned __int8 *)a1 + 11) + 7) >> 3;
     else

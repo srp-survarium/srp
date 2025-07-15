@@ -14,8 +14,8 @@ void __thiscall Scaleform::GFx::ZLibFileImpl::ZLibFileImpl(
   this->LogicalStreamPos = 0;
   this->AtEofFlag = 0;
   this->ErrorCode = 0;
-  this->ZStream.zalloc = Scaleform::GFx::ZLibAllocFunc;
-  this->ZStream.zfree = Scaleform::GFx::ZLibFreeFunc;
+  this->ZStream.zalloc = Scaleform::GFx::AMP::ZLibAllocFunc_AMP;
+  this->ZStream.zfree = Scaleform::GFx::AMP::ZLibFreeFunc_AMP;
   this->ZStream.opaque = this;
   this->ZStream.next_in = 0;
   this->ZStream.avail_in = 0;

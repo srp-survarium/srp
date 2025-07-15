@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::ContextImpl::EntryPage::AddEntriesToList(
         Scaleform::Render::ContextImpl::EntryPage *this,
         Scaleform::List2<Scaleform::Render::ContextImpl::Entry,Scaleform::Render::ContextImpl::EntryListAccessor> *plist)
 {
-  $98779B275605A540A5FF3CE1916F2CF0 *v2; // ecx
+  $A6339410173C75E57E963979A37E1205 *v2; // ecx
   int v3; // edi
   Scaleform::Render::ContextImpl::Entry *v4; // edx
 

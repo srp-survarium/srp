@@ -1,12 +1,12 @@
 void __stdcall Scaleform::Render::GenerateMipLevel(
         Scaleform::Render::ImagePlane *dplane,
         Scaleform::Render::ImagePlane *splane,
-        unsigned int format,
+        Scaleform::Render::ImageFormat format,
         unsigned int formatPlaneIndex)
 {
   Scaleform::Render::ImagePlane *v4; // ebp
   unsigned int Width; // edi
-  unsigned int Pitch; // esi
+  unsigned int v6; // esi
   unsigned int v7; // ebx
   unsigned int v8; // edx
   unsigned __int8 *v9; // ecx
@@ -37,88 +37,88 @@ void __stdcall Scaleform::Render::GenerateMipLevel(
   unsigned int v34; // edi
   unsigned __int8 *v35; // eax
   __int16 v36; // cx
-  unsigned int rx; // [esp+10h] [ebp-38h]
-  unsigned int rxa; // [esp+10h] [ebp-38h]
-  unsigned int rxb; // [esp+10h] [ebp-38h]
-  unsigned int j; // [esp+14h] [ebp-34h]
-  unsigned int ja; // [esp+14h] [ebp-34h]
-  unsigned int jb; // [esp+14h] [ebp-34h]
-  unsigned int ry; // [esp+18h] [ebp-30h]
-  unsigned int rya; // [esp+18h] [ebp-30h]
-  unsigned int dy; // [esp+1Ch] [ebp-2Ch]
-  unsigned int yreminv; // [esp+20h] [ebp-28h]
-  unsigned int yrem; // [esp+24h] [ebp-24h]
-  unsigned __int8 *out; // [esp+28h] [ebp-20h]
+  unsigned int v37; // [esp+10h] [ebp-38h]
+  unsigned int v38; // [esp+10h] [ebp-38h]
+  unsigned int v39; // [esp+10h] [ebp-38h]
+  int v40; // [esp+14h] [ebp-34h]
+  unsigned int v41; // [esp+14h] [ebp-34h]
+  unsigned int v42; // [esp+14h] [ebp-34h]
+  unsigned int v43; // [esp+18h] [ebp-30h]
+  unsigned int v44; // [esp+18h] [ebp-30h]
+  unsigned int v45; // [esp+1Ch] [ebp-2Ch]
+  int v46; // [esp+20h] [ebp-28h]
+  int v47; // [esp+24h] [ebp-24h]
+  unsigned __int8 *v48; // [esp+28h] [ebp-20h]
   int v49; // [esp+2Ch] [ebp-1Ch]
   unsigned int v50; // [esp+30h] [ebp-18h]
-  unsigned int dpitch; // [esp+34h] [ebp-14h]
-  unsigned __int8 *in0; // [esp+38h] [ebp-10h]
+  unsigned int Pitch; // [esp+34h] [ebp-14h]
+  unsigned __int8 *v52; // [esp+38h] [ebp-10h]
   unsigned __int32 v53; // [esp+3Ch] [ebp-Ch]
-  unsigned int a; // [esp+40h] [ebp-8h]
-  unsigned int b; // [esp+44h] [ebp-4h]
-  unsigned int xrema; // [esp+4Ch] [ebp+4h]
-  unsigned __int8 *xrem; // [esp+4Ch] [ebp+4h]
-  unsigned __int8 *splanea; // [esp+50h] [ebp+8h]
-  Scaleform::Render::ImagePlane *splaneb; // [esp+50h] [ebp+8h]
-  unsigned int g; // [esp+54h] [ebp+Ch]
-  unsigned int ga; // [esp+54h] [ebp+Ch]
-  unsigned int gb; // [esp+54h] [ebp+Ch]
-  unsigned int gc; // [esp+54h] [ebp+Ch]
+  unsigned int v54; // [esp+40h] [ebp-8h]
+  unsigned int v55; // [esp+44h] [ebp-4h]
+  unsigned int v56; // [esp+4Ch] [ebp+4h]
+  unsigned __int8 *v57; // [esp+4Ch] [ebp+4h]
+  unsigned __int8 *v58; // [esp+50h] [ebp+8h]
+  unsigned __int8 *v59; // [esp+50h] [ebp+8h]
+  unsigned int v60; // [esp+54h] [ebp+Ch]
+  unsigned int v61; // [esp+54h] [ebp+Ch]
+  unsigned int v62; // [esp+54h] [ebp+Ch]
+  unsigned int v63; // [esp+54h] [ebp+Ch]
 
   v4 = dplane;
-  dpitch = dplane->Pitch;
+  Pitch = dplane->Pitch;
   Width = dplane->Width;
-  Pitch = splane->Pitch;
+  v6 = splane->Pitch;
   v7 = (splane->Width << 10) / dplane->Width;
   v50 = v7;
-  dy = (splane->Height << 10) / dplane->Height;
+  v45 = (splane->Height << 10) / dplane->Height;
   if ( splane->Width == 1 )
   {
     if ( splane->Height != 1 )
     {
       pData = dplane->pData;
-      xrem = splane->pData;
-      splaneb = (Scaleform::Render::ImagePlane *)pData;
+      v57 = splane->pData;
+      v59 = pData;
       switch ( format & 0xFFEFFFFF )
       {
         case 1u:
         case 2u:
-          v29 = (dy - 1) >> 2;
-          ja = 0;
-          rya = v29;
+          v29 = (v45 - 1) >> 2;
+          v41 = 0;
+          v44 = v29;
           do
           {
-            v30 = &xrem[Pitch * (v29 >> 10)];
+            v30 = &v57[v6 * (v29 >> 10)];
             v31 = v29 & 0x3FF;
-            b = v31 * v30[2] + (1023 - v31) * v30[Pitch + 2];
-            v32 = v31 * v30[3] + (1023 - v31) * v30[Pitch + 3];
-            v33 = v31 * *v30 + (1023 - v31) * v30[Pitch];
-            BYTE1(splaneb->Width) = (v31 * v30[1] + (1023 - v31) * (unsigned int)v30[Pitch + 1]) >> 10;
-            BYTE2(splaneb->Width) = b >> 10;
-            v29 = dy + rya;
-            HIBYTE(splaneb->Width) = v32 >> 10;
-            LOBYTE(splaneb->Width) = v33 >> 10;
-            splaneb = (Scaleform::Render::ImagePlane *)((char *)splaneb + dpitch);
-            ++ja;
-            rya += dy;
+            v55 = v31 * v30[2] + (1023 - v31) * v30[v6 + 2];
+            v32 = v31 * v30[3] + (1023 - v31) * v30[v6 + 3];
+            v33 = v31 * *v30 + (1023 - v31) * v30[v6];
+            v59[1] = (v31 * v30[1] + (1023 - v31) * (unsigned int)v30[v6 + 1]) >> 10;
+            v59[2] = v55 >> 10;
+            v29 = v45 + v44;
+            v59[3] = v32 >> 10;
+            *v59 = v33 >> 10;
+            v59 += Pitch;
+            ++v41;
+            v44 += v45;
           }
-          while ( ja < v4->Height );
+          while ( v41 < v4->Height );
           break;
         case 9u:
         case 0xC8u:
         case 0xC9u:
-          v34 = (dy - 1) >> 2;
-          jb = 0;
+          v34 = (v45 - 1) >> 2;
+          v42 = 0;
           do
           {
-            v35 = &xrem[Pitch * (v34 >> 10)];
+            v35 = &v57[v6 * (v34 >> 10)];
             v36 = v34;
-            v34 += dy;
-            LOBYTE(splaneb->Width) = ((v36 & 0x3FF) * *v35 + (1023 - (v36 & 0x3FF)) * (unsigned int)v35[Pitch]) >> 10;
-            splaneb = (Scaleform::Render::ImagePlane *)((char *)splaneb + dpitch);
-            ++jb;
+            v34 += v45;
+            *v59 = ((v36 & 0x3FF) * *v35 + (1023 - (v36 & 0x3FF)) * (unsigned int)v35[v6]) >> 10;
+            v59 += Pitch;
+            ++v42;
           }
-          while ( jb < v4->Height );
+          while ( v42 < v4->Height );
           break;
         default:
           return;
@@ -128,50 +128,50 @@ void __stdcall Scaleform::Render::GenerateMipLevel(
   else if ( splane->Height == 1 )
   {
     v20 = dplane->pData;
-    splanea = splane->pData;
+    v58 = splane->pData;
     switch ( format & 0xFFEFFFFF )
     {
       case 1u:
       case 2u:
         v21 = (v7 - 1) >> 2;
-        gb = 0;
-        rxb = v21;
+        v62 = 0;
+        v39 = v21;
         if ( Width )
         {
           do
           {
-            v22 = &splanea[4 * (v21 >> 10)];
+            v22 = &v58[4 * (v21 >> 10)];
             v23 = v21 & 0x3FF;
-            xrema = v23 * v22[1] + (1023 - v23) * v22[5];
+            v56 = v23 * v22[1] + (1023 - v23) * v22[5];
             v24 = v23 * v22[3] + (1023 - v23) * v22[7];
             v25 = v23 * *v22 + (1023 - v23) * v22[4];
             v26 = v23 * v22[2] + (1023 - v23) * v22[6];
-            v20[1] = xrema >> 10;
+            v20[1] = v56 >> 10;
             *v20 = v25 >> 10;
-            v21 = v50 + rxb;
+            v21 = v50 + v39;
             v20[2] = v26 >> 10;
             v20[3] = v24 >> 10;
             v20 += 4;
-            ++gb;
-            rxb += v50;
+            ++v62;
+            v39 += v50;
           }
-          while ( gb < v4->Width );
+          while ( v62 < v4->Width );
         }
         break;
       case 9u:
       case 0xC8u:
       case 0xC9u:
         v27 = (v7 - 1) >> 2;
-        gc = 0;
+        v63 = 0;
         if ( Width )
         {
           do
           {
-            *v20++ = ((v27 & 0x3FF) * splanea[v27 >> 10] + (1023 - (v27 & 0x3FF)) * splanea[(v27 >> 10) + 1]) >> 10;
+            *v20++ = ((v27 & 0x3FF) * v58[v27 >> 10] + (1023 - (v27 & 0x3FF)) * v58[(v27 >> 10) + 1]) >> 10;
             v27 += v7;
-            ++gc;
+            ++v63;
           }
-          while ( gc < dplane->Width );
+          while ( v63 < dplane->Width );
         }
         break;
       default:
@@ -180,53 +180,53 @@ void __stdcall Scaleform::Render::GenerateMipLevel(
   }
   else
   {
-    v8 = (dy - 1) >> 2;
-    j = 0;
-    ry = v8;
+    v8 = (v45 - 1) >> 2;
+    v40 = 0;
+    v43 = v8;
     v53 = (format & 0xFFEFFFFF) - 1;
     v49 = 0;
     while ( 1 )
     {
-      out = &v4->pData[v49];
-      v9 = &splane->pData[Pitch * (v8 >> 10)];
-      yrem = v8 & 0x3FF;
-      in0 = v9;
-      yreminv = 1023 - yrem;
+      v48 = &v4->pData[v49];
+      v9 = &splane->pData[v6 * (v8 >> 10)];
+      v47 = v8 & 0x3FF;
+      v52 = v9;
+      v46 = 1023 - v47;
       switch ( v53 )
       {
         case 0u:
         case 1u:
           v10 = (v7 - 1) >> 2;
-          g = 0;
-          rx = v10;
+          v60 = 0;
+          v37 = v10;
           if ( Width )
           {
             while ( 1 )
             {
               v11 = &v9[4 * (v10 >> 10)];
               v12 = v10 & 0x3FF;
-              v13 = yrem * (v12 * v11[1] + (1023 - v12) * v11[5])
-                  + yreminv * ((1023 - v12) * v11[Pitch + 5] + v12 * v11[Pitch + 1]);
-              a = yrem * (v12 * v11[3] + (1023 - v12) * v11[7])
-                + yreminv * ((1023 - v12) * v11[Pitch + 7] + v12 * v11[Pitch + 3]);
-              v14 = v12 * v11[Pitch] + (1023 - v12) * v11[Pitch + 4];
-              v15 = yrem * (v12 * *v11 + (1023 - v12) * v11[4]);
-              v16 = yrem * (v12 * v11[2] + (1023 - v12) * v11[6])
-                  + yreminv * ((1023 - v12) * v11[Pitch + 6] + v12 * v11[Pitch + 2]);
-              out[1] = v13 >> 20;
-              out[2] = v16 >> 20;
-              *out = (v15 + yreminv * v14) >> 20;
-              out[3] = a >> 20;
-              out += 4;
-              ++g;
+              v13 = v47 * (v12 * v11[1] + (1023 - v12) * v11[5])
+                  + v46 * ((1023 - v12) * v11[v6 + 5] + v12 * v11[v6 + 1]);
+              v54 = v47 * (v12 * v11[3] + (1023 - v12) * v11[7])
+                  + v46 * ((1023 - v12) * v11[v6 + 7] + v12 * v11[v6 + 3]);
+              v14 = v12 * v11[v6] + (1023 - v12) * v11[v6 + 4];
+              v15 = v47 * (v12 * *v11 + (1023 - v12) * v11[4]);
+              v16 = v47 * (v12 * v11[2] + (1023 - v12) * v11[6])
+                  + v46 * ((1023 - v12) * v11[v6 + 6] + v12 * v11[v6 + 2]);
+              v48[1] = v13 >> 20;
+              v48[2] = v16 >> 20;
+              *v48 = (unsigned int)(v15 + v46 * v14) >> 20;
+              v48[3] = v54 >> 20;
+              v48 += 4;
+              ++v60;
               v4 = dplane;
               v7 = v50;
               Width = dplane->Width;
-              v10 = v50 + rx;
-              rx += v50;
-              if ( g >= dplane->Width )
+              v10 = v50 + v37;
+              v37 += v50;
+              if ( v60 >= dplane->Width )
                 break;
-              v9 = in0;
+              v9 = v52;
             }
           }
           break;
@@ -234,8 +234,8 @@ void __stdcall Scaleform::Render::GenerateMipLevel(
         case 0xC7u:
         case 0xC8u:
           v17 = (v7 - 1) >> 2;
-          ga = 0;
-          rxa = v17;
+          v61 = 0;
+          v38 = v17;
           if ( Width )
           {
             while ( 1 )
@@ -243,27 +243,27 @@ void __stdcall Scaleform::Render::GenerateMipLevel(
               v18 = v17;
               v19 = &v9[v17 >> 10];
               v7 = v50;
-              *out = (yrem * ((v18 & 0x3FF) * *v19 + (1023 - (v18 & 0x3FF)) * v19[1])
-                    + yreminv * ((v18 & 0x3FF) * v19[Pitch] + (1023 - (v18 & 0x3FF)) * v19[Pitch + 1])) >> 20;
+              *v48 = (v47 * ((v18 & 0x3FF) * *v19 + (1023 - (v18 & 0x3FF)) * v19[1])
+                    + v46 * ((v18 & 0x3FF) * v19[v6] + (1023 - (v18 & 0x3FF)) * (unsigned int)v19[v6 + 1])) >> 20;
               Width = v4->Width;
-              ++out;
-              v17 = v50 + rxa;
-              ++ga;
-              rxa += v50;
-              if ( ga >= v4->Width )
+              ++v48;
+              v17 = v50 + v38;
+              ++v61;
+              v38 += v50;
+              if ( v61 >= v4->Width )
                 break;
-              v9 = in0;
+              v9 = v52;
             }
           }
           break;
         default:
           break;
       }
-      v49 += dpitch;
-      ry += dy;
-      if ( ++j >= v4->Height )
+      v49 += Pitch;
+      v43 += v45;
+      if ( ++v40 >= v4->Height )
         break;
-      v8 = ry;
+      v8 = v43;
     }
   }
 }

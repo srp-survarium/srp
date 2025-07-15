@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::lengthGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_geom::Vector3D,0,double>::Method) = Scaleform::GFx::AS3::Instances::fl_geom::Vector3D::lengthGet;
-  dword_AAC8FC = 0;
+  dword_8F10B4 = 0;
   return result;
 }

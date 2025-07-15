@@ -1,22 +1,21 @@
 void __userpurge vostok::resources::unmanaged_resource::set_deleter_object(
         vostok::resources::unmanaged_resource *this@<ecx>,
-        _DWORD *a2@<eax>,
-        vostok::resources::cook_base *cook,
+        vostok::resources::cook_base *cook@<eax>,
         unsigned int deallocation_thread_id)
 {
-  int v4; // edx
-  volatile int m_flags; // edx
+  vostok::resources::cook_base *m_deleter; // edx
+  vostok::resources::class_id_enum m_class_id; // eax
 
-  v4 = a2[56];
-  if ( v4 )
-    _InterlockedExchangeAdd((volatile signed __int32 *)(v4 + 4), 0xFFFFFFFF);
-  a2[56] = this;
-  if ( this )
-    m_flags = this->vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags;
+  m_deleter = this->m_deleter;
+  if ( m_deleter )
+    _InterlockedExchangeAdd(&m_deleter->m_cook_users_count.m_count, 0xFFFFFFFF);
+  this->m_deleter = cook;
+  if ( cook )
+    m_class_id = cook->m_class_id;
   else
-    m_flags = 3;
-  a2[33] = m_flags;
-  a2[63] = cook;
-  if ( this )
-    _InterlockedExchangeAdd((volatile signed __int32 *)&this->type, 1u);
+    m_class_id = raw_data_class;
+  this->m_class_id = m_class_id;
+  this->m_deallocation_thread_id = deallocation_thread_id;
+  if ( cook )
+    _InterlockedExchangeAdd(&cook->m_cook_users_count.m_count, 1u);
 }

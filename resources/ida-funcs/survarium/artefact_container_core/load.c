@@ -1,12 +1,15 @@
-void __userpurge survarium::artefact_container_core::load(
-        survarium::artefact_container_core *this@<ecx>,
-        float a2@<xmm0>,
-        vostok::configs::binary_config_value *cfg)
+void __thiscall survarium::artefact_container_core::load(
+        survarium::artefact_container_core *this,
+        const vostok::configs::binary_config_value *cfg)
 {
-  vostok::configs::binary_config_value *v3; // ecx
+  const vostok::configs::binary_config_value *v3; // eax
+  float pointer; // xmm0_4
 
   survarium::usable_object::load(this, cfg);
-  vostok::configs::binary_config_value::operator[](cfg, "artefacts_search_time_sec");
-  vostok::configs::binary_config_value::operator float(v3);
-  this->m_artefact_search_time_ms = vostok::math::floor(a2 * 1000.0);
+  v3 = vostok::configs::binary_config_value::operator[](cfg, "artefacts_search_time_sec");
+  if ( v3->type == 2 )
+    pointer = *(float *)&v3->data.pointer;
+  else
+    pointer = (float)(int)v3->data.pointer;
+  this->m_artefact_search_time_ms = vostok::math::floor(pointer * 1000.0);
 }

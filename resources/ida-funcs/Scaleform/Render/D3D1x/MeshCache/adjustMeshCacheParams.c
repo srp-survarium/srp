@@ -7,19 +7,14 @@ void __userpurge Scaleform::Render::D3D1x::MeshCache::adjustMeshCacheParams(
   unsigned int v4; // ecx
 
   MaxBatchInstances = p->MaxBatchInstances;
-  if ( MaxBatchInstances < 0x18 )
-  {
-    if ( !MaxBatchInstances )
-      MaxBatchInstances = 1;
-  }
-  else
-  {
+  if ( MaxBatchInstances >= 0x18 )
     MaxBatchInstances = 24;
-  }
+  if ( !MaxBatchInstances )
+    MaxBatchInstances = 1;
   MaxVerticesSizeInBatch = p->MaxVerticesSizeInBatch;
   p->MaxBatchInstances = MaxBatchInstances;
   v4 = 2 * (MaxVerticesSizeInBatch + 2 * p->MaxIndicesInBatch);
-  p->VBLockEvictSizeLimit = 0x40000;
+  p->VBLockEvictSizeLimit = (unsigned int)&loc_3FFFF + 1;
   if ( v4 > p->StagingBufferSize )
     p->StagingBufferSize = v4;
   if ( this->pShaderManager->ShaderModel != ShaderVersion_D3D1xFL1x )

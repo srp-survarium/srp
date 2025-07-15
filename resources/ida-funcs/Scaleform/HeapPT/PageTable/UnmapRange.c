@@ -20,7 +20,7 @@ void __thiscall Scaleform::HeapPT::PageTable::UnmapRange(
       pStarter = this->pStarter;
       if ( v6->RefCount-- == 1 )
       {
-        Scaleform::HeapPT::Starter::Free(pStarter, v6->pTable, 0x400u, 0x400u);
+        Scaleform::HeapPT::Starter::Free(pStarter, (Scaleform::HeapPT::DualTNode *)v6->pTable, 0x400u, 0x400u);
         v6->pTable = 0;
       }
       ++v6;

@@ -11,29 +11,33 @@ Scaleform::Render::PathEdgeType __thiscall Scaleform::Render::ShapeDataPackedDec
   int LastY; // eax
   int v10; // ecx
   int v11; // edx
-  int tmp[5]; // [esp+Ch] [ebp-14h] BYREF
+  int data; // [esp+Ch] [ebp-14h] BYREF
+  int v13; // [esp+10h] [ebp-10h]
+  int v14; // [esp+14h] [ebp-Ch]
+  int v15; // [esp+18h] [ebp-8h]
+  int v16; // [esp+1Ch] [ebp-4h]
 
   v3 = pos->Pos;
   pos->Pos = v3
            + Scaleform::Render::PathDataDecoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::ReadEdge(
                &this->Decoder,
                pos->Pos,
-               tmp);
-  switch ( tmp[0] )
+               &data);
+  switch ( data )
   {
     case 0:
-      pos->LastX += tmp[1];
+      pos->LastX += v13;
       *coord = (double)pos->LastX * this->OneOverMultiplier;
       coord[1] = (double)pos->LastY * this->OneOverMultiplier;
       result = Edge_LineTo;
       break;
     case 1:
-      v6 = tmp[1];
+      v6 = v13;
       LastX = (double)pos->LastX;
       goto LABEL_4;
     case 2:
-      pos->LastX += tmp[1];
-      v6 = tmp[2];
+      pos->LastX += v13;
+      v6 = v14;
       LastX = (double)pos->LastX;
 LABEL_4:
       pos->LastY += v6;
@@ -44,16 +48,16 @@ LABEL_4:
     case 3:
       v8 = pos->LastX;
       LastY = pos->LastY;
-      tmp[1] += v8;
-      tmp[2] += LastY;
-      v10 = v8 + tmp[3];
-      v11 = LastY + tmp[4];
-      *coord = (double)tmp[1] * this->OneOverMultiplier;
-      tmp[3] = v10;
-      tmp[4] = v11;
-      coord[1] = (double)tmp[2] * this->OneOverMultiplier;
-      coord[2] = (double)tmp[3] * this->OneOverMultiplier;
-      coord[3] = (double)tmp[4] * this->OneOverMultiplier;
+      v13 += v8;
+      v14 += LastY;
+      v10 = v8 + v15;
+      v11 = LastY + v16;
+      *coord = (double)v13 * this->OneOverMultiplier;
+      v15 = v10;
+      v16 = v11;
+      coord[1] = (double)v14 * this->OneOverMultiplier;
+      coord[2] = (double)v15 * this->OneOverMultiplier;
+      coord[3] = (double)v16 * this->OneOverMultiplier;
       pos->LastX = v10;
       pos->LastY = v11;
       result = Edge_QuadTo;

@@ -1,4 +1,4 @@
-int __cdecl BIO_ctrl_pending(bio_st *bio)
+int __usercall BIO_ctrl_pending@<eax>(int a1@<ebx>, bio_st *bio)
 {
-  return BIO_ctrl(bio, 10, 0, 0);
+  return BIO_ctrl(a1, bio, 10, 0, 0);
 }

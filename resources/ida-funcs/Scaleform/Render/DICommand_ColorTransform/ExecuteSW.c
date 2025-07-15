@@ -29,33 +29,33 @@ void __thiscall Scaleform::Render::DICommand_ColorTransform::ExecuteSW(
   double v27; // rt1
   double v28; // st7
   Scaleform::Render::DrawableImage *pObject; // eax
-  float v30; // [esp+5D4h] [ebp-DCh]
-  float v31; // [esp+5D4h] [ebp-DCh]
-  float v32; // [esp+5D4h] [ebp-DCh]
-  float v33; // [esp+5D4h] [ebp-DCh]
-  float v34; // [esp+5D4h] [ebp-DCh]
-  float v35; // [esp+5D8h] [ebp-D8h]
-  float v36; // [esp+5D8h] [ebp-D8h]
-  Scaleform::Render::Size<unsigned long> destSize; // [esp+5DCh] [ebp-D4h] BYREF
-  int v38; // [esp+5E4h] [ebp-CCh]
-  _BYTE v39[3]; // [esp+5E8h] [ebp-C8h] BYREF
-  unsigned __int8 v40; // [esp+5EBh] [ebp-C5h]
-  float v41; // [esp+5ECh] [ebp-C4h]
-  float v42; // [esp+5F0h] [ebp-C0h]
-  Scaleform::Render::Size<unsigned long> srcSize; // [esp+5F4h] [ebp-BCh] BYREF
-  int v44; // [esp+5FCh] [ebp-B4h]
-  float v45[8]; // [esp+600h] [ebp-B0h] BYREF
-  Scaleform::Render::DICommand_ColorTransform *v46; // [esp+62Ch] [ebp-84h]
-  Scaleform::Render::Rect<long> v47; // [esp+630h] [ebp-80h] BYREF
-  float v48; // [esp+640h] [ebp-70h]
-  float v49; // [esp+644h] [ebp-6Ch]
-  float v50; // [esp+648h] [ebp-68h]
-  float v51; // [esp+64Ch] [ebp-64h]
-  _DWORD v52[6]; // [esp+650h] [ebp-60h] BYREF
-  _DWORD v53[6]; // [esp+668h] [ebp-48h] BYREF
-  Scaleform::Render::Point<long> v54; // [esp+680h] [ebp-30h] BYREF
-  Scaleform::Render::ImagePlane pplane; // [esp+688h] [ebp-28h] BYREF
-  Scaleform::Render::ImagePlane v56; // [esp+69Ch] [ebp-14h] BYREF
+  float v30; // [esp+24h] [ebp-DCh]
+  float v31; // [esp+24h] [ebp-DCh]
+  float v32; // [esp+24h] [ebp-DCh]
+  float v33; // [esp+24h] [ebp-DCh]
+  float v34; // [esp+24h] [ebp-DCh]
+  float v35; // [esp+28h] [ebp-D8h]
+  float v36; // [esp+28h] [ebp-D8h]
+  Scaleform::Render::Size<unsigned long> v37; // [esp+2Ch] [ebp-D4h] BYREF
+  int v38; // [esp+34h] [ebp-CCh]
+  _BYTE v39[3]; // [esp+38h] [ebp-C8h] BYREF
+  unsigned __int8 v40; // [esp+3Bh] [ebp-C5h]
+  float v41; // [esp+3Ch] [ebp-C4h]
+  float v42; // [esp+40h] [ebp-C0h]
+  Scaleform::Render::Size<unsigned long> v43; // [esp+44h] [ebp-BCh] BYREF
+  int v44; // [esp+4Ch] [ebp-B4h]
+  float v45[8]; // [esp+50h] [ebp-B0h] BYREF
+  Scaleform::Render::DICommand_ColorTransform *v46; // [esp+7Ch] [ebp-84h]
+  Scaleform::Render::Rect<long> v47; // [esp+80h] [ebp-80h] BYREF
+  float v48; // [esp+90h] [ebp-70h]
+  float v49; // [esp+94h] [ebp-6Ch]
+  float v50; // [esp+98h] [ebp-68h]
+  float v51; // [esp+9Ch] [ebp-64h]
+  _DWORD v52[6]; // [esp+A0h] [ebp-60h] BYREF
+  _DWORD v53[6]; // [esp+B8h] [ebp-48h] BYREF
+  Scaleform::Render::Point<long> v54; // [esp+D0h] [ebp-30h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+D8h] [ebp-28h] BYREF
+  Scaleform::Render::ImagePlane v56; // [esp+ECh] [ebp-14h] BYREF
 
   v5 = *psrc;
   v46 = this;
@@ -68,16 +68,16 @@ void __thiscall Scaleform::Render::DICommand_ColorTransform::ExecuteSW(
   Width = pPlanes->Width;
   p_Width = &v5->pPlanes->Width;
   v10 = *p_Width;
-  destSize.Width = Width;
+  v37.Width = Width;
   v11 = p_Width[1];
-  destSize.Height = Height;
-  srcSize.Width = v10;
-  srcSize.Height = v11;
+  v37.Height = Height;
+  v43.Width = v10;
+  v43.Height = v11;
   memset(&v47, 0, sizeof(v47));
   if ( !Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
           this,
-          &srcSize,
-          &destSize,
+          &v43,
+          &v37,
           &this->SourceRect,
           &v47,
           &v54) )
@@ -85,13 +85,13 @@ void __thiscall Scaleform::Render::DICommand_ColorTransform::ExecuteSW(
   qmemcpy(v45, &this->Cx, sizeof(v45));
   if ( !v46->pImage.pObject->Transparent )
   {
-    *(float *)&srcSize.Width = v45[7] + v45[3];
-    v45[0] = v45[0] * *(float *)&srcSize.Width;
-    v45[4] = v45[4] * *(float *)&srcSize.Width;
-    v45[1] = v45[1] * *(float *)&srcSize.Width;
-    v45[5] = v45[5] * *(float *)&srcSize.Width;
-    v45[2] = v45[2] * *(float *)&srcSize.Width;
-    v45[6] = *(float *)&srcSize.Width * v45[6];
+    *(float *)&v43.Width = v45[7] + v45[3];
+    v45[0] = v45[0] * *(float *)&v43.Width;
+    v45[4] = v45[4] * *(float *)&v43.Width;
+    v45[1] = v45[1] * *(float *)&v43.Width;
+    v45[5] = v45[5] * *(float *)&v43.Width;
+    v45[2] = v45[2] * *(float *)&v43.Width;
+    v45[6] = *(float *)&v43.Width * v45[6];
     v45[3] = 1.0;
     v45[7] = 0.0;
   }
@@ -110,7 +110,7 @@ void __thiscall Scaleform::Render::DICommand_ColorTransform::ExecuteSW(
   memset(&v52[3], 0, 12);
   (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v52[0] + 4))(v52[0], v52);
   y1 = v47.y1;
-  srcSize.Width = v47.y1;
+  v43.Width = v47.y1;
   if ( v47.y1 >= v47.y2 )
     return;
   v44 = v47.y1 - v54.y;
@@ -210,20 +210,20 @@ LABEL_29:
       BYTE2(v38) = (int)v34;
       BYTE1(v38) = (int)v41;
       LOBYTE(v38) = (int)v42;
-      destSize.Width = LOWORD(v34) | 0xC00;
+      v37.Width = LOWORD(v34) | 0xC00;
       pObject = v46->pImage.pObject;
-      destSize.Width = (int)v36;
-      HIBYTE(v38) = destSize.Width;
+      v37.Width = (int)v36;
+      HIBYTE(v38) = v37.Width;
       if ( !pObject->Transparent )
         HIBYTE(v38) = -1;
       (*(void (__thiscall **)(_DWORD, _DWORD *, int, int))(*(_DWORD *)v53[0] + 12))(v53[0], v53, x1++, v38);
       ++v18;
     }
     while ( x1 < v47.x2 );
-    y1 = srcSize.Width;
+    y1 = v43.Width;
 LABEL_33:
     ++v44;
-    srcSize.Width = ++y1;
+    v43.Width = ++y1;
   }
   while ( y1 < v47.y2 );
 }

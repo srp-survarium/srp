@@ -1,23 +1,31 @@
 void __userpurge survarium::flash_renderer::flash_renderer(
         survarium::flash_renderer *this@<ecx>,
-        int a2@<esi>,
-        survarium::scaleform_render_command_queue *render_command_queue,
+        int a2@<edi>,
+        Scaleform::Render::D3D1x::HAL *render_command_queue,
         ID3D11Device *pd3d_device,
         ID3D11DeviceContext *pd3d_device_context)
 {
-  Scaleform::Render::D3D1x::HAL *v5; // ecx
+  void *v5; // eax
   int v6; // eax
   Scaleform::MemoryHeap *v7; // ecx
   Scaleform::Render::Renderer2D *v8; // eax
   int v9; // eax
   int v10; // ecx
-  void *CurrentThreadId; // eax
+  DWORD CurrentThreadId; // eax
   int v12; // ecx
-  Scaleform::Render::D3D1x::HALInitParams params; // [esp+10h] [ebp-20h] BYREF
+  _DWORD v13[3]; // [esp+8h] [ebp-24h] BYREF
+  Scaleform::RefCountVImpl *v14; // [esp+14h] [ebp-18h]
+  Scaleform::RefCountVImpl *v15; // [esp+18h] [ebp-14h]
+  int v16; // [esp+1Ch] [ebp-10h]
+  ID3D11Device *v17; // [esp+20h] [ebp-Ch]
+  ID3D11DeviceContext *v18; // [esp+24h] [ebp-8h]
 
-  v5 = (Scaleform::Render::D3D1x::HAL *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 64440, 0);
+  v5 = Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 64608, 0);
   if ( v5 )
-    Scaleform::Render::D3D1x::HAL::HAL(v5, render_command_queue->impl);
+    Scaleform::Render::D3D1x::HAL::HAL(
+      render_command_queue,
+      (int)v5,
+      (Scaleform::Render::ThreadCommandQueue *)render_command_queue->__vftable);
   else
     v6 = 0;
   v7 = Scaleform::Memory::pGlobalHeap;
@@ -31,24 +39,24 @@ void __userpurge survarium::flash_renderer::flash_renderer(
   *(_DWORD *)(a2 + 12) = v9;
   if ( !(*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v10 + 12))(v10) )
   {
-    CurrentThreadId = (void *)GetCurrentThreadId();
-    params.pD3DDevice = pd3d_device;
+    CurrentThreadId = GetCurrentThreadId();
     v12 = *(_DWORD *)(a2 + 8);
-    params.RenderThreadId = CurrentThreadId;
-    params.pD3DContext = pd3d_device_context;
-    params.pMemoryManager = 0;
-    params.ConfigFlags = 0;
-    params.pTextureManager.pObject = 0;
-    params.pRenderBufferManager.pObject = 0;
-    params.RenderQueueSize = 256;
-    (*(void (__thiscall **)(int, Scaleform::Render::D3D1x::HALInitParams *))(*(_DWORD *)v12 + 296))(v12, &params);
-    if ( params.pRenderBufferManager.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)params.pRenderBufferManager.pObject);
-    if ( params.pTextureManager.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)params.pTextureManager.pObject);
+    v13[2] = CurrentThreadId;
+    v17 = pd3d_device;
+    v13[0] = 0;
+    v13[1] = 0;
+    v14 = 0;
+    v15 = 0;
+    v16 = 256;
+    v18 = pd3d_device_context;
+    (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v12 + 296))(v12, v13);
+    if ( v15 )
+      Scaleform::RefCountImpl::Release(v15);
+    if ( v14 )
+      Scaleform::RefCountImpl::Release(v14);
   }
-  render_command_queue->impl->pHAL = *(Scaleform::Render::HAL **)(a2 + 8);
-  render_command_queue->impl->pHALTextureMgr = (Scaleform::Render::TextureManager *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 8) + 220))(*(_DWORD *)(a2 + 8));
-  render_command_queue->impl->pR2D = *(Scaleform::Render::Renderer2D **)(a2 + 12);
-  render_command_queue->impl->pRenderThreadId = (void *)Scaleform::GetCurrentThreadId();
+  render_command_queue->initHAL = *(bool (__thiscall **)(struct Scaleform::Render::D3D1x::HAL *, const Scaleform::Render::HALInitParams *))(a2 + 8);
+  render_command_queue->IsInitialized = (bool (__thiscall *)(struct Scaleform::Render::D3D1x::HAL *))(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(a2 + 8) + 220))(*(_DWORD *)(a2 + 8));
+  render_command_queue->shutdownHAL = *(bool (__thiscall **)(struct Scaleform::Render::D3D1x::HAL *))(a2 + 12);
+  render_command_queue->BeginFrame = (bool (__thiscall *)(struct Scaleform::Render::D3D1x::HAL *))Scaleform::GetCurrentThreadId();
 }

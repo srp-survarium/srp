@@ -4,6 +4,6 @@ void __thiscall btDiscreteDynamicsWorld::serialize(btDiscreteDynamicsWorld *this
 
   serializer->startSerialization(serializer);
   btDiscreteDynamicsWorld::serializeRigidBodies(serializer, this);
-  btCollisionWorld::serializeCollisionObjects(v3, serializer);
+  btCollisionWorld::serializeCollisionObjects(v3, (int)this, serializer);
   serializer->finishSerialization(serializer);
 }

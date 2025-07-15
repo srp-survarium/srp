@@ -19,6 +19,7 @@ void __thiscall Scaleform::Render::HAL::HAL(
   p_NotifyList->Root.pPrev = (Scaleform::Render::HALNotify *)p_CurrentPass;
   p_NotifyList->Root.pNext = (Scaleform::Render::HALNotify *)p_CurrentPass;
   this->Matrices.pObject = 0;
+  Scaleform::Render::ProfileViews::ProfileViews(&this->Profiler);
   this->AccumulatedStats.Primitives = 0;
   this->AccumulatedStats.Meshes = 0;
   this->AccumulatedStats.Triangles = 0;

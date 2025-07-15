@@ -1,6 +1,6 @@
 int __cdecl png_read_start_row(int a1)
 {
-  unsigned __int8 *v1; // eax
+  int v1; // eax
   int result; // eax
   unsigned int v3; // [esp+0h] [ebp-10h]
   int v4; // [esp+8h] [ebp-8h]
@@ -15,10 +15,10 @@ int __cdecl png_read_start_row(int a1)
     else
       *(_DWORD *)(a1 + 236) = (*(_DWORD *)(a1 + 232) + 7) / 8u;
     *(_DWORD *)(a1 + 248) = (*(_DWORD *)(a1 + 228)
-                           + (unsigned __int8)byte_85F3D4[*(unsigned __int8 *)(a1 + 313)]
+                           + (unsigned __int8)byte_6F2D1C[*(unsigned __int8 *)(a1 + 313)]
                            - 1
-                           - (unsigned int)(unsigned __int8)byte_85F3CC[*(unsigned __int8 *)(a1 + 313)])
-                          / (unsigned __int8)byte_85F3D4[*(unsigned __int8 *)(a1 + 313)];
+                           - (unsigned int)(unsigned __int8)byte_6F2D14[*(unsigned __int8 *)(a1 + 313)])
+                          / (unsigned __int8)byte_6F2D1C[*(unsigned __int8 *)(a1 + 313)];
   }
   else
   {
@@ -110,8 +110,11 @@ int __cdecl png_read_start_row(int a1)
       v4 = 24;
     }
   }
-  if ( (*(_DWORD *)(a1 + 116) & 0x100000) != 0 && *(unsigned __int8 *)(a1 + 105) * *(unsigned __int8 *)(a1 + 104) > v4 )
+  if ( ((unsigned int)&loc_100000 & *(_DWORD *)(a1 + 116)) != 0
+    && *(unsigned __int8 *)(a1 + 105) * *(unsigned __int8 *)(a1 + 104) > v4 )
+  {
     v4 = *(unsigned __int8 *)(a1 + 105) * *(unsigned __int8 *)(a1 + 104);
+  }
   *(_BYTE *)(a1 + 322) = v4;
   *(_BYTE *)(a1 + 323) = 0;
   v5 = (*(_DWORD *)(a1 + 228) + 7) & 0xFFFFFFF8;
@@ -126,7 +129,7 @@ int __cdecl png_read_start_row(int a1)
     if ( *(_BYTE *)(a1 + 312) )
       v1 = png_calloc(a1, v3 + ((v4 + 7) >> 3) + 49);
     else
-      v1 = (unsigned __int8 *)png_malloc(a1, v3 + ((v4 + 7) >> 3) + 49);
+      v1 = png_malloc(a1, v3 + ((v4 + 7) >> 3) + 49);
     *(_DWORD *)(a1 + 620) = v1;
     *(_DWORD *)(a1 + 688) = png_malloc(a1, v3 + ((v4 + 7) >> 3) + 49);
     *(_DWORD *)(a1 + 264) = *(_DWORD *)(a1 + 620) + 31;

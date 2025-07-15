@@ -18,14 +18,14 @@ int __cdecl i2a_ASN1_STRING(bio_st *bp, asn1_string_st *a)
     {
       if ( v5 && !(v5 % 35) )
       {
-        if ( BIO_write(bp, "\\\n", 2) != 2 )
+        if ( BIO_write(v3, bp, "\\\n", 2) != 2 )
           return -1;
         v3 += 2;
       }
       data = v2->data;
       LOBYTE(a) = h_0[data[v5] >> 4];
       BYTE1(a) = h_0[data[v5] & 0xF];
-      if ( BIO_write(bp, (const char *)&a, 2) != 2 )
+      if ( BIO_write(v3, bp, (const char *)&a, 2) != 2 )
         break;
       ++v5;
       v3 += 2;
@@ -33,7 +33,7 @@ int __cdecl i2a_ASN1_STRING(bio_st *bp, asn1_string_st *a)
         return v3;
     }
   }
-  else if ( BIO_write(bp, (const char *)&stru_95AF78.m_key_bindings[6].m_keyboard[1], 1) == 1 )
+  else if ( BIO_write(0, bp, "0", 1) == 1 )
   {
     return 1;
   }

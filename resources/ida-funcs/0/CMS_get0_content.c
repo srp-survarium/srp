@@ -1,14 +1,14 @@
-asn1_string_st **__cdecl CMS_get0_content(asn1_string_st *cms)
+asn1_string_st **__usercall CMS_get0_content@<eax>(int a1@<ebx>, asn1_string_st *cms)
 {
   asn1_string_st *type; // esi
-  int v2; // eax
+  int v3; // eax
   asn1_string_st **result; // eax
 
   type = cms;
-  v2 = OBJ_obj2nid((const asn1_object_st *)cms->length);
-  if ( v2 > 205 )
+  v3 = (int)OBJ_obj2nid((const asn1_object_st *)cms->length);
+  if ( v3 > 205 )
   {
-    if ( v2 == 786 )
+    if ( v3 == 786 )
     {
       return (asn1_string_st **)(*(_DWORD *)(cms->type + 12) + 4);
     }
@@ -22,18 +22,18 @@ LABEL_11:
       }
       else
       {
-        ERR_put_error(0x2Eu, 129, 152, ".\\crypto\\cms\\cms_lib.c", 238);
+        ERR_put_error(a1, 0x2Eu, 129, 152, ".\\crypto\\cms\\cms_lib.c", 238);
         return 0;
       }
     }
   }
-  else if ( v2 == 205 )
+  else if ( v3 == 205 )
   {
     return (asn1_string_st **)(*(_DWORD *)(cms->type + 20) + 4);
   }
   else
   {
-    switch ( v2 )
+    switch ( v3 )
     {
       case 21:
         return (asn1_string_st **)&type->type;

@@ -16,7 +16,7 @@ void __cdecl Scaleform::GFx::AS2::IntervalTimer::ClearInterval(const Scaleform::
                                                                                          & 0x1F];
     v4 = Scaleform::GFx::AS2::Value::ToNumber(v3, fn->Env);
     v5 = v4;
-    if ( (HIDWORD(v5) & 0x7FF00000) != 0x7FF00000 || !((unsigned int)&loc_FFFFF & HIDWORD(v5) | LODWORD(v5)) )
+    if ( (HIDWORD(v5) & 0x7FF00000) != 0x7FF00000 || !(HIDWORD(v5) & 0xFFFFF | LODWORD(v5)) )
       Scaleform::GFx::MovieImpl::ClearIntervalTimer(pMovieImpl, (int)v4);
   }
 }

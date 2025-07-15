@@ -1,9 +1,39 @@
-void __thiscall survarium::base_player::unsubscribe_from_player_death(
+void __fastcall survarium::base_player::unsubscribe_from_player_death(
         survarium::base_player *this,
+        int a2,
         survarium::player_death_subscriber *subscriber)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  vostok::intrusive_list<survarium::player_death_subscriber,survarium::player_death_subscriber *,32,vostok::threading::single_threading_policy,vostok::no_size_policy,vostok::no_debug_policy>::erase(
-    &this->m_player_death_subscribers,
-    subscriber);
+  survarium::player_death_subscriber *v3; // eax
+  survarium::player_death_subscriber *v4; // ecx
+  survarium::player_death_subscriber *next; // esi
+  survarium::player_death_subscriber *v6; // eax
+
+  v3 = *(survarium::player_death_subscriber **)(a2 + 452);
+  if ( v3 )
+  {
+    v4 = 0;
+    while ( v3 != subscriber )
+    {
+      v4 = v3;
+      v3 = v3->next;
+      if ( !v3 )
+      {
+        if ( subscriber )
+          return;
+        break;
+      }
+    }
+    next = v3->next;
+    if ( v4 )
+      v4->next = next;
+    else
+      *(_DWORD *)(a2 + 452) = next;
+    if ( !v3->next )
+    {
+      v6 = v4;
+      if ( !v4 )
+        v6 = *(survarium::player_death_subscriber **)(a2 + 452);
+      *(_DWORD *)(a2 + 456) = v6;
+    }
+  }
 }

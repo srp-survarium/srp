@@ -9,20 +9,20 @@ Scaleform::Render::Matrix2x4<float> *__thiscall Scaleform::Render::Matrix2x4<flo
         float dstX2,
         float dstY2)
 {
-  float dst[6]; // [esp+0h] [ebp-30h] BYREF
-  float src[6]; // [esp+18h] [ebp-18h] BYREF
+  float v10[6]; // [esp+0h] [ebp-30h] BYREF
+  float v11[6]; // [esp+18h] [ebp-18h] BYREF
 
-  src[0] = srcX1;
-  src[1] = srcY1;
-  src[2] = srcX2;
-  src[4] = srcX2;
-  src[3] = srcY1;
-  src[5] = srcY2;
-  dst[0] = dstX1;
-  dst[1] = dstY1;
-  dst[2] = dstX2;
-  dst[4] = dstX2;
-  dst[3] = dstY1;
-  dst[5] = dstY2;
-  return Scaleform::Render::Matrix2x4<float>::SetParlToParl(this, src, dst);
+  v11[0] = srcX1;
+  v11[1] = srcY1;
+  v11[2] = srcX2;
+  v11[4] = srcX2;
+  v11[3] = srcY1;
+  v11[5] = srcY2;
+  v10[0] = dstX1;
+  v10[1] = dstY1;
+  v10[2] = dstX2;
+  v10[4] = dstX2;
+  v10[3] = dstY1;
+  v10[5] = dstY2;
+  return Scaleform::Render::Matrix2x4<float>::SetParlToParl(this, v11, v10);
 }

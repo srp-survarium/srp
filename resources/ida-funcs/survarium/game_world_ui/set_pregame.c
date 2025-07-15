@@ -1,35 +1,28 @@
-void __thiscall survarium::game_world_ui::set_pregame(
+void __userpurge survarium::game_world_ui::set_pregame(
+        unsigned int time_left_sec@<eax>,
         survarium::game_world_ui *this,
-        survarium::game_world_ui *str,
-        const char *time_left,
-        unsigned int time_lefta)
+        char *str)
 {
-  survarium::flash_value message_val; // [esp+10h] [ebp-818h] BYREF
-  wchar_t message[512]; // [esp+28h] [ebp-800h] BYREF
-  wchar_t buff[512]; // [esp+428h] [ebp-400h] BYREF
+  unsigned int v4; // edi
+  char string[512]; // [esp+10h] [ebp-418h] BYREF
+  char v6[512]; // [esp+210h] [ebp-218h] BYREF
+  survarium::flash_value v7; // [esp+410h] [ebp-18h] BYREF
 
-  survarium::text_translator::translate_text(&str->m_game_world->m_game->m_text_translator, time_left, message);
-  swprintf(
-    0x200u,
-    (unsigned int)time_left,
-    time_lefta / 0x3C,
-    buff,
-    L"%s %02d : %02d",
-    message,
-    time_lefta / 0x3C,
-    time_lefta % 0x3C);
-  *(_DWORD *)message_val.body = 0;
-  *(_DWORD *)&message_val.body[4] = 0;
-  survarium::flash_value::SetStringW(&message_val, buff);
+  v4 = time_left_sec / 0x3C;
+  survarium::text_translator::translate_text(
+    (survarium::text_translator *)0x3C,
+    (int)&this->m_game_world->m_game->m_text_translator,
+    str,
+    v6);
+  sprintf_s(string, 0x200u, "%s %02d:%02d", v6, v4, time_left_sec - 60 * v4);
+  *(_DWORD *)v7.body = 0;
+  *(_DWORD *)&v7.body[4] = 0;
+  survarium::flash_value::SetString(&v7, string);
   Scaleform::GFx::Movie::Invoke(
-    str->m_game_hud_ui.m_object->movie->m_movie,
+    this->m_game_hud_ui.m_object->movie->m_movie,
     "root.set_pregame",
     0,
-    (const Scaleform::GFx::Value *)&message_val,
+    (const Scaleform::GFx::Value *)&v7,
     1u);
-  if ( (message_val.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_val.body + 8))(
-      *(_DWORD *)message_val.body,
-      &message_val,
-      *(_DWORD *)&message_val.body[8]);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&v7);
 }

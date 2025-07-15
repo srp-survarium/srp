@@ -46,9 +46,9 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::visibleRectGet
   v10.Bonus.pWeakProxy = 0;
   v9 = v14 - v12;
   v25 = v9;
-  (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, _DWORD *, int))(*(_DWORD *)pObject->pVM[1].ScopeStack.Data.Policy.Capacity
-                                                                                         + 36))(
-    pObject->pVM[1].ScopeStack.Data.Policy.Capacity,
+  (*(void (__thiscall **)(unsigned int, Scaleform::GFx::AS3::Value *, int, _DWORD *, int))(*(_DWORD *)pObject->pVM[1].ScopeStack.Data.Size
+                                                                                         + 48))(
+    pObject->pVM[1].ScopeStack.Data.Size,
     &v10,
     4,
     v15,

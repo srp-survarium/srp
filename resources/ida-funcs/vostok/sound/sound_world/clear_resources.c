@@ -1,14 +1,9 @@
 void __thiscall vostok::sound::sound_world::clear_resources(vostok::sound::sound_world *this)
 {
-  vostok::sound::sound_scene *scene; // [esp+8h] [ebp-4h]
+  vostok::sound::sound_scene *i; // edi
 
-  for ( scene = this->m_active_scenes.m_first; scene; scene = scene->m_next )
-    vostok::sound::sound_scene::stop(scene);
+  vostok::sound::voice_bridge::operation_set = 0;
+  for ( i = this->m_active_scenes.m_first; i; i = i->m_next )
+    vostok::sound::sound_scene::stop((vostok::sound::sound_scene *)this, i);
   this->tick(this);
-  while ( i < 5 && this->m_voices_to_delete.m_first )
-  {
-    this->tick(this);
-    vostok::threading::yield(0xAu);
-    ++i;
-  }
 }

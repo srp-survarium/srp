@@ -2,10 +2,10 @@ void __thiscall Scaleform::Render::TreeCacheRoot::TreeCacheRoot(
         Scaleform::Render::TreeCacheRoot *this,
         Scaleform::Render::Renderer2DImpl *prenderer2D,
         Scaleform::Render::HAL *phal,
-        unsigned int flags,
+        unsigned __int16 flags,
         Scaleform::Render::TreeRoot *pnode)
 {
-  Scaleform::Render::Rect<float> *p_SortParentBounds; // ecx
+  Scaleform::Render::TreeCacheNode *p_SortParentBounds; // ecx
   Scaleform::MemoryHeap *v7; // eax
   Scaleform::Render::TreeCacheNode **ArrayReserve; // ecx
   int v9; // eax
@@ -15,9 +15,9 @@ void __thiscall Scaleform::Render::TreeCacheRoot::TreeCacheRoot(
   if ( this == (Scaleform::Render::TreeCacheRoot *)-80 )
     p_SortParentBounds = 0;
   else
-    p_SortParentBounds = &this->SortParentBounds;
-  this->Children.Root.Scaleform::Render::TreeCacheContainer::pPrev = (Scaleform::Render::TreeCacheNode *)p_SortParentBounds;
-  this->Children.Root.pNext = (Scaleform::Render::TreeCacheNode *)p_SortParentBounds;
+    p_SortParentBounds = (Scaleform::Render::TreeCacheNode *)&this->SortParentBounds;
+  this->Children.Root.Scaleform::Render::TreeCacheContainer::pPrev = p_SortParentBounds;
+  this->Children.Root.pNext = p_SortParentBounds;
   this->CachedChildPattern.pFirst = 0;
   this->CachedChildPattern.pLast = 0;
   this->CachedChildPattern.Length = 0x80000000;

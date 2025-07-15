@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::GlyphCache::UnpinAllSlots(Scaleform::Render::
   Scaleform::Render::TextMeshProvider *i; // eax
   unsigned int *v2; // edx
   Scaleform::Render::TextMeshProvider *j; // eax
-  $4F3C021D145BED5403D04465E6CC3A78 *v4; // esi
+  $22527A7774DC711AD8FE2001D2CA5C68 *v4; // esi
   unsigned int *p_Capacity; // eax
 
   for ( i = this->TextInUse.Root.pNext; ; i = i->pNext )

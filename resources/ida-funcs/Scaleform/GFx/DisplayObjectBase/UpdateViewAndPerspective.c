@@ -6,14 +6,14 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::UpdateViewAndPerspective(Scal
   const Scaleform::Render::Rect<float> *p_VisibleFrameRect; // ebx
   bool v6; // zf
   Scaleform::GFx::DisplayObjectBase::GeomDataType *pGeomData; // eax
-  long double FieldOfView; // st6
-  long double FocalLength; // st7
-  float v10; // [esp+234h] [ebp-80h]
-  float y; // [esp+238h] [ebp-7Ch]
-  float v12; // [esp+238h] [ebp-7Ch]
-  Scaleform::Render::Point<float> projCenter; // [esp+23Ch] [ebp-78h] BYREF
-  Scaleform::Render::Matrix3x4<float> dst; // [esp+244h] [ebp-70h] BYREF
-  Scaleform::Render::Matrix4x4<float> matPersp; // [esp+274h] [ebp-40h] BYREF
+  long double v8; // st6
+  long double v9; // st7
+  float focalLength; // [esp+1Ch] [ebp-80h]
+  float y; // [esp+20h] [ebp-7Ch]
+  float fieldOfView; // [esp+20h] [ebp-7Ch]
+  Scaleform::Render::Point<float> projCenter; // [esp+24h] [ebp-78h] BYREF
+  Scaleform::Render::Matrix3x4<float> matView; // [esp+2Ch] [ebp-70h] BYREF
+  Scaleform::Render::Matrix4x4<float> matPersp; // [esp+5Ch] [ebp-40h] BYREF
 
   pMovieImpl = this->pASRoot->pMovieImpl;
   if ( pMovieImpl )
@@ -25,10 +25,10 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::UpdateViewAndPerspective(Scal
       p_VisibleFrameRect = &pMovieImpl->VisibleFrameRect;
       if ( p_VisibleFrameRect->x1 != x2 || p_VisibleFrameRect->y1 != p_VisibleFrameRect->y2 )
       {
-        memset((int)&dst, 0, sizeof(dst));
-        dst.M[0][0] = 1.0;
-        dst.M[1][1] = 1.0;
-        dst.M[2][2] = 1.0;
+        memset((int)&matView, 0, sizeof(matView));
+        matView.M[0][0] = 1.0;
+        matView.M[1][1] = 1.0;
+        matView.M[2][2] = 1.0;
         memset((int)&matPersp, 0, sizeof(matPersp));
         matPersp.M[0][0] = 1.0;
         matPersp.M[1][1] = 1.0;
@@ -54,17 +54,24 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::UpdateViewAndPerspective(Scal
           }
         }
         if ( 0.0 == pPerspectiveData->FieldOfView )
-          FieldOfView = 55.0;
+          v8 = 55.0;
         else
-          FieldOfView = pPerspectiveData->FieldOfView;
+          v8 = pPerspectiveData->FieldOfView;
         if ( 0.0 == pPerspectiveData->FocalLength )
-          FocalLength = 0.0;
+          v9 = 0.0;
         else
-          FocalLength = pPerspectiveData->FocalLength;
-        v10 = FocalLength;
-        v12 = FieldOfView;
-        Scaleform::GFx::MovieImpl::MakeViewAndPersp3D(&dst, &matPersp, p_VisibleFrameRect, &projCenter, v12, v10, 0);
-        this->SetViewMatrix3D(this, &dst);
+          v9 = pPerspectiveData->FocalLength;
+        focalLength = v9;
+        fieldOfView = v8;
+        Scaleform::GFx::MovieImpl::MakeViewAndPersp3D(
+          &matView,
+          &matPersp,
+          p_VisibleFrameRect,
+          &projCenter,
+          fieldOfView,
+          focalLength,
+          0);
+        this->SetViewMatrix3D(this, &matView);
         this->SetProjectionMatrix3D(this, &matPersp);
       }
     }

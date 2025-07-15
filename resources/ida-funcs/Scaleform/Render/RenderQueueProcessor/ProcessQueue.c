@@ -4,9 +4,9 @@ void __thiscall Scaleform::Render::RenderQueueProcessor::ProcessQueue(
 {
   Scaleform::Render::RenderQueueItem *v3; // edi
   int i; // eax
-  int waitForCache; // [esp+18h] [ebp-4h]
+  int v5; // [esp+18h] [ebp-4h]
 
-  LOBYTE(waitForCache) = 0;
+  LOBYTE(v5) = 0;
   if ( mode )
   {
     if ( this->QueueMode )
@@ -16,7 +16,7 @@ void __thiscall Scaleform::Render::RenderQueueProcessor::ProcessQueue(
     }
     else
     {
-      LOBYTE(waitForCache) = 1;
+      LOBYTE(v5) = 1;
     }
   }
   while ( this->CurrentItem.QueuePos != this->Queue->QueueHead )
@@ -25,19 +25,19 @@ void __thiscall Scaleform::Render::RenderQueueProcessor::ProcessQueue(
     for ( i = ((int (__stdcall *)(Scaleform::Render::RenderQueueItem *, Scaleform::Render::RenderQueueProcessor *, int))v3->pImpl->Prepare)(
                 v3,
                 this,
-                waitForCache);
+                v5);
           i;
           i = ((int (__stdcall *)(Scaleform::Render::RenderQueueItem *, Scaleform::Render::RenderQueueProcessor *, int))v3->pImpl->Prepare)(
                 v3,
                 this,
-                waitForCache) )
+                v5) )
     {
       if ( i == 1 )
-        LOBYTE(waitForCache) = 1;
+        LOBYTE(v5) = 1;
       Scaleform::Render::RenderQueueProcessor::drawProcessedPrimitives(this);
     }
     if ( mode == QPM_One )
-      LOBYTE(waitForCache) = 0;
+      LOBYTE(v5) = 0;
     if ( ++this->CurrentItem.QueuePos == this->CurrentItem.pQueue->QueueSize )
       this->CurrentItem.QueuePos = 0;
   }

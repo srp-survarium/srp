@@ -1,5 +1,5 @@
-void __cdecl Scaleform::Timer::shutdownTimerSystem()
+MMRESULT Scaleform::Timer::shutdownTimerSystem()
 {
   DeleteCriticalSection(&Scaleform::WinAPI_GetTimeCS);
-  timeEndPeriod(1u);
+  return timeEndPeriod(1u);
 }

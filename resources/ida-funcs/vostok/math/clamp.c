@@ -1,31 +1,36 @@
-void __usercall vostok::math::clamp<unsigned int>(
-        unsigned int *value_and_result@<ecx>,
-        unsigned int min@<edx>,
-        unsigned int max@<esi>)
+void __cdecl vostok::math::clamp<int>(int min)
 {
+  int *value_and_result; // ecx
+  int v2; // eax
+
+  v2 = *value_and_result;
+  if ( *value_and_result > 0 )
+  {
+    if ( v2 > min )
+      v2 = min;
+  }
+  else
+  {
+    v2 = 0;
+  }
+  *value_and_result = v2;
+}
+
+
+void __cdecl vostok::math::clamp<unsigned int>(unsigned int min, unsigned int max)
+{
+  unsigned int *value_and_result; // ecx
   unsigned int v3; // eax
 
   v3 = *value_and_result;
   if ( *value_and_result > min )
   {
     if ( v3 > max )
-      *value_and_result = max;
-    else
-      *value_and_result = v3;
+      v3 = max;
   }
   else
   {
-    *value_and_result = min;
+    v3 = min;
   }
-}
-
-
-void __usercall vostok::math::clamp<float>(float *value_and_result@<eax>, float a2@<xmm1>, float max)
-{
-  float v4; // xmm0_4
-
-  v4 = *value_and_result;
-  if ( a2 >= *value_and_result || (a2 = max, max < v4) )
-    v4 = a2;
-  *value_and_result = v4;
+  *value_and_result = v3;
 }

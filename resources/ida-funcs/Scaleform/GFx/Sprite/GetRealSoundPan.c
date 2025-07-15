@@ -3,17 +3,17 @@ double __thiscall Scaleform::GFx::Sprite::GetRealSoundPan(Scaleform::GFx::Sprite
   Scaleform::GFx::Sprite::ActiveSounds *pActiveSounds; // eax
   Scaleform::GFx::InteractiveObject *pParent; // eax
   float LastHitTestY; // ecx
-  int v; // [esp+0h] [ebp-8h]
-  float va; // [esp+0h] [ebp-8h]
+  int Pan; // [esp+0h] [ebp-8h]
+  float i; // [esp+0h] [ebp-8h]
   int v7; // [esp+4h] [ebp-4h]
 
   pActiveSounds = this->pActiveSounds;
   if ( pActiveSounds )
-    v = pActiveSounds->Pan;
+    Pan = pActiveSounds->Pan;
   else
-    v = 0;
+    Pan = 0;
   pParent = this->pParent;
-  for ( va = (double)v / 100.0; pParent; pParent = pParent->pParent )
+  for ( i = (double)Pan / 100.0; pParent; pParent = pParent->pParent )
   {
     if ( (pParent->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags & 0x400) != 0 )
     {
@@ -22,8 +22,8 @@ double __thiscall Scaleform::GFx::Sprite::GetRealSoundPan(Scaleform::GFx::Sprite
         v7 = 0;
       else
         v7 = *(_DWORD *)(LODWORD(LastHitTestY) + 8);
-      va = (double)v7 / 100.0 * va;
+      i = (double)v7 / 100.0 * i;
     }
   }
-  return va;
+  return i;
 }

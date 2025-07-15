@@ -1,68 +1,68 @@
 int __cdecl ssl3_generate_key_block(unsigned __int8 *km, int num)
 {
-  signed int v3; // edi
-  int v4; // ebx
-  unsigned int v6; // edi
+  int p_dh_meth; // edi
+  engine_st *v3; // ebx
+  unsigned int v5; // edi
+  const env_md_st *v6; // eax
   const env_md_st *v7; // eax
-  const env_md_st *v8; // eax
-  unsigned __int8 *value; // [esp+10h] [ebp-60h]
-  unsigned int v11; // [esp+14h] [ebp-5Ch]
-  env_md_ctx_st v12; // [esp+18h] [ebp-58h] BYREF
+  int v9; // [esp+10h] [ebp-60h]
+  unsigned int v10; // [esp+14h] [ebp-5Ch]
+  env_md_ctx_st v11; // [esp+18h] [ebp-58h] BYREF
   env_md_ctx_st ctx; // [esp+30h] [ebp-40h] BYREF
-  unsigned __int8 md[36]; // [esp+48h] [ebp-28h] BYREF
+  __m128i src[2]; // [esp+48h] [ebp-28h] BYREF
 
-  LOBYTE(value) = 65;
-  v3 = 0;
+  LOBYTE(v9) = 65;
+  p_dh_meth = 0;
   EVP_MD_CTX_init(&ctx);
-  EVP_MD_CTX_init(&v12);
-  v4 = 0;
+  EVP_MD_CTX_init(&v11);
+  v3 = 0;
   if ( num > 0 )
   {
     while ( 1 )
     {
-      v6 = v3 + 1;
-      v11 = v6;
-      if ( v6 > 0x10 )
+      v5 = p_dh_meth + 1;
+      v10 = v5;
+      if ( v5 > 0x10 )
         break;
-      if ( v6 )
-        memset((int)&md[20], value, v6);
-      LOBYTE(value) = (_BYTE)value + 1;
-      v7 = EVP_sha1();
-      EVP_DigestInit_ex(&v12, v7, 0);
-      EVP_DigestUpdate(&v12);
-      EVP_DigestUpdate(&v12);
-      EVP_DigestUpdate(&v12);
-      EVP_DigestUpdate(&v12);
-      EVP_DigestFinal_ex(v6, &v12, md, 0);
-      v8 = EVP_md5();
-      EVP_DigestInit_ex(&ctx, v8, 0);
+      if ( v5 )
+        memset((int)&src[1].m128i_i32[1], v9, v5);
+      LOBYTE(v9) = v9 + 1;
+      v6 = EVP_sha1();
+      EVP_DigestInit_ex(v3, &v11, v6, 0);
+      EVP_DigestUpdate(&v11);
+      EVP_DigestUpdate(&v11);
+      EVP_DigestUpdate(&v11);
+      EVP_DigestUpdate(&v11);
+      EVP_DigestFinal_ex(v5, (int)v3, &v11, (unsigned __int8 *)src, 0);
+      v7 = EVP_md5();
+      EVP_DigestInit_ex(v3, &ctx, v7, 0);
       EVP_DigestUpdate(&ctx);
       EVP_DigestUpdate(&ctx);
-      v3 = v4 + 16;
-      if ( v4 + 16 <= num )
+      p_dh_meth = (int)&v3->dh_meth;
+      if ( (int)&v3->dh_meth <= num )
       {
-        EVP_DigestFinal_ex(v3, &ctx, km, 0);
+        EVP_DigestFinal_ex(p_dh_meth, (int)v3, &ctx, km, 0);
       }
       else
       {
-        EVP_DigestFinal_ex(v3, &ctx, md, 0);
-        memcpy(km, md, num - v4);
+        EVP_DigestFinal_ex(p_dh_meth, (int)v3, &ctx, (unsigned __int8 *)src, 0);
+        memcpy((int)km, src, num - (_DWORD)v3);
       }
       km += 16;
-      v4 += 16;
-      if ( v3 >= num )
+      v3 = (engine_st *)((char *)v3 + 16);
+      if ( p_dh_meth >= num )
         goto LABEL_2;
-      v3 = v11;
+      p_dh_meth = v10;
     }
-    ERR_put_error(0x14u, 238, 68, ".\\ssl\\s3_enc.c", 180);
+    ERR_put_error((int)v3, 0x14u, 238, 68, ".\\ssl\\s3_enc.c", 180);
     return 0;
   }
   else
   {
 LABEL_2:
-    OPENSSL_cleanse(md, 20);
-    EVP_MD_CTX_cleanup(v3, &ctx);
-    EVP_MD_CTX_cleanup(v3, &v12);
+    OPENSSL_cleanse(src, 20);
+    EVP_MD_CTX_cleanup(p_dh_meth, (int)v3, &ctx);
+    EVP_MD_CTX_cleanup(p_dh_meth, (int)v3, &v11);
     return 1;
   }
 }

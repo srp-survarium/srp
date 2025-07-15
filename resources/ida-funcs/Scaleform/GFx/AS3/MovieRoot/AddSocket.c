@@ -29,7 +29,7 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::AS3::MovieRoot::AddSocket(
   }
   Size = this->Sockets.Data.Size;
   p_Sockets = &this->Sockets;
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::AS3::SocketThreadMgr>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::AS3::SocketThreadMgr>,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
+  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::AMP::Server::RenderProfile>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::AMP::Server::RenderProfile>,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
     &p_Sockets->Data,
     p_Sockets,
     Size + 1);

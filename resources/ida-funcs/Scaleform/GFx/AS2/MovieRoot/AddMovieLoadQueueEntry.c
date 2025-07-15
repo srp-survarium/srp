@@ -13,15 +13,15 @@ void __userpurge Scaleform::GFx::AS2::MovieRoot::AddMovieLoadQueueEntry(
   Scaleform::GFx::LoadStates *v12; // esi
   char v13; // bl
   Scaleform::RefCountVImpl *v14; // eax
-  bool sync; // [esp+Bh] [ebp-5h] BYREF
+  bool v16; // [esp+Bh] [ebp-5h] BYREF
   int v17; // [esp+Ch] [ebp-4h]
   char pentrya; // [esp+14h] [ebp+4h]
 
   v17 = 0;
   if ( !pentry )
     return;
-  IsProtocolImage = Scaleform::GFx::LoaderImpl::IsProtocolImage(&pentry->URL, 0, &sync);
-  if ( IsProtocolImage && sync )
+  IsProtocolImage = Scaleform::GFx::LoaderImpl::IsProtocolImage(&pentry->URL, 0, &v16);
+  if ( IsProtocolImage && v16 )
   {
     v7 = (Scaleform::GFx::LoadStates *)((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, int, int))Scaleform::Memory::pGlobalHeap->Alloc)(
                                          Scaleform::Memory::pGlobalHeap,

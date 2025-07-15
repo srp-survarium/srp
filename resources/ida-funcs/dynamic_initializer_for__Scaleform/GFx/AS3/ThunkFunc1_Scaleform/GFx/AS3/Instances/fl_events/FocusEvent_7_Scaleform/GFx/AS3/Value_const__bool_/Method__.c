@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_events::FocusEvent::shiftKeySet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_events::FocusEvent,7,Scaleform::GFx::AS3::Value const,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_events::FocusEvent::shiftKeySet;
-  dword_AADCCC = 0;
+  dword_8F2484 = 0;
   return result;
 }

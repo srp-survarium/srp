@@ -1,44 +1,44 @@
 void __thiscall Scaleform::Render::DICommand_GetColorBoundsRect::ExecuteSW(
         Scaleform::Render::DICommand_GetColorBoundsRect *this,
-        Scaleform::Render::Color context,
+        unsigned int context,
         Scaleform::Render::ImageData *dest,
         Scaleform::Render::ImageData **__formal)
 {
-  Scaleform::Render::TextureManager *v4; // eax
-  Scaleform::Render::ImageSwizzler *v5; // eax
+  int v4; // eax
+  int v5; // eax
   Scaleform::Render::ImageData *v6; // ebp
-  signed int v7; // esi
+  int v7; // esi
   Scaleform::Render::ImagePlane *pPlanes; // eax
   char v9; // bl
   unsigned int v10; // edi
   Scaleform::Render::Rect<long> *Result; // eax
-  signed int min; // [esp+1Ch] [ebp-28h]
-  signed int min_4; // [esp+20h] [ebp-24h]
-  int max; // [esp+24h] [ebp-20h]
-  int max_4; // [esp+28h] [ebp-1Ch]
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+2Ch] [ebp-18h] BYREF
+  int Width; // [esp+1Ch] [ebp-28h]
+  int Height; // [esp+20h] [ebp-24h]
+  int v15; // [esp+24h] [ebp-20h]
+  int v16; // [esp+28h] [ebp-1Ch]
+  _DWORD v17[6]; // [esp+2Ch] [ebp-18h] BYREF
 
-  v4 = (Scaleform::Render::TextureManager *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)&context + 4) + 220))(*(_DWORD *)(*(_DWORD *)&context + 4));
-  v5 = v4->GetImageSwizzler(v4);
+  v4 = (*(int (__thiscall **)(_DWORD))(**(_DWORD **)(context + 4) + 220))(*(_DWORD *)(context + 4));
+  v5 = (*(int (__thiscall **)(int))(*(_DWORD *)v4 + 60))(v4);
   v6 = dest;
   v7 = 0;
-  dstSwiz.Swizzler = v5;
-  dstSwiz.pCurrentScanline = 0;
-  dstSwiz.pImage = dest;
-  memset(&dstSwiz.CachedBlockY, 0, 12);
-  v5->Initialize(v5, &dstSwiz);
+  v17[0] = v5;
+  v17[1] = 0;
+  v17[2] = dest;
+  memset(&v17[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v5 + 4))(v5, v17);
   pPlanes = v6->pPlanes;
   v9 = 0;
   v10 = 0;
-  min = pPlanes->Width;
-  min_4 = pPlanes->Height;
-  max = 0;
-  max_4 = 0;
-  if ( min_4 )
+  Width = pPlanes->Width;
+  Height = pPlanes->Height;
+  v15 = 0;
+  v16 = 0;
+  if ( Height )
   {
     while ( 1 )
     {
-      dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, v10);
+      (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v17[0] + 8))(v17[0], v17, v10);
       if ( v6->pPlanes->Width )
         break;
 LABEL_17:
@@ -49,23 +49,27 @@ LABEL_17:
     }
     while ( 1 )
     {
-      dstSwiz.Swizzler->GetPixelInScanline(dstSwiz.Swizzler, &context, &dstSwiz, v7);
+      (*(void (__thiscall **)(_DWORD, unsigned int *, _DWORD *, int))(*(_DWORD *)v17[0] + 20))(
+        v17[0],
+        &context,
+        v17,
+        v7);
       if ( this->FindColor )
       {
-        if ( (context.Raw & this->Mask) == this->SearchColor )
+        if ( (context & this->Mask) == this->SearchColor )
           goto LABEL_7;
       }
-      else if ( (context.Raw & this->Mask) != this->SearchColor )
+      else if ( (context & this->Mask) != this->SearchColor )
       {
 LABEL_7:
-        if ( min >= v7 )
-          min = v7;
-        if ( min_4 >= (int)v10 )
-          min_4 = v10;
-        if ( v7 + 1 >= max )
-          max = v7 + 1;
-        if ( (int)(v10 + 1) >= max_4 )
-          max_4 = v10 + 1;
+        if ( Width >= v7 )
+          Width = v7;
+        if ( Height >= (int)v10 )
+          Height = v10;
+        if ( v7 + 1 >= v15 )
+          v15 = v7 + 1;
+        if ( (int)(v10 + 1) >= v16 )
+          v16 = v10 + 1;
         v9 = 1;
       }
       if ( ++v7 >= v6->pPlanes->Width )
@@ -78,10 +82,10 @@ LABEL_18:
   {
     if ( v9 )
     {
-      Result->x1 = min;
-      Result->y1 = min_4;
-      Result->x2 = max;
-      Result->y2 = max_4;
+      Result->x1 = Width;
+      Result->y1 = Height;
+      Result->x2 = v15;
+      Result->y2 = v16;
     }
     else
     {

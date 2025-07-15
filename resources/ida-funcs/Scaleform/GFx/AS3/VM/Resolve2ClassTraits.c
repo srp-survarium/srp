@@ -127,9 +127,9 @@ const Scaleform::GFx::AS3::ClassTraits::Traits *__thiscall Scaleform::GFx::AS3::
   if ( ns_name.pNode->Size )
   {
     pObject = (Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *)this->TraitsNamespace.pObject->ITraits.pObject;
-    if ( (_S10_0 & 1) == 0 )
+    if ( (_S15 & 1) == 0 )
     {
-      _S10_0 |= 1u;
+      _S15 |= 1u;
       v.Flags = 0;
       v.Bonus.pWeakProxy = 0;
       atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -155,14 +155,14 @@ LABEL_7:
   v8 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
          this,
          &name,
-         (Scaleform::GFx::AS3::Instances::fl::Namespace *)v5,
+         (const Scaleform::GFx::AS3::Instances::fl::Namespace *)v5,
          appDomain);
   if ( v7 )
   {
     if ( ((unsigned __int8)v7 & 1) == 0 )
     {
       RefCount = v7->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v7->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);
@@ -184,12 +184,12 @@ LABEL_7:
 const Scaleform::GFx::AS3::ClassTraits::Traits *__thiscall Scaleform::GFx::AS3::VM::Resolve2ClassTraits(
         Scaleform::GFx::AS3::VM *this,
         const Scaleform::GFx::ASString *name,
-        Scaleform::GFx::AS3::Instances::fl::Namespace *ns,
+        const Scaleform::GFx::AS3::Instances::fl::Namespace *ns,
         Scaleform::GFx::AS3::VMAppDomain *appDomain)
 {
   Scaleform::GFx::AS3::VMAppDomain *v4; // esi
   Scaleform::GFx::AS3::VMAppDomain *ParentDomain; // ecx
-  const Scaleform::GFx::AS3::ClassTraits::Traits **ClassTrait; // eax
+  Scaleform::GFx::AS3::ClassTraits::Traits **ClassTrait; // eax
   const Scaleform::GFx::AS3::ClassTraits::Traits *result; // eax
   Scaleform::GFx::ASString *ClassTraits; // esi
   Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329> *p_ClassTraitsSet; // ecx

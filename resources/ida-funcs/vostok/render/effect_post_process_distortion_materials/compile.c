@@ -1,87 +1,62 @@
 void __thiscall vostok::render::effect_post_process_distortion_materials::compile(
         vostok::render::effect_post_process_distortion_materials *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *custom_config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  const vostok::render::custom_config_value *v3; // eax
-  vostok::render::custom_config_value *v4; // ecx
-  vostok::render::custom_config_value *v5; // ecx
-  const vostok::render::custom_config_value *v6; // eax
-  vostok::strings::shared::profile *v7; // eax
-  vostok::render::effect_constant_storage *v8; // ecx
-  vostok::render::effect_compiler *v9; // ecx
+  vostok::configs::binary_config_value *v4; // eax
+  const vostok::configs::binary_config_value *v5; // eax
+  vostok::configs::binary_config_value *v6; // ecx
+  float pointer; // xmm0_4
+  vostok::configs::binary_config_value *v8; // eax
+  char **v9; // eax
   vostok::render::effect_compiler *v10; // ecx
-  const char *v11; // [esp+0h] [ebp-20h]
-  bool v12; // [esp+0h] [ebp-20h]
-  D3D11_BLEND_OP v13; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration *v14; // [esp+4h] [ebp-1Ch]
-  float distortion_scale; // [esp+Ch] [ebp-14h] BYREF
-  vostok::render::shader_configuration shader_config; // [esp+10h] [ebp-10h] BYREF
+  vostok::render::effect_constant_storage *v11; // ecx
+  vostok::render::effect_compiler *v12; // ecx
+  vostok::render::effect_compiler *v13; // ecx
+  vostok::render::effect_material_base *v14; // ecx
+  vostok::render::shader_configuration *v15; // [esp+4h] [ebp-20h]
+  D3D11_COMPARISON_FUNC v16; // [esp+4h] [ebp-20h]
+  D3D11_BLEND_OP v17; // [esp+4h] [ebp-20h]
+  const vostok::configs::binary_config_value *v18; // [esp+8h] [ebp-1Ch]
+  float v19; // [esp+10h] [ebp-14h] BYREF
+  _DWORD v20[4]; // [esp+14h] [ebp-10h] BYREF
 
-  v3 = vostok::render::custom_config_value::operator[](
-         (vostok::render::custom_config_value *)this,
-         (int)custom_config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"constant_distortion_scale");
-  distortion_scale = vostok::render::custom_config_value::operator<float> float(v4, (int)v3);
-  *(_DWORD *)&shader_config.0 = 0;
-  *(unsigned __int64 *)((char *)shader_config.configuration + 4) = 0x400000000LL;
-  HIDWORD(shader_config.configuration[1]) = 0;
-  vostok::render::effect_material_base::compile_begin(
-    compiler,
-    custom_config,
-    (vostok::render::effect_material_base *)&stru_95F7AC,
-    (vostok::render::shader_configuration *)&stru_966430.m_shaders._M_t._M_header._M_data._M_parent,
-    (const char *)&shader_config,
-    v11,
-    v14);
-  v6 = vostok::render::custom_config_value::operator[](
-         v5,
-         (int)custom_config,
-         (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1>)"texture_base");
-  vostok::render::effect_compiler::set_texture(
-    0xFFFFFFFF,
-    compiler,
-    &stru_963F84.m_name.m_string.m_buffer[116],
-    (char *)v6->data,
-    0,
-    v12);
-  v7 = vostok::strings::shared::manager::string(s_manager.m_variable, s_manager.m_variable, "distortion_scale");
-  if ( v7 )
-  {
-    _InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-    vostok::render::effect_compiler::set_constant<float>(&distortion_scale, v8, compiler, (vostok::shared_string)v7);
-  }
+  v4 = vostok::configs::binary_config_value::operator[](config, "constant_distortion_scale");
+  v5 = vostok::configs::binary_config_value::operator[](v4, "value");
+  if ( v5->type == 2 )
+    pointer = *(float *)&v5->data.pointer;
   else
-  {
-    vostok::render::effect_compiler::set_constant<float>(&distortion_scale, v8, compiler, 0);
-  }
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      LOBYTE(distortion_scale) = 0;
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_alpha_blend(
-    D3D11_BLEND_ONE,
+    pointer = (float)(int)v5->data.pointer;
+  v20[2] = 0x80000;
+  v19 = pointer;
+  v20[0] = 0;
+  v20[1] = 0;
+  v20[3] = 0;
+  vostok::render::effect_material_base::compile_begin(
+    parameters,
+    v6,
+    (vostok::render::effect_material_base *)&stru_80E8FC,
+    (const char *)&stru_812598,
     compiler,
+    (const char *)v20,
+    config,
+    v15,
+    v18);
+  v8 = vostok::configs::binary_config_value::operator[](config, "texture_base");
+  v9 = (char **)vostok::configs::binary_config_value::operator[](v8, "value");
+  vostok::render::effect_compiler::set_texture(v10, (const char *)compiler, "t_base", *v9, 0, 0xFFFFFFFF, 0, 1.0);
+  vostok::render::effect_compiler::set_constant<float>(v11, &v19, compiler, "distortion_scale");
+  vostok::render::effect_compiler::set_depth(v12, (int)compiler, 1, 0, v16);
+  vostok::render::effect_compiler::set_alpha_blend(
+    v13,
+    (int)compiler,
     1,
     D3D11_BLEND_ONE,
+    D3D11_BLEND_ONE,
     D3D11_BLEND_OP_ADD,
+    D3D11_BLEND_ONE,
     D3D11_BLEND_ZERO,
-    D3D11_BLEND_OP_ADD,
-    v13);
-  vostok::render::effect_compiler::end_pass(
-    v9,
-    (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
-  vostok::render::effect_compiler::end_technique(v10, (int)compiler);
+    v17);
+  vostok::render::effect_material_base::compile_end(v14, compiler);
 }

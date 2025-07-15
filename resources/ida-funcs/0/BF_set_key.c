@@ -44,7 +44,7 @@ void __cdecl BF_set_key(bf_key_st *key, int len, const unsigned __int8 *data)
   unsigned int v45; // [esp+Ch] [ebp-4h]
   int dst; // [esp+14h] [ebp+4h]
 
-  memcpy((unsigned __int8 *)key, (unsigned __int8 *)&bf_init, sizeof(bf_key_st));
+  memcpy((int)key, (const __m128i *)&bf_init, sizeof(bf_key_st));
   v4 = len;
   if ( len > 72 )
     v4 = 72;

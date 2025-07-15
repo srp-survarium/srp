@@ -13,5 +13,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::URLLoader(
   p_EmptyStringNode = &this->pTraits.pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;
   this->dataFormat.pNode = p_EmptyStringNode;
   ++p_EmptyStringNode->RefCount;
-  Scaleform::GFx::ASString::operator=(&this->dataFormat, "text");
+  Scaleform::GFx::ASString::operator=(&this->dataFormat, (Scaleform::GFx::ASStringNode *)"text");
 }

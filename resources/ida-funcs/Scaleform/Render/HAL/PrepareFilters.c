@@ -13,6 +13,8 @@ void __thiscall Scaleform::Render::HAL::PrepareFilters(
 
   if ( (this->HALState & 8) == 0 )
     return;
+  if ( this->Profiler.OverrideMasks )
+    return;
   v3 = 0;
   if ( !prim )
     return;
@@ -27,11 +29,11 @@ void __thiscall Scaleform::Render::HAL::PrepareFilters(
         this->CachedFilterPrepIndex = CachedFilterPrepIndex + 1;
       return;
     }
-    goto LABEL_27;
+    goto LABEL_28;
   }
   if ( !prim->pFilters.pObject )
   {
-LABEL_27:
+LABEL_28:
     v9 = this->CachedFilterPrepIndex;
     if ( v9 >= 0 )
     {
@@ -57,7 +59,7 @@ LABEL_27:
     if ( !v6 )
     {
       v5 = v3 != 0;
-      goto LABEL_19;
+      goto LABEL_20;
     }
     if ( v6->GetStatus(v6) == RTS_Lost
       || results[v3]->GetStatus(results[v3]) == RTS_Unresolved
@@ -66,10 +68,10 @@ LABEL_27:
       break;
     }
     if ( (unsigned int)++v3 >= 2 )
-      goto LABEL_19;
+      goto LABEL_20;
   }
   v5 = 0;
-LABEL_19:
+LABEL_20:
   ++this->CachedFilterPrepIndex;
   if ( v5 )
   {

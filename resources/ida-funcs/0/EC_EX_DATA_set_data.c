@@ -34,6 +34,6 @@ LABEL_8:
     if ( !v6 )
       goto LABEL_8;
   }
-  ERR_put_error(0x10u, 211, 108, ".\\crypto\\ec\\ec_lib.c", 561);
+  ERR_put_error((int)clear_free_func, 0x10u, 211, 108, ".\\crypto\\ec\\ec_lib.c", 561);
   return 0;
 }

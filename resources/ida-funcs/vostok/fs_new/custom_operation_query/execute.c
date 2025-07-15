@@ -1,15 +1,17 @@
 void __thiscall vostok::fs_new::custom_operation_query::execute(vostok::fs_new::custom_operation_query *this)
 {
-  vostok::fs_new::device_file_system_interface *m_device_file_system; // [esp+134h] [ebp-10h]
-  vostok::fs_new::synchronous_device_interface device; // [esp+138h] [ebp-Ch] BYREF
+  bool v2; // al
+  vostok::fs_new::synchronous_device_interface *v3; // ecx
+  int v4[2]; // [esp+4h] [ebp-Ch] BYREF
+  char v5; // [esp+Ch] [ebp-4h]
 
-  m_device_file_system = this->m_device.m_device_file_system;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)m_device_file_system);
-  device.m_synchronize_query = 0;
-  device.m_device.m_device_file_system = m_device_file_system;
-  device.m_out_of_memory = 0;
-  this->m_result = boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
-                     (boost::function1<unsigned int,char const *> *)&this->m_args,
-                     (const char *)&device);
-  vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(&device);
+  v4[0] = 0;
+  v4[1] = (int)this->m_device.m_device_file_system;
+  v5 = 0;
+  boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+    (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)this,
+    &this->m_args.custom_operation.vtable,
+    (const vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *)v4);
+  this->m_result = v2;
+  vostok::fs_new::synchronous_device_interface::~synchronous_device_interface(v3, v4);
 }

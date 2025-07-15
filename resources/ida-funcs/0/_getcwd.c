@@ -1,4 +1,4 @@
-char *__usercall _getcwd@<eax>(unsigned int a1@<edi>, unsigned int a2@<esi>, char *pnbuf, int maxlen)
+char *__usercall _getcwd@<eax>(int a1@<edi>, int a2@<esi>, char *pnbuf, int maxlen)
 {
   char *retval; // [esp+10h] [ebp-1Ch]
 

@@ -3,11 +3,11 @@ bool __userpurge survarium::free_fly_camera::keyb_event_present@<al>(
         int a2@<eax>,
         int e)
 {
-  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *v3; // esi
+  char *v3; // esi
 
-  v3 = *(vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> **)(a2 + 104);
-  return stlp_std::priv::__find<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base> *,vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>(
-           *(vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> **)(a2 + 100),
-           v3,
-           (const vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *)&e) != v3;
+  v3 = *(char **)(a2 + 224);
+  return stlp_std::find<vostok::render::render_output_window * *,vostok::render::render_output_window *>(
+           *(char **)(a2 + 220),
+           &e,
+           v3) != v3;
 }

@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::FontManager::CleanCacheFor(
   Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> > v8; // edx
   unsigned int v9; // ecx
   Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> >::TableType *v10; // edx
-  Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> >::Iterator it; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> >::Iterator v11; // [esp+Ch] [ebp-8h] BYREF
 
   p_CreatedFonts = &this->CreatedFonts;
   pTable = this->CreatedFonts.pTable;
@@ -34,8 +34,8 @@ void __thiscall Scaleform::GFx::FontManager::CleanCacheFor(
     p_CreatedFonts = 0;
     Index = 0;
   }
-  it.Index = Index;
-  it.pHash = p_CreatedFonts;
+  v11.Index = Index;
+  v11.pHash = p_CreatedFonts;
   while ( p_CreatedFonts && p_CreatedFonts->pTable && (signed int)Index <= (signed int)p_CreatedFonts->pTable->SizeMask )
   {
     EntryCount = p_CreatedFonts->pTable[2 * Index + 2].EntryCount;
@@ -43,16 +43,16 @@ void __thiscall Scaleform::GFx::FontManager::CleanCacheFor(
     {
       *(_DWORD *)(EntryCount + 8) = 0;
       Scaleform::HashSetBase<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp>>::Iterator::RemoveAlt<Scaleform::GFx::FontManager::NodePtr>(
-        &it,
+        &v11,
         (const Scaleform::GFx::FontManager::NodePtr *)&p_CreatedFonts->pTable[2 * Index + 2]);
-      Index = it.Index;
-      p_CreatedFonts = (Scaleform::HashSetLH<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,2,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> > *)it.pHash;
+      Index = v11.Index;
+      p_CreatedFonts = (Scaleform::HashSetLH<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,2,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp> > *)v11.pHash;
     }
     v8.pTable = p_CreatedFonts->pTable;
     v9 = p_CreatedFonts->pTable->SizeMask;
     if ( (int)Index <= (int)v9 )
     {
-      it.Index = ++Index;
+      v11.Index = ++Index;
       if ( Index <= v9 )
       {
         v10 = &v8.pTable[2 * Index + 1];
@@ -62,7 +62,7 @@ void __thiscall Scaleform::GFx::FontManager::CleanCacheFor(
             break;
           ++Index;
           v10 += 2;
-          it.Index = Index;
+          v11.Index = Index;
         }
         while ( Index <= v9 );
       }

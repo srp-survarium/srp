@@ -20,8 +20,8 @@ char __userpurge Scaleform::GFx::AS2::AvmCharacter::ExecuteFunction@<al>(
   Scaleform::GFx::AS2::LocalFrame *v17; // eax
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *v18; // esi
   Scaleform::GFx::AS2::FunctionObject *v19; // ecx
-  int nArgs; // [esp+10h] [ebp-38h]
-  Scaleform::GFx::AS2::Value result; // [esp+14h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::AvmCharacter *v21; // [esp+10h] [ebp-38h]
+  Scaleform::GFx::AS2::Value v22; // [esp+14h] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FnCall v23; // [esp+24h] [ebp-24h] BYREF
   Scaleform::GFx::ASStringNode *retaddr; // [esp+48h] [ebp+0h]
 
@@ -30,10 +30,10 @@ char __userpurge Scaleform::GFx::AS2::AvmCharacter::ExecuteFunction@<al>(
   if ( !function->Function )
     return 0;
   GetASEnvironment = this->GetASEnvironment;
-  result.T.Type = 0;
+  v22.T.Type = 0;
   v10 = ((int (__thiscall *)(Scaleform::GFx::AS2::AvmCharacter *, int, int))GetASEnvironment)(this, a3, a2);
   pStringNode = (Scaleform::GFx::ASStringNode *)a7[1];
-  *(_QWORD *)&result.T.Type = __PAIR64__((unsigned int)pStringNode, v10);
+  *(_QWORD *)&v22.T.Type = __PAIR64__((unsigned int)pStringNode, v10);
   if ( (int)pStringNode > 0 )
   {
     v12 = (int)&pStringNode[-1].Size + 3;
@@ -54,15 +54,15 @@ char __userpurge Scaleform::GFx::AS2::AvmCharacter::ExecuteFunction@<al>(
         v14 -= 16;
       }
       while ( v12 >= 0 );
-      v8 = (Scaleform::GFx::AS2::AvmCharacter *)nArgs;
+      v8 = v21;
       v7 = a6;
-      pStringNode = result.V.pStringNode;
-      v10 = *(_DWORD *)&result.T.Type;
+      pStringNode = v22.V.pStringNode;
+      v10 = *(_DWORD *)&v22.T.Type;
     }
   }
   v17 = (Scaleform::GFx::AS2::LocalFrame *)&v8->Scaleform::GFx::AS2::ObjectInterface;
   v18 = (Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *)(v10 + 4);
-  v23.ThisFunctionRef.Function = (Scaleform::GFx::AS2::FunctionObject *)((char *)&result.NV.NumberValue + 4);
+  v23.ThisFunctionRef.Function = (Scaleform::GFx::AS2::FunctionObject *)((char *)&v22.NV.NumberValue + 4);
   v23.ThisFunctionRef.pLocalFrame = v17;
   v19 = v7->Function;
   v23.FirstArgBottomIndex = v10;
@@ -75,7 +75,7 @@ char __userpurge Scaleform::GFx::AS2::AvmCharacter::ExecuteFunction@<al>(
   Scaleform::GFx::AS2::FnCall::~FnCall(&v23);
   if ( (int)pStringNode > 0 )
     Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(v18, (unsigned int)pStringNode);
-  if ( result.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&result);
+  if ( v22.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v22);
   return 1;
 }

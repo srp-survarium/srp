@@ -1,21 +1,15 @@
-void __usercall survarium::game_world_ui::show_pregame(survarium::game_world_ui *this@<edx>, char b_show@<al>)
+void __thiscall survarium::game_world_ui::show_pregame(survarium::game_world_ui *this, int b_show, bool value)
 {
-  survarium::flash_movie_resource *m_object; // eax
-  survarium::flash_value b_val; // [esp+0h] [ebp-1Ch] BYREF
+  Scaleform::GFx::Value pargs; // [esp+8h] [ebp-18h] BYREF
 
-  b_val.body[8] = b_show;
-  m_object = this->m_game_hud_ui.m_object;
-  *(_DWORD *)b_val.body = 0;
-  *(_DWORD *)&b_val.body[4] = 2;
+  pargs.pObjectInterface = 0;
+  pargs.Type = VT_Undefined;
+  survarium::flash_value::SetBoolean((survarium::flash_value *)this, (int)&pargs, value);
   Scaleform::GFx::Movie::Invoke(
-    m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(b_show + 8) + 264) + 4),
     "root.show_pregame",
     0,
-    (const Scaleform::GFx::Value *)&b_val,
+    &pargs,
     1u);
-  if ( (b_val.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)b_val.body + 8))(
-      *(_DWORD *)b_val.body,
-      &b_val,
-      *(_DWORD *)&b_val.body[8]);
+  Scaleform::GFx::Value::~Value(&pargs);
 }

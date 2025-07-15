@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::TreeText::Filter::InitByDefaultValues(Scalefo
   this->Blur.BlurY = v6.BlurY;
   v4 = LOBYTE(v6.ShadowFlags) | 0x80;
   this->Blur.Strength = v6.BlurStrength * 100.0;
-  this->Glow.Color = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & Raw | (ShadowAlpha << 24);
+  this->Glow.Color = Raw & 0xFFFFFF | (ShadowAlpha << 24);
   v5 = v6.ShadowAngle / 10.0;
   this->Glow.Flags = v4;
   this->DropShadow.Angle = v5;

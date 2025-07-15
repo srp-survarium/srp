@@ -1,16 +1,18 @@
-void __usercall ppmd_allocator::InitSubAllocator(ppmd_allocator *this@<ecx>, int a2@<esi>)
+void __usercall ppmd_allocator::InitSubAllocator(ppmd_allocator *this@<ecx>, _DWORD *a2@<esi>)
 {
-  int v2; // eax
-  unsigned int v3; // ecx
-  unsigned int v4; // edx
+  int v2; // ecx
+  unsigned int v3; // eax
+  int v4; // ecx
+  int v5; // eax
 
-  memset((unsigned __int8 *)(a2 + 4), 0, 0x130u);
-  v2 = *(_DWORD *)(a2 + 484);
-  v3 = *(_DWORD *)(a2 + 480);
-  *(_DWORD *)(a2 + 488) = v2;
-  v4 = 84 * ((v3 >> 3) / 0xC);
-  *(_DWORD *)(a2 + 500) = v3 + v2;
-  *(_DWORD *)(a2 + 492) = v3 + v2 - v4;
-  *(_DWORD *)(a2 + 496) = v3 + v2 - v4;
-  *(_DWORD *)(a2 + 476) = 0;
+  memset((int)(a2 + 1), 0, 0x130u);
+  v2 = a2[121];
+  v3 = a2[120];
+  a2[122] = v2;
+  v4 = v3 + v2;
+  a2[119] = 0;
+  a2[125] = v4;
+  v5 = v4 - 84 * ((v3 >> 3) / 0xC);
+  a2[123] = v5;
+  a2[124] = v5;
 }

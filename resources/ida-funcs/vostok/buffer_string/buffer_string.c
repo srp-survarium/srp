@@ -1,43 +1,27 @@
-void __thiscall vostok::buffer_string::buffer_string(
+void __userpurge vostok::buffer_string::buffer_string(
+        char *buffer@<eax>,
+        const unsigned int *max_count@<ecx>,
         vostok::buffer_string *this,
-        char *buffer,
-        const unsigned int *max_count,
-        const char *const *begin_src,
-        const char *const *end_src)
-{
-  unsigned int v6; // edi
-
-  this->m_begin = buffer;
-  this->m_end = buffer;
-  this->m_max_end = &buffer[*max_count];
-  v6 = *end_src - *begin_src;
-  memcpy((unsigned __int8 *)buffer, *(unsigned __int8 **)begin_src, v6);
-  this->m_end += v6;
-  *this->m_end = 0;
-}
-
-
-void __thiscall vostok::buffer_string::buffer_string(
-        vostok::buffer_string *this,
-        char *buffer,
-        const unsigned int *max_count)
+        char **begin_src,
+        const char **end_src)
 {
   this->m_begin = buffer;
   this->m_end = buffer;
   this->m_max_end = &buffer[*max_count];
-  *buffer = 0;
+  vostok::buffer_string::append(this, *end_src, *begin_src);
 }
 
 
-void __thiscall vostok::buffer_string::buffer_string(
-        vostok::buffer_string *this,
+void __userpurge vostok::buffer_string::buffer_string(
+        vostok::buffer_string *this@<ecx>,
+        vostok::buffer_string *a2@<eax>,
         char *buffer,
-        const unsigned int *max_count,
+        char *max_count,
         const char *src)
 {
-  this->m_begin = buffer;
-  this->m_end = buffer;
-  this->m_max_end = &buffer[*max_count];
-  *buffer = 0;
-  vostok::buffer_string::operator+=(this, src);
+  a2->m_begin = (char *)this;
+  a2->m_end = (char *)this;
+  a2->m_max_end = (char *)this + *(_DWORD *)buffer;
+  LOBYTE(this->m_begin) = 0;
+  vostok::buffer_string::operator+=(a2, max_count);
 }

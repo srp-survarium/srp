@@ -20,7 +20,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   unsigned int v18; // ebx
   unsigned int j; // esi
   int v20; // ecx
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *v22; // eax
   Scaleform::GFx::AS3::Instances::fl::XML *VInt; // ecx
   Scaleform::GFx::ASStringNode *v24; // eax
@@ -31,7 +31,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   Scaleform::GFx::AS3::CheckResult *v29; // esi
   unsigned int RefCount; // eax
   Scaleform::GFx::AS3::Instances::fl::XMLAttr *v31; // eax
-  $6995B294EB399C8E7199C0A182ACF77B *v32; // edi
+  $877A9988573213A5FC37040398A8D661 *v32; // edi
   const Scaleform::GFx::AS3::Multiname *v33; // esi
   Scaleform::MemoryHeap *MHeap; // ecx
   void *(__thiscall *Alloc)(Scaleform::MemoryHeap *, unsigned int, const Scaleform::AllocInfo *); // eax
@@ -102,7 +102,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   c.Bonus.pWeakProxy = 0;
   if ( v11 <= 3 && Scaleform::GFx::AS3::IsXMLObject((Scaleform::GFx::AS3::Object *)value->pNext) )
   {
-    v12 = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Instances::fl::Namespace **, _DWORD))(*(_DWORD *)v10->value.VS._1.VInt + 128))(
+    v12 = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Instances::fl::Namespace **, _DWORD))(*(_DWORD *)v10->value.VS._1.VInt + 140))(
                                                                                 v10->value.VS._1,
                                                                                 &value,
                                                                                 0);
@@ -164,11 +164,11 @@ LABEL_21:
         if ( j )
           Scaleform::StringBuffer::AppendChar(&buf, 0x20u);
         v20 = *(_DWORD *)(*(_DWORD *)(v17.VInt + 44) + 4 * j);
-        (*(void (__thiscall **)(int, Scaleform::StringBuffer *, _DWORD))(*(_DWORD *)v20 + 84))(v20, &buf, 0);
+        (*(void (__thiscall **)(int, Scaleform::StringBuffer *, _DWORD))(*(_DWORD *)v20 + 96))(v20, &buf, 0);
       }
-      pData = buf.pData;
+      pData = (__m128i *)buf.pData;
       if ( !buf.pData )
-        pData = (char *)&::buf;
+        pData = (__m128i *)uri;
       value = (Scaleform::GFx::AS3::Instances::fl::Namespace *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                                  sm->pStringManager,
                                                                  pData,
@@ -307,7 +307,7 @@ LABEL_48:
       if ( ((unsigned __int8)v25 & 1) == 0 )
       {
         RefCount = v25->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v25->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v25);
@@ -407,7 +407,7 @@ LABEL_114:
       if ( ((unsigned __int8)v58 & 1) == 0 )
       {
         v60 = v58->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v60) != 0 )
+        if ( (v60 & 0x3FFFFF) != 0 )
         {
           v58->RefCount = v60 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v58);

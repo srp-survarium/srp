@@ -2,9 +2,9 @@ vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::th
         vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex> *this,
         char a2)
 {
-  this->__vftable = (vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex>_vtbl *)&vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex>::`vftable';
-  this->m_allocator.m_initialized = 0;
-  this->__vftable = (vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex>_vtbl *)&vostok::memory::base_allocator::`vftable';
+  vostok::memory::fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex>::~fixed_size_allocator<vostok::resources::resource_link,vostok::threading::mutex>(
+    this,
+    this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

@@ -1,9 +1,9 @@
-BOOL __cdecl EVP_DecryptUpdate(evp_cipher_ctx_st *ctx, unsigned __int8 *out, int *outl, unsigned __int8 *in, int inl)
+BOOL __cdecl EVP_DecryptUpdate(evp_cipher_ctx_st *ctx, unsigned __int8 *out, int *outl, const __m128i *in, int inl)
 {
   BOOL result; // eax
   unsigned int block_size; // edi
   unsigned __int8 *v8; // ebp
-  int fix_len; // [esp+18h] [ebp+14h]
+  int v9; // [esp+18h] [ebp+14h]
 
   if ( inl > 0 )
   {
@@ -15,17 +15,17 @@ BOOL __cdecl EVP_DecryptUpdate(evp_cipher_ctx_st *ctx, unsigned __int8 *out, int
     {
       block_size = ctx->cipher->block_size;
       if ( block_size > 0x20 )
-        OpenSSLDie(block_size, (unsigned int)ctx, ".\\crypto\\evp\\evp_enc.c", 400, "b <= sizeof ctx->final");
+        OpenSSLDie(block_size, (int)ctx, inl, ".\\crypto\\evp\\evp_enc.c", 400, "b <= sizeof ctx->final");
       v8 = out;
       if ( ctx->final_used )
       {
-        memcpy(out, ctx->final, block_size);
+        memcpy((int)out, (const __m128i *)ctx->final, block_size);
         v8 = &out[block_size];
-        fix_len = 1;
+        v9 = 1;
       }
       else
       {
-        fix_len = 0;
+        v9 = 0;
       }
       result = EVP_EncryptUpdate(ctx, v8, outl, in, inl);
       if ( result )
@@ -38,9 +38,9 @@ BOOL __cdecl EVP_DecryptUpdate(evp_cipher_ctx_st *ctx, unsigned __int8 *out, int
         {
           *outl -= block_size;
           ctx->final_used = 1;
-          memcpy(ctx->final, &v8[*outl], block_size);
+          memcpy((int)ctx->final, (const __m128i *)&v8[*outl], block_size);
         }
-        if ( fix_len )
+        if ( v9 )
           *outl += block_size;
         return 1;
       }

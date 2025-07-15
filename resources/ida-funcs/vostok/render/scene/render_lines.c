@@ -1,27 +1,26 @@
-void __usercall vostok::render::scene::render_lines(vostok::render::scene *this@<eax>, bool covering_effect@<dl>)
+void __userpurge vostok::render::scene::render_lines(
+        vostok::render::scene *this@<ecx>,
+        int a2@<eax>,
+        bool covering_effect)
 {
-  vostok::render::vector<vostok::render::vertex_colored> *p_m_line_vertices; // esi
-  vostok::render::vector<unsigned short> *p_m_line_indices; // edi
-  unsigned __int16 v4[2]; // [esp+Ch] [ebp-14h] BYREF
-  vostok::render::vertex_colored __x; // [esp+10h] [ebp-10h]
+  vostok::buffer_vector<vostok::render::vertex_colored> *v3; // edi
+  vostok::render::system_renderer *v4; // ecx
+  int *v5; // esi
 
-  p_m_line_vertices = &this->m_line_vertices;
-  if ( this->m_line_vertices._M_impl._M_start != this->m_line_vertices._M_impl._M_finish )
+  v3 = (vostok::buffer_vector<vostok::render::vertex_colored> *)((char *)&loc_5534BC + a2);
+  v4 = *(vostok::render::system_renderer **)((char *)&loc_5534BC + a2);
+  if ( v4 != *(vostok::render::system_renderer **)((char *)&loc_5534BC + a2 + 4) )
   {
-    p_m_line_indices = &this->m_line_indices;
+    v5 = (int *)((char *)&loc_6534C8 + a2);
     vostok::render::system_renderer::draw_lines(
-      (vostok::render::system_renderer *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-      p_m_line_vertices->_M_impl._M_start,
-      this->m_line_vertices._M_impl._M_finish,
-      this->m_line_indices._M_impl._M_start,
-      this->m_line_indices._M_impl._M_finish,
+      *(const vostok::render::vertex_colored *const *)((char *)&loc_5534BE + a2 + 2),
+      v4,
+      vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+      (unsigned int)v4,
+      *(unsigned __int8 **)((char *)&loc_6534C8 + a2),
+      *(char **)((char *)&loc_6534C8 + a2 + 4),
       covering_effect);
-    __x.color.m_value = -1;
-    stlp_std::priv::_Impl_vector<vostok::render::vertex_colored,vostok::render::std_allocator<vostok::render::vertex_colored>>::resize(&p_m_line_vertices->_M_impl);
-    *(_DWORD *)v4 = 0;
-    stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short>>::resize(
-      &p_m_line_indices->_M_impl,
-      0,
-      v4);
+    vostok::buffer_vector<vostok::render::vertex_colored>::resize(v3, 0);
+    vostok::buffer_vector<unsigned short>::resize(0, v5);
   }
 }

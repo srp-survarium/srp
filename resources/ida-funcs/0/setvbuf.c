@@ -1,6 +1,5 @@
-int __cdecl setvbuf(_iobuf *str, char *buffer, int type, unsigned int size)
+int __usercall setvbuf@<eax>(int a1@<edi>, _iobuf *str, char *buffer, int type, unsigned int size)
 {
-  unsigned int v5; // edi
   int v6; // edi
   int flag; // ecx
   int v8; // ecx
@@ -18,21 +17,21 @@ int __cdecl setvbuf(_iobuf *str, char *buffer, int type, unsigned int size)
     {
 LABEL_2:
       *_errno() = 22;
-      _invalid_parameter(0, 0, 0, 0, 0);
+      _invalid_parameter(0, a1, (int)str);
       return -1;
     }
   }
   if ( type != 64 )
   {
-    v5 = size;
+    a1 = size;
     goto LABEL_10;
   }
 LABEL_7:
-  v5 = size;
+  a1 = size;
   if ( size - 2 > 0x7FFFFFFD )
     goto LABEL_2;
 LABEL_10:
-  v6 = v5 & 0xFFFFFFFE;
+  v6 = a1 & 0xFFFFFFFE;
   _lock_file(str);
   _flush(str);
   _freebuf(str);
@@ -62,11 +61,11 @@ LABEL_18:
     str->_base = p_charbuf;
     str->_ptr = p_charbuf;
     str->_cnt = 0;
-    goto done;
+    goto done_0;
   }
   ++_cflush;
   retval = -1;
-done:
+done_0:
   _unlock_file(str);
   return retval;
 }

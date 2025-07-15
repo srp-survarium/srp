@@ -1,18 +1,17 @@
-char __usercall vostok::ui::calc_string_length@<al>(vostok::ui::ui_font *f@<edi>, const char *str@<eax>)
+char __usercall vostok::ui::calc_string_length@<al>(vostok::ui::font *f@<edi>, char *str@<eax>)
 {
-  const char *v2; // esi
-  char v3; // al
-  float v4; // xmm0_4
-  char v5; // [esp+3h] [ebp-5h] BYREF
-  float result; // [esp+4h] [ebp-4h]
+  float v2; // xmm0_4
+  char *v3; // esi
+  char result; // al
+  char v5; // [esp+7h] [ebp-1h] BYREF
 
-  v2 = str;
-  v3 = *str;
-  for ( result = 0.0; v3; result = v4 + result )
+  v2 = 0.0;
+  v3 = str;
+  for ( result = *str; result; result = *v3 )
   {
-    v5 = v3;
-    v4 = *(float *)(f->get_char_tc(f, (const unsigned __int8 *)&v5) + 8);
-    v3 = *++v2;
+    v5 = result;
+    v2 = *(float *)(f->get_char_tc(f, (const unsigned __int8 *)&v5) + 8) + v2;
+    ++v3;
   }
-  return v3;
+  return result;
 }

@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::clone(
   Scaleform::Render::BevelFilter *(__thiscall *GetBevelFilterData)(Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter *); // edx
   int v10; // eax
   Scaleform::Render::BevelFilter *(__thiscall *v11)(Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter *); // edx
-  unsigned int v12; // edi
+  int v12; // edi
   Scaleform::Render::BevelFilter *(__thiscall *v13)(Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter *); // eax
   int v14; // eax
   Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter_vtbl *v15; // edx
@@ -82,13 +82,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::clone(
   v10 = (int)GetBevelFilterData(this);
   v11 = this->GetBevelFilterData;
   angl = *(float *)(v10 + 56) * 180.0 / 3.141592653589793;
-  v12 = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v11(this)->Params.Colors[1].Raw;
+  v12 = v11(this)->Params.Colors[1].Raw & 0xFFFFFF;
   Alpha = this->GetBevelFilterData(this)->Params.Colors[1].Channels.Alpha;
   v13 = this->GetBevelFilterData;
   highA = (double)Alpha / 255.0;
   v14 = (int)v13(this);
   v15 = this->__vftable;
-  shadowC = (unsigned int)&vostok::memory::s_CRT_arena[5574199] & *(_DWORD *)(v14 + 44);
+  shadowC = *(_DWORD *)(v14 + 44) & 0xFFFFFF;
   v46 = v15->GetBevelFilterData(this)->Params.Colors[0].Channels.Alpha;
   v16 = this->GetBevelFilterData;
   shadowA = (double)v46 / 255.0;
@@ -107,9 +107,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::clone(
   v24 = this->GetBevelFilterData;
   qual = Passes;
   if ( (v24(this)->Params.Mode & 0x20) != 0 )
-    Scaleform::GFx::ASString::operator=(&type, "inner");
+    Scaleform::GFx::ASString::operator=(&type, (Scaleform::GFx::ASStringNode *)"inner");
   else
-    Scaleform::GFx::ASString::operator=(&type, "outer");
+    Scaleform::GFx::ASString::operator=(&type, (Scaleform::GFx::ASStringNode *)"outer");
   knock = (this->GetBevelFilterData(this)->Params.Mode & 0x10) != 0;
   tempResult.Flags = 0;
   tempResult.Bonus.pWeakProxy = 0;
@@ -166,7 +166,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::clone(
       else
       {
         RefCount = v41->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v41->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v41);

@@ -1,34 +1,32 @@
-char __thiscall Scaleform::GFx::MovieDefImpl::BindTaskData::SetResourceBindData(
-        Scaleform::GFx::MovieDefImpl::BindTaskData *this,
+char __userpurge Scaleform::GFx::MovieDefImpl::BindTaskData::SetResourceBindData@<al>(
+        Scaleform::GFx::MovieDefImpl::BindTaskData *this@<ecx>,
+        int a2@<ebp>,
         Scaleform::GFx::ResourceId rid,
         Scaleform::GFx::ResourceBindData *bindData,
         const char *pimportSymbolName)
 {
   Scaleform::GFx::MovieDataDef::LoadTaskData *pObject; // ecx
-  Scaleform::GFx::Resource *pResource; // edi
-  Scaleform::GFx::ResourceHandle rh; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::GFx::Resource *SizeMask; // edi
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType v9; // [esp+8h] [ebp-8h] BYREF
 
   pObject = this->pDataDef.pObject->pData.pObject;
-  rh.HType = RH_Pointer;
-  rh.BindIndex = 0;
-  if ( Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(
-         pObject,
-         (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType *)&rh,
-         rid) )
+  v9.EntryCount = 0;
+  v9.SizeMask = 0;
+  if ( Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(pObject, &v9, rid) )
   {
-    pResource = rh.pResource;
-    Scaleform::GFx::ResourceBinding::SetBindData(&this->ResourceBinding, rh.BindIndex, bindData);
-    if ( rh.HType == RH_Pointer )
+    SizeMask = (Scaleform::GFx::Resource *)v9.SizeMask;
+    Scaleform::GFx::ResourceBinding::SetBindData(&this->ResourceBinding, a2, v9.SizeMask, bindData);
+    if ( !v9.EntryCount )
     {
-      if ( pResource )
-        Scaleform::GFx::Resource::Release(pResource);
+      if ( SizeMask )
+        Scaleform::GFx::Resource::Release(SizeMask);
     }
     return 1;
   }
   else
   {
-    if ( rh.HType == RH_Pointer && rh.BindIndex )
-      Scaleform::GFx::Resource::Release(rh.pResource);
+    if ( !v9.EntryCount && v9.SizeMask )
+      Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)v9.SizeMask);
     return 0;
   }
 }

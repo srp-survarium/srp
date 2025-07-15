@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::TextField::SetCandidateListFont(
   Scaleform::Render::Text::EditorKitBase *pObject; // ecx
   Scaleform::RefCountVImpl *v5; // ebp
   unsigned int CursorPos; // eax
-  Scaleform::StringDH *v7; // eax
+  Scaleform::StringDH *FontList; // eax
   Scaleform::GFx::InteractiveObject *pParent; // ecx
   int v9; // esi
   Scaleform::GFx::FontManager *v10; // edi
@@ -18,13 +18,13 @@ void __thiscall Scaleform::GFx::TextField::SetCandidateListFont(
   Scaleform::GFx::Resource *v16; // eax
   Scaleform::GFx::Resource *v17; // edi
   void *v18; // esi
-  const Scaleform::Render::Text::TextFormat *ptextFormat; // [esp+14h] [ebp-10h] BYREF
+  Scaleform::Render::Text::TextFormat *v19; // [esp+14h] [ebp-10h] BYREF
   Scaleform::GFx::Resource *v20; // [esp+18h] [ebp-Ch] BYREF
-  Scaleform::String fontList; // [esp+1Ch] [ebp-8h] BYREF
-  const Scaleform::Render::Text::ParagraphFormat *pparaFormat; // [esp+20h] [ebp-4h] BYREF
+  Scaleform::String v21; // [esp+1Ch] [ebp-8h] BYREF
+  Scaleform::Render::Text::ParagraphFormat *v22; // [esp+20h] [ebp-4h] BYREF
 
   v2 = 0;
-  fontList.pData = 0;
+  v21.pData = 0;
   pObject = this->pDocument.pObject->pEditorKit.pObject;
   v5 = 0;
   if ( pObject )
@@ -33,17 +33,17 @@ void __thiscall Scaleform::GFx::TextField::SetCandidateListFont(
     CursorPos = -1;
   Scaleform::Render::Text::StyledText::GetTextAndParagraphFormat(
     this->pDocument.pObject->pDocument.pObject,
-    (Scaleform::Render::Text::TextFormat **)&ptextFormat,
-    (Scaleform::Render::Text::ParagraphFormat **)&pparaFormat,
+    &v19,
+    &v22,
     CursorPos);
-  v7 = Scaleform::Render::Text::TextFormat::GetFontList((Scaleform::Render::Text::TextFormat *)ptextFormat);
-  Scaleform::String::String(&fontList, v7);
+  FontList = Scaleform::Render::Text::TextFormat::GetFontList(v19);
+  Scaleform::String::String(&v21, FontList);
   pParent = this->pParent;
-  v9 = (2 * (ptextFormat->FormatFlags & 1)) | (ptextFormat->FormatFlags >> 1) & 1;
+  v9 = (2 * (v19->FormatFlags & 1)) | (v19->FormatFlags >> 1) & 1;
   if ( pParent )
   {
     v10 = pParent->GetFontManager(pParent);
-    v11 = (int)v10->CreateFontHandle(v10, (const char *)((fontList.HeapTypeBits & 0xFFFFFFFC) + 8), v9, 1, 0);
+    v11 = (int)v10->CreateFontHandle(v10, (const char *)((v21.HeapTypeBits & 0xFFFFFFFC) + 8), v9, 1, 0);
     if ( v11 )
     {
       pHeap = psprite->pASRoot->pMovieImpl->pHeap;
@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::TextField::SetCandidateListFont(
           v13,
           0,
           *(Scaleform::GFx::Resource **)(v11 + 24),
-          "$IMECandidateListFont",
+          (__m128i *)"$IMECandidateListFont",
           0,
           (Scaleform::GFx::MovieDef *)*v14);
         v17 = v16;
@@ -80,8 +80,8 @@ void __thiscall Scaleform::GFx::TextField::SetCandidateListFont(
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v11);
     }
   }
-  v18 = (void *)(fontList.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((fontList.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v18 = (void *)(v21.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v21.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v18);
   if ( v5 )
     Scaleform::RefCountImpl::Release(v5);

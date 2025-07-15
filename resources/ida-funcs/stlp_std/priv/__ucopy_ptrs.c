@@ -1,25 +1,28 @@
-unsigned __int8 *__usercall stlp_std::priv::__ucopy_ptrs<unsigned int *,unsigned int *>@<eax>(
-        char *__first@<ecx>,
-        unsigned __int8 *__result@<eax>,
-        char *__last)
+vostok::variant<32> *__usercall stlp_std::priv::__ucopy_ptrs<vostok::variant<32> *,vostok::variant<32> *>@<eax>(
+        vostok::variant<32> *__last@<eax>,
+        vostok::variant<32> *__result@<ecx>,
+        vostok::variant<32> *__first)
 {
-  int v3; // esi
-  int v4; // eax
+  int v4; // ecx
+  int v5; // edi
+  int v6; // ebx
 
-  if ( __last != __first )
+  v4 = 48;
+  v5 = __last - __first;
+  if ( v5 > 0 )
   {
-    v3 = __last - __first;
-    memcpy(__result, (unsigned __int8 *)__first, __last - __first);
-    return (unsigned __int8 *)(v3 + v4);
+    v6 = (char *)__first - (char *)__result;
+    do
+    {
+      if ( __result )
+        vostok::variant<32>::variant<32>(
+          __result,
+          (vostok::variant<32> *)((char *)__result + v6),
+          (vostok::variant<32> *)v4);
+      ++__result;
+      --v5;
+    }
+    while ( v5 > 0 );
   }
   return __result;
-}
-
-
-void **__cdecl stlp_std::priv::__ucopy_ptrs<void * *,void * *>(void **__first, void **__last, void **__result)
-{
-  return (void **)stlp_std::priv::__ucopy_trivial(
-                    (unsigned __int8 *)__first,
-                    (unsigned __int8 *)__last,
-                    (unsigned __int8 *)__result);
 }

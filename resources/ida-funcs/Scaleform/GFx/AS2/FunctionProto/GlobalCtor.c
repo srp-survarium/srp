@@ -56,7 +56,7 @@ void __cdecl Scaleform::GFx::AS2::FunctionProto::GlobalCtor(const Scaleform::GFx
     if ( v10 )
     {
       RefCount = v10->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v10->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);

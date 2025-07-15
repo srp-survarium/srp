@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain::pa
   Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain *v4; // ecx
   unsigned int v5; // eax
   Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
-  Scaleform::GFx::AS3::Instances::fl::Catch *v7; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v7; // eax
   Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain *v8; // esi
   Scaleform::GFx::AS3::Traits *v9; // eax
   Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain *v10; // ecx
@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain::pa
   if ( UsedSpace )
   {
     pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)this->pTraits.pObject;
-    v7 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
+    v7 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
     v8 = (Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain *)v7;
     if ( v7 )
     {
@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain::pa
           return;
         }
         RefCount = v10->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v10->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::ApplicationDomain::pa
       else
       {
         v5 = v4->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v5) != 0 )
+        if ( (v5 & 0x3FFFFF) != 0 )
         {
           v4->RefCount = v5 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);

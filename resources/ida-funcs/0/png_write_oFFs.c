@@ -8,5 +8,5 @@ int __cdecl png_write_oFFs(_DWORD *a1, int a2, int a3, int a4)
   png_save_int_32(buf, a2);
   png_save_int_32(v6, a3);
   v6[4] = a4;
-  return sub_36AEC0(a1, 1866876531, buf, 9);
+  return sub_477B80(a1, 1866876531, buf, 9);
 }

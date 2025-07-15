@@ -4,6 +4,6 @@ survarium::victory_item_core *__thiscall survarium::victory_item_core::`scalar d
 {
   survarium::victory_item_core::~victory_item_core(this);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

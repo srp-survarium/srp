@@ -12,7 +12,7 @@ char *__thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_st
   char *v11; // edi
   char *v12; // ebx
   char *M_data; // eax
-  char *__pa; // [esp+Ch] [ebp+4h]
+  unsigned __int8 *src; // [esp+Ch] [ebp+4h]
 
   M_finish = this->_M_finish;
   if ( (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *)this->_M_start_of_storage._M_data == this )
@@ -24,7 +24,7 @@ char *__thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_st
     size = stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char>>::_M_compute_next_size(
              this,
              1u);
-    __pa = (char *)size;
+    src = (unsigned __int8 *)size;
     if ( size <= 0x101 )
       M_static_buf = this->_M_start_of_storage._M_static_buf;
     else
@@ -46,7 +46,7 @@ char *__thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_st
     result = v11;
     this->_M_start_of_storage._M_data = M_static_buf;
     this->_M_finish = v12;
-    this->_M_buffers._M_end_of_storage = &M_static_buf[(_DWORD)__pa];
+    this->_M_buffers._M_end_of_storage = &M_static_buf[(_DWORD)src];
   }
   else
   {
@@ -75,7 +75,7 @@ wchar_t *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t
   wchar_t *v10; // edi
   wchar_t *v11; // ebx
   wchar_t *M_data; // eax
-  unsigned int __pa; // [esp+Ch] [ebp+4h]
+  unsigned int src; // [esp+Ch] [ebp+4h]
 
   M_finish = this->_M_finish;
   if ( (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *)this->_M_start_of_storage._M_data == this )
@@ -87,7 +87,7 @@ wchar_t *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t
     size = stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_compute_next_size(
              this,
              1u);
-    __pa = size;
+    src = size;
     if ( size <= 0x101 )
       M_static_buf = this->_M_start_of_storage._M_static_buf;
     else
@@ -109,7 +109,7 @@ wchar_t *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t
     result = v10;
     this->_M_start_of_storage._M_data = M_static_buf;
     this->_M_finish = v11;
-    this->_M_buffers._M_end_of_storage = &M_static_buf[__pa];
+    this->_M_buffers._M_end_of_storage = &M_static_buf[src];
   }
   else
   {

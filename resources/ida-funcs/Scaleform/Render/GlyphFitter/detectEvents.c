@@ -6,12 +6,12 @@ void __thiscall Scaleform::Render::GlyphFitter::detectEvents(
   int v4; // esi
   unsigned int v5; // esi
   unsigned __int8 *v6; // edi
-  unsigned __int8 *Array; // eax
+  const __m128i *Array; // eax
   unsigned int v8; // eax
   Scaleform::Render::GlyphFitter::ContourType *v9; // edx
   int v10; // esi
-  const Scaleform::Render::GlyphFitter::ContourType *v11; // edx
-  unsigned int v12; // ebp
+  Scaleform::Render::GlyphFitter::ContourType *v11; // edx
+  int v12; // ebp
   unsigned int StartVertex; // ecx
   Scaleform::Render::GlyphFitter::VertexType **Pages; // esi
   unsigned int NumVertices; // edi
@@ -26,19 +26,19 @@ void __thiscall Scaleform::Render::GlyphFitter::detectEvents(
   unsigned __int8 *v24; // eax
   int v25; // eax
   bool v26; // cc
-  Scaleform::Render::GlyphFitter::VertexType v1; // [esp+Ch] [ebp-1Ch]
-  Scaleform::Render::GlyphFitter::VertexType v3; // [esp+10h] [ebp-18h]
-  unsigned int j; // [esp+14h] [ebp-14h]
-  Scaleform::Render::GlyphFitter::VertexType v2; // [esp+18h] [ebp-10h]
-  int minCoord; // [esp+1Ch] [ebp-Ch]
-  const Scaleform::Render::GlyphFitter::ContourType *c; // [esp+20h] [ebp-8h]
-  unsigned int i; // [esp+24h] [ebp-4h]
+  Scaleform::Render::GlyphFitter::VertexType v27; // [esp+Ch] [ebp-1Ch]
+  Scaleform::Render::GlyphFitter::VertexType v28; // [esp+10h] [ebp-18h]
+  int v29; // [esp+14h] [ebp-14h]
+  Scaleform::Render::GlyphFitter::VertexType v30; // [esp+18h] [ebp-10h]
+  int v31; // [esp+1Ch] [ebp-Ch]
+  Scaleform::Render::GlyphFitter::ContourType *v32; // [esp+20h] [ebp-8h]
+  unsigned int v33; // [esp+24h] [ebp-4h]
 
   if ( dir == FitX )
     MinX = this->MinX;
   else
     MinX = this->MinY;
-  minCoord = MinX;
+  v31 = MinX;
   if ( dir == FitX )
     v4 = this->MaxX - this->MinX;
   else
@@ -48,15 +48,15 @@ void __thiscall Scaleform::Render::GlyphFitter::detectEvents(
   {
     v6 = Scaleform::Render::LinearHeap::Alloc(this->Events.pHeap, v5);
     memset((int)v6, 0, v5);
-    Array = this->Events.Array;
+    Array = (const __m128i *)this->Events.Array;
     if ( Array && this->Events.Size )
-      memcpy(v6, Array, this->Events.Size);
+      memcpy((int)v6, Array, this->Events.Size);
     this->Events.Array = v6;
   }
   this->Events.Size = v5;
   memset((int)this->Events.Array, 0, v5);
   v8 = 0;
-  i = 0;
+  v33 = 0;
   if ( this->Contours.Size )
   {
     while ( 1 )
@@ -65,17 +65,17 @@ void __thiscall Scaleform::Render::GlyphFitter::detectEvents(
       v10 = v8 & 3;
       v26 = v9[v10].NumVertices <= 2;
       v11 = &v9[v10];
-      c = v11;
+      v32 = v11;
       if ( !v26 )
       {
         v12 = 0;
         *this->Events.Array = 3;
-        j = 0;
+        v29 = 0;
         if ( v11->NumVertices )
           break;
       }
 LABEL_40:
-      i = ++v8;
+      v33 = ++v8;
       if ( v8 >= this->Contours.Size )
         return;
     }
@@ -84,43 +84,43 @@ LABEL_40:
       StartVertex = v11->StartVertex;
       Pages = this->Vertices.Pages;
       NumVertices = v11->NumVertices;
-      v1 = Pages[(v11->StartVertex + v12) >> 4][(v11->StartVertex + v12) & 0xF];
+      v27 = Pages[(v11->StartVertex + v12) >> 4][(v11->StartVertex + v12) & 0xF];
       v16 = v12 + 2;
-      v2 = Pages[(StartVertex + (v16 - 1) % NumVertices) >> 4][(StartVertex + (v16 - 1) % NumVertices) & 0xF];
+      v30 = Pages[(StartVertex + (v16 - 1) % NumVertices) >> 4][(StartVertex + (v16 - 1) % NumVertices) & 0xF];
       v17 = Pages[(StartVertex + v16 % NumVertices) >> 4][(StartVertex + v16 % NumVertices) & 0xF];
-      v3 = v17;
+      v28 = v17;
       if ( dir == FitX )
       {
         y = (__int16)Pages[(StartVertex + v16 % NumVertices) >> 4][(StartVertex + v16 % NumVertices) & 0xF];
-        v1.y = v1.x;
-        x = v2.x;
+        v27.y = v27.x;
+        x = v30.x;
         v20 = -HIWORD(*(unsigned int *)&v17);
       }
       else
       {
-        LOWORD(v20) = v1.x;
-        x = v2.y;
-        y = v3.y;
+        LOWORD(v20) = v27.x;
+        x = v30.y;
+        y = v28.y;
       }
-      v21 = v1.y;
+      v21 = v27.y;
       v22 = 0;
-      if ( v1.y < x )
+      if ( v27.y < x )
         goto LABEL_23;
       if ( y < x )
         break;
 LABEL_24:
-      v23 = x - minCoord;
-      if ( (__int16)v20 > v2.x )
+      v23 = x - v31;
+      if ( (__int16)v20 > v30.x )
         goto LABEL_28;
-      if ( v2.x <= v3.x )
+      if ( v30.x <= v28.x )
       {
         this->Events.Array[v23] |= (this->Direction == DirCW) + 1;
         v22 = 1;
       }
-      if ( (__int16)v20 >= v2.x )
+      if ( (__int16)v20 >= v30.x )
       {
 LABEL_28:
-        if ( v2.x >= v3.x )
+        if ( v30.x >= v28.x )
         {
           v24 = &this->Events.Array[v23];
 LABEL_37:
@@ -130,16 +130,16 @@ LABEL_37:
       }
       if ( v22 )
         goto LABEL_38;
-      v21 = v1.y;
+      v21 = v27.y;
 LABEL_32:
       if ( v21 == x )
       {
-        v25 = x - minCoord;
-        v26 = (__int16)v20 <= v2.x;
-        if ( (__int16)v20 < v2.x )
+        v25 = x - v31;
+        v26 = (__int16)v20 <= v30.x;
+        if ( (__int16)v20 < v30.x )
         {
           this->Events.Array[v25] |= (this->Direction == DirCW) + 1;
-          v26 = (__int16)v20 <= v2.x;
+          v26 = (__int16)v20 <= v30.x;
         }
         if ( !v26 )
         {
@@ -148,15 +148,15 @@ LABEL_32:
         }
       }
 LABEL_38:
-      if ( ++j >= c->NumVertices )
+      if ( ++v29 >= v32->NumVertices )
       {
-        v8 = i;
+        v8 = v33;
         goto LABEL_40;
       }
-      v12 = j;
-      v11 = c;
+      v12 = v29;
+      v11 = v32;
     }
-    if ( v1.y > x )
+    if ( v27.y > x )
       goto LABEL_38;
 LABEL_23:
     if ( y > x )

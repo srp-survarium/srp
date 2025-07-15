@@ -8,20 +8,20 @@ void __thiscall Scaleform::GFx::ResourceWeakLib::UnpinAll(Scaleform::GFx::Resour
   int v7; // ecx
   unsigned int v8; // eax
   Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc> >::TableType *v9; // ecx
-  Scaleform::Lock *lock; // [esp+Ch] [ebp-Ch]
-  Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc> >::Iterator ihash; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::Lock *v11; // [esp+Ch] [ebp-Ch]
+  Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc> >::Iterator result; // [esp+10h] [ebp-8h] BYREF
 
   p_ResourceLock = &this->ResourceLock;
-  lock = &this->ResourceLock;
+  v11 = &this->ResourceLock;
   EnterCriticalSection(&this->ResourceLock.cs);
   pStrongLib = this->pStrongLib;
   if ( pStrongLib )
   {
     Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc>>::Begin(
       &pStrongLib->PinSet,
-      &ihash);
-    pHash = ihash.pHash;
-    Index = ihash.Index;
+      &result);
+    pHash = result.pHash;
+    Index = result.Index;
     while ( pHash && pHash->pTable && Index <= (signed int)pHash->pTable->SizeMask )
     {
       SizeMask = pHash->pTable[Index + 1].SizeMask;
@@ -50,7 +50,7 @@ void __thiscall Scaleform::GFx::ResourceWeakLib::UnpinAll(Scaleform::GFx::Resour
       }
     }
     Scaleform::HashSetBase<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc,Scaleform::AllocatorGH<Scaleform::GFx::Resource *,2>,Scaleform::HashsetEntry<Scaleform::GFx::Resource *,Scaleform::GFx::ResourceLib::ResourcePtrHashFunc>>::Clear(&this->pStrongLib->PinSet);
-    p_ResourceLock = lock;
+    p_ResourceLock = v11;
   }
   LeaveCriticalSection(&p_ResourceLock->cs);
 }

@@ -53,33 +53,33 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
   int OffsetX; // ecx
   unsigned int Width; // edi
   Scaleform::Log *v52; // esi
-  unsigned int v53; // [esp+848h] [ebp-B0h]
-  Scaleform::GFx::StaticTextRecord *v54; // [esp+84Ch] [ebp-ACh]
-  float v55; // [esp+850h] [ebp-A8h]
-  int v56; // [esp+854h] [ebp-A4h]
-  float v57; // [esp+858h] [ebp-A0h]
-  float v58; // [esp+858h] [ebp-A0h]
-  float v59; // [esp+85Ch] [ebp-9Ch]
-  float v60; // [esp+85Ch] [ebp-9Ch]
-  float v61; // [esp+85Ch] [ebp-9Ch]
-  unsigned int v62; // [esp+860h] [ebp-98h]
-  unsigned int v63; // [esp+860h] [ebp-98h]
-  float v64; // [esp+864h] [ebp-94h]
-  unsigned int lineIdx; // [esp+868h] [ebp-90h]
-  Scaleform::GFx::ResourceBindData pdata; // [esp+870h] [ebp-88h] BYREF
-  unsigned int v68; // [esp+878h] [ebp-80h]
-  Scaleform::GFx::Resource *v69; // [esp+87Ch] [ebp-7Ch]
-  Scaleform::GFx::Resource *v70; // [esp+880h] [ebp-78h]
-  char *v71; // [esp+884h] [ebp-74h]
-  Scaleform::Render::Rect<float> pr; // [esp+888h] [ebp-70h] BYREF
-  Scaleform::Ptr<Scaleform::Log> v73; // [esp+8A4h] [ebp-54h] BYREF
-  float x; // [esp+8A8h] [ebp-50h]
-  float y; // [esp+8ACh] [ebp-4Ch]
-  unsigned int Size; // [esp+8B0h] [ebp-48h]
-  Scaleform::Ptr<Scaleform::Log> result; // [esp+8B4h] [ebp-44h] BYREF
-  Scaleform::Render::Matrix2x4<float> v78; // [esp+8B8h] [ebp-40h] BYREF
-  unsigned int v79; // [esp+8E0h] [ebp-18h]
-  unsigned int v80; // [esp+8ECh] [ebp-Ch]
+  unsigned int v53; // [esp+20h] [ebp-B0h]
+  Scaleform::GFx::StaticTextRecord *v54; // [esp+24h] [ebp-ACh]
+  float v55; // [esp+28h] [ebp-A8h]
+  int v56; // [esp+2Ch] [ebp-A4h]
+  float v57; // [esp+30h] [ebp-A0h]
+  float v58; // [esp+30h] [ebp-A0h]
+  float v59; // [esp+34h] [ebp-9Ch]
+  float v60; // [esp+34h] [ebp-9Ch]
+  float v61; // [esp+34h] [ebp-9Ch]
+  unsigned int v62; // [esp+38h] [ebp-98h]
+  unsigned int v63; // [esp+38h] [ebp-98h]
+  float v64; // [esp+3Ch] [ebp-94h]
+  unsigned int lineIdx; // [esp+40h] [ebp-90h]
+  Scaleform::GFx::ResourceBindData pdata; // [esp+48h] [ebp-88h] BYREF
+  unsigned int v68; // [esp+50h] [ebp-80h]
+  Scaleform::GFx::Resource *v69; // [esp+54h] [ebp-7Ch]
+  Scaleform::GFx::Resource *v70; // [esp+58h] [ebp-78h]
+  char *v71; // [esp+5Ch] [ebp-74h]
+  Scaleform::Render::Rect<float> v72; // [esp+60h] [ebp-70h] BYREF
+  Scaleform::Ptr<Scaleform::Log> v73; // [esp+7Ch] [ebp-54h] BYREF
+  float x; // [esp+80h] [ebp-50h]
+  float y; // [esp+84h] [ebp-4Ch]
+  unsigned int Size; // [esp+88h] [ebp-48h]
+  Scaleform::Ptr<Scaleform::Log> result; // [esp+8Ch] [ebp-44h] BYREF
+  Scaleform::Render::Matrix2x4<float> v78; // [esp+90h] [ebp-40h] BYREF
+  unsigned int v79; // [esp+B8h] [ebp-18h]
+  unsigned int v80; // [esp+C4h] [ebp-Ch]
 
   v6 = this;
   Scaleform::GFx::DisplayObject::DisplayObject(this, pasRoot, parent, id);
@@ -110,9 +110,9 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
   v78.M[1][2] = pdef->MatrixPriv.M[1][2];
   v78.M[1][3] = pdef->MatrixPriv.M[1][3];
   Scaleform::Render::Matrix2x4<float>::Invert(&v78);
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v78, &pr, (__m128 *)&pdef->TextRect);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v78, (__m128 *)&v72, (__m128 *)&pdef->TextRect);
   v68 = 0;
-  Scaleform::Render::Rect<float>::ExpandToPoint(&pr, 0.0, 0.0);
+  Scaleform::Render::Rect<float>::ExpandToPoint(&v72, 0.0, 0.0);
   lineIdx = 0;
   Size = pdef->TextRecords.Records.Data.Size;
   if ( Size )
@@ -233,16 +233,19 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
       v22 = v8->Glyphs.Data.Size;
       v63 = v22;
       if ( v22 > 0xFF || ((int)v70[1].__vftable[1].GetKey & 0x2000) != 0 )
-        inserted = Scaleform::Render::Text::LineBuffer::InsertNewLine(&this->TextGlyphRecords, lineIdx, v22, 2u, Line32);
+        inserted = Scaleform::Render::Text::LineBuffer::InsertNewLine(
+                     &this->TextGlyphRecords,
+                     lineIdx,
+                     v22,
+                     2u,
+                     (Scaleform::Render::Text::LineBuffer::Line *)1);
       else
-        inserted = Scaleform::Render::Text::LineBuffer::InsertNewLine(&this->TextGlyphRecords, lineIdx, v22, 2u, Line8);
+        inserted = Scaleform::Render::Text::LineBuffer::InsertNewLine(&this->TextGlyphRecords, lineIdx, v22, 2u, 0);
       v24 = inserted;
       if ( (inserted->MemSize & 0x80000000) == 0 )
         inserted->Data32.TextPos = v68;
       else
-        inserted->Data32.TextPos ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199]
-                                  & (v68
-                                   ^ inserted->Data32.TextPos);
+        inserted->Data32.TextPos ^= (v68 ^ inserted->Data32.TextPos) & 0xFFFFFF;
       v25 = v70;
       GetKey = v70[1].__vftable[1].GetKey;
       v57 = v54->Offset.x;
@@ -252,8 +255,8 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
       {
         v27 = v54->TextHeight * 0.0009765625;
         v60 = v59 - v54->TextHeight;
-        v58 = v57 - pr.x1;
-        v61 = v60 - pr.y1;
+        v58 = v57 - v72.x1;
+        v61 = v60 - v72.y1;
         TextHeight = v54->TextHeight;
         if ( (v24->MemSize & 0x80000000) == 0 )
           v24->Data32.BaseLineOffset = (int)TextHeight;
@@ -264,8 +267,8 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
       }
       else
       {
-        v58 = v57 - pr.x1;
-        v61 = v59 - pr.y1;
+        v58 = v57 - v72.x1;
+        v61 = v59 - v72.y1;
         v29 = 0.0;
         v55 = 0.0;
       }
@@ -388,7 +391,7 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
           Width = v24->Data8.Width;
         x = (float)(int)(OffsetX + Width);
         y = (float)(int)(OffsetY + Height);
-        Scaleform::Render::Rect<float>::ExpandToPoint(&pr, x, y);
+        Scaleform::Render::Rect<float>::ExpandToPoint(&v72, x, y);
       }
       if ( v69 )
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v69);
@@ -412,7 +415,7 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::StaticTextCharacter(
   else
   {
 LABEL_96:
-    v6->TextGlyphRecords.Geom.VisibleRect = pr;
+    v6->TextGlyphRecords.Geom.VisibleRect = v72;
     v6->TextGlyphRecords.Geom.Flags |= 4u;
     Scaleform::Render::Text::TextFilter::SetDefaultShadow(&v6->Filter);
     v7->Flags |= 2u;

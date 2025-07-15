@@ -9,7 +9,9 @@ Scaleform::GFx::AS2::ArrayObject *__thiscall Scaleform::GFx::AS2::ArrayObject::`
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::ArrayObject::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::ArrayObject *__thiscall Scaleform::GFx::AS2::ArrayObject::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::ArrayObject::`vector deleting destructor'(
            (Scaleform::GFx::AS2::ArrayObject *)(this - 16),

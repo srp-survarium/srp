@@ -1,82 +1,142 @@
 void __usercall vostok::render::constants_handler<1>::apply(
         vostok::render::constants_handler<1> *this@<ecx>,
-        unsigned int *a2@<esi>)
+        int *a2@<esi>)
 {
-  unsigned int v2; // ebx
-  unsigned int v3; // edi
-  vostok::render::constants_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-40h] BYREF
-  ID3D11Buffer *tmp_buffer[15]; // [esp+Ch] [ebp-3Ch] BYREF
+  int v2; // eax
+  unsigned int v3; // ecx
+  int v4; // ecx
+  signed int v5; // ebx
+  ID3D11Buffer *const *v6; // edi
+  signed int v7; // [esp+4h] [ebp-4h]
 
-  v2 = a2[1];
+  memset((int)(a2 + 3), 0, 0x38u);
+  v2 = a2[2];
   v3 = *a2;
-  if ( v2 != *a2 )
+  if ( v2 )
+    v2 = (*(_DWORD *)(v2 + 788) - *(_DWORD *)(v2 + 784)) >> 2;
+  while ( v3 < v2 )
   {
-    memset((int)tmp_buffer, 0, sizeof(tmp_buffer));
-    vostok::render::constants_handler<2>::fill_changes_buffer(v4, a2, tmp_buffer, &end);
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, ID3D11Buffer **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                            + 64))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v3,
-      v2 - v3,
-      &tmp_buffer[v3]);
-    a2[1] = 0;
-    *a2 = 0;
+    a2[v3 + 3] = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a2[2] + 784) + 4 * v3) + 96);
+    ++v3;
   }
+  v4 = *a2;
+  if ( v2 > *a2 )
+  {
+    v5 = *a2;
+    v7 = v2 - v4;
+    if ( v4 < v2 - v4 )
+    {
+      v6 = (ID3D11Buffer *const *)&a2[v4 + 3];
+      do
+      {
+        if ( *v6 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetConstantBuffers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v5,
+            1u,
+            v6);
+        ++v5;
+        ++v6;
+      }
+      while ( v5 < v7 );
+    }
+  }
+  a2[1] = 0;
+  *a2 = 0;
 }
 
 
 void __usercall vostok::render::constants_handler<2>::apply(
         vostok::render::constants_handler<2> *this@<ecx>,
-        unsigned int *a2@<esi>)
+        int *a2@<esi>)
 {
-  unsigned int v2; // ebx
-  unsigned int v3; // edi
-  vostok::render::constants_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-40h] BYREF
-  ID3D11Buffer *tmp_buffer[15]; // [esp+Ch] [ebp-3Ch] BYREF
+  int v2; // eax
+  unsigned int v3; // ecx
+  int v4; // ecx
+  signed int v5; // ebx
+  ID3D11Buffer *const *v6; // edi
+  signed int v7; // [esp+4h] [ebp-4h]
 
-  v2 = a2[1];
+  memset((int)(a2 + 3), 0, 0x38u);
+  v2 = a2[2];
   v3 = *a2;
-  if ( v2 != *a2 )
+  if ( v2 )
+    v2 = (*(_DWORD *)(v2 + 788) - *(_DWORD *)(v2 + 784)) >> 2;
+  while ( v3 < v2 )
   {
-    memset((int)tmp_buffer, 0, sizeof(tmp_buffer));
-    vostok::render::constants_handler<2>::fill_changes_buffer(v4, a2, tmp_buffer, &end);
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, ID3D11Buffer **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                            + 88))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v3,
-      v2 - v3,
-      &tmp_buffer[v3]);
-    a2[1] = 0;
-    *a2 = 0;
+    a2[v3 + 3] = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a2[2] + 784) + 4 * v3) + 96);
+    ++v3;
   }
+  v4 = *a2;
+  if ( v2 > *a2 )
+  {
+    v5 = *a2;
+    v7 = v2 - v4;
+    if ( v4 < v2 - v4 )
+    {
+      v6 = (ID3D11Buffer *const *)&a2[v4 + 3];
+      do
+      {
+        if ( *v6 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetConstantBuffers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v5,
+            1u,
+            v6);
+        ++v5;
+        ++v6;
+      }
+      while ( v5 < v7 );
+    }
+  }
+  a2[1] = 0;
+  *a2 = 0;
 }
 
 
 void __usercall vostok::render::constants_handler<0>::apply(
         vostok::render::constants_handler<0> *this@<ecx>,
-        unsigned int *a2@<esi>)
+        int *a2@<esi>)
 {
-  unsigned int v2; // ebx
-  unsigned int v3; // edi
-  vostok::render::constants_handler<0> *v4; // ecx
-  unsigned int end; // [esp+8h] [ebp-40h] BYREF
-  ID3D11Buffer *tmp_buffer[15]; // [esp+Ch] [ebp-3Ch] BYREF
+  int v2; // eax
+  unsigned int v3; // ecx
+  int v4; // ecx
+  signed int v5; // ebx
+  ID3D11Buffer *const *v6; // edi
+  signed int v7; // [esp+4h] [ebp-4h]
 
-  v2 = a2[1];
+  memset((int)(a2 + 3), 0, 0x38u);
+  v2 = a2[2];
   v3 = *a2;
-  if ( v2 != *a2 )
+  if ( v2 )
+    v2 = (*(_DWORD *)(v2 + 788) - *(_DWORD *)(v2 + 784)) >> 2;
+  while ( v3 < v2 )
   {
-    memset((int)tmp_buffer, 0, sizeof(tmp_buffer));
-    vostok::render::constants_handler<2>::fill_changes_buffer(v4, a2, tmp_buffer, &end);
-    (*(void (__stdcall **)(int, unsigned int, unsigned int, ID3D11Buffer **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                            + 28))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      v3,
-      v2 - v3,
-      &tmp_buffer[v3]);
-    a2[1] = 0;
-    *a2 = 0;
+    a2[v3 + 3] = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a2[2] + 784) + 4 * v3) + 96);
+    ++v3;
   }
+  v4 = *a2;
+  if ( v2 > *a2 )
+  {
+    v5 = *a2;
+    v7 = v2 - v4;
+    if ( v4 < v2 - v4 )
+    {
+      v6 = (ID3D11Buffer *const *)&a2[v4 + 3];
+      do
+      {
+        if ( *v6 )
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetConstantBuffers(
+            vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+            v5,
+            1u,
+            v6);
+        ++v5;
+        ++v6;
+      }
+      while ( v5 < v7 );
+    }
+  }
+  a2[1] = 0;
+  *a2 = 0;
 }

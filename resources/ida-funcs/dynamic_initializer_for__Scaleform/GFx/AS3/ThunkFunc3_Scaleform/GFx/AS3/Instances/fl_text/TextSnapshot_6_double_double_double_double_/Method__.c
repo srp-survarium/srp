@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc3_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::hitTestTextNearPos;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc3<Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot,6,double,double,double,double>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextSnapshot::hitTestTextNearPos;
-  dword_AACBAC = 0;
+  dword_8F1364 = 0;
   return result;
 }

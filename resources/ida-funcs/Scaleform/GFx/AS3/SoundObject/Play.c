@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::SoundObject::Play(
   Scaleform::RefCountVImpl *v7; // esi
   int v8; // ebp
   Scaleform::Sound::SoundSample *pObject; // eax
-  Scaleform::Sound::SoundChannel *v10; // esi
+  Scaleform::GFx::Resource *v10; // esi
   int SoundVolume; // eax
   int SoundPan; // eax
   float startTimea; // [esp+34h] [ebp+4h]
@@ -37,16 +37,16 @@ void __thiscall Scaleform::GFx::AS3::SoundObject::Play(
           pObject = this->pSample.pObject;
           if ( pObject )
           {
-            v10 = (Scaleform::Sound::SoundChannel *)(*(int (__thiscall **)(int, Scaleform::Sound::SoundSample *, int))(*(_DWORD *)v8 + 20))(
-                                                      v8,
-                                                      pObject,
-                                                      1);
+            v10 = (Scaleform::GFx::Resource *)(*(int (__thiscall **)(int, Scaleform::Sound::SoundSample *, int))(*(_DWORD *)v8 + 20))(
+                                                v8,
+                                                pObject,
+                                                1);
             if ( v10 )
             {
               if ( startTime > 0 || loops > 0 )
               {
                 startTimea = (double)startTime / 1000.0;
-                ((void (__thiscall *)(Scaleform::Sound::SoundChannel *, int, _DWORD, _DWORD))v10->Loop)(
+                ((void (__thiscall *)(Scaleform::GFx::Resource *, int, _DWORD, _DWORD))v10->__vftable[2].~Scaleform::GFx::Resource)(
                   v10,
                   loops,
                   LODWORD(startTimea),
@@ -55,12 +55,18 @@ void __thiscall Scaleform::GFx::AS3::SoundObject::Play(
               SoundVolume = Scaleform::GFx::Sprite::GetSoundVolume(v5);
               this->Volume = SoundVolume;
               loopsa = (double)SoundVolume / 100.0;
-              ((void (__thiscall *)(Scaleform::Sound::SoundChannel *, _DWORD))v10->SetVolume)(v10, LODWORD(loopsa));
+              ((void (__thiscall *)(Scaleform::GFx::Resource *, _DWORD))v10->__vftable[2].GetResourceTypeCode)(
+                v10,
+                LODWORD(loopsa));
               SoundPan = Scaleform::GFx::Sprite::GetSoundPan(v5);
               this->Pan = SoundPan;
               loopsb = (double)SoundPan / 100.0;
-              ((void (__thiscall *)(Scaleform::Sound::SoundChannel *, _DWORD))v10->SetPan)(v10, LODWORD(loopsb));
-              v10->Pause(v10, 0);
+              ((void (__thiscall *)(Scaleform::GFx::Resource *, _DWORD))v10->__vftable[3].~Scaleform::GFx::Resource)(
+                v10,
+                LODWORD(loopsb));
+              ((void (__thiscall *)(Scaleform::GFx::Resource *, _DWORD))v10->__vftable[1].~Scaleform::GFx::Resource)(
+                v10,
+                0);
               Scaleform::GFx::Sprite::AddActiveSound(
                 v5,
                 v10,

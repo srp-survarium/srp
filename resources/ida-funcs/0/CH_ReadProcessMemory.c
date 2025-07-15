@@ -1,5 +1,5 @@
 BOOL __stdcall CH_ReadProcessMemory(
-        void *__formal,
+        void *a1,
         unsigned __int64 lpBaseAddress,
         void *lpBuffer,
         SIZE_T nSize,

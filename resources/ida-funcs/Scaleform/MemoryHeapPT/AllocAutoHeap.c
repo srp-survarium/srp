@@ -1,4 +1,4 @@
-void *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
+unsigned __int8 *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
         Scaleform::MemoryHeapPT *this,
         unsigned int thisPtr,
         unsigned int size,
@@ -6,8 +6,8 @@ void *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
         const Scaleform::AllocInfo *info)
 {
   Scaleform::MemoryHeapPT *pHeap; // esi
-  void *v6; // eax
-  void *v7; // esi
+  unsigned __int8 *v6; // eax
+  unsigned __int8 *v7; // esi
   _RTL_CRITICAL_SECTION *p_cs; // [esp-8h] [ebp-Ch]
 
   pHeap = Scaleform::HeapPT::GlobalPageTable->RootTable[thisPtr >> 20].pTable[(unsigned __int8)(thisPtr >> 12)].pSegment->pHeap;
@@ -22,15 +22,15 @@ void *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
 }
 
 
-void *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
+unsigned __int8 *__thiscall Scaleform::MemoryHeapPT::AllocAutoHeap(
         Scaleform::MemoryHeapPT *this,
         unsigned int thisPtr,
         unsigned int size,
         const Scaleform::AllocInfo *info)
 {
   Scaleform::MemoryHeapPT *pHeap; // esi
-  void *v5; // eax
-  void *v6; // esi
+  unsigned __int8 *v5; // eax
+  unsigned __int8 *v6; // esi
   _RTL_CRITICAL_SECTION *p_cs; // [esp-8h] [ebp-Ch]
 
   pHeap = Scaleform::HeapPT::GlobalPageTable->RootTable[thisPtr >> 20].pTable[(unsigned __int8)(thisPtr >> 12)].pSegment->pHeap;

@@ -6,7 +6,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::uint::AS3toPrecision(
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  char *pStr; // esi
+  __m128i *pStr; // esi
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
   const Scaleform::GFx::AS3::Instances::fl::Namespace *CurrNamespace; // eax
   Scaleform::GFx::ASStringNode *ID; // eax
@@ -29,7 +29,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::uint::AS3toPrecision(
     f.Type = FmtSignificant;
     *(_DWORD *)&f.Scaleform::NumericBase ^= ((unsigned __int8)precision ^ *(_BYTE *)&f.Scaleform::NumericBase) & 0x1F;
     f.Convert(&f);
-    pStr = (char *)Scaleform::DoubleFormatter::GetResult(&f, &v15)->pStr;
+    pStr = (__m128i *)Scaleform::DoubleFormatter::GetResult(&f, &v15)->pStr;
     StringManagerRef = vm->StringManagerRef;
     CurrNamespace = Scaleform::GFx::AS3::Instances::fl::XMLElement::GetCurrNamespace((Scaleform::GFx::AS3::Instances::fl::XMLAttr *)&f);
     v.ID = (Scaleform::GFx::AS3::VM::ErrorID)Scaleform::GFx::ASStringManager::CreateStringNode(

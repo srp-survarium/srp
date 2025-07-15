@@ -1,31 +1,32 @@
-void __thiscall Scaleform::GFx::AS2::MouseCtorFunction::OnMouseUp(
-        Scaleform::GFx::AS2::MouseCtorFunction *this,
+void __userpurge Scaleform::GFx::AS2::MouseCtorFunction::OnMouseUp(
+        Scaleform::GFx::AS2::MouseCtorFunction *this@<ecx>,
         Scaleform::GFx::AS2::Environment *penv,
-        unsigned int mouseIndex,
-        unsigned int button,
-        Scaleform::GFx::InteractiveObject *ptarget)
+        Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *mouseIndex,
+        Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *button,
+        Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl ptarget)
 {
-  Scaleform::GFx::CharacterHandle *pObject; // eax
+  Scaleform::GFx::CharacterHandle *CharacterHandle; // eax
   Scaleform::GFx::ASStringNode *v7; // eax
 
-  if ( ptarget )
+  if ( ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback )
   {
-    pObject = ptarget->pNameHandle.pObject;
-    if ( !pObject )
-      pObject = Scaleform::GFx::DisplayObject::CreateCharacterHandle(ptarget);
-    ptarget = (Scaleform::GFx::InteractiveObject *)pObject->NamePath.pNode;
-    ++ptarget->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::__vftable;
+    CharacterHandle = (Scaleform::GFx::CharacterHandle *)*((_DWORD *)ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback
+                                                         + 17);
+    if ( !CharacterHandle )
+      CharacterHandle = Scaleform::GFx::DisplayObject::CreateCharacterHandle((Scaleform::GFx::DisplayObject *)ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback);
+    ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback = (void (__thiscall *)(Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback *))CharacterHandle->NamePath.pNode;
+    ++*((_DWORD *)ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback + 3);
     Scaleform::GFx::AS2::MouseCtorFunction::NotifyListeners(
       (Scaleform::GFx::AS2::MouseCtorFunction *)((char *)this - 56),
       penv,
       mouseIndex,
-      ASBuiltin_onMouseUp,
-      (const Scaleform::GFx::ASString *)&ptarget,
+      (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)0x68,
+      &ptarget,
       button,
       0,
       0);
-    v7 = (Scaleform::GFx::ASStringNode *)ptarget;
-    --ptarget->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::__vftable;
+    v7 = (Scaleform::GFx::ASStringNode *)ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback;
+    --*((_DWORD *)ptarget.~Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback + 3);
     if ( !v7->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v7);
   }
@@ -35,7 +36,7 @@ void __thiscall Scaleform::GFx::AS2::MouseCtorFunction::OnMouseUp(
       (Scaleform::GFx::AS2::MouseCtorFunction *)((char *)this - 56),
       penv,
       mouseIndex,
-      ASBuiltin_onMouseUp,
+      (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)0x68,
       0,
       button,
       0,

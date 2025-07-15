@@ -1,7 +1,7 @@
 BOOL __cdecl asn1_string_canon(asn1_string_st *out)
 {
-  asn1_string_st *in; // ecx
-  asn1_string_st *v2; // edi
+  int v1; // ecx
+  int v2; // edi
   int v4; // eax
   unsigned __int8 *data; // esi
   int i; // ebp
@@ -11,14 +11,14 @@ BOOL __cdecl asn1_string_canon(asn1_string_st *out)
   unsigned __int8 v10; // al
   char v11; // al
 
-  v2 = in;
-  if ( (ASN1_tag2bit(in->type) & 0x2956) == 0 )
+  v2 = v1;
+  if ( (ASN1_tag2bit(*(_DWORD *)(v1 + 4)) & 0x2956) == 0 )
   {
-    out->type = v2->type;
-    return ASN1_STRING_set(out, (char *)v2->data, v2->length) != 0;
+    out->type = *(_DWORD *)(v2 + 4);
+    return ASN1_STRING_set(out, *(const __m128i **)(v2 + 8), *(_DWORD *)v2) != 0;
   }
   out->type = 12;
-  v4 = ASN1_STRING_to_UTF8(&out->data, v2);
+  v4 = ASN1_STRING_to_UTF8(&out->data, (asn1_string_st *)v2);
   out->length = v4;
   if ( v4 == -1 )
     return 0;

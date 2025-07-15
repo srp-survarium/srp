@@ -12,14 +12,14 @@ int __usercall probable_prime_dh_safe@<eax>(
   const unsigned __int16 *i; // esi
   bignum_ctx *v11; // [esp+0h] [ebp-14h]
 
-  BN_CTX_start(v11);
-  v5 = BN_CTX_get(ctx);
-  v6 = BN_CTX_get(ctx);
-  v7 = BN_CTX_get(ctx);
+  BN_CTX_start((int)ctx, v11);
+  v5 = BN_CTX_get((int)ctx, ctx);
+  v6 = BN_CTX_get((int)ctx, ctx);
+  v7 = BN_CTX_get((int)ctx, ctx);
   if ( !v7
     || !BN_rshift1(v7->vals, padd)
-    || !BN_rand(v6->vals, bits - 1, 0, 1)
-    || !BN_div(0, v5->vals, v6->vals, v7->vals, ctx)
+    || !BN_rand((int)ctx, v6->vals, bits - 1, 0, 1)
+    || !BN_div((int)ctx, 0, v5->vals, v6->vals, v7->vals, ctx)
     || !BN_sub(v6->vals, v6->vals, v5->vals) )
   {
     goto LABEL_20;
@@ -32,9 +32,9 @@ int __usercall probable_prime_dh_safe@<eax>(
   }
   else
   {
-    v8 = BN_add_word(v6->vals, 1u);
+    v8 = BN_add_word((int)ctx, v6->vals, 1u);
   }
-  if ( v8 && BN_lshift1(p, v6->vals) && BN_add_word(p, 1u) )
+  if ( v8 && BN_lshift1(p, v6->vals) && BN_add_word((int)ctx, p, 1u) )
   {
     do
     {

@@ -9,30 +9,30 @@ Scaleform::String *__usercall Scaleform::GFx::GetCharRanges_Scaleform::GFx::Font
   unsigned __int8 *v7; // ecx
   unsigned int v8; // esi
   unsigned int v9; // edi
-  Scaleform::GFx::Range *v10; // edi
-  Scaleform::GFx::Range *v11; // esi
-  bool rangeStarted; // [esp+13h] [ebp-15h]
-  unsigned __int16 rangeStart; // [esp+14h] [ebp-14h]
-  Scaleform::GFx::Range range; // [esp+18h] [ebp-10h]
-  Scaleform::GFx::Range rangea; // [esp+18h] [ebp-10h]
-  Scaleform::Array<Scaleform::GFx::Range,2,Scaleform::ArrayDefaultPolicy> ranges; // [esp+1Ch] [ebp-Ch] BYREF
+  Scaleform::GFx::AS3::Instances::fl::Object **v10; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object **v11; // esi
+  char v13; // [esp+13h] [ebp-15h]
+  __int16 v14; // [esp+14h] [ebp-14h]
+  Scaleform::GFx::AS3::Instances::fl::Object *v15; // [esp+18h] [ebp-10h]
+  Scaleform::GFx::AS3::Instances::fl::Object *v16; // [esp+18h] [ebp-10h]
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+1Ch] [ebp-Ch] BYREF
 
   GetGlyphShapeCount = font->GetGlyphShapeCount;
   Size = 0;
   v5 = 0;
-  memset(&ranges, 0, sizeof(ranges));
-  rangeStart = 0;
-  rangeStarted = 0;
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
+  v14 = 0;
+  v13 = 0;
   v6 = 0;
   if ( !GetGlyphShapeCount(font) )
     goto LABEL_23;
   do
   {
     v7 = &font->CompactedFontValue.Decoder.Data->Data[8 * v6 + font->CompactedFontValue.GlyphInfoTablePos];
-    if ( !rangeStarted )
+    if ( !v13 )
     {
-      rangeStart = *(_WORD *)v7;
-      rangeStarted = 1;
+      v14 = *(_WORD *)v7;
+      v13 = 1;
 LABEL_4:
       v5 = *(_WORD *)&font->CompactedFontValue.Decoder.Data->Data[8 * v6++ + font->CompactedFontValue.GlyphInfoTablePos];
       continue;
@@ -40,63 +40,65 @@ LABEL_4:
     if ( v5 == (*v7 | (unsigned __int16)(v7[1] << 8)) - 1 )
       goto LABEL_4;
     v9 = Size + 1;
-    rangea.start = rangeStart;
-    rangea.end = v5;
-    if ( v9 >= ranges.Data.Size )
+    LOWORD(v16) = v14;
+    HIWORD(v16) = v5;
+    if ( v9 >= pheapAddr.Size )
     {
-      if ( v9 >= ranges.Data.Policy.Capacity )
+      if ( v9 >= pheapAddr.Policy.Capacity )
         Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&ranges,
-          &ranges,
+          &pheapAddr,
+          &pheapAddr,
           v9 + (v9 >> 2));
     }
-    else if ( v9 < ranges.Data.Policy.Capacity >> 1 )
+    else if ( v9 < pheapAddr.Policy.Capacity >> 1 )
     {
       Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&ranges,
-        &ranges,
+        &pheapAddr,
+        &pheapAddr,
         v9);
     }
-    ranges.Data.Size = v9;
-    v10 = &ranges.Data.Data[v9 - 1];
+    pheapAddr.Size = v9;
+    v10 = &pheapAddr.Data[v9 - 1];
     if ( v10 )
-      *v10 = rangea;
-    Size = ranges.Data.Size;
-    rangeStarted = 0;
+      *v10 = v16;
+    Size = pheapAddr.Size;
+    v13 = 0;
   }
   while ( v6 < font->GetGlyphShapeCount(font) );
-  if ( rangeStarted )
+  if ( v13 )
   {
     v8 = Size + 1;
-    range.start = rangeStart;
-    range.end = v5;
+    LOWORD(v15) = v14;
+    HIWORD(v15) = v5;
     if ( Size + 1 >= Size )
     {
-      if ( v8 >= ranges.Data.Policy.Capacity )
+      if ( v8 >= pheapAddr.Policy.Capacity )
         Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&ranges,
-          &ranges,
+          &pheapAddr,
+          &pheapAddr,
           v8 + (v8 >> 2));
     }
-    else if ( v8 < ranges.Data.Policy.Capacity >> 1 )
+    else if ( v8 < pheapAddr.Policy.Capacity >> 1 )
     {
       Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)&ranges,
-        &ranges,
+        &pheapAddr,
+        &pheapAddr,
         Size + 1);
     }
-    ranges.Data.Size = ++Size;
-    v11 = &ranges.Data.Data[v8 - 1];
+    pheapAddr.Size = ++Size;
+    v11 = &pheapAddr.Data[v8 - 1];
     if ( v11 )
-      *v11 = range;
+      *v11 = v15;
   }
 LABEL_23:
   Scaleform::Alg::QuickSortSliced<Scaleform::Array<Scaleform::GFx::`anonymous namespace'::Range,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::`anonymous namespace'::RangeLess>(
-    &ranges,
+    (Scaleform::Array<Scaleform::GFx::Range,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr,
     0,
     Size);
-  Scaleform::GFx::BuildStringFromRanges(&ranges, a2);
-  if ( ranges.Data.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ranges.Data.Data);
+  Scaleform::GFx::BuildStringFromRanges(
+    (const Scaleform::Array<Scaleform::GFx::Range,2,Scaleform::ArrayDefaultPolicy> *)&pheapAddr,
+    a2);
+  if ( pheapAddr.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pheapAddr.Data);
   return a2;
 }

@@ -1,9 +1,9 @@
-char **__usercall copy_environ@<eax>(const char **oldenviron@<eax>)
+char **__usercall copy_environ@<eax>(char **oldenviron@<eax>)
 {
   char **result; // eax
-  const char **v3; // ecx
-  char **v4; // esi
-  char **newenviron; // [esp+4h] [ebp-4h]
+  char **v3; // ecx
+  unsigned __int8 *v4; // esi
+  unsigned __int8 *v5; // [esp+4h] [ebp-4h]
 
   result = 0;
   v3 = oldenviron;
@@ -18,14 +18,18 @@ char **__usercall copy_environ@<eax>(const char **oldenviron@<eax>)
       }
       while ( *v3 );
     }
-    v4 = (char **)_calloc_crt((unsigned int)result + 1, 4u);
-    newenviron = v4;
+    v4 = _calloc_crt((unsigned int)result + 1, 4u);
+    v5 = v4;
     if ( !v4 )
       _amsg_exit(9);
     while ( *oldenviron )
-      *v4++ = _strdup(*oldenviron++);
-    *v4 = 0;
-    return newenviron;
+    {
+      *(_DWORD *)v4 = _strdup(*oldenviron);
+      v4 += 4;
+      ++oldenviron;
+    }
+    *(_DWORD *)v4 = 0;
+    return (char **)v5;
   }
   return result;
 }

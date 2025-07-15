@@ -2,7 +2,7 @@ void __usercall survarium::stats_graph::adjust_time_interval(survarium::stats_gr
 {
   float *v2; // edx
   float v3; // xmm1_4
-  float **v4; // edx
+  _DWORD *v4; // edx
   float *v5; // ecx
   int v6; // edx
 
@@ -13,10 +13,10 @@ void __usercall survarium::stats_graph::adjust_time_interval(survarium::stats_gr
   {
     do
     {
-      v4 = *(float ***)a2;
+      v4 = *(_DWORD **)a2;
       v5 = **(float ***)a2;
       a2[6] = a2[6] - v5[3];
-      *v4 = *(float **)v5;
+      *v4 = *(_DWORD *)v5;
       *(float *)(*(_DWORD *)v5 + 4) = *a2;
       v6 = *((_DWORD *)a2 + 1);
       --*((_DWORD *)a2 + 8);

@@ -1,47 +1,48 @@
 vostok::math::float4x4 *__usercall vostok::animation::calculated_head_matrix@<eax>(
-        vostok::math::float4x4 *a1@<esi>,
+        int a1@<edi>,
+        vostok::math::float4x4 *a2@<esi>,
         vostok::math::float4x4 *result,
         const vostok::math::float4x4 *head_matrix)
 {
-  const vostok::math::float4x4 *v3; // edi
-  const vostok::math::float4x4 *v4; // eax
-  float x; // xmm2_4
+  vostok::math::float4x4 *v4; // edi
+  vostok::math::float4x4 *v5; // eax
+  float x; // xmm3_4
   float y; // xmm0_4
-  float z; // xmm3_4
   float v8; // xmm4_4
-  float v9; // xmm1_4
-  float v10; // xmm2_4
-  float v11; // xmm3_4
-  vostok::math::float3 v13; // [esp+4h] [ebp-D8h] BYREF
-  vostok::math::float3 angles; // [esp+10h] [ebp-CCh] BYREF
-  vostok::math::float4x4 resulta; // [esp+1Ch] [ebp-C0h] BYREF
-  vostok::math::float4x4 left; // [esp+5Ch] [ebp-80h] BYREF
-  vostok::math::float4x4 v17; // [esp+9Ch] [ebp-40h] BYREF
+  float v9; // xmm3_4
+  float z; // xmm1_4
+  float v11; // xmm2_4
+  float v12; // xmm3_4
+  _BYTE v14[64]; // [esp+4h] [ebp-D8h] BYREF
+  vostok::math::float4x4 v15; // [esp+44h] [ebp-98h] BYREF
+  vostok::math::float4x4 v16; // [esp+84h] [ebp-58h] BYREF
+  vostok::math::float3 v17; // [esp+C4h] [ebp-18h] BYREF
+  vostok::math::float3 v18; // [esp+D0h] [ebp-Ch] BYREF
 
-  *(_QWORD *)&angles.x = 0;
-  angles.z = pi_d2_8;
-  v13.x = 0.0;
-  *(_QWORD *)&v13.elements[1] = LODWORD(pi_d2_8);
-  v3 = vostok::math::create_rotation(&resulta, &angles);
-  v4 = vostok::math::create_rotation(&v17, &v13);
-  vostok::math::mul4x3(&left, v4, v3);
-  vostok::math::mul4x3(&resulta, &left, result);
-  vostok::math::mul4x3(a1, &resulta, head_matrix);
-  x = a1->j.x;
-  y = a1->j.y;
-  a1->c.z = (float)(a1->j.z * 0.1) + a1->c.z;
-  a1->c.y = (float)(y * 0.1) + a1->c.y;
-  a1->c.x = a1->c.x + (float)(x * 0.1);
-  z = a1->i.z;
-  v8 = a1->c.x + (float)(a1->i.x * 0.0);
-  a1->c.y = a1->c.y + (float)(a1->i.y * 0.0);
-  v9 = a1->c.z;
-  a1->c.x = v8;
-  a1->c.z = v9 + (float)(z * 0.0);
-  v10 = a1->k.y * 0.0;
-  v11 = a1->k.z * 0.0;
-  a1->c.x = v8 + (float)(a1->k.x * 0.0);
-  a1->c.y = a1->c.y + v10;
-  a1->c.z = a1->c.z + v11;
-  return a1;
+  *(_QWORD *)&v17.x = 0;
+  v17.z = pi_d2_11;
+  v18.x = 0.0;
+  *(_QWORD *)&v18.elements[1] = LODWORD(pi_d2_11);
+  v4 = vostok::math::create_rotation(&v17, a1, (int)&v16);
+  v5 = vostok::math::create_rotation(&v18, (int)v4, (int)v14);
+  vostok::math::mul4x3(v4, v5, &v15);
+  vostok::math::mul4x3(result, &v15, &v16);
+  vostok::math::mul4x3(head_matrix, &v16, a2);
+  x = a2->j.x;
+  y = a2->j.y;
+  a2->c.z = (float)(a2->j.z * 0.1) + a2->c.z;
+  a2->c.y = (float)(y * 0.1) + a2->c.y;
+  a2->c.x = a2->c.x + (float)(x * 0.1);
+  v8 = a2->c.x + (float)(a2->i.x * 0.0);
+  v9 = a2->i.z * 0.0;
+  a2->c.y = a2->c.y + (float)(a2->i.y * 0.0);
+  z = a2->c.z;
+  a2->c.x = v8;
+  a2->c.z = z + v9;
+  v11 = a2->k.y * 0.0;
+  v12 = a2->k.z * 0.0;
+  a2->c.x = v8 + (float)(a2->k.x * 0.0);
+  a2->c.y = a2->c.y + v11;
+  a2->c.z = a2->c.z + v12;
+  return a2;
 }

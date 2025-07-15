@@ -1,20 +1,20 @@
-virtual_alloc_arena *__usercall int_new_arena@<eax>(unsigned int size@<eax>, const void *a2@<edi>)
+virtual_alloc_region *__usercall int_new_arena@<eax>(unsigned int size@<eax>)
 {
-  void *v2; // eax
-  unsigned int v3; // esi
-  virtual_alloc_arena *v4; // edi
+  void *v1; // eax
+  void *v2; // edi
+  virtual_alloc_region *v3; // esi
 
-  v2 = (void *)(((size + 11) & 0xFFFFFFF8) + 552);
-  if ( v2 < &loc_20000 )
-    v2 = &loc_20000;
-  v3 = ((unsigned int)v2 + 0x1FFF) & 0xFFFFE000;
-  v4 = (virtual_alloc_arena *)mmap(v3);
-  if ( v4 == (virtual_alloc_arena *)-1 )
+  v1 = (void *)(((size + 11) & 0xFFFFFFF8) + 552);
+  if ( v1 < &loc_20000 )
+    v1 = &loc_20000;
+  v2 = (void *)(((unsigned int)v1 + 0x1FFF) & 0xFFFFE000);
+  v3 = mmap(v2);
+  if ( v3 == (virtual_alloc_region *)-1 )
     return 0;
-  if ( !create_vostok_mspace_with_base(&v4->free_size, v3 - 24, 0, 0, a2) )
+  if ( !create_vostok_mspace_with_base((char *)&v3[2], (unsigned __int64)v2 - 24, 0, 0) )
   {
-    munmap(v4, v4, v3);
+    munmap(v3, (unsigned int)v2);
     return 0;
   }
-  return v4;
+  return v3;
 }

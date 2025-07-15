@@ -8,7 +8,7 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
   int v7; // esi
   unsigned int v8; // ecx
   int v9; // edx
-  unsigned int v11; // esi
+  int v11; // esi
   unsigned int v12; // edx
   int v13; // ecx
   int v14; // esi
@@ -57,7 +57,7 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
   v7 = (v5 ^ (v6 >> 1)) & 0x55555555;
   v8 = v7 ^ v5;
   v9 = (2 * v7) ^ v6;
-  v11 = (unsigned int)&vostok::memory::s_CRT_arena[5508919] & (v9 ^ (v8 >> 8));
+  v11 = (v9 ^ (v8 >> 8)) & 0xFF00FF;
   v12 = v11 ^ v9;
   v13 = (v11 << 8) ^ v8;
   v14 = (v13 ^ (v12 >> 1)) & 0x55555555;
@@ -88,20 +88,18 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
     v24 = (v22 | v21) & 0xFFFFFFF;
     v25 = des_skb[0][v23 & 0x3F]
         | des_skb[1][(v23 & 0xC0 | (v23 >> 1) & 0xF00) >> 6]
-        | des_skb[2][(v23 & 0x1E000 | (unsigned int)&dword_60000 & (v23 >> 1)) >> 13]
-        | des_skb[3][(v23 & 0x100000
-                    | (((unsigned int)&vostok::memory::s_CRT_arena[1379896] & v23 | (v23 >> 1) & 0x7000000) >> 1)) >> 20];
+        | des_skb[2][((unsigned int)&loc_1E000 & v23 | (unsigned int)&loc_60000 & (v23 >> 1)) >> 13]
+        | des_skb[3][((unsigned int)&loc_100000 & v23 | ((v23 & 0xC00000 | (v23 >> 1) & 0x7000000) >> 1)) >> 20];
     v26 = (des_skb[4][v24 & 0x3F]
          | des_skb[6][(v24 >> 15) & 0x3F]
          | des_skb[5][(v24 & 0x180 | (v24 >> 1) & 0x1E00) >> 7]
-         | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v24 | (v24 >> 1) & 0x6000000) >> 21])
+         | des_skb[7][(v24 & 0x1E00000 | (v24 >> 1) & 0x6000000) >> 21])
         & 0xFFFF0000;
     schedule->ks[0].deslong[0] = __ROR4__(
                                    ((des_skb[4][v24 & 0x3F]
                                    | des_skb[6][(v24 >> 15) & 0x3F]
                                    | des_skb[5][(v24 & 0x180 | (v24 >> 1) & 0x1E00) >> 7]
-                                   | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v24
-                                               | (v24 >> 1) & 0x6000000) >> 21]) << 16)
+                                   | des_skb[7][(v24 & 0x1E00000 | (v24 >> 1) & 0x6000000) >> 21]) << 16)
                                  | (unsigned __int16)v25,
                                    30);
     v27 = &schedule->ks[0].deslong[1];
@@ -121,19 +119,18 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
     v32 = v30 & 0xFFFFFFF;
     v33 = des_skb[0][v31 & 0x3F]
         | des_skb[1][(v31 & 0xC0 | (v31 >> 1) & 0xF00) >> 6]
-        | des_skb[2][(v31 & 0x1E000 | (unsigned int)&dword_60000 & (v31 >> 1)) >> 13]
-        | des_skb[3][(v31 & 0x100000
-                    | (((unsigned int)&vostok::memory::s_CRT_arena[1379896] & v31 | (v31 >> 1) & 0x7000000) >> 1)) >> 20];
+        | des_skb[2][((unsigned int)&loc_1E000 & v31 | (unsigned int)&loc_60000 & (v31 >> 1)) >> 13]
+        | des_skb[3][((unsigned int)&loc_100000 & v31 | ((v31 & 0xC00000 | (v31 >> 1) & 0x7000000) >> 1)) >> 20];
     v34 = (des_skb[4][v32 & 0x3F]
          | des_skb[6][(v32 >> 15) & 0x3F]
          | des_skb[5][(v32 & 0x180 | (v32 >> 1) & 0x1E00) >> 7]
-         | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v32 | (v32 >> 1) & 0x6000000) >> 21])
+         | des_skb[7][(v32 & 0x1E00000 | (v32 >> 1) & 0x6000000) >> 21])
         & 0xFFFF0000;
     *v28 = __ROR4__(
              ((des_skb[4][v32 & 0x3F]
              | des_skb[6][(v32 >> 15) & 0x3F]
              | des_skb[5][(v32 & 0x180 | (v32 >> 1) & 0x1E00) >> 7]
-             | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v32 | (v32 >> 1) & 0x6000000) >> 21]) << 16)
+             | des_skb[7][(v32 & 0x1E00000 | (v32 >> 1) & 0x6000000) >> 21]) << 16)
            | (unsigned __int16)v33,
              30);
     v35 = v28 + 1;
@@ -153,19 +150,18 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
     v40 = v38 & 0xFFFFFFF;
     v41 = des_skb[0][v39 & 0x3F]
         | des_skb[1][(v39 & 0xC0 | (v39 >> 1) & 0xF00) >> 6]
-        | des_skb[2][(v39 & 0x1E000 | (unsigned int)&dword_60000 & (v39 >> 1)) >> 13]
-        | des_skb[3][(v39 & 0x100000
-                    | (((unsigned int)&vostok::memory::s_CRT_arena[1379896] & v39 | (v39 >> 1) & 0x7000000) >> 1)) >> 20];
+        | des_skb[2][((unsigned int)&loc_1E000 & v39 | (unsigned int)&loc_60000 & (v39 >> 1)) >> 13]
+        | des_skb[3][((unsigned int)&loc_100000 & v39 | ((v39 & 0xC00000 | (v39 >> 1) & 0x7000000) >> 1)) >> 20];
     v42 = (des_skb[4][v40 & 0x3F]
          | des_skb[6][(v40 >> 15) & 0x3F]
          | des_skb[5][(v40 & 0x180 | (v40 >> 1) & 0x1E00) >> 7]
-         | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v40 | (v40 >> 1) & 0x6000000) >> 21])
+         | des_skb[7][(v40 & 0x1E00000 | (v40 >> 1) & 0x6000000) >> 21])
         & 0xFFFF0000;
     *v36 = __ROR4__(
              ((des_skb[4][v40 & 0x3F]
              | des_skb[6][(v40 >> 15) & 0x3F]
              | des_skb[5][(v40 & 0x180 | (v40 >> 1) & 0x1E00) >> 7]
-             | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v40 | (v40 >> 1) & 0x6000000) >> 21]) << 16)
+             | des_skb[7][(v40 & 0x1E00000 | (v40 >> 1) & 0x6000000) >> 21]) << 16)
            | (unsigned __int16)v41,
              30);
     v43 = v36 + 1;
@@ -185,19 +181,18 @@ void __cdecl DES_set_key_unchecked(unsigned __int8 (*key)[8], DES_ks *schedule)
     v16 = v46 & 0xFFFFFFF;
     v47 = des_skb[0][v18 & 0x3F]
         | des_skb[1][(v18 & 0xC0 | (v18 >> 1) & 0xF00) >> 6]
-        | des_skb[2][(v18 & 0x1E000 | (unsigned int)&dword_60000 & (v18 >> 1)) >> 13]
-        | des_skb[3][(v18 & 0x100000
-                    | (((unsigned int)&vostok::memory::s_CRT_arena[1379896] & v18 | (v18 >> 1) & 0x7000000) >> 1)) >> 20];
+        | des_skb[2][((unsigned int)&loc_1E000 & v18 | (unsigned int)&loc_60000 & (v18 >> 1)) >> 13]
+        | des_skb[3][((unsigned int)&loc_100000 & v18 | ((v18 & 0xC00000 | (v18 >> 1) & 0x7000000) >> 1)) >> 20];
     v48 = (des_skb[4][v16 & 0x3F]
          | des_skb[6][(v16 >> 15) & 0x3F]
          | des_skb[5][(v16 & 0x180 | (v16 >> 1) & 0x1E00) >> 7]
-         | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v16 | (v16 >> 1) & 0x6000000) >> 21])
+         | des_skb[7][(v16 & 0x1E00000 | (v16 >> 1) & 0x6000000) >> 21])
         & 0xFFFF0000;
     *v44 = __ROR4__(
              ((des_skb[4][v16 & 0x3F]
              | des_skb[6][(v16 >> 15) & 0x3F]
              | des_skb[5][(v16 & 0x180 | (v16 >> 1) & 0x1E00) >> 7]
-             | des_skb[7][((unsigned int)&vostok::memory::s_CRT_arena[20254264] & v16 | (v16 >> 1) & 0x6000000) >> 21]) << 16)
+             | des_skb[7][(v16 & 0x1E00000 | (v16 >> 1) & 0x6000000) >> 21]) << 16)
            | (unsigned __int16)v47,
              30);
     v49 = v44 + 1;

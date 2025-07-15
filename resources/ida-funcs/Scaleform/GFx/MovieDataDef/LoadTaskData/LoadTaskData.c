@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
         Scaleform::GFx::MovieDataDef::LoadTaskData *this,
         Scaleform::GFx::MovieDataDef *pdataDef,
-        char *purl,
+        Scaleform::GFx::Resource *purl,
         Scaleform::MemoryHeap *pheap)
 {
   Scaleform::MemoryHeap *v5; // ecx
@@ -21,19 +21,19 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   Scaleform::GFx::MovieDataDef *v19; // eax
   Scaleform::GFx::SwfShapeCharacterDef *v20; // ebp
   Scaleform::GFx::ShapeDataBase *v21; // eax
-  Scaleform::GFx::ShapeDataBase *v22; // edi
-  Scaleform::GFx::ShapeDataBase *v23; // eax
+  Scaleform::GFx::Resource *v22; // edi
+  Scaleform::GFx::Resource *v23; // eax
   Scaleform::RefCountVImpl *v24; // edi
   Scaleform::GFx::Resource *v25; // eax
   Scaleform::GFx::Resource *v26; // ebp
   _DWORD *v27; // eax
   _DWORD *v28; // edi
   char v29; // [esp+3Ch] [ebp-8h]
-  Scaleform::String url; // [esp+40h] [ebp-4h] BYREF
-  Scaleform::GFx::MovieDataDef *pdataDefa; // [esp+48h] [ebp+4h]
-  Scaleform::GFx::Resource *purla; // [esp+4Ch] [ebp+8h]
-  char pheapa; // [esp+50h] [ebp+Ch]
-  Scaleform::GFx::Resource *pheapb; // [esp+50h] [ebp+Ch]
+  Scaleform::String v30; // [esp+40h] [ebp-4h] BYREF
+  Scaleform::GFx::MovieDataDef *pmd; // [esp+48h] [ebp+4h]
+  Scaleform::GFx::Resource *v32; // [esp+4Ch] [ebp+8h]
+  char v33; // [esp+50h] [ebp+Ch]
+  Scaleform::GFx::Resource *v34; // [esp+50h] [ebp+Ch]
 
   this->__vftable = (Scaleform::GFx::MovieDataDef::LoadTaskData_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -46,7 +46,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   this->pHeap = pheap;
   v29 = 0;
   this->pImageHeap.pObject = 0;
-  Scaleform::StringLH::StringLH(&this->FileURL, purl);
+  Scaleform::StringLH::StringLH(&this->FileURL, (const __m128i *)purl);
   Scaleform::GFx::MovieHeaderData::MovieHeaderData(&this->Header);
   this->pFrameUpdate.pObject = 0;
   this->BindData.pFrameData.Value = 0;
@@ -70,7 +70,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   this->InitActionList.Data.Size = 0;
   this->InitActionList.Data.Policy.Capacity = 0;
   this->NamedFrames.mHash.pTable = 0;
-  this->GradientIdGenerator.Id = (unsigned int)&loc_50000;
+  this->GradientIdGenerator.Id = 327680;
   this->pSoundStream = 0;
   this->Scenes.pObject = 0;
   this->Scenes.Owner = 1;
@@ -91,21 +91,21 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   this->ResIndexCounter = 0;
   this->InitActionsCnt = 0;
   if ( pdataDef->MovieType != MT_Image
-    || (Scaleform::String::String(&url, purl),
+    || (Scaleform::String::String(&v30, (const __m128i *)purl),
         v29 = 1,
-        pheapa = 0,
-        !Scaleform::GFx::LoaderImpl::IsProtocolImage(&url, 0, 0)) )
+        v33 = 0,
+        !Scaleform::GFx::LoaderImpl::IsProtocolImage(&v30, 0, 0)) )
   {
-    pheapa = 1;
+    v33 = 1;
   }
   if ( (v29 & 1) != 0 )
   {
     v29 &= ~1u;
-    v8 = (void *)(url.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    v8 = (void *)(v30.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v30.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v8);
   }
-  if ( pheapa )
+  if ( v33 )
   {
     v9 = (Scaleform::GFx::LoadUpdateSync *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 36, 0);
     v10 = v9;
@@ -132,11 +132,11 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   {
     Scaleform::GFx::SpriteDef::SpriteDef(v12, pdataDef);
     v14 = v13;
-    purla = v13;
+    v32 = v13;
   }
   else
   {
-    purla = 0;
+    v32 = 0;
     v14 = 0;
   }
   Scaleform::GFx::SpriteDef::InitEmptyClipDef(v14);
@@ -146,11 +146,11 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   {
     Scaleform::GFx::TextFieldDef::TextFieldDef(v15);
     v17 = v16;
-    pheapb = v16;
+    v34 = v16;
   }
   else
   {
-    pheapb = 0;
+    v34 = 0;
     v17 = 0;
   }
   Scaleform::GFx::TextFieldDef::InitEmptyTextDef(v17);
@@ -162,22 +162,22 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   if ( v18 )
   {
     Scaleform::GFx::ButtonDef::ButtonDef(v18);
-    pdataDefa = v19;
+    pmd = v19;
   }
   else
   {
-    pdataDefa = 0;
+    pmd = 0;
   }
-  Scaleform::GFx::MovieDataDef::LoadTaskData::AddResource(this, (Scaleform::GFx::ResourceId)65539, pdataDefa);
+  Scaleform::GFx::MovieDataDef::LoadTaskData::AddResource(this, (Scaleform::GFx::ResourceId)65539, pmd);
   v20 = (Scaleform::GFx::SwfShapeCharacterDef *)this->pHeap->Alloc(this->pHeap, 24, 0);
   if ( v20 )
   {
     v21 = (Scaleform::GFx::ShapeDataBase *)this->pHeap->Alloc(this->pHeap, 16, 0);
-    v22 = v21;
+    v22 = (Scaleform::GFx::Resource *)v21;
     if ( v21 )
     {
       Scaleform::GFx::ShapeDataBase::ShapeDataBase(v21, Empty_Shape);
-      v22->__vftable = (Scaleform::GFx::ShapeDataBase_vtbl *)&Scaleform::GFx::ConstShapeNoStyles::`vftable';
+      v22->__vftable = (Scaleform::GFx::Resource_vtbl *)&Scaleform::GFx::ConstShapeNoStyles::`vftable';
       v23 = v22;
     }
     else
@@ -191,7 +191,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   }
   else
   {
-    v24 = (Scaleform::RefCountVImpl *)pdataDefa;
+    v24 = (Scaleform::RefCountVImpl *)pmd;
     v26 = 0;
   }
   if ( (v29 & 2) != 0 && v24 )
@@ -230,10 +230,10 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::LoadTaskData(
   Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)v28);
   if ( v26 )
     Scaleform::GFx::Resource::Release(v26);
-  if ( pdataDefa )
-    Scaleform::GFx::Resource::Release(pdataDefa);
-  if ( pheapb )
-    Scaleform::GFx::Resource::Release(pheapb);
-  if ( purla )
-    Scaleform::GFx::Resource::Release(purla);
+  if ( pmd )
+    Scaleform::GFx::Resource::Release(pmd);
+  if ( v34 )
+    Scaleform::GFx::Resource::Release(v34);
+  if ( v32 )
+    Scaleform::GFx::Resource::Release(v32);
 }

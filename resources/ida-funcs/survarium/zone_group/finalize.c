@@ -1,25 +1,30 @@
-void __thiscall survarium::zone_group::finalize(survarium::zone_group *this)
+void __userpurge survarium::zone_group::finalize(survarium::zone_group *this@<ecx>, int a2@<esi>, int forced)
 {
-  survarium::game_camera *v1; // ecx
-  survarium::game_camera *v2; // ecx
-  survarium::zone_group::zone_wrapper *M_start; // [esp+18h] [ebp-10h]
-  unsigned int z; // [esp+24h] [ebp-4h]
+  _DWORD *v3; // edi
+  _DWORD *v4; // ebx
+  unsigned int i; // edi
+  int v6; // eax
 
-  for ( z = 0; ; ++z )
+  if ( *(_BYTE *)(a2 + 1) )
   {
-    v1 = (survarium::game_camera *)(this->zones._M_impl._M_finish - this->zones._M_impl._M_start);
-    if ( z >= (unsigned int)v1 )
-      break;
-    survarium::weapon_user_dead_state::finalize(v1);
-    M_start = this->zones._M_impl._M_start;
-    if ( M_start[z].active )
+    v3 = *(_DWORD **)(a2 + 20);
+    v4 = *(_DWORD **)(a2 + 24);
+    while ( v3 != v4 )
+      (*(void (__thiscall **)(_DWORD, _DWORD, int))(**(_DWORD **)(*(_DWORD *)(a2 + 32) + 40) + 24))(
+        *(_DWORD *)(*(_DWORD *)(a2 + 32) + 40),
+        *v3++,
+        forced);
+  }
+  else
+  {
+    for ( i = 0; i < (*(_DWORD *)(a2 + 24) - *(_DWORD *)(a2 + 20)) >> 2; ++i )
     {
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)M_start[z].active);
-      ((void (__thiscall *)(survarium::damage_zone_core *, survarium::damage_zone_core *))this->zones._M_impl._M_start[z].zone->deactivate)(
-        this->zones._M_impl._M_start[z].zone,
-        this->zones._M_impl._M_start[z].zone);
-      survarium::weapon_user_dead_state::finalize(v2);
-      this->zones._M_impl._M_start[z].active = 0;
+      v6 = *(_DWORD *)(*(_DWORD *)(a2 + 20) + 4 * i);
+      if ( *(_BYTE *)(v6 + 292) )
+        (*(void (__thiscall **)(_DWORD, int, int))(**(_DWORD **)(*(_DWORD *)(a2 + 32) + 40) + 24))(
+          *(_DWORD *)(*(_DWORD *)(a2 + 32) + 40),
+          v6,
+          forced);
     }
   }
 }

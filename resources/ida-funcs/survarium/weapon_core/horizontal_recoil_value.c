@@ -1,20 +1,24 @@
-double __thiscall survarium::weapon_core::horizontal_recoil_value(survarium::weapon_core *this)
+float __usercall survarium::weapon_core::horizontal_recoil_value@<xmm0>(
+        survarium::weapon_core *this@<esi>,
+        unsigned int current_time_in_ms@<edx>)
 {
-  __m128 v1; // xmm0
-  float horizontal_coeff; // [esp+4h] [ebp-18h]
-  float m_horizontal_value; // [esp+10h] [ebp-Ch]
+  float v3; // xmm0_4
+  float v4; // xmm1_4
 
-  if ( survarium::weapon_core::is_aimed(this, (int)this) )
+  LODWORD(v3) = survarium::weapon_recoil_calculator::get_side_value_impl(
+                  &this->m_recoil_calculator.m_weapon_calculator,
+                  current_time_in_ms,
+                  this->m_recoil_calculator.m_weapon_calculator.m_horizontal_target,
+                  this->m_recoil_calculator.m_weapon_calculator.m_horizontal_value_at_last_shoot).m128_u32[0];
+  if ( this->m_aimed )
+    v3 = v3 + this->m_breath_vibration_calculator.m_vibration.x;
+  v4 = epsilon - 0.5;
+  if ( (float)(epsilon - 0.5) < v3 )
   {
-    m_horizontal_value = this->m_breath_vibration_calculator.m_horizontal_value;
-    horizontal_coeff = survarium::recoil_calculator::get_horizontal_coeff(&this->m_recoil_calculator)
-                     + m_horizontal_value;
+    if ( (float)(0.5 - epsilon) < v3 )
+      v4 = 0.5 - epsilon;
+    else
+      v4 = v3;
   }
-  else
-  {
-    horizontal_coeff = survarium::recoil_calculator::get_horizontal_coeff(&this->m_recoil_calculator);
-  }
-  v1 = _mm_xor_ps((__m128)LODWORD(c_anim_center), *(__m128 *)&stru_984D24.m_working_macro_list.m_buffer[7].m_store[508]);
-  v1.m128_f32[0] = v1.m128_f32[0] + epsilon;
-  return (float)(0.5 - vostok::math::clamp_r<float>(v1, LODWORD(horizontal_coeff), 0.5 - epsilon).m128_f32[0]);
+  return 0.5 - v4;
 }

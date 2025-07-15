@@ -5,92 +5,96 @@ void __thiscall Scaleform::Render::DICommand_Threshold::ExecuteSW(
         Scaleform::Render::ImageData **psrc)
 {
   Scaleform::Render::ImagePlane *pPlanes; // eax
-  int Width; // ecx
-  int Height; // edx
-  Scaleform::Render::ImagePlane *v8; // eax
-  const Scaleform::Render::ImageData *v9; // ecx
-  const Scaleform::Render::ImageData *v10; // edx
+  unsigned int Width; // ecx
+  unsigned int Height; // edx
+  unsigned int *v8; // eax
+  unsigned int v9; // ecx
+  unsigned int v10; // edx
   Scaleform::Render::TextureManager *v11; // eax
-  Scaleform::Render::ImageSwizzler *v12; // eax
+  int v12; // eax
   Scaleform::Render::TextureManager *v13; // eax
-  Scaleform::Render::ImageData *v14; // esi
-  Scaleform::Render::ImageSwizzler *v15; // eax
-  signed int y1; // esi
-  signed int x1; // ebx
-  unsigned int v18; // ebp
+  unsigned int v14; // esi
+  int v15; // eax
+  int y1; // esi
+  int x1; // ebx
+  int v18; // ebp
   unsigned int Mask; // eax
   unsigned int v20; // ecx
   unsigned int v21; // eax
   bool v22; // dl
   unsigned int ThresholdColor; // eax
-  const Scaleform::Render::ImageData *src[2]; // [esp+30h] [ebp-84h] BYREF
-  Scaleform::Render::Color sCol; // [esp+38h] [ebp-7Ch] BYREF
-  int y[2]; // [esp+3Ch] [ebp-78h] BYREF
-  Scaleform::Render::Rect<long> dstClippedRect; // [esp+44h] [ebp-70h] BYREF
-  Scaleform::Render::ImageSwizzlerContext srcSwiz; // [esp+54h] [ebp-60h] BYREF
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+6Ch] [ebp-48h] BYREF
-  Scaleform::Render::Point<long> delta; // [esp+84h] [ebp-30h] BYREF
-  Scaleform::Render::ImagePlane s; // [esp+8Ch] [ebp-28h] BYREF
-  Scaleform::Render::ImagePlane d; // [esp+A0h] [ebp-14h] BYREF
+  Scaleform::Render::Size<unsigned long> v24; // [esp+30h] [ebp-84h] BYREF
+  unsigned int v25; // [esp+38h] [ebp-7Ch] BYREF
+  Scaleform::Render::Size<unsigned long> v26; // [esp+3Ch] [ebp-78h] BYREF
+  Scaleform::Render::Rect<long> v27; // [esp+44h] [ebp-70h] BYREF
+  _DWORD v28[6]; // [esp+54h] [ebp-60h] BYREF
+  _DWORD v29[6]; // [esp+6Ch] [ebp-48h] BYREF
+  Scaleform::Render::Point<long> v30; // [esp+84h] [ebp-30h] BYREF
+  Scaleform::Render::ImagePlane v31; // [esp+8Ch] [ebp-28h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+A0h] [ebp-14h] BYREF
 
-  src[0] = *psrc;
-  memset(&d, 0, sizeof(d));
-  memset(&s, 0, sizeof(s));
-  Scaleform::Render::ImageData::GetPlane(dest, 0, &d);
-  Scaleform::Render::ImageData::GetPlane((Scaleform::Render::ImageData *)src[0], 0, &s);
+  v24.Width = (unsigned int)*psrc;
+  memset(&pplane, 0, sizeof(pplane));
+  memset(&v31, 0, sizeof(v31));
+  Scaleform::Render::ImageData::GetPlane(dest, 0, &pplane);
+  Scaleform::Render::ImageData::GetPlane((Scaleform::Render::ImageData *)v24.Width, 0, &v31);
   pPlanes = dest->pPlanes;
   Width = pPlanes->Width;
   Height = pPlanes->Height;
-  v8 = src[0]->pPlanes;
-  y[0] = Width;
-  v9 = (const Scaleform::Render::ImageData *)v8->Width;
-  y[1] = Height;
-  v10 = (const Scaleform::Render::ImageData *)v8->Height;
-  src[0] = v9;
-  src[1] = v10;
-  memset(&dstClippedRect, 0, sizeof(dstClippedRect));
+  v8 = *(unsigned int **)(v24.Width + 12);
+  v26.Width = Width;
+  v9 = *v8;
+  v26.Height = Height;
+  v10 = v8[1];
+  v24.Width = v9;
+  v24.Height = v10;
+  memset(&v27, 0, sizeof(v27));
   if ( Scaleform::Render::DICommand_SourceRect::CalculateDestClippedRect(
          this,
-         (const Scaleform::Render::Size<unsigned long> *)src,
-         (const Scaleform::Render::Size<unsigned long> *)y,
+         &v24,
+         &v26,
          &this->SourceRect,
-         &dstClippedRect,
-         &delta) )
+         &v27,
+         &v30) )
   {
     v11 = context->pHAL->GetTextureManager(context->pHAL);
-    v12 = v11->GetImageSwizzler(v11);
-    dstSwiz.pCurrentScanline = 0;
-    memset(&dstSwiz.CachedBlockY, 0, 12);
-    dstSwiz.Swizzler = v12;
-    dstSwiz.pImage = dest;
-    v12->Initialize(v12, &dstSwiz);
+    v12 = (int)v11->GetImageSwizzler(v11);
+    v29[1] = 0;
+    memset(&v29[3], 0, 12);
+    v29[0] = v12;
+    v29[2] = dest;
+    (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v12 + 4))(v12, v29);
     v13 = context->pHAL->GetTextureManager(context->pHAL);
-    v14 = *psrc;
-    v15 = v13->GetImageSwizzler(v13);
-    srcSwiz.pCurrentScanline = 0;
-    memset(&srcSwiz.CachedBlockY, 0, 12);
-    srcSwiz.Swizzler = v15;
-    srcSwiz.pImage = v14;
-    v15->Initialize(v15, &srcSwiz);
-    y1 = dstClippedRect.y1;
-    y[0] = dstClippedRect.y1;
-    if ( dstClippedRect.y1 < dstClippedRect.y2 )
+    v14 = (unsigned int)*psrc;
+    v15 = (int)v13->GetImageSwizzler(v13);
+    v28[1] = 0;
+    memset(&v28[3], 0, 12);
+    v28[0] = v15;
+    v28[2] = v14;
+    (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v15 + 4))(v15, v28);
+    y1 = v27.y1;
+    v26.Width = v27.y1;
+    if ( v27.y1 < v27.y2 )
     {
-      src[0] = (const Scaleform::Render::ImageData *)(dstClippedRect.y1 - delta.y);
+      v24.Width = v27.y1 - v30.y;
       do
       {
-        dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, y1);
-        srcSwiz.Swizzler->CacheScanline(srcSwiz.Swizzler, &srcSwiz, (unsigned int)src[0]);
-        x1 = dstClippedRect.x1;
-        if ( dstClippedRect.x1 < dstClippedRect.x2 )
+        (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v29[0] + 8))(v29[0], v29, y1);
+        (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v28[0] + 8))(v28[0], v28, v24.Width);
+        x1 = v27.x1;
+        if ( v27.x1 < v27.x2 )
         {
-          v18 = dstClippedRect.x1 - delta.x;
+          v18 = v27.x1 - v30.x;
           do
           {
-            srcSwiz.Swizzler->GetPixelInScanline(srcSwiz.Swizzler, &sCol, &srcSwiz, v18);
+            (*(void (__thiscall **)(_DWORD, unsigned int *, _DWORD *, int))(*(_DWORD *)v28[0] + 20))(
+              v28[0],
+              &v25,
+              v28,
+              v18);
             Mask = this->Mask;
             v20 = Mask & this->Threshold;
-            v21 = sCol.Raw & Mask;
+            v21 = v25 & Mask;
             v22 = 0;
             switch ( this->Operation )
             {
@@ -116,23 +120,27 @@ void __thiscall Scaleform::Render::DICommand_Threshold::ExecuteSW(
                 break;
             }
             if ( !this->pSource.pObject->Transparent )
-              sCol.Channels.Alpha = -1;
+              HIBYTE(v25) = -1;
             if ( v22 )
               ThresholdColor = this->ThresholdColor;
             else
-              ThresholdColor = sCol.Raw;
+              ThresholdColor = v25;
             if ( !this->pImage.pObject->Transparent )
               ThresholdColor |= 0xFF000000;
-            dstSwiz.Swizzler->SetPixelInScanline(dstSwiz.Swizzler, &dstSwiz, x1++, ThresholdColor);
+            (*(void (__thiscall **)(_DWORD, _DWORD *, int, unsigned int))(*(_DWORD *)v29[0] + 12))(
+              v29[0],
+              v29,
+              x1++,
+              ThresholdColor);
             ++v18;
           }
-          while ( x1 < dstClippedRect.x2 );
-          y1 = y[0];
+          while ( x1 < v27.x2 );
+          y1 = v26.Width;
         }
-        ++src[0];
-        y[0] = ++y1;
+        ++v24.Width;
+        v26.Width = ++y1;
       }
-      while ( y1 < dstClippedRect.y2 );
+      while ( y1 < v27.y2 );
     }
   }
 }

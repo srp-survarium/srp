@@ -34,11 +34,11 @@ void __cdecl __noreturn __report_gsfailure()
   GS_ExceptionRecord.ExceptionCode = -1073740791;
   GS_ExceptionRecord.ExceptionFlags = 1;
   DebuggerWasPresent = IsDebuggerPresent();
-  _crt_debugger_hook(1);
+  _crt_debugger_hook();
   SetUnhandledExceptionFilter(0);
   UnhandledExceptionFilter(&GS_ExceptionPointers);
   if ( !DebuggerWasPresent )
-    _crt_debugger_hook(1);
+    _crt_debugger_hook();
   CurrentProcess = GetCurrentProcess();
   TerminateProcess(CurrentProcess, 0xC0000409);
 }

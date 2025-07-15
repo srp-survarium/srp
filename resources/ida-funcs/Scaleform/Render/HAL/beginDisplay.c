@@ -14,42 +14,42 @@ void __thiscall Scaleform::Render::HAL::BeginDisplay(
   int ScissorWidth; // edx
   int ScissorHeight; // eax
   Scaleform::ListAllocBase<Scaleform::Render::BeginDisplayData,127,Scaleform::AllocatorLH_POD<Scaleform::Render::BeginDisplayData,2> >::PageType *v14; // eax
-  Scaleform::Render::BeginDisplayData *pNext; // edx
+  Scaleform::Render::BeginDisplayData *v15; // edx
   Scaleform::Render::HAL_vtbl *v16; // edx
   void (__thiscall *Draw)(Scaleform::Render::HAL *, const Scaleform::Render::RenderQueueItem *); // edx
-  _DWORD v18[2]; // [esp+4h] [ebp-40h] BYREF
-  Scaleform::Render::BeginDisplayData entry; // [esp+Ch] [ebp-38h] BYREF
+  _DWORD v18[5]; // [esp+4h] [ebp-40h] BYREF
+  _DWORD v19[11]; // [esp+18h] [ebp-2Ch] BYREF
 
   if ( (this->HALState & 2) != 0 )
   {
     BufferHeight = vpin->BufferHeight;
-    entry.VP.BufferWidth = vpin->BufferWidth;
+    v19[0] = vpin->BufferWidth;
     Left = vpin->Left;
-    entry.VP.BufferHeight = BufferHeight;
+    v19[1] = BufferHeight;
     Top = vpin->Top;
-    entry.VP.Left = Left;
+    v19[2] = Left;
     Width = vpin->Width;
-    entry.VP.Top = Top;
+    v19[3] = Top;
     Height = vpin->Height;
-    entry.VP.Width = Width;
+    v19[4] = Width;
     Flags = vpin->Flags;
-    entry.VP.Height = Height;
+    v19[5] = Height;
     ScissorLeft = vpin->ScissorLeft;
-    entry.VP.Flags = Flags;
+    v19[10] = Flags;
     ScissorTop = vpin->ScissorTop;
-    entry.VP.ScissorLeft = ScissorLeft;
+    v19[6] = ScissorLeft;
     ScissorWidth = vpin->ScissorWidth;
     ScissorHeight = vpin->ScissorHeight;
-    entry.VP.ScissorTop = ScissorTop;
-    entry.BackgroundColor = backgroundColor;
-    entry.VP.ScissorWidth = ScissorWidth;
-    entry.VP.ScissorHeight = ScissorHeight;
+    v19[7] = ScissorTop;
+    v18[4] = backgroundColor.Raw;
+    v19[8] = ScissorWidth;
+    v19[9] = ScissorHeight;
     v14 = Scaleform::ListAllocBase<Scaleform::Render::BeginDisplayData,127,Scaleform::AllocatorLH_POD<Scaleform::Render::BeginDisplayData,2>>::allocate(&this->BeginDisplayDataList);
-    pNext = entry.pNext;
-    v14->Data[0].pPrev = entry.pPrev;
-    v14->Data[0].pNext = pNext;
+    v15 = (Scaleform::Render::BeginDisplayData *)v18[3];
+    v14->Data[0].pPrev = (Scaleform::Render::BeginDisplayData *)v18[2];
+    v14->Data[0].pNext = v15;
     v14->Data[0].BackgroundColor = backgroundColor;
-    qmemcpy(&v14->Data[0].VP, &entry.VP, sizeof(v14->Data[0].VP));
+    qmemcpy(&v14->Data[0].VP, v19, sizeof(v14->Data[0].VP));
     v16 = this->__vftable;
     if ( (this->HALState & 4) != 0 )
     {

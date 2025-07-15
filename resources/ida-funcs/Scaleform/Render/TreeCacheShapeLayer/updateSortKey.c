@@ -15,7 +15,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateSortKey(Scaleform:
   Scaleform::Render::MeshKey *v14; // ecx
   Scaleform::Render::TreeCacheRoot *pRoot; // ecx
   Scaleform::Render::TreeCacheNode *pParent; // esi
-  Scaleform::Render::SortKey result; // [esp+14h] [ebp-8h] BYREF
+  Scaleform::Render::SortKey v17; // [esp+14h] [ebp-8h] BYREF
 
   p_SorterShapeNode = &this->SorterShapeNode;
   if ( this->SorterShapeNode.pBundle.pObject )
@@ -41,11 +41,11 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateSortKey(Scaleform:
   Layer = this->Layer;
   v10 = *(_DWORD *)(((unsigned int)pNode & 0xFFFFF000) + 0x14);
   v11 = this->pNode;
-  result.pImpl = *(Scaleform::Render::SortKeyInterface **)((*(_DWORD *)(v10 + 4 * (v7 / 28) + 20) & 0xFFFFFFFE) + 148);
+  v17.pImpl = *(Scaleform::Render::SortKeyInterface **)((*(_DWORD *)(v10 + 4 * (v7 / 28) + 20) & 0xFFFFFFFE) + 148);
   if ( !v11 )
     v11 = this->pParent->Scaleform::Render::TreeCacheMeshBase::Scaleform::Render::TreeCacheNode::pNode;
   v12 = Scaleform::Render::TreeCacheShapeLayer::CreateSortKey(
-          &result,
+          &v17,
           this,
           *(Scaleform::Render::ShapeMeshProvider **)((*(_DWORD *)(*(_DWORD *)(((unsigned int)v11 & 0xFFFFF000) + 0x14)
                                                                 + 4
@@ -57,13 +57,13 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateSortKey(Scaleform:
           Layer,
           Flags,
           &this->pGradient,
-          *(float *)&result.pImpl);
+          *(float *)&v17.pImpl);
   v12->pImpl->AddRef(v12->pImpl, v12->Data);
   this->SorterShapeNode.Key.pImpl->Release(this->SorterShapeNode.Key.pImpl, this->SorterShapeNode.Key.Data);
   this->SorterShapeNode.Key.pImpl = v12->pImpl;
-  Data = result.Data;
+  Data = v17.Data;
   this->SorterShapeNode.Key.Data = v12->Data;
-  result.pImpl->Release(result.pImpl, Data);
+  v17.pImpl->Release(v17.pImpl, Data);
   this->ComplexShape = this->SorterShapeNode.Key.pImpl->Type == SortKey_MeshProvider;
   v14 = this->pMeshKey.pObject;
   if ( v14 )
@@ -74,9 +74,6 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateSortKey(Scaleform:
   {
     pParent = this->pParent;
     if ( pParent )
-      Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(
-        pRoot,
-        pParent,
-        (unsigned int)&vostok::memory::s_CRT_arena[5574201]);
+      Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(pRoot, pParent, 0x1000001u);
   }
 }

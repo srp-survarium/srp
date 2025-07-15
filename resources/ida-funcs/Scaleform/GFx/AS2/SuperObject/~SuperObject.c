@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::~SuperObject(Scaleform::GFx::A
     if ( Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::~SuperObject(Scaleform::GFx::A
     if ( pLocalFrame )
     {
       v6 = pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v6) != 0 )
+      if ( (v6 & 0x3FFFFFF) != 0 )
       {
         pLocalFrame->RefCount = v6 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
@@ -43,7 +43,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::~SuperObject(Scaleform::GFx::A
   if ( pObject )
   {
     v8 = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+    if ( (v8 & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = v8 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -53,7 +53,7 @@ void __thiscall Scaleform::GFx::AS2::SuperObject::~SuperObject(Scaleform::GFx::A
   if ( v9 )
   {
     v10 = v9->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+    if ( (v10 & 0x3FFFFFF) != 0 )
     {
       v9->RefCount = v10 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

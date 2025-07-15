@@ -1,6 +1,11 @@
-void dynamic_initializer_for__s_max_resources_size__()
+void __thiscall dynamic_initializer_for__s_max_resources_size__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_max_resources_size);
+  vostok::command_line::key::key(
+    this,
+    &s_max_resources_size,
+    "max_resources_size",
+    uri,
+    &stru_7F94B0.m_string.m_buffer[28],
+    "setup maximum size for resource arenas, Mb",
+    uri);
 }

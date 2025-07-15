@@ -1,4 +1,4 @@
-evp_pkey_st *__cdecl ssl_get_sign_pkey(ssl_st *s, const ssl_cipher_st *cipher)
+evp_pkey_st *__usercall ssl_get_sign_pkey@<eax>(int a1@<ebx>, ssl_st *s, const ssl_cipher_st *cipher)
 {
   unsigned int algorithm_auth; // edx
   cert_st *cert; // ecx
@@ -16,7 +16,7 @@ evp_pkey_st *__cdecl ssl_get_sign_pkey(ssl_st *s, const ssl_cipher_st *cipher)
     }
     else if ( (algorithm_auth & 0x40) == 0 || (result = cert->pkeys[5].privatekey) == 0 )
     {
-      ERR_put_error(0x14u, 183, 68, ".\\ssl\\ssl_lib.c", 2198);
+      ERR_put_error(a1, 0x14u, 183, 68, ".\\ssl\\ssl_lib.c", 2198);
       return 0;
     }
   }

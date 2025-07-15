@@ -2,13 +2,13 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::FrameLabel> *__c
         Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::FrameLabel> *result,
         Scaleform::GFx::AS3::InstanceTraits::fl_display::FrameLabel *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Catch *v2; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v2; // eax
   Scaleform::GFx::AS3::Instances::fl_display::FrameLabel *v3; // esi
   Scaleform::GFx::AS3::Traits *pObject; // eax
   int p_EmptyStringNode; // eax
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_display::FrameLabel> *v6; // eax
 
-  v2 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(t);
+  v2 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(t);
   v3 = (Scaleform::GFx::AS3::Instances::fl_display::FrameLabel *)v2;
   if ( v2 )
   {

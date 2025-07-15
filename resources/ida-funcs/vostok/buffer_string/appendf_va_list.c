@@ -1,15 +1,24 @@
-vostok::buffer_string *__thiscall vostok::buffer_string::appendf_va_list(
-        vostok::buffer_string *this,
-        const char *format,
+vostok::buffer_string *__userpurge vostok::buffer_string::appendf_va_list@<eax>(
+        vostok::buffer_string *this@<ecx>,
+        _DWORD *a2@<edi>,
+        char *format,
         char *argptr)
 {
-  char *v4; // ecx
-  char *i; // eax
-  char temp_buffer[4088]; // [esp+4h] [ebp-FF8h] BYREF
+  int v4; // esi
+  void *v5; // esp
+  char *v6; // eax
+  char *i; // ecx
+  char v8; // bl
+  char v10[8]; // [esp+0h] [ebp-8h] BYREF
 
-  v4 = &temp_buffer[vsnprintf_s(temp_buffer, 0xFF8u, 0xFF8u, format, argptr)];
-  for ( i = temp_buffer; i != v4; ++i )
-    *this->m_end++ = *i;
-  *this->m_end = 0;
-  return this;
+  v4 = a2[2] - *a2;
+  v5 = alloca(v4);
+  v6 = &v10[vsnprintf_s(v10, v4, v4, format, argptr)];
+  for ( i = v10; i != v6; ++a2[1] )
+  {
+    v8 = *i++;
+    *(_BYTE *)a2[1] = v8;
+  }
+  *(_BYTE *)a2[1] = 0;
+  return (vostok::buffer_string *)a2;
 }

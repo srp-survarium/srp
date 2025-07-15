@@ -1,262 +1,223 @@
-void __usercall vostok::render::fill_source_vertices_impl__vostok::render::fill_source_vertices_::_2_::static_vertex_(
-        int a1@<ebx>,
-        int a2@<ebp>,
-        int a3@<edi>,
-        int a4@<esi>,
+void __cdecl vostok::render::fill_source_vertices_impl__vostok::render::fill_source_vertices_::_2_::static_vertex_(
         vostok::render::render_geometry *in_render_geometry,
-        vostok::render::vector<vostok::render::batched_vertex_source> *out_vertices,
-        vostok::render::vector<unsigned short> *out_indices,
-        int a8,
-        int a9,
-        int *data,
-        unsigned int __n)
+        vostok::fixed_vector<vostok::render::batched_vertex_source,65536> *out_vertices,
+        vostok::fixed_vector<unsigned short,65536> *out_indices)
 {
   vostok::render::untyped_buffer *m_object; // eax
-  unsigned int v12; // ebp
-  _QWORD *v13; // ebx
-  _QWORD *v14; // esi
-  stlp_std::priv::_Impl_vector<vostok::render::batched_vertex_source,vostok::render::std_allocator<vostok::render::batched_vertex_source> > *v15; // ecx
-  vostok::render::untyped_buffer *buffer; // eax
-  vostok::render::untyped_buffer *v17; // edi
-  int v18; // eax
-  int v19; // ecx
-  unsigned int v20; // esi
-  void *v21; // eax
-  stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short> > *v22; // ebp
-  stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short> > *v23; // ecx
-  vostok::render::untyped_buffer *v24; // eax
-  vostok::render::res_state *v25; // edi
-  vostok::render::grass_render_model *v26; // ecx
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void *v28; // esi
-  bool v29; // zf
-  survarium::options_tab *v30; // ebx
-  ID3D11RasterizerState *m_rasterizer_state; // eax
-  vostok::render::grass_render_model *v32; // esi
-  survarium::options_tab *v33; // ebx
-  ID3D11RasterizerState *v34; // eax
-  vostok::render::grass_render_model *v35; // esi
-  survarium::options_tab *v36; // ebx
-  ID3D11RasterizerState *v37; // eax
-  vostok::render::grass_render_model *v38; // esi
-  vostok::render::res_state *vb; // [esp+70h] [ebp-38h]
-  vostok::render::res_state *temp_vb; // [esp+74h] [ebp-34h]
-  unsigned __int8 *src; // [esp+78h] [ebp-30h] BYREF
-  vostok::render::batched_vertex_source __x; // [esp+84h] [ebp-24h] BYREF
-  void *dataa; // [esp+C0h] [ebp+18h]
+  vostok::render::untyped_buffer *v5; // edi
+  _DWORD *v6; // eax
+  vostok::render::untyped_buffer *v7; // ecx
+  vostok::render::untyped_buffer *v8; // ecx
+  vostok::render::batched_vertex_source *m_begin; // edx
+  const void *v10; // esi
+  bool v11; // zf
+  vostok::memory::doug_lea_allocator *v12; // ecx
+  _DWORD *v13; // eax
+  D3D11_MAP v14; // edi
+  vostok::render::untyped_buffer *v15; // ecx
+  unsigned __int8 *v16; // eax
+  vostok::render::untyped_buffer *v17; // ecx
+  vostok::memory::doug_lea_allocator *v18; // ecx
+  vostok::render::resource_manager *v19; // esi
+  int v20; // eax
+  int v21; // eax
+  unsigned int m_size; // eax
+  const char *v23; // [esp+0h] [ebp-20h]
+  vostok::render::untyped_buffer *v24; // [esp+0h] [ebp-20h]
+  const char *v25; // [esp+0h] [ebp-20h]
+  vostok::render::untyped_buffer *v26; // [esp+0h] [ebp-20h]
+  char *v27; // [esp+0h] [ebp-20h]
+  const char *v28; // [esp+4h] [ebp-1Ch]
+  const char *v29; // [esp+4h] [ebp-1Ch]
+  const char *v30; // [esp+4h] [ebp-1Ch]
+  unsigned int v31; // [esp+8h] [ebp-18h]
+  unsigned int v32; // [esp+8h] [ebp-18h]
+  unsigned int v33; // [esp+8h] [ebp-18h]
+  char *count; // [esp+Ch] [ebp-14h]
+  unsigned int counta; // [esp+Ch] [ebp-14h]
+  vostok::buffer_vector<vostok::render::batched_vertex_source> *v36; // [esp+10h] [ebp-10h]
+  char *data; // [esp+14h] [ebp-Ch]
+  char *v38; // [esp+18h] [ebp-8h]
+  vostok::render::untyped_buffer *source; // [esp+1Ch] [ebp-4h]
+  void *stridea; // [esp+28h] [ebp+8h]
+  D3D11_MAP stride; // [esp+28h] [ebp+8h]
+  char *v42; // [esp+2Ch] [ebp+Ch]
+  char *v43; // [esp+2Ch] [ebp+Ch]
 
   m_object = in_render_geometry->geom.m_object->m_vb.m_object;
-  vb = 0;
+  v5 = 0;
+  source = 0;
   if ( m_object )
   {
     ++m_object->m_reference_count;
-    vb = (vostok::render::res_state *)m_object;
+    source = m_object;
+    v5 = m_object;
   }
-  v12 = (unsigned int)vb->m_depth_stencil_state / in_render_geometry->geom.m_object->m_vb_stride;
-  v13 = vostok::memory::doug_lea_allocator::malloc_impl(
-          (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-          (unsigned int)vb->m_depth_stencil_state);
-  v14 = v13;
-  stlp_std::priv::_Impl_vector<vostok::render::batched_vertex_source,vostok::render::std_allocator<vostok::render::batched_vertex_source>>::reserve(
-    v15,
-    (int)out_vertices,
-    v12);
-  memset(&__x.normal, 255, 16);
-  __x.uv.x = SNaN;
-  __x.uv.y = SNaN;
-  stlp_std::priv::_Impl_vector<vostok::render::batched_vertex_source,vostok::render::std_allocator<vostok::render::batched_vertex_source>>::resize(
-    v12,
-    &out_vertices->_M_impl,
-    &__x);
-  buffer = vostok::render::resource_manager::create_buffer(
-             (unsigned int)vb->m_depth_stencil_state,
-             (bool)out_vertices,
-             (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-             v13,
-             enum_buffer_type_vertex,
-             0,
-             1);
-  v17 = 0;
-  temp_vb = 0;
-  if ( buffer )
+  stridea = (void *)in_render_geometry->geom.m_object->m_vb_stride;
+  v36 = (vostok::buffer_vector<vostok::render::batched_vertex_source> *)(v5->m_size
+                                                                       / in_render_geometry->geom.m_object->m_vb_stride);
+  data = vostok::memory::doug_lea_allocator::malloc_impl(
+           (vostok::memory::doug_lea_allocator *)v5->m_size,
+           (int)vostok::render::g_allocator,
+           v5->m_size,
+           "base_vb",
+           v23,
+           v28,
+           v31);
+  count = data;
+  vostok::buffer_vector<vostok::render::batched_vertex_source>::resize(v36, (int *)out_vertices);
+  vostok::render::resource_manager::create_buffer(
+    v5->m_size,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    stridea,
+    (vostok::render::enum_buffer_type)data,
+    0,
+    0,
+    1);
+  stride = 0;
+  if ( v6 )
   {
-    ++buffer->m_reference_count;
-    temp_vb = (vostok::render::res_state *)buffer;
-    v17 = buffer;
+    ++*v6;
+    stride = (D3D11_MAP)v6;
   }
-  (*(void (__stdcall **)(int, ID3D11Buffer *, ID3D11RasterizerState *, int, int, int, int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                                          + 188))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v17->m_hardware_buffer,
-    vb->m_rasterizer_state,
-    a3,
-    a4,
-    a2,
-    a1);
-  (*(void (__stdcall **)(int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                             + 444))(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y);
-  (*(void (__stdcall **)(int, ID3D11Buffer *, _DWORD, int, _DWORD, float *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                           + 56))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v17->m_hardware_buffer,
-    0,
-    1,
-    0,
-    &__x.position.y);
-  v18 = *data;
-  if ( v12 )
+  vostok::render::resource_manager::copy(source, (vostok::render::resource_manager *)stride, v24);
+  v38 = (char *)vostok::render::untyped_buffer::map(v7, stride, D3D11_MAP_READ);
+  m_begin = out_vertices->m_begin;
+  if ( v36 )
   {
-    v19 = LODWORD(__x.position.y) - (_DWORD)v13;
+    v42 = (char *)v36;
     do
     {
-      *v14 = *(_QWORD *)((char *)v14 + v19);
-      v14[1] = *(_QWORD *)((char *)v14 + v19 + 8);
-      v14[2] = *(_QWORD *)((char *)v14 + v19 + 16);
-      v14[3] = *(_QWORD *)((char *)v14 + v19 + 24);
-      *(_DWORD *)(v18 + 24) = 0;
-      *(_QWORD *)v18 = *v14;
-      *(_DWORD *)(v18 + 8) = *((_DWORD *)v14 + 2);
-      *(_DWORD *)(v18 + 12) = *((_DWORD *)v14 + 3);
-      *(_DWORD *)(v18 + 16) = 0;
-      *(_DWORD *)(v18 + 20) = 0;
-      *(_DWORD *)(v18 + 28) = *((_DWORD *)v14 + 6);
-      *(_DWORD *)(v18 + 32) = *((_DWORD *)v14 + 7);
-      v14 += 4;
-      v18 += 36;
-      --v12;
+      v10 = v38;
+      v38 += 32;
+      qmemcpy(count, v10, 0x20u);
+      m_begin->clr.m_value = 0;
+      m_begin->position.x = *(float *)count;
+      m_begin->position.y = *((float *)count + 1);
+      m_begin->position.z = *((float *)count + 2);
+      m_begin->normal.m_value = *((_DWORD *)count + 3);
+      m_begin->tangent.m_value = 0;
+      m_begin->binormal.m_value = 0;
+      m_begin->uv.x = *((float *)count + 6);
+      v8 = (vostok::render::untyped_buffer *)*((_DWORD *)count + 7);
+      LODWORD(m_begin->uv.y) = v8;
+      ++m_begin;
+      v11 = v42-- == (char *)1;
+      count += 32;
     }
-    while ( v12 );
+    while ( !v11 );
   }
-  (*(void (__stdcall **)(int, ID3D11Buffer *, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                     + 60))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v17->m_hardware_buffer,
-    0);
-  v20 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)a9 + 8) + 8);
-  v21 = vostok::memory::doug_lea_allocator::malloc_impl(
-          (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-          v20);
-  v22 = (stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short> > *)__n;
-  dataa = v21;
-  stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short>>::reserve(
-    v23,
-    __n,
-    v20 >> 1);
-  __n = 0;
-  stlp_std::priv::_Impl_vector<unsigned short,vostok::render::std_allocator<unsigned short>>::resize(
-    v22,
-    v20 >> 1,
-    (unsigned __int16 *)&__n);
-  v24 = vostok::render::resource_manager::create_buffer(
-          v20,
-          v20 >> 1,
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          dataa,
-          enum_buffer_type_index,
-          0,
-          1);
-  v25 = 0;
-  if ( v24 )
-  {
-    ++v24->m_reference_count;
-    v25 = (vostok::render::res_state *)v24;
-  }
-  (*(void (__cdecl **)(int, ID3D11RasterizerState *, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                            + 188))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v25->m_rasterizer_state,
-    *(_DWORD *)(*(_DWORD *)(*(_DWORD *)a9 + 8) + 4));
-  (*(void (__cdecl **)(int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                           + 444))(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y);
-  (*(void (__stdcall **)(int, ID3D11RasterizerState *, _DWORD, int, _DWORD, unsigned __int8 **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                                               + 56))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v25->m_rasterizer_state,
-    0,
+  vostok::render::untyped_buffer::unmap(v8, stride);
+  counta = in_render_geometry->geom.m_object->m_ib.m_object->m_size;
+  v43 = vostok::memory::doug_lea_allocator::malloc_impl(
+          v12,
+          (int)vostok::render::g_allocator,
+          counta,
+          "base_ib",
+          v25,
+          v29,
+          v32);
+  vostok::buffer_vector<unsigned short>::resize(
+    (vostok::buffer_vector<unsigned short> *)(counta >> 1),
+    (int *)out_indices);
+  vostok::render::resource_manager::create_buffer(
+    counta,
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+    (void *)2,
+    (vostok::render::enum_buffer_type)v43,
     1,
     0,
-    &src);
-  memcpy((unsigned __int8 *)v22->_M_start, src, v20);
-  (*(void (__stdcall **)(int, ID3D11RasterizerState *, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                              + 60))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    v25->m_rasterizer_state,
-    0);
-  v26 = vostok::render::g_allocator.m_object;
+    1);
+  v14 = 0;
   if ( v13 )
   {
-    m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v13);
-    v26 = vostok::render::g_allocator.m_object;
+    ++*v13;
+    v14 = (D3D11_MAP)v13;
   }
-  if ( out_vertices )
+  vostok::render::resource_manager::copy(
+    in_render_geometry->geom.m_object->m_ib.m_object,
+    (vostok::render::resource_manager *)v14,
+    v26);
+  v16 = (unsigned __int8 *)vostok::render::untyped_buffer::map(v15, v14, D3D11_MAP_READ);
+  memcpy((unsigned __int8 *)out_indices->m_begin, v16, counta);
+  vostok::render::untyped_buffer::unmap(v17, v14);
+  if ( data )
+    vostok::memory::doug_lea_allocator::free_impl(v18, (int)vostok::render::g_allocator, data, v27, v30, v33);
+  if ( v43 )
+    vostok::memory::doug_lea_allocator::free_impl(v18, (int)vostok::render::g_allocator, v43, v27, v30, v33);
+  v19 = vostok::quasi_singleton<vostok::render::resource_manager>::pinst;
+  if ( v14 )
   {
-    v28 = (void *)HIDWORD(v26->m_reconstruction_info_actuality_tick);
-    BYTE2(v26->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v28, out_vertices);
-  }
-  v29 = v25->m_reference_count-- == 1;
-  if ( v29 )
-  {
-    v30 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-    if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-           (vostok::render::vector<vostok::render::res_state *> *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][10].m_game,
-           v25) )
+    v11 = (*(_DWORD *)v14)-- == 1;
+    if ( v11 )
     {
-      v30[2].m_options = (survarium::options_item_base **)((char *)v30[2].m_options
-                                                         - (unsigned int)v25->m_depth_stencil_state);
-      m_rasterizer_state = v25->m_rasterizer_state;
-      v32 = vostok::render::g_allocator.m_object;
-      if ( m_rasterizer_state )
+      if ( *(_DWORD *)(v14 + 4) )
       {
-        m_rasterizer_state->Release(v25->m_rasterizer_state);
-        v25->m_rasterizer_state = 0;
+        if ( *(_DWORD *)(v14 + 28) == 1 && v19->m_indices_pool )
+          vostok::render::hw_buffer_pool::deallocate(
+            (const vostok::render::hw_buffer_pool_range *)(v14 + 4),
+            (vostok::render::hw_buffer_pool *)v27);
+        if ( !*(_DWORD *)(v14 + 28) && v19->m_vertices_pool )
+          vostok::render::hw_buffer_pool::deallocate(
+            (const vostok::render::hw_buffer_pool_range *)(v14 + 4),
+            (vostok::render::hw_buffer_pool *)v27);
       }
-      BYTE2(v32->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(v32->m_reconstruction_info_actuality_tick), v25);
+      else
+      {
+        v20 = *(_DWORD *)(v14 + 20);
+        if ( *(_DWORD *)(v14 + 28) == 1 )
+          v19->m_total_index_buffers_size -= v20;
+        else
+          v19->m_total_vertex_buffers_size -= v20;
+      }
     }
   }
-  v29 = temp_vb->m_reference_count-- == 1;
-  if ( v29 )
+  if ( stride )
   {
-    v33 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-    if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-           (vostok::render::vector<vostok::render::res_state *> *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][10].m_game,
-           temp_vb) )
+    v11 = (*(_DWORD *)stride)-- == 1;
+    if ( v11 )
     {
-      v33[2].m_options = (survarium::options_item_base **)((char *)v33[2].m_options
-                                                         - (unsigned int)temp_vb->m_depth_stencil_state);
-      v34 = temp_vb->m_rasterizer_state;
-      v35 = vostok::render::g_allocator.m_object;
-      if ( v34 )
+      if ( *(_DWORD *)(stride + 4) )
       {
-        v34->Release(temp_vb->m_rasterizer_state);
-        temp_vb->m_rasterizer_state = 0;
+        if ( *(_DWORD *)(stride + 28) == 1 && v19->m_indices_pool )
+          vostok::render::hw_buffer_pool::deallocate(
+            (const vostok::render::hw_buffer_pool_range *)(stride + 4),
+            (vostok::render::hw_buffer_pool *)v27);
+        if ( !*(_DWORD *)(stride + 28) && v19->m_vertices_pool )
+          vostok::render::hw_buffer_pool::deallocate(
+            (const vostok::render::hw_buffer_pool_range *)(stride + 4),
+            (vostok::render::hw_buffer_pool *)v27);
       }
-      BYTE2(v35->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(v35->m_reconstruction_info_actuality_tick), temp_vb);
+      else
+      {
+        v21 = *(_DWORD *)(stride + 20);
+        if ( *(_DWORD *)(stride + 28) == 1 )
+          v19->m_total_index_buffers_size -= v21;
+        else
+          v19->m_total_vertex_buffers_size -= v21;
+      }
     }
   }
-  v29 = vb->m_reference_count-- == 1;
-  if ( v29 )
+  v11 = source->m_reference_count-- == 1;
+  if ( v11 )
   {
-    v36 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-    if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-           (vostok::render::vector<vostok::render::res_state *> *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][10].m_game,
-           vb) )
+    if ( source->pool_range.owner )
     {
-      v36[2].m_options = (survarium::options_item_base **)((char *)v36[2].m_options
-                                                         - (unsigned int)vb->m_depth_stencil_state);
-      v37 = vb->m_rasterizer_state;
-      v38 = vostok::render::g_allocator.m_object;
-      if ( v37 )
+      if ( source->m_type == enum_buffer_type_index && v19->m_indices_pool )
+        vostok::render::hw_buffer_pool::deallocate(&source->pool_range, (vostok::render::hw_buffer_pool *)v27);
+      if ( source->m_type == enum_buffer_type_vertex )
       {
-        v37->Release(vb->m_rasterizer_state);
-        vb->m_rasterizer_state = 0;
+        if ( v19->m_vertices_pool )
+          vostok::render::hw_buffer_pool::deallocate(&source->pool_range, (vostok::render::hw_buffer_pool *)v27);
       }
-      BYTE2(v38->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(v38->m_reconstruction_info_actuality_tick), vb);
+    }
+    else
+    {
+      m_size = source->m_size;
+      if ( source->m_type == enum_buffer_type_index )
+        v19->m_total_index_buffers_size -= m_size;
+      else
+        v19->m_total_vertex_buffers_size -= m_size;
     }
   }
 }

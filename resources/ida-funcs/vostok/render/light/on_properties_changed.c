@@ -1,437 +1,360 @@
-void __thiscall vostok::render::light::on_properties_changed(vostok::render::light *this, vostok::render::light *thisa)
+void __userpurge vostok::render::light::on_properties_changed(
+        vostok::render::light *this@<ecx>,
+        long double rdi0@<esi:edi>,
+        int a2)
 {
-  vostok::collision::space_partitioning_tree *m_collision_tree; // ecx
-  vostok::collision::object *m_collision_object; // esi
-  vostok::render::grass_render_model *m_object; // edi
-  _BYTE *v5; // eax
-  vostok::collision::object_vtbl *v6; // edx
-  void **v7; // esi
-  float v8; // xmm5_4
-  float z; // eax
-  float x; // xmm4_4
-  float v11; // xmm2_4
-  float v12; // xmm4_4
-  float v13; // ecx
-  float v14; // xmm1_4
-  float v15; // xmm0_4
-  float v16; // xmm4_4
-  float v17; // xmm4_4
-  float v18; // xmm2_4
-  const vostok::math::float4x4 *v19; // xmm1_4
-  float v20; // xmm4_4
-  float v21; // xmm6_4
-  float v22; // xmm1_4
-  float v23; // xmm5_4
-  float v24; // edx
-  vostok::render::light::light_flags flags; // ecx
-  float v26; // eax
-  __int64 v27; // xmm0_8
-  const vostok::math::float4x4 *v28; // eax
-  vostok::collision::geometry_instance *v29; // eax
-  const vostok::math::float4x4 *v30; // eax
-  float range; // xmm0_4
-  long double v32; // st7
+  int v3; // ecx
+  vostok::math::aabb *v4; // ecx
+  float v5; // xmm0_4
+  float v6; // xmm4_4
+  float v7; // xmm7_4
+  float v8; // xmm1_4
+  float v9; // xmm4_4
+  float v10; // xmm1_4
+  float v11; // xmm3_4
+  float v12; // xmm2_4
+  float v13; // xmm1_4
+  float v14; // xmm2_4
+  float v15; // xmm1_4
+  int v16; // eax
+  vostok::math::float4x4 *v17; // ecx
+  int v18; // eax
+  int v19; // eax
+  int v20; // eax
+  int v21; // eax
+  int v22; // eax
+  double v23; // xmm0_8
+  float v24; // xmm6_4
+  float v25; // xmm4_4
+  float v26; // xmm5_4
+  float v27; // xmm7_4
+  float v28; // xmm1_4
+  float v29; // xmm7_4
+  float v30; // xmm3_4
+  float v31; // xmm1_4
+  float v32; // xmm5_4
   float v33; // xmm4_4
-  float v34; // xmm1_4
-  float v35; // xmm2_4
-  vostok::math::float4x4 *v36; // ecx
-  const vostok::math::float3 *angles_xyz; // eax
-  const vostok::math::float4x4 *v38; // eax
-  const vostok::math::float4x4 *v39; // eax
-  void (__thiscall *decrease_quality)(struct vostok::resources::resource_base *, unsigned int); // edx
-  vostok::collision::box_geometry_instance *v41; // eax
+  float v34; // xmm2_4
+  vostok::math::float3 *v35; // eax
+  vostok::math::float4x4 *v36; // eax
+  vostok::math::float4x4 *v37; // eax
+  vostok::math::float4x4 *v38; // esi
+  vostok::math::float4x4 *v39; // edi
+  float *v40; // esi
+  vostok::math::float4x4 *v41; // eax
   vostok::collision::geometry_instance *v42; // eax
-  float v43; // xmm0_4
-  vostok::math::float4x4 *v44; // ecx
-  const vostok::math::float3 *v45; // eax
-  const vostok::math::float4x4 *v46; // eax
-  float v47; // xmm0_4
-  vostok::math::float4x4 *v48; // ecx
-  const vostok::math::float3 *v49; // eax
-  const vostok::math::float4x4 *v50; // eax
-  const vostok::math::float4x4 *v51; // eax
-  vostok::collision::box_geometry_instance *v52; // eax
-  const vostok::math::float4x4 *v53; // eax
-  vostok::collision::geometry_instance *v54; // eax
-  const vostok::math::float4x4 *v55; // eax
-  long double v56; // st7
-  float v57; // xmm5_4
-  float v58; // xmm6_4
-  float v59; // xmm7_4
-  float v60; // xmm4_4
-  float v61; // xmm3_4
-  long double v62; // st7
-  float v63; // xmm0_4
-  float v64; // xmm2_4
-  float v65; // xmm6_4
-  float v66; // xmm3_4
-  vostok::math::float4x4 *v67; // ecx
-  const vostok::math::float3 *v68; // eax
-  const vostok::math::float4x4 *v69; // eax
-  vostok::collision::box_geometry_instance *v70; // eax
-  const vostok::math::float4x4 *v71; // [esp+26F8h] [ebp-43Ch]
-  const vostok::math::float4x4 *v72; // [esp+26F8h] [ebp-43Ch]
-  const vostok::math::float4x4 *_X_4; // [esp+2704h] [ebp-430h]
-  const vostok::math::float4x4 *_X_4a; // [esp+2704h] [ebp-430h]
-  vostok::math::float3 position; // [esp+2714h] [ebp-420h] BYREF
-  float y; // [esp+2720h] [ebp-414h]
-  float v77; // [esp+2724h] [ebp-410h]
-  _BYTE *p_m_aabb; // [esp+2728h] [ebp-40Ch]
-  __int64 v79; // [esp+272Ch] [ebp-408h]
-  unsigned int v80; // [esp+2734h] [ebp-400h]
-  __int64 v81; // [esp+2738h] [ebp-3FCh]
-  float v82; // [esp+2740h] [ebp-3F4h]
-  float v83; // [esp+2744h] [ebp-3F0h]
-  __int64 v84; // [esp+2748h] [ebp-3ECh]
-  unsigned int left_4; // [esp+2750h] [ebp-3E4h]
-  vostok::math::float4x4 left_8; // [esp+2754h] [ebp-3E0h] BYREF
-  vostok::math::float4x4 dst_8; // [esp+2794h] [ebp-3A0h] BYREF
-  vostok::math::float4x4 matrix_8; // [esp+27D4h] [ebp-360h] BYREF
-  vostok::math::float4x4 v89; // [esp+2834h] [ebp-300h] BYREF
-  vostok::math::float4x4 v90; // [esp+2874h] [ebp-2C0h] BYREF
-  vostok::math::float4x4 v91; // [esp+28B4h] [ebp-280h] BYREF
-  vostok::math::float4x4 v92; // [esp+28F4h] [ebp-240h] BYREF
-  vostok::math::float4x4 result; // [esp+2934h] [ebp-200h] BYREF
-  vostok::math::float4x4 v94; // [esp+2974h] [ebp-1C0h] BYREF
-  vostok::math::float4x4 v95; // [esp+29B4h] [ebp-180h] BYREF
-  vostok::math::float4x4 v96; // [esp+29F4h] [ebp-140h] BYREF
-  vostok::math::float4x4 v97; // [esp+2A34h] [ebp-100h] BYREF
-  vostok::math::float4x4 v98; // [esp+2A74h] [ebp-C0h] BYREF
-  vostok::math::float4x4 v99; // [esp+2AB4h] [ebp-80h] BYREF
-  vostok::math::float4x4 v100; // [esp+2AF4h] [ebp-40h] BYREF
+  vostok::math::float4x4 *v43; // eax
+  char *v44; // ecx
+  float v45; // xmm1_4
+  vostok::math::float3 *v46; // eax
+  vostok::math::float4x4 *v47; // eax
+  vostok::math::float4x4 *v48; // eax
+  float v49; // xmm0_4
+  vostok::math::float3 *v50; // eax
+  vostok::math::float4x4 *v51; // eax
+  vostok::math::float4x4 *translation; // eax
+  vostok::math::float4x4 *p_matrix; // eax
+  float v54; // xmm0_4
+  float v55; // xmm4_4
+  float v56; // xmm2_4
+  float v57; // xmm3_4
+  vostok::math::float4x4 *v58; // ecx
+  vostok::math::float3 *angles_xyz; // eax
+  vostok::math::float4x4 *v60; // eax
+  vostok::math::float4x4 *v61; // eax
+  vostok::collision::geometry_instance *v62; // eax
+  vostok::math::float4x4 *v63; // edi
+  vostok::math::float4x4 *uniform_scale; // eax
+  vostok::collision::geometry_instance *v65; // eax
+  const vostok::math::float4x4 *v66; // edi
+  vostok::math::float4x4 *v67; // eax
+  long double v68; // [esp+0h] [ebp-660h]
+  float v69; // [esp+10h] [ebp-650h]
+  float v70; // [esp+10h] [ebp-650h]
+  vostok::math::float4x4 *v71; // [esp+10h] [ebp-650h]
+  vostok::math::float4x4 *v72; // [esp+10h] [ebp-650h]
+  vostok::math::float4x4 *v73; // [esp+10h] [ebp-650h]
+  float v74; // [esp+10h] [ebp-650h]
+  vostok::math::float4x4 *rotation; // [esp+10h] [ebp-650h]
+  vostok::math::float3 v76; // [esp+14h] [ebp-64Ch] BYREF
+  __int64 v77; // [esp+20h] [ebp-640h] BYREF
+  float v78; // [esp+28h] [ebp-638h]
+  vostok::math::float3 v79; // [esp+2Ch] [ebp-634h] BYREF
+  __int64 v80; // [esp+38h] [ebp-628h] BYREF
+  float v81; // [esp+40h] [ebp-620h]
+  vostok::math::aabb *v82; // [esp+44h] [ebp-61Ch]
+  vostok::math::float4x4 v83; // [esp+48h] [ebp-618h] BYREF
+  vostok::math::float4x4 v84; // [esp+88h] [ebp-5D8h] BYREF
+  vostok::math::float4x4 matrix; // [esp+C8h] [ebp-598h] BYREF
+  _BYTE v86[12]; // [esp+108h] [ebp-558h] BYREF
+  _BYTE v87[12]; // [esp+114h] [ebp-54Ch] BYREF
+  char v88[64]; // [esp+120h] [ebp-540h] BYREF
+  char v89[64]; // [esp+160h] [ebp-500h] BYREF
+  char v90[64]; // [esp+1A0h] [ebp-4C0h] BYREF
+  vostok::math::float4x4 v91; // [esp+1E0h] [ebp-480h] BYREF
+  char v92; // [esp+220h] [ebp-440h] BYREF
+  char v93[64]; // [esp+260h] [ebp-400h] BYREF
+  char v94[64]; // [esp+2A0h] [ebp-3C0h] BYREF
+  char v95; // [esp+2E0h] [ebp-380h] BYREF
+  char v96[64]; // [esp+320h] [ebp-340h] BYREF
+  char v97[64]; // [esp+360h] [ebp-300h] BYREF
+  vostok::math::float4x4 v98; // [esp+3A0h] [ebp-2C0h] BYREF
+  char v99[64]; // [esp+3E0h] [ebp-280h] BYREF
+  char v100[64]; // [esp+420h] [ebp-240h] BYREF
+  vostok::math::float4x4 v101; // [esp+460h] [ebp-200h] BYREF
+  vostok::math::float4x4 v102; // [esp+4A0h] [ebp-1C0h] BYREF
+  char v103; // [esp+4E0h] [ebp-180h] BYREF
+  char v104[64]; // [esp+520h] [ebp-140h] BYREF
+  char v105[64]; // [esp+560h] [ebp-100h] BYREF
+  vostok::math::float4x4 v106; // [esp+5A0h] [ebp-C0h] BYREF
+  vostok::math::float4x4 v107; // [esp+5E0h] [ebp-80h] BYREF
+  char v108; // [esp+620h] [ebp-40h] BYREF
 
-  thisa->m_xform_frame = -1;
-  vostok::render::light::xform_calc(this, thisa);
-  m_collision_tree = thisa->m_collision_tree;
-  if ( m_collision_tree && thisa->m_collision_object )
-    m_collision_tree->erase(m_collision_tree, thisa->m_collision_object);
-  m_collision_object = thisa->m_collision_object;
-  m_object = vostok::render::g_allocator.m_object;
-  if ( m_collision_object )
+  *(_DWORD *)(a2 + 616) = -1;
+  vostok::render::light::xform_calc(this, rdi0, a2);
+  v3 = *(_DWORD *)(a2 + 688);
+  if ( v3 && *(_DWORD *)(a2 + 696) )
+    (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v3 + 4))(v3, *(_DWORD *)(a2 + 696));
+  vostok::collision::delete_object(vostok::render::g_allocator, *(vostok::collision::object **)(a2 + 696));
+  vostok::collision::delete_geometry_instance(
+    vostok::render::g_allocator,
+    *(vostok::collision::geometry_instance **)(a2 + 692));
+  *(_DWORD *)(a2 + 696) = 0;
+  *(_DWORD *)(a2 + 692) = 0;
+  v82 = (vostok::math::aabb *)(a2 + 872);
+  vostok::math::aabb::zero(v4, (vostok::math::aabb *)(a2 + 872));
+  v5 = s_bm_current_air_resistance;
+  *(float *)(a2 + 872) = *(float *)(a2 + 872) - s_bm_current_air_resistance;
+  *(float *)(a2 + 876) = *(float *)(a2 + 876) - v5;
+  *(float *)(a2 + 880) = *(float *)(a2 + 880) - v5;
+  *(float *)(a2 + 884) = *(float *)(a2 + 884) + v5;
+  *(float *)(a2 + 888) = *(float *)(a2 + 888) + v5;
+  *(float *)(a2 + 892) = *(float *)(a2 + 892) + v5;
+  v79 = *(vostok::math::float3 *)(a2 + 548);
+  if ( (float)((float)((float)(*(float *)(a2 + 584) * *(float *)(a2 + 584))
+                     + (float)(*(float *)(a2 + 580) * *(float *)(a2 + 580)))
+             + (float)(*(float *)(a2 + 576) * *(float *)(a2 + 576))) <= 0.0000099999997 )
   {
-    v5 = __RTCastToVoid((void **)&thisa->m_collision_object->__vftable);
-    v6 = m_collision_object->__vftable;
-    p_m_aabb = v5;
-    ((void (__thiscall *)(vostok::collision::object *, _DWORD))v6->~vostok::collision::object)(m_collision_object, 0);
-    ((void (__thiscall *)(vostok::render::grass_render_model *, _BYTE *))m_object->is_increasing_quality)(
-      m_object,
-      p_m_aabb);
-    m_object = vostok::render::g_allocator.m_object;
-  }
-  v7 = (void **)&thisa->m_collision_geometry->__vftable;
-  if ( v7 )
-  {
-    (*(void (__thiscall **)(void **, vostok::render::grass_render_model *))*v7)(v7, m_object);
-    p_m_aabb = __RTCastToVoid(v7);
-    (*((void (__thiscall **)(void **, _DWORD))*v7 + 32))(v7, 0);
-    ((void (__thiscall *)(vostok::render::grass_render_model *, _BYTE *))m_object->is_increasing_quality)(
-      m_object,
-      p_m_aabb);
-  }
-  v8 = *(float *)&clear_value;
-  *(_QWORD *)&position.elements[1] = 0;
-  *(_QWORD *)&thisa->m_aabb.max.x = 0;
-  *(_QWORD *)&thisa->m_aabb.min.x = 0;
-  y = 0.0;
-  thisa->m_aabb.max.z = 0.0;
-  thisa->m_aabb.min.z = 0.0;
-  thisa->m_aabb.min.x = thisa->m_aabb.min.x - v8;
-  thisa->m_aabb.min.y = thisa->m_aabb.min.y - v8;
-  thisa->m_aabb.min.z = thisa->m_aabb.min.z - v8;
-  thisa->m_aabb.max.x = thisa->m_aabb.max.x + v8;
-  thisa->m_aabb.max.y = thisa->m_aabb.max.y + v8;
-  thisa->m_aabb.max.z = thisa->m_aabb.max.z + v8;
-  z = thisa->direction.z;
-  x = thisa->right.x;
-  v11 = thisa->right.z * thisa->right.z;
-  v81 = *(_QWORD *)&thisa->direction.x;
-  v12 = (float)((float)(x * x) + v11) + (float)(thisa->right.y * thisa->right.y);
-  p_m_aabb = &thisa->m_aabb;
-  v82 = z;
-  if ( v12 <= 0.0000099999997 )
-  {
-    v20 = v82 * 0.0;
-    v21 = 0.0;
-    if ( COERCE_FLOAT(
-           COERCE_UNSIGNED_INT((float)((float)(*(float *)&v81 * 0.0) + (float)(v82 * 0.0)) + *((float *)&v81 + 1))
-         & _mask__AbsFloat_) > 0.99000001 )
+    v11 = v5;
+    v12 = 0.0;
+    *((float *)&v80 + 1) = v5;
+    v81 = 0.0;
+    if ( COERCE_FLOAT(COERCE_UNSIGNED_INT((float)((float)(v79.x * 0.0) + v79.y) + (float)(v79.z * 0.0)) & _mask__AbsFloat_) > 0.99000001 )
     {
-      v21 = *(float *)&clear_value;
-      v8 = 0.0;
+      v11 = 0.0;
+      v12 = v5;
+      HIDWORD(v80) = 0;
+      v81 = v5;
     }
-    *(float *)&v80 = (float)(*((float *)&v81 + 1) * 0.0) - (float)(*(float *)&v81 * v8);
-    v77 = sqrtf(
-            (float)((float)(*(float *)&v80 * *(float *)&v80)
-                  + (float)((float)((float)(*(float *)&v81 * v21) - v20) * (float)((float)(*(float *)&v81 * v21) - v20)))
-          + (float)((float)((float)(v8 * v82) - (float)(v21 * *((float *)&v81 + 1)))
-                  * (float)((float)(v8 * v82) - (float)(v21 * *((float *)&v81 + 1)))));
-    v22 = (float)(*(float *)&clear_value / v77) * (float)((float)(v8 * v82) - (float)(v21 * *((float *)&v81 + 1)));
-    v23 = (float)(*(float *)&clear_value / v77) * (float)((float)(*(float *)&v81 * v21) - v20);
-    *(float *)&v79 = v22;
-    *(float *)&v80 = (float)(*(float *)&clear_value / v77) * *(float *)&v80;
-    position.y = (float)(*((float *)&v81 + 1) * *(float *)&v80) - (float)(v82 * v23);
-    position.z = (float)(v22 * v82) - (float)(*(float *)&v81 * *(float *)&v80);
-    y = (float)(*(float *)&v81 * v23) - (float)(v22 * *((float *)&v81 + 1));
-    *((float *)&v79 + 1) = v23;
-    v77 = sqrtf((float)((float)(position.y * position.y) + (float)(y * y)) + (float)(position.z * position.z));
-    v19 = clear_value;
-    *(float *)&v84 = (float)(*(float *)&clear_value / v77) * position.y;
-    *((float *)&v84 + 1) = (float)(*(float *)&clear_value / v77) * position.z;
-    *(float *)&left_4 = (float)(*(float *)&clear_value / v77) * y;
+    v76.y = (float)(v12 * v79.x) - (float)(v79.z * 0.0);
+    v13 = (float)(v11 * v79.z) - (float)(v12 * v79.y);
+    v14 = fsqrt(
+            (float)((float)((float)((float)(v79.y * 0.0) - (float)(v11 * v79.x))
+                          * (float)((float)(v79.y * 0.0) - (float)(v11 * v79.x)))
+                  + (float)(v76.y * v76.y))
+          + (float)(v13 * v13));
+    *(float *)&v77 = (float)(v5 / v14) * v13;
+    v78 = (float)((float)(v79.y * 0.0) - (float)(v11 * v79.x)) * (float)(v5 / v14);
+    *((float *)&v77 + 1) = v76.y * (float)(v5 / v14);
+    v76.z = (float)(*((float *)&v77 + 1) * v79.x) - (float)(v79.y * *(float *)&v77);
+    v76.x = (float)(v79.y * v78) - (float)(v79.z * *((float *)&v77 + 1));
+    v76.y = (float)(v79.z * *(float *)&v77) - (float)(v78 * v79.x);
+    v15 = v5 / fsqrt((float)((float)(v76.z * v76.z) + (float)(v76.y * v76.y)) + (float)(v76.x * v76.x));
+    *(float *)&v80 = v15 * v76.x;
+    *((float *)&v80 + 1) = v76.y * v15;
+    v81 = v76.z * v15;
   }
   else
   {
-    v13 = thisa->right.z;
-    v79 = *(_QWORD *)&thisa->right.x;
-    *(float *)&v80 = v13;
-    v77 = sqrtf(
-            (float)((float)(v13 * v13) + (float)(*((float *)&v79 + 1) * *((float *)&v79 + 1)))
-          + (float)(*(float *)&v79 * *(float *)&v79));
-    v14 = (float)(*(float *)&clear_value / v77) * *(float *)&v79;
-    v15 = (float)(*(float *)&clear_value / v77) * *(float *)&v80;
-    v16 = (float)(*(float *)&clear_value / v77) * *((float *)&v79 + 1);
-    position.y = (float)(*((float *)&v81 + 1) * v15) - (float)(v82 * v16);
-    *((float *)&v84 + 1) = (float)(v14 * v82) - (float)(*(float *)&v81 * v15);
-    *(float *)&left_4 = (float)(*(float *)&v81 * v16) - (float)(v14 * *((float *)&v81 + 1));
-    v77 = sqrtf(
-            (float)((float)(*(float *)&left_4 * *(float *)&left_4) + (float)(*((float *)&v84 + 1) * *((float *)&v84 + 1)))
-          + (float)(position.y * position.y));
-    v17 = (float)(*(float *)&clear_value / v77) * *((float *)&v84 + 1);
-    v18 = (float)(v17 * v82)
-        - (float)((float)((float)(*(float *)&clear_value / v77) * *(float *)&left_4) * *((float *)&v81 + 1));
-    *(float *)&v84 = (float)(*(float *)&clear_value / v77) * position.y;
-    *((float *)&v84 + 1) = v17;
-    *(float *)&left_4 = (float)(*(float *)&clear_value / v77) * *(float *)&left_4;
-    position.y = v18;
-    position.z = (float)(*(float *)&v81 * *(float *)&left_4) - (float)(*(float *)&v84 * v82);
-    y = (float)(*(float *)&v84 * *((float *)&v81 + 1)) - (float)(*(float *)&v81 * v17);
-    v77 = sqrtf((float)((float)(y * y) + (float)(position.z * position.z)) + (float)(v18 * v18));
-    v19 = clear_value;
-    *(float *)&v79 = (float)(*(float *)&clear_value / v77) * v18;
-    *((float *)&v79 + 1) = (float)(*(float *)&clear_value / v77) * position.z;
-    *(float *)&v80 = (float)(*(float *)&clear_value / v77) * y;
+    v77 = *(_QWORD *)(a2 + 576);
+    v78 = *(float *)(a2 + 584);
+    v6 = fsqrt(
+           (float)((float)(v78 * v78) + (float)(*((float *)&v77 + 1) * *((float *)&v77 + 1)))
+         + (float)(*(float *)&v77 * *(float *)&v77));
+    v7 = (float)(v5 / v6) * *(float *)&v77;
+    v78 = v78 * (float)(v5 / v6);
+    *((float *)&v77 + 1) = *((float *)&v77 + 1) * (float)(v5 / v6);
+    v8 = (float)(v79.y * v78) - (float)(v79.z * *((float *)&v77 + 1));
+    v9 = v5
+       / fsqrt(
+           (float)((float)((float)((float)(*((float *)&v77 + 1) * v79.x) - (float)(v79.y * v7))
+                         * (float)((float)(*((float *)&v77 + 1) * v79.x) - (float)(v79.y * v7)))
+                 + (float)((float)((float)(v79.z * v7) - (float)(v78 * v79.x))
+                         * (float)((float)(v79.z * v7) - (float)(v78 * v79.x))))
+         + (float)(v8 * v8));
+    v81 = (float)((float)(*((float *)&v77 + 1) * v79.x) - (float)(v79.y * v7)) * v9;
+    *((float *)&v80 + 1) = (float)((float)(v79.z * v7) - (float)(v78 * v79.x)) * v9;
+    *(float *)&v80 = v9 * v8;
+    v76.x = (float)(*((float *)&v80 + 1) * v79.z) - (float)(v81 * v79.y);
+    v76.y = (float)(v81 * v79.x) - (float)(v79.z * (float)(v9 * v8));
+    v76.z = (float)(v79.y * (float)(v9 * v8)) - (float)(*((float *)&v80 + 1) * v79.x);
+    v10 = v5 / fsqrt((float)((float)(v76.z * v76.z) + (float)(v76.y * v76.y)) + (float)(v76.x * v76.x));
+    *(float *)&v77 = v10 * v76.x;
+    *((float *)&v77 + 1) = v76.y * v10;
+    v78 = v76.z * v10;
   }
-  v24 = thisa->direction.z;
-  *(_QWORD *)&dst_8.i.x = v79;
-  *(_QWORD *)&dst_8.lines[1].elements[2] = left_4;
-  flags = thisa->flags;
-  *(_QWORD *)&dst_8.lines[0].elements[2] = v80;
-  v26 = thisa->position.z;
-  *(_QWORD *)&dst_8.lines[1].x = v84;
-  v27 = *(_QWORD *)&thisa->position.x;
-  *(_QWORD *)&dst_8.lines[2].x = *(_QWORD *)&thisa->direction.x;
-  *(_QWORD *)&dst_8.lines[2].elements[2] = LODWORD(v24);
-  *(_QWORD *)&dst_8.lines[3].x = v27;
-  *(_QWORD *)&dst_8.lines[3].elements[2] = __PAIR64__((unsigned int)v19, LODWORD(v26));
-  switch ( *(_BYTE *)&flags & 0xF )
+  *(_QWORD *)&v83.i.x = v77;
+  *(_QWORD *)&v83.lines[0].elements[2] = LODWORD(v78);
+  *(_QWORD *)&v83.lines[1].x = v80;
+  *(_QWORD *)&v83.lines[1].elements[2] = LODWORD(v81);
+  v16 = *(_DWORD *)(a2 + 860);
+  *(_QWORD *)&v83.lines[2].x = *(_QWORD *)(a2 + 548);
+  *(_QWORD *)&v83.lines[2].elements[2] = *(unsigned int *)(a2 + 556);
+  v17 = (vostok::math::float4x4 *)(a2 + 532);
+  *(_QWORD *)&v83.lines[3].x = *(_QWORD *)(a2 + 532);
+  v18 = v16 & 0xF;
+  v83.c.z = *(float *)(a2 + 540);
+  v83.c.w = v5;
+  if ( !v18 )
+    goto LABEL_23;
+  v19 = v18 - 1;
+  if ( !v19 )
   {
-    case 0:
-    case 4:
-      position.y = thisa->range;
-      position.z = position.y;
-      y = position.y;
-      memset((int)&dst_8, 0, sizeof(dst_8));
-      dst_8.j.y = position.y;
-      dst_8.i.x = position.y;
-      dst_8.k.z = position.y;
-      LODWORD(dst_8.c.w) = clear_value;
-      v28 = vostok::math::create_translation(&result, &thisa->position);
-      vostok::math::mul4x3(&left_8, &dst_8, v28);
-      v29 = vostok::collision::new_sphere_geometry_instance((vostok::memory::base_allocator *)&left_8, _X_4);
-      thisa->m_collision_geometry = v29;
-      thisa->m_collision_object = vostok::collision::new_collision_object(
-                                    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-                                    1u,
-                                    v29,
-                                    thisa);
-      position.y = thisa->range;
-      position.z = position.y;
-      y = position.y;
-      memset((int)&dst_8, 0, sizeof(dst_8));
-      dst_8.j.y = position.y;
-      dst_8.i.x = position.y;
-      dst_8.k.z = position.y;
-      LODWORD(dst_8.c.w) = clear_value;
-      v30 = vostok::math::create_translation(&v91, &thisa->position);
-      vostok::math::mul4x3(&left_8, &dst_8, v30);
-      matrix_8.i = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8);
-      matrix_8.lines[1] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[1]);
-      matrix_8.lines[2] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[2]);
-      matrix_8.lines[3] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[3]);
-      goto LABEL_27;
-    case 1:
-      range = thisa->range;
-      qmemcpy((void *)&matrix_8, &thisa->m_xform, sizeof(matrix_8));
-      v77 = range;
-      v32 = tanf(thisa->spot_penumbra_angle * 0.5);
-      v33 = thisa->range;
-      v83 = v32 * range;
-      v34 = thisa->direction.y;
-      v35 = thisa->direction.z;
-      v82 = range * 0.5;
-      position.y = (float)((float)(v33 * thisa->direction.x) * 0.5) + thisa->position.x;
-      position.z = thisa->position.y + (float)((float)(v34 * v33) * 0.5);
-      y = thisa->position.z + (float)((float)(v35 * v33) * 0.5);
-      memset((int)&left_8, 0, sizeof(left_8));
-      left_8.i.x = v83;
-      left_8.j.y = v83;
-      left_8.k.z = range * 0.5;
-      LODWORD(left_8.c.w) = clear_value;
-      angles_xyz = vostok::math::float4x4::get_angles_xyz(v36, (vostok::math::float3 *)_X_4);
-      v38 = vostok::math::create_rotation(&v99, angles_xyz);
-      vostok::math::mul4x3(&dst_8, &left_8, v38);
-      v39 = vostok::math::create_translation(&v89, (vostok::math::float3 *)&position.elements[1]);
-      vostok::math::mul4x3(&left_8, &dst_8, v39);
-      matrix_8.i = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8);
-      matrix_8.lines[1] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[1]);
-      matrix_8.lines[2] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[2]);
-      matrix_8.lines[3] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[3]);
-      memset((int)&left_8, 0, sizeof(left_8));
-      decrease_quality = vostok::render::g_allocator.m_object->decrease_quality;
-      LODWORD(left_8.i.x) = clear_value;
-      LODWORD(left_8.j.y) = clear_value;
-      LODWORD(left_8.k.z) = clear_value;
-      LODWORD(left_8.c.w) = clear_value;
-      v41 = (vostok::collision::box_geometry_instance *)((int (__thiscall *)(vostok::render::grass_render_model *, int))decrease_quality)(
-                                                          vostok::render::g_allocator.m_object,
-                                                          136);
-      if ( !v41 )
-        goto LABEL_17;
-      vostok::collision::box_geometry_instance::box_geometry_instance(v41, &left_8);
-      goto LABEL_26;
-    case 2:
-      v43 = thisa->range;
-      position.y = thisa->scale.x + v43;
-      position.z = thisa->scale.y + v43;
-      y = thisa->scale.z + v43;
-      memset((int)&left_8, 0, sizeof(left_8));
-      left_8.j.y = position.z;
-      left_8.i.x = position.y;
-      left_8.k.z = y;
-      LODWORD(left_8.c.w) = clear_value;
-      v45 = vostok::math::float4x4::get_angles_xyz(v44, (vostok::math::float3 *)_X_4);
-      v46 = vostok::math::create_rotation(&v97, v45);
-      vostok::math::mul4x3(&dst_8, &left_8, v46);
-      v71 = vostok::math::create_translation(&v95, &thisa->position);
-      vostok::math::mul4x3(&left_8, &dst_8, v71);
-      goto LABEL_23;
-    case 3:
-      v47 = thisa->range;
-      v83 = thisa->scale.x + v47;
-      y = thisa->scale.z + v47;
-      memset((int)&left_8, 0, sizeof(left_8));
-      left_8.i.x = v83;
-      left_8.j.y = v83;
-      left_8.k.z = y;
-      LODWORD(left_8.c.w) = clear_value;
-      v49 = vostok::math::float4x4::get_angles_xyz(v48, (vostok::math::float3 *)_X_4);
-      v50 = vostok::math::create_rotation(&v90, v49);
-      vostok::math::mul4x3(&dst_8, &left_8, v50);
-      v51 = vostok::math::create_translation(&v92, &thisa->position);
-      vostok::math::mul4x3(&left_8, &dst_8, v51);
-      matrix_8.i = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8);
-      matrix_8.lines[1] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[1]);
-      matrix_8.lines[2] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[2]);
-      matrix_8.lines[3] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[3]);
-      v52 = (vostok::collision::box_geometry_instance *)((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-                                                          vostok::render::g_allocator.m_object,
-                                                          136);
-      if ( v52 )
-        vostok::collision::box_geometry_instance::box_geometry_instance(v52, &matrix_8);
-      else
-LABEL_17:
-        v42 = 0;
-      goto LABEL_26;
-    case 5:
-      position.y = thisa->range;
-      position.z = position.y;
-      y = position.y;
-      memset((int)&left_8, 0, sizeof(left_8));
-      left_8.j.y = position.y;
-      left_8.i.x = position.y;
-      left_8.k.z = position.y;
-      LODWORD(left_8.c.w) = clear_value;
-      v53 = vostok::math::create_translation(&v94, &thisa->position);
-      vostok::math::mul4x3(&dst_8, &left_8, v53);
-      v54 = vostok::collision::new_sphere_geometry_instance((vostok::memory::base_allocator *)&dst_8, _X_4);
-      thisa->m_collision_geometry = v54;
-      thisa->m_collision_object = vostok::collision::new_collision_object(
-                                    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-                                    1u,
-                                    v54,
-                                    thisa);
-      position.y = thisa->range;
-      position.z = position.y;
-      y = position.y;
-      memset((int)&left_8, 0, sizeof(left_8));
-      left_8.j.y = position.y;
-      left_8.i.x = position.y;
-      left_8.k.z = position.y;
-      LODWORD(left_8.c.w) = clear_value;
-      v55 = vostok::math::create_translation(&v96, &thisa->position);
-      vostok::math::mul4x3(&dst_8, &left_8, v55);
-      matrix_8.i = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&dst_8);
-      matrix_8.lines[1] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&dst_8.lines[1]);
-      matrix_8.lines[2] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&dst_8.lines[2]);
-      matrix_8.lines[3] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&dst_8.lines[3]);
-      goto LABEL_27;
-    case 6:
-      v77 = thisa->range;
-      v56 = tanf(thisa->spot_penumbra_angle * 0.5) * v77;
-      v57 = thisa->right.z;
-      v58 = thisa->direction.z;
-      v59 = thisa->right.y;
-      v60 = thisa->direction.y;
-      *(float *)&v81 = thisa->scale.x + v56;
-      v61 = thisa->right.x;
-      v62 = v56 + thisa->scale.z;
-      *((float *)&v81 + 1) = v77 * 0.5;
-      v82 = v62;
-      v63 = (float)(v57 * v60) - (float)(v59 * v58);
-      v64 = v61 * v58;
-      v65 = thisa->direction.x;
-      y = (float)(v65 * v59) - (float)(v61 * v60);
-      position.y = v63;
-      position.z = v64 - (float)(v65 * v57);
-      v83 = sqrtf((float)((float)(y * y) + (float)(position.z * position.z)) + (float)(v63 * v63));
-      v66 = thisa->range;
-      position.y = thisa->position.x
-                 - (float)((float)(v66 * (float)((float)(*(float *)&clear_value / v83) * v63)) * 0.5);
-      position.z = thisa->position.y
-                 - (float)((float)(v66 * (float)((float)(*(float *)&clear_value / v83) * position.z)) * 0.5);
-      y = thisa->position.z - (float)((float)(v66 * (float)((float)(*(float *)&clear_value / v83) * y)) * 0.5);
-      memset((int)&left_8, 0, sizeof(left_8));
-      LODWORD(left_8.i.x) = v81;
-      left_8.k.z = v82;
-      left_8.j.y = v77 * 0.5;
-      LODWORD(left_8.c.w) = clear_value;
-      v68 = vostok::math::float4x4::get_angles_xyz(v67, (vostok::math::float3 *)_X_4);
-      v69 = vostok::math::create_rotation(&v98, v68);
-      vostok::math::mul4x3(&dst_8, &left_8, v69);
-      v72 = vostok::math::create_translation(&v100, (vostok::math::float3 *)&position.elements[1]);
-      vostok::math::mul4x3(&left_8, &dst_8, v72);
-LABEL_23:
-      matrix_8.i = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8);
-      matrix_8.lines[1] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[1]);
-      matrix_8.lines[2] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[2]);
-      matrix_8.lines[3] = (vostok::math::float4_pod)_mm_load_si128((const __m128i *)&left_8.lines[3]);
-      v70 = (vostok::collision::box_geometry_instance *)((int (__thiscall *)(vostok::render::grass_render_model *, int))vostok::render::g_allocator.m_object->decrease_quality)(
-                                                          vostok::render::g_allocator.m_object,
-                                                          136);
-      if ( v70 )
-        vostok::collision::box_geometry_instance::box_geometry_instance(v70, &matrix_8);
-      else
-        v42 = 0;
-LABEL_26:
-      thisa->m_collision_geometry = v42;
-      thisa->m_collision_object = vostok::collision::new_collision_object(
-                                    (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-                                    1u,
-                                    v42,
-                                    thisa);
-LABEL_27:
-      thisa->m_collision_tree->insert(thisa->m_collision_tree, thisa->m_collision_object, &matrix_8);
-      vostok::math::aabb::modify((vostok::math::aabb *)&matrix_8, _X_4a);
-      return;
+    v74 = *(float *)(a2 + 608);
+    v54 = *(float *)(a2 + 572) * 0.5;
+    qmemcpy(&matrix, (const void *)(a2 + 388), sizeof(matrix));
+    __libm_sse2_tan(v68);
+    v55 = *(float *)(a2 + 608);
+    v76.x = v54 * v74;
+    v76.y = v54 * v74;
+    v56 = *(float *)(a2 + 552);
+    v57 = *(float *)(a2 + 556);
+    v76.z = v74 * 0.5;
+    v79.x = *(float *)(a2 + 532) + (float)((float)(*(float *)(a2 + 548) * v55) * 0.5);
+    v79.y = *(float *)(a2 + 536) + (float)((float)(v56 * v55) * 0.5);
+    v79.z = *(float *)(a2 + 540) + (float)((float)(v57 * v55) * 0.5);
+    angles_xyz = vostok::math::float4x4::get_angles_xyz(v58, (int)v87, (int)&v83);
+    rotation = vostok::math::create_rotation(angles_xyz, (int)v87, (int)v94);
+    v60 = vostok::math::create_scale(&v76, (vostok::math::float4x4 *)v96);
+    vostok::math::mul4x3(rotation, v60, &v84);
+    v61 = vostok::math::create_translation(&v79, &v98);
+    vostok::math::mul4x3(v61, &v84, &v83);
+    qmemcpy(&matrix, &v83, sizeof(matrix));
+    v76.x = s_bm_current_air_resistance;
+    v76.y = s_bm_current_air_resistance;
+    v76.z = s_bm_current_air_resistance;
+    p_matrix = vostok::math::create_scale(&v76, (vostok::math::float4x4 *)v100);
+    goto LABEL_22;
   }
+  v20 = v19 - 1;
+  if ( !v20 )
+  {
+    v49 = *(float *)(a2 + 608);
+    v76.x = *(float *)(a2 + 592) + v49;
+    v76.y = *(float *)(a2 + 596) + v49;
+    v76.z = *(float *)(a2 + 600) + v49;
+    v50 = vostok::math::float4x4::get_angles_xyz(v17, (int)v86, a2 + 388);
+    v73 = vostok::math::create_rotation(v50, (int)v86, (int)v89);
+    v51 = vostok::math::create_scale(&v76, (vostok::math::float4x4 *)v90);
+    vostok::math::mul4x3(v73, v51, &v84);
+    v48 = (vostok::math::float4x4 *)&v92;
+    goto LABEL_19;
+  }
+  v21 = v20 - 1;
+  if ( !v21 )
+  {
+    v45 = *(float *)(a2 + 608);
+    v76.x = *(float *)(a2 + 592) + v45;
+    v76.y = v76.x;
+    v76.z = *(float *)(a2 + 600) + v45;
+    v46 = vostok::math::float4x4::get_angles_xyz(v17, (int)&v77, a2 + 388);
+    v72 = vostok::math::create_rotation(v46, (int)&v77, (int)v105);
+    v47 = vostok::math::create_scale(&v76, (vostok::math::float4x4 *)v97);
+    vostok::math::mul4x3(v72, v47, &v84);
+    v48 = (vostok::math::float4x4 *)&v103;
+LABEL_19:
+    translation = vostok::math::create_translation((const vostok::math::float3 *)(a2 + 532), v48);
+    vostok::math::mul4x3(translation, &v84, &v83);
+    v38 = &v83;
+    goto LABEL_20;
+  }
+  v22 = v21 - 1;
+  if ( !v22 )
+  {
+LABEL_23:
+    v63 = vostok::math::create_translation((const vostok::math::float3 *)v17, &v102);
+    v40 = (float *)(a2 + 608);
+    uniform_scale = vostok::math::create_uniform_scale((float *)(a2 + 608), (int)v104);
+    vostok::math::mul4x3(v63, uniform_scale, &v84);
+    v65 = vostok::collision::new_sphere_geometry_instance((vostok::memory::base_allocator *)&v84);
+    *(_DWORD *)(a2 + 692) = v65;
+    *(_DWORD *)(a2 + 696) = vostok::collision::new_collision_object(
+                              vostok::render::g_allocator,
+                              (unsigned int)v65,
+                              (vostok::collision::geometry_instance *)a2);
+    v43 = vostok::math::create_translation((const vostok::math::float3 *)(a2 + 532), &v106);
+    v44 = &v108;
+    goto LABEL_24;
+  }
+  if ( v22 == 1 )
+  {
+    v39 = vostok::math::create_translation((const vostok::math::float3 *)v17, &v107);
+    v40 = (float *)(a2 + 608);
+    v41 = vostok::math::create_uniform_scale((float *)(a2 + 608), (int)v88);
+    vostok::math::mul4x3(v39, v41, &v84);
+    v42 = vostok::collision::new_sphere_geometry_instance((vostok::memory::base_allocator *)&v84);
+    *(_DWORD *)(a2 + 692) = v42;
+    *(_DWORD *)(a2 + 696) = vostok::collision::new_collision_object(
+                              vostok::render::g_allocator,
+                              (unsigned int)v42,
+                              (vostok::collision::geometry_instance *)a2);
+    v43 = vostok::math::create_translation((const vostok::math::float3 *)(a2 + 532), &v101);
+    v44 = &v95;
+LABEL_24:
+    v66 = v43;
+    v67 = vostok::math::create_uniform_scale(v40, (int)v44);
+    vostok::math::mul4x3(v66, v67, &v84);
+    qmemcpy(&matrix, &v84, sizeof(matrix));
+    goto LABEL_25;
+  }
+  v69 = *(float *)(a2 + 608);
+  v23 = (float)(*(float *)(a2 + 572) * 0.5);
+  __libm_sse2_tan(v68);
+  *(float *)&v23 = v23;
+  *(float *)&v23 = *(float *)&v23 * v69;
+  v76.x = *(float *)(a2 + 592) + *(float *)&v23;
+  v76.y = v69 * 0.5;
+  v76.z = *(float *)(a2 + 600) + *(float *)&v23;
+  v24 = *(float *)(a2 + 584);
+  v25 = *(float *)(a2 + 576);
+  v70 = *(float *)(a2 + 580);
+  v26 = *(float *)(a2 + 552);
+  v27 = *(float *)(a2 + 556);
+  *(float *)&v23 = (float)(v24 * v26) - (float)(v70 * v27);
+  v28 = v25 * v27;
+  v29 = *(float *)(a2 + 548);
+  v30 = (float)(v29 * v70) - (float)(v25 * v26);
+  v31 = v28 - (float)(v29 * v24);
+  v32 = fsqrt((float)((float)(v30 * v30) + (float)(v31 * v31)) + (float)(*(float *)&v23 * *(float *)&v23));
+  v33 = *(float *)(a2 + 608);
+  v34 = *(float *)(a2 + 532)
+      - (float)((float)((float)(*(float *)&v23 * (float)(s_bm_current_air_resistance / v32)) * v33) * 0.5);
+  v79.y = *(float *)(a2 + 536) - (float)((float)((float)(v31 * (float)(s_bm_current_air_resistance / v32)) * v33) * 0.5);
+  *(float *)&v23 = *(float *)(a2 + 540)
+                 - (float)((float)((float)(v30 * (float)(s_bm_current_air_resistance / v32)) * v33) * 0.5);
+  v79.x = v34;
+  v79.z = *(float *)&v23;
+  v35 = vostok::math::float4x4::get_angles_xyz((vostok::math::float4x4 *)(a2 + 576), (int)&v80, a2 + 388);
+  v71 = vostok::math::create_rotation(v35, (int)&v80, (int)v93);
+  v36 = vostok::math::create_scale(&v76, (vostok::math::float4x4 *)v99);
+  vostok::math::mul4x3(v71, v36, &v83);
+  v37 = vostok::math::create_translation(&v79, &v91);
+  vostok::math::mul4x3(v37, &v83, &v84);
+  v38 = &v84;
+LABEL_20:
+  qmemcpy(&matrix, v38, sizeof(matrix));
+  p_matrix = &matrix;
+LABEL_22:
+  v62 = vostok::collision::new_box_geometry_instance(vostok::render::g_allocator, p_matrix);
+  *(_DWORD *)(a2 + 692) = v62;
+  *(_DWORD *)(a2 + 696) = vostok::collision::new_collision_object(
+                            vostok::render::g_allocator,
+                            (unsigned int)v62,
+                            (vostok::collision::geometry_instance *)a2);
+LABEL_25:
+  (***(void (__thiscall ****)(_DWORD, _DWORD, vostok::math::float4x4 *))(a2 + 688))(
+    *(_DWORD *)(a2 + 688),
+    *(_DWORD *)(a2 + 696),
+    &matrix);
+  vostok::math::aabb::modify((vostok::math::aabb *)&matrix, v82);
 }

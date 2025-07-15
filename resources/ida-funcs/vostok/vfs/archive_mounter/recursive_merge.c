@@ -1,73 +1,58 @@
 void __thiscall vostok::vfs::archive_mounter::recursive_merge(
         vostok::vfs::archive_mounter *this,
         vostok::fs_new::virtual_path_string *path,
-        unsigned int hash,
-        vostok::vfs::base_node<1> *node,
-        vostok::vfs::base_folder_node<1> *parent)
+        vostok::vfs::base_node<1> *hash,
+        vostok::vfs::base_folder_node<1> *node,
+        vostok::vfs::base_node<1> *parent)
 {
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  unsigned int v7; // eax
-  vostok::vfs::base_folder_node<1> *v8; // [esp+0h] [ebp-48h]
-  vostok::vfs::base_node<1> *v10; // [esp+14h] [ebp-34h] BYREF
-  float v11; // [esp+18h] [ebp-30h]
-  vostok::vfs::base_node<1> **v12; // [esp+1Ch] [ebp-2Ch]
-  char *s; // [esp+20h] [ebp-28h] BYREF
-  char v14; // [esp+26h] [ebp-22h]
-  char v15; // [esp+27h] [ebp-21h]
-  vostok::vfs::base_node<1> *next_child; // [esp+2Ch] [ebp-1Ch]
-  unsigned int child_hash; // [esp+30h] [ebp-18h]
-  vostok::fs_new::virtual_path_string *child_path; // [esp+34h] [ebp-14h]
-  vostok::vfs::base_node<1> *child; // [esp+38h] [ebp-10h]
-  vostok::vfs::base_folder_node<1> *node_folder; // [esp+3Ch] [ebp-Ch]
-  vostok::vfs::base_node<1> *node_children; // [esp+40h] [ebp-8h]
-  unsigned int saved_path_length; // [esp+44h] [ebp-4h]
+  vostok::vfs::base_folder_node<1> *v5; // edi
+  vostok::vfs::mounter *v6; // ecx
+  vostok::vfs::base_folder_node<1> *v7; // eax
+  vostok::fs_new::virtual_path_string *v8; // ebx
+  vostok::fs_new::path_string_impl *v9; // ecx
+  vostok::vfs::base_node<1> *v10; // eax
+  char *v11; // eax
+  vostok::vfs::base_node<1> *v12; // edi
+  int v13; // [esp+14h] [ebp-Ch]
+  vostok::vfs::base_node<1> *first_child; // [esp+18h] [ebp-8h]
 
-  node_children = vostok::vfs::base_node<1>::get_first_child(node);
-  v5 = (survarium::game_camera *)((node->m_flags & 1) == 1);
-  if ( (node->m_flags & 1) == 1 )
+  v5 = node;
+  first_child = vostok::vfs::base_node<1>::get_first_child((vostok::vfs::base_node<1> *)this, (int)node);
+  if ( ((int)v5->base.m_parent.pointer & 1) != 0 )
   {
-    v12 = &v10;
-    v11 = 0.0;
-    v10 = 0;
-    v5 = (survarium::game_camera *)vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(node);
-    v5->__vftable = (survarium::game_camera_vtbl *)v10;
-    v5->m_inverted_view_matrix.i.x = v11;
+    v7 = vostok::vfs::cast_folder<1>((vostok::vfs::base_node<1> *)v5);
+    v7->m_first_child.pointer = 0;
+    HIDWORD(v7->m_first_child.max_storage) = 0;
   }
+  v8 = path;
   if ( parent )
-  {
-    vostok::vfs::mounter::merge_node_with_tree(
+    vostok::vfs::mounter::merge_node_with_tree(v6, this, path, __PAIR64__((unsigned int)v5, (unsigned int)hash), parent);
+  else
+    vostok::vfs::mounter::merge_root_node(
+      (vostok::vfs::base_node<1> *)v5,
+      &this->m_args.root_write_lock,
       this,
-      (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)path,
-      hash,
-      node,
-      parent);
-  }
+      (unsigned int)hash);
+  v13 = v8->m_string.m_end - v8->m_string.m_begin;
+  if ( ((int)v5->base.m_parent.pointer & 0x300) != 0 )
+    node = 0;
   else
+    node = vostok::vfs::cast_folder<1>((vostok::vfs::base_node<1> *)v5);
+  while ( 1 )
   {
-    v15 = 0;
-    survarium::weapon_user_dead_state::finalize(v5);
-    v14 = 0;
-    survarium::weapon_user_dead_state::finalize(v6);
-    vostok::vfs::mounter::merge_root_node(this, hash, node, &this->m_args.root_write_lock);
-  }
-  saved_path_length = vostok::fs_new::path_string_impl::length(path);
-  if ( (node->m_flags & 0x300) != 0 )
-    v8 = 0;
-  else
-    v8 = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(node);
-  node_folder = v8;
-  for ( child = node_children; child; child = next_child )
-  {
-    next_child = child->m_next.pointer;
-    child_path = path;
-    s = child->m_name;
-    vostok::fs_new::path_string_impl::append_path<char const *>(path, &s);
-    v7 = vostok::strings::length(child->m_name);
-    child_hash = vostok::fs_new::crc32(child->m_name, v7, hash);
-    vostok::vfs::archive_mounter::recursive_merge(this, child_path, child_hash, child, node_folder);
-    vostok::fs_new::path_string_impl::set_length(path, saved_path_length);
+    v12 = first_child;
+    if ( !first_child )
+      break;
+    first_child = first_child->m_next.pointer;
+    path = (vostok::fs_new::virtual_path_string *)v12->m_name;
+    vostok::fs_new::path_string_impl::append_path<char const *>(v9, (int)v8, (char **)&path);
+    v10 = (vostok::vfs::base_node<1> *)vostok::fs_new::crc32(v12->m_name, strlen(v12->m_name), (unsigned int)hash);
+    vostok::vfs::archive_mounter::recursive_merge(this, v8, v10, (vostok::vfs::base_folder_node<1> *)v12, node);
+    v9 = (vostok::fs_new::path_string_impl *)v13;
+    v11 = &v8->m_string.m_begin[v13];
+    v8->m_string.m_end = v11;
+    *v11 = 0;
   }
   if ( parent )
-    vostok::vfs::mounter::remove_marked_to_unlink_from_parent(parent);
+    vostok::vfs::mounter::remove_marked_to_unlink_from_parent((vostok::vfs::base_folder_node<1> *)parent);
 }

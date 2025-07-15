@@ -1,51 +1,87 @@
 void __thiscall survarium::damage_model_cook::delete_resource(
         survarium::damage_model_cook *this,
-        survarium::damage_model *resource)
+        vostok::resources::resource_base *resource)
 {
-  survarium::affects_threshold *i; // [esp+28h] [ebp-28h]
-  survarium::affects_threshold *threshold; // [esp+34h] [ebp-1Ch]
-  const stlp_std::pair<survarium::body_part_parameters *,float> *it; // [esp+38h] [ebp-18h]
-  survarium::hit_type_parameters *type; // [esp+44h] [ebp-Ch]
-  survarium::body_part_parameters *part; // [esp+48h] [ebp-8h]
-  survarium::damage_model *model_res; // [esp+4Ch] [ebp-4h]
+  unsigned int m_lock; // esi
+  unsigned int v3; // ecx
+  _DWORD *v4; // edi
+  _DWORD *v5; // eax
+  int v6; // ecx
+  _DWORD *v7; // edi
+  _DWORD *v8; // eax
+  int v9; // ecx
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  const char *v11; // [esp+0h] [ebp-10h]
+  const char *v12; // [esp+4h] [ebp-Ch]
+  unsigned int v13; // [esp+8h] [ebp-8h]
 
-  model_res = resource;
-  while ( 1 )
+  while ( resource[1].m_parent_resources.m_lock )
   {
-    part = (survarium::body_part_parameters *)survarium::damage_model::pop_body_part(model_res);
-    if ( !part )
-      break;
+    m_lock = resource[1].m_parent_resources.m_lock;
+    --resource[1].m_children_resources.m_last;
+    v3 = *(_DWORD *)m_lock;
+    resource[1].m_parent_resources.m_lock = *(_DWORD *)m_lock;
+    if ( !v3 )
+      resource[1].m_parent_resources.m_thread_id = 0;
+    *(_DWORD *)m_lock = 0;
     while ( 1 )
     {
-      type = (survarium::hit_type_parameters *)survarium::body_part_parameters::pop_hit_type(part);
-      if ( !type )
-        break;
-      for ( it = (const stlp_std::pair<survarium::body_part_parameters *,float> *)&type[1];
-            it != (const stlp_std::pair<survarium::body_part_parameters *,float> *)((char *)&type[1]
-                                                                                  + 8 * type->m_bdb_count);
-            ++it )
+      if ( *(_DWORD *)(m_lock + 12) )
       {
-        ;
+        v5 = *(_DWORD **)(m_lock + 12);
+        --*(_DWORD *)(m_lock + 4);
+        v6 = *v5;
+        *(_DWORD *)(m_lock + 12) = *v5;
+        if ( !v6 )
+          *(_DWORD *)(m_lock + 16) = 0;
+        *v5 = 0;
+        v4 = v5;
       }
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)type);
+      else
+      {
+        v4 = 0;
+      }
+      if ( !v4 )
+        break;
+      survarium::loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>::~loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>(
+        (survarium::loose_ptr<survarium::particle_game_effect const ,survarium::loose_ptr_data,vostok::threading::single_threading_policy> *)v4
+      + 7);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(
+        (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v4
+      + 6);
     }
     while ( 1 )
     {
-      threshold = (survarium::affects_threshold *)survarium::body_part_parameters::pop_threshold(part);
-      if ( !threshold )
-        break;
-      for ( i = threshold + 1;
-            i != (survarium::affects_threshold *)((char *)&threshold[1] + 4 * threshold->m_affects_count);
-            i = (survarium::affects_threshold *)((char *)i + 4) )
+      if ( *(_DWORD *)(m_lock + 28) )
       {
-        ;
+        v8 = *(_DWORD **)(m_lock + 28);
+        --*(_DWORD *)(m_lock + 20);
+        v9 = *v8;
+        *(_DWORD *)(m_lock + 28) = *v8;
+        if ( !v9 )
+          *(_DWORD *)(m_lock + 32) = 0;
+        *v8 = 0;
+        v7 = v8;
       }
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)threshold);
+      else
+      {
+        v7 = 0;
+      }
+      if ( !v7 )
+        break;
+      survarium::loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>::~loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>(
+        (survarium::loose_ptr<survarium::particle_game_effect const ,survarium::loose_ptr_data,vostok::threading::single_threading_policy> *)v7
+      + 4);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(
+        (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v7
+      + 3);
     }
-    survarium::body_part_parameters::~body_part_parameters(part);
+    survarium::loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>::~loose_ptr<survarium::particle_game_effect const,survarium::loose_ptr_data,vostok::threading::single_threading_policy>((survarium::loose_ptr<survarium::particle_game_effect const ,survarium::loose_ptr_data,vostok::threading::single_threading_policy> *)(m_lock + 220));
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(m_lock + 216));
+    *(_DWORD *)(m_lock + 40) = *(_DWORD *)(m_lock + 36);
   }
-  ((void (__thiscall *)(survarium::damage_model *, _DWORD))model_res->~vostok::resources::resource_base)(model_res, 0);
-  ___free_helper_Vdoug_lea_allocator_memory_vostok____CBX_memory_vostok__YAXAAVdoug_lea_allocator_01_AAPBX_Z(
-    (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-    (void **)&resource);
+  ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
+    resource,
+    0);
+  vostok::memory::doug_lea_allocator::free_impl(v10, (int)survarium::g_allocator, (char *)resource, v11, v12, v13);
 }

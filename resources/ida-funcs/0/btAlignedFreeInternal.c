@@ -1,4 +1,4 @@
-void __usercall btAlignedFreeInternal(void *ptr@<eax>)
+void __cdecl btAlignedFreeInternal(void *ptr)
 {
   if ( ptr )
   {

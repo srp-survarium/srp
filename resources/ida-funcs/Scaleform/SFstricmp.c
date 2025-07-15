@@ -1,5 +1,5 @@
 // attributes: thunk
-int __cdecl Scaleform::SFstricmp(const char *a, const char *b)
+int __cdecl Scaleform::SFstricmp(char *a, char *b)
 {
   return _stricmp(a, b);
 }

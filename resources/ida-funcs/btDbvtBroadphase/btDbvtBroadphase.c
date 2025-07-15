@@ -1,42 +1,47 @@
-void __usercall btDbvtBroadphase::btDbvtBroadphase(
-        btDbvtBroadphase *this@<esi>,
-        btHashedOverlappingPairCache *paircache@<edi>)
+btDbvtBroadphase *__userpurge btDbvtBroadphase::btDbvtBroadphase@<eax>(
+        btDbvtBroadphase *this@<ecx>,
+        int a2@<esi>,
+        btHashedOverlappingPairCache *paircache)
 {
-  btHashedOverlappingPairCache *v2; // eax
-  btHashedOverlappingPairCache *v3; // ecx
+  btDbvt *v3; // edi
+  int i; // ebx
+  int v5; // edx
+  btHashedOverlappingPairCache *v6; // eax
+  btHashedOverlappingPairCache *v7; // eax
+  btHashedOverlappingPairCache *v9; // [esp-4h] [ebp-Ch]
 
-  this->__vftable = (btDbvtBroadphase_vtbl *)&btDbvtBroadphase::`vftable';
-  `vector constructor iterator'((char *)this->m_sets, 0x28u, 2, (void *(__thiscall *)(void *))btDbvt::btDbvt);
-  this->m_deferedcollide = 0;
-  this->m_needcleanup = 1;
-  this->m_releasepaircache = paircache == 0;
-  this->m_prediction = 0.0;
-  this->m_stageCurrent = 0;
-  this->m_fixedleft = 0;
-  this->m_fupdates = 1;
-  this->m_dupdates = 0;
-  this->m_cupdates = 10;
-  this->m_newpairs = 1;
-  this->m_updates_call = 0;
-  this->m_updates_done = 0;
-  this->m_updates_ratio = 0.0;
-  if ( paircache )
+  *(_DWORD *)a2 = &btDbvtBroadphase::`vftable';
+  v3 = (btDbvt *)(a2 + 4);
+  for ( i = 1; i >= 0; --i )
+    btDbvt::btDbvt(v3++);
+  v6 = paircache;
+  *(_BYTE *)(a2 + 153) = 0;
+  *(_BYTE *)(a2 + 154) = v5;
+  *(_BYTE *)(a2 + 152) = paircache == 0;
+  *(_DWORD *)(a2 + 100) = 0;
+  *(_DWORD *)(a2 + 104) = 0;
+  *(_DWORD *)(a2 + 124) = 0;
+  *(_DWORD *)(a2 + 108) = v5;
+  *(_DWORD *)(a2 + 112) = 0;
+  *(_DWORD *)(a2 + 116) = 10;
+  *(_DWORD *)(a2 + 120) = v5;
+  *(_DWORD *)(a2 + 128) = 0;
+  *(_DWORD *)(a2 + 132) = 0;
+  *(_DWORD *)(a2 + 136) = 0;
+  if ( !paircache )
   {
-    v2 = paircache;
-  }
-  else
-  {
-    ++gNumAlignedAllocs;
-    if ( sAlignedAllocFunc(0x4Cu, 16) )
-      v2 = btHashedOverlappingPairCache::btHashedOverlappingPairCache(v3);
+    v7 = (btHashedOverlappingPairCache *)btAlignedAllocInternal(0x4Cu);
+    if ( v7 )
+      v6 = btHashedOverlappingPairCache::btHashedOverlappingPairCache(v9, v7);
     else
-      v2 = 0;
+      v6 = 0;
   }
-  this->m_paircache = v2;
-  this->m_gid = 0;
-  this->m_pid = 0;
-  this->m_cid = 0;
-  this->m_stageRoots[0] = 0;
-  this->m_stageRoots[1] = 0;
-  this->m_stageRoots[2] = 0;
+  *(_DWORD *)(a2 + 96) = v6;
+  *(_DWORD *)(a2 + 148) = 0;
+  *(_DWORD *)(a2 + 140) = 0;
+  *(_DWORD *)(a2 + 144) = 0;
+  *(_DWORD *)(a2 + 84) = 0;
+  *(_DWORD *)(a2 + 88) = 0;
+  *(_DWORD *)(a2 + 92) = 0;
+  return (btDbvtBroadphase *)a2;
 }

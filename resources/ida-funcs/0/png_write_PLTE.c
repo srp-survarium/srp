@@ -10,7 +10,7 @@ int __cdecl png_write_PLTE(int a1, unsigned __int8 *a2, unsigned int a3)
     if ( (*(_BYTE *)(a1 + 315) & 2) != 0 )
     {
       *(_WORD *)(a1 + 300) = a3;
-      sub_36AD20((_DWORD *)a1, 1347179589, 3 * a3);
+      sub_4779E0((_DWORD *)a1, 1347179589, 3 * a3);
       v5 = 0;
       v6 = a2;
       while ( v5 < a3 )

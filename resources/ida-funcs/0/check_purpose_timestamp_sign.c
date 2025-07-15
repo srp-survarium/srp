@@ -14,7 +14,7 @@ int __cdecl check_purpose_timestamp_sign(const x509_purpose_st *xp, x509_st *x, 
   {
     if ( (ex_flags & 4) != 0 && x->ex_xkusage == 64 )
     {
-      ext_by_NID = X509_get_ext_by_NID(x, 126, 0);
+      ext_by_NID = X509_get_ext_by_NID((stack_st_X509_ATTRIBUTE *)x, 126, 0);
       if ( ext_by_NID < 0 )
         return 1;
       ext = X509_get_ext(x, ext_by_NID);

@@ -9,18 +9,15 @@ void __thiscall Scaleform::GFx::SpriteDef::Read(
   int v7; // eax
   unsigned int Pos; // eax
   unsigned __int16 v9; // dx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v10; // ecx
-  Scaleform::GFx::TagType v11; // ebx
-  void *v12; // ebp
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v13; // ecx
+  Scaleform::GFx::TagType v10; // ebx
+  void *v11; // ebp
   unsigned int Size; // eax
-  void (__thiscall *v15)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *); // eax
+  void (__thiscall *v13)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *); // eax
   Scaleform::GFx::LoadProcess::LoadStateType LoadState; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v17; // ecx
-  unsigned int v18; // eax
-  Scaleform::String fileURL; // [esp+Ch] [ebp-18h] BYREF
-  unsigned int tagEnd; // [esp+10h] [ebp-14h]
-  Scaleform::GFx::TagInfo tagInfo; // [esp+14h] [ebp-10h] BYREF
+  unsigned int v15; // eax
+  Scaleform::String v16; // [esp+Ch] [ebp-18h] BYREF
+  unsigned int v17; // [esp+10h] [ebp-14h]
+  Scaleform::GFx::TagInfo pTagInfo; // [esp+14h] [ebp-10h] BYREF
 
   v3 = p;
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
@@ -30,7 +27,7 @@ void __thiscall Scaleform::GFx::SpriteDef::Read(
   p->LoadState = LS_LoadingSprite;
   p->pTimelineDef = this;
   v7 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
-  tagEnd = TagEndPosition;
+  v17 = TagEndPosition;
   pAltStream->Stream.UnusedBits = 0;
   if ( v7 < 2 )
     Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
@@ -43,19 +40,19 @@ void __thiscall Scaleform::GFx::SpriteDef::Read(
   Scaleform::ArrayData<Scaleform::GFx::TimelineDef::Frame,Scaleform::AllocatorLH<Scaleform::GFx::TimelineDef::Frame,265>,Scaleform::ArrayDefaultPolicy>::Resize(
     &this->Playlist.Data,
     this->FrameCount);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v10);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  frames = %d\n", this->FrameCount);
   this->LoadingFrame = 0;
   if ( pAltStream->Stream.Pos + pAltStream->Stream.FilePos - pAltStream->Stream.DataSize < TagEndPosition )
   {
     do
     {
-      v11 = Scaleform::GFx::Stream::OpenTag(&pAltStream->Stream, &tagInfo);
-      Scaleform::String::String(&fileURL, (char *)((v3->pLoadData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8));
-      Scaleform::GFx::LoadProcess::ReportProgress(v3, &fileURL, &tagInfo, 1);
-      v12 = (void *)(fileURL.HeapTypeBits & 0xFFFFFFFC);
-      if ( InterlockedExchangeAdd((volatile LONG *)((fileURL.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
-      if ( v11 == Tag_EndFrame )
+      v10 = Scaleform::GFx::Stream::OpenTag(&pAltStream->Stream, &pTagInfo);
+      Scaleform::String::String(&v16, (const __m128i *)((v3->pLoadData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8));
+      Scaleform::GFx::LoadProcess::ReportProgress(v3, &v16, &pTagInfo, 1);
+      v11 = (void *)(v16.HeapTypeBits & 0xFFFFFFFC);
+      if ( InterlockedExchangeAdd((volatile LONG *)((v16.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);
+      if ( v10 == Tag_EndFrame )
       {
         Size = this->Playlist.Data.Size;
         if ( this->LoadingFrame == Size )
@@ -71,48 +68,48 @@ void __thiscall Scaleform::GFx::SpriteDef::Read(
             this->LoadingFrame + 1);
         }
         Scaleform::GFx::LoadProcess::CommitFrameTags(p);
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)LOWORD(charId.Id));
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+          &pAltStream->Stream,
+          "  ShowFrame (sprite, char id = %d)\n",
+          LOWORD(charId.Id));
         ++this->LoadingFrame;
         goto LABEL_21;
       }
-      if ( (unsigned int)v11 >= Tag_SWF_TagTableEnd )
+      if ( (unsigned int)v10 >= Tag_SWF_TagTableEnd )
       {
-        if ( (unsigned int)(v11 - 1000) > 9 )
+        if ( (unsigned int)(v10 - 1000) > 9 )
           goto LABEL_20;
-        v15 = (void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *))Scaleform::GFx::GFx_GFX_TagLoaderTable[v11 - 1000];
+        v13 = (void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *))Scaleform::GFx::GFx_GFX_TagLoaderTable[v10 - 1000];
       }
       else
       {
-        v15 = (void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *))Scaleform::GFx::SWF_TagLoaderTable[v11];
+        v13 = (void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_geom::Transform *, unsigned int, const Scaleform::GFx::AS3::Value *))Scaleform::GFx::SWF_TagLoaderTable[v10];
       }
-      if ( !v15 )
+      if ( !v13 )
       {
 LABEL_20:
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v13);
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, aNoTagLoaderFor, v10);
         goto LABEL_21;
       }
-      v15(
-        (Scaleform::GFx::AS3::Instances::fl_geom::Transform *)&tagInfo,
+      v13(
+        (Scaleform::GFx::AS3::Instances::fl_geom::Transform *)&pTagInfo,
         (unsigned int)p,
-        (const Scaleform::GFx::AS3::Value *)&tagInfo);
+        (const Scaleform::GFx::AS3::Value *)&pTagInfo);
 LABEL_21:
       Scaleform::GFx::Stream::CloseTag(&pAltStream->Stream);
       v3 = p;
     }
-    while ( pAltStream->Stream.Pos + pAltStream->Stream.FilePos - pAltStream->Stream.DataSize < tagEnd );
+    while ( pAltStream->Stream.Pos + pAltStream->Stream.FilePos - pAltStream->Stream.DataSize < v17 );
   }
   LoadState = v3->LoadState;
-  v17 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)(3 * LoadState + 204);
-  if ( *((_DWORD *)&v3->Scaleform::GFx::LoaderTask::Scaleform::GFx::Task::Scaleform::RefCountBase<Scaleform::GFx::Task,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable
-       + (_DWORD)v17)
-    || LoadState == LS_LoadingRoot && v3->InitActionTags.Data.Size )
+  if ( v3->FrameTags[LoadState].Data.Size || LoadState == LS_LoadingRoot && v3->InitActionTags.Data.Size )
   {
-    v18 = this->Playlist.Data.Size;
-    if ( this->LoadingFrame == v18 )
+    v15 = this->Playlist.Data.Size;
+    if ( this->LoadingFrame == v15 )
     {
       Scaleform::ArrayData<Scaleform::GFx::TimelineDef::Frame,Scaleform::AllocatorLH<Scaleform::GFx::TimelineDef::Frame,265>,Scaleform::ArrayDefaultPolicy>::Resize(
         &this->Playlist.Data,
-        v18 + 1);
+        v15 + 1);
       Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogError(
         &pAltStream->Stream,
         "An extra frame is found for sprite id = %d, framecnt = %d, actual frames = %d",
@@ -124,5 +121,8 @@ LABEL_21:
   }
   v3->LoadState = LS_LoadingRoot;
   v3->pTimelineDef = 0;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v17);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    &pAltStream->Stream,
+    "  -- sprite END, char id = %d --\n",
+    LOWORD(charId.Id));
 }

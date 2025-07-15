@@ -6,14 +6,14 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCurveTo(const Scaleform::GFx:
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::AS2::Value *v5; // eax
   Scaleform::GFx::AS2::Value *v6; // eax
-  Scaleform::GFx::AS2::Environment *Env; // [esp+Ch] [ebp-18h]
-  Scaleform::GFx::AS2::Environment *v8; // [esp+Ch] [ebp-18h]
-  Scaleform::GFx::AS2::Environment *v9; // [esp+Ch] [ebp-18h]
-  Scaleform::GFx::AS2::Environment *v10; // [esp+Ch] [ebp-18h]
+  Scaleform::GFx::AS2::Environment *ay; // [esp+Ch] [ebp-18h]
+  Scaleform::GFx::AS2::Environment *aya; // [esp+Ch] [ebp-18h]
+  Scaleform::GFx::AS2::Environment *ayb; // [esp+Ch] [ebp-18h]
+  Scaleform::GFx::AS2::Environment *ayc; // [esp+Ch] [ebp-18h]
   float v11; // [esp+18h] [ebp-Ch]
   float cy; // [esp+1Ch] [ebp-8h]
   float v13; // [esp+20h] [ebp-4h]
-  float ay; // [esp+28h] [ebp+4h]
+  float v14; // [esp+28h] [ebp+4h]
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -31,25 +31,25 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCurveTo(const Scaleform::GFx:
   {
     if ( fn->NArgs >= 4 )
     {
-      Env = fn->Env;
+      ay = fn->Env;
       v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      v13 = Scaleform::GFx::AS2::Value::ToNumber(v3, Env);
-      v8 = fn->Env;
+      v13 = Scaleform::GFx::AS2::Value::ToNumber(v3, ay);
+      aya = fn->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-      cy = Scaleform::GFx::AS2::Value::ToNumber(v4, v8);
-      v9 = fn->Env;
+      cy = Scaleform::GFx::AS2::Value::ToNumber(v4, aya);
+      ayb = fn->Env;
       v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-      v11 = Scaleform::GFx::AS2::Value::ToNumber(v5, v9);
-      v10 = fn->Env;
+      v11 = Scaleform::GFx::AS2::Value::ToNumber(v5, ayb);
+      ayc = fn->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-      ay = Scaleform::GFx::AS2::Value::ToNumber(v6, v10);
+      v14 = Scaleform::GFx::AS2::Value::ToNumber(v6, ayc);
       Scaleform::GFx::AS2::AvmSprite::CurveTo(
         (Scaleform::GFx::AS2::AvmSprite *)(&Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                          + Target->AvmObjOffset),
         v13,
         cy,
         v11,
-        ay);
+        v14);
     }
   }
 }

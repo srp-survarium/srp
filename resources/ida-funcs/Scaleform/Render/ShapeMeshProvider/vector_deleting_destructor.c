@@ -9,7 +9,9 @@ Scaleform::Render::ShapeMeshProvider *__thiscall Scaleform::Render::ShapeMeshPro
 }
 
 
-void *__thiscall Scaleform::Render::ShapeMeshProvider::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::ShapeMeshProvider *__thiscall Scaleform::Render::ShapeMeshProvider::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::ShapeMeshProvider::`vector deleting destructor'(
            (Scaleform::Render::ShapeMeshProvider *)(this - 8),

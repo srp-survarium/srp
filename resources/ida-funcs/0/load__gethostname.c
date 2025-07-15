@@ -1,4 +1,4 @@
-int __fastcall load__gethostname(int a1, int a2, int a3, int a4)
+int __stdcall load__gethostname(int a1, int a2)
 {
-  return _tailMerge_WS2_32_dll((int (__stdcall **)())&gethostname, a2, a1);
+  return _tailMerge_WS2_32_dll(a1, a2);
 }

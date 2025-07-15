@@ -1,12 +1,12 @@
 bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeValue(
         Scaleform::Render::Text::SGMLParser<wchar_t> *this,
-        wchar_t **ppattrValue,
+        const __m128i **ppattrValue,
         unsigned int *pattrValueSz)
 {
   unsigned int CurChar; // eax
   bool v5; // zf
   const wchar_t *pNextChar; // eax
-  Scaleform::Render::Text::SGMLCharIter<wchar_t> *p_Iter; // edi
+  const __m128i **p_Iter; // edi
   unsigned int *v8; // ebp
   bool DoContentParsing; // al
   char v10; // bl
@@ -20,20 +20,20 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
   const wchar_t *v18; // eax
   unsigned int v19; // eax
   bool result; // al
-  bool rv; // [esp+8h] [ebp-6h]
-  bool isInBuf; // [esp+9h] [ebp-5h]
-  unsigned int quote; // [esp+Ah] [ebp-4h]
+  bool v21; // [esp+8h] [ebp-6h]
+  char v22; // [esp+9h] [ebp-5h]
+  unsigned int v23; // [esp+Ah] [ebp-4h]
 
-  rv = 0;
+  v21 = 0;
   if ( this->CurState == 8 )
   {
     CurChar = this->Iter.CurChar;
-    quote = CurChar;
+    v23 = CurChar;
     if ( CurChar == 34 || CurChar == 39 )
     {
       v5 = !this->Iter.DoContentParsing;
       pNextChar = this->Iter.pNextChar;
-      p_Iter = &this->Iter;
+      p_Iter = (const __m128i **)&this->Iter;
       this->Iter.pCurChar = pNextChar;
       if ( v5 || *pNextChar != 38 )
       {
@@ -48,26 +48,26 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
         Scaleform::Render::Text::SGMLCharIter<wchar_t>::DecodeEscapedChar(&this->Iter);
       }
       v8 = pattrValueSz;
-      *ppattrValue = (wchar_t *)p_Iter->pCurChar;
+      *ppattrValue = *p_Iter;
       *pattrValueSz = 0;
       DoContentParsing = this->Iter.DoContentParsing;
       v10 = 0;
-      isInBuf = 0;
+      v22 = 0;
       this->Iter.DoContentParsing = 1;
-      if ( !DoContentParsing && *p_Iter->pCurChar == 38 )
+      if ( !DoContentParsing && (*p_Iter)->m128i_i16[0] == 38 )
         Scaleform::Render::Text::SGMLCharIter<wchar_t>::DecodeEscapedChar(&this->Iter);
       while ( this->Iter.pCurChar < this->Iter.pEnd )
       {
-        if ( this->Iter.CurChar == quote )
+        if ( this->Iter.CurChar == v23 )
           break;
-        if ( this->Iter.DoContentParsing && *p_Iter->pCurChar == 38 )
+        if ( this->Iter.DoContentParsing && (*p_Iter)->m128i_i16[0] == 38 )
         {
           if ( !v10 )
           {
             this->BufPos = 0;
             Scaleform::Render::Text::SGMLParser<wchar_t>::AppendToBuf(this, *ppattrValue, *v8);
             v10 = 1;
-            isInBuf = 1;
+            v22 = 1;
           }
           BufSize = this->BufSize;
           v12 = this->Iter.CurChar;
@@ -80,7 +80,7 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
             if ( pBuffer )
             {
               v16 = (wchar_t *)Scaleform::Memory::pGlobalHeap->Realloc(Scaleform::Memory::pGlobalHeap, pBuffer, v15);
-              v10 = isInBuf;
+              v10 = v22;
             }
             else
             {
@@ -95,7 +95,7 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
         {
           Scaleform::Render::Text::SGMLParser<wchar_t>::AppendToBuf(
             this,
-            (wchar_t *)p_Iter->pCurChar,
+            *p_Iter,
             this->Iter.pNextChar - this->Iter.pCurChar);
         }
         else
@@ -104,7 +104,7 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
         }
         v5 = !this->Iter.DoContentParsing;
         v17 = this->Iter.pNextChar;
-        p_Iter->pCurChar = v17;
+        *p_Iter = (const __m128i *)v17;
         if ( v5 || *v17 != 38 )
         {
           if ( v17 < this->Iter.pEnd )
@@ -121,15 +121,15 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
       this->Iter.DoContentParsing = 0;
       if ( v10 )
       {
-        *ppattrValue = this->pBuffer;
+        *ppattrValue = (const __m128i *)this->pBuffer;
         *v8 = this->BufPos;
       }
       if ( this->Iter.pCurChar < this->Iter.pEnd )
       {
         v5 = !this->Iter.DoContentParsing;
         v18 = this->Iter.pNextChar;
-        rv = 1;
-        p_Iter->pCurChar = v18;
+        v21 = 1;
+        *p_Iter = (const __m128i *)v18;
         if ( v5 || *v18 != 38 )
         {
           if ( v18 < this->Iter.pEnd )
@@ -159,7 +159,7 @@ bool __thiscall Scaleform::Render::Text::SGMLParser<wchar_t>::GetNextAttributeVa
       this->CurState = 1;
     }
   }
-  result = rv;
+  result = v21;
   if ( this->Iter.pCurChar >= this->Iter.pEnd )
     this->CurState = 1;
   return result;

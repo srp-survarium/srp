@@ -3,10 +3,11 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_utils::ByteArray::defaultObject
         const Scaleform::GFx::AS3::Value *result,
         Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::EncodingType value)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v4; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v6; // [esp+0h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v6; // [esp-10h] [ebp-1Ch]
+  Scaleform::StringDataPtr v7; // [esp-8h] [ebp-14h]
+  Scaleform::GFx::AS3::VM::Error v8; // [esp+4h] [ebp-8h] BYREF
 
   if ( value == encAMF0 || value == encAMF3 )
   {
@@ -14,11 +15,14 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_utils::ByteArray::defaultObject
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v6, eIllegalOperandTypeError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(pVM, v4);
-    pNode = v6.Message.pNode;
-    --v6.Message.pNode->RefCount;
+    v7.pStr = "encAMF0 or encAMF3";
+    v7.Size = 18;
+    v6.pStr = "something";
+    v6.Size = 9;
+    Scaleform::GFx::AS3::VM::Error::Error(&v8, eIllegalOperandTypeError, this->pTraits.pObject->pVM, v6, v7);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(this->pTraits.pObject->pVM, v4);
+    pNode = v8.Message.pNode;
+    --v8.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

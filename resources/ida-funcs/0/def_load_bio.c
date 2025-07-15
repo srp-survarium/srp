@@ -40,11 +40,11 @@ int __cdecl def_load_bio(conf_st *conf, bio_st *in, int *line)
   lhash_st_CONF_VALUE *v41; // eax
   CONF_VALUE *v42; // esi
   bio_st *v43; // [esp-Ch] [ebp-60h]
-  buf_mem_st *str; // [esp+10h] [ebp-44h]
-  char *pto; // [esp+14h] [ebp-40h] BYREF
-  char *section; // [esp+18h] [ebp-3Ch]
+  buf_mem_st *a; // [esp+10h] [ebp-44h]
+  char *section; // [esp+14h] [ebp-40h] BYREF
+  char *v46; // [esp+18h] [ebp-3Ch]
   CONF_VALUE *value; // [esp+1Ch] [ebp-38h]
-  char *from; // [esp+20h] [ebp-34h]
+  CONF_VALUE *v48; // [esp+20h] [ebp-34h]
   int v49; // [esp+24h] [ebp-30h]
   int i; // [esp+28h] [ebp-2Ch]
   char *src; // [esp+2Ch] [ebp-28h]
@@ -52,7 +52,7 @@ int __cdecl def_load_bio(conf_st *conf, bio_st *in, int *line)
   int *v53; // [esp+34h] [ebp-20h]
   lhash_st_CONF_VALUE *v54; // [esp+38h] [ebp-1Ch]
   bio_st *b; // [esp+3Ch] [ebp-18h]
-  char buf[16]; // [esp+40h] [ebp-14h] BYREF
+  char v56[16]; // [esp+40h] [ebp-14h] BYREF
 
   data = conf->data;
   v4 = 0;
@@ -61,16 +61,16 @@ int __cdecl def_load_bio(conf_st *conf, bio_st *in, int *line)
   v49 = 0;
   value = 0;
   v54 = data;
-  v5 = BUF_MEM_new();
-  str = v5;
+  v5 = BUF_MEM_new(0);
+  a = v5;
   if ( !v5 )
   {
-    ERR_put_error(0xEu, 121, 7, ".\\crypto\\conf\\conf_def.c", 227);
+    ERR_put_error(0, 0xEu, 121, 7, ".\\crypto\\conf\\conf_def.c", 227);
 LABEL_73:
     if ( v53 )
       *v53 = v49;
-    BIO_snprintf(buf, 0xDu, "%ld", v49);
-    ERR_add_error_data(2, "line ", buf);
+    BIO_snprintf(v56, 0xDu, "%ld", v49);
+    ERR_add_error_data(2, "line ", v56);
     v41 = conf->data;
     if ( v54 != v41 && v41 )
     {
@@ -90,41 +90,41 @@ LABEL_73:
   }
   v6 = (char *)CRYPTO_malloc(10, ".\\crypto\\conf\\conf_def.c", 231);
   v7 = v6;
-  pto = v6;
+  section = v6;
   if ( !v6 )
   {
-    ERR_put_error(0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 234);
-    goto err_27;
+    ERR_put_error(0, 0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 234);
+    goto err_29;
   }
-  BUF_strlcpy(v6, &result.m_buffer[40], 0xAu);
+  BUF_strlcpy(v6, "default", 0xAu);
   if ( !_CONF_new_data(conf) )
   {
-    ERR_put_error(0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 241);
-    goto err_27;
+    ERR_put_error(0, 0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 241);
+    goto err_29;
   }
-  from = (char *)_CONF_new_section(conf, v7);
-  if ( !from )
+  v48 = _CONF_new_section(conf, v7);
+  if ( !v48 )
   {
-    ERR_put_error(0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 249);
-    goto err_27;
+    ERR_put_error(0, 0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 249);
+    goto err_29;
   }
   i = 0;
   if ( !BUF_MEM_grow(v5, 0x200u) )
   {
 LABEL_63:
-    ERR_put_error(0xEu, 121, 7, ".\\crypto\\conf\\conf_def.c", 259);
-err_27:
-    BUF_MEM_free(str);
-    if ( pto )
-      CRYPTO_free(pto);
+    ERR_put_error(v4, 0xEu, 121, 7, ".\\crypto\\conf\\conf_def.c", 259);
+err_29:
+    BUF_MEM_free(a);
+    if ( section )
+      CRYPTO_free(section);
     goto LABEL_73;
   }
   while ( 1 )
   {
-    v8 = &str->data[v4];
+    v8 = &a->data[v4];
     v43 = b;
     *v8 = 0;
-    BIO_gets(v43, v8, 511);
+    BIO_gets(v4, v43, v8, 511);
     v8[511] = 0;
     v9 = strlen(v8);
     v10 = v9;
@@ -150,7 +150,7 @@ err_27:
     v4 += v9;
     value = 0;
     if ( v4 < 1
-      || (v13 = str->data,
+      || (v13 = a->data,
           v14 = (unsigned __int8)v13[v4 - 1],
           v15 = conf->meth_data,
           v16 = (int)&v13[v4 - 1],
@@ -159,7 +159,7 @@ err_27:
     {
       if ( !v11 )
       {
-        v17 = str->data;
+        v17 = a->data;
         v4 = 0;
         v52 = 0;
         clear_comments(conf, v17);
@@ -171,8 +171,8 @@ err_27:
         {
           if ( v21 == 91 )
           {
-            from = eat_ws(v20 + 1);
-            j = from;
+            v48 = (CONF_VALUE *)eat_ws(v20 + 1);
+            j = (char *)v48;
             while ( 1 )
             {
               v23 = eat_alpha_numeric(j);
@@ -187,43 +187,43 @@ err_27:
                 break;
               if ( !*j )
               {
-                ERR_put_error(0xEu, 121, 100, ".\\crypto\\conf\\conf_def.c", 330);
-                goto err_27;
+                ERR_put_error(0, 0xEu, 121, 100, ".\\crypto\\conf\\conf_def.c", 330);
+                goto err_29;
               }
             }
             *v23 = 0;
-            if ( !str_copy(conf, 0, &pto) )
-              goto err_27;
-            v26 = pto;
-            from = (char *)_CONF_get_section(conf, pto);
-            if ( !from )
+            if ( !str_copy(conf, 0, &section) )
+              goto err_29;
+            v26 = section;
+            v48 = _CONF_get_section(conf, section);
+            if ( !v48 )
             {
-              from = (char *)_CONF_new_section(conf, v26);
-              if ( !from )
+              v48 = _CONF_new_section(conf, v26);
+              if ( !v48 )
               {
-                ERR_put_error(0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 340);
-                goto err_27;
+                ERR_put_error(0, 0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 340);
+                goto err_29;
               }
             }
           }
           else
           {
             src = v20;
-            section = 0;
+            v46 = 0;
             v27 = eat_alpha_numeric(v20);
             v28 = v27;
             if ( *v27 == 58 && v27[1] == 58 )
             {
               *v27 = 0;
-              section = v20;
+              v46 = v20;
               src = v27 + 2;
               v28 = eat_alpha_numeric(v27 + 2);
             }
             v29 = eat_ws(v28);
             if ( *v29 != 61 )
             {
-              ERR_put_error(0xEu, 121, 101, ".\\crypto\\conf\\conf_def.c", 362);
-              goto err_27;
+              ERR_put_error(0, 0xEu, 121, 101, ".\\crypto\\conf\\conf_def.c", 362);
+              goto err_29;
             }
             v30 = (unsigned __int8 *)(v29 + 1);
             *v28 = 0;
@@ -245,45 +245,45 @@ err_27:
             value = v35;
             if ( !v35 )
             {
-              ERR_put_error(0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 379);
-              goto err_27;
+              ERR_put_error((int)v31, 0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 379);
+              goto err_29;
             }
-            if ( !section )
-              section = pto;
+            if ( !v46 )
+              v46 = section;
             v36 = (char *)CRYPTO_malloc(strlen(src) + 1, ".\\crypto\\conf\\conf_def.c", 383);
             v35->name = v36;
             p_value = &v35->value;
             *p_value = 0;
             if ( !v36 )
             {
-              ERR_put_error(0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 388);
-              goto err_27;
+              ERR_put_error((int)v31, 0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 388);
+              goto err_29;
             }
             BUF_strlcpy(v36, src, strlen(src) + 1);
-            if ( !str_copy(conf, section, p_value) )
-              goto err_27;
-            v38 = section;
-            if ( !strcmp(section, pto) )
+            if ( !str_copy(conf, v46, p_value) )
+              goto err_29;
+            v38 = v46;
+            if ( !strcmp(v46, section) )
             {
-              v39 = (CONF_VALUE *)from;
+              v39 = v48;
             }
             else
             {
-              v39 = _CONF_get_section(conf, section);
+              v39 = _CONF_get_section(conf, v46);
               if ( !v39 )
               {
                 v39 = _CONF_new_section(conf, v38);
                 if ( !v39 )
                 {
-                  ERR_put_error(0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 402);
-                  goto err_27;
+                  ERR_put_error((int)v31, 0xEu, 121, 103, ".\\crypto\\conf\\conf_def.c", 402);
+                  goto err_29;
                 }
               }
             }
             if ( !_CONF_add_string(conf, v39, value) )
             {
-              ERR_put_error(0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 412);
-              goto err_27;
+              ERR_put_error((int)v31, 0xEu, 121, 65, ".\\crypto\\conf\\conf_def.c", 412);
+              goto err_29;
             }
             v4 = v52;
             value = 0;
@@ -296,11 +296,11 @@ err_27:
       --v4;
       i = 1;
     }
-    if ( !BUF_MEM_grow(str, v4 + 512) )
+    if ( !BUF_MEM_grow(a, v4 + 512) )
       goto LABEL_63;
-    v7 = pto;
+    v7 = section;
   }
-  BUF_MEM_free(str);
+  BUF_MEM_free(a);
   if ( v7 )
     CRYPTO_free(v7);
   return 1;

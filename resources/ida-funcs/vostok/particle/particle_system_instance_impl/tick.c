@@ -1,26 +1,29 @@
-bool __thiscall vostok::particle::particle_system_instance_impl::tick(
-        vostok::particle::particle_system_instance_impl *this,
+bool __userpurge vostok::particle::particle_system_instance_impl::tick@<al>(
+        vostok::particle::particle_system_instance_impl *this@<ecx>,
+        int a2@<esi>,
         float time_delta)
 {
-  float m_lods_lerp_alpha; // [esp+Ch] [ebp-Ch]
-  vostok::particle::particle_emitter_instance *instance; // [esp+14h] [ebp-4h]
+  _DWORD *i; // edi
+  float v5; // xmm0_4
 
-  if ( this->m_paused )
+  if ( *(_BYTE *)(a2 + 769) )
+    *(float *)(a2 + 776) = *(float *)(a2 + 776) - time_delta;
+  if ( *(_BYTE *)(a2 + 770) )
     return 0;
-  this->m_particle_system_time = this->m_particle_system_time + time_delta;
-  if ( !this->m_lerped )
-    vostok::particle::particle_system_instance_impl::process_lods_lerping(this, time_delta);
-  for ( instance = this->m_lods[this->m_current_lod].m_emitter_instance_list.m_first; instance; instance = instance->m_next )
+  *(float *)(a2 + 748) = time_delta + *(float *)(a2 + 748);
+  if ( !*(_BYTE *)(a2 + 756) )
+    vostok::particle::particle_system_instance_impl::process_lods_lerping(this, a2, time_delta);
+  for ( i = *(_DWORD **)(32 * *(_DWORD *)(a2 + 732) + a2 + 276); i; i = (_DWORD *)i[123] )
   {
-    if ( this->m_lerped )
-      m_lods_lerp_alpha = *(float *)&clear_value;
+    if ( *(_BYTE *)(a2 + 756) )
+      v5 = s_bm_current_air_resistance;
     else
-      m_lods_lerp_alpha = this->m_lods_lerp_alpha;
-    ((void (__thiscall *)(vostok::particle::particle_emitter_instance *, _DWORD, bool, float))instance->tick)(
-      instance,
+      v5 = *(float *)(a2 + 752);
+    (*(void (__thiscall **)(_DWORD *, _DWORD, bool, float))(*i + 8))(
+      i,
       LODWORD(time_delta),
-      !this->m_no_more_create,
-      COERCE_FLOAT(LODWORD(m_lods_lerp_alpha)));
+      *(_BYTE *)(a2 + 769) == 0,
+      COERCE_FLOAT(LODWORD(v5)));
   }
-  return this->is_finished(this);
+  return (*(int (__thiscall **)(int))(*(_DWORD *)a2 + 28))(a2);
 }

@@ -10,10 +10,10 @@ char __thiscall Scaleform::GFx::AS2::ColorTransformObject::GetMember(
   unsigned __int8 v9; // bl
   double v10; // st7
   Scaleform::GFx::AS2::Value v; // [esp+18h] [ebp-10h] BYREF
-  float penva; // [esp+2Ch] [ebp+4h]
-  float penvb; // [esp+2Ch] [ebp+4h]
-  float rca; // [esp+30h] [ebp+8h]
-  unsigned __int8 rc; // [esp+30h] [ebp+8h]
+  float v12; // [esp+2Ch] [ebp+4h]
+  float v13; // [esp+2Ch] [ebp+4h]
+  float v14; // [esp+30h] [ebp+8h]
+  unsigned __int8 v15; // [esp+30h] [ebp+8h]
 
   if ( !strcmp(name->pNode->pData, "redMultiplier") )
   {
@@ -67,21 +67,21 @@ LABEL_3:
     v7 = 0.0;
   else
     v7 = this->mColorTransform.M[0][0];
-  rca = v7;
-  rc = (int)rca;
+  v14 = v7;
+  v15 = (int)v14;
   if ( Scaleform::GFx::NumberUtil::IsNaN(this->mColorTransform.M[0][1]) )
     v8 = 0.0;
   else
     v8 = this->mColorTransform.M[0][1];
-  penva = v8;
-  v9 = (int)penva;
+  v12 = v8;
+  v9 = (int)v12;
   if ( Scaleform::GFx::NumberUtil::IsNaN(this->mColorTransform.M[0][2]) )
     v10 = 0.0;
   else
     v10 = this->mColorTransform.M[0][2];
-  penvb = v10;
+  v13 = v10;
   v.T.Type = 3;
-  v5 = (double)((unsigned __int8)(int)penvb | ((v9 | (rc << 8)) << 8));
+  v5 = (double)((unsigned __int8)(int)v13 | ((v9 | (v15 << 8)) << 8));
 LABEL_4:
   v.NV.NumberValue = v5;
   Scaleform::GFx::AS2::Value::operator=(val, &v);

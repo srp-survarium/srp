@@ -12,12 +12,12 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::SetProjectionCenter(
   double x; // [esp+Ch] [ebp-8h] BYREF
 
   x = projCenter.x;
-  if ( (HIDWORD(x) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(x) | LODWORD(x) )
+  if ( (HIDWORD(x) & 0x7FF00000) == 0x7FF00000 && HIDWORD(x) & 0xFFFFF | LODWORD(x) )
     return;
   x = projCenter.y;
   if ( (HIDWORD(x) & 0x7FF00000) == 0x7FF00000 )
   {
-    if ( (unsigned int)&loc_FFFFF & HIDWORD(x) | LODWORD(x) )
+    if ( HIDWORD(x) & 0xFFFFF | LODWORD(x) )
       return;
   }
   if ( COERCE__INT64(projCenter.x) == 0xFFF0000000000000uLL )

@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3comments(
       else
       {
         RefCount = v7->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v7->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);
@@ -96,7 +96,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3comments(
         if ( ((unsigned __int8)v13 & 1) == 0 )
         {
           v17 = v13->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v17) != 0 )
+          if ( (v17 & 0x3FFFFF) != 0 )
           {
             v13->RefCount = v17 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);

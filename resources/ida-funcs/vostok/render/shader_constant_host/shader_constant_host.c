@@ -1,26 +1,22 @@
-void __userpurge vostok::render::shader_constant_host::shader_constant_host(
-        vostok::render::shader_constant_host *this@<ecx>,
-        int a2@<esi>,
+void __thiscall vostok::render::shader_constant_host::shader_constant_host(
+        vostok::render::shader_constant_host *this,
         const vostok::shared_string *name,
-        vostok::render::enum_constant_type type)
+        const vostok::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock> *type,
+        vostok::strings::shared::profile *a4)
 {
-  vostok::strings::shared::profile *m_object; // eax
+  vostok::render::shader_constant_slot *v4; // esi
+  int i; // edi
 
-  *(_DWORD *)a2 = 0;
-  *(_DWORD *)(a2 + 4) = 0;
-  `vector constructor iterator'(
-    (char *)(a2 + 8),
-    8u,
-    3,
-    (void *(__thiscall *)(void *))vostok::render::shader_constant_slot::shader_constant_slot);
-  *(_DWORD *)(a2 + 32) = 0;
-  m_object = name->m_pointer.m_object;
-  if ( name->m_pointer.m_object )
-  {
-    *(_DWORD *)(a2 + 32) = m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  *(_DWORD *)(a2 + 48) = type;
-  *(_QWORD *)(a2 + 36) = 0;
-  *(_DWORD *)(a2 + 44) = 0;
+  name->m_pointer.m_object = 0;
+  name[1].m_pointer.m_object = 0;
+  v4 = (vostok::render::shader_constant_slot *)&name[2];
+  for ( i = 2; i >= 0; --i )
+    vostok::render::shader_constant_slot::shader_constant_slot(v4++);
+  vostok::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock>(
+    &name[8].m_pointer,
+    type);
+  name[12].m_pointer.m_object = a4;
+  name[9].m_pointer.m_object = 0;
+  name[10].m_pointer.m_object = 0;
+  name[11].m_pointer.m_object = 0;
 }

@@ -1,10 +1,12 @@
-bool __fastcall vostok::render::system_renderer::is_effects_ready(vostok::render::system_renderer *this, _DWORD *a2)
+bool __usercall vostok::render::system_renderer::is_effects_ready@<al>(
+        vostok::render::system_renderer *this@<ecx>,
+        _DWORD *a2@<eax>)
 {
-  unsigned int v2; // eax
+  unsigned int v2; // edx
   _DWORD *v3; // ecx
 
   v2 = 0;
-  v3 = a2 + 55;
+  v3 = a2 + 57;
   do
   {
     if ( v2 != 12 && !*v3 )
@@ -13,5 +15,5 @@ bool __fastcall vostok::render::system_renderer::is_effects_ready(vostok::render
     ++v3;
   }
   while ( v2 < 0xF );
-  return a2[50] && a2[53] && a2[23] && a2[71] && a2[70] && a2[54] && a2[49];
+  return a2[52] && a2[55] && a2[23] && a2[24] && a2[25] && a2[72] && a2[56] && a2[51];
 }

@@ -10,8 +10,8 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringIndexOf(const Scaleform::GF
   int v8; // ebp
   bool v9; // cc
   Scaleform::GFx::AS2::Value *v10; // eax
-  unsigned int v11; // esi
-  signed int i; // ebx
+  unsigned int Char_Advance0; // esi
+  int i; // ebx
   unsigned int v13; // eax
   unsigned int v14; // esi
   unsigned int v15; // eax
@@ -19,10 +19,10 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringIndexOf(const Scaleform::GF
   Scaleform::GFx::ASStringNode *v17; // eax
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-2Ch]
   Scaleform::GFx::AS2::Environment *v19; // [esp-10h] [ebp-28h]
-  const char *search; // [esp+4h] [ebp-14h] BYREF
-  const char *str; // [esp+8h] [ebp-10h] BYREF
-  const char *s1; // [esp+Ch] [ebp-Ch] BYREF
-  const char *s2; // [esp+10h] [ebp-8h] BYREF
+  char *putf8Buffer; // [esp+4h] [ebp-14h] BYREF
+  char *v21; // [esp+8h] [ebp-10h] BYREF
+  char *v22; // [esp+Ch] [ebp-Ch] BYREF
+  char *v23; // [esp+10h] [ebp-8h] BYREF
   unsigned int v24; // [esp+14h] [ebp-4h]
 
   v1 = fn;
@@ -40,48 +40,48 @@ void __cdecl Scaleform::GFx::AS2::StringProto::StringIndexOf(const Scaleform::GF
       Scaleform::GFx::AS2::Value::ToStringImpl(v5, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
       if ( Scaleform::GFx::ASConstString::GetLength((Scaleform::GFx::ASConstString *)&fn) )
       {
-        search = (const char *)fn->__vftable;
+        putf8Buffer = (char *)fn->__vftable;
         v8 = 0;
         v9 = v1->NArgs <= 1;
-        str = (const char *)p_pProto[13].pObject->__vftable;
+        v21 = (char *)p_pProto[13].pObject->__vftable;
         if ( !v9 )
         {
           v19 = v1->Env;
           v10 = Scaleform::GFx::AS2::FnCall::Arg(v1, 1);
           v8 = (int)Scaleform::GFx::AS2::Value::ToNumber(v10, v19);
         }
-        v11 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&search);
-        v24 = v11;
-        if ( !v11 )
-          --search;
+        Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8Buffer);
+        v24 = Char_Advance0;
+        if ( !Char_Advance0 )
+          --putf8Buffer;
         for ( i = 0; ; ++i )
         {
-          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&str);
+          v13 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v21);
           if ( !v13 )
           {
             Result = v1->Result;
-            --str;
+            --v21;
             if ( Result->T.Type >= 5u )
               Scaleform::GFx::AS2::Value::DropRefs(Result);
             Result->T.Type = 3;
             Result->NV.NumberValue = -1.0;
             goto LABEL_39;
           }
-          if ( i >= v8 && v13 == v11 )
+          if ( i >= v8 && v13 == Char_Advance0 )
             break;
 LABEL_35:
           ;
         }
-        s1 = str;
-        s2 = search;
+        v22 = v21;
+        v23 = putf8Buffer;
         do
         {
-          v14 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&s1);
+          v14 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v22);
           if ( !v14 )
-            --s1;
-          v15 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&s2);
+            --v22;
+          v15 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&v23);
           if ( !v15 )
-            --s2;
+            --v23;
           if ( !v14 )
             break;
           if ( !v15 )
@@ -96,10 +96,10 @@ LABEL_42:
         }
         if ( v14 )
         {
-          v11 = v24;
+          Char_Advance0 = v24;
           goto LABEL_35;
         }
-        Scaleform::GFx::AS2::Value::SetInt(v1->Result, 0xFFFFFFFF);
+        Scaleform::GFx::AS2::Value::SetInt(v1->Result, -1);
 LABEL_39:
         v17 = (Scaleform::GFx::ASStringNode *)fn;
         --fn->ThisFunctionRef.Function;

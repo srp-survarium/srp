@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::ExportResource(
 {
   Scaleform::GFx::MovieDataDef::LoadTaskData *v5; // ebp
   Scaleform::HashSetBase<Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceHandle,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<Scaleform::GFx::ResourceHandle,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::Iterator result; // [esp+8h] [ebp-10h] BYREF
-  Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId> >::NodeRef key; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId> >::NodeRef v7; // [esp+10h] [ebp-8h] BYREF
 
   v5 = 0;
   if ( this->LoadState < LS_LoadFinished )
@@ -23,12 +23,12 @@ void __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::ExportResource(
     &this->Exports.mHash,
     &result,
     (const Scaleform::String::NoCaseKey *)&hres);
-  key.pFirst = &rid;
-  key.pSecond = (const Scaleform::StringLH *)&result.pHash->pTable[2] + 5 * result.Index;
+  v7.pFirst = &rid;
+  v7.pSecond = (const Scaleform::StringLH *)&result.pHash->pTable[2] + 5 * result.Index;
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::StringLH,Scaleform::FixedSizeHash<Scaleform::GFx::ResourceId>>::NodeRef>(
     &this->InvExports.mHash,
     &this->InvExports,
-    &key);
+    &v7);
   if ( v5 )
     LeaveCriticalSection(&v5->ResourceLock.cs);
 }

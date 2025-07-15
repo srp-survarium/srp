@@ -1,52 +1,85 @@
 const char *__thiscall btConvexHullShape::serialize(
         btConvexHullShape *this,
-        char *dataBuffer,
+        float *dataBuffer,
         btSerializer *serializer)
 {
+  float *v4; // ecx
+  btVector3 *p_m_implicitShapeDimensions; // eax
+  int v6; // ebx
+  double v7; // st7
+  float *v8; // ecx
+  btVector3 *p_m_localScaling; // eax
+  int v10; // ebx
+  double v11; // st7
   int m_size; // ebx
-  void *v5; // eax
-  btChunk *v6; // eax
-  float *m_oldPtr; // edx
-  int v8; // edi
-  btVector3 *m_data; // ecx
-  double v10; // st7
-  float *m128_f32; // ecx
+  void *v13; // eax
+  float *m_oldPtr; // eax
+  float *v16; // edx
+  char *v17; // ecx
+  int v18; // ebx
+  btChunk *v20; // [esp+Ch] [ebp-4h]
+  int v21; // [esp+18h] [ebp+8h]
+  int v22; // [esp+1Ch] [ebp+Ch]
 
   btCollisionShape::serialize(this, dataBuffer, serializer);
-  *(btVector3 *)(dataBuffer + 28) = this->m_implicitShapeDimensions;
-  *(btVector3 *)(dataBuffer + 12) = this->m_localScaling;
-  *((float *)dataBuffer + 11) = this->m_collisionMargin;
+  v4 = dataBuffer + 7;
+  p_m_implicitShapeDimensions = &this->m_implicitShapeDimensions;
+  v6 = 4;
+  do
+  {
+    v7 = p_m_implicitShapeDimensions->mVec128.m128_f32[0];
+    p_m_implicitShapeDimensions = (btVector3 *)((char *)p_m_implicitShapeDimensions + 4);
+    *v4++ = v7;
+    --v6;
+  }
+  while ( v6 );
+  v8 = dataBuffer + 3;
+  p_m_localScaling = &this->m_localScaling;
+  v10 = 4;
+  do
+  {
+    v11 = p_m_localScaling->mVec128.m128_f32[0];
+    p_m_localScaling = (btVector3 *)((char *)p_m_localScaling + 4);
+    *v8++ = v11;
+    --v10;
+  }
+  while ( v10 );
+  dataBuffer[11] = this->m_collisionMargin;
   m_size = this->m_unscaledPoints.m_size;
   *((_DWORD *)dataBuffer + 15) = m_size;
   if ( m_size )
-    v5 = serializer->getUniquePointer(serializer, this->m_unscaledPoints.m_data);
+    v13 = serializer->getUniquePointer(serializer, this->m_unscaledPoints.m_data);
   else
-    v5 = 0;
-  *((_DWORD *)dataBuffer + 13) = v5;
-  *((_DWORD *)dataBuffer + 14) = 0;
+    v13 = 0;
+  dataBuffer[14] = 0.0;
+  *((_DWORD *)dataBuffer + 13) = v13;
   if ( m_size )
   {
-    v6 = serializer->allocate(serializer, 16, m_size);
-    m_oldPtr = (float *)v6->m_oldPtr;
+    v20 = serializer->allocate(serializer, 16, m_size);
+    m_oldPtr = (float *)v20->m_oldPtr;
     if ( m_size > 0 )
     {
-      v8 = 0;
+      v22 = 0;
+      v21 = m_size;
       do
       {
-        m_data = this->m_unscaledPoints.m_data;
-        v10 = m_data[v8].mVec128.m128_f32[0];
-        m128_f32 = m_data[v8].mVec128.m128_f32;
-        *m_oldPtr = v10;
-        ++v8;
+        v16 = m_oldPtr;
+        v17 = (char *)((char *)&this->m_unscaledPoints.m_data[v22] - (char *)m_oldPtr);
+        v18 = 4;
+        do
+        {
+          *v16 = *(float *)((char *)v16 + (_DWORD)v17);
+          ++v16;
+          --v18;
+        }
+        while ( v18 );
+        ++v22;
         m_oldPtr += 4;
-        --m_size;
-        *(m_oldPtr - 3) = m128_f32[1];
-        *(m_oldPtr - 2) = m128_f32[2];
-        *(m_oldPtr - 1) = m128_f32[3];
+        --v21;
       }
-      while ( m_size );
+      while ( v21 );
     }
-    serializer->finalizeChunk(serializer, v6, "btVector3FloatData", 1497453121, this->m_unscaledPoints.m_data);
+    serializer->finalizeChunk(serializer, v20, "btVector3FloatData", 1497453121, this->m_unscaledPoints.m_data);
   }
   return "btConvexHullShapeData";
 }

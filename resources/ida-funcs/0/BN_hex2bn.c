@@ -43,19 +43,19 @@ int __cdecl BN_hex2bn(bignum_st **bn, const char *a)
     if ( *bn )
     {
       v19 = *bn;
-      BN_set_word(*bn, 0);
+      BN_set_word((int)bn, *bn, 0);
       v7 = v19;
     }
     else
     {
-      v7 = BN_new();
+      v7 = BN_new((int)bn);
       v19 = v7;
       if ( !v7 )
         return 0;
     }
     v8 = 4 * v4 + 31;
     if ( v8 / 32 > v7->dmax )
-      v9 = bn_expand2(v7, (unsigned int *)(v8 / 32));
+      v9 = bn_expand2(v7, v8 / 32);
     else
       v9 = v7;
     if ( !v9 )

@@ -8,9 +8,9 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::V
   if ( !uri->pNode->Size && kind == NS_Public )
     return this->PublicNamespace.pObject;
   pObject = (Scaleform::GFx::AS3::InstanceTraits::fl::Namespace *)this->TraitsNamespace.pObject->ITraits.pObject;
-  if ( (_S10_0 & 1) == 0 )
+  if ( (_S15 & 1) == 0 )
   {
-    _S10_0 |= 1u;
+    _S15 |= 1u;
     v.Flags = 0;
     v.Bonus.pWeakProxy = 0;
     atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -29,7 +29,7 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::V
 
   uri = Scaleform::GFx::ASStringManager::CreateStringNode(
           this->StringManagerRef->pStringManager,
-          (char *)uri->pData,
+          (__m128i *)uri->pData,
           (unsigned int)uri->pManager);
   ++uri->RefCount;
   InternedNamespace = Scaleform::GFx::AS3::VM::GetInternedNamespace(this, kind, (const Scaleform::GFx::ASString *)&uri);
@@ -46,13 +46,13 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::V
         Scaleform::GFx::AS3::Abc::NamespaceKind kind,
         Scaleform::GFx::ASStringNode *name)
 {
-  char *v3; // eax
+  __m128i *v3; // eax
   Scaleform::GFx::AS3::Instances::fl::Namespace *InternedNamespace; // esi
   Scaleform::GFx::ASStringNode *v6; // eax
 
-  v3 = (char *)name;
+  v3 = (__m128i *)name;
   if ( !name )
-    v3 = (char *)&buf;
+    v3 = (__m128i *)uri;
   name = Scaleform::GFx::ASStringManager::CreateStringNode(this->StringManagerRef->pStringManager, v3);
   ++name->RefCount;
   InternedNamespace = Scaleform::GFx::AS3::VM::GetInternedNamespace(this, kind, (const Scaleform::GFx::ASString *)&name);

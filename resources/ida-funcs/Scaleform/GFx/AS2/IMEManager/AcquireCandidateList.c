@@ -11,7 +11,7 @@ char __usercall Scaleform::GFx::AS2::IMEManager::AcquireCandidateList@<al>(
   Scaleform::GFx::URLBuilder *v10; // eax
   Scaleform::RefCountVImpl *v11; // eax
   int v12; // eax
-  char *v13; // eax
+  const __m128i *v13; // eax
   const Scaleform::String *v14; // eax
   __int64 v15; // rax
   Scaleform::GFx::Movie *v16; // ecx
@@ -24,52 +24,51 @@ char __usercall Scaleform::GFx::AS2::IMEManager::AcquireCandidateList@<al>(
   Scaleform::GFx::AS2::Object *v23; // eax
   Scaleform::GFx::AS2::Object *v24; // esi
   unsigned int RefCount; // eax
-  Scaleform::String path; // [esp+1Ch] [ebp-150h] BYREF
-  Scaleform::String parentPath; // [esp+20h] [ebp-14Ch] BYREF
-  Scaleform::GFx::Value v; // [esp+24h] [ebp-148h] BYREF
-  Scaleform::GFx::AS2::MovieRoot *pmovieRoot; // [esp+3Ch] [ebp-130h]
-  Scaleform::GFx::URLBuilder::LocationInfo loc; // [esp+40h] [ebp-12Ch] BYREF
-  Scaleform::GFx::Value v32; // [esp+50h] [ebp-11Ch] BYREF
-  char workingDir[260]; // [esp+68h] [ebp-104h] BYREF
+  Scaleform::String v27; // [esp+1Ch] [ebp-150h] BYREF
+  Scaleform::String ppath; // [esp+20h] [ebp-14Ch] BYREF
+  Scaleform::GFx::Value pval; // [esp+24h] [ebp-148h] BYREF
+  Scaleform::GFx::URLBuilder::LocationInfo v30; // [esp+3Ch] [ebp-130h] BYREF
+  Scaleform::GFx::Value v31; // [esp+50h] [ebp-11Ch] BYREF
+  __m128i Buffer[16]; // [esp+6Ch] [ebp-100h] BYREF
 
   pMovie = this->pMovie;
   pObject = (Scaleform::GFx::AS2::MovieRoot *)pMovie->pASMovieRoot.pObject;
-  pmovieRoot = pObject;
+  v30.Use = (Scaleform::GFx::URLBuilder::FileUse)pObject;
   if ( !pMovie || !Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 0) )
     return 0;
   v5 = this->pMovie;
-  v.pObjectInterface = 0;
-  v.Type = VT_Undefined;
-  if ( !(unsigned __int8)Scaleform::GFx::Movie::GetVariable(v5, &v, "_global.gfx_ime_candidate_list_state") )
+  pval.pObjectInterface = 0;
+  pval.Type = VT_Undefined;
+  if ( !Scaleform::GFx::Movie::GetVariable(v5, &pval, "_global.gfx_ime_candidate_list_state") )
   {
-    if ( (v.Type & 0x40) != 0 )
+    if ( (pval.Type & 0x40) != 0 )
     {
-      v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
-      v.pObjectInterface = 0;
+      pval.pObjectInterface->ObjectRelease(pval.pObjectInterface, &pval, (void *)pval.mValue.IValue);
+      pval.pObjectInterface = 0;
     }
-    v.Type = VT_Number;
-    v.mValue.NValue = 0.0;
+    pval.Type = VT_Number;
+    pval.mValue.NValue = 0.0;
   }
-  if ( v.mValue.NValue < 0.0 )
+  if ( pval.mValue.NValue < 0.0 )
   {
-    if ( (v.Type & 0x40) != 0 )
+    if ( (pval.Type & 0x40) != 0 )
     {
-      v.pObjectInterface->ObjectRelease(v.pObjectInterface, &v, (void *)v.mValue.IValue);
+      pval.pObjectInterface->ObjectRelease(pval.pObjectInterface, &pval, (void *)pval.mValue.IValue);
       return 0;
     }
     return 0;
   }
-  if ( !Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 9999) && 1.0 != v.mValue.NValue )
+  if ( !Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pObject, 9999) && 1.0 != pval.mValue.NValue )
   {
     pimeManager = this->pimeManager;
     if ( !pimeManager || !pimeManager->bCheckIMEExists )
     {
 LABEL_36:
-      v32.mValue.NValue = 1.0;
+      v31.mValue.NValue = 1.0;
       v16 = this->pMovie;
-      v32.pObjectInterface = 0;
-      v32.Type = VT_Number;
-      Scaleform::GFx::Movie::SetVariable(v16, "_global.gfx_ime_candidate_list_state", &v32, SV_Sticky);
+      v31.pObjectInterface = 0;
+      v31.Type = VT_Number;
+      Scaleform::GFx::Movie::SetVariable(v16, "_global.gfx_ime_candidate_list_state", &v31, SV_Sticky);
       v17 = (Scaleform::GFx::AS2::GFxAS2LoadQueueEntry *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x6Cu);
       if ( v17 )
       {
@@ -89,7 +88,7 @@ LABEL_36:
       v20 = (Scaleform::GFx::AS2::CandidateListLoader *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountVImpl,3>::operator new(0x3Cu);
       if ( v20 )
       {
-        LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(pmovieRoot, 0);
+        LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie((Scaleform::GFx::AS2::MovieRoot *)v30.Use, 0);
         v22 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*((_DWORD *)&LevelMovie->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                                                + LevelMovie->AvmObjOffset)
                                                                              + 124))((int)LevelMovie + 4 * LevelMovie->AvmObjOffset);
@@ -106,20 +105,20 @@ LABEL_36:
       }
       Scaleform::GFx::AS2::Value::SetAsObject((Scaleform::GFx::AS2::Value *)(v19 + 36), v24);
       Scaleform::GFx::AS2::MovieRoot::AddMovieLoadQueueEntry(
-        pmovieRoot,
+        (Scaleform::GFx::AS2::MovieRoot *)v30.Use,
         0,
         (int)v24,
         (Scaleform::GFx::LoadQueueEntry *)v19);
       if ( v24 )
       {
         RefCount = v24->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v24->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v24);
         }
       }
-      Scaleform::GFx::Value::~Value(&v32);
+      Scaleform::GFx::Value::~Value(&v31);
       goto LABEL_29;
     }
     v8 = (Scaleform::RefCountVImpl *)pimeManager->pLoader->GetStateAddRef(pimeManager->pLoader, State_FileOpener);
@@ -142,66 +141,66 @@ LABEL_32:
         Scaleform::RefCountImpl::Release(v8);
       goto LABEL_36;
     }
-    Scaleform::String::String(&parentPath);
+    Scaleform::String::String(&ppath);
     v12 = ((int (__thiscall *)(Scaleform::GFx::Movie *, int))this->pMovie->GetMovieDef)(this->pMovie, a2);
-    v13 = (char *)(*(int (__thiscall **)(int))(*(_DWORD *)v12 + 48))(v12);
-    Scaleform::String::operator=((Scaleform::String *)&v, v13);
-    Scaleform::GFx::URLBuilder::ExtractFilePath((Scaleform::String *)&v);
-    if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((const char *)(((int)v.pObjectInterface & 0xFFFFFFFC) + 8)) )
+    v13 = (const __m128i *)(*(int (__thiscall **)(int))(*(_DWORD *)v12 + 48))(v12);
+    Scaleform::String::operator=((Scaleform::String *)&pval, v13);
+    Scaleform::GFx::URLBuilder::ExtractFilePath((Scaleform::String *)&pval);
+    if ( Scaleform::GFx::URLBuilder::IsPathAbsolute((char *)(((int)pval.pObjectInterface & 0xFFFFFFFC) + 8)) )
     {
       Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(
-        (Scaleform::GFx::URLBuilder::LocationInfo *)&loc.FileName,
+        (Scaleform::GFx::URLBuilder::LocationInfo *)&v30.ParentPath,
         File_Regular,
         &this->CandidateSwfPath,
-        (const Scaleform::String *)&v);
-      Scaleform::String::String(&parentPath);
+        (const Scaleform::String *)&pval);
+      Scaleform::String::String(&ppath);
       if ( !v9 )
       {
         Scaleform::GFx::URLBuilder::DefaultBuildURL(
-          &parentPath,
-          (const Scaleform::GFx::URLBuilder::LocationInfo *)&loc.FileName);
+          &ppath,
+          (const Scaleform::GFx::URLBuilder::LocationInfo *)&v30.ParentPath);
 LABEL_25:
         v15 = ((__int64 (__thiscall *)(Scaleform::RefCountVImpl *, unsigned int))v8->Release)(
                 v8,
-                (parentPath.HeapTypeBits & 0xFFFFFFFC) + 8);
+                (ppath.HeapTypeBits & 0xFFFFFFFC) + 8);
         if ( (HIDWORD(v15) & (unsigned int)v15) == 0xFFFFFFFF )
         {
-          Scaleform::String::~String(&path);
-          Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&loc);
-          Scaleform::String::~String(&parentPath);
+          Scaleform::String::~String(&v27);
+          Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo((Scaleform::GFx::URLBuilder::LocationInfo *)&v30.FileName);
+          Scaleform::String::~String(&ppath);
           if ( v9 )
             Scaleform::RefCountImpl::Release(v9);
           Scaleform::RefCountImpl::Release(v8);
 LABEL_29:
-          Scaleform::GFx::Value::~Value(&v);
+          Scaleform::GFx::Value::~Value(&pval);
           return 0;
         }
-        Scaleform::String::~String(&path);
-        Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&loc);
-        Scaleform::String::~String(&parentPath);
+        Scaleform::String::~String(&v27);
+        Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo((Scaleform::GFx::URLBuilder::LocationInfo *)&v30.FileName);
+        Scaleform::String::~String(&ppath);
         goto LABEL_32;
       }
     }
     else
     {
-      GetCurrentDirectoryA(0x104u, &workingDir[4]);
-      Scaleform::String::String((Scaleform::String *)&v32, &workingDir[4]);
+      GetCurrentDirectoryA(0x104u, Buffer[0].m128i_i8);
+      Scaleform::String::String((Scaleform::String *)&v31, Buffer);
       Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(
-        (Scaleform::GFx::URLBuilder::LocationInfo *)&loc.FileName,
+        (Scaleform::GFx::URLBuilder::LocationInfo *)&v30.ParentPath,
         File_Regular,
         &this->CandidateSwfPath,
         v14);
-      Scaleform::String::~String((Scaleform::String *)&v32);
-      Scaleform::String::String(&parentPath);
+      Scaleform::String::~String((Scaleform::String *)&v31);
+      Scaleform::String::String(&ppath);
       if ( !v9 )
         goto LABEL_25;
     }
     ((void (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::String *, Scaleform::String *))v9->AddRef)(
       v9,
-      &parentPath,
-      &loc.FileName);
+      &ppath,
+      &v30.ParentPath);
     goto LABEL_25;
   }
-  Scaleform::GFx::Value::~Value(&v);
+  Scaleform::GFx::Value::~Value(&pval);
   return 1;
 }

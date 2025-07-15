@@ -1,4 +1,4 @@
-const survarium::flash_text *__thiscall Scaleform::GFx::DisplayObject::GetAbsolutePath(
+const char *__thiscall Scaleform::GFx::DisplayObject::GetAbsolutePath(
         Scaleform::GFx::DisplayObject *this,
         Scaleform::String *ppath)
 {
@@ -6,12 +6,12 @@ const survarium::flash_text *__thiscall Scaleform::GFx::DisplayObject::GetAbsolu
 
   AvmObjOffset = this->AvmObjOffset;
   if ( AvmObjOffset )
-    return (const survarium::flash_text *)(*(int (__thiscall **)(char *, Scaleform::String *))(*((_DWORD *)&this->Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                                                               + AvmObjOffset)
-                                                                                             + 24))(
-                                            (char *)&this->Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                          + 4 * AvmObjOffset,
-                                            ppath);
+    return (const char *)(*(int (__thiscall **)(char *, Scaleform::String *))(*((_DWORD *)&this->Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+                                                                              + AvmObjOffset)
+                                                                            + 24))(
+                           (char *)&this->Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
+                         + 4 * AvmObjOffset,
+                           ppath);
   else
-    return &buf;
+    return uri;
 }

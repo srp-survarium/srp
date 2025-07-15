@@ -3,19 +3,19 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::DoActionsForSession(
         unsigned int sessionId)
 {
   Scaleform::GFx::AS2::MovieRoot::ActionEntry *i; // eax
-  Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator iter; // [esp+4h] [ebp-14h] BYREF
+  Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator v4; // [esp+4h] [ebp-14h] BYREF
 
-  iter.SessionId = sessionId;
-  iter.pActionQueue = &this->ActionQueue;
-  iter.ModId = 0;
-  iter.CurrentPrio = 0;
-  iter.pLastEntry = 0;
-  for ( i = (Scaleform::GFx::AS2::MovieRoot::ActionEntry *)Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator::getNext(&iter);
+  v4.SessionId = sessionId;
+  v4.pActionQueue = &this->ActionQueue;
+  v4.ModId = 0;
+  v4.CurrentPrio = 0;
+  v4.pLastEntry = 0;
+  for ( i = (Scaleform::GFx::AS2::MovieRoot::ActionEntry *)Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator::getNext(&v4);
         i;
-        i = (Scaleform::GFx::AS2::MovieRoot::ActionEntry *)Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator::getNext(&iter) )
+        i = (Scaleform::GFx::AS2::MovieRoot::ActionEntry *)Scaleform::GFx::AS2::MovieRoot::ActionQueueSessionIterator::getNext(&v4) )
   {
     Scaleform::GFx::AS2::MovieRoot::ActionEntry::Execute(i, this);
   }
-  if ( iter.pLastEntry )
-    Scaleform::GFx::AS2::MovieRoot::ActionQueueType::AddToFreeList(iter.pActionQueue, iter.pLastEntry);
+  if ( v4.pLastEntry )
+    Scaleform::GFx::AS2::MovieRoot::ActionQueueType::AddToFreeList(v4.pActionQueue, v4.pLastEntry);
 }

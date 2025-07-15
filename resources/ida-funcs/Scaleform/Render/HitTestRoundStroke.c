@@ -31,32 +31,32 @@ char __cdecl Scaleform::Render::HitTestRoundStroke(
   int v28; // edi
   float v30; // [esp+10h] [ebp-3Ch]
   float v31; // [esp+14h] [ebp-38h]
-  float dy; // [esp+28h] [ebp-24h]
-  float dya; // [esp+28h] [ebp-24h]
-  unsigned int i; // [esp+2Ch] [ebp-20h]
+  float v32; // [esp+28h] [ebp-24h]
+  float v33; // [esp+28h] [ebp-24h]
+  unsigned int v34; // [esp+2Ch] [ebp-20h]
   Scaleform::Render::PathBasic **Pages; // [esp+30h] [ebp-1Ch]
   float v36; // [esp+34h] [ebp-18h]
   float v37; // [esp+34h] [ebp-18h]
   float v38; // [esp+34h] [ebp-18h]
   float v39; // [esp+34h] [ebp-18h]
   unsigned int v40; // [esp+38h] [ebp-14h]
-  float p1; // [esp+3Ch] [ebp-10h]
-  float p1_4; // [esp+40h] [ebp-Ch]
-  float p2; // [esp+44h] [ebp-8h]
-  float p2_4; // [esp+48h] [ebp-4h]
-  float patha; // [esp+50h] [ebp+4h]
-  float wa; // [esp+54h] [ebp+8h]
-  float wb; // [esp+54h] [ebp+8h]
-  float wc; // [esp+54h] [ebp+8h]
-  float wd; // [esp+54h] [ebp+8h]
+  float v41; // [esp+3Ch] [ebp-10h]
+  float v42; // [esp+40h] [ebp-Ch]
+  float v43; // [esp+44h] [ebp-8h]
+  float v44; // [esp+48h] [ebp-4h]
+  float v45; // [esp+50h] [ebp+4h]
+  float v46; // [esp+54h] [ebp+8h]
+  float v47; // [esp+54h] [ebp+8h]
+  float v48; // [esp+54h] [ebp+8h]
+  float v49; // [esp+54h] [ebp+8h]
 
   v4 = path;
   Size = path->Paths.Size;
-  wa = w * 0.5;
+  v46 = w * 0.5;
   v6 = y;
   v7 = 0;
   v8 = x;
-  i = 0;
+  v34 = 0;
   v40 = Size;
   if ( Size )
   {
@@ -81,15 +81,15 @@ char __cdecl Scaleform::Render::HitTestRoundStroke(
           v20 = v18[v19].x;
           v21 = &v18[v19].x;
           v36 = v20 - *p_x;
-          dy = v21[1] - p_x[1];
-          p1 = *p_x - dy;
-          p1_4 = p_x[1] + v36;
-          p2_4 = v36 + v21[1];
-          v37 = (v8 - p1) * (p1_4 - p_x[1]) - (p1 - *p_x) * (v6 - p1_4);
+          v32 = v21[1] - p_x[1];
+          v41 = *p_x - v32;
+          v42 = p_x[1] + v36;
+          v44 = v36 + v21[1];
+          v37 = (v8 - v41) * (v42 - p_x[1]) - (v41 - *p_x) * (v6 - v42);
           if ( v37 >= v9 )
           {
-            p2 = *v21 - dy;
-            v38 = (v8 - p2) * (p2_4 - v21[1]) - (v6 - p2_4) * (p2 - *v21);
+            v43 = *v21 - v32;
+            v38 = (v8 - v43) * (v44 - v21[1]) - (v6 - v44) * (v43 - *v21);
             if ( v38 <= v9 )
             {
               v31 = v6;
@@ -98,8 +98,8 @@ char __cdecl Scaleform::Render::HitTestRoundStroke(
               v22 = v39;
               if ( v39 < 0.0 )
                 v22 = -v22;
-              dya = v22;
-              if ( wa >= (double)dya )
+              v33 = v22;
+              if ( v46 >= (double)v33 )
                 return 1;
               v8 = x;
               v9 = 0.0;
@@ -112,27 +112,27 @@ char __cdecl Scaleform::Render::HitTestRoundStroke(
         while ( v14 < Count );
         Size = v40;
         v4 = path;
-        v7 = i;
+        v7 = v34;
       }
-      i = ++v7;
+      v34 = ++v7;
     }
     while ( v7 < Size );
   }
   v23 = v4->Vertices.Size;
   v24 = 0;
-  wb = wa * wa;
+  v47 = v46 * v46;
   if ( !v23 )
     return 0;
   v25 = v4->Vertices.Pages;
-  v26 = wb;
+  v26 = v47;
   while ( 1 )
   {
     v27 = v25[v24 >> 4];
     v28 = v24 & 0xF;
-    patha = v8 - v27[v28].x;
-    wc = v6 - v27[v28].y;
-    wd = wc * wc + patha * patha;
-    if ( wd <= v26 )
+    v45 = v8 - v27[v28].x;
+    v48 = v6 - v27[v28].y;
+    v49 = v48 * v48 + v45 * v45;
+    if ( v49 <= v26 )
       break;
     if ( ++v24 >= v23 )
       return 0;

@@ -1,25 +1,27 @@
 btAxisSweep3Internal<unsigned short>::Handle *__thiscall btAxisSweep3Internal<unsigned short>::createProxy(
         btAxisSweep3Internal<unsigned short> *this,
-        const btVector3 *aabbMin,
+        btAxisSweep3Internal<unsigned short> *aabbMin,
         const btVector3 *aabbMax,
         int shapeType,
-        void *userPtr,
-        int collisionFilterGroup,
+        btVector3 *userPtr,
+        void *collisionFilterGroup,
         int collisionFilterMask,
         btDispatcher *dispatcher,
-        void *multiSapProxy)
+        btDispatcher *multiSapProxy)
 {
   btAxisSweep3Internal<unsigned short>::Handle *v10; // esi
+  void *v12; // [esp+0h] [ebp-8h]
 
   v10 = &this->m_pHandles[btAxisSweep3Internal<unsigned short>::addHandle(
-                            this,
                             aabbMin,
+                            this,
                             aabbMax,
                             userPtr,
                             collisionFilterGroup,
                             collisionFilterMask,
                             dispatcher,
-                            multiSapProxy)];
+                            multiSapProxy,
+                            v12)];
   if ( this->m_raycastAccelerator )
     v10->m_dbvtProxy = this->m_raycastAccelerator->createProxy(
                          this->m_raycastAccelerator,

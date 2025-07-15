@@ -10,11 +10,11 @@ char __thiscall Scaleform::GFx::AS2::Object::HasMember(
   int v8; // eax
   int v9; // esi
   unsigned int RootIndex; // eax
-  Scaleform::GFx::AS2::Member member; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v12; // [esp+Ch] [ebp-10h] BYREF
 
   RefCount = this->RefCount;
   p_RefCount = &this->RefCount;
-  member.mValue.T = 0;
+  v12.T = 0;
   if ( RefCount
     && (v7 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::ASString>(
                (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::GFx::HashsetNodeEntry_GC<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::Value,Scaleform::GFx::ASStringHashFunctor>::NodeHashF> > *)p_RefCount,
@@ -24,10 +24,10 @@ char __thiscall Scaleform::GFx::AS2::Object::HasMember(
     && (v8 = RefCount + 24 * v7 + 12) != 0 )
   {
     v9 = v8 + 4;
-    Scaleform::GFx::AS2::Value::operator=(&member.mValue, (const Scaleform::GFx::AS2::Value *)(v8 + 4));
-    member.mValue.T.PropFlags = *(_BYTE *)(v9 + 1);
-    if ( member.mValue.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&member.mValue);
+    Scaleform::GFx::AS2::Value::operator=(&v12, (const Scaleform::GFx::AS2::Value *)(v8 + 4));
+    v12.T.PropFlags = *(_BYTE *)(v9 + 1);
+    if ( v12.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v12);
     return 1;
   }
   else if ( inclPrototypes && (RootIndex = this->RootIndex) != 0 )

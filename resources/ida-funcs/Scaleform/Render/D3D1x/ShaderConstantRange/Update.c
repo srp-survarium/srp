@@ -1,6 +1,6 @@
 void __userpurge Scaleform::Render::D3D1x::ShaderConstantRange::Update(
         Scaleform::Render::D3D1x::ShaderConstantRange *this@<esi>,
-        unsigned int offset@<eax>,
+        int offset@<eax>,
         int size,
         int shadowLocation)
 {
@@ -9,7 +9,7 @@ void __userpurge Scaleform::Render::D3D1x::ShaderConstantRange::Update(
   ID3D11Buffer *v7; // eax
   Scaleform::Render::D3D1x::HAL *v8; // ecx
 
-  if ( (offset & 0x80000000) == 0 )
+  if ( offset >= 0 )
   {
     if ( !this->pConstantBuffer )
     {
@@ -22,7 +22,7 @@ void __userpurge Scaleform::Render::D3D1x::ShaderConstantRange::Update(
       v8->pDeviceContext->Map(v8->pDeviceContext, v7, 0, D3D11_MAP_WRITE_DISCARD, 0, &this->MappedBuffer);
     }
     memcpy(
-      (unsigned __int8 *)this->MappedBuffer.pData + 4 * (offset >> 2),
+      (unsigned __int8 *)this->MappedBuffer.pData + 4 * ((unsigned int)offset >> 2),
       (unsigned __int8 *)&this->UniformData[shadowLocation],
       4 * size);
   }

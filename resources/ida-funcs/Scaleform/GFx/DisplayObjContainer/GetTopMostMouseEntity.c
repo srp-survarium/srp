@@ -27,18 +27,18 @@ int __thiscall Scaleform::GFx::DisplayObjContainer::GetTopMostMouseEntity(
   float v26; // eax
   Scaleform::GFx::InteractiveObject *v27; // eax
   Scaleform::GFx::InteractiveObject *pResult; // eax
-  char v29; // [esp+969h] [ebp-D1h]
-  Scaleform::Render::ScreenToWorld *p_ScreenToWorld; // [esp+96Ah] [ebp-D0h]
-  int v31; // [esp+96Ah] [ebp-D0h]
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> phitTest; // [esp+96Eh] [ebp-CCh] BYREF
-  float y; // [esp+97Ah] [ebp-C0h]
-  Scaleform::GFx::InteractiveObject *v34; // [esp+97Eh] [ebp-BCh]
-  Scaleform::Render::Point<float> ptOut; // [esp+982h] [ebp-B8h] BYREF
-  Scaleform::Render::Point<float> p; // [esp+98Ah] [ebp-B0h] BYREF
-  Scaleform::Render::Point<float> v37; // [esp+992h] [ebp-A8h] BYREF
-  Scaleform::Render::Matrix3x4<float> v38; // [esp+99Ah] [ebp-A0h] BYREF
-  Scaleform::Render::Matrix3x4<float> result; // [esp+9CAh] [ebp-70h] BYREF
-  Scaleform::Render::Matrix4x4<float> v40; // [esp+9FAh] [ebp-40h] BYREF
+  char v29; // [esp+17h] [ebp-D1h]
+  Scaleform::Render::ScreenToWorld *p_ScreenToWorld; // [esp+18h] [ebp-D0h]
+  int v31; // [esp+18h] [ebp-D0h]
+  Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> v32; // [esp+1Ch] [ebp-CCh] BYREF
+  float y; // [esp+28h] [ebp-C0h]
+  Scaleform::GFx::InteractiveObject *v34; // [esp+2Ch] [ebp-BCh]
+  Scaleform::Render::Point<float> ptOut; // [esp+30h] [ebp-B8h] BYREF
+  Scaleform::Render::Point<float> p; // [esp+38h] [ebp-B0h] BYREF
+  Scaleform::Render::Point<float> v37; // [esp+40h] [ebp-A8h] BYREF
+  Scaleform::Render::Matrix3x4<float> v38; // [esp+48h] [ebp-A0h] BYREF
+  Scaleform::Render::Matrix3x4<float> result; // [esp+78h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix4x4<float> v40; // [esp+A8h] [ebp-40h] BYREF
 
   v4 = this->GetHitAreaHolder(this);
   v5 = this->Scaleform::GFx::InteractiveObject::Flags >> 11;
@@ -67,13 +67,10 @@ LABEL_19:
       Scaleform::GFx::DisplayObjectBase::GetWorldMatrix3D(v7, &v38);
       p_ScreenToWorld = &this->pASRoot->pMovieImpl->ScreenToWorld;
       if ( v7->GetProjectionMatrix3D(v7, &v40, 0) )
-        memcpy((unsigned __int8 *)&p_ScreenToWorld->MatProj, (unsigned __int8 *)&v40, sizeof(p_ScreenToWorld->MatProj));
+        memcpy((int)&p_ScreenToWorld->MatProj, (const __m128i *)&v40, sizeof(p_ScreenToWorld->MatProj));
       if ( v7->GetViewMatrix3D(v7, &result, 0) )
-        memcpy(
-          (unsigned __int8 *)&p_ScreenToWorld->MatView,
-          (unsigned __int8 *)&result,
-          sizeof(p_ScreenToWorld->MatView));
-      memcpy((unsigned __int8 *)&p_ScreenToWorld->MatWorld, (unsigned __int8 *)&v38, sizeof(p_ScreenToWorld->MatWorld));
+        memcpy((int)&p_ScreenToWorld->MatView, (const __m128i *)&result, sizeof(p_ScreenToWorld->MatView));
+      memcpy((int)&p_ScreenToWorld->MatWorld, (const __m128i *)&v38, sizeof(p_ScreenToWorld->MatWorld));
       Scaleform::Render::ScreenToWorld::GetWorldPoint(p_ScreenToWorld, &ptOut);
     }
     else
@@ -93,8 +90,8 @@ LABEL_19:
     if ( !v7->PointTestLocal(v7, &ptOut, 1u) )
       goto LABEL_19;
   }
-  memset(&phitTest, 0, sizeof(phitTest));
-  Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskArray(this, &phitTest, &p, 1);
+  memset(&v32, 0, sizeof(v32));
+  Scaleform::GFx::DisplayObjContainer::CalcDisplayListHitTestMaskArray(this, &v32.Data, &p, 1);
   GetHitArea = this->GetHitArea;
   memset(&v38.M[0][3], 0, 13);
   v31 = 2;
@@ -116,14 +113,14 @@ LABEL_71:
         Scaleform::GFx::DisplayObjectBase::TopMostDescr::operator=(
           pdescr,
           (const Scaleform::GFx::DisplayObjectBase::TopMostDescr *)&v38);
-        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&phitTest);
+        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>(&v32);
         return 1;
       }
       pdescr->LocalPt = p;
       if ( !v29 )
       {
         pdescr->pResult = 0;
-        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&phitTest);
+        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>(&v32);
         return 3;
       }
     }
@@ -133,18 +130,15 @@ LABEL_71:
     }
 LABEL_76:
     pdescr->pResult = this;
-    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&phitTest);
+    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>(&v32);
     return 1;
   }
   LODWORD(ptOut.x) = 12 * v14;
   while ( 1 )
   {
     v15 = *(int *)((char *)&this->mDisplayList.DisplayObjectArray.Data.Data->pCharacter + LODWORD(ptOut.x));
-    if ( phitTest.Data.Size && (!phitTest.Data.Data[LODWORD(v37.x)] || *(_WORD *)(v15 + 60))
-      || (*(_BYTE *)(v15 + 62) & 2) != 0 )
-    {
+    if ( v32.Data.Size && (!v32.Data.Data[LODWORD(v37.x)] || *(_WORD *)(v15 + 60)) || (*(_BYTE *)(v15 + 62) & 2) != 0 )
       goto LABEL_69;
-    }
     v16 = (*(int (__thiscall **)(int, Scaleform::Render::Point<float> *, Scaleform::GFx::DisplayObjectBase::TopMostDescr *))(*(_DWORD *)v15 + 248))(
             v15,
             &p,
@@ -206,7 +200,7 @@ LABEL_76:
         if ( !pParent || !pParent->GetVisible(pParent) )
           goto LABEL_48;
 LABEL_78:
-        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&phitTest);
+        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>(&v32);
         return 1;
       }
     }
@@ -274,6 +268,6 @@ LABEL_61:
   }
 LABEL_48:
   pdescr->pResult = 0;
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&phitTest);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>(&v32);
   return 2;
 }

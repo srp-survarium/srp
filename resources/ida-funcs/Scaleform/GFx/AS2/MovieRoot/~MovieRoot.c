@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::~MovieRoot(Scaleform::GFx::AS2::
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *)&this->SpritesWithHitArea);
   Scaleform::GFx::ASStringManager::ReleaseBuiltinArray(
     this->BuiltinsMgr.pStringManager,
-    this->BuiltinsMgr.Builtins,
+    (Scaleform::GFx::ASStringNode *)&this->BuiltinsMgr,
     0x9Cu);
   Scaleform::GFx::AS2::MovieRoot::ActionQueueType::~ActionQueueType(&this->ActionQueue);
   if ( this->ExternalIntfRetVal.T.Type >= 5u )

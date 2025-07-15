@@ -9,53 +9,53 @@ void __thiscall Scaleform::GFx::DrawTextManager::SetTextParams(
   unsigned int Raw; // eax
   __int16 v7; // ax
   char v8; // al
-  Scaleform::Render::Text::ParagraphFormat paraFmt; // [esp+10h] [ebp-40h] BYREF
-  Scaleform::Render::Text::TextFormat textFmt; // [esp+28h] [ebp-28h] BYREF
+  Scaleform::Render::Text::ParagraphFormat defaultParagraphFmt; // [esp+10h] [ebp-40h] BYREF
+  Scaleform::Render::Text::TextFormat fmt; // [esp+28h] [ebp-28h] BYREF
 
   pHeap = this->pHeap;
-  textFmt.RefCount = 1;
-  Scaleform::StringDH::StringDH(&textFmt.FontList, pHeap);
-  Scaleform::StringDH::StringDH(&textFmt.Url, pHeap);
-  textFmt.LetterSpacing = 0;
-  textFmt.FormatFlags = 0;
-  memset(&paraFmt.pTabStops, 0, 16);
-  textFmt.pImageDesc.pObject = 0;
-  textFmt.pFontHandle.pObject = 0;
-  textFmt.ColorV = -16777216;
-  textFmt.FontSize = 0;
-  textFmt.PresentMask = 0;
-  paraFmt.RefCount = 1;
+  fmt.RefCount = 1;
+  Scaleform::StringDH::StringDH(&fmt.FontList, pHeap);
+  Scaleform::StringDH::StringDH(&fmt.Url, pHeap);
+  fmt.LetterSpacing = 0;
+  fmt.FormatFlags = 0;
+  memset(&defaultParagraphFmt.pTabStops, 0, 16);
+  fmt.pImageDesc.pObject = 0;
+  fmt.pFontHandle.pObject = 0;
+  fmt.ColorV = -16777216;
+  fmt.FontSize = 0;
+  fmt.PresentMask = 0;
+  defaultParagraphFmt.RefCount = 1;
   if ( tfmt )
-    Scaleform::Render::Text::TextFormat::operator=(&textFmt, tfmt);
+    Scaleform::Render::Text::TextFormat::operator=(&fmt, tfmt);
   if ( pfmt )
-    Scaleform::Render::Text::ParagraphFormat::operator=(&paraFmt, pfmt);
+    Scaleform::Render::Text::ParagraphFormat::operator=(&defaultParagraphFmt, pfmt);
   Raw = txtParams->TextColor.Raw;
-  textFmt.PresentMask |= 1u;
-  textFmt.ColorV = Raw;
+  fmt.PresentMask |= 1u;
+  fmt.ColorV = Raw;
   switch ( txtParams->FontStyle )
   {
     case Normal:
-      Scaleform::Render::Text::TextFormat::SetBold(&textFmt, 0);
-      Scaleform::Render::Text::TextFormat::SetItalic(&textFmt, 0);
+      Scaleform::Render::Text::TextFormat::SetBold(&fmt, 0);
+      Scaleform::Render::Text::TextFormat::SetItalic(&fmt, 0);
       break;
     case Bold:
-      Scaleform::Render::Text::TextFormat::SetBold(&textFmt, 1);
-      Scaleform::Render::Text::TextFormat::SetItalic(&textFmt, 0);
+      Scaleform::Render::Text::TextFormat::SetBold(&fmt, 1);
+      Scaleform::Render::Text::TextFormat::SetItalic(&fmt, 0);
       break;
     case Italic:
-      Scaleform::Render::Text::TextFormat::SetBold(&textFmt, 0);
+      Scaleform::Render::Text::TextFormat::SetBold(&fmt, 0);
       goto LABEL_10;
     case BoldItalic:
-      Scaleform::Render::Text::TextFormat::SetBold(&textFmt, 1);
+      Scaleform::Render::Text::TextFormat::SetBold(&fmt, 1);
 LABEL_10:
-      Scaleform::Render::Text::TextFormat::SetItalic(&textFmt, 1);
+      Scaleform::Render::Text::TextFormat::SetItalic(&fmt, 1);
       break;
     default:
       break;
   }
-  Scaleform::Render::Text::TextFormat::SetFontName(&textFmt, &txtParams->FontName);
-  Scaleform::Render::Text::TextFormat::SetFontSize(&textFmt, txtParams->FontSize);
-  Scaleform::Render::Text::TextFormat::SetUnderline(&textFmt, txtParams->Underline);
+  Scaleform::Render::Text::TextFormat::SetFontName(&fmt, &txtParams->FontName);
+  Scaleform::Render::Text::TextFormat::SetFontSize(&fmt, txtParams->FontSize);
+  Scaleform::Render::Text::TextFormat::SetUnderline(&fmt, txtParams->Underline);
   switch ( txtParams->HAlignment )
   {
     case Align_TopCenter:
@@ -71,7 +71,11 @@ LABEL_10:
       v7 = 0;
       break;
   }
-  paraFmt.PresentMask = paraFmt.PresentMask ^ (paraFmt.PresentMask ^ (v7 << 9)) & 0x600 | 1;
+  defaultParagraphFmt.PresentMask = defaultParagraphFmt.PresentMask
+                                  ^ (defaultParagraphFmt.PresentMask
+                                   ^ (v7 << 9))
+                                  & 0x600
+                                  | 1;
   if ( txtParams->VAlignment == VAlign_Center )
   {
     v8 = 3;
@@ -92,10 +96,10 @@ LABEL_10:
     if ( txtParams->WordWrap )
       Scaleform::Render::Text::DocView::SetWordWrap(pdoc);
   }
-  Scaleform::Render::Text::DocView::SetTextFormat(pdoc, &textFmt, 0, 0xFFFFFFFF);
-  Scaleform::Render::Text::DocView::SetParagraphFormat(pdoc, &paraFmt, 0, 0xFFFFFFFF);
-  Scaleform::Render::Text::StyledText::SetDefaultTextFormat(pdoc->pDocument.pObject, &textFmt);
-  Scaleform::Render::Text::StyledText::SetDefaultParagraphFormat(pdoc->pDocument.pObject, &paraFmt);
-  Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
-  Scaleform::Render::Text::TextFormat::~TextFormat(&textFmt);
+  Scaleform::Render::Text::DocView::SetTextFormat(pdoc, &fmt, 0, 0xFFFFFFFF);
+  Scaleform::Render::Text::DocView::SetParagraphFormat(pdoc, &defaultParagraphFmt, 0, 0xFFFFFFFF);
+  Scaleform::Render::Text::StyledText::SetDefaultTextFormat(pdoc->pDocument.pObject, &fmt);
+  Scaleform::Render::Text::StyledText::SetDefaultParagraphFormat(pdoc->pDocument.pObject, &defaultParagraphFmt);
+  Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&defaultParagraphFmt);
+  Scaleform::Render::Text::TextFormat::~TextFormat(&fmt);
 }

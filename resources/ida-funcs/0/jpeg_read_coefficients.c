@@ -8,7 +8,7 @@ int __cdecl jpeg_read_coefficients(int a1)
 
   if ( *(_DWORD *)(a1 + 20) == 202 )
   {
-    sub_371220(a1);
+    sub_47DEE0(a1);
     *(_DWORD *)(a1 + 20) = 209;
   }
   if ( *(_DWORD *)(a1 + 20) == 209 )

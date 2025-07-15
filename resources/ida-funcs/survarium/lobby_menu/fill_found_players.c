@@ -1,121 +1,72 @@
-void __thiscall survarium::lobby_menu::fill_found_players(survarium::lobby_menu *this, survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::fill_found_players(survarium::lobby_menu *this, int a2)
 {
-  survarium::lobby_menu *v2; // esi
-  int v3; // eax
-  survarium::flash_movie_resource *m_object; // edx
-  _DWORD *v5; // edi
-  int v6; // ebx
-  survarium::flash_movie_resource *v7; // edx
-  int v8; // esi
-  int v9; // esi
-  int v10; // ecx
-  bool v11; // zf
-  unsigned int i; // [esp+4Ch] [ebp-68h]
-  unsigned int count; // [esp+50h] [ebp-64h]
-  survarium::flash_value value; // [esp+54h] [ebp-60h] BYREF
-  survarium::flash_value list_item; // [esp+6Ch] [ebp-48h] BYREF
-  survarium::flash_value array_value; // [esp+84h] [ebp-30h] BYREF
-  int v17; // [esp+9Ch] [ebp-18h] BYREF
-  int v18; // [esp+A0h] [ebp-14h]
-  int v19; // [esp+A4h] [ebp-10h]
+  int v2; // esi
+  survarium::messaging_client *v3; // ebx
+  int v4; // eax
+  int v5; // edi
+  vostok::vectora<survarium::account_list_item> *p_m_found_players_list; // ebx
+  int v7; // ecx
+  int v8; // eax
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  unsigned int v12; // esi
+  bool v13; // zf
+  Scaleform::GFx::Value pvalue; // [esp+Ch] [ebp-58h] BYREF
+  survarium::flash_value value; // [esp+24h] [ebp-40h] BYREF
+  Scaleform::GFx::Value v16; // [esp+3Ch] [ebp-28h] BYREF
+  int v17; // [esp+54h] [ebp-10h]
+  unsigned int v18; // [esp+58h] [ebp-Ch]
+  int i; // [esp+5Ch] [ebp-8h]
 
-  v2 = thisa;
-  v3 = (int)thisa->m_game->m_network_client->messaging_client(thisa->m_game->m_network_client);
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)array_value.body = 0;
-  *(_DWORD *)&array_value.body[4] = 0;
-  v5 = (_DWORD *)(v3 + 352);
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&array_value);
+  v2 = a2;
+  v3 = survarium::lobby_menu::messaging_client(this, a2);
+  v4 = *(_DWORD *)(a2 + 1600);
+  v5 = 0;
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  p_m_found_players_list = &v3->m_found_players_list;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v4 + 264) + 4), &pvalue);
   *(_DWORD *)value.body = 0;
   *(_DWORD *)&value.body[4] = 0;
-  count = (v5[1] - *v5) / 52;
-  i = 0;
-  if ( count )
+  v7 = 72;
+  v8 = p_m_found_players_list->_M_impl._M_finish - p_m_found_players_list->_M_impl._M_start;
+  v18 = 0;
+  v17 = v8;
+  if ( v8 )
   {
-    v6 = 0;
-    do
+    for ( i = 0; ; v5 = i )
     {
-      v7 = v2->m_lobby_menu_ui.m_object;
-      *(_DWORD *)list_item.body = 0;
-      *(_DWORD *)&list_item.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(v7->movie->m_movie, (Scaleform::GFx::Value *)&list_item, 0, 0, 0);
-      v8 = *(_DWORD *)(v6 + *v5);
-      if ( (value.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-          *(_DWORD *)value.body,
-          &value,
-          *(_DWORD *)&value.body[8]);
-        *(_DWORD *)value.body = 0;
-      }
-      *(_DWORD *)&value.body[4] = 4;
-      *(_DWORD *)&value.body[8] = v8;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)list_item.body
-                                                                                           + 20))(
-        *(_DWORD *)list_item.body,
-        *(_DWORD *)&list_item.body[8],
-        "id",
-        &value,
-        (list_item.body[4] & 0x8F) == 10);
-      v9 = *(_DWORD *)(v6 + *v5 + 4);
-      v10 = 0;
-      v17 = 0;
-      v18 = 6;
-      v19 = v9;
-      if ( (value.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-          *(_DWORD *)value.body,
-          &value,
-          *(_DWORD *)&value.body[8]);
-        v10 = v17;
-        *(_DWORD *)value.body = 0;
-      }
-      *(_DWORD *)&value.body[4] = 6;
-      *(_DWORD *)&value.body[8] = v9;
-      if ( (v18 & 0x40) != 0 )
-        (*(void (__thiscall **)(int, int *, int))(*(_DWORD *)v10 + 8))(v10, &v17, v19);
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)list_item.body
-                                                                                           + 20))(
-        *(_DWORD *)list_item.body,
-        *(_DWORD *)&list_item.body[8],
-        "name",
-        &value,
-        (list_item.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, unsigned int, survarium::flash_value *))(**(_DWORD **)array_value.body + 52))(
-        *(_DWORD *)array_value.body,
-        *(_DWORD *)&array_value.body[8],
-        i,
-        &list_item);
-      if ( (list_item.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)list_item.body + 8))(
-          *(_DWORD *)list_item.body,
-          &list_item,
-          *(_DWORD *)&list_item.body[8]);
-      v6 += 52;
-      v11 = ++i == count;
-      v2 = thisa;
+      v16.pObjectInterface = 0;
+      v16.Type = VT_Undefined;
+      survarium::flash_movie::CreateObject(
+        (survarium::flash_movie *)v7,
+        *(survarium::flash_value **)(*(_DWORD *)(v2 + 1600) + 264),
+        &v16);
+      survarium::flash_value::SetUInt(
+        v9,
+        (int)&value,
+        *(unsigned int *)((char *)&p_m_found_players_list->_M_impl._M_start->account_id + v5));
+      survarium::flash_value::SetMember(v10, &v16, "id", &value);
+      survarium::flash_value::SetString(&value, &p_m_found_players_list->_M_impl._M_start->account_name[v5]);
+      survarium::flash_value::SetMember(v11, &v16, "name", &value);
+      v12 = v18;
+      pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v18, &v16);
+      Scaleform::GFx::Value::~Value(&v16);
+      i += 72;
+      v13 = ++v12 == v17;
+      v18 = v12;
+      v2 = a2;
+      if ( v13 )
+        break;
     }
-    while ( !v11 );
   }
   Scaleform::GFx::Movie::Invoke(
-    v2->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(v2 + 1600) + 264) + 4),
     "root.fill_players_search",
     0,
-    (const Scaleform::GFx::Value *)&array_value,
+    &pvalue,
     1u);
-  if ( (value.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-      *(_DWORD *)value.body,
-      &value,
-      *(_DWORD *)&value.body[8]);
-    *(_DWORD *)value.body = 0;
-  }
-  *(_DWORD *)&value.body[4] = 0;
-  if ( (array_value.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)array_value.body + 8))(
-      *(_DWORD *)array_value.body,
-      &array_value,
-      *(_DWORD *)&array_value.body[8]);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

@@ -42,7 +42,7 @@ char __thiscall Scaleform::Waitable::RemoveWaitHandler(
       LeaveCriticalSection(p_cs);
       return 1;
     }
-    memmove((unsigned __int8 *)&p_Data->Data[v10], (unsigned __int8 *)&p_Data->Data[v10 + 1], 8 * (v13 - v10) - 8);
+    memmove((int)&p_Data->Data[v10], (const __m128i *)&p_Data->Data[v10 + 1], 8 * (v13 - v10) - 8);
     --p_Data->Size;
     v7 = 1;
   }

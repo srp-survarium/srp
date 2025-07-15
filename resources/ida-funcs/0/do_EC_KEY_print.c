@@ -1,6 +1,6 @@
 int __cdecl do_EC_KEY_print(bio_st *bp, int off, int ktype)
 {
-  const env_md_st *x; // ecx
+  const env_md_st *v3; // ecx
   unsigned int v4; // edi
   const engine_st *v5; // esi
   unsigned __int8 *v6; // ebp
@@ -17,24 +17,24 @@ int __cdecl do_EC_KEY_print(bio_st *bp, int off, int ktype)
   bignum_st *v17; // eax
   int v18; // eax
   int v19; // esi
-  __int16 reason; // [esp+10h] [ebp-14h]
+  __int16 v21; // [esp+10h] [ebp-14h]
   bignum_st *a; // [esp+14h] [ebp-10h]
   ec_group_st *group; // [esp+18h] [ebp-Ch]
   bignum_ctx *ctx; // [esp+1Ch] [ebp-8h]
 
   v4 = 0;
-  v5 = (const engine_st *)x;
+  v5 = (const engine_st *)v3;
   v6 = 0;
   v7 = 0;
-  reason = 32;
+  v21 = 32;
   a = 0;
   ctx = 0;
-  if ( !x || (group = (ec_group_st *)EVP_CIPHER_block_size(x)) == 0 )
+  if ( !v3 || (group = (ec_group_st *)EVP_CIPHER_block_size(v3)) == 0 )
   {
-    reason = 67;
-LABEL_31:
-    ERR_put_error(0x10u, 221, reason, ".\\crypto\\ec\\ec_ameth.c", 510);
-    goto LABEL_32;
+    v21 = 67;
+LABEL_32:
+    ERR_put_error((int)v7, 0x10u, 221, v21, ".\\crypto\\ec\\ec_ameth.c", 510);
+    goto LABEL_33;
   }
   ctx = BN_CTX_new();
   if ( ctx )
@@ -48,8 +48,8 @@ LABEL_31:
       v7 = (bignum_st *)v11;
       if ( !v11 )
       {
-        ERR_put_error(0x10u, 221, 16, ".\\crypto\\ec\\ec_ameth.c", 510);
-        goto LABEL_32;
+        ERR_put_error(0, 0x10u, 221, 16, ".\\crypto\\ec\\ec_ameth.c", 510);
+        goto LABEL_33;
       }
       v12 = BN_num_bits(v11) + 7;
       v8 = ktype;
@@ -71,7 +71,7 @@ LABEL_31:
       v14 = 0;
       if ( v8 <= 0 )
       {
-LABEL_16:
+LABEL_17:
         if ( v8 == 2 )
         {
           v16 = "Private-Key";
@@ -82,40 +82,42 @@ LABEL_16:
           if ( v8 != 1 )
             v16 = "ECDSA-Parameters";
         }
-        if ( BIO_indent(bp, off, 128) )
+        if ( BIO_indent((int)v7, bp, off, 128) )
         {
-          v17 = BN_new();
+          v17 = BN_new((int)v7);
           a = v17;
           if ( v17 )
           {
-            if ( EC_GROUP_get_order(group, v17, 0) )
+            if ( EC_GROUP_get_order(group, v17) )
             {
               v18 = BN_num_bits(a);
-              if ( (int)BIO_printf(bp, "%s: (%d bit)\n", v16, v18) > 0
+              if ( BIO_printf(bp, "%s: (%d bit)\n", v16, v18) > 0
                 && (!v14 || ASN1_bn_print(bp, "priv:", v14, v6, off))
                 && (!v7 || ASN1_bn_print(bp, "pub: ", v7, v6, off))
-                && ECPKParameters_print(bp, group, off) )
+                && ECPKParameters_print(bp, (ssl_st *)group, off) )
               {
                 v19 = 1;
-                goto LABEL_33;
+                goto LABEL_34;
               }
             }
           }
         }
-        goto LABEL_31;
+        goto LABEL_32;
       }
     }
     v6 = (unsigned __int8 *)CRYPTO_malloc(v4 + 10, ".\\crypto\\ec\\ec_ameth.c", 477);
     if ( !v6 )
-      goto LABEL_4;
+    {
+      ERR_put_error((int)v7, 0x10u, 221, 65, ".\\crypto\\ec\\ec_ameth.c", 510);
+      goto LABEL_33;
+    }
     v8 = ktype;
-    goto LABEL_16;
+    goto LABEL_17;
   }
-LABEL_4:
-  ERR_put_error(0x10u, 221, 65, ".\\crypto\\ec\\ec_ameth.c", 510);
-LABEL_32:
-  v19 = 0;
+  ERR_put_error(0, 0x10u, 221, 65, ".\\crypto\\ec\\ec_ameth.c", 510);
 LABEL_33:
+  v19 = 0;
+LABEL_34:
   if ( v7 )
     BN_free(v7);
   if ( a )

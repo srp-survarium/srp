@@ -1,83 +1,91 @@
-const survarium::flash_text *__usercall vostok::make_next_tip@<eax>(
-        char *text@<edx>,
-        const vostok::vectora<char const *> *v,
-        char *tip_index,
+const char *__usercall vostok::make_next_tip@<eax>(
+        const vostok::vectora<char const *> *v@<eax>,
+        unsigned __int16 *tip_index@<esi>,
+        char *text,
         bool b_next,
         vostok::enum_tips_mode mode)
 {
   int v6; // eax
-  const void **M_start; // eax
-  const void **M_finish; // edi
-  const void **v9; // esi
-  const survarium::flash_text *result; // eax
-  int v11; // ecx
-  const void **v12; // esi
-  const void **v13; // edi
-  const void **v14; // esi
-  const void **v15; // ecx
-  const char *tip; // [esp+18h] [ebp+8h]
+  const void **M_start; // ebx
+  int v8; // eax
+  const void **v9; // eax
+  const char *result; // eax
+  const void **v11; // ebx
+  const void **v12; // eax
+  const void **v13; // eax
+  const void **v14; // ebx
+  const void **v15; // edi
+  int v16; // ecx
+  const void **v17; // [esp+8h] [ebp-Ch]
+  const void **M_finish; // [esp+Ch] [ebp-8h]
+  char *right; // [esp+10h] [ebp-4h]
 
-  *(_WORD *)tip_index = 0;
+  *tip_index = 0;
   if ( !strlen(text) )
-    goto LABEL_6;
+    goto LABEL_9;
   if ( mode == tm_arg_list )
   {
     strchr(text, 0x20u);
-    text = (char *)(v6 + 1);
+    right = (char *)(v6 + 1);
   }
-  tip = text;
+  else
+  {
+    right = text;
+  }
   if ( b_next )
   {
     M_start = v->_M_impl._M_start;
     M_finish = v->_M_impl._M_finish;
-    v9 = v->_M_impl._M_start;
     if ( v->_M_impl._M_start != M_finish )
     {
       while ( 1 )
       {
-        v11 = strcmp((const char *)*v9, text);
-        ++*(_WORD *)tip_index;
-        ++v9;
-        if ( !v11 )
+        v8 = vostok::strings::compare((const char *)*M_start++, right);
+        ++*tip_index;
+        if ( !v8 )
           break;
-        if ( v9 == M_finish )
-          goto LABEL_6;
-        text = (char *)tip;
+        if ( M_start == M_finish )
+          goto LABEL_9;
       }
-      if ( v9 != M_finish )
-        return (const survarium::flash_text *)*v9;
-      goto LABEL_23;
+      if ( M_start != M_finish )
+        return (const char *)*M_start;
+      *tip_index = 0;
+      v9 = v->_M_impl._M_start;
+      return (const char *)*v9;
     }
-LABEL_6:
-    M_start = v->_M_impl._M_start;
+LABEL_9:
+    v9 = v->_M_impl._M_start;
     if ( v->_M_impl._M_start == v->_M_impl._M_finish )
     {
-      *(_WORD *)tip_index = 255;
-      return &buf;
+      *tip_index = 255;
+      return uri;
     }
-LABEL_23:
-    result = (const survarium::flash_text *)*M_start;
-    *(_WORD *)tip_index = 0;
-    return result;
+    *tip_index = 0;
+    return (const char *)*v9;
   }
-  v12 = v->_M_impl._M_finish;
-  v13 = v->_M_impl._M_start;
-  *(_WORD *)tip_index = v12 - v->_M_impl._M_start - 1;
-  if ( v12 == v13 )
-    goto LABEL_6;
-  while ( strcmp((const char *)*(v12 - 1), text) )
+  v11 = v->_M_impl._M_finish;
+  v12 = v->_M_impl._M_start;
+  *tip_index = v11 - v->_M_impl._M_start - 1;
+  if ( v11 == v12 )
+    goto LABEL_9;
+  while ( 1 )
   {
-    --*(_WORD *)tip_index;
-    if ( --v12 == v13 )
-      goto LABEL_6;
-    text = (char *)tip;
+    v17 = v11 - 1;
+    if ( !vostok::strings::compare((const char *)*(v11 - 1), right) )
+      break;
+    --v11;
+    --*tip_index;
+    if ( v17 == v->_M_impl._M_start )
+      goto LABEL_9;
   }
-  --*(_WORD *)tip_index;
-  v14 = v12 - 1;
-  if ( v14 != v13 )
-    return (const survarium::flash_text *)*(v14 - 1);
+  --*tip_index;
+  v13 = v->_M_impl._M_start;
+  v14 = v11 - 1;
+  if ( v14 != v->_M_impl._M_start )
+    return (const char *)*(v14 - 1);
   v15 = v->_M_impl._M_finish;
-  result = (const survarium::flash_text *)*(v15 - 1);
-  *(_WORD *)tip_index = v15 - v13 - 1;
+  v16 = (char *)v15 - (char *)v13;
+  result = (const char *)*(v15 - 1);
+  *tip_index = (v16 >> 2) - 1;
   return result;
 }

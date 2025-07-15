@@ -27,28 +27,28 @@ char __cdecl Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
   unsigned int v25; // eax
   unsigned int v26; // eax
   unsigned int v27; // eax
-  Scaleform::GFx::AS2::Object *pobj; // [esp+2Ch] [ebp-3Ch]
-  unsigned int i; // [esp+30h] [ebp-38h]
-  unsigned int n; // [esp+38h] [ebp-30h]
-  Scaleform::GFx::AS2::FunctionRef method; // [esp+3Ch] [ebp-2Ch] BYREF
-  Scaleform::GFx::AS2::Value methodVal; // [esp+48h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value listenersVal; // [esp+58h] [ebp-10h] BYREF
-  Scaleform::GFx::AS2::ObjectInterface *pthisa; // [esp+70h] [ebp+8h]
+  Scaleform::GFx::AS2::ArrayObject *v28; // [esp+2Ch] [ebp-3Ch]
+  unsigned int v29; // [esp+30h] [ebp-38h]
+  unsigned int Size; // [esp+38h] [ebp-30h]
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+3Ch] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS2::Value v32; // [esp+48h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v33; // [esp+58h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::ArrayObject *v34; // [esp+70h] [ebp+8h]
 
   if ( !pthis )
     return 0;
   pContext = penv->StringContext.pContext;
   p_StringContext = &penv->StringContext;
-  listenersVal.T.Type = 0;
+  v33.T.Type = 0;
   if ( pthis->GetMemberRaw(
          pthis,
          &penv->StringContext,
          (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[24].pMovieImpl,
-         &listenersVal) )
+         &v33) )
   {
-    v7 = Scaleform::GFx::AS2::Value::ToObject(&listenersVal, penv);
+    v7 = Scaleform::GFx::AS2::Value::ToObject(&v33, penv);
     v8 = (Scaleform::GFx::AS2::ArrayObject *)v7;
-    pobj = v7;
+    v28 = (Scaleform::GFx::AS2::ArrayObject *)v7;
     if ( v7 )
     {
       if ( v7->GetObjectType(&v7->Scaleform::GFx::AS2::ObjectInterface) == Object_Array )
@@ -65,18 +65,18 @@ char __cdecl Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
           {
             Scaleform::GFx::AS2::ArrayObject::ArrayObject(v10, penv);
             v12 = v11;
-            pthisa = (Scaleform::GFx::AS2::ObjectInterface *)v11;
+            v34 = v11;
           }
           else
           {
-            pthisa = 0;
+            v34 = 0;
             v12 = 0;
           }
           Scaleform::GFx::AS2::ArrayObject::MakeDeepCopyFrom(v12, p_StringContext->pContext->pHeap, v8);
           v13 = 0;
-          i = 0;
-          n = v12->Elements.Data.Size;
-          if ( n )
+          v29 = 0;
+          Size = v12->Elements.Data.Size;
+          if ( Size )
           {
             do
             {
@@ -103,75 +103,75 @@ char __cdecl Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
                     v16 = v19;
                   }
                   GetMemberRaw = v15->GetMemberRaw;
-                  methodVal.T.Type = 0;
-                  if ( GetMemberRaw(v15, &penv->StringContext, eventName, &methodVal) )
+                  v32.T.Type = 0;
+                  if ( GetMemberRaw(v15, &penv->StringContext, eventName, &v32) )
                   {
-                    Scaleform::GFx::AS2::Value::ToFunction(&methodVal, &method, penv);
-                    Function = method.Function;
-                    if ( method.Function )
+                    Scaleform::GFx::AS2::Value::ToFunction(&v32, &result, penv);
+                    Function = result.Function;
+                    if ( result.Function )
                     {
-                      pcallback->Invoke(pcallback, penv, v15, &method);
-                      Function = method.Function;
+                      pcallback->Invoke(pcallback, penv, v15, &result);
+                      Function = result.Function;
                     }
-                    if ( (method.Flags & 2) == 0 )
+                    if ( (result.Flags & 2) == 0 )
                     {
                       if ( Function )
                       {
                         RefCount = Function->RefCount;
-                        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+                        if ( (RefCount & 0x3FFFFFF) != 0 )
                         {
                           Function->RefCount = RefCount - 1;
                           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
                         }
                       }
                     }
-                    method.Function = 0;
-                    if ( (method.Flags & 1) == 0 )
+                    result.Function = 0;
+                    if ( (result.Flags & 1) == 0 )
                     {
-                      if ( method.pLocalFrame )
+                      if ( result.pLocalFrame )
                       {
-                        v23 = method.pLocalFrame->RefCount;
-                        pLocalFrame = method.pLocalFrame;
-                        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v23) != 0 )
+                        v23 = result.pLocalFrame->RefCount;
+                        pLocalFrame = result.pLocalFrame;
+                        if ( (v23 & 0x3FFFFFF) != 0 )
                         {
-                          method.pLocalFrame->RefCount = v23 - 1;
+                          result.pLocalFrame->RefCount = v23 - 1;
                           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
                         }
                       }
                     }
-                    method.pLocalFrame = 0;
+                    result.pLocalFrame = 0;
                   }
-                  if ( methodVal.T.Type >= 5u )
-                    Scaleform::GFx::AS2::Value::DropRefs(&methodVal);
+                  if ( v32.T.Type >= 5u )
+                    Scaleform::GFx::AS2::Value::DropRefs(&v32);
                   if ( v18 )
                     Scaleform::RefCountNTSImpl::Release(v18);
                   if ( v16 )
                   {
                     v25 = v16->RefCount;
-                    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v25) != 0 )
+                    if ( (v25 & 0x3FFFFFF) != 0 )
                     {
                       v16->RefCount = v25 - 1;
                       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);
                     }
                   }
-                  v12 = (Scaleform::GFx::AS2::ArrayObject *)pthisa;
+                  v12 = v34;
                 }
-                v8 = (Scaleform::GFx::AS2::ArrayObject *)pobj;
+                v8 = v28;
               }
-              v13 = i + 1;
-              i = v13;
+              v13 = v29 + 1;
+              v29 = v13;
             }
-            while ( v13 < n );
+            while ( v13 < Size );
           }
           v26 = v12->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v26) != 0 )
+          if ( (v26 & 0x3FFFFFF) != 0 )
           {
             v12->RefCount = v26 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v12);
           }
         }
         v27 = v8->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v27) != 0 )
+        if ( (v27 & 0x3FFFFFF) != 0 )
         {
           v8->RefCount = v27 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);
@@ -179,7 +179,7 @@ char __cdecl Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
       }
     }
   }
-  if ( listenersVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&listenersVal);
+  if ( v33.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v33);
   return 1;
 }

@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::DrawableImage::PaletteMap(
         Scaleform::Render::DrawableImage *source,
         const Scaleform::Render::Rect<long> *sourceRect,
         const Scaleform::Render::Point<long> *destPoint,
-        unsigned int **channels)
+        const void **channels)
 {
   Scaleform::Render::DICommand_PaletteMap *v6; // eax
   Scaleform::Render::DICommand_PaletteMap v7; // [esp+4h] [ebp-2Ch] BYREF

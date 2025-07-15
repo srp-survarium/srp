@@ -8,7 +8,7 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::DrawingContext::CreateLineC
   unsigned int StrokeStyle; // eax
   Scaleform::GFx::DrawingContext::PackedShape *v7; // edx
   unsigned int v8; // ecx
-  Scaleform::Render::StrokeStyleType ls; // [esp+10h] [ebp-1Ch] BYREF
+  Scaleform::Render::StrokeStyleType __that; // [esp+10h] [ebp-1Ch] BYREF
 
   if ( (this->States & 2) == 0 )
   {
@@ -49,21 +49,21 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::DrawingContext::CreateLineC
   }
   v5 = this->Shapes.pObject;
   StrokeStyle = this->StrokeStyle;
-  ls.pFill.pObject = 0;
-  ls.pDashes.pObject = 0;
-  v5->GetStrokeStyle(v5, StrokeStyle, &ls);
+  __that.pFill.pObject = 0;
+  __that.pDashes.pObject = 0;
+  v5->GetStrokeStyle(v5, StrokeStyle, &__that);
   if ( v4 )
     Scaleform::RefCountImpl::AddRef(v4);
-  if ( ls.pFill.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pFill.pObject);
+  if ( __that.pFill.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)__that.pFill.pObject);
   v7 = this->Shapes.pObject;
   v8 = this->StrokeStyle;
-  ls.pFill.pObject = (Scaleform::Render::ComplexFill *)v4;
-  Scaleform::Render::StrokeStyleType::operator=(&v7->StrokeStyles.Data.Data[v8 - 1], &ls);
-  if ( ls.pDashes.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pDashes.pObject);
-  if ( ls.pFill.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)ls.pFill.pObject);
+  __that.pFill.pObject = (Scaleform::Render::ComplexFill *)v4;
+  Scaleform::Render::StrokeStyleType::operator=(&v7->StrokeStyles.Data.Data[v8 - 1], &__that);
+  if ( __that.pDashes.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)__that.pDashes.pObject);
+  if ( __that.pFill.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)__that.pFill.pObject);
   if ( v4 )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v4);
   return v4;

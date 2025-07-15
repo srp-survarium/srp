@@ -5,8 +5,8 @@ int __usercall read_n@<eax>(ssl_st *s@<ecx>, signed int n@<ebx>, unsigned int ma
   int result; // eax
   unsigned __int8 *v8; // ecx
   unsigned int packet_length; // ebp
-  unsigned __int8 *packet; // ecx
-  unsigned __int8 *rbuf; // eax
+  const __m128i *packet; // ecx
+  int rbuf; // eax
   int rbuf_offs; // ecx
   bool v13; // cc
   bio_st *rbio; // eax
@@ -42,7 +42,7 @@ int __usercall read_n@<eax>(ssl_st *s@<ecx>, signed int n@<ebx>, unsigned int ma
       rbuf_offs = s2->rbuf_offs;
       if ( rbuf_offs )
       {
-        memcpy(s2->rbuf, &s2->rbuf[rbuf_offs], rbuf_left);
+        memcpy((int)s2->rbuf, (const __m128i *)&s2->rbuf[rbuf_offs], rbuf_left);
         s->s2->rbuf_offs = 0;
       }
       goto LABEL_19;
@@ -53,10 +53,10 @@ int __usercall read_n@<eax>(ssl_st *s@<ecx>, signed int n@<ebx>, unsigned int ma
     rbuf_left = 0;
     goto LABEL_20;
   }
-  packet = s->packet;
-  rbuf = s2->rbuf;
+  packet = (const __m128i *)s->packet;
+  rbuf = (int)s2->rbuf;
   packet_length = s->packet_length;
-  if ( packet != rbuf )
+  if ( packet != (const __m128i *)rbuf )
     memcpy(rbuf, packet, rbuf_left + packet_length);
 LABEL_19:
   s->s2->rbuf_left = 0;
@@ -93,7 +93,7 @@ LABEL_25:
         break;
       v15 = s->s2;
       s->rwstate = 3;
-      result = BIO_read(rbio, (char *)&v15->rbuf[rbuf_left + packet_length], max - rbuf_left);
+      result = BIO_read(n, rbio, (char *)&v15->rbuf[rbuf_left + packet_length], max - rbuf_left);
       if ( result <= 0 )
         goto LABEL_28;
       rbuf_left += result;
@@ -103,7 +103,7 @@ LABEL_25:
         goto LABEL_25;
       }
     }
-    ERR_put_error(0x14u, 112, 211, ".\\ssl\\s2_pkt.c", 385);
+    ERR_put_error(n, 0x14u, 112, 211, ".\\ssl\\s2_pkt.c", 385);
     result = -1;
 LABEL_28:
     s->s2->rbuf_left += rbuf_left;

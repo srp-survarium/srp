@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::String::AS3fromCharCode(
   Scaleform::GFx::ASStringNode *v5; // ebx
   unsigned int v6; // esi
   Scaleform::GFx::AS3::Value *v7; // edi
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *v9; // eax
   unsigned int r; // [esp+10h] [ebp-1Ch] BYREF
   Scaleform::StringBuffer sb; // [esp+14h] [ebp-18h] BYREF
@@ -30,9 +30,9 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::String::AS3fromCharCode(
   else
   {
 LABEL_5:
-    pData = sb.pData;
+    pData = (__m128i *)sb.pData;
     if ( !sb.pData )
-      pData = (char *)&buf;
+      pData = (__m128i *)uri;
     argc = Scaleform::GFx::ASStringManager::CreateStringNode(
              this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
              pData,

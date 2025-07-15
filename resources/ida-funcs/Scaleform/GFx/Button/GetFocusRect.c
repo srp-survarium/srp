@@ -37,7 +37,11 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Button::GetFocusRect(
   rc.x2 = 0.0;
   rc.y2 = 0.0;
   transform.M[1][1] = 1.0;
-  BoundsOfState = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, Hit);
+  BoundsOfState = Scaleform::GFx::Button::GetBoundsOfState(
+                    this,
+                    &v23,
+                    &transform,
+                    (Scaleform::GFx::Button::ButtonState)3);
   y1 = BoundsOfState->y1;
   x2 = BoundsOfState->x2;
   y2 = BoundsOfState->y2;
@@ -53,7 +57,7 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Button::GetFocusRect(
     goto LABEL_3;
   if ( v4 != v6 )
     goto LABEL_3;
-  v9 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, Down);
+  v9 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, (Scaleform::GFx::Button::ButtonState)2);
   v20 = v9->y1;
   v17 = v9->x2;
   v14 = v9->y2;
@@ -69,7 +73,7 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Button::GetFocusRect(
     goto LABEL_3;
   if ( v4 == v6 )
   {
-    v10 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, Over);
+    v10 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, (Scaleform::GFx::Button::ButtonState)1);
     v21 = v10->y1;
     v18 = v10->x2;
     v15 = v10->y2;
@@ -79,7 +83,7 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Button::GetFocusRect(
     rc.y2 = v15;
     if ( rc.x1 == v18
       && v15 == v21
-      && (v11 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, Up),
+      && (v11 = Scaleform::GFx::Button::GetBoundsOfState(this, &v23, &transform, None),
           v12 = Scaleform::Render::Rect<float>::operator=(&rc, v11),
           v12->x1 == v12->x2)
       && v12->y1 == v12->y2 )

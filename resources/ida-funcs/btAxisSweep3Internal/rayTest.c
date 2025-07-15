@@ -6,11 +6,9 @@ void __thiscall btAxisSweep3Internal<unsigned short>::rayTest(
         const btVector3 *aabbMin,
         const btVector3 *aabbMax)
 {
-  int v7; // edi
-  int v8; // eax
-  btAxisSweep3Internal<unsigned short>::Edge *v9; // ecx
-  bool v10; // zf
-  btAxisSweep3Internal<unsigned short>::Edge *v11; // eax
+  int v7; // eax
+  btAxisSweep3Internal<unsigned short>::Edge *v8; // eax
+  unsigned __int16 v9; // [esp+1Ch] [ebp+18h]
 
   if ( this->m_raycastAccelerator )
   {
@@ -18,20 +16,18 @@ void __thiscall btAxisSweep3Internal<unsigned short>::rayTest(
   }
   else
   {
-    v7 = 1;
+    v9 = 1;
     if ( 2 * this->m_numHandles + 1 > 1 )
     {
-      v8 = 1;
+      v7 = 1;
       do
       {
-        v9 = this->m_pEdges[0];
-        v10 = (v9[v8].m_pos & 1) == 0;
-        v11 = &v9[v8];
-        if ( !v10 )
-          rayCallback->process(rayCallback, &this->m_pHandles[v11->m_handle]);
-        v8 = (unsigned __int16)++v7;
+        v8 = &this->m_pEdges[0][v7];
+        if ( (v8->m_pos & 1) != 0 )
+          rayCallback->process(rayCallback, &this->m_pHandles[v8->m_handle]);
+        v7 = ++v9;
       }
-      while ( (unsigned __int16)v7 < 2 * this->m_numHandles + 1 );
+      while ( v9 < 2 * this->m_numHandles + 1 );
     }
   }
 }

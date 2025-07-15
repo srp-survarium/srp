@@ -1,6 +1,9 @@
-void __thiscall Scaleform::String::AppendString(Scaleform::String *this, char *putf8str, unsigned int utf8StrSz)
+void __thiscall Scaleform::String::AppendString(
+        Scaleform::String *this,
+        const __m128i *putf8str,
+        unsigned int utf8StrSz)
 {
-  char *v3; // edx
+  const __m128i *v3; // edx
   unsigned int v5; // ebp
   volatile LONG *v6; // esi
   Scaleform::MemoryHeap *pData; // eax
@@ -15,7 +18,7 @@ void __thiscall Scaleform::String::AppendString(Scaleform::String *this, char *p
     if ( utf8StrSz )
     {
       if ( utf8StrSz == -1 )
-        v5 = strlen(putf8str);
+        v5 = strlen(putf8str->m128i_i8);
       v6 = (volatile LONG *)(this->HeapTypeBits & 0xFFFFFFFC);
       pData = 0;
       v8 = *v6 & 0x7FFFFFFF;
@@ -43,7 +46,7 @@ void __thiscall Scaleform::String::AppendString(Scaleform::String *this, char *p
                                            pData,
                                            v5 + v8,
                                            0,
-                                           (char *)v6 + 8,
+                                           (const __m128i *)(v6 + 2),
                                            v8,
                                            v3,
                                            v5)
@@ -55,7 +58,7 @@ void __thiscall Scaleform::String::AppendString(Scaleform::String *this, char *p
 }
 
 
-void __thiscall Scaleform::String::AppendString(Scaleform::String *this, const wchar_t *pstr, int len)
+void __thiscall Scaleform::String::AppendString(Scaleform::String *this, wchar_t *pstr, int len)
 {
   volatile LONG *v4; // esi
   unsigned int v5; // edi
@@ -84,7 +87,7 @@ void __thiscall Scaleform::String::AppendString(Scaleform::String *this, const w
     {
       pData = Scaleform::Memory::pGlobalHeap;
     }
-    v8 = Scaleform::String::AllocDataCopy1(this, pData, v5 + EncodeStringSize, 0, (char *)v4 + 8, v5);
+    v8 = Scaleform::String::AllocDataCopy1(this, pData, v5 + EncodeStringSize, 0, (const __m128i *)(v4 + 2), v5);
     Scaleform::UTF8Util::EncodeString(&v8->Data[v5], pstr, len);
     this->HeapTypeBits = (unsigned int)v8 | this->HeapTypeBits & 3;
     if ( InterlockedExchangeAdd(v4 + 1, -1) == 1 )

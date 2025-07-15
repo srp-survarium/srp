@@ -5,15 +5,17 @@ char __thiscall Scaleform::GFx::AS3::VM::GetClassUnsafe(
         Scaleform::GFx::AS3::Value *result)
 {
   long double v5; // rax
-  const Scaleform::GFx::AS3::VM::Error *v7; // eax
+  unsigned int v7; // eax
+  const Scaleform::GFx::AS3::VM::Error *v8; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::VM::Error v9; // [esp+4h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v10; // [esp-8h] [ebp-18h]
+  Scaleform::GFx::AS3::VM::Error v11; // [esp+8h] [ebp-8h] BYREF
 
   LODWORD(v5) = Scaleform::GFx::AS3::VM::GetClass(this, gname, appDomain);
   if ( LODWORD(v5) )
   {
     result->Flags = result->Flags & 0xFFFFFFE0 | 0xD;
-    HIDWORD(v5) = v9.Message.pNode;
+    HIDWORD(v5) = v11.Message.pNode;
     result->value.VNumber = v5;
     *(_DWORD *)(LODWORD(v5) + 16) = (*(_DWORD *)(LODWORD(v5) + 16) + 1) & 0x8FBFFFFF;
     return 1;
@@ -22,13 +24,19 @@ char __thiscall Scaleform::GFx::AS3::VM::GetClassUnsafe(
   {
     if ( !this->HandleException )
     {
-      Scaleform::GFx::AS3::VM::Error::Error(&v9, eUndefinedVarError, this);
+      if ( gname->pData )
+        v7 = strlen(gname->pData);
+      else
+        v7 = 0;
+      v10.Size = v7;
+      v10.pStr = gname->pData;
+      Scaleform::GFx::AS3::VM::Error::Error(&v11, eUndefinedVarError, (Scaleform::String)this, v10);
       Scaleform::GFx::AS3::VM::ThrowErrorInternal(
         this,
-        v7,
+        v8,
         (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::ReferenceErrorTI);
-      pNode = v9.Message.pNode;
-      --v9.Message.pNode->RefCount;
+      pNode = v11.Message.pNode;
+      --v11.Message.pNode->RefCount;
       if ( !pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     }

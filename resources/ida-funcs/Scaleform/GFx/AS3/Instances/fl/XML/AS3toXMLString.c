@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3toXMLString(
         Scaleform::GFx::ASString *result)
 {
   Scaleform::GFx::AS3::VM *pVM; // edi
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v7; // zf
@@ -12,9 +12,9 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3toXMLString(
   pVM = this->pTraits.pObject->pVM;
   Scaleform::StringBuffer::StringBuffer(&buf, pVM->MHeap);
   this->ToXMLString(this, &buf, 0, 0, 0);
-  pData = buf.pData;
+  pData = (__m128i *)buf.pData;
   if ( !buf.pData )
-    pData = (char *)&::buf;
+    pData = (__m128i *)uri;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(pVM->StringManagerRef->pStringManager, pData, buf.Size);
   StringNode->RefCount += 2;
   pNode = result->pNode;

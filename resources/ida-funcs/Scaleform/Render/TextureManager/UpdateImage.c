@@ -18,7 +18,7 @@ void __thiscall Scaleform::Render::TextureManager::UpdateImage(
   Scaleform::Mutex *v3; // ebx
   Scaleform::ArrayDataBase<unsigned int,Scaleform::AllocatorLH<unsigned int,75>,Scaleform::ArrayConstPolicy<4,4,0> > *p_pTextureCache; // edi
   unsigned int v5; // esi
-  Scaleform::GFx::Resource **v6; // eax
+  unsigned int *v6; // eax
 
   v3 = (Scaleform::Mutex *)&this->pRTCommandQueue[9];
   Scaleform::Mutex::DoLock(v3);
@@ -39,10 +39,10 @@ void __thiscall Scaleform::Render::TextureManager::UpdateImage(
       p_pTextureCache,
       v5);
   }
-  v6 = (Scaleform::GFx::Resource **)&p_pTextureCache->Data[v5 - 1];
+  v6 = &p_pTextureCache->Data[v5 - 1];
   p_pTextureCache->Size = v5;
   if ( v6 )
-    *v6 = pupdate;
+    *v6 = (unsigned int)pupdate;
   Scaleform::RefCountImpl::AddRef(pupdate);
   Scaleform::Mutex::Unlock(v3);
 }

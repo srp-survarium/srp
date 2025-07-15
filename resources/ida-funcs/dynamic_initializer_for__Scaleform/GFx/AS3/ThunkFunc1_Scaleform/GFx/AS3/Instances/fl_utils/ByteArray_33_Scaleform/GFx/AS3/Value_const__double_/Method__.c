@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeFloat;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_utils::ByteArray,33,Scaleform::GFx::AS3::Value const,double>::Method) = Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeFloat;
-  dword_AAC33C = 0;
+  dword_8F0AF4 = 0;
   return result;
 }

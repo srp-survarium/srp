@@ -1,58 +1,89 @@
-void __cdecl vostok::fs_new::common_prefix_path<vostok::fs_new::virtual_path_string>(
-        vostok::fs_new::virtual_path_string *out_common_path,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *first_path,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *second_path)
+void __usercall vostok::fs_new::common_prefix_path<vostok::fs_new::virtual_path_string>(
+        vostok::fs_new::virtual_path_string *out_common_path@<eax>,
+        const vostok::fs_new::virtual_path_string *first_path,
+        const vostok::fs_new::virtual_path_string *second_path)
 {
-  const char *v3; // esi
-  const char *v4; // eax
-  survarium::game_camera *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v7; // ecx
-  survarium::game_camera *v8; // ecx
-  survarium::game_camera *v9; // ecx
-  survarium::game_camera *v10; // ecx
-  char v11; // [esp+5h] [ebp-1Bh]
-  char v12; // [esp+15h] [ebp-Bh]
-  unsigned int last_slash_pos; // [esp+18h] [ebp-8h]
-  unsigned int common_path_length; // [esp+1Ch] [ebp-4h]
+  char *m_begin; // ecx
+  int v5; // edx
+  char *v6; // edi
+  char v7; // al
+  char *v8; // eax
+  char *m_end; // edi
+  char *v10; // ecx
+  int v11; // eax
+  char v12; // dl
+  char v13; // al
+  char *v14; // eax
+  int v15; // eax
+  char *v16; // eax
+  char *v17; // eax
+  char *v18; // eax
 
-  v3 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(second_path);
-  v4 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(first_path);
-  vostok::get_common_prefix(&out_common_path->m_string, v4, v3);
-  common_path_length = vostok::fs_new::path_string_impl::length(out_common_path);
-  survarium::weapon_user_dead_state::finalize(v5);
-  survarium::weapon_user_dead_state::finalize(v6);
-  v12 = *((_BYTE *)&first_path->m_object->__vftable + common_path_length);
-  v7 = (vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v12;
-  if ( v12 )
+  m_begin = first_path->m_string.m_begin;
+  v5 = 0;
+  if ( *first_path->m_string.m_begin )
   {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v12);
-    survarium::weapon_user_dead_state::finalize(v8);
-    v7 = first_path;
-    LOBYTE(v7) = *((_BYTE *)&first_path->m_object->__vftable + common_path_length);
-    if ( (char)v7 != 47 )
-      goto LABEL_5;
-  }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v7);
-  survarium::weapon_user_dead_state::finalize(v9);
-  if ( *((_BYTE *)&second_path->m_object->__vftable + common_path_length) )
-  {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)common_path_length);
-    survarium::weapon_user_dead_state::finalize(v10);
-    if ( *((_BYTE *)&second_path->m_object->__vftable + common_path_length) != 47 )
+    v6 = first_path->m_string.m_begin;
+    do
     {
-LABEL_5:
-      last_slash_pos = vostok::fs_new::path_string_impl::rfind(out_common_path, 47);
-      if ( last_slash_pos == -1 )
-        vostok::fs_new::path_string_impl::operator=<char const [1]>(out_common_path, (const char (*)[1])&buf);
-      else
-        vostok::fs_new::path_string_impl::set_length(out_common_path, last_slash_pos);
+      v7 = v6[second_path->m_string.m_begin - m_begin];
+      if ( !v7 )
+        break;
+      if ( *v6 != v7 )
+        break;
+      ++v5;
+      ++v6;
+    }
+    while ( *v6 );
+  }
+  v8 = out_common_path->m_string.m_begin;
+  out_common_path->m_string.m_end = out_common_path->m_string.m_begin;
+  *v8 = 0;
+  vostok::buffer_string::append(&out_common_path->m_string, &m_begin[v5], m_begin);
+  m_end = out_common_path->m_string.m_end;
+  v10 = out_common_path->m_string.m_begin;
+  v11 = m_end - out_common_path->m_string.m_begin;
+  v12 = first_path->m_string.m_begin[v11];
+  if ( v12 && v12 != 47 || (v13 = second_path->m_string.m_begin[v11]) != 0 && v13 != 47 )
+  {
+    v14 = m_end - 1;
+    if ( m_end - 1 < v10 )
+      goto LABEL_18;
+    while ( 1 )
+    {
+      if ( *v14 == 47 )
+      {
+        v15 = v14 - v10;
+        goto LABEL_17;
+      }
+      if ( v14 == v10 )
+        break;
+      --v14;
+    }
+    v15 = -1;
+LABEL_17:
+    if ( v15 == -1 )
+    {
+LABEL_18:
+      vostok::fs_new::path_string_impl::operator=<char const [1]>(
+        (vostok::fs_new::path_string_impl *)v10,
+        out_common_path);
+    }
+    else
+    {
+      v16 = &v10[v15];
+      out_common_path->m_string.m_end = v16;
+      *v16 = 0;
     }
   }
-  if ( out_common_path->m_string.m_end == out_common_path->m_string.m_begin )
-    v11 = 0;
-  else
-    v11 = *(out_common_path->m_string.m_end - 1);
-  if ( v11 == 47 )
-    vostok::buffer_string::rtrim(&out_common_path->m_string);
+  v17 = out_common_path->m_string.m_end;
+  if ( v17 != out_common_path->m_string.m_begin )
+  {
+    v18 = v17 - 1;
+    if ( *v18 == 47 )
+    {
+      out_common_path->m_string.m_end = v18;
+      *v18 = 0;
+    }
+  }
 }

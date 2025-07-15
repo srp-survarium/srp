@@ -1,59 +1,71 @@
-void __userpurge Scaleform::Render::D3D1x::TextureManager::TextureManager(
-        Scaleform::Render::D3D1x::TextureManager *this@<edi>,
-        void *renderThreadId@<ecx>,
-        Scaleform::Render::ThreadCommandQueue *commandQueue@<eax>,
-        ID3D11Device *pdevice,
-        ID3D11DeviceContext *pcontext,
-        Scaleform::Render::TextureCache *texCache)
+void __thiscall Scaleform::Render::D3D1x::TextureManager::TextureManager(
+        Scaleform::Render::D3D1x::TextureManager *this,
+        Scaleform::Render::TextureManager *pdevice,
+        Scaleform::Render::TextureManager_vtbl *pcontext,
+        ID3D11Device_vtbl *renderThreadId,
+        Scaleform::Render::ThreadCommandQueue *commandQueue,
+        Scaleform::Render::ThreadCommandQueue *texCache)
 {
-  Scaleform::Render::MappedTextureBase *v6; // ecx
-  Scaleform::Render::D3D1x::TextureManager *v7; // ecx
-  unsigned int i; // ebx
-  ID3D11Device *v9; // eax
-  D3D11_SAMPLER_DESC samplerDesc; // [esp+Ch] [ebp-34h] BYREF
-  unsigned int wrap; // [esp+44h] [ebp+4h]
+  Scaleform::Render::D3D1x::MappedTexture *v7; // ecx
+  Scaleform::Render::D3D1x::TextureManager *v8; // ecx
+  Scaleform::Render::TextureManager_vtbl *v9; // eax
+  unsigned __int8 dst[52]; // [esp+Ch] [ebp-34h] BYREF
+  Scaleform::Render::TextureManager *v11; // [esp+48h] [ebp+8h]
+  Scaleform::Render::ThreadCommandQueue *commandQueuea; // [esp+58h] [ebp+18h]
 
-  Scaleform::Render::TextureManager::TextureManager(this, renderThreadId, commandQueue, 0);
-  this->Scaleform::Render::TextureManager::Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::D3D1x::TextureManager_vtbl *)&Scaleform::Render::D3D1x::TextureManager::`vftable'{for `Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>'};
-  this->Scaleform::Render::TextureManager::Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::Render::D3D1x::TextureManager::`vftable'{for `Scaleform::Render::ImageUpdateSync'};
-  this->pDevice = pdevice;
-  this->pDeviceContext = pcontext;
-  Scaleform::Render::MappedTextureBase::MappedTextureBase(v6, (int)&this->MappedTexture0);
-  this->MappedTexture0.__vftable = (Scaleform::Render::D3D1x::MappedTexture_vtbl *)&Scaleform::Render::D3D1x::MappedTexture::`vftable';
-  this->D3DTextureKillList.Data.Data = 0;
-  this->D3DTextureKillList.Data.Size = 0;
-  this->D3DTextureKillList.Data.Policy.Capacity = 0;
-  this->D3DTexViewKillList.Data.Data = 0;
-  this->D3DTexViewKillList.Data.Size = 0;
-  this->D3DTexViewKillList.Data.Policy.Capacity = 0;
-  Scaleform::Render::D3D1x::TextureManager::initTextureFormats(v7, (unsigned int)this);
-  *(_QWORD *)this->SamplerStates = 0;
-  *(_QWORD *)&this->SamplerStates[2] = 0;
-  for ( wrap = 0; wrap < 2; ++wrap )
+  Scaleform::Render::TextureManager::TextureManager(pdevice, commandQueue, texCache, 0);
+  pdevice[1].Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = pcontext;
+  pdevice->Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = (Scaleform::Render::TextureManager_vtbl *)&Scaleform::Render::D3D1x::TextureManager::`vftable'{for `Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>'};
+  pdevice->Scaleform::Render::ImageUpdateSync::__vftable = (Scaleform::Render::ImageUpdateSync_vtbl *)&Scaleform::Render::D3D1x::TextureManager::`vftable'{for `Scaleform::Render::ImageUpdateSync'};
+  pdevice[1].RefCount = (volatile int)renderThreadId;
+  Scaleform::Render::D3D1x::MappedTexture::MappedTexture(v7, (int)&pdevice[1].Scaleform::Render::ImageUpdateSync);
+  pdevice[2].TextureFormats.Data.Size = 0;
+  pdevice[2].TextureFormats.Data.Policy.Capacity = 0;
+  pdevice[2].Textures.Root.pPrev = 0;
+  pdevice[2].Textures.Root.pNext = 0;
+  pdevice[2].TextureInitQueue.Root.pPrev = 0;
+  pdevice[2].TextureInitQueue.Root.pNext = 0;
+  Scaleform::Render::D3D1x::TextureManager::initTextureFormats(v8, (int)pdevice);
+  v11 = 0;
+  pdevice[2].DepthStencilInitQueue.Root.pPrev = 0;
+  pdevice[2].DepthStencilInitQueue.Root.pNext = 0;
+  pdevice[3].Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = 0;
+  pdevice[3].RefCount = 0;
+  do
   {
-    for ( i = 0; i < 2; ++i )
+    for ( commandQueuea = 0;
+          (unsigned int)commandQueuea < 2;
+          commandQueuea = (Scaleform::Render::ThreadCommandQueue *)((char *)commandQueuea + 1) )
     {
-      memset((int)&samplerDesc, 0, sizeof(samplerDesc));
-      samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-      if ( 2 * i == 2 )
-        samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-      if ( wrap )
+      memset((int)dst, 0, sizeof(dst));
+      if ( 2 * (_DWORD)commandQueuea == 2 )
+        *(_DWORD *)dst = 21;
+      else
+        *(_DWORD *)dst = 0;
+      if ( v11 )
       {
-        samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-        samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+        *(_DWORD *)&dst[8] = 3;
+        *(_DWORD *)&dst[4] = 3;
       }
       else
       {
-        samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-        samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+        *(_DWORD *)&dst[8] = 1;
+        *(_DWORD *)&dst[4] = 1;
       }
-      samplerDesc.MaxAnisotropy = 1;
-      samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-      v9 = this->pDevice;
-      samplerDesc.MaxLOD = 3.4028235e38;
-      samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-      samplerDesc.MipLODBias = -0.75;
-      v9->CreateSamplerState(v9, &samplerDesc, &this->SamplerStates[(unsigned __int8)wrap | (unsigned __int8)(2 * i)]);
+      *(_DWORD *)&dst[12] = 3;
+      v9 = pdevice[1].Scaleform::RefCountBase<Scaleform::Render::TextureManager,75>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,75>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable;
+      *(float *)&dst[48] = FLOAT_3_4028235e38;
+      *(_DWORD *)&dst[24] = 8;
+      *(float *)&dst[16] = FLOAT_N0_75;
+      *(_DWORD *)&dst[20] = 1;
+      (*((void (__stdcall **)(Scaleform::Render::TextureManager_vtbl *, unsigned __int8 *, char *))v9->~Scaleform::Render::TextureManager
+       + 23))(
+        v9,
+        dst,
+        (char *)&pdevice[2].DepthStencilInitQueue.Root.pPrev
+      + 4 * ((unsigned __int8)v11 | (unsigned __int8)(2 * (_BYTE)commandQueuea)));
     }
+    v11 = (Scaleform::Render::TextureManager *)((char *)v11 + 1);
   }
+  while ( (unsigned int)v11 < 2 );
 }

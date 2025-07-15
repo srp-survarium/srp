@@ -22,7 +22,7 @@ int __cdecl tree_calculate_authority_set(X509_POLICY_TREE_st *tree, stack_st_X50
     v14 = &tree->auth_policies;
     if ( auth_policies )
     {
-      if ( sk_find(&auth_policies->stack, anyPolicy) != -1 )
+      if ( sk_find((int)tree, &auth_policies->stack, anyPolicy) != -1 )
       {
 LABEL_8:
         v7 = pnodes;
@@ -73,7 +73,7 @@ LABEL_19:
                 return 0;
               goto LABEL_20;
             }
-            if ( sk_find(&(*v7)->stack, v11) == -1 )
+            if ( sk_find((int)p_nodes, &(*v7)->stack, v11) == -1 )
               goto LABEL_19;
           }
 LABEL_20:

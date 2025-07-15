@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::SetChildren(
         if ( v6.VInt && !v6.VBool )
         {
           v8 = *(_DWORD *)(v6.VInt + 16);
-          if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+          if ( (v8 & 0x3FFFFF) != 0 )
           {
             *(_DWORD *)(v6.VInt + 16) = v8 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v6.VObj);
@@ -91,7 +91,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::SetChildren(
           if ( ((unsigned __int8)pV & 1) == 0 )
           {
             RefCount = pV->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               pV->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);

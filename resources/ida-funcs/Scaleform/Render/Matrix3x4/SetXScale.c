@@ -1,15 +1,15 @@
 void __thiscall Scaleform::Render::Matrix3x4<float>::SetXScale(Scaleform::Render::Matrix3x4<float> *this, float s)
 {
   double v2; // [esp+4h] [ebp-8h]
-  float sa; // [esp+10h] [ebp+4h]
-  float sb; // [esp+10h] [ebp+4h]
-  float sc; // [esp+10h] [ebp+4h]
+  float v3; // [esp+10h] [ebp+4h]
+  float v4; // [esp+10h] [ebp+4h]
+  float v5; // [esp+10h] [ebp+4h]
 
   v2 = s;
-  sa = this->M[1][0] * this->M[1][0] + this->M[0][0] * this->M[0][0] + this->M[2][0] * this->M[2][0];
-  sb = sqrt(sa);
-  sc = v2 / sb;
-  this->M[0][0] = this->M[0][0] * sc;
-  this->M[1][0] = this->M[1][0] * sc;
-  this->M[2][0] = sc * this->M[2][0];
+  v3 = this->M[1][0] * this->M[1][0] + this->M[0][0] * this->M[0][0] + this->M[2][0] * this->M[2][0];
+  v4 = sqrt(v3);
+  v5 = v2 / v4;
+  this->M[0][0] = this->M[0][0] * v5;
+  this->M[1][0] = this->M[1][0] * v5;
+  this->M[2][0] = v5 * this->M[2][0];
 }

@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Shutdown(Scaleform::GFx::AS2::Mo
   Scaleform::GFx::AS2::ASRefCountCollector *v8; // esi
   unsigned int Size; // edi
   unsigned int PeakRootCount; // eax
-  Scaleform::GFx::AS2::RefCountCollector<323>::Stats pstat; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::AS2::RefCountCollector<323>::Stats v11; // [esp+Ch] [ebp-8h] BYREF
 
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::Sprite>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::Sprite>,327>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
     &this->SpritesWithHitArea.Data,
@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Shutdown(Scaleform::GFx::AS2::Mo
   if ( v6 )
   {
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v6->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
@@ -52,9 +52,9 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Shutdown(Scaleform::GFx::AS2::Mo
   Scaleform::GFx::AS2::MovieRoot::ActionQueueType::Clear(&this->ActionQueue);
   v8 = this->MemContext.pObject->ASGC.pObject;
   Size = v8->Roots.Size;
-  pstat.RootsFreedTotal = 0;
-  pstat.RootsNumber = 0;
-  Scaleform::GFx::AS2::RefCountCollector<323>::Collect(v8, &pstat);
+  v11.RootsFreedTotal = 0;
+  v11.RootsNumber = 0;
+  Scaleform::GFx::AS2::RefCountCollector<323>::Collect(v8, &v11);
   PeakRootCount = v8->PeakRootCount;
   v8->FrameCnt = 0;
   v8->LastRootCount = Size;

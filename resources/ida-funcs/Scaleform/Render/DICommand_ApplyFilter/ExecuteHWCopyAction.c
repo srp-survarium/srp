@@ -10,28 +10,28 @@ void __thiscall Scaleform::Render::DICommand_ApplyFilter::ExecuteHWCopyAction(
   double v9; // st7
   float *v10; // eax
   Scaleform::Render::HAL *v11; // ecx
-  Scaleform::Render::Texture *v12; // [esp+430h] [ebp-12Ch]
-  Scaleform::GFx::Resource *pObject; // [esp+438h] [ebp-124h]
-  Scaleform::Render::Rect<float> result; // [esp+44Ch] [ebp-110h] BYREF
-  float v15; // [esp+45Ch] [ebp-100h] BYREF
-  float v16; // [esp+460h] [ebp-FCh]
-  float v17; // [esp+464h] [ebp-F8h]
-  float v18; // [esp+468h] [ebp-F4h]
-  float v19; // [esp+46Ch] [ebp-F0h]
-  float v20; // [esp+470h] [ebp-ECh]
-  float v21; // [esp+474h] [ebp-E8h]
-  float v22; // [esp+478h] [ebp-E4h]
-  float x1; // [esp+47Ch] [ebp-E0h]
-  float y1; // [esp+480h] [ebp-DCh]
-  float x2; // [esp+484h] [ebp-D8h]
-  float y2; // [esp+488h] [ebp-D4h]
-  Scaleform::Render::MatrixPoolImpl::HMatrix v27; // [esp+498h] [ebp-C4h] BYREF
-  Scaleform::Render::Matrix2x4<float> m; // [esp+49Ch] [ebp-C0h] BYREF
-  Scaleform::Render::Matrix2x4<float> m2; // [esp+4BCh] [ebp-A0h] BYREF
-  Scaleform::Render::Matrix2x4<float> sourceRect; // [esp+4DCh] [ebp-80h] BYREF
-  Scaleform::Render::FilterSet v31; // [esp+4FCh] [ebp-60h] BYREF
-  Scaleform::Render::FilterPrimitive v32; // [esp+514h] [ebp-48h] BYREF
-  Scaleform::Render::Matrix2x4<float> v33; // [esp+53Ch] [ebp-20h] BYREF
+  Scaleform::Render::Texture *v12; // [esp-Ch] [ebp-12Ch]
+  Scaleform::Render::Filter *pObject; // [esp-4h] [ebp-124h]
+  Scaleform::Render::Rect<float> result; // [esp+10h] [ebp-110h] BYREF
+  float v15; // [esp+20h] [ebp-100h] BYREF
+  float v16; // [esp+24h] [ebp-FCh]
+  float v17; // [esp+28h] [ebp-F8h]
+  float v18; // [esp+2Ch] [ebp-F4h]
+  float v19; // [esp+30h] [ebp-F0h]
+  float v20; // [esp+34h] [ebp-ECh]
+  float v21; // [esp+38h] [ebp-E8h]
+  float v22; // [esp+3Ch] [ebp-E4h]
+  float x1; // [esp+40h] [ebp-E0h]
+  float y1; // [esp+44h] [ebp-DCh]
+  float x2; // [esp+48h] [ebp-D8h]
+  float y2; // [esp+4Ch] [ebp-D4h]
+  Scaleform::Render::MatrixPoolImpl::HMatrix v27; // [esp+5Ch] [ebp-C4h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+60h] [ebp-C0h] BYREF
+  Scaleform::Render::Matrix2x4<float> m2; // [esp+80h] [ebp-A0h] BYREF
+  Scaleform::Render::Matrix2x4<float> sourceRect; // [esp+A0h] [ebp-80h] BYREF
+  Scaleform::Render::FilterSet v31; // [esp+C0h] [ebp-60h] BYREF
+  Scaleform::Render::FilterPrimitive v32; // [esp+D8h] [ebp-48h] BYREF
+  Scaleform::Render::Matrix2x4<float> v33; // [esp+100h] [ebp-20h] BYREF
 
   m.M[0][0] = 1.0;
   m.M[0][1] = 0.0;
@@ -75,7 +75,7 @@ void __thiscall Scaleform::Render::DICommand_ApplyFilter::ExecuteHWCopyAction(
   m2.M[0][3] = 0.05000000074505806 * result.y2;
   result.x1 = m2.M[0][0];
   result.y1 = m2.M[0][1];
-  pObject = (Scaleform::GFx::Resource *)this->pFilter.pObject;
+  pObject = this->pFilter.pObject;
   result.x2 = m2.M[0][2];
   result.y2 = m2.M[0][3];
   sourceRect.M[0][0] = m2.M[0][2] - m2.M[0][0];
@@ -90,7 +90,7 @@ void __thiscall Scaleform::Render::DICommand_ApplyFilter::ExecuteHWCopyAction(
   m.M[1][3] = sourceRect.M[0][1] * m.M[1][3];
   m.M[0][3] = m2.M[0][0] + m.M[0][3];
   m.M[1][3] = m2.M[0][1] + m.M[1][3];
-  Scaleform::Render::FilterSet::FilterSet(&v31, pObject);
+  Scaleform::Render::FilterSet::FilterSet(&v31, (Scaleform::GFx::Resource *)pObject);
   Scaleform::Render::FilterPrimitive::FilterPrimitive(&v32, context->pHAL, (Scaleform::GFx::Resource *)&v31, 0);
   Scaleform::Render::MatrixPoolImpl::MatrixPool::CreateMatrix(&context->pR2D->pImpl->MPool, &v27, &m, 0);
   Scaleform::Render::MatrixPoolImpl::HMatrix::SetMatrix2D(&v27, &m);

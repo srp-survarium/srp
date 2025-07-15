@@ -7,13 +7,11 @@ Scaleform::GFx::TagType __thiscall Scaleform::GFx::Stream::OpenTag(
   int v5; // ebx
   unsigned int v6; // eax
   unsigned __int16 v7; // dx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v8; // ecx
-  int v9; // edi
-  Scaleform::GFx::TagType v10; // ebp
-  int v11; // edx
-  unsigned int v12; // edx
-  unsigned __int8 *pBuffer; // eax
-  int v14; // eax
+  int v8; // edi
+  Scaleform::GFx::TagType v9; // ebp
+  signed int v10; // edx
+  unsigned int v11; // edx
+  int v12; // eax
 
   DataSize = this->DataSize;
   Pos = this->Pos;
@@ -23,31 +21,33 @@ Scaleform::GFx::TagType __thiscall Scaleform::GFx::Stream::OpenTag(
     Scaleform::GFx::Stream::PopulateBuffer(this, 2);
   v6 = this->Pos;
   v7 = *(_WORD *)&this->pBuffer[v6];
-  v8 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)(v6 + 2);
-  v9 = v7 & 0x3F;
-  v10 = (int)v7 >> 6;
+  v8 = v7 & 0x3F;
+  v9 = (int)v7 >> 6;
   this->Pos = v6 + 2;
-  if ( v9 == 63 )
+  if ( v8 == 63 )
   {
-    v11 = this->DataSize - (_DWORD)v8;
+    v10 = this->DataSize - (v6 + 2);
     this->UnusedBits = 0;
-    if ( v11 < 4 )
+    if ( v10 < 4 )
       Scaleform::GFx::Stream::PopulateBuffer(this, 4);
-    v12 = this->Pos;
-    pBuffer = this->pBuffer;
-    v8 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)pBuffer[v12];
-    v14 = (unsigned int)v8 | ((pBuffer[v12 + 1] | (*(unsigned __int16 *)&pBuffer[v12 + 2] << 8)) << 8);
-    this->Pos = v12 + 4;
-    v9 = v14;
+    v11 = this->Pos;
+    v12 = this->pBuffer[v11] | ((this->pBuffer[v11 + 1] | (*(unsigned __int16 *)&this->pBuffer[v11 + 2] << 8)) << 8);
+    this->Pos = v11 + 4;
+    v8 = v12;
   }
   pTagInfo->TagOffset = v5;
-  pTagInfo->TagType = v10;
-  pTagInfo->TagLength = v9;
+  pTagInfo->TagType = v9;
+  pTagInfo->TagLength = v8;
   pTagInfo->TagDataOffset = this->Pos + this->FilePos - this->DataSize;
   if ( (this->ParseFlags & 1) != 0 )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v8);
-  this->TagStack[this->TagStackEntryCount++] = v9 + this->Pos + this->FilePos - this->DataSize;
-  return v10;
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      this,
+      "---------------Tag type = %d, Tag length = %d, offset = %d\n",
+      v9,
+      v8,
+      v5);
+  this->TagStack[this->TagStackEntryCount++] = v8 + this->Pos + this->FilePos - this->DataSize;
+  return v9;
 }
 
 
@@ -56,13 +56,11 @@ int __thiscall Scaleform::GFx::Stream::OpenTag(Scaleform::GFx::Stream *this)
   signed int v2; // eax
   unsigned int Pos; // eax
   unsigned __int16 v4; // dx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v5; // ecx
-  int v6; // edi
-  int v7; // ebp
-  int v8; // edx
-  unsigned int v9; // edx
-  unsigned __int8 *pBuffer; // eax
-  int v11; // eax
+  int v5; // edi
+  int v6; // ebp
+  signed int v7; // edx
+  unsigned int v8; // edx
+  int v9; // eax
 
   v2 = this->DataSize - this->Pos;
   this->UnusedBits = 0;
@@ -70,25 +68,26 @@ int __thiscall Scaleform::GFx::Stream::OpenTag(Scaleform::GFx::Stream *this)
     Scaleform::GFx::Stream::PopulateBuffer(this, 2);
   Pos = this->Pos;
   v4 = *(_WORD *)&this->pBuffer[Pos];
-  v5 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)(Pos + 2);
-  v6 = v4 & 0x3F;
-  v7 = (int)v4 >> 6;
+  v5 = v4 & 0x3F;
+  v6 = (int)v4 >> 6;
   this->Pos = Pos + 2;
-  if ( v6 == 63 )
+  if ( v5 == 63 )
   {
-    v8 = this->DataSize - (_DWORD)v5;
+    v7 = this->DataSize - (Pos + 2);
     this->UnusedBits = 0;
-    if ( v8 < 4 )
+    if ( v7 < 4 )
       Scaleform::GFx::Stream::PopulateBuffer(this, 4);
-    v9 = this->Pos;
-    pBuffer = this->pBuffer;
-    v5 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)pBuffer[v9];
-    v11 = (unsigned int)v5 | ((pBuffer[v9 + 1] | (*(unsigned __int16 *)&pBuffer[v9 + 2] << 8)) << 8);
-    this->Pos = v9 + 4;
-    v6 = v11;
+    v8 = this->Pos;
+    v9 = this->pBuffer[v8] | ((this->pBuffer[v8 + 1] | (*(unsigned __int16 *)&this->pBuffer[v8 + 2] << 8)) << 8);
+    this->Pos = v8 + 4;
+    v5 = v9;
   }
   if ( (this->ParseFlags & 1) != 0 )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v5);
-  this->TagStack[this->TagStackEntryCount++] = v6 + this->Pos + this->FilePos - this->DataSize;
-  return v7;
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      this,
+      "---------------Tag type = %d, Tag length = %d\n",
+      v6,
+      v5);
+  this->TagStack[this->TagStackEntryCount++] = v5 + this->Pos + this->FilePos - this->DataSize;
+  return v6;
 }

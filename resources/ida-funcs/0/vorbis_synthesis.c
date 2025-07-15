@@ -1,71 +1,80 @@
 int __cdecl vorbis_synthesis(vorbis_block *vb, ogg_packet *op)
 {
   vorbis_dsp_state *vd; // eax
-  vorbis_info *v4; // ecx
-  oggpack_buffer *p_opb; // ebp
-  unsigned int v7; // eax
-  int *p_blockflag; // eax
-  int v9; // eax
-  unsigned int v10; // eax
-  int W; // ecx
-  int v12; // edi
-  int mapping; // eax
-  int mode; // [esp+Ch] [ebp-8h]
-  int modea; // [esp+Ch] [ebp-8h]
-  vorbis_info *vi; // [esp+10h] [ebp-4h]
-  codec_setup_info *ci; // [esp+18h] [ebp+4h]
+  vorbis_info *vi; // ecx
+  oggpack_buffer *v5; // edi
+  int bytes; // edx
+  unsigned __int8 *packet; // ecx
+  oggpack_buffer *v8; // esi
+  int *p_endbit; // edi
+  unsigned int v11; // eax
+  _DWORD *v12; // edi
+  int v13; // eax
+  unsigned int v14; // eax
+  oggpack_buffer *b; // [esp+Ch] [ebp-Ch]
+  int **ba; // [esp+Ch] [ebp-Ch]
+  _DWORD *codec_setup; // [esp+10h] [ebp-8h]
+  int v18; // [esp+10h] [ebp-8h]
+  _DWORD *backend_state; // [esp+14h] [ebp-4h]
+  vorbis_info *v20; // [esp+20h] [ebp+8h]
 
-  if ( !vb )
-  {
-    vd = 0;
-    goto LABEL_6;
-  }
-  vd = vb->vd;
-  if ( !vd )
-  {
-LABEL_6:
-    mode = 0;
-    vi = 0;
-    v4 = 0;
-    goto LABEL_7;
-  }
-  mode = (int)vd->backend_state;
-  v4 = vd->vi;
-  vi = v4;
-  if ( v4 )
-  {
-    ci = (codec_setup_info *)v4->codec_setup;
-    goto LABEL_8;
-  }
-LABEL_7:
-  ci = 0;
-LABEL_8:
   if ( vb )
-    p_opb = &vb->opb;
+    vd = vb->vd;
   else
-    p_opb = 0;
-  if ( !vd || !mode || !v4 || !ci || !p_opb )
+    vd = 0;
+  if ( vd )
+    backend_state = vd->backend_state;
+  else
+    backend_state = 0;
+  if ( vd )
+  {
+    vi = vd->vi;
+    v20 = vi;
+  }
+  else
+  {
+    v20 = 0;
+    vi = 0;
+  }
+  if ( vi )
+    codec_setup = vi->codec_setup;
+  else
+    codec_setup = 0;
+  v5 = vb != 0 ? &vb->opb : 0;
+  b = v5;
+  if ( !vd || !backend_state || !vi || !codec_setup || !v5 )
     return -136;
   _vorbis_block_ripcord(vb);
-  oggpack_readinit(p_opb, op->packet, op->bytes);
-  if ( oggpack_read(p_opb, 1u) )
+  bytes = op->bytes;
+  packet = op->packet;
+  v8 = vb != 0 ? &vb->opb : 0;
+  v5->endbyte = 0;
+  p_endbit = &v5->endbit;
+  *p_endbit++ = 0;
+  *p_endbit++ = 0;
+  *p_endbit = 0;
+  p_endbit[1] = 0;
+  v8->ptr = packet;
+  v8->buffer = packet;
+  v8->storage = bytes;
+  if ( oggpack_read(b, 1u) )
     return -135;
-  v7 = oggpack_read(p_opb, *(_DWORD *)(mode + 44));
-  modea = v7;
-  if ( v7 == -1 )
+  v11 = oggpack_read(b, backend_state[11]);
+  if ( v11 == -1 )
     return -136;
-  vb->mode = v7;
-  p_blockflag = &ci->mode_param[v7]->blockflag;
-  if ( !p_blockflag )
+  v12 = codec_setup;
+  vb->mode = v11;
+  ba = (int **)&codec_setup[v11 + 8];
+  if ( !*ba )
     return -136;
-  v9 = *p_blockflag;
-  vb->W = v9;
-  if ( v9 )
+  v13 = **ba;
+  vb->W = v13;
+  if ( v13 )
   {
-    vb->lW = oggpack_read(p_opb, 1u);
-    v10 = oggpack_read(p_opb, 1u);
-    vb->nW = v10;
-    if ( v10 == -1 )
+    vb->lW = oggpack_read(v8, 1u);
+    v14 = oggpack_read(v8, 1u);
+    vb->nW = v14;
+    if ( v14 == -1 )
       return -136;
   }
   else
@@ -74,14 +83,11 @@ LABEL_8:
     vb->nW = 0;
   }
   vb->granulepos = op->granulepos;
-  LODWORD(vb->sequence) = op->packetno;
-  W = vb->W;
-  HIDWORD(vb->sequence) = HIDWORD(op->packetno);
+  vb->sequence = op->packetno;
   vb->eofflag = op->e_o_s;
-  vb->pcmend = ci->blocksizes[W];
-  v12 = 0;
-  for ( vb->pcm = (float **)_vorbis_block_alloc(vb, 4 * vi->channels); v12 < vi->channels; ++v12 )
-    vb->pcm[v12] = (float *)_vorbis_block_alloc(vb, 4 * vb->pcmend);
-  mapping = ci->mode_param[modea]->mapping;
-  return _mapping_P[ci->map_type[mapping]]->inverse(vb, ci->map_param[mapping]);
+  vb->pcmend = codec_setup[vb->W];
+  v18 = 0;
+  for ( vb->pcm = (float **)_vorbis_block_alloc(vb, 4 * v20->channels); v18 < v20->channels; ++v18 )
+    vb->pcm[v18] = (float *)_vorbis_block_alloc(vb, 4 * vb->pcmend);
+  return _mapping_P[v12[(*ba)[3] + 72]]->inverse(vb, (void *)v12[(*ba)[3] + 136]);
 }

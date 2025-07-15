@@ -4,15 +4,15 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::ToString(const Scaleform::GFx::A
   bool v2; // al
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::Ptr<Scaleform::GFx::AS2::Object> *p_pProto; // esi
-  Scaleform::GFx::XML::ElementNode *pObject; // eax
-  char *pData; // esi
+  Scaleform::GFx::AS2::Object *pObject; // eax
+  __m128i *pData; // esi
   unsigned int Size; // ebp
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::AS2::Value *Result; // edi
   bool v11; // zf
   Scaleform::GFx::AS2::Value *v12; // edi
-  Scaleform::StringBuffer str; // [esp+8h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v13; // [esp+8h] [ebp-18h] BYREF
 
   v1 = Scaleform::GFx::AS2::FnCall::CheckThisPtr(fn, 0x1Du);
   v2 = Scaleform::GFx::AS2::FnCall::CheckThisPtr(fn, 0x1Cu);
@@ -27,18 +27,18 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::ToString(const Scaleform::GFx::A
     p_pProto = &ThisPtr[-2].pProto;
     if ( ThisPtr != (Scaleform::GFx::AS2::ObjectInterface *)16 )
     {
-      Scaleform::StringBuffer::StringBuffer(&str, Scaleform::Memory::pGlobalHeap);
-      pObject = (Scaleform::GFx::XML::ElementNode *)p_pProto[14].pObject;
+      Scaleform::StringBuffer::StringBuffer(&v13, Scaleform::Memory::pGlobalHeap);
+      pObject = p_pProto[14].pObject;
       if ( pObject )
       {
-        if ( pObject->Type == 1 )
-          Scaleform::GFx::AS2::BuildXMLString(fn->Env, pObject, &str);
+        if ( LOBYTE(pObject->ResolveHandler.Function) == 1 )
+          Scaleform::GFx::AS2::BuildXMLString(fn->Env, (Scaleform::GFx::XML::ElementNode *)pObject, &v13);
         else
-          Scaleform::StringBuffer::AppendString(&str, (char *)pObject->Value.pNode->pData, 0xFFFFFFFF);
-        pData = str.pData;
-        Size = str.Size;
-        if ( !str.pData )
-          pData = (char *)&buf;
+          Scaleform::StringBuffer::AppendString(&v13, *(const __m128i **)pObject->RefCount, 0xFFFFFFFF);
+        pData = (__m128i *)v13.pData;
+        Size = v13.Size;
+        if ( !v13.pData )
+          pData = (__m128i *)uri;
         StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(fn->Env->StringContext.pContext);
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, pData, Size);
         ++StringNode->RefCount;
@@ -52,7 +52,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::ToString(const Scaleform::GFx::A
         if ( v11 )
         {
           Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-          Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&str);
+          Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v13);
           return;
         }
       }
@@ -62,7 +62,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::ToString(const Scaleform::GFx::A
         Scaleform::GFx::AS2::Value::DropRefs(v12);
         v12->T.Type = 0;
       }
-      Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&str);
+      Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v13);
     }
   }
 }

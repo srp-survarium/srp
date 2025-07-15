@@ -1,6 +1,6 @@
 Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *__thiscall Scaleform::GFx::FontManager::CreateFontHandleFromName(
         Scaleform::GFx::FontManager *this,
-        char *pfontName,
+        __m128i *pfontName,
         unsigned int matchFontFlags,
         Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *searchInfo)
 {
@@ -13,31 +13,31 @@ Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *__thiscall Scalefo
   Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *v12; // eax
   Scaleform::GFx::FontResource *v13; // ebp
   unsigned int v14; // eax
-  int saveIndent; // [esp+14h] [ebp-Ch]
-  Scaleform::GFx::FontResource *pfoundFont; // [esp+18h] [ebp-8h] BYREF
+  int Indent; // [esp+14h] [ebp-Ch]
+  Scaleform::GFx::FontResource *v18; // [esp+18h] [ebp-8h] BYREF
   int v19; // [esp+1Ch] [ebp-4h]
-  Scaleform::GFx::Resource *pplainHandle; // [esp+24h] [ebp+4h]
+  Scaleform::GFx::FontHandle *f; // [esp+24h] [ebp+4h]
 
   v5 = matchFontFlags;
   v6 = searchInfo;
-  saveIndent = 0;
+  Indent = 0;
   if ( searchInfo )
   {
-    saveIndent = searchInfo->Indent;
+    Indent = searchInfo->Indent;
     Scaleform::GFx::AddSearchInfo_1(
       searchInfo,
-      "Searching for font: \"",
+      (const __m128i *)"Searching for font: \"",
       pfontName,
-      "\" ",
+      (const __m128i *)"\" ",
       matchFontFlags,
-      (char *)&buf);
+      (const __m128i *)uri);
   }
-  pfoundFont = 0;
+  v18 = 0;
   v9 = (Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *)Scaleform::GFx::FontManager::FindOrCreateHandle(
                                                                          this,
                                                                          pfontName,
                                                                          v5,
-                                                                         &pfoundFont,
+                                                                         &v18,
                                                                          v6);
   if ( !v9 )
   {
@@ -48,15 +48,21 @@ Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *__thiscall Scalefo
       if ( v6 )
       {
         ++v6->Indent;
-        Scaleform::GFx::AddSearchInfo_1(v6, "Searching for font: \"", pfontName, "\" ", v10, (char *)&buf);
+        Scaleform::GFx::AddSearchInfo_1(
+          v6,
+          (const __m128i *)"Searching for font: \"",
+          pfontName,
+          (const __m128i *)"\" ",
+          v10,
+          (const __m128i *)uri);
       }
-      pplainHandle = Scaleform::GFx::FontManager::FindOrCreateHandle(this, pfontName, v10, 0, v6);
-      if ( pplainHandle )
+      f = (Scaleform::GFx::FontHandle *)Scaleform::GFx::FontManager::FindOrCreateHandle(this, pfontName, v10, 0, v6);
+      if ( f )
       {
         v11 = (Scaleform::GFx::FontHandle *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
         if ( v11 )
         {
-          Scaleform::GFx::FontHandle::FontHandle(v11, (const Scaleform::GFx::FontHandle *)pplainHandle);
+          Scaleform::GFx::FontHandle::FontHandle(v11, f);
           v9 = v12;
         }
         else
@@ -68,30 +74,30 @@ Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *__thiscall Scalefo
         if ( v6 )
           Scaleform::GFx::AddSearchInfo_2(
             v6,
-            "Font \"",
+            (const __m128i *)"Font \"",
             pfontName,
-            "\" ",
+            (const __m128i *)"\" ",
             matchFontFlags,
-            " will be generated from \"",
+            (const __m128i *)" will be generated from \"",
             pfontName,
-            "\"",
+            (const __m128i *)"\"",
             v10);
         else
           Scaleform::HashSet<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::GFx::FontManager::NodePtrHashOp,Scaleform::AllocatorLH<Scaleform::GFx::FontManager::NodePtr,2>,Scaleform::HashsetCachedEntry<Scaleform::GFx::FontManager::NodePtr,Scaleform::GFx::FontManager::NodePtrHashOp>>::Add<Scaleform::GFx::FontHandle *>(
             &this->CreatedFonts,
-            (const Scaleform::GFx::FontHandle **)&searchInfo);
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pplainHandle);
+            (Scaleform::GFx::FontHandle *const *)&searchInfo);
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)f);
       }
     }
   }
   if ( v6 )
-    v6->Indent = saveIndent;
+    v6->Indent = Indent;
   if ( !v9 )
   {
-    v13 = pfoundFont;
-    if ( !pfoundFont )
+    v13 = v18;
+    if ( !v18 )
       goto LABEL_25;
-    Scaleform::GFx::AddSearchInfo_0(v6, "Empty font: \"", pfontName, "\" is created");
+    Scaleform::GFx::AddSearchInfo_0(v6, (const __m128i *)"Empty font: \"", pfontName, (const __m128i *)"\" is created");
     v9 = (Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                                            Scaleform::Memory::pGlobalHeap,
                                                                            32,
@@ -125,7 +131,7 @@ Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo *__thiscall Scalefo
     }
     if ( !v9 )
 LABEL_25:
-      Scaleform::GFx::AddSearchInfo(v6, v8, "Font not found.");
+      Scaleform::GFx::AddSearchInfo(v6, v8, (const __m128i *)"Font not found.");
   }
   return v9;
 }

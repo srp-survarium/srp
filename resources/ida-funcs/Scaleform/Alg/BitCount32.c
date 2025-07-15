@@ -2,7 +2,7 @@ int __cdecl Scaleform::Alg::BitCount32(unsigned int value)
 {
   if ( value >= 0x8000 )
   {
-    if ( value >= (unsigned int)&unk_800000 )
+    if ( value >= 0x800000 )
     {
       if ( value >= 0x8000000 )
       {
@@ -18,21 +18,21 @@ int __cdecl Scaleform::Alg::BitCount32(unsigned int value)
           return 29 - (value < 0x10000000);
         }
       }
-      else if ( value >= (unsigned int)&vostok::memory::s_CRT_arena[22351416] )
+      else if ( value >= 0x2000000 )
       {
-        return 27 - (value < (unsigned int)&vostok::memory::s_CRT_arena[55905848]);
+        return 27 - (value < 0x4000000);
       }
       else
       {
-        return 25 - (value < (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+        return 25 - (value < 0x1000000);
       }
     }
     else if ( value >= 0x80000 )
     {
-      if ( value >= 0x200000 )
-        return 23 - (value < (unsigned int)Scaleform::GFx::AS2::CreateShadow);
+      if ( value >= (unsigned int)&loc_200000 )
+        return 23 - (value < (unsigned int)&loc_400000);
       else
-        return 21 - (value < 0x100000);
+        return 21 - (value < (unsigned int)&loc_100000);
     }
     else if ( value >= (unsigned int)&loc_20000 )
     {

@@ -10,7 +10,7 @@ void __userpurge Scaleform::GFx::AS2::KeyCtorFunction::KeyCtorFunction(
   unsigned __int8 *v8; // [esp-4h] [ebp-20h]
   int v9; // [esp+0h] [ebp-1Ch]
   int v10; // [esp+0h] [ebp-1Ch]
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+Ch] [ebp-10h] BYREF
 
   Scaleform::GFx::AS2::Object::Object(this, psc);
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::KeyCtorFunction_vtbl *)&Scaleform::GFx::AS2::AmpMarkerCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
@@ -21,7 +21,7 @@ void __userpurge Scaleform::GFx::AS2::KeyCtorFunction::KeyCtorFunction(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     Prototype);
-  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::Text::CSSHandler<wchar_t>::`vftable';
+  this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::KeyCtorFunction_vtbl *)&Scaleform::GFx::AS2::KeyCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::CFunctionObject::Scaleform::GFx::AS2::FunctionObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::KeyCtorFunction::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
   this->Scaleform::GFx::KeyboardState::IListener::__vftable = (Scaleform::GFx::KeyboardState::IListener_vtbl *)&Scaleform::GFx::AS2::KeyCtorFunction::`vftable';
@@ -50,156 +50,168 @@ void __userpurge Scaleform::GFx::AS2::KeyCtorFunction::KeyCtorFunction(
     &this->Scaleform::GFx::AS2::ObjectInterface,
     (int)a2,
     v9);
-  val.T.Type = 4;
-  val.NV.Int32Value = 8;
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 8;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "BACKSPACE",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 20;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 20;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "CAPSLOCK",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 17;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 17;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "CONTROL",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 46;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 46;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "DELETEKEY",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 40;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 40;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "DOWN",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 35;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(&this->Scaleform::GFx::AS2::ObjectInterface, psc, "END", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 13;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 35;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
+    "END",
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 13;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+    &this->Scaleform::GFx::AS2::ObjectInterface,
+    (Scaleform::GFx::ASStringNode *)psc,
     "ENTER",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 27;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 27;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "ESCAPE",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 36;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 36;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "HOME",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 45;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 45;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "INSERT",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 37;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 37;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "LEFT",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 34;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 34;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "PGDN",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 33;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 33;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "PGUP",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 39;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 39;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "RIGHT",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 16;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 16;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "SHIFT",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 32;
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 32;
   Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
     &this->Scaleform::GFx::AS2::ObjectInterface,
-    psc,
+    (Scaleform::GFx::ASStringNode *)psc,
     "SPACE",
-    &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 9;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(&this->Scaleform::GFx::AS2::ObjectInterface, psc, "TAB", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  val.T.Type = 4;
-  val.NV.Int32Value = 38;
-  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(&this->Scaleform::GFx::AS2::ObjectInterface, psc, "UP", &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 9;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+    &this->Scaleform::GFx::AS2::ObjectInterface,
+    (Scaleform::GFx::ASStringNode *)psc,
+    "TAB",
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
+  v11.T.Type = 4;
+  v11.NV.Int32Value = 38;
+  Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+    &this->Scaleform::GFx::AS2::ObjectInterface,
+    (Scaleform::GFx::ASStringNode *)psc,
+    "UP",
+    &v11);
+  if ( v11.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v11);
   Scaleform::GFx::AS2::NameFunction::AddConstMembers(
     v8,
     (Scaleform::GFx::AS2::LocalFrame **)this,

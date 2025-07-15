@@ -1,38 +1,25 @@
-vostok::math::float4x4 *__usercall vostok::math::create_rotation_z@<eax>(int a1@<esi>, vostok::math::float4x4 *result)
+vostok::math::float4x4 *__usercall vostok::math::create_rotation_z@<eax>(
+        long double a1@<esi:edi>,
+        __m128i a2@<xmm0>,
+        vostok::math::float4x4 *result,
+        float angle)
 {
-  long double v2; // st7
-  vostok::math::float4x4 *v3; // eax
-  __int64 v4; // xmm1_8
-  __int64 v5; // xmm2_8
-  __int64 v6; // xmm0_8
-  float a; // [esp+4h] [ebp-18h]
-  __int64 v8; // [esp+Ch] [ebp-10h]
-  __int64 v9; // [esp+14h] [ebp-8h]
+  float v4; // xmm1_4
 
-  a = sinf(*(float *)&result);
-  v2 = cosf(*(float *)&result);
-  *(float *)&v8 = v2;
-  v9 = 0;
-  v3 = (vostok::math::float4x4 *)a1;
-  *((float *)&v8 + 1) = -a;
-  *(_QWORD *)a1 = v8;
-  *(float *)&v8 = a;
-  *(_QWORD *)(a1 + 8) = v9;
-  *((float *)&v8 + 1) = v2;
-  v9 = 0;
-  *(_QWORD *)(a1 + 16) = v8;
-  v4 = v9;
-  HIDWORD(v9) = 0;
-  *(_QWORD *)(a1 + 24) = v4;
-  LODWORD(v4) = clear_value;
-  LODWORD(v9) = clear_value;
-  *(_QWORD *)(a1 + 32) = 0;
-  v5 = v9;
-  LODWORD(v9) = 0;
-  *(_QWORD *)(a1 + 48) = 0;
-  HIDWORD(v9) = v4;
-  v6 = v9;
-  *(_QWORD *)(a1 + 40) = v5;
-  *(_QWORD *)(a1 + 56) = v6;
-  return v3;
+  *(double *)a2.m128i_i64 = angle;
+  __libm_sse2_sin(a2);
+  __libm_sse2_cos(a1);
+  result->i.x = angle;
+  *(_QWORD *)&result->e01 = LODWORD(angle) ^ (unsigned int)_mask__NegFloat_;
+  result->i.w = 0.0;
+  v4 = s_bm_current_air_resistance;
+  result->j.x = angle;
+  *(_QWORD *)&result->lines[1].elements[1] = LODWORD(angle);
+  *(_QWORD *)&result->lines[1].elements[3] = 0;
+  result->k.y = 0.0;
+  *(_QWORD *)&result->lines[2].elements[2] = LODWORD(v4);
+  *(_QWORD *)&result->lines[3].x = 0;
+  result->c.z = 0.0;
+  result->c.w = v4;
+  return result;
 }

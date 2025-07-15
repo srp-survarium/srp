@@ -43,6 +43,6 @@ void __thiscall Scaleform::HeapMH::AllocBitSet2MH::Free(
     *(v12 - 1) = v14;
     ptr[12] = v14;
     *((_DWORD *)ptr + 2) = page;
-    Scaleform::HeapMH::ListBinMH::Push(&this->Bin, ptr);
+    Scaleform::HeapMH::ListBinMH::Push(&this->Bin, (Scaleform::HeapMH::BinNodeMH *)ptr);
   }
 }

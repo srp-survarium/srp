@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::XMLList::XMLList(
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl::XMLListCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl::XMLList_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl::XMLList_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl::XMLList::`vftable';
   this->TraitsType = Traits_XMLList;
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::XMLList::XMLList(
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

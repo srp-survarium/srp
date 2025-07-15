@@ -1,66 +1,71 @@
 void __thiscall Scaleform::Render::D3D1x::ShaderManager::MapVertexFormat(
-        const Scaleform::Render::VertexFormat *sourceFormat,
         Scaleform::Render::D3D1x::ShaderManager *this,
-        Scaleform::Render::PrimitiveFillType fill,
+        Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> *fill,
+        const Scaleform::Render::VertexFormat *sourceFormat,
         const Scaleform::Render::VertexFormat **single,
-        const Scaleform::Render::VertexFormat **batch,
-        const Scaleform::Render::VertexFormat **instanced)
+        Scaleform::FixedSizeHash<Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::SourceFormatHash> **batch,
+        const Scaleform::Render::VertexFormat **instanced,
+        Scaleform::Render::PrimitiveFillType *flags)
 {
-  Scaleform::Render::VertexElement *pElements; // esi
-  unsigned int *p_Attribute; // eax
-  int v8; // edi
-  int v9; // ecx
-  unsigned int v10; // eax
-  $B996288B4BA8DC1872D28A6FA0F1BFD9 *v11; // edx
-  bool v12; // zf
-  unsigned int offset; // [esp+Ch] [ebp-54h]
-  Scaleform::Render::VertexElement *v14; // [esp+10h] [ebp-50h]
-  Scaleform::Render::VertexFormat floatPositionFormat; // [esp+14h] [ebp-4Ch] BYREF
-  Scaleform::Render::VertexElement floatPositionElements[8]; // [esp+20h] [ebp-40h] BYREF
+  const Scaleform::Render::VertexFormat *v7; // edx
+  Scaleform::Render::ProfileViews **p_pElements; // ecx
+  const Scaleform::Render::VertexFormat *v9; // esi
+  int v10; // eax
+  Scaleform::Render::ProfileViews *v11; // ecx
+  unsigned int *v12; // edi
+  int v13; // eax
+  int v14; // [esp+Ch] [ebp-54h]
+  int v15; // [esp+10h] [ebp-50h]
+  Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture> singlea[3]; // [esp+14h] [ebp-4Ch] BYREF
 
-  pElements = sourceFormat->pElements;
-  floatPositionFormat.pElements = floatPositionElements;
-  p_Attribute = &pElements->Attribute;
-  floatPositionFormat.pSysFormat.pObject = 0;
-  v8 = 0;
-  offset = 0;
-  v14 = pElements;
-  if ( pElements->Attribute )
+  singlea[0].VFormats.KeyBuffer.pLast = (Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32>::Page *)&singlea[0].VFormats.ValueBuffer.pLast;
+  v7 = single[1];
+  singlea[0].VFormats.ValueBuffer.pPages = 0;
+  v14 = 0;
+  v15 = 0;
+  if ( v7->pElements )
   {
-    v9 = 0;
+    p_pElements = (Scaleform::Render::ProfileViews **)&v7->pElements;
+    v9 = v7;
+    v10 = 0;
     do
     {
-      v10 = *p_Attribute;
-      v11 = &floatPositionElements[v9].4;
-      floatPositionElements[v9].Attribute = v10;
-      if ( (v10 & 0xF00) == 0x100 )
+      v11 = *p_pElements;
+      v12 = (unsigned int *)((char *)&singlea[0].Profiler + v10);
+      *(Scaleform::Render::ProfileViews **)((char *)&singlea[0].Profiler + v10) = v11;
+      if ( ((unsigned __int16)v11 & 0xF00) == 0x100 )
       {
-        v11->Attribute = v10 & 0xFFFFFF0F | 0x60;
-        floatPositionElements[v9].Offset = offset + pElements->Offset;
-        if ( (v11->Attribute & 0xF0) == 0x30 )
-          offset += 4;
+        *v12 = (unsigned int)v11 & 0xFFFFFF0F | 0x60;
+        *(Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page **)((char *)&singlea[0].VFormats.ValueBuffer.pLast + v10) = (Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page *)(v14 + v9->Size);
+        if ( (*(_BYTE *)v12 & 0xF0) == 0x30 )
+          v14 += 4;
       }
       else
       {
-        floatPositionElements[v9].Offset = offset + pElements->Offset;
+        *(Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page **)((char *)&singlea[0].VFormats.ValueBuffer.pLast + v10) = (Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page *)(v14 + v9->Size);
       }
-      v9 = ++v8;
-      pElements = &v14[v8];
-      p_Attribute = &pElements->Attribute;
+      ++v15;
+      v10 = 8 * v15;
+      v9 = (const Scaleform::Render::VertexFormat *)((char *)v7 + 8 * v15);
+      p_pElements = (Scaleform::Render::ProfileViews **)&v9->pElements;
     }
-    while ( pElements->Attribute );
+    while ( v9->pElements );
   }
-  v12 = this->ShaderModel == ShaderVersion_D3D1xFL1x;
-  floatPositionElements[v8].Attribute = 0;
-  floatPositionElements[v8].Offset = 0;
+  v13 = 8 * v15;
+  *(Scaleform::Render::ProfileViews **)((char *)&singlea[0].Profiler + v13) = 0;
+  *(Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page **)((char *)&singlea[0].VFormats.ValueBuffer.pLast + v13) = 0;
   Scaleform::Render::StaticShaderManager<Scaleform::Render::D3D1x::ShaderDesc,Scaleform::Render::D3D1x::VertexShaderDesc,Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderInterface,Scaleform::Render::D3D1x::Texture>::MapVertexFormat(
+    singlea,
     fill,
-    this,
-    &floatPositionFormat,
-    single,
+    sourceFormat,
+    (const Scaleform::Render::VertexFormat **)singlea,
     batch,
     instanced,
-    (!v12 ? 0 : 8) | 3);
-  if ( floatPositionFormat.pSysFormat.pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)floatPositionFormat.pSysFormat.pObject);
+    flags,
+    (fill[2452].VFormats.ValueBuffer.pLast == (Scaleform::Render::PagedItemBuffer<Scaleform::Render::MultiKeyCollection<Scaleform::Render::VertexElement,Scaleform::Render::VertexFormat,32,8>::ValueItem,8>::Page *)2
+   ? 8
+   : 0)
+  | 3);
+  if ( singlea[0].VFormats.ValueBuffer.pPages )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)singlea[0].VFormats.ValueBuffer.pPages);
 }

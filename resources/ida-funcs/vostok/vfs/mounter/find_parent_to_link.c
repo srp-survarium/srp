@@ -2,104 +2,116 @@ vostok::vfs::base_folder_node<1> *__thiscall vostok::vfs::mounter::find_parent_t
         vostok::vfs::mounter *this,
         vostok::vfs::base_node<1> **in_out_overlapper,
         vostok::vfs::base_node<1> *candidate_for_link,
-        vostok::vfs::base_folder_node<1> *parent,
-        vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *path)
+        vostok::vfs::base_node<1> *parent,
+        vostok::vfs::base_folder_node<1> *path,
+        char **a6)
 {
-  char *v6; // eax
-  const char *v7; // eax
-  vostok::vfs::base_node<1> *node; // ecx
-  BOOL v9; // ecx
-  survarium::game_camera *v10; // ecx
-  survarium::game_camera *v11; // ecx
-  vostok::vfs::base_folder_node<1> *v13; // [esp+14h] [ebp-17Ch]
-  vostok::vfs::base_node<1> *v14; // [esp+1Ch] [ebp-174h]
-  unsigned int overlapper_mount_id; // [esp+24h] [ebp-16Ch]
-  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> begin_end; // [esp+28h] [ebp-168h] BYREF
-  vostok::fs_new::virtual_path_string parent_path; // [esp+48h] [ebp-148h] BYREF
-  vostok::vfs::base_node<1> *prev_node; // [esp+160h] [ebp-30h]
-  vostok::vfs::base_folder_node<1> *out_result; // [esp+164h] [ebp-2Ch]
-  bool reached_file; // [esp+16Bh] [ebp-25h]
-  vostok::vfs::overlapped_node_iterator it_end; // [esp+16Ch] [ebp-24h] BYREF
-  bool found_candidate; // [esp+17Fh] [ebp-11h]
-  vostok::vfs::overlapped_node_iterator it; // [esp+180h] [ebp-10h] BYREF
-  vostok::vfs::base_node<1> *candidate_for_linka; // [esp+19Ch] [ebp+Ch]
+  vostok::vfs::base_node<1> *v7; // esi
+  vostok::vfs::overlapped_node_iterator *v8; // ecx
+  unsigned int v9; // edi
+  vostok::vfs::overlapped_node_iterator *v10; // ecx
+  vostok::vfs::base_node<1> *v11; // edi
+  vostok::vfs::base_node<1> *v12; // eax
+  vostok::vfs::base_folder_node<1> *v13; // edi
+  vostok::vfs::overlapped_node_iterator *v14; // ecx
+  char *v15; // [esp-4h] [ebp-170h]
+  vostok::vfs::vfs_hashset *v16; // [esp-4h] [ebp-170h]
+  vostok::fs_new::virtual_path_string v17; // [esp+10h] [ebp-15Ch] BYREF
+  int v18; // [esp+128h] [ebp-44h] BYREF
+  vostok::vfs::base_node<1> *v19; // [esp+12Ch] [ebp-40h]
+  int v20; // [esp+130h] [ebp-3Ch]
+  int v21; // [esp+134h] [ebp-38h]
+  int v22; // [esp+138h] [ebp-34h]
+  int v23; // [esp+13Ch] [ebp-30h]
+  int v24; // [esp+140h] [ebp-2Ch]
+  vostok::vfs::overlapped_node_iterator *v25; // [esp+144h] [ebp-28h]
+  _DWORD v26[4]; // [esp+148h] [ebp-24h] BYREF
+  int v27; // [esp+158h] [ebp-14h] BYREF
+  vostok::vfs::base_node<1> *v28; // [esp+15Ch] [ebp-10h]
+  int v29; // [esp+160h] [ebp-Ch]
+  int v30; // [esp+164h] [ebp-8h]
+  char v31; // [esp+177h] [ebp+Bh]
+  vostok::vfs::base_node<1> *node; // [esp+17Ch] [ebp+10h]
+  bool v33; // [esp+187h] [ebp+1Bh]
 
-  if ( candidate_for_link
-    && vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(candidate_for_link) == parent )
+  if ( parent && vostok::vfs::cast_folder<1>(parent) == path )
+    return path;
+  v17.m_string.m_begin = v17.m_string.m_buffer;
+  v17.m_string.m_end = v17.m_string.m_buffer;
+  v17.m_string.m_max_end = &v17.m_separator;
+  v15 = *a6;
+  v17.m_string.m_buffer[0] = 0;
+  v17.m_separator = 47;
+  vostok::fs_new::get_path_without_last_item<vostok::fs_new::virtual_path_string>(&v17, v15);
+  vostok::vfs::vfs_hashset::equal_range(
+    v16,
+    (vostok::vfs::vfs_hashset *)&in_out_overlapper[329]->m_next,
+    (char *)&v18,
+    v17.m_string.m_begin,
+    lock_type_write);
+  v7 = v19;
+  v27 = v18;
+  v29 = v20;
+  v30 = v21;
+  v26[0] = v22;
+  v26[2] = v24;
+  v8 = v25;
+  v28 = v19;
+  v26[1] = v23;
+  v26[3] = v25;
+  v33 = v23 != 0;
+  while ( (v7 != 0) != v33 && parent && v7 != parent )
   {
-    return parent;
+    vostok::vfs::overlapped_node_iterator::operator++(v8, (int)&v27);
+    v7 = v28;
   }
-  vostok::fs_new::virtual_path_string::virtual_path_string(&parent_path);
-  v6 = (char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr(path);
-  vostok::fs_new::get_path_without_last_item<vostok::fs_new::virtual_path_string>(&parent_path, v6);
-  v7 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&parent_path);
-  vostok::vfs::vfs_hashset::equal_range(&this->m_file_system->hashset, &begin_end, v7, lock_type_write);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it, &begin_end.first);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it_end, &begin_end.second);
-  found_candidate = 0;
-  while ( 1 )
+  if ( candidate_for_link->m_mount_root.pointer )
   {
-    node = (vostok::vfs::base_node<1> *)(it.node != 0);
-    if ( node == (vostok::vfs::base_node<1> *)(it_end.node != 0) )
-      break;
-    if ( !candidate_for_link || (node = it.node, it.node == candidate_for_link) )
+    v9 = vostok::vfs::mount_id_of_node<1>((vostok::vfs::base_node<1> *)candidate_for_link->m_mount_root.pointer);
+    while ( (v7 != 0) != v33 )
     {
-      found_candidate = 1;
-      break;
-    }
-    vostok::vfs::overlapped_node_iterator::operator++(&it);
-  }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)node);
-  if ( *in_out_overlapper )
-  {
-    found_candidate = 0;
-    overlapper_mount_id = vostok::vfs::mount_id_of_node<1>(*in_out_overlapper);
-    while ( 1 )
-    {
-      v9 = it_end.node != 0;
-      if ( (it.node != 0) == v9 )
-        break;
-      if ( vostok::vfs::mount_id_of_node<1>(it.node) == overlapper_mount_id )
+      if ( vostok::vfs::mount_id_of_node<1>(v7) == v9 )
       {
-        found_candidate = 1;
-        vostok::vfs::overlapped_node_iterator::operator++(&it);
-        survarium::weapon_user_dead_state::finalize(v10);
+        vostok::vfs::overlapped_node_iterator::operator++(v10, (int)&v27);
+        v7 = v28;
         break;
       }
-      vostok::vfs::overlapped_node_iterator::operator++(&it);
+      vostok::vfs::overlapped_node_iterator::operator++(v10, (int)&v27);
+      v7 = v28;
     }
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v9);
   }
-  reached_file = 0;
-  candidate_for_linka = it.node;
-  prev_node = 0;
-  while ( (it.node != 0) != (it_end.node != 0) )
+  v31 = 0;
+  node = v7;
+  v11 = 0;
+  while ( (v7 != 0) != v33 )
   {
-    v14 = it.node;
-    if ( prev_node && !prev_node->m_next_overlapped.pointer )
+    if ( v11 && !v11->m_next_overlapped.pointer )
     {
-      *in_out_overlapper = 0;
-      candidate_for_linka = v14;
+      candidate_for_link->m_mount_root.pointer = 0;
+      node = v7;
     }
-    if ( reached_file )
+    if ( v31 )
     {
-      candidate_for_linka = v14;
-      reached_file = 0;
+      node = v7;
+      v31 = 0;
     }
-    if ( v14 == vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::physical_folder_node,1>(parent) )
+    v12 = path ? &path->base : 0;
+    if ( v7 == v12 )
       break;
-    if ( (v14->m_flags & 1) != 1 )
+    if ( (v7->m_flags & 1) == 0 )
     {
-      reached_file = 1;
-      *in_out_overlapper = 0;
+      v31 = 1;
+      candidate_for_link->m_mount_root.pointer = 0;
     }
-    prev_node = it.node;
-    vostok::vfs::overlapped_node_iterator::operator++(&it);
+    v11 = v7;
+    vostok::vfs::overlapped_node_iterator::operator++(v8, (int)&v27);
+    v7 = v28;
   }
-  out_result = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(candidate_for_linka);
-  survarium::weapon_user_dead_state::finalize(v11);
-  v13 = out_result;
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it_end);
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
+  if ( node )
+    v13 = vostok::vfs::cast_folder<1>(node);
+  else
+    v13 = 0;
+  vostok::vfs::overlapped_node_iterator::clear(v8, v26);
+  vostok::vfs::overlapped_node_iterator::clear(v14, &v27);
   return v13;
 }

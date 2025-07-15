@@ -1,15 +1,15 @@
 void __thiscall Scaleform::GFx::FontManager::commonInit(Scaleform::GFx::FontManager *this)
 {
   Scaleform::GFx::FontData *v2; // eax
-  Scaleform::Render::Font *v3; // eax
-  Scaleform::Render::Font *v4; // edi
+  Scaleform::GFx::Resource *v3; // eax
+  Scaleform::GFx::Resource *v4; // edi
   Scaleform::GFx::FontResource *v5; // eax
   Scaleform::GFx::Resource *v6; // eax
   Scaleform::GFx::Resource *v7; // ebx
   Scaleform::GFx::FontHandle *v8; // esi
   Scaleform::GFx::Resource *v9; // edi
   Scaleform::RefCountVImpl *pObject; // ecx
-  Scaleform::Render::Font *v11; // [esp+20h] [ebp-Ch]
+  Scaleform::GFx::Resource *v11; // [esp+20h] [ebp-Ch]
   int v12; // [esp+24h] [ebp-8h] BYREF
   int v13; // [esp+28h] [ebp-4h] BYREF
 

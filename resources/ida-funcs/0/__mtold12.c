@@ -19,19 +19,19 @@ void __cdecl __mtold12(char *manptr, unsigned int manlen, _LDBL12 *ld12)
   unsigned int v19; // esi
   unsigned int v20; // edi
   int v21; // ecx
-  __int16 expn; // [esp+Ch] [ebp-18h]
+  __int16 v22; // [esp+Ch] [ebp-18h]
   int v23; // [esp+10h] [ebp-14h]
   int v24; // [esp+10h] [ebp-14h]
-  unsigned int tmp_4; // [esp+18h] [ebp-Ch]
-  int tmp_8; // [esp+1Ch] [ebp-8h]
+  unsigned int v25; // [esp+18h] [ebp-Ch]
+  int v26; // [esp+1Ch] [ebp-8h]
 
-  expn = 16462;
+  v22 = 16462;
   *(_DWORD *)ld12->ld12 = 0;
   *(_DWORD *)&ld12->ld12[4] = 0;
   for ( *(_DWORD *)&ld12->ld12[8] = 0; manlen; ++manptr )
   {
-    tmp_4 = *(_DWORD *)&ld12->ld12[4];
-    tmp_8 = *(_DWORD *)&ld12->ld12[8];
+    v25 = *(_DWORD *)&ld12->ld12[4];
+    v26 = *(_DWORD *)&ld12->ld12[8];
     v23 = 0;
     v3 = __SPAIR64__(*(_QWORD *)&ld12->ld12[4] >> 31, *(__int64 *)ld12->ld12 >> 31) >> 31;
     v4 = *(_DWORD *)ld12->ld12;
@@ -54,14 +54,14 @@ void __cdecl __mtold12(char *manptr, unsigned int manlen, _LDBL12 *ld12)
         *(_DWORD *)&ld12->ld12[8] = v3 + 1;
     }
     v9 = *(_DWORD *)&ld12->ld12[4];
-    v10 = v9 + tmp_4;
+    v10 = v9 + v25;
     v11 = 0;
-    if ( v9 + tmp_4 < v9 || v10 < tmp_4 )
+    if ( v9 + v25 < v9 || v10 < v25 )
       v11 = 1;
     *(_DWORD *)&ld12->ld12[4] = v10;
     if ( v11 )
       ++*(_DWORD *)&ld12->ld12[8];
-    *(_DWORD *)&ld12->ld12[8] += tmp_8;
+    *(_DWORD *)&ld12->ld12[8] += v26;
     v24 = 0;
     v12 = 2 * v7;
     v13 = (v7 >> 31) | (2 * v10);
@@ -89,7 +89,7 @@ void __cdecl __mtold12(char *manptr, unsigned int manlen, _LDBL12 *ld12)
   {
     v18 = *(_DWORD *)&ld12->ld12[4];
     *(_DWORD *)&ld12->ld12[8] = HIWORD(v18);
-    expn -= 16;
+    v22 -= 16;
     *(_QWORD *)ld12->ld12 = __PAIR64__(v18, *(_DWORD *)ld12->ld12) << 16;
   }
   if ( (*(_DWORD *)&ld12->ld12[8] & 0x8000) == 0 )
@@ -98,7 +98,7 @@ void __cdecl __mtold12(char *manptr, unsigned int manlen, _LDBL12 *ld12)
     {
       v19 = *(_DWORD *)ld12->ld12;
       v20 = *(_DWORD *)&ld12->ld12[4];
-      --expn;
+      --v22;
       *(_DWORD *)ld12->ld12 *= 2;
       v21 = (v20 >> 31) | (2 * *(_DWORD *)&ld12->ld12[8]);
       *(_DWORD *)&ld12->ld12[4] = (v19 >> 31) | (2 * v20);
@@ -106,5 +106,5 @@ void __cdecl __mtold12(char *manptr, unsigned int manlen, _LDBL12 *ld12)
     }
     while ( (v21 & 0x8000) == 0 );
   }
-  *(_WORD *)&ld12->ld12[10] = expn;
+  *(_WORD *)&ld12->ld12[10] = v22;
 }

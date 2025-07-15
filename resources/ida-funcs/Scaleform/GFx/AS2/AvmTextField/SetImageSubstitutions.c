@@ -52,7 +52,7 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::SetImageSubstitutions(const Scal
                                                       + v4->AvmObjOffset),
                   v1,
                   v8,
-                  (Scaleform::GFx::AS2::Value *)(&v7[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$ADD6DCFDE39599335059E819E3D29E57::__vftable)[v8]);
+                  (Scaleform::GFx::AS2::Value *)(&v7[1].pRCC->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::$C9E2C53B7BF33D1B05D56CCE19B38030::__vftable)[v8]);
                 ++v8;
               }
               while ( v8 < (int)fn );

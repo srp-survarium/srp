@@ -11,7 +11,7 @@ ui_string_st *__usercall general_allocate_prompt@<eax>(
   {
     if ( (type == UIT_PROMPT || type == UIT_VERIFY || type == UIT_BOOLEAN) && !result_buf )
     {
-      ERR_put_error(0x28u, 109, 105, ".\\crypto\\ui\\ui_lib.c", 152);
+      ERR_put_error(0, 0x28u, 109, 105, ".\\crypto\\ui\\ui_lib.c", 152);
       return 0;
     }
     else
@@ -29,7 +29,7 @@ ui_string_st *__usercall general_allocate_prompt@<eax>(
   }
   else
   {
-    ERR_put_error(0x28u, 109, 67, ".\\crypto\\ui\\ui_lib.c", 147);
+    ERR_put_error((int)result_buf, 0x28u, 109, 67, ".\\crypto\\ui\\ui_lib.c", 147);
     return 0;
   }
   return result;

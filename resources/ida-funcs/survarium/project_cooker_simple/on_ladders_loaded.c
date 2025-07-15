@@ -3,123 +3,108 @@ void __thiscall survarium::project_cooker_simple::on_ladders_loaded(
         survarium::simple_game_project *project,
         vostok::resources::queries_result *data)
 {
-  vostok::resources::queries_result *v3; // ebx
-  unsigned int m_size; // eax
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *p_m_unmanaged_resource; // esi
-  vostok::resources::unmanaged_intrusive_base *m_object; // ecx
-  survarium::ladder *v7; // eax
-  vostok::resources::unmanaged_resource *v8; // ebx
-  vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *M_finish; // eax
-  vostok::variant<32> *v10; // esi
-  survarium::link_resolver *p_type; // eax
-  survarium::base_game_object *v12; // esi
-  bool v13; // zf
-  vostok::resources::query_result_for_cook *v14; // ecx
-  const stlp_std::__false_type *v15; // [esp+0h] [ebp-30h]
-  unsigned int v16; // [esp+4h] [ebp-2Ch]
-  bool v17; // [esp+8h] [ebp-28h]
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *j; // [esp+Ch] [ebp-24h]
-  vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base> new_ladder; // [esp+10h] [ebp-20h] BYREF
-  unsigned int i; // [esp+14h] [ebp-1Ch]
-  vostok::configs::binary_config_value cfg; // [esp+18h] [ebp-18h] BYREF
+  survarium::pure_game_effect_emitter_base *m_object; // esi
+  vostok::configs::binary_config_value *v4; // ecx
+  vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *M_finish; // esi
+  survarium::ladder *v6; // esi
+  vostok::configs::binary_config_value *v7; // eax
+  vostok::variant<32> *v8; // ecx
+  survarium::base_project::resolve_link_object *v9; // eax
+  survarium::base_game_object *v10; // esi
+  survarium::base_game_object **v11; // eax
+  survarium::base_project *v12; // ecx
+  int v13; // ecx
+  vostok::resources::query_result_for_cook *m_parent_query; // eax
+  vostok::resources::query_result_for_cook *v15; // ecx
+  vostok::resources::query_result_for_cook *v16; // ecx
+  vostok::configs::binary_config_value v17; // [esp-18h] [ebp-50h] BYREF
+  unsigned int v18; // [esp+0h] [ebp-38h]
+  bool v19; // [esp+4h] [ebp-34h]
+  stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base>,survarium::std_allocator<vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base> > > v20; // [esp+10h] [ebp-28h] BYREF
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v21; // [esp+1Ch] [ebp-1Ch] BYREF
+  vostok::configs::binary_config_value v22; // [esp+20h] [ebp-18h] BYREF
 
-  v3 = data;
-  m_size = data->m_size;
-  i = 0;
-  if ( m_size )
+  v20._M_end_of_storage._M_data = 0;
+  if ( data->m_size )
   {
-    p_m_unmanaged_resource = &data->m_queries[0].m_unmanaged_resource;
-    for ( j = &data->m_queries[0].m_unmanaged_resource; ; p_m_unmanaged_resource = j )
+    v20._M_finish = (vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base> *)&data->m_queries[0].m_user_data;
+    do
     {
-      m_object = (vostok::resources::unmanaged_intrusive_base *)p_m_unmanaged_resource->m_object;
-      v7 = 0;
-      if ( p_m_unmanaged_resource->m_object )
+      vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+        &v21,
+        (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v20._M_finish[-11]);
+      m_object = v21.m_object;
+      v20._M_start = 0;
+      if ( v21.m_object )
       {
-        v7 = (survarium::ladder *)p_m_unmanaged_resource->m_object;
-        m_object += 26;
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v20);
+        v20._M_start = (vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base> *)m_object;
         _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
       }
-      v8 = 0;
-      new_ladder.m_object = 0;
-      if ( v7 )
-      {
-        v8 = v7;
-        m_object = &v7->vostok::resources::unmanaged_intrusive_base;
-        new_ladder.m_object = v7;
-        _InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-        if ( !_InterlockedExchangeAdd(&v7->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(m_object, v7);
-      }
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v21);
       M_finish = (vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *)project->m_ladders._M_impl._M_finish;
       if ( M_finish == (vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *)project->m_ladders._M_impl._M_end_of_storage._M_data )
       {
         stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base>,survarium::std_allocator<vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base>>>::_M_insert_overflow_aux(
-          (stlp_std::priv::_Impl_vector<vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base>,survarium::std_allocator<vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> > > *)m_object,
-          (stlp_std::reverse_iterator<vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *> *)&project->m_ladders,
+          &v20,
+          (int)&project->m_ladders,
           M_finish,
-          (const vostok::resources::resource_ptr<survarium::damage_zone,vostok::resources::unmanaged_intrusive_base> *)&new_ladder,
-          v15,
-          v16,
-          v17);
+          (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v20,
+          v18,
+          v19);
       }
       else
       {
         if ( M_finish )
-        {
-          M_finish->m_object = 0;
-          if ( v8 )
-          {
-            M_finish->m_object = (survarium::damage_zone *)v8;
-            _InterlockedExchangeAdd(&v8->m_reference_count, 1u);
-          }
-        }
+          vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+            (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)M_finish,
+            (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v20);
         ++project->m_ladders._M_impl._M_finish;
       }
-      v10 = (vostok::variant<32> *)p_m_unmanaged_resource[28].m_object;
-      cfg.data.max_storage = 0;
-      vostok::platform_pointer_selector<char const,1>::helper::helper(&cfg.id, 0);
-      cfg.id_crc = 0;
-      cfg.type = 0;
-      cfg.count = 0;
-      vostok::variant<32>::try_get<vostok::configs::binary_config_value>(v10, &cfg, 0);
-      if ( v8 )
-        p_type = (survarium::link_resolver *)&v8[1].type;
+      v6 = v20._M_finish->m_object;
+      vostok::configs::binary_config_value::binary_config_value(v4, (int)&v22);
+      vostok::variant<32>::try_get<vostok::configs::binary_config_value>(v8, (int)v6, v7);
+      if ( v20._M_start )
+        v9 = (survarium::base_project::resolve_link_object *)&v20._M_start[67];
       else
-        p_type = 0;
-      survarium::base_project::register_object_to_resolve(&project->survarium::base_project, p_type, cfg);
-      if ( v8 )
-        v12 = (survarium::base_game_object *)&v8[1].type;
+        v9 = 0;
+      qmemcpy((void *)&v17, &v22, sizeof(v17));
+      survarium::base_project::register_object_to_resolve(v9, project, v17);
+      if ( v20._M_start )
+        v10 = (survarium::base_game_object *)&v20._M_start[67];
       else
-        v12 = 0;
-      new_ladder.m_object = (survarium::ladder *)vostok::configs::binary_config_value::operator[](&cfg, "full_name")->data.pointer;
-      *stlp_std::map<vostok::fixed_string<260>,survarium::base_game_object *,stlp_std::less<vostok::fixed_string<260>>,survarium::std_allocator<stlp_std::pair<vostok::fixed_string<260>,survarium::base_game_object *>>>::operator[]<char const *>(
-         (const char *const *)&new_ladder,
-         &project->m_objects_registry) = v12;
-      if ( v8 && !_InterlockedExchangeAdd(&v8->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(&v8->vostok::resources::unmanaged_intrusive_base, v8);
-      j += 180;
-      if ( ++i >= data->m_size )
-        break;
+        v10 = 0;
+      v11 = (survarium::base_game_object **)vostok::configs::binary_config_value::operator[](&v22, "full_name");
+      survarium::base_project::register_named_object(v12, (const char *const *)project, *v11, v10);
+      vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v20);
+      ++v20._M_end_of_storage._M_data;
+      v20._M_finish += 184;
     }
-    v3 = data;
+    while ( v20._M_end_of_storage._M_data < (vostok::resources::resource_ptr<survarium::ladder,vostok::resources::unmanaged_intrusive_base> *)data->m_size );
   }
-  v13 = !project->m_loaded.visuals_loaded;
-  project->m_loaded.all_queried = 1;
-  if ( !v13
-    && project->m_loaded.collision_loaded
-    && project->m_loaded.loaded_count == project->m_objects._M_impl._M_finish - project->m_objects._M_impl._M_start )
+  project->m_loaded.ladders_loaded = 1;
+  if ( survarium::simple_game_project::all_loaded((survarium::simple_game_project *)this, (int)project) )
   {
-    project->resolve_links(&project->survarium::base_project);
-    _InterlockedExchangeAdd(&project->m_reference_count, 1u);
+    m_parent_query = data->m_parent_query;
+    *(_DWORD *)&v17.type = 488;
+    v17.id_crc = (unsigned int)&vostok::resources::nocache_memory;
+    HIDWORD(v17.id.max_storage) = v13;
+    v21.m_object = (survarium::pure_game_effect_emitter_base *)m_parent_query;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v17.id.max_storage
+    + 1,
+      (survarium::pure_game_effect_emitter_base *)&project->vostok::resources::unmanaged_resource);
     vostok::resources::query_result_for_cook::set_unmanaged_resource(
-      v3->m_parent_query,
-      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)project,
-      &vostok::resources::nocache_memory,
-      0x1C0u);
+      v15,
+      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)v21.m_object,
+      *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)&v17.id.max_storage + 4),
+      (const vostok::resources::memory_type *)v17.id_crc,
+      *(unsigned int *)&v17.type);
     vostok::resources::query_result_for_cook::finish_query_impl(
-      v14,
-      result_success,
+      v16,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)data->m_parent_query,
+      result_out_of_memory,
       assert_on_fail_true,
-      error_type_unset);
+      result_fail);
   }
 }

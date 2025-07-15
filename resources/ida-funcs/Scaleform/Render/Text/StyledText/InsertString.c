@@ -1,6 +1,6 @@
-unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
+int __thiscall Scaleform::Render::Text::StyledText::InsertString(
         Scaleform::Render::Text::StyledText *this,
-        wchar_t *pstr,
+        const __m128i *pstr,
         unsigned int pos,
         unsigned int length,
         Scaleform::Render::Text::StyledText::NewLinePolicy newLinePolicy)
@@ -16,23 +16,23 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
 }
 
 
-unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
+int __thiscall Scaleform::Render::Text::StyledText::InsertString(
         Scaleform::Render::Text::StyledText *this,
-        wchar_t *pstr,
+        const __m128i *pstr,
         unsigned int pos,
         unsigned int length,
         Scaleform::Render::Text::StyledText::NewLinePolicy newLinePolicy,
         Scaleform::Render::Text::TextFormat *pdefTextFmt,
         Scaleform::Render::Text::ParagraphFormat *pdefParaFmt)
 {
-  unsigned int v7; // esi
+  unsigned int i; // esi
   unsigned int v10; // ebx
   unsigned int StartIndex; // eax
   unsigned int v12; // edx
   bool v13; // zf
-  const wchar_t *v14; // ecx
+  wchar_t *v14; // ecx
   Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *pArray; // eax
-  signed int CurIndex; // ebp
+  int CurIndex; // ebp
   Scaleform::Render::Text::StyledText *v17; // edi
   Scaleform::Render::Text::Paragraph *pPara; // esi
   unsigned int Size; // eax
@@ -77,17 +77,18 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
   unsigned int v58; // esi
   wchar_t *v59; // ecx
   wchar_t v60; // cx
-  unsigned int indexInPara; // [esp+10h] [ebp-24h] BYREF
+  unsigned int pindexInParagraph; // [esp+10h] [ebp-24h] BYREF
   Scaleform::Render::Text::StyledText *v62; // [esp+14h] [ebp-20h]
-  int uniChar; // [esp+18h] [ebp-1Ch]
-  unsigned int nextParaStartingPos; // [esp+1Ch] [ebp-18h]
-  unsigned int totalInsertedLen; // [esp+20h] [ebp-14h]
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+24h] [ebp-10h] BYREF
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator newParaIter; // [esp+2Ch] [ebp-8h] BYREF
-  unsigned int remainingSrcStrLen; // [esp+3Ch] [ebp+8h]
-  unsigned int insLineLen; // [esp+40h] [ebp+Ch]
+  int v63; // [esp+18h] [ebp-1Ch]
+  unsigned int v64; // [esp+1Ch] [ebp-18h]
+  int v65; // [esp+20h] [ebp-14h]
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+24h] [ebp-10h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *v67; // [esp+2Ch] [ebp-8h] BYREF
+  int v68; // [esp+30h] [ebp-4h]
+  unsigned int index; // [esp+3Ch] [ebp+8h]
+  unsigned int lengtha; // [esp+40h] [ebp+Ch]
 
-  v7 = length;
+  i = length;
   v62 = this;
   if ( !length )
     return 0;
@@ -96,34 +97,29 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
     v10 = Scaleform::Render::Text::StyledText::GetLength(this);
   if ( length == -1 )
   {
-    v7 = 0;
-    if ( *pstr )
-    {
-      do
-        ++v7;
-      while ( pstr[v7] );
-    }
+    for ( i = 0; pstr->m128i_i16[i]; ++i )
+      ;
   }
-  this->OnTextInserting(this, v10, v7, pstr);
-  indexInPara = 0;
-  remainingSrcStrLen = v7;
-  Scaleform::Render::Text::StyledText::GetNearestParagraphByIndex(this, &paraIter, v10, &indexInPara);
-  if ( paraIter.pArray && paraIter.CurIndex >= 0 && paraIter.CurIndex < (signed int)paraIter.pArray->Data.Size )
-    StartIndex = paraIter.pArray->Data.Data[paraIter.CurIndex].pPara->StartIndex;
+  this->OnTextInserting(this, v10, i, (const wchar_t *)pstr);
+  pindexInParagraph = 0;
+  index = i;
+  Scaleform::Render::Text::StyledText::GetNearestParagraphByIndex(this, &result, v10, &pindexInParagraph);
+  if ( result.pArray && result.CurIndex >= 0 && result.CurIndex < (signed int)result.pArray->Data.Size )
+    StartIndex = result.pArray->Data.Data[result.CurIndex].pPara->StartIndex;
   else
     StartIndex = 0;
-  nextParaStartingPos = StartIndex;
-  uniChar = 0;
-  totalInsertedLen = 0;
+  v64 = StartIndex;
+  v63 = 0;
+  v65 = 0;
   do
   {
     if ( newLinePolicy == NLP_IgnoreCRLF )
     {
-      v12 = remainingSrcStrLen;
-      v13 = remainingSrcStrLen == 0;
-      if ( remainingSrcStrLen )
+      v12 = index;
+      v13 = index == 0;
+      if ( index )
       {
-        v14 = pstr;
+        v14 = (wchar_t *)pstr;
         do
         {
           if ( *v14 != 13 && *v14 != 10 )
@@ -132,17 +128,17 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
           --v12;
         }
         while ( v12 );
-        pstr = (wchar_t *)v14;
-        remainingSrcStrLen = v12;
+        pstr = (const __m128i *)v14;
+        index = v12;
         v13 = v12 == 0;
       }
       if ( v13 )
         break;
     }
-    pArray = paraIter.pArray;
-    if ( paraIter.pArray
-      && (CurIndex = paraIter.CurIndex, paraIter.CurIndex >= 0)
-      && paraIter.CurIndex < (signed int)paraIter.pArray->Data.Size )
+    pArray = result.pArray;
+    if ( result.pArray
+      && (CurIndex = result.CurIndex, result.CurIndex >= 0)
+      && result.CurIndex < (signed int)result.pArray->Data.Size )
     {
       v17 = v62;
     }
@@ -152,9 +148,9 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
       Scaleform::Render::Text::StyledText::AppendNewParagraph(v62, pdefParaFmt);
       pArray = &v17->Paragraphs;
       CurIndex = 0;
-      paraIter.pArray = &v17->Paragraphs;
-      paraIter.CurIndex = 0;
-      indexInPara = 0;
+      result.pArray = &v17->Paragraphs;
+      result.CurIndex = 0;
+      pindexInParagraph = 0;
     }
     pPara = pArray->Data.Data[CurIndex].pPara;
     Size = pPara->Text.Size;
@@ -172,62 +168,65 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertString(
     }
     if ( v20 )
       Scaleform::Render::Text::Paragraph::SetFormat(pPara, v17->pTextAllocator.pObject, pdefParaFmt);
-    LOWORD(v23) = uniChar;
+    LOWORD(v23) = v63;
     v24 = 0;
     v25 = -1;
-    insLineLen = 0;
-    if ( newLinePolicy == NLP_CompressCRLF && (_WORD)uniChar == 13 && *pstr == 10 )
+    lengtha = 0;
+    if ( newLinePolicy == NLP_CompressCRLF && (_WORD)v63 == 13 && pstr->m128i_i16[0] == 10 )
     {
-      ++pstr;
-      if ( !--remainingSrcStrLen )
+      pstr = (const __m128i *)((char *)pstr + 2);
+      if ( !--index )
         break;
       v17 = v62;
-      CurIndex = paraIter.CurIndex;
+      CurIndex = result.CurIndex;
     }
-    if ( remainingSrcStrLen )
+    if ( index )
     {
       while ( 1 )
       {
-        v23 = pstr[v24];
-        uniChar = v23;
+        v23 = pstr->m128i_u16[v24];
+        v63 = v23;
         if ( (_WORD)v23 == 10 || (_WORD)v23 == 13 )
           break;
         if ( (_WORD)v23 )
         {
-          if ( ++v24 < remainingSrcStrLen )
+          if ( ++v24 < index )
             continue;
         }
-        insLineLen = v24;
+        lengtha = v24;
         goto LABEL_48;
       }
-      insLineLen = v24;
+      lengtha = v24;
       if ( newLinePolicy == NLP_IgnoreCRLF )
       {
-        uniChar = 1;
+        v63 = 1;
 LABEL_67:
         Scaleform::Render::Text::Paragraph::InsertString(
           pPara,
           v17->pTextAllocator.pObject,
           pstr,
-          indexInPara,
+          pindexInParagraph,
           v24,
           pdefTextFmt);
-        v31 = indexInPara;
+        v31 = pindexInParagraph;
         goto LABEL_68;
       }
       v25 = v24;
     }
 LABEL_48:
     if ( (_WORD)v23 == 10 || (_WORD)v23 == 13 )
-      insLineLen = ++v24;
+      lengtha = ++v24;
     if ( v25 == -1 )
       goto LABEL_67;
-    v26 = CurIndex < (signed int)paraIter.pArray->Data.Size;
-    newParaIter.pArray = paraIter.pArray;
-    newParaIter.CurIndex = CurIndex;
+    v26 = CurIndex < (signed int)result.pArray->Data.Size;
+    v67 = result.pArray;
+    v68 = CurIndex;
     if ( v26 )
-      newParaIter.CurIndex = CurIndex + 1;
-    inserted = Scaleform::Render::Text::StyledText::InsertNewParagraph(v17, &newParaIter, pdefParaFmt);
+      v68 = CurIndex + 1;
+    inserted = Scaleform::Render::Text::StyledText::InsertNewParagraph(
+                 v17,
+                 (Scaleform::Render::Text::Paragraph *)&v67,
+                 pdefParaFmt);
     pObject = pPara->pFormat.pObject;
     v29 = inserted;
     if ( pObject )
@@ -242,7 +241,7 @@ LABEL_48:
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v30);
       }
     }
-    v31 = indexInPara;
+    v31 = pindexInParagraph;
     v32 = v62;
     v29->pFormat.pObject = pObject;
     ++v29->ModCounter;
@@ -253,7 +252,7 @@ LABEL_48:
       v62->pTextAllocator.pObject,
       pstr,
       v31,
-      insLineLen,
+      lengtha,
       pdefTextFmt);
     if ( !v33 )
       goto LABEL_68;
@@ -270,10 +269,7 @@ LABEL_73:
       {
         if ( v36 + v37 < v34 )
         {
-          memmove(
-            (unsigned __int8 *)&pPara->Text.pText[v34 - v35],
-            (unsigned __int8 *)&pPara->Text.pText[v36 + v37],
-            2 * (v35 - v37));
+          memmove((int)&pPara->Text.pText[v34 - v35], (const __m128i *)&pPara->Text.pText[v36 + v37], 2 * (v35 - v37));
           pPara->Text.Size -= v37;
         }
         else
@@ -321,39 +317,39 @@ LABEL_73:
     if ( v34 != v36 )
       goto LABEL_73;
 LABEL_68:
-    v38 = uniChar;
-    if ( ((_WORD)uniChar == 13 || (_WORD)uniChar == 10)
-      && (v39 = (unsigned __int8)((v62->RTFlags & 2) != 0 ? 13 : 10), (_WORD)uniChar != v39) )
+    v38 = v63;
+    if ( ((_WORD)v63 == 13 || (_WORD)v63 == 10)
+      && (v39 = (unsigned __int8)((v62->RTFlags & 2) != 0 ? 13 : 10), (_WORD)v63 != v39) )
     {
-      v40 = insLineLen;
-      pPara->Text.pText[insLineLen - 1 + v31] = v39;
+      v40 = lengtha;
+      pPara->Text.pText[lengtha - 1 + v31] = v39;
     }
     else
     {
-      v40 = insLineLen;
+      v40 = lengtha;
     }
-    remainingSrcStrLen -= v40;
-    totalInsertedLen += v40;
-    pstr += v40;
-    v48 = nextParaStartingPos;
-    pPara->StartIndex = nextParaStartingPos;
+    index -= v40;
+    v65 += v40;
+    pstr = (const __m128i *)((char *)pstr + 2 * v40);
+    v48 = v64;
+    pPara->StartIndex = v64;
     if ( newLinePolicy == NLP_IgnoreCRLF )
     {
-      indexInPara = v40 + v31;
+      pindexInParagraph = v40 + v31;
     }
     else
     {
-      nextParaStartingPos = pPara->Text.Size + v48;
-      v26 = paraIter.CurIndex < (signed int)paraIter.pArray->Data.Size;
-      indexInPara = 0;
+      v64 = pPara->Text.Size + v48;
+      v26 = result.CurIndex < (signed int)result.pArray->Data.Size;
+      pindexInParagraph = 0;
       if ( v26 )
-        ++paraIter.CurIndex;
+        ++result.CurIndex;
     }
   }
-  while ( remainingSrcStrLen && v38 );
-  v49 = nextParaStartingPos;
-  v50 = paraIter.pArray;
-  v51 = paraIter.CurIndex;
+  while ( index && v38 );
+  v49 = v64;
+  v50 = result.pArray;
+  v51 = result.CurIndex;
   while ( v50 && v51 >= 0 && v51 < (signed int)v50->Data.Size )
   {
     v52 = v50->Data.Data[v51].pPara;
@@ -381,5 +377,5 @@ LABEL_68:
   }
   if ( (pdefTextFmt->PresentMask & 0x100) != 0 && Scaleform::String::GetLength(&pdefTextFmt->Url) )
     v53->RTFlags |= 1u;
-  return totalInsertedLen;
+  return v65;
 }

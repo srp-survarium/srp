@@ -16,7 +16,7 @@ int __cdecl ssl3_send_cert_status(ssl_st *s)
     *data = BYTE2(s->tlsext_ocsp_resplen);
     data[1] = BYTE1(s->tlsext_ocsp_resplen);
     data[2] = s->tlsext_ocsp_resplen;
-    memcpy((unsigned __int8 *)data + 3, s->tlsext_ocsp_resp, s->tlsext_ocsp_resplen);
+    memcpy((int)(data + 3), (const __m128i *)s->tlsext_ocsp_resp, s->tlsext_ocsp_resplen);
     s->init_num = s->tlsext_ocsp_resplen + 8;
     s->state = 8705;
     s->init_off = 0;

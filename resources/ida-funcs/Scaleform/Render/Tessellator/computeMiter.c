@@ -6,7 +6,7 @@ char __thiscall Scaleform::Render::Tessellator::computeMiter(
         Scaleform::Render::TessVertex *newVer1,
         Scaleform::Render::TessVertex *newVer2)
 {
-  double x; // st7
+  double v10; // st7
   double v11; // st7
   bool v12; // cl
   double v13; // st7
@@ -20,103 +20,103 @@ char __thiscall Scaleform::Render::Tessellator::computeMiter(
   float cy; // [esp+14h] [ebp-60h]
   float v23; // [esp+18h] [ebp-5Ch]
   float dy; // [esp+1Ch] [ebp-58h]
-  float v25; // [esp+28h] [ebp-4Ch]
-  float xi; // [esp+3Ch] [ebp-38h] BYREF
-  float yi; // [esp+40h] [ebp-34h] BYREF
-  float len1; // [esp+44h] [ebp-30h]
-  float len2; // [esp+48h] [ebp-2Ch]
-  float dy1; // [esp+4Ch] [ebp-28h]
-  float dx1; // [esp+50h] [ebp-24h]
-  float dy2; // [esp+54h] [ebp-20h]
-  float dx2; // [esp+58h] [ebp-1Ch]
-  float epsilon; // [esp+5Ch] [ebp-18h]
-  float d1; // [esp+60h] [ebp-14h]
+  float epsilon; // [esp+28h] [ebp-4Ch]
+  float x; // [esp+3Ch] [ebp-38h] BYREF
+  float y; // [esp+40h] [ebp-34h] BYREF
+  float v28; // [esp+44h] [ebp-30h]
+  float v29; // [esp+48h] [ebp-2Ch]
+  float v30; // [esp+4Ch] [ebp-28h]
+  float v31; // [esp+50h] [ebp-24h]
+  float v32; // [esp+54h] [ebp-20h]
+  float v33; // [esp+58h] [ebp-1Ch]
+  float v34; // [esp+5Ch] [ebp-18h]
+  float v35; // [esp+60h] [ebp-14h]
   double v36; // [esp+64h] [ebp-10h]
   double v37; // [esp+6Ch] [ebp-8h]
-  float bevela; // [esp+78h] [ebp+4h]
-  float bevelb; // [esp+78h] [ebp+4h]
-  char bevel; // [esp+78h] [ebp+4h]
-  float kb; // [esp+7Ch] [ebp+8h]
-  float kc; // [esp+7Ch] [ebp+8h]
-  float kd; // [esp+7Ch] [ebp+8h]
-  float ke; // [esp+7Ch] [ebp+8h]
-  float kf; // [esp+7Ch] [ebp+8h]
-  float kg; // [esp+7Ch] [ebp+8h]
-  bool k; // [esp+7Ch] [ebp+8h]
-  float kh; // [esp+7Ch] [ebp+8h]
-  float ka; // [esp+7Ch] [ebp+8h]
-  float ki; // [esp+7Ch] [ebp+8h]
-  float kj; // [esp+7Ch] [ebp+8h]
-  float turna; // [esp+80h] [ebp+Ch]
-  float turn; // [esp+80h] [ebp+Ch]
+  float v38; // [esp+78h] [ebp+4h]
+  float v39; // [esp+78h] [ebp+4h]
+  char v40; // [esp+78h] [ebp+4h]
+  float v41; // [esp+7Ch] [ebp+8h]
+  float v42; // [esp+7Ch] [ebp+8h]
+  float v43; // [esp+7Ch] [ebp+8h]
+  float v44; // [esp+7Ch] [ebp+8h]
+  float v45; // [esp+7Ch] [ebp+8h]
+  float v46; // [esp+7Ch] [ebp+8h]
+  bool v47; // [esp+7Ch] [ebp+8h]
+  float v48; // [esp+7Ch] [ebp+8h]
+  float v49; // [esp+7Ch] [ebp+8h]
+  float v50; // [esp+7Ch] [ebp+8h]
+  float v51; // [esp+7Ch] [ebp+8h]
+  float v52; // [esp+80h] [ebp+Ch]
+  float v53; // [esp+80h] [ebp+Ch]
 
-  xi = v2->x;
-  yi = v2->y;
-  bevela = v2->x - v1->x;
-  kb = v2->y - v1->y;
-  kc = kb * kb + bevela * bevela;
-  kd = sqrt(kc);
-  len1 = kd;
-  bevelb = v3->x - v2->x;
-  ke = v3->y - v2->y;
-  kf = ke * ke + bevelb * bevelb;
-  kg = sqrt(kf);
-  len2 = kg;
-  turna = Scaleform::Render::Math2D::TurnRatio<Scaleform::Render::TessVertex,Scaleform::Render::TessVertex,Scaleform::Render::TessVertex>(
-            v1,
-            v2,
-            v3,
-            len1,
-            kg);
-  k = turna < 0.0;
-  bevel = 0;
-  epsilon = (len2 + len1) * this->IntersectionEpsilon;
-  dx1 = (v2->y - v1->y) * this->EdgeAAWidth / len1;
-  dy1 = (v1->x - v2->x) * this->EdgeAAWidth / len1;
-  dx2 = (v3->y - v2->y) * this->EdgeAAWidth / len2;
-  dy2 = (v2->x - v3->x) * this->EdgeAAWidth / len2;
-  turn = fabs(turna);
-  if ( turn >= 0.125 )
+  x = v2->x;
+  y = v2->y;
+  v38 = v2->x - v1->x;
+  v41 = v2->y - v1->y;
+  v42 = v41 * v41 + v38 * v38;
+  v43 = sqrt(v42);
+  v28 = v43;
+  v39 = v3->x - v2->x;
+  v44 = v3->y - v2->y;
+  v45 = v44 * v44 + v39 * v39;
+  v46 = sqrt(v45);
+  v29 = v46;
+  v52 = Scaleform::Render::Math2D::TurnRatio<Scaleform::Render::TessVertex,Scaleform::Render::TessVertex,Scaleform::Render::TessVertex>(
+          v1,
+          v2,
+          v3,
+          v28,
+          v46);
+  v47 = v52 < 0.0;
+  v40 = 0;
+  v34 = (v29 + v28) * this->IntersectionEpsilon;
+  v31 = (v2->y - v1->y) * this->EdgeAAWidth / v28;
+  v30 = (v1->x - v2->x) * this->EdgeAAWidth / v28;
+  v33 = (v3->y - v2->y) * this->EdgeAAWidth / v29;
+  v32 = (v2->x - v3->x) * this->EdgeAAWidth / v29;
+  v53 = fabs(v52);
+  if ( v53 >= 0.125 )
   {
-    v37 = v2->x + dx2;
-    v36 = v2->x + dx1;
-    v25 = epsilon;
-    epsilon = v3->y + dy2;
-    dy = epsilon;
-    epsilon = dx2 + v3->x;
-    v23 = epsilon;
-    epsilon = dy2 + v2->y;
-    cy = epsilon;
-    epsilon = v37;
-    v21 = epsilon;
-    epsilon = v2->y + dy1;
-    by = epsilon;
-    epsilon = v36;
-    v19 = epsilon;
-    epsilon = dy1 + v1->y;
-    ay = epsilon;
-    epsilon = dx1 + v1->x;
-    if ( Scaleform::Render::Math2D::Intersection(epsilon, ay, v19, by, v21, cy, v23, dy, &xi, &yi, v25) )
+    v37 = v2->x + v33;
+    v36 = v2->x + v31;
+    epsilon = v34;
+    v34 = v3->y + v32;
+    dy = v34;
+    v34 = v33 + v3->x;
+    v23 = v34;
+    v34 = v32 + v2->y;
+    cy = v34;
+    v34 = v37;
+    v21 = v34;
+    v34 = v2->y + v30;
+    by = v34;
+    v34 = v36;
+    v19 = v34;
+    v34 = v30 + v1->y;
+    ay = v34;
+    v34 = v31 + v1->x;
+    if ( Scaleform::Render::Math2D::Intersection(v34, ay, v19, by, v21, cy, v23, dy, &x, &y, epsilon) )
     {
-      d1 = xi - v2->x;
-      epsilon = yi - v2->y;
-      d1 = epsilon * epsilon + d1 * d1;
-      d1 = sqrt(d1);
-      v12 = k;
-      if ( k )
+      v35 = x - v2->x;
+      v34 = y - v2->y;
+      v35 = v34 * v34 + v35 * v35;
+      v35 = sqrt(v35);
+      v12 = v47;
+      if ( v47 )
       {
         v13 = this->EdgeAAWidth * 4.0;
       }
       else
       {
-        v14 = len1;
-        if ( len2 <= (double)len1 )
-          v14 = len2;
-        kh = v14;
-        v13 = kh / turn;
+        v14 = v28;
+        if ( v29 <= (double)v28 )
+          v14 = v29;
+        v48 = v14;
+        v13 = v48 / v53;
       }
-      ka = v13;
-      if ( ka < (double)d1 )
+      v49 = v13;
+      if ( v49 < (double)v35 )
       {
         if ( newVer2 )
         {
@@ -124,44 +124,44 @@ char __thiscall Scaleform::Render::Tessellator::computeMiter(
             v15 = 2.0;
           else
             v15 = 0.0;
-          ki = v15;
-          bevel = 1;
-          xi = v36 - ki * dy1;
-          yi = dy1 + v2->y + ki * dx1;
-          v16 = dy2;
-          newVer2->x = ki * dy2 + v37;
-          newVer2->y = v16 + v2->y - ki * dx2;
+          v50 = v15;
+          v40 = 1;
+          x = v36 - v50 * v30;
+          y = v30 + v2->y + v50 * v31;
+          v16 = v32;
+          newVer2->x = v50 * v32 + v37;
+          newVer2->y = v16 + v2->y - v50 * v33;
         }
         else
         {
-          kj = ka / d1;
-          xi = (xi - v2->x) * kj + v2->x;
-          yi = kj * (yi - v2->y) + v2->y;
+          v51 = v49 / v35;
+          x = (x - v2->x) * v51 + v2->x;
+          y = v51 * (y - v2->y) + v2->y;
         }
       }
     }
     else
     {
-      xi = v2->x;
-      yi = v2->y;
+      x = v2->x;
+      y = v2->y;
     }
   }
   else
   {
-    x = v2->x;
-    if ( len2 >= (double)len1 )
+    v10 = v2->x;
+    if ( v29 >= (double)v28 )
     {
-      xi = x + dx2;
-      v11 = v2->y + dy2;
+      x = v10 + v33;
+      v11 = v2->y + v32;
     }
     else
     {
-      xi = x + dx1;
-      v11 = v2->y + dy1;
+      x = v10 + v31;
+      v11 = v2->y + v30;
     }
-    yi = v11;
+    y = v11;
   }
-  newVer1->x = xi;
-  newVer1->y = yi;
-  return bevel;
+  newVer1->x = x;
+  newVer1->y = y;
+  return v40;
 }

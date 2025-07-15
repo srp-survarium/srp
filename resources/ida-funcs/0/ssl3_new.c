@@ -8,7 +8,7 @@ int __cdecl ssl3_new(ssl_st *s)
   v2 = result;
   if ( result )
   {
-    memset(result, 0, 0x41Cu);
+    memset(result, 0, 1052);
     *(_DWORD *)(v2 + 296) = 0;
     *(_DWORD *)(v2 + 300) = 0;
     *(_DWORD *)(v2 + 332) = 0;

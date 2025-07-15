@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::HAL::BeginFrame(Scaleform::Render::HAL *this)
   v12.pData = v3;
   v4 = v2;
   p_Begin = (void (__thiscall **)(Scaleform::Render::RenderEvent *, Scaleform::String::DataDesc *))&v2->Begin;
-  Scaleform::String::String(&v12, "Scaleform::Render::HAL::BeginFrame");
+  Scaleform::String::String(&v12, (const __m128i *)"Scaleform::Render::HAL::BeginFrame");
   (*p_Begin)(v4, v12.pData);
   HALState = this->HALState;
   if ( (HALState & 1) == 0 || (HALState & 0x2000) != 0 )

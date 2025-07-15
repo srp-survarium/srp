@@ -1,27 +1,30 @@
-void __thiscall vostok::ai::fsm::clear_transitions(vostok::ai::fsm *this)
+void __usercall vostok::ai::fsm::clear_transitions(vostok::ai::fsm *this@<ecx>, int a2@<eax>)
 {
-  stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object> > *v1; // ecx
-  vostok::memory::doug_lea_allocator *v2; // eax
-  vostok::ai::fsm_state_transition *i; // [esp+28h] [ebp-8h] BYREF
-  vostok::ai::fsm_state *j; // [esp+2Ch] [ebp-4h]
+  _DWORD *i; // edi
+  int *v3; // esi
+  int v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ebx
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  const char *v7; // [esp+0h] [ebp-Ch]
+  const char *v8; // [esp+4h] [ebp-8h]
+  unsigned int v9; // [esp+8h] [ebp-4h]
 
-  for ( j = (vostok::ai::fsm_state *)boost::_bi::list3<char const * &,enum survarium::hit_affects_type_enum &,enum survarium::affect_event_type_enum &>::operator[](
-                                       (boost::_bi::list4<enum vostok::connection_error_types_enum &,enum vostok::handshaking_error_types_enum &,enum vostok::socket_error_types_enum &,enum vostok::lobby_server_message_types_enum &> *)this,
-                                       (int)this);
-        j;
-        j = (vostok::ai::fsm_state *)stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object>>::end(
-                                       v1,
-                                       (int)j) )
+  for ( i = *(_DWORD **)(a2 + 8); i; i = (_DWORD *)i[1] )
   {
-    while ( 1 )
+    while ( i[4] )
     {
-      i = vostok::intrusive_list<vostok::ai::fsm_state_transition,vostok::ai::fsm_state_transition *,36,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::pop_front(&j->transitions);
-      if ( !i )
-        break;
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v1);
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::ai::fsm_state_transition,vostok::memory::detail::call_destructor_predicate>(
-        v2,
-        &i);
+      v3 = (int *)i[4];
+      --i[2];
+      v4 = v3[9];
+      i[4] = v4;
+      if ( !v4 )
+        i[5] = 0;
+      v3[9] = 0;
+      v5 = vostok::ai::g_allocator;
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+        v3);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)v3, v7, v8, v9);
     }
   }
 }

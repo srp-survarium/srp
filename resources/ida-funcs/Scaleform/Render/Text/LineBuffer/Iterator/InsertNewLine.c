@@ -2,7 +2,7 @@ Scaleform::Render::Text::LineBuffer::Line *__thiscall Scaleform::Render::Text::L
         Scaleform::Render::Text::LineBuffer::Iterator *this,
         unsigned int glyphCount,
         unsigned int formatDataElementsCount,
-        Scaleform::Render::Text::LineBuffer::LineType lineType)
+        Scaleform::Render::Text::LineBuffer::Line *lineType)
 {
   int CurrentPos; // eax
   Scaleform::Render::Text::LineBuffer::Line *result; // eax

@@ -1,4 +1,4 @@
-void __thiscall Scaleform::GFx::TextField::SetYScale(Scaleform::GFx::TextField *this, double yscale)
+void __thiscall Scaleform::GFx::TextField::SetYScale(Scaleform::GFx::TextField *this, long double yscale)
 {
   Scaleform::Render::TreeText *RenderNode; // eax
 

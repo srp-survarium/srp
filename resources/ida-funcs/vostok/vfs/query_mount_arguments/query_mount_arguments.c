@@ -1,55 +1,64 @@
-void __thiscall vostok::vfs::query_mount_arguments::query_mount_arguments(
-        vostok::vfs::query_mount_arguments *this,
+void __userpurge vostok::vfs::query_mount_arguments::query_mount_arguments(
+        vostok::vfs::query_mount_arguments *this@<ecx>,
+        int a2@<edi>,
         const vostok::vfs::query_mount_arguments *__that)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v2; // ecx
-
-  vostok::fs_new::virtual_path_string::virtual_path_string(&this->virtual_path, &__that->virtual_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->physical_path, &__that->physical_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->archive_physical_path, &__that->archive_physical_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->fat_physical_path, &__that->fat_physical_path);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v2);
-  boost::function3<void,vostok::ai::brain_unit const *,vostok::ai::npc const *,vostok::ai::weapon const *>::assign_to_own(
-    (boost::function1<void,enum vostok::handshaking_error_types_enum> *)&this->callback,
-    (const boost::function1<void,enum vostok::handshaking_error_types_enum> *)&__that->callback);
-  this->asynchronous_device = __that->asynchronous_device;
-  this->synchronous_device = __that->synchronous_device;
-  this->allocator = __that->allocator;
-  this->type = __that->type;
-  this->watcher_enabled = __that->watcher_enabled;
-  this->recursive = __that->recursive;
-  this->lock_operation = __that->lock_operation;
-  vostok::fixed_string<32>::fixed_string<32>(&this->descriptor, &__that->descriptor);
-  this->mount_id = __that->mount_id;
-  this->root_write_lock = __that->root_write_lock;
-  this->submount_node = __that->submount_node;
-  this->parent_of_submount_node = __that->parent_of_submount_node;
-  this->mount_ptr = __that->mount_ptr;
-  this->submount_type = __that->submount_type;
-  this->unlock_after_mount = __that->unlock_after_mount;
+  vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)a2, &__that->virtual_path.m_string);
+  *(_BYTE *)(a2 + 272) = 47;
+  vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)(a2 + 276), &__that->physical_path.m_string);
+  *(_BYTE *)(a2 + 548) = 92;
+  vostok::fixed_string<260>::fixed_string<260>(
+    (vostok::fixed_string<260> *)(a2 + 552),
+    &__that->archive_physical_path.m_string);
+  *(_BYTE *)(a2 + 824) = 92;
+  vostok::fixed_string<260>::fixed_string<260>(
+    (vostok::fixed_string<260> *)(a2 + 828),
+    &__that->fat_physical_path.m_string);
+  *(_BYTE *)(a2 + 1100) = 92;
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&__that->callback,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)(a2 + 1104));
+  *(_DWORD *)(a2 + 1136) = __that->asynchronous_device;
+  *(_DWORD *)(a2 + 1140) = __that->synchronous_device;
+  *(_DWORD *)(a2 + 1144) = __that->allocator;
+  *(_DWORD *)(a2 + 1148) = __that->type;
+  *(_DWORD *)(a2 + 1152) = __that->watcher_enabled;
+  *(_DWORD *)(a2 + 1156) = __that->recursive;
+  *(_DWORD *)(a2 + 1160) = __that->lock_operation;
+  vostok::fixed_string<32>::fixed_string<32>((vostok::fixed_string<32> *)(a2 + 1164), &__that->descriptor);
+  *(_DWORD *)(a2 + 1208) = __that->mount_id;
+  *(_DWORD *)(a2 + 1212) = __that->root_write_lock;
+  *(_DWORD *)(a2 + 1216) = __that->submount_node;
+  *(_DWORD *)(a2 + 1220) = __that->parent_of_submount_node;
+  *(_DWORD *)(a2 + 1224) = __that->mount_ptr;
+  *(_DWORD *)(a2 + 1228) = __that->submount_type;
+  *(_BYTE *)(a2 + 1232) = __that->unlock_after_mount;
 }
 
 
-void __thiscall vostok::vfs::query_mount_arguments::query_mount_arguments(vostok::vfs::query_mount_arguments *this)
+void __usercall vostok::vfs::query_mount_arguments::query_mount_arguments(
+        vostok::vfs::query_mount_arguments *this@<ecx>,
+        int a2@<esi>)
 {
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v1; // ecx
-
-  vostok::fs_new::virtual_path_string::virtual_path_string(&this->virtual_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->physical_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->archive_physical_path);
-  vostok::fs_new::native_path_string::native_path_string(&this->fat_physical_path);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v1, &this->callback.vtable);
-  this->asynchronous_device = 0;
-  this->synchronous_device = 0;
-  this->allocator = 0;
-  this->type = mount_type_unknown;
-  this->watcher_enabled = watcher_enabled_true;
-  vostok::fixed_string<32>::fixed_string<32>(&this->descriptor);
-  this->mount_id = 0;
-  this->root_write_lock = 0;
-  this->submount_node = 0;
-  this->parent_of_submount_node = 0;
-  this->mount_ptr = 0;
-  this->submount_type = submount_type_unset;
-  this->unlock_after_mount = 1;
+  vostok::fs_new::virtual_path_string::virtual_path_string(&this->virtual_path, a2);
+  vostok::fs_new::native_path_string::native_path_string((vostok::fs_new::native_path_string *)(a2 + 276));
+  vostok::fs_new::native_path_string::native_path_string((vostok::fs_new::native_path_string *)(a2 + 552));
+  vostok::fs_new::native_path_string::native_path_string((vostok::fs_new::native_path_string *)(a2 + 828));
+  *(_DWORD *)(a2 + 1104) = 0;
+  *(_DWORD *)(a2 + 1136) = 0;
+  *(_DWORD *)(a2 + 1140) = 0;
+  *(_DWORD *)(a2 + 1144) = 0;
+  *(_DWORD *)(a2 + 1148) = 0;
+  *(_DWORD *)(a2 + 1152) = 1;
+  *(_DWORD *)(a2 + 1164) = a2 + 1176;
+  *(_DWORD *)(a2 + 1168) = a2 + 1176;
+  *(_BYTE *)(a2 + 1176) = 0;
+  *(_DWORD *)(a2 + 1172) = a2 + 1208;
+  *(_DWORD *)(a2 + 1208) = 0;
+  *(_DWORD *)(a2 + 1212) = 0;
+  *(_DWORD *)(a2 + 1216) = 0;
+  *(_DWORD *)(a2 + 1220) = 0;
+  *(_DWORD *)(a2 + 1224) = 0;
+  *(_DWORD *)(a2 + 1228) = 0;
+  *(_BYTE *)(a2 + 1232) = 1;
 }

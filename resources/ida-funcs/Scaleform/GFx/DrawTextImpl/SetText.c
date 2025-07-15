@@ -3,14 +3,14 @@ void __thiscall Scaleform::GFx::DrawTextImpl::SetText(Scaleform::GFx::DrawTextIm
   Scaleform::GFx::DrawTextManager::CheckFontStatesChange(this->pDrawTextCtxt.pObject);
   Scaleform::Render::TreeText::SetText(
     this->pTextNode.pObject,
-    (const char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
+    (char *)((str->HeapTypeBits & 0xFFFFFFFC) + 8),
     *(_DWORD *)(str->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
 }
 
 
 void __thiscall Scaleform::GFx::DrawTextImpl::SetText(
         Scaleform::GFx::DrawTextImpl *this,
-        const char *putf8Str,
+        char *putf8Str,
         unsigned int lengthInBytes)
 {
   Scaleform::GFx::DrawTextManager::CheckFontStatesChange(this->pDrawTextCtxt.pObject);
@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::DrawTextImpl::SetText(
 
 void __thiscall Scaleform::GFx::DrawTextImpl::SetText(
         Scaleform::GFx::DrawTextImpl *this,
-        const wchar_t *pstr,
+        wchar_t *pstr,
         unsigned int lengthInChars)
 {
   Scaleform::GFx::DrawTextManager::CheckFontStatesChange(this->pDrawTextCtxt.pObject);

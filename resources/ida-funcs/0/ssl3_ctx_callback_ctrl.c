@@ -1,4 +1,4 @@
-int __cdecl ssl3_ctx_callback_ctrl(ssl_ctx_st *ctx, int cmd, void (__cdecl *fp)())
+int __cdecl ssl3_ctx_callback_ctrl(ssl_ctx_st *ctx, int cmd, int (__cdecl *fp)(ssl_st *, int *, void *))
 {
   cert_st *cert; // edx
   int result; // eax
@@ -19,7 +19,7 @@ int __cdecl ssl3_ctx_callback_ctrl(ssl_ctx_st *ctx, int cmd, void (__cdecl *fp)(
       result = 1;
       break;
     case 53:
-      ctx->tlsext_servername_callback = (int (__cdecl *)(ssl_st *, int *, void *))fp;
+      ctx->tlsext_servername_callback = fp;
       result = 1;
       break;
     case 63:

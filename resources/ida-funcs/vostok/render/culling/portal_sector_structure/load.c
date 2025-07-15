@@ -1,375 +1,203 @@
-// local variable allocation has failed, the output may be wrong!
-void __userpurge vostok::render::culling::portal_sector_structure::load(
-        vostok::configs::binary_config_value *value_ptr@<eax>,
-        vostok::render::culling::portal_sector_structure *this)
+void __thiscall vostok::render::culling::portal_sector_structure::load(
+        vostok::render::culling::portal_sector_structure *this,
+        vostok::configs::binary_config_value *value_ptr,
+        vostok::configs::binary_config_value *a3)
 {
-  const vostok::configs::binary_config_value *eax1; // eax
-  unsigned int *v4; // eax
-  const vostok::configs::binary_config_value *v5; // eax
-  vostok::configs::binary_config_value *pointer; // edi
-  unsigned int *v7; // esi
-  char v8; // bl
-  unsigned __int64 ***v9; // esi
-  float *v10; // eax
-  float v11; // xmm4_4
-  float v12; // xmm6_4
-  vostok::memory::base_allocator *m_allocator; // ecx
-  vostok::collision::object *v14; // eax
-  float y; // xmm7_4
-  float z; // xmm6_4
-  float x; // xmm4_4
-  float v18; // xmm5_4
-  float v19; // xmm0_4
-  unsigned int *v20; // eax
-  char *v21; // ecx
-  unsigned int *v22; // edx
-  __int64 v23; // xmm1_8
-  __int64 v24; // xmm2_8
-  vostok::render::culling::spatial_sector *m_end; // eax
-  __int64 v26; // xmm0_8
-  vostok::configs::binary_config_value *v27; // ebx
-  vostok::render::culling::portal_sector_structure *v28; // ecx
-  unsigned __int64 *v29; // eax
-  __int64 *v30; // ecx
-  float v31; // edi
-  __int64 v32; // xmm0_8
-  float *v33; // ecx
-  float v34; // esi
-  __int64 v35; // xmm0_8
-  int v36; // ecx
-  float *v37; // eax
-  int v38; // edx
-  __int64 v39; // xmm0_8
-  float v40; // eax
-  const vostok::configs::binary_config_value *v41; // eax
-  unsigned int v42; // ecx
-  unsigned int v43; // edx
-  float v44; // xmm2_4
-  float v45; // xmm3_4
-  float v46; // xmm4_4
-  float v47; // xmm3_4
-  vostok::render::culling::portal *v48; // edi
-  float v49; // xmm7_4
-  float v50; // xmm6_4
-  float v51; // xmm5_4
-  float v52; // xmm5_4
-  vostok::memory::base_allocator *v53; // ecx
-  vostok::collision::object *v54; // eax
-  vostok::render::culling::portal *_X; // [esp+Ch] [ebp-1ACh]
-  vostok::configs::binary_config_value *portals_cfg_end; // [esp+24h] [ebp-194h]
-  const vostok::configs::binary_config_value *portals_cfg_enda; // [esp+24h] [ebp-194h]
-  __int64 v1; // [esp+28h] [ebp-190h]
-  __int64 v1a; // [esp+28h] [ebp-190h]
-  float v1_8; // [esp+30h] [ebp-188h]
-  vostok::math::float3 v0; // [esp+34h] [ebp-184h]
-  __int64 v0a; // [esp+34h] [ebp-184h]
-  float v0_8; // [esp+3Ch] [ebp-17Ch]
-  unsigned int sector1; // [esp+40h] [ebp-178h]
-  unsigned int sector1a; // [esp+40h] [ebp-178h]
-  unsigned int *current_portal_ids; // [esp+44h] [ebp-174h]
-  vostok::configs::binary_config_value sectors_cfg; // [esp+48h] [ebp-170h]
-  float sectors_cfga; // [esp+48h] [ebp-170h]
-  const vostok::configs::binary_config_value *sectors_end; // [esp+60h] [ebp-158h]
-  float sectors_enda; // [esp+60h] [ebp-158h]
-  char *sector0; // [esp+64h] [ebp-154h]
-  unsigned int sector0a; // [esp+64h] [ebp-154h]
-  vostok::math::aabb sector_aabb; // [esp+68h] [ebp-150h] BYREF
-  vostok::math::float3 v3; // [esp+80h] [ebp-138h] BYREF
-  vostok::math::aabb v75; // [esp+8Ch] [ebp-12Ch] BYREF
-  vostok::math::float3 epsilon; // [esp+A4h] [ebp-114h] BYREF
-  __int128 v2; // [esp+B0h] [ebp-108h] OVERLAPPED
-  __int64 v78; // [esp+C0h] [ebp-F8h]
-  vostok::math::float3 position; // [esp+CCh] [ebp-ECh] BYREF
-  vostok::configs::binary_config_value portal_ids_cfg; // [esp+D8h] [ebp-E0h]
-  vostok::configs::binary_config_value points_cfg; // [esp+F0h] [ebp-C8h]
-  vostok::render::culling::spatial_sector new_sector; // [esp+108h] [ebp-B0h]
-  _BYTE v83[76]; // [esp+12Ch] [ebp-8Ch] BYREF
-  vostok::math::float4x4 identity_matrix; // [esp+178h] [ebp-40h] BYREF
+  const void *pointer; // esi
+  char *v5; // eax
+  int v6; // eax
+  vostok::math::float4x4 *v7; // ecx
+  float x; // ecx
+  int v9; // esi
+  vostok::math::float3 *v10; // eax
+  vostok::memory::base_allocator *v11; // eax
+  vostok::collision::object *v12; // eax
+  const vostok::configs::binary_config_value *v13; // eax
+  _DWORD *v14; // edx
+  float v15; // ecx
+  int v16; // eax
+  int v17; // esi
+  _DWORD *v18; // edi
+  vostok::render::culling::portal_sector_structure *v19; // ecx
+  int v20; // esi
+  int v21; // esi
+  int v22; // esi
+  int v23; // edi
+  vostok::memory::base_allocator *v24; // eax
+  vostok::collision::object *v25; // eax
+  vostok::buffer_vector<vostok::render::culling::portal> *v26; // [esp-4h] [ebp-184h]
+  void *v27; // [esp-4h] [ebp-184h]
+  vostok::math::float4x4 v28; // [esp+10h] [ebp-170h] BYREF
+  vostok::math::plane v29; // [esp+54h] [ebp-12Ch] BYREF
+  int v30; // [esp+64h] [ebp-11Ch]
+  int v31; // [esp+68h] [ebp-118h]
+  vostok::math::float3 max; // [esp+6Ch] [ebp-114h]
+  __int64 v33; // [esp+78h] [ebp-108h]
+  float z; // [esp+80h] [ebp-100h]
+  __int64 v35; // [esp+84h] [ebp-FCh]
+  float v36; // [esp+8Ch] [ebp-F4h]
+  vostok::math::float3 v37; // [esp+90h] [ebp-F0h]
+  char v38; // [esp+9Ch] [ebp-E4h]
+  _BYTE v39[24]; // [esp+A0h] [ebp-E0h] BYREF
+  _DWORD *v40; // [esp+B8h] [ebp-C8h]
+  int v41; // [esp+BCh] [ebp-C4h]
+  _DWORD v42[6]; // [esp+C0h] [ebp-C0h] BYREF
+  _DWORD v43[6]; // [esp+D8h] [ebp-A8h] BYREF
+  vostok::math::float3 v44[2]; // [esp+F0h] [ebp-90h] BYREF
+  vostok::math::aabb v45; // [esp+10Ch] [ebp-74h] BYREF
+  int v46; // [esp+124h] [ebp-5Ch]
+  int v47; // [esp+128h] [ebp-58h]
+  vostok::math::aabb epsilon; // [esp+12Ch] [ebp-54h] BYREF
+  vostok::math::aabb position; // [esp+144h] [ebp-3Ch] BYREF
+  void *user_data; // [esp+15Ch] [ebp-24h]
+  vostok::math::aabb other; // [esp+160h] [ebp-20h] BYREF
+  int **i; // [esp+178h] [ebp-8h]
+  _DWORD *v53; // [esp+17Ch] [ebp-4h]
+  int x_low; // [esp+188h] [ebp+8h]
+  int v55; // [esp+188h] [ebp+8h]
+  vostok::configs::binary_config_value *j; // [esp+18Ch] [ebp+Ch]
+  char v57; // [esp+18Fh] [ebp+Fh]
 
-  eax1 = vostok::configs::binary_config_value::operator[](value_ptr, "portals");
-  *(_QWORD *)&v2 = eax1->data.max_storage;
-  *((_QWORD *)&v2 + 1) = eax1->id.max_storage;
-  v78 = *(_QWORD *)&eax1->id_crc;
-  v4 = (unsigned int *)this->m_allocator->call_malloc(this->m_allocator, 8 * (24 * HIWORD(HIDWORD(v78)) / 24));
-  this->m_portal_ids_buffer = v4;
-  current_portal_ids = v4;
-  portals_cfg_end = 0;
-  vostok::math::float4x4::identity(&identity_matrix);
-  v5 = vostok::configs::binary_config_value::operator[](value_ptr, "sectors");
-  pointer = (vostok::configs::binary_config_value *)v5->data.pointer;
-  sectors_end = (const vostok::configs::binary_config_value *)((char *)v5->data.pointer
-                                                             + 24 * HIWORD(*(_DWORD *)&v5->type));
-  sector1 = (unsigned int)v5->data.pointer;
-  if ( v5->data.pointer != sectors_end )
+  qmemcpy(v43, vostok::configs::binary_config_value::operator[](a3, "portals"), sizeof(v43));
+  pointer = value_ptr[11].data.pointer;
+  v5 = type_info::raw_name(&unsigned int `RTTI Type Descriptor');
+  v6 = (*(int (__fastcall **)(const void *, int, int, char *, const char *, const char *, int))(*(_DWORD *)pointer + 16))(
+         pointer,
+         24 * HIWORD(v43[5]) % 24,
+         8 * (24 * HIWORD(v43[5]) / 24),
+         v5,
+         "vostok::render::culling::portal_sector_structure::load",
+         ".\\portal_sector_structure.cpp",
+         135);
+  user_data = 0;
+  *(_DWORD *)&value_ptr[11].type = v6;
+  v53 = (_DWORD *)v6;
+  vostok::math::float4x4::identity(v7, &v28);
+  qmemcpy(&other, vostok::configs::binary_config_value::operator[](a3, "sectors"), sizeof(other));
+  x = other.min.x;
+  v46 = LODWORD(other.min.x) + 24 * HIWORD(other.max.elements[2]);
+  x_low = LODWORD(other.min.x);
+  if ( LODWORD(other.min.x) != v46 )
   {
-    v7 = current_portal_ids;
-    memset(&v75, 0, sizeof(v75));
+    memset(&epsilon.max, 0, sizeof(epsilon.max));
+    memset(&position.max, 0, sizeof(position.max));
     do
     {
-      sector_aabb = v75;
-      v8 = 0;
-      if ( vostok::configs::binary_config_value::value_exists(pointer, "volumes") )
+      v45.min = position.max;
+      v45.max = epsilon.max;
+      v57 = 0;
+      if ( vostok::configs::binary_config_value::value_exists(
+             (vostok::configs::binary_config_value *)LODWORD(x),
+             x_low,
+             (unsigned int)"volumes") )
       {
-        points_cfg = *vostok::configs::binary_config_value::operator[](pointer, "volumes");
-        v9 = (unsigned __int64 ***)points_cfg.data.pointer;
-        sector0 = (char *)points_cfg.data.pointer + 24 * HIWORD(*(_DWORD *)&points_cfg.type);
-        if ( points_cfg.data.pointer != sector0 )
+        qmemcpy(
+          v42,
+          vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)x_low, "volumes"),
+          sizeof(v42));
+        v47 = v42[0] + 24 * HIWORD(v42[5]);
+        for ( i = (int **)v42[0]; i != (int **)v47; i += 6 )
         {
-          do
+          v9 = **i;
+          v10 = (vostok::math::float3 *)(*i)[6];
+          other.min.x = *(float *)v9;
+          *(_QWORD *)&other.min.elements[1] = *(_QWORD *)(v9 + 4);
+          other.max = *v10;
+          epsilon.min.x = (float)(other.max.x - other.min.x) * 0.5;
+          epsilon.min.y = (float)(other.max.y - other.min.y) * 0.5;
+          epsilon.min.z = (float)(other.max.z - other.min.z) * 0.5;
+          v11 = (vostok::memory::base_allocator *)value_ptr[11].data.pointer;
+          position.min.x = (float)(other.min.x + other.max.x) * 0.5;
+          position.min.y = (float)(other.min.y + other.max.y) * 0.5;
+          position.min.z = (float)(other.min.z + other.max.z) * 0.5;
+          v12 = vostok::collision::new_aabb_object(v11, 1u, &position.min, &epsilon.min, user_data);
+          (**(void (__thiscall ***)(unsigned int, vostok::collision::object *, vostok::math::float4x4 *))value_ptr[12].id_crc)(
+            value_ptr[12].id_crc,
+            v12,
+            &v28);
+          if ( v57 )
           {
-            v10 = (float *)(*v9)[6];
-            sectors_cfg.data.max_storage = ***v9;
-            *(unsigned __int64 *)((char *)&sectors_cfg.id.max_storage + 4) = *(_QWORD *)v10;
-            v11 = *v10;
-            v12 = v10[1];
-            m_allocator = this->m_allocator;
-            sectors_cfg.id.pointer = (const char *)*((_DWORD *)**v9 + 2);
-            *(float *)&sectors_cfg.type = v10[2];
-            epsilon.x = (float)(*v10 - *(float *)&sectors_cfg.data.pointer) * 0.5;
-            epsilon.y = (float)(*(float *)&sectors_cfg.id_crc - *((float *)&sectors_cfg.data.max_storage + 1)) * 0.5;
-            epsilon.z = (float)(*(float *)&sectors_cfg.type - *(float *)&sectors_cfg.id.pointer) * 0.5;
-            v3.x = (float)(*(float *)&sectors_cfg.data.pointer + v11) * 0.5;
-            v3.y = (float)(*((float *)&sectors_cfg.data.max_storage + 1) + v12) * 0.5;
-            v3.z = (float)(*(float *)&sectors_cfg.id.pointer + *(float *)&sectors_cfg.type) * 0.5;
-            v14 = vostok::collision::new_aabb_object(m_allocator, 1u, &v3, &epsilon, portals_cfg_end);
-            this->m_sectors_spatial_tree->insert(this->m_sectors_spatial_tree, v14, &identity_matrix);
-            if ( v8 )
-            {
-              if ( *(float *)&sectors_cfg.data.pointer <= sector_aabb.min.x )
-                LODWORD(position.x) = sectors_cfg.data.pointer;
-              else
-                position.x = sector_aabb.min.x;
-              if ( *((float *)&sectors_cfg.data.max_storage + 1) <= sector_aabb.min.y )
-                y = *((float *)&sectors_cfg.data.max_storage + 1);
-              else
-                y = sector_aabb.min.y;
-              if ( *(float *)&sectors_cfg.id.pointer <= sector_aabb.min.z )
-                z = *(float *)&sectors_cfg.id.pointer;
-              else
-                z = sector_aabb.min.z;
-              if ( sector_aabb.max.x <= *(float *)&sectors_cfg.data.pointer )
-                x = *(float *)&sectors_cfg.data.pointer;
-              else
-                x = sector_aabb.max.x;
-              if ( sector_aabb.max.y <= *((float *)&sectors_cfg.data.max_storage + 1) )
-                v18 = *((float *)&sectors_cfg.data.max_storage + 1);
-              else
-                v18 = sector_aabb.max.y;
-              v19 = sector_aabb.max.z;
-              if ( sector_aabb.max.z <= *(float *)&sectors_cfg.id.pointer )
-                v19 = *(float *)&sectors_cfg.id.pointer;
-              if ( *((float *)&sectors_cfg.id.max_storage + 1) <= position.x )
-                LODWORD(v1) = HIDWORD(sectors_cfg.id.max_storage);
-              else
-                *(float *)&v1 = position.x;
-              if ( *(float *)&sectors_cfg.id_crc <= y )
-                HIDWORD(v1) = sectors_cfg.id_crc;
-              else
-                *((float *)&v1 + 1) = y;
-              if ( *(float *)&sectors_cfg.type <= z )
-                v1_8 = *(float *)&sectors_cfg.type;
-              else
-                v1_8 = z;
-              *(_QWORD *)&sector_aabb.min.x = v1;
-              sector_aabb.min.z = v1_8;
-              if ( x <= *((float *)&sectors_cfg.id.max_storage + 1) )
-                v0.x = *((float *)&sectors_cfg.id.max_storage + 1);
-              else
-                v0.x = x;
-              if ( v18 <= *(float *)&sectors_cfg.id_crc )
-                LODWORD(v0.y) = sectors_cfg.id_crc;
-              else
-                v0.y = v18;
-              if ( v19 <= *(float *)&sectors_cfg.type )
-                v0.z = *(float *)&sectors_cfg.type;
-              else
-                v0.z = v19;
-              sector_aabb.max = v0;
-            }
-            else
-            {
-              sector_aabb = (vostok::math::aabb)sectors_cfg;
-              v8 = 1;
-            }
-            v9 += 6;
+            vostok::math::aabb::modify(&other, &v45);
           }
-          while ( v9 != (unsigned __int64 ***)sector0 );
-          pointer = (vostok::configs::binary_config_value *)sector1;
+          else
+          {
+            qmemcpy(&v45, &other, sizeof(v45));
+            v57 = 1;
+          }
         }
-        v7 = current_portal_ids;
       }
-      portal_ids_cfg = *vostok::configs::binary_config_value::operator[](pointer, "portals");
-      v20 = (unsigned int *)portal_ids_cfg.data.pointer;
-      v21 = (char *)portal_ids_cfg.data.pointer + 24 * HIWORD(*(_DWORD *)&portal_ids_cfg.type);
-      v22 = v7;
-      if ( portal_ids_cfg.data.pointer != v21 )
+      v13 = vostok::configs::binary_config_value::operator[]((vostok::configs::binary_config_value *)x_low, "portals");
+      v14 = v53;
+      qmemcpy(v44, v13, sizeof(v44));
+      v15 = v44[0].x;
+      v16 = LODWORD(v44[0].x) + 24 * HIWORD(v44[1].elements[2]);
+      while ( LODWORD(v15) != v16 )
       {
-        do
-        {
-          *v7 = *v20;
-          v20 += 6;
-          ++v7;
-        }
-        while ( v20 != (unsigned int *)v21 );
-        current_portal_ids = v7;
+        v17 = *(_DWORD *)LODWORD(v15);
+        v18 = v53++;
+        *v18 = v17;
+        LODWORD(v15) += 24;
       }
-      v23 = *(_QWORD *)&sector_aabb.min.elements[2];
-      v24 = *(_QWORD *)&sector_aabb.max.elements[1];
-      new_sector.m_portal_ids = v22;
-      new_sector.m_portals_count = 24 * portal_ids_cfg.count / 24;
-      m_end = this->m_sectors.m_end;
-      if ( m_end )
-      {
-        *(_QWORD *)&m_end->m_aabb.min.x = *(_QWORD *)&sector_aabb.min.x;
-        v26 = *(_QWORD *)&new_sector.m_portal_ids;
-        *(_QWORD *)&m_end->m_aabb.min.elements[2] = v23;
-        *(_QWORD *)&m_end->m_aabb.max.elements[1] = v24;
-        *(_QWORD *)&m_end->m_portal_ids = v26;
-      }
-      ++this->m_sectors.m_end;
-      portals_cfg_end = (vostok::configs::binary_config_value *)((char *)portals_cfg_end + 1);
-      sector1 = (unsigned int)++pointer;
+      qmemcpy(v39, &v45, sizeof(v39));
+      v40 = v14;
+      v41 = 24 * HIWORD(v44[1].elements[2]) / 24;
+      vostok::buffer_vector<vostok::render::culling::spatial_sector>::push_back(
+        (vostok::buffer_vector<vostok::render::culling::spatial_sector> *)0x18,
+        (const vostok::render::culling::spatial_sector *)((char *)&value_ptr[12].data.max_storage + 4),
+        v39);
+      x_low += 24;
+      user_data = (char *)user_data + 1;
     }
-    while ( pointer != sectors_end );
+    while ( x_low != v46 );
   }
-  v27 = (vostok::configs::binary_config_value *)v2;
-  v28 = (vostok::render::culling::portal_sector_structure *)(3 * HIWORD(v78));
-  portals_cfg_enda = (const vostok::configs::binary_config_value *)(v2 + 24 * HIWORD(v78));
-  if ( (const vostok::configs::binary_config_value *)v2 != portals_cfg_enda )
+  v19 = (vostok::render::culling::portal_sector_structure *)v43[0];
+  v55 = v43[0] + 24 * HIWORD(v43[5]);
+  for ( j = (vostok::configs::binary_config_value *)v43[0]; j != (vostok::configs::binary_config_value *)v55; ++j )
   {
-    do
-    {
-      v29 = (unsigned __int64 *)vostok::configs::binary_config_value::operator[](v27, "points");
-      points_cfg.data.max_storage = *v29;
-      points_cfg.id.max_storage = v29[1];
-      v30 = *(__int64 **)points_cfg.data.pointer;
-      v31 = *(float *)(*(_DWORD *)points_cfg.data.pointer + 8);
-      *(_QWORD *)&points_cfg.id_crc = v29[2];
-      v32 = *v30;
-      v33 = (float *)*((_DWORD *)points_cfg.data.pointer + 6);
-      v34 = v33[2];
-      v0a = v32;
-      v35 = *(_QWORD *)v33;
-      v36 = *((_DWORD *)points_cfg.data.pointer + 12);
-      v37 = (float *)*((_DWORD *)points_cfg.data.pointer + 18);
-      v38 = *(_DWORD *)(v36 + 8);
-      v1a = v35;
-      *(_QWORD *)&v2 = *(_QWORD *)v36;
-      v39 = *(_QWORD *)v37;
-      v40 = v37[2];
-      v0_8 = v31;
-      DWORD2(v2) = v38;
-      *(_QWORD *)&v3.x = v39;
-      v3.z = v40;
-      v41 = vostok::configs::binary_config_value::operator[](v27, "sectors");
-      *(_QWORD *)&new_sector.m_aabb.min.x = v41->data.max_storage;
-      *(_QWORD *)&new_sector.m_aabb.min.elements[2] = v41->id.max_storage;
-      v42 = *(_DWORD *)LODWORD(new_sector.m_aabb.min.x);
-      v43 = *(_DWORD *)(LODWORD(new_sector.m_aabb.min.x) + 24);
-      *(_QWORD *)&new_sector.m_aabb.max.elements[1] = *(_QWORD *)&v41->id_crc;
-      v44 = (float)((float)(*((float *)&v1a + 1) - *((float *)&v0a + 1)) * (float)(*((float *)&v2 + 2) - v0_8))
-          - (float)((float)(v34 - v0_8) * (float)(*((float *)&v2 + 1) - *((float *)&v0a + 1)));
-      *(float *)&v39 = (float)((float)(*(float *)&v1a - *(float *)&v0a)
-                             * (float)(*((float *)&v2 + 1) - *((float *)&v0a + 1)))
-                     - (float)((float)(*(float *)&v2 - *(float *)&v0a)
-                             * (float)(*((float *)&v1a + 1) - *((float *)&v0a + 1)));
-      v75.max.z = *(float *)&v39;
-      v45 = (float)((float)(*(float *)&v2 - *(float *)&v0a) * (float)(v34 - v0_8))
-          - (float)((float)(*(float *)&v1a - *(float *)&v0a) * (float)(*((float *)&v2 + 2) - v0_8));
-      sector0a = v42;
-      sector1a = v43;
-      v75.max.x = v44;
-      v75.max.y = v45;
-      sectors_enda = sqrtf((float)((float)(*(float *)&v39 * *(float *)&v39) + (float)(v45 * v45)) + (float)(v44 * v44));
-      v46 = v31;
-      epsilon.z = (float)(*(float *)&clear_value / sectors_enda) * v75.max.z;
-      epsilon.y = (float)(*(float *)&clear_value / sectors_enda) * v75.max.y;
-      epsilon.x = v75.max.x * (float)(*(float *)&clear_value / sectors_enda);
-      *(_QWORD *)v83 = *(_QWORD *)&epsilon.x;
-      v47 = *((float *)&v0a + 1);
-      *(float *)&v83[12] = -(float)((float)((float)(epsilon.z * v31) + (float)(epsilon.y * *((float *)&v0a + 1)))
-                                  + (float)(epsilon.x * *(float *)&v0a));
-      *(_QWORD *)&v83[24] = v0a;
-      *(_QWORD *)&v83[36] = v1a;
-      *(float *)&v83[32] = v31;
-      v48 = this->m_portals.m_end;
-      *(float *)&v83[8] = epsilon.z;
-      *(_DWORD *)&v83[16] = sector0a;
-      *(_QWORD *)&v83[48] = v2;
-      v83[72] = 1;
-      *(_DWORD *)&v83[20] = sector1a;
-      *(float *)&v83[44] = v34;
-      *(_DWORD *)&v83[56] = DWORD2(v2);
-      *(vostok::math::float3 *)&v83[60] = v3;
-      if ( v48 )
-        qmemcpy(v48, v83, sizeof(vostok::render::culling::portal));
-      ++this->m_portals.m_end;
-      if ( *(float *)&v1a <= *(float *)&v0a )
-        LODWORD(v75.min.x) = v1a;
-      else
-        LODWORD(v75.min.x) = v0a;
-      if ( *((float *)&v1a + 1) <= *((float *)&v0a + 1) )
-        v75.min.y = *((float *)&v1a + 1);
-      else
-        v75.min.y = *((float *)&v0a + 1);
-      if ( v34 <= v46 )
-        v49 = v34;
-      else
-        v49 = v46;
-      if ( *(float *)&v0a <= *(float *)&v1a )
-        v50 = *(float *)&v1a;
-      else
-        v50 = *(float *)&v0a;
-      if ( *((float *)&v0a + 1) <= *((float *)&v1a + 1) )
-        v47 = *((float *)&v1a + 1);
-      if ( v46 <= v34 )
-        v46 = v34;
-      if ( *(float *)&v2 <= v75.min.x )
-        sectors_cfga = *(float *)&v2;
-      else
-        sectors_cfga = v75.min.x;
-      v51 = v75.min.y;
-      if ( *((float *)&v2 + 1) <= v75.min.y )
-        v51 = *((float *)&v2 + 1);
-      if ( *((float *)&v2 + 2) <= v49 )
-        v49 = *((float *)&v2 + 2);
-      if ( v50 <= *(float *)&v2 )
-        v50 = *(float *)&v2;
-      if ( v47 <= *((float *)&v2 + 1) )
-        v47 = *((float *)&v2 + 1);
-      if ( v46 <= *((float *)&v2 + 2) )
-        v46 = *((float *)&v2 + 2);
-      if ( v3.x <= sectors_cfga )
-        portal_ids_cfg.data.pointer = (const void *)LODWORD(v3.x);
-      else
-        *(float *)&portal_ids_cfg.data.pointer = sectors_cfga;
-      if ( v3.y <= v51 )
-        HIDWORD(portal_ids_cfg.data.max_storage) = LODWORD(v3.y);
-      else
-        *((float *)&portal_ids_cfg.data.max_storage + 1) = v51;
-      if ( v3.z <= v49 )
-        v49 = v3.z;
-      if ( v50 <= v3.x )
-        v50 = v3.x;
-      if ( v47 <= v3.y )
-        v52 = v3.y;
-      else
-        v52 = v47;
-      if ( v46 <= v3.z )
-        v46 = v3.z;
-      v53 = this->m_allocator;
-      _X = this->m_portals.m_end - 1;
-      sector_aabb.min.x = (float)(v50 - *(float *)&portal_ids_cfg.data.pointer) * 0.5;
-      sector_aabb.min.y = (float)(v52 - *((float *)&portal_ids_cfg.data.max_storage + 1)) * 0.5;
-      sector_aabb.min.z = (float)(v46 - v49) * 0.5;
-      position.x = (float)(v50 + *(float *)&portal_ids_cfg.data.pointer) * 0.5;
-      position.y = (float)(v52 + *((float *)&portal_ids_cfg.data.max_storage + 1)) * 0.5;
-      position.z = (float)(v46 + v49) * 0.5;
-      v54 = vostok::collision::new_aabb_object(v53, 2u, &position, &sector_aabb.min, _X);
-      this->m_portals_spatial_tree->insert(this->m_portals_spatial_tree, v54, &identity_matrix);
-      ++v27;
-    }
-    while ( v27 != portals_cfg_enda );
+    qmemcpy(v42, vostok::configs::binary_config_value::operator[](j, "points"), sizeof(v42));
+    position.max = *(vostok::math::float3 *)*(_DWORD *)v42[0];
+    v20 = *(_DWORD *)(v42[0] + 24);
+    position.min.x = *(float *)v20;
+    *(_QWORD *)&position.min.elements[1] = *(_QWORD *)(v20 + 4);
+    v21 = *(_DWORD *)(v42[0] + 48);
+    epsilon.min.x = *(float *)v21;
+    *(_QWORD *)&epsilon.min.elements[1] = *(_QWORD *)(v21 + 4);
+    v45.max = *(vostok::math::float3 *)*(_DWORD *)(v42[0] + 72);
+    qmemcpy(v43, vostok::configs::binary_config_value::operator[](j, "sectors"), sizeof(v43));
+    v22 = *(_DWORD *)v43[0];
+    v23 = *(_DWORD *)(v43[0] + 24);
+    vostok::math::create_plane(&position.max, &epsilon.min, &v29, &position.min.x);
+    v30 = v22;
+    v31 = v23;
+    v38 = 1;
+    max = position.max;
+    v33 = *(_QWORD *)&position.min.x;
+    z = position.min.z;
+    v35 = *(_QWORD *)&epsilon.min.x;
+    v36 = epsilon.min.z;
+    v37 = v45.max;
+    vostok::buffer_vector<vostok::render::culling::portal>::push_back(
+      v26,
+      (const vostok::render::culling::portal *)&value_ptr[11].id,
+      &v29);
+    other.min = position.max;
+    other.max = position.max;
+    vostok::math::aabb::modify(&position, &other);
+    vostok::math::aabb::modify(&epsilon, &other);
+    vostok::math::aabb::modify((vostok::math::aabb *)&v45.max, &other);
+    v27 = (void *)(HIDWORD(value_ptr[11].id.max_storage) - 76);
+    epsilon.max.x = (float)(other.max.x - other.min.x) * 0.5;
+    epsilon.max.y = (float)(other.max.y - other.min.y) * 0.5;
+    epsilon.max.z = (float)(other.max.z - other.min.z) * 0.5;
+    v24 = (vostok::memory::base_allocator *)value_ptr[11].data.pointer;
+    v44[1].x = (float)(other.max.x + other.min.x) * 0.5;
+    v44[1].y = (float)(other.max.y + other.min.y) * 0.5;
+    v44[1].z = (float)(other.max.z + other.min.z) * 0.5;
+    v25 = vostok::collision::new_aabb_object(v24, 2u, &v44[1], &epsilon.max, v27);
+    (***(void (__thiscall ****)(_DWORD, vostok::collision::object *, vostok::math::float4x4 *))&value_ptr[12].type)(
+      *(_DWORD *)&value_ptr[12].type,
+      v25,
+      &v28);
   }
-  vostok::render::culling::portal_sector_structure::initialize_portals_geometry(v28, this);
+  vostok::render::culling::portal_sector_structure::initialize_portals_geometry(v19, (int)value_ptr);
 }

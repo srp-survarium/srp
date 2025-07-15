@@ -1,7 +1,7 @@
 void __thiscall btDiscreteDynamicsWorld::clearForces(btDiscreteDynamicsWorld *this)
 {
-  int i; // edx
-  btRigidBody *v2; // eax
+  int i; // esi
+  btRigidBody *v2; // edx
 
   for ( i = 0; i < this->m_nonStaticRigidBodies.m_size; v2->m_totalTorque.mVec128.m128_i32[3] = 0 )
   {

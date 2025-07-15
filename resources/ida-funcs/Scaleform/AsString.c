@@ -10,7 +10,7 @@ Scaleform::String *__cdecl Scaleform::AsString<long>(Scaleform::String *result, 
 }
 
 
-Scaleform::String *__cdecl Scaleform::AsString<unsigned long>(Scaleform::String *result, const unsigned int *v)
+Scaleform::String *__cdecl Scaleform::AsString<unsigned long>(Scaleform::String *result, unsigned int *v)
 {
   Scaleform::MsgFormat::Sink v3; // [esp+4h] [ebp-Ch] BYREF
 

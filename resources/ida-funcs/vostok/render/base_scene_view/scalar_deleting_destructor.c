@@ -2,13 +2,7 @@ vostok::render::base_scene_view *__thiscall vostok::render::base_scene_view::`sc
         vostok::render::base_scene_view *this,
         char a2)
 {
-  vostok::render::base_scene_view *m_object; // eax
-
-  m_object = this->next_scene_view.m_object;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->next_scene_view.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->next_scene_view.m_object);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->next_scene_view);
   vostok::resources::unmanaged_resource::~unmanaged_resource(this);
   if ( (a2 & 1) != 0 )
     operator delete(this);

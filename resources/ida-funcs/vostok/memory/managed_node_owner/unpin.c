@@ -1,6 +1,4 @@
-void __thiscall vostok::memory::managed_node_owner::unpin(
-        vostok::memory::managed_node_owner *this,
-        const unsigned __int8 *const_pinned_data)
+void __usercall vostok::memory::managed_node_owner::unpin(const unsigned __int8 *const_pinned_data@<eax>)
 {
   _InterlockedExchangeAdd((volatile signed __int32 *)const_pinned_data - 2, 0xFFFFFFFF);
   if ( *((_DWORD *)const_pinned_data - 9) )

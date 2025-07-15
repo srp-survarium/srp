@@ -1,6 +1,6 @@
 char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
         Scaleform::GFx::AS2::Environment *this,
-        Scaleform::GFx::ASString *varname,
+        Scaleform::GFx::ASStringNode *varname,
         const Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,Scaleform::ArrayDefaultPolicy> *pwithStack)
 {
   const Scaleform::GFx::ASString *v3; // ebp
@@ -24,26 +24,26 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
   Scaleform::GFx::InteractiveObject *Target; // eax
   int v23; // eax
   _DWORD *v24; // ecx
-  char **pNode; // eax
+  const char **p_pData; // eax
   Scaleform::GFx::ASStringNode *v26; // eax
   Scaleform::GFx::ASStringNode *v27; // ecx
   bool v28; // zf
   _DWORD *v29; // ecx
   Scaleform::GFx::ASStringNode *pLower; // edx
-  char *v31; // eax
+  const char *v31; // eax
   bool v32; // cf
   unsigned int v33; // eax
   Scaleform::GFx::ASStringNode *v34; // eax
   Scaleform::GFx::AS2::Object *v35; // eax
   Scaleform::GFx::ASStringNode *v36; // eax
   Scaleform::GFx::ASStringNode *v37; // ecx
-  Scaleform::GFx::ASString path; // [esp+24h] [ebp-30h] BYREF
+  Scaleform::GFx::ASStringNode *v38; // [esp+24h] [ebp-30h] BYREF
   Scaleform::GFx::AS2::Environment *v39; // [esp+28h] [ebp-2Ch]
-  Scaleform::GFx::AS2::Value val; // [esp+2Ch] [ebp-28h] BYREF
-  Scaleform::GFx::AS2::Environment::GetVarParams params; // [esp+3Ch] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::Value v40; // [esp+2Ch] [ebp-28h] BYREF
+  _DWORD v41[6]; // [esp+3Ch] [ebp-18h] BYREF
 
-  v3 = varname;
-  v28 = varname->pNode->Size == 0;
+  v3 = (const Scaleform::GFx::ASString *)varname;
+  v28 = *((_DWORD *)varname->pData + 5) == 0;
   v39 = this;
   if ( v28 )
     return 0;
@@ -51,22 +51,22 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
   v6 = pwithStack;
   p_StringContext = &this->StringContext;
   ++RefCount->RefCount;
-  varname = (Scaleform::GFx::ASString *)this->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[8].RefCount;
-  ++varname[3].pNode;
-  params.ppNewTarget = 0;
-  params.pOwner = 0;
-  path.pNode = RefCount;
-  val.T.Type = 0;
-  params.VarName = v3;
-  params.pResult = &val;
-  params.pWithStack = v6;
-  params.ExcludeFlags = 4;
-  if ( Scaleform::GFx::AS2::Environment::FindAndGetVariableRaw(this, (int)v3, (Scaleform::GFx::AS2::Object *)&params) )
+  varname = (Scaleform::GFx::ASStringNode *)this->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[8].RefCount;
+  ++varname->RefCount;
+  v41[3] = 0;
+  v41[4] = 0;
+  v38 = RefCount;
+  v40.T.Type = 0;
+  v41[0] = v3;
+  v41[1] = &v40;
+  v41[2] = v6;
+  v41[5] = 4;
+  if ( Scaleform::GFx::AS2::Environment::FindAndGetVariableRaw(this, v3, (Scaleform::GFx::AS2::Object *)v41) )
   {
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
-    v8 = (Scaleform::GFx::ASStringNode *)varname;
-    --varname[3].pNode;
+    if ( v40.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v40);
+    v8 = varname;
+    --varname->RefCount;
     if ( !v8->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v8);
     v28 = RefCount->RefCount-- == 1;
@@ -77,7 +77,11 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
     }
     return 1;
   }
-  if ( !Scaleform::GFx::AS2::Environment::ParsePath(p_StringContext, v3, &path, (Scaleform::GFx::ASString *)&varname) )
+  if ( !Scaleform::GFx::AS2::Environment::ParsePath(
+          p_StringContext,
+          v3,
+          (Scaleform::GFx::ASString *)&v38,
+          (Scaleform::GFx::ASString *)&varname) )
   {
     if ( v6 )
     {
@@ -106,7 +110,7 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
                v18,
                p_StringContext,
                v3,
-               &val) )
+               &v40) )
         {
           goto LABEL_43;
         }
@@ -125,7 +129,7 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
              v23 + 4,
              p_StringContext,
              v3,
-             &val) )
+             &v40) )
       {
         goto LABEL_43;
       }
@@ -135,7 +139,7 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
       if ( !v3->pNode->pLower )
         Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(v3->pNode);
       v29 = &p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject->__vftable;
-      pNode = (char **)v3->pNode;
+      p_pData = &v3->pNode->pData;
       pLower = v3->pNode->pLower;
       if ( *(Scaleform::GFx::ASStringNode **)(v29[102] + 8) == pLower )
         goto LABEL_43;
@@ -149,34 +153,34 @@ char __thiscall Scaleform::GFx::AS2::Environment::IsAvailable(
     else
     {
       v24 = &p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject->__vftable;
-      pNode = (char **)v3->pNode;
+      p_pData = &v3->pNode->pData;
       if ( (Scaleform::GFx::ASStringNode *)v24[102] == v3->pNode
-        || (char **)v24[105] == pNode
-        || (char **)v24[104] == pNode )
+        || (const char **)v24[105] == p_pData
+        || (const char **)v24[104] == p_pData )
       {
 LABEL_43:
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
-        v26 = (Scaleform::GFx::ASStringNode *)varname;
-        --varname[3].pNode;
+        if ( v40.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v40);
+        v26 = varname;
+        --varname->RefCount;
         if ( !v26->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v26);
-        v27 = path.pNode;
-        v28 = path.pNode->RefCount-- == 1;
+        v27 = v38;
+        v28 = v38->RefCount-- == 1;
         goto LABEL_48;
       }
     }
-    v31 = *pNode;
+    v31 = *p_pData;
     if ( *v31 != 95
       || (v32 = v21->StringContext.SWFVersion < 6u,
           v28 = v21->StringContext.SWFVersion == 6,
           pwithStack = 0,
           LOBYTE(v39) = !v32 && !v28,
           v33 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(
-                  (char *)v39,
-                  (unsigned int)v6,
+                  (const char *)v39,
+                  (int)v6,
                   v31,
-                  (char **)&pwithStack,
+                  (const char **)&pwithStack,
                   (bool)v39),
           v33 == -1)
       || LOBYTE(pwithStack->Data.Data)
@@ -185,45 +189,45 @@ LABEL_43:
             v33) )
     {
       v35 = p_StringContext->pContext->pGlobal.pObject;
-      if ( !v35 || !v35->GetMemberRaw(&v35->Scaleform::GFx::AS2::ObjectInterface, p_StringContext, v3, &val) )
+      if ( !v35 || !v35->GetMemberRaw(&v35->Scaleform::GFx::AS2::ObjectInterface, p_StringContext, v3, &v40) )
       {
-        if ( val.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&val);
-        v36 = (Scaleform::GFx::ASStringNode *)varname;
-        --varname[3].pNode;
+        if ( v40.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&v40);
+        v36 = varname;
+        --varname->RefCount;
         if ( !v36->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(v36);
-        v37 = path.pNode;
-        v28 = path.pNode->RefCount-- == 1;
+        v37 = v38;
+        v28 = v38->RefCount-- == 1;
         if ( v28 )
           Scaleform::GFx::ASStringNode::ReleaseNode(v37);
         return 0;
       }
     }
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
-    v34 = (Scaleform::GFx::ASStringNode *)varname;
-    --varname[3].pNode;
+    if ( v40.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v40);
+    v34 = varname;
+    --varname->RefCount;
     if ( !v34->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v34);
-    v27 = path.pNode;
-    v28 = path.pNode->RefCount-- == 1;
+    v27 = v38;
+    v28 = v38->RefCount-- == 1;
 LABEL_48:
     if ( v28 )
       Scaleform::GFx::ASStringNode::ReleaseNode(v27);
     return 1;
   }
-  v9 = Scaleform::GFx::AS2::Environment::FindTarget(v39, &path, 4);
+  v9 = Scaleform::GFx::AS2::Environment::FindTarget(v39, (const Scaleform::GFx::ASString *)&v38, 4);
   if ( !v9 )
   {
-    if ( val.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&val);
-    v10 = (Scaleform::GFx::ASStringNode *)varname;
-    --varname[3].pNode;
+    if ( v40.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v40);
+    v10 = varname;
+    --varname->RefCount;
     if ( !v10->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v10);
-    v11 = path.pNode;
-    v28 = path.pNode->RefCount-- == 1;
+    v11 = v38;
+    v28 = v38->RefCount-- == 1;
     if ( v28 )
     {
       Scaleform::GFx::ASStringNode::ReleaseNode(v11);
@@ -234,19 +238,19 @@ LABEL_48:
   v12 = (*(int (__thiscall **)(int))(*((_DWORD *)&v9->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                      + v9->AvmObjOffset)
                                    + 4))((int)v9 + 4 * v9->AvmObjOffset);
-  v13 = (*(int (__thiscall **)(int, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::ASString **, Scaleform::GFx::AS2::Value *))(*(_DWORD *)(v12 + 4) + 44))(
+  v13 = (*(int (__thiscall **)(int, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::ASStringNode **, Scaleform::GFx::AS2::Value *))(*(_DWORD *)(v12 + 4) + 44))(
           v12 + 4,
           p_StringContext,
           &varname,
-          &val);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
-  v14 = (Scaleform::GFx::ASStringNode *)varname;
-  --varname[3].pNode;
+          &v40);
+  if ( v40.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v40);
+  v14 = varname;
+  --varname->RefCount;
   if ( !v14->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v14);
-  v15 = path.pNode;
-  v28 = path.pNode->RefCount-- == 1;
+  v15 = v38;
+  v28 = v38->RefCount-- == 1;
   if ( v28 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v15);
   return v13;

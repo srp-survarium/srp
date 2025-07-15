@@ -12,12 +12,12 @@ Scaleform::Render::Fence *__thiscall Scaleform::Render::TextMeshProvider::GetLat
   int v9; // eax
   Scaleform::Render::Fence **v10; // esi
   int v12; // [esp+4h] [ebp-Ch]
-  unsigned int layerIndex; // [esp+8h] [ebp-8h]
+  unsigned int v13; // [esp+8h] [ebp-8h]
   Scaleform::Render::TextMeshProvider *v14; // [esp+Ch] [ebp-4h]
 
   v1 = 0;
   v14 = this;
-  layerIndex = 0;
+  v13 = 0;
   if ( this->Layers.Data.Size )
   {
     v12 = 0;
@@ -65,9 +65,9 @@ Scaleform::Render::Fence *__thiscall Scaleform::Render::TextMeshProvider::GetLat
         }
       }
       ++v12;
-      ++layerIndex;
+      ++v13;
     }
-    while ( layerIndex < this->Layers.Data.Size );
+    while ( v13 < this->Layers.Data.Size );
     if ( v1 )
       Scaleform::Render::Fence::Release(v1);
   }

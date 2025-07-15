@@ -1,44 +1,36 @@
 void __thiscall survarium::project_cooker_simple::on_object_loaded(
         survarium::project_cooker_simple *this,
         survarium::game_object_ *__formal,
-        vostok::configs::binary_config *project,
-        vostok::resources::query_result_for_cook *parent_query)
+        survarium::simple_game_project *project,
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *parent_query)
 {
-  bool v4; // zf
-  unsigned int m_link_target; // eax
+  survarium::pure_game_effect_emitter_base *v4; // ecx
+  vostok::resources::query_result_for_cook *v5; // ecx
   vostok::resources::query_result_for_cook *v6; // ecx
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v7; // [esp-Ch] [ebp-1Ch] BYREF
-  const vostok::resources::memory_type *v8; // [esp-8h] [ebp-18h]
-  unsigned int v9; // [esp-4h] [ebp-14h]
-  int v10; // [esp+Ch] [ebp-4h]
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v7; // [esp-Ch] [ebp-14h] BYREF
+  const vostok::resources::memory_type *v8; // [esp-8h] [ebp-10h]
+  unsigned int v9; // [esp-4h] [ebp-Ch]
 
-  ++project[1].m_fat_it.m_link_target;
-  v4 = BYTE1(project[1].m_fat_it.m_type) == 0;
-  m_link_target = (unsigned int)project[1].m_fat_it.m_link_target;
-  v10 = 0;
-  if ( !v4
-    && BYTE2(project[1].m_fat_it.m_type)
-    && m_link_target == ((int)project[1].m_children_resources.m_first - *(_DWORD *)&project[1].m_children_resources.gapC) >> 2 )
+  ++project->m_loaded.loaded_count;
+  if ( survarium::simple_game_project::all_loaded((survarium::simple_game_project *)this, (int)project) )
   {
-    if ( LOBYTE(project[1].m_fat_it.m_type) )
-    {
-      ((void (__thiscall *)(vostok::configs::binary_config_value **))project->m_root->id.pointer)(&project->m_root);
-      v9 = 448;
-      v8 = &vostok::resources::nocache_memory;
-      v7.m_object = 0;
-      vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-        &v7,
-        project);
-      vostok::resources::query_result_for_cook::set_unmanaged_resource(
-        parent_query,
-        (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v7.m_object,
-        v8,
-        v9);
-      vostok::resources::query_result_for_cook::finish_query_impl(
-        v6,
-        result_success,
-        assert_on_fail_true,
-        error_type_unset);
-    }
+    v9 = 488;
+    v8 = &vostok::resources::nocache_memory;
+    v7.m_object = v4;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      &v7,
+      (survarium::pure_game_effect_emitter_base *)&project->vostok::resources::unmanaged_resource);
+    vostok::resources::query_result_for_cook::set_unmanaged_resource(
+      v5,
+      parent_query,
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)v7.m_object,
+      v8,
+      v9);
+    vostok::resources::query_result_for_cook::finish_query_impl(
+      v6,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent_query,
+      result_out_of_memory,
+      assert_on_fail_true,
+      result_fail);
   }
 }

@@ -24,11 +24,11 @@ void __thiscall Scaleform::Render::TreeCacheContainer::HandleChanges(
   Scaleform::Render::TreeCacheNode *v22; // esi
   Scaleform::Render::TreeCacheRoot *v23; // eax
   int v24; // ecx
-  unsigned int index; // [esp+14h] [ebp-Ch]
-  unsigned int childCount; // [esp+18h] [ebp-8h]
+  int v25; // [esp+14h] [ebp-Ch]
+  unsigned int v26; // [esp+18h] [ebp-8h]
   _DWORD *v27; // [esp+1Ch] [ebp-4h]
-  char change; // [esp+24h] [ebp+4h]
-  Scaleform::Render::TreeCacheNode *changea; // [esp+24h] [ebp+4h]
+  char pnode; // [esp+24h] [ebp+4h]
+  Scaleform::Render::TreeCacheNode *pnodea; // [esp+24h] [ebp+4h]
 
   if ( (changeBits & 0x20) != 0 )
   {
@@ -67,28 +67,28 @@ LABEL_9:
                    & 0xFFFFFFFE)
                   + 144);
     v7 = *v6;
-    change = 0;
+    pnode = 0;
     v27 = v6;
     if ( *v6 )
     {
       if ( (v7 & 1) != 0 )
-        childCount = *(_DWORD *)((v7 & 0xFFFFFFFE) + 4);
+        v26 = *(_DWORD *)((v7 & 0xFFFFFFFE) + 4);
       else
-        childCount = (*(_DWORD *)((*(_DWORD *)(*(_DWORD *)(((int)this->pNode & 0xFFFFF000) + 0x14)
-                                             + 4 * ((int)((int)&this->pNode[-1] - ((int)this->pNode & 0xFFFFF000)) / 28)
-                                             + 20)
-                                 & 0xFFFFFFFE)
-                                + 148) != 0)
-                   + 1;
+        v26 = (*(_DWORD *)((*(_DWORD *)(*(_DWORD *)(((int)this->pNode & 0xFFFFF000) + 0x14)
+                                      + 4 * ((int)((int)&this->pNode[-1] - ((int)this->pNode & 0xFFFFF000)) / 28)
+                                      + 20)
+                          & 0xFFFFFFFE)
+                         + 148) != 0)
+            + 1;
     }
     else
     {
-      childCount = 0;
+      v26 = 0;
     }
     pNext = this->Children.Root.pNext;
     v9 = 0;
-    index = 0;
-    if ( childCount )
+    v25 = 0;
+    if ( v26 )
     {
       while ( 1 )
       {
@@ -99,15 +99,15 @@ LABEL_9:
           break;
         pNext = pNext->pNext;
 LABEL_45:
-        v9 = index + 1;
-        index = v9;
-        if ( v9 >= childCount )
+        v9 = v25 + 1;
+        v25 = v9;
+        if ( v9 >= v26 )
           goto LABEL_46;
       }
       if ( v12 )
       {
         v13 = (Scaleform::Render::TreeCacheContainer *)v12->pParent;
-        changea = v13;
+        pnodea = v13;
         if ( v13 == this && v12->pPrev )
         {
           do
@@ -120,8 +120,8 @@ LABEL_45:
             v15 = this == (Scaleform::Render::TreeCacheContainer *)-80 ? 0 : &this->SortParentBounds;
           }
           while ( v14 != (Scaleform::Render::TreeCacheNode *)v15 );
-          --index;
-          change = 1;
+          --v25;
+          pnode = 1;
 LABEL_44:
           v6 = v27;
           goto LABEL_45;
@@ -129,12 +129,9 @@ LABEL_44:
         if ( v13 )
         {
           Scaleform::Render::TreeCacheNode::RemoveFromParent(v12);
-          pRoot = changea->pRoot;
+          pRoot = pnodea->pRoot;
           if ( pRoot )
-            Scaleform::Render::TreeCacheRoot::AddToUpdate(
-              pRoot,
-              changea,
-              (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+            Scaleform::Render::TreeCacheRoot::AddToUpdate(pRoot, pnodea, 0x1000000u);
         }
       }
       v17 = (_DWORD *)(*(int (__thiscall **)(unsigned int, Scaleform::Render::TreeCacheContainer *, Scaleform::Render::TreeCacheNode *, int, _DWORD))(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)((v11 & 0xFFFFF000) + 0x14) + 4 * ((int)(v11 - (v11 & 0xFFFFF000) - 28) / 28) + 20) & 0xFFFFFFFE) + 24))(
@@ -161,7 +158,7 @@ LABEL_44:
           v17[13] |= v19;
         }
       }
-      change = 1;
+      pnode = 1;
       if ( this == (Scaleform::Render::TreeCacheContainer *)-80 )
         p_SortParentBounds = 0;
       else
@@ -169,7 +166,7 @@ LABEL_44:
       if ( pNext != (Scaleform::Render::TreeCacheNode *)p_SortParentBounds && pNext->pParent != this )
       {
         pNext = this->Children.Root.pNext;
-        index = -1;
+        v25 = -1;
       }
       goto LABEL_44;
     }
@@ -182,12 +179,12 @@ LABEL_46:
       v22 = pNext->pNext;
       Scaleform::Render::TreeCacheNode::RemoveFromParent(pNext);
       pNext = v22;
-      change = 1;
+      pnode = 1;
     }
-    if ( change && this->IsPatternChainValid(this) )
+    if ( pnode && this->IsPatternChainValid(this) )
     {
       v23 = this->pRoot;
-      v24 = (int)&vostok::memory::s_CRT_arena[5574200];
+      v24 = 0x1000000;
       if ( (this->UpdateFlags & 0x80000000) == 0 )
       {
         this->pNextUpdate = v23->pUpdateList;

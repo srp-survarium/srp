@@ -11,9 +11,9 @@ char __thiscall Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::T
   unsigned int v10; // edi
   unsigned int v11; // eax
   unsigned int v12; // [esp+Ch] [ebp-8h]
-  Scaleform::Render::Tessellator::TriangleType **newPages; // [esp+10h] [ebp-4h]
-  unsigned int newNumPages; // [esp+18h] [ebp+4h]
-  unsigned int newMaxPages; // [esp+1Ch] [ebp+8h]
+  Scaleform::Render::Tessellator::TriangleType **v13; // [esp+10h] [ebp-4h]
+  unsigned int v14; // [esp+18h] [ebp+4h]
+  unsigned int v15; // [esp+1Ch] [ebp+8h]
 
   Arrays = this->Arrays;
   v5 = i;
@@ -23,9 +23,9 @@ char __thiscall Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::T
   v8 = &Arrays[v5];
   v9 = at;
   v10 = at >> 4;
-  newNumPages = v8->NumPages - (at >> 4);
-  newMaxPages = v8->MaxPages - (at >> 4);
-  newPages = &v8->Pages[v10];
+  v14 = v8->NumPages - (at >> 4);
+  v15 = v8->MaxPages - (at >> 4);
+  v13 = &v8->Pages[v10];
   v9 &= 0xFFFFFFF0;
   v12 = Size;
   Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::AddArray(this);
@@ -33,9 +33,9 @@ char __thiscall Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::T
   this->Arrays[v5].MaxPages = v10;
   this->Arrays[v5].Size = v9;
   v11 = this->NumArrays - 1;
-  this->Arrays[v11].NumPages = newNumPages;
-  this->Arrays[v11].MaxPages = newMaxPages;
+  this->Arrays[v11].NumPages = v14;
+  this->Arrays[v11].MaxPages = v15;
   this->Arrays[v11].Size = v12 - v9;
-  this->Arrays[v11].Pages = newPages;
+  this->Arrays[v11].Pages = v13;
   return 1;
 }

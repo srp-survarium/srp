@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS2::AvmCharacter::Set__proto__(
         Scaleform::GFx::AS2::AvmCharacter *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
-        Scaleform::GFx::AS2::Object *protoObj)
+        Scaleform::GFx::AS2::ObjectInterface::UserDataHolder *protoObj)
 {
   int v4; // eax
   Scaleform::GFx::AS2::RefCountBaseGC<323> *v5; // esi
@@ -14,28 +14,28 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::Set__proto__(
   if ( v4 )
   {
     *(_DWORD *)(v4 + 12) = (*(_DWORD *)(v4 + 12) + 1) & 0x8FFFFFFF;
-    (*(void (__thiscall **)(int, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::AS2::Object *))(*(_DWORD *)(v4 + 16) + 52))(
+    (*(void (__thiscall **)(int, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::AS2::ObjectInterface::UserDataHolder *))(*(_DWORD *)(v4 + 16) + 52))(
       v4 + 16,
       psc,
       protoObj);
   }
   if ( protoObj )
-    protoObj->RefCount = (protoObj->RefCount + 1) & 0x8FFFFFFF;
+    protoObj[1].pUserData = (Scaleform::GFx::ASUserData *)(((int)&protoObj[1].pUserData->__vftable + 1) & 0x8FFFFFFF);
   pUserDataHolder = (Scaleform::GFx::AS2::RefCountBaseGC<323> *)this->pUserDataHolder;
   if ( pUserDataHolder )
   {
     RefCount = pUserDataHolder->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pUserDataHolder->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pUserDataHolder);
     }
   }
-  this->pUserDataHolder = (Scaleform::GFx::AS2::ObjectInterface::UserDataHolder *)protoObj;
+  this->pUserDataHolder = protoObj;
   if ( v5 )
   {
     v8 = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+    if ( (v8 & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = v8 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

@@ -8,7 +8,7 @@ int __cdecl BN_nist_mod_224(bignum_st *r, const bignum_st *a, const bignum_st *f
   int v11; // edx
   int v12; // ecx
   int v13; // eax
-  unsigned int v14; // ebx
+  int v14; // ebx
   int v15; // edi
   int v16; // edi
   int v17; // edi
@@ -20,31 +20,31 @@ int __cdecl BN_nist_mod_224(bignum_st *r, const bignum_st *a, const bignum_st *f
   unsigned int *v23; // ecx
   int v24; // eax
   _DWORD *v25; // ecx
-  unsigned int v27; // [esp+Ch] [ebp-54h] BYREF
-  unsigned int v28; // [esp+10h] [ebp-50h]
-  unsigned int v29; // [esp+14h] [ebp-4Ch]
-  unsigned int v30; // [esp+18h] [ebp-48h]
-  unsigned int v31; // [esp+1Ch] [ebp-44h]
-  unsigned int v32; // [esp+20h] [ebp-40h]
-  unsigned int v33; // [esp+24h] [ebp-3Ch]
-  unsigned int buf; // [esp+28h] [ebp-38h] BYREF
-  unsigned int v35; // [esp+2Ch] [ebp-34h]
-  unsigned int v36; // [esp+30h] [ebp-30h]
-  unsigned int v37; // [esp+34h] [ebp-2Ch]
-  unsigned int v38; // [esp+38h] [ebp-28h]
-  unsigned int v39; // [esp+3Ch] [ebp-24h]
-  unsigned int v40; // [esp+40h] [ebp-20h]
+  int v27; // [esp+Ch] [ebp-54h] BYREF
+  int v28; // [esp+10h] [ebp-50h]
+  int v29; // [esp+14h] [ebp-4Ch]
+  int v30; // [esp+18h] [ebp-48h]
+  int v31; // [esp+1Ch] [ebp-44h]
+  int v32; // [esp+20h] [ebp-40h]
+  int v33; // [esp+24h] [ebp-3Ch]
+  int v34; // [esp+28h] [ebp-38h] BYREF
+  int v35; // [esp+2Ch] [ebp-34h]
+  int v36; // [esp+30h] [ebp-30h]
+  int v37; // [esp+34h] [ebp-2Ch]
+  int v38; // [esp+38h] [ebp-28h]
+  int v39; // [esp+3Ch] [ebp-24h]
+  int v40; // [esp+40h] [ebp-20h]
   _BYTE v41[28]; // [esp+44h] [ebp-1Ch] BYREF
   bignum_st *aa; // [esp+68h] [ebp+8h]
 
   d = a->d;
   aa = (bignum_st *)a->top;
   if ( a->neg || BN_ucmp(a, &bignum_nist_p_224_sqr) >= 0 )
-    return BN_nnmod(r, a, &bignum_nist_p_224, ctx);
+    return BN_nnmod((int)d, r, a, &bignum_nist_p_224, ctx);
   v6 = BN_ucmp(&bignum_nist_p_224, a);
   if ( !v6 )
   {
-    BN_set_word(r, 0);
+    BN_set_word((int)d, r, 0);
     return 1;
   }
   if ( v6 <= 0 )
@@ -56,7 +56,7 @@ int __cdecl BN_nist_mod_224(bignum_st *r, const bignum_st *a, const bignum_st *f
     else
     {
       if ( r->dmax < 7 )
-        v8 = bn_expand2(r, (unsigned int *)7);
+        v8 = bn_expand2(r, 7);
       else
         v8 = r;
       if ( !v8 )
@@ -73,9 +73,9 @@ int __cdecl BN_nist_mod_224(bignum_st *r, const bignum_st *a, const bignum_st *f
       }
       while ( v11 );
     }
-    nist_cp_bn_0(7, (int)&aa[-1].neg + 1, &buf, d + 7);
+    nist_cp_bn_0(7, (int)&aa[-1].neg + 1, (char *)&v34, (char *)d + 28);
     v31 = v35;
-    v30 = buf;
+    v30 = v34;
     v27 = 0;
     v28 = 0;
     v29 = 0;
@@ -91,7 +91,7 @@ int __cdecl BN_nist_mod_224(bignum_st *r, const bignum_st *a, const bignum_st *f
     v32 = v40;
     v33 = 0;
     v15 = bn_add_words(v9, v9, &v27, 7) + v13;
-    v27 = buf;
+    v27 = v34;
     v30 = v37;
     v28 = v35;
     v29 = v36;

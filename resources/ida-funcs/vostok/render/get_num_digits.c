@@ -1,4 +1,4 @@
-int __usercall vostok::render::get_num_digits@<eax>(char *v@<eax>)
+int __usercall vostok::render::get_num_digits@<eax>(unsigned __int8 *v@<eax>)
 {
   unsigned int v1; // esi
   int v2; // edi
@@ -7,8 +7,8 @@ int __usercall vostok::render::get_num_digits@<eax>(char *v@<eax>)
   v1 = (unsigned int)v;
   if ( v )
   {
-    if ( v > &stru_984D24.m_working_macro_list.m_buffer[33].m_store[300] )
-      v1 = (unsigned int)&stru_984D24.m_working_macro_list.m_buffer[33].m_store[300];
+    if ( v > &vostok::memory::s_CRT_arena[613496] )
+      v1 = (unsigned int)&vostok::memory::s_CRT_arena[613496];
   }
   else
   {
@@ -20,7 +20,7 @@ int __usercall vostok::render::get_num_digits@<eax>(char *v@<eax>)
   {
     do
     {
-      if ( v3 >= (unsigned int)&off_F4240 )
+      if ( v3 >= (unsigned int)&loc_F4240 )
         break;
       v3 *= 10;
       ++v2;

@@ -1,11 +1,11 @@
-int __cdecl ASN1_TYPE_set1(asn1_object_st *a, const char *type, asn1_object_st *value)
+int __usercall ASN1_TYPE_set1@<eax>(int a1@<ebx>, asn1_object_st *a, const char *type, asn1_object_st *value)
 {
-  asn1_object_st *v3; // esi
-  asn1_object_st *v4; // eax
+  const char *v4; // esi
+  asn1_object_st *v5; // eax
   int result; // eax
-  asn1_string_st *v6; // eax
+  asn1_string_st *v7; // eax
 
-  v3 = value;
+  v4 = (const char *)value;
   if ( !value || type == (const char *)1 )
   {
     value = a;
@@ -15,28 +15,28 @@ int __cdecl ASN1_TYPE_set1(asn1_object_st *a, const char *type, asn1_object_st *
     if ( type == (const char *)1 )
     {
       result = 1;
-      value->ln = (const char *)(unsigned __int8)-(v3 != 0);
+      value->ln = (const char *)(unsigned __int8)-(v4 != 0);
     }
     else
     {
-      value->ln = (const char *)v3;
+      value->ln = v4;
       return 1;
     }
   }
   else if ( type == (const char *)6 )
   {
-    v4 = OBJ_dup(value);
-    if ( !v4 )
+    v5 = OBJ_dup(a1, value);
+    if ( !v5 )
       return 0;
-    ASN1_TYPE_set((asn1_type_st *)a, 6, v4);
+    ASN1_TYPE_set((asn1_type_st *)a, 6, (int)v5);
     return 1;
   }
   else
   {
-    v6 = ASN1_STRING_dup((const asn1_string_st *)value);
-    if ( !v6 )
+    v7 = ASN1_STRING_dup(a1, (const asn1_string_st *)value);
+    if ( !v7 )
       return 0;
-    ASN1_TYPE_set((asn1_type_st *)a, (int)type, v6);
+    ASN1_TYPE_set((asn1_type_st *)a, (int)type, (int)v7);
     return 1;
   }
   return result;

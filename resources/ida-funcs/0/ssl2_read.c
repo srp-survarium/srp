@@ -1,4 +1,4 @@
-int __cdecl ssl2_read(ssl_st *s, unsigned __int8 *buf, int len)
+int __usercall ssl2_read@<eax>(int a1@<ebx>, ssl_st *s, unsigned __int8 *buf, int len)
 {
-  return ssl2_read_internal(s, buf, len, 0);
+  return ssl2_read_internal(s, a1, buf, len, 0);
 }

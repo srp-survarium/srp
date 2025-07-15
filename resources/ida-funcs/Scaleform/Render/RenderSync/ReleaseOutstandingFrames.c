@@ -12,7 +12,7 @@ void __thiscall Scaleform::Render::RenderSync::ReleaseOutstandingFrames(Scalefor
     {
       v4 = pNext->pNext;
       pNext->pPrev->pNext = v4;
-      pNext->pNext->Scaleform::ListNode<Scaleform::Render::FenceFrame>::$5C9767EADF33BDEDA33A3838A8B3522A::pPrev = pNext->pPrev;
+      pNext->pNext->Scaleform::ListNode<Scaleform::Render::FenceFrame>::$2031C420DC8AC57DF0822C542663F0D9::pPrev = pNext->pPrev;
       Scaleform::Render::FenceFrame::~FenceFrame(pNext);
       pNext->pPrev = (Scaleform::Render::FenceFrame *)this->FenceFrameAlloc.FirstEmptySlot;
       this->FenceFrameAlloc.FirstEmptySlot = (Scaleform::ListAllocBase<Scaleform::Render::FenceFrame,127,Scaleform::AllocatorLH<Scaleform::Render::FenceFrame,2> >::NodeType *)pNext;

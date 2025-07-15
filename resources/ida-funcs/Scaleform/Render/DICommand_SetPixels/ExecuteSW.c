@@ -5,23 +5,23 @@ void __thiscall Scaleform::Render::DICommand_SetPixels::ExecuteSW(
         Scaleform::Render::ImageData **__formal)
 {
   Scaleform::Render::TextureManager *v5; // eax
-  Scaleform::Render::ImageSwizzler *v6; // eax
+  int v6; // eax
   unsigned int v7; // ebp
-  signed int y1; // ebx
-  signed int x1; // edi
+  int y1; // ebx
+  int x1; // edi
   unsigned int v10; // eax
   bool *Result; // esi
   bool *v12; // esi
-  Scaleform::Render::ImageSwizzlerContext imgSwiz; // [esp+10h] [ebp-18h] BYREF
+  _DWORD v13[6]; // [esp+10h] [ebp-18h] BYREF
 
   v5 = context->pHAL->GetTextureManager(context->pHAL);
-  v6 = v5->GetImageSwizzler(v5);
+  v6 = (int)v5->GetImageSwizzler(v5);
   v7 = 0;
-  imgSwiz.pImage = dest;
-  imgSwiz.Swizzler = v6;
-  imgSwiz.pCurrentScanline = 0;
-  memset(&imgSwiz.CachedBlockY, 0, 12);
-  v6->Initialize(v6, &imgSwiz);
+  v13[2] = dest;
+  v13[0] = v6;
+  v13[1] = 0;
+  memset(&v13[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v6 + 4))(v6, v13);
   y1 = this->DestRect.y1;
   if ( y1 >= this->DestRect.y2 )
   {
@@ -34,7 +34,7 @@ LABEL_6:
   {
     while ( 1 )
     {
-      imgSwiz.Swizzler->CacheScanline(imgSwiz.Swizzler, &imgSwiz, y1);
+      (*(void (__thiscall **)(_DWORD, _DWORD *, int))(*(_DWORD *)v13[0] + 8))(v13[0], v13, y1);
       x1 = this->DestRect.x1;
       if ( x1 < this->DestRect.x2 )
         break;
@@ -45,7 +45,7 @@ LABEL_5:
     while ( v7 < this->Provider->GetLength(this->Provider) )
     {
       v10 = this->Provider->ReadNextPixel(this->Provider);
-      imgSwiz.Swizzler->SetPixelInScanline(imgSwiz.Swizzler, &imgSwiz, x1++, v10);
+      (*(void (__thiscall **)(_DWORD, _DWORD *, int, unsigned int))(*(_DWORD *)v13[0] + 12))(v13[0], v13, x1++, v10);
       ++v7;
       if ( x1 >= this->DestRect.x2 )
         goto LABEL_5;

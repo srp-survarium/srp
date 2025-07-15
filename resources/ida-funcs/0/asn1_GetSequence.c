@@ -1,11 +1,11 @@
-int __cdecl asn1_GetSequence(asn1_const_ctx_st *c, unsigned __int8 **length)
+int __cdecl asn1_GetSequence(asn1_const_ctx_st *c, const unsigned __int8 **length)
 {
   const unsigned __int8 *p; // edi
   int object; // eax
-  unsigned __int8 *v5; // ebx
+  const unsigned __int8 *v5; // ebx
 
   p = c->p;
-  object = ASN1_get_object(&c->p, &c->slen, &c->tag, &c->xclass, *length);
+  object = ASN1_get_object(length, &c->p, (unsigned int *)&c->slen, &c->tag, &c->xclass, *length);
   c->inf = object;
   if ( (object & 0x80u) == 0 )
   {

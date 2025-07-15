@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::LoadStates::LoadStates(
 {
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::GFx::ResourceWeakLib *pLib; // edi
-  Scaleform::GFx::ResourceWeakLib *v7; // ecx
+  Scaleform::RefCountVImpl *v7; // ecx
   Scaleform::GFx::StateBag *p_pLib; // edi
   Scaleform::GFx::MovieDefBindStates *v9; // eax
   Scaleform::GFx::MovieDefBindStates *v10; // eax
@@ -74,9 +74,9 @@ void __thiscall Scaleform::GFx::LoadStates::LoadStates(
   pLib = (Scaleform::GFx::ResourceWeakLib *)pimpl[1].pLib;
   if ( pLib )
     Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pimpl[1].pLib);
-  v7 = this->pWeakResourceLib.pObject;
+  v7 = (Scaleform::RefCountVImpl *)this->pWeakResourceLib.pObject;
   if ( v7 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v7);
+    Scaleform::RefCountImpl::Release(v7);
   this->pWeakResourceLib.pObject = pLib;
   p_pLib = pstates;
   if ( !pstates )

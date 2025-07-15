@@ -2,15 +2,18 @@ void __thiscall vostok::animation::bone_matrices_computer::convert_skeleton_bran
         vostok::animation::bone_matrices_computer *this,
         const vostok::animation::skeleton_bone *bone,
         vostok::math::float4x4 *result,
-        const vostok::math::float4x4 *parent)
+        const vostok::math::float4x4 *parent,
+        unsigned __int8 calc_mask)
 {
   const vostok::animation::skeleton_bone *m_children_begin; // esi
-  const vostok::animation::skeleton_bone *m_children_end; // ebp
   int v6; // edi
-  vostok::math::float4x4 v8; // [esp+18h] [ebp-40h] BYREF
+  vostok::math::float4x4 v7; // [esp+Ch] [ebp-44h] BYREF
+  vostok::animation::bone_matrices_computer *v8; // [esp+4Ch] [ebp-4h]
+  const vostok::animation::skeleton_bone *m_children_end; // [esp+60h] [ebp+10h]
 
-  vostok::math::mul4x3(&v8, result, parent);
-  qmemcpy((void *)result, &v8, sizeof(vostok::math::float4x4));
+  v8 = this;
+  vostok::math::mul4x3(parent, result, &v7);
+  qmemcpy(result, &v7, sizeof(vostok::math::float4x4));
   m_children_begin = bone->m_children_begin;
   m_children_end = bone->m_children_end;
   if ( m_children_begin != m_children_end )
@@ -18,12 +21,15 @@ void __thiscall vostok::animation::bone_matrices_computer::convert_skeleton_bran
     v6 = (char *)m_children_begin - (char *)bone;
     do
     {
-      vostok::animation::bone_matrices_computer::convert_skeleton_branch(
-        this,
-        m_children_begin++,
-        &result[v6 / 20],
-        result);
-      v6 += 20;
+      if ( (calc_mask & m_children_begin->m_calc_mask) != 0 )
+        vostok::animation::bone_matrices_computer::convert_skeleton_branch(
+          v8,
+          m_children_begin,
+          &result[v6 / 28],
+          result,
+          calc_mask);
+      ++m_children_begin;
+      v6 += 28;
     }
     while ( m_children_begin != m_children_end );
   }

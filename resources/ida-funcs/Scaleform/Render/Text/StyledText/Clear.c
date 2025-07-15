@@ -8,11 +8,11 @@ void __thiscall Scaleform::Render::Text::StyledText::Clear(Scaleform::Render::Te
   Scaleform::Render::Text::Allocator *pObject; // ecx
   Scaleform::Render::Text::Paragraph *pPara; // esi
   Scaleform::ArrayLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2,Scaleform::ArrayDefaultPolicy> *p_Paragraphs; // esi
-  unsigned int n; // [esp+10h] [ebp-4h]
+  unsigned int Size; // [esp+10h] [ebp-4h]
 
   v2 = 0;
-  n = this->Paragraphs.Data.Size;
-  if ( n )
+  Size = this->Paragraphs.Data.Size;
+  if ( Size )
   {
     do
     {
@@ -41,7 +41,7 @@ void __thiscall Scaleform::Render::Text::StyledText::Clear(Scaleform::Render::Te
       pPara->Text.Allocated = 0;
       pPara->Text.Size = 0;
     }
-    while ( v2 < n );
+    while ( v2 < Size );
   }
   p_Paragraphs = &this->Paragraphs;
   if ( !this->Paragraphs.Data.Size )

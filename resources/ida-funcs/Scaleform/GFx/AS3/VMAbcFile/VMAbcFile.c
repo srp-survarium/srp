@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::VMAbcFile(
   this->Exceptions.Data.Data = 0;
   this->Exceptions.Data.Size = 0;
   this->Exceptions.Data.Policy.Capacity = 0;
-  this->RefCount |= (unsigned int)&vostok::memory::s_CRT_arena[22351416];
+  this->RefCount |= 0x2000000u;
   Size = file->pObject->MethodBodies.Info.Data.Size;
   Scaleform::ArrayData<Scaleform::GFx::AS3::Abc::MethodBodyInfo::Exception,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MethodBodyInfo::Exception,340>,Scaleform::ArrayDefaultPolicy>::Resize(
     (Scaleform::ArrayData<Scaleform::GFx::AS3::Abc::MethodBodyInfo::Exception,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Abc::MethodBodyInfo::Exception,340>,Scaleform::ArrayDefaultPolicy> *)&this->OpCodeArray,

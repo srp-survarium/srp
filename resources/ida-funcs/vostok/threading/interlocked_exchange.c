@@ -1,15 +1,14 @@
-unsigned int __cdecl vostok::threading::interlocked_exchange(volatile __int64 *target, __int64 exchange)
+__int64 __usercall vostok::threading::interlocked_exchange@<edx:eax>(volatile __int64 *target@<esi>, __int64 exchange)
 {
-  volatile __int64 *i; // ecx
-  unsigned int v3; // esi
-  signed __int64 v4; // rax
+  signed __int64 v2; // rax
+  __int64 v4; // [esp+8h] [ebp-8h]
 
-  for ( i = target; ; i = target )
+  do
   {
-    v3 = *(_DWORD *)i;
-    v4 = *i;
-    if ( _InterlockedCompareExchange64(i, exchange, v4) == __PAIR64__(HIDWORD(v4), v3) )
-      break;
+    HIDWORD(v2) = *((_DWORD *)target + 1);
+    LODWORD(v4) = *(_DWORD *)target;
+    __SET_PAIR__(HIDWORD(v4), v2, *target);
   }
-  return v3;
+  while ( _InterlockedCompareExchange64(target, exchange, v2) != v4 );
+  return v4;
 }

@@ -1,7 +1,7 @@
 char __usercall vostok::tasks::thread_pool::try_activate_task_thread@<al>(
-        vostok::tasks::thread_pool *this@<edx>,
+        vostok::tasks::thread_pool *this@<ecx>,
         vostok::tasks::thread_tls *tls@<esi>,
-        unsigned int use_hardware_thread@<ecx>)
+        unsigned int use_hardware_thread@<edx>)
 {
   if ( _InterlockedCompareExchange(&tls->state, 0, 1) != 1 )
     return 0;

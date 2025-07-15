@@ -60,7 +60,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::rawDataSet(
       *(float *)&src[36] = p_mat4->M[2][1];
       *(float *)&src[40] = p_mat4->M[2][2];
       *(float *)&src[44] = p_mat4->M[2][3];
-      memcpy((unsigned __int8 *)&dst, src, sizeof(dst));
+      memcpy((int)&dst, (const __m128i *)src, sizeof(dst));
       pDispObj->SetMatrix3D(pDispObj, &dst);
     }
   }

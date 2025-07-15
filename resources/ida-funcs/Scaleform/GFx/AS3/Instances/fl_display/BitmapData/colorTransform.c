@@ -4,29 +4,31 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::colorTra
         Scaleform::GFx::AS3::Instances::fl_geom::Rectangle *rect,
         Scaleform::GFx::AS3::Instances::fl_geom::ColorTransform *cTransform)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
-  int y1; // eax
-  Scaleform::GFx::ASStringNode *v8; // ecx
-  Scaleform::GFx::AS3::VM *v9; // esi
-  const Scaleform::GFx::AS3::VM::Error *v10; // eax
-  int v11; // eax
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
+  Scaleform::GFx::AS3::VM *pVM; // ecx
+  Scaleform::GFx::ASStringNode *y1; // eax
+  const Scaleform::GFx::AS3::VM::Error *v8; // eax
   Scaleform::Render::DrawableImage *DrawableImageFromBitmapData; // edi
-  const Scaleform::Render::Rect<long> *v13; // eax
+  const Scaleform::Render::Rect<long> *v10; // eax
+  Scaleform::StringDataPtr cxform_24; // [esp+18h] [ebp-48h]
+  Scaleform::StringDataPtr cxform_24a; // [esp+18h] [ebp-48h]
+  Scaleform::StringDataPtr cxform_24b; // [esp+18h] [ebp-48h]
   Scaleform::Render::Rect<long> v14; // [esp+30h] [ebp-30h] BYREF
   Scaleform::Render::Cxform cxform; // [esp+40h] [ebp-20h] BYREF
 
   if ( !this->pImage.pObject )
   {
+    cxform_24.pStr = "Invalid BitmapData";
+    cxform_24.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&v14,
+      eArgumentError,
+      this->pTraits.pObject->pVM,
+      cxform_24);
     pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v14, eArgumentError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
-    y1 = v14.y1;
-    --*(_DWORD *)(v14.y1 + 12);
-    v8 = (Scaleform::GFx::ASStringNode *)y1;
-    if ( *(_DWORD *)(y1 + 12) )
-      return;
-    goto LABEL_3;
+LABEL_3:
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v5);
+    goto LABEL_4;
   }
   if ( rect )
   {
@@ -36,22 +38,31 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::BitmapData::colorTra
                                       this,
                                       this);
       Scaleform::GFx::AS3::ClassTraits::fl_geom::ColorTransform::GetCxformFromColorTransform(&cxform, cTransform);
-      v13 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v14, rect);
-      Scaleform::Render::DrawableImage::ColorTransform(DrawableImageFromBitmapData, v13, &cxform);
+      v10 = Scaleform::GFx::AS3::Instances::fl_display::BitmapData::RectangleToRect(this, &v14, rect);
+      Scaleform::Render::DrawableImage::ColorTransform(DrawableImageFromBitmapData, v10, &cxform);
       return;
     }
-    v9 = this->pTraits.pObject->pVM;
+    cxform_24b.pStr = "colorTransform";
+    cxform_24b.Size = 14;
+    Scaleform::GFx::AS3::VM::Error::Error(
+      (Scaleform::GFx::AS3::VM::Error *)&v14,
+      eIllegalOperationError,
+      this->pTraits.pObject->pVM,
+      cxform_24b);
+    pVM = this->pTraits.pObject->pVM;
+    goto LABEL_3;
   }
-  else
-  {
-    v9 = this->pTraits.pObject->pVM;
-  }
-  Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v14, eIllegalOperationError, v9);
-  Scaleform::GFx::AS3::VM::ThrowArgumentError(v9, v10);
-  v11 = v14.y1;
+  cxform_24a.pStr = "rect";
+  cxform_24a.Size = 4;
+  Scaleform::GFx::AS3::VM::Error::Error(
+    (Scaleform::GFx::AS3::VM::Error *)&v14,
+    eIllegalOperationError,
+    this->pTraits.pObject->pVM,
+    cxform_24a);
+  Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v8);
+LABEL_4:
+  y1 = (Scaleform::GFx::ASStringNode *)v14.y1;
   --*(_DWORD *)(v14.y1 + 12);
-  v8 = (Scaleform::GFx::ASStringNode *)v11;
-  if ( !*(_DWORD *)(v11 + 12) )
-LABEL_3:
-    Scaleform::GFx::ASStringNode::ReleaseNode(v8);
+  if ( !y1->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(y1);
 }

@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
+bool __thiscall Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
         Scaleform::Render::ShapeMeshProvider *this,
         Scaleform::Render::TessBase *tess,
         const Scaleform::Render::Matrix2x4<float> *mtx,
@@ -19,11 +19,11 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
   unsigned int v17; // ebx
   unsigned int (__thiscall *GetMeshTriangleCount)(Scaleform::Render::TessBase *, unsigned int); // edx
   int v19; // eax
-  char v20; // bl
+  bool v20; // bl
   unsigned int *Data; // eax
   bool v22; // zf
   Scaleform::Log *GlobalLog; // eax
-  char NullMesh; // al
+  bool NullMesh; // al
   Scaleform::Render::VertexOutput *v25; // esi
   void (__thiscall *GetMesh)(Scaleform::Render::TessBase *, unsigned int, Scaleform::Render::TessMesh *); // edx
   unsigned int (__thiscall *GetVertices)(Scaleform::Render::TessBase *, Scaleform::Render::TessMesh *, Scaleform::Render::TessVertex *, unsigned int); // eax
@@ -48,9 +48,9 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
   unsigned int v47; // esi
   unsigned int v48; // ebx
   unsigned int v49; // edi
-  unsigned int i; // [esp+88h] [ebp-28DCh]
+  unsigned int j; // [esp+88h] [ebp-28DCh]
   unsigned int v51; // [esp+88h] [ebp-28DCh]
-  unsigned int val; // [esp+8Ch] [ebp-28D8h] BYREF
+  unsigned int i; // [esp+8Ch] [ebp-28D8h] BYREF
   Scaleform::Render::ShapeMeshProvider *v53; // [esp+90h] [ebp-28D4h]
   unsigned int v54; // [esp+94h] [ebp-28D0h]
   unsigned int v55; // [esp+98h] [ebp-28CCh]
@@ -70,7 +70,7 @@ char __thiscall Scaleform::Render::ShapeMeshProvider::acquireTessMeshes(
   int v69; // [esp+170h] [ebp-27F4h]
   Scaleform::ArrayStaticBuffPOD<Scaleform::Render::VertexOutput::Fill,16,2> v70; // [esp+174h] [ebp-27F0h] BYREF
   _BYTE v71[32]; // [esp+344h] [ebp-2620h] BYREF
-  _BYTE v72[1536]; // [esp+364h] [ebp-2600h] BYREF
+  char v72[1536]; // [esp+364h] [ebp-2600h] BYREF
   char v73[4]; // [esp+964h] [ebp-2000h] BYREF
   char v74; // [esp+968h] [ebp-1FFCh] BYREF
   _BYTE v75[12]; // [esp+1564h] [ebp-1400h] BYREF
@@ -107,11 +107,11 @@ LABEL_86:
     v11 = this->pShapeData.pObject->GetFillStyleCount(this->pShapeData.pObject) + 1;
     if ( v11 )
     {
-      val = 0;
+      i = 0;
       v12 = v11;
       do
       {
-        Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(&v64, &val);
+        Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(&v64, &i);
         --v12;
       }
       while ( v12 );
@@ -121,7 +121,7 @@ LABEL_86:
     if ( v13 )
     {
       v15 = 20 * drawLayerIdx;
-      for ( val = 20 * drawLayerIdx; ; v15 = val )
+      for ( i = 20 * drawLayerIdx; ; v15 = i )
       {
         v64.Data[this->FillToStyleTable.Data.Data[v14
                                                 + *(unsigned int *)((char *)&this->DrawLayers.Data.Data->StartFill + v15)]] = v14;
@@ -148,7 +148,7 @@ LABEL_86:
     32764.0,
     32764.0);
   v16 = 0;
-  for ( i = 0; v16 < tess->GetMeshCount(tess); ++v16 )
+  for ( j = 0; v16 < tess->GetMeshCount(tess); ++v16 )
   {
     tess->GetMesh(tess, v16, (Scaleform::Render::TessMesh *)&v65);
     v17 = tess->GetMeshVertexCount(tess, v16);
@@ -173,7 +173,7 @@ LABEL_86:
       Scaleform::ArrayStaticBuffPOD<Scaleform::Render::VertexOutput::Fill,16,2>::PushBack(
         &v70,
         (const Scaleform::Render::VertexOutput::Fill *)&v61);
-      i += v69;
+      j += v69;
     }
   }
   if ( !v70.Size )
@@ -196,7 +196,7 @@ LABEL_87:
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)s1.pFill.pObject);
     return v20;
   }
-  if ( i > 0xFFFF )
+  if ( j > 0xFFFF )
   {
     GlobalLog = Scaleform::Log::GetGlobalLog();
     if ( GlobalLog || (GlobalLog = Scaleform::Log::GetDefaultLog()) != 0 )
@@ -220,8 +220,8 @@ LABEL_87:
       do
       {
         GetMesh = tess->GetMesh;
-        val = (unsigned int)&v70.Data[v56 / 0x1C].MeshIndex;
-        GetMesh(tess, *(_DWORD *)val, (Scaleform::Render::TessMesh *)&v65);
+        i = (unsigned int)&v70.Data[v56 / 0x1C].MeshIndex;
+        GetMesh(tess, *(_DWORD *)i, (Scaleform::Render::TessMesh *)&v65);
         GetVertices = tess->GetVertices;
         v57 = 0;
         v55 = GetVertices(tess, (Scaleform::Render::TessMesh *)&v65, (Scaleform::Render::TessVertex *)v75, 256u);
@@ -309,7 +309,7 @@ LABEL_87:
           v54 = v29;
         }
         v47 = 0;
-        v48 = tess->GetMeshTriangleCount(tess, *(_DWORD *)val);
+        v48 = tess->GetMeshTriangleCount(tess, *(_DWORD *)i);
         if ( v48 )
         {
           do
@@ -321,7 +321,7 @@ LABEL_87:
               if ( v48 == v47 )
                 break;
             }
-            tess->GetTrianglesI16(tess, *(_DWORD *)val, (unsigned __int16 *)v72, v47, v49);
+            tess->GetTrianglesI16(tess, *(_DWORD *)i, (unsigned __int16 *)v72, v47, v49);
             pout->SetIndices(pout, v51, 3 * v47, (unsigned __int16 *)v72, 3 * v49);
             v47 += v49;
           }

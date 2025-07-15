@@ -22,15 +22,15 @@ int __cdecl X509_NAME_print(bio_st *bp, X509_name_st *name)
         && ((v7 = v4[2], v7 == 61) || v7 >= 65 && v7 <= 90 && v4[3] == 61)
         || !*v4 )
       {
-        if ( BIO_write(bp, v5, v4 - v5) != v4 - v5 )
-          goto err_152;
+        if ( BIO_write((int)bp, bp, v5, v4 - v5) != v4 - v5 )
+          goto err_154;
         v5 = v4 + 1;
         if ( !*v4 )
           break;
-        if ( BIO_write(bp, (const char *)&stru_95AF78.m_key_bindings[32], 2) != 2 )
+        if ( BIO_write((int)bp, bp, ", ", 2) != 2 )
         {
-err_152:
-          ERR_put_error(0xBu, 117, 7, ".\\crypto\\asn1\\t_x509.c", 489);
+err_154:
+          ERR_put_error((int)bp, 0xBu, 117, 7, ".\\crypto\\asn1\\t_x509.c", 489);
           v8 = 0;
           goto LABEL_19;
         }

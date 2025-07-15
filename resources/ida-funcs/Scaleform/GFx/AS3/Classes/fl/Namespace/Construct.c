@@ -60,14 +60,13 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::Namespace::Construct(
     v19 = argv;
     v15->Flags = v18;
     v15->value.VS._1.VInt = (int)pV;
-    (*(void (__thiscall **)(Scaleform::GFx::AS3::Value *, unsigned int, const Scaleform::GFx::AS3::Value *))(pV->Flags + 12))(
+    (*(void (__thiscall **)(Scaleform::GFx::AS3::Value *, unsigned int, const Scaleform::GFx::AS3::Value *))(pV->Flags + 24))(
       pV,
       v17,
       v19);
     if ( !pVM->HandleException )
     {
-      v21 = (4 * ((unsigned int)&vostok::memory::s_CRT_arena[5574199] & pV[1].value.VS._2.VObj->RefCount))
-          ^ ((int)pV[1].Bonus.pWeakProxy << 28 >> 28);
+      v21 = (4 * (pV[1].value.VS._2.VObj->RefCount & 0xFFFFFF)) ^ ((int)pV[1].Bonus.pWeakProxy << 28 >> 28);
       p_NamespaceSet = &v10->pNamespaceFactory.pObject->NamespaceSet;
       result = pV;
       Scaleform::HashSetBase<Scaleform::GFx::AS3::Instances::fl::Namespace *,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Instances::fl::Namespace *,2>,Scaleform::HashsetEntry<Scaleform::GFx::AS3::Instances::fl::Namespace *,Scaleform::GFx::AS3::NamespaceInstanceFactory::NamespaceHashFunc>>::add<Scaleform::GFx::AS3::Instances::fl::Namespace *>(

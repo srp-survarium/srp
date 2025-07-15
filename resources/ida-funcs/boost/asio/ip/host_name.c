@@ -1,38 +1,30 @@
-stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__cdecl boost::asio::ip::host_name(
-        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *result)
+stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *__usercall boost::asio::ip::host_name@<eax>(
+        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *a1@<edi>)
 {
-  survarium::game_options *v1; // eax
-  survarium::game_options *v3; // eax
-  survarium::game_camera v4[12]; // [esp+166h] [ebp-40Ah] BYREF
-  boost::system::error_code ec; // [esp+568h] [ebp-8h] BYREF
+  int v1; // eax
+  char name[1028]; // [esp+8h] [ebp-410h] BYREF
+  boost::system::error_code v4; // [esp+40Ch] [ebp-Ch] BYREF
+  stlp_std::allocator<char> v5; // [esp+417h] [ebp-1h] BYREF
 
-  ec.m_val = 0;
-  ec.m_cat = boost::system::system_category();
-  if ( boost::asio::detail::socket_ops::gethostname((char *)&v4[0].__vftable + 2, 1024, &ec) )
+  v4.m_val = 0;
+  v4.m_cat = boost::system::system_category();
+  WSASetLastError(0);
+  v1 = gethostname(name, 1024);
+  if ( boost::asio::detail::socket_ops::error_wrapper<int>(&v4, v1) )
   {
-    if ( (ec.m_val != 0
-        ? (unsigned int)boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>
-        : 0) != 0 )
-      boost::asio::detail::do_throw_error(&ec);
-    v1 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)((char *)&v4[0].__vftable + 1));
-    result->_M_finish = (char *)result;
-    stlp_std::priv::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>::_STLP_alloc_proxy<char *,char,stlp_std::allocator<char>>(
-      &result->_M_start_of_storage,
-      (const stlp_std::allocator<char> *)v1,
-      (char *)result);
-    stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_allocate_block(result, 0x10u);
-    stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::_M_terminate_string(result);
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)((char *)&v4[0].__vftable + 1));
-    return result;
+    if ( (v4.m_val != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+      boost::asio::detail::do_throw_error(&v4);
+    a1->_M_finish = (char *)a1;
+    a1->_M_start_of_storage._M_data = (char *)a1;
+    *a1->_M_finish = 0;
   }
   else
   {
-    v3 = survarium::weapon_core::cast_weapon_core((survarium::game_options *)v4);
+    boost::system::system_category();
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
-      result,
-      (char *)&v4[0].__vftable + 2,
-      (const stlp_std::allocator<char> *)v3);
-    survarium::weapon_user_dead_state::finalize(v4);
-    return result;
+      a1,
+      name,
+      &v5);
   }
+  return a1;
 }

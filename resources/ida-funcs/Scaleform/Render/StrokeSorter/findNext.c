@@ -10,26 +10,26 @@ unsigned int __thiscall Scaleform::Render::StrokeSorter::findNext(
   unsigned int v8; // edx
   unsigned int v9; // ecx
   Scaleform::Render::StrokeSorter::SortedPathType *i; // esi
-  Scaleform::Render::StrokeSorter::SortedPathType find; // [esp+4h] [ebp-Ch] BYREF
+  Scaleform::Render::StrokeSorter::SortedPathType val; // [esp+4h] [ebp-Ch] BYREF
 
   Pages = this->OutVertices.Pages;
   v4 = (outPath->numVer & 0xFFFFFFF) + outPath->start - 1;
   p_x = &Pages[v4 >> 4][v4 & 0xF].x;
   Size = this->SortedPaths.Size;
-  find.x = *p_x;
-  find.y = p_x[1];
-  find.thisPath = 0;
+  val.x = *p_x;
+  val.y = p_x[1];
+  val.thisPath = 0;
   v7 = Scaleform::Alg::LowerBoundSliced<Scaleform::Render::ArrayUnsafe<Scaleform::Render::StrokeSorter::SortedPathType>,Scaleform::Render::StrokeSorter::SortedPathType,bool (__cdecl *)(Scaleform::Render::StrokeSorter::SortedPathType const &,Scaleform::Render::StrokeSorter::SortedPathType const &)>(
          &this->SortedPaths,
          0,
          Size,
-         &find,
+         &val,
          (bool (__cdecl *)(const Scaleform::Render::StrokeSorter::SortedPathType *, const Scaleform::Render::StrokeSorter::SortedPathType *))Scaleform::Render::StrokeSorter::cmpPaths);
   v8 = this->SortedPaths.Size;
   v9 = v7;
   if ( v7 < v8 )
   {
-    for ( i = &this->SortedPaths.Array[v7]; find.x == i->x && find.y == i->y; ++i )
+    for ( i = &this->SortedPaths.Array[v7]; val.x == i->x && val.y == i->y; ++i )
     {
       if ( (i->thisPath->numVer & 0x40000000) == 0 )
         return v9;

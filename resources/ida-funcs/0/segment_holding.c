@@ -1,4 +1,4 @@
-malloc_segment *__usercall segment_holding@<eax>(malloc_state *m@<eax>, char *addr@<edx>)
+malloc_segment *__usercall segment_holding@<eax>(malloc_state *m@<eax>, char *addr)
 {
   malloc_segment *result; // eax
 

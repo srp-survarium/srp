@@ -1,48 +1,46 @@
 void load_library_0()
 {
-  HMODULE LibraryA; // eax
-  void (__cdecl *log_callback)(const char *, bool, bool, const char *); // [esp+4h] [ebp-4h]
-
-  if ( !s_bugtrap_handle )
+  s_use_dbghelp = 1;
+  s_dbghelp_handle = LoadLibraryA("dbghelp.dll");
+  if ( s_dbghelp_handle )
   {
-    if ( s_bugtrap_usage == native_bugtrap )
-      LibraryA = LoadLibraryA(s_bugtrap_native_id);
-    else
-      LibraryA = LoadLibraryA(s_bugtrap_dotnet_id);
-    s_bugtrap_handle = LibraryA;
-    if ( LibraryA )
+    load_function_int___stdcall_unsigned_long_void___void____tagSTACKFRAME64___void___int____stdcall___void___unsigned___int64_void___unsigned_long_unsigned_long____void______stdcall___void___unsigned___int64__unsigned___int64____stdcall___void___unsigned___int64__unsigned___int64____stdcall___void___void____tagADDRESS64_____();
+    load_function_void_____stdcall_void___unsigned___int64__();
+    load_function_unsigned___int64___stdcall_void___unsigned___int64__();
+    load_function_unsigned_long___stdcall_char_const___char_const___unsigned_long_unsigned_long__();
+    load_function_int___stdcall_void___unsigned___int64_unsigned___int64____IMAGEHLP_SYMBOL64____();
+    load_function_int___stdcall_void___unsigned___int64_unsigned_long____IMAGEHLP_LINE64____();
+    load_function_int___stdcall_void___unsigned___int64__IMAGEHLP_MODULE64____();
+    load_function_int___stdcall_void___char___int__();
+    load_function_int___stdcall_void____();
+    load_function_unsigned_long___stdcall_unsigned_long__();
+    load_function_unsigned_long___stdcall_void__();
+    s_psapi_handle = LoadLibraryA("psapi.dll");
+    if ( s_psapi_handle )
     {
-      load_function_void___cdecl_void__(&s_BT_CallCppFilter, s_bugtrap_handle, "BT_CallCppFilter");
-      load_function_void___stdcall_char_const____(&s_BT_SetUserMessage, s_bugtrap_handle, "BT_SetUserMessage");
-      load_function_long____stdcall___stdcall_void____EXCEPTION_POINTERS____(
-        &s_BT_InstallSehFilter,
-        s_bugtrap_handle,
-        "BT_InstallSehFilter");
-      load_function_void___stdcall_enum_BUGTRAP_DIALOGMESSAGE_tag_char_const____(
-        &s_BT_SetDialogMessage,
-        s_bugtrap_handle,
-        "BT_SetDialogMessage");
-      load_function_void___stdcall_char_const____(&s_BT_SetAppName, s_bugtrap_handle, "BT_SetAppName");
-      load_function_void___stdcall_enum_BUGTRAP_REPORTFORMAT_tag__(
-        &s_BT_SetReportFormat,
-        s_bugtrap_handle,
-        "BT_SetReportFormat");
-      load_function_void___stdcall_unsigned_long__(&s_BT_SetFlags, s_bugtrap_handle, "BT_SetFlags");
-      load_function_void___stdcall_unsigned_long__(&s_BT_SetDumpType, s_bugtrap_handle, "BT_SetDumpType");
-      load_function_void___stdcall_char_const____(&s_BT_SetSupportEMail, s_bugtrap_handle, "BT_SetSupportEMail");
-      load_function_void___stdcall_enum_BUGTRAP_ACTIVITY_tag__(
-        &s_BT_SetActivityType,
-        s_bugtrap_handle,
-        "BT_SetActivityType");
-      load_function_void___stdcall_char_const____(&s_BT_AddLogFile, s_bugtrap_handle, "BT_AddLogFile");
-      load_function_void___stdcall_char_const____(&s_BT_SetReportFilePath, s_bugtrap_handle, "BT_SetReportFilePath");
+      load_function_unsigned_long___stdcall_void___HINSTANCE_____char___unsigned_long__();
     }
-    else
+    else if ( (s_log_disable_counter == 0 ? (unsigned int)s_log_callback : 0) != 0 )
     {
-      log_callback = vostok::debug::get_log_callback();
-      if ( log_callback )
-        log_callback("debug:bugtrap", 1, 0, "cannot load bugtrap library");
-      s_bugtrap_usage = no_bugtrap;
+      ((void (__cdecl *)(const vostok::logging::filter_tree *, int, _DWORD, const char *))(s_log_disable_counter == 0
+                                                                                         ? (unsigned int)s_log_callback
+                                                                                         : 0))(
+        &stru_802CB8,
+        1,
+        0,
+        "cannot load psapi library");
     }
+  }
+  else
+  {
+    if ( (s_log_disable_counter == 0 ? (unsigned int)s_log_callback : 0) != 0 )
+      ((void (__cdecl *)(const vostok::logging::filter_tree *, int, _DWORD, const char *))(s_log_disable_counter == 0
+                                                                                         ? (unsigned int)s_log_callback
+                                                                                         : 0))(
+        &stru_802CB8,
+        1,
+        0,
+        "cannot load dbghelp library");
+    s_use_dbghelp = 0;
   }
 }

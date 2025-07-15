@@ -1,30 +1,40 @@
 void __cdecl vostok::resources::set_query_finished_callback(
-        boost::function<void __cdecl(vostok::resources::resource_base *)> callback)
+        boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> callback)
 {
-  void (__cdecl *v1)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v2)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function<void __cdecl(unsigned int,unsigned int)> v3; // [esp+8h] [ebp-24h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> *v1; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> *v3; // edi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> v7; // [esp+8h] [ebp-60h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+28h] [ebp-40h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v9; // [esp+48h] [ebp-20h] BYREF
 
-  boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
-    (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-    (int)&v3);
-  boost::function<void __cdecl (unsigned char,vostok::network_core::packet_reader &)>::operator=(
-    &v3,
-    (boost::function2<void,unsigned int,unsigned int> *)((char *)&dword_205B0
-                                                       + (unsigned int)vostok::resources::g_resources_manager.m_variable));
-  if ( v3.vtable )
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(&callback, &f);
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(&f, &v9);
+  v3 = v1;
+  if ( v1 != (boost::function1<void,vostok::physics::contact_point const &> *)&s_resources_manager_buffer.m_query_finished_callback )
   {
-    if ( ((int)v3.vtable & 1) == 0 )
-    {
-      v1 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v3.vtable & 0xFFFFFFFE);
-      if ( v1 )
-        v1(&v3.functor, &v3.functor, 2);
-    }
+    v7.vtable = 0;
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      &v7,
+      v1);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      v3,
+      (boost::function1<void,vostok::physics::contact_point const &> *)&s_resources_manager_buffer.m_query_finished_callback);
+    boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+      (boost::function1<void,vostok::physics::contact_point const &> *)&s_resources_manager_buffer.m_query_finished_callback,
+      &v7);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v4,
+      (int *)&v7);
   }
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
-  {
-    v2 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v2 )
-      v2(&callback.functor, &callback.functor, 2);
-  }
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v2,
+    (int *)&v9);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v5, (int *)&f);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v6,
+    (int *)&callback);
 }

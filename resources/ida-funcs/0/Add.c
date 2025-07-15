@@ -1,30 +1,31 @@
-btMatrix3x3 *__fastcall Add(const btMatrix3x3 *b, const btMatrix3x3 *a, int a3)
+btMatrix3x3 *__usercall Add@<eax>(const btMatrix3x3 *a@<ecx>, const btMatrix3x3 *b@<eax>, int a3)
 {
-  btMatrix3x3 *result; // eax
-  unsigned int v4; // xmm0_4
-  float v5; // xmm1_4
-  __int64 v6; // [esp+0h] [ebp-10h]
-  __int64 v7; // [esp+8h] [ebp-8h]
+  int v3; // edx
+  float *v4; // eax
+  int v5; // ebx
+  float v6; // xmm0_4
+  _DWORD *v7; // edi
+  bool v8; // zf
+  int v10; // [esp+0h] [ebp-14h]
+  float v11; // [esp+8h] [ebp-Ch]
 
-  result = (btMatrix3x3 *)a3;
-  *(float *)&v6 = a->m_el[0].mVec128.m128_f32[0] + b->m_el[0].mVec128.m128_f32[0];
-  *((float *)&v6 + 1) = a->m_el[0].mVec128.m128_f32[1] + b->m_el[0].mVec128.m128_f32[1];
-  *(float *)&v4 = a->m_el[0].mVec128.m128_f32[2] + b->m_el[0].mVec128.m128_f32[2];
-  *(_QWORD *)a3 = v6;
-  v7 = v4;
-  *(_QWORD *)(a3 + 8) = v4;
-  *(float *)&v6 = b->m_el[1].mVec128.m128_f32[0] + a->m_el[1].mVec128.m128_f32[0];
-  *((float *)&v6 + 1) = a->m_el[1].mVec128.m128_f32[1] + b->m_el[1].mVec128.m128_f32[1];
-  *(float *)&v7 = a->m_el[1].mVec128.m128_f32[2] + b->m_el[1].mVec128.m128_f32[2];
-  *(_QWORD *)(a3 + 16) = v6;
-  HIDWORD(v7) = 0;
-  *(_QWORD *)(a3 + 24) = (unsigned int)v7;
-  *(float *)&v6 = b->m_el[2].mVec128.m128_f32[0] + a->m_el[2].mVec128.m128_f32[0];
-  *((float *)&v6 + 1) = a->m_el[2].mVec128.m128_f32[1] + b->m_el[2].mVec128.m128_f32[1];
-  v5 = a->m_el[2].mVec128.m128_f32[2] + b->m_el[2].mVec128.m128_f32[2];
-  HIDWORD(v7) = 0;
-  *(_QWORD *)(a3 + 32) = v6;
-  *(float *)&v7 = v5;
-  *(_QWORD *)(a3 + 40) = v7;
-  return result;
+  v3 = (char *)a - (char *)b;
+  v4 = &b->m_el[0].mVec128.m128_f32[1];
+  v5 = a3 - (_DWORD)a;
+  v10 = 3;
+  do
+  {
+    v11 = *(float *)((char *)v4 + v3) + *v4;
+    v6 = v4[1] + a->m_el[0].mVec128.m128_f32[2];
+    *(float *)((char *)a->m_el[0].mVec128.m128_f32 + v5) = *(v4 - 1) + a->m_el[0].mVec128.m128_f32[0];
+    *(float *)((char *)&a->m_el[0].mVec128.m128_f32[1] + v5) = v11;
+    *(float *)((char *)&a->m_el[0].mVec128.m128_f32[2] + v5) = v6;
+    v7 = (int *)((char *)&a->m_el[0].mVec128.m128_i32[3] + v5);
+    v4 += 4;
+    a = (const btMatrix3x3 *)((char *)a + 16);
+    v8 = v10-- == 1;
+    *v7 = 0;
+  }
+  while ( !v8 );
+  return (btMatrix3x3 *)a3;
 }

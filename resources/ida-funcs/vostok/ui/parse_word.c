@@ -1,35 +1,26 @@
 void __usercall vostok::ui::parse_word(
-        const char *str@<eax>,
+        char *str@<eax>,
         float *length@<edi>,
+        int a3@<ecx>,
         vostok::ui::ui_font *font,
-        const char **next_word)
+        char **next_word)
 {
-  const char **v4; // ebp
-  const char *v5; // esi
   char v6; // al
-  char v7; // al
+  char v7; // [esp+1h] [ebp-1h] BYREF
 
-  v4 = next_word;
-  v5 = str;
+  v7 = HIBYTE(a3);
   *length = 0.0;
-  v6 = *str;
-  if ( v6 )
+  while ( *str )
   {
-    while ( 1 )
+    v7 = *str;
+    *length = *(float *)(font->get_char_tc(font, (const unsigned __int8 *)&v7) + 8) + *length;
+    v6 = *str;
+    if ( *str == 32 || v6 == 9 || v6 == 13 || v6 == 10 || v6 == 44 || v6 == 46 || v6 == 58 || v6 == 33 )
     {
-      LOBYTE(next_word) = v6;
-      *length = *(float *)(font->get_char_tc(font, (const unsigned __int8 *)&next_word) + 8) + *length;
-      v7 = *v5;
-      if ( *v5 == 32 || v7 == 9 || v7 == 13 || v7 == 10 || v7 == 44 || v7 == 46 || v7 == 58 || v7 == 33 )
-        break;
-      v6 = *++v5;
-      if ( !v6 )
-      {
-        *v4 = v5;
-        return;
-      }
+      ++str;
+      break;
     }
-    ++v5;
+    ++str;
   }
-  *v4 = v5;
+  *next_word = str;
 }

@@ -46,7 +46,7 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
   Scaleform::GFx::AS2::GlobalContext *v44; // ecx
   Scaleform::GFx::AS2::StringManager *v45; // eax
   Scaleform::GFx::ASStringNode *v46; // eax
-  Scaleform::GFx::AS2::Value val; // [esp+4h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v48; // [esp+4h] [ebp-10h] BYREF
 
   Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>::Prototype<Scaleform::GFx::AS2::XmlNodeObject,Scaleform::GFx::AS2::Environment>(
     this,
@@ -71,7 +71,7 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     a3);
   pContext = psc->pContext;
   LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(pContext);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                StringManager->pStringManager,
@@ -83,16 +83,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v10 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v10->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v10);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v11 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v12 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v11);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v12->pStringManager,
@@ -104,16 +104,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v13 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v13->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v13);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v14 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v15 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v14);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v15->pStringManager,
@@ -125,16 +125,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v16 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v16->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v17 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v18 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v17);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v18->pStringManager,
@@ -146,16 +146,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v19 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v20 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v21 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v20);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v21->pStringManager,
@@ -167,16 +167,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v22 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v22->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v22);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v23 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v24 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v23);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v24->pStringManager,
@@ -188,16 +188,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v25 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v25->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v25);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v26 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v27 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v26);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v27->pStringManager,
@@ -209,16 +209,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v28 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v28->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v28);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v29 = psc->pContext;
   LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v30 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v29);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v30->pStringManager,
@@ -230,16 +230,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v31 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v31->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v31);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v32 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v33 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v32);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v33->pStringManager,
@@ -251,16 +251,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v34 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v34->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v34);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v35 = psc->pContext;
   LOBYTE(constructor) = 2;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v36 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v35);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v36->pStringManager,
@@ -272,16 +272,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v37 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v37->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v37);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v38 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v39 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v38);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v39->pStringManager,
@@ -293,16 +293,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v40 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v40->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v40);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v41 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v42 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v41);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v42->pStringManager,
@@ -314,16 +314,16 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v43 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v43->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v43);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
   v44 = psc->pContext;
   LOBYTE(constructor) = 6;
-  val.T.Type = 0;
+  v48.T.Type = 0;
   v45 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v44);
   prototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                v45->pStringManager,
@@ -335,11 +335,11 @@ void __userpurge Scaleform::GFx::AS2::XmlNodeProto::XmlNodeProto(
     (Scaleform::GFx::AS2::Object *)v7,
     psc,
     (const Scaleform::GFx::ASString *)&prototype,
-    &val,
+    &v48,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v46 = (Scaleform::GFx::ASStringNode *)prototype;
   --prototype->RefCount;
   if ( !v46->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v46);
-  Scaleform::GFx::AS2::Value::~Value(&val);
+  Scaleform::GFx::AS2::Value::~Value(&v48);
 }

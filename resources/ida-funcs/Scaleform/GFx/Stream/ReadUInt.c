@@ -1,4 +1,4 @@
-int __thiscall Scaleform::GFx::Stream::ReadUInt(Scaleform::GFx::Stream *this, signed int bitcount)
+int __thiscall Scaleform::GFx::Stream::ReadUInt(Scaleform::GFx::Stream *this, int bitcount)
 {
   int v2; // edi
   int v3; // ebp

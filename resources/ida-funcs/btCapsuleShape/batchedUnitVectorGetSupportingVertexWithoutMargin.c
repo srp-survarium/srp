@@ -4,106 +4,112 @@ void __thiscall btCapsuleShape::batchedUnitVectorGetSupportingVertexWithoutMargi
         btVector3 *supportVerticesOut,
         int numVectors)
 {
-  float *v6; // edi
+  float *v5; // esi
   int m_upAxis; // eax
-  double v8; // st7
-  btCapsuleShape_vtbl *v9; // edx
+  double v7; // st7
+  float v8; // xmm7_4
+  float v9; // xmm3_4
   float v10; // xmm1_4
   float v11; // xmm2_4
-  float v12; // xmm5_4
-  float v13; // xmm6_4
-  unsigned int v14; // xmm4_4
-  float v15; // xmm0_4
-  unsigned int v16; // xmm2_4
+  int v12; // xmm2_4
+  float v13; // xmm0_4
+  int v14; // eax
+  float v15; // xmm3_4
+  float v16; // xmm7_4
   float v17; // xmm0_4
-  int v18; // eax
-  btCapsuleShape_vtbl *v19; // edx
-  float v20; // xmm0_4
-  float v21; // xmm2_4
-  float v22; // xmm5_4
-  float v23; // xmm6_4
-  unsigned int v24; // xmm1_4
-  float v25; // xmm4_4
-  unsigned int v26; // xmm2_4
-  float v27; // xmm4_4
-  float v28; // [esp+11Ch] [ebp-50h]
-  float v29; // [esp+120h] [ebp-4Ch]
-  int v30; // [esp+124h] [ebp-48h]
-  float v31; // [esp+128h] [ebp-44h]
-  float v32; // [esp+128h] [ebp-44h]
-  float v33; // [esp+12Ch] [ebp-40h]
-  float v34; // [esp+130h] [ebp-3Ch]
-  float v35; // [esp+134h] [ebp-38h]
-  float v36; // [esp+13Ch] [ebp-30h]
-  float v37; // [esp+140h] [ebp-2Ch]
-  float v38; // [esp+144h] [ebp-28h]
-  unsigned __int64 v39; // [esp+14Ch] [ebp-20h]
-  unsigned __int64 v40; // [esp+154h] [ebp-18h]
-  unsigned __int64 v41; // [esp+15Ch] [ebp-10h]
-  unsigned __int64 v42; // [esp+164h] [ebp-8h]
+  float v18; // xmm5_4
+  int v19; // xmm2_4
+  int v20; // xmm0_4
+  float v21; // xmm4_4
+  bool v22; // zf
+  float v23; // [esp+18h] [ebp-58h]
+  float v25; // [esp+20h] [ebp-50h]
+  float v26; // [esp+20h] [ebp-50h]
+  int *v27; // [esp+24h] [ebp-4Ch]
+  float v28; // [esp+28h] [ebp-48h]
+  int v29; // [esp+2Ch] [ebp-44h]
+  float v30; // [esp+30h] [ebp-40h]
+  float v31; // [esp+34h] [ebp-3Ch]
+  float v32; // [esp+38h] [ebp-38h]
+  float v33; // [esp+40h] [ebp-30h]
+  float v34; // [esp+44h] [ebp-2Ch]
+  float v35; // [esp+48h] [ebp-28h]
+  int v36; // [esp+50h] [ebp-20h]
+  float v37; // [esp+54h] [ebp-1Ch]
+  float v38; // [esp+58h] [ebp-18h]
+  int v39; // [esp+5Ch] [ebp-14h]
+  int v40; // [esp+60h] [ebp-10h]
+  int v41; // [esp+64h] [ebp-Ch]
+  float v42; // [esp+68h] [ebp-8h]
+  int v43; // [esp+6Ch] [ebp-4h]
 
-  v28 = this->m_implicitShapeDimensions.mVec128.m128_f32[(this->m_upAxis + 2) % 3];
+  v23 = this->m_implicitShapeDimensions.mVec128.m128_f32[(this->m_upAxis + 2) % 3];
   if ( numVectors > 0 )
   {
-    HIDWORD(v40) = 0;
-    HIDWORD(v42) = 0;
-    v6 = &vectors->mVec128.m128_f32[2];
-    v30 = numVectors;
+    v5 = &vectors->mVec128.m128_f32[2];
+    v39 = 0;
+    v43 = 0;
+    v27 = &vectors->mVec128.m128_i32[2];
+    v29 = numVectors;
     do
     {
       m_upAxis = this->m_upAxis;
-      v8 = this->m_implicitShapeDimensions.mVec128.m128_f32[m_upAxis];
-      v9 = this->__vftable;
+      v7 = this->m_implicitShapeDimensions.mVec128.m128_f32[m_upAxis];
+      v30 = 0.0;
+      v31 = 0.0;
+      v32 = 0.0;
+      *(&v30 + m_upAxis) = v7;
+      v28 = FLOAT_N9_9999998e17;
+      v25 = this->getMargin(this);
+      v8 = *v5;
+      v9 = *(v5 - 2);
+      v10 = (float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v5) * v23) + v32;
+      v37 = (float)((float)((float)(this->m_localScaling.mVec128.m128_f32[1] * *(v5 - 1)) * v23) + v31)
+          - (float)(*(v5 - 1) * v25);
+      v11 = (float)((float)(v9 * this->m_localScaling.mVec128.m128_f32[0]) * v23) + v30;
+      v38 = v10 - (float)(v8 * v25);
+      *(float *)&v12 = v11 - (float)(v9 * v25);
+      v13 = (float)((float)(v8 * v38) + (float)(*(v5 - 1) * v37)) + (float)(v9 * *(float *)&v12);
+      v36 = v12;
+      if ( v13 > -9.9999998e17 )
+      {
+        supportVerticesOut->mVec128.m128_i32[0] = v36;
+        supportVerticesOut->mVec128.m128_f32[1] = v37;
+        supportVerticesOut->mVec128.m128_f32[2] = v38;
+        supportVerticesOut->mVec128.m128_i32[3] = v39;
+        v5 = (float *)v27;
+        v28 = v13;
+      }
+      v14 = this->m_upAxis;
       v33 = 0.0;
       v34 = 0.0;
       v35 = 0.0;
-      *(&v33 + m_upAxis) = v8;
-      v29 = -9.9999998e17;
-      v31 = v9->getMargin(this);
-      v10 = *(v6 - 2);
-      v11 = this->m_localScaling.mVec128.m128_f32[1] * *(v6 - 1);
-      v12 = *(v6 - 1) * v31;
-      v13 = *v6 * v31;
-      *(float *)&v14 = (float)((float)((float)(v10 * this->m_localScaling.mVec128.m128_f32[0]) * v28) + v33)
-                     - (float)(v10 * v31);
-      v15 = *v6 * (float)((float)((float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v6) * v28) + v35) - v13);
-      *(float *)&v40 = (float)((float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v6) * v28) + v35) - v13;
-      *(float *)&v16 = (float)((float)(v11 * v28) + v34) - v12;
-      v17 = (float)(v15 + (float)(*(v6 - 1) * *(float *)&v16)) + (float)(v10 * *(float *)&v14);
-      v39 = __PAIR64__(v16, v14);
-      if ( v17 > -9.9999998e17 )
+      *((_DWORD *)&v33 + v14) = this->m_implicitShapeDimensions.mVec128.m128_i32[v14] ^ _mask__NegFloat_;
+      v26 = this->getMargin(this);
+      v15 = *(v5 - 2);
+      v16 = *v5;
+      v17 = (float)((float)(this->m_localScaling.mVec128.m128_f32[1] * *(v5 - 1)) * v23) + v34;
+      v18 = *(v5 - 1) * v26;
+      *(float *)&v19 = (float)((float)((float)(v15 * this->m_localScaling.mVec128.m128_f32[0]) * v23) + v33)
+                     - (float)(v15 * v26);
+      v42 = (float)((float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v5) * v23) + v35) - (float)(*v5 * v26);
+      *(float *)&v20 = v17 - v18;
+      v21 = (float)((float)(v16 * v42) + (float)(*(v5 - 1) * *(float *)&v20)) + (float)(v15 * *(float *)&v19);
+      v40 = v19;
+      v41 = v20;
+      if ( v21 > v28 )
       {
-        v29 = v17;
-        supportVerticesOut->mVec128.m128_u64[0] = v39;
-        supportVerticesOut->mVec128.m128_u64[1] = v40;
+        supportVerticesOut->mVec128.m128_i32[0] = v40;
+        supportVerticesOut->mVec128.m128_i32[1] = v41;
+        supportVerticesOut->mVec128.m128_f32[2] = v42;
+        supportVerticesOut->mVec128.m128_i32[3] = v43;
+        v5 = (float *)v27;
       }
-      v18 = this->m_upAxis;
-      v19 = this->__vftable;
-      v36 = 0.0;
-      v37 = 0.0;
-      v38 = 0.0;
-      *(&v36 + v18) = -this->m_implicitShapeDimensions.mVec128.m128_f32[v18];
-      v32 = v19->getMargin(this);
-      v20 = *(v6 - 2);
-      v21 = this->m_localScaling.mVec128.m128_f32[1] * *(v6 - 1);
-      v22 = *(v6 - 1) * v32;
-      v23 = *v6 * v32;
-      *(float *)&v24 = (float)((float)((float)(v20 * this->m_localScaling.mVec128.m128_f32[0]) * v28) + v36)
-                     - (float)(v20 * v32);
-      v25 = *v6 * (float)((float)((float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v6) * v28) + v38) - v23);
-      *(float *)&v42 = (float)((float)((float)(this->m_localScaling.mVec128.m128_f32[2] * *v6) * v28) + v38) - v23;
-      *(float *)&v26 = (float)((float)(v21 * v28) + v37) - v22;
-      v27 = (float)(v25 + (float)(*(v6 - 1) * *(float *)&v26)) + (float)(v20 * *(float *)&v24);
-      v41 = __PAIR64__(v26, v24);
-      if ( v27 > v29 )
-      {
-        supportVerticesOut->mVec128.m128_u64[0] = v41;
-        supportVerticesOut->mVec128.m128_u64[1] = v42;
-      }
-      v6 += 4;
       ++supportVerticesOut;
-      --v30;
+      v5 += 4;
+      v22 = v29-- == 1;
+      v27 = (int *)v5;
     }
-    while ( v30 );
+    while ( !v22 );
   }
 }

@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::getMouseTopMos
     TopMostEntity = Scaleform::GFx::MovieImpl::GetTopMostEntity(
                       (Scaleform::GFx::MovieImpl *)v4,
                       &mousePos,
-                      mouseIndex,
+                      *(float *)&mouseIndex,
                       testAll,
                       0);
     if ( TopMostEntity )
@@ -63,7 +63,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::Extensions::getMouseTopMos
         else
         {
           RefCount = pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             pObject->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

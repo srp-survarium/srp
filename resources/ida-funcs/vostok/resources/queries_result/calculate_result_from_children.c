@@ -1,27 +1,25 @@
-char __fastcall vostok::resources::queries_result::calculate_result_from_children(
-        vostok::resources::queries_result *this,
-        int a2)
+char __usercall vostok::resources::queries_result::calculate_result_from_children@<al>(
+        vostok::resources::queries_result *this@<ecx>,
+        int a2@<eax>)
 {
-  int v2; // ecx
-  char result; // al
-  _DWORD *v4; // edx
-  int v5; // esi
-  bool v6; // cl
+  vostok::resources::query_result_for_user *v2; // ecx
+  char v3; // bl
+  int v4; // esi
+  int v5; // edi
 
-  v2 = *(_DWORD *)(a2 + 56);
-  result = 1;
+  v2 = *(vostok::resources::query_result_for_user **)(a2 + 56);
+  v3 = 1;
   if ( v2 )
   {
-    v4 = (_DWORD *)(a2 + 340);
-    v5 = v2;
+    v4 = a2 + 80;
+    v5 = *(_DWORD *)(a2 + 56);
     do
     {
-      v6 = !*(v4 - 1) && *v4 != 1;
-      result &= v6;
-      v4 += 180;
+      v3 &= vostok::resources::query_result_for_user::is_successful(v2, v4);
+      v4 += 736;
       --v5;
     }
     while ( v5 );
   }
-  return result;
+  return v3;
 }

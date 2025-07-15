@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::Tessellator::FinalizePath(
   unsigned int v7; // ebx
   unsigned int v8; // edi
   unsigned int v9; // eax
-  Scaleform::Render::Tessellator::PathType path; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::Render::Tessellator::PathType val; // [esp+10h] [ebp-10h] BYREF
 
   LastVertex = this->LastVertex;
   if ( this->SrcVertices.Size >= LastVertex + 2 )
@@ -24,11 +24,11 @@ LABEL_10:
         Scaleform::Render::Tessellator::addStyle(this, v7, leftComplex);
         Scaleform::Render::Tessellator::addStyle(this, v8, rightComplex);
         v9 = this->SrcVertices.Size - 1;
-        path.start = this->LastVertex;
-        path.end = v9;
-        path.leftStyle = v7;
-        path.rightStyle = v8;
-        Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::PathType,4,4>::PushBack(&this->Paths, &path);
+        val.start = this->LastVertex;
+        val.end = v9;
+        val.leftStyle = v7;
+        val.rightStyle = v8;
+        Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::PathType,4,4>::PushBack(&this->Paths, &val);
         this->LastVertex = this->SrcVertices.Size;
         return;
       }

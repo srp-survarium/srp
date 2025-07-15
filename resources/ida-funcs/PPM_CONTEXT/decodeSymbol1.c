@@ -1,83 +1,79 @@
-void __userpurge PPM_CONTEXT::decodeSymbol1(ppmd_compressor_impl *impl@<esi>, PPM_CONTEXT *this)
+void __usercall PPM_CONTEXT::decodeSymbol1(PPM_CONTEXT *this@<eax>, ppmd_compressor_impl *impl@<edi>)
 {
-  unsigned int v2; // eax
-  PPM_CONTEXT::STATE *Stats; // edi
+  PPM_CONTEXT::STATE *Stats; // eax
   unsigned int Freq; // ecx
-  unsigned int v5; // ebp
+  unsigned int SummFreq; // ebx
   unsigned int v6; // eax
-  unsigned int v7; // eax
-  bool v8; // cf
-  PPM_CONTEXT *v9; // ecx
-  int NumStats; // ebp
-  PPM_CONTEXT::STATE *v11; // edi
-  unsigned int v12; // ecx
-  int v13; // edx
+  unsigned int v7; // ebx
+  unsigned int v8; // eax
+  unsigned int v9; // edx
+  bool v10; // cf
+  PPM_CONTEXT *v11; // ecx
+  PPM_CONTEXT::STATE *v12; // eax
+  int v13; // ebx
   unsigned __int8 EscCount; // dl
-  unsigned __int8 v15; // bl
-  int v16; // eax
-  int Symbol; // ecx
+  int v15; // ecx
+  int NumStats; // [esp+8h] [ebp-8h]
+  PPM_CONTEXT::STATE *v17; // [esp+Ch] [ebp-4h]
 
-  v2 = impl->m_range / this->SummFreq;
   Stats = this->Stats;
   Freq = Stats->Freq;
-  impl->m_SubRange.scale = this->SummFreq;
-  v5 = v2;
-  v6 = impl->m_code - impl->m_low;
-  impl->m_range = v5;
-  v7 = v6 / v5;
-  if ( v7 >= Freq )
+  SummFreq = this->SummFreq;
+  v17 = Stats;
+  v6 = impl->m_range / SummFreq;
+  impl->m_SubRange.scale = SummFreq;
+  v7 = v6;
+  v8 = impl->m_code - impl->m_low;
+  impl->m_range = v7;
+  v9 = v8 / v7;
+  if ( v8 / v7 >= Freq )
   {
     NumStats = this->NumStats;
-    v11 = Stats + 1;
+    v12 = v17;
     impl->PrevSuccess = 0;
-    v12 = v11->Freq + Freq;
-    if ( v12 > v7 )
+    do
     {
-LABEL_8:
-      impl->m_SubRange.high = v12;
-      impl->m_SubRange.low = v12 - v11->Freq;
-      PPM_CONTEXT::update1(impl, v11, this);
+      v13 = v12[1].Freq;
+      ++v12;
+      Freq += v13;
+      if ( Freq > v9 )
+      {
+        impl->m_SubRange.high = Freq;
+        impl->m_SubRange.low = Freq - v12->Freq;
+        PPM_CONTEXT::update1(v12, this, impl);
+        return;
+      }
+      --NumStats;
     }
-    else
+    while ( NumStats );
+    EscCount = impl->EscCount;
+    impl->m_SubRange.low = Freq;
+    impl->CharMask[v12->Symbol] = EscCount;
+    LOBYTE(v15) = this->NumStats;
+    impl->FoundState = 0;
+    impl->NumMasked = v15;
+    v15 = (unsigned __int8)v15;
+    do
     {
-      while ( --NumStats )
-      {
-        v13 = v11[1].Freq;
-        ++v11;
-        v12 += v13;
-        if ( v12 > v7 )
-          goto LABEL_8;
-      }
-      EscCount = impl->EscCount;
-      impl->m_SubRange.low = v12;
-      impl->CharMask[v11->Symbol] = EscCount;
-      v15 = this->NumStats;
-      impl->NumMasked = this->NumStats;
-      v16 = v15;
-      impl->FoundState = 0;
-      do
-      {
-        Symbol = v11[-1].Symbol;
-        --v11;
-        --v16;
-        impl->CharMask[Symbol] = impl->EscCount;
-      }
-      while ( v16 );
-      impl->m_SubRange.high = impl->m_SubRange.scale;
+      --v12;
+      --v15;
+      impl->CharMask[v12->Symbol] = impl->EscCount;
     }
+    while ( v15 );
+    impl->m_SubRange.high = impl->m_SubRange.scale;
   }
   else
   {
-    v8 = 2 * Freq < impl->m_SubRange.scale;
+    v10 = 2 * Freq < impl->m_SubRange.scale;
     impl->m_SubRange.high = Freq;
-    impl->PrevSuccess = !v8;
-    v9 = (PPM_CONTEXT *)(Freq + 4);
-    impl->FoundState = Stats;
-    Stats->Freq = (unsigned __int8)v9;
+    impl->PrevSuccess = 1 - v10;
+    v11 = (PPM_CONTEXT *)(Freq + 4);
+    impl->FoundState = v17;
+    v17->Freq = (unsigned __int8)v11;
     this->SummFreq += 4;
     impl->RunLength += impl->PrevSuccess;
-    if ( (unsigned int)v9 > 0x7C )
-      PPM_CONTEXT::rescale(v9, (ppmd_compressor_impl *)this);
+    if ( (unsigned int)v11 > 0x7C )
+      PPM_CONTEXT::rescale(v11, &this->NumStats, impl);
     impl->m_SubRange.low = 0;
   }
 }

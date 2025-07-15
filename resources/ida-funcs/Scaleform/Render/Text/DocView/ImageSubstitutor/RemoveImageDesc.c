@@ -7,13 +7,13 @@ void __thiscall Scaleform::Render::Text::DocView::ImageSubstitutor::RemoveImageD
   int v5; // ebx
   Scaleform::RefCountNTSImpl **p_pObject; // edi
   Scaleform::RefCountNTSImpl *pObject; // eax
-  unsigned int i; // [esp+8h] [ebp-8h]
-  unsigned int n; // [esp+Ch] [ebp-4h]
+  unsigned int v8; // [esp+8h] [ebp-8h]
+  unsigned int Size; // [esp+Ch] [ebp-4h]
 
   v3 = 0;
-  i = 0;
-  n = this->Elements.Data.Size;
-  if ( n )
+  v8 = 0;
+  Size = this->Elements.Data.Size;
+  if ( Size )
   {
     do
     {
@@ -49,18 +49,18 @@ void __thiscall Scaleform::Render::Text::DocView::ImageSubstitutor::RemoveImageD
           if ( pObject )
             Scaleform::RefCountNTSImpl::Release(pObject);
           memmove(
-            (unsigned __int8 *)&this->Elements.Data.Data[v3],
-            (unsigned __int8 *)&this->Elements.Data.Data[v3 + 1],
-            48 * (this->Elements.Data.Size - i - 1));
+            (int)&this->Elements.Data.Data[v3],
+            (const __m128i *)&this->Elements.Data.Data[v3 + 1],
+            48 * (this->Elements.Data.Size - v8 - 1));
           --this->Elements.Data.Size;
         }
       }
       else
       {
-        ++i;
+        ++v8;
         ++v3;
       }
     }
-    while ( i < n );
+    while ( v8 < Size );
   }
 }

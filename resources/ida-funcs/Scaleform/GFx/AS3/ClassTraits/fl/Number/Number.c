@@ -20,7 +20,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::Number::Number(
   if ( v4 )
   {
     Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(v4, vm, &Scaleform::GFx::AS3::fl::NumberCI);
-    v5->__vftable = (Scaleform::GFx::AS3::InstanceTraits::Traits_vtbl *)&Scaleform::GFx::AS3::InstanceTraits::Prototype::`vftable';
+    v5->__vftable = (Scaleform::GFx::AS3::InstanceTraits::Traits_vtbl *)&Scaleform::GFx::AS3::InstanceTraits::fl::Number::`vftable';
     v5->TraitsType = Traits_Number;
     v6.pV = v5;
   }
@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl::Number::Number(
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

@@ -1,6 +1,6 @@
-pcharNode *__thiscall pcharNode::pcharNode(pcharNode *this, const char *str, int len)
+pcharNode *__thiscall pcharNode::pcharNode(pcharNode *this, const char *str, unsigned int len)
 {
-  int v3; // edi
+  unsigned int v3; // edi
   char *Memory; // eax
   const char *v6; // ecx
 

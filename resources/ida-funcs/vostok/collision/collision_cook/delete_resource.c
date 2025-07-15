@@ -2,7 +2,7 @@ void __thiscall vostok::collision::collision_cook::delete_resource(
         vostok::collision::collision_cook *this,
         vostok::resources::resource_base *resource)
 {
-  _BYTE *v2; // edi
+  _BYTE *v2; // ebx
 
   if ( resource )
   {
@@ -13,6 +13,11 @@ void __thiscall vostok::collision::collision_cook::delete_resource(
     ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
       resource,
       0);
-    vostok::memory::g_resources_unmanaged_allocator.call_free(&vostok::memory::g_resources_unmanaged_allocator, v2);
+    vostok::memory::g_resources_unmanaged_allocator.call_free(
+      &vostok::memory::g_resources_unmanaged_allocator,
+      v2,
+      "vostok::collision::delete_geometry",
+      ".\\api.cpp",
+      211u);
   }
 }

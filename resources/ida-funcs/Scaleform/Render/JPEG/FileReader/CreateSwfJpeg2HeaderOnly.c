@@ -33,7 +33,7 @@ Scaleform::Render::JPEG::Input *__thiscall Scaleform::Render::JPEG::FileReader::
 
 Scaleform::Render::JPEG::Input *__thiscall Scaleform::Render::JPEG::FileReader::CreateSwfJpeg2HeaderOnly(
         Scaleform::Render::JPEG::FileReader *this,
-        const unsigned __int8 *pbuffer,
+        unsigned __int8 *pbuffer,
         unsigned int bufSize)
 {
   Scaleform::Render::JPEG::JPEGInputImpl_jpeglib *v3; // eax

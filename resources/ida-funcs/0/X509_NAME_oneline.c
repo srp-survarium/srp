@@ -8,66 +8,65 @@ char *__cdecl X509_NAME_oneline(X509_name_st *a, char *buf, unsigned int len)
   unsigned __int8 *v8; // edi
   unsigned __int8 *v10; // esi
   char *v11; // esi
-  unsigned int v12; // eax
-  unsigned __int8 *v13; // eax
-  unsigned int v14; // ebx
-  int *v15; // eax
-  int v16; // ebp
-  int v17; // esi
-  int v18; // ecx
+  void *v12; // eax
+  char *v13; // eax
+  int *v14; // eax
+  int v15; // ebp
+  int v16; // esi
+  int v17; // ecx
+  int v18; // eax
   int v19; // eax
-  int v20; // eax
-  int j; // edx
-  unsigned __int8 v22; // cl
-  int v23; // edi
-  int v24; // eax
-  unsigned __int8 *v25; // esi
-  unsigned __int8 *v26; // eax
-  unsigned __int8 *v27; // esi
-  char *v28; // ecx
-  unsigned __int8 *v29; // esi
-  int v30; // edi
-  _BYTE *v31; // esi
-  int k; // ecx
-  int v33; // eax
-  _BYTE *v34; // esi
-  const stack_st **v35; // ecx
-  int v36; // esi
-  const asn1_object_st *v37; // [esp-Ch] [ebp-9Ch]
+  int i; // edx
+  unsigned __int8 v21; // cl
+  int v22; // edi
+  int v23; // eax
+  unsigned __int8 *v24; // esi
+  const __m128i *v25; // eax
+  int v26; // esi
+  char *v27; // ecx
+  _BYTE *v28; // esi
+  int v29; // edi
+  _BYTE *v30; // esi
+  int j; // ecx
+  int v32; // eax
+  _BYTE *v33; // esi
+  const stack_st **v34; // ecx
+  int v35; // esi
+  const asn1_object_st *v36; // [esp-Ch] [ebp-9Ch]
   stack_st_X509_NAME_ENTRY *entries; // [esp-4h] [ebp-94h]
-  const stack_st *v39; // [esp-4h] [ebp-94h]
-  buf_mem_st *str; // [esp+10h] [ebp-80h]
-  int v41; // [esp+14h] [ebp-7Ch]
-  int v42; // [esp+18h] [ebp-78h]
-  int v43; // [esp+1Ch] [ebp-74h]
-  int v44; // [esp+20h] [ebp-70h]
+  const stack_st *v38; // [esp-4h] [ebp-94h]
+  buf_mem_st *v39; // [esp+10h] [ebp-80h]
+  int v40; // [esp+14h] [ebp-7Ch]
+  int v41; // [esp+18h] [ebp-78h]
+  int v42; // [esp+1Ch] [ebp-74h]
+  int v43; // [esp+20h] [ebp-70h]
   unsigned __int8 *dest; // [esp+24h] [ebp-6Ch]
-  int i; // [esp+28h] [ebp-68h]
+  int v45; // [esp+28h] [ebp-68h]
   unsigned __int8 *src; // [esp+2Ch] [ebp-64h]
-  int v48; // [esp+30h] [ebp-60h]
-  X509_name_st *v49; // [esp+34h] [ebp-5Ch]
-  char *v50; // [esp+38h] [ebp-58h]
-  char bufa[80]; // [esp+3Ch] [ebp-54h] BYREF
-  int v52; // [esp+9Ch] [ebp+Ch]
+  int v47; // [esp+30h] [ebp-60h]
+  X509_name_st *v48; // [esp+34h] [ebp-5Ch]
+  char *v49; // [esp+38h] [ebp-58h]
+  char v50[80]; // [esp+3Ch] [ebp-54h] BYREF
+  int v51; // [esp+9Ch] [ebp+Ch]
 
   v3 = a;
   v4 = 0;
-  v49 = a;
+  v48 = a;
   dest = (unsigned __int8 *)buf;
-  str = 0;
+  v39 = 0;
   if ( buf )
   {
     v7 = len;
   }
   else
   {
-    v5 = BUF_MEM_new();
+    v5 = BUF_MEM_new((int)a);
     v6 = v5;
-    str = v5;
+    v39 = v5;
     if ( !v5 || !BUF_MEM_grow(v5, 0xC8u) )
     {
-err_44:
-      ERR_put_error(0xBu, 116, 65, ".\\crypto\\x509\\x509_obj.c", 222);
+err_46:
+      ERR_put_error((int)v3, 0xBu, 116, 65, ".\\crypto\\x509\\x509_obj.c", 222);
       if ( v6 )
         BUF_MEM_free(v6);
       return 0;
@@ -79,132 +78,132 @@ err_44:
   if ( a )
   {
     entries = a->entries;
-    v52 = v7 - 1;
-    v48 = 0;
-    i = 0;
+    v51 = v7 - 1;
+    v47 = 0;
+    v45 = 0;
     if ( sk_num(&entries->stack) > 0 )
     {
       while ( 1 )
       {
-        v11 = sk_value(&v3->entries->stack, i);
-        v37 = *(const asn1_object_st **)v11;
-        v50 = v11;
-        v12 = OBJ_obj2nid(v37);
-        if ( !v12 || (v13 = (unsigned __int8 *)OBJ_nid2sn(v12), (src = v13) == 0) )
+        v11 = sk_value(&v3->entries->stack, v45);
+        v36 = *(const asn1_object_st **)v11;
+        v49 = v11;
+        v12 = OBJ_obj2nid(v36);
+        if ( !v12 || (v13 = (char *)OBJ_nid2sn((int)v3, (unsigned int)v12), (src = (unsigned __int8 *)v13) == 0) )
         {
-          i2t_ASN1_OBJECT(bufa, 0x50u, *(asn1_object_st **)v11);
-          src = (unsigned __int8 *)bufa;
-          v13 = (unsigned __int8 *)bufa;
+          i2t_ASN1_OBJECT(v50, 0x50u, *(asn1_object_st **)v11);
+          src = (unsigned __int8 *)v50;
+          v13 = v50;
         }
-        v14 = strlen((const char *)v13);
-        v15 = (int *)*((_DWORD *)v11 + 1);
-        v16 = *v15;
-        v17 = v15[2];
-        if ( v15[1] != 27 || v16 % 4 )
+        v3 = (X509_name_st *)strlen(v13);
+        v14 = (int *)*((_DWORD *)v11 + 1);
+        v15 = *v14;
+        v16 = v14[2];
+        if ( v14[1] != 27 || v15 % 4 )
         {
-          v44 = 1;
           v43 = 1;
           v42 = 1;
           v41 = 1;
+          v40 = 1;
         }
         else
         {
+          v17 = 0;
           v18 = 0;
-          v19 = 0;
-          v43 = 0;
           v42 = 0;
           v41 = 0;
-          if ( v16 > 0 )
+          v40 = 0;
+          if ( v15 > 0 )
           {
             do
             {
-              if ( *(_BYTE *)(v19 + v17) )
-                *(&v41 + (v19 & 3)) = 1;
-              ++v19;
+              if ( *(_BYTE *)(v18 + v16) )
+                *(&v40 + (v18 & 3)) = 1;
+              ++v18;
             }
-            while ( v19 < v16 );
-            v18 = v41;
+            while ( v18 < v15 );
+            v17 = v40;
           }
-          if ( v43 | v42 | v18 )
+          if ( v42 | v41 | v17 )
           {
-            v44 = 1;
             v43 = 1;
             v42 = 1;
             v41 = 1;
+            v40 = 1;
           }
           else
           {
-            v43 = 0;
             v42 = 0;
             v41 = 0;
-            v44 = 1;
+            v40 = 0;
+            v43 = 1;
           }
         }
-        v20 = 0;
-        for ( j = 0; v20 < v16; ++v20 )
+        v19 = 0;
+        for ( i = 0; v19 < v15; ++v19 )
         {
-          if ( *(&v41 + (v20 & 3)) )
+          if ( *(&v40 + (v19 & 3)) )
           {
-            v22 = *(_BYTE *)(v20 + v17);
-            ++j;
-            if ( v22 < 0x20u || v22 > 0x7Eu )
-              j += 3;
+            v21 = *(_BYTE *)(v19 + v16);
+            ++i;
+            if ( v21 < 0x20u || v21 > 0x7Eu )
+              i += 3;
           }
         }
-        v23 = v48;
-        v24 = v48 + v14 + j + 2;
-        v48 = v24;
-        if ( str )
+        v22 = v47;
+        v23 = (int)&v3->entries + i + v47 + 2;
+        v47 = v23;
+        if ( v39 )
         {
-          if ( !BUF_MEM_grow(str, v24 + 1) )
+          if ( !BUF_MEM_grow(v39, v23 + 1) )
           {
-            v6 = str;
-            goto err_44;
+            v6 = v39;
+            goto err_46;
           }
-          v25 = (unsigned __int8 *)&str->data[v23];
+          v24 = (unsigned __int8 *)&v39->data[v22];
         }
         else
         {
-          if ( v24 > v52 )
+          if ( v23 > v51 )
             goto LABEL_51;
-          v25 = &dest[v23];
+          v24 = &dest[v22];
         }
-        v26 = src;
-        *v25 = 47;
-        v27 = v25 + 1;
-        memcpy(v27, v26, v14);
-        v28 = v50;
-        v29 = &v27[v14];
-        *v29 = 61;
-        v30 = *(_DWORD *)(*((_DWORD *)v28 + 1) + 8);
-        v31 = v29 + 1;
-        for ( k = 0; k < v16; ++k )
+        v25 = (const __m128i *)src;
+        *v24 = 47;
+        v26 = (int)(v24 + 1);
+        memcpy(v26, v25, (unsigned int)v3);
+        v27 = v49;
+        v28 = (char *)v3 + v26;
+        *v28 = 61;
+        v29 = *(_DWORD *)(*((_DWORD *)v27 + 1) + 8);
+        v30 = v28 + 1;
+        for ( j = 0; j < v15; ++j )
         {
-          if ( *(&v41 + (k & 3)) )
+          if ( *(&v40 + (j & 3)) )
           {
-            v33 = *(unsigned __int8 *)(k + v30);
-            if ( (unsigned int)(v33 - 32) > 0x5E )
+            v32 = *(unsigned __int8 *)(j + v29);
+            if ( (unsigned int)(v32 - 32) > 0x5E )
             {
-              *v31 = 92;
-              v34 = v31 + 1;
-              *v34++ = 120;
-              *v34 = hex[(v33 >> 4) & 0xF];
-              v31 = v34 + 1;
-              LOBYTE(v33) = hex[v33 & 0xF];
+              *v30 = 92;
+              v33 = v30 + 1;
+              *v33++ = 120;
+              *v33 = hex[(v32 >> 4) & 0xF];
+              v30 = v33 + 1;
+              LOBYTE(v32) = hex[v32 & 0xF];
             }
-            *v31++ = v33;
+            *v30++ = v32;
           }
         }
-        v35 = (const stack_st **)v49;
-        *v31 = 0;
-        v39 = *v35;
-        v36 = ++i;
-        if ( v36 >= sk_num(v39) )
+        v34 = (const stack_st **)v48;
+        *v30 = 0;
+        v38 = *v34;
+        v35 = ++v45;
+        if ( v35 >= sk_num(v38) )
         {
-          v4 = (unsigned __int8 **)str;
+          v4 = (unsigned __int8 **)v39;
           break;
         }
-        v3 = v49;
+        v3 = v48;
       }
     }
     if ( v4 )
@@ -217,7 +216,7 @@ err_44:
 LABEL_51:
       v10 = dest;
     }
-    if ( !i )
+    if ( !v45 )
       *v10 = 0;
     return (char *)v10;
   }

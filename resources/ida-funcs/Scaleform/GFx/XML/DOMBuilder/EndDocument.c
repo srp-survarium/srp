@@ -21,14 +21,14 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::EndDocument(Scaleform::GFx::XML
   v5 = p_MemoryManager->pObject;
   StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
                  &p_MemoryManager->pObject->StringPool,
-                 (char *)this->pLocator->XMLVersion.pStr,
+                 (__m128i *)this->pLocator->XMLVersion.pStr,
                  (Scaleform::GFx::XML::DOMStringNode *)this->pLocator->XMLVersion.Size);
   Scaleform::GFx::XML::DOMString::DOMString(&v8, StringNode);
   Scaleform::GFx::XML::DOMString::AssignNode(&this->pDoc.pObject->XMLVersion, v8.pNode);
   Scaleform::GFx::XML::DOMString::~DOMString(&v8);
   v7 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
          &v5->StringPool,
-         (char *)this->pLocator->Encoding.pStr,
+         (__m128i *)this->pLocator->Encoding.pStr,
          (Scaleform::GFx::XML::DOMStringNode *)this->pLocator->Encoding.Size);
   Scaleform::GFx::XML::DOMString::DOMString(&v8, v7);
   Scaleform::GFx::XML::DOMString::AssignNode(&this->pDoc.pObject->Encoding, v8.pNode);

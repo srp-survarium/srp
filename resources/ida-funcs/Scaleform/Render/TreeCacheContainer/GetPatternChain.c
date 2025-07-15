@@ -14,7 +14,7 @@ bool __thiscall Scaleform::Render::TreeCacheContainer::GetPatternChain(
     range->Length = 0;
     return 0;
   }
-  v5 = (unsigned int)sub_7E0000 & this->UpdateFlags;
+  v5 = (unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376] & this->UpdateFlags;
   if ( this->CachedChildPattern.Length == 0x80000000 )
   {
     p_CachedChildPattern = &this->CachedChildPattern;

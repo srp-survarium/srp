@@ -2,5 +2,5 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::NotifyOnResize(Scaleform::GFx::A
 {
   Scaleform::GFx::AS3::EventChains::QueueEvents(
     &this->mEventChains,
-    (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574220]);
+    (Scaleform::GFx::EventId::IdCode)&s_ui_commands_allocator.m_buffer[2035380]);
 }

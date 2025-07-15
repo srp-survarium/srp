@@ -10,7 +10,7 @@ void __thiscall Scaleform::GFx::AS2::UserDefinedFunctionObject::Invoke(
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::SuperObject *p_pProto; // edi
   Scaleform::GFx::AS2::ObjectInterface *RealThis; // esi
-  Scaleform::GFx::AS2::FnCall fn2; // [esp+4h] [ebp-24h] BYREF
+  Scaleform::GFx::AS2::FnCall fna; // [esp+4h] [ebp-24h] BYREF
 
   if ( this->pContext.pObject )
   {
@@ -20,18 +20,18 @@ void __thiscall Scaleform::GFx::AS2::UserDefinedFunctionObject::Invoke(
       NArgs = fn->NArgs;
       Env = fn->Env;
       Result = fn->Result;
-      fn2.FirstArgBottomIndex = fn->FirstArgBottomIndex;
+      fna.FirstArgBottomIndex = fn->FirstArgBottomIndex;
       p_pProto = (Scaleform::GFx::AS2::SuperObject *)&ThisPtr[-2].pProto;
-      fn2.Result = Result;
+      fna.Result = Result;
       RealThis = p_pProto->RealThis;
-      fn2.NArgs = NArgs;
-      fn2.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
-      fn2.ThisPtr = RealThis;
-      memset(&fn2.ThisFunctionRef, 0, 9);
-      fn2.Env = Env;
-      Scaleform::GFx::AS2::UserDefinedFunctionObject::InvokeImpl(this, &fn2);
+      fna.NArgs = NArgs;
+      fna.__vftable = (Scaleform::GFx::AS2::FnCall_vtbl *)&Scaleform::GFx::AS2::FnCall::`vftable';
+      fna.ThisPtr = RealThis;
+      memset(&fna.ThisFunctionRef, 0, 9);
+      fna.Env = Env;
+      Scaleform::GFx::AS2::UserDefinedFunctionObject::InvokeImpl(this, &fna);
       Scaleform::GFx::AS2::SuperObject::ResetAltProto(p_pProto);
-      Scaleform::GFx::AS2::FnCall::~FnCall(&fn2);
+      Scaleform::GFx::AS2::FnCall::~FnCall(&fna);
     }
     else
     {

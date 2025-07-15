@@ -37,7 +37,7 @@ char __thiscall Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Ren
   Scaleform::Render::DrawableImage *pObject; // ecx
   int x; // edx
 
-  v2 = Scaleform::Render::DICommandQueue::allocCommandFromPage(this, 0x14u, &this->QueueLock);
+  v2 = (_DWORD *)Scaleform::Render::DICommandQueue::allocCommandFromPage(this, 0x14u, &this->QueueLock);
   v3 = v2;
   if ( !v2 )
     return 0;
@@ -63,7 +63,7 @@ char __thiscall Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Ren
   _DWORD *v3; // esi
   Scaleform::Render::DrawableImage *pObject; // ecx
 
-  v2 = Scaleform::Render::DICommandQueue::allocCommandFromPage(this, 0x14u, &this->QueueLock);
+  v2 = (_DWORD *)Scaleform::Render::DICommandQueue::allocCommandFromPage(this, 0x14u, &this->QueueLock);
   v3 = v2;
   if ( !v2 )
     return 0;

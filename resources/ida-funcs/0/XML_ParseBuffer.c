@@ -20,7 +20,7 @@ int __cdecl XML_ParseBuffer(int a1, int a2, int a3)
       return 0;
     }
   }
-  else if ( !*(_DWORD *)(a1 + 476) && !sub_525390(a1) )
+  else if ( !*(_DWORD *)(a1 + 476) && !sub_640730(a1) )
   {
     *(_DWORD *)(a1 + 284) = 1;
     return 0;

@@ -1,4 +1,4 @@
-double __usercall todB@<st0>(float *x@<eax>)
+double __usercall todB@<st0>(const float *x@<eax>)
 {
-  return (float)((double)COERCE_INT(fabs(*x)) * 0.0000007177114298428933 - 764.6162109375);
+  return (double)(*(_DWORD *)x & 0x7FFFFFFF) * 0.00000071771143 - 764.61621;
 }

@@ -10,17 +10,17 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createDrawLayers(
   unsigned int v9; // ebp
   unsigned int v10; // esi
   bool v11; // zf
-  Scaleform::Render::ShapeMeshProvider::TmpPathInfoType *v12; // eax
-  unsigned int v13; // ebx
-  int v14; // edx
-  unsigned int v15; // ebp
+  unsigned int v12; // edx
+  int v13; // ebx
+  unsigned int v14; // ebp
   Scaleform::ArrayLH_POD<Scaleform::Render::ShapeMeshProvider::DrawLayerType,2,Scaleform::ArrayDefaultPolicy> *p_DrawLayers; // edi
-  unsigned int v17; // esi
-  Scaleform::Render::ShapeMeshProvider::DrawLayerType *v18; // ecx
+  unsigned int v16; // esi
+  Scaleform::Render::ShapeMeshProvider::DrawLayerType *v17; // ecx
   unsigned int *p_StartPos; // eax
-  unsigned int startPos; // [esp+Ch] [ebp-2Ch]
+  Scaleform::AmpServer *Instance; // eax
+  unsigned int Pos; // [esp+Ch] [ebp-2Ch]
   int v22; // [esp+10h] [ebp-28h]
-  Scaleform::Render::BitSet styles; // [esp+14h] [ebp-24h] BYREF
+  Scaleform::Render::BitSet v23; // [esp+14h] [ebp-24h] BYREF
   Scaleform::Render::ShapeMeshProvider::DrawLayerType val; // [esp+24h] [ebp-14h] BYREF
   unsigned int i1a; // [esp+40h] [ebp+8h]
   unsigned int i1b; // [esp+40h] [ebp+8h]
@@ -31,42 +31,41 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createDrawLayers(
   {
     v6 = paths;
     Data = paths->Data;
-    p_Local = (Scaleform::Render::BitSet *)&styles.Local;
+    p_Local = (Scaleform::Render::BitSet *)&v23.Local;
     v9 = 24 * i1;
-    styles.Size = 32;
-    styles.Local = 0;
-    styles.pData = &styles.Local;
-    styles.pHeap = Scaleform::Memory::pGlobalHeap;
-    startPos = Data[i1].Pos;
+    v23.Size = 32;
+    v23.Local = 0;
+    v23.pData = &v23.Local;
+    v23.pHeap = Scaleform::Memory::pGlobalHeap;
+    Pos = Data[i1].Pos;
     i2a = i1;
     i1a = i2 - i1;
     do
     {
-      if ( v6->Data[i2a].Styles[0] != v6->Data[i2a].Styles[1] && (!styles.Size || (p_Local->Size & 1) == 0) )
+      if ( v6->Data[i2a].Styles[0] != v6->Data[i2a].Styles[1] && (!v23.Size || (p_Local->Size & 1) == 0) )
       {
         Scaleform::Render::ShapeMeshProvider::countComplexFills(this, v6, i1, i2, &val);
-        val.StartPos = startPos;
+        val.StartPos = Pos;
         val.StrokeStyle = 0;
         val.Image9GridType = I9gNone;
         Scaleform::ArrayData<Scaleform::Render::ShapeMeshProvider::DrawLayerType,Scaleform::AllocatorLH_POD<Scaleform::Render::ShapeMeshProvider::DrawLayerType,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
           &this->DrawLayers.Data,
           &val);
-        if ( !styles.Size )
-          Scaleform::Render::BitSet::resize(&styles, 1u);
-        *styles.pData |= 1u;
+        if ( !v23.Size )
+          Scaleform::Render::BitSet::resize(&v23, 1u);
+        *v23.pData |= 1u;
       }
-      v6 = paths;
       v10 = paths->Data[i2a].Styles[2];
       if ( v10 )
       {
-        if ( v10 >= styles.Size )
-          Scaleform::Render::BitSet::resize(&styles, v10 + 1);
-        v6 = paths;
-        styles.pData[v10 >> 5] |= 1 << (v10 & 0x1F);
+        if ( v10 >= v23.Size )
+          Scaleform::Render::BitSet::resize(&v23, v10 + 1);
+        v23.pData[v10 >> 5] |= 1 << (v10 & 0x1F);
       }
       ++i2a;
       v11 = i1a-- == 1;
-      p_Local = (Scaleform::Render::BitSet *)styles.pData;
+      p_Local = (Scaleform::Render::BitSet *)v23.pData;
+      v6 = paths;
     }
     while ( !v11 );
     if ( i1 < i2 )
@@ -75,55 +74,53 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createDrawLayers(
       v22 = i2 - i1;
       while ( 1 )
       {
-        v12 = v6->Data;
-        v13 = *(unsigned int *)((char *)&v12->Styles[2] + v9);
-        if ( !v13 )
+        v12 = *(unsigned int *)((char *)&v6->Data->Styles[2] + v9);
+        i2b = v12;
+        if ( !v12 )
           goto LABEL_29;
-        if ( v13 >= styles.Size )
+        if ( v12 >= v23.Size )
           goto LABEL_29;
-        v14 = 1 << (*((_BYTE *)&v12->Styles[2] + v9) & 0x1F);
-        v15 = v13 >> 5;
-        i2b = v14;
-        if ( (v14 & *(unsigned int *)((_BYTE *)&p_Local->Size + v15 * 4)) == 0 )
+        v13 = 1 << (v12 & 0x1F);
+        v14 = v12 >> 5;
+        if ( (v13 & *(unsigned int *)((_BYTE *)&p_Local->Size + v14 * 4)) == 0 )
           goto LABEL_29;
         p_DrawLayers = &this->DrawLayers;
-        v17 = this->DrawLayers.Data.Size + 1;
-        if ( v17 >= this->DrawLayers.Data.Size )
+        v16 = this->DrawLayers.Data.Size + 1;
+        if ( v16 >= this->DrawLayers.Data.Size )
         {
-          if ( v17 >= this->DrawLayers.Data.Policy.Capacity )
+          if ( v16 >= this->DrawLayers.Data.Policy.Capacity )
           {
             Scaleform::ArrayDataBase<Scaleform::Render::ShapeMeshProvider::DrawLayerType,Scaleform::AllocatorLH_POD<Scaleform::Render::ShapeMeshProvider::DrawLayerType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
               &p_DrawLayers->Data,
               p_DrawLayers,
-              v17 + (v17 >> 2));
+              v16 + (v16 >> 2));
             goto LABEL_25;
           }
         }
-        else if ( v17 < this->DrawLayers.Data.Policy.Capacity >> 1 )
+        else if ( v16 < this->DrawLayers.Data.Policy.Capacity >> 1 )
         {
           Scaleform::ArrayDataBase<Scaleform::Render::ShapeMeshProvider::DrawLayerType,Scaleform::AllocatorLH_POD<Scaleform::Render::ShapeMeshProvider::DrawLayerType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
             &p_DrawLayers->Data,
             p_DrawLayers,
             this->DrawLayers.Data.Size + 1);
 LABEL_25:
-          v14 = i2b;
+          v12 = i2b;
         }
-        v18 = p_DrawLayers->Data.Data;
-        this->DrawLayers.Data.Size = v17;
-        p_StartPos = &v18[v17 - 1].StartPos;
-        *p_StartPos = startPos;
+        v17 = p_DrawLayers->Data.Data;
+        this->DrawLayers.Data.Size = v16;
+        p_StartPos = &v17[v16 - 1].StartPos;
+        *p_StartPos = Pos;
         p_StartPos[1] = 0;
         p_StartPos[2] = 1;
-        p_StartPos[3] = v13;
+        p_StartPos[3] = v12;
         p_StartPos[4] = 0;
-        if ( v13 >= styles.Size )
-        {
-          Scaleform::Render::BitSet::resize(&styles, v13 + 1);
-          v14 = i2b;
-        }
-        styles.pData[v15] &= ~v14;
-        p_Local = (Scaleform::Render::BitSet *)styles.pData;
+        if ( v12 >= v23.Size )
+          Scaleform::Render::BitSet::resize(&v23, v12 + 1);
+        v23.pData[v14] &= ~v13;
         this->Strokes = 1;
+        Instance = Scaleform::AmpServer::GetInstance();
+        Instance->AddStrokes(Instance, 1u);
+        p_Local = (Scaleform::Render::BitSet *)v23.pData;
 LABEL_29:
         v9 = i1b + 24;
         v11 = v22-- == 1;
@@ -133,7 +130,7 @@ LABEL_29:
         v6 = paths;
       }
     }
-    if ( p_Local != (Scaleform::Render::BitSet *)&styles.Local )
-      styles.pHeap->Free(styles.pHeap, p_Local);
+    if ( p_Local != (Scaleform::Render::BitSet *)&v23.Local )
+      v23.pHeap->Free(v23.pHeap, p_Local);
   }
 }

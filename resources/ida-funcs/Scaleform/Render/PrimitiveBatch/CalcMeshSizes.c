@@ -18,9 +18,9 @@ void __thiscall Scaleform::Render::PrimitiveBatch::CalcMeshSizes(
   int v16; // edx
   Scaleform::Render::Mesh *pObject; // edx
   unsigned int IndexCount; // edx
-  unsigned int arrayMeshCount; // [esp+10h] [ebp-14h]
+  signed int v19; // [esp+10h] [ebp-14h]
   Scaleform::Render::PrimitiveBatch *v20; // [esp+14h] [ebp-10h]
-  unsigned int imesh; // [esp+1Ch] [ebp-8h]
+  int v21; // [esp+1Ch] [ebp-8h]
 
   pPrimitive = this->pPrimitive;
   Size = pPrimitive->Meshes.Data.Size;
@@ -45,12 +45,12 @@ void __thiscall Scaleform::Render::PrimitiveBatch::CalcMeshSizes(
   v11 = 0;
   v12 = 0;
   v13 = 0;
-  arrayMeshCount = MeshCount;
+  v19 = MeshCount;
   if ( MeshCount >= 2 )
   {
     v14 = ((unsigned int)(MeshCount - 2) >> 1) + 1;
     p_pMesh = (int)&v20->pPrimitive->Meshes.Data.Data[v20->MeshIndex + 1].pMesh;
-    imesh = 2 * v14;
+    v21 = 2 * v14;
     do
     {
       v16 = *(_DWORD *)(p_pMesh - 8);
@@ -63,8 +63,8 @@ void __thiscall Scaleform::Render::PrimitiveBatch::CalcMeshSizes(
     }
     while ( v14 );
     VertexCount = 0;
-    MeshCount = arrayMeshCount;
-    v13 = imesh;
+    MeshCount = v19;
+    v13 = v21;
   }
   if ( v13 >= MeshCount )
   {

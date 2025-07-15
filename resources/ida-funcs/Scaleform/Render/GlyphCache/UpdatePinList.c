@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::GlyphCache::UpdatePinList(Scaleform::Render::
     if ( pNext == (Scaleform::Render::TextMeshProvider *)v4 )
       break;
     v5 = pNext->pNext;
-    if ( Scaleform::Render::TextMeshProvider::GetMeshUseStatus(pNext) < MUS_InUse )
+    if ( Scaleform::Render::TextMeshProvider::GetMeshUseStatus(pNext) < 4 )
     {
       pNext->Flags &= ~4u;
       Scaleform::Render::TextMeshProvider::UnpinSlots(pNext);

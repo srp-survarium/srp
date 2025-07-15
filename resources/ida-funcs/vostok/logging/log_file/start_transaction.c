@@ -1,8 +1,6 @@
-void __thiscall vostok::logging::log_file::start_transaction(vostok::logging::log_file *this)
+void __usercall vostok::logging::log_file::start_transaction(vostok::logging::log_file *this@<ecx>, int a2@<esi>)
 {
-  survarium::game_camera *v1; // ecx
-
-  vostok::threading::mutex::lock(&this->m_log_mutex);
-  survarium::weapon_user_dead_state::finalize(v1);
-  this->m_transaction_thread_id = vostok::threading::current_thread_id();
+  vostok::threading::mutex::lock((vostok::threading::mutex *)this, (_RTL_CRITICAL_SECTION *)(a2 + 17432));
+  ++*(_DWORD *)(a2 + 17456);
+  *(_DWORD *)(a2 + 17500) = GetCurrentThreadId();
 }

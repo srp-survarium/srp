@@ -16,23 +16,23 @@ int __cdecl enc_ctrl(bio_st *b, int cmd, int num, _DWORD *ptr)
       *((_DWORD *)v4 + 4) = 1;
       *((_DWORD *)v4 + 3) = 0;
       EVP_CipherInit_ex((evp_cipher_ctx_st *)(v4 + 20), 0, 0, 0, 0, v9);
-      return BIO_ctrl(b->next_bio, cmd, num, ptr);
+      return BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
     case 2:
       if ( *((int *)v4 + 2) <= 0 )
         return v5;
-      return BIO_ctrl(b->next_bio, cmd, num, ptr);
+      return BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
     case 10:
     case 13:
       v5 = *(_DWORD *)v4 - *((_DWORD *)v4 + 1);
       if ( v5 <= 0 )
-        return BIO_ctrl(b->next_bio, cmd, num, ptr);
+        return BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
       return v5;
     case 11:
       break;
     case 12:
       v8 = (evp_cipher_ctx_st *)(ptr[8] + 20);
       EVP_CIPHER_CTX_init(v8);
-      result = EVP_CIPHER_CTX_copy((unsigned int)v8, v8, (evp_cipher_ctx_st *)(v4 + 20));
+      result = EVP_CIPHER_CTX_copy((int)v8, v8, (evp_cipher_ctx_st *)(v4 + 20));
       v5 = result;
       if ( !result )
         return v5;
@@ -40,7 +40,7 @@ int __cdecl enc_ctrl(bio_st *b, int cmd, int num, _DWORD *ptr)
       return result;
     case 101:
       BIO_clear_flags(b, 15);
-      v7 = BIO_ctrl(b->next_bio, cmd, num, ptr);
+      v7 = BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
       BIO_copy_next_retry(b);
       return v7;
     case 113:
@@ -50,16 +50,16 @@ int __cdecl enc_ctrl(bio_st *b, int cmd, int num, _DWORD *ptr)
       b->init = 1;
       return 1;
     default:
-      return BIO_ctrl(b->next_bio, cmd, num, ptr);
+      return BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
   }
   while ( *(_DWORD *)v4 == *((_DWORD *)v4 + 1) )
   {
 LABEL_10:
     if ( *((_DWORD *)v4 + 3) )
-      return BIO_ctrl(b->next_bio, cmd, num, ptr);
+      return BIO_ctrl((int)b, b->next_bio, cmd, num, ptr);
     *((_DWORD *)v4 + 3) = 1;
     *((_DWORD *)v4 + 1) = 0;
-    result = EVP_CipherFinal_ex((evp_cipher_ctx_st *)(v4 + 20), (unsigned __int8 *)v4 + 160, (int *)v4);
+    result = EVP_CipherFinal_ex((evp_cipher_ctx_st *)(v4 + 20), (unsigned __int8 *)v4 + 160, (unsigned int *)v4);
     *((_DWORD *)v4 + 4) = result;
     if ( result <= 0 )
       return result;

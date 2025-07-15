@@ -1,26 +1,33 @@
-void __usercall vostok::render::render_target::~render_target(
-        vostok::render::render_target *this@<ecx>,
-        _DWORD *a2@<eax>)
+void __usercall vostok::render::render_target::~render_target(vostok::render::render_target *this@<ecx>, int a2@<edi>)
 {
-  vostok::render::res_texture *v3; // ecx
+  int v2; // eax
+  int v3; // eax
   int v4; // eax
-  volatile signed __int32 *v6; // eax
 
-  vostok::render::render_target::destroy(this, (int)a2);
-  v3 = (vostok::render::res_texture *)a2[11];
-  *(_DWORD *)&`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3][1].m_options_count -= v3;
-  v4 = a2[6];
+  if ( !*(_DWORD *)(a2 + 8) )
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst->m_render_target_video_memory -= *(_DWORD *)(a2 + 48);
+  v2 = *(_DWORD *)(a2 + 20);
+  if ( v2 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v2 + 8))(*(_DWORD *)(a2 + 20));
+    *(_DWORD *)(a2 + 20) = 0;
+  }
+  v3 = *(_DWORD *)(a2 + 12);
+  if ( v3 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*(_DWORD *)(a2 + 12));
+    *(_DWORD *)(a2 + 12) = 0;
+  }
+  v4 = *(_DWORD *)(a2 + 16);
   if ( v4 )
   {
-    if ( (*(_DWORD *)(v4 + 4))-- == 1 )
-      vostok::render::res_texture::destroy_impl(v3);
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v4 + 8))(*(_DWORD *)(a2 + 16));
+    *(_DWORD *)(a2 + 16) = 0;
   }
-  v6 = (volatile signed __int32 *)a2[1];
-  if ( v6 )
-  {
-    if ( !_InterlockedExchangeAdd(v6, 0xFFFFFFFF) )
-      vostok::strings::shared::manager::remove(
-        s_manager.m_variable,
-        (vostok::strings::shared::profile *)s_manager.m_variable);
-  }
+  if ( *(_DWORD *)(a2 + 28) )
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)(a2 + 28));
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec((vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 28));
+  vostok::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::strings::shared::profile,vostok::strings::shared::detail::intrusive_base,vostok::threading::simple_lock> *)(a2 + 4));
 }

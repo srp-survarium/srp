@@ -1,5 +1,5 @@
-void __cdecl value_free_hash_LHASH_DOALL_ARG(void *arg1, lhash_st *arg2)
+void __cdecl value_free_hash_LHASH_DOALL_ARG(void *a1, lhash_st *a2)
 {
-  if ( *((_DWORD *)arg1 + 1) )
-    lh_delete(arg2, arg1);
+  if ( *((_DWORD *)a1 + 1) )
+    lh_delete(a2, a1);
 }

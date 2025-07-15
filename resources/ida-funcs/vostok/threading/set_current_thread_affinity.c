@@ -3,21 +3,11 @@ void __usercall vostok::threading::set_current_thread_affinity(char *hardware_th
   char *Value; // eax
 
   if ( !s_thread_affinity_tls_key )
-  {
-    if ( _InterlockedExchange(&creation_flag, 1) )
-    {
-      while ( !s_thread_affinity_tls_key )
-        ;
-    }
-    else
-    {
-      _InterlockedExchange((volatile __int32 *)&s_thread_affinity_tls_key, TlsAlloc());
-    }
-  }
+    vostok::threading::initialize_thread_affinity_tls_key();
   Value = (char *)TlsGetValue(s_thread_affinity_tls_key);
   if ( !Value || Value - 1 != hardware_thread )
   {
-    TlsSetValue(s_thread_affinity_tls_key, hardware_thread + 1);
+    vostok::threading::tls_set_value(s_thread_affinity_tls_key, hardware_thread + 1);
     if ( !s_logical_to_physical_core_index )
       vostok::threading::initialize_core_affinity();
   }

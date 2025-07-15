@@ -1,45 +1,47 @@
 int __cdecl EVP_BytesToKey(
         const evp_cipher_st *type,
         const env_md_st *md,
-        unsigned __int8 *salt,
+        const unsigned __int8 *salt,
         const unsigned __int8 *data,
-        unsigned int datal,
+        int datal,
         unsigned int count,
         unsigned __int8 *key,
-        unsigned __int8 *iv)
+        engine_st *iv)
 {
+  engine_st *v8; // ebx
   int iv_len; // ebp
-  signed int key_len; // edi
-  unsigned int v13; // esi
+  int key_len; // edi
+  int v13; // esi
   unsigned int v14; // ecx
   int i; // eax
   unsigned __int8 *v16; // esi
   unsigned __int8 v17; // dl
-  unsigned int counta; // [esp+10h] [ebp-74h] BYREF
+  unsigned int v18; // [esp+10h] [ebp-74h] BYREF
   unsigned __int8 *v19; // [esp+14h] [ebp-70h]
   const env_md_st *typea; // [esp+18h] [ebp-6Ch]
   int v21; // [esp+1Ch] [ebp-68h]
-  void *v22; // [esp+20h] [ebp-64h]
+  const unsigned __int8 *v22; // [esp+20h] [ebp-64h]
   const unsigned __int8 *v23; // [esp+24h] [ebp-60h]
   env_md_ctx_st ctx; // [esp+28h] [ebp-5Ch] BYREF
-  unsigned __int8 dataa[64]; // [esp+40h] [ebp-44h] BYREF
+  unsigned __int8 v25[64]; // [esp+40h] [ebp-44h] BYREF
 
+  v8 = iv;
   typea = md;
   v21 = 0;
-  counta = 0;
+  v18 = 0;
   iv_len = type->iv_len;
   key_len = type->key_len;
   v22 = salt;
   v23 = data;
   v19 = key;
   if ( key_len > 32 )
-    OpenSSLDie(key_len, (unsigned int)data, ".\\crypto\\evp\\evp_key.c", 126, "nkey <= EVP_MAX_KEY_LENGTH");
+    OpenSSLDie(key_len, (int)data, (int)iv, ".\\crypto\\evp\\evp_key.c", 126, "nkey <= EVP_MAX_KEY_LENGTH");
   if ( iv_len > 16 )
-    OpenSSLDie(key_len, (unsigned int)data, ".\\crypto\\evp\\evp_key.c", 127, "niv <= EVP_MAX_IV_LENGTH");
+    OpenSSLDie(key_len, (int)data, (int)iv, ".\\crypto\\evp\\evp_key.c", 127, "niv <= EVP_MAX_IV_LENGTH");
   if ( !data )
     return key_len;
   EVP_MD_CTX_init(&ctx);
-  if ( !EVP_DigestInit_ex(&ctx, typea, 0) )
+  if ( !EVP_DigestInit_ex(iv, &ctx, typea, 0) )
     return 0;
   while ( 1 )
   {
@@ -48,20 +50,20 @@ int __cdecl EVP_BytesToKey(
     EVP_DigestUpdate(&ctx);
     if ( v22 )
       EVP_DigestUpdate(&ctx);
-    EVP_DigestFinal_ex(key_len, &ctx, dataa, &counta);
+    EVP_DigestFinal_ex(key_len, (int)v8, &ctx, v25, &v18);
     if ( count > 1 )
     {
       v13 = count - 1;
       do
       {
-        EVP_DigestInit_ex(&ctx, typea, 0);
+        EVP_DigestInit_ex(v8, &ctx, typea, 0);
         EVP_DigestUpdate(&ctx);
-        EVP_DigestFinal_ex(key_len, &ctx, dataa, &counta);
+        EVP_DigestFinal_ex(key_len, (int)v8, &ctx, v25, &v18);
         --v13;
       }
       while ( v13 );
     }
-    v14 = counta;
+    v14 = v18;
     for ( i = 0; key_len; ++i )
     {
       if ( i == v14 )
@@ -69,7 +71,7 @@ int __cdecl EVP_BytesToKey(
       if ( v19 )
       {
         v16 = v19;
-        v17 = dataa[i];
+        v17 = v25[i];
         ++v19;
         *v16 = v17;
       }
@@ -81,8 +83,11 @@ int __cdecl EVP_BytesToKey(
       {
         if ( i == v14 )
           break;
-        if ( iv )
-          *iv++ = dataa[i];
+        if ( v8 )
+        {
+          LOBYTE(v8->id) = v25[i];
+          v8 = (engine_st *)((char *)v8 + 1);
+        }
         --iv_len;
         ++i;
       }
@@ -90,10 +95,10 @@ int __cdecl EVP_BytesToKey(
     }
     if ( !key_len && !iv_len )
       break;
-    if ( !EVP_DigestInit_ex(&ctx, typea, 0) )
+    if ( !EVP_DigestInit_ex(v8, &ctx, typea, 0) )
       return 0;
   }
-  EVP_MD_CTX_cleanup(0, &ctx);
-  OPENSSL_cleanse(dataa, 64);
+  EVP_MD_CTX_cleanup(0, (int)v8, &ctx);
+  OPENSSL_cleanse(v25, 64);
   return type->key_len;
 }

@@ -10,7 +10,7 @@ void __userpurge Scaleform::Render::Stroker::calcJoin(
         float len2)
 {
   double v10; // st6
-  const Scaleform::Render::StrokeVertex *v13; // ebp
+  float v13; // ebp
   double v14; // st5
   double v15; // st4
   double v16; // st3
@@ -24,20 +24,20 @@ void __userpurge Scaleform::Render::Stroker::calcJoin(
   float by; // [esp+Ch] [ebp-3Ch]
   float v26; // [esp+10h] [ebp-38h]
   float cy; // [esp+14h] [ebp-34h]
-  float y; // [esp+18h] [ebp-30h]
-  float v29; // [esp+1Ch] [ebp-2Ch]
-  float v30; // [esp+28h] [ebp-20h]
-  float v31; // [esp+28h] [ebp-20h]
+  float v28; // [esp+18h] [ebp-30h]
+  float dy; // [esp+1Ch] [ebp-2Ch]
+  float epsilon; // [esp+28h] [ebp-20h]
+  float epsilona; // [esp+28h] [ebp-20h]
   float x; // [esp+3Ch] [ebp-Ch] BYREF
-  float epsilon; // [esp+40h] [ebp-8h]
-  float dbevel; // [esp+44h] [ebp-4h]
-  float tessa; // [esp+4Ch] [ebp+4h]
-  float tessb; // [esp+4Ch] [ebp+4h]
-  float tessc; // [esp+4Ch] [ebp+4h]
-  float tessd; // [esp+4Ch] [ebp+4h]
-  float tesse; // [esp+4Ch] [ebp+4h]
-  float dx2; // [esp+50h] [ebp+8h]
-  float dy1; // [esp+54h] [ebp+Ch]
+  float v35; // [esp+40h] [ebp-8h]
+  float v36; // [esp+44h] [ebp-4h]
+  float v37; // [esp+4Ch] [ebp+4h]
+  float v38; // [esp+4Ch] [ebp+4h]
+  float v39; // [esp+4Ch] [ebp+4h]
+  float v40; // [esp+4Ch] [ebp+4h]
+  float v41; // [esp+4Ch] [ebp+4h]
+  float v42; // [esp+50h] [ebp+8h]
+  float v43; // [esp+54h] [ebp+Ch]
 
   if ( 0.0 == this->Width )
   {
@@ -45,47 +45,47 @@ void __userpurge Scaleform::Render::Stroker::calcJoin(
     return;
   }
   v10 = len1;
-  v13 = (const Scaleform::Render::StrokeVertex *)LODWORD(v2);
+  v13 = v2;
   v14 = len2;
-  epsilon = (len1 + len2) * this->IntersectionEpsilon;
+  v35 = (len1 + len2) * this->IntersectionEpsilon;
   v15 = v1->y - v0->y;
   len1 = this->Width * v15 / len1;
-  dy1 = (v0->x - v1->x) * this->Width / v10;
+  v43 = (v0->x - v1->x) * this->Width / v10;
   v16 = *(float *)(LODWORD(v2) + 4) - v1->y;
-  dx2 = this->Width * v16 / len2;
+  v42 = this->Width * v16 / len2;
   len2 = (v1->x - *(float *)LODWORD(v2)) * this->Width / len2;
   v2 = v15 * (*(float *)LODWORD(v2) - v1->x) - v16 * (v1->x - v0->x);
   if ( v2 <= 0.0 )
   {
-    x = (dx2 + len1) * 0.5;
-    v2 = 0.5 * (len2 + dy1);
-    dbevel = v2 * v2 + x * x;
-    dbevel = sqrt(dbevel);
+    x = (v42 + len1) * 0.5;
+    v2 = 0.5 * (len2 + v43);
+    v36 = v2 * v2 + x * x;
+    v36 = sqrt(v36);
     LineJoin = this->LineJoin;
-    if ( (LineJoin == RoundJoin || LineJoin == BevelJoin) && this->CurveTolerance * 0.125 > this->Width - dbevel )
+    if ( (LineJoin == RoundJoin || LineJoin == BevelJoin) && this->CurveTolerance * 0.125 > this->Width - v36 )
     {
       v18 = len1;
       len1 = v1->x + len1;
       v19 = len2;
-      len2 = len2 + v13->y;
-      v29 = len2;
-      len2 = v13->x + dx2;
-      y = len2;
+      len2 = len2 + *(float *)(LODWORD(v13) + 4);
+      dy = len2;
+      len2 = *(float *)LODWORD(v13) + v42;
+      v28 = len2;
       len2 = v19 + v1->y;
       cy = len2;
-      len2 = dx2 + v1->x;
+      len2 = v42 + v1->x;
       v26 = len2;
-      len2 = v1->y + dy1;
+      len2 = v1->y + v43;
       by = len2;
-      len2 = dy1 + v0->y;
+      len2 = v43 + v0->y;
       ay = len2;
       len2 = v18 + v0->x;
-      v20 = !Scaleform::Render::Math2D::Intersection(len2, ay, len1, by, v26, cy, y, v29, &x, &v2, epsilon);
+      v20 = !Scaleform::Render::Math2D::Intersection(len2, ay, len1, by, v26, cy, v28, dy, &x, &v2, v35);
       AddVertex = tess->AddVertex;
       if ( v20 )
       {
-        tessa = v1->y + dy1;
-        ((void (__stdcall *)(_DWORD, _DWORD))AddVertex)(LODWORD(len1), LODWORD(tessa));
+        v37 = v1->y + v43;
+        ((void (__stdcall *)(_DWORD, _DWORD))AddVertex)(LODWORD(len1), LODWORD(v37));
       }
       else
       {
@@ -103,47 +103,35 @@ void __userpurge Scaleform::Render::Stroker::calcJoin(
             tess,
             v0,
             v1,
-            v13,
+            (const Scaleform::Render::StrokeVertex *)LODWORD(v13),
             len1,
-            dy1,
-            dx2,
+            v43,
+            v42,
             len2,
             *(float *)&LineJoin,
             this->MiterLimit,
-            epsilon,
-            dbevel);
+            v35,
+            v36);
           return;
         }
         if ( LineJoin == RoundJoin )
         {
-          Scaleform::Render::Stroker::calcArc(
-            this,
-            (int)this,
-            (int)v1,
-            tess,
-            v1->x,
-            v1->y,
-            len1,
-            dy1,
-            dx2,
-            len2,
-            a3,
-            a2);
+          Scaleform::Render::Stroker::calcArc(this, tess, v1->x, COERCE__DWORD_(v1->y), len1, v43, v42, len2, a3, a2);
           return;
         }
       }
       v23 = tess->AddVertex;
-      tessb = v1->y + dy1;
-      v30 = tessb;
-      tessc = v1->x + len1;
-      ((void (__thiscall *)(Scaleform::Render::TessBase *, _DWORD, _DWORD))v23)(tess, LODWORD(tessc), LODWORD(v30));
-      tessd = v1->y + len2;
-      v31 = tessd;
-      tesse = v1->x + dx2;
+      v38 = v1->y + v43;
+      epsilon = v38;
+      v39 = v1->x + len1;
+      ((void (__thiscall *)(Scaleform::Render::TessBase *, _DWORD, _DWORD))v23)(tess, LODWORD(v39), LODWORD(epsilon));
+      v40 = v1->y + len2;
+      epsilona = v40;
+      v41 = v1->x + v42;
       ((void (__thiscall *)(Scaleform::Render::TessBase *, _DWORD, _DWORD))tess->AddVertex)(
         tess,
-        LODWORD(tesse),
-        LODWORD(v31));
+        LODWORD(v41),
+        LODWORD(epsilona));
     }
   }
   else
@@ -157,14 +145,14 @@ void __userpurge Scaleform::Render::Stroker::calcJoin(
       tess,
       v0,
       v1,
-      v13,
+      (const Scaleform::Render::StrokeVertex *)LODWORD(v13),
       len1,
-      dy1,
-      dx2,
+      v43,
+      v42,
       len2,
       COERCE_FLOAT(1),
       v2,
-      epsilon,
+      v35,
       0.0);
   }
 }

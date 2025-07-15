@@ -15,42 +15,42 @@ const _s_RTTIBaseClassDescriptor *__usercall FindVITargetTypeInstance@<eax>(
   int v12; // eax
   const _s_RTTIBaseClassDescriptor *result; // eax
   const _s_RTTIBaseClassArray *pBaseClassArray; // [esp+Ch] [ebp-24h]
-  const _s_RTTIBaseClassDescriptor *pCrossCastTargetBCD; // [esp+10h] [ebp-20h]
-  const _s_RTTIBaseClassDescriptor *pCrossCastSourceBCD; // [esp+14h] [ebp-1Ch]
-  int offsetDownCastResult; // [esp+18h] [ebp-18h]
-  const _s_RTTIBaseClassDescriptor *pDownCastResultBCD; // [esp+1Ch] [ebp-14h]
-  unsigned int nTargetBases; // [esp+20h] [ebp-10h]
-  unsigned int iTarget; // [esp+24h] [ebp-Ch]
-  unsigned int i; // [esp+28h] [ebp-8h]
-  bool fDownCastAllowed; // [esp+2Fh] [ebp-1h]
+  const _s_RTTIBaseClassDescriptor *v15; // [esp+10h] [ebp-20h]
+  const _s_RTTIBaseClassDescriptor *v16; // [esp+14h] [ebp-1Ch]
+  int v17; // [esp+18h] [ebp-18h]
+  const _s_RTTIBaseClassDescriptor *v18; // [esp+1Ch] [ebp-14h]
+  unsigned int numContainedBases; // [esp+20h] [ebp-10h]
+  int v20; // [esp+24h] [ebp-Ch]
+  unsigned int v21; // [esp+28h] [ebp-8h]
+  char v22; // [esp+2Fh] [ebp-1h]
 
   pClassDescriptor = pCOLocator->pClassDescriptor;
-  iTarget = -1;
-  offsetDownCastResult = -1;
+  v20 = -1;
+  v17 = -1;
   numBaseClasses = pClassDescriptor->numBaseClasses;
   v7 = 0;
-  pDownCastResultBCD = 0;
-  pCrossCastSourceBCD = 0;
-  pCrossCastTargetBCD = 0;
+  v18 = 0;
+  v16 = 0;
+  v15 = 0;
   pBaseClassArray = pClassDescriptor->pBaseClassArray;
-  nTargetBases = 0;
-  fDownCastAllowed = 1;
-  i = 0;
+  numContainedBases = 0;
+  v22 = 1;
+  v21 = 0;
   if ( !numBaseClasses )
     return 0;
   do
   {
-    v8 = pBaseClassArray->arrayOfBaseClassDescriptors[i];
-    if ( i - iTarget > nTargetBases )
+    v8 = pBaseClassArray->arrayOfBaseClassDescriptors[v21];
+    if ( v21 - v20 > numContainedBases )
     {
       if ( v8->pTypeDescriptor == pTargetTypeID
         || (strcmp((unsigned __int8 *)v8->pTypeDescriptor->name, (unsigned __int8 *)pTargetTypeID->name), !v9) )
       {
         if ( (v8->attributes & 3) == 0 )
-          pCrossCastTargetBCD = v8;
-        iTarget = i;
+          v15 = v8;
+        v20 = v21;
         v7 = v8;
-        nTargetBases = v8->numContainedBases;
+        numContainedBases = v8->numContainedBases;
       }
     }
     if ( v8->pTypeDescriptor == pSrcTypeID
@@ -58,45 +58,45 @@ const _s_RTTIBaseClassDescriptor *__usercall FindVITargetTypeInstance@<eax>(
     {
       if ( PMDtoOffset(&v8->where, pCompleteObject) == SrcOffset )
       {
-        if ( i - iTarget > nTargetBases )
+        if ( v21 - v20 > numContainedBases )
         {
           if ( (v8->attributes & 5) == 0 )
-            pCrossCastSourceBCD = v8;
+            v16 = v8;
         }
-        else if ( fDownCastAllowed )
+        else if ( v22 )
         {
           if ( (v7->attributes & 0x40) != 0 )
           {
-            if ( (v7->pClassDescriptor->pBaseClassArray->arrayOfBaseClassDescriptors[i - iTarget]->attributes & 1) != 0 )
-              fDownCastAllowed = 0;
-            v11 = (v7->pClassDescriptor->pBaseClassArray->arrayOfBaseClassDescriptors[i - iTarget]->attributes & 4) == 0;
+            if ( (v7->pClassDescriptor->pBaseClassArray->arrayOfBaseClassDescriptors[v21 - v20]->attributes & 1) != 0 )
+              v22 = 0;
+            v11 = (v7->pClassDescriptor->pBaseClassArray->arrayOfBaseClassDescriptors[v21 - v20]->attributes & 4) == 0;
           }
           else
           {
-            if ( !iTarget && (v8->attributes & 1) != 0 )
-              fDownCastAllowed = 0;
+            if ( !v20 && (v8->attributes & 1) != 0 )
+              v22 = 0;
             v11 = 1;
           }
-          if ( fDownCastAllowed && v11 )
+          if ( v22 && v11 )
           {
             v12 = PMDtoOffset(&v7->where, pCompleteObject);
-            if ( pDownCastResultBCD && offsetDownCastResult != v12 )
+            if ( v18 && v17 != v12 )
               return 0;
-            pDownCastResultBCD = v7;
-            offsetDownCastResult = v12;
+            v18 = v7;
+            v17 = v12;
           }
         }
       }
     }
-    ++i;
+    ++v21;
   }
-  while ( i < numBaseClasses );
-  if ( !fDownCastAllowed || (result = pDownCastResultBCD) == 0 )
+  while ( v21 < numBaseClasses );
+  if ( !v22 || (result = v18) == 0 )
   {
-    if ( !pCrossCastSourceBCD )
+    if ( !v16 )
       return 0;
-    result = pCrossCastTargetBCD;
-    if ( !pCrossCastTargetBCD )
+    result = v15;
+    if ( !v15 )
       return 0;
   }
   return result;

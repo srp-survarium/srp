@@ -1,20 +1,20 @@
-void *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
+Scaleform::HeapPT::BinTNode *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
         Scaleform::HeapPT::AllocEngine *this,
-        Scaleform::Heap::HeapSegment *size)
+        unsigned int size)
 {
   unsigned int v2; // ebx
   Scaleform::HeapPT::AllocBitSet2 *p_Allocator; // ebp
-  void *result; // eax
+  Scaleform::HeapPT::BinTNode *result; // eax
   unsigned int v6; // esi
   unsigned int v7; // eax
   bool limHandlerOK; // [esp+13h] [ebp-1h] BYREF
 
-  v2 = (unsigned int)size;
+  v2 = size;
   limHandlerOK = 0;
   p_Allocator = &this->Allocator;
   while ( 1 )
   {
-    result = Scaleform::HeapPT::AllocBitSet2::Alloc(p_Allocator, v2, &size);
+    result = Scaleform::HeapPT::AllocBitSet2::Alloc(p_Allocator, v2, (Scaleform::Heap::HeapSegment **)&size);
     if ( result )
       break;
     v6 = this->MinAlignMask + 1;
@@ -28,28 +28,28 @@ void *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
     if ( !limHandlerOK )
       return 0;
   }
-  ++size->UseCount;
+  ++*(_DWORD *)(size + 16);
   return result;
 }
 
 
-void *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
+unsigned __int8 *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
         Scaleform::HeapPT::AllocEngine *this,
         unsigned int size,
-        Scaleform::Heap::HeapSegment *alignSize)
+        unsigned int alignSize)
 {
   unsigned int v4; // edi
   Scaleform::HeapPT::AllocBitSet2 *p_Allocator; // ebp
-  void *result; // eax
+  unsigned __int8 *result; // eax
   unsigned int v7; // eax
   bool limHandlerOK; // [esp+13h] [ebp-1h] BYREF
 
-  v4 = (unsigned int)alignSize;
+  v4 = alignSize;
   limHandlerOK = 0;
   p_Allocator = &this->Allocator;
   while ( 1 )
   {
-    result = Scaleform::HeapPT::AllocBitSet2::Alloc(p_Allocator, size, v4, &alignSize);
+    result = Scaleform::HeapPT::AllocBitSet2::Alloc(p_Allocator, size, v4, (Scaleform::Heap::HeapSegment **)&alignSize);
     if ( result )
       break;
     v7 = Scaleform::HeapPT::AllocEngine::calcDynaSize(this);
@@ -62,6 +62,6 @@ void *__thiscall Scaleform::HeapPT::AllocEngine::allocBitSet(
     if ( !limHandlerOK )
       return 0;
   }
-  ++alignSize->UseCount;
+  ++*(_DWORD *)(alignSize + 16);
   return result;
 }

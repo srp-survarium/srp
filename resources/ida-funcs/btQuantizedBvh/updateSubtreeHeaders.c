@@ -1,242 +1,178 @@
-void __userpurge btQuantizedBvh::updateSubtreeHeaders(
-        btQuantizedBvh *this@<ecx>,
-        int a2@<esi>,
+void __thiscall btQuantizedBvh::updateSubtreeHeaders(
+        btQuantizedBvh *this,
         int leftChildNodexIndex,
-        int rightChildNodexIndex)
+        int rightChildNodexIndex,
+        int a4)
 {
-  int v4; // ecx
-  int v5; // eax
-  _WORD *v6; // edi
-  int v7; // edx
-  int v8; // ecx
-  int v9; // ecx
-  int v10; // ebx
+  int v4; // edx
+  int v5; // ecx
+  const btQuantizedBvhNode *v6; // eax
+  int m_escapeIndexOrTriangleIndex; // edx
+  int v8; // edx
+  int v9; // esi
+  int v10; // eax
   int v11; // eax
-  _QWORD *v12; // eax
-  _QWORD *v13; // ecx
-  int v14; // edx
-  int v15; // ebx
-  int v16; // eax
-  __int64 v17; // xmm0_8
-  _QWORD *v18; // eax
-  void *v19; // eax
-  int v20; // eax
-  int v21; // ebx
-  _QWORD *v22; // eax
-  int v23; // eax
-  int v24; // edi
-  int v25; // eax
-  _QWORD *v26; // eax
-  _QWORD *v27; // ebx
-  int v28; // edx
-  _QWORD *v29; // ecx
-  int v30; // edi
-  int v31; // eax
-  __int64 v32; // xmm0_8
-  _QWORD *v33; // eax
-  void *v34; // eax
-  int v35; // eax
-  int v36; // edi
-  _QWORD *v37; // eax
-  int v38; // eax
-  int v39; // [esp+D0h] [ebp-3Ch]
-  _QWORD *v40; // [esp+D4h] [ebp-38h]
-  int v41; // [esp+D8h] [ebp-34h]
-  int v42; // [esp+DCh] [ebp-30h]
-  int v43; // [esp+DCh] [ebp-30h]
-  int v44; // [esp+E0h] [ebp-2Ch]
-  int v45; // [esp+E4h] [ebp-28h]
-  int v46; // [esp+E8h] [ebp-24h]
-  __int64 v47; // [esp+ECh] [ebp-20h]
-  __int64 v48; // [esp+F4h] [ebp-18h]
-  __int64 v49; // [esp+FCh] [ebp-10h]
-  __int64 v50; // [esp+104h] [ebp-8h]
+  char *v12; // edx
+  void *v13; // edi
+  btBvhSubtreeInfo *v14; // esi
+  int v15; // esi
+  int v16; // ecx
+  char *v17; // edx
+  _DWORD *v18; // edx
+  int v19; // edi
+  int v20; // esi
+  bool v21; // zf
+  void *v22; // edi
+  int v23; // esi
+  int v24; // [esp+Ch] [ebp-44h]
+  int v25; // [esp+Ch] [ebp-44h]
+  int v26; // [esp+10h] [ebp-40h]
+  int v27; // [esp+10h] [ebp-40h]
+  char *v28; // [esp+14h] [ebp-3Ch]
+  char *v29; // [esp+14h] [ebp-3Ch]
+  int v30; // [esp+18h] [ebp-38h]
+  int v31; // [esp+18h] [ebp-38h]
+  const btQuantizedBvhNode *v32; // [esp+1Ch] [ebp-34h]
+  int v33; // [esp+20h] [ebp-30h]
+  int v34; // [esp+24h] [ebp-2Ch]
+  const btQuantizedBvhNode *v35; // [esp+28h] [ebp-28h]
+  int v36; // [esp+2Ch] [ebp-24h]
+  int v37; // [esp+2Ch] [ebp-24h]
+  _BYTE v38[32]; // [esp+30h] [ebp-20h] BYREF
 
-  v4 = *(_DWORD *)(a2 + 148);
-  v5 = *(_DWORD *)(16 * leftChildNodexIndex + v4 + 12);
-  v6 = (_WORD *)(v4 + 16 * leftChildNodexIndex);
+  v4 = *(_DWORD *)(leftChildNodexIndex + 148);
+  v5 = *(_DWORD *)(v4 + 16 * rightChildNodexIndex + 12);
+  v35 = (const btQuantizedBvhNode *)(v4 + 16 * rightChildNodexIndex);
   if ( v5 < 0 )
-    v42 = -v5;
+    v30 = -v5;
   else
-    v42 = 1;
-  v7 = v4 + 16 * rightChildNodexIndex;
-  v8 = *(_DWORD *)(v7 + 12);
-  v39 = v7;
-  if ( v8 < 0 )
-    v44 = -v8;
+    v30 = 1;
+  v6 = (const btQuantizedBvhNode *)(v4 + 16 * a4);
+  m_escapeIndexOrTriangleIndex = v6->m_escapeIndexOrTriangleIndex;
+  v32 = v6;
+  if ( m_escapeIndexOrTriangleIndex < 0 )
+    v33 = -m_escapeIndexOrTriangleIndex;
   else
-    v44 = 1;
-  v9 = 16 * v44;
-  if ( 16 * v42 <= 2048 )
+    v33 = 1;
+  v8 = 16 * v33;
+  if ( 16 * v30 <= 2048 )
   {
-    v10 = *(_DWORD *)(a2 + 164);
-    v11 = *(_DWORD *)(a2 + 168);
-    v45 = v10;
-    if ( v10 == v11 )
+    v9 = *(_DWORD *)(leftChildNodexIndex + 164);
+    v10 = *(_DWORD *)(leftChildNodexIndex + 168);
+    v34 = v9;
+    if ( v9 == v10 )
     {
-      v41 = v10 ? 2 * v10 : 1;
-      if ( v11 < v41 )
+      v24 = v9 ? 2 * v9 : 1;
+      if ( v10 < v24 )
       {
-        if ( v41 )
-        {
-          ++gNumAlignedAllocs;
-          v12 = sAlignedAllocFunc(32 * v41, 16);
-          v7 = v39;
-          v40 = v12;
-        }
+        if ( v24 )
+          v28 = (char *)btAlignedAllocInternal(32 * v24);
         else
-        {
-          v40 = 0;
-        }
-        if ( *(int *)(a2 + 164) > 0 )
-        {
-          v13 = v40;
-          v14 = 0;
-          v15 = *(_DWORD *)(a2 + 164);
-          do
-          {
-            if ( v13 )
-            {
-              v16 = *(_DWORD *)(a2 + 172);
-              v17 = *(_QWORD *)(v16 + v14);
-              v18 = (_QWORD *)(v14 + v16);
-              *v13 = v17;
-              v13[1] = v18[1];
-              v13[2] = v18[2];
-              v13[3] = v18[3];
-            }
-            v14 += 32;
-            v13 += 4;
-            --v15;
-          }
-          while ( v15 );
-          v10 = v45;
-          v7 = v39;
-        }
-        v19 = *(void **)(a2 + 172);
-        if ( v19 )
-        {
-          if ( *(_BYTE *)(a2 + 176) )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v19);
-            v7 = v39;
-          }
-          *(_DWORD *)(a2 + 172) = 0;
-        }
-        *(_BYTE *)(a2 + 176) = 1;
-        *(_DWORD *)(a2 + 172) = v40;
-        *(_DWORD *)(a2 + 168) = v41;
-      }
-    }
-    v20 = *(_DWORD *)(a2 + 172);
-    ++*(_DWORD *)(a2 + 164);
-    v21 = 32 * v10;
-    v22 = (_QWORD *)(v21 + v20);
-    if ( v22 )
-    {
-      *v22 = v47;
-      v22[1] = v48;
-      v22[2] = v49;
-      v22[3] = v50;
-    }
-    v23 = v21 + *(_DWORD *)(a2 + 172);
-    *(_WORD *)v23 = *v6;
-    *(_WORD *)(v23 + 2) = v6[1];
-    *(_WORD *)(v23 + 4) = v6[2];
-    *(_WORD *)(v23 + 6) = v6[3];
-    *(_WORD *)(v23 + 8) = v6[4];
-    *(_WORD *)(v23 + 10) = v6[5];
-    *(_DWORD *)(v23 + 12) = leftChildNodexIndex;
-    *(_DWORD *)(v23 + 16) = v42;
-    v9 = 16 * v44;
-  }
-  if ( v9 > 2048 )
-  {
-    *(_DWORD *)(a2 + 180) = *(_DWORD *)(a2 + 164);
-  }
-  else
-  {
-    v24 = *(_DWORD *)(a2 + 164);
-    v25 = *(_DWORD *)(a2 + 168);
-    v46 = v24;
-    if ( v24 == v25 )
-    {
-      v43 = v24 ? 2 * v24 : 1;
-      if ( v25 < v43 )
-      {
-        if ( v43 )
-        {
-          ++gNumAlignedAllocs;
-          v26 = sAlignedAllocFunc(32 * v43, 16);
-          v7 = v39;
-          v27 = v26;
-        }
-        else
-        {
-          v27 = 0;
-        }
-        if ( *(int *)(a2 + 164) > 0 )
-        {
           v28 = 0;
-          v29 = v27;
-          v30 = *(_DWORD *)(a2 + 164);
+        v11 = *(_DWORD *)(leftChildNodexIndex + 164);
+        if ( v11 > 0 )
+        {
+          v26 = 0;
+          v12 = v28;
           do
           {
-            if ( v29 )
+            if ( v12 )
             {
-              v31 = *(_DWORD *)(a2 + 172);
-              v32 = *(_QWORD *)(v31 + v28);
-              v33 = (_QWORD *)(v28 + v31);
-              *v29 = v32;
-              v29[1] = v33[1];
-              v29[2] = v33[2];
-              v29[3] = v33[3];
+              qmemcpy(v12, (const void *)(v26 + *(_DWORD *)(leftChildNodexIndex + 172)), 0x20u);
+              v9 = v34;
             }
-            v28 += 32;
-            v29 += 4;
-            --v30;
+            v26 += 32;
+            v12 += 32;
+            --v11;
           }
-          while ( v30 );
-          v7 = v39;
-          v24 = v46;
+          while ( v11 );
         }
-        v34 = *(void **)(a2 + 172);
-        if ( v34 )
+        if ( *(_DWORD *)(leftChildNodexIndex + 172) )
         {
-          if ( *(_BYTE *)(a2 + 176) )
-          {
-            ++gNumAlignedFree;
-            sAlignedFreeFunc(v34);
-            v7 = v39;
-          }
-          *(_DWORD *)(a2 + 172) = 0;
+          if ( *(_BYTE *)(leftChildNodexIndex + 176) )
+            btAlignedFreeInternal(*(void **)(leftChildNodexIndex + 172));
+          *(_DWORD *)(leftChildNodexIndex + 172) = 0;
         }
-        *(_DWORD *)(a2 + 172) = v27;
-        *(_BYTE *)(a2 + 176) = 1;
-        *(_DWORD *)(a2 + 168) = v43;
+        *(_DWORD *)(leftChildNodexIndex + 172) = v28;
+        *(_BYTE *)(leftChildNodexIndex + 176) = 1;
+        *(_DWORD *)(leftChildNodexIndex + 168) = v24;
       }
     }
-    v35 = *(_DWORD *)(a2 + 172);
-    ++*(_DWORD *)(a2 + 164);
-    v36 = 32 * v24;
-    v37 = (_QWORD *)(v36 + v35);
-    if ( v37 )
-    {
-      *v37 = v47;
-      v37[1] = v48;
-      v37[2] = v49;
-      v37[3] = v50;
-    }
-    v38 = v36 + *(_DWORD *)(a2 + 172);
-    *(_WORD *)v38 = *(_WORD *)v7;
-    *(_WORD *)(v38 + 2) = *(_WORD *)(v7 + 2);
-    *(_WORD *)(v38 + 4) = *(_WORD *)(v7 + 4);
-    *(_WORD *)(v38 + 6) = *(_WORD *)(v7 + 6);
-    *(_WORD *)(v38 + 8) = *(_WORD *)(v7 + 8);
-    *(_WORD *)(v38 + 10) = *(_WORD *)(v7 + 10);
-    *(_DWORD *)(v38 + 12) = rightChildNodexIndex;
-    *(_DWORD *)(v38 + 16) = v44;
-    *(_DWORD *)(a2 + 180) = *(_DWORD *)(a2 + 164);
+    ++*(_DWORD *)(leftChildNodexIndex + 164);
+    v13 = (void *)(32 * v9 + *(_DWORD *)(leftChildNodexIndex + 172));
+    if ( v13 )
+      qmemcpy(v13, v38, 0x20u);
+    v14 = (btBvhSubtreeInfo *)(32 * v9 + *(_DWORD *)(leftChildNodexIndex + 172));
+    btBvhSubtreeInfo::setAabbFromQuantizeNode(v14, v35);
+    v8 = 16 * v33;
+    v14->m_rootNodeIndex = rightChildNodexIndex;
+    v14->m_subtreeSize = v30;
+    v6 = v32;
   }
+  if ( v8 <= 2048 )
+  {
+    v15 = *(_DWORD *)(leftChildNodexIndex + 164);
+    v16 = *(_DWORD *)(leftChildNodexIndex + 168);
+    v36 = v15;
+    if ( v15 == v16 )
+    {
+      v25 = v15 ? 2 * v15 : 1;
+      if ( v16 < v25 )
+      {
+        if ( v25 )
+        {
+          v29 = (char *)btAlignedAllocInternal(32 * v25);
+          v6 = v32;
+        }
+        else
+        {
+          v29 = 0;
+        }
+        if ( *(int *)(leftChildNodexIndex + 164) > 0 )
+        {
+          v31 = 0;
+          v17 = v29;
+          v27 = *(_DWORD *)(leftChildNodexIndex + 164);
+          do
+          {
+            if ( v17 )
+            {
+              qmemcpy(v17, (const void *)(v31 + *(_DWORD *)(leftChildNodexIndex + 172)), 0x20u);
+              v15 = v36;
+            }
+            v31 += 32;
+            v17 += 32;
+            --v27;
+          }
+          while ( v27 );
+        }
+        if ( *(_DWORD *)(leftChildNodexIndex + 172) )
+        {
+          if ( *(_BYTE *)(leftChildNodexIndex + 176) )
+          {
+            btAlignedFreeInternal(*(void **)(leftChildNodexIndex + 172));
+            v6 = v32;
+          }
+          *(_DWORD *)(leftChildNodexIndex + 172) = 0;
+        }
+        *(_DWORD *)(leftChildNodexIndex + 172) = v29;
+        *(_BYTE *)(leftChildNodexIndex + 176) = 1;
+        *(_DWORD *)(leftChildNodexIndex + 168) = v25;
+      }
+    }
+    ++*(_DWORD *)(leftChildNodexIndex + 164);
+    v18 = (_DWORD *)(leftChildNodexIndex + 172);
+    v19 = *(_DWORD *)(leftChildNodexIndex + 172);
+    v20 = 32 * v15;
+    v21 = v20 + v19 == 0;
+    v22 = (void *)(v20 + v19);
+    v37 = v20;
+    if ( !v21 )
+      qmemcpy(v22, v38, 0x20u);
+    v23 = v20 + *v18;
+    btBvhSubtreeInfo::setAabbFromQuantizeNode((btBvhSubtreeInfo *)(v37 + *v18), v6);
+    *(_DWORD *)(v23 + 12) = a4;
+    *(_DWORD *)(v23 + 16) = v33;
+  }
+  *(_DWORD *)(leftChildNodexIndex + 180) = *(_DWORD *)(leftChildNodexIndex + 164);
 }

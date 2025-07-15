@@ -13,7 +13,7 @@ void __thiscall Scaleform::GFx::MovieDefImpl::BindTaskData::BindTaskData(
   volatile unsigned int v11; // eax
   Scaleform::GFx::MovieDataDef *v12; // ecx
   char v13; // [esp+10h] [ebp-8h]
-  Scaleform::String url; // [esp+14h] [ebp-4h] BYREF
+  Scaleform::String v14; // [esp+14h] [ebp-4h] BYREF
   char pheapa; // [esp+1Ch] [ebp+4h]
 
   this->__vftable = (Scaleform::GFx::MovieDefImpl::BindTaskData_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -44,17 +44,19 @@ void __thiscall Scaleform::GFx::MovieDefImpl::BindTaskData::BindTaskData(
   this->BytesLoaded = 0;
   this->BindState = 0;
   if ( pdataDef->MovieType != MT_Image
-    || (Scaleform::String::String(&url, (char *)((pdataDef->pData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8)),
+    || (Scaleform::String::String(
+          &v14,
+          (const __m128i *)((pdataDef->pData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8)),
         v13 = 1,
         pheapa = 0,
-        !Scaleform::GFx::LoaderImpl::IsProtocolImage(&url, 0, 0)) )
+        !Scaleform::GFx::LoaderImpl::IsProtocolImage(&v14, 0, 0)) )
   {
     pheapa = 1;
   }
   if ( (v13 & 1) != 0 )
   {
-    v7 = (void *)(url.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    v7 = (void *)(v14.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v14.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
   }
   if ( pheapa )

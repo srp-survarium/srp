@@ -1,8 +1,8 @@
 void __thiscall survarium::object_environment_probe::remove(survarium::object_environment_probe *this)
 {
   vostok::render::scene_renderer::remove_environment_probe(
-    (vostok::render::scene_renderer *)this->m_game_scene->m_game->m_renderer,
-    this->m_game_scene->m_game->m_renderer->m_scene,
-    &this->m_game_scene->m_render_scene,
-    this->m_probe_id);
+    (vostok::render::scene_renderer *)&this->m_game_scene->m_render_scene,
+    *(const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> **)((char *)&dword_200060 + (unsigned int)this->m_game_scene->m_game->m_renderer),
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_game_scene->m_render_scene,
+    (vostok::particle::particle_system_instance_impl *)this->m_probe_id);
 }

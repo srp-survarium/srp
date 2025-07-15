@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_applytype(Scaleform::GFx::AS3::VM 
       FixedArr = args.FixedArr;
       if ( args.ArgNum > 8 )
         FixedArr = args.CallArgs.Data.Data;
-      v6 = (Scaleform::GFx::AS3::Class *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, const unsigned int, Scaleform::GFx::AS3::Value *))(*(_DWORD *)args.ArgObject->value.VS._1.VInt + 76))(
+      v6 = (Scaleform::GFx::AS3::Class *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, const unsigned int, Scaleform::GFx::AS3::Value *))(*(_DWORD *)args.ArgObject->value.VS._1.VInt + 88))(
                                            args.ArgObject->value.VS._1,
                                            args.ArgNum,
                                            FixedArr);

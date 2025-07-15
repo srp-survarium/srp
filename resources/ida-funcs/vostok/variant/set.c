@@ -1,251 +1,192 @@
-void __thiscall vostok::variant<32>::set<unsigned char>(vostok::variant<32> *this, const unsigned __int8 *value)
+void __userpurge vostok::variant<32>::set<vostok::render::binary_shader_cook_data *>(
+        vostok::variant<32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        vostok::render::binary_shader_cook_data **value)
 {
-  vostok::detail::abstract_type_helper *v2; // [esp+0h] [ebp-14h]
-
-  vostok::variant<32>::~variant<32>(this);
-  this->m_type_id = vostok::detail::type_to_int<unsigned char>::get();
-  if ( this != (vostok::variant<32> *)-8 )
-    this->m_storage[0] = *value;
-  if ( this )
-  {
-    *(_DWORD *)this->m_helper_storage = &vostok::detail::abstract_type_helper::`vftable';
-    *(_DWORD *)this->m_helper_storage = &vostok::detail::concrete_type_helper<unsigned char>::`vftable';
-    v2 = (vostok::detail::abstract_type_helper *)this;
-  }
-  else
-  {
-    v2 = 0;
-  }
-  this->m_helper = v2;
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::render::binary_shader_cook_data *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::render::binary_shader_cook_data *>::`vftable';
+  a2[10] = a2;
 }
 
 
-void __thiscall vostok::variant<32>::set<unsigned short>(vostok::variant<32> *this, const unsigned __int16 *value)
+void __userpurge vostok::variant<32>::set<vostok::render::effect_compile_data *>(
+        vostok::variant<32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        vostok::render::effect_compile_data **value)
 {
-  vostok::detail::abstract_type_helper *v2; // ecx
-  vostok::detail::abstract_type_helper *v3; // [esp+0h] [ebp-14h]
-  vostok::detail::abstract_type_helper *v5; // [esp+Ch] [ebp-8h]
-  _WORD *v6; // [esp+10h] [ebp-4h]
-
-  vostok::variant<32>::~variant<32>(this);
-  this->m_type_id = vostok::detail::type_to_int<unsigned short>::get();
-  v6 = operator new(2u, this->m_storage);
-  if ( v6 )
-    *v6 = *value;
-  v5 = (vostok::detail::abstract_type_helper *)operator new(4u, this);
-  if ( v5 )
-  {
-    vostok::detail::abstract_type_helper::abstract_type_helper(v2, v5);
-    v5->__vftable = (vostok::detail::abstract_type_helper_vtbl *)&vostok::detail::concrete_type_helper<unsigned short>::`vftable';
-    v3 = v5;
-  }
-  else
-  {
-    v3 = 0;
-  }
-  this->m_helper = v3;
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::render::effect_compile_data *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::render::effect_compile_data *>::`vftable';
+  a2[10] = a2;
 }
 
 
 void __userpurge vostok::variant<32>::set<vostok::render::material_effects_instance_cook_data *>(
         vostok::variant<32> *this@<ecx>,
-        int a2@<esi>,
-        vostok::render::material_effects_instance_cook_data *const *value)
+        _DWORD *a2@<eax>,
+        vostok::render::material_effects_instance_cook_data **value)
 {
-  int v3; // ecx
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::render::material_effects_instance_cook_data *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::render::material_effects_instance_cook_data *>::`vftable';
+  a2[10] = a2;
+}
 
-  v3 = *(_DWORD *)(a2 + 40);
-  if ( v3 )
+
+void __userpurge vostok::variant<32>::set<vostok::render::skeleton_combined_cook_data *>(
+        vostok::variant<32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        vostok::render::skeleton_combined_cook_data **value)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::render::skeleton_combined_cook_data *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::render::skeleton_combined_cook_data *>::`vftable';
+  a2[10] = a2;
+}
+
+
+void __userpurge vostok::variant<32>::set<vostok::physics::world *>(
+        vostok::variant<32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        vostok::physics::world **value)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::physics::world *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::physics::world *>::`vftable';
+  a2[10] = a2;
+}
+
+
+void __userpurge vostok::variant<32>::set<void *>(vostok::variant<32> *this@<ecx>, _DWORD *a2@<eax>, void **value)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<void *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<void *>::`vftable';
+  a2[10] = a2;
+}
+
+
+void __userpurge vostok::variant<32>::set<vostok::configs::binary_config_value const *>(
+        vostok::variant<32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        const vostok::configs::binary_config_value **value)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)a2);
+  a2[11] = vostok::detail::type_to_int<vostok::configs::binary_config_value const *>::get();
+  if ( a2 != (_DWORD *)-8 )
+    a2[2] = *value;
+  *a2 = &vostok::detail::concrete_type_helper<vostok::configs::binary_config_value const *>::`vftable';
+  a2[10] = a2;
+}
+
+
+void __userpurge vostok::variant<32>::set<survarium::booby_trap_core_query_data>(
+        const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *value@<eax>,
+        vostok::variant<32> *a2@<ecx>,
+        vostok::detail::abstract_type_helper *this)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(a2, (int)this);
+  this[11].__vftable = (vostok::detail::abstract_type_helper_vtbl *)vostok::detail::type_to_int<survarium::booby_trap_core_query_data>::get();
+  if ( this != (vostok::detail::abstract_type_helper *)-8 )
   {
-    (*(void (__thiscall **)(int, int))(*(_DWORD *)v3 + 4))(v3, a2 + 8);
-    *(_DWORD *)(a2 + 40) = 0;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this[2],
+      value);
+    this[3].__vftable = (vostok::detail::abstract_type_helper_vtbl *)value[1].m_object;
+    this[4].__vftable = (vostok::detail::abstract_type_helper_vtbl *)value[2].m_object;
   }
-  *(_DWORD *)(a2 + 44) = vostok::detail::type_to_int<vostok::render::material_effects_instance_cook_data *>::get();
+  this->__vftable = (vostok::detail::abstract_type_helper_vtbl *)&vostok::detail::concrete_type_helper<survarium::booby_trap_core_query_data>::`vftable';
+  this[10].__vftable = (vostok::detail::abstract_type_helper_vtbl *)this;
+}
+
+
+void __thiscall vostok::variant<32>::set<survarium::player_initial_info>(
+        vostok::variant<32> *this,
+        survarium::player_profile *value,
+        const void *a3)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)value);
+  *(_DWORD *)&value->profile_name[36] = vostok::detail::type_to_int<survarium::player_initial_info>::get();
+  if ( value != (survarium::player_profile *)-8 )
+    qmemcpy(value->profile_name, a3, 0x14u);
+  value->account_id = (unsigned int)&vostok::detail::concrete_type_helper<survarium::player_initial_info>::`vftable';
+  *(_DWORD *)&value->profile_name[32] = value;
+}
+
+
+void __thiscall vostok::variant<32>::set<vostok::render::render_texture_cook_parameters>(
+        vostok::variant<32> *this,
+        const vostok::render::render_texture_cook_parameters *value,
+        _DWORD *a3)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)value);
+  *(_DWORD *)&value[2].force_query = vostok::detail::type_to_int<vostok::render::render_texture_cook_parameters>::get();
+  if ( value != (const vostok::render::render_texture_cook_parameters *)-8 )
+  {
+    *(_DWORD *)&value->use_pool = *a3;
+    *(_DWORD *)&value->force_query = a3[1];
+    value[1].mip_level_cut = a3[2];
+    value[1].num_last_mips_used = a3[3];
+  }
+  value->mip_level_cut = (unsigned int)&vostok::detail::concrete_type_helper<vostok::render::render_texture_cook_parameters>::`vftable';
+  *(_DWORD *)&value[2].use_pool = value;
+}
+
+
+void __userpurge vostok::variant<32>::set<vostok::render::scene_configuration>(
+        vostok::variant<32> *this@<ecx>,
+        int a2@<eax>,
+        const vostok::render::scene_configuration *value)
+{
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, a2);
+  *(_DWORD *)(a2 + 44) = vostok::detail::type_to_int<vostok::render::scene_configuration>::get();
   if ( a2 != -8 )
-    *(vostok::render::material_effects_instance_cook_data **)(a2 + 8) = *value;
+    *(vostok::render::scene_configuration *)(a2 + 8) = *value;
+  *(_DWORD *)a2 = &vostok::detail::concrete_type_helper<vostok::render::scene_configuration>::`vftable';
   *(_DWORD *)(a2 + 40) = a2;
-  *(_DWORD *)a2 = &vostok::detail::concrete_type_helper<vostok::render::material_effects_instance_cook_data *>::`vftable';
 }
 
 
-void __usercall vostok::variant<32>::set<vostok::animation::animation_collection_cook_user_data>(
-        vostok::variant<32> *this@<esi>,
-        const vostok::animation::animation_collection_cook_user_data *value@<eax>)
-{
-  vostok::detail::abstract_type_helper *m_helper; // ecx
-
-  m_helper = this->m_helper;
-  if ( m_helper )
-  {
-    m_helper->destroy(m_helper, this->m_storage);
-    this->m_helper = 0;
-  }
-  this->m_type_id = vostok::detail::type_to_int<vostok::animation::animation_collection_cook_user_data>::get();
-  if ( this != (vostok::variant<32> *)-8 )
-  {
-    *(_DWORD *)this->m_storage = value->val;
-    *(_DWORD *)&this->m_storage[4] = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_storage[4],
-      &value->cfg_ptr);
-  }
-  this->m_helper = (vostok::detail::abstract_type_helper *)this;
-  *(_DWORD *)this->m_helper_storage = &vostok::detail::concrete_type_helper<vostok::animation::animation_collection_cook_user_data>::`vftable';
-}
-
-
-void __userpurge vostok::variant<32>::set<vostok::ai::behaviour_cook_params>(
-        vostok::variant<32> *this@<ecx>,
-        vostok::ai::behaviour_cook_params *a2@<esi>,
-        const vostok::ai::behaviour_cook_params *value)
-{
-  const vostok::configs::binary_config_value *behaviour_config; // ecx
-
-  behaviour_config = a2[10].behaviour_config;
-  if ( behaviour_config )
-  {
-    (*((void (__thiscall **)(const vostok::configs::binary_config_value *, vostok::ai::behaviour_cook_params *))behaviour_config->data.pointer
-     + 1))(
-      behaviour_config,
-      a2 + 2);
-    a2[10].behaviour_config = 0;
-  }
-  a2[11].behaviour_config = (const vostok::configs::binary_config_value *)vostok::detail::type_to_int<vostok::ai::behaviour_cook_params>::get();
-  if ( a2 != (vostok::ai::behaviour_cook_params *)-8 )
-    a2[2].behaviour_config = value->behaviour_config;
-  a2[10].behaviour_config = (const vostok::configs::binary_config_value *)a2;
-  a2->behaviour_config = (const vostok::configs::binary_config_value *)&vostok::detail::concrete_type_helper<vostok::ai::behaviour_cook_params>::`vftable';
-}
-
-
-void __thiscall vostok::variant<32>::set<survarium::booby_trap_set_cook_data>(
+void __thiscall vostok::variant<32>::set<vostok::sound::sound_scene_creation_params>(
         vostok::variant<32> *this,
-        const survarium::booby_trap_set_cook_data *value)
+        const vostok::sound::sound_scene_creation_params *value,
+        unsigned int *a3)
 {
-  vostok::detail::abstract_type_helper *v2; // ecx
-  vostok::detail::abstract_type_helper *v3; // [esp+0h] [ebp-14h]
-  vostok::detail::abstract_type_helper *v5; // [esp+Ch] [ebp-8h]
-  survarium::booby_trap_set_cook_data *v6; // [esp+10h] [ebp-4h]
-
-  vostok::variant<32>::~variant<32>(this);
-  this->m_type_id = vostok::detail::type_to_int<survarium::booby_trap_set_cook_data>::get();
-  v6 = (survarium::booby_trap_set_cook_data *)operator new(2u, this->m_storage);
-  if ( v6 )
-    *v6 = *value;
-  v5 = (vostok::detail::abstract_type_helper *)operator new(4u, this);
-  if ( v5 )
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)value);
+  value[3].receivers_count = vostok::detail::type_to_int<vostok::sound::sound_scene_creation_params>::get();
+  if ( value != (const vostok::sound::sound_scene_creation_params *)-8 )
   {
-    vostok::detail::abstract_type_helper::abstract_type_helper(v2, v5);
-    v5->__vftable = (vostok::detail::abstract_type_helper_vtbl *)&vostok::detail::concrete_type_helper<survarium::booby_trap_set_cook_data>::`vftable';
-    v3 = v5;
+    value->receivers_count = *a3;
+    value[1].proxies_count = a3[1];
+    value[1].propagators_count = a3[2];
   }
-  else
-  {
-    v3 = 0;
-  }
-  this->m_helper = v3;
+  value->proxies_count = (unsigned int)&vostok::detail::concrete_type_helper<vostok::sound::sound_scene_creation_params>::`vftable';
+  value[3].propagators_count = (unsigned int)value;
 }
 
 
-void __userpurge vostok::variant<32>::set<vostok::ai::brain_unit_cook_params>(
-        vostok::variant<32> *this@<ecx>,
-        vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *a2@<esi>,
-        const vostok::ai::brain_unit_cook_params *value)
-{
-  vostok::configs::binary_config *m_object; // ecx
-
-  m_object = a2[10].m_object;
-  if ( m_object )
-  {
-    m_object->log_string(m_object, (vostok::fixed_string<512> *)&a2[2]);
-    a2[10].m_object = 0;
-  }
-  a2[11].m_object = (vostok::configs::binary_config *)vostok::detail::type_to_int<vostok::ai::brain_unit_cook_params>::get();
-  if ( a2 != (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)-8 )
-  {
-    a2[2].m_object = (vostok::configs::binary_config *)value->sound_world_user;
-    a2[3].m_object = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      a2 + 3,
-      (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&value->sound_scene);
-    a2[4].m_object = (vostok::configs::binary_config *)value->npc;
-  }
-  a2[10].m_object = (vostok::configs::binary_config *)a2;
-  a2->m_object = (vostok::configs::binary_config *)&vostok::detail::concrete_type_helper<vostok::ai::brain_unit_cook_params>::`vftable';
-}
-
-
-void __thiscall vostok::variant<32>::set<vostok::sound::sound_collection_cook_user_data>(
+void __thiscall vostok::variant<32>::set<vostok::configs::binary_config_value>(
         vostok::variant<32> *this,
-        const vostok::sound::sound_collection_cook_user_data *value)
+        const vostok::configs::binary_config_value *value,
+        const void *a3)
 {
-  vostok::detail::abstract_type_helper *v2; // [esp+0h] [ebp-24h]
-
-  vostok::variant<32>::~variant<32>(this);
-  this->m_type_id = vostok::detail::type_to_int<vostok::sound::sound_collection_cook_user_data>::get();
-  if ( this != (vostok::variant<32> *)-8 )
-  {
-    *(_DWORD *)this->m_storage = value->val;
-    boost::_bi::value<vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>>::value<vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>>(
-      (vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> *)&this->m_storage[4],
-      &value->cfg_ptr);
-  }
-  if ( this )
-  {
-    *(_DWORD *)this->m_helper_storage = &vostok::detail::abstract_type_helper::`vftable';
-    *(_DWORD *)this->m_helper_storage = &vostok::detail::concrete_type_helper<vostok::sound::sound_collection_cook_user_data>::`vftable';
-    v2 = (vostok::detail::abstract_type_helper *)this;
-  }
-  else
-  {
-    v2 = 0;
-  }
-  this->m_helper = v2;
-}
-
-
-void __usercall vostok::variant<32>::set<vostok::render::static_model_instance_user_data>(
-        vostok::variant<32> *this@<esi>,
-        const vostok::render::static_model_instance_user_data *value@<eax>)
-{
-  vostok::detail::abstract_type_helper *m_helper; // ecx
-
-  m_helper = this->m_helper;
-  if ( m_helper )
-  {
-    m_helper->destroy(m_helper, this->m_storage);
-    this->m_helper = 0;
-  }
-  this->m_type_id = vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::get();
-  if ( this != (vostok::variant<32> *)-8 )
-  {
-    *(_DWORD *)this->m_storage = value->config;
-    *(_DWORD *)&this->m_storage[4] = value->sound_world;
-    *(_DWORD *)&this->m_storage[8] = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_storage[8],
-      (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&value->sound_scene);
-  }
-  this->m_helper = (vostok::detail::abstract_type_helper *)this;
-  *(_DWORD *)this->m_helper_storage = &vostok::detail::concrete_type_helper<vostok::render::static_model_instance_user_data>::`vftable';
-}
-
-
-void __usercall vostok::variant<32>::set<vostok::configs::binary_config_value>(
-        vostok::variant<32> *this@<esi>,
-        const vostok::configs::binary_config_value *value@<edi>)
-{
-  vostok::detail::abstract_type_helper *m_helper; // ecx
-
-  m_helper = this->m_helper;
-  if ( m_helper )
-  {
-    m_helper->destroy(m_helper, this->m_storage);
-    this->m_helper = 0;
-  }
-  this->m_type_id = vostok::detail::type_to_int<vostok::configs::binary_config_value>::get();
-  if ( this != (vostok::variant<32> *)-8 )
-    *(vostok::configs::binary_config_value *)this->m_storage = *value;
-  this->m_helper = (vostok::detail::abstract_type_helper *)this;
-  *(_DWORD *)this->m_helper_storage = &vostok::detail::concrete_type_helper<vostok::configs::binary_config_value>::`vftable';
+  vostok::variant<32>::destroy_previous_variable_if_needed(this, (int)value);
+  *(_DWORD *)&value[1].type = vostok::detail::type_to_int<vostok::configs::binary_config_value>::get();
+  if ( value != (const vostok::configs::binary_config_value *)-8 )
+    qmemcpy(&value->id, a3, sizeof(const vostok::configs::binary_config_value));
+  value->data.pointer = &vostok::detail::concrete_type_helper<vostok::configs::binary_config_value>::`vftable';
+  value[1].id_crc = (unsigned int)value;
 }

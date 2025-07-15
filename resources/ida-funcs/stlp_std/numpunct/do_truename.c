@@ -7,7 +7,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   v2 = result;
   stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
     result,
-    (char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1],
+    "true",
     (const stlp_std::allocator<char> *)&result);
   return v2;
 }

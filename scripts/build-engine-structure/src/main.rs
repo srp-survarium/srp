@@ -12,7 +12,7 @@ use std::collections::HashMap;
 pub mod parser;
 
 fn main() {
-    let from = "D:/Projects/decompiled_funcs/decompiled_funcs";
+    let from = "C:/Users/User/Downloads/Telegram Desktop/decompiled-funcs/decompiled-funcs";
     let dir_name = "./resources/ida-funcs";
 
     let mut dir = Directory::new();

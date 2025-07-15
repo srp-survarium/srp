@@ -1,19 +1,19 @@
 unsigned int Scaleform::SPrintF(const Scaleform::MsgFormat::Sink *result, const char *fmt, ...)
 {
   unsigned int StrSize; // esi
-  Scaleform::StringDataPtr v4; // [esp+0h] [ebp-308h] BYREF
-  Scaleform::MsgFormat parsed_format; // [esp+8h] [ebp-300h] BYREF
+  Scaleform::StringDataPtr fmta; // [esp+0h] [ebp-308h] BYREF
+  Scaleform::MsgFormat v5; // [esp+8h] [ebp-300h] BYREF
   va_list argList; // [esp+314h] [ebp+Ch] BYREF
 
   va_start(argList, fmt);
-  Scaleform::MsgFormat::MsgFormat(&parsed_format, result);
-  v4.pStr = fmt;
+  Scaleform::MsgFormat::MsgFormat(&v5, result);
+  fmta.pStr = fmt;
   if ( fmt )
-    v4.Size = strlen(fmt);
+    fmta.Size = strlen(fmt);
   else
-    v4.Size = 0;
-  Scaleform::MsgFormat::FormatF(&parsed_format, &v4, argList);
-  StrSize = parsed_format.StrSize;
-  Scaleform::MsgFormat::~MsgFormat(&parsed_format);
+    fmta.Size = 0;
+  Scaleform::MsgFormat::FormatF(&v5, &fmta, argList);
+  StrSize = v5.StrSize;
+  Scaleform::MsgFormat::~MsgFormat(&v5);
   return StrSize;
 }

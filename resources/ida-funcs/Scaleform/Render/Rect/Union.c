@@ -13,8 +13,8 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::Render::Rect<float>::Union
         float right,
         float bottom)
 {
-  Scaleform::Render::Rect<float> pdest; // [esp+30h] [ebp-20h] BYREF
-  Scaleform::Render::Rect<float> r; // [esp+40h] [ebp-10h] BYREF
+  Scaleform::Render::Rect<float> pdest; // [esp+10h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<float> r; // [esp+20h] [ebp-10h] BYREF
 
   pdest.x1 = 0.0;
   pdest.y1 = 0.0;

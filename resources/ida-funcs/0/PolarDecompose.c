@@ -1,238 +1,195 @@
-int __usercall PolarDecompose@<eax>(btMatrix3x3 *m@<edi>, btMatrix3x3 *q@<eax>, btMatrix3x3 *s)
+int __usercall PolarDecompose@<eax>(const float *a1@<edi>, const btMatrix3x3 *m, btMatrix3x3 *q, btMatrix3x3 *s)
 {
-  float v4; // xmm4_4
-  float v5; // xmm0_4
-  float v6; // xmm3_4
-  float v7; // xmm5_4
-  float v8; // xmm2_4
-  float v9; // xmm7_4
-  float v10; // xmm1_4
-  unsigned int v11; // xmm2_4
-  unsigned int v12; // xmm3_4
-  float v13; // xmm6_4
-  float v14; // xmm7_4
-  int *v15; // eax
-  btMatrix3x3 *v16; // eax
-  unsigned __int64 *v17; // eax
-  float v18; // xmm0_4
-  bool v19; // cc
-  float v20; // xmm5_4
-  float v21; // xmm4_4
-  float v22; // xmm2_4
-  float v23; // xmm3_4
-  float v24; // xmm0_4
-  float v25; // xmm1_4
-  float v26; // xmm6_4
-  float v27; // xmm7_4
-  float v28; // xmm4_4
-  float v29; // xmm5_4
+  btMatrix3x3 *v4; // eax
+  float *v5; // ecx
+  btMatrix3x3 *v6; // ecx
+  float v8; // xmm4_4
+  float v9; // xmm5_4
+  float v10; // xmm3_4
+  float v11; // xmm6_4
+  float v12; // xmm0_4
+  float v13; // xmm2_4
+  float v14; // xmm0_4
+  float v15; // xmm2_4
+  float v16; // xmm1_4
+  float v17; // xmm7_4
+  float v18; // xmm4_4
+  float v19; // xmm5_4
+  btMatrix3x3 *v20; // eax
+  btMatrix3x3 *v21; // eax
+  float v22; // xmm1_4
+  btMatrix3x3 *v23; // eax
+  float v24; // xmm3_4
+  float v25; // xmm4_4
+  float v26; // xmm5_4
+  float v27; // xmm6_4
+  float v28; // xmm0_4
+  float v29; // xmm6_4
   float v30; // xmm7_4
-  float v31; // xmm5_4
+  float v31; // xmm0_4
   float v32; // xmm7_4
-  float v33; // xmm2_4
-  int result; // eax
-  float v35; // xmm4_4
-  float v36; // xmm1_4
-  float v37; // xmm1_4
+  float v33; // xmm5_4
+  float v34; // xmm7_4
+  float v35; // xmm6_4
+  float v36; // xmm5_4
+  float v37; // xmm7_4
   float v38; // xmm1_4
-  const vostok::math::float4x4 *v39; // xmm1_4
-  float _X; // [esp+25Ch] [ebp-130h]
-  float v41; // [esp+25Ch] [ebp-130h]
-  float v42; // [esp+260h] [ebp-12Ch]
-  float v43; // [esp+260h] [ebp-12Ch]
-  unsigned int v44; // [esp+264h] [ebp-128h]
-  float v45; // [esp+264h] [ebp-128h]
-  unsigned int v46; // [esp+264h] [ebp-128h]
-  int v47; // [esp+268h] [ebp-124h]
-  unsigned int v48; // [esp+26Ch] [ebp-120h]
-  float v49; // [esp+26Ch] [ebp-120h]
-  unsigned int v50; // [esp+270h] [ebp-11Ch]
-  float v51; // [esp+270h] [ebp-11Ch]
-  unsigned int v52; // [esp+274h] [ebp-118h]
-  float v53; // [esp+274h] [ebp-118h]
-  unsigned int v54; // [esp+278h] [ebp-114h]
-  float v55; // [esp+278h] [ebp-114h]
-  unsigned __int64 v56; // [esp+27Ch] [ebp-110h] BYREF
-  unsigned __int64 v57; // [esp+284h] [ebp-108h]
-  unsigned __int64 v58; // [esp+28Ch] [ebp-100h]
-  unsigned __int64 v59; // [esp+294h] [ebp-F8h]
-  unsigned __int64 v60; // [esp+29Ch] [ebp-F0h]
-  unsigned __int64 v61; // [esp+2A4h] [ebp-E8h]
-  float v62; // [esp+2B4h] [ebp-D8h]
-  float v63; // [esp+2B8h] [ebp-D4h]
-  float v64; // [esp+2BCh] [ebp-D0h]
-  float v65; // [esp+2C0h] [ebp-CCh]
-  float v66; // [esp+2C4h] [ebp-C8h]
-  float v67; // [esp+2C8h] [ebp-C4h]
-  btMatrix3x3 b; // [esp+2CCh] [ebp-C0h] BYREF
-  _BYTE v69[48]; // [esp+2FCh] [ebp-90h] BYREF
-  _QWORD v70[6]; // [esp+32Ch] [ebp-60h] BYREF
-  _QWORD v71[6]; // [esp+35Ch] [ebp-30h] BYREF
+  float v39; // xmm6_4
+  float v40; // xmm7_4
+  float v41; // xmm4_4
+  float v42; // xmm3_4
+  const float *v43; // [esp+4h] [ebp-130h]
+  float v44; // [esp+18h] [ebp-11Ch]
+  float v45; // [esp+1Ch] [ebp-118h] BYREF
+  int v46; // [esp+20h] [ebp-114h]
+  float v47; // [esp+24h] [ebp-110h] BYREF
+  float v48; // [esp+28h] [ebp-10Ch] BYREF
+  float v49; // [esp+2Ch] [ebp-108h] BYREF
+  float v50; // [esp+30h] [ebp-104h] BYREF
+  float v51; // [esp+34h] [ebp-100h] BYREF
+  float v52; // [esp+38h] [ebp-FCh] BYREF
+  float v53; // [esp+3Ch] [ebp-F8h] BYREF
+  float v54; // [esp+40h] [ebp-F4h] BYREF
+  btMatrix3x3 v55; // [esp+44h] [ebp-F0h] BYREF
+  btMatrix3x3 v56; // [esp+74h] [ebp-C0h] BYREF
+  float v57[12]; // [esp+A4h] [ebp-90h] BYREF
+  _BYTE v58[48]; // [esp+D4h] [ebp-60h] BYREF
+  float var30[13]; // [esp+104h] [ebp-30h] BYREF
 
-  v47 = 0;
-  v42 = 1.0
-      / sqrtf(
-          (float)((float)(m->m_el[2].mVec128.m128_f32[2] * m->m_el[2].mVec128.m128_f32[2])
-                + (float)(m->m_el[0].mVec128.m128_f32[0] * m->m_el[0].mVec128.m128_f32[0]))
-        + (float)(m->m_el[1].mVec128.m128_f32[1] * m->m_el[1].mVec128.m128_f32[1]));
-  *q = *(btMatrix3x3 *)Mul(&b, (float *)m, v42);
-  _X = (float)((float)((float)((float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[1])
-                             - (float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[1]))
-                     * q->m_el[0].mVec128.m128_f32[2])
-             + (float)((float)((float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[2])
-                             - (float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[2]))
-                     * q->m_el[0].mVec128.m128_f32[1]))
-     + (float)((float)((float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[2])
-                     - (float)(q->m_el[1].mVec128.m128_f32[2] * q->m_el[2].mVec128.m128_f32[1]))
-             * q->m_el[0].mVec128.m128_f32[0]);
-  if ( fabsf(_X) < 0.00000011920929 )
+  v46 = 0;
+  v43 = a1;
+  v4 = Mul(
+         m,
+         (float *)&v56,
+         s_bm_current_air_resistance
+       / fsqrt(
+           (float)((float)(m->m_el[2].mVec128.m128_f32[2] * m->m_el[2].mVec128.m128_f32[2])
+                 + (float)(m->m_el[0].mVec128.m128_f32[0] * m->m_el[0].mVec128.m128_f32[0]))
+         + (float)(m->m_el[1].mVec128.m128_f32[1] * m->m_el[1].mVec128.m128_f32[1])));
+  v5 = (float *)q;
+  *q = *v4;
+  v44 = (float)((float)((float)((float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[1])
+                              - (float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[1]))
+                      * v5[2])
+              + (float)((float)((float)(v5[8] * q->m_el[1].mVec128.m128_f32[2])
+                              - (float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[2]))
+                      * v5[1]))
+      + (float)((float)((float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[2])
+                      - (float)(q->m_el[1].mVec128.m128_f32[2] * q->m_el[2].mVec128.m128_f32[1]))
+              * *v5);
+  if ( COERCE_FLOAT(LODWORD(v44) & _mask__AbsFloat_) >= 0.00000011920929 )
   {
-    v39 = clear_value;
-    result = 0;
-    q->m_el[0].mVec128.m128_i32[0] = (int)clear_value;
-    q->m_el[0].mVec128.m128_i32[1] = 0;
-    q->m_el[0].mVec128.m128_i32[2] = 0;
-    q->m_el[0].mVec128.m128_i32[3] = 0;
-    q->m_el[1].mVec128.m128_i32[0] = 0;
-    q->m_el[1].mVec128.m128_i32[1] = (int)v39;
-    q->m_el[1].mVec128.m128_i32[2] = 0;
-    q->m_el[1].mVec128.m128_i32[3] = 0;
-    q->m_el[2].mVec128.m128_i32[0] = 0;
-    q->m_el[2].mVec128.m128_i32[1] = 0;
-    q->m_el[2].mVec128.m128_i32[2] = (int)v39;
-    q->m_el[2].mVec128.m128_i32[3] = 0;
-    s->m_el[0].mVec128.m128_u64[0] = (unsigned int)v39;
-    s->m_el[0].mVec128.m128_u64[1] = 0;
-    s->m_el[1].mVec128.m128_i32[0] = 0;
-    *(unsigned __int64 *)((char *)s->m_el[1].mVec128.m128_u64 + 4) = (unsigned int)v39;
-    s->m_el[1].mVec128.m128_i32[3] = 0;
-    s->m_el[2].mVec128.m128_u64[0] = 0;
-    s->m_el[2].mVec128.m128_u64[1] = (unsigned int)v39;
+    while ( 1 )
+    {
+      v8 = *v5;
+      v9 = v5[4];
+      v10 = v5[5];
+      v11 = v5[8];
+      v12 = v5[1];
+      v53 = (float)(*v5 * v10) - (float)(v12 * v9);
+      v13 = (float)(v11 * v12) - (float)(v5[9] * v8);
+      v14 = v5[2];
+      v52 = (float)(v5[9] * v9) - (float)(v11 * v10);
+      v49 = v13;
+      v15 = v5[6];
+      v50 = (float)(v14 * v9) - (float)(v15 * v8);
+      v16 = v5[10];
+      v17 = (float)(v16 * v8) - (float)(v14 * v11);
+      v47 = (float)(v15 * v11) - (float)(v16 * v9);
+      v18 = v5[1];
+      v51 = (float)(v15 * v18) - (float)(v14 * v10);
+      v19 = v5[9];
+      v54 = v17;
+      v48 = (float)(v14 * v19) - (float)(v16 * v18);
+      v45 = (float)(v16 * v10) - (float)(v15 * v19);
+      btMatrix3x3::setValue((btMatrix3x3 *)&v45, (int)&v55, &v48, &v51, &v47, &v54, &v50, &v52, &v49, &v53, v43);
+      v20 = Mul(&v55, v57, s_bm_current_air_resistance / v44);
+      btMatrix3x3::btMatrix3x3(
+        v20,
+        &v56,
+        v20->m_el[1].mVec128.m128_f32,
+        v20->m_el[2].mVec128.m128_f32,
+        &v20->m_el[0].mVec128.m128_f32[1],
+        &v20->m_el[1].mVec128.m128_f32[1],
+        &v20->m_el[2].mVec128.m128_f32[1],
+        &v20->m_el[0].mVec128.m128_f32[2],
+        &v20->m_el[1].mVec128.m128_f32[2],
+        &v20->m_el[2].mVec128.m128_f32[2]);
+      v21 = Add(q, &v56, (int)v58);
+      *q = *Mul(v21, var30, 0.5);
+      v22 = (float)((float)((float)((float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[2])
+                                  - (float)(q->m_el[1].mVec128.m128_f32[2] * q->m_el[2].mVec128.m128_f32[1]))
+                          * q->m_el[0].mVec128.m128_f32[0])
+                  + (float)((float)((float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[2])
+                                  - (float)(q->m_el[2].mVec128.m128_f32[2] * q->m_el[1].mVec128.m128_f32[0]))
+                          * q->m_el[0].mVec128.m128_f32[1]))
+          + (float)((float)((float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[1])
+                          - (float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[0]))
+                  * q->m_el[0].mVec128.m128_f32[2]);
+      if ( (float)((float)(v22 - v44) * (float)(v22 - v44)) <= 0.000099999997 )
+        break;
+      ++v46;
+      v44 = v22;
+      if ( v46 >= 16 )
+        break;
+      v5 = (float *)q;
+    }
+    Orthogonalize(q);
+    btMatrix3x3::btMatrix3x3(
+      v23,
+      &v55,
+      v23->m_el[1].mVec128.m128_f32,
+      v23->m_el[2].mVec128.m128_f32,
+      &v23->m_el[0].mVec128.m128_f32[1],
+      &v23->m_el[1].mVec128.m128_f32[1],
+      &v23->m_el[2].mVec128.m128_f32[1],
+      &v23->m_el[0].mVec128.m128_f32[2],
+      &v23->m_el[1].mVec128.m128_f32[2],
+      &v23->m_el[2].mVec128.m128_f32[2]);
+    v24 = m->m_el[2].mVec128.m128_f32[2];
+    v25 = m->m_el[1].mVec128.m128_f32[2];
+    v26 = m->m_el[0].mVec128.m128_f32[2];
+    v27 = m->m_el[2].mVec128.m128_f32[1];
+    v48 = (float)((float)(v55.m_el[2].mVec128.m128_f32[1] * v25) + (float)(v55.m_el[2].mVec128.m128_f32[2] * v24))
+        + (float)(v55.m_el[2].mVec128.m128_f32[0] * v26);
+    v28 = v55.m_el[2].mVec128.m128_f32[2] * v27;
+    v29 = m->m_el[0].mVec128.m128_f32[1];
+    v30 = (float)((float)(v55.m_el[2].mVec128.m128_f32[1] * m->m_el[1].mVec128.m128_f32[1]) + v28)
+        + (float)(v55.m_el[2].mVec128.m128_f32[0] * v29);
+    v31 = m->m_el[0].mVec128.m128_f32[0];
+    v51 = v30;
+    v47 = (float)((float)(v55.m_el[2].mVec128.m128_f32[1] * m->m_el[1].mVec128.m128_f32[0])
+                + (float)(v55.m_el[2].mVec128.m128_f32[2] * m->m_el[2].mVec128.m128_f32[0]))
+        + (float)(v31 * v55.m_el[2].mVec128.m128_f32[0]);
+    v32 = (float)((float)(v55.m_el[1].mVec128.m128_f32[0] * v26) + (float)(v55.m_el[1].mVec128.m128_f32[1] * v25))
+        + (float)(v55.m_el[1].mVec128.m128_f32[2] * v24);
+    v33 = m->m_el[1].mVec128.m128_f32[1];
+    v54 = v32;
+    v34 = v55.m_el[1].mVec128.m128_f32[0] * v29;
+    v35 = v55.m_el[1].mVec128.m128_f32[1] * v33;
+    v36 = m->m_el[2].mVec128.m128_f32[1];
+    v50 = (float)(v34 + v35) + (float)(v55.m_el[1].mVec128.m128_f32[2] * v36);
+    v37 = (float)(v31 * v55.m_el[1].mVec128.m128_f32[0])
+        + (float)(v55.m_el[1].mVec128.m128_f32[1] * m->m_el[1].mVec128.m128_f32[0]);
+    v38 = m->m_el[0].mVec128.m128_f32[2];
+    v45 = m->m_el[1].mVec128.m128_f32[0];
+    v39 = m->m_el[2].mVec128.m128_f32[0];
+    v52 = v37 + (float)(v55.m_el[1].mVec128.m128_f32[2] * v39);
+    v40 = (float)((float)(v55.m_el[0].mVec128.m128_f32[0] * v38) + (float)(v55.m_el[0].mVec128.m128_f32[1] * v25))
+        + (float)(v55.m_el[0].mVec128.m128_f32[2] * v24);
+    v41 = v55.m_el[0].mVec128.m128_f32[0] * m->m_el[0].mVec128.m128_f32[1];
+    v42 = m->m_el[1].mVec128.m128_f32[1];
+    v49 = v40;
+    v53 = (float)(v41 + (float)(v55.m_el[0].mVec128.m128_f32[1] * v42)) + (float)(v55.m_el[0].mVec128.m128_f32[2] * v36);
+    v45 = (float)((float)(v31 * v55.m_el[0].mVec128.m128_f32[0]) + (float)(v55.m_el[0].mVec128.m128_f32[1] * v45))
+        + (float)(v55.m_el[0].mVec128.m128_f32[2] * v39);
+    btMatrix3x3::setValue((btMatrix3x3 *)&v45, (int)&v55, &v53, &v49, &v52, &v50, &v54, &v47, &v51, &v48, v43);
+    *s = v55;
   }
   else
   {
-    do
-    {
-      v4 = q->m_el[0].mVec128.m128_f32[1];
-      v5 = q->m_el[1].mVec128.m128_f32[1];
-      v6 = q->m_el[1].mVec128.m128_f32[0];
-      v7 = q->m_el[2].mVec128.m128_f32[1];
-      *(float *)&v44 = (float)(q->m_el[0].mVec128.m128_f32[0] * v5) - (float)(v4 * v6);
-      v8 = q->m_el[2].mVec128.m128_f32[0];
-      *(float *)&v50 = (float)(v8 * v4) - (float)(v7 * q->m_el[0].mVec128.m128_f32[0]);
-      *(float *)&v54 = (float)(v7 * v6) - (float)(v8 * v5);
-      v9 = q->m_el[0].mVec128.m128_f32[2];
-      *(float *)&v48 = (float)(v6 * v9) - (float)(q->m_el[0].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[2]);
-      *(float *)&v52 = (float)(q->m_el[0].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[2]) - (float)(v8 * v9);
-      v10 = q->m_el[1].mVec128.m128_f32[2];
-      *(float *)&v11 = (float)(v8 * v10) - (float)(v6 * q->m_el[2].mVec128.m128_f32[2]);
-      *(float *)&v12 = (float)(v4 * v10) - (float)(v5 * v9);
-      v13 = v7 * v9;
-      v14 = q->m_el[2].mVec128.m128_f32[2];
-      *(float *)&v56 = (float)(v5 * v14) - (float)(v7 * v10);
-      v59 = v48;
-      v60 = __PAIR64__(v50, v54);
-      v61 = v44;
-      v57 = v12;
-      *((float *)&v56 + 1) = v13 - (float)(v4 * v14);
-      v58 = __PAIR64__(v52, v11);
-      v15 = (int *)Mul(v70, (float *)&v56, *(float *)&clear_value / _X);
-      b.m_el[0].mVec128.m128_i32[0] = *v15;
-      b.m_el[0].mVec128.m128_i32[1] = v15[4];
-      b.m_el[0].mVec128.m128_u64[1] = (unsigned int)v15[8];
-      b.m_el[1].mVec128.m128_i32[0] = v15[1];
-      b.m_el[1].mVec128.m128_i32[1] = v15[5];
-      b.m_el[1].mVec128.m128_u64[1] = (unsigned int)v15[9];
-      b.m_el[2].mVec128.m128_i32[0] = v15[2];
-      b.m_el[2].mVec128.m128_i32[1] = v15[6];
-      b.m_el[2].mVec128.m128_u64[1] = (unsigned int)v15[10];
-      v16 = Add(&b, q, (int)v69);
-      v17 = Mul(v71, (float *)v16, 0.5);
-      q->m_el[0].mVec128.m128_u64[0] = *v17;
-      q->m_el[0].mVec128.m128_u64[1] = v17[1];
-      q->m_el[1].mVec128.m128_u64[0] = v17[2];
-      q->m_el[1].mVec128.m128_u64[1] = v17[3];
-      q->m_el[2].mVec128.m128_u64[0] = v17[4];
-      q->m_el[2].mVec128.m128_u64[1] = v17[5];
-      v18 = (float)((float)((float)((float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[1])
-                                  - (float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[1]))
-                          * q->m_el[0].mVec128.m128_f32[2])
-                  + (float)((float)((float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[2])
-                                  - (float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[2]))
-                          * q->m_el[0].mVec128.m128_f32[1]))
-          + (float)((float)((float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[2])
-                          - (float)(q->m_el[1].mVec128.m128_f32[2] * q->m_el[2].mVec128.m128_f32[1]))
-                  * q->m_el[0].mVec128.m128_f32[0]);
-      if ( (float)((float)(v18 - _X) * (float)(v18 - _X)) <= 0.000099999997 )
-        break;
-      v19 = v47 + 1 < 16;
-      _X = (float)((float)((float)((float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[1])
-                                 - (float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[1]))
-                         * q->m_el[0].mVec128.m128_f32[2])
-                 + (float)((float)((float)(q->m_el[2].mVec128.m128_f32[0] * q->m_el[1].mVec128.m128_f32[2])
-                                 - (float)(q->m_el[1].mVec128.m128_f32[0] * q->m_el[2].mVec128.m128_f32[2]))
-                         * q->m_el[0].mVec128.m128_f32[1]))
-         + (float)((float)((float)(q->m_el[1].mVec128.m128_f32[1] * q->m_el[2].mVec128.m128_f32[2])
-                         - (float)(q->m_el[1].mVec128.m128_f32[2] * q->m_el[2].mVec128.m128_f32[1]))
-                 * q->m_el[0].mVec128.m128_f32[0]);
-      ++v47;
-    }
-    while ( v19 );
-    Orthogonalize(q);
-    v20 = q->m_el[2].mVec128.m128_f32[2];
-    v21 = q->m_el[1].mVec128.m128_f32[2];
-    v22 = q->m_el[1].mVec128.m128_f32[1];
-    v65 = (float)((float)(v20 * m->m_el[2].mVec128.m128_f32[2])
-                + (float)(q->m_el[0].mVec128.m128_f32[2] * m->m_el[0].mVec128.m128_f32[2]))
-        + (float)(v21 * m->m_el[1].mVec128.m128_f32[2]);
-    v23 = q->m_el[2].mVec128.m128_f32[1];
-    v24 = q->m_el[1].mVec128.m128_f32[0];
-    v25 = q->m_el[2].mVec128.m128_f32[0];
-    v45 = m->m_el[0].mVec128.m128_f32[0];
-    v66 = (float)((float)(v20 * m->m_el[2].mVec128.m128_f32[1])
-                + (float)(q->m_el[0].mVec128.m128_f32[2] * m->m_el[0].mVec128.m128_f32[1]))
-        + (float)(v21 * m->m_el[1].mVec128.m128_f32[1]);
-    v26 = m->m_el[2].mVec128.m128_f32[0];
-    v27 = (float)((float)(v45 * q->m_el[0].mVec128.m128_f32[2]) + (float)(v20 * v26))
-        + (float)(v21 * m->m_el[1].mVec128.m128_f32[0]);
-    v28 = q->m_el[0].mVec128.m128_f32[1];
-    v43 = m->m_el[1].mVec128.m128_f32[0];
-    v29 = m->m_el[0].mVec128.m128_f32[2];
-    v67 = v27;
-    v55 = v29;
-    v51 = m->m_el[1].mVec128.m128_f32[2];
-    v49 = m->m_el[2].mVec128.m128_f32[2];
-    v64 = (float)((float)(v28 * v29) + (float)(v22 * v51)) + (float)(v23 * v49);
-    v30 = v28 * m->m_el[0].mVec128.m128_f32[1];
-    v63 = m->m_el[0].mVec128.m128_f32[1];
-    v53 = m->m_el[1].mVec128.m128_f32[1];
-    v62 = m->m_el[2].mVec128.m128_f32[1];
-    v41 = (float)(v30 + (float)(v22 * v53)) + (float)(v23 * v62);
-    v31 = v45;
-    v32 = (float)(v45 * v28) + (float)(v22 * v43);
-    v33 = q->m_el[0].mVec128.m128_f32[0];
-    result = v47;
-    *(float *)&v46 = (float)((float)(v24 * v51) + (float)(q->m_el[0].mVec128.m128_f32[0] * v55)) + (float)(v25 * v49);
-    v35 = v25 * v62;
-    *(float *)&v56 = (float)((float)(v24 * v43) + (float)(v25 * v26)) + (float)(v31 * q->m_el[0].mVec128.m128_f32[0]);
-    v57 = v46;
-    HIDWORD(v59) = 0;
-    HIDWORD(v61) = 0;
-    *((float *)&v58 + 1) = v41;
-    v36 = v64;
-    *((float *)&v56 + 1) = (float)((float)(v24 * v53) + (float)(v33 * v63)) + v35;
-    s->m_el[0].mVec128.m128_u64[0] = v56;
-    *(float *)&v59 = v36;
-    v37 = v67;
-    s->m_el[0].mVec128.m128_u64[1] = v57;
-    *(float *)&v58 = v32 + (float)(v23 * v26);
-    s->m_el[1].mVec128.m128_u64[0] = v58;
-    v60 = __PAIR64__(LODWORD(v66), LODWORD(v37));
-    v38 = v65;
-    s->m_el[1].mVec128.m128_u64[1] = v59;
-    s->m_el[2].mVec128.m128_u64[0] = v60;
-    *(float *)&v61 = v38;
-    s->m_el[2].mVec128.m128_u64[1] = v61;
+    btMatrix3x3::setIdentity(q, (int)q);
+    btMatrix3x3::setIdentity(v6, (int)s);
   }
-  return result;
+  return v46;
 }

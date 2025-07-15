@@ -1,4 +1,4 @@
-unsigned __int8 *__thiscall Scaleform::HeapPT::AllocLite::Alloc(
+Scaleform::HeapPT::DualTNode *__thiscall Scaleform::HeapPT::AllocLite::Alloc(
         Scaleform::HeapPT::AllocLite *this,
         unsigned int size,
         unsigned int alignSize,
@@ -10,7 +10,7 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocLite::Alloc(
   unsigned int v8; // esi
   unsigned int v9; // ebx
   Scaleform::HeapPT::DualTNode *v10; // eax
-  unsigned __int8 *v11; // edi
+  Scaleform::HeapPT::DualTNode *v11; // edi
   unsigned int v12; // edx
 
   v4 = size;
@@ -25,15 +25,15 @@ unsigned __int8 *__thiscall Scaleform::HeapPT::AllocLite::Alloc(
   v10 = Scaleform::HeapPT::AllocLite::pullBest(this, v9 >> this->MinShift, v7 - 1);
   if ( !v10 )
     return 0;
-  v11 = (unsigned __int8 *)(~v8 & ((unsigned int)v10 + v8));
-  v12 = v11 - (unsigned __int8 *)v10;
-  if ( v11 != (unsigned __int8 *)v10 )
+  v11 = (Scaleform::HeapPT::DualTNode *)(~v8 & ((unsigned int)v10 + v8));
+  v12 = (char *)v11 - (char *)v10;
+  if ( v11 != v10 )
   {
     do
     {
       if ( v12 >= 0x40 )
         break;
-      v11 += v8 + 1;
+      v11 = (Scaleform::HeapPT::DualTNode *)((char *)v11 + v8 + 1);
       v12 += v8 + 1;
     }
     while ( v12 );

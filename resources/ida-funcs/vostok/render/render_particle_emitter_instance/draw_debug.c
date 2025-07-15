@@ -1,175 +1,179 @@
 void __userpurge vostok::render::render_particle_emitter_instance::draw_debug(
         vostok::render::render_particle_emitter_instance *this@<ecx>,
         int a2@<eax>,
-        const vostok::math::float4x4 *view_matrix,
-        vostok::particle::enum_particle_render_mode debug_mode)
+        float view_matrix,
+        const vostok::math::float4x4 *debug_mode)
 {
-  float v5; // xmm0_4
-  float v6; // xmm1_4
-  float v7; // xmm2_4
-  float v8; // xmm4_4
-  float v9; // xmm6_4
-  float v10; // xmm7_4
-  int v11; // esi
-  float v12; // xmm3_4
-  float v13; // xmm1_4
-  float v14; // xmm2_4
-  float v15; // xmm0_4
-  float v16; // xmm1_4
+  float v5; // xmm5_4
+  float v6; // xmm2_4
+  float v7; // xmm3_4
+  float v8; // xmm6_4
+  float v9; // xmm7_4
+  float v10; // xmm2_4
+  float v11; // xmm3_4
+  float v12; // xmm5_4
+  float v13; // xmm4_4
+  int v14; // ebx
+  float v15; // eax
+  vostok::render::system_renderer *v16; // ecx
   float v17; // xmm4_4
-  vostok::particle::base_particle *v18; // esi
-  bool v19; // [esp+4h] [ebp-104h]
-  bool v20; // [esp+4h] [ebp-104h]
-  bool v21; // [esp+8h] [ebp-100h]
-  bool v22; // [esp+8h] [ebp-100h]
-  float v23; // [esp+18h] [ebp-F0h]
-  float v24; // [esp+20h] [ebp-E8h]
-  float v25; // [esp+20h] [ebp-E8h]
-  int width; // [esp+24h] [ebp-E4h] BYREF
-  float v27; // [esp+28h] [ebp-E0h]
-  float v28; // [esp+2Ch] [ebp-DCh]
-  int v29; // [esp+30h] [ebp-D8h]
-  int v30; // [esp+34h] [ebp-D4h]
-  vostok::particle::base_particle *P; // [esp+38h] [ebp-D0h]
-  int v32; // [esp+3Ch] [ebp-CCh]
-  int v33; // [esp+40h] [ebp-C8h]
-  int v34; // [esp+44h] [ebp-C4h]
-  int v35; // [esp+48h] [ebp-C0h]
-  int v36; // [esp+4Ch] [ebp-BCh]
-  int v37; // [esp+50h] [ebp-B8h]
-  float v38; // [esp+54h] [ebp-B4h]
-  float v39; // [esp+58h] [ebp-B0h]
-  float v40; // [esp+5Ch] [ebp-ACh]
-  float v41; // [esp+60h] [ebp-A8h]
-  float v42; // [esp+64h] [ebp-A4h]
-  float v43; // [esp+68h] [ebp-A0h]
-  __int64 v44; // [esp+6Ch] [ebp-9Ch]
-  float v45; // [esp+74h] [ebp-94h]
-  vostok::math::float3 v46; // [esp+78h] [ebp-90h]
-  vostok::math::float3 v47; // [esp+84h] [ebp-84h]
-  vostok::math::float3 v48; // [esp+90h] [ebp-78h]
-  vostok::math::float3 points[2]; // [esp+9Ch] [ebp-6Ch] BYREF
-  vostok::math::float4x4 camera_to_world; // [esp+B4h] [ebp-54h] BYREF
-  float v51; // [esp+100h] [ebp-8h]
+  float v18; // xmm2_4
+  float v19; // xmm3_4
+  float v20; // xmm4_4
+  float v21; // xmm4_4
+  float v22; // xmm1_4
+  float v23; // xmm0_4
+  float v24; // xmm0_4
+  float v25; // xmm0_4
+  float v26; // xmm4_4
+  float v27; // xmm1_4
+  float v28; // xmm4_4
+  vostok::render::system_renderer *v29; // ecx
+  int v30; // esi
+  vostok::render::system_renderer *v31; // ecx
+  BOOL v32; // [esp+Ch] [ebp-B8h]
+  float v33; // [esp+Ch] [ebp-B8h]
+  unsigned int v34; // [esp+10h] [ebp-B4h]
+  unsigned int v35; // [esp+10h] [ebp-B4h]
+  bool v36; // [esp+14h] [ebp-B0h]
+  bool v37; // [esp+14h] [ebp-B0h]
+  bool v38; // [esp+18h] [ebp-ACh]
+  bool v39; // [esp+18h] [ebp-ACh]
+  vostok::math::float4x4 v40; // [esp+1Ch] [ebp-A8h] BYREF
+  float v41; // [esp+5Ch] [ebp-68h] BYREF
+  float v42; // [esp+60h] [ebp-64h]
+  float v43; // [esp+64h] [ebp-60h]
+  float v44; // [esp+68h] [ebp-5Ch]
+  float v45; // [esp+6Ch] [ebp-58h]
+  float v46; // [esp+70h] [ebp-54h]
+  float v47; // [esp+74h] [ebp-50h]
+  float v48; // [esp+78h] [ebp-4Ch]
+  float v49; // [esp+7Ch] [ebp-48h]
+  float v50; // [esp+80h] [ebp-44h]
+  float v51; // [esp+84h] [ebp-40h]
+  float v52; // [esp+88h] [ebp-3Ch]
+  float v53; // [esp+8Ch] [ebp-38h]
+  float v54; // [esp+90h] [ebp-34h]
+  float v55; // [esp+94h] [ebp-30h]
+  float v56; // [esp+98h] [ebp-2Ch]
+  float v57; // [esp+9Ch] [ebp-28h]
+  float v58; // [esp+A0h] [ebp-24h]
+  float v59; // [esp+A4h] [ebp-20h]
+  float v60; // [esp+A8h] [ebp-1Ch]
+  float v61; // [esp+ACh] [ebp-18h]
+  float v62; // [esp+B0h] [ebp-14h]
+  float v63; // [esp+B4h] [ebp-10h]
+  float v64; // [esp+B8h] [ebp-Ch]
+  float v65; // [esp+BCh] [ebp-8h]
+  vostok::math::color v66; // [esp+C0h] [ebp-4h] BYREF
 
-  vostok::math::float4x4::try_invert(&camera_to_world, view_matrix);
-  v5 = (float)((float)(camera_to_world.j.x * 1000.0) + (float)(camera_to_world.i.x * 0.0))
-     + (float)(camera_to_world.k.x * 0.0);
-  v28 = camera_to_world.k.x * 0.0;
-  v6 = (float)((float)(camera_to_world.i.y * 0.0) + (float)(camera_to_world.j.y * 1000.0))
-     + (float)(camera_to_world.k.y * 0.0);
-  v23 = camera_to_world.k.y * 0.0;
-  v7 = (float)((float)(camera_to_world.j.z * 1000.0) + (float)(camera_to_world.i.z * 0.0))
-     + (float)(camera_to_world.k.z * 0.0);
-  v27 = camera_to_world.k.z * 0.0;
-  v24 = 1.0 / sqrtf((float)((float)(v6 * v6) + (float)(v5 * v5)) + (float)(v7 * v7));
-  v41 = v24 * v5;
-  v42 = v6 * v24;
-  v43 = v7 * v24;
-  v38 = (float)((float)(camera_to_world.j.x * 0.0) + (float)(camera_to_world.i.x * 1000.0)) + v28;
-  v39 = (float)((float)(camera_to_world.i.y * 1000.0) + (float)(camera_to_world.j.y * 0.0)) + v23;
-  v40 = (float)((float)(camera_to_world.j.z * 0.0) + (float)(camera_to_world.i.z * 1000.0)) + v27;
-  v25 = 1.0 / sqrtf((float)((float)(v38 * v38) + (float)(v40 * v40)) + (float)(v39 * v39));
-  v8 = v25 * v38;
-  v9 = v39 * v25;
-  v10 = v40 * v25;
-  v38 = v25 * v38;
-  v39 = v39 * v25;
-  v40 = v40 * v25;
-  if ( debug_mode == dots_particle_render_mode )
+  vostok::math::float4x4::try_invert((const vostok::math::float4x4 *)LODWORD(view_matrix), &v40);
+  v5 = (float)((float)(v40.j.x * 1000.0) + (float)(v40.i.x * 0.0)) + (float)(v40.k.x * 0.0);
+  view_matrix = v40.k.x * 0.0;
+  v59 = v40.k.y * 0.0;
+  v6 = (float)((float)(v40.j.y * 1000.0) + (float)(v40.i.y * 0.0)) + (float)(v40.k.y * 0.0);
+  v7 = (float)((float)(v40.j.z * 1000.0) + (float)(v40.i.z * 0.0)) + (float)(v40.k.z * 0.0);
+  *(float *)&v66.m_value = v40.k.z * 0.0;
+  v8 = s_bm_current_air_resistance / fsqrt((float)((float)(v5 * v5) + (float)(v7 * v7)) + (float)(v6 * v6));
+  v62 = v7 * v8;
+  v9 = v8 * v5;
+  v61 = v6 * v8;
+  v10 = (float)((float)(v40.j.x * 0.0) + (float)(v40.i.x * 1000.0)) + (float)(v40.k.x * 0.0);
+  v11 = (float)((float)(v40.j.y * 0.0) + (float)(v40.i.y * 1000.0)) + (float)(v40.k.y * 0.0);
+  v12 = (float)((float)(v40.j.z * 0.0) + (float)(v40.i.z * 1000.0)) + (float)(v40.k.z * 0.0);
+  v60 = v9;
+  v13 = s_bm_current_air_resistance / fsqrt((float)((float)(v10 * v10) + (float)(v12 * v12)) + (float)(v11 * v11));
+  v63 = v13 * v10;
+  v64 = v11 * v13;
+  v65 = v12 * v13;
+  if ( debug_mode == (const vostok::math::float4x4 *)1 )
   {
-    for ( P = *(vostok::particle::base_particle **)(*(_DWORD *)(a2 + 1100) + 36); P; P = v18->next )
+    v30 = *(_DWORD *)(*(_DWORD *)(a2 + 340) + 36);
+    if ( v30 )
     {
-      v35 = -72;
-      v34 = 62;
-      v28 = 0.0;
-      v29 = 0;
-      v27 = NAN;
-      v33 = 255;
-      width = -16711681;
-      v18 = P;
-      vostok::render::system_renderer::draw_3D_point(
-        (vostok::render::system_renderer *)&P->position,
-        (const vostok::math::float3 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-        COERCE_FLOAT((vostok::particle::base_particle *)&P->position),
-        (const vostok::math::color *)&width,
-        v19);
+      view_matrix = COERCE_FLOAT(vostok::math::color_rgba(0.0, COERCE_VOSTOK_MATH_(1.0), 1.0, 1.0));
+      do
+      {
+        vostok::render::system_renderer::draw_3D_point(
+          v31,
+          vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+          v30 + 44,
+          (const vostok::math::color *)&view_matrix,
+          v32);
+        v30 = *(_DWORD *)(v30 + 208);
+      }
+      while ( v30 );
     }
   }
-  else if ( debug_mode == size_particle_render_mode )
+  else if ( debug_mode == (const vostok::math::float4x4 *)2 )
   {
-    v11 = *(_DWORD *)(*(_DWORD *)(a2 + 1100) + 36);
-    if ( v11 )
+    v14 = *(_DWORD *)(*(_DWORD *)(a2 + 340) + 36);
+    if ( v14 )
     {
+      v15 = COERCE_FLOAT(vostok::math::color_rgba(0.0, COERCE_VOSTOK_MATH_(1.0), 1.0, 1.0));
+      view_matrix = v15;
+      *(float *)&v66.m_value = v15;
       while ( 1 )
       {
-        v12 = *(float *)(v11 + 104);
-        v51 = (float)(v12 * v10) * 0.5;
-        *(float *)&v44 = *(float *)(v11 + 44) - (float)((float)(v12 * v8) * 0.5);
-        *((float *)&v44 + 1) = *(float *)(v11 + 48) - (float)((float)(v12 * v9) * 0.5);
-        v45 = *(float *)(v11 + 52) - v51;
-        *(_QWORD *)&points[0].x = v44;
-        v13 = *(float *)(v11 + 104);
-        points[0].z = v45;
-        v27 = 255.0;
-        v47.y = *(float *)(v11 + 48) + (float)((float)(v13 * v9) * 0.5);
-        v14 = (float)((float)(v13 * v8) * 0.5) + *(float *)(v11 + 44);
-        v47.z = *(float *)(v11 + 52) + (float)((float)(v13 * v10) * 0.5);
-        v47.x = v14;
-        v35 = 255;
-        points[1] = v47;
-        v34 = -72;
-        v27 = 0.0;
-        v33 = 62;
-        P = 0;
-        v30 = -72;
-        v37 = 255;
-        v36 = 0;
-        v32 = 0;
-        width = -16711681;
+        v17 = *(float *)(v14 + 116);
+        v18 = v64 * v17;
+        v19 = v65 * v17;
+        v20 = *(float *)(v14 + 44) - (float)((float)(v63 * v17) * 0.5);
+        v57 = *(float *)(v14 + 48) - (float)(v18 * 0.5);
+        v58 = *(float *)(v14 + 52) - (float)(v19 * 0.5);
+        v56 = v20;
+        v21 = *(float *)(v14 + 116);
+        v41 = v56;
+        v42 = v57;
+        v22 = (float)((float)(v63 * v21) * 0.5) + *(float *)(v14 + 44);
+        v23 = *(float *)(v14 + 48);
+        v43 = v58;
+        v51 = v23 + (float)((float)(v64 * v21) * 0.5);
+        v24 = *(float *)(v14 + 52);
+        v50 = v22;
+        v52 = v24 + (float)((float)(v65 * v21) * 0.5);
+        v44 = v22;
+        debug_mode = (const vostok::math::float4x4 *)LODWORD(v15);
+        v45 = v51;
+        v46 = v52;
         vostok::render::system_renderer::draw_screen_lines(
-          (vostok::render::system_renderer *)points,
-          (const vostok::math::float3 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-          (unsigned int)points,
-          (const vostok::math::color *)2,
-          COERCE_FLOAT(&width),
-          0,
-          v19,
-          v21);
-        v15 = *(float *)(v11 + 108);
-        v16 = *(float *)(v11 + 48);
-        v48.x = *(float *)(v11 + 44) - (float)((float)(v41 * v15) * 0.5);
-        v17 = *(float *)(v11 + 108);
-        v48.y = v16 - (float)((float)(v42 * v15) * 0.5);
-        v48.z = *(float *)(v11 + 52) - (float)((float)(v43 * v15) * 0.5);
-        points[0] = v48;
-        v46.x = *(float *)(v11 + 44) + (float)((float)(v41 * v17) * 0.5);
-        v46.y = *(float *)(v11 + 48) + (float)((float)(v42 * v17) * 0.5);
-        v46.z = *(float *)(v11 + 52) + (float)((float)(v43 * v17) * 0.5);
-        points[1] = v46;
-        v33 = -72;
-        v35 = 255;
-        v34 = 62;
-        v28 = 0.0;
-        v29 = 0;
-        v30 = -72;
-        v37 = 255;
-        width = -16711681;
+          v16,
+          (unsigned int)vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+          &v41,
+          (const vostok::math::color *)&debug_mode,
+          *(float *)&v32,
+          v34,
+          v36,
+          v38);
+        v25 = *(float *)(v14 + 120);
+        v26 = *(float *)(v14 + 44) - (float)((float)(v60 * v25) * 0.5);
+        v48 = *(float *)(v14 + 48) - (float)((float)(v61 * v25) * 0.5);
+        v27 = *(float *)(v14 + 52);
+        v47 = v26;
+        v28 = *(float *)(v14 + 120);
+        v49 = v27 - (float)((float)(v62 * v25) * 0.5);
+        v41 = v47;
+        v42 = v48;
+        v43 = v49;
+        v53 = *(float *)(v14 + 44) + (float)((float)(v60 * v28) * 0.5);
+        v54 = *(float *)(v14 + 48) + (float)((float)(v61 * v28) * 0.5);
+        v55 = *(float *)(v14 + 52) + (float)((float)(v62 * v28) * 0.5);
+        v44 = v53;
+        v45 = v54;
+        v46 = v55;
         vostok::render::system_renderer::draw_screen_lines(
-          (vostok::render::system_renderer *)points,
-          (const vostok::math::float3 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_mouse_pos.x,
-          (unsigned int)points,
-          (const vostok::math::color *)2,
-          COERCE_FLOAT(&width),
-          0,
-          v20,
-          v22);
-        v11 = *(_DWORD *)(v11 + 128);
-        if ( !v11 )
+          v29,
+          (unsigned int)vostok::quasi_singleton<vostok::render::system_renderer>::pinst,
+          &v41,
+          &v66,
+          v33,
+          v35,
+          v37,
+          v39);
+        v14 = *(_DWORD *)(v14 + 208);
+        if ( !v14 )
           break;
-        v10 = v40;
-        v8 = v38;
-        v9 = v39;
+        v15 = view_matrix;
       }
     }
   }

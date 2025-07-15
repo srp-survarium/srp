@@ -50,16 +50,16 @@ Scaleform::Render::VectorGlyphShape *__thiscall Scaleform::Render::GlyphCache::C
   unsigned int v49; // eax
   const Scaleform::Render::ShapeDataInterface *v50; // ecx
   unsigned int v51; // edx
-  Scaleform::Render::VectorGlyphShape *v52; // [esp+1A0h] [ebp-38h] BYREF
-  const Scaleform::Render::ShapeDataInterface *v53; // [esp+1A4h] [ebp-34h]
-  const Scaleform::Render::ShapeDataInterface *v54; // [esp+1A8h] [ebp-30h]
-  float *v55; // [esp+1ACh] [ebp-2Ch]
-  const Scaleform::Render::ShapeDataInterface *shapeData; // [esp+1B0h] [ebp-28h]
-  Scaleform::HashSetBase<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,2>,Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor> > *p_VectorGlyphCache; // [esp+1B4h] [ebp-24h]
-  float y2; // [esp+1B8h] [ebp-20h]
-  float y1; // [esp+1BCh] [ebp-1Ch]
-  __int64 v60; // [esp+1C0h] [ebp-18h]
-  Scaleform::Render::VectorGlyphKey key; // [esp+1CCh] [ebp-Ch] BYREF
+  Scaleform::Render::VectorGlyphShape *v52; // [esp+54h] [ebp-38h] BYREF
+  const Scaleform::Render::ShapeDataInterface *v53; // [esp+58h] [ebp-34h]
+  const Scaleform::Render::ShapeDataInterface *v54; // [esp+5Ch] [ebp-30h]
+  float *v55; // [esp+60h] [ebp-2Ch]
+  const Scaleform::Render::ShapeDataInterface *shapeData; // [esp+64h] [ebp-28h]
+  Scaleform::HashSetLH<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,2,Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor> > *p_VectorGlyphCache; // [esp+68h] [ebp-24h]
+  float y2; // [esp+6Ch] [ebp-20h]
+  float y1; // [esp+70h] [ebp-1Ch]
+  __int64 v60; // [esp+74h] [ebp-18h]
+  Scaleform::Render::VectorGlyphKey key; // [esp+80h] [ebp-Ch] BYREF
 
   data->VectorSize = 0;
   data->RasterSize = 0;
@@ -95,7 +95,7 @@ Scaleform::Render::VectorGlyphShape *__thiscall Scaleform::Render::GlyphCache::C
   }
   v13 = fauxItalic | (fauxBold ? 2 : 0);
   y1 = *(float *)&v13;
-  if ( *(float *)&v13 == 0.0 && !v54 && !v53 && !outline && !needsVectorShape )
+  if ( *(float *)&v13 == 0.0 && !v54 && !v53 && *(float *)&outline == 0.0 && !needsVectorShape )
   {
     v14 = pFont->GetPermanentGlyphShape(pFont, glyphIndex);
     data->pShape = v14;
@@ -138,7 +138,7 @@ Scaleform::Render::VectorGlyphShape *__thiscall Scaleform::Render::GlyphCache::C
     v21 = v18->pObject;
     v22 = v18->pObject->__vftable;
     y1 = v18->pObject->Bounds.y1;
-    p_VectorGlyphCache = (Scaleform::HashSetBase<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,2>,Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor> > *)LODWORD(v21->Bounds.x2);
+    p_VectorGlyphCache = (Scaleform::HashSetLH<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,Scaleform::Render::VectorGlyphShape::PtrHashFunctor,2,Scaleform::HashsetCachedEntry<Scaleform::Ptr<Scaleform::Render::VectorGlyphShape>,Scaleform::Render::VectorGlyphShape::PtrHashFunctor> > *)LODWORD(v21->Bounds.x2);
     shapeData = (const Scaleform::Render::ShapeDataInterface *)LODWORD(v21->Bounds.y2);
     *v20 = v21->Bounds.x1;
     v20[1] = y1;
@@ -268,7 +268,7 @@ Scaleform::Render::VectorGlyphShape *__thiscall Scaleform::Render::GlyphCache::C
     y1 = v55[3];
     if ( *(float *)&shapeData == 0.0 )
     {
-      if ( fauxBold || fauxItalic || outline )
+      if ( fauxBold || fauxItalic || *(float *)&outline != 0.0 )
       {
         v47 = (Scaleform::Render::GlyphShape *)this->pHeap->Alloc(this->pHeap, 96, 0);
         if ( v47 )

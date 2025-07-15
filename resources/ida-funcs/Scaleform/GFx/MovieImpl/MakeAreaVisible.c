@@ -1,10 +1,10 @@
 void __thiscall Scaleform::GFx::MovieImpl::MakeAreaVisible(
         Scaleform::GFx::MovieImpl *this,
-        const Scaleform::Render::Rect<float> *screenRect,
+        __m128 *screenRect,
         const Scaleform::Render::Rect<float> *box,
         char flags)
 {
-  double x2; // st7
+  double v4; // st7
   const Scaleform::Render::Matrix2x4<float> *v5; // ecx
   Scaleform::Render::Matrix2x4<float> *v6; // ebx
   double v7; // st6
@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::MovieImpl::MakeAreaVisible(
   double v23; // st4
   double v24; // st6
   double v25; // st7
-  double v26; // st6
+  double x2; // st6
   double v27; // st5
   double v28; // st4
   double v29; // st7
@@ -37,38 +37,38 @@ void __thiscall Scaleform::GFx::MovieImpl::MakeAreaVisible(
   double v34; // st4
   double v35; // st3
   double v36; // st6
-  float v37; // [esp+328h] [ebp-A8h]
-  float v38; // [esp+328h] [ebp-A8h]
-  float v39; // [esp+328h] [ebp-A8h]
-  float v40; // [esp+328h] [ebp-A8h]
-  float v41; // [esp+328h] [ebp-A8h]
-  float v42; // [esp+328h] [ebp-A8h]
-  float v43; // [esp+328h] [ebp-A8h]
-  float v44; // [esp+32Ch] [ebp-A4h]
-  float v45; // [esp+32Ch] [ebp-A4h]
-  float v46; // [esp+32Ch] [ebp-A4h]
-  float v47; // [esp+330h] [ebp-A0h]
-  float v48; // [esp+330h] [ebp-A0h]
-  float v49; // [esp+330h] [ebp-A0h]
-  float v50; // [esp+334h] [ebp-9Ch]
-  float v51; // [esp+338h] [ebp-98h]
-  float v52; // [esp+338h] [ebp-98h]
-  float v53; // [esp+33Ch] [ebp-94h]
-  float v54; // [esp+33Ch] [ebp-94h]
-  Scaleform::Render::Rect<float> pr; // [esp+340h] [ebp-90h] BYREF
-  Scaleform::Render::Rect<float> v56; // [esp+350h] [ebp-80h] BYREF
-  Scaleform::Render::Matrix2x4<float> m; // [esp+360h] [ebp-70h] BYREF
-  long double v58; // [esp+388h] [ebp-48h]
-  Scaleform::Render::Rect<float> v59; // [esp+390h] [ebp-40h] BYREF
-  Scaleform::GFx::MovieImpl *v60; // [esp+3ACh] [ebp-24h]
-  Scaleform::Render::Matrix2x4<float> v61; // [esp+3B0h] [ebp-20h] BYREF
+  float v37; // [esp+18h] [ebp-A8h]
+  float v38; // [esp+18h] [ebp-A8h]
+  float v39; // [esp+18h] [ebp-A8h]
+  float v40; // [esp+18h] [ebp-A8h]
+  float v41; // [esp+18h] [ebp-A8h]
+  float v42; // [esp+18h] [ebp-A8h]
+  float v43; // [esp+18h] [ebp-A8h]
+  float v44; // [esp+1Ch] [ebp-A4h]
+  float v45; // [esp+1Ch] [ebp-A4h]
+  float v46; // [esp+1Ch] [ebp-A4h]
+  float v47; // [esp+20h] [ebp-A0h]
+  float v48; // [esp+20h] [ebp-A0h]
+  float v49; // [esp+20h] [ebp-A0h]
+  float v50; // [esp+24h] [ebp-9Ch]
+  float v51; // [esp+28h] [ebp-98h]
+  float v52; // [esp+28h] [ebp-98h]
+  float v53; // [esp+2Ch] [ebp-94h]
+  float v54; // [esp+2Ch] [ebp-94h]
+  Scaleform::Render::Rect<float> pr; // [esp+30h] [ebp-90h] BYREF
+  Scaleform::Render::Rect<float> v56; // [esp+40h] [ebp-80h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+50h] [ebp-70h] BYREF
+  long double v58; // [esp+78h] [ebp-48h]
+  Scaleform::Render::Rect<float> v59; // [esp+80h] [ebp-40h] BYREF
+  Scaleform::GFx::MovieImpl *v60; // [esp+9Ch] [ebp-24h]
+  Scaleform::Render::Matrix2x4<float> v61; // [esp+A0h] [ebp-20h] BYREF
 
-  x2 = screenRect->x2;
+  v4 = screenRect->m128_f32[2];
   v60 = this;
-  if ( box->x2 > x2
-    || box->y2 > (double)screenRect->y2
-    || box->x1 < (double)screenRect->x1
-    || box->y1 < (double)screenRect->y1 )
+  if ( box->x2 > v4
+    || box->y2 > (double)screenRect->m128_f32[3]
+    || box->x1 < (double)screenRect->m128_f32[0]
+    || box->y1 < (double)screenRect->m128_f32[1] )
   {
     v61.M[0][0] = 1.0;
     v61.M[0][1] = 0.0;
@@ -85,7 +85,7 @@ void __thiscall Scaleform::GFx::MovieImpl::MakeAreaVisible(
     pr.y1 = 0.0;
     pr.x2 = 0.0;
     pr.y2 = 0.0;
-    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v61, &pr, screenRect);
+    Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v61, (__m128 *)&pr, screenRect);
     v56.x1 = box->x1 * 20.0;
     v56.y1 = box->y1 * 20.0;
     v56.x2 = box->x2 * 20.0;
@@ -184,14 +184,14 @@ LABEL_21:
         v59.y1 = 0.0;
         v59.x2 = 0.0;
         v59.y2 = 0.0;
-        Scaleform::Render::Matrix2x4<float>::EncloseTransform(&m, &v59, &v56);
+        Scaleform::Render::Matrix2x4<float>::EncloseTransform(&m, (__m128 *)&v59, (__m128 *)&v56);
         v49 = 0.0;
         v50 = 0.0;
         v25 = v59.x1;
-        v26 = pr.x2;
+        x2 = pr.x2;
         v27 = pr.x1;
         v28 = v59.x2;
-        if ( pr.x2 >= (double)v59.x1 && v28 >= v27 && v28 <= v26 )
+        if ( pr.x2 >= (double)v59.x1 && v28 >= v27 && v28 <= x2 )
         {
           if ( v59.x1 >= v27 )
             goto LABEL_34;
@@ -202,10 +202,10 @@ LABEL_21:
         {
           v40 = v28 - v25;
           v29 = v25 + v40 * 0.5;
-          v41 = v26 - v27;
+          v41 = x2 - v27;
           v30 = v29;
           v31 = 0.5;
-          v49 = v30 - (v26 - v41 * 0.5);
+          v49 = v30 - (x2 - v41 * 0.5);
 LABEL_35:
           v32 = v59.y1;
           v33 = pr.y2;

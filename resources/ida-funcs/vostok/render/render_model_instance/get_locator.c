@@ -1,7 +1,7 @@
 bool __thiscall vostok::render::render_model_instance::get_locator(
-        Scaleform::Render::Texture *this,
-        struct Scaleform::Render::RenderTargetData *__formal,
-        Scaleform::Render::HAL *a3)
+        btBU_Simplex1to4 *this,
+        const btVector3 *__formal,
+        float a3)
 {
   return 0;
 }

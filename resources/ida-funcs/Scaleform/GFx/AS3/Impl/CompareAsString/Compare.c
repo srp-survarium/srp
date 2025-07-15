@@ -3,10 +3,10 @@ int __thiscall Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
         const Scaleform::GFx::ASString *a,
         const Scaleform::GFx::ASString *b)
 {
-  const char *pData; // esi
+  char *pData; // esi
   unsigned int Length; // eax
   int result; // eax
-  const char *v7; // esi
+  char *v7; // esi
   unsigned int v8; // eax
   bool v9; // [esp-4h] [ebp-Ch]
   bool v10; // [esp-4h] [ebp-Ch]
@@ -15,7 +15,7 @@ int __thiscall Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
   {
     if ( this->Desc )
     {
-      pData = a->pNode->pData;
+      pData = (char *)a->pNode->pData;
       v9 = !this->CaseInsensitive;
       Length = Scaleform::GFx::ASConstString::GetLength(&a->Scaleform::GFx::ASConstString);
       return Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(
@@ -26,7 +26,7 @@ int __thiscall Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
     }
     else
     {
-      v7 = b->pNode->pData;
+      v7 = (char *)b->pNode->pData;
       v10 = !this->CaseInsensitive;
       v8 = Scaleform::GFx::ASConstString::GetLength(&b->Scaleform::GFx::ASConstString);
       return Scaleform::GFx::ASConstString::LocaleCompare_CaseCheck(&a->Scaleform::GFx::ASConstString, v7, v8, v10);
@@ -35,7 +35,7 @@ int __thiscall Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
   else
   {
     if ( this->CaseInsensitive )
-      result = Scaleform::String::CompareNoCase(a->pNode->pData, b->pNode->pData);
+      result = Scaleform::String::CompareNoCase((char *)a->pNode->pData, (char *)b->pNode->pData);
     else
       result = strcmp(a->pNode->pData, b->pNode->pData);
     if ( this->Desc )

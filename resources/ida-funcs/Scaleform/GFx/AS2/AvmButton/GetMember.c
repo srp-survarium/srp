@@ -8,15 +8,15 @@ char __thiscall Scaleform::GFx::AS2::AvmButton::GetMember(
   Scaleform::GFx::AvmButtonBase_vtbl *v7; // eax
   Scaleform::GFx::AS2::ObjectInterface::UserDataHolder *pUserDataHolder; // ebx
   Scaleform::GFx::AS2::GlobalContext *pContext; // esi
-  Scaleform::GFx::AS2::ButtonObject *namea; // [esp+18h] [ebp+8h]
+  Scaleform::GFx::AS2::ButtonObject *pObject; // [esp+18h] [ebp+8h]
 
   if ( (name->pNode->HashFlags & 0x20000000) != 0 )
   {
-    namea = this[-1].ASButtonObj.pObject;
+    pObject = this[-1].ASButtonObj.pObject;
     StandardMemberConstant = Scaleform::GFx::AS2::AvmCharacter::GetStandardMemberConstant(
                                (Scaleform::GFx::AS2::AvmButton *)((char *)this - 4),
                                name);
-    if ( ((unsigned __int8 (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::ButtonObject> *, int, Scaleform::GFx::AS2::Value *, _DWORD))namea[2].ResolveHandler.Function)(
+    if ( ((unsigned __int8 (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::ButtonObject> *, int, Scaleform::GFx::AS2::Value *, _DWORD))pObject[2].ResolveHandler.Function)(
            &this[-1].ASButtonObj,
            StandardMemberConstant,
            pval,

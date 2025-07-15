@@ -2,7 +2,7 @@ survarium::weapon_core_shotgun_reload_state *__thiscall survarium::weapon_core_s
         survarium::weapon_core_shotgun_reload_state *this,
         char a2)
 {
-  survarium::weapon_core_shotgun_reload_state::~weapon_core_shotgun_reload_state(this);
+  survarium::weapon_core_shotgun_reload_state::~weapon_core_shotgun_reload_state(this, (int)this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

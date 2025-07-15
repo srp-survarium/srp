@@ -25,11 +25,11 @@ void __thiscall Scaleform::GFx::ButtonDef::Read(
   unsigned int v22; // eax
   unsigned __int16 *v23; // ecx
   Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // ecx
-  unsigned int v25; // [esp+19Ch] [ebp-70h]
-  Scaleform::RefCountVImpl **v26; // [esp+1A0h] [ebp-6Ch]
-  int pos; // [esp+1A4h] [ebp-68h]
-  int posa; // [esp+1A4h] [ebp-68h]
-  Scaleform::GFx::ButtonRecord __that; // [esp+1ACh] [ebp-60h] BYREF
+  unsigned int v25; // [esp+10h] [ebp-70h]
+  Scaleform::RefCountVImpl **v26; // [esp+14h] [ebp-6Ch]
+  int pos; // [esp+18h] [ebp-68h]
+  int posa; // [esp+18h] [ebp-68h]
+  Scaleform::GFx::ButtonRecord __that; // [esp+20h] [ebp-60h] BYREF
 
   v3 = this;
   switch ( tagType )
@@ -87,7 +87,7 @@ LABEL_17:
             v9 - Size);
         v13 = p_Data->Size;
         if ( v6 < v13 - 1 )
-          memmove((unsigned __int8 *)&p_Data->Data[v6 + 1], (unsigned __int8 *)&p_Data->Data[v6], 96 * (v13 - v6 - 1));
+          memmove((int)&p_Data->Data[v6 + 1], (const __m128i *)&p_Data->Data[v6], 96 * (v13 - v6 - 1));
         v14 = &p_Data->Data[v6];
         if ( v14 )
           Scaleform::GFx::ButtonRecord::ButtonRecord(v14, &__that);
@@ -172,7 +172,7 @@ LABEL_57:
     case Tag_ButtonCharacter2:
       v4 = p;
       this->Menu = Scaleform::GFx::LoadProcess::ReadU8(p) != 0;
-      U16 = Scaleform::GFx::LoadProcess::ReadU16(p);
+      U16 = (unsigned __int16)Scaleform::GFx::LoadProcess::ReadU16(p);
       pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
       if ( !pAltStream )
         pAltStream = &p->ProcessInfo;

@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::setModalClip
   Scaleform::GFx::MovieImpl *v5; // ecx
 
   pVM = this->pTraits.pObject->pVM;
-  if ( LOBYTE(pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&pVM[1].HandleException + 4) )
   {
     v5 = (Scaleform::GFx::MovieImpl *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
     if ( mc )

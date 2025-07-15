@@ -1,7 +1,7 @@
 void __cdecl png_read_destroy(unsigned __int8 *src, int a2, int a3)
 {
   int v3; // [esp+0h] [ebp-54h]
-  unsigned __int8 dst[64]; // [esp+4h] [ebp-50h] BYREF
+  __m128i dst[4]; // [esp+4h] [ebp-50h] BYREF
   int v5; // [esp+48h] [ebp-Ch]
   int v6; // [esp+4Ch] [ebp-8h]
   int v7; // [esp+50h] [ebp-4h]
@@ -28,15 +28,15 @@ void __cdecl png_read_destroy(unsigned __int8 *src, int a2, int a3)
   *((_DWORD *)src + 143) &= ~8u;
   inflateEnd((z_stream_s *)(src + 120));
   png_free((int)src, *((void **)src + 115));
-  memcpy(dst, src, sizeof(dst));
+  memcpy((int)dst, (const __m128i *)src, sizeof(dst));
   v6 = *((_DWORD *)src + 17);
   v3 = *((_DWORD *)src + 18);
   v7 = *((_DWORD *)src + 19);
   v5 = *((_DWORD *)src + 154);
-  memset((int)src, 0, 0x2C4u);
+  memset((int)src, 0, 708);
   *((_DWORD *)src + 17) = v6;
   *((_DWORD *)src + 18) = v3;
   *((_DWORD *)src + 19) = v7;
   *((_DWORD *)src + 154) = v5;
-  memcpy(src, dst, 0x40u);
+  memcpy((int)src, dst, 0x40u);
 }

@@ -63,7 +63,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::Parser::Parser(
     if ( v8 == 45 )
     {
       if ( this->HasYear )
-        goto $LN1_23;
+        goto $LN1_27;
       v9 = v6;
       *p_Year = 0;
       v10 = *v6;
@@ -104,54 +104,54 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::Parser::Parser(
       switch ( Scaleform::GFx::AS3::Instances::fl::Date::Parser::interpretDateString(v6, v3 - v6, &str) )
       {
         case 0:
-          goto $LN1_23;
+          goto $LN1_27;
         case 1:
           if ( this->HasMonth )
-            goto $LN1_23;
+            goto $LN1_27;
           this->Month = str;
           this->HasMonth = 1;
           continue;
         case 2:
           if ( this->DayOfWeek != -1 )
-            goto $LN1_23;
+            goto $LN1_27;
           this->DayOfWeek = str;
           continue;
         case 3:
           if ( this->HasTZA )
-            goto $LN1_23;
+            goto $LN1_27;
           if ( *v3 == 43 )
             goto LABEL_59;
           if ( *v3 != 45 )
-            goto $LN1_23;
+            goto $LN1_27;
           v21 = -1;
 LABEL_59:
           v22 = v3[1];
           if ( v22 < 48 || v22 > 57 )
-            goto $LN1_23;
+            goto $LN1_27;
           v3 = Scaleform::GFx::AS3::Instances::fl::Date::Parser::scanUnsignedInt(v3 + 1, &str);
           this->TZA = 60000 * v21 * (str - 40 * (str / 100));
           this->HasTZA = 1;
           break;
         case 4:
           if ( this->HasTZA )
-            goto $LN1_23;
+            goto $LN1_27;
           this->HasTZA = 1;
           continue;
         case 5:
           if ( !this->HasTime )
-            goto $LN1_23;
+            goto $LN1_27;
           Hour = this->Hour;
           if ( Hour > 12 )
-            goto $LN1_23;
+            goto $LN1_27;
           if ( Hour == 12 )
             this->Hour = 0;
           continue;
         case 6:
           if ( !this->HasTime )
-            goto $LN1_23;
+            goto $LN1_27;
           v23 = this->Hour;
           if ( v23 > 12 )
-            goto $LN1_23;
+            goto $LN1_27;
           if ( v23 != 12 )
             this->Hour = v23 + 12;
           continue;
@@ -191,7 +191,7 @@ LABEL_59:
       if ( *v3 == 58 )
       {
         if ( this->HasTime )
-          goto $LN1_23;
+          goto $LN1_27;
         this->HasTime = 1;
         this->Hour = v12;
         v3 = (char *)Scaleform::GFx::AS3::Instances::fl::Date::Parser::skipWhitespace(v3 + 1);
@@ -210,18 +210,18 @@ LABEL_59:
       else if ( *v3 == 47 )
       {
         if ( this->HasYear )
-          goto $LN1_23;
+          goto $LN1_27;
         this->Month = v12 - 1;
         v16 = (char *)Scaleform::GFx::AS3::Instances::fl::Date::Parser::skipWhitespace(v3 + 1);
         if ( (unsigned __int8)(*v16 - 48) > 9u )
-          goto $LN1_23;
+          goto $LN1_27;
         v17 = Scaleform::GFx::AS3::Instances::fl::Date::Parser::scanUnsignedInt(v16, &this->Day);
         v18 = Scaleform::GFx::AS3::Instances::fl::Date::Parser::skipWhitespace(v17);
         if ( *v18 != 47 )
-          goto $LN1_23;
+          goto $LN1_27;
         v19 = (char *)Scaleform::GFx::AS3::Instances::fl::Date::Parser::skipWhitespace(v18 + 1);
         if ( (unsigned __int8)(*v19 - 48) > 9u )
-          goto $LN1_23;
+          goto $LN1_27;
         v3 = Scaleform::GFx::AS3::Instances::fl::Date::Parser::scanUnsignedInt(v19, p_Year);
         this->HasDay = 1;
         this->HasMonth = 1;
@@ -230,7 +230,7 @@ LABEL_59:
       else if ( this->HasDay || v12 > 31 )
       {
         if ( this->HasYear )
-          goto $LN1_23;
+          goto $LN1_27;
         this->HasYear = 1;
         *p_Year = v12;
       }
@@ -242,6 +242,6 @@ LABEL_59:
     }
   }
   if ( !this->HasYear || !this->HasMonth || !this->HasDay )
-$LN1_23:
+$LN1_27:
     this->Valid = 0;
 }

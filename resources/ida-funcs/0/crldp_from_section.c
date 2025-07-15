@@ -16,15 +16,15 @@ DIST_POINT_st *__cdecl crldp_from_section(v3_ext_ctx *ctx, stack_st_CONF_VALUE *
   for ( i = 0; v4 < sk_num(&nval->stack); i = ++v4 )
   {
     v5 = sk_value(&v3->stack, v4);
-    v6 = set_dist_point_name((DIST_POINT_NAME_st **)v2, ctx);
+    v6 = set_dist_point_name((int)v5, v4, (DIST_POINT_NAME_st **)v2, ctx);
     if ( v6 <= 0 )
     {
       if ( v6 < 0 )
-        goto err_30;
+        goto err_32;
       if ( !strcmp(*((const char **)v5 + 1), "reasons") )
       {
         if ( !set_reasons((asn1_string_st **)v2 + 1, *((char **)v5 + 2)) )
-          goto err_30;
+          goto err_32;
       }
       else if ( !strcmp(*((const char **)v5 + 1), "CRLissuer") )
       {
@@ -32,7 +32,7 @@ DIST_POINT_st *__cdecl crldp_from_section(v3_ext_ctx *ctx, stack_st_CONF_VALUE *
         *((_DWORD *)v2 + 2) = v8;
         if ( !v8 )
         {
-err_30:
+err_32:
           ASN1_item_free(v2, &local_it_12);
           return 0;
         }

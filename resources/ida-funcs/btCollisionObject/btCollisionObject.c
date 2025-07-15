@@ -1,49 +1,36 @@
-btCollisionObject *__usercall btCollisionObject::btCollisionObject@<eax>(
-        btCollisionObject *this@<ecx>,
-        btCollisionObject *result@<eax>)
+btCollisionObject *__usercall btCollisionObject::btCollisionObject@<eax>(btCollisionObject *this@<ecx>, int a2@<esi>)
 {
-  const vostok::math::float4x4 *v2; // xmm1_4
+  float v2; // xmm1_4
 
-  v2 = clear_value;
-  result->__vftable = (btCollisionObject_vtbl *)&btCollisionObject::`vftable';
-  result->m_anisotropicFriction.mVec128.m128_i32[0] = (int)v2;
-  result->m_anisotropicFriction.mVec128.m128_i32[1] = (int)v2;
-  result->m_anisotropicFriction.mVec128.m128_i32[2] = (int)v2;
-  result->m_anisotropicFriction.mVec128.m128_i32[3] = 0;
-  result->m_contactProcessingThreshold = 9.9999998e17;
-  result->m_islandTag1 = -1;
-  result->m_companionId = -1;
-  result->m_deactivationTime = 0.0;
-  result->m_friction = FLOAT_0_5;
-  result->m_restitution = 0.0;
-  LODWORD(result->m_hitFraction) = v2;
-  result->m_ccdSweptSphereRadius = 0.0;
-  result->m_ccdMotionThreshold = 0.0;
-  result->m_hasAnisotropicFriction = 0;
-  result->m_broadphaseHandle = 0;
-  result->m_collisionShape = 0;
-  result->m_extensionPointer = 0;
-  result->m_rootCollisionShape = 0;
-  result->m_userObjectPointer = 0;
-  result->m_checkCollideWith = 0;
-  result->m_collisionFlags = 1;
-  result->m_activationState1 = 1;
-  result->m_internalType = 1;
-  result->m_worldTransform.m_basis.m_el[0].mVec128.m128_i32[0] = (int)v2;
-  result->m_worldTransform.m_basis.m_el[0].mVec128.m128_i32[1] = 0;
-  result->m_worldTransform.m_basis.m_el[0].mVec128.m128_i32[2] = 0;
-  result->m_worldTransform.m_basis.m_el[0].mVec128.m128_i32[3] = 0;
-  result->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[0] = 0;
-  result->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[1] = (int)v2;
-  result->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[2] = 0;
-  result->m_worldTransform.m_basis.m_el[1].mVec128.m128_i32[3] = 0;
-  result->m_worldTransform.m_basis.m_el[2].mVec128.m128_i32[0] = 0;
-  result->m_worldTransform.m_basis.m_el[2].mVec128.m128_i32[1] = 0;
-  result->m_worldTransform.m_basis.m_el[2].mVec128.m128_i32[2] = (int)v2;
-  result->m_worldTransform.m_basis.m_el[2].mVec128.m128_i32[3] = 0;
-  result->m_worldTransform.m_origin.mVec128.m128_i32[0] = 0;
-  result->m_worldTransform.m_origin.mVec128.m128_i32[1] = 0;
-  result->m_worldTransform.m_origin.mVec128.m128_i32[2] = 0;
-  result->m_worldTransform.m_origin.mVec128.m128_i32[3] = 0;
-  return result;
+  v2 = s_bm_current_air_resistance;
+  *(_DWORD *)a2 = &btCollisionObject::`vftable';
+  *(float *)(a2 + 176) = v2;
+  *(float *)(a2 + 180) = v2;
+  *(float *)(a2 + 184) = v2;
+  *(_DWORD *)(a2 + 188) = 0;
+  *(_DWORD *)(a2 + 220) = -1;
+  *(_DWORD *)(a2 + 224) = -1;
+  *(float *)(a2 + 196) = FLOAT_9_9999998e17;
+  *(_DWORD *)(a2 + 192) = 0;
+  *(_DWORD *)(a2 + 200) = 0;
+  *(_DWORD *)(a2 + 204) = 0;
+  *(_DWORD *)(a2 + 208) = 0;
+  *(_DWORD *)(a2 + 212) = 0;
+  *(_DWORD *)(a2 + 216) = 1;
+  *(_DWORD *)(a2 + 228) = 1;
+  *(_DWORD *)(a2 + 232) = 0;
+  *(float *)(a2 + 236) = c_anim_center;
+  *(_DWORD *)(a2 + 240) = 0;
+  *(_DWORD *)(a2 + 244) = 1;
+  *(_DWORD *)(a2 + 248) = 0;
+  *(float *)(a2 + 252) = v2;
+  *(_DWORD *)(a2 + 256) = 0;
+  *(_DWORD *)(a2 + 260) = 0;
+  *(_DWORD *)(a2 + 264) = 0;
+  btMatrix3x3::setIdentity(0, a2 + 16);
+  *(_DWORD *)(a2 + 64) = 0;
+  *(_DWORD *)(a2 + 68) = 0;
+  *(_DWORD *)(a2 + 72) = 0;
+  *(_DWORD *)(a2 + 76) = 0;
+  return (btCollisionObject *)a2;
 }

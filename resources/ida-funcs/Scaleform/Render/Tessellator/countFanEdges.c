@@ -1,4 +1,4 @@
-unsigned int __thiscall Scaleform::Render::Tessellator::countFanEdges(
+int __thiscall Scaleform::Render::Tessellator::countFanEdges(
         Scaleform::Render::Tessellator *this,
         Scaleform::Render::Tessellator::MonotoneType *m)
 {
@@ -16,12 +16,12 @@ unsigned int __thiscall Scaleform::Render::Tessellator::countFanEdges(
   unsigned int lastIdx; // eax
   unsigned int style; // ecx
   unsigned int prevIdx2; // eax
-  unsigned int totalEdges; // [esp+8h] [ebp-1Ch]
-  Scaleform::Render::Tessellator::MonotoneType m2; // [esp+Ch] [ebp-18h] BYREF
+  int v18; // [esp+8h] [ebp-1Ch]
+  Scaleform::Render::Tessellator::MonotoneType val; // [esp+Ch] [ebp-18h] BYREF
 
   v2 = m;
   start = m->start;
-  totalEdges = 0;
+  v18 = 0;
   if ( m->start && (v5 = start->next) != 0 )
   {
     next = v5->next;
@@ -50,13 +50,13 @@ unsigned int __thiscall Scaleform::Render::Tessellator::countFanEdges(
       {
         while ( !v12 || ((v12->srcVer ^ v11->srcVer) & 0xFFFFFFF) != 0 )
         {
-          totalEdges += 2;
+          v18 += 2;
           v13 = this->MeshVertices.Pages[(v11->srcVer & 0xFFFFFFF) >> 4];
           v13[v11->srcVer & 0xF].Mesh += 2;
           v12 = v11;
           v11 = v11->next;
           if ( !v11 )
-            return totalEdges;
+            return v18;
         }
         v14 = v11->next;
         if ( v14 )
@@ -64,23 +64,23 @@ unsigned int __thiscall Scaleform::Render::Tessellator::countFanEdges(
           if ( v14->next )
           {
             lastIdx = m->d.m.lastIdx;
-            m2.start = m->start;
-            m2.d.m.prevIdx1 = m->d.m.prevIdx1;
+            val.start = m->start;
+            val.d.m.prevIdx1 = m->d.m.prevIdx1;
             style = m->style;
-            m2.d.m.lastIdx = lastIdx;
+            val.d.m.lastIdx = lastIdx;
             prevIdx2 = m->d.m.prevIdx2;
-            m2.style = style;
-            m2.d.m.prevIdx2 = prevIdx2;
-            m2.lowerBase = m->lowerBase;
-            m2.start = v11;
+            val.style = style;
+            val.d.m.prevIdx2 = prevIdx2;
+            val.lowerBase = m->lowerBase;
+            val.start = v11;
             Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::MonotoneType,4,16>::PushBack(
               &this->Monotones,
-              &m2);
+              &val);
           }
         }
         v12->next = 0;
       }
-      return totalEdges;
+      return v18;
     }
     else
     {

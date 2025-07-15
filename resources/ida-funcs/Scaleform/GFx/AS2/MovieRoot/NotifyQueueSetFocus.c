@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::NotifyQueueSetFocus(
         Scaleform::GFx::AS2::MovieRoot *this,
         Scaleform::GFx::InteractiveObject *ch,
         unsigned int controllerIdx,
-        Scaleform::GFx::FocusMovedType fmt)
+        int fmt)
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
   unsigned int Size; // edx

@@ -5,150 +5,181 @@ void __thiscall btTriangleRaycastCallback::processTriangle(
         int triangleIndex)
 {
   float v5; // xmm0_4
-  float v6; // xmm4_4
-  float v7; // xmm5_4
-  float v8; // xmm2_4
-  float v9; // xmm3_4
-  float v10; // xmm6_4
-  float v11; // xmm6_4
-  float v12; // xmm2_4
-  float v13; // xmm3_4
+  float v6; // xmm6_4
+  float v7; // xmm3_4
+  float v8; // xmm4_4
+  float v9; // xmm2_4
+  float v10; // xmm7_4
+  float v11; // xmm1_4
+  float v12; // xmm4_4
+  float v13; // xmm2_4
   float v14; // xmm0_4
-  float v15; // xmm2_4
-  float v16; // xmm3_4
-  unsigned int m_flags; // ebx
-  float v18; // xmm7_4
-  float v19; // xmm6_4
-  float v20; // xmm1_4
-  float v21; // xmm7_4
-  float v22; // xmm6_4
-  float v23; // xmm4_4
-  float v24; // xmm7_4
-  float v25; // xmm4_4
-  long double v26; // st7
-  double v27; // st7
-  float v28; // [esp+358h] [ebp-9Ch]
-  float v29; // [esp+358h] [ebp-9Ch]
-  float v30; // [esp+35Ch] [ebp-98h]
-  float v31; // [esp+360h] [ebp-94h]
-  float v32; // [esp+364h] [ebp-90h]
-  float v33; // [esp+368h] [ebp-8Ch]
-  __m128i v34; // [esp+374h] [ebp-80h] BYREF
-  float v35; // [esp+384h] [ebp-70h]
-  float v36; // [esp+388h] [ebp-6Ch]
-  float v37; // [esp+38Ch] [ebp-68h]
-  float v38; // [esp+394h] [ebp-60h]
-  float v39; // [esp+398h] [ebp-5Ch]
-  __m128i v40; // [esp+3A4h] [ebp-50h] BYREF
-  float v41; // [esp+3B4h] [ebp-40h]
-  float v42; // [esp+3B8h] [ebp-3Ch]
-  float v43; // [esp+3BCh] [ebp-38h]
-  float v44; // [esp+3D0h] [ebp-24h]
-  float v45; // [esp+3D4h] [ebp-20h]
-  float v46; // [esp+3D8h] [ebp-1Ch]
-  float v47; // [esp+3DCh] [ebp-18h]
-  float v48; // [esp+3E0h] [ebp-14h]
-  float _X; // [esp+3E4h] [ebp-10h]
-  float v50; // [esp+3E8h] [ebp-Ch]
-  float v51; // [esp+3ECh] [ebp-8h]
-  float v52; // [esp+3F0h] [ebp-4h]
+  float v15; // xmm0_4
+  float v16; // xmm5_4
+  float v17; // xmm0_4
+  float v18; // xmm3_4
+  float v19; // xmm4_4
+  float v20; // xmm5_4
+  float v21; // xmm2_4
+  float v22; // xmm4_4
+  float v23; // xmm2_4
+  float v24; // xmm4_4
+  float v25; // xmm1_4
+  float v26; // xmm4_4
+  float v27; // xmm1_4
+  float v28; // xmm2_4
+  float v29; // xmm4_4
+  unsigned int m_flags; // eax
+  float v31; // xmm2_4
+  float m_hitFraction; // xmm1_4
+  float v33; // xmm5_4
+  float v34; // xmm4_4
+  float v35; // xmm1_4
+  float v36; // xmm0_4
+  float v37; // xmm4_4
+  float v38; // xmm5_4
+  float v39; // xmm7_4
+  float v40; // xmm4_4
+  float v41; // xmm0_4
+  float v42; // xmm1_4
+  double v43; // st7
+  float v44; // [esp+18h] [ebp-94h]
+  float v45[5]; // [esp+1Ch] [ebp-90h] BYREF
+  float v46; // [esp+30h] [ebp-7Ch]
+  float v47; // [esp+34h] [ebp-78h]
+  int v48; // [esp+38h] [ebp-74h]
+  float v49; // [esp+44h] [ebp-68h]
+  float v50; // [esp+48h] [ebp-64h]
+  float v51; // [esp+4Ch] [ebp-60h] BYREF
+  float v52; // [esp+50h] [ebp-5Ch]
+  float v53; // [esp+54h] [ebp-58h]
+  int v54; // [esp+58h] [ebp-54h]
+  float v55; // [esp+5Ch] [ebp-50h]
+  float v56; // [esp+60h] [ebp-4Ch]
+  float v57; // [esp+64h] [ebp-48h]
+  float v58; // [esp+6Ch] [ebp-40h]
+  float v59; // [esp+70h] [ebp-3Ch]
+  float v60; // [esp+74h] [ebp-38h]
+  float v61; // [esp+78h] [ebp-34h]
+  float v62; // [esp+7Ch] [ebp-30h]
+  float v63; // [esp+80h] [ebp-2Ch]
+  float v64; // [esp+84h] [ebp-28h]
+  float v65; // [esp+88h] [ebp-24h]
+  float v66; // [esp+90h] [ebp-1Ch]
+  float v67; // [esp+94h] [ebp-18h]
+  float v68; // [esp+A4h] [ebp-8h]
 
   v5 = triangle[1].mVec128.m128_f32[0];
   v6 = triangle->mVec128.m128_f32[0];
-  v7 = triangle->mVec128.m128_f32[1];
-  v8 = triangle[1].mVec128.m128_f32[2];
-  v9 = triangle[2].mVec128.m128_f32[1];
-  v10 = triangle[2].mVec128.m128_f32[2];
-  v31 = triangle->mVec128.m128_f32[2];
-  v45 = triangle[1].mVec128.m128_f32[1];
-  v52 = v10;
-  v11 = v10 - v31;
-  v51 = v5;
-  v38 = v5 - v6;
-  v48 = triangle[2].mVec128.m128_f32[0];
-  v41 = v48 - v6;
-  v46 = v8;
-  v12 = v8 - v31;
-  v44 = v9;
-  v13 = v9 - v7;
-  v14 = (float)(v11 * (float)(v45 - v7)) - (float)(v13 * v12);
-  v15 = (float)(v12 * (float)(v48 - v6)) - (float)(v11 * v38);
-  v16 = (float)(v13 * v38) - (float)((float)(v45 - v7) * (float)(v48 - v6));
-  v34.m128i_i64[0] = __PAIR64__(LODWORD(v15), LODWORD(v14));
-  v34.m128i_i64[1] = LODWORD(v16);
-  v40 = _mm_load_si128(&v34);
-  v28 = (float)((float)((float)(this->m_to.mVec128.m128_f32[2] * v16) + (float)(this->m_to.mVec128.m128_f32[1] * v15))
-              + (float)(this->m_to.mVec128.m128_f32[0] * v14))
-      - (float)((float)((float)(v31 * v16) + (float)(v7 * v15)) + (float)(v6 * v14));
-  v47 = (float)((float)((float)(this->m_from.mVec128.m128_f32[2] * v16) + (float)(this->m_from.mVec128.m128_f32[1] * v15))
-              + (float)(this->m_from.mVec128.m128_f32[0] * v14))
-      - (float)((float)((float)(v31 * v16) + (float)(v7 * v15)) + (float)(v6 * v14));
-  if ( (float)(v28 * v47) < 0.0 )
+  v7 = triangle->mVec128.m128_f32[2];
+  v8 = triangle[2].mVec128.m128_f32[2];
+  v9 = triangle[1].mVec128.m128_f32[1];
+  v10 = triangle->mVec128.m128_f32[1];
+  v65 = triangle[2].mVec128.m128_f32[0];
+  v51 = v65 - v6;
+  v11 = triangle[2].mVec128.m128_f32[1];
+  v64 = v9;
+  v58 = v8;
+  v12 = v8 - v7;
+  v13 = v9 - v10;
+  v60 = v5;
+  v45[0] = v5 - v6;
+  v14 = triangle[1].mVec128.m128_f32[2];
+  v62 = v11;
+  v59 = v14;
+  v15 = v14 - v7;
+  v50 = v7;
+  v48 = 0;
+  v16 = (float)(v11 - v10) * v15;
+  v17 = (float)(v15 * (float)(v65 - v6)) - (float)(v12 * v45[0]);
+  v18 = (float)(v12 * v13) - v16;
+  v47 = (float)((float)(v11 - v10) * v45[0]) - (float)(v13 * (float)(v65 - v6));
+  v19 = this->m_from.mVec128.m128_f32[1] * v17;
+  v45[4] = v18;
+  v46 = v17;
+  v20 = (float)((float)(v50 * v47) + (float)(v10 * v17)) + (float)(v6 * v18);
+  v21 = (float)(this->m_from.mVec128.m128_f32[2] * v47) + v19;
+  v22 = this->m_from.mVec128.m128_f32[0];
+  v51 = v18;
+  v23 = v21 + (float)(v22 * v18);
+  v24 = this->m_to.mVec128.m128_f32[2];
+  v25 = this->m_to.mVec128.m128_f32[1];
+  v52 = v17;
+  v26 = (float)(v24 * v47) + (float)(v25 * v17);
+  v27 = this->m_to.mVec128.m128_f32[0];
+  v53 = v47;
+  v28 = v23 - v20;
+  v29 = (float)(v26 + (float)(v27 * v18)) - v20;
+  v54 = 0;
+  v63 = v28;
+  if ( (float)(v29 * v28) < 0.0 )
   {
     m_flags = this->m_flags;
-    if ( (m_flags & 1) == 0 || v47 <= 0.0 )
+    if ( (m_flags & 1) == 0 || v28 <= 0.0 )
     {
-      v18 = v47 / (float)(v47 - v28);
-      v30 = v18;
-      if ( this->m_hitFraction > v18 )
+      v31 = v28 / (float)(v28 - v29);
+      m_hitFraction = this->m_hitFraction;
+      v49 = v31;
+      if ( m_hitFraction > v31 )
       {
-        v19 = this->m_to.mVec128.m128_f32[0];
-        _X = (float)((float)(v16 * v16) + (float)(v15 * v15)) + (float)(v14 * v14);
-        v29 = _X * -0.000099999997;
-        v20 = *(float *)&clear_value - v18;
-        v35 = (float)(v19 * v18) + (float)(this->m_from.mVec128.m128_f32[0] * (float)(*(float *)&clear_value - v18));
-        v50 = this->m_from.mVec128.m128_f32[1] * (float)(*(float *)&clear_value - v18);
-        v21 = v50 + (float)(this->m_to.mVec128.m128_f32[1] * v18);
-        v22 = (float)(this->m_from.mVec128.m128_f32[2] * v20) + (float)(this->m_to.mVec128.m128_f32[2] * v30);
-        v32 = v6 - v35;
-        v33 = v7 - v21;
-        v36 = v50 + (float)(this->m_to.mVec128.m128_f32[1] * v30);
-        v23 = v45 - v21;
-        v24 = v51 - v35;
-        v42 = v23;
-        v37 = v22;
-        v43 = v46 - v22;
-        if ( (float)((float)((float)((float)((float)(v23 * v32) - (float)(v33 * (float)(v51 - v35))) * v16)
-                           + (float)((float)((float)((float)(v31 - v22) * (float)(v51 - v35)) - (float)(v43 * v32)) * v15))
-                   + (float)((float)((float)(v43 * v33) - (float)(v23 * (float)(v31 - v22))) * v14)) >= (float)(_X * -0.000099999997) )
+        v33 = this->m_from.mVec128.m128_f32[1];
+        v34 = this->m_to.mVec128.m128_f32[0];
+        v35 = (float)((float)(v47 * v47) + (float)(v17 * v17)) + (float)(v18 * v18);
+        v36 = this->m_from.mVec128.m128_f32[0];
+        v61 = v35;
+        v44 = v35 * -0.000099999997;
+        v37 = (float)(v34 * v31) + (float)(v36 * (float)(s_bm_current_air_resistance - v31));
+        v38 = (float)(v33 * (float)(s_bm_current_air_resistance - v31)) + (float)(this->m_to.mVec128.m128_f32[1] * v31);
+        v68 = (float)(this->m_from.mVec128.m128_f32[2] * (float)(s_bm_current_air_resistance - v31))
+            + (float)(this->m_to.mVec128.m128_f32[2] * v31);
+        v56 = v10 - v38;
+        v39 = v60 - v37;
+        v66 = v64 - v38;
+        v67 = v59 - v68;
+        v57 = v50 - v68;
+        v55 = v6 - v37;
+        if ( (float)((float)((float)((float)((float)((float)(v64 - v38) * v55) - (float)(v56 * v39)) * v47)
+                           + (float)((float)((float)((float)(v50 - v68) * v39) - (float)((float)(v59 - v68) * v55)) * v46))
+                   + (float)((float)((float)((float)(v59 - v68) * v56) - (float)((float)(v64 - v38) * (float)(v50 - v68)))
+                           * v18)) >= (float)(v35 * -0.000099999997) )
         {
-          v38 = v48 - v35;
-          v39 = v44 - v36;
-          v25 = (float)((float)(v52 - v37) * v42) - (float)((float)(v44 - v36) * v43);
-          v36 = (float)(v43 * (float)(v48 - v35)) - (float)((float)(v52 - v37) * v24);
-          if ( (float)((float)((float)((float)((float)(v39 * v24) - (float)(v42 * (float)(v48 - v35))) * v16)
-                             + (float)(v36 * v15))
-                     + (float)(v25 * v14)) >= v29
-            && (float)((float)((float)((float)((float)(v33 * v38) - (float)(v39 * v32)) * v16)
-                             + (float)((float)((float)((float)(v52 - v37) * v32) - (float)((float)(v31 - v22) * v38))
-                                     * v15))
-                     + (float)((float)((float)(v39 * (float)(v31 - v22)) - (float)((float)(v52 - v37) * v33)) * v14)) >= v29 )
+          v45[0] = v65 - v37;
+          if ( (float)((float)((float)((float)((float)((float)(v62 - v38) * v39) - (float)(v66 * v45[0])) * v47)
+                             + (float)((float)((float)(v67 * v45[0]) - (float)((float)(v58 - v68) * v39)) * v46))
+                     + (float)((float)((float)((float)(v58 - v68) * v66) - (float)((float)(v62 - v38) * v67)) * v18)) >= v44
+            && (float)((float)((float)((float)((float)(v56 * v45[0]) - (float)((float)(v62 - v38) * v55)) * v47)
+                             + (float)((float)((float)((float)(v58 - v68) * v55) - (float)(v57 * v45[0])) * v46))
+                     + (float)((float)((float)((float)(v62 - v38) * v57) - (float)((float)(v58 - v68) * v56)) * v18)) >= v44 )
           {
-            v26 = 1.0 / sqrtf(_X);
-            *(float *)v40.m128i_i32 = *(float *)v34.m128i_i32 * v26;
-            *(float *)&v40.m128i_i32[1] = *(float *)&v40.m128i_i32[1] * v26;
-            *(float *)&v40.m128i_i32[2] = v26 * *(float *)&v40.m128i_i32[2];
-            if ( (m_flags & 2) != 0 || v47 <= 0.0 )
+            v40 = s_bm_current_air_resistance / fsqrt(v61);
+            v41 = v52 * v40;
+            v42 = v53 * v40;
+            v51 = v40 * v18;
+            v52 = v52 * v40;
+            v53 = v53 * v40;
+            if ( (m_flags & 2) != 0 || v63 <= 0.0 )
             {
-              v34.m128i_i64[0] = v40.m128i_i64[0] ^ 0x8000000080000000uLL;
-              v34.m128i_i64[1] = COERCE_UNSIGNED_INT(-*(float *)&v40.m128i_i32[2]);
-              v27 = ((double (__thiscall *)(btTriangleRaycastCallback *, __m128i *, _DWORD, int, int))this->reportHit)(
+              LODWORD(v45[1]) = LODWORD(v41) ^ _mask__NegFloat_;
+              LODWORD(v45[0]) = COERCE_UNSIGNED_INT(v40 * v18) ^ _mask__NegFloat_;
+              LODWORD(v45[2]) = LODWORD(v42) ^ _mask__NegFloat_;
+              v45[3] = 0.0;
+              v43 = ((double (__thiscall *)(btTriangleRaycastCallback *, float *, _DWORD, int, int))this->reportHit)(
                       this,
-                      &v34,
-                      LODWORD(v30),
+                      v45,
+                      LODWORD(v49),
                       partId,
                       triangleIndex);
             }
             else
             {
-              v27 = ((double (__thiscall *)(btTriangleRaycastCallback *, __m128i *, _DWORD, int, int))this->reportHit)(
+              v43 = ((double (__thiscall *)(btTriangleRaycastCallback *, float *, _DWORD, int, int))this->reportHit)(
                       this,
-                      &v40,
-                      LODWORD(v30),
+                      &v51,
+                      LODWORD(v49),
                       partId,
                       triangleIndex);
             }
-            this->m_hitFraction = v27;
+            this->m_hitFraction = v43;
           }
         }
       }

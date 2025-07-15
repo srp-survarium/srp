@@ -1,28 +1,34 @@
-void __thiscall boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(
-        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this,
+void __userpurge boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime>>::swap_heap(
+        boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> > *this@<ecx>,
+        int a2@<eax>,
         unsigned int index1,
         unsigned int index2)
 {
-  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> >::heap_entry *v3; // edx
-  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> >::heap_entry *v4; // eax
-  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> >::heap_entry *v5; // eax
-  __int64 tmp; // [esp+1Ch] [ebp-10h]
-  boost::asio::detail::timer_queue<boost::asio::time_traits<boost::posix_time::ptime> >::per_timer_data *tmp_8; // [esp+24h] [ebp-8h]
-  int tmp_12; // [esp+28h] [ebp-4h]
+  int v4; // edx
+  unsigned int v5; // ecx
+  int *v6; // esi
+  _DWORD *v7; // edi
+  int v8; // [esp+Ch] [ebp-10h]
+  int v9; // [esp+10h] [ebp-Ch]
+  int v10; // [esp+14h] [ebp-8h]
+  int v11; // [esp+18h] [ebp-4h]
 
-  v3 = &this->heap_._M_impl._M_start[index1];
-  tmp = v3->time_.time_.time_count_.value_;
-  tmp_8 = v3->timer_;
-  tmp_12 = *((_DWORD *)&v3->timer_ + 1);
-  v4 = &this->heap_._M_impl._M_start[index2];
-  LODWORD(v3->time_.time_.time_count_.value_) = v4->time_.time_.time_count_.value_;
-  HIDWORD(v3->time_.time_.time_count_.value_) = HIDWORD(v4->time_.time_.time_count_.value_);
-  v3->timer_ = v4->timer_;
-  *((_DWORD *)&v3->timer_ + 1) = *((_DWORD *)&v4->timer_ + 1);
-  v5 = &this->heap_._M_impl._M_start[index2];
-  v5->time_.time_.time_count_.value_ = tmp;
-  v5->timer_ = tmp_8;
-  *((_DWORD *)&v5->timer_ + 1) = tmp_12;
-  this->heap_._M_impl._M_start[index1].timer_->heap_index_ = index1;
-  this->heap_._M_impl._M_start[index2].timer_->heap_index_ = index2;
+  v4 = *(_DWORD *)(a2 + 12);
+  v5 = 16 * index1;
+  v6 = (int *)(16 * index1 + v4);
+  v8 = *v6++;
+  v9 = *v6++;
+  v10 = *v6;
+  v11 = v6[1];
+  *(_DWORD *)(v4 + v5) = *(_DWORD *)(16 * index2 + v4);
+  *(_DWORD *)(v4 + v5 + 4) = *(_DWORD *)(16 * index2 + v4 + 4);
+  *(_DWORD *)(v4 + v5 + 8) = *(_DWORD *)(16 * index2 + v4 + 8);
+  *(_DWORD *)(v4 + v5 + 12) = *(_DWORD *)(16 * index2 + v4 + 12);
+  v7 = (_DWORD *)(16 * index2 + *(_DWORD *)(a2 + 12));
+  *v7++ = v8;
+  *v7++ = v9;
+  *v7 = v10;
+  v7[1] = v11;
+  *(_DWORD *)(*(_DWORD *)(v5 + *(_DWORD *)(a2 + 12) + 8) + 8) = index1;
+  *(_DWORD *)(*(_DWORD *)(16 * index2 + *(_DWORD *)(a2 + 12) + 8) + 8) = index2;
 }

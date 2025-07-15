@@ -1,14 +1,14 @@
 char __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::SetChildIndex(
         Scaleform::GFx::AS3::AvmDisplayObjContainer *this,
         Scaleform::GFx::DisplayObjectBase *ch,
-        Scaleform::Render::TreeNode *index)
+        Scaleform::GFx::DisplayObjectBase *index)
 {
   Scaleform::GFx::DisplayObject *pDispObj; // eax
   Scaleform::GFx::DisplayList *p_LastHitTestY; // edi
   signed int DisplayIndex; // eax
 
   pDispObj = this->pDispObj;
-  if ( index >= pDispObj[1].pRenNode.pObject )
+  if ( (Scaleform::Render::TreeNode *)index >= pDispObj[1].pRenNode.pObject )
     return 0;
   p_LastHitTestY = (Scaleform::GFx::DisplayList *)&pDispObj[1].LastHitTestY;
   DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(
@@ -19,7 +19,7 @@ char __thiscall Scaleform::GFx::AS3::AvmDisplayObjContainer::SetChildIndex(
   if ( ch )
     ++ch->RefCount;
   Scaleform::GFx::DisplayList::RemoveEntryAtIndex(p_LastHitTestY, this->pDispObj, DisplayIndex);
-  Scaleform::GFx::DisplayList::AddEntryAtIndex(p_LastHitTestY, this->pDispObj, (unsigned int)index, ch);
+  Scaleform::GFx::DisplayList::AddEntryAtIndex(p_LastHitTestY, this->pDispObj, index, ch);
   ch->SetAcceptAnimMoves(ch, 0);
   ch->CreateFrame = 0;
   ch->Depth = -1;

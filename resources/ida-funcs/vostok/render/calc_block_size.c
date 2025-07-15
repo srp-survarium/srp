@@ -1,15 +1,13 @@
 unsigned int __usercall vostok::render::calc_block_size@<eax>(DXGI_FORMAT format@<eax>)
 {
-  unsigned int result; // eax
-
-  switch ( *((_BYTE *)&loc_5605F7 + format + 5) )
+  if ( format != DXGI_FORMAT_R8G8B8A8_UNORM
+    && format != DXGI_FORMAT_R8_UNORM
+    && (format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM) )
   {
-    case 0:
-      result = 1;
-      break;
-    case 1:
-      result = 4;
-      break;
+    return 4;
   }
-  return result;
+  else
+  {
+    return 1;
+  }
 }

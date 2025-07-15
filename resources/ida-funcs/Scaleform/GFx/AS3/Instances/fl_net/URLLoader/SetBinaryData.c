@@ -30,7 +30,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetBinaryData
   {
     Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::Set(
       arrObj.pObject,
-      binaryData->Data.Data,
+      (const __m128i *)binaryData->Data.Data,
       binaryData->Data.Size);
     Scaleform::GFx::AS3::Value::Assign(&this->data, arrObj.pObject);
   }
@@ -44,7 +44,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetBinaryData
     {
       RefCount = arrObj.pObject->RefCount;
       pObject = arrObj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         arrObj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetBinaryData
   if ( v5 && ((unsigned __int8)v5 & 1) == 0 )
   {
     v8 = v5->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+    if ( (v8 & 0x3FFFFF) != 0 )
     {
       v5->RefCount = v8 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);

@@ -1,107 +1,85 @@
 void __thiscall vostok::animation::animation_collection_cook::translate_query(
         vostok::animation::animation_collection_cook *this,
-        vostok::resources::query_result_for_cook *parent)
+        const vostok::variant<32> **parent)
 {
-  vostok::variant<32> *m_user_data; // eax
-  vostok::variant<32> *v4; // edi
-  vostok::detail::abstract_type_helper *m_helper; // ecx
+  vostok::variant<32> *v2; // esi
+  vostok::resources::query_result_for_cook *v4; // ecx
+  vostok::animation::animation_collection_cook *v5; // ecx
   vostok::animation::animation_collection_cook *v6; // ecx
-  vostok::configs::binary_config *m_object; // eax
-  vostok::resources::unmanaged_intrusive_base *v8; // ecx
-  char *m_requery_path; // eax
-  void (__cdecl *v10)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::animation::animation_collection_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::animation::animation_collection_cook *>,boost::arg<1> > > v11; // [esp-10h] [ebp-168h] BYREF
-  int v12; // [esp+0h] [ebp-158h]
-  vostok::animation::animation_collection_cook_user_data data; // [esp+10h] [ebp-148h] BYREF
-  vostok::resources::request requests; // [esp+18h] [ebp-140h] BYREF
-  __int64 v15; // [esp+20h] [ebp-138h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+28h] [ebp-130h] BYREF
-  vostok::fixed_string<260> config_path; // [esp+48h] [ebp-110h] BYREF
-  const vostok::variant<32> *vars0; // [esp+158h] [ebp+0h] BYREF
+  const char *requested_path; // eax
+  vostok::buffer_string *v8; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v9; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::animation::animation_collection_cook,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<vostok::animation::animation_collection_cook *>,boost::arg<1> > > v10; // [esp-14h] [ebp-154h] BYREF
+  const vostok::variant<32> **v11; // [esp-4h] [ebp-144h]
+  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> config_ptr; // [esp+Ch] [ebp-134h]
+  vostok::animation::animation_collection_cook_user_data out_value; // [esp+10h] [ebp-130h] BYREF
+  vostok::animation::animation_collection_cook *v14; // [esp+18h] [ebp-128h]
+  int v15; // [esp+1Ch] [ebp-124h]
+  const char *v16[3]; // [esp+30h] [ebp-110h] BYREF
+  _BYTE v17[260]; // [esp+3Ch] [ebp-104h] BYREF
+  char vars0; // [esp+140h] [ebp+0h] BYREF
 
-  m_user_data = parent->m_user_data;
-  if ( m_user_data )
+  v2 = (vostok::variant<32> *)parent[66];
+  config_ptr.m_object = (vostok::configs::binary_config *)this;
+  if ( v2 )
   {
-    data.cfg_ptr.m_object = 0;
-    vostok::variant<32>::try_get<vostok::animation::animation_collection_cook_user_data>(m_user_data, &data);
-    v4 = parent->m_user_data;
-    if ( v4 )
-    {
-      m_helper = v4->m_helper;
-      if ( m_helper )
-      {
-        m_helper->destroy(m_helper, v4->m_storage);
-        v4->m_helper = 0;
-      }
-    }
-    *((_DWORD *)&v11.l_ + 1) = parent;
-    v11.l_.a1_.t_ = (vostok::animation::animation_collection_cook *)data.val;
-    parent->m_user_data = 0;
-    HIDWORD(v11.f_.f_) = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v11.f_.f_
-    + 1,
-      &data.cfg_ptr);
+    out_value.cfg_ptr.m_object = 0;
+    vostok::variant<32>::try_get<vostok::animation::animation_collection_cook_user_data>(
+      (vostok::variant<32> *)this,
+      (const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)v2,
+      (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&out_value);
+    vostok::resources::query_result_for_cook::clear_user_data(v4, (int)parent);
+    v11 = parent;
+    *((_DWORD *)&v10.l_ + 1) = out_value.val;
+    v10.l_.a1_.t_ = v5;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v10.l_,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&out_value.cfg_ptr);
     vostok::animation::animation_collection_cook::request_items(
       v6,
-      &vars0,
-      v4->m_helper_storage,
-      (const char *)parent,
-      (vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>)this,
-      (vostok::resources::unmanaged_resource *)HIDWORD(v11.f_.f_),
-      (boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)v11.l_.a1_.t_,
-      *((int *)&v11.l_ + 1));
-    m_object = data.cfg_ptr.m_object;
-    if ( data.cfg_ptr.m_object )
-    {
-      v8 = &data.cfg_ptr.m_object->vostok::resources::unmanaged_intrusive_base;
-      if ( !_InterlockedExchangeAdd(&data.cfg_ptr.m_object->m_reference_count, 0xFFFFFFFF) )
-        vostok::resources::unmanaged_intrusive_base::destroy(v8, m_object);
-    }
+      (const vostok::variant<32> *)&vars0,
+      (const bool *)&out_value.cfg_ptr,
+      (const unsigned int *)&v10.l_,
+      config_ptr,
+      (const vostok::configs::binary_config_value *)v10.l_.a1_.t_,
+      *((vostok::configs::binary_config_value **)&v10.l_ + 1),
+      v11);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&out_value.cfg_ptr);
   }
   else
   {
-    config_path.m_begin = config_path.m_buffer;
-    m_requery_path = parent->m_requery_path;
-    config_path.m_end = config_path.m_buffer;
-    config_path.m_max_end = (char *)&vars0;
-    config_path.m_buffer[0] = 0;
-    if ( !m_requery_path )
-      m_requery_path = parent->m_request_path;
-    vostok::buffer_string::assignf(
-      &config_path,
-      "%s%s%s",
+    v16[0] = v17;
+    v16[1] = v17;
+    v16[2] = &vars0;
+    v17[0] = 0;
+    requested_path = vostok::resources::query_result_for_user::get_requested_path((vostok::resources::query_result_for_user *)parent);
+    vostok::fs_new::path_string_impl::assignf(
+      v16,
+      v8,
+      (vostok::buffer_string *)&stru_7FF1F0,
       "resources/animations/collections/",
-      m_requery_path,
+      requested_path,
       ".anim_collection");
-    v11.f_.f_ = (void (__thiscall *__ptr64)(vostok::animation::animation_collection_cook *, vostok::resources::queries_result *))(unsigned int)vostok::animation::animation_collection_cook::collection_config_loaded;
-    LODWORD(v15) = this;
-    *(_QWORD *)&v11.l_.a1_.t_ = v15;
-    boost::function1<void,vostok::resources::queries_result &>::function1<void,vostok::resources::queries_result &>(
+    v14 = this;
+    out_value.val = (const vostok::configs::binary_config_value *)vostok::animation::animation_collection_cook::collection_config_loaded;
+    out_value.cfg_ptr.m_object = 0;
+    HIDWORD(v10.f_.f_) = vostok::animation::animation_collection_cook::collection_config_loaded;
+    v10.l_.a1_.t_ = 0;
+    *((_DWORD *)&v10.l_ + 1) = this;
+    LODWORD(v10.f_.f_) = &out_value;
+    boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
       0,
-      (int)&callback,
-      (int)parent,
-      v11,
-      v12);
-    requests.path = config_path.m_begin;
-    requests.id = binary_config_class_impl;
-    data.val = 0;
-    vostok::resources::query_resources(
-      &requests,
-      1u,
-      (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
+      v10,
+      v15);
+    vostok::resources::query_resource(
+      v16[0],
+      (vostok::variant<32> *)0x20,
       &vostok::memory::g_resources_unmanaged_allocator,
-      (const vostok::variant<32> **)&data,
+      0,
       parent,
       assert_on_fail_true);
-    if ( callback.vtable )
-    {
-      if ( ((int)callback.vtable & 1) == 0 )
-      {
-        v10 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-        if ( v10 )
-          v10(&callback.functor, &callback.functor, 2);
-      }
-    }
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v9,
+      (int *)&out_value);
   }
 }

@@ -1,4 +1,4 @@
-bool __thiscall Scaleform::GFx::TextField::IsUrlUnderMouseCursor(
+char __thiscall Scaleform::GFx::TextField::IsUrlUnderMouseCursor(
         Scaleform::GFx::TextField *this,
         unsigned int mouseIndex,
         Scaleform::Render::Point<float> *pPnt,
@@ -8,11 +8,11 @@ bool __thiscall Scaleform::GFx::TextField::IsUrlUnderMouseCursor(
   unsigned int v7; // eax
   double y; // st7
   double x; // st6
-  float m_20; // [esp+6Ch] [ebp-4Ch]
-  float m_24; // [esp+70h] [ebp-48h]
-  Scaleform::Render::Point<float> p; // [esp+88h] [ebp-30h] BYREF
-  Scaleform::Render::Point<float> result; // [esp+90h] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+98h] [ebp-20h] BYREF
+  float v10; // [esp+0h] [ebp-4Ch]
+  float v11; // [esp+4h] [ebp-48h]
+  Scaleform::Render::Point<float> p; // [esp+1Ch] [ebp-30h] BYREF
+  Scaleform::Render::Point<float> result; // [esp+24h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+2Ch] [ebp-20h] BYREF
 
   pMovieImpl = this->pASRoot->pMovieImpl;
   if ( !pMovieImpl )
@@ -40,7 +40,7 @@ bool __thiscall Scaleform::GFx::TextField::IsUrlUnderMouseCursor(
     pPnt->x = result.x;
     pPnt->y = y;
   }
-  m_24 = y;
-  m_20 = x;
-  return Scaleform::Render::Text::DocView::IsUrlAtPoint(this->pDocument.pObject, m_20, m_24, purlRangePos);
+  v11 = y;
+  v10 = x;
+  return Scaleform::Render::Text::DocView::IsUrlAtPoint(this->pDocument.pObject, v10, v11, purlRangePos);
 }

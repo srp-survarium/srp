@@ -1,27 +1,23 @@
-int __usercall btPersistentManifold::addManifoldPoint@<eax>(
+int __userpurge btPersistentManifold::addManifoldPoint@<eax>(
         btPersistentManifold *this@<ecx>,
-        btPersistentManifold *newPoint@<eax>)
+        int a2@<eax>,
+        btPersistentManifold *newPoint)
 {
-  int m_cachedPoints; // ebx
-  void *m_userPersistentData; // eax
+  int v4; // ebx
 
-  m_cachedPoints = this->m_cachedPoints;
-  if ( m_cachedPoints == 4 )
+  v4 = *(_DWORD *)(a2 + 1176);
+  if ( v4 == 4 )
   {
-    m_cachedPoints = btPersistentManifold::sortCachedPoints(newPoint, (float *)&this->m_objectType);
-    m_userPersistentData = this->m_pointCache[m_cachedPoints].m_userPersistentData;
-    if ( m_userPersistentData && gContactDestroyedCallback )
-    {
-      gContactDestroyedCallback(m_userPersistentData);
-      this->m_pointCache[m_cachedPoints].m_userPersistentData = 0;
-    }
+    v4 = btPersistentManifold::sortCachedPoints(newPoint, (float *)a2);
+    if ( *(_DWORD *)(288 * v4 + a2 + 124) )
+      btPersistentManifold::clearUserCache((btManifoldPoint *)(288 * v4 + a2 + 16));
   }
   else
   {
-    this->m_cachedPoints = m_cachedPoints + 1;
+    *(_DWORD *)(a2 + 1176) = v4 + 1;
   }
-  if ( m_cachedPoints < 0 )
-    m_cachedPoints = 0;
-  qmemcpy(&this->m_pointCache[m_cachedPoints], newPoint, sizeof(this->m_pointCache[m_cachedPoints]));
-  return m_cachedPoints;
+  if ( v4 < 0 )
+    v4 = 0;
+  qmemcpy((void *)(288 * v4 + a2 + 16), newPoint, 0x120u);
+  return v4;
 }

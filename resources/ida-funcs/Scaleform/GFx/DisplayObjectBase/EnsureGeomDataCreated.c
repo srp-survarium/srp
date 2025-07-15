@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::DisplayObjectBase::EnsureGeomDataCreated(Scaleform::GFx::DisplayObjectBase *this)
 {
   const Scaleform::GFx::DisplayObjectBase::GeomDataType *v2; // eax
-  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType geomData; // [esp+10h] [ebp-60h] BYREF
 
   if ( !this->pGeomData )
   {

@@ -72,7 +72,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3search(
                 if ( ((unsigned __int8)v15 & 1) == 0 )
                 {
                   RefCount = v15->RefCount;
-                  if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+                  if ( (RefCount & 0x3FFFFF) != 0 )
                   {
                     v15->RefCount = RefCount - 1;
                     Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);

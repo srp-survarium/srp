@@ -1,4 +1,4 @@
-void __usercall vostok::threading::tls_set_value(DWORD key@<ecx>, void *value@<eax>)
+void __cdecl vostok::threading::tls_set_value(DWORD key, void *value)
 {
   TlsSetValue(key, value);
 }

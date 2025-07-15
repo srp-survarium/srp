@@ -2,10 +2,11 @@ void __thiscall vostok::sound::sound_collection_cook::delete_resource(
         vostok::sound::sound_collection_cook *this,
         vostok::resources::resource_base *res)
 {
-  vostok::memory::base_allocator *v2; // [esp+8h] [ebp-4h]
-
   ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))res->~vostok::resources::resource_base)(res, 0);
-  v2 = vostok::resources::unmanaged_allocator();
-  if ( res )
-    vostok::memory::base_allocator::free_impl(v2, res);
+  vostok::memory::g_resources_unmanaged_allocator.call_free(
+    &vostok::memory::g_resources_unmanaged_allocator,
+    res,
+    "vostok::sound::sound_collection_cook::delete_resource",
+    ".\\sound_collection_cook.cpp",
+    171u);
 }

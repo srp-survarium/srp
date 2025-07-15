@@ -1,4 +1,4 @@
-int __cdecl X509_ALGOR_set0(X509_algor_st *alg, asn1_object_st *aobj, int ptype, void *pval)
+int __cdecl X509_ALGOR_set0(X509_algor_st *alg, asn1_object_st *aobj, int ptype, int pval)
 {
   int result; // eax
 

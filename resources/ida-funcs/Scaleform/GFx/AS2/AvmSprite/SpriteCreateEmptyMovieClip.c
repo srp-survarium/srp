@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateEmptyMovieClip(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v1; // esi
+  Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // esi
   Scaleform::GFx::InteractiveObject *Target; // esi
   Scaleform::GFx::AS2::Value *v4; // eax
@@ -8,15 +8,15 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateEmptyMovieClip(const Sc
   Scaleform::GFx::AS2::Value *v6; // eax
   int v7; // eax
   Scaleform::GFx::InteractiveObject *v8; // esi
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS2::Environment *pos_56; // [esp+38h] [ebp-98h]
-  Scaleform::GFx::AS2::Environment *pos_84; // [esp+54h] [ebp-7Ch]
-  Scaleform::GFx::ASString result; // [esp+6Ch] [ebp-64h] BYREF
-  Scaleform::GFx::CharPosInfo v13; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::GFx::ASStringNode *v9; // eax
+  Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-98h]
+  Scaleform::GFx::AS2::Environment *v11; // [esp+8h] [ebp-7Ch]
+  Scaleform::GFx::ASStringNode *v12; // [esp+20h] [ebp-64h] BYREF
+  Scaleform::GFx::CharPosInfo v13; // [esp+24h] [ebp-60h] BYREF
 
-  v1 = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(v1);
-  v1->T.Type = 0;
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 0;
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
   {
@@ -31,9 +31,9 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateEmptyMovieClip(const Sc
   }
   if ( Target && fn->NArgs >= 2 )
   {
-    pos_56 = fn->Env;
+    Env = fn->Env;
     v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    v5 = (int)Scaleform::GFx::AS2::Value::ToNumber(v4, pos_56);
+    v5 = (int)Scaleform::GFx::AS2::Value::ToNumber(v4, Env);
     Scaleform::GFx::CharPosInfo::CharPosInfo(
       &v13,
       (Scaleform::GFx::ResourceId)65537,
@@ -49,13 +49,13 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateEmptyMovieClip(const Sc
       Blend_None);
     if ( v13.Depth <= 0x7EFFFFFDu )
     {
-      pos_84 = fn->Env;
+      v11 = fn->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v6, &result, pos_84, -1, 0);
-      v7 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASString *, _DWORD, _DWORD, int, int, _DWORD, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
+      Scaleform::GFx::AS2::Value::ToStringImpl(v6, (Scaleform::GFx::ASString *)&v12, v11, -1, 0);
+      v7 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::CharPosInfo *, Scaleform::GFx::ASStringNode **, _DWORD, _DWORD, int, int, _DWORD, _DWORD))Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].~Scaleform::GFx::DisplayObjectBase)(
              Target,
              &v13,
-             &result,
+             &v12,
              0,
              0,
              -1,
@@ -65,10 +65,10 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteCreateEmptyMovieClip(const Sc
       v8 = (Scaleform::GFx::InteractiveObject *)v7;
       if ( v7 )
         ++*(_DWORD *)(v7 + 4);
-      pNode = result.pNode;
-      --result.pNode->RefCount;
-      if ( !pNode->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+      v9 = v12;
+      --v12->RefCount;
+      if ( !v9->RefCount )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v9);
       if ( v8 )
       {
         v8->SetAcceptAnimMoves(v8, 0);

@@ -53,7 +53,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Point::toString(
   ++v27.pNode->RefCount;
   str.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++str.pNode->RefCount;

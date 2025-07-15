@@ -1,14 +1,17 @@
-survarium::game_team_id __usercall survarium::network_client::get_player_team@<eax>(
-        survarium::network_client *this@<esi>,
-        const char *player_profile_name@<edi>)
+int __userpurge survarium::network_client::get_player_team@<eax>(
+        survarium::network_client *this@<ecx>,
+        int a2@<eax>,
+        const char *player_profile_name)
 {
-  unsigned __int8 v2; // bl
+  int v3; // esi
+  unsigned __int8 v4; // bl
 
-  v2 = 0;
-  while ( strcmp(player_profile_name, this->m_match_client.m_match_options.player_profiles[v2].profile_name) )
+  v3 = *(_DWORD *)(a2 + 13768);
+  v4 = 0;
+  while ( strcmp(player_profile_name, (const char *)(1488 * v4 + v3 + 24)) )
   {
-    if ( ++v2 >= 0x14u )
+    if ( ++v4 >= 0x14u )
       return 3;
   }
-  return this->m_match_client.m_match_options.player_profiles[v2].team;
+  return *(_DWORD *)(1488 * v4 + v3 + 456);
 }

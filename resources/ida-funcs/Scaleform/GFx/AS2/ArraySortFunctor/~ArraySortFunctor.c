@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(Scalefo
     if ( Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -27,7 +27,7 @@ void __thiscall Scaleform::GFx::AS2::ArraySortFunctor::~ArraySortFunctor(Scalefo
     if ( pLocalFrame )
     {
       v6 = pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v6) != 0 )
+      if ( (v6 & 0x3FFFFFF) != 0 )
       {
         pLocalFrame->RefCount = v6 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

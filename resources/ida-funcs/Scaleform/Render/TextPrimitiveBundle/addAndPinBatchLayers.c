@@ -25,20 +25,20 @@ char __thiscall Scaleform::Render::TextPrimitiveBundle::addAndPinBatchLayers(
   Scaleform::RefCountVImpl *v23; // ecx
   Scaleform::Render::MatrixPoolImpl::EntryHandle *pHandle; // eax
   const Scaleform::Render::MatrixPoolImpl::HMatrix *updated; // eax
-  unsigned int layerIndex; // [esp+1Ch] [ebp-14h]
-  unsigned int layerIndexa; // [esp+1Ch] [ebp-14h]
+  unsigned int index; // [esp+1Ch] [ebp-14h]
+  unsigned int indexa; // [esp+1Ch] [ebp-14h]
   int v29; // [esp+20h] [ebp-10h]
-  unsigned int tfLayerIndex; // [esp+24h] [ebp-Ch]
+  int v30; // [esp+24h] [ebp-Ch]
   int v31; // [esp+28h] [ebp-8h] BYREF
-  unsigned int tfLayerCount; // [esp+2Ch] [ebp-4h] BYREF
+  Scaleform::Render::MatrixPoolImpl::HMatrix result; // [esp+2Ch] [ebp-4h] BYREF
 
   v3 = tm;
   v4 = this;
   v5 = 0;
-  tfLayerCount = tm->GetLayerCount(tm);
-  tfLayerIndex = 0;
-  layerIndex = 0;
-  if ( tfLayerCount )
+  result.pHandle = (Scaleform::Render::MatrixPoolImpl::EntryHandle *)tm->GetLayerCount(tm);
+  v30 = 0;
+  index = 0;
+  if ( result.pHandle )
   {
     v29 = 0;
     while ( 1 )
@@ -48,17 +48,17 @@ char __thiscall Scaleform::Render::TextPrimitiveBundle::addAndPinBatchLayers(
       if ( v5 < Size )
       {
         Type = v7->Type;
-        layerIndexa = v4->Layers.Size;
+        indexa = v4->Layers.Size;
         while ( 1 )
         {
-          v9 = layerIndexa <= 2 ? (int)&v4->Layers.4 : (int)v4->Layers.AD.pData;
+          v9 = indexa <= 2 ? (int)&v4->Layers.4 : (int)v4->Layers.AD.pData;
           v10 = *(char **)(v9 + 4 * v5);
           v11 = *((_DWORD *)v10 + 12);
           if ( v11 >= Type )
           {
             if ( v11 == Type && (Scaleform::Render::PrimitiveFill *)*((_DWORD *)v10 + 4) == v7->pFill.pObject )
             {
-              layerIndex = v5;
+              index = v5;
               goto LABEL_22;
             }
             if ( v11 > Type || (Scaleform::Render::PrimitiveFill *)*((_DWORD *)v10 + 4) > v7->pFill.pObject )
@@ -70,7 +70,7 @@ char __thiscall Scaleform::Render::TextPrimitiveBundle::addAndPinBatchLayers(
         }
         v4 = this;
 LABEL_17:
-        layerIndex = v5;
+        index = v5;
       }
       v31 = 68;
       v10 = (char *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, v4, 64, &v31);
@@ -89,7 +89,7 @@ LABEL_17:
       Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v10);
       inserted = Scaleform::Render::ArrayReserveLH_Mov<Scaleform::Ptr<Scaleform::Render::TextLayerPrimitive>,2>::insertSpot(
                    &this->Layers,
-                   layerIndex);
+                   index);
       if ( inserted )
       {
         Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v10);
@@ -97,13 +97,13 @@ LABEL_17:
       }
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v10);
       Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v10);
-      v5 = layerIndex;
+      v5 = index;
 LABEL_22:
       v3 = tm;
       if ( Scaleform::Render::Primitive::Insert(
              (Scaleform::Render::Primitive *)v10,
              *((void (__thiscall **)(struct Scaleform::Render::Primitive *))v10 + 9),
-             v7->pMesh.pObject,
+             (Scaleform::GFx::Resource *)v7->pMesh.pObject,
              &v7->M) )
       {
         v16 = (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *)(v10 + 52);
@@ -132,7 +132,7 @@ LABEL_22:
       ++v3->PinCount;
       ++v29;
       v4 = this;
-      if ( ++tfLayerIndex >= tfLayerCount )
+      if ( ++v30 >= (unsigned int)result.pHandle )
         goto LABEL_31;
     }
   }
@@ -180,14 +180,14 @@ LABEL_40:
           ++pHandle->pHeader->RefCount;
         updated = Scaleform::Render::TextMeshProvider::UpdateMaskClearBounds(
                     v3,
-                    (Scaleform::Render::MatrixPoolImpl::HMatrix *)&tfLayerCount,
+                    &result,
                     (Scaleform::Render::MatrixPoolImpl::HMatrix)pHandle);
         Scaleform::Render::MaskPrimitive::Insert(
           v4->pMaskPrimitive.pObject,
           v4->pMaskPrimitive.pObject->MaskAreas.Data.Size,
           updated);
-        if ( (Scaleform::Render::MatrixPoolImpl::EntryHandle *)tfLayerCount != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
-          Scaleform::Render::MatrixPoolImpl::DataHeader::Release(*(Scaleform::Render::MatrixPoolImpl::DataHeader **)tfLayerCount);
+        if ( result.pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
+          Scaleform::Render::MatrixPoolImpl::DataHeader::Release(result.pHandle->pHeader);
       }
     }
     return 1;

@@ -1,72 +1,80 @@
-void __usercall vostok::ui::ui_scroll_bar::update_self(vostok::ui::ui_scroll_bar *this@<ecx>, int a2@<edi>)
+void __usercall vostok::ui::ui_scroll_bar::update_self(vostok::ui::ui_scroll_bar *this@<ecx>, int a2@<esi>)
 {
-  void (__thiscall ***v2)(int, vostok::math::float2 *); // esi
-  float *v3; // eax
-  int (__thiscall *v4)(int); // edx
+  float v2; // xmm0_4
+  void (__thiscall ***v3)(int, float *); // edi
+  int v4; // eax
   float *v5; // eax
-  int (__thiscall *v6)(int); // edx
-  float v7; // xmm0_4
-  double v8; // st7
-  float y; // xmm0_4
-  int v10; // ecx
-  float v11; // xmm0_4
-  void (__thiscall *v12)(int, vostok::math::float2 *); // edx
-  float v13; // [esp+4h] [ebp-28h]
-  float max_track_len; // [esp+8h] [ebp-24h]
-  float max_track_lena; // [esp+8h] [ebp-24h]
-  float btn_h; // [esp+Ch] [ebp-20h]
-  float max_pos; // [esp+14h] [ebp-18h]
-  float max_posa; // [esp+14h] [ebp-18h]
-  vostok::math::float2 track_size; // [esp+18h] [ebp-14h] BYREF
-  vostok::math::float2 track_pos; // [esp+20h] [ebp-Ch] BYREF
+  float v6; // xmm0_4
+  int v7; // eax
+  float *v8; // eax
+  float v9; // xmm0_4
+  int v10; // eax
+  float v11; // xmm1_4
+  float v12; // xmm0_4
+  int v13; // ecx
+  float v14; // xmm0_4
+  void (__thiscall **v15)(int, float *); // eax
+  float v16; // [esp+4h] [ebp-24h] BYREF
+  float v17; // [esp+8h] [ebp-20h]
+  float v18; // [esp+Ch] [ebp-1Ch] BYREF
+  float v19; // [esp+10h] [ebp-18h]
+  float v20; // [esp+14h] [ebp-14h]
+  int v21; // [esp+18h] [ebp-10h]
+  float v22; // [esp+1Ch] [ebp-Ch]
+  float v23; // [esp+20h] [ebp-8h]
+  float v24; // [esp+24h] [ebp-4h]
 
-  v2 = (void (__thiscall ***)(int, vostok::math::float2 *))(a2 + 96);
-  btn_h = *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)(a2 + 188) + 12))(a2 + 188) + 4);
-  v3 = (float *)(*(int (__thiscall **)(int))(*(_DWORD *)(a2 + 96) + 12))(a2 + 96);
-  track_size.x = *v3;
-  v4 = *(int (__thiscall **)(int))(*(_DWORD *)(a2 + 96) + 4);
-  track_size.y = v3[1];
-  v5 = (float *)v4(a2 + 96);
-  track_pos.x = *v5;
-  v6 = *(int (__thiscall **)(int))(*(_DWORD *)(a2 + 4) + 12);
-  track_pos.y = v5[1];
-  v7 = *(float *)(v6(a2 + 4) + 4);
-  if ( v7 <= 0.0 )
-    v7 = 0.0;
-  v13 = v7;
-  max_pos = v7 - (float)(btn_h * 2.0);
-  max_track_len = max_pos;
-  if ( max_pos < 0.0 )
-    max_track_len = 0.0;
-  v8 = v7 / ((double (__thiscall *)(_DWORD))***(_DWORD ***)(a2 + 184))(*(_DWORD *)(a2 + 184)) * max_track_len;
-  track_size.y = v8;
-  if ( v8 > 0.0 )
-  {
-    y = track_size.y;
-    if ( max_track_len < track_size.y )
-      y = max_track_len;
-  }
-  else
-  {
-    y = 0.0;
-  }
-  v10 = *(_DWORD *)(a2 + 184);
-  track_size.y = y;
-  max_track_lena = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)v10 + 4))(v10);
-  if ( COERCE_FLOAT(LODWORD(max_track_lena) & 0x7FFFFFFF) >= 0.0000099999997 )
-  {
-    max_posa = max_pos - track_size.y;
-    track_pos.y = COERCE_FLOAT(LODWORD(max_track_lena) & 0x7FFFFFFF)
-                / (((double (__thiscall *)(_DWORD))***(_DWORD ***)(a2 + 184))(*(_DWORD *)(a2 + 184)) - v13)
-                * max_posa;
-    v11 = track_pos.y;
-  }
-  else
-  {
+  v2 = *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)(a2 + 188) + 12))(a2 + 188) + 4);
+  v3 = (void (__thiscall ***)(int, float *))(a2 + 96);
+  v4 = *(_DWORD *)(a2 + 96);
+  v22 = v2;
+  v5 = (float *)(*(int (__thiscall **)(int))(v4 + 12))(a2 + 96);
+  v18 = *v5;
+  v6 = v5[1];
+  v7 = *(_DWORD *)(a2 + 96);
+  v19 = v6;
+  v8 = (float *)(*(int (__thiscall **)(int))(v7 + 4))(a2 + 96);
+  v16 = *v8;
+  v9 = v8[1];
+  v10 = *(_DWORD *)(a2 + 4);
+  v17 = v9;
+  v11 = *(float *)((*(int (__thiscall **)(int))(v10 + 12))(a2 + 4) + 4);
+  if ( v11 <= 0.0 )
     v11 = 0.0;
+  v24 = v11;
+  v20 = v11 - (float)(v22 * 2.0);
+  v23 = v20;
+  if ( v20 < 0.0 )
+    v23 = 0.0;
+  v19 = v24 / ((double (__thiscall *)(_DWORD))***(_DWORD ***)(a2 + 184))(*(_DWORD *)(a2 + 184)) * v23;
+  if ( v19 > 0.0 )
+  {
+    v12 = v23;
+    if ( v23 >= v19 )
+      v12 = v19;
   }
-  v12 = **v2;
-  track_pos.y = v11 + btn_h;
-  v12(a2 + 96, &track_pos);
-  (*v2)[2](a2 + 96, &track_size);
+  else
+  {
+    v12 = 0.0;
+  }
+  v13 = *(_DWORD *)(a2 + 184);
+  v19 = v12;
+  v23 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)v13 + 4))(v13);
+  v21 = LODWORD(v23) & 0x7FFFFFFF;
+  if ( COERCE_FLOAT(LODWORD(v23) & 0x7FFFFFFF) >= 0.0000099999997 )
+  {
+    v21 = LODWORD(v23);
+    LODWORD(v23) &= ~0x80000000;
+    v20 = v20 - v19;
+    v17 = v23 / (((double (__thiscall *)(_DWORD))***(_DWORD ***)(a2 + 184))(*(_DWORD *)(a2 + 184)) - v24) * v20;
+    v14 = v17;
+  }
+  else
+  {
+    v14 = 0.0;
+  }
+  v15 = *v3;
+  v17 = v14 + v22;
+  (*v15)(a2 + 96, &v16);
+  (*v3)[2](a2 + 96, &v18);
 }

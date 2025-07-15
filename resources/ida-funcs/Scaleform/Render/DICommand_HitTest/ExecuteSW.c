@@ -10,77 +10,84 @@ void __thiscall Scaleform::Render::DICommand_HitTest::ExecuteSW(
   int y1; // eax
   bool v9; // sf
   int v10; // eax
-  signed int v11; // ebx
+  int v11; // ebx
   int x1; // eax
   int v13; // eax
-  signed int v14; // edi
+  int v14; // edi
   bool *v15; // esi
   Scaleform::Render::TextureManager *v16; // eax
   Scaleform::Render::TextureManager *v17; // eax
   Scaleform::Render::ImageData *v18; // edi
   Scaleform::Render::Image *pObject; // edi
   unsigned int Height; // ebp
-  Scaleform::Render::Color v21; // eax
+  unsigned int v21; // eax
   unsigned int Width; // ebx
-  Scaleform::Render::DICommandContext *v23; // eax
+  unsigned int v23; // eax
   int y; // ecx
   int v25; // eax
-  signed int i; // ebx
+  int i; // ebx
   signed int v27; // edi
   int x; // ecx
   int v29; // eax
-  signed int v30; // edi
+  int v30; // edi
   signed int v31; // ebp
   bool *v32; // esi
-  bool *Result; // esi
-  Scaleform::Render::Color c0; // [esp+2Ch] [ebp-44h] BYREF
+  bool *v33; // esi
+  unsigned int v34; // [esp+2Ch] [ebp-44h] BYREF
   Scaleform::Render::Size<unsigned long> v35; // [esp+30h] [ebp-40h] BYREF
-  Scaleform::Render::Color c1; // [esp+38h] [ebp-38h] BYREF
-  Scaleform::Render::ImageSwizzlerContext img0Swiz; // [esp+40h] [ebp-30h] BYREF
-  Scaleform::Render::ImageSwizzlerContext img1Swiz; // [esp+58h] [ebp-18h] BYREF
-  Scaleform::Render::DICommandContext *contexta; // [esp+74h] [ebp+4h]
-  Scaleform::Render::DICommandContext *contextb; // [esp+74h] [ebp+4h]
-  Scaleform::Render::ImageData **psrca; // [esp+7Ch] [ebp+Ch]
+  Scaleform::Render::Color result; // [esp+38h] [ebp-38h] BYREF
+  int v37; // [esp+40h] [ebp-30h] BYREF
+  int v38; // [esp+44h] [ebp-2Ch]
+  Scaleform::Render::ImageData *v39; // [esp+48h] [ebp-28h]
+  int v40; // [esp+4Ch] [ebp-24h]
+  int v41; // [esp+50h] [ebp-20h]
+  int v42; // [esp+54h] [ebp-1Ch]
+  Scaleform::Render::ImageSwizzlerContext v43; // [esp+58h] [ebp-18h] BYREF
+  int v44; // [esp+74h] [ebp+4h]
+  unsigned int v45; // [esp+74h] [ebp+4h]
+  int v46; // [esp+7Ch] [ebp+Ch]
 
   if ( this->SecondImage.pObject )
   {
     v16 = context->pHAL->GetTextureManager(context->pHAL);
-    img0Swiz.Swizzler = v16->GetImageSwizzler(v16);
-    img0Swiz.pCurrentScanline = 0;
-    img0Swiz.pImage = dest;
-    memset(&img0Swiz.CachedBlockY, 0, 12);
-    img0Swiz.Swizzler->Initialize(img0Swiz.Swizzler, &img0Swiz);
+    v37 = (int)v16->GetImageSwizzler(v16);
+    v38 = 0;
+    v39 = dest;
+    v40 = 0;
+    v41 = 0;
+    v42 = 0;
+    (*(void (__thiscall **)(int, int *))(*(_DWORD *)v37 + 4))(v37, &v37);
     v17 = context->pHAL->GetTextureManager(context->pHAL);
     v18 = *psrc;
-    img1Swiz.Swizzler = v17->GetImageSwizzler(v17);
-    img1Swiz.pCurrentScanline = 0;
-    img1Swiz.pImage = v18;
-    memset(&img1Swiz.CachedBlockY, 0, 12);
-    img1Swiz.Swizzler->Initialize(img1Swiz.Swizzler, &img1Swiz);
+    v43.Swizzler = v17->GetImageSwizzler(v17);
+    v43.pCurrentScanline = 0;
+    v43.pImage = v18;
+    memset(&v43.CachedBlockY, 0, 12);
+    v43.Swizzler->Initialize(v43.Swizzler, &v43);
     pObject = this->SecondImage.pObject;
     Height = dest->pPlanes->Height;
-    v21 = (Scaleform::Render::Color)pObject->GetSize(pObject, (Scaleform::Render::Size<unsigned long> *)&c1)->Height;
-    c0 = (Scaleform::Render::Color)Height;
-    if ( Height >= v21.Raw )
-      c0 = v21;
+    v21 = pObject->GetSize(pObject, (Scaleform::Render::Size<unsigned long> *)&result)->Height;
+    v34 = Height;
+    if ( Height >= v21 )
+      v34 = v21;
     Width = dest->pPlanes->Width;
-    v23 = (Scaleform::Render::DICommandContext *)pObject->GetSize(pObject, &v35)->Width;
-    contextb = (Scaleform::Render::DICommandContext *)Width;
-    if ( Width >= (unsigned int)v23 )
-      contextb = v23;
+    v23 = pObject->GetSize(pObject, &v35)->Width;
+    v45 = Width;
+    if ( Width >= v23 )
+      v45 = v23;
     y = this->SecondPoint.y;
     v25 = this->FirstPoint.y;
-    for ( i = (y - v25) & ((y - v25 < 0) - 1); i < *(_DWORD *)&c0 + y - v25; ++i )
+    for ( i = (y - v25) & ((y - v25 < 0) - 1); i < (int)(v34 + y - v25); ++i )
     {
       v27 = i + v25 - y;
       if ( i < 0 || i >= (signed int)dest->pPlanes->Height || v27 < 0 || v27 >= (signed int)(*psrc)->pPlanes->Height )
         break;
-      img0Swiz.Swizzler->CacheScanline(img0Swiz.Swizzler, &img0Swiz, i);
-      img1Swiz.Swizzler->CacheScanline(img1Swiz.Swizzler, &img1Swiz, v27);
+      (*(void (__thiscall **)(int, int *, int))(*(_DWORD *)v37 + 8))(v37, &v37, i);
+      v43.Swizzler->CacheScanline(v43.Swizzler, &v43, v27);
       x = this->SecondPoint.x;
       v29 = this->FirstPoint.x;
       v30 = (x - v29) & ((x - v29 < 0) - 1);
-      if ( v30 < (int)contextb + x - v29 )
+      if ( v30 < (int)(v45 + x - v29) )
       {
         do
         {
@@ -92,22 +99,26 @@ void __thiscall Scaleform::Render::DICommand_HitTest::ExecuteSW(
           {
             break;
           }
-          img0Swiz.Swizzler->GetPixelInScanline(img0Swiz.Swizzler, (Scaleform::Render::Color *)&v35, &img0Swiz, v30);
+          (*(void (__thiscall **)(int, Scaleform::Render::Size<unsigned long> *, int *, int))(*(_DWORD *)v37 + 20))(
+            v37,
+            &v35,
+            &v37,
+            v30);
           if ( HIBYTE(v35.Width) >= this->FirstThreshold )
           {
-            Scaleform::Render::ImageSwizzlerContext::GetPixelInScanline(&img1Swiz, &c1, v31);
-            if ( c1.Channels.Alpha >= this->SecondThreshold )
+            Scaleform::Render::ImageSwizzlerContext::GetPixelInScanline(&v43, &result, v31);
+            if ( result.Channels.Alpha >= this->SecondThreshold )
             {
-              Result = this->Result;
-              if ( Result )
-                *Result = 1;
+              v33 = this->Result;
+              if ( v33 )
+                *v33 = 1;
               return;
             }
           }
           x = this->SecondPoint.x;
           v29 = this->FirstPoint.x;
         }
-        while ( ++v30 < (int)contextb + x - v29 );
+        while ( ++v30 < (int)(v45 + x - v29) );
       }
       y = this->SecondPoint.y;
       v25 = this->FirstPoint.y;
@@ -117,48 +128,50 @@ void __thiscall Scaleform::Render::DICommand_HitTest::ExecuteSW(
   {
     v5 = context->pHAL->GetTextureManager(context->pHAL);
     v6 = dest;
-    img0Swiz.Swizzler = v5->GetImageSwizzler(v5);
-    img0Swiz.pCurrentScanline = 0;
-    img0Swiz.pImage = dest;
-    memset(&img0Swiz.CachedBlockY, 0, 12);
-    img0Swiz.Swizzler->Initialize(img0Swiz.Swizzler, &img0Swiz);
+    v37 = (int)v5->GetImageSwizzler(v5);
+    v38 = 0;
+    v39 = dest;
+    v40 = 0;
+    v41 = 0;
+    v42 = 0;
+    (*(void (__thiscall **)(int, int *))(*(_DWORD *)v37 + 4))(v37, &v37);
     pPlanes = dest->pPlanes;
-    contexta = (Scaleform::Render::DICommandContext *)pPlanes->Height;
-    if ( (int)contexta >= this->SecondArea.y2 - this->SecondArea.y1 )
-      contexta = (Scaleform::Render::DICommandContext *)(this->SecondArea.y2 - this->SecondArea.y1);
-    psrca = (Scaleform::Render::ImageData **)pPlanes->Width;
+    v44 = pPlanes->Height;
+    if ( v44 >= this->SecondArea.y2 - this->SecondArea.y1 )
+      v44 = this->SecondArea.y2 - this->SecondArea.y1;
+    v46 = pPlanes->Width;
     if ( (signed int)pPlanes->Width >= this->SecondArea.x2 - this->SecondArea.x1 )
-      psrca = (Scaleform::Render::ImageData **)(this->SecondArea.x2 - this->SecondArea.x1);
+      v46 = this->SecondArea.x2 - this->SecondArea.x1;
     y1 = this->SecondArea.y1;
     v9 = y1 - this->FirstPoint.y < 0;
     v10 = y1 - this->FirstPoint.y;
     v11 = v9 ? 0 : v10;
-    if ( v11 < (int)contexta + v10 )
+    if ( v11 < v44 + v10 )
     {
       while ( v11 >= 0 && v11 < (signed int)v6->pPlanes->Height )
       {
-        img0Swiz.Swizzler->CacheScanline(img0Swiz.Swizzler, &img0Swiz, v11);
+        (*(void (__thiscall **)(int, int *, int))(*(_DWORD *)v37 + 8))(v37, &v37, v11);
         x1 = this->SecondArea.x1;
         v9 = x1 - this->FirstPoint.x < 0;
         v13 = x1 - this->FirstPoint.x;
         v14 = v9 ? 0 : v13;
-        if ( v14 < (int)psrca + v13 )
+        if ( v14 < v46 + v13 )
         {
           while ( v14 >= 0 && v14 < (signed int)dest->pPlanes->Width )
           {
-            img0Swiz.Swizzler->GetPixelInScanline(img0Swiz.Swizzler, &c0, &img0Swiz, v14);
-            if ( c0.Channels.Alpha >= this->FirstThreshold )
+            (*(void (__thiscall **)(int, unsigned int *, int *, int))(*(_DWORD *)v37 + 20))(v37, &v34, &v37, v14);
+            if ( HIBYTE(v34) >= this->FirstThreshold )
             {
               v15 = this->Result;
               if ( v15 )
                 *v15 = 1;
               return;
             }
-            if ( ++v14 >= (int)psrca + this->SecondArea.x1 - this->FirstPoint.x )
+            if ( ++v14 >= v46 + this->SecondArea.x1 - this->FirstPoint.x )
               break;
           }
         }
-        if ( ++v11 >= (int)contexta + this->SecondArea.y1 - this->FirstPoint.y )
+        if ( ++v11 >= v44 + this->SecondArea.y1 - this->FirstPoint.y )
           break;
         v6 = dest;
       }

@@ -17,7 +17,7 @@ bool __thiscall Scaleform::GFx::Text::StyleManager::ParseCSSImpl<wchar_t>(
   memset(&selectors, 0, sizeof(selectors));
   handler.__vftable = (Scaleform::GFx::Text::TextStyleParserHandler<wchar_t>_vtbl *)&Scaleform::GFx::Text::TextStyleParserHandler<wchar_t>::`vftable';
   lena = Scaleform::GFx::Text::CSSParser<wchar_t>::Parse(&parser, buffer, len, &handler, &selectors);
-  handler.__vftable = (Scaleform::GFx::Text::TextStyleParserHandler<wchar_t>_vtbl *)&Scaleform::GFx::Text::CSSHandler<wchar_t>::`vftable';
+  handler.__vftable = (Scaleform::GFx::Text::TextStyleParserHandler<wchar_t>_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   if ( selectors.Data.Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, selectors.Data.Data);
   if ( parser.PropertyValue.Data.Data )

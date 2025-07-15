@@ -1,21 +1,31 @@
-void __usercall survarium::lobby_camera::lobby_camera(survarium::lobby_camera *this@<ecx>, int a2@<eax>)
+void __userpurge survarium::lobby_camera::lobby_camera(
+        survarium::lobby_camera *this@<ecx>,
+        int a2@<edx>,
+        survarium::lobby_menu *w,
+        vostok::physics::world *physics_world)
 {
-  *(float *)(a2 + 76) = satisfaction_equality_tolerance;
-  *(float *)(a2 + 80) = survarium::s_camera_far_plane;
-  *(_DWORD *)(a2 + 84) = clear_value;
-  *(_DWORD *)(a2 + 72) = this;
-  *(_DWORD *)(a2 + 4) = &survarium::game_camera::`vftable';
-  *(_DWORD *)a2 = &survarium::lobby_camera::`vftable'{for `vostok::input::handler'};
-  *(_DWORD *)(a2 + 4) = &survarium::lobby_camera::`vftable'{for `survarium::game_camera'};
-  *(_DWORD *)(a2 + 88) = 0;
-  *(_DWORD *)(a2 + 92) = 1069547520;
-  *(_DWORD *)(a2 + 96) = 0;
-  *(_BYTE *)(a2 + 100) = 0;
-  *(_DWORD *)(a2 + 104) = 0;
-  *(_DWORD *)(a2 + 108) = 0;
-  *(_DWORD *)(a2 + 112) = 1069547520;
-  *(_DWORD *)(a2 + 116) = 1069547520;
-  *(_DWORD *)(a2 + 120) = 0;
-  *(_DWORD *)(a2 + 124) = 0;
-  *(_DWORD *)(a2 + 128) = 0;
+  float v4; // xmm1_4
+  _DWORD *v5; // eax
+  int v6; // edx
+  int v7; // ecx
+
+  survarium::game_camera::game_camera((survarium::game_camera *)this, a2 + 4);
+  v4 = vostok::sound::s_lpf_param;
+  *v5 = &survarium::lobby_camera::`vftable'{for `survarium::game_camera'};
+  *(_DWORD *)v6 = &survarium::lobby_camera::`vftable'{for `vostok::input::handler'};
+  *(_DWORD *)(v6 + 152) = 0;
+  *(float *)(v6 + 156) = v4;
+  *(_DWORD *)(v6 + 160) = 0;
+  *(_DWORD *)(v6 + 164) = w;
+  *(_DWORD *)(v6 + 168) = v7;
+  *(_DWORD *)(v6 + 172) = 0;
+  *(_DWORD *)(v6 + 176) = 0;
+  *(float *)(v6 + 180) = v4;
+  *(float *)(v6 + 184) = v4;
+  *(_DWORD *)(v6 + 188) = 0;
+  *(_BYTE *)(v6 + 200) = 0;
+  *(_DWORD *)(v6 + 204) = 0;
+  *(_DWORD *)(v6 + 208) = 0;
+  *(_DWORD *)(v6 + 192) = 0;
+  *(_DWORD *)(v6 + 196) = 0;
 }

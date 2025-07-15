@@ -1,5 +1,17 @@
 int __thiscall vostok::render::static_render_model_instance::get_locator(
         vostok::render::static_render_model_instance *this,
+        unsigned int idx,
+        vostok::render::model_locator_item *result)
+{
+  return ((int (__thiscall *)(vostok::render::static_render_model *, unsigned int, vostok::render::model_locator_item *))this->m_original.m_object->get_locator)(
+           this->m_original.m_object,
+           idx,
+           result);
+}
+
+
+int __thiscall vostok::render::static_render_model_instance::get_locator(
+        vostok::render::static_render_model_instance *this,
         const char *locator_name,
         vostok::render::model_locator_item *result)
 {

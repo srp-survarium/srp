@@ -13,7 +13,7 @@ void __stdcall Scaleform::GFx::GFx_SetBackgroundColorLoader(
   p_TagMemAllocator = &pObject->TagMemAllocator;
   if ( BytesLeft < 8 )
   {
-    pCurrent = (unsigned __int8 *)Scaleform::GFx::DataAllocator::OverflowAlloc(p_TagMemAllocator, 8u);
+    pCurrent = Scaleform::GFx::DataAllocator::OverflowAlloc(p_TagMemAllocator, 8u);
   }
   else
   {

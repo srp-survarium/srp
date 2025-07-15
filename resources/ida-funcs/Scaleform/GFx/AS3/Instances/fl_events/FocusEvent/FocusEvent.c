@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::FocusEvent::FocusEven
   Scaleform::GFx::AS3::Traits *pObject; // ecx
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // eax
 
-  Scaleform::GFx::AS3::Instances::fl::Object::Object((Scaleform::GFx::AS3::Instances::fl::Catch *)this, t);
+  Scaleform::GFx::AS3::Instances::fl::Object::Object(this, t);
   pObject = this->pTraits.pObject;
   this->__vftable = (Scaleform::GFx::AS3::Instances::fl_events::FocusEvent_vtbl *)&Scaleform::GFx::AS3::Instances::fl_events::Event::`vftable';
   p_EmptyStringNode = &pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;

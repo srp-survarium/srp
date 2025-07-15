@@ -16,19 +16,19 @@ bool __thiscall Scaleform::Render::TreeContainer::NodeData::PropagateUp(
   Scaleform::Render::ContextImpl::EntryData *v13; // eax
   __int16 v14; // ax
   Scaleform::Render::ContextImpl::EntryData *WritableData; // eax
-  char v17; // [esp+F5h] [ebp-45h]
-  unsigned int v18; // [esp+F6h] [ebp-44h]
-  Scaleform::Render::TreeContainer::NodeData *v19; // [esp+FAh] [ebp-40h]
-  float v20; // [esp+FEh] [ebp-3Ch]
-  float y2; // [esp+FEh] [ebp-3Ch]
-  float v22; // [esp+102h] [ebp-38h]
-  float x2; // [esp+102h] [ebp-38h]
-  float v24; // [esp+106h] [ebp-34h]
-  float y1; // [esp+106h] [ebp-34h]
-  Scaleform::Render::Rect<float> pdest; // [esp+10Ah] [ebp-30h] BYREF
-  Scaleform::Render::ContextImpl::EntryData v27; // [esp+11Ah] [ebp-20h]
-  Scaleform::Render::ContextImpl::EntryData v28; // [esp+122h] [ebp-18h]
-  Scaleform::Render::Rect<float> pr; // [esp+12Ah] [ebp-10h] BYREF
+  char v17; // [esp+1Bh] [ebp-45h]
+  unsigned int v18; // [esp+1Ch] [ebp-44h]
+  Scaleform::Render::TreeContainer::NodeData *v19; // [esp+20h] [ebp-40h]
+  float v20; // [esp+24h] [ebp-3Ch]
+  float y2; // [esp+24h] [ebp-3Ch]
+  float v22; // [esp+28h] [ebp-38h]
+  float x2; // [esp+28h] [ebp-38h]
+  float v24; // [esp+2Ch] [ebp-34h]
+  float y1; // [esp+2Ch] [ebp-34h]
+  Scaleform::Render::Rect<float> pdest; // [esp+30h] [ebp-30h] BYREF
+  Scaleform::Render::ContextImpl::EntryData v27; // [esp+40h] [ebp-20h]
+  Scaleform::Render::ContextImpl::EntryData v28; // [esp+48h] [ebp-18h]
+  Scaleform::Render::Rect<float> pr; // [esp+50h] [ebp-10h] BYREF
 
   v2 = this;
   v3 = this->Children.pData[0];
@@ -117,7 +117,7 @@ bool __thiscall Scaleform::Render::TreeContainer::NodeData::PropagateUp(
       else
         Scaleform::Render::Matrix2x4<float>::EncloseTransform(
           (Scaleform::Render::Matrix2x4<float> *)&v19->M34,
-          &pr,
+          (__m128 *)&pr,
           (__m128 *)&pdest);
       v2 = v19;
       *(float *)&v27.__vftable = pr.x1;

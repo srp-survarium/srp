@@ -1,14 +1,19 @@
-void __thiscall boost::asio::detail::socket_select_interrupter::close_descriptors(
-        boost::asio::detail::socket_select_interrupter *this)
+void __usercall boost::asio::detail::socket_select_interrupter::close_descriptors(
+        boost::asio::detail::socket_select_interrupter *this@<ecx>,
+        unsigned int *a2@<eax>)
 {
-  unsigned __int8 state; // [esp+177h] [ebp-9h] BYREF
-  boost::system::error_code ec; // [esp+178h] [ebp-8h] BYREF
+  unsigned int v3; // eax
+  unsigned int v4; // esi
+  boost::system::error_code v5; // [esp+4h] [ebp-Ch] BYREF
+  unsigned __int8 v6; // [esp+Fh] [ebp-1h] BYREF
 
-  ec.m_val = 0;
-  ec.m_cat = boost::system::system_category();
-  state = 2;
-  if ( this->read_descriptor_ != -1 )
-    boost::asio::detail::socket_ops::close(this->read_descriptor_, &state, 1, &ec);
-  if ( this->write_descriptor_ != -1 )
-    boost::asio::detail::socket_ops::close(this->write_descriptor_, &state, 1, &ec);
+  v5.m_val = 0;
+  v5.m_cat = boost::system::system_category();
+  v3 = *a2;
+  v6 = 2;
+  if ( v3 != -1 )
+    boost::asio::detail::socket_ops::close(&v5, v3, &v6, 1);
+  v4 = a2[1];
+  if ( v4 != -1 )
+    boost::asio::detail::socket_ops::close(&v5, v4, &v6, 1);
 }

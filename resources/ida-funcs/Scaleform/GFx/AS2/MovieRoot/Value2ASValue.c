@@ -11,13 +11,13 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Value2ASValue(
   int IValue; // esi
   Scaleform::GFx::AS2::Value *v9; // ecx
   bool v10; // zf
-  Scaleform::GFx::ASString *v11; // eax
+  Scaleform::GFx::ASString *String; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  const wchar_t *pStringW; // eax
+  wchar_t *v13; // eax
   const Scaleform::GFx::ASString *v14; // eax
   int v15; // eax
-  Scaleform::GFx::ASString result; // [esp+Ch] [ebp-8h] BYREF
-  Scaleform::GFx::ASString v17; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *v16; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::ASString result; // [esp+10h] [ebp-4h] BYREF
 
   Type = gfxVal->Type;
   switch ( Type & 0x8F )
@@ -41,7 +41,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Value2ASValue(
       break;
     case 3:
     case 4:
-      Scaleform::GFx::AS2::Value::SetInt(pdestVal, gfxVal->mValue.UIValue);
+      Scaleform::GFx::AS2::Value::SetInt(pdestVal, gfxVal->mValue.IValue);
       break;
     case 5:
       Scaleform::GFx::AS2::Value::SetNumber(pdestVal, gfxVal->mValue.NValue);
@@ -49,12 +49,12 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Value2ASValue(
     case 6:
       if ( (Type & 0x40) == 0 )
       {
-        v11 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156>::CreateString(
-                &this->BuiltinsMgr,
-                &result,
-                (char *)gfxVal->mValue.IValue);
-        Scaleform::GFx::AS2::Value::SetString(pdestVal, v11);
-        pNode = result.pNode;
+        String = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156>::CreateString(
+                   &this->BuiltinsMgr,
+                   (Scaleform::GFx::ASString *)&v16,
+                   (__m128i *)gfxVal->mValue.IValue);
+        Scaleform::GFx::AS2::Value::SetString(pdestVal, String);
+        pNode = v16;
         goto LABEL_11;
       }
       IValue = gfxVal->mValue.IValue;
@@ -67,10 +67,10 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::Value2ASValue(
         goto LABEL_9;
       break;
     case 7:
-      pStringW = gfxVal->mValue.pStringW;
+      v13 = (wchar_t *)gfxVal->mValue.IValue;
       if ( (Type & 0x40) != 0 )
       {
-        IValue = *((_DWORD *)pStringW - 1);
+        IValue = *((_DWORD *)v13 - 1);
         ++*(_DWORD *)(IValue + 12);
         gfxVal = (const Scaleform::GFx::Value *)IValue;
         Scaleform::GFx::AS2::Value::SetString(pdestVal, (const Scaleform::GFx::ASString *)&gfxVal);
@@ -83,11 +83,11 @@ LABEL_9:
       {
         v14 = Scaleform::GFx::ASStringBuiltinManagerT<enum Scaleform::GFx::AS2::ASBuiltinType,156>::CreateString(
                 &this->BuiltinsMgr,
-                &v17,
-                pStringW,
+                &result,
+                v13,
                 -1);
         Scaleform::GFx::AS2::Value::SetString(pdestVal, v14);
-        pNode = v17.pNode;
+        pNode = result.pNode;
 LABEL_11:
         if ( !--pNode->RefCount )
           Scaleform::GFx::ASStringNode::ReleaseNode(pNode);

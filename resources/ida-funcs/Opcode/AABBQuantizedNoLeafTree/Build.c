@@ -2,74 +2,65 @@ char __thiscall Opcode::AABBQuantizedNoLeafTree::Build(Opcode::AABBQuantizedNoLe
 {
   unsigned int mNbPrimitives; // eax
   bool v5; // zf
-  Opcode::AABBNoLeafNode *v6; // eax
-  Opcode::AABBNoLeafNode *v7; // ebx
+  Opcode::AABBQuantizedNoLeafNode *mNodes; // eax
+  Opcode::AABBNoLeafNode *v7; // edi
   Opcode::AABBQuantizedNoLeafNode *v8; // eax
   float v9; // xmm0_4
-  unsigned int mNbNodes; // edi
-  float v11; // xmm1_4
-  float v12; // xmm2_4
-  float v13; // xmm3_4
-  float v14; // xmm5_4
-  float v15; // xmm6_4
-  float z; // xmm7_4
+  float v10; // xmm3_4
+  float v11; // xmm4_4
+  float v12; // xmm5_4
+  float v13; // xmm6_4
+  unsigned int mNbNodes; // edx
   float *p_z; // ecx
-  unsigned int v18; // edx
-  long double v19; // st7
-  long double v20; // st7
-  long double v21; // st7
-  long double v22; // st7
-  long double v23; // st7
-  long double v24; // st7
-  float v25; // xmm3_4
-  float x; // xmm5_4
-  float v27; // xmm6_4
-  float v28; // xmm4_4
-  const vostok::math::float4x4 *v29; // xmm2_4
-  float v30; // xmm0_4
-  float y; // xmm7_4
-  float v32; // xmm0_4
-  float v33; // xmm0_4
-  float v34; // xmm0_4
-  float v35; // xmm0_4
-  int v36; // ecx
-  int v37; // eax
-  float *v38; // edi
+  float v16; // xmm7_4
+  float v17; // xmm4_4
+  float v18; // xmm3_4
+  float v19; // xmm6_4
+  float v20; // xmm0_4
+  float v21; // xmm2_4
+  float v22; // xmm2_4
+  float v23; // xmm2_4
+  float v24; // xmm2_4
+  float v25; // xmm2_4
+  float v26; // xmm0_4
+  int v27; // ecx
+  float *v28; // eax
+  float v29; // xmm0_4
+  float v30; // xmm3_4
+  float v31; // xmm4_4
+  float v32; // xmm5_4
+  float v33; // xmm1_4
+  int v34; // edx
+  float v35; // xmm2_4
+  IceMaths::Point *p_mExtentsCoeff; // edi
+  float v37; // xmm1_4
+  float v38; // xmm2_4
   float v39; // xmm0_4
-  float v40; // xmm3_4
-  float v41; // xmm4_4
-  float v42; // xmm5_4
-  float v43; // xmm1_4
-  unsigned int v44; // edx
-  float v45; // xmm2_4
-  Opcode::AABBQuantizedNoLeafNode *mNodes; // eax
-  float v47; // xmm2_4
-  IceMaths::Point *v48; // ebx
-  float v49; // xmm1_4
-  float v50; // xmm0_4
-  unsigned int v51; // ecx
-  unsigned int v52; // ecx
-  bool FixMe; // [esp+Fh] [ebp-59h]
-  unsigned int j; // [esp+10h] [ebp-58h]
-  IceMaths::Point *p_mExtentsCoeff; // [esp+14h] [ebp-54h]
-  int v56; // [esp+18h] [ebp-50h]
-  Opcode::AABBNoLeafNode *Nodes; // [esp+1Ch] [ebp-4Ch]
-  unsigned int i; // [esp+20h] [ebp-48h]
-  int v59; // [esp+24h] [ebp-44h]
-  float v60; // [esp+28h] [ebp-40h]
-  float v61; // [esp+28h] [ebp-40h]
-  float v62; // [esp+28h] [ebp-40h]
-  float v63; // [esp+28h] [ebp-40h]
-  float v64; // [esp+28h] [ebp-40h]
-  float v65; // [esp+28h] [ebp-40h]
-  int v66; // [esp+28h] [ebp-40h]
-  unsigned int CurID; // [esp+2Ch] [ebp-3Ch] BYREF
-  int v68; // [esp+30h] [ebp-38h]
-  char *v69; // [esp+34h] [ebp-34h]
-  IceMaths::Point CMax; // [esp+38h] [ebp-30h]
-  IceMaths::Point EMax; // [esp+44h] [ebp-24h]
-  IceMaths::Point Max; // [esp+50h] [ebp-18h]
-  IceMaths::Point Min; // [esp+5Ch] [ebp-Ch]
+  _WORD *v40; // ebx
+  unsigned int v41; // edx
+  unsigned int v42; // edx
+  char v43; // [esp+13h] [ebp-4Dh]
+  unsigned int v44; // [esp+14h] [ebp-4Ch]
+  float v45; // [esp+1Ch] [ebp-44h]
+  float v46; // [esp+1Ch] [ebp-44h]
+  float v47; // [esp+1Ch] [ebp-44h]
+  float v48; // [esp+1Ch] [ebp-44h]
+  float v49; // [esp+1Ch] [ebp-44h]
+  float v50; // [esp+1Ch] [ebp-44h]
+  unsigned int v51; // [esp+1Ch] [ebp-44h]
+  int v52; // [esp+20h] [ebp-40h]
+  Opcode::AABBNoLeafNode *v53; // [esp+24h] [ebp-3Ch]
+  unsigned int line; // [esp+28h] [ebp-38h] BYREF
+  _WORD *v55; // [esp+2Ch] [ebp-34h]
+  float v56; // [esp+30h] [ebp-30h]
+  float v57; // [esp+34h] [ebp-2Ch]
+  float v58; // [esp+38h] [ebp-28h]
+  float v59; // [esp+3Ch] [ebp-24h]
+  float v60; // [esp+40h] [ebp-20h]
+  float v61; // [esp+44h] [ebp-1Ch]
+  float v62; // [esp+48h] [ebp-18h]
+  float v63; // [esp+50h] [ebp-10h]
+  float v64[3]; // [esp+54h] [ebp-Ch]
 
   if ( !tree )
     return 0;
@@ -80,251 +71,232 @@ char __thiscall Opcode::AABBQuantizedNoLeafTree::Build(Opcode::AABBQuantizedNoLe
   this->mNbNodes = mNbPrimitives - 1;
   if ( !v5 )
   {
-    this->m_allocator->call_free(this->m_allocator, &this->mNodes[-1].mPosData);
+    mNodes = this->mNodes;
+    if ( mNodes )
+      this->m_allocator->call_free(
+        this->m_allocator,
+        &mNodes[-1].mPosData,
+        "Opcode::AABBQuantizedNoLeafTree::Build",
+        ".\\OPC_OptimizedTree.cpp",
+        710u);
     this->mNodes = 0;
   }
-  v6 = vostok::memory::new_array_helper<Opcode::AABBNoLeafNode>::call<vostok::memory::base_allocator>(
+  v7 = vostok::memory::new_array_helper<Opcode::AABBNoLeafNode>::call<vostok::memory::base_allocator>(
+         this->mNbNodes,
          this->m_allocator,
-         this->mNbNodes);
-  v7 = v6;
-  Nodes = v6;
-  if ( !v6 )
+         "Opcode::AABBQuantizedNoLeafTree::Build",
+         (const char *const)0x2C7);
+  v53 = v7;
+  if ( !v7 )
     return 0;
-  CurID = 1;
-  BuildNoLeafTree(v6, 0, &CurID, tree);
+  line = 1;
+  BuildNoLeafTree(v7, 0, &line, tree);
   v8 = vostok::memory::new_array_helper<Opcode::AABBQuantizedNoLeafNode>::call<vostok::memory::base_allocator>(
-         this->m_allocator,
-         this->mNbNodes);
+         this->mNbNodes,
+         this->m_allocator);
   this->mNodes = v8;
   if ( !v8 )
     return 0;
-  v9 = -3.4028235e38;
+  v5 = this->mNbNodes == 0;
+  v9 = FLOAT_N3_4028235e38;
+  v10 = FLOAT_N3_4028235e38;
+  v11 = FLOAT_N3_4028235e38;
+  v12 = FLOAT_N3_4028235e38;
+  v13 = FLOAT_N3_4028235e38;
+  v59 = FLOAT_N3_4028235e38;
+  v60 = FLOAT_N3_4028235e38;
+  v61 = FLOAT_N3_4028235e38;
+  v56 = FLOAT_N3_4028235e38;
+  v57 = FLOAT_N3_4028235e38;
+  v58 = FLOAT_N3_4028235e38;
+  if ( v5 )
+    goto LABEL_26;
   mNbNodes = this->mNbNodes;
-  v11 = 0.0;
-  v12 = -3.4028235e38;
-  v13 = -3.4028235e38;
-  v14 = -3.4028235e38;
-  v15 = -3.4028235e38;
-  z = -3.4028235e38;
-  CMax.x = -3.4028235e38;
-  CMax.y = -3.4028235e38;
-  CMax.z = -3.4028235e38;
-  EMax.x = -3.4028235e38;
-  EMax.y = -3.4028235e38;
-  EMax.z = -3.4028235e38;
-  if ( !mNbNodes )
-    goto LABEL_24;
   p_z = &v7->mAABB.mCenter.z;
-  v18 = mNbNodes;
   do
   {
-    v19 = fabs(*(p_z - 2));
-    if ( v19 > CMax.x )
+    v45 = fabs(*(p_z - 2));
+    if ( v45 > (double)v59 )
     {
-      v12 = v19;
-      v60 = v19;
-      CMax.x = v60;
+      v10 = v45;
+      v59 = v45;
     }
-    v20 = fabs(*(p_z - 1));
-    if ( v20 > CMax.y )
+    v46 = fabs(*(p_z - 1));
+    if ( v46 > (double)v60 )
     {
-      v13 = v20;
-      v61 = v20;
-      CMax.y = v61;
+      v11 = v46;
+      v60 = v46;
     }
-    v21 = fabs(*p_z);
-    if ( v21 > CMax.z )
+    v47 = fabs(*p_z);
+    if ( v47 > (double)v61 )
     {
-      v14 = v21;
-      v62 = v21;
-      CMax.z = v62;
+      v12 = v47;
+      v61 = v47;
     }
-    v22 = fabs(p_z[1]);
-    if ( v22 > EMax.x )
+    v48 = fabs(p_z[1]);
+    if ( v48 > (double)v56 )
     {
-      v15 = v22;
-      v63 = v22;
-      EMax.x = v63;
+      v13 = v48;
+      v56 = v48;
     }
-    v23 = fabs(p_z[2]);
-    if ( v23 > EMax.y )
+    v49 = fabs(p_z[2]);
+    if ( v49 > (double)v57 )
     {
-      v9 = v23;
-      v64 = v23;
-      EMax.y = v64;
+      v9 = v49;
+      v57 = v49;
     }
-    v24 = fabs(p_z[3]);
-    if ( v24 > EMax.z )
-    {
-      z = v24;
-      v65 = v24;
-      EMax.z = v65;
-    }
+    v50 = fabs(p_z[3]);
+    if ( v50 > (double)v58 )
+      v58 = v50;
     p_z += 8;
-    --v18;
+    --mNbNodes;
   }
-  while ( v18 );
+  while ( mNbNodes );
+  if ( v10 == 0.0 )
+    v59 = 0.0;
+  else
+LABEL_26:
+    v59 = 32767.0 / v10;
+  if ( v11 == 0.0 )
+    v16 = 0.0;
+  else
+    v16 = 32767.0 / v11;
+  v60 = v16;
   if ( v12 == 0.0 )
-  {
-    CMax.x = 0.0;
-  }
+    v17 = 0.0;
   else
-  {
-LABEL_24:
-    CMax.x = 32767.0 / v12;
-    z = EMax.z;
-  }
+    v17 = 32767.0 / v12;
+  v61 = v17;
   if ( v13 == 0.0 )
-    CMax.y = 0.0;
+    v18 = 0.0;
   else
-    CMax.y = 32767.0 / v13;
-  if ( v14 == 0.0 )
-  {
-    CMax.z = 0.0;
-    v25 = 0.0;
-  }
-  else
-  {
-    v25 = 32767.0 / v14;
-    CMax.z = 32767.0 / v14;
-  }
-  if ( v15 == 0.0 )
-  {
-    EMax.x = 0.0;
-    x = 0.0;
-  }
-  else
-  {
-    x = 32767.0 / v15;
-    EMax.x = 32767.0 / v15;
-  }
+    v18 = 32767.0 / v13;
+  v62 = v18;
   if ( v9 == 0.0 )
-    v27 = 0.0;
+    v19 = 0.0;
   else
-    v27 = 32767.0 / v9;
-  if ( z == 0.0 )
-    v28 = 0.0;
+    v19 = 32767.0 / v9;
+  if ( v58 == 0.0 )
+    v63 = 0.0;
   else
-    v28 = 32767.0 / z;
-  v29 = clear_value;
-  EMax.z = v28;
-  if ( CMax.x == 0.0 )
-    v30 = 0.0;
+    v63 = 32767.0 / v58;
+  v20 = s_bm_current_air_resistance;
+  if ( v59 == 0.0 )
+    v21 = 0.0;
   else
-    v30 = *(float *)&clear_value / CMax.x;
-  y = CMax.y;
-  v5 = CMax.y == 0.0;
-  this->mCenterCoeff.x = v30;
-  if ( v5 )
-    v32 = 0.0;
+    v21 = s_bm_current_air_resistance / v59;
+  this->mCenterCoeff.x = v21;
+  if ( v16 == 0.0 )
+    v22 = 0.0;
   else
-    v32 = *(float *)&v29 / y;
-  this->mCenterCoeff.y = v32;
-  if ( v25 == 0.0 )
-    v33 = 0.0;
+    v22 = v20 / v16;
+  this->mCenterCoeff.y = v22;
+  if ( v17 == 0.0 )
+    v23 = 0.0;
   else
-    v33 = *(float *)&v29 / v25;
-  this->mCenterCoeff.z = v33;
-  if ( x == 0.0 )
-    v34 = 0.0;
+    v23 = v20 / v17;
+  this->mCenterCoeff.z = v23;
+  if ( v18 == 0.0 )
+    v24 = 0.0;
   else
-    v34 = *(float *)&v29 / x;
-  this->mExtentsCoeff.x = v34;
-  if ( v27 == 0.0 )
-    v35 = 0.0;
+    v24 = v20 / v18;
+  this->mExtentsCoeff.x = v24;
+  if ( v19 == 0.0 )
+    v25 = 0.0;
   else
-    v35 = *(float *)&v29 / v27;
-  this->mExtentsCoeff.y = v35;
-  if ( v28 != 0.0 )
-    v11 = *(float *)&v29 / v28;
-  v36 = 0;
-  this->mExtentsCoeff.z = v11;
-  i = 0;
-  if ( mNbNodes )
+    v25 = v20 / v19;
+  this->mExtentsCoeff.y = v25;
+  if ( v63 == 0.0 )
+    v26 = 0.0;
+  else
+    v26 = v20 / v63;
+  v27 = 0;
+  this->mExtentsCoeff.z = v26;
+  v51 = 0;
+  if ( this->mNbNodes )
   {
-    v68 = -28 - (_DWORD)this;
-    v37 = 0;
-    v66 = 0;
-    v56 = 0;
-    v59 = 0;
-    v38 = &v7->mAABB.mExtents.z;
+    v28 = &v7->mAABB.mExtents.z;
     while ( 1 )
     {
-      *(__int16 *)((char *)this->mNodes->mAABB.mCenter + v37) = (int)(float)(CMax.x * *(v38 - 5));
-      *(__int16 *)((char *)&this->mNodes->mAABB.mCenter[1] + v37) = (int)(float)(*(v38 - 4) * y);
-      *(__int16 *)((char *)&this->mNodes->mAABB.mCenter[2] + v37) = (int)(float)(*(v38 - 3) * v25);
-      *(unsigned __int16 *)((char *)this->mNodes->mAABB.mExtents + v37) = (int)(float)(*(v38 - 2) * x);
-      *(unsigned __int16 *)((char *)&this->mNodes->mAABB.mExtents[1] + v37) = (int)(float)(*(v38 - 1) * v27);
-      *(unsigned __int16 *)((char *)&this->mNodes->mAABB.mExtents[2] + v37) = (int)(float)(*v38 * v28);
-      v39 = *(v38 - 5);
-      v40 = *(v38 - 2);
-      v41 = *(v38 - 1);
-      v42 = *v38;
-      Max.x = v39 + v40;
-      v43 = *(v38 - 4);
-      Max.y = v43 + v41;
+      this->mNodes[v27].mAABB.mCenter[0] = (int)(float)(*(v28 - 5) * v59);
+      this->mNodes[v27].mAABB.mCenter[1] = (int)(float)(*(v28 - 4) * v16);
       v44 = 0;
-      v45 = *(v38 - 3) - v42;
-      Max.z = *(v38 - 3) + v42;
-      Min.x = v39 - v40;
-      Min.y = v43 - v41;
-      Min.z = v45;
-      j = 0;
+      this->mNodes[v27].mAABB.mCenter[2] = (int)(float)(v17 * *(v28 - 3));
+      this->mNodes[v27].mAABB.mExtents[0] = (int)(float)(*(v28 - 2) * v18);
+      this->mNodes[v27].mAABB.mExtents[1] = (int)(float)(v19 * *(v28 - 1));
+      this->mNodes[v27].mAABB.mExtents[2] = (int)(float)(*v28 * v63);
+      v29 = *(v28 - 5);
+      v30 = *(v28 - 2);
+      v31 = *(v28 - 1);
+      v32 = *v28;
+      v56 = v29 + v30;
+      v33 = *(v28 - 4);
+      v57 = v33 + v31;
+      v34 = v27 * 20;
+      v35 = *(v28 - 3) - v32;
+      v58 = *(v28 - 3) + v32;
+      v64[0] = v29 - v30;
+      v64[1] = v33 - v31;
+      v64[2] = v35;
+      v52 = v27 * 20;
       p_mExtentsCoeff = &this->mExtentsCoeff;
       do
       {
-        mNodes = this->mNodes;
-        v47 = *(&Max.x + v44);
-        v48 = p_mExtentsCoeff;
-        v49 = (float)*(__int16 *)((char *)mNodes->mAABB.mCenter + v36) * p_mExtentsCoeff[-1].x;
-        FixMe = 1;
-        v69 = (char *)p_mExtentsCoeff + v68;
-        while ( 1 )
+        v37 = (float)*(__int16 *)((char *)this->mNodes->mAABB.mCenter + v34) * p_mExtentsCoeff[-1].x;
+        v38 = *(&v56 + v44);
+        v43 = 1;
+        do
         {
-          v50 = (float)*(unsigned __int16 *)((char *)mNodes->mAABB.mExtents + v36) * p_mExtentsCoeff->x;
-          if ( v47 > (float)(v50 + v49) || (float)(v49 - v50) > *(float *)((char *)&Min.x + (_DWORD)v69) )
-            ++*(unsigned __int16 *)((char *)mNodes->mAABB.mExtents + v36);
+          v55 = (unsigned __int16 *)((char *)this->mNodes->mAABB.mExtents + v34);
+          v39 = (float)(unsigned __int16)*v55 * p_mExtentsCoeff->x;
+          if ( v38 > (float)(v39 + v37)
+            || (float)(v37 - v39) > *(float *)((char *)v64 + (_DWORD)((char *)p_mExtentsCoeff - 28 - (_DWORD)this)) )
+          {
+            ++*v55;
+          }
           else
-            FixMe = 0;
-          mNodes = this->mNodes;
-          if ( !*(unsigned __int16 *)((char *)mNodes->mAABB.mExtents + v36) )
-            break;
-          if ( !FixMe )
-            goto LABEL_71;
+          {
+            v43 = 0;
+          }
+          v40 = (unsigned __int16 *)((char *)this->mNodes->mAABB.mExtents + v34);
+          if ( !*v40 )
+          {
+            *v40 = -1;
+            v34 = v52;
+            v43 = 0;
+          }
         }
-        this->mNodes[v56].mAABB.mExtents[j] = -1;
-        v48 = p_mExtentsCoeff;
-LABEL_71:
-        v44 = j + 1;
-        v36 += 2;
-        j = v44;
-        p_mExtentsCoeff = (IceMaths::Point *)&v48->y;
+        while ( v43 );
+        ++v44;
+        v34 += 2;
+        p_mExtentsCoeff = (IceMaths::Point *)((char *)p_mExtentsCoeff + 4);
+        v52 = v34;
       }
       while ( v44 < 3 );
-      v51 = *((_DWORD *)v38 + 1);
-      v7 = Nodes;
-      if ( (v51 & 1) == 0 )
-        v51 = (unsigned int)&this->mNodes[(v51 - (unsigned int)Nodes) >> 5];
-      this->mNodes[v66].mPosData = v51;
-      v52 = *((_DWORD *)v38 + 2);
-      if ( (v52 & 1) == 0 )
-        v52 = (unsigned int)&this->mNodes[(v52 - (unsigned int)Nodes) >> 5];
-      ++v56;
-      this->mNodes[v66].mNegData = v52;
-      v36 = v59 + 20;
-      v37 = v66 * 20 + 20;
-      v38 += 8;
-      ++i;
-      v59 += 20;
-      ++v66;
-      if ( i >= this->mNbNodes )
+      v41 = *((_DWORD *)v28 + 1);
+      v7 = v53;
+      if ( (v41 & 1) == 0 )
+        v41 = (unsigned int)&this->mNodes[(v41 - (unsigned int)v53) >> 5];
+      this->mNodes[v27].mPosData = v41;
+      v42 = *((_DWORD *)v28 + 2);
+      if ( (v42 & 1) == 0 )
+        v42 = (unsigned int)&this->mNodes[(v42 - (unsigned int)v53) >> 5];
+      ++v51;
+      this->mNodes[v27].mNegData = v42;
+      v28 += 8;
+      ++v27;
+      if ( v51 >= this->mNbNodes )
         break;
-      x = EMax.x;
-      v25 = CMax.z;
-      y = CMax.y;
-      v28 = EMax.z;
+      v17 = v61;
+      v18 = v62;
+      v16 = v60;
     }
   }
-  this->m_allocator->call_free(this->m_allocator, &v7[-1].mPosData);
+  this->m_allocator->call_free(
+    this->m_allocator,
+    &v7[-1].mPosData,
+    "Opcode::AABBQuantizedNoLeafTree::Build",
+    ".\\OPC_OptimizedTree.cpp",
+    739u);
   return 1;
 }

@@ -43,7 +43,7 @@ void __usercall Scaleform::GFx::Button::PropagateNoAdvanceLocalFlag(
             v10 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *))v8->CheckAdvanceStatus)(v8);
             if ( v10 == -1 )
             {
-              v8->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+              v8->Flags |= (unsigned int)&loc_400000;
             }
             else if ( v10 == 1 )
             {

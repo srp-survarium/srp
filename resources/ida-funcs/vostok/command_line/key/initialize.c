@@ -8,8 +8,7 @@ void __usercall vostok::command_line::key::initialize(vostok::command_line::key 
 void __userpurge vostok::command_line::key::initialize(char *value@<eax>, vostok::command_line::key *this)
 {
   char *m_begin; // eax
-  int v4; // ecx
-  int v5; // eax
+  int v4; // eax
 
   if ( value && *value )
   {
@@ -21,13 +20,13 @@ void __userpurge vostok::command_line::key::initialize(char *value@<eax>, vostok
       vostok::buffer_string::operator+=(&this->m_string_value, value);
     }
     strchr(value, 0x3Au);
-    if ( v5 )
-      this->m_type = type_temp_node;
+    if ( v4 )
+      this->m_type = type_string;
     else
-      this->m_type = 4 - vostok::strings::convert_string_to_number(value, &this->m_number_value, v4, (unsigned int)this);
+      this->m_type = 4 - vostok::strings::convert_string_to_number(value, &this->m_number_value);
   }
   else
   {
-    this->m_type = type_non_recursive;
+    this->m_type = type_void;
   }
 }

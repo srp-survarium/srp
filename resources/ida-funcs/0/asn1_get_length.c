@@ -1,4 +1,4 @@
-int __usercall asn1_get_length@<eax>(const unsigned __int8 **pp@<ebx>, int *inf@<ecx>, int max@<edx>, int *rl)
+int __usercall asn1_get_length@<eax>(const unsigned __int8 **pp@<ebx>, int *inf@<ecx>, int max@<edx>, unsigned int *rl)
 {
   int v4; // eax
   unsigned int v5; // esi

@@ -1,65 +1,52 @@
 void __thiscall vostok::render::scene_renderer::reload_shaders(vostok::render::scene_renderer *this)
 {
-  char *v2; // edi
-  vostok::render::one_way_render_channel *m_channel; // ebp
-  bool v4; // zf
-  void (__cdecl *v5)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *> > > v7; // [esp-8h] [ebp-60h]
-  char v8; // [esp+14h] [ebp-44h]
-  boost::function4<void,unsigned int,float,float,char const *> v9; // [esp+18h] [ebp-40h] BYREF
-  boost::function0<void> f; // [esp+38h] [ebp-20h] BYREF
+  vostok::memory::base_allocator *m_allocator; // ecx
+  vostok::render::base_command *v3; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *> > > v5; // [esp-8h] [ebp-60h]
+  int v6; // [esp+0h] [ebp-58h]
+  char v7; // [esp+10h] [ebp-48h]
+  vostok::render::functor_command *v8; // [esp+14h] [ebp-44h]
+  boost::function<void __cdecl(vostok::render::base_command &)> on_defer_execution; // [esp+18h] [ebp-40h] BYREF
+  boost::function<void __cdecl(void)> on_execute; // [esp+38h] [ebp-20h] BYREF
 
-  v8 = 0;
-  v2 = (char *)this->m_allocator->call_malloc(this->m_allocator, 152);
-  if ( v2 )
+  v7 = 0;
+  v8 = (vostok::render::functor_command *)vostok::memory::new_helper<vostok::render::functor_command>::call<vostok::memory::base_allocator>(
+                                            this->m_allocator,
+                                            "vostok::render::scene_renderer::reload_shaders",
+                                            (const char *const)0x38E);
+  if ( v8 )
   {
-    v7.l_.a1_.t_ = this->m_render_engine_world;
-    v7.f_.f_ = vostok::render::engine::world::reload_shaders;
-    f.vtable = 0;
-    boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *>>>>(
-      (boost::function0<void> *)vostok::render::engine::world::reload_shaders,
-      (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *> > > *)&f,
-      v7);
-    v9.vtable = 0;
-    v2[12] = 0;
-    v2[13] = 1;
-    *((_DWORD *)v2 + 20) = 0;
-    *(_DWORD *)v2 = &vostok::render::functor_command::`vftable';
-    v8 = 3;
-    *((_DWORD *)v2 + 22) = 0;
-    boost::function0<void>::assign_to_own((boost::function0<void> *)(v2 + 88), &f);
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(&v9, (int)(v2 + 120));
+    v5.l_.a1_.t_ = this->m_render_engine_world;
+    v5.f_.f_ = vostok::render::engine::world::reload_shaders;
+    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+      (boost::function<void __cdecl(void)> *)vostok::render::engine::world::reload_shaders,
+      (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::engine::world>,boost::_bi::list1<boost::_bi::value<vostok::render::engine::world *> > > *)&on_execute,
+      v5,
+      v6);
+    m_allocator = this->m_allocator;
+    on_defer_execution.vtable = 0;
+    v7 = 3;
+    vostok::render::functor_command::functor_command(
+      v8,
+      m_allocator,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_defer_execution,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_execute);
   }
   else
   {
-    v2 = 0;
+    v3 = 0;
   }
-  m_channel = this->m_channel;
-  v4 = m_channel->m_channel.m_forward_queue.m_tail->next == 0;
-  *((_DWORD *)v2 + 1) = 0;
-  _InterlockedExchange((volatile __int32 *)&m_channel->m_channel.m_forward_queue.m_head->next, (__int32)v2);
-  m_channel->m_channel.m_forward_queue.m_head = (vostok::render::base_command *)v2;
-  if ( v4 )
-    SetEvent(*(HANDLE *)m_channel->m_wait_form_command_event.m_event.m_event);
-  if ( (v8 & 2) != 0 )
+  vostok::render::one_way_render_channel::owner_push_back(this->m_channel, v3);
+  if ( (v7 & 2) != 0 )
   {
-    v8 &= ~2u;
-    if ( v9.vtable )
-    {
-      if ( ((int)v9.vtable & 1) == 0 )
-      {
-        v5 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v9.vtable & 0xFFFFFFFE);
-        if ( v5 )
-          v5(&v9.functor, &v9.functor, 2);
-      }
-      v9.vtable = 0;
-    }
+    v7 &= ~2u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v4,
+      (int *)&on_defer_execution);
   }
-  if ( (v8 & 1) != 0 && f.vtable && ((int)f.vtable & 1) == 0 )
-  {
-    v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)f.vtable & 0xFFFFFFFE);
-    if ( v6 )
-      v6(&f.functor, &f.functor, 2);
-  }
+  if ( (v7 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v4,
+      (int *)&on_execute);
 }

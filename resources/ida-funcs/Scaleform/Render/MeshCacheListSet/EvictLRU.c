@@ -4,13 +4,16 @@ char __thiscall Scaleform::Render::MeshCacheListSet::EvictLRU(
         Scaleform::AllocAddr *a,
         unsigned int size)
 {
-  Scaleform::Render::MeshCacheItem *pPrev; // eax
+  Scaleform::Render::MeshCacheItem *pPrev; // edx
 
   pPrev = list->Root.pPrev;
   if ( (Scaleform::Render::MeshCacheListSet::ListSlot *)list->Root.pPrev == list )
     return 0;
-  while ( this->pCache->Evict(this->pCache, pPrev, a, 0) < size )
+  while ( 1 )
   {
+    ++this->pCache->Thrashing;
+    if ( this->pCache->Evict(this->pCache, pPrev, a, 0) >= size )
+      break;
     pPrev = list->Root.pPrev;
     if ( (Scaleform::Render::MeshCacheListSet::ListSlot *)list->Root.pPrev == list )
       return 0;

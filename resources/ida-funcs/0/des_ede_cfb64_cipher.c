@@ -1,12 +1,8 @@
-int __cdecl des_ede_cfb64_cipher(
-        evp_cipher_ctx_st *ctx,
-        unsigned __int8 *out,
-        const unsigned __int8 *in,
-        unsigned int inl)
+int __cdecl des_ede_cfb64_cipher(evp_cipher_ctx_st *ctx, unsigned __int8 *out, unsigned __int8 *in, unsigned int inl)
 {
   unsigned __int8 *v4; // ebx
   int v5; // ebp
-  const unsigned __int8 *v6; // edi
+  unsigned __int8 *v6; // edi
 
   v4 = out;
   v5 = inl;

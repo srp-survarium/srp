@@ -1,123 +1,177 @@
-void __thiscall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this,
-        vostok::render::resource_manager *rt,
-        const char *name)
+void __userpurge vostok::render::resource_manager::release(
+        vostok::render::render_target *rt@<eax>,
+        vostok::render::resource_manager *this)
 {
-  char *v3; // ebp
-  volatile signed __int32 *v4; // ecx
-  int v5; // eax
-  const vostok::render::render_target *v6; // eax
-  vostok::render::grass_render_model *m_object; // esi
-  vostok::render::render_target *v8; // ecx
-  int v9; // [esp-4h] [ebp-10h] BYREF
+  bool v3; // zf
+  vostok::strings::shared::profile *m_object; // eax
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v5; // ecx
+  vostok::strings::shared::profile *v6; // eax
+  stlp_std::priv::_Rb_tree_node_base *v7; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v8; // ecx
+  stlp_std::priv::_Rb_tree_node_base *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  vostok::memory::doug_lea_allocator *v11; // esi
+  vostok::render::render_target *v12; // ecx
+  vostok::memory::doug_lea_allocator *v13; // ecx
+  bool has_passed_filters; // al
+  vostok::strings::shared::profile *v15; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v16; // [esp-4h] [ebp-44h]
+  const char *v17; // [esp+0h] [ebp-40h]
+  const char *v18; // [esp+0h] [ebp-40h]
+  const char *v19; // [esp+4h] [ebp-3Ch]
+  const char *v20; // [esp+4h] [ebp-3Ch]
+  unsigned int v21; // [esp+8h] [ebp-38h]
+  unsigned int v22; // [esp+8h] [ebp-38h]
+  vostok::shared_string v23; // [esp+10h] [ebp-30h] BYREF
+  int v24; // [esp+14h] [ebp-2Ch]
+  vostok::strings::shared::profile *v25; // [esp+18h] [ebp-28h] BYREF
+  vostok::shared_string *p_m_name; // [esp+1Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v27; // [esp+20h] [ebp-20h] BYREF
 
-  v3 = (char *)name;
-  if ( name[56] )
+  v3 = !rt->m_is_registered;
+  v24 = 0;
+  if ( !v3 )
   {
-    v4 = (volatile signed __int32 *)*((_DWORD *)name + 1);
-    v5 = 0;
-    if ( v4
-      && (v5 = *((_DWORD *)name + 1),
-          _InterlockedExchangeAdd(v4, 1u),
-          vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) )
+    p_m_name = &rt->m_name;
+    m_object = rt->m_name.m_pointer.m_object;
+    v23.m_pointer.m_object = 0;
+    if ( m_object )
     {
-      name = (const char *)(v5 + 16);
+      v23.m_pointer.m_object = m_object;
+      _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
+    }
+    v25 = vostok::shared_string::c_str(&v23);
+    if ( v23.m_pointer.m_object )
+    {
+      v6 = v23.m_pointer.m_object;
+      v5 = (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)_InterlockedExchangeAdd(&v23.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+      if ( !v5 )
+        vostok::strings::shared::detail::intrusive_base::destroy(
+          0,
+          (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)v6);
+    }
+    v7 = stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
+           v5,
+           (const char *const *)&this->m_rt_registry,
+           (const char **)&v25);
+    if ( v7 == (stlp_std::priv::_Rb_tree_node_base *)&this->m_rt_registry )
+    {
+      if ( !vostok::core::g_log_filter_tree
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v8 = v16,
+            has_passed_filters) )
+      {
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v8,
+          &v27);
+        v24 = 1;
+        v15 = vostok::shared_string::c_str(p_m_name);
+        vostok::logging::append(
+          &v27,
+          (void *const)vostok::core::g_log_flags,
+          &vostok::core::g_log_format,
+          ".\\resource_manager.cpp",
+          0xF68u,
+          "void __thiscall vostok::render::resource_manager::release(const class vostok::render::render_target *)",
+          (char *)&initiator_raw.initiator_tree,
+          error,
+          "! ERROR: Failed to find render-target '%s'",
+          (const char *)v15);
+      }
+      if ( (v24 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v8,
+          (int *)&v27);
     }
     else
     {
-      name = 0;
-    }
-    if ( v5 && !_InterlockedExchangeAdd((volatile signed __int32 *)v5, 0xFFFFFFFF) )
-    {
-      v9 = v5;
-      vostok::strings::shared::manager::remove(
-        (vostok::strings::shared::manager *)v5,
-        (vostok::strings::shared::profile *)s_manager.m_variable);
-    }
-    v6 = (const vostok::render::render_target *)stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
-                                                  (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&name,
-                                                  (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&rt->m_rt_registry,
-                                                  &name);
-    if ( v6 != (const vostok::render::render_target *)&rt->m_rt_registry )
-    {
-      stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::erase(
-        (stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::render_target *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)&v9,
-        (int)&rt->m_rt_registry,
-        (stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >)v6);
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::render_target::~render_target(v8, v3);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), v3);
+      v9 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+             v7,
+             &this->m_rt_registry._M_t._M_header._M_data._M_parent,
+             &this->m_rt_registry._M_t._M_header._M_data._M_left,
+             &this->m_rt_registry._M_t._M_header._M_data._M_right);
+      vostok::memory::doug_lea_allocator::free_impl(
+        v10,
+        (int)vostok::render::g_allocator,
+        (char *)&v9->_M_color,
+        v17,
+        v19,
+        v21);
+      --this->m_rt_registry._M_t._M_node_count;
+      v11 = vostok::render::g_allocator;
+      vostok::render::render_target::~render_target(v12, (int)rt);
+      vostok::memory::doug_lea_allocator::free_impl(v13, (int)v11, (char *)rt, v18, v20, v22);
     }
   }
 }
 
 
-void __usercall vostok::render::resource_manager::release(
+void __userpurge vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_declaration *dcl@<eax>)
+        int a2@<eax>,
+        vostok::render::res_pass *dcl)
 {
-  char v2; // bl
-  vostok::render::res_declaration *v4; // ecx
-  vostok::render::grass_render_model *m_object; // ebx
-  vostok::render::res_declaration *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // esi
+  vostok::render::res_state *m_object; // ecx
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  bool has_passed_filters; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v10; // [esp-4h] [ebp-34h]
+  const char *v11; // [esp+0h] [ebp-30h]
+  const char *v12; // [esp+4h] [ebp-2Ch]
+  unsigned int v13; // [esp+8h] [ebp-28h]
+  char v14; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v15; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( dcl->m_is_registered )
+  v14 = 0;
+  if ( LOBYTE(dcl[165].m_ps.m_object) )
   {
-    if ( vostok::render::reclaim<vostok::render::res_declaration,vostok::render::resource_manager::compare_predicate<vostok::render::res_declaration>>(
-           &this->m_declarations,
-           dcl) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)&loc_938E8 + a2),
+           dcl);
+    v4 = v9;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_declaration::~res_declaration(v4);
-      v6 = dcl;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      m_object = dcl[37].m_state.m_object;
+      dcl[37].m_vs.m_object = (vostok::render::res_xs<vostok::render::vs_data> *)m_object;
+      vostok::buffer_vector<vostok::render::signature_layout_pair>::~buffer_vector<vostok::render::signature_layout_pair>(
+        (vostok::buffer_vector<vostok::render::signature_layout_pair> *)m_object,
+        (int *)&dcl->m_state);
+      vostok::memory::doug_lea_allocator::free_impl(v7, (int)v5, (char *)dcl, v11, v12, v13);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v10,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v15);
+        v14 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v15,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xB53u,
+          0xEBBu,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_declaration *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "! ERROR: Failed to find compiled vertex-declarator");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v14 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v15);
     }
   }
 }
@@ -125,415 +179,327 @@ void __usercall vostok::render::resource_manager::release(
 
 void __usercall vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_geometry *geom@<eax>)
+        vostok::render::res_pass *geom@<eax>)
 {
-  char v2; // bl
-  vostok::render::res_geometry *v4; // ecx
-  vostok::render::grass_render_model *m_object; // edi
-  vostok::render::res_geometry *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_geometry *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( geom->m_is_registered )
+  v13 = 0;
+  if ( LOBYTE(geom->m_input_layout.m_object) )
   {
-    if ( vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
-           &this->m_geometries,
-           geom) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)this + (_DWORD)&loc_94631 + 3),
+           geom);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_geometry::~res_geometry(v4);
-      v6 = geom;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_geometry::~res_geometry(v8, (int)geom);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)geom, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xD3Eu,
+          0x10C7u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_geometry *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find the geometry.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
 
 
-void __thiscall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this,
-        const vostok::render::res_input_layout *layout)
+void __usercall vostok::render::resource_manager::release(
+        vostok::render::resource_manager *this@<ecx>,
+        vostok::render::res_pass *layout@<eax>)
 {
-  char v2; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v3; // ecx
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_input_layout *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( layout->m_is_registered )
+  v13 = 0;
+  if ( LOBYTE(layout->m_ps.m_object) )
   {
-    if ( vostok::render::reclaim<vostok::render::res_input_layout,vostok::render::resource_manager::compare_predicate<vostok::render::res_input_layout>>(
-           (vostok::render::res_input_layout *const *)&this->m_input_layouts,
-           layout) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)this + (_DWORD)&loc_93914 + 4),
+           layout);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::res_input_layout,vostok::render::resource_manager_call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-        (vostok::render::res_input_layout **)&layout);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_input_layout::~res_input_layout(
+        v8,
+        (vostok::intrusive_ptr<vostok::render::res_signature const ,vostok::render::res_signature const ,vostok::threading::single_threading_policy> *)layout);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)layout, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v4 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v4 )
-        {
-          log_callback.functor.obj_ptr = v4;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xBAAu,
+          0xF12u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_input_layout *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "! ERROR: Failed to find created layout");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v3,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
 
 
 void __usercall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this@<eax>,
-        vostok::render::res_state *render_output@<edi>)
+        vostok::render::resource_manager *this@<ecx>,
+        vostok::render::res_render_output *render_output@<eax>)
 {
-  char v2; // bl
-  vostok::render::res_render_output *v3; // ecx
-  vostok::render::grass_render_model *m_object; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v5; // ecx
-  void (__cdecl *v6)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  char v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_render_output *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( BYTE2(render_output[9].m_blend_state) )
+  v13 = 0;
+  if ( render_output->m_is_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-           (vostok::render::vector<vostok::render::res_state *> *)&this->m_render_outputs,
-           render_output) )
+    v3 = vostok::render::reclaim<vostok::render::res_render_output,64>(render_output);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_render_output::~res_render_output(v3, (int)render_output);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), render_output);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_render_output::~res_render_output(
+        v8,
+        (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)render_output);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)render_output, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v6 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v6 )
-        {
-          log_callback.functor.obj_ptr = v6;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xD5Au,
+          0x10E3u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_render_output *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to render output in registry.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v5,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
 
 
-void __thiscall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this,
-        const vostok::render::res_sampler_list *smp_list)
+void __usercall vostok::render::resource_manager::release(
+        vostok::render::resource_manager *this@<ecx>,
+        vostok::render::res_pass *smp_list@<eax>)
 {
-  char v2; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v3; // ecx
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::render::res_state *m_object; // ecx
+  bool has_passed_filters; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v8; // [esp-4h] [ebp-34h]
+  const char *v9; // [esp+0h] [ebp-30h]
+  const char *v10; // [esp+4h] [ebp-2Ch]
+  unsigned int v11; // [esp+8h] [ebp-28h]
+  char v12; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v13; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( smp_list->m_is_registered )
+  v12 = 0;
+  if ( smp_list[55].m_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::res_sampler_list,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_sampler_list>>(
-           (const vostok::render::res_sampler_list *const *)&this->m_sampler_lists,
-           (stlp_std::priv::_Rb_tree<vostok::render::res_sampler_list *,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_sampler_list>,vostok::render::res_sampler_list *,stlp_std::priv::_Identity<vostok::render::res_sampler_list *>,stlp_std::priv::_SetTraitsT<vostok::render::res_sampler_list *>,vostok::render::std_allocator<vostok::render::res_sampler_list *> > *)this) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)this + (_DWORD)&loc_9395C + 4),
+           smp_list);
+    v4 = v7;
+    if ( v3 )
     {
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::res_sampler_list,vostok::render::resource_manager_call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-        (vostok::render::res_sampler_list **)&smp_list);
+      m_object = smp_list[5].m_state.m_object;
+      smp_list[5].m_vs.m_object = (vostok::render::res_xs<vostok::render::vs_data> *)m_object;
+      smp_list->m_vs.m_object = (vostok::render::res_xs<vostok::render::vs_data> *)smp_list->m_state.m_object;
+      vostok::memory::doug_lea_allocator::free_impl(
+        (vostok::memory::doug_lea_allocator *)m_object,
+        (int)vostok::render::g_allocator,
+        (char *)smp_list,
+        v9,
+        v10,
+        v11);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v8,
+            has_passed_filters) )
       {
-        v4 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v4 )
-        {
-          log_callback.functor.obj_ptr = v4;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v13);
+        v12 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v13,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xC7Eu,
+          0x1007u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_sampler_list *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find compiled list of samplers");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v3,
-          (int *)&log_callback);
+      if ( (v12 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v13);
     }
   }
 }
 
 
-void __thiscall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this,
-        const vostok::render::res_signature *signature)
+void __usercall vostok::render::resource_manager::release(
+        vostok::render::resource_manager *this@<ecx>,
+        vostok::render::res_pass *signature@<eax>)
 {
-  char v2; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v3; // ecx
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  vostok::memory::doug_lea_allocator *v4; // ecx
+  vostok::render::res_state *m_object; // eax
+  vostok::memory::doug_lea_allocator *v6; // edi
+  bool has_passed_filters; // al
+  vostok::memory::doug_lea_allocator *v8; // [esp-4h] [ebp-34h]
+  vostok::memory::doug_lea_allocator *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( signature->m_is_registered )
+  v13 = 0;
+  if ( LOBYTE(signature->m_vs.m_object) )
   {
-    if ( vostok::render::reclaim<vostok::render::res_signature,vostok::render::resource_manager::compare_predicate<vostok::render::res_signature>>(
-           &this->m_signatures,
-           signature) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)&loc_93900 + (_DWORD)this),
+           signature);
+    v4 = v8;
+    if ( v3 )
     {
-      vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::res_signature const,vostok::render::resource_manager_call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-        (const vostok::render::untyped_buffer **)&signature);
+      m_object = signature->m_state.m_object;
+      v6 = vostok::render::g_allocator;
+      if ( m_object )
+      {
+        (*(void (__stdcall **)(vostok::render::res_state *))(m_object->m_reference_count + 8))(signature->m_state.m_object);
+        signature->m_state.m_object = 0;
+      }
+      vostok::memory::doug_lea_allocator::free_impl(v4, (int)v6, (char *)signature, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v4 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v4 )
-        {
-          log_callback.functor.obj_ptr = v4;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xB7Eu,
+          0xEE6u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_signature *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "! ERROR: Failed to find created signature.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v3,
-          (int *)&log_callback);
-    }
-  }
-}
-
-
-void __usercall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this@<eax>,
-        vostok::render::res_state *state@<edi>)
-{
-  char v2; // bl
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v4; // ecx
-  void (__cdecl *v5)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
-
-  v2 = 0;
-  if ( state->m_is_registered )
-  {
-    if ( vostok::render::reclaim<vostok::render::untyped_buffer>(&this->m_states, state) )
-    {
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, state);
-    }
-    else
-    {
-      if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
-      {
-        v5 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v5 )
-        {
-          log_callback.functor.obj_ptr = v5;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
-        vostok::logging::append(
-          &log_callback,
-          (void *const)vostok::core::g_log_flags,
-          &vostok::core::g_log_format,
-          ".\\resource_manager.cpp",
-          0xB25u,
-          "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_state *)",
-          "render:",
-          error,
-          "!ERROR: Failed to find compiled stateblock");
-      }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v4,
-          (int *)&log_callback);
-    }
-  }
-}
-
-
-void __usercall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this@<ecx>,
-        const vostok::render::res_texture *texture@<esi>)
-{
-  vostok::render::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred> *p_m_texture_registry; // edi
-  const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v3; // eax
-  vostok::render::resource_manager *v4[2]; // [esp-4h] [ebp-Ch] BYREF
-  const char *name; // [esp+4h] [ebp-4h] BYREF
-
-  if ( texture->m_is_registered )
-  {
-    p_m_texture_registry = &this->m_texture_registry;
-    name = texture->m_name.m_string.m_begin;
-    v3 = stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
-           (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)&name,
-           &this->m_texture_registry._M_t,
-           &name);
-    if ( v3 != (const stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)p_m_texture_registry )
-    {
-      stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::erase(
-        (stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::render_target *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)v4,
-        (int)p_m_texture_registry,
-        (stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >)v3);
-      vostok::render::resource_manager::release_impl(texture, v4[1]);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
@@ -541,291 +507,320 @@ void __usercall vostok::render::resource_manager::release(
 
 void __thiscall vostok::render::resource_manager::release(
         vostok::render::resource_manager *this,
-        const vostok::render::res_texture_list *tex_list)
+        vostok::render::res_texture *texture,
+        vostok::render::res_texture *a3)
 {
-  char v2; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v3; // ecx
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  vostok::render::res_texture *v3; // ebx
+  float w; // esi
+  vostok::fixed_string<260> *v5; // eax
+  stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *v6; // ecx
+  stlp_std::priv::_Rb_tree_node_base *v7; // eax
+  stlp_std::priv::_Rb_tree_node_base *v8; // eax
+  const char *v9; // esi
+  vostok::memory::doug_lea_allocator *v10; // ecx
+  unsigned int v11; // ecx
+  vostok::buffer_vector<vostok::fixed_string<260> > *v12; // [esp-4h] [ebp-14h]
+  const char *v13; // [esp+0h] [ebp-10h]
+  const char *v14; // [esp+4h] [ebp-Ch]
+  unsigned int v15; // [esp+8h] [ebp-8h]
+  vostok::fixed_string<260> *where; // [esp+Ch] [ebp-4h] BYREF
 
-  v2 = 0;
-  if ( tex_list->m_is_registered )
+  v3 = texture;
+  if ( a3->m_is_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::res_texture_list,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_texture_list>>(
-           &this->m_texture_lists,
-           tex_list) )
+    w = texture->m_rescale_min.w;
+    texture = (vostok::render::res_texture *)a3->m_name.m_string.m_begin;
+    v5 = stlp_std::priv::__find<vostok::fixed_string<260> *,char const *>(
+           (vostok::fixed_string<260> *)LODWORD(v3->m_rescale_min.z),
+           (vostok::fixed_string<260> *)LODWORD(w),
+           (const char **)&texture);
+    v6 = (stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::res_texture *> >,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *> > > *)v12;
+    where = v5;
+    if ( v5 != (vostok::fixed_string<260> *)LODWORD(w) )
+      vostok::buffer_vector<vostok::fixed_string<260>>::erase(v12, &v3->m_rescale_min.z, &where);
+    v7 = stlp_std::priv::_Rb_tree<vostok::fs_new::virtual_path_string,vostok::render::resource_manager::str_pred,stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>,stlp_std::priv::_Select1st<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const,vostok::render::res_texture *>>,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::_M_find<char const *>(
+           v6,
+           (const char *const *)&v3[1211].m_desc_3d.MiscFlags,
+           (const char **)&texture);
+    if ( v7 != (stlp_std::priv::_Rb_tree_node_base *)&v3[1211].m_desc_3d.MiscFlags )
     {
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::res_texture_list,vostok::render::resource_manager_call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-        (vostok::render::res_texture_list **)&tex_list);
+      v8 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+             v7,
+             (stlp_std::priv::_Rb_tree_node_base **)&v3[1211].m_name,
+             (stlp_std::priv::_Rb_tree_node_base **)&v3[1211].m_name.m_string.m_end,
+             (stlp_std::priv::_Rb_tree_node_base **)&v3[1211].m_name.m_string.m_max_end);
+      v9 = (const char *)vostok::render::g_allocator;
+      vostok::memory::doug_lea_allocator::free_impl(
+        v10,
+        (int)vostok::render::g_allocator,
+        (char *)&v8->_M_color,
+        v13,
+        v14,
+        v15);
+      --*(_DWORD *)v3[1211].m_name.m_string.m_buffer;
+      vostok::render::resource_manager::release_impl(
+        (vostok::render::resource_manager *)v3,
+        a3,
+        v11,
+        (const char *)v3,
+        v9);
+    }
+  }
+}
+
+
+void __userpurge vostok::render::resource_manager::release(
+        vostok::render::resource_manager *this@<ecx>,
+        int a2@<eax>,
+        vostok::render::res_pass *tex_list)
+{
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // esi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::fixed_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,64> *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
+
+  v13 = 0;
+  if ( LOBYTE(tex_list[9].m_input_layout.m_object) )
+  {
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)&loc_9392C + a2 + 4),
+           tex_list);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
+    {
+      v5 = vostok::render::g_allocator;
+      vostok::fixed_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,64>::~fixed_vector<vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>,64>(
+        v8,
+        (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&tex_list->m_state);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)tex_list, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v4 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v4 )
-        {
-          log_callback.functor.obj_ptr = v4;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xC48u,
+          0xFD1u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_texture_list *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find compiled list of textures");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v3,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
 
 
-void __thiscall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this,
-        const vostok::render::shader_constant_buffer *cbuffer)
+void __userpurge vostok::render::resource_manager::release(
+        vostok::render::resource_manager *this@<ecx>,
+        int a2@<eax>,
+        vostok::render::res_pass *cbuffer)
 {
-  char v2; // bl
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v3; // ecx
-  void (__cdecl *v4)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v4; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v5; // ecx
+  vostok::memory::doug_lea_allocator *v6; // esi
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  bool has_passed_filters; // al
+  vostok::render::shader_constant_buffer *v9; // [esp-4h] [ebp-38h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v10; // [esp-4h] [ebp-38h]
+  const char *v11; // [esp+0h] [ebp-34h]
+  const char *v12; // [esp+4h] [ebp-30h]
+  unsigned int v13; // [esp+8h] [ebp-2Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-24h] BYREF
+  char ptr; // [esp+3Ch] [ebp+8h]
 
-  v2 = 0;
-  if ( cbuffer->m_is_registered )
+  ptr = 0;
+  if ( BYTE1(cbuffer[3].m_ps.m_object) )
   {
-    if ( vostok::render::reclaim<vostok::render::shader_constant_buffer,vostok::render::resource_manager::constant_buffer_predicate>(
-           (const vostok::render::shader_constant_buffer *const *)&this->m_const_buffers,
-           (stlp_std::priv::_Rb_tree<vostok::render::shader_constant_buffer *,vostok::render::resource_manager::constant_buffer_predicate,vostok::render::shader_constant_buffer *,stlp_std::priv::_Identity<vostok::render::shader_constant_buffer *>,stlp_std::priv::_SetTraitsT<vostok::render::shader_constant_buffer *>,vostok::render::std_allocator<vostok::render::shader_constant_buffer *> > *)this) )
+    v4 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)(a2 + 557268),
+           cbuffer);
+    v5 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v9;
+    if ( v4 )
     {
-      vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::shader_constant_buffer,vostok::render::resource_manager_call_destructor_predicate>(
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-        (vostok::render::shader_constant_buffer **)&cbuffer);
+      v6 = vostok::render::g_allocator;
+      vostok::render::shader_constant_buffer::~shader_constant_buffer(v9);
+      vostok::memory::doug_lea_allocator::free_impl(v7, (int)v6, (char *)cbuffer, v11, v12, v13);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v5 = v10,
+            has_passed_filters) )
       {
-        v4 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v4 )
-        {
-          log_callback.functor.obj_ptr = v4;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v5,
+          &v14);
+        ptr = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xC18u,
+          0xF87u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::shader_constant_buffer *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find shader_constant buffer");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v3,
-          (int *)&log_callback);
+      if ( (ptr & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v5,
+          (int *)&v14);
     }
   }
 }
 
 
-void __usercall vostok::render::resource_manager::release(
+void __userpurge vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::shader_constant_table *const_table@<eax>)
+        int a2@<eax>,
+        vostok::render::res_pass *const_table)
 {
-  char v2; // bl
-  vostok::render::shader_constant_table *v4; // ecx
-  vostok::render::grass_render_model *m_object; // ebx
-  vostok::render::shader_constant_table *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-20h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // esi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::shader_constant_table *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( const_table->m_is_registered )
+  v13 = 0;
+  if ( LOBYTE(const_table[33].m_reference_count) )
   {
-    if ( vostok::render::reclaim<vostok::render::shader_constant_table,vostok::render::resource_manager::constant_table_predicate>(
-           &this->m_const_tables,
-           const_table) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)(a2 + 557244),
+           const_table);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::shader_constant_table::~shader_constant_table(v4);
-      v6 = const_table;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      vostok::render::shader_constant_table::~shader_constant_table(v8, (int)const_table);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)const_table, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0x620u,
+          0x8B8u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::shader_constant_table *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find compiled shader_constant-table");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
-  }
-}
-
-
-void __userpurge vostok::render::resource_manager::release(
-        vostok::render::res_state *buffer@<edi>,
-        vostok::render::resource_manager *this)
-{
-  ID3D11Buffer *m_rasterizer_state; // eax
-  vostok::render::grass_render_model *m_object; // esi
-
-  if ( vostok::render::reclaim<vostok::render::untyped_buffer>(
-         (vostok::render::vector<vostok::render::res_state *> *)&this->m_buffers,
-         buffer) )
-  {
-    this->m_num_bytes_of_buffers_video_memory -= (unsigned int)buffer->m_depth_stencil_state;
-    m_rasterizer_state = (ID3D11Buffer *)buffer->m_rasterizer_state;
-    m_object = vostok::render::g_allocator.m_object;
-    if ( m_rasterizer_state )
-    {
-      m_rasterizer_state->Release(buffer->m_rasterizer_state);
-      buffer->m_rasterizer_state = 0;
-    }
-    BYTE2(m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), buffer);
   }
 }
 
 
 void __usercall vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs<vostok::render::gs_data> *gs@<eax>)
+        vostok::render::res_pass *gs@<eax>)
 {
-  char v2; // bl
-  vostok::render::res_xs<vostok::render::gs_data> *v4; // ecx
-  vostok::render::grass_render_model *m_object; // edi
-  vostok::render::res_xs<vostok::render::gs_data> *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-24h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_xs<vostok::render::gs_data> *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v12; // [esp+8h] [ebp-28h] BYREF
+  int v13; // [esp+2Ch] [ebp-4h]
 
-  v2 = 0;
-  if ( gs->m_is_registered )
+  v13 = 0;
+  if ( gs->m_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::res_xs<vostok::render::vs_data>,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>>(
-           (const vostok::render::res_xs<vostok::render::vs_data> *const *)&this->m_g_shaders,
-           (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)this) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)&this->m_g_shaders,
+           gs);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_xs<vostok::render::gs_data>::~res_xs<vostok::render::gs_data>(v4, (int)gs);
-      v6 = gs;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_xs<vostok::render::gs_data>::`scalar deleting destructor'(v8, (int)gs);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)gs, v10, v11, (const unsigned int)v12.vtable);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v12);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v12,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xCDFu,
+          0x1068u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_xs<struct vostok::re"
           "nder::gs_data> *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find GS.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v12);
     }
   }
 }
@@ -833,70 +828,63 @@ void __usercall vostok::render::resource_manager::release(
 
 void __usercall vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs<vostok::render::ps_data> *ps@<eax>)
+        vostok::render::res_pass *ps@<eax>)
 {
-  char v2; // bl
-  vostok::render::res_xs<vostok::render::ps_data> *v4; // ecx
-  vostok::render::grass_render_model *m_object; // edi
-  vostok::render::res_xs<vostok::render::ps_data> *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-24h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_xs<vostok::render::ps_data> *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  unsigned int v12; // [esp+8h] [ebp-28h]
+  char v13; // [esp+Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v14; // [esp+10h] [ebp-20h] BYREF
 
-  v2 = 0;
-  if ( ps->m_is_registered )
+  v13 = 0;
+  if ( ps->m_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::res_xs<vostok::render::vs_data>,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>>(
-           (const vostok::render::res_xs<vostok::render::vs_data> *const *)&this->m_p_shaders,
-           (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)this) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)&this->m_p_shaders,
+           ps);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_xs<vostok::render::ps_data>::~res_xs<vostok::render::ps_data>(v4, (int)ps);
-      v6 = ps;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_xs<vostok::render::ps_data>::`scalar deleting destructor'(v8, (int)ps);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)ps, v10, v11, v12);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v14);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v14,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xD0Cu,
+          0x1095u,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_xs<struct vostok::re"
           "nder::ps_data> *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find PS.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v14);
     }
   }
 }
@@ -904,95 +892,62 @@ void __usercall vostok::render::resource_manager::release(
 
 void __usercall vostok::render::resource_manager::release(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs<vostok::render::vs_data> *vs@<eax>)
+        vostok::render::res_pass *vs@<eax>)
 {
-  char v2; // bl
-  vostok::render::res_xs<vostok::render::vs_data> *v4; // ecx
-  vostok::render::grass_render_model *m_object; // edi
-  vostok::render::res_xs<vostok::render::vs_data> *v6; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v8; // ecx
-  void (__cdecl *v9)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+10h] [ebp-24h] BYREF
+  bool v3; // al
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // edi
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  bool has_passed_filters; // al
+  vostok::render::res_xs<vostok::render::vs_data> *v8; // [esp-4h] [ebp-34h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v9; // [esp-4h] [ebp-34h]
+  const char *v10; // [esp+0h] [ebp-30h]
+  const char *v11; // [esp+4h] [ebp-2Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v12; // [esp+8h] [ebp-28h] BYREF
+  int v13; // [esp+2Ch] [ebp-4h]
 
-  v2 = 0;
-  if ( vs->m_is_registered )
+  v13 = 0;
+  if ( vs->m_registered )
   {
-    if ( vostok::render::reclaim<vostok::render::res_xs<vostok::render::vs_data>,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>>(
-           (const vostok::render::res_xs<vostok::render::vs_data> *const *)&this->m_v_shaders,
-           (stlp_std::priv::_Rb_tree<vostok::render::res_xs<vostok::render::vs_data> *,vostok::render::resource_manager::compare_shader_predicate<vostok::render::vs_data>,vostok::render::res_xs<vostok::render::vs_data> *,stlp_std::priv::_Identity<vostok::render::res_xs<vostok::render::vs_data> *>,stlp_std::priv::_SetTraitsT<vostok::render::res_xs<vostok::render::vs_data> *>,vostok::render::std_allocator<vostok::render::res_xs<vostok::render::vs_data> *> > *)this) )
+    v3 = vostok::render::reclaim<vostok::render::res_geometry,vostok::render::resource_manager::compare_member_predicate<vostok::render::res_geometry>>(
+           (vostok::render::set<vostok::render::res_pass *,vostok::render::effect_manager::compare_predicate<vostok::render::res_pass> > *)((char *)&loc_88150 + (_DWORD)this),
+           vs);
+    v4 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v8;
+    if ( v3 )
     {
-      m_object = vostok::render::g_allocator.m_object;
-      vostok::render::res_xs<vostok::render::vs_data>::~res_xs<vostok::render::vs_data>(v4, (int)vs);
-      v6 = vs;
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
+      v5 = vostok::render::g_allocator;
+      vostok::render::res_xs<vostok::render::vs_data>::`scalar deleting destructor'(v8, (int)vs);
+      vostok::memory::doug_lea_allocator::free_impl(v6, (int)v5, (char *)vs, v10, v11, (const unsigned int)v12.vtable);
     }
     else
     {
       if ( !vostok::core::g_log_filter_tree
-        || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render:", error) )
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)&initiator_raw.initiator_tree,
+                                   (const char *)2),
+            v4 = v9,
+            has_passed_filters) )
       {
-        v9 = vostok::core::g_log_callback;
-        log_callback.vtable = 0;
-        if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-          `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-            &log_callback.functor,
-            &log_callback.functor,
-            destroy_functor_tag);
-        if ( v9 )
-        {
-          log_callback.functor.obj_ptr = v9;
-          log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                       + 1);
-        }
-        else
-        {
-          log_callback.vtable = 0;
-        }
-        v2 = 1;
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v4,
+          &v12);
+        v13 = 1;
         vostok::logging::append(
-          &log_callback,
+          &v12,
           (void *const)vostok::core::g_log_flags,
           &vostok::core::g_log_format,
           ".\\resource_manager.cpp",
-          0xCB3u,
+          0x103Cu,
           "void __thiscall vostok::render::resource_manager::release(const class vostok::render::res_xs<struct vostok::re"
           "nder::vs_data> *)",
-          "render:",
+          (char *)&initiator_raw.initiator_tree,
           error,
           "!ERROR: Failed to find VS.");
       }
-      if ( (v2 & 1) != 0 )
-        boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-          v8,
-          (int *)&log_callback);
+      if ( (v13 & 1) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v4,
+          (int *)&v12);
     }
   }
-}
-
-
-void __usercall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs_hw<vostok::render::gs_data> *gs@<eax>)
-{
-  vostok::render::resource_manager::release_impl<vostok::render::gs_data>(this, gs);
-}
-
-
-void __usercall vostok::render::resource_manager::release(
-        vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs_hw<vostok::render::ps_data> *ps@<eax>)
-{
-  vostok::render::resource_manager::release_impl<vostok::render::ps_data>(this, ps);
-}
-
-
-void __userpurge vostok::render::resource_manager::release(
-        const vostok::render::res_xs_hw<vostok::render::vs_data> *vs@<eax>,
-        vostok::render::resource_manager *a2@<ecx>,
-        vostok::render::resource_manager *this)
-{
-  vostok::render::resource_manager::release_impl<vostok::render::vs_data>(a2, (int)this, vs);
 }

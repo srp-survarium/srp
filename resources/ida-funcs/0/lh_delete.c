@@ -1,4 +1,4 @@
-void *__cdecl lh_delete(lhash_st *lh, const void *data)
+void *__cdecl lh_delete(lhash_st *lh, void *data)
 {
   lhash_st *v2; // esi
   lhash_node_st **v3; // eax

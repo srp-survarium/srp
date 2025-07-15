@@ -15,9 +15,9 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
   unsigned __int16 v14; // dx
   unsigned int v15; // eax
   unsigned int v16; // [esp+14h] [ebp-20h]
-  Scaleform::LockSafe *rl; // [esp+28h] [ebp-Ch]
-  unsigned int actualAlign; // [esp+2Ch] [ebp-8h] BYREF
-  unsigned int actualSize; // [esp+30h] [ebp-4h] BYREF
+  Scaleform::LockSafe *lpCriticalSection; // [esp+28h] [ebp-Ch]
+  unsigned int v18; // [esp+2Ch] [ebp-8h] BYREF
+  int v19; // [esp+30h] [ebp-4h] BYREF
 
   Limit = this->Limit;
   if ( Limit )
@@ -39,9 +39,9 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
   }
   *limHandlerOK = 0;
   p_RootLock = &Scaleform::HeapPT::GlobalRoot->RootLock;
-  rl = &Scaleform::HeapPT::GlobalRoot->RootLock;
+  lpCriticalSection = &Scaleform::HeapPT::GlobalRoot->RootLock;
   EnterCriticalSection(&Scaleform::HeapPT::GlobalRoot->RootLock.mLock.cs);
-  v10 = (Scaleform::Heap::HeapSegment *)Scaleform::HeapPT::Bookkeeper::Alloc(this->pBookkeeper, 0x20u);
+  v10 = Scaleform::HeapPT::Bookkeeper::Alloc(this->pBookkeeper, (Scaleform::Heap::HeapSegment *)0x20);
   if ( !v10 )
     goto LABEL_9;
   v10->SelfSize = 32;
@@ -53,16 +53,11 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::AllocEngine::allocSe
   v10->pData = 0;
   if ( dataSize )
   {
-    v11 = (unsigned __int8 *)this->pSysAlloc->AllocSysDirect(
-                               this->pSysAlloc,
-                               dataSize,
-                               alignSize,
-                               &actualSize,
-                               &actualAlign);
+    v11 = (unsigned __int8 *)this->pSysAlloc->AllocSysDirect(this->pSysAlloc, dataSize, alignSize, &v19, &v18);
     v10->pData = v11;
     if ( !v11 )
     {
-      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (void *)v10, v10->SelfSize);
+      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (unsigned int)v10, v10->SelfSize);
 LABEL_9:
       LeaveCriticalSection(&p_RootLock->mLock.cs);
       return 0;
@@ -71,10 +66,10 @@ LABEL_9:
     if ( alignSize <= 0x1000 )
       v12 = 4096;
     v13 = (~(v12 - 1) & (unsigned int)&v11[v12 - 1]) - (_DWORD)v11;
-    v14 = (unsigned __int8)Scaleform::Alg::UpperBit(actualAlign);
+    v14 = (unsigned __int8)Scaleform::Alg::UpperBit(v18);
     v10->UseCount = v13 | 0x80000000;
-    v15 = actualSize - v13;
-    v16 = actualSize - v13;
+    v15 = v19 - v13;
+    v16 = v19 - v13;
     v10->Alignment = v14;
     v10->DataSize = v15;
     v10->pData = &v11[v13];
@@ -86,8 +81,8 @@ LABEL_9:
         v13 + v10->DataSize,
         1 << LOBYTE(v10->Alignment));
       this->pSysAlloc->FreeSysDirect(this->pSysAlloc, v10->pData, dataSize, alignSize);
-      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (void *)v10, v10->SelfSize);
-      LeaveCriticalSection(&rl->mLock.cs);
+      Scaleform::HeapPT::Bookkeeper::Free(this->pBookkeeper, (unsigned int)v10, v10->SelfSize);
+      LeaveCriticalSection(&lpCriticalSection->mLock.cs);
       return 0;
     }
     Scaleform::HeapPT::PageTable::SetSegmentInRange(
@@ -95,7 +90,7 @@ LABEL_9:
       (unsigned int)v10->pData,
       v10->DataSize,
       v10);
-    p_RootLock = rl;
+    p_RootLock = lpCriticalSection;
   }
   v10->pNext = this->SegmentList.Root.pNext;
   v10->pPrev = (Scaleform::Heap::HeapSegment *)&this->SegmentList;

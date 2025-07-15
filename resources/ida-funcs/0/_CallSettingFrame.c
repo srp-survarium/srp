@@ -1,12 +1,12 @@
-void __stdcall _CallSettingFrame(unsigned int funclet, unsigned int pRN, unsigned int dwInCode)
+void __stdcall _CallSettingFrame(unsigned int funclet, unsigned int pRN, int dwInCode)
 {
-  void (*v3)(void); // eax
-  unsigned int v4; // ecx
+  void (*v6)(void); // eax
+  int v7; // ecx
 
-  v3 = (void (*)(void))_NLG_Notify1(dwInCode);
-  v3();
-  v4 = dwInCode;
+  _NLG_Notify1(dwInCode);
+  v6();
+  v7 = dwInCode;
   if ( dwInCode == 256 )
-    v4 = 2;
-  _NLG_Notify1(v4);
+    v7 = 2;
+  _NLG_Notify1(v7);
 }

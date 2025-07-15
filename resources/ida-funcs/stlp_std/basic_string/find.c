@@ -1,49 +1,24 @@
-unsigned int __fastcall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::find(
-        int a1,
-        const char *__s,
+int __fastcall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::find(
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this,
-        unsigned int __pos)
+        const char *__s)
 {
-  return stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::find(
-           this,
-           __s,
-           __pos,
-           strlen(__s));
-}
+  unsigned int v2; // eax
+  char *M_data; // edi
+  char *M_finish; // esi
+  const char *v5; // eax
 
-
-int __userpurge stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::find@<eax>(
-        stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *this@<esi>,
-        unsigned int __n@<eax>,
-        const char *__s,
-        unsigned int __pos)
-{
-  unsigned int v5; // eax
-  char *v6; // edi
-  const vostok::animation::mixing::animation_interval *v7; // eax
-  char *v8; // edi
-  const char *v10; // [esp-8h] [ebp-14h]
-
-  v5 = stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::size(this);
-  if ( __pos >= v5 || __pos + __n > v5 )
-  {
-    if ( !__n && __pos <= v5 )
-      return __pos;
-  }
+  v2 = strlen(__s);
+  M_data = this->_M_start_of_storage._M_data;
+  M_finish = this->_M_finish;
+  if ( M_finish == M_data || v2 > M_finish - M_data )
+    return -(v2 != 0);
+  v5 = stlp_std::search<char const *,char const *,stlp_std::priv::_Eq_traits<stlp_std::char_traits<char>>>(
+         M_data,
+         M_finish,
+         __s,
+         &__s[v2]);
+  if ( v5 == M_finish )
+    return -1;
   else
-  {
-    v10 = &__s[__n];
-    v6 = stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Finish(this);
-    v7 = stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Start((vostok::animation::mixing::animation_lexeme_parameters *)this);
-    v8 = (char *)stlp_std::search<char const *,char const *,stlp_std::priv::_Eq_traits<stlp_std::char_traits<char>>>(
-                   (const char *)v7 + __pos,
-                   v6,
-                   __s,
-                   v10,
-                   (stlp_std::priv::_Eq_traits<stlp_std::char_traits<char> >)__pos);
-    if ( v8 != stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Finish(this) )
-      return v8
-           - (char *)stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_Start((vostok::animation::mixing::animation_lexeme_parameters *)this);
-  }
-  return -1;
+    return v5 - M_data;
 }

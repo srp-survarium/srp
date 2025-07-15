@@ -3,7 +3,7 @@ void __cdecl ssl_set_cert_masks(cert_st *c, const ssl_cipher_st *cipher)
   rsa_st *rsa_tmp; // eax
   int v4; // esi
   int v5; // ecx
-  unsigned int v6; // edi
+  int v6; // edi
   dh_st *dh_tmp; // eax
   int v8; // ecx
   BOOL v9; // edx
@@ -14,7 +14,7 @@ void __cdecl ssl_set_cert_masks(cert_st *c, const ssl_cipher_st *cipher)
   evp_pkey_st *pubkey; // eax
   evp_pkey_st *v15; // edi
   const asn1_object_st **p_algorithm; // esi
-  int v17; // eax
+  void *v17; // eax
   int v18; // eax
   int v19; // ecx
   int v20; // [esp+8h] [ebp-3Ch]
@@ -153,7 +153,7 @@ LABEL_44:
   if ( v9 )
   {
     x509 = c->pkeys[5].x509;
-    X509_check_purpose(v6, x509, -1, 0);
+    X509_check_purpose(v6, v12, x509, -1, 0);
     if ( (x509->ex_flags & 2) != 0 )
       v35 = x509->ex_kusage & 8;
     else
@@ -168,12 +168,12 @@ LABEL_44:
       v24 = EVP_PKEY_bits(pubkey);
     else
       v24 = 0;
-    EVP_PKEY_free(v15);
+    EVP_PKEY_free((int)v15, v15);
     p_algorithm = (const asn1_object_st **)&x509->sig_alg->algorithm;
     if ( p_algorithm && *p_algorithm )
     {
       v17 = OBJ_obj2nid(*p_algorithm);
-      OBJ_find_sigid_algs(v17, &pdig_nid, &ppkey_nid);
+      OBJ_find_sigid_algs((int)v15, (int)v17, &pdig_nid, &ppkey_nid);
     }
     if ( v35 )
     {

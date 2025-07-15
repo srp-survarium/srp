@@ -1,13 +1,13 @@
 void __usercall vostok::render::event_query::event_query(vostok::render::event_query *this@<ecx>, _DWORD *a2@<esi>)
 {
-  _DWORD v2[2]; // [esp+0h] [ebp-8h] BYREF
+  ID3D11Query **v2; // [esp+0h] [ebp-Ch]
+  _DWORD v3[2]; // [esp+4h] [ebp-8h] BYREF
 
   *a2 = 0;
-  v2[1] = 0;
-  v2[0] = 0;
-  (*(void (__stdcall **)(int, _DWORD *, _DWORD *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x
-                                                 + 96))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-    v2,
-    a2);
+  v3[1] = 0;
+  v3[0] = 0;
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateQuery(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+    (const D3D11_QUERY_DESC *)v3,
+    v2);
 }

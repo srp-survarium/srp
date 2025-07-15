@@ -1,58 +1,24 @@
-void __usercall vorbis_comment_clear(
-        vostok::memory::doug_lea_mt_allocator *a1@<ecx>,
-        vostok::memory *a2@<ebx>,
-        vostok::memory *a3@<edi>,
-        vorbis_comment *vc)
+void __cdecl vorbis_comment_clear(vorbis_comment *vc)
 {
-  int v4; // edi
-  char *v5; // ebx
-  char **user_comments; // edi
-  int *comment_lengths; // edi
-  char *vendor; // edi
-  vostok::memory *v9; // [esp-8h] [ebp-Ch]
-  vostok::memory *v10; // [esp-4h] [ebp-8h]
+  int i; // esi
+  void **v2; // eax
 
   if ( vc )
   {
-    v10 = a3;
     if ( vc->user_comments )
     {
-      v4 = 0;
-      if ( vc->comments > 0 )
+      for ( i = 0; i < vc->comments; ++i )
       {
-        v9 = a2;
-        do
-        {
-          if ( vc->user_comments[v4] )
-          {
-            v5 = vc->user_comments[v4];
-            if ( !vostok::memory::g_crt_allocator.__vftable )
-              vostok::memory::initialize_crt_allocator(v9);
-            vostok::memory::doug_lea_mt_allocator::free_impl(a1, v5);
-          }
-          ++v4;
-        }
-        while ( v4 < vc->comments );
+        v2 = (void **)&vc->user_comments[i];
+        if ( *v2 )
+          ogg_free_impl(*v2);
       }
-      user_comments = vc->user_comments;
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-        vostok::memory::initialize_crt_allocator(v10);
-      vostok::memory::doug_lea_mt_allocator::free_impl(a1, user_comments);
+      ogg_free_impl(vc->user_comments);
     }
-    comment_lengths = vc->comment_lengths;
-    if ( comment_lengths )
-    {
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-        vostok::memory::initialize_crt_allocator(v10);
-      vostok::memory::doug_lea_mt_allocator::free_impl(a1, comment_lengths);
-    }
-    vendor = vc->vendor;
-    if ( vendor )
-    {
-      if ( !vostok::memory::g_crt_allocator.__vftable )
-        vostok::memory::initialize_crt_allocator(v10);
-      vostok::memory::doug_lea_mt_allocator::free_impl(a1, vendor);
-    }
+    if ( vc->comment_lengths )
+      ogg_free_impl(vc->comment_lengths);
+    if ( vc->vendor )
+      ogg_free_impl(vc->vendor);
     vc->user_comments = 0;
     vc->comment_lengths = 0;
     vc->comments = 0;

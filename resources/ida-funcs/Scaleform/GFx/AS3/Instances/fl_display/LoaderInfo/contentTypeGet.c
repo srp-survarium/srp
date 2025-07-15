@@ -16,12 +16,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::contentT
                  + 28);
   if ( v3 == 1 )
   {
-    Scaleform::GFx::ASString::operator=(result, "application/x-shockwave-flash");
+    Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"application/x-shockwave-flash");
     return;
   }
   if ( v3 == 2 )
-    Scaleform::GFx::ASString::operator=(result, "image");
+    Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"image");
   else
 LABEL_6:
-    Scaleform::GFx::ASString::operator=(result, "unknown");
+    Scaleform::GFx::ASString::operator=(result, (Scaleform::GFx::ASStringNode *)"unknown");
 }

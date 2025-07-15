@@ -1,109 +1,93 @@
 void __cdecl add_bone(
         const vostok::animation::skeleton_bone *parent,
-        vostok::animation::skeleton_bone *bones_begin,
+        vostok::configs::binary_config_value *bones_begin,
         unsigned int index,
         unsigned int *last_index,
-        vostok::configs::binary_config_value **config,
-        const char **bones_ids_buffer,
+        const vostok::configs::binary_config_value *const *config,
+        char **bones_ids_buffer,
         unsigned int *bones_ids_buffer_size)
 {
-  vostok::configs::binary_config_value *v7; // ecx
-  const vostok::configs::binary_config_value *v8; // edi
-  char *v9; // eax
-  _WORD *v10; // edx
+  _DWORD *v7; // edx
+  const vostok::configs::binary_config_value *pointer; // esi
+  const vostok::configs::binary_config_value *v9; // ecx
+  char *v10; // edx
   unsigned int v11; // edi
-  unsigned __int8 *v12; // eax
-  vostok::animation::skeleton_bone *v13; // esi
-  const vostok::configs::binary_config_value *v14; // ecx
-  vostok::animation::skeleton_bone *v15; // edx
-  vostok::animation::skeleton_bone *v16; // eax
-  const vostok::configs::binary_config_value *v17; // edx
-  unsigned int v18; // edi
-  const vostok::configs::binary_config_value *pointer; // eax
-  const vostok::configs::binary_config_value *v20; // edx
-  unsigned __int16 type; // cx
-  const vostok::configs::binary_config_value *i; // [esp+4h] [ebp-24h] BYREF
-  vostok::animation::skeleton_bone *v23; // [esp+8h] [ebp-20h]
-  const vostok::configs::binary_config_value *e; // [esp+Ch] [ebp-1Ch]
-  vostok::configs::binary_config_value value; // [esp+10h] [ebp-18h] BYREF
+  const vostok::animation::skeleton_bone *v12; // esi
+  unsigned int *v13; // edx
+  const vostok::animation::skeleton_bone *v14; // ecx
+  const vostok::animation::skeleton_bone *v15; // eax
+  unsigned int v16; // eax
+  unsigned int v17; // ecx
+  int v18; // edi
+  const vostok::configs::binary_config_value *v19; // edi
+  unsigned int *v20; // edx
+  unsigned int v21; // ecx
+  char *v22; // [esp-Ch] [ebp-3Ch]
+  const vostok::configs::binary_config_value *configa; // [esp+Ch] [ebp-24h] BYREF
+  int v24; // [esp+10h] [ebp-20h]
+  unsigned int v25; // [esp+14h] [ebp-1Ch]
+  vostok::configs::binary_config_value v26; // [esp+18h] [ebp-18h] BYREF
 
   v7 = *config;
-  value = **config;
-  v8 = 0;
-  v9 = (char *)value.data.pointer + 24 * HIWORD(*(_DWORD *)&value.type);
-  i = 0;
-  if ( value.data.pointer != v9 )
+  configa = 0;
+  qmemcpy((void *)&v26, v7, sizeof(v26));
+  pointer = (const vostok::configs::binary_config_value *)v26.data.pointer;
+  v9 = (const vostok::configs::binary_config_value *)((char *)v26.data.pointer + 24 * HIWORD(*(_DWORD *)&v26.type));
+  while ( pointer != v9 )
   {
-    v10 = (char *)value.data.pointer + 20;
-    do
-    {
-      if ( *v10 == 3 || *v10 == 4 )
-        v8 = (const vostok::configs::binary_config_value *)((char *)v8 + 1);
-      v10 += 12;
-    }
-    while ( v10 - 10 != (_WORD *)v9 );
-    i = v8;
+    if ( is_table(pointer) )
+      configa = (const vostok::configs::binary_config_value *)((char *)configa + 1);
+    ++pointer;
   }
-  v11 = strlen((const char *)vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr((vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v7->id))
-      + 1;
-  v12 = (unsigned __int8 *)vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr((vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&(*config)->id);
-  memcpy((unsigned __int8 *)*bones_ids_buffer, v12, v11);
-  v13 = &bones_begin[index];
-  if ( v13 )
+  v10 = (char *)v7[2];
+  v11 = strlen(v10) + 1;
+  v22 = *bones_ids_buffer;
+  v25 = v11;
+  memcpy((unsigned __int8 *)v22, (unsigned __int8 *)v10, v11);
+  v12 = (const vostok::animation::skeleton_bone *)((char *)bones_begin + 28 * index);
+  if ( v12 )
   {
-    if ( vostok::configs::binary_config_value::value_exists(&value, "mask") )
-      e = (const vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&value, "mask")->data.pointer;
+    if ( vostok::configs::binary_config_value::value_exists(bones_begin, (int)&v26, (unsigned int)"mask") )
+      v24 = (int)vostok::configs::binary_config_value::operator[](&v26, "mask")->data.pointer;
     else
-      e = (const vostok::configs::binary_config_value *)-1;
-    v14 = i;
-    if ( i )
-    {
-      v15 = &bones_begin[(unsigned int)i + *last_index];
-      v23 = &bones_begin[*last_index];
-      v14 = i;
-    }
+      v24 = -1;
+    v13 = last_index;
+    v14 = 0;
+    if ( configa )
+      v15 = (const vostok::animation::skeleton_bone *)((char *)bones_begin + 28 * ((_DWORD)configa + *last_index));
     else
-    {
       v15 = 0;
-      v23 = 0;
-    }
-    v13->m_id = *bones_ids_buffer;
-    v13->m_parent = parent;
-    v16 = v23;
-    v13->m_children_end = v15;
-    v17 = e;
-    v13->m_children_begin = v16;
-    v13->m_mask = (unsigned int)v17;
+    if ( configa )
+      v14 = (const vostok::animation::skeleton_bone *)((char *)bones_begin + 28 * *last_index);
+    v12->m_id = *bones_ids_buffer;
+    v12->m_children_end = v15;
+    v16 = v24;
+    v12->m_parent = parent;
+    v11 = v25;
+    v12->m_children_begin = v14;
+    v12->m_mask = v16;
+    v12->m_calc_mask = 1;
   }
   else
   {
-    v14 = i;
+    v13 = last_index;
   }
   *bones_ids_buffer += v11;
   *bones_ids_buffer_size -= v11;
-  if ( v14 )
+  if ( configa )
   {
-    v18 = *last_index;
-    *last_index += (unsigned int)v14;
-    pointer = (const vostok::configs::binary_config_value *)value.data.pointer;
-    v20 = (const vostok::configs::binary_config_value *)((char *)value.data.pointer + 24 * value.count);
-    i = (const vostok::configs::binary_config_value *)value.data.pointer;
-    e = v20;
-    if ( value.data.pointer != v20 )
+    v17 = *v13;
+    v18 = 24 * v26.count;
+    *v13 += (unsigned int)configa;
+    v19 = (const vostok::configs::binary_config_value *)((char *)v26.data.pointer + v18);
+    v24 = v17;
+    for ( configa = (const vostok::configs::binary_config_value *)v26.data.pointer; configa != v19; ++configa )
     {
-      do
+      if ( is_table(configa) )
       {
-        type = pointer->type;
-        if ( type == 3 || type == 4 )
-        {
-          add_bone(v13, bones_begin, v18, last_index, &i, (char **)bones_ids_buffer, bones_ids_buffer_size);
-          pointer = i;
-          v20 = e;
-          ++v18;
-        }
-        i = ++pointer;
+        add_bone(v12, bones_begin, v21, v20, &configa, bones_ids_buffer, bones_ids_buffer_size);
+        ++v24;
       }
-      while ( pointer != v20 );
     }
   }
 }

@@ -29,19 +29,19 @@ unsigned int __thiscall Scaleform::Render::Text::SGMLCharIter<wchar_t>::DecodeEs
   this->pNextChar = v4;
   if ( v4 + 5 <= pEnd )
   {
-    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(v4, "quot;", (const char *)5) )
+    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(v4, "quot;", 5u) )
     {
       this->pNextChar += 5;
       this->CurChar = 34;
       return this->CurChar;
     }
-    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "apos;", (const char *)5) )
+    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "apos;", 5u) )
     {
       this->pNextChar += 5;
       this->CurChar = 39;
       return this->CurChar;
     }
-    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "nbsp;", (const char *)5) )
+    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "nbsp;", 5u) )
     {
       this->pNextChar += 5;
       this->CurChar = 160;
@@ -49,8 +49,7 @@ unsigned int __thiscall Scaleform::Render::Text::SGMLCharIter<wchar_t>::DecodeEs
     }
   }
   pNextChar = this->pNextChar;
-  if ( pNextChar + 4 <= this->pEnd
-    && !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(pNextChar, "amp;", (const char *)4) )
+  if ( pNextChar + 4 <= this->pEnd && !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(pNextChar, "amp;", 4u) )
   {
     this->pNextChar += 4;
     this->CurChar = 38;
@@ -59,13 +58,13 @@ unsigned int __thiscall Scaleform::Render::Text::SGMLCharIter<wchar_t>::DecodeEs
   v7 = this->pNextChar;
   if ( v7 + 3 <= this->pEnd )
   {
-    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(v7, "lt;", (const char *)3) )
+    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(v7, "lt;", 3u) )
     {
       this->pNextChar += 3;
       this->CurChar = 60;
       return this->CurChar;
     }
-    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "gt;", (const char *)3) )
+    if ( !Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(this->pNextChar, "gt;", 3u) )
     {
       this->pNextChar += 3;
       this->CurChar = 62;

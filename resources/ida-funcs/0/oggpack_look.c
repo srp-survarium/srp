@@ -1,25 +1,29 @@
-unsigned int __fastcall oggpack_look(oggpack_buffer *b, unsigned int bits)
+int __usercall oggpack_look@<eax>(oggpack_buffer *b@<ecx>, unsigned int bits@<eax>)
 {
+  int endbit; // edi
   int storage; // eax
-  unsigned int v3; // ebx
-  int endbit; // esi
-  int v5; // edx
-  unsigned __int8 *ptr; // edi
+  int v5; // esi
+  unsigned __int8 *ptr; // edx
   int v8; // eax
+  unsigned int v9; // [esp+Ch] [ebp-4h]
 
   if ( bits > 0x20 )
     return -1;
-  storage = b->storage;
-  v3 = mask_1[bits];
   endbit = b->endbit;
+  v9 = mask_1[bits];
+  storage = b->storage;
   v5 = endbit + bits;
-  if ( b->endbyte < storage - 4 )
-    goto LABEL_7;
-  if ( b->endbyte > storage - ((v5 + 7) >> 3) )
+  if ( b->endbyte >= storage - 4 )
+  {
+    if ( b->endbyte <= storage - ((v5 + 7) >> 3) )
+    {
+      if ( !v5 )
+        return 0;
+      goto LABEL_6;
+    }
     return -1;
-  if ( !v5 )
-    return 0;
-LABEL_7:
+  }
+LABEL_6:
   ptr = b->ptr;
   v8 = *ptr >> LOBYTE(b->endbit);
   if ( v5 > 8 )
@@ -39,5 +43,5 @@ LABEL_7:
       }
     }
   }
-  return v3 & v8;
+  return v9 & v8;
 }

@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::MovieImageLoadTask::MovieImageLoadTask(
         Scaleform::GFx::FileTypeConstants::FileFormatType format,
         Scaleform::GFx::Resource *pls)
 {
-  Scaleform::GFx::LoaderTask::LoaderTask(this, pls, Id_MovieImageLoad);
+  Scaleform::GFx::LoaderTask::LoaderTask(this, pls, (Scaleform::GFx::Task::TaskId)&loc_20002);
   this->__vftable = (Scaleform::GFx::MovieImageLoadTask_vtbl *)&Scaleform::GFx::MovieImageLoadTask::`vftable';
   if ( pdef )
     Scaleform::RefCountImpl::AddRef(pdef);

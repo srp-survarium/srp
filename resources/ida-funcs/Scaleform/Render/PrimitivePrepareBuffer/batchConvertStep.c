@@ -8,12 +8,12 @@ void __thiscall Scaleform::Render::PrimitivePrepareBuffer::batchConvertStep(
   int v6; // eax
   const Scaleform::Render::VertexFormat *pBatchVFormat; // edx
   Scaleform::Render::PrimitiveBatch *pConvert; // eax
-  unsigned int v9; // edi
+  unsigned int MeshIndex; // edi
   Scaleform::Render::Primitive::MeshEntry *Data; // ecx
   unsigned int MeshCount; // eax
   Scaleform::Render::Primitive::MeshEntry *v12; // ecx
   Scaleform::Render::Mesh *v13; // edi
-  unsigned int MaxBatchInstances; // eax
+  unsigned int v14; // eax
   unsigned int v15; // ecx
   unsigned int v16; // eax
   bool v17; // cf
@@ -31,77 +31,80 @@ void __thiscall Scaleform::Render::PrimitivePrepareBuffer::batchConvertStep(
   Scaleform::Render::PrimitiveBatch *v29; // eax
   Scaleform::Render::PrimitiveEmitBuffer *v30; // eax
   Scaleform::Render::PrimitiveBatch *v31; // ecx
-  bool instancingSupported; // [esp+11h] [ebp-37h]
-  bool meshTooBigFail; // [esp+12h] [ebp-36h]
-  bool largeTailMesh; // [esp+13h] [ebp-35h]
-  unsigned int meshIndex; // [esp+14h] [ebp-34h]
-  Scaleform::Render::PrimitiveBatch::BatchType tailMeshType; // [esp+18h] [ebp-30h]
-  unsigned int tailRepeatCount; // [esp+1Ch] [ebp-2Ch]
-  const Scaleform::Render::MeshCacheParams *params; // [esp+20h] [ebp-28h]
-  unsigned int totalVerticesSize; // [esp+24h] [ebp-24h] BYREF
+  int v32; // [esp+0h] [ebp-48h]
+  int v33; // [esp+4h] [ebp-44h]
+  char v34; // [esp+8h] [ebp-40h]
+  bool v35; // [esp+11h] [ebp-37h]
+  char v36; // [esp+12h] [ebp-36h]
+  char v37; // [esp+13h] [ebp-35h]
+  unsigned int v38; // [esp+14h] [ebp-34h]
+  Scaleform::Render::PrimitiveBatch::BatchType type; // [esp+18h] [ebp-30h]
+  unsigned int v40; // [esp+1Ch] [ebp-2Ch]
+  _DWORD *v41; // [esp+20h] [ebp-28h]
+  unsigned int knownVerticesSize; // [esp+24h] [ebp-24h] BYREF
   Scaleform::Render::Mesh **p_pObject; // [esp+28h] [ebp-20h]
-  Scaleform::Render::Mesh *pprevMesh; // [esp+2Ch] [ebp-1Ch]
-  unsigned int instancingThreshold; // [esp+30h] [ebp-18h]
-  unsigned int totalIndexCount; // [esp+34h] [ebp-14h] BYREF
-  unsigned int batchVertexSize; // [esp+38h] [ebp-10h]
-  unsigned int originalConvertMeshCount; // [esp+3Ch] [ebp-Ch]
-  Scaleform::Render::MeshCache::MeshResult mr; // [esp+40h] [ebp-8h] BYREF
-  Scaleform::Render::Primitive::MeshEntry *convertMeshes; // [esp+44h] [ebp-4h]
+  Scaleform::Render::Mesh *v44; // [esp+2Ch] [ebp-1Ch]
+  unsigned int v45; // [esp+30h] [ebp-18h]
+  unsigned int knownIndexCount; // [esp+34h] [ebp-14h] BYREF
+  unsigned int Size; // [esp+38h] [ebp-10h]
+  unsigned int v48; // [esp+3Ch] [ebp-Ch]
+  Scaleform::Render::MeshCache::MeshResult v49; // [esp+40h] [ebp-8h] BYREF
+  Scaleform::Render::Primitive::MeshEntry *v50; // [esp+44h] [ebp-4h]
 
   v2 = &this->pCache->Scaleform::Render::MeshCacheConfig;
   GetParams = v2->GetParams;
   v4 = 0;
-  totalVerticesSize = 0;
-  totalIndexCount = 0;
-  pprevMesh = 0;
+  knownVerticesSize = 0;
+  knownIndexCount = 0;
+  v44 = 0;
   v5 = 0;
-  largeTailMesh = 0;
-  meshTooBigFail = 0;
-  tailMeshType = DP_Batch;
+  v37 = 0;
+  v36 = 0;
+  type = DP_Batch;
   v6 = (int)GetParams(v2);
   pBatchVFormat = this->pBatchVFormat;
-  params = (const Scaleform::Render::MeshCacheParams *)v6;
-  instancingThreshold = *(_DWORD *)(v6 + 28);
+  v41 = (_DWORD *)v6;
+  v45 = *(_DWORD *)(v6 + 28);
   if ( pBatchVFormat )
-    batchVertexSize = pBatchVFormat->Size;
+    Size = pBatchVFormat->Size;
   else
-    batchVertexSize = 0;
+    Size = 0;
   pConvert = this->pConvert;
-  v9 = pConvert->MeshIndex;
+  MeshIndex = pConvert->MeshIndex;
   Data = pConvert->pPrimitive->Meshes.Data.Data;
   MeshCount = pConvert->MeshCount;
-  instancingSupported = this->pInstancedVFormat != 0;
-  v12 = &Data[v9];
-  convertMeshes = v12;
-  originalConvertMeshCount = MeshCount;
-  meshIndex = 0;
+  v35 = this->pInstancedVFormat != 0;
+  v12 = &Data[MeshIndex];
+  v50 = v12;
+  v48 = MeshCount;
+  v38 = 0;
   if ( !MeshCount )
     goto LABEL_35;
   p_pObject = &v12->pMesh.pObject;
   while ( 1 )
   {
     v13 = *p_pObject;
-    if ( *p_pObject != pprevMesh )
+    if ( *p_pObject != v44 )
     {
-      if ( instancingSupported && v5 >= instancingThreshold )
+      if ( v35 && v5 >= v45 )
         goto LABEL_35;
       v5 = 1;
       goto LABEL_15;
     }
-    if ( !instancingSupported )
+    if ( !v35 )
     {
       ++v5;
 LABEL_15:
-      tailRepeatCount = v5;
+      v40 = v5;
       goto LABEL_16;
     }
-    MaxBatchInstances = params->MaxBatchInstances;
-    if ( v5 == MaxBatchInstances )
+    v14 = v41[6];
+    if ( v5 == v14 )
       goto LABEL_35;
-    tailRepeatCount = ++v5;
-    if ( v5 >= MaxBatchInstances )
+    v40 = ++v5;
+    if ( v5 >= v14 )
     {
-      ++meshIndex;
+      ++v38;
       goto LABEL_35;
     }
 LABEL_16:
@@ -109,68 +112,71 @@ LABEL_16:
     {
       Scaleform::Render::MeshCache::GenerateMesh(
         this->pCache,
-        &mr,
+        &v49,
         v13,
         this->pSourceVFormat,
         this->pSingleVFormat,
         pBatchVFormat,
-        0);
-      if ( mr.Value > Success_LargeMesh && mr.Value != Fail_LargeMesh_NeedCache )
+        0,
+        v32,
+        v33,
+        v34);
+      if ( v49.Value > Success_LargeMesh && v49.Value != Fail_LargeMesh_NeedCache )
       {
-        if ( mr.Value == Fail_LargeMesh_TooBig )
+        if ( v49.Value == Fail_LargeMesh_TooBig )
         {
-          meshTooBigFail = 1;
+          v36 = 1;
 LABEL_22:
-          tailMeshType = DP_Failed;
+          type = DP_Failed;
           goto LABEL_23;
         }
-        if ( mr.Value != Fail_LargeMesh_ThisFrame )
+        if ( v49.Value != Fail_LargeMesh_ThisFrame )
           goto LABEL_22;
       }
     }
 LABEL_23:
-    if ( v13->LargeMesh || tailMeshType == DP_Failed || (pBatchVFormat = this->pBatchVFormat) == 0 )
+    if ( v13->LargeMesh || type == DP_Failed || (pBatchVFormat = this->pBatchVFormat) == 0 )
     {
-      ++meshIndex;
-      instancingThreshold = 1;
-      largeTailMesh = 1;
+      ++v38;
+      v45 = 1;
+      v37 = 1;
       goto LABEL_35;
     }
     v15 = v13->IndexCount + v4;
-    if ( v15 > params->MaxIndicesInBatch )
+    if ( v15 > v41[10] )
       goto LABEL_32;
-    v16 = totalVerticesSize + batchVertexSize * v13->VertexCount;
-    if ( v16 > params->MaxVerticesSizeInBatch )
+    v16 = knownVerticesSize + Size * v13->VertexCount;
+    if ( v16 > v41[9] )
       goto LABEL_32;
-    if ( meshIndex >= params->MaxBatchInstances )
+    if ( v38 >= v41[6] )
       break;
     p_pObject += 2;
-    v17 = meshIndex + 1 < originalConvertMeshCount;
+    v17 = v38 + 1 < v48;
     v4 = v15;
-    ++meshIndex;
-    v5 = tailRepeatCount;
-    totalIndexCount = v15;
-    totalVerticesSize = v16;
-    pprevMesh = v13;
+    ++v38;
+    v5 = v40;
+    knownIndexCount = v15;
+    knownVerticesSize = v16;
+    v44 = v13;
     if ( !v17 )
       goto LABEL_35;
   }
-  v5 = tailRepeatCount;
+  v5 = v40;
 LABEL_32:
-  if ( v13 == pprevMesh )
+  if ( v13 == v44 )
     --v5;
 LABEL_35:
-  v18 = meshIndex;
-  if ( instancingSupported )
+  v18 = v38;
+  if ( v35 )
   {
-    if ( meshIndex < this->pConvert->MeshCount )
+    if ( v38 < this->pConvert->MeshCount )
     {
-      p_pMesh = &convertMeshes[meshIndex].pMesh;
+      p_pMesh = &v50[v38].pMesh;
       do
       {
-        if ( p_pMesh->pObject != convertMeshes[meshIndex - 1].pMesh.pObject )
+        if ( p_pMesh->pObject != v50[v38 - 1].pMesh.pObject )
           break;
-        if ( v5 >= params->MaxBatchInstances )
+        if ( v5 >= v41[6] )
           break;
         ++v18;
         ++v5;
@@ -183,19 +189,19 @@ LABEL_35:
   {
     v5 = 0;
   }
-  if ( v5 >= instancingThreshold || v18 == v5 && v5 != 1 )
-    meshIndex = v18;
+  if ( v5 >= v45 || v18 == v5 && v5 != 1 )
+    v38 = v18;
   else
     v5 = 0;
-  v20 = meshIndex - v5;
-  if ( meshIndex != v5 )
+  v20 = v38 - v5;
+  if ( v38 != v5 )
   {
     v21 = this->pConvert;
-    if ( meshIndex != v21->MeshCount || v5 )
+    if ( v38 != v21->MeshCount || v5 )
     {
-      v24 = Scaleform::Render::PrimitiveBatch::Create(v21->pPrimitive, DP_Batch, v21->MeshIndex, meshIndex - v5);
+      v24 = Scaleform::Render::PrimitiveBatch::Create(v21->pPrimitive, DP_Batch, v21->MeshIndex, v38 - v5);
       v25 = this->pConvert;
-      v24->pNext = v25->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$C512BB809886916B7F681A9EBDF58E11::pPrev;
+      v24->pNext = v25->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$B6E31D4B7F8069B2127C6EE45BDFC5DE::pPrev;
       v24->pPrev = v25->pPrev;
       v25->pPrev->pNext = v24;
       v25->pPrev = v24;
@@ -218,8 +224,8 @@ LABEL_35:
           v22,
           v22->pPrev,
           v22,
-          &totalVerticesSize,
-          &totalIndexCount);
+          &knownVerticesSize,
+          &knownIndexCount);
       v23 = this->pConvert;
       if ( v23->pNext != (Scaleform::Render::PrimitiveBatch *)&this->pPrimitive->Batches )
         Scaleform::Render::PrimitivePrepareBuffer::attemptMergeBatches(
@@ -228,8 +234,8 @@ LABEL_35:
           v23->pNext,
           v23->pNext,
           v23,
-          &totalVerticesSize,
-          &totalIndexCount);
+          &knownVerticesSize,
+          &knownIndexCount);
       v24 = this->pConvert;
     }
     if ( v24->MeshCount == 1 )
@@ -245,19 +251,15 @@ LABEL_35:
   }
   if ( v5 )
   {
-    if ( v5 <= 1 || tailMeshType == DP_Failed )
+    if ( v5 <= 1 || type == DP_Failed )
     {
-      if ( !meshTooBigFail )
-        tailMeshType = DP_Single;
-      v27 = Scaleform::Render::PrimitiveBatch::Create(
-              this->pConvert->pPrimitive,
-              tailMeshType,
-              this->pConvert->MeshIndex,
-              v5);
+      if ( !v36 )
+        type = DP_Single;
+      v27 = Scaleform::Render::PrimitiveBatch::Create(this->pConvert->pPrimitive, type, this->pConvert->MeshIndex, v5);
     }
     else
     {
-      tailMeshType = DP_Instanced;
+      type = DP_Instanced;
       v27 = Scaleform::Render::PrimitiveBatch::Create(
               this->pConvert->pPrimitive,
               DP_Instanced,
@@ -265,17 +267,17 @@ LABEL_35:
               v5);
     }
     v28 = v27;
-    v27->LargeMesh = largeTailMesh;
-    if ( tailMeshType == DP_Instanced )
+    v27->LargeMesh = v37;
+    if ( type == DP_Instanced )
     {
       v27->pFormat = this->pInstancedVFormat;
     }
-    else if ( tailMeshType == DP_Single || tailMeshType == DP_Failed )
+    else if ( type == DP_Single || type == DP_Failed )
     {
       v27->pFormat = this->pSingleVFormat;
     }
     v29 = this->pConvert;
-    v28->pNext = v29->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$C512BB809886916B7F681A9EBDF58E11::pPrev;
+    v28->pNext = v29->pNext->Scaleform::ListNode<Scaleform::Render::PrimitiveBatch>::$B6E31D4B7F8069B2127C6EE45BDFC5DE::pPrev;
     v28->pPrev = v29->pPrev;
     v29->pPrev->pNext = v28;
     v29->pPrev = v28;
@@ -294,6 +296,6 @@ LABEL_35:
     }
     this->pPrepareTail = v28;
   }
-  if ( meshIndex >= originalConvertMeshCount )
+  if ( v38 >= v48 )
     this->Converting = 0;
 }

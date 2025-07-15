@@ -1,5 +1,5 @@
 unsigned int __thiscall Scaleform::Render::DICommand_SourceRectImpl<Scaleform::Render::DICommand_ColorTransform>::GetSize(
-        Scaleform::Render::DICommand_SourceRectImpl<Scaleform::Render::DICommand_ColorTransform> *this)
+        Scaleform::GFx::AS3::InstanceTraits::Function *this)
 {
   return 80;
 }

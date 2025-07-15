@@ -1,39 +1,26 @@
-void __thiscall vostok::render::skeleton_render_model_instance::~skeleton_render_model_instance(
-        vostok::render::skeleton_render_model_instance *this)
+void __usercall vostok::render::skeleton_render_model_instance::~skeleton_render_model_instance(
+        vostok::render::skeleton_render_model_instance *this@<ecx>,
+        unsigned int a2@<ebx>,
+        const char *a3@<edi>)
 {
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  unsigned int *p_m_flags; // eax
-  vostok::render::skeleton_render_model *m_object; // eax
-  vostok::math::float4x4 *M_start; // eax
-  void *v6; // esi
-  vostok::math::float4x4 *v7; // eax
-  void *v8; // esi
+  vostok::math::float4x4 *m_begin; // ecx
+  vostok::memory::doug_lea_allocator *v5; // [esp-4h] [ebp-8h]
 
+  v5 = vostok::render::g_allocator;
   this->__vftable = (vostok::render::skeleton_render_model_instance_vtbl *)&vostok::render::skeleton_render_model_instance::`vftable';
-  m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-  p_m_flags = &this->m_surface_instances[-1].m_flags;
-  BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-  vostok_mspace_free(m_reconstruction_info_actuality_tick_high, p_m_flags);
-  m_object = this->m_original.m_object;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_original.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_original.m_object);
-  M_start = this->m_bones_matrices._M_impl._M_start;
-  if ( M_start )
-  {
-    v6 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v6, (void *)M_start);
-  }
-  v7 = this->m_prev_bones_matrices._M_impl._M_start;
-  if ( v7 )
-  {
-    v8 = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-    BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free(v8, (void *)v7);
-  }
-  this->m_collision_object.vostok::render::render_model_instance_impl::__vftable = (vostok::render::render_collision_object<vostok::render::render_model_instance_impl>_vtbl *)&vostok::collision::object::`vftable';
-  this->__vftable = (vostok::render::skeleton_render_model_instance_vtbl *)&vostok::render::render_model_instance::`vftable';
-  vostok::resources::unmanaged_resource::~unmanaged_resource(this);
+  vostok::memory::delete_array_helper<vostok::memory::doug_lea_allocator,vostok::render::render_surface_instance>(
+    (vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> **)&this->m_surface_instances,
+    a2,
+    a3,
+    (const char *)this,
+    v5);
+  DeleteCriticalSection((LPCRITICAL_SECTION)&this->m_update_bones_subscribers.vostok::threading::mutex);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_original);
+  this->m_shadow_bones_matrices.m_end = this->m_shadow_bones_matrices.m_begin;
+  this->m_bones_matrices.m_end = this->m_bones_matrices.m_begin;
+  m_begin = this->m_prev_bones_matrices.m_begin;
+  this->m_prev_bones_matrices.m_end = m_begin;
+  vostok::render::render_model_instance_impl::~render_model_instance_impl(
+    (vostok::render::render_model_instance_impl *)m_begin,
+    &this->vostok::render::render_model_instance_impl);
 }

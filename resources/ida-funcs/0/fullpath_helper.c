@@ -1,7 +1,7 @@
-char *__cdecl fullpath_helper(char *buf, const char *path, DWORD sz, char **pBuf)
+char *__cdecl fullpath_helper(char *buf, char *path, DWORD sz, char **pBuf)
 {
   int v4; // esi
-  char *v5; // edi
+  LPSTR v5; // edi
   int *v6; // eax
   char *result; // eax
 

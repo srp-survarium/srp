@@ -13,6 +13,6 @@ Scaleform::String *__thiscall Scaleform::Render::TreeText::GetHtmlText(
   if ( v2 )
     Scaleform::Render::Text::DocView::GetHtml(v2, result);
   else
-    Scaleform::String::String(result, (char *)&buf);
+    Scaleform::String::String(result, (const __m128i *)uri);
   return result;
 }

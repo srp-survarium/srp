@@ -1,12 +1,4 @@
-int __cdecl apsort(float **a, float **b)
+int __cdecl apsort(float **a1, _DWORD **a2)
 {
-  double v2; // st7
-  double v3; // st6
-
-  v2 = **a;
-  v3 = **b;
-  if ( v3 >= v2 )
-    return v3 > v2;
-  else
-    return (v3 > v2) - 1;
+  return (__PAIR64__(*(float *)*a2 > **a1, **a2) - *(unsigned int *)*a1) >> 32;
 }

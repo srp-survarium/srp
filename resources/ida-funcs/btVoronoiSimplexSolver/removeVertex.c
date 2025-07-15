@@ -1,22 +1,28 @@
-void __usercall btVoronoiSimplexSolver::removeVertex(btVoronoiSimplexSolver *this@<eax>, int index@<esi>)
+void __usercall btVoronoiSimplexSolver::removeVertex(btVoronoiSimplexSolver *this@<ecx>, _DWORD *a2@<eax>)
 {
-  int *v2; // ecx
-  int v3; // edx
-  btVector3 *v4; // ecx
-  int v5; // edx
-  btVector3 *v6; // ecx
-  btVector3 *v7; // edx
+  _DWORD *v2; // esi
+  _DWORD *v3; // edi
+  _DWORD *v4; // esi
+  _DWORD *v5; // edi
+  _DWORD *v6; // esi
+  _DWORD *v7; // edi
 
-  v2 = &this->m_numVertices + 4 * this->m_numVertices--;
-  v3 = 16 * (index + 1);
-  *(_QWORD *)((char *)&this->m_numVertices + v3) = *(_QWORD *)v2;
-  *(_QWORD *)((char *)&this->m_numVertices + v3 + 8) = *((_QWORD *)v2 + 1);
-  v4 = &this->m_simplexPointsP[this->m_numVertices];
-  v5 = 16 * (index + 6);
-  *(_QWORD *)((char *)&this->m_numVertices + v5) = v4->mVec128.m128_u64[0];
-  *(_QWORD *)((char *)&this->m_numVertices + v5 + 8) = v4->mVec128.m128_u64[1];
-  v6 = &this->m_simplexPointsQ[this->m_numVertices];
-  v7 = &this->m_simplexPointsQ[index];
-  v7->mVec128.m128_u64[0] = v6->mVec128.m128_u64[0];
-  v7->mVec128.m128_u64[1] = v6->mVec128.m128_u64[1];
+  v2 = &a2[4 * (*a2)--];
+  v3 = &a2[4 * ((_DWORD)&this->m_numVertices + 1)];
+  *v3 = *v2++;
+  *++v3 = *v2++;
+  *++v3 = *v2;
+  v3[1] = v2[1];
+  v4 = &a2[4 * *a2 + 24];
+  v5 = &a2[4 * ((_DWORD)&this->m_numVertices + 6)];
+  *v5 = *v4++;
+  *++v5 = *v4++;
+  *++v5 = *v4;
+  v5[1] = v4[1];
+  v6 = &a2[4 * *a2 + 44];
+  v7 = &a2[4 * ((_DWORD)&this->m_numVertices + 11)];
+  *v7 = *v6++;
+  *++v7 = *v6++;
+  *++v7 = *v6;
+  v7[1] = v6[1];
 }

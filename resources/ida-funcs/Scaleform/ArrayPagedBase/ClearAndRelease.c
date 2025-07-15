@@ -1,60 +1,3 @@
-void __thiscall Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2>>::ClearAndRelease(
-        Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2> > *this)
-{
-  unsigned int NumPages; // eax
-  void **v3; // edi
-
-  NumPages = this->NumPages;
-  if ( NumPages )
-  {
-    v3 = (void **)&this->Pages[NumPages - 1];
-    do
-    {
-      --this->NumPages;
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, *v3--);
-    }
-    while ( this->NumPages );
-    --this->NumPages;
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->Pages);
-  }
-  this->MaxPages = 0;
-  this->NumPages = 0;
-  this->Size = 0;
-  this->Pages = 0;
-}
-
-
-void __thiscall Scaleform::ArrayPagedBase<Scaleform::GFx::FontCompactor::GlyphInfoType,6,64,Scaleform::AllocatorPagedGH_POD<Scaleform::GFx::FontCompactor::GlyphInfoType,261>>::ClearAndRelease(
-        Scaleform::ArrayPagedBase<Scaleform::GFx::FontCompactor::KerningPairType,6,64,Scaleform::AllocatorPagedGH_POD<Scaleform::GFx::FontCompactor::KerningPairType,261> > *this)
-{
-  unsigned int NumPages; // eax
-  void **v3; // edi
-  Scaleform::GFx::FontCompactor::KerningPairType **Pages; // eax
-
-  NumPages = this->NumPages;
-  if ( NumPages )
-  {
-    v3 = (void **)&this->Pages[NumPages - 1];
-    do
-    {
-      --this->NumPages;
-      if ( *v3 )
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, *v3);
-      --v3;
-    }
-    while ( this->NumPages );
-    Pages = this->Pages;
-    --this->NumPages;
-    if ( Pages )
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Pages);
-  }
-  this->MaxPages = 0;
-  this->NumPages = 0;
-  this->Size = 0;
-  this->Pages = 0;
-}
-
-
 void __thiscall Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Scaleform::AllocatorPagedCC<Scaleform::GFx::AS3::CallFrame,329>>::ClearAndRelease(
         Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Scaleform::AllocatorPagedCC<Scaleform::GFx::AS3::CallFrame,329> > *this)
 {
@@ -97,7 +40,7 @@ void __thiscall Scaleform::ArrayPagedBase<Scaleform::GFx::AS3::CallFrame,6,64,Sc
       {
         v7 = 64;
       }
-      v8 = (Scaleform::GFx::AS3::CallFrame *)((char *)*v3 + 72 * v7 - 72);
+      v8 = (Scaleform::GFx::AS3::CallFrame *)((char *)*v3 + 96 * v7 - 96);
       if ( v7 )
       {
         v9 = v7;

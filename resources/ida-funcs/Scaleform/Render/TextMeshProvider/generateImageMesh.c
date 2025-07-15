@@ -1,4 +1,4 @@
-char __thiscall Scaleform::Render::TextMeshProvider::generateImageMesh(
+bool __thiscall Scaleform::Render::TextMeshProvider::generateImageMesh(
         Scaleform::Render::TextMeshProvider *this,
         Scaleform::Render::VertexOutput *verOut,
         const Scaleform::Render::TextMeshLayer *layer)
@@ -8,23 +8,23 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateImageMesh(
   double v6; // st7
   double v7; // st6
   Scaleform::Render::VertexOutput_vtbl *v8; // eax
-  char result; // al
-  Scaleform::Render::Rect<float> v10; // [esp+4ACh] [ebp-D0h] BYREF
-  float v11; // [esp+4C8h] [ebp-B4h]
-  float v12; // [esp+4CCh] [ebp-B0h]
-  _WORD v13[2]; // [esp+4D0h] [ebp-ACh] BYREF
-  int v14; // [esp+4D4h] [ebp-A8h]
-  int v15; // [esp+4D8h] [ebp-A4h]
-  Scaleform::Render::Rect<float> v16; // [esp+4DCh] [ebp-A0h] BYREF
-  float x2; // [esp+4F8h] [ebp-84h]
-  float v18; // [esp+4FCh] [ebp-80h] BYREF
-  float v19; // [esp+500h] [ebp-7Ch]
-  float v20; // [esp+508h] [ebp-74h]
-  float v21; // [esp+50Ch] [ebp-70h]
-  float v22; // [esp+510h] [ebp-6Ch]
-  float v23[2]; // [esp+518h] [ebp-64h]
-  _DWORD v24[7]; // [esp+520h] [ebp-5Ch] BYREF
-  float v25[16]; // [esp+53Ch] [ebp-40h] BYREF
+  bool result; // al
+  Scaleform::Render::Rect<float> v10; // [esp+10h] [ebp-D0h] BYREF
+  float v11; // [esp+2Ch] [ebp-B4h]
+  float v12; // [esp+30h] [ebp-B0h]
+  _WORD v13[2]; // [esp+34h] [ebp-ACh] BYREF
+  int v14; // [esp+38h] [ebp-A8h]
+  int v15; // [esp+3Ch] [ebp-A4h]
+  Scaleform::Render::Rect<float> v16; // [esp+40h] [ebp-A0h] BYREF
+  float x2; // [esp+5Ch] [ebp-84h]
+  float v18; // [esp+60h] [ebp-80h] BYREF
+  float v19; // [esp+64h] [ebp-7Ch]
+  float v20; // [esp+6Ch] [ebp-74h]
+  float v21; // [esp+70h] [ebp-70h]
+  float v22; // [esp+74h] [ebp-6Ch]
+  float v23[2]; // [esp+7Ch] [ebp-64h]
+  _DWORD v24[7]; // [esp+84h] [ebp-5Ch] BYREF
+  float v25[16]; // [esp+A0h] [ebp-40h] BYREF
 
   v13[0] = 0;
   v13[1] = 1;
@@ -36,7 +36,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::generateImageMesh(
   v24[1] = 6;
   v24[2] = &Scaleform::Render::ImageGlyphVertex::Format;
   memset(&v24[3], 0, 16);
-  ((void (__thiscall *)(unsigned int, float *, Scaleform::Render::TextureManager *))p_EntryData->RasterData.pGlyph->Param.pFont[5].pFont)(
+  ((void (__thiscall *)(unsigned int, float *, Scaleform::Render::TextureManager *))p_EntryData->RasterData.pGlyph->Param.pFont[6].pManager)(
     p_EntryData->BackgroundData.BorderColor,
     &v18,
     pCache->pTexMan);

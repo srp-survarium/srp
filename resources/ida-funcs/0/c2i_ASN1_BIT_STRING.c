@@ -1,63 +1,62 @@
-asn1_string_st *__cdecl c2i_ASN1_BIT_STRING(asn1_string_st **a, unsigned __int8 **pp, int len)
+asn1_string_st *__usercall c2i_ASN1_BIT_STRING@<eax>(int a1@<ebx>, asn1_string_st **a, const __m128i **pp, int len)
 {
-  asn1_string_st *v4; // esi
-  __int16 v5; // ax
-  int v6; // edx
-  unsigned __int8 *v7; // ebp
-  unsigned int v8; // edi
-  unsigned __int8 *v9; // eax
-  unsigned __int8 *v10; // ebx
+  asn1_string_st *v5; // esi
+  __int16 v6; // ax
+  int v7; // edx
+  const __m128i *v8; // ebp
+  unsigned int v9; // edi
+  void *v10; // eax
   asn1_string_st *result; // eax
   unsigned __int8 *data; // eax
-  unsigned __int8 i; // [esp+1Ch] [ebp+Ch]
+  char v13; // [esp+1Ch] [ebp+Ch]
 
-  v4 = 0;
+  v5 = 0;
   if ( len < 1 )
   {
-    v5 = 152;
-err_85:
-    ERR_put_error(0xDu, 189, v5, ".\\crypto\\asn1\\a_bitstr.c", 168);
-    if ( v4 && (!a || *a != v4) )
-      ASN1_STRING_free(v4);
+    v6 = 152;
+err_87:
+    ERR_put_error(a1, 0xDu, 189, v6, ".\\crypto\\asn1\\a_bitstr.c", 168);
+    if ( v5 && (!a || *a != v5) )
+      ASN1_STRING_free(v5);
     return 0;
   }
-  if ( !a || (v4 = *a) == 0 )
+  if ( !a || (v5 = *a) == 0 )
   {
-    v4 = ASN1_STRING_type_new(3);
-    if ( !v4 )
+    v5 = ASN1_STRING_type_new(a1, 3);
+    if ( !v5 )
       return 0;
   }
-  i = **pp;
-  v6 = len;
-  v7 = *pp + 1;
-  v8 = len - 1;
-  v4->flags = v4->flags & 0xFFFFFFF8 | i & 7 | 8;
-  if ( v6 <= 1 )
+  v13 = (*pp)->m128i_i8[0];
+  v7 = len;
+  v8 = (const __m128i *)&(*pp)->m128i_i8[1];
+  v9 = len - 1;
+  v5->flags = v5->flags & 0xFFFFFFF8 | v13 & 7 | 8;
+  if ( v7 <= 1 )
   {
-    v10 = 0;
+    a1 = 0;
   }
   else
   {
-    v9 = (unsigned __int8 *)CRYPTO_malloc(v8, ".\\crypto\\asn1\\a_bitstr.c", 147);
-    v10 = v9;
-    if ( !v9 )
+    v10 = CRYPTO_malloc(v9, ".\\crypto\\asn1\\a_bitstr.c", 147);
+    a1 = (int)v10;
+    if ( !v10 )
     {
-      v5 = 65;
-      goto err_85;
+      v6 = 65;
+      goto err_87;
     }
-    memcpy(v9, v7, v8);
-    v10[v8 - 1] &= -1 << i;
-    v7 += v8;
+    memcpy((int)v10, v8, v9);
+    *(_BYTE *)(a1 + v9 - 1) &= -1 << v13;
+    v8 = (const __m128i *)((char *)v8 + v9);
   }
-  data = v4->data;
-  v4->length = v8;
+  data = v5->data;
+  v5->length = v9;
   if ( data )
     CRYPTO_free(data);
-  v4->data = v10;
-  v4->type = 3;
+  v5->data = (unsigned __int8 *)a1;
+  v5->type = 3;
   if ( a )
-    *a = v4;
-  result = v4;
-  *pp = v7;
+    *a = v5;
+  result = v5;
+  *pp = v8;
   return result;
 }

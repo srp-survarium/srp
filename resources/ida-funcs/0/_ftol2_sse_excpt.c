@@ -1,4 +1,4 @@
-int __usercall _ftol2_sse_excpt@<eax>(double a1@<st0>)
+unsigned int __usercall _ftol2_sse_excpt@<eax>(double a1@<st0>)
 {
   char v2; // [esp+0h] [ebp-4h]
 

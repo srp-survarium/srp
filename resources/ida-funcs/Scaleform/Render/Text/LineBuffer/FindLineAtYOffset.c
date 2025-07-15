@@ -1,7 +1,7 @@
 Scaleform::Render::Text::LineBuffer::Iterator *__thiscall Scaleform::Render::Text::LineBuffer::FindLineAtYOffset(
         Scaleform::Render::Text::LineBuffer *this,
         Scaleform::Render::Text::LineBuffer::Iterator *result,
-        int yoff)
+        float yoff)
 {
   unsigned int Size; // eax
   unsigned int v5; // eax
@@ -20,18 +20,18 @@ Scaleform::Render::Text::LineBuffer::Iterator *__thiscall Scaleform::Render::Tex
          &this->Lines,
          0,
          Size,
-         (const float *)&yoff,
+         &yoff,
          Scaleform::Render::Text::LineBuffer::LineYOffsetComparator::Less);
   v6 = v5;
   if ( v5 == this->Lines.Data.Size )
     v6 = v5 - 1;
-  v7 = *(float *)&yoff;
+  v7 = yoff;
   v8 = this->Lines.Data.Data[v6];
-  if ( (double)v8->Data32.OffsetY <= *(float *)&yoff
+  if ( (double)v8->Data32.OffsetY <= yoff
     && ((v8->MemSize & 0x80000000) == 0 ? (Height = v8->Data32.Height) : (Height = v8->Data8.Height),
         (v8->MemSize & 0x80000000) == 0 ? (Leading = v8->Data32.Leading) : (Leading = v8->Data8.Leading),
-        yoff = v8->Data32.OffsetY + Height + Leading,
-        (double)yoff > v7) )
+        LODWORD(yoff) = v8->Data32.OffsetY + Height + Leading,
+        (double)SLODWORD(yoff) > v7) )
   {
     v11 = result;
     Flags = this->Geom.Flags;

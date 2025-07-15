@@ -9,15 +9,18 @@ unsigned int __thiscall Scaleform::Render::Text::HTMLImageTagDesc::GetHash(
   int v7; // ecx
   unsigned int v8; // esi
   char v10; // [esp+Bh] [ebp-11h]
-  unsigned int v[4]; // [esp+Ch] [ebp-10h]
+  int v11; // [esp+Ch] [ebp-10h]
+  int v12; // [esp+10h] [ebp-Ch]
+  unsigned int v13; // [esp+14h] [ebp-8h]
+  int Alignment; // [esp+18h] [ebp-4h]
 
   VSpace = this->VSpace;
   HSpace = this->HSpace;
   ParaId = this->ParaId;
-  v[0] = VSpace;
-  v[3] = this->Alignment;
-  v[1] = HSpace;
-  v[2] = ParaId;
+  v11 = VSpace;
+  Alignment = this->Alignment;
+  v12 = HSpace;
+  v13 = ParaId;
   v5 = 16;
   v6 = 5381;
   do

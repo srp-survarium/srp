@@ -1,13 +1,19 @@
-BOOL __cdecl BN_GF2m_mod_div(bignum_st *r, const bignum_st *y, const bignum_st *x, const bignum_st *p, bignum_ctx *ctx)
+BOOL __usercall BN_GF2m_mod_div@<eax>(
+        int a1@<ebx>,
+        bignum_st *r,
+        const bignum_st *y,
+        const bignum_st *x,
+        const bignum_st *p,
+        bignum_ctx *ctx)
 {
-  BOOL v5; // ebp
-  bignum_pool_item *v6; // edi
+  BOOL v6; // ebp
+  bignum_pool_item *v7; // edi
 
-  v5 = 0;
-  BN_CTX_start(ctx);
-  v6 = BN_CTX_get(ctx);
-  if ( v6 && BN_GF2m_mod_inv(v6->vals, x, p, ctx) )
-    v5 = BN_GF2m_mod_mul(r, y, v6->vals, p, ctx) != 0;
+  v6 = 0;
+  BN_CTX_start(a1, ctx);
+  v7 = BN_CTX_get(a1, ctx);
+  if ( v7 && BN_GF2m_mod_inv(v7->vals, x, p, ctx) )
+    v6 = BN_GF2m_mod_mul(r, y, v7->vals, p, ctx) != 0;
   BN_CTX_end(ctx);
-  return v5;
+  return v6;
 }

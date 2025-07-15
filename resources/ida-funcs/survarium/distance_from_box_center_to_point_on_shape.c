@@ -1,52 +1,68 @@
-long double __cdecl survarium::distance_from_box_center_to_point_on_shape(
-        const vostok::math::float4x4 *transform,
-        const vostok::math::float3 *dim,
-        const vostok::math::float3 *source_position)
+int __userpurge survarium::distance_from_box_center_to_point_on_shape@<xmm0>(
+        const vostok::math::float3 *source_position@<ecx>,
+        const vostok::math::float4x4 *transform@<edx>,
+        const vostok::math::float3 *dim)
 {
-  survarium::game_camera *v3; // ecx
-  const vostok::math::float3_pod *v4; // eax
-  survarium::game_camera *v5; // ecx
-  vostok::math::float3 *v6; // eax
-  float x; // ecx
-  vostok::math::float3 *v8; // eax
-  const float *v9; // eax
-  const float *v10; // eax
-  vostok::math::float3 *v11; // eax
-  const vostok::math::float3_pod *v12; // eax
-  vostok::math::float3 *v13; // eax
-  vostok::math::float3_pod *v14; // ecx
-  vostok::math::float3 v16; // [esp+Ch] [ebp-50h] BYREF
-  vostok::math::float3 v17; // [esp+18h] [ebp-44h] BYREF
-  float dist; // [esp+24h] [ebp-38h] BYREF
-  vostok::math::float3 axis; // [esp+28h] [ebp-34h] BYREF
-  int i; // [esp+34h] [ebp-28h]
-  vostok::math::float3 dir; // [esp+38h] [ebp-24h] BYREF
-  vostok::math::float3 result; // [esp+44h] [ebp-18h] BYREF
-  vostok::math::float3 half_sides; // [esp+50h] [ebp-Ch] BYREF
+  vostok::math::float4_pod *p_c; // eax
+  float v4; // xmm5_4
+  float v5; // xmm6_4
+  float v6; // xmm7_4
+  int v7; // ecx
+  float v8; // xmm0_4
+  float v9; // xmm3_4
+  float v10; // xmm1_4
+  float v11; // xmm2_4
+  float v12; // xmm0_4
+  float v13; // xmm4_4
+  float v14; // xmm4_4
+  float v15; // xmm1_4
+  int result; // xmm0_4
+  vostok::math::float3 v17; // [esp+0h] [ebp-24h]
+  unsigned __int64 v18; // [esp+Ch] [ebp-18h]
+  float v19; // [esp+14h] [ebp-10h]
+  __int64 v20; // [esp+18h] [ebp-Ch]
+  float z; // [esp+20h] [ebp-4h]
 
-  survarium::weapon_user_dead_state::finalize(v3);
-  vostok::math::operator-(v4, source_position, &dir);
-  survarium::weapon_user_dead_state::finalize(v5);
-  result = *v6;
-  x = dim->x;
-  half_sides = *dim;
-  for ( i = 0; i < 3; ++i )
+  p_c = &transform->c;
+  v4 = source_position->x - transform->c.x;
+  v5 = source_position->y - transform->c.y;
+  v6 = source_position->z - transform->c.z;
+  v20 = *(_QWORD *)&transform->lines[3].x;
+  z = transform->c.z;
+  v17 = *dim;
+  v7 = 0;
+  do
   {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)LODWORD(x));
-    axis = *v8;
-    vostok::math::float3_pod::normalize(&axis);
-    dist = vostok::math::float3_pod::dot_product(&dir, &axis);
-    v9 = vostok::math::float3_pod::operator[]((vostok::math::float3_pod *)i, (int)&half_sides);
-    if ( dist > *v9 )
-      dist = *vostok::math::float3_pod::operator[]((vostok::math::float3_pod *)i, (int)&half_sides);
-    v10 = vostok::math::float3_pod::operator[]((vostok::math::float3_pod *)i, (int)&half_sides);
-    if ( (float)-*v10 > dist )
-      dist = -*vostok::math::float3_pod::operator[]((vostok::math::float3_pod *)i, (int)&half_sides);
-    v11 = vostok::math::operator*(&axis, &v17, &dist);
-    vostok::math::float3_pod::operator+=(v11, &result);
-    LODWORD(x) = i + 1;
+    v18 = *(_QWORD *)&transform->i.x;
+    v19 = transform->i.z;
+    v8 = s_bm_current_air_resistance
+       / fsqrt(
+           (float)((float)(v19 * v19) + (float)(*((float *)&v18 + 1) * *((float *)&v18 + 1)))
+         + (float)(*(float *)&v18 * *(float *)&v18));
+    v9 = *((float *)&v18 + 1) * v8;
+    v10 = v8 * *(float *)&v18;
+    v11 = v19 * v8;
+    v12 = (float)((float)((float)(v19 * v8) * v6) + (float)((float)(*((float *)&v18 + 1) * v8) * v5))
+        + (float)((float)(v8 * *(float *)&v18) * v4);
+    v13 = *(&v17.x + v7);
+    v18 = __PAIR64__(LODWORD(v9), LODWORD(v10));
+    v19 = v11;
+    if ( v12 > v13 )
+      v12 = v13;
+    LODWORD(v14) = LODWORD(v13) ^ _mask__NegFloat_;
+    if ( v14 > v12 )
+      v12 = v14;
+    v15 = (float)(v10 * v12) + *(float *)&v20;
+    *((float *)&v20 + 1) = *((float *)&v20 + 1) + (float)(v9 * v12);
+    ++v7;
+    transform = (const vostok::math::float4x4 *)((char *)transform + 16);
+    *(float *)&v20 = v15;
+    z = z + (float)(v11 * v12);
   }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)LODWORD(x));
-  v13 = vostok::math::operator-(&result, v12, &v16);
-  return vostok::math::float3_pod::length(v14, &v13->x);
+  while ( v7 < 3 );
+  *(float *)&result = fsqrt(
+                        (float)((float)((float)(p_c->z - z) * (float)(p_c->z - z))
+                              + (float)((float)(p_c->y - *((float *)&v20 + 1)) * (float)(p_c->y - *((float *)&v20 + 1))))
+                      + (float)((float)(p_c->x - v15) * (float)(p_c->x - v15)));
+  return result;
 }

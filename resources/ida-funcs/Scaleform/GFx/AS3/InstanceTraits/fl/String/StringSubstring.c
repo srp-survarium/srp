@@ -2,14 +2,14 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::InstanceTraits::fl::Strin
         Scaleform::GFx::ASString *result,
         Scaleform::GFx::AS3::StringManager *sm,
         const Scaleform::GFx::ASString *self,
-        const char *start,
+        char *start,
         int length)
 {
   int v5; // edi
   Scaleform::GFx::ASStringManager *v6; // eax
   Scaleform::GFx::ASStringNode *v7; // ecx
   Scaleform::GFx::ASString *v8; // eax
-  const char *v9; // esi
+  char *v9; // esi
   signed int v10; // eax
   Scaleform::GFx::ASStringManager *pStringManager; // eax
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // ecx

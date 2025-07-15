@@ -1,26 +1,21 @@
 void __usercall survarium::lobby_menu::on_profile_arrived(
-        survarium::lobby_menu *this@<ecx>,
-        unsigned __int8 profile_id@<al>)
+        survarium::lobby_menu *this@<edi>,
+        unsigned __int8 profile_idx@<al>,
+        survarium::flash_value *a3@<ecx>)
 {
-  survarium::flash_movie_resource *m_object; // eax
-  survarium::flash_value profile_id_value; // [esp+0h] [ebp-1Ch] BYREF
+  Scaleform::GFx::Value pargs; // [esp+8h] [ebp-18h] BYREF
 
-  if ( this->m_selected_profile == profile_id )
+  if ( this->m_selected_profile_idx == profile_idx )
   {
-    *(_DWORD *)&profile_id_value.body[8] = profile_id;
-    m_object = this->m_lobby_menu_ui.m_object;
-    *(_DWORD *)profile_id_value.body = 0;
-    *(_DWORD *)&profile_id_value.body[4] = 4;
+    pargs.pObjectInterface = 0;
+    pargs.Type = VT_Undefined;
+    survarium::flash_value::SetUInt(a3, (int)&pargs, profile_idx);
     Scaleform::GFx::Movie::Invoke(
-      m_object->movie->m_movie,
+      this->m_lobby_menu_ui.m_object->movie->m_movie,
       "_root.player_profile.selectProfile",
       0,
-      (const Scaleform::GFx::Value *)&profile_id_value,
+      &pargs,
       1u);
-    if ( (profile_id_value.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)profile_id_value.body + 8))(
-        *(_DWORD *)profile_id_value.body,
-        &profile_id_value,
-        *(_DWORD *)&profile_id_value.body[8]);
+    Scaleform::GFx::Value::~Value(&pargs);
   }
 }

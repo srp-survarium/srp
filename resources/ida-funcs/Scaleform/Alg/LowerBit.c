@@ -7,7 +7,7 @@ int __cdecl Scaleform::Alg::LowerBit(unsigned int val)
     else
       return Scaleform::Alg::LowerBitTable[BYTE1(val)] + 8;
   }
-  else if ( ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & val) != 0 )
+  else if ( (val & 0xFF0000) != 0 )
   {
     return Scaleform::Alg::LowerBitTable[BYTE2(val)] + 16;
   }

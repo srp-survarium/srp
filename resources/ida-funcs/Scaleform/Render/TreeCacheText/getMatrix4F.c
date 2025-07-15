@@ -12,7 +12,7 @@ void __thiscall Scaleform::Render::TreeCacheText::getMatrix4F(
       viewProj,
       (const Scaleform::Render::Matrix3x4<float> *)(&pHandle->pHeader[1].RefCount
                                                   + 4
-                                                  * (unsigned __int8)byte_9B2B74[5 * (pHandle->pHeader->Format & 0xF)]));
+                                                  * (unsigned __int8)byte_874214[5 * (pHandle->pHeader->Format & 0xF)]));
   else
     Scaleform::Render::Matrix4x4<float>::MultiplyMatrix(m4, viewProj, &Scaleform::Render::Matrix3x4<float>::Identity);
 }

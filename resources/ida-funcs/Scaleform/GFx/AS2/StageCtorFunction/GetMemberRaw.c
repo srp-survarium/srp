@@ -1,11 +1,11 @@
 char __thiscall Scaleform::GFx::AS2::StageCtorFunction::GetMemberRaw(
         Scaleform::GFx::AS2::StageCtorFunction *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
-        float name,
+        Scaleform::GFx::ASString name,
         Scaleform::GFx::AS2::Value *val)
 {
-  const Scaleform::GFx::ASString *v4; // ebp
-  Scaleform::GFx::ASStringNode *pNode; // ecx
+  Scaleform::GFx::ASStringNode *pNode; // ebp
+  Scaleform::GFx::ASStringNode *pData; // ecx
   Scaleform::GFx::MovieImpl **p_pMovieImpl; // esi
   bool v8; // zf
   double v9; // st7
@@ -29,32 +29,32 @@ char __thiscall Scaleform::GFx::AS2::StageCtorFunction::GetMemberRaw(
   bool v28; // zf
   bool v29; // bl
   char *v30; // edx
-  const Scaleform::GFx::ASString *v31; // eax
+  Scaleform::GFx::ASStringNode *v31; // eax
   Scaleform::GFx::AS2::Value *v32; // ecx
   Scaleform::GFx::ASStringNode *v33; // esi
   Scaleform::GFx::AS2::StageCtorFunction *v34; // [esp+10h] [ebp-4h]
 
-  v4 = (const Scaleform::GFx::ASString *)LODWORD(name);
-  pNode = *(Scaleform::GFx::ASStringNode **)LODWORD(name);
+  pNode = name.pNode;
+  pData = (Scaleform::GFx::ASStringNode *)name.pNode->pData;
   p_pMovieImpl = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[33].pMovieImpl;
   v34 = this;
   if ( psc->SWFVersion <= 6u )
   {
-    if ( !pNode->pLower )
-      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(pNode);
-    pNode = v4->pNode;
-    v8 = (*p_pMovieImpl)->Scaleform::GFx::Movie::Scaleform::GFx::StateBag::__vftable == (Scaleform::GFx::StateBag_vtbl *)v4->pNode->pLower;
+    if ( !pData->pLower )
+      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(pData);
+    pData = (Scaleform::GFx::ASStringNode *)pNode->pData;
+    v8 = (*p_pMovieImpl)->Scaleform::GFx::Movie::Scaleform::GFx::StateBag::__vftable == (Scaleform::GFx::StateBag_vtbl *)*((_DWORD *)pNode->pData + 2);
   }
   else
   {
-    v8 = *p_pMovieImpl == (Scaleform::GFx::MovieImpl *)pNode;
+    v8 = *p_pMovieImpl == (Scaleform::GFx::MovieImpl *)pData;
   }
   if ( v8 )
   {
-    name = *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 168)
-         - *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 160);
-    name = name * 0.05000000074505806;
-    v9 = name;
+    *(float *)&name.pNode = *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 168)
+                          - *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 160);
+    *(float *)&name.pNode = *(float *)&name.pNode * 0.05000000074505806;
+    v9 = *(float *)&name.pNode;
 LABEL_8:
     v10 = val;
     if ( val->T.Type >= 5u )
@@ -66,20 +66,20 @@ LABEL_8:
   p_pASSupport = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[33].pASSupport;
   if ( psc->SWFVersion <= 6u )
   {
-    if ( !pNode->pLower )
-      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(pNode);
-    v13 = (Scaleform::GFx::ASStringNode *)p_pASSupport->pObject->SType == v4->pNode->pLower;
+    if ( !pData->pLower )
+      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(pData);
+    v13 = p_pASSupport->pObject->SType == *((_DWORD *)pNode->pData + 2);
   }
   else
   {
-    v13 = p_pASSupport->pObject == (Scaleform::GFx::ASSupport *)pNode;
+    v13 = p_pASSupport->pObject == (Scaleform::GFx::ASSupport *)pData;
   }
   if ( v13 )
   {
-    name = *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 172)
-         - *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 164);
-    name = name * 0.05000000074505806;
-    v9 = name;
+    *(float *)&name.pNode = *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 172)
+                          - *(float *)(*(_DWORD *)&this->ResolveHandler.Flags + 164);
+    *(float *)&name.pNode = *(float *)&name.pNode * 0.05000000074505806;
+    v9 = *(float *)&name.pNode;
     goto LABEL_8;
   }
   v14 = psc->SWFVersion > 6u;
@@ -92,15 +92,15 @@ LABEL_8:
   ++ConstStringNode->RefCount;
   if ( v14 )
   {
-    v17 = ConstStringNode == v4->pNode;
+    v17 = ConstStringNode == (Scaleform::GFx::ASStringNode *)pNode->pData;
   }
   else
   {
     if ( !ConstStringNode->pLower )
       Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(ConstStringNode);
-    if ( !v4->pNode->pLower )
-      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(v4->pNode);
-    v17 = v16->pLower == v4->pNode->pLower;
+    if ( !*((_DWORD *)pNode->pData + 2) )
+      Scaleform::GFx::ASStringNode::ResolveLowercase_Impl((Scaleform::GFx::ASStringNode *)pNode->pData);
+    v17 = v16->pLower == (Scaleform::GFx::ASStringNode *)*((_DWORD *)pNode->pData + 2);
   }
   v18 = v17;
   v8 = v16->RefCount-- == 1;
@@ -158,15 +158,15 @@ LABEL_8:
     ++v26->RefCount;
     if ( v25 )
     {
-      v28 = v26 == v4->pNode;
+      v28 = v26 == (Scaleform::GFx::ASStringNode *)pNode->pData;
     }
     else
     {
       if ( !v26->pLower )
         Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(v26);
-      if ( !v4->pNode->pLower )
-        Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(v4->pNode);
-      v28 = v27->pLower == v4->pNode->pLower;
+      if ( !*((_DWORD *)pNode->pData + 2) )
+        Scaleform::GFx::ASStringNode::ResolveLowercase_Impl((Scaleform::GFx::ASStringNode *)pNode->pData);
+      v28 = v27->pLower == (Scaleform::GFx::ASStringNode *)*((_DWORD *)pNode->pData + 2);
     }
     v29 = v28;
     v8 = v27->RefCount-- == 1;
@@ -201,19 +201,19 @@ LABEL_8:
           v30 = "RB";
           break;
         default:
-          v30 = (char *)&buf;
+          v30 = (char *)uri;
           break;
       }
-      v31 = (const Scaleform::GFx::ASString *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                                                (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                                                v30,
-                                                strlen(v30),
-                                                0);
+      v31 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+              (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+              v30,
+              strlen(v30),
+              0);
       v32 = val;
-      v33 = (Scaleform::GFx::ASStringNode *)v31;
-      ++v31[3].pNode;
-      name = *(float *)&v31;
-      Scaleform::GFx::AS2::Value::SetString(v32, (const Scaleform::GFx::ASString *)&name);
+      v33 = v31;
+      ++v31->RefCount;
+      name.pNode = v31;
+      Scaleform::GFx::AS2::Value::SetString(v32, &name);
       v8 = v33->RefCount-- == 1;
       if ( !v8 )
         return 1;
@@ -222,7 +222,7 @@ LABEL_8:
     }
     else
     {
-      return Scaleform::GFx::AS2::Object::GetMemberRaw(v34, psc, v4, val);
+      return Scaleform::GFx::AS2::Object::GetMemberRaw(v34, psc, (const Scaleform::GFx::ASString *)pNode, val);
     }
   }
 }

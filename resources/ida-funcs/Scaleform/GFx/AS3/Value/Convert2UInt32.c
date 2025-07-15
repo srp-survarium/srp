@@ -17,7 +17,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Value::Convert
     case 0u:
     case 5u:
     case 0xFu:
-      goto $LN14_77;
+      goto $LN14_85;
     case 1u:
       resulta->VInt = this->value.VS._1.VBool;
       v4 = result;
@@ -82,7 +82,7 @@ LABEL_7:
       }
       else
       {
-$LN14_77:
+$LN14_85:
         resulta->VInt = 0;
         v4 = result;
         result->Result = 1;

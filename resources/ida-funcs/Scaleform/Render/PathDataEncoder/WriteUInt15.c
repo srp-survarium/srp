@@ -45,7 +45,7 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
   unsigned int v11; // esi
   unsigned int v12; // ebx
   bool *v13; // ecx
-  char va; // [esp+14h] [ebp+4h]
+  char v14; // [esp+14h] [ebp+4h]
 
   Data = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)this->Data;
   v5 = this->Data->Data.Size + 1;
@@ -72,7 +72,7 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
     return 1;
   }
   v8 = (2 * v) | 1;
-  va = v8;
+  v14 = v8;
   if ( v5 >= Data->Size )
   {
     if ( v5 >= Data->Policy.Capacity )
@@ -88,7 +88,7 @@ unsigned int __thiscall Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_PO
   {
     Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy>::Reserve(Data, Data, v5);
 LABEL_13:
-    v8 = va;
+    v8 = v14;
   }
   v9 = Data->Data;
   Data->Size = v5;

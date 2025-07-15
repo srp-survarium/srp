@@ -13,49 +13,49 @@ BOOL __thiscall Scaleform::Render::FilterEffect::UpdateMatrix(
   float *v11; // eax
   Scaleform::Render::MatrixPoolImpl::HMatrix v12; // edx
   float *v13; // eax
-  char CanCacheAcrossTransform; // [esp+17Dh] [ebp-51h]
-  float v16; // [esp+17Eh] [ebp-50h]
-  float v17; // [esp+17Eh] [ebp-50h]
-  float v18; // [esp+17Eh] [ebp-50h]
-  float v19; // [esp+17Eh] [ebp-50h]
-  float v20; // [esp+17Eh] [ebp-50h]
-  float v21; // [esp+17Eh] [ebp-50h]
-  float v22; // [esp+182h] [ebp-4Ch]
-  float v23; // [esp+186h] [ebp-48h]
-  float v24; // [esp+186h] [ebp-48h]
-  float v25; // [esp+186h] [ebp-48h]
-  float v26; // [esp+186h] [ebp-48h]
-  float v27; // [esp+186h] [ebp-48h]
-  float v28; // [esp+186h] [ebp-48h]
-  float v29; // [esp+186h] [ebp-48h]
-  float v30; // [esp+18Ah] [ebp-44h]
-  Scaleform::Render::Matrix2x4<float> m; // [esp+18Eh] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> m2; // [esp+1AEh] [ebp-20h] BYREF
+  char CanCacheAcrossTransform; // [esp+Fh] [ebp-51h]
+  float v16; // [esp+10h] [ebp-50h]
+  float v17; // [esp+10h] [ebp-50h]
+  float v18; // [esp+10h] [ebp-50h]
+  float v19; // [esp+10h] [ebp-50h]
+  float v20; // [esp+10h] [ebp-50h]
+  float v21; // [esp+10h] [ebp-50h]
+  float v22; // [esp+14h] [ebp-4Ch]
+  float v23; // [esp+18h] [ebp-48h]
+  float v24; // [esp+18h] [ebp-48h]
+  float v25; // [esp+18h] [ebp-48h]
+  float v26; // [esp+18h] [ebp-48h]
+  float v27; // [esp+18h] [ebp-48h]
+  float v28; // [esp+18h] [ebp-48h]
+  float v29; // [esp+18h] [ebp-48h]
+  float v30; // [esp+1Ch] [ebp-44h]
+  Scaleform::Render::Matrix2x4<float> v31; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v32; // [esp+40h] [ebp-20h] BYREF
 
   pHeader = this->BoundsMatrix.pHandle->pHeader;
   p_BoundsMatrix = &this->BoundsMatrix;
   CanCacheAcrossTransform = 0;
   if ( (pHeader->Format & 4) != 0 )
     v7 = (Scaleform::Render::Matrix2x4<float> *)(&pHeader[1].RefCount
-                                               + 4 * (unsigned __int8)byte_9B2B72[5 * (pHeader->Format & 0xF)]);
+                                               + 4 * (unsigned __int8)byte_874212[5 * (pHeader->Format & 0xF)]);
   else
     v7 = &Scaleform::Render::Matrix2x4<float>::Identity;
-  m2.M[0][0] = 0.0;
-  m2.M[0][1] = 0.0;
-  m2.M[0][2] = 0.0;
-  m2.M[0][3] = 0.0;
-  m2.M[1][0] = 0.0;
-  m2.M[1][1] = 0.0;
-  m2.M[1][2] = 0.0;
-  m2.M[1][3] = 0.0;
-  if ( forceUncache || (p_BoundsMatrix->pHandle->pHeader->Format & 4) == 0 || Scaleform::Render::operator==(v7, &m2) )
+  v32.M[0][0] = 0.0;
+  v32.M[0][1] = 0.0;
+  v32.M[0][2] = 0.0;
+  v32.M[0][3] = 0.0;
+  v32.M[1][0] = 0.0;
+  v32.M[1][1] = 0.0;
+  v32.M[1][2] = 0.0;
+  v32.M[1][3] = 0.0;
+  if ( forceUncache || (p_BoundsMatrix->pHandle->pHeader->Format & 4) == 0 || Scaleform::Render::operator==(v7, &v32) )
   {
     v8 = newNodeMatrix;
 LABEL_32:
-    Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, v8, Element_T0);
-    Scaleform::Render::MatrixPoolImpl::HMatrix::SetUserData(p_BoundsMatrix, (unsigned __int8 *)boundsMatrix, 0x20u);
+    Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, v8, 1u);
+    Scaleform::Render::MatrixPoolImpl::HMatrix::SetUserData(p_BoundsMatrix, (const __m128i *)boundsMatrix, 0x20u);
     Scaleform::Render::MatrixPoolImpl::HMatrix::SetMatrix2D(p_BoundsMatrix, boundsMatrix);
-    Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, boundsMatrix, Element_Cxform);
+    Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, boundsMatrix, 0);
     return CanCacheAcrossTransform == 0;
   }
   v22 = newNodeMatrix->M[0][3];
@@ -92,35 +92,35 @@ LABEL_32:
     goto LABEL_32;
   v10 = p_BoundsMatrix->pHandle->pHeader;
   if ( (v10->Format & 8) != 0 )
-    v11 = (float *)(&v10[1].RefCount + 4 * (unsigned __int8)byte_9B2B73[5 * (v10->Format & 0xF)]);
+    v11 = (float *)(&v10[1].RefCount + 4 * (unsigned __int8)byte_874213[5 * (v10->Format & 0xF)]);
   else
     v11 = 0;
   v12.pHandle = p_BoundsMatrix->pHandle;
-  m2.M[0][0] = *v11;
-  m2.M[0][1] = v11[1];
-  m2.M[0][2] = v11[2];
-  m2.M[0][3] = v11[3];
-  m2.M[1][0] = v11[4];
-  m2.M[1][1] = v11[5];
-  m2.M[1][2] = v11[6];
-  m2.M[1][3] = v11[7];
+  v32.M[0][0] = *v11;
+  v32.M[0][1] = v11[1];
+  v32.M[0][2] = v11[2];
+  v32.M[0][3] = v11[3];
+  v32.M[1][0] = v11[4];
+  v32.M[1][1] = v11[5];
+  v32.M[1][2] = v11[6];
+  v32.M[1][3] = v11[7];
   if ( (v12.pHandle->pHeader->Format & 4) != 0 )
     v13 = (float *)(&v12.pHandle->pHeader[1].RefCount
-                  + 4 * (unsigned __int8)byte_9B2B72[5 * (v12.pHandle->pHeader->Format & 0xF)]);
+                  + 4 * (unsigned __int8)byte_874212[5 * (v12.pHandle->pHeader->Format & 0xF)]);
   else
     v13 = (float *)&Scaleform::Render::Matrix2x4<float>::Identity;
-  m.M[0][0] = *v13;
-  m.M[0][1] = v13[1];
-  m.M[0][2] = v13[2];
-  m.M[0][3] = v13[3];
-  m.M[1][0] = v13[4];
-  m.M[1][1] = v13[5];
-  m.M[1][2] = v13[6];
-  m.M[1][3] = v13[7];
-  Scaleform::Render::Matrix2x4<float>::Invert(&m);
-  Scaleform::Render::Matrix2x4<float>::Append(&m, newNodeMatrix);
-  Scaleform::Render::Matrix2x4<float>::Append(&m2, &m);
-  Scaleform::Render::MatrixPoolImpl::HMatrix::SetMatrix2D(p_BoundsMatrix, &m2);
-  Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, boundsMatrix, Element_Cxform);
+  v31.M[0][0] = *v13;
+  v31.M[0][1] = v13[1];
+  v31.M[0][2] = v13[2];
+  v31.M[0][3] = v13[3];
+  v31.M[1][0] = v13[4];
+  v31.M[1][1] = v13[5];
+  v31.M[1][2] = v13[6];
+  v31.M[1][3] = v13[7];
+  Scaleform::Render::Matrix2x4<float>::Invert(&v31);
+  Scaleform::Render::Matrix2x4<float>::Append(&v31, newNodeMatrix);
+  Scaleform::Render::Matrix2x4<float>::Append(&v32, &v31);
+  Scaleform::Render::MatrixPoolImpl::HMatrix::SetMatrix2D(p_BoundsMatrix, &v32);
+  Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(p_BoundsMatrix, boundsMatrix, 0);
   return CanCacheAcrossTransform == 0;
 }

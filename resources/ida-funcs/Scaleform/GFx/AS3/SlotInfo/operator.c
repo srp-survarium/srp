@@ -6,6 +6,8 @@ Scaleform::GFx::AS3::SlotInfo *__thiscall Scaleform::GFx::AS3::SlotInfo::operato
   int v4; // ecx
   int v5; // eax
   int v6; // ecx
+  Scaleform::GFx::ASStringNode *pObject; // eax
+  Scaleform::GFx::ASStringNode *v8; // ecx
 
   if ( this != other )
   {
@@ -30,6 +32,16 @@ Scaleform::GFx::AS3::SlotInfo *__thiscall Scaleform::GFx::AS3::SlotInfo::operato
       (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&other->File);
     this->TI = other->TI;
     *(_DWORD *)this ^= (*(_DWORD *)this ^ ((32 * *(_DWORD *)other) >> 5)) & 0x7FFFC00;
+    pObject = other->Name.pObject;
+    if ( pObject )
+      ++pObject->RefCount;
+    v8 = this->Name.pObject;
+    if ( v8 )
+    {
+      if ( v8->RefCount-- == 1 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v8);
+    }
+    this->Name.pObject = other->Name.pObject;
   }
   return this;
 }

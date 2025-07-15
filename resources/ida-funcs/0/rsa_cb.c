@@ -1,12 +1,12 @@
-int __usercall rsa_cb@<eax>(unsigned int a1@<edi>, int operation, struct ASN1_VALUE_st **pval)
+int __usercall rsa_cb@<eax>(int a1@<edi>, int a2@<ebx>, int operation, rsa_st **pval)
 {
-  struct ASN1_VALUE_st *v3; // eax
+  rsa_st *v4; // eax
 
   if ( operation )
   {
     if ( operation == 2 )
     {
-      RSA_free(a1, (rsa_st *)*pval);
+      RSA_free(a1, a2, *pval);
       *pval = 0;
       return 2;
     }
@@ -17,8 +17,8 @@ int __usercall rsa_cb@<eax>(unsigned int a1@<edi>, int operation, struct ASN1_VA
   }
   else
   {
-    v3 = (struct ASN1_VALUE_st *)RSA_new();
-    *pval = v3;
-    return v3 != 0 ? 2 : 0;
+    v4 = RSA_new(a2);
+    *pval = v4;
+    return v4 != 0 ? 2 : 0;
   }
 }

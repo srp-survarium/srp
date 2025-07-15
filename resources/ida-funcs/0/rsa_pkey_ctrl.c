@@ -1,6 +1,6 @@
-int __cdecl rsa_pkey_ctrl(evp_pkey_st *pkey, int op, int arg1, pkcs7_signer_info_st *arg2)
+int __usercall rsa_pkey_ctrl@<eax>(int a1@<ebx>, evp_pkey_st *pkey, int op, int arg1, pkcs7_signer_info_st *arg2)
 {
-  asn1_object_st *v4; // eax
+  asn1_object_st *v5; // eax
   X509_algor_st *psig; // [esp+0h] [ebp-4h] BYREF
 
   psig = 0;
@@ -34,8 +34,8 @@ int __cdecl rsa_pkey_ctrl(evp_pkey_st *pkey, int op, int arg1, pkcs7_signer_info
   }
   if ( psig )
   {
-    v4 = OBJ_nid2obj(6u);
-    X509_ALGOR_set0(psig, v4, 5, 0);
+    v5 = OBJ_nid2obj(a1, 6u);
+    X509_ALGOR_set0(psig, v5, 5, 0);
   }
   return 1;
 }

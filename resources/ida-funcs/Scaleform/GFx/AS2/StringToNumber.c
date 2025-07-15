@@ -1,61 +1,61 @@
-bool __usercall Scaleform::GFx::AS2::StringToNumber@<al>(char *str@<esi>, long double *result)
+bool __usercall Scaleform::GFx::AS2::StringToNumber@<al>(char *str@<esi>, int a2@<edi>, long double *result)
 {
-  unsigned int v2; // ebx
-  int v3; // eax
+  int v3; // ebx
   int v4; // eax
-  char v5; // al
-  int v6; // ebp
-  char *v7; // edi
-  int v8; // eax
-  long double v9; // st7
-  char *tail; // [esp+0h] [ebp-8h] BYREF
-  int sign; // [esp+4h] [ebp-4h]
+  int v5; // eax
+  char v6; // al
+  int v7; // ebp
+  char *v8; // edi
+  int v9; // eax
+  long double v10; // st7
+  char *v12; // [esp+0h] [ebp-8h] BYREF
+  signed int v13; // [esp+4h] [ebp-4h]
 
-  tail = 0;
-  v2 = strlen(str);
+  v12 = 0;
+  v3 = strlen(str);
   if ( *str != 48 )
     goto LABEL_6;
-  v3 = str[1];
-  if ( (unsigned int)(v3 - 65) <= 0x19 )
-    v3 += 32;
-  if ( v3 != 120 )
+  v4 = str[1];
+  if ( (unsigned int)(v4 - 65) <= 0x19 )
+    v4 += 32;
+  if ( v4 != 120 )
   {
 LABEL_6:
     strcspn((unsigned __int8 *)str, ".Ee");
-    if ( v4 != v2 )
+    if ( v5 != v3 )
     {
-      *result = Scaleform::SFstrtod(str, &tail);
-      return tail != str && !*tail;
+      *result = Scaleform::SFstrtod(a2, str, &v12);
+      return v12 != str && !*v12;
     }
-    v5 = *str;
-    v6 = 1;
-    v7 = str;
-    sign = 1;
-    if ( v5 == 45 )
+    v6 = *str;
+    v7 = 1;
+    v8 = str;
+    v13 = 1;
+    if ( v6 == 45 )
     {
-      v6 = -1;
-      sign = -1;
+      v7 = -1;
+      v13 = -1;
     }
-    else if ( v5 != 43 )
+    else if ( v6 != 43 )
     {
 LABEL_12:
-      if ( *v7 == 48 && (strspn((unsigned __int8 *)v7, "01234567"), v8 == v2) )
+      if ( *v8 == 48 && (strspn((unsigned __int8 *)v8, "01234567"), v9 == v3) )
       {
-        sign = v6 * strtoul(v2, v7, &tail, 8u);
-        *result = (double)sign;
+        v13 = v7 * strtoul(v3, v8, (const char **)&v12, 8);
+        *result = (double)v13;
       }
       else
       {
-        v9 = Scaleform::SFstrtod(v7, &tail);
-        *result = v9 * (double)sign;
+        v10 = Scaleform::SFstrtod((int)v8, v8, &v12);
+        *result = v10 * (double)v13;
       }
-      return tail != str && !*tail;
+      return v12 != str && !*v12;
     }
-    --v2;
-    v7 = str + 1;
+    --v3;
+    v8 = str + 1;
     goto LABEL_12;
   }
-  sign = strtoul(v2, str, &tail, 0);
-  *result = (double)sign;
-  return tail != str && !*tail;
+  v13 = strtoul(v3, str, (const char **)&v12, 0);
+  *result = (double)v13;
+  return v12 != str && !*v12;
 }

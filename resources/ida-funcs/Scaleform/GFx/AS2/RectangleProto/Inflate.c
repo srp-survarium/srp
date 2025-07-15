@@ -13,13 +13,13 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Inflate(const Scaleform::GFx::
   long double v11; // st7
   Scaleform::GFx::AS2::Environment *v12; // [esp-8h] [ebp-5Ch]
   long double v13; // [esp+Ch] [ebp-48h]
-  Scaleform::GFx::AS2::Value dw; // [esp+14h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v14; // [esp+14h] [ebp-40h] BYREF
   Scaleform::GFx::AS2::Value v15; // [esp+24h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> o1; // [esp+34h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+34h] [ebp-20h] BYREF
 
   Type = 0;
   v2 = fn->NArgs <= 0;
-  dw.T.Type = 0;
+  v14.T.Type = 0;
   v15.T.Type = 0;
   if ( !v2 )
   {
@@ -29,7 +29,7 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Inflate(const Scaleform::GFx::
     v6 = 0;
     if ( fn->FirstArgBottomIndex <= 32 * (p_Stack->Pages.Data.Size - 1) + (v4 >> 4) )
       v6 = &p_Stack->Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-    Scaleform::GFx::AS2::Value::operator=(&dw, v6);
+    Scaleform::GFx::AS2::Value::operator=(&v14, v6);
     if ( fn->NArgs > 1 )
     {
       v7 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
@@ -45,19 +45,19 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Inflate(const Scaleform::GFx::
     else
       p_pProto = 0;
     v10 = fn->Env;
-    o1.x1 = 0.0;
-    o1.y1 = 0.0;
-    o1.x2 = 0.0;
-    o1.y2 = 0.0;
-    Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v10, &o1);
-    v13 = Scaleform::GFx::AS2::Value::ToNumber(&dw, fn->Env);
+    r.x1 = 0.0;
+    r.y1 = 0.0;
+    r.x2 = 0.0;
+    r.y2 = 0.0;
+    Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v10, &r);
+    v13 = Scaleform::GFx::AS2::Value::ToNumber(&v14, fn->Env);
     v11 = Scaleform::GFx::AS2::Value::ToNumber(&v15, fn->Env);
     v12 = fn->Env;
-    o1.x1 = o1.x1 - v13;
-    o1.x2 = v13 + o1.x2;
-    o1.y1 = o1.y1 - v11;
-    o1.y2 = v11 + o1.y2;
-    Scaleform::GFx::AS2::RectangleObject::SetProperties(p_pProto, v12, &o1);
+    r.x1 = r.x1 - v13;
+    r.x2 = v13 + r.x2;
+    r.y1 = r.y1 - v11;
+    r.y2 = v11 + r.y2;
+    Scaleform::GFx::AS2::RectangleObject::SetProperties(p_pProto, v12, &r);
   }
   else
   {
@@ -68,6 +68,6 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Inflate(const Scaleform::GFx::
   }
   if ( Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&v15);
-  if ( dw.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&dw);
+  if ( v14.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v14);
 }

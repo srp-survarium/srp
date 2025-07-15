@@ -3,15 +3,13 @@ void __thiscall btHashedOverlappingPairCache::cleanProxyFromPairs(
         btBroadphaseProxy *proxy,
         btDispatcher *dispatcher)
 {
-  void (__thiscall *processAllOverlappingPairs)(struct btHashedOverlappingPairCache *, btOverlapCallback *, btDispatcher *); // edx
-  btHashedOverlappingPairCache::cleanProxyFromPairs::__l2::CleanPairCallback cleanPairs; // [esp+0h] [ebp-10h] BYREF
+  btHashedOverlappingPairCache_vtbl *v3; // edx
+  _DWORD v4[4]; // [esp+0h] [ebp-10h] BYREF
 
-  processAllOverlappingPairs = this->processAllOverlappingPairs;
-  cleanPairs.m_cleanProxy = proxy;
-  cleanPairs.m_dispatcher = dispatcher;
-  cleanPairs.__vftable = (btHashedOverlappingPairCache::cleanProxyFromPairs::__l2::CleanPairCallback_vtbl *)&`btHashedOverlappingPairCache::cleanProxyFromPairs'::`2'::CleanPairCallback::`vftable';
-  cleanPairs.m_pairCache = this;
-  ((void (__stdcall *)(btHashedOverlappingPairCache::cleanProxyFromPairs::__l2::CleanPairCallback *, btDispatcher *))processAllOverlappingPairs)(
-    &cleanPairs,
-    dispatcher);
+  v3 = this->__vftable;
+  v4[1] = proxy;
+  v4[3] = dispatcher;
+  v4[0] = &`btHashedOverlappingPairCache::cleanProxyFromPairs'::`2'::CleanPairCallback::`vftable';
+  v4[2] = this;
+  ((void (__stdcall *)(_DWORD *, btDispatcher *))v3->processAllOverlappingPairs)(v4, dispatcher);
 }

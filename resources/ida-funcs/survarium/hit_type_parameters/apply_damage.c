@@ -1,26 +1,34 @@
 void __thiscall survarium::hit_type_parameters::apply_damage(
         survarium::hit_type_parameters *this,
         float delta,
-        unsigned int time_in_ms)
+        float *time_in_ms)
 {
-  const vostok::variant<32> **v3; // eax
-  stlp_std::pair<survarium::body_part_parameters *,float> *it; // [esp+20h] [ebp-Ch]
-  stlp_std::pair<survarium::body_part_parameters *,float> *it_end; // [esp+28h] [ebp-4h]
+  survarium::body_part_parameters *m_bdb_count; // ecx
+  survarium::hit_type_parameters *v5; // ebx
+  survarium::hit_type_parameters *i; // edi
+  float v7; // xmm0_4
+  survarium::hit_type_parameters *m_type; // [esp-1Ch] [ebp-30h]
+  float v9; // [esp+Ch] [ebp-8h] BYREF
+  int v10; // [esp+10h] [ebp-4h] BYREF
 
-  it_end = (stlp_std::pair<survarium::body_part_parameters *,float> *)((char *)&this[1] + 8 * this->m_bdb_count);
-  for ( it = (stlp_std::pair<survarium::body_part_parameters *,float> *)&this[1]; it != it_end; ++it )
+  m_bdb_count = (survarium::body_part_parameters *)this->m_bdb_count;
+  v5 = (survarium::hit_type_parameters *)((char *)this + 8 * (_DWORD)m_bdb_count + 32);
+  for ( i = this + 1; i != v5; i = (survarium::hit_type_parameters *)((char *)i + 8) )
   {
-    if ( it->second > 0.0 )
+    v7 = *(float *)&i->m_type;
+    if ( v7 > 0.0 )
     {
-      v3 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-             (stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *)it,
-             (int)&this->m_type);
+      v9 = v7 * delta;
+      m_type = (survarium::hit_type_parameters *)this->m_type;
+      v10 = 0;
       survarium::body_part_parameters::hit_by_type(
-        it->first,
-        (const char *)v3,
+        m_bdb_count,
+        (survarium::affects_threshold *)i->next,
+        m_type,
         time_in_ms,
-        it->second * delta,
-        0.0,
+        &v9,
+        (float *const)&v10,
+        0,
         0,
         0);
     }

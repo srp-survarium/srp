@@ -11,11 +11,11 @@ Scaleform::Render::SIF::SIFFileImageSource *__thiscall Scaleform::Render::SIF::F
     return 0;
   v3 = (Scaleform::Render::SIF::SIFFileImageSource *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                        Scaleform::Memory::pGlobalHeap,
-                                                       112,
+                                                       120,
                                                        0);
   if ( !v3 )
     return 0;
-  Scaleform::Render::SIF::SIFFileImageSource::SIFFileImageSource(v3, file, args->Format);
+  Scaleform::Render::SIF::SIFFileImageSource::SIFFileImageSource(v3, (Scaleform::GFx::Resource *)file, args->Format);
   v5 = v4;
   if ( v4 && !Scaleform::Render::SIF::SIFFileImageSource::ReadHeader(v4) )
   {

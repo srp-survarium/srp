@@ -47,141 +47,141 @@ void __cdecl Scaleform::Render::TessellateCubicRecursively(
   double v44; // st6
   bool v45; // c0
   double v46; // st7
-  float v47; // [esp+18h] [ebp-58h]
-  float v48; // [esp+18h] [ebp-58h]
-  float v49; // [esp+1Ch] [ebp-54h]
-  float v50; // [esp+1Ch] [ebp-54h]
-  float v51; // [esp+20h] [ebp-50h]
-  float v52; // [esp+20h] [ebp-50h]
+  float y3a; // [esp+18h] [ebp-58h]
+  float y3b; // [esp+18h] [ebp-58h]
+  float x4a; // [esp+1Ch] [ebp-54h]
+  float x4b; // [esp+1Ch] [ebp-54h]
+  float y4a; // [esp+20h] [ebp-50h]
+  float y4b; // [esp+20h] [ebp-50h]
   float v53; // [esp+24h] [ebp-4Ch]
   float v54; // [esp+24h] [ebp-4Ch]
-  float d3d; // [esp+34h] [ebp-3Ch]
-  float d3; // [esp+34h] [ebp-3Ch]
-  float d3e; // [esp+34h] [ebp-3Ch]
-  float d3f; // [esp+34h] [ebp-3Ch]
-  float d3g; // [esp+34h] [ebp-3Ch]
-  float d3h; // [esp+34h] [ebp-3Ch]
-  float d3a; // [esp+34h] [ebp-3Ch]
-  float d3b; // [esp+34h] [ebp-3Ch]
-  float d3i; // [esp+34h] [ebp-3Ch]
-  float d3j; // [esp+34h] [ebp-3Ch]
-  float d3c; // [esp+34h] [ebp-3Ch]
-  float d3k; // [esp+34h] [ebp-3Ch]
-  float y23a; // [esp+38h] [ebp-38h]
-  float y23; // [esp+38h] [ebp-38h]
-  double y23b; // [esp+38h] [ebp-38h]
-  float d2c; // [esp+40h] [ebp-30h]
-  float d2d; // [esp+40h] [ebp-30h]
-  float d2e; // [esp+40h] [ebp-30h]
-  float d2; // [esp+40h] [ebp-30h]
-  float d2a; // [esp+40h] [ebp-30h]
-  float d2f; // [esp+40h] [ebp-30h]
-  float d2b; // [esp+40h] [ebp-30h]
-  float d2g; // [esp+40h] [ebp-30h]
-  float d2h; // [esp+40h] [ebp-30h]
-  float d2i; // [esp+40h] [ebp-30h]
-  float d2j; // [esp+40h] [ebp-30h]
-  float d2k; // [esp+40h] [ebp-30h]
-  float d2l; // [esp+40h] [ebp-30h]
-  float dy; // [esp+44h] [ebp-2Ch]
-  float dyb; // [esp+44h] [ebp-2Ch]
-  float dyc; // [esp+44h] [ebp-2Ch]
-  float dyd; // [esp+44h] [ebp-2Ch]
-  float dye; // [esp+44h] [ebp-2Ch]
-  float dyf; // [esp+44h] [ebp-2Ch]
-  float dyg; // [esp+44h] [ebp-2Ch]
-  float dyh; // [esp+44h] [ebp-2Ch]
-  float dyi; // [esp+44h] [ebp-2Ch]
-  float dyj; // [esp+44h] [ebp-2Ch]
-  float dyk; // [esp+44h] [ebp-2Ch]
-  float dyl; // [esp+44h] [ebp-2Ch]
-  float dym; // [esp+44h] [ebp-2Ch]
-  float dyn; // [esp+44h] [ebp-2Ch]
-  float dyo; // [esp+44h] [ebp-2Ch]
-  float dyp; // [esp+44h] [ebp-2Ch]
-  float dyq; // [esp+44h] [ebp-2Ch]
-  float dyr; // [esp+44h] [ebp-2Ch]
-  float dys; // [esp+44h] [ebp-2Ch]
-  float dyt; // [esp+44h] [ebp-2Ch]
-  float dyu; // [esp+44h] [ebp-2Ch]
-  float dyv; // [esp+44h] [ebp-2Ch]
-  float dyw; // [esp+44h] [ebp-2Ch]
-  float dyx; // [esp+44h] [ebp-2Ch]
-  float dyy; // [esp+44h] [ebp-2Ch]
-  float dyz; // [esp+44h] [ebp-2Ch]
-  float dyba; // [esp+44h] [ebp-2Ch]
-  float dybb; // [esp+44h] [ebp-2Ch]
-  float dybc; // [esp+44h] [ebp-2Ch]
-  float dybd; // [esp+44h] [ebp-2Ch]
-  float dybe; // [esp+44h] [ebp-2Ch]
-  float dya; // [esp+44h] [ebp-2Ch]
-  float y123; // [esp+48h] [ebp-28h]
-  float x123; // [esp+4Ch] [ebp-24h]
-  float y12; // [esp+50h] [ebp-20h]
-  float x12; // [esp+54h] [ebp-1Ch]
-  float y34; // [esp+58h] [ebp-18h]
-  float x34; // [esp+5Ch] [ebp-14h]
-  float y234; // [esp+60h] [ebp-10h]
-  float x234; // [esp+64h] [ebp-Ch]
-  float y1234; // [esp+68h] [ebp-8h]
-  float x1234; // [esp+6Ch] [ebp-4h]
+  float v55; // [esp+34h] [ebp-3Ch]
+  float v56; // [esp+34h] [ebp-3Ch]
+  float v57; // [esp+34h] [ebp-3Ch]
+  float v58; // [esp+34h] [ebp-3Ch]
+  float v59; // [esp+34h] [ebp-3Ch]
+  float v60; // [esp+34h] [ebp-3Ch]
+  float v61; // [esp+34h] [ebp-3Ch]
+  float v62; // [esp+34h] [ebp-3Ch]
+  float v63; // [esp+34h] [ebp-3Ch]
+  float v64; // [esp+34h] [ebp-3Ch]
+  float v65; // [esp+34h] [ebp-3Ch]
+  float v66; // [esp+34h] [ebp-3Ch]
+  float v67; // [esp+38h] [ebp-38h]
+  float v68; // [esp+38h] [ebp-38h]
+  double v69; // [esp+38h] [ebp-38h]
+  float v70; // [esp+40h] [ebp-30h]
+  float v71; // [esp+40h] [ebp-30h]
+  float v72; // [esp+40h] [ebp-30h]
+  float v73; // [esp+40h] [ebp-30h]
+  float v74; // [esp+40h] [ebp-30h]
+  float v75; // [esp+40h] [ebp-30h]
+  float v76; // [esp+40h] [ebp-30h]
+  float v77; // [esp+40h] [ebp-30h]
+  float v78; // [esp+40h] [ebp-30h]
+  float v79; // [esp+40h] [ebp-30h]
+  float v80; // [esp+40h] [ebp-30h]
+  float v81; // [esp+40h] [ebp-30h]
+  float v82; // [esp+40h] [ebp-30h]
+  float v83; // [esp+44h] [ebp-2Ch]
+  float v84; // [esp+44h] [ebp-2Ch]
+  float v85; // [esp+44h] [ebp-2Ch]
+  float v86; // [esp+44h] [ebp-2Ch]
+  float v87; // [esp+44h] [ebp-2Ch]
+  float v88; // [esp+44h] [ebp-2Ch]
+  float v89; // [esp+44h] [ebp-2Ch]
+  float v90; // [esp+44h] [ebp-2Ch]
+  float v91; // [esp+44h] [ebp-2Ch]
+  float v92; // [esp+44h] [ebp-2Ch]
+  float v93; // [esp+44h] [ebp-2Ch]
+  float v94; // [esp+44h] [ebp-2Ch]
+  float v95; // [esp+44h] [ebp-2Ch]
+  float v96; // [esp+44h] [ebp-2Ch]
+  float v97; // [esp+44h] [ebp-2Ch]
+  float v98; // [esp+44h] [ebp-2Ch]
+  float v99; // [esp+44h] [ebp-2Ch]
+  float v100; // [esp+44h] [ebp-2Ch]
+  float v101; // [esp+44h] [ebp-2Ch]
+  float v102; // [esp+44h] [ebp-2Ch]
+  float v103; // [esp+44h] [ebp-2Ch]
+  float v104; // [esp+44h] [ebp-2Ch]
+  float v105; // [esp+44h] [ebp-2Ch]
+  float v106; // [esp+44h] [ebp-2Ch]
+  float v107; // [esp+44h] [ebp-2Ch]
+  float v108; // [esp+44h] [ebp-2Ch]
+  float v109; // [esp+44h] [ebp-2Ch]
+  float v110; // [esp+44h] [ebp-2Ch]
+  float v111; // [esp+44h] [ebp-2Ch]
+  float v112; // [esp+44h] [ebp-2Ch]
+  float v113; // [esp+44h] [ebp-2Ch]
+  float v114; // [esp+44h] [ebp-2Ch]
+  float v115; // [esp+48h] [ebp-28h]
+  float v116; // [esp+4Ch] [ebp-24h]
+  float v117; // [esp+50h] [ebp-20h]
+  float v118; // [esp+54h] [ebp-1Ch]
+  float v119; // [esp+58h] [ebp-18h]
+  float v120; // [esp+5Ch] [ebp-14h]
+  float v121; // [esp+60h] [ebp-10h]
+  float v122; // [esp+64h] [ebp-Ch]
+  float v123; // [esp+68h] [ebp-8h]
+  float v124; // [esp+6Ch] [ebp-4h]
 
   if ( level <= 12 )
   {
     v11 = level + 1;
     while ( 2 )
     {
-      x12 = (x1 + x2) * 0.5;
+      v118 = (x1 + x2) * 0.5;
       v12 = y2;
-      y12 = (y1 + y2) * 0.5;
+      v117 = (y1 + y2) * 0.5;
       v13 = x3;
-      d2c = (x2 + x3) * 0.5;
-      y23a = (y2 + y3) * 0.5;
-      x34 = (x3 + x4) * 0.5;
-      y34 = (y3 + y4) * 0.5;
-      x123 = (d2c + x12) * 0.5;
-      y123 = (y23a + y12) * 0.5;
-      x234 = (x34 + d2c) * 0.5;
-      y234 = (y34 + y23a) * 0.5;
+      v70 = (x2 + x3) * 0.5;
+      v67 = (y2 + y3) * 0.5;
+      v120 = (x3 + x4) * 0.5;
+      v119 = (y3 + y4) * 0.5;
+      v116 = (v70 + v118) * 0.5;
+      v115 = (v67 + v117) * 0.5;
+      v122 = (v120 + v70) * 0.5;
+      v121 = (v119 + v67) * 0.5;
       v14 = y3;
-      y23 = x4 - x1;
-      dy = y4 - y1;
-      v15 = dy;
-      d2d = (x2 - x4) * dy - (y2 - y4) * y23;
-      d2e = fabs(d2d);
-      d3d = (x3 - x4) * dy - (y3 - y4) * y23;
-      d3 = fabs(d3d);
-      v16 = d2e;
-      switch ( (d3 > 1.000000013351432e-10) + 2 * (d2e > 1.000000013351432e-10) )
+      v68 = x4 - x1;
+      v83 = y4 - y1;
+      v15 = v83;
+      v71 = (x2 - x4) * v83 - (y2 - y4) * v68;
+      v72 = fabs(v71);
+      v55 = (x3 - x4) * v83 - (y3 - y4) * v68;
+      v56 = fabs(v55);
+      v16 = v72;
+      switch ( (v56 > 1.000000013351432e-10) + 2 * (v72 > 1.000000013351432e-10) )
       {
         case 0:
-          d2 = dy * dy + y23 * y23;
-          if ( d2 == 0.0 )
+          v73 = v83 * v83 + v68 * v68;
+          if ( v73 == 0.0 )
           {
-            d2a = Scaleform::Render::Math2D::SqDistance(x1, y1, x2, y2);
+            v74 = Scaleform::Render::Math2D::SqDistance(x1, y1, x2, y2);
             v53 = y3;
-            v51 = x3;
-            v49 = y4;
+            y4a = x3;
+            x4a = y4;
             v17 = x4;
             goto LABEL_24;
           }
-          d2f = 1.0 / d2;
-          d3e = x2 - x1;
-          v18 = d3e * y23;
-          d3f = v12 - y1;
-          v19 = (v18 + d3f * v15) * d2f;
-          v20 = d2f;
-          d2b = v19;
-          d3g = v13 - x1;
+          v75 = 1.0 / v73;
+          v57 = x2 - x1;
+          v18 = v57 * v68;
+          v58 = v12 - y1;
+          v19 = (v18 + v58 * v15) * v75;
+          v20 = v75;
+          v76 = v19;
+          v59 = v13 - x1;
           v21 = v14 - y1;
-          v22 = d3g * y23;
-          d3h = v21;
-          d3a = (v22 + d3h * v15) * v20;
-          v23 = d2b;
-          v24 = d3a;
-          if ( d2b > 0.0 && v23 < 1.0 && v24 > 0.0 && v24 < 1.0 )
+          v22 = v59 * v68;
+          v60 = v21;
+          v61 = (v22 + v60 * v15) * v20;
+          v23 = v76;
+          v24 = v61;
+          if ( v76 > 0.0 && v23 < 1.0 && v24 > 0.0 && v24 < 1.0 )
             goto LABEL_10;
-          v25 = d2b;
+          v25 = v76;
           if ( v23 > 0.0 )
           {
             if ( v25 >= 1.0 )
@@ -189,20 +189,20 @@ void __cdecl Scaleform::Render::TessellateCubicRecursively(
               v29 = y2;
               v30 = x2;
               v54 = y4;
-              v52 = x4;
+              y4b = x4;
 LABEL_18:
-              v50 = v29;
-              v47 = v30;
-              d2a = Scaleform::Render::Math2D::SqDistance(v47, v50, v52, v54);
-              v32 = d3a;
-              if ( d3a > 0.0 )
+              x4b = v29;
+              y3a = v30;
+              v74 = Scaleform::Render::Math2D::SqDistance(y3a, x4b, y4b, v54);
+              v32 = v61;
+              if ( v61 > 0.0 )
               {
                 if ( v32 < 1.0 )
                 {
-                  dyb = v32 * dy + y1;
-                  v53 = dyb;
-                  dyc = v32 * y23 + x1;
-                  v33 = dyc;
+                  v84 = v32 * v83 + y1;
+                  v53 = v84;
+                  v85 = v32 * v68 + x1;
+                  v33 = v85;
                 }
                 else
                 {
@@ -215,22 +215,22 @@ LABEL_18:
                 v53 = y1;
                 v33 = x1;
               }
-              v51 = v33;
-              v49 = y3;
+              y4a = v33;
+              x4a = y3;
               v17 = x3;
 LABEL_24:
-              v48 = v17;
-              d3b = Scaleform::Render::Math2D::SqDistance(v48, v49, v51, v53);
-              if ( toleranceSq > (double)d2a || d3b < (double)toleranceSq )
+              y3b = v17;
+              v62 = Scaleform::Render::Math2D::SqDistance(y3b, x4a, y4a, v53);
+              if ( toleranceSq > (double)v74 || v62 < (double)toleranceSq )
                 goto LABEL_10;
               goto LABEL_44;
             }
-            d2g = v15 * v25 + y1;
-            v54 = d2g;
+            v77 = v15 * v25 + y1;
+            v54 = v77;
             v26 = y2;
             v28 = x2;
-            d2h = x1 + v25 * y23;
-            v27 = d2h;
+            v78 = x1 + v25 * v68;
+            v27 = v78;
           }
           else
           {
@@ -239,96 +239,96 @@ LABEL_24:
             v27 = x1;
             v28 = x2;
           }
-          v52 = v27;
+          y4b = v27;
           v31 = v28;
           v29 = v26;
           v30 = v31;
           goto LABEL_18;
         case 1:
-          if ( d3 * d3 > (v15 * v15 + y23 * y23) * toleranceSq )
+          if ( v56 * v56 > (v15 * v15 + v68 * v68) * toleranceSq )
             goto LABEL_44;
-          dyd = y4 - v14;
-          v34 = dyd;
-          dye = x4 - x3;
-          dyf = atan2(v34, dye);
-          d2i = dyf;
-          dyg = y3 - y2;
-          v35 = dyg;
-          dyh = x3 - x2;
-          dyi = atan2(v35, dyh);
-          dyj = d2i - dyi;
-          dyk = fabs(dyj);
-          v36 = dyk;
-          if ( dyk >= 3.141592741012573 )
+          v86 = y4 - v14;
+          v34 = v86;
+          v87 = x4 - x3;
+          v88 = atan2(v34, v87);
+          v79 = v88;
+          v89 = y3 - y2;
+          v35 = v89;
+          v90 = x3 - x2;
+          v91 = atan2(v35, v90);
+          v92 = v79 - v91;
+          v93 = fabs(v92);
+          v36 = v93;
+          if ( v93 >= 3.141592741012573 )
           {
-            d3i = 6.283185482025146 - v36;
-            v36 = d3i;
+            v63 = 6.283185482025146 - v36;
+            v36 = v63;
           }
           if ( v36 >= 0.25 )
             goto LABEL_44;
           goto LABEL_10;
         case 2:
-          if ( v16 * v16 > (v15 * v15 + y23 * y23) * toleranceSq )
+          if ( v16 * v16 > (v15 * v15 + v68 * v68) * toleranceSq )
             goto LABEL_44;
-          dyl = v14 - v12;
-          v37 = dyl;
-          dym = v13 - x2;
-          dyn = atan2(v37, dym);
-          d2j = dyn;
-          dyo = y2 - y1;
-          v38 = dyo;
-          dyp = x2 - x1;
-          dyq = atan2(v38, dyp);
-          dyr = d2j - dyq;
-          dys = fabs(dyr);
-          v39 = dys;
-          if ( dys >= 3.141592741012573 )
+          v94 = v14 - v12;
+          v37 = v94;
+          v95 = v13 - x2;
+          v96 = atan2(v37, v95);
+          v80 = v96;
+          v97 = y2 - y1;
+          v38 = v97;
+          v98 = x2 - x1;
+          v99 = atan2(v38, v98);
+          v100 = v80 - v99;
+          v101 = fabs(v100);
+          v39 = v101;
+          if ( v101 >= 3.141592741012573 )
           {
-            d3j = 6.283185482025146 - v39;
-            v39 = d3j;
+            v64 = 6.283185482025146 - v39;
+            v39 = v64;
           }
           if ( v39 >= 0.25 )
             goto LABEL_44;
           goto LABEL_10;
         case 3:
-          if ( (v16 + d3) * (v16 + d3) > (v15 * v15 + y23 * y23) * toleranceSq )
+          if ( (v16 + v56) * (v16 + v56) > (v15 * v15 + v68 * v68) * toleranceSq )
             goto LABEL_44;
-          dyt = v14 - v12;
-          v40 = dyt;
-          dyu = v13 - x2;
-          dyv = atan2(v40, dyu);
-          d2k = dyv;
-          y23b = dyv;
-          dyw = y2 - y1;
-          v41 = dyw;
-          dyx = x2 - x1;
-          dyy = atan2(v41, dyx);
-          dyz = y23b - dyy;
-          dyba = fabs(dyz);
-          d3c = dyba;
-          dybb = y4 - y3;
-          v42 = dybb;
-          dybc = x4 - x3;
-          dybd = atan2(v42, dybc);
-          dybe = dybd - d2k;
-          dya = fabs(dybe);
-          if ( d3c < 3.141592741012573 )
+          v102 = v14 - v12;
+          v40 = v102;
+          v103 = v13 - x2;
+          v104 = atan2(v40, v103);
+          v81 = v104;
+          v69 = v104;
+          v105 = y2 - y1;
+          v41 = v105;
+          v106 = x2 - x1;
+          v107 = atan2(v41, v106);
+          v108 = v69 - v107;
+          v109 = fabs(v108);
+          v65 = v109;
+          v110 = y4 - y3;
+          v42 = v110;
+          v111 = x4 - x3;
+          v112 = atan2(v42, v111);
+          v113 = v112 - v81;
+          v114 = fabs(v113);
+          if ( v65 < 3.141592741012573 )
           {
-            v44 = d3c;
+            v44 = v65;
             v43 = 3.141592741012573;
           }
           else
           {
             v43 = 3.141592741012573;
-            d3k = 6.283185482025146 - d3c;
-            v44 = d3k;
+            v66 = 6.283185482025146 - v65;
+            v44 = v66;
           }
-          v45 = dya < v43;
-          v46 = dya;
+          v45 = v114 < v43;
+          v46 = v114;
           if ( !v45 )
           {
-            d2l = 6.283185482025146 - v46;
-            v46 = d2l;
+            v82 = 6.283185482025146 - v46;
+            v46 = v82;
           }
           if ( v46 + v44 >= 0.25 )
             goto LABEL_44;
@@ -340,27 +340,27 @@ LABEL_10:
           return;
         default:
 LABEL_44:
-          y1234 = 0.5 * (y234 + y123);
-          x1234 = (x234 + x123) * 0.5;
+          v123 = 0.5 * (v121 + v115);
+          v124 = (v122 + v116) * 0.5;
           Scaleform::Render::TessellateCubicRecursively(
             con,
             toleranceSq,
             x1,
             y1,
-            x12,
-            y12,
-            x123,
-            y123,
-            x1234,
-            y1234,
+            v118,
+            v117,
+            v116,
+            v115,
+            v124,
+            v123,
             v11);
           y3 = (y3 + y4) * 0.5;
           ++v11;
           x3 = (x3 + x4) * 0.5;
-          y2 = y234;
-          x2 = x234;
-          y1 = y1234;
-          x1 = x1234;
+          y2 = v121;
+          x2 = v122;
+          y1 = v123;
+          x1 = v124;
           if ( v11 > 13 )
             return;
           continue;

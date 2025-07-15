@@ -5,25 +5,25 @@ char __thiscall Scaleform::GFx::TextField::OnKeyEvent(
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // eax
   const Scaleform::GFx::EventId *v6; // ebx
-  unsigned int ControllerIndex; // edx
+  Scaleform::Ptr<Scaleform::GFx::Sprite> v7; // edx
   int *v8; // ebp
   int v9; // edi
   unsigned __int8 AvmObjOffset; // al
   int v11; // eax
-  int KeyCode; // ecx
+  unsigned int KeyCode; // ecx
   bool IsOverwriteMode; // al
-  int v14; // ecx
+  unsigned int v14; // ecx
 
   if ( (this->pDef.pObject->Flags & 0x1000) != 0 )
     return 0;
   pMovieImpl = this->pASRoot->pMovieImpl;
   v6 = id;
-  ControllerIndex = id->ControllerIndex;
+  v7.pObject = (Scaleform::GFx::Sprite *)id->ControllerIndex;
   v8 = pkeyMask;
-  v9 = 1 << pMovieImpl->FocusGroupIndexes[ControllerIndex];
+  v9 = 1 << *((_BYTE *)&v7.pObject[86].pRenNode.pObject + (unsigned int)pMovieImpl);
   if ( (*(_WORD *)pkeyMask & (unsigned __int16)v9) != 0
     || !pMovieImpl
-    || !Scaleform::GFx::MovieImpl::IsFocused(pMovieImpl, this, ControllerIndex) )
+    || !Scaleform::GFx::MovieImpl::IsFocused(pMovieImpl, (Scaleform::GFx::Sprite *)this, v7) )
   {
     return 0;
   }

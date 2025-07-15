@@ -2,7 +2,7 @@ int __cdecl RSA_eay_private_encrypt(int flen, unsigned __int8 *from, unsigned __
 {
   bignum_ctx *v5; // eax
   bignum_ctx *v6; // edi
-  bignum_st *v7; // ebx
+  bignum_pool_item *v7; // ebx
   int v8; // ebp
   unsigned __int8 *v9; // eax
   int v10; // eax
@@ -14,9 +14,9 @@ int __cdecl RSA_eay_private_encrypt(int flen, unsigned __int8 *from, unsigned __
   int v16; // eax
   unsigned __int8 *v17; // esi
   int v19; // [esp-8h] [ebp-40h]
-  bignum_st *n; // [esp+Ch] [ebp-2Ch]
+  bignum_pool_item *n; // [esp+Ch] [ebp-2Ch]
   bn_blinding_st *b; // [esp+10h] [ebp-28h]
-  bignum_st *unblind; // [esp+14h] [ebp-24h]
+  bignum_pool_item *r; // [esp+14h] [ebp-24h]
   int v23; // [esp+18h] [ebp-20h]
   int local; // [esp+1Ch] [ebp-1Ch] BYREF
   unsigned __int8 *s; // [esp+20h] [ebp-18h]
@@ -24,7 +24,7 @@ int __cdecl RSA_eay_private_encrypt(int flen, unsigned __int8 *from, unsigned __
 
   v23 = -1;
   local = 0;
-  unblind = 0;
+  r = 0;
   b = 0;
   v5 = BN_CTX_new();
   v6 = v5;
@@ -53,45 +53,45 @@ int __cdecl RSA_eay_private_encrypt(int flen, unsigned __int8 *from, unsigned __
       v10 = RSA_padding_add_X931(v9, v8, from, flen);
       break;
     default:
-      ERR_put_error(4u, 102, 118, ".\\crypto\\rsa\\rsa_eay.c", 389);
-      goto err_106;
+      ERR_put_error((int)v7, 4u, 102, 118, ".\\crypto\\rsa\\rsa_eay.c", 389);
+      goto err_108;
   }
-  if ( v10 > 0 && BN_bin2bn(s, v8, v7) )
+  if ( v10 > 0 && BN_bin2bn(s, v8, v7->vals) )
   {
-    if ( BN_ucmp(v7, rsa->n) >= 0 )
+    if ( BN_ucmp(v7->vals, rsa->n) >= 0 )
     {
-      ERR_put_error(4u, 102, 132, ".\\crypto\\rsa\\rsa_eay.c", 399);
-      goto err_106;
+      ERR_put_error((int)v7, 4u, 102, 132, ".\\crypto\\rsa\\rsa_eay.c", 399);
+      goto err_108;
     }
     if ( SLOBYTE(rsa->flags) >= 0 )
     {
-      blinding = rsa_get_blinding(rsa, &local, v6);
+      blinding = rsa_get_blinding(rsa, (int)v7, &local, v6);
       b = blinding;
       if ( !blinding )
       {
-        ERR_put_error(4u, 102, 68, ".\\crypto\\rsa\\rsa_eay.c", 408);
-        goto err_106;
+        ERR_put_error((int)v7, 4u, 102, 68, ".\\crypto\\rsa\\rsa_eay.c", 408);
+        goto err_108;
       }
       if ( !local )
       {
-        unblind = BN_CTX_get(v6);
-        if ( !unblind )
+        r = BN_CTX_get(v6);
+        if ( !r )
         {
           v19 = 417;
 LABEL_48:
-          ERR_put_error(4u, 102, 65, ".\\crypto\\rsa\\rsa_eay.c", v19);
-          goto err_106;
+          ERR_put_error((int)v7, 4u, 102, 65, ".\\crypto\\rsa\\rsa_eay.c", v19);
+          goto err_108;
         }
         blinding = b;
       }
-      if ( !rsa_blinding_convert(v7, unblind, v6, blinding) )
-        goto err_106;
+      if ( !rsa_blinding_convert(v7->vals, r->vals, v6, blinding) )
+        goto err_108;
     }
     flags = rsa->flags;
     if ( (flags & 0x20) != 0 || rsa->p && rsa->q && rsa->dmp1 && rsa->dmq1 && rsa->iqmp )
     {
-      if ( !rsa->meth->rsa_mod_exp(n, v7, rsa, v6) )
-        goto err_106;
+      if ( !rsa->meth->rsa_mod_exp((bignum_st *)n, (const bignum_st *)v7, rsa, v6) )
+        goto err_108;
     }
     else
     {
@@ -110,24 +110,30 @@ LABEL_48:
         a.neg = d->neg;
         a.flags = a.flags & 1 | d->flags & 0xFFFFFFFE | 6;
       }
-      if ( (rsa->flags & 2) != 0 && !BN_MONT_CTX_set_locked(&rsa->_method_mod_n, 9, rsa->n, v6)
-        || !rsa->meth->bn_mod_exp(n, v7, (const bignum_st *)local, rsa->n, v6, rsa->_method_mod_n) )
+      if ( (rsa->flags & 2) != 0 && !BN_MONT_CTX_set_locked((int)v6, &rsa->_method_mod_n, 9, rsa->n, v6)
+        || !rsa->meth->bn_mod_exp(
+              (bignum_st *)n,
+              (const bignum_st *)v7,
+              (const bignum_st *)local,
+              rsa->n,
+              v6,
+              rsa->_method_mod_n) )
       {
-        goto err_106;
+        goto err_108;
       }
     }
-    if ( !b || BN_BLINDING_invert_ex(n, unblind, b, v6) )
+    if ( !b || BN_BLINDING_invert_ex(n->vals, r->vals, b, v6) )
     {
       if ( padding == 5 )
       {
-        BN_sub(v7, rsa->n, n);
-        v14 = n;
-        if ( BN_cmp(n, v7) )
-          v14 = v7;
+        BN_sub(v7->vals, rsa->n, n->vals);
+        v14 = (const bignum_st *)n;
+        if ( BN_cmp(n->vals, v7->vals) )
+          v14 = (const bignum_st *)v7;
       }
       else
       {
-        v14 = n;
+        v14 = (const bignum_st *)n;
       }
       v15 = BN_num_bits(v14);
       v16 = BN_bn2bin(v14, &to[v8 - (v15 + 7) / 8]);
@@ -136,7 +142,7 @@ LABEL_48:
       v23 = v8;
     }
   }
-err_106:
+err_108:
   BN_CTX_end(v6);
   BN_CTX_free(v6);
   v17 = s;

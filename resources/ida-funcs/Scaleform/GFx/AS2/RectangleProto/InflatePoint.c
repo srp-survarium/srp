@@ -7,8 +7,8 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::InflatePoint(const Scaleform::
   Scaleform::GFx::AS2::Environment *v5; // ecx
   Scaleform::GFx::AS2::Environment *v6; // edx
   Scaleform::GFx::AS2::Environment *Env; // [esp-Ch] [ebp-40h]
-  Scaleform::Render::Point<double> o2; // [esp+4h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> o1; // [esp+14h] [ebp-20h] BYREF
+  Scaleform::Render::Point<double> pt; // [esp+4h] [ebp-30h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+14h] [ebp-20h] BYREF
 
   if ( fn->NArgs > 0 )
   {
@@ -25,22 +25,25 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::InflatePoint(const Scaleform::
       if ( v4 )
       {
         v5 = fn->Env;
-        o1.x1 = 0.0;
-        o1.y1 = 0.0;
-        o1.x2 = 0.0;
-        o1.y2 = 0.0;
-        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v5, &o1);
-        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v4, &o2);
+        r.x1 = 0.0;
+        r.y1 = 0.0;
+        r.x2 = 0.0;
+        r.y2 = 0.0;
+        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, v5, &r);
+        Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v4, &pt);
         v6 = fn->Env;
-        o1.x1 = o1.x1 - o2.x;
-        o1.x2 = o2.x + o1.x2;
-        o1.y1 = o1.y1 - o2.y;
-        o1.y2 = o2.y + o1.y2;
-        Scaleform::GFx::AS2::RectangleObject::SetProperties(p_pProto, v6, &o1);
+        r.x1 = r.x1 - pt.x;
+        r.x2 = pt.x + r.x2;
+        r.y1 = r.y1 - pt.y;
+        r.y2 = pt.y + r.y2;
+        Scaleform::GFx::AS2::RectangleObject::SetProperties(p_pProto, v6, &r);
       }
       else
       {
-        Scaleform::GFx::AS2::RectangleObject::SetProperties(p_pProto, &fn->Env->StringContext, Rectangle_NaNParams);
+        Scaleform::GFx::AS2::RectangleObject::SetProperties(
+          p_pProto,
+          (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+          Rectangle_NaNParams);
       }
     }
     else

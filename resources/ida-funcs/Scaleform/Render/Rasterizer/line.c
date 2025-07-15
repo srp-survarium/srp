@@ -30,30 +30,30 @@ void __thiscall Scaleform::Render::Rasterizer::line(
   int i; // edx
   int v31; // ebx
   int v32; // ebx
-  int incr; // [esp+10h] [ebp-18h]
-  int ey2; // [esp+14h] [ebp-14h]
-  int fy1; // [esp+18h] [ebp-10h]
-  int dy; // [esp+1Ch] [ebp-Ch]
-  int fy2; // [esp+20h] [ebp-8h]
-  int rem; // [esp+24h] [ebp-4h]
-  int rema; // [esp+24h] [ebp-4h]
-  int lift; // [esp+2Ch] [ebp+4h]
-  int mod; // [esp+30h] [ebp+8h]
-  int moda; // [esp+30h] [ebp+8h]
-  int twoFx; // [esp+34h] [ebp+Ch]
-  int first; // [esp+38h] [ebp+10h]
-  int firsta; // [esp+38h] [ebp+10h]
+  int v33; // [esp+10h] [ebp-18h]
+  int v34; // [esp+14h] [ebp-14h]
+  int y1a; // [esp+18h] [ebp-10h]
+  int v36; // [esp+1Ch] [ebp-Ch]
+  int y2a; // [esp+20h] [ebp-8h]
+  int v38; // [esp+24h] [ebp-4h]
+  int v39; // [esp+24h] [ebp-4h]
+  int x1a; // [esp+2Ch] [ebp+4h]
+  int v41; // [esp+30h] [ebp+8h]
+  int v42; // [esp+30h] [ebp+8h]
+  int x2a; // [esp+34h] [ebp+Ch]
+  int v44; // [esp+38h] [ebp+10h]
+  int v45; // [esp+38h] [ebp+10h]
 
-  rem = x2 - x1;
-  first = x2 >> 8;
+  v38 = x2 - x1;
+  v44 = x2 >> 8;
   v8 = y2 - y1;
   v9 = x1 >> 8;
   v10 = y2 >> 8;
   v11 = y1 >> 8;
-  dy = v8;
-  ey2 = y2 >> 8;
-  fy1 = (unsigned __int8)y1;
-  fy2 = (unsigned __int8)y2;
+  v36 = v8;
+  v34 = y2 >> 8;
+  y1a = (unsigned __int8)y1;
+  y2a = (unsigned __int8)y2;
   if ( x1 >> 8 < this->MinX )
     this->MinX = v9;
   if ( v9 > this->MaxX )
@@ -62,10 +62,10 @@ void __thiscall Scaleform::Render::Rasterizer::line(
     this->MinY = v11;
   if ( v11 > this->MaxY )
     this->MaxY = v11;
-  if ( first < this->MinX )
-    this->MinX = first;
-  if ( first > this->MaxX )
-    this->MaxX = first;
+  if ( v44 < this->MinX )
+    this->MinX = v44;
+  if ( v44 > this->MaxX )
+    this->MaxX = v44;
   if ( v10 < this->MinY )
     this->MinY = v10;
   if ( v10 > this->MaxY )
@@ -83,37 +83,37 @@ void __thiscall Scaleform::Render::Rasterizer::line(
     this->CurrCell.Cover = 0;
     this->CurrCell.Area = 0;
   }
-  if ( v11 == ey2 )
+  if ( v11 == v34 )
   {
-    Scaleform::Render::Rasterizer::horLine(this, v11, x1, (unsigned __int8)y1, x2, fy2);
+    Scaleform::Render::Rasterizer::horLine(this, v11, x1, (unsigned __int8)y1, x2, y2a);
   }
   else
   {
-    incr = 1;
-    firsta = 256;
-    if ( rem )
+    v33 = 1;
+    v45 = 256;
+    if ( v38 )
     {
-      v21 = rem * (256 - (unsigned __int8)y1);
+      v21 = v38 * (256 - (unsigned __int8)y1);
       if ( v8 < 0 )
       {
-        v21 = rem * (unsigned __int8)y1;
+        v21 = v38 * (unsigned __int8)y1;
         v8 = -v8;
-        firsta = 0;
-        incr = -1;
-        dy = v8;
+        v45 = 0;
+        v33 = -1;
+        v36 = v8;
       }
       v23 = v21 % v8;
       v22 = v21 / v8;
       v24 = v23;
-      mod = v23;
+      v41 = v23;
       if ( v23 < 0 )
       {
         --v22;
-        mod = v8 + v24;
+        v41 = v8 + v24;
       }
       v25 = v22 + x1;
-      Scaleform::Render::Rasterizer::horLine(this, v11, x1, fy1, v22 + x1, firsta);
-      v26 = incr + v11;
+      Scaleform::Render::Rasterizer::horLine(this, v11, x1, y1a, v22 + x1, v45);
+      v26 = v33 + v11;
       if ( (this->CurrCell.y - v26) | (this->CurrCell.x - (v25 >> 8)) )
       {
         if ( *(_QWORD *)&this->CurrCell.Cover )
@@ -125,30 +125,30 @@ void __thiscall Scaleform::Render::Rasterizer::line(
         this->CurrCell.Cover = 0;
         this->CurrCell.Area = 0;
       }
-      if ( v26 != ey2 )
+      if ( v26 != v34 )
       {
-        v27 = dy;
-        v28 = (rem << 8) / dy;
-        v29 = (rem << 8) % dy;
-        lift = v28;
-        rema = v29;
+        v27 = v36;
+        v28 = (v38 << 8) / v36;
+        v29 = (v38 << 8) % v36;
+        x1a = v28;
+        v39 = v29;
         if ( v29 < 0 )
         {
-          lift = --v28;
-          rema = dy + v29;
+          x1a = --v28;
+          v39 = v36 + v29;
         }
-        moda = mod - dy;
-        for ( i = 256 - firsta; ; i = 256 - firsta )
+        v42 = v41 - v36;
+        for ( i = 256 - v45; ; i = 256 - v45 )
         {
-          moda += rema;
-          if ( moda >= 0 )
+          v42 += v39;
+          if ( v42 >= 0 )
           {
-            moda -= v27;
+            v42 -= v27;
             ++v28;
           }
           v31 = v28 + v25;
-          Scaleform::Render::Rasterizer::horLine(this, v26, v25, i, v28 + v25, firsta);
-          v26 += incr;
+          Scaleform::Render::Rasterizer::horLine(this, v26, v25, i, v28 + v25, v45);
+          v26 += v33;
           v25 = v31;
           v32 = v31 >> 8;
           if ( (this->CurrCell.y - v26) | (this->CurrCell.x - v32) )
@@ -162,27 +162,27 @@ void __thiscall Scaleform::Render::Rasterizer::line(
             this->CurrCell.Cover = 0;
             this->CurrCell.Area = 0;
           }
-          if ( v26 == ey2 )
+          if ( v26 == v34 )
             break;
-          v28 = lift;
-          v27 = dy;
+          v28 = x1a;
+          v27 = v36;
         }
       }
-      Scaleform::Render::Rasterizer::horLine(this, v26, v25, 256 - firsta, x2, fy2);
+      Scaleform::Render::Rasterizer::horLine(this, v26, v25, 256 - v45, x2, y2a);
     }
     else
     {
-      twoFx = 2 * (x1 - (v9 << 8));
+      x2a = 2 * (x1 - (v9 << 8));
       if ( v8 < 0 )
       {
-        firsta = 0;
-        incr = -1;
+        v45 = 0;
+        v33 = -1;
       }
-      v13 = incr + v11;
-      this->CurrCell.Cover += firsta - (unsigned __int8)y1;
+      v13 = v33 + v11;
+      this->CurrCell.Cover += v45 - (unsigned __int8)y1;
       x = p_CurrCell->x;
       y = this->CurrCell.y;
-      this->CurrCell.Area += 2 * (x1 - (v9 << 8)) * (firsta - (unsigned __int8)y1);
+      this->CurrCell.Area += 2 * (x1 - (v9 << 8)) * (v45 - (unsigned __int8)y1);
       if ( (y - v13) | (LODWORD(x) - v9) )
       {
         if ( *(_QWORD *)&this->CurrCell.Cover )
@@ -195,20 +195,20 @@ void __thiscall Scaleform::Render::Rasterizer::line(
         this->CurrCell.Cover = 0;
         this->CurrCell.Area = 0;
       }
-      v16 = 2 * firsta - 256;
-      v17 = twoFx * v16;
-      if ( v13 != ey2 )
+      v16 = 2 * v45 - 256;
+      v17 = x2a * v16;
+      if ( v13 != v34 )
       {
         while ( 1 )
         {
-          v13 += incr;
+          v13 += v33;
           v18 = this->CurrCell.y;
           this->CurrCell.Cover = v16;
           v19 = ((v18 - v13) | (LODWORD(p_CurrCell->x) - v9)) == 0;
           this->CurrCell.Area = v17;
           if ( !v19 )
           {
-            if ( (2 * firsta - 256) | v17 )
+            if ( (2 * v45 - 256) | v17 )
               Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16>::PushBack(
                 (Scaleform::Render::ArrayPaged<Scaleform::Render::StrokeSorter::VertexType,4,16> *)&this->Cells,
                 p_CurrCell);
@@ -218,14 +218,14 @@ void __thiscall Scaleform::Render::Rasterizer::line(
             this->CurrCell.Cover = 0;
             this->CurrCell.Area = 0;
           }
-          if ( v13 == ey2 )
+          if ( v13 == v34 )
             break;
-          v16 = 2 * firsta - 256;
+          v16 = 2 * v45 - 256;
         }
       }
-      v20 = firsta + fy2 - 256;
+      v20 = v45 + y2a - 256;
       this->CurrCell.Cover += v20;
-      this->CurrCell.Area += twoFx * v20;
+      this->CurrCell.Area += x2a * v20;
     }
   }
 }

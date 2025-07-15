@@ -1,222 +1,183 @@
-int __cdecl local_book_besterror(codebook *book, int *a)
+int __cdecl local_book_besterror(char *a)
 {
-  codebook *v2; // eax
-  int delta; // edx
-  int v4; // ecx
-  int quantvals; // ebp
-  int minval; // esi
-  int v7; // edi
-  int v8; // ebx
-  int v9; // eax
-  int *v10; // edi
-  int v11; // eax
+  int *v1; // ecx
+  int v2; // eax
+  int v3; // edx
+  int v4; // ebx
+  int v5; // esi
+  _DWORD *v6; // esi
+  int v7; // eax
+  int v8; // eax
+  int v9; // edx
+  int v10; // edi
+  bool v11; // zf
   int v12; // eax
-  int v13; // ecx
-  bool v14; // zf
-  int v15; // eax
-  int *v16; // edx
-  int v17; // eax
+  int v13; // eax
+  int v14; // edi
+  int v15; // esi
+  int v16; // esi
+  int v17; // esi
   int v18; // eax
   int v19; // ecx
-  int v20; // ebx
-  int entries; // eax
-  int v22; // edx
-  int v23; // ebp
-  int v24; // eax
-  int v25; // ebx
-  int v26; // esi
-  int *v27; // eax
-  int v28; // esi
-  unsigned int v29; // edx
-  int v30; // ecx
-  int v31; // ebp
-  int v32; // ecx
-  int v33; // eax
-  int v34; // eax
-  int v35; // ecx
-  int *v36; // eax
-  int v37; // eax
-  int *v38; // ecx
-  int *v39; // eax
-  int index; // [esp+10h] [ebp-64h]
-  int v42; // [esp+14h] [ebp-60h]
-  int dim; // [esp+18h] [ebp-5Ch]
-  int i; // [esp+1Ch] [ebp-58h]
-  int best; // [esp+20h] [ebp-54h]
-  int besta; // [esp+20h] [ebp-54h]
-  int bestb; // [esp+20h] [ebp-54h]
-  int maxval; // [esp+24h] [ebp-50h]
-  int j; // [esp+2Ch] [ebp-48h]
-  int v50; // [esp+30h] [ebp-44h]
-  int e[8]; // [esp+34h] [ebp-40h] BYREF
-  int p[8]; // [esp+54h] [ebp-20h] BYREF
-  codebook *booka; // [esp+78h] [ebp+4h]
-  codebook *bookb; // [esp+78h] [ebp+4h]
+  int v20; // eax
+  int *v21; // esi
+  char *v22; // esi
+  int v23; // ecx
+  int v24; // edx
+  int *v25; // ecx
+  int *v26; // ecx
+  _DWORD v28[8]; // [esp+Ch] [ebp-64h] BYREF
+  _DWORD v29[8]; // [esp+2Ch] [ebp-44h] BYREF
+  int v30; // [esp+4Ch] [ebp-24h]
+  int v31; // [esp+50h] [ebp-20h]
+  int v32; // [esp+54h] [ebp-1Ch]
+  int *v33; // [esp+58h] [ebp-18h]
+  int v34; // [esp+5Ch] [ebp-14h]
+  int v35; // [esp+60h] [ebp-10h]
+  int v36; // [esp+64h] [ebp-Ch]
+  int v37; // [esp+68h] [ebp-8h]
+  int v38; // [esp+6Ch] [ebp-4h]
 
-  v2 = book;
-  delta = book->delta;
-  v4 = book->dim;
-  quantvals = book->quantvals;
-  minval = book->minval;
-  v7 = 0;
-  v8 = quantvals >> 1;
-  dim = book->dim;
-  v42 = delta;
-  index = 0;
-  memset(p, 0, sizeof(p));
-  if ( delta == 1 )
+  v2 = *v1;
+  v3 = v1[12];
+  v4 = 0;
+  v36 = v1[13];
+  v5 = v1[11] >> 1;
+  v37 = v2;
+  v35 = v5;
+  v38 = 0;
+  memset(v28, 0, sizeof(v28));
+  if ( v36 == 1 )
   {
-    if ( v4 > 0 )
+    if ( v2 > 0 )
     {
-      v15 = (char *)a - (char *)p;
-      v16 = &p[v4];
-      besta = v4;
+      v34 = (int)&v28[v2];
+      v12 = a - (char *)v28;
+      v32 = a - (char *)v28;
+      v31 = v37;
       while ( 1 )
       {
-        v17 = *(int *)((char *)v16-- + v15 - 4);
-        v18 = v17 - minval;
-        v19 = v18 >= v8 ? 2 * (v18 - v8) : 2 * (v8 - v18) - 1;
-        if ( v19 >= 0 )
+        v34 -= 4;
+        v13 = *(_DWORD *)(v34 + v12) - v3;
+        v14 = v13 >= v5 ? 2 * (v13 - v5) : 2 * (v5 - v13) - 1;
+        if ( v14 >= 0 )
         {
-          if ( v19 >= quantvals )
-            v19 = quantvals - 1;
+          v15 = v1[11];
+          v33 = (int *)(v14 < v15 ? v14 : v15 - 1);
         }
         else
         {
-          v19 = 0;
+          v33 = 0;
         }
-        v14 = besta-- == 1;
-        index = v19 + quantvals * index;
-        *v16 = minval + v18;
-        if ( v14 )
+        v16 = (int)v33 + v1[11] * v38;
+        v11 = v31-- == 1;
+        v38 = v16;
+        *(_DWORD *)v34 = v3 + v13;
+        if ( v11 )
           break;
-        v15 = (char *)a - (char *)p;
+        v5 = v35;
+        v12 = v32;
       }
-      goto LABEL_25;
     }
   }
-  else if ( v4 > 0 )
+  else if ( v2 > 0 )
   {
-    v9 = (char *)a - (char *)p;
-    v10 = &p[v4];
-    best = v4;
+    v34 = v36 >> 1;
+    v6 = &v28[v2];
+    v7 = a - (char *)v28;
+    v32 = a - (char *)v28;
+    v31 = v37;
     while ( 1 )
     {
-      v11 = *(int *)((char *)v10-- + v9 - 4);
-      v12 = ((delta >> 1) + v11 - minval) / delta;
-      v13 = v12 >= v8 ? 2 * (v12 - v8) : 2 * (v8 - v12) - 1;
-      if ( v13 >= 0 )
+      v8 = (v34 + *(_DWORD *)((char *)--v6 + v7) - v3) / v36;
+      v9 = v8 >= v35 ? 2 * (v8 - v35) : 2 * (v35 - v8) - 1;
+      if ( v9 >= 0 )
       {
-        if ( v13 >= quantvals )
-          v13 = quantvals - 1;
+        v10 = v1[11];
+        v33 = (int *)(v9 < v10 ? v9 : v10 - 1);
       }
       else
       {
-        v13 = 0;
+        v33 = 0;
       }
-      v14 = best-- == 1;
-      index = v13 + quantvals * index;
-      *v10 = minval + delta * v12;
-      if ( v14 )
+      v38 = (int)v33 + v1[11] * v38;
+      v3 = v1[12];
+      v11 = v31-- == 1;
+      *v6 = v3 + v36 * v8;
+      if ( v11 )
         break;
-      v9 = (char *)a - (char *)p;
+      v7 = v32;
     }
-LABEL_25:
-    v2 = book;
-    v4 = dim;
-    v7 = 0;
   }
-  v20 = index;
-  booka = (codebook *)v2->c;
-  if ( *(int *)(booka->used_entries + 4 * index) <= 0 )
+  v17 = v1[3];
+  if ( *(int *)(*(_DWORD *)(v17 + 8) + 4 * v38) <= 0 )
   {
-    entries = v2->entries;
-    v22 = minval + v42 * (quantvals - 1);
-    v23 = 0;
-    bestb = -1;
-    memset(e, 0, sizeof(e));
-    maxval = v22;
-    i = 0;
-    v50 = entries;
-    if ( entries > 0 )
+    v18 = v1[11];
+    v32 = -1;
+    v19 = v1[1];
+    v20 = v3 + v36 * (v18 - 1);
+    memset(v29, 0, sizeof(v29));
+    v35 = 0;
+    v30 = v19;
+    if ( v19 > 0 )
     {
-      bookb = (codebook *)booka->used_entries;
+      v21 = *(int **)(v17 + 8);
+      v33 = v21;
       do
       {
-        if ( bookb->dim > 0 )
+        if ( *v21 > 0 )
         {
-          v24 = 0;
-          v25 = 0;
-          v26 = 0;
-          if ( v4 >= 2 )
+          v34 = 0;
+          if ( v37 > 0 )
           {
-            v27 = a;
-            v28 = (char *)&e[1] - (char *)a;
-            v29 = ((unsigned int)(v4 - 2) >> 1) + 1;
-            j = 2 * v29;
+            v22 = a;
+            v31 = v37;
             do
             {
-              v30 = *(int *)((char *)v27 + v28 - 4) - *v27;
-              v27 += 2;
-              v31 = v30 * v30;
-              v32 = *(int *)((char *)v27 + v28 - 8) - *(v27 - 1);
-              v7 += v31;
-              v25 += v32 * v32;
-              --v29;
+              v23 = *(_DWORD *)&v22[(char *)v29 - a] - *(_DWORD *)v22;
+              v22 += 4;
+              v34 += v23 * v23;
+              --v31;
             }
-            while ( v29 );
-            v23 = i;
-            v22 = maxval;
-            v24 = 0;
-            v26 = j;
-            v4 = dim;
+            while ( v31 );
           }
-          if ( v26 < v4 )
+          if ( v32 == -1 || v34 < v32 )
           {
-            v33 = e[v26] - a[v26];
-            v24 = v33 * v33;
-          }
-          v34 = v7 + v25 + v24;
-          if ( bestb == -1 || v34 < bestb )
-          {
-            qmemcpy(p, e, sizeof(p));
-            bestb = v34;
-            index = v23;
+            qmemcpy(v28, v29, sizeof(v28));
+            v32 = v34;
+            v38 = v35;
           }
         }
-        v35 = 0;
-        if ( e[0] >= v22 )
+        v24 = 0;
+        if ( v29[0] >= v20 )
         {
-          v36 = e;
+          v25 = v29;
           do
           {
-            ++v35;
-            *v36 = 0;
-            v36 = &e[v35];
+            ++v24;
+            *v25 = 0;
+            v25 = &v29[v24];
           }
-          while ( *v36 >= v22 );
+          while ( *v25 >= v20 );
         }
-        v37 = e[v35];
-        v38 = &e[v35];
-        if ( v37 >= 0 )
-          *v38 = v42 + v37;
-        bookb = (codebook *)((char *)bookb + 4);
-        ++v23;
-        v7 = 0;
-        *v38 = -*v38;
-        v4 = dim;
-        i = v23;
+        v26 = &v29[v24];
+        if ( *v26 >= 0 )
+          *v26 += v36;
+        *v26 = -*v26;
+        ++v35;
+        v21 = ++v33;
       }
-      while ( v23 < v50 );
-      v20 = index;
+      while ( v35 < v30 );
     }
   }
-  v39 = a;
-  if ( v20 > -1 && v4 > 0 )
+  if ( v38 > -1 && v37 > 0 )
   {
     do
-      *v39++ -= p[v7++];
-    while ( v7 < v4 );
+    {
+      *(_DWORD *)a -= v28[v4++];
+      a += 4;
+    }
+    while ( v4 < v37 );
   }
-  return v20;
+  return v38;
 }

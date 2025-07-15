@@ -29,7 +29,7 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::InitParagraph(
   Scaleform::Render::Text::LineBuffer::GlyphEntry *v27; // edi
   Scaleform::Render::Text::DocView *v28; // eax
   double v29; // st7
-  unsigned int maxGlyphCount; // [esp+10h] [ebp-B0h]
+  unsigned int v30; // [esp+10h] [ebp-B0h]
   Scaleform::Render::Text::GFxLineCursor v31; // [esp+14h] [ebp-ACh] BYREF
 
   pDocView = this->pDocView;
@@ -63,9 +63,9 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::InitParagraph(
   }
   Scaleform::Render::Text::ParagraphFormatter::InitCustomWordWrapping(this);
   v15 = paragraph->Text.Size + this->LineCursor.ComposStrLength;
-  maxGlyphCount = v15;
+  v30 = v15;
   if ( (this->pParaFormat->PresentMask & 0x80u) != 0 && (this->pParaFormat->PresentMask & 0x8000) != 0 )
-    maxGlyphCount = ++v15;
+    v30 = ++v15;
   v16 = Scaleform::Render::Text::LineBuffer::CalcLineSize(v15, 2 * v15, Line32);
   if ( v16 >= 0x400 )
   {
@@ -123,9 +123,9 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::InitParagraph(
   this->pTempLine->MemSize &= ~0x40000000u;
   v21 = this->pTempLine;
   if ( (v21->MemSize & 0x80000000) == 0 )
-    v21->Data32.GlyphsCount = maxGlyphCount;
+    v21->Data32.GlyphsCount = v30;
   else
-    v21->Data8.GlyphsCount = maxGlyphCount;
+    v21->Data8.GlyphsCount = v30;
   v22 = this->pDocView->pEditorKit.pObject;
   if ( v22 )
     StartIndex = v22->TextPos2GlyphOffset(v22, paragraph->StartIndex);
@@ -135,7 +135,7 @@ void __thiscall Scaleform::Render::Text::ParagraphFormatter::InitParagraph(
   if ( (v24->MemSize & 0x80000000) == 0 )
     v24->Data32.TextPos = StartIndex;
   else
-    v24->Data32.TextPos ^= (unsigned int)&vostok::memory::s_CRT_arena[5574199] & (StartIndex ^ v24->Data32.TextPos);
+    v24->Data32.TextPos ^= (StartIndex ^ v24->Data32.TextPos) & 0xFFFFFF;
   v25 = this->pTempLine;
   if ( (v25->MemSize & 0x80000000) == 0 )
     GlyphsCount = v25->Data32.GlyphsCount;

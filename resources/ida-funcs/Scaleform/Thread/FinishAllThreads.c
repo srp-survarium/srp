@@ -1,5 +1,5 @@
 // attributes: thunk
-void __cdecl Scaleform::Thread::FinishAllThreads()
+Scaleform::ThreadList *__cdecl Scaleform::Thread::FinishAllThreads()
 {
-  Scaleform::ThreadList::FinishAllThreads();
+  return Scaleform::ThreadList::FinishAllThreads();
 }

@@ -26,14 +26,14 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
   Scaleform::GFx::ASStringNode *v23; // eax
   unsigned int v24; // eax
   void *v25; // esi
-  Scaleform::GFx::XML::Node *child; // [esp+24h] [ebp-20h]
+  Scaleform::GFx::XML::ElementNode *v26; // [esp+24h] [ebp-20h]
   Scaleform::GFx::ASStringNode *v27; // [esp+28h] [ebp-1Ch] BYREF
-  Scaleform::String v; // [esp+2Ch] [ebp-18h] BYREF
+  Scaleform::String v28; // [esp+2Ch] [ebp-18h] BYREF
   Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> result; // [esp+30h] [ebp-14h] BYREF
   Scaleform::GFx::AS2::Value v30; // [esp+34h] [ebp-10h] BYREF
 
   pObject = (Scaleform::GFx::XML::ElementNode *)elemNode->FirstChild.pObject;
-  child = pObject;
+  v26 = pObject;
   if ( pObject )
   {
     while ( 1 )
@@ -51,7 +51,10 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
             if ( !FirstAttribute )
               goto LABEL_35;
           }
-          Scaleform::String::String(&v, (char *)FirstAttribute->Value.pNode->pData, FirstAttribute->Value.pNode->Size);
+          Scaleform::String::String(
+            &v28,
+            (const __m128i *)FirstAttribute->Value.pNode->pData,
+            FirstAttribute->Value.pNode->Size);
           pShadow = pObject->pShadow;
           if ( pShadow )
           {
@@ -81,7 +84,7 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
                   (Scaleform::GFx::AS2::Object *)&v13->Scaleform::GFx::AS2::ObjectInterface,
                   &penv->StringContext,
                   Prototype);
-                pObject = (Scaleform::GFx::XML::ElementNode *)child;
+                pObject = v26;
               }
               else
               {
@@ -123,7 +126,7 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
             {
               RefCount = result.pObject->RefCount;
               v11 = result.pObject;
-              if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFFF) != 0 )
               {
                 result.pObject->RefCount = RefCount - 1;
                 Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -135,8 +138,8 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
           StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(pContext);
           StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                          StringManager->pStringManager,
-                         (char *)((v.HeapTypeBits & 0xFFFFFFFC) + 8),
-                         *(_DWORD *)(v.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
+                         (__m128i *)((v28.HeapTypeBits & 0xFFFFFFFC) + 8),
+                         *(_DWORD *)(v28.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
           v20 = pobj;
           v27 = StringNode;
           ++StringNode->RefCount;
@@ -156,21 +159,21 @@ void __cdecl Scaleform::GFx::AS2::Xml_CreateIDMap(
           if ( v9 )
           {
             v24 = v9->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v24) != 0 )
+            if ( (v24 & 0x3FFFFFF) != 0 )
             {
               v9->RefCount = v24 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);
             }
           }
-          v25 = (void *)(v.HeapTypeBits & 0xFFFFFFFC);
-          if ( InterlockedExchangeAdd((volatile LONG *)((v.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+          v25 = (void *)(v28.HeapTypeBits & 0xFFFFFFFC);
+          if ( InterlockedExchangeAdd((volatile LONG *)((v28.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
             Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v25);
-          pObject = (Scaleform::GFx::XML::ElementNode *)child;
+          pObject = v26;
         }
       }
 LABEL_35:
-      child = pObject->NextSibling.pObject;
-      if ( !child )
+      v26 = (Scaleform::GFx::XML::ElementNode *)pObject->NextSibling.pObject;
+      if ( !v26 )
         break;
       pObject = (Scaleform::GFx::XML::ElementNode *)pObject->NextSibling.pObject;
     }

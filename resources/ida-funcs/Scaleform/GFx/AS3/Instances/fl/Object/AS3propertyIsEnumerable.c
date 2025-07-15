@@ -26,20 +26,23 @@ void __cdecl Scaleform::GFx::AS3::Instances::fl::Object::AS3propertyIsEnumerable
   Scaleform::GFx::ASStringNode *v23; // eax
   Scaleform::GFx::ASStringNode *v24; // ecx
   Scaleform::GFx::ASStringNode *VStr; // esi
-  Scaleform::GFx::AS3::Object *VObj; // [esp-8h] [ebp-30h]
-  Scaleform::GFx::ASString str_name; // [esp+Ch] [ebp-1Ch] BYREF
-  unsigned int ind; // [esp+10h] [ebp-18h] BYREF
-  unsigned int index; // [esp+14h] [ebp-14h] BYREF
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::ConstIterator it; // [esp+18h] [ebp-10h] BYREF
-  Scaleform::GFx::AS3::VM::Error v31; // [esp+20h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v26; // [esp-14h] [ebp-40h]
+  Scaleform::GFx::AS3::Object *VObj; // [esp-4h] [ebp-30h]
+  Scaleform::GFx::ASString str_name; // [esp+10h] [ebp-1Ch] BYREF
+  unsigned int ind; // [esp+14h] [ebp-18h] BYREF
+  unsigned int index; // [esp+18h] [ebp-14h] BYREF
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::ConstIterator it; // [esp+1Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS3::VM::Error v32; // [esp+24h] [ebp-8h] BYREF
 
   index = 0;
   if ( !argc.pNode )
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v31, eWrongArgumentCountError, vm);
+    v26.pStr = "Object::AS3propertyIsEnumerable";
+    v26.Size = 31;
+    Scaleform::GFx::AS3::VM::Error::Error(&v32, eWrongArgumentCountError, vm, v26, 1, 1, 0);
     Scaleform::GFx::AS3::VM::ThrowArgumentError(vm, v6);
-    pNode = v31.Message.pNode;
-    --v31.Message.pNode->RefCount;
+    pNode = v32.Message.pNode;
+    --v32.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     return;
@@ -90,12 +93,12 @@ LABEL_15:
       ++str_name.pNode->RefCount;
       v19 = v18;
       p_RefCount = &v18->RefCount;
-      v31.ID = 0;
-      v31.Message.pNode = v18;
+      v32.ID = 0;
+      v32.Message.pNode = v18;
       Scaleform::Hash<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>,Scaleform::HashSet<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF>>>::Find(
         v17,
         &it,
-        (const Scaleform::GFx::AS3::Object::DynAttrsKey *)&v31);
+        (const Scaleform::GFx::AS3::Object::DynAttrsKey *)&v32);
       v21 = (*p_RefCount)-- == 1;
       if ( v21 )
         Scaleform::GFx::ASStringNode::ReleaseNode(v19);

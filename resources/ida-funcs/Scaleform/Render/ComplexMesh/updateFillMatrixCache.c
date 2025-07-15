@@ -6,11 +6,11 @@ void __thiscall Scaleform::Render::ComplexMesh::updateFillMatrixCache(
   Scaleform::ArrayLH<Scaleform::Render::Matrix2x4<float>,2,Scaleform::ArrayDefaultPolicy> *p_FillMatrixCache; // ebp
   unsigned int v5; // edi
   int v6; // ebx
-  unsigned int fillCount; // [esp+1Ch] [ebp-4h]
+  unsigned int v7; // [esp+1Ch] [ebp-4h]
 
   v3 = this->pProvider.pObject->GetFillCount(this->pProvider.pObject, this->Layer, this->MGFlags);
   p_FillMatrixCache = &this->FillMatrixCache;
-  fillCount = v3;
+  v7 = v3;
   Scaleform::ArrayData<Scaleform::Render::Matrix2x4<float>,Scaleform::AllocatorLH<Scaleform::Render::Matrix2x4<float>,2>,Scaleform::ArrayDefaultPolicy>::Resize(
     &this->FillMatrixCache.Data,
     v3);
@@ -33,7 +33,7 @@ void __thiscall Scaleform::Render::ComplexMesh::updateFillMatrixCache(
         ++v5;
         ++v6;
       }
-      while ( v5 < fillCount );
+      while ( v5 < v7 );
     }
   }
 }

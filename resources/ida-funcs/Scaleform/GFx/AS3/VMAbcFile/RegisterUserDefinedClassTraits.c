@@ -69,13 +69,13 @@ LABEL_38:
     InternedNamespace = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(
                           this,
                           (Scaleform::GFx::AS3::Instances::fl::Namespace *)v6->Ind);
-    if ( (_S14 & 1) != 0 )
+    if ( (_S19 & 1) != 0 )
     {
       Size = scaleform_gfx.Size;
     }
     else
     {
-      _S14 |= 1u;
+      _S19 |= 1u;
       Size = 13;
       scaleform_gfx.pStr = "scaleform.gfx";
       scaleform_gfx.Size = 13;
@@ -86,7 +86,7 @@ LABEL_38:
       v10 = Scaleform::GFx::AS3::VM::Resolve2ClassTraits(vm, &str_name, InternedNamespace, this->AppDomain);
       if ( v10 )
       {
-        v18 = v10->GetFilePtr(&v10->Scaleform::GFx::AS3::Traits);
+        v18 = v10->GetFilePtr(v10);
         if ( v18 )
         {
           v19 = this->Children.Data.Size;
@@ -139,7 +139,7 @@ LABEL_23:
             if ( ((unsigned __int8)v18 & 1) == 0 )
             {
               RefCount = v18->RefCount;
-              if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFF) != 0 )
               {
                 v18->RefCount = RefCount - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v18);
@@ -187,7 +187,7 @@ LABEL_23:
           if ( ((unsigned __int8)v13 & 1) == 0 )
           {
             v17 = v13->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & v17) != 0 )
+            if ( (v17 & 0x3FFFFF) != 0 )
             {
               v13->RefCount = v17 - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v13);
@@ -218,13 +218,13 @@ LABEL_39:
       v32 = Scaleform::GFx::AS3::VMFile::GetInternedNamespace(
               this,
               (Scaleform::GFx::AS3::Instances::fl::Namespace *)v31->Ind);
-      if ( (_S14 & 1) != 0 )
+      if ( (_S19 & 1) != 0 )
       {
         v33 = scaleform_gfx.Size;
       }
       else
       {
-        _S14 |= 1u;
+        _S19 |= 1u;
         v33 = 13;
         scaleform_gfx.pStr = "scaleform.gfx";
         scaleform_gfx.Size = 13;

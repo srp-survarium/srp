@@ -1,179 +1,161 @@
-void __usercall survarium::network_client::query_players(survarium::network_client *this@<ecx>, _DWORD *a2@<eax>)
+// bad sp value at call has been detected, the output may be wrong!
+void __userpurge survarium::network_client::query_players(
+        survarium::network_client *this@<ecx>,
+        int a2@<ebp>,
+        int a3@<edi>,
+        int a4@<esi>,
+        _DWORD *a5)
 {
-  unsigned int v3; // edi
-  void *v4; // esp
-  void *v5; // esp
-  void *v6; // esp
-  int v7; // edi
-  int v8; // edx
-  int v9; // eax
-  void *v10; // ecx
-  unsigned int v11; // eax
-  vostok::variant<32> *m_end; // ecx
-  const vostok::variant<32> **v13; // eax
-  vostok::variant<32> *v14; // ecx
-  vostok::resources::request *v15; // eax
-  vostok::resources::unmanaged_resource *v16; // eax
-  vostok::detail::abstract_type_helper *m_helper; // ecx
-  int v18; // eax
-  int v19; // esi
-  _BYTE *v20; // ecx
-  _BYTE *v21; // eax
-  _BYTE *v22; // edi
-  void (__cdecl *v23)(__int64 *, __int64 *, int); // eax
-  vostok::variant<32> *v24; // edi
-  vostok::detail::abstract_type_helper **p_m_helper; // esi
-  _BYTE v26[8]; // [esp+0h] [ebp-90h] BYREF
-  vostok::variant<32> ud; // [esp+8h] [ebp-88h] BYREF
-  vostok::resources::unmanaged_intrusive_base *v28; // [esp+38h] [ebp-58h]
-  vostok::resources::request *requests_end; // [esp+3Ch] [ebp-54h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> *callback; // [esp+40h] [ebp-50h]
-  __int64 v31; // [esp+44h] [ebp-4Ch]
-  vostok::buffer_vector<vostok::variant<32> const *> user_data_ptrs; // [esp+4Ch] [ebp-44h]
-  vostok::buffer_vector<vostok::resources::request> requests; // [esp+54h] [ebp-3Ch]
-  vostok::variant<32> *v34; // [esp+5Ch] [ebp-34h]
-  vostok::buffer_vector<vostok::variant<32> > user_datas; // [esp+60h] [ebp-30h]
-  unsigned int v36; // [esp+68h] [ebp-28h]
-  __int64 v37; // [esp+70h] [ebp-20h] BYREF
-  survarium::player_initial_info info; // [esp+78h] [ebp-18h]
-  unsigned int players_count; // [esp+88h] [ebp-8h]
-  unsigned __int8 i; // [esp+8Fh] [ebp-1h]
+  int v5; // eax
+  int v6; // edi
+  int v7; // esi
+  void *v8; // esp
+  vostok::resources::request *v9; // eax
+  void *v10; // esp
+  void *v11; // esp
+  int v12; // eax
+  vostok::buffer_vector<vostok::variant<32> const *> *v13; // ecx
+  int v14; // eax
+  int v15; // esi
+  survarium::game_world *v16; // ecx
+  char *v17; // edx
+  char *v18; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v19; // ecx
+  vostok::variant<32> *v20; // ecx
+  vostok::buffer_vector<vostok::variant<32> > *v21; // ecx
+  vostok::variant<32> v22; // [esp-90h] [ebp-9Ch] BYREF
+  int v23; // [esp-60h] [ebp-6Ch]
+  _QWORD v24[3]; // [esp-5Ch] [ebp-68h] BYREF
+  const vostok::variant<32> **v25; // [esp-44h] [ebp-50h] BYREF
+  _DWORD *v26; // [esp-40h] [ebp-4Ch]
+  _DWORD *v27; // [esp-3Ch] [ebp-48h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v28; // [esp-38h] [ebp-44h] BYREF
+  vostok::buffer_vector<vostok::resources::request> v29; // [esp-18h] [ebp-24h] BYREF
+  _DWORD *v30; // [esp-Ch] [ebp-18h] BYREF
+  _QWORD *v31; // [esp-8h] [ebp-14h]
+  _DWORD v32[4]; // [esp-4h] [ebp-10h] BYREF
+  _UNKNOWN *retaddr; // [esp+Ch] [ebp+0h]
 
-  v3 = *(unsigned __int8 *)((*(int (__thiscall **)(_DWORD *))(*a2 + 64))(a2) + 9064);
-  players_count = v3;
-  v4 = alloca(8 * v3);
-  requests_end = (vostok::resources::request *)v26;
-  requests.m_end = (vostok::resources::request *)v26;
-  v5 = alloca(48 * v3);
-  v34 = (vostok::variant<32> *)v26;
-  user_datas.m_end = (vostok::variant<32> *)v26;
-  v6 = alloca(4 * v3);
-  callback = (boost::function<void __cdecl(vostok::resources::queries_result &)> *)v26;
-  user_data_ptrs.m_end = (const vostok::variant<32> **)v26;
-  i = 0;
-  if ( v3 )
+  v32[1] = a2;
+  v32[2] = retaddr;
+  v5 = (*(int (__thiscall **)(_DWORD *, int, int, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, vostok::detail::abstract_type_helper *, unsigned int, int, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, const vostok::variant<32> **, _DWORD *, _DWORD *, boost::detail::function::vtable_base *, boost::detail::function::vtable_base *, void *, void *, void *, void *, void *, void *, vostok::resources::request *, vostok::resources::request *, vostok::resources::request *, _DWORD *, _QWORD *))(*a5 + 64))(
+         a5,
+         a3,
+         a4,
+         *(_DWORD *)v22.m_helper_storage,
+         *(_DWORD *)&v22.m_helper_storage[4],
+         *(_DWORD *)v22.m_storage,
+         *(_DWORD *)&v22.m_storage[4],
+         *(_DWORD *)&v22.m_storage[8],
+         *(_DWORD *)&v22.m_storage[12],
+         *(_DWORD *)&v22.m_storage[16],
+         *(_DWORD *)&v22.m_storage[20],
+         *(_DWORD *)&v22.m_storage[24],
+         *(_DWORD *)&v22.m_storage[28],
+         v22.m_helper,
+         v22.m_type_id,
+         v23,
+         v24[0],
+         HIDWORD(v24[0]),
+         v24[1],
+         HIDWORD(v24[1]),
+         v24[2],
+         HIDWORD(v24[2]),
+         v25,
+         v26,
+         v27,
+         v28.vtable,
+         (&v28.vtable)[1],
+         v28.functor.obj_ptr,
+         v28.functor.vostok_pointer_size_alignment[1],
+         v28.functor.vostok_pointer_size_alignment[2],
+         v28.functor.vostok_pointer_size_alignment[3],
+         v28.functor.bound_memfunc_ptr.obj_ptr,
+         v28.functor.vostok_pointer_size_alignment[5],
+         v29.m_begin,
+         v29.m_end,
+         v29.m_max_end,
+         v30,
+         v31);
+  v6 = *(unsigned __int8 *)(v5 + 29788);
+  v7 = v5 + 16;
+  v28.functor.vostok_pointer_size_alignment[5] = (void *)v6;
+  v8 = alloca(8 * v6);
+  v29.m_begin = (vostok::resources::request *)v32;
+  v29.m_end = (vostok::resources::request *)v32;
+  v9 = (vostok::resources::request *)&v32[2 * v6];
+  v6 *= 48;
+  v29.m_max_end = v9;
+  v10 = alloca(v6);
+  v32[0] = (char *)v32 + v6;
+  v30 = v32;
+  v31 = v32;
+  v11 = alloca(4 * (int)v28.functor.vostok_pointer_size_alignment[5]);
+  v25 = (const vostok::variant<32> **)v32;
+  v26 = v32;
+  v12 = a5[6] + 192;
+  v27 = &v32[(int)v28.functor.vostok_pointer_size_alignment[5]];
+  BYTE4(v24[2]) = 0;
+  HIDWORD(v24[0]) = v7;
+  if ( v12 )
+    LODWORD(v24[1]) = v12 + 240;
+  else
+    LODWORD(v24[1]) = 0;
+  LODWORD(v24[0]) = v12;
+  vostok::variant<32>::destroy_previous_variable_if_needed(0, (int)&v22);
+  v22.m_type_id = vostok::detail::type_to_int<survarium::pvp_match_core_query_user_data>::get();
+  qmemcpy(v22.m_storage, v24, 0x18u);
+  *(_DWORD *)v22.m_helper_storage = &vostok::detail::concrete_type_helper<survarium::pvp_match_core_query_user_data>::`vftable';
+  v22.m_helper = (vostok::detail::abstract_type_helper *)&v22;
+  vostok::buffer_vector<vostok::variant<32>>::push_back(0, (int)&v30, &v22);
+  vostok::buffer_vector<vostok::variant<32> const *>::push_back(
+    v13,
+    (int)&v25,
+    (const vostok::variant<32> **)&v28.functor.vostok_pointer_size_alignment[5]);
+  v28.functor.vostok_pointer_size_alignment[5] = (void *)93;
+  vostok::buffer_vector<vostok::resources::request>::push_back(
+    &v29,
+    (const vostok::resources::request *)&v28.functor.data + 2);
+  v28.functor.vostok_pointer_size_alignment[2] = survarium::network_client::on_match_ready;
+  v28.functor.bound_memfunc_ptr.obj_ptr = a5;
+  v28.functor.vostok_pointer_size_alignment[3] = 0;
+  LODWORD(v24[1]) = survarium::network_client::on_match_ready;
+  HIDWORD(v24[1]) = 0;
+  v24[2] = __PAIR64__((unsigned int)v28.functor.vostok_pointer_size_alignment[5], (unsigned int)a5);
+  v31 = &v24[1];
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
   {
-    v7 = 0;
-    do
-    {
-      v8 = *a2;
-      info.id = i;
-      v9 = (*(int (__thiscall **)(_DWORD *))(v8 + 64))(a2);
-      v10 = (void *)(a2[6] + 152);
-      info.profile = (survarium::player_profile *)(v9 + 440 * v7 + 252);
-      info.is_demo_player = 0;
-      info.game_scene = v10;
-      ud.m_helper = 0;
-      ud.m_type_id = 0;
-      v11 = vostok::detail::type_to_int<survarium::player_initial_info>::get();
-      m_end = user_datas.m_end;
-      *(survarium::player_initial_info *)ud.m_storage = info;
-      ud.m_type_id = v11;
-      *(_DWORD *)ud.m_helper_storage = &vostok::detail::concrete_type_helper<survarium::player_initial_info>::`vftable';
-      ud.m_helper = (vostok::detail::abstract_type_helper *)&ud;
-      if ( user_datas.m_end )
-      {
-        user_datas.m_end->m_type_id = v11;
-        m_end->m_helper = 0;
-        vostok::variant<32>::operator=(m_end, &ud);
-        m_end = user_datas.m_end;
-      }
-      v13 = user_data_ptrs.m_end;
-      v14 = m_end + 1;
-      user_datas.m_end = v14;
-      if ( user_data_ptrs.m_end )
-        *user_data_ptrs.m_end = v14 - 1;
-      user_data_ptrs.m_end = v13 + 1;
-      v15 = requests.m_end;
-      if ( requests.m_end )
-      {
-        requests.m_end->path = "gameplay/players/default.player";
-        v15->id = player_class;
-      }
-      requests.m_end = v15 + 1;
-      v16 = (vostok::resources::unmanaged_resource *)a2[2 * v7 + 3846];
-      a2[2 * v7 + 3846] = 0;
-      if ( v16 )
-      {
-        v28 = &v16->vostok::resources::unmanaged_intrusive_base;
-        if ( !_InterlockedExchangeAdd(&v16->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(&v16->vostok::resources::unmanaged_intrusive_base, v16);
-      }
-      m_helper = ud.m_helper;
-      LOBYTE(a2[2 * v7 + 3847]) = 0;
-      if ( m_helper )
-        m_helper->destroy(m_helper, ud.m_storage);
-      v7 = ++i;
-    }
-    while ( i < players_count );
-    v3 = players_count;
-  }
-  *(_QWORD *)&info.profile = (unsigned int)survarium::network_client::on_players_ready;
-  v31 = (unsigned int)survarium::network_client::on_players_ready;
-  *(_QWORD *)&info.game_scene = __PAIR64__(v3, (unsigned int)a2);
-  user_data_ptrs = (vostok::buffer_vector<vostok::variant<32> const *>)__PAIR64__(v3, (unsigned int)a2);
-  if ( survarium::generate_shaders_world::is_loading() )
-  {
-    v36 = 0;
+    v28.vtable = 0;
   }
   else
   {
-    v37 = v31;
-    *(vostok::buffer_vector<vostok::variant<32> const *> *)&info.profile = user_data_ptrs;
-    v36 = (unsigned int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::network_client,vostok::resources::queries_result &,unsigned int>,boost::_bi::list3<boost::_bi::value<survarium::network_client *>,boost::arg<1>,boost::_bi::value<unsigned int>>>>'::`2'::stored_vtable
-        + 1;
+    *(_QWORD *)&v28.functor.obj_ptr = v24[1];
+    *((_QWORD *)&v28.functor.data + 1) = v24[2];
+    v28.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,survarium::network_client,vostok::resources::queries_result &>,boost::_bi::list2<boost::_bi::value<survarium::network_client *>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                        + 1);
   }
-  v18 = (*(int (__thiscall **)(_DWORD *))(*a2 + 64))(a2);
-  v19 = a2[6];
-  v20 = *(_BYTE **)(v19 + 1552);
-  v21 = (_BYTE *)(v18 + 9077);
-  if ( v20 != v21 )
+  v14 = (*(int (__thiscall **)(_DWORD *))(*a5 + 64))(a5);
+  v15 = a5[6];
+  v16 = (survarium::game_world *)(v15 + 14524);
+  v17 = *(char **)(v15 + 14524);
+  v18 = (char *)(v14 + 29804);
+  if ( v17 != v18 )
   {
-    *(_DWORD *)(v19 + 1556) = v20;
-    *v20 = 0;
-    if ( v21 )
-    {
-      for ( ; *v21; ++v21 )
-      {
-        v22 = *(_BYTE **)(v19 + 1556);
-        if ( (unsigned int)v22 >= *(_DWORD *)(v19 + 1560) )
-          break;
-        *v22 = *v21;
-        ++*(_DWORD *)(v19 + 1556);
-      }
-      **(_BYTE **)(v19 + 1556) = 0;
-    }
+    *(_DWORD *)(v15 + 14528) = v17;
+    *v17 = 0;
+    vostok::buffer_string::operator+=((vostok::buffer_string *)(v15 + 14524), v18);
   }
   survarium::game_world::load(
-    *(survarium::game_world **)(v19 + 1552),
-    (const char *)(v19 + 152),
-    *(vostok::resources::request **)(v19 + 1552),
-    requests_end,
-    (const vostok::variant<32> **)requests.m_end,
-    callback);
-  *(_BYTE *)(v19 + 1025) = 0;
-  if ( v36 )
-  {
-    if ( (v36 & 1) == 0 )
-    {
-      v23 = *(void (__cdecl **)(__int64 *, __int64 *, int))(v36 & 0xFFFFFFFE);
-      if ( v23 )
-        v23(&v37, &v37, 2);
-    }
-  }
-  v24 = user_datas.m_end;
-  if ( v34 != user_datas.m_end )
-  {
-    p_m_helper = &v34->m_helper;
-    do
-    {
-      if ( *p_m_helper )
-      {
-        (*p_m_helper)->destroy(*p_m_helper, p_m_helper - 8);
-        *p_m_helper = 0;
-      }
-      p_m_helper += 12;
-    }
-    while ( p_m_helper - 10 != (vostok::detail::abstract_type_helper **)v24 );
-  }
+    v16,
+    (boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::game_world,vostok::resources::queries_result &,unsigned int,boost::function<void __cdecl(vostok::resources::queries_result &)> const &>,boost::_bi::list4<boost::_bi::value<survarium::game_world *>,boost::arg<1>,boost::_bi::value<unsigned int>,boost::_bi::value<boost::function<void __cdecl(vostok::resources::queries_result &)> > > > *)(v15 + 192),
+    v29.m_begin,
+    v29.m_end,
+    v25,
+    &v28);
+  *(_BYTE *)(v15 + 13993) = 0;
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v19,
+    (int *)&v28);
+  vostok::variant<32>::destroy_previous_variable_if_needed(v20, (int)&v22);
+  vostok::buffer_vector<vostok::variant<32>>::~buffer_vector<vostok::variant<32>>(v21, (int *)&v30);
 }

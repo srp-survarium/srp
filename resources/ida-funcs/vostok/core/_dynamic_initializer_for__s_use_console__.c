@@ -1,4 +1,4 @@
-void vostok::core::_dynamic_initializer_for__s_use_console__()
+void __thiscall vostok::core::_dynamic_initializer_for__s_use_console__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call((void (__cdecl *)(void *))vostok::command_line::protected_key_construct, &s_use_console);
+  vostok::command_line::key::key(this, &s_use_console, "console", uri, "logging", "turns on console output", uri);
 }

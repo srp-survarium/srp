@@ -9,7 +9,7 @@ int __cdecl __BuildCatchObjectHelper(
   int (__stdcall *v6)(); // esi
   char *pExceptionObject; // eax
   char *v8; // eax
-  unsigned __int8 *v9; // eax
+  const __m128i *v9; // eax
   int (__stdcall *v11)(); // [esp-8h] [ebp-34h]
   unsigned int sizeOrOffset; // [esp-4h] [ebp-30h]
   int retval; // [esp+10h] [ebp-1Ch]
@@ -45,7 +45,7 @@ LABEL_11:
           {
             if ( _ValidateRead(v11) && _ValidateRead(v6) )
             {
-              memmove((unsigned __int8 *)v6, (unsigned __int8 *)pExcept->params.pExceptionObject, pConv->sizeOrOffset);
+              memmove((int)v6, (const __m128i *)pExcept->params.pExceptionObject, pConv->sizeOrOffset);
               if ( pConv->sizeOrOffset != 4 || !*(_DWORD *)v6 )
                 return retval;
               v8 = __AdjustPointer(*(char **)v6, &pConv->thisDisplacement);
@@ -60,8 +60,8 @@ LABEL_11:
           else if ( _ValidateRead(v11) && _ValidateRead(v6) )
           {
             sizeOrOffset = pConv->sizeOrOffset;
-            v9 = (unsigned __int8 *)__AdjustPointer((char *)pExcept->params.pExceptionObject, &pConv->thisDisplacement);
-            memmove((unsigned __int8 *)v6, v9, sizeOrOffset);
+            v9 = (const __m128i *)__AdjustPointer((char *)pExcept->params.pExceptionObject, &pConv->thisDisplacement);
+            memmove((int)v6, v9, sizeOrOffset);
             return retval;
           }
         }

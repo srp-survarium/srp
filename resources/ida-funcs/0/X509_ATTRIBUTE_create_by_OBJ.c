@@ -1,31 +1,34 @@
-x509_attributes_st *__cdecl X509_ATTRIBUTE_create_by_OBJ(
+x509_attributes_st *__usercall X509_ATTRIBUTE_create_by_OBJ@<eax>(
+        int a1@<ebx>,
         x509_attributes_st **attr,
         const asn1_object_st *obj,
         int atrtype,
-        unsigned __int8 *data,
+        __m128i *data,
         int len)
 {
-  x509_attributes_st *v5; // esi
+  x509_attributes_st *v6; // esi
 
-  if ( attr && (v5 = *attr) != 0 || (v5 = X509_ATTRIBUTE_new()) != 0 )
+  if ( attr && (v6 = *attr) != 0 || (v6 = X509_ATTRIBUTE_new()) != 0 )
   {
     if ( obj
-      && (ASN1_OBJECT_free(v5->object), v5->object = OBJ_dup(obj), X509_ATTRIBUTE_set1_data(v5, atrtype, data, len)) )
+      && (ASN1_OBJECT_free(v6->object),
+          v6->object = OBJ_dup((int)obj, obj),
+          X509_ATTRIBUTE_set1_data(v6, atrtype, data, len)) )
     {
       if ( attr && !*attr )
-        *attr = v5;
-      return v5;
+        *attr = v6;
+      return v6;
     }
     else
     {
-      if ( !attr || v5 != *attr )
-        X509_ATTRIBUTE_free(v5);
+      if ( !attr || v6 != *attr )
+        X509_ATTRIBUTE_free(v6);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0xBu, 137, 65, ".\\crypto\\x509\\x509_att.c", 237);
+    ERR_put_error(a1, 0xBu, 137, 65, ".\\crypto\\x509\\x509_att.c", 237);
     return 0;
   }
 }

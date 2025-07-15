@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_text::TextField::scrollHSet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl_text::TextField,42,Scaleform::GFx::AS3::Value const,long>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextField::scrollHSet;
-  dword_AACDA4 = 0;
+  dword_8F155C = 0;
   return result;
 }

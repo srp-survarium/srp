@@ -18,7 +18,7 @@ void __thiscall Scaleform::HeapPT::AllocLite::pushNode(
     node->pNext = v5->pNext;
     node->pPrev = v5;
     v5->pNext = node;
-    node->pNext->Scaleform::ListNode<Scaleform::HeapPT::DualTNode>::$FA7D61F44F114A80126F7766EA9000B1::pPrev = node;
+    node->pNext->Scaleform::ListNode<Scaleform::HeapPT::DualTNode>::$2060FFF33C3A9317469158F368502EC1::pPrev = node;
   }
   Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::AddrAccessor>::Insert(
     &this->AddrTree,

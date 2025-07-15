@@ -21,12 +21,12 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3split(
   unsigned int v18; // edx
   bool v19; // bl
   unsigned int v20; // eax
-  const char *MatchOffset; // edi
+  char *MatchOffset; // edi
   int MatchLength; // ebx
   unsigned int Length; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   unsigned int v25; // ebx
-  const char *v26; // eax
+  char *v26; // eax
   Scaleform::GFx::ASString *v27; // eax
   unsigned int v28; // ecx
   Scaleform::GFx::ASStringNode *v29; // eax
@@ -128,7 +128,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3split(
               if ( ((int)v40.pObject & 1) == 0 )
               {
                 v20 = v40.pObject->RefCount;
-                if ( ((unsigned int)&byte_3FFFFF & v20) != 0 )
+                if ( (v20 & 0x3FFFFF) != 0 )
                 {
                   v40.pObject->RefCount = v20 - 1;
                   Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -138,9 +138,9 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3split(
           }
           if ( !v19 )
             break;
-          MatchOffset = (const char *)VInt->MatchOffset;
+          MatchOffset = (char *)VInt->MatchOffset;
           MatchLength = VInt->MatchLength;
-          v.pNode = Scaleform::GFx::ASConstString::SubstringNode(&str, (const char *)next, MatchOffset);
+          v.pNode = Scaleform::GFx::ASConstString::SubstringNode(&str, (char *)next, MatchOffset);
           ++v.pNode->RefCount;
           Scaleform::GFx::AS3::Value::Value(&val, &v);
           Length = pV->SA.Length;
@@ -178,8 +178,8 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3split(
         }
         if ( v14 < limit )
         {
-          v26 = (const char *)Scaleform::GFx::ASConstString::GetLength(&str);
-          v27 = Scaleform::GFx::ASString::Substring(&str, (Scaleform::GFx::ASString *)&cnt, (const char *)next, v26);
+          v26 = (char *)Scaleform::GFx::ASConstString::GetLength(&str);
+          v27 = Scaleform::GFx::ASString::Substring(&str, (Scaleform::GFx::ASString *)&cnt, (char *)next, v26);
           Scaleform::GFx::AS3::Value::Value(&val, v27);
           v28 = pV->SA.Length;
           if ( v28 == pV->SA.ValueA.Data.Size )

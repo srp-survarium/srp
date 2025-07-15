@@ -113,7 +113,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::pixelBoundsG
     {
       RefCount = pobj.pObject->RefCount;
       pObject = pobj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pobj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

@@ -8,37 +8,37 @@ char __thiscall Scaleform::GFx::AS2::GlowFilterObject::SetMember(
   unsigned int v7; // esi
   Scaleform::Render::BlurFilterParams *v8; // eax
   unsigned __int8 Alpha; // cl
-  char v10; // al
-  char v11; // al
+  bool v10; // al
+  bool v11; // al
   long double v12; // st7
-  float vala; // [esp+20h] [ebp+Ch]
-  float valb; // [esp+20h] [ebp+Ch]
-  float valc; // [esp+20h] [ebp+Ch]
-  float vald; // [esp+20h] [ebp+Ch]
-  float vale; // [esp+20h] [ebp+Ch]
-  float valf; // [esp+20h] [ebp+Ch]
+  float v13; // [esp+20h] [ebp+Ch]
+  float v14; // [esp+20h] [ebp+Ch]
+  float v15; // [esp+20h] [ebp+Ch]
+  float v16; // [esp+20h] [ebp+Ch]
+  float v17; // [esp+20h] [ebp+Ch]
+  float v18; // [esp+20h] [ebp+Ch]
 
   if ( !strcmp(name->pNode->pData, "alpha") )
   {
-    vala = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
-    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->Colors[0].Channels.Alpha = (int)(vala * 255.0);
+    v13 = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
+    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->Colors[0].Channels.Alpha = (int)(v13 * 255.0);
     return 1;
   }
   else if ( !strcmp(name->pNode->pData, "blurX") )
   {
-    valb = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
-    valc = valb * 20.0;
-    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->BlurX = valc;
+    v14 = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
+    v15 = v14 * 20.0;
+    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->BlurX = v15;
     return 1;
   }
   else if ( !strcmp(name->pNode->pData, "blurY") )
   {
-    vald = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
-    vale = vald * 20.0;
-    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->BlurY = vale;
+    v16 = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
+    v17 = v16 * 20.0;
+    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->BlurY = v17;
     return 1;
   }
-  else if ( Scaleform::GFx::ASString::operator==(name, (const char *)&stru_9555EC) )
+  else if ( Scaleform::GFx::ASString::operator==(name, "color") )
   {
     v7 = Scaleform::GFx::AS2::Value::ToUInt32(val, penv);
     v8 = Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16));
@@ -49,7 +49,7 @@ char __thiscall Scaleform::GFx::AS2::GlowFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "inner") )
   {
-    v10 = Scaleform::GFx::AS2::Value::ToBool(val, penv);
+    v10 = Scaleform::GFx::AS2::Value::ToBool(val, (int)this, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetInnerShadow(
       (Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16),
       v10);
@@ -57,7 +57,7 @@ char __thiscall Scaleform::GFx::AS2::GlowFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "knockout") )
   {
-    v11 = Scaleform::GFx::AS2::Value::ToBool(val, penv);
+    v11 = Scaleform::GFx::AS2::Value::ToBool(val, (int)this, penv);
     Scaleform::GFx::AS2::BitmapFilterObject::SetKnockOut(
       (Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16),
       v11);
@@ -73,8 +73,8 @@ char __thiscall Scaleform::GFx::AS2::GlowFilterObject::SetMember(
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "strength") )
   {
-    valf = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
-    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->Strength = valf;
+    v18 = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
+    Scaleform::GFx::AS2::BitmapFilterObject::writableFilterParams((Scaleform::GFx::AS2::GlowFilterObject *)((char *)this - 16))->Strength = v18;
     return 1;
   }
   else

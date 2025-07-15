@@ -1,90 +1,75 @@
 void __thiscall Scaleform::Render::D3D1x::MeshCache::destroyPendingBuffers(
         Scaleform::Render::D3D1x::MeshCache *this,
-        Scaleform::Render::D3D1x::MeshCache *thisa)
+        int a2)
 {
-  Scaleform::Render::D3D1x::MeshCache *v2; // ebx
-  Scaleform::Render::D3D1x::MeshBuffer *v3; // esi
-  Scaleform::List<Scaleform::Render::MeshBuffer,Scaleform::Render::MeshBuffer> *p_PendingDestructionBuffers; // edx
-  int v5; // eax
-  Scaleform::Render::MeshCacheItem *v6; // edi
-  Scaleform::Render::MeshCacheListSet::ListSlot *v7; // ebx
-  Scaleform::Render::D3D1x::MeshBuffer *v8; // edx
-  Scaleform::Render::MeshBuffer *pPrev; // ecx
-  Scaleform::Render::Fence *pObject; // eax
-  Scaleform::Render::FenceImpl *Data; // eax
-  Scaleform::Render::MeshBuffer *v12; // eax
-  Scaleform::Render::MeshBuffer *v13; // ecx
-  Scaleform::Render::D3D1x::MeshBuffer *pNext; // [esp+14h] [ebp-Ch] BYREF
-  Scaleform::List<Scaleform::Render::MeshBuffer,Scaleform::Render::MeshBuffer> remainingBuffers; // [esp+18h] [ebp-8h]
+  int v2; // ecx
+  int *v3; // esi
+  int v4; // eax
+  _DWORD *v5; // eax
+  _DWORD *v6; // ebx
+  int v7; // eax
+  Scaleform::Render::FenceImpl *v8; // eax
+  int *v10; // eax
+  int *v11; // ecx
+  int v12; // [esp+8h] [ebp-14h] BYREF
+  int *v13; // [esp+Ch] [ebp-10h]
+  int *v14; // [esp+10h] [ebp-Ch]
+  int *v15; // [esp+14h] [ebp-8h]
+  int *v16; // [esp+18h] [ebp-4h]
 
-  v2 = thisa;
-  v3 = (Scaleform::Render::D3D1x::MeshBuffer *)thisa->PendingDestructionBuffers.Root.pNext;
-  p_PendingDestructionBuffers = &thisa->PendingDestructionBuffers;
-  remainingBuffers.Root.pPrev = (Scaleform::Render::MeshBuffer *)&pNext;
-  remainingBuffers.Root.pNext = (Scaleform::Render::MeshBuffer *)&pNext;
+  v2 = a2;
+  v3 = *(int **)(a2 + 392);
+  v16 = &v12;
+  v13 = &v12;
+  v14 = &v12;
   while ( 1 )
   {
-    v5 = p_PendingDestructionBuffers ? (int)&p_PendingDestructionBuffers[-1].Root.4 : 0;
-    if ( v3 == (Scaleform::Render::D3D1x::MeshBuffer *)v5 )
+    v4 = a2 == -388 ? 0 : a2 + 384;
+    if ( v3 == (int *)v4 )
       break;
-    v6 = v2->CacheList.Slots[5].Root.pNext;
-    v7 = &v2->CacheList.Slots[5];
-    v8 = (Scaleform::Render::D3D1x::MeshBuffer *)v3->pNext;
-    v3->pPrev->Scaleform::Render::MeshBuffer::pNext = v8;
-    pPrev = v3->pPrev;
-    pNext = v8;
-    v3->pNext->Scaleform::Render::MeshBuffer::pPrev = pPrev;
-    if ( v6 == (Scaleform::Render::MeshCacheItem *)v7 )
+    v5 = (_DWORD *)(v2 + 168);
+    v6 = *(_DWORD **)(v2 + 172);
+    v15 = (int *)v3[2];
+    *(_DWORD *)(v3[1] + 8) = v15;
+    *(_DWORD *)(v3[2] + 4) = v3[1];
+    while ( 1 )
     {
-LABEL_14:
-      ((void (__thiscall *)(Scaleform::Render::D3D1x::MeshBuffer *, int))v3->~Scaleform::Render::D3D1x::MeshBuffer)(
-        v3,
-        1);
-      v3 = pNext;
-      v2 = thisa;
-      p_PendingDestructionBuffers = &thisa->PendingDestructionBuffers;
-    }
-    else
-    {
-      while ( 1 )
+      if ( v6 == v5 )
       {
-        if ( (Scaleform::Render::D3D1x::MeshBuffer *)v6[1].pPrev == v3
-          || (Scaleform::Render::D3D1x::MeshBuffer *)v6[1].pNext == v3 )
+        (*(void (__thiscall **)(int *, int))*v3)(v3, 1);
+        goto LABEL_18;
+      }
+      if ( (int *)v6[14] == v3 || (int *)v6[15] == v3 )
+      {
+        v7 = v6[13];
+        if ( v7 )
         {
-          pObject = v6->GPUFence.pObject;
-          if ( pObject )
+          if ( *(_BYTE *)(v7 + 6)
+            && (v8 = *(Scaleform::Render::FenceImpl **)v7) != 0
+            && Scaleform::Render::FenceImpl::IsPending(v8, FenceType_Vertex) )
           {
-            if ( pObject->HasData )
-            {
-              Data = pObject->Data;
-              if ( Data )
-              {
-                if ( Scaleform::Render::FenceImpl::IsPending(Data, FenceType_Vertex) )
-                  break;
-              }
-            }
+            break;
           }
         }
-        v6 = v6->pNext;
-        if ( v6 == (Scaleform::Render::MeshCacheItem *)v7 )
-          goto LABEL_14;
       }
-      v2 = thisa;
-      v3->pNext = remainingBuffers.Root.pNext;
-      p_PendingDestructionBuffers = &thisa->PendingDestructionBuffers;
-      v3->pPrev = (Scaleform::Render::MeshBuffer *)&pNext;
-      remainingBuffers.Root.pNext->pPrev = v3;
-      remainingBuffers.Root.pNext = v3;
-      v3 = pNext;
+      v6 = (_DWORD *)v6[1];
+      v5 = (_DWORD *)(a2 + 168);
     }
+    v3[2] = (int)v14;
+    v3[1] = (int)v16;
+    v14[1] = (int)v3;
+    v14 = v3;
+LABEL_18:
+    v3 = v15;
+    v2 = a2;
   }
-  v12 = remainingBuffers.Root.pNext;
-  if ( (Scaleform::Render::D3D1x::MeshBuffer **)remainingBuffers.Root.pNext != &pNext )
+  v10 = v14;
+  if ( v14 != v16 )
   {
-    v13 = remainingBuffers.Root.pPrev;
-    remainingBuffers.Root.pPrev->pNext = p_PendingDestructionBuffers->Root.pNext;
-    v12->pPrev = (Scaleform::Render::MeshBuffer *)&p_PendingDestructionBuffers[-1].Root.4;
-    thisa->PendingDestructionBuffers.Root.pNext->pPrev = v13;
-    thisa->PendingDestructionBuffers.Root.pNext = v12;
+    v11 = v13;
+    v13[2] = *(_DWORD *)(a2 + 392);
+    v10[1] = a2 + 384;
+    *(_DWORD *)(*(_DWORD *)(a2 + 392) + 4) = v11;
+    *(_DWORD *)(a2 + 392) = v10;
   }
 }

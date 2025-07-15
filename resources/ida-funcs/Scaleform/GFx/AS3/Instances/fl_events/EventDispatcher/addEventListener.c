@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::addE
   Scaleform::GFx::AS3::VM *pVM; // esi
   Scaleform::GFx::ASStringNode *v31; // ecx
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // eax
-  unsigned __int8 *v33; // ecx
+  Scaleform::GFx::EventId::IdCode v33; // ecx
   Scaleform::GFx::AS3::Traits *v34; // eax
   unsigned int Flags; // eax
   unsigned int v36; // edi
@@ -175,32 +175,32 @@ LABEL_29:
     {
       *((_DWORD *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + 4061) |= 0x80000u;
       v47->pObject->Flags |= 1u;
-      v33 = (unsigned __int8 *)2;
+      v33 = Event_EnterFrame;
     }
     else if ( v31 == StringManagerRef->Builtins[35].pNode )
     {
       v47->pObject->Flags |= 0x20u;
-      v33 = &vostok::memory::s_CRT_arena[5574221];
+      v33 = Event_FrameConstructed;
     }
     else if ( v31 == StringManagerRef->Builtins[36].pNode )
     {
       v47->pObject->Flags |= 0x40u;
-      v33 = &vostok::memory::s_CRT_arena[5574222];
+      v33 = Event_ExitFrame;
     }
     else if ( v31 == StringManagerRef->Builtins[28].pNode )
     {
       v47->pObject->Flags |= 2u;
-      v33 = &vostok::memory::s_CRT_arena[5574217];
+      v33 = Event_Activate;
     }
     else if ( v31 == StringManagerRef->Builtins[33].pNode )
     {
       v47->pObject->Flags |= 4u;
-      v33 = &vostok::memory::s_CRT_arena[5574218];
+      v33 = Event_Deactivate;
     }
     else if ( v31 == StringManagerRef->Builtins[44].pNode )
     {
       v47->pObject->Flags |= 8u;
-      v33 = &vostok::memory::s_CRT_arena[5574219];
+      v33 = Event_Render;
     }
     else
     {
@@ -228,7 +228,7 @@ LABEL_29:
         goto LABEL_67;
       }
       v47->pObject->Flags |= 0x10u;
-      v33 = &vostok::memory::s_CRT_arena[5574220];
+      v33 = Event_Resize;
     }
     if ( !plistenersArr->Data.Size )
     {
@@ -236,7 +236,7 @@ LABEL_29:
       if ( (unsigned int)(v34->TraitsType - 17) <= 0xC && (v34->Flags & 0x20) == 0 )
         Scaleform::GFx::AS3::EventChains::AddToChain(
           (Scaleform::GFx::AS3::EventChains *)&pVM[1].__vftable[22],
-          (Scaleform::GFx::EventId::IdCode)v33,
+          v33,
           (Scaleform::GFx::DisplayObject *)v29[1]._pRCC);
     }
 LABEL_67:
@@ -295,7 +295,7 @@ LABEL_67:
     }
     v42 = i;
     if ( i < *p_Size - 1 )
-      memmove((unsigned __int8 *)&v39->Data.Data[i + 1], (unsigned __int8 *)&v39->Data.Data[i], 24 * (*p_Size - i - 1));
+      memmove((int)&v39->Data.Data[i + 1], (const __m128i *)&v39->Data.Data[i], 24 * (*p_Size - i - 1));
     v43 = v42;
     v44 = (int)&v39->Data.Data[v43];
     if ( v44 )

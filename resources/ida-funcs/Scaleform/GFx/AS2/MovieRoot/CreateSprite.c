@@ -10,16 +10,16 @@ Scaleform::GFx::Sprite *__userpurge Scaleform::GFx::AS2::MovieRoot::CreateSprite
 {
   Scaleform::GFx::ASSupport *pObject; // ecx
   Scaleform::GFx::Sprite *v10; // esi
-  Scaleform::GFx::CharacterCreateInfo ccinfo; // [esp+4h] [ebp-Ch] BYREF
+  _DWORD v12[3]; // [esp+4h] [ebp-Ch] BYREF
 
-  ccinfo.pCharDef = pdef;
+  v12[0] = pdef;
   pObject = this->Scaleform::GFx::ASMovieRootBase::pASSupport.pObject;
-  ccinfo.pBindDefImpl = pdefImpl;
-  ccinfo.pResource = 0;
-  v10 = (Scaleform::GFx::Sprite *)((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, Scaleform::GFx::CharacterCreateInfo *, Scaleform::GFx::InteractiveObject *, unsigned int, int))pObject->CreateCharacterInstance)(
+  v12[1] = pdefImpl;
+  v12[2] = 0;
+  v10 = (Scaleform::GFx::Sprite *)((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, _DWORD *, Scaleform::GFx::InteractiveObject *, unsigned int, int))pObject->CreateCharacterInstance)(
                                     pObject,
                                     this->pMovieImpl,
-                                    &ccinfo,
+                                    v12,
                                     parent,
                                     id.Id,
                                     3);

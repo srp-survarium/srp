@@ -1,5 +1,5 @@
 int __usercall _cfltcvt_l@<eax>(
-        unsigned int a1@<ebx>,
+        int a1@<ebx>,
         _CRT_DOUBLE *arg,
         char *buffer,
         unsigned int sizeInBytes,

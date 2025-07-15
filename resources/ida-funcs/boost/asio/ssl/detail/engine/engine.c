@@ -1,13 +1,21 @@
-void __thiscall boost::asio::ssl::detail::engine::engine(boost::asio::ssl::detail::engine *this, ssl_ctx_st *context)
+void __userpurge boost::asio::ssl::detail::engine::engine(
+        boost::asio::ssl::detail::engine *this@<ecx>,
+        int a2@<esi>,
+        int *a3@<edi>,
+        ssl_ctx_st *context)
 {
-  bio_st *int_bio; // [esp+16Ch] [ebp-4h] BYREF
+  boost::asio::detail::win_static_mutex *v4; // ecx
+  boost::system::error_code v5; // [esp+Ch] [ebp-Ch] BYREF
 
-  this->ssl_ = SSL_new(context);
-  boost::asio::detail::win_static_mutex::init((boost::asio::detail::win_static_mutex *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.survarium::flash_external_handler);
-  SSL_ctrl(this->ssl_, 33, 1, 0);
-  SSL_ctrl(this->ssl_, 33, 2, 0);
-  SSL_ctrl(this->ssl_, 33, 16, 0);
-  int_bio = 0;
-  BIO_new_bio_pair(&int_bio, 0, &this->ext_bio_, 0);
-  SSL_set_bio(this->ssl_, int_bio, int_bio);
+  *(_DWORD *)a2 = SSL_new(a3, a2, context);
+  v5.m_val = boost::asio::detail::win_static_mutex::do_init(v4);
+  v5.m_cat = boost::system::system_category();
+  if ( (v5.m_val != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+    boost::asio::detail::do_throw_error(&v5, "static_mutex");
+  SSL_ctrl(*(ssl_st **)a2, 33, 1, 0);
+  SSL_ctrl(*(ssl_st **)a2, 33, 2, 0);
+  SSL_ctrl(*(ssl_st **)a2, 33, 16, 0);
+  context = 0;
+  BIO_new_bio_pair((bio_st **)&context, 0, (bio_st **)(a2 + 4), 0);
+  SSL_set_bio(*(ssl_st **)a2, (bio_st *)context, (bio_st *)context);
 }

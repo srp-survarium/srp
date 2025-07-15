@@ -7,7 +7,7 @@ void __thiscall Scaleform::Render::StrokerAA::Transform(
   double x; // st7
   float *p_x; // edx
   double v7; // st7
-  float ma; // [esp+Ch] [ebp+4h]
+  float v8; // [esp+Ch] [ebp+4h]
 
   this->MinX = 1.0e30;
   v2 = 0;
@@ -18,10 +18,10 @@ void __thiscall Scaleform::Render::StrokerAA::Transform(
     v4 = this->Vertices.Pages[v2 >> 4];
     x = v4[v2 & 0xF].x;
     p_x = &v4[v2 & 0xF].x;
-    ma = x;
+    v8 = x;
     v7 = p_x[1];
-    *p_x = m->M[0][0] * ma + v7 * m->M[0][1] + m->M[0][3];
-    p_x[1] = v7 * m->M[1][1] + ma * m->M[1][0] + m->M[1][3];
+    *p_x = m->M[0][0] * v8 + v7 * m->M[0][1] + m->M[0][3];
+    p_x[1] = v7 * m->M[1][1] + v8 * m->M[1][0] + m->M[1][3];
     if ( this->MinX > (double)*p_x )
       this->MinX = *p_x;
     if ( this->MinY > (double)p_x[1] )

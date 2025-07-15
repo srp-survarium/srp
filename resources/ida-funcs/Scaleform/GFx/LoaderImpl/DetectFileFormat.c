@@ -4,8 +4,8 @@ int __cdecl Scaleform::GFx::LoaderImpl::DetectFileFormat(Scaleform::File *pfile)
   int v3; // ebp
   int (__thiscall *Read)(Scaleform::File *, unsigned __int8 *, int); // edx
   int v5; // edi
-  unsigned __int8 *v6; // eax
-  const char *v7; // eax
+  const char *v6; // eax
+  char *v7; // eax
 
   v1 = pfile;
   if ( !pfile )
@@ -13,9 +13,7 @@ int __cdecl Scaleform::GFx::LoaderImpl::DetectFileFormat(Scaleform::File *pfile)
   v3 = pfile->Tell(pfile);
   Read = v1->Read;
   v5 = 1;
-  LOWORD(pfile) = 0;
-  BYTE2(pfile) = 0;
-  HIBYTE(pfile) = 0;
+  pfile = 0;
   if ( Read(v1, (unsigned __int8 *)&pfile, 4) > 0 )
   {
     switch ( (char)pfile )
@@ -48,7 +46,7 @@ int __cdecl Scaleform::GFx::LoaderImpl::DetectFileFormat(Scaleform::File *pfile)
       case 71:
         if ( BYTE1(pfile) == 73 )
         {
-          if ( BYTE2(pfile) == 70 && HIBYTE(pfile) == 56 )
+          if ( HIWORD(pfile) == 14406 )
             v5 = 12;
         }
         else if ( BYTE1(pfile) == 70 )
@@ -76,7 +74,7 @@ LABEL_9:
     v1->Seek(v1, v3, 0);
     if ( v5 == 1 )
     {
-      v6 = (unsigned __int8 *)v1->GetFilePath(v1);
+      v6 = v1->GetFilePath(v1);
       if ( v6 )
       {
         strrchr(v6, 0x2Eu);

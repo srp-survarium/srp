@@ -1,7 +1,7 @@
 void __thiscall Scaleform::Render::TreeCacheShapeLayer::UpdateChildSubtree(
         Scaleform::Render::TreeCacheShapeLayer *this,
         const Scaleform::Render::TreeNode::NodeData *data,
-        unsigned __int16 depth)
+        int depth)
 {
   int v4; // esi
 

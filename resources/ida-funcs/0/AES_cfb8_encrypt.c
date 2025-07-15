@@ -1,5 +1,5 @@
 void __cdecl AES_cfb8_encrypt(
-        const unsigned __int8 *in,
+        unsigned __int8 *in,
         unsigned __int8 *out,
         unsigned int length,
         const aes_key_st *key,

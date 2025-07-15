@@ -8,9 +8,6 @@ void __thiscall Scaleform::Render::TreeCacheNode::addParentToDepthPatternUpdate(
   {
     pParent = this->pParent;
     if ( pParent )
-      Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(
-        pRoot,
-        pParent,
-        (unsigned int)&vostok::memory::s_CRT_arena[5574200]);
+      Scaleform::Render::TreeCacheRoot::AddToDepthUpdate(pRoot, pParent, 0x1000000u);
   }
 }

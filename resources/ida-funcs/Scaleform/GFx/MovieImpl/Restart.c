@@ -26,7 +26,7 @@ void __userpurge Scaleform::GFx::MovieImpl::Restart(
   int v25; // ebp
   int v26; // [esp+48h] [ebp-3Ch]
   int v27; // [esp+4Ch] [ebp-38h]
-  Scaleform::RefCountVImpl *pIMEManager; // [esp+5Ch] [ebp-28h]
+  Scaleform::RefCountVImpl *v28; // [esp+5Ch] [ebp-28h]
   Scaleform::GFx::Resource *v29; // [esp+60h] [ebp-24h]
   Scaleform::GFx::Resource *v30; // [esp+64h] [ebp-20h] BYREF
   char v31; // [esp+68h] [ebp-1Ch]
@@ -64,7 +64,7 @@ void __userpurge Scaleform::GFx::MovieImpl::Restart(
         pLoadQueueMTHead = pLoadQueueMTHead->pNext;
       }
       while ( pLoadQueueMTHead );
-      pIMEManager = v8;
+      v28 = v8;
       if ( v8 )
       {
         do
@@ -81,7 +81,7 @@ void __userpurge Scaleform::GFx::MovieImpl::Restart(
             }
           }
         }
-        while ( (unsigned int)pIMEManager > j );
+        while ( (unsigned int)v28 > j );
       }
     }
     while ( this->pLoadQueueHead )
@@ -138,12 +138,12 @@ void __userpurge Scaleform::GFx::MovieImpl::Restart(
       pNode = pRetValHolder->StringArray.Data.DefaultValue.pNode;
       if ( pNode->RefCount-- == 1 )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-      Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>(&pRetValHolder->StringArray.Data);
+      Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,331>,Scaleform::ArrayDefaultPolicy> *)&pRetValHolder->StringArray);
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pRetValHolder);
     }
     this->pRetValHolder = 0;
     Scaleform::GFx::MovieImpl::ResetFocusStates(this);
-    this->Flags &= (unsigned int)&byte_3FFFFF;
+    this->Flags &= (unsigned int)&loc_3FFFFE + 1;
     mMouseState = this->mMouseState;
     v20 = 6;
     do
@@ -187,15 +187,15 @@ void __userpurge Scaleform::GFx::MovieImpl::Restart(
       if ( advance0 )
         ((void (__thiscall *)(Scaleform::GFx::MovieImpl *, _DWORD, _DWORD, int))this->Advance)(this, 0.0, 0, 1);
       this->pASMovieRoot.pObject->ForceCollect(this->pASMovieRoot.pObject, 2u);
-      if ( pIMEManager )
-        Scaleform::RefCountImpl::Release(pIMEManager);
+      if ( v28 )
+        Scaleform::RefCountImpl::Release(v28);
       if ( v29 )
         Scaleform::GFx::Resource::Release(v29);
     }
     else
     {
-      if ( pIMEManager )
-        Scaleform::RefCountImpl::Release(pIMEManager);
+      if ( v28 )
+        Scaleform::RefCountImpl::Release(v28);
       if ( v30 )
         Scaleform::GFx::Resource::Release(v30);
     }

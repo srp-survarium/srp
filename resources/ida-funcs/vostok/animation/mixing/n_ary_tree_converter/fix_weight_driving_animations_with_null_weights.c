@@ -1,202 +1,178 @@
 void __thiscall vostok::animation::mixing::n_ary_tree_converter::fix_weight_driving_animations_with_null_weights(
         vostok::animation::mixing::n_ary_tree_converter *this,
-        vostok::animation::mixing::n_ary_tree_converter *expression,
-        const vostok::animation::mixing::expression *expressiona)
+        const vostok::animation::mixing::expression *expression,
+        int *__comp)
 {
-  vostok::animation::mixing::base_lexeme *m_animations_root; // eax
-  int v4; // ebx
-  int v5; // eax
-  int v6; // esi
-  int v7; // edi
-  int v8; // eax
-  int v9; // ecx
-  int v10; // eax
-  int v11; // ecx
-  bool v12; // zf
-  void *v13; // esp
-  vostok::animation::mixing::base_lexeme *v14; // ecx
-  unsigned int v15; // edi
-  vostok::animation::mixing::base_lexeme *v16; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v17; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v18; // esi
-  unsigned int m_weight_synchronization_group_id; // eax
-  stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *m_end; // ecx
-  vostok::animation::mixing::binary_tree_animation_node *m_object; // ecx
-  vostok::animation::mixing::binary_tree_animation_node *v22; // eax
-  vostok::animation::mixing::binary_tree_animation_node *v23; // ecx
-  vostok::animation::mixing::binary_tree_base_node *v24; // ecx
-  vostok::animation::mixing::base_lexeme *v25; // eax
-  vostok::animation::mixing::base_lexeme *v26; // esi
-  stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *v27; // eax
+  const vostok::animation::mixing::expression *v3; // ebx
+  vostok::animation::mixing::base_lexeme *m_lexeme; // eax
+  vostok::animation::mixing::binary_tree_base_node *v5; // edi
+  vostok::animation::mixing::binary_tree_weight_node *v6; // eax
+  vostok::animation::mixing::binary_tree_weight_node *v7; // ecx
+  vostok::animation::mixing::binary_tree_base_node *m_next_weight; // eax
+  bool v9; // zf
+  void *v10; // esp
+  vostok::animation::mixing::binary_tree_animation_node *v11; // eax
+  unsigned int v12; // eax
+  unsigned int v13; // ebx
+  const vostok::animation::mixing::expression *v14; // esi
+  vostok::animation::mixing::binary_tree_weight_node *v15; // eax
+  int v16; // ecx
+  const vostok::animation::mixing::expression *v17; // eax
+  unsigned int v18; // ecx
+  stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *v19; // eax
   vostok::animation::mixing::binary_tree_animation_node *first; // ecx
-  int v29; // ecx
-  vostok::animation::mixing::base_lexeme *v30; // eax
-  vostok::animation::mixing::base_lexeme *v31; // ecx
-  _DWORD v32[4]; // [esp+0h] [ebp-20h] BYREF
-  binary_tree_weight_driving_animation_getter weight_driving_animation_getter; // [esp+10h] [ebp-10h] BYREF
-  vostok::buffer_vector<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > > animations; // [esp+18h] [ebp-8h] BYREF
+  _DWORD v21[4]; // [esp+0h] [ebp-38h] BYREF
+  stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > value; // [esp+10h] [ebp-28h] BYREF
+  vostok::buffer_vector<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > > v23; // [esp+1Ch] [ebp-1Ch] BYREF
+  _DWORD v24[2]; // [esp+28h] [ebp-10h] BYREF
+  unsigned int __val; // [esp+30h] [ebp-8h] BYREF
+  vostok::animation::mixing::binary_tree_weight_node *m_weight_synchronization_group_id; // [esp+34h] [ebp-4h] BYREF
 
-  m_animations_root = (vostok::animation::mixing::base_lexeme *)expression->m_animations_root;
-  v4 = *(_DWORD *)&m_animations_root[12].m_cloned;
-  v5 = *(_DWORD *)&m_animations_root[7].m_cloned;
-  v6 = 0;
-  v7 = 1;
-  if ( v5 )
+  v3 = expression;
+  m_lexeme = expression[9].m_lexeme;
+  v5 = *(vostok::animation::mixing::binary_tree_base_node **)&m_lexeme[12].m_cloned;
+  v6 = *(vostok::animation::mixing::binary_tree_weight_node **)&m_lexeme[7].m_cloned;
+  v7 = 0;
+  __val = 1;
+  m_weight_synchronization_group_id = 0;
+  if ( v6 )
   {
-    v6 = v5;
-    ++*(_DWORD *)(v5 + 16);
+    v7 = v6;
+    ++v6->m_reference_count;
+    m_weight_synchronization_group_id = v6;
   }
-  while ( v6 )
+  while ( v7 )
   {
     if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      goto LABEL_14;
-    if ( !*(_BYTE *)(v6 + 116) )
+      goto LABEL_10;
+    if ( !LOBYTE(v7[3].m_interpolator) )
     {
-      v8 = *(_DWORD *)(v6 + 100);
-      if ( v8 != v4 )
+      m_next_weight = v7[3].m_next_weight;
+      if ( m_next_weight != v5 )
       {
-        if ( v8 == -1 )
+        if ( m_next_weight == (vostok::animation::mixing::binary_tree_base_node *)-1 )
         {
-LABEL_14:
-          v12 = (*(_DWORD *)(v6 + 16))-- == 1;
-          if ( v12 )
-            (**(void (__thiscall ***)(int, _DWORD))v6)(v6, 0);
-          break;
-        }
-        v4 = *(_DWORD *)(v6 + 100);
-        ++v7;
-      }
-    }
-    v9 = *(_DWORD *)(v6 + 60);
-    v10 = 0;
-    if ( v9 )
-    {
-      v10 = *(_DWORD *)(v6 + 60);
-      ++*(_DWORD *)(v9 + 16);
-    }
-    v11 = v6;
-    v6 = v10;
-    v12 = (*(_DWORD *)(v11 + 16))-- == 1;
-    if ( v12 )
-      (**(void (__thiscall ***)(int, _DWORD))v11)(v11, 0);
-  }
-  v13 = alloca(12 * v7);
-  v14 = (vostok::animation::mixing::base_lexeme *)expression->m_animations_root;
-  animations.m_begin = (stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *)v32;
-  animations.m_end = (stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *)v32;
-  v15 = *(_DWORD *)&v14[12].m_cloned;
-  if ( v32 )
-  {
-    v32[0] = *(_DWORD *)&v14[12].m_cloned;
-    v32[1] = v14;
-    v32[2] = 0;
-  }
-  v16 = (vostok::animation::mixing::base_lexeme *)expression->m_animations_root;
-  ++animations.m_end;
-  v17 = *(vostok::animation::mixing::binary_tree_animation_node **)&v16[7].m_cloned;
-  v18 = 0;
-  if ( v17 )
-  {
-    v18 = v17;
-    ++v17->m_reference_count;
-  }
-  while ( v18 )
-  {
-    if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      goto LABEL_33;
-    if ( !v18->m_null_weight_found )
-    {
-      m_weight_synchronization_group_id = v18->m_weight_synchronization_group_id;
-      if ( m_weight_synchronization_group_id != v15 )
-      {
-        if ( m_weight_synchronization_group_id == -1 )
-        {
-LABEL_33:
-          v12 = v18->m_reference_count-- == 1;
-          if ( v12 )
-            ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v18->~vostok::animation::mixing::binary_tree_base_node)(
-              v18,
+LABEL_10:
+          v9 = v7->m_reference_count-- == 1;
+          if ( v9 )
+            ((void (__thiscall *)(vostok::animation::mixing::binary_tree_weight_node *, _DWORD))v7->~vostok::animation::mixing::binary_tree_base_node)(
+              v7,
               0);
           break;
         }
-        m_end = animations.m_end;
-        v15 = v18->m_weight_synchronization_group_id;
-        if ( animations.m_end )
-        {
-          animations.m_end->first = m_weight_synchronization_group_id;
-          m_end->second.first = v18;
-          m_end->second.second = 0;
-        }
-        ++animations.m_end;
+        ++__val;
+        v5 = m_next_weight;
       }
     }
-    m_object = v18->m_next_weight_animation.m_object;
-    v22 = 0;
-    if ( m_object )
-    {
-      v22 = v18->m_next_weight_animation.m_object;
-      ++m_object->m_reference_count;
-    }
-    v23 = v18;
-    v18 = v22;
-    v12 = v23->m_reference_count-- == 1;
-    if ( v12 )
-      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))v23->~vostok::animation::mixing::binary_tree_base_node)(
-        v23,
-        0);
+    vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)&v7[1].m_simplified_weight,
+      &m_weight_synchronization_group_id);
+    v7 = m_weight_synchronization_group_id;
   }
-  v24 = expressiona->m_node.m_object;
-  weight_driving_animation_getter.m_animations = &animations;
-  weight_driving_animation_getter.__vftable = (binary_tree_weight_driving_animation_getter_vtbl *)&binary_tree_weight_driving_animation_getter::`vftable';
-  v24->accept(v24, &weight_driving_animation_getter);
-  v25 = (vostok::animation::mixing::base_lexeme *)expression->m_animations_root;
-  v26 = 0;
-  if ( v25 )
+  v10 = alloca(12 * __val);
+  value.second.second = 0;
+  v23.m_begin = (stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *)v21;
+  v23.m_end = (stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *)v21;
+  v11 = (vostok::animation::mixing::binary_tree_animation_node *)v3[9].m_lexeme;
+  v23.m_max_end = (stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *> > *)&v21[3 * __val];
+  m_weight_synchronization_group_id = (vostok::animation::mixing::binary_tree_weight_node *)v11->m_weight_synchronization_group_id;
+  value.first = (unsigned int)m_weight_synchronization_group_id;
+  value.second.first = v11;
+  vostok::buffer_vector<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *>>>::push_back(
+    &v23,
+    &value);
+  v12 = *(_DWORD *)&v3[9].m_lexeme[7].m_cloned;
+  v13 = 0;
+  __val = 0;
+  if ( v12 )
   {
-    ++v25[2].m_buffer;
-    v26 = v25;
+    v13 = v12;
+    ++*(_DWORD *)(v12 + 16);
+    __val = v12;
   }
-  while ( v26 )
+  while ( 1 )
+  {
+    v14 = 0;
+    if ( !v13 )
+      break;
+    if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+      goto LABEL_21;
+    if ( !*(_BYTE *)(v13 + 116) )
+    {
+      v15 = *(vostok::animation::mixing::binary_tree_weight_node **)(v13 + 100);
+      if ( v15 != m_weight_synchronization_group_id )
+      {
+        if ( v15 == (vostok::animation::mixing::binary_tree_weight_node *)-1 )
+        {
+LABEL_21:
+          v9 = (*(_DWORD *)(v13 + 16))-- == 1;
+          if ( v9 )
+            (**(void (__thiscall ***)(unsigned int, _DWORD))v13)(v13, 0);
+          break;
+        }
+        value.second.second = 0;
+        m_weight_synchronization_group_id = v15;
+        value.first = (unsigned int)v15;
+        value.second.first = (vostok::animation::mixing::binary_tree_animation_node *)v13;
+        vostok::buffer_vector<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *>>>::push_back(
+          &v23,
+          &value);
+      }
+    }
+    vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)(v13 + 60),
+      (vostok::animation::mixing::binary_tree_weight_node **)&__val);
+    v13 = __val;
+  }
+  v24[1] = &v23;
+  v16 = *__comp;
+  v24[0] = &binary_tree_weight_driving_animation_getter::`vftable';
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v16 + 4))(v16, v24);
+  v17 = (const vostok::animation::mixing::expression *)expression[9].m_lexeme;
+  expression = 0;
+  if ( v17 )
+  {
+    ++v17[2].m_node.m_object;
+    v14 = v17;
+    expression = v17;
+  }
+  while ( v14 )
   {
     if ( !vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      goto LABEL_49;
-    if ( !v26[14].m_cloned )
+      goto LABEL_33;
+    if ( !LOBYTE(v14[14].m_lexeme) )
     {
-      if ( *(_DWORD *)&v26[12].m_cloned == -1 )
+      v18 = (unsigned int)v14[12].m_lexeme;
+      if ( v18 == -1 )
       {
-LABEL_49:
-        v12 = v26[2].m_buffer-- == (vostok::mutable_buffer *)1;
-        if ( v12 )
-          ((void (__thiscall *)(vostok::animation::mixing::base_lexeme *, _DWORD))v26->m_buffer->m_data)(v26, 0);
+LABEL_33:
+        v9 = v14[2].m_node.m_object-- == (vostok::animation::mixing::binary_tree_base_node *)1;
+        if ( v9 )
+          ((void (__thiscall *)(const vostok::animation::mixing::expression *, _DWORD))v14->m_node.m_object->__vftable)(
+            v14,
+            0);
         return;
       }
-      expressiona = *(const vostok::animation::mixing::expression **)&v26[12].m_cloned;
-      v27 = stlp_std::priv::__lower_bound<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *>> *,unsigned int,find_weight_driving_animation_predicate,find_weight_driving_animation_predicate,int>(
-              animations.m_begin,
-              animations.m_end,
-              (unsigned int *)&expressiona);
-      first = v27->second.first;
-      if ( first == (vostok::animation::mixing::binary_tree_animation_node *)v26 )
+      LOBYTE(__comp) = 0;
+      __val = v18;
+      v19 = stlp_std::lower_bound<stlp_std::pair<unsigned int,stlp_std::pair<vostok::animation::mixing::binary_tree_animation_node *,vostok::animation::mixing::binary_tree_animation_node *>> *,unsigned int,find_weight_driving_animation_predicate>(
+              v23.m_begin,
+              v23.m_end,
+              &__val);
+      first = v19->second.first;
+      if ( first == (vostok::animation::mixing::binary_tree_animation_node *)v14 )
       {
-        *(_DWORD *)&v26[6].m_cloned = 0;
-        *(_DWORD *)&v26[4].m_cloned = v27->second.second->m_weight_interpolator;
+        v14[6].m_lexeme = 0;
+        v14[4].m_lexeme = (vostok::animation::mixing::base_lexeme *)v19->second.second->m_weight_interpolator;
       }
       else
       {
-        *(_DWORD *)&v26[6].m_cloned = first;
+        v14[6].m_lexeme = (vostok::animation::mixing::base_lexeme *)first;
       }
     }
-    v29 = *(_DWORD *)&v26[7].m_cloned;
-    v30 = 0;
-    if ( v29 )
-    {
-      v30 = *(vostok::animation::mixing::base_lexeme **)&v26[7].m_cloned;
-      ++*(_DWORD *)(v29 + 16);
-    }
-    v31 = v26;
-    v26 = v30;
-    v12 = v31[2].m_buffer-- == (vostok::mutable_buffer *)1;
-    if ( v12 )
-      ((void (__thiscall *)(vostok::animation::mixing::base_lexeme *, _DWORD))v31->m_buffer->m_data)(v31, 0);
+    vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::operator=(
+      (vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *)&v14[7].m_lexeme,
+      (vostok::animation::mixing::binary_tree_weight_node **)&expression);
+    v14 = expression;
   }
 }

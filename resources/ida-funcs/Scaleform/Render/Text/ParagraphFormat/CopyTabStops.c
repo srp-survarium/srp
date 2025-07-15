@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::Text::ParagraphFormat::CopyTabStops(
     v4 = *psrcTabStops;
     if ( !pTabStops || *pTabStops != v4 )
       Scaleform::Render::Text::ParagraphFormat::AllocTabStops(this, *psrcTabStops);
-    memcpy((unsigned __int8 *)this->pTabStops + 4, (unsigned __int8 *)psrcTabStops + 4, 4 * v4);
+    memcpy((int)(this->pTabStops + 1), (const __m128i *)(psrcTabStops + 1), 4 * v4);
   }
   else
   {

@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::RBGenericImpl::RenderTarget::Release(
     if ( this->pBuffer->Scaleform::Render::RBGenericImpl::CacheData::Type != RBuffer_Temporary
       || this->RTStatus == RTS_Lost )
     {
-      ((void (__thiscall *)(Scaleform::Render::RBGenericImpl::RenderTarget *, int))this->~Scaleform::Render::RBGenericImpl::RenderTarget)(
+      ((void (__thiscall *)(Scaleform::Render::RBGenericImpl::RenderTarget *, int))this->~Scaleform::Render::RenderBuffer)(
         this,
         1);
     }
@@ -24,13 +24,13 @@ void __thiscall Scaleform::Render::RBGenericImpl::RenderTarget::Release(
       v2 = this->ListType - 2 < 0;
       pManager = this->pManager;
       this->pPrev->pNext = this->pNext;
-      this->pNext->Scaleform::Render::RBGenericImpl::CacheData::Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$EA02E2A925554C6B16FA29F8B6C1D51A::pPrev = this->pPrev;
+      this->pNext->Scaleform::Render::RBGenericImpl::CacheData::Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$33C6E2185EE5619ED4522D9BD84BBA53::pPrev = this->pPrev;
       v5 = !(v2 ^ v3 | v1) + 5;
       this->ListType = v5;
       p_RefCount = (Scaleform::Render::RBGenericImpl::CacheData *)&pManager[v5 + 4].RefCount;
       this->pNext = p_RefCount->pNext;
       this->pPrev = p_RefCount;
-      p_RefCount->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$EA02E2A925554C6B16FA29F8B6C1D51A::pPrev = &this->Scaleform::Render::RBGenericImpl::CacheData;
+      p_RefCount->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$33C6E2185EE5619ED4522D9BD84BBA53::pPrev = &this->Scaleform::Render::RBGenericImpl::CacheData;
       p_RefCount->pNext = &this->Scaleform::Render::RBGenericImpl::CacheData;
       this->RTStatus = RTS_Available;
     }

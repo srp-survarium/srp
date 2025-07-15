@@ -1,121 +1,102 @@
-bool __thiscall vostok::particle::particle_domain_complex::inside(
-        vostok::particle::particle_domain_complex *this,
-        const vostok::math::float3 *point)
+bool __userpurge vostok::particle::particle_domain_complex::inside@<al>(
+        const vostok::math::float3 *point@<eax>,
+        vostok::particle::particle_domain_complex *this)
 {
-  vostok::math::float3_pod *v2; // ecx
-  bool v3; // al
-  vostok::math::float3_pod *v4; // ecx
-  vostok::math::float2 *v5; // ecx
-  float *v6; // eax
-  vostok::math::float2_pod *v7; // ecx
-  vostok::math::float2 *v8; // ecx
-  float *v9; // eax
-  vostok::math::float2_pod *v10; // ecx
-  float v11; // [esp+4h] [ebp-D0h]
-  bool v12; // [esp+4h] [ebp-D0h]
-  bool v13; // [esp+8h] [ebp-CCh]
-  bool v14; // [esp+Ch] [ebp-C8h]
-  bool v15; // [esp+10h] [ebp-C4h]
-  bool v16; // [esp+14h] [ebp-C0h]
-  bool v17; // [esp+18h] [ebp-BCh]
-  bool v18; // [esp+1Ch] [ebp-B8h]
-  _BYTE v20[8]; // [esp+4Ch] [ebp-88h] BYREF
-  _BYTE v21[8]; // [esp+54h] [ebp-80h] BYREF
-  float v22; // [esp+5Ch] [ebp-78h] BYREF
-  float v23; // [esp+60h] [ebp-74h] BYREF
-  float right; // [esp+64h] [ebp-70h] BYREF
-  vostok::math::float3 v25; // [esp+68h] [ebp-6Ch] BYREF
-  float v26; // [esp+74h] [ebp-60h]
-  vostok::math::float3 v27; // [esp+78h] [ebp-5Ch] BYREF
-  float from_center; // [esp+84h] [ebp-50h]
-  vostok::math::float3 v29; // [esp+88h] [ebp-4Ch] BYREF
-  float dist; // [esp+94h] [ebp-40h]
-  vostok::math::float3 v31; // [esp+98h] [ebp-3Ch] BYREF
-  vostok::math::float3 v32; // [esp+A4h] [ebp-30h] BYREF
-  vostok::math::float3 v33; // [esp+B0h] [ebp-24h] BYREF
-  vostok::math::float3 result; // [esp+BCh] [ebp-18h] BYREF
-  vostok::math::float3 local_space_pos; // [esp+C8h] [ebp-Ch] BYREF
+  bool result; // al
+  float v3; // xmm0_4
+  bool v4; // cc
+  float v5; // xmm2_4
+  float v6; // xmm1_4
+  float m_box_depth; // xmm0_4
+  bool v8; // cf
+  float v9; // xmm0_4
+  float v10; // xmm1_4
+  float v11; // xmm0_4
+  float v12; // xmm0_4
+  float v13; // [esp+10h] [ebp-Ch] BYREF
+  float v14; // [esp+14h] [ebp-8h]
+  float v15; // [esp+18h] [ebp-4h]
 
   switch ( this->m_domain_type )
   {
     case 0u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &local_space_pos, point);
-      v3 = vostok::math::float3_pod::length(v2, &local_space_pos.x) < 0.0099999998;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      result = 0;
+      if ( fsqrt((float)((float)(v15 * v15) + (float)(v14 * v14)) + (float)(v13 * v13)) < 0.0099999998 )
+        return 1;
+      return result;
     case 1u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &result, point);
-      v18 = 0;
-      if ( result.x >= (float)((float)-this->m_line_width / 2.0)
-        && (float)((float)-this->m_line_width / 2.0) >= result.x )
-      {
-        right = *(float *)&FLOAT_0_0;
-        if ( vostok::math::is_similar<float>(&result.y, &right, 0.001) )
-        {
-          v23 = *(float *)&FLOAT_0_0;
-          if ( vostok::math::is_similar<float>(&result.z, &v23, 0.001) )
-            v18 = 1;
-        }
-      }
-      v3 = v18;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v3 = this->m_line_width * -0.5;
+      if ( v13 < v3 || v3 < v13 || COERCE_FLOAT(LODWORD(v14) & 0x7FFFFFFF) >= 0.001 )
+        return 0;
+      v4 = COERCE_FLOAT(LODWORD(v15) & 0x7FFFFFFF) >= 0.001;
+      goto LABEL_8;
     case 2u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v33, point);
-      v22 = *(float *)&FLOAT_0_0;
-      v17 = vostok::math::is_similar<float>(&v33.y, &v22, 0.1)
-         && v33.x > 0.0
-         && *(float *)&clear_value > v33.x
-         && v33.z > 0.0
-         && *(float *)&clear_value > v33.z
-         && (float)(*(float *)&clear_value - v33.x) > v33.z;
-      v3 = v17;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      if ( COERCE_FLOAT(LODWORD(v14) & 0x7FFFFFFF) < 0.1
+        && v13 > 0.0
+        && s_bm_current_air_resistance > v13
+        && v15 > 0.0
+        && s_bm_current_air_resistance > v15 )
+      {
+        v4 = (float)(s_bm_current_air_resistance - v13) <= v15;
+LABEL_8:
+        if ( !v4 )
+          return 1;
+      }
+      return 0;
     case 4u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v32, point);
-      v16 = v32.x >= (float)((float)-this->m_box_width * 0.5)
-         && (float)(this->m_box_width * 0.5) >= v32.x
-         && v32.y >= (float)((float)-this->m_box_height * 0.5)
-         && (float)(this->m_box_height * 0.5) >= v32.y
-         && v32.z >= (float)((float)-this->m_box_depth * 0.5)
-         && (float)(this->m_box_depth * 0.5) >= v32.z;
-      v3 = v16;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v5 = FLOAT_N0_5;
+      if ( v13 < (float)(this->m_box_width * -0.5) )
+        return 0;
+      v6 = c_anim_center;
+      if ( (float)(this->m_box_width * 0.5) < v13
+        || v14 < (float)(this->m_box_height * -0.5)
+        || (float)(this->m_box_height * 0.5) < v14 )
+      {
+        return 0;
+      }
+      m_box_depth = this->m_box_depth;
+      goto LABEL_22;
     case 5u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v29, point);
-      dist = vostok::math::float3_pod::length(v4, &v29.x);
-      v14 = dist >= this->m_inner_radius && this->m_outer_radius >= dist;
-      v3 = v14;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v9 = (float)(v14 * v14) + (float)(v15 * v15);
+      v10 = v13 * v13;
+      goto LABEL_30;
     case 6u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v27, point);
-      v6 = (float *)vostok::math::float2::float2(v5, (int)v21, SLODWORD(v27.x), v27.z, v11);
-      from_center = vostok::math::float2_pod::length(v7, v6);
-      v13 = from_center >= this->m_inner_radius
-         && this->m_outer_radius >= from_center
-         && v27.y >= (float)-this->m_cylinder_height * 0.5
-         && this->m_cylinder_height * 0.5 >= v27.y;
-      v3 = v13;
-      break;
-    case 7u:
-      v3 = 0;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v12 = fsqrt((float)(v13 * v13) + (float)(v15 * v15));
+      if ( v12 < this->m_inner_radius || this->m_outer_radius < v12 || v14 < (float)(this->m_cylinder_height * -0.5) )
+        return 0;
+      v8 = (float)(this->m_cylinder_height * 0.5) < v14;
+      return !v8;
     case 9u:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v25, point);
-      v9 = (float *)vostok::math::float2::float2(v8, (int)v20, SLODWORD(v25.x), v25.z, v11);
-      v26 = vostok::math::float2_pod::length(v10, v9);
-      v12 = v26 >= this->m_inner_radius && this->m_outer_radius >= v26;
-      v3 = v12;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v9 = v13 * v13;
+      v10 = v15 * v15;
+LABEL_30:
+      v11 = fsqrt(v9 + v10);
+      if ( v11 < this->m_inner_radius )
+        return 0;
+      v8 = this->m_outer_radius < v11;
+      return !v8;
     case 0xAu:
-      vostok::particle::particle_domain_complex::to_local_space(this, &v31, point);
-      v15 = v31.x >= (float)((float)-this->m_box_width * 0.5)
-         && (float)(this->m_box_width * 0.5) >= v31.x
-         && v31.z >= (float)-this->m_box_height * 0.5
-         && this->m_box_height * 0.5 >= v31.z;
-      v3 = v15;
-      break;
+      vostok::particle::particle_domain_complex::to_local_space(this, point, &v13);
+      v5 = FLOAT_N0_5;
+      if ( v13 < (float)(this->m_box_width * -0.5) )
+        return 0;
+      v6 = c_anim_center;
+      if ( (float)(this->m_box_width * 0.5) < v13 )
+        return 0;
+      m_box_depth = this->m_box_height;
+LABEL_22:
+      if ( v15 < (float)(m_box_depth * v5) )
+        return 0;
+      v8 = (float)(m_box_depth * v6) < v15;
+      return !v8;
     default:
-      v3 = 0;
-      break;
+      return 0;
   }
-  return v3;
 }

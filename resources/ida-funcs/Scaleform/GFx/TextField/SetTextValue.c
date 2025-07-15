@@ -1,17 +1,17 @@
 char __thiscall Scaleform::GFx::TextField::SetTextValue(
         Scaleform::GFx::TextField *this,
-        char *pnewText,
-        bool html,
+        const __m128i *pnewText,
+        char html,
         bool notifyVariable)
 {
   Scaleform::StringLH *p_OriginalTextValue; // edi
   unsigned __int8 AvmObjOffset; // al
   int v8; // eax
-  const char *v9; // edi
+  char *v9; // edi
   Scaleform::GFx::TextField::SetTextValue::__l14::TranslateInfo *v10; // ecx
   Scaleform::RefCountVImpl *v11; // ebx
   const char *pData; // eax
-  Scaleform::GFx::ASStringNode *v13; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::MemoryHeap *v14; // eax
   Scaleform::Render::Text::DocView *pObject; // ebp
   const Scaleform::GFx::Text::StyleManager *StyleSheet; // eax
@@ -38,17 +38,20 @@ char __thiscall Scaleform::GFx::TextField::SetTextValue(
   Scaleform::Render::TreeText *RenderNode; // eax
   Scaleform::Render::TreeText *v38; // eax
   char v39; // [esp+13h] [ebp-899h]
-  const Scaleform::Render::Text::TextFormat *ptextFmt; // [esp+14h] [ebp-898h] BYREF
-  const Scaleform::Render::Text::ParagraphFormat *pparaFmt; // [esp+18h] [ebp-894h] BYREF
-  bool translated; // [esp+1Fh] [ebp-88Dh]
-  Scaleform::ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy> imageInfoArray; // [esp+20h] [ebp-88Ch] BYREF
-  Scaleform::Render::Text::ParagraphFormat paraFmt; // [esp+30h] [ebp-87Ch] BYREF
-  Scaleform::Render::Text::TextFormat txtFmt; // [esp+44h] [ebp-868h] BYREF
-  Scaleform::GFx::TextField::SetTextValue::__l14::TranslateInfo translateInfo; // [esp+6Ch] [ebp-840h] BYREF
+  Scaleform::GFx::ASString result; // [esp+14h] [ebp-898h] BYREF
+  wchar_t *pwStr; // [esp+18h] [ebp-894h] BYREF
+  int v42; // [esp+1Ch] [ebp-890h]
+  Scaleform::ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy> pimgInfoArr; // [esp+20h] [ebp-88Ch] BYREF
+  Scaleform::Render::Text::ParagraphFormat pparaFmt; // [esp+30h] [ebp-87Ch] BYREF
+  Scaleform::Render::Text::TextFormat ptextFmt; // [esp+44h] [ebp-868h] BYREF
+  _DWORD v46[3]; // [esp+6Ch] [ebp-840h] BYREF
+  char v47; // [esp+78h] [ebp-834h]
+  Scaleform::WStringBuffer pstring; // [esp+88Ch] [ebp-20h] BYREF
+  Scaleform::WStringBuffer pBuffer; // [esp+89Ch] [ebp-10h] BYREF
 
   p_OriginalTextValue = &this->OriginalTextValue;
-  pparaFmt = 0;
-  if ( !strcmp((const char *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8), pnewText)
+  pwStr = 0;
+  if ( !strcmp((const char *)((this->OriginalTextValue.HeapTypeBits & 0xFFFFFFFC) + 8), pnewText->m128i_i8)
     && (this->Flags & 0x10000) == 0 )
   {
     return 0;
@@ -73,7 +76,7 @@ char __thiscall Scaleform::GFx::TextField::SetTextValue(
     this->Flags |= 0x1000u;
   else
     this->Flags &= ~0x1000u;
-  v9 = (const char *)((p_OriginalTextValue->HeapTypeBits & 0xFFFFFFFC) + 8);
+  v9 = (char *)((p_OriginalTextValue->HeapTypeBits & 0xFFFFFFFC) + 8);
   v39 = 0;
   if ( (this->Flags & 8) != 0 )
     goto LABEL_38;
@@ -84,132 +87,130 @@ char __thiscall Scaleform::GFx::TextField::SetTextValue(
     goto LABEL_38;
   if ( (this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Flags & 2) != 0 )
   {
-    pData = (const char *)&buf;
+    pData = uri;
   }
   else
   {
-    pparaFmt = (const Scaleform::Render::Text::ParagraphFormat *)1;
-    pData = Scaleform::GFx::DisplayObject::GetName(this, (Scaleform::GFx::ASString *)&ptextFmt)->pNode->pData;
+    pwStr = (wchar_t *)1;
+    pData = Scaleform::GFx::DisplayObject::GetName(this, &result)->pNode->pData;
   }
-  Scaleform::GFx::TextField::SetTextValue_::_14_::TranslateInfo::TranslateInfo(v10, (int)&translateInfo, pData);
-  if ( ((unsigned __int8)pparaFmt & 1) != 0 )
+  Scaleform::GFx::TextField::SetTextValue_::_14_::TranslateInfo::TranslateInfo(v10, (int)v46, pData);
+  if ( ((unsigned __int8)pwStr & 1) != 0 )
   {
-    v13 = (Scaleform::GFx::ASStringNode *)ptextFmt;
-    --ptextFmt->Url.HeapTypeBits;
-    if ( !v13->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v13);
+    pNode = result.pNode;
+    --result.pNode->RefCount;
+    if ( !pNode->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }
   if ( !html || (((int (__thiscall *)(Scaleform::RefCountVImpl *))v11->AddRef)(v11) & 1) != 0 )
   {
     Length = Scaleform::UTF8Util::GetLength(v9, -1);
-    Scaleform::WStringBuffer::Resize(&translateInfo.KeyBuf, Length + 1);
-    Scaleform::UTF8Util::DecodeString(translateInfo.KeyBuf.pText, v9, -1);
-    translateInfo.pKey = translateInfo.KeyBuf.pText;
+    Scaleform::WStringBuffer::Resize(&pBuffer, Length + 1);
+    Scaleform::UTF8Util::DecodeString(pBuffer.pText, v9, -1);
+    v46[0] = pBuffer.pText;
     if ( html )
-      translateInfo.Flags |= 4u;
-    ((void (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::TextField::SetTextValue::__l14::TranslateInfo *))v11->Release)(
-      v11,
-      &translateInfo);
+      v47 |= 4u;
+    ((void (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *))v11->Release)(v11, v46);
   }
   else
   {
     v14 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-    Scaleform::Render::Text::TextFormat::TextFormat(&txtFmt, v14);
-    Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&paraFmt);
-    Scaleform::GFx::TextField::GetInitialFormats(this, &txtFmt, &paraFmt);
+    Scaleform::Render::Text::TextFormat::TextFormat(&ptextFmt, v14);
+    Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&pparaFmt);
+    Scaleform::GFx::TextField::GetInitialFormats(this, &ptextFmt, &pparaFmt);
     pObject = this->pDocument.pObject;
-    LOBYTE(ptextFmt) = (this->Flags & 0x10) != 0;
+    LOBYTE(result.pNode) = (this->Flags & 0x10) != 0;
     StyleSheet = Scaleform::GFx::TextField::GetStyleSheet(this);
     Scaleform::Render::Text::DocView::ParseHtml(
       pObject,
+      (int)pObject,
       v9,
       0xFFFFFFFF,
-      (bool)ptextFmt,
+      (bool)result.pNode,
       0,
       StyleSheet,
-      &txtFmt,
-      &paraFmt);
-    Scaleform::Render::Text::StyledText::GetText(this->pDocument.pObject->pDocument.pObject, &translateInfo.KeyBuf);
+      &ptextFmt,
+      &pparaFmt);
+    Scaleform::Render::Text::StyledText::GetText(this->pDocument.pObject->pDocument.pObject, &pBuffer);
     if ( (((int (__thiscall *)(Scaleform::RefCountVImpl *))v11->AddRef)(v11) & 2) != 0 )
-      Scaleform::WStringBuffer::StripTrailingNewLines(&translateInfo.KeyBuf);
+      Scaleform::WStringBuffer::StripTrailingNewLines(&pBuffer);
     Release = v11->Release;
-    translateInfo.pKey = translateInfo.KeyBuf.pText;
-    ((void (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::TextField::SetTextValue::__l14::TranslateInfo *))Release)(
-      v11,
-      &translateInfo);
-    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
-    Scaleform::Render::Text::TextFormat::~TextFormat(&txtFmt);
+    v46[0] = pBuffer.pText;
+    ((void (__thiscall *)(Scaleform::RefCountVImpl *, _DWORD *))Release)(v11, v46);
+    Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&pparaFmt);
+    Scaleform::Render::Text::TextFormat::~TextFormat(&ptextFmt);
   }
-  translated = translateInfo.Flags & 1;
-  if ( (translateInfo.Flags & 1) != 0 )
+  HIBYTE(v42) = v47 & 1;
+  if ( (v47 & 1) != 0 )
   {
-    if ( (translateInfo.Flags & 2) != 0 )
+    if ( (v47 & 2) != 0 )
     {
       v19 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-      Scaleform::Render::Text::TextFormat::TextFormat(&txtFmt, v19);
-      Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&paraFmt);
-      Scaleform::GFx::TextField::GetInitialFormats(this, &txtFmt, &paraFmt);
+      Scaleform::Render::Text::TextFormat::TextFormat(&ptextFmt, v19);
+      Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&pparaFmt);
+      Scaleform::GFx::TextField::GetInitialFormats(this, &ptextFmt, &pparaFmt);
       v20 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
       v21 = this->Flags >> 4;
-      imageInfoArray.Data.pHeap = v20;
-      memset(&imageInfoArray, 0, 12);
-      LOBYTE(ptextFmt) = v21 & 1;
-      pparaFmt = (const Scaleform::Render::Text::ParagraphFormat *)translateInfo.ResultBuf.pText;
-      if ( !translateInfo.ResultBuf.pText )
-        pparaFmt = (const Scaleform::Render::Text::ParagraphFormat *)&word_96B534;
+      pimgInfoArr.Data.pHeap = v20;
+      memset(&pimgInfoArr, 0, 12);
+      LOBYTE(result.pNode) = v21 & 1;
+      pwStr = pstring.pText;
+      if ( !pstring.pText )
+        pwStr = (wchar_t *)&unk_6E53BC;
       v22 = this->pDocument.pObject;
       v23 = Scaleform::GFx::TextField::GetStyleSheet(this);
       Scaleform::Render::Text::DocView::ParseHtml(
         v22,
-        (const wchar_t *)pparaFmt,
+        (int)v22,
+        pwStr,
         0xFFFFFFFF,
-        (bool)ptextFmt,
-        &imageInfoArray,
+        (bool)result.pNode,
+        &pimgInfoArr,
         v23,
-        &txtFmt,
-        &paraFmt);
-      if ( imageInfoArray.Data.Size )
-        Scaleform::GFx::TextField::ProcessImageTags(this, &imageInfoArray);
-      Scaleform::ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy>::~ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy>(&imageInfoArray);
-      Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
-      Scaleform::Render::Text::TextFormat::~TextFormat(&txtFmt);
+        &ptextFmt,
+        &pparaFmt);
+      if ( pimgInfoArr.Data.Size )
+        Scaleform::GFx::TextField::ProcessImageTags(this, &pimgInfoArr);
+      Scaleform::ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy>::~ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy>(&pimgInfoArr);
+      Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&pparaFmt);
+      Scaleform::Render::Text::TextFormat::~TextFormat(&ptextFmt);
     }
     else
     {
       Scaleform::Render::Text::StyledText::GetTextAndParagraphFormat(
         this->pDocument.pObject->pDocument.pObject,
-        (Scaleform::Render::Text::TextFormat **)&ptextFmt,
-        (Scaleform::Render::Text::ParagraphFormat **)&pparaFmt,
+        (Scaleform::Render::Text::TextFormat **)&result,
+        (Scaleform::Render::Text::ParagraphFormat **)&pwStr,
         0);
       Scaleform::Render::Text::StyledText::SetDefaultTextFormat(
         this->pDocument.pObject->pDocument.pObject,
-        (Scaleform::Render::Text::TextFormat *)ptextFmt);
+        (Scaleform::Render::Text::TextFormat *)result.pNode);
       Scaleform::Render::Text::StyledText::SetDefaultParagraphFormat(
         this->pDocument.pObject->pDocument.pObject,
-        (Scaleform::Render::Text::ParagraphFormat *)pparaFmt);
-      pText = translateInfo.ResultBuf.pText;
-      if ( !translateInfo.ResultBuf.pText )
-        pText = (wchar_t *)&word_96B534;
+        (Scaleform::Render::Text::ParagraphFormat *)pwStr);
+      pText = pstring.pText;
+      if ( !pstring.pText )
+        pText = (wchar_t *)&unk_6E53BC;
       Scaleform::Render::Text::DocView::SetText(this->pDocument.pObject, pText, 0xFFFFFFFF);
     }
     v39 = 1;
   }
-  Scaleform::WStringBuffer::~WStringBuffer(&translateInfo.KeyBuf);
-  Scaleform::WStringBuffer::~WStringBuffer(&translateInfo.ResultBuf);
+  Scaleform::WStringBuffer::~WStringBuffer(&pBuffer);
+  Scaleform::WStringBuffer::~WStringBuffer(&pstring);
   Scaleform::RefCountImpl::Release(v11);
-  if ( !translated )
+  if ( !HIBYTE(v42) )
   {
 LABEL_38:
     if ( html )
     {
       v25 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-      Scaleform::Render::Text::TextFormat::TextFormat(&txtFmt, v25);
-      paraFmt.RefCount = 1;
-      memset(&paraFmt.pTabStops, 0, 16);
-      Scaleform::GFx::TextField::GetInitialFormats(this, &txtFmt, &paraFmt);
-      imageInfoArray.Data.pHeap = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
+      Scaleform::Render::Text::TextFormat::TextFormat(&ptextFmt, v25);
+      pparaFmt.RefCount = 1;
+      memset(&pparaFmt.pTabStops, 0, 16);
+      Scaleform::GFx::TextField::GetInitialFormats(this, &ptextFmt, &pparaFmt);
+      pimgInfoArr.Data.pHeap = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
       v26 = this->AvmObjOffset;
-      memset(&imageInfoArray, 0, 12);
+      memset(&pimgInfoArr, 0, 12);
       if ( v26 )
       {
         v27 = (*(int (__thiscall **)(char *))(*((_DWORD *)&this->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
@@ -225,21 +226,22 @@ LABEL_38:
       }
       Scaleform::Render::Text::DocView::ParseHtml(
         this->pDocument.pObject,
+        0,
         v9,
         0xFFFFFFFF,
         (this->Flags & 0x10) != 0,
-        &imageInfoArray,
+        &pimgInfoArr,
         v28,
-        &txtFmt,
-        &paraFmt);
-      if ( imageInfoArray.Data.Size )
-        Scaleform::GFx::TextField::ProcessImageTags(this, &imageInfoArray);
+        &ptextFmt,
+        &pparaFmt);
+      if ( pimgInfoArr.Data.Size )
+        Scaleform::GFx::TextField::ProcessImageTags(this, &pimgInfoArr);
       Scaleform::ConstructorMov<Scaleform::Render::Text::StyledText::HTMLImageTagInfo>::DestructArray(
-        imageInfoArray.Data.Data,
-        imageInfoArray.Data.Size);
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, imageInfoArray.Data.Data);
-      Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&paraFmt);
-      Scaleform::Render::Text::TextFormat::~TextFormat(&txtFmt);
+        pimgInfoArr.Data.Data,
+        pimgInfoArr.Data.Size);
+      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pimgInfoArr.Data.Data);
+      Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&pparaFmt);
+      Scaleform::Render::Text::TextFormat::~TextFormat(&ptextFmt);
     }
     else
     {

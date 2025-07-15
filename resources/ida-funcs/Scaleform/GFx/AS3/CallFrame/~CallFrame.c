@@ -4,13 +4,18 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::~CallFrame(Scaleform::GFx::AS3::
   unsigned int RefCount; // eax
   unsigned int Flags; // eax
   Scaleform::GFx::AS3::WeakProxy *pWeakProxy; // eax
-  Scaleform::GFx::AS3::Instances::fl::Namespace *v7; // ecx
-  unsigned int v8; // eax
+  bool v6; // zf
+  Scaleform::GFx::ASStringNode *v7; // ecx
+  Scaleform::GFx::AS3::Instances::fl::Namespace *v8; // ecx
+  unsigned int v9; // eax
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> other; // [esp+4h] [ebp-4h] BYREF
 
   if ( this->pRegisterFile && this->pScopeStack && this->ACopy )
   {
-    Scaleform::GFx::AS3::ValueStack::ReleaseReserved(&this->pFile->VMRef->OpStack, this->PrevFirstStackPos);
+    Scaleform::GFx::AS3::ValueStack::ReleaseReserved(
+      &this->pFile->VMRef->OpStack,
+      this->PrevFirstStackPos,
+      this->PrevReservedNum);
     Scaleform::GFx::AS3::ValueRegisterFile::ReleaseReserved(
       this->pRegisterFile,
       this->pFile->File.pObject->MethodBodies.Info.Data.Data[this->MBIIndex.Ind]->local_reg_count);
@@ -29,7 +34,7 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::~CallFrame(Scaleform::GFx::AS3::
       if ( ((unsigned __int8)pObject & 1) == 0 )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -43,7 +48,8 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::~CallFrame(Scaleform::GFx::AS3::
     if ( (Flags & 0x200) != 0 )
     {
       pWeakProxy = this->Invoker.Bonus.pWeakProxy;
-      if ( pWeakProxy->RefCount-- == 1 )
+      v6 = pWeakProxy->RefCount-- == 1;
+      if ( v6 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pWeakProxy);
       this->Invoker.Flags &= 0xFFFFFDE0;
       this->Invoker.Bonus.pWeakProxy = 0;
@@ -55,20 +61,34 @@ void __thiscall Scaleform::GFx::AS3::CallFrame::~CallFrame(Scaleform::GFx::AS3::
       Scaleform::GFx::AS3::Value::ReleaseInternal(&this->Invoker);
     }
   }
-  v7 = this->DefXMLNamespace.pObject;
+  v7 = this->Name.pObject;
   if ( v7 )
   {
     if ( ((unsigned __int8)v7 & 1) != 0 )
     {
-      this->DefXMLNamespace.pObject = (Scaleform::GFx::AS3::Instances::fl::Namespace *)((char *)v7 - 1);
+      this->Name.pObject = (Scaleform::GFx::ASStringNode *)((char *)v7 - 1);
     }
     else
     {
-      v8 = v7->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+      v6 = v7->RefCount-- == 1;
+      if ( v6 )
+        Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+    }
+  }
+  v8 = this->DefXMLNamespace.pObject;
+  if ( v8 )
+  {
+    if ( ((unsigned __int8)v8 & 1) != 0 )
+    {
+      this->DefXMLNamespace.pObject = (Scaleform::GFx::AS3::Instances::fl::Namespace *)((char *)v8 - 1);
+    }
+    else
+    {
+      v9 = v8->RefCount;
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
-        v7->RefCount = v8 - 1;
-        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);
+        v8->RefCount = v9 - 1;
+        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);
       }
     }
   }

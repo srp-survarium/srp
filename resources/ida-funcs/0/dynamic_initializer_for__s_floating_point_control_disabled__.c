@@ -1,6 +1,11 @@
-void dynamic_initializer_for__s_floating_point_control_disabled__()
+void __thiscall dynamic_initializer_for__s_floating_point_control_disabled__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_floating_point_control_disabled);
+  vostok::command_line::key::key(
+    this,
+    &s_floating_point_control_disabled,
+    "floating_point_control_disabled",
+    uri,
+    "math",
+    "disables floating point control flags setup for each thread",
+    uri);
 }

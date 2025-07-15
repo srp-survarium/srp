@@ -1,75 +1,85 @@
 int __cdecl ogg_sync_pageseek(ogg_sync_state *oy, ogg_page *og)
 {
-  int returned; // eax
-  unsigned __int8 *v3; // edi
-  int v4; // ebx
+  int returned; // ecx
+  int v4; // eax
+  unsigned __int8 *v5; // ebx
+  bool v6; // sf
   int result; // eax
-  int v6; // ebp
-  int v7; // ebp
-  int bodybytes; // ecx
-  unsigned __int8 *v9; // eax
-  unsigned __int8 *v10; // eax
-  unsigned __int8 *v11; // ecx
-  ogg_page log; // [esp+Ch] [ebp-10h] BYREF
+  int v8; // edi
+  int v9; // edx
+  int v10; // ecx
+  int bodybytes; // eax
+  unsigned __int8 *v12; // eax
+  unsigned __int8 *v13; // ecx
+  unsigned __int8 *v14; // eax
+  ogg_page v15; // [esp+8h] [ebp-14h] BYREF
+  int v16; // [esp+18h] [ebp-4h]
+  int v17; // [esp+24h] [ebp+8h]
 
   returned = oy->returned;
-  v3 = &oy->data[returned];
   v4 = oy->fill - returned;
-  if ( oy->storage < 0 )
+  v5 = &oy->data[returned];
+  v6 = oy->storage < 0;
+  v16 = v4;
+  if ( v6 )
     return 0;
   if ( !oy->headerbytes )
   {
     if ( v4 < 27 )
       return 0;
-    if ( *(_DWORD *)v3 != 1399285583 )
-      goto sync_fail;
-    v6 = v3[26] + 27;
-    result = 0;
-    if ( v4 < v6 )
-      return result;
-    if ( v3[26] )
+    if ( *(_DWORD *)v5 != *(_DWORD *)"OggS" )
+    {
+sync_fail:
+      oy->headerbytes = 0;
+      oy->bodybytes = 0;
+      memchr(v5 + 1, 0x4Fu, v4 - 1);
+      v13 = v12;
+      if ( !v12 )
+        v13 = &oy->data[oy->fill];
+      oy->returned = v13 - oy->data;
+      return v5 - v13;
+    }
+    v8 = v5[26] + 27;
+    if ( v4 < v8 )
+      return 0;
+    v9 = 0;
+    if ( v5[26] )
     {
       do
-        oy->bodybytes += v3[result++ + 27];
-      while ( result < v3[26] );
+        oy->bodybytes += v5[v9++ + 27];
+      while ( v9 < v5[26] );
     }
-    oy->headerbytes = v6;
+    oy->headerbytes = v8;
   }
-  if ( oy->bodybytes + oy->headerbytes > v4 )
+  v10 = oy->bodybytes + oy->headerbytes;
+  if ( v10 > v4 )
     return 0;
-  v7 = *(_DWORD *)(v3 + 22);
-  *(_DWORD *)(v3 + 22) = 0;
+  v17 = *(_DWORD *)(v5 + 22);
+  *(_DWORD *)(v5 + 22) = 0;
+  v15.header_len = oy->headerbytes;
+  v15.body = &v5[v15.header_len];
   bodybytes = oy->bodybytes;
-  log.header_len = oy->headerbytes;
-  log.body = &v3[log.header_len];
-  log.header = v3;
-  log.body_len = bodybytes;
-  ogg_page_checksum_set(&log);
-  if ( v7 == *(_DWORD *)(v3 + 22) )
+  v15.header = v5;
+  v15.body_len = bodybytes;
+  ogg_page_checksum_set(v10, &v15);
+  if ( v17 != *(_DWORD *)(v5 + 22) )
   {
-    v9 = &oy->data[oy->returned];
-    if ( og )
-    {
-      og->header = v9;
-      og->header_len = oy->headerbytes;
-      og->body = &v9[oy->headerbytes];
-      og->body_len = oy->bodybytes;
-    }
-    result = oy->bodybytes + oy->headerbytes;
-    oy->returned += result;
-    oy->unsynced = 0;
-    oy->headerbytes = 0;
-    oy->bodybytes = 0;
-    return result;
+    *(_DWORD *)(v5 + 22) = v17;
+    v4 = v16;
+    goto sync_fail;
   }
-  *(_DWORD *)(v3 + 22) = v7;
-sync_fail:
+  v14 = &oy->data[oy->returned];
+  if ( og )
+  {
+    og->header = v14;
+    og->header_len = oy->headerbytes;
+    og->body = &v14[oy->headerbytes];
+    og->body_len = oy->bodybytes;
+  }
+  result = oy->bodybytes + oy->headerbytes;
+  oy->unsynced = 0;
+  oy->returned += result;
   oy->headerbytes = 0;
   oy->bodybytes = 0;
-  memchr(v3 + 1, 0x4Fu, v4 - 1);
-  v11 = v10;
-  if ( !v10 )
-    v11 = &oy->data[oy->fill];
-  oy->returned = v11 - oy->data;
-  return v3 - v11;
+  return result;
 }

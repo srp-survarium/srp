@@ -1,108 +1,75 @@
-void __thiscall vostok::vfs::unmounter::find_range_to_unmount<vostok::vfs::is_exact_node>(
-        vostok::vfs::unmounter *this,
-        vostok::fs_new::virtual_path_string *path,
-        unsigned int hash,
+void __userpurge vostok::vfs::unmounter::find_range_to_unmount<vostok::vfs::is_exact_node>(
+        vostok::vfs::unmounter *this@<ecx>,
+        vostok::fs_new::virtual_path_string *path@<eax>,
+        vostok::vfs::base_node<1> **first_to_unmount@<edi>,
+        __int16 hash,
         const vostok::vfs::is_exact_node *predicate,
-        vostok::vfs::base_node<1> **first_to_unmount,
         vostok::vfs::base_node<1> **last_to_unmount,
         vostok::vfs::base_node<1> **next_to_last)
 {
-  const char *v7; // eax
-  vostok::vfs::base_node<1> *node; // [esp+8h] [ebp-44h]
-  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> begin_end; // [esp+Ch] [ebp-40h] BYREF
-  vostok::vfs::overlapped_node_iterator it_end; // [esp+2Ch] [ebp-20h] BYREF
-  vostok::vfs::overlapped_node_iterator it; // [esp+3Ch] [ebp-10h] BYREF
+  vostok::vfs::lock_type_enum lock_type; // ecx
+  vostok::vfs::lock_type_enum v9; // edx
+  const char *v10; // eax
+  const char *v11; // ecx
+  vostok::vfs::base_node<1> *node; // ecx
+  vostok::vfs::base_node<1> *v13; // eax
+  vostok::vfs::overlapped_node_iterator *v14; // ecx
+  vostok::vfs::overlapped_node_iterator *v15; // ecx
+  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> v16; // [esp+8h] [ebp-40h] BYREF
+  _DWORD v17[4]; // [esp+28h] [ebp-20h] BYREF
+  const char *v18; // [esp+38h] [ebp-10h] BYREF
+  vostok::vfs::base_node<1> *v19; // [esp+3Ch] [ebp-Ch]
+  vostok::vfs::lock_type_enum v20; // [esp+40h] [ebp-8h]
+  vostok::threading::reader_writer_lock *hashset_lock; // [esp+44h] [ebp-4h]
+  bool v22; // [esp+5Fh] [ebp+17h]
 
-  v7 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)path);
-  vostok::vfs::vfs_hashset::equal_range(this->m_hashset, &begin_end, v7, hash, lock_type_write);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it, &begin_end.first);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it_end, &begin_end.second);
+  vostok::vfs::vfs_hashset::equal_range(this->m_hashset, hash, &v16, path->m_string.m_begin, lock_type_write);
+  lock_type = v16.first.lock_type;
+  v9 = v16.second.lock_type;
+  v10 = v16.first.path;
   *first_to_unmount = 0;
-  *last_to_unmount = 0;
   *next_to_last = 0;
+  v20 = lock_type;
+  v17[2] = v9;
+  hashset_lock = v16.first.hashset_lock;
+  v11 = v16.second.path;
+  v17[3] = v16.second.hashset_lock;
+  *last_to_unmount = 0;
+  v17[0] = v11;
+  node = v16.second.node;
+  v18 = v10;
+  v13 = v16.first.node;
+  v19 = v16.first.node;
+  v17[1] = v16.second.node;
+  v22 = v16.second.node != 0;
   while ( 1 )
   {
-    if ( (it.node != 0) == (it_end.node != 0) )
-    {
-      vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it_end);
-      vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
-      return;
-    }
-    node = it.node;
-    if ( it.node == predicate->helper_node )
+    LOBYTE(node) = v13 != 0;
+    if ( (v13 != 0) == v22 )
       break;
-    *next_to_last = it.node;
-    if ( (node->m_flags & 1) != 1 || *first_to_unmount )
+    HIWORD(v14) = HIWORD(predicate);
+    if ( v13 == predicate->helper_node )
     {
-      if ( (node->m_flags & 1) != 1 )
+      if ( !*first_to_unmount )
+        *first_to_unmount = v13;
+      node = (vostok::vfs::base_node<1> *)last_to_unmount;
+      *last_to_unmount = v13;
+      break;
+    }
+    LOWORD(v14) = v13->m_flags & 1;
+    *next_to_last = v13;
+    if ( !(_WORD)v14 || *first_to_unmount )
+    {
+      if ( (_WORD)v14 != 1 )
         *first_to_unmount = 0;
     }
     else
     {
-      *first_to_unmount = node;
+      *first_to_unmount = v13;
     }
-    vostok::vfs::overlapped_node_iterator::operator++(&it);
+    vostok::vfs::overlapped_node_iterator::operator++(v14, (int)&v18);
+    v13 = v19;
   }
-  if ( !*first_to_unmount )
-    *first_to_unmount = it.node;
-  *last_to_unmount = node;
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it_end);
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
-}
-
-
-void __thiscall vostok::vfs::unmounter::find_range_to_unmount<vostok::vfs::is_part_of_mount>(
-        vostok::vfs::unmounter *this,
-        vostok::fs_new::virtual_path_string *path,
-        unsigned int hash,
-        const vostok::vfs::is_part_of_mount *predicate,
-        vostok::vfs::base_node<1> **first_to_unmount,
-        vostok::vfs::base_node<1> **last_to_unmount,
-        vostok::vfs::base_node<1> **next_to_last)
-{
-  const char *v7; // eax
-  vostok::vfs::mount_root_node_base<1> *v8; // [esp+0h] [ebp-54h]
-  vostok::vfs::base_node<1> *node; // [esp+10h] [ebp-44h]
-  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> begin_end; // [esp+14h] [ebp-40h] BYREF
-  vostok::vfs::overlapped_node_iterator it_end; // [esp+34h] [ebp-20h] BYREF
-  vostok::vfs::overlapped_node_iterator it; // [esp+44h] [ebp-10h] BYREF
-
-  v7 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)path);
-  vostok::vfs::vfs_hashset::equal_range(this->m_hashset, &begin_end, v7, hash, lock_type_write);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it, &begin_end.first);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it_end, &begin_end.second);
-  *first_to_unmount = 0;
-  *last_to_unmount = 0;
-  *next_to_last = 0;
-  while ( 1 )
-  {
-    if ( (it.node != 0) == (it_end.node != 0) )
-    {
-      vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it_end);
-      vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
-      return;
-    }
-    node = it.node;
-    v8 = (it.node->m_flags & 8) == 8
-       ? vostok::vfs::node_cast<vostok::vfs::mount_root_node_base,vostok::vfs::base_node,1>(it.node)
-       : it.node->m_mount_root.pointer;
-    if ( v8 == predicate->mount_root )
-      break;
-    *next_to_last = node;
-    if ( (node->m_flags & 1) != 1 || *first_to_unmount )
-    {
-      if ( (node->m_flags & 1) != 1 )
-        *first_to_unmount = 0;
-    }
-    else
-    {
-      *first_to_unmount = node;
-    }
-    vostok::vfs::overlapped_node_iterator::operator++(&it);
-  }
-  if ( !*first_to_unmount )
-    *first_to_unmount = node;
-  *last_to_unmount = node;
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it_end);
-  vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
+  vostok::vfs::overlapped_node_iterator::clear((vostok::vfs::overlapped_node_iterator *)node, v17);
+  vostok::vfs::overlapped_node_iterator::clear(v15, &v18);
 }

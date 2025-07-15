@@ -17,7 +17,7 @@ const char *__cdecl _getenv_helper_nolock(char *option)
       while ( *v1 )
       {
         strlen(*v1);
-        if ( v5 > v4 && (*v1)[v4] == 61 && !_mbsnbicoll(*v1, (const unsigned __int8 *)option, v4) )
+        if ( v5 > v4 && (*v1)[v4] == 61 && !_mbsnbicoll(v4, (int)v1, (char *)*v1, option, v4) )
           return (const char *)&(*v1)[v4 + 1];
         ++v1;
       }

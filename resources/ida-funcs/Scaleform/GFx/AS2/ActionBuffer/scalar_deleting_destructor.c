@@ -9,7 +9,7 @@ Scaleform::GFx::AS2::ActionBuffer *__thiscall Scaleform::GFx::AS2::ActionBuffer:
   pNode = this->Dictionary.Data.DefaultValue.pNode;
   if ( pNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>(&this->Dictionary.Data);
+  Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,331>,Scaleform::ArrayDefaultPolicy> *)&this->Dictionary);
   pObject = (Scaleform::RefCountVImpl *)this->pBufferData.pObject;
   if ( pObject )
     Scaleform::RefCountImpl::Release(pObject);

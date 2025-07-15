@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::Sec
   if ( v6 )
   {
     Scaleform::GFx::AS3::Class::Class(v6, this);
-    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_system::SecurityDomain::`vftable';
   }
   else
   {
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::Sec
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

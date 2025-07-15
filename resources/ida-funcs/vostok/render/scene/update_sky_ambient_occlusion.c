@@ -1,58 +1,53 @@
 void __userpurge vostok::render::scene::update_sky_ambient_occlusion(
         vostok::render::scene *this@<ecx>,
         int a2@<eax>,
-        unsigned int id,
+        vostok::render::find_by_id_predicate<vostok::render::sky_ambient_occlusion> id,
         const vostok::render::sky_ambient_occlusion_properties *properties)
 {
-  const vostok::render::sky_ambient_occlusion_properties *v4; // ebp
-  vostok::render::sky_ambient_occlusion **v5; // esi
-  int v6; // edi
-  vostok::render::sky_ambient_occlusion **v7; // eax
-  vostok::render::sky_ambient_occlusion *v8; // ecx
-  const vostok::render::sky_ambient_occlusion_properties *v9; // eax
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *v10; // ecx
-  bool v11; // [esp+0h] [ebp-14h]
+  vostok::render::sky_ambient_occlusion **v4; // esi
+  char *v5; // edi
+  vostok::render::sky_ambient_occlusion **v6; // eax
+  vostok::memory::doug_lea_allocator *v7; // esi
+  char *v8; // eax
+  vostok::memory::doug_lea_allocator *v9; // ecx
+  char *v10; // eax
+  vostok::render::sky_ambient_occlusion *v11; // ecx
+  unsigned int v12; // eax
+  vostok::render::sky_ambient_occlusion *v13; // [esp-4h] [ebp-Ch]
+  const char *v14; // [esp+0h] [ebp-8h]
+  const char *v15; // [esp+4h] [ebp-4h]
+  unsigned int savedregs; // [esp+8h] [ebp+0h]
 
-  v4 = properties;
-  v5 = *(vostok::render::sky_ambient_occlusion ***)(a2 + 856);
-  v6 = a2 + 852;
-  v7 = stlp_std::priv::__find_if<vostok::render::sky_ambient_occlusion * *,vostok::render::find_by_id_predicate<vostok::render::sky_ambient_occlusion>>(
-         *(vostok::render::sky_ambient_occlusion ***)(a2 + 852),
-         v5,
-         (vostok::render::find_by_id_predicate<vostok::render::sky_ambient_occlusion>)id);
-  if ( v7 == v5 )
+  v4 = *(vostok::render::sky_ambient_occlusion ***)((char *)&vostok::memory::s_resources.m_buffer[8288] + a2);
+  v5 = (char *)&vostok::memory::s_resources.m_buffer[8287] + a2;
+  v6 = stlp_std::priv::__find_if<vostok::render::sky_ambient_occlusion * *,vostok::render::find_by_id_predicate<vostok::render::sky_ambient_occlusion>>(
+         *(vostok::render::sky_ambient_occlusion ***)((char *)&vostok::memory::s_resources.m_buffer[8287] + a2),
+         v4,
+         id);
+  if ( v6 == v4 )
   {
-    if ( vostok::memory::doug_lea_allocator::malloc_impl(
-           (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-           0x158u) )
+    v7 = vostok::render::g_allocator;
+    v8 = type_info::raw_name(&vostok::render::sky_ambient_occlusion `RTTI Type Descriptor');
+    v10 = vostok::memory::doug_lea_allocator::malloc_impl(v9, (int)v7, 0x158u, v8, v14, v15, savedregs);
+    if ( v10 )
     {
-      vostok::render::sky_ambient_occlusion::sky_ambient_occlusion(v8, v4, id);
+      vostok::render::sky_ambient_occlusion::sky_ambient_occlusion(v11, (int)v10, properties, id.m_id);
+      id.m_id = v12;
     }
     else
     {
-      v9 = 0;
+      id.m_id = 0;
     }
-    v10 = *(stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > **)(v6 + 4);
-    properties = v9;
-    if ( v10 == *(stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > **)(v6 + 8) )
-    {
-      stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-        v10,
-        v6,
-        (void **)&v10->_M_start,
-        (void *const *)&properties,
-        (const stlp_std::__true_type *)1,
-        1,
-        v11);
-    }
-    else
-    {
-      v10->_M_start = (void **)&v9->texture_name.m_begin;
-      *(_DWORD *)(v6 + 4) += 4;
-    }
+    vostok::buffer_vector<vostok::render::sky_ambient_occlusion *>::push_back(
+      (vostok::buffer_vector<vostok::render::sky_ambient_occlusion *> *)v11,
+      (int)v5,
+      (vostok::render::sky_ambient_occlusion **)&id);
   }
   else
   {
-    vostok::render::sky_ambient_occlusion::set_properties(*v7, v4);
+    vostok::render::sky_ambient_occlusion::set_properties(
+      v13,
+      (const vostok::render::sky_ambient_occlusion_properties *)*v6,
+      &properties->texture_name);
   }
 }

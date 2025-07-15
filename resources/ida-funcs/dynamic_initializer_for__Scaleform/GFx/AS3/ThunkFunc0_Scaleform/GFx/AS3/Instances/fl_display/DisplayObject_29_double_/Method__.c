@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::rotationZGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_display::DisplayObject,29,double>::Method) = Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::rotationZGet;
-  dword_AAE25C = 0;
+  dword_8F2A14 = 0;
   return result;
 }

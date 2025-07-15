@@ -13,11 +13,11 @@ bool __thiscall Scaleform::HeapPT::Granulator::ReallocInPlace(
   char *v12; // esi
   unsigned int v13; // ebp
   unsigned int v14; // esi
-  unsigned __int8 *segBase; // [esp+Ch] [ebp-14h]
+  unsigned __int8 *v15; // [esp+Ch] [ebp-14h]
   Scaleform::HeapPT::AllocLite *p_Allocator; // [esp+10h] [ebp-10h]
-  unsigned int oldEnd; // [esp+14h] [ebp-Ch]
-  unsigned int oldSegSize; // [esp+18h] [ebp-8h]
-  Scaleform::HeapPT::AllocLite::ReallocResult res; // [esp+1Ch] [ebp-4h]
+  unsigned int v17; // [esp+14h] [ebp-Ch]
+  unsigned int v18; // [esp+18h] [ebp-8h]
+  int v19; // [esp+1Ch] [ebp-4h]
 
   if ( alignSize < this->Allocator.MinSize )
     alignSize = this->Allocator.MinSize;
@@ -26,7 +26,7 @@ bool __thiscall Scaleform::HeapPT::Granulator::ReallocInPlace(
                                          (unsigned int)oldPtr);
   p_Allocator = &this->Allocator;
   v7 = Scaleform::HeapPT::AllocLite::ReallocInPlace(&this->Allocator, LeEq, oldPtr, oldSize, newSize, alignSize);
-  res = v7;
+  v19 = v7;
   if ( !this->HasRealloc )
     return v7 < 2;
   if ( !v7 )
@@ -35,38 +35,38 @@ bool __thiscall Scaleform::HeapPT::Granulator::ReallocInPlace(
                                  - (LeEq->Buffer == (unsigned __int8 *)LeEq->Headers + this->HdrPageSize
                                   ? this->HdrPageSize
                                   : 0)];
-  segBase = (unsigned __int8 *)v9;
+  v15 = (unsigned __int8 *)v9;
   SegSize = Scaleform::HeapPT::Granulator::getSegSize(this, LeEq);
   Granularity = this->Granularity;
-  oldSegSize = SegSize;
+  v18 = SegSize;
   v12 = &oldPtr[-v9];
   v13 = ~(alignSize - 1);
-  oldEnd = Granularity * (((v13 & (unsigned int)&v12[oldSize - 1 + alignSize]) + Granularity - 1) / Granularity);
+  v17 = Granularity * (((v13 & (unsigned int)&v12[oldSize - 1 + alignSize]) + Granularity - 1) / Granularity);
   v14 = Granularity * (((v13 & (unsigned int)&v12[newSize - 1 + alignSize]) + Granularity - 1) / Granularity);
-  if ( res == ReallocShrinkedAtTail )
+  if ( v19 == 1 )
   {
-    if ( v14 < oldEnd )
+    if ( v14 < v17 )
     {
-      Scaleform::HeapPT::AllocLite::TrimAt(p_Allocator, LeEq, &segBase[v14]);
-      if ( this->pSysAlloc->ReallocInPlace(this->pSysAlloc, segBase, oldSegSize, v14, 1 << LOBYTE(LeEq->AlignShift)) )
+      Scaleform::HeapPT::AllocLite::TrimAt(p_Allocator, LeEq, &v15[v14]);
+      if ( this->pSysAlloc->ReallocInPlace(this->pSysAlloc, v15, v18, v14, 1 << LOBYTE(LeEq->AlignShift)) )
       {
-        this->Footprint += v14 - oldSegSize;
+        this->Footprint += v14 - v18;
         return 1;
       }
-      Scaleform::HeapPT::AllocLite::Extend(p_Allocator, LeEq, oldSegSize - v14);
+      Scaleform::HeapPT::AllocLite::Extend(p_Allocator, LeEq, v18 - v14);
     }
     return 1;
   }
   else
   {
-    if ( res != ReallocFailedAtTail )
+    if ( v19 != 3 )
       return 0;
-    for ( ; v14 <= oldEnd; v14 += Granularity )
+    for ( ; v14 <= v17; v14 += Granularity )
       ;
-    if ( this->pSysAlloc->ReallocInPlace(this->pSysAlloc, segBase, SegSize, v14, 1 << LOBYTE(LeEq->AlignShift)) )
+    if ( this->pSysAlloc->ReallocInPlace(this->pSysAlloc, v15, SegSize, v14, 1 << LOBYTE(LeEq->AlignShift)) )
     {
-      this->Footprint += v14 - oldSegSize;
-      Scaleform::HeapPT::AllocLite::Extend(p_Allocator, LeEq, v14 - oldSegSize);
+      this->Footprint += v14 - v18;
+      Scaleform::HeapPT::AllocLite::Extend(p_Allocator, LeEq, v14 - v18);
       Scaleform::HeapPT::AllocLite::ReallocInPlace(p_Allocator, LeEq, oldPtr, oldSize, newSize, alignSize);
       return 1;
     }

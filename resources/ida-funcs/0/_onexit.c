@@ -4,6 +4,6 @@ int (__cdecl *__cdecl _onexit(int (__cdecl *func)()))()
 
   _lockexit();
   retval = onexit_nolock(func);
-  _unlockexit(1614032);
+  _unlockexit();
   return retval;
 }

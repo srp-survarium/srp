@@ -1,62 +1,58 @@
-int __usercall _mbsnbicoll_l@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
-        const unsigned __int8 *s1,
-        const unsigned __int8 *s2,
+void __usercall _mbsnbicoll_l(
+        const char *a1@<edi>,
+        int a2@<esi>,
+        char *s1,
+        char *s2,
         unsigned int n,
         localeinfo_struct *plocinfo)
 {
-  int result; // eax
-  int v7; // eax
-  _LocaleUpdate _loc_update; // [esp+4h] [ebp-10h] BYREF
+  _LocaleUpdate v6; // [esp+4h] [ebp-10h] BYREF
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, plocinfo);
+  _LocaleUpdate::_LocaleUpdate(&v6, plocinfo);
   if ( !n )
   {
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return 0;
+    if ( v6.updated )
+      v6.ptd->_ownlocale &= ~2u;
+    return;
   }
   if ( s1 && s2 )
   {
     if ( n > 0x7FFFFFFF )
     {
       *_errno() = 22;
-      _invalid_parameter(0, a1, 0x7FFFFFFFu);
-LABEL_15:
-      if ( _loc_update.updated )
-        _loc_update.ptd->_ownlocale &= ~2u;
-      return 0x7FFFFFFF;
+      _invalid_parameter(0, (int)a1, 0x7FFFFFFF);
+      goto LABEL_15;
     }
-    if ( _loc_update.localeinfo.mbcinfo->ismbcodepage )
+    if ( v6.localeinfo.mbcinfo->ismbcodepage )
     {
-      v7 = __crtCompareStringA(
-             &_loc_update.localeinfo,
-             _loc_update.localeinfo.mbcinfo->mblcid,
-             0x1001u,
-             (const char *)s1,
-             n,
-             (const char *)s2,
-             n,
-             _loc_update.localeinfo.mbcinfo->mbcodepage);
-      if ( !v7 )
-        goto LABEL_15;
-      result = v7 - 2;
+      if ( !__crtCompareStringA(
+              &v6.localeinfo,
+              v6.localeinfo.mbcinfo->mblcid,
+              0x1001u,
+              s1,
+              n,
+              s2,
+              n,
+              v6.localeinfo.mbcinfo->mbcodepage) )
+      {
+LABEL_15:
+        if ( v6.updated )
+          v6.ptd->_ownlocale &= ~2u;
+        return;
+      }
     }
     else
     {
-      result = _strnicoll_l((const char *)s1, (const char *)s2, n, plocinfo);
+      _strnicoll_l(a1, 0x7FFFFFFF, s1, s2, n, plocinfo);
     }
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
+    if ( v6.updated )
+      v6.ptd->_ownlocale &= ~2u;
   }
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, a1, a2);
-    if ( _loc_update.updated )
-      _loc_update.ptd->_ownlocale &= ~2u;
-    return 0x7FFFFFFF;
+    _invalid_parameter(0, (int)a1, a2);
+    if ( v6.updated )
+      v6.ptd->_ownlocale &= ~2u;
   }
-  return result;
 }

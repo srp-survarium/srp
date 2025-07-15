@@ -4,7 +4,7 @@ int __cdecl stlp_std::_Underflow<char,stlp_std::char_traits<char>>::_M_doit(
   char *M_saved_egptr; // ecx
   char *M_saved_gptr; // eax
   void *M_mmap_base; // eax
-  int v5; // edi
+  DWORD v5; // edi
   int v6; // edx
   int v7; // ebp
   __int64 v8; // rax
@@ -16,7 +16,7 @@ int __cdecl stlp_std::_Underflow<char,stlp_std::char_traits<char>>::_M_doit(
   bool v14; // cc
   char *v15; // eax
   char *v16; // edx
-  int __size; // [esp+4h] [ebp-10h]
+  int v17; // [esp+4h] [ebp-10h]
 
   if ( __this->_M_in_input_mode )
   {
@@ -45,7 +45,7 @@ int __cdecl stlp_std::_Underflow<char,stlp_std::char_traits<char>>::_M_doit(
   v7 = v6;
   LODWORD(v8) = stlp_std::_Filebuf_base::_M_file_size(&__this->_M_base);
   HIDWORD(v9) = HIDWORD(v8);
-  __size = v8;
+  v17 = v8;
   if ( v8 <= 0 || v7 < 0 || __SPAIR64__(v7, v5) >= v8 )
   {
     __this->_M_mmap_base = 0;
@@ -53,15 +53,15 @@ int __cdecl stlp_std::_Underflow<char,stlp_std::char_traits<char>>::_M_doit(
     return stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_underflow_aux(__this);
   }
   v10 = __SPAIR64__(v7, v5) / stlp_std::_Filebuf_base::_M_page_size * stlp_std::_Filebuf_base::_M_page_size;
-  LODWORD(v9) = __size;
+  LODWORD(v9) = v17;
   v11 = __SPAIR64__(v7, v5) % stlp_std::_Filebuf_base::_M_page_size;
   v12 = v9 - v10;
   HIDWORD(__this->_M_mmap_len) = HIDWORD(v12);
   v13 = __this->_M_mmap_len < 0;
   v14 = SHIDWORD(__this->_M_mmap_len) <= 0;
   LODWORD(__this->_M_mmap_len) = v12;
-  if ( !v13 && (!v14 || LODWORD(__this->_M_mmap_len) > 0x100000) )
-    __this->_M_mmap_len = 0x100000;
+  if ( !v13 && (!v14 || LODWORD(__this->_M_mmap_len) > (unsigned int)&loc_100000) )
+    __this->_M_mmap_len = (unsigned int)&loc_100000;
   v15 = (char *)stlp_std::_Filebuf_base::_M_mmap(&__this->_M_base, v10, __this->_M_mmap_len);
   __this->_M_mmap_base = v15;
   if ( v15 )

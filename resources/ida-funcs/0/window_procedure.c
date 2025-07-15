@@ -1,13 +1,13 @@
-HGDIOBJ __stdcall window_procedure(HWND__ *window_handle, unsigned int msg, HDC wp, int lp)
+HGDIOBJ __stdcall window_procedure(HWND__ *a1, unsigned int a2, HDC hdc, int a4)
 {
-  if ( msg == 2 )
+  if ( a2 == 2 )
   {
     PostQuitMessage(0);
   }
-  else if ( msg == 312 )
+  else if ( a2 == 312 )
   {
-    SetTextColor(wp, (COLORREF)&vostok::memory::s_CRT_arena[5574199]);
-    SetBkMode(wp, 1);
+    SetTextColor(hdc, 0xFFFFFFu);
+    SetBkMode(hdc, 1);
     return GetStockObject(5);
   }
   return 0;

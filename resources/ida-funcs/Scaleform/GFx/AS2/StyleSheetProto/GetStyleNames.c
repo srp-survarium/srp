@@ -15,9 +15,9 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::GetStyleNames(const Scaleform
   Scaleform::GFx::ASStringNode *StringNode; // esi
   void *v15; // esi
   unsigned int RefCount; // eax
-  Scaleform::String temp; // [esp+4h] [ebp-20h] BYREF
+  Scaleform::String v17; // [esp+4h] [ebp-20h] BYREF
   Scaleform::Render::GlyphCache *v18; // [esp+8h] [ebp-1Ch]
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::Text::StyleKey,325>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF> >::ConstIterator iter; // [esp+Ch] [ebp-18h] BYREF
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::Text::StyleKey,325>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF> >::ConstIterator v19; // [esp+Ch] [ebp-18h] BYREF
   Scaleform::GFx::AS2::Value val; // [esp+14h] [ebp-10h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_StyleSheet )
@@ -35,7 +35,7 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::GetStyleNames(const Scaleform
                                                    0,
                                                    -1);
         p_StringContext = &fn->Env->StringContext;
-        Scaleform::String::String(&temp);
+        Scaleform::String::String(&v17);
         v18 = (Scaleform::Render::GlyphCache *)&p_pProto[13];
         Styles = (const Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::Text::StyleKey,325>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey> >::NodeHashF> > *)Scaleform::GFx::Text::StyleManager::GetStyles((Scaleform::Render::GlyphCache *)&p_pProto[13]);
         v6.pTable = Styles->pTable;
@@ -60,22 +60,22 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::GetStyleNames(const Scaleform
         }
         pHash = Styles;
         Index = v7;
-        iter.pHash = Styles;
-        iter.Index = v7;
+        v19.pHash = Styles;
+        v19.Index = v7;
         while ( 1 )
         {
           Scaleform::GFx::Text::StyleManager::GetStyles(v18);
           if ( !pHash || !pHash->pTable || Index > (signed int)pHash->pTable->SizeMask )
             break;
-          Scaleform::String::Clear(&temp);
+          Scaleform::String::Clear(&v17);
           v12 = 20 * Index;
           if ( *(unsigned int *)((char *)&pHash->pTable[1].SizeMask + v12) == 1 )
-            Scaleform::String::AppendChar(&temp, 0x2Eu);
-          Scaleform::String::operator+=(&temp, (const Scaleform::String *)((char *)&pHash->pTable[2] + v12));
+            Scaleform::String::AppendChar(&v17, 0x2Eu);
+          Scaleform::String::operator+=(&v17, (const Scaleform::String *)((char *)&pHash->pTable[2] + v12));
           StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                          (Scaleform::GFx::ASStringManager *)p_StringContext->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                         (char *)((temp.HeapTypeBits & 0xFFFFFFFC) + 8),
-                         *(_DWORD *)(temp.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
+                         (__m128i *)((v17.HeapTypeBits & 0xFFFFFFFC) + 8),
+                         *(_DWORD *)(v17.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
           ++StringNode->RefCount;
           ++StringNode->RefCount;
           val.T.Type = 5;
@@ -85,18 +85,18 @@ void __cdecl Scaleform::GFx::AS2::StyleSheetProto::GetStyleNames(const Scaleform
             Scaleform::GFx::AS2::Value::DropRefs(&val);
           if ( StringNode->RefCount-- == 1 )
             Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-          Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::Text::StyleKey,325>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeHashF>>::ConstIterator::operator++(&iter);
-          Index = iter.Index;
-          pHash = iter.pHash;
+          Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::Text::StyleKey,325>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>,Scaleform::HashNode<Scaleform::GFx::Text::StyleKey,Scaleform::Render::Text::Style *,Scaleform::GFx::Text::StyleHashFunc<Scaleform::GFx::Text::StyleKey>>::NodeHashF>>::ConstIterator::operator++(&v19);
+          Index = v19.Index;
+          pHash = v19.pHash;
         }
         Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v3);
-        v15 = (void *)(temp.HeapTypeBits & 0xFFFFFFFC);
-        if ( InterlockedExchangeAdd((volatile LONG *)((temp.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+        v15 = (void *)(v17.HeapTypeBits & 0xFFFFFFFC);
+        if ( InterlockedExchangeAdd((volatile LONG *)((v17.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v15);
         if ( v3 )
         {
           RefCount = v3->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v3->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v3);

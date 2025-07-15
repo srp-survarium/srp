@@ -1,4 +1,4 @@
-int __stdcall _alldvrm(unsigned __int64 a1, __int64 a2)
+int __stdcall _alldvrm(signed __int64 a1, __int64 a2)
 {
   int v2; // edi
   int v3; // eax
@@ -10,7 +10,7 @@ int __stdcall _alldvrm(unsigned __int64 a1, __int64 a2)
   int result; // eax
 
   v2 = 0;
-  if ( (a1 & 0x8000000000000000uLL) != 0LL )
+  if ( a1 < 0 )
   {
     v2 = 1;
     HIDWORD(a1) = -HIDWORD(a1) - ((_DWORD)a1 != 0);

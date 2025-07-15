@@ -6,8 +6,8 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::SwfShapeCharacterDef:
   float *v4; // eax
   double v5; // st7
   Scaleform::Render::Rect<float> *v6; // eax
-  float v7[4]; // [esp+30h] [ebp-20h] BYREF
-  _BYTE v8[16]; // [esp+40h] [ebp-10h] BYREF
+  float v7[4]; // [esp+18h] [ebp-20h] BYREF
+  _BYTE v8[16]; // [esp+28h] [ebp-10h] BYREF
 
   this->pShape.pObject->GetRectBoundsLocal(this->pShape.pObject, (Scaleform::Render::Rect<float> *)v7);
   if ( v7[2] > (double)v7[0] && v7[3] > (double)v7[1] )

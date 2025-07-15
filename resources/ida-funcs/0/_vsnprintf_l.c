@@ -1,34 +1,34 @@
 int __usercall _vsnprintf_l@<eax>(
-        unsigned int a1@<edi>,
-        unsigned int a2@<esi>,
+        int a1@<edi>,
+        int a2@<esi>,
         char *string,
         unsigned int count,
-        const char *format,
+        char *format,
         localeinfo_struct *plocinfo,
         char *ap)
 {
   int result; // eax
   int v8; // edi
-  _iobuf str; // [esp+4h] [ebp-20h] BYREF
+  _iobuf stream; // [esp+4h] [ebp-20h] BYREF
 
   if ( format )
   {
     if ( !count || string )
     {
-      str._cnt = 0x7FFFFFFF;
+      stream._cnt = 0x7FFFFFFF;
       if ( count <= 0x7FFFFFFF )
-        str._cnt = count;
-      str._flag = 66;
-      str._base = string;
-      str._ptr = string;
-      result = _output_l(&str, format, plocinfo, ap);
+        stream._cnt = count;
+      stream._flag = 66;
+      stream._base = string;
+      stream._ptr = string;
+      result = _output_l(&stream, format, plocinfo, ap);
       v8 = result;
       if ( string )
       {
-        if ( --str._cnt < 0 )
-          _flsbuf(0, (int)&str);
+        if ( --stream._cnt < 0 )
+          _flsbuf(0, result, 0, &stream);
         else
-          *str._ptr = 0;
+          *stream._ptr = 0;
         return v8;
       }
     }

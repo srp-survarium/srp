@@ -1,81 +1,82 @@
-void __thiscall vostok::render::cascaded_sun_shadow_statistics_group::cascaded_sun_shadow_statistics_group(
-        vostok::render::cascaded_sun_shadow_statistics_group *this,
-        vostok::render::cascaded_sun_shadow_statistics_group *group_name)
+void __userpurge vostok::render::cascaded_sun_shadow_statistics_group::cascaded_sun_shadow_statistics_group(
+        vostok::render::cascaded_sun_shadow_statistics_group *this@<ecx>,
+        int a2@<eax>,
+        const vostok::math::color *group_name,
+        const vostok::math::color *group_color)
 {
-  vostok::render::statistics *v3; // eax
+  const char *v5; // [esp+0h] [ebp-Ch]
+  const char *v6; // [esp+0h] [ebp-Ch]
+  const char *v7; // [esp+0h] [ebp-Ch]
+  const char *v8; // [esp+0h] [ebp-Ch]
 
-  group_name->first_statistics = 0;
-  group_name->m_name.m_begin = group_name->m_name.m_buffer;
-  group_name->m_name.m_end = group_name->m_name.m_buffer;
-  group_name->m_name.m_max_end = (char *)&group_name->m_next;
-  group_name->m_name.m_buffer[0] = 0;
-  vostok::buffer_string::operator+=(&group_name->m_name, "cascaded sun shadow statistics");
-  v3 = vostok::quasi_singleton<vostok::render::statistics>::pinst;
-  group_name->m_next = vostok::quasi_singleton<vostok::render::statistics>::pinst->first_group;
-  v3->first_group = group_name;
-  vostok::render::statistics_base::statistics_base(
-    &group_name->execute_time_cascade_1,
-    group_name,
-    "execute time cascade # 1");
-  group_name->execute_time_cascade_1.__vftable = (vostok::render::statistics_cpu_gpu_vtbl *)&vostok::render::statistics_cpu_gpu::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_1.cpu_time, 0, 0);
-  group_name->execute_time_cascade_1.cpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_1.gpu_time, 0, 0);
-  group_name->execute_time_cascade_1.gpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_base::statistics_base(
-    &group_name->execute_time_cascade_2,
-    group_name,
-    "execute time cascade # 2");
-  group_name->execute_time_cascade_2.__vftable = (vostok::render::statistics_cpu_gpu_vtbl *)&vostok::render::statistics_cpu_gpu::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_2.cpu_time, 0, 0);
-  group_name->execute_time_cascade_2.cpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_2.gpu_time, 0, 0);
-  group_name->execute_time_cascade_2.gpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_base::statistics_base(
-    &group_name->execute_time_cascade_3,
-    group_name,
-    "execute time cascade # 3");
-  group_name->execute_time_cascade_3.__vftable = (vostok::render::statistics_cpu_gpu_vtbl *)&vostok::render::statistics_cpu_gpu::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_3.cpu_time, 0, 0);
-  group_name->execute_time_cascade_3.cpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_3.gpu_time, 0, 0);
-  group_name->execute_time_cascade_3.gpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_base::statistics_base(
-    &group_name->execute_time_cascade_4,
-    group_name,
-    "execute time cascade # 4");
-  group_name->execute_time_cascade_4.__vftable = (vostok::render::statistics_cpu_gpu_vtbl *)&vostok::render::statistics_cpu_gpu::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_4.cpu_time, 0, 0);
-  group_name->execute_time_cascade_4.cpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
-  vostok::render::statistics_value<double>::statistics_value<double>(&group_name->execute_time_cascade_4.gpu_time, 0, 0);
-  group_name->execute_time_cascade_4.gpu_time.__vftable = (vostok::render::statistics_float_vtbl *)&vostok::render::statistics_float::`vftable';
+  vostok::render::statistics_group::statistics_group(
+    this,
+    (vostok::render::statistics_group *)a2,
+    "cascaded sun shadow statistics",
+    group_name);
+  vostok::render::statistics_cpu_gpu::statistics_cpu_gpu(
+    (vostok::render::statistics_cpu_gpu *)a2,
+    a2 + 152,
+    (vostok::render::statistics_group *)"execute time cascade # 1",
+    v5);
+  vostok::render::statistics_cpu_gpu::statistics_cpu_gpu(
+    (vostok::render::statistics_cpu_gpu *)a2,
+    a2 + 992,
+    (vostok::render::statistics_group *)"execute time cascade # 2",
+    v6);
+  vostok::render::statistics_cpu_gpu::statistics_cpu_gpu(
+    (vostok::render::statistics_cpu_gpu *)a2,
+    a2 + 1832,
+    (vostok::render::statistics_group *)"execute time cascade # 3",
+    v7);
+  vostok::render::statistics_cpu_gpu::statistics_cpu_gpu(
+    (vostok::render::statistics_cpu_gpu *)a2,
+    a2 + 2672,
+    (vostok::render::statistics_group *)"execute time cascade # 4",
+    v8);
   vostok::render::statistics_value<int>::statistics_value<int>(
-    &group_name->num_dips_cascade_1,
-    group_name,
-    "dips in cascade # 1");
-  group_name->num_dips_cascade_1.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
+    (vostok::render::statistics_value<int> *)(a2 + 3512),
+    (vostok::render::statistics_group *)a2,
+    "instancing dips");
+  *(_DWORD *)(a2 + 3512) = &vostok::render::statistics_int::`vftable';
   vostok::render::statistics_value<int>::statistics_value<int>(
-    &group_name->num_dips_cascade_2,
-    group_name,
-    "dips in cascade # 2");
-  group_name->num_dips_cascade_2.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
-  vostok::render::statistics_value<int>::statistics_value<int>(
-    &group_name->num_dips_cascade_3,
-    group_name,
-    "dips in cascade # 3");
-  group_name->num_dips_cascade_3.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
-  vostok::render::statistics_value<int>::statistics_value<int>(
-    &group_name->num_dips_cascade_4,
-    group_name,
-    "dips in cascade # 4");
-  group_name->num_dips_cascade_4.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
-  vostok::render::statistics_value<int>::statistics_value<int>(&group_name->num_dips, group_name, "dips");
-  group_name->num_dips.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
-  vostok::render::statistics_value<int>::statistics_value<int>(
-    &group_name->num_clipped_dips,
-    group_name,
+    (vostok::render::statistics_value<int> *)(a2 + 3760),
+    (vostok::render::statistics_group *)a2,
     "clipped dips");
-  group_name->num_clipped_dips.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
-  vostok::render::statistics_value<int>::statistics_value<int>(&group_name->num_triangles, group_name, "triangles");
-  group_name->num_triangles.__vftable = (vostok::render::statistics_int_vtbl *)&vostok::render::statistics_int::`vftable';
+  *(_DWORD *)(a2 + 3760) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 4008),
+    (vostok::render::statistics_group *)a2,
+    "prev cascade clip dip");
+  *(_DWORD *)(a2 + 4008) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 4256),
+    (vostok::render::statistics_group *)a2,
+    "invis clip dip");
+  *(_DWORD *)(a2 + 4256) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 4504),
+    (vostok::render::statistics_group *)a2,
+    "dips in cascade # 4");
+  *(_DWORD *)(a2 + 4504) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 4752),
+    (vostok::render::statistics_group *)a2,
+    "dips in cascade # 3");
+  *(_DWORD *)(a2 + 4752) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 5000),
+    (vostok::render::statistics_group *)a2,
+    "dips in cascade # 2");
+  *(_DWORD *)(a2 + 5000) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 5248),
+    (vostok::render::statistics_group *)a2,
+    "dips in cascade # 1");
+  *(_DWORD *)(a2 + 5248) = &vostok::render::statistics_int::`vftable';
+  vostok::render::statistics_value<int>::statistics_value<int>(
+    (vostok::render::statistics_value<int> *)(a2 + 5496),
+    (vostok::render::statistics_group *)a2,
+    "dips");
+  *(_DWORD *)(a2 + 5496) = &vostok::render::statistics_int::`vftable';
 }

@@ -1,4 +1,4 @@
-void __cdecl _fassign(int flag, char *argument, char *number)
+void __cdecl _fassign(_CRT_FLOAT flag, _CRT_DOUBLE *argument, char *number)
 {
-  _fassign_l((_CRT_FLOAT)flag, argument, number, 0);
+  _fassign_l(flag, argument, number, 0);
 }

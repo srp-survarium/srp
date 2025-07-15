@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::isNaN;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP,50,bool,double>::Method) = Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::isNaN;
-  dword_AAD5B4 = 0;
+  dword_8F1D6C = 0;
   return result;
 }

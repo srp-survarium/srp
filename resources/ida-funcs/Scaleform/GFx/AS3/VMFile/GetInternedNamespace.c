@@ -36,7 +36,7 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::V
       {
         v9 = mn[1].Ind;
         v10 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)mn;
-        if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+        if ( (v9 & 0x3FFFFF) != 0 )
         {
           mn[1].Ind = v9 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -89,7 +89,7 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::V
       {
         RefCount = nsIndex->RefCount;
         v9 = nsIndex;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           nsIndex->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);

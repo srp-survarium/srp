@@ -1,20 +1,20 @@
-char *__cdecl i2s_ASN1_ENUMERATED(v3_ext_method *method, asn1_string_st *a)
+char *__usercall i2s_ASN1_ENUMERATED@<eax>(int a1@<ebx>, v3_ext_method *method, asn1_string_st *a)
 {
   char *result; // eax
-  char *v3; // edi
-  const bignum_st *v4; // eax
-  bignum_st *v5; // esi
+  char *v4; // edi
+  bignum_st *v5; // eax
+  bignum_st *v6; // esi
 
   result = (char *)a;
-  v3 = 0;
+  v4 = 0;
   if ( a )
   {
-    v4 = ASN1_ENUMERATED_to_BN(a, 0);
-    v5 = (bignum_st *)v4;
-    if ( !v4 || (v3 = BN_bn2dec(v4)) == 0 )
-      ERR_put_error(0x22u, 121, 65, ".\\crypto\\x509v3\\v3_utl.c", 142);
-    BN_free(v5);
-    return v3;
+    v5 = ASN1_ENUMERATED_to_BN(a1, a, 0);
+    v6 = v5;
+    if ( !v5 || (v4 = BN_bn2dec(v5)) == 0 )
+      ERR_put_error(a1, 0x22u, 121, 65, ".\\crypto\\x509v3\\v3_utl.c", 142);
+    BN_free(v6);
+    return v4;
   }
   return result;
 }

@@ -8,9 +8,9 @@ char __thiscall Scaleform::Render::Text::LineBuffer::IsPartiallyVisible(
   unsigned int Height; // esi
   int v6; // esi
   float v8; // [esp+4h] [ebp-Ch]
-  float vrectH; // [esp+8h] [ebp-8h]
-  float lh; // [esp+Ch] [ebp-4h]
-  float yf; // [esp+14h] [ebp+4h]
+  float v9; // [esp+8h] [ebp-8h]
+  float v10; // [esp+Ch] [ebp-4h]
+  float v11; // [esp+14h] [ebp+4h]
 
   FirstVisibleLinePos = this->Geom.FirstVisibleLinePos;
   if ( FirstVisibleLinePos >= this->Lines.Data.Size )
@@ -22,10 +22,10 @@ char __thiscall Scaleform::Render::Text::LineBuffer::IsPartiallyVisible(
         Height
      && ((v3->MemSize & 0x80000000) == 0 ? (v6 = v3->Data32.Height) : (v6 = v3->Data8.Height),
          (v8 = this->Geom.VisibleRect.y2 - this->Geom.VisibleRect.y1,
-          vrectH = v8 + 20.0,
-          yf = (double)v3->Data32.OffsetY + yOffset,
-          vrectH >= (double)yf)
-      && (lh = (float)v6, vrectH < yf + lh))) )
+          v9 = v8 + 20.0,
+          v11 = (double)v3->Data32.OffsetY + yOffset,
+          v9 >= (double)v11)
+      && (v10 = (float)v6, v9 < v11 + v10))) )
   {
     return 1;
   }

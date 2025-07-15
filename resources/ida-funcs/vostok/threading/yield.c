@@ -1,21 +1,16 @@
-void __cdecl vostok::threading::yield(unsigned int yield_time_in_ms)
+void __usercall vostok::threading::yield(DWORD yield_time_in_ms@<esi>)
 {
-  vostok::tasks::thread_pool *v1; // ecx
-  vostok::tasks::thread_pool *v2; // ecx
-
   if ( yield_time_in_ms )
   {
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-      vostok::tasks::thread_pool::on_current_thread_locks(v1);
+    vostok::tasks::on_current_thread_locks();
     Sleep(yield_time_in_ms);
-    if ( s_thread_pool.m_initialized )
-    {
-      if ( TlsGetValue(s_thread_affinity_tls_key) )
-        vostok::tasks::thread_pool::on_current_thread_unlocks(v2);
-    }
   }
-  else if ( !SwitchToThread() )
+  else
   {
+    if ( SwitchToThread() )
+      return;
     Sleep(0);
   }
+  if ( yield_time_in_ms )
+    vostok::tasks::on_current_thread_unlocks();
 }

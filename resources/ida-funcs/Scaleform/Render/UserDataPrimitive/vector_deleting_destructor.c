@@ -17,7 +17,9 @@ Scaleform::Render::UserDataPrimitive *__thiscall Scaleform::Render::UserDataPrim
 }
 
 
-void *__thiscall Scaleform::Render::UserDataPrimitive::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::UserDataPrimitive *__thiscall Scaleform::Render::UserDataPrimitive::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::UserDataPrimitive::`vector deleting destructor'(
            (Scaleform::Render::UserDataPrimitive *)(this - 8),

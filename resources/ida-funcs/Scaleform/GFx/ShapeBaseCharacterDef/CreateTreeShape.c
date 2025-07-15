@@ -1,7 +1,7 @@
 Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::ShapeBaseCharacterDef::CreateTreeShape(
         Scaleform::GFx::ShapeBaseCharacterDef *this,
         Scaleform::Ptr<Scaleform::Render::TreeNode> *result,
-        Scaleform::Render::ShapeMeshProvider *context,
+        Scaleform::Render::ContextImpl::Context *context,
         Scaleform::GFx::MovieDefImpl *defImpl)
 {
   Scaleform::Render::ContextImpl::Context *v4; // ebx
@@ -11,12 +11,8 @@ Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::ShapeBas
   Scaleform::GFx::MovieDefImpl *v9; // ebp
   Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider> *v10; // edi
 
-  v4 = (Scaleform::Render::ContextImpl::Context *)context;
-  v6 = (Scaleform::Render::TreeNode::NodeData *)(*((int (__thiscall **)(Scaleform::Render::ShapeMeshProvider_vtbl *, int, _DWORD))context->~Scaleform::Render::ShapeMeshProvider
-                                                 + 10))(
-                                                  context->Scaleform::Render::MeshProvider_KeySupport::Scaleform::Render::MeshProvider_RCImpl::Scaleform::RefCountBase<Scaleform::Render::MeshProvider_RCImpl,2>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,2>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable,
-                                                  160,
-                                                  0);
+  v4 = context;
+  v6 = (Scaleform::Render::TreeNode::NodeData *)context->pHeap->Alloc(context->pHeap, 160u, 0);
   v7 = v6;
   if ( v6 )
   {
@@ -41,18 +37,18 @@ Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::ShapeBas
       if ( v10->pObject )
         v10->pObject->AddRef(&v10->pObject->Scaleform::Render::MeshProvider);
       if ( context )
-        context->Release(&context->Scaleform::Render::MeshProvider);
-      context = v10->pObject;
+        ((void (__thiscall *)(Scaleform::Render::ContextImpl::EntryTable *))context->Table.pContext->Table.pContext)(&context->Table);
+      context = (Scaleform::Render::ContextImpl::Context *)v10->pObject;
       if ( defImpl )
         ((void (__thiscall *)(Scaleform::GFx::ResourceLibBase **))defImpl->pLib[1].__vftable)(&defImpl->pLib);
       Scaleform::GFx::MovieDefImpl::BindTaskData::AddShapeMeshProvider(
         v9->pBindData.pObject,
         this->pShapeMeshProvider.pObject,
-        context);
+        (Scaleform::Render::ShapeMeshProvider *)context);
     }
     Scaleform::Render::TreeShape::SetShape(EntryHelper, (Scaleform::Render::ContextImpl::EntryData_vtbl *)context);
     if ( context )
-      context->Release(&context->Scaleform::Render::MeshProvider);
+      ((void (__thiscall *)(Scaleform::Render::ContextImpl::EntryTable *))context->Table.pContext->Table.pContext)(&context->Table);
   }
   else
   {

@@ -1,96 +1,172 @@
-void __thiscall vostok::math::curve_line_points<float,0>::recalculate_ranges(
-        vostok::math::curve_line_points<float,0> *this)
+void __usercall vostok::math::curve_line_points<float,0>::recalculate_ranges(
+        vostok::math::curve_line_points<float,0> *this@<ecx>,
+        int a2@<eax>)
 {
-  unsigned int num_points; // esi
-  vostok::math::curve_point<float> *pointer; // eax
-  unsigned int v3; // edx
-  float *p_upper_value; // eax
-  float v5; // xmm0_4
+  unsigned int v2; // edx
+  float *v3; // ecx
+  unsigned int v4; // esi
+  float *v5; // ecx
   float v6; // xmm0_4
   float v7; // xmm0_4
+  float v8; // xmm0_4
 
-  num_points = this->num_points;
-  if ( num_points )
+  v2 = *(_DWORD *)(a2 + 24);
+  if ( v2 )
   {
-    pointer = this->points.pointer;
-    v3 = 1;
-    this->curve_time_min = pointer->time;
-    this->curve_time_max = pointer->time;
-    this->curve_value_min = pointer->lower_value;
-    this->curve_value_max = pointer->upper_value;
-    if ( num_points > 1 )
+    v3 = *(float **)(a2 + 16);
+    *(float *)a2 = v3[4];
+    v4 = 1;
+    *(float *)(a2 + 4) = v3[4];
+    *(float *)(a2 + 8) = v3[1];
+    *(float *)(a2 + 12) = *v3;
+    if ( v2 > 1 )
     {
-      p_upper_value = &pointer[1].upper_value;
+      v5 = v3 + 6;
       do
       {
-        v5 = p_upper_value[4];
-        if ( this->curve_time_min > v5 )
-          this->curve_time_min = v5;
-        v6 = p_upper_value[4];
-        if ( v6 > this->curve_time_max )
-          this->curve_time_max = v6;
-        v7 = p_upper_value[1];
-        if ( this->curve_value_min > v7 )
-          this->curve_value_min = v7;
-        if ( *p_upper_value > this->curve_value_max )
-          this->curve_value_max = *p_upper_value;
-        ++v3;
-        p_upper_value += 6;
+        v6 = v5[4];
+        if ( *(float *)a2 > v6 )
+          *(float *)a2 = v6;
+        v7 = v5[4];
+        if ( v7 > *(float *)(a2 + 4) )
+          *(float *)(a2 + 4) = v7;
+        v8 = v5[1];
+        if ( *(float *)(a2 + 8) > v8 )
+          *(float *)(a2 + 8) = v8;
+        if ( *v5 > *(float *)(a2 + 12) )
+          *(float *)(a2 + 12) = *v5;
+        ++v4;
+        v5 += 6;
       }
-      while ( v3 < num_points );
+      while ( v4 < v2 );
     }
   }
 }
 
 
-void __thiscall vostok::math::curve_line_points<vostok::math::float4_pod,1>::recalculate_ranges(
-        vostok::math::curve_line_points<vostok::math::float4_pod,1> *this)
+void __usercall vostok::math::curve_line_points<vostok::math::float3_pod,0>::recalculate_ranges(
+        vostok::math::curve_line_points<vostok::math::float3_pod,0> *this@<ecx>,
+        int a2@<eax>)
 {
-  unsigned int num_points; // edx
-  vostok::math::curve_point<vostok::math::float4_pod> *pointer; // eax
-  unsigned int v3; // esi
-  vostok::math::float4_pod *p_upper_value; // eax
-  float x; // xmm0_4
+  int v2; // ecx
+  float *v3; // edx
+  float *v4; // ebx
+  int v5; // ecx
   float v6; // xmm0_4
+  float v7; // xmm0_4
+  unsigned int v8; // [esp+0h] [ebp-4h]
 
-  num_points = this->num_points;
-  if ( num_points )
+  if ( *(_DWORD *)(a2 + 40) )
   {
-    pointer = this->points.pointer;
-    this->curve_time_min = pointer->time;
-    v3 = 1;
-    this->curve_time_max = pointer->time;
-    this->curve_value_min = pointer->lower_value;
-    this->curve_value_max = pointer->upper_value;
-    if ( num_points > 1 )
+    v2 = *(_DWORD *)(a2 + 32);
+    *(float *)a2 = *(float *)(v2 + 48);
+    *(float *)(a2 + 4) = *(float *)(v2 + 48);
+    v3 = (float *)(a2 + 8);
+    *(_DWORD *)(a2 + 8) = *(_DWORD *)(v2 + 12);
+    *(_DWORD *)(a2 + 12) = *(_DWORD *)(v2 + 16);
+    *(_DWORD *)(a2 + 16) = *(_DWORD *)(v2 + 20);
+    v4 = (float *)(a2 + 20);
+    *(_DWORD *)(a2 + 20) = *(_DWORD *)v2;
+    *(_DWORD *)(a2 + 24) = *(_DWORD *)(v2 + 4);
+    *(_DWORD *)(a2 + 28) = *(_DWORD *)(v2 + 8);
+    v8 = 1;
+    if ( *(_DWORD *)(a2 + 40) > 1u )
     {
-      p_upper_value = &pointer[1].upper_value;
+      v5 = v2 + 56;
       do
       {
-        x = p_upper_value[4].x;
-        if ( this->curve_time_min > x )
-          this->curve_time_min = x;
-        v6 = p_upper_value[4].x;
-        if ( v6 > this->curve_time_max )
-          this->curve_time_max = v6;
-        if ( this->curve_value_min.x > p_upper_value[1].x
-          && this->curve_value_min.y > p_upper_value[1].y
-          && this->curve_value_min.z > p_upper_value[1].z
-          && this->curve_value_min.w > p_upper_value[1].w )
+        v6 = *(float *)(v5 + 48);
+        if ( *(float *)a2 > v6 )
+          *(float *)a2 = v6;
+        v7 = *(float *)(v5 + 48);
+        if ( v7 > *(float *)(a2 + 4) )
+          *(float *)(a2 + 4) = v7;
+        if ( *v3 > *(float *)(v5 + 12)
+          && *(float *)(a2 + 12) > *(float *)(v5 + 16)
+          && *(float *)(a2 + 16) > *(float *)(v5 + 20) )
         {
-          this->curve_value_min = p_upper_value[1];
+          *v3 = *(float *)(v5 + 12);
+          *(_DWORD *)(a2 + 12) = *(_DWORD *)(v5 + 16);
+          *(_DWORD *)(a2 + 16) = *(_DWORD *)(v5 + 20);
         }
-        if ( p_upper_value->x > this->curve_value_max.x
-          && p_upper_value->y > this->curve_value_max.y
-          && p_upper_value->z > this->curve_value_max.z
-          && p_upper_value->w > this->curve_value_max.w )
+        if ( *(float *)v5 > *v4 && *(float *)(v5 + 4) > *(float *)(a2 + 24) && *(float *)(v5 + 8) > *(float *)(a2 + 28) )
         {
-          this->curve_value_max = *p_upper_value;
+          *v4 = *(float *)v5;
+          *(_DWORD *)(a2 + 24) = *(_DWORD *)(v5 + 4);
+          *(_DWORD *)(a2 + 28) = *(_DWORD *)(v5 + 8);
         }
-        ++v3;
-        p_upper_value = (vostok::math::float4_pod *)((char *)p_upper_value + 72);
+        ++v8;
+        v5 += 56;
       }
-      while ( v3 < num_points );
+      while ( v8 < *(_DWORD *)(a2 + 40) );
+    }
+  }
+}
+
+
+void __usercall vostok::math::curve_line_points<vostok::math::float4_pod,1>::recalculate_ranges(
+        vostok::math::curve_line_points<vostok::math::float4_pod,1> *this@<ecx>,
+        int a2@<eax>)
+{
+  int v2; // ecx
+  float *v3; // edx
+  float *v4; // ebx
+  int v5; // ecx
+  float v6; // xmm0_4
+  float v7; // xmm0_4
+  unsigned int v8; // [esp+0h] [ebp-4h]
+
+  if ( *(_DWORD *)(a2 + 48) )
+  {
+    v2 = *(_DWORD *)(a2 + 40);
+    *(float *)a2 = *(float *)(v2 + 64);
+    *(float *)(a2 + 4) = *(float *)(v2 + 64);
+    v3 = (float *)(a2 + 8);
+    *(_DWORD *)(a2 + 8) = *(_DWORD *)(v2 + 16);
+    *(_DWORD *)(a2 + 12) = *(_DWORD *)(v2 + 20);
+    *(_DWORD *)(a2 + 16) = *(_DWORD *)(v2 + 24);
+    *(_DWORD *)(a2 + 20) = *(_DWORD *)(v2 + 28);
+    v4 = (float *)(a2 + 24);
+    *(_DWORD *)(a2 + 24) = *(_DWORD *)v2;
+    *(_DWORD *)(a2 + 28) = *(_DWORD *)(v2 + 4);
+    *(_DWORD *)(a2 + 32) = *(_DWORD *)(v2 + 8);
+    *(_DWORD *)(a2 + 36) = *(_DWORD *)(v2 + 12);
+    v8 = 1;
+    if ( *(_DWORD *)(a2 + 48) > 1u )
+    {
+      v5 = v2 + 72;
+      do
+      {
+        v6 = *(float *)(v5 + 64);
+        if ( *(float *)a2 > v6 )
+          *(float *)a2 = v6;
+        v7 = *(float *)(v5 + 64);
+        if ( v7 > *(float *)(a2 + 4) )
+          *(float *)(a2 + 4) = v7;
+        if ( *v3 > *(float *)(v5 + 16)
+          && *(float *)(a2 + 12) > *(float *)(v5 + 20)
+          && *(float *)(a2 + 16) > *(float *)(v5 + 24)
+          && *(float *)(a2 + 20) > *(float *)(v5 + 28) )
+        {
+          *v3 = *(float *)(v5 + 16);
+          *(_DWORD *)(a2 + 12) = *(_DWORD *)(v5 + 20);
+          *(_DWORD *)(a2 + 16) = *(_DWORD *)(v5 + 24);
+          *(_DWORD *)(a2 + 20) = *(_DWORD *)(v5 + 28);
+        }
+        if ( *(float *)v5 > *v4
+          && *(float *)(v5 + 4) > *(float *)(a2 + 28)
+          && *(float *)(v5 + 8) > *(float *)(a2 + 32)
+          && *(float *)(v5 + 12) > *(float *)(a2 + 36) )
+        {
+          *v4 = *(float *)v5;
+          *(_DWORD *)(a2 + 28) = *(_DWORD *)(v5 + 4);
+          *(_DWORD *)(a2 + 32) = *(_DWORD *)(v5 + 8);
+          *(_DWORD *)(a2 + 36) = *(_DWORD *)(v5 + 12);
+        }
+        ++v8;
+        v5 += 72;
+      }
+      while ( v8 < *(_DWORD *)(a2 + 48) );
     }
   }
 }

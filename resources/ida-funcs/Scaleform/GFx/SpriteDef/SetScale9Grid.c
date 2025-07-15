@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::SpriteDef::SetScale9Grid(
   Scaleform::GFx::Scale9Grid *pScale9Grid; // eax
   float x2; // [esp+Ch] [ebp-8h] BYREF
   float y2; // [esp+10h] [ebp-4h]
-  float ra; // [esp+18h] [ebp+4h]
+  float y1; // [esp+18h] [ebp+4h]
 
   if ( !this->pScale9Grid )
   {
@@ -30,11 +30,11 @@ void __thiscall Scaleform::GFx::SpriteDef::SetScale9Grid(
     this->pScale9Grid = v3;
   }
   pScale9Grid = this->pScale9Grid;
-  ra = r->y1;
+  y1 = r->y1;
   x2 = r->x2;
   y2 = r->y2;
   pScale9Grid->Rect.x1 = r->x1;
-  pScale9Grid->Rect.y1 = ra;
+  pScale9Grid->Rect.y1 = y1;
   pScale9Grid->Rect.x2 = x2;
   pScale9Grid->Rect.y2 = y2;
 }

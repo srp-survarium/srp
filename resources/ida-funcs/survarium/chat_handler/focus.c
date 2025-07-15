@@ -2,35 +2,33 @@ void __userpurge survarium::chat_handler::focus(survarium::chat_handler *this@<e
 {
   survarium::flash_value *v3; // ecx
   int v4; // ecx
-  int v5; // eax
-  survarium::flash_value argument; // [esp+8h] [ebp-18h] BYREF
+  int *v5; // eax
+  int v6; // edx
+  Scaleform::GFx::Value pargs; // [esp+8h] [ebp-1Ch] BYREF
 
-  if ( (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 24) + 952) + 20))(*(_DWORD *)(*(_DWORD *)(a2 + 24) + 952))
-    && *(_BYTE *)(a2 + 20) != b_focused )
+  if ( (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(a2 + 16) + 13912) + 32))(*(_DWORD *)(*(_DWORD *)(a2 + 16) + 13912))
+    && *(_BYTE *)(a2 + 12) != b_focused )
   {
-    if ( *(_BYTE *)(a2 + 22) || !b_focused )
+    if ( *(_BYTE *)(a2 + 14) || !b_focused )
     {
-      *(_DWORD *)argument.body = 0;
-      *(_DWORD *)&argument.body[4] = 0;
-      survarium::flash_value::SetBoolean(v3, &argument, b_focused);
+      pargs.pObjectInterface = 0;
+      pargs.Type = VT_Undefined;
+      survarium::flash_value::SetBoolean(v3, (int)&pargs, b_focused);
       Scaleform::GFx::Movie::Invoke(
-        *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 28) + 264) + 4),
+        *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 20) + 264) + 4),
         "root.focus_chat",
         0,
-        (const Scaleform::GFx::Value *)&argument,
+        &pargs,
         1u);
-      if ( (argument.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)argument.body + 8))(
-          *(_DWORD *)argument.body,
-          &argument,
-          *(_DWORD *)&argument.body[8]);
+      Scaleform::GFx::Value::~Value(&pargs);
     }
-    v4 = *(_DWORD *)(a2 + 24);
-    *(_BYTE *)(a2 + 20) = b_focused;
-    v5 = (*(int (__thiscall **)(int))(*(_DWORD *)v4 + 40))(v4);
+    v4 = *(_DWORD *)(a2 + 16);
+    *(_BYTE *)(a2 + 12) = b_focused;
+    v5 = (int *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 48))(v4);
+    v6 = *v5;
     if ( b_focused )
-      (*(void (__thiscall **)(int, int))(*(_DWORD *)v5 + 16))(v5, a2);
+      (*(void (__thiscall **)(int *, int))(v6 + 16))(v5, a2);
     else
-      (*(void (__thiscall **)(int, int))(*(_DWORD *)v5 + 20))(v5, a2);
+      (*(void (__thiscall **)(int *, int))(v6 + 20))(v5, a2);
   }
 }

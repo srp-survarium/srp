@@ -1,19 +1,12 @@
-void __userpurge vostok::math::color::color(
-        vostok::math::color *this@<eax>,
-        int a@<ecx>,
-        unsigned __int8 r,
-        unsigned __int8 g,
-        unsigned __int8 b)
+int *__userpurge vostok::math::color::color@<eax>(
+        vostok::math::color *this@<ecx>,
+        int *a2@<esi>,
+        float a3@<xmm0>,
+        vostok::math *r,
+        float g,
+        float a,
+        float a7)
 {
-  this->m_value = r | ((g | (((a << 8) | b) << 8)) << 8);
-}
-
-
-void __userpurge vostok::math::color::color(
-        vostok::math::color *this@<eax>,
-        unsigned int b@<ecx>,
-        unsigned __int8 r,
-        unsigned __int8 g)
-{
-  this->m_value = r | ((g | ((b | 0xFFFFFF00) << 8)) << 8);
+  *a2 = vostok::math::color_rgba(a3, r, g, a);
+  return a2;
 }

@@ -1,244 +1,181 @@
-void __userpurge vostok::math::cuboid::cuboid(const vostok::math::plane (*planes)[6]@<eax>, vostok::math::cuboid *this)
-{
-  vostok::math::cuboid *v2; // esi
-
-  v2 = this;
-  do
-  {
-    *(_QWORD *)&v2->m_planes[0].plane.normal.x = *(_QWORD *)&(*planes)[0].normal.x;
-    *(_QWORD *)&v2->m_planes[0].plane.vector.elements[2] = *(_QWORD *)&(*planes)[0].vector.elements[2];
-    vostok::math::aabb_plane::normalize(v2->m_planes);
-    v2 = (vostok::math::cuboid *)((char *)v2 + 20);
-    planes = (const vostok::math::plane (*)[6])((char *)planes + 16);
-  }
-  while ( v2 != &this[1] );
-}
-
-
-void __userpurge vostok::math::cuboid::cuboid(
-        const vostok::math::float4x4 *matrix@<esi>,
-        vostok::math::cuboid *this,
-        const vostok::math::cuboid *other)
-{
-  vostok::math::cuboid *v3; // edi
-  int v4; // ebx
-  float v5; // xmm2_4
-  float v6; // xmm0_4
-  float v7; // xmm1_4
-  __int64 v8; // [esp+14h] [ebp-24h]
-  __int64 v9; // [esp+1Ch] [ebp-1Ch]
-  float v10; // [esp+2Ch] [ebp-Ch]
-  float v11; // [esp+30h] [ebp-8h]
-  float othera; // [esp+40h] [ebp+8h]
-
-  v3 = this;
-  v4 = (char *)other - (char *)this;
-  do
-  {
-    v8 = *(_QWORD *)((char *)&v3->m_planes[0].plane.normal.x + v4);
-    v9 = *(_QWORD *)((char *)&v3->m_planes[0].plane.vector.elements[2] + v4);
-    v5 = (float)((float)((float)(matrix->j.x * *((float *)&v8 + 1)) + (float)(matrix->c.x * *((float *)&v9 + 1)))
-               + (float)(matrix->k.x * *(float *)&v9))
-       + (float)(matrix->i.x * *(float *)&v8);
-    v6 = (float)((float)((float)(matrix->j.y * *((float *)&v8 + 1)) + (float)(matrix->k.y * *(float *)&v9))
-               + (float)(*(float *)&v8 * matrix->i.y))
-       + (float)(*((float *)&v9 + 1) * matrix->c.y);
-    v10 = (float)((float)((float)(matrix->i.z * *(float *)&v8) + (float)(matrix->c.z * *((float *)&v9 + 1)))
-                + (float)(matrix->j.z * *((float *)&v8 + 1)))
-        + (float)(*(float *)&v9 * matrix->k.z);
-    v11 = (float)((float)((float)(matrix->k.w * *(float *)&v9) + (float)(matrix->i.w * *(float *)&v8))
-                + (float)(matrix->c.w * *((float *)&v9 + 1)))
-        + (float)(*((float *)&v8 + 1) * matrix->j.w);
-    othera = sqrtf((float)((float)(v10 * v10) + (float)(v5 * v5)) + (float)(v6 * v6));
-    *(float *)&v8 = (float)(*(float *)&clear_value / othera) * v5;
-    *((float *)&v8 + 1) = (float)(*(float *)&clear_value / othera) * v6;
-    v7 = (float)(*(float *)&clear_value / othera) * v10;
-    *((float *)&v9 + 1) = (float)(*(float *)&clear_value / othera) * v11;
-    *(_QWORD *)&v3->m_planes[0].plane.normal.x = v8;
-    *(float *)&v9 = v7;
-    *(_QWORD *)&v3->m_planes[0].plane.vector.elements[2] = v9;
-    vostok::math::aabb_plane::normalize(v3->m_planes);
-    v3 = (vostok::math::cuboid *)((char *)v3 + 20);
-  }
-  while ( v3 != &this[1] );
-}
-
-
 void __userpurge vostok::math::cuboid::cuboid(
         const vostok::math::aabb *aabb@<ecx>,
         const vostok::math::float4x4 *matrix@<eax>,
         vostok::math::cuboid *this)
 {
-  float x; // xmm1_4
-  float v4; // xmm2_4
-  float v5; // xmm3_4
-  float v6; // xmm0_4
-  float v7; // xmm7_4
-  float z; // xmm5_4
-  float v9; // xmm4_4
-  float v10; // xmm7_4
-  float v11; // xmm6_4
-  float v12; // xmm5_4
-  float v13; // xmm7_4
-  float v14; // xmm6_4
-  float v15; // xmm5_4
+  float y; // xmm1_4
+  float x; // xmm0_4
+  float v5; // xmm5_4
+  float v6; // xmm4_4
+  float v7; // xmm3_4
+  float v8; // xmm6_4
+  float v10; // xmm2_4
+  float v11; // xmm7_4
+  float v12; // xmm2_4
+  float v13; // xmm1_4
+  float v14; // xmm7_4
+  float v15; // xmm7_4
   float v16; // xmm7_4
-  float v17; // xmm6_4
-  float v18; // xmm5_4
-  float v19; // xmm6_4
-  float v20; // xmm5_4
-  float v21; // xmm6_4
-  float v22; // xmm7_4
-  float v23; // xmm5_4
-  float v24; // xmm7_4
-  float v25; // xmm5_4
-  float v26; // xmm7_4
-  float v27; // xmm5_4
-  float v28; // xmm6_4
-  float v29; // xmm7_4
-  float v30; // xmm5_4
-  float v31; // xmm7_4
-  float v32; // xmm5_4
-  float v33; // xmm7_4
-  float v34; // xmm6_4
-  float v35; // xmm5_4
-  float v36; // xmm7_4
-  float v37; // xmm6_4
-  float v38; // xmm7_4
-  float v39; // xmm6_4
-  float v40; // xmm5_4
-  float v41; // xmm6_4
-  float v42; // xmm5_4
+  float v17; // xmm1_4
+  float v18; // xmm2_4
+  float v19; // xmm0_4
+  float v20; // xmm0_4
+  float v21; // xmm0_4
+  float v22; // xmm1_4
+  float v23; // xmm2_4
+  float v24; // xmm1_4
+  float v25; // xmm0_4
+  float v26; // xmm0_4
+  float v27; // xmm7_4
+  float v28; // xmm1_4
+  float v29; // xmm2_4
+  float v30; // xmm0_4
+  float v31; // xmm1_4
+  float v32; // xmm7_4
+  float v33; // xmm1_4
+  float v34; // xmm0_4
+  float v35; // xmm1_4
+  float v36; // xmm0_4
+  float v37; // xmm1_4
+  float v38; // xmm0_4
+  float v39; // xmm7_4
+  float v40; // xmm0_4
+  float v41; // xmm7_4
+  float v42; // xmm0_4
   float v43; // xmm7_4
-  float v44; // xmm5_4
-  float v45; // xmm6_4
-  float v46; // xmm5_4
-  float v47; // xmm6_4
-  float v48; // xmm7_4
-  float v49; // xmm3_4
+  float v44; // xmm1_4
+  float v45; // xmm0_4
+  float v46; // xmm2_4
+  float v47; // xmm1_4
+  float v48; // xmm2_4
+  float v49; // xmm0_4
   float v50; // xmm2_4
-  vostok::math::cuboid *v51; // esi
-  float y; // [esp+Ch] [ebp-7Ch]
-  float v53; // [esp+Ch] [ebp-7Ch]
-  float v54; // [esp+Ch] [ebp-7Ch]
-  float v55; // [esp+Ch] [ebp-7Ch]
-  float v56; // [esp+Ch] [ebp-7Ch]
-  float v57; // [esp+Ch] [ebp-7Ch]
-  float v58; // [esp+10h] [ebp-78h]
-  float v59; // [esp+10h] [ebp-78h]
-  float v60; // [esp+10h] [ebp-78h]
-  float v61; // [esp+10h] [ebp-78h]
-  float v62; // [esp+14h] [ebp-74h]
-  float v63[2]; // [esp+18h] [ebp-70h] BYREF
-  float v64; // [esp+20h] [ebp-68h]
-  vostok::math::float3 vertices[8]; // [esp+28h] [ebp-60h] BYREF
+  float v51; // xmm7_4
+  float v52; // xmm4_4
+  float v53; // xmm5_4
+  float v54; // xmm3_4
+  float v55; // xmm0_4
+  vostok::math::cuboid *v56; // ecx
+  int v57; // ecx
+  vostok::math::float3 v58; // [esp+4h] [ebp-7Ch] BYREF
+  vostok::math::float3 v59; // [esp+10h] [ebp-70h] BYREF
+  vostok::math::float3 v60; // [esp+1Ch] [ebp-64h] BYREF
+  vostok::math::float3 v61; // [esp+28h] [ebp-58h] BYREF
+  vostok::math::float3 v62; // [esp+34h] [ebp-4Ch] BYREF
+  vostok::math::float3 v63; // [esp+40h] [ebp-40h] BYREF
+  vostok::math::float3 v64; // [esp+4Ch] [ebp-34h] BYREF
+  vostok::math::float3 v65; // [esp+58h] [ebp-28h] BYREF
+  vostok::math::plane v66; // [esp+68h] [ebp-18h] BYREF
+  float z; // [esp+78h] [ebp-8h]
+  float v68; // [esp+88h] [ebp+8h]
+  float v69; // [esp+88h] [ebp+8h]
+  float v70; // [esp+88h] [ebp+8h]
+  float v71; // [esp+88h] [ebp+8h]
+  vostok::math::aabb_plane *v72; // [esp+88h] [ebp+8h]
+  float v73; // [esp+88h] [ebp+8h]
 
-  x = matrix->j.x;
-  v4 = matrix->i.x;
-  v5 = matrix->c.x;
   y = aabb->min.y;
-  v6 = matrix->k.x;
-  v7 = matrix->i.y * aabb->min.x;
+  x = aabb->min.x;
+  v5 = matrix->i.x;
+  v6 = matrix->j.x;
+  v7 = matrix->k.x;
+  v8 = matrix->c.x;
   z = aabb->min.z;
-  v9 = matrix->k.y;
-  vertices[0].x = (float)((float)((float)(matrix->i.x * aabb->min.x) + (float)(x * y)) + (float)(v6 * z)) + v5;
-  v10 = (float)(v7 + (float)(matrix->j.y * y)) + (float)(v9 * z);
-  v11 = matrix->j.z;
+  v10 = matrix->i.y;
+  v58.x = (float)((float)((float)(v5 * x) + (float)(v6 * y)) + (float)(v7 * z)) + v8;
+  v11 = (float)((float)((float)(v10 * x) + (float)(matrix->j.y * y)) + (float)(matrix->k.y * z)) + matrix->c.y;
   v12 = matrix->i.z;
-  vertices[0].y = v10 + matrix->c.y;
-  v13 = (float)((float)(v12 * aabb->min.x) + (float)(v11 * aabb->min.y)) + (float)(matrix->k.z * aabb->min.z);
-  v14 = aabb->min.y;
-  v15 = aabb->min.x;
-  vertices[0].z = v13 + matrix->c.z;
-  v53 = aabb->max.z;
-  v58 = v14;
-  v16 = (float)((float)(v15 * v4) + (float)(v14 * x)) + (float)(v53 * v6);
-  v17 = v15 * matrix->i.y;
-  v18 = matrix->j.y;
-  vertices[1].x = v16 + v5;
-  v19 = (float)((float)(v17 + (float)(v58 * v18)) + (float)(v53 * v9)) + matrix->c.y;
-  v20 = matrix->i.z;
-  vertices[1].y = v19;
-  v21 = aabb->max.y;
-  v22 = (float)((float)((float)(v20 * aabb->min.x) + (float)(v58 * matrix->j.z)) + (float)(v53 * matrix->k.z))
+  v13 = matrix->j.z * y;
+  v58.y = v11;
+  v14 = (float)((float)((float)(v12 * x) + v13) + (float)(matrix->k.z * z)) + matrix->c.z;
+  v68 = aabb->min.y;
+  z = aabb->max.z;
+  v58.z = v14;
+  v59.x = (float)((float)((float)(x * v5) + (float)(v68 * v6)) + (float)(z * v7)) + v8;
+  v15 = matrix->i.z;
+  v59.y = (float)((float)((float)(x * matrix->i.y) + (float)(v68 * matrix->j.y)) + (float)(z * matrix->k.y))
+        + matrix->c.y;
+  v16 = (float)((float)((float)(v15 * x) + (float)(v68 * matrix->j.z)) + (float)(z * matrix->k.z)) + matrix->c.z;
+  v69 = aabb->max.y;
+  z = aabb->min.z;
+  v59.z = v16;
+  v17 = matrix->i.y;
+  v60.x = (float)((float)((float)(x * v5) + (float)(v69 * v6)) + (float)(z * v7)) + v8;
+  v18 = (float)((float)((float)(x * v17) + (float)(v69 * matrix->j.y)) + (float)(z * matrix->k.y)) + matrix->c.y;
+  v19 = x * matrix->i.z;
+  v60.y = v18;
+  v20 = (float)((float)(v19 + (float)(v69 * matrix->j.z)) + (float)(z * matrix->k.z)) + matrix->c.z;
+  v70 = aabb->max.y;
+  z = aabb->max.z;
+  v60.z = v20;
+  v21 = aabb->min.x;
+  v22 = matrix->i.y;
+  v61.x = (float)((float)((float)(aabb->min.x * v5) + (float)(v70 * v6)) + (float)(z * v7)) + v8;
+  v23 = (float)((float)((float)(v21 * v22) + (float)(v70 * matrix->j.y)) + (float)(z * matrix->k.y)) + matrix->c.y;
+  v24 = matrix->i.z;
+  v61.y = v23;
+  v25 = (float)((float)((float)(v21 * v24) + (float)(v70 * matrix->j.z)) + (float)(z * matrix->k.z)) + matrix->c.z;
+  v71 = aabb->min.y;
+  z = aabb->min.z;
+  v61.z = v25;
+  v26 = aabb->max.x;
+  v27 = v26 * matrix->i.y;
+  v28 = matrix->j.y;
+  v62.x = (float)((float)((float)(v26 * v5) + (float)(v71 * v6)) + (float)(z * v7)) + v8;
+  v29 = matrix->k.y;
+  v30 = v26 * matrix->i.z;
+  v62.y = (float)((float)(v27 + (float)(v71 * v28)) + (float)(z * v29)) + matrix->c.y;
+  v31 = aabb->min.y;
+  v62.z = (float)((float)(v30 + (float)(v71 * matrix->j.z)) + (float)(z * matrix->k.z)) + matrix->c.z;
+  *(float *)&v72 = v31;
+  v32 = (float)(v5 * aabb->max.x) + (float)(v6 * v31);
+  v33 = (float)(matrix->i.y * aabb->max.x) + (float)(matrix->j.y * v31);
+  v34 = aabb->max.z;
+  v63.x = (float)(v32 + (float)(v7 * v34)) + v8;
+  v35 = (float)(v33 + (float)(v29 * v34)) + matrix->c.y;
+  v36 = matrix->i.z;
+  v63.y = v35;
+  v37 = (float)((float)((float)(v36 * aabb->max.x) + (float)(matrix->j.z * *(float *)&v72))
+              + (float)(matrix->k.z * aabb->max.z))
       + matrix->c.z;
-  v23 = aabb->min.x;
-  vertices[1].z = v22;
-  v54 = aabb->min.z;
-  vertices[2].x = (float)((float)((float)(v23 * v4) + (float)(v21 * x)) + (float)(v54 * v6)) + v5;
-  v24 = matrix->j.z;
-  vertices[2].y = (float)((float)((float)(v23 * matrix->i.y) + (float)(v21 * matrix->j.y)) + (float)(v54 * v9))
-                + matrix->c.y;
-  v25 = (float)((float)((float)(v23 * matrix->i.z) + (float)(v21 * v24)) + (float)(v54 * matrix->k.z)) + matrix->c.z;
-  v26 = aabb->max.y;
-  v55 = aabb->max.z;
-  vertices[2].z = v25;
-  v27 = aabb->min.x;
-  v59 = v26;
-  vertices[3].x = (float)((float)((float)(aabb->min.x * v4) + (float)(v26 * x)) + (float)(v55 * v6)) + v5;
-  v28 = (float)(v27 * matrix->i.y) + (float)(v26 * matrix->j.y);
-  v29 = matrix->j.z;
-  vertices[3].y = (float)(v28 + (float)(v55 * v9)) + matrix->c.y;
-  v30 = (float)((float)((float)(v27 * matrix->i.z) + (float)(v59 * v29)) + (float)(v55 * matrix->k.z)) + matrix->c.z;
-  v31 = aabb->min.z;
-  v60 = aabb->min.y;
-  vertices[3].z = v30;
-  v32 = aabb->max.x;
-  v56 = v31;
-  v33 = (float)((float)(v32 * v4) + (float)(v60 * x)) + (float)(v31 * v6);
-  v62 = v32;
-  v34 = v32 * matrix->i.y;
-  v35 = matrix->j.y;
-  vertices[4].x = v33 + v5;
-  v36 = matrix->j.z;
-  vertices[4].y = (float)((float)(v34 + (float)(v60 * v35)) + (float)(v56 * v9)) + matrix->c.y;
-  v37 = aabb->max.x;
-  vertices[4].z = (float)((float)((float)(v62 * matrix->i.z) + (float)(v60 * v36)) + (float)(v56 * matrix->k.z))
-                + matrix->c.z;
-  v61 = aabb->min.y;
-  v38 = (float)((float)(v4 * v37) + (float)(x * v61)) + (float)(v6 * aabb->max.z);
-  v39 = matrix->i.y * aabb->max.x;
-  v40 = matrix->j.y * v61;
-  vertices[5].x = v38 + v5;
-  v41 = (float)((float)(v39 + v40) + (float)(v9 * aabb->max.z)) + matrix->c.y;
-  v42 = matrix->i.z;
-  vertices[5].y = v41;
-  v43 = aabb->max.y;
-  v57 = aabb->min.z;
-  vertices[5].z = (float)((float)((float)(v42 * aabb->max.x) + (float)(matrix->j.z * v61))
-                        + (float)(matrix->k.z * aabb->max.z))
-                + matrix->c.z;
-  vertices[6].x = (float)((float)((float)(v4 * aabb->max.x) + (float)(x * v43)) + (float)(v6 * v57)) + v5;
-  v44 = matrix->i.z;
-  vertices[6].y = (float)((float)((float)(matrix->i.y * aabb->max.x) + (float)(matrix->j.y * aabb->max.y))
-                        + (float)(v9 * v57))
-                + matrix->c.y;
-  v45 = (float)((float)(v44 * aabb->max.x) + (float)(matrix->j.z * aabb->max.y)) + (float)(matrix->k.z * v57);
-  v46 = matrix->c.z;
-  v64 = aabb->max.z;
-  vertices[6].z = v45 + v46;
-  v63[0] = aabb->max.x;
-  v47 = aabb->max.y;
-  v48 = (float)((float)((float)(v63[0] * v4) + (float)(v47 * x)) + (float)(v64 * v6)) + v5;
-  v49 = v63[0] * matrix->i.y;
-  v50 = matrix->j.y;
-  vertices[7].x = v48;
-  *(_QWORD *)&vertices[7].elements[1] = __PAIR64__(
-                                          (float)((float)((float)(v47 * matrix->j.z) + (float)(v64 * matrix->k.z))
-                                                + (float)(v63[0] * matrix->i.z))
-                                        + v46,
-                                          (float)((float)(v49 + (float)(v47 * v50)) + (float)(v64 * v9)) + matrix->c.y);
-  this->m_planes[0].plane = *vostok::math::create_plane(vertices, &vertices[2], &vertices[1], (int)v63);
-  this->m_planes[1].plane = *vostok::math::create_plane(vertices, &vertices[4], &vertices[2], (int)v63);
-  this->m_planes[2].plane = *vostok::math::create_plane(vertices, &vertices[1], &vertices[4], (int)v63);
-  this->m_planes[3].plane = *vostok::math::create_plane(&vertices[7], &vertices[6], &vertices[5], (int)v63);
-  this->m_planes[4].plane = *vostok::math::create_plane(&vertices[7], &vertices[5], &vertices[3], (int)v63);
-  this->m_planes[5].plane = *vostok::math::create_plane(&vertices[7], &vertices[3], &vertices[6], (int)v63);
-  v51 = this;
+  v38 = aabb->max.x;
+  v73 = aabb->min.z;
+  v63.z = v37;
+  v39 = (float)((float)(v5 * v38) + (float)(v6 * aabb->max.y)) + (float)(v7 * v73);
+  v40 = matrix->i.y;
+  v64.x = v39 + v8;
+  v41 = v40 * aabb->max.x;
+  v42 = aabb->max.y;
+  v43 = (float)((float)(v41 + (float)(matrix->j.y * v42)) + (float)(v29 * v73)) + matrix->c.y;
+  v44 = matrix->j.z * v42;
+  v45 = matrix->k.z * v73;
+  v46 = (float)(matrix->i.z * aabb->max.x) + v44;
+  v47 = aabb->max.x;
+  v64.y = v43;
+  v48 = (float)(v46 + v45) + matrix->c.z;
+  v49 = aabb->max.y;
+  v64.z = v48;
+  v50 = aabb->max.z;
+  v51 = (float)((float)(v47 * v5) + (float)(v49 * v6)) + (float)(v50 * v7);
+  v52 = (float)(v47 * matrix->i.y) + (float)(v49 * matrix->j.y);
+  v53 = v50 * matrix->k.y;
+  v54 = matrix->c.y;
+  v65.x = v51 + v8;
+  v55 = (float)((float)((float)(v49 * matrix->j.z) + (float)(v50 * matrix->k.z)) + (float)(v47 * matrix->i.z))
+      + matrix->c.z;
+  v65.y = (float)(v52 + v53) + v54;
+  v65.z = v55;
+  this->m_planes[0].plane = *vostok::math::create_plane(&v58, &v59, &v66, &v60.x);
+  this->m_planes[1].plane = *vostok::math::create_plane(&v58, &v60, &v66, &v62.x);
+  this->m_planes[2].plane = *vostok::math::create_plane(&v58, &v62, &v66, &v59.x);
+  this->m_planes[3].plane = *vostok::math::create_plane(&v65, &v63, &v66, &v64.x);
+  this->m_planes[4].plane = *vostok::math::create_plane(&v65, &v61, &v66, &v63.x);
+  this->m_planes[5].plane = *vostok::math::create_plane(&v65, &v64, &v66, &v61.x);
+  v56 = this;
   do
   {
-    vostok::math::aabb_plane::normalize(v51->m_planes);
-    v51 = (vostok::math::cuboid *)((char *)v51 + 20);
+    vostok::math::aabb_plane::normalize(v56->m_planes);
+    v56 = (vostok::math::cuboid *)(v57 + 20);
   }
-  while ( v51 != &this[1] );
+  while ( v56 != &this[1] );
 }

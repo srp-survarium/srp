@@ -20,7 +20,9 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callpropvoid(
   Scaleform::GFx::AS3::ReadArgs::ReadArgs(&args, file->VMRef, arg_count);
   Scaleform::GFx::AS3::Multiname::Multiname(&args.ArgMN, file, mn);
   Scaleform::GFx::AS3::StackReader::Read(&args, &args.ArgMN);
-  args.ArgObject = *(const Scaleform::GFx::AS3::Value *)*(_DWORD *)args.OpStack;
+  args.ArgObject.Flags = args.OpStack->pCurrent->Flags;
+  args.ArgObject.Bonus.pWeakProxy = args.OpStack->pCurrent->Bonus.pWeakProxy;
+  args.ArgObject.value.VNumber = args.OpStack->pCurrent->value.VNumber;
   --args.OpStack->pCurrent;
   Scaleform::GFx::AS3::StackReader::CheckObject(&args, &args.ArgObject);
   if ( !this->HandleException )
@@ -38,7 +40,11 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callpropvoid(
     {
       if ( (Scaleform::GFx::AS3::VM::GetValueTraits(this, &args.ArgObject)->Flags & 2) != 0 )
       {
-        Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v13, eCallOfNonFunctionError, this);
+        Scaleform::GFx::AS3::VM::Error::Error(
+          (Scaleform::GFx::AS3::VM::Error *)&v13,
+          (Scaleform::GFx::AS3::VM_vtbl *)0x3EE,
+          (Scaleform::GFx::ASStringNode *)this,
+          &args.ArgMN.Name);
         Scaleform::GFx::AS3::VM::ThrowErrorInternal(
           this,
           v9,
@@ -46,7 +52,12 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callpropvoid(
       }
       else
       {
-        Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v13, eReadSealedError, this);
+        Scaleform::GFx::AS3::VM::Error::Error(
+          (Scaleform::GFx::AS3::VM::Error *)&v13,
+          (Scaleform::GFx::AS3::VM_vtbl *)0x42D,
+          (Scaleform::GFx::ASStringNode *)this,
+          &args.ArgMN.Name,
+          (Scaleform::GFx::AS3::Value *)&args.ArgObject);
         Scaleform::GFx::AS3::VM::ThrowErrorInternal(
           this,
           v10,
@@ -67,9 +78,9 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callpropvoid(
         FixedArr = args.FixedArr;
         if ( args.ArgNum > 8 )
           FixedArr = args.CallArgs.Data.Data;
-        if ( (_S10_0 & 1) == 0 )
+        if ( (_S15 & 1) == 0 )
         {
-          _S10_0 |= 1u;
+          _S15 |= 1u;
           v.Flags = 0;
           v.Bonus.pWeakProxy = 0;
           atexit(Scaleform::GFx::AS3::Value::GetUndefined_::_2_::_dynamic_atexit_destructor_for__v__);
@@ -104,7 +115,11 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_callpropvoid(
       }
       else
       {
-        Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&v13, eCallOfNonFunctionError, this);
+        Scaleform::GFx::AS3::VM::Error::Error(
+          (Scaleform::GFx::AS3::VM::Error *)&v13,
+          (Scaleform::GFx::AS3::VM_vtbl *)0x3EE,
+          (Scaleform::GFx::ASStringNode *)this,
+          &args.ArgMN.Name);
         Scaleform::GFx::AS3::VM::ThrowErrorInternal(
           this,
           v5,

@@ -17,19 +17,19 @@ dh_st *__cdecl pkey_dh_paramgen(evp_pkey_ctx_st *ctx, evp_pkey_st *pkey)
   {
     p_cb = 0;
   }
-  result = DH_new();
+  result = DH_new((int)p_cb);
   v5 = (char *)result;
   if ( result )
   {
     parameters = DH_generate_parameters_ex(result, *data, data[1], p_cb);
     if ( parameters )
     {
-      EVP_PKEY_assign(pkey, 28, v5);
+      EVP_PKEY_assign(pkey, (void *)0x1C, v5);
       return (dh_st *)parameters;
     }
     else
     {
-      DH_free(0, (dh_st *)v5);
+      DH_free(0, (int)p_cb, (dh_st *)v5);
       return 0;
     }
   }

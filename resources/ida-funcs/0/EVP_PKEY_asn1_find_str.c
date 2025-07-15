@@ -1,6 +1,6 @@
 const evp_pkey_asn1_method_st *__cdecl EVP_PKEY_asn1_find_str(engine_st **pe, char *str, engine_st *len)
 {
-  unsigned int v3; // ebx
+  engine_st *v3; // ebx
   const evp_pkey_asn1_method_st *v4; // esi
   int i; // ebp
   stack_st_EVP_PKEY_ASN1_METHOD *v7; // ecx
@@ -11,17 +11,17 @@ const evp_pkey_asn1_method_st *__cdecl EVP_PKEY_asn1_find_str(engine_st **pe, ch
   const char *v12; // edi
   int v13; // eax
 
-  v3 = (unsigned int)len;
+  v3 = len;
   if ( len == (engine_st *)-1 )
-    v3 = strlen(str);
+    v3 = (engine_st *)strlen(str);
   if ( pe )
   {
-    v4 = ENGINE_pkey_asn1_find_str((unsigned int)pe, &len, str, v3);
+    v4 = ENGINE_pkey_asn1_find_str((int)pe, (int)v3, &len, str, (int)v3);
     if ( v4 )
     {
-      if ( !ENGINE_init(len) )
+      if ( !ENGINE_init((int)pe, len) )
         v4 = 0;
-      ENGINE_free((unsigned int)pe, len);
+      ENGINE_free((int)pe, (int)v3, len);
       *pe = len;
       return v4;
     }
@@ -54,9 +54,9 @@ const evp_pkey_asn1_method_st *__cdecl EVP_PKEY_asn1_find_str(engine_st **pe, ch
     {
       v11 = (const char *)*((_DWORD *)v10 + 3);
       v12 = v11 + 1;
-      if ( strlen(v11) == v3 )
+      if ( (engine_st *)strlen(v11) == v3 )
       {
-        _strnicmp(v3, v12, *((char **)v10 + 3), str, v3);
+        _strnicmp((int)v3, v12, *((char **)v10 + 3), str, (unsigned int)v3);
         if ( !v13 )
           return (const evp_pkey_asn1_method_st *)v10;
       }

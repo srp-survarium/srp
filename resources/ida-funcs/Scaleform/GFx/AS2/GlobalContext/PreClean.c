@@ -12,17 +12,18 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::PreClean(
   Scaleform::GFx::AS2::Object *pObject; // ecx
   unsigned int RefCount; // eax
   bool v12; // cf
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v13; // eax
   Scaleform::GFx::ASStringNode *v14; // eax
   Scaleform::GFx::ASStringNode *v15; // eax
   unsigned int v16; // eax
   Scaleform::GFx::AS2::Object *v17; // ecx
   unsigned int v18; // eax
-  Scaleform::GFx::ASString gfxArg; // [esp+5Ch] [ebp-24h] BYREF
-  Scaleform::GFx::ASString gfxLanguage; // [esp+60h] [ebp-20h] BYREF
-  Scaleform::GFx::ASString gfxPlayer; // [esp+64h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::ASStringContext sc; // [esp+68h] [ebp-18h] BYREF
-  Scaleform::GFx::AS2::Value v; // [esp+70h] [ebp-10h] BYREF
+  Scaleform::GFx::ASStringNode *v19; // [esp+5Ch] [ebp-24h] BYREF
+  Scaleform::GFx::ASStringNode *v20; // [esp+60h] [ebp-20h] BYREF
+  Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+64h] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::GlobalContext *v22; // [esp+68h] [ebp-18h] BYREF
+  char v23; // [esp+6Ch] [ebp-14h]
+  Scaleform::GFx::AS2::Value v24; // [esp+70h] [ebp-10h] BYREF
 
   if ( preserveBuiltinProps )
   {
@@ -36,88 +37,96 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::PreClean(
     {
       v5 = 0;
     }
-    sc.pContext = this;
-    sc.SWFVersion = 8;
-    gfxPlayer.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+    v22 = this;
+    v23 = 8;
+    ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                         (Scaleform::GFx::ASStringManager *)this->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                         "gfxPlayer",
                         9u,
                         0);
-    ++gfxPlayer.pNode->RefCount;
-    gfxLanguage.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                          (Scaleform::GFx::ASStringManager *)sc.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                          "gfxLanguage",
-                          0xBu,
-                          0);
-    ++gfxLanguage.pNode->RefCount;
-    gfxArg.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                     (Scaleform::GFx::ASStringManager *)sc.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                     "gfxArg",
-                     6u,
-                     0);
-    ++gfxArg.pNode->RefCount;
+    ++ConstStringNode->RefCount;
+    v20 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+            (Scaleform::GFx::ASStringManager *)v22->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+            "gfxLanguage",
+            0xBu,
+            0);
+    ++v20->RefCount;
+    v19 = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+            (Scaleform::GFx::ASStringManager *)v22->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+            "gfxArg",
+            6u,
+            0);
+    ++v19->RefCount;
     v6 = &this->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface;
-    v.T.Type = 0;
-    v6->GetMemberRaw(v6, &sc, &gfxPlayer, &v);
+    v24.T.Type = 0;
+    v6->GetMemberRaw(
+      v6,
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&ConstStringNode,
+      &v24);
     SetMemberRaw = v5->SetMemberRaw;
     preserveBuiltinProps = 0;
     SetMemberRaw(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &sc,
-      &gfxPlayer,
-      &v,
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&ConstStringNode,
+      &v24,
       (const Scaleform::GFx::AS2::PropFlags *)&preserveBuiltinProps);
     this->pGlobal.pObject->GetMemberRaw(
       &this->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface,
-      &sc,
-      &gfxLanguage,
-      &v);
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&v20,
+      &v24);
     v8 = v5->Scaleform::GFx::AS2::ObjectInterface::__vftable;
     preserveBuiltinProps = 0;
     v8->SetMemberRaw(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &sc,
-      &gfxLanguage,
-      &v,
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&v20,
+      &v24,
       (const Scaleform::GFx::AS2::PropFlags *)&preserveBuiltinProps);
-    this->pGlobal.pObject->GetMemberRaw(&this->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface, &sc, &gfxArg, &v);
+    this->pGlobal.pObject->GetMemberRaw(
+      &this->pGlobal.pObject->Scaleform::GFx::AS2::ObjectInterface,
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&v19,
+      &v24);
     v9 = v5->SetMemberRaw;
     preserveBuiltinProps = 0;
     v9(
       &v5->Scaleform::GFx::AS2::ObjectInterface,
-      &sc,
-      &gfxArg,
-      &v,
+      (Scaleform::GFx::AS2::ASStringContext *)&v22,
+      (const Scaleform::GFx::ASString *)&v19,
+      &v24,
       (const Scaleform::GFx::AS2::PropFlags *)&preserveBuiltinProps);
     v5->RefCount = (v5->RefCount + 1) & 0x8FFFFFFF;
     pObject = this->pGlobal.pObject;
     if ( pObject )
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
       }
     }
-    v12 = v.T.Type < 5u;
+    v12 = v24.T.Type < 5u;
     this->pGlobal.pObject = v5;
     if ( !v12 )
-      Scaleform::GFx::AS2::Value::DropRefs(&v);
-    pNode = gfxArg.pNode;
-    --gfxArg.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-    v14 = gfxLanguage.pNode;
-    --gfxLanguage.pNode->RefCount;
+      Scaleform::GFx::AS2::Value::DropRefs(&v24);
+    v13 = v19;
+    --v19->RefCount;
+    if ( !v13->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v13);
+    v14 = v20;
+    --v20->RefCount;
     if ( !v14->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v14);
-    v15 = gfxPlayer.pNode;
-    --gfxPlayer.pNode->RefCount;
+    v15 = ConstStringNode;
+    --ConstStringNode->RefCount;
     if ( !v15->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v15);
     v16 = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v16) != 0 )
+    if ( (v16 & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = v16 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);
@@ -129,7 +138,7 @@ void __thiscall Scaleform::GFx::AS2::GlobalContext::PreClean(
     if ( v17 )
     {
       v18 = v17->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v18) != 0 )
+      if ( (v18 & 0x3FFFFFF) != 0 )
       {
         v17->RefCount = v18 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v17);

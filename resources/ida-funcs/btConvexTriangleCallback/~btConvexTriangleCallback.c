@@ -1,7 +1,7 @@
 void __thiscall btConvexTriangleCallback::~btConvexTriangleCallback(btConvexTriangleCallback *this)
 {
   btDispatcher *m_dispatcher; // ecx
-  btPersistentManifold *m_manifoldPtr; // edx
+  btPersistentManifold *m_manifoldPtr; // [esp-4h] [ebp-8h]
 
   m_dispatcher = this->m_dispatcher;
   m_manifoldPtr = this->m_manifoldPtr;

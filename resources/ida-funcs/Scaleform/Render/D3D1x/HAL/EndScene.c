@@ -1,32 +1,29 @@
 char __thiscall Scaleform::Render::D3D1x::HAL::EndScene(Scaleform::Render::D3D1x::HAL *this)
 {
-  Scaleform::Render::RenderEvent *v2; // ebx
-  void *v3; // edi
+  char v2; // bl
+  Scaleform::Ptr<ID3D11RenderTargetView> *p_pRenderTargetView; // edi
   ID3D11RenderTargetView *pObject; // eax
-  ID3D11DepthStencilView *v6; // eax
-  Scaleform::String v7; // [esp+Ch] [ebp-4h] BYREF
+  Scaleform::Ptr<ID3D11DepthStencilView> *p_pDepthStencilView; // esi
+  Scaleform::Render::RenderEvent *v7; // [esp+8h] [ebp-8h]
+  Scaleform::String v8; // [esp+Ch] [ebp-4h] BYREF
 
-  Scaleform::String::String(&v7, 0);
-  v2 = this->GetEvent(this, 2);
-  v3 = (void *)(v7.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((v7.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v3);
+  v2 = 0;
+  Scaleform::String::String(&v8, 0);
+  v7 = this->GetEvent(this, 2);
+  Scaleform::String::DataDesc::Release((Scaleform::String::DataDesc *)(v8.HeapTypeBits & 0xFFFFFFFC));
   if ( Scaleform::Render::HAL::EndScene(this) )
   {
+    p_pRenderTargetView = &this->pRenderTargetView;
     pObject = this->pRenderTargetView.pObject;
     if ( pObject )
       pObject->Release(this->pRenderTargetView.pObject);
-    this->pRenderTargetView.pObject = 0;
-    v6 = this->pDepthStencilView.pObject;
-    if ( v6 )
-      v6->Release(this->pDepthStencilView.pObject);
-    this->pDepthStencilView.pObject = 0;
-    v2->End(v2);
-    return 1;
+    p_pDepthStencilView = &this->pDepthStencilView;
+    p_pRenderTargetView->pObject = 0;
+    if ( p_pDepthStencilView->pObject )
+      p_pDepthStencilView->pObject->Release(p_pDepthStencilView->pObject);
+    p_pDepthStencilView->pObject = 0;
+    v2 = 1;
   }
-  else
-  {
-    v2->End(v2);
-    return 0;
-  }
+  v7->End(v7);
+  return v2;
 }

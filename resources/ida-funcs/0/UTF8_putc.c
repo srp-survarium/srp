@@ -33,9 +33,9 @@ int __cdecl UTF8_putc(unsigned __int8 *str, int len, unsigned int value)
   }
   if ( value >= (unsigned int)&_sbh_sizeHeaderList )
   {
-    if ( value >= 0x200000 )
+    if ( value >= (unsigned int)&loc_200000 )
     {
-      if ( value >= (unsigned int)&vostok::memory::s_CRT_arena[55905848] )
+      if ( value >= 0x4000000 )
       {
         if ( v3 < 6 )
           return -1;

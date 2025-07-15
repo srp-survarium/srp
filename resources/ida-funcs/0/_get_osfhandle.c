@@ -1,6 +1,6 @@
-int __cdecl _get_osfhandle(int fh)
+int __usercall _get_osfhandle@<eax>(int a1@<ebx>, int a2@<edi>, int fh)
 {
-  char *v2; // eax
+  char *v4; // eax
 
   if ( fh == -2 )
   {
@@ -8,15 +8,15 @@ int __cdecl _get_osfhandle(int fh)
     *_errno() = 9;
     return -1;
   }
-  else if ( fh >= 0 && fh < _nhandle && (v2 = (char *)__pioinfo[fh >> 5] + 64 * (fh & 0x1F), (v2[4] & 1) != 0) )
+  else if ( fh >= 0 && fh < _nhandle && (v4 = (char *)__pioinfo[fh >> 5] + 64 * (fh & 0x1F), (v4[4] & 1) != 0) )
   {
-    return *(_DWORD *)v2;
+    return *(_DWORD *)v4;
   }
   else
   {
     *__doserrno() = 0;
     *_errno() = 9;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, a2, 0);
     return -1;
   }
 }

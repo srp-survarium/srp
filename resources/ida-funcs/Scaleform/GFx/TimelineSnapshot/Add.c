@@ -6,7 +6,7 @@ Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Sc
   Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *v4; // esi
   Scaleform::ArrayDH_POD<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,2,Scaleform::ArrayDefaultPolicy> *p_SnapshotSortedArray; // edi
   unsigned int v6; // eax
-  Scaleform::GFx::TimelineSnapshot::SnapshotElement *pe; // [esp+8h] [ebp-4h] BYREF
+  Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *v8; // [esp+8h] [ebp-4h] BYREF
 
   v3 = Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2>>::allocate(&this->SnapshotHeap);
   v4 = v3;
@@ -26,7 +26,7 @@ Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Sc
     v3->Data[0].PlaceType = -1;
     v3->Data[0].Flags = 0;
   }
-  pe = (Scaleform::GFx::TimelineSnapshot::SnapshotElement *)v3;
+  v8 = v3;
   if ( !v3 )
     return 0;
   v3->Data[0].pPrev = this->SnapshotList.Root.pPrev;
@@ -44,6 +44,6 @@ Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Sc
   Scaleform::ArrayBase<Scaleform::ArrayDataDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,Scaleform::AllocatorDH_POD<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
     p_SnapshotSortedArray,
     v6,
-    &pe);
+    (Scaleform::GFx::TimelineSnapshot::SnapshotElement **)&v8);
   return v4;
 }

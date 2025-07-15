@@ -50,7 +50,7 @@ void __cdecl Scaleform::GFx::AS3::FindPropertyWith(
     else
     {
       v11 = mn;
-      v12 = (const Scaleform::GFx::AS3::PropRef *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::PropRef *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *))(*(_DWORD *)v5->value.VS._1.VInt + 60))(
+      v12 = (const Scaleform::GFx::AS3::PropRef *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::PropRef *, const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *))(*(_DWORD *)v5->value.VS._1.VInt + 72))(
                                                     v5->value.VS._1,
                                                     &r,
                                                     mn);
@@ -75,7 +75,7 @@ void __cdecl Scaleform::GFx::AS3::FindPropertyWith(
         {
           break;
         }
-        ValueTraits = (Scaleform::GFx::AS3::Traits *)ValueTraits->pParent.pObject;
+        ValueTraits = ValueTraits->pParent.pObject;
         if ( !ValueTraits )
           goto LABEL_30;
       }

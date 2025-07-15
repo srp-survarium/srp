@@ -5,24 +5,24 @@ Scaleform::ArrayLH<Scaleform::GFx::SwfEvent *,260,Scaleform::ArrayDefaultPolicy>
   Scaleform::GFx::PlaceObject3Tag_vtbl *v3; // edx
   void (__thiscall *Unpack)(Scaleform::GFx::GFxPlaceObjectBase *, Scaleform::GFx::GFxPlaceObjectBase::UnpackedData *); // edx
   int v5; // esi
-  Scaleform::Render::Cxform v6; // [esp+F0h] [ebp-70h] BYREF
-  float v7; // [esp+110h] [ebp-50h]
-  float v8; // [esp+114h] [ebp-4Ch]
-  float v9; // [esp+118h] [ebp-48h]
-  float v10; // [esp+11Ch] [ebp-44h]
-  float v11; // [esp+120h] [ebp-40h]
-  float v12; // [esp+124h] [ebp-3Ch]
-  float v13; // [esp+128h] [ebp-38h]
-  float v14; // [esp+12Ch] [ebp-34h]
-  Scaleform::RefCountVImpl *v15; // [esp+130h] [ebp-30h]
-  float v16; // [esp+134h] [ebp-2Ch]
-  int v17; // [esp+138h] [ebp-28h]
-  int v18; // [esp+13Ch] [ebp-24h]
-  int v19; // [esp+140h] [ebp-20h]
-  __int16 v20; // [esp+144h] [ebp-1Ch]
-  __int16 v21; // [esp+146h] [ebp-1Ah]
-  char v22; // [esp+148h] [ebp-18h]
-  int v23; // [esp+150h] [ebp-10h]
+  Scaleform::Render::Cxform v6; // [esp+10h] [ebp-70h] BYREF
+  float v7; // [esp+30h] [ebp-50h]
+  float v8; // [esp+34h] [ebp-4Ch]
+  float v9; // [esp+38h] [ebp-48h]
+  float v10; // [esp+3Ch] [ebp-44h]
+  float v11; // [esp+40h] [ebp-40h]
+  float v12; // [esp+44h] [ebp-3Ch]
+  float v13; // [esp+48h] [ebp-38h]
+  float v14; // [esp+4Ch] [ebp-34h]
+  Scaleform::RefCountVImpl *v15; // [esp+50h] [ebp-30h]
+  float v16; // [esp+54h] [ebp-2Ch]
+  int v17; // [esp+58h] [ebp-28h]
+  int v18; // [esp+5Ch] [ebp-24h]
+  int v19; // [esp+60h] [ebp-20h]
+  __int16 v20; // [esp+64h] [ebp-1Ch]
+  __int16 v21; // [esp+66h] [ebp-1Ah]
+  char v22; // [esp+68h] [ebp-18h]
+  int v23; // [esp+70h] [ebp-10h]
 
   result = 0;
   if ( (this->pData[0] & 0x80u) != 0 )

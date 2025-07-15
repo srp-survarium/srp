@@ -1,17 +1,21 @@
-const char *__cdecl vostok::strings::get_token(char *string, char *result, unsigned int result_size, char separator)
+const char *__usercall vostok::strings::get_token@<eax>(
+        unsigned __int8 separator@<al>,
+        char *string,
+        char *result,
+        unsigned int result_size)
 {
-  survarium::game_camera *v4; // ecx
-  const char *v5; // eax
-  const char *found; // [esp+10h] [ebp-4h]
+  int v4; // eax
+  int v5; // esi
+  int v7; // edi
 
-  strchr((unsigned __int8 *)string, separator);
-  found = v5;
-  if ( v5 )
+  strchr(string, separator);
+  v5 = v4;
+  if ( v4 )
   {
-    survarium::weapon_user_dead_state::finalize(v4);
-    vostok::memory::copy(result, result_size - 1, string, found - string);
-    result[found - string] = 0;
-    return found + 1;
+    v7 = v4 - (_DWORD)string;
+    memcpy((unsigned __int8 *)result, (unsigned __int8 *)string, v4 - (_DWORD)string);
+    result[v7] = 0;
+    return (const char *)(v5 + 1);
   }
   else
   {

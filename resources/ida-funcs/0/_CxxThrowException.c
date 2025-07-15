@@ -1,15 +1,11 @@
-void __stdcall __noreturn _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo)
+void __stdcall __noreturn _CxxThrowException(DWORD pExceptionObject, const _s__ThrowInfo *pThrowInfo)
 {
-  EHExceptionRecord ThisException; // [esp+8h] [ebp-20h] BYREF
+  DWORD dwExceptionCode[8]; // [esp+8h] [ebp-20h] BYREF
 
-  qmemcpy(&ThisException, &ExceptionTemplate, sizeof(ThisException));
-  ThisException.params.pExceptionObject = pExceptionObject;
-  ThisException.params.pThrowInfo = (const _s_ThrowInfo *)pThrowInfo;
+  qmemcpy(dwExceptionCode, &ExceptionTemplate, sizeof(dwExceptionCode));
+  dwExceptionCode[6] = pExceptionObject;
+  dwExceptionCode[7] = (DWORD)pThrowInfo;
   if ( pThrowInfo && (pThrowInfo->attributes & 8) != 0 )
-    ThisException.params.magicNumber = (unsigned int)&vostok::memory::s_CRT_arena[15617592];
-  RaiseException(
-    ThisException.ExceptionCode,
-    ThisException.ExceptionFlags,
-    ThisException.NumberParameters,
-    &ThisException.params.magicNumber);
+    dwExceptionCode[5] = 26820608;
+  RaiseException(dwExceptionCode[0], dwExceptionCode[1], dwExceptionCode[4], &dwExceptionCode[5]);
 }

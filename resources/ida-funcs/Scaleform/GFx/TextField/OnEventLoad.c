@@ -1,15 +1,15 @@
 void __thiscall Scaleform::GFx::TextField::OnEventLoad(Scaleform::GFx::TextField *this)
 {
-  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+70h] [ebp-60h] BYREF
+  Scaleform::GFx::DisplayObjectBase::GeomDataType pgeomData; // [esp+10h] [ebp-60h] BYREF
 
   if ( Scaleform::String::GetLength(&this->pDef.pObject->DefaultText) )
     Scaleform::GFx::TextField::SetTextValue(
       this,
-      (char *)((this->pDef.pObject->DefaultText.HeapTypeBits & 0xFFFFFFFC) + 8),
+      (const __m128i *)((this->pDef.pObject->DefaultText.HeapTypeBits & 0xFFFFFFFC) + 8),
       (this->Flags & 2) != 0,
       0);
   else
-    Scaleform::GFx::TextField::SetTextValue(this, (char *)&buf, (this->Flags & 2) != 0, 0);
+    Scaleform::GFx::TextField::SetTextValue(this, (const __m128i *)uri, (this->Flags & 2) != 0, 0);
   Scaleform::Render::Text::DocView::Format(this->pDocument.pObject);
   Scaleform::GFx::InteractiveObject::OnEventLoad(this);
   if ( !this->pGeomData )

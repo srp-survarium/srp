@@ -1,4 +1,4 @@
-unsigned int __userpurge xtoa_s@<eax>(
+int __userpurge xtoa_s@<eax>(
         unsigned int val@<eax>,
         char *buf@<ecx>,
         char *a3@<edi>,
@@ -13,14 +13,14 @@ unsigned int __userpurge xtoa_s@<eax>(
   char v11; // dl
   char *v12; // ecx
   char v13; // al
-  unsigned int v14; // [esp-8h] [ebp-14h]
-  unsigned int length; // [esp+8h] [ebp-4h]
+  int v14; // [esp-8h] [ebp-14h]
+  unsigned int v15; // [esp+8h] [ebp-4h]
 
   v6 = buf;
   if ( !buf )
   {
     *_errno() = 22;
-    _invalid_parameter(0, (unsigned int)a3, 0x16u);
+    _invalid_parameter(0, (int)a3, 22);
     return 22;
   }
   if ( !sizeInTChars )
@@ -40,14 +40,14 @@ LABEL_4:
     v14 = 22;
 LABEL_5:
     *v8 = v14;
-    _invalid_parameter(0, (unsigned int)a3, v14);
+    _invalid_parameter(0, (int)a3, v14);
     return v14;
   }
-  length = 0;
+  v15 = 0;
   if ( is_neg )
   {
     *buf++ = 45;
-    length = 1;
+    v15 = 1;
     val = -val;
   }
   a3 = buf;
@@ -61,10 +61,10 @@ LABEL_5:
     else
       v11 = v9 + 87;
     *buf++ = v11;
-    ++length;
+    ++v15;
   }
-  while ( val && length < sizeInTChars );
-  if ( length >= sizeInTChars )
+  while ( val && v15 < sizeInTChars );
+  if ( v15 >= sizeInTChars )
   {
     *v6 = 0;
     goto LABEL_7;

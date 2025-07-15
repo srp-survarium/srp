@@ -1,76 +1,71 @@
-void __userpurge survarium::weapon_ammunition_cook::on_config_ready(
-        survarium::weapon_ammunition_cook *this@<ecx>,
-        float a2@<xmm0>,
+void __thiscall survarium::weapon_ammunition_cook::on_config_ready(
+        survarium::weapon_ammunition_cook *this,
         vostok::resources::queries_result *data,
-        vostok::resources::query_result_for_cook *parent)
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *parent)
 {
-  vostok::resources::query_result *v4; // eax
-  vostok::resources::query_result_for_user *v5; // ecx
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *unmanaged_resource; // eax
-  survarium::game_camera *v7; // ecx
-  vostok::memory::doug_lea_allocator *v8; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v9; // ecx
-  survarium::weapon_ammunition *v10; // eax
-  const vostok::variant<32> **v11; // eax
-  vostok::configs::binary_config *v12; // ecx
-  vostok::configs::binary_config_value *root; // eax
-  vostok::configs::binary_config_value *v14; // eax
-  vostok::resources::memory_usage_type *v15; // eax
-  vostok::resources::unmanaged_resource *v16; // ecx
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v17[2]; // [esp-4h] [ebp-44h] BYREF
-  vostok::resources::memory_usage_type *memory_usage; // [esp+4h] [ebp-3Ch]
-  survarium::weapon_ammunition *v19; // [esp+8h] [ebp-38h]
-  survarium::weapon_ammunition_cook *thisa; // [esp+Ch] [ebp-34h]
-  void *_Where; // [esp+14h] [ebp-2Ch]
-  vostok::memory::doug_lea_allocator *v22; // [esp+18h] [ebp-28h]
-  boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *v23; // [esp+24h] [ebp-1Ch] BYREF
-  survarium::weapon_ammunition *v24; // [esp+2Ch] [ebp-14h]
-  vostok::resources::resource_ptr<survarium::game_world_object,vostok::resources::unmanaged_intrusive_base> v25; // [esp+30h] [ebp-10h] BYREF
-  char v26; // [esp+37h] [ebp-9h]
-  survarium::weapon_ammunition *wa; // [esp+38h] [ebp-8h]
-  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> config; // [esp+3Ch] [ebp-4h] BYREF
+  vostok::resources::queries_result *size; // esi
+  vostok::memory::doug_lea_allocator *v4; // esi
+  char *v5; // eax
+  vostok::memory::doug_lea_allocator *v6; // ecx
+  survarium::inventory_item *v7; // ecx
+  survarium::pure_game_effect_emitter_base *v8; // esi
+  const vostok::configs::binary_config_value *v9; // eax
+  survarium::weapon_ammunition *v10; // ecx
+  survarium::pure_game_effect_emitter_base *v11; // ecx
+  vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *v12; // edi
+  survarium::pure_game_effect_emitter_base *v13; // ecx
+  vostok::resources::query_result_for_cook *v14; // ecx
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v15[3]; // [esp-4h] [ebp-14h] BYREF
+  vostok::resources::memory_usage_type v16; // [esp+8h] [ebp-8h] BYREF
 
-  thisa = this;
-  v26 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  v4 = vostok::resources::queries_result::operator[](data, 0);
-  unmanaged_resource = vostok::resources::query_result_for_user::get_unmanaged_resource(
-                         v5,
-                         (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v4,
-                         (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v25);
-  vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
-    (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)unmanaged_resource,
-    &config);
-  vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v25);
-  survarium::weapon_user_dead_state::finalize(v7);
-  v22 = v8;
-  _Where = vostok::memory::doug_lea_allocator::malloc_impl(v8, 0x148u);
-  v24 = (survarium::weapon_ammunition *)operator new(0x148u, _Where);
-  if ( v24 )
+  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v16.size,
+    (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data->m_queries[0].m_unmanaged_resource);
+  size = (vostok::resources::queries_result *)v16.size;
+  data = 0;
+  if ( v16.size )
   {
-    survarium::weapon_ammunition::weapon_ammunition(v24);
-    v19 = v10;
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&data);
+    data = size;
+    _InterlockedExchangeAdd((volatile signed __int32 *)&size->m_queries[0].m_target_quality_level, 1u);
+  }
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v16.size);
+  v4 = survarium::g_allocator;
+  v5 = type_info::raw_name(&survarium::weapon_ammunition `RTTI Type Descriptor');
+  v8 = (survarium::pure_game_effect_emitter_base *)vostok::memory::doug_lea_allocator::malloc_impl(
+                                                     v6,
+                                                     (int)v4,
+                                                     0x168u,
+                                                     v5,
+                                                     (const char *const)v15[1].m_object,
+                                                     (const char *const)v15[2].m_object,
+                                                     (const unsigned int)v16.type);
+  if ( v8 )
+  {
+    survarium::inventory_item::inventory_item(v7, (int)v8, disabled, 1);
+    v8->__vftable = (survarium::pure_game_effect_emitter_base_vtbl *)&survarium::weapon_ammunition::`vftable';
   }
   else
   {
-    v19 = 0;
+    v8 = 0;
   }
-  wa = v19;
-  v11 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v9, (int)&config);
-  root = (vostok::configs::binary_config_value *)vostok::configs::binary_config::get_root(v12, (int)v11);
-  v14 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](root, "data");
-  survarium::weapon_ammunition::load(wa, a2, v14);
-  vostok::resources::memory_usage_type::memory_usage_type(
-    (boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *)&vostok::resources::nocache_memory,
-    &v23,
-    (vostok::network_core::packet_reader *)0x148,
-    (vostok::network_core::packet_reader *)v17[1].m_object);
-  memory_usage = v15;
-  v17[0].m_object = v16;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
-    v17,
-    (vostok::configs::binary_config *)wa);
-  vostok::resources::query_result_for_cook::set_unmanaged_resource(memory_usage, parent, v17[0]);
-  vostok::resources::query_result_for_cook::finish_query(parent, result_success, assert_on_fail_true);
-  vostok::resources::resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::inventory,vostok::resources::unmanaged_intrusive_base> *)&config);
+  v9 = vostok::configs::binary_config_value::operator[](
+         (vostok::configs::binary_config_value *)data->m_queries[0].m_next_for_grm_observer_list,
+         "data");
+  survarium::weapon_ammunition::load(v10, (int)v8, v9);
+  v15[0].m_object = v11;
+  v16.type = &vostok::resources::nocache_memory;
+  v16.size = 360;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    v15,
+    v8);
+  v12 = (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)parent;
+  vostok::resources::query_result_for_cook::set_unmanaged_resource(&v16, v13, parent, v15[0]);
+  vostok::resources::query_result_for_cook::finish_query_impl(
+    v14,
+    v12,
+    result_out_of_memory,
+    assert_on_fail_true,
+    result_fail);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&data);
 }

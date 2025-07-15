@@ -1,67 +1,36 @@
 void __usercall survarium::game_options::refill_item_data(survarium::game_options *this@<ecx>, int a2@<eax>)
 {
-  survarium::flash_value *v3; // eax
-  int i; // ecx
-  int v5; // ecx
-  int v6; // ecx
-  char *v7; // esi
-  int j; // edi
-  int v9; // eax
-  survarium::flash_value options_item_data[3]; // [esp+14h] [ebp-4Ch] BYREF
-  char v11; // [esp+5Ch] [ebp-4h] BYREF
+  survarium::flash_value *v3; // ecx
+  survarium::flash_value *v4; // ecx
+  int v5; // edx
+  survarium::flash_value *v6; // ecx
+  int v7; // ecx
+  Scaleform::GFx::Value *v8; // esi
+  int i; // edi
+  survarium::flash_value v10; // [esp+8h] [ebp-48h] BYREF
+  _BYTE v11[24]; // [esp+20h] [ebp-30h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+38h] [ebp-18h] BYREF
+  char vars0; // [esp+50h] [ebp+0h] BYREF
 
-  v3 = options_item_data;
-  for ( i = 2; i >= 0; --i )
+  v3 = &v10;
+  do
   {
-    if ( v3 )
-    {
-      *(_DWORD *)v3->body = 0;
-      *(_DWORD *)&v3->body[4] = 0;
-    }
-    ++v3;
+    survarium::flash_value::flash_value(v3);
+    v3 = v4 + 1;
   }
-  if ( (options_item_data[0].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)options_item_data[0].body + 8))(
-      *(_DWORD *)options_item_data[0].body,
-      options_item_data,
-      *(_DWORD *)&options_item_data[0].body[8]);
-    *(_DWORD *)options_item_data[0].body = 0;
-  }
-  *(_DWORD *)&options_item_data[0].body[4] = 4;
-  *(_DWORD *)&options_item_data[0].body[8] = 2;
-  if ( (options_item_data[1].body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)options_item_data[1].body + 8))(
-      *(_DWORD *)options_item_data[1].body,
-      &options_item_data[1],
-      *(_DWORD *)&options_item_data[1].body[8]);
-    *(_DWORD *)options_item_data[1].body = 0;
-  }
-  v5 = *(_DWORD *)(a2 + 16);
-  *(_DWORD *)&options_item_data[1].body[4] = 4;
-  *(_DWORD *)&options_item_data[1].body[8] = 1;
-  Scaleform::GFx::Movie::CreateArray(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(v5 + 264) + 4),
-    (Scaleform::GFx::Value *)&options_item_data[2]);
-  v6 = *(_DWORD *)(**(_DWORD **)(a2 + 32) + 4);
-  (*(void (__thiscall **)(int, survarium::flash_value *))(*(_DWORD *)v6 + 8))(v6, &options_item_data[2]);
+  while ( v5 - 1 >= 0 );
+  survarium::flash_value::SetUInt(v3, (int)&v10, 2u);
+  survarium::flash_value::SetUInt(v6, (int)v11, 1u);
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 12) + 264) + 4), &pvalue);
+  v7 = *(_DWORD *)(**(_DWORD **)(a2 + 28) + 4);
+  (*(void (__thiscall **)(int, Scaleform::GFx::Value *))(*(_DWORD *)v7 + 8))(v7, &pvalue);
   Scaleform::GFx::Movie::Invoke(
-    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 16) + 264) + 4),
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(a2 + 12) + 264) + 4),
     "root.set_data_provider",
     0,
-    (const Scaleform::GFx::Value *)options_item_data,
+    (const Scaleform::GFx::Value *)&v10,
     3u);
-  v7 = &v11;
-  for ( j = 2; j >= 0; --j )
-  {
-    v9 = *((_DWORD *)v7 - 5);
-    v7 -= 24;
-    if ( (v9 & 0x40) != 0 )
-    {
-      (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v7 + 8))(v7, *((_DWORD *)v7 + 2));
-      *(_DWORD *)v7 = 0;
-    }
-    *((_DWORD *)v7 + 1) = 0;
-  }
+  v8 = (Scaleform::GFx::Value *)&vars0;
+  for ( i = 2; i >= 0; --i )
+    Scaleform::GFx::Value::~Value(--v8);
 }

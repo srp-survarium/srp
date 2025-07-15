@@ -280,7 +280,7 @@ LABEL_90:
   if ( ((unsigned __int8)this & 1) == 0 )
   {
     RefCount = this->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       this->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(this);

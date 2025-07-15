@@ -66,3 +66,21 @@ void __thiscall Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::Render::T
     Scaleform::RefCountNTSImpl::Release(pObject);
   this->Second = (Scaleform::Ptr<Scaleform::Render::Text::ImageDesc>)pSecond->pObject;
 }
+
+
+void __thiscall Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::GFx::AMP::BaseMessageTypeDescriptor>,Scaleform::String::NoCaseHashFunctor>::operator=(
+        Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::GFx::AMP::BaseMessageTypeDescriptor>,Scaleform::String::NoCaseHashFunctor> *this,
+        const Scaleform::StringLH_HashNode<Scaleform::Ptr<Scaleform::GFx::AMP::BaseMessageTypeDescriptor>,Scaleform::String::NoCaseHashFunctor>::NodeRef *src)
+{
+  Scaleform::GFx::Resource **pSecond; // edi
+  Scaleform::RefCountVImpl *pObject; // ecx
+
+  Scaleform::String::operator=(&this->First, src->pFirst);
+  pSecond = (Scaleform::GFx::Resource **)src->pSecond;
+  if ( *pSecond )
+    Scaleform::RefCountImpl::AddRef(*pSecond);
+  pObject = (Scaleform::RefCountVImpl *)this->Second.pObject;
+  if ( pObject )
+    Scaleform::RefCountImpl::Release(pObject);
+  this->Second.pObject = (Scaleform::GFx::AMP::BaseMessageTypeDescriptor *)*pSecond;
+}

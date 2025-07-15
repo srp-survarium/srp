@@ -4,7 +4,7 @@ bool __thiscall vostok::ui::shift_state_action::execute(
 {
   vostok::ui::ui_text_edit::set_shift_state(
     this->m_parent,
-    (const vostok::ui::enum_shift_state)this->m_shift_switch_state,
-    action != kb_key_up);
+    action != kb_key_up,
+    (const vostok::ui::enum_shift_state)this->m_shift_switch_state);
   return 0;
 }

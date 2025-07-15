@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v1; // esi
+  Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::InteractiveObject *Target; // esi
   Scaleform::MemoryHeap *pHeap; // ecx
@@ -36,35 +36,30 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
   double v34; // st5
   Scaleform::GFx::AS2::Environment *v35; // ecx
   Scaleform::GFx::AS2::Environment *v36; // ecx
-  Scaleform::GFx::ASStringNode *pNode; // ecx
+  Scaleform::GFx::ASStringNode *RefCount; // ecx
   Scaleform::GFx::AS2::Object *v39; // ecx
-  unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *x; // [esp+32Ch] [ebp-BCh]
-  Scaleform::GFx::Resource *y; // [esp+330h] [ebp-B8h]
-  Scaleform::GFx::AS2::Environment *y_4; // [esp+334h] [ebp-B4h]
-  int v44; // [esp+34Ch] [ebp-9Ch]
-  char v45; // [esp+34Ch] [ebp-9Ch]
-  Scaleform::GFx::MovieImpl *pMovieImpl; // [esp+350h] [ebp-98h]
-  float v47; // [esp+350h] [ebp-98h]
-  float v48; // [esp+350h] [ebp-98h]
-  Scaleform::GFx::AS2::ObjectInterface *v49; // [esp+350h] [ebp-98h]
-  Scaleform::GFx::AS2::Value sz; // [esp+358h] [ebp-90h] BYREF
-  Scaleform::GFx::AS2::Object *obj; // [esp+368h] [ebp-80h]
-  Scaleform::GFx::ASString result[2]; // [esp+36Ch] [ebp-7Ch] BYREF
-  int v53; // [esp+374h] [ebp-74h]
-  __int16 v54; // [esp+378h] [ebp-70h]
-  __int16 v55; // [esp+37Ah] [ebp-6Eh]
-  __int16 v56; // [esp+37Ch] [ebp-6Ch]
-  __int16 v57; // [esp+37Eh] [ebp-6Ah]
-  __int16 v58; // [esp+380h] [ebp-68h]
-  __int16 v59; // [esp+382h] [ebp-66h]
-  Scaleform::RefCountNTSImpl *v60; // [esp+384h] [ebp-64h]
-  Scaleform::Render::Text::TextFormat rect; // [esp+388h] [ebp-60h] BYREF
-  Scaleform::Render::Text::TextFormat defaultTextFmt; // [esp+3C0h] [ebp-28h] BYREF
+  unsigned int v40; // eax
+  Scaleform::GFx::AS2::Environment *x; // [esp+10h] [ebp-BCh]
+  Scaleform::GFx::Resource *y; // [esp+14h] [ebp-B8h]
+  Scaleform::GFx::AS2::Environment *y_4; // [esp+18h] [ebp-B4h]
+  int v44; // [esp+30h] [ebp-9Ch]
+  char v45; // [esp+30h] [ebp-9Ch]
+  Scaleform::GFx::MovieImpl *pMovieImpl; // [esp+34h] [ebp-98h]
+  float v47; // [esp+34h] [ebp-98h]
+  float v48; // [esp+34h] [ebp-98h]
+  Scaleform::GFx::AS2::ObjectInterface *v49; // [esp+34h] [ebp-98h]
+  Scaleform::GFx::AS2::Value sz; // [esp+3Ch] [ebp-90h] BYREF
+  Scaleform::GFx::AS2::Object *obj; // [esp+4Ch] [ebp-80h]
+  Scaleform::Render::Text::ParagraphFormat defaultParagraphFmt; // [esp+50h] [ebp-7Ch] BYREF
+  __int16 v53; // [esp+64h] [ebp-68h]
+  __int16 v54; // [esp+66h] [ebp-66h]
+  Scaleform::RefCountNTSImpl *v55; // [esp+68h] [ebp-64h]
+  Scaleform::Render::Text::TextFormat rect; // [esp+6Ch] [ebp-60h] BYREF
+  Scaleform::Render::Text::TextFormat defaultTextFmt; // [esp+A4h] [ebp-28h] BYREF
 
-  v1 = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(v1);
-  v1->T.Type = 0;
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 0;
   if ( fn->NArgs )
   {
     if ( !fn->ThisPtr || fn->ThisPtr->GetObjectType(fn->ThisPtr) != Object_TextFormat )
@@ -78,7 +73,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
     ThisPtr = fn->ThisPtr;
     v44 = ThisPtr ? (int)&ThisPtr[-2].pProto : 0;
     Target = fn->Env->Target;
-    v60 = Target;
+    v55 = Target;
     if ( Target )
     {
       ++Target->RefCount;
@@ -95,7 +90,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
       }
       x = fn->Env;
       v7 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v7, result, x, -1, 0);
+      Scaleform::GFx::AS2::Value::ToStringImpl(v7, (Scaleform::GFx::ASString *)&defaultParagraphFmt, x, -1, 0);
       v8 = fn->Env->StringContext.pContext->pHeap;
       v9 = (Scaleform::Render::Text::DocView *)v8->Alloc(v8, 272u, 0);
       if ( v9 )
@@ -132,16 +127,12 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
       }
       v12->Flags |= 4u;
       Scaleform::Render::Text::TextFormat::TextFormat(&defaultTextFmt, fn->Env->StringContext.pContext->pHeap);
-      v55 = 0;
-      v58 = 0;
-      result[1].pNode = (Scaleform::GFx::ASStringNode *)1;
       v53 = 0;
+      defaultParagraphFmt.pTabStops = (unsigned int *)1;
+      memset(&defaultParagraphFmt.BlockIndent, 0, 12);
       v54 = 0;
-      v56 = 0;
-      v57 = 0;
-      v59 = 0;
       Scaleform::Render::Text::TextFormat::InitByDefaultValues(&defaultTextFmt);
-      Scaleform::Render::Text::ParagraphFormat::InitByDefaultValues((Scaleform::Render::Text::ParagraphFormat *)&result[1]);
+      Scaleform::Render::Text::ParagraphFormat::InitByDefaultValues((Scaleform::Render::Text::ParagraphFormat *)&defaultParagraphFmt.pTabStops);
       v14 = Scaleform::Render::Text::TextFormat::Merge(
               &defaultTextFmt,
               &rect,
@@ -149,16 +140,18 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
       Scaleform::Render::Text::TextFormat::operator=(&defaultTextFmt, v14);
       Scaleform::Render::Text::TextFormat::~TextFormat(&rect);
       v15 = Scaleform::Render::Text::ParagraphFormat::Merge(
-              (Scaleform::Render::Text::ParagraphFormat *)&result[1],
+              (Scaleform::Render::Text::ParagraphFormat *)&defaultParagraphFmt.pTabStops,
               (Scaleform::Render::Text::ParagraphFormat *)&rect,
               (const Scaleform::Render::Text::ParagraphFormat *)(v44 + 92));
-      Scaleform::Render::Text::ParagraphFormat::operator=((Scaleform::Render::Text::ParagraphFormat *)&result[1], v15);
+      Scaleform::Render::Text::ParagraphFormat::operator=(
+        (Scaleform::Render::Text::ParagraphFormat *)&defaultParagraphFmt.pTabStops,
+        v15);
       Scaleform::Render::Text::ParagraphFormat::FreeTabStops((Scaleform::Render::Text::ParagraphFormat *)&rect);
       Scaleform::Render::Text::StyledText::SetDefaultTextFormat(v12->pDocument.pObject, &defaultTextFmt);
       Scaleform::Render::Text::StyledText::SetDefaultParagraphFormat(
         v12->pDocument.pObject,
-        (const Scaleform::Render::Text::ParagraphFormat *)&result[1]);
-      Scaleform::Render::Text::DocView::SetText(v12, result[0].pNode->pData, 0xFFFFFFFF);
+        (const Scaleform::Render::Text::ParagraphFormat *)&defaultParagraphFmt.pTabStops);
+      Scaleform::Render::Text::DocView::SetText(v12, *(char **)defaultParagraphFmt.RefCount, 0xFFFFFFFF);
       Scaleform::Render::Text::DocView::Format(v12);
       TextWidth = Scaleform::Render::Text::DocView::GetTextWidth(v12);
       Env = fn->Env;
@@ -167,7 +160,7 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
       sz.T.Type = 3;
       Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
         &obj->Scaleform::GFx::AS2::ObjectInterface,
-        &Env->StringContext,
+        (Scaleform::GFx::ASStringNode *)&Env->StringContext,
         "textFieldWidth",
         &sz);
       if ( sz.T.Type >= 5u )
@@ -176,21 +169,33 @@ void __cdecl Scaleform::GFx::AS2::TextFormatProto::GetTextExtent(const Scaleform
       v20 = fn->Env;
       sz.NV.NumberValue = (TextHeight + 80.0) * 0.05;
       sz.T.Type = 3;
-      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v18, &v20->StringContext, "textFieldHeight", &sz);
+      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+        v18,
+        (Scaleform::GFx::ASStringNode *)&v20->StringContext,
+        "textFieldHeight",
+        &sz);
       if ( sz.T.Type >= 5u )
         Scaleform::GFx::AS2::Value::DropRefs(&sz);
       v21 = Scaleform::Render::Text::DocView::GetTextWidth(v12);
       v22 = fn->Env;
       sz.NV.NumberValue = v21 * 0.05;
       sz.T.Type = 3;
-      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v18, &v22->StringContext, "width", &sz);
+      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+        v18,
+        (Scaleform::GFx::ASStringNode *)&v22->StringContext,
+        "width",
+        &sz);
       if ( sz.T.Type >= 5u )
         Scaleform::GFx::AS2::Value::DropRefs(&sz);
       v23 = Scaleform::Render::Text::DocView::GetTextHeight(v12);
       v24 = fn->Env;
       sz.NV.NumberValue = v23 * 0.05;
       sz.T.Type = 3;
-      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(v18, &v24->StringContext, "height", &sz);
+      Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
+        v18,
+        (Scaleform::GFx::ASStringNode *)&v24->StringContext,
+        "height",
+        &sz);
       if ( sz.T.Type >= 5u )
         Scaleform::GFx::AS2::Value::DropRefs(&sz);
       v25 = (defaultTextFmt.FormatFlags & 2) != 0;
@@ -224,7 +229,7 @@ LABEL_30:
           v49 = &obj->Scaleform::GFx::AS2::ObjectInterface;
           Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
             &obj->Scaleform::GFx::AS2::ObjectInterface,
-            &v35->StringContext,
+            (Scaleform::GFx::ASStringNode *)&v35->StringContext,
             "ascent",
             (const Scaleform::GFx::AS2::Value *)&rect);
           if ( LOBYTE(rect.RefCount) >= 5u )
@@ -234,7 +239,7 @@ LABEL_30:
           *(double *)&rect.FontList = (double)*(unsigned int *)&sz.T.Type;
           Scaleform::GFx::AS2::ObjectInterface::SetConstMemberRaw(
             v49,
-            &v36->StringContext,
+            (Scaleform::GFx::ASStringNode *)&v36->StringContext,
             "descent",
             (const Scaleform::GFx::AS2::Value *)&rect);
           if ( LOBYTE(rect.RefCount) >= 5u )
@@ -242,23 +247,23 @@ LABEL_30:
           Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, obj);
           if ( v28 )
             Scaleform::RefCountImpl::Release(v28);
-          Scaleform::Render::Text::ParagraphFormat::FreeTabStops((Scaleform::Render::Text::ParagraphFormat *)&result[1]);
+          Scaleform::Render::Text::ParagraphFormat::FreeTabStops((Scaleform::Render::Text::ParagraphFormat *)&defaultParagraphFmt.pTabStops);
           Scaleform::Render::Text::TextFormat::~TextFormat(&defaultTextFmt);
           Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v12);
-          pNode = result[0].pNode;
-          if ( result[0].pNode->RefCount-- == 1 )
-            Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+          RefCount = (Scaleform::GFx::ASStringNode *)defaultParagraphFmt.RefCount;
+          if ( (*(_DWORD *)(defaultParagraphFmt.RefCount + 12))-- == 1 )
+            Scaleform::GFx::ASStringNode::ReleaseNode(RefCount);
           v39 = obj;
           if ( obj )
           {
-            RefCount = obj->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+            v40 = obj->RefCount;
+            if ( (v40 & 0x3FFFFFF) != 0 )
             {
-              obj->RefCount = RefCount - 1;
+              obj->RefCount = v40 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v39);
             }
           }
-          Scaleform::RefCountNTSImpl::Release(v60);
+          Scaleform::RefCountNTSImpl::Release(v55);
           return;
         }
         v29 = *(float *)(v30 + 12);

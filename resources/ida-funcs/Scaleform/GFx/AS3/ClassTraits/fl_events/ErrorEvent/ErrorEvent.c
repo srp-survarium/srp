@@ -11,14 +11,14 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent::ErrorEv
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_events::ErrorEventCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
   if ( v4 )
   {
     Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(v4, vm, &Scaleform::GFx::AS3::fl_events::ErrorEventCI);
-    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_events::IMEEvent::`vftable';
+    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_events::ErrorEvent::`vftable';
     v5[13] = 56;
   }
   else
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent::ErrorEv
   if ( v6 )
   {
     Scaleform::GFx::AS3::Class::Class(v6, this);
-    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v7->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)&Scaleform::GFx::AS3::Classes::fl_events::ErrorEvent::`vftable';
     v7[2].__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)"error";
   }
   else
@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::ErrorEvent::ErrorEv
         return;
       }
       RefCount = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v8->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

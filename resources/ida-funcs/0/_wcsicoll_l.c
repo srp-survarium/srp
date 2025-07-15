@@ -1,5 +1,5 @@
 int __usercall _wcsicoll_l@<eax>(
-        unsigned int a1@<edi>,
+        int a1@<edi>,
         const wchar_t *_string1,
         const wchar_t *_string2,
         localeinfo_struct *plocinfo)
@@ -59,7 +59,7 @@ LABEL_20:
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, a1, (unsigned int)_string1);
+    _invalid_parameter(0, a1, (int)_string1);
   }
   if ( _loc_update.updated )
     _loc_update.ptd->_ownlocale &= ~2u;

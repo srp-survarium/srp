@@ -1,4 +1,4 @@
-char __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
+bool __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
         Scaleform::GFx::DisplayList *this,
         Scaleform::GFx::DisplayObjectBase *owner,
         unsigned int index)
@@ -15,8 +15,8 @@ char __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
   unsigned __int8 Flags; // al
   Scaleform::GFx::DisplayObjectBase *v15; // ebx
   unsigned __int8 v16; // al
-  Scaleform::GFx::DisplayList::DisplayEntry de; // [esp+10h] [ebp-Ch] BYREF
-  bool mayRemove; // [esp+20h] [ebp+4h]
+  Scaleform::GFx::DisplayList::DisplayEntry val; // [esp+10h] [ebp-Ch] BYREF
+  bool ownera; // [esp+20h] [ebp+4h]
 
   v4 = index;
   v5 = &this->DisplayObjectArray.Data.Data[index];
@@ -30,7 +30,7 @@ char __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
       return 0;
     v8 = pCharacter->OnUnloading(v5->pCharacter);
     pCharacter->Flags |= 0x1000u;
-    mayRemove = v8;
+    ownera = v8;
     if ( v8 )
     {
       pCharacter->OnEventUnload(pCharacter);
@@ -47,17 +47,17 @@ char __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
       if ( Depth >= 0 )
       {
         v11 = -1 - Depth;
-        Scaleform::GFx::DisplayList::DisplayEntry::DisplayEntry(&de, v5);
+        Scaleform::GFx::DisplayList::DisplayEntry::DisplayEntry(&val, v5);
         Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::DisplayList::DisplayEntry,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DisplayEntry,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
           &this->DisplayObjectArray,
           index);
-        v12 = de.pCharacter;
-        de.pCharacter->Depth = v11;
+        v12 = val.pCharacter;
+        val.pCharacter->Depth = v11;
         DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(this, v11);
         Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::DisplayList::DisplayEntry,Scaleform::AllocatorLH<Scaleform::GFx::DisplayList::DisplayEntry,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
           &this->DisplayObjectArray,
           DisplayIndex,
-          &de);
+          &val);
         Scaleform::RefCountNTSImpl::Release(v12);
       }
     }
@@ -65,7 +65,7 @@ char __thiscall Scaleform::GFx::DisplayList::UnloadDisplayObjectAtIndex(
     this->pCachedChar = 0;
     if ( (Flags & 2) != 0 )
       this->Flags = Flags | 1;
-    return mayRemove;
+    return ownera;
   }
   else
   {

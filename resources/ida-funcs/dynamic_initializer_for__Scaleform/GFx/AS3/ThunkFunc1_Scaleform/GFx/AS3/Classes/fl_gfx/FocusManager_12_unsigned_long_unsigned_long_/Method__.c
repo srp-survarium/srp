@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getControllerFocusGroup;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager,12,unsigned long,unsigned long>::Method) = Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getControllerFocusGroup;
-  dword_AAEB4C = 0;
+  dword_8F3304 = 0;
   return result;
 }

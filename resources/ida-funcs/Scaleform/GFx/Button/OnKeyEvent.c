@@ -64,7 +64,10 @@ char __thiscall Scaleform::GFx::Button::OnKeyEvent(
         *pkeyMask |= (unsigned int)&_sbh_sizeHeaderList;
     }
     pMovieImpl = this->pASRoot->pMovieImpl;
-    if ( Scaleform::GFx::MovieImpl::IsKeyboardFocused(pMovieImpl, this, id->ControllerIndex) )
+    if ( Scaleform::GFx::MovieImpl::IsKeyboardFocused(
+           pMovieImpl,
+           (Scaleform::GFx::Sprite *)this,
+           (Scaleform::Ptr<Scaleform::GFx::Sprite>)id->ControllerIndex) )
     {
       v11 = id->KeyCode;
       if ( (v11 == 13 || v11 == 32) && (this->IsFocusRectEnabled(this) || ((pMovieImpl->Flags >> 26) & 3) == 1) )

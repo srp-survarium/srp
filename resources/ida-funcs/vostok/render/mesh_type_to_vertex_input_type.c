@@ -1,34 +1,41 @@
-vostok::render::enum_vertex_input_type __usercall vostok::render::mesh_type_to_vertex_input_type@<eax>(
-        vostok::render::mesh_type_enum type@<eax>)
+int __usercall vostok::render::mesh_type_to_vertex_input_type@<eax>(int type@<eax>)
 {
-  vostok::render::enum_vertex_input_type result; // eax
+  int v2; // eax
+  int v3; // eax
 
-  switch ( byte_64F0F4[type] )
+  if ( type > 45 )
   {
-    case 0:
-      result = static_mesh_vertex_input_type;
-      break;
-    case 1:
-      result = static_mesh_vertex_colored_input_type;
-      break;
-    case 2:
-      result = skeletal_1_bones_mesh_vertex_input_type;
-      break;
-    case 3:
-      result = skeletal_2_bones_mesh_vertex_input_type;
-      break;
-    case 4:
-      result = skeletal_3_bones_mesh_vertex_input_type;
-      break;
-    case 5:
-      result = skeletal_4_bones_mesh_vertex_input_type;
-      break;
-    case 6:
-      result = wires_vertex_input_type;
-      break;
-    case 7:
-      result = grassmesh_vertex_input_type;
-      break;
+    v2 = type - 46;
+    if ( v2 )
+    {
+      v3 = v2 - 1;
+      if ( v3 )
+      {
+        if ( v3 == 54 )
+          return 0x2000;
+        else
+          return 2048;
+      }
+      else
+      {
+        return 8;
+      }
+    }
+    else
+    {
+      return 16;
+    }
   }
-  return result;
+  else if ( type == 45 )
+  {
+    return 32;
+  }
+  else if ( type <= 1 )
+  {
+    return 2;
+  }
+  else
+  {
+    return type == 2 ? 4 : 64;
+  }
 }

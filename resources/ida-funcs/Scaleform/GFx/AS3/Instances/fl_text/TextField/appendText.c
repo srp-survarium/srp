@@ -8,7 +8,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::appendText(
   pObject = (Scaleform::GFx::TextField *)this->pDispObj.pObject;
   if ( !Scaleform::GFx::TextField::HasStyleSheet(pObject) )
   {
-    Scaleform::Render::Text::DocView::AppendText(pObject->pDocument.pObject, newText->pNode->pData, 0xFFFFFFFF);
+    Scaleform::Render::Text::DocView::AppendText(pObject->pDocument.pObject, (char *)newText->pNode->pData, 0xFFFFFFFF);
     pObject->Flags |= (unsigned int)&_sbh_sizeHeaderList;
     Scaleform::GFx::TextField::SetDirtyFlag(pObject);
   }

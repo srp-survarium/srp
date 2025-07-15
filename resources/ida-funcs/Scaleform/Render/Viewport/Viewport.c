@@ -1,5 +1,37 @@
 void __thiscall Scaleform::Render::Viewport::Viewport(
         Scaleform::Render::Viewport *this,
+        const Scaleform::Render::Viewport *src)
+{
+  *this = *src;
+}
+
+
+void __thiscall Scaleform::Render::Viewport::Viewport(
+        Scaleform::Render::Viewport *this,
+        int bw,
+        int bh,
+        int left,
+        int top,
+        int w,
+        int h,
+        unsigned int flags)
+{
+  this->BufferWidth = bw;
+  this->BufferHeight = bh;
+  this->Left = left;
+  this->Top = top;
+  this->Width = w;
+  this->Height = h;
+  this->Flags = flags;
+  this->ScissorHeight = 0;
+  this->ScissorWidth = 0;
+  this->ScissorTop = 0;
+  this->ScissorLeft = 0;
+}
+
+
+void __thiscall Scaleform::Render::Viewport::Viewport(
+        Scaleform::Render::Viewport *this,
         Scaleform::Render::Size<int> bufferSize,
         Scaleform::Render::Rect<int> view,
         unsigned int flags)
@@ -15,4 +47,20 @@ void __thiscall Scaleform::Render::Viewport::Viewport(
   this->ScissorWidth = 0;
   this->ScissorTop = 0;
   this->ScissorLeft = 0;
+}
+
+
+void __thiscall Scaleform::Render::Viewport::Viewport(Scaleform::Render::Viewport *this)
+{
+  this->BufferWidth = 0;
+  this->BufferHeight = 0;
+  this->Top = 0;
+  this->Left = 0;
+  this->Height = 1;
+  this->Width = 1;
+  this->ScissorHeight = 0;
+  this->ScissorWidth = 0;
+  this->ScissorTop = 0;
+  this->ScissorLeft = 0;
+  this->Flags = 0;
 }

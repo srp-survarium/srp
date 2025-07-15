@@ -5,9 +5,9 @@ void __cdecl Scaleform::Render::ConvertIndices_SIMD(
         unsigned __int16 delta)
 {
   __m128i *v4; // eax
-  const __m128i *v5; // ecx
+  __m128i *v5; // ecx
   signed __int16 v6; // bx
-  unsigned __int16 *v7; // edi
+  __m128i *v7; // edi
   unsigned int v8; // edx
   unsigned int v9; // esi
   __m128i v10; // xmm0
@@ -22,7 +22,7 @@ void __cdecl Scaleform::Render::ConvertIndices_SIMD(
   else
   {
     v6 = delta;
-    v7 = (unsigned __int16 *)psource + count;
+    v7 = (__m128i *)((char *)psource + 2 * count);
     v8 = ((unsigned int)&pdest->m128i_u32[3] + 3) & 0xFFFFFFF0;
     v9 = ((unsigned int)pdest + 2 * count) & 0xFFFFFFF0;
     if ( v8 < v9 )
@@ -33,7 +33,7 @@ void __cdecl Scaleform::Render::ConvertIndices_SIMD(
         {
           v4 = (__m128i *)((char *)v4 + 2);
           v4[-1].m128i_i16[7] = delta + v5->m128i_i16[0];
-          v5 = (const __m128i *)((char *)v5 + 2);
+          v5 = (__m128i *)((char *)v5 + 2);
         }
         while ( (unsigned int)v4 < v8 );
         v6 = delta;
@@ -44,10 +44,10 @@ void __cdecl Scaleform::Render::ConvertIndices_SIMD(
         _mm_stream_si128(v4++, _mm_add_epi16(_mm_loadu_si128(v5++), v11));
       while ( (unsigned int)v4 < v9 );
     }
-    for ( ; v5 < (const __m128i *)v7; v4 = (__m128i *)((char *)v4 + 2) )
+    for ( ; v5 < v7; v4 = (__m128i *)((char *)v4 + 2) )
     {
       v4->m128i_i16[0] = v6 + v5->m128i_i16[0];
-      v5 = (const __m128i *)((char *)v5 + 2);
+      v5 = (__m128i *)((char *)v5 + 2);
     }
   }
 }

@@ -1,4 +1,4 @@
-void __usercall CRYPTO_lock(unsigned int a1@<edi>, int mode, int type, const char *file, int line)
+void __usercall CRYPTO_lock(int a1@<edi>, int a2@<ebx>, int mode, int type, char *file, int line)
 {
   CRYPTO_dynlock_value *dynlock_value; // eax
 
@@ -11,7 +11,7 @@ void __usercall CRYPTO_lock(unsigned int a1@<edi>, int mode, int type, const cha
   {
     dynlock_value = CRYPTO_get_dynlock_value(type);
     if ( !dynlock_value )
-      OpenSSLDie(a1, type, ".\\crypto\\cryptlib.c", 591, "pointer != NULL");
+      OpenSSLDie(a1, type, a2, ".\\crypto\\cryptlib.c", 591, "pointer != NULL");
     dynlock_lock_callback(mode, dynlock_value, file, line);
     CRYPTO_destroy_dynlockid(type);
   }

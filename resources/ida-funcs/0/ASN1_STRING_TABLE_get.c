@@ -1,20 +1,20 @@
-asn1_string_table_st *__cdecl ASN1_STRING_TABLE_get(int nid)
+asn1_string_table_st *__usercall ASN1_STRING_TABLE_get@<eax>(int a1@<edi>, int nid)
 {
   asn1_string_table_st *result; // eax
-  int v2; // eax
-  char key[20]; // [esp+0h] [ebp-14h] BYREF
+  int v3; // eax
+  char v4[20]; // [esp+0h] [ebp-14h] BYREF
 
-  *(_DWORD *)key = nid;
+  *(_DWORD *)v4 = nid;
   result = (asn1_string_table_st *)OBJ_bsearch_(
-                                     key,
+                                     v4,
                                      (char *)tbl_standard,
                                      19,
                                      20,
                                      (int (__cdecl *)(const void *, const void *))nid_cmp_BSEARCH_CMP_FN);
   if ( !result )
   {
-    if ( stable && (v2 = sk_find(&stable->stack, key), v2 >= 0) )
-      return (asn1_string_table_st *)sk_value(&stable->stack, v2);
+    if ( stable && (v3 = sk_find(a1, &stable->stack, v4), v3 >= 0) )
+      return (asn1_string_table_st *)sk_value(&stable->stack, v3);
     else
       return 0;
   }

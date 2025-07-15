@@ -1,27 +1,27 @@
 BOOL __cdecl Scaleform::Render::Tessellator::cmpMonoChains(
-        const Scaleform::Render::Tessellator::MonoChainType *a,
-        const Scaleform::Render::Tessellator::MonoChainType *b)
+        const Scaleform::Render::Tessellator::MonoChainType *a1,
+        const Scaleform::Render::Tessellator::MonoChainType *a2)
 {
   double xt; // st7
   double xb; // st6
 
-  if ( b->ySort == a->ySort )
+  if ( a2->ySort == a1->ySort )
   {
-    if ( b->xb == a->xb )
+    if ( a2->xb == a1->xb )
     {
-      xt = a->xt;
-      xb = b->xt;
+      xt = a1->xt;
+      xb = a2->xt;
     }
     else
     {
-      xt = a->xb;
-      xb = b->xb;
+      xt = a1->xb;
+      xb = a2->xb;
     }
   }
   else
   {
-    xt = a->ySort;
-    xb = b->ySort;
+    xt = a1->ySort;
+    xb = a2->ySort;
   }
   return xb > xt;
 }

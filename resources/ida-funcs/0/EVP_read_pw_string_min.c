@@ -10,7 +10,7 @@ int __cdecl EVP_read_pw_string_min(char *buf, int min, int len, char *prompt, in
   v5 = prompt;
   if ( !prompt && prompt_string[0] )
     v5 = prompt_string;
-  v6 = UI_new();
+  v6 = UI_new((int)v5);
   v7 = len;
   if ( len >= 512 )
     v7 = 511;
@@ -23,7 +23,7 @@ int __cdecl EVP_read_pw_string_min(char *buf, int min, int len, char *prompt, in
     UI_add_verify_string(v6, v5, 0, v11, min, v8, buf);
   }
   v9 = UI_process(v6);
-  UI_free(v6);
+  UI_free(v9, v6);
   OPENSSL_cleanse(v11, 512);
   return v9;
 }

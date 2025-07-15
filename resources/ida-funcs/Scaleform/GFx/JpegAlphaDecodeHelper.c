@@ -1,14 +1,14 @@
 bool __cdecl Scaleform::GFx::JpegAlphaDecodeHelper(
         Scaleform::Render::ImageFormat format,
         Scaleform::Render::JPEG::Input *jin,
-        unsigned __int8 *alphaZlibData,
+        const unsigned __int8 *alphaZlibData,
         int alphaZlibDataSize,
         Scaleform::Render::ImageData *pdest,
         void (__stdcall *copyScanline)(unsigned __int8 *, const unsigned __int8 *, unsigned int, Scaleform::Render::Palette *, void *),
         void *arg)
 {
-  Scaleform::GFx::ZlibSupportBase *zlib; // ecx
-  Scaleform::GFx::ZlibSupportBase *v8; // esi
+  int v7; // ecx
+  int v8; // esi
   Scaleform::File *v9; // esi
   bool (__thiscall *HasError)(Scaleform::Render::JPEG::Input *); // edx
   int v11; // ebx
@@ -23,11 +23,11 @@ bool __cdecl Scaleform::GFx::JpegAlphaDecodeHelper(
   Scaleform::MemoryFile v21; // [esp+1Ch] [ebp-3510h] BYREF
   Scaleform::GFx::Params params; // [esp+38h] [ebp-34F4h] BYREF
 
-  v8 = zlib;
+  v8 = v7;
   jin->GetSize(jin, (Scaleform::Render::Size<unsigned long> *)&width);
-  Scaleform::MemoryFile::MemoryFile(&v21, (const char *)&buf, alphaZlibData, alphaZlibDataSize);
+  Scaleform::MemoryFile::MemoryFile(&v21, (char *)uri, alphaZlibData, alphaZlibDataSize);
   Scaleform::GFx::`anonymous namespace'::Params::Params(&params, jin, width, format);
-  v9 = v8->CreateZlibFile(v8, &v21);
+  v9 = (Scaleform::File *)(*(int (__thiscall **)(int, Scaleform::MemoryFile *))(*(_DWORD *)v8 + 4))(v8, &v21);
   if ( params.ZlibFile.pObject )
     Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)params.ZlibFile.pObject);
   HasError = jin->HasError;

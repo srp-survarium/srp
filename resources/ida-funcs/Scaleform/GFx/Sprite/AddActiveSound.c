@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::Sprite::AddActiveSound(
         Scaleform::GFx::Sprite *this,
-        Scaleform::Sound::SoundChannel *pchan,
+        Scaleform::GFx::Resource *pchan,
         Scaleform::GFx::ASSoundIntf *psobj,
         Scaleform::RefCountNTSImpl_vtbl *pres)
 {
@@ -20,14 +20,14 @@ void __thiscall Scaleform::GFx::Sprite::AddActiveSound(
   unsigned int v17; // eax
   Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,Scaleform::AllocatorLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits>,2>,Scaleform::ArrayDefaultPolicy> *v18; // esi
   unsigned int v19; // edi
-  Scaleform::Sound::SoundChannel *v20; // eax
+  Scaleform::GFx::Resource *v20; // eax
   Scaleform::RefCountNTSImpl **v21; // ebp
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *v22; // edx
   Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *v23; // edi
   unsigned int Flags; // eax
   bool v25; // al
   int v26; // eax
-  Scaleform::Sound::SoundChannel *pchana; // [esp+1Ch] [ebp+4h]
+  Scaleform::GFx::Resource *v28; // [esp+1Ch] [ebp+4h]
 
   v4 = this;
   if ( !this->pActiveSounds )
@@ -60,7 +60,7 @@ void __thiscall Scaleform::GFx::Sprite::AddActiveSound(
     goto LABEL_14;
   Data = pActiveSounds->Sounds.Data.Data;
   v9 = Data;
-  while ( v9->pObject->pChannel.pObject != pchan )
+  while ( (Scaleform::GFx::Resource *)v9->pObject->pChannel.pObject != pchan )
   {
     ++v7;
     ++v9;
@@ -92,7 +92,7 @@ LABEL_14:
       v13 = 0;
     }
     if ( pchan )
-      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pchan);
+      Scaleform::RefCountImpl::AddRef(pchan);
     pNext = (Scaleform::RefCountVImpl *)v13->pNext;
     if ( pNext )
       Scaleform::RefCountImpl::Release(pNext);
@@ -112,19 +112,19 @@ LABEL_14:
     }
     else
     {
-      v20 = (Scaleform::Sound::SoundChannel *)(v17 - v19);
+      v20 = (Scaleform::GFx::Resource *)(v17 - v19);
       v21 = (Scaleform::RefCountNTSImpl **)&v18->Data[(_DWORD)v20 + v19 - 1];
       if ( v20 )
       {
-        pchana = v20;
+        v28 = v20;
         do
         {
           if ( *v21 )
             Scaleform::RefCountNTSImpl::Release(*v21);
           --v21;
-          pchana = (Scaleform::Sound::SoundChannel *)((char *)pchana - 1);
+          v28 = (Scaleform::GFx::Resource *)((char *)v28 - 1);
         }
-        while ( pchana );
+        while ( v28 );
       }
       if ( v19 < v18->Policy.Capacity >> 1 )
         Scaleform::ArrayDataBase<Scaleform::Render::Text::LineBuffer::Line *,Scaleform::AllocatorLH<Scaleform::Render::Text::LineBuffer::Line *,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
@@ -147,7 +147,7 @@ LABEL_14:
     v26 = Scaleform::GFx::Sprite::CheckAdvanceStatus(v4, v25);
     if ( v26 == -1 )
     {
-      v4->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+      v4->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Flags |= (unsigned int)&loc_400000;
     }
     else if ( v26 == 1 )
     {

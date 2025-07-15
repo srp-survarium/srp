@@ -1,4 +1,4 @@
-void __usercall RSA_free(unsigned int a1@<edi>, rsa_st *r)
+void __usercall RSA_free(int a1@<edi>, int a2@<ebx>, rsa_st *r)
 {
   int (__cdecl *finish)(rsa_st *); // eax
 
@@ -8,8 +8,8 @@ void __usercall RSA_free(unsigned int a1@<edi>, rsa_st *r)
     if ( finish )
       finish(r);
     if ( r->engine )
-      ENGINE_finish(a1, r->engine);
-    CRYPTO_free_ex_data(a1);
+      ENGINE_finish(a1, a2, r->engine);
+    CRYPTO_free_ex_data(a1, a2);
     if ( r->n )
       BN_clear_free(r->n);
     if ( r->e )

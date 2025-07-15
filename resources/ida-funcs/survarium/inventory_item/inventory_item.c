@@ -1,13 +1,16 @@
-void __thiscall survarium::inventory_item::inventory_item(
-        survarium::inventory_item *this,
-        survarium::inventory_item::action_behaviour_type type)
+void __userpurge survarium::inventory_item::inventory_item(
+        survarium::inventory_item *this@<ecx>,
+        int a2@<esi>,
+        survarium::inventory_item::action_behaviour_type type,
+        bool need_to_serialize)
 {
-  survarium::interactive_object::interactive_object(this, this);
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&this->m_action_behaviuor);
-  this->__vftable = (survarium::inventory_item_vtbl *)&survarium::inventory_item::`vftable';
-  this->m_action_behaviuor = type;
-  this->m_inventory = 0;
-  this->m_slot_id = max_slots_count;
-  this->m_amount = 0;
-  this->m_dict_id = 0;
+  vostok::resources::unmanaged_resource::unmanaged_resource(this, (_DWORD *)a2, fs_iterator_class);
+  *(_DWORD *)(a2 + 264) = 0;
+  *(_DWORD *)(a2 + 272) = 0;
+  *(_DWORD *)(a2 + 268) = type;
+  *(_WORD *)(a2 + 280) = 0;
+  *(_WORD *)(a2 + 282) = 0;
+  *(_BYTE *)(a2 + 284) = need_to_serialize;
+  *(_DWORD *)a2 = &survarium::inventory_item::`vftable';
+  *(_DWORD *)(a2 + 276) = 23;
 }

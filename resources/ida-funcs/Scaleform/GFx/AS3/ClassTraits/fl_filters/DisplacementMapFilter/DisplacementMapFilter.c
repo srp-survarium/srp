@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFil
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_filters::DisplacementMapFilterCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilter_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilter_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilter::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
@@ -54,7 +54,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFil
         return;
       }
       RefCount = v9->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v9->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);

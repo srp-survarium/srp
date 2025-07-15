@@ -1,318 +1,366 @@
 bool __thiscall Scaleform::GFx::ShapeSwfReader::Read(
         Scaleform::GFx::ShapeSwfReader *this,
-        Scaleform::GFx::LoadProcess *p,
-        Scaleform::Render::FillStyleType *tagType,
+        __int64 p,
         unsigned int lenInBytes,
         bool withStyle)
 {
-  Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // edi
-  int v7; // esi
+  Scaleform::GFx::Stream *v5; // edi
+  int v6; // esi
+  int v7; // eax
   int v8; // eax
-  int v9; // eax
-  unsigned int v10; // ebx
-  unsigned __int8 *v11; // eax
-  Scaleform::MemoryHeap *pHeap; // esi
+  unsigned int v9; // ebx
+  unsigned __int8 *v10; // eax
+  Scaleform::MemoryHeap *v12; // esi
   Scaleform::Log *Namespace; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v15; // ecx
+  int v14; // esi
+  int v15; // eax
   bool v16; // bl
   int v17; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v18; // ecx
-  unsigned int v19; // esi
-  unsigned int v20; // edi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *FillStyles; // eax
-  unsigned int v22; // esi
+  int v18; // esi
+  int v19; // ebx
+  int v20; // ebx
+  int v21; // eax
+  int v22; // ebx
+  unsigned int v23; // edi
+  int FillStyles; // eax
+  unsigned int v25; // esi
   int StrokeStyles; // eax
-  unsigned int v24; // ebx
-  unsigned int v25; // edi
-  unsigned int v26; // esi
-  int v27; // edi
-  int v28; // ebx
+  unsigned int v27; // ebx
+  unsigned int v28; // edi
   int v29; // esi
-  unsigned int v30; // esi
+  int v30; // edi
   int v31; // ebx
-  int v32; // edi
-  unsigned int v33; // ecx
-  unsigned int v34; // eax
-  Scaleform::GFx::ParseControl *pParseControl; // [esp+386Ch] [ebp-2D4h]
-  char v36; // [esp+3888h] [ebp-2B8h]
-  unsigned int v37; // [esp+3888h] [ebp-2B8h]
-  int v38; // [esp+3888h] [ebp-2B8h]
-  int v39; // [esp+388Ch] [ebp-2B4h]
-  int v40; // [esp+3890h] [ebp-2B0h]
-  int v41; // [esp+3898h] [ebp-2A8h]
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v42; // [esp+389Ch] [ebp-2A4h]
-  unsigned __int8 *pbuffer; // [esp+38A0h] [ebp-2A0h]
-  signed int bitcount; // [esp+38A4h] [ebp-29Ch]
-  signed int bitcounta; // [esp+38A4h] [ebp-29Ch]
-  Scaleform::GFx::SWFProcessInfo *pAltStream; // [esp+38A8h] [ebp-298h]
-  signed int Size; // [esp+38B0h] [ebp-290h]
-  unsigned int v49; // [esp+38B8h] [ebp-288h]
-  Scaleform::GFx::PathAllocator *pAllocator; // [esp+38BCh] [ebp-284h]
-  signed int v51; // [esp+38C0h] [ebp-280h]
-  int v52; // [esp+38C4h] [ebp-27Ch]
-  signed int v53; // [esp+38C8h] [ebp-278h]
-  unsigned int oldSize; // [esp+38CCh] [ebp-274h]
-  Scaleform::Render::Rect<float> pr; // [esp+38D0h] [ebp-270h] BYREF
-  Scaleform::Render::Rect<float> v56; // [esp+38E0h] [ebp-260h] BYREF
-  Scaleform::GFx::Stream v57; // [esp+38F8h] [ebp-248h] BYREF
+  int v32; // esi
+  int v33; // esi
+  int v34; // ebx
+  int v35; // edi
+  unsigned int v36; // ecx
+  unsigned int v37; // eax
+  Scaleform::GFx::ParseControl *pParseControl; // [esp+2Ch] [ebp-2D4h]
+  char v39; // [esp+48h] [ebp-2B8h]
+  unsigned int v40; // [esp+48h] [ebp-2B8h]
+  int v41; // [esp+48h] [ebp-2B8h]
+  int v42; // [esp+4Ch] [ebp-2B4h]
+  int v43; // [esp+50h] [ebp-2B0h]
+  int v44; // [esp+58h] [ebp-2A8h]
+  int v45; // [esp+5Ch] [ebp-2A4h]
+  unsigned __int8 *ptr; // [esp+60h] [ebp-2A0h]
+  int v47; // [esp+64h] [ebp-29Ch]
+  signed int v48; // [esp+64h] [ebp-29Ch]
+  Scaleform::GFx::Stream *v49; // [esp+68h] [ebp-298h]
+  signed int Size; // [esp+70h] [ebp-290h]
+  float v52; // [esp+74h] [ebp-28Ch]
+  unsigned int v53; // [esp+78h] [ebp-288h]
+  Scaleform::GFx::PathAllocator *pAllocator; // [esp+7Ch] [ebp-284h]
+  signed int v55; // [esp+80h] [ebp-280h]
+  int v56; // [esp+84h] [ebp-27Ch]
+  int v57; // [esp+88h] [ebp-278h]
+  unsigned int oldSize; // [esp+8Ch] [ebp-274h]
+  Scaleform::Render::Rect<float> pr; // [esp+90h] [ebp-270h] BYREF
+  Scaleform::Render::Rect<float> v60; // [esp+A0h] [ebp-260h] BYREF
+  Scaleform::GFx::Stream v61; // [esp+B8h] [ebp-248h] BYREF
 
   if ( this->pAllocator )
     pAllocator = this->pAllocator;
   else
-    pAllocator = p->pLoadData.pObject->pPathAllocator;
-  if ( p->pAltStream )
+    pAllocator = *(Scaleform::GFx::PathAllocator **)(*(_DWORD *)(p + 32) + 24);
+  if ( *(_DWORD *)(p + 852) )
   {
-    pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
-    p_ProcessInfo = pAltStream;
+    v49 = *(Scaleform::GFx::Stream **)(p + 852);
+    v5 = v49;
   }
   else
   {
-    p_ProcessInfo = &p->ProcessInfo;
-    pAltStream = &p->ProcessInfo;
+    v5 = (Scaleform::GFx::Stream *)(p + 48);
+    v49 = (Scaleform::GFx::Stream *)(p + 48);
   }
   this->Shape->Flags = 0;
   if ( withStyle )
   {
-    v7 = p_ProcessInfo->Stream.FilePos + p_ProcessInfo->Stream.Pos - p_ProcessInfo->Stream.DataSize;
+    v6 = v5->FilePos + v5->Pos - v5->DataSize;
     this->Shape->Flags |= 0x10u;
     pr.x1 = 0.0;
     pr.y1 = 0.0;
     pr.x2 = 0.0;
     pr.y2 = 0.0;
-    Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &pr);
+    Scaleform::GFx::Stream::ReadRect(v5, &pr);
     this->Shape->SetBoundsLocal(this->Shape, &pr);
-    if ( tagType == (Scaleform::Render::FillStyleType *)83 || tagType == (Scaleform::Render::FillStyleType *)75 )
+    if ( HIDWORD(p) == 83 || HIDWORD(p) == 75 )
     {
-      v56.x1 = 0.0;
-      v56.y1 = 0.0;
-      v56.x2 = 0.0;
-      v56.y2 = 0.0;
-      Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v56);
-      this->Shape->SetRectBoundsLocal(this->Shape, &v56);
-      v8 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
-      p_ProcessInfo->Stream.UnusedBits = 0;
-      if ( v8 < 1 )
-        Scaleform::GFx::Stream::PopulateBuffer1(&p_ProcessInfo->Stream);
-      ++p_ProcessInfo->Stream.Pos;
+      v60.x1 = 0.0;
+      v60.y1 = 0.0;
+      v60.x2 = 0.0;
+      v60.y2 = 0.0;
+      Scaleform::GFx::Stream::ReadRect(v5, &v60);
+      this->Shape->SetRectBoundsLocal(this->Shape, &v60);
+      v7 = v5->DataSize - v5->Pos;
+      v5->UnusedBits = 0;
+      if ( v7 < 1 )
+        Scaleform::GFx::Stream::PopulateBuffer1(v5);
+      ++v5->Pos;
     }
     else
     {
       this->Shape->SetRectBoundsLocal(this->Shape, &pr);
     }
-    Scaleform::GFx::ShapeSwfReader::ReadFillStyles(this, p, (Scaleform::GFx::TagType)tagType);
-    Scaleform::GFx::ShapeSwfReader::ReadStrokeStyles(this, p, tagType);
-    v9 = p_ProcessInfo->Stream.FilePos + p_ProcessInfo->Stream.Pos - p_ProcessInfo->Stream.DataSize - v7;
+    Scaleform::GFx::ShapeSwfReader::ReadFillStyles(this, (Scaleform::GFx::LoadProcess *)p, SHIDWORD(p));
+    Scaleform::GFx::ShapeSwfReader::ReadStrokeStyles(this, (Scaleform::GFx::LoadProcess *)p, (unsigned int *)HIDWORD(p));
+    v8 = v5->FilePos + v5->Pos - v5->DataSize - v6;
   }
   else
   {
-    v9 = 0;
+    v8 = 0;
   }
-  v10 = lenInBytes - v9;
-  v52 = lenInBytes - v9;
-  oldSize = lenInBytes - v9;
-  v49 = lenInBytes - v9;
-  v11 = Scaleform::GFx::PathAllocator::AllocRawPath(pAllocator, lenInBytes - v9);
-  pbuffer = v11;
-  if ( !v11 )
+  v9 = lenInBytes - v8;
+  v56 = lenInBytes - v8;
+  oldSize = lenInBytes - v8;
+  v53 = lenInBytes - v8;
+  v10 = (unsigned __int8 *)Scaleform::GFx::PathAllocator::AllocRawPath(pAllocator, lenInBytes - v8);
+  ptr = v10;
+  if ( !v10 )
   {
     Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogWarning(
-      &p_ProcessInfo->Stream,
+      v5,
       "Corrupted shape detected in file %s",
-      (const char *)((p_ProcessInfo->Stream.FileName.HeapTypeBits & 0xFFFFFFFC) + 8));
+      (const char *)((v5->FileName.HeapTypeBits & 0xFFFFFFFC) + 8));
     return 0;
   }
-  p_ProcessInfo->Stream.UnusedBits = 0;
-  Scaleform::GFx::Stream::ReadToBuffer(&p_ProcessInfo->Stream, v11, v10);
-  if ( tagType == (Scaleform::Render::FillStyleType *)75 )
-    this->Shape->Flags |= 2u;
-  pHeap = p->pLoadData.pObject->pHeap;
-  pParseControl = p_ProcessInfo->Stream.pParseControl;
-  Namespace = (Scaleform::Log *)Scaleform::GFx::AS3::Multiname::GetNamespace((Scaleform::GFx::AS3::SoundObject *)p_ProcessInfo);
-  Scaleform::GFx::Stream::Stream(&v57, pbuffer, v10, pHeap, Namespace, pParseControl);
-  p->pAltStream = &v57;
-  v57.UnusedBits = 0;
-  bitcount = Scaleform::GFx::Stream::ReadUInt(&v57, 4);
-  v53 = Scaleform::GFx::Stream::ReadUInt(&v57, 4);
-  if ( withStyle )
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v15);
-  v42 = 0;
-  v41 = 0;
-  v39 = 0;
-  v40 = 0;
-  v16 = 0;
-  while ( Scaleform::GFx::Stream::ReadUInt1(&v57) )
+  v5->UnusedBits = 0;
+  Scaleform::GFx::Stream::ReadToBuffer(v5, v10, v9);
+  v52 = 1.0;
+  if ( HIDWORD(p) == 75 )
   {
-    ++v39;
-    if ( Scaleform::GFx::Stream::ReadUInt1(&v57) )
-    {
-      v30 = Scaleform::GFx::Stream::ReadUInt(&v57, 4) + 2;
-      v31 = 0;
-      v32 = 0;
-      if ( Scaleform::GFx::Stream::ReadUInt1(&v57) )
-      {
-        v31 = Scaleform::GFx::Stream::ReadSInt(&v57, v30);
-        goto LABEL_72;
-      }
-      if ( Scaleform::GFx::Stream::ReadUInt1(&v57) )
-LABEL_72:
-        v32 = Scaleform::GFx::Stream::ReadSInt(&v57, v30);
-      else
-        v31 = Scaleform::GFx::Stream::ReadSInt(&v57, v30);
-      if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v42);
-      v42 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)v42 + v31);
-      v41 += v32;
-      goto LABEL_76;
-    }
-    v26 = Scaleform::GFx::Stream::ReadUInt(&v57, 4) + 2;
-    v27 = Scaleform::GFx::Stream::ReadSInt(&v57, v26);
-    v28 = Scaleform::GFx::Stream::ReadSInt(&v57, v26);
-    v38 = Scaleform::GFx::Stream::ReadSInt(&v57, v26);
-    v29 = Scaleform::GFx::Stream::ReadSInt(&v57, v26);
-    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)(v28 + v41));
-    v42 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)v42 + v27 + v38);
-    v41 += v28 + v29;
-LABEL_76:
-    p_ProcessInfo = pAltStream;
-LABEL_77:
-    v33 = v57.FilePos + v57.Pos - v57.DataSize;
-    v16 = v33 > v49;
-    if ( v33 > v49 )
-      goto LABEL_82;
+    v52 = 0.050000001;
+    this->Shape->Flags |= 2u;
   }
-  v17 = Scaleform::GFx::Stream::ReadUInt(&v57, 5);
-  v36 = v17;
+  v12 = *(Scaleform::MemoryHeap **)(*(_DWORD *)(p + 32) + 28);
+  pParseControl = v5->pParseControl;
+  Namespace = (Scaleform::Log *)Scaleform::GFx::AS3::Multiname::GetNamespace((Scaleform::GFx::AS3::SoundObject *)v5);
+  Scaleform::GFx::Stream::Stream(&v61, ptr, v9, v12, Namespace, pParseControl);
+  *(_DWORD *)(p + 852) = &v61;
+  v61.UnusedBits = 0;
+  v14 = Scaleform::GFx::Stream::ReadUInt(&v61, 4);
+  v47 = v14;
+  v15 = Scaleform::GFx::Stream::ReadUInt(&v61, 4);
+  v57 = v15;
+  if ( withStyle )
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      &v61,
+      "  ShapeCharacter read: nfillbits = %d, nlinebits = %d\n",
+      v14,
+      v15);
+  Size = 0;
+  v55 = 0;
+  v45 = 0;
+  v44 = 0;
+  v42 = 0;
+  v43 = 0;
+  v16 = 0;
+  while ( Scaleform::GFx::Stream::ReadUInt1(&v61) )
+  {
+    ++v42;
+    if ( Scaleform::GFx::Stream::ReadUInt1(&v61) )
+    {
+      v33 = Scaleform::GFx::Stream::ReadUInt(&v61, 4) + 2;
+      v34 = 0;
+      v35 = 0;
+      if ( Scaleform::GFx::Stream::ReadUInt1(&v61) )
+      {
+        v34 = Scaleform::GFx::Stream::ReadSInt(&v61, v33);
+        goto LABEL_78;
+      }
+      if ( Scaleform::GFx::Stream::ReadUInt1(&v61) )
+LABEL_78:
+        v35 = Scaleform::GFx::Stream::ReadSInt(&v61, v33);
+      else
+        v34 = Scaleform::GFx::Stream::ReadSInt(&v61, v33);
+      if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(
+          &v61,
+          "  ShapeCharacter read: straight edge = %4g %4g - %4g %4g\n",
+          v52 * (double)v45,
+          (double)v44 * v52,
+          (double)(v34 + v45) * v52,
+          (double)(v35 + v44) * v52);
+      v45 += v34;
+      v44 += v35;
+      goto LABEL_82;
+    }
+    v29 = Scaleform::GFx::Stream::ReadUInt(&v61, 4) + 2;
+    v30 = Scaleform::GFx::Stream::ReadSInt(&v61, v29);
+    v31 = Scaleform::GFx::Stream::ReadSInt(&v61, v29);
+    v41 = Scaleform::GFx::Stream::ReadSInt(&v61, v29);
+    v32 = Scaleform::GFx::Stream::ReadSInt(&v61, v29);
+    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(
+        &v61,
+        "  ShapeCharacter read: curved edge   = %4g %4g - %4g %4g - %4g %4g\n",
+        v52 * (double)v45,
+        (double)v44 * v52,
+        (double)(v30 + v45) * v52,
+        (double)(v31 + v44) * v52,
+        (double)(v45 + v41 + v30) * v52,
+        (double)(v44 + v32 + v31) * v52);
+    v45 += v30 + v41;
+    v44 += v31 + v32;
+LABEL_82:
+    v5 = v49;
+LABEL_83:
+    v36 = v61.FilePos + v61.Pos - v61.DataSize;
+    v16 = v36 > v53;
+    if ( v36 > v53 )
+      goto LABEL_88;
+  }
+  v17 = Scaleform::GFx::Stream::ReadUInt(&v61, 5);
+  v39 = v17;
   if ( !v17 )
-    goto LABEL_82;
+    goto LABEL_88;
   if ( (v17 & 1) != 0 )
   {
-    if ( v39 > 0 )
+    if ( v42 > 0 )
     {
-      ++v40;
-      v39 = 0;
+      ++v43;
+      v42 = 0;
     }
-    v19 = Scaleform::GFx::Stream::ReadUInt(&v57, 5);
-    v42 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)Scaleform::GFx::Stream::ReadSInt(&v57, v19);
-    v41 = Scaleform::GFx::Stream::ReadSInt(&v57, v19);
-    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)&v57);
+    v18 = Scaleform::GFx::Stream::ReadUInt(&v61, 5);
+    v45 = Scaleform::GFx::Stream::ReadSInt(&v61, v18);
+    v44 = Scaleform::GFx::Stream::ReadSInt(&v61, v18);
+    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(
+        &v61,
+        "  ShapeCharacter read: moveto %4g %4g\n",
+        v52 * (double)v45,
+        (double)v44 * v52);
   }
-  if ( (v36 & 2) != 0 && bitcount > 0 )
+  if ( (v39 & 2) != 0 && v47 > 0 )
   {
-    if ( v39 > 0 )
+    if ( v42 > 0 )
     {
-      ++v40;
-      v39 = 0;
+      ++v43;
+      v42 = 0;
     }
-    Scaleform::GFx::Stream::ReadUInt(&v57, bitcount);
-    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v18);
-  }
-  if ( (v36 & 4) != 0 && bitcount > 0 )
-  {
-    if ( v39 > 0 )
+    v19 = Scaleform::GFx::Stream::ReadUInt(&v61, v47);
+    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
     {
-      ++v40;
-      v39 = 0;
+      if ( v19 > 0 )
+        v19 += Size;
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(&v61, "  ShapeCharacter read: fill0 = %d\n", v19);
     }
-    Scaleform::GFx::Stream::ReadUInt(&v57, bitcount);
-    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v18);
   }
-  if ( (v36 & 8) != 0 && v53 > 0 )
+  if ( (v39 & 4) != 0 && v47 > 0 )
   {
-    if ( v39 > 0 )
+    if ( v42 > 0 )
     {
-      ++v40;
-      v39 = 0;
+      ++v43;
+      v42 = 0;
     }
-    Scaleform::GFx::Stream::ReadUInt(&v57, v53);
-    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v57) )
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)&v57);
+    v20 = Scaleform::GFx::Stream::ReadUInt(&v61, v47);
+    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
+    {
+      if ( v20 > 0 )
+        v20 += Size;
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(&v61, "  ShapeCharacter read: fill1 = %d\n", v20);
+    }
   }
-  if ( (v36 & 0x10) == 0 )
-    goto LABEL_77;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v18);
-  if ( v40 > 0 )
-    v40 = 0;
-  if ( v39 > 0 )
+  if ( (v39 & 8) != 0 && v57 > 0 )
   {
-    ++v40;
-    v39 = 0;
+    if ( v42 > 0 )
+    {
+      ++v43;
+      v42 = 0;
+    }
+    v21 = Scaleform::GFx::Stream::ReadUInt(&v61, v57);
+    v22 = v21;
+    if ( v21 > 0 )
+      v22 = v55 + v21;
+    if ( (unsigned __int8)Scaleform::GFx::Stream::IsVerboseParseShape(&v61) )
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(&v61, "  ShapeCharacter read: line = %d\n", v22);
   }
-  v20 = v57.FilePos + v57.Pos - v57.DataSize;
+  if ( (v39 & 0x10) == 0 )
+    goto LABEL_83;
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&v61, "  ShapeCharacter read: more fill styles\n");
+  if ( v43 > 0 )
+    v43 = 0;
+  if ( v42 > 0 )
+  {
+    ++v43;
+    v42 = 0;
+  }
+  v23 = v61.FilePos + v61.Pos - v61.DataSize;
   Size = this->FillStyles.Data.Size;
-  v51 = this->StrokeStyles.Data.Size;
-  FillStyles = Scaleform::GFx::ShapeSwfReader::ReadFillStyles(this, p, (Scaleform::GFx::TagType)tagType);
-  v22 = v57.FilePos + v57.Pos - v57.DataSize;
-  bitcounta = (signed int)FillStyles;
-  StrokeStyles = Scaleform::GFx::ShapeSwfReader::ReadStrokeStyles(this, p, tagType);
-  v24 = v57.FilePos + v57.Pos - v57.DataSize;
-  v37 = StrokeStyles;
-  if ( bitcounta == v22 )
-    goto LABEL_59;
-  if ( bitcounta <= (int)v22 && v22 <= v49 )
+  v55 = this->StrokeStyles.Data.Size;
+  FillStyles = Scaleform::GFx::ShapeSwfReader::ReadFillStyles(this, (Scaleform::GFx::LoadProcess *)p, SHIDWORD(p));
+  v25 = v61.FilePos + v61.Pos - v61.DataSize;
+  v48 = FillStyles;
+  StrokeStyles = Scaleform::GFx::ShapeSwfReader::ReadStrokeStyles(
+                   this,
+                   (Scaleform::GFx::LoadProcess *)p,
+                   (unsigned int *)HIDWORD(p));
+  v27 = v61.FilePos + v61.Pos - v61.DataSize;
+  v40 = StrokeStyles;
+  if ( v48 == v25 )
+    goto LABEL_65;
+  if ( v48 <= (int)v25 && v25 <= v53 )
   {
     if ( (signed int)this->FillStyles.Data.Size > Size )
     {
-      pbuffer[v20 + 1] = BYTE2(Size);
-      pbuffer[v20 + 2] = BYTE1(Size);
-      pbuffer[v20] = -1;
-      pbuffer[v20 + 3] = Size;
-      bitcounta = v20 + 4;
+      ptr[v23 + 1] = BYTE2(Size);
+      ptr[v23 + 2] = BYTE1(Size);
+      ptr[v23] = -1;
+      ptr[v23 + 3] = Size;
+      v48 = v23 + 4;
     }
-    v25 = StrokeStyles - v22;
-    memmove(&pbuffer[bitcounta], &pbuffer[v22], StrokeStyles - v22);
-    v22 = bitcounta;
-    v37 = bitcounta + v25;
-    StrokeStyles = bitcounta + v25;
-LABEL_59:
-    if ( StrokeStyles != v24 )
+    v28 = StrokeStyles - v25;
+    memmove((int)&ptr[v48], (const __m128i *)&ptr[v25], StrokeStyles - v25);
+    v25 = v48;
+    v40 = v48 + v28;
+    StrokeStyles = v48 + v28;
+LABEL_65:
+    if ( StrokeStyles != v27 )
     {
-      if ( StrokeStyles > (int)v24 || v24 > v49 )
-        goto LABEL_81;
-      if ( (signed int)this->StrokeStyles.Data.Size > v51 )
+      if ( StrokeStyles > (int)v27 || v27 > v53 )
+        goto LABEL_87;
+      if ( (signed int)this->StrokeStyles.Data.Size > v55 )
       {
-        pbuffer[v22 + 1] = BYTE2(v51);
-        pbuffer[v22 + 2] = BYTE1(v51);
-        pbuffer[v22] = -1;
-        pbuffer[v22 + 3] = v51;
-        v37 = v22 + 4;
-        StrokeStyles = v22 + 4;
+        ptr[v25 + 1] = BYTE2(v55);
+        ptr[v25 + 2] = BYTE1(v55);
+        ptr[v25] = -1;
+        ptr[v25 + 3] = v55;
+        v40 = v25 + 4;
+        StrokeStyles = v25 + 4;
       }
-      memmove(&pbuffer[StrokeStyles], &pbuffer[v24], v52 - v24);
-      StrokeStyles = v37;
-      v52 += v37 - v24;
+      memmove((int)&ptr[StrokeStyles], (const __m128i *)&ptr[v27], v56 - v27);
+      StrokeStyles = v40;
+      v56 += v40 - v27;
     }
-    Scaleform::GFx::Stream::SetPosition(&v57, StrokeStyles);
-    bitcount = Scaleform::GFx::Stream::ReadUInt(&v57, 4);
-    v53 = Scaleform::GFx::Stream::ReadUInt(&v57, 4);
-    goto LABEL_76;
+    Scaleform::GFx::Stream::SetPosition(&v61, StrokeStyles);
+    v47 = Scaleform::GFx::Stream::ReadUInt(&v61, 4);
+    v57 = Scaleform::GFx::Stream::ReadUInt(&v61, 4);
+    goto LABEL_82;
   }
-LABEL_81:
-  p_ProcessInfo = pAltStream;
+LABEL_87:
+  v5 = v49;
   v16 = 1;
-LABEL_82:
-  v34 = v52 + oldSize - v49;
-  if ( v16 || v34 >= 0x200000 )
+LABEL_88:
+  v37 = v56 + oldSize - v53;
+  if ( v16 || v37 >= (unsigned int)&loc_200000 )
   {
     v16 = 1;
     Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogWarning(
-      &v57,
+      &v61,
       "Corrupted shape detected in file %s",
-      (const char *)((p_ProcessInfo->Stream.FileName.HeapTypeBits & 0xFFFFFFFC) + 8));
-    *pbuffer = 0;
-    pbuffer[1] = 0;
+      (const char *)((v5->FileName.HeapTypeBits & 0xFFFFFFFC) + 8));
+    *ptr = 0;
+    ptr[1] = 0;
     if ( oldSize > 2 )
-      Scaleform::GFx::PathAllocator::ReallocLastBlock(pAllocator, pbuffer, oldSize, 2u);
+      Scaleform::GFx::PathAllocator::ReallocLastBlock(pAllocator, ptr, oldSize, 2u);
   }
-  else if ( oldSize > v34 )
+  else if ( oldSize > v37 )
   {
-    Scaleform::GFx::PathAllocator::ReallocLastBlock(pAllocator, pbuffer, oldSize, v52 + oldSize - v49);
+    Scaleform::GFx::PathAllocator::ReallocLastBlock(pAllocator, ptr, oldSize, v56 + oldSize - v53);
   }
-  this->Shape->Paths = pbuffer;
-  p->pAltStream = 0;
-  Scaleform::GFx::Stream::~Stream(&v57);
+  this->Shape->Paths = ptr;
+  *(_DWORD *)(p + 852) = 0;
+  Scaleform::GFx::Stream::~Stream(&v61);
   return !v16;
 }

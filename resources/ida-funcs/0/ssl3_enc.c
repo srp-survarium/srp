@@ -5,7 +5,7 @@ int __cdecl ssl3_enc(ssl_st *s, int send)
   evp_cipher_ctx_st *enc_read_ctx; // eax
   unsigned int length; // edi
   int v6; // ebp
-  unsigned int v7; // ebx
+  int v7; // ebx
   int v9; // eax
   evp_cipher_ctx_st *v10; // [esp+10h] [ebp-4h]
 
@@ -36,7 +36,7 @@ int __cdecl ssl3_enc(ssl_st *s, int send)
   }
   if ( !s->session || !enc_write_ctx || !enc_read_ctx )
   {
-    memmove(p_wrec->data, p_wrec->input, p_wrec->length);
+    memmove((int)p_wrec->data, (const __m128i *)p_wrec->input, p_wrec->length);
     p_wrec->input = p_wrec->data;
     return 1;
   }
@@ -62,7 +62,7 @@ LABEL_14:
 LABEL_15:
   if ( !length || length % v6 )
   {
-    ERR_put_error(0x14u, 134, 129, ".\\ssl\\s3_enc.c", 525);
+    ERR_put_error((int)enc_write_ctx, 0x14u, 134, 129, ".\\ssl\\s3_enc.c", 525);
     ssl3_send_alert(s, 2, 21);
     return 0;
   }

@@ -1,169 +1,232 @@
 unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_BLEND_DESC *desc@<eax>)
 {
-  D3D11_BLEND *p_SrcBlend; // esi
-  int v3; // edi
-  int v4; // ebx
-  D3D11_BLEND v5; // ebx
-  int v6; // ebx
-  int v7; // ebx
-  int v8; // ebx
-  int v9; // ebx
-  int v10; // ebx
-  char buffer[4]; // [esp+Ch] [ebp-8h] BYREF
-  boost::crc_optimal<32,79764919,0,0,1,0> crc_hash; // [esp+10h] [ebp-4h] BYREF
+  char *p_DestBlend; // esi
+  int v4; // [esp+Ch] [ebp-8h]
+  unsigned int x; // [esp+10h] [ebp-4h] BYREF
 
-  boost::crc_optimal<32,79764919,0,0,1,0>::crc_optimal<32,79764919,0,0,1,0>(&crc_hash, 0);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->AlphaToCoverageEnable);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->IndependentBlendEnable);
-  p_SrcBlend = &desc->RenderTarget[0].SrcBlend;
-  v3 = 8;
+  x = boost::detail::crc_helper<32,1>::reflect(0);
+  boost::detail::crc_table_t<32,79764919,1>::init_table();
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)desc,
+    (char *)&desc->IndependentBlendEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->IndependentBlendEnable,
+    (char *)desc->RenderTarget);
+  p_DestBlend = (char *)&desc->RenderTarget[0].DestBlend;
+  v4 = 8;
   do
   {
-    v4 = *((_DWORD *)p_SrcBlend - 1);
-    buffer[0] = v4;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v4);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v4);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v4);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v5 = *p_SrcBlend;
-    buffer[0] = *p_SrcBlend;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v5);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v5);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v5);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v6 = *((_DWORD *)p_SrcBlend + 1);
-    buffer[0] = v6;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v6);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v6);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v6);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v7 = *((_DWORD *)p_SrcBlend + 2);
-    buffer[0] = v7;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v7);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v7);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v7);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v8 = *((_DWORD *)p_SrcBlend + 3);
-    buffer[0] = v8;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v8);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v8);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v8);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v9 = *((_DWORD *)p_SrcBlend + 4);
-    buffer[0] = v9;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v9);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v9);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v9);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    v10 = *((_DWORD *)p_SrcBlend + 5);
-    buffer[0] = v10;
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE1(v10);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = BYTE2(v10);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = HIBYTE(v10);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    buffer[0] = *((_BYTE *)p_SrcBlend + 24);
-    boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-    p_SrcBlend += 8;
-    --v3;
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend - 8,
+      p_DestBlend - 4);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend - 4,
+      p_DestBlend);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend,
+      p_DestBlend + 4);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend + 4,
+      p_DestBlend + 8);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend + 8,
+      p_DestBlend + 12);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend + 12,
+      p_DestBlend + 16);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend + 16,
+      p_DestBlend + 20);
+    boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+      (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+      p_DestBlend + 20,
+      p_DestBlend + 21);
+    p_DestBlend += 32;
+    --v4;
   }
-  while ( v3 );
-  return boost::crc_optimal<32,79764919,0,0,1,0>::checksum(&crc_hash);
+  while ( v4 );
+  return boost::detail::crc_helper<32,1>::reflect(x);
 }
 
 
-unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_DEPTH_STENCIL_DESC *desc@<edi>)
+unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_DEPTH_STENCIL_DESC *desc@<esi>)
 {
-  char buffer[4]; // [esp+4h] [ebp-8h] BYREF
-  boost::crc_optimal<32,79764919,0,0,1,0> crc_hash; // [esp+8h] [ebp-4h] BYREF
+  unsigned int x; // [esp+4h] [ebp-4h] BYREF
 
-  boost::crc_optimal<32,79764919,0,0,1,0>::crc_optimal<32,79764919,0,0,1,0>(&crc_hash, 0);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->DepthEnable);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->DepthWriteMask);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->DepthFunc);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->StencilEnable);
-  buffer[0] = desc->StencilReadMask;
-  boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-  buffer[0] = desc->StencilWriteMask;
-  boost::crc_optimal<32,79764919,0,0,1,0>::process_bytes(&crc_hash, buffer, 1u);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FrontFace.StencilFailOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FrontFace.StencilDepthFailOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FrontFace.StencilPassOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FrontFace.StencilFunc);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->BackFace.StencilFailOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->BackFace.StencilDepthFailOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->BackFace.StencilPassOp);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->BackFace.StencilFunc);
-  return boost::crc_optimal<32,79764919,0,0,1,0>::checksum(&crc_hash);
+  x = boost::detail::crc_helper<32,1>::reflect(0);
+  boost::detail::crc_table_t<32,79764919,1>::init_table();
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)desc,
+    (char *)&desc->DepthWriteMask);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->DepthWriteMask,
+    (char *)&desc->DepthFunc);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->DepthFunc,
+    (char *)&desc->StencilEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->StencilEnable,
+    (char *)&desc->StencilReadMask);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->StencilReadMask,
+    (char *)&desc->StencilWriteMask);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->StencilWriteMask,
+    (char *)&desc->StencilWriteMask + 1);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->FrontFace,
+    (char *)&desc->FrontFace.StencilDepthFailOp);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->FrontFace.StencilDepthFailOp,
+    (char *)&desc->FrontFace.StencilPassOp);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->FrontFace.StencilPassOp,
+    (char *)&desc->FrontFace.StencilFunc);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->FrontFace.StencilFunc,
+    (char *)&desc->BackFace);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BackFace,
+    (char *)&desc->BackFace.StencilDepthFailOp);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BackFace.StencilDepthFailOp,
+    (char *)&desc->BackFace.StencilPassOp);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BackFace.StencilPassOp,
+    (char *)&desc->BackFace.StencilFunc);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BackFace.StencilFunc,
+    (char *)&desc[1]);
+  return boost::detail::crc_helper<32,1>::reflect(x);
 }
 
 
-unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_RASTERIZER_DESC *desc@<edi>)
+unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_RASTERIZER_DESC *desc@<esi>)
 {
-  boost::crc_optimal<32,79764919,0,0,1,0> crc_hash; // [esp+4h] [ebp-8h] BYREF
-  unsigned int value; // [esp+8h] [ebp-4h]
+  unsigned int x; // [esp+4h] [ebp-4h] BYREF
 
-  boost::crc_optimal<32,79764919,0,0,1,0>::crc_optimal<32,79764919,0,0,1,0>(&crc_hash, 0);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FillMode);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->CullMode);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->FrontCounterClockwise);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->DepthBias);
-  value = LODWORD(desc->DepthBiasClamp);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->SlopeScaledDepthBias);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->DepthClipEnable);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->ScissorEnable);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->MultisampleEnable);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->AntialiasedLineEnable);
-  return boost::crc_optimal<32,79764919,0,0,1,0>::checksum(&crc_hash);
+  x = boost::detail::crc_helper<32,1>::reflect(0);
+  boost::detail::crc_table_t<32,79764919,1>::init_table();
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)desc,
+    (char *)&desc->CullMode);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->CullMode,
+    (char *)&desc->FrontCounterClockwise);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->FrontCounterClockwise,
+    (char *)&desc->DepthBias);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->DepthBias,
+    (char *)&desc->DepthBiasClamp);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->DepthBiasClamp,
+    (char *)&desc->SlopeScaledDepthBias);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->SlopeScaledDepthBias,
+    (char *)&desc->DepthClipEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->DepthClipEnable,
+    (char *)&desc->ScissorEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->ScissorEnable,
+    (char *)&desc->MultisampleEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->MultisampleEnable,
+    (char *)&desc->AntialiasedLineEnable);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->AntialiasedLineEnable,
+    (char *)&desc[1]);
+  return boost::detail::crc_helper<32,1>::reflect(x);
 }
 
 
-unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_SAMPLER_DESC *desc@<edi>)
+unsigned int __usercall vostok::render::state_utils::get_hash@<eax>(const D3D11_SAMPLER_DESC *desc@<esi>)
 {
-  boost::crc_optimal<32,79764919,0,0,1,0> crc_hash; // [esp+4h] [ebp-8h] BYREF
-  unsigned int value; // [esp+8h] [ebp-4h]
+  unsigned int x; // [esp+4h] [ebp-4h] BYREF
 
-  boost::crc_optimal<32,79764919,0,0,1,0>::crc_optimal<32,79764919,0,0,1,0>(&crc_hash, 0);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->Filter);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->AddressU);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->AddressV);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->AddressW);
-  value = LODWORD(desc->MipLODBias);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  vostok::render::state_utils::crc::process(&crc_hash, desc->ComparisonFunc);
-  value = LODWORD(desc->BorderColor[0]);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->BorderColor[1]);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->BorderColor[2]);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->BorderColor[3]);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->MinLOD);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  value = LODWORD(desc->MaxLOD);
-  vostok::render::state_utils::crc::process(&crc_hash, value);
-  return boost::crc_optimal<32,79764919,0,0,1,0>::checksum(&crc_hash);
+  x = boost::detail::crc_helper<32,1>::reflect(0);
+  boost::detail::crc_table_t<32,79764919,1>::init_table();
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)desc,
+    (char *)&desc->AddressU);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->AddressU,
+    (char *)&desc->AddressV);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->AddressV,
+    (char *)&desc->AddressW);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->AddressW,
+    (char *)&desc->MipLODBias);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->MipLODBias,
+    (char *)&desc->MaxAnisotropy);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->ComparisonFunc,
+    (char *)desc->BorderColor);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)desc->BorderColor,
+    (char *)&desc->BorderColor[1]);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BorderColor[1],
+    (char *)&desc->BorderColor[2]);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BorderColor[2],
+    (char *)&desc->BorderColor[3]);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->BorderColor[3],
+    (char *)&desc->MinLOD);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->MinLOD,
+    (char *)&desc->MaxLOD);
+  boost::crc_optimal<32,79764919,0,0,1,0>::process_block(
+    (boost::crc_optimal<32,79764919,4294967295,4294967295,1,1> *)&x,
+    (char *)&desc->MaxLOD,
+    (char *)&desc[1]);
+  return boost::detail::crc_helper<32,1>::reflect(x);
 }

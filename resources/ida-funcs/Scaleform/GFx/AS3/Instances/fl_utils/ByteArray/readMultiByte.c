@@ -18,7 +18,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readMultiBy
   Scaleform::GFx::AS3::VM *pVM; // esi
   const Scaleform::GFx::AS3::VM::Error *v17; // eax
   Scaleform::GFx::ASStringNode *v18; // eax
-  Scaleform::GFx::AS3::VM::Error v19; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v19; // [esp-8h] [ebp-20h]
+  Scaleform::GFx::AS3::VM::Error v20; // [esp+10h] [ebp-8h] BYREF
 
   v5 = Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::ASCII_Names[0];
   v6 = 0;
@@ -26,7 +27,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readMultiBy
   {
     while ( strcmp(charSet->pNode->pData, v5) )
     {
-      v5 = off_9B48CC[v6++];
+      v5 = off_876574[v6++];
       if ( !v5 )
         goto LABEL_4;
     }
@@ -35,7 +36,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readMultiBy
       v9 = this->Length;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                   (char *)&this->Data.Data.Data[this->Position],
+                   (__m128i *)&this->Data.Data.Data[this->Position],
                    v9);
 LABEL_9:
     v11 = StringNode;
@@ -63,17 +64,19 @@ LABEL_16:
     {
 LABEL_21:
       pVM = this->pTraits.pObject->pVM;
-      Scaleform::GFx::AS3::VM::Error::Error(&v19, eInvalidArgumentError, pVM);
+      v19.pStr = "charSet";
+      v19.Size = 7;
+      Scaleform::GFx::AS3::VM::Error::Error(&v20, eInvalidArgumentError, pVM, v19);
       Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v17);
-      v18 = v19.Message.pNode;
-      --v19.Message.pNode->RefCount;
+      v18 = v20.Message.pNode;
+      --v20.Message.pNode->RefCount;
       if ( !v18->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v18);
       return;
     }
     while ( strcmp(charSet->pNode->pData, v14) )
     {
-      v14 = (&off_9B490C)[v15++];
+      v14 = (&off_8765B4)[v15++];
       if ( !v14 )
         goto LABEL_21;
     }
@@ -82,13 +85,13 @@ LABEL_21:
       v9 = this->Length;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                   (const wchar_t *)&this->Data.Data.Data[this->Position],
+                   (wchar_t *)&this->Data.Data.Data[this->Position],
                    v9);
     goto LABEL_9;
   }
   while ( strcmp(charSet->pNode->pData, v7) )
   {
-    v7 = off_9B48F8[v8++];
+    v7 = off_8765A0[v8++];
     if ( !v7 )
       goto LABEL_16;
   }

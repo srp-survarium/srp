@@ -1,17 +1,17 @@
 void __usercall survarium::game::on_queried_by_network_client_scene_ready(
         survarium::game *this@<ecx>,
-        survarium::scene_ready_type scene_ready@<eax>)
+        survarium::game *a2@<eax>)
 {
-  if ( scene_ready )
+  if ( this )
   {
-    if ( scene_ready != lobby_scene_ready )
+    if ( this != (survarium::game *)1 )
       return;
-    this->m_lobby_scene_ready = 1;
+    a2->m_lobby_scene_ready = 1;
   }
   else
   {
-    this->m_login_scene_ready = 1;
+    a2->m_login_scene_ready = 1;
   }
-  if ( this->m_lobby_scene_ready && this->m_login_scene_ready )
-    survarium::game::create_network_client(this, this, 0);
+  if ( a2->m_lobby_scene_ready && a2->m_login_scene_ready )
+    survarium::game::create_network_client(0, a2, 0);
 }

@@ -1,27 +1,35 @@
 void __thiscall vostok::particle::particle_beam_emitter_instance::generate_offsets(
-        vostok::particle::particle_beam_emitter_instance *this)
+        vostok::particle::particle_beam_emitter_instance *this,
+        int a2)
 {
-  vostok::math::float3 *v1; // ecx
-  float *v2; // eax
-  unsigned int other_x; // [esp+4h] [ebp-24h]
-  unsigned int min_value; // [esp+8h] [ebp-20h]
-  float max_value; // [esp+Ch] [ebp-1Ch]
-  vostok::math::float3 v7; // [esp+14h] [ebp-14h] BYREF
-  unsigned int i; // [esp+20h] [ebp-8h]
-  unsigned int beam_index; // [esp+24h] [ebp-4h]
+  int v3; // eax
+  float *v4; // edi
+  bool v5; // zf
+  float v6; // [esp+14h] [ebp-14h]
+  float v7; // [esp+18h] [ebp-10h]
+  float v8; // [esp+1Ch] [ebp-Ch]
+  int v9; // [esp+20h] [ebp-8h]
+  unsigned int i; // [esp+24h] [ebp-4h]
+  int v11; // [esp+30h] [ebp+8h]
 
-  for ( beam_index = 0; beam_index < this->m_beamtrail_parameters->num_beams; ++beam_index )
+  v3 = 0;
+  for ( i = 0; i < *(_DWORD *)(*(_DWORD *)(a2 + 484) + 8); v3 = v11 )
   {
-    for ( i = 0; i < 0xF; ++i )
+    v11 = v3;
+    v9 = 15;
+    do
     {
-      max_value = vostok::particle::random_float(0.0, 1.0);
-      *(float *)&min_value = vostok::particle::random_float(0.0, 1.0);
-      *(float *)&other_x = vostok::particle::random_float(0.0, 1.0);
-      vostok::math::float3::float3(&v7, other_x, min_value, max_value);
-      v1 = &this->m_random_offsets[beam_index][i];
-      v1->x = *v2;
-      v1->y = v2[1];
-      v1->z = v2[2];
+      v6 = vostok::particle::random_float(0.0, 1.0);
+      v7 = vostok::particle::random_float(0.0, 1.0);
+      v8 = vostok::particle::random_float(0.0, 1.0);
+      v4 = (float *)(v11 + *(_DWORD *)(a2 + 624));
+      v11 += 12;
+      v5 = v9-- == 1;
+      *v4++ = v6;
+      *v4 = v7;
+      v4[1] = v8;
     }
+    while ( !v5 );
+    ++i;
   }
 }

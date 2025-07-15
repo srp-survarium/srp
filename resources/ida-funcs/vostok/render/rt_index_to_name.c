@@ -4,8 +4,8 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
 
   switch ( index )
   {
-    case rt_gbuffer_position_downsampled:
-      result = "$user$gbuffer_position_downsampled";
+    case rt_frame_depth_downsampled:
+      result = "$user$frame_depth_downsampled";
       break;
     case rt_final_frame_downsampled_temp:
       result = "$user$final_frame_downsampledtemp";
@@ -25,8 +25,8 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
     case rt_local_reflection_result:
       result = "$user$local_reflection_result";
       break;
-    case rt_local_reflection_result_params:
-      result = "$user$local_reflection_result_params";
+    case rt_sun_shadow_and_scattering:
+      result = "$user$sun_shadow_and_scattering";
       break;
     case rt_sun_translucensy_help_data:
       result = "$user$sun_translucensy_help_data";
@@ -40,11 +40,20 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
     case rt_normal_copy:
       result = "$user$normal_copy";
       break;
+    case rt_parameters_copy:
+      result = "$user$parameters_copy";
+      break;
     case rt_albedo:
       result = "$user$albedo";
       break;
-    case rt_one_layer_transparency_alpha:
-      result = "$user$one_layer_transparency_alpha";
+    case rt_motion_blur_result:
+      result = "$user$motion_blur_result";
+      break;
+    case rt_probe_indices:
+      result = "$user$probe_indices";
+      break;
+    case rt_surface_parameters:
+      result = "$user$surface_parameters";
       break;
     case rt_distortion:
       result = "$user$distortion";
@@ -54,6 +63,9 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
       break;
     case rt_object_motion_vectors:
       result = "$user$object_motion_vectors";
+      break;
+    case rt_radial_motion_blur_result:
+      result = "$user$radial_motion_blur_result";
       break;
     case rt_ssao_accumulator:
       result = "$user$ssao_accumulator";
@@ -85,8 +97,14 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
     case rt_accumulator_diffuse:
       result = "$user$accum_diffuse";
       break;
-    case rt_decals_blend_result:
+    case rt_accumulator_ambient_lights:
+      result = "$user$accum_ambient_lights";
+      break;
+    case rt_decals_normal_result:
       result = "$user$decals_blend_result";
+      break;
+    case rt_decals_smoothness_result:
+      result = "$user$decals_smoothness_result";
       break;
     case rt_accumulator_specular:
       result = "$user$accum_specular";
@@ -94,53 +112,44 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
     case rt_lpv_accumulation:
       result = "$user$lpv_accumulation";
       break;
-    case rt_blur_0:
-      result = "$user$blur0";
+    case rt_generic_downsampled_2x:
+      result = "$user$generic_downsampled_2x";
       break;
-    case rt_blur_1:
-      result = "$user$blur1";
+    case rt_generic_downsampled_4x:
+      result = "$user$generic_downsampled_4x";
       break;
-    case rt_blur_2:
-      result = "$user$blur2";
+    case rt_bright_pixels_2x:
+      result = "$user$bright_pixels_2x";
       break;
-    case rt_blur_3:
-      result = "$user$blur3";
+    case rt_bloom_combine:
+      result = "$user$bloom_combine";
       break;
-    case rt_blur_4:
-      result = "$user$blur4";
+    case rt_bloom_4x:
+      result = "$user$bloom_4x";
       break;
-    case rt_blur_4_0:
-      result = "$user$blur40";
+    case rt_bloom_8x:
+      result = "$user$bloom_8x";
       break;
-    case rt_blur_5:
-      result = "$user$blur5";
+    case rt_bloom_16x:
+      result = "$user$bloom_16x";
       break;
-    case rt_blur_5_0:
-      result = "$user$blur50";
+    case rt_bloom_temp_4x:
+      result = "$user$bloom_temp_4x";
       break;
-    case rt_blur_6:
-      result = "$user$blur6";
+    case rt_bloom_temp_8x:
+      result = "$user$bloom_temp_8x";
       break;
-    case rt_blur_6_0:
-      result = "$user$blur60";
-      break;
-    case rt_blur_7:
-      result = "$user$blur7";
-      break;
-    case rt_blur_7_0:
-      result = "$user$blur70";
-      break;
-    case rt_blur_8:
-      result = "$user$blur8";
-      break;
-    case rt_blur_8_0:
-      result = "$user$blur80";
+    case rt_bloom_temp_16x:
+      result = "$user$bloom_temp_16x";
       break;
     case rt_lens_flares:
       result = "$user$lens_flares";
       break;
     case rt_present:
       result = "$user$present";
+      break;
+    case rt_present_downsampled:
+      result = "$user$present_downsampled";
       break;
     case rt_previous_present:
       result = "$user$previous_present";
@@ -151,11 +160,11 @@ const char *__usercall vostok::render::rt_index_to_name@<eax>(vostok::render::en
     case rt_generic_1:
       result = "$user$generic1";
       break;
-    case rt_particle_result:
-      result = "$user$particle_result";
-      break;
     case rt_particle_lighting:
       result = "$user$particle_lighting";
+      break;
+    case rt_particle_lighting_depth:
+      result = "$user$particle_lighting_depth";
       break;
     case rt_rain_result:
       result = "$user$rain_result";

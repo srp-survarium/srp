@@ -5,14 +5,16 @@ vostok::mutable_buffer *__thiscall survarium::shotgun_weapon_reload_state_cook::
         vostok::const_buffer raw_file_data,
         bool file_exist)
 {
-  unsigned __int8 *v5; // eax
+  vostok::memory::doug_lea_allocator *v5; // esi
+  char *v6; // eax
+  vostok::memory::doug_lea_allocator *v7; // ecx
+  const char *v9; // [esp+0h] [ebp-8h]
+  const char *v10; // [esp+4h] [ebp-4h]
+  unsigned int savedregs; // [esp+8h] [ebp+0h]
 
-  v5 = (unsigned __int8 *)vostok::memory::doug_lea_allocator::malloc_impl(
-                            (vostok::memory::doug_lea_allocator *)survarium::g_allocator.f_.f_,
-                            0x150u);
-  boost::_bi::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>(
-    result,
-    v5,
-    0x150u);
+  v5 = survarium::g_allocator;
+  v6 = type_info::raw_name(&survarium::shotgun_weapon_reload_state `RTTI Type Descriptor');
+  result->m_data = vostok::memory::doug_lea_allocator::malloc_impl(v7, (int)v5, 0x148u, v6, v9, v10, savedregs);
+  result->m_size = 328;
   return result;
 }

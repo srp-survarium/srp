@@ -1,16 +1,19 @@
-void __thiscall vostok::network_core::udp_match_client::~udp_match_client(vostok::network_core::udp_match_client *this)
+void __usercall vostok::network_core::udp_match_client::~udp_match_client(
+        vostok::network_core::udp_match_client *this@<ecx>,
+        int *a2@<edi>)
 {
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v1; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v2; // ecx
+  boost::asio::basic_datagram_socket<boost::asio::ip::udp,boost::asio::datagram_socket_service<boost::asio::ip::udp> > *v2; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v4; // ecx
+  vostok::network_core::udp_match_connection *v5; // ecx
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  boost::asio::basic_io_object<boost::asio::datagram_socket_service<boost::asio::ip::udp>>::~basic_io_object<boost::asio::datagram_socket_service<boost::asio::ip::udp>>(&this->m_socket);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v1,
-    (int *)&this->m_on_disconnect);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+    a2 + 1706);
+  boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>::~basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>(
     v2,
-    (int *)&this->m_on_packet_received);
-  vostok::network_core::udp_match_connection::~udp_match_connection(&this->m_connection);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
+    (int)(a2 + 736));
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v3, a2 + 722);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v4, a2 + 714);
+  vostok::network_core::udp_match_connection::~udp_match_connection(v5, (int)a2);
 }

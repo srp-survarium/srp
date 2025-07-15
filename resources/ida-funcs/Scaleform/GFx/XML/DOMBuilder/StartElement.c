@@ -14,11 +14,11 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::StartElement(
   Scaleform::GFx::XML::ElementNode *v11; // ecx
   Scaleform::GFx::XML::ElementNode **p_pObject; // eax
   Scaleform::GFx::XML::ElementNode *v13; // edi
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::XML::DOMStringNode *StringNode; // eax
   Scaleform::RefCountNTSImpl *v16; // ecx
   Scaleform::GFx::XML::DOMStringNode *v17; // edx
-  char *pStr; // eax
+  __m128i *pStr; // eax
   Scaleform::GFx::XML::DOMStringNode *v19; // eax
   Scaleform::GFx::XML::ElementNode *ElementNode; // eax
   const Scaleform::GFx::XML::ParserAttributes *v21; // ebx
@@ -87,9 +87,9 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::StartElement(
       ++v11->RefCount;
     v13 = *p_pObject;
     Scaleform::GFx::XML::ElementNode::AppendChild(*p_pObject, v4->pAppendChainRoot.pObject);
-    pData = v4->AppendText.pData;
+    pData = (__m128i *)v4->AppendText.pData;
     if ( !pData )
-      pData = (char *)&buf;
+      pData = (__m128i *)uri;
     StringNode = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
                    &v8->StringPool,
                    pData,
@@ -106,7 +106,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::StartElement(
       Scaleform::RefCountNTSImpl::Release(v13);
   }
   v17 = (Scaleform::GFx::XML::DOMStringNode *)localname->Size;
-  pStr = (char *)localname->pStr;
+  pStr = (__m128i *)localname->pStr;
   v61[0].pNode = v6;
   v19 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(&v8->StringPool, pStr, v17);
   Scaleform::GFx::XML::DOMString::DOMString(v61, v19);
@@ -126,14 +126,14 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::StartElement(
       atts = v61;
       v27 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
               &memMgr.pObject->StringPool,
-              (char *)v61[0].pNode,
+              (__m128i *)v61[0].pNode,
               v25);
       Scaleform::GFx::XML::DOMString::DOMString(atts, v27);
       pNode = v26[1].pNode;
       v60.pNode = v26->pNode;
       v29 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
               &memMgr.pObject->StringPool,
-              (char *)v60.pNode,
+              (__m128i *)v60.pNode,
               pNode);
       Scaleform::GFx::XML::DOMString::DOMString(&v60, v29);
       Attribute = Scaleform::GFx::XML::ObjectManager::CreateAttribute(memMgr.pObject, v60, v61[0]);
@@ -242,7 +242,7 @@ LABEL_34:
   v42 = memMgr.pObject;
   v43 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
           &memMgr.pObject->StringPool,
-          (char *)prefix->pStr,
+          (__m128i *)prefix->pStr,
           (Scaleform::GFx::XML::DOMStringNode *)prefix->Size);
   Scaleform::GFx::XML::DOMString::DOMString((Scaleform::GFx::XML::DOMString *)&atts, v43);
   Scaleform::GFx::XML::DOMString::AssignNode(&localnamea->Prefix, (Scaleform::GFx::XML::DOMStringNode *)atts);

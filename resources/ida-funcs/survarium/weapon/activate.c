@@ -1,228 +1,128 @@
-void __thiscall survarium::weapon::activate(
-        survarium::weapon *this,
-        survarium::base_player *user,
-        survarium::engine *engine)
+void __thiscall survarium::weapon::activate(survarium::weapon *this, BOOL real_insert)
 {
-  survarium::base_game_scene *v4; // eax
-  const vostok::animation::skeleton *v5; // eax
-  vostok::resources::managed_resource *v6; // edx
-  const vostok::animation::skeleton_bone *v7; // eax
-  const vostok::animation::skeleton_bone *v8; // edi
-  const vostok::animation::skeleton *v9; // eax
-  const vostok::animation::skeleton *v10; // eax
-  vostok::resources::managed_resource *v11; // edx
-  const vostok::animation::skeleton_bone *v12; // eax
-  const vostok::animation::skeleton_bone *v13; // edi
-  const vostok::animation::skeleton *v14; // eax
-  void (__cdecl *v15)(_QWORD *, _QWORD *, int); // eax
-  void (__cdecl *v16)(_QWORD *, _QWORD *, int); // eax
-  void (__cdecl *v17)(_QWORD *, _QWORD *, int); // eax
-  void (__cdecl *v18)(_QWORD *, _QWORD *, int); // eax
-  unsigned int m_current_time_in_ms; // eax
-  survarium::fingers_to_weapon_corrector *p_m_fingers_corrector; // edi
-  unsigned int v21; // eax
-  vostok::render::render_model_instance *m_object; // eax
-  vostok::render::render_model_instance *v23; // esi
-  const vostok::animation::skeleton *v24; // eax
-  survarium::fingers_to_weapon_corrector *v25; // ecx
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon *>,boost::arg<1> > > v26; // [esp+3Eh] [ebp-48h]
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon *>,boost::arg<1> > > v27; // [esp+3Eh] [ebp-48h]
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf2<enum vostok::animation::callback_return_type_enum,survarium::weapon,vostok::animation::animation_callback_params &,enum survarium::fingers_to_weapon_corrector::hands_enum>,boost::_bi::list3<boost::_bi::value<survarium::weapon *>,boost::arg<1>,boost::_bi::value<enum survarium::fingers_to_weapon_corrector::hands_enum> > > v28; // [esp+3Eh] [ebp-48h]
-  boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf2<enum vostok::animation::callback_return_type_enum,survarium::weapon,vostok::animation::animation_callback_params &,enum survarium::fingers_to_weapon_corrector::hands_enum>,boost::_bi::list3<boost::_bi::value<survarium::weapon *>,boost::arg<1>,boost::_bi::value<enum survarium::fingers_to_weapon_corrector::hands_enum> > > v29; // [esp+3Eh] [ebp-48h]
-  int v30; // [esp+4Eh] [ebp-38h]
-  int v31; // [esp+4Eh] [ebp-38h]
-  int v32; // [esp+4Eh] [ebp-38h]
-  int v33; // [esp+4Eh] [ebp-38h]
-  bool first_person_view; // [esp+61h] [ebp-25h]
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> v35; // [esp+62h] [ebp-24h] BYREF
-  unsigned int v36; // [esp+66h] [ebp-20h] BYREF
-  int v37; // [esp+6Ah] [ebp-1Ch]
-  _QWORD v38[3]; // [esp+6Eh] [ebp-18h] BYREF
+  survarium::portable_interactive_object_core *m_portable_interactive_object; // esi
+  vostok::animation::hand_to_weapon_ik_solver *v4; // ecx
+  bool m_is_double_handed; // al
+  bool v6; // al
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  int i; // esi
+  int v9; // eax
+  boost::function1<void,vostok::physics::contact_point const &> *v10; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v11; // ecx
+  survarium::breath_holding_sound_effect *v12; // ecx
+  survarium::player *m_user; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v14; // ecx
+  _BYTE v15[28]; // [esp-1Ch] [ebp-A4h] BYREF
+  const void *v16; // [esp+0h] [ebp-88h]
+  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> animation; // [esp+Ch] [ebp-7Ch] BYREF
+  boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> callback; // [esp+10h] [ebp-78h] BYREF
+  _QWORD v19[3]; // [esp+30h] [ebp-58h] BYREF
+  boost::function<void __cdecl(void)> v20; // [esp+48h] [ebp-40h] BYREF
+  boost::function<void __cdecl(void)> f; // [esp+68h] [ebp-20h] BYREF
 
-  if ( byte_10F80[(_DWORD)user] )
-    this->m_user_animations_selector.m_player_logic_initial_state = (survarium::player_logic_base_state *)this->m_user_animations_selector.survarium::weapon_core::m_logic.m_states.m_last;
-  if ( engine )
-    v4 = (survarium::base_game_scene *)&engine[-3];
-  else
-    v4 = 0;
-  this->m_game_scene = v4;
-  survarium::weapon_core::activate(this, user, engine);
-  v5 = user->skeleton(user);
-  v6 = (vostok::resources::managed_resource *)&v5[1];
-  v7 = (const vostok::animation::skeleton_bone *)((char *)&v5[1] + 20 * v5->m_bones_count);
-  v35.m_object = v6;
-  v8 = stlp_std::priv::__find_if<vostok::animation::skeleton_bone const *,bone_id_predicate>(
-         (const vostok::animation::skeleton_bone *)v6,
-         v7,
-         (bone_id_predicate)"LeftFoot");
-  v9 = user->skeleton(user);
-  this->m_left_toe_bone_index = ((char *)v8 - (char *)v35.m_object) / 20
-                              - (v9[1].vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags
-                               - (int)&v9[1])
-                              / 20;
-  v10 = user->skeleton(user);
-  v11 = (vostok::resources::managed_resource *)&v10[1];
-  v12 = (const vostok::animation::skeleton_bone *)((char *)&v10[1] + 20 * v10->m_bones_count);
-  v35.m_object = v11;
-  v13 = stlp_std::priv::__find_if<vostok::animation::skeleton_bone const *,bone_id_predicate>(
-          (const vostok::animation::skeleton_bone *)v11,
-          v12,
-          (bone_id_predicate)"RightFoot");
-  v14 = user->skeleton(user);
-  this->m_right_toe_bone_index = ((char *)v13 - (char *)v35.m_object) / 20
-                               - (v14[1].vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags
-                                - (int)&v14[1])
-                               / 20;
-  v35.m_object = 0;
-  v36 = (unsigned int)survarium::weapon::on_foot_step;
-  v37 = 0;
-  v26.f_.f_ = (vostok::animation::callback_return_type_enum (__thiscall *__ptr64)(survarium::weapon *, vostok::animation::animation_callback_params *))(unsigned int)survarium::weapon::on_foot_step;
-  LODWORD(v38[0]) = this;
-  *(_QWORD *)&v26.l_.a1_.t_ = v38[0];
-  boost::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>(
+  survarium::weapon_core::activate(this, real_insert);
+  m_portable_interactive_object = this->m_portable_interactive_object;
+  *(_DWORD *)&v15[24] = this->m_model.m_object->m_render_model.m_object;
+  animation.m_object = (vostok::resources::managed_resource *)m_portable_interactive_object;
+  vostok::animation::hand_to_weapon_ik_solver::initialize_locators(
+    v4,
+    (vostok::render::model_locator_item *)&m_portable_interactive_object[1],
+    *(vostok::render::render_model_instance **)&v15[24]);
+  m_is_double_handed = this->m_is_double_handed;
+  callback.vtable = (boost::detail::function::vtable_base *)m_portable_interactive_object;
+  LOBYTE((&callback.vtable)[1]) = m_is_double_handed;
+  HIDWORD(v19[0]) = 0;
+  LODWORD(v19[0]) = survarium::portable_interactive_object::on_weapon_user_sprint;
+  callback.functor.data = 0;
+  v19[1] = __PAIR64__((unsigned int)(&callback.vtable)[1], (unsigned int)m_portable_interactive_object);
+  LODWORD(v19[2]) = callback.functor.obj_ptr;
+  *(_DWORD *)v15 = &f;
+  qmemcpy(&v15[4], v19, 0x18u);
+  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
     0,
-    (int)&v36,
-    (int)this,
-    v26,
-    v30);
-  ((void (__stdcall *)(const char *, unsigned int *, survarium::base_player *, vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *, int, _DWORD))this->m_user->subscribe_animation_player)(
-    "sound_events",
-    &v36,
-    this->m_user,
-    &v35,
-    255,
-    0);
-  if ( v36 )
+    *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::portable_interactive_object,bool,bool>,boost::_bi::list3<boost::_bi::value<survarium::portable_interactive_object *>,boost::_bi::value<bool>,boost::_bi::value<bool> > > *)v15,
+    *(int *)&v15[24]);
+  v6 = this->m_is_double_handed;
+  callback.vtable = (boost::detail::function::vtable_base *)animation.m_object;
+  LOBYTE((&callback.vtable)[1]) = v6;
+  LODWORD(v19[0]) = survarium::portable_interactive_object::on_weapon_user_sprint;
+  HIDWORD(v19[0]) = 0;
+  callback.functor.data = 1;
+  v19[1] = __PAIR64__((unsigned int)(&callback.vtable)[1], (unsigned int)animation.m_object);
+  LODWORD(v19[2]) = callback.functor.obj_ptr;
+  *(_DWORD *)v15 = &v20;
+  qmemcpy(&v15[4], v19, 0x18u);
+  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+    0,
+    *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::portable_interactive_object,bool,bool>,boost::_bi::list3<boost::_bi::value<survarium::portable_interactive_object *>,boost::_bi::value<bool>,boost::_bi::value<bool> > > *)v15,
+    *(int *)&v15[24]);
+  for ( i = animation.m_object->m_reconstruction_info_actuality_tick; i; i = *(_DWORD *)(i + 4) )
   {
-    if ( (v36 & 1) == 0 )
+    v9 = *(_DWORD *)(i + 32);
+    if ( v9 == 2 )
     {
-      v15 = *(void (__cdecl **)(_QWORD *, _QWORD *, int))(v36 & 0xFFFFFFFE);
-      if ( v15 )
-        v15(v38, v38, 2);
+      boost::function<void __cdecl (void)>::operator=(
+        &v20,
+        (boost::function1<void,vostok::physics::contact_point const &> *)(i + 48));
+      v10 = (boost::function1<void,vostok::physics::contact_point const &> *)(i + 80);
     }
-    v36 = 0;
+    else
+    {
+      if ( v9 != 3 )
+        continue;
+      boost::function<void __cdecl (void)>::operator=(
+        &v20,
+        (boost::function1<void,vostok::physics::contact_point const &> *)(i + 384));
+      v10 = (boost::function1<void,vostok::physics::contact_point const &> *)(i + 416);
+    }
+    boost::function<void __cdecl (void)>::operator=(&f, v10);
   }
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v35);
-  v36 = (unsigned int)survarium::weapon::on_shell_extraction_event;
-  v37 = 0;
-  v27.f_.f_ = (vostok::animation::callback_return_type_enum (__thiscall *__ptr64)(survarium::weapon *, vostok::animation::animation_callback_params *))(unsigned int)survarium::weapon::on_shell_extraction_event;
-  v35.m_object = 0;
-  LODWORD(v38[0]) = this;
-  *(_QWORD *)&v27.l_.a1_.t_ = v38[0];
-  boost::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>(
-    0,
-    (int)&v36,
-    (int)this,
-    v27,
-    v31);
-  this->m_user->subscribe_animation_player(
-    this->m_user,
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v7,
+    (int *)&v20);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v11,
+    (int *)&f);
+  m_user = (survarium::player *)this->m_user;
+  this->m_breath_holding_sound_effect.m_user = m_user;
+  if ( !m_user )
+    survarium::breath_holding_sound_effect::set_user(
+      v12,
+      (vostok::sound::sound_instance_proxy *)&this->m_breath_holding_sound_effect);
+  survarium::base_player::unsubscribe_animation_player(
+    (survarium::base_player *)v12,
+    (int)this->m_user,
     "shell_extraction",
-    (const boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> *)&v36,
-    this,
-    (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&v35,
-    255u,
-    0);
-  if ( v36 )
+    this);
+  animation.m_object = 0;
+  callback.vtable = (boost::detail::function::vtable_base *)survarium::weapon::on_shell_extraction_event;
+  (&callback.vtable)[1] = 0;
+  callback.functor.obj_ptr = this;
+  LODWORD(v19[0]) = survarium::weapon::on_shell_extraction_event;
+  HIDWORD(v19[0]) = 0;
+  v19[1] = __PAIR64__((unsigned int)callback.functor.vostok_pointer_size_alignment[1], (unsigned int)this);
+  *(_DWORD *)&v15[24] = v19;
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus(0) )
   {
-    if ( (v36 & 1) == 0 )
-    {
-      v16 = *(void (__cdecl **)(_QWORD *, _QWORD *, int))(v36 & 0xFFFFFFFE);
-      if ( v16 )
-        v16(v38, v38, 2);
-    }
-    v36 = 0;
+    callback.vtable = 0;
   }
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v35);
-  v36 = (unsigned int)survarium::weapon::on_hand_correction_event;
-  v37 = 0;
-  v28.f_.f_ = (vostok::animation::callback_return_type_enum (__thiscall *__ptr64)(survarium::weapon *, vostok::animation::animation_callback_params *, survarium::fingers_to_weapon_corrector::hands_enum))(unsigned int)survarium::weapon::on_hand_correction_event;
-  v35.m_object = 0;
-  v38[0] = (unsigned int)this;
-  v28.l_ = (boost::_bi::list3<boost::_bi::value<survarium::weapon *>,boost::arg<1>,boost::_bi::value<enum survarium::fingers_to_weapon_corrector::hands_enum> >)(unsigned int)this;
-  boost::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>(
+  else
+  {
+    *(_QWORD *)&callback.functor.obj_ptr = v19[0];
+    *((_QWORD *)&callback.functor.data + 1) = v19[1];
+    callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>::assign_to<boost::_bi::bind_t<enum vostok::animation::callback_return_type_enum,boost::_mfi::mf1<enum vostok::animation::callback_return_type_enum,survarium::weapon,vostok::animation::animation_callback_params &>,boost::_bi::list2<boost::_bi::value<survarium::weapon *>,boost::arg<1>>>>'::`2'::stored_vtable
+                                                             + 1);
+  }
+  survarium::base_player::subscribe_animation_player(
+    *(survarium::base_player **)&v15[24],
+    "shell_extraction",
+    &callback,
+    this,
+    &animation,
     0,
-    (int)&v36,
-    (int)this,
-    v28,
-    v32);
-  this->m_user->subscribe_animation_player(
-    this->m_user,
-    "left_hand_corrector",
-    (const boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> *)&v36,
-    this,
-    (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&v35,
-    255u,
-    0);
-  if ( v36 )
-  {
-    if ( (v36 & 1) == 0 )
-    {
-      v17 = *(void (__cdecl **)(_QWORD *, _QWORD *, int))(v36 & 0xFFFFFFFE);
-      if ( v17 )
-        v17(v38, v38, 2);
-    }
-    v36 = 0;
-  }
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v35);
-  v36 = (unsigned int)survarium::weapon::on_hand_correction_event;
-  v37 = 0;
-  v29.f_.f_ = (vostok::animation::callback_return_type_enum (__thiscall *__ptr64)(survarium::weapon *, vostok::animation::animation_callback_params *, survarium::fingers_to_weapon_corrector::hands_enum))(unsigned int)survarium::weapon::on_hand_correction_event;
-  v35.m_object = 0;
-  v38[0] = (unsigned int)this | 0x100000000LL;
-  v29.l_ = (boost::_bi::list3<boost::_bi::value<survarium::weapon *>,boost::arg<1>,boost::_bi::value<enum survarium::fingers_to_weapon_corrector::hands_enum> >)v38[0];
-  boost::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>::function1<enum vostok::animation::callback_return_type_enum,vostok::animation::animation_callback_params &>(
-    0,
-    (int)&v36,
-    (int)this,
-    v29,
-    v33);
-  this->m_user->subscribe_animation_player(
-    this->m_user,
-    "right_hand_corrector",
-    (const boost::function<enum vostok::animation::callback_return_type_enum __cdecl(vostok::animation::animation_callback_params &)> *)&v36,
-    this,
-    (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)&v35,
-    255u,
-    0);
-  if ( v36 )
-  {
-    if ( (v36 & 1) == 0 )
-    {
-      v18 = *(void (__cdecl **)(_QWORD *, _QWORD *, int))(v36 & 0xFFFFFFFE);
-      if ( v18 )
-        v18(v38, v38, 2);
-    }
-    v36 = 0;
-  }
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&v35);
-  m_current_time_in_ms = this->m_game_scene->m_game->m_current_time_in_ms;
-  p_m_fingers_corrector = &this->m_fingers_corrector;
-  if ( !this->m_fingers_corrector.m_hands[0].is_active )
-  {
-    this->m_fingers_corrector.m_hands[0].is_active = 1;
-    this->m_fingers_corrector.m_hands[0].start_transition_time_in_ms = m_current_time_in_ms;
-  }
-  v21 = this->m_game_scene->m_game->m_current_time_in_ms;
-  if ( !this->m_fingers_corrector.m_hands[1].is_active )
-  {
-    this->m_fingers_corrector.m_hands[1].is_active = 1;
-    this->m_fingers_corrector.m_hands[1].start_transition_time_in_ms = v21;
-  }
-  first_person_view = this->m_game_ui != 0;
-  m_object = this->model.m_object->m_render_model.m_object;
-  v23 = 0;
-  if ( m_object )
-  {
-    v23 = m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  v24 = user->skeleton(user);
-  survarium::fingers_to_weapon_corrector::initialize_bones_indices(v25, (int)p_m_fingers_corrector, v24);
-  survarium::fingers_to_weapon_corrector::initialize_locators(p_m_fingers_corrector, first_person_view, v23);
-  if ( v23 )
-  {
-    if ( !_InterlockedExchangeAdd(&v23->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(&v23->vostok::resources::unmanaged_intrusive_base, v23);
-  }
+    v16);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v14,
+    (int *)&callback);
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(&animation);
 }

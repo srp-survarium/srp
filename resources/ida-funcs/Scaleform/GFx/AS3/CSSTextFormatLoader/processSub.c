@@ -31,14 +31,14 @@ void __cdecl Scaleform::GFx::AS3::CSSTextFormatLoader::processSub(
   Scaleform::GFx::AS3::Value::Convert2String(val, &result, &buff);
   pstr = buff.pData;
   if ( !buff.pData )
-    pstr = (const char *)&buf;
+    pstr = uri;
   pNode = name->pNode;
   temp = 0;
   pData = pNode->pData;
   Size = buff.Size;
-  if ( !strcmp(pNode->pData, (const char *)&stru_9555EC) )
+  if ( !strcmp(pNode->pData, "color") )
   {
-    v = strtol((unsigned int)name, pstr + 1, &temp, 0x10u);
+    v = strtol((int)name, pstr + 1, (const char **)&temp, 16);
     Scaleform::GFx::AS3::Value::SetUInt32(&tf->mColor, v);
     Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&buff);
     return;
@@ -53,7 +53,7 @@ void __cdecl Scaleform::GFx::AS3::CSSTextFormatLoader::processSub(
   }
   if ( Scaleform::GFx::ASString::operator==(name, "fontSize") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mSize;
 LABEL_58:
     num = v7;
@@ -112,7 +112,7 @@ LABEL_58:
     if ( Size >= 5 )
       v15 = 5;
     v16 = pstr;
-    if ( !strncmp((const char *)&stru_95AF78.m_key_bindings[6], pstr, v15) )
+    if ( !strncmp("false", pstr, v15) )
     {
       Scaleform::GFx::AS3::Value::SetBool(&tf->mKerning, 0);
       Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&buff);
@@ -121,7 +121,7 @@ LABEL_58:
     v17 = Size;
     if ( Size >= 4 )
       v17 = 4;
-    if ( !strncmp((const char *)&stru_95AF78.m_key_bindings[4].m_keyboard[1], v16, v17) )
+    if ( !strncmp("true", v16, v17) )
     {
       Scaleform::GFx::AS3::Value::SetBool(&tf->mKerning, 1);
       Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&buff);
@@ -131,25 +131,25 @@ LABEL_58:
   }
   if ( Scaleform::GFx::ASString::operator==(name, "leading") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mLeading;
     goto LABEL_58;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "letterSpacing") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mLetterSpacing;
     goto LABEL_58;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "marginLeft") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mLeftMargin;
     goto LABEL_58;
   }
   if ( Scaleform::GFx::ASString::operator==(name, "marginRight") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mRightMargin;
     goto LABEL_58;
   }
@@ -183,7 +183,7 @@ LABEL_58:
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "textIndent") )
   {
-    v7 = Scaleform::SFstrtod(pstr, &temp);
+    v7 = Scaleform::SFstrtod(Size, (char *)pstr, &temp);
     p_mSize = &tf->mIndent;
     goto LABEL_58;
   }

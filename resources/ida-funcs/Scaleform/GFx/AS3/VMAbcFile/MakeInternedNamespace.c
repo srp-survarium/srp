@@ -23,7 +23,7 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *__thiscall S
   StringManagerRef = this->VMRef->StringManagerRef;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  StringManagerRef->pStringManager,
-                 (char *)p_any_namespace->NameURI.pStr,
+                 (__m128i *)p_any_namespace->NameURI.pStr,
                  p_any_namespace->NameURI.Size);
   v8 = mn;
   URI.pNode = StringNode;
@@ -33,10 +33,10 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::Namespace> *__thiscall S
   {
     Ind = p_Const_Pool->const_multiname.Data.Data[NextIndex].Ind;
     v11 = Ind ? (int)&p_Const_Pool->ConstNamespace.Data.Data[Ind] : (int)&p_Const_Pool->any_namespace;
-    Scaleform::GFx::ASString::Append(&URI, "$", (Scaleform::GFx::ASStringNode *)1);
+    Scaleform::GFx::ASString::Append(&URI, (const __m128i *)"$", (Scaleform::GFx::ASStringNode *)1);
     mn = (Scaleform::GFx::AS3::Abc::Multiname *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                   StringManagerRef->pStringManager,
-                                                  *(char **)(v11 + 4),
+                                                  *(__m128i **)(v11 + 4),
                                                   *(_DWORD *)(v11 + 8));
     ++mn->Kind;
     Scaleform::GFx::ASString::Append(&URI, (Scaleform::GFx::ASStringNode *)&mn);

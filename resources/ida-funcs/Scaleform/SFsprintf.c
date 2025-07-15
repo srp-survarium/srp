@@ -1,10 +1,10 @@
-int Scaleform::SFsprintf(char *dest, unsigned int destsize, const char *format, ...)
+int Scaleform::SFsprintf(char *dest, unsigned int destsize, char *format, ...)
 {
   int result; // eax
-  va_list ap; // [esp+18h] [ebp+10h] BYREF
+  va_list va; // [esp+18h] [ebp+10h] BYREF
 
-  va_start(ap, format);
-  result = vsnprintf_s(dest, destsize, 0xFFFFFFFF, format, ap);
+  va_start(va, format);
+  result = vsnprintf_s((int)dest, destsize, dest, destsize, 0xFFFFFFFF, format, va);
   if ( result == -1 )
   {
     dest[destsize - 1] = 0;

@@ -11,7 +11,7 @@ void __thiscall Scaleform::Render::StateBag::SetStateVoid(
   int v9; // edi
   char *v10; // eax
   unsigned int v11; // edi
-  Scaleform::Render::State *states; // [esp+Ch] [ebp-4h]
+  Scaleform::Render::State *s; // [esp+Ch] [ebp-4h]
 
   ArraySize = this->ArraySize;
   if ( this->ArraySize )
@@ -45,7 +45,7 @@ void __thiscall Scaleform::Render::StateBag::SetStateVoid(
     {
       v8 = ArraySize >> 1;
       v9 = 0;
-      states = (Scaleform::Render::State *)(this->DataValue + 4);
+      s = (Scaleform::Render::State *)(this->DataValue + 4);
       if ( v8 )
       {
         while ( *(Scaleform::Render::StateData::Interface **)(this->DataValue + 4 + 8 * v9) != pi )
@@ -54,8 +54,8 @@ void __thiscall Scaleform::Render::StateBag::SetStateVoid(
             goto LABEL_11;
         }
         pi->AddRef(pi, data, Ref_All);
-        pi->Release(pi, (void *)states[v9].DataValue, Ref_All);
-        states[v9].DataValue = (unsigned int)data;
+        pi->Release(pi, (void *)s[v9].DataValue, Ref_All);
+        s[v9].DataValue = (unsigned int)data;
       }
       else
       {
@@ -69,7 +69,7 @@ LABEL_11:
         if ( v10 )
         {
           *(_DWORD *)v10 = 1;
-          Scaleform::Render::StateBag::copyArrayAddRef((Scaleform::Render::State *)(v10 + 4), states, v8);
+          Scaleform::Render::StateBag::copyArrayAddRef((Scaleform::Render::State *)(v10 + 4), s, v8);
           *(_DWORD *)(v11 + 8 * v8 + 8) = data;
           *(_DWORD *)(v11 + 8 * v8 + 4) = pi;
           pi->AddRef(pi, data, Ref_All);

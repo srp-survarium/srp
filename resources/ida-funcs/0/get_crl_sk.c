@@ -11,37 +11,37 @@ BOOL __cdecl get_crl_sk(
   int v8; // esi
   X509_crl_st *v9; // ebx
   int v10; // ebp
-  X509_crl_st *v11; // edi
-  int crl_score; // eax
+  char *v11; // edi
+  signed int crl_score; // eax
   x509_st *v13; // edx
   unsigned int v14; // eax
-  x509_st *pissuera; // [esp+Ch] [ebp-14h] BYREF
-  unsigned int preasonsa; // [esp+10h] [ebp-10h] BYREF
+  x509_st *v16; // [esp+Ch] [ebp-14h] BYREF
+  unsigned int v17; // [esp+10h] [ebp-10h] BYREF
   x509_st *v18; // [esp+14h] [ebp-Ch]
   unsigned int v19; // [esp+18h] [ebp-8h]
-  x509_st *x; // [esp+1Ch] [ebp-4h]
+  x509_st *v20; // [esp+1Ch] [ebp-4h]
 
   current_cert = ctx->current_cert;
   v8 = *pscore;
   v9 = 0;
   v19 = 0;
-  x = current_cert;
-  pissuera = 0;
+  v20 = current_cert;
+  v16 = 0;
   v18 = 0;
   v10 = 0;
   if ( sk_num(&crls->stack) > 0 )
   {
     do
     {
-      v11 = (X509_crl_st *)sk_value(&crls->stack, v10);
-      preasonsa = *preasons;
-      crl_score = get_crl_score(ctx, v11, &pissuera, &preasonsa, x);
+      v11 = sk_value(&crls->stack, v10);
+      v17 = *preasons;
+      crl_score = get_crl_score(ctx, (X509_crl_st *)v11, &v16, &v17, v20);
       if ( crl_score > v8 )
       {
-        v9 = v11;
-        v18 = pissuera;
+        v9 = (X509_crl_st *)v11;
+        v18 = v16;
         v8 = crl_score;
-        v19 = preasonsa;
+        v19 = v17;
       }
       ++v10;
     }
@@ -62,7 +62,7 @@ BOOL __cdecl get_crl_sk(
         X509_CRL_free(*pdcrl);
         *pdcrl = 0;
       }
-      get_delta_sk(ctx, pdcrl, pscore, crls);
+      get_delta_sk(ctx, (stack_st_X509_ATTRIBUTE **)pdcrl, pscore, crls);
     }
   }
   return v8 >= 448;

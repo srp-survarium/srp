@@ -9,7 +9,7 @@ asn1_string_st *__cdecl ASN1_GENERALIZEDTIME_adj(asn1_string_st *s, __int64 t, i
   v4 = s;
   if ( s || (v5 = ASN1_STRING_type_new(24), (v4 = v5) != 0) )
   {
-    v6 = OPENSSL_gmtime(&t, &result);
+    v6 = OPENSSL_gmtime((int)v4, &t, &result);
     if ( !v6 || (offset_day || offset_sec) && !OPENSSL_gmtime_adj(v6, offset_day, offset_sec) )
       return 0;
     data = (char *)v4->data;
@@ -18,7 +18,7 @@ asn1_string_st *__cdecl ASN1_GENERALIZEDTIME_adj(asn1_string_st *s, __int64 t, i
       data = (char *)CRYPTO_malloc(20, ".\\crypto\\asn1\\a_gentm.c", 243);
       if ( !data )
       {
-        ERR_put_error(0xDu, 216, 65, ".\\crypto\\asn1\\a_gentm.c", 247);
+        ERR_put_error((int)v4, 0xDu, 216, 65, ".\\crypto\\asn1\\a_gentm.c", 247);
         return 0;
       }
       if ( v4->data )

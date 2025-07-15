@@ -1,46 +1,42 @@
 void __userpurge Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform(
         const Scaleform::Render::D3D1x::ShaderPair *sd@<eax>,
-        unsigned int var@<ecx>,
-        unsigned int index@<esi>,
         Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair> *this,
-        const float *v,
+        unsigned int var,
+        float *v,
         unsigned int n,
+        unsigned int index,
         unsigned int batch)
 {
-  const Scaleform::Render::D3D1x::BatchVar *BatchUniforms; // edx
-  unsigned int v9; // eax
   _DWORD *pVDesc; // ecx
-  unsigned int v11; // [esp+0h] [ebp-Ch]
+  unsigned int v8; // [esp+0h] [ebp-8h]
 
-  BatchUniforms = sd->pVDesc->BatchUniforms;
-  v9 = 3 * var;
-  if ( BatchUniforms[var].Offset >= 0 )
+  if ( sd->pVDesc->BatchUniforms[var].Offset >= 0 )
   {
     pVDesc = sd->pVDesc;
 LABEL_3:
     Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform0(
-      this,
       sd,
-      *(char *)(v9 + pVDesc[6]),
+      this,
+      *(char *)(pVDesc[6] + 3 * var),
       v,
       n,
       index
-    + batch * *(unsigned __int8 *)(pVDesc[5] + 10 * *(char *)(v9 + pVDesc[6]) + 9)
-    + *(char *)(v9 + pVDesc[6] + 1),
-      v11);
+    + batch * *(unsigned __int8 *)(10 * *(char *)(pVDesc[6] + 3 * var) + pVDesc[5] + 9)
+    + *(char *)(pVDesc[6] + 3 * var + 1),
+      v8);
     return;
   }
-  if ( sd->pFDesc->BatchUniforms[v9 / 3].Offset >= 0 )
+  if ( sd->pFDesc->BatchUniforms[var].Offset >= 0 )
   {
     pVDesc = sd->pFDesc;
     goto LABEL_3;
   }
   Scaleform::Render::ShaderInterfaceBase<Scaleform::Render::D3D1x::Uniform,Scaleform::Render::D3D1x::ShaderPair>::SetUniform0(
-    this,
     sd,
+    this,
     var,
     v,
     n,
     index,
-    v11);
+    v8);
 }

@@ -4,7 +4,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
         void *command)
 {
   int v3; // edi
-  const wchar_t **v6; // ebx
+  wchar_t **v6; // ebx
   unsigned int v7; // edi
   unsigned int Length; // eax
   unsigned int MaxLength; // ecx
@@ -13,14 +13,14 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
   unsigned int v12; // edi
   unsigned int v13; // eax
   unsigned int v14; // ecx
-  const wchar_t *v15; // edx
+  wchar_t *v15; // edx
   unsigned int v16; // ebp
   unsigned int v17; // ebx
   unsigned int v18; // eax
   unsigned int v19; // edx
   unsigned int v20; // ecx
-  unsigned int inserted; // edi
-  const void *v22; // edi
+  int inserted; // edi
+  void *v22; // edi
   unsigned int v23; // ebx
   unsigned int v24; // ebp
   bool v25; // zf
@@ -29,7 +29,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
   unsigned int v28; // ecx
   unsigned int v29; // eax
   unsigned int v30; // ecx
-  unsigned int v31; // edi
+  int v31; // edi
   unsigned int v32; // ebx
   unsigned int v33; // eax
   unsigned int v34; // ecx
@@ -44,8 +44,8 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
   unsigned int v43; // edi
   unsigned int v44; // ebx
   unsigned int v45; // [esp-10h] [ebp-38h]
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator paraIter; // [esp+8h] [ebp-20h] BYREF
-  Scaleform::Render::Text::ParagraphFormat newFmt; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+8h] [ebp-20h] BYREF
+  Scaleform::Render::Text::ParagraphFormat fmt; // [esp+10h] [ebp-18h] BYREF
 
   v3 = 0;
   switch ( cmdId )
@@ -58,12 +58,12 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
       }
       return Scaleform::Render::Text::StyledText::InsertString(
                this->pDocument.pObject,
-               (const wchar_t *)command + 2,
+               (wchar_t *)command + 2,
                *(_DWORD *)command,
                1u,
                NLP_ReplaceCRLF);
     case 1u:
-      v6 = (const wchar_t **)command;
+      v6 = (wchar_t **)command;
       v7 = *((_DWORD *)command + 2);
       Length = Scaleform::Render::Text::StyledText::GetLength(this->pDocument.pObject);
       MaxLength = this->MaxLength;
@@ -108,7 +108,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
       Scaleform::Render::Text::DocView::RemoveText(this, v44, v43);
       return v43 - v44;
     case 5u:
-      v15 = (const wchar_t *)command;
+      v15 = (wchar_t *)command;
       v16 = *((_DWORD *)command + 1);
       if ( *(_DWORD *)command <= v16 )
       {
@@ -130,7 +130,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::EditCommand(
         v20 = v18;
       if ( v20 - v19 + v18 + 1 > this->MaxLength )
         return v3;
-      v15 = (const wchar_t *)command;
+      v15 = (wchar_t *)command;
 LABEL_23:
       inserted = Scaleform::Render::Text::StyledText::InsertString(
                    this->pDocument.pObject,
@@ -170,7 +170,7 @@ LABEL_23:
       }
       v31 = Scaleform::Render::Text::StyledText::InsertString(
               this->pDocument.pObject,
-              *((const wchar_t **)v22 + 2),
+              *((wchar_t **)v22 + 2),
               v23,
               cmdId,
               (this->Flags & 4) != 0 ? NLP_CompressCRLF : NLP_IgnoreCRLF);
@@ -187,7 +187,7 @@ LABEL_23:
         v32 = *((_DWORD *)command + 1);
         cmdId = *(_DWORD *)command;
       }
-      paraIter.pArray = (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *)-1;
+      result.pArray = (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *)-1;
       if ( this->MaxLength )
       {
         v33 = Scaleform::Render::Text::StyledText::GetLength(this->pDocument.pObject);
@@ -201,45 +201,45 @@ LABEL_23:
         v37 = v33 - v34 + v35;
         if ( v37
            + Scaleform::Render::Text::StyledText::GetLength(*((Scaleform::Render::Text::StyledText **)command + 2)) > v36 )
-          paraIter.pArray = (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *)(this->MaxLength - v37);
+          result.pArray = (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> > *)(this->MaxLength - v37);
       }
       v38 = Scaleform::Render::Text::StyledText::InsertStyledText(
               this->pDocument.pObject,
-              *((const Scaleform::Render::Text::StyledText **)command + 2),
+              *((Scaleform::Render::Text::StyledText **)command + 2),
               v32,
-              (unsigned int)paraIter.pArray);
+              (unsigned int)result.pArray);
       Scaleform::Render::Text::DocView::RemoveText(this, v38 + v32, v38 + cmdId);
       return v38;
     case 8u:
       v45 = *(_DWORD *)command;
       pObject = this->pDocument.pObject;
       cmdId = 0;
-      Scaleform::Render::Text::StyledText::GetParagraphByIndex(pObject, &paraIter, v45, &cmdId);
-      if ( Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished(&paraIter) )
+      Scaleform::Render::Text::StyledText::GetParagraphByIndex(pObject, &result, v45, &cmdId);
+      if ( Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished(&result) )
         goto LABEL_56;
       if ( cmdId )
         goto LABEL_56;
-      pPara = paraIter.pArray->Data.Data[paraIter.CurIndex].pPara;
+      pPara = result.pArray->Data.Data[result.CurIndex].pPara;
       v41 = pPara->pFormat.pObject;
       if ( !v41 )
         goto LABEL_56;
       if ( Scaleform::Render::Text::ParagraphFormat::IsBullet(pPara->pFormat.pObject) )
       {
-        Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&newFmt, v41);
-        newFmt.PresentMask = newFmt.PresentMask & 0x7F7F | 0x80;
+        Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&fmt, v41);
+        fmt.PresentMask = fmt.PresentMask & 0x7F7F | 0x80;
 LABEL_51:
         Allocator = Scaleform::Render::Text::StyledText::GetAllocator(this->pDocument.pObject);
-        Scaleform::Render::Text::Paragraph::SetFormat(pPara, Allocator, &newFmt);
+        Scaleform::Render::Text::Paragraph::SetFormat(pPara, Allocator, &fmt);
         this->OnDocumentChanged(this, 2u);
-        Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&newFmt);
+        Scaleform::Render::Text::ParagraphFormat::FreeTabStops(&fmt);
         return 0;
       }
       if ( v41->Indent || v41->BlockIndent )
       {
-        Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&newFmt, v41);
-        newFmt.Indent = 0;
-        newFmt.BlockIndent = 0;
-        newFmt.PresentMask |= 6u;
+        Scaleform::Render::Text::ParagraphFormat::ParagraphFormat(&fmt, v41);
+        fmt.Indent = 0;
+        fmt.BlockIndent = 0;
+        fmt.PresentMask |= 6u;
         goto LABEL_51;
       }
 LABEL_56:

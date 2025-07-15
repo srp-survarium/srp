@@ -1,27 +1,13 @@
-vostok::render::material_effects *__thiscall vostok::render::render_particle_emitter_instance::get_material_effects(
-        vostok::render::render_particle_emitter_instance *this)
+vostok::render::material_effects *__usercall vostok::render::render_particle_emitter_instance::get_material_effects@<eax>(
+        vostok::render::render_particle_emitter_instance *this@<ecx>,
+        int a2@<eax>)
 {
-  vostok::render::material_effects_instance *m_object; // eax
-  vostok::render::material_effects *result; // eax
+  vostok::render::enum_vertex_input_type vertex_input_type; // eax
+  vostok::render::material_effects_instance *v3; // edx
 
-  m_object = this->m_material_effects_ptr.m_object;
-  if ( m_object )
-    return &m_object->m_material_effects;
-  switch ( this->m_vertex_type )
-  {
-    case particle_vertex_type_billboard:
-      result = (vostok::render::material_effects *)unk_4BB07E8;
-      break;
-    case particle_vertex_type_billboard_subuv:
-      result = (vostok::render::material_effects *)unk_4BB07EC;
-      break;
-    case particle_vertex_type_trail:
-    case particle_vertex_type_beam:
-      result = (vostok::render::material_effects *)unk_4BB07F0;
-      break;
-    default:
-      result = s_nomaterial_material_effects[0];
-      break;
-  }
-  return result;
+  vertex_input_type = vostok::render::render_particle_emitter_instance::get_vertex_input_type(this, a2);
+  if ( v3 )
+    return vostok::render::material_effects_instance::get_material_effects(v3, vertex_input_type);
+  else
+    return *(vostok::render::material_effects **)&s_system_renderer_buffer.m_family[2].orig_name.m_buffer[4 * vostok::render::vertex_input_type_to_index(vertex_input_type) + 4];
 }

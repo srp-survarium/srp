@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Text::StyledText::SetText(
         Scaleform::Render::Text::StyledText *this,
-        const char *putf8String,
+        char *putf8String,
         unsigned int stringSize)
 {
   Scaleform::Render::Text::StyledText::Clear(this);
@@ -16,7 +16,7 @@ void __thiscall Scaleform::Render::Text::StyledText::SetText(
 
 void __thiscall Scaleform::Render::Text::StyledText::SetText(
         Scaleform::Render::Text::StyledText *this,
-        wchar_t *pstr,
+        const __m128i *pstr,
         unsigned int length)
 {
   Scaleform::Render::Text::StyledText::Clear(this);

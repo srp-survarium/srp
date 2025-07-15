@@ -5,34 +5,39 @@ void __thiscall vostok::ui::ui_scroll_pad::draw(
 {
   vostok::ui::window *v4; // eax
   float y; // xmm0_4
-  const vostok::math::float2 *(__thiscall *get_position)(struct vostok::ui::ui_scroll_pad *); // eax
+  vostok::ui::ui_scroll_pad_vtbl *v6; // eax
   float v7; // xmm0_4
-  const vostok::math::float2 *(__thiscall *v8)(struct vostok::ui::ui_scroll_pad *); // eax
+  vostok::ui::ui_scroll_pad_vtbl *v8; // eax
   float v9; // xmm0_4
-  vostok::ui::window **v10; // edi
-  vostok::ui::window **i; // esi
-  void **M_start; // [esp-14h] [ebp-28h]
-  void **M_finish; // [esp-10h] [ebp-24h]
-  vostok::math::float2 range; // [esp+Ch] [ebp-8h] BYREF
+  void **M_finish; // eax
+  void **M_start; // ecx
+  vostok::ui::window **v12; // edi
+  vostok::ui::window **v13; // esi
+  float __val; // [esp+8h] [ebp-8h] BYREF
+  float v15; // [esp+Ch] [ebp-4h] BYREF
 
   v4 = this->get_parent(this);
   y = v4->get_size(v4)->y;
-  get_position = this->get_position;
-  range.y = y;
-  v7 = -get_position(this)->y;
-  v8 = this->get_position;
-  range.x = v7;
-  v9 = range.y - v8(this)->y;
+  v6 = this->__vftable;
+  v15 = y;
+  LODWORD(v7) = LODWORD(v6->get_position(this)->y) ^ _mask__NegFloat_;
+  v8 = this->__vftable;
+  __val = v7;
+  v9 = v15 - v8->get_position(this)->y;
   M_finish = this->m_children._M_impl._M_finish;
   M_start = this->m_children._M_impl._M_start;
-  range.y = v9;
-  v10 = stlp_std::priv::__lower_bound<vostok::ui::window * *,float,vostok::ui::pred_window_less_position,vostok::ui::pred_window_less_position,int>(
+  v15 = v9;
+  v12 = stlp_std::lower_bound<vostok::ui::window * *,float,vostok::ui::pred_window_less_position>(
           (vostok::ui::window **)M_start,
           (vostok::ui::window **)M_finish,
-          &range.x);
-  for ( i = stlp_std::priv::__upper_bound<vostok::ui::window * *,float,vostok::ui::pred_window_less_position,vostok::ui::pred_window_less_position,int>(
-              (vostok::ui::window **)this->m_children._M_impl._M_start,
-              (vostok::ui::window **)this->m_children._M_impl._M_finish,
-              &range.y); v10 != i; ++v10 )
-    (*v10)->draw(*v10, renderer, scene_view);
+          &__val);
+  v13 = stlp_std::upper_bound<vostok::ui::window * *,float,vostok::ui::pred_window_less_position>(
+          (vostok::ui::window **)this->m_children._M_impl._M_start,
+          (vostok::ui::window **)this->m_children._M_impl._M_finish,
+          &v15);
+  while ( v12 != v13 )
+  {
+    (*v12)->draw(*v12, renderer, scene_view);
+    ++v12;
+  }
 }

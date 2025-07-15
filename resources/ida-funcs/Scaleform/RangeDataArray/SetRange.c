@@ -34,9 +34,9 @@ void __thiscall Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::R
   unsigned int v32; // esi
   Scaleform::RangeData<void *> *v33; // ecx
   Scaleform::RangeData<void *> *v34; // eax
-  Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> >::Iterator insertionPoint; // [esp+8h] [ebp-1Ch] BYREF
-  Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> >::Iterator it; // [esp+10h] [ebp-14h] BYREF
-  Scaleform::RangeData<void *> r; // [esp+18h] [ebp-Ch] BYREF
+  Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> >::Iterator v35; // [esp+8h] [ebp-1Ch] BYREF
+  Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> >::Iterator v36; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::RangeData<void *> v37; // [esp+18h] [ebp-Ch] BYREF
 
   Size = this->Ranges.Data.Size;
   if ( !Size )
@@ -51,7 +51,7 @@ void __thiscall Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::R
   NearestRangeIndex = Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>>,2,Scaleform::ArrayDefaultPolicy>>::FindNearestRangeIndex(
                         (Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> > *)this,
                         range->Index);
-  it.pArray = this;
+  v36.pArray = this;
   if ( NearestRangeIndex >= 0 )
   {
     if ( NearestRangeIndex < Size )
@@ -66,10 +66,10 @@ void __thiscall Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::R
   v7 = v6;
   v8 = this->Ranges.Data.Data[v6].Index;
   v9 = &this->Ranges.Data.Data[v6];
-  it.Index = v6;
+  v36.Index = v6;
   if ( Index < v8
-    || (insertionPoint.pArray = (Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> > *)(Index + range->Length),
-        (int)&insertionPoint.pArray[-1].Ranges.Data.Policy.Capacity + 3 > (signed int)(v9->Length + v8 - 1)) )
+    || (v35.pArray = (Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy> > *)(Index + range->Length),
+        (int)&v35.pArray[-1].Ranges.Data.Policy.Capacity + 3 > (signed int)(v9->Length + v8 - 1)) )
   {
     if ( Index < v9->Index || (Length = v9->Length, Index > (int)(Length + v9->Index - 1)) )
     {
@@ -83,7 +83,7 @@ void __thiscall Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::R
         if ( v6 < (signed int)this->Ranges.Data.Size )
         {
           ++v6;
-          it.Index = v19;
+          v36.Index = v19;
         }
         goto LABEL_37;
       }
@@ -94,11 +94,11 @@ void __thiscall Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::R
     else
       v9->Length = 0;
     if ( v6 < (signed int)this->Ranges.Data.Size )
-      it.Index = ++v6;
+      v36.Index = ++v6;
 LABEL_24:
-    pArray = it.pArray;
-    insertionPoint.pArray = it.pArray;
-    insertionPoint.Index = v6;
+    pArray = v36.pArray;
+    v35.pArray = v36.pArray;
+    v35.Index = v6;
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::RangeData<void *>,Scaleform::AllocatorLH<Scaleform::RangeData<void *>,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
       &this->Ranges,
       v6,
@@ -107,19 +107,19 @@ LABEL_24:
   }
   if ( v9->Index != Index )
   {
-    if ( (signed int)(v9->Index + v9->Length) > (int)insertionPoint.pArray )
+    if ( (signed int)(v9->Index + v9->Length) > (int)v35.pArray )
     {
       v13 = v9->Index;
-      r.Length = v9->Length;
-      v14 = v9->Index + r.Length - Index;
-      r.Index = v13;
-      r.Data = v9->Data;
+      v37.Length = v9->Length;
+      v14 = v9->Index + v37.Length - Index;
+      v37.Index = v13;
+      v37.Data = v9->Data;
       Scaleform::Range::ShrinkRange(v9, v14);
       v15 = range->Length + this->Ranges.Data.Data[v7].Length;
-      if ( v15 > (int)r.Length )
-        v15 = r.Length;
-      r.Index += v15;
-      r.Length -= v15;
+      if ( v15 > (int)v37.Length )
+        v15 = v37.Length;
+      v37.Index += v15;
+      v37.Length -= v15;
       v16 = v6 + 1;
       Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::RangeData<void *>,Scaleform::AllocatorLH<Scaleform::RangeData<void *>,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
         &this->Ranges,
@@ -128,15 +128,15 @@ LABEL_24:
       if ( v6 < (signed int)this->Ranges.Data.Size )
       {
         ++v6;
-        it.Index = v16;
+        v36.Index = v16;
       }
-      pArray = it.pArray;
-      insertionPoint.pArray = it.pArray;
-      insertionPoint.Index = v6;
+      pArray = v36.pArray;
+      v35.pArray = v36.pArray;
+      v35.Index = v6;
       Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::RangeData<void *>,Scaleform::AllocatorLH<Scaleform::RangeData<void *>,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
         &this->Ranges,
         v6 + 1,
-        &r);
+        &v37);
       if ( v6 >= (signed int)this->Ranges.Data.Size )
         goto LABEL_41;
       ++v6;
@@ -144,7 +144,7 @@ LABEL_24:
     }
     Scaleform::Range::ShrinkRange(v9, range->Length);
     if ( v6 < (signed int)this->Ranges.Data.Size )
-      it.Index = ++v6;
+      v36.Index = ++v6;
     goto LABEL_24;
   }
   v10 = range->Length;
@@ -165,18 +165,18 @@ LABEL_34:
   }
   *v12 = *range;
 LABEL_37:
-  pArray = it.pArray;
-  insertionPoint.pArray = it.pArray;
-  insertionPoint.Index = v6;
+  pArray = v36.pArray;
+  v35.pArray = v36.pArray;
+  v35.Index = v6;
 LABEL_38:
   if ( v6 < (signed int)this->Ranges.Data.Size )
   {
     ++v6;
 LABEL_40:
-    it.Index = v6;
+    v36.Index = v6;
   }
 LABEL_41:
-  if ( !Scaleform::RangeDataArray<Scaleform::GFx::TextField::CSSHolderBase::UrlZone,Scaleform::Array<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished((Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> >::Iterator *)&it) )
+  if ( !Scaleform::RangeDataArray<Scaleform::GFx::TextField::CSSHolderBase::UrlZone,Scaleform::Array<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished((Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> >::Iterator *)&v36) )
   {
     v20 = v6;
     do
@@ -199,14 +199,14 @@ LABEL_41:
         else
         {
           memmove(
-            (unsigned __int8 *)&this->Ranges.Data.Data[v20],
-            (unsigned __int8 *)&this->Ranges.Data.Data[v20 + 1],
+            (int)&this->Ranges.Data.Data[v20],
+            (const __m128i *)&this->Ranges.Data.Data[v20 + 1],
             12 * (v22 - v6 - 1));
           --this->Ranges.Data.Size;
         }
       }
     }
-    while ( !Scaleform::RangeDataArray<Scaleform::GFx::TextField::CSSHolderBase::UrlZone,Scaleform::Array<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished((Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> >::Iterator *)&it) );
+    while ( !Scaleform::RangeDataArray<Scaleform::GFx::TextField::CSSHolderBase::UrlZone,Scaleform::Array<Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::IsFinished((Scaleform::RangeDataArray<Scaleform::Ptr<Scaleform::Render::Text::TextFormat>,Scaleform::ArrayLH<Scaleform::RangeData<Scaleform::Ptr<Scaleform::Render::Text::TextFormat> >,2,Scaleform::ArrayDefaultPolicy> >::Iterator *)&v36) );
   }
   if ( v6 >= 0 && v6 < this->Ranges.Data.Size )
   {
@@ -226,39 +226,38 @@ LABEL_41:
       }
     }
   }
-  it.Index = insertionPoint.Index;
-  if ( insertionPoint.Index >= 0 )
+  v36.Index = v35.Index;
+  if ( v35.Index >= 0 )
   {
-    v28 = insertionPoint.Index - 1;
-    if ( insertionPoint.Index - 1 >= 0 && v28 < pArray->Ranges.Data.Size )
+    v28 = v35.Index - 1;
+    if ( v35.Index - 1 >= 0 && v28 < pArray->Ranges.Data.Size )
     {
       v29 = &pArray->Ranges.Data.Data[v28];
       if ( v29->Length )
       {
-        if ( v29->Index + v29->Length == range->Index
-          && v29->Data == pArray->Ranges.Data.Data[insertionPoint.Index].Data )
+        if ( v29->Index + v29->Length == range->Index && v29->Data == pArray->Ranges.Data.Data[v35.Index].Data )
         {
           v29->Length += range->Length;
-          Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::Remove(&insertionPoint);
-          insertionPoint.Index = v28;
+          Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::Remove(&v35);
+          v35.Index = v28;
         }
       }
       else
       {
         Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::RangeData<void *>,Scaleform::AllocatorLH<Scaleform::RangeData<void *>,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
           &pArray->Ranges,
-          --insertionPoint.Index);
+          --v35.Index);
       }
     }
   }
   v30 = pArray->Ranges.Data.Size;
-  v31 = insertionPoint.Index;
-  it.pArray = pArray;
-  it.Index = insertionPoint.Index;
-  if ( insertionPoint.Index < v30 )
+  v31 = v35.Index;
+  v36.pArray = pArray;
+  v36.Index = v35.Index;
+  if ( v35.Index < v30 )
   {
-    v31 = insertionPoint.Index + 1;
-    it.Index = insertionPoint.Index + 1;
+    v31 = v35.Index + 1;
+    v36.Index = v35.Index + 1;
   }
   if ( v31 >= 0 && v31 < (unsigned int)v30 )
   {
@@ -266,11 +265,11 @@ LABEL_41:
     v33 = &pArray->Ranges.Data.Data[v31];
     if ( v32 )
     {
-      v34 = &pArray->Ranges.Data.Data[insertionPoint.Index];
+      v34 = &pArray->Ranges.Data.Data[v35.Index];
       if ( v34->Index + v34->Length == v33->Index && v34->Data == v33->Data )
       {
         v34->Length += v32;
-        Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::Remove(&it);
+        Scaleform::RangeDataArray<void *,Scaleform::ArrayLH<Scaleform::RangeData<void *>,2,Scaleform::ArrayDefaultPolicy>>::Iterator::Remove(&v36);
       }
     }
     else

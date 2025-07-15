@@ -6,7 +6,7 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::GetFillData(
         char meshGenFlags)
 {
   int v6; // eax
-  Scaleform::Render::ComplexFill *ComplexFill; // eax
+  Scaleform::RefCountVImpl *ComplexFill; // eax
   int v8; // eax
   Scaleform::Render::Image *v9; // eax
   int v10; // eax
@@ -35,9 +35,9 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::GetFillData(
     Scaleform::Render::FillData::FillData(&v12, Fill_VColor);
     goto LABEL_10;
   }
-  if ( ComplexFill->pGradient.pObject )
+  if ( ComplexFill[1].RefCount )
   {
-    Scaleform::Render::FillData::FillData(&v12, ComplexFill->pGradient.pObject);
+    Scaleform::Render::FillData::FillData(&v12, (Scaleform::Render::GradientData *)ComplexFill[1].RefCount);
 LABEL_10:
     pdata->Type = *(_DWORD *)v8;
     pdata->Color = *(_DWORD *)(v8 + 4);
@@ -48,8 +48,9 @@ LABEL_10:
     pdata->pVFormat = *(const Scaleform::Render::VertexFormat **)(v8 + 16);
     return;
   }
-  v11.Fill = ComplexFill->FillMode.Fill;
-  v9 = ComplexFill->pImage.pObject->GetAsImage(ComplexFill->pImage.pObject);
+  v11.Fill = (unsigned __int8)ComplexFill[6].__vftable;
+  v9 = (Scaleform::Render::Image *)(*((int (__thiscall **)(Scaleform::RefCountVImpl_vtbl *))ComplexFill[1].~Scaleform::RefCountVImpl
+                                    + 9))(ComplexFill[1].__vftable);
   Scaleform::Render::FillData::FillData(&v12, v9, v11);
   pdata->Type = *(_DWORD *)v10;
   pdata->Color = *(_DWORD *)(v10 + 4);

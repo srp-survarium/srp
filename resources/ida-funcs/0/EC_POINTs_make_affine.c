@@ -14,7 +14,7 @@ int __cdecl EC_POINTs_make_affine(const ec_group_st *group, unsigned int num, ec
         if ( ++v6 >= num )
           return points_make_affine(group, num, points, ctx);
       }
-      ERR_put_error(0x10u, 136, 101, ".\\crypto\\ec\\ec_lib.c", 1104);
+      ERR_put_error((int)group, 0x10u, 136, 101, ".\\crypto\\ec\\ec_lib.c", 1104);
       return 0;
     }
     else
@@ -24,7 +24,7 @@ int __cdecl EC_POINTs_make_affine(const ec_group_st *group, unsigned int num, ec
   }
   else
   {
-    ERR_put_error(0x10u, 136, 66, ".\\crypto\\ec\\ec_lib.c", 1097);
+    ERR_put_error((int)group, 0x10u, 136, 66, ".\\crypto\\ec\\ec_lib.c", 1097);
     return 0;
   }
 }

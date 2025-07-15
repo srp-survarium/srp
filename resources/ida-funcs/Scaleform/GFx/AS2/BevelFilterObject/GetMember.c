@@ -16,12 +16,12 @@ char __thiscall Scaleform::GFx::AS2::BevelFilterObject::GetMember(
   const Scaleform::Render::BlurFilterParams *v14; // eax
   Scaleform::GFx::AS2::LocalFrame *v15; // eax
   double v16; // st7
-  long double Alpha; // st7
+  double Alpha; // st7
   const Scaleform::Render::BlurFilterParams *v18; // eax
   const Scaleform::Render::BlurFilterParams *v19; // eax
   const Scaleform::Render::BlurFilterParams *v20; // eax
   const Scaleform::Render::BlurFilterParams *v21; // eax
-  Scaleform::GFx::AS2::Environment *StringNode; // esi
+  Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::AS2::Value *v23; // ecx
 
   v4 = name;
@@ -76,9 +76,7 @@ LABEL_12:
       if ( Scaleform::GFx::ASString::operator==(v4, "highlightColor") )
       {
         v18 = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16));
-        Scaleform::GFx::AS2::Value::SetInt(
-          val,
-          (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v18->Colors[0].Raw);
+        Scaleform::GFx::AS2::Value::SetInt(val, v18->Colors[0].Raw & 0xFFFFFF);
         return 1;
       }
       if ( Scaleform::GFx::ASString::operator==(v4, "shadowAlpha") )
@@ -90,9 +88,7 @@ LABEL_12:
         if ( Scaleform::GFx::ASString::operator==(v4, "shadowColor") )
         {
           v19 = Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16));
-          Scaleform::GFx::AS2::Value::SetInt(
-            val,
-            (unsigned int)&vostok::memory::s_CRT_arena[5574199] & v19->Colors[1].Raw);
+          Scaleform::GFx::AS2::Value::SetInt(val, v19->Colors[1].Raw & 0xFFFFFF);
           return 1;
         }
         if ( Scaleform::GFx::ASString::operator==(v4, "knockout") )
@@ -111,20 +107,26 @@ LABEL_12:
         {
           if ( (Scaleform::GFx::AS2::BitmapFilterObject::readonlyFilterParams((Scaleform::GFx::AS2::BevelFilterObject *)((char *)this - 16))->Mode
               & 0x20) != 0 )
-            StringNode = (Scaleform::GFx::AS2::Environment *)Scaleform::GFx::ASStringManager::CreateStringNode(
-                                                               *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(LODWORD(penv) + 116) + 20) + 12) + 788),
-                                                               "inner");
+            StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                           *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(LODWORD(penv) + 116)
+                                                                                       + 20)
+                                                                           + 12)
+                                                               + 788),
+                           (__m128i *)"inner");
           else
-            StringNode = (Scaleform::GFx::AS2::Environment *)Scaleform::GFx::ASStringManager::CreateStringNode(
-                                                               *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(LODWORD(penv) + 116) + 20) + 12) + 788),
-                                                               "outer");
+            StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                           *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(LODWORD(penv) + 116)
+                                                                                       + 20)
+                                                                           + 12)
+                                                               + 788),
+                           (__m128i *)"outer");
           v23 = val;
-          ++StringNode->Stack.pPageEnd;
+          ++StringNode->RefCount;
           penv = *(float *)&StringNode;
           Scaleform::GFx::AS2::Value::SetString(v23, (const Scaleform::GFx::ASString *)&penv);
-          if ( StringNode->Stack.pPageEnd-- == (Scaleform::GFx::AS2::Value *)1 )
+          if ( StringNode->RefCount-- == 1 )
           {
-            Scaleform::GFx::ASStringNode::ReleaseNode((Scaleform::GFx::ASStringNode *)StringNode);
+            Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
             return 1;
           }
           return 1;

@@ -3,9 +3,9 @@ Scaleform::StringDH *__thiscall Scaleform::Render::Text::TextFormat::GetFontList
 {
   Scaleform::StringDH *result; // eax
 
-  if ( (_S1_3 & 1) == 0 )
+  if ( (_S1_4 & 1) == 0 )
   {
-    _S1_3 |= 1u;
+    _S1_4 |= 1u;
     Scaleform::String::String(&emptyStr);
     atexit(Scaleform::Render::Text::TextFormat::GetFontList_::_2_::_dynamic_atexit_destructor_for__emptyStr__);
   }

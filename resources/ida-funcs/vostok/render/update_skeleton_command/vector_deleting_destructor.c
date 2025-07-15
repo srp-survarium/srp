@@ -2,13 +2,7 @@ vostok::render::update_skeleton_command *__thiscall vostok::render::update_skele
         vostok::render::update_skeleton_command *this,
         char a2)
 {
-  vostok::render::render_model_instance *m_object; // eax
-
-  m_object = this->m_model_instance.m_object;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_model_instance.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_model_instance.m_object);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_model_instance);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

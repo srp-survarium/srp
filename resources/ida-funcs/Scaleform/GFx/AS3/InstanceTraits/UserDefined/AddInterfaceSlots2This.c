@@ -77,7 +77,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::UserDefined::AddInterfaceSl
       {
         RefCount = interfaceMN.Obj.pObject->RefCount;
         v12 = interfaceMN.Obj.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           interfaceMN.Obj.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);
@@ -87,7 +87,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::UserDefined::AddInterfaceSl
         return;
     }
     v13 = this->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v18, eClassNotFoundError, v13);
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eClassNotFoundError, v13, &interfaceMN.Name);
     Scaleform::GFx::AS3::VM::ThrowVerifyError(v13, v14);
     pNode = v18.Message.pNode;
     --v18.Message.pNode->RefCount;
@@ -106,7 +106,7 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::UserDefined::AddInterfaceSl
       {
         v16 = interfaceMN.Obj.pObject->RefCount;
         v17 = interfaceMN.Obj.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & v16) != 0 )
+        if ( (v16 & 0x3FFFFF) != 0 )
         {
           interfaceMN.Obj.pObject->RefCount = v16 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v17);

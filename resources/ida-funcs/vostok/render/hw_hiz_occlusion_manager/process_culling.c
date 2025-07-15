@@ -1,32 +1,43 @@
 void __userpurge vostok::render::hw_hiz_occlusion_manager::process_culling(
-        vostok::render::hw_hiz_occlusion_manager *this@<eax>,
-        unsigned int in_num_bounds_and_results@<edi>,
-        vostok::render::hw_hiz_occlusion_manager *a3@<ecx>,
-        vostok::render::renderer_context *in_context,
-        vostok::render::hw_hiz_point_list *in_bounds)
+        vostok::render::hw_hiz_occlusion_manager *this@<ecx>,
+        vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> a2@<esi>,
+        vostok::math::float4 *in_context,
+        const vostok::math::float4 *in_bounds,
+        unsigned int in_num_bounds_and_results)
 {
+  vostok::render::hw_hiz_occlusion_manager *v5; // ecx
   vostok::render::hw_hiz_occlusion_manager *v6; // ecx
+  vostok::render::hw_hiz_occlusion_manager *v7; // ecx
+  float z; // eax
 
-  if ( in_num_bounds_and_results && this->m_hiz_occlusion_effect.m_object )
+  if ( !s_hiz0 )
   {
-    *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 104) = 0;
-    if ( this->m_use_scene_depth_buffer )
-      vostok::render::hw_hiz_occlusion_manager::copy_scene_depth(a3, (int)this);
-    else
-      vostok::render::hw_hiz_occlusion_manager::render_occluders(a3, this, in_context);
-    vostok::render::hw_hiz_occlusion_manager::downsample_occlusion_buffer(v6, this);
-    vostok::render::hw_hiz_occlusion_manager::render_model_bounds(
-      this,
-      in_num_bounds_and_results,
-      (bool)in_context,
-      (unsigned int)this,
-      in_context,
-      in_bounds);
-    (*(void (__stdcall **)(int, ID3D11Resource *, ID3D11Resource *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                   + 188))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      this->m_t_culling_result_lockable.m_object->m_surface,
-      this->m_t_culling_result.m_object->m_surface);
-    *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 104) = 1;
+    pix_event_wrapper_dx11::pix_event_wrapper_dx11(
+      (pix_event_wrapper_dx11 *)this,
+      (pix_event_wrapper_dx11 *)&in_num_bounds_and_results + 3,
+      (int)L"hw_hiz_occlusion_manager_process_culling");
+    if ( in_num_bounds_and_results )
+    {
+      if ( a2.m_object->m_reference_count )
+      {
+        *(_BYTE *)(LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z) + 7432) = 0;
+        vostok::render::hw_hiz_occlusion_manager::copy_scene_depth(v5);
+        vostok::render::hw_hiz_occlusion_manager::downsample_occlusion_buffer(v6, a2);
+        vostok::render::hw_hiz_occlusion_manager::render_model_bounds(
+          v7,
+          (vostok::render::renderer_context *)a2.m_object,
+          (vostok::render::renderer_context *)in_context,
+          (unsigned int)in_bounds,
+          in_num_bounds_and_results);
+        vostok::quasi_singleton<vostok::render::device>::pinst->m_context->CopyResource(
+          vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+          *(ID3D11Resource **)(*(_DWORD *)&a2.m_object->m_name.m_string.m_buffer[100] + 440),
+          *(ID3D11Resource **)(*(_DWORD *)&a2.m_object->m_name.m_string.m_buffer[96] + 440));
+        z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+        a2.m_object->m_name.m_string.m_buffer[52] = 0;
+        *(_BYTE *)(LODWORD(z) + 7432) = 1;
+      }
+    }
+    D3DPERF_EndEvent();
   }
 }

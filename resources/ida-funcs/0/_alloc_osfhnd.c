@@ -2,7 +2,7 @@ int __cdecl _alloc_osfhnd()
 {
   int v0; // edi
   stlp_std::ioinfo *v2; // esi
-  stlp_std::ioinfo *v3; // eax
+  unsigned __int8 *v3; // eax
   stlp_std::ioinfo **v4; // ecx
   int failed; // [esp+14h] [ebp-24h]
   int fh; // [esp+1Ch] [ebp-1Ch]
@@ -18,19 +18,19 @@ int __cdecl _alloc_osfhnd()
     v2 = __pioinfo[v0];
     if ( !v2 )
     {
-      v3 = (stlp_std::ioinfo *)_calloc_crt(0x20u, 0x40u);
+      v3 = _calloc_crt(0x20u, 0x40u);
       if ( v3 )
       {
         v4 = &__pioinfo[v0];
-        *v4 = v3;
+        *v4 = (stlp_std::ioinfo *)v3;
         _nhandle += 32;
-        while ( v3 < (stlp_std::ioinfo *)&(*v4)[56].lock.SpinCount )
+        while ( v3 < (unsigned __int8 *)&(*v4)[56].lock.SpinCount )
         {
-          v3->osfile = 0;
-          v3->osfhnd = -1;
-          v3->pipech = 10;
-          v3->lockinitflag = 0;
-          v3 = (stlp_std::ioinfo *)((char *)v3 + 64);
+          v3[4] = 0;
+          *(_DWORD *)v3 = -1;
+          v3[5] = 10;
+          *((_DWORD *)v3 + 2) = 0;
+          v3 += 64;
         }
         fh = 32 * v0;
         __pioinfo[(32 * v0) >> 5]->osfile = 1;

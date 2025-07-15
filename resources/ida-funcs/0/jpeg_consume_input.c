@@ -16,7 +16,7 @@ LABEL_3:
       v1 = (*(int (__cdecl **)(_DWORD *))a1[104])(a1);
       if ( v1 != 1 )
         goto LABEL_8;
-      sub_370E80((int)a1);
+      sub_47DB40((int)a1);
       result = 1;
       a1[5] = 202;
       break;

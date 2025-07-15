@@ -13,20 +13,20 @@ bool __cdecl Scaleform::Render::Text::SGMLParser<wchar_t>::ParseFloat(
   double v10; // st7
   int v11; // [esp+Ch] [ebp-1Ch]
   int v12; // [esp+Ch] [ebp-1Ch]
-  double v; // [esp+10h] [ebp-18h]
-  double frac; // [esp+18h] [ebp-10h]
-  double sign; // [esp+20h] [ebp-8h]
+  double v13; // [esp+10h] [ebp-18h]
+  double v14; // [esp+18h] [ebp-10h]
+  double v15; // [esp+20h] [ebp-8h]
 
   if ( !len )
     return 0;
   v4 = pstr;
   v5 = 0.0;
   v6 = &pstr[len];
-  v = 0.0;
-  sign = 1.0;
+  v13 = 0.0;
+  v15 = 1.0;
   if ( *pstr == 45 )
   {
-    sign = -1.0;
+    v15 = -1.0;
 LABEL_6:
     v4 = pstr + 1;
     goto LABEL_7;
@@ -44,12 +44,12 @@ LABEL_7:
       if ( !isdigit(v7) )
         return 0;
       v11 = *v4++ - 48;
-      v5 = (double)v11 + v * 10.0;
-      v = v5;
+      v5 = (double)v11 + v13 * 10.0;
+      v13 = v5;
       if ( v4 >= v6 )
       {
         result = 1;
-        *pdestVal = v5 * sign;
+        *pdestVal = v5 * v15;
         return result;
       }
     }
@@ -57,18 +57,18 @@ LABEL_7:
     {
       v8 = 0.0;
       v9 = v4 + 1;
-      frac = 0.0;
+      v14 = 0.0;
       if ( v9 < v6 )
       {
         while ( isdigit(*v9) )
         {
           v12 = *v9++ - 48;
-          v10 = ((double)v12 + frac) * 0.1;
-          frac = v10;
+          v10 = ((double)v12 + v14) * 0.1;
+          v14 = v10;
           if ( v9 >= v6 )
           {
             v8 = v10;
-            v5 = v;
+            v5 = v13;
             goto LABEL_20;
           }
         }
@@ -79,6 +79,6 @@ LABEL_20:
     }
   }
   result = 1;
-  *pdestVal = v5 * sign;
+  *pdestVal = v5 * v15;
   return result;
 }

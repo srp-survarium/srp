@@ -1,63 +1,70 @@
-void __usercall survarium::options_monitor_index_selector::options_monitor_index_selector(
+void __userpurge survarium::options_monitor_index_selector::options_monitor_index_selector(
         survarium::options_monitor_index_selector *this@<ecx>,
-        survarium::options_tab *parent_tab@<eax>)
+        int a2@<esi>,
+        survarium::options_tab *parent_tab)
 {
-  int v2; // esi
-  vostok::fixed_string<32> *m_cached_monitors_names; // ebp
-  int v5; // ebx
-  int v6; // esi
-  vostok::memory::doug_lea_allocator *v7; // eax
-  int *v8; // eax
-  const char **v9; // ecx
-  int v10; // edx
-  const char **i; // eax
-  int v12; // edx
-  unsigned __int8 v13; // cl
-  int v14; // eax
+  vostok::buffer_string *v3; // ecx
+  char *v4; // eax
+  const char *v5; // edi
+  bool v6; // zf
+  int v7; // eax
+  unsigned __int8 v8; // dl
+  bool v9; // cc
+  int v10; // ecx
+  vostok::buffer_string *v11; // [esp-4h] [ebp-10h]
+  const char *v12; // [esp+0h] [ebp-Ch]
+  const char *v13; // [esp+4h] [ebp-8h]
+  unsigned int v14; // [esp+8h] [ebp-4h]
+  int v15; // [esp+14h] [ebp+8h]
+  _DWORD *v16; // [esp+14h] [ebp+8h]
 
-  v2 = 0;
-  survarium::options_item_base::options_item_base(this, "r_monitor_index", parent_tab, 0, string_selector);
-  m_cached_monitors_names = this->m_cached_monitors_names;
-  this->m_values = 0;
-  this->m_values_count = 0;
-  this->__vftable = (survarium::options_monitor_index_selector_vtbl *)&survarium::options_monitor_index_selector::`vftable';
-  `vector constructor iterator'(
-    (char *)this->m_cached_monitors_names,
-    0x2Cu,
-    6,
-    (void *(__thiscall *)(void *))vostok::fixed_string<32>::fixed_string<32>);
-  v5 = 6;
+  survarium::options_item_int::options_item_int(this, a2, parent_tab, "r_monitor_index", 0, 0, 0);
+  v3 = (vostok::buffer_string *)(a2 + 32);
+  *(_DWORD *)a2 = &survarium::options_monitor_index_selector::`vftable';
+  v15 = 5;
+  v4 = (char *)(a2 + 44);
   do
   {
-    vostok::buffer_string::assignf(m_cached_monitors_names++, "%d", v2++);
-    --v5;
+    v3->m_begin = v4;
+    *((_DWORD *)v4 - 2) = v4;
+    *((_DWORD *)v4 - 1) = v4 + 32;
+    *v4 = 0;
+    v3 = (vostok::buffer_string *)((char *)v3 + 44);
+    v4 += 44;
+    --v15;
   }
-  while ( v5 );
-  v6 = vostok::render::g_num_monitors;
-  v7 = (vostok::memory::doug_lea_allocator *)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)survarium::g_allocator.f_.f_);
-  v8 = (int *)vostok::memory::doug_lea_allocator::malloc_impl(v7, 4 * v6 + 8);
-  *v8++ = v6;
-  v9 = (const char **)(v8 + 1);
-  v10 = (int)&v8[v6 + 1];
-  *v8 = 4;
-  for ( i = v9; i != (const char **)v10; ++i )
+  while ( v15 >= 0 );
+  v5 = 0;
+  v16 = (_DWORD *)(a2 + 32);
+  v14 = 6;
+  do
   {
-    if ( i )
-      *i = 0;
+    vostok::fs_new::path_string_impl::assignf(v16, v3, (vostok::buffer_string *)"%d", v5);
+    v16 += 11;
+    ++v5;
+    v6 = v14-- == 1;
+    v3 = v11;
   }
-  v12 = vostok::render::g_num_monitors;
-  this->m_values = v9;
-  v13 = 0;
-  this->m_values_count = v12;
-  if ( v12 > 0 )
+  while ( !v6 );
+  *(_DWORD *)(a2 + 24) = vostok::memory::new_array_helper<char const *>::call<vostok::memory::doug_lea_allocator>(
+                           survarium::g_allocator,
+                           vostok::render::g_num_monitors,
+                           v12,
+                           v13,
+                           v14);
+  v7 = vostok::render::g_num_monitors;
+  v8 = 0;
+  v9 = (int)vostok::render::g_num_monitors <= 0;
+  *(_BYTE *)(a2 + 28) = vostok::render::g_num_monitors;
+  if ( !v9 )
   {
-    v14 = 0;
+    v10 = 0;
     do
     {
-      ++v13;
-      this->m_values[v14] = this->m_cached_monitors_names[v14].m_begin;
-      v14 = v13;
+      ++v8;
+      *(_DWORD *)(*(_DWORD *)(a2 + 24) + 4 * v10) = *(_DWORD *)(44 * v10 + a2 + 32);
+      v10 = v8;
     }
-    while ( v13 < v12 );
+    while ( v8 < v7 );
   }
 }

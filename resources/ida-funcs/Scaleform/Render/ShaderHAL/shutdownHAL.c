@@ -1,9 +1,9 @@
-bool __thiscall Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>::shutdownHAL(
+char __thiscall Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>::shutdownHAL(
         Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface> *this)
 {
-  bool result; // al
+  char result; // al
   Scaleform::Render::VertexFormat **MappedXY16iAlphaSolid; // esi
-  int v4; // ebp
+  int v4; // ebx
   int v5; // edi
   Scaleform::RefCountVImpl *v6; // ecx
   Scaleform::Render::VertexFormat *v7; // edi

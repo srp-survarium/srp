@@ -1,58 +1,17 @@
-void __usercall vostok::apc::wait(const vostok::apc::threads_enum thread_id@<eax>)
+void __usercall vostok::apc::wait(
+        const vostok::apc::threads_enum thread_id@<eax>,
+        vostok::command_line::key *a2@<ecx>,
+        boost::function<void __cdecl(void)> *process_callback)
 {
-  vostok::apc::callback *v1; // edi
-  vostok::resources::resources_manager *m_initialized; // ecx
-  vostok::command_line::key::type_enum m_type; // eax
-  vostok::resources::resources_manager *v4; // ecx
-  vostok::tasks::thread_pool *v5; // ecx
-  vostok::tasks::thread_pool *v6; // ecx
-  vostok::apc::callback *thread; // [esp+Ch] [ebp-Ch]
+  vostok::apc::callback *v3; // edi
+  boost::function0<bool> *v4; // ecx
 
-  v1 = &g_threads.m_begin[thread_id];
-  thread = v1;
-  while ( v1->m_pending )
+  v3 = &g_threads.m_begin[thread_id];
+  while ( v3->m_pending )
   {
-    m_initialized = (vostok::resources::resources_manager *)vostok::resources::g_resources_manager.m_initialized;
-    if ( vostok::resources::g_resources_manager.m_initialized )
-    {
-      m_type = vostok::threading::g_debug_single_thread.m_type;
-      if ( vostok::threading::g_debug_single_thread.m_type == type_unset )
-      {
-        vostok::threading::g_debug_single_thread.m_type = type_recursive;
-        vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-        m_type = vostok::threading::g_debug_single_thread.m_type;
-      }
-      if ( m_type != type_recursive )
-      {
-        if ( m_type == type_unset )
-        {
-          vostok::threading::g_debug_single_thread.m_type = type_recursive;
-          vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-          m_type = vostok::threading::g_debug_single_thread.m_type;
-        }
-        if ( m_type != type_recursive )
-        {
-          vostok::resources::resources_manager::resources_thread_tick(m_initialized);
-          vostok::resources::resources_manager::cooker_thread_tick(
-            v4,
-            vostok::resources::g_resources_manager.m_variable);
-        }
-      }
-      vostok::resources::resources_manager::dispatch_callbacks(vostok::resources::g_resources_manager.m_variable, 0);
-    }
-    if ( s_thread_pool.m_initialized && TlsGetValue(s_thread_affinity_tls_key) )
-    {
-      vostok::tasks::thread_pool::on_current_thread_locks(v5, s_thread_pool.m_variable);
-      v1 = thread;
-    }
-    Sleep(1u);
-    if ( s_thread_pool.m_initialized )
-    {
-      if ( TlsGetValue(s_thread_affinity_tls_key) )
-      {
-        vostok::tasks::thread_pool::on_current_thread_unlocks(v6, s_thread_pool.m_variable);
-        v1 = thread;
-      }
-    }
+    vostok::resources::dispatch_callbacks(a2);
+    if ( (process_callback->vtable != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+      boost::function0<void>::operator()(v4, process_callback);
+    vostok::threading::yield(1u, (vostok::tasks *)v4);
   }
 }

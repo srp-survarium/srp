@@ -1,47 +1,40 @@
 vostok::math::float3 *__thiscall vostok::collision::sphere_geometry_instance::get_closest_point_to(
         vostok::collision::sphere_geometry_instance *this,
         vostok::math::float3 *result,
-        const vostok::math::float3 *point,
+        vostok::math::float3 *point,
         const vostok::math::float4x4 *origin)
 {
-  vostok::math::float3 *v4; // eax
-  float z; // edx
-  long double v6; // st7
-  float v7; // ecx
-  float _X; // [esp+8h] [ebp-5Ch]
-  float v9; // [esp+8h] [ebp-5Ch]
-  float direction; // [esp+Ch] [ebp-58h]
-  float direction_4; // [esp+10h] [ebp-54h]
-  float direction_4a; // [esp+10h] [ebp-54h]
-  float direction_8; // [esp+14h] [ebp-50h]
-  float direction_8a; // [esp+14h] [ebp-50h]
-  __int64 resulta; // [esp+18h] [ebp-4Ch]
-  vostok::math::float4x4 transform; // [esp+24h] [ebp-40h] BYREF
+  vostok::math::float3 *v4; // esi
+  vostok::math::float3 *v5; // eax
+  float v6; // xmm0_4
+  float v7; // xmm1_4
+  float v8; // xmm4_4
+  float v9; // xmm7_4
+  float v10; // xmm2_4
+  vostok::math::float4x4 v11; // [esp+8h] [ebp-58h] BYREF
+  float v12; // [esp+48h] [ebp-18h]
+  float v13; // [esp+4Ch] [ebp-14h]
+  float v14; // [esp+50h] [ebp-10h]
+  float v15[3]; // [esp+54h] [ebp-Ch] BYREF
 
-  vostok::math::mul4x3(&transform, origin, &this->m_matrix);
-  direction_4 = point->y - transform.c.y;
-  direction_8 = point->z - transform.c.z;
-  direction = point->x - transform.c.x;
-  _X = (float)((float)(direction_4 * direction_4) + (float)(direction_8 * direction_8)) + (float)(direction * direction);
-  if ( *(float *)&clear_value <= _X )
+  vostok::math::mul4x3(&this->m_matrix, origin, &v11);
+  v4 = point;
+  v5 = result;
+  v6 = point->y - v11.c.y;
+  v7 = point->z - v11.c.z;
+  v8 = point->x - v11.c.x;
+  v9 = (float)((float)(v6 * v6) + (float)(v7 * v7)) + (float)(v8 * v8);
+  if ( s_bm_current_air_resistance <= v9 )
   {
-    v6 = 1.0 / sqrtf(_X);
-    v9 = v6;
-    direction_4a = direction_4 * v6;
-    direction_8a = v6 * direction_8;
-    *((float *)&resulta + 1) = transform.c.y + direction_4a;
-    v4 = result;
-    v7 = transform.c.z + direction_8a;
-    *(float *)&resulta = transform.c.x + (float)(v9 * direction);
-    *(_QWORD *)&result->x = resulta;
-    result->z = v7;
+    v10 = s_bm_current_air_resistance / fsqrt(v9);
+    v12 = v10 * v8;
+    v13 = v6 * v10;
+    v14 = v7 * v10;
+    v15[0] = v11.c.x + (float)(v10 * v8);
+    v15[1] = v11.c.y + (float)(v6 * v10);
+    v15[2] = v11.c.z + (float)(v7 * v10);
+    v4 = (vostok::math::float3 *)v15;
   }
-  else
-  {
-    v4 = result;
-    z = point->z;
-    *(_QWORD *)&result->x = *(_QWORD *)&point->x;
-    result->z = z;
-  }
-  return v4;
+  *result = *v4;
+  return v5;
 }

@@ -1,6 +1,11 @@
-void vostok::testing::_dynamic_initializer_for__s_no_test_watch__()
+void __thiscall vostok::testing::_dynamic_initializer_for__s_no_test_watch__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &vostok::testing::s_no_test_watch);
+  vostok::command_line::key::key(
+    this,
+    &vostok::testing::s_no_test_watch,
+    "no_test_watch",
+    uri,
+    "testing",
+    "disables thread that watches for too long tests",
+    uri);
 }

@@ -1,14 +1,15 @@
 void __cdecl Scaleform::GFx::AS2::BooleanCtorFunction::GlobalCtor(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  char v1; // bl
+  bool v1; // bl
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::Ptr<Scaleform::GFx::AS2::Object> *p_pProto; // edi
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::AS2::Environment *Env; // edx
-  Scaleform::GFx::AS2::Value *v6; // ecx
+  unsigned int Data; // edi
+  Scaleform::GFx::AS2::Value *v7; // ecx
   Scaleform::GFx::AS2::Value *Result; // esi
-  Scaleform::GFx::AS2::Value retVal; // [esp+10h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value v9; // [esp+20h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v; // [esp+10h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v10; // [esp+20h] [ebp-10h] BYREF
 
   v1 = 0;
   if ( fn->ThisPtr
@@ -23,36 +24,38 @@ void __cdecl Scaleform::GFx::AS2::BooleanCtorFunction::GlobalCtor(const Scalefor
     if ( fn->NArgs <= 0 )
     {
       v1 = 1;
-      v9.T.Type = 0;
-      v4 = &v9;
+      v10.T.Type = 0;
+      v4 = &v10;
     }
     else
     {
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
     }
-    Scaleform::GFx::AS2::Value::Value(&retVal, v4);
-    if ( (v1 & 1) != 0 && v9.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&v9);
+    Scaleform::GFx::AS2::Value::Value(&v, v4);
+    if ( v1 && v10.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v10);
     ((void (__thiscall *)(Scaleform::Ptr<Scaleform::GFx::AS2::Object> *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::AS2::Value *))p_pProto->pObject->RefCount)(
       p_pProto,
       fn->Env,
-      &retVal);
-    Scaleform::GFx::AS2::Value::operator=(fn->Result, &retVal);
-    if ( retVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&retVal);
+      &v);
+    Scaleform::GFx::AS2::Value::operator=(fn->Result, &v);
+    if ( v.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v);
   }
   else
   {
     if ( fn->NArgs )
     {
       Env = fn->Env;
-      v6 = 0;
-      if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1)
-                                    + Env->Stack.pCurrent
-                                    - Env->Stack.pPageStart )
-        v6 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
-                                                                                           & 0x1F];
-      v1 = Scaleform::GFx::AS2::Value::ToBool(v6, fn->Env);
+      Data = 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart;
+      v7 = 0;
+      if ( fn->FirstArgBottomIndex <= Data )
+      {
+        Data = (unsigned int)Env->Stack.Pages.Data.Data;
+        v7 = (Scaleform::GFx::AS2::Value *)(*(_DWORD *)(Data + 4 * ((unsigned int)fn->FirstArgBottomIndex >> 5))
+                                          + 16 * (fn->FirstArgBottomIndex & 0x1F));
+      }
+      v1 = Scaleform::GFx::AS2::Value::ToBool(v7, Data, fn->Env);
     }
     Result = fn->Result;
     Scaleform::GFx::AS2::Value::DropRefs(Result);

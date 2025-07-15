@@ -6,7 +6,10 @@ void __usercall Scaleform::Render::DrawableImage::updateRenderTargetRT(
   Scaleform::Render::DrawableImageContext *pObject; // esi
   void *RenderThreadID; // esi
   int v6; // [esp-4h] [ebp-1Ch]
-  Scaleform::Render::Interfaces rifs; // [esp+8h] [ebp-10h] BYREF
+  int v7; // [esp+8h] [ebp-10h] BYREF
+  Scaleform::Render::TextureManager *pTextureManager; // [esp+Ch] [ebp-Ch]
+  Scaleform::Render::HAL *pHAL; // [esp+10h] [ebp-8h]
+  Scaleform::Render::Renderer2D *pRenderer2D; // [esp+14h] [ebp-4h]
   _UNKNOWN *retaddr; // [esp+18h] [ebp+0h]
 
   if ( this->pTexture.Value )
@@ -23,17 +26,20 @@ void __usercall Scaleform::Render::DrawableImage::updateRenderTargetRT(
     }
     LeaveCriticalSection(&p_QueueLock->cs);
     pObject = this->pContext.pObject;
-    memset(&rifs, 0, sizeof(rifs));
-    ((void (__thiscall *)(Scaleform::Render::ThreadCommandQueue *, Scaleform::Render::Interfaces *, int))pObject->pRTCommandQueue->GetRenderInterfaces)(
+    v7 = 0;
+    pTextureManager = 0;
+    pHAL = 0;
+    pRenderer2D = 0;
+    ((void (__thiscall *)(Scaleform::Render::ThreadCommandQueue *, int *, int))pObject->pRTCommandQueue->GetRenderInterfaces)(
       pObject->pRTCommandQueue,
-      &rifs,
+      &v7,
       v6);
     if ( pObject->IDefaults.pTextureManager )
-      rifs.pHAL = (Scaleform::Render::HAL *)pObject->IDefaults.pTextureManager;
+      pTextureManager = pObject->IDefaults.pTextureManager;
     if ( pObject->IDefaults.pHAL )
-      rifs.pRenderer2D = (Scaleform::Render::Renderer2D *)pObject->IDefaults.pHAL;
+      pHAL = pObject->IDefaults.pHAL;
     if ( pObject->IDefaults.pRenderer2D )
-      rifs.RenderThreadID = pObject->IDefaults.pRenderer2D;
+      pRenderer2D = pObject->IDefaults.pRenderer2D;
     RenderThreadID = pObject->IDefaults.RenderThreadID;
     if ( RenderThreadID )
       retaddr = RenderThreadID;

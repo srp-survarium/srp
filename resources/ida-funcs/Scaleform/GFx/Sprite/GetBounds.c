@@ -4,8 +4,8 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Sprite::GetBounds(
         Scaleform::Render::Matrix2x4<float> *transform)
 {
   Scaleform::GFx::DrawingContext *pObject; // ecx
-  Scaleform::Render::Rect<float> pRect; // [esp+30h] [ebp-20h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+40h] [ebp-10h] BYREF
+  Scaleform::Render::Rect<float> pRect; // [esp+20h] [ebp-20h] BYREF
+  __m128 left; // [esp+30h] [ebp-10h] BYREF
 
   Scaleform::GFx::DisplayList::GetBounds(&this->mDisplayList, result, transform);
   pObject = this->pDrawingAPI.pObject;
@@ -18,14 +18,19 @@ Scaleform::Render::Rect<float> *__thiscall Scaleform::GFx::Sprite::GetBounds(
     Scaleform::GFx::DrawingContext::ComputeBound(pObject, &pRect);
     if ( pRect.x2 > (double)pRect.x1 && pRect.y2 > (double)pRect.y1 )
     {
-      Scaleform::Render::Matrix2x4<float>::EncloseTransform(transform, &pr, (__m128 *)&pRect);
-      pRect.x1 = pr.x1;
-      pRect.y1 = pr.y1;
-      pRect.x2 = pr.x2;
-      pRect.y2 = pr.y2;
+      Scaleform::Render::Matrix2x4<float>::EncloseTransform(transform, &left, (__m128 *)&pRect);
+      pRect.x1 = left.m128_f32[0];
+      pRect.y1 = left.m128_f32[1];
+      pRect.x2 = left.m128_f32[2];
+      pRect.y2 = left.m128_f32[3];
       if ( result->x2 > (double)result->x1 && result->y2 > (double)result->y1 )
       {
-        Scaleform::Render::Rect<float>::Union(result, pr.x1, pr.y1, pr.x2, pr.y2);
+        Scaleform::Render::Rect<float>::Union(
+          result,
+          left.m128_f32[0],
+          left.m128_f32[1],
+          left.m128_f32[2],
+          left.m128_f32[3]);
         return result;
       }
       Scaleform::Render::Rect<float>::operator=(result, &pRect);

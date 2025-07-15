@@ -3,7 +3,6 @@ void __thiscall vostok::collision::loose_oct_tree::unmove_all(vostok::collision:
   vostok::collision::oct_node *m_root; // eax
   void (__cdecl *predicate)(const vostok::collision::object *); // [esp+4h] [ebp-4h] BYREF
 
-  predicate = (void (__cdecl *)(const vostok::collision::object *))this;
   m_root = this->m_root;
   predicate = unmove_object;
   if ( m_root )

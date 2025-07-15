@@ -7,7 +7,7 @@ void __thiscall Scaleform::HeapPT::AllocEngine::ReleaseCachedMem(Scaleform::Heap
   if ( pCachedBSeg && !pCachedBSeg->UseCount )
   {
     Scaleform::HeapPT::AllocBitSet1::ReleaseSegment(&this->Allocator, this->pCachedBSeg);
-    Scaleform::HeapPT::AllocEngine::freeSegment(this, this->pCachedBSeg);
+    Scaleform::HeapPT::AllocEngine::freeSegment(this, (unsigned int)this->pCachedBSeg);
   }
   pCachedTSeg = this->pCachedTSeg;
   if ( pCachedTSeg && !pCachedTSeg->UseCount )

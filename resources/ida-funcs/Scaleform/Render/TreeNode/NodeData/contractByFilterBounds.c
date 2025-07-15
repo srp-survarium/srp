@@ -3,14 +3,14 @@ void __thiscall Scaleform::Render::TreeNode::NodeData::contractByFilterBounds(
         Scaleform::Render::Rect<float> *bounds)
 {
   unsigned int State; // eax
-  const Scaleform::Render::FilterSet *v3; // ecx
-  unsigned int Size; // eax
+  int v3; // ecx
+  unsigned int v4; // eax
   unsigned int i; // ebx
-  Scaleform::Render::Filter *pObject; // edi
+  int v6; // edi
   double v7; // st7
-  Scaleform::Render::FilterType Type; // eax
+  int v8; // eax
   double v9; // st7
-  float count; // [esp+30h] [ebp-18h]
+  float v10; // [esp+30h] [ebp-18h]
   float v11; // [esp+34h] [ebp-14h]
   float v12; // [esp+34h] [ebp-14h]
   float v13; // [esp+34h] [ebp-14h]
@@ -24,45 +24,45 @@ void __thiscall Scaleform::Render::TreeNode::NodeData::contractByFilterBounds(
   float v21; // [esp+38h] [ebp-10h]
   float v22; // [esp+38h] [ebp-10h]
   float v23; // [esp+38h] [ebp-10h]
-  const Scaleform::Render::FilterSet *filters; // [esp+3Ch] [ebp-Ch]
-  Scaleform::Render::Filter_vtbl *offset; // [esp+40h] [ebp-8h]
-  float offset_4; // [esp+44h] [ebp-4h]
+  int v24; // [esp+3Ch] [ebp-Ch]
+  float v25; // [esp+40h] [ebp-8h]
+  float v26; // [esp+44h] [ebp-4h]
 
   State = Scaleform::Render::StateBag::GetState(&this->States, State_ActionControl);
   if ( State )
   {
-    v3 = *(const Scaleform::Render::FilterSet **)(State + 4);
-    filters = v3;
+    v3 = *(_DWORD *)(State + 4);
+    v24 = v3;
     if ( v3 )
     {
-      Size = v3->Filters.Data.Size;
-      for ( i = 0; i < Size; ++i )
+      v4 = *(_DWORD *)(v3 + 12);
+      for ( i = 0; i < v4; ++i )
       {
-        pObject = v3->Filters.Data.Data[Size - i - 1].pObject;
-        if ( pObject->Type <= (unsigned int)Filter_Bevel )
+        v6 = *(_DWORD *)(*(_DWORD *)(v3 + 8) + 4 * (v4 - i) - 4);
+        if ( *(_DWORD *)(v6 + 8) <= 3u )
         {
-          v7 = SLOBYTE(pObject[1].__vftable) >= 0 ? 1.0 : 2.0;
-          count = v7;
-          v11 = *(float *)&pObject[1].Frozen * (double)(unsigned int)pObject[1].RefCount;
+          v7 = *(char *)(v6 + 16) >= 0 ? 1.0 : 2.0;
+          v10 = v7;
+          v11 = *(float *)(v6 + 28) * (double)*(unsigned int *)(v6 + 20);
           v12 = ceil(v11);
           v16 = v12;
-          v13 = *(float *)&pObject[1].Type * (double)(unsigned int)pObject[1].RefCount;
+          v13 = *(float *)(v6 + 24) * (double)*(unsigned int *)(v6 + 20);
           v14 = ceil(v13);
-          v15 = v14 * count;
-          v17 = v16 * count;
+          v15 = v14 * v10;
+          v17 = v16 * v10;
           bounds->x1 = bounds->x1 + v15;
           bounds->x2 = bounds->x2 - v15;
           bounds->y1 = bounds->y1 + v17;
           bounds->y2 = bounds->y2 - v17;
-          Type = pObject->Type;
-          if ( Type == Filter_Shadow || Type == Filter_Bevel )
+          v8 = *(_DWORD *)(v6 + 8);
+          if ( v8 == 1 || v8 == 3 )
           {
-            offset = pObject[2].__vftable;
-            offset_4 = *(float *)&pObject[2].RefCount;
-            v18 = fabs(*(float *)&offset);
-            v19 = count * v18;
+            v25 = *(float *)(v6 + 32);
+            v26 = *(float *)(v6 + 36);
+            v18 = fabs(v25);
+            v19 = v10 * v18;
             v20 = ceil(v19);
-            if ( *(float *)&offset <= 0.0 )
+            if ( v25 <= 0.0 )
             {
               bounds->x1 = bounds->x1 + v20;
               v9 = bounds->x2 - 0.0;
@@ -73,10 +73,10 @@ void __thiscall Scaleform::Render::TreeNode::NodeData::contractByFilterBounds(
               v9 = bounds->x2 - v20;
             }
             bounds->x2 = v9;
-            v21 = fabs(offset_4);
-            v22 = v21 * count;
+            v21 = fabs(v26);
+            v22 = v21 * v10;
             v23 = ceil(v22);
-            if ( offset_4 <= 0.0 )
+            if ( v26 <= 0.0 )
             {
               bounds->x1 = bounds->x1 + v23;
               bounds->x2 = bounds->x2 - 0.0;
@@ -88,8 +88,8 @@ void __thiscall Scaleform::Render::TreeNode::NodeData::contractByFilterBounds(
             }
           }
         }
-        v3 = filters;
-        Size = filters->Filters.Data.Size;
+        v3 = v24;
+        v4 = *(_DWORD *)(v24 + 12);
       }
     }
   }

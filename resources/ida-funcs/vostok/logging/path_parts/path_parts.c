@@ -1,11 +1,11 @@
-void __thiscall vostok::logging::path_parts::path_parts(vostok::logging::path_parts *this, const char *initiator)
+void __usercall vostok::logging::path_parts::path_parts(vostok::logging::path_parts *this@<ecx>, _DWORD *a2@<esi>)
 {
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)this);
-  vostok::fixed_vector<char const *,4>::fixed_vector<char const *,4>((vostok::fixed_vector<void const *,4> *)this);
-  this->m_current_element = 0;
-  this->m_index = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *initiator != 58 )
-    vostok::logging::path_parts::add_part(this, initiator);
-  vostok::logging::path_parts::add_part(this, 0);
+  a2[7] = 0;
+  a2[8] = 0;
+  *a2 = a2 + 3;
+  a2[1] = a2 + 3;
+  a2[2] = a2 + 7;
+  if ( LOBYTE(this->m_parts.m_begin) != 58 )
+    vostok::logging::path_parts::add_part(this, a2, (char *)this);
+  vostok::logging::path_parts::add_part(this, a2, 0);
 }

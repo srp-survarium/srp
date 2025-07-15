@@ -1,59 +1,53 @@
 char __userpurge vostok::render::shadow_cascade_volume::check_cull_plane_valid@<al>(
         vostok::render::shadow_cascade_volume *this@<ecx>,
-        float **a2@<eax>,
+        int a2@<eax>,
         const vostok::math::plane *plane,
         float *sign,
         float mad_factor)
 {
-  float *v6; // esi
-  char v7; // bl
-  unsigned int v8; // edi
-  unsigned int v9; // eax
-  float *v10; // ecx
-  float v11; // xmm0_4
-  float orient; // [esp+0h] [ebp-20h]
-  char valid; // [esp+24h] [ebp+4h]
+  float *v6; // ecx
+  unsigned int v7; // eax
+  unsigned int v8; // ebx
+  float v9; // xmm0_4
+  float v10; // xmm0_4
+  float i; // [esp+28h] [ebp-8h]
+  char v13; // [esp+2Eh] [ebp-2h]
+  char v14; // [esp+2Fh] [ebp-1h]
 
-  v6 = *a2;
-  v7 = 0;
+  v6 = *(float **)a2;
+  v7 = (*(_DWORD *)(a2 + 4) - *(_DWORD *)a2) / 24;
   v8 = 0;
-  v9 = ((char *)a2[1] - (char *)*a2) / 24;
-  valid = 0;
-  orient = 0.0;
-  if ( v9 )
+  v14 = 0;
+  v13 = 0;
+  for ( i = 0.0; v8 < v7; v6 += 6 )
   {
-    v10 = v6;
-    do
+    v9 = (float)((float)((float)(*(float *)&this->view_frustum_rays.m_end * (float)(v6[4] + (float)(v6[1] * 5.0)))
+                       + (float)(*(float *)&this->view_frustum_rays.m_max_end * (float)(v6[5] + (float)(v6[2] * 5.0))))
+               + (float)(*(float *)&this->view_frustum_rays.m_begin * (float)((float)(*v6 * 5.0) + v6[3])))
+       + *(float *)this->view_frustum_rays.m_buffer[0].m_store;
+    if ( fabs(v9) >= 0.001 )
     {
-      v11 = (float)((float)((float)(plane->normal.y * (float)(v10[4] + (float)(v10[1] * 5.0)))
-                          + (float)(plane->normal.z * (float)(v10[5] + (float)(v10[2] * 5.0))))
-                  + (float)(plane->normal.x * (float)((float)(*v10 * 5.0) + v10[3])))
-          + plane->d;
-      if ( fabs(v11) >= 0.001 )
+      if ( v13 )
       {
-        if ( v7 )
+        if ( (v9 >= 0.0 || i >= 0.0) && (v9 <= 0.0 || i <= 0.0) )
         {
-          if ( (v11 >= 0.0 || orient >= 0.0) && (v11 <= 0.0 || orient <= 0.0) )
-          {
-            valid = 0;
-            break;
-          }
-        }
-        else
-        {
-          if ( v11 <= 0.0 )
-            orient = -1.0;
-          else
-            orient = *(float *)&clear_value;
-          valid = 1;
-          v7 = 1;
+          v14 = 0;
+          break;
         }
       }
-      ++v8;
-      v10 += 6;
+      else
+      {
+        if ( v9 <= 0.0 )
+          v10 = FLOAT_N1_0;
+        else
+          v10 = s_bm_current_air_resistance;
+        i = v10;
+        v14 = 1;
+        v13 = 1;
+      }
     }
-    while ( v8 < v9 );
+    ++v8;
   }
-  *sign = orient;
-  return valid;
+  plane->normal.x = i;
+  return v14;
 }

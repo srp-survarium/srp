@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::matrix3DGet(
   int v3; // edi
   Scaleform::GFx::AS3::Value *v4; // eax
   int i; // ecx
-  unsigned __int8 *v6; // eax
+  const __m128i *v6; // eax
   Scaleform::GFx::AS3::Value *v7; // esi
   unsigned int Flags; // eax
   char v9; // cl
@@ -38,8 +38,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::matrix3DGet(
       v4->Bonus.pWeakProxy = 0;
       ++v4;
     }
-    v6 = (unsigned __int8 *)this->pDispObj->GetMatrix3D(this->pDispObj);
-    memcpy((unsigned __int8 *)&dst, v6, sizeof(dst));
+    v6 = (const __m128i *)this->pDispObj->GetMatrix3D(this->pDispObj);
+    memcpy((int)&dst, v6, sizeof(dst));
     Scaleform::Render::Matrix4x4<float>::Matrix4x4<float>(&v23, &dst);
     v7 = &v24;
     do
@@ -81,7 +81,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::matrix3DGet(
         else
         {
           RefCount = v12->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             v12->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);
@@ -107,7 +107,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Transform::matrix3DGet(
     {
       v17 = pobj.pObject->RefCount;
       v18 = pobj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & v17) != 0 )
+      if ( (v17 & 0x3FFFFF) != 0 )
       {
         pobj.pObject->RefCount = v17 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v18);

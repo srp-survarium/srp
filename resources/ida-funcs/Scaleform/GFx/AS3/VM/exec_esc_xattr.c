@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_esc_xattr(Scaleform::GFx::AS3::VM 
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // esi
   Scaleform::GFx::AS3::Value *pCurrent; // edi
   Scaleform::GFx::ASStringNode *pNode; // eax
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
   Scaleform::GFx::AS3::CheckResult result; // [esp+Bh] [ebp-1Dh] BYREF
   Scaleform::GFx::ASString v; // [esp+Ch] [ebp-1Ch] BYREF
@@ -21,9 +21,9 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_esc_xattr(Scaleform::GFx::AS3::VM 
     --v.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-    pData = buf.pData;
+    pData = (__m128i *)buf.pData;
     if ( !buf.pData )
-      pData = (char *)&::buf;
+      pData = (__m128i *)uri;
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, pData, buf.Size);
     ++StringNode->RefCount;
     v.pNode = StringNode;

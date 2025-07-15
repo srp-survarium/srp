@@ -1,43 +1,35 @@
 void __thiscall vostok::render::effect_editor_vertex_alpha::compile(
         vostok::render::effect_editor_vertex_alpha *this,
         vostok::render::effect_compiler *compiler,
-        const vostok::render::custom_config_value *config)
+        const vostok::configs::binary_config_value *config,
+        const vostok::render::surface_effect_parameters *parameters)
 {
-  vostok::render::effect_compiler *v3; // ecx
   vostok::render::effect_compiler *v4; // ecx
-  const char *v5; // [esp+0h] [ebp-20h]
-  vostok::render::shader_configuration *v6; // [esp+4h] [ebp-1Ch]
-  vostok::render::shader_configuration configuration; // [esp+10h] [ebp-10h] BYREF
+  vostok::command_line::key *v5; // ecx
+  vostok::render::effect_material_base *v6; // ecx
+  vostok::render::shader_configuration *v7; // [esp+0h] [ebp-18h]
+  D3D11_COMPARISON_FUNC v8; // [esp+0h] [ebp-18h]
+  const vostok::configs::binary_config_value *v9; // [esp+4h] [ebp-14h]
+  _DWORD v10[4]; // [esp+8h] [ebp-10h] BYREF
 
-  *(_DWORD *)&configuration.0 = 0;
-  *(unsigned __int64 *)((char *)configuration.configuration + 4) = 0x400000000LL;
-  HIDWORD(configuration.configuration[1]) = 0;
+  v10[2] = 0x80000;
+  v10[0] = 0;
+  v10[1] = 0;
+  v10[3] = 0;
   vostok::render::effect_material_base::compile_begin(
+    parameters,
+    (vostok::configs::binary_config_value *)this,
+    (vostok::render::effect_material_base *)&stru_80E8FC,
+    "editor_vertex_alpha",
     compiler,
+    (const char *)v10,
     config,
-    (vostok::render::effect_material_base *)&stru_966284,
-    (vostok::render::shader_configuration *)"editor_vertex_alpha",
-    (const char *)&configuration,
-    v5,
-    v6);
-  if ( !compiler->m_shaders_cache_mode )
-  {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthEnable = 1;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-      compiler->m_state_descriptor.m_depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-      compiler->m_state_descriptor.m_depth_stencil_desc_updated = 1;
-    }
-  }
-  vostok::render::effect_compiler::set_cull_mode(compiler, D3D11_CULL_NONE);
-  vostok::render::effect_compiler::end_pass(
-    v3,
-    (vostok::intrusive_ptr<vostok::render::res_pass,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>)compiler);
-  vostok::render::effect_compiler::end_technique(v4, (int)compiler);
+    v7,
+    v9);
+  vostok::render::effect_compiler::set_depth(v4, (int)compiler, 1, 1, v8);
+  vostok::render::effect_compiler::set_cull_mode(
+    compiler,
+    (vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *)1,
+    v5);
+  vostok::render::effect_material_base::compile_end(v6, compiler);
 }

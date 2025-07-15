@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::AS3::Multiname::PostProcessName(
   Scaleform::GFx::ASStringNode *pNode; // eax
   char v4; // dl
   Scaleform::GFx::ASStringManager *pManager; // esi
-  const char *Size; // ecx
+  char *Size; // ecx
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // esi
   Scaleform::GFx::ASString name; // [esp+4h] [ebp-4h] BYREF
 
@@ -25,10 +25,10 @@ void __thiscall Scaleform::GFx::AS3::Multiname::PostProcessName(
       if ( v4 == 64 && !LOBYTE(fromQName.pNode) )
       {
         this->Kind |= 8u;
-        Size = (const char *)pNode->Size;
-        if ( Size != (const char *)2 || *((_BYTE *)pNode->pData + 1) != 42 )
+        Size = (char *)pNode->Size;
+        if ( Size != (char *)2 || *((_BYTE *)pNode->pData + 1) != 42 )
         {
-          p_EmptyStringNode = Scaleform::GFx::ASConstString::SubstringNode(&name, (const char *)1, Size);
+          p_EmptyStringNode = Scaleform::GFx::ASConstString::SubstringNode(&name, (char *)1, Size);
 LABEL_10:
           ++p_EmptyStringNode->RefCount;
           fromQName.pNode = p_EmptyStringNode;

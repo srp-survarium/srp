@@ -1,4 +1,4 @@
-int __cdecl asn1_enc_save(struct ASN1_VALUE_st **pval, unsigned __int8 *in, int inlen, const ASN1_ITEM_st *it)
+int __cdecl asn1_enc_save(struct ASN1_VALUE_st **pval, const __m128i *in, unsigned int inlen, const ASN1_ITEM_st *it)
 {
   _BYTE *funcs; // eax
   char *v5; // esi
@@ -22,7 +22,7 @@ int __cdecl asn1_enc_save(struct ASN1_VALUE_st **pval, unsigned __int8 *in, int 
   *(_DWORD *)v5 = result;
   if ( result )
   {
-    memcpy((unsigned __int8 *)result, in, inlen);
+    memcpy(result, in, inlen);
     *((_DWORD *)v5 + 1) = inlen;
     *((_DWORD *)v5 + 2) = 0;
     return 1;

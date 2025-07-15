@@ -4,7 +4,7 @@ Scaleform::Render::RenderQueueItem::QIPrepareResult __thiscall Scaleform::Render
         Scaleform::Render::RenderQueueProcessor *qp,
         BOOL waitForCache)
 {
-  $D1E478C48A63E4418256713FD46DB346 *v5; // esi
+  $2E77AADB348E850F7026E464A107CF04 *v5; // esi
 
   if ( qp->QueuePrepareFilter )
     return 0;

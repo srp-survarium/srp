@@ -12,9 +12,19 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::AdvanceFrame(Scaleform::GFx::AS3
   unsigned int RefCount; // eax
   Scaleform::GFx::AS3::ASRefCountCollector *pObject; // ecx
   Scaleform::GFx::Resource *v14; // edx
-  unsigned int CollectionScheduledFlags; // [esp-4h] [ebp-Ch]
-  bool loadingFinished; // [esp+7h] [ebp-1h]
+  Scaleform::AmpStats *Stats; // esi
+  Scaleform::AmpStats_vtbl *v16; // edi
+  unsigned __int64 ProfileTicks; // rax
+  unsigned int CollectionScheduledFlags; // [esp-4h] [ebp-20h]
+  bool loadingFinished; // [esp+Bh] [ebp-11h]
+  Scaleform::AmpFunctionTimer _amp_timer_; // [esp+Ch] [ebp-10h] BYREF
 
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_,
+    this->pMovieImpl->AdvanceStats.pObject,
+    "MovieRoot::AdvanceFrame",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_Invalid);
   if ( (this->MainLoaderInfoEventsState & 2) != 0 )
     goto LABEL_24;
   v3 = this->pMovieImpl->pMainMovie->GetResourceMovieDef(this->pMovieImpl->pMainMovie);
@@ -69,7 +79,7 @@ LABEL_20:
     if ( ((unsigned __int8)v9 & 1) == 0 )
     {
       RefCount = v9->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v9->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);
@@ -79,9 +89,7 @@ LABEL_20:
 LABEL_24:
   if ( this->StageInvalidated )
   {
-    Scaleform::GFx::AS3::EventChains::QueueEvents(
-      &this->mEventChains,
-      (Scaleform::GFx::EventId::IdCode)&vostok::memory::s_CRT_arena[5574219]);
+    Scaleform::GFx::AS3::EventChains::QueueEvents(&this->mEventChains, Event_Render);
     this->DoActions(this);
     this->StageInvalidated = 0;
   }
@@ -103,5 +111,15 @@ LABEL_24:
         &this->LastCollectionFrame,
         (Scaleform::GFx::Resource *)this->pMovieImpl->AdvanceStats.pObject);
     }
+  }
+  Stats = _amp_timer_.Stats;
+  if ( _amp_timer_.Stats )
+  {
+    v16 = _amp_timer_.Stats->__vftable;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))v16->NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(_amp_timer_.StartTicks),
+      (ProfileTicks - _amp_timer_.StartTicks) >> 32);
   }
 }

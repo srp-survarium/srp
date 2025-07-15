@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS3::NotifyLoadInitCandidateList::InitEventCallb
   val2.Bonus.pWeakProxy = 0;
   v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
               pMovieRoot->BuiltinsMgr.pStringManager,
-              "contentLoaderInfo");
+              (__m128i *)"contentLoaderInfo");
   ++v.pNode->RefCount;
   Scaleform::GFx::AS3::Value::Value((Scaleform::GFx::AS3::Value *)&func, &v);
   Scaleform::GFx::AS3::Multiname::Multiname(
@@ -59,7 +59,9 @@ void __thiscall Scaleform::GFx::AS3::NotifyLoadInitCandidateList::InitEventCallb
   if ( this->pLoader.pObject->GetProperty(this->pLoader.pObject, &v17, &mn, &val)->Result
     && (this->pASIMEManager.pObject->CandListVal.Type & 0x8F) == 1 )
   {
-    v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(this->pMovieRoot->BuiltinsMgr.pStringManager, "content");
+    v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                this->pMovieRoot->BuiltinsMgr.pStringManager,
+                (__m128i *)"content");
     ++v.pNode->RefCount;
     Scaleform::GFx::AS3::Value::Value((Scaleform::GFx::AS3::Value *)&func, &v);
     Scaleform::GFx::AS3::Multiname::Multiname(
@@ -77,7 +79,7 @@ void __thiscall Scaleform::GFx::AS3::NotifyLoadInitCandidateList::InitEventCallb
     --v.pNode->RefCount;
     if ( !v5->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v5);
-    if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, char *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)val.value.VS._1.VInt + 16))(
+    if ( *(_BYTE *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, char *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)val.value.VS._1.VInt + 28))(
                      val.value.VS._1,
                      &v17,
                      &mn2,
@@ -152,7 +154,7 @@ void __thiscall Scaleform::GFx::AS3::NotifyLoadInitCandidateList::InitEventCallb
     {
       RefCount = mn.Obj.pObject->RefCount;
       v15 = mn.Obj.pObject;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         mn.Obj.pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v15);

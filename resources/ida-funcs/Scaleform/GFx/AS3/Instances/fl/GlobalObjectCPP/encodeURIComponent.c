@@ -10,10 +10,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::encodeURICo
   Scaleform::String encodedStr; // [esp+8h] [ebp-4h] BYREF
 
   Scaleform::String::String(&encodedStr);
-  Scaleform::GFx::ASUtils::AS3::EncodeURIComponent(uri->pNode->pData, uri->pNode->Size, &encodedStr, 1);
+  Scaleform::GFx::ASUtils::AS3::EncodeURIComponent((char *)uri->pNode->pData, uri->pNode->Size, &encodedStr, 1);
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                 (char *)((encodedStr.HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((encodedStr.HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(encodedStr.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   StringNode->RefCount += 2;
   pNode = result->pNode;

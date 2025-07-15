@@ -2,159 +2,91 @@ void __thiscall Scaleform::Render::D3D1x::Texture::ReleaseHWTextures(
         Scaleform::Render::D3D1x::Texture *this,
         bool staging)
 {
-  Scaleform::Render::D3D1x::Texture *v2; // esi
-  unsigned int pObject; // ecx
-  Scaleform::Render::D3D1x::TextureManager *v4; // edi
-  int v5; // edi
-  Scaleform::Render::D3D1x::Texture::HWTextureDesc *pTextures; // edx
-  ID3D11Resource *v7; // ebx
-  ID3D11Texture2D *v8; // ebp
-  Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *p_Data; // esi
-  unsigned int v10; // ebp
-  unsigned int v11; // eax
-  ID3D11Resource **v12; // eax
-  Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *p_D3DTexViewKillList; // edi
-  unsigned int v14; // ebp
-  unsigned int v15; // eax
-  ID3D11ShaderResourceView **v16; // eax
-  unsigned int v17; // ebp
-  unsigned int v18; // eax
-  ID3D11Texture2D **v19; // eax
-  bool useKillList; // [esp+Bh] [ebp-19h]
-  ID3D11Texture2D *pstaging; // [esp+Ch] [ebp-18h]
-  int v22; // [esp+10h] [ebp-14h]
-  Scaleform::Render::D3D1x::TextureManager *pmanager; // [esp+14h] [ebp-10h]
-  ID3D11ShaderResourceView *pview; // [esp+18h] [ebp-Ch]
-  unsigned int itex; // [esp+20h] [ebp-4h]
+  Scaleform::Render::TextureManager *pManager; // esi
+  int v4; // edi
+  bool v5; // zf
+  char *v6; // eax
+  ID3D11Resource *v7; // esi
+  ID3D11Resource *v8; // ecx
+  Scaleform::Render::TextureManager *v9; // esi
+  ID3D11Resource *pNext; // ecx
+  unsigned int TextureCount; // eax
+  ID3D11Resource *v12; // [esp+Ch] [ebp-1Ch] BYREF
+  ID3D11Resource *val; // [esp+10h] [ebp-18h] BYREF
+  Scaleform::Render::TextureManager *v14; // [esp+14h] [ebp-14h]
+  unsigned int v15; // [esp+18h] [ebp-10h]
+  int v16; // [esp+1Ch] [ebp-Ch]
+  ID3D11Resource *v17; // [esp+20h] [ebp-8h]
+  char v18; // [esp+27h] [ebp-1h]
 
-  v2 = this;
   Scaleform::Render::Texture::ReleaseHWTextures(this, staging);
-  pObject = (unsigned int)v2->pManagerLocks.pObject;
-  v4 = *(Scaleform::Render::D3D1x::TextureManager **)(pObject + 8);
-  pmanager = v4;
-  if ( !v4->RenderThreadId || (useKillList = 0, (void *)Scaleform::GetCurrentThreadId() != v4->RenderThreadId) )
-    useKillList = 1;
-  itex = 0;
-  if ( v2->TextureCount )
+  pManager = this->pManagerLocks.pObject->pManager;
+  v4 = 0;
+  v14 = pManager;
+  if ( !pManager->RenderThreadId || (v18 = 0, (void *)Scaleform::GetCurrentThreadId() != pManager->RenderThreadId) )
+    v18 = 1;
+  v5 = this->TextureCount == 0;
+  v15 = 0;
+  if ( !v5 )
   {
-    v5 = 0;
-    v22 = 0;
+    v16 = 0;
     do
     {
-      pTextures = v2->pTextures;
-      v7 = *(ID3D11Texture2D **)((char *)&pTextures->pTexture + v5);
-      pview = *(ID3D11ShaderResourceView **)((char *)&pTextures->pView + v5);
+      v6 = (char *)this->pTextures + v4;
+      v7 = (ID3D11Resource *)*((_DWORD *)v6 + 3);
+      v8 = (ID3D11Resource *)*((_DWORD *)v6 + 2);
+      v12 = v7;
       if ( staging )
-      {
-        pObject = (unsigned int)v2->pTextures;
-        v8 = *(ID3D11Texture2D **)((char *)&pTextures->pStagingTexture + v5);
-        pstaging = v8;
-      }
+        v17 = *(ID3D11Texture2D **)((char *)&this->pTextures->pStagingTexture + v4);
       else
+        v17 = 0;
+      if ( v8 )
       {
-        pstaging = 0;
-        v8 = 0;
-      }
-      if ( !v7 )
-        goto LABEL_37;
-      if ( !useKillList )
-      {
-        v7->Release(v7);
-        pview->Release(pview);
-        if ( v8 )
+        if ( v18 )
+        {
+          v9 = v14;
+          val = v8;
+          Scaleform::ArrayBase<Scaleform::ArrayData<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0>>>::PushBack(
+            (Scaleform::ArrayBase<Scaleform::ArrayData<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > > *)v8,
+            (Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *)&v14[2].TextureFormats.Data.Size,
+            &val);
+          Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0>>::ResizeNoConstruct(
+            (Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *)&v9[2].Textures.Root.4,
+            (unsigned int)&v9[2].TextureInitQueue.Root.pPrev->__vftable + 1,
+            &v9[2].Textures.Root.4);
+          pNext = (ID3D11Resource *)v9[2].Textures.Root.pNext;
+          if ( &pNext[(int)v9[2].TextureInitQueue.Root.pPrev] != (ID3D11Resource *)4 )
+          {
+            pNext = v12;
+            *((_DWORD *)v9[2].Textures.Root.pNext + (int)v9[2].TextureInitQueue.Root.pPrev - 1) = v12;
+          }
+          if ( v17 )
+          {
+            v12 = v17;
+            Scaleform::ArrayBase<Scaleform::ArrayData<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0>>>::PushBack(
+              (Scaleform::ArrayBase<Scaleform::ArrayData<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > > *)pNext,
+              (Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *)&v14[2].TextureFormats.Data.Size,
+              &v12);
+          }
+          v4 = v16;
+        }
+        else
+        {
           v8->Release(v8);
-        goto LABEL_37;
+          v7->Release(v7);
+          if ( v17 )
+            v17->Release(v17);
+        }
       }
-      p_Data = &pmanager->D3DTextureKillList.Data;
-      v10 = pmanager->D3DTextureKillList.Data.Size + 1;
-      if ( v10 >= pmanager->D3DTextureKillList.Data.Size )
-      {
-        if ( v10 < pmanager->D3DTextureKillList.Data.Policy.Capacity )
-          goto LABEL_17;
-        v11 = v10 + (v10 >> 2);
-      }
-      else
-      {
-        if ( v10 >= pmanager->D3DTextureKillList.Data.Policy.Capacity >> 1 )
-          goto LABEL_17;
-        v11 = pmanager->D3DTextureKillList.Data.Size + 1;
-      }
-      Scaleform::ArrayDataBase<ID3D11View *,Scaleform::AllocatorLH<ID3D11View *,75>,Scaleform::ArrayConstPolicy<8,8,0>>::Reserve(
-        &pmanager->D3DTextureKillList.Data,
-        v11,
-        pObject,
-        &pmanager->D3DTextureKillList);
-LABEL_17:
-      v12 = &p_Data->Data[v10 - 1];
-      pmanager->D3DTextureKillList.Data.Size = v10;
-      if ( v12 )
-        *v12 = v7;
-      p_D3DTexViewKillList = (Scaleform::ArrayDataBase<ID3D11Resource *,Scaleform::AllocatorLH<ID3D11Resource *,75>,Scaleform::ArrayConstPolicy<8,8,0> > *)&pmanager->D3DTexViewKillList;
-      v14 = pmanager->D3DTexViewKillList.Data.Size + 1;
-      if ( v14 >= pmanager->D3DTexViewKillList.Data.Size )
-      {
-        if ( v14 < pmanager->D3DTexViewKillList.Data.Policy.Capacity )
-          goto LABEL_25;
-        v15 = v14 + (v14 >> 2);
-      }
-      else
-      {
-        pObject = pmanager->D3DTexViewKillList.Data.Policy.Capacity >> 1;
-        if ( v14 >= pObject )
-          goto LABEL_25;
-        v15 = pmanager->D3DTexViewKillList.Data.Size + 1;
-      }
-      Scaleform::ArrayDataBase<ID3D11View *,Scaleform::AllocatorLH<ID3D11View *,75>,Scaleform::ArrayConstPolicy<8,8,0>>::Reserve(
-        p_D3DTexViewKillList,
-        v15,
-        pObject,
-        &pmanager->D3DTexViewKillList);
-LABEL_25:
-      v16 = (ID3D11ShaderResourceView **)&p_D3DTexViewKillList->Data[v14 - 1];
-      pmanager->D3DTexViewKillList.Data.Size = v14;
-      if ( v16 )
-      {
-        pObject = (unsigned int)pview;
-        *v16 = pview;
-      }
-      if ( !pstaging )
-        goto LABEL_36;
-      v17 = pmanager->D3DTextureKillList.Data.Size + 1;
-      if ( v17 >= pmanager->D3DTextureKillList.Data.Size )
-      {
-        if ( v17 < pmanager->D3DTextureKillList.Data.Policy.Capacity )
-          goto LABEL_34;
-        v18 = v17 + (v17 >> 2);
-      }
-      else
-      {
-        if ( v17 >= pmanager->D3DTextureKillList.Data.Policy.Capacity >> 1 )
-          goto LABEL_34;
-        v18 = pmanager->D3DTextureKillList.Data.Size + 1;
-      }
-      Scaleform::ArrayDataBase<ID3D11View *,Scaleform::AllocatorLH<ID3D11View *,75>,Scaleform::ArrayConstPolicy<8,8,0>>::Reserve(
-        p_Data,
-        v18,
-        pObject,
-        p_Data);
-LABEL_34:
-      v19 = (ID3D11Texture2D **)&p_Data->Data[v17 - 1];
-      pmanager->D3DTextureKillList.Data.Size = v17;
-      if ( v19 )
-        *v19 = pstaging;
-LABEL_36:
-      v5 = v22;
-      v2 = this;
-LABEL_37:
-      *(ID3D11Texture2D **)((char *)&v2->pTextures->pTexture + v5) = 0;
-      *(ID3D11ShaderResourceView **)((char *)&v2->pTextures->pView + v5) = 0;
+      *(ID3D11Texture2D **)((char *)&this->pTextures->pTexture + v4) = 0;
+      *(ID3D11ShaderResourceView **)((char *)&this->pTextures->pView + v4) = 0;
       if ( staging )
-        *(ID3D11Texture2D **)((char *)&v2->pTextures->pStagingTexture + v5) = 0;
-      pObject = v2->TextureCount;
-      v5 += 20;
-      ++itex;
-      v22 = v5;
+        *(ID3D11Texture2D **)((char *)&this->pTextures->pStagingTexture + v4) = 0;
+      TextureCount = this->TextureCount;
+      ++v15;
+      v4 += 20;
+      v16 = v4;
     }
-    while ( itex < pObject );
+    while ( v15 < TextureCount );
   }
 }

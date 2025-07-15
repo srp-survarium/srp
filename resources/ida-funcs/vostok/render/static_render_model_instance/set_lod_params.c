@@ -10,8 +10,8 @@ void __thiscall vostok::render::static_render_model_instance::set_lod_params(
 
   m_lods_descriptor = this->m_original.m_object->m_lods_descriptor;
   m_lods_descriptor->m_lod_custom_params[0] = p0;
-  m_lods_descriptor->m_lod_custom_params[1] = p1;
   m_lods_descriptor->m_lod_calc_type = type;
+  m_lods_descriptor->m_lod_custom_params[1] = p1;
   m_lods_descriptor->m_lod_params_default = use_default;
   m_lods_descriptor->m_lod_custom_params[2] = p2;
 }

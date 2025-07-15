@@ -16,12 +16,12 @@ void __thiscall Scaleform::Render::Tessellator::processInterior(
   unsigned int v14; // edi
   Scaleform::Render::Tessellator::IntersectionType **v15; // edx
   unsigned int v16; // ecx
-  float yt; // [esp+14h] [ebp-8h]
-  unsigned int startIna; // [esp+18h] [ebp-4h]
-  float yt2; // [esp+28h] [ebp+Ch]
+  float y; // [esp+14h] [ebp-8h]
+  Scaleform::Render::Tessellator *v19; // [esp+18h] [ebp-4h]
+  float v20; // [esp+28h] [ebp+Ch]
 
   v4 = yb;
-  yt = yb;
+  y = yb;
   v5 = this;
   Size = this->Intersections.Size;
   v7 = 0;
@@ -31,9 +31,9 @@ void __thiscall Scaleform::Render::Tessellator::processInterior(
 LABEL_9:
     while ( v7 < Size )
     {
-      yt = v5->Intersections.Pages[v7 >> 4][v7 & 0xF].y;
-      v11 = yt;
-      if ( yt > v4 )
+      y = v5->Intersections.Pages[v7 >> 4][v7 & 0xF].y;
+      v11 = y;
+      if ( y > v4 )
         break;
       ++v7;
       perceiveFlag = 1;
@@ -45,28 +45,28 @@ LABEL_9:
     v10 = 2;
     while ( 1 )
     {
-      yt = Pages[v7 >> 4][v7 & 0xF].y;
-      v11 = yt;
-      if ( yt > v4 )
+      y = Pages[v7 >> 4][v7 & 0xF].y;
+      v11 = y;
+      if ( y > v4 )
         break;
       perceiveFlag = 1;
-      yt = Pages[(v10 - 1) >> 4][((_BYTE)v10 - 1) & 0xF].y;
-      v11 = yt;
-      if ( yt > v4 )
+      y = Pages[(v10 - 1) >> 4][((_BYTE)v10 - 1) & 0xF].y;
+      v11 = y;
+      if ( y > v4 )
       {
         ++v7;
         break;
       }
-      yt = Pages[v10 >> 4][v10 & 0xF].y;
-      v11 = yt;
-      if ( yt > v4 )
+      y = Pages[v10 >> 4][v10 & 0xF].y;
+      v11 = y;
+      if ( y > v4 )
       {
         v7 += 2;
         break;
       }
-      yt = Pages[(v10 + 1) >> 4][(v10 + 1) & 0xF].y;
-      v11 = yt;
-      if ( yt > v4 )
+      y = Pages[(v10 + 1) >> 4][(v10 + 1) & 0xF].y;
+      v11 = y;
+      if ( y > v4 )
       {
         v7 += 3;
         break;
@@ -86,15 +86,15 @@ LABEL_9:
   if ( perceiveFlag )
   {
     Scaleform::Render::Tessellator::perceiveStyles(v13, &v5->InteriorChains);
-    v12 = yt;
+    v12 = y;
   }
   v14 = v5->Intersections.Size;
   if ( v7 < v14 )
   {
     while ( 1 )
     {
-      yt2 = v12;
-      startIna = v7;
+      v20 = v12;
+      v19 = (Scaleform::Render::Tessellator *)v7;
       if ( v7 < v14 )
       {
         if ( (int)(v14 - v7) < 4 )
@@ -102,8 +102,8 @@ LABEL_9:
 LABEL_32:
           while ( v7 < v14 )
           {
-            yt2 = v5->Intersections.Pages[v7 >> 4][v7 & 0xF].y;
-            if ( yt2 > v12 )
+            v20 = v5->Intersections.Pages[v7 >> 4][v7 & 0xF].y;
+            if ( v20 > v12 )
               break;
             ++v7;
           }
@@ -114,23 +114,23 @@ LABEL_32:
           v16 = v7 + 2;
           while ( 1 )
           {
-            yt2 = v15[v7 >> 4][v7 & 0xF].y;
-            if ( yt2 > v12 )
+            v20 = v15[v7 >> 4][v7 & 0xF].y;
+            if ( v20 > v12 )
               break;
-            yt2 = v15[(v16 - 1) >> 4][((_BYTE)v16 - 1) & 0xF].y;
-            if ( yt2 > v12 )
+            v20 = v15[(v16 - 1) >> 4][((_BYTE)v16 - 1) & 0xF].y;
+            if ( v20 > v12 )
             {
               ++v7;
               break;
             }
-            yt2 = v15[v16 >> 4][v16 & 0xF].y;
-            if ( yt2 > v12 )
+            v20 = v15[v16 >> 4][v16 & 0xF].y;
+            if ( v20 > v12 )
             {
               v7 += 2;
               break;
             }
-            yt2 = v15[(v16 + 1) >> 4][(v16 + 1) & 0xF].y;
-            if ( yt2 > v12 )
+            v20 = v15[(v16 + 1) >> 4][(v16 + 1) & 0xF].y;
+            if ( v20 > v12 )
             {
               v7 += 3;
               break;
@@ -144,16 +144,16 @@ LABEL_32:
       }
       Scaleform::Render::Tessellator::perceiveStyles(v5, &v5->InteriorChains);
       Scaleform::Render::Tessellator::sweepScanbeam(v5, &v5->InteriorChains, yb);
-      Scaleform::Render::Tessellator::swapChains(v5, startIna, v7);
+      Scaleform::Render::Tessellator::swapChains(v5, (unsigned int)v19, v7);
       v14 = v5->Intersections.Size;
-      yb = yt;
-      yt = yt2;
+      yb = y;
+      y = v20;
       if ( v7 >= v14 )
         break;
-      v12 = yt2;
+      v12 = v20;
     }
   }
   Scaleform::Render::Tessellator::perceiveStyles(v5, &v5->ActiveChains);
-  if ( yTop > (double)yt )
-    Scaleform::Render::Tessellator::sweepScanbeam(v5, &v5->ActiveChains, yt);
+  if ( yTop > (double)y )
+    Scaleform::Render::Tessellator::sweepScanbeam(v5, &v5->ActiveChains, y);
 }

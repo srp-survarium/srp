@@ -1,36 +1,32 @@
-void __cdecl vostok::vfs::try_find_tree(vostok::vfs::find_environment *env)
+void __usercall vostok::vfs::try_find_tree(vostok::vfs::find_environment *env@<eax>)
 {
-  unsigned int v1; // esi
-  unsigned int v2; // esi
-  survarium::game_camera *v3; // ecx
-  vostok::memory::base_allocator *v4; // eax
-  vostok::vfs::async_callbacks_data *v5; // [esp+Ch] [ebp-Ch]
-  vostok::vfs::async_callbacks_data *async_data; // [esp+10h] [ebp-8h]
+  vostok::vfs::async_callbacks_data *v2; // eax
+  vostok::vfs::async_callbacks_data *v3; // ecx
+  vostok::vfs::async_callbacks_data *v4; // esi
 
-  v1 = vostok::strings::length(env->path_to_find);
-  v2 = v1 + vostok::strings::length(env->path_to_find) + 138;
-  survarium::weapon_user_dead_state::finalize(v3);
-  async_data = (vostok::vfs::async_callbacks_data *)vostok::memory::malloc_helper<vostok::memory::base_allocator>(
-                                                      v4,
-                                                      v2);
-  if ( async_data )
+  v2 = (vostok::vfs::async_callbacks_data *)env->allocator->call_malloc(
+                                              env->allocator,
+                                              strlen(env->path_to_find) + strlen((const char *)env) + 138,
+                                              "async_callbacks_data",
+                                              "vostok::vfs::try_find_tree",
+                                              ".\\find_async_tree.cpp",
+                                              155);
+  v4 = v2;
+  if ( !v2 )
+    goto LABEL_2;
+  vostok::vfs::async_callbacks_data::async_callbacks_data(v2, env, type_tree);
+  if ( vostok::vfs::fill_expand_nodes_and_incref(
+         v4->env.node,
+         v4->env.node_parent,
+         v4->env.node,
+         &v4->nodes_to_expand,
+         v4,
+         1u) == result_out_of_memory )
   {
-    v5 = (vostok::vfs::async_callbacks_data *)operator new(0x88u, async_data);
-    if ( v5 )
-      vostok::vfs::async_callbacks_data::async_callbacks_data(v5, type_tree, env);
-    if ( vostok::vfs::fill_expand_nodes_and_incref(
-           async_data->env.node,
-           async_data->env.node_parent,
-           async_data->env.node,
-           &async_data->nodes_to_expand,
-           async_data,
-           1u) == result_success )
-      vostok::vfs::async_callbacks_data::finish_with_out_of_memory(async_data);
-    else
-      vostok::vfs::query_expand_nodes(&async_data->nodes_to_expand, async_data);
+    v2 = v4;
+LABEL_2:
+    vostok::vfs::async_callbacks_data::finish_with_out_of_memory(v3, (int)v2);
+    return;
   }
-  else
-  {
-    vostok::vfs::async_callbacks_data::finish_with_out_of_memory(0);
-  }
+  vostok::vfs::query_expand_nodes(&v4->nodes_to_expand, v4);
 }

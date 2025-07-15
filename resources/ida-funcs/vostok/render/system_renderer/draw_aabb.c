@@ -1,71 +1,73 @@
-void __userpurge vostok::render::system_renderer::draw_aabb(
-        vostok::render::system_renderer *this@<edx>,
-        const vostok::math::aabb *aabb@<esi>,
-        vostok::render::system_renderer *a3@<ecx>,
-        const vostok::math::color *color)
+void __thiscall vostok::render::system_renderer::draw_aabb(
+        vostok::render::system_renderer *this,
+        vostok::render::system_renderer *aabb,
+        const vostok::math::color *color,
+        int *a4)
 {
-  vostok::render::system_renderer *v4; // edx
-  float y; // xmm1_4
-  float z; // eax
-  float v7; // xmm4_4
-  float v8; // xmm3_4
-  float x; // xmm0_4
-  unsigned int m_value; // eax
-  __int64 v11; // xmm5_8
-  float v12; // ecx
-  __int64 v13; // xmm0_8
-  __int64 v14; // [esp+4h] [ebp-8Ch]
-  unsigned __int64 v15; // [esp+4h] [ebp-8Ch]
-  vostok::render::vertex_colored vertices[8]; // [esp+10h] [ebp-80h] BYREF
-  _UNKNOWN *retaddr; // [esp+90h] [ebp+0h] BYREF
+  int v4; // eax
+  float y; // xmm0_4
+  float v6; // xmm1_4
+  unsigned int m_value; // xmm3_4
+  float v8; // xmm4_4
+  unsigned int v9; // xmm2_4
+  _DWORD v10[32]; // [esp+10h] [ebp-94h] BYREF
+  vostok::render::vertex_colored v11; // [esp+90h] [ebp-14h] BYREF
 
-  if ( vostok::render::system_renderer::is_effects_ready(a3, this) )
+  if ( vostok::render::system_renderer::is_effects_ready(this, aabb) )
   {
-    y = aabb->min.y;
-    z = aabb->min.z;
-    v7 = aabb->max.y;
-    v8 = aabb->max.z;
-    *(_QWORD *)&vertices[0].position.x = *(_QWORD *)&aabb->min.x;
-    x = aabb->min.x;
-    vertices[0].position.z = z;
-    m_value = color->m_value;
-    vertices[1].position.z = v8;
-    *((float *)&v14 + 1) = y;
-    *(_QWORD *)&vertices[2].position.x = __PAIR64__(LODWORD(v7), LODWORD(x));
-    *(float *)&v14 = aabb->max.x;
-    v11 = v14;
-    *(_QWORD *)&vertices[1].position.x = __PAIR64__(LODWORD(y), LODWORD(x));
-    vertices[2].position.z = aabb->min.z;
-    *(_QWORD *)&vertices[4].position.x = __PAIR64__(LODWORD(v7), LODWORD(x));
-    *(float *)&v14 = aabb->max.x;
-    vertices[3].position.z = vertices[2].position.z;
-    *((float *)&v14 + 1) = y;
-    vertices[4].position.z = v8;
-    *(_QWORD *)&vertices[5].position.x = v14;
-    v15 = __PAIR64__(LODWORD(v7), LODWORD(aabb->max.x));
-    vertices[0].color.m_value = m_value;
-    vertices[1].color.m_value = m_value;
-    vertices[2].color.m_value = m_value;
-    vertices[3].color.m_value = m_value;
-    vertices[4].color.m_value = m_value;
-    vertices[5].position.z = v8;
-    vertices[5].color.m_value = m_value;
-    vertices[6].color.m_value = m_value;
-    vertices[7].color.m_value = m_value;
-    vertices[6].position.z = vertices[2].position.z;
-    v12 = aabb->max.z;
-    *(_QWORD *)&vertices[6].position.x = v15;
-    v13 = *(_QWORD *)&aabb->max.x;
-    *(_QWORD *)&vertices[3].position.x = v11;
-    *(_QWORD *)&vertices[7].position.x = v13;
-    vertices[7].position.z = v12;
+    v4 = *a4;
+    v6 = *(float *)&color[1].m_value;
+    m_value = color[5].m_value;
+    LODWORD(v11.position.elements[1]) = (vostok::math::color)color->m_value;
+    y = v11.position.y;
+    v8 = *(float *)&color[4].m_value;
+    v9 = color[2].m_value;
+    v11.position.z = v6;
+    v11.color.m_value = m_value;
+    v10[0] = color->m_value;
+    v10[1] = color[1].m_value;
+    v10[2] = color[2].m_value;
+    v10[3] = v4;
+    v10[4] = LODWORD(v11.position.y);
+    *(float *)&v10[5] = v6;
+    v10[6] = m_value;
+    v10[7] = v4;
+    v10[8] = LODWORD(v11.position.y);
+    *(float *)&v10[9] = v8;
+    v10[10] = v9;
+    v10[11] = v4;
+    v11.position.z = v6;
+    v11.color.m_value = v9;
+    LODWORD(v11.position.elements[1]) = (vostok::math::color)color[3].m_value;
+    v10[12] = LODWORD(v11.position.y);
+    *(float *)&v10[13] = v6;
+    v10[14] = v9;
+    v10[15] = v4;
+    *(float *)&v10[16] = y;
+    *(float *)&v10[17] = v8;
+    v10[18] = m_value;
+    v10[19] = v4;
+    v10[20] = LODWORD(v11.position.y);
+    *(float *)&v10[21] = v6;
+    v10[22] = m_value;
+    v10[23] = v4;
+    v11.color.m_value = v9;
+    v11.position.z = v8;
+    v10[24] = LODWORD(v11.position.y);
+    *(float *)&v10[25] = v8;
+    v10[26] = v9;
+    v10[27] = v4;
+    v10[28] = color[3].m_value;
+    v10[29] = color[4].m_value;
+    v10[30] = color[5].m_value;
+    v10[31] = v4;
     vostok::render::system_renderer::draw_lines(
-      (const vostok::render::vertex_colored *const)&retaddr,
-      (vostok::render::system_renderer *)LODWORD(v12),
-      v4,
-      vertices,
+      &v11,
+      (vostok::render::system_renderer *)&color[3],
+      aabb,
+      (unsigned int)v10,
       (unsigned __int8 *)vostok::render::aabb_indices,
-      &s_view_mode_value,
+      (char *)&bad_alloc_Message_180,
       0);
   }
 }

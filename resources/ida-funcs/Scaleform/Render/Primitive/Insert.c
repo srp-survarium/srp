@@ -1,28 +1,27 @@
 char __thiscall Scaleform::Render::Primitive::Insert(
         Scaleform::Render::Primitive *this,
         void (__thiscall *index)(struct Scaleform::Render::Primitive *this),
-        Scaleform::Render::Mesh *pmesh,
+        Scaleform::GFx::Resource *pmesh,
         const Scaleform::Render::MatrixPoolImpl::HMatrix *m)
 {
   Scaleform::Render::Primitive *pNext; // esi
   Scaleform::Render::Primitive *v6; // ebx
   void (__thiscall *v7)(struct Scaleform::Render::Primitive *); // edi
   Scaleform::Render::MeshCache *v8; // eax
-  unsigned int v9; // edx
+  void (__thiscall *v9)(struct Scaleform::Render::Primitive *); // edx
   unsigned int Size; // ecx
   Scaleform::Render::Primitive_vtbl *v11; // eax
   Scaleform::Render::MatrixPoolImpl::EntryHandle *pHandle; // eax
-  const Scaleform::Render::MeshCacheParams *params; // [esp+10h] [ebp-8h] BYREF
-  Scaleform::RefCountVImpl *v15; // [esp+14h] [ebp-4h]
+  Scaleform::Render::ComplexPrimitiveBundle::InstanceEntry val; // [esp+10h] [ebp-8h] BYREF
 
   pNext = (Scaleform::Render::Primitive *)this->Batches.Root.pNext;
   v6 = 0;
   v7 = 0;
   v8 = this->pHAL->GetMeshCache(this->pHAL);
-  params = v8->GetParams(&v8->Scaleform::Render::MeshCacheConfig);
+  val.M.pHandle = (Scaleform::Render::MatrixPoolImpl::EntryHandle *)v8->GetParams(&v8->Scaleform::Render::MeshCacheConfig);
   while ( 1 )
   {
-    v9 = (unsigned int)index;
+    v9 = index;
     if ( v7 == index )
     {
       if ( v6 && v6->Batches.Root.pPrev == (Scaleform::Render::PrimitiveBatch *)3 )
@@ -48,7 +47,7 @@ char __thiscall Scaleform::Render::Primitive::Insert(
         v11[1].~Scaleform::Render::Primitive = *(void (__thiscall **)(struct Scaleform::Render::Primitive *))pNext->RefCount;
         v11->~Scaleform::Render::Primitive = (void (__thiscall *)(struct Scaleform::Render::Primitive *))pNext->Scaleform::RefCountBase<Scaleform::Render::Primitive,68>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,68>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable;
         pNext->Scaleform::RefCountBase<Scaleform::Render::Primitive,68>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,68>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable[1].~Scaleform::Render::Primitive = (void (__thiscall *)(struct Scaleform::Render::Primitive *))v11;
-        v9 = (unsigned int)index;
+        v9 = index;
         pNext->Scaleform::RefCountBase<Scaleform::Render::Primitive,68>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountImpl,68>::Scaleform::RefCountImpl::Scaleform::RefCountImplCore::__vftable = v11;
         goto LABEL_17;
       }
@@ -64,8 +63,8 @@ char __thiscall Scaleform::Render::Primitive::Insert(
   }
   ++pNext->Meshes.Data.Size;
   if ( pNext->Batches.Root.pPrev != (Scaleform::Render::PrimitiveBatch *)2
-    || this->Meshes.Data.Data[(_DWORD)v7].pMesh.pObject != pmesh
-    || pNext->Meshes.Data.Size > params->MaxBatchInstances )
+    || (Scaleform::GFx::Resource *)this->Meshes.Data.Data[(_DWORD)v7].pMesh.pObject != pmesh
+    || (Scaleform::Render::MatrixPoolImpl::DataHeader *)pNext->Meshes.Data.Size > val.M.pHandle[6].pHeader )
   {
     pNext->Batches.Root.pPrev = (Scaleform::Render::PrimitiveBatch *)3;
     if ( pNext->pFill.pObject )
@@ -77,25 +76,25 @@ char __thiscall Scaleform::Render::Primitive::Insert(
   }
 LABEL_17:
   pHandle = m->pHandle;
-  params = (const Scaleform::Render::MeshCacheParams *)pHandle;
+  val.M.pHandle = pHandle;
   if ( pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
     ++pHandle->pHeader->RefCount;
   if ( pmesh )
   {
-    Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pmesh);
-    v9 = (unsigned int)index;
+    Scaleform::RefCountImpl::AddRef(pmesh);
+    v9 = index;
   }
-  v15 = (Scaleform::RefCountVImpl *)pmesh;
+  val.pMesh.pObject = (Scaleform::Render::ComplexMesh *)pmesh;
   Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Primitive::MeshEntry,Scaleform::AllocatorLH<Scaleform::Render::Primitive::MeshEntry,2>,Scaleform::ArrayDefaultPolicy>>::InsertAt(
     (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::ComplexPrimitiveBundle::InstanceEntry,Scaleform::AllocatorLH<Scaleform::Render::ComplexPrimitiveBundle::InstanceEntry,2>,Scaleform::ArrayDefaultPolicy> > *)&this->Meshes,
-    v9,
-    (const Scaleform::Render::ComplexPrimitiveBundle::InstanceEntry *)&params);
+    (unsigned int)v9,
+    &val);
   if ( (unsigned int)index < this->ModifyIndex )
     this->ModifyIndex = (unsigned int)index;
   ++Primitive_Insert;
-  if ( v15 )
-    Scaleform::RefCountImpl::Release(v15);
-  if ( params != (const Scaleform::Render::MeshCacheParams *)&Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
-    Scaleform::Render::MatrixPoolImpl::DataHeader::Release((Scaleform::Render::MatrixPoolImpl::DataHeader *)params->MemReserve);
+  if ( val.pMesh.pObject )
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)val.pMesh.pObject);
+  if ( val.M.pHandle != &Scaleform::Render::MatrixPoolImpl::HMatrix::NullHandle )
+    Scaleform::Render::MatrixPoolImpl::DataHeader::Release(val.M.pHandle->pHeader);
   return 1;
 }

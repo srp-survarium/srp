@@ -8,17 +8,17 @@ void __thiscall Scaleform::GFx::GFxPlaceObjectUnpacked::AddToTimelineSnapshot(
   Scaleform::GFx::TimelineSnapshot::SnapshotElement *v6; // eax
   Scaleform::ListAllocBase<Scaleform::GFx::TimelineSnapshot::SnapshotElement,50,Scaleform::AllocatorDH<Scaleform::GFx::TimelineSnapshot::SnapshotElement,2> >::PageType *v7; // eax
   unsigned int Size; // [esp-Ch] [ebp-20h]
-  int val; // [esp+10h] [ebp-4h] BYREF
+  int v9; // [esp+10h] [ebp-4h] BYREF
 
   this->Trace(this, "\n");
   Depth = this->Pos.Depth;
   Size = psnapshot->SnapshotSortedArray.Data.Size;
-  val = Depth;
+  v9 = Depth;
   v5 = Scaleform::Alg::UpperBoundSliced<Scaleform::ArrayDH_POD<Scaleform::GFx::TimelineSnapshot::SnapshotElement *,2,Scaleform::ArrayDefaultPolicy>,int,int (__cdecl *)(int,Scaleform::GFx::TimelineSnapshot::SnapshotElement const *)>(
          &psnapshot->SnapshotSortedArray,
          0,
          Size,
-         &val,
+         &v9,
          Scaleform::GFx::TimelineSnapshot::DepthLess);
   if ( v5 && (v6 = psnapshot->SnapshotSortedArray.Data.Data[v5 - 1], v6->Depth == Depth) && v6 && (v6->Flags & 2) == 0 )
   {

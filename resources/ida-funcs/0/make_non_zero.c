@@ -1,4 +1,6 @@
-int __usercall make_non_zero@<eax>(int a1@<xmm0>)
+int __usercall make_non_zero@<xmm0>(int result@<xmm0>)
 {
-  return a1 & 0x7FFFFFFF;
+  if ( COERCE_FLOAT(result & 0x7FFFFFFF) < 0.0000099999997 )
+    return LODWORD(s_bm_current_air_resistance);
+  return result;
 }

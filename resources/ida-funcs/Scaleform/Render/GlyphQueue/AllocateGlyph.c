@@ -4,8 +4,8 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::Allocate
         Scaleform::Render::GlyphNode *w,
         Scaleform::Render::GlyphNode *h)
 {
-  unsigned int v4; // ebx
-  unsigned int v6; // edi
+  Scaleform::Render::GlyphNode *v4; // ebx
+  Scaleform::Render::GlyphNode *v6; // edi
   Scaleform::Render::GlyphNode *SpaceInSlots; // eax
   Scaleform::Render::GlyphSlot *pSlot; // eax
   Scaleform::Render::GlyphSlot *pPrev; // edx
@@ -13,21 +13,21 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::Allocate
   signed int v11; // eax
   int v12; // eax
 
-  v4 = (unsigned int)h;
+  v4 = h;
   if ( (unsigned int)h < this->MinSlotSpace )
     this->MinSlotSpace = (unsigned int)h;
-  v6 = (unsigned int)w;
+  v6 = w;
   if ( (unsigned int)w < this->MinSlotSpace )
     this->MinSlotSpace = (unsigned int)w;
-  SpaceInSlots = Scaleform::Render::GlyphQueue::findSpaceInSlots(this, v6, v4);
+  SpaceInSlots = Scaleform::Render::GlyphQueue::findSpaceInSlots(this, (unsigned int)v6, (unsigned int)v4);
   h = SpaceInSlots;
   if ( !SpaceInSlots )
   {
-    SpaceInSlots = Scaleform::Render::GlyphQueue::allocateNewSlot(this, v6, v4);
+    SpaceInSlots = Scaleform::Render::GlyphQueue::allocateNewSlot(this, (unsigned int)v6, (unsigned int)v4);
     h = SpaceInSlots;
     if ( !SpaceInSlots )
     {
-      SpaceInSlots = Scaleform::Render::GlyphQueue::evictOldSlot(this, v6, v4);
+      SpaceInSlots = Scaleform::Render::GlyphQueue::evictOldSlot(this, (unsigned int)v6, (unsigned int)v4);
       h = SpaceInSlots;
       if ( !SpaceInSlots )
         return 0;
@@ -41,7 +41,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::Allocate
   h->Origin.y = 0;
   pSlot = h->pSlot;
   pSlot->pPrev->pNext = pSlot->pNext;
-  pSlot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = pSlot->pPrev;
+  pSlot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = pSlot->pPrev;
   pPrev = this->SlotQueue.Root.pPrev;
   pSlot->pNext = (Scaleform::Render::GlyphSlot *)&this->SlotQueue;
   pSlot->pPrev = pPrev;

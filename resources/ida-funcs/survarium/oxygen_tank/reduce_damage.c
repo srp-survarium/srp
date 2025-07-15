@@ -1,16 +1,42 @@
-double __thiscall survarium::oxygen_tank::reduce_damage(
+void __thiscall survarium::oxygen_tank::reduce_damage(
         survarium::oxygen_tank *this,
-        const char *body_part_name,
-        const char *damage_type,
-        float amount,
-        float armor_piercing)
+        char *body_part_name,
+        survarium::hit_type_enum damage_type,
+        float *amount,
+        float *armor_piercing)
 {
-  const survarium::oxygen_tank::item_influence *infl; // [esp+4h] [ebp-4h]
+  unsigned int m_influences_count; // edi
+  unsigned int v6; // ebx
+  survarium::oxygen_tank::item_influence *m_influences; // esi
+  float threshold; // xmm1_4
+  float v9; // xmm0_4
 
-  infl = survarium::oxygen_tank::find_influence(this, body_part_name, damage_type);
-  if ( !infl )
-    return amount;
-  if ( infl->threshold <= amount )
-    return (amount - infl->threshold) * infl->hit_coeff;
-  return 0.0;
+  m_influences_count = this->m_influences_count;
+  v6 = 0;
+  if ( this->m_influences_count )
+  {
+    m_influences = this->m_influences;
+    while ( vostok::strings::compare(m_influences->body_part_name, body_part_name)
+         || m_influences->hit_type != damage_type )
+    {
+      ++v6;
+      ++m_influences;
+      if ( v6 >= m_influences_count )
+        goto LABEL_6;
+    }
+  }
+  else
+  {
+LABEL_6:
+    m_influences = 0;
+  }
+  if ( m_influences )
+  {
+    threshold = m_influences->threshold;
+    if ( threshold <= *amount )
+      v9 = (float)(*amount - threshold) * m_influences->hit_coeff;
+    else
+      v9 = 0.0;
+    *amount = v9;
+  }
 }

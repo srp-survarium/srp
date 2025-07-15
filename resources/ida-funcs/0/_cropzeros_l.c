@@ -7,13 +7,13 @@ void __cdecl _cropzeros_l(char *buf, localeinfo_struct *_Locale)
   char v6; // cl
   char *v7; // edx
   char v8; // cl
-  _LocaleUpdate _loc_update; // [esp+4h] [ebp-10h] BYREF
+  _LocaleUpdate v9; // [esp+4h] [ebp-10h] BYREF
 
-  _LocaleUpdate::_LocaleUpdate(&_loc_update, _Locale);
+  _LocaleUpdate::_LocaleUpdate(&v9, _Locale);
   v2 = buf;
   for ( i = *buf; *v2; i = *++v2 )
   {
-    if ( i == *_loc_update.localeinfo.locinfo->lconv->decimal_point )
+    if ( i == *v9.localeinfo.locinfo->lconv->decimal_point )
       break;
   }
   v4 = *v2;
@@ -31,7 +31,7 @@ void __cdecl _cropzeros_l(char *buf, localeinfo_struct *_Locale)
     do
       --v5;
     while ( *v5 == 48 );
-    if ( *v5 == *_loc_update.localeinfo.locinfo->lconv->decimal_point )
+    if ( *v5 == *v9.localeinfo.locinfo->lconv->decimal_point )
       --v5;
     do
     {
@@ -42,6 +42,6 @@ void __cdecl _cropzeros_l(char *buf, localeinfo_struct *_Locale)
     }
     while ( v8 );
   }
-  if ( _loc_update.updated )
-    _loc_update.ptd->_ownlocale &= ~2u;
+  if ( v9.updated )
+    v9.ptd->_ownlocale &= ~2u;
 }

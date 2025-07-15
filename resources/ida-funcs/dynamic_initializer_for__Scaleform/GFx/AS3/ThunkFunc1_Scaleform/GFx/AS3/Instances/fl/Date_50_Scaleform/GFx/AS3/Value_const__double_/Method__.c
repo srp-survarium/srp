@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc1_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl::Date::minutesSet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc1<Scaleform::GFx::AS3::Instances::fl::Date,50,Scaleform::GFx::AS3::Value const,double>::Method) = Scaleform::GFx::AS3::Instances::fl::Date::minutesSet;
-  dword_AAD6A4 = 0;
+  dword_8F1E5C = 0;
   return result;
 }

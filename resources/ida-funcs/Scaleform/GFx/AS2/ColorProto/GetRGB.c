@@ -5,9 +5,9 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::GetRGB(const Scaleform::GFx::AS2::
   Scaleform::GFx::Sprite *pObject; // ebx
   Scaleform::GFx::AS2::Value *v4; // edi
   int v5; // esi
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+34h] [ebp-2Ch] BYREF
-  __int64 v7; // [esp+38h] [ebp-28h]
-  float v8[8]; // [esp+40h] [ebp-20h] BYREF
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+14h] [ebp-2Ch] BYREF
+  __int64 v7; // [esp+18h] [ebp-28h]
+  float v8[8]; // [esp+20h] [ebp-20h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Color )
   {
@@ -19,7 +19,7 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::GetRGB(const Scaleform::GFx::AS2::
       {
         Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
           p_pProto + 13,
-          (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+          &result);
         pObject = result.pObject;
         if ( result.pObject )
         {
@@ -30,9 +30,7 @@ void __cdecl Scaleform::GFx::AS2::ColorProto::GetRGB(const Scaleform::GFx::AS2::
           LODWORD(v7) = LOWORD(result.pObject) | 0xC00;
           v4 = fn->Result;
           v7 = (__int64)v8[5];
-          v5 = (unsigned __int16)(-256 * v7)
-             | (unsigned __int8)-(__int64)v8[6]
-             | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & (-65536 * (__int64)v8[4]);
+          v5 = (unsigned __int16)(-256 * v7) | (unsigned __int8)-(__int64)v8[6] | (-65536 * (__int64)v8[4]) & 0xFF0000;
           if ( v4->T.Type >= 5u )
             Scaleform::GFx::AS2::Value::DropRefs(v4);
           v4->T.Type = 4;

@@ -157,7 +157,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::MovieClip::FrameScri
         while ( v22 >= v28 );
       }
       if ( v17 != actualDescrCnta )
-        memcpy(&v43[24 * this->DescrCnt], &v43[24 * actualDescrCnta], 24 * (v17 - actualDescrCnta));
+        memcpy(
+          (int)&v43[24 * this->DescrCnt],
+          (const __m128i *)&v43[24 * actualDescrCnta],
+          24 * (v17 - actualDescrCnta));
       this->DescrCnt = v17;
     }
     v5 = actualDescrCnta;
@@ -227,7 +230,7 @@ LABEL_29:
     }
     v39 = this->DescrCnt;
     if ( v39 != v5 )
-      memcpy(v34, &v34[24 * (v39 - v5)], 24 * v5);
+      memcpy((int)v34, (const __m128i *)&v34[24 * (v39 - v5)], 24 * v5);
     goto LABEL_29;
   }
 }

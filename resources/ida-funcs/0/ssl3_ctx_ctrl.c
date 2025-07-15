@@ -1,14 +1,14 @@
-int __cdecl ssl3_ctx_ctrl(ssl_ctx_st *ctx, int cmd, int larg, rsa_st *parg)
+int __usercall ssl3_ctx_ctrl@<eax>(const ec_key_st *a1@<ebx>, ssl_ctx_st *ctx, int cmd, int larg, rsa_st *parg)
 {
   cert_st *cert; // edi
   evp_pkey_st *privatekey; // edi
   int result; // eax
-  rsa_st *v7; // esi
-  dh_st *v8; // eax
-  dh_st *v9; // ebx
-  bignum_ctx *v10; // eax
-  ec_key_st *v11; // ebx
-  stack_st_X509 *v12; // eax
+  rsa_st *v8; // esi
+  dh_st *v9; // eax
+  dh_st *v10; // ebx
+  bignum_ctx *v11; // eax
+  ec_key_st *v12; // ebx
+  stack_st_X509 *v13; // eax
 
   cert = ctx->cert;
   switch ( cmd )
@@ -23,77 +23,77 @@ int __cdecl ssl3_ctx_ctrl(ssl_ctx_st *ctx, int cmd, int larg, rsa_st *parg)
         goto LABEL_9;
       return 1;
     case 2:
-      if ( !parg || (v7 = RSAPrivateKey_dup(parg)) == 0 )
+      if ( !parg || (v8 = RSAPrivateKey_dup((int)a1, parg)) == 0 )
       {
-        ERR_put_error(0x14u, 133, 4, ".\\ssl\\s3_lib.c", 2587);
+        ERR_put_error((int)a1, 0x14u, 133, 4, ".\\ssl\\s3_lib.c", 2587);
         goto LABEL_9;
       }
       if ( cert->rsa_tmp )
-        RSA_free((unsigned int)cert, cert->rsa_tmp);
-      cert->rsa_tmp = v7;
+        RSA_free((int)cert, (int)a1, cert->rsa_tmp);
+      cert->rsa_tmp = v8;
       return 1;
     case 3:
-      v8 = DHparams_dup((dh_st *)parg);
-      v9 = v8;
-      if ( !v8 )
+      v9 = DHparams_dup((int)a1, (dh_st *)parg);
+      v10 = v9;
+      if ( !v9 )
       {
-        ERR_put_error(0x14u, 133, 5, ".\\ssl\\s3_lib.c", 2614);
+        ERR_put_error(0, 0x14u, 133, 5, ".\\ssl\\s3_lib.c", 2614);
         goto LABEL_9;
       }
-      if ( (ctx->options & 0x100000) != 0 || DH_generate_key(v8) )
+      if ( ((unsigned int)&loc_100000 & ctx->options) != 0 || DH_generate_key(v9) )
       {
         if ( cert->dh_tmp )
-          DH_free((unsigned int)cert, cert->dh_tmp);
-        cert->dh_tmp = v9;
+          DH_free((int)cert, (int)v10, cert->dh_tmp);
+        cert->dh_tmp = v10;
         return 1;
       }
       else
       {
-        ERR_put_error(0x14u, 133, 5, ".\\ssl\\s3_lib.c", 2621);
-        DH_free((unsigned int)cert, v9);
+        ERR_put_error((int)v10, 0x14u, 133, 5, ".\\ssl\\s3_lib.c", 2621);
+        DH_free((int)cert, (int)v10, v10);
         return 0;
       }
     case 4:
       if ( !parg )
       {
-        ERR_put_error(0x14u, 133, 43, ".\\ssl\\s3_lib.c", 2646);
+        ERR_put_error((int)a1, 0x14u, 133, 43, ".\\ssl\\s3_lib.c", 2646);
         goto LABEL_9;
       }
-      v10 = (bignum_ctx *)EC_KEY_dup((const ec_key_st *)parg);
-      v11 = (ec_key_st *)v10;
-      if ( !v10 )
+      v11 = (bignum_ctx *)EC_KEY_dup(a1, (const ec_key_st *)parg);
+      v12 = (ec_key_st *)v11;
+      if ( !v11 )
       {
-        ERR_put_error(0x14u, 133, 16, ".\\ssl\\s3_lib.c", 2652);
+        ERR_put_error(0, 0x14u, 133, 16, ".\\ssl\\s3_lib.c", 2652);
         goto LABEL_9;
       }
-      if ( (ctx->options & 0x80000) != 0 || EC_KEY_generate_key(v10) )
+      if ( (ctx->options & 0x80000) != 0 || EC_KEY_generate_key(v11) )
       {
         if ( cert->ecdh_tmp )
           EC_KEY_free(cert->ecdh_tmp);
-        cert->ecdh_tmp = v11;
+        cert->ecdh_tmp = v12;
         return 1;
       }
       else
       {
-        EC_KEY_free(v11);
-        ERR_put_error(0x14u, 133, 43, ".\\ssl\\s3_lib.c", 2660);
+        EC_KEY_free(v12);
+        ERR_put_error((int)v12, 0x14u, 133, 43, ".\\ssl\\s3_lib.c", 2660);
         return 0;
       }
     case 5:
-      ERR_put_error(0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2601);
+      ERR_put_error((int)a1, 0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2601);
       goto LABEL_9;
     case 6:
-      ERR_put_error(0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2634);
+      ERR_put_error((int)a1, 0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2634);
       goto LABEL_9;
     case 7:
-      ERR_put_error(0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2675);
+      ERR_put_error((int)a1, 0x14u, 133, 66, ".\\ssl\\s3_lib.c", 2675);
       goto LABEL_9;
     case 14:
       if ( !ctx->extra_certs )
       {
-        v12 = (stack_st_X509 *)sk_new_null();
-        ctx->extra_certs = v12;
-        if ( !v12 )
+        v13 = (stack_st_X509 *)sk_new_null();
+        ctx->extra_certs = v13;
+        if ( !v13 )
           goto LABEL_9;
       }
       sk_push(&ctx->extra_certs->stack, (char *)parg);
@@ -143,7 +143,7 @@ LABEL_47:
         }
         else
         {
-          ERR_put_error(0x14u, 133, 325, ".\\ssl\\s3_lib.c", 2692);
+          ERR_put_error((int)a1, 0x14u, 133, 325, ".\\ssl\\s3_lib.c", 2692);
 LABEL_9:
           result = 0;
         }

@@ -1,6 +1,4 @@
-void dynamic_initializer_for__s_generate_shaders__()
+void __thiscall dynamic_initializer_for__s_generate_shaders__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_generate_shaders);
+  vostok::command_line::key::key(this, &s_generate_shaders, "generate_shaders", uri, uri, uri, uri);
 }

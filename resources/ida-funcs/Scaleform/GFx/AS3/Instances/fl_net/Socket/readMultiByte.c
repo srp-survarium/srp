@@ -21,9 +21,10 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::readMultiByte(
   const Scaleform::GFx::AS3::VM::Error *v19; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   unsigned int v21; // eax
-  Scaleform::GFx::AS3::VM *vm; // [esp+4h] [ebp-18h]
-  Scaleform::GFx::AS3::VM::Error v23; // [esp+8h] [ebp-14h] BYREF
-  Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> bytesRead; // [esp+10h] [ebp-Ch] BYREF
+  Scaleform::StringDataPtr v22; // [esp-8h] [ebp-2Ch]
+  Scaleform::GFx::AS3::VM *vm; // [esp+Ch] [ebp-18h]
+  Scaleform::GFx::AS3::VM::Error v24; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> bytesRead; // [esp+18h] [ebp-Ch] BYREF
 
   if ( !Scaleform::GFx::AS3::SocketThreadMgr::IsRunning(this->SockMgr.pObject) )
   {
@@ -41,9 +42,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::readMultiByte(
       (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)this,
       "AS3 Net Socket: Failed to read Bytes");
     Scaleform::GFx::AS3::Instances::fl_net::Socket::ThrowEOFError(this);
-    if ( bytesRead.Data.Data )
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, bytesRead.Data.Data);
-    return;
+    goto LABEL_31;
   }
   pVM = this->pTraits.pObject->pVM;
   v7 = Scaleform::GFx::AS3::Instances::fl_net::Socket::ASCII_Names[0];
@@ -53,25 +52,25 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::Socket::readMultiByte(
   {
     while ( strcmp(charSet->pNode->pData, v7) )
     {
-      v7 = off_9B4A04[v8++];
+      v7 = off_8766AC[v8++];
       if ( !v7 )
-        goto LABEL_9;
+        goto LABEL_8;
     }
     Size = bytesRead.Data.Size;
     if ( length < bytesRead.Data.Size )
       Size = length;
-    goto LABEL_13;
+    goto LABEL_12;
   }
-LABEL_9:
+LABEL_8:
   v9 = Scaleform::GFx::AS3::Instances::fl_net::Socket::UTF8_Names[0];
   v10 = 0;
   if ( Scaleform::GFx::AS3::Instances::fl_net::Socket::UTF8_Names[0] )
   {
     while ( strcmp(charSet->pNode->pData, v9) )
     {
-      v9 = off_9B4A30[v10++];
+      v9 = off_8766D8[v10++];
       if ( !v9 )
-        goto LABEL_20;
+        goto LABEL_19;
     }
     Size = bytesRead.Data.Size;
     if ( bytesRead.Data.Size > 2
@@ -81,42 +80,44 @@ LABEL_9:
     {
       Size = bytesRead.Data.Size - 3;
     }
-LABEL_13:
+LABEL_12:
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                    vm->StringManagerRef->pStringManager,
-                   bytesRead.Data.Data,
+                   (__m128i *)bytesRead.Data.Data,
                    Size);
-    goto LABEL_14;
+    goto LABEL_13;
   }
-LABEL_20:
+LABEL_19:
   v17 = Scaleform::GFx::AS3::Instances::fl_net::Socket::UTF16_Names[0];
   v18 = 0;
   if ( !Scaleform::GFx::AS3::Instances::fl_net::Socket::UTF16_Names[0] )
   {
-LABEL_30:
-    Scaleform::GFx::AS3::VM::Error::Error(&v23, eInvalidArgumentError, vm);
+LABEL_29:
+    v22.pStr = "charSet";
+    v22.Size = 7;
+    Scaleform::GFx::AS3::VM::Error::Error(&v24, eInvalidArgumentError, vm, v22);
     Scaleform::GFx::AS3::VM::ThrowTypeError(vm, v19);
-    pNode = v23.Message.pNode;
-    --v23.Message.pNode->RefCount;
+    pNode = v24.Message.pNode;
+    --v24.Message.pNode->RefCount;
     v16 = pNode;
     if ( pNode->RefCount )
-      goto LABEL_32;
-    goto LABEL_31;
+      goto LABEL_31;
+    goto LABEL_30;
   }
   while ( strcmp(charSet->pNode->pData, v17) )
   {
-    v17 = (&off_9B4A44)[v18++];
+    v17 = (&off_8766EC)[v18++];
     if ( !v17 )
-      goto LABEL_30;
+      goto LABEL_29;
   }
   v21 = bytesRead.Data.Size;
   if ( length < bytesRead.Data.Size )
     v21 = length;
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  vm->StringManagerRef->pStringManager,
-                 (const wchar_t *)bytesRead.Data.Data,
+                 (wchar_t *)bytesRead.Data.Data,
                  v21);
-LABEL_14:
+LABEL_13:
   v13 = StringNode;
   StringNode->RefCount += 2;
   v14 = result->pNode;
@@ -126,11 +127,11 @@ LABEL_14:
   result->pNode = v13;
   v15 = v13->RefCount-- == 1;
   if ( !v15 )
-    goto LABEL_32;
+    goto LABEL_31;
   v16 = v13;
-LABEL_31:
+LABEL_30:
   Scaleform::GFx::ASStringNode::ReleaseNode(v16);
-LABEL_32:
+LABEL_31:
   if ( bytesRead.Data.Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, bytesRead.Data.Data);
 }

@@ -11,13 +11,13 @@ unsigned int __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphIndex(
   Scaleform::Render::FontSysDataWinAPI *pSysData; // edx
   double Scale1024; // st7
   unsigned int Size; // esi
-  Scaleform::Lock *lpCriticalSection; // [esp+154h] [ebp-5Ch]
-  unsigned int gmCellIncX; // [esp+158h] [ebp-58h] BYREF
-  Scaleform::HashNode<unsigned short,unsigned int,Scaleform::IdentityHash<unsigned short> >::NodeRef key; // [esp+15Ch] [ebp-54h] BYREF
-  HGDIOBJ h; // [esp+168h] [ebp-48h]
-  MAT2 mat2; // [esp+16Ch] [ebp-44h] BYREF
-  _GLYPHMETRICS v18; // [esp+17Ch] [ebp-34h] BYREF
-  Scaleform::Render::ExternalFontWinAPI::GlyphType val; // [esp+190h] [ebp-20h] BYREF
+  Scaleform::Lock *lpCriticalSection; // [esp+14h] [ebp-5Ch]
+  unsigned int gmCellIncX; // [esp+18h] [ebp-58h] BYREF
+  Scaleform::HashNode<unsigned short,unsigned int,Scaleform::IdentityHash<unsigned short> >::NodeRef key; // [esp+1Ch] [ebp-54h] BYREF
+  HGDIOBJ h; // [esp+28h] [ebp-48h]
+  MAT2 mat2; // [esp+2Ch] [ebp-44h] BYREF
+  _GLYPHMETRICS gm; // [esp+3Ch] [ebp-34h] BYREF
+  Scaleform::Render::ExternalFontWinAPI::GlyphType val; // [esp+50h] [ebp-20h] BYREF
 
   if ( !this->MasterFont )
     return -1;
@@ -52,20 +52,20 @@ unsigned int __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphIndex(
   pSysData = this->pSysData;
   mat2.eM11.fract = 0;
   mat2.eM22.value = 1;
-  if ( GetGlyphOutlineW(pSysData->WinHDC, code, 0, &v18, 0, 0, &mat2) == -1 )
+  if ( GetGlyphOutlineW(pSysData->WinHDC, code, 0, &gm, 0, 0, &mat2) == -1 )
   {
     SelectObject(WinHDC, h);
     LeaveCriticalSection(&lpCriticalSection->cs);
     return -1;
   }
   Scale1024 = this->Scale1024;
-  gmCellIncX = v18.gmCellIncX;
+  gmCellIncX = gm.gmCellIncX;
   val.Code = code;
-  val.Advance = Scale1024 * (double)v18.gmCellIncX;
-  val.Bounds.x1 = (double)v18.gmptGlyphOrigin.x * this->Scale1024;
-  val.Bounds.y1 = -(double)v18.gmptGlyphOrigin.y * this->Scale1024;
-  val.Bounds.x2 = (double)v18.gmBlackBoxX * this->Scale1024 + val.Bounds.x1;
-  val.Bounds.y2 = (double)v18.gmBlackBoxY * this->Scale1024 + val.Bounds.y1;
+  val.Advance = Scale1024 * (double)gm.gmCellIncX;
+  val.Bounds.x1 = (double)gm.gmptGlyphOrigin.x * this->Scale1024;
+  val.Bounds.y1 = -(double)gm.gmptGlyphOrigin.y * this->Scale1024;
+  val.Bounds.x2 = (double)gm.gmBlackBoxX * this->Scale1024 + val.Bounds.x1;
+  val.Bounds.y2 = (double)gm.gmBlackBoxY * this->Scale1024 + val.Bounds.y1;
   Scaleform::ArrayData<Scaleform::Render::ExternalFontWinAPI::GlyphType,Scaleform::AllocatorLH<Scaleform::Render::ExternalFontWinAPI::GlyphType,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
     &this->Glyphs.Data,
     &val);

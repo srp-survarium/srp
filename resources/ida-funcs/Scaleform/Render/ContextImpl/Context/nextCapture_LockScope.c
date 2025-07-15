@@ -18,10 +18,10 @@ char __thiscall Scaleform::Render::ContextImpl::Context::nextCapture_LockScope(
   Scaleform::Render::ContextImpl::ContextCaptureNotify *pNext; // ecx
   Scaleform::Ptr<Scaleform::Render::ContextImpl::ContextLock> *v18; // eax
   Scaleform::Render::ContextImpl::ContextCaptureNotify *v19; // edi
-  Scaleform::Lock::Locker scopeLock; // [esp+Ch] [ebp-4h]
+  Scaleform::Lock *v20; // [esp+Ch] [ebp-4h]
 
   p_LockObject = &this->pCaptureLock.pObject->LockObject;
-  scopeLock.pLock = p_LockObject;
+  v20 = p_LockObject;
   EnterCriticalSection(&p_LockObject->cs);
   if ( mode == Capture_OnceAFrame && this->NextCaptureCalledInFrame )
   {
@@ -77,7 +77,7 @@ char __thiscall Scaleform::Render::ContextImpl::Context::nextCapture_LockScope(
       v19 = pNext->pNext;
       ((void (__stdcall *)(Scaleform::Render::ContextImpl::RenderNotify *))pNext->OnNextCapture)(pnotify);
       pNext = v19;
-      p_LockObject = scopeLock.pLock;
+      p_LockObject = v20;
     }
     this->DIChangesRequired = 0;
   }

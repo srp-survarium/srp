@@ -1,13 +1,13 @@
 char __thiscall Scaleform::GFx::Sprite::GotoLabeledFrame(Scaleform::GFx::Sprite *this, const char *label, int offset)
 {
   Scaleform::GFx::TimelineDef *pObject; // ecx
-  unsigned int targetFrame; // [esp+Ch] [ebp-4h] BYREF
+  int v6; // [esp+Ch] [ebp-4h] BYREF
 
   pObject = this->pDef.pObject;
-  targetFrame = -1;
-  if ( pObject->GetLabeledFrame(pObject, label, &targetFrame, 0) )
+  v6 = -1;
+  if ( pObject->GetLabeledFrame(pObject, label, (unsigned int *)&v6, 0) )
   {
-    this->GotoFrame(this, offset + targetFrame);
+    this->GotoFrame(this, offset + v6);
     return 1;
   }
   else

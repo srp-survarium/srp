@@ -16,12 +16,9 @@ Scaleform::GFx::ASString *__cdecl Scaleform::GFx::AS3::XMLSupportImpl::GetQualif
   {
     v9 = name;
     if ( f )
-      v7 = Scaleform::GFx::ASString::operator+(
-             p_pManager,
-             (Scaleform::GFx::ASString *)&ns,
-             (char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags);
+      v7 = Scaleform::GFx::ASString::operator+(p_pManager, (Scaleform::GFx::ASString *)&ns, (const __m128i *)".");
     else
-      v7 = Scaleform::GFx::ASString::operator+(p_pManager, (Scaleform::GFx::ASString *)&ns, "::");
+      v7 = Scaleform::GFx::ASString::operator+(p_pManager, (Scaleform::GFx::ASString *)&ns, (const __m128i *)"::");
     Scaleform::GFx::ASString::operator+(v7, result, v9);
     v8 = ns;
     --ns->RefCount;

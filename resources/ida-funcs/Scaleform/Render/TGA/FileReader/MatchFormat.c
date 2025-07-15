@@ -9,32 +9,27 @@ bool __thiscall Scaleform::Render::TGA::FileReader::MatchFormat(
   int v7; // esi
   int v8; // edi
   unsigned __int8 v9; // bl
-  Scaleform::Render::FileHeaderReader<18> header; // [esp+0h] [ebp-18h] BYREF
+  Scaleform::Render::FileHeaderReaderImpl v10; // [esp+0h] [ebp-18h] BYREF
+  unsigned __int8 tempBuffer[20]; // [esp+4h] [ebp-14h] BYREF
 
-  Scaleform::Render::FileHeaderReaderImpl::FileHeaderReaderImpl(
-    &header,
-    file,
-    headerArg,
-    headerArgSize,
-    header.Buffer,
-    0x12u);
-  if ( !header.pHeader )
+  Scaleform::Render::FileHeaderReaderImpl::FileHeaderReaderImpl(&v10, file, headerArg, headerArgSize, tempBuffer, 0x12u);
+  if ( !v10.pHeader )
     return 0;
-  v5 = header.pHeader[7];
-  v6 = header.pHeader[2];
-  v9 = header.pHeader[16];
-  if ( header.pHeader[1] )
+  v5 = v10.pHeader[7];
+  v6 = v10.pHeader[2];
+  v9 = v10.pHeader[16];
+  if ( v10.pHeader[1] )
   {
-    if ( header.pHeader[1] != 1 || v6 != 1 )
+    if ( v10.pHeader[1] != 1 || v6 != 1 )
       return 0;
   }
   else if ( v6 != 2 )
   {
     return 0;
   }
-  if ( v5 && v5 != 24 && v5 != 32 || v9 != 8 && v9 != 24 && v9 != 32 || (header.pHeader[17] & 0xC0) != 0 )
+  if ( v5 && v5 != 24 && v5 != 32 || v9 != 8 && v9 != 24 && v9 != 32 || (v10.pHeader[17] & 0xC0) != 0 )
     return 0;
-  v8 = *((unsigned __int16 *)header.pHeader + 7);
-  v7 = *((unsigned __int16 *)header.pHeader + 6);
+  v8 = *((unsigned __int16 *)v10.pHeader + 7);
+  v7 = *((unsigned __int16 *)v10.pHeader + 6);
   return file->GetLength(file) >= v7 * v8 * (v9 >> 3) + 18;
 }

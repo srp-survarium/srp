@@ -1,52 +1,48 @@
-void __thiscall vostok::sound::world_user::set_time_scale_factor(vostok::sound::world_user *this, float factor)
+void __thiscall vostok::sound::world_user::set_time_scale_factor(
+        vostok::sound::world_user *this,
+        float factor,
+        boost::function<void __cdecl(void)> *a3)
 {
-  vostok::sound::sound_order *v2; // [esp+4h] [ebp-ACh]
-  boost::function0<void> *p_m_next_for_orders; // [esp+14h] [ebp-9Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > v5; // [esp+18h] [ebp-98h]
-  char v6; // [esp+64h] [ebp-4Ch]
-  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_world,float>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_world *>,boost::_bi::value<float> > > result; // [esp+68h] [ebp-48h] BYREF
-  void (__thiscall *f)(vostok::sound::sound_world *, float); // [esp+78h] [ebp-38h]
-  int f_4; // [esp+7Ch] [ebp-34h]
-  boost::function0<void> v10; // [esp+80h] [ebp-30h] BYREF
-  vostok::sound::sound_order *v11; // [esp+A4h] [ebp-Ch]
-  char v12; // [esp+ABh] [ebp-5h]
-  vostok::sound::sound_order *order; // [esp+ACh] [ebp-4h]
+  __int32 v3; // edi
+  int v4; // esi
+  char *v5; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  __int32 v7; // eax
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_world,float>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_world *>,boost::_bi::value<float> > > v8; // [esp-10h] [ebp-5Ch]
+  char v9; // [esp+14h] [ebp-38h]
+  vostok::sound::functor_command<vostok::sound::sound_order> *v10; // [esp+18h] [ebp-34h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+2Ch] [ebp-20h] BYREF
 
-  v6 = 0;
-  v12 = 0;
-  v11 = (vostok::sound::sound_order *)vostok::memory::base_allocator::malloc_impl(this->m_allocator, 0x30u);
-  if ( v11 )
+  v3 = 0;
+  v9 = 0;
+  v4 = *(_DWORD *)(LODWORD(factor) + 284);
+  v5 = type_info::raw_name(&vostok::sound::functor_command<vostok::sound::sound_order> `RTTI Type Descriptor');
+  v10 = (vostok::sound::functor_command<vostok::sound::sound_order> *)(*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v4 + 16))(
+                                                                        v4,
+                                                                        48,
+                                                                        v5,
+                                                                        "vostok::sound::world_user::set_time_scale_factor",
+                                                                        ".\\world_user.cpp",
+                                                                        318);
+  if ( v10 )
   {
-    f = vostok::sound::sound_world::set_time_scale_factor;
-    f_4 = 0;
-    v5 = *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)boost::bind<void,vostok::sound::sound_world,float,vostok::sound::sound_world *,float>(&result, (void (__thiscall *__ptr64)(vostok::sound::sound_world *, float))(unsigned int)vostok::sound::sound_world::set_time_scale_factor, this->m_owner_world, factor);
-    v10.vtable = 0;
-    if ( boost::detail::function::basic_vtable1<void,vostok::sound::create_sound_propagator_params const &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_scene,vostok::sound::create_sound_propagator_params const &>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_scene *>,boost::arg<1>>>>(
-           (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_world,float>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_world *>,boost::_bi::value<float>>>>'::`2'::stored_vtable,
-           v5,
-           &v10.functor) )
-    {
-      v10.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::sound::sound_world,float>,boost::_bi::list2<boost::_bi::value<vostok::sound::sound_world *>,boost::_bi::value<float>>>>'::`2'::stored_vtable.base.manager
-                                                          + 1);
-    }
-    else
-    {
-      v10.vtable = 0;
-    }
-    v6 = 1;
-    vostok::sound::sound_order::sound_order(v11);
-    v11->__vftable = (vostok::sound::sound_order_vtbl *)&vostok::sound::functor_command<vostok::sound::sound_order>::`vftable';
-    p_m_next_for_orders = (boost::function0<void> *)&v11[1].m_next_for_orders;
-    v11[1].m_next_for_orders = 0;
-    boost::function0<void>::assign_to_own(p_m_next_for_orders, &v10);
-    v2 = v11;
+    HIDWORD(v8.f_.f_) = vostok::sound::sound_world::set_time_scale_factor;
+    v8.l_.a1_.t_ = 0;
+    v8.l_.a2_.t_ = *(float *)(LODWORD(factor) + 280);
+    LODWORD(v8.f_.f_) = &f;
+    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(a3, v8, (int)a3);
+    v9 = 1;
+    vostok::sound::functor_command<vostok::sound::sound_order>::functor_command<vostok::sound::sound_order>(
+      v10,
+      *(vostok::memory::base_allocator **)(LODWORD(factor) + 284),
+      &f);
+    v3 = v7;
   }
-  else
-  {
-    v2 = 0;
-  }
-  order = v2;
-  if ( (v6 & 1) != 0 )
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&v10);
-  vostok::sound::world_user::add_order(this, order);
+  if ( (v9 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v6,
+      (int *)&f);
+  *(_DWORD *)(v3 + 8) = 0;
+  _InterlockedExchange((volatile __int32 *)(*(_DWORD *)(LODWORD(factor) + 136) + 8), v3);
+  *(_DWORD *)(LODWORD(factor) + 136) = v3;
 }

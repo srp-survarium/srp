@@ -18,7 +18,7 @@ bignum_st *__cdecl BN_GF2m_add(bignum_st *r, const bignum_st *a, const bignum_st
     v3 = a;
   }
   if ( v4->top > r->dmax )
-    result = bn_expand2(r, (unsigned int *)v4->top);
+    result = bn_expand2(r, v4->top);
   else
     result = r;
   if ( result )

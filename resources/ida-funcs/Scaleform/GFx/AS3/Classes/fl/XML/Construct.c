@@ -25,11 +25,12 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::Construct(
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // esi
   Scaleform::GFx::AS3::Instance *v23; // eax
   Scaleform::GFx::AS3::Object *v24; // edi
+  Scaleform::StringDataPtr v25; // [esp-8h] [ebp-74h] BYREF
   Scaleform::GFx::ASString src; // [esp+10h] [ebp-5Ch] BYREF
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLText> result; // [esp+18h] [ebp-54h] BYREF
-  Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLText> v27; // [esp+1Ch] [ebp-50h] BYREF
-  Scaleform::GFx::AS3::VM::Error v28; // [esp+24h] [ebp-48h] BYREF
-  Scaleform::GFx::AS3::VM::Error v29; // [esp+2Ch] [ebp-40h] BYREF
+  Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLText> v28; // [esp+1Ch] [ebp-50h] BYREF
+  Scaleform::GFx::AS3::VM::Error v29; // [esp+24h] [ebp-48h] BYREF
+  Scaleform::GFx::AS3::VM::Error v30; // [esp+2Ch] [ebp-40h] BYREF
   Scaleform::GFx::AS3::XMLParser parser; // [esp+34h] [ebp-38h] BYREF
 
   pObject = this->pTraits.pObject;
@@ -46,9 +47,11 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::Construct(
     {
       if ( !extCall )
         Scaleform::GFx::AS3::VSBase::PopBack(&pVM->OpStack, argc);
-      Scaleform::GFx::AS3::VM::Error::Error(&v28, eInvokeOnIncompatibleObjectError, pVM);
+      v25.pStr = "XML::Construct";
+      v25.Size = 14;
+      Scaleform::GFx::AS3::VM::Error::Error(&v29, eInvokeOnIncompatibleObjectError, pVM, v25);
       Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v12);
-      pNode = v28.Message.pNode;
+      pNode = v29.Message.pNode;
 LABEL_6:
       if ( !--pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
@@ -82,7 +85,7 @@ LABEL_6:
         case Traits_String:
           argv = v8->value.VS._1.VStr;
           ++argv->RefCount;
-          if ( *Scaleform::GFx::ASUtils::SkipWhiteSpace(argv->pData, argv->Size) == 60 )
+          if ( *Scaleform::GFx::ASUtils::SkipWhiteSpace((char *)argv->pData, argv->Size) == 60 )
             Scaleform::GFx::AS3::XMLParser::XMLParser(&parser, v6);
           v15 = src.pNode;
           if ( BYTE2(src.pNode[1].HashFlags) )
@@ -97,7 +100,7 @@ LABEL_6:
           }
           v18 = Scaleform::GFx::AS3::InstanceTraits::fl::XML::MakeInstanceText(
                   *(Scaleform::GFx::AS3::InstanceTraits::fl::XML **)(v15->Size + 100),
-                  &v27,
+                  &v28,
                   *(Scaleform::GFx::AS3::InstanceTraits::Traits **)(v15->Size + 100),
                   (const Scaleform::GFx::ASString *)&argv,
                   0);
@@ -107,7 +110,7 @@ LABEL_6:
           pNode = argv;
           goto LABEL_6;
         case Traits_XML:
-          (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, _DWORD))(*(_DWORD *)v8->value.VS._1.VInt + 128))(
+          (*(void (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::ASStringNode **, _DWORD))(*(_DWORD *)v8->value.VS._1.VInt + 140))(
             v8->value.VS._1,
             &argv,
             0);
@@ -126,9 +129,10 @@ LABEL_6:
           }
           if ( !extCall )
             Scaleform::GFx::AS3::VSBase::PopBack(&pVM->OpStack, argc);
-          Scaleform::GFx::AS3::VM::Error::Error(&v29, eInvokeOnIncompatibleObjectError, pVM);
+          Scaleform::StringDataPtr::StringDataPtr(&v25, "XML::Construct");
+          Scaleform::GFx::AS3::VM::Error::Error(&v30, eInvokeOnIncompatibleObjectError, pVM, v25);
           Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v20);
-          pNode = v29.Message.pNode;
+          pNode = v30.Message.pNode;
           break;
         default:
           goto LABEL_27;

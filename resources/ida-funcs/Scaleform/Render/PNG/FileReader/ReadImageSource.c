@@ -1,17 +1,17 @@
 Scaleform::Render::PNG::PNGFileImageSource *__thiscall Scaleform::Render::PNG::FileReader::ReadImageSource(
         Scaleform::Render::PNG::FileReader *this,
-        Scaleform::File *file,
+        Scaleform::GFx::Resource *file,
         const Scaleform::Render::ImageCreateArgs *args)
 {
   Scaleform::Render::PNG::PNGFileImageSource *v3; // eax
   Scaleform::Render::PNG::PNGFileImageSource *v4; // eax
   Scaleform::Render::PNG::PNGFileImageSource *v5; // esi
 
-  if ( file && file->IsValid(file) )
+  if ( file && (unsigned __int8)file->GetResourceTypeCode(file) )
   {
     v3 = (Scaleform::Render::PNG::PNGFileImageSource *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                          Scaleform::Memory::pGlobalHeap,
-                                                         56,
+                                                         64,
                                                          0);
     if ( v3 )
     {

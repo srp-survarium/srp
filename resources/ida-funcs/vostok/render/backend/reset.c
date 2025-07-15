@@ -1,276 +1,269 @@
-void __usercall vostok::render::backend::reset(vostok::render::backend *this@<ecx>, int a2@<esi>)
+void __usercall vostok::render::backend::reset(vostok::render::backend *this@<ecx>, int a2@<eax>)
 {
-  bool v2; // zf
-  bool v3; // dl
-  int v4; // eax
-  int v5; // eax
-  const vostok::render::res_sampler_list *v6; // eax
-  int v7; // ecx
-  unsigned int v8; // eax
-  unsigned int v9; // eax
-  const vostok::render::res_texture_list *v10; // eax
-  int v11; // eax
-  const vostok::render::res_sampler_list *v12; // eax
-  int v13; // ecx
-  unsigned int v14; // eax
-  unsigned int v15; // eax
-  const vostok::render::res_texture_list *v16; // eax
-  bool v17; // dl
-  int v18; // eax
-  const vostok::render::res_sampler_list *v19; // eax
-  int v20; // ecx
-  unsigned int v21; // eax
-  unsigned int v22; // eax
-  const vostok::render::res_texture_list *v23; // eax
-  int v24; // edx
-  bool v25; // al
-  bool v26; // al
-  int y; // eax
-  survarium::game *m_game; // eax
-  unsigned int v29; // [esp-10h] [ebp-3Ch]
-  unsigned int v30; // [esp-10h] [ebp-3Ch]
-  unsigned int v31; // [esp-10h] [ebp-3Ch]
-  _QWORD v32[4]; // [esp+8h] [ebp-24h] BYREF
+  _DWORD *v3; // eax
+  bool v4; // zf
+  bool v5; // cl
+  bool v6; // cl
+  vostok::render::backend *v7; // ecx
+  vostok::render::backend *v8; // ecx
+  vostok::render::buffers_handler<0> *v9; // ecx
+  vostok::render::buffers_handler<0> *v10; // ecx
+  vostok::render::buffers_handler<0> *v11; // ecx
+  vostok::render::device *v12; // eax
+  vostok::render::device *v13; // eax
+  unsigned int i; // [esp+10h] [ebp-4h]
+  unsigned int j; // [esp+10h] [ebp-4h]
+  unsigned int k; // [esp+10h] [ebp-4h]
 
-  *(_BYTE *)(a2 + 147) |= *(_DWORD *)(a2 + 132) != 0;
-  v2 = *(_DWORD *)(a2 + 136) == -1;
-  *(_DWORD *)(a2 + 132) = 0;
-  *(_BYTE *)(a2 + 148) |= !v2;
-  *(_DWORD *)(a2 + 136) = -1;
-  if ( *(_DWORD *)(a2 + 2132) )
+  v3 = (_DWORD *)(a2 + 340);
+  v4 = *v3 == 0;
+  *v3 = 0;
+  *(_BYTE *)(a2 + 95) |= !v4;
+  v5 = *(_DWORD *)(a2 + 344) != -1;
+  *(_DWORD *)(a2 + 344) = -1;
+  *(_BYTE *)(a2 + 96) |= v5;
+  vostok::render::backend::set_declaration((vostok::render::backend *)a2, 0);
+  v4 = *(_DWORD *)(a2 + 328) == 0;
+  *(_DWORD *)(a2 + 328) = 0;
+  *(_BYTE *)(a2 + 94) |= !v4;
+  v4 = *(_DWORD *)(a2 + 332) == 0;
+  *(_DWORD *)(a2 + 332) = 0;
+  *(_BYTE *)(a2 + 95) |= !v4;
+  v4 = *(_DWORD *)(a2 + 336) == 0;
+  *(_DWORD *)(a2 + 336) = 0;
+  *(_BYTE *)(a2 + 96) |= !v4;
+  vostok::render::backend::set_vs((vostok::render::backend *)a2, 0);
+  vostok::render::backend::set_vs_constants((vostok::render::backend *)a2, 0);
+  vostok::render::backend::set_vs_samplers((vostok::render::backend *)a2, 0);
+  if ( *(_DWORD *)(a2 + 492) )
   {
-    *(_DWORD *)(a2 + 2132) = 0;
-    *(_BYTE *)(a2 + 144) = 1;
-    *(_DWORD *)(a2 + 2136) = 0;
-    *(_BYTE *)(a2 + 145) = 1;
+    ++*(_DWORD *)(a2 + 7568);
+    vostok::render::textures_handler<0>::assign((vostok::render::textures_handler<0> *)(a2 + 492), 0);
+    *(_BYTE *)(a2 + 99) = 1;
   }
-  else
+  v4 = *(_DWORD *)(a2 + 420) == 0;
+  *(_DWORD *)(a2 + 420) = 0;
+  *(_BYTE *)(a2 + 102) |= !v4;
+  vostok::render::backend::set_gs_constants((vostok::render::backend *)a2, 0);
+  vostok::render::backend::set_gs_samplers((vostok::render::backend *)a2, 0);
+  if ( *(_DWORD *)(a2 + 2116) )
   {
-    *(_BYTE *)(a2 + 145) = 0;
+    vostok::render::textures_handler<0>::assign((vostok::render::textures_handler<0> *)(a2 + 2116), 0);
+    *(_BYTE *)(a2 + 104) = 1;
   }
-  v2 = *(_DWORD *)(a2 + 120) == 0;
-  *(_DWORD *)(a2 + 120) = 0;
-  *(_BYTE *)(a2 + 146) |= !v2;
-  v2 = *(_DWORD *)(a2 + 124) == 0;
-  *(_DWORD *)(a2 + 124) = 0;
-  *(_BYTE *)(a2 + 147) |= !v2;
-  v2 = *(_DWORD *)(a2 + 128) == 0;
-  *(_DWORD *)(a2 + 128) = 0;
-  *(_BYTE *)(a2 + 148) |= !v2;
-  v2 = *(_DWORD *)(a2 + 184) == 0;
-  *(_DWORD *)(a2 + 184) = 0;
-  v3 = !v2;
-  v2 = (!v2 | *(_BYTE *)(a2 + 149)) == 0;
-  *(_BYTE *)(a2 + 149) |= v3;
-  LOBYTE(this) = *(_BYTE *)(a2 + 149);
-  if ( !v2 )
-    ++*(_DWORD *)a2;
-  if ( (_BYTE)this )
-    v4 = 0;
-  else
-    v4 = *(_DWORD *)(a2 + 2136);
-  *(_DWORD *)(a2 + 2136) = v4;
-  *(_BYTE *)(a2 + 145) = (_BYTE)this;
-  if ( *(_DWORD *)(a2 + 204) )
+  v6 = *(_DWORD *)(a2 + 416) != 0;
+  v4 = (v6 | *(_BYTE *)(a2 + 107)) == 0;
+  *(_BYTE *)(a2 + 107) |= v6;
+  if ( !v4 )
+    ++*(_DWORD *)(a2 + 7556);
+  *(_DWORD *)(a2 + 416) = 0;
+  vostok::render::backend::set_ps_constants((vostok::render::backend *)a2, 0);
+  vostok::render::backend::set_ps_samplers((vostok::render::backend *)a2, 0);
+  if ( *(_DWORD *)(a2 + 3740) )
   {
-    ++*(_DWORD *)(a2 + 12);
-    vostok::render::constants_handler<0>::assign((vostok::render::constants_handler<0> *)(a2 + 196), 0);
-    v5 = *(_DWORD *)(a2 + 2284);
-    *(_BYTE *)(a2 + 150) = 1;
-    *(_DWORD *)(a2 + 2288) = v5;
+    ++*(_DWORD *)(a2 + 7580);
+    vostok::render::textures_handler<0>::assign((vostok::render::textures_handler<0> *)(a2 + 3740), 0);
+    *(_BYTE *)(a2 + 109) = 1;
   }
-  if ( *(_DWORD *)(a2 + 828) )
-  {
-    ++*(_DWORD *)(a2 + 20);
-    *(_DWORD *)(a2 + 756) = 0;
-    *(_DWORD *)(a2 + 760) = 0;
-    v6 = *(const vostok::render::res_sampler_list **)(a2 + 828);
-    *(_DWORD *)(a2 + 828) = 0;
-    if ( v6 )
-    {
-      v2 = v6->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v6);
-    }
-    *(_BYTE *)(a2 + 152) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 208) )
-  {
-    ++*(_DWORD *)(a2 + 16);
-    v7 = *(_DWORD *)(a2 + 208);
-    if ( v7 )
-      v8 = (*(_DWORD *)(v7 + 8) - *(_DWORD *)(v7 + 4)) >> 2;
-    else
-      v8 = 0;
-    v9 = vostok::math::max(v8, 0);
-    v29 = *(_DWORD *)(a2 + 216);
-    *(_DWORD *)(a2 + 212) = 0;
-    *(_DWORD *)(a2 + 216) = vostok::math::max(v29, v9);
-    v10 = *(const vostok::render::res_texture_list **)(a2 + 208);
-    *(_DWORD *)(a2 + 208) = 0;
-    if ( v10 )
-    {
-      v2 = v10->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v10);
-    }
-    *(_BYTE *)(a2 + 151) = 1;
-  }
-  v2 = *(_DWORD *)(a2 + 192) == 0;
-  *(_DWORD *)(a2 + 192) = 0;
-  *(_BYTE *)(a2 + 153) |= !v2;
-  if ( *(_DWORD *)(a2 + 844) )
-  {
-    vostok::render::constants_handler<2>::assign((vostok::render::constants_handler<2> *)(a2 + 836), 0);
-    v11 = *(_DWORD *)(a2 + 2284);
-    *(_BYTE *)(a2 + 154) = 1;
-    *(_DWORD *)(a2 + 2296) = v11;
-  }
-  if ( *(_DWORD *)(a2 + 1468) )
-  {
-    *(_DWORD *)(a2 + 1396) = 0;
-    *(_DWORD *)(a2 + 1400) = 0;
-    v12 = *(const vostok::render::res_sampler_list **)(a2 + 1468);
-    *(_DWORD *)(a2 + 1468) = 0;
-    if ( v12 )
-    {
-      v2 = v12->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v12);
-    }
-    *(_BYTE *)(a2 + 156) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 848) )
-  {
-    v13 = *(_DWORD *)(a2 + 848);
-    if ( v13 )
-      v14 = (*(_DWORD *)(v13 + 8) - *(_DWORD *)(v13 + 4)) >> 2;
-    else
-      v14 = 0;
-    v15 = vostok::math::max(v14, 0);
-    v30 = *(_DWORD *)(a2 + 856);
-    *(_DWORD *)(a2 + 852) = 0;
-    *(_DWORD *)(a2 + 856) = vostok::math::max(v30, v15);
-    v16 = *(const vostok::render::res_texture_list **)(a2 + 848);
-    *(_DWORD *)(a2 + 848) = 0;
-    if ( v16 )
-    {
-      v2 = v16->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v16);
-    }
-    *(_BYTE *)(a2 + 155) = 1;
-  }
-  v17 = *(_DWORD *)(a2 + 188) != 0;
-  v2 = (v17 | *(_BYTE *)(a2 + 157)) == 0;
-  *(_BYTE *)(a2 + 157) |= v17;
-  if ( !v2 )
-    ++*(_DWORD *)(a2 + 4);
-  *(_DWORD *)(a2 + 188) = 0;
-  if ( *(_DWORD *)(a2 + 1484) )
-  {
-    ++*(_DWORD *)(a2 + 24);
-    vostok::render::constants_handler<1>::assign((vostok::render::constants_handler<1> *)(a2 + 1476), 0);
-    v18 = *(_DWORD *)(a2 + 2284);
-    *(_BYTE *)(a2 + 158) = 1;
-    *(_DWORD *)(a2 + 2292) = v18;
-  }
-  if ( *(_DWORD *)(a2 + 2108) )
-  {
-    ++*(_DWORD *)(a2 + 32);
-    *(_DWORD *)(a2 + 2036) = 0;
-    *(_DWORD *)(a2 + 2040) = 0;
-    v19 = *(const vostok::render::res_sampler_list **)(a2 + 2108);
-    *(_DWORD *)(a2 + 2108) = 0;
-    if ( v19 )
-    {
-      v2 = v19->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v19);
-    }
-    *(_BYTE *)(a2 + 160) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 1488) )
-  {
-    ++*(_DWORD *)(a2 + 28);
-    v20 = *(_DWORD *)(a2 + 1488);
-    if ( v20 )
-      v21 = (*(_DWORD *)(v20 + 8) - *(_DWORD *)(v20 + 4)) >> 2;
-    else
-      v21 = 0;
-    v22 = vostok::math::max(v21, 0);
-    v31 = *(_DWORD *)(a2 + 1496);
-    *(_DWORD *)(a2 + 1492) = 0;
-    *(_DWORD *)(a2 + 1496) = vostok::math::max(v31, v22);
-    v23 = *(const vostok::render::res_texture_list **)(a2 + 1488);
-    *(_DWORD *)(a2 + 1488) = 0;
-    if ( v23 )
-    {
-      v2 = v23->m_reference_count-- == 1;
-      if ( v2 )
-        vostok::render::resource_manager::release(
-          (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-          v23);
-    }
-    *(_BYTE *)(a2 + 159) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 204) )
-  {
-    ++*(_DWORD *)(a2 + 12);
-    vostok::render::constants_handler<0>::assign((vostok::render::constants_handler<0> *)(a2 + 196), 0);
-    v24 = *(_DWORD *)(a2 + 2284);
-    *(_BYTE *)(a2 + 150) = 1;
-    *(_DWORD *)(a2 + 2288) = v24;
-  }
-  v25 = *(_DWORD *)(a2 + 168) || *(_DWORD *)(a2 + 2192) || *(_DWORD *)(a2 + 2196);
-  *(_BYTE *)(a2 + 140) |= v25;
-  *(_DWORD *)(a2 + 168) = 0;
-  *(_DWORD *)(a2 + 2192) = 0;
-  *(_DWORD *)(a2 + 2196) = 0;
-  v26 = *(_DWORD *)(a2 + 180) || *(_DWORD *)(a2 + 2216);
-  *(_BYTE *)(a2 + 143) |= v26;
-  *(_DWORD *)(a2 + 180) = 0;
-  *(_DWORD *)(a2 + 2216) = 0;
-  if ( *(_DWORD *)(a2 + 2140) )
-  {
-    *(_DWORD *)(a2 + 2140) = 0;
-    *(_BYTE *)(a2 + 163) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 2144) )
-  {
-    *(_DWORD *)(a2 + 2144) = 0;
-    *(_BYTE *)(a2 + 164) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 2148) )
-  {
-    *(_DWORD *)(a2 + 2148) = 0;
-    *(_BYTE *)(a2 + 165) = 1;
-  }
-  if ( *(_DWORD *)(a2 + 2152) )
-  {
-    *(_DWORD *)(a2 + 2152) = 0;
-    *(_BYTE *)(a2 + 166) = 1;
-  }
-  *(_BYTE *)(a2 + 167) |= *(_DWORD *)(a2 + 2156) != 0;
-  *(_DWORD *)(a2 + 2156) = 0;
-  vostok::render::backend::flush_rt_shader_resources(this, (vostok::render::backend *)a2);
-  y = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y;
-  memset(v32, 0, sizeof(v32));
-  (*(void (__stdcall **)(int, int, _QWORD *, _DWORD))(*(_DWORD *)y + 132))(y, 8, v32, 0);
-  ++*(_DWORD *)(a2 + 2284);
-  m_game = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game;
-  *(_DWORD *)(a2 + 2116) = 0;
-  (*(void (__stdcall **)(int, _DWORD))(*(_DWORD *)m_game->m_game_world.m_mouse_pos.y + 96))(
-    m_game->m_game_world.m_mouse_pos.y,
+  vostok::render::backend::set_vs_constants((vostok::render::backend *)a2, 0);
+  vostok::render::backend::set_vb((vostok::render::backend *)a2, 0, 0);
+  vostok::render::backend::set_ib(0, a2);
+  vostok::render::backend::set_render_targets((vostok::render::backend *)a2, 0, 0, 0, 0);
+  *(_BYTE *)(a2 + 117) |= *(_DWORD *)(a2 + 7384) != 0;
+  *(_DWORD *)(a2 + 7384) = 0;
+  vostok::render::backend::flush_rt_shader_resources(v7, a2);
+  vostok::render::backend::flush_rt_views(v8);
+  memset(a2 + 436, 0, 0x38u);
+  *(_DWORD *)(a2 + 424) = 0;
+  *(_DWORD *)(a2 + 428) = 0;
+  vostok::intrusive_ptr<vostok::render::shader_constant_table const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::shader_constant_table const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *)(a2 + 432),
     0);
+  memset(a2 + 504, 0, 0x200u);
+  vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 492),
+    0);
+  *(_DWORD *)(a2 + 496) = 0;
+  *(_DWORD *)(a2 + 500) = 0;
+  for ( i = 0; i < (*(_DWORD *)(a2 + 1028) - *(_DWORD *)(a2 + 1024)) >> 2; ++i )
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)(*(_DWORD *)(a2 + 1024) + 4 * i));
+  *(_DWORD *)(a2 + 1296) = 0;
+  *(_DWORD *)(a2 + 1300) = 0;
+  memset(a2 + 1304, 0, 0x40u);
+  vostok::intrusive_ptr<vostok::render::res_sampler_list const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_sampler_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 1368),
+    0);
+  vostok::render::buffers_handler<0>::reset(v9, a2 + 1376);
+  memset(a2 + 2060, 0, 0x38u);
+  *(_DWORD *)(a2 + 2048) = 0;
+  *(_DWORD *)(a2 + 2052) = 0;
+  vostok::intrusive_ptr<vostok::render::shader_constant_table const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::shader_constant_table const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *)(a2 + 2056),
+    0);
+  memset(a2 + 2128, 0, 0x200u);
+  vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 2116),
+    0);
+  *(_DWORD *)(a2 + 2120) = 0;
+  *(_DWORD *)(a2 + 2124) = 0;
+  for ( j = 0; j < (*(_DWORD *)(a2 + 2652) - *(_DWORD *)(a2 + 2648)) >> 2; ++j )
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)(*(_DWORD *)(a2 + 2648) + 4 * j));
+  *(_DWORD *)(a2 + 2920) = 0;
+  *(_DWORD *)(a2 + 2924) = 0;
+  memset(a2 + 2928, 0, 0x40u);
+  vostok::intrusive_ptr<vostok::render::res_sampler_list const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_sampler_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 2992),
+    0);
+  vostok::render::buffers_handler<0>::reset(v10, a2 + 3000);
+  memset(a2 + 3684, 0, 0x38u);
+  *(_DWORD *)(a2 + 3672) = 0;
+  *(_DWORD *)(a2 + 3676) = 0;
+  vostok::intrusive_ptr<vostok::render::shader_constant_table const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::shader_constant_table const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *)(a2 + 3680),
+    0);
+  memset(a2 + 3752, 0, 0x200u);
+  vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 3740),
+    0);
+  *(_DWORD *)(a2 + 3744) = 0;
+  *(_DWORD *)(a2 + 3748) = 0;
+  for ( k = 0; k < (*(_DWORD *)(a2 + 4276) - *(_DWORD *)(a2 + 4272)) >> 2; ++k )
+    vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+      0,
+      (vostok::render::res_texture *)(*(_DWORD *)(a2 + 4272) + 4 * k));
+  *(_DWORD *)(a2 + 4544) = 0;
+  *(_DWORD *)(a2 + 4548) = 0;
+  memset(a2 + 4552, 0, 0x40u);
+  vostok::intrusive_ptr<vostok::render::res_sampler_list const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::operator=(
+    (vostok::intrusive_ptr<vostok::render::res_sampler_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)(a2 + 4616),
+    0);
+  vostok::render::buffers_handler<0>::reset(v11, a2 + 4624);
+  ++*(_DWORD *)(a2 + 7536);
+  v12 = vostok::quasi_singleton<vostok::render::device>::pinst;
+  *(_DWORD *)(a2 + 7356) = 0;
+  v12->m_context->IASetPrimitiveTopology(v12->m_context, D3D_PRIMITIVE_TOPOLOGY_UNDEFINED);
+  *(_DWORD *)(a2 + 356) = -1;
+  *(_DWORD *)(a2 + 360) = -1;
+  *(_DWORD *)(a2 + 368) = -1;
+  *(_DWORD *)(a2 + 372) = -1;
+  *(_DWORD *)(a2 + 380) = -1;
+  *(_DWORD *)(a2 + 384) = -1;
+  *(_DWORD *)(a2 + 392) = -1;
+  v13 = vostok::quasi_singleton<vostok::render::device>::pinst;
+  *(_DWORD *)(a2 + 352) = 0;
+  *(_DWORD *)(a2 + 364) = 0;
+  *(_DWORD *)(a2 + 376) = 0;
+  *(_DWORD *)(a2 + 388) = 0;
+  *(_DWORD *)(a2 + 348) = 0;
+  v13->m_context->VSSetShader(v13->m_context, 0, 0, 0);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetShader(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    0,
+    0);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetShader(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    0,
+    0);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->IASetIndexBuffer(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    DXGI_FORMAT_R16_UINT,
+    0);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetShaderResources(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11ShaderResourceView_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->DSSetShaderResources(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11ShaderResourceView_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->HSSetShaderResources(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11ShaderResourceView_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetShaderResources(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11ShaderResourceView_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetShaderResources(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11ShaderResourceView_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->IASetInputLayout(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetSamplers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11SamplerState_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetSamplers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11SamplerState_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetSamplers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11SamplerState_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->HSSetSamplers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11SamplerState_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->DSSetSamplers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    16u,
+    `vostok::render::backend::reset'::`2'::pID3D11SamplerState_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->VSSetConstantBuffers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    14u,
+    `vostok::render::backend::reset'::`2'::pID3D11Buffer_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->GSSetConstantBuffers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    14u,
+    `vostok::render::backend::reset'::`2'::pID3D11Buffer_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->PSSetConstantBuffers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    14u,
+    `vostok::render::backend::reset'::`2'::pID3D11Buffer_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->HSSetConstantBuffers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    14u,
+    `vostok::render::backend::reset'::`2'::pID3D11Buffer_temp_1);
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->DSSetConstantBuffers(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    0,
+    14u,
+    `vostok::render::backend::reset'::`2'::pID3D11Buffer_temp_1);
+  memset(a2 + 120, 0, 0xC0u);
+  *(_DWORD *)(a2 + 7384) = 0;
+  *(_DWORD *)(a2 + 7440) = 0;
+  *(_DWORD *)(a2 + 7436) = 0;
+  *(_DWORD *)(a2 + 7552) = 0;
+  *(_DWORD *)(a2 + 7556) = 0;
+  *(_DWORD *)(a2 + 7560) = 0;
+  *(_DWORD *)(a2 + 7564) = 0;
+  *(_DWORD *)(a2 + 7568) = 0;
+  *(_DWORD *)(a2 + 7572) = 0;
+  *(_DWORD *)(a2 + 7576) = 0;
+  *(_DWORD *)(a2 + 7580) = 0;
+  *(_DWORD *)(a2 + 7584) = 0;
 }

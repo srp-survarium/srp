@@ -1,26 +1,20 @@
-void __usercall survarium::messaging_client::disconnect(survarium::messaging_client *this@<ecx>, int a2@<eax>)
+void __thiscall survarium::messaging_client::disconnect(survarium::messaging_client *this)
 {
-  vostok::network::tcp_packet_client *v2; // esi
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::function<void __cdecl(vostok::network_core::packet_reader &)> on_packet_received; // [esp+8h] [ebp-24h] BYREF
+  boost::function1<void,vostok::physics::contact_point const &> *p_m_network_client; // esi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v2; // ecx
+  boost::function<void __cdecl(vostok::network_core::buffer_reader &)> v3; // [esp+8h] [ebp-20h] BYREF
 
-  if ( *(_DWORD *)(a2 + 136) != 1 )
+  if ( this->m_connection_state != client_disconnected )
   {
-    v2 = (vostok::network::tcp_packet_client *)(a2 + 144);
-    *(_DWORD *)(a2 + 136) = 1;
-    vostok::network::tcp_packet_client::disconnect((vostok::network::tcp_packet_client *)(a2 + 144));
-    on_packet_received.vtable = 0;
-    vostok::network::tcp_packet_client::set_on_packet_received(
+    p_m_network_client = (boost::function1<void,vostok::physics::contact_point const &> *)&this->m_network_client;
+    this->m_connection_state = client_disconnected;
+    vostok::network::tcp_packet_client::disconnect(
+      (vostok::network::tcp_packet_client *)this,
+      (int)&this->m_network_client);
+    v3.vtable = 0;
+    boost::function<void __cdecl (boost::system::error_code)>::operator=(&v3, p_m_network_client);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
       v2,
-      (boost::function<void __cdecl(unsigned int,unsigned int)> *)&on_packet_received);
-    if ( on_packet_received.vtable )
-    {
-      if ( ((int)on_packet_received.vtable & 1) == 0 )
-      {
-        v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)on_packet_received.vtable & 0xFFFFFFFE);
-        if ( v3 )
-          v3(&on_packet_received.functor, &on_packet_received.functor, 2);
-      }
-    }
+      (int *)&v3);
   }
 }

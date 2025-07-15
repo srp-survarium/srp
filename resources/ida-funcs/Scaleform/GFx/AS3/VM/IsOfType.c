@@ -89,11 +89,11 @@ LABEL_22:
     case 0xFu:
     case 0x10u:
     case 0x11u:
-      goto $LN5_125;
+      goto $LN5_138;
     case 0xCu:
       if ( !v->value.VS._1.VInt )
         return 0;
-$LN5_125:
+$LN5_138:
       ClassTraits = Scaleform::GFx::AS3::VM::GetClassTraits(this, v);
       return Scaleform::GFx::AS3::ClassTraits::Traits::IsParentTypeOf(ctr, ClassTraits);
     case 0xDu:

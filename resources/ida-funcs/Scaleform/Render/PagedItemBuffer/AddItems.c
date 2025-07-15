@@ -1,33 +1,54 @@
 Scaleform::Render::VertexElement *__userpurge Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32>::AddItems@<eax>(
-        Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32> *this@<eax>,
-        unsigned int count@<edi>,
-        Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32> *a3@<ecx>,
-        Scaleform::Render::VertexElement *source)
+        Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32> *this@<ecx>,
+        _DWORD *a2@<eax>,
+        Scaleform::Render::VertexElement *source,
+        unsigned int count)
 {
+  unsigned int v4; // ebx
+  _DWORD *v6; // edi
+  _DWORD *v7; // eax
+  void *v8; // eax
   Scaleform::Render::VertexElement *result; // eax
-  Scaleform::Render::VertexElement *v6; // ecx
-  int v7; // edx
-  unsigned int v8; // ebx
+  _DWORD *v10; // ecx
+  int v11; // edx
 
-  Scaleform::Render::PagedItemBuffer<Scaleform::Render::VertexElement,32>::ensureCountAvailable(a3, count);
-  result = &this->pLast->Items[this->pLast->Count];
+  v4 = count;
+  v6 = (_DWORD *)a2[1];
+  if ( v6 )
+  {
+    if ( count + v6[1] <= 0x20 )
+      goto LABEL_6;
+    v8 = Scaleform::Memory::AllocAutoHeap(a2, 0x108u);
+    a2[1] = v8;
+    *v6 = v8;
+    v7 = (_DWORD *)a2[1];
+  }
+  else
+  {
+    v7 = Scaleform::Memory::AllocAutoHeap(a2, 0x108u);
+    *a2 = v7;
+    a2[1] = v7;
+  }
+  *v7 = 0;
+  *(_DWORD *)(a2[1] + 4) = 0;
+LABEL_6:
+  result = (Scaleform::Render::VertexElement *)(a2[1] + 8 * *(_DWORD *)(a2[1] + 4) + 8);
   if ( count )
   {
-    v6 = &this->pLast->Items[this->pLast->Count];
-    v7 = (char *)source - (char *)result;
-    v8 = count;
+    v10 = (_DWORD *)(a2[1] + 8 * *(_DWORD *)(a2[1] + 4) + 8);
+    v11 = (char *)source - (char *)result;
     do
     {
-      if ( v6 )
+      if ( v10 )
       {
-        v6->Offset = *(unsigned int *)((char *)&v6->Offset + v7);
-        v6->Attribute = *(unsigned int *)((char *)&v6->Attribute + v7);
+        *v10 = *(_DWORD *)((char *)v10 + v11);
+        v10[1] = *(_DWORD *)((char *)v10 + v11 + 4);
       }
-      ++v6;
-      --v8;
+      v10 += 2;
+      --count;
     }
-    while ( v8 );
+    while ( count );
   }
-  this->pLast->Count += count;
+  *(_DWORD *)(a2[1] + 4) += v4;
   return result;
 }

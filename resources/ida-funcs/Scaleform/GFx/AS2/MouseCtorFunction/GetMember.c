@@ -77,7 +77,10 @@ LABEL_14:
   }
   else if ( Scaleform::GFx::ASString::operator==(name, "getPosition") )
   {
-    Scaleform::GFx::AS2::Value::Value(&v12, p_StringContext, Scaleform::GFx::AS2::MouseCtorFunction::GetPosition);
+    Scaleform::GFx::AS2::Value::Value(
+      &v12,
+      p_StringContext,
+      (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::MouseCtorFunction::GetPosition);
   }
   else
   {

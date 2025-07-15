@@ -1,8 +1,8 @@
-int __cdecl ssl2_part_read(ssl_st *s, __int16 f, int i)
+int __usercall ssl2_part_read@<eax>(int a1@<ebx>, ssl_st *s, __int16 f, int i)
 {
   int result; // eax
-  unsigned __int8 *data; // edi
-  __int16 v5; // ax
+  char *data; // edi
+  __int16 v6; // ax
   signed int init_num; // esi
 
   result = i;
@@ -11,15 +11,15 @@ int __cdecl ssl2_part_read(ssl_st *s, __int16 f, int i)
     s->init_num += i;
     if ( s->init_num >= 3 )
     {
-      data = (unsigned __int8 *)s->init_buf->data;
+      data = s->init_buf->data;
       if ( !*data )
       {
-        v5 = ssl_mt_error(data[2] | (data[1] << 8));
-        ERR_put_error(0x14u, f, v5, ".\\ssl\\s2_pkt.c", 682);
+        v6 = ssl_mt_error((unsigned __int8)data[2] | ((unsigned __int8)data[1] << 8));
+        ERR_put_error(a1, 0x14u, f, v6, ".\\ssl\\s2_pkt.c", 682);
         s->init_num -= 3;
         init_num = s->init_num;
         if ( init_num > 0 )
-          memmove(data, data + 3, init_num);
+          memmove((int)data, (const __m128i *)(data + 3), init_num);
       }
     }
     return 0;

@@ -1,4 +1,4 @@
-char __userpurge Scaleform::GFx::DrawingContext::DefPointTestLocal@<al>(
+bool __userpurge Scaleform::GFx::DrawingContext::DefPointTestLocal@<al>(
         Scaleform::GFx::DrawingContext *this@<ecx>,
         int a2@<ebx>,
         const Scaleform::Render::Point<float> *pt,
@@ -9,8 +9,8 @@ char __userpurge Scaleform::GFx::DrawingContext::DefPointTestLocal@<al>(
   int v6; // edi
   _DWORD *v7; // eax
   int v8; // esi
-  unsigned int Size; // [esp+40h] [ebp-18h]
-  float v12[4]; // [esp+48h] [ebp-10h] BYREF
+  unsigned int Size; // [esp+24h] [ebp-18h]
+  float v12[4]; // [esp+2Ch] [ebp-10h] BYREF
 
   v5 = this;
   Scaleform::GFx::DrawingContext::UpdateRenderNode(this, a2);
@@ -40,12 +40,10 @@ char __userpurge Scaleform::GFx::DrawingContext::DefPointTestLocal@<al>(
       return 0;
     v5 = this;
   }
-  if ( testShape )
-    return Scaleform::Render::HitTestFill<Scaleform::Render::Matrix2x4<float>>(
-             *(const Scaleform::Render::ShapeDataInterface **)(v8 + 44),
-             &Scaleform::Render::Matrix2x4<float>::Identity,
-             pt->x,
-             pt->y);
-  else
-    return 1;
+  return !testShape
+      || Scaleform::Render::HitTestFill<Scaleform::Render::Matrix2x4<float>>(
+           *(const Scaleform::Render::ShapeDataInterface **)(v8 + 44),
+           &Scaleform::Render::Matrix2x4<float>::Identity,
+           pt->x,
+           pt->y);
 }

@@ -4,9 +4,9 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::RemoveIndirectTransform(Scale
   Scaleform::Render::TreeNode *v3; // edi
   Scaleform::GFx::ASMovieRootBase *pASRoot; // edx
   Scaleform::GFx::DisplayList *p_mDisplayList; // ebx
-  unsigned int DisplayIndex; // eax
+  Scaleform::GFx::DisplayObjectBase *DisplayIndex; // eax
   Scaleform::Render::TreeNode *pObject; // eax
-  Scaleform::GFx::MovieImpl::IndirectTransPair p; // [esp+4h] [ebp-10h] BYREF
+  Scaleform::GFx::MovieImpl::IndirectTransPair result; // [esp+4h] [ebp-10h] BYREF
 
   if ( (this->Flags & 0x8000u) != 0 )
   {
@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::RemoveIndirectTransform(Scale
       ++RenderNode->RefCount;
     if ( this->pIndXFormData->IsOrig3D )
     {
-      Scaleform::Render::TreeNode::SetMatrix3D(RenderNode, &this->pIndXFormData->OrigTransformMatrix);
+      Scaleform::Render::TreeNode::SetMatrix3D(RenderNode, (const __m128i *)this->pIndXFormData);
     }
     else
     {
@@ -27,23 +27,25 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::RemoveIndirectTransform(Scale
     pASRoot = this->pASRoot;
     this->Flags &= ~0x8000u;
     this->pIndXFormData = 0;
-    Scaleform::GFx::MovieImpl::RemoveIndirectTransformPair(pASRoot->pMovieImpl, &p, this);
-    if ( p.OriginalParent.pObject )
+    Scaleform::GFx::MovieImpl::RemoveIndirectTransformPair(pASRoot->pMovieImpl, &result, this);
+    if ( result.OriginalParent.pObject )
     {
-      p_mDisplayList = &p.OriginalParent.pObject->mDisplayList;
-      DisplayIndex = Scaleform::GFx::DisplayList::FindDisplayIndex(&p.OriginalParent.pObject->mDisplayList, this);
-      if ( DisplayIndex != -1 )
-        Scaleform::GFx::DisplayList::InsertIntoRenderTree(p_mDisplayList, p.OriginalParent.pObject, DisplayIndex);
+      p_mDisplayList = &result.OriginalParent.pObject->mDisplayList;
+      DisplayIndex = (Scaleform::GFx::DisplayObjectBase *)Scaleform::GFx::DisplayList::FindDisplayIndex(
+                                                            &result.OriginalParent.pObject->mDisplayList,
+                                                            this);
+      if ( DisplayIndex != (Scaleform::GFx::DisplayObjectBase *)-1 )
+        Scaleform::GFx::DisplayList::InsertIntoRenderTree(p_mDisplayList, result.OriginalParent.pObject, DisplayIndex);
     }
     Scaleform::Render::TreeNode::SetOrigScale9Parent(v3, 0);
-    if ( p.OriginalParent.pObject )
-      Scaleform::RefCountNTSImpl::Release(p.OriginalParent.pObject);
-    if ( p.Obj.pObject )
-      Scaleform::RefCountNTSImpl::Release(p.Obj.pObject);
-    pObject = p.TransformParent.pObject;
-    if ( p.TransformParent.pObject )
+    if ( result.OriginalParent.pObject )
+      Scaleform::RefCountNTSImpl::Release(result.OriginalParent.pObject);
+    if ( result.Obj.pObject )
+      Scaleform::RefCountNTSImpl::Release(result.Obj.pObject);
+    pObject = result.TransformParent.pObject;
+    if ( result.TransformParent.pObject )
     {
-      --p.TransformParent.pObject->RefCount;
+      --result.TransformParent.pObject->RefCount;
       if ( !pObject->RefCount )
         Scaleform::Render::ContextImpl::Entry::destroyHelper(pObject);
     }

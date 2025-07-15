@@ -1,10 +1,10 @@
-engine_st *__cdecl ENGINE_get_digest(const env_md_st *e, int nid)
+engine_st *__usercall ENGINE_get_digest@<eax>(int a1@<ebx>, engine_st *e, int nid)
 {
-  int (__cdecl *verify)(engine_st *, const env_md_st **, const int **, int); // eax
+  int (__cdecl *digests)(engine_st *, const env_md_st **, const int **, int); // eax
 
-  verify = (int (__cdecl *)(engine_st *, const env_md_st **, const int **, int))e->verify;
-  if ( verify && verify((engine_st *)e, &e, 0, nid) )
-    return (engine_st *)e;
-  ERR_put_error(0x26u, 186, 147, ".\\crypto\\engine\\tb_digest.c", 126);
+  digests = e->digests;
+  if ( digests && digests(e, (const env_md_st **)&e, 0, nid) )
+    return e;
+  ERR_put_error(a1, 0x26u, 186, 147, ".\\crypto\\engine\\tb_digest.c", 126);
   return 0;
 }

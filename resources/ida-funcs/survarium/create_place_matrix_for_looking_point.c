@@ -1,101 +1,120 @@
-vostok::math::float4x4 *__cdecl survarium::create_place_matrix_for_looking_point(
-        vostok::math::float4x4 *result,
-        const vostok::math::float3 *hit_point,
-        const vostok::math::float3 *normal)
+vostok::math::float4x4 *__usercall survarium::create_place_matrix_for_looking_point@<eax>(
+        const vostok::math::float3 *hit_point@<ecx>,
+        const vostok::math::float4x4 *head_transform@<eax>,
+        vostok::math::float4x4 *normal,
+        float *a4)
 {
-  survarium::game_camera *v3; // ecx
-  const vostok::math::float3 *v4; // eax
-  vostok::math::float3_pod *v5; // ecx
-  survarium::game_camera *v6; // ecx
-  vostok::math::float3 *v7; // eax
-  _DWORD *v8; // esi
-  _DWORD *v9; // eax
-  survarium::game_camera *v10; // ecx
-  _DWORD *v11; // esi
-  _DWORD *v12; // eax
-  survarium::game_camera *v13; // ecx
-  vostok::math::float3_pod *v14; // esi
-  _DWORD *v15; // eax
-  const vostok::math::float3_pod *v16; // eax
-  vostok::math::float3 *v17; // eax
-  survarium::game_camera *v18; // ecx
-  int v19; // eax
-  survarium::game_camera *v20; // ecx
-  _DWORD *v21; // esi
-  _DWORD *v22; // eax
-  survarium::game_camera *v23; // ecx
-  vostok::math::float3 v25; // [esp+A8h] [ebp-CCh] BYREF
-  char v26; // [esp+B7h] [ebp-BDh]
-  vostok::math::float3 v27; // [esp+B8h] [ebp-BCh] BYREF
-  vostok::math::float3_pod v28; // [esp+C4h] [ebp-B0h] BYREF
-  float *v29; // [esp+D0h] [ebp-A4h]
-  vostok::math::float3_pod *right; // [esp+D4h] [ebp-A0h]
-  float v31[2]; // [esp+D8h] [ebp-9Ch] BYREF
-  survarium::game_camera *v32; // [esp+E0h] [ebp-94h]
-  const vostok::math::float3 *forward_candidate; // [esp+E4h] [ebp-90h]
-  _BYTE v34[132]; // [esp+E8h] [ebp-8Ch] BYREF
-  const vostok::math::float3 *right_candidate; // [esp+16Ch] [ebp-8h]
-  const vostok::math::float3 *head_forward; // [esp+170h] [ebp-4h]
+  float z; // xmm2_4
+  float y; // xmm5_4
+  float v8; // xmm4_4
+  float v9; // xmm0_4
+  float v10; // xmm6_4
+  float v11; // xmm7_4
+  float v12; // xmm3_4
+  vostok::math::float4x4 *result; // eax
+  float v14; // xmm1_4
+  float v15; // xmm2_4
+  float v16; // xmm4_4
+  float v17; // xmm5_4
+  float v18; // xmm6_4
+  float v19; // xmm1_4
+  float v20; // xmm7_4
+  float v21; // xmm6_4
+  float v22; // xmm4_4
+  float v23; // xmm4_4
+  float v24; // xmm2_4
+  float v25; // xmm3_4
+  float *v26; // esi
+  float v27; // xmm5_4
+  float v28; // xmm6_4
+  float v29; // xmm3_4
+  float v30; // xmm4_4
+  float v31; // xmm7_4
+  float v32; // xmm1_4
+  float v33; // xmm5_4
+  float v34; // xmm3_4
+  float v35; // xmm6_4
+  float v36; // xmm1_4
+  float v37; // xmm4_4
+  float v38; // xmm6_4
+  float v39; // xmm0_4
+  float v40; // xmm1_4
+  float v41; // xmm2_4
+  float *v42; // esi
+  float v43; // [esp+10h] [ebp-18h] BYREF
+  __int64 v44; // [esp+14h] [ebp-14h]
+  float v45; // [esp+1Ch] [ebp-Ch] BYREF
+  __int64 v46; // [esp+20h] [ebp-8h]
 
-  vostok::math::create_translation((vostok::math::float4x4 *)&v34[68], hit_point);
-  survarium::weapon_user_dead_state::finalize(v3);
-  head_forward = v4;
-  vostok::math::operator^(v4, normal, (vostok::math::float3 *)&v34[56]);
-  right_candidate = (const vostok::math::float3 *)&v34[56];
-  if ( vostok::math::float3_pod::length(v5, (float *)&v34[56]) <= 0.001 )
+  vostok::math::create_translation(hit_point, normal);
+  z = head_transform->k.z;
+  y = head_transform->k.y;
+  v8 = (float)(a4[1] * z) - (float)(a4[2] * y);
+  v9 = *a4;
+  v10 = (float)(head_transform->k.x * a4[2]) - (float)(*a4 * z);
+  v11 = (float)(*a4 * y) - (float)(head_transform->k.x * a4[1]);
+  if ( fsqrt((float)((float)(v11 * v11) + (float)(v8 * v8)) + (float)(v10 * v10)) <= 0.001 )
   {
-    survarium::weapon_user_dead_state::finalize(v6);
-    *(_DWORD *)&v34[16] = v16;
-    vostok::math::operator^(normal, v16, (vostok::math::float3 *)v34);
-    forward_candidate = (const vostok::math::float3 *)v34;
-    v26 = 0;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v34);
-    vostok::math::normalize((const vostok::math::float3_pod *)v34, &v28.x);
-    right = &v28;
-    *(_DWORD *)&v34[12] = normal;
-    v17 = vostok::math::operator^(&v28, normal, &v25);
-    vostok::math::normalize(v17, v31);
-    v29 = v31;
-    survarium::weapon_user_dead_state::finalize(v18);
-    *(float *)v19 = v31[0];
-    *(float *)(v19 + 4) = v31[1];
-    v20 = v32;
-    *(_DWORD *)(v19 + 8) = v32;
-    v21 = *(_DWORD **)&v34[12];
-    survarium::weapon_user_dead_state::finalize(v20);
-    *v22 = *v21;
-    v23 = (survarium::game_camera *)v21[1];
-    v22[1] = v23;
-    v22[2] = v21[2];
-    v14 = right;
-    survarium::weapon_user_dead_state::finalize(v23);
+    v27 = head_transform->i.y;
+    v28 = head_transform->i.z;
+    v29 = (float)(a4[2] * v27) - (float)(a4[1] * v28);
+    v30 = (float)(v9 * v28) - (float)(a4[2] * head_transform->i.x);
+    v31 = (float)(a4[1] * head_transform->i.x) - (float)(v9 * v27);
+    v32 = s_bm_current_air_resistance / fsqrt((float)((float)(v31 * v31) + (float)(v30 * v30)) + (float)(v29 * v29));
+    v33 = v32 * v29;
+    v34 = a4[1];
+    v35 = v32 * v30;
+    *((float *)&v46 + 1) = v32 * v31;
+    v36 = a4[2];
+    *(float *)&v46 = v35;
+    result = normal;
+    v37 = (float)(*((float *)&v46 + 1) * v34) - (float)(v35 * v36);
+    v38 = v9 * *((float *)&v46 + 1);
+    v39 = (float)(v9 * *(float *)&v46) - (float)(v34 * v33);
+    v45 = v33;
+    v40 = (float)(v36 * v33) - v38;
+    v41 = s_bm_current_air_resistance / fsqrt((float)((float)(v39 * v39) + (float)(v40 * v40)) + (float)(v37 * v37));
+    v43 = v41 * v37;
+    *(float *)&v44 = v41 * v40;
+    *((float *)&v44 + 1) = v41 * v39;
+    normal->i.x = v41 * v37;
+    *(_QWORD *)&normal->e01 = v44;
+    *(_QWORD *)&normal->lines[1].x = *(_QWORD *)a4;
+    normal->j.z = a4[2];
+    v26 = &v45;
   }
   else
   {
-    vostok::math::normalize(right_candidate, (float *)&v34[40]);
-    *(_DWORD *)&v34[32] = &v34[40];
-    *(_DWORD *)&v34[52] = normal;
-    v7 = vostok::math::operator^(normal, (const vostok::math::float3_pod *)&v34[40], &v27);
-    vostok::math::normalize(v7, (float *)&v34[20]);
-    *(_DWORD *)&v34[36] = &v34[20];
-    v8 = *(_DWORD **)&v34[32];
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&v34[20]);
-    *v9 = *v8;
-    v10 = (survarium::game_camera *)v8[1];
-    v9[1] = v10;
-    v9[2] = v8[2];
-    v11 = *(_DWORD **)&v34[52];
-    survarium::weapon_user_dead_state::finalize(v10);
-    *v12 = *v11;
-    v12[1] = v11[1];
-    v13 = (survarium::game_camera *)v11[2];
-    v12[2] = v13;
-    v14 = *(vostok::math::float3_pod **)&v34[36];
-    survarium::weapon_user_dead_state::finalize(v13);
+    v12 = s_bm_current_air_resistance;
+    result = normal;
+    v14 = s_bm_current_air_resistance / fsqrt((float)((float)(v11 * v11) + (float)(v8 * v8)) + (float)(v10 * v10));
+    v15 = v14 * v8;
+    v16 = a4[1];
+    v17 = v14 * v10;
+    v18 = a4[2];
+    *((float *)&v46 + 1) = v14 * v11;
+    *(float *)&v46 = v17;
+    v19 = (float)(v17 * v18) - (float)((float)(v14 * v11) * v16);
+    v45 = v15;
+    v20 = v15 * v18;
+    v21 = a4[1];
+    v22 = v9 * *((float *)&v46 + 1);
+    normal->i.x = v15;
+    *(_QWORD *)&normal->e01 = v46;
+    v23 = v22 - v20;
+    v24 = (float)(v15 * v21) - (float)(v9 * v17);
+    normal->j.x = *a4;
+    v25 = v12 / fsqrt((float)((float)(v24 * v24) + (float)(v23 * v23)) + (float)(v19 * v19));
+    normal->j.y = a4[1];
+    v43 = v25 * v19;
+    normal->j.z = a4[2];
+    *(float *)&v44 = v25 * v23;
+    *((float *)&v44 + 1) = v25 * v24;
+    v26 = &v43;
   }
-  *v15 = LODWORD(v14->x);
-  v15[1] = LODWORD(v14->y);
-  v15[2] = LODWORD(v14->z);
-  qmemcpy((void *)result, &v34[68], sizeof(vostok::math::float4x4));
+  result->k.x = *v26;
+  v42 = v26 + 1;
+  result->k.y = *v42;
+  result->k.z = v42[1];
   return result;
 }

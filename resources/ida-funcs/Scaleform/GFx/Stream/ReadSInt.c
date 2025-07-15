@@ -1,4 +1,4 @@
-int __thiscall Scaleform::GFx::Stream::ReadSInt(Scaleform::GFx::Stream *this, unsigned int bitcount)
+int __thiscall Scaleform::GFx::Stream::ReadSInt(Scaleform::GFx::Stream *this, int bitcount)
 {
   int result; // eax
 

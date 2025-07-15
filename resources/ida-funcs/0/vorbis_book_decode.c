@@ -1,4 +1,4 @@
-int __usercall vorbis_book_decode@<eax>(codebook *book@<esi>, oggpack_buffer *b@<eax>)
+int __usercall vorbis_book_decode@<eax>(codebook *book@<esi>, oggpack_buffer *b)
 {
   int v2; // eax
 

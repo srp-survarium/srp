@@ -2,16 +2,16 @@ double __cdecl Scaleform::Render::Math2D::PointToSegmentPos(float x1, float y1, 
 {
   double v6; // st7
   double v7; // st3
-  float dy; // [esp+4h] [ebp+4h]
-  float x2a; // [esp+Ch] [ebp+Ch]
+  float v9; // [esp+4h] [ebp+4h]
+  float v10; // [esp+Ch] [ebp+Ch]
 
   v6 = x1;
-  x2a = x2 - x1;
-  dy = y2 - y1;
-  v7 = dy;
-  if ( x2a == 0.0 && 0.0 == v7 )
+  v10 = x2 - x1;
+  v9 = y2 - y1;
+  v7 = v9;
+  if ( v10 == 0.0 && 0.0 == v7 )
     return 0.0;
-  return (float)((dy * (y - y1) + x2a * (x - v6)) / (x2a * x2a + v7 * v7));
+  return (float)((v9 * (y - y1) + v10 * (x - v6)) / (v10 * v10 + v7 * v7));
 }
 
 

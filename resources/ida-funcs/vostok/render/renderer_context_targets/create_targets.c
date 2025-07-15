@@ -1,706 +1,668 @@
 void __userpurge vostok::render::renderer_context_targets::create_targets(
         vostok::render::renderer_context_targets *this@<ecx>,
-        int a2@<eax>,
+        vostok::render::enum_render_target_index a2@<edi>,
         vostok::math::uint2 size,
-        vostok::render::renderer_context_targets *force_resize)
+        unsigned int force_resize)
 {
-  const vostok::render::res_texture **v5; // ebx
-  int v6; // ebp
-  const char *v7; // eax
-  bool v8; // zf
-  const vostok::render::res_texture *v9; // esi
-  unsigned int v10; // ecx
-  unsigned int v11; // ebx
-  unsigned int v12; // esi
-  unsigned int v13; // ebp
-  void (__cdecl *v14)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // ebx
-  char v15; // bl
-  void (__cdecl *v16)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  int v17; // eax
-  vostok::render::backend *v18; // ecx
-  const char *m_conflicted_key_name; // eax
-  int v20; // eax
-  vostok::render::backend *v21; // ecx
-  const char *v22; // eax
-  int v23; // eax
-  vostok::render::backend *v24; // ecx
-  const char *v25; // eax
-  vostok::render::backend *v26; // ecx
-  int v27; // edi
-  int v28; // edi
-  const char *v29; // eax
-  vostok::math::uint2 _FFFFFFFC; // [esp-4h] [ebp-A0h]
-  vostok::math::uint2 _FFFFFFFCa; // [esp-4h] [ebp-A0h]
-  vostok::math::uint2 _FFFFFFFCb; // [esp-4h] [ebp-A0h]
-  vostok::math::uint2 _FFFFFFFCc; // [esp-4h] [ebp-A0h]
-  vostok::math::uint2 b_4; // [esp+8h] [ebp-94h]
-  vostok::math::uint2 b_4a; // [esp+8h] [ebp-94h]
-  float v36; // [esp+Ch] [ebp-90h]
-  float v37; // [esp+Ch] [ebp-90h]
-  float v38; // [esp+Ch] [ebp-90h]
-  float v39; // [esp+Ch] [ebp-90h]
-  unsigned int v40; // [esp+1Ch] [ebp-80h]
-  unsigned int v41; // [esp+20h] [ebp-7Ch]
-  unsigned int v42; // [esp+24h] [ebp-78h]
-  unsigned int v43; // [esp+28h] [ebp-74h]
-  unsigned int v44; // [esp+2Ch] [ebp-70h]
-  unsigned int v45; // [esp+30h] [ebp-6Ch]
-  unsigned int v46; // [esp+34h] [ebp-68h]
-  unsigned int size_d16; // [esp+3Ch] [ebp-60h]
-  unsigned int size_d4; // [esp+44h] [ebp-58h]
-  unsigned int size_blur_1x; // [esp+4Ch] [ebp-50h]
-  unsigned int size_blur_2x; // [esp+54h] [ebp-48h]
-  unsigned int size_blur_4x; // [esp+5Ch] [ebp-40h]
-  unsigned int size_blur_8x; // [esp+64h] [ebp-38h]
-  unsigned int size_blur_16x; // [esp+6Ch] [ebp-30h]
-  unsigned int size_blur_32x; // [esp+74h] [ebp-28h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+7Ch] [ebp-20h] BYREF
+  int v4; // ebx
+  unsigned int y; // edx
+  unsigned int v6; // esi
+  unsigned int *v7; // ecx
+  unsigned int *v8; // ecx
+  unsigned int v9; // esi
+  vostok::render::renderer_context_targets *v10; // ecx
+  vostok::render::renderer_context_targets *v11; // ecx
+  vostok::render::renderer_context_targets *v12; // ecx
+  vostok::render::renderer_context_targets *v13; // ecx
+  vostok::render::renderer_context_targets *v14; // ecx
+  vostok::render::renderer_context_targets *v15; // ecx
+  vostok::render::renderer_context_targets *v16; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v17; // ecx
+  bool has_passed_filters; // al
+  int z_low; // ebx
+  vostok::render::backend *v20; // ecx
+  int v21; // ebx
+  vostok::render::backend *v22; // ecx
+  const vostok::render::render_target *v23; // eax
+  int v24; // ebx
+  vostok::render::backend *v25; // ecx
+  int v26; // esi
+  vostok::render::backend *v27; // ecx
+  int v28; // [esp+8h] [ebp-6Ch]
+  vostok::math::uint2 v29; // [esp+Ch] [ebp-68h]
+  vostok::math::uint2 v30; // [esp+Ch] [ebp-68h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v31; // [esp+Ch] [ebp-68h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v32; // [esp+18h] [ebp-5Ch] BYREF
+  unsigned int v33; // [esp+3Ch] [ebp-38h]
+  vostok::render::renderer_context_targets *v34; // [esp+40h] [ebp-34h]
+  unsigned int v35; // [esp+44h] [ebp-30h]
+  vostok::render::renderer_context_targets *v36; // [esp+48h] [ebp-2Ch]
+  unsigned int v37; // [esp+4Ch] [ebp-28h]
+  vostok::render::renderer_context_targets *v38; // [esp+50h] [ebp-24h]
+  unsigned int v39; // [esp+54h] [ebp-20h]
+  vostok::render::renderer_context_targets *v40; // [esp+58h] [ebp-1Ch]
+  unsigned int v41; // [esp+5Ch] [ebp-18h] BYREF
+  vostok::render::renderer_context_targets *v42; // [esp+60h] [ebp-14h]
+  int v43; // [esp+64h] [ebp-10h]
+  unsigned int v44; // [esp+68h] [ebp-Ch] BYREF
+  vostok::render::renderer_context_targets *v45; // [esp+6Ch] [ebp-8h]
+  int v46; // [esp+7Ch] [ebp+8h]
 
-  if ( LOBYTE(size.x)
-    || *(_DWORD *)(a2 + 11200) != size.y
-    || (this = *(vostok::render::renderer_context_targets **)(a2 + 11204), this != force_resize) )
+  v43 = 0;
+  if ( LOBYTE(size.x) || *(_QWORD *)(a2 + 11680) != __PAIR64__(force_resize, size.y) )
   {
-    v5 = (const vostok::render::res_texture **)(a2 + 156);
-    v6 = 70;
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context->Flush(vostok::quasi_singleton<vostok::render::device>::pinst->m_context);
+    v4 = a2 + 152;
+    v46 = 73;
     do
     {
-      v7 = (const char *)*(v5 - 1);
-      *(v5 - 1) = 0;
-      if ( v7 )
-      {
-        v8 = (*(_DWORD *)v7)-- == 1;
-        if ( v8 )
-          vostok::render::resource_manager::release(
-            (vostok::render::resource_manager *)this,
-            (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-            v7);
-      }
-      v9 = *v5;
-      *v5 = 0;
-      if ( v9 )
-      {
-        v8 = v9->m_reference_count-- == 1;
-        if ( v8 )
-          vostok::render::res_texture::destroy_impl((vostok::render::res_texture *)this, v9);
-      }
-      v5 += 40;
-      --v6;
+      vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+        0,
+        (vostok::render::res_texture *)(v4 + 4));
+      vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+        (vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *)v4,
+        0);
+      v4 += 160;
+      --v46;
     }
-    while ( v6 );
-    v10 = vostok::render::renderer_context_targets::s_new_id;
-    *(_QWORD *)(a2 + 11200) = __PAIR64__((unsigned int)force_resize, size.y);
-    *(_DWORD *)(a2 + 11208) = v10;
-    vostok::render::renderer_context_targets::s_new_id = v10 + 1;
-    v11 = vostok::math::max(1u, (unsigned int)force_resize >> 2);
-    size_blur_1x = vostok::math::max(1u, size.y >> 2);
-    v42 = vostok::math::max(1u, (unsigned int)force_resize >> 3);
-    size_blur_2x = vostok::math::max(1u, size.y >> 3);
-    v43 = vostok::math::max(1u, (unsigned int)force_resize >> 4);
-    size_blur_4x = vostok::math::max(1u, size.y >> 4);
-    v44 = vostok::math::max(1u, (unsigned int)force_resize >> 5);
-    size_blur_8x = vostok::math::max(1u, size.y >> 5);
-    v45 = vostok::math::max(1u, (unsigned int)force_resize >> 6);
-    size_blur_16x = vostok::math::max(1u, size.y >> 6);
-    v46 = vostok::math::max(1u, (unsigned int)force_resize >> 7);
-    size_blur_32x = vostok::math::max(1u, size.y >> 7);
-    v12 = vostok::math::max(1u, (unsigned int)force_resize >> 1);
-    v13 = vostok::math::max(1u, size.y >> 1);
-    v40 = vostok::math::max(1u, (unsigned int)force_resize >> 2);
-    size_d4 = vostok::math::max(1u, size.y >> 2);
-    vostok::math::max(1u, (unsigned int)force_resize >> 3);
-    vostok::math::max(1u, size.y >> 3);
-    v41 = vostok::math::max(1u, (unsigned int)force_resize >> 4);
-    size_d16 = vostok::math::max(1u, size.y >> 4);
-    *(_DWORD *)(a2 + 11212) = 0;
+    while ( v46 );
+    y = size.y;
+    *(_DWORD *)(a2 + 11680) = 1 - ((1 - size.y) & ((1 - (unsigned __int64)size.y) >> 32));
+    *(_DWORD *)(a2 + 11688) = vostok::render::renderer_context_targets::s_new_id++;
+    *(_DWORD *)(a2 + 11684) = force_resize > 1 ? 1 - force_resize - 1 : -1;
+    v33 = y >> 2 > 1 ? 1 - (y >> 2) - 1 : -1;
+    v34 = (vostok::render::renderer_context_targets *)(1
+                                                     - ((1 - (force_resize >> 2))
+                                                      & ((1 - (unsigned __int64)(force_resize >> 2)) >> 32)));
+    v6 = y >> 1 > 1 ? 1 - (y >> 1) - 1 : -1;
+    v42 = (vostok::render::renderer_context_targets *)(1
+                                                     - ((1 - (force_resize >> 1))
+                                                      & ((1 - (unsigned __int64)(force_resize >> 1)) >> 32)));
+    v41 = v6;
+    v44 = 1 - ((1 - (y >> 2)) & ((1 - (unsigned __int64)(y >> 2)) >> 32));
+    v45 = v34;
+    v35 = 1 - ((1 - (size.y >> 3)) & ((1 - (unsigned __int64)(size.y >> 3)) >> 32));
+    v36 = (vostok::render::renderer_context_targets *)(1
+                                                     - ((1 - (force_resize >> 3))
+                                                      & ((1 - (unsigned __int64)(force_resize >> 3)) >> 32)));
+    v39 = 1 - ((1 - (size.y >> 4)) & ((1 - (unsigned __int64)(size.y >> 4)) >> 32));
+    *(_DWORD *)(a2 + 11692) = 0;
+    v40 = (vostok::render::renderer_context_targets *)(force_resize >> 4 > 1 ? 1 - (force_resize >> 4) - 1 : -1);
+    v37 = size.y >> 1 > 1 ? 1 - (size.y >> 1) - 1 : -1;
+    v38 = (vostok::render::renderer_context_targets *)(1
+                                                     - ((1 - (force_resize >> 1))
+                                                      & ((1 - (unsigned __int64)(force_resize >> 1)) >> 32)));
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2F,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1A,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_generic_0,
+      (const vostok::math::uint2)0x10000001ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x30,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1A,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_generic_1,
+      (const vostok::math::uint2)0x10000001ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2D,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_present,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2E,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_previous_present,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1A,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_accumulator_diffuse,
+      (const vostok::math::uint2)0x10000001ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1C,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_accumulator_specular,
+      (const vostok::math::uint2)0x10000001ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xC,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_sun_translucensy_help_data,
+      (const vostok::math::uint2)0x100000022LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x37,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x2C,
-      (const vostok::math::uint2)0x100000000LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_normal,
+      (const vostok::math::uint2)0x100000022LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)8,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x22,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_albedo,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xA,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_surface_parameters,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1B,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_decals_normal_result,
+      (const vostok::math::uint2)0x100000022LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xB,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_decals_smoothness_result,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xE,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x22,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_normal_copy,
+      (const vostok::math::uint2)0x100000022LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xF,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x3D,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_decals_normal,
+      (const vostok::math::uint2)0x10000000ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x10,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x22,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_distortion,
+      (const vostok::math::uint2)0x100000022LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)9,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x36,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_decals_diffuse,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x12,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x31,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_parameters_copy,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0xD,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x3D,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_object_motion_vectors,
+      (const vostok::math::uint2)0x10000000ALL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x17,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_ssao_accumulator_full_x,
+      (const vostok::math::uint2)0x100000031LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x18,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_sun_shadow_and_scattering,
+      (const vostok::math::uint2)0x100000031LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x19,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x31,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
-    _FFFFFFFC.y = *((unsigned __int8 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                  + 292);
-    _FFFFFFFC.x = 1;
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_decals_smoothness,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x14,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x31,
-      _FFFFFFFC,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
-    _FFFFFFFCa.y = *((unsigned __int8 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                   + 292);
-    _FFFFFFFCa.x = 1;
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_ssao_prev_accumulator_full_x,
+      (const vostok::math::uint2)0x100000031LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x15,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x36,
-      _FFFFFFFCa,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
-    _FFFFFFFCb.y = *((unsigned __int8 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                   + 292);
-    _FFFFFFFCb.x = 1;
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_apply_indirect_lighting_ds,
+      (const vostok::math::uint2)53LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x16,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x36,
-      _FFFFFFFCb,
-      (vostok::math::uint2)__PAIR64__((unsigned int)force_resize, size.y));
-    _FFFFFFFCc.y = *((unsigned __int8 *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_action_ids._M_impl._M_start
-                   + 292);
-    _FFFFFFFCc.x = 1;
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_position,
+      (const vostok::math::uint2)0x100000036LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x13,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x31,
-      _FFFFFFFCc,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_ssao_accumulator_z,
+      (const vostok::math::uint2)0x100000036LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1D,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1A,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_ssao_prev_accumulator_z,
+      (const vostok::math::uint2)0x100000036LL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)3,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1A,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_distortion_mask,
+      (const vostok::math::uint2)0x10000003DLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x11,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x22,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_probe_indices,
+      (const vostok::math::uint2)0x10000003DLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
     vostok::render::renderer_context_targets::new_rt(
-      0,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x36,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)force_resize,
+      a2,
+      rt_accumulator_ambient_lights,
+      (const vostok::math::uint2)0x10000001CLL,
+      size.y,
+      (DXGI_FORMAT)force_resize);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_local_reflection_result,
+      (const vostok::math::uint2)0x10000000ALL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_bright_pixels_2x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_generic_downsampled_2x,
+      (const vostok::math::uint2)0x10000001ALL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_present_downsampled,
+      (const vostok::math::uint2)0x10000001CLL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_motion_blur_result,
+      (const vostok::math::uint2)0x10000001CLL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_radial_motion_blur_result,
+      (const vostok::math::uint2)0x10000001CLL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_lpv_accumulation,
+      (const vostok::math::uint2)0x10000001ALL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_indirect_lighting_specular,
+      (const vostok::math::uint2)0x10000001ALL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_ssao_accumulator,
+      (const vostok::math::uint2)0x100000022LL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_frame_depth_downsampled,
+      (const vostok::math::uint2)0x100000036LL,
+      v6,
+      (DXGI_FORMAT)v42);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_ssao_temporal_mask,
+      (const vostok::math::uint2)0x100000031LL,
+      v6,
+      (DXGI_FORMAT)v42);
+    v7 = &v44;
+    if ( vostok::quasi_singleton<vostok::render::options>::pinst->current.m_post_process_quality >= 2 )
+      v7 = &v41;
+    vostok::render::renderer_context_targets::new_rt(
+      (vostok::render::renderer_context_targets *)v7[1],
+      a2,
+      rt_light_scattering_mask,
+      (const vostok::math::uint2)0x10000003DLL,
+      *v7,
+      (DXGI_FORMAT)v7[1]);
+    v8 = &v44;
+    if ( vostok::quasi_singleton<vostok::render::options>::pinst->current.m_post_process_quality >= 2 )
+      v8 = &v41;
+    vostok::render::renderer_context_targets::new_rt(
+      (vostok::render::renderer_context_targets *)v8[1],
+      a2,
+      rt_light_scattering_result,
+      (const vostok::math::uint2)0x10000001ALL,
+      *v8,
+      (DXGI_FORMAT)v8[1]);
+    vostok::render::renderer_context_targets::new_rt(
+      v42,
+      a2,
+      rt_rain_result,
+      (const vostok::math::uint2)0x10000001CLL,
+      v6,
+      (DXGI_FORMAT)v42);
+    v9 = v44;
+    vostok::render::renderer_context_targets::new_rt(
+      v45,
+      a2,
+      rt_generic_downsampled_4x,
+      (const vostok::math::uint2)0x10000001ALL,
+      v44,
+      (DXGI_FORMAT)v45);
+    vostok::render::renderer_context_targets::new_rt(
+      v38,
+      a2,
+      rt_particle_lighting,
+      (const vostok::math::uint2)0x10000000ALL,
+      v37,
+      (DXGI_FORMAT)v38);
+    vostok::render::renderer_context_targets::new_rt(
+      v38,
+      a2,
+      rt_particle_lighting_depth,
+      (const vostok::math::uint2)0x100000036LL,
+      v37,
+      (DXGI_FORMAT)v38);
+    vostok::render::renderer_context_targets::new_rt(
+      v45,
+      a2,
+      rt_frame_lum_scene_downsampled,
+      (const vostok::math::uint2)0x10000000ALL,
+      v9,
+      (DXGI_FORMAT)v45);
+    vostok::render::renderer_context_targets::new_rt(
+      v45,
+      a2,
+      rt_bloom_combine,
+      (const vostok::math::uint2)0x10000001CLL,
+      v9,
+      (DXGI_FORMAT)v45);
+    vostok::render::renderer_context_targets::new_rt(
+      v40,
+      a2,
+      rt_final_frame_downsampled,
+      (const vostok::math::uint2)0x10000000ALL,
+      v39,
+      (DXGI_FORMAT)v40);
+    vostok::render::renderer_context_targets::new_rt(
+      v40,
+      a2,
+      rt_final_frame_downsampled_temp,
+      (const vostok::math::uint2)0x10000000ALL,
+      v39,
+      (DXGI_FORMAT)v40);
+    vostok::render::renderer_context_targets::new_rt(
+      v45,
+      a2,
+      rt_bloom_4x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v44,
+      (DXGI_FORMAT)v45);
+    vostok::render::renderer_context_targets::new_rt(
+      v36,
+      a2,
+      rt_bloom_8x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v35,
+      (DXGI_FORMAT)v36);
+    vostok::render::renderer_context_targets::new_rt(
+      v40,
+      a2,
+      rt_bloom_16x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v39,
+      (DXGI_FORMAT)v40);
+    vostok::render::renderer_context_targets::new_rt(
+      v45,
+      a2,
+      rt_bloom_temp_4x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v44,
+      (DXGI_FORMAT)v45);
+    vostok::render::renderer_context_targets::new_rt(
+      v36,
+      a2,
+      rt_bloom_temp_8x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v35,
+      (DXGI_FORMAT)v36);
+    vostok::render::renderer_context_targets::new_rt(
+      v40,
+      a2,
+      rt_bloom_temp_16x,
+      (const vostok::math::uint2)0x10000000ALL,
+      v39,
+      (DXGI_FORMAT)v40);
+    vostok::render::renderer_context_targets::new_rt(
+      v34,
+      a2,
+      rt_lens_flares,
+      (const vostok::math::uint2)0x10000000ALL,
+      v33,
+      (DXGI_FORMAT)v34);
+    vostok::render::renderer_context_targets::new_rt(
+      v10,
+      a2,
+      rt_frame_luminance0,
+      (const vostok::math::uint2)0x100000002LL,
+      1u,
+      DXGI_FORMAT_R32G32B32A32_TYPELESS);
+    vostok::render::renderer_context_targets::new_rt(
+      v11,
+      a2,
+      rt_frame_luminance1,
+      (const vostok::math::uint2)0x100000002LL,
+      2u,
+      DXGI_FORMAT_R32G32B32A32_FLOAT);
     vostok::render::renderer_context_targets::new_rt(
       (vostok::render::renderer_context_targets *)4,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x3D,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      a2,
+      rt_frame_luminance2,
+      (const vostok::math::uint2)0x100000002LL,
+      4u,
+      DXGI_FORMAT_R32G32B32A32_SINT);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)5,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x18,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
+      (vostok::render::renderer_context_targets *)8,
+      a2,
+      rt_frame_luminance3,
+      (const vostok::math::uint2)0x100000002LL,
+      8u,
+      DXGI_FORMAT_R32G32B32_SINT);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x33,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v12, v13));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x31,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v40, size_d4));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x32,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v40, size_d4));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x43,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v40, size_d4));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)6,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0x1C,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v40, size_d4));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)7,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v40, size_d4));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)2,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v41, size_d16));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)1,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v41, size_d16));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2C,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v11, size_blur_1x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1E,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v11, size_blur_1x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x1F,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v11, size_blur_1x));
+      (vostok::render::renderer_context_targets *)0x10,
+      a2,
+      rt_frame_luminance4,
+      (const vostok::math::uint2)0x100000002LL,
+      0x10u,
+      DXGI_FORMAT_R32G32_FLOAT);
     vostok::render::renderer_context_targets::new_rt(
       (vostok::render::renderer_context_targets *)0x20,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v11, size_blur_1x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x21,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v11, size_blur_1x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x22,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v42, size_blur_2x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x23,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v42, size_blur_2x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x24,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v43, size_blur_4x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x25,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v43, size_blur_4x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x26,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v44, size_blur_8x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x27,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v44, size_blur_8x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x28,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v45, size_blur_16x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x29,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v45, size_blur_16x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2A,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v46, size_blur_32x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x2B,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)__PAIR64__(v46, size_blur_32x));
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x38,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x100000001LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x39,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x200000002LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3A,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x400000004LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3B,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x800000008LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3C,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x1000000010LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3D,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x2000000020LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3E,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x4000000040LL);
-    vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x3F,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x8000000080LL);
+      a2,
+      rt_frame_luminance5,
+      (const vostok::math::uint2)0x100000002LL,
+      0x20u,
+      DXGI_FORMAT_R8G8B8A8_SINT);
     vostok::render::renderer_context_targets::new_rt(
       (vostok::render::renderer_context_targets *)0x40,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x10000000100LL);
+      a2,
+      rt_frame_luminance6,
+      (const vostok::math::uint2)0x100000002LL,
+      0x40u,
+      DXGI_FORMAT_R8_SINT);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x35,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x100000001LL);
+      (vostok::render::renderer_context_targets *)0x80,
+      a2,
+      rt_frame_luminance7,
+      (const vostok::math::uint2)0x100000002LL,
+      0x80u,
+      (DXGI_FORMAT)128);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x34,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x100000001LL);
+      (vostok::render::renderer_context_targets *)0x100,
+      a2,
+      rt_frame_luminance8,
+      (const vostok::math::uint2)0x100000002LL,
+      0x100u,
+      (DXGI_FORMAT)256);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x36,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)2,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x100000010LL);
-    b_4.x = 1;
-    vostok::render::renderer_context_targets::new_lt(
-      (vostok::render::renderer_context_targets *)0x44,
-      (vostok::render::renderer_context_targets *)a2,
-      DXGI_FORMAT_R32G32_FLOAT,
-      b_4);
-    b_4a.x = 1;
-    vostok::render::renderer_context_targets::new_lt(
-      (vostok::render::renderer_context_targets *)0x45,
-      (vostok::render::renderer_context_targets *)a2,
-      DXGI_FORMAT_R32G32_FLOAT,
-      b_4a);
+      v12,
+      a2,
+      rt_frame_luminance_current,
+      (const vostok::math::uint2)0x100000002LL,
+      1u,
+      DXGI_FORMAT_R32G32B32A32_TYPELESS);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x41,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x8000000100LL);
+      v13,
+      a2,
+      rt_frame_luminance_previous,
+      (const vostok::math::uint2)0x100000002LL,
+      1u,
+      DXGI_FORMAT_R32G32B32A32_TYPELESS);
     vostok::render::renderer_context_targets::new_rt(
-      (vostok::render::renderer_context_targets *)0x42,
-      (vostok::render::renderer_context_targets *)a2,
-      (const char *)0xA,
-      (const vostok::math::uint2)0x100000001LL,
-      (vostok::math::uint2)0x8000000100LL);
-    if ( vostok::core::g_log_filter_tree
-      && !vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render_pc_dx11:", info) )
+      v14,
+      a2,
+      rt_frame_luminance_histogram,
+      (const vostok::math::uint2)0x100000002LL,
+      0x10u,
+      DXGI_FORMAT_R32G32B32A32_TYPELESS);
+    v29.x = 1;
+    vostok::render::renderer_context_targets::new_lt((vostok::render::renderer_context_targets *)0x47, a2, 0x10u, v29);
+    v30.x = 1;
+    vostok::render::renderer_context_targets::new_lt((vostok::render::renderer_context_targets *)0x48, a2, 0x10u, v30);
+    vostok::render::renderer_context_targets::new_rt(
+      v15,
+      a2,
+      rt_mie_scattering,
+      (const vostok::math::uint2)0x10000000ALL,
+      0x100u,
+      (DXGI_FORMAT)128);
+    vostok::render::renderer_context_targets::new_rt(
+      v16,
+      a2,
+      rt_rayleigh_scattering,
+      (const vostok::math::uint2)0x10000000ALL,
+      0x100u,
+      (DXGI_FORMAT)128);
+    if ( !vostok::core::g_log_filter_tree
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)"render_pc_dx11",
+                                 (const char *)4),
+          v17 = v31,
+          has_passed_filters) )
     {
-      v15 = 0;
-    }
-    else
-    {
-      v14 = vostok::core::g_log_callback;
-      log_callback.vtable = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          &log_callback.functor,
-          &log_callback.functor,
-          destroy_functor_tag);
-      if ( v14 )
-      {
-        log_callback.functor.obj_ptr = v14;
-        log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                     + 1);
-      }
-      else
-      {
-        log_callback.vtable = 0;
-      }
-      v15 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v17,
+        &v32);
+      v28 = *(_DWORD *)(a2 + 11692) >> 20;
+      v43 = 1;
       vostok::logging::append(
-        &log_callback,
+        &v32,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\renderer_context_targets.cpp",
-        0x130u,
+        0x151u,
         "void __thiscall vostok::render::renderer_context_targets::create_targets(class vostok::math::uint2,bool)",
-        "render_pc_dx11:",
+        "render_pc_dx11",
         info,
         "render targets memory usage: %d",
-        *(_DWORD *)(a2 + 11212) >> 20);
+        v28);
     }
-    if ( (v15 & 1) != 0 && log_callback.vtable )
-    {
-      if ( ((int)log_callback.vtable & 1) == 0 )
-      {
-        v16 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-        if ( v16 )
-          v16(&log_callback.functor, &log_callback.functor, 2);
-      }
-      log_callback.vtable = 0;
-    }
-    v17 = *(_DWORD *)(a2 + 8472);
-    if ( v17 )
-      v18 = *(vostok::render::backend **)(v17 + 16);
-    else
-      v18 = 0;
-    m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    if ( *((vostok::render::backend **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-         + 535) != v18 )
-    {
-      *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = v18;
-      *((_BYTE *)m_conflicted_key_name + 163) = 1;
-    }
-    if ( *((_DWORD *)m_conflicted_key_name + 536) )
-    {
-      *((_DWORD *)m_conflicted_key_name + 536) = 0;
-      *((_BYTE *)m_conflicted_key_name + 164) = 1;
-    }
-    if ( *((_DWORD *)m_conflicted_key_name + 537) )
-    {
-      *((_DWORD *)m_conflicted_key_name + 537) = 0;
-      *((_BYTE *)m_conflicted_key_name + 165) = 1;
-    }
-    if ( *((_DWORD *)m_conflicted_key_name + 538) )
-    {
-      *((_DWORD *)m_conflicted_key_name + 538) = 0;
-      *((_BYTE *)m_conflicted_key_name + 166) = 1;
-    }
-    vostok::render::backend::clear_render_targets(v18, (int)m_conflicted_key_name, 0.25, 0.25, 0.25, 0.25, v36);
-    v20 = *(_DWORD *)(a2 + 8632);
-    if ( v20 )
-      v21 = *(vostok::render::backend **)(v20 + 16);
-    else
-      v21 = 0;
-    v22 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-    if ( *((vostok::render::backend **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-         + 535) != v21 )
-    {
-      *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = v21;
-      *((_BYTE *)v22 + 163) = 1;
-    }
-    if ( *((_DWORD *)v22 + 536) )
-    {
-      *((_DWORD *)v22 + 536) = 0;
-      *((_BYTE *)v22 + 164) = 1;
-    }
-    if ( *((_DWORD *)v22 + 537) )
-    {
-      *((_DWORD *)v22 + 537) = 0;
-      *((_BYTE *)v22 + 165) = 1;
-    }
-    if ( *((_DWORD *)v22 + 538) )
-    {
-      *((_DWORD *)v22 + 538) = 0;
-      *((_BYTE *)v22 + 166) = 1;
-    }
-    vostok::render::backend::clear_render_targets(v21, (int)v22, 0.25, 0.25, 0.25, 0.25, v37);
-    v23 = *(_DWORD *)(a2 + 3352);
+    if ( (v43 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v17,
+        (int *)&v32);
+    z_low = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+    vostok::render::backend::set_render_targets(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      *(const vostok::render::render_target **)(a2 + 8952),
+      0,
+      0,
+      0);
+    vostok::render::backend::clear_render_targets(v20, z_low, SLODWORD(FLOAT_0_25), 0.25, 0.25, 0.25);
+    v21 = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+    vostok::render::backend::set_render_targets(
+      (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+      *(const vostok::render::render_target **)(a2 + 9112),
+      0,
+      0,
+      0);
+    vostok::render::backend::clear_render_targets(v22, v21, SLODWORD(FLOAT_0_25), 0.25, 0.25, 0.25);
+    v23 = *(const vostok::render::render_target **)(a2 + 3992);
     if ( v23 )
     {
-      v24 = *(vostok::render::backend **)(v23 + 16);
-      v25 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      if ( *((vostok::render::backend **)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-           + 535) != v24 )
-      {
-        *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = v24;
-        *((_BYTE *)v25 + 163) = 1;
-      }
-      if ( *((_DWORD *)v25 + 536) )
-      {
-        *((_DWORD *)v25 + 536) = 0;
-        *((_BYTE *)v25 + 164) = 1;
-      }
-      if ( *((_DWORD *)v25 + 537) )
-      {
-        *((_DWORD *)v25 + 537) = 0;
-        *((_BYTE *)v25 + 165) = 1;
-      }
-      if ( *((_DWORD *)v25 + 538) )
-      {
-        *((_DWORD *)v25 + 538) = 0;
-        *((_BYTE *)v25 + 166) = 1;
-      }
-      vostok::render::backend::clear_render_targets(v24, (int)v25, *(float *)&clear_value, 0.0, 0.0, 0.0, v38);
-      v27 = *(_DWORD *)(a2 + 3672);
-      if ( v27 )
-        v28 = *(_DWORD *)(v27 + 16);
-      else
-        v28 = 0;
-      v29 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      if ( *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) != v28 )
-      {
-        *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 535) = v28;
-        *((_BYTE *)v29 + 163) = 1;
-      }
-      if ( *((_DWORD *)v29 + 536) )
-      {
-        *((_DWORD *)v29 + 536) = 0;
-        *((_BYTE *)v29 + 164) = 1;
-      }
-      if ( *((_DWORD *)v29 + 537) )
-      {
-        *((_DWORD *)v29 + 537) = 0;
-        *((_BYTE *)v29 + 165) = 1;
-      }
-      if ( *((_DWORD *)v29 + 538) )
-      {
-        *((_DWORD *)v29 + 538) = 0;
-        *((_BYTE *)v29 + 166) = 1;
-      }
-      vostok::render::backend::clear_render_targets(v26, (int)v29, 0.0, 0.0, 0.0, 0.0, v39);
+      v24 = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+      vostok::render::backend::set_render_targets(
+        (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        v23,
+        0,
+        0,
+        0);
+      vostok::render::backend::clear_render_targets(v25, v24, SLODWORD(s_bm_current_air_resistance), 0.0, 0.0, 0.0);
+      v26 = LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z);
+      vostok::render::backend::set_render_targets(
+        (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        *(const vostok::render::render_target **)(a2 + 4312),
+        0,
+        0,
+        0);
+      vostok::render::backend::clear_render_targets(v27, v26, 0, 0.0, 0.0, 0.0);
     }
   }
 }

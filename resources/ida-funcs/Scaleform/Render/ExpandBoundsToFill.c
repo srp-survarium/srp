@@ -7,17 +7,18 @@ void __cdecl Scaleform::Render::ExpandBoundsToFill<Scaleform::Render::Matrix2x4<
   unsigned int v4; // eax
   Scaleform::Render::ShapePathType (__thiscall *ReadPathInfo)(Scaleform::Render::ShapeDataInterface *, Scaleform::Render::ShapePosInfo *, float *, unsigned int *); // edx
   bool v6; // zf
-  unsigned int styles[3]; // [esp+10h] [ebp-5Ch] BYREF
-  float coord[6]; // [esp+1Ch] [ebp-50h] BYREF
-  Scaleform::Render::ShapePosInfo pos; // [esp+34h] [ebp-38h] BYREF
+  int v7; // [esp+10h] [ebp-5Ch] BYREF
+  int v8; // [esp+14h] [ebp-58h]
+  float v9[6]; // [esp+1Ch] [ebp-50h] BYREF
+  Scaleform::Render::ShapePosInfo v10; // [esp+34h] [ebp-38h] BYREF
 
   v4 = shape->GetStartingPos(shape);
-  pos.Sfactor = 1.0;
-  pos.Pos = v4;
+  v10.Sfactor = 1.0;
+  v10.Pos = v4;
   ReadPathInfo = shape->ReadPathInfo;
-  memset(&pos.StartX, 0, 44);
-  pos.Initialized = 0;
-  if ( ReadPathInfo(shape, &pos, coord, styles) )
+  memset(&v10.StartX, 0, 44);
+  v10.Initialized = 0;
+  if ( ReadPathInfo(shape, &v10, v9, (unsigned int *)&v7) )
   {
     do
     {
@@ -29,11 +30,11 @@ void __cdecl Scaleform::Render::ExpandBoundsToFill<Scaleform::Render::Matrix2x4<
             goto LABEL_11;
           goto LABEL_5;
         }
-        v6 = styles[0] == styles[1];
+        v6 = v7 == v8;
       }
       else
       {
-        v6 = (styles[0] == 0) == (styles[1] == 0);
+        v6 = (v7 == 0) == (v8 == 0);
       }
       if ( !v6 )
       {
@@ -41,14 +42,14 @@ LABEL_11:
         Scaleform::Render::ExpandBoundsToPath<Scaleform::Render::Matrix2x4<float>>(
           shape,
           *(float *)&trans,
-          &pos,
-          COERCE_FLOAT(coord),
+          &v10,
+          COERCE_FLOAT(v9),
           bounds);
         continue;
       }
 LABEL_5:
-      shape->SkipPathData(shape, &pos);
+      shape->SkipPathData(shape, &v10);
     }
-    while ( shape->ReadPathInfo(shape, &pos, coord, styles) );
+    while ( shape->ReadPathInfo(shape, &v10, v9, (unsigned int *)&v7) );
   }
 }

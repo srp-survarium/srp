@@ -1,6 +1,6 @@
 void __cdecl Scaleform::Render::UserDataEffect::Create(
         Scaleform::Render::TreeCacheNode *node,
-        const Scaleform::Render::UserDataState *stateArg,
+        Scaleform::Render::UserDataState *stateArg,
         Scaleform::Render::CacheEffect *next)
 {
   Scaleform::Render::UserDataEffect *v3; // eax

@@ -1,4 +1,4 @@
-bignum_ctx *__cdecl BN_CTX_new()
+bignum_ctx *__usercall BN_CTX_new@<eax>(int a1@<ebx>)
 {
   bignum_ctx *result; // eax
 
@@ -19,7 +19,7 @@ bignum_ctx *__cdecl BN_CTX_new()
   }
   else
   {
-    ERR_put_error(3u, 106, 65, ".\\crypto\\bn\\bn_ctx.c", 219);
+    ERR_put_error(a1, 3u, 106, 65, ".\\crypto\\bn\\bn_ctx.c", 219);
     return 0;
   }
   return result;

@@ -13,7 +13,6 @@ void __stdcall Scaleform::GFx::GFx_MetadataLoader(
   int v10; // ecx
   unsigned int Pos; // eax
   unsigned __int8 v12; // cl
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v13; // ecx
 
   v2 = p;
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
@@ -47,7 +46,10 @@ void __stdcall Scaleform::GFx::GFx_MetadataLoader(
     if ( v6 >= 255 )
       v6 = 255;
     v7[v6] = 0;
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v13);
+    Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+      &v2->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+      "  metadata: %s\n",
+      (const char *)v7);
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
   }
 }

@@ -1,8 +1,11 @@
 vostok::math::float4x4 *__userpurge vostok::physics::bt_animated_rigid_body::get_bone_transform@<eax>(
         vostok::physics::bt_animated_rigid_body *this@<ecx>,
-        const unsigned int index@<eax>,
-        vostok::math::float4x4 *a3)
+        int a2@<eax>,
+        long double a3@<esi:edi>,
+        vostok::math::float4x4 *result,
+        const unsigned int index)
 {
-  vostok::physics::from_bullet(&this->m_shape->m_children.m_data[index].m_transform, (btMatrix3x3 *)this, a3);
-  return a3;
+  HIDWORD(a3) = *(_DWORD *)(*(_DWORD *)(a2 + 52) + 24) + 80 * (_DWORD)this;
+  vostok::physics::from_bullet(a3, (int)result);
+  return result;
 }

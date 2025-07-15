@@ -21,7 +21,7 @@ DName *__cdecl UnDecorator::getFunctionIndirectType(DName *result, const DName *
   DName *v20; // eax
   DNameNode *v21; // ecx
   int v22; // eax
-  const DName *v23; // eax
+  const DName *ThisType; // eax
   const DName *v24; // eax
   DName *CallingConvention; // eax
   DName *v26; // eax
@@ -42,9 +42,9 @@ DName *__cdecl UnDecorator::getFunctionIndirectType(DName *result, const DName *
   DName v41; // [esp+0h] [ebp-30h] BYREF
   DName v42; // [esp+8h] [ebp-28h] BYREF
   DName v43; // [esp+10h] [ebp-20h] BYREF
-  DName returnType; // [esp+18h] [ebp-18h] BYREF
-  DName thisType; // [esp+20h] [ebp-10h] BYREF
-  DName fitType; // [esp+28h] [ebp-8h] BYREF
+  DName v44; // [esp+18h] [ebp-18h] BYREF
+  DName v45; // [esp+20h] [ebp-10h] BYREF
+  DName v46; // [esp+28h] [ebp-8h] BYREF
 
   v2 = *UnDecorator::gName;
   if ( !*UnDecorator::gName )
@@ -88,33 +88,33 @@ LABEL_17:
     DName::DName(result, DN_invalid);
     return result;
   }
-  thisType.node = 0;
-  *((_DWORD *)&thisType + 1) &= 0xFFFF0000;
-  fitType = *superType;
+  v45.node = 0;
+  *((_DWORD *)&v45 + 1) &= 0xFFFF0000;
+  v46 = *superType;
   if ( (v4 & 2) != 0 )
   {
-    v7 = operator+(&v43, "::", &fitType);
+    v7 = operator+(&v43, "::", &v46);
     node = v7->node;
-    *((_DWORD *)&fitType + 1) = *((_DWORD *)v7 + 1);
+    *((_DWORD *)&v46 + 1) = *((_DWORD *)v7 + 1);
     v9 = *UnDecorator::gName == 0;
-    fitType.node = node;
+    v46.node = node;
     if ( v9 )
     {
-      v12 = operator+(&v41, DN_truncated, &fitType);
+      v12 = operator+(&v41, DN_truncated, &v46);
     }
     else
     {
       Scope = UnDecorator::getScope(&v42);
       v11 = operator+(&v41, 32, Scope);
-      v12 = DName::operator+(v11, &v43, &fitType);
+      v12 = DName::operator+(v11, &v43, &v46);
     }
     v13 = v12->node;
-    *((_DWORD *)&fitType + 1) = *((_DWORD *)v12 + 1);
+    *((_DWORD *)&v46 + 1) = *((_DWORD *)v12 + 1);
     v14 = *UnDecorator::gName;
-    fitType.node = v13;
+    v46.node = v13;
     if ( !v14 )
     {
-      operator+(result, DN_truncated, &fitType);
+      operator+(result, DN_truncated, &v46);
       return result;
     }
     if ( v14 != 64 )
@@ -125,16 +125,16 @@ LABEL_17:
     ++UnDecorator::gName;
     if ( (UnDecorator::disableFlags & 0x60) == 0x60 )
     {
-      v23 = UnDecorator::getThisType(&v41);
-      DName::operator|=(&thisType, v23);
+      ThisType = UnDecorator::getThisType(&v41);
+      DName::operator|=(&v45, ThisType);
     }
     else
     {
       v15 = UnDecorator::getThisType(&v41);
       v16 = v15->node;
       v17 = *((_DWORD *)v15 + 1);
-      thisType.node = v16;
-      *((_DWORD *)&thisType + 1) = v17;
+      v45.node = v16;
+      *((_DWORD *)&v45 + 1) = v17;
     }
   }
   if ( (v4 & 4) != 0 )
@@ -143,40 +143,40 @@ LABEL_17:
     {
       BasedType = UnDecorator::getBasedType(&v42);
       v19 = operator+(&v43, 32, BasedType);
-      v20 = DName::operator+(v19, &v41, &fitType);
+      v20 = DName::operator+(v19, &v41, &v46);
       v21 = v20->node;
       v22 = *((_DWORD *)v20 + 1);
-      fitType.node = v21;
-      *((_DWORD *)&fitType + 1) = v22;
+      v46.node = v21;
+      *((_DWORD *)&v46 + 1) = v22;
     }
     else
     {
       v24 = UnDecorator::getBasedType(&v41);
-      DName::operator|=(&fitType, v24);
+      DName::operator|=(&v46, v24);
     }
   }
   if ( (~(UnDecorator::disableFlags >> 1) & 1) != 0 )
   {
     CallingConvention = UnDecorator::getCallingConvention(&v42);
-    v26 = DName::operator+(CallingConvention, &v41, &fitType);
+    v26 = DName::operator+(CallingConvention, &v41, &v46);
     v27 = v26->node;
     v28 = *((_DWORD *)v26 + 1);
-    fitType.node = v27;
-    *((_DWORD *)&fitType + 1) = v28;
+    v46.node = v27;
+    *((_DWORD *)&v46 + 1) = v28;
   }
   else
   {
     v29 = UnDecorator::getCallingConvention(&v41);
-    DName::operator|=(&fitType, v29);
+    DName::operator|=(&v46, v29);
   }
   if ( superType->node )
   {
-    v30 = operator+(&v42, 40, &fitType);
+    v30 = operator+(&v42, 40, &v46);
     v31 = DName::operator+(v30, &v41, 41);
     v32 = v31->node;
     v33 = *((_DWORD *)v31 + 1);
-    fitType.node = v32;
-    *((_DWORD *)&fitType + 1) = v33;
+    v46.node = v32;
+    *((_DWORD *)&v46 + 1) = v33;
   }
   Memory = HeapManager::getMemory(&heap, 8u, 0);
   if ( Memory )
@@ -190,28 +190,28 @@ LABEL_17:
   {
     v35 = 0;
   }
-  UnDecorator::getReturnType(&returnType, v35);
+  UnDecorator::getReturnType(&v44, v35);
   ArgumentTypes = UnDecorator::getArgumentTypes(&v42);
   v37 = operator+(&v43, 40, ArgumentTypes);
   v38 = DName::operator+(v37, &v41, 41);
-  DName::operator+=(&fitType, v38);
+  DName::operator+=(&v46, v38);
   if ( (UnDecorator::disableFlags & 0x60) != 0x60 && (v4 & 2) != 0 )
-    DName::operator+=(&fitType, &thisType);
+    DName::operator+=(&v46, &v45);
   if ( (UnDecorator::disableFlags & 0x100) != 0 )
   {
     ThrowTypes = UnDecorator::getThrowTypes(&v41);
-    DName::operator|=(&fitType, ThrowTypes);
+    DName::operator|=(&v46, ThrowTypes);
   }
   else
   {
     v39 = UnDecorator::getThrowTypes(&v41);
-    DName::operator+=(&fitType, v39);
+    DName::operator+=(&v46, v39);
   }
   if ( v35 )
   {
-    *v35 = fitType;
+    *v35 = v46;
     v3 = result;
-    *result = returnType;
+    *result = v44;
     return v3;
   }
   DName::DName(result, DN_error);

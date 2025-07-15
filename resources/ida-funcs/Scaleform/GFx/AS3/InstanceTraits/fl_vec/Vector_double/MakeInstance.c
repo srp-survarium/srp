@@ -2,13 +2,13 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_vec::Vector_double> *__cd
         Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_vec::Vector_double> *result,
         Scaleform::GFx::AS3::InstanceTraits::fl_vec::Vector_double *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Catch *v2; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v2; // eax
   Scaleform::GFx::AS3::Instances::fl_vec::Vector_double *v3; // esi
   Scaleform::GFx::AS3::VM *pVM; // eax
   const Scaleform::MemoryHeap *MHeap; // ecx
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl_vec::Vector_double> *v6; // eax
 
-  v2 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(t);
+  v2 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(t);
   v3 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_double *)v2;
   if ( v2 )
   {

@@ -1,139 +1,114 @@
 void __thiscall vostok::render::scene_cook::translate_query(
         vostok::render::scene_cook *this,
-        vostok::resources::query_result_for_cook *in_out_query)
+        const vostok::variant<32> **in_out_query)
 {
-  vostok::variant<32> *m_user_data; // esi
-  int *v3; // eax
-  stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *v4; // ecx
-  vostok::configs::binary_config *v5; // eax
-  vostok::configs::binary_config *v6; // esi
-  vostok::render::scene_manager *v7; // edi
-  void **M_finish; // eax
-  int v9; // eax
-  unsigned int v10; // edx
-  void (__cdecl *v11)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::resources::query_result_for_cook *v12; // ecx
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::scene_cook,vostok::resources::queries_result &,vostok::render::scene *,vostok::resources::query_result_for_cook *>,boost::_bi::list4<boost::_bi::value<vostok::render::scene_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::scene *>,boost::_bi::value<vostok::resources::query_result_for_cook *> > > v13; // [esp+92h] [ebp-A0h] BYREF
-  bool v14; // [esp+AAh] [ebp-88h]
-  vostok::render::scene_configuration out_value[13]; // [esp+B9h] [ebp-79h] BYREF
-  vostok::variant<32> *user_data; // [esp+C6h] [ebp-6Ch] BYREF
-  vostok::resources::creation_request requests; // [esp+CAh] [ebp-68h] BYREF
-  __int64 v18; // [esp+DAh] [ebp-58h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+E2h] [ebp-50h] BYREF
-  _DWORD v20[2]; // [esp+102h] [ebp-30h] BYREF
-  vostok::resources::memory_type **p_m_memory_type_data; // [esp+10Ah] [ebp-28h] BYREF
-  _DWORD *v22; // [esp+12Ah] [ebp-8h]
-  int v23; // [esp+12Eh] [ebp-4h]
+  vostok::variant<32> *v2; // esi
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  char *v6; // eax
+  vostok::buffer_vector<vostok::render::scene *> *v7; // ecx
+  survarium::pure_game_effect_emitter_base *v8; // eax
+  survarium::pure_game_effect_emitter_base *v9; // edi
+  vostok::variant<32> *v10; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v11; // ecx
+  vostok::variant<32> *v12; // ecx
+  vostok::resources::query_result_for_cook *v13; // ecx
+  vostok::resources::query_result_for_cook *v14; // ecx
+  _BYTE v15[28]; // [esp-1Ch] [ebp-94h] BYREF
+  const char *v16; // [esp+0h] [ebp-78h]
+  const char *v17; // [esp+4h] [ebp-74h]
+  unsigned int v18; // [esp+8h] [ebp-70h]
+  vostok::render::scene_configuration out_value; // [esp+13h] [ebp-65h] BYREF
+  int __formal; // [esp+14h] [ebp-64h] BYREF
+  vostok::render::scene_cook *v21; // [esp+18h] [ebp-60h]
+  vostok::render::scene_cook *v22; // [esp+1Ch] [ebp-5Ch]
+  survarium::pure_game_effect_emitter_base *v23; // [esp+20h] [ebp-58h]
+  const vostok::variant<32> **v24; // [esp+24h] [ebp-54h]
+  int f[8]; // [esp+28h] [ebp-50h] BYREF
+  _DWORD v26[10]; // [esp+48h] [ebp-30h] BYREF
+  _DWORD *v27; // [esp+70h] [ebp-8h]
+  int v28; // [esp+74h] [ebp-4h]
 
-  *(_DWORD *)&out_value[1] = 0;
-  m_user_data = in_out_query->m_user_data;
-  *(_DWORD *)out_value = *(_BYTE *)out_value & 0x80;
-  user_data = (vostok::variant<32> *)this;
-  if ( m_user_data )
-    vostok::variant<32>::try_get<vostok::render::scene_configuration>(
-      (vostok::variant<32> *)this,
-      (int)m_user_data,
-      out_value);
-  v3 = vostok::memory::doug_lea_allocator::malloc_impl(
-         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-         0x3D0u);
-  if ( v3 )
+  out_value = (vostok::render::scene_configuration)(*(_BYTE *)&out_value & 0xC0);
+  v2 = (vostok::variant<32> *)in_out_query[66];
+  v21 = this;
+  if ( v2 )
+    vostok::variant<32>::try_get<vostok::render::scene_configuration>((vostok::variant<32> *)this, (int)v2, &out_value);
+  v3 = vostok::render::g_allocator;
+  v4 = type_info::raw_name(&vostok::render::scene `RTTI Type Descriptor');
+  v6 = vostok::memory::doug_lea_allocator::malloc_impl(v5, (int)v3, (unsigned int)&a003Bi3BiBoost[4], v4, v16, v17, v18);
+  if ( v6 )
   {
-    vostok::render::scene::scene((vostok::render::scene *)out_value, (int)v3, out_value);
-    v6 = v5;
+    vostok::render::scene::scene(
+      (vostok::render::scene *)&out_value,
+      (vostok::render::scene_configuration *)v6,
+      &out_value);
+    v9 = v8;
   }
   else
   {
-    v6 = 0;
+    v9 = 0;
   }
-  v7 = vostok::quasi_singleton<vostok::render::scene_manager>::pinst;
-  M_finish = vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_scenes._M_impl._M_finish;
-  *(_DWORD *)&out_value[1] = v6;
-  if ( M_finish == vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_scenes._M_impl._M_end_of_storage._M_data )
+  __formal = (int)v9;
+  vostok::buffer_vector<vostok::render::scene *>::push_back(
+    v7,
+    (int)vostok::quasi_singleton<vostok::render::scene_manager>::pinst,
+    (vostok::render::scene **)&__formal);
+  if ( (*(_BYTE *)&out_value & 2) != 0 )
   {
-    stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-      v4,
-      (int)vostok::quasi_singleton<vostok::render::scene_manager>::pinst,
-      M_finish,
-      (void *const *)&out_value[1],
-      (const stlp_std::__true_type *)1,
-      1,
-      v14);
-  }
-  else
-  {
-    *M_finish = v6;
-    ++v7->m_scenes._M_impl._M_finish;
-  }
-  if ( (*(_BYTE *)out_value & 2) != 0 )
-  {
-    v22 = 0;
-    v23 = 0;
-    v23 = vostok::detail::type_to_int<vostok::particle::engine *>::get();
-    v22 = v20;
-    requests.m_name = (const char *)vostok::render::scene_cook::on_particle_world_created;
-    requests.m_data.m_data = 0;
-    *(_QWORD *)&out_value[1] = __PAIR64__((unsigned int)v6, (unsigned int)user_data);
-    v13.f_.f_ = *(void (__thiscall *__ptr64 *)(vostok::render::scene_cook *, vostok::resources::queries_result *, vostok::render::scene *, vostok::resources::query_result_for_cook *))&requests.m_name;
-    v13.l_.boost::_bi::storage3<boost::_bi::value<vostok::render::scene_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::scene *> > = (boost::_bi::storage3<boost::_bi::value<vostok::render::scene_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::scene *> >)__PAIR64__((unsigned int)v6, (unsigned int)user_data);
-    p_m_memory_type_data = &v6[2].m_memory_type_data;
-    LODWORD(v18) = in_out_query;
-    v20[0] = &vostok::detail::concrete_type_helper<vostok::particle::engine *>::`vftable';
-    callback.vtable = 0;
-    *(_QWORD *)&v13.l_.a4_.t_ = v18;
-    boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::scene_cook,vostok::resources::queries_result &,vostok::render::scene *,vostok::resources::query_result_for_cook *>,boost::_bi::list4<boost::_bi::value<vostok::render::scene_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::scene *>,boost::_bi::value<vostok::resources::query_result_for_cook *>>>>(
+    v27 = 0;
+    v28 = 0;
+    vostok::variant<32>::destroy_previous_variable_if_needed(v10, (int)v26);
+    v28 = vostok::detail::type_to_int<vostok::particle::engine *>::get();
+    v26[2] = (char *)&loc_5534B0 + (_DWORD)v9;
+    v23 = v9;
+    v27 = v26;
+    f[1] = 0;
+    f[0] = (int)vostok::render::scene_cook::on_particle_world_created;
+    v22 = v21;
+    v24 = in_out_query;
+    f[2] = (int)v21;
+    f[3] = (int)v9;
+    f[4] = (int)in_out_query;
+    *(_DWORD *)v15 = f;
+    v26[0] = &vostok::detail::concrete_type_helper<vostok::particle::engine *>::`vftable';
+    qmemcpy(&v15[4], f, 0x18u);
+    boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
       0,
-      (int)&callback,
-      (int)v6,
-      v13);
-    boost::_bi::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>::storage2<boost::_bi::value<enum vostok::connection_error_types_enum>,boost::_bi::value<enum vostok::handshaking_error_types_enum>>(
-      (vostok::mutable_buffer *)&out_value[1],
-      (unsigned __int8 *)&buf,
-      (unsigned int)&vostok::resources::g_resources_manager.m_static_memory[62144]);
-    v10 = *(_DWORD *)(v9 + 4);
-    requests.m_data.m_data = *(const char **)v9;
-    requests.m_data.m_size = v10;
-    user_data = (vostok::variant<32> *)v20;
-    requests.m_name = (const char *)&buf;
-    requests.m_id = particle_world_class;
-    vostok::resources::query_create_resources(
-      &requests,
-      1u,
-      (boost::function4<void,unsigned int,float,float,char const *> *)&callback,
-      (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-      (const vostok::variant<32> **)&user_data,
+      *(boost::_bi::bind_t<void,boost::_mfi::mf3<void,vostok::render::scene_cook,vostok::resources::queries_result &,vostok::render::scene *,vostok::resources::query_result_for_cook *>,boost::_bi::list4<boost::_bi::value<vostok::render::scene_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::scene *>,boost::_bi::value<vostok::resources::query_result_for_cook *> > > *)v15,
+      *(int *)&v15[24]);
+    *(_DWORD *)&v15[8] = vostok::render::g_allocator;
+    *(_DWORD *)&v15[4] = 58;
+    vostok::resources::query_create_resource(
+      uri,
+      *(vostok::const_buffer *)&v15[4],
+      (const char *)v26,
       in_out_query,
-      assert_on_fail_true);
-    if ( callback.vtable )
-    {
-      if ( ((int)callback.vtable & 1) == 0 )
-      {
-        v11 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-        if ( v11 )
-          v11(&callback.functor, &callback.functor, 2);
-      }
-    }
-    if ( v22 )
-      (*(void (__thiscall **)(_DWORD *, vostok::resources::memory_type ***))(*v22 + 4))(v22, &p_m_memory_type_data);
+      (const vostok::variant<32> *)uri,
+      (vostok::resources::query_result_for_cook *)&garbage_buffer[31912]);
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v11, f);
+    vostok::variant<32>::destroy_previous_variable_if_needed(v12, (int)v26);
   }
   else
   {
-    *((_DWORD *)&v13.l_ + 3) = 976;
-    v13.l_.a4_.t_ = (vostok::resources::query_result_for_cook *)&vostok::resources::nocache_memory;
-    v13.l_.a3_.t_ = 0;
-    vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-      (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v13.l_.a3_,
-      v6);
+    *(_DWORD *)&v15[24] = &a003Bi3BiBoost[4];
+    *(_DWORD *)&v15[20] = &vostok::resources::nocache_memory;
+    *(_DWORD *)&v15[16] = v10;
+    vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+      (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v15[16],
+      v9);
     vostok::resources::query_result_for_cook::set_unmanaged_resource(
-      in_out_query,
-      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v13.l_.a3_.t_,
-      (const vostok::resources::memory_type *)v13.l_.a4_.t_,
-      *((unsigned int *)&v13.l_ + 3));
+      v13,
+      (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)in_out_query,
+      *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v15[16],
+      *(const vostok::resources::memory_type **)&v15[20],
+      *(unsigned int *)&v15[24]);
     vostok::resources::query_result_for_cook::finish_query_impl(
-      v12,
-      (int)in_out_query,
-      result_success,
+      v14,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)in_out_query,
+      result_out_of_memory,
       assert_on_fail_true,
-      0);
+      result_fail);
   }
 }

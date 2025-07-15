@@ -65,7 +65,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XML::AS3descendants(
   {
     RefCount = mn.Obj.pObject->RefCount;
     pObject = mn.Obj.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       mn.Obj.pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

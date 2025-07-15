@@ -3,9 +3,14 @@ vostok::math::aabb *__thiscall vostok::render::render_collision_object<vostok::r
         vostok::math::aabb *result,
         vostok::math::aabb *local_to_world)
 {
-  const vostok::math::float4x4 *v4; // [esp+0h] [ebp-18h] BYREF
+  vostok::math::aabb *v3; // eax
+  vostok::math::aabb *v4; // esi
+  vostok::math::aabb *v5; // eax
+  _BYTE v6[24]; // [esp+8h] [ebp-18h] BYREF
 
-  this->m_owner->get_aabb(this->m_owner, (vostok::math::aabb *)&v4);
-  *result = *vostok::math::aabb::modify(local_to_world, v4);
-  return result;
+  v3 = this->m_owner->get_aabb(this->m_owner, v6);
+  v4 = vostok::math::aabb::modify(local_to_world, v3);
+  v5 = result;
+  qmemcpy(result, v4, sizeof(vostok::math::aabb));
+  return v5;
 }

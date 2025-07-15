@@ -3,10 +3,10 @@ void __thiscall Scaleform::GFx::TextField::SetHeight(Scaleform::GFx::TextField *
   const Scaleform::Render::Rect<float> *ViewRect; // eax
   Scaleform::Render::Text::DocView *pObject; // ecx
   Scaleform::Render::TreeText *RenderNode; // eax
-  float y1; // [esp+18h] [ebp-18h]
-  float x2; // [esp+1Ch] [ebp-14h]
-  float v8; // [esp+1Ch] [ebp-14h]
-  Scaleform::Render::Rect<float> rect; // [esp+20h] [ebp-10h] BYREF
+  float y1; // [esp+8h] [ebp-18h]
+  float x2; // [esp+Ch] [ebp-14h]
+  float v8; // [esp+Ch] [ebp-14h]
+  Scaleform::Render::Rect<float> rect; // [esp+10h] [ebp-10h] BYREF
 
   ViewRect = Scaleform::Render::Text::DocView::GetViewRect(this->pDocument.pObject);
   y1 = ViewRect->y1;

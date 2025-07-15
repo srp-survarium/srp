@@ -30,5 +30,5 @@ int __cdecl png_write_sBIT(int a1, unsigned __int8 *a2, int a3)
       return png_warning(a1, "Invalid sBIT depth specified");
     buf[v6++] = a2[4];
   }
-  return sub_36AEC0((_DWORD *)a1, 1933723988, buf, v6);
+  return sub_477B80((_DWORD *)a1, 1933723988, buf, v6);
 }

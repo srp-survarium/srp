@@ -1,7 +1,7 @@
 void __thiscall std::exception::exception(std::exception *this, const char *const *what)
 {
   int v3; // eax
-  unsigned int v4; // esi
+  int v4; // esi
   char *v5; // eax
 
   this->__vftable = (std::exception_vtbl *)&std::exception::`vftable';
@@ -12,7 +12,7 @@ void __thiscall std::exception::exception(std::exception *this, const char *cons
     v5 = (char *)malloc(v3 + 1);
     this->_m_what = v5;
     if ( v5 )
-      strcpy_s(v5, v4, *what);
+      strcpy_s((int)this, v5, v4, *what);
   }
   else
   {
@@ -39,7 +39,7 @@ void __thiscall std::exception::exception(std::exception *this, const std::excep
   bool v4; // zf
   const char *m_what; // eax
   int v6; // eax
-  unsigned int v7; // edi
+  int v7; // edi
   char *v8; // eax
 
   this->__vftable = (std::exception_vtbl *)&std::exception::`vftable';
@@ -58,7 +58,7 @@ void __thiscall std::exception::exception(std::exception *this, const std::excep
     v8 = (char *)malloc(v6 + 1);
     this->_m_what = v8;
     if ( v8 )
-      strcpy_s(v8, v7, that->_m_what);
+      strcpy_s(v7, v8, v7, that->_m_what);
   }
   else
   {

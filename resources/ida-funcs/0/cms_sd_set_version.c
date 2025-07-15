@@ -29,7 +29,7 @@ void __usercall cms_sd_set_version(CMS_SignedData_st *sd@<esi>)
     if ( *(_DWORD *)sk_value(&sd->crls->stack, j) == 1 && sd->version < 5 )
       sd->version = 5;
   }
-  if ( OBJ_obj2nid(sd->encapContentInfo->eContentType) != 21 && sd->version < 3 )
+  if ( OBJ_obj2nid(sd->encapContentInfo->eContentType) != (void *)21 && sd->version < 3 )
     sd->version = 3;
   for ( k = 0; k < sk_num(&sd->signerInfos->stack); ++k )
   {

@@ -11,7 +11,7 @@ void __thiscall Scaleform::StringBuffer::StringBuffer(Scaleform::StringBuffer *t
 
 void __thiscall Scaleform::StringBuffer::StringBuffer(
         Scaleform::StringBuffer *this,
-        char *data,
+        const __m128i *data,
         unsigned int dataSize,
         Scaleform::MemoryHeap *pheap)
 {
@@ -27,19 +27,19 @@ void __thiscall Scaleform::StringBuffer::StringBuffer(
   if ( data && dataSize )
   {
     if ( dataSize == -1 )
-      v5 = strlen(data);
+      v5 = strlen(data->m128i_i8);
     Scaleform::StringBuffer::Resize(this, v5);
-    memcpy((unsigned __int8 *)this->pData, (unsigned __int8 *)data, v5);
+    memcpy((int)this->pData, data, v5);
   }
 }
 
 
 void __thiscall Scaleform::StringBuffer::StringBuffer(
         Scaleform::StringBuffer *this,
-        char *data,
+        const __m128i *data,
         Scaleform::MemoryHeap *pheap)
 {
-  char *v3; // ebx
+  const __m128i *v3; // ebx
   unsigned int v5; // edi
 
   v3 = data;
@@ -50,8 +50,8 @@ void __thiscall Scaleform::StringBuffer::StringBuffer(
   this->LengthIsSize = 0;
   this->pHeap = pheap;
   if ( !data )
-    v3 = (char *)&buf;
-  v5 = strlen(v3);
+    v3 = (const __m128i *)uri;
+  v5 = strlen(v3->m128i_i8);
   Scaleform::StringBuffer::Resize(this, v5);
-  memcpy((unsigned __int8 *)this->pData, (unsigned __int8 *)v3, v5);
+  memcpy((int)this->pData, v3, v5);
 }

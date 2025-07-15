@@ -4,7 +4,7 @@ Scaleform::RefCountVImpl *__thiscall Scaleform::Render::TextureManager::postCrea
         __int16 use)
 {
   Scaleform::Mutex *p_TextureMutex; // ebx
-  Scaleform::Render::ImageBase *RefCount; // ecx
+  volatile int RefCount; // ecx
 
   if ( !ptexture )
     return 0;
@@ -44,8 +44,8 @@ Scaleform::RefCountVImpl *__thiscall Scaleform::Render::TextureManager::postCrea
   }
   if ( (use & 0x100) != 0 )
   {
-    RefCount = (Scaleform::Render::ImageBase *)ptexture[2].RefCount;
-    if ( RefCount && RefCount->GetImageType(RefCount) == Type_RawImage )
+    RefCount = ptexture[2].RefCount;
+    if ( RefCount && (*(int (__thiscall **)(volatile int))(*(_DWORD *)RefCount + 12))(RefCount) == 2 )
       Scaleform::Render::RawImage::freeData((Scaleform::Render::RawImage *)ptexture[2].RefCount);
     ptexture[2].RefCount = 0;
   }

@@ -1,35 +1,37 @@
-void __usercall vostok::render::fix_texture_name(vostok::fs_new::virtual_path_string *str@<esi>)
+void __usercall vostok::render::fix_texture_name(
+        vostok::fs_new::virtual_path_string *str@<eax>,
+        vostok::buffer_string *a2@<ecx>)
 {
+  vostok::buffer_string *v3; // ecx
   char *m_begin; // ecx
-  char *v2; // eax
-  int v3; // eax
-  char *v4; // eax
-  vostok::fs_new::virtual_path_string *v5; // [esp+0h] [ebp-4h]
+  char *v5; // eax
+  int v6; // eax
+  char *v7; // eax
 
-  vostok::render::change_substring("resources.sources/textures/", v5);
-  vostok::render::change_substring("resources/textures/", str);
+  vostok::render::change_substring(str, a2, "resources.sources/textures/");
+  vostok::render::change_substring(str, v3, "resources/textures/");
   m_begin = str->m_string.m_begin;
-  v2 = str->m_string.m_end - 1;
-  if ( v2 >= str->m_string.m_begin )
+  v5 = str->m_string.m_end - 1;
+  if ( v5 >= str->m_string.m_begin )
   {
-    if ( *v2 == 46 )
+    while ( 1 )
     {
-LABEL_5:
-      v3 = v2 - m_begin;
-      if ( v3 != -1 )
+      if ( *v5 == 46 )
       {
-        v4 = &m_begin[v3];
-        str->m_string.m_end = v4;
-        *v4 = 0;
+        v6 = v5 - m_begin;
+        goto LABEL_8;
       }
+      if ( v5 == m_begin )
+        break;
+      --v5;
     }
-    else
+    v6 = -1;
+LABEL_8:
+    if ( v6 != -1 )
     {
-      while ( v2 != m_begin )
-      {
-        if ( *--v2 == 46 )
-          goto LABEL_5;
-      }
+      v7 = &m_begin[v6];
+      str->m_string.m_end = v7;
+      *v7 = 0;
     }
   }
 }

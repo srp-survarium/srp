@@ -1,63 +1,61 @@
-void __fastcall vostok::render::renderer_context::set_w(
-        int a1,
-        const vostok::math::float4x4 *m,
+void __userpurge vostok::render::renderer_context::set_w(
+        const vostok::math::float4x4 *m@<eax>,
         vostok::render::renderer_context *this)
 {
-  vostok::render::constants_handler<1> *m_conflicted_key_name; // esi
-  vostok::render::constants_handler<0> *v5; // edi
-  vostok::math::float4x4 result; // [esp+10h] [ebp-80h] BYREF
-  vostok::math::float4x4 v7; // [esp+50h] [ebp-40h] BYREF
+  vostok::math::float4x4 *v3; // esi
+  const vostok::render::shader_constant_host *m_c_w; // eax
+  float z; // esi
+  vostok::render::backend *v6; // ecx
+  vostok::render::backend *v7; // ecx
+  vostok::render::backend *v8; // ecx
+  vostok::math::float4x4 v9; // [esp+10h] [ebp-80h] BYREF
+  vostok::math::float4x4 v10; // [esp+50h] [ebp-40h] BYREF
 
-  qmemcpy((void *)&this->m_w, m, sizeof(this->m_w));
-  vostok::math::mul4x3(&result, &this->m_w, &this->m_v);
-  qmemcpy((void *)&this->m_wv, &result, sizeof(this->m_wv));
-  qmemcpy((void *)&this->m_wvp, vostok::math::mul4x4(&this->m_wv, &this->m_p), sizeof(this->m_wvp));
-  qmemcpy((void *)&this->m_wv_inverted_transposed, &result, sizeof(this->m_wv_inverted_transposed));
+  qmemcpy(&this->m_w, m, sizeof(this->m_w));
+  vostok::math::mul4x3(&this->m_v, &this->m_w, &v9);
+  qmemcpy(&this->m_wv, &v9, sizeof(this->m_wv));
+  qmemcpy(&this->m_wvp, vostok::math::mul4x4(&this->m_p, &this->m_wv, &v10), sizeof(this->m_wvp));
+  qmemcpy(&this->m_wv_inverted_transposed, &v9, sizeof(this->m_wv_inverted_transposed));
   vostok::math::float4x4::try_invert(&this->m_wv_inverted_transposed, &this->m_wv_inverted_transposed);
   qmemcpy(
-    (void *)&this->m_wv_inverted_transposed,
-    vostok::math::transpose(&v7, &this->m_wv_inverted_transposed),
+    &this->m_wv_inverted_transposed,
+    vostok::math::transpose(&this->m_wv_inverted_transposed, &v10),
     sizeof(this->m_wv_inverted_transposed));
-  qmemcpy((void *)&this->m_w_transposed, vostok::math::transpose(&v7, &this->m_w), sizeof(this->m_w_transposed));
-  qmemcpy((void *)&this->m_wv_transposed, vostok::math::transpose(&v7, &this->m_wv), sizeof(this->m_wv_transposed));
-  qmemcpy((void *)&this->m_wvp_transposed, vostok::math::transpose(&v7, &this->m_wvp), sizeof(this->m_wvp_transposed));
-  m_conflicted_key_name = (vostok::render::constants_handler<1> *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-  v5 = (vostok::render::constants_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                              + 196);
-  vostok::render::constants_handler<0>::set_constant<vostok::math::float3>(
-    this->m_c_w,
-    (vostok::render::constants_handler<0> *)(`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name
-                                           + 196),
-    (const vostok::math::float3 *)&this->m_w_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<0>::set_constant<vostok::math::float3>(
+  qmemcpy(&this->m_w_transposed, vostok::math::transpose(&this->m_w, &v10), sizeof(this->m_w_transposed));
+  qmemcpy(&this->m_wv_transposed, vostok::math::transpose(&this->m_wv, &v10), sizeof(this->m_wv_transposed));
+  v3 = vostok::math::transpose(&this->m_wvp, &v10);
+  m_c_w = this->m_c_w;
+  qmemcpy(&this->m_wvp_transposed, v3, sizeof(this->m_wvp_transposed));
+  z = vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z;
+  vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+    (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+    m_c_w,
+    (const unsigned int *)&this->m_w_transposed);
+  vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+    (vostok::render::backend *)LODWORD(z),
     this->m_c_wv_inv,
-    v5,
-    (const vostok::math::float3 *)&this->m_wv_inverted_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<0>::set_constant<vostok::math::float3>(
+    (const unsigned int *)&this->m_wv_inverted_transposed);
+  vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+    (vostok::render::backend *)LODWORD(z),
     this->m_c_wv,
-    v5,
-    (const vostok::math::float3 *)&this->m_wv_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<0>::set_constant<vostok::math::float3>(
+    (const unsigned int *)&this->m_wv_transposed);
+  vostok::render::backend::set_vs_constant<vostok::math::float4x4>(
+    (vostok::render::backend *)LODWORD(z),
     this->m_c_wvp,
-    v5,
-    (const vostok::math::float3 *)&this->m_wvp_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
+    (const unsigned int *)&this->m_wvp_transposed);
+  vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+    v6,
+    (vostok::render::constants_handler<1> *)LODWORD(z),
     this->m_c_w,
-    m_conflicted_key_name + 123,
     (const vostok::math::float3 *)&this->m_w_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
+  vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+    v7,
+    (vostok::render::constants_handler<1> *)LODWORD(z),
     this->m_c_wv,
-    m_conflicted_key_name + 123,
     (const vostok::math::float3 *)&this->m_wv_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
-  vostok::render::constants_handler<1>::set_constant<vostok::math::float4x4>(
+  vostok::render::backend::set_ps_constant<vostok::math::float4x4>(
+    v8,
+    (vostok::render::constants_handler<1> *)LODWORD(z),
     this->m_c_wvp,
-    m_conflicted_key_name + 123,
     (const vostok::math::float3 *)&this->m_wvp_transposed);
-  ++m_conflicted_key_name[7].m_current.m_object;
 }

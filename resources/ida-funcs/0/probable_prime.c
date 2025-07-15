@@ -5,7 +5,7 @@ BOOL __usercall probable_prime@<eax>(bignum_st *rnd@<edi>, int bits@<ebx>)
   int j; // ecx
   _WORD v6[2047]; // [esp+Ah] [ebp-1002h]
 
-  while ( BN_rand(rnd, bits, 1, 1) )
+  while ( BN_rand(bits, rnd, bits, 1, 1) )
   {
     for ( i = 0; i < 2047; ++i )
       v6[i] = BN_mod_word(rnd, primes[i + 1]);
@@ -15,7 +15,7 @@ BOOL __usercall probable_prime@<eax>(bignum_st *rnd@<edi>, int bits@<ebx>)
       for ( j = 0; ; ++j )
       {
         if ( j >= 2047 )
-          return BN_add_word(rnd, v3) != 0;
+          return BN_add_word(bits, rnd, v3) != 0;
         if ( (v3 + (unsigned __int16)v6[j]) % primes[j + 1] <= 1 )
           break;
       }

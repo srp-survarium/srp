@@ -1,121 +1,108 @@
-bool __thiscall vostok::animation::mixing::n_ary_tree::update_event_iterators_and_dispatch_callbacks(
+char __thiscall vostok::animation::mixing::n_ary_tree::update_event_iterators_and_dispatch_callbacks(
         vostok::animation::mixing::n_ary_tree *this,
-        vostok::animation::mixing::n_ary_tree *target_time_in_ms,
-        vostok::animation::mixing::animation_state **channels_head,
+        _DWORD *target_time_in_ms,
+        vostok::animation::subscribed_channel **channels_head,
         vostok::animation::subscribed_channel **callbacks_are_actual,
-        bool *callbacks_are_actuala)
+        boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *ignore_callbacks_time_in_ms)
 {
-  vostok::animation::mixing::n_ary_tree *v5; // esi
-  vostok::animation::mixing::animation_state *m_animation_states; // edi
-  const vostok::animation::mixing::callback_generator_info *v7; // ebx
-  const vostok::animation::mixing::animation_state *v8; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *m_animation_node; // esi
-  void *v10; // esp
-  unsigned int previous_animation_interval_id; // eax
-  double v12; // st7
-  vostok::animation::mixing::animation_interval *v13; // eax
-  vostok::animation::mixing::n_ary_tree *v14; // ecx
-  bool result; // al
-  vostok::animation::mixing::callback_generator_info *v16; // esi
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v17; // ecx
-  float animation_time; // [esp+0h] [ebp-4Ch]
-  unsigned __int16 v19; // [esp+4h] [ebp-48h]
-  unsigned __int8 channel_ids; // [esp+8h] [ebp-44h]
-  unsigned int user_data; // [esp+Ch] [ebp-40h]
-  unsigned __int8 v22; // [esp+10h] [ebp-3Ch]
-  vostok::animation::mixing::callback_generator_info v23; // [esp+14h] [ebp-38h] BYREF
-  const vostok::animation::mixing::animation_state *e; // [esp+38h] [ebp-14h]
-  void *animated_object; // [esp+3Ch] [ebp-10h]
-  int event_type; // [esp+40h] [ebp-Ch]
-  const vostok::animation::mixing::callback_generator_info *callback_generators_head; // [esp+44h] [ebp-8h]
-  vostok::animation::mixing::callback_generator_info *previous_generator_info; // [esp+48h] [ebp-4h]
-  bool result_3; // [esp+5Bh] [ebp+Fh]
+  _DWORD *v5; // edi
+  int v6; // ebx
+  int v7; // esi
+  vostok::animation::subscribed_channel **v8; // eax
+  unsigned __int16 v9; // ax
+  int v10; // edi
+  void *v11; // esp
+  __int16 v12; // cx
+  vostok::animation::mixing::callback_generator_info *v13; // eax
+  int v14; // ecx
+  vostok::animation::mixing::n_ary_tree *v15; // ecx
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *m_object; // esi
+  boost::function1<void,vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> const &> *v17; // ecx
+  char v18; // bl
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v19; // ecx
+  vostok::animation::mixing::callback_generator_info v21; // [esp+14h] [ebp-38h] BYREF
+  vostok::animation::mixing::callback_generator_info *v22; // [esp+3Ch] [ebp-10h]
+  int v23; // [esp+40h] [ebp-Ch]
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *v24; // [esp+44h] [ebp-8h]
+  vostok::animation::mixing::n_ary_tree *v25; // [esp+48h] [ebp-4h]
 
+  v24 = 0;
+  v25 = 0;
   v5 = target_time_in_ms;
-  m_animation_states = target_time_in_ms->m_animation_states;
-  v7 = 0;
-  v8 = &m_animation_states[target_time_in_ms->m_animations_count];
-  callback_generators_head = 0;
-  previous_generator_info = 0;
-  e = v8;
-  if ( m_animation_states != v8 )
+  v6 = target_time_in_ms[4];
+  v7 = v6 + 176 * target_time_in_ms[8];
+  if ( v6 != v7 )
   {
     do
     {
-      this = (vostok::animation::mixing::n_ary_tree *)m_animation_states->event_iterator.m_value.event_time_in_ms;
-      if ( this == (vostok::animation::mixing::n_ary_tree *)channels_head )
+      v8 = *(vostok::animation::subscribed_channel ***)(v6 + 160);
+      if ( v8 )
       {
-        this = (vostok::animation::mixing::n_ary_tree *)m_animation_states->event_iterator.m_value.event_type;
-        if ( ((unsigned __int8)this & 0x3E) != 0 )
+        if ( v8 == channels_head )
         {
-          m_animation_node = m_animation_states->event_iterator.m_animation_node;
-          if ( (!m_animation_node->m_is_transitting_to_zero || ((unsigned __int8)this & 2) != 0)
-            && m_animation_node->m_can_generate_events )
+          v9 = *(_WORD *)(v6 + 164);
+          if ( (v9 & 0x3E) != 0 )
           {
-            event_type = (unsigned __int16)this;
-            v10 = alloca(24);
-            if ( (m_animation_states->event_iterator.m_value.event_type & 4) != 0 )
-              previous_animation_interval_id = m_animation_states->previous_animation_interval_id;
-            else
-              previous_animation_interval_id = m_animation_states->animation_interval_id;
-            this = (vostok::animation::mixing::n_ary_tree *)m_animation_node->m_animation_intervals;
-            if ( &v23 )
+            v10 = *(_DWORD *)(v6 + 168);
+            if ( !*(_BYTE *)(v10 + 83) || (v9 & 2) != 0 )
             {
-              v12 = m_animation_states->animation_time;
-              v22 = previous_animation_interval_id;
-              animated_object = (void *)m_animation_node->m_animated_object;
-              user_data = m_animation_node->user_data;
-              channel_ids = m_animation_states->event_iterator.m_value.channel_ids;
-              v19 = event_type;
-              animation_time = v12;
-              v13 = vostok::animation::mixing::animation_interval::animation((vostok::animation::mixing::animation_interval *)this + previous_animation_interval_id);
-              vostok::animation::mixing::callback_generator_info::callback_generator_info(
-                &v23,
-                &v13->m_animation,
-                animated_object,
-                animation_time,
-                v19,
-                channel_ids,
-                user_data,
-                v22);
+              if ( *(_BYTE *)(v10 + 86) )
+              {
+                v23 = v9;
+                v11 = alloca(24);
+                v12 = *(_WORD *)(v6 + 164);
+                v13 = &v21;
+                v22 = &v21;
+                if ( (v12 & 4) != 0 )
+                  v14 = *(_DWORD *)(v6 + 96);
+                else
+                  v14 = *(_DWORD *)(v6 + 92);
+                if ( &v21 )
+                {
+                  vostok::animation::mixing::callback_generator_info::callback_generator_info(
+                    &v21,
+                    (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)(*(_DWORD *)(*(_DWORD *)(v6 + 168) + 16) + 20 * v14),
+                    *(const void **)(*(_DWORD *)(v6 + 168) + 36),
+                    *(float *)(v6 + 108),
+                    v23,
+                    *(_BYTE *)(v6 + 166),
+                    *(_DWORD *)(v10 + 48),
+                    v14);
+                  v13 = v22;
+                }
+                this = v25;
+                if ( v25 )
+                  v25->m_time_root = (vostok::animation::mixing::n_ary_tree_animation_node *)v13;
+                else
+                  v24 = &v13->animation.vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>;
+                v25 = (vostok::animation::mixing::n_ary_tree *)v13;
+              }
             }
-            if ( previous_generator_info )
-              previous_generator_info->next = &v23;
-            else
-              callback_generators_head = &v23;
-            v8 = e;
-            previous_generator_info = &v23;
-            v7 = callback_generators_head;
           }
         }
       }
-      ++m_animation_states;
+      v6 += 176;
     }
-    while ( m_animation_states != v8 );
+    while ( v6 != v7 );
     v5 = target_time_in_ms;
   }
-  vostok::animation::mixing::n_ary_tree::remove_animations(this, v5, channels_head);
+  vostok::animation::mixing::n_ary_tree::remove_animations(this, (const unsigned int)v5, (int)channels_head);
   vostok::animation::mixing::n_ary_tree::update_event_iterators(
-    v14,
-    (int)v5,
+    v15,
+    v5,
     (vostok::animation::mixing::n_ary_tree_event_iterator *)channels_head);
-  result = vostok::animation::mixing::n_ary_tree::dispatch_callbacks(
-             v7,
-             (const vostok::animation::subscribed_channel **)callbacks_are_actual,
-             (unsigned int)channels_head,
-             callbacks_are_actuala);
-  result_3 = result;
-  v16 = (vostok::animation::mixing::callback_generator_info *)v7;
-  if ( v7 )
+  m_object = v24;
+  v18 = vostok::animation::mixing::n_ary_tree::dispatch_callbacks(
+          v24,
+          v17,
+          callbacks_are_actual,
+          (unsigned int)channels_head,
+          ignore_callbacks_time_in_ms);
+  while ( m_object )
   {
-    do
-    {
-      v17 = &v16->animation.vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>;
-      v16 = (vostok::animation::mixing::callback_generator_info *)v16->next;
-      vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(v17);
-    }
-    while ( v16 );
-    return result_3;
+    v19 = m_object;
+    m_object = (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *)m_object[2].m_object;
+    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(v19);
   }
-  return result;
+  return v18;
 }

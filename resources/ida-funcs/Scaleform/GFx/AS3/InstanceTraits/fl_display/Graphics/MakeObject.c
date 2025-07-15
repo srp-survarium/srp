@@ -3,10 +3,10 @@ void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl_display::Graphics::MakeO
         Scaleform::GFx::AS3::Value *result,
         Scaleform::GFx::AS3::InstanceTraits::Traits *t)
 {
-  Scaleform::GFx::AS3::Instances::fl::Catch *v3; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v3; // eax
   Scaleform::GFx::AS3::Object *v4; // esi
 
-  v3 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(t);
+  v3 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(t);
   v4 = v3;
   if ( v3 )
   {

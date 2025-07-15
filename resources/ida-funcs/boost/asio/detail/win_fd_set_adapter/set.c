@@ -1,28 +1,54 @@
-char __thiscall boost::asio::detail::win_fd_set_adapter::set(
-        boost::asio::detail::win_fd_set_adapter *this,
+char __userpurge boost::asio::detail::win_fd_set_adapter::set@<al>(
+        boost::asio::detail::win_fd_set_adapter *this@<ecx>,
+        unsigned int **a2@<eax>,
         unsigned int descriptor)
 {
-  unsigned int j; // [esp+8h] [ebp-10h]
-  unsigned int new_capacity; // [esp+Ch] [ebp-Ch]
-  boost::asio::detail::win_fd_set_adapter::win_fd_set *new_fd_set; // [esp+10h] [ebp-8h]
-  unsigned int i; // [esp+14h] [ebp-4h]
+  unsigned int *v4; // eax
+  int *v5; // ecx
+  unsigned int v6; // edx
+  _DWORD *v7; // eax
+  unsigned int v8; // eax
+  unsigned int *v9; // edi
+  int *v10; // ebx
+  unsigned int v11; // eax
+  _DWORD *v12; // ecx
 
-  for ( i = 0; i < this->fd_set_->fd_count; ++i )
+  v4 = *a2;
+  v5 = (int *)*v4;
+  v6 = 0;
+  if ( *v4 )
   {
-    if ( this->fd_set_->fd_array[i] == descriptor )
-      return 1;
+    v7 = v4 + 1;
+    while ( *v7 != descriptor )
+    {
+      ++v6;
+      ++v7;
+      if ( v6 >= **a2 )
+        goto LABEL_5;
+    }
   }
-  if ( this->fd_set_->fd_count == this->capacity_ )
+  else
   {
-    new_capacity = this->capacity_ + (this->capacity_ >> 1);
-    new_fd_set = (boost::asio::detail::win_fd_set_adapter::win_fd_set *)operator new(4 * new_capacity + 4);
-    new_fd_set->fd_count = this->fd_set_->fd_count;
-    for ( j = 0; j < this->fd_set_->fd_count; ++j )
-      new_fd_set->fd_array[j] = this->fd_set_->fd_array[j];
-    operator delete(this->fd_set_);
-    this->fd_set_ = new_fd_set;
-    this->capacity_ = new_capacity;
+LABEL_5:
+    v8 = (unsigned int)a2[1];
+    if ( v5 == (int *)v8 )
+    {
+      v9 = (unsigned int *)(v8 + (v8 >> 1));
+      v10 = (int *)operator new(4 * (_DWORD)v9 + 4);
+      *v10 = **a2;
+      v11 = 0;
+      if ( **a2 )
+      {
+        v12 = v10 + 1;
+        do
+          *v12++ = (*a2)[++v11];
+        while ( v11 < **a2 );
+      }
+      operator delete(*a2);
+      *a2 = (unsigned int *)v10;
+      a2[1] = v9;
+    }
+    (*a2)[++**a2] = descriptor;
   }
-  this->fd_set_->fd_array[this->fd_set_->fd_count++] = descriptor;
   return 1;
 }

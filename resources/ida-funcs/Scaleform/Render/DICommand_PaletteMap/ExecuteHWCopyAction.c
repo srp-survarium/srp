@@ -14,35 +14,35 @@ void __thiscall Scaleform::Render::DICommand_PaletteMap::ExecuteHWCopyAction(
   double v12; // st7
   Scaleform::Render::DrawableImage *v13; // ecx
   unsigned int *v14; // eax
-  float v15; // [esp+158h] [ebp-B0h]
-  float v16; // [esp+158h] [ebp-B0h]
-  int v17; // [esp+15Ch] [ebp-ACh]
-  float v18; // [esp+15Ch] [ebp-ACh]
-  float v19; // [esp+15Ch] [ebp-ACh]
-  float Width; // [esp+160h] [ebp-A8h]
-  float v21; // [esp+160h] [ebp-A8h]
-  float x; // [esp+160h] [ebp-A8h]
-  float v23; // [esp+160h] [ebp-A8h]
-  float Height; // [esp+164h] [ebp-A4h]
-  float v25; // [esp+164h] [ebp-A4h]
-  float y; // [esp+164h] [ebp-A4h]
-  float v27; // [esp+164h] [ebp-A4h]
-  float v28; // [esp+168h] [ebp-A0h] BYREF
-  float v29; // [esp+16Ch] [ebp-9Ch]
-  float v30; // [esp+170h] [ebp-98h]
-  float v31; // [esp+174h] [ebp-94h]
-  float v32; // [esp+178h] [ebp-90h]
-  float v33; // [esp+17Ch] [ebp-8Ch]
-  float v34; // [esp+180h] [ebp-88h]
-  float v35; // [esp+184h] [ebp-84h]
-  float v36; // [esp+188h] [ebp-80h] BYREF
-  float v37; // [esp+18Ch] [ebp-7Ch]
-  float v38; // [esp+190h] [ebp-78h] BYREF
-  float v39; // [esp+194h] [ebp-74h]
-  Scaleform::Render::Matrix2x4<float> m1; // [esp+198h] [ebp-70h] BYREF
-  Scaleform::Render::Matrix2x4<float> m2; // [esp+1B8h] [ebp-50h] BYREF
-  Scaleform::Render::Size<unsigned long> v42; // [esp+1E0h] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+1E8h] [ebp-20h] BYREF
+  float v15; // [esp+10h] [ebp-B0h]
+  float v16; // [esp+10h] [ebp-B0h]
+  int v17; // [esp+14h] [ebp-ACh]
+  float v18; // [esp+14h] [ebp-ACh]
+  float v19; // [esp+14h] [ebp-ACh]
+  float Width; // [esp+18h] [ebp-A8h]
+  float v21; // [esp+18h] [ebp-A8h]
+  float x; // [esp+18h] [ebp-A8h]
+  float v23; // [esp+18h] [ebp-A8h]
+  float Height; // [esp+1Ch] [ebp-A4h]
+  float v25; // [esp+1Ch] [ebp-A4h]
+  float y; // [esp+1Ch] [ebp-A4h]
+  float v27; // [esp+1Ch] [ebp-A4h]
+  float v28; // [esp+20h] [ebp-A0h] BYREF
+  float v29; // [esp+24h] [ebp-9Ch]
+  float v30; // [esp+28h] [ebp-98h]
+  float v31; // [esp+2Ch] [ebp-94h]
+  float v32; // [esp+30h] [ebp-90h]
+  float v33; // [esp+34h] [ebp-8Ch]
+  float v34; // [esp+38h] [ebp-88h]
+  float v35; // [esp+3Ch] [ebp-84h]
+  float v36; // [esp+40h] [ebp-80h] BYREF
+  float v37; // [esp+44h] [ebp-7Ch]
+  float v38; // [esp+48h] [ebp-78h] BYREF
+  float v39; // [esp+4Ch] [ebp-74h]
+  Scaleform::Render::Matrix2x4<float> m1; // [esp+50h] [ebp-70h] BYREF
+  Scaleform::Render::Matrix2x4<float> m2; // [esp+70h] [ebp-50h] BYREF
+  Scaleform::Render::Size<unsigned long> v42; // [esp+98h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+A0h] [ebp-20h] BYREF
 
   v28 = 1.0;
   GetRequireSourceRead = this->GetRequireSourceRead;

@@ -6,7 +6,7 @@ int __cdecl i2c_ASN1_BIT_STRING(asn1_string_st *a, unsigned __int8 **pp)
   unsigned __int8 *data; // ecx
   unsigned __int8 *v6; // eax
   unsigned __int8 v7; // al
-  unsigned __int8 *v8; // esi
+  _BYTE *v8; // esi
   unsigned __int8 *v9; // esi
 
   if ( !a )
@@ -70,7 +70,7 @@ LABEL_24:
   {
     v8 = *pp;
     *v8++ = flags;
-    memcpy(v8, a->data, length);
+    memcpy((int)v8, (const __m128i *)a->data, length);
     v9 = &v8[length];
     if ( length > 0 )
       *(v9 - 1) &= -1 << flags;

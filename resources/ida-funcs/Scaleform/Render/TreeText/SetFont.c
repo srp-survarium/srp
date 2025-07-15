@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::TreeText::SetFont(
         Scaleform::Render::TreeText *this,
-        char *pfontName,
+        const __m128i *pfontName,
         unsigned int startPos,
         unsigned int endPos)
 {
@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::TreeText::SetFont(
   int v8; // ecx
   Scaleform::MemoryHeap *v9; // eax
   int v10; // esi
-  const Scaleform::Render::Text::TextFormat *v11; // eax
+  Scaleform::Render::Text::TextFormat *v11; // eax
   Scaleform::Render::ContextImpl::EntryData *WritableData; // eax
   Scaleform::Render::Text::TextFormat fmt; // [esp+8h] [ebp-50h] BYREF
   Scaleform::Render::Text::TextFormat result; // [esp+30h] [ebp-28h] BYREF

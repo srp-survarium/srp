@@ -10,7 +10,7 @@ Scaleform::GFx::MovieDefImpl *__thiscall Scaleform::GFx::AS3::ASVM::GetResourceM
     pObject->InitOnDemand(instance->pTraits.pObject);
   v4 = (int)pObject->pConstructor.pObject->pTraits.pObject->GetFilePtr(pObject->pConstructor.pObject->pTraits.pObject);
   if ( v4 )
-    return *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v4 + 60) + 184);
+    return *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v4 + 60) + 192);
   else
     return this->pMovieRoot->pMovieImpl->pMainMovieDef.pObject;
 }

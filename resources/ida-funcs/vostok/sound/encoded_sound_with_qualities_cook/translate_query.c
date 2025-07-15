@@ -1,55 +1,51 @@
 void __thiscall vostok::sound::encoded_sound_with_qualities_cook::translate_query(
         vostok::sound::encoded_sound_with_qualities_cook *this,
-        vostok::resources::query_result_for_cook *parent)
+        vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *parent)
 {
   const char *v2; // eax
-  vostok::configs::binary_config *v3; // eax
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v4; // [esp-4h] [ebp-4Ch] BYREF
-  const vostok::resources::memory_type *target_satisfaction; // [esp+0h] [ebp-48h]
-  unsigned int v6; // [esp+4h] [ebp-44h]
-  vostok::configs::binary_config *v7; // [esp+8h] [ebp-40h]
-  vostok::sound::encoded_sound_with_qualities *v8; // [esp+Ch] [ebp-3Ch]
-  vostok::sound::encoded_sound_with_qualities_cook *thisa; // [esp+10h] [ebp-38h]
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v10; // [esp+18h] [ebp-30h]
-  char v11; // [esp+37h] [ebp-11h]
-  vostok::sound::encoded_sound_with_qualities *v12; // [esp+38h] [ebp-10h]
-  char v13; // [esp+3Fh] [ebp-9h]
-  vostok::sound::encoded_sound_with_qualities *sound; // [esp+40h] [ebp-8h]
-  unsigned int target_quality_level; // [esp+44h] [ebp-4h]
+  void *unmanaged_memory; // eax
+  survarium::pure_game_effect_emitter_base *v4; // ecx
+  survarium::pure_game_effect_emitter_base *v5; // edi
+  survarium::pure_game_effect_emitter_base *v6; // eax
+  unsigned int m_object; // ebp
+  vostok::resources::query_result_for_cook *v8; // ecx
+  float v9; // xmm0_4
+  survarium::pure_game_effect_emitter_base_vtbl *v10; // eax
+  vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> v11; // [esp-Ch] [ebp-1Ch] BYREF
+  const vostok::resources::memory_type *v12; // [esp-8h] [ebp-18h]
+  unsigned int v13; // [esp-4h] [ebp-14h]
 
-  thisa = this;
-  v13 = 0;
   v2 = type_info::name(&vostok::sound::encoded_sound_with_qualities `RTTI Type Descriptor', &__type_info_root_node);
-  sound = (vostok::sound::encoded_sound_with_qualities *)vostok::resources::allocate_unmanaged_memory(0x238u, v2);
-  if ( sound )
+  unmanaged_memory = vostok::resources::allocate_unmanaged_memory(0x238u, v2);
+  v4 = (survarium::pure_game_effect_emitter_base *)v13;
+  if ( unmanaged_memory )
   {
-    v12 = sound;
-    vostok::sound::encoded_sound_with_qualities::encoded_sound_with_qualities(sound);
-    v7 = v3;
-    v8 = (vostok::sound::encoded_sound_with_qualities *)v3;
+    vostok::sound::encoded_sound_with_qualities::encoded_sound_with_qualities(
+      (vostok::sound::encoded_sound_with_qualities *)v13,
+      (int)unmanaged_memory);
+    v5 = v6;
   }
   else
   {
-    v8 = 0;
+    v5 = 0;
   }
-  sound = v8;
-  target_quality_level = parent->m_target_quality_level;
-  v11 = 0;
-  v6 = 568;
-  target_satisfaction = &vostok::resources::nocache_memory;
-  v10 = &v4;
-  v4.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &v4,
-    (vostok::configs::binary_config *)v8);
+  m_object = (unsigned int)parent[32].m_object;
+  v13 = 568;
+  v12 = &vostok::resources::nocache_memory;
+  v11.m_object = v4;
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    &v11,
+    v5);
   vostok::resources::query_result_for_cook::set_unmanaged_resource(
+    v8,
     parent,
-    (vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>)v4.m_object,
-    target_satisfaction,
-    v6);
-  vostok::resources::resource_quality::increase_quality(
-    sound,
-    target_quality_level,
-    parent->m_target_satisfaction,
-    parent);
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>)v11.m_object,
+    v12,
+    v13);
+  v9 = *(float *)&parent[29].m_object;
+  v10 = v5->__vftable;
+  v13 = (unsigned int)parent;
+  v5->m_target_quality_level = m_object;
+  v5->m_target_satisfaction = v9;
+  v10->increase_quality_to_target(v5, (vostok::resources::query_result_for_cook *)v13);
 }

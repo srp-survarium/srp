@@ -17,12 +17,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Namespace::AS3Constructor(
   Scaleform::GFx::ASStringNode *VStr; // ecx
   const Scaleform::GFx::AS3::Value *Undefined; // eax
   Scaleform::GFx::ASStringNode *v18; // eax
-  Scaleform::GFx::AS3::CheckResult result; // [esp+Fh] [ebp-25h] BYREF
-  Scaleform::GFx::ASString p; // [esp+10h] [ebp-24h] BYREF
-  Scaleform::GFx::ASString v; // [esp+14h] [ebp-20h] BYREF
-  Scaleform::GFx::ASString v22; // [esp+18h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS3::VM::Error v23; // [esp+1Ch] [ebp-18h] BYREF
-  Scaleform::GFx::AS3::Value other; // [esp+24h] [ebp-10h] BYREF
+  Scaleform::GFx::AS3::CheckResult result; // [esp+Fh] [ebp-35h] BYREF
+  Scaleform::GFx::ASString u; // [esp+10h] [ebp-34h] BYREF
+  Scaleform::GFx::ASString v; // [esp+14h] [ebp-30h] BYREF
+  Scaleform::GFx::ASString v22; // [esp+18h] [ebp-2Ch] BYREF
+  Scaleform::GFx::AS3::VM::Error v23; // [esp+1Ch] [ebp-28h] BYREF
+  Scaleform::GFx::AS3::Value other; // [esp+24h] [ebp-20h] BYREF
+  Scaleform::GFx::AS3::Value arg1; // [esp+34h] [ebp-10h] BYREF
 
   v3 = 0;
   v22.pNode = 0;
@@ -33,34 +34,39 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Namespace::AS3Constructor(
     if ( argc != 1 )
     {
       StringManagerRef = VMRef->StringManagerRef;
-      p.pNode = &StringManagerRef->pStringManager->EmptyStringNode;
-      ++p.pNode->RefCount;
       argv = (Scaleform::GFx::AS3::Value *)&StringManagerRef->pStringManager->EmptyStringNode;
       ++argv->value.VS._2.VObj;
-      if ( Scaleform::GFx::AS3::Value::Convert2String(v6, (Scaleform::GFx::AS3::CheckResult *)&argc, &p)->Result
-        && Scaleform::GFx::AS3::Value::Convert2String(v6 + 1, &result, (Scaleform::GFx::ASString *)&argv)->Result )
+      u.pNode = &StringManagerRef->pStringManager->EmptyStringNode;
+      ++u.pNode->RefCount;
+      if ( Scaleform::GFx::AS3::Value::Convert2String(
+             v6,
+             (Scaleform::GFx::AS3::CheckResult *)&argc,
+             (Scaleform::GFx::ASString *)&argv)->Result
+        && Scaleform::GFx::AS3::Value::Convert2String(v6 + 1, &result, &u)->Result )
       {
-        if ( !p.pNode->Size || argv[1].Bonus.pWeakProxy )
+        if ( !argv[1].Bonus.pWeakProxy || u.pNode->Size )
         {
           Scaleform::GFx::AS3::Value::Assign(&this->Prefix, v6);
           Scaleform::GFx::AS3::Instances::fl::Namespace::SetUri(this, v6 + 1);
         }
         else
         {
-          Scaleform::GFx::AS3::VM::Error::Error(&v23, eXMLNamespaceWithPrefixAndNoURI, VMRef);
+          Scaleform::GFx::AS3::Value::Value(&arg1, (const Scaleform::GFx::ASString *)&argv);
+          Scaleform::GFx::AS3::VM::Error::Error(&v23, eXMLNamespaceWithPrefixAndNoURI, VMRef, &arg1);
           Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v8);
           pNode = v23.Message.pNode;
           --v23.Message.pNode->RefCount;
           if ( !pNode->RefCount )
             Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+          Scaleform::GFx::AS3::Value::~Value(&arg1);
         }
       }
-      v10 = (Scaleform::GFx::ASStringNode *)argv;
-      --argv->value.VS._2.VObj;
+      v10 = u.pNode;
+      --u.pNode->RefCount;
       if ( !v10->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v10);
-      v11 = p.pNode;
-      --p.pNode->RefCount;
+      v11 = (Scaleform::GFx::ASStringNode *)argv;
+      --argv->value.VS._2.VObj;
       if ( !v11->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v11);
       return;
@@ -100,7 +106,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Namespace::AS3Constructor(
       if ( !VStr->Size )
       {
         LOBYTE(argv) = 1;
-        goto LABEL_26;
+        goto LABEL_27;
       }
     }
     else
@@ -108,7 +114,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Namespace::AS3Constructor(
       VStr = (Scaleform::GFx::ASStringNode *)argv;
     }
     LOBYTE(argv) = 0;
-LABEL_26:
+LABEL_27:
     if ( (v3 & 1) != 0 && VStr->RefCount-- == 1 )
       Scaleform::GFx::ASStringNode::ReleaseNode(VStr);
     if ( (_BYTE)argv )

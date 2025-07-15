@@ -1,260 +1,297 @@
 vostok::animation::mixing::n_ary_tree_animation_node *__userpurge vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_animation@<eax>(
         vostok::animation::mixing::n_ary_tree_animation_node *to@<ecx>,
-        unsigned int *operands_offset@<eax>,
-        vostok::animation::mixing::n_ary_tree_transition_tree_constructor *this,
-        const vostok::animation::mixing::animation_state *from,
+        unsigned int *target_operands_offset@<eax>,
+        const vostok::animation::base_interpolator *this,
+        vostok::animation::mixing::n_ary_tree_animation_node *from,
         vostok::animation::mixing::n_ary_tree_animation_node *weight_driving_animation,
         unsigned int weight_operands_count,
-        unsigned int *time_scale_operands_count,
+        fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> *time_scale_operands_count,
+        const vostok::animation::mixing::animation_interval *source_operands_offset,
         unsigned int *animation_interval_id,
         float *animation_interval_time,
         bool is_transitting_to_zero,
-        float can_be_time_driving_animation)
+        vostok::animation::mixing::n_ary_tree_animation_node *can_be_time_driving_animation)
 {
   vostok::animation::mixing::n_ary_tree_animation_node *v12; // esi
   bool m_override_existing_animation; // al
   vostok::animation::mixing::n_ary_tree_animation_node *v15; // ecx
-  vostok::animation::mixing::n_ary_tree_animation_node *v16; // eax
-  bool v17; // zf
-  vostok::animation::mixing::animation_interval *m_animation_intervals; // edi
-  vostok::animation::mixing::animation_interval *v19; // ebx
-  char *m_data; // ecx
-  vostok::animation::mixing::animation_interval *v21; // eax
-  vostok::mutable_buffer *m_buffer; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *v23; // ebx
+  unsigned int v16; // edx
+  unsigned int *v17; // ecx
+  vostok::animation::mixing::n_ary_tree_animation_node *v18; // eax
+  double v19; // st7
+  float *v20; // eax
+  bool v21; // zf
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v22; // eax
+  const vostok::animation::mixing::animation_interval *m_animation_intervals; // edi
+  char *interpolated_value; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *v25; // ecx
+  vostok::animation::mixing::n_ary_tree_animation_node *m_data; // eax
+  vostok::mutable_buffer *v27; // eax
+  vostok::mutable_buffer *v28; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *v29; // edi
+  unsigned int m_bones_mask; // eax
+  vostok::animation::mixing::n_ary_tree_node_cloner *m_additivity_priority; // ecx
   unsigned int m_animation_intervals_count; // edi
-  const vostok::animation::base_interpolator *v25; // eax
-  vostok::mutable_buffer *v26; // eax
-  vostok::animation::mixing::n_ary_tree_animation_node *m_time_driving_animation; // ecx
-  const vostok::animation::mixing::animation_interval *v28; // esi
-  const vostok::animation::mixing::animation_interval *v29; // edi
-  unsigned int v30; // eax
-  vostok::animation::mixing::animation_interval *v31; // edi
-  double v32; // st7
-  bool v33; // cl
-  vostok::animation::mixing::n_ary_tree_animation_node *v34; // eax
-  vostok::animation::mixing::animated_object_holder *m_new_animated_object; // esi
-  vostok::animation::mixing::animated_object_holder *m_animated_objects; // ecx
-  const vostok::animation::mixing::n_ary_tree *m_from; // eax
-  vostok::animation::mixing::animated_object_holder *v38; // ecx
-  vostok::animation::mixing::animated_object_holder *v39; // esi
-  vostok::animation::mixing::animated_object_holder *v40; // eax
-  const void *v42; // [esp-28h] [ebp-98h]
-  vostok::animation::mixing::playback_enum m_playback_type; // [esp-24h] [ebp-94h]
-  unsigned int m_time_synchronization_group_id; // [esp-1Ch] [ebp-8Ch]
-  unsigned int m_weight_synchronization_group_id; // [esp-18h] [ebp-88h]
-  bool v46; // [esp-14h] [ebp-84h]
-  bool m_can_generate_events; // [esp-Ch] [ebp-7Ch]
-  unsigned int m_additivity_priority; // [esp-8h] [ebp-78h]
-  unsigned int m_bones_mask; // [esp-4h] [ebp-74h]
-  float start_time; // [esp+0h] [ebp-70h]
-  unsigned int start_timea; // [esp+0h] [ebp-70h]
-  float length; // [esp+4h] [ebp-6Ch]
-  vostok::animation::mixing::n_ary_tree_time_scale_transition_node *time_scale_node; // [esp+1Ch] [ebp-54h]
-  vostok::animation::mixing::animation_interval *v54; // [esp+20h] [ebp-50h]
-  unsigned int start_cycle_animation_interval_id; // [esp+28h] [ebp-48h]
-  unsigned __int8 unique_animation_id; // [esp+2Ch] [ebp-44h]
-  vostok::math::float4x4 result; // [esp+30h] [ebp-40h] BYREF
-  const vostok::animation::mixing::animation_interval *cloned_intervals_begin; // [esp+74h] [ebp+4h]
-  const vostok::animation::mixing::animation_state *time_driving_animation_state; // [esp+78h] [ebp+8h]
+  const vostok::animation::base_interpolator *v33; // eax
+  vostok::mutable_buffer *v34; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v35; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *m_time_driving_animation; // eax
+  vostok::animation::mixing::animation_state *m_animation_state; // ecx
+  unsigned int v38; // eax
+  bool v39; // cl
+  vostok::animation::mixing::n_ary_tree_animation_node *v40; // eax
+  vostok::animation::mixing::animated_object_holder *v41; // esi
+  vostok::animation::mixing::animated_object_holder *v42; // eax
+  unsigned __int8 m_animated_object_id; // al
+  const vostok::animation::mixing::n_ary_tree *v44; // ecx
+  vostok::animation::mixing::animated_object_holder *m_animated_objects; // eax
+  vostok::animation::mixing::animated_object_holder *v46; // esi
+  vostok::animation::mixing::animated_object_holder *v47; // eax
+  vostok::animation::mixing::n_ary_tree_animation_node *result; // eax
+  const void *v49; // [esp-30h] [ebp-A8h]
+  vostok::animation::mixing::playback_enum m_playback_type; // [esp-28h] [ebp-A0h]
+  unsigned int m_time_synchronization_group_id; // [esp-20h] [ebp-98h]
+  unsigned int m_weight_synchronization_group_id; // [esp-1Ch] [ebp-94h]
+  unsigned int v53; // [esp-8h] [ebp-80h]
+  unsigned int v54; // [esp-4h] [ebp-7Ch]
+  fastdelegate::detail::GenericClass *v55; // [esp+0h] [ebp-78h]
+  bool v56; // [esp+4h] [ebp-74h]
+  boost::function1<vostok::math::float4x4,void const *> *v57; // [esp+4h] [ebp-74h]
+  vostok::math::float4x4 v58; // [esp+18h] [ebp-60h] BYREF
+  int v59; // [esp+58h] [ebp-20h]
+  unsigned int m_start_cycle_interval_id; // [esp+5Ch] [ebp-1Ch]
+  int v61; // [esp+60h] [ebp-18h]
+  int v62; // [esp+64h] [ebp-14h]
+  BOOL v63; // [esp+68h] [ebp-10h]
+  BOOL v64; // [esp+6Ch] [ebp-Ch]
+  vostok::animation::mixing::n_ary_tree_animation_node_vtbl *v65; // [esp+70h] [ebp-8h]
+  BOOL v66; // [esp+74h] [ebp-4h]
+  fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> *v67; // [esp+84h] [ebp+Ch]
+  fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> *m_animated_object; // [esp+84h] [ebp+Ch]
+  bool m_can_generate_events; // [esp+88h] [ebp+10h]
 
   v12 = to;
   m_override_existing_animation = to->m_override_existing_animation;
-  if ( m_override_existing_animation
-    || (v15 = (vostok::animation::mixing::n_ary_tree_animation_node *)from,
-        *(_BYTE *)(LODWORD(from->bone_matrices_computer.previous_object_movement.scale.x) + 117)) )
-  {
+  if ( m_override_existing_animation || (v15 = from, from->m_animation_state->is_freezed) )
     v15 = v12;
-  }
-  *animation_interval_id = v15->m_animation_state->animation_interval_id;
-  if ( m_override_existing_animation
-    || (v16 = (vostok::animation::mixing::n_ary_tree_animation_node *)from,
-        *(_BYTE *)(LODWORD(from->bone_matrices_computer.previous_object_movement.scale.x) + 117)) )
+  v16 = v15->m_animation_state->animation_interval_id;
+  v17 = animation_interval_id;
+  *animation_interval_id = v16;
+  if ( m_override_existing_animation || (v18 = from, from->m_animation_state->is_freezed) )
+    v18 = v12;
+  v19 = v18->m_animation_state->animation_interval_time;
+  v20 = animation_interval_time;
+  source_operands_offset->m_first_view_animation.m_object = 0;
+  *v20 = v19;
+  *target_operands_offset = 0;
+  v65 = 0;
+  if ( (_BYTE)can_be_time_driving_animation && v12->m_is_time_driving_animation )
   {
-    v16 = v12;
-  }
-  v17 = LOBYTE(can_be_time_driving_animation) == 0;
-  *animation_interval_time = v16->m_animation_state->animation_interval_time;
-  *operands_offset = 0;
-  time_scale_node = 0;
-  if ( !v17 && !v12->m_time_driving_animation && v12->m_time_synchronization_group_id != -1 )
-  {
-    time_scale_node = vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_time_scale(
-                        (vostok::animation::mixing::n_ary_tree_transition_tree_constructor *)animation_interval_id,
-                        (int)this,
-                        v12,
-                        *(float *)&animation_interval_id,
-                        (vostok::animation::mixing::n_ary_tree_base_node *)animation_interval_time);
-    if ( time_scale_node )
+    v21 = v12->m_time_synchronization_group_id == -1;
+    LOBYTE(v66) = 1;
+    if ( v21 )
+      goto LABEL_18;
+    vostok::animation::mixing::n_ary_tree_transition_tree_constructor::new_time_scale(v12, this, v17, v20);
+    v65 = v22;
+    if ( v22 )
     {
-      *time_scale_operands_count = 1;
-      *operands_offset = 1;
+      time_scale_operands_count->m_Closure.m_pthis = (fastdelegate::detail::GenericClass *)1;
+      *target_operands_offset = 1;
     }
   }
+  else
+  {
+    LOBYTE(v66) = 0;
+  }
+  if ( v12->m_time_synchronization_group_id != -1
+    && (!v66 || v65)
+    && from->m_operands_count
+    && (*((unsigned __int8 (__thiscall **)(vostok::animation::mixing::n_ary_tree_animation_node_vtbl *))from[1].~vostok::animation::mixing::n_ary_tree_n_ary_operation_node
+        + 3))(from[1].__vftable) )
+  {
+    source_operands_offset->m_first_view_animation.m_object = (vostok::resources::managed_resource *)1;
+  }
+LABEL_18:
   m_animation_intervals = v12->m_animation_intervals;
-  v19 = &m_animation_intervals[v12->m_animation_intervals_count];
-  m_data = this->m_buffer->m_data;
-  cloned_intervals_begin = (const vostok::animation::mixing::animation_interval *)m_data;
-  if ( m_animation_intervals != v19 )
+  interpolated_value = (char *)this[17].interpolated_value;
+  v25 = (vostok::animation::mixing::n_ary_tree_animation_node *)&m_animation_intervals[v12->m_animation_intervals_count];
+  can_be_time_driving_animation = v25;
+  source_operands_offset = (const vostok::animation::mixing::animation_interval *)interpolated_value;
+  while ( 1 )
   {
-    do
+    v28 = (vostok::mutable_buffer *)this[17].__vftable;
+    if ( m_animation_intervals == (const vostok::animation::mixing::animation_interval *)v25 )
+      break;
+    m_data = (vostok::animation::mixing::n_ary_tree_animation_node *)v28->m_data;
+    if ( m_data )
     {
-      v54 = (vostok::animation::mixing::animation_interval *)this->m_buffer->m_data;
-      if ( v54 )
-      {
-        length = vostok::animation::mixing::animation_interval::length(m_animation_intervals);
-        start_time = vostok::animation::mixing::animation_interval::start_time(m_animation_intervals);
-        v21 = vostok::animation::mixing::animation_interval::animation(m_animation_intervals);
-        vostok::animation::mixing::animation_interval::animation_interval(v54, &v21->m_animation, start_time, length);
-      }
-      m_buffer = this->m_buffer;
-      m_buffer->m_data += 12;
-      m_buffer->m_size -= 12;
-      ++m_animation_intervals;
+      vostok::animation::mixing::animation_interval::animation_interval(
+        (vostok::animation::mixing::animation_interval *)m_data,
+        &m_animation_intervals->m_first_view_animation,
+        m_animation_intervals->m_animation_id,
+        m_animation_intervals->m_start_time,
+        m_animation_intervals->m_length);
+      v25 = can_be_time_driving_animation;
     }
-    while ( m_animation_intervals != v19 );
-    m_data = (char *)cloned_intervals_begin;
+    v27 = (vostok::mutable_buffer *)this[17].__vftable;
+    v27->m_data += 20;
+    v27->m_size -= 20;
+    ++m_animation_intervals;
   }
-  v23 = (vostok::animation::mixing::n_ary_tree_animation_node *)this->m_buffer->m_data;
+  v29 = (vostok::animation::mixing::n_ary_tree_animation_node *)v28->m_data;
+  can_be_time_driving_animation = (vostok::animation::mixing::n_ary_tree_animation_node *)v28->m_data;
   if ( weight_driving_animation )
   {
-    if ( v23 )
-      vostok::animation::mixing::n_ary_tree_animation_node::n_ary_tree_animation_node(
-        weight_driving_animation,
-        (const vostok::animation::mixing::animation_interval *)&m_data[12 * v12->m_animation_intervals_count],
-        v23,
-        (const vostok::animation::mixing::animation_interval *)m_data,
-        v12->m_unique_animation_id,
-        v12->m_start_cycle_interval_id,
-        v12->m_animated_object,
-        (vostok::animation::mixing::playback_enum)v12->m_playback_type,
-        &v12->m_time_calculator,
-        v12->m_time_synchronization_group_id,
-        v12->m_override_existing_animation,
-        v12->m_is_positive_event_direction,
-        v12->m_can_generate_events,
-        v12->m_additivity_priority,
-        v12->m_bones_mask,
-        weight_operands_count + *time_scale_operands_count,
-        is_transitting_to_zero);
+    if ( !v29 )
+      goto LABEL_30;
+    vostok::animation::mixing::n_ary_tree_animation_node::n_ary_tree_animation_node(
+      weight_driving_animation,
+      source_operands_offset,
+      &v12->m_time_calculator,
+      v29,
+      &source_operands_offset[v12->m_animation_intervals_count],
+      v12->m_unique_animation_id,
+      v12->m_start_cycle_interval_id,
+      v12->m_animated_object,
+      v12->m_animated_object_id,
+      (vostok::animation::mixing::playback_enum)v12->m_playback_type,
+      v12->m_time_calculator_id,
+      v12->m_time_synchronization_group_id,
+      v12->m_override_existing_animation,
+      v12->m_is_positive_event_direction,
+      v12->m_can_generate_events,
+      v66,
+      v12->m_additivity_priority,
+      v12->m_bones_mask,
+      (unsigned int)&time_scale_operands_count->m_Closure.m_pthis[weight_operands_count],
+      is_transitting_to_zero);
   }
-  else if ( v23 )
+  else
   {
-    LOBYTE(v54) = v12->m_is_positive_event_direction;
-    start_cycle_animation_interval_id = v12->m_start_cycle_interval_id;
-    unique_animation_id = v12->m_unique_animation_id;
-    m_animation_intervals_count = v12->m_animation_intervals_count;
-    start_timea = weight_operands_count + *time_scale_operands_count;
-    m_bones_mask = v12->m_bones_mask;
-    m_additivity_priority = v12->m_additivity_priority;
+    if ( !v29 )
+      goto LABEL_30;
+    v56 = is_transitting_to_zero;
     m_can_generate_events = v12->m_can_generate_events;
-    v46 = v12->m_override_existing_animation;
+    m_bones_mask = v12->m_bones_mask;
+    LOBYTE(v64) = v12->m_is_positive_event_direction;
+    m_additivity_priority = (vostok::animation::mixing::n_ary_tree_node_cloner *)v12->m_additivity_priority;
+    LOBYTE(v63) = v12->m_override_existing_animation;
+    LOBYTE(v62) = v12->m_time_calculator_id;
+    LOBYTE(v61) = v12->m_animated_object_id;
+    m_start_cycle_interval_id = v12->m_start_cycle_interval_id;
+    LOBYTE(v59) = v12->m_unique_animation_id;
+    m_animation_intervals_count = v12->m_animation_intervals_count;
+    v55 = &time_scale_operands_count->m_Closure.m_pthis[weight_operands_count];
+    v54 = m_bones_mask;
+    v53 = (unsigned int)m_additivity_priority;
+    time_scale_operands_count = &v12->m_time_calculator;
     m_weight_synchronization_group_id = v12->m_weight_synchronization_group_id;
     m_time_synchronization_group_id = v12->m_time_synchronization_group_id;
     m_playback_type = v12->m_playback_type;
-    v25 = vostok::animation::mixing::n_ary_tree_cloner::clone(
-            (vostok::animation::mixing::n_ary_tree_cloner *)v54,
-            (int)&this->m_cloner,
+    v33 = vostok::animation::mixing::n_ary_tree_node_cloner::clone(
+            m_additivity_priority,
+            (int)&this[8],
             v12->m_weight_interpolator,
             (bool)v12->m_animated_object);
     vostok::animation::mixing::n_ary_tree_animation_node::n_ary_tree_animation_node(
-      v23,
-      cloned_intervals_begin,
-      &cloned_intervals_begin[m_animation_intervals_count],
-      unique_animation_id,
-      start_cycle_animation_interval_id,
-      v25,
-      v42,
+      can_be_time_driving_animation,
+      time_scale_operands_count,
+      source_operands_offset,
+      &source_operands_offset[m_animation_intervals_count],
+      v59,
+      m_start_cycle_interval_id,
+      v33,
+      v49,
+      v61,
       m_playback_type,
-      &v12->m_time_calculator,
+      v62,
       m_time_synchronization_group_id,
       m_weight_synchronization_group_id,
-      v46,
-      (bool)v54,
+      v63,
+      v64,
       m_can_generate_events,
-      m_additivity_priority,
-      m_bones_mask,
-      start_timea,
-      is_transitting_to_zero);
+      v66,
+      v53,
+      v54,
+      (unsigned int)v55,
+      v56);
   }
-  v26 = this->m_buffer;
-  v26->m_data += 88;
-  v26->m_size -= 88;
-  v23->user_data = v12->user_data;
-  if ( this->m_weight_root )
-    this->m_previous_animation->m_next_weight_animation = v23;
+  v29 = can_be_time_driving_animation;
+LABEL_30:
+  v34 = (vostok::mutable_buffer *)this[17].__vftable;
+  v34->m_data += 88;
+  v34->m_size -= 88;
+  v29->user_data = v12->user_data;
+  if ( this[22].__vftable )
+    this[32].~vostok::animation::base_interpolator = (void (__thiscall *)(vostok::animation::base_interpolator *))v29;
   else
-    this->m_weight_root = v23;
-  if ( !LOBYTE(can_be_time_driving_animation)
-    || v12->m_time_driving_animation
-    || v12->m_time_synchronization_group_id == -1 )
+    this[22].__vftable = (vostok::animation::base_interpolator_vtbl *)v29;
+  if ( !v66 || v12->m_time_synchronization_group_id == -1 )
   {
     m_time_driving_animation = v12->m_time_driving_animation;
     if ( m_time_driving_animation )
     {
-      v28 = v12->m_animation_intervals;
-      v29 = m_time_driving_animation->m_animation_intervals;
-      time_driving_animation_state = m_time_driving_animation->m_animation_state;
-      v30 = time_driving_animation_state->animation_interval_id;
-      *animation_interval_id = v30;
-      v30 *= 12;
-      v31 = (const vostok::animation::mixing::animation_interval *)((char *)v29 + v30);
-      can_be_time_driving_animation = vostok::animation::mixing::animation_interval::length((const vostok::animation::mixing::animation_interval *)((char *)v28 + v30));
-      v32 = vostok::animation::mixing::animation_interval::length(v31);
-      *animation_interval_time = can_be_time_driving_animation
-                               / v32
-                               * time_driving_animation_state->animation_interval_time;
+      m_animation_state = m_time_driving_animation->m_animation_state;
+      v38 = m_animation_state->animation_interval_id;
+      *animation_interval_id = v38;
+      *animation_interval_time = (float)(v12->m_animation_intervals[v38].m_length
+                                       / v12->m_time_driving_animation->m_animation_intervals[v38].m_length)
+                               * m_animation_state->animation_interval_time;
     }
     else
     {
-      v33 = v12->m_override_existing_animation;
-      if ( v33
-        || (v34 = (vostok::animation::mixing::n_ary_tree_animation_node *)from,
-            *(_BYTE *)(LODWORD(from->bone_matrices_computer.previous_object_movement.scale.x) + 117)) )
-      {
-        v34 = v12;
-      }
-      *animation_interval_id = v34->m_animation_state->animation_interval_id;
-      if ( !v33 && !*(_BYTE *)(LODWORD(from->bone_matrices_computer.previous_object_movement.scale.x) + 117) )
-        v12 = (vostok::animation::mixing::n_ary_tree_animation_node *)from;
+      v39 = v12->m_override_existing_animation;
+      if ( v39 || (v40 = from, from->m_animation_state->is_freezed) )
+        v40 = v12;
+      *animation_interval_id = v40->m_animation_state->animation_interval_id;
+      if ( !v39 && !from->m_animation_state->is_freezed )
+        v12 = from;
       *animation_interval_time = v12->m_animation_state->animation_interval_time;
     }
   }
   else
   {
-    *this->m_time_driving_animations_end++ = v23;
-    if ( time_scale_node )
-      v23[1].__vftable = (vostok::animation::mixing::n_ary_tree_animation_node_vtbl *)time_scale_node;
+    this[25].interpolated_value = (float (__thiscall *)(vostok::animation::base_interpolator *, float))v29;
+    v35 = v65;
+    this[25].__vftable = (vostok::animation::base_interpolator_vtbl *)((char *)this[25].__vftable + 4);
+    if ( v35 )
+      v29[1].__vftable = v35;
   }
-  m_new_animated_object = this->m_new_animated_object;
-  m_animated_objects = this->m_animated_objects;
-  can_be_time_driving_animation = *(float *)&v23->m_animated_object;
+  v41 = (vostok::animation::mixing::animated_object_holder *)this[30].__vftable;
+  v42 = (vostok::animation::mixing::animated_object_holder *)this[29].__vftable;
+  time_scale_operands_count = (fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> *)v29->m_animated_object;
+  v67 = time_scale_operands_count;
   if ( stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
-         m_animated_objects,
-         m_new_animated_object,
-         (const void *const *)&can_be_time_driving_animation) == m_new_animated_object )
+         v42,
+         (const void **)&time_scale_operands_count,
+         v41) == v41 )
   {
-    if ( m_new_animated_object )
+    if ( v41 )
     {
-      m_new_animated_object->animated_object = v23->m_animated_object;
-      m_new_animated_object->need_new_transform = 0;
+      m_animated_object_id = can_be_time_driving_animation->m_animated_object_id;
+      v41->animated_object = v67;
+      v41->animated_object_id = m_animated_object_id;
+      v41->need_new_transform = 0;
     }
-    m_from = this->m_from;
-    v38 = m_from->m_animated_objects;
-    v39 = &v38[m_from->m_animated_objects_count];
-    can_be_time_driving_animation = *(float *)&v23->m_animated_object;
-    v40 = stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
-            v38,
-            v39,
-            (const void *const *)&can_be_time_driving_animation);
-    if ( v40 == v39 )
-      v40 = (vostok::animation::mixing::animated_object_holder *)boost::function1<vostok::math::float4x4,void const *>::operator()(
-                                                                   (boost::function1<vostok::math::float4x4,void const *> *)&result,
+    v44 = (const vostok::animation::mixing::n_ary_tree *)this[18].__vftable;
+    m_animated_objects = v44->m_animated_objects;
+    v46 = &m_animated_objects[v44->m_animated_objects_count];
+    m_animated_object = (fastdelegate::FastDelegate<float __cdecl(float,float,unsigned int,unsigned int,unsigned int,float)> *)can_be_time_driving_animation->m_animated_object;
+    time_scale_operands_count = m_animated_object;
+    v47 = stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
+            m_animated_objects,
+            (const void **)&time_scale_operands_count,
+            v46);
+    if ( v47 == v46 )
+      v47 = (vostok::animation::mixing::animated_object_holder *)boost::function1<vostok::math::float4x4,void const *>::operator()(
+                                                                   v57,
                                                                    this,
-                                                                   &result,
-                                                                   v23->m_animated_object);
-    qmemcpy(this->m_new_animated_object++, v40, 0x40u);
+                                                                   &v58,
+                                                                   m_animated_object);
+    qmemcpy(this[30].__vftable, v47, 0x40u);
+    this[30].__vftable = (vostok::animation::base_interpolator_vtbl *)((char *)this[30].__vftable + 136);
   }
-  this->m_previous_animation = v23;
-  return v23;
+  result = can_be_time_driving_animation;
+  this[32].__vftable = (vostok::animation::base_interpolator_vtbl *)can_be_time_driving_animation;
+  return result;
 }

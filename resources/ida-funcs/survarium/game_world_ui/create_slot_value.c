@@ -1,172 +1,121 @@
 void __thiscall survarium::game_world_ui::create_slot_value(
         survarium::game_world_ui *this,
-        survarium::game_world_ui *slot,
+        survarium::profile_slot_enum slot,
         survarium::inventory_item_props *item_props,
         survarium::flash_value *slot_descr_value,
-        _DWORD *item_icon)
+        _DWORD *a5)
 {
-  stlp_std::less<unsigned int> *v6; // eax
+  survarium::dictionary_item *v6; // eax
   vostok::configs::binary_config_value *v7; // eax
-  const vostok::configs::binary_config_value *v8; // eax
-  int v9; // ebx
-  const char *key_name; // edi
-  survarium::game_action_id v11; // eax
+  bool v8; // zf
+  survarium::flash_movie *v9; // ecx
   int action_dik; // eax
-  survarium::keyboard_key_descr *v13; // eax
-  survarium::flash_movie_resource *m_object; // ecx
-  int v15; // ecx
-  int v16; // eax
-  int v17; // ecx
-  int v18; // edx
-  int v19; // ecx
-  int v20; // edx
-  int v21; // ecx
-  int v22; // eax
-  BOOL v23; // [esp+54h] [ebp-30h]
-  BOOL v24; // [esp+54h] [ebp-30h]
-  BOOL v25; // [esp+54h] [ebp-30h]
-  BOOL v26; // [esp+54h] [ebp-30h]
-  int v27; // [esp+58h] [ebp-2Ch]
-  survarium::key_binder *v28; // [esp+58h] [ebp-2Ch]
-  bool v29; // [esp+5Ch] [ebp-28h]
-  survarium::flash_value slot_descr_valuec_property; // [esp+68h] [ebp-1Ch] BYREF
-  unsigned __int8 item_icona; // [esp+94h] [ebp+10h]
+  survarium::key_binder *v11; // ecx
+  int v12; // eax
+  survarium::flash_value *v13; // ecx
+  survarium::flash_value *v14; // ecx
+  survarium::flash_value *v15; // ecx
+  survarium::flash_value *v16; // ecx
+  survarium::flash_value *v17; // ecx
+  survarium::flash_value *v18; // ecx
+  survarium::flash_value *v19; // ecx
+  survarium::flash_value *v20; // ecx
+  survarium::flash_value *v21; // ecx
+  survarium::flash_value *v22; // ecx
+  survarium::flash_value *v23; // ecx
+  survarium::flash_value *v24; // ecx
+  survarium::text_translator *v25; // ecx
+  survarium::flash_value *v26; // ecx
+  int v27; // [esp+0h] [ebp-230h]
+  char v28[512]; // [esp+10h] [ebp-220h] BYREF
+  bool v29[4]; // [esp+210h] [ebp-20h]
+  survarium::flash_value value; // [esp+214h] [ebp-1Ch] BYREF
+  char *v31; // [esp+22Ch] [ebp-4h]
+  unsigned __int8 pointer; // [esp+243h] [ebp+13h]
 
-  v6 = survarium::items_dictionary::item_by_id(
-         slot->m_game_world->m_game->m_items_dictionary.m_object,
-         *(unsigned __int16 *)slot_descr_value->body);
-  v7 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                 *(vostok::configs::binary_config_value **)(*(_DWORD *)&v6[4].gap0 + 264),
-                                                 "ui_desc");
-  v8 = vostok::configs::binary_config_value::operator[](v7, "icon");
-  v9 = *(unsigned __int16 *)&slot_descr_value->body[4];
-  item_icona = (unsigned __int8)v8->data.pointer;
-  key_name = (const char *)&buf;
-  switch ( (unsigned int)item_props )
+  if ( *(_WORD *)slot_descr_value->body )
   {
-    case 0xDu:
-      v11 = kQUICK_USE_1;
-      goto LABEL_8;
-    case 0xEu:
-      v11 = kQUICK_USE_2;
-      goto LABEL_8;
-    case 0xFu:
-      v11 = kQUICK_USE_3;
-      goto LABEL_8;
-    case 0x10u:
-      v11 = kQUICK_USE_4;
-      goto LABEL_8;
-    case 0x11u:
-      v11 = kQUICK_USE_5;
-      goto LABEL_8;
-    case 0x12u:
-      v11 = kQUICK_USE_6;
-LABEL_8:
-      action_dik = survarium::key_binder::get_action_dik(slot->m_game_world->m_game->m_key_binder, v11, v27);
-      v13 = survarium::key_binder::dik_to_ptr(v28, action_dik, v29);
-      if ( v13 )
-        key_name = v13->key_name;
-      else
-        key_name = 0;
-      break;
-    default:
-      break;
+    v6 = survarium::items_dictionary::item_by_id(
+           *(survarium::items_dictionary **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 13908),
+           (survarium::items_dictionary_vtbl *)*(unsigned __int16 *)slot_descr_value->body);
+    v7 = vostok::configs::binary_config_value::operator[](v6->item_cfg.m_object->m_root, "ui_desc");
+    pointer = (unsigned __int8)vostok::configs::binary_config_value::operator[](v7, "icon")->data.pointer;
   }
-  m_object = slot->m_game_hud_ui.m_object;
-  *(_DWORD *)slot_descr_valuec_property.body = 0;
-  *(_DWORD *)&slot_descr_valuec_property.body[4] = 0;
-  Scaleform::GFx::Movie::CreateObject(
-    m_object->movie->m_movie,
-    (Scaleform::GFx::Value *)&slot_descr_valuec_property,
-    0,
-    0,
-    0);
-  if ( (slot_descr_valuec_property.body[4] & 0x40) != 0 )
+  else
   {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)slot_descr_valuec_property.body + 8))(
-      *(_DWORD *)slot_descr_valuec_property.body,
-      &slot_descr_valuec_property,
-      *(_DWORD *)&slot_descr_valuec_property.body[8]);
-    *(_DWORD *)slot_descr_valuec_property.body = 0;
+    pointer = 0;
   }
-  v15 = *item_icon;
-  *(_DWORD *)&slot_descr_valuec_property.body[8] = item_icona;
-  v23 = (item_icon[1] & 0x8F) == 10;
-  v16 = item_icon[2];
-  *(_DWORD *)&slot_descr_valuec_property.body[4] = 4;
-  (*(void (__thiscall **)(int, int, const char *, survarium::flash_value *, BOOL))(*(_DWORD *)v15 + 20))(
-    v15,
-    v16,
-    "icon",
-    &slot_descr_valuec_property,
-    v23);
-  if ( (slot_descr_valuec_property.body[4] & 0x40) != 0 )
+  v8 = *(_WORD *)&slot_descr_value->body[4] == 0;
+  v31 = (char *)uri;
+  v29[0] = !v8;
+  if ( item_props == (survarium::inventory_item_props *)13 )
   {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)slot_descr_valuec_property.body + 8))(
-      *(_DWORD *)slot_descr_valuec_property.body,
-      &slot_descr_valuec_property,
-      *(_DWORD *)&slot_descr_valuec_property.body[8]);
-    *(_DWORD *)slot_descr_valuec_property.body = 0;
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_1,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
   }
-  v17 = *item_icon;
-  v24 = (item_icon[1] & 0x8F) == 10;
-  v18 = item_icon[2];
-  *(_DWORD *)&slot_descr_valuec_property.body[4] = 4;
-  *(_DWORD *)&slot_descr_valuec_property.body[8] = v9;
-  (*(void (__thiscall **)(int, int, const char *, survarium::flash_value *, BOOL))(*(_DWORD *)v17 + 20))(
-    v17,
-    v18,
-    "count",
-    &slot_descr_valuec_property,
-    v24);
-  if ( (slot_descr_valuec_property.body[4] & 0x40) != 0 )
+  else if ( item_props == (survarium::inventory_item_props *)14 )
   {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)slot_descr_valuec_property.body + 8))(
-      *(_DWORD *)slot_descr_valuec_property.body,
-      &slot_descr_valuec_property,
-      *(_DWORD *)&slot_descr_valuec_property.body[8]);
-    *(_DWORD *)slot_descr_valuec_property.body = 0;
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_2,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
   }
-  v19 = *item_icon;
-  v25 = (item_icon[1] & 0x8F) == 10;
-  v20 = item_icon[2];
-  *(_DWORD *)&slot_descr_valuec_property.body[4] = 4;
-  *(_DWORD *)&slot_descr_valuec_property.body[8] = 0;
-  (*(void (__thiscall **)(int, int, const char *, survarium::flash_value *, BOOL))(*(_DWORD *)v19 + 20))(
-    v19,
-    v20,
-    "cooldown",
-    &slot_descr_valuec_property,
-    v25);
-  if ( (slot_descr_valuec_property.body[4] & 0x40) != 0 )
+  else if ( item_props == (survarium::inventory_item_props *)15 )
   {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)slot_descr_valuec_property.body + 8))(
-      *(_DWORD *)slot_descr_valuec_property.body,
-      &slot_descr_valuec_property,
-      *(_DWORD *)&slot_descr_valuec_property.body[8]);
-    *(_DWORD *)slot_descr_valuec_property.body = 0;
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_3,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
   }
-  v21 = *item_icon;
-  slot_descr_valuec_property.body[8] = v9 != 0;
-  v26 = (item_icon[1] & 0x8F) == 10;
-  v22 = item_icon[2];
-  *(_DWORD *)&slot_descr_valuec_property.body[4] = 2;
-  (*(void (__thiscall **)(int, int, const char *, survarium::flash_value *, BOOL))(*(_DWORD *)v21 + 20))(
-    v21,
-    v22,
-    "enabled",
-    &slot_descr_valuec_property,
-    v26);
-  survarium::flash_value::SetString(&slot_descr_valuec_property, key_name);
-  (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(*(_DWORD *)*item_icon + 20))(
-    *item_icon,
-    item_icon[2],
-    "hotkey",
-    &slot_descr_valuec_property,
-    (item_icon[1] & 0x8F) == 10);
-  if ( (slot_descr_valuec_property.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)slot_descr_valuec_property.body + 8))(
-      *(_DWORD *)slot_descr_valuec_property.body,
-      &slot_descr_valuec_property,
-      *(_DWORD *)&slot_descr_valuec_property.body[8]);
+  else if ( item_props == (survarium::inventory_item_props *)16 )
+  {
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_4,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
+  }
+  else if ( item_props == (survarium::inventory_item_props *)17 )
+  {
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_5,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
+  }
+  else
+  {
+    v9 = (survarium::flash_movie *)&item_props[-3].6;
+    if ( item_props != (survarium::inventory_item_props *)18 )
+      goto LABEL_17;
+    action_dik = survarium::key_binder::get_action_dik(
+                   kQUICK_USE_6,
+                   *(survarium::key_binder **)(*(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 144),
+                   v27);
+  }
+  v31 = (char *)survarium::key_binder::dik_to_keyname(v11, action_dik);
+LABEL_17:
+  v12 = *(_DWORD *)(slot + 8);
+  *(_DWORD *)value.body = 0;
+  *(_DWORD *)&value.body[4] = 0;
+  survarium::flash_movie::CreateObject(v9, *(survarium::flash_value **)(v12 + 264), (Scaleform::GFx::Value *)&value);
+  survarium::flash_value::SetUInt(v13, (int)&value, pointer);
+  survarium::flash_value::SetMember(v14, a5, "icon", &value);
+  survarium::flash_value::SetUInt(v15, (int)&value, (unsigned int)item_props);
+  survarium::flash_value::SetMember(v16, a5, "slot_id", &value);
+  survarium::flash_value::SetUInt(v17, (int)&value, *(unsigned __int16 *)&slot_descr_value->body[4]);
+  survarium::flash_value::SetMember(v18, a5, "count", &value);
+  survarium::flash_value::SetUInt(v19, (int)&value, (unsigned __int8)slot_descr_value->body[6]);
+  survarium::flash_value::SetMember(v20, a5, "cooldown", &value);
+  survarium::flash_value::SetUInt(v21, (int)&value, *(unsigned __int16 *)&slot_descr_value->body[2]);
+  survarium::flash_value::SetMember(v22, a5, "timer", &value);
+  survarium::flash_value::SetBoolean(v23, (int)&value, v29[0]);
+  survarium::flash_value::SetMember(v24, a5, "enabled", &value);
+  if ( v31 )
+  {
+    survarium::text_translator::translate_text(v25, *(_DWORD *)(*(_DWORD *)(slot + 20) + 160) + 13944, v31, v28);
+    survarium::flash_value::SetString(&value, v28);
+    survarium::flash_value::SetMember(v26, a5, "hotkey", &value);
+  }
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
 }

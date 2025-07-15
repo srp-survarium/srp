@@ -1,5 +1,5 @@
 void __thiscall Scaleform::GFx::AS3::InstanceTraits::fl_display::DisplayObjectContainer::MakeObject(
-        Scaleform::GFx::AS3::InstanceTraits::fl_display::Stage *this,
+        Scaleform::GFx::AS3::InstanceTraits::fl_display::DisplayObjectContainer *this,
         Scaleform::GFx::AS3::Value *result,
         Scaleform::GFx::AS3::InstanceTraits::Traits *t)
 {

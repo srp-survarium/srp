@@ -19,18 +19,18 @@ void __usercall Scaleform::GFx::DrawingContext::UpdateRenderNode(
   bool v17; // zf
   unsigned int v18; // eax
   unsigned int v19; // eax
-  unsigned __int8 val; // [esp+Fh] [ebp-9h] BYREF
-  unsigned int f0; // [esp+10h] [ebp-8h]
-  unsigned int s; // [esp+14h] [ebp-4h]
+  unsigned __int8 v20; // [esp+Fh] [ebp-9h] BYREF
+  unsigned int FillStyle0; // [esp+10h] [ebp-8h]
+  unsigned int v22; // [esp+14h] [ebp-4h]
 
   pObject = this->Shapes.pObject;
   this->States &= ~0x80u;
   if ( pObject && !pObject->IsEmpty(pObject) )
   {
     StrokeStyle = this->StrokeStyle;
-    f0 = this->FillStyle0;
+    FillStyle0 = this->FillStyle0;
     v5 = this->Shapes.pObject;
-    s = StrokeStyle;
+    v22 = StrokeStyle;
     if ( v5 && !v5->IsEmpty(v5) )
     {
       this->States |= 0x80u;
@@ -44,10 +44,10 @@ void __usercall Scaleform::GFx::DrawingContext::UpdateRenderNode(
       this->States |= 1u;
     }
     pContainer = this->Shapes.pObject->pContainer;
-    val = 0;
+    v20 = 0;
     Scaleform::ArrayBase<Scaleform::ArrayDataDH<unsigned char,Scaleform::AllocatorDH<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::PushBack(
       pContainer,
-      &val);
+      &v20);
     v7 = (Scaleform::Render::ShapeMeshProvider *)((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, int))this->pHeap->Alloc)(
                                                    this->pHeap,
                                                    96,
@@ -55,7 +55,7 @@ void __usercall Scaleform::GFx::DrawingContext::UpdateRenderNode(
                                                    a2);
     if ( v7 )
     {
-      Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v7, this->Shapes.pObject, 0);
+      Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(v7, (Scaleform::GFx::Resource *)this->Shapes.pObject, 0);
       v9 = v8;
     }
     else
@@ -82,7 +82,7 @@ void __usercall Scaleform::GFx::DrawingContext::UpdateRenderNode(
     v16 = (Scaleform::RefCountVImpl *)this->Shapes.pObject;
     if ( v16 )
       Scaleform::RefCountImpl::Release(v16);
-    v17 = f0 == 0;
+    v17 = FillStyle0 == 0;
     this->Shapes.pObject = v15;
     if ( !v17 )
     {
@@ -101,7 +101,7 @@ void __usercall Scaleform::GFx::DrawingContext::UpdateRenderNode(
       }
       this->States |= 0x14u;
     }
-    if ( s )
+    if ( v22 )
     {
       v19 = Scaleform::Render::ShapeDataPacked<Scaleform::ArrayDH<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::AddStrokeStyle(
               this->Shapes.pObject,

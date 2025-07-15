@@ -1,44 +1,42 @@
 void __thiscall survarium::game_world_ui::set_broken_connection_message(
         survarium::game_world_ui *this,
-        survarium::game_world_ui *str)
+        const char *str)
 {
-  survarium::flash_movie_resource *m_object; // ecx
-  survarium::flash_value message_val[2]; // [esp+10h] [ebp-430h] BYREF
-  wchar_t w_message[512]; // [esp+40h] [ebp-400h] BYREF
+  survarium::flash_value *v2; // ecx
+  survarium::flash_value *v3; // ecx
+  int v4; // edx
+  survarium::flash_value *v5; // ecx
+  Scaleform::GFx::Value *v6; // esi
+  int i; // edi
+  char value[512]; // [esp+10h] [ebp-234h] BYREF
+  survarium::flash_value v9; // [esp+210h] [ebp-34h] BYREF
+  _BYTE v10[24]; // [esp+228h] [ebp-1Ch] BYREF
+  char v11; // [esp+240h] [ebp-4h] BYREF
 
-  if ( str->m_game_hud_ui.m_object )
+  if ( *((_DWORD *)str + 2) )
   {
     survarium::text_translator::translate_text(
-      &str->m_game_world->m_game->m_text_translator,
+      (survarium::text_translator *)this,
+      *(_DWORD *)(*((_DWORD *)str + 5) + 160) + 13944,
       "match server connection lost",
-      w_message);
-    `vector constructor iterator'(
-      message_val[0].body,
-      0x18u,
-      2,
-      (void *(__thiscall *)(void *))survarium::flash_value::flash_value);
-    survarium::flash_value::SetStringW(message_val, w_message);
-    if ( (message_val[1].body[4] & 0x40) != 0 )
+      value);
+    v2 = &v9;
+    do
     {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)message_val[1].body + 8))(
-        *(_DWORD *)message_val[1].body,
-        &message_val[1],
-        *(_DWORD *)&message_val[1].body[8]);
-      *(_DWORD *)message_val[1].body = 0;
+      survarium::flash_value::flash_value(v2);
+      v2 = v3 + 1;
     }
-    m_object = str->m_game_hud_ui.m_object;
-    *(_DWORD *)&message_val[1].body[4] = 3;
-    *(_DWORD *)&message_val[1].body[8] = 1000;
+    while ( v4 - 1 >= 0 );
+    survarium::flash_value::SetString(&v9, value);
+    survarium::flash_value::SetInt(v5, (int)v10, 1000);
     Scaleform::GFx::Movie::Invoke(
-      m_object->movie->m_movie,
+      *(Scaleform::GFx::Movie **)(*(_DWORD *)(*((_DWORD *)str + 2) + 264) + 4),
       "root.set_warning_message",
       0,
-      (const Scaleform::GFx::Value *)message_val,
+      (const Scaleform::GFx::Value *)&v9,
       2u);
-    `vector destructor iterator'(
-      message_val[0].body,
-      0x18u,
-      2,
-      (void (__thiscall *)(void *))survarium::flash_value::~flash_value);
+    v6 = (Scaleform::GFx::Value *)&v11;
+    for ( i = 1; i >= 0; --i )
+      Scaleform::GFx::Value::~Value(--v6);
   }
 }

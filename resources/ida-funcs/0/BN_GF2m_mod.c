@@ -16,13 +16,13 @@ int __cdecl BN_GF2m_mod(bignum_st *r, const bignum_st *a, const bignum_st *p)
   v7 = v6;
   if ( v6 && v6 <= v3 )
   {
-    v8 = BN_GF2m_mod_arr(r, a, v5);
+    v8 = BN_GF2m_mod_arr(v6, r, a, v5);
     CRYPTO_free(v5);
     return v8;
   }
   else
   {
-    ERR_put_error(3u, 131, 106, ".\\crypto\\bn\\bn_gf2m.c", 371);
+    ERR_put_error(v6, 3u, 131, 106, ".\\crypto\\bn\\bn_gf2m.c", 371);
     CRYPTO_free(v5);
     return v7;
   }

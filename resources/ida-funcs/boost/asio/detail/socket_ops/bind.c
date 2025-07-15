@@ -1,33 +1,36 @@
-int __cdecl boost::asio::detail::socket_ops::bind(
-        SOCKET s,
+int __usercall boost::asio::detail::socket_ops::bind@<eax>(
+        boost::system::error_code *ec@<eax>,
+        int a2@<ebx>,
+        unsigned int s,
         const sockaddr *addr,
-        unsigned int addrlen,
-        boost::system::error_code *ec)
+        unsigned int addrlen)
 {
-  const boost::system::error_category *v4; // edx
-  const boost::system::error_category *v6; // edx
-  const boost::system::error_category *v7; // [esp+4h] [ebp-28h]
-  int v8; // [esp+10h] [ebp-1Ch]
+  int v7; // eax
+  int v8; // ebx
+  const boost::system::error_category *v9; // eax
+  int v10; // [esp+0h] [ebp-8h]
 
   if ( s == -1 )
   {
-    v4 = boost::system::system_category();
+    ec->m_cat = boost::system::system_category();
     ec->m_val = 10009;
-    ec->m_cat = v4;
     return -1;
   }
   else
   {
     WSASetLastError(0);
-    v8 = bind(s, addr, addrlen);
-    v7 = boost::system::system_category();
-    ec->m_val = WSAGetLastError();
-    ec->m_cat = v7;
+    v7 = ((int (__stdcall *)(unsigned int, const sockaddr *, unsigned int, int, int))(&off_8E3A98 + 17))(
+           s,
+           addr,
+           addrlen,
+           a2,
+           v10);
+    v8 = boost::asio::detail::socket_ops::error_wrapper<int>(ec, v7);
     if ( !v8 )
     {
-      v6 = boost::system::system_category();
+      v9 = boost::system::system_category();
       ec->m_val = 0;
-      ec->m_cat = v6;
+      ec->m_cat = v9;
     }
     return v8;
   }

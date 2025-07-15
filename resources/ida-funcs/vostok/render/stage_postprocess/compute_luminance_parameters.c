@@ -1,34 +1,34 @@
-vostok::math::float4 *__thiscall vostok::render::stage_postprocess::compute_luminance_parameters(
-        vostok::render::stage_postprocess *this,
-        vostok::render::stage_postprocess *result,
-        unsigned int frame_delta)
+vostok::math::float4 *__usercall vostok::render::stage_postprocess::compute_luminance_parameters@<eax>(
+        vostok::render::stage_postprocess *this@<ecx>,
+        vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> a2@<eax>,
+        vostok::math::float4 *a3@<edi>,
+        float *a4@<esi>)
 {
-  float v3; // eax
-  int v4; // edi
-  vostok::render::res_texture *v5; // eax
-  int v6; // edi
-  vostok::render::res_texture *v7; // esi
-  vostok::render::res_texture *v8; // ecx
+  vostok::render::renderer_context *m_object; // ecx
+  int v6; // ebx
+  vostok::render::enum_render_target_index *t; // eax
+  vostok::render::stage_postprocess *v8; // ecx
+  vostok::render::resource_manager *v9; // ecx
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> v13; // [esp+4h] [ebp-4h] BYREF
 
-  v3 = *(float *)&result->m_context;
-  v4 = *(_DWORD *)(LODWORD(v3) + 12392);
-  v5 = *(vostok::render::res_texture **)(*(_DWORD *)LODWORD(v3) + 7676);
-  v6 = v4 + 280;
-  v7 = 0;
-  if ( v5 )
-  {
-    v7 = v5;
-    ++v5->m_reference_count;
-  }
-  vostok::render::stage_postprocess::measure_per_pixel_luminance(this, result, v7);
-  if ( v7 )
-  {
-    if ( v7->m_reference_count-- == 1 )
-      vostok::render::res_texture::destroy_impl(v8, v7);
-  }
-  if ( COERCE_FLOAT(*(_DWORD *)(v6 + 344) & 0x7FFFFFFF) >= 0.050000001 )
+  m_object = (vostok::render::renderer_context *)a2.m_object->m_name.m_pointer.m_object;
+  v6 = (int)&m_object->m_scene_view.m_object[1];
+  *a4 = FLOAT_0_25;
+  a4[1] = FLOAT_0_25;
+  a4[2] = FLOAT_0_25;
+  a4[3] = FLOAT_0_25;
+  t = (vostok::render::enum_render_target_index *)vostok::render::renderer_context::get_t(m_object, rt_generic_0, &v13);
+  vostok::render::stage_postprocess::measure_per_pixel_luminance(v8, a2, *t, a3);
+  if ( *(float *)&v13.m_object != 0.0 && v13.m_object->m_reference_count-- == 1 )
+    vostok::render::resource_manager::release(
+      v9,
+      (vostok::render::res_texture *)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+      v13.m_object);
+  v13.m_object = *(vostok::render::res_texture **)(v6 + 492);
+  v13.m_object = (vostok::render::res_texture *)((unsigned int)v13.m_object & 0x7FFFFFFF);
+  if ( *(float *)&v13.m_object >= 0.050000001 )
     vostok::render::stage_postprocess::compute_per_pixel_eye_adaptated_luminance(
-      (vostok::render::stage_postprocess *)v8,
-      result);
-  return (vostok::math::float4 *)frame_delta;
+      (vostok::render::stage_postprocess *)v9,
+      a2);
+  return (vostok::math::float4 *)a4;
 }

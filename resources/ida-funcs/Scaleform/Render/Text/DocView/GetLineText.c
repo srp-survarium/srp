@@ -1,6 +1,6 @@
 wchar_t *__thiscall Scaleform::Render::Text::DocView::GetLineText(
         Scaleform::Render::Text::DocView *this,
-        int lineIndex,
+        unsigned int lineIndex,
         unsigned int plen)
 {
   unsigned int *v3; // ebp
@@ -13,7 +13,7 @@ wchar_t *__thiscall Scaleform::Render::Text::DocView::GetLineText(
   int CurIndex; // edi
   Scaleform::Render::Text::LineBuffer::Line *v13; // eax
   unsigned int TextLength; // eax
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator pit; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+8h] [ebp-8h] BYREF
 
   v3 = (unsigned int *)plen;
   if ( !plen )
@@ -26,7 +26,7 @@ wchar_t *__thiscall Scaleform::Render::Text::DocView::GetLineText(
   p_mLineBuffer = &this->mLineBuffer;
   if ( this == (Scaleform::Render::Text::DocView *)-48
     || lineIndex >= this->mLineBuffer.Lines.Data.Size
-    || lineIndex < 0 )
+    || (lineIndex & 0x80000000) != 0 )
   {
     return 0;
   }
@@ -35,18 +35,18 @@ wchar_t *__thiscall Scaleform::Render::Text::DocView::GetLineText(
   TextPos = v7->Data32.TextPos;
   if ( MemSize < 0 )
   {
-    TextPos &= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
-    if ( (unsigned __int8 *)TextPos == &vostok::memory::s_CRT_arena[5574199] )
+    TextPos &= 0xFFFFFFu;
+    if ( TextPos == 0xFFFFFF )
       TextPos = -1;
   }
   pObject = this->pDocument.pObject;
   plen = 0;
-  Scaleform::Render::Text::StyledText::GetParagraphByIndex(pObject, &pit, TextPos, &plen);
-  pArray = pit.pArray;
-  if ( !pit.pArray )
+  Scaleform::Render::Text::StyledText::GetParagraphByIndex(pObject, &result, TextPos, &plen);
+  pArray = result.pArray;
+  if ( !result.pArray )
     return 0;
-  CurIndex = pit.CurIndex;
-  if ( pit.CurIndex < 0 || pit.CurIndex >= (signed int)pit.pArray->Data.Size )
+  CurIndex = result.CurIndex;
+  if ( result.CurIndex < 0 || result.CurIndex >= (signed int)result.pArray->Data.Size )
     return 0;
   v13 = p_mLineBuffer->Lines.Data.Data[lineIndex];
   if ( (v13->MemSize & 0x80000000) == 0 )

@@ -31,12 +31,12 @@ Scaleform::RefCountVImpl *__thiscall Scaleform::Render::Text::DocView::FindFont(
   Scaleform::StringDH *v29; // eax
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >,Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeHashF,Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeAltHashF,Scaleform::AllocatorDH<Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >,78>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >,Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeHashF> > *p_mHash; // ecx
   Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >,Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeHashF> *pTable; // [esp-Ch] [ebp-48h]
-  bool italica; // [esp+Ch] [ebp-30h]
-  char italic; // [esp+Ch] [ebp-30h]
-  Scaleform::String charPath; // [esp+10h] [ebp-2Ch] BYREF
-  bool bold[4]; // [esp+14h] [ebp-28h]
+  bool v32; // [esp+Ch] [ebp-30h]
+  char v33; // [esp+Ch] [ebp-30h]
+  Scaleform::String v34; // [esp+10h] [ebp-2Ch] BYREF
+  BOOL v35; // [esp+14h] [ebp-28h]
   Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeRef v36; // [esp+18h] [ebp-24h] BYREF
-  Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo searchInfo; // [esp+20h] [ebp-1Ch] BYREF
+  Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo v37; // [esp+20h] [ebp-1Ch] BYREF
 
   v3 = pfontInfo;
   p_pCurrentFont = (Scaleform::RefCountVImpl **)&pfontInfo->pCurrentFont;
@@ -78,16 +78,16 @@ LABEL_43:
       if ( (PresentMask & 4) != 0 )
       {
         v17 = (PresentMask & 0x1000) != 0;
-        LOBYTE(charPath.pData) = (this->Flags & 0x20) != 0;
-        italica = (pCurrentFormat->FormatFlags & 2) != 0;
-        bold[0] = pCurrentFormat->FormatFlags & 1;
+        LOBYTE(v34.pData) = (this->Flags & 0x20) != 0;
+        v32 = (pCurrentFormat->FormatFlags & 2) != 0;
+        LOBYTE(v35) = pCurrentFormat->FormatFlags & 1;
         FontList = Scaleform::Render::Text::TextFormat::GetFontList(pCurrentFormat);
         v19 = Scaleform::Render::Text::FontManagerBase::CreateFontHandle(
                 pObject,
                 (const char *)((FontList->HeapTypeBits & 0xFFFFFFFC) + 8),
-                bold[0],
-                italica,
-                (bool)charPath.pData,
+                v35,
+                v32,
+                (bool)v34.pData,
                 !v17,
                 0);
         if ( *p_pCurrentFont )
@@ -99,46 +99,46 @@ LABEL_43:
         goto LABEL_41;
       if ( !LOBYTE(quietMode.pData) && (this->RTFlags & 0x10) == 0 && this->pLog.pObject )
       {
-        Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo::FontSearchPathInfo(&searchInfo, 1);
+        Scaleform::Render::Text::FontManagerBase::FontSearchPathInfo::FontSearchPathInfo(&v37, 1);
         v20 = (Scaleform::Render::Text::TextFormat *)*v36.pFirst;
         v21 = (*v36.pFirst)->PresentMask;
         LOBYTE(quietMode.pData) = (this->Flags & 0x20) != 0;
         FormatFlags = v20->FormatFlags;
         LOBYTE(v36.pFirst) = (FormatFlags & 2) != 0;
-        bold[0] = FormatFlags & 1;
+        LOBYTE(v35) = FormatFlags & 1;
         v23 = Scaleform::Render::Text::TextFormat::GetFontList(v20);
         v24 = Scaleform::Render::Text::FontManagerBase::CreateFontHandle(
                 pObject,
                 (const char *)((v23->HeapTypeBits & 0xFFFFFFFC) + 8),
-                bold[0],
+                v35,
                 (bool)v36.pFirst,
                 (bool)quietMode.pData,
                 (v21 & 0x1000) == 0,
-                &searchInfo);
+                &v37);
         v25 = this->pDocumentListener.pObject;
         v26 = (Scaleform::RefCountVImpl *)v24;
         if ( v25 )
         {
-          italic = 1;
+          v33 = 1;
           v27 = v25->GetCharacterPath(v25, (Scaleform::String *)&v36);
         }
         else
         {
-          italic = 2;
+          v33 = 2;
           Scaleform::String::String(&quietMode);
         }
-        Scaleform::String::String(&charPath, v27);
-        if ( (italic & 2) != 0 )
+        Scaleform::String::String(&v34, v27);
+        if ( (v33 & 2) != 0 )
         {
-          italic &= ~2u;
+          v33 &= ~2u;
           Scaleform::String::~String(&quietMode);
         }
-        if ( (italic & 1) != 0 )
+        if ( (v33 & 1) != 0 )
           Scaleform::String::~String((Scaleform::String *)&v36);
-        quietMode.pData = (Scaleform::String::DataDesc *)searchInfo.Info.pData;
-        if ( !searchInfo.Info.pData )
-          quietMode.pData = (Scaleform::String::DataDesc *)&buf;
-        v28 = charPath.HeapTypeBits & 0xFFFFFFFC;
+        quietMode.pData = (Scaleform::String::DataDesc *)v37.Info.pData;
+        if ( !v37.Info.pData )
+          quietMode.pData = (Scaleform::String::DataDesc *)uri;
+        v28 = v34.HeapTypeBits & 0xFFFFFFFC;
         v29 = Scaleform::Render::Text::TextFormat::GetFontList((Scaleform::Render::Text::TextFormat *)pfontInfo->pCurrentFormat);
         Scaleform::Log::LogError(
           this->pLog.pObject,
@@ -147,10 +147,10 @@ LABEL_43:
           (const char *)(v28 + 8),
           (const char *)quietMode.pData);
         this->RTFlags |= 0x10u;
-        Scaleform::String::~String(&charPath);
+        Scaleform::String::~String(&v34);
         if ( v26 )
           Scaleform::RefCountImpl::Release(v26);
-        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&searchInfo.Info);
+        Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v37.Info);
         v3 = pfontInfo;
       }
       v15 = (int)pObject->GetEmptyFont(pObject);

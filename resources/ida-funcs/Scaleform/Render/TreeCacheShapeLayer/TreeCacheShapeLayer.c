@@ -4,7 +4,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::TreeCacheShapeLayer(
         const Scaleform::Render::SortKey *key,
         unsigned int drawLayer,
         Scaleform::Render::Renderer2DImpl *prenderer2D,
-        unsigned int flags)
+        unsigned __int16 flags)
 {
   Scaleform::Render::TreeCacheMeshBase::TreeCacheMeshBase(this, node, key, prenderer2D, flags);
   this->__vftable = (Scaleform::Render::TreeCacheShapeLayer_vtbl *)&Scaleform::Render::TreeCacheShapeLayer::`vftable';

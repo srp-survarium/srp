@@ -8,10 +8,13 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsRectangle(const Scalef
   long double x; // st7
   bool v7; // al
   long double y; // [esp+8h] [ebp-A8h]
-  Scaleform::Render::Rect<double> r1; // [esp+20h] [ebp-90h] BYREF
-  Scaleform::GFx::AS2::Value r2v[4]; // [esp+40h] [ebp-70h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+20h] [ebp-90h] BYREF
+  Scaleform::GFx::AS2::Value v10; // [esp+40h] [ebp-70h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+50h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v12; // [esp+60h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v13; // [esp+70h] [ebp-40h] BYREF
   Scaleform::Render::Size<double> sz; // [esp+80h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> r2; // [esp+90h] [ebp-20h] BYREF
+  Scaleform::Render::Rect<double> v15; // [esp+90h] [ebp-20h] BYREF
 
   if ( fn->NArgs > 0 )
   {
@@ -30,41 +33,41 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsRectangle(const Scalef
           p_pProto = (Scaleform::GFx::AS2::RectangleObject *)&ThisPtr[-2].pProto;
         else
           p_pProto = 0;
-        r1.x1 = 0.0;
-        r1.y1 = 0.0;
-        r1.x2 = 0.0;
-        r1.y2 = 0.0;
+        r.x1 = 0.0;
+        r.y1 = 0.0;
+        r.x2 = 0.0;
+        r.y2 = 0.0;
         `vector constructor iterator'(
-          (char *)r2v,
+          (char *)&v10,
           0x10u,
           4,
           (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
-        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, fn->Env, &r1);
-        Scaleform::GFx::AS2::GFxObject_GetRectangleProperties(fn->Env, v3, r2v);
-        if ( !r2v[0].T.Type
-          || r2v[0].T.Type == 10
-          || !r2v[1].T.Type
-          || r2v[1].T.Type == 10
-          || Scaleform::GFx::AS2::Value::IsUndefined(&r2v[2])
-          || Scaleform::GFx::AS2::Value::IsUndefined(&r2v[3]) )
+        Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, fn->Env, &r);
+        Scaleform::GFx::AS2::GFxObject_GetRectangleProperties(fn->Env, v3, &v10);
+        if ( !v10.T.Type
+          || v10.T.Type == 10
+          || !v11.T.Type
+          || v11.T.Type == 10
+          || Scaleform::GFx::AS2::Value::IsUndefined(&v12)
+          || Scaleform::GFx::AS2::Value::IsUndefined(&v13) )
         {
           `vector destructor iterator'(
-            (char *)r2v,
+            (char *)&v10,
             0x10u,
             4,
             (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);
         }
         else
         {
-          sz.Width = Scaleform::GFx::AS2::Value::ToNumber(&r2v[2], fn->Env);
-          sz.Height = Scaleform::GFx::AS2::Value::ToNumber(&r2v[3], fn->Env);
-          y = Scaleform::GFx::AS2::Value::ToNumber(&r2v[1], fn->Env);
-          x = Scaleform::GFx::AS2::Value::ToNumber(r2v, fn->Env);
-          Scaleform::Render::Rect<double>::Rect<double>(&r2, x, y, &sz);
-          v7 = Scaleform::Render::Rect<double>::Contains(&r1, &r2);
+          sz.Width = Scaleform::GFx::AS2::Value::ToNumber(&v12, fn->Env);
+          sz.Height = Scaleform::GFx::AS2::Value::ToNumber(&v13, fn->Env);
+          y = Scaleform::GFx::AS2::Value::ToNumber(&v11, fn->Env);
+          x = Scaleform::GFx::AS2::Value::ToNumber(&v10, fn->Env);
+          Scaleform::Render::Rect<double>::Rect<double>(&v15, x, y, &sz);
+          v7 = Scaleform::Render::Rect<double>::Contains(&r, &v15);
           Scaleform::GFx::AS2::Value::SetBool(fn->Result, v7);
           `vector destructor iterator'(
-            (char *)r2v,
+            (char *)&v10,
             0x10u,
             4,
             (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

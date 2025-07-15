@@ -1,8 +1,8 @@
-void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
-        Scaleform::GFx::AS2::ColorTransformProto *this,
+void __userpurge Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
+        Scaleform::GFx::AS2::ColorTransformProto *this@<ecx>,
         Scaleform::GFx::AS2::ASStringContext *psc,
         Scaleform::GFx::AS2::Object *pprototype,
-        const Scaleform::GFx::AS2::FunctionRef *constructor)
+        Scaleform::GFx::ASStringNode constructor)
 {
   Scaleform::GFx::AS2::ObjectInterface *v5; // edi
   Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
@@ -25,18 +25,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
   Scaleform::GFx::ASStringNode *v23; // eax
   int v24; // [esp+0h] [ebp-24h]
   int v25; // [esp+4h] [ebp-20h]
-  Scaleform::GFx::AS2::Value val; // [esp+14h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v26; // [esp+14h] [ebp-10h] BYREF
 
   Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>(
     this,
     psc,
     pprototype,
-    constructor);
+    (const Scaleform::GFx::AS2::FunctionRef *)constructor.pData);
   v5 = &this->Scaleform::GFx::AS2::ObjectInterface;
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::ColorTransformObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable = (Scaleform::GFx::AS2::ColorTransformProto_vtbl *)&Scaleform::GFx::AS2::ColorTransformProto::`vftable'{for `Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>'};
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::ColorTransformObject::Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable = (Scaleform::GFx::AS2::ObjectInterface_vtbl *)&Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>::`vftable'{for `Scaleform::GFx::AS2::ObjectInterface'};
   this->Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransformObject,Scaleform::GFx::AS2::Environment>::Scaleform::GFx::AS2::GASPrototypeBase::__vftable = (Scaleform::GFx::AS2::GASPrototypeBase_vtbl *)&Scaleform::GFx::AS2::ColorTransformProto::`vftable';
-  LOBYTE(constructor) = 6;
+  LOBYTE(constructor.pData) = 6;
   Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
     &this->Scaleform::GFx::AS2::GASPrototypeBase,
     (int)this,
@@ -44,13 +44,13 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     this,
     psc,
     Scaleform::GFx::AS2::ColorTransformProto::FunctionTable,
-    (Scaleform::GFx::ASStringNode *)&constructor,
+    &constructor,
     v24,
     v25);
   pMovieImpl = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)pMovieImpl,
                                                 "redMultiplier",
@@ -61,18 +61,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)&this->Scaleform::GFx::AS2::ObjectInterface,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v7 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v7->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v8 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v8,
                                                 "greenMultiplier",
@@ -83,18 +83,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v9 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v9->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v9);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v10 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v10,
                                                 "blueMultiplier",
@@ -105,18 +105,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v11 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v11->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v11);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v12 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v12,
                                                 "alphaMultiplier",
@@ -127,18 +127,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v13 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v13->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v13);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v14 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v14,
                                                 "redOffset",
@@ -149,18 +149,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v15 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v15->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v15);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v16 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v16,
                                                 "greenOffset",
@@ -171,18 +171,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v17 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v17->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v17);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v18 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v18,
                                                 "blueOffset",
@@ -193,18 +193,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v19 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v19->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v20 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v20,
                                                 "alphaOffset",
@@ -215,18 +215,18 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v21 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v21->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v21);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
   v22 = psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl;
-  LOBYTE(constructor) = 2;
-  val.T.Type = 4;
-  val.NV.Int32Value = 0;
+  LOBYTE(constructor.pData) = 2;
+  v26.T.Type = 4;
+  v26.NV.Int32Value = 0;
   pprototype = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
                                                 (Scaleform::GFx::ASStringManager *)v22,
                                                 "rgb",
@@ -237,12 +237,12 @@ void __thiscall Scaleform::GFx::AS2::ColorTransformProto::ColorTransformProto(
     (Scaleform::GFx::AS2::Object *)v5,
     psc,
     (const Scaleform::GFx::ASString *)&pprototype,
-    &val,
+    &v26,
     (const Scaleform::GFx::AS2::PropFlags *)&constructor);
   v23 = (Scaleform::GFx::ASStringNode *)pprototype;
   --pprototype->RefCount;
   if ( !v23->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v23);
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v26.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v26);
 }

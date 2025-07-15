@@ -1,284 +1,216 @@
-bool __usercall Opcode::AABBTreeNode::Subdivide@<al>(
-        Opcode::AABBTreeNode *this@<eax>,
-        Opcode::AABBTreeBuilder *builder@<edi>)
+char __thiscall Opcode::AABBTreeNode::Subdivide(
+        Opcode::AABBTreeNode *this,
+        Opcode::AABBTreeNode *builder,
+        Opcode::AABBTreeBuilder *a4)
 {
-  bool result; // al
+  Opcode::AABBTreeNode *v6; // esi
+  unsigned int *p_mNbPrimitives; // edi
   unsigned int mNbPrimitives; // eax
-  unsigned int *p_mNbPrimitives; // ebp
-  unsigned int *v6; // ecx
   unsigned int mRules; // eax
-  float v8; // ecx
-  float v9; // edx
   unsigned int v10; // eax
-  int v11; // ebp
-  bool v12; // zf
-  unsigned int v13; // ebp
-  void *mNodeBase; // ecx
-  float v15; // xmm1_4
-  unsigned int v16; // ebx
-  unsigned int v17; // ebp
+  Opcode::AABBTreeBuilder *v11; // edi
+  int v12; // edi
+  void *mNodeBase; // eax
+  bool v14; // zf
+  Opcode::AABBTreeBuilder_vtbl *v15; // edx
+  double v16; // st7
+  Opcode::AABBTreeBuilder_vtbl *v17; // eax
   double v18; // st7
-  float (__thiscall *GetSplittingValue)(Opcode::AABBTreeBuilder *, unsigned int, unsigned int); // eax
+  Opcode::AABBTreeBuilder_vtbl *v19; // eax
   double v20; // st7
-  float (__thiscall *v21)(Opcode::AABBTreeBuilder *, unsigned int, unsigned int); // eax
-  double v22; // st7
-  unsigned int v23; // ebx
-  double v24; // st7
-  float v25; // xmm2_4
-  unsigned int v26; // ebp
-  double v27; // st7
-  unsigned int v28; // eax
-  int v29; // eax
-  Opcode::AABBTreeNode *v30; // ecx
-  Opcode::AABBTreeNode *v31; // ecx
-  Opcode::AABBTreeNode *v32; // ecx
-  double v33; // st6
-  unsigned int v34; // eax
-  int v35; // eax
-  float z; // edx
-  float y; // ecx
-  unsigned int v38; // ebx
-  unsigned int v39; // eax
-  unsigned int v40; // edx
-  int v41; // ecx
-  int v42; // ebp
-  unsigned int v43; // ecx
-  int v44; // ebp
-  int i; // ebx
-  int v46; // eax
-  Opcode::AABBTreeNode *v47; // eax
-  unsigned int v48; // eax
-  unsigned int v49; // ecx
-  unsigned int *v50; // [esp+3Ch] [ebp-28h]
-  float v51; // [esp+40h] [ebp-24h]
-  int v52; // [esp+40h] [ebp-24h]
-  float Cy; // [esp+44h] [ebp-20h]
-  unsigned int Tmp; // [esp+48h] [ebp-1Ch]
-  float Tmpa; // [esp+48h] [ebp-1Ch]
-  float Tmpb; // [esp+48h] [ebp-1Ch]
-  unsigned int Tmpc; // [esp+48h] [ebp-1Ch]
-  unsigned int Tmpd; // [esp+48h] [ebp-1Ch]
-  unsigned int SortedAxis[3]; // [esp+4Ch] [ebp-18h] BYREF
-  IceMaths::Point Extents; // [esp+58h] [ebp-Ch] BYREF
+  double v21; // st7
+  Opcode::AABBTreeBuilder_vtbl *v22; // edx
+  bool v23; // cc
+  int v24; // eax
+  float v25; // xmm1_4
+  unsigned int i; // edi
+  float *v27; // edx
+  int *v28; // eax
+  int v29; // ecx
+  Opcode::AABBTreeNode *v30; // eax
+  unsigned int v31; // ecx
+  int v32; // eax
+  IceMaths::Point mExtents; // [esp+4h] [ebp-28h] BYREF
+  IceMaths::Point v34; // [esp+10h] [ebp-1Ch] BYREF
+  float v35; // [esp+1Ch] [ebp-10h]
+  float v36; // [esp+20h] [ebp-Ch]
+  unsigned int v37; // [esp+24h] [ebp-8h]
+  unsigned int j; // [esp+28h] [ebp-4h]
+  unsigned int *v39; // [esp+38h] [ebp+Ch]
 
-  if ( !builder )
+  if ( !a4 )
     return 0;
-  mNbPrimitives = this->mNbPrimitives;
-  p_mNbPrimitives = &this->mNbPrimitives;
-  v50 = &this->mNbPrimitives;
+  v6 = builder;
+  p_mNbPrimitives = &builder->mNbPrimitives;
+  mNbPrimitives = builder->mNbPrimitives;
+  v39 = &builder->mNbPrimitives;
   if ( mNbPrimitives == 1
-    || !builder->ValidateSubdivision(builder, this->mNodePrimitives, mNbPrimitives, (const IceMaths::AABB *)this) )
+    || !a4->ValidateSubdivision(a4, builder->mNodePrimitives, mNbPrimitives, (const IceMaths::AABB *)builder) )
   {
     return 1;
   }
-  mRules = builder->mSettings.mRules;
-  if ( (mRules & 1) == 0 )
+  mRules = a4->mSettings.mRules;
+  if ( (mRules & 1) != 0 )
   {
-    if ( (mRules & 2) != 0 )
+    mExtents = builder->mBV.mExtents;
+    v10 = mExtents.y > mExtents.x;
+    if ( mExtents.z > *(&mExtents.x + v10) )
+      v10 = 2;
+    v6 = builder;
+LABEL_9:
+    v11 = a4;
+    goto LABEL_10;
+  }
+  if ( (mRules & 2) != 0 )
+  {
+    j = 0;
+    v14 = *p_mNbPrimitives == 0;
+    memset((void *)&v34, 0, sizeof(v34));
+    if ( !v14 )
     {
-      v15 = 0.0;
-      v16 = 0;
-      memset(SortedAxis, 0, sizeof(SortedAxis));
-      if ( *p_mNbPrimitives )
+      do
       {
-        do
-        {
-          v17 = this->mNodePrimitives[v16];
-          v18 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, _DWORD))builder->GetSplittingValue)(
-                  builder,
-                  v17,
-                  0);
-          GetSplittingValue = builder->GetSplittingValue;
-          *(float *)SortedAxis = v18 + *(float *)SortedAxis;
-          v20 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, int))GetSplittingValue)(
-                  builder,
-                  v17,
-                  1);
-          v21 = builder->GetSplittingValue;
-          *(float *)&SortedAxis[1] = v20 + *(float *)&SortedAxis[1];
-          v22 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, int))v21)(builder, v17, 2);
-          v6 = &this->mNbPrimitives;
-          ++v16;
-          *(float *)&SortedAxis[2] = v22 + *(float *)&SortedAxis[2];
-        }
-        while ( v16 < *v50 );
-        v15 = 0.0;
-        p_mNbPrimitives = &this->mNbPrimitives;
+        v15 = a4->__vftable;
+        v37 = builder->mNodePrimitives[j];
+        v16 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, _DWORD))v15->GetSplittingValue)(
+                a4,
+                v37,
+                0);
+        v17 = a4->__vftable;
+        v34.x = v16 + v34.x;
+        v18 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, int))v17->GetSplittingValue)(a4, v37, 1);
+        v19 = a4->__vftable;
+        v34.y = v18 + v34.y;
+        v20 = ((double (__thiscall *)(Opcode::AABBTreeBuilder *, unsigned int, int))v19->GetSplittingValue)(a4, v37, 2);
+        ++j;
+        v34.z = v20 + v34.z;
       }
-      Tmp = *p_mNbPrimitives;
-      v23 = 0;
-      v24 = 1.0 / (double)*p_mNbPrimitives;
-      v25 = 0.0;
-      memset((void *)&Extents, 0, sizeof(Extents));
-      *(float *)SortedAxis = *(float *)SortedAxis * v24;
-      *(float *)&SortedAxis[1] = *(float *)&SortedAxis[1] * v24;
-      *(float *)&SortedAxis[2] = v24 * *(float *)&SortedAxis[2];
-      if ( Tmp )
-      {
-        do
-        {
-          v26 = this->mNodePrimitives[v23];
-          v51 = builder->GetSplittingValue(builder, v26, 0);
-          Cy = builder->GetSplittingValue(builder, v26, 1u);
-          Tmpa = builder->GetSplittingValue(builder, v26, 2u);
-          v6 = &this->mNbPrimitives;
-          v15 = (float)((float)(v51 - *(float *)SortedAxis) * (float)(v51 - *(float *)SortedAxis)) + Extents.x;
-          v25 = (float)((float)(Cy - *(float *)&SortedAxis[1]) * (float)(Cy - *(float *)&SortedAxis[1])) + Extents.y;
-          ++v23;
-          Extents.x = v15;
-          Extents.y = v25;
-          Extents.z = (float)((float)(Tmpa - *(float *)&SortedAxis[2]) * (float)(Tmpa - *(float *)&SortedAxis[2]))
-                    + Extents.z;
-        }
-        while ( v23 < *v50 );
-      }
-      v27 = 1.0 / (double)(*v50 - 1);
-      Tmpb = v27;
-      Extents.z = v27 * Extents.z;
-      Extents.x = Tmpb * v15;
-      Extents.y = Tmpb * v25;
-      v28 = (float)(Tmpb * v25) > (float)(Tmpb * v15);
-      if ( Extents.z > *(&Extents.x + v28) )
-        v28 = 2;
-      v29 = Opcode::AABBTreeNode::Split((Opcode::AABBTreeNode *)v6, (int)this, v28, builder);
-      v11 = v29;
-      if ( !v29 )
-        goto LABEL_12;
-      v12 = v29 == *v50;
+      while ( j < *p_mNbPrimitives );
     }
-    else
+    v35 = *(float *)p_mNbPrimitives;
+    j = 0;
+    v21 = 1.0 / (double)LODWORD(v35);
+    memset((void *)&mExtents, 0, sizeof(mExtents));
+    v34.x = v34.x * v21;
+    v34.y = v34.y * v21;
+    v34.z = v21 * v34.z;
+    if ( v35 != 0.0 )
     {
-      if ( (mRules & 8) == 0 )
+      do
       {
-        if ( (mRules & 4) == 0 )
-        {
-          if ( (mRules & 0x10) == 0 )
-            return 0;
-          v13 = *p_mNbPrimitives;
-          goto LABEL_14;
-        }
-        z = this->mBV.mExtents.z;
-        y = this->mBV.mExtents.y;
-        Extents.x = this->mBV.mExtents.x;
-        Extents.z = z;
-        v38 = 0;
-        v39 = 1;
-        v40 = 2;
-        Extents.y = y;
-        SortedAxis[0] = 0;
-        SortedAxis[1] = 1;
-        SortedAxis[2] = 2;
-        v41 = 4;
-        v52 = 3;
-        do
-        {
-          v42 = 4 * v38;
-          if ( *(float *)((char *)&Extents.x + v41) > *(&Extents.x + v38) )
-          {
-            v43 = v38;
-            v38 = v39;
-            v39 = v43;
-            v41 = v42;
-          }
-          v44 = 4 * v40;
-          if ( *(&Extents.x + v40) > *(float *)((char *)&Extents.x + v41) )
-          {
-            Tmpd = v39;
-            v39 = v40;
-            v40 = Tmpd;
-            v41 = v44;
-          }
-          --v52;
-        }
-        while ( v52 );
-        SortedAxis[0] = v38;
-        SortedAxis[2] = v40;
-        SortedAxis[1] = v39;
-        for ( i = 0; i != 3; ++i )
-        {
-          v46 = Opcode::AABBTreeNode::Split((Opcode::AABBTreeNode *)v41, (int)this, SortedAxis[i], builder);
-          v11 = v46;
-          if ( v46 )
-          {
-            v41 = (int)&this->mNbPrimitives;
-            if ( v46 != *v50 )
-              goto LABEL_15;
-          }
-        }
-        goto LABEL_12;
+        v22 = a4->__vftable;
+        v37 = builder->mNodePrimitives[j];
+        v36 = v22->GetSplittingValue(a4, v37, 0);
+        v35 = a4->GetSplittingValue(a4, v37, 1u);
+        *(float *)&v37 = a4->GetSplittingValue(a4, v37, 2u);
+        ++j;
+        mExtents.x = (float)((float)(v36 - v34.x) * (float)(v36 - v34.x)) + mExtents.x;
+        mExtents.y = (float)((float)(v35 - v34.y) * (float)(v35 - v34.y)) + mExtents.y;
+        mExtents.z = (float)((float)(*(float *)&v37 - v34.z) * (float)(*(float *)&v37 - v34.z)) + mExtents.z;
       }
-      Extents.x = (double)(unsigned int)Opcode::AABBTreeNode::Split((Opcode::AABBTreeNode *)v6, (int)this, 0, builder)
-                / (double)*p_mNbPrimitives;
-      Extents.y = (double)(unsigned int)Opcode::AABBTreeNode::Split(v30, (int)this, 1u, builder)
-                / (double)*p_mNbPrimitives;
-      Tmpc = Opcode::AABBTreeNode::Split(v31, (int)this, 2u, builder);
-      v32 = (Opcode::AABBTreeNode *)*p_mNbPrimitives;
-      v33 = (double)*p_mNbPrimitives;
-      Extents.x = (float)(Extents.x - 0.5) * (float)(Extents.x - 0.5);
-      Extents.y = (float)(Extents.y - 0.5) * (float)(Extents.y - 0.5);
-      Extents.z = (double)Tmpc / v33;
-      Extents.z = (float)(Extents.z - 0.5) * (float)(Extents.z - 0.5);
-      v34 = Extents.x > Extents.y;
-      if ( *(&Extents.x + v34) > Extents.z )
-        v34 = 2;
-      v35 = Opcode::AABBTreeNode::Split(v32, (int)this, v34, builder);
-      v11 = v35;
-      if ( !v35 )
-        goto LABEL_12;
-      v12 = v35 == *v50;
+      while ( j < *p_mNbPrimitives );
     }
-LABEL_11:
-    if ( !v12 )
+    LODWORD(v35) = *p_mNbPrimitives - 1;
+    *(float *)&v37 = 1.0 / (double)LODWORD(v35);
+    v23 = (float)(*(float *)&v37 * mExtents.y) <= (float)(*(float *)&v37 * mExtents.x);
+    mExtents.z = *(float *)&v37 * mExtents.z;
+    mExtents.x = *(float *)&v37 * mExtents.x;
+    mExtents.y = *(float *)&v37 * mExtents.y;
+    v10 = !v23;
+    if ( mExtents.z > *(&mExtents.x + v10) )
+      v10 = 2;
+    goto LABEL_9;
+  }
+  if ( (mRules & 8) != 0 )
+  {
+    v11 = a4;
+    mExtents.x = (double)(unsigned int)Opcode::AABBTreeNode::Split(builder, a4, 0) / (double)*v39;
+    mExtents.y = (double)(unsigned int)Opcode::AABBTreeNode::Split(builder, a4, 1u) / (double)*v39;
+    v24 = Opcode::AABBTreeNode::Split(builder, a4, 2u);
+    v35 = *(float *)&v24;
+    v35 = *(float *)v39;
+    v25 = mExtents.y - 0.5;
+    v23 = (float)((float)(mExtents.x - 0.5) * (float)(mExtents.x - 0.5)) <= (float)(v25 * v25);
+    mExtents.x = (float)(mExtents.x - 0.5) * (float)(mExtents.x - 0.5);
+    mExtents.y = v25 * v25;
+    mExtents.z = (double)(unsigned int)v24 / (double)LODWORD(v35);
+    mExtents.z = (float)(mExtents.z - 0.5) * (float)(mExtents.z - 0.5);
+    v10 = !v23;
+    if ( *(&mExtents.x + v10) > mExtents.z )
+      v10 = 2;
+LABEL_10:
+    v12 = Opcode::AABBTreeNode::Split(v6, v11, v10);
+    if ( v12 && v12 != *v39 )
+    {
+LABEL_14:
+      v6 = builder;
       goto LABEL_15;
+    }
+LABEL_12:
+    if ( a4->mSettings.mLimit != 1 )
+      return 1;
+    ++a4->mNbInvalidSplits;
+    v12 = *v39 >> 1;
+    goto LABEL_14;
+  }
+  if ( (mRules & 4) != 0 )
+  {
+    mExtents.x = 0.0;
+    v34 = builder->mBV.mExtents;
+    LODWORD(mExtents.y) = 1;
+    LODWORD(mExtents.z) = 2;
+    v37 = 3;
+    do
+    {
+      for ( i = 0; i < 2; ++i )
+      {
+        v27 = &mExtents.y + i;
+        v28 = (int *)(&mExtents.x + i);
+        v29 = *v28;
+        if ( *(&v34.x + *(_DWORD *)v27) > *(&v34.x + *v28) )
+        {
+          *v28 = *(_DWORD *)v27;
+          *(_DWORD *)v27 = v29;
+        }
+      }
+      --v37;
+    }
+    while ( *(float *)&v37 != 0.0 );
+    for ( j = 0; j != 3; ++j )
+    {
+      v12 = Opcode::AABBTreeNode::Split(builder, a4, *((_DWORD *)&mExtents.x + j));
+      if ( v12 && v12 != *v39 )
+        goto LABEL_14;
+    }
     goto LABEL_12;
   }
-  v8 = this->mBV.mExtents.y;
-  v9 = this->mBV.mExtents.z;
-  Extents.x = this->mBV.mExtents.x;
-  Extents.y = v8;
-  Extents.z = v9;
-  v10 = v8 > Extents.x;
-  if ( v9 > *(&Extents.x + v10) )
-    v10 = 2;
-  v11 = Opcode::AABBTreeNode::Split((Opcode::AABBTreeNode *)LODWORD(v8), (int)this, v10, builder);
-  if ( v11 )
-  {
-    v12 = v11 == *v50;
-    goto LABEL_11;
-  }
-LABEL_12:
-  result = 1;
-  if ( builder->mSettings.mLimit != 1 )
-    return result;
-  ++builder->mNbInvalidSplits;
-  v13 = *v50;
-LABEL_14:
-  v11 = v13 >> 1;
-LABEL_15:
-  mNodeBase = builder->mNodeBase;
-  if ( !mNodeBase )
-  {
-    v47 = vostok::memory::new_array_helper<Opcode::AABBTreeNode>::call<vostok::memory::base_allocator>(
-            builder->m_allocator,
-            2u);
-    if ( v47 )
-    {
-      this->mPos = (unsigned int)v47;
-      goto LABEL_48;
-    }
+  if ( (mRules & 0x10) == 0 )
     return 0;
+  v12 = *p_mNbPrimitives >> 1;
+LABEL_15:
+  mNodeBase = a4->mNodeBase;
+  if ( mNodeBase )
+  {
+    v6->mPos = ((unsigned int)mNodeBase + 36 * a4->mCount - 36) | 1;
+LABEL_43:
+    a4->mCount += 2;
+    v31 = v6->mPos & 0xFFFFFFFE;
+    v32 = v31 != 0 ? v31 + 36 : 0;
+    *(_DWORD *)(v31 + 28) = v6->mNodePrimitives;
+    *(_DWORD *)(v31 + 32) = v12;
+    *(_DWORD *)(v32 + 28) = &v6->mNodePrimitives[v12];
+    *(_DWORD *)(v32 + 32) = *v39 - v12;
+    return 1;
   }
-  this->mPos = ((unsigned int)mNodeBase + 36 * builder->mCount - 36) | 1;
-LABEL_48:
-  builder->mCount += 2;
-  v48 = this->mPos & 0xFFFFFFFE;
-  if ( v48 )
-    v49 = v48 + 36;
-  else
-    v49 = 0;
-  *(_DWORD *)(v48 + 28) = this->mNodePrimitives;
-  *(_DWORD *)(v48 + 32) = v11;
-  *(_DWORD *)(v49 + 28) = &this->mNodePrimitives[v11];
-  *(_DWORD *)(v49 + 32) = *v50 - v11;
-  return 1;
+  v30 = vostok::memory::new_array_helper<Opcode::AABBTreeNode>::call<vostok::memory::base_allocator>(
+          2u,
+          a4->m_allocator,
+          "Opcode::AABBTreeNode::Subdivide",
+          (const char *const)0x13D);
+  if ( v30 )
+  {
+    v6->mPos = (unsigned int)v30;
+    goto LABEL_43;
+  }
+  return 0;
 }

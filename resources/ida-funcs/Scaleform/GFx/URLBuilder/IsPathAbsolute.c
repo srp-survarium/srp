@@ -1,22 +1,22 @@
-char __cdecl Scaleform::GFx::URLBuilder::IsPathAbsolute(const char *putf8str)
+char __cdecl Scaleform::GFx::URLBuilder::IsPathAbsolute(char *putf8str)
 {
-  unsigned int v1; // eax
+  unsigned int Char_Advance0; // eax
   unsigned int v2; // eax
 
   if ( !putf8str || !*putf8str )
     return 1;
-  v1 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
-  if ( !v1 )
+  Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
+  if ( !Char_Advance0 )
     --putf8str;
-  if ( v1 == 47 || v1 == 92 )
+  if ( Char_Advance0 == 47 || Char_Advance0 == 92 )
     return 1;
-  if ( v1 )
+  if ( Char_Advance0 )
   {
     do
     {
-      if ( v1 == 58 )
+      if ( Char_Advance0 == 58 )
       {
-        v2 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
+        v2 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
         if ( v2 )
         {
           if ( v2 == 47 || v2 == 92 )
@@ -27,13 +27,13 @@ char __cdecl Scaleform::GFx::URLBuilder::IsPathAbsolute(const char *putf8str)
           --putf8str;
         }
       }
-      else if ( v1 == 47 || v1 == 92 )
+      else if ( Char_Advance0 == 47 || Char_Advance0 == 92 )
       {
         return 0;
       }
-      v1 = Scaleform::UTF8Util::DecodeNextChar_Advance0(&putf8str);
+      Char_Advance0 = Scaleform::UTF8Util::DecodeNextChar_Advance0((const char **)&putf8str);
     }
-    while ( v1 );
+    while ( Char_Advance0 );
     --putf8str;
   }
   return 0;

@@ -1,6 +1,6 @@
 unsigned int __cdecl Scaleform::GFx::AS3::ConvertDouble2SInt32(long double n)
 {
-  double v1; // st7
+  double X; // st7
   double v2; // st7
   int v3; // eax
 
@@ -10,10 +10,10 @@ unsigned int __cdecl Scaleform::GFx::AS3::ConvertDouble2SInt32(long double n)
   {
     return 0;
   }
-  v1 = n;
+  X = n;
   if ( n < 0.0 )
-    v1 = -n;
-  v2 = floor(v1);
+    X = -n;
+  v2 = floor(X);
   if ( v2 > 4294967295.0 )
     v2 = fmod(v2, 4294967296.0);
   if ( v2 < 2147483648.0 )

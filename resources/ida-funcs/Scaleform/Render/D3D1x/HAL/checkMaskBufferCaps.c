@@ -3,55 +3,46 @@ char __usercall Scaleform::Render::D3D1x::HAL::checkMaskBufferCaps@<al>(
         int a2@<esi>)
 {
   int v2; // eax
-  ID3D11DepthStencilView *pObject; // eax
-  ID3D11RenderTargetView *v4; // ecx
-  Scaleform::Ptr<ID3D11DepthStencilView> depthStencilTarget; // [esp+1Ch] [ebp-24h] BYREF
-  Scaleform::Ptr<ID3D11RenderTargetView> renderTarget; // [esp+20h] [ebp-20h] BYREF
-  D3D11_DEPTH_STENCIL_VIEW_DESC desc; // [esp+24h] [ebp-1Ch] BYREF
+  int v3; // eax
+  _DWORD v5[6]; // [esp+8h] [ebp-20h] BYREF
+  int v6; // [esp+20h] [ebp-8h] BYREF
+  int v7; // [esp+24h] [ebp-4h] BYREF
 
-  if ( !*(_BYTE *)(a2 + 64208) )
+  if ( *(_BYTE *)(a2 + 64376) )
+    goto LABEL_14;
+  v2 = *(_DWORD *)(a2 + 63956);
+  *(_BYTE *)(a2 + 64377) = 0;
+  *(_BYTE *)(a2 + 64378) = 0;
+  v7 = 0;
+  v6 = 0;
+  (*(void (__stdcall **)(int, int, int *, int *))(*(_DWORD *)v2 + 356))(v2, 1, &v6, &v7);
+  if ( !v7 )
+    goto LABEL_10;
+  (*(void (__stdcall **)(int, _DWORD *))(*(_DWORD *)v7 + 32))(v7, v5);
+  switch ( v5[0] )
   {
-    v2 = *(_DWORD *)(a2 + 63796);
-    *(_BYTE *)(a2 + 64209) = 0;
-    *(_BYTE *)(a2 + 64210) = 0;
-    depthStencilTarget.pObject = 0;
-    renderTarget.pObject = 0;
-    (*(void (__stdcall **)(int, int, Scaleform::Ptr<ID3D11RenderTargetView> *, Scaleform::Ptr<ID3D11DepthStencilView> *))(*(_DWORD *)v2 + 356))(
-      v2,
-      1,
-      &renderTarget,
-      &depthStencilTarget);
-    pObject = depthStencilTarget.pObject;
-    if ( depthStencilTarget.pObject )
-    {
-      depthStencilTarget.pObject->GetDesc(depthStencilTarget.pObject, &desc);
-      switch ( desc.Format )
-      {
-        case DXGI_FORMAT_D32_FLOAT_S8X24_UINT:
-        case DXGI_FORMAT_D24_UNORM_S8_UINT:
-          *(_BYTE *)(a2 + 64209) = 1;
-          goto $LN4_145;
-        case DXGI_FORMAT_D32_FLOAT:
-        case DXGI_FORMAT_D16_UNORM:
-$LN4_145:
-          *(_BYTE *)(a2 + 64210) = 1;
-          break;
-        default:
-          break;
-      }
-      pObject = depthStencilTarget.pObject;
-    }
-    v4 = renderTarget.pObject;
-    *(_BYTE *)(a2 + 64208) = 1;
-    if ( v4 )
-    {
-      v4->Release(v4);
-      pObject = depthStencilTarget.pObject;
-    }
-    if ( pObject )
-      pObject->Release(pObject);
+    case 0x14:
+      goto LABEL_8;
+    case 0x28:
+LABEL_9:
+      *(_BYTE *)(a2 + 64378) = 1;
+      break;
+    case 0x2D:
+LABEL_8:
+      *(_BYTE *)(a2 + 64377) = 1;
+      goto LABEL_9;
+    case 0x37:
+      goto LABEL_9;
   }
-  if ( *(_BYTE *)(a2 + 64209) || *(_BYTE *)(a2 + 64210) )
+LABEL_10:
+  v3 = v6;
+  *(_BYTE *)(a2 + 64376) = 1;
+  if ( v3 )
+    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 8))(v3);
+  if ( v7 )
+    (*(void (__stdcall **)(int))(*(_DWORD *)v7 + 8))(v7);
+LABEL_14:
+  if ( *(_BYTE *)(a2 + 64377) || *(_BYTE *)(a2 + 64378) )
     return 1;
   if ( !warned_0 )
     warned_0 = 1;

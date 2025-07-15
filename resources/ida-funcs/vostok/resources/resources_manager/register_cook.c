@@ -1,27 +1,20 @@
-void __fastcall vostok::resources::resources_manager::register_cook(int a1, vostok::resources::cook_base *cook)
+void __usercall vostok::resources::resources_manager::register_cook(
+        vostok::resources::cook_base *cook@<esi>,
+        vostok::buffer_vector<vostok::resources::cook_base *> *a2@<ecx>)
 {
-  vostok::resources::cook_base **m_begin; // ecx
-  vostok::resources::cook_base **m_end; // eax
-  int v4; // ecx
+  int v2; // edi
+  vostok::resources::cook_base *value; // [esp+4h] [ebp-4h] BYREF
 
-  m_begin = s_cooks_registry.m_begin;
-  m_end = s_cooks_registry.m_end;
   if ( s_cooks_registry.m_begin == s_cooks_registry.m_end )
   {
-    v4 = 517;
+    value = 0;
+    v2 = 518;
     do
     {
-      if ( m_end )
-      {
-        *m_end = 0;
-        m_end = s_cooks_registry.m_end;
-      }
-      ++m_end;
-      --v4;
-      s_cooks_registry.m_end = m_end;
+      vostok::buffer_vector<vostok::resources::cook_base *>::push_back(a2, &value);
+      --v2;
     }
-    while ( v4 );
-    m_begin = s_cooks_registry.m_begin;
+    while ( v2 );
   }
-  m_begin[cook->m_class_id] = cook;
+  s_cooks_registry.m_begin[cook->m_class_id] = cook;
 }

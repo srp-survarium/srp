@@ -1,34 +1,28 @@
 void __thiscall survarium::base_game_scene::~base_game_scene(survarium::base_game_scene *this)
 {
-  int f; // esi
-  survarium::base_game_scene *v2; // edi
-  _BYTE *v3; // eax
-  vostok::resources::unmanaged_resource *m_object; // eax
+  vostok::memory::doug_lea_allocator *v1; // esi
+  char *v3; // eax
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // [esp-4h] [ebp-10h]
+  const char *v6; // [esp+0h] [ebp-Ch]
+  const char *v7; // [esp+4h] [ebp-8h]
+  unsigned int v8; // [esp+8h] [ebp-4h]
 
-  f = (int)survarium::g_allocator.f_.f_;
-  v2 = this;
-  this->survarium::game_scene::__vftable = (survarium::base_game_scene_vtbl *)&survarium::base_game_scene::`vftable'{for `survarium::game_scene'};
-  this->survarium::engine::__vftable = (survarium::engine_vtbl *)&survarium::base_game_scene::`vftable'{for `survarium::engine'};
+  v1 = survarium::g_allocator;
+  this->__vftable = (survarium::base_game_scene_vtbl *)&survarium::base_game_scene::`vftable';
   if ( this->m_camera_director )
   {
     v3 = __RTCastToVoid((void **)&this->m_camera_director->__vftable);
-    if ( v3 )
-    {
-      *(_BYTE *)(f + 42) = 0;
-      vostok_mspace_free(*(void **)(f + 20), v3);
-    }
-    v2->m_camera_director = 0;
+    vostok::memory::doug_lea_allocator::free_impl(v5, (int)v1, v3, v6, v7, v8);
+    this->m_camera_director = 0;
   }
-  m_object = v2->m_sound_scene.m_object;
-  if ( m_object )
-  {
-    this = (survarium::base_game_scene *)_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF);
-    if ( !this )
-      vostok::resources::unmanaged_intrusive_base::destroy(
-        &v2->m_sound_scene.m_object->vostok::resources::unmanaged_intrusive_base,
-        v2->m_sound_scene.m_object);
-  }
-  boost::_bi::storage3<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>>::~storage3<boost::_bi::value<vostok::render::engine::world *>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base>>,boost::_bi::value<vostok::resources::resource_ptr<vostok::render::tracer_model_instance,vostok::resources::unmanaged_intrusive_base>>>(
-    this,
-    (int)v2);
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::~_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>(
+    (stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record> > *)this,
+    (stlp_std::reverse_iterator<survarium::scheduler::record *> *)&this->m_scheduler.m_active_objects);
+  stlp_std::priv::_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>::~_Impl_vector<survarium::scheduler::record,vostok::vectora_allocator<survarium::scheduler::record>>(
+    v4,
+    (stlp_std::reverse_iterator<survarium::scheduler::record *> *)&this->m_scheduler);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_sound_scene);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_render_scene_view);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_render_scene);
 }

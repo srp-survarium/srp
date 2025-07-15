@@ -1,42 +1,46 @@
-void __cdecl Scaleform::GFx::AS2::AsBroadcasterProto::BroadcastMessage(Scaleform::GFx::ASString fn)
+void __cdecl Scaleform::GFx::AS2::AsBroadcasterProto::BroadcastMessage(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  const Scaleform::GFx::AS2::FnCall *pNode; // esi
-  Scaleform::GFx::AS2::Environment *pData; // eax
+  const Scaleform::GFx::AS2::FnCall *v1; // esi
+  Scaleform::GFx::AS2::Environment *Env; // eax
   Scaleform::GFx::AS2::Value *v3; // ecx
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // ecx
-  Scaleform::GFx::AS2::Environment *Env; // eax
+  Scaleform::GFx::AS2::Environment *v5; // eax
   unsigned int Size; // edi
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::GFx::ASStringNode *v8; // eax
-  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback pcallback; // [esp+4h] [ebp-Ch] BYREF
-  int v10; // [esp+8h] [ebp-8h]
-  int v11; // [esp+Ch] [ebp-4h]
+  Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback v9[3]; // [esp+4h] [ebp-Ch] BYREF
 
-  pNode = (const Scaleform::GFx::AS2::FnCall *)fn.pNode;
-  if ( (int)fn.pNode[1].pManager >= 1 )
+  v1 = fn;
+  if ( fn->NArgs >= 1 )
   {
-    pData = (Scaleform::GFx::AS2::Environment *)fn.pNode[1].pData;
+    Env = fn->Env;
     v3 = 0;
-    if ( fn.pNode[1].pLower <= (Scaleform::GFx::ASStringNode *)(32 * (pData->Stack.Pages.Data.Size - 1)
-                                                              + pData->Stack.pCurrent
-                                                              - pData->Stack.pPageStart) )
-      v3 = &pData->Stack.Pages.Data.Data[(unsigned int)fn.pNode[1].pLower >> 5]->Values[(int)fn.pNode[1].pLower & 0x1F];
-    Scaleform::GFx::AS2::Value::ToStringImpl(v3, &fn, pData, -1, 0);
-    ThisPtr = pNode->ThisPtr;
-    Env = pNode->Env;
+    if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
+      v3 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
+                                                                                         & 0x1F];
+    Scaleform::GFx::AS2::Value::ToStringImpl(v3, (Scaleform::GFx::ASString *)&fn, Env, -1, 0);
+    ThisPtr = v1->ThisPtr;
+    v5 = v1->Env;
     if ( ThisPtr )
     {
-      Size = Env->Stack.Pages.Data.Size;
-      v10 = pNode->NArgs - 1;
-      v11 = Env->Stack.pCurrent - Env->Stack.pPageStart + 32 * Size - 36;
-      pcallback.__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
-      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(Env, ThisPtr, &fn, &pcallback);
+      Size = v5->Stack.Pages.Data.Size;
+      v9[1].__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)(v1->NArgs - 1);
+      v9[2].__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)(v5->Stack.pCurrent
+                                                                                  - v5->Stack.pPageStart
+                                                                                  + 32 * Size
+                                                                                  - 36);
+      v9[0].__vftable = (Scaleform::GFx::AS2::AsBroadcaster::InvokeCallback_vtbl *)&`Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessage'::`4'::LocalInvokeCallback::`vftable';
+      Scaleform::GFx::AS2::AsBroadcaster::BroadcastMessageWithCallback(
+        v5,
+        ThisPtr,
+        (const Scaleform::GFx::ASString *)&fn,
+        v9);
     }
-    Result = pNode->Result;
+    Result = v1->Result;
     Scaleform::GFx::AS2::Value::DropRefs(Result);
     Result->T.Type = 0;
-    v8 = fn.pNode;
-    --fn.pNode->RefCount;
+    v8 = (Scaleform::GFx::ASStringNode *)fn;
+    --fn->ThisFunctionRef.Function;
     if ( !v8->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v8);
   }

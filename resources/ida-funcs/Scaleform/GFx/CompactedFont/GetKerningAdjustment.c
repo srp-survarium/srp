@@ -11,16 +11,16 @@ double __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayPagedLH_POD<unsi
   unsigned int v8; // esi
   unsigned int v9; // ecx
   bool v10; // cf
-  int beg; // [esp+10h] [ebp-10h]
-  int end; // [esp+14h] [ebp-Ch]
+  int v12; // [esp+10h] [ebp-10h]
+  signed int v13; // [esp+14h] [ebp-Ch]
   Scaleform::GFx::CompactedFont<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *v14; // [esp+18h] [ebp-8h]
   unsigned int KerningTablePos; // [esp+1Ch] [ebp-4h]
 
   v3 = this->KerningTableSize - 1;
   v4 = 0;
   v14 = this;
-  end = v3;
-  beg = 0;
+  v13 = v3;
+  v12 = 0;
   if ( v3 < 0 )
     return 0.0;
   KerningTablePos = this->KerningTablePos;
@@ -41,15 +41,15 @@ double __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayPagedLH_POD<unsi
     }
     if ( v10 )
     {
-      v4 = beg;
+      v4 = v12;
       v3 = v6 - 1;
-      end = v3;
+      v13 = v3;
     }
     else
     {
       v4 = v6 + 1;
-      v3 = end;
-      beg = v4;
+      v3 = v13;
+      v12 = v4;
     }
     if ( v4 > v3 )
       return 0.0;
@@ -73,14 +73,14 @@ double __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_POD<uns
   unsigned int v8; // edx
   unsigned int v9; // esi
   bool v10; // cf
-  int beg; // [esp+8h] [ebp-Ch]
+  signed int v12; // [esp+8h] [ebp-Ch]
   Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_POD<unsigned char,261> > *v13; // [esp+Ch] [ebp-8h]
   unsigned int KerningTablePos; // [esp+10h] [ebp-4h]
 
   v3 = this->KerningTableSize - 1;
   v4 = 0;
   v13 = this;
-  beg = 0;
+  v12 = 0;
   if ( v3 < 0 )
     return 0.0;
   KerningTablePos = this->KerningTablePos;
@@ -101,12 +101,12 @@ double __thiscall Scaleform::GFx::CompactedFont<Scaleform::ArrayUnsafeLH_POD<uns
     if ( v10 )
     {
       v3 = v6 - 1;
-      v4 = beg;
+      v4 = v12;
     }
     else
     {
       v4 = v6 + 1;
-      beg = v4;
+      v12 = v4;
     }
     if ( v4 > v3 )
       return 0.0;

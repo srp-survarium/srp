@@ -1,4 +1,6 @@
-void *__thiscall Scaleform::GFx::AS2::DateProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::DateProto *__thiscall Scaleform::GFx::AS2::DateProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::DateProto *)(this - 16),
@@ -6,7 +8,9 @@ void *__thiscall Scaleform::GFx::AS2::DateProto::`vector deleting destructor'(ch
 }
 
 
-void *__thiscall Scaleform::GFx::AS2::DateProto::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::AS2::DateProto *__thiscall Scaleform::GFx::AS2::DateProto::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,Scaleform::GFx::AS2::Environment>::`scalar deleting destructor'(
            (Scaleform::GFx::AS2::DateProto *)(this - 104),

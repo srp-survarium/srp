@@ -1,10 +1,7 @@
-long double __thiscall vostok::collision::sphere_geometry_instance::get_surface_area(
-        vostok::collision::sphere_geometry_instance *this)
+double __usercall vostok::collision::sphere_geometry_instance::get_surface_area@<st0>(
+        vostok::collision::sphere_geometry_instance *this@<ecx>,
+        float a2@<xmm0>)
 {
-  long double v1; // st7
-
-  v1 = sqrtf(
-         (float)((float)(this->m_matrix.i.x * this->m_matrix.i.x) + (float)(this->m_matrix.i.y * this->m_matrix.i.y))
-       + (float)(this->m_matrix.i.z * this->m_matrix.i.z));
-  return v1 * v1 * 12.566371;
+  vostok::collision::sphere_geometry_instance::radius(this);
+  return a2 * a2 * 12.566371;
 }

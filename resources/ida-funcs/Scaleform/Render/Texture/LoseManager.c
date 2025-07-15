@@ -18,7 +18,7 @@ void __thiscall Scaleform::Render::Texture::LoseManager(Scaleform::Render::Textu
   if ( pImage )
   {
     this->pImage = 0;
-    ((void (__thiscall *)(Scaleform::Render::ImageBase *, _DWORD))pImage->__vftable[2].Release)(pImage, 0);
+    ((void (__thiscall *)(Scaleform::Render::ImageBase *, _DWORD))pImage->__vftable[1].GetBaseImageId)(pImage, 0);
   }
   LeaveCriticalSection(&p_ImageLock->cs);
 }

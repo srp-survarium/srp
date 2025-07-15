@@ -1,9 +1,9 @@
 void __thiscall btDbvtBroadphase::getAabb(
-        btDbvtBroadphase *this,
-        btBroadphaseProxy *absproxy,
+        btAxisSweep3Internal<unsigned short> *this,
+        btBroadphaseProxy *proxy,
         btVector3 *aabbMin,
         btVector3 *aabbMax)
 {
-  *aabbMin = absproxy->m_aabbMin;
-  *aabbMax = absproxy->m_aabbMax;
+  *aabbMin = proxy->m_aabbMin;
+  *aabbMax = proxy->m_aabbMax;
 }

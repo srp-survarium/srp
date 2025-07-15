@@ -1,7 +1,7 @@
 Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::TR::State::GetPropertyType(
         Scaleform::GFx::AS3::TR::State *this,
         Scaleform::GFx::AS3::CheckResult *result,
-        Scaleform::GFx::AS3::Traits *obj_traits,
+        const Scaleform::GFx::AS3::Traits *obj_traits,
         Scaleform::GFx::AS3::SlotInfo *si,
         Scaleform::GFx::AS3::Value *type)
 {
@@ -16,15 +16,18 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::TR::State::Get
   const Scaleform::GFx::AS3::InstanceTraits::Traits *FunctReturnType; // eax
   Scaleform::GFx::AS3::Tracer *v15; // ecx
   Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::ClassTraits::Traits *DataType; // ebp
-  const Scaleform::GFx::AS3::VM::Error *v18; // eax
+  const Scaleform::GFx::AS3::ClassTraits::Traits *DataType; // ebx
+  const Scaleform::GFx::ASString *DataTypeName; // eax
+  const Scaleform::GFx::AS3::VM::Error *v19; // eax
   Scaleform::GFx::ASStringNode *pWeakProxy; // eax
-  Scaleform::GFx::AS3::CheckResult *v20; // eax
+  Scaleform::GFx::ASStringNode *v21; // eax
+  Scaleform::GFx::AS3::CheckResult *v22; // eax
   const Scaleform::GFx::AS3::Abc::TraitInfo *TI; // eax
-  Scaleform::GFx::AS3::Tracer *v22; // ecx
-  int v23; // [esp-4h] [ebp-24h]
-  const Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // [esp-4h] [ebp-24h]
-  Scaleform::GFx::AS3::Value other; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::AS3::Tracer *v24; // ecx
+  int v25; // [esp-4h] [ebp-34h]
+  const Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // [esp-4h] [ebp-34h]
+  Scaleform::GFx::AS3::Value v27; // [esp+10h] [ebp-20h] BYREF
+  Scaleform::GFx::AS3::Value arg1; // [esp+20h] [ebp-10h] BYREF
 
   v5 = (int)(*(_DWORD *)si << 22) >> 27;
   if ( v5 > 10 )
@@ -34,15 +37,15 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::TR::State::Get
     {
       if ( v5 == 11 )
       {
-        v23 = (32 * *(_DWORD *)si) >> 15;
+        v25 = (32 * *(_DWORD *)si) >> 15;
         VT = Scaleform::GFx::AS3::Traits::GetVT(obj_traits);
-        Value = Scaleform::GFx::AS3::VTable::GetValue(VT, &other, (Scaleform::GFx::AS3::AbsoluteIndex)v23);
+        Value = Scaleform::GFx::AS3::VTable::GetValue(VT, &arg1, (Scaleform::GFx::AS3::AbsoluteIndex)v25);
         FunctType = Scaleform::GFx::AS3::TR::State::GetFunctType(this, Value);
-        Scaleform::GFx::AS3::Value::~Value(&other);
+        Scaleform::GFx::AS3::Value::~Value(&arg1);
         pTracer = this->pTracer;
-        other.Bonus.pWeakProxy = 0;
-        other.value.VS._1.VInt = (int)FunctType;
-        other.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(pTracer, FunctType) & 0xFFFFFFF7)) | 8;
+        v27.Bonus.pWeakProxy = 0;
+        v27.value.VS._1.VInt = (int)FunctType;
+        v27.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(pTracer, FunctType) & 0xFFFFFFF7)) | 8;
       }
       else
       {
@@ -53,16 +56,16 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::TR::State::Get
                             &v13->VTMethods.Data.Data[v7],
                             AppDomain);
         v15 = this->pTracer;
-        other.Bonus.pWeakProxy = 0;
-        other.value.VS._1.VInt = (int)FunctReturnType;
-        other.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(v15, FunctReturnType) & 0xFFFFFFF7)) | 8;
+        v27.Bonus.pWeakProxy = 0;
+        v27.value.VS._1.VInt = (int)FunctReturnType;
+        v27.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(v15, FunctReturnType) & 0xFFFFFFF7)) | 8;
       }
-      Scaleform::GFx::AS3::Value::Assign(type, &other);
-LABEL_17:
-      Scaleform::GFx::AS3::Value::~Value(&other);
-      v20 = result;
+      Scaleform::GFx::AS3::Value::Assign(type, &v27);
+LABEL_19:
+      Scaleform::GFx::AS3::Value::~Value(&v27);
+      v22 = result;
       result->Result = 1;
-      return v20;
+      return v22;
     }
   }
   VMRef = this->pTracer->CF->pFile->VMRef;
@@ -73,32 +76,43 @@ LABEL_17:
       || (TI = si->TI) != 0 && (TI->kind & 0xF) == 4
       || Scaleform::GFx::AS3::SlotInfo::IsClassType(si) )
     {
-      other.Bonus.pWeakProxy = 0;
-      other.value.VS._1.VInt = (int)DataType;
-      other.Flags = 9;
-      Scaleform::GFx::AS3::Value::Assign(type, &other);
+      v27.Bonus.pWeakProxy = 0;
+      v27.value.VS._1.VInt = (int)DataType;
+      v27.Flags = 9;
+      Scaleform::GFx::AS3::Value::Assign(type, &v27);
     }
     else
     {
-      v22 = this->pTracer;
+      v24 = this->pTracer;
       pObject = DataType->ITraits.pObject;
-      other.Bonus.pWeakProxy = 0;
-      other.value.VS._1.VInt = (int)pObject;
-      other.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(v22, pObject) & 0xFFFFFFF7)) | 8;
-      Scaleform::GFx::AS3::Value::Assign(type, &other);
+      v27.Bonus.pWeakProxy = 0;
+      v27.value.VS._1.VInt = (int)pObject;
+      v27.Flags = (32 * (Scaleform::GFx::AS3::Tracer::CanBeNull(v24, pObject) & 0xFFFFFFF7)) | 8;
+      Scaleform::GFx::AS3::Value::Assign(type, &v27);
     }
-    goto LABEL_17;
+    goto LABEL_19;
   }
-  Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&other, eClassNotFoundError, VMRef);
+  DataTypeName = Scaleform::GFx::AS3::SlotInfo::GetDataTypeName(si, (Scaleform::GFx::ASString *)&type, VMRef);
+  Scaleform::GFx::AS3::Value::Value(&arg1, DataTypeName);
+  Scaleform::GFx::AS3::VM::Error::Error(
+    (Scaleform::GFx::AS3::VM::Error *)&v27,
+    (Scaleform::GFx::AS3::VM_vtbl *)0x3F6,
+    (Scaleform::GFx::ASStringNode *)VMRef,
+    &arg1);
   Scaleform::GFx::AS3::VM::ThrowErrorInternal(
     VMRef,
-    v18,
+    v19,
     (Scaleform::GFx::ASStringNode *)&Scaleform::GFx::AS3::fl::VerifyErrorTI);
-  pWeakProxy = (Scaleform::GFx::ASStringNode *)other.Bonus.pWeakProxy;
-  --other.Bonus.pWeakProxy[1].pObject;
+  pWeakProxy = (Scaleform::GFx::ASStringNode *)v27.Bonus.pWeakProxy;
+  --v27.Bonus.pWeakProxy[1].pObject;
   if ( !pWeakProxy->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(pWeakProxy);
-  v20 = result;
+  Scaleform::GFx::AS3::Value::~Value(&arg1);
+  v21 = (Scaleform::GFx::ASStringNode *)type;
+  --type->value.VS._2.VObj;
+  if ( !v21->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v21);
+  v22 = result;
   result->Result = 0;
-  return v20;
+  return v22;
 }

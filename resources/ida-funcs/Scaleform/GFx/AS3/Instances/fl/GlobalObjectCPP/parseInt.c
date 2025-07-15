@@ -32,7 +32,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::GlobalObjectCPP::parseInt(
       {
         goto LABEL_14;
       }
-      v9 = Scaleform::GFx::NumberUtil::StringToInt((char *)str.pNode->pData, Size, radix, &offset);
+      v9 = Scaleform::GFx::NumberUtil::StringToInt((__m128i *)str.pNode->pData, Size, radix, &offset);
     }
     else
     {

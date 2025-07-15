@@ -8,7 +8,7 @@ int __stdcall Scaleform::UTF8Util::GetEncodeCharSize(unsigned int ucs_character)
     return 3;
   if ( ucs_character <= 0x1FFFFF )
     return 4;
-  if ( ucs_character > (unsigned int)&vostok::memory::s_CRT_arena[55905847] )
+  if ( ucs_character > 0x3FFFFFF )
     return ucs_character > 0x7FFFFFFF ? 0 : 6;
   return 5;
 }

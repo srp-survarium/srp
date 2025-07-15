@@ -1,6 +1,6 @@
 void __cdecl Scaleform::GFx::AS2::MovieClipLoaderProto::LoadClip(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v2; // edi
+  Scaleform::GFx::AS2::Value *Result; // edi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::GFx::AS2::Environment *Env; // edx
   Scaleform::GFx::AS2::Value *v5; // ecx
@@ -9,12 +9,12 @@ void __cdecl Scaleform::GFx::AS2::MovieClipLoaderProto::LoadClip(const Scaleform
   Scaleform::GFx::AS2::Value *v8; // edx
   Scaleform::GFx::AS2::Value *v9; // eax
   Scaleform::GFx::InteractiveObject *v10; // eax
-  Scaleform::GFx::InteractiveObject *v11; // ebx
+  Scaleform::RefCountNTSImpl *v11; // ebx
   Scaleform::GFx::AS2::Value *v12; // eax
   Scaleform::GFx::InteractiveObject *Target; // eax
-  Scaleform::GFx::ASStringNode *pNode; // ecx
+  Scaleform::GFx::ASStringNode *v14; // ecx
   bool v15; // zf
-  Scaleform::GFx::ASStringNode *v16; // ebp
+  Scaleform::GFx::ASStringNode *pNode; // ebp
   unsigned int Version; // eax
   Scaleform::GFx::AS2::Value *v18; // eax
   Scaleform::GFx::ASStringNode *v19; // edi
@@ -25,36 +25,36 @@ void __cdecl Scaleform::GFx::AS2::MovieClipLoaderProto::LoadClip(const Scaleform
   Scaleform::GFx::AS2::Value *v24; // eax
   Scaleform::GFx::ASStringNode *v25; // edi
   Scaleform::GFx::AS2::Value *v26; // esi
-  char *v27; // [esp-18h] [ebp-2Ch]
+  const __m128i *v27; // [esp-18h] [ebp-2Ch]
   Scaleform::GFx::AS2::Environment *v28; // [esp-14h] [ebp-28h]
   Scaleform::GFx::AS2::Environment *v29; // [esp-14h] [ebp-28h]
   Scaleform::GFx::AS2::Environment *v30; // [esp-14h] [ebp-28h]
   Scaleform::GFx::AS2::Environment *v31; // [esp-Ch] [ebp-20h]
-  Scaleform::GFx::ASString urlStr; // [esp+8h] [ebp-Ch] BYREF
-  Scaleform::GFx::ASString result; // [esp+Ch] [ebp-8h] BYREF
-  const char *ptail; // [esp+10h] [ebp-4h] BYREF
-  Scaleform::GFx::AS2::MovieClipLoader *pmovieClipLoader; // [esp+18h] [ebp+4h]
+  Scaleform::GFx::ASString v32; // [esp+8h] [ebp-Ch] BYREF
+  Scaleform::GFx::ASStringNode *v33; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::ASStringNode *v34; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::GFx::AS2::FnCall *p_pProto; // [esp+18h] [ebp+4h]
 
-  v2 = fn->Result;
-  Scaleform::GFx::AS2::Value::DropRefs(v2);
-  v2->T.Type = 2;
-  v2->V.BooleanValue = 0;
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 2;
+  Result->V.BooleanValue = 0;
   if ( fn->NArgs < 2 )
     return;
-  pmovieClipLoader = 0;
+  p_pProto = 0;
   if ( fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_MovieClipLoader )
   {
     ThisPtr = fn->ThisPtr;
     if ( ThisPtr )
-      pmovieClipLoader = (Scaleform::GFx::AS2::MovieClipLoader *)&ThisPtr[-2].pProto;
+      p_pProto = (Scaleform::GFx::AS2::FnCall *)&ThisPtr[-2].pProto;
     else
-      pmovieClipLoader = 0;
+      p_pProto = 0;
   }
   Env = fn->Env;
   v5 = 0;
   if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
     v5 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex & 0x1F];
-  Scaleform::GFx::AS2::Value::ToStringImpl(v5, &urlStr, Env, -1, 0);
+  Scaleform::GFx::AS2::Value::ToStringImpl(v5, &v32, Env, -1, 0);
   v6 = fn->Env;
   v7 = fn->FirstArgBottomIndex - 1;
   v8 = 0;
@@ -73,25 +73,25 @@ void __cdecl Scaleform::GFx::AS2::MovieClipLoaderProto::LoadClip(const Scaleform
   {
     v28 = fn->Env;
     v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    Scaleform::GFx::AS2::Value::ToStringImpl(v12, &result, v28, -1, 0);
-    Target = Scaleform::GFx::AS2::Environment::FindTarget(fn->Env, &result, 0);
+    Scaleform::GFx::AS2::Value::ToStringImpl(v12, (Scaleform::GFx::ASString *)&v33, v28, -1, 0);
+    Target = Scaleform::GFx::AS2::Environment::FindTarget(fn->Env, (const Scaleform::GFx::ASString *)&v33, 0);
     if ( Target )
       ++Target->RefCount;
-    pNode = result.pNode;
-    v15 = result.pNode->RefCount-- == 1;
+    v14 = v33;
+    v15 = v33->RefCount-- == 1;
     v11 = Target;
     if ( v15 )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+      Scaleform::GFx::ASStringNode::ReleaseNode(v14);
   }
   if ( v11 )
   {
-    v16 = urlStr.pNode;
+    pNode = v32.pNode;
     Scaleform::GFx::AS2::MovieRoot::AddLoadQueueEntry(
       (Scaleform::GFx::AS2::MovieRoot *)fn->Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
-      v11,
-      (char *)urlStr.pNode->pData,
+      (Scaleform::String)v11,
+      (const __m128i *)v32.pNode->pData,
       LM_None,
-      pmovieClipLoader);
+      (Scaleform::GFx::AS2::MovieClipLoader *)p_pProto);
 LABEL_27:
     v26 = fn->Result;
     Scaleform::GFx::AS2::Value::DropRefs(v26);
@@ -99,50 +99,45 @@ LABEL_27:
     v26->V.BooleanValue = 1;
     if ( v11 )
       Scaleform::RefCountNTSImpl::Release(v11);
-    v15 = v16->RefCount-- == 1;
+    v15 = pNode->RefCount-- == 1;
     if ( v15 )
-      Scaleform::GFx::ASStringNode::ReleaseNode(v16);
+      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
     return;
   }
   Version = Scaleform::GFx::DisplayObjectBase::GetVersion(fn->Env->Target);
   v29 = fn->Env;
-  LOBYTE(ptail) = Version > 6;
+  LOBYTE(v34) = Version > 6;
   v18 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-  Scaleform::GFx::AS2::Value::ToStringImpl(v18, &result, v29, -1, 0);
-  v19 = result.pNode;
-  v20 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName(
-          (char *)ptail,
-          0,
-          (char *)result.pNode->pData,
-          (char **)&ptail,
-          (bool)ptail);
+  Scaleform::GFx::AS2::Value::ToStringImpl(v18, (Scaleform::GFx::ASString *)&v33, v29, -1, 0);
+  v19 = v33;
+  v20 = Scaleform::GFx::AS2::MovieRoot::ParseLevelName((const char *)v34, 0, v33->pData, (const char **)&v34, (bool)v34);
   v15 = v19->RefCount-- == 1;
   v21 = v20;
   if ( v15 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v19);
   if ( v21 != -1 )
   {
-    v16 = urlStr.pNode;
-    pData = urlStr.pNode->pData;
+    pNode = v32.pNode;
+    pData = v32.pNode->pData;
     v30 = fn->Env;
     v24 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-    Scaleform::GFx::AS2::Value::ToStringImpl(v24, (Scaleform::GFx::ASString *)&ptail, v30, -1, 0);
-    v27 = (char *)pData;
-    v25 = (Scaleform::GFx::ASStringNode *)ptail;
+    Scaleform::GFx::AS2::Value::ToStringImpl(v24, (Scaleform::GFx::ASString *)&v34, v30, -1, 0);
+    v27 = (const __m128i *)pData;
+    v25 = v34;
     Scaleform::GFx::AS2::MovieRoot::AddLoadQueueEntry(
       (Scaleform::GFx::AS2::MovieRoot *)fn->Env->Target->pASRoot->pMovieImpl->pASMovieRoot.pObject,
-      *(char **)ptail,
+      (Scaleform::String)v34->pData,
       v27,
-      fn->Env,
+      (Scaleform::String)fn->Env,
       LM_None,
-      pmovieClipLoader);
+      (Scaleform::GFx::AS2::MovieClipLoader *)p_pProto);
     v15 = v25->RefCount-- == 1;
     if ( v15 )
       Scaleform::GFx::ASStringNode::ReleaseNode(v25);
     goto LABEL_27;
   }
-  v22 = urlStr.pNode;
-  v15 = urlStr.pNode->RefCount-- == 1;
+  v22 = v32.pNode;
+  v15 = v32.pNode->RefCount-- == 1;
   if ( v15 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v22);
 }

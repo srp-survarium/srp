@@ -1,71 +1,72 @@
-int __cdecl pkey_rsa_verifyrecover(
+int __usercall pkey_rsa_verifyrecover@<eax>(
+        int a1@<ebx>,
         evp_pkey_ctx_st *ctx,
         unsigned __int8 *rout,
-        unsigned int *routlen,
-        unsigned __int8 *sig,
-        unsigned int siglen)
+        evp_pkey_ctx_st **routlen,
+        const unsigned __int8 *sig,
+        int siglen)
 {
-  evp_pkey_ctx_st *v5; // edi
+  evp_pkey_ctx_st *v6; // edi
   void *data; // esi
-  const ssl_st *v7; // eax
-  int v8; // ecx
-  int v10; // eax
-  evp_pkey_ctx_st *v11; // edi
-  int v12; // eax
-  unsigned int v13; // eax
-  unsigned __int8 *v14; // [esp-14h] [ebp-1Ch]
-  unsigned __int8 *v15; // [esp-Ch] [ebp-14h]
-  int v16; // [esp-8h] [ebp-10h]
+  const ssl_st *v8; // eax
+  int v9; // ecx
+  int v11; // eax
+  evp_pkey_ctx_st *v12; // edi
+  int v13; // eax
+  void *v14; // eax
+  unsigned __int8 *v15; // [esp-14h] [ebp-1Ch]
+  const unsigned __int8 *v16; // [esp-Ch] [ebp-14h]
+  int v17; // [esp-8h] [ebp-10h]
   char *ptr; // [esp-4h] [ebp-Ch]
 
-  v5 = ctx;
+  v6 = ctx;
   data = ctx->data;
-  v7 = (const ssl_st *)*((_DWORD *)data + 5);
-  if ( v7 )
+  v8 = (const ssl_st *)*((_DWORD *)data + 5);
+  if ( v8 )
   {
-    v8 = *((_DWORD *)data + 4);
-    if ( v8 == 5 )
+    v9 = *((_DWORD *)data + 4);
+    if ( v9 == 5 )
     {
       if ( !setup_tbuf((RSA_PKEY_CTX *)data, ctx) )
         return -1;
-      v10 = RSA_public_decrypt(siglen, sig, *((unsigned __int8 **)data + 7), v5->pkey->pkey.rsa);
-      if ( v10 < 1 )
+      v11 = RSA_public_decrypt(siglen, sig, *((unsigned __int8 **)data + 7), v6->pkey->pkey.rsa);
+      if ( v11 < 1 )
         return 0;
-      v11 = (evp_pkey_ctx_st *)(v10 - 1);
-      v12 = EVP_CIPHER_CTX_cipher(*((const ssl_st **)data + 5));
-      if ( *((unsigned __int8 *)&v11->pmeth + *((_DWORD *)data + 7)) != RSA_X931_hash_id(v12) )
+      v12 = (evp_pkey_ctx_st *)(v11 - 1);
+      v13 = EVP_CIPHER_CTX_cipher(*((const ssl_st **)data + 5));
+      if ( *((unsigned __int8 *)&v12->pmeth + *((_DWORD *)data + 7)) != RSA_X931_hash_id(v13) )
       {
-        ERR_put_error(4u, 141, 100, ".\\crypto\\rsa\\rsa_pmeth.c", 231);
+        ERR_put_error(a1, 4u, 141, 100, ".\\crypto\\rsa\\rsa_pmeth.c", 231);
         return 0;
       }
-      if ( v11 != (evp_pkey_ctx_st *)EVP_MD_size(*((const env_md_st **)data + 5)) )
+      if ( v12 != (evp_pkey_ctx_st *)EVP_MD_size(a1, *((const env_md_st **)data + 5)) )
       {
-        ERR_put_error(4u, 141, 143, ".\\crypto\\rsa\\rsa_pmeth.c", 237);
+        ERR_put_error(a1, 4u, 141, 143, ".\\crypto\\rsa\\rsa_pmeth.c", 237);
         return 0;
       }
       if ( rout )
-        memcpy(rout, *((unsigned __int8 **)data + 7), (unsigned int)v11);
+        memcpy((int)rout, *((const __m128i **)data + 7), (unsigned int)v12);
     }
     else
     {
-      if ( v8 != 1 )
+      if ( v9 != 1 )
         return -1;
       ptr = ctx->pkey->pkey.ptr;
-      v16 = siglen;
-      v15 = sig;
-      v14 = rout;
-      v13 = EVP_CIPHER_CTX_cipher(v7);
-      if ( int_rsa_verify(v13, 0, 0, v14, (unsigned int *)&ctx, v15, v16, (rsa_st *)ptr) <= 0 )
+      v17 = siglen;
+      v16 = sig;
+      v15 = rout;
+      v14 = (void *)EVP_CIPHER_CTX_cipher(v8);
+      if ( int_rsa_verify(a1, v14, 0, 0, v15, (unsigned int *)&ctx, v16, v17, (rsa_st *)ptr) <= 0 )
         return 0;
-      v11 = ctx;
+      v12 = ctx;
     }
   }
   else
   {
-    v11 = (evp_pkey_ctx_st *)RSA_public_decrypt(siglen, sig, rout, ctx->pkey->pkey.rsa);
+    v12 = (evp_pkey_ctx_st *)RSA_public_decrypt(siglen, sig, rout, ctx->pkey->pkey.rsa);
   }
-  if ( (int)v11 < 0 )
-    return (int)v11;
-  *routlen = (unsigned int)v11;
+  if ( (int)v12 < 0 )
+    return (int)v12;
+  *routlen = v12;
   return 1;
 }

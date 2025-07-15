@@ -13,7 +13,7 @@ int __usercall asn1_bio_flush_ex@<eax>(
   p_ex_len = &ctx->ex_len;
   if ( ex_len <= 0 )
     return 1;
-  v7 = BIO_write(b->next_bio, (const char *)&ctx->ex_buf[ctx->ex_pos], ex_len);
+  v7 = BIO_write((int)p_ex_len, b->next_bio, (const char *)&ctx->ex_buf[ctx->ex_pos], ex_len);
   if ( v7 > 0 )
   {
     while ( 1 )
@@ -22,7 +22,7 @@ int __usercall asn1_bio_flush_ex@<eax>(
       if ( *p_ex_len <= 0 )
         break;
       ctx->ex_pos += v7;
-      result = BIO_write(b->next_bio, (const char *)&ctx->ex_buf[ctx->ex_pos], *p_ex_len);
+      result = BIO_write((int)p_ex_len, b->next_bio, (const char *)&ctx->ex_buf[ctx->ex_pos], *p_ex_len);
       v7 = result;
       if ( result <= 0 )
         return result;

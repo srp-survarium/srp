@@ -1,18 +1,18 @@
 unsigned int __cdecl Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(
         const wchar_t *dst,
-        int dstlen,
+        unsigned int dstlen,
         const wchar_t *src,
         unsigned int srclen)
 {
   unsigned int v4; // ebp
   int v7; // ebx
   int v8; // eax
-  int slen; // [esp+4h] [ebp-4h]
+  unsigned int v10; // [esp+4h] [ebp-4h]
 
   v4 = dstlen;
   if ( !dstlen )
     return -srclen;
-  slen = srclen;
+  v10 = srclen;
   do
   {
     v7 = Scaleform::SFtowlower(*dst++);
@@ -25,7 +25,7 @@ unsigned int __cdecl Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(
   }
   while ( srclen );
   if ( v7 == v8 && (v4 || srclen) )
-    return dstlen - slen;
+    return dstlen - v10;
   return v7 - v8;
 }
 
@@ -33,14 +33,14 @@ unsigned int __cdecl Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(
 unsigned int __cdecl Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(
         const wchar_t *wstr,
         const char *str,
-        const char *len)
+        unsigned int len)
 {
   unsigned int v3; // ebp
   const char *v4; // esi
   int v6; // ebx
   int v7; // eax
 
-  v3 = (unsigned int)len;
+  v3 = len;
   if ( !len )
     return -strlen(str);
   v4 = str;
@@ -55,6 +55,6 @@ unsigned int __cdecl Scaleform::Render::Text::SGMLCharIter<wchar_t>::StrCompare(
   }
   while ( *v4 );
   if ( v6 == v7 && (v3 || *v4) )
-    return (unsigned int)&len[-strlen(str)];
+    return len - strlen(str);
   return v6 - v7;
 }

@@ -1,19 +1,19 @@
-void __thiscall vostok::memory::chunk_reader::construct(vostok::memory::chunk_reader *this)
+void __usercall vostok::memory::chunk_reader::construct(vostok::memory::chunk_reader *this@<ecx>, int a2@<eax>)
 {
-  vostok::memory::chunk_reader::chunk_type m_type; // eax
+  int v2; // ecx
+  vostok::memory::associative_chunk_reader<vostok::memory::chunk_reader> *v3; // ecx
 
-  m_type = this->m_type;
-  if ( m_type )
+  v2 = *(_DWORD *)(a2 + 28);
+  if ( v2 )
   {
-    if ( m_type == chunk_type_array )
-      vostok::memory::array_chunk_reader<vostok::memory::chunk_reader>::construct((vostok::memory::array_chunk_reader<vostok::memory::chunk_reader> *)&this->gap0 + 1);
+    v3 = (vostok::memory::associative_chunk_reader<vostok::memory::chunk_reader> *)(v2 - 1);
+    if ( v3 )
+      vostok::memory::associative_chunk_reader<vostok::memory::chunk_reader>::construct(v3);
     else
-      vostok::memory::associative_chunk_reader<vostok::memory::chunk_reader>::construct(
-        (vostok::memory::associative_chunk_reader<vostok::memory::chunk_reader> *)this,
-        (int)(&this->gap0 + 2));
+      vostok::memory::array_chunk_reader<vostok::memory::chunk_reader>::construct(0);
   }
   else
   {
-    this->m_last_position = 0;
+    *(_DWORD *)(a2 + 20) = 0;
   }
 }

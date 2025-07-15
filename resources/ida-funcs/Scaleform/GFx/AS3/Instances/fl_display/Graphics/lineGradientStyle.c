@@ -4,12 +4,8 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Graphics::lineGradie
         unsigned int argc,
         const Scaleform::GFx::AS3::Value *const argv)
 {
-  Scaleform::GFx::Resource *LineComplexFill; // eax
+  Scaleform::Render::ComplexFill *LineComplexFill; // eax
 
-  LineComplexFill = Scaleform::GFx::DrawingContext::CreateLineComplexFill(this->pDrawing.pObject);
-  Scaleform::GFx::AS3::Instances::fl_display::Graphics::CreateGradientHelper(
-    this,
-    argc,
-    argv,
-    (Scaleform::Render::ComplexFill *)LineComplexFill);
+  LineComplexFill = (Scaleform::Render::ComplexFill *)Scaleform::GFx::DrawingContext::CreateLineComplexFill(this->pDrawing.pObject);
+  Scaleform::GFx::AS3::Instances::fl_display::Graphics::CreateGradientHelper(this, argc, argv, LineComplexFill);
 }

@@ -1,155 +1,140 @@
-signed int *__usercall mapping0_unpack@<eax>(
-        vostok::memory::doug_lea_mt_allocator *a1@<ecx>,
-        vostok::memory *a2@<edi>,
-        vorbis_info *vi,
-        oggpack_buffer *opb)
+unsigned __int8 *__cdecl mapping0_unpack(vorbis_info *vi, oggpack_buffer *opb)
 {
-  signed int *v4; // ebx
-  signed int v5; // eax
+  unsigned __int8 *v2; // edi
+  signed int v3; // eax
+  signed int v4; // eax
   signed int v6; // eax
-  vostok::memory::doug_lea_mt_allocator *v7; // ecx
-  signed int v9; // eax
-  signed int v10; // eax
-  signed int *v11; // ebp
+  signed int v7; // eax
   int channels; // ecx
+  unsigned int v9; // eax
+  unsigned int i; // ecx
+  signed int v11; // ebx
+  int v12; // ecx
   unsigned int v13; // eax
   unsigned int j; // ecx
-  signed int v15; // esi
+  signed int v15; // eax
   int v16; // ecx
-  unsigned int v17; // eax
-  unsigned int k; // ecx
-  signed int v19; // eax
-  int v20; // ecx
-  int v21; // ebp
-  signed int *v22; // esi
-  signed int v23; // eax
-  signed int *m; // esi
-  signed int v25; // eax
-  signed int v26; // eax
-  vostok::memory *i; // [esp+0h] [ebp-8h]
-  int ia; // [esp+0h] [ebp-8h]
-  int ib; // [esp+0h] [ebp-8h]
-  codec_setup_info *ci; // [esp+4h] [ebp-4h]
+  signed int *v17; // ebx
+  signed int v18; // eax
+  signed int *k; // ebx
+  signed int v20; // eax
+  signed int v21; // eax
+  _DWORD *codec_setup; // [esp+Ch] [ebp-Ch]
+  signed int *v23; // [esp+10h] [ebp-8h]
+  int v24; // [esp+14h] [ebp-4h]
+  int v25; // [esp+14h] [ebp-4h]
+  int v26; // [esp+14h] [ebp-4h]
 
-  if ( !vostok::memory::g_crt_allocator.__vftable )
-    vostok::memory::initialize_crt_allocator(i);
-  v4 = (signed int *)vostok::memory::doug_lea_mt_allocator::malloc_impl(a1, 0xC88u);
-  memset((int)v4, 0, 0xC88u);
-  ci = (codec_setup_info *)vi->codec_setup;
-  memset((int)v4, 0, 0xC88u);
-  v5 = oggpack_read(opb, 1u);
-  if ( v5 < 0 )
-    goto err_out_0;
-  if ( v5 )
+  v2 = ogg_calloc_impl(1u, 0xC88u);
+  codec_setup = vi->codec_setup;
+  memset((int)v2, 0, 0xC88u);
+  v3 = oggpack_read(opb, 1u);
+  if ( v3 < 0 )
+    goto err_out_3;
+  if ( v3 )
   {
-    v6 = oggpack_read(opb, 4u) + 1;
-    *v4 = v6;
-    if ( v6 <= 0 )
-      goto err_out_0;
+    v4 = oggpack_read(opb, 4u) + 1;
+    *(_DWORD *)v2 = v4;
+    if ( v4 <= 0 )
+      goto err_out_3;
   }
   else
   {
-    *v4 = 1;
+    *(_DWORD *)v2 = 1;
   }
-  v9 = oggpack_read(opb, 1u);
-  if ( v9 >= 0 )
+  v6 = oggpack_read(opb, 1u);
+  if ( v6 < 0 )
+    goto err_out_3;
+  if ( v6 )
   {
-    if ( v9 )
+    v7 = oggpack_read(opb, 8u) + 1;
+    *((_DWORD *)v2 + 289) = v7;
+    if ( v7 > 0 )
     {
-      v10 = oggpack_read(opb, 8u) + 1;
-      v4[289] = v10;
-      if ( v10 > 0 )
+      v24 = 0;
+      v23 = (signed int *)(v2 + 2184);
+      while ( 1 )
       {
-        ia = 0;
-        v11 = v4 + 546;
-        while ( 1 )
+        channels = vi->channels;
+        v9 = 0;
+        if ( channels )
         {
-          channels = vi->channels;
-          v13 = 0;
-          if ( channels )
-          {
-            for ( j = channels - 1; j; j >>= 1 )
-              ++v13;
-          }
-          v15 = oggpack_read(opb, v13);
-          *(v11 - 256) = v15;
-          v16 = vi->channels;
-          v17 = 0;
-          if ( v16 )
-          {
-            for ( k = v16 - 1; k; k >>= 1 )
-              ++v17;
-          }
-          v19 = oggpack_read(opb, v17);
-          *v11 = v19;
-          if ( v15 < 0 )
-            break;
-          if ( v19 < 0 )
-            break;
-          if ( v15 == v19 )
-            break;
-          v20 = vi->channels;
-          if ( v15 >= v20 || v19 >= v20 )
-            break;
-          ++v11;
-          if ( ++ia >= v4[289] )
-            goto LABEL_28;
+          for ( i = channels - 1; i; i >>= 1 )
+            ++v9;
         }
+        v11 = oggpack_read(opb, v9);
+        *(v23 - 256) = v11;
+        v12 = vi->channels;
+        v13 = 0;
+        if ( v12 )
+        {
+          for ( j = v12 - 1; j; j >>= 1 )
+            ++v13;
+        }
+        v15 = oggpack_read(opb, v13);
+        *v23 = v15;
+        if ( v11 < 0 )
+          break;
+        if ( v15 < 0 )
+          break;
+        if ( v11 == v15 )
+          break;
+        v16 = vi->channels;
+        if ( v11 >= v16 || v15 >= v16 )
+          break;
+        ++v24;
+        ++v23;
+        if ( v24 >= *((_DWORD *)v2 + 289) )
+          goto LABEL_22;
       }
     }
-    else
+    goto err_out_3;
+  }
+LABEL_22:
+  if ( oggpack_read(opb, 2u) )
+  {
+err_out_3:
+    mapping0_free_info(v2);
+    return 0;
+  }
+  if ( *(int *)v2 > 1 )
+  {
+    v25 = 0;
+    if ( vi->channels > 0 )
     {
-LABEL_28:
-      if ( !oggpack_read(opb, 2u) )
+      v17 = (signed int *)(v2 + 4);
+      do
       {
-        if ( *v4 <= 1 || (v21 = 0, vi->channels <= 0) )
-        {
-LABEL_35:
-          ib = 0;
-          if ( *v4 <= 0 )
-            return v4;
-          for ( m = v4 + 273; ; ++m )
-          {
-            oggpack_read(opb, 8u);
-            v25 = oggpack_read(opb, 8u);
-            *(m - 16) = v25;
-            if ( v25 >= ci->floors )
-              break;
-            if ( v25 < 0 )
-              break;
-            v26 = oggpack_read(opb, 8u);
-            *m = v26;
-            if ( v26 >= ci->residues || v26 < 0 )
-              break;
-            if ( ++ib >= *v4 )
-              return v4;
-          }
-        }
-        else
-        {
-          v22 = v4 + 1;
-          while ( 1 )
-          {
-            v23 = oggpack_read(opb, 4u);
-            *v22 = v23;
-            if ( v23 >= *v4 || v23 < 0 )
-              break;
-            ++v21;
-            ++v22;
-            if ( v21 >= vi->channels )
-              goto LABEL_35;
-          }
-        }
+        v18 = oggpack_read(opb, 4u);
+        *v17 = v18;
+        if ( v18 >= *(_DWORD *)v2 || v18 < 0 )
+          goto err_out_3;
+        ++v25;
+        ++v17;
       }
+      while ( v25 < vi->channels );
     }
   }
-err_out_0:
-  if ( v4 )
+  v26 = 0;
+  if ( *(int *)v2 > 0 )
   {
-    memset((int)v4, 0, 0xC88u);
-    if ( !vostok::memory::g_crt_allocator.__vftable )
-      vostok::memory::initialize_crt_allocator(a2);
-    vostok::memory::doug_lea_mt_allocator::free_impl(v7, v4);
+    for ( k = (signed int *)(v2 + 1092); ; ++k )
+    {
+      oggpack_read(opb, 8u);
+      v20 = oggpack_read(opb, 8u);
+      *(k - 16) = v20;
+      if ( v20 >= codec_setup[4] )
+        break;
+      if ( v20 < 0 )
+        break;
+      v21 = oggpack_read(opb, 8u);
+      *k = v21;
+      if ( v21 >= codec_setup[5] || v21 < 0 )
+        break;
+      if ( ++v26 >= *(_DWORD *)v2 )
+        return v2;
+    }
+    goto err_out_3;
   }
-  return 0;
+  return v2;
 }

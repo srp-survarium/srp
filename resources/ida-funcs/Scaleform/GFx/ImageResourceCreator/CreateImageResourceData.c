@@ -4,9 +4,9 @@ Scaleform::GFx::ResourceData *__cdecl Scaleform::GFx::ImageResourceCreator::Crea
 {
   Scaleform::GFx::ResourceData *v2; // eax
 
-  if ( (_S5_0 & 1) == 0 )
+  if ( (_S5 & 1) == 0 )
   {
-    _S5_0 |= 1u;
+    _S5 |= 1u;
     inst_0.__vftable = (Scaleform::GFx::ImageResourceCreator_vtbl *)&Scaleform::GFx::ImageResourceCreator::`vftable';
     atexit(Scaleform::GFx::ImageResourceCreator::CreateImageResourceData_::_2_::_dynamic_atexit_destructor_for__inst__);
   }

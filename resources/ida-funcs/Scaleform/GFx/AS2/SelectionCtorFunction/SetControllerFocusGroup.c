@@ -1,7 +1,7 @@
-void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetControllerFocusGroup(unsigned int fn)
+void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetControllerFocusGroup(const Scaleform::GFx::AS2::FnCall *fn)
 {
-  Scaleform::GFx::AS2::Value *v2; // edi
-  Scaleform::GFx::AS2::Environment *v3; // eax
+  Scaleform::GFx::AS2::Value *Result; // edi
+  Scaleform::GFx::AS2::Environment *Env; // eax
   Scaleform::GFx::MovieImpl *pMovieImpl; // edi
   Scaleform::GFx::AS2::Value *v5; // ecx
   unsigned int v6; // eax
@@ -12,28 +12,29 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::SetControllerFocusGroup
   bool v11; // al
   Scaleform::GFx::AS2::Value *v12; // esi
   bool v13; // bl
-  unsigned int controllerIdx; // [esp+Ch] [ebp+4h]
+  unsigned int v14; // [esp+Ch] [ebp+4h]
 
-  v2 = *(Scaleform::GFx::AS2::Value **)(fn + 4);
-  Scaleform::GFx::AS2::Value::DropRefs(v2);
-  v2->T.Type = 0;
-  if ( *(int *)(fn + 28) >= 2 )
+  Result = fn->Result;
+  Scaleform::GFx::AS2::Value::DropRefs(Result);
+  Result->T.Type = 0;
+  if ( fn->NArgs >= 2 )
   {
-    v3 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
-    pMovieImpl = v3->Target->pASRoot->pMovieImpl;
+    Env = fn->Env;
+    pMovieImpl = Env->Target->pASRoot->pMovieImpl;
     v5 = 0;
-    if ( *(_DWORD *)(fn + 32) <= 32 * (v3->Stack.Pages.Data.Size - 1) + v3->Stack.pCurrent - v3->Stack.pPageStart )
-      v5 = &v3->Stack.Pages.Data.Data[*(_DWORD *)(fn + 32) >> 5]->Values[*(_DWORD *)(fn + 32) & 0x1F];
-    v6 = Scaleform::GFx::AS2::Value::ToUInt32(v5, *(Scaleform::GFx::AS2::Environment **)(fn + 24));
-    v7 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
-    controllerIdx = v6;
-    v8 = *(_DWORD *)(fn + 32) - 1;
+    if ( fn->FirstArgBottomIndex <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
+      v5 = &Env->Stack.Pages.Data.Data[(unsigned int)fn->FirstArgBottomIndex >> 5]->Values[fn->FirstArgBottomIndex
+                                                                                         & 0x1F];
+    v6 = Scaleform::GFx::AS2::Value::ToUInt32(v5, fn->Env);
+    v7 = fn->Env;
+    v14 = v6;
+    v8 = fn->FirstArgBottomIndex - 1;
     v9 = 0;
     if ( v8 <= 32 * (v7->Stack.Pages.Data.Size - 1) + v7->Stack.pCurrent - v7->Stack.pPageStart )
       v9 = &v7->Stack.Pages.Data.Data[v8 >> 5]->Values[v8 & 0x1F];
     v10 = Scaleform::GFx::AS2::Value::ToUInt32(v9, v7);
-    v11 = pMovieImpl->SetControllerFocusGroup(pMovieImpl, controllerIdx, v10);
-    v12 = *(Scaleform::GFx::AS2::Value **)(fn + 4);
+    v11 = pMovieImpl->SetControllerFocusGroup(pMovieImpl, v14, v10);
+    v12 = fn->Result;
     v13 = v11;
     Scaleform::GFx::AS2::Value::DropRefs(v12);
     v12->V.BooleanValue = v13;

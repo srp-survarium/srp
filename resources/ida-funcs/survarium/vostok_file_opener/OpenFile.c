@@ -1,6 +1,6 @@
 void __thiscall survarium::vostok_file_opener::OpenFile(
         survarium::vostok_file_opener *this,
-        const char *purl,
+        char *purl,
         int flags,
         int mode)
 {

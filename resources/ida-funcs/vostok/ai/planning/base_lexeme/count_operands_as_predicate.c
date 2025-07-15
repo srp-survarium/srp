@@ -2,8 +2,11 @@ vostok::ai::planning::operands_calculator *__thiscall vostok::ai::planning::base
         vostok::ai::planning::base_lexeme *this,
         vostok::ai::planning::operands_calculator *result)
 {
-  result->operands_count = 1;
+  vostok::ai::planning::operands_calculator *v2; // eax
+
+  v2 = result;
   result->and_count = 0;
   result->or_count = 0;
-  return result;
+  result->operands_count = 1;
+  return v2;
 }

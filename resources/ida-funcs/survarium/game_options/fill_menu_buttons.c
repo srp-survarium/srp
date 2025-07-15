@@ -1,382 +1,105 @@
-void __thiscall survarium::game_options::fill_menu_buttons(
-        survarium::game_options *this,
-        survarium::game_options *in_game_world,
-        bool in_game_worlda)
+void __thiscall survarium::game_options::fill_menu_buttons(survarium::game_options *this, int in_game_world, char a3)
 {
-  char *m_buffer; // eax
-  const char *v4; // esi
-  char *v5; // eax
-  const char *v6; // esi
-  char *v7; // eax
-  const char *v8; // esi
-  char *v9; // eax
-  const char *v10; // esi
-  char *v11; // eax
-  const char *v12; // esi
-  char *v13; // eax
-  const char *v14; // esi
-  char *v15; // eax
-  const char *v16; // esi
-  char *v17; // eax
-  const char *v18; // esi
-  char *v19; // eax
-  const char *v20; // esi
-  char *v21; // eax
-  const char *v22; // esi
-  char *v23; // eax
-  const char *v24; // esi
-  char *v25; // eax
-  const char *v26; // esi
-  char *v27; // eax
-  const char *v28; // esi
-  char *v29; // eax
-  const char *v30; // esi
-  survarium::game_options *v31; // edi
-  survarium::flash_movie_resource *m_object; // ecx
-  survarium::main_menu_button_name_to_action *v33; // esi
-  unsigned __int8 v34; // al
-  int v35; // ebp
-  survarium::flash_movie_resource *v36; // edx
-  int v37; // ecx
-  survarium::flash_value button_member; // [esp+44h] [ebp-6D0h] BYREF
-  int v39; // [esp+5Ch] [ebp-6B8h]
-  survarium::flash_value button; // [esp+60h] [ebp-6B4h] BYREF
-  survarium::flash_value buttons_array; // [esp+78h] [ebp-69Ch] BYREF
-  int v42; // [esp+90h] [ebp-684h] BYREF
-  int v43; // [esp+94h] [ebp-680h]
-  wchar_t *v44; // [esp+98h] [ebp-67Ch]
-  survarium::main_menu_button_name_to_action name_to_action_in_lobby_menu[3]; // [esp+A8h] [ebp-66Ch] BYREF
-  survarium::main_menu_button_name_to_action name_to_action_in_game_world[4]; // [esp+1B0h] [ebp-564h] BYREF
-  wchar_t button_txt[514]; // [esp+310h] [ebp-404h] BYREF
+  vostok::fixed_string<32> *v3; // ecx
+  vostok::fixed_string<32> *v4; // ecx
+  vostok::fixed_string<32> *v5; // ecx
+  vostok::fixed_string<32> *v6; // ecx
+  vostok::fixed_string<32> *v7; // ecx
+  vostok::fixed_string<32> *v8; // ecx
+  vostok::fixed_string<32> *v9; // ecx
+  vostok::fixed_string<32> *v10; // ecx
+  vostok::fixed_string<32> *v11; // ecx
+  vostok::fixed_string<32> *v12; // ecx
+  vostok::fixed_string<32> *v13; // ecx
+  vostok::fixed_string<32> *v14; // ecx
+  vostok::fixed_string<32> *v15; // ecx
+  int v16; // eax
+  survarium::flash_movie *v17; // ecx
+  vostok::buffer_string *v18; // ebx
+  unsigned __int8 v19; // al
+  int v20; // eax
+  const char *m_max_end; // edi
+  survarium::flash_value *v22; // ecx
+  survarium::text_translator *v23; // ecx
+  survarium::flash_value *v24; // ecx
+  char v25[512]; // [esp+10h] [ebp-4B8h] BYREF
+  vostok::buffer_string v26[3]; // [esp+210h] [ebp-2B8h] BYREF
+  vostok::buffer_string v27[3]; // [esp+23Ch] [ebp-28Ch] BYREF
+  vostok::buffer_string v28[3]; // [esp+268h] [ebp-260h] BYREF
+  vostok::buffer_string v29[3]; // [esp+294h] [ebp-234h] BYREF
+  vostok::buffer_string v30[3]; // [esp+2C0h] [ebp-208h] BYREF
+  vostok::buffer_string v31[3]; // [esp+2ECh] [ebp-1DCh] BYREF
+  vostok::buffer_string v32[3]; // [esp+318h] [ebp-1B0h] BYREF
+  vostok::buffer_string v33[3]; // [esp+344h] [ebp-184h] BYREF
+  vostok::buffer_string v34[3]; // [esp+370h] [ebp-158h] BYREF
+  vostok::buffer_string v35[3]; // [esp+39Ch] [ebp-12Ch] BYREF
+  vostok::buffer_string v36[3]; // [esp+3C8h] [ebp-100h] BYREF
+  vostok::buffer_string v37[3]; // [esp+3F4h] [ebp-D4h] BYREF
+  vostok::buffer_string v38[3]; // [esp+420h] [ebp-A8h] BYREF
+  vostok::buffer_string v39[4]; // [esp+44Ch] [ebp-7Ch] BYREF
+  survarium::flash_value value; // [esp+47Ch] [ebp-4Ch] BYREF
+  Scaleform::GFx::Value v41; // [esp+494h] [ebp-34h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+4ACh] [ebp-1Ch] BYREF
+  int v43; // [esp+4C4h] [ebp-4h]
+  unsigned int v44; // [esp+4D4h] [ebp+Ch]
 
-  m_buffer = name_to_action_in_game_world[0].name.m_buffer;
-  name_to_action_in_game_world[0].name.m_begin = name_to_action_in_game_world[0].name.m_buffer;
-  name_to_action_in_game_world[0].name.m_end = name_to_action_in_game_world[0].name.m_buffer;
-  name_to_action_in_game_world[0].name.m_max_end = (char *)&name_to_action_in_game_world[0].action;
-  name_to_action_in_game_world[0].name.m_buffer[0] = 0;
-  v4 = "st_mm_button_back";
-  do
+  vostok::fixed_string<32>::fixed_string<32>((vostok::fixed_string<32> *)this, v26, "st_mm_button_back");
+  vostok::fixed_string<32>::fixed_string<32>(v3, v27, "back");
+  vostok::fixed_string<32>::fixed_string<32>(v4, v28, "st_mm_button_settings");
+  vostok::fixed_string<32>::fixed_string<32>(v5, v29, "settings");
+  vostok::fixed_string<32>::fixed_string<32>(v6, v30, "st_mm_button_leave_match");
+  vostok::fixed_string<32>::fixed_string<32>(v7, v31, "leave_match");
+  vostok::fixed_string<32>::fixed_string<32>(v8, v32, "st_mm_button_exit_to_os");
+  vostok::fixed_string<32>::fixed_string<32>(v9, v33, "exit_to_os");
+  vostok::fixed_string<32>::fixed_string<32>(v10, v34, "st_mm_button_back");
+  vostok::fixed_string<32>::fixed_string<32>(v11, v35, "back");
+  vostok::fixed_string<32>::fixed_string<32>(v12, v36, "st_mm_button_settings");
+  vostok::fixed_string<32>::fixed_string<32>(v13, v37, "settings");
+  vostok::fixed_string<32>::fixed_string<32>(v14, v38, "st_mm_button_exit_to_os");
+  vostok::fixed_string<32>::fixed_string<32>(v15, v39, "exit_to_os");
+  v16 = *(_DWORD *)(in_game_world + 12);
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v16 + 264) + 4), &pvalue);
+  if ( a3 )
   {
-    if ( m_buffer >= name_to_action_in_game_world[0].name.m_max_end )
-      break;
-    *m_buffer = *v4;
-    m_buffer = name_to_action_in_game_world[0].name.m_end + 1;
-    ++v4;
-    ++name_to_action_in_game_world[0].name.m_end;
-  }
-  while ( *v4 );
-  *m_buffer = 0;
-  v5 = name_to_action_in_game_world[0].action.m_buffer;
-  name_to_action_in_game_world[0].action.m_begin = name_to_action_in_game_world[0].action.m_buffer;
-  name_to_action_in_game_world[0].action.m_end = name_to_action_in_game_world[0].action.m_buffer;
-  name_to_action_in_game_world[0].action.m_max_end = (char *)&name_to_action_in_game_world[1];
-  name_to_action_in_game_world[0].action.m_buffer[0] = 0;
-  v6 = "back";
-  do
-  {
-    if ( v5 >= name_to_action_in_game_world[0].action.m_max_end )
-      break;
-    *v5 = *v6;
-    v5 = name_to_action_in_game_world[0].action.m_end + 1;
-    ++v6;
-    ++name_to_action_in_game_world[0].action.m_end;
-  }
-  while ( *v6 );
-  *v5 = 0;
-  v7 = name_to_action_in_game_world[1].name.m_buffer;
-  name_to_action_in_game_world[1].name.m_begin = name_to_action_in_game_world[1].name.m_buffer;
-  name_to_action_in_game_world[1].name.m_end = name_to_action_in_game_world[1].name.m_buffer;
-  name_to_action_in_game_world[1].name.m_max_end = (char *)&name_to_action_in_game_world[1].action;
-  name_to_action_in_game_world[1].name.m_buffer[0] = 0;
-  v8 = "st_mm_button_settings";
-  do
-  {
-    if ( v7 >= name_to_action_in_game_world[1].name.m_max_end )
-      break;
-    *v7 = *v8;
-    v7 = name_to_action_in_game_world[1].name.m_end + 1;
-    ++v8;
-    ++name_to_action_in_game_world[1].name.m_end;
-  }
-  while ( *v8 );
-  *v7 = 0;
-  v9 = name_to_action_in_game_world[1].action.m_buffer;
-  name_to_action_in_game_world[1].action.m_begin = name_to_action_in_game_world[1].action.m_buffer;
-  name_to_action_in_game_world[1].action.m_end = name_to_action_in_game_world[1].action.m_buffer;
-  name_to_action_in_game_world[1].action.m_max_end = (char *)&name_to_action_in_game_world[2];
-  name_to_action_in_game_world[1].action.m_buffer[0] = 0;
-  v10 = "settings";
-  do
-  {
-    if ( v9 >= name_to_action_in_game_world[1].action.m_max_end )
-      break;
-    *v9 = *v10;
-    v9 = name_to_action_in_game_world[1].action.m_end + 1;
-    ++v10;
-    ++name_to_action_in_game_world[1].action.m_end;
-  }
-  while ( *v10 );
-  *v9 = 0;
-  v11 = name_to_action_in_game_world[2].name.m_buffer;
-  name_to_action_in_game_world[2].name.m_begin = name_to_action_in_game_world[2].name.m_buffer;
-  name_to_action_in_game_world[2].name.m_end = name_to_action_in_game_world[2].name.m_buffer;
-  name_to_action_in_game_world[2].name.m_max_end = (char *)&name_to_action_in_game_world[2].action;
-  name_to_action_in_game_world[2].name.m_buffer[0] = 0;
-  v12 = "st_mm_button_leave_match";
-  do
-  {
-    if ( v11 >= name_to_action_in_game_world[2].name.m_max_end )
-      break;
-    *v11 = *v12;
-    v11 = name_to_action_in_game_world[2].name.m_end + 1;
-    ++v12;
-    ++name_to_action_in_game_world[2].name.m_end;
-  }
-  while ( *v12 );
-  *v11 = 0;
-  v13 = name_to_action_in_game_world[2].action.m_buffer;
-  name_to_action_in_game_world[2].action.m_begin = name_to_action_in_game_world[2].action.m_buffer;
-  name_to_action_in_game_world[2].action.m_end = name_to_action_in_game_world[2].action.m_buffer;
-  name_to_action_in_game_world[2].action.m_max_end = (char *)&name_to_action_in_game_world[3];
-  name_to_action_in_game_world[2].action.m_buffer[0] = 0;
-  v14 = "leave_match";
-  do
-  {
-    if ( v13 >= name_to_action_in_game_world[2].action.m_max_end )
-      break;
-    *v13 = *v14;
-    v13 = name_to_action_in_game_world[2].action.m_end + 1;
-    ++v14;
-    ++name_to_action_in_game_world[2].action.m_end;
-  }
-  while ( *v14 );
-  *v13 = 0;
-  v15 = name_to_action_in_game_world[3].name.m_buffer;
-  name_to_action_in_game_world[3].name.m_begin = name_to_action_in_game_world[3].name.m_buffer;
-  name_to_action_in_game_world[3].name.m_end = name_to_action_in_game_world[3].name.m_buffer;
-  name_to_action_in_game_world[3].name.m_max_end = (char *)&name_to_action_in_game_world[3].action;
-  name_to_action_in_game_world[3].name.m_buffer[0] = 0;
-  v16 = "st_mm_button_exit_to_os";
-  do
-  {
-    if ( v15 >= name_to_action_in_game_world[3].name.m_max_end )
-      break;
-    *v15 = *v16;
-    v15 = name_to_action_in_game_world[3].name.m_end + 1;
-    ++v16;
-    ++name_to_action_in_game_world[3].name.m_end;
-  }
-  while ( *v16 );
-  *v15 = 0;
-  v17 = name_to_action_in_game_world[3].action.m_buffer;
-  name_to_action_in_game_world[3].action.m_begin = name_to_action_in_game_world[3].action.m_buffer;
-  name_to_action_in_game_world[3].action.m_end = name_to_action_in_game_world[3].action.m_buffer;
-  name_to_action_in_game_world[3].action.m_max_end = (char *)button_txt;
-  name_to_action_in_game_world[3].action.m_buffer[0] = 0;
-  v18 = "exit_to_os";
-  do
-  {
-    if ( v17 >= name_to_action_in_game_world[3].action.m_max_end )
-      break;
-    *v17 = *v18;
-    v17 = name_to_action_in_game_world[3].action.m_end + 1;
-    ++v18;
-    ++name_to_action_in_game_world[3].action.m_end;
-  }
-  while ( *v18 );
-  *v17 = 0;
-  v19 = name_to_action_in_lobby_menu[0].name.m_buffer;
-  name_to_action_in_lobby_menu[0].name.m_begin = name_to_action_in_lobby_menu[0].name.m_buffer;
-  name_to_action_in_lobby_menu[0].name.m_end = name_to_action_in_lobby_menu[0].name.m_buffer;
-  name_to_action_in_lobby_menu[0].name.m_max_end = (char *)&name_to_action_in_lobby_menu[0].action;
-  name_to_action_in_lobby_menu[0].name.m_buffer[0] = 0;
-  v20 = "st_mm_button_back";
-  do
-  {
-    if ( v19 >= name_to_action_in_lobby_menu[0].name.m_max_end )
-      break;
-    *v19 = *v20;
-    v19 = name_to_action_in_lobby_menu[0].name.m_end + 1;
-    ++v20;
-    ++name_to_action_in_lobby_menu[0].name.m_end;
-  }
-  while ( *v20 );
-  *v19 = 0;
-  v21 = name_to_action_in_lobby_menu[0].action.m_buffer;
-  name_to_action_in_lobby_menu[0].action.m_begin = name_to_action_in_lobby_menu[0].action.m_buffer;
-  name_to_action_in_lobby_menu[0].action.m_end = name_to_action_in_lobby_menu[0].action.m_buffer;
-  name_to_action_in_lobby_menu[0].action.m_max_end = (char *)&name_to_action_in_lobby_menu[1];
-  name_to_action_in_lobby_menu[0].action.m_buffer[0] = 0;
-  v22 = "back";
-  do
-  {
-    if ( v21 >= name_to_action_in_lobby_menu[0].action.m_max_end )
-      break;
-    *v21 = *v22;
-    v21 = name_to_action_in_lobby_menu[0].action.m_end + 1;
-    ++v22;
-    ++name_to_action_in_lobby_menu[0].action.m_end;
-  }
-  while ( *v22 );
-  *v21 = 0;
-  v23 = name_to_action_in_lobby_menu[1].name.m_buffer;
-  name_to_action_in_lobby_menu[1].name.m_begin = name_to_action_in_lobby_menu[1].name.m_buffer;
-  name_to_action_in_lobby_menu[1].name.m_end = name_to_action_in_lobby_menu[1].name.m_buffer;
-  name_to_action_in_lobby_menu[1].name.m_max_end = (char *)&name_to_action_in_lobby_menu[1].action;
-  name_to_action_in_lobby_menu[1].name.m_buffer[0] = 0;
-  v24 = "st_mm_button_settings";
-  do
-  {
-    if ( v23 >= name_to_action_in_lobby_menu[1].name.m_max_end )
-      break;
-    *v23 = *v24;
-    v23 = name_to_action_in_lobby_menu[1].name.m_end + 1;
-    ++v24;
-    ++name_to_action_in_lobby_menu[1].name.m_end;
-  }
-  while ( *v24 );
-  *v23 = 0;
-  v25 = name_to_action_in_lobby_menu[1].action.m_buffer;
-  name_to_action_in_lobby_menu[1].action.m_begin = name_to_action_in_lobby_menu[1].action.m_buffer;
-  name_to_action_in_lobby_menu[1].action.m_end = name_to_action_in_lobby_menu[1].action.m_buffer;
-  name_to_action_in_lobby_menu[1].action.m_max_end = (char *)&name_to_action_in_lobby_menu[2];
-  name_to_action_in_lobby_menu[1].action.m_buffer[0] = 0;
-  v26 = "settings";
-  do
-  {
-    if ( v25 >= name_to_action_in_lobby_menu[1].action.m_max_end )
-      break;
-    *v25 = *v26;
-    v25 = name_to_action_in_lobby_menu[1].action.m_end + 1;
-    ++v26;
-    ++name_to_action_in_lobby_menu[1].action.m_end;
-  }
-  while ( *v26 );
-  *v25 = 0;
-  v27 = name_to_action_in_lobby_menu[2].name.m_buffer;
-  name_to_action_in_lobby_menu[2].name.m_begin = name_to_action_in_lobby_menu[2].name.m_buffer;
-  name_to_action_in_lobby_menu[2].name.m_end = name_to_action_in_lobby_menu[2].name.m_buffer;
-  name_to_action_in_lobby_menu[2].name.m_max_end = (char *)&name_to_action_in_lobby_menu[2].action;
-  name_to_action_in_lobby_menu[2].name.m_buffer[0] = 0;
-  v28 = "st_mm_button_exit_to_os";
-  do
-  {
-    if ( v27 >= name_to_action_in_lobby_menu[2].name.m_max_end )
-      break;
-    *v27 = *v28;
-    v27 = name_to_action_in_lobby_menu[2].name.m_end + 1;
-    ++v28;
-    ++name_to_action_in_lobby_menu[2].name.m_end;
-  }
-  while ( *v28 );
-  *v27 = 0;
-  v29 = name_to_action_in_lobby_menu[2].action.m_buffer;
-  name_to_action_in_lobby_menu[2].action.m_begin = name_to_action_in_lobby_menu[2].action.m_buffer;
-  name_to_action_in_lobby_menu[2].action.m_end = name_to_action_in_lobby_menu[2].action.m_buffer;
-  name_to_action_in_lobby_menu[2].action.m_max_end = (char *)name_to_action_in_game_world;
-  name_to_action_in_lobby_menu[2].action.m_buffer[0] = 0;
-  v30 = "exit_to_os";
-  do
-  {
-    if ( v29 >= name_to_action_in_lobby_menu[2].action.m_max_end )
-      break;
-    *v29 = *v30;
-    v29 = name_to_action_in_lobby_menu[2].action.m_end + 1;
-    ++v30;
-    ++name_to_action_in_lobby_menu[2].action.m_end;
-  }
-  while ( *v30 );
-  v31 = in_game_world;
-  *v29 = 0;
-  m_object = in_game_world->m_options_ui.m_object;
-  *(_DWORD *)buttons_array.body = 0;
-  *(_DWORD *)&buttons_array.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&buttons_array);
-  if ( in_game_worlda )
-  {
-    v33 = name_to_action_in_game_world;
-    v34 = 4;
+    v18 = v26;
+    v19 = 4;
   }
   else
   {
-    v33 = name_to_action_in_lobby_menu;
-    v34 = 3;
+    v18 = v34;
+    v19 = 3;
   }
-  v35 = 0;
-  v39 = v34;
+  v44 = 0;
+  v43 = v19;
   do
   {
-    v36 = v31->m_options_ui.m_object;
-    *(_DWORD *)button.body = 0;
-    *(_DWORD *)&button.body[4] = 0;
-    Scaleform::GFx::Movie::CreateObject(v36->movie->m_movie, (Scaleform::GFx::Value *)&button, 0, 0, 0);
-    *(_DWORD *)&button_member.body[8] = v33->action.m_begin;
-    *(_DWORD *)button_member.body = 0;
-    *(_DWORD *)&button_member.body[4] = 6;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)button.body + 20))(
-      *(_DWORD *)button.body,
-      *(_DWORD *)&button.body[8],
-      "action",
-      &button_member,
-      (button.body[4] & 0x8F) == 10);
-    survarium::text_translator::translate_text(&v31->m_game->m_text_translator, v33->name.m_begin, button_txt);
-    v37 = 0;
-    v42 = 0;
-    v43 = 7;
-    v44 = button_txt;
-    if ( (button_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)button_member.body + 8))(
-        *(_DWORD *)button_member.body,
-        &button_member,
-        *(_DWORD *)&button_member.body[8]);
-      v37 = v42;
-      *(_DWORD *)button_member.body = 0;
-    }
-    *(_DWORD *)&button_member.body[4] = 7;
-    *(_DWORD *)&button_member.body[8] = button_txt;
-    if ( (v43 & 0x40) != 0 )
-      (*(void (__thiscall **)(int, int *, wchar_t *))(*(_DWORD *)v37 + 8))(v37, &v42, v44);
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)button.body + 20))(
-      *(_DWORD *)button.body,
-      *(_DWORD *)&button.body[8],
-      "label",
-      &button_member,
-      (button.body[4] & 0x8F) == 10);
-    (*(void (__thiscall **)(_DWORD, _DWORD, int, survarium::flash_value *))(**(_DWORD **)buttons_array.body + 52))(
-      *(_DWORD *)buttons_array.body,
-      *(_DWORD *)&buttons_array.body[8],
-      v35,
-      &button);
-    if ( (button_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)button_member.body + 8))(
-        *(_DWORD *)button_member.body,
-        &button_member,
-        *(_DWORD *)&button_member.body[8]);
-      *(_DWORD *)button_member.body = 0;
-    }
-    *(_DWORD *)&button_member.body[4] = 0;
-    if ( (button.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)button.body + 8))(
-        *(_DWORD *)button.body,
-        &button,
-        *(_DWORD *)&button.body[8]);
-    v31 = in_game_world;
-    ++v35;
-    ++v33;
-    --v39;
+    v20 = *(_DWORD *)(in_game_world + 12);
+    v41.pObjectInterface = 0;
+    v41.Type = VT_Undefined;
+    survarium::flash_movie::CreateObject(v17, *(survarium::flash_value **)(v20 + 264), &v41);
+    m_max_end = v18[3].m_max_end;
+    *(_DWORD *)value.body = 0;
+    *(_DWORD *)&value.body[4] = 0;
+    survarium::flash_value::SetString(&value, m_max_end);
+    survarium::flash_value::SetMember(v22, &v41, "action", &value);
+    survarium::text_translator::translate_text(v23, *(_DWORD *)(in_game_world + 52) + 13944, v18->m_begin, v25);
+    survarium::flash_value::SetString(&value, v25);
+    survarium::flash_value::SetMember(v24, &v41, "label", &value);
+    pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v44, &v41);
+    Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+    Scaleform::GFx::Value::~Value(&v41);
+    ++v44;
+    v18 = (vostok::buffer_string *)((char *)v18 + 88);
+    --v43;
   }
-  while ( v39 );
+  while ( v43 );
   Scaleform::GFx::Movie::Invoke(
-    in_game_world->m_options_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(in_game_world + 12) + 264) + 4),
     "root.set_options",
     0,
-    (const Scaleform::GFx::Value *)&buttons_array,
+    &pvalue,
     1u);
-  if ( (buttons_array.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)buttons_array.body + 8))(
-      *(_DWORD *)buttons_array.body,
-      &buttons_array,
-      *(_DWORD *)&buttons_array.body[8]);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

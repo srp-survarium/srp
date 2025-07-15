@@ -9,15 +9,15 @@ void __thiscall Scaleform::Render::DICommand_CopyChannel::ExecuteHWCopyAction(
   int v6; // esi
   int v7; // edi
   Scaleform::Render::DrawableImage *pObject; // eax
-  float v10[10]; // [esp+90h] [ebp-80h] BYREF
-  char v11; // [esp+B8h] [ebp-58h] BYREF
-  float dst[16]; // [esp+D0h] [ebp-40h] BYREF
+  float v10[10]; // [esp+10h] [ebp-80h] BYREF
+  char v11; // [esp+38h] [ebp-58h] BYREF
+  float v12[16]; // [esp+50h] [ebp-40h] BYREF
 
   v4 = 1;
   v5 = (float *)&v11;
   do
   {
-    memset((int)(v5 - 10), 0, 0x40u);
+    memset((int)(v5 - 10), 0, 64);
     *(v5 - 10) = 1.0;
     *(v5 - 5) = 1.0;
     *v5 = 1.0;
@@ -63,9 +63,9 @@ void __thiscall Scaleform::Render::DICommand_CopyChannel::ExecuteHWCopyAction(
       break;
   }
   v10[5 * v6] = 0.0;
-  memset((int)dst, 0, sizeof(dst));
+  memset((int)v12, 0, sizeof(v12));
   pObject = this->pImage.pObject;
-  dst[4 * v6 + v7] = 1.0;
+  v12[4 * v6 + v7] = 1.0;
   Scaleform::Render::HAL::applyBlendMode(
     context->pHAL,
     (Scaleform::Render::BlendMode)(pObject->Transparent + 15),

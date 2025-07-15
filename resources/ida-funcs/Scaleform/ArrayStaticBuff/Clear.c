@@ -26,7 +26,7 @@ void __thiscall Scaleform::ArrayStaticBuff<Scaleform::GFx::AS3::SPtr<Scaleform::
           else
           {
             RefCount = pHeap->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               pHeap->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)pHeap);

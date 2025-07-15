@@ -1,23 +1,23 @@
-const evp_pkey_method_st *__cdecl EVP_PKEY_meth_find(int type)
+const evp_pkey_method_st *__usercall EVP_PKEY_meth_find@<eax>(int a1@<edi>, int type)
 {
-  int v1; // eax
+  int v2; // eax
   const evp_pkey_method_st *result; // eax
-  char *v3; // eax
-  char *key; // [esp+0h] [ebp-70h] BYREF
-  char data[108]; // [esp+4h] [ebp-6Ch] BYREF
+  char *v4; // eax
+  char *v5; // [esp+0h] [ebp-70h] BYREF
+  char v6[108]; // [esp+4h] [ebp-6Ch] BYREF
 
-  key = data;
-  *(_DWORD *)data = type;
+  v5 = v6;
+  *(_DWORD *)v6 = type;
   if ( app_pkey_methods )
   {
-    v1 = sk_find(&app_pkey_methods->stack, data);
-    if ( v1 >= 0 )
-      return (const evp_pkey_method_st *)sk_value(&app_pkey_methods->stack, v1);
+    v2 = sk_find(a1, &app_pkey_methods->stack, v6);
+    if ( v2 >= 0 )
+      return (const evp_pkey_method_st *)sk_value(&app_pkey_methods->stack, v2);
   }
-  v3 = OBJ_bsearch_(&key, (char *)standard_methods_0, 5, 4, (int (__cdecl *)(const void *, const void *))sk_comp_cmp);
-  if ( !v3 )
+  v4 = OBJ_bsearch_(&v5, (char *)standard_methods_0, 5, 4, (int (__cdecl *)(const void *, const void *))sk_comp_cmp);
+  if ( !v4 )
     return 0;
-  result = *(const evp_pkey_method_st **)v3;
+  result = *(const evp_pkey_method_st **)v4;
   if ( !result )
     return 0;
   return result;

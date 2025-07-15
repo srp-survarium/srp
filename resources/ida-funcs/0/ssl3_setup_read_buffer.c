@@ -22,7 +22,7 @@ int __cdecl ssl3_setup_read_buffer(ssl_st *s)
     v5 = (unsigned __int8 *)freelist_extract(s->ctx, v4, 1);
     if ( !v5 )
     {
-      ERR_put_error(0x14u, 156, 65, ".\\ssl\\s3_both.c", 740);
+      ERR_put_error(v4, 0x14u, 156, 65, ".\\ssl\\s3_both.c", 740);
       return 0;
     }
     s->s3->rbuf.buf = v5;

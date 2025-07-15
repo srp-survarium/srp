@@ -1,246 +1,108 @@
-void __thiscall survarium::chat_handler::set_mode(
+void __userpurge survarium::chat_handler::set_mode(
+        const vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *movie@<eax>,
         survarium::chat_handler *this,
-        survarium::chat_handler *is_game_mode,
-        bool is_game_modea)
+        bool is_game_mode)
 {
-  survarium::chat_handler *v3; // edi
-  unsigned __int8 v4; // cl
-  unsigned __int8 v5; // bl
-  survarium::flash_movie_resource *m_object; // ecx
+  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *p_m_current_chat_ui; // esi
+  survarium::messaging_client *v5; // eax
+  survarium::flash_movie_resource *m_object; // eax
   survarium::flash_movie_resource *v7; // eax
-  survarium::text_translator *m_game; // eax
-  survarium::chat_tab *v9; // ebx
-  const char *v10; // edi
-  int v11; // ecx
-  wchar_t *key; // esi
-  int v13; // ecx
-  int name_low; // esi
-  bool v15; // zf
-  survarium::flash_movie_resource *v16; // ecx
-  survarium::flash_value chat_tab_member; // [esp+94h] [ebp-4F4h] BYREF
-  survarium::chat_tab *current_tabs; // [esp+ACh] [ebp-4DCh]
-  int v19; // [esp+B0h] [ebp-4D8h]
-  survarium::flash_value chat_tab_value; // [esp+B4h] [ebp-4D4h] BYREF
-  int v21; // [esp+CCh] [ebp-4BCh]
-  int v22; // [esp+D0h] [ebp-4B8h] BYREF
-  int v23; // [esp+D4h] [ebp-4B4h]
-  wchar_t *v24; // [esp+D8h] [ebp-4B0h]
-  survarium::flash_value is_heavy_mode; // [esp+E8h] [ebp-4A0h] BYREF
-  survarium::flash_value channels_array; // [esp+100h] [ebp-488h] BYREF
-  survarium::chat_tab game_menu_tabs[2]; // [esp+118h] [ebp-470h] BYREF
-  survarium::chat_tab lobby_menu_tabs[5]; // [esp+138h] [ebp-450h] BYREF
-  wchar_t channel_name_txt[512]; // [esp+188h] [ebp-400h] BYREF
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  int v10; // edi
+  survarium::flash_value *v11; // ecx
+  survarium::text_translator *v12; // ecx
+  survarium::text_translator *v13; // ecx
+  survarium::chat_handler *v14; // ecx
+  survarium::chat_tab *p_tab; // esi
+  survarium::flash_function_handler_impl *impl; // [esp-8h] [ebp-4A0h]
+  survarium::chat_handler v17; // [esp+10h] [ebp-488h] BYREF
+  char v18[516]; // [esp+210h] [ebp-288h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+414h] [ebp-84h] BYREF
+  Scaleform::GFx::Value pval; // [esp+42Ch] [ebp-6Ch] BYREF
+  survarium::chat_tab tab; // [esp+444h] [ebp-54h] BYREF
+  survarium::chat_handler *v22; // [esp+460h] [ebp-38h]
+  int v23; // [esp+464h] [ebp-34h]
+  char v24; // [esp+468h] [ebp-30h]
+  unsigned int *v25; // [esp+46Ch] [ebp-2Ch]
+  int v26; // [esp+470h] [ebp-28h]
+  int v27; // [esp+474h] [ebp-24h]
+  char v28; // [esp+478h] [ebp-20h]
+  Scaleform::GFx::Value pargs; // [esp+47Ch] [ebp-1Ch] BYREF
+  vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *ui; // [esp+494h] [ebp-4h]
+  unsigned int v31; // [esp+4A0h] [ebp+8h]
+  unsigned int *v32; // [esp+4A4h] [ebp+Ch]
 
-  v3 = is_game_mode;
-  lobby_menu_tabs[1].key = (const char *)&buf;
-  lobby_menu_tabs[4].key = (const char *)&buf;
-  lobby_menu_tabs[0].name = "st_chat_channel_general";
-  lobby_menu_tabs[0].color = "White";
-  lobby_menu_tabs[0].id = 1;
-  lobby_menu_tabs[0].key = "/general";
-  lobby_menu_tabs[1].name = "st_chat_channel_private";
-  lobby_menu_tabs[1].color = "Pink";
-  lobby_menu_tabs[1].id = 4;
-  lobby_menu_tabs[2].name = "st_chat_channel_clan";
-  lobby_menu_tabs[2].color = "Blue";
-  lobby_menu_tabs[2].id = 3;
-  lobby_menu_tabs[2].key = "/clan";
-  lobby_menu_tabs[3].name = "st_chat_channel_squad";
-  lobby_menu_tabs[3].color = "Green";
-  lobby_menu_tabs[3].id = 8;
-  lobby_menu_tabs[3].key = "/squad";
-  lobby_menu_tabs[4].name = "st_chat_channel_system";
-  lobby_menu_tabs[4].color = "Red";
-  lobby_menu_tabs[4].id = 2;
-  v4 = 9;
-  if ( is_game_modea )
-    v4 = (is_game_mode->m_game->m_network_client->messaging_client(is_game_mode->m_game->m_network_client)->m_game_team_id != team_1)
-       + 6;
-  game_menu_tabs[0].name = "st_chat_channel_team";
-  game_menu_tabs[0].color = "White";
-  game_menu_tabs[0].id = v4;
-  game_menu_tabs[0].key = "/team";
-  game_menu_tabs[1].name = "st_chat_channel_match";
-  game_menu_tabs[1].color = "White";
-  game_menu_tabs[1].id = 5;
-  game_menu_tabs[1].key = "/all";
-  is_game_mode->m_game_ui_mode = is_game_modea;
-  if ( is_game_modea )
+  p_m_current_chat_ui = &this->m_current_chat_ui;
+  vostok::resources::resource_ptr<vostok::physics::bt_collision_shape,vostok::resources::unmanaged_intrusive_base>::operator=(
+    movie,
+    (vostok::resources::resource_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base> *)&this->m_current_chat_ui);
+  if ( this->m_game->m_network_client->has_bandwidth(this->m_game->m_network_client) )
   {
-    current_tabs = game_menu_tabs;
-    v5 = 2;
+    v5 = this->m_game->m_network_client->messaging_client(this->m_game->m_network_client);
+    survarium::chat_handler::set_local_player_name((const char (*)[64])v5->m_local_name, this);
   }
-  else
+  this->m_game_ui_mode = is_game_mode;
+  m_object = p_m_current_chat_ui->m_object;
+  pval.pObjectInterface = 0;
+  pval.Type = VT_Undefined;
+  Scaleform::GFx::Movie::GetVariable(m_object->movie->m_movie, &pval, "root.chat");
+  impl = this->impl;
+  v7 = p_m_current_chat_ui->m_object;
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  Scaleform::GFx::Movie::CreateFunction(v7->movie->m_movie, &pvalue, impl, 0);
+  survarium::flash_value::SetMember(v8, &pval, "send_function", (survarium::flash_value *)&pvalue);
+  if ( is_game_mode )
   {
-    current_tabs = lobby_menu_tabs;
-    v5 = 5;
+    pargs.pObjectInterface = 0;
+    pargs.Type = VT_Undefined;
+    survarium::flash_value::SetUInt(v9, (int)&pargs, 3u);
+    Scaleform::GFx::Movie::Invoke(this->m_current_chat_ui.m_object->movie->m_movie, "root.remove_tab", 0, &pargs, 1u);
+    v10 = 2;
+    survarium::flash_value::SetUInt(v11, (int)&pargs, 2u);
+    ui = &this->m_current_chat_ui;
+    Scaleform::GFx::Movie::Invoke(this->m_current_chat_ui.m_object->movie->m_movie, "root.remove_tab", 0, &pargs, 1u);
+    if ( this->m_game->m_network_client->messaging_client(this->m_game->m_network_client)->m_game_team_id )
+    {
+      v32 = survarium::team2_tab_chanels;
+      v31 = 7;
+    }
+    else
+    {
+      v32 = survarium::team1_tab_chanels;
+      v31 = 6;
+    }
+    survarium::text_translator::translate_text(v12, (int)&this->m_game->m_text_translator, "st_chat_channel_team", v18);
+    survarium::text_translator::translate_text(
+      v13,
+      (int)&this->m_game->m_text_translator,
+      "st_chat_channel_match",
+      (char *)&v17);
+    tab.name = v18;
+    tab.channel_to_send = v31;
+    v14 = &v17;
+    tab.id = 3;
+    tab.closeable = 0;
+    tab.channels = v32;
+    tab.channels_count = 2;
+    tab.save_history = 0;
+    v22 = &v17;
+    v23 = 2;
+    v24 = 0;
+    v25 = v32;
+    v26 = 2;
+    v27 = 5;
+    v28 = 0;
+    p_tab = &tab;
+    do
+    {
+      survarium::chat_handler::add_new_tab(v14, ui, p_tab++);
+      --v10;
+    }
+    while ( v10 );
+    Scaleform::GFx::Value::~Value(&pargs);
   }
-  m_object = is_game_mode->m_chat_ui.m_object;
-  *(_DWORD *)channels_array.body = 0;
-  *(_DWORD *)&channels_array.body[4] = 0;
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&channels_array);
-  v19 = 0;
-  current_tabs = (survarium::chat_tab *)((char *)current_tabs + 8);
-  v21 = v5;
-  do
-  {
-    v7 = v3->m_chat_ui.m_object;
-    *(_DWORD *)chat_tab_value.body = 0;
-    *(_DWORD *)&chat_tab_value.body[4] = 0;
-    Scaleform::GFx::Movie::CreateObject(v7->movie->m_movie, (Scaleform::GFx::Value *)&chat_tab_value, 0, 0, 0);
-    m_game = (survarium::text_translator *)v3->m_game;
-    v9 = current_tabs;
-    v10 = *(const char **)&current_tabs[-1].id;
-    *(_DWORD *)chat_tab_member.body = 0;
-    *(_DWORD *)&chat_tab_member.body[4] = 0;
-    survarium::text_translator::translate_text(m_game + 247, v10, channel_name_txt);
-    v11 = 0;
-    v22 = 0;
-    v23 = 7;
-    v24 = channel_name_txt;
-    if ( (chat_tab_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_member.body + 8))(
-        *(_DWORD *)chat_tab_member.body,
-        &chat_tab_member,
-        *(_DWORD *)&chat_tab_member.body[8]);
-      v11 = v22;
-      *(_DWORD *)chat_tab_member.body = 0;
-    }
-    *(_DWORD *)&chat_tab_member.body[4] = 7;
-    *(_DWORD *)&chat_tab_member.body[8] = channel_name_txt;
-    if ( (v23 & 0x40) != 0 )
-      (*(void (__thiscall **)(int, int *, wchar_t *))(*(_DWORD *)v11 + 8))(v11, &v22, v24);
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)chat_tab_value.body
-                                                                                         + 20))(
-      *(_DWORD *)chat_tab_value.body,
-      *(_DWORD *)&chat_tab_value.body[8],
-      "name",
-      &chat_tab_member,
-      (chat_tab_value.body[4] & 0x8F) == 10);
-    key = (wchar_t *)v9[-1].key;
-    v13 = 0;
-    v22 = 0;
-    v23 = 6;
-    v24 = key;
-    if ( (chat_tab_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_member.body + 8))(
-        *(_DWORD *)chat_tab_member.body,
-        &chat_tab_member,
-        *(_DWORD *)&chat_tab_member.body[8]);
-      v13 = v22;
-      *(_DWORD *)chat_tab_member.body = 0;
-    }
-    *(_DWORD *)&chat_tab_member.body[4] = 6;
-    *(_DWORD *)&chat_tab_member.body[8] = key;
-    if ( (v23 & 0x40) != 0 )
-      (*(void (__thiscall **)(int, int *, wchar_t *))(*(_DWORD *)v13 + 8))(v13, &v22, v24);
-    (*(void (__thiscall **)(_DWORD, _DWORD, const vostok::render::shader_configuration *, survarium::flash_value *, bool))(**(_DWORD **)chat_tab_value.body + 20))(
-      *(_DWORD *)chat_tab_value.body,
-      *(_DWORD *)&chat_tab_value.body[8],
-      &stru_9555EC,
-      &chat_tab_member,
-      (chat_tab_value.body[4] & 0x8F) == 10);
-    name_low = LOBYTE(v9->name);
-    if ( (chat_tab_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_member.body + 8))(
-        *(_DWORD *)chat_tab_member.body,
-        &chat_tab_member,
-        *(_DWORD *)&chat_tab_member.body[8]);
-      *(_DWORD *)chat_tab_member.body = 0;
-    }
-    *(_DWORD *)&chat_tab_member.body[4] = 4;
-    *(_DWORD *)&chat_tab_member.body[8] = name_low;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)chat_tab_value.body
-                                                                                         + 20))(
-      *(_DWORD *)chat_tab_value.body,
-      *(_DWORD *)&chat_tab_value.body[8],
-      "id",
-      &chat_tab_member,
-      (chat_tab_value.body[4] & 0x8F) == 10);
-    if ( (chat_tab_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_member.body + 8))(
-        *(_DWORD *)chat_tab_member.body,
-        &chat_tab_member,
-        *(_DWORD *)&chat_tab_member.body[8]);
-      *(_DWORD *)chat_tab_member.body = 0;
-    }
-    *(_DWORD *)&chat_tab_member.body[4] = 4;
-    *(_DWORD *)&chat_tab_member.body[8] = name_low;
-    (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)chat_tab_value.body
-                                                                                         + 20))(
-      *(_DWORD *)chat_tab_value.body,
-      *(_DWORD *)&chat_tab_value.body[8],
-      "icon",
-      &chat_tab_member,
-      (chat_tab_value.body[4] & 0x8F) == 10);
-    if ( strcmp(v9->color, (const char *)&buf) )
-    {
-      survarium::flash_value::SetString(&chat_tab_member, v9->color);
-      (*(void (__thiscall **)(_DWORD, _DWORD, unsigned int *, survarium::flash_value *, bool))(**(_DWORD **)chat_tab_value.body
-                                                                                             + 20))(
-        *(_DWORD *)chat_tab_value.body,
-        *(_DWORD *)&chat_tab_value.body[8],
-        &stru_955964.id_crc,
-        &chat_tab_member,
-        (chat_tab_value.body[4] & 0x8F) == 10);
-    }
-    (*(void (__thiscall **)(_DWORD, _DWORD, int, survarium::flash_value *))(**(_DWORD **)channels_array.body + 52))(
-      *(_DWORD *)channels_array.body,
-      *(_DWORD *)&channels_array.body[8],
-      v19,
-      &chat_tab_value);
-    if ( (chat_tab_member.body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_member.body + 8))(
-        *(_DWORD *)chat_tab_member.body,
-        &chat_tab_member,
-        *(_DWORD *)&chat_tab_member.body[8]);
-      *(_DWORD *)chat_tab_member.body = 0;
-    }
-    *(_DWORD *)&chat_tab_member.body[4] = 0;
-    if ( (chat_tab_value.body[4] & 0x40) != 0 )
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)chat_tab_value.body + 8))(
-        *(_DWORD *)chat_tab_value.body,
-        &chat_tab_value,
-        *(_DWORD *)&chat_tab_value.body[8]);
-    v3 = is_game_mode;
-    ++v19;
-    v15 = v21-- == 1;
-    current_tabs = v9 + 1;
-  }
-  while ( !v15 );
-  Scaleform::GFx::Movie::Invoke(
-    is_game_mode->m_chat_ui.m_object->movie->m_movie,
-    "root.set_channels",
-    0,
-    (const Scaleform::GFx::Value *)&channels_array,
-    1u);
-  v16 = is_game_mode->m_chat_ui.m_object;
-  is_heavy_mode.body[8] = !is_game_mode->m_game_ui_mode;
-  *(_DWORD *)is_heavy_mode.body = 0;
-  *(_DWORD *)&is_heavy_mode.body[4] = 2;
-  Scaleform::GFx::Movie::Invoke(
-    v16->movie->m_movie,
-    "root.set_heavy",
-    0,
-    (const Scaleform::GFx::Value *)&is_heavy_mode,
-    1u);
-  if ( (is_heavy_mode.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)is_heavy_mode.body + 8))(
-      *(_DWORD *)is_heavy_mode.body,
-      &is_heavy_mode,
-      *(_DWORD *)&is_heavy_mode.body[8]);
-    *(_DWORD *)is_heavy_mode.body = 0;
-  }
-  *(_DWORD *)&is_heavy_mode.body[4] = 0;
-  if ( (channels_array.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)channels_array.body + 8))(
-      *(_DWORD *)channels_array.body,
-      &channels_array,
-      *(_DWORD *)&channels_array.body[8]);
+  Scaleform::GFx::Value::~Value(&pvalue);
+  Scaleform::GFx::Value::~Value(&pval);
 }

@@ -1,14 +1,15 @@
-void __usercall vostok::core::write_to_stdstream(vostok::core::stdstream_enum stream@<eax>, const char *format, ...)
+void vostok::core::write_to_stdstream(vostok::core::stdstream_enum stream, char *format, ...)
 {
   _iobuf *v2; // eax
-  va_list ap; // [esp+8h] [ebp+8h] BYREF
+  va_list ap; // [esp+Ch] [ebp+Ch] BYREF
 
   va_start(ap, format);
   if ( stream )
   {
-    if ( stream != stdstream_error )
-      return;
-    v2 = __iob_func() + 2;
+    if ( stream == stdstream_error )
+      v2 = __iob_func() + 2;
+    else
+      v2 = 0;
   }
   else
   {

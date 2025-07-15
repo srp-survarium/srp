@@ -1,18 +1,20 @@
-int __usercall findenv@<eax>(unsigned int len@<edi>, const char *name)
+int __usercall findenv@<eax>(const char *len@<edi>, char *name)
 {
-  const unsigned __int8 **i; // esi
-  unsigned __int8 v3; // al
+  char **i; // esi
+  int v3; // eax
+  char v4; // al
 
-  for ( i = (const unsigned __int8 **)_environ; ; ++i )
+  for ( i = _environ; ; ++i )
   {
     if ( !*i )
-      return -(((char *)i - (char *)_environ) >> 2);
-    if ( !_mbsnbicoll(len, (unsigned int)i, (const unsigned __int8 *)name, *i, len) )
+      return -(i - _environ);
+    _mbsnbicoll(len, (int)i, name, *i, (unsigned int)len);
+    if ( !v3 )
     {
-      v3 = (*i)[len];
-      if ( v3 == 61 || !v3 )
+      v4 = (*i)[(_DWORD)len];
+      if ( v4 == 61 || !v4 )
         break;
     }
   }
-  return ((char *)i - (char *)_environ) >> 2;
+  return i - _environ;
 }

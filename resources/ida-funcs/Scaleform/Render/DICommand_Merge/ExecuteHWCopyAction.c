@@ -18,18 +18,18 @@ void __thiscall Scaleform::Render::DICommand_Merge::ExecuteHWCopyAction(
   int v15; // eax
   float *v16; // ecx
   double v17; // st6
-  Scaleform::Render::DICommand_Merge *v18; // [esp+11Ch] [ebp-94h]
-  float v19[4]; // [esp+120h] [ebp-90h]
-  _BYTE v20[40]; // [esp+130h] [ebp-80h] BYREF
-  char v21; // [esp+158h] [ebp-58h] BYREF
-  char v22; // [esp+170h] [ebp-40h] BYREF
+  Scaleform::Render::DICommand_Merge *v18; // [esp+Ch] [ebp-94h]
+  float v19[4]; // [esp+10h] [ebp-90h]
+  _BYTE v20[40]; // [esp+20h] [ebp-80h] BYREF
+  char v21; // [esp+48h] [ebp-58h] BYREF
+  char v22; // [esp+60h] [ebp-40h] BYREF
 
   v18 = this;
   v4 = 1;
   v5 = (float *)&v21;
   do
   {
-    memset((int)(v5 - 10), 0, 0x40u);
+    memset((int)(v5 - 10), 0, 64);
     *(v5 - 10) = 1.0;
     *(v5 - 5) = 1.0;
     *v5 = 1.0;

@@ -1,13 +1,13 @@
 char __thiscall Scaleform::GFx::AS2::StringTokenizer::NextToken(Scaleform::GFx::AS2::StringTokenizer *this, char *sep)
 {
-  char *Str; // edi
+  __m128i *Str; // edi
   int v5; // eax
   const char *v6; // eax
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // edi
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v9; // zf
 
-  Str = (char *)this->Str;
+  Str = (__m128i *)this->Str;
   if ( this->Str >= this->EndStr )
     return 0;
   do
@@ -20,10 +20,13 @@ char __thiscall Scaleform::GFx::AS2::StringTokenizer::NextToken(Scaleform::GFx::
   while ( this->Str < this->EndStr );
   *sep = *this->Str;
   v6 = this->Str;
-  if ( Str == this->Str || v6 > this->EndStr )
+  if ( Str == (__m128i *)this->Str || v6 > this->EndStr )
     p_EmptyStringNode = &this->Token.pNode->pManager->EmptyStringNode;
   else
-    p_EmptyStringNode = Scaleform::GFx::ASStringManager::CreateStringNode(this->Token.pNode->pManager, Str, v6 - Str);
+    p_EmptyStringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                          this->Token.pNode->pManager,
+                          Str,
+                          v6 - (const char *)Str);
   p_EmptyStringNode->RefCount += 2;
   pNode = this->Token.pNode;
   v9 = pNode->RefCount-- == 1;

@@ -1,4 +1,4 @@
-int __usercall check_chain_extensions@<eax>(x509_store_ctx_st *ctx@<esi>, unsigned int a2@<edi>)
+int __usercall check_chain_extensions@<eax>(x509_store_ctx_st *ctx@<esi>, int a2@<edi>)
 {
   int (__cdecl *verify_cb)(int, x509_store_ctx_st *); // ebx
   int v3; // ebp
@@ -31,7 +31,7 @@ int __usercall check_chain_extensions@<eax>(x509_store_ctx_st *ctx@<esi>, unsign
   else
   {
     v15 = (ctx->param->flags >> 6) & 1;
-    if ( getenv((unsigned int)verify_cb, a2, "OPENSSL_ALLOW_PROXY_CERTS") )
+    if ( getenv((int)verify_cb, a2, "OPENSSL_ALLOW_PROXY_CERTS") )
       v15 = 1;
     id = ctx->param->purpose;
   }
@@ -59,7 +59,7 @@ int __usercall check_chain_extensions@<eax>(x509_store_ctx_st *ctx@<esi>, unsign
         if ( !result )
           return result;
       }
-      v7 = X509_check_ca(v5);
+      v7 = X509_check_ca((int)v5, v5);
       v8 = v14;
       if ( v14 == -1 )
         break;
@@ -90,7 +90,7 @@ LABEL_25:
 LABEL_27:
       if ( ctx->param->purpose > 0 )
       {
-        v10 = X509_check_purpose(v5, id, v8 > 0);
+        v10 = X509_check_purpose((int)v5, v5, id, v8 > 0);
         if ( !v10 || (ctx->param->flags & 0x20) != 0 && v10 != 1 )
         {
           ctx->error = 26;

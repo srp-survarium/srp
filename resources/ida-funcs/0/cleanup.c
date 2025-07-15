@@ -12,9 +12,3 @@ void __cdecl cleanup(x509_object_st *a)
     CRYPTO_free(a);
   }
 }
-
-
-void __cdecl cleanup()
-{
-  DeleteCriticalSection(&CriticalSection);
-}

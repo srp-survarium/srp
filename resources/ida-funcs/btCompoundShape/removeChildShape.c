@@ -1,4 +1,4 @@
-void __thiscall btCompoundShape::removeChildShape(btCompoundShape *this, btCompoundShape *shape)
+void __thiscall btCompoundShape::removeChildShape(btCompoundShape *this, btCollisionShape *shape)
 {
   int v3; // edi
   int v4; // ebx
@@ -11,7 +11,7 @@ void __thiscall btCompoundShape::removeChildShape(btCompoundShape *this, btCompo
     do
     {
       if ( this->m_children.m_data[v4].m_childShape == shape )
-        btCompoundShape::removeChildShapeByIndex(shape, (int)this, v3);
+        btCompoundShape::removeChildShapeByIndex(this, this, v3);
       --v3;
       --v4;
     }

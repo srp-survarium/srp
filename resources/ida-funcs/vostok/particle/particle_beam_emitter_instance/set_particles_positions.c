@@ -1,64 +1,83 @@
-void __thiscall vostok::particle::particle_beam_emitter_instance::set_particles_positions(
-        vostok::particle::particle_beam_emitter_instance *this,
-        bool gen_new)
+void __userpurge vostok::particle::particle_beam_emitter_instance::set_particles_positions(
+        vostok::particle::particle_beam_emitter_instance *this@<ecx>,
+        vostok::particle::base_particle *a2@<edi>,
+        unsigned int a3@<esi>,
+        unsigned int gen_new,
+        char a5)
 {
-  const vostok::math::float3_pod *v2; // eax
-  vostok::math::float3_pod *v3; // eax
-  unsigned int other_x; // [esp+8h] [ebp-A0h]
-  unsigned int min_value; // [esp+Ch] [ebp-9Ch]
-  float max_value; // [esp+10h] [ebp-98h]
-  const vostok::math::float3_pod *max_valuea; // [esp+10h] [ebp-98h]
-  vostok::math::float3 v9; // [esp+50h] [ebp-58h] BYREF
-  vostok::math::float3 v10; // [esp+5Ch] [ebp-4Ch] BYREF
-  unsigned int particle_index; // [esp+68h] [ebp-40h]
-  vostok::particle::base_particle *P; // [esp+6Ch] [ebp-3Ch]
-  unsigned int beam_index; // [esp+70h] [ebp-38h]
-  vostok::math::float3 up_vector; // [esp+74h] [ebp-34h] BYREF
-  vostok::math::float3 beams_vector; // [esp+80h] [ebp-28h] BYREF
-  vostok::math::float3 temp_vector; // [esp+8Ch] [ebp-1Ch] BYREF
-  unsigned int num_particle_per_beam; // [esp+98h] [ebp-10h]
-  vostok::math::float3 right_vector; // [esp+9Ch] [ebp-Ch] BYREF
+  float *v5; // eax
+  unsigned int v6; // xmm0_4
+  unsigned int v7; // xmm1_4
+  float v8; // xmm1_4
+  float v9; // xmm0_4
+  int v10; // eax
+  const vostok::math::float3 *v11; // esi
+  vostok::math::enum_evaluate_time_type v12; // edi
+  int v13; // eax
+  vostok::particle::particle_beam_emitter_instance *i; // ecx
+  vostok::math::float3_pod *max_value; // [esp+4h] [ebp-40h]
+  vostok::particle::base_particle *v16; // [esp+8h] [ebp-3Ch]
+  unsigned int v17; // [esp+Ch] [ebp-38h]
+  vostok::math::float3 v18; // [esp+14h] [ebp-30h] BYREF
+  vostok::math::float3 v19; // [esp+20h] [ebp-24h] BYREF
+  vostok::math::float3 v20; // [esp+2Ch] [ebp-18h] BYREF
+  float v21; // [esp+38h] [ebp-Ch]
+  float v22; // [esp+3Ch] [ebp-8h]
+  float v23; // [esp+40h] [ebp-4h]
+  vostok::particle::particle_beam_emitter_instance *v24; // [esp+50h] [ebp+Ch]
 
-  if ( this->m_num_live_particles >= 2 )
+  if ( *(_DWORD *)(gen_new + 496) >= 2u )
   {
-    if ( gen_new )
-      vostok::particle::particle_beam_emitter_instance::generate_offsets(this);
-    beams_vector = this->m_beams_direction;
-    max_value = vostok::particle::random_float(0.0, 1.0);
-    *(float *)&min_value = vostok::particle::random_float(0.0, 1.0);
-    *(float *)&other_x = vostok::particle::random_float(0.0, 1.0);
-    vostok::math::float3::float3(&v9, other_x, min_value, max_value);
-    max_valuea = v2;
-    vostok::math::float3::float3(
-      &v10,
-      COERCE_UNSIGNED_INT(beams_vector.z * (*this->m_random_offsets)[0].x),
-      COERCE_UNSIGNED_INT(beams_vector.x * (*this->m_random_offsets)[0].y),
-      beams_vector.y * (*this->m_random_offsets)[0].z);
-    temp_vector = *vostok::math::float3_pod::normalize_safe(v3, max_valuea);
-    vostok::math::cross_product(&up_vector, &beams_vector, &temp_vector);
-    vostok::math::cross_product(&right_vector, &beams_vector, &up_vector);
-    num_particle_per_beam = this->m_num_live_particles / this->m_beamtrail_parameters->num_beams;
-    for ( beam_index = 0; beam_index < this->m_beamtrail_parameters->num_beams; ++beam_index )
+    if ( a5 )
+      vostok::particle::particle_beam_emitter_instance::generate_offsets(this, gen_new);
+    v17 = a3;
+    v16 = a2;
+    v21 = *(float *)(gen_new + 592);
+    v22 = *(float *)(gen_new + 596);
+    v23 = *(float *)(gen_new + 600);
+    v20.x = vostok::particle::random_float(0.0, 1.0);
+    v20.y = vostok::particle::random_float(0.0, 1.0);
+    v20.z = vostok::particle::random_float(0.0, 1.0);
+    v5 = *(float **)(gen_new + 624);
+    *(float *)&v6 = v5[1] * v21;
+    *(float *)&v7 = v5[2] * v22;
+    v19.x = *v5 * v23;
+    *(_QWORD *)&v19.elements[1] = __PAIR64__(v7, v6);
+    v20 = *vostok::math::float3_pod::normalize_safe(max_value, &v19, &v20.x);
+    v8 = (float)(v20.z * v22) - (float)(v20.y * v23);
+    v9 = (float)(v20.x * v23) - (float)(v20.z * v21);
+    v19.x = (float)((float)((float)(v20.y * v21) - (float)(v20.x * v22)) * v22) - (float)(v9 * v23);
+    v18.z = (float)(v20.y * v21) - (float)(v20.x * v22);
+    v18.x = v8;
+    v18.y = v9;
+    v19.y = (float)(v8 * v23) - (float)(v18.z * v21);
+    v10 = *(_DWORD *)(gen_new + 496) / *(_DWORD *)(*(_DWORD *)(gen_new + 484) + 8);
+    v11 = 0;
+    v19.z = (float)(v9 * v21) - (float)(v8 * v22);
+    v12 = v10;
+    v24 = 0;
+    do
     {
-      P = vostok::intrusive_list<vostok::particle::base_particle,vostok::particle::base_particle *,128,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::front(
-            (vostok::intrusive_list<vostok::particle::base_particle,vostok::particle::base_particle *,128,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy> *)this,
-            (int)&this->m_particle_list);
-      particle_index = 0;
-      while ( P && particle_index != num_particle_per_beam * beam_index )
-      {
-        ++particle_index;
-        P = vostok::intrusive_list<vostok::particle::base_particle,vostok::particle::base_particle *,128,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::get_next_of_object(P);
-      }
-      vostok::particle::particle_beam_emitter_instance::apply_noise(
-        this,
-        beam_index,
-        &up_vector,
-        &right_vector,
-        1.0,
-        1u,
-        1,
-        P,
-        num_particle_per_beam);
+      v13 = *(_DWORD *)(gen_new + 412);
+      for ( i = 0; v13 && i != v24; i = (vostok::particle::particle_beam_emitter_instance *)((char *)i + 1) )
+        v13 = *(_DWORD *)(v13 + 208);
+      if ( (unsigned int)v12 >= 2 )
+        vostok::particle::particle_beam_emitter_instance::apply_noise(
+          i,
+          *(float *)&gen_new,
+          v12,
+          *(float *)&v11,
+          gen_new,
+          v11,
+          &v18,
+          &v19.x,
+          (float *)v13,
+          v12,
+          v16,
+          v17);
+      v24 = (vostok::particle::particle_beam_emitter_instance *)((char *)v24 + v12);
+      v11 = (const vostok::math::float3 *)((char *)v11 + 1);
     }
+    while ( (unsigned int)v11 < *(_DWORD *)(*(_DWORD *)(gen_new + 484) + 8) );
   }
 }

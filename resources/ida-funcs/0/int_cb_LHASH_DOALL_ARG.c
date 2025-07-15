@@ -1,4 +1,4 @@
-void __cdecl int_cb_LHASH_DOALL_ARG(_DWORD *arg1, _DWORD *arg2)
+void __cdecl int_cb_LHASH_DOALL_ARG(_DWORD *a1, _DWORD *a2)
 {
-  ((void (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))*arg2)(*arg1, arg1[1], arg1[2], arg2[1]);
+  ((void (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))*a2)(*a1, a1[1], a1[2], a2[1]);
 }

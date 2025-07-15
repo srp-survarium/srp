@@ -12,9 +12,9 @@ Scaleform::GFx::Sprite *__thiscall Scaleform::GFx::AS2::MovieRoot::CreateEmptySp
   Scaleform::GFx::MovieDefImpl *v10; // eax
   Scaleform::GFx::Resource *v11; // edi
   Scaleform::GFx::Sprite *Sprite; // ebp
-  Scaleform::GFx::ResourceKey createKey; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceKey v14; // [esp+10h] [ebp-8h] BYREF
 
-  Scaleform::GFx::MovieDataDef::CreateMovieFileKey(&createKey, (char *)&buf, 0, 0, 0);
+  Scaleform::GFx::MovieDataDef::CreateMovieFileKey(&v14, (const __m128i *)uri, 0, 0, 0);
   pHeap = this->pMovieImpl->pHeap;
   v5 = pHeap;
   if ( !pHeap )
@@ -22,7 +22,7 @@ Scaleform::GFx::Sprite *__thiscall Scaleform::GFx::AS2::MovieRoot::CreateEmptySp
   v6 = (Scaleform::GFx::MovieDataDef *)v5->Alloc(v5, 36u, 0);
   if ( !v6 )
     goto LABEL_8;
-  Scaleform::GFx::MovieDataDef::MovieDataDef(v6, &createKey, MT_Empty, (char *)&buf, pHeap, 0, 0);
+  Scaleform::GFx::MovieDataDef::MovieDataDef(v6, &v14, MT_Empty, (char *)uri, pHeap, 0, 0);
   v8 = v7;
   if ( !v7 )
     goto LABEL_8;
@@ -44,8 +44,8 @@ Scaleform::GFx::Sprite *__thiscall Scaleform::GFx::AS2::MovieRoot::CreateEmptySp
   {
     Scaleform::GFx::Resource::Release(v8);
 LABEL_8:
-    if ( createKey.pKeyInterface )
-      createKey.pKeyInterface->Release(createKey.pKeyInterface, createKey.hKeyData);
+    if ( v14.pKeyInterface )
+      v14.pKeyInterface->Release(v14.pKeyInterface, v14.hKeyData);
     return 0;
   }
   Sprite = Scaleform::GFx::AS2::MovieRoot::CreateSprite(
@@ -64,7 +64,7 @@ LABEL_8:
   Scaleform::GFx::MovieImpl::SetLevelMovie(this->pMovieImpl, level, Sprite);
   Scaleform::GFx::Resource::Release(v11);
   Scaleform::GFx::Resource::Release(v8);
-  if ( createKey.pKeyInterface )
-    createKey.pKeyInterface->Release(createKey.pKeyInterface, createKey.hKeyData);
+  if ( v14.pKeyInterface )
+    v14.pKeyInterface->Release(v14.pKeyInterface, v14.hKeyData);
   return Sprite;
 }

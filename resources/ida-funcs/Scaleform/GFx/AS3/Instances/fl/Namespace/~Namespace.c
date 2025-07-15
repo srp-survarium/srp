@@ -30,5 +30,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Namespace::~Namespace(
   pNode = this->Uri.pNode;
   if ( pNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  Scaleform::GFx::AS3::GASRefCountBase::~GASRefCountBase(this);
+  Scaleform::GFx::AS3::GASRefCountBase::~GASRefCountBase(&this->Scaleform::GFx::AS3::GASRefCountBase);
 }

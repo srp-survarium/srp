@@ -1,4 +1,4 @@
-int __usercall ferror@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, _iobuf *stream)
+int __usercall ferror@<eax>(int a1@<ebx>, int a2@<edi>, _iobuf *stream)
 {
   if ( stream )
     return stream->_flag & 0x20;

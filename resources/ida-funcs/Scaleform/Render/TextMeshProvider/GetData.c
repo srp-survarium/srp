@@ -12,23 +12,23 @@ char __thiscall Scaleform::Render::TextMeshProvider::GetData(
   Scaleform::Render::TextMeshEntry *v9; // eax
   int Type; // edi
   char result; // al
-  Scaleform::Render::Matrix2x4<float> mtx; // [esp+28h] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> v12; // [esp+8h] [ebp-20h] BYREF
 
   Data = this->Layers.Data.Data;
   pRenderer2D = mesh->pRenderer2D;
-  mtx.M[0][0] = this->HeightRatio;
+  v12.M[0][0] = this->HeightRatio;
   Layer = mesh->Layer;
-  mtx.M[0][1] = 0.0;
+  v12.M[0][1] = 0.0;
   v7 = &Data[Layer];
-  mtx.M[0][2] = 0.0;
+  v12.M[0][2] = 0.0;
   Start = v7->Start;
-  mtx.M[0][3] = 0.0;
-  mtx.M[1][0] = 0.0;
+  v12.M[0][3] = 0.0;
+  v12.M[1][0] = 0.0;
   v9 = &this->Entries.Data.Data[Start];
-  mtx.M[1][2] = 0.0;
-  mtx.M[1][3] = 0.0;
+  v12.M[1][2] = 0.0;
+  v12.M[1][3] = 0.0;
   Type = v7->Type;
-  mtx.M[1][1] = mtx.M[0][0];
+  v12.M[1][1] = v12.M[0][0];
   switch ( Type )
   {
     case 0:
@@ -36,14 +36,14 @@ char __thiscall Scaleform::Render::TextMeshProvider::GetData(
                  this,
                  pRenderer2D,
                  verOut,
-                 &mtx,
+                 &v12,
                  v9->EntryData.RasterData.Coord,
                  v9->mColor,
                  v9->EntryData.BackgroundData.BorderColor,
                  meshGenFlags);
       break;
     case 1:
-      result = Scaleform::Render::TextMeshProvider::generateSelection(this, pRenderer2D, verOut, v7, &mtx, meshGenFlags);
+      result = Scaleform::Render::TextMeshProvider::generateSelection(this, pRenderer2D, verOut, v7, &v12, meshGenFlags);
       break;
     case 2:
     case 3:
@@ -64,7 +64,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::GetData(
                  pRenderer2D,
                  verOut,
                  v7,
-                 &mtx,
+                 &v12,
                  meshGenFlags);
       break;
     case 10:
@@ -72,7 +72,7 @@ char __thiscall Scaleform::Render::TextMeshProvider::GetData(
                  this,
                  pRenderer2D,
                  verOut,
-                 &mtx,
+                 &v12,
                  v9->EntryData.RasterData.Coord,
                  v9->mColor,
                  0,

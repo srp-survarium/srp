@@ -2,7 +2,7 @@ void __userpurge Scaleform::GFx::AS2::AvmSwfEvent::AttachTo(
         Scaleform::GFx::AS2::AvmSwfEvent *this@<ecx>,
         int a2@<edi>,
         int a3@<esi>,
-        Scaleform::GFx::InteractiveObject *ch)
+        Scaleform::GFx::AS2::ActionBuffer *ch)
 {
   Scaleform::GFx::AS2::ActionBufferData *pObject; // eax
   Scaleform::GFx::AS2::AvmCharacter *v6; // ecx
@@ -17,7 +17,7 @@ void __userpurge Scaleform::GFx::AS2::AvmSwfEvent::AttachTo(
   Scaleform::GFx::AS2::FunctionObject *v15; // eax
   Scaleform::GFx::AS2::FunctionObject *v16; // esi
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::AvmCharacter *pach; // [esp+10h] [ebp-20h]
+  Scaleform::GFx::AS2::AvmCharacter *v18; // [esp+10h] [ebp-20h]
   Scaleform::GFx::AS2::FunctionRef func; // [esp+14h] [ebp-1Ch] BYREF
   Scaleform::GFx::AS2::Value method; // [esp+20h] [ebp-10h] BYREF
 
@@ -26,17 +26,13 @@ void __userpurge Scaleform::GFx::AS2::AvmSwfEvent::AttachTo(
     return;
   if ( ch )
   {
-    pach = (Scaleform::GFx::AS2::AvmCharacter *)(*(int (__thiscall **)(char *))(*((_DWORD *)&ch->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                                                + ch->AvmObjOffset)
-                                                                              + 4))(
-                                                  (char *)&ch->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                + 4 * ch->AvmObjOffset);
-    v6 = pach;
+    v18 = (Scaleform::GFx::AS2::AvmCharacter *)((int (__thiscall *)(char *))(&ch->__vftable)[BYTE1(ch[2].__vftable)][1].~Scaleform::GFx::AS2::ActionBuffer)((char *)ch + 4 * BYTE1(ch[2].__vftable));
+    v6 = v18;
   }
   else
   {
     v6 = 0;
-    pach = 0;
+    v18 = 0;
   }
   v7 = (Scaleform::GFx::AS2::Environment *)((int (__thiscall *)(Scaleform::GFx::AS2::AvmCharacter *, int, int))v6->GetASEnvironment)(
                                              v6,
@@ -73,7 +69,7 @@ LABEL_15:
     Scaleform::GFx::AS2::AsFunctionObject::AsFunctionObject(
       v14,
       v7,
-      (Scaleform::GFx::AS2::ActionBuffer *)ch,
+      ch,
       0,
       this->pActionOpData.pObject->BufferLen,
       0,
@@ -91,13 +87,13 @@ LABEL_15:
   if ( v16 )
   {
     RefCount = v16->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v16->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v16);
     }
   }
-  Scaleform::GFx::AS2::AvmCharacter::SetClipEventHandlers(pach, &this->Event, &method);
+  Scaleform::GFx::AS2::AvmCharacter::SetClipEventHandlers(v18, &this->Event, &method);
   if ( method.T.Type >= 5u )
     Scaleform::GFx::AS2::Value::DropRefs(&method);
   if ( ch )

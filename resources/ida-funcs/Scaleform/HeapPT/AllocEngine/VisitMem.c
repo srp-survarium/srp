@@ -1,14 +1,14 @@
 void __thiscall Scaleform::HeapPT::AllocEngine::VisitMem(
         Scaleform::HeapPT::AllocEngine *this,
         Scaleform::Heap::MemVisitor *visitor,
-        unsigned int flags)
+        char flags)
 {
-  Scaleform::Heap::HeapSegment *j; // esi
+  Scaleform::Heap::HeapSegment *i; // esi
   unsigned int v5; // ebp
   unsigned int v6; // edx
   Scaleform::List<Scaleform::HeapPT::AllocEngine::TinyBlock,Scaleform::HeapPT::AllocEngine::TinyBlock> *TinyBlocks; // ebp
-  unsigned int k; // esi
-  unsigned int i; // [esp+24h] [ebp+8h]
+  unsigned int j; // esi
+  unsigned int flagsa; // [esp+24h] [ebp+8h]
 
   if ( (flags & 1) != 0 )
     this->pSysAlloc->VisitMem(this->pSysAlloc, visitor);
@@ -18,9 +18,9 @@ void __thiscall Scaleform::HeapPT::AllocEngine::VisitMem(
     Scaleform::HeapPT::Bookkeeper::VisitMem(this->pBookkeeper, visitor, flags);
   if ( (flags & 0x10) != 0 )
   {
-    for ( j = this->SegmentList.Root.pNext; j != (Scaleform::Heap::HeapSegment *)&this->SegmentList; j = j->pNext )
+    for ( i = this->SegmentList.Root.pNext; i != (Scaleform::Heap::HeapSegment *)&this->SegmentList; i = i->pNext )
     {
-      switch ( j->SegType )
+      switch ( i->SegType )
       {
         case 0u:
         case 1u:
@@ -30,17 +30,17 @@ void __thiscall Scaleform::HeapPT::AllocEngine::VisitMem(
         case 5u:
         case 6u:
         case 7u:
-          visitor->Visit(visitor, j, (unsigned int)j->pData, j->DataSize, Cat_AllocTiny);
-          v5 = (j->SegType + 1) << this->MinAlignShift;
-          v6 = j->DataSize % v5;
+          visitor->Visit(visitor, i, (unsigned int)i->pData, i->DataSize, Cat_AllocTiny);
+          v5 = (i->SegType + 1) << this->MinAlignShift;
+          v6 = i->DataSize % v5;
           if ( v6 )
-            visitor->Visit(visitor, j, (unsigned int)&j->pData[v5 * (j->DataSize / v5)], v6, Cat_AllocTinyFree);
+            visitor->Visit(visitor, i, (unsigned int)&i->pData[v5 * (i->DataSize / v5)], v6, Cat_AllocTinyFree);
           break;
         case 9u:
-          visitor->Visit(visitor, j, (unsigned int)j->pData, j->DataSize, Cat_SystemDirect);
+          visitor->Visit(visitor, i, (unsigned int)i->pData, i->DataSize, Cat_SystemDirect);
           break;
         case 0xAu:
-          visitor->Visit(visitor, j, (unsigned int)j->pData, j->DataSize, Cat_AllocBitSet);
+          visitor->Visit(visitor, i, (unsigned int)i->pData, i->DataSize, Cat_AllocBitSet);
           break;
         default:
           continue;
@@ -53,25 +53,25 @@ void __thiscall Scaleform::HeapPT::AllocEngine::VisitMem(
         visitor,
         this->Allocator.MinAlignShift,
         Cat_AllocBitSetFree);
-      i = 0;
+      flagsa = 0;
       TinyBlocks = this->TinyBlocks;
       do
       {
-        for ( k = (unsigned int)TinyBlocks->Root.pNext;
-              (Scaleform::List<Scaleform::HeapPT::AllocEngine::TinyBlock,Scaleform::HeapPT::AllocEngine::TinyBlock> *)k != TinyBlocks;
-              k = *(_DWORD *)(k + 4) )
+        for ( j = (unsigned int)TinyBlocks->Root.pNext;
+              (Scaleform::List<Scaleform::HeapPT::AllocEngine::TinyBlock,Scaleform::HeapPT::AllocEngine::TinyBlock> *)j != TinyBlocks;
+              j = *(_DWORD *)(j + 4) )
         {
           visitor->Visit(
             visitor,
-            *(const Scaleform::Heap::HeapSegment **)(k + 8),
-            k,
-            (i + 1) << this->MinAlignShift,
+            *(const Scaleform::Heap::HeapSegment **)(j + 8),
+            j,
+            (flagsa + 1) << this->MinAlignShift,
             Cat_AllocTinyFree);
         }
         ++TinyBlocks;
-        ++i;
+        ++flagsa;
       }
-      while ( i < 8 );
+      while ( flagsa < 8 );
     }
   }
 }

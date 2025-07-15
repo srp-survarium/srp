@@ -4,226 +4,233 @@ void __thiscall Scaleform::GFx::StaticTextDef::Read(
         Scaleform::GFx::TagType tagType)
 {
   Scaleform::GFx::SWFProcessInfo *pAltStream; // esi
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v4; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v5; // ecx
-  int v6; // ecx
+  Scaleform::Render::Rect<float> *p_TextRect; // ebx
+  int v5; // eax
   unsigned int Pos; // eax
-  unsigned __int8 v8; // cl
-  int v9; // edx
-  unsigned int v10; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *pBuffer; // ecx
-  int v12; // eax
-  unsigned int v13; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v14; // ecx
-  int v15; // ebx
-  int v16; // edx
-  unsigned int v17; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v18; // ecx
-  Scaleform::GFx::ResourceId v19; // ebx
-  Scaleform::GFx::Resource *v20; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v21; // ecx
-  int v22; // edx
+  int v7; // edx
+  int v8; // ecx
+  unsigned int v9; // eax
+  unsigned __int8 v10; // cl
+  int v11; // ecx
+  unsigned int v12; // eax
+  unsigned __int8 v13; // cl
+  int v14; // ebx
+  int v15; // eax
+  unsigned int v16; // eax
+  Scaleform::GFx::ResourceId v17; // ebx
+  Scaleform::GFx::Resource *SizeMask; // ecx
+  int v19; // edx
+  unsigned int v20; // eax
+  __int16 v21; // cx
+  int v22; // eax
   unsigned int v23; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v24; // ecx
+  __int16 v24; // cx
   int v25; // eax
   unsigned int v26; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v27; // ecx
-  int v28; // eax
-  unsigned int v29; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v30; // ecx
-  Scaleform::GFx::StaticTextRecord *v31; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v32; // ecx
-  Scaleform::GFx::StaticTextRecord *v33; // edi
-  bool v34; // zf
+  unsigned __int16 v27; // cx
+  Scaleform::GFx::StaticTextRecord *v28; // eax
+  Scaleform::GFx::StaticTextRecord *v29; // edi
+  bool v30; // zf
   Scaleform::GFx::Resource *pResource; // ecx
-  Scaleform::GFx::ResourceHandle::HandleType HType; // eax
-  unsigned int v37; // ecx
+  unsigned int v32; // eax
+  int v33; // ecx
   double CumulativeAdvance; // st7
-  int v39; // [esp+18h] [ebp-88h]
-  bool lastRecordWasStyleChange; // [esp+67h] [ebp-39h]
-  bool hasFont; // [esp+68h] [ebp-38h]
-  bool hasColor; // [esp+69h] [ebp-37h]
-  bool hasXOffset; // [esp+6Ah] [ebp-36h]
-  bool hasYOffset; // [esp+6Bh] [ebp-35h]
-  float textHeight; // [esp+70h] [ebp-30h]
-  Scaleform::Render::Color color; // [esp+74h] [ebp-2Ch] BYREF
-  int fontId; // [esp+78h] [ebp-28h]
-  int v49; // [esp+7Ch] [ebp-24h]
-  int AdvanceBits; // [esp+80h] [ebp-20h]
-  int GlyphBits; // [esp+84h] [ebp-1Ch]
-  Scaleform::GFx::ResourcePtr<Scaleform::GFx::FontResource> pfont; // [esp+88h] [ebp-18h]
-  Scaleform::Render::Point<float> offset; // [esp+90h] [ebp-10h]
-  Scaleform::GFx::ResourceHandle hres; // [esp+98h] [ebp-8h] BYREF
+  int v35; // [esp+18h] [ebp-88h]
+  char v36; // [esp+67h] [ebp-39h]
+  char v37; // [esp+68h] [ebp-38h]
+  char v38; // [esp+69h] [ebp-37h]
+  char v39; // [esp+6Ah] [ebp-36h]
+  char v40; // [esp+6Bh] [ebp-35h]
+  float v42; // [esp+70h] [ebp-30h]
+  Scaleform::Render::Color pc; // [esp+74h] [ebp-2Ch] BYREF
+  unsigned int Id; // [esp+78h] [ebp-28h]
+  int v45; // [esp+7Ch] [ebp-24h]
+  int advanceBits; // [esp+80h] [ebp-20h]
+  int glyphBits; // [esp+84h] [ebp-1Ch]
+  unsigned int EntryCount; // [esp+88h] [ebp-18h]
+  Scaleform::GFx::Resource *v49; // [esp+8Ch] [ebp-14h]
+  float v50; // [esp+90h] [ebp-10h]
+  float v51; // [esp+94h] [ebp-Ch]
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType v52; // [esp+98h] [ebp-8h] BYREF
 
   pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
   if ( !pAltStream )
     pAltStream = &p->ProcessInfo;
+  p_TextRect = &this->TextRect;
   Scaleform::GFx::Stream::ReadRect(&pAltStream->Stream, &this->TextRect);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v4);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    &pAltStream->Stream,
+    "  TextRect = { l: %f, t: %f, r: %f, b: %f }\n",
+    p_TextRect->x1,
+    this->TextRect.y1,
+    this->TextRect.x2,
+    this->TextRect.y2);
   Scaleform::GFx::Stream::ReadMatrix(&pAltStream->Stream, &this->MatrixPriv);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v5);
-  v6 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  mat:\n");
+  Scaleform::GFx::Stream::LogParseClass(&pAltStream->Stream, &this->MatrixPriv);
+  v5 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
   pAltStream->Stream.UnusedBits = 0;
-  if ( v6 < 1 )
+  if ( v5 < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(&pAltStream->Stream);
   Pos = pAltStream->Stream.Pos;
-  v8 = pAltStream->Stream.pBuffer[Pos++];
-  v9 = pAltStream->Stream.DataSize - Pos;
+  v7 = pAltStream->Stream.pBuffer[Pos++];
+  v8 = pAltStream->Stream.DataSize - Pos;
   pAltStream->Stream.Pos = Pos;
-  GlyphBits = v8;
+  glyphBits = v7;
   pAltStream->Stream.UnusedBits = 0;
-  if ( v9 < 1 )
+  if ( v8 < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(&pAltStream->Stream);
-  v10 = pAltStream->Stream.Pos;
-  pBuffer = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)pAltStream->Stream.pBuffer;
-  LOBYTE(pBuffer) = *((_BYTE *)&pBuffer->__vftable + v10);
-  pAltStream->Stream.Pos = v10 + 1;
-  AdvanceBits = (unsigned __int8)pBuffer;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(pBuffer);
-  lastRecordWasStyleChange = 0;
-  textHeight = 0.0;
-  fontId = 0;
-  offset.y = 0.0;
-  pfont.HType = RH_Pointer;
-  offset.x = 0.0;
-  pfont.BindIndex = 0;
+  v9 = pAltStream->Stream.Pos;
+  v10 = pAltStream->Stream.pBuffer[v9];
+  pAltStream->Stream.Pos = v9 + 1;
+  advanceBits = v10;
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "begin text records\n");
+  v36 = 0;
+  v42 = 0.0;
+  Id = 0;
+  v51 = 0.0;
+  EntryCount = 0;
+  v50 = 0.0;
+  v49 = 0;
   while ( 1 )
   {
-    v12 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+    v11 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
     pAltStream->Stream.UnusedBits = 0;
-    if ( v12 < 1 )
+    if ( v11 < 1 )
       Scaleform::GFx::Stream::PopulateBuffer1(&pAltStream->Stream);
-    v13 = pAltStream->Stream.Pos;
-    v14 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)pAltStream->Stream.pBuffer;
-    LOBYTE(v14) = *((_BYTE *)&v14->__vftable + v13);
-    v15 = (unsigned __int8)v14;
-    pAltStream->Stream.Pos = v13 + 1;
-    if ( !(_BYTE)v14 )
+    v12 = pAltStream->Stream.Pos;
+    v13 = pAltStream->Stream.pBuffer[v12];
+    v14 = v13;
+    pAltStream->Stream.Pos = v12 + 1;
+    if ( !v13 )
       break;
-    if ( lastRecordWasStyleChange )
+    if ( v36 )
     {
-      lastRecordWasStyleChange = 0;
-      v31 = Scaleform::GFx::StaticTextRecordList::AddRecord(&this->TextRecords);
-      v33 = v31;
-      if ( v31 )
+      v36 = 0;
+      v28 = Scaleform::GFx::StaticTextRecordList::AddRecord(&this->TextRecords);
+      v29 = v28;
+      if ( v28 )
       {
-        v34 = pfont.HType == RH_Pointer;
-        v31->Offset = offset;
-        if ( v34 && pfont.BindIndex )
-          Scaleform::RefCountImpl::AddRef(pfont.pResource);
-        if ( v33->pFont.HType == RH_Pointer )
+        v30 = EntryCount == 0;
+        v28->Offset.x = v50;
+        v28->Offset.y = v51;
+        if ( v30 && v49 )
+          Scaleform::RefCountImpl::AddRef(v49);
+        if ( v29->pFont.HType == RH_Pointer )
         {
-          pResource = v33->pFont.pResource;
+          pResource = v29->pFont.pResource;
           if ( pResource )
             Scaleform::GFx::Resource::Release(pResource);
         }
-        HType = pfont.HType;
-        v33->pFont.BindIndex = pfont.BindIndex;
-        v37 = AdvanceBits;
-        v33->pFont.HType = HType;
-        v33->TextHeight = textHeight;
-        LOWORD(HType) = fontId;
-        v33->ColorV = color;
-        v39 = GlyphBits;
-        v33->FontId = HType;
-        Scaleform::GFx::StaticTextRecord::Read(v33, &pAltStream->Stream, v15, v39, v37);
-        CumulativeAdvance = Scaleform::GFx::StaticTextRecord::GetCumulativeAdvance(v33);
-        offset.x = CumulativeAdvance + offset.x;
+        v32 = EntryCount;
+        v29->pFont.BindIndex = (unsigned int)v49;
+        v33 = advanceBits;
+        v29->pFont.HType = v32;
+        v29->TextHeight = v42;
+        LOWORD(v32) = Id;
+        v29->ColorV = pc;
+        v35 = glyphBits;
+        v29->FontId = v32;
+        Scaleform::GFx::StaticTextRecord::Read(v29, &pAltStream->Stream, v14, v35, v33);
+        CumulativeAdvance = Scaleform::GFx::StaticTextRecord::GetCumulativeAdvance(v29);
+        v50 = CumulativeAdvance + v50;
       }
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v32);
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+        &pAltStream->Stream,
+        "  GlyphRecords: count = %d\n",
+        v14);
     }
     else
     {
-      hasFont = ((int)(unsigned __int8)v14 >> 3) & 1;
-      hasColor = ((int)(unsigned __int8)v14 >> 2) & 1;
-      lastRecordWasStyleChange = 1;
-      hasYOffset = ((int)(unsigned __int8)v14 >> 1) & 1;
-      hasXOffset = (unsigned __int8)v14 & 1;
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource(v14);
-      if ( hasFont )
+      v37 = ((int)v13 >> 3) & 1;
+      v38 = ((int)v13 >> 2) & 1;
+      v36 = 1;
+      v40 = ((int)v13 >> 1) & 1;
+      v39 = v13 & 1;
+      Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  text style change\n");
+      if ( v37 )
       {
-        v16 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+        v15 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
         pAltStream->Stream.UnusedBits = 0;
-        if ( v16 < 2 )
+        if ( v15 < 2 )
           Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-        v17 = pAltStream->Stream.Pos;
-        v18 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v17];
-        v19.Id = (unsigned __int16)v18;
-        pAltStream->Stream.Pos = v17 + 2;
-        fontId = (unsigned __int16)v18;
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v18);
-        hres.HType = RH_Pointer;
-        hres.BindIndex = 0;
-        Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(
-          p->pLoadData.pObject,
-          (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ResourceId,2>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>,Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::ResourceHandle,Scaleform::GFx::ResourceId::HashOp>::NodeHashF> >::TableType *)&hres,
-          v19);
-        v20 = hres.pResource;
-        if ( hres.HType == RH_Pointer && hres.BindIndex )
+        v16 = pAltStream->Stream.Pos;
+        v17.Id = *(unsigned __int16 *)&pAltStream->Stream.pBuffer[v16];
+        pAltStream->Stream.Pos = v16 + 2;
+        Id = v17.Id;
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+          &pAltStream->Stream,
+          "  HasFont: font id = %d\n",
+          v17.Id);
+        v52.EntryCount = 0;
+        v52.SizeMask = 0;
+        Scaleform::GFx::MovieDataDef::LoadTaskData::GetResourceHandle(p->pLoadData.pObject, &v52, v17);
+        SizeMask = (Scaleform::GFx::Resource *)v52.SizeMask;
+        if ( !v52.EntryCount && v52.SizeMask )
         {
-          Scaleform::RefCountImpl::AddRef(hres.pResource);
-          v20 = hres.pResource;
+          Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v52.SizeMask);
+          SizeMask = (Scaleform::GFx::Resource *)v52.SizeMask;
         }
-        if ( pfont.HType == RH_Pointer && pfont.BindIndex )
+        if ( !EntryCount && v49 )
         {
-          Scaleform::GFx::Resource::Release(pfont.pResource);
-          v20 = hres.pResource;
+          Scaleform::GFx::Resource::Release(v49);
+          SizeMask = (Scaleform::GFx::Resource *)v52.SizeMask;
         }
-        pfont.HType = hres.HType;
-        pfont.BindIndex = (unsigned int)v20;
-        if ( hres.HType == RH_Pointer && v20 )
-          Scaleform::GFx::Resource::Release(v20);
+        EntryCount = v52.EntryCount;
+        v49 = SizeMask;
+        if ( !v52.EntryCount && SizeMask )
+          Scaleform::GFx::Resource::Release(SizeMask);
       }
-      if ( hasColor )
+      if ( v38 )
       {
         if ( tagType == Tag_DefineText )
-          Scaleform::GFx::Stream::ReadRgb(&pAltStream->Stream, &color);
+          Scaleform::GFx::Stream::ReadRgb(&pAltStream->Stream, &pc);
         else
-          Scaleform::GFx::Stream::ReadRgba(&pAltStream->Stream, &color);
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v21);
+          Scaleform::GFx::Stream::ReadRgba(&pAltStream->Stream, &pc);
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  HasColor\n");
       }
-      if ( hasXOffset )
+      if ( v39 )
+      {
+        v19 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
+        pAltStream->Stream.UnusedBits = 0;
+        if ( v19 < 2 )
+          Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
+        v20 = pAltStream->Stream.Pos;
+        v21 = *(_WORD *)&pAltStream->Stream.pBuffer[v20];
+        v45 = v21;
+        pAltStream->Stream.Pos = v20 + 2;
+        v50 = (float)v21;
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  XOffset = %g\n", v50);
+      }
+      if ( v40 )
       {
         v22 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
         pAltStream->Stream.UnusedBits = 0;
         if ( v22 < 2 )
           Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
         v23 = pAltStream->Stream.Pos;
-        v24 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v23];
-        v49 = (__int16)v24;
+        v24 = *(_WORD *)&pAltStream->Stream.pBuffer[v23];
+        v45 = v24;
         pAltStream->Stream.Pos = v23 + 2;
-        offset.x = (float)(__int16)v24;
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v24);
+        v51 = (float)v24;
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  YOffset = %g\n", v51);
       }
-      if ( hasYOffset )
+      if ( v37 )
       {
         v25 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
         pAltStream->Stream.UnusedBits = 0;
         if ( v25 < 2 )
           Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
         v26 = pAltStream->Stream.Pos;
-        v27 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v26];
-        v49 = (__int16)v27;
+        v27 = *(_WORD *)&pAltStream->Stream.pBuffer[v26];
+        v45 = v27;
         pAltStream->Stream.Pos = v26 + 2;
-        offset.y = (float)(__int16)v27;
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v27);
-      }
-      if ( hasFont )
-      {
-        v28 = pAltStream->Stream.DataSize - pAltStream->Stream.Pos;
-        pAltStream->Stream.UnusedBits = 0;
-        if ( v28 < 2 )
-          Scaleform::GFx::Stream::PopulateBuffer(&pAltStream->Stream, 2);
-        v29 = pAltStream->Stream.Pos;
-        v30 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)*(unsigned __int16 *)&pAltStream->Stream.pBuffer[v29];
-        v49 = (unsigned __int16)v30;
-        pAltStream->Stream.Pos = v29 + 2;
-        textHeight = (float)(unsigned __int16)v30;
-        Scaleform::Render::JPEG::JPEGRwSource::TermSource(v30);
+        v42 = (float)v27;
+        Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "  TextHeight = %g\n", v42);
       }
     }
   }
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v14);
-  if ( pfont.HType == RH_Pointer && pfont.BindIndex )
-    Scaleform::GFx::Resource::Release(pfont.pResource);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(&pAltStream->Stream, "end text records\n");
+  if ( !EntryCount && v49 )
+    Scaleform::GFx::Resource::Release(v49);
 }

@@ -41,14 +41,17 @@ void __usercall Scaleform::GFx::AS2::AvmTextField::GetNewTextFormat(
       v10 = 0;
     }
     if ( v6 )
-      Scaleform::GFx::AS2::TextFormatObject::SetTextFormat(v10, &fn->Env->StringContext, v6);
+      Scaleform::GFx::AS2::TextFormatObject::SetTextFormat(
+        v10,
+        (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+        v6);
     if ( v7 )
-      Scaleform::GFx::AS2::TextFormatObject::SetParagraphFormat(v10, (signed int)&fn->Env->StringContext, v7);
+      Scaleform::GFx::AS2::TextFormatObject::SetParagraphFormat(v10, (unsigned int)&fn->Env->StringContext, v7);
     Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v10);
     if ( v10 )
     {
       RefCount = v10->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v10->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);

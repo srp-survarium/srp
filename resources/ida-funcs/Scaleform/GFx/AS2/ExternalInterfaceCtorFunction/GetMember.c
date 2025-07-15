@@ -10,7 +10,7 @@ char __thiscall Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::GetMember(
   const Scaleform::GFx::ASString *v8; // ebx
   bool v9; // zf
   Scaleform::GFx::ExternalInterface *pObject; // edi
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   v5 = penv->StringContext.SWFVersion > 6u;
   ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
@@ -34,11 +34,11 @@ char __thiscall Scaleform::GFx::AS2::ExternalInterfaceCtorFunction::GetMember(
       Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(name->pNode);
     v9 = v7->pLower == name->pNode->pLower;
   }
-  namea = v9;
+  v12 = v9;
   v9 = v7->RefCount-- == 1;
   if ( v9 )
     Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-  if ( !namea )
+  if ( !v12 )
     return ((int (__thiscall *)(Scaleform::GFx::AS2::ExternalInterfaceCtorFunction *, Scaleform::GFx::AS2::ASStringContext *, const Scaleform::GFx::ASString *, Scaleform::GFx::AS2::Value *))this->IsNull)(
              this,
              &penv->StringContext,

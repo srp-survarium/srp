@@ -1,69 +1,68 @@
 void __cdecl res0_pack(unsigned int *vr, oggpack_buffer *opb)
 {
-  int v2; // ebx
-  signed int v3; // ebp
-  unsigned int *v4; // ebx
+  unsigned int *v3; // edi
+  unsigned int v4; // eax
   unsigned int v5; // ecx
-  unsigned int v6; // eax
-  int v7; // edx
-  unsigned int v8; // eax
+  int v6; // edx
+  unsigned int v7; // eax
   int i; // ecx
-  unsigned int *v10; // edi
-  int acc; // [esp+10h] [ebp-4h]
+  int v9; // edi
+  unsigned int *v10; // esi
+  int v11; // [esp+Ch] [ebp-4h]
+  signed int v12; // [esp+18h] [ebp+8h]
 
-  v2 = 0;
-  acc = 0;
+  v11 = 0;
   oggpack_write(opb, *vr, 0x18u);
   oggpack_write(opb, vr[1], 0x18u);
   oggpack_write(opb, vr[2] - 1, 0x18u);
   oggpack_write(opb, vr[3] - 1, 6u);
   oggpack_write(opb, vr[5], 8u);
-  v3 = 0;
+  v12 = 0;
   if ( (int)vr[3] > 0 )
   {
-    v4 = vr + 6;
+    v3 = vr + 6;
     do
     {
-      v5 = *v4;
-      v6 = *v4;
-      v7 = 0;
-      if ( !*v4 )
+      v4 = *v3;
+      v5 = *v3;
+      v6 = 0;
+      if ( !*v3 )
         goto LABEL_7;
       do
       {
-        ++v7;
-        v6 >>= 1;
+        ++v6;
+        v5 >>= 1;
       }
-      while ( v6 );
-      if ( v7 > 3 )
+      while ( v5 );
+      if ( v6 > 3 )
       {
-        oggpack_write(opb, v5, 3u);
+        oggpack_write(opb, v4, 3u);
         oggpack_write(opb, 1u, 1u);
-        oggpack_write(opb, (int)*v4 >> 3, 5u);
+        oggpack_write(opb, (int)*v3 >> 3, 5u);
       }
       else
       {
 LABEL_7:
-        oggpack_write(opb, v5, 4u);
+        oggpack_write(opb, v4, 4u);
       }
-      v8 = *v4;
-      for ( i = 0; v8; v8 >>= 1 )
-        i += v8 & 1;
-      acc += i;
+      v7 = *v3;
+      for ( i = 0; v7; v7 >>= 1 )
+        i += v7 & 1;
+      v11 += i;
+      ++v12;
       ++v3;
-      ++v4;
     }
-    while ( v3 < (int)vr[3] );
-    v2 = acc;
+    while ( v12 < (int)vr[3] );
   }
-  if ( v2 > 0 )
+  v9 = v11;
+  if ( v11 > 0 )
   {
     v10 = vr + 70;
     do
     {
       oggpack_write(opb, *v10++, 8u);
-      --v2;
+      --v9;
     }
-    while ( v2 );
+    while ( v9 );
   }
 }

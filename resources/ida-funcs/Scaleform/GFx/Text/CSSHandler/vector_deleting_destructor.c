@@ -1,9 +1,9 @@
-Scaleform::Render::Text::StyleManagerBase *__thiscall Scaleform::GFx::Text::CSSHandler<wchar_t>::`vector deleting destructor'(
-        Scaleform::Render::Text::StyleManagerBase *this,
+Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider *__thiscall Scaleform::GFx::Text::CSSHandler<wchar_t>::`vector deleting destructor'(
+        Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider *this,
         char a2)
 {
-  this->__vftable = (Scaleform::Render::Text::StyleManagerBase_vtbl *)&Scaleform::GFx::Text::CSSHandler<wchar_t>::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::AS3Vectoruint_DIPixelProvider_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   if ( (a2 & 1) != 0 )
-    operator delete((void *)this);
+    operator delete(this);
   return this;
 }

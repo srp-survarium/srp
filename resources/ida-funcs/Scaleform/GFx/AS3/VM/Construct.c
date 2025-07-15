@@ -38,7 +38,7 @@ bool __thiscall Scaleform::GFx::AS3::VM::Construct(
       Scaleform::GFx::ASStringNode::ReleaseNode(v10);
     goto LABEL_10;
   }
-  (*(void (__stdcall **)(Scaleform::GFx::AS3::Value *, unsigned int, const Scaleform::GFx::AS3::Value *, int))(*(_DWORD *)value.value.VS._1.VInt + 36))(
+  (*(void (__stdcall **)(Scaleform::GFx::AS3::Value *, unsigned int, const Scaleform::GFx::AS3::Value *, int))(*(_DWORD *)value.value.VS._1.VInt + 48))(
     result,
     argc,
     argv,

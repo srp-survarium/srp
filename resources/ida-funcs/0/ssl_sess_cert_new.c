@@ -1,20 +1,20 @@
-sess_cert_st *__cdecl ssl_sess_cert_new()
+sess_cert_st *__usercall ssl_sess_cert_new@<eax>(int a1@<ebx>)
 {
-  _DWORD *v0; // eax
-  _DWORD *v1; // esi
+  _DWORD *v1; // eax
+  _DWORD *v2; // esi
 
-  v0 = CRYPTO_malloc(92, ".\\ssl\\ssl_cert.c", 418);
-  v1 = v0;
-  if ( v0 )
+  v1 = CRYPTO_malloc(92, ".\\ssl\\ssl_cert.c", 418);
+  v2 = v1;
+  if ( v1 )
   {
-    memset((int)v0, 0, 0x5Cu);
-    v1[2] = v1 + 3;
-    v1[22] = 1;
-    return (sess_cert_st *)v1;
+    memset((int)v1, 0, 92);
+    v2[2] = v2 + 3;
+    v2[22] = 1;
+    return (sess_cert_st *)v2;
   }
   else
   {
-    ERR_put_error(0x14u, 225, 65, ".\\ssl\\ssl_cert.c", 421);
+    ERR_put_error(a1, 0x14u, 225, 65, ".\\ssl\\ssl_cert.c", 421);
     return 0;
   }
 }

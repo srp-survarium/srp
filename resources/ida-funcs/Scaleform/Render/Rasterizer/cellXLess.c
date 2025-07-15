@@ -1,6 +1,6 @@
 BOOL __cdecl Scaleform::Render::Rasterizer::cellXLess(
-        const Scaleform::Render::Rasterizer::Cell *a,
-        const Scaleform::Render::Rasterizer::Cell *b)
+        const Scaleform::Render::Rasterizer::Cell *a1,
+        const Scaleform::Render::Rasterizer::Cell *a2)
 {
-  return a->x < b->x;
+  return a1->x < a2->x;
 }

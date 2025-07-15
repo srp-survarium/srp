@@ -1,6 +1,4 @@
-BOOL __usercall vostok::render::stage_volume_fog::is_effects_ready@<eax>(
-        vostok::render::stage_volume_fog *this@<ecx>,
-        int a2@<eax>)
+BOOL __thiscall vostok::render::stage_volume_fog::is_effects_ready(vostok::render::stage_volume_fog *this)
 {
-  return *(_DWORD *)(a2 + 40) && *(_DWORD *)(a2 + 44);
+  return this->m_exponential_volume_fog_effect.m_object != 0;
 }

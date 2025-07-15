@@ -5,17 +5,17 @@ Scaleform::GFx::Resource *__thiscall Scaleform::GFx::ResourceHandle::GetResource
 {
   Scaleform::GFx::Resource *pObject; // ecx
   Scaleform::GFx::Resource *v5; // esi
-  volatile unsigned int BindIndex; // [esp-8h] [ebp-10h]
-  Scaleform::GFx::ResourceBindData rbd; // [esp+0h] [ebp-8h] BYREF
+  unsigned int BindIndex; // [esp-8h] [ebp-10h]
+  Scaleform::GFx::ResourceBindData v7; // [esp+0h] [ebp-8h] BYREF
 
   if ( this->HType )
   {
     BindIndex = this->BindIndex;
-    rbd.pResource.pObject = 0;
-    rbd.pBinding = 0;
-    Scaleform::GFx::ResourceBinding::GetResourceData(pbinding, &rbd, BindIndex);
-    pObject = rbd.pResource.pObject;
-    *presBinding = rbd.pBinding;
+    v7.pResource.pObject = 0;
+    v7.pBinding = 0;
+    Scaleform::GFx::ResourceBinding::GetResourceData(pbinding, &v7, BindIndex);
+    pObject = v7.pResource.pObject;
+    *presBinding = v7.pBinding;
     v5 = pObject;
     if ( pObject )
       Scaleform::GFx::Resource::Release(pObject);

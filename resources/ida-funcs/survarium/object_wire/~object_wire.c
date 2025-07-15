@@ -1,22 +1,24 @@
-void __thiscall survarium::object_wire::~object_wire(survarium::object_wire *this)
+void __usercall survarium::object_wire::~object_wire(survarium::object_wire *this@<ecx>, const char *a2@<esi>)
 {
+  vostok::math::float3 **p_m_points; // edi
   char *m_points; // eax
-  malloc_state *v3; // esi
-  vostok::render::render_model_instance *m_object; // eax
+  const char *v5; // [esp+0h] [ebp-8h]
+  unsigned int v6; // [esp+4h] [ebp-4h]
 
+  p_m_points = &this->m_points;
   this->__vftable = (survarium::object_wire_vtbl *)&survarium::object_wire::`vftable';
   m_points = (char *)this->m_points;
   if ( m_points )
   {
-    v3 = *(malloc_state **)(LODWORD(survarium::g_allocator.f_.f_) + 20);
-    *(_BYTE *)(LODWORD(survarium::g_allocator.f_.f_) + 42) = 0;
-    vostok_mspace_free(v3, m_points);
-    this->m_points = 0;
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)survarium::g_allocator,
+      m_points,
+      a2,
+      v5,
+      v6);
+    *p_m_points = 0;
   }
-  m_object = this->m_visual.m_object;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_visual.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_visual.m_object);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_visual);
   vostok::resources::unmanaged_resource::~unmanaged_resource(this);
 }

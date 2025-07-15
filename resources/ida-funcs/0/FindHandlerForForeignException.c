@@ -13,8 +13,8 @@ void __cdecl FindHandlerForForeignException(
   const _s_TryBlockMapEntry *i; // edi
   int v11; // eax
   int v12; // ecx
-  unsigned int end; // [esp+4h] [ebp-8h] BYREF
-  unsigned int curTry; // [esp+8h] [ebp-4h] BYREF
+  unsigned int pEnd; // [esp+4h] [ebp-8h] BYREF
+  unsigned int pStart; // [esp+8h] [ebp-4h] BYREF
 
   if ( pExcept->ExceptionCode != -2147483645 )
   {
@@ -26,7 +26,7 @@ void __cdecl FindHandlerForForeignException(
       if ( !pFuncInfo->nTryBlocks )
         _inconsistency();
       v9 = curState;
-      for ( i = _GetRangeOfTrysToCheck(pFuncInfo, CatchDepth, curState, &curTry, &end); curTry < end; ++i )
+      for ( i = _GetRangeOfTrysToCheck(pFuncInfo, CatchDepth, curState, &pStart, &pEnd); pStart < pEnd; ++i )
       {
         if ( v9 >= i->tryLow && v9 <= i->tryHigh )
         {
@@ -38,7 +38,7 @@ void __cdecl FindHandlerForForeignException(
             v9 = curState;
           }
         }
-        ++curTry;
+        ++pStart;
       }
     }
   }

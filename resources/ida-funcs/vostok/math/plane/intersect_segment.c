@@ -1,43 +1,37 @@
-BOOL __userpurge vostok::math::plane::intersect_segment@<eax>(
-        const vostok::math::float3 *first@<ecx>,
-        const vostok::math::float3 *second@<edx>,
-        vostok::math::float3 *intersection_position@<esi>,
-        vostok::math::plane *this)
+BOOL __fastcall vostok::math::plane::intersect_segment(
+        const vostok::math::float3 *first,
+        const vostok::math::float3 *second,
+        vostok::math::plane *this,
+        vostok::math::float3 *intersection_position)
 {
   float y; // xmm6_4
-  float x; // xmm5_4
+  float v6; // xmm2_4
   float v7; // xmm3_4
-  float v8; // xmm4_4
   float z; // xmm0_4
-  float v10; // xmm2_4
-  float v11; // xmm1_4
-  float v12; // xmm0_4
-  int v13; // xmm0_4
-  float v14; // xmm0_4
-  float v15; // xmm3_4
-  float v16; // ecx
-  __int64 v18; // [esp+0h] [ebp-Ch]
-  float thisa; // [esp+10h] [ebp+4h]
+  float v9; // xmm1_4
+  float v10; // xmm4_4
+  float v11; // xmm0_4
+  int v12; // xmm0_4
+  float v13; // xmm0_4
+  __int64 v15; // [esp+4h] [ebp-8h]
+  float x; // [esp+14h] [ebp+8h]
 
   y = this->normal.y;
-  x = first->x;
-  v7 = second->y - first->y;
-  v8 = second->z - first->z;
+  v6 = second->y - first->y;
+  v7 = second->z - first->z;
   z = this->normal.z;
-  thisa = this->normal.x;
-  v10 = second->x - first->x;
-  v11 = (float)((float)(thisa * v10) + (float)(y * v7)) + (float)(z * v8);
-  v12 = (float)((float)((float)(z * first->z) + (float)(y * first->y)) + (float)(thisa * first->x)) + this->d;
-  if ( v11 == 0.0 )
-    v13 = LODWORD(v12) & 0x7FFFFFFF;
+  x = this->normal.x;
+  v9 = second->x - first->x;
+  v10 = (float)((float)(x * v9) + (float)(y * v6)) + (float)(z * v7);
+  v11 = (float)((float)((float)(z * first->z) + (float)(y * first->y)) + (float)(x * first->x)) + this->d;
+  if ( v10 == 0.0 )
+    v12 = LODWORD(v11) & 0x7FFFFFFF;
   else
-    *(float *)&v13 = v12 / v11;
-  v14 = -*(float *)&v13;
-  v15 = (float)(v7 * v14) + first->y;
-  v16 = first->z + (float)(v8 * v14);
-  *(float *)&v18 = x + (float)(v10 * v14);
-  *((float *)&v18 + 1) = v15;
-  *(_QWORD *)&intersection_position->x = v18;
-  intersection_position->z = v16;
-  return v14 >= 0.0 && *(float *)&clear_value >= v14;
+    *(float *)&v12 = v11 / v10;
+  LODWORD(v13) = v12 ^ _mask__NegFloat_;
+  *(float *)&v15 = (float)(v6 * v13) + first->y;
+  *((float *)&v15 + 1) = first->z + (float)(v7 * v13);
+  intersection_position->x = first->x + (float)(v9 * v13);
+  *(_QWORD *)&intersection_position->elements[1] = v15;
+  return v13 >= 0.0 && s_bm_current_air_resistance >= v13;
 }

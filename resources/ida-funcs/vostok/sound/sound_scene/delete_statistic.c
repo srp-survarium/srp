@@ -1,43 +1,94 @@
-void __thiscall vostok::sound::sound_scene::delete_statistic(
-        vostok::sound::sound_scene *this,
-        vostok::sound::sound_scene_statistic *statistic)
+void __thiscall vostok::sound::sound_scene::delete_statistic(vostok::memory::doug_lea_allocator *statistic, char *a2)
 {
-  vostok::memory::detail::call_destructor_predicate call_destructor_predicate; // [esp+43h] [ebp-31h] BYREF
-  vostok::sound::propagator_statistic *v3; // [esp+5Ch] [ebp-18h]
-  vostok::sound::proxy_statistic *m_first; // [esp+60h] [ebp-14h]
-  vostok::sound::propagator_statistic *prop_stats_next; // [esp+64h] [ebp-10h]
-  vostok::sound::propagator_statistic *prop_stats; // [esp+68h] [ebp-Ch] BYREF
-  vostok::sound::proxy_statistic *prx_stats_next; // [esp+6Ch] [ebp-8h]
-  vostok::sound::proxy_statistic *prx_stats; // [esp+70h] [ebp-4h] BYREF
+  char *v2; // ebx
+  char *i; // edi
+  vostok::memory::doug_lea_allocator *v4; // ecx
+  vostok::memory::doug_lea_allocator *v5; // eax
+  vostok::memory::doug_lea_allocator *v6; // ebx
+  _DWORD *v7; // edx
+  vostok::memory::doug_lea_allocator_vtbl *v8; // esi
+  _DWORD *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // eax
+  vostok::memory::doug_lea_allocator_vtbl *v11; // edx
+  vostok::memory::doug_lea_allocator *v12; // eax
+  const char *v13; // [esp+0h] [ebp-14h]
+  const char *v14; // [esp+4h] [ebp-10h]
+  unsigned int v15; // [esp+8h] [ebp-Ch]
+  char *v16; // [esp+10h] [ebp-4h]
 
-  if ( statistic )
+  v2 = a2;
+  for ( i = (char *)*((_DWORD *)a2 + 13); i; i = v16 )
   {
-    m_first = statistic->m_proxies_statistic.m_first;
-    for ( prx_stats = m_first; prx_stats; prx_stats = prx_stats_next )
+    v4 = (vostok::memory::doug_lea_allocator *)*((_DWORD *)i + 9);
+    v16 = *(char **)i;
+    if ( v4 )
     {
-      prx_stats_next = prx_stats->next;
-      v3 = prx_stats->m_propagator_statistics.m_first;
-      for ( prop_stats = v3; prop_stats; prop_stats = prop_stats_next )
+      do
       {
-        prop_stats_next = prop_stats->next;
-        vostok::intrusive_list<vostok::sound::proxy_statistic,vostok::sound::proxy_statistic *,0,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::erase(
-          (vostok::intrusive_list<vostok::sound::proxy_statistic,vostok::sound::proxy_statistic *,0,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&prx_stats->m_propagator_statistics,
-          (vostok::sound::proxy_statistic *)prop_stats);
-        call_destructor_predicate = 0;
-        vostok::memory::detail::delete_helper_impl<vostok::memory::doug_lea_allocator,vostok::sound::propagator_statistic,vostok::memory::detail::call_destructor_predicate>(
-          (vostok::memory::doug_lea_allocator *)vostok::sound::g_allocator.m_object,
-          &prop_stats,
-          &call_destructor_predicate);
+        v5 = (vostok::memory::doug_lea_allocator *)*((_DWORD *)i + 9);
+        v6 = (vostok::memory::doug_lea_allocator *)v4->__vftable;
+        if ( v5 )
+        {
+          v7 = 0;
+          while ( v5 != v4 )
+          {
+            v7 = &v5->__vftable;
+            v5 = (vostok::memory::doug_lea_allocator *)v5->__vftable;
+            if ( !v5 )
+            {
+              if ( v4 )
+                goto LABEL_15;
+              break;
+            }
+          }
+          --*((_DWORD *)i + 7);
+          v8 = v5->__vftable;
+          if ( v7 )
+            *v7 = v8;
+          else
+            *((_DWORD *)i + 9) = v8;
+          if ( !v5->__vftable )
+          {
+            v9 = v7;
+            if ( !v7 )
+              v9 = (_DWORD *)*((_DWORD *)i + 9);
+            *((_DWORD *)i + 10) = v9;
+          }
+        }
+LABEL_15:
+        vostok::memory::doug_lea_allocator::free_impl(v4, (int)vostok::sound::g_allocator, (char *)v4, v13, v14, v15);
+        v4 = v6;
       }
-      vostok::intrusive_list<vostok::sound::proxy_statistic,vostok::sound::proxy_statistic *,0,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::erase(
-        &statistic->m_proxies_statistic,
-        prx_stats);
-      vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::sound::proxy_statistic>(
-        (vostok::memory::doug_lea_allocator *)vostok::sound::g_allocator.m_object,
-        (vostok::sound::sound_scene_statistic **)&prx_stats);
+      while ( v6 );
+      v2 = a2;
     }
-    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::sound::proxy_statistic>(
-      (vostok::memory::doug_lea_allocator *)vostok::sound::g_allocator.m_object,
-      &statistic);
+    v10 = (vostok::memory::doug_lea_allocator *)*((_DWORD *)v2 + 13);
+    if ( v10 )
+    {
+      v4 = 0;
+      while ( v10 != (vostok::memory::doug_lea_allocator *)i )
+      {
+        v4 = v10;
+        v10 = (vostok::memory::doug_lea_allocator *)v10->__vftable;
+        if ( !v10 )
+          goto LABEL_29;
+      }
+      --*((_DWORD *)v2 + 11);
+      v11 = v10->__vftable;
+      if ( v4 )
+        v4->__vftable = v11;
+      else
+        *((_DWORD *)v2 + 13) = v11;
+      if ( !v10->__vftable )
+      {
+        v12 = v4;
+        if ( !v4 )
+          v12 = (vostok::memory::doug_lea_allocator *)*((_DWORD *)v2 + 13);
+        *((_DWORD *)v2 + 14) = v12;
+      }
+    }
+LABEL_29:
+    vostok::memory::doug_lea_allocator::free_impl(v4, (int)vostok::sound::g_allocator, i, v13, v14, v15);
   }
+  vostok::memory::doug_lea_allocator::free_impl(statistic, (int)vostok::sound::g_allocator, v2, v13, v14, v15);
 }

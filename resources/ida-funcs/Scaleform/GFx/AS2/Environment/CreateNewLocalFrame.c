@@ -61,7 +61,7 @@ Scaleform::GFx::AS2::LocalFrame *__thiscall Scaleform::GFx::AS2::Environment::Cr
   if ( v2 )
   {
     RefCount = v2->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v2->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v2);

@@ -4,14 +4,14 @@ int __cdecl OBJ_NAME_remove(const char *name, int type)
   int *v3; // esi
   int v4; // edi
   char *v5; // eax
-  _DWORD data[4]; // [esp+0h] [ebp-10h] BYREF
+  _DWORD v6[4]; // [esp+0h] [ebp-10h] BYREF
 
   result = (int)names_lh;
   if ( names_lh )
   {
-    data[2] = name;
-    data[0] = type & 0xFFFF7FFF;
-    v3 = (int *)lh_delete((lhash_st *)names_lh, data);
+    v6[2] = name;
+    v6[0] = type & 0xFFFF7FFF;
+    v3 = (int *)lh_delete((lhash_st *)names_lh, v6);
     if ( v3 )
     {
       if ( name_funcs_stack )

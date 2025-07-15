@@ -1,10 +1,10 @@
-unsigned int __cdecl ASN1_TYPE_cmp(asn1_type_st *a, asn1_type_st *b)
+unsigned int __cdecl ASN1_TYPE_cmp(asn1_string_st *a, asn1_string_st *b)
 {
-  if ( !a || !b || a->type != b->type )
+  if ( !a || !b || a->length != b->length )
     return -1;
-  if ( a->type == 5 )
+  if ( a->length == 5 )
     return 0;
-  if ( a->type == 6 )
-    return OBJ_cmp(a->value.object, b->value.object);
-  return ASN1_STRING_cmp(a->value.asn1_string, b->value.asn1_string);
+  if ( a->length == 6 )
+    return OBJ_cmp((const asn1_object_st *)a->type, (const asn1_object_st *)b->type);
+  return ASN1_STRING_cmp((const asn1_string_st *)a->type, (const asn1_string_st *)b->type);
 }

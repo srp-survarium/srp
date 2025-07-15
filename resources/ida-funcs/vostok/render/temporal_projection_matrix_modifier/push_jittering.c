@@ -1,77 +1,78 @@
-void __thiscall vostok::render::temporal_projection_matrix_modifier::push_jittering(
+vostok::math::float4x4 *__thiscall vostok::render::temporal_projection_matrix_modifier::push_jittering(
         vostok::render::temporal_projection_matrix_modifier *this,
-        int *w)
+        vostok::math::float4x4 *result,
+        vostok::math::float4x4 *a3)
 {
-  int v3; // eax
-  double v4; // st7
-  double v5; // st7
-  bool v6; // zf
-  float *v7; // ecx
-  float v8; // xmm2_4
-  float v9; // xmm0_4
-  float v10; // xmm2_4
-  float v11; // xmm5_4
-  float v12; // xmm3_4
-  float v13; // xmm4_4
-  float v14; // xmm1_4
-  float v15; // xmm0_4
-  float v16; // xmm6_4
-  float v17; // xmm2_4
-  float v18; // xmm0_4
-  float v19; // xmm1_4
-  float v20; // xmm2_4
-  float v21; // ecx
-  void *v22; // edi
-  float h; // [esp+Ch] [ebp-54h]
-  float jitter0[2]; // [esp+10h] [ebp-50h] BYREF
-  float jitter1[2]; // [esp+18h] [ebp-48h] BYREF
-  vostok::math::float4x4 p; // [esp+20h] [ebp-40h] BYREF
-  float wa; // [esp+64h] [ebp+4h]
+  _BYTE *v4; // esi
+  int x_low; // eax
+  double y_low; // st7
+  const void *v7; // edx
+  int v8; // ecx
+  bool v9; // zf
+  float *v10; // ecx
+  float v11; // xmm3_4
+  float v12; // xmm0_4
+  float v13; // xmm3_4
+  float v14; // xmm7_4
+  float v15; // xmm4_4
+  float v16; // xmm1_4
+  float v17; // xmm0_4
+  float v18; // xmm6_4
+  float v19; // xmm3_4
+  float v20; // xmm1_4
+  float v21; // xmm3_4
+  float v22; // xmm0_4
+  vostok::math::float4x4 *v23; // eax
+  _BYTE v24[64]; // [esp+10h] [ebp-98h] BYREF
+  vostok::math::float4x4 v25; // [esp+50h] [ebp-58h] BYREF
+  _DWORD v26[2]; // [esp+94h] [ebp-14h] BYREF
+  _DWORD v27[2]; // [esp+9Ch] [ebp-Ch] BYREF
+  float z_low; // [esp+A4h] [ebp-4h]
+  float v29; // [esp+B0h] [ebp+8h]
 
-  if ( *((_BYTE *)w + 12) )
+  if ( LOBYTE(result->lines[0].elements[3]) )
   {
-    v3 = *w;
-    v4 = (double)(unsigned int)w[1];
-    qmemcpy((void *)&p, (const void *)(*w + 15940), sizeof(p));
-    wa = v4;
-    v5 = (double)(unsigned int)w[2];
-    v6 = (*(_BYTE *)(*(_DWORD *)(v3 + 12392) + 1216) & 1) == 0;
-    jitter0[0] = 0.25;
-    jitter0[1] = -0.25;
-    jitter1[0] = -0.25;
-    jitter1[1] = 0.25;
-    v7 = jitter0;
-    if ( !v6 )
-      v7 = jitter1;
-    v8 = *(float *)(v3 + 12372);
-    v9 = v8 * p.j.y;
-    v10 = v8 * p.i.x;
-    v11 = v9;
-    LODWORD(v12) = LODWORD(v10) ^ 0x80000000;
-    LODWORD(v13) = LODWORD(v9) ^ 0x80000000;
-    v14 = (float)((float)(v9 - COERCE_FLOAT(LODWORD(v9) ^ 0x80000000)) * (float)(-1.0 / wa)) * *v7;
-    h = v5;
-    v15 = (float)((float)(v10 - COERCE_FLOAT(LODWORD(v10) ^ 0x80000000)) * v7[1]) * (float)(-1.0 / h);
-    v16 = v15 + v10;
-    v17 = v14;
-    v18 = v15 + v12;
-    v19 = v14 + v13;
-    v20 = v17 + v11;
-    if ( fabs(v19 - v20) > 0.0000099999997 )
-      p.k.x = (float)(v19 + v20) / (float)(v19 - v20);
-    v21 = fabs(v18 - v16);
-    if ( v21 > 0.0000099999997 )
-      p.k.y = (float)(v18 + v16) / (float)(v18 - v16);
-    v22 = *(void **)(v3 + 14464);
-    if ( v22 )
-    {
-      qmemcpy(v22, (const void *)(v3 + 15940), 0x40u);
-      v21 = 0.0;
-    }
-    *(_DWORD *)(v3 + 14464) += 64;
-    vostok::render::renderer_context::set_p(
-      (vostok::render::renderer_context *)LODWORD(v21),
-      (const vostok::math::float4x4 *)v3);
-    *((_BYTE *)w + 13) = 1;
+    x_low = LODWORD(result->i.x);
+    y_low = (double)LODWORD(result->i.y);
+    v7 = (const void *)(LODWORD(result->i.x) + 19828);
+    qmemcpy(&v25, v7, sizeof(v25));
+    qmemcpy(v24, v7, sizeof(v24));
+    v8 = *(_DWORD *)(x_low + 16268);
+    z_low = (float)LODWORD(result->i.z);
+    v9 = (*((_BYTE *)&dword_10DF8 + v8) & 1) == 0;
+    *(float *)v26 = FLOAT_0_25;
+    *(float *)&v26[1] = FLOAT_N0_25;
+    *(float *)v27 = FLOAT_N0_25;
+    *(float *)&v27[1] = FLOAT_0_25;
+    v10 = (float *)v26;
+    if ( !v9 )
+      v10 = (float *)v27;
+    v11 = *(float *)(x_low + 16224);
+    v12 = v11 * v25.j.y;
+    v13 = v11 * v25.i.x;
+    v14 = v12;
+    LODWORD(v15) = LODWORD(v13) ^ _mask__NegFloat_;
+    v29 = y_low;
+    v16 = (float)((float)(v12 - COERCE_FLOAT(LODWORD(v12) ^ _mask__NegFloat_)) * (float)(-1.0 / v29)) * *v10;
+    v17 = (float)((float)(v13 - COERCE_FLOAT(LODWORD(v13) ^ _mask__NegFloat_)) * v10[1]) * (float)(-1.0 / z_low);
+    v18 = v17 + v13;
+    v19 = v16;
+    v20 = v16 + COERCE_FLOAT(LODWORD(v14) ^ _mask__NegFloat_);
+    v21 = v19 + v14;
+    v22 = v17 + v15;
+    if ( fabs(v20 - v21) > 0.0000099999997 )
+      v25.k.x = (float)(v20 + v21) / (float)(v20 - v21);
+    if ( fabs(v22 - v18) > 0.0000099999997 )
+      v25.k.y = (float)(v22 + v18) / (float)(v22 - v18);
+    vostok::render::renderer_context::push_set_p((vostok::render::renderer_context *)&v25, x_low, &v25);
+    BYTE1(result->lines[0].elements[3]) = 1;
+    v4 = v24;
   }
+  else
+  {
+    v4 = (_BYTE *)(LODWORD(result->i.x) + 19828);
+  }
+  v23 = a3;
+  qmemcpy(a3, v4, sizeof(vostok::math::float4x4));
+  return v23;
 }

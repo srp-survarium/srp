@@ -10,38 +10,35 @@ void __thiscall Scaleform::Render::TextMeshProvider::addVectorGlyph(
         float y)
 {
   Scaleform::Render::GlyphCache *pCache; // ecx
-  unsigned int Size; // eax
   Scaleform::Render::PrimitiveFill *Fill; // eax
-  Scaleform::GFx::Resource *pFont; // ecx
-  Scaleform::Render::Font *v13; // eax
+  Scaleform::Render::Font *pFont; // ecx
+  Scaleform::Render::Font *v12; // eax
+  unsigned int Size; // esi
   unsigned int v14; // esi
-  unsigned int v15; // esi
-  Scaleform::Render::TmpTextMeshEntry e; // [esp+Ch] [ebp-24h] BYREF
+  _DWORD v15[9]; // [esp+Ch] [ebp-24h] BYREF
 
   pCache = this->pCache;
-  e.LayerType = 8;
-  Size = storage->Entries.Size;
-  e.TextureId = 0;
-  e.EntryIdx = Size;
-  e.mColor = color;
+  v15[0] = 8;
+  v15[1] = storage->Entries.Size;
+  v15[2] = color;
   Fill = Scaleform::Render::GlyphCache::GetFill(pCache, TextLayer_Shapes, 0);
   ++Fill->RefCount;
-  pFont = (Scaleform::GFx::Resource *)font->pFont;
-  e.pFill = Fill;
-  Scaleform::RefCountImpl::AddRef(pFont);
-  v13 = font->pFont;
-  e.EntryData.RasterData.Coord[2] = fontSize;
-  e.EntryData.RasterData.Coord[3] = x;
-  v14 = storage->Entries.Size;
-  e.EntryData.VectorData.y = y;
-  v15 = v14 >> 6;
-  e.EntryData.UnderlineData.Style = (unsigned int)v13;
-  e.EntryData.VectorData.GlyphIndex = glyphIndex;
-  e.EntryData.VectorData.Flags = flags;
-  if ( v15 >= storage->Entries.NumPages )
-    Scaleform::Render::ArrayPaged<Scaleform::Render::TmpTextMeshEntry,6,4>::allocPage(&storage->Entries, v15);
+  pFont = font->pFont;
+  v15[3] = Fill;
+  Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pFont);
+  v12 = font->pFont;
+  *(float *)&v15[6] = fontSize;
+  *(float *)&v15[7] = x;
+  Size = storage->Entries.Size;
+  *(float *)&v15[8] = y;
+  v14 = Size >> 6;
+  v15[4] = v12;
+  LOWORD(v15[5]) = glyphIndex;
+  HIWORD(v15[5]) = flags;
+  if ( v14 >= storage->Entries.NumPages )
+    Scaleform::Render::ArrayPaged<Scaleform::Render::TmpTextMeshEntry,6,4>::allocPage(&storage->Entries, v14);
   qmemcpy(
-    &storage->Entries.Pages[v15][storage->Entries.Size++ & 0x3F],
-    &e,
-    sizeof(storage->Entries.Pages[v15][storage->Entries.Size++ & 0x3F]));
+    &storage->Entries.Pages[v14][storage->Entries.Size++ & 0x3F],
+    v15,
+    sizeof(storage->Entries.Pages[v14][storage->Entries.Size++ & 0x3F]));
 }

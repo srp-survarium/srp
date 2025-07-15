@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
         float *angle,
         float *distance,
         char readConstants,
-        Scaleform::Render::FilterType type,
+        unsigned int type,
         unsigned int passesMask)
 {
   int v8; // edi
@@ -37,12 +37,12 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
   unsigned int v35; // esi
   const unsigned __int8 *v36; // ecx
   unsigned __int8 v37; // cl
-  Scaleform::Render::BlurFilterParams *paramsa; // [esp+18h] [ebp+8h]
-  float paramsb; // [esp+18h] [ebp+8h]
-  Scaleform::Render::BlurFilterParams *paramsc; // [esp+18h] [ebp+8h]
-  float paramsd; // [esp+18h] [ebp+8h]
-  Scaleform::Render::BlurFilterParams *paramse; // [esp+18h] [ebp+8h]
-  Scaleform::Render::BlurFilterParams *paramsf; // [esp+18h] [ebp+8h]
+  int v38; // [esp+18h] [ebp+8h]
+  float v39; // [esp+18h] [ebp+8h]
+  int v40; // [esp+18h] [ebp+8h]
+  float v41; // [esp+18h] [ebp+8h]
+  int v42; // [esp+18h] [ebp+8h]
+  int v43; // [esp+18h] [ebp+8h]
 
   v8 = 0;
   if ( (readConstants & 1) != 0 )
@@ -122,19 +122,19 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
   v25 = ps->CurByteIndex;
   v26 = &ps->pData[v25];
   ps->CurBitIndex = 0;
-  paramsa = (Scaleform::Render::BlurFilterParams *)(*v26 | ((v26[1] | (*((unsigned __int16 *)v26 + 1) << 8)) << 8));
+  v38 = *v26 | ((v26[1] | (*((unsigned __int16 *)v26 + 1) << 8)) << 8);
   ps->CurByteIndex = v25 + 4;
-  paramsb = (double)(unsigned int)paramsa * 0.0000152587890625;
-  params->BlurX = paramsb * 20.0;
+  v39 = (double)(unsigned int)v38 * 0.0000152587890625;
+  params->BlurX = v39 * 20.0;
   if ( ps->CurBitIndex )
     ++ps->CurByteIndex;
   v27 = ps->CurByteIndex;
   v28 = &ps->pData[v27];
   ps->CurBitIndex = 0;
-  paramsc = (Scaleform::Render::BlurFilterParams *)(*v28 | ((v28[1] | (*((unsigned __int16 *)v28 + 1) << 8)) << 8));
+  v40 = *v28 | ((v28[1] | (*((unsigned __int16 *)v28 + 1) << 8)) << 8);
   ps->CurByteIndex = v27 + 4;
-  paramsd = (double)(unsigned int)paramsc * 0.0000152587890625;
-  params->BlurY = 20.0 * paramsd;
+  v41 = (double)(unsigned int)v40 * 0.0000152587890625;
+  params->BlurY = 20.0 * v41;
   if ( (readConstants & 4) != 0 )
   {
     if ( ps->CurBitIndex )
@@ -142,17 +142,17 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::StreamContext>(
     v29 = ps->CurByteIndex;
     v30 = &ps->pData[v29];
     ps->CurBitIndex = 0;
-    paramse = (Scaleform::Render::BlurFilterParams *)(*v30 | ((v30[1] | (*((unsigned __int16 *)v30 + 1) << 8)) << 8));
+    v42 = *v30 | ((v30[1] | (*((unsigned __int16 *)v30 + 1) << 8)) << 8);
     ps->CurByteIndex = v29 + 4;
-    *angle = (double)(unsigned int)paramse * 0.0000152587890625;
+    *angle = (double)(unsigned int)v42 * 0.0000152587890625;
     if ( ps->CurBitIndex )
       ++ps->CurByteIndex;
     v31 = ps->CurByteIndex;
     v32 = &ps->pData[v31];
     ps->CurBitIndex = 0;
-    paramsf = (Scaleform::Render::BlurFilterParams *)(*v32 | ((v32[1] | (*((unsigned __int16 *)v32 + 1) << 8)) << 8));
+    v43 = *v32 | ((v32[1] | (*((unsigned __int16 *)v32 + 1) << 8)) << 8);
     ps->CurByteIndex = v31 + 4;
-    *distance = 0.0000152587890625 * (double)(unsigned int)paramsf;
+    *distance = 0.0000152587890625 * (double)(unsigned int)v43;
   }
   if ( (readConstants & 8) != 0 )
   {
@@ -199,7 +199,7 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
         float *angle,
         float *distance,
         char readConstants,
-        Scaleform::Render::FilterType type,
+        unsigned int type,
         unsigned int passesMask)
 {
   signed int v8; // edx
@@ -219,11 +219,11 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
   unsigned __int8 v22; // cl
   unsigned int v23; // eax
   int v24; // ecx
-  float readConstantsa; // [esp+24h] [ebp+14h]
-  float readConstantsb; // [esp+24h] [ebp+14h]
-  unsigned int readConstantsc; // [esp+24h] [ebp+14h]
-  unsigned int readConstantsd; // [esp+24h] [ebp+14h]
-  signed int readConstantse; // [esp+24h] [ebp+14h]
+  float v25; // [esp+24h] [ebp+14h]
+  float v26; // [esp+24h] [ebp+14h]
+  int v27; // [esp+24h] [ebp+14h]
+  int v28; // [esp+24h] [ebp+14h]
+  int v29; // [esp+24h] [ebp+14h]
 
   if ( (readConstants & 1) != 0 )
   {
@@ -238,8 +238,8 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
   Pos = ps->Pos;
   v10 = ps->pBuffer[Pos] | ((ps->pBuffer[Pos + 1] | (*(unsigned __int16 *)&ps->pBuffer[Pos + 2] << 8)) << 8);
   ps->Pos = Pos + 4;
-  readConstantsa = (double)(unsigned int)v10 * 0.0000152587890625;
-  params->BlurX = readConstantsa * 20.0;
+  v25 = (double)(unsigned int)v10 * 0.0000152587890625;
+  params->BlurX = v25 * 20.0;
   v11 = ps->DataSize - ps->Pos;
   ps->UnusedBits = 0;
   if ( v11 < 4 )
@@ -247,8 +247,8 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
   v12 = ps->Pos;
   v13 = ps->pBuffer[v12] | ((ps->pBuffer[v12 + 1] | (*(unsigned __int16 *)&ps->pBuffer[v12 + 2] << 8)) << 8);
   ps->Pos = v12 + 4;
-  readConstantsb = (double)(unsigned int)v13 * 0.0000152587890625;
-  params->BlurY = readConstantsb * 20.0;
+  v26 = (double)(unsigned int)v13 * 0.0000152587890625;
+  params->BlurY = v26 * 20.0;
   if ( (readConstants & 4) != 0 )
   {
     v14 = ps->DataSize - ps->Pos;
@@ -256,19 +256,17 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
     if ( v14 < 4 )
       Scaleform::GFx::Stream::PopulateBuffer(ps, 4);
     v15 = ps->Pos;
-    readConstantsc = ps->pBuffer[v15]
-                   | ((ps->pBuffer[v15 + 1] | (*(unsigned __int16 *)&ps->pBuffer[v15 + 2] << 8)) << 8);
+    v27 = ps->pBuffer[v15] | ((ps->pBuffer[v15 + 1] | (*(unsigned __int16 *)&ps->pBuffer[v15 + 2] << 8)) << 8);
     ps->Pos = v15 + 4;
-    *angle = (double)readConstantsc * 0.0000152587890625;
+    *angle = (double)(unsigned int)v27 * 0.0000152587890625;
     v16 = ps->DataSize - ps->Pos;
     ps->UnusedBits = 0;
     if ( v16 < 4 )
       Scaleform::GFx::Stream::PopulateBuffer(ps, 4);
     v17 = ps->Pos;
-    readConstantsd = ps->pBuffer[v17]
-                   | ((ps->pBuffer[v17 + 1] | ((ps->pBuffer[v17 + 2] | (ps->pBuffer[v17 + 3] << 8)) << 8)) << 8);
+    v28 = ps->pBuffer[v17] | ((ps->pBuffer[v17 + 1] | ((ps->pBuffer[v17 + 2] | (ps->pBuffer[v17 + 3] << 8)) << 8)) << 8);
     ps->Pos = v17 + 4;
-    *distance = (double)readConstantsd * 0.0000152587890625;
+    *distance = (double)(unsigned int)v28 * 0.0000152587890625;
   }
   if ( (readConstants & 8) != 0 )
   {
@@ -277,9 +275,9 @@ void __cdecl Scaleform::GFx::ReadBlurFilter<Scaleform::GFx::Stream>(
     if ( v18 < 2 )
       Scaleform::GFx::Stream::PopulateBuffer(ps, 2);
     v19 = ps->Pos;
-    readConstantse = *(unsigned __int16 *)&ps->pBuffer[v19];
+    v29 = *(unsigned __int16 *)&ps->pBuffer[v19];
     ps->Pos = v19 + 2;
-    params->Strength = (double)readConstantse * 0.00390625;
+    params->Strength = (double)v29 * 0.00390625;
   }
   v20 = ps->DataSize - ps->Pos;
   ps->UnusedBits = 0;

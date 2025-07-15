@@ -43,7 +43,7 @@ Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::VMAbcFile> *__thiscall Scaleform:
       return v9;
     RefCount = v8->RefCount;
   }
-  if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFF) != 0 )
   {
     v8->RefCount = RefCount - 1;
     Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

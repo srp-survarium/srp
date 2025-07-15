@@ -1,17 +1,17 @@
-vostok::memory::reader *__usercall vostok::memory::chunk_reader::open_reader@<eax>(
+vostok::memory::reader *__userpurge vostok::memory::chunk_reader::open_reader@<eax>(
         vostok::memory::chunk_reader *this@<ecx>,
-        int a2@<eax>,
-        _DWORD *a3@<edi>)
+        vostok::memory::chunk_reader *a2@<edi>,
+        const unsigned __int8 **a3@<esi>,
+        vostok::memory::chunk_reader::chunk_type *result,
+        unsigned int chunk_id)
 {
-  int v4; // eax
-  int v5; // ecx
-  vostok::memory::chunk_reader::chunk_type *v7; // [esp+0h] [ebp-8h]
-  vostok::memory::chunk_reader::chunk_type type; // [esp+4h] [ebp-4h] BYREF
+  const unsigned __int8 *v5; // eax
+  const unsigned __int8 *m_pointer; // ecx
 
-  v4 = vostok::memory::chunk_reader::chunk_size(this, a2, &type, v7);
-  v5 = *(_DWORD *)(a2 + 8);
-  a3[2] = v4;
-  *a3 = v5;
-  a3[1] = v5;
+  v5 = (const unsigned __int8 *)vostok::memory::chunk_reader::chunk_size(this, a2, result, (unsigned int *)&result);
+  m_pointer = a2->m_reader.m_pointer;
+  a3[2] = v5;
+  *a3 = m_pointer;
+  a3[1] = m_pointer;
   return (vostok::memory::reader *)a3;
 }

@@ -1,9 +1,4 @@
-void __usercall png_default_write_data(
-        unsigned int a1@<ebx>,
-        unsigned int a2@<edi>,
-        int a3,
-        unsigned __int8 *buffer,
-        unsigned int count)
+void __usercall png_default_write_data(int a1@<ebx>, int a2@<edi>, int a3, const __m128i *buffer, unsigned int count)
 {
   if ( a3 )
   {

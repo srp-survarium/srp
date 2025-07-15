@@ -1,15 +1,15 @@
 int __usercall _wcsnicmp_l@<eax>(
-        unsigned __int16 *a1@<edi>,
+        wchar_t *a1@<edi>,
         wchar_t *first,
         wchar_t *last,
         unsigned int count,
         localeinfo_struct *plocinfo)
 {
   int result; // eax
-  unsigned __int16 *v6; // ebx
-  unsigned __int16 v7; // ax
+  wchar_t *v6; // ebx
+  wchar_t v7; // ax
   unsigned __int16 v8; // si
-  unsigned __int16 v9; // ax
+  wchar_t v9; // ax
   _LocaleUpdate _loc_update; // [esp+Ch] [ebp-10h] BYREF
 
   result = 0;
@@ -55,7 +55,7 @@ int __usercall _wcsnicmp_l@<eax>(
     else
     {
       *_errno() = 22;
-      _invalid_parameter((unsigned int)first, (unsigned int)a1, 0);
+      _invalid_parameter((int)first, (int)a1, 0);
       return 0x7FFFFFFF;
     }
   }

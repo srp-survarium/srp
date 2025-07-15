@@ -12,7 +12,7 @@ void __cdecl FindHandler(
   int maxState; // eax
   int state; // ecx
   EHExceptionRecord *curexception; // esi
-  int v12; // ebx
+  int arrayOfCatchableTypes; // ebx
   unsigned int magicNumber; // eax
   unsigned int v14; // eax
   const _s_ESTypeList *curexcspec; // edi
@@ -21,22 +21,22 @@ void __cdecl FindHandler(
   unsigned int v18; // eax
   const _s_FuncInfo *v19; // edi
   const _s_TryBlockMapEntry *v20; // edi
-  int *p_nCatchableTypes; // eax
+  const _s_CatchableTypeArray *pCatchableTypeArray; // eax
   const _s_ESTypeList *pESTypeList; // edi
   const _s_ThrowInfo *pThrowInfo; // [esp-4h] [ebp-3Ch]
-  std::bad_exception pExceptionObject; // [esp+Ch] [ebp-2Ch] BYREF
-  const _s_CatchableType *pCatchable; // [esp+18h] [ebp-20h]
-  unsigned int end; // [esp+1Ch] [ebp-1Ch] BYREF
-  int catches; // [esp+20h] [ebp-18h]
-  int catchables; // [esp+24h] [ebp-14h]
-  unsigned int curTry; // [esp+28h] [ebp-10h] BYREF
-  const _s_HandlerType *pCatch; // [esp+2Ch] [ebp-Ch]
+  std::bad_exception v24; // [esp+Ch] [ebp-2Ch] BYREF
+  _EXCEPTION_REGISTRATION_RECORD *v25; // [esp+18h] [ebp-20h]
+  unsigned int pEnd; // [esp+1Ch] [ebp-1Ch] BYREF
+  int nCatches; // [esp+20h] [ebp-18h]
+  int nCatchableTypes; // [esp+24h] [ebp-14h]
+  unsigned int pStart; // [esp+28h] [ebp-10h] BYREF
+  _s_HandlerType *pHandlerArray; // [esp+2Ch] [ebp-Ch]
   int curState; // [esp+30h] [ebp-8h]
-  unsigned __int8 gotMatch; // [esp+37h] [ebp-1h]
+  char v32; // [esp+37h] [ebp-1h]
 
   v8 = pFuncInfo;
   maxState = pFuncInfo->maxState;
-  gotMatch = 0;
+  v32 = 0;
   if ( maxState > 128 )
     state = pRN->state;
   else
@@ -56,7 +56,7 @@ LABEL_61:
     }
     goto LABEL_64;
   }
-  v12 = 429065504;
+  arrayOfCatchableTypes = 429065504;
   if ( pExcept->NumberParameters == 3 )
   {
     magicNumber = pExcept->params.magicNumber;
@@ -90,11 +90,11 @@ LABEL_61:
             {
               if ( type_info::operator==(
                      (type_info *)curexcspec->pTypeArray[v17].pType,
-                     &std::bad_exception `RTTI Type Descriptor') )
+                     (const type_info *)&std::bad_exception `RTTI Type Descriptor') )
               {
                 __DestructExceptionObject(pExcept);
-                std::bad_exception::bad_exception(&pExceptionObject, "bad exception");
-                _CxxThrowException(&pExceptionObject, &_TI2_AVbad_exception_std__);
+                std::bad_exception::bad_exception(&v24, "bad exception");
+                _CxxThrowException((DWORD)&v24, (const _s__ThrowInfo *)&_TI2_AVbad_exception_std__);
               }
               ++v16;
               ++v17;
@@ -118,64 +118,64 @@ LABEL_28:
   v19 = pFuncInfo;
   if ( pFuncInfo->nTryBlocks )
   {
-    v20 = _GetRangeOfTrysToCheck(pFuncInfo, CatchDepth, curState, &curTry, &end);
-    while ( curTry < end )
+    v20 = _GetRangeOfTrysToCheck(pFuncInfo, CatchDepth, curState, &pStart, &pEnd);
+    while ( pStart < pEnd )
     {
       if ( v20->tryLow <= curState && curState <= v20->tryHigh )
       {
-        pCatch = v20->pHandlerArray;
-        catches = v20->nCatches;
-        if ( catches > 0 )
+        pHandlerArray = (_s_HandlerType *)v20->pHandlerArray;
+        nCatches = v20->nCatches;
+        if ( nCatches > 0 )
         {
           while ( 1 )
           {
-            p_nCatchableTypes = &curexception->params.pThrowInfo->pCatchableTypeArray->nCatchableTypes;
-            v12 = (int)(p_nCatchableTypes + 1);
-            catchables = *p_nCatchableTypes;
-            if ( catchables > 0 )
+            pCatchableTypeArray = curexception->params.pThrowInfo->pCatchableTypeArray;
+            arrayOfCatchableTypes = (int)pCatchableTypeArray->arrayOfCatchableTypes;
+            nCatchableTypes = pCatchableTypeArray->nCatchableTypes;
+            if ( nCatchableTypes > 0 )
               break;
 LABEL_45:
-            --catches;
-            ++pCatch;
-            if ( catches <= 0 )
+            --nCatches;
+            ++pHandlerArray;
+            if ( nCatches <= 0 )
               goto NextTryBlock;
           }
           while ( 1 )
           {
             pThrowInfo = curexception->params.pThrowInfo;
-            pCatchable = *(const _s_CatchableType **)v12;
-            if ( __TypeMatch(pCatch, pCatchable, pThrowInfo) )
+            v25 = *(_EXCEPTION_REGISTRATION_RECORD **)arrayOfCatchableTypes;
+            if ( __TypeMatch(pHandlerArray, (const _s_CatchableType *)v25, pThrowInfo) )
               break;
-            --catchables;
-            v12 += 4;
-            if ( catchables <= 0 )
+            --nCatchableTypes;
+            arrayOfCatchableTypes += 4;
+            if ( nCatchableTypes <= 0 )
               goto LABEL_45;
           }
-          v12 = (int)pCatch;
-          gotMatch = 1;
+          arrayOfCatchableTypes = (int)pHandlerArray;
+          v32 = 1;
           CatchIt(
             pRN,
-            (_s_HandlerType *)pCatch,
+            pHandlerArray,
             v20,
             curexception,
             pContext,
             pDC,
             pFuncInfo,
-            pCatchable,
+            (const _s_CatchableType *)v25,
             CatchDepth,
             pMarkerRN);
           curexception = pExcept;
         }
       }
 NextTryBlock:
-      ++curTry;
+      ++pStart;
       ++v20;
     }
     v19 = pFuncInfo;
   }
   if ( recursive )
     __DestructExceptionObject(curexception);
-  if ( !gotMatch && (*(_DWORD *)v19 & 0x1FFFFFFFu) >= 0x19930521 )
+  if ( !v32 && (*(_DWORD *)v19 & 0x1FFFFFFFu) >= 0x19930521 )
   {
     pESTypeList = v19->pESTypeList;
     if ( pESTypeList )
@@ -187,9 +187,15 @@ NextTryBlock:
         _getptd()->_curexception = curexception;
         _getptd()->_curcontext = pContext;
         if ( pMarkerRN )
-          _UnwindNestedFrames((_EXCEPTION_REGISTRATION_RECORD **)v12, pMarkerRN, (_EXCEPTION_RECORD *)curexception);
+          _UnwindNestedFrames(
+            (_EXCEPTION_REGISTRATION_RECORD **)arrayOfCatchableTypes,
+            pMarkerRN,
+            (_EXCEPTION_RECORD *)curexception);
         else
-          _UnwindNestedFrames((_EXCEPTION_REGISTRATION_RECORD **)v12, pRN, (_EXCEPTION_RECORD *)curexception);
+          _UnwindNestedFrames(
+            (_EXCEPTION_REGISTRATION_RECORD **)arrayOfCatchableTypes,
+            pRN,
+            (_EXCEPTION_RECORD *)curexception);
         __FrameUnwindToState(pRN, pDC, pFuncInfo, -1);
         CallUnexpected();
       }

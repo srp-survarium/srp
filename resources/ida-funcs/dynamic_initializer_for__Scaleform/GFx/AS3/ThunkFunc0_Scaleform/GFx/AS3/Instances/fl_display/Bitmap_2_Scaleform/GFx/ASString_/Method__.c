@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_display::Bitmap::pixelSnappingGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_display::Bitmap,2,Scaleform::GFx::ASString>::Method) = Scaleform::GFx::AS3::Instances::fl_display::Bitmap::pixelSnappingGet;
-  dword_AAE66C = 0;
+  dword_8F2E24 = 0;
   return result;
 }

@@ -1,185 +1,184 @@
 void __userpurge vostok::render::render_target::create_3d(
-        unsigned int width@<ecx>,
-        unsigned int height@<eax>,
-        vostok::render::render_target *this,
+        vostok::render::render_target *this@<ecx>,
         const char *name,
+        char *width,
+        unsigned int height,
         unsigned int depth,
         DXGI_FORMAT format,
         vostok::render::enum_rt_usage usage,
         D3D11_USAGE memory_usage)
 {
-  DXGI_FORMAT v8; // ebx
-  vostok::render::render_target *v9; // ebp
-  unsigned int v12; // eax
-  survarium::options_tab *v13; // ecx
-  unsigned int v14; // edi
-  int x; // eax
+  unsigned int v8; // eax
+  ID3D11Device_vtbl *v9; // ecx
+  HRESULT v10; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v11; // ecx
+  bool *d3d11_error_string; // eax
+  ID3D11Texture3D **v13; // edi
+  ID3D11Device *v14; // eax
+  ID3D11Device_vtbl *v15; // ecx
   HRESULT v16; // eax
-  const char *d3d11_error_string; // eax
-  int v18; // eax
-  ID3D11Texture3D *m_surface_3d; // ecx
-  HRESULT v20; // eax
-  const char *v21; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v17; // ecx
+  bool *v18; // eax
+  char *v19; // esi
+  const char *v20; // edi
+  int v21; // ecx
+  bool v22; // cf
+  bool v23; // zf
+  int v24; // eax
   vostok::render::res_texture *texture; // eax
-  vostok::render::res_texture *v23; // ecx
-  vostok::render::res_texture *m_object; // esi
-  bool v25; // zf
-  vostok::render::res_texture *v26; // ecx
-  vostok::render::res_texture *v27; // eax
-  vostok::render::res_texture *v28; // esi
-  vostok::render::res_texture *v29; // esi
-  char *m_begin; // eax
-  vostok::buffer_string *p_m_string; // esi
-  bool v32; // [esp+20h] [ebp-4Ch]
-  bool v33; // [esp+24h] [ebp-48h]
-  D3D11_RENDER_TARGET_VIEW_DESC desc_rt; // [esp+30h] [ebp-3Ch] BYREF
-  D3D11_TEXTURE3D_DESC desc; // [esp+44h] [ebp-28h] BYREF
+  int *v26; // edi
+  vostok::render::res_texture *v27; // ecx
+  void *v28; // eax
+  vostok::render::res_texture *v29; // ecx
+  vostok::render::res_texture *v30; // eax
+  ID3D11Device *m_device; // [esp+16h] [ebp-6Ch]
+  ID3D11Texture3D *v32; // [esp+1Ah] [ebp-68h]
+  const char *v33; // [esp+32h] [ebp-50h]
+  const char *v34; // [esp+36h] [ebp-4Ch]
+  unsigned int v35; // [esp+3Ah] [ebp-48h]
+  char v36; // [esp+41h] [ebp-41h] BYREF
+  ID3D11Texture3D **v37; // [esp+42h] [ebp-40h]
+  unsigned int row_min_pitch; // [esp+46h] [ebp-3Ch] BYREF
+  _DWORD v39[5]; // [esp+4Ah] [ebp-38h] BYREF
+  _DWORD v40[9]; // [esp+5Eh] [ebp-24h] BYREF
 
-  v8 = format;
-  v9 = this;
-  if ( !this->m_surface_3d )
+  v37 = (ID3D11Texture3D **)(name + 16);
+  if ( !*((_DWORD *)name + 4) )
   {
-    v12 = vostok::render::utils::calc_surface_size(width, height, format, (unsigned int *)&format);
-    v13 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3];
-    v9->m_memory_usage = v12;
-    *(_DWORD *)&v13[1].m_options_count += v12;
-    desc.Width = width;
-    v14 = depth;
-    desc.CPUAccessFlags = 0;
-    desc.MiscFlags = 0;
-    desc.Height = height;
-    desc.Depth = depth;
-    desc.MipLevels = 1;
-    desc.Format = v8;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = 40;
-    if ( !BYTE1(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_to_bind)
-      && (*(int (__stdcall **)(int, D3D11_TEXTURE3D_DESC *, _DWORD, ID3D11Texture3D **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x
-                                                                                       + 24))(
-           `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-           &desc,
+    *((_DWORD *)name + 2) = 0;
+    v8 = vostok::render::utils::calc_surface_size(0x10u, 0x10u, DXGI_FORMAT_B8G8R8A8_UNORM, &row_min_pitch);
+    *((_DWORD *)name + 12) = v8;
+    vostok::quasi_singleton<vostok::render::resource_manager>::pinst->m_render_target_video_memory += v8;
+    memset(v40, 0, sizeof(v40));
+    v40[0] = 16;
+    v40[1] = 16;
+    v40[2] = 16;
+    v40[3] = 1;
+    v40[4] = 87;
+    v40[5] = 0;
+    v40[6] = 40;
+    if ( !ignore_always_15
+      && vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateTexture3D(
+           vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+           (const D3D11_TEXTURE3D_DESC *)v40,
            0,
-           &v9->m_surface_3d) < 0 )
+           v37) < 0 )
     {
-      x = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-      LOBYTE(format) = 1;
-      v16 = (*(int (__stdcall **)(int, D3D11_TEXTURE3D_DESC *, _DWORD, ID3D11Texture3D **))(*(_DWORD *)x + 24))(
-              x,
-              &desc,
-              0,
-              &v9->m_surface_3d);
-      d3d11_error_string = make_d3d11_error_string(v16);
+      v9 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device->lpVtbl;
+      m_device = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+      v36 = 1;
+      v10 = v9->CreateTexture3D(m_device, (const D3D11_TEXTURE3D_DESC *)v40, 0, v37);
+      d3d11_error_string = (bool *)make_d3d11_error_string(v10, v11);
       vostok::debug::on_error(
-        (bool *)&format,
+        (bool *)&v36,
         process_error_true,
-        (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_to_bind
-      + 1,
-        assert_untyped,
-        "assertion_failed",
         d3d11_error_string,
         ".\\render_target.cpp",
         "vostok::render::render_target::create_3d",
-        0x5Cu);
-      if ( vostok::debug::is_debugger_present() || (_BYTE)format )
+        (const char *)0x6A);
+      if ( vostok::debug::is_debugger_present() || v36 )
         __debugbreak();
     }
-    desc_rt.Format = v8;
-    desc_rt.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE3D;
-    desc_rt.Buffer = 0;
-    desc_rt.Texture1DArray.ArraySize = v14;
-    if ( !BYTE2(`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_to_bind)
-      && (*(int (__stdcall **)(int, ID3D11Texture3D *, D3D11_RENDER_TARGET_VIEW_DESC *, ID3D11RenderTargetView **))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x + 36))(
-           `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x,
-           v9->m_surface_3d,
-           &desc_rt,
-           &v9->m_rt) < 0 )
+    v39[0] = 87;
+    v39[1] = 8;
+    v39[2] = 0;
+    v39[3] = 0;
+    v39[4] = 16;
+    if ( !ignore_always_16 )
     {
-      v18 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.x;
-      m_surface_3d = v9->m_surface_3d;
-      LOBYTE(this) = 1;
-      v20 = (*(int (__stdcall **)(int, ID3D11Texture3D *, D3D11_RENDER_TARGET_VIEW_DESC *, ID3D11RenderTargetView **))(*(_DWORD *)v18 + 36))(
-              v18,
-              m_surface_3d,
-              &desc_rt,
-              &v9->m_rt);
-      v21 = make_d3d11_error_string(v20);
-      vostok::debug::on_error(
-        (bool *)&this,
-        process_error_true,
-        (bool *)&`vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>'::`5'::debug_macro_helper_ignore_always.m_conflicted_action_to_bind
-      + 2,
-        assert_untyped,
-        "assertion_failed",
-        v21,
-        ".\\render_target.cpp",
-        "vostok::render::render_target::create_3d",
-        0x66u);
-      if ( vostok::debug::is_debugger_present() || (_BYTE)this )
-        __debugbreak();
-    }
-    if ( name )
-    {
-      texture = vostok::render::resource_manager::create_texture(
-                  (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-                  name,
-                  0,
-                  0,
-                  0,
-                  1,
-                  1,
-                  0xFFFFFFFF);
-      v23 = 0;
-      if ( texture )
+      v13 = v37;
+      if ( vostok::quasi_singleton<vostok::render::device>::pinst->m_device->CreateRenderTargetView(
+             vostok::quasi_singleton<vostok::render::device>::pinst->m_device,
+             *v37,
+             (const D3D11_RENDER_TARGET_VIEW_DESC *)v39,
+             (ID3D11RenderTargetView **)(name + 20)) < 0 )
       {
-        ++texture->m_reference_count;
-        v23 = texture;
-      }
-      m_object = v9->m_texture.m_object;
-      v9->m_texture.m_object = v23;
-      if ( m_object )
-      {
-        v25 = m_object->m_reference_count-- == 1;
-        if ( v25 )
-          vostok::render::res_texture::destroy_impl(v23);
+        v14 = vostok::quasi_singleton<vostok::render::device>::pinst->m_device;
+        v15 = v14->lpVtbl;
+        v32 = *v13;
+        v36 = 1;
+        v16 = v15->CreateRenderTargetView(
+                v14,
+                v32,
+                (const D3D11_RENDER_TARGET_VIEW_DESC *)v39,
+                (ID3D11RenderTargetView **)name + 5);
+        v18 = (bool *)make_d3d11_error_string(v16, v17);
+        vostok::debug::on_error(
+          (bool *)&v36,
+          process_error_true,
+          v18,
+          ".\\render_target.cpp",
+          "vostok::render::render_target::create_3d",
+          (const char *)0x74);
+        if ( vostok::debug::is_debugger_present() || v36 )
+          __debugbreak();
       }
     }
-    else
+    if ( width )
     {
-      if ( vostok::memory::doug_lea_allocator::malloc_impl(
-             (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-             0x1BCu) )
+      v19 = width;
+      v20 = "null";
+      v21 = 5;
+      v24 = 0;
+      v22 = 0;
+      v23 = 1;
+      do
       {
-        vostok::render::res_texture::res_texture(v26, 0);
+        if ( !v21 )
+          break;
+        v22 = (unsigned __int8)*v19 < (unsigned int)*v20;
+        v23 = *v19++ == *v20++;
+        --v21;
+      }
+      while ( v23 );
+      if ( !v23 )
+        v24 = -v22 - (v22 - 1);
+      if ( v24 )
+      {
+        texture = (vostok::render::res_texture *)vostok::render::resource_manager::find_texture(
+                                                   (vostok::render::resource_manager *)v21,
+                                                   (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                                                   width);
+        if ( !texture )
+          texture = vostok::render::resource_manager::load_texture(
+                      vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+                      width,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0xFFFFFFFF,
+                      1,
+                      0);
       }
       else
       {
-        v27 = 0;
+        texture = 0;
       }
-      v23 = 0;
-      if ( v27 )
-      {
-        ++v27->m_reference_count;
-        v23 = v27;
-      }
-      v28 = v9->m_texture.m_object;
-      v9->m_texture.m_object = v23;
-      if ( v28 )
-      {
-        v25 = v28->m_reference_count-- == 1;
-        if ( v25 )
-          vostok::render::res_texture::destroy_impl(v23);
-      }
-      v29 = v9->m_texture.m_object;
-      m_begin = v29->m_name.m_string.m_begin;
-      p_m_string = &v29->m_name.m_string;
-      if ( m_begin )
-      {
-        p_m_string->m_end = m_begin;
-        *m_begin = 0;
-        vostok::buffer_string::operator+=(p_m_string, 0);
-      }
-      v9->m_texture.m_object->m_is_registered = 1;
+      v26 = (int *)(name + 28);
+      vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+        texture,
+        (vostok::render::res_texture *)(name + 28));
     }
-    vostok::render::res_texture::set_hw_texture(v23, v9->m_surface_3d, 0, 0, v32, v33);
+    else
+    {
+      v28 = vostok::memory::new_helper<vostok::render::res_texture>::call<vostok::memory::doug_lea_allocator>(
+              vostok::render::g_allocator,
+              v33,
+              v34,
+              v35);
+      if ( v28 )
+        vostok::render::res_texture::res_texture(v29, (int)v28, 0);
+      else
+        v30 = 0;
+      v26 = (int *)(name + 28);
+      vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::operator=(
+        v30,
+        (vostok::render::res_texture *)(name + 28));
+      vostok::render::res_texture::set_name(*((vostok::render::res_texture **)name + 7), 0);
+      *(_BYTE *)(*((_DWORD *)name + 7) + 459) = 1;
+    }
+    vostok::render::res_texture::set_hw_texture(v27, *v26, *v37, 0, 0, 0, (bool)v33);
   }
 }

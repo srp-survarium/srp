@@ -101,41 +101,41 @@ void __cdecl DES_ede3_cfb_encrypt(
           switch ( v10 )
           {
             case 1u:
-              goto $LN50_10;
+              goto $LN50_13;
             case 2u:
-              goto $LN51_5;
+              goto $LN51_6;
             case 3u:
               goto $LN97_2;
             case 4u:
-              goto $LN96_1;
+              goto $LN96_2;
             case 5u:
               goto $LN95;
             case 6u:
-              goto $LN94_0;
+              goto $LN94_1;
             case 7u:
-              goto $LN93;
+              goto $LN93_2;
             case 8u:
               v18 = *--v15;
               v16 = v18 << 24;
-$LN93:
+$LN93_2:
               v19 = *--v15;
               v16 |= v19 << 16;
-$LN94_0:
+$LN94_1:
               v20 = *--v15;
               v16 |= v20 << 8;
 $LN95:
               v21 = *--v15;
               v16 |= v21;
-$LN96_1:
+$LN96_2:
               v22 = *--v15;
               v17 = v22 << 24;
 $LN97_2:
               v23 = *--v15;
               v17 |= v23 << 16;
-$LN51_5:
+$LN51_6:
               v24 = *--v15;
               v17 |= v24 << 8;
-$LN50_10:
+$LN50_13:
               v25 = *--v15;
               v17 |= v25;
               break;
@@ -149,34 +149,34 @@ $LN50_10:
           switch ( v10 )
           {
             case 1u:
-              goto $LN40_1;
+              goto $LN40_4;
             case 2u:
-              goto $LN41_3;
+              goto $LN41_4;
             case 3u:
-              goto $LN42_31;
+              goto $LN42_6;
             case 4u:
-              goto $LN98_1;
+              goto $LN98_3;
             case 5u:
-              goto $LN44_5;
+              goto $LN44_6;
             case 6u:
               goto $LN45_4;
             case 7u:
-              goto $LN46_4;
+              goto $LN46_6;
             case 8u:
               *--v28 = HIBYTE(v27);
-$LN46_4:
+$LN46_6:
               *--v28 = BYTE2(v27);
 $LN45_4:
               *--v28 = BYTE1(v27);
-$LN44_5:
+$LN44_6:
               *--v28 = v27;
-$LN98_1:
+$LN98_3:
               *--v28 = HIBYTE(v26);
-$LN42_31:
+$LN42_6:
               *--v28 = BYTE2(v26);
-$LN41_3:
+$LN41_4:
               *--v28 = BYTE1(v26);
-$LN40_1:
+$LN40_4:
               *--v28 = v26;
               break;
             default:
@@ -192,7 +192,7 @@ $LN40_1:
             v71 = v26;
             v72 = v27;
             v29 = numbits % 8;
-            memmove((unsigned __int8 *)&dst, (unsigned __int8 *)&dst + numbits / 8, (numbits % 8 != 0) + 8);
+            memmove((int)&dst, (const __m128i *)((char *)&dst + numbits / 8), (numbits % 8 != 0) + 8);
             if ( numbits % 8 )
             {
               LOBYTE(dst) = (_BYTE)dst << v29;
@@ -250,29 +250,29 @@ LABEL_29:
         switch ( v10 )
         {
           case 1u:
-            goto $LN19_21;
+            goto $LN19_23;
           case 2u:
-            goto $LN20_19;
+            goto $LN20_24;
           case 3u:
             goto $LN103_0;
           case 4u:
             goto $LN102;
           case 5u:
-            goto $LN101_0;
+            goto $LN101_2;
           case 6u:
-            goto $LN100_0;
+            goto $LN100_6;
           case 7u:
-            goto $LN99;
+            goto $LN99_0;
           case 8u:
             v39 = *--v38;
             v36 = v39 << 24;
-$LN99:
+$LN99_0:
             v40 = *--v38;
             v36 |= v40 << 16;
-$LN100_0:
+$LN100_6:
             v41 = *--v38;
             v36 |= v41 << 8;
-$LN101_0:
+$LN101_2:
             v42 = *--v38;
             v36 |= v42;
             v61 = v36;
@@ -282,10 +282,10 @@ $LN102:
 $LN103_0:
             v44 = *--v38;
             v37 |= v44 << 16;
-$LN20_19:
+$LN20_24:
             v45 = *--v38;
             v37 |= v45 << 8;
-$LN19_21:
+$LN19_23:
             v46 = *--v38;
             v37 |= v46;
             v60 = v37;
@@ -311,7 +311,7 @@ $LN19_21:
           v71 = v37;
           v72 = v36;
           v47 = numbits % 8;
-          memmove((unsigned __int8 *)&dst, (unsigned __int8 *)&dst + numbits / 8, (numbits % 8 != 0) + 8);
+          memmove((int)&dst, (const __m128i *)((char *)&dst + numbits / 8), (numbits % 8 != 0) + 8);
           if ( numbits % 8 )
           {
             LOBYTE(dst) = (_BYTE)dst << v47;
@@ -349,30 +349,30 @@ $LN19_21:
           case 1u:
             goto $LN107_0;
           case 2u:
-            goto $LN106;
+            goto $LN106_0;
           case 3u:
             goto $LN105_0;
           case 4u:
-            goto $LN104_0;
+            goto $LN104_13;
           case 5u:
-            goto $LN5_29;
+            goto $LN5_38;
           case 6u:
-            goto $LN6_41;
+            goto $LN6_51;
           case 7u:
-            goto $LN7_34;
+            goto $LN7_47;
           case 8u:
             *--v56 = HIBYTE(v55);
-$LN7_34:
+$LN7_47:
             *--v56 = BYTE2(v55);
-$LN6_41:
+$LN6_51:
             *--v56 = BYTE1(v55);
-$LN5_29:
+$LN5_38:
             *--v56 = v55;
-$LN104_0:
+$LN104_13:
             *--v56 = HIBYTE(v54);
 $LN105_0:
             *--v56 = BYTE2(v54);
-$LN106:
+$LN106_0:
             *--v56 = BYTE1(v54);
 $LN107_0:
             *--v56 = v54;

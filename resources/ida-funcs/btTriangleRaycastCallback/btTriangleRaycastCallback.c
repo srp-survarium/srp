@@ -1,15 +1,17 @@
-void __stdcall btTriangleRaycastCallback::btTriangleRaycastCallback(
-        btTriangleRaycastCallback *this,
-        unsigned int flags)
+void __userpurge btTriangleRaycastCallback::btTriangleRaycastCallback(
+        btTriangleRaycastCallback *this@<eax>,
+        unsigned int flags@<ecx>,
+        const btVector3 *from,
+        const btVector3 *to)
 {
-  const btVector3 *from; // edx
-  const btVector3 *to; // ecx
-  const vostok::math::float4x4 *v4; // xmm0_4
+  float v4; // xmm0_4
 
   this->__vftable = (btTriangleRaycastCallback_vtbl *)&btTriangleRaycastCallback::`vftable';
-  this->m_from = (btVector3)from->mVec128;
+  this->m_from.mVec128.m128_u64[0] = from->mVec128.m128_u64[0];
+  this->m_from.mVec128.m128_i32[2] = from->mVec128.m128_i32[2];
+  v4 = s_bm_current_air_resistance;
+  this->m_from.mVec128.m128_i32[3] = from->mVec128.m128_i32[3];
   this->m_to = (btVector3)to->mVec128;
-  v4 = clear_value;
   this->m_flags = flags;
-  LODWORD(this->m_hitFraction) = v4;
+  this->m_hitFraction = v4;
 }

@@ -67,7 +67,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::AS3Constructor(
         iw = v13;
         while ( Size )
         {
-          v15 = *Scaleform::GFx::ASUtils::SkipWhiteSpace(s.pStr, Size);
+          v15 = *Scaleform::GFx::ASUtils::SkipWhiteSpace((char *)s.pStr, Size);
           if ( v15 == 59 )
           {
             v16 = s.Size != 0;

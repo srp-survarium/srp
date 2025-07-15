@@ -1,15 +1,23 @@
 void __userpurge btBvhTriangleMeshShape::performRaycast(
         btBvhTriangleMeshShape *this@<eax>,
-        btTriangleCallback *callback@<edx>,
-        const btVector3 *raySource,
-        const btVector3 *rayTarget)
+        const btVector3 *rayTarget@<edx>,
+        btTriangleCallback *callback,
+        const btVector3 *raySource)
 {
-  btOptimizedBvh *m_bvh; // edx
-  btBvhTriangleMeshShape::performRaycast::__l2::MyNodeOverlapCallback myNodeCallback; // [esp+0h] [ebp-Ch] BYREF
+  btStridingMeshInterface *m_meshInterface; // ecx
+  btOptimizedBvh *m_bvh; // eax
+  btNodeOverlapCallback nodeCallback; // [esp+4h] [ebp-2Ch] BYREF
+  btStridingMeshInterface *v7; // [esp+8h] [ebp-28h]
+  btTriangleCallback *v8; // [esp+Ch] [ebp-24h]
+  btVector3 aabbMax; // [esp+10h] [ebp-20h] BYREF
+  btVector3 aabbMin; // [esp+20h] [ebp-10h] BYREF
 
-  myNodeCallback.m_meshInterface = this->m_meshInterface;
-  myNodeCallback.m_callback = callback;
+  m_meshInterface = this->m_meshInterface;
   m_bvh = this->m_bvh;
-  myNodeCallback.__vftable = (btBvhTriangleMeshShape::performRaycast::__l2::MyNodeOverlapCallback_vtbl *)&`btBvhTriangleMeshShape::performRaycast'::`2'::MyNodeOverlapCallback::`vftable';
-  btQuantizedBvh::reportRayOverlappingNodex(m_bvh, &myNodeCallback, raySource, rayTarget);
+  v7 = m_meshInterface;
+  v8 = callback;
+  nodeCallback.__vftable = (btNodeOverlapCallback_vtbl *)&`btBvhTriangleMeshShape::performRaycast'::`2'::MyNodeOverlapCallback::`vftable';
+  memset(&aabbMax, 0, sizeof(aabbMax));
+  memset(&aabbMin, 0, sizeof(aabbMin));
+  btQuantizedBvh::reportBoxCastOverlappingNodex(m_bvh, &nodeCallback, raySource, rayTarget, &aabbMin, &aabbMax);
 }

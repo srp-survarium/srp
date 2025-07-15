@@ -10,24 +10,24 @@ void __thiscall Scaleform::Render::GlyphCache::partialUpdateTextures(Scaleform::
   Scaleform::Render::RawImage *v9; // ecx
   unsigned __int8 *v10; // ecx
   Scaleform::Render::Palette *v11; // esi
-  Scaleform::Render::Texture::UpdateDesc *v12; // edi
+  Scaleform::Render::Texture::UpdateDesc *Data; // edi
   int v13; // eax
   Scaleform::Render::Palette *v14; // esi
   unsigned int *p_NumGlyphsToUpdate; // [esp+14h] [ebp-64h]
-  unsigned int j; // [esp+18h] [ebp-60h]
-  unsigned int numRects; // [esp+1Ch] [ebp-5Ch]
-  unsigned int i; // [esp+20h] [ebp-58h]
+  unsigned int v16; // [esp+18h] [ebp-60h]
+  int v17; // [esp+1Ch] [ebp-5Ch]
+  unsigned int v18; // [esp+20h] [ebp-58h]
   int v19; // [esp+24h] [ebp-54h]
-  Scaleform::Render::ImageData data; // [esp+28h] [ebp-50h] BYREF
-  Scaleform::Render::ImageData d; // [esp+50h] [ebp-28h] BYREF
+  Scaleform::Render::ImageData v20; // [esp+28h] [ebp-50h] BYREF
+  Scaleform::Render::ImageData v21; // [esp+50h] [ebp-28h] BYREF
 
-  d.pPlanes = &d.Plane0;
+  v21.pPlanes = &v21.Plane0;
   pObject = this->UpdateBuffer.pObject;
-  memset(&d, 0, 10);
-  d.RawPlaneCount = 1;
-  memset(&d.pPalette, 0, 24);
-  Scaleform::Render::RawImage::GetImageData(pObject, &d);
-  i = 0;
+  memset(&v21, 0, 10);
+  v21.RawPlaneCount = 1;
+  memset(&v21.pPalette, 0, 24);
+  Scaleform::Render::RawImage::GetImageData(pObject, &v21);
+  v18 = 0;
   if ( this->MaxNumTextures )
   {
     p_NumGlyphsToUpdate = &this->Textures[0].NumGlyphsToUpdate;
@@ -42,8 +42,8 @@ void __thiscall Scaleform::Render::GlyphCache::partialUpdateTextures(Scaleform::
           0x20u);
         this->RectsToUpdate.Size = v3;
         v4 = 0;
-        numRects = 0;
-        j = 0;
+        v17 = 0;
+        v16 = 0;
         if ( this->GlyphsToUpdate.Size )
         {
           v19 = 0;
@@ -51,67 +51,67 @@ void __thiscall Scaleform::Render::GlyphCache::partialUpdateTextures(Scaleform::
           {
             v5 = &this->GlyphsToUpdate.Pages[v4 >> 6];
             v6 = v4 & 0x3F;
-            if ( (*v5)[v6].TextureId == i )
+            if ( (*v5)[v6].TextureId == v18 )
             {
-              ++numRects;
+              ++v17;
               v7 = &(*v5)[v6];
               v8 = &this->RectsToUpdate.Data[v19++];
               v9 = this->UpdateBuffer.pObject;
-              memset(&data, 0, 10);
-              data.RawPlaneCount = 1;
-              data.pPlanes = &data.Plane0;
-              memset(&data.pPalette, 0, 24);
-              Scaleform::Render::RawImage::GetImageData(v9, &data);
+              memset(&v20, 0, 10);
+              v20.RawPlaneCount = 1;
+              v20.pPlanes = &v20.Plane0;
+              memset(&v20.pPalette, 0, 24);
+              Scaleform::Render::RawImage::GetImageData(v9, &v20);
               v8->DestRect.x1 = v7->DstX;
               v8->DestRect.y1 = v7->DstY;
               v8->DestRect.x2 = v7->DstX + v7->w;
               v8->DestRect.y2 = v7->DstY + v7->h;
-              v8->SourcePlane = *d.pPlanes;
-              v10 = &data.pPlanes->pData[v7->SrcY * data.pPlanes->Pitch + v7->SrcX];
+              v8->SourcePlane = *v21.pPlanes;
+              v10 = &v20.pPlanes->pData[v7->SrcY * v20.pPlanes->Pitch + v7->SrcX];
               v8->PlaneIndex = 0;
               v8->SourcePlane.pData = v10;
-              Scaleform::Render::ImageData::freePlanes(&data);
-              if ( data.pPalette.pObject )
+              Scaleform::Render::ImageData::freePlanes(&v20);
+              if ( v20.pPalette.pObject )
               {
-                v11 = data.pPalette.pObject;
-                if ( InterlockedExchangeAdd(&data.pPalette.pObject->RefCount.Value, -1) == 1 )
+                v11 = v20.pPalette.pObject;
+                if ( InterlockedExchangeAdd(&v20.pPalette.pObject->RefCount.Value, -1) == 1 )
                   Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);
               }
-              v4 = j;
+              v4 = v16;
             }
-            j = ++v4;
+            v16 = ++v4;
           }
           while ( v4 < this->GlyphsToUpdate.Size );
         }
-        v12 = this->RectsToUpdate.Data;
+        Data = this->RectsToUpdate.Data;
         if ( *(p_NumGlyphsToUpdate - 18) == 1 )
         {
-          v13 = (*(int (__thiscall **)(_DWORD, _DWORD))(*(_DWORD *)*(p_NumGlyphsToUpdate - 3) + 84))(
+          v13 = (*(int (__thiscall **)(_DWORD, _DWORD))(*(_DWORD *)*(p_NumGlyphsToUpdate - 3) + 96))(
                   *(p_NumGlyphsToUpdate - 3),
                   *(p_NumGlyphsToUpdate - 17));
           if ( v13 )
-            (*(void (__thiscall **)(int, Scaleform::Render::Texture::UpdateDesc *, unsigned int, _DWORD))(*(_DWORD *)v13 + 72))(
+            (*(void (__thiscall **)(int, Scaleform::Render::Texture::UpdateDesc *, int, _DWORD))(*(_DWORD *)v13 + 76))(
               v13,
-              v12,
-              numRects,
+              Data,
+              v17,
               0);
         }
         *p_NumGlyphsToUpdate = 0;
       }
       p_NumGlyphsToUpdate += 20;
-      ++i;
+      ++v18;
     }
-    while ( i < this->MaxNumTextures );
+    while ( v18 < this->MaxNumTextures );
   }
   this->GlyphsToUpdate.Size = 0;
   this->UpdatePacker.LastX = 0;
   this->UpdatePacker.LastY = 0;
   this->UpdatePacker.LastMaxHeight = 0;
-  Scaleform::Render::ImageData::freePlanes(&d);
-  if ( d.pPalette.pObject )
+  Scaleform::Render::ImageData::freePlanes(&v21);
+  if ( v21.pPalette.pObject )
   {
-    v14 = d.pPalette.pObject;
-    if ( InterlockedExchangeAdd(&d.pPalette.pObject->RefCount.Value, -1) == 1 )
+    v14 = v21.pPalette.pObject;
+    if ( InterlockedExchangeAdd(&v21.pPalette.pObject->RefCount.Value, -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v14);
   }
 }

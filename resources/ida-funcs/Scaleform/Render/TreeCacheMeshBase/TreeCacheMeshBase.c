@@ -15,7 +15,7 @@ void __thiscall Scaleform::Render::TreeCacheMeshBase::TreeCacheMeshBase(
   this->Effects.pEffect = 0;
   this->Flags = flags;
   this->pMask = 0;
-  this->UpdateFlags = (unsigned int)sub_7E0000;
+  this->UpdateFlags = (unsigned int)&Scaleform::Render::D3D1x::pBinary_D3D1xFL1x_FBox2FullShadowHighlight[1376];
   this->pNextUpdate = 0;
   this->Depth = 0;
   this->SortParentBounds.x1 = 0.0;

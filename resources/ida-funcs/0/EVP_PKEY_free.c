@@ -1,4 +1,4 @@
-void __cdecl EVP_PKEY_free(evp_pkey_st *x)
+void __usercall EVP_PKEY_free(int a1@<edi>, evp_pkey_st *x)
 {
   const evp_pkey_asn1_method_st *ameth; // eax
   void (__cdecl *pkey_free)(evp_pkey_st *); // eax
@@ -18,7 +18,7 @@ void __cdecl EVP_PKEY_free(evp_pkey_st *x)
     }
     if ( x->engine )
     {
-      ENGINE_finish(x->engine);
+      ENGINE_finish(a1, x->engine);
       x->engine = 0;
     }
     attributes = x->attributes;

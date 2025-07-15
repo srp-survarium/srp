@@ -2,12 +2,12 @@ Scaleform::Render::FileImageSource *__thiscall Scaleform::Render::FileImageSourc
         Scaleform::Render::FileImageSource *this,
         char a2)
 {
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   this->__vftable = (Scaleform::Render::FileImageSource_vtbl *)&Scaleform::Render::FileImageSource::`vftable';
-  pObject = this->pFile.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pFile.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   Scaleform::RefCountImplCore::~RefCountImplCore(this);
   if ( (a2 & 1) != 0 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this);

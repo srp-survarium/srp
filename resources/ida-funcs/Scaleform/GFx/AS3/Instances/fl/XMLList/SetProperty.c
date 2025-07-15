@@ -186,7 +186,7 @@ LABEL_167:
   {
     if ( v9[1].pNext == (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)1 )
     {
-      v8 = (Scaleform::GFx::AS3::Instances::fl::XMLElement *)v9[1]._pRCC->Scaleform::GFx::AS3::Instances::fl::Object::Scaleform::GFx::AS3::Instance::Scaleform::GFx::AS3::Object::Scaleform::GFx::AS3::GASRefCountBase::Scaleform::GFx::AS3::RefCountBaseGC<328>::$4E5AADA2802869DA539CEF0DD9EE5E40::__vftable;
+      v8 = (Scaleform::GFx::AS3::Instances::fl::XMLElement *)v9[1]._pRCC->Scaleform::GFx::AS3::Instances::fl::Object::Scaleform::GFx::AS3::Instance::Scaleform::GFx::AS3::Object::Scaleform::GFx::AS3::GASRefCountBase::Scaleform::GFx::AS3::RefCountBaseGC<328>::$D5CF7A61EF1991BA0FEAF3F4ABE53B92::__vftable;
       parent = v8;
       goto LABEL_13;
     }
@@ -196,7 +196,7 @@ LABEL_13:
   if ( v8 && v8->GetKind(v8) != kElement )
     goto LABEL_167;
   v12 = *(_DWORD *)(csize + 36);
-  v13 = *(int (__thiscall **)(int))(*(_DWORD *)v12 + 48);
+  v13 = *(int (__thiscall **)(int))(*(_DWORD *)v12 + 60);
   c.pObject = 0;
   v14 = (Scaleform::GFx::AS3::InstanceTraits::fl::XML *)v13(v12);
   if ( !this->TargetNamespace.pObject )
@@ -261,7 +261,7 @@ LABEL_42:
     }
     if ( HIBYTE(v90) )
     {
-      Scaleform::StringDataPtr::StringDataPtr((Scaleform::StringDataPtr *)&new_xml, (const char *)&buf);
+      Scaleform::StringDataPtr::StringDataPtr((Scaleform::StringDataPtr *)&new_xml, uri);
       InstanceText = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)Scaleform::GFx::AS3::InstanceTraits::fl::XML::MakeInstanceText(
                                                                                            v14,
                                                                                            (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLText> *)&v98,
@@ -385,7 +385,7 @@ LABEL_49:
     v37 = value;
     if ( Scaleform::GFx::AS3::IsXMLObject(value) )
     {
-      v38 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v37->value.VS._1.VInt + 108))(v37->value.VS._1);
+      v38 = (const Scaleform::GFx::ASString *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v37->value.VS._1.VInt + 120))(v37->value.VS._1);
       Scaleform::GFx::AS3::Value::Value(&name, v38);
 LABEL_64:
       Scaleform::GFx::AS3::Instances::fl::XML::AS3setName((Scaleform::GFx::AS3::Instances::fl::XML *)c.pObject, &name);
@@ -427,7 +427,7 @@ LABEL_75:
       goto LABEL_79;
     goto LABEL_76;
   }
-  v42 = (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v11->value.VS._1.VInt + 92))(v11->value.VS._1);
+  v42 = (*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v11->value.VS._1.VInt + 104))(v11->value.VS._1);
   if ( v42 != 2 )
   {
     v43 = v42 == 5;
@@ -464,7 +464,7 @@ LABEL_79:
   {
     v49 = v46->GetName(v46);
     Scaleform::GFx::AS3::Value::Value(&v98, v49);
-    v50 = (Scaleform::GFx::AS3::Instances::fl::Namespace *)v46->GetNamespace(v46);
+    v50 = v46->GetNamespace(v46);
     Scaleform::GFx::AS3::Multiname::Multiname(&mn, v50, &v98);
     if ( (v98.Flags & 0x1F) > 9 )
     {
@@ -485,7 +485,7 @@ LABEL_79:
     if ( ((unsigned __int8)v53 & 1) == 0 )
     {
       RefCount = v53->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v53->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v53);
@@ -532,7 +532,7 @@ LABEL_90:
     if ( (V.Flags & 0x1F) == 0xA )
     {
       v78 = (Scaleform::GFx::AS3::InstanceTraits::fl::XML *)(*(int (__thiscall **)(_DWORD))(**(_DWORD **)(csize + 36)
-                                                                                          + 48))(*(_DWORD *)(csize + 36));
+                                                                                          + 60))(*(_DWORD *)(csize + 36));
       VInt = (Scaleform::GFx::AS3::Value *)V.value.VS._1.VInt;
       ++*(_DWORD *)(V.value.VS._1.VInt + 12);
       v80 = VInt;
@@ -634,7 +634,7 @@ LABEL_164:
             else
             {
               v64 = v62->RefCount;
-              if ( ((unsigned int)&byte_3FFFFF & v64) != 0 )
+              if ( (v64 & 0x3FFFFF) != 0 )
               {
                 v62->RefCount = v64 - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v62);
@@ -662,7 +662,7 @@ LABEL_129:
     if ( ((int)c.pObject & 1) == 0 )
     {
       v75 = c.pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v75) != 0 )
+      if ( (v75 & 0x3FFFFF) != 0 )
       {
         v76 = c.pObject;
         c.pObject->RefCount = v75 - 1;
@@ -677,7 +677,7 @@ LABEL_129:
     v67 = c.pObject->List.Data.Data;
     v68 = (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)v67[v65].pObject;
     if ( !v66
-      || ((int (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::XML *))v68->__vftable[1].DeleteProperty)(v67[v65].pObject) == 1 )
+      || ((int (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::XML *))v68->__vftable[1].SetProperty)(v67[v65].pObject) == 1 )
     {
       Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_display::InteractiveObject>::SetPtr(
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object> *)&p_List->Data.Data[v65 + i],
@@ -692,7 +692,7 @@ LABEL_129:
     ++*(_DWORD *)(prop_name + 12);
     Scaleform::GFx::AS3::Value::Value(&v98, (const Scaleform::GFx::ASString *)&prop_name);
     v89 = v69;
-    v70 = (Scaleform::GFx::AS3::Instances::fl::Namespace *)(*(int (__thiscall **)(_DWORD *))(*v66 + 124))(v66);
+    v70 = (Scaleform::GFx::AS3::Instances::fl::Namespace *)(*(int (__thiscall **)(_DWORD *))(*v66 + 136))(v66);
     Scaleform::GFx::AS3::Multiname::Multiname(&mn, v70, v89);
     if ( (v98.Flags & 0x1F) > 9 )
     {
@@ -705,7 +705,7 @@ LABEL_129:
     --*(_DWORD *)(prop_name + 12);
     if ( !v71->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v71);
-    (*(void (__thiscall **)(_DWORD *, Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XML> *, _DWORD))(*v66 + 128))(
+    (*(void (__thiscall **)(_DWORD *, Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XML> *, _DWORD))(*v66 + 140))(
       v66,
       &new_xml,
       v66[9]);
@@ -715,7 +715,7 @@ LABEL_129:
     v72 = new_xml.pV;
     parent = (Scaleform::GFx::AS3::Instances::fl::XML *)new_xml.pV->__vftable;
     Scaleform::GFx::AS3::Value::Value(&name, v68);
-    v74 = *(_BYTE *)((int (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::XML *, Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Multiname *, int))parent->pPrev)(
+    v74 = *(_BYTE *)((int (__thiscall *)(Scaleform::GFx::AS3::Instances::fl::XML *, Scaleform::GFx::AS3::Value **, Scaleform::GFx::AS3::Multiname *, int))parent->DynAttrs.mHash.pTable)(
                       v72,
                       &value,
                       &mn,

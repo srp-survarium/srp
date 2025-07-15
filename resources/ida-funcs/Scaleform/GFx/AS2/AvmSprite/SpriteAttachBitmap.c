@@ -24,18 +24,18 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachBitmap(const Scaleform:
   Scaleform::GFx::ASString *v22; // eax
   Scaleform::GFx::ASStringNode *v23; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *v25; // [esp+564h] [ebp-148h]
-  const Scaleform::Render::Matrix2x4<float> *v26; // [esp+574h] [ebp-138h]
-  Scaleform::GFx::AS2::Environment *Env; // [esp+588h] [ebp-124h]
-  Scaleform::GFx::AS2::Environment *v28; // [esp+588h] [ebp-124h]
-  Scaleform::GFx::ASString result; // [esp+59Ch] [ebp-110h] BYREF
-  Scaleform::GFx::ASString v30; // [esp+5A0h] [ebp-10Ch] BYREF
-  Scaleform::GFx::ImageResource *pimageResource; // [esp+5A4h] [ebp-108h]
-  Scaleform::GFx::AS2::MovieRoot *pObject; // [esp+5A8h] [ebp-104h]
-  Scaleform::GFx::CharPosInfo v33; // [esp+5ACh] [ebp-100h] BYREF
-  Scaleform::Render::Matrix2x4<float> v34; // [esp+60Ch] [ebp-A0h] BYREF
-  Scaleform::Render::Cxform v35; // [esp+62Ch] [ebp-80h] BYREF
-  Scaleform::GFx::CharPosInfo v36; // [esp+64Ch] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Environment *v25; // [esp-14h] [ebp-148h]
+  const Scaleform::Render::Matrix2x4<float> *v26; // [esp-4h] [ebp-138h]
+  Scaleform::GFx::AS2::Environment *Env; // [esp+10h] [ebp-124h]
+  Scaleform::GFx::AS2::Environment *v28; // [esp+10h] [ebp-124h]
+  Scaleform::GFx::ASString result; // [esp+24h] [ebp-110h] BYREF
+  Scaleform::GFx::ASString v30; // [esp+28h] [ebp-10Ch] BYREF
+  Scaleform::GFx::ASStringManager *pManager; // [esp+2Ch] [ebp-108h]
+  Scaleform::GFx::AS2::MovieRoot *pObject; // [esp+30h] [ebp-104h]
+  Scaleform::GFx::CharPosInfo v33; // [esp+34h] [ebp-100h] BYREF
+  Scaleform::Render::Matrix2x4<float> v34; // [esp+94h] [ebp-A0h] BYREF
+  Scaleform::Render::Cxform v35; // [esp+B4h] [ebp-80h] BYREF
+  Scaleform::GFx::CharPosInfo v36; // [esp+D4h] [ebp-60h] BYREF
 
   v1 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v1);
@@ -65,8 +65,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachBitmap(const Scaleform:
       v6->RefCount = (v6->RefCount + 1) & 0x8FFFFFFF;
       if ( (*(int (__thiscall **)(unsigned int *))(v6->HashFlags + 8))(&v6->HashFlags) == 26 )
       {
-        pimageResource = (Scaleform::GFx::ImageResource *)v7[2].pManager;
-        if ( pimageResource )
+        pManager = v7[2].pManager;
+        if ( pManager )
         {
           v25 = fn->Env;
           v10 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
@@ -107,15 +107,15 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachBitmap(const Scaleform:
             {
               v28 = fn->Env;
               v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-              LOBYTE(result.pNode) = Scaleform::GFx::AS2::Value::ToBool(v12, v28);
+              LOBYTE(result.pNode) = Scaleform::GFx::AS2::Value::ToBool(v12, (int)Target, v28);
             }
             pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
             pObject = (Scaleform::GFx::AS2::MovieRoot *)pMovieImpl->pASMovieRoot.pObject;
             ImageMovieDef = Scaleform::GFx::MovieImpl::CreateImageMovieDef(
                               pMovieImpl,
-                              pimageResource,
+                              (Scaleform::GFx::ImageResource *)pManager,
                               (bool)result.pNode,
-                              (const char *)&buf,
+                              (char *)uri,
                               0);
             v15 = ImageMovieDef;
             if ( ImageMovieDef )
@@ -155,7 +155,11 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachBitmap(const Scaleform:
                 Scaleform::GFx::InteractiveObject::AddToPlayList(Sprite);
                 Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayList(Sprite);
                 Sprite->AddDisplayObject(Sprite, &v36, &result, 0, 0, 1u, 0, 0, 0);
-                Scaleform::GFx::DisplayObjContainer::ReplaceDisplayObject(Target, &v33, Sprite, &result);
+                Scaleform::GFx::DisplayObjContainer::ReplaceDisplayObject(
+                  Target,
+                  (Scaleform::GFx::DisplayObjectBase *)&v33,
+                  Sprite,
+                  &result);
                 Target->SetAcceptAnimMoves(Target, 0);
                 v19 = result.pNode;
                 --result.pNode->RefCount;
@@ -186,7 +190,7 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteAttachBitmap(const Scaleform:
         }
 LABEL_34:
         RefCount = v7->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v7->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)v7);

@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::Renderer2DImpl::Renderer2DImpl(
         Scaleform::Render::Renderer2DImpl *this,
         Scaleform::GFx::Resource *hal)
 {
-  Scaleform::Render::ThreadCommandQueue *v4; // ecx
+  Scaleform::Render::ThreadCommandQueue *Value; // ecx
   Scaleform::Render::HALNotify *v5; // edi
   Scaleform::MemoryHeap *v6; // eax
   Scaleform::MemoryHeap *v7; // eax
@@ -10,19 +10,19 @@ void __thiscall Scaleform::Render::Renderer2DImpl::Renderer2DImpl(
   int *p_ScissorTop; // ecx
   Scaleform::MemoryHeap *v10; // edi
   Scaleform::Render::MeshKeyManager *v11; // eax
-  Scaleform::Render::HAL *v12; // eax
+  Scaleform::Render::MeshKeyManager *v12; // eax
   Scaleform::RefCountVImpl *pObject; // ecx
   Scaleform::Render::GlyphCache *v14; // eax
   Scaleform::Render::GlyphCache *v15; // eax
   Scaleform::Render::GlyphCache *v16; // edi
   Scaleform::RefCountVImpl *v17; // ecx
-  Scaleform::Render::HAL *hala; // [esp+18h] [ebp+4h]
+  Scaleform::Render::MeshKeyManager *v18; // [esp+18h] [ebp+4h]
 
-  v4 = (Scaleform::Render::ThreadCommandQueue *)hal[6].__vftable;
+  Value = (Scaleform::Render::ThreadCommandQueue *)hal[19].RefCount.Value;
   this->Scaleform::Render::ContextImpl::RenderNotify::__vftable = (Scaleform::Render::Renderer2DImpl_vtbl *)&Scaleform::Render::ContextImpl::RenderNotify::`vftable';
   this->ActiveContextSet.Root.Scaleform::Render::ContextImpl::RenderNotify::pPrev = (Scaleform::Render::ContextImpl::RenderNotify::ContextNode *)&this->ActiveContextSet;
   this->ActiveContextSet.Root.pNext = (Scaleform::Render::ContextImpl::RenderNotify::ContextNode *)&this->ActiveContextSet;
-  this->pRTCommandQueue = v4;
+  this->pRTCommandQueue = Value;
   this->ServiceCommandInstance.Scaleform::Render::ContextImpl::RenderNotify::__vftable = (Scaleform::Render::ContextImpl::RenderNotify::ServiceCommand_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->ServiceCommandInstance.RefCount = 1;
   this->ServiceCommandInstance.Scaleform::Render::ContextImpl::RenderNotify::__vftable = (Scaleform::Render::ContextImpl::RenderNotify::ServiceCommand_vtbl *)&Scaleform::Render::ContextImpl::RenderNotify::ServiceCommand::`vftable';
@@ -82,16 +82,16 @@ void __thiscall Scaleform::Render::Renderer2DImpl::Renderer2DImpl(
   if ( v11 )
   {
     Scaleform::Render::MeshKeyManager::MeshKeyManager(v11, v10);
-    hala = v12;
+    v18 = v12;
   }
   else
   {
-    hala = 0;
+    v18 = 0;
   }
   pObject = (Scaleform::RefCountVImpl *)this->pMeshKeyManager.pObject;
   if ( pObject )
     Scaleform::RefCountImpl::Release(pObject);
-  this->pMeshKeyManager.pObject = (Scaleform::Render::MeshKeyManager *)hala;
+  this->pMeshKeyManager.pObject = v18;
   v14 = (Scaleform::Render::GlyphCache *)v10->Alloc(v10, 5088u, 0);
   if ( v14 )
   {

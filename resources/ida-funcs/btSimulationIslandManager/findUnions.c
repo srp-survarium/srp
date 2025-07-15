@@ -4,9 +4,9 @@ void __userpurge btSimulationIslandManager::findUnions(
         btDispatcher *__formal)
 {
   btOverlappingPairCache *v3; // esi
-  int v4; // edi
+  int v4; // ebx
   int v5; // eax
-  int **v6; // esi
+  int **v6; // edi
   int v7; // eax
   int v8; // ecx
 

@@ -4,7 +4,7 @@ bool __thiscall Scaleform::Render::Text::ParagraphFormat::TabStopsEqual(
 {
   unsigned int *pTabStops; // eax
   unsigned int v4; // ecx
-  const unsigned int *v5; // edx
+  unsigned int *v5; // edx
   unsigned __int8 *v6; // esi
 
   pTabStops = this->pTabStops;

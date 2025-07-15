@@ -3,24 +3,25 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
         int *result,
         Scaleform::GFx::AS3::Instances::fl_display::DisplayObject *child)
 {
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v5; // eax
+  const Scaleform::GFx::AS3::VM::Error *v4; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::ASStringNode *v7; // ecx
+  Scaleform::GFx::ASStringNode *v6; // ecx
   int DisplayIndex; // eax
-  Scaleform::GFx::AS3::VM *v9; // esi
-  const Scaleform::GFx::AS3::VM::Error *v10; // eax
-  Scaleform::GFx::ASStringNode *v11; // eax
+  const Scaleform::GFx::AS3::VM::Error *v8; // eax
+  Scaleform::GFx::ASStringNode *v9; // eax
+  Scaleform::StringDataPtr v10; // [esp-8h] [ebp-14h]
+  Scaleform::StringDataPtr v11; // [esp-8h] [ebp-14h]
   Scaleform::GFx::AS3::VM::Error v12; // [esp+4h] [ebp-8h] BYREF
 
   if ( !child )
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v12, eNullPointerError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowTypeError(pVM, v5);
+    v10.pStr = "child";
+    v10.Size = 5;
+    Scaleform::GFx::AS3::VM::Error::Error(&v12, eNullPointerError, this->pTraits.pObject->pVM, v10);
+    Scaleform::GFx::AS3::VM::ThrowTypeError(this->pTraits.pObject->pVM, v4);
     pNode = v12.Message.pNode;
     --v12.Message.pNode->RefCount;
-    v7 = pNode;
+    v6 = pNode;
     if ( pNode->RefCount )
       return;
     goto LABEL_3;
@@ -34,14 +35,15 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObjectContain
   }
   else
   {
-    v9 = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v12, eMustBeChildError, v9);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(v9, v10);
-    v11 = v12.Message.pNode;
+    v11.pStr = "DisplayObject";
+    v11.Size = 13;
+    Scaleform::GFx::AS3::VM::Error::Error(&v12, eMustBeChildError, this->pTraits.pObject->pVM, v11);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v8);
+    v9 = v12.Message.pNode;
     --v12.Message.pNode->RefCount;
-    v7 = v11;
-    if ( !v11->RefCount )
+    v6 = v9;
+    if ( !v9->RefCount )
 LABEL_3:
-      Scaleform::GFx::ASStringNode::ReleaseNode(v7);
+      Scaleform::GFx::ASStringNode::ReleaseNode(v6);
   }
 }

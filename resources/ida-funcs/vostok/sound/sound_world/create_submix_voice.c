@@ -1,24 +1,20 @@
-IXAudio2SubmixVoice *__thiscall vostok::sound::sound_world::create_submix_voice(
-        vostok::sound::sound_world *this,
-        unsigned __int8 input_channels_count,
-        unsigned __int8 processing_stage)
+IXAudio2SubmixVoice *__usercall vostok::sound::sound_world::create_submix_voice@<eax>(
+        vostok::sound::sound_world *this@<ecx>,
+        int a2@<eax>)
 {
-  XAUDIO2_VOICE_DETAILS voice_details; // [esp+8h] [ebp-14h] BYREF
-  IXAudio2SubmixVoice *submix_voice; // [esp+14h] [ebp-8h] BYREF
-  HRESULT res; // [esp+18h] [ebp-4h]
+  int v3; // [esp+4h] [ebp-4h] BYREF
 
-  if ( !this->m_is_audio_device_exist )
+  if ( !*(_BYTE *)(a2 + 18649) )
     return 0;
-  this->m_master_voice->GetVoiceDetails(this->m_master_voice, &voice_details);
-  res = this->m_xaudio->CreateSubmixVoice(
-          this->m_xaudio,
-          &submix_voice,
-          input_channels_count,
-          44100u,
-          0,
-          processing_stage,
-          0,
-          0);
-  res = submix_voice->SetOutputVoices(submix_voice, 0);
-  return submix_voice;
+  (*(void (__stdcall **)(_DWORD, int *, int, int, _DWORD, int, _DWORD, _DWORD))(**(_DWORD **)(a2 + 192) + 36))(
+    *(_DWORD *)(a2 + 192),
+    &v3,
+    2,
+    44100,
+    0,
+    2,
+    0,
+    0);
+  (*(void (__stdcall **)(int, _DWORD))(*(_DWORD *)v3 + 4))(v3, 0);
+  return (IXAudio2SubmixVoice *)v3;
 }

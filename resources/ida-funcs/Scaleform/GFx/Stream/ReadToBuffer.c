@@ -30,7 +30,7 @@ unsigned int __thiscall Scaleform::GFx::Stream::ReadToBuffer(
     v4 = sz;
     if ( sz >= v8 )
       v4 = v8;
-    memmove(pdestBuf, &this->pBuffer[Pos], v4);
+    memmove((int)pdestBuf, (const __m128i *)&this->pBuffer[Pos], v4);
     this->Pos += v4;
     v7 = sz - v4;
     v9 = &pdestBuf[v4];

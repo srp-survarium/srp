@@ -31,7 +31,7 @@ int __cdecl des_cfb1_cipher(evp_cipher_ctx_st *ctx, unsigned __int8 *out, const 
           v8 = v7 & 7;
           v9 = v7 >> 3;
           ina = (in[v7 >> 3] & (unsigned __int8)(1 << (7 - (v7 & 7)))) != 0 ? 0x80 : 0;
-          DES_cfb_encrypt(&ina, &outa, 1, 1, (DES_ks *)ctx->cipher_data, (unsigned __int8 (*)[8])ctx->iv, ctx->encrypt);
+          DES_cfb_encrypt(&ina, &outa, 1, 1u, (DES_ks *)ctx->cipher_data, (unsigned __int8 (*)[8])ctx->iv, ctx->encrypt);
           ++v7;
           out[v9] = ((unsigned __int8)(outa & 0x80) >> v8) | out[v9] & ~(128 >> v8);
         }

@@ -10,11 +10,11 @@ void __cdecl Scaleform::Render::MatrixState::Copy(
   int v7; // ebx
 
   outmat->View2D = inmat->View2D;
-  memcpy((unsigned __int8 *)&outmat->View3D, (unsigned __int8 *)&inmat->View3D, sizeof(outmat->View3D));
-  memcpy((unsigned __int8 *)&outmat->Proj3D, (unsigned __int8 *)&inmat->Proj3D, sizeof(outmat->Proj3D));
-  memcpy((unsigned __int8 *)&outmat->Proj3DLeft, (unsigned __int8 *)&inmat->Proj3DLeft, sizeof(outmat->Proj3DLeft));
-  memcpy((unsigned __int8 *)&outmat->Proj3DRight, (unsigned __int8 *)&inmat->Proj3DRight, 0xA0u);
-  memcpy((unsigned __int8 *)&outmat->Orient3D, (unsigned __int8 *)&inmat->Orient3D, sizeof(outmat->Orient3D));
+  memcpy((int)&outmat->View3D, (const __m128i *)&inmat->View3D, sizeof(outmat->View3D));
+  memcpy((int)&outmat->Proj3D, (const __m128i *)&inmat->Proj3D, sizeof(outmat->Proj3D));
+  memcpy((int)&outmat->Proj3DLeft, (const __m128i *)&inmat->Proj3DLeft, sizeof(outmat->Proj3DLeft));
+  memcpy((int)&outmat->Proj3DRight, (const __m128i *)&inmat->Proj3DRight, 0xA0u);
+  memcpy((int)&outmat->Orient3D, (const __m128i *)&inmat->Orient3D, sizeof(outmat->Orient3D));
   y2 = inmat->ViewRectOriginal.y2;
   x2 = inmat->ViewRectOriginal.x2;
   x1 = inmat->ViewRectOriginal.x1;
@@ -30,10 +30,10 @@ void __cdecl Scaleform::Render::MatrixState::Copy(
   outmat->ViewRect.x1 = v7;
   outmat->ViewRect.y2 = v6;
   outmat->UserView = inmat->UserView;
-  memcpy((unsigned __int8 *)&outmat->UVPO, (unsigned __int8 *)&inmat->UVPO, sizeof(outmat->UVPO));
+  memcpy((int)&outmat->UVPO, (const __m128i *)&inmat->UVPO, sizeof(outmat->UVPO));
   memcpy(
-    (unsigned __int8 *)&outmat->ViewRectCompensated3D,
-    (unsigned __int8 *)&inmat->ViewRectCompensated3D,
+    (int)&outmat->ViewRectCompensated3D,
+    (const __m128i *)&inmat->ViewRectCompensated3D,
     sizeof(outmat->ViewRectCompensated3D));
   outmat->UVPOChanged = 1;
   outmat->OrientationSet = inmat->OrientationSet;

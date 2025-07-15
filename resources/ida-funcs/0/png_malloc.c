@@ -8,7 +8,7 @@ int __cdecl png_malloc(int a1, unsigned int size)
     v3 = (*(int (__cdecl **)(int, unsigned int))(a1 + 612))(a1, size);
   else
     v3 = png_malloc_default(a1, size);
-  if ( !v3 && (*(_DWORD *)(a1 + 112) & 0x100000) == 0 )
+  if ( !v3 && ((unsigned int)&loc_100000 & *(_DWORD *)(a1 + 112)) == 0 )
     png_error(a1, (int)"Out of Memory");
   return v3;
 }

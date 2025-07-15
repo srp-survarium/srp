@@ -3,24 +3,28 @@ void __thiscall btHashedOverlappingPairCache::processAllOverlappingPairs(
         btOverlapCallback *callback,
         btDispatcher *dispatcher)
 {
-  int v3; // ebx
-  btBroadphasePair *v5; // esi
-  int i; // [esp+8h] [ebp-4h]
+  btBroadphasePair *v4; // esi
+  int v5; // [esp+4h] [ebp-8h]
+  int v6; // [esp+8h] [ebp-4h]
 
-  v3 = 0;
-  i = 0;
-  while ( i < this->m_overlappingPairArray.m_size )
+  v5 = 0;
+  if ( this->m_overlappingPairArray.m_size > 0 )
   {
-    v5 = &this->m_overlappingPairArray.m_data[v3];
-    if ( callback->processOverlap(callback, v5) )
+    v6 = 0;
+    do
     {
-      this->removeOverlappingPair(this, v5->m_pProxy0, v5->m_pProxy1, dispatcher);
-      --gOverlappingPairs;
+      v4 = &this->m_overlappingPairArray.m_data[v6];
+      if ( callback->processOverlap(callback, v4) )
+      {
+        this->removeOverlappingPair(this, v4->m_pProxy0, v4->m_pProxy1, dispatcher);
+        --gOverlappingPairs;
+      }
+      else
+      {
+        ++v5;
+        ++v6;
+      }
     }
-    else
-    {
-      ++i;
-      ++v3;
-    }
+    while ( v5 < this->m_overlappingPairArray.m_size );
   }
 }

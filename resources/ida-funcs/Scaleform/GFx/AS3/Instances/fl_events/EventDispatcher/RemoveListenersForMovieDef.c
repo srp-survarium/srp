@@ -80,7 +80,7 @@ LABEL_18:
       VObj = (Scaleform::GFx::AS3::Traits_vtbl **)ValueTraits;
 LABEL_19:
       v16 = ((int (__fastcall *)(Scaleform::GFx::AS3::Traits_vtbl **))v14->GetFilePtr)(VObj);
-      if ( v16 && *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v16 + 60) + 184) == defimpl )
+      if ( v16 && *(Scaleform::GFx::MovieDefImpl **)(*(_DWORD *)(v16 + 60) + 192) == defimpl )
       {
         Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
           v10,

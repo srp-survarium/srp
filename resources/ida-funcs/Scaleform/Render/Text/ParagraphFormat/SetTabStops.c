@@ -1,6 +1,6 @@
 void __thiscall Scaleform::Render::Text::ParagraphFormat::SetTabStops(
         Scaleform::Render::Text::ParagraphFormat *this,
-        const unsigned int *psrcTabStops)
+        unsigned int *psrcTabStops)
 {
   if ( psrcTabStops && *psrcTabStops )
   {

@@ -18,8 +18,8 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
   unsigned int v15; // eax
   unsigned int v16; // ecx
   Scaleform::Render::FillStyleType *v17; // edi
-  Scaleform::GFx::Resource *pObject; // ebx
-  Scaleform::GFx::Resource *v19; // ebx
+  Scaleform::Render::ComplexFill *pObject; // ebx
+  Scaleform::Render::ComplexFill *v19; // ebx
   Scaleform::Render::FillStyleType *v20; // edi
   unsigned int v21; // eax
   unsigned int v22; // ebx
@@ -28,95 +28,94 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
   unsigned int v25; // eax
   const Scaleform::Log **p_LogPtr; // eax
   unsigned int v27; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v28; // ecx
   Scaleform::GFx::AS2::ArraySortFunctor *Data; // edx
-  const Scaleform::Log **v30; // eax
-  unsigned int v31; // ecx
+  const Scaleform::Log **v29; // eax
+  unsigned int v30; // ecx
   Scaleform::GFx::AS2::LocalFrame **p_pLocalFrame; // edi
-  int v33; // ebx
-  int v34; // edx
-  unsigned int v35; // eax
-  int v36; // eax
-  unsigned int v37; // eax
+  int v32; // ebx
+  int v33; // edx
+  unsigned int v34; // eax
+  int v35; // eax
+  unsigned int v36; // eax
+  int v37; // edx
   int v38; // edx
-  int v39; // edx
-  unsigned int v40; // eax
-  unsigned __int16 v41; // cx
-  unsigned int v42; // eax
-  int v43; // eax
-  unsigned int v44; // eax
-  int v45; // edx
-  double v46; // st7
-  Scaleform::GFx::Resource *v47; // ecx
-  Scaleform::RefCountVImpl *v48; // ecx
-  Scaleform::GFx::Resource *v49; // ebx
+  unsigned int v39; // eax
+  __int16 v40; // cx
+  unsigned int v41; // eax
+  int v42; // eax
+  unsigned int v43; // eax
+  int v44; // edx
+  double v45; // st7
+  Scaleform::Render::ComplexFill *v46; // ecx
+  Scaleform::RefCountVImpl *v47; // ecx
+  Scaleform::GFx::Resource *v48; // ebx
   unsigned int Color; // eax
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v51; // edx
-  Scaleform::RefCountVImpl *pRCC; // ecx
-  Scaleform::Render::ComplexFill *v53; // ecx
-  Scaleform::Render::GradientData *v54; // eax
-  Scaleform::GFx::Resource_vtbl *v55; // eax
+  unsigned int *v50; // edx
+  Scaleform::RefCountVImpl *v51; // ecx
+  Scaleform::Render::ComplexFill *v52; // ecx
+  Scaleform::Render::GradientData *v53; // eax
+  Scaleform::GFx::Resource_vtbl *v54; // eax
   unsigned int Raw; // eax
+  unsigned int *v56; // ecx
   unsigned int v57; // edi
   int v58; // ebx
   Scaleform::GFx::ConstShapeWithStyles *v59; // eax
   Scaleform::RefCountVImpl *v60; // ecx
   Scaleform::GFx::ConstShapeWithStyles *v61; // ecx
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v62; // ecx
-  Scaleform::GFx::MorphCharacterDef *v63; // edi
-  _DWORD *v64; // eax
-  Scaleform::GFx::ConstShapeWithStyles *v65; // esi
-  Scaleform::RefCountVImpl *v66; // ecx
-  unsigned int v67; // ebx
-  Scaleform::GFx::ShapeDataBase *v68; // eax
-  Scaleform::GFx::ConstShapeWithStyles *v69; // esi
-  Scaleform::RefCountVImpl *v70; // ecx
-  Scaleform::GFx::ShapeDataBase *v71; // eax
-  Scaleform::GFx::ConstShapeWithStyles *v72; // esi
-  Scaleform::RefCountVImpl *v73; // ecx
+  Scaleform::GFx::MorphCharacterDef *v62; // edi
+  _DWORD *v63; // eax
+  Scaleform::GFx::ConstShapeWithStyles *v64; // esi
+  Scaleform::RefCountVImpl *v65; // ecx
+  unsigned int v66; // ebx
+  Scaleform::GFx::ShapeDataBase *v67; // eax
+  Scaleform::GFx::ConstShapeWithStyles *v68; // esi
+  Scaleform::RefCountVImpl *v69; // ecx
+  Scaleform::GFx::ShapeDataBase *v70; // eax
+  Scaleform::GFx::ConstShapeWithStyles *v71; // esi
+  Scaleform::RefCountVImpl *v72; // ecx
+  Scaleform::Render::ShapeMeshProvider *v73; // eax
   Scaleform::Render::ShapeMeshProvider *v74; // eax
-  Scaleform::Render::ShapeMeshProvider *v75; // eax
-  Scaleform::Render::ShapeMeshProvider *v76; // esi
-  Scaleform::Render::ShapeMeshProvider *v77; // eax
-  unsigned int v78; // edi
+  Scaleform::Render::ShapeMeshProvider *v75; // esi
+  Scaleform::Render::ShapeMeshProvider *v76; // eax
+  unsigned int v77; // edi
   Scaleform::GFx::AS2::Environment **p_Env; // esi
-  Scaleform::RefCountVImpl *v80; // ecx
-  Scaleform::GFx::AS2::Environment **v81; // esi
-  Scaleform::RefCountVImpl *v82; // ecx
+  Scaleform::RefCountVImpl *v79; // ecx
+  Scaleform::GFx::AS2::Environment **v80; // esi
+  Scaleform::RefCountVImpl *v81; // ecx
   Scaleform::RefCountVImpl **p_pFill; // esi
   unsigned int Size; // edi
-  Scaleform::Render::FillStyleType *v85; // ebx
-  Scaleform::RefCountVImpl **v86; // esi
-  unsigned int v87; // edi
-  Scaleform::GFx::TagType TagType; // [esp+5E2h] [ebp-F0h]
-  Scaleform::GFx::TagType v89; // [esp+5E2h] [ebp-F0h]
-  bool v90; // [esp+60Dh] [ebp-C5h] BYREF
-  Scaleform::GFx::MorphCharacterDef *v91; // [esp+60Eh] [ebp-C4h]
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *p_Flags; // [esp+612h] [ebp-C0h] BYREF
-  int v93; // [esp+616h] [ebp-BCh] BYREF
-  Scaleform::GFx::ConstShapeWithStyles *v94; // [esp+61Ah] [ebp-B8h]
-  unsigned int strokeStyleCount; // [esp+61Eh] [ebp-B4h]
-  int v96; // [esp+622h] [ebp-B0h] BYREF
-  int v97; // [esp+626h] [ebp-ACh] BYREF
-  Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy> v98; // [esp+62Ah] [ebp-A8h] BYREF
-  Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+636h] [ebp-9Ch] BYREF
-  int v100; // [esp+642h] [ebp-90h] BYREF
-  unsigned int fillStyleCount; // [esp+646h] [ebp-8Ch]
-  Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy> v102; // [esp+64Ah] [ebp-88h] BYREF
-  Scaleform::Render::FillStyleType v103; // [esp+656h] [ebp-7Ch] BYREF
-  Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy> v104; // [esp+65Eh] [ebp-74h] BYREF
-  Scaleform::Render::FillStyleType v105; // [esp+66Ah] [ebp-68h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+672h] [ebp-60h] BYREF
-  Scaleform::Render::Rect<float> v107; // [esp+682h] [ebp-50h] BYREF
-  Scaleform::Render::Rect<float> v108; // [esp+692h] [ebp-40h] BYREF
-  Scaleform::Render::Rect<float> v109; // [esp+6A2h] [ebp-30h] BYREF
-  Scaleform::Render::FillStyleType v110; // [esp+6BAh] [ebp-18h] BYREF
-  Scaleform::Render::Color v111; // [esp+6C2h] [ebp-10h] BYREF
-  Scaleform::Render::Color pc; // [esp+6C6h] [ebp-Ch] BYREF
-  Scaleform::Render::FillStyleType v113; // [esp+6CAh] [ebp-8h] BYREF
+  Scaleform::Render::FillStyleType *v84; // ebx
+  Scaleform::RefCountVImpl **v85; // esi
+  unsigned int v86; // edi
+  Scaleform::GFx::TagType TagType; // [esp+Eh] [ebp-F0h]
+  Scaleform::GFx::TagType v88; // [esp+Eh] [ebp-F0h]
+  bool v89; // [esp+39h] [ebp-C5h] BYREF
+  Scaleform::GFx::MorphCharacterDef *v90; // [esp+3Ah] [ebp-C4h]
+  int p_Flags; // [esp+3Eh] [ebp-C0h] BYREF
+  int v92; // [esp+42h] [ebp-BCh] BYREF
+  Scaleform::GFx::ConstShapeWithStyles *v93; // [esp+46h] [ebp-B8h]
+  unsigned int strokeStyleCount; // [esp+4Ah] [ebp-B4h]
+  int v95; // [esp+4Eh] [ebp-B0h] BYREF
+  int v96; // [esp+52h] [ebp-ACh] BYREF
+  Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy> v97; // [esp+56h] [ebp-A8h] BYREF
+  Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy> fillStyles; // [esp+62h] [ebp-9Ch] BYREF
+  int v99; // [esp+6Eh] [ebp-90h] BYREF
+  unsigned int fillStyleCount; // [esp+72h] [ebp-8Ch]
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy> pheapAddr; // [esp+76h] [ebp-88h] BYREF
+  Scaleform::Render::FillStyleType v102; // [esp+82h] [ebp-7Ch] BYREF
+  Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy> v103; // [esp+8Ah] [ebp-74h] BYREF
+  Scaleform::Render::FillStyleType v104; // [esp+96h] [ebp-68h] BYREF
+  Scaleform::Render::Rect<float> pr; // [esp+9Eh] [ebp-60h] BYREF
+  Scaleform::Render::Rect<float> v106; // [esp+AEh] [ebp-50h] BYREF
+  Scaleform::Render::Rect<float> v107; // [esp+BEh] [ebp-40h] BYREF
+  Scaleform::Render::Rect<float> v108; // [esp+CEh] [ebp-30h] BYREF
+  Scaleform::Render::FillStyleType v109; // [esp+E6h] [ebp-18h] BYREF
+  Scaleform::Render::Color v110; // [esp+EEh] [ebp-10h] BYREF
+  Scaleform::Render::Color v111; // [esp+F2h] [ebp-Ch] BYREF
+  Scaleform::Render::FillStyleType v112; // [esp+F6h] [ebp-8h] BYREF
 
   pAltStream = p->pAltStream;
-  v91 = this;
+  v90 = this;
   if ( pAltStream )
     p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)pAltStream;
   else
@@ -125,24 +124,24 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
   pr.y1 = 0.0;
   pr.x2 = 0.0;
   pr.y2 = 0.0;
-  v109.x1 = 0.0;
-  v109.y1 = 0.0;
-  v109.x2 = 0.0;
-  v109.y2 = 0.0;
-  v107.x1 = 0.0;
-  v107.y1 = 0.0;
-  v107.x2 = 0.0;
-  v107.y2 = 0.0;
   v108.x1 = 0.0;
   v108.y1 = 0.0;
   v108.x2 = 0.0;
   v108.y2 = 0.0;
+  v106.x1 = 0.0;
+  v106.y1 = 0.0;
+  v106.x2 = 0.0;
+  v106.y2 = 0.0;
+  v107.x1 = 0.0;
+  v107.y1 = 0.0;
+  v107.x2 = 0.0;
+  v107.y2 = 0.0;
   Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &pr);
-  Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v109);
+  Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v108);
   if ( tagInfo->TagType == Tag_DefineShapeMorph2 )
   {
+    Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v106);
     Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v107);
-    Scaleform::GFx::Stream::ReadRect(&p_ProcessInfo->Stream, &v108);
     v6 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
     p_ProcessInfo->Stream.UnusedBits = 0;
     if ( v6 < 1 )
@@ -151,29 +150,29 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
   }
   else
   {
-    v107.x1 = pr.x1;
-    v107.y1 = pr.y1;
-    v107.x2 = pr.x2;
-    v107.y2 = pr.y2;
-    v108.x1 = v109.x1;
-    v108.y1 = v109.y1;
-    v108.x2 = v109.x2;
-    v108.y2 = v109.y2;
+    v106.x1 = pr.x1;
+    v106.y1 = pr.y1;
+    v106.x2 = pr.x2;
+    v106.y2 = pr.y2;
+    v107.x1 = v108.x1;
+    v107.y1 = v108.y1;
+    v107.x2 = v108.x2;
+    v107.y2 = v108.y2;
   }
   v7 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
-  memset(&pheapAddr, 0, sizeof(pheapAddr));
-  memset(&v98, 0, sizeof(v98));
+  memset(&fillStyles, 0, sizeof(fillStyles));
+  memset(&v97, 0, sizeof(v97));
   p_ProcessInfo->Stream.UnusedBits = 0;
   if ( v7 < 4 )
     Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 4);
   Pos = p_ProcessInfo->Stream.Pos;
   DataSize = p_ProcessInfo->Stream.DataSize;
-  v100 = p_ProcessInfo->Stream.pBuffer[Pos]
-       | ((p_ProcessInfo->Stream.pBuffer[Pos + 1] | (*(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[Pos + 2] << 8)) << 8);
+  v99 = p_ProcessInfo->Stream.pBuffer[Pos]
+      | ((p_ProcessInfo->Stream.pBuffer[Pos + 1] | (*(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[Pos + 2] << 8)) << 8);
   Pos += 4;
   v10 = Pos + p_ProcessInfo->Stream.FilePos - DataSize;
   p_ProcessInfo->Stream.Pos = Pos;
-  v97 = v10;
+  v96 = v10;
   p_ProcessInfo->Stream.UnusedBits = 0;
   if ( (int)(DataSize - Pos) < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(&p_ProcessInfo->Stream);
@@ -194,52 +193,52 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
     v13 = v16;
     fillStyleCount = v16;
   }
-  v90 = 0;
+  v89 = 0;
   if ( v13 )
   {
     strokeStyleCount = v13;
     do
     {
       TagType = tagInfo->TagType;
-      v105.pFill.pObject = 0;
-      v113.pFill.pObject = 0;
-      Scaleform::GFx::MorphCharacterDef::ReadMorphFillStyle(v91, p, TagType, &v105, &v113, &v90);
+      v104.pFill.pObject = 0;
+      v112.pFill.pObject = 0;
+      Scaleform::GFx::MorphCharacterDef::ReadMorphFillStyle(v90, p, TagType, &v104, &v112, &v89);
       Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-        &pheapAddr,
-        &pheapAddr,
-        pheapAddr.Size + 1);
-      v17 = &pheapAddr.Data[pheapAddr.Size - 1];
-      pObject = (Scaleform::GFx::Resource *)v105.pFill.pObject;
-      if ( &pheapAddr.Data[pheapAddr.Size] != (Scaleform::Render::FillStyleType *)8 )
+        &fillStyles,
+        &fillStyles,
+        fillStyles.Size + 1);
+      v17 = &fillStyles.Data[fillStyles.Size - 1];
+      pObject = v104.pFill.pObject;
+      if ( &fillStyles.Data[fillStyles.Size] != (Scaleform::Render::FillStyleType *)8 )
       {
-        v17->Color = v105.Color;
+        v17->Color = v104.Color;
         if ( pObject )
-          Scaleform::RefCountImpl::AddRef(pObject);
-        v17->pFill.pObject = (Scaleform::Render::ComplexFill *)pObject;
+          Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pObject);
+        v17->pFill.pObject = pObject;
       }
       Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-        &v98,
-        &v98,
-        v98.Size + 1);
-      v19 = (Scaleform::GFx::Resource *)v113.pFill.pObject;
-      v20 = &v98.Data[v98.Size - 1];
-      if ( &v98.Data[v98.Size] != (Scaleform::Render::FillStyleType *)8 )
+        &v97,
+        &v97,
+        v97.Size + 1);
+      v19 = v112.pFill.pObject;
+      v20 = &v97.Data[v97.Size - 1];
+      if ( &v97.Data[v97.Size] != (Scaleform::Render::FillStyleType *)8 )
       {
-        v20->Color = v113.Color;
+        v20->Color = v112.Color;
         if ( v19 )
-          Scaleform::RefCountImpl::AddRef(v19);
-        v20->pFill.pObject = (Scaleform::Render::ComplexFill *)v19;
+          Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v19);
+        v20->pFill.pObject = v19;
       }
       if ( v19 )
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v19);
-      if ( v105.pFill.pObject )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v105.pFill.pObject);
+      if ( v104.pFill.pObject )
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v104.pFill.pObject);
       --strokeStyleCount;
     }
     while ( strokeStyleCount );
   }
-  memset(&v102, 0, sizeof(v102));
-  memset(&v104, 0, sizeof(v104));
+  memset(&pheapAddr, 0, sizeof(pheapAddr));
+  memset(&v103, 0, sizeof(v103));
   p_ProcessInfo->Stream.UnusedBits = 0;
   if ( (signed int)(p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos) < 1 )
     Scaleform::GFx::Stream::PopulateBuffer1(&p_ProcessInfo->Stream);
@@ -260,13 +259,13 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
     strokeStyleCount = v22;
   }
   Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-    &v102,
-    &v102,
+    &pheapAddr,
+    &pheapAddr,
     (v22 >> 2) + v22);
-  v102.Size = v22;
+  pheapAddr.Size = v22;
   if ( v22 )
   {
-    p_LogPtr = &v102.Data->LogPtr;
+    p_LogPtr = &pheapAddr.Data->LogPtr;
     v27 = v22;
     do
     {
@@ -281,217 +280,219 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
     while ( v27 );
   }
   Scaleform::ArrayDataBase<Scaleform::GFx::AS2::ArraySortFunctor,Scaleform::AllocatorGH<Scaleform::GFx::AS2::ArraySortFunctor,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-    &v104,
-    &v104,
+    &v103,
+    &v103,
     (v22 >> 2) + v22);
-  Data = v104.Data;
-  v104.Size = v22;
+  Data = v103.Data;
+  v103.Size = v22;
   if ( v22 )
   {
-    v30 = &v104.Data->LogPtr;
-    v31 = v22;
+    v29 = &v103.Data->LogPtr;
+    v30 = v22;
     do
     {
-      if ( v30 != (const Scaleform::Log **)24 )
+      if ( v29 != (const Scaleform::Log **)24 )
       {
-        *(v30 - 1) = 0;
-        *v30 = 0;
+        *(v29 - 1) = 0;
+        *v29 = 0;
       }
-      v30 += 7;
-      --v31;
+      v29 += 7;
+      --v30;
     }
-    while ( v31 );
-    p_Flags = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)&Data->Func.Flags;
-    v94 = (Scaleform::GFx::ConstShapeWithStyles *)v22;
-    p_pLocalFrame = &v102.Data->Func.pLocalFrame;
-    v96 = (char *)Data - (char *)v102.Data;
-    v33 = (char *)Data - (char *)v102.Data;
+    while ( v30 );
+    p_Flags = (int)&Data->Func.Flags;
+    v93 = (Scaleform::GFx::ConstShapeWithStyles *)v22;
+    p_pLocalFrame = &pheapAddr.Data->Func.pLocalFrame;
+    v95 = (char *)Data - (char *)pheapAddr.Data;
+    v32 = (char *)Data - (char *)pheapAddr.Data;
     do
     {
-      v34 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
+      v33 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
       p_ProcessInfo->Stream.UnusedBits = 0;
-      if ( v34 < 2 )
+      if ( v33 < 2 )
         Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 2);
-      v35 = p_ProcessInfo->Stream.Pos;
-      v93 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v35];
-      p_ProcessInfo->Stream.Pos = v35 + 2;
-      *((float *)p_pLocalFrame - 3) = (float)v93;
-      v36 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
+      v34 = p_ProcessInfo->Stream.Pos;
+      v92 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v34];
+      p_ProcessInfo->Stream.Pos = v34 + 2;
+      *((float *)p_pLocalFrame - 3) = (float)v92;
+      v35 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
       p_ProcessInfo->Stream.UnusedBits = 0;
-      if ( v36 < 2 )
+      if ( v35 < 2 )
         Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 2);
-      v37 = p_ProcessInfo->Stream.Pos;
-      v38 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v37];
-      p_ProcessInfo->Stream.Pos = v37 + 2;
-      v93 = v38;
-      *(float *)&p_Flags[-1]._pRCC = (float)v38;
-      *(Scaleform::GFx::AS2::LocalFrame **)((char *)p_pLocalFrame + v33 - 4) = 0;
+      v36 = p_ProcessInfo->Stream.Pos;
+      v37 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v36];
+      p_ProcessInfo->Stream.Pos = v36 + 2;
+      v92 = v37;
+      *(float *)(p_Flags - 16) = (float)v37;
+      *(Scaleform::GFx::AS2::LocalFrame **)((char *)p_pLocalFrame + v32 - 4) = 0;
       *(p_pLocalFrame - 1) = 0;
-      *(float *)((char *)p_pLocalFrame + v33 - 8) = 0.050000001;
+      *(float *)((char *)p_pLocalFrame + v32 - 8) = 0.050000001;
       *((float *)p_pLocalFrame - 2) = 0.050000001;
-      *(float *)((char *)p_pLocalFrame + v33) = 3.0;
+      *(float *)((char *)p_pLocalFrame + v32) = 3.0;
       *(float *)p_pLocalFrame = 3.0;
       if ( tagInfo->TagType == Tag_DefineShapeMorph2 )
       {
-        v39 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
+        v38 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
         p_ProcessInfo->Stream.UnusedBits = 0;
-        if ( v39 < 2 )
+        if ( v38 < 2 )
           Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 2);
-        v40 = p_ProcessInfo->Stream.Pos;
-        v41 = *(_WORD *)&p_ProcessInfo->Stream.pBuffer[v40];
-        p_ProcessInfo->Stream.Pos = v40 + 2;
-        v42 = Scaleform::GFx::ConvertSwfLineStyles(v41);
-        *(Scaleform::GFx::AS2::LocalFrame **)((char *)p_pLocalFrame + v33 - 4) = (Scaleform::GFx::AS2::LocalFrame *)v42;
-        *(p_pLocalFrame - 1) = (Scaleform::GFx::AS2::LocalFrame *)v42;
-        if ( (v42 & 0x20) != 0 )
+        v39 = p_ProcessInfo->Stream.Pos;
+        v40 = *(_WORD *)&p_ProcessInfo->Stream.pBuffer[v39];
+        p_ProcessInfo->Stream.Pos = v39 + 2;
+        v41 = Scaleform::GFx::ConvertSwfLineStyles(v40);
+        *(Scaleform::GFx::AS2::LocalFrame **)((char *)p_pLocalFrame + v32 - 4) = (Scaleform::GFx::AS2::LocalFrame *)v41;
+        *(p_pLocalFrame - 1) = (Scaleform::GFx::AS2::LocalFrame *)v41;
+        if ( (v41 & 0x20) != 0 )
         {
-          v43 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
+          v42 = p_ProcessInfo->Stream.DataSize - p_ProcessInfo->Stream.Pos;
           p_ProcessInfo->Stream.UnusedBits = 0;
-          if ( v43 < 2 )
+          if ( v42 < 2 )
             Scaleform::GFx::Stream::PopulateBuffer(&p_ProcessInfo->Stream, 2);
-          v44 = p_ProcessInfo->Stream.Pos;
-          v45 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v44];
-          p_ProcessInfo->Stream.Pos = v44 + 2;
-          *(float *)&v93 = (double)v45 * 0.00390625;
-          v46 = *(float *)&v93;
-          *(int *)((char *)p_pLocalFrame + v33) = v93;
-          *(float *)p_pLocalFrame = v46;
+          v43 = p_ProcessInfo->Stream.Pos;
+          v44 = *(unsigned __int16 *)&p_ProcessInfo->Stream.pBuffer[v43];
+          p_ProcessInfo->Stream.Pos = v43 + 2;
+          *(float *)&v92 = (double)v44 * 0.00390625;
+          v45 = *(float *)&v92;
+          *(int *)((char *)p_pLocalFrame + v32) = v92;
+          *(float *)p_pLocalFrame = v45;
         }
       }
       if ( (*(_BYTE *)(p_pLocalFrame - 1) & 8) != 0 )
       {
-        v89 = tagInfo->TagType;
-        v103.pFill.pObject = 0;
-        v110.pFill.pObject = 0;
-        Scaleform::GFx::MorphCharacterDef::ReadMorphFillStyle(v91, p, v89, &v103, &v110, &v90);
-        v47 = (Scaleform::GFx::Resource *)v103.pFill.pObject;
-        p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)v103.Color;
+        v88 = tagInfo->TagType;
+        v102.pFill.pObject = 0;
+        v109.pFill.pObject = 0;
+        Scaleform::GFx::MorphCharacterDef::ReadMorphFillStyle(v90, p, v88, &v102, &v109, &v89);
+        v46 = v102.pFill.pObject;
+        p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)v102.Color;
+        if ( v46 )
+          Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v46);
+        v47 = (Scaleform::RefCountVImpl *)p_pLocalFrame[2];
         if ( v47 )
-          Scaleform::RefCountImpl::AddRef(v47);
-        v48 = (Scaleform::RefCountVImpl *)p_pLocalFrame[2];
+          Scaleform::RefCountImpl::Release(v47);
+        v48 = (Scaleform::GFx::Resource *)v109.pFill.pObject;
+        Color = v109.Color;
+        v50 = (unsigned int *)p_Flags;
+        p_pLocalFrame[2] = (Scaleform::GFx::AS2::LocalFrame *)v102.pFill.pObject;
+        *v50 = Color;
         if ( v48 )
-          Scaleform::RefCountImpl::Release(v48);
-        v49 = (Scaleform::GFx::Resource *)v110.pFill.pObject;
-        Color = v110.Color;
-        v51 = p_Flags;
-        p_pLocalFrame[2] = (Scaleform::GFx::AS2::LocalFrame *)v103.pFill.pObject;
-        v51->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)Color;
-        if ( v49 )
         {
-          Scaleform::RefCountImpl::AddRef(v49);
-          v51 = p_Flags;
+          Scaleform::RefCountImpl::AddRef(v48);
+          v50 = (unsigned int *)p_Flags;
         }
-        pRCC = (Scaleform::RefCountVImpl *)v51->_pRCC;
-        if ( pRCC )
+        v51 = (Scaleform::RefCountVImpl *)v50[1];
+        if ( v51 )
         {
-          Scaleform::RefCountImpl::Release(pRCC);
-          v51 = p_Flags;
+          Scaleform::RefCountImpl::Release(v51);
+          v50 = (unsigned int *)p_Flags;
         }
-        v53 = v103.pFill.pObject;
-        v51->pRCCRaw = (unsigned int)v49;
-        v54 = v53->pGradient.pObject;
-        if ( v54 && v54->RecordCount )
-          p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)v54->pRecords->ColorV.Raw;
-        v55 = v49[1].__vftable;
-        if ( v55 && HIWORD(v55->GetResourceTypeCode) )
-          v51->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)*((_DWORD *)v55->GetResourceReport + 1);
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v49);
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v103.pFill.pObject);
-        v33 = v96;
+        v52 = v102.pFill.pObject;
+        v50[1] = (unsigned int)v48;
+        v53 = v52->pGradient.pObject;
+        if ( v53 && v53->RecordCount )
+          p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)v53->pRecords->ColorV.Raw;
+        v54 = v48[1].__vftable;
+        if ( v54 && HIWORD(v54->GetResourceTypeCode) )
+          *v50 = *((_DWORD *)v54->GetResourceReport + 1);
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v48);
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v102.pFill.pObject);
+        v32 = v95;
       }
       else
       {
-        Scaleform::GFx::LoadProcess::ReadRgbaTag(p, &pc, tagInfo->TagType);
         Scaleform::GFx::LoadProcess::ReadRgbaTag(p, &v111, tagInfo->TagType);
-        Raw = v111.Raw;
-        v28 = p_Flags;
-        p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)pc.Raw;
-        v28->__vftable = (Scaleform::GFx::AS3::RefCountBaseGC<328>_vtbl *)Raw;
+        Scaleform::GFx::LoadProcess::ReadRgbaTag(p, &v110, tagInfo->TagType);
+        Raw = v110.Raw;
+        v56 = (unsigned int *)p_Flags;
+        p_pLocalFrame[1] = (Scaleform::GFx::AS2::LocalFrame *)v111.Raw;
+        *v56 = Raw;
       }
-      p_Flags = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)p_Flags + 28);
+      p_Flags += 28;
       p_pLocalFrame += 7;
-      v94 = (Scaleform::GFx::ConstShapeWithStyles *)((char *)v94 - 1);
+      v93 = (Scaleform::GFx::ConstShapeWithStyles *)((char *)v93 - 1);
     }
-    while ( v94 );
+    while ( v93 );
   }
   v57 = p_ProcessInfo->Stream.FilePos + p_ProcessInfo->Stream.Pos - p_ProcessInfo->Stream.DataSize;
-  v58 = v100 + v97;
-  if ( v100 + v97 < v57 )
+  v58 = v99 + v96;
+  if ( v99 + v96 < v57 )
   {
-    v63 = v91;
-    v93 = 2;
-    v68 = (Scaleform::GFx::ShapeDataBase *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+    v62 = v90;
+    v92 = 2;
+    v67 = (Scaleform::GFx::ShapeDataBase *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                              Scaleform::Memory::pGlobalHeap,
-                                             v91,
+                                             v90,
                                              64,
-                                             &v93);
-    v69 = (Scaleform::GFx::ConstShapeWithStyles *)v68;
-    if ( v68 )
+                                             &v92);
+    v68 = (Scaleform::GFx::ConstShapeWithStyles *)v67;
+    if ( v67 )
     {
-      Scaleform::GFx::ShapeDataBase::ShapeDataBase(v68, Empty_Shape);
-      v69->__vftable = (Scaleform::GFx::ConstShapeWithStyles_vtbl *)&Scaleform::GFx::ConstShapeWithStyles::`vftable';
-      v69->Styles = 0;
-      v69->FillStylesNum = 0;
-      v69->StrokeStylesNum = 0;
-      v69->Bound.x1 = 0.0;
-      v69->Bound.y1 = 0.0;
-      v69->Bound.x2 = 0.0;
-      v69->Bound.y2 = 0.0;
-      v69->RectBound.x1 = 0.0;
-      v69->RectBound.y1 = 0.0;
-      v69->RectBound.x2 = 0.0;
-      v69->RectBound.y2 = 0.0;
+      Scaleform::GFx::ShapeDataBase::ShapeDataBase(v67, Empty_Shape);
+      v68->__vftable = (Scaleform::GFx::ConstShapeWithStyles_vtbl *)&Scaleform::GFx::ConstShapeWithStyles::`vftable';
+      v68->Styles = 0;
+      v68->FillStylesNum = 0;
+      v68->StrokeStylesNum = 0;
+      v68->Bound.x1 = 0.0;
+      v68->Bound.y1 = 0.0;
+      v68->Bound.x2 = 0.0;
+      v68->Bound.y2 = 0.0;
+      v68->RectBound.x1 = 0.0;
+      v68->RectBound.y1 = 0.0;
+      v68->RectBound.x2 = 0.0;
+      v68->RectBound.y2 = 0.0;
     }
     else
     {
-      v69 = 0;
+      v68 = 0;
     }
-    v70 = (Scaleform::RefCountVImpl *)v63->pShape1.pObject;
+    v69 = (Scaleform::RefCountVImpl *)v62->pShape1.pObject;
+    if ( v69 )
+      Scaleform::RefCountImpl::Release(v69);
+    v62->pShape1.pObject = v68;
+    v95 = 2;
+    v70 = (Scaleform::GFx::ShapeDataBase *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+                                             Scaleform::Memory::pGlobalHeap,
+                                             v62,
+                                             64,
+                                             &v95);
+    v71 = (Scaleform::GFx::ConstShapeWithStyles *)v70;
     if ( v70 )
-      Scaleform::RefCountImpl::Release(v70);
-    v63->pShape1.pObject = v69;
-    v96 = 2;
-    v71 = (Scaleform::GFx::ShapeDataBase *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
-                                             Scaleform::Memory::pGlobalHeap,
-                                             v63,
-                                             64,
-                                             &v96);
-    v72 = (Scaleform::GFx::ConstShapeWithStyles *)v71;
-    if ( v71 )
     {
-      Scaleform::GFx::ShapeDataBase::ShapeDataBase(v71, Empty_Shape);
-      v72->__vftable = (Scaleform::GFx::ConstShapeWithStyles_vtbl *)&Scaleform::GFx::ConstShapeWithStyles::`vftable';
-      v72->Styles = 0;
-      v72->FillStylesNum = 0;
-      v72->StrokeStylesNum = 0;
-      v72->Bound.x1 = 0.0;
-      v72->Bound.y1 = 0.0;
-      v72->Bound.x2 = 0.0;
-      v72->Bound.y2 = 0.0;
-      v72->RectBound.x1 = 0.0;
-      v72->RectBound.y1 = 0.0;
-      v72->RectBound.x2 = 0.0;
-      v72->RectBound.y2 = 0.0;
+      Scaleform::GFx::ShapeDataBase::ShapeDataBase(v70, Empty_Shape);
+      v71->__vftable = (Scaleform::GFx::ConstShapeWithStyles_vtbl *)&Scaleform::GFx::ConstShapeWithStyles::`vftable';
+      v71->Styles = 0;
+      v71->FillStylesNum = 0;
+      v71->StrokeStylesNum = 0;
+      v71->Bound.x1 = 0.0;
+      v71->Bound.y1 = 0.0;
+      v71->Bound.x2 = 0.0;
+      v71->Bound.y2 = 0.0;
+      v71->RectBound.x1 = 0.0;
+      v71->RectBound.y1 = 0.0;
+      v71->RectBound.x2 = 0.0;
+      v71->RectBound.y2 = 0.0;
     }
     else
     {
-      v72 = 0;
+      v71 = 0;
     }
-    v73 = (Scaleform::RefCountVImpl *)v63->pShape2.pObject;
-    if ( v73 )
-      Scaleform::RefCountImpl::Release(v73);
-    v67 = strokeStyleCount;
-    v63->pShape2.pObject = v72;
+    v72 = (Scaleform::RefCountVImpl *)v62->pShape2.pObject;
+    if ( v72 )
+      Scaleform::RefCountImpl::Release(v72);
+    v66 = strokeStyleCount;
+    v62->pShape2.pObject = v71;
   }
   else
   {
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v28);
-    v97 = 2;
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(
+      &p_ProcessInfo->Stream,
+      "MorphCharacterDef, first shape:\n");
+    v96 = 2;
     v59 = (Scaleform::GFx::ConstShapeWithStyles *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                     Scaleform::Memory::pGlobalHeap,
-                                                    v91,
+                                                    v90,
                                                     64,
-                                                    &v97);
+                                                    &v96);
     if ( v59 )
     {
       v59->__vftable = (Scaleform::GFx::ConstShapeWithStyles_vtbl *)&Scaleform::RefCountImplCore::`vftable';
@@ -504,7 +505,7 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
       v59->StrokeStylesNum = 0;
       v59->Bound.x1 = 0.0;
       v59->Bound.y1 = 0.0;
-      v94 = v59;
+      v93 = v59;
       v59->Bound.x2 = 0.0;
       v59->Bound.y2 = 0.0;
       v59->RectBound.x1 = 0.0;
@@ -514,128 +515,130 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
     }
     else
     {
-      v94 = 0;
+      v93 = 0;
     }
-    v60 = (Scaleform::RefCountVImpl *)v91->pShape1.pObject;
+    v60 = (Scaleform::RefCountVImpl *)v90->pShape1.pObject;
     if ( v60 )
       Scaleform::RefCountImpl::Release(v60);
-    v61 = v94;
-    v91->pShape1.pObject = v94;
+    v61 = v93;
+    v90->pShape1.pObject = v93;
     v61->Read(v61, p, tagInfo->TagType, v58 - v57, 0);
     Scaleform::GFx::ConstShapeWithStyles::SetStyles(
-      v91->pShape1.pObject,
+      v90->pShape1.pObject,
       fillStyleCount,
-      pheapAddr.Data,
+      fillStyles.Data,
       strokeStyleCount,
-      (const Scaleform::Render::StrokeStyleType *)v102.Data);
-    v63 = v91;
-    if ( v90 )
-      v91->pShape1.pObject->Flags |= 4u;
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(v62);
+      (const Scaleform::Render::StrokeStyleType *)pheapAddr.Data);
+    v62 = v90;
+    if ( v89 )
+      v90->pShape1.pObject->Flags |= 4u;
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParseShape(
+      &p_ProcessInfo->Stream,
+      "MorphCharacterDef, second shape:\n");
     Scaleform::GFx::Stream::SetPosition(&p_ProcessInfo->Stream, v58);
-    v100 = 2;
-    v64 = Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, v63, 64, &v100);
-    if ( v64 )
+    v99 = 2;
+    v63 = Scaleform::Memory::pGlobalHeap->AllocAutoHeap(Scaleform::Memory::pGlobalHeap, v62, 64, &v99);
+    if ( v63 )
     {
-      *v64 = &Scaleform::RefCountImplCore::`vftable';
-      v64[1] = 1;
-      v64[2] = 0;
-      *((_BYTE *)v64 + 12) = 0;
-      *v64 = &Scaleform::GFx::ConstShapeWithStyles::`vftable';
-      v64[4] = 0;
-      v64[5] = 0;
-      v64[6] = 0;
-      *((float *)v64 + 8) = 0.0;
-      *((float *)v64 + 9) = 0.0;
-      v65 = (Scaleform::GFx::ConstShapeWithStyles *)v64;
-      *((float *)v64 + 10) = 0.0;
-      *((float *)v64 + 11) = 0.0;
-      *((float *)v64 + 12) = 0.0;
-      *((float *)v64 + 13) = 0.0;
-      *((float *)v64 + 14) = 0.0;
-      *((float *)v64 + 15) = 0.0;
+      *v63 = &Scaleform::RefCountImplCore::`vftable';
+      v63[1] = 1;
+      v63[2] = 0;
+      *((_BYTE *)v63 + 12) = 0;
+      *v63 = &Scaleform::GFx::ConstShapeWithStyles::`vftable';
+      v63[4] = 0;
+      v63[5] = 0;
+      v63[6] = 0;
+      *((float *)v63 + 8) = 0.0;
+      *((float *)v63 + 9) = 0.0;
+      v64 = (Scaleform::GFx::ConstShapeWithStyles *)v63;
+      *((float *)v63 + 10) = 0.0;
+      *((float *)v63 + 11) = 0.0;
+      *((float *)v63 + 12) = 0.0;
+      *((float *)v63 + 13) = 0.0;
+      *((float *)v63 + 14) = 0.0;
+      *((float *)v63 + 15) = 0.0;
     }
     else
     {
-      v65 = 0;
+      v64 = 0;
     }
-    v66 = (Scaleform::RefCountVImpl *)v63->pShape2.pObject;
-    if ( v66 )
-      Scaleform::RefCountImpl::Release(v66);
-    v63->pShape2.pObject = v65;
-    v65->Read(v65, p, tagInfo->TagType, tagInfo->TagLength + tagInfo->TagDataOffset - v58, 0);
-    v67 = strokeStyleCount;
+    v65 = (Scaleform::RefCountVImpl *)v62->pShape2.pObject;
+    if ( v65 )
+      Scaleform::RefCountImpl::Release(v65);
+    v62->pShape2.pObject = v64;
+    v64->Read(v64, p, tagInfo->TagType, tagInfo->TagLength + tagInfo->TagDataOffset - v58, 0);
+    v66 = strokeStyleCount;
     Scaleform::GFx::ConstShapeWithStyles::SetStyles(
-      v63->pShape2.pObject,
+      v62->pShape2.pObject,
       fillStyleCount,
-      v98.Data,
+      v97.Data,
       strokeStyleCount,
-      (const Scaleform::Render::StrokeStyleType *)v104.Data);
-    if ( v90 )
-      v63->pShape2.pObject->Flags |= 4u;
+      (const Scaleform::Render::StrokeStyleType *)v103.Data);
+    if ( v89 )
+      v62->pShape2.pObject->Flags |= 4u;
   }
-  p_Flags = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)2;
-  v74 = (Scaleform::Render::ShapeMeshProvider *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
+  p_Flags = 2;
+  v73 = (Scaleform::Render::ShapeMeshProvider *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                   Scaleform::Memory::pGlobalHeap,
-                                                  v63,
+                                                  v62,
                                                   96,
                                                   &p_Flags);
-  if ( v74 )
+  if ( v73 )
   {
     Scaleform::Render::ShapeMeshProvider::ShapeMeshProvider(
-      v74,
-      (Scaleform::GFx::Resource *)v63->pShape1.pObject,
-      (Scaleform::GFx::Resource *)v63->pShape2.pObject);
-    v76 = v75;
+      v73,
+      (Scaleform::GFx::Resource *)v62->pShape1.pObject,
+      (Scaleform::GFx::Resource *)v62->pShape2.pObject);
+    v75 = v74;
   }
   else
   {
-    v76 = 0;
+    v75 = 0;
   }
-  v77 = v63->pShapeMeshProvider.pObject;
-  if ( v77 )
-    v77->Release(&v77->Scaleform::Render::MeshProvider);
-  v63->pShapeMeshProvider.pObject = v76;
-  v78 = v67;
-  if ( v67 )
+  v76 = v62->pShapeMeshProvider.pObject;
+  if ( v76 )
+    v76->Release(&v76->Scaleform::Render::MeshProvider);
+  v62->pShapeMeshProvider.pObject = v75;
+  v77 = v66;
+  if ( v66 )
   {
-    p_Env = &v104.Data[v78 - 1].Env;
-    v94 = (Scaleform::GFx::ConstShapeWithStyles *)v67;
+    p_Env = &v103.Data[v77 - 1].Env;
+    v93 = (Scaleform::GFx::ConstShapeWithStyles *)v66;
     do
     {
-      v80 = (Scaleform::RefCountVImpl *)p_Env[1];
-      if ( v80 )
-        Scaleform::RefCountImpl::Release(v80);
+      v79 = (Scaleform::RefCountVImpl *)p_Env[1];
+      if ( v79 )
+        Scaleform::RefCountImpl::Release(v79);
       if ( *p_Env )
         Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)*p_Env);
       p_Env -= 7;
-      v94 = (Scaleform::GFx::ConstShapeWithStyles *)((char *)v94 - 1);
+      v93 = (Scaleform::GFx::ConstShapeWithStyles *)((char *)v93 - 1);
     }
-    while ( v94 );
+    while ( v93 );
   }
-  if ( v104.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v104.Data);
-  if ( v67 )
+  if ( v103.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v103.Data);
+  if ( v66 )
   {
-    v81 = &v102.Data[v78 - 1].Env;
+    v80 = &pheapAddr.Data[v77 - 1].Env;
     do
     {
-      v82 = (Scaleform::RefCountVImpl *)v81[1];
-      if ( v82 )
-        Scaleform::RefCountImpl::Release(v82);
-      if ( *v81 )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)*v81);
-      v81 -= 7;
-      --v67;
+      v81 = (Scaleform::RefCountVImpl *)v80[1];
+      if ( v81 )
+        Scaleform::RefCountImpl::Release(v81);
+      if ( *v80 )
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)*v80);
+      v80 -= 7;
+      --v66;
     }
-    while ( v67 );
+    while ( v66 );
   }
-  if ( v102.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v102.Data);
-  if ( v98.Size )
+  if ( pheapAddr.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pheapAddr.Data);
+  if ( v97.Size )
   {
-    p_pFill = (Scaleform::RefCountVImpl **)&v98.Data[v98.Size - 1].pFill;
-    Size = v98.Size;
+    p_pFill = (Scaleform::RefCountVImpl **)&v97.Data[v97.Size - 1].pFill;
+    Size = v97.Size;
     do
     {
       if ( *p_pFill )
@@ -645,22 +648,22 @@ void __thiscall Scaleform::GFx::MorphCharacterDef::Read(
     }
     while ( Size );
   }
-  if ( v98.Data )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v98.Data);
-  v85 = pheapAddr.Data;
-  if ( pheapAddr.Size )
+  if ( v97.Data )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v97.Data);
+  v84 = fillStyles.Data;
+  if ( fillStyles.Size )
   {
-    v86 = (Scaleform::RefCountVImpl **)&pheapAddr.Data[pheapAddr.Size - 1].pFill;
-    v87 = pheapAddr.Size;
+    v85 = (Scaleform::RefCountVImpl **)&fillStyles.Data[fillStyles.Size - 1].pFill;
+    v86 = fillStyles.Size;
     do
     {
-      if ( *v86 )
-        Scaleform::RefCountImpl::Release(*v86);
-      v86 -= 2;
-      --v87;
+      if ( *v85 )
+        Scaleform::RefCountImpl::Release(*v85);
+      v85 -= 2;
+      --v86;
     }
-    while ( v87 );
+    while ( v86 );
   }
-  if ( v85 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v85);
+  if ( v84 )
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v84);
 }

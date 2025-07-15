@@ -4,528 +4,396 @@ Wm4::Box2<float> *__usercall Wm4::ContMinBox<float>@<eax>(
         int fEpsilon)
 {
   Wm4::ConvexHull2<float> *v4; // ecx
-  float v5; // eax
-  Wm4::ConvexHull1<float> *ConvexHull1; // ebx
-  int *m_aiIndex; // esi
-  Wm4::Vector2<float> *v9; // eax
-  vostok::math::float2 *v10; // ecx
-  Wm4::Vector2<float> *v11; // ecx
-  vostok::math::float2 *v12; // ecx
-  vostok::math::float2 *v13; // ecx
-  Wm4::Vector2<float> *v14; // eax
-  int v15; // esi
-  Wm4::Vector2<float> *v16; // ebx
-  int v17; // edi
-  vostok::math::float2 *v18; // esi
-  vostok::math::float2 *v19; // eax
-  Wm4::Vector2<float> *v20; // ecx
-  int v21; // edi
-  vostok::math::float2 *v22; // eax
-  Wm4::Vector2<float> *v23; // ecx
-  signed int v24; // ecx
-  int v25; // esi
-  double v26; // st7
-  int v27; // edx
-  double v28; // st6
-  double v29; // st6
-  int v30; // edi
-  Wm4::Vector2<float> *v31; // ecx
-  double v32; // st5
-  double v33; // st5
-  double v34; // st6
-  double v35; // st5
-  double v36; // st5
-  double v37; // st6
-  double v38; // st5
-  double v39; // st5
-  double v40; // st7
-  double v41; // st6
-  double v42; // rt2
-  double v43; // st5
-  double v44; // st5
-  vostok::math::float2 *v45; // ecx
-  int v46; // edx
-  double v47; // st5
-  vostok::math::float2 *v48; // ecx
-  vostok::math::float2 *v49; // ecx
+  Wm4::Box2<float> *v5; // esi
+  Wm4::ConvexHull1<float> *ConvexHull1; // eax
+  int *m_aiIndex; // edx
+  Wm4::Vector2<float> *v8; // esi
+  Wm4::Vector2<float> *v9; // ebx
+  float v10; // xmm0_4
+  Wm4::Vector2<float> *v11; // esi
+  Wm4::Vector2<float> *v12; // edx
+  float v13; // xmm4_4
+  float v14; // xmm2_4
+  float v15; // xmm0_4
+  float v16; // xmm1_4
+  float v17; // xmm2_4
+  signed int m_iSimplexQuantity; // esi
+  float *v19; // eax
+  signed int v20; // ecx
+  float *i; // ebx
+  Wm4::Vector2<float> *v22; // eax
+  Wm4::Vector2<float> *v23; // edi
+  void *v24; // eax
+  Wm4::Vector2<float> *v25; // ecx
+  float *v26; // eax
+  float *v27; // esi
+  float v28; // xmm1_4
+  bool v29; // cc
+  float *v30; // eax
+  float v31; // xmm0_4
+  float v32; // xmm1_4
+  float *v33; // eax
+  float v34; // xmm0_4
+  float v35; // xmm2_4
+  int v36; // eax
+  float v37; // xmm1_4
+  float v38; // xmm7_4
+  float v39; // xmm6_4
+  float v40; // xmm5_4
+  float v41; // xmm3_4
+  float v42; // xmm3_4
+  float v43; // xmm2_4
+  int v44; // ecx
+  int v45; // edi
+  float v46; // xmm1_4
+  float v47; // xmm1_4
+  int v48; // edx
+  float v49; // xmm1_4
   int v50; // eax
-  vostok::math::float2 *v51; // ecx
-  int v52; // eax
-  int v53; // edi
-  vostok::math::float2 *v54; // ecx
-  vostok::math::float2 *v55; // ecx
-  int v56; // eax
-  vostok::math::float2 *v57; // ecx
-  float v58; // edx
-  float fEpsilona; // [esp+0h] [ebp-E4h]
-  float fEpsilonb; // [esp+0h] [ebp-E4h]
-  float fEpsilonc; // [esp+0h] [ebp-E4h]
-  float fEpsilond; // [esp+0h] [ebp-E4h]
-  float fEpsilone; // [esp+0h] [ebp-E4h]
-  float fEpsilonf; // [esp+0h] [ebp-E4h]
-  float fEpsilong; // [esp+0h] [ebp-E4h]
-  float fEpsilonh; // [esp+0h] [ebp-E4h]
-  float fEpsiloni; // [esp+0h] [ebp-E4h]
-  float fEpsilonj; // [esp+0h] [ebp-E4h]
-  float fEpsilonk; // [esp+0h] [ebp-E4h]
-  bool v70; // [esp+4h] [ebp-E0h]
-  const Wm4::Vector2<float> *v71; // [esp+4h] [ebp-E0h]
-  float v72; // [esp+4h] [ebp-E0h]
-  const Wm4::Vector2<float> *v73; // [esp+4h] [ebp-E0h]
-  float v74; // [esp+4h] [ebp-E0h]
-  float v75; // [esp+4h] [ebp-E0h]
-  float v76; // [esp+4h] [ebp-E0h]
-  float v77; // [esp+4h] [ebp-E0h]
-  float v78; // [esp+4h] [ebp-E0h]
-  float v79; // [esp+4h] [ebp-E0h]
-  float v80; // [esp+4h] [ebp-E0h]
-  Wm4::Query::Type v81; // [esp+8h] [ebp-DCh]
-  int fMaxDot; // [esp+10h] [ebp-D4h]
-  float fMaxDota; // [esp+10h] [ebp-D4h]
-  float fMaxDotb; // [esp+10h] [ebp-D4h]
-  float v85; // [esp+14h] [ebp-D0h]
-  int v86; // [esp+14h] [ebp-D0h]
-  int v87; // [esp+14h] [ebp-D0h]
-  int v88; // [esp+14h] [ebp-D0h]
-  float v89; // [esp+14h] [ebp-D0h]
-  float v90; // [esp+14h] [ebp-D0h]
-  int v91; // [esp+14h] [ebp-D0h]
-  int v92; // [esp+14h] [ebp-D0h]
-  int v93; // [esp+14h] [ebp-D0h]
-  int v94; // [esp+14h] [ebp-D0h]
-  float fDot; // [esp+18h] [ebp-CCh]
-  float fDota; // [esp+18h] [ebp-CCh]
-  float fDotb; // [esp+18h] [ebp-CCh]
-  float fDotc; // [esp+18h] [ebp-CCh]
-  float fMinAreaDiv4; // [esp+1Ch] [ebp-C8h] BYREF
-  int iRIndex; // [esp+20h] [ebp-C4h]
-  float fXMax; // [esp+24h] [ebp-C0h]
-  int iBIndex; // [esp+28h] [ebp-BCh]
-  int iTIndex; // [esp+2Ch] [ebp-B8h]
-  void *p; // [esp+30h] [ebp-B4h]
-  bool *abVisited; // [esp+34h] [ebp-B0h]
-  Wm4::Vector2<float> kDiff; // [esp+38h] [ebp-ACh] BYREF
-  Wm4::Vector2<float> kU; // [esp+40h] [ebp-A4h] BYREF
-  Wm4::Box2<float> kBox; // [esp+48h] [ebp-9Ch] BYREF
-  vostok::math::float2 v109; // [esp+68h] [ebp-7Ch] BYREF
-  vostok::math::float2 v110; // [esp+70h] [ebp-74h] BYREF
-  float v111[2]; // [esp+78h] [ebp-6Ch] BYREF
-  vostok::math::float2 v112; // [esp+80h] [ebp-64h] BYREF
-  vostok::math::float2 v113; // [esp+88h] [ebp-5Ch] BYREF
-  vostok::math::float2 v114; // [esp+90h] [ebp-54h] BYREF
-  vostok::math::float2 v115; // [esp+98h] [ebp-4Ch] BYREF
-  vostok::math::float2 v116; // [esp+A0h] [ebp-44h] BYREF
-  Wm4::ConvexHull2<float> kHull; // [esp+A8h] [ebp-3Ch] BYREF
-  signed int iQuantitya; // [esp+F0h] [ebp+Ch]
+  float v51; // xmm1_4
+  bool v52; // zf
+  float v53; // xmm2_4
+  float v54; // xmm2_4
+  float v55; // xmm2_4
+  float v56; // xmm2_4
+  Wm4::Vector2<float> *v58; // [esp-4h] [ebp-ACh]
+  float v59; // [esp+0h] [ebp-A8h]
+  bool v60; // [esp+4h] [ebp-A4h]
+  Wm4::Query::Type v61; // [esp+8h] [ebp-A0h]
+  Wm4::ConvexHull2<float> v62; // [esp+Ch] [ebp-9Ch] BYREF
+  _DWORD *v63; // [esp+48h] [ebp-60h]
+  Wm4::Box2<float> __that; // [esp+4Ch] [ebp-5Ch] BYREF
+  float *v65; // [esp+6Ch] [ebp-3Ch]
+  char *v66; // [esp+70h] [ebp-38h]
+  float rfMinAreaDiv4; // [esp+74h] [ebp-34h] BYREF
+  void *v68; // [esp+78h] [ebp-30h]
+  float *v69; // [esp+7Ch] [ebp-2Ch]
+  void *p; // [esp+80h] [ebp-28h]
+  Wm4::Vector2<float> rkV; // [esp+84h] [ebp-24h] BYREF
+  Wm4::Vector2<float> rkU; // [esp+8Ch] [ebp-1Ch] BYREF
+  int v73; // [esp+94h] [ebp-14h]
+  int v74; // [esp+98h] [ebp-10h]
+  int v75; // [esp+9Ch] [ebp-Ch]
+  float v76; // [esp+A0h] [ebp-8h]
+  Wm4::Vector2<float> *v77; // [esp+A4h] [ebp-4h]
+  int iVertexQuantity; // [esp+B4h] [ebp+Ch]
 
-  Wm4::ConvexHull2<float>::ConvexHull2<float>(&kHull, fEpsilon, akPoint, 0.0, v70, v81);
-  if ( !kHull.m_iDimension )
+  Wm4::ConvexHull2<float>::ConvexHull2<float>(akPoint, (int)akPoint, &v62, fEpsilon, v59, v60, v61);
+  if ( !v62.m_iDimension )
   {
-    Wm4::Vector2<float>::operator=((vostok::math::float2 *)akPoint, (vostok::math::float2 *)&kBox);
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)&Wm4::Vector2<float>::UNIT_X,
-      (vostok::math::float2 *)kBox.Axis);
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)&Wm4::Vector2<float>::UNIT_Y,
-      (vostok::math::float2 *)&kBox.Axis[1]);
-    kBox.Extent[0] = 0.0;
-    kBox.Extent[1] = 0.0;
-    iQuantity->Center.m_afTuple[0] = kBox.Center.m_afTuple[0];
-    iQuantity->Center.m_afTuple[1] = kBox.Center.m_afTuple[1];
-    `vector copy constructor iterator'(
-      (char *)iQuantity->Axis,
-      (char *)kBox.Axis,
-      8u,
-      2,
-      (void *(__thiscall *)(void *, void *))Wm4::Vector2<float>::Vector2<float>);
-    v5 = kBox.Extent[0];
-    iQuantity->Extent[1] = kBox.Extent[1];
-    iQuantity->Extent[0] = v5;
-    Wm4::ConvexHull2<float>::~ConvexHull2<float>(&kHull);
-    return iQuantity;
+    __that.Center.m_afTuple[0] = akPoint->m_afTuple[0];
+    __that.Center.m_afTuple[1] = akPoint->m_afTuple[1];
+    __that.Axis[0] = Wm4::Vector2<float>::UNIT_X;
+    __that.Axis[1] = Wm4::Vector2<float>::UNIT_Y;
+    __that.Extent[0] = 0.0;
+    __that.Extent[1] = 0.0;
+LABEL_3:
+    v5 = iQuantity;
+    Wm4::Box2<float>::Box2<float>(iQuantity, &__that);
+    Wm4::ConvexHull2<float>::~ConvexHull2<float>(&v62);
+    return v5;
   }
-  if ( kHull.m_iDimension == 1 )
+  if ( v62.m_iDimension == 1 )
   {
-    ConvexHull1 = Wm4::ConvexHull2<float>::GetConvexHull1(v4);
+    ConvexHull1 = Wm4::ConvexHull2<float>::GetConvexHull1(v4, (int)&v62);
     m_aiIndex = ConvexHull1->m_aiIndex;
-    v9 = Wm4::Vector2<float>::operator+(&akPoint[m_aiIndex[1]], (Wm4::Vector2<float> *)&v110, &akPoint[*m_aiIndex], v71);
-    v85 = v9->m_afTuple[1] * 0.5;
-    fEpsilona = v85;
-    *(float *)&v86 = 0.5 * v9->m_afTuple[0];
-    vostok::math::float2::float2(v10, (int)&v109, v86, fEpsilona, v72);
-    Wm4::Vector2<float>::operator=(&v109, (vostok::math::float2 *)&kBox);
-    Wm4::Vector2<float>::operator-(&akPoint[*m_aiIndex], &kDiff, &akPoint[m_aiIndex[1]], v73);
-    kBox.Extent[0] = Wm4::Vector2<float>::Normalize(v11) * 0.5;
-    kBox.Extent[1] = 0.0;
-    Wm4::Vector2<float>::operator=((vostok::math::float2 *)&kDiff, (vostok::math::float2 *)kBox.Axis);
-    fEpsilonb = -kBox.Axis[0].m_afTuple[0];
-    vostok::math::float2::float2(v12, (int)&kDiff, SLODWORD(kBox.Axis[0].m_afTuple[1]), fEpsilonb, v74);
-    fEpsilonc = -kDiff.m_afTuple[1];
-    *(float *)&v87 = -kDiff.m_afTuple[0];
-    vostok::math::float2::float2(v13, (int)&v109, v87, fEpsilonc, v75);
-    Wm4::Vector2<float>::operator=(&v109, (vostok::math::float2 *)&kBox.Axis[1]);
+    v8 = &akPoint[m_aiIndex[1]];
+    v9 = &akPoint[*m_aiIndex];
+    v10 = v8->m_afTuple[1] + v9->m_afTuple[1];
+    __that.Center.m_afTuple[0] = (float)(v8->m_afTuple[0] + v9->m_afTuple[0]) * 0.5;
+    __that.Center.m_afTuple[1] = v10 * 0.5;
+    v11 = &akPoint[*m_aiIndex];
+    v12 = &akPoint[m_aiIndex[1]];
+    v13 = v12->m_afTuple[0] - v11->m_afTuple[0];
+    v14 = v12->m_afTuple[1] - v11->m_afTuple[1];
+    v15 = fsqrt((float)(v13 * v13) + (float)(v14 * v14));
+    if ( v15 <= 0.000001 )
+    {
+      v15 = 0.0;
+      v16 = 0.0;
+      v17 = 0.0;
+    }
+    else
+    {
+      v16 = (float)(s_bm_current_air_resistance / v15) * v13;
+      v17 = v14 * (float)(s_bm_current_air_resistance / v15);
+    }
+    __that.Extent[0] = v15 * 0.5;
+    __that.Axis[0].m_afTuple[0] = v16;
+    __that.Axis[0].m_afTuple[1] = v17;
+    __that.Extent[1] = 0.0;
+    LODWORD(__that.Axis[1].m_afTuple[0]) = LODWORD(v17) ^ _mask__NegFloat_;
+    __that.Axis[1].m_afTuple[1] = v16;
     ((void (__thiscall *)(Wm4::ConvexHull1<float> *, int))ConvexHull1->~Wm4::ConvexHull1<float>)(ConvexHull1, 1);
-    Wm4::Box2<float>::Box2<float>(iQuantity, &kBox);
-    Wm4::ConvexHull2<float>::~ConvexHull2<float>(&kHull);
-    return iQuantity;
+    goto LABEL_3;
   }
-  iQuantitya = kHull.m_iSimplexQuantity;
-  v14 = (Wm4::Vector2<float> *)operator new[](8 * kHull.m_iSimplexQuantity);
-  v15 = 0;
-  v16 = v14;
-  if ( kHull.m_iSimplexQuantity > 0 )
+  m_iSimplexQuantity = v62.m_iSimplexQuantity;
+  iVertexQuantity = v62.m_iSimplexQuantity;
+  v19 = (float *)operator new[](8 * v62.m_iSimplexQuantity);
+  v20 = 0;
+  for ( i = v19; v20 < m_iSimplexQuantity; i[2 * v20 - 1] = v22->m_afTuple[1] )
   {
-    p = v14;
+    v22 = &akPoint[v62.m_aiIndex[v20]];
+    i[2 * v20++] = v22->m_afTuple[0];
+  }
+  Wm4::ConvexHull2<float>::~ConvexHull2<float>(&v62);
+  v23 = (Wm4::Vector2<float> *)(m_iSimplexQuantity - 1);
+  *(float *)&v68 = COERCE_FLOAT(operator new[](8 * m_iSimplexQuantity));
+  v24 = operator new[](m_iSimplexQuantity);
+  v77 = 0;
+  v25 = v58;
+  p = v24;
+  if ( m_iSimplexQuantity - 1 > 0 )
+  {
+    v26 = (float *)v68;
+    v76 = *(float *)&v68;
+    v27 = i + 2;
+    while ( 1 )
+    {
+      v28 = v27[1] - *(v27 - 1);
+      *v26 = *v27 - *(v27 - 2);
+      v26[1] = v28;
+      Wm4::Vector2<float>::Normalize(v25, v26);
+      v25 = v77;
+      v77 = (Wm4::Vector2<float> *)((char *)v77 + 1);
+      LODWORD(v76) += 8;
+      v27 += 2;
+      v29 = (int)v77 < (int)v23;
+      *((_BYTE *)p + (_DWORD)v25) = 0;
+      if ( !v29 )
+        break;
+      v26 = (float *)LODWORD(v76);
+    }
+  }
+  v30 = &i[2 * (_DWORD)v23];
+  v31 = *i - *v30;
+  v32 = i[1] - v30[1];
+  v33 = (float *)((char *)v68 + 8 * (_DWORD)v23);
+  *v33 = v31;
+  v33[1] = v32;
+  Wm4::Vector2<float>::Normalize(v25, v33);
+  *((_BYTE *)v23->m_afTuple + (_DWORD)p) = 0;
+  v34 = *i;
+  v35 = i[1];
+  v36 = 1;
+  v38 = *i;
+  v39 = *i;
+  v76 = v35;
+  v37 = v35;
+  v40 = v35;
+  v77 = 0;
+  v75 = 0;
+  v74 = 0;
+  v73 = 0;
+  if ( iVertexQuantity > 1 )
+  {
     do
     {
-      Wm4::Vector2<float>::operator=((vostok::math::float2 *)&akPoint[kHull.m_aiIndex[v15]], (vostok::math::float2 *)p);
-      p = (char *)p + 8;
-      ++v15;
-    }
-    while ( v15 < kHull.m_iSimplexQuantity );
-  }
-  Wm4::ConvexHull2<float>::~ConvexHull2<float>(&kHull);
-  v88 = iQuantitya - 1;
-  p = operator new[](8 * iQuantitya);
-  v17 = 0;
-  abVisited = (bool *)operator new[](iQuantitya);
-  if ( iQuantitya - 1 > 0 )
-  {
-    v18 = (vostok::math::float2 *)p;
-    fMaxDot = (char *)v16 - (_BYTE *)p;
-    do
-    {
-      v19 = (vostok::math::float2 *)Wm4::Vector2<float>::operator-(
-                                      (Wm4::Vector2<float> *)((char *)v18 + fMaxDot),
-                                      (Wm4::Vector2<float> *)&v110,
-                                      (Wm4::Vector2<float> *)((char *)&v18[1] + fMaxDot),
-                                      v71);
-      Wm4::Vector2<float>::operator=(v19, v18);
-      Wm4::Vector2<float>::Normalize(v20);
-      abVisited[v17++] = 0;
-      ++v18;
-    }
-    while ( v17 < v88 );
-  }
-  v21 = iQuantitya - 1;
-  v22 = (vostok::math::float2 *)Wm4::Vector2<float>::operator-(&v16[v88], (Wm4::Vector2<float> *)&v110, v16, v71);
-  Wm4::Vector2<float>::operator=(v22, (vostok::math::float2 *)p + v88);
-  Wm4::Vector2<float>::Normalize(v23);
-  v24 = iQuantitya;
-  abVisited[v88] = 0;
-  fMinAreaDiv4 = v16->m_afTuple[0];
-  v25 = 0;
-  v26 = fMinAreaDiv4;
-  v27 = 1;
-  fXMax = fMinAreaDiv4;
-  v28 = v16->m_afTuple[1];
-  iRIndex = 0;
-  fMaxDota = v28;
-  iBIndex = 0;
-  v29 = fMaxDota;
-  iTIndex = 0;
-  fDot = fMaxDota;
-  if ( iQuantitya > 1 )
-  {
-    if ( v88 >= 4 )
-    {
-      v30 = 3;
-      v31 = v16 + 2;
-      do
+      v41 = i[2 * v36];
+      if ( v38 >= v41 )
       {
-        if ( v31[-1].m_afTuple[0] <= v26 )
-        {
-          v25 = v27;
-          fMinAreaDiv4 = v31[-1].m_afTuple[0];
-          v26 = fMinAreaDiv4;
-        }
-        if ( fXMax <= (double)v31[-1].m_afTuple[0] )
-        {
-          v32 = v31[-1].m_afTuple[0];
-          iRIndex = v27;
-          fXMax = v32;
-        }
-        if ( v31[-1].m_afTuple[1] <= v29 )
-        {
-          iBIndex = v27;
-          fMaxDota = v31[-1].m_afTuple[1];
-          v29 = fMaxDota;
-        }
-        if ( fDot <= (double)v31[-1].m_afTuple[1] )
-        {
-          v33 = v31[-1].m_afTuple[1];
-          iTIndex = v27;
-          fDot = v33;
-        }
-        if ( v31->m_afTuple[0] <= v26 )
-        {
-          v25 = v30 - 1;
-          fMinAreaDiv4 = v31->m_afTuple[0];
-          v26 = fMinAreaDiv4;
-        }
-        if ( fXMax <= (double)v31->m_afTuple[0] )
-        {
-          fXMax = v31->m_afTuple[0];
-          iRIndex = v30 - 1;
-        }
-        if ( v31->m_afTuple[1] <= v29 )
-        {
-          v34 = v31->m_afTuple[1];
-          iBIndex = v30 - 1;
-          fMaxDota = v34;
-          v29 = fMaxDota;
-        }
-        if ( fDot <= (double)v31->m_afTuple[1] )
-        {
-          fDot = v31->m_afTuple[1];
-          iTIndex = v30 - 1;
-        }
-        if ( v31[1].m_afTuple[0] <= v26 )
-        {
-          v25 = v30;
-          fMinAreaDiv4 = v31[1].m_afTuple[0];
-          v26 = fMinAreaDiv4;
-        }
-        if ( fXMax <= (double)v31[1].m_afTuple[0] )
-        {
-          v35 = v31[1].m_afTuple[0];
-          iRIndex = v30;
-          fXMax = v35;
-        }
-        if ( v31[1].m_afTuple[1] <= v29 )
-        {
-          iBIndex = v30;
-          fMaxDota = v31[1].m_afTuple[1];
-          v29 = fMaxDota;
-        }
-        if ( fDot <= (double)v31[1].m_afTuple[1] )
-        {
-          v36 = v31[1].m_afTuple[1];
-          iTIndex = v30;
-          fDot = v36;
-        }
-        if ( v31[2].m_afTuple[0] <= v26 )
-        {
-          v25 = v30 + 1;
-          fMinAreaDiv4 = v31[2].m_afTuple[0];
-          v26 = fMinAreaDiv4;
-        }
-        if ( fXMax <= (double)v31[2].m_afTuple[0] )
-        {
-          fXMax = v31[2].m_afTuple[0];
-          iRIndex = v30 + 1;
-        }
-        if ( v31[2].m_afTuple[1] <= v29 )
-        {
-          v37 = v31[2].m_afTuple[1];
-          iBIndex = v30 + 1;
-          fMaxDota = v37;
-          v29 = fMaxDota;
-        }
-        if ( fDot <= (double)v31[2].m_afTuple[1] )
-        {
-          fDot = v31[2].m_afTuple[1];
-          iTIndex = v30 + 1;
-        }
-        v27 += 4;
-        v30 += 4;
-        v31 += 4;
+        v38 = i[2 * v36];
+        v77 = (Wm4::Vector2<float> *)v36;
       }
-      while ( v27 < iQuantitya - 3 );
-      v24 = iQuantitya;
-      v21 = iQuantitya - 1;
-    }
-    for ( ; v27 < v24; ++v27 )
-    {
-      if ( v16[v27].m_afTuple[0] <= v26 )
+      if ( v41 >= v39 )
       {
-        v25 = v27;
-        fMinAreaDiv4 = v16[v27].m_afTuple[0];
-        v26 = fMinAreaDiv4;
+        v39 = v41;
+        v75 = v36;
       }
-      if ( fXMax <= (double)v16[v27].m_afTuple[0] )
+      v42 = i[2 * v36 + 1];
+      if ( v37 >= v42 )
       {
-        v38 = v16[v27].m_afTuple[0];
-        iRIndex = v27;
-        fXMax = v38;
+        v37 = i[2 * v36 + 1];
+        v74 = v36;
       }
-      if ( v16[v27].m_afTuple[1] <= v29 )
+      if ( v42 >= v40 )
       {
-        iBIndex = v27;
-        fMaxDota = v16[v27].m_afTuple[1];
-        v29 = fMaxDota;
+        v40 = v42;
+        v73 = v36;
       }
-      if ( fDot <= (double)v16[v27].m_afTuple[1] )
-      {
-        v39 = v16[v27].m_afTuple[1];
-        iTIndex = v27;
-        fDot = v39;
-      }
+      ++v36;
     }
+    while ( v36 < iVertexQuantity );
+    v76 = v37;
   }
-  if ( v25 == v21 && v16->m_afTuple[0] <= v26 )
+  if ( v77 == v23 && v38 >= v34 )
   {
-    v40 = v29;
-    v25 = 0;
-    fMinAreaDiv4 = v16->m_afTuple[0];
-    v41 = fMinAreaDiv4;
+    v38 = v34;
+    v77 = 0;
   }
-  else
+  if ( (Wm4::Vector2<float> *)v75 == v23 && v34 >= v39 )
   {
-    v42 = v29;
-    v41 = v26;
-    v40 = v42;
+    v39 = v34;
+    v75 = 0;
   }
-  if ( iRIndex == v21 && fXMax <= (double)v16->m_afTuple[0] )
+  if ( (Wm4::Vector2<float> *)v74 == v23 && v37 >= v35 )
   {
-    v43 = v16->m_afTuple[0];
-    iRIndex = 0;
-    fXMax = v43;
+    v37 = v35;
+    v76 = v35;
+    v74 = 0;
   }
-  if ( iBIndex == v21 && v16->m_afTuple[1] <= v40 )
+  if ( (Wm4::Vector2<float> *)v73 == v23 && v35 >= v40 )
   {
-    iBIndex = 0;
-    fMaxDota = v16->m_afTuple[1];
-    v40 = fMaxDota;
+    v40 = v35;
+    v73 = 0;
   }
-  if ( iTIndex == v21 && fDot <= (double)v16->m_afTuple[1] )
+  __that.Center.m_afTuple[0] = (float)(v39 + v38) * 0.5;
+  __that.Center.m_afTuple[1] = (float)(v40 + v37) * 0.5;
+  __that.Extent[1] = (float)(v40 - v76) * 0.5;
+  __that.Axis[0] = Wm4::Vector2<float>::UNIT_X;
+  __that.Axis[1] = Wm4::Vector2<float>::UNIT_Y;
+  __that.Extent[0] = (float)(v39 - v38) * 0.5;
+  rfMinAreaDiv4 = __that.Extent[1] * __that.Extent[0];
+  rkU = Wm4::Vector2<float>::UNIT_X;
+  rkV = Wm4::Vector2<float>::UNIT_Y;
+  while ( 1 )
   {
-    v44 = v16->m_afTuple[1];
-    iTIndex = 0;
-    fDot = v44;
-  }
-  kBox.Center.m_afTuple[0] = (v41 + fXMax) * 0.5;
-  kBox.Center.m_afTuple[1] = (v40 + fDot) * 0.5;
-  Wm4::Vector2<float>::operator=(
-    (vostok::math::float2 *)&Wm4::Vector2<float>::UNIT_X,
-    (vostok::math::float2 *)kBox.Axis);
-  Wm4::Vector2<float>::operator=(
-    (vostok::math::float2 *)&Wm4::Vector2<float>::UNIT_Y,
-    (vostok::math::float2 *)&kBox.Axis[1]);
-  kBox.Extent[0] = (fXMax - fMinAreaDiv4) * 0.5;
-  kBox.Extent[1] = 0.5 * (fDot - fMaxDota);
-  fMinAreaDiv4 = kBox.Extent[1] * kBox.Extent[0];
-  Wm4::Vector2<float>::Vector2<float>(&kU, &Wm4::Vector2<float>::UNIT_X);
-  Wm4::Vector2<float>::Vector2<float>(&kDiff, &Wm4::Vector2<float>::UNIT_Y);
-  while ( 2 )
-  {
-    fMaxDotb = 0.0;
-    v45 = (vostok::math::float2 *)((char *)p + 8 * iBIndex);
-    v46 = 0;
-    fDota = v45->y * kU.m_afTuple[1] + kU.m_afTuple[0] * v45->x;
-    if ( fDota > 0.0 )
+    v43 = 0.0;
+    v44 = 2 * v74;
+    v45 = 0;
+    v46 = (float)(*((float *)v68 + 2 * v74 + 1) * rkU.m_afTuple[1])
+        + (float)(*((float *)v68 + 2 * v74) * rkU.m_afTuple[0]);
+    v69 = (float *)((char *)v68 + 8 * v74);
+    if ( v46 > 0.0 )
     {
-      v46 = 3;
-      fMaxDotb = *((float *)p + 2 * iBIndex + 1) * kU.m_afTuple[1] + kU.m_afTuple[0] * v45->x;
+      v43 = v46;
+      v45 = 3;
     }
-    v47 = *((float *)p + 2 * iRIndex + 1);
-    LODWORD(fXMax) = (char *)p + 8 * iRIndex;
-    fDotb = v47 * kDiff.m_afTuple[1] + kDiff.m_afTuple[0] * *(float *)LODWORD(fXMax);
-    if ( fMaxDotb < (double)fDotb )
+    LODWORD(v76) = 8 * v75;
+    v47 = (float)(*((float *)v68 + 2 * v75 + 1) * rkV.m_afTuple[1])
+        + (float)(rkV.m_afTuple[0] * *((float *)v68 + 2 * v75));
+    v65 = (float *)((char *)v68 + 8 * v75);
+    if ( v47 > v43 )
     {
-      fMaxDotb = v47 * kDiff.m_afTuple[1] + kDiff.m_afTuple[0] * *(float *)LODWORD(fXMax);
-      v46 = 2;
+      v43 = v47;
+      v45 = 2;
     }
-    v89 = kU.m_afTuple[0] * *((float *)p + 2 * iTIndex) + kU.m_afTuple[1] * *((float *)p + 2 * iTIndex + 1);
-    fDotc = -v89;
-    if ( fMaxDotb < (double)fDotc )
+    v48 = 2 * v73;
+    LODWORD(v49) = COERCE_UNSIGNED_INT(
+                     (float)(*((float *)v68 + 2 * v73 + 1) * rkU.m_afTuple[1])
+                   + (float)(rkU.m_afTuple[0] * *((float *)v68 + 2 * v73)))
+                 ^ _mask__NegFloat_;
+    v66 = (char *)v68 + 8 * v73;
+    if ( v49 > v43 )
     {
-      fMaxDotb = -v89;
-      v46 = 4;
+      v43 = v49;
+      v45 = 4;
     }
-    v90 = kDiff.m_afTuple[1] * *((float *)p + 2 * v25 + 1) + kDiff.m_afTuple[0] * *((float *)p + 2 * v25);
-    if ( fMaxDotb < -v90 )
-      v46 = 1;
-    switch ( v46 )
+    v50 = 2 * (_DWORD)v77;
+    LODWORD(v51) = COERCE_UNSIGNED_INT(
+                     (float)(*((float *)v68 + 2 * (_DWORD)v77 + 1) * rkV.m_afTuple[1])
+                   + (float)(*((float *)v68 + 2 * (_DWORD)v77) * rkV.m_afTuple[0]))
+                 ^ _mask__NegFloat_;
+    v63 = (char *)v68 + 8 * (_DWORD)v77;
+    if ( v51 > v43 )
+      v45 = 1;
+    if ( !v45 )
+      break;
+    switch ( v45 )
     {
-      case 0:
-        goto $LN279;
       case 1:
-        if ( abVisited[v25] )
-          goto $LN279;
-        fEpsilonj = -*((float *)p + 2 * v25 + 1);
-        *(float *)&v94 = -*((float *)p + 2 * v25);
-        vostok::math::float2::float2(v45, (int)&v116, v94, fEpsilonj, v76);
-        Wm4::Vector2<float>::operator=(&v116, (vostok::math::float2 *)&kDiff);
-        fEpsilonk = -kDiff.m_afTuple[0];
-        vostok::math::float2::float2(v57, (int)&v110, SLODWORD(kDiff.m_afTuple[1]), fEpsilonk, v80);
-        Wm4::Vector2<float>::operator=(&v110, (vostok::math::float2 *)&kU);
-        Wm4::UpdateBox_float_(&v16[v25], &v16[iRIndex], &v16[iBIndex], &v16[iTIndex], &kU, &kDiff, &fMinAreaDiv4, &kBox);
-        abVisited[v25] = 1;
-        if ( ++v25 == iQuantitya )
-          v25 = 0;
-        continue;
+        v52 = *((_BYTE *)v77->m_afTuple + (_DWORD)p) == 0;
+        v65 = (float *)((int)v77->m_afTuple + (_DWORD)p);
+        if ( !v52 )
+          goto LABEL_63;
+        LODWORD(v56) = v63[1] ^ _mask__NegFloat_;
+        LODWORD(rkV.m_afTuple[0]) = *v63 ^ _mask__NegFloat_;
+        rkV.m_afTuple[1] = v56;
+        rkU.m_afTuple[0] = v56;
+        LODWORD(rkU.m_afTuple[1]) = LODWORD(rkV.m_afTuple[0]) ^ _mask__NegFloat_;
+        Wm4::UpdateBox_float_(
+          (const Wm4::Vector2<float> *)&i[v50],
+          (const Wm4::Vector2<float> *)&i[v44],
+          &rkV,
+          &__that,
+          (const Wm4::Vector2<float> *)((char *)i + LODWORD(v76)),
+          (const Wm4::Vector2<float> *)&i[v48],
+          &rkU,
+          &rfMinAreaDiv4);
+        v77 = (Wm4::Vector2<float> *)((char *)v77 + 1);
+        *(_BYTE *)v65 = 1;
+        if ( v77 == (Wm4::Vector2<float> *)iVertexQuantity )
+          v77 = 0;
+        break;
       case 2:
-        if ( abVisited[iRIndex] )
-          goto $LN279;
-        Wm4::Vector2<float>::operator=((vostok::math::float2 *)LODWORD(fXMax), (vostok::math::float2 *)&kDiff);
-        fEpsilonf = -kDiff.m_afTuple[0];
-        vostok::math::float2::float2(v51, (int)&v113, SLODWORD(kDiff.m_afTuple[1]), fEpsilonf, v76);
-        Wm4::Vector2<float>::operator=(&v113, (vostok::math::float2 *)&kU);
-        Wm4::UpdateBox_float_(&v16[v25], &v16[iRIndex], &v16[iBIndex], &v16[iTIndex], &kU, &kDiff, &fMinAreaDiv4, &kBox);
-        v52 = iRIndex;
-        abVisited[iRIndex] = 1;
-        iRIndex = v52 + 1;
-        if ( v52 + 1 == iQuantitya )
-          iRIndex = 0;
-        continue;
+        v52 = *((_BYTE *)p + v75) == 0;
+        v69 = (float *)((char *)p + v75);
+        if ( !v52 )
+          goto LABEL_63;
+        v55 = v65[1];
+        rkV.m_afTuple[0] = *v65;
+        rkV.m_afTuple[1] = v55;
+        rkU.m_afTuple[0] = v55;
+        LODWORD(rkU.m_afTuple[1]) = LODWORD(rkV.m_afTuple[0]) ^ _mask__NegFloat_;
+        Wm4::UpdateBox_float_(
+          (const Wm4::Vector2<float> *)&i[v50],
+          (const Wm4::Vector2<float> *)&i[v44],
+          &rkV,
+          &__that,
+          (const Wm4::Vector2<float> *)((char *)i + LODWORD(v76)),
+          (const Wm4::Vector2<float> *)&i[v48],
+          &rkU,
+          &rfMinAreaDiv4);
+        ++v75;
+        *(_BYTE *)v69 = 1;
+        if ( v75 == iVertexQuantity )
+          v75 = 0;
+        break;
       case 3:
-        if ( abVisited[iBIndex] )
-          goto $LN279;
-        Wm4::Vector2<float>::operator=(v45, (vostok::math::float2 *)&kU);
-        fEpsilond = -kU.m_afTuple[0];
-        vostok::math::float2::float2(v48, (int)v111, SLODWORD(kU.m_afTuple[1]), fEpsilond, v76);
-        fEpsilone = -v111[1];
-        *(float *)&v91 = -v111[0];
-        vostok::math::float2::float2(v49, (int)&v115, v91, fEpsilone, v77);
-        Wm4::Vector2<float>::operator=(&v115, (vostok::math::float2 *)&kDiff);
-        Wm4::UpdateBox_float_(&v16[v25], &v16[iRIndex], &v16[iBIndex], &v16[iTIndex], &kU, &kDiff, &fMinAreaDiv4, &kBox);
-        v50 = iBIndex;
-        abVisited[iBIndex] = 1;
-        iBIndex = v50 + 1;
-        if ( v50 + 1 == iQuantitya )
-          iBIndex = 0;
-        continue;
-      case 4:
-        if ( !abVisited[iTIndex] )
-        {
-          v53 = iTIndex;
-          fEpsilong = -*((float *)p + 2 * iTIndex + 1);
-          *(float *)&v92 = -*((float *)p + 2 * iTIndex);
-          vostok::math::float2::float2(v45, (int)&v112, v92, fEpsilong, v76);
-          Wm4::Vector2<float>::operator=(&v112, (vostok::math::float2 *)&kU);
-          fEpsilonh = -kU.m_afTuple[0];
-          vostok::math::float2::float2(v54, (int)&v109, SLODWORD(kU.m_afTuple[1]), fEpsilonh, v78);
-          fEpsiloni = -v109.y;
-          *(float *)&v93 = -v109.x;
-          vostok::math::float2::float2(v55, (int)&v114, v93, fEpsiloni, v79);
-          Wm4::Vector2<float>::operator=(&v114, (vostok::math::float2 *)&kDiff);
-          Wm4::UpdateBox_float_(&v16[v25], &v16[iRIndex], &v16[iBIndex], &v16[v53], &kU, &kDiff, &fMinAreaDiv4, &kBox);
-          v56 = iTIndex;
-          abVisited[iTIndex] = 1;
-          iTIndex = v56 + 1;
-          if ( v56 + 1 == iQuantitya )
-            iTIndex = 0;
-          continue;
-        }
-$LN279:
-        operator delete[](abVisited);
-        operator delete[](p);
-        operator delete[](v16);
-        iQuantity->Center.m_afTuple[0] = kBox.Center.m_afTuple[0];
-        iQuantity->Center.m_afTuple[1] = kBox.Center.m_afTuple[1];
-        `vector copy constructor iterator'(
-          (char *)iQuantity->Axis,
-          (char *)kBox.Axis,
-          8u,
-          2,
-          (void *(__thiscall *)(void *, void *))Wm4::Vector2<float>::Vector2<float>);
-        v58 = kBox.Extent[0];
-        iQuantity->Extent[1] = kBox.Extent[1];
-        iQuantity->Extent[0] = v58;
-        return iQuantity;
+        v52 = *((_BYTE *)p + v74) == 0;
+        v66 = (char *)p + v74;
+        if ( !v52 )
+          goto LABEL_63;
+        v54 = v69[1];
+        rkU.m_afTuple[0] = *v69;
+        rkU.m_afTuple[1] = v54;
+        LODWORD(rkV.m_afTuple[0]) = LODWORD(v54) ^ _mask__NegFloat_;
+        rkV.m_afTuple[1] = rkU.m_afTuple[0];
+        Wm4::UpdateBox_float_(
+          (const Wm4::Vector2<float> *)&i[v50],
+          (const Wm4::Vector2<float> *)&i[v44],
+          &rkV,
+          &__that,
+          (const Wm4::Vector2<float> *)((char *)i + LODWORD(v76)),
+          (const Wm4::Vector2<float> *)&i[v48],
+          &rkU,
+          &rfMinAreaDiv4);
+        ++v74;
+        *v66 = 1;
+        if ( v74 == iVertexQuantity )
+          v74 = 0;
+        break;
       default:
-        continue;
+        v52 = *((_BYTE *)p + v73) == 0;
+        v69 = (float *)((char *)p + v73);
+        if ( !v52 )
+          goto LABEL_63;
+        LODWORD(v53) = *((_DWORD *)v66 + 1) ^ _mask__NegFloat_;
+        LODWORD(rkU.m_afTuple[0]) = *(_DWORD *)v66 ^ _mask__NegFloat_;
+        rkU.m_afTuple[1] = v53;
+        LODWORD(rkV.m_afTuple[0]) = LODWORD(v53) ^ _mask__NegFloat_;
+        rkV.m_afTuple[1] = rkU.m_afTuple[0];
+        Wm4::UpdateBox_float_(
+          (const Wm4::Vector2<float> *)&i[v50],
+          (const Wm4::Vector2<float> *)&i[v44],
+          &rkV,
+          &__that,
+          (const Wm4::Vector2<float> *)((char *)i + LODWORD(v76)),
+          (const Wm4::Vector2<float> *)&i[v48],
+          &rkU,
+          &rfMinAreaDiv4);
+        ++v73;
+        *(_BYTE *)v69 = 1;
+        if ( v73 == iVertexQuantity )
+          v73 = 0;
+        break;
     }
   }
+LABEL_63:
+  operator delete[](p);
+  operator delete[](v68);
+  operator delete[](i);
+  v5 = iQuantity;
+  Wm4::Box2<float>::Box2<float>(iQuantity, &__that);
+  return v5;
 }

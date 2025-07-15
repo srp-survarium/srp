@@ -1,16 +1,14 @@
-void __thiscall boost::asio::detail::win_iocp_io_service::stop(boost::asio::detail::win_iocp_io_service *this)
+void __usercall boost::asio::detail::win_iocp_io_service::stop(
+        boost::asio::detail::win_iocp_io_service *this@<ecx>,
+        int a2@<eax>)
 {
-  boost::system::error_code ec; // [esp+160h] [ebp-Ch] BYREF
-  unsigned int last_error; // [esp+168h] [ebp-4h]
+  boost::system::error_code err; // [esp+8h] [ebp-8h] BYREF
 
-  if ( !InterlockedExchange(&this->stopped_, 1) && !PostQueuedCompletionStatus(this->iocp_.handle, 0, 0, 0) )
+  if ( !InterlockedExchange((volatile LONG *)(a2 + 28), 1) && !PostQueuedCompletionStatus(*(HANDLE *)(a2 + 20), 0, 0, 0) )
   {
-    last_error = GetLastError();
-    ec.m_val = last_error;
-    ec.m_cat = boost::system::system_category();
-    if ( (last_error != 0
-        ? (unsigned int)boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>
-        : 0) != 0 )
-      boost::asio::detail::do_throw_error(&ec, "pqcs");
+    err.m_val = GetLastError();
+    err.m_cat = boost::system::system_category();
+    if ( (err.m_val != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
+      boost::asio::detail::do_throw_error(&err, "pqcs");
   }
 }

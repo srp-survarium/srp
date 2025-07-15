@@ -5,7 +5,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::ExecutePropertyUn
         Scaleform::GFx::AS3::Value *_this,
         Scaleform::GFx::AS3::Value *resulta,
         unsigned int argc,
-        const Scaleform::GFx::AS3::Value *argv)
+        Scaleform::GFx::AS3::Value *argv)
 {
   __int16 Flags; // ax
   const Scaleform::GFx::AS3::VM::Error *v8; // eax

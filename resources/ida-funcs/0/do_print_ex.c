@@ -5,7 +5,7 @@ int __usercall do_print_ex@<eax>(
         asn1_string_st *str)
 {
   asn1_string_st *v5; // ebp
-  int type; // eax
+  unsigned int type; // eax
   const char *v7; // eax
   int v8; // esi
   int v9; // esi
@@ -13,11 +13,11 @@ int __usercall do_print_ex@<eax>(
   int v12; // eax
   int v13; // [esp+Ch] [ebp-Ch]
   int v14; // [esp+Ch] [ebp-Ch]
-  unsigned __int8 flags; // [esp+10h] [ebp-8h]
-  int v16; // [esp+14h] [ebp-4h]
+  unsigned __int8 v15; // [esp+10h] [ebp-8h]
+  unsigned int v16; // [esp+14h] [ebp-4h]
 
   v5 = str;
-  flags = lflags & 0xF;
+  v15 = lflags & 0xF;
   type = str->type;
   LOBYTE(str) = 0;
   v16 = type;
@@ -26,7 +26,7 @@ int __usercall do_print_ex@<eax>(
   {
     v7 = ASN1_tag2str(type);
     v8 = strlen(v7);
-    if ( !io_ch(arg, v7, v8) || !io_ch(arg, &stru_95963C.m_max_end, 1) )
+    if ( !io_ch(arg, v7, v8) || !io_ch(arg, ":", 1) )
       return -1;
     type = v16;
     v13 = v8 + 1;
@@ -35,7 +35,7 @@ int __usercall do_print_ex@<eax>(
     goto LABEL_10;
   if ( (lflags & 0x20) != 0 )
     goto LABEL_13;
-  if ( (unsigned int)(type - 1) > 0x1D || (v9 = tag2nbyte[type], v9 == -1) )
+  if ( type - 1 > 0x1D || (v9 = tag2nbyte[type], v9 == -1) )
   {
     if ( (lflags & 0x100) != 0 )
     {
@@ -55,7 +55,7 @@ LABEL_13:
     else
       LOBYTE(v9) = 1;
   }
-  v12 = do_buf((char *)&str, io_ch, v5->data, v5->length, v9, flags, 0);
+  v12 = do_buf((char *)&str, io_ch, v5->data, v5->length, v9, v15, 0);
   if ( v12 < 0 )
     return -1;
   v14 = v12 + v13;
@@ -63,7 +63,7 @@ LABEL_13:
     v14 += 2;
   if ( arg
     && ((_BYTE)str && !io_ch(arg, "\"", 1)
-     || do_buf(0, io_ch, v5->data, v5->length, v9, flags, arg) < 0
+     || do_buf(0, io_ch, v5->data, v5->length, v9, v15, arg) < 0
      || (_BYTE)str && !io_ch(arg, "\"", 1)) )
   {
     return -1;

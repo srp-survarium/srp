@@ -3,7 +3,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_events::Event::Event(
         Scaleform::GFx::AS3::ClassTraits::Traits *t)
 {
   Scaleform::GFx::AS3::Class::Class(this, t);
-  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::Event_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Classes::fl_events::Event_vtbl *)&Scaleform::GFx::AS3::Classes::fl_events::Event::`vftable';
   this->ACTIVATE = "activate";
   this->ADDED = "added";
   this->ADDED_TO_STAGE = "addedToStage";
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_events::Event::Event(
   this->OPEN = "open";
   this->REMOVED = "removed";
   this->REMOVED_FROM_STAGE = "removedFromStage";
-  this->RENDER = "render";
+  this->RENDER = (const char *)&initiator_raw.initiator_tree;
   this->RESIZE = "resize";
   this->SCROLL = "scroll";
   this->SELECT = "select";

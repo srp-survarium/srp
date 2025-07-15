@@ -1,6 +1,6 @@
 unsigned int __cdecl Scaleform::Render::Text::ImageSubstCmp::StrCompare(
         const wchar_t *dst,
-        int dstlen,
+        unsigned int dstlen,
         const wchar_t *src,
         unsigned int srclen,
         bool insertion)

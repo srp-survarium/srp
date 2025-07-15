@@ -1,5 +1,7 @@
-unsigned int __cdecl fread_s(
-        char *buffer,
+unsigned int __usercall fread_s@<eax>(
+        int a1@<ebx>,
+        int a2@<edi>,
+        unsigned __int8 *buffer,
         unsigned int bufferSize,
         unsigned int elementSize,
         unsigned int count,
@@ -14,11 +16,11 @@ unsigned int __cdecl fread_s(
     if ( bufferSize != -1 )
       memset((int)buffer, 0, bufferSize);
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, a2, 0);
     return 0;
   }
   _lock_file(stream);
-  retval = _fread_nolock_s(buffer, bufferSize, elementSize, count, stream);
+  retval = _fread_nolock_s(0, buffer, bufferSize, elementSize, count, stream);
   _unlock_file(stream);
   return retval;
 }

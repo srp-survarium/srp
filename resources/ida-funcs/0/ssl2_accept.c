@@ -1,35 +1,35 @@
 // positive sp value has been detected, the output may be wrong!
-int __cdecl ssl2_accept(ssl_st *s)
+int __usercall ssl2_accept@<eax>(int a1@<edi>, ssl_st *s)
 {
-  void (__cdecl *v1)(const ssl_st *, int, int); // ebx
-  void *v2; // esp
+  void (__cdecl *v2)(const ssl_st *, int, int); // ebx
+  void *v3; // esp
   int client_hello; // edi
   void (__cdecl *info_callback)(const ssl_st *, int, int); // eax
   int state; // eax
-  int v8; // eax
-  int v9; // edx
+  int v9; // eax
+  int v10; // edx
   int verify_mode; // eax
   ssl_ctx_st *ctx; // eax
   bio_st *wbio; // [esp-10h] [ebp-24h]
-  int v13; // [esp+10h] [ebp-4h] BYREF
+  int v14; // [esp+10h] [ebp-4h] BYREF
   int buf; // [esp+18h] [ebp+4h]
 
   _time64(0);
-  v1 = 0;
-  v2 = alloca(8);
-  RAND_add(&v13, 4, 0.0);
-  ERR_clear_error();
+  v2 = 0;
+  v3 = alloca(8);
+  RAND_add(a1, &v14, 4, 0.0);
+  ERR_clear_error(0);
   client_hello = (int)SetLastError;
   SetLastError(0);
   info_callback = s->info_callback;
   if ( info_callback || (info_callback = s->ctx->info_callback) != 0 )
-    v1 = info_callback;
+    v2 = info_callback;
   ++s->in_handshake;
   if ( (SSL_state(s) & 0x3000) == 0 || (SSL_state(s) & 0x4000) != 0 )
-    SSL_clear(s);
+    SSL_clear((int)v2, s);
   if ( !s->cert )
   {
-    ERR_put_error(0x14u, 122, 179, ".\\ssl\\s2_srvr.c", 169);
+    ERR_put_error((int)v2, 0x14u, 122, 179, ".\\ssl\\s2_srvr.c", 169);
     return -1;
   }
   SetLastError(0);
@@ -49,12 +49,12 @@ int __cdecl ssl2_accept(ssl_st *s)
       switch ( state )
       {
         case 8195:
-          goto $LN35_6;
+          goto $LN35_8;
         case 8208:
         case 8209:
         case 8210:
           s->shutdown = 0;
-          client_hello = get_client_hello(s);
+          client_hello = get_client_hello(s, (int)v2);
           if ( client_hello <= 0 )
             goto end_16;
           s->init_num = 0;
@@ -62,16 +62,16 @@ int __cdecl ssl2_accept(ssl_st *s)
           goto LABEL_49;
         case 8224:
         case 8225:
-          client_hello = server_hello(s);
+          client_hello = server_hello(s, (int)v2);
           if ( client_hello <= 0 )
             goto end_16;
-          v8 = s->hit != 0 ? 8320 : 8240;
+          v9 = s->hit != 0 ? 8320 : 8240;
           s->init_num = 0;
-          s->state = v8;
+          s->state = v9;
           goto LABEL_49;
         case 8240:
         case 8241:
-          client_hello = get_client_master_key(s);
+          client_hello = get_client_master_key(s, (int)v2);
           if ( client_hello <= 0 )
             goto end_16;
           s->init_num = 0;
@@ -79,23 +79,23 @@ int __cdecl ssl2_accept(ssl_st *s)
           goto LABEL_49;
         case 8256:
         case 8257:
-          client_hello = server_verify(s);
+          client_hello = server_verify(s, (int)v2);
           if ( client_hello <= 0 )
             goto end_16;
-          v9 = s->hit != 0 ? 8258 : 8272;
+          v10 = s->hit != 0 ? 8258 : 8272;
           s->init_num = 0;
-          s->state = v9;
+          s->state = v10;
           goto LABEL_49;
         case 8258:
-          if ( BIO_ctrl(s->wbio, 3, 0, 0) <= 0 )
+          if ( BIO_ctrl((int)v2, s->wbio, 3, 0, 0) <= 0 )
             goto LABEL_31;
           wbio = s->wbio;
           s->rwstate = 2;
-          if ( BIO_ctrl(wbio, 11, 0, 0) <= 0 )
+          if ( BIO_ctrl((int)v2, wbio, 11, 0, 0) <= 0 )
             goto LABEL_53;
           s->rwstate = 1;
 LABEL_31:
-          s->wbio = BIO_pop(s->wbio);
+          s->wbio = BIO_pop((int)v2, s->wbio);
           s->state = 8272;
           break;
         case 8272:
@@ -108,7 +108,7 @@ LABEL_31:
           goto LABEL_49;
         case 8288:
         case 8289:
-          client_hello = server_finish(s);
+          client_hello = server_finish(s, (int)v2);
           if ( client_hello <= 0 )
             goto end_16;
           s->init_num = 0;
@@ -129,7 +129,7 @@ LABEL_39:
           s->state = 8288;
           break;
         case 8320:
-          if ( !ssl2_enc_init(s, 0) )
+          if ( !ssl2_enc_init(client_hello, s, 0) )
             goto LABEL_53;
           s->s2->clear_text = 0;
           s->state = 8256;
@@ -139,16 +139,16 @@ LABEL_39:
       }
       goto LABEL_49;
     }
-$LN35_6:
+$LN35_8:
     s->server = 1;
-    if ( v1 )
-      v1(s, 16, 1);
+    if ( v2 )
+      v2(s, 16, 1);
     client_hello = (int)s->init_buf;
     s->version = 2;
     s->type = 0x2000;
     if ( !client_hello )
     {
-      client_hello = (int)BUF_MEM_new();
+      client_hello = (int)BUF_MEM_new((int)v2);
       if ( !client_hello )
         goto LABEL_53;
     }
@@ -161,39 +161,39 @@ $LN35_6:
     s->handshake_func = ssl2_accept;
     s->state = 8208;
 LABEL_49:
-    if ( v1 )
+    if ( v2 )
     {
       client_hello = s->state;
       if ( client_hello != buf )
       {
         s->state = buf;
-        v1(s, 8193, 1);
+        v2(s, 8193, 1);
         s->state = client_hello;
       }
     }
   }
   if ( state == 0x2000 )
-    goto $LN35_6;
+    goto $LN35_8;
   if ( state != 3 )
   {
 LABEL_52:
-    ERR_put_error(0x14u, 122, 255, ".\\ssl\\s2_srvr.c", 343);
+    ERR_put_error((int)v2, 0x14u, 122, 255, ".\\ssl\\s2_srvr.c", 343);
 LABEL_53:
     client_hello = -1;
     goto end_16;
   }
   BUF_MEM_free(s->init_buf);
-  ssl_free_wbio_buffer(client_hello, s);
+  ssl_free_wbio_buffer(client_hello, (int)v2, s);
   s->init_buf = 0;
   s->init_num = 0;
   ssl_update_cache(s, 2);
   client_hello = 1;
   ++s->ctx->stats.sess_accept_good;
-  if ( v1 )
-    v1(s, 32, 1);
+  if ( v2 )
+    v2(s, 32, 1);
 end_16:
   --s->in_handshake;
-  if ( v1 )
-    v1(s, 8194, client_hello);
+  if ( v2 )
+    v2(s, 8194, client_hello);
   return client_hello;
 }

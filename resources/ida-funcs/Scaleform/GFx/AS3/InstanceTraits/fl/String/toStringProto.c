@@ -1,7 +1,7 @@
 void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::toStringProto(
         const Scaleform::GFx::AS3::ThunkInfo *ti,
         Scaleform::GFx::AS3::VM *vm,
-        const Scaleform::GFx::AS3::Value *_this,
+        Scaleform::GFx::AS3::Value *_this,
         Scaleform::GFx::AS3::Value *result)
 {
   Scaleform::GFx::AS3::Object *VObj; // edi

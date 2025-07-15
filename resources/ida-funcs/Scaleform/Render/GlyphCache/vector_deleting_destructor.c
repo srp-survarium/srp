@@ -9,13 +9,17 @@ Scaleform::Render::GlyphCache *__thiscall Scaleform::Render::GlyphCache::`vector
 }
 
 
-void *__thiscall Scaleform::Render::GlyphCache::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::GlyphCache *__thiscall Scaleform::Render::GlyphCache::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::GlyphCache::`vector deleting destructor'((Scaleform::Render::GlyphCache *)(this - 8), a2);
 }
 
 
-void *__thiscall Scaleform::Render::GlyphCache::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::GlyphCache *__thiscall Scaleform::Render::GlyphCache::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::GlyphCache::`vector deleting destructor'((Scaleform::Render::GlyphCache *)(this - 12), a2);
 }

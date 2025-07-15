@@ -4,11 +4,11 @@ void __thiscall Scaleform::Render::D3D1x::Texture::ApplyTexture(
         const Scaleform::Render::ImageFillMode *fm)
 {
   unsigned int TextureCount; // esi
-  Scaleform::Render::D3D1x::TextureManager *pManager; // ecx
-  ID3D11SamplerState *v6; // edx
-  unsigned int v7; // eax
+  Scaleform::Render::D3D1x::TextureManager *pManager; // eax
+  ID3D11SamplerState *v6; // ecx
+  unsigned int v7; // edx
   ID3D11ShaderResourceView **p_pView; // edi
-  ID3D11ShaderResourceView *views[4]; // [esp+Ch] [ebp-10h] BYREF
+  ID3D11ShaderResourceView *views[4]; // [esp+8h] [ebp-10h] BYREF
 
   Scaleform::Render::Texture::ApplyTexture(this, stageIndex, fm);
   TextureCount = this->TextureCount;

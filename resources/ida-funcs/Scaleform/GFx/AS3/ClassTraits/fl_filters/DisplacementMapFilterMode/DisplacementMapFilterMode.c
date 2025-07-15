@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFil
     this,
     vm,
     &Scaleform::GFx::AS3::fl_filters::DisplacementMapFilterModeCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilterMode_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilterMode_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFilterMode::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::fl::Object *)MHeap->Alloc(MHeap, 120u, 0);
   if ( v4 )
@@ -36,9 +36,9 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFil
   if ( v7 )
   {
     Scaleform::GFx::AS3::Class::Class(v7, this);
-    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_filters::DisplacementMapFilterMode::`vftable';
     v8[1].__vftable = (Scaleform::GFx::AS3::Class_vtbl *)"clamp";
-    v8[1].pRCCRaw = (unsigned int)&stru_9555EC;
+    v8[1].pRCCRaw = (unsigned int)"color";
     v8[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)"ignore";
     v8[1].pPrev = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)"wrap";
   }
@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_filters::DisplacementMapFil
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

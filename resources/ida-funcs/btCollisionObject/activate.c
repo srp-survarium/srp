@@ -1,12 +1,10 @@
-void __thiscall btCollisionObject::activate(btCollisionObject *this)
+void __fastcall btCollisionObject::activate(btCollisionObject *this, int a2)
 {
-  int m_activationState1; // eax
+  int v2; // edx
 
-  if ( (this->m_collisionFlags & 3) == 0 )
+  if ( (*(_BYTE *)(a2 + 216) & 3) == 0 )
   {
-    m_activationState1 = this->m_activationState1;
-    if ( m_activationState1 != 4 && m_activationState1 != 5 )
-      this->m_activationState1 = 1;
-    this->m_deactivationTime = 0.0;
+    btCollisionObject::setActivationState(this, a2, 1);
+    *(_DWORD *)(v2 + 232) = 0;
   }
 }

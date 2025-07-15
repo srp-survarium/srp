@@ -38,6 +38,6 @@ int __cdecl ssl_cert_type(x509_st *x, evp_pkey_st *pkey)
     }
   }
   if ( !pkey )
-    EVP_PKEY_free(pubkey);
+    EVP_PKEY_free(0, pubkey);
   return v2;
 }

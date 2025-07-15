@@ -1,48 +1,78 @@
-void __thiscall vostok::intrusive_ptr<vostok::render::custom_config,vostok::render::custom_config,vostok::threading::simple_lock>::~intrusive_ptr<vostok::render::custom_config,vostok::render::custom_config,vostok::threading::simple_lock>(
-        vostok::intrusive_ptr<vostok::render::custom_config,vostok::render::custom_config,vostok::threading::simple_lock> *this)
+void __thiscall vostok::intrusive_ptr<vostok::render::res_render_output const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_render_output const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_render_output const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *this)
 {
-  if ( this->m_object )
-  {
-    if ( !_InterlockedExchangeAdd(&this->m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::render::custom_config::destroy(this->m_object, this->m_object);
-  }
-}
-
-
-void __thiscall vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
-        vostok::intrusive_ptr<vostok::render::light,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
-{
-  vostok::render::light *m_object; // eax
-  vostok::render::light *v3; // edi
-  vostok::render::grass_render_model *v4; // esi
+  const vostok::render::res_render_output *m_object; // eax
 
   m_object = this->m_object;
   if ( this->m_object )
   {
     if ( m_object->m_reference_count-- == 1 )
-    {
-      v3 = this->m_object;
-      v4 = vostok::render::g_allocator.m_object;
-      if ( this->m_object )
-      {
-        vostok::render::light::~light((vostok::render::light *)this);
-        BYTE2(v4->m_children_resources.m_lock) = 0;
-        vostok_mspace_free((void *)HIDWORD(v4->m_reconstruction_info_actuality_tick), v3);
-      }
-    }
+      vostok::render::resource_manager::release(
+        vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        (vostok::render::res_render_output *)this->m_object);
   }
 }
 
 
-void __thiscall vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(
-        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> *this)
+void __thiscall vostok::intrusive_ptr<vostok::render::res_sampler_list const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_sampler_list const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_sampler_list const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *this)
 {
+  const vostok::render::res_sampler_list *m_object; // eax
+
+  m_object = this->m_object;
   if ( this->m_object )
   {
-    if ( !_InterlockedExchangeAdd(&this->m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::managed_intrusive_base::destroy(
-        &this->m_object->vostok::resources::managed_intrusive_base,
-        this->m_object);
+    if ( m_object->m_reference_count-- == 1 )
+      vostok::render::resource_manager::release(
+        vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        (vostok::render::res_pass *)this->m_object);
+  }
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::shader_constant_table const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::shader_constant_table const,vostok::render::resource_intrusive_base const,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::shader_constant_table const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *this)
+{
+  const vostok::render::shader_constant_table *m_object; // eax
+
+  m_object = this->m_object;
+  if ( this->m_object )
+  {
+    if ( m_object->m_reference_count-- == 1 )
+      vostok::render::resource_manager::release(
+        (vostok::render::resource_manager *)this,
+        (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        (vostok::render::res_pass *)this->m_object);
+  }
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::animation::mixing::binary_tree_base_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_animation_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy> *this)
+{
+  vostok::animation::mixing::binary_tree_animation_node *m_object; // eax
+
+  m_object = this->m_object;
+  if ( this->m_object )
+  {
+    if ( m_object->m_reference_count-- == 1 )
+      ((void (__thiscall *)(vostok::animation::mixing::binary_tree_animation_node *, _DWORD))this->m_object->~vostok::animation::mixing::binary_tree_base_node)(
+        this->m_object,
+        0);
+  }
+}
+
+
+void __thiscall vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>::~intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<survarium::game_effect,survarium::game_effect,vostok::threading::single_threading_policy> *this)
+{
+  survarium::game_effect *m_object; // eax
+
+  m_object = this->m_object;
+  if ( this->m_object )
+  {
+    if ( m_object->m_reference_count-- == 1 )
+      this->m_object->m_emitter.m_object->destroy(this->m_object->m_emitter.m_object, this->m_object);
   }
 }
 
@@ -50,52 +80,90 @@ void __thiscall vostok::intrusive_ptr<vostok::resources::managed_resource,vostok
 void __thiscall vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
         vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
 {
-  vostok::render::render_target *m_object; // eax
+  vostok::intrusive_ptr<vostok::render::render_target,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(this);
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_declaration,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
+{
+  vostok::render::res_declaration *m_object; // eax
 
   m_object = this->m_object;
   if ( this->m_object )
   {
     if ( m_object->m_reference_count-- == 1 )
       vostok::render::resource_manager::release(
-        (vostok::render::resource_manager *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3],
-        (const vostok::render::render_target *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_options[3]);
+        (vostok::render::resource_manager *)this,
+        (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        (vostok::render::res_pass *)this->m_object);
   }
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
+{
+  vostok::intrusive_ptr<vostok::render::res_geometry,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(this);
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_shader_technique,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
+{
+  vostok::render::res_shader_technique *m_object; // eax
+
+  m_object = this->m_object;
+  if ( this->m_object )
+  {
+    if ( m_object->m_reference_count-- == 1 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::res_shader_technique>((vostok::render::res_pass *)this->m_object);
+  }
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::res_state,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_state,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_state,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
+{
+  if ( this->m_object )
+    --this->m_object->m_reference_count;
 }
 
 
 void __thiscall vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
         vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this)
 {
-  vostok::render::res_texture *m_object; // eax
+  vostok::intrusive_ptr<vostok::render::res_texture,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::dec(this);
+}
+
+
+void __thiscall vostok::intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::res_texture_list,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::res_texture_list const ,vostok::render::resource_intrusive_base const ,vostok::threading::single_threading_policy> *this)
+{
+  const vostok::render::res_texture_list *m_object; // eax
 
   m_object = this->m_object;
   if ( this->m_object )
   {
     if ( m_object->m_reference_count-- == 1 )
-      vostok::render::res_texture::destroy_impl((vostok::render::res_texture *)this);
+      vostok::render::resource_manager::release(
+        (vostok::render::resource_manager *)this,
+        (int)vostok::quasi_singleton<vostok::render::resource_manager>::pinst,
+        (vostok::render::res_pass *)this->m_object);
   }
 }
 
 
-void __thiscall vostok::intrusive_ptr<vostok::network_core::udp_match_packets_allocator,vostok::network_core::udp_match_packets_allocator,vostok::threading::multi_threading_policy>::~intrusive_ptr<vostok::network_core::udp_match_packets_allocator,vostok::network_core::udp_match_packets_allocator,vostok::threading::multi_threading_policy>(
-        vostok::intrusive_ptr<vostok::network_core::udp_match_packets_allocator,vostok::network_core::udp_match_packets_allocator,vostok::threading::multi_threading_policy> *this)
+void __usercall vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>::~intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy>(
+        vostok::intrusive_ptr<vostok::render::untyped_buffer,vostok::render::resource_intrusive_base,vostok::threading::single_threading_policy> *this@<ecx>,
+        vostok::render::hw_buffer_pool *a2@<esi>)
 {
-  vostok::network_core::udp_match_packets_allocator *m_object; // eax
-  vostok::memory::base_allocator *m_allocator; // ecx
+  vostok::render::untyped_buffer *m_object; // eax
 
-  if ( this->m_object && !_InterlockedExchangeAdd(&this->m_object->m_reference_count, 0xFFFFFFFF) )
+  m_object = this->m_object;
+  if ( this->m_object )
   {
-    m_object = this->m_object;
-    m_allocator = this->m_object->m_allocator;
-    if ( m_object )
-      m_allocator->call_free(m_allocator, m_object);
+    if ( m_object->m_reference_count-- == 1 )
+      vostok::render::resource_intrusive_base::destroy<vostok::render::untyped_buffer>(this->m_object, a2);
   }
-}
-
-
-// attributes: thunk
-void __thiscall vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
-        vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *this)
-{
-  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec(this);
 }

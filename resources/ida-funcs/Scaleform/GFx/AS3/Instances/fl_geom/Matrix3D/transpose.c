@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::transpose(
   if ( this->pDispObj )
   {
     Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(p_mat4, &v4);
-    memcpy(dst, (unsigned __int8 *)&v4, sizeof(dst));
+    memcpy((int)dst, (const __m128i *)&v4, sizeof(dst));
     this->pDispObj->SetMatrix3D(this->pDispObj, (const Scaleform::Render::Matrix3x4<float> *)dst);
   }
 }

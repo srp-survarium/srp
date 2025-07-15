@@ -3,14 +3,14 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<uns
         Scaleform::GFx::AS3::CheckResult *result,
         unsigned int ind,
         const Scaleform::GFx::AS3::Value *v,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v6; // edi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v8; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::CheckResult *v10; // eax
   unsigned int Size; // eax
+  Scaleform::GFx::AS3::VM *VMRef; // esi
+  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::AS3::CheckResult *v11; // eax
   __int16 v12; // ax
   Scaleform::GFx::AS3::CheckResult *v13; // esi
   char v14; // cl
@@ -21,19 +21,19 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<uns
   Scaleform::GFx::AS3::Value r; // [esp+10h] [ebp-10h] BYREF
 
   v6 = ind;
-  if ( this->Fixed && ind >= this->ValueA.Data.Size || (Size = this->ValueA.Data.Size, ind > Size) )
+  if ( this->Fixed && (Size = this->ValueA.Data.Size, ind >= Size) || (Size = this->ValueA.Data.Size, ind > Size) )
   {
     VMRef = this->VMRef;
-    Scaleform::GFx::AS3::VM::Error::Error(&v18, eOutOfRangeError, VMRef);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v8);
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eOutOfRangeError, (Scaleform::String)VMRef, ind, Size - 1);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v9);
     pNode = v18.Message.pNode;
     --v18.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 LABEL_5:
-    v10 = result;
+    v11 = result;
     result->Result = 0;
-    return v10;
+    return v11;
   }
   if ( ind == Size
     && !Scaleform::GFx::AS3::VectorBase<long>::Resize(this, (Scaleform::GFx::AS3::CheckResult *)&ind, ind + 1)->Result )
@@ -42,7 +42,12 @@ LABEL_5:
   }
   r.Flags = 0;
   r.Bonus.pWeakProxy = 0;
-  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&ind, tr, v, &r)->Result )
+  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+         this,
+         (Scaleform::GFx::AS3::CheckResult *)&ind,
+         tr,
+         v,
+         (Scaleform::GFx::ASStringNode *)&r)->Result )
   {
     Data = this->ValueA.Data.Data;
     v13 = result;
@@ -87,11 +92,11 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<dou
         const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v6; // edi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v8; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::CheckResult *v10; // eax
   unsigned int Size; // eax
+  Scaleform::GFx::AS3::VM *VMRef; // esi
+  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::AS3::CheckResult *v11; // eax
   __int16 v12; // ax
   Scaleform::GFx::AS3::CheckResult *v13; // esi
   char v14; // cl
@@ -102,19 +107,19 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<dou
   Scaleform::GFx::AS3::Value r; // [esp+10h] [ebp-10h] BYREF
 
   v6 = ind;
-  if ( this->Fixed && ind >= this->ValueA.Data.Size || (Size = this->ValueA.Data.Size, ind > Size) )
+  if ( this->Fixed && (Size = this->ValueA.Data.Size, ind >= Size) || (Size = this->ValueA.Data.Size, ind > Size) )
   {
     VMRef = this->VMRef;
-    Scaleform::GFx::AS3::VM::Error::Error(&v18, eOutOfRangeError, VMRef);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v8);
+    Scaleform::GFx::AS3::VM::Error::Error(&v18, eOutOfRangeError, VMRef, ind, Size - 1);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v9);
     pNode = v18.Message.pNode;
     --v18.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 LABEL_5:
-    v10 = result;
+    v11 = result;
     result->Result = 0;
-    return v10;
+    return v11;
   }
   if ( ind == Size
     && !Scaleform::GFx::AS3::VectorBase<double>::Resize(this, (Scaleform::GFx::AS3::CheckResult *)&ind, ind + 1)->Result )
@@ -165,14 +170,14 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<Sca
         Scaleform::GFx::AS3::CheckResult *result,
         unsigned int ind,
         const Scaleform::GFx::AS3::Value *v,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v6; // edi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v8; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::CheckResult *v10; // eax
   unsigned int Size; // eax
+  Scaleform::GFx::AS3::VM *VMRef; // esi
+  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::AS3::CheckResult *v11; // eax
   __int16 v12; // ax
   Scaleform::GFx::AS3::CheckResult *v13; // esi
   char v14; // cl
@@ -182,19 +187,19 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<Sca
   Scaleform::GFx::AS3::Value r; // [esp+10h] [ebp-10h] BYREF
 
   v6 = ind;
-  if ( this->Fixed && ind >= this->ValueA.Data.Size || (Size = this->ValueA.Data.Size, ind > Size) )
+  if ( this->Fixed && (Size = this->ValueA.Data.Size, ind >= Size) || (Size = this->ValueA.Data.Size, ind > Size) )
   {
     VMRef = this->VMRef;
-    Scaleform::GFx::AS3::VM::Error::Error(&v17, eOutOfRangeError, VMRef);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v8);
+    Scaleform::GFx::AS3::VM::Error::Error(&v17, eOutOfRangeError, (Scaleform::String)VMRef, ind, Size - 1);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v9);
     pNode = v17.Message.pNode;
     --v17.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 LABEL_5:
-    v10 = result;
+    v11 = result;
     result->Result = 0;
-    return v10;
+    return v11;
   }
   if ( ind == Size
     && !Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Resize(
@@ -206,7 +211,12 @@ LABEL_5:
   }
   r.Flags = 0;
   r.Bonus.pWeakProxy = 0;
-  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&ind, tr, v, &r)->Result )
+  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+         this,
+         (Scaleform::GFx::AS3::CheckResult *)&ind,
+         tr,
+         v,
+         (Scaleform::GFx::ASStringNode *)&r)->Result )
   {
     Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::SetUnsafe(this, v6, &r);
     Flags = r.Flags;
@@ -247,14 +257,14 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<Sca
         Scaleform::GFx::AS3::CheckResult *result,
         unsigned int ind,
         const Scaleform::GFx::AS3::Value *v,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *tr)
+        Scaleform::GFx::AS3::ClassTraits::Traits *tr)
 {
   unsigned int v6; // edi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v8; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::CheckResult *v10; // eax
   unsigned int Size; // eax
+  Scaleform::GFx::AS3::VM *VMRef; // esi
+  const Scaleform::GFx::AS3::VM::Error *v9; // eax
+  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::AS3::CheckResult *v11; // eax
   __int16 v12; // ax
   Scaleform::GFx::AS3::CheckResult *v13; // esi
   char v14; // cl
@@ -264,19 +274,19 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::VectorBase<Sca
   Scaleform::GFx::AS3::Value r; // [esp+10h] [ebp-10h] BYREF
 
   v6 = ind;
-  if ( this->Fixed && ind >= this->ValueA.Data.Size || (Size = this->ValueA.Data.Size, ind > Size) )
+  if ( this->Fixed && (Size = this->ValueA.Data.Size, ind >= Size) || (Size = this->ValueA.Data.Size, ind > Size) )
   {
     VMRef = this->VMRef;
-    Scaleform::GFx::AS3::VM::Error::Error(&v17, eOutOfRangeError, VMRef);
-    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v8);
+    Scaleform::GFx::AS3::VM::Error::Error(&v17, eOutOfRangeError, (Scaleform::String)VMRef, ind, Size - 1);
+    Scaleform::GFx::AS3::VM::ThrowRangeError(VMRef, v9);
     pNode = v17.Message.pNode;
     --v17.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
 LABEL_5:
-    v10 = result;
+    v11 = result;
     result->Result = 0;
-    return v10;
+    return v11;
   }
   if ( ind == Size
     && !Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::Resize(
@@ -288,7 +298,12 @@ LABEL_5:
   }
   r.Flags = 0;
   r.Bonus.pWeakProxy = 0;
-  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(this, (Scaleform::GFx::AS3::CheckResult *)&ind, tr, v, &r)->Result )
+  if ( Scaleform::GFx::AS3::ArrayBase::CheckCoerce(
+         this,
+         (Scaleform::GFx::AS3::CheckResult *)&ind,
+         tr,
+         v,
+         (Scaleform::GFx::ASStringNode *)&r)->Result )
   {
     Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::SetUnsafe(this, v6, &r);
     Flags = r.Flags;

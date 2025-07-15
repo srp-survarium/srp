@@ -2,75 +2,62 @@ void __userpurge btPairSet::push_pair(btPairSet *this@<ecx>, int a2@<esi>, int i
 {
   int v4; // ecx
   int v5; // eax
-  int v6; // ebp
-  _DWORD *v7; // ebx
-  int v8; // edi
-  int v9; // ecx
+  int v6; // ebx
+  int v7; // edi
+  int v8; // edx
+  _DWORD *v9; // ecx
   _DWORD *v10; // eax
-  int v11; // edx
-  void *v12; // eax
-  _DWORD *v13; // eax
-  _DWORD *v14; // [esp+Ch] [ebp-4h]
+  _DWORD *v11; // eax
+  int v12; // [esp+0h] [ebp-8h]
+  _DWORD *v13; // [esp+4h] [ebp-4h]
 
   v4 = *(_DWORD *)(a2 + 8);
   v5 = *(_DWORD *)(a2 + 4);
   if ( v5 == v4 )
   {
-    v6 = 2 * v5;
-    if ( !v5 )
-      v6 = 1;
+    v6 = v5 ? 2 * v5 : 1;
+    v12 = v6;
     if ( v4 < v6 )
     {
       if ( v6 )
-      {
-        ++gNumAlignedAllocs;
-        v7 = sAlignedAllocFunc(8 * v6, 16);
-        v14 = v7;
-      }
+        v13 = btAlignedAllocInternal(8 * v6);
       else
+        v13 = 0;
+      v7 = *(_DWORD *)(a2 + 4);
+      v8 = 0;
+      if ( v7 > 0 )
       {
-        v7 = 0;
-        v14 = 0;
-      }
-      v8 = *(_DWORD *)(a2 + 4);
-      v9 = 0;
-      if ( v8 > 0 )
-      {
-        v10 = v7;
+        v9 = v13;
         do
         {
-          if ( v10 )
+          if ( v9 )
           {
-            v11 = *(_DWORD *)(a2 + 12);
-            *v10 = *(_DWORD *)(v11 + 8 * v9);
-            v10[1] = *(_DWORD *)(v11 + 8 * v9 + 4);
+            v10 = (_DWORD *)(*(_DWORD *)(a2 + 12) + 8 * v8);
+            *v9 = *v10;
+            v6 = v12;
+            v9[1] = v10[1];
           }
-          ++v9;
-          v10 += 2;
+          ++v8;
+          v9 += 2;
         }
-        while ( v9 < v8 );
-        v7 = v14;
+        while ( v8 < v7 );
       }
-      v12 = *(void **)(a2 + 12);
-      if ( v12 )
+      if ( *(_DWORD *)(a2 + 12) )
       {
         if ( *(_BYTE *)(a2 + 16) )
-        {
-          ++gNumAlignedFree;
-          sAlignedFreeFunc(v12);
-        }
+          btAlignedFreeInternal(*(void **)(a2 + 12));
         *(_DWORD *)(a2 + 12) = 0;
       }
       *(_BYTE *)(a2 + 16) = 1;
-      *(_DWORD *)(a2 + 12) = v7;
+      *(_DWORD *)(a2 + 12) = v13;
       *(_DWORD *)(a2 + 8) = v6;
     }
   }
-  v13 = (_DWORD *)(*(_DWORD *)(a2 + 12) + 8 * *(_DWORD *)(a2 + 4));
-  if ( v13 )
+  v11 = (_DWORD *)(*(_DWORD *)(a2 + 12) + 8 * *(_DWORD *)(a2 + 4));
+  if ( v11 )
   {
-    *v13 = index1;
-    v13[1] = index2;
+    *v11 = index1;
+    v11[1] = index2;
   }
   ++*(_DWORD *)(a2 + 4);
 }

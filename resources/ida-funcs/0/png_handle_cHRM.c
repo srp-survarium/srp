@@ -49,14 +49,14 @@ void __cdecl png_handle_cHRM(int a1, _DWORD *a2, unsigned int a3)
       png_crc_read((_DWORD *)a1, buf, 32);
       if ( !png_crc_finish(a1, 0) )
       {
-        v29 = sub_365060(0, buf);
-        v28 = sub_365060(0, v17);
-        v24 = sub_365060(0, v18);
-        v26 = sub_365060(0, v19);
-        v14 = sub_365060(0, v20);
-        v25 = sub_365060(0, v21);
-        v27 = sub_365060(0, v22);
-        v15 = sub_365060(0, v23);
+        v29 = sub_471D20(0, buf);
+        v28 = sub_471D20(0, v17);
+        v24 = sub_471D20(0, v18);
+        v26 = sub_471D20(0, v19);
+        v14 = sub_471D20(0, v20);
+        v25 = sub_471D20(0, v21);
+        v27 = sub_471D20(0, v22);
+        v15 = sub_471D20(0, v23);
         if ( v29 == -1 || v28 == -1 || v24 == -1 || v26 == -1 || v14 == -1 || v25 == -1 || v27 == -1 || v15 == -1 )
         {
           png_warning(a1, "Ignoring cHRM chunk with negative chromaticities");
@@ -109,11 +109,11 @@ void __cdecl png_handle_cHRM(int a1, _DWORD *a2, unsigned int a3)
             qmemcpy(v3, v8, sizeof(v3));
             if ( png_XYZ_from_xy_checked(a1, (int)v9) )
             {
-              if ( !png_muldiv(&v5, v10, 0x8000, (int)&loc_186A0)
+              if ( !png_muldiv(&v5, v10, 0x8000, 100000)
                 || (unsigned int)v5 > 0x8000
-                || !png_muldiv(&v6, v11, 0x8000, (int)&loc_186A0)
+                || !png_muldiv(&v6, v11, 0x8000, 100000)
                 || (unsigned int)v6 > 0x8000
-                || !png_muldiv(&v7, v12, 0x8000, (int)&loc_186A0)
+                || !png_muldiv(&v7, v12, 0x8000, 100000)
                 || (unsigned int)v7 > 0x8000
                 || v7 + v6 + v5 > 32769 )
               {

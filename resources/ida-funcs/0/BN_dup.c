@@ -1,18 +1,18 @@
-bignum_st *__cdecl BN_dup(const bignum_st *a)
+bignum_st *__usercall BN_dup@<eax>(int a1@<ebx>, const bignum_st *a)
 {
-  bignum_st *v2; // eax
-  bignum_st *v3; // esi
+  bignum_st *v3; // eax
+  bignum_st *v4; // esi
 
   if ( !a )
     return 0;
-  v2 = BN_new();
-  v3 = v2;
-  if ( !v2 )
+  v3 = BN_new(a1);
+  v4 = v3;
+  if ( !v3 )
     return 0;
-  if ( !BN_copy(v2, a) )
+  if ( !BN_copy(v3, a) )
   {
-    BN_free(v3);
+    BN_free(v4);
     return 0;
   }
-  return v3;
+  return v4;
 }

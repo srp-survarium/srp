@@ -12,7 +12,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
   char *v9; // esi
   char *v10; // edi
   HLOCAL v12; // [esp-4h] [ebp-5Ch]
-  stlp_std::allocator<char> __a; // [esp+17h] [ebp-41h] BYREF
+  stlp_std::allocator<char> v13; // [esp+17h] [ebp-41h] BYREF
   char Buffer[4]; // [esp+18h] [ebp-40h] BYREF
   int v15; // [esp+1Ch] [ebp-3Ch]
   int v16; // [esp+20h] [ebp-38h]
@@ -34,7 +34,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
       &__s,
       *(char **)Buffer,
-      &__a);
+      &v13);
     M_finish = __s._M_finish;
     M_data = __s._M_start_of_storage._M_data;
     v6 = __s._M_finish - __s._M_start_of_storage._M_data;
@@ -54,7 +54,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
       {
         if ( M_finish - v9 != -1 )
         {
-          memmove((unsigned __int8 *)&M_data[v6 - 1], (unsigned __int8 *)&M_data[v6], M_finish - &M_data[v6 - 1]);
+          memmove((int)&M_data[v6 - 1], (const __m128i *)&M_data[v6], M_finish - &M_data[v6 - 1]);
           M_data = __s._M_start_of_storage._M_data;
           M_finish = __s._M_finish;
         }
@@ -89,7 +89,7 @@ stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char
     stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>(
       a1,
       "Unknown error",
-      &__a);
+      &v13);
     v15 = 1;
     v12 = v3;
   }

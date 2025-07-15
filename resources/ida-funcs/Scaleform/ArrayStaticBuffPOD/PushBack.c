@@ -1,6 +1,6 @@
 void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(
         Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2> *this,
-        const unsigned __int8 *val)
+        unsigned __int8 *val)
 {
   unsigned int Size; // eax
   Scaleform::MemoryHeap *pHeap; // ecx
@@ -53,7 +53,7 @@ void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned char,1024,2>::PushBack(
 
 void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(
         Scaleform::ArrayStaticBuffPOD<unsigned short,72,2> *this,
-        const unsigned __int16 *val)
+        unsigned __int16 *val)
 {
   unsigned int Size; // eax
   Scaleform::MemoryHeap *pHeap; // ecx
@@ -108,7 +108,7 @@ void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned short,72,2>::PushBack(
 
 void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(
         Scaleform::ArrayStaticBuffPOD<unsigned long,16,2> *this,
-        const unsigned int *val)
+        unsigned int *val)
 {
   unsigned int Size; // eax
   Scaleform::MemoryHeap *pHeap; // ecx
@@ -159,7 +159,7 @@ void __thiscall Scaleform::ArrayStaticBuffPOD<unsigned int,16,2>::PushBack(
 
 void __thiscall Scaleform::ArrayStaticBuffPOD<Scaleform::Render::Font *,32,2>::PushBack(
         Scaleform::ArrayStaticBuffPOD<Scaleform::RefCountImpl *,32,2> *this,
-        Scaleform::RefCountImpl *const *val)
+        Scaleform::RefCountImpl **val)
 {
   unsigned int Size; // eax
   Scaleform::MemoryHeap *pHeap; // ecx

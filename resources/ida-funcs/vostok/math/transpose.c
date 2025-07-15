@@ -1,30 +1,37 @@
-vostok::math::float4x4 *__cdecl vostok::math::transpose(
-        vostok::math::float4x4 *result,
-        const vostok::math::float4x4 *other)
+vostok::math::float4x4 *__usercall vostok::math::transpose@<eax>(
+        const vostok::math::float4x4 *other@<ecx>,
+        vostok::math::float4x4 *result@<eax>)
 {
-  vostok::math::float4x4 *v2; // eax
-  vostok::math::float4_pod v3; // [esp+0h] [ebp-10h]
+  float y; // xmm0_4
+  float z; // xmm0_4
+  float w; // xmm0_4
+  vostok::math::float4_pod v5; // [esp+0h] [ebp-10h]
+  float x; // [esp+Ch] [ebp-4h]
 
-  v2 = result;
-  v3.x = other->i.x;
-  v3.y = other->j.x;
-  v3.z = other->k.x;
-  v3.w = other->c.x;
-  result->i = v3;
-  v3.x = other->i.y;
-  v3.y = other->j.y;
-  v3.z = other->k.y;
-  v3.w = other->c.y;
-  result->j = v3;
-  v3.x = other->i.z;
-  v3.y = other->j.z;
-  v3.z = other->k.z;
-  v3.w = other->c.z;
-  result->k = v3;
-  v3.x = other->i.w;
-  v3.y = other->j.w;
-  v3.z = other->k.w;
-  v3.w = other->c.w;
-  result->c = v3;
-  return v2;
+  v5.y = other->j.x;
+  v5.z = other->k.x;
+  x = other->c.x;
+  y = other->i.y;
+  result->i.x = other->i.x;
+  *(_QWORD *)&result->e01 = *(_QWORD *)&v5.elements[1];
+  result->i.w = x;
+  v5.x = y;
+  v5.y = other->j.y;
+  v5.z = other->k.y;
+  v5.w = other->c.y;
+  z = other->i.z;
+  result->j = v5;
+  v5.x = z;
+  v5.y = other->j.z;
+  v5.z = other->k.z;
+  v5.w = other->c.z;
+  w = other->i.w;
+  result->k = v5;
+  v5.y = other->j.w;
+  v5.z = other->k.w;
+  v5.w = other->c.w;
+  result->c.x = w;
+  *(_QWORD *)&result->lines[3].elements[1] = *(_QWORD *)&v5.elements[1];
+  result->c.w = v5.w;
+  return result;
 }

@@ -6,16 +6,17 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3localeCompare(
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  Scaleform::GFx::AS3::VM *v6; // edi
-  Scaleform::GFx::AS3::StringManager *v7; // esi
+  Scaleform::GFx::AS3::VM *v6; // esi
+  Scaleform::GFx::AS3::StringManager *v7; // edi
   Scaleform::GFx::ASStringManager *pStringManager; // eax
   const Scaleform::GFx::AS3::VM::Error *v9; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::AS3::Value *v11; // ecx
   Scaleform::GFx::ASStringNode *v12; // eax
+  Scaleform::StringDataPtr v13; // [esp-Ch] [ebp-2Ch]
   Scaleform::GFx::ASString thisStr; // [esp+10h] [ebp-10h] BYREF
   Scaleform::GFx::ASString str; // [esp+14h] [ebp-Ch] BYREF
-  Scaleform::GFx::AS3::VM::Error v15; // [esp+18h] [ebp-8h] BYREF
+  Scaleform::GFx::AS3::VM::Error v16; // [esp+18h] [ebp-8h] BYREF
 
   v6 = (Scaleform::GFx::AS3::VM *)vm;
   v7 = *(Scaleform::GFx::AS3::StringManager **)(vm + 12);
@@ -40,9 +41,11 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3localeCompare(
       }
       else
       {
-        Scaleform::GFx::AS3::VM::Error::Error(&v15, eWrongArgumentCountError, v6);
+        v13.pStr = "String::AS3localeCompare";
+        v13.Size = 24;
+        Scaleform::GFx::AS3::VM::Error::Error(&v16, eWrongArgumentCountError, v6, v13, 0, 1, argc);
         Scaleform::GFx::AS3::VM::ThrowArgumentError(v6, v9);
-        pNode = v15.Message.pNode;
+        pNode = v16.Message.pNode;
       }
       if ( !--pNode->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(pNode);

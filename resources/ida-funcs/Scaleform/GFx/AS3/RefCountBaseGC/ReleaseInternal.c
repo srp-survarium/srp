@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(
   pRCC = this->_pRCC;
   RefCount = this->RefCount;
   v4 = (Scaleform::GFx::AS3::RefCountCollector<328> *)((unsigned int)pRCC & 0xFFFFFFFC);
-  if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+  if ( (RefCount & 0x3FFFFF) != 0 )
   {
     if ( (RefCount & 0x70000000) != 0x30000000 )
     {
@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(
     if ( (RefCount & 0x2000000) != 0 )
       this->Finalize_GC(this);
     if ( (this->RefCount & 0x1000000) != 0 )
-      this->RefCount |= (unsigned int)&unk_800000;
+      this->RefCount |= 0x800000u;
     else
       Scaleform::GFx::AS3::RefCountBaseGC<328>::FreeThis(this, v4);
   }

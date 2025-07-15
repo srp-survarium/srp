@@ -20,16 +20,16 @@ void __thiscall Scaleform::Render::Matrix4x4<float>::TransformHomogeneousAndScal
   __m128 v17; // xmm7
   __m128 v18; // xmm4
   __m128 v19; // xmm3
-  __m128 v20; // [esp+360h] [ebp-B0h]
-  __m128 v21; // [esp+360h] [ebp-B0h]
-  __m128 v22; // [esp+370h] [ebp-A0h]
-  __m128 v23; // [esp+370h] [ebp-A0h]
-  __m128 v24; // [esp+380h] [ebp-90h]
-  __m128 v25; // [esp+3C0h] [ebp-50h]
-  __m128 v26; // [esp+3D0h] [ebp-40h]
-  __m128 v27; // [esp+3E0h] [ebp-30h]
-  __m128 v28; // [esp+3F0h] [ebp-20h]
-  __m128 v29; // [esp+400h] [ebp-10h]
+  __m128 v20; // [esp+0h] [ebp-B0h]
+  __m128 v21; // [esp+0h] [ebp-B0h]
+  __m128 v22; // [esp+10h] [ebp-A0h]
+  __m128 v23; // [esp+10h] [ebp-A0h]
+  __m128 v24; // [esp+20h] [ebp-90h]
+  __m128 v25; // [esp+60h] [ebp-50h]
+  __m128 v26; // [esp+70h] [ebp-40h]
+  __m128 v27; // [esp+80h] [ebp-30h]
+  __m128 v28; // [esp+90h] [ebp-20h]
+  __m128 v29; // [esp+A0h] [ebp-10h]
 
   v22.m128_f32[0] = sx;
   v5 = *(__m128 *)&this->M[1][0];

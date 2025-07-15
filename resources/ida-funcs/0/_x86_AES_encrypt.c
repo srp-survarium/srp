@@ -53,8 +53,8 @@ unsigned int __usercall _x86_AES_encrypt@<eax>(
   return v22[4]
        ^ *(_DWORD *)(a5 + 8 * HIBYTE(v9) + 2)
        & 0xFF000000
-       ^ (unsigned int)&vostok::memory::s_CRT_arena[5508664]
-       & *(_DWORD *)(a5 + 8 * BYTE2(v8))
+       ^ *(_DWORD *)(a5 + 8 * BYTE2(v8))
+       & 0xFF0000
        ^ *(_DWORD *)(a5 + 8 * BYTE1(v7))
        & 0xFF00
        ^ (unsigned __int8)*(_DWORD *)(a5 + 8 * (unsigned __int8)v6 + 2);

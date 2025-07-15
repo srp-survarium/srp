@@ -1,14 +1,14 @@
-DName *__thiscall Replicator::operator[](Replicator *this, DName *result, unsigned int x)
+DName *__thiscall Replicator::operator[](Replicator *this, DName *result, int x)
 {
   DName *v3; // eax
 
-  if ( x > 9 )
+  if ( (unsigned int)x > 9 )
   {
     DName::DName(result, DN_error);
   }
   else
   {
-    if ( this->index != -1 && (signed int)x <= this->index )
+    if ( this->index != -1 && x <= this->index )
     {
       v3 = result;
       *result = *this->dNameBuffer[x];

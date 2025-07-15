@@ -1,19 +1,21 @@
-void __thiscall Scaleform::Render::Text::DocView::AppendHtml(
-        Scaleform::Render::Text::DocView *this,
-        const char *putf8Str,
+void __userpurge Scaleform::Render::Text::DocView::AppendHtml(
+        Scaleform::Render::Text::DocView *this@<ecx>,
+        int a2@<ebp>,
+        char *putf8Str,
         unsigned int utf8Len,
         bool condenseWhite,
         Scaleform::ArrayDH<Scaleform::Render::Text::StyledText::HTMLImageTagInfo,2,Scaleform::ArrayDefaultPolicy> *pimgInfoArr)
 {
-  unsigned int v5; // eax
+  int v6; // eax
 
-  v5 = utf8Len;
+  v6 = utf8Len;
   if ( utf8Len == -1 )
-    v5 = strlen(putf8Str);
+    v6 = strlen(putf8Str);
   Scaleform::Render::Text::StyledText::ParseHtml(
     this->pDocument.pObject,
+    a2,
     putf8Str,
-    v5,
+    v6,
     pimgInfoArr,
     (this->Flags & 4) != 0,
     condenseWhite,

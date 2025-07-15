@@ -16,7 +16,10 @@ void __thiscall Scaleform::GFx::FontData::ReadCodeTable(Scaleform::GFx::FontData
   Scaleform::HashNode<unsigned short,unsigned short,Scaleform::IdentityHash<unsigned short> >::NodeRef key; // [esp+14h] [ebp-8h] BYREF
 
   v2 = in;
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)this);
+  Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+    in,
+    "reading code table at offset %d\n",
+    in->Pos + in->FilePos - in->DataSize);
   pTable = this->CodeTable.mHash.pTable;
   p_CodeTable = &this->CodeTable;
   if ( pTable )

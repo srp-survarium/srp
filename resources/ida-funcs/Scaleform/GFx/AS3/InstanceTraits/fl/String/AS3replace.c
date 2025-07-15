@@ -18,9 +18,9 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::String::AS3replace(
   Scaleform::GFx::ASStringNode *v15; // eax
   Scaleform::GFx::AS3::Instances::fl::RegExp *v16; // ecx
   Scaleform::GFx::AS3::VM *v17; // esi
-  const char *MatchOffset; // esi
+  char *MatchOffset; // esi
   int MatchLength; // edi
-  const char *Length; // eax
+  char *Length; // eax
   Scaleform::GFx::ASString *v21; // eax
   const Scaleform::GFx::ASString *v22; // eax
   Scaleform::GFx::ASStringNode *v23; // eax
@@ -71,7 +71,7 @@ LABEL_41:
           if ( ((unsigned __int8)pObject & 1) == 0 )
           {
             RefCount = pObject->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               pObject->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -132,9 +132,9 @@ LABEL_41:
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>::~SPtr<Scaleform::GFx::AS3::Instances::fl::XMLElement>((Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event> *)&vm);
         if ( !v17 )
           break;
-        MatchOffset = (const char *)pre.pObject->MatchOffset;
+        MatchOffset = (char *)pre.pObject->MatchOffset;
         MatchLength = pre.pObject->MatchLength;
-        Length = (const char *)Scaleform::GFx::ASConstString::GetLength(&str);
+        Length = (char *)Scaleform::GFx::ASConstString::GetLength(&str);
         v33.pNode = Scaleform::GFx::ASConstString::SubstringNode(&str, &MatchOffset[MatchLength], Length);
         ++v33.pNode->RefCount;
         v32.pNode = Scaleform::GFx::ASConstString::SubstringNode(&str, 0, MatchOffset);

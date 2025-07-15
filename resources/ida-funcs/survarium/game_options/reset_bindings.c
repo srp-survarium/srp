@@ -1,138 +1,83 @@
-void __thiscall survarium::game_options::reset_bindings(
-        survarium::game_options *this,
-        survarium::game_options *is_default,
-        bool is_defaulta)
+void __thiscall survarium::game_options::reset_bindings(survarium::game_options *this, int is_default, bool a3)
 {
-  survarium::game_action_id action_id; // ebx
-  int v4; // eax
-  int v5; // ecx
-  int v6; // edx
-  int v7; // eax
-  int v8; // ecx
-  int v9; // eax
-  const char *v10; // edi
-  survarium::flash_value *v11; // eax
-  int i; // ecx
-  const char **p_m_begin; // ebx
-  survarium::keyboard_key_descr *v14; // ecx
-  char *v15; // esi
-  int j; // ebx
-  int v17; // ecx
-  const char *v18; // [esp+0h] [ebp-46Ch]
-  survarium::key_bind_descr *v19; // [esp+10h] [ebp-45Ch]
-  int v20; // [esp+14h] [ebp-458h]
-  const char *key_name; // [esp+18h] [ebp-454h]
-  survarium::flash_value bind_value[3]; // [esp+1Ch] [ebp-450h] BYREF
-  char v23; // [esp+64h] [ebp-408h] BYREF
-  wchar_t w_key_name_txt[512]; // [esp+6Ch] [ebp-400h] BYREF
+  survarium::key_bind_descr *v3; // ebx
+  int action_dik; // eax
+  survarium::key_binder *v5; // ecx
+  survarium::flash_value *v6; // ecx
+  survarium::flash_value *v7; // ecx
+  int v8; // edx
+  survarium::text_translator *v9; // ecx
+  vostok::buffer_string *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  vostok::buffer_string *v12; // ecx
+  char *v13; // esi
+  int i; // edi
+  survarium::flash_value *v15; // [esp-4h] [ebp-264h]
+  int v16; // [esp+0h] [ebp-260h]
+  char *v17; // [esp+10h] [ebp-250h]
+  int v18; // [esp+14h] [ebp-24Ch]
+  survarium::flash_value v19; // [esp+18h] [ebp-248h] BYREF
+  survarium::flash_value v20; // [esp+30h] [ebp-230h] BYREF
+  _BYTE v21[24]; // [esp+48h] [ebp-218h] BYREF
+  char value[512]; // [esp+60h] [ebp-200h] BYREF
 
-  v19 = survarium::key_bind_descriptions;
-  v20 = 33;
+  v3 = survarium::key_bind_descriptions;
+  v18 = 41;
   do
   {
-    action_id = v19->action_id;
-    v4 = (int)&is_default->m_game->m_key_binder->m_key_bindings[v19->action_id];
-    v5 = *(_DWORD *)(v4 + 4);
-    if ( v5 )
+    action_dik = survarium::key_binder::get_action_dik(
+                   v3->action_id,
+                   *(survarium::key_binder **)(*(_DWORD *)(is_default + 52) + 144),
+                   v16);
+    v17 = (char *)survarium::key_binder::dik_to_keyname(v5, action_dik);
+    v6 = &v19;
+    do
     {
-      v6 = *(_DWORD *)(v5 + 4);
+      survarium::flash_value::flash_value(v6);
+      v6 = v7 + 1;
+    }
+    while ( v8 - 1 >= 0 );
+    survarium::flash_value::SetUInt(v6, (int)&v19, v3->action_id);
+    if ( v17 )
+    {
+      survarium::text_translator::translate_text(v9, *(_DWORD *)(is_default + 52) + 13944, v17, value);
+      survarium::flash_value::SetString(&v20, value);
+      vostok::fs_new::path_string_impl::assignf(
+        &v3->old_binded_key.m_begin,
+        v10,
+        (vostok::buffer_string *)&stru_7F9BE8.allocator,
+        v17);
+      v11 = v15;
     }
     else
     {
-      v7 = *(_DWORD *)(v4 + 8);
-      if ( v7 )
-        v6 = *(_DWORD *)(v7 + 4);
-      else
-        v6 = 0;
+      vostok::fs_new::path_string_impl::assignf(
+        &v3->old_binded_key.m_begin,
+        (vostok::buffer_string *)v9,
+        (vostok::buffer_string *)&stru_7F9BE8.allocator,
+        uri);
+      survarium::flash_value::SetString(&v20, uri);
     }
-    v8 = 0;
-    if ( !survarium::keyboards[0].key_name )
-      goto LABEL_11;
-    v9 = 0;
-    while ( dword_9C4224[v9] != v6 )
-    {
-      ++v8;
-      v9 = 34 * v8;
-      if ( !survarium::keyboards[v8].key_name )
-        goto LABEL_11;
-    }
-    v14 = &survarium::keyboards[v8];
-    if ( v14 )
-    {
-      v10 = v14->key_name;
-      key_name = v14->key_name;
-    }
-    else
-    {
-LABEL_11:
-      key_name = 0;
-      v10 = 0;
-    }
-    v11 = bind_value;
-    for ( i = 2; i >= 0; --i )
-    {
-      if ( v11 )
-      {
-        *(_DWORD *)v11->body = 0;
-        *(_DWORD *)&v11->body[4] = 0;
-      }
-      ++v11;
-    }
-    if ( (bind_value[0].body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)bind_value[0].body + 8))(
-        *(_DWORD *)bind_value[0].body,
-        bind_value,
-        *(_DWORD *)&bind_value[0].body[8]);
-      *(_DWORD *)bind_value[0].body = 0;
-    }
-    *(_DWORD *)&bind_value[0].body[4] = 4;
-    *(_DWORD *)&bind_value[0].body[8] = action_id;
-    if ( v10 )
-    {
-      survarium::text_translator::translate_text(&is_default->m_game->m_text_translator, v10, w_key_name_txt);
-      survarium::flash_value::SetStringW(&bind_value[1], w_key_name_txt);
-      p_m_begin = (const char **)&v19->old_binded_key.m_begin;
-      vostok::buffer_string::assignf(&v19->old_binded_key, "%s", key_name);
-    }
-    else
-    {
-      p_m_begin = (const char **)&v19->old_binded_key.m_begin;
-      vostok::buffer_string::assignf(&v19->old_binded_key, "%s", (const char *)&buf);
-      survarium::flash_value::SetStringW(&bind_value[1], &word_96B534);
-    }
-    if ( (bind_value[2].body[4] & 0x40) != 0 )
-    {
-      (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)bind_value[2].body + 8))(
-        *(_DWORD *)bind_value[2].body,
-        &bind_value[2],
-        *(_DWORD *)&bind_value[2].body[8]);
-      *(_DWORD *)bind_value[2].body = 0;
-    }
-    v18 = *p_m_begin;
-    *(_DWORD *)&bind_value[2].body[4] = 2;
-    bind_value[2].body[8] = is_defaulta;
-    vostok::buffer_string::assignf(&v19->new_binded_key, "%s", v18);
+    survarium::flash_value::SetBoolean(v11, (int)v21, a3);
+    vostok::fs_new::path_string_impl::assignf(
+      &v3->new_binded_key.m_begin,
+      v12,
+      (vostok::buffer_string *)&stru_7F9BE8.allocator,
+      v3->old_binded_key.m_begin);
     Scaleform::GFx::Movie::Invoke(
-      is_default->m_options_ui.m_object->movie->m_movie,
+      *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(is_default + 12) + 264) + 4),
       "root.set_keybind",
       0,
-      (const Scaleform::GFx::Value *)bind_value,
+      (const Scaleform::GFx::Value *)&v19,
       3u);
-    v15 = &v23;
-    for ( j = 2; j >= 0; --j )
+    v13 = value;
+    for ( i = 2; i >= 0; --i )
     {
-      v17 = *((_DWORD *)v15 - 5);
-      v15 -= 24;
-      if ( (v17 & 0x40) != 0 )
-      {
-        (*(void (__stdcall **)(char *, _DWORD))(**(_DWORD **)v15 + 8))(v15, *((_DWORD *)v15 + 2));
-        *(_DWORD *)v15 = 0;
-      }
-      *((_DWORD *)v15 + 1) = 0;
+      v13 -= 24;
+      Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)v13);
     }
-    ++v19;
-    --v20;
+    ++v3;
+    --v18;
   }
-  while ( v20 );
+  while ( v18 );
 }

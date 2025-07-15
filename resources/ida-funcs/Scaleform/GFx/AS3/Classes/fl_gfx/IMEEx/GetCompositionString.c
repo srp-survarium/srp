@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::IMEEx::GetCompositionStrin
   void (__thiscall *v2)(Scaleform::GFx::AS3::VM *); // eax
   Scaleform::RefCountVImpl *v3; // eax
   Scaleform::RefCountVImpl *v4; // esi
-  const wchar_t *v5; // eax
+  wchar_t *v5; // eax
   void *v6; // esi
   Scaleform::String compString; // [esp+4h] [ebp-4h] BYREF
 
@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::IMEEx::GetCompositionStrin
     if ( v3 )
     {
       Scaleform::RefCountImpl::Release(v3);
-      v5 = (const wchar_t *)((int (__thiscall *)(Scaleform::RefCountVImpl *))v4->__vftable[7].AddRef)(v4);
+      v5 = (wchar_t *)((int (__thiscall *)(Scaleform::RefCountVImpl *))v4->__vftable[7].AddRef)(v4);
       Scaleform::String::String(&compString, v5);
       Scaleform::GFx::ASString::operator=<Scaleform::String>(result, &compString);
       v6 = (void *)(compString.HeapTypeBits & 0xFFFFFFFC);

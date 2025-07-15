@@ -1,24 +1,43 @@
-void __thiscall survarium::damage_zone_core::deactivate(survarium::damage_zone_core *this)
+void __thiscall survarium::damage_zone_core::deactivate(survarium::damage_zone_core *this, int forced, int a3)
 {
-  survarium::hit_receiver_info *end; // [esp+64h] [ebp-8h]
-  survarium::hit_receiver_info *it; // [esp+68h] [ebp-4h]
+  stlp_std::priv::_Impl_vector<vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy>,survarium::std_allocator<vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy> > > *v4; // ecx
+  int **v5; // edi
+  int *v6; // eax
+  int v7; // eax
+  int v8; // eax
+  int v9; // esi
+  int v10; // eax
+  int **i; // [esp+14h] [ebp+8h]
 
-  survarium::collision_sensor::remove(this);
-  survarium::scheduler::unregister(this->m_scheduler, &this->m_scheduler_identifier);
-  this->m_scheduler = 0;
-  if ( this->m_owner )
+  survarium::collision_sensor::remove((survarium::collision_sensor *)this, forced + 264);
+  *(_DWORD *)(forced + 424) = 0;
+  if ( !(_BYTE)a3 )
   {
-    it = this->m_receivers._M_impl._M_start;
-    end = this->m_receivers._M_impl._M_finish;
-    while ( it != end )
+    if ( *(_DWORD *)(forced + 428) )
     {
-      if ( this )
-        it->m_receiver->unsubscribe_from_actions(it->m_receiver, &this->survarium::player_actions_subscriber);
-      else
-        it->m_receiver->unsubscribe_from_actions(it->m_receiver, 0);
-      ++it;
+      v5 = *(int ***)(forced + 344);
+      for ( i = *(int ***)(forced + 348); v5 != i; ++v5 )
+      {
+        v6 = *v5;
+        if ( *v5 && *v6 )
+        {
+          v7 = *v6;
+          if ( v7 )
+            v8 = v7 - 4;
+          else
+            v8 = 0;
+          v9 = (***(int (__thiscall ****)(_DWORD))(v8 + 12))(*(_DWORD *)(v8 + 12));
+          (*(void (__thiscall **)(int, int))(*(_DWORD *)v9 + 40))(v9, forced + 312);
+          v10 = (*(int (__thiscall **)(int))(*(_DWORD *)v9 + 8))(v9);
+          --*(_BYTE *)(v10 + 708);
+        }
+      }
     }
   }
-  stlp_std::priv::_Impl_vector<vostok::ai::planning::world_state_property,vostok::ai::std_allocator<vostok::ai::planning::world_state_property>>::clear((stlp_std::priv::_Impl_vector<vostok::ai::planning::world_state_property,vostok::ai::std_allocator<vostok::ai::planning::world_state_property> > *)&this->m_receivers);
-  this->m_owner = 0;
+  stlp_std::priv::_Impl_vector<vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy>,survarium::std_allocator<vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy>>>::erase(
+    v4,
+    forced + 344,
+    *(vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy> **)(forced + 344),
+    *(vostok::physics::loose_ptr<vostok::physics::base_physics_object,vostok::physics::loose_ptr_data,vostok::threading::multi_threading_policy> **)(forced + 348));
+  (*(void (__thiscall **)(int, int))(*(_DWORD *)forced + 32))(forced, a3);
 }

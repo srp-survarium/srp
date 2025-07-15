@@ -1,8 +1,8 @@
 void __cdecl vostok::network::destroy_world(vostok::network::world **world)
 {
-  survarium::game_camera *v1; // ecx
-
-  survarium::weapon_user_dead_state::finalize(v1);
-  vostok::uninitialized_reference<vostok::network::network_world>::destroy(&s_world_5);
+  ((void (__thiscall *)(vostok::network::network_world *, _DWORD))s_world_2.m_variable->~vostok::network::network_world)(
+    s_world_2.m_variable,
+    0);
+  s_world_2.m_initialized = 0;
   *world = 0;
 }

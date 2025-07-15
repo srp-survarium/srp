@@ -3,11 +3,11 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::RecreateVisibleTextLayout(
 {
   Scaleform::Render::TreeText *RenderNode; // edi
   Scaleform::GFx::StaticTextCharacter::HighlightDesc *pHighlight; // ecx
-  Scaleform::Render::TextFieldParam params; // [esp+C80h] [ebp-64Ch] BYREF
-  Scaleform::Render::TextLayout::Builder b; // [esp+CACh] [ebp-620h] BYREF
+  Scaleform::Render::TextFieldParam params; // [esp+14h] [ebp-64Ch] BYREF
+  Scaleform::Render::TextLayout::Builder bld; // [esp+40h] [ebp-620h] BYREF
 
   RenderNode = (Scaleform::Render::TreeText *)Scaleform::GFx::DisplayObjectBase::GetRenderNode(this);
-  Scaleform::Render::TextLayout::Builder::Builder(&b, Scaleform::Memory::pGlobalHeap);
+  Scaleform::Render::TextLayout::Builder::Builder(&bld, Scaleform::Memory::pGlobalHeap);
   pHighlight = this->pHighlight;
   if ( pHighlight && !pHighlight->HighlightManager.Valid )
   {
@@ -29,13 +29,13 @@ void __thiscall Scaleform::GFx::StaticTextCharacter::RecreateVisibleTextLayout(
   }
   Scaleform::Render::Text::LineBuffer::CreateVisibleTextLayout(
     &this->TextGlyphRecords,
-    &b,
+    &bld,
     &this->pHighlight->HighlightManager,
     &params);
-  b.Bounds.x1 = this->TextGlyphRecords.Geom.VisibleRect.x1;
-  b.Bounds.y1 = this->TextGlyphRecords.Geom.VisibleRect.y1;
-  b.Bounds.x2 = this->TextGlyphRecords.Geom.VisibleRect.x2;
-  b.Bounds.y2 = this->TextGlyphRecords.Geom.VisibleRect.y2;
-  Scaleform::Render::TreeText::SetLayout(RenderNode, &b);
-  Scaleform::Render::TextLayout::Builder::~Builder(&b);
+  bld.Bounds.x1 = this->TextGlyphRecords.Geom.VisibleRect.x1;
+  bld.Bounds.y1 = this->TextGlyphRecords.Geom.VisibleRect.y1;
+  bld.Bounds.x2 = this->TextGlyphRecords.Geom.VisibleRect.x2;
+  bld.Bounds.y2 = this->TextGlyphRecords.Geom.VisibleRect.y2;
+  Scaleform::Render::TreeText::SetLayout(RenderNode, &bld);
+  Scaleform::Render::TextLayout::Builder::~Builder(&bld);
 }

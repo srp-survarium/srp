@@ -1,147 +1,151 @@
 char __thiscall Scaleform::GFx::ConstShapeWithStyles::Read(
         Scaleform::GFx::ConstShapeWithStyles *this,
-        Scaleform::GFx::LoadProcess *p,
-        Scaleform::Render::FillStyleType *tagType,
+        __int64 p,
         unsigned int lenInBytes,
         bool withStyle)
 {
-  Scaleform::Render::StrokeStyleType *v6; // edi
+  Scaleform::Render::StrokeStyleType *v5; // edi
   unsigned int Size; // edi
-  unsigned int v9; // esi
-  unsigned __int8 *v10; // eax
-  unsigned int v11; // edi
-  unsigned __int8 *v12; // ebp
+  unsigned int v8; // esi
+  unsigned __int8 *v9; // eax
+  unsigned int v10; // edi
+  unsigned __int8 *v11; // ebp
   Scaleform::GFx::Resource **p_pFill; // esi
-  Scaleform::Ptr<Scaleform::Render::ComplexFill> *v14; // edi
-  char *v15; // eax
-  float *v16; // esi
+  Scaleform::Ptr<Scaleform::Render::ComplexFill> *v13; // edi
+  char *v14; // eax
+  float *v15; // esi
   Scaleform::GFx::Resource *pObject; // ecx
   Scaleform::Render::StrokeStyleType *Data; // edx
-  Scaleform::Ptr<Scaleform::Render::ComplexFill> *v19; // ebx
-  Scaleform::RefCountVImpl *v20; // ecx
-  Scaleform::RefCountVImpl **v21; // esi
-  unsigned int v22; // ebx
-  Scaleform::GFx::ShapeSwfReader reader; // [esp+10h] [ebp-20h] BYREF
-  unsigned int i; // [esp+34h] [ebp+4h]
-  char *withStylea; // [esp+40h] [ebp+10h]
+  Scaleform::Ptr<Scaleform::Render::ComplexFill> *v18; // ebx
+  Scaleform::RefCountVImpl *v19; // ecx
+  Scaleform::RefCountVImpl **v20; // esi
+  unsigned int v21; // ebx
+  Scaleform::GFx::ShapeSwfReader v22; // [esp+10h] [ebp-20h] BYREF
+  unsigned int v23; // [esp+34h] [ebp+4h]
+  char *v24; // [esp+40h] [ebp+10h]
 
-  reader.pAllocator = p->pLoadData.pObject->pPathAllocator;
-  reader.Shape = this;
-  memset(&reader.FillStyles, 0, 24);
-  if ( Scaleform::GFx::ShapeSwfReader::Read(&reader, p, tagType, lenInBytes, withStyle) )
+  v22.pAllocator = *(Scaleform::GFx::PathAllocator **)(*(_DWORD *)(p + 32) + 24);
+  v22.Shape = this;
+  memset(&v22.FillStyles, 0, 24);
+  if ( Scaleform::GFx::ShapeSwfReader::Read(&v22, p, lenInBytes, withStyle) )
   {
-    Size = reader.FillStyles.Data.Size;
-    v9 = reader.StrokeStyles.Data.Size;
-    this->FillStylesNum = reader.FillStyles.Data.Size;
-    this->StrokeStylesNum = v9;
-    if ( Size || v9 )
+    Size = v22.FillStyles.Data.Size;
+    v8 = v22.StrokeStyles.Data.Size;
+    this->FillStylesNum = v22.FillStyles.Data.Size;
+    this->StrokeStylesNum = v8;
+    if ( Size || v8 )
     {
-      v10 = (unsigned __int8 *)p->pLoadData.pObject->pHeap->Alloc(p->pLoadData.pObject->pHeap, 8 * Size + 28 * v9, 0);
-      v11 = 0;
-      this->Styles = v10;
-      v12 = v10;
+      v9 = (unsigned __int8 *)(*(int (__thiscall **)(_DWORD, unsigned int, _DWORD))(**(_DWORD **)(*(_DWORD *)(p + 32)
+                                                                                                + 28)
+                                                                                  + 40))(
+                                *(_DWORD *)(*(_DWORD *)(p + 32) + 28),
+                                8 * Size + 28 * v8,
+                                0);
+      v10 = 0;
+      this->Styles = v9;
+      v11 = v9;
       if ( this->FillStylesNum )
       {
-        p_pFill = (Scaleform::GFx::Resource **)&reader.FillStyles.Data.Data->pFill;
+        p_pFill = (Scaleform::GFx::Resource **)&v22.FillStyles.Data.Data->pFill;
         do
         {
-          if ( v12 )
+          if ( v11 )
           {
-            *(_DWORD *)v12 = *(p_pFill - 1);
+            *(_DWORD *)v11 = *(p_pFill - 1);
             if ( *p_pFill )
               Scaleform::RefCountImpl::AddRef(*p_pFill);
-            *((_DWORD *)v12 + 1) = *p_pFill;
+            *((_DWORD *)v11 + 1) = *p_pFill;
           }
-          ++v11;
-          v12 += 8;
+          ++v10;
+          v11 += 8;
           p_pFill += 2;
         }
-        while ( v11 < this->FillStylesNum );
-        v9 = reader.StrokeStyles.Data.Size;
+        while ( v10 < this->FillStylesNum );
+        v8 = v22.StrokeStyles.Data.Size;
       }
-      i = 0;
+      v23 = 0;
       if ( this->StrokeStylesNum )
       {
-        v14 = &reader.StrokeStyles.Data.Data->pFill;
-        v15 = (char *)((char *)reader.StrokeStyles.Data.Data - (char *)v12);
-        v16 = (float *)(v12 + 4);
-        withStylea = (char *)((char *)reader.StrokeStyles.Data.Data - (char *)v12);
+        v13 = &v22.StrokeStyles.Data.Data->pFill;
+        v14 = (char *)((char *)v22.StrokeStyles.Data.Data - (char *)v11);
+        v15 = (float *)(v11 + 4);
+        v24 = (char *)((char *)v22.StrokeStyles.Data.Data - (char *)v11);
         do
         {
-          if ( v16 != (float *)4 )
+          if ( v15 != (float *)4 )
           {
-            *(v16 - 1) = *(float *)&v14[-5].pObject;
-            *v16 = *(float *)((char *)v16 + (_DWORD)v15);
-            v16[1] = *(float *)&v14[-3].pObject;
-            v16[2] = *(float *)&v14[-2].pObject;
-            v16[3] = *(float *)&v14[-1].pObject;
-            if ( v14->pObject )
-              Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v14->pObject);
-            v16[4] = *(float *)&v14->pObject;
-            pObject = (Scaleform::GFx::Resource *)v14[1].pObject;
+            *(v15 - 1) = *(float *)&v13[-5].pObject;
+            *v15 = *(float *)((char *)v15 + (_DWORD)v14);
+            v15[1] = *(float *)&v13[-3].pObject;
+            v15[2] = *(float *)&v13[-2].pObject;
+            v15[3] = *(float *)&v13[-1].pObject;
+            if ( v13->pObject )
+              Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v13->pObject);
+            v15[4] = *(float *)&v13->pObject;
+            pObject = (Scaleform::GFx::Resource *)v13[1].pObject;
             if ( pObject )
               Scaleform::RefCountImpl::AddRef(pObject);
-            v15 = withStylea;
-            v16[5] = *(float *)&v14[1].pObject;
+            v14 = v24;
+            v15[5] = *(float *)&v13[1].pObject;
           }
-          v14 += 7;
-          v16 += 7;
-          ++i;
+          v13 += 7;
+          v15 += 7;
+          ++v23;
         }
-        while ( i < this->StrokeStylesNum );
-        v9 = reader.StrokeStyles.Data.Size;
+        while ( v23 < this->StrokeStylesNum );
+        v8 = v22.StrokeStyles.Data.Size;
       }
-      Size = reader.FillStyles.Data.Size;
+      Size = v22.FillStyles.Data.Size;
     }
     else
     {
       this->Styles = 0;
     }
-    Data = reader.StrokeStyles.Data.Data;
-    if ( v9 )
+    Data = v22.StrokeStyles.Data.Data;
+    if ( v8 )
     {
-      v19 = &reader.StrokeStyles.Data.Data[v9 - 1].pFill;
+      v18 = &v22.StrokeStyles.Data.Data[v8 - 1].pFill;
       do
       {
-        v20 = (Scaleform::RefCountVImpl *)v19[1].pObject;
-        if ( v20 )
-          Scaleform::RefCountImpl::Release(v20);
-        if ( v19->pObject )
-          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v19->pObject);
-        v19 -= 7;
-        --v9;
+        v19 = (Scaleform::RefCountVImpl *)v18[1].pObject;
+        if ( v19 )
+          Scaleform::RefCountImpl::Release(v19);
+        if ( v18->pObject )
+          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v18->pObject);
+        v18 -= 7;
+        --v8;
       }
-      while ( v9 );
-      Data = reader.StrokeStyles.Data.Data;
+      while ( v8 );
+      Data = v22.StrokeStyles.Data.Data;
     }
     if ( Data )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
     if ( Size )
     {
-      v21 = (Scaleform::RefCountVImpl **)&reader.FillStyles.Data.Data[Size - 1].pFill;
-      v22 = Size;
+      v20 = (Scaleform::RefCountVImpl **)&v22.FillStyles.Data.Data[Size - 1].pFill;
+      v21 = Size;
       do
       {
-        if ( *v21 )
-          Scaleform::RefCountImpl::Release(*v21);
-        v21 -= 2;
-        --v22;
+        if ( *v20 )
+          Scaleform::RefCountImpl::Release(*v20);
+        v20 -= 2;
+        --v21;
       }
-      while ( v22 );
+      while ( v21 );
     }
-    if ( reader.FillStyles.Data.Data )
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, reader.FillStyles.Data.Data);
+    if ( v22.FillStyles.Data.Data )
+      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v22.FillStyles.Data.Data);
     return 1;
   }
   else
   {
-    v6 = reader.StrokeStyles.Data.Data;
+    v5 = v22.StrokeStyles.Data.Data;
     Scaleform::ConstructorMov<Scaleform::Render::StrokeStyleType>::DestructArray(
-      reader.StrokeStyles.Data.Data,
-      reader.StrokeStyles.Data.Size);
-    if ( v6 )
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v6);
-    Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,259>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,259>,Scaleform::ArrayDefaultPolicy>(&reader.FillStyles.Data);
+      v22.StrokeStyles.Data.Data,
+      v22.StrokeStyles.Data.Size);
+    if ( v5 )
+      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v5);
+    Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,259>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorGH<Scaleform::Render::FillStyleType,259>,Scaleform::ArrayDefaultPolicy>(&v22.FillStyles.Data);
     return 0;
   }
 }

@@ -1,97 +1,114 @@
-void __usercall btRigidBody::setupRigidBody(
-        btRigidBody *this@<esi>,
-        const btRigidBody::btRigidBodyConstructionInfo *constructionInfo@<edi>)
+void __thiscall btRigidBody::setupRigidBody(btRigidBody *this, btRigidBody *constructionInfo, int a4)
 {
-  const vostok::math::float4x4 *v2; // xmm0_4
-  btTransform *p_m_worldTransform; // ebx
+  float v4; // xmm1_4
+  float v5; // xmm3_4
+  float *v6; // ecx
+  float *v7; // ecx
+  btMotionState *v8; // ecx
   btMotionState *m_optionalMotionState; // ecx
-  btRigidBody_vtbl *v5; // edx
-  void (__thiscall *setCollisionShape)(struct btRigidBody *, btCollisionShape *); // edx
-  int v7; // eax
-  float m_mass; // xmm1_4
-  btRigidBody *v9; // ecx
+  btRigidBody_vtbl *v10; // eax
+  int v11; // eax
+  btRigidBody *v12; // ecx
   float m_inverseMass; // xmm1_4
-  unsigned int v11; // xmm2_4
-  unsigned __int64 v12; // [esp+18h] [ebp-10h]
+  float v14; // xmm2_4
+  int v15; // [esp+4h] [ebp-20h] BYREF
+  float v16; // [esp+8h] [ebp-1Ch] BYREF
+  float v17; // [esp+Ch] [ebp-18h] BYREF
+  float v18; // [esp+10h] [ebp-14h] BYREF
+  btVector3 v19; // [esp+14h] [ebp-10h]
 
-  v2 = clear_value;
-  this->m_internalType = 2;
-  this->m_linearVelocity.mVec128.m128_u64[0] = 0;
-  this->m_linearVelocity.mVec128.m128_u64[1] = 0;
-  this->m_angularVelocity.mVec128.m128_u64[0] = 0;
-  this->m_angularVelocity.mVec128.m128_u64[1] = 0;
-  this->m_angularFactor.mVec128.m128_i32[0] = (int)v2;
-  this->m_angularFactor.mVec128.m128_i32[1] = (int)v2;
-  this->m_angularFactor.mVec128.m128_u64[1] = (unsigned int)v2;
-  this->m_linearFactor.mVec128.m128_i32[0] = (int)v2;
-  this->m_linearFactor.mVec128.m128_i32[1] = (int)v2;
-  this->m_linearFactor.mVec128.m128_u64[1] = (unsigned int)v2;
-  this->m_gravity.mVec128.m128_u64[0] = 0;
-  this->m_gravity.mVec128.m128_u64[1] = 0;
-  this->m_gravity_acceleration.mVec128.m128_u64[0] = 0;
-  this->m_gravity_acceleration.mVec128.m128_u64[1] = 0;
-  this->m_totalForce.mVec128.m128_u64[0] = 0;
-  this->m_totalForce.mVec128.m128_u64[1] = 0;
-  this->m_totalTorque.mVec128.m128_u64[0] = 0;
-  this->m_totalTorque.mVec128.m128_u64[1] = 0;
-  btRigidBody::setDamping(this, constructionInfo->m_linearDamping, constructionInfo->m_angularDamping);
-  p_m_worldTransform = &this->m_worldTransform;
-  this->m_linearSleepingThreshold = constructionInfo->m_linearSleepingThreshold;
-  this->m_angularSleepingThreshold = constructionInfo->m_angularSleepingThreshold;
-  this->m_optionalMotionState = constructionInfo->m_motionState;
-  this->m_contactSolverType = 0;
-  this->m_frictionSolverType = 0;
-  this->m_additionalDamping = constructionInfo->m_additionalDamping;
-  m_optionalMotionState = this->m_optionalMotionState;
-  this->m_additionalDampingFactor = constructionInfo->m_additionalDampingFactor;
-  this->m_additionalLinearDampingThresholdSqr = constructionInfo->m_additionalLinearDampingThresholdSqr;
-  this->m_additionalAngularDampingThresholdSqr = constructionInfo->m_additionalAngularDampingThresholdSqr;
-  this->m_additionalAngularDampingFactor = constructionInfo->m_additionalAngularDampingFactor;
-  if ( m_optionalMotionState )
+  v4 = s_bm_current_air_resistance;
+  constructionInfo->m_internalType = 2;
+  constructionInfo->m_linearVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_linearVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_angularVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_angularVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_angularFactor.mVec128.m128_f32[0] = v4;
+  constructionInfo->m_angularFactor.mVec128.m128_f32[1] = v4;
+  constructionInfo->m_angularFactor.mVec128.m128_u64[1] = LODWORD(v4);
+  constructionInfo->m_linearFactor.mVec128.m128_f32[0] = v4;
+  constructionInfo->m_linearFactor.mVec128.m128_f32[1] = v4;
+  constructionInfo->m_linearFactor.mVec128.m128_u64[1] = LODWORD(v4);
+  constructionInfo->m_gravity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_gravity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_gravity_acceleration.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_gravity_acceleration.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_totalForce.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_totalForce.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_totalTorque.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_totalTorque.mVec128.m128_u64[1] = 0;
+  v5 = *(float *)(a4 + 116);
+  v17 = *(float *)(a4 + 112);
+  v18 = v5;
+  v16 = v4;
+  v15 = 0;
+  if ( v17 >= 0.0 )
   {
-    m_optionalMotionState->getWorldTransform(m_optionalMotionState, &this->m_worldTransform);
+    v6 = &v16;
+    if ( v17 <= v4 )
+      v6 = &v17;
   }
   else
   {
-    p_m_worldTransform->m_basis.m_el[0].mVec128.m128_u64[0] = constructionInfo->m_startWorldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
-    this->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1] = constructionInfo->m_startWorldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-    this->m_worldTransform.m_basis.m_el[1] = constructionInfo->m_startWorldTransform.m_basis.m_el[1];
-    this->m_worldTransform.m_basis.m_el[2] = constructionInfo->m_startWorldTransform.m_basis.m_el[2];
-    this->m_worldTransform.m_origin = constructionInfo->m_startWorldTransform.m_origin;
+    v6 = (float *)&v15;
   }
-  this->m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_u64[0] = p_m_worldTransform->m_basis.m_el[0].mVec128.m128_u64[0];
-  this->m_interpolationWorldTransform.m_basis.m_el[0].mVec128.m128_u64[1] = this->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-  this->m_interpolationWorldTransform.m_basis.m_el[1] = this->m_worldTransform.m_basis.m_el[1];
-  this->m_interpolationWorldTransform.m_basis.m_el[2] = this->m_worldTransform.m_basis.m_el[2];
-  this->m_interpolationWorldTransform.m_origin = this->m_worldTransform.m_origin;
-  this->m_interpolationLinearVelocity.mVec128.m128_u64[0] = 0;
-  this->m_interpolationLinearVelocity.mVec128.m128_u64[1] = 0;
-  this->m_interpolationAngularVelocity.mVec128.m128_u64[0] = 0;
-  this->m_interpolationAngularVelocity.mVec128.m128_u64[1] = 0;
-  v5 = this->__vftable;
-  this->m_friction = constructionInfo->m_friction;
-  setCollisionShape = v5->setCollisionShape;
-  this->m_restitution = constructionInfo->m_restitution;
-  setCollisionShape(this, constructionInfo->m_collisionShape);
-  v7 = uniqueId;
-  this->m_debugBodyId = uniqueId;
-  m_mass = constructionInfo->m_mass;
-  uniqueId = v7 + 1;
-  btRigidBody::setMassProps(this, &constructionInfo->m_localInertia, m_mass);
-  btRigidBody::updateInertiaTensor(v9, (int)this);
-  this->m_rigidbodyFlags = 0;
-  this->m_deltaLinearVelocity.mVec128.m128_u64[0] = 0;
-  this->m_deltaLinearVelocity.mVec128.m128_u64[1] = 0;
-  this->m_deltaAngularVelocity.mVec128.m128_u64[0] = 0;
-  this->m_deltaAngularVelocity.mVec128.m128_u64[1] = 0;
-  m_inverseMass = this->m_inverseMass;
-  *(float *)&v12 = m_inverseMass * this->m_linearFactor.mVec128.m128_f32[0];
-  *((float *)&v12 + 1) = this->m_linearFactor.mVec128.m128_f32[1] * m_inverseMass;
-  *(float *)&v11 = this->m_linearFactor.mVec128.m128_f32[2] * m_inverseMass;
-  this->m_invMass.mVec128.m128_u64[0] = v12;
-  this->m_invMass.mVec128.m128_u64[1] = v11;
-  this->m_pushVelocity.mVec128.m128_u64[0] = 0;
-  this->m_pushVelocity.mVec128.m128_u64[1] = 0;
-  this->m_turnVelocity.mVec128.m128_u64[0] = 0;
-  this->m_turnVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_linearDamping = *v6;
+  v16 = v4;
+  v17 = 0.0;
+  if ( v5 >= 0.0 )
+  {
+    v7 = &v16;
+    if ( v5 <= v4 )
+      v7 = &v18;
+  }
+  else
+  {
+    v7 = &v17;
+  }
+  constructionInfo->m_angularDamping = *v7;
+  constructionInfo->m_linearSleepingThreshold = *(float *)(a4 + 128);
+  constructionInfo->m_angularSleepingThreshold = *(float *)(a4 + 132);
+  v8 = *(btMotionState **)(a4 + 4);
+  constructionInfo->m_contactSolverType = 0;
+  constructionInfo->m_frictionSolverType = 0;
+  constructionInfo->m_optionalMotionState = v8;
+  constructionInfo->m_additionalDamping = *(_BYTE *)(a4 + 136);
+  m_optionalMotionState = constructionInfo->m_optionalMotionState;
+  constructionInfo->m_additionalDampingFactor = *(float *)(a4 + 140);
+  constructionInfo->m_additionalLinearDampingThresholdSqr = *(float *)(a4 + 144);
+  constructionInfo->m_additionalAngularDampingThresholdSqr = *(float *)(a4 + 148);
+  constructionInfo->m_additionalAngularDampingFactor = *(float *)(a4 + 152);
+  if ( m_optionalMotionState )
+    m_optionalMotionState->getWorldTransform(m_optionalMotionState, &constructionInfo->m_worldTransform);
+  else
+    constructionInfo->m_worldTransform = *(btTransform *)(a4 + 16);
+  constructionInfo->m_interpolationWorldTransform = constructionInfo->m_worldTransform;
+  constructionInfo->m_interpolationLinearVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_interpolationLinearVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_interpolationAngularVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_interpolationAngularVelocity.mVec128.m128_u64[1] = 0;
+  v10 = constructionInfo->__vftable;
+  constructionInfo->m_friction = *(float *)(a4 + 120);
+  constructionInfo->m_restitution = *(float *)(a4 + 124);
+  v10->setCollisionShape(constructionInfo, *(btCollisionShape **)(a4 + 80));
+  v11 = uniqueId++;
+  constructionInfo->m_debugBodyId = v11;
+  btRigidBody::setMassProps(constructionInfo, (const btVector3 *)(a4 + 96), *(float *)a4);
+  btRigidBody::updateInertiaTensor(v12, (int)constructionInfo);
+  constructionInfo->m_rigidbodyFlags = 0;
+  constructionInfo->m_deltaLinearVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_deltaLinearVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_deltaAngularVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_deltaAngularVelocity.mVec128.m128_u64[1] = 0;
+  m_inverseMass = constructionInfo->m_inverseMass;
+  v19.mVec128.m128_f32[0] = m_inverseMass * constructionInfo->m_linearFactor.mVec128.m128_f32[0];
+  v19.mVec128.m128_f32[1] = constructionInfo->m_linearFactor.mVec128.m128_f32[1] * m_inverseMass;
+  v14 = constructionInfo->m_linearFactor.mVec128.m128_f32[2];
+  v19.mVec128.m128_i32[3] = 0;
+  v19.mVec128.m128_f32[2] = v14 * m_inverseMass;
+  constructionInfo->m_invMass = (btVector3)v19.mVec128;
+  constructionInfo->m_pushVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_pushVelocity.mVec128.m128_u64[1] = 0;
+  constructionInfo->m_turnVelocity.mVec128.m128_u64[0] = 0;
+  constructionInfo->m_turnVelocity.mVec128.m128_u64[1] = 0;
 }

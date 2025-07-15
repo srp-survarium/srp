@@ -91,7 +91,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Rectangle::toString(
   ++v54.pNode->RefCount;
   v52.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v52.pNode->RefCount;
@@ -104,7 +104,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Rectangle::toString(
   ++v50.pNode->RefCount;
   v49.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++v49.pNode->RefCount;
@@ -117,7 +117,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Rectangle::toString(
   ++v55.pNode->RefCount;
   str.pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
                 this->pTraits.pObject->pVM->StringManagerRef->pStringManager,
-                (char *)&stru_95AF78.m_key_bindings[32],
+                ", ",
                 2u,
                 0);
   ++str.pNode->RefCount;

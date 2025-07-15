@@ -1,64 +1,47 @@
-unsigned int __cdecl survarium::player_logic_base_state::movement_animation_index(const survarium::player_input *input)
+int __thiscall survarium::player_logic_base_state::movement_animation_index(const survarium::player_input *input)
 {
-  bool move_bwd_pressed; // [esp+0h] [ebp-4h]
-  bool move_right_pressed; // [esp+1h] [ebp-3h]
-  bool move_fwd_pressed; // [esp+2h] [ebp-2h]
-  bool move_left_pressed; // [esp+3h] [ebp-1h]
+  unsigned int actions_mask; // ecx
+  unsigned int v2; // edx
+  char v3; // al
+  bool v4; // bl
+  bool v5; // cl
+  char v6; // dl
 
-  move_fwd_pressed = (input->actions_mask & 1) != 0;
-  move_bwd_pressed = (input->actions_mask & 2) != 0;
-  move_left_pressed = (input->actions_mask & 4) != 0;
-  move_right_pressed = (input->actions_mask & 8) != 0;
-  if ( (input->actions_mask & 1) != 0 && (input->actions_mask & 2) != 0 )
+  actions_mask = input->actions_mask;
+  v2 = actions_mask >> 3;
+  v3 = actions_mask & 1;
+  v4 = (actions_mask & 2) != 0;
+  v5 = (actions_mask & 4) != 0;
+  v6 = v2 & 1;
+  if ( v3 && v4 )
   {
-    move_fwd_pressed = 0;
-    move_bwd_pressed = 0;
+    v3 = 0;
+    v4 = 0;
   }
-  if ( (input->actions_mask & 4) != 0 && (input->actions_mask & 8) != 0 )
+  if ( v5 )
   {
-    move_left_pressed = 0;
-    move_right_pressed = 0;
-  }
-  if ( move_fwd_pressed )
-  {
-    if ( move_left_pressed )
+    if ( v6 )
     {
+      v5 = 0;
+      v6 = 0;
+    }
+  }
+  if ( v3 )
+  {
+    if ( v5 )
       return 24;
-    }
-    else if ( move_right_pressed )
-    {
-      return 6;
-    }
-    else
-    {
-      return 3;
-    }
+    return v6 == 0 ? 3 : 6;
   }
-  else if ( move_bwd_pressed )
+  else if ( v4 )
   {
-    if ( move_left_pressed )
-    {
+    if ( v5 )
       return 18;
-    }
-    else if ( move_right_pressed )
-    {
-      return 12;
-    }
-    else
-    {
-      return 15;
-    }
-  }
-  else if ( move_left_pressed )
-  {
-    return 21;
-  }
-  else if ( move_right_pressed )
-  {
-    return 9;
+    return v6 == 0 ? 15 : 12;
   }
   else
   {
-    return 0;
+    if ( v5 )
+      return 21;
+    return v6 != 0 ? 9 : 0;
   }
 }

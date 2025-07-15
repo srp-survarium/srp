@@ -1,4 +1,4 @@
 void __thiscall survarium::player_logic_jump_state::execute(survarium::player_logic_jump_state *this)
 {
-  survarium::jump_logic::tick(&this->m_logic);
+  vostok::ai::fsm::tick((vostok::ai::fsm *)this, (int)&this->m_logic);
 }

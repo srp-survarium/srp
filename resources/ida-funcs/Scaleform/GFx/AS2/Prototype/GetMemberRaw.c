@@ -9,7 +9,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -24,7 +24,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->Elements.Data.Policy,
@@ -32,7 +32,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -51,7 +51,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ArrayObject,
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::ArrayObject::GetMemberRaw(this, psc, name, val);
 }
@@ -68,7 +68,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransfo
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -83,7 +83,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransfo
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)this->mColorTransform.M[1],
@@ -91,7 +91,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransfo
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -110,7 +110,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::ColorTransfo
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -127,7 +127,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,S
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -142,7 +142,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,S
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->LTime,
@@ -150,7 +150,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,S
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -169,7 +169,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::DateObject,S
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -187,7 +187,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GASIme,Scale
   bool v8; // bl
   Scaleform::GFx::ASStringNodeHolder *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+1Ch] [ebp+8h]
+  bool v13; // [esp+1Ch] [ebp+8h]
 
   v4 = psc->SWFVersion > 6u;
   v6 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[80];
@@ -201,7 +201,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GASIme,Scale
       Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(name->pNode);
     v7 = v6->pNode->pLower == name->pNode->pLower;
   }
-  namea = v7;
+  v13 = v7;
   if ( v7 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->ResolveHandler.pLocalFrame,
@@ -209,7 +209,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GASIme,Scale
              psc,
              name,
              val,
-             namea);
+             v13);
   v8 = psc->SWFVersion > 6u;
   v9 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[79];
   if ( v8 )
@@ -229,7 +229,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GASIme,Scale
              psc,
              name,
              val,
-             namea);
+             v13);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -246,7 +246,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterOb
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -261,7 +261,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterOb
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->ResolveHandler.Flags,
@@ -269,7 +269,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterOb
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -288,7 +288,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::GlowFilterOb
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -305,7 +305,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipObj
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -320,7 +320,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipObj
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->pWatchpoints,
@@ -328,7 +328,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipObj
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -347,7 +347,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::MovieClipObj
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -364,7 +364,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObj
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -379,7 +379,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObj
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->ResolveHandler.pLocalFrame,
@@ -387,7 +387,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObj
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -406,13 +406,13 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::RectangleObj
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
 
 
-char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObject,Scaleform::GFx::AS2::Environment>::GetMemberRaw(
+bool __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObject,Scaleform::GFx::AS2::Environment>::GetMemberRaw(
         Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StringObject,Scaleform::GFx::AS2::Environment> *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
         const Scaleform::GFx::ASString *name,
@@ -482,7 +482,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetOb
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -497,7 +497,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetOb
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->CSS.TempKey,
@@ -505,7 +505,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetOb
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -524,7 +524,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::StyleSheetOb
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -541,7 +541,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFormatOb
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -556,7 +556,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFormatOb
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->mParagraphFormat.pTabStops,
@@ -564,7 +564,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFormatOb
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -583,7 +583,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TextFormatOb
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -600,7 +600,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObj
   bool v8; // zf
   Scaleform::GFx::ASMovieRootBase *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+18h] [ebp+8h]
+  bool v12; // [esp+18h] [ebp+8h]
 
   pNode = name->pNode;
   p_RefCount = &psc->pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount;
@@ -615,7 +615,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObj
   {
     v8 = *p_RefCount == (_DWORD)pNode;
   }
-  namea = v8;
+  v12 = v8;
   if ( v8 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->mValue,
@@ -623,7 +623,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObj
              psc,
              name,
              val,
-             namea);
+             v12);
   v9 = psc->pContext->pMovieRoot->pASMovieRoot.pObject + 24;
   if ( psc->SWFVersion <= 6u )
   {
@@ -642,7 +642,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::TransformObj
              psc,
              name,
              val,
-             namea);
+             v12);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -660,7 +660,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObjec
   bool v8; // bl
   Scaleform::GFx::ASStringNodeHolder *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+1Ch] [ebp+8h]
+  bool v13; // [esp+1Ch] [ebp+8h]
 
   v4 = psc->SWFVersion > 6u;
   v6 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[80];
@@ -674,7 +674,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObjec
       Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(name->pNode);
     v7 = v6->pNode->pLower == name->pNode->pLower;
   }
-  namea = v7;
+  v13 = v7;
   if ( v7 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->pWatchpoints,
@@ -682,7 +682,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObjec
              psc,
              name,
              val,
-             namea);
+             v13);
   v8 = psc->SWFVersion > 6u;
   v9 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[79];
   if ( v8 )
@@ -702,7 +702,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlNodeObjec
              psc,
              name,
              val,
-             namea);
+             v13);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }
@@ -720,7 +720,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Sc
   bool v8; // bl
   Scaleform::GFx::ASStringNodeHolder *v9; // esi
   bool v10; // zf
-  bool namea; // [esp+1Ch] [ebp+8h]
+  bool v13; // [esp+1Ch] [ebp+8h]
 
   v4 = psc->SWFVersion > 6u;
   v6 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[80];
@@ -734,7 +734,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Sc
       Scaleform::GFx::ASStringNode::ResolveLowercase_Impl(name->pNode);
     v7 = v6->pNode->pLower == name->pNode->pLower;
   }
-  namea = v7;
+  v13 = v7;
   if ( v7 )
     return Scaleform::GFx::AS2::GASPrototypeBase::GetMemberRawConstructor(
              (Scaleform::GFx::AS2::GASPrototypeBase *)&this->BytesLoadedCurrent,
@@ -742,7 +742,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Sc
              psc,
              name,
              val,
-             namea);
+             v13);
   v8 = psc->SWFVersion > 6u;
   v9 = &Scaleform::GFx::AS2::GlobalContext::GetStringManager(psc->pContext)->Builtins[79];
   if ( v8 )
@@ -762,7 +762,7 @@ char __thiscall Scaleform::GFx::AS2::Prototype<Scaleform::GFx::AS2::XmlObject,Sc
              psc,
              name,
              val,
-             namea);
+             v13);
   else
     return Scaleform::GFx::AS2::Object::GetMemberRaw(this, psc, name, val);
 }

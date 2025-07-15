@@ -1,20 +1,27 @@
-void __thiscall survarium::weapon_user_animations_selector::tick(survarium::weapon_user_animations_selector *this)
+void __usercall survarium::weapon_user_animations_selector::tick(
+        survarium::weapon_user_animations_selector *this@<ecx>,
+        int a2@<eax>)
 {
-  survarium::player_input *v1; // eax
+  int v3; // edi
+  survarium::weapon_user_animations_selector *v4; // ecx
+  bool v5; // bl
+  _BYTE *v6; // eax
 
-  if ( (this->m_user->input(this->m_user)->actions_mask & 0x200) != 0 )
+  vostok::ai::fsm::tick(&this->m_logic, a2);
+  v3 = *(_DWORD *)(*(_DWORD *)(a2 + 60) + 320);
+  v5 = survarium::weapon_user_animations_selector::is_going_to_aim(v4, a2)
+    && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v3 + 88))(v3);
+  v6 = (_BYTE *)(*(int (__thiscall **)(int))(*(_DWORD *)v3 + 96))(v3);
+  if ( v6 )
   {
-    v1 = (survarium::player_input *)this->m_user->input(this->m_user);
-    if ( (!survarium::player_input::is_sprinting(v1)
-       || !survarium::weapon_user_animations_selector::is_weapon_in_idle(this))
-      && survarium::weapon_user_animations_selector::current_state(this)->m_weapon_user_state_id == type_sprint )
+    if ( v6[1108] )
     {
-      this->m_forced_not_to_sprint = 1;
+      if ( !v5 )
+        (*(void (__thiscall **)(_BYTE *))(*(_DWORD *)v6 + 148))(v6);
+    }
+    else if ( v5 )
+    {
+      (*(void (__thiscall **)(_BYTE *))(*(_DWORD *)v6 + 144))(v6);
     }
   }
-  else
-  {
-    this->m_forced_not_to_sprint = 0;
-  }
-  vostok::ai::fsm::tick(&this->m_logic);
 }

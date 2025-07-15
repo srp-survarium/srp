@@ -1,53 +1,66 @@
-void __thiscall vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(
-        survarium::game_camera *this,
-        int change,
-        vostok::vfs::lock_type_enum lock_type)
+void __userpurge vostok::vfs::vfs_reader_writer_lock::counters_type::change_unsafe(
+        vostok::vfs::vfs_reader_writer_lock::counters_type *this@<eax>,
+        vostok::vfs::lock_type_enum lock_type@<ecx>,
+        int change)
 {
-  if ( change == -1 )
+  $E3F6406041541B22B272F6C75322E84C v3; // ecx
+  int v4; // edx
+  unsigned int v5; // edx
+  int v6; // edx
+  bool v7; // zf
+  $E3F6406041541B22B272F6C75322E84C v8; // edx
+  int v9; // edx
+
+  if ( change != -1 )
   {
     if ( lock_type == lock_type_read )
     {
-      survarium::weapon_user_dead_state::finalize(this);
-      this->__vftable = (survarium::game_camera_vtbl *)(((((((unsigned int)this->__vftable >> 14) & 0x3FF) - 1) & 0x3FF) << 14)
-                                                      | (int)this->__vftable & 0xFF003FFF);
+      v3 = this->0;
+      v4 = (*(_DWORD *)&this->0 & 0xFFFFC000) + 0x4000;
+      goto LABEL_4;
     }
-    else if ( lock_type == (lock_type_write|lock_type_read) )
+    if ( lock_type == (lock_type_write|lock_type_read) )
     {
-      survarium::weapon_user_dead_state::finalize(this);
-      this->__vftable = (survarium::game_camera_vtbl *)((((int)this->__vftable & 0x3FFF) - 1) & 0x3FFF
-                                                      | (int)this->__vftable & 0xFFFFC000);
+      v3 = this->0;
+      v6 = *(_DWORD *)&this->0 + 1;
+      goto LABEL_7;
     }
-    else
+    v7 = lock_type == lock_type_write;
+    v3 = this->0;
+    v8 = this->0;
+    if ( v7 )
     {
-      survarium::weapon_user_dead_state::finalize(this);
-      if ( lock_type == lock_type_write )
-        this->__vftable = (survarium::game_camera_vtbl *)(((((int)this->__vftable & 0x40000000) == 0) << 30)
-                                                        | (int)this->__vftable & 0xBFFFFFFF);
-      else
-        this->__vftable = (survarium::game_camera_vtbl *)(((((((unsigned int)this->__vftable >> 24) & 0x3F) - 1) & 0x3F) << 24)
-                                                        | (int)this->__vftable & 0xC0FFFFFF);
+LABEL_9:
+      v5 = (*(_DWORD *)&v3 ^ (((*(unsigned int *)&v8 >> 30) - 1) << 30)) & 0x40000000;
+      goto LABEL_18;
     }
+    v9 = (int)&s_ui_commands_allocator.m_buffer[(*(_DWORD *)&v8 & 0xFF000000) + 2035360];
+LABEL_17:
+    v5 = (*(_DWORD *)&v3 ^ v9) & 0x3F000000;
+    goto LABEL_18;
   }
-  else if ( lock_type == lock_type_read )
+  if ( lock_type != lock_type_read )
   {
-    survarium::weapon_user_dead_state::finalize(this);
-    this->__vftable = (survarium::game_camera_vtbl *)(((((((unsigned int)this->__vftable >> 14) & 0x3FF) + 1) & 0x3FF) << 14)
-                                                    | (int)this->__vftable & 0xFF003FFF);
+    if ( lock_type == (lock_type_write|lock_type_read) )
+    {
+      v3 = this->0;
+      v6 = *(_DWORD *)&this->0 - 1;
+LABEL_7:
+      v5 = (*(_WORD *)&v3 ^ (unsigned __int16)v6) & 0x3FFF;
+      goto LABEL_18;
+    }
+    v7 = lock_type == lock_type_write;
+    v3 = this->0;
+    v8 = this->0;
+    if ( v7 )
+      goto LABEL_9;
+    v9 = (HIBYTE(*(unsigned int *)&v8) - 1) << 24;
+    goto LABEL_17;
   }
-  else if ( lock_type == (lock_type_write|lock_type_read) )
-  {
-    survarium::weapon_user_dead_state::finalize(this);
-    this->__vftable = (survarium::game_camera_vtbl *)((((int)this->__vftable & 0x3FFF) + 1) & 0x3FFF
-                                                    | (int)this->__vftable & 0xFFFFC000);
-  }
-  else
-  {
-    survarium::weapon_user_dead_state::finalize(this);
-    if ( lock_type == lock_type_write )
-      this->__vftable = (survarium::game_camera_vtbl *)(((((((int)this->__vftable & 0x40000000) != 0) + 1) & 1) << 30)
-                                                      | (int)this->__vftable & 0xBFFFFFFF);
-    else
-      this->__vftable = (survarium::game_camera_vtbl *)(((((((unsigned int)this->__vftable >> 24) & 0x3F) + 1) & 0x3F) << 24)
-                                                      | (int)this->__vftable & 0xC0FFFFFF);
-  }
+  v3 = this->0;
+  v4 = ((*(_DWORD *)&this->0 >> 14) - 1) << 14;
+LABEL_4:
+  v5 = (unsigned int)&s_ui_commands_allocator.m_buffer[2018976] & (*(_DWORD *)&v3 ^ v4);
+LABEL_18:
+  this->0 = ($E3F6406041541B22B272F6C75322E84C)(*(_DWORD *)&v3 ^ v5);
 }

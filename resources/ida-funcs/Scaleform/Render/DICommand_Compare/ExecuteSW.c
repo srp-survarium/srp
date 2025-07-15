@@ -7,9 +7,9 @@ void __thiscall Scaleform::Render::DICommand_Compare::ExecuteSW(
   Scaleform::Render::ImageData *v4; // ebp
   Scaleform::Render::ImageData *v5; // edi
   Scaleform::Render::TextureManager *v7; // eax
-  Scaleform::Render::ImageSwizzler *v8; // eax
+  int v8; // eax
   Scaleform::Render::TextureManager *v9; // eax
-  Scaleform::Render::ImageSwizzler *v10; // eax
+  int v10; // eax
   Scaleform::Render::TextureManager *v11; // eax
   Scaleform::Render::ImageData *v12; // esi
   unsigned int i; // edi
@@ -17,86 +17,92 @@ void __thiscall Scaleform::Render::DICommand_Compare::ExecuteSW(
   char v15; // al
   char v16; // cl
   char v17; // dl
-  unsigned __int8 s0Alpha; // [esp+3Ch] [ebp-9Ah]
-  unsigned __int8 s1Alpha; // [esp+3Dh] [ebp-99h]
-  Scaleform::Render::ImageData *dCol; // [esp+3Eh] [ebp-98h]
-  unsigned int dCola; // [esp+3Eh] [ebp-98h]
-  char delta_1; // [esp+43h] [ebp-93h]
-  Scaleform::Render::Color s1Col; // [esp+46h] [ebp-90h] BYREF
-  Scaleform::Render::Color s0Col; // [esp+4Ah] [ebp-8Ch] BYREF
-  Scaleform::Render::DICommand_Compare *v25; // [esp+4Eh] [ebp-88h]
-  Scaleform::Render::ImageSwizzlerContext src0Swiz; // [esp+52h] [ebp-84h] BYREF
-  Scaleform::Render::ImageSwizzlerContext dstSwiz; // [esp+6Ah] [ebp-6Ch] BYREF
-  Scaleform::Render::ImageSwizzlerContext src1Swiz; // [esp+82h] [ebp-54h] BYREF
-  Scaleform::Render::ImagePlane d; // [esp+9Ah] [ebp-3Ch] BYREF
-  Scaleform::Render::ImagePlane s[2]; // [esp+AEh] [ebp-28h] BYREF
+  char v18; // [esp+3Ch] [ebp-9Ah]
+  char v19; // [esp+3Dh] [ebp-99h]
+  Scaleform::Render::ImageData *v20; // [esp+3Eh] [ebp-98h]
+  int v21; // [esp+3Eh] [ebp-98h]
+  char v22; // [esp+43h] [ebp-93h]
+  _BYTE v23[2]; // [esp+46h] [ebp-90h] BYREF
+  char v24; // [esp+48h] [ebp-8Eh]
+  char v25; // [esp+49h] [ebp-8Dh]
+  _BYTE v26[2]; // [esp+4Ah] [ebp-8Ch] BYREF
+  char v27; // [esp+4Ch] [ebp-8Ah]
+  char v28; // [esp+4Dh] [ebp-89h]
+  Scaleform::Render::DICommand_Compare *v29; // [esp+4Eh] [ebp-88h]
+  _DWORD v30[6]; // [esp+52h] [ebp-84h] BYREF
+  _DWORD v31[6]; // [esp+6Ah] [ebp-6Ch] BYREF
+  _DWORD v32[6]; // [esp+82h] [ebp-54h] BYREF
+  Scaleform::Render::ImagePlane pplane; // [esp+9Ah] [ebp-3Ch] BYREF
+  Scaleform::Render::ImagePlane v34; // [esp+AEh] [ebp-28h] BYREF
+  Scaleform::Render::ImagePlane v35; // [esp+C2h] [ebp-14h] BYREF
 
   v4 = *psrc;
   v5 = psrc[1];
-  v25 = this;
-  memset(&d, 0, sizeof(d));
-  memset(s, 0, sizeof(s));
-  Scaleform::Render::ImageData::GetPlane(dest, 0, &d);
-  Scaleform::Render::ImageData::GetPlane(v4, 0, s);
-  Scaleform::Render::ImageData::GetPlane(v5, 0, &s[1]);
+  v29 = this;
+  memset(&pplane, 0, sizeof(pplane));
+  memset(&v34, 0, sizeof(v34));
+  memset(&v35, 0, sizeof(v35));
+  Scaleform::Render::ImageData::GetPlane(dest, 0, &pplane);
+  Scaleform::Render::ImageData::GetPlane(v4, 0, &v34);
+  Scaleform::Render::ImageData::GetPlane(v5, 0, &v35);
   v7 = context->pHAL->GetTextureManager(context->pHAL);
-  v8 = v7->GetImageSwizzler(v7);
-  dstSwiz.pImage = dest;
-  dstSwiz.Swizzler = v8;
-  dstSwiz.pCurrentScanline = 0;
-  memset(&dstSwiz.CachedBlockY, 0, 12);
-  v8->Initialize(v8, &dstSwiz);
+  v8 = (int)v7->GetImageSwizzler(v7);
+  v31[2] = dest;
+  v31[0] = v8;
+  v31[1] = 0;
+  memset(&v31[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v8 + 4))(v8, v31);
   v9 = context->pHAL->GetTextureManager(context->pHAL);
-  dCol = *psrc;
-  v10 = v9->GetImageSwizzler(v9);
-  src0Swiz.pImage = dCol;
-  src0Swiz.Swizzler = v10;
-  src0Swiz.pCurrentScanline = 0;
-  memset(&src0Swiz.CachedBlockY, 0, 12);
-  v10->Initialize(v10, &src0Swiz);
+  v20 = *psrc;
+  v10 = (int)v9->GetImageSwizzler(v9);
+  v30[2] = v20;
+  v30[0] = v10;
+  v30[1] = 0;
+  memset(&v30[3], 0, 12);
+  (*(void (__thiscall **)(int, _DWORD *))(*(_DWORD *)v10 + 4))(v10, v30);
   v11 = context->pHAL->GetTextureManager(context->pHAL);
   v12 = psrc[1];
-  src1Swiz.Swizzler = v11->GetImageSwizzler(v11);
-  src1Swiz.pCurrentScanline = 0;
-  src1Swiz.pImage = v12;
-  memset(&src1Swiz.CachedBlockY, 0, 12);
-  src1Swiz.Swizzler->Initialize(src1Swiz.Swizzler, &src1Swiz);
+  v32[0] = v11->GetImageSwizzler(v11);
+  v32[1] = 0;
+  v32[2] = v12;
+  memset(&v32[3], 0, 12);
+  (*(void (__thiscall **)(_DWORD, _DWORD *))(*(_DWORD *)v32[0] + 4))(v32[0], v32);
   for ( i = 0; i < v4->pPlanes->Height; ++i )
   {
-    dstSwiz.Swizzler->CacheScanline(dstSwiz.Swizzler, &dstSwiz, i);
-    src0Swiz.Swizzler->CacheScanline(src0Swiz.Swizzler, &src0Swiz, i);
-    src1Swiz.Swizzler->CacheScanline(src1Swiz.Swizzler, &src1Swiz, i);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v31[0] + 8))(v31[0], v31, i);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v30[0] + 8))(v30[0], v30, i);
+    (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int))(*(_DWORD *)v32[0] + 8))(v32[0], v32, i);
     for ( j = 0; j < v4->pPlanes->Width; ++j )
     {
-      src0Swiz.Swizzler->GetPixelInScanline(src0Swiz.Swizzler, &s0Col, &src0Swiz, j);
-      src1Swiz.Swizzler->GetPixelInScanline(src1Swiz.Swizzler, &s1Col, &src1Swiz, j);
-      if ( v25->pSource.pObject->Transparent )
-        s0Alpha = s0Col.Channels.Alpha;
+      (*(void (__thiscall **)(_DWORD, _BYTE *, _DWORD *, unsigned int))(*(_DWORD *)v30[0] + 20))(v30[0], v26, v30, j);
+      (*(void (__thiscall **)(_DWORD, _BYTE *, _DWORD *, unsigned int))(*(_DWORD *)v32[0] + 20))(v32[0], v23, v32, j);
+      if ( v29->pSource.pObject->Transparent )
+        v18 = v28;
       else
-        s0Alpha = -1;
-      if ( v25->pImageCompare1.pObject->Transparent )
-        s1Alpha = s1Col.Channels.Alpha;
+        v18 = -1;
+      if ( v29->pImageCompare1.pObject->Transparent )
+        v19 = v25;
       else
-        s1Alpha = -1;
-      v15 = s0Col.Channels.Red - s1Col.Channels.Red;
-      delta_1 = s0Col.Channels.Green - s1Col.Channels.Green;
-      v16 = s0Alpha - s1Alpha;
-      if ( s0Col.Channels.Red == s1Col.Channels.Red && !delta_1 && s0Col.Channels.Blue == s1Col.Channels.Blue && v16 )
+        v19 = -1;
+      v15 = v27 - v24;
+      v22 = v26[1] - v23[1];
+      v16 = v18 - v19;
+      if ( v27 == v24 && !v22 && v26[0] == v23[0] && v16 )
       {
         v15 = -1;
-        delta_1 = -1;
+        v22 = -1;
         v17 = -1;
       }
       else
       {
-        v17 = s0Col.Channels.Blue - s1Col.Channels.Blue;
+        v17 = v26[0] - v23[0];
         v16 = -1;
       }
-      BYTE2(dCola) = v15;
-      LOBYTE(dCola) = v17;
-      BYTE1(dCola) = delta_1;
-      HIBYTE(dCola) = v16;
-      dstSwiz.Swizzler->SetPixelInScanline(dstSwiz.Swizzler, &dstSwiz, j, dCola);
+      BYTE2(v21) = v15;
+      LOBYTE(v21) = v17;
+      BYTE1(v21) = v22;
+      HIBYTE(v21) = v16;
+      (*(void (__thiscall **)(_DWORD, _DWORD *, unsigned int, int))(*(_DWORD *)v31[0] + 12))(v31[0], v31, j, v21);
     }
   }
 }

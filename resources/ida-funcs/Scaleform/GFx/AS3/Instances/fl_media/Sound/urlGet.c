@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_media::Sound::urlGet(
 
   StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                  result->pNode->pManager,
-                 (char *)((this->SoundURL.HeapTypeBits & 0xFFFFFFFC) + 8),
+                 (__m128i *)((this->SoundURL.HeapTypeBits & 0xFFFFFFFC) + 8),
                  *(_DWORD *)(this->SoundURL.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
   ++StringNode->RefCount;
   pNode = result->pNode;

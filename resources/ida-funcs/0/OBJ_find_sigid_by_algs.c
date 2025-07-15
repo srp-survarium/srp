@@ -1,28 +1,28 @@
-int __cdecl OBJ_find_sigid_by_algs(int *psignid, int dig_nid, int pkey_nid)
+int __usercall OBJ_find_sigid_by_algs@<eax>(int a1@<edi>, int *psignid, int dig_nid, int pkey_nid)
 {
-  int v3; // eax
+  int v4; // eax
   int result; // eax
-  char *key; // [esp+0h] [ebp-10h] BYREF
-  char data[4]; // [esp+4h] [ebp-Ch] BYREF
-  int v7; // [esp+8h] [ebp-8h]
-  int v8; // [esp+Ch] [ebp-4h]
+  char *v6; // [esp+0h] [ebp-10h] BYREF
+  char v7[4]; // [esp+4h] [ebp-Ch] BYREF
+  int v8; // [esp+8h] [ebp-8h]
+  int v9; // [esp+Ch] [ebp-4h]
 
-  key = data;
-  v7 = dig_nid;
-  v8 = pkey_nid;
+  v6 = v7;
+  v8 = dig_nid;
+  v9 = pkey_nid;
   if ( sigx_app )
   {
-    v3 = sk_find(&sigx_app->stack, data);
-    if ( v3 >= 0 )
+    v4 = sk_find(a1, &sigx_app->stack, v7);
+    if ( v4 >= 0 )
     {
-      key = sk_value(&sigx_app->stack, v3);
-      result = (int)&key;
+      v6 = sk_value(&sigx_app->stack, v4);
+      result = (int)&v6;
 LABEL_4:
       *psignid = **(_DWORD **)result;
       return 1;
     }
   }
-  result = (int)OBJ_bsearch_(&key, (char *)sigoid_srt_xref, 29, 4, sigx_cmp_BSEARCH_CMP_FN);
+  result = (int)OBJ_bsearch_(&v6, (char *)sigoid_srt_xref, 29, 4, sigx_cmp_BSEARCH_CMP_FN);
   if ( result )
     goto LABEL_4;
   return result;

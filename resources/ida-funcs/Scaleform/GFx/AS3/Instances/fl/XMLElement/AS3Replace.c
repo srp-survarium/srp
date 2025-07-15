@@ -33,7 +33,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Instances::fl:
   c.Bonus.pWeakProxy = 0;
   if ( v7 <= 3 && Scaleform::GFx::AS3::IsXMLObject(value->value.VS._1.VObj) )
   {
-    v8 = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value **, _DWORD))(*(_DWORD *)v4->value.VS._1.VInt + 128))(
+    v8 = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)(*(int (__thiscall **)(Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value **, _DWORD))(*(_DWORD *)v4->value.VS._1.VInt + 140))(
                                                                                v4->value.VS._1,
                                                                                &value,
                                                                                0);

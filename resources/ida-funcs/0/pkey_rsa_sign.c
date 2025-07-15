@@ -1,80 +1,86 @@
-int __cdecl pkey_rsa_sign(
+int __usercall pkey_rsa_sign@<eax>(
+        int a1@<ebx>,
         evp_pkey_ctx_st *ctx,
         unsigned __int8 *sig,
         unsigned int *siglen,
-        unsigned __int8 *tbs,
+        const __m128i *tbs,
         unsigned int tbslen)
 {
-  evp_pkey_ctx_st *v5; // ebp
-  RSA_PKEY_CTX *data; // esi
+  evp_pkey_ctx_st *v6; // ebp
+  void *data; // esi
   rsa_st *rsa; // edi
-  int v8; // eax
-  unsigned int v9; // ebx
+  int v9; // eax
+  unsigned int v10; // ebx
   int result; // eax
-  int pad_mode; // eax
   int v12; // eax
-  unsigned __int8 v13; // al
-  unsigned __int8 *v14; // edx
-  unsigned int v15; // eax
-  unsigned __int8 *v16; // [esp-14h] [ebp-24h]
-  int v17; // [esp-14h] [ebp-24h]
-  unsigned int v18; // [esp-10h] [ebp-20h]
-  const unsigned __int8 *tbuf; // [esp-10h] [ebp-20h]
-  unsigned __int8 *v20; // [esp-Ch] [ebp-1Ch]
+  int v13; // eax
+  char v14; // al
+  unsigned __int8 *v15; // edx
+  unsigned int v16; // eax
+  const unsigned __int8 *v17; // [esp-14h] [ebp-24h]
+  int v18; // [esp-14h] [ebp-24h]
+  unsigned int v19; // [esp-10h] [ebp-20h]
+  const unsigned __int8 *v20; // [esp-10h] [ebp-20h]
   unsigned __int8 *v21; // [esp-Ch] [ebp-1Ch]
+  unsigned __int8 *v22; // [esp-Ch] [ebp-1Ch]
 
-  v5 = ctx;
-  data = (RSA_PKEY_CTX *)ctx->data;
+  v6 = ctx;
+  data = ctx->data;
   rsa = ctx->pkey->pkey.rsa;
-  if ( data->md )
+  if ( *((_DWORD *)data + 5) )
   {
-    v8 = EVP_MD_size(data->md);
-    v9 = tbslen;
-    if ( tbslen != v8 )
+    v9 = EVP_MD_size(a1, *((const env_md_st **)data + 5));
+    v10 = tbslen;
+    if ( tbslen != v9 )
     {
-      ERR_put_error(4u, 142, 143, ".\\crypto\\rsa\\rsa_pmeth.c", 163);
+      ERR_put_error(tbslen, 4u, 142, 143, ".\\crypto\\rsa\\rsa_pmeth.c", 163);
       return -1;
     }
-    pad_mode = data->pad_mode;
-    if ( pad_mode == 5 )
+    v12 = *((_DWORD *)data + 4);
+    if ( v12 == 5 )
     {
-      if ( !setup_tbuf(data, v5) )
+      if ( !setup_tbuf((RSA_PKEY_CTX *)data, v6) )
         return -1;
-      memcpy(data->tbuf, tbs, v9);
-      v12 = EVP_CIPHER_CTX_cipher((const ssl_st *)data->md);
-      v13 = RSA_X931_hash_id(v12);
-      v14 = sig;
-      data->tbuf[v9] = v13;
-      result = RSA_private_encrypt(v9 + 1, data->tbuf, v14, rsa);
+      memcpy(*((_DWORD *)data + 7), tbs, v10);
+      v13 = EVP_CIPHER_CTX_cipher(*((const ssl_st **)data + 5));
+      v14 = RSA_X931_hash_id(v13);
+      v15 = sig;
+      *(_BYTE *)(v10 + *((_DWORD *)data + 7)) = v14;
+      result = RSA_private_encrypt(v10 + 1, *((const unsigned __int8 **)data + 7), v15, rsa);
     }
-    else if ( pad_mode == 1 )
+    else if ( v12 == 1 )
     {
-      v20 = sig;
-      v18 = tbslen;
-      v16 = tbs;
-      v15 = EVP_CIPHER_CTX_cipher((const ssl_st *)data->md);
-      result = RSA_sign(v15, v16, v18, v20, (unsigned int *)&ctx, rsa);
+      v21 = sig;
+      v19 = tbslen;
+      v17 = (const unsigned __int8 *)tbs;
+      v16 = EVP_CIPHER_CTX_cipher(*((const ssl_st **)data + 5));
+      result = RSA_sign(v16, v17, v19, v21, (unsigned int *)&ctx, rsa);
       if ( result <= 0 )
         return result;
       result = (int)ctx;
     }
     else
     {
-      if ( pad_mode != 6
-        || !setup_tbuf(data, v5)
-        || !RSA_padding_add_PKCS1_PSS(rsa, data->tbuf, tbs, data->md, data->saltlen) )
+      if ( v12 != 6
+        || !setup_tbuf((RSA_PKEY_CTX *)data, v6)
+        || !RSA_padding_add_PKCS1_PSS(
+              rsa,
+              *((unsigned __int8 **)data + 7),
+              (const unsigned __int8 *)tbs,
+              *((const env_md_st **)data + 5),
+              *((_DWORD *)data + 6)) )
       {
         return -1;
       }
-      v21 = sig;
-      tbuf = data->tbuf;
-      v17 = RSA_size(rsa);
-      result = RSA_private_encrypt(v17, tbuf, v21, rsa);
+      v22 = sig;
+      v20 = (const unsigned __int8 *)*((_DWORD *)data + 7);
+      v18 = RSA_size(rsa);
+      result = RSA_private_encrypt(v18, v20, v22, rsa);
     }
   }
   else
   {
-    result = RSA_private_encrypt(tbslen, tbs, sig, rsa);
+    result = RSA_private_encrypt(tbslen, (const unsigned __int8 *)tbs, sig, rsa);
   }
   if ( result >= 0 )
   {

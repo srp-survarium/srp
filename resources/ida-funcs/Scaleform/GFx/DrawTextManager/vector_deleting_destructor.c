@@ -21,7 +21,9 @@ Scaleform::GFx::DrawTextManager *__thiscall Scaleform::GFx::DrawTextManager::`ve
 }
 
 
-void *__thiscall Scaleform::GFx::DrawTextManager::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::DrawTextManager *__thiscall Scaleform::GFx::DrawTextManager::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::DrawTextManager::`vector deleting destructor'(
            (Scaleform::GFx::DrawTextManager *)(this - 8),

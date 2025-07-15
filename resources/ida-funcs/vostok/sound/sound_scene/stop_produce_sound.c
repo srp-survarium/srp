@@ -2,8 +2,8 @@ void __thiscall vostok::sound::sound_scene::stop_produce_sound(
         vostok::sound::sound_scene *this,
         vostok::sound::sound_instance_proxy_internal *proxy)
 {
-  vostok::sound::new_sound_propagator *prop; // [esp+4h] [ebp-4h]
+  vostok::sound::new_sound_propagator *i; // eax
 
-  for ( prop = proxy->m_propagators.m_first; prop; prop = prop->m_next_for_proxies )
-    vostok::sound::new_sound_propagator::stop_produce(prop);
+  for ( i = proxy->m_propagators.m_first; i; i = i->m_next_for_proxies )
+    i->m_end_propagation_time_ms = i->m_propagation_time_ms;
 }

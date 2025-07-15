@@ -1,71 +1,62 @@
-void __usercall vostok::resources::queries_result::mark_inconsistent_qualities_as_failed(
-        vostok::resources::queries_result *this@<ecx>,
-        _DWORD *a2@<esi>)
+void __thiscall vostok::resources::queries_result::mark_inconsistent_qualities_as_failed(
+        vostok::resources::queries_result *this,
+        _DWORD *a2)
 {
-  int v2; // ebx
   void *v3; // esp
   unsigned int v4; // eax
-  unsigned int *v5; // ecx
-  int v6; // edx
-  bool v7; // sf
-  int v8; // edx
-  int v9; // eax
-  _DWORD *i; // ecx
-  int v11; // eax
-  bool v12; // zf
-  int v13; // eax
-  unsigned int v14; // ecx
-  _DWORD *v15; // eax
-  unsigned int v16[2]; // [esp+0h] [ebp-Ch] BYREF
-  unsigned int v17; // [esp+8h] [ebp-4h]
+  vostok::resources::query_result_for_user *v5; // ecx
+  unsigned int i; // esi
+  int v7; // ecx
+  _DWORD *j; // eax
+  unsigned int v9; // edi
+  _DWORD *v10; // esi
+  unsigned int v11[3]; // [esp+0h] [ebp-Ch] BYREF
+  unsigned int v12; // [esp+14h] [ebp+8h]
 
-  v2 = a2[14];
-  v3 = alloca(4 * v2);
+  v3 = alloca(4 * a2[14]);
   v4 = 0;
-  if ( v2 )
+  if ( a2[14] )
   {
-    v5 = a2 + 190;
+    this = (vostok::resources::queries_result *)(a2 + 194);
     do
     {
-      v16[v4++] = *v5;
-      v5 += 180;
+      v11[v4++] = (unsigned int)this->m_callback.vtable;
+      this = (vostok::resources::queries_result *)((char *)this + 736);
     }
     while ( v4 < a2[14] );
   }
-  stlp_std::sort<unsigned int *>(v16, (stlp_std::less<unsigned int>)a2, &v16[a2[14]]);
-  v6 = a2[14];
-  v7 = v6 - 1 < 0;
-  v8 = v6 - 1;
-  v17 = -1;
-  if ( !v7 )
+  stlp_std::sort<unsigned int *>(v11, &v11[a2[14]], (stlp_std::less<unsigned int>)this);
+  v12 = -1;
+  for ( i = a2[14]; ; v12 = i )
   {
-    do
+    if ( (--i & 0x80000000) == 0 )
     {
-      v9 = 0;
-      for ( i = a2 + 190; *i != v16[v8]; i += 180 )
-        ++v9;
-      v11 = 180 * v9;
-      v12 = a2[v11 + 84] == 0;
-      v13 = (int)&a2[v11 + 20];
-      if ( !v12 )
-        break;
-      if ( *(_DWORD *)(v13 + 260) == 1 )
-        break;
-      v17 = v8--;
+      v7 = 0;
+      for ( j = a2 + 194; *j != v11[i]; j += 184 )
+        ++v7;
+      if ( vostok::resources::query_result_for_user::is_successful(
+             (vostok::resources::query_result_for_user *)(736 * v7),
+             (int)&a2[184 * v7 + 20]) )
+      {
+        continue;
+      }
     }
-    while ( v8 >= 0 );
+    break;
   }
-  v14 = 0;
+  v9 = 0;
   if ( a2[14] )
   {
-    v15 = a2 + 84;
+    v10 = a2 + 84;
     do
     {
-      if ( v15[106] < v17 && !*v15 && v15[1] != 1 )
-        *v15 = 13;
-      ++v14;
-      v15 += 180;
+      if ( v10[110] < v12 )
+      {
+        if ( vostok::resources::query_result_for_user::is_successful(v5, (int)(v10 - 64)) )
+          *v10 = 13;
+      }
+      ++v9;
+      v10 += 184;
     }
-    while ( v14 < a2[14] );
+    while ( v9 < a2[14] );
   }
 }

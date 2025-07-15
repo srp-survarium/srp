@@ -48,41 +48,41 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
   const Scaleform::Render::StrokeVertex *v46; // ecx
   Scaleform::Render::StrokerTypes::LineCapType EndLineCap; // eax
   unsigned int i; // [esp+1Ch] [ebp-12Ch]
-  float ia; // [esp+1Ch] [ebp-12Ch]
-  float ib; // [esp+1Ch] [ebp-12Ch]
-  unsigned int avrInc; // [esp+20h] [ebp-128h]
-  float avrInca; // [esp+20h] [ebp-128h]
-  Scaleform::Render::StrokerAA::WidthsType widths; // [esp+24h] [ebp-124h] BYREF
-  Scaleform::Render::StrokeVertex vLast; // [esp+60h] [ebp-E8h] BYREF
-  Scaleform::Render::StrokerAA::JoinParamType joinParam; // [esp+6Ch] [ebp-DCh] BYREF
+  float len; // [esp+1Ch] [ebp-12Ch]
+  float dist; // [esp+1Ch] [ebp-12Ch]
+  unsigned int v51; // [esp+20h] [ebp-128h]
+  float v52; // [esp+20h] [ebp-128h]
+  Scaleform::Render::StrokerAA::WidthsType w; // [esp+24h] [ebp-124h] BYREF
+  Scaleform::Render::StrokeVertex v3; // [esp+60h] [ebp-E8h] BYREF
+  Scaleform::Render::StrokerAA::JoinParamType p; // [esp+6Ch] [ebp-DCh] BYREF
 
   if ( !this->Closed )
     this->Closed = Scaleform::Render::StrokePath::ClosePath(&this->Path);
-  widths.solidWidthL = 0.0;
-  widths.solidWidthR = 0.0;
-  widths.solidWidth = 0.0;
+  w.solidWidthL = 0.0;
+  w.solidWidthR = 0.0;
+  w.solidWidth = 0.0;
   this->SolidL = -4;
-  widths.totalWidthL = 0.0;
+  w.totalWidthL = 0.0;
   this->SolidR = -3;
-  widths.totalWidthR = 0.0;
+  w.totalWidthR = 0.0;
   this->TotalL = -2;
-  widths.totalWidth = 0.0;
+  w.totalWidth = 0.0;
   this->TotalR = -1;
-  widths.widthCoeff = 0.0;
-  widths.solidFlagL = 0;
-  widths.solidCoeffL = 0.0;
-  widths.solidFlagR = 0;
-  widths.solidCoeffR = 0.0;
-  widths.aaFlagL = 0;
-  widths.solidLimitL = 0.0;
-  widths.aaFlagR = 0;
-  widths.solidLimitR = 0.0;
-  widths.solidFlag = 0;
-  widths.totalLimitL = 0.0;
-  widths.rightSideCalc = 0;
-  widths.totalLimitR = 0.0;
-  Scaleform::Render::StrokerAA::calcWidths(this, &widths);
-  Scaleform::Render::StrokerAA::JoinParamType::JoinParamType(&joinParam);
+  w.widthCoeff = 0.0;
+  w.solidFlagL = 0;
+  w.solidCoeffL = 0.0;
+  w.solidFlagR = 0;
+  w.solidCoeffR = 0.0;
+  w.aaFlagL = 0;
+  w.solidLimitL = 0.0;
+  w.aaFlagR = 0;
+  w.solidLimitR = 0.0;
+  w.solidFlag = 0;
+  w.totalLimitL = 0.0;
+  w.rightSideCalc = 0;
+  w.totalLimitR = 0.0;
+  Scaleform::Render::StrokerAA::calcWidths(this, &w);
+  Scaleform::Render::StrokerAA::JoinParamType::JoinParamType(&p);
   if ( this->Closed )
   {
     Size = this->Path.Path.Size;
@@ -96,10 +96,10 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
         &Pages[(Size - 2) >> 4][(Size - 2) & 0xF],
         &Pages[(Size - 1) >> 4][((_BYTE)Size - 1) & 0xF],
         *Pages,
-        &widths,
-        &joinParam);
-      Scaleform::Render::StrokerAA::calcJoinParam(this, &Pages[v9 >> 4][v9 & 0xF], v8, v8 + 1, &widths, &joinParam);
-      avrInc = this->Triangles.Size;
+        &w,
+        &p);
+      Scaleform::Render::StrokerAA::calcJoinParam(this, &Pages[v9 >> 4][v9 & 0xF], v8, v8 + 1, &w, &p);
+      v51 = this->Triangles.Size;
       if ( this->Path.Path.Size )
       {
         v10 = 1;
@@ -119,13 +119,13 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
             &this->Path.Path.Pages[(v10 - 1) >> 4][((_BYTE)v10 - 1) & 0xF],
             &this->Path.Path.Pages[v15 >> 4][v15 & 0xF],
             &this->Path.Path.Pages[v13 >> 4][v13 & 0xF],
-            &widths,
-            &joinParam);
+            &w,
+            &p);
           v10 = v12;
         }
         while ( v12 - 1 < this->Path.Path.Size );
       }
-      v16 = avrInc;
+      v16 = v51;
       for ( i = 0; i < 6; ++i )
       {
         if ( v16 >= this->Triangles.Size )
@@ -161,8 +161,8 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
   }
   else if ( this->Path.Path.Size > 1 )
   {
-    avrInca = (this->WidthRight + this->WidthLeft) * 0.5;
-    v18 = avrInca;
+    v52 = (this->WidthRight + this->WidthLeft) * 0.5;
+    v18 = v52;
     if ( this->StartLineCap == SquareCap )
     {
       v19 = *this->Path.Path.Pages;
@@ -188,25 +188,25 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
     }
     v29 = *this->Path.Path.Pages;
     StartLineCap = this->StartLineCap;
-    ia = v29->dist;
+    len = v29->dist;
     v31 = v29 + 1;
     if ( StartLineCap >= ButtCap )
     {
       if ( StartLineCap <= SquareCap )
       {
-        Scaleform::Render::StrokerAA::calcButtCap(this, v29, v31, ia, &widths, 0);
+        Scaleform::Render::StrokerAA::calcButtCap(this, v29, v31, len, &w, 0);
       }
       else if ( StartLineCap == RoundCap )
       {
-        Scaleform::Render::StrokerAA::calcRoundCap(this, v29, v31, ia, &widths, 0);
+        Scaleform::Render::StrokerAA::calcRoundCap(this, v29, v31, len, &w, 0);
       }
     }
     v32 = this->Path.Path.Size;
     if ( v32 > 2 )
     {
       v33 = *this->Path.Path.Pages;
-      Scaleform::Render::StrokerAA::calcInitialJoinParam(this, v33, v33 + 1, &widths, &joinParam);
-      Scaleform::Render::StrokerAA::calcJoinParam(this, v33, v33 + 1, v33 + 2, &widths, &joinParam);
+      Scaleform::Render::StrokerAA::calcInitialJoinParam(this, v33, v33 + 1, &w, &p);
+      Scaleform::Render::StrokerAA::calcJoinParam(this, v33, v33 + 1, v33 + 2, &w, &p);
       v34 = v32 - 2;
       v35 = 1;
       if ( v32 - 2 > 1 )
@@ -219,8 +219,8 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
             &this->Path.Path.Pages[v35 >> 4][v35 & 0xF],
             &this->Path.Path.Pages[v36 >> 4][v36 & 0xF],
             &this->Path.Path.Pages[(v36 + 1) >> 4][(v36 + 1) & 0xF],
-            &widths,
-            &joinParam);
+            &w,
+            &p);
           ++v35;
           ++v36;
         }
@@ -231,16 +231,16 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
       v39 = v34 + 1;
       v40 = v37[v39 >> 4];
       v41 = v39 & 0xF;
-      vLast.x = v40[v41].x * 2.0 - *v38;
-      vLast.y = 2.0 * v40[v41].y - v38[1];
-      vLast.dist = v38[2];
+      v3.x = v40[v41].x * 2.0 - *v38;
+      v3.y = 2.0 * v40[v41].y - v38[1];
+      v3.dist = v38[2];
       Scaleform::Render::StrokerAA::calcJoin(
         this,
         &v37[v35 >> 4][v35 & 0xF],
         &v37[(v35 + 1) >> 4][(v35 + 1) & 0xF],
-        &vLast,
-        &widths,
-        &joinParam);
+        &v3,
+        &w,
+        &p);
     }
     v42 = this->Path.Path.Size;
     Scaleform::Render::StrokerAA::calcButtJoin(
@@ -248,10 +248,10 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
       &this->Path.Path.Pages[(v42 - 2) >> 4][(v42 - 2) & 0xF],
       &this->Path.Path.Pages[(v42 - 1) >> 4][(v42 - 1) & 0xF],
       this->Path.Path.Pages[(v42 - 2) >> 4][((_BYTE)v42 - 2) & 0xF].dist,
-      &widths);
+      &w);
     v43 = this->Path.Path.Size;
     v44 = this->Path.Path.Pages;
-    ib = v44[(v43 - 2) >> 4][((_BYTE)v43 - 2) & 0xF].dist;
+    dist = v44[(v43 - 2) >> 4][((_BYTE)v43 - 2) & 0xF].dist;
     v45 = &v44[(v43 - 2) >> 4][(v43 - 2) & 0xF];
     v46 = &v44[(v43 - 1) >> 4][(v43 - 1) & 0xF];
     EndLineCap = this->EndLineCap;
@@ -259,11 +259,11 @@ void __thiscall Scaleform::Render::StrokerAA::FinalizePath(
     {
       if ( EndLineCap <= SquareCap )
       {
-        Scaleform::Render::StrokerAA::calcButtCap(this, v46, v45, ib, &widths, 1);
+        Scaleform::Render::StrokerAA::calcButtCap(this, v46, v45, dist, &w, 1);
       }
       else if ( EndLineCap == RoundCap )
       {
-        Scaleform::Render::StrokerAA::calcRoundCap(this, v46, v45, ib, &widths, 1);
+        Scaleform::Render::StrokerAA::calcRoundCap(this, v46, v45, dist, &w, 1);
       }
     }
   }

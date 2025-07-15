@@ -106,7 +106,7 @@ int __thiscall Scaleform::GFx::AS3::Value::HashFunctor::operator()(
       pNext = (Scaleform::GFx::AS3::Value::V1U)v->pNext;
       if ( !pNext.VInt )
         goto LABEL_28;
-      result = ((unsigned int)&vostok::memory::s_CRT_arena[5574199] & *(_DWORD *)(pNext.VInt + 16)) + v2;
+      result = (*(_DWORD *)(pNext.VInt + 16) & 0xFFFFFF) + v2;
       break;
     case 0xBu:
     case 0xCu:

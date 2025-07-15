@@ -1,38 +1,34 @@
-void __thiscall boost::asio::detail::select_reactor::start_op(
-        boost::asio::detail::select_reactor *this,
-        int op_type,
+void __userpurge boost::asio::detail::select_reactor::start_op(
+        boost::asio::detail::select_reactor *this@<ecx>,
+        boost::asio::detail::reactor_op *op@<eax>,
+        unsigned int op_type,
         unsigned int descriptor,
         boost::asio::detail::select_reactor::per_descriptor_data *__formal,
-        boost::asio::detail::reactor_op *op,
         bool a6)
 {
-  boost::asio::detail::win_iocp_io_service *io_service; // [esp+94h] [ebp-20h]
-  boost::asio::detail::scoped_lock<boost::asio::detail::win_mutex> lock; // [esp+A8h] [ebp-Ch] BYREF
-  bool first; // [esp+B3h] [ebp-1h]
+  boost::asio::detail::win_mutex *p_mutex; // ebx
+  boost::asio::detail::win_iocp_io_service *io_service; // edi
+  boost::asio::detail::win_iocp_io_service *v10; // ecx
+  boost::asio::detail::socket_select_interrupter *v11; // ecx
+  bool v12; // [esp+17h] [ebp+Bh]
 
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&lock);
-  lock.mutex_ = &this->mutex_;
+  p_mutex = &this->mutex_;
   EnterCriticalSection(&this->mutex_.crit_section_);
-  lock.locked_ = 1;
   if ( this->shutdown_ )
   {
     io_service = this->io_service_;
     InterlockedIncrement(&io_service->outstanding_work_);
-    boost::asio::detail::win_iocp_io_service::post_deferred_completion(io_service, op);
-    if ( lock.locked_ )
-      LeaveCriticalSection(&lock.mutex_->crit_section_);
+    boost::asio::detail::win_iocp_io_service::post_deferred_completion(v10, (int)io_service, op);
   }
   else
   {
-    first = boost::asio::detail::reactor_op_queue<unsigned int>::enqueue_operation(
-              &this->op_queue_[op_type],
-              descriptor,
-              (stlp_std::priv::_List_node_base *)op);
+    v12 = boost::asio::detail::reactor_op_queue<unsigned int>::enqueue_operation(
+            &this->op_queue_[3],
+            op_type,
+            (stlp_std::priv::_List_node_base *)op);
     InterlockedIncrement(&this->io_service_->outstanding_work_);
-    if ( first )
-      boost::asio::detail::socket_select_interrupter::interrupt(&this->interrupter_);
-    if ( lock.locked_ )
-      LeaveCriticalSection(&lock.mutex_->crit_section_);
+    if ( v12 )
+      boost::asio::detail::socket_select_interrupter::interrupt(v11, (int)&this->interrupter_);
   }
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&lock);
+  LeaveCriticalSection(&p_mutex->crit_section_);
 }

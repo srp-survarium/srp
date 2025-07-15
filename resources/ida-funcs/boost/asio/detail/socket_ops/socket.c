@@ -1,30 +1,30 @@
-unsigned int __cdecl boost::asio::detail::socket_ops::socket(
+int __usercall boost::asio::detail::socket_ops::socket@<eax>(
+        boost::system::error_code *ec@<esi>,
         int af,
         int type,
-        int protocol,
-        boost::system::error_code *ec)
+        int protocol)
 {
-  SOCKET v5; // [esp+0h] [ebp-24h]
-  const boost::system::error_category *v6; // [esp+10h] [ebp-14h]
-  const boost::system::error_category *v7; // [esp+18h] [ebp-Ch]
-  unsigned int optval; // [esp+1Ch] [ebp-8h] BYREF
-  unsigned int s; // [esp+20h] [ebp-4h]
+  const boost::system::error_category *v4; // edi
+  int result; // eax
+  int v6; // [esp+8h] [ebp-8h] BYREF
+  int v7; // [esp+Ch] [ebp-4h]
 
   WSASetLastError(0);
-  v5 = WSASocketA(af, type, protocol, 0, 0, 1u);
-  v6 = boost::system::system_category();
+  v7 = ((int (__stdcall *)(int, int, int, _DWORD, _DWORD))(&off_8E3A98 + 18))(af, type, protocol, 0, 0);
+  v4 = boost::system::system_category();
   ec->m_val = WSAGetLastError();
-  ec->m_cat = v6;
-  s = v5;
-  if ( v5 == -1 )
-    return -1;
-  if ( af == 23 )
+  result = -1;
+  ec->m_cat = v4;
+  if ( v7 != -1 )
   {
-    optval = 0;
-    setsockopt(s, 41, 27, (const char *)&optval, 4);
+    if ( af == 23 )
+    {
+      v6 = 0;
+      ((void (__stdcall *)(int, int, int, int *, int))(&off_8E3A98 + 21))(v7, 41, 27, &v6, 4);
+    }
+    ec->m_cat = boost::system::system_category();
+    result = v7;
+    ec->m_val = 0;
   }
-  v7 = boost::system::system_category();
-  ec->m_val = 0;
-  ec->m_cat = v7;
-  return s;
+  return result;
 }

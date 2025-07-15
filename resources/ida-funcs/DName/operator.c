@@ -14,14 +14,14 @@ DName *__thiscall DName::operator=(DName *this, char ch)
   *((_DWORD *)this + 1) &= 0xFFFF00FF;
   this->node = 0;
   if ( ch )
-    DName::doPchar(this, &ch, 1);
+    DName::doPchar(this, &ch, 1u);
   return this;
 }
 
 
 DName *__thiscall DName::operator=(DName *this, char *str)
 {
-  int v3; // ecx
+  unsigned int v3; // ecx
 
   *((_BYTE *)this + 4) = 0;
   *((_DWORD *)this + 1) &= 0xFFFF00FF;
@@ -46,7 +46,7 @@ DName *__thiscall DName::operator=(DName *this, DNameStatus st)
   *((_BYTE *)this + 4) = st;
   if ( st == DN_truncated )
   {
-    v3 = DNameStatusNode::make(DN_truncated);
+    v3 = DNameStatusNode::make(1u);
     this->node = v3;
     if ( !v3 )
       *((_BYTE *)this + 4) = 3;
@@ -143,7 +143,7 @@ DName *__thiscall DName::operator+=(DName *this, char ch)
 DName *__thiscall DName::operator+=(DName *this, char *str)
 {
   char *Memory; // eax
-  int v4; // edx
+  unsigned int v4; // edx
   pcharNode *v5; // eax
 
   if ( *((char *)this + 4) <= 1 && str && *str )

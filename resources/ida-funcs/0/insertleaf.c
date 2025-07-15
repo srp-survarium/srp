@@ -1,14 +1,14 @@
 void __usercall insertleaf(btDbvtNode *root@<eax>, btDbvt *pdbvt, btDbvtNode *leaf)
 {
-  btDbvt *v3; // edx
-  btDbvtNode *v4; // edi
+  btDbvt *v3; // ecx
+  btDbvtNode *v4; // esi
   __m128 v5; // xmm3
   __m128 v6; // xmm0
   __m128 v7; // xmm1
   __m128 v8; // xmm2
   __m128 v9; // xmm0
   btDbvtNode *m_free; // eax
-  btDbvtNode *parent; // esi
+  btDbvtNode *parent; // edi
   __m128 v12; // xmm0
   __m128 *p_mVec128; // eax
   __m128 *v14; // ecx
@@ -45,8 +45,7 @@ void __usercall insertleaf(btDbvtNode *root@<eax>, btDbvt *pdbvt, btDbvtNode *le
     }
     else
     {
-      ++gNumAlignedAllocs;
-      m_free = (btDbvtNode *)sAlignedAllocFunc(0x30u, 16);
+      m_free = (btDbvtNode *)btAlignedAllocInternal(0x30u);
       v3 = pdbvt;
     }
     m_free->parent = parent;

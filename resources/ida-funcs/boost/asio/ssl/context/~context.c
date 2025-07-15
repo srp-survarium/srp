@@ -1,27 +1,28 @@
-void __thiscall boost::asio::ssl::context::~context(boost::asio::ssl::context *this)
+void __usercall boost::asio::ssl::context::~context(boost::asio::ssl::context *this@<ecx>, int a2@<esi>)
 {
-  void (__thiscall ***v2)(void *, int); // [esp+18h] [ebp-14h]
+  int v2; // eax
+  void (__thiscall ***v3)(_DWORD, int); // ecx
+  void (__thiscall ***v4)(void *, int); // eax
+  boost::asio::ssl::context *v5; // [esp-4h] [ebp-8h]
 
-  if ( this->handle_ )
+  v2 = *(_DWORD *)(a2 + 4);
+  if ( v2 )
   {
-    if ( this->handle_->default_passwd_callback_userdata )
+    v3 = *(void (__thiscall ****)(_DWORD, int))(v2 + 112);
+    if ( v3 )
     {
-      (**(void (__thiscall ***)(void *, int))this->handle_->default_passwd_callback_userdata)(
-        this->handle_->default_passwd_callback_userdata,
-        1);
-      this->handle_->default_passwd_callback_userdata = 0;
+      (**v3)(v3, 1);
+      *(_DWORD *)(*(_DWORD *)(a2 + 4) + 112) = 0;
     }
-    if ( X509_STORE_CTX_get_ex_data(this->handle_, 0) )
+    if ( X509_STORE_CTX_get_ex_data(*(const ssl_ctx_st **)(a2 + 4), 0) )
     {
-      v2 = (void (__thiscall ***)(void *, int))X509_STORE_CTX_get_ex_data(this->handle_, 0);
-      if ( v2 )
-        (**v2)(v2, 1);
-      X509_STORE_CTX_set_ex_data(this->handle_, 0, 0);
+      v4 = (void (__thiscall ***)(void *, int))X509_STORE_CTX_get_ex_data(*(const ssl_ctx_st **)(a2 + 4), 0);
+      if ( v4 )
+        (**v4)(v4, 1);
+      X509_STORE_CTX_set_ex_data(*(ssl_ctx_st **)(a2 + 4), 0, 0);
     }
-    SSL_CTX_free(this->handle_);
+    SSL_CTX_free(0, *(ssl_ctx_st **)(a2 + 4));
+    this = v5;
   }
-  if ( this->init_.ref_.pn.pi_ )
-    boost::detail::sp_counted_base::release(this->init_.ref_.pn.pi_);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&this->init_);
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)(&this->gap0 + 1));
+  boost::detail::shared_count::~shared_count((boost::detail::shared_count *)this, (volatile signed __int32 **)(a2 + 12));
 }

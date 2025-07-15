@@ -1,4 +1,4 @@
-tm *__usercall _gmtime64@<eax>(unsigned int a1@<ebx>, const __int64 *timp)
+tm *__usercall _gmtime64@<eax>(int a1@<ebx>, const __int64 *timp)
 {
   tm *result; // eax
 

@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadVarsMT(
         &decodedData);
       Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetVariablesDataString(
         (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext,
-        (char *)((decodedData.HeapTypeBits & 0xFFFFFFFC) + 8));
+        (__m128i *)((decodedData.HeapTypeBits & 0xFFFFFFFC) + 8));
       v7 = (void *)(decodedData.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((decodedData.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
@@ -31,7 +31,7 @@ void __thiscall Scaleform::GFx::AS3::MovieRoot::ProcessLoadVarsMT(
     {
       Scaleform::GFx::AS3::Instances::fl_net::URLLoader::SetTextString(
         (Scaleform::GFx::AS3::Instances::fl_net::URLLoader *)pentry[1].pNext,
-        (char *)((data->HeapTypeBits & 0xFFFFFFFC) + 8));
+        (Scaleform::GFx::ASStringNode *)((data->HeapTypeBits & 0xFFFFFFFC) + 8));
     }
     else
     {

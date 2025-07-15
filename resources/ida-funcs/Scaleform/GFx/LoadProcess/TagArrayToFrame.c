@@ -41,7 +41,7 @@ Scaleform::GFx::TimelineDef::Frame *__thiscall Scaleform::GFx::LoadProcess::TagA
     v4->pTagPtrList = (Scaleform::GFx::ExecuteTag **)v12;
     if ( v12 )
     {
-      memcpy(v12, (unsigned __int8 *)tagArray->Data.Data, v7);
+      memcpy((int)v12, (const __m128i *)tagArray->Data.Data, v7);
       v4->TagCount = tagArray->Data.Size;
     }
     if ( tagArray->Data.Size )

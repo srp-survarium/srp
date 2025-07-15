@@ -4,10 +4,10 @@ void __thiscall Scaleform::Render::DrawableImage::DrawableImage(
         Scaleform::Render::Size<unsigned long> size,
         bool transparent,
         Scaleform::Render::Color fillColor,
-        Scaleform::Render::DrawableImageContext *dicontext)
+        Scaleform::GFx::Resource *dicontext)
 {
   bool v7; // cl
-  Scaleform::Render::DrawableImageContext *v8; // eax
+  Scaleform::GFx::Resource *v8; // eax
   unsigned int Raw; // edi
   Scaleform::Render::DICommand_Clear cmd; // [esp+Ch] [ebp-Ch] BYREF
 
@@ -41,7 +41,7 @@ void __thiscall Scaleform::Render::DrawableImage::DrawableImage(
   this->pContext.pObject = 0;
   this->pRT.pObject = 0;
   this->pFence.pObject = 0;
-  Scaleform::Render::DrawableImage::initialize(this, format, &size, (int)v8);
+  Scaleform::Render::DrawableImage::initialize(this, format, &size, v8);
   if ( !this->Transparent )
     fillColor.Channels.Alpha = -1;
   Raw = fillColor.Raw;
@@ -64,7 +64,7 @@ void __thiscall Scaleform::Render::DrawableImage::DrawableImage(
 {
   int v5; // eax
   Scaleform::Render::ImageFormat v6; // eax
-  Scaleform::Render::Size<unsigned long> size; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::Render::Size<unsigned long> v7; // [esp+10h] [ebp-8h] BYREF
 
   this->__vftable = (Scaleform::Render::DrawableImage_vtbl *)&Scaleform::RefCountImplCore::`vftable';
   this->RefCount = 1;
@@ -100,5 +100,5 @@ void __thiscall Scaleform::Render::DrawableImage::DrawableImage(
   this->pFence.pObject = 0;
   v5 = ((int (__thiscall *)(Scaleform::Render::ImageBase *))originalData->GetSize)(originalData);
   v6 = ((int (__thiscall *)(Scaleform::Render::ImageBase *, int))originalData->GetFormat)(originalData, v5);
-  Scaleform::Render::DrawableImage::initialize(this, v6, &size, (int)dicontext);
+  Scaleform::Render::DrawableImage::initialize(this, v6, &v7, dicontext);
 }

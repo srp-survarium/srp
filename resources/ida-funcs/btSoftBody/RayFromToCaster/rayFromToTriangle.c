@@ -1,108 +1,93 @@
 float __usercall btSoftBody::RayFromToCaster::rayFromToTriangle@<xmm0>(
         const btVector3 *rayFrom@<edi>,
-        const btVector3 *a@<esi>,
-        const btVector3 *b@<ecx>,
-        const btVector3 *c@<eax>,
+        const btVector3 *rayNormalizedDirection@<esi>,
+        const btVector3 *b@<edx>,
+        const btVector3 *c@<ecx>,
         const btVector3 *rayTo,
-        const btVector3 *rayNormalizedDirection)
+        const btVector3 *a)
 {
-  float v6; // xmm4_4
-  float v7; // xmm0_4
-  float v8; // xmm1_4
-  float v9; // xmm6_4
-  float v10; // xmm1_4
+  float v6; // xmm1_4
+  float v7; // xmm2_4
+  float v8; // xmm5_4
+  float v9; // xmm3_4
+  float v10; // xmm7_4
   float v11; // xmm2_4
-  float v12; // xmm5_4
   float result; // xmm0_4
-  float v14; // xmm3_4
-  float v15; // xmm6_4
-  float v16; // xmm1_4
-  float v17; // xmm3_4
-  float v18; // xmm4_4
-  float v19; // xmm6_4
-  float v20; // xmm1_4
-  float v21; // xmm4_4
-  float _X; // [esp+C8h] [ebp-50h]
-  float v23; // [esp+C8h] [ebp-50h]
-  float v24; // [esp+CCh] [ebp-4Ch]
-  float v25; // [esp+D0h] [ebp-48h]
-  float v26; // [esp+D0h] [ebp-48h]
-  float v27; // [esp+D4h] [ebp-44h]
-  float v28; // [esp+D8h] [ebp-40h]
-  float v29; // [esp+DCh] [ebp-3Ch]
-  float v30; // [esp+E0h] [ebp-38h]
-  float v31; // [esp+E4h] [ebp-34h]
-  float v32; // [esp+E4h] [ebp-34h]
-  float v33; // [esp+E8h] [ebp-30h]
-  float v34; // [esp+E8h] [ebp-30h]
-  float v35; // [esp+ECh] [ebp-2Ch]
-  float v36; // [esp+F0h] [ebp-28h]
-  float v37; // [esp+F0h] [ebp-28h]
-  float v38; // [esp+F4h] [ebp-24h]
-  float v39; // [esp+F4h] [ebp-24h]
-  float v40; // [esp+100h] [ebp-18h]
-  float v41; // [esp+108h] [ebp-10h]
-  float v42; // [esp+10Ch] [ebp-Ch]
+  float v13; // xmm4_4
+  float v14; // xmm5_4
+  float v15; // [esp+8h] [ebp-58h]
+  float v16; // [esp+8h] [ebp-58h]
+  float v17; // [esp+10h] [ebp-50h]
+  float v18; // [esp+10h] [ebp-50h]
+  float v19; // [esp+10h] [ebp-50h]
+  float v20; // [esp+14h] [ebp-4Ch]
+  float v21; // [esp+1Ch] [ebp-44h]
+  float v22; // [esp+1Ch] [ebp-44h]
+  float v23; // [esp+20h] [ebp-40h]
+  float v24; // [esp+20h] [ebp-40h]
+  unsigned __int64 v25; // [esp+24h] [ebp-3Ch]
+  float v26; // [esp+2Ch] [ebp-34h]
+  float v27; // [esp+2Ch] [ebp-34h]
+  float v28; // [esp+30h] [ebp-30h]
+  float v29; // [esp+38h] [ebp-28h]
+  float v30; // [esp+40h] [ebp-20h]
+  float v31; // [esp+44h] [ebp-1Ch]
+  float v32; // [esp+48h] [ebp-18h]
 
-  v6 = a->mVec128.m128_f32[1];
-  v35 = c->mVec128.m128_f32[0];
-  v41 = c->mVec128.m128_f32[0] - a->mVec128.m128_f32[0];
-  v7 = a->mVec128.m128_f32[2];
-  v30 = b->mVec128.m128_f32[0];
-  v8 = b->mVec128.m128_f32[0] - a->mVec128.m128_f32[0];
-  v31 = b->mVec128.m128_f32[1];
-  v24 = a->mVec128.m128_f32[0];
-  v38 = c->mVec128.m128_f32[2];
-  v33 = b->mVec128.m128_f32[2];
-  v36 = c->mVec128.m128_f32[1];
-  v9 = v8 * (float)(v38 - v7);
-  v10 = (float)(v8 * (float)(v36 - v6)) - (float)((float)(v31 - v6) * v41);
-  v11 = (float)((float)(v33 - v7) * v41) - v9;
-  v12 = (float)((float)(v31 - v6) * (float)(v38 - v7)) - (float)((float)(v33 - v7) * (float)(v36 - v6));
-  v25 = (float)((float)(v7 * v10) + (float)(v6 * v11)) + (float)(a->mVec128.m128_f32[0] * v12);
-  v28 = rayTo->mVec128.m128_f32[1];
-  v40 = v10;
-  v29 = rayTo->mVec128.m128_f32[2];
-  _X = (float)((float)(v28 * v11) + (float)(v29 * v10)) + (float)(rayTo->mVec128.m128_f32[0] * v12);
-  v27 = rayTo->mVec128.m128_f32[0];
-  if ( fabsf(_X) < 0.00000011920929 )
-    return -1.0;
-  result = (float)((float)((float)((float)(rayFrom->mVec128.m128_f32[1] * v11)
-                                 + (float)(rayFrom->mVec128.m128_f32[2] * v10))
-                         + (float)(rayFrom->mVec128.m128_f32[0] * v12))
-                 - v25)
-         * (float)(-1.0 / _X);
+  v6 = rayTo->mVec128.m128_f32[0];
+  v7 = rayTo->mVec128.m128_f32[1];
+  v8 = b->mVec128.m128_f32[1];
+  v25 = c->mVec128.m128_u64[0];
+  v17 = rayTo->mVec128.m128_f32[2];
+  v26 = c->mVec128.m128_f32[2];
+  v23 = b->mVec128.m128_f32[2];
+  v28 = (float)((float)(v8 - v7) * (float)(v26 - v17))
+      - (float)((float)(v23 - v17) * (float)(c->mVec128.m128_f32[1] - v7));
+  v9 = rayNormalizedDirection->mVec128.m128_f32[1];
+  v29 = (float)((float)(b->mVec128.m128_f32[0] - v6) * (float)(c->mVec128.m128_f32[1] - v7))
+      - (float)((float)(v8 - v7) * (float)(c->mVec128.m128_f32[0] - v6));
+  v10 = (float)((float)(v23 - v17) * (float)(c->mVec128.m128_f32[0] - v6))
+      - (float)((float)(b->mVec128.m128_f32[0] - v6) * (float)(v26 - v17));
+  v11 = rayNormalizedDirection->mVec128.m128_f32[2];
+  v20 = (float)((float)(v17 * v29) + (float)(rayTo->mVec128.m128_f32[1] * v10))
+      + (float)(rayTo->mVec128.m128_f32[0] * v28);
+  v15 = (float)(v9 * v10) + (float)(v11 * v29);
+  if ( COERCE_FLOAT(COERCE_UNSIGNED_INT(v15 + (float)(rayNormalizedDirection->mVec128.m128_f32[0] * v28)) & _mask__AbsFloat_) < 0.00000011920929 )
+    return FLOAT_N1_0;
+  v18 = rayFrom->mVec128.m128_f32[2];
+  v21 = rayFrom->mVec128.m128_f32[1];
+  result = (float)((float)((float)((float)(v21 * v10) + (float)(v18 * v29)) + (float)(rayFrom->mVec128.m128_f32[0] * v28))
+                 - v20)
+         * (float)(-1.0 / (float)(v15 + (float)(rayNormalizedDirection->mVec128.m128_f32[0] * v28)));
   if ( result <= 0.0000011920929 )
-    return -1.0;
-  if ( *(float *)&rayNormalizedDirection <= result )
-    return -1.0;
-  v14 = rayFrom->mVec128.m128_f32[0] + (float)(v27 * result);
-  v23 = v30 - v14;
-  v15 = v24 - v14;
-  v16 = rayFrom->mVec128.m128_f32[2] + (float)(v29 * result);
-  v17 = a->mVec128.m128_f32[2] - v16;
-  v18 = v33 - v16;
-  v26 = v15;
-  v42 = rayFrom->mVec128.m128_f32[1] + (float)(v28 * result);
-  v19 = a->mVec128.m128_f32[1] - v42;
-  v20 = (float)((float)(v19 * (float)(v33 - v16)) - (float)(v17 * (float)(v31 - v42))) * v12;
-  v32 = v31 - v42;
-  v34 = v18;
-  if ( (float)((float)((float)((float)((float)(v32 * v26) - (float)(v19 * v23)) * v40)
-                     + (float)((float)((float)(v17 * v23) - (float)(v18 * v26)) * v11))
-             + v20) <= -0.0000011920929 )
-    return -1.0;
-  v37 = v36 - v42;
-  v39 = v38 - (float)(rayFrom->mVec128.m128_f32[2] + (float)(v29 * result));
-  v21 = v35 - (float)(rayFrom->mVec128.m128_f32[0] + (float)(v27 * result));
-  if ( (float)((float)((float)((float)((float)(v37 * v23) - (float)(v32 * v21)) * v40)
-                     + (float)((float)((float)(v34 * v21) - (float)(v39 * v23)) * v11))
-             + (float)((float)((float)(v32 * v39) - (float)(v34 * v37)) * v12)) <= -0.0000011920929
-    || (float)((float)((float)((float)((float)(v19 * v21) - (float)(v37 * v26)) * v40)
-                     + (float)((float)((float)(v39 * v26) - (float)(v17 * v21)) * v11))
-             + (float)((float)((float)(v37 * v17) - (float)(v39 * v19)) * v12)) <= -0.0000011920929 )
+    return FLOAT_N1_0;
+  if ( *(float *)&a <= result )
+    return FLOAT_N1_0;
+  v30 = rayFrom->mVec128.m128_f32[0] + (float)(rayNormalizedDirection->mVec128.m128_f32[0] * result);
+  v31 = v21 + (float)(v9 * result);
+  v32 = v18 + (float)(v11 * result);
+  v16 = b->mVec128.m128_f32[0] - v30;
+  v13 = rayTo->mVec128.m128_f32[1] - v31;
+  v24 = v23 - v32;
+  v22 = v8 - v31;
+  v14 = rayTo->mVec128.m128_f32[2] - v32;
+  v19 = v6 - v30;
+  if ( (float)((float)((float)((float)((float)(v22 * v19) - (float)(v13 * v16)) * v29)
+                     + (float)((float)((float)(v14 * v16) - (float)(v24 * v19)) * v10))
+             + (float)((float)((float)(v13 * v24) - (float)(v14 * v22)) * v28)) <= -0.0000011920929 )
+    return FLOAT_N1_0;
+  *((float *)&v25 + 1) = *((float *)&v25 + 1) - v31;
+  v27 = v26 - v32;
+  if ( (float)((float)((float)((float)((float)(*((float *)&v25 + 1) * v16) - (float)(v22 * (float)(*(float *)&v25 - v30)))
+                             * v29)
+                     + (float)((float)((float)(v24 * (float)(*(float *)&v25 - v30)) - (float)(v27 * v16)) * v10))
+             + (float)((float)((float)(v22 * v27) - (float)(v24 * *((float *)&v25 + 1))) * v28)) <= -0.0000011920929
+    || (float)((float)((float)((float)((float)(v13 * (float)(*(float *)&v25 - v30)) - (float)(*((float *)&v25 + 1) * v19))
+                             * v29)
+                     + (float)((float)((float)(v27 * v19) - (float)(v14 * (float)(*(float *)&v25 - v30))) * v10))
+             + (float)((float)((float)(*((float *)&v25 + 1) * v14) - (float)(v27 * v13)) * v28)) <= -0.0000011920929 )
   {
-    return -1.0;
+    return FLOAT_N1_0;
   }
   return result;
 }

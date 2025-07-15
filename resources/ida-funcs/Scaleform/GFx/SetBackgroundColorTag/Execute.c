@@ -6,15 +6,15 @@ void __thiscall Scaleform::GFx::SetBackgroundColorTag::Execute(
   _DWORD *v4; // esi
   double v5; // st7
   double v6; // st7
-  float ma; // [esp+Ch] [ebp+4h]
+  float v7; // [esp+Ch] [ebp+4h]
 
   pASRoot = m->pASRoot;
   v4 = &pASRoot->pMovieImpl->__vftable;
   if ( (v4[4061] & 0x20000) == 0 )
   {
-    ma = ((double (__thiscall *)(Scaleform::GFx::MovieImpl *))*(_DWORD *)(*v4 + 132))(pASRoot->pMovieImpl) * 255.0;
-    v5 = ma;
-    if ( ma <= 0.0 )
+    v7 = ((double (__thiscall *)(Scaleform::GFx::MovieImpl *))*(_DWORD *)(*v4 + 132))(pASRoot->pMovieImpl) * 255.0;
+    v5 = v7;
+    if ( v7 <= 0.0 )
       v6 = v5 - 0.5;
     else
       v6 = v5 + 0.5;

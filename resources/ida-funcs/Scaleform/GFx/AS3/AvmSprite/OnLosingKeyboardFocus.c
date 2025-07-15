@@ -1,4 +1,4 @@
-bool __thiscall Scaleform::GFx::AS3::AvmSprite::OnLosingKeyboardFocus(
+char __thiscall Scaleform::GFx::AS3::AvmSprite::OnLosingKeyboardFocus(
         char *this,
         Scaleform::GFx::InteractiveObject *a2,
         unsigned int a3,
@@ -8,7 +8,7 @@ bool __thiscall Scaleform::GFx::AS3::AvmSprite::OnLosingKeyboardFocus(
 }
 
 
-bool __thiscall Scaleform::GFx::AS3::AvmSprite::OnLosingKeyboardFocus(
+char __thiscall Scaleform::GFx::AS3::AvmSprite::OnLosingKeyboardFocus(
         char *this,
         Scaleform::GFx::InteractiveObject *a2,
         unsigned int a3,

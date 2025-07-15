@@ -11,14 +11,15 @@ void __thiscall Scaleform::Render::GlyphTextureImage::GlyphTextureImage(
   this->RefCount = 1;
   this->__vftable = (Scaleform::Render::GlyphTextureImage_vtbl *)&Scaleform::Render::Image::`vftable';
   InterlockedExchange((volatile LONG *)&this->pTexture, 0);
-  this->__vftable = (Scaleform::Render::GlyphTextureImage_vtbl *)&Scaleform::Render::TextureImage::`vftable';
   this->pUpdateSync = 0;
   this->pInverseMatrix = 0;
+  this->__vftable = (Scaleform::Render::GlyphTextureImage_vtbl *)&Scaleform::Render::TextureImage::`vftable';
   this->Format = Image_A8;
   Height = size->Height;
   this->Size.Width = size->Width;
   this->Size.Height = Height;
   this->Use = use;
+  this->ImageId = Scaleform::Render::ImageBase::GetNextImageId();
   this->__vftable = (Scaleform::Render::GlyphTextureImage_vtbl *)&Scaleform::Render::GlyphTextureImage::`vftable';
   this->pCache = cache;
   this->TextureId = textureId;

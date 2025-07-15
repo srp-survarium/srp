@@ -11,7 +11,7 @@ void __thiscall Scaleform::HeapPT::AllocEngine::Free(
   {
     if ( SegType == 10 )
     {
-      Scaleform::HeapPT::AllocBitSet2::Free(&this->Allocator, seg, ptr);
+      Scaleform::HeapPT::AllocBitSet2::Free(&this->Allocator, seg, (char *)ptr);
       if ( seg->UseCount-- == 1 )
         Scaleform::HeapPT::AllocEngine::freeSegmentBitSet(this, seg);
     }
@@ -20,7 +20,7 @@ void __thiscall Scaleform::HeapPT::AllocEngine::Free(
       this->SysDirectSpace -= seg->DataSize;
       p_RootLock = &Scaleform::HeapPT::GlobalRoot->RootLock;
       EnterCriticalSection(&Scaleform::HeapPT::GlobalRoot->RootLock.mLock.cs);
-      Scaleform::HeapPT::AllocEngine::freeSegment(this, seg);
+      Scaleform::HeapPT::AllocEngine::freeSegment(this, (unsigned int)seg);
       LeaveCriticalSection(&p_RootLock->mLock.cs);
     }
   }

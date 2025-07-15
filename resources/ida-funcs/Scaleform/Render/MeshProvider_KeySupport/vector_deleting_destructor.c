@@ -13,7 +13,9 @@ Scaleform::Render::MeshProvider_KeySupport *__thiscall Scaleform::Render::MeshPr
 }
 
 
-void *__thiscall Scaleform::Render::MeshProvider_KeySupport::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Render::MeshProvider_KeySupport *__thiscall Scaleform::Render::MeshProvider_KeySupport::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::Render::MeshProvider_KeySupport::`vector deleting destructor'(
            (Scaleform::Render::MeshProvider_KeySupport *)(this - 8),

@@ -16,16 +16,16 @@ DName *__cdecl UnDecorator::getExtendedDataIndirectType(DName *result, char *prT
   DName *v17; // eax
   DName v18; // [esp+8h] [ebp-28h] BYREF
   DName v19; // [esp+10h] [ebp-20h] BYREF
-  DName v20; // [esp+18h] [ebp-18h] BYREF
+  DName resulta; // [esp+18h] [ebp-18h] BYREF
   DName v21; // [esp+20h] [ebp-10h] BYREF
-  DName szComPlusIndirSpecifier; // [esp+28h] [ebp-8h] BYREF
+  DName v22; // [esp+28h] [ebp-8h] BYREF
 
-  *((_DWORD *)&szComPlusIndirSpecifier + 1) &= 0xFFFF0000;
+  *((_DWORD *)&v22 + 1) &= 0xFFFF0000;
   v4 = UnDecorator::gName + 1;
   UnDecorator::gName = v4;
   v5 = *v4;
   v6 = *v4;
-  szComPlusIndirSpecifier.node = 0;
+  v22.node = 0;
   switch ( v6 )
   {
     case 'A':
@@ -36,7 +36,7 @@ DName *__cdecl UnDecorator::getExtendedDataIndirectType(DName *result, char *prT
       if ( thisFlag )
         goto LABEL_19;
       *fIsPinPtr = 1;
-      DName::operator=(&szComPlusIndirSpecifier, 62);
+      DName::operator=(&v22, 62);
 LABEL_24:
       v17 = result;
       ++UnDecorator::gName;
@@ -63,29 +63,29 @@ LABEL_19:
   UnDecorator::gName = v4 + 2;
   if ( v8 > 1 )
   {
-    DName::operator=(&szComPlusIndirSpecifier, 44);
+    DName::operator=(&v22, 44);
     v9 = DName::DName(&v21, v8);
-    v10 = DName::operator+(&szComPlusIndirSpecifier, &v20, v9);
+    v10 = DName::operator+(&v22, &resulta, v9);
     node = v10->node;
     v12 = *((_DWORD *)v10 + 1);
-    szComPlusIndirSpecifier.node = node;
-    *((_DWORD *)&szComPlusIndirSpecifier + 1) = v12;
+    v22.node = node;
+    *((_DWORD *)&v22 + 1) = v12;
   }
-  v13 = DName::operator+(&szComPlusIndirSpecifier, &v19, 62);
-  szComPlusIndirSpecifier.node = v13->node;
+  v13 = DName::operator+(&v22, &v19, 62);
+  v22.node = v13->node;
   v14 = *((_DWORD *)v13 + 1);
   v15 = *UnDecorator::gName == 36;
-  *((_DWORD *)&szComPlusIndirSpecifier + 1) = v14;
+  *((_DWORD *)&v22 + 1) = v14;
   if ( v15 )
   {
     ++UnDecorator::gName;
   }
   else
   {
-    v16 = DName::operator+(&szComPlusIndirSpecifier, &v18, 94);
-    szComPlusIndirSpecifier.node = v16->node;
+    v16 = DName::operator+(&v22, &v18, 94);
+    v22.node = v16->node;
     v14 = *((_DWORD *)v16 + 1);
-    *((_DWORD *)&szComPlusIndirSpecifier + 1) = v14;
+    *((_DWORD *)&v22 + 1) = v14;
   }
   if ( *UnDecorator::gName )
   {
@@ -93,11 +93,11 @@ LABEL_19:
   }
   else
   {
-    DName::operator+=(&szComPlusIndirSpecifier, DN_truncated);
-    v14 = *((_DWORD *)&szComPlusIndirSpecifier + 1);
+    DName::operator+=(&v22, DN_truncated);
+    v14 = *((_DWORD *)&v22 + 1);
   }
   v17 = result;
-  result->node = szComPlusIndirSpecifier.node;
+  result->node = v22.node;
   *((_DWORD *)result + 1) = v14 | 0x4000;
   return v17;
 }

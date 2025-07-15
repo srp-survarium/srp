@@ -16,18 +16,18 @@ void __cdecl Scaleform::GFx::AS2::ObjectProto::Watch_(const Scaleform::GFx::AS2:
   Scaleform::GFx::AS2::FunctionObject *Function; // ecx
   unsigned int v15; // edx
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // ecx
-  Scaleform::GFx::AS2::Value *Result; // esi
+  Scaleform::GFx::AS2::Value *v17; // esi
   Scaleform::GFx::AS2::Environment *v18; // [esp-14h] [ebp-34h]
-  Scaleform::GFx::AS2::FunctionRef callback; // [esp+4h] [ebp-1Ch] BYREF
-  Scaleform::GFx::AS2::Value userData; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+4h] [ebp-1Ch] BYREF
+  Scaleform::GFx::AS2::Value v20; // [esp+10h] [ebp-10h] BYREF
 
   v1 = fn;
   if ( fn->NArgs < 2 )
   {
-    Result = fn->Result;
-    Scaleform::GFx::AS2::Value::DropRefs(Result);
-    Result->T.Type = 2;
-    Result->V.BooleanValue = 0;
+    v17 = fn->Result;
+    Scaleform::GFx::AS2::Value::DropRefs(v17);
+    v17->T.Type = 2;
+    v17->V.BooleanValue = 0;
   }
   else
   {
@@ -36,15 +36,15 @@ void __cdecl Scaleform::GFx::AS2::ObjectProto::Watch_(const Scaleform::GFx::AS2:
     v4 = 0;
     if ( v3 <= 32 * (Env->Stack.Pages.Data.Size - 1) + Env->Stack.pCurrent - Env->Stack.pPageStart )
       v4 = &Env->Stack.Pages.Data.Data[v3 >> 5]->Values[v3 & 0x1F];
-    Scaleform::GFx::AS2::Value::ToFunction(v4, &callback, Env);
-    if ( callback.Function )
+    Scaleform::GFx::AS2::Value::ToFunction(v4, &result, Env);
+    if ( result.Function )
     {
       v5 = v1->NArgs < 3;
-      userData.T.Type = 0;
+      v20.T.Type = 0;
       if ( !v5 )
       {
         v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 2);
-        Scaleform::GFx::AS2::Value::operator=(&userData, v6);
+        Scaleform::GFx::AS2::Value::operator=(&v20, v6);
       }
       v18 = v1->Env;
       v7 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
@@ -53,8 +53,8 @@ void __cdecl Scaleform::GFx::AS2::ObjectProto::Watch_(const Scaleform::GFx::AS2:
              v1->ThisPtr,
              &v1->Env->StringContext,
              (const Scaleform::GFx::ASString *)&fn,
-             &callback,
-             &userData);
+             &result,
+             &v20);
       v9 = v1->Result;
       v10 = v8;
       Scaleform::GFx::AS2::Value::DropRefs(v9);
@@ -64,8 +64,8 @@ void __cdecl Scaleform::GFx::AS2::ObjectProto::Watch_(const Scaleform::GFx::AS2:
       --fn->ThisFunctionRef.Function;
       if ( !v11->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v11);
-      if ( userData.T.Type >= 5u )
-        Scaleform::GFx::AS2::Value::DropRefs(&userData);
+      if ( v20.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&v20);
     }
     else
     {
@@ -74,27 +74,27 @@ void __cdecl Scaleform::GFx::AS2::ObjectProto::Watch_(const Scaleform::GFx::AS2:
       v12->T.Type = 2;
       v12->V.BooleanValue = 0;
     }
-    if ( (callback.Flags & 2) == 0 )
+    if ( (result.Flags & 2) == 0 )
     {
-      if ( callback.Function )
+      if ( result.Function )
       {
-        RefCount = callback.Function->RefCount;
-        Function = callback.Function;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        RefCount = result.Function->RefCount;
+        Function = result.Function;
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
-          callback.Function->RefCount = RefCount - 1;
+          result.Function->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
         }
       }
     }
-    callback.Function = 0;
-    if ( (callback.Flags & 1) == 0 && callback.pLocalFrame )
+    result.Function = 0;
+    if ( (result.Flags & 1) == 0 && result.pLocalFrame )
     {
-      v15 = callback.pLocalFrame->RefCount;
-      pLocalFrame = callback.pLocalFrame;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v15) != 0 )
+      v15 = result.pLocalFrame->RefCount;
+      pLocalFrame = result.pLocalFrame;
+      if ( (v15 & 0x3FFFFFF) != 0 )
       {
-        callback.pLocalFrame->RefCount = v15 - 1;
+        result.pLocalFrame->RefCount = v15 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
       }
     }

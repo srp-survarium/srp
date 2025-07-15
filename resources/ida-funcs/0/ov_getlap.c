@@ -1,45 +1,51 @@
-void __cdecl ov_getlap(OggVorbis_File *vf, vorbis_info *vi, vorbis_dsp_state *vd, float **lappcm, int lapsize)
+void __usercall ov_getlap(
+        __int128 a1@<xmm0>,
+        OggVorbis_File *vf,
+        vorbis_info *vi,
+        vorbis_dsp_state *vd,
+        float **lappcm,
+        int lapsize)
 {
-  int v5; // [esp+0h] [ebp-18h]
-  int samples; // [esp+8h] [ebp-10h]
+  int v6; // [esp+0h] [ebp-18h]
+  int n; // [esp+8h] [ebp-10h]
   int i; // [esp+Ch] [ebp-Ch]
-  int ia; // [esp+Ch] [ebp-Ch]
-  int ib; // [esp+Ch] [ebp-Ch]
-  int lapcount; // [esp+10h] [ebp-8h]
+  int k; // [esp+Ch] [ebp-Ch]
+  int j; // [esp+Ch] [ebp-Ch]
+  int v11; // [esp+10h] [ebp-8h]
   float **pcm; // [esp+14h] [ebp-4h] BYREF
 
-  lapcount = 0;
-  while ( lapcount < lapsize )
+  v11 = 0;
+  while ( v11 < lapsize )
   {
-    samples = vorbis_synthesis_pcmout(vd, &pcm);
-    if ( samples )
+    n = vorbis_synthesis_pcmout(vd, &pcm);
+    if ( n )
     {
-      if ( samples > lapsize - lapcount )
-        samples = lapsize - lapcount;
+      if ( n > lapsize - v11 )
+        n = lapsize - v11;
       for ( i = 0; i < vi->channels; ++i )
-        memcpy((unsigned __int8 *)&lappcm[i][lapcount], (unsigned __int8 *)pcm[i], 4 * samples);
-      lapcount += samples;
-      vorbis_synthesis_read(vd, samples);
+        memcpy((unsigned __int8 *)&lappcm[i][v11], (unsigned __int8 *)pcm[i], 4 * n);
+      v11 += n;
+      vorbis_synthesis_read(vd, n);
     }
-    else if ( fetch_and_process_packet(vf, 0, 1, 0) == -2 )
+    else if ( fetch_and_process_packet(a1, vf, 0, 1, 0) == -2 )
     {
       break;
     }
   }
-  if ( lapcount < lapsize )
+  if ( v11 < lapsize )
   {
-    v5 = vorbis_synthesis_lapout(&vf->vd, &pcm);
-    if ( v5 )
+    v6 = vorbis_synthesis_lapout(&vf->vd, &pcm);
+    if ( v6 )
     {
-      if ( v5 > lapsize - lapcount )
-        v5 = lapsize - lapcount;
-      for ( ib = 0; ib < vi->channels; ++ib )
-        memcpy((unsigned __int8 *)&lappcm[ib][lapcount], (unsigned __int8 *)pcm[ib], 4 * v5);
+      if ( v6 > lapsize - v11 )
+        v6 = lapsize - v11;
+      for ( j = 0; j < vi->channels; ++j )
+        memcpy((unsigned __int8 *)&lappcm[j][v11], (unsigned __int8 *)pcm[j], 4 * v6);
     }
     else
     {
-      for ( ia = 0; ia < vi->channels; ++ia )
-        memset((unsigned __int8 *)&lappcm[ia][lapcount], 0, 4 * lapsize - lapcount);
+      for ( k = 0; k < vi->channels; ++k )
+        memset((int)&lappcm[k][v11], 0, 4 * lapsize - v11);
     }
   }
 }

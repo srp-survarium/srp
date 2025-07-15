@@ -1,7 +1,7 @@
 int __cdecl __get_qualified_locale(tagLC_STRINGS *const lpInStr, tagLC_ID *lpOutId, tagLC_STRINGS *lpOutStr)
 {
   _tiddata *v3; // eax
-  unsigned int p_setloc_data; // esi
+  int p_setloc_data; // esi
   unsigned __int8 **p_pchCountry; // edi
   _BYTE *v6; // eax
   unsigned __int8 *v7; // edi
@@ -10,10 +10,10 @@ int __cdecl __get_qualified_locale(tagLC_STRINGS *const lpInStr, tagLC_ID *lpOut
   LCID UserDefaultLCID; // eax
   UINT v11; // eax
   unsigned __int16 v12; // di
-  int iCodePage; // [esp+14h] [ebp+8h]
+  int val; // [esp+14h] [ebp+8h]
 
   v3 = _getptd();
-  p_setloc_data = (unsigned int)&v3->_setloc_data;
+  p_setloc_data = (int)&v3->_setloc_data;
   if ( !lpInStr )
   {
     v3->_setloc_data.iLcidState |= 0x104u;
@@ -27,7 +27,7 @@ LABEL_23:
   *(_DWORD *)p_setloc_data = lpInStr;
   v3->_setloc_data.pchCountry = lpInStr->szCountry;
   if ( lpInStr != (tagLC_STRINGS *const)-64 && lpInStr->szCountry[0] )
-    TranslateName(__rg_country, 22, (const char **)&v3->_setloc_data.pchCountry);
+    TranslateName(__rg_country, 22, &v3->_setloc_data.pchCountry);
   v6 = *(_BYTE **)p_setloc_data;
   *(_DWORD *)(p_setloc_data + 8) = 0;
   if ( !v6 || !*v6 )
@@ -40,7 +40,7 @@ LABEL_23:
     }
     strlen(v8);
     *(_DWORD *)(p_setloc_data + 20) = v9 == 3;
-    EnumSystemLocalesA(CountryEnumProc, 1u);
+    EnumSystemLocalesA((LOCALE_ENUMPROCA)CountryEnumProc, 1u);
     if ( (*(_BYTE *)(p_setloc_data + 8) & 4) == 0 )
       *(_DWORD *)(p_setloc_data + 8) = 0;
 LABEL_24:
@@ -54,7 +54,7 @@ LABEL_24:
     GetLcidFromLanguage((setloc_struct *)p_setloc_data);
   if ( !*(_DWORD *)(p_setloc_data + 8) )
   {
-    if ( TranslateName(__rg_language, 64, (const char **)p_setloc_data) )
+    if ( TranslateName(__rg_language, 64, (char **)p_setloc_data) )
     {
       v7 = *p_pchCountry;
       if ( v7 && *v7 )
@@ -65,9 +65,12 @@ LABEL_24:
     goto LABEL_24;
   }
 LABEL_25:
-  v11 = ProcessCodePage(lpInStr != 0 ? lpInStr->szCodePage : 0, (setloc_struct *)p_setloc_data);
+  v11 = ProcessCodePage(
+          lpInStr != 0 ? lpInStr->szCodePage : 0,
+          (setloc_struct *)p_setloc_data,
+          (int)lpInStr->szCodePage);
   v12 = v11;
-  iCodePage = v11;
+  val = v11;
   if ( !v11
     || v11 == 65000
     || v11 == 65001
@@ -86,8 +89,8 @@ LABEL_25:
     return 1;
   if ( lpOutId->wLanguage == 2068 )
   {
-    if ( strcpy_s(lpOutStr->szLanguage, 0x40u, "Norwegian-Nynorsk") )
-      _invoke_watson((unsigned int)lpOutStr, (unsigned int)GetLocaleInfoA, p_setloc_data);
+    if ( strcpy_s((int)GetLocaleInfoA, lpOutStr->szLanguage, 64, "Norwegian-Nynorsk") )
+      _invoke_watson((int)lpOutStr, (int)GetLocaleInfoA, p_setloc_data);
   }
   else if ( !GetLocaleInfoA(*(_DWORD *)(p_setloc_data + 24), 0x1001u, lpOutStr->szLanguage, 64) )
   {
@@ -95,7 +98,7 @@ LABEL_25:
   }
   if ( GetLocaleInfoA(*(_DWORD *)(p_setloc_data + 28), 0x1002u, lpOutStr->szCountry, 64) )
   {
-    _itoa_s(iCodePage, lpOutStr->szCodePage, 0x10u, 10);
+    _itoa_s((char *)GetLocaleInfoA, val, lpOutStr->szCodePage, 0x10u, 0xAu);
     return 1;
   }
   return 0;

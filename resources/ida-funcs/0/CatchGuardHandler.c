@@ -1,7 +1,4 @@
-_EXCEPTION_DISPOSITION __cdecl CatchGuardHandler(
-        EHExceptionRecord *pExcept,
-        EHRegistrationNode *pRN,
-        _CONTEXT *pContext)
+int __cdecl CatchGuardHandler(EHExceptionRecord *pExcept, EHRegistrationNode *pRN, _CONTEXT *pContext)
 {
   return __InternalCxxFrameHandler(
            pExcept,

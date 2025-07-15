@@ -1,31 +1,28 @@
 void *__userpurge vostok::render::res_texture::map2D@<eax>(
         vostok::render::res_texture *this@<ecx>,
         int a2@<esi>,
-        unsigned int *mode,
-        bool mip_level,
+        _DWORD *mode,
+        char mip_level,
         unsigned int *row_pitch,
         bool dot_not_wait)
 {
-  D3D11_RESOURCE_DIMENSION type; // [esp+1Ch] [ebp-10h] BYREF
-  D3D11_MAPPED_SUBRESOURCE mapped_res; // [esp+20h] [ebp-Ch] BYREF
+  _DWORD v7[3]; // [esp+0h] [ebp-10h] BYREF
+  int v8; // [esp+Ch] [ebp-4h] BYREF
 
-  if ( !*(_DWORD *)(a2 + 420) )
+  if ( !*(_DWORD *)(a2 + 440) )
     return 0;
-  if ( !*(_BYTE *)(a2 + 436) )
+  if ( !*(_BYTE *)(a2 + 456) )
     return 0;
-  (*(void (__stdcall **)(_DWORD, D3D11_RESOURCE_DIMENSION *))(**(_DWORD **)(a2 + 420) + 28))(
-    *(_DWORD *)(a2 + 420),
-    &type);
-  if ( type != D3D11_RESOURCE_DIMENSION_TEXTURE2D )
+  (*(void (__stdcall **)(_DWORD, int *))(**(_DWORD **)(a2 + 440) + 28))(*(_DWORD *)(a2 + 440), &v8);
+  if ( v8 != 3 )
     return 0;
-  (*(void (__stdcall **)(int, _DWORD, _DWORD, int, char *, D3D11_MAPPED_SUBRESOURCE *))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                                                      + 56))(
-    `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-    *(_DWORD *)(a2 + 420),
+  vostok::quasi_singleton<vostok::render::device>::pinst->m_context->Map(
+    vostok::quasi_singleton<vostok::render::device>::pinst->m_context,
+    *(ID3D11Resource **)(a2 + 440),
     0,
-    1,
-    mip_level ? (char *)&loc_FFFFF + 1 : 0,
-    &mapped_res);
-  *mode = mapped_res.RowPitch;
-  return mapped_res.pData;
+    D3D11_MAP_READ,
+    mip_level != 0 ? (unsigned int)&loc_100000 : 0,
+    (D3D11_MAPPED_SUBRESOURCE *)v7);
+  *mode = v7[1];
+  return (void *)v7[0];
 }

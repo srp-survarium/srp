@@ -1,6 +1,6 @@
 Scaleform::Render::Font *__thiscall Scaleform::Render::FontProviderWinAPI::CreateFontA(
         Scaleform::Render::FontProviderWinAPI *this,
-        const char *name,
+        char *name,
         __int16 fontFlags)
 {
   Scaleform::Render::ExternalFontWinAPI *v4; // eax

@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::readFloat(
     v = v4;
     if ( (*((_DWORD *)this + 8) & 0x18) != 8 )
       LODWORD(v) = (((LODWORD(v4) << 16) | LOWORD(v4) & 0xFF00) << 8)
-                 | ((HIWORD(LODWORD(v4)) | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & LODWORD(v4)) >> 8);
+                 | ((HIWORD(LODWORD(v4)) | LODWORD(v4) & 0xFF0000u) >> 8);
     *result = v;
   }
   else

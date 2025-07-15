@@ -1,12 +1,12 @@
 char __thiscall Scaleform::GFx::AS2::AvmCharacter::InvokeClipEventHandlers(
         Scaleform::GFx::AS2::AvmCharacter *this,
         Scaleform::GFx::AS2::Environment *penv,
-        const Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy> *id)
+        const Scaleform::GFx::EventId *id)
 {
-  unsigned int Data; // edx
+  unsigned int v3; // edx
   Scaleform::GFx::AS2::AvmCharacter *v4; // ebx
-  unsigned int Capacity; // edi
-  unsigned int Size; // eax
+  unsigned int KeyCode; // edi
+  int v6; // eax
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::EventId,323>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF> >::TableType *pTable; // esi
   Scaleform::HashLH<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor,323,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF> > *p_EventHandlers; // ecx
   signed int v9; // eax
@@ -16,40 +16,39 @@ char __thiscall Scaleform::GFx::AS2::AvmCharacter::InvokeClipEventHandlers(
   int v13; // ebp
   Scaleform::GFx::AS2::Value *v14; // eax
   Scaleform::GFx::AS2::ObjectInterface *v15; // ecx
-  Scaleform::GFx::EventId key; // [esp+10h] [ebp-14h] BYREF
+  Scaleform::GFx::EventId v18; // [esp+10h] [ebp-14h] BYREF
 
-  Data = (unsigned int)id->Data.Data;
+  v3 = id->Id;
   v4 = this;
-  if ( id->Data.Data == (Scaleform::GFx::AS2::Value *)64 || Data == 128 )
+  if ( id->Id == 64 || v3 == 128 )
   {
-    Capacity = 0;
-    key.WcharCode = 0;
-    key.AsciiCode = 0;
-    key.RollOverCnt = 0;
-    key.KeysState.States = 0;
-    key.MouseWheelDelta = 0;
-    key.ControllerIndex = -1;
+    KeyCode = 0;
+    v18.WcharCode = 0;
+    v18.AsciiCode = 0;
+    v18.RollOverCnt = 0;
+    v18.MouseWheelDelta = 0;
+    *(_WORD *)&v18.ControllerIndex = 255;
   }
   else
   {
-    Capacity = id->Data.Policy.Capacity;
-    key.WcharCode = id->Data.Size;
-    Size = id[1].Data.Size;
-    key.TouchID = (unsigned int)id[1].Data.Data;
-    *(_DWORD *)&key.RollOverCnt = Size;
+    KeyCode = id->KeyCode;
+    v18.WcharCode = id->WcharCode;
+    v6 = *(_DWORD *)&id->RollOverCnt;
+    v18.TouchID = id->TouchID;
+    *(_DWORD *)&v18.RollOverCnt = v6;
   }
   pTable = this->EventHandlers.mHash.pTable;
   p_EventHandlers = &this->EventHandlers;
-  key.KeyCode = Capacity;
-  key.Id = Data;
+  v18.KeyCode = KeyCode;
+  v18.Id = v3;
   if ( !pTable )
     return 0;
-  if ( ((unsigned int)&loc_20000 & Data) != 0 )
-    Data ^= Capacity;
+  if ( ((unsigned int)&loc_20000 & v3) != 0 )
+    v3 ^= KeyCode;
   v9 = Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::EventId,323>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>,Scaleform::HashNode<Scaleform::GFx::EventId,Scaleform::ArrayLH<Scaleform::GFx::AS2::Value,323,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::EventIdHashFunctor>::NodeHashF>>::findIndexCore<Scaleform::GFx::EventId>(
          &p_EventHandlers->mHash,
-         &key,
-         Data & pTable->SizeMask);
+         &v18,
+         v3 & pTable->SizeMask);
   if ( v9 < 0 )
     return 0;
   v10 = (int)&pTable[5 * v9 + 2];

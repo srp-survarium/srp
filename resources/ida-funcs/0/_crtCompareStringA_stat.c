@@ -1,12 +1,12 @@
 int __fastcall _crtCompareStringA_stat(
         localeinfo_struct *plocinfo,
         const char *lpString1,
-        LCID Locale,
+        unsigned int Locale,
         DWORD dwCmpFlags,
         int cchCount1,
         char *lpString2,
         int cchCount2,
-        UINT code_page)
+        unsigned int code_page)
 {
   int v10; // edx
   int result; // eax
@@ -33,12 +33,12 @@ int __fastcall _crtCompareStringA_stat(
   int v32; // esi
   _DWORD v34[2]; // [esp+0h] [ebp-38h] BYREF
   int v35; // [esp+8h] [ebp-30h] BYREF
-  int buff_size1; // [esp+Ch] [ebp-2Ch]
-  int retcode; // [esp+10h] [ebp-28h]
+  int cchCount1a; // [esp+Ch] [ebp-2Ch]
+  int v37; // [esp+10h] [ebp-28h]
   LPCCH lpMultiByteStr; // [esp+14h] [ebp-24h]
-  wchar_t *wbuffer1; // [esp+18h] [ebp-20h]
+  LPWSTR lpWideCharStr; // [esp+18h] [ebp-20h]
   char *string; // [esp+1Ch] [ebp-1Ch]
-  _cpinfo lpCPInfo; // [esp+20h] [ebp-18h] BYREF
+  _cpinfo CPInfo; // [esp+20h] [ebp-18h] BYREF
 
   lpMultiByteStr = lpString1;
   string = lpString2;
@@ -81,7 +81,7 @@ int __fastcall _crtCompareStringA_stat(
       Locale = plocinfo->locinfo->lc_handle[2];
     if ( !code_page )
       code_page = plocinfo->locinfo->lc_codepage;
-    v29 = __ansicp(Locale);
+    v29 = __ansicp(0, Locale);
     v30 = v29;
     if ( v29 == -1 )
       return 0;
@@ -111,7 +111,7 @@ int __fastcall _crtCompareStringA_stat(
   result = 1;
   if ( f_use_3 != 1 )
     return 0;
-  retcode = 0;
+  v37 = 0;
   if ( !code_page )
     code_page = plocinfo->locinfo->lc_codepage;
   if ( cchCount1 && v10 )
@@ -119,16 +119,16 @@ int __fastcall _crtCompareStringA_stat(
 LABEL_44:
     v16 = MultiByteToWideChar(code_page, 9u, lpString1, cchCount1, 0, 0);
     v17 = v16;
-    buff_size1 = v16;
+    cchCount1a = v16;
     if ( !v16 )
       return 0;
     if ( v16 <= 0 || 0xFFFFFFE0 / v16 < 2 )
     {
-      wbuffer1 = 0;
+      lpWideCharStr = 0;
 LABEL_55:
-      if ( wbuffer1 )
+      if ( lpWideCharStr )
       {
-        if ( MultiByteToWideChar(code_page, 1u, lpMultiByteStr, cchCount1, wbuffer1, v17) )
+        if ( MultiByteToWideChar(code_page, 1u, lpMultiByteStr, cchCount1, lpWideCharStr, v17) )
         {
           v21 = MultiByteToWideChar(code_page, 9u, string, cchCount2, 0, 0);
           v22 = v21;
@@ -141,7 +141,7 @@ LABEL_67:
               if ( v25 )
               {
                 if ( MultiByteToWideChar(code_page, 1u, string, cchCount2, v25, v22) )
-                  retcode = CompareStringW(Locale, dwCmpFlags, wbuffer1, buff_size1, v25, v22);
+                  v37 = CompareStringW(Locale, dwCmpFlags, lpWideCharStr, cchCount1a, v25, v22);
                 _freea(v25);
               }
               goto error_cleanup_2;
@@ -168,8 +168,8 @@ LABEL_67:
           }
         }
 error_cleanup_2:
-        _freea(wbuffer1);
-        return retcode;
+        _freea(lpWideCharStr);
+        return v37;
       }
       return 0;
     }
@@ -194,7 +194,7 @@ LABEL_52:
         v20 += 4;
       }
     }
-    wbuffer1 = v20;
+    lpWideCharStr = v20;
     goto LABEL_55;
   }
   if ( cchCount1 == v10 )
@@ -203,14 +203,14 @@ LABEL_52:
   {
     if ( cchCount1 > 1 )
       return 3;
-    if ( !GetCPInfo(code_page, &lpCPInfo) )
+    if ( !GetCPInfo(code_page, &CPInfo) )
       return 0;
     if ( cchCount1 > 0 )
     {
-      if ( lpCPInfo.MaxCharSize >= 2 )
+      if ( CPInfo.MaxCharSize >= 2 )
       {
-        LeadByte = lpCPInfo.LeadByte;
-        if ( lpCPInfo.LeadByte[0] )
+        LeadByte = CPInfo.LeadByte;
+        if ( CPInfo.LeadByte[0] )
         {
           while ( 1 )
           {
@@ -229,9 +229,9 @@ LABEL_52:
     }
     if ( cchCount2 > 0 )
     {
-      if ( lpCPInfo.MaxCharSize >= 2 )
+      if ( CPInfo.MaxCharSize >= 2 )
       {
-        for ( i = lpCPInfo.LeadByte; *i; i += 2 )
+        for ( i = CPInfo.LeadByte; *i; i += 2 )
         {
           v15 = i[1];
           if ( !v15 )

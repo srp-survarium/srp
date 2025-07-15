@@ -19,7 +19,7 @@ void __userpurge Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
   bool v16; // zf
   unsigned int v17; // ecx
   Scaleform::GFx::ASStringNode *pStringNode; // [esp+Ch] [ebp-24h]
-  int i; // [esp+18h] [ebp-18h]
+  int v21; // [esp+18h] [ebp-18h]
   Scaleform::GFx::AS2::Object *v22; // [esp+1Ch] [ebp-14h]
   Scaleform::GFx::AS2::Value v23; // [esp+20h] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+30h] [ebp+0h]
@@ -29,7 +29,7 @@ void __userpurge Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
   if ( Prototype )
     Prototype->RefCount = (Prototype->RefCount + 1) & 0x8FFFFFFF;
   v10 = funcTable;
-  i = 0;
+  v21 = 0;
   if ( funcTable->Name )
   {
     do
@@ -84,14 +84,14 @@ void __userpurge Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
       if ( v14 )
       {
         RefCount = v14->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v14->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v14);
         }
       }
-      v16 = funcTable[i + 1].Name == 0;
-      v10 = &funcTable[++i];
+      v16 = funcTable[v21 + 1].Name == 0;
+      v10 = &funcTable[++v21];
     }
     while ( !v16 );
     Prototype = v22;
@@ -99,7 +99,7 @@ void __userpurge Scaleform::GFx::AS2::GASPrototypeBase::InitFunctionMembers(
   if ( Prototype )
   {
     v17 = Prototype->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v17) != 0 )
+    if ( (v17 & 0x3FFFFFF) != 0 )
     {
       Prototype->RefCount = v17 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Prototype);

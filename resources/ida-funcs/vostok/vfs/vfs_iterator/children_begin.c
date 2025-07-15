@@ -1,32 +1,33 @@
-vostok::vfs::vfs_iterator *__thiscall vostok::vfs::vfs_iterator::children_begin(
-        vostok::vfs::vfs_iterator *this,
+vostok::vfs::vfs_iterator *__userpurge vostok::vfs::vfs_iterator::children_begin@<eax>(
+        vostok::vfs::vfs_iterator *this@<ecx>,
+        vostok::vfs::vfs_hashset **a2@<esi>,
         vostok::vfs::vfs_iterator *result)
 {
-  vostok::vfs::base_node<1> *first_child; // eax
-  vostok::vfs::base_node<1> *v4; // [esp+0h] [ebp-28h]
-  vostok::vfs::vfs_iterator out; // [esp+14h] [ebp-14h] BYREF
-  vostok::vfs::base_node<1> *child_link_target; // [esp+24h] [ebp-4h]
+  vostok::vfs::base_node<1> *m_node; // eax
+  vostok::vfs::base_node<1> *m_link_target; // ecx
+  vostok::vfs::base_node<1> *first_child; // edi
+  vostok::vfs::vfs_hashset *referenced_link_node; // eax
+  vostok::vfs::vfs_hashset *v7; // ecx
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( this->m_node )
+  m_node = result->m_node;
+  if ( m_node )
   {
-    if ( this->m_link_target )
-      first_child = vostok::vfs::base_node<1>::get_first_child(this->m_link_target);
-    else
-      first_child = vostok::vfs::base_node<1>::get_first_child(this->m_node);
-    v4 = first_child;
+    m_link_target = result->m_link_target;
+    if ( m_link_target )
+      m_node = result->m_link_target;
+    first_child = vostok::vfs::base_node<1>::get_first_child(m_link_target, (int)m_node);
   }
   else
   {
-    v4 = 0;
+    first_child = 0;
   }
-  child_link_target = vostok::vfs::find_referenced_link_node(v4);
-  vostok::vfs::vfs_iterator::vfs_iterator(
-    &out,
-    v4,
-    child_link_target,
-    this->m_hashset,
-    (vostok::vfs::vfs_iterator::type_enum)((this->m_type & 1) != 0 ? type_recursive : type_not_scanned));
-  vostok::vfs::vfs_iterator::vfs_iterator(result, &out);
-  return result;
+  referenced_link_node = (vostok::vfs::vfs_hashset *)vostok::vfs::find_referenced_link_node(first_child);
+  v7 = (vostok::vfs::vfs_hashset *)(~(2 * (unsigned __int8)result->m_type) & 2 | 1);
+  *a2 = result->m_hashset;
+  a2[1] = (vostok::vfs::vfs_hashset *)first_child;
+  a2[2] = referenced_link_node;
+  a2[3] = v7;
+  if ( first_child )
+    vostok::vfs::vfs_iterator::vfs_iterator((vostok::vfs::vfs_iterator *)first_child, (int)a2);
+  return (vostok::vfs::vfs_iterator *)a2;
 }

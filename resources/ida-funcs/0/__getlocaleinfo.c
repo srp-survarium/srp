@@ -1,56 +1,56 @@
 int __cdecl __getlocaleinfo(
         localeinfo_struct *plocinfo,
         int lc_type,
-        unsigned int localehandle,
-        unsigned int fieldtype,
-        char **address)
+        LCID localehandle,
+        LCTYPE fieldtype,
+        unsigned __int8 **address)
 {
-  unsigned __int8 *v5; // edi
-  unsigned int LocaleInfoA; // esi
+  char *v5; // edi
+  int LocaleInfoA; // esi
   unsigned int v7; // eax
-  char *v8; // eax
-  char *v9; // eax
+  unsigned __int8 *v8; // eax
+  unsigned __int8 *v9; // eax
   wchar_t *v11; // edi
   char v12; // bl
-  int buffersize; // [esp+10h] [ebp-90h]
-  int bufferused; // [esp+18h] [ebp-88h]
-  unsigned __int8 cbuffer[128]; // [esp+1Ch] [ebp-84h] BYREF
+  int cchData; // [esp+10h] [ebp-90h]
+  int v14; // [esp+18h] [ebp-88h]
+  char LCData[128]; // [esp+1Ch] [ebp-84h] BYREF
 
   if ( lc_type == 1 )
   {
-    v5 = cbuffer;
-    bufferused = 0;
-    LocaleInfoA = __crtGetLocaleInfoA(plocinfo, localehandle, fieldtype, (char *)cbuffer, 128, 0);
+    v5 = LCData;
+    v14 = 0;
+    LocaleInfoA = __crtGetLocaleInfoA(plocinfo, localehandle, fieldtype, LCData, 128, 0);
     if ( !LocaleInfoA )
     {
       if ( GetLastError() != 122 )
         return -1;
       v7 = __crtGetLocaleInfoA(plocinfo, localehandle, fieldtype, 0, 0, 0);
-      buffersize = v7;
+      cchData = v7;
       if ( !v7 )
         return -1;
-      v8 = (char *)_calloc_crt(v7, 1u);
-      v5 = (unsigned __int8 *)v8;
+      v8 = _calloc_crt(v7, 1u);
+      v5 = (char *)v8;
       if ( !v8 )
         return -1;
-      bufferused = 1;
-      LocaleInfoA = __crtGetLocaleInfoA(plocinfo, localehandle, fieldtype, v8, buffersize, 0);
+      v14 = 1;
+      LocaleInfoA = __crtGetLocaleInfoA(plocinfo, localehandle, fieldtype, (char *)v8, cchData, 0);
       if ( !LocaleInfoA )
         goto LABEL_9;
     }
-    v9 = (char *)_calloc_crt(LocaleInfoA, 1u);
+    v9 = _calloc_crt(LocaleInfoA, 1u);
     *address = v9;
     if ( !v9 )
     {
-      if ( !bufferused )
+      if ( !v14 )
         return -1;
 LABEL_9:
       free(v5);
       return -1;
     }
-    if ( strncpy_s(v9, LocaleInfoA, (const char *)v5, LocaleInfoA - 1) )
-      _invoke_watson(0, (unsigned int)v5, LocaleInfoA);
-    if ( bufferused )
+    if ( strncpy_s((int)v5, (char *)v9, LocaleInfoA, v5, LocaleInfoA - 1) )
+      _invoke_watson(0, (int)v5, LocaleInfoA);
+    if ( v14 )
       free(v5);
   }
   else
@@ -58,7 +58,7 @@ LABEL_9:
     if ( lc_type )
       return -1;
     v11 = wcbuffer;
-    if ( !__crtGetLocaleInfoW(plocinfo, localehandle, fieldtype, wcbuffer, 4, 0) )
+    if ( !__crtGetLocaleInfoW(plocinfo, localehandle, fieldtype, wcbuffer, 4) )
       return -1;
     *(_BYTE *)address = 0;
     do

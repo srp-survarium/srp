@@ -1,159 +1,173 @@
-void __thiscall survarium::breath_vibration_calculator::initialize_logic(survarium::breath_vibration_calculator *this)
+void __usercall survarium::breath_vibration_calculator::initialize_logic(
+        survarium::breath_vibration_calculator *this@<ecx>,
+        survarium::breath_vibration_calculator *a2@<edi>)
 {
-  vostok::memory::doug_lea_allocator *v1; // eax
-  survarium::game_camera *v2; // ecx
-  vostok::memory::doug_lea_allocator *v3; // eax
-  vostok::memory::doug_lea_allocator *v4; // eax
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v5; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v6; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v7; // ecx
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v8; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v9; // ecx
-  boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *v10; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v11; // ecx
-  survarium::breath_state *v12; // [esp+4h] [ebp-128h]
-  survarium::breath_state *v13; // [esp+8h] [ebp-124h]
-  survarium::breath_state *v14; // [esp+Ch] [ebp-120h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > f; // [esp+14h] [ebp-118h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool> > > v17; // [esp+1Ch] [ebp-110h]
-  boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool> > > v18; // [esp+28h] [ebp-104h]
-  void *v19; // [esp+34h] [ebp-F8h]
-  void *v20; // [esp+3Ch] [ebp-F0h]
-  void *_Where; // [esp+44h] [ebp-E8h]
-  boost::function0<bool> v22; // [esp+4Ch] [ebp-E0h] BYREF
-  boost::function0<bool> v23; // [esp+6Ch] [ebp-C0h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > v24; // [esp+8Ch] [ebp-A0h] BYREF
-  boost::function0<bool> v25; // [esp+94h] [ebp-98h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::match_client,unsigned char,vostok::network_core::packet_reader &>,boost::_bi::list3<boost::_bi::value<vostok::network::match_client *>,boost::_bi::value<unsigned char>,boost::arg<1> > > v26; // [esp+B8h] [ebp-74h] BYREF
-  boost::function0<bool> v27; // [esp+C4h] [ebp-68h] BYREF
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::match_client,unsigned char,vostok::network_core::packet_reader &>,boost::_bi::list3<boost::_bi::value<vostok::network::match_client *>,boost::_bi::value<unsigned char>,boost::arg<1> > > result; // [esp+E8h] [ebp-44h] BYREF
-  boost::function0<bool> v29; // [esp+F4h] [ebp-38h] BYREF
-  survarium::breath_state *v30; // [esp+114h] [ebp-18h]
-  survarium::breath_state *v31; // [esp+118h] [ebp-14h]
-  survarium::breath_state *v32; // [esp+11Ch] [ebp-10h]
-  survarium::breath_state *holding; // [esp+120h] [ebp-Ch]
-  survarium::breath_state *normal; // [esp+124h] [ebp-8h]
-  survarium::breath_state *shortbreathing; // [esp+128h] [ebp-4h]
+  vostok::memory::doug_lea_allocator *v2; // esi
+  char *v3; // eax
+  vostok::memory::doug_lea_allocator *v4; // ecx
+  char *v5; // eax
+  vostok::memory::doug_lea_allocator *v6; // esi
+  char *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  char *v9; // eax
+  vostok::memory::doug_lea_allocator *v10; // esi
+  char *v11; // eax
+  vostok::memory::doug_lea_allocator *v12; // ecx
+  char *v13; // eax
+  vostok::ai::fsm_state *v14; // ebx
+  _DWORD *v15; // eax
+  _DWORD *v16; // eax
+  boost::function<bool __cdecl(void)> *v17; // ecx
+  vostok::ai::fsm *v18; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v19; // ecx
+  boost::function<bool __cdecl(void)> *v20; // ecx
+  vostok::ai::fsm *v21; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v22; // ecx
+  boost::function<bool __cdecl(void)> *v23; // ecx
+  vostok::ai::fsm *v24; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v25; // ecx
+  boost::function<bool __cdecl(void)> *v26; // ecx
+  vostok::ai::fsm *v27; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v28; // ecx
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > v29; // [esp-8h] [ebp-40h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > v30; // [esp-8h] [ebp-40h]
+  boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > v31; // [esp-8h] [ebp-40h]
+  const char *v32; // [esp+0h] [ebp-38h]
+  const char *v33; // [esp+0h] [ebp-38h]
+  const char *v34; // [esp+0h] [ebp-38h]
+  int v35; // [esp+0h] [ebp-38h]
+  int v36; // [esp+0h] [ebp-38h]
+  int v37; // [esp+0h] [ebp-38h]
+  int v38; // [esp+0h] [ebp-38h]
+  const char *v39; // [esp+4h] [ebp-34h]
+  const char *v40; // [esp+4h] [ebp-34h]
+  const char *v41; // [esp+4h] [ebp-34h]
+  boost::function<bool __cdecl(void)> transition_predicate; // [esp+8h] [ebp-30h] BYREF
+  vostok::ai::fsm *v43; // [esp+2Ch] [ebp-Ch]
+  vostok::ai::fsm *v44; // [esp+30h] [ebp-8h]
+  vostok::ai::fsm *v45; // [esp+34h] [ebp-4h]
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  _Where = vostok::memory::doug_lea_allocator::malloc_impl(v1, 0x28u);
-  v32 = (survarium::breath_state *)operator new(0x28u, _Where);
-  if ( v32 )
+  v2 = survarium::g_allocator;
+  v3 = type_info::raw_name(&survarium::breath_state_normal `RTTI Type Descriptor');
+  v5 = vostok::memory::doug_lea_allocator::malloc_impl(
+         v4,
+         (int)v2,
+         0x2Cu,
+         v3,
+         v32,
+         v39,
+         (const unsigned int)transition_predicate.vtable);
+  if ( v5 )
   {
-    survarium::breath_state::breath_state(v32, &this->m_breath_holding_reserve);
-    v32->__vftable = (survarium::breath_state_vtbl *)&stru_977EF0.vostok::resources::unmanaged_intrusive_base;
-    LODWORD(v32->m_multiplier) = clear_value;
-    v2 = (survarium::game_camera *)v32;
-    v14 = v32;
+    *((_DWORD *)v5 + 2) = 0;
+    *((_DWORD *)v5 + 4) = 0;
+    *((_DWORD *)v5 + 5) = 0;
+    *((_DWORD *)v5 + 9) = &a2->m_speed_factor;
+    *(_DWORD *)v5 = &survarium::breath_state_normal::`vftable';
+    *((_DWORD *)v5 + 10) = &a2->m_penalty_factor;
+    v45 = (vostok::ai::fsm *)v5;
   }
   else
   {
-    v14 = 0;
+    v45 = 0;
   }
-  normal = v14;
-  survarium::weapon_user_dead_state::finalize(v2);
-  v20 = vostok::memory::doug_lea_allocator::malloc_impl(v3, 0x28u);
-  v31 = (survarium::breath_state *)operator new(0x28u, v20);
-  if ( v31 )
+  v6 = survarium::g_allocator;
+  v7 = type_info::raw_name(&survarium::breath_state_holding `RTTI Type Descriptor');
+  v9 = vostok::memory::doug_lea_allocator::malloc_impl(
+         v8,
+         (int)v6,
+         0x50u,
+         v7,
+         v33,
+         v40,
+         (const unsigned int)transition_predicate.vtable);
+  if ( v9 )
   {
-    survarium::breath_state::breath_state(v31, &this->m_breath_holding_reserve);
-    v31->__vftable = (survarium::breath_state_vtbl *)&stru_977EF0.m_prev_in_global_list;
-    v13 = v31;
+    *((_DWORD *)v9 + 2) = 0;
+    *((_DWORD *)v9 + 4) = 0;
+    *((_DWORD *)v9 + 5) = 0;
+    *((_DWORD *)v9 + 9) = &a2->m_breath_holding_reserve;
+    *(_DWORD *)v9 = &survarium::breath_state_holding::`vftable';
+    *((_DWORD *)v9 + 10) = 0;
+    *((_DWORD *)v9 + 18) = &a2->m_speed_factor;
+    v43 = (vostok::ai::fsm *)v9;
   }
   else
   {
-    v13 = 0;
+    v43 = 0;
   }
-  holding = v13;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v13);
-  v19 = vostok::memory::doug_lea_allocator::malloc_impl(v4, 0x2Cu);
-  v30 = (survarium::breath_state *)operator new(0x2Cu, v19);
-  if ( v30 )
+  v10 = survarium::g_allocator;
+  v11 = type_info::raw_name(&survarium::breath_state_shortbreathing `RTTI Type Descriptor');
+  v13 = vostok::memory::doug_lea_allocator::malloc_impl(
+          v12,
+          (int)v10,
+          0x2Cu,
+          v11,
+          v34,
+          v41,
+          (const unsigned int)transition_predicate.vtable);
+  if ( v13 )
   {
-    survarium::breath_state::breath_state(v30, &this->m_breath_holding_reserve);
-    v30->__vftable = (survarium::breath_state_vtbl *)&survarium::breath_state_shortbreathing::`vftable';
-    v30[1].__vftable = (survarium::breath_state_vtbl *)clear_value;
-    v12 = v30;
+    *((_DWORD *)v13 + 2) = 0;
+    *((_DWORD *)v13 + 4) = 0;
+    *((_DWORD *)v13 + 5) = 0;
+    *((_DWORD *)v13 + 9) = &a2->m_speed_factor;
+    *(_DWORD *)v13 = &survarium::breath_state_shortbreathing::`vftable';
+    *((_DWORD *)v13 + 10) = &a2->m_penalty_factor;
+    v44 = (vostok::ai::fsm *)v13;
   }
   else
   {
-    v12 = 0;
+    v44 = 0;
   }
-  shortbreathing = v12;
-  vostok::ai::fsm::add_state(&this->m_logic, normal);
-  vostok::ai::fsm::add_state(&this->m_logic, holding);
-  vostok::ai::fsm::add_state(&this->m_logic, v12);
-  v18 = *boost::bind<bool,survarium::breath_vibration_calculator,bool,survarium::breath_vibration_calculator *,bool>(
-           (boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool> > > *)&result,
-           (bool (__thiscall *)(survarium::breath_vibration_calculator *, bool))survarium::breath_vibration_calculator::hold_button_state_equals_to,
-           (vostok::network::match_client *)this,
-           1u);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v18.f_.f_,
-    &v29);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool>>>>(
-    &v29,
-    v18);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    normal,
-    holding,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v29);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v5,
-    (int *)&v29);
-  v17 = *boost::bind<bool,survarium::breath_vibration_calculator,bool,survarium::breath_vibration_calculator *,bool>(
-           (boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool> > > *)&v26,
-           (bool (__thiscall *)(survarium::breath_vibration_calculator *, bool))survarium::breath_vibration_calculator::hold_button_state_equals_to,
-           (vostok::network::match_client *)this,
-           0);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v17.l_.a1_.t_,
-    &v27);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf1<bool,survarium::breath_vibration_calculator,bool>,boost::_bi::list2<boost::_bi::value<survarium::breath_vibration_calculator *>,boost::_bi::value<bool>>>>(
-    &v27,
-    v17);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    holding,
-    normal,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v27);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v6,
-    (int *)&v27);
-  f = (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > >)*boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&v24, (void (__thiscall *)(vostok::sound::sound_debug_stats *))survarium::breath_vibration_calculator::insufficient_breath, (vostok::sound::sound_debug_stats *)this);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)f.f_.f_,
-    &v25);
-  boost::function0<bool>::assign_to<boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *>>>>(
-    &v25,
-    f);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    holding,
-    shortbreathing,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v25);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v7,
-    (int *)&v25);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v8, &v23);
-  boost::function0<bool>::assign_to<bool (__cdecl *)(void)>(&v23, (bool (__cdecl *)())survarium::true_predicate);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    shortbreathing,
-    normal,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v23);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v9,
-    (int *)&v23);
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v10, &v22);
-  boost::function0<bool>::assign_to<bool (__cdecl *)(void)>(&v22, (bool (__cdecl *)())survarium::true_predicate);
-  vostok::ai::fsm::add_transition(
-    &this->m_logic,
-    shortbreathing,
-    holding,
-    (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v22);
-  boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-    v11,
-    (int *)&v22);
+  vostok::ai::fsm::add_state(v45, a2);
+  v14 = (vostok::ai::fsm_state *)v43;
+  vostok::ai::fsm::add_state(v43, v15);
+  vostok::ai::fsm::add_state(v44, v16);
+  v29.l_.a1_.t_ = a2;
+  v29.f_.f_ = (bool (__thiscall *)(survarium::breath_vibration_calculator *))survarium::breath_vibration_calculator::can_hold_breath;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v17,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > *)&transition_predicate,
+    v29,
+    v35);
+  vostok::ai::fsm::append_transition(v18, (vostok::ai::fsm_state *)v45, v14, &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v19,
+    (int *)&transition_predicate);
+  v30.l_.a1_.t_ = a2;
+  v30.f_.f_ = (bool (__thiscall *)(survarium::breath_vibration_calculator *))survarium::breath_vibration_calculator::not_holding_breath;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v20,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > *)&transition_predicate,
+    v30,
+    v36);
+  vostok::ai::fsm::append_transition(v21, v14, (vostok::ai::fsm_state *)v45, &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v22,
+    (int *)&transition_predicate);
+  v31.l_.a1_.t_ = a2;
+  v31.f_.f_ = (bool (__thiscall *)(survarium::breath_vibration_calculator *))survarium::breath_vibration_calculator::insufficient_breath;
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v23,
+    (boost::_bi::bind_t<bool,boost::_mfi::cmf0<bool,survarium::breath_vibration_calculator>,boost::_bi::list1<boost::_bi::value<survarium::breath_vibration_calculator *> > > *)&transition_predicate,
+    v31,
+    v37);
+  vostok::ai::fsm::append_transition(v24, v14, (vostok::ai::fsm_state *)v44, &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v25,
+    (int *)&transition_predicate);
+  boost::function<bool __cdecl (void)>::function<bool __cdecl (void)>(
+    v26,
+    &transition_predicate,
+    (bool (__cdecl *)())vostok::collision::box_geometry_instance::is_valid,
+    v38);
+  vostok::ai::fsm::append_transition(
+    v27,
+    (vostok::ai::fsm_state *)v44,
+    (vostok::ai::fsm_state *)v45,
+    &transition_predicate);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v28,
+    (int *)&transition_predicate);
 }

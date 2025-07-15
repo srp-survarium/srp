@@ -31,10 +31,10 @@ char __thiscall Scaleform::GFx::AS2::Object::GetMemberRaw(
   Scaleform::GFx::AS2::LocalFrame *v29; // eax
   int v30; // eax
   const Scaleform::GFx::AS2::Value *v31; // eax
-  bool resolveHandlerSet; // [esp+13h] [ebp-5h]
+  char v32; // [esp+13h] [ebp-5h]
 
   p_pLocalFrame = &this[-1].ResolveHandler.pLocalFrame;
-  resolveHandlerSet = 0;
+  v32 = 0;
   if ( psc->SWFVersion > 6u )
   {
     if ( this != (Scaleform::GFx::AS2::Object *)16 )
@@ -84,7 +84,7 @@ LABEL_20:
             return 1;
           }
         }
-        if ( !resolveHandlerSet && p_pLocalFrame[8] )
+        if ( !v32 && p_pLocalFrame[8] )
         {
           Scaleform::GFx::AS2::Value::DropRefs(v5);
           v5->T.Type = 12;
@@ -97,7 +97,7 @@ LABEL_20:
           v11 = p_pLocalFrame[9];
           if ( v11 )
             Scaleform::GFx::AS2::FunctionRefBase::SetLocalFrame(&v5->V.FunctionValue, v11, (_BYTE)p_pLocalFrame[10] & 1);
-          resolveHandlerSet = 1;
+          v32 = 1;
         }
         p_pLocalFrame = (Scaleform::GFx::AS2::LocalFrame **)p_pLocalFrame[6];
         if ( !p_pLocalFrame )
@@ -168,7 +168,7 @@ LABEL_49:
         }
       }
     }
-    if ( !resolveHandlerSet && p_pLocalFrame[8] )
+    if ( !v32 && p_pLocalFrame[8] )
     {
       Scaleform::GFx::AS2::Value::DropRefs(v21);
       v21->T.Type = 12;
@@ -181,7 +181,7 @@ LABEL_49:
       v29 = p_pLocalFrame[9];
       if ( v29 )
         Scaleform::GFx::AS2::FunctionRefBase::SetLocalFrame(&v21->V.FunctionValue, v29, (_BYTE)p_pLocalFrame[10] & 1);
-      resolveHandlerSet = 1;
+      v32 = 1;
     }
     p_pLocalFrame = (Scaleform::GFx::AS2::LocalFrame **)p_pLocalFrame[6];
     if ( !p_pLocalFrame )

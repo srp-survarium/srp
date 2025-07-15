@@ -1,72 +1,85 @@
-int __usercall __FUnloadDelayLoadedDLL2@<eax>(const char *szDll@<eax>)
+int __stdcall __FUnloadDelayLoadedDLL2(char *szDll)
 {
-  HLOCAL *v1; // ebp
-  _DWORD *v4; // eax
-  int v5; // esi
-  int v6; // ecx
-  char *v7; // eax
-  HMODULE *v8; // esi
-  int v9; // edi
-  _BYTE *v10; // ecx
-  HMODULE v11; // ebx
+  _DWORD *v1; // ebx
+  int v2; // edi
+  _DWORD *v3; // eax
+  HMODULE *v4; // edi
+  int v5; // ecx
+  char *v6; // eax
+  _BYTE *v7; // ecx
+  int v8; // esi
   _DWORD *i; // edx
-  int v13; // edx
-  int v14; // edi
-  bool v15; // zf
-  HLOCAL *v16; // eax
-  _DWORD *v17; // ecx
+  int v10; // esi
+  HLOCAL *v11; // eax
+  _DWORD *v12; // ecx
+  HMODULE hLibModule; // [esp+8h] [ebp-4h]
+  char *src; // [esp+14h] [ebp+8h]
 
-  v1 = (HLOCAL *)__puiHead;
-  if ( !__puiHead )
-    return 0;
-  while ( _stricmp((const char *)&_sbh_sizeHeaderList + *((_DWORD *)v1[1] + 1), szDll) )
-  {
-    v1 = (HLOCAL *)*v1;
-    if ( !v1 )
-      return 0;
-  }
-  v4 = v1[1];
-  if ( !v4[6] )
-    return 0;
-  v5 = v4[2];
-  v6 = v4[6];
-  v7 = (char *)&_sbh_sizeHeaderList + v4[3];
-  v8 = (HMODULE *)((char *)&_sbh_sizeHeaderList + v5);
-  v9 = 0;
-  v10 = (char *)&_sbh_sizeHeaderList + v6;
-  v11 = *v8;
-  for ( i = v7; *i; ++v9 )
-    ++i;
-  v13 = 4 * v9;
-  if ( 4 * v9 )
-  {
-    v14 = v7 - v10;
-    do
-    {
-      --v13;
-      v10[v14] = *v10;
-      ++v10;
-    }
-    while ( v13 );
-  }
-  FreeLibrary(v11);
-  v15 = __puiHead == 0;
-  *v8 = 0;
-  v16 = &__puiHead;
-  if ( !v15 )
+  v1 = __puiHead;
+  v2 = 0;
+  if ( __puiHead )
   {
     do
     {
-      v17 = *v16;
-      if ( *v16 == v1 )
-        goto LABEL_15;
-      v16 = (HLOCAL *)*v16;
+      if ( !_stricmp((char *)&_sbh_sizeHeaderList + *(_DWORD *)(v1[1] + 4), szDll) )
+        break;
+      v1 = (_DWORD *)*v1;
     }
-    while ( *v17 );
+    while ( v1 );
+    if ( v1 )
+    {
+      v3 = (_DWORD *)v1[1];
+      if ( v3[6] )
+      {
+        v4 = (HMODULE *)((char *)&_sbh_sizeHeaderList + v3[2]);
+        hLibModule = *v4;
+        v5 = v3[6];
+        v6 = (char *)&_sbh_sizeHeaderList + v3[3];
+        v7 = (char *)&_sbh_sizeHeaderList + v5;
+        v8 = 0;
+        for ( i = v6; *i; ++v8 )
+          ++i;
+        src = (char *)(4 * v8);
+        if ( 4 * v8 )
+        {
+          v10 = v6 - v7;
+          do
+          {
+            --src;
+            v7[v10] = *v7;
+            ++v7;
+          }
+          while ( src );
+        }
+        FreeLibrary(hLibModule);
+        *v4 = 0;
+        v11 = &__puiHead;
+        if ( __puiHead )
+        {
+          while ( 1 )
+          {
+            v12 = *v11;
+            if ( *v11 == v1 )
+              break;
+            v11 = (HLOCAL *)*v11;
+            if ( !*v12 )
+              goto LABEL_14;
+          }
+        }
+        else
+        {
+LABEL_14:
+          if ( *v11 != v1 )
+          {
+LABEL_16:
+            LocalFree(v1);
+            return 1;
+          }
+        }
+        *v11 = (HLOCAL)*v1;
+        goto LABEL_16;
+      }
+    }
   }
-  if ( *v16 == v1 )
-LABEL_15:
-    *v16 = *v1;
-  LocalFree(v1);
-  return 1;
+  return v2;
 }

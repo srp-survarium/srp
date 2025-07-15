@@ -18,23 +18,23 @@ stack_st_CONF_VALUE *__cdecl i2v_GENERAL_NAME(v3_ext_method *method, GENERAL_NAM
       X509V3_add_value("othername", "<unsupported>", &extlist);
       return extlist;
     case 1:
-      X509V3_add_value_uchar("email", *((const unsigned __int8 **)gen->d.ptr + 2), &extlist);
+      X509V3_add_value_uchar("email", *((char **)gen->d.ptr + 2), &extlist);
       return extlist;
     case 2:
-      X509V3_add_value_uchar("DNS", *((const unsigned __int8 **)gen->d.ptr + 2), &extlist);
+      X509V3_add_value_uchar("DNS", *((char **)gen->d.ptr + 2), &extlist);
       return extlist;
     case 3:
       X509V3_add_value("X400Name", "<unsupported>", &extlist);
       return extlist;
     case 4:
-      X509_NAME_oneline(gen->d.directoryName, buf, 256);
+      X509_NAME_oneline(gen->d.directoryName, buf, 0x100u);
       X509V3_add_value("DirName", buf, &extlist);
       return extlist;
     case 5:
       X509V3_add_value("EdiPartyName", "<unsupported>", &extlist);
       return extlist;
     case 6:
-      X509V3_add_value_uchar("URI", *((const unsigned __int8 **)gen->d.ptr + 2), &extlist);
+      X509V3_add_value_uchar("URI", *((char **)gen->d.ptr + 2), &extlist);
       return extlist;
     case 7:
       ptr = gen->d.ptr;
@@ -63,7 +63,7 @@ LABEL_20:
             v9 = &v14;
             while ( *++v9 )
               ;
-            *(_WORD *)v9 = 58;
+            strcpy(v9, ":");
           }
         }
         goto LABEL_20;

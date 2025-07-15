@@ -23,7 +23,9 @@ void __thiscall Scaleform::GFx::AS3::SoundObject::AttachToTarget(
   }
   this->pTargetHandle.pObject = v4;
   if ( this )
-    Scaleform::GFx::Sprite::AttachSoundObject(psprite, &this->Scaleform::GFx::ASSoundIntf);
+    Scaleform::GFx::Sprite::AttachSoundObject(
+      psprite,
+      (Scaleform::GFx::AS3::ClassTraits::Traits *)&this->Scaleform::GFx::ASSoundIntf);
   else
     Scaleform::GFx::Sprite::AttachSoundObject(psprite, 0);
 }

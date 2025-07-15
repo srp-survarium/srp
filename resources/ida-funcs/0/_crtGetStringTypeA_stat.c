@@ -1,16 +1,16 @@
 int __cdecl _crtGetStringTypeA_stat(
         DWORD dwInfoType,
-        const char *lpSrcStr,
+        char *lpSrcStr,
         int cchSrc,
         unsigned __int16 *lpCharType,
-        unsigned int code_page,
-        int lcid,
+        UINT code_page,
+        LCID lcid,
         int bError)
 {
-  localeinfo_struct *plocinfo; // ecx
+  int v7; // ecx
   int v8; // eax
   wchar_t *v9; // ebx
-  localeinfo_struct *v10; // edi
+  int v10; // edi
   int v11; // eax
   int v12; // edi
   unsigned int v13; // eax
@@ -18,18 +18,18 @@ int __cdecl _crtGetStringTypeA_stat(
   wchar_t *v15; // eax
   int v16; // eax
   char *v18; // esi
-  int v19; // eax
-  const char *v20; // eax
+  UINT v19; // eax
+  char *v20; // eax
   BOOL StringTypeA; // edi
   _DWORD v22[3]; // [esp+0h] [ebp-14h] BYREF
-  int retval2; // [esp+Ch] [ebp-8h] BYREF
+  unsigned __int16 CharType[2]; // [esp+Ch] [ebp-8h] BYREF
 
   v8 = f_use_1;
   v9 = 0;
-  v10 = plocinfo;
+  v10 = v7;
   if ( !f_use_1 )
   {
-    if ( GetStringTypeW(1u, &FLOAT_0_0, 1, (LPWORD)&retval2) )
+    if ( GetStringTypeW(1u, &FLOAT_0_0, 1, CharType) )
     {
       f_use_1 = 1;
       goto LABEL_10;
@@ -49,9 +49,9 @@ int __cdecl _crtGetStringTypeA_stat(
     if ( v8 != 1 )
       return 0;
 LABEL_10:
-    retval2 = 0;
+    *(_DWORD *)CharType = 0;
     if ( !code_page )
-      code_page = v10->locinfo->lc_codepage;
+      code_page = *(_DWORD *)(*(_DWORD *)v10 + 4);
     v11 = MultiByteToWideChar(code_page, 8 * (bError != 0) + 1, lpSrcStr, cchSrc, 0, 0);
     v12 = v11;
     if ( !v11 )
@@ -86,24 +86,24 @@ LABEL_22:
       memset((int)v9, 0, 2 * v12);
       v16 = MultiByteToWideChar(code_page, 1u, lpSrcStr, cchSrc, v9, v12);
       if ( v16 )
-        retval2 = GetStringTypeW(dwInfoType, v9, v16, lpCharType);
+        *(_DWORD *)CharType = GetStringTypeW(dwInfoType, v9, v16, lpCharType);
       _freea(v9);
-      return retval2;
+      return *(_DWORD *)CharType;
     }
     return 0;
   }
   v18 = 0;
   if ( !lcid )
-    lcid = v10->locinfo->lc_handle[2];
+    lcid = *(_DWORD *)(*(_DWORD *)v10 + 20);
   if ( !code_page )
-    code_page = v10->locinfo->lc_codepage;
+    code_page = *(_DWORD *)(*(_DWORD *)v10 + 4);
   v19 = __ansicp(lcid);
   if ( v19 == -1 )
     return 0;
   if ( v19 != code_page )
   {
     v20 = __convertcp(code_page, v19, lpSrcStr, &cchSrc, 0, 0);
-    v18 = (char *)v20;
+    v18 = v20;
     if ( !v20 )
       return 0;
     lpSrcStr = v20;

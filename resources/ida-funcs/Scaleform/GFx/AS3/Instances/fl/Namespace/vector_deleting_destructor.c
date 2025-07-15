@@ -4,6 +4,6 @@ Scaleform::GFx::AS3::Instances::fl::Namespace *__thiscall Scaleform::GFx::AS3::I
 {
   Scaleform::GFx::AS3::Instances::fl::Namespace::~Namespace(this);
   if ( (a2 & 1) != 0 )
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this);
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)this);
   return this;
 }

@@ -1,57 +1,61 @@
-vostok::fs_new::virtual_path_string *__userpurge vostok::resources::resource_base::reusable_request_name@<eax>(
-        vostok::resources::resource_base *this@<ecx>,
-        vostok::resources::resource_base *a2@<eax>,
+vostok::fs_new::virtual_path_string *__fastcall vostok::resources::resource_base::reusable_request_name(
+        vostok::resources::resource_base *this,
+        int a2,
         vostok::fs_new::virtual_path_string *result)
 {
-  bool is_associated_with; // al
-  vostok::resources::unmanaged_resource *v5; // esi
-  vostok::resources::name_registry_entry *m_name_registry_entry; // edi
-  vostok::vfs::vfs_iterator v8; // [esp+2Ch] [ebp-64h] BYREF
-  vostok::resources::resource_base *v9; // [esp+3Ch] [ebp-54h]
-  vostok::resources::base_of_intrusive_base *v10; // [esp+40h] [ebp-50h]
-  vostok::vfs::vfs_iterator si128; // [esp+50h] [ebp-40h] BYREF
-  vostok::vfs::vfs_iterator v12; // [esp+60h] [ebp-30h] BYREF
-  vostok::vfs::vfs_iterator v13; // [esp+70h] [ebp-20h] BYREF
-  vostok::vfs::vfs_iterator it; // [esp+80h] [ebp-10h] BYREF
+  int v3; // eax
+  vostok::fs_new::virtual_path_string *v4; // ecx
+  int v5; // edx
+  int v7; // [esp+14h] [ebp-1Ch]
+  int v8; // [esp+14h] [ebp-1Ch]
+  int v9; // [esp+18h] [ebp-18h]
+  int v10; // [esp+18h] [ebp-18h]
+  int v11; // [esp+20h] [ebp-10h] BYREF
+  int v12; // [esp+24h] [ebp-Ch]
+  int v13; // [esp+28h] [ebp-8h]
+  vostok::fs_new::virtual_path_string *v14; // [esp+2Ch] [ebp-4h]
 
-  vostok::vfs::vfs_iterator::vfs_iterator(&si128);
-  if ( (a2->m_flags.m_flags & 1) != 0 && a2 )
+  v3 = (unsigned __int8)((*(_DWORD *)(a2 + 8) & 1) - 1) == 0 ? a2 : 0;
+  if ( !v3 )
   {
-    vostok::vfs::vfs_iterator::vfs_iterator(&v12, &a2->m_fat_it);
-    si128 = (vostok::vfs::vfs_iterator)_mm_load_si128((const __m128i *)&v12);
-    if ( !v12.m_node )
-      goto LABEL_10;
-    vostok::vfs::vfs_iterator::vfs_iterator(&it, &a2->m_fat_it);
-    v9 = a2;
-    vostok::vfs::vfs_iterator::vfs_iterator(&v8, &it);
-    is_associated_with = vostok::resources::is_associated_with(v8, v9);
-  }
-  else
-  {
-    v5 = (a2->m_flags.m_flags & 4) != 4 ? 0 : (vostok::resources::unmanaged_resource *)a2;
-    vostok::vfs::vfs_iterator::vfs_iterator(&v13, &v5->m_fat_it);
-    si128 = (vostok::vfs::vfs_iterator)_mm_load_si128((const __m128i *)&v13);
-    if ( !v13.m_node )
-      goto LABEL_10;
-    is_associated_with = vostok::resources::base_of_intrusive_base::is_associated_with_fat(v10, v5);
-  }
-  if ( si128.m_node )
-  {
-    if ( is_associated_with )
+    v3 = (unsigned __int8)((*(_DWORD *)(a2 + 8) & 4) - 4) == 0 ? a2 : 0;
+    v4 = *(vostok::fs_new::virtual_path_string **)(v3 + 0xAC);
+    v10 = *(_DWORD *)(v3 + 0xA8);
+    v8 = *(_DWORD *)(v3 + 0xA4);
+    v11 = *(_DWORD *)(v3 + 0xA0);
+    v12 = v8;
+    v13 = v10;
+    v14 = v4;
+    if ( v8 )
+      goto LABEL_5;
+LABEL_7:
+    v5 = *(_DWORD *)(a2 + 176);
+    if ( v5 )
     {
-      vostok::vfs::vfs_iterator::get_virtual_path(&si128, result);
+      vostok::fs_new::virtual_path_string::virtual_path_string(result, (char **)(v5 + 8));
       return result;
     }
-    goto LABEL_12;
-  }
-LABEL_10:
-  m_name_registry_entry = a2->m_name_registry_entry;
-  if ( m_name_registry_entry )
-  {
-    vostok::fs_new::virtual_path_string::virtual_path_string(result, &m_name_registry_entry->name);
+LABEL_9:
+    vostok::fs_new::virtual_path_string::virtual_path_string(v4, (int)result);
     return result;
   }
-LABEL_12:
-  vostok::fs_new::virtual_path_string::virtual_path_string(result, (const char (*)[1])&buf);
+  v4 = *(vostok::fs_new::virtual_path_string **)((unsigned __int8)((*(_DWORD *)(a2 + 8) & 1) - 1) == 0 ? a2 + 0xAC : 172);
+  v9 = *(_DWORD *)((unsigned __int8)((*(_DWORD *)(a2 + 8) & 1) - 1) == 0 ? a2 + 0xA8 : 168);
+  v7 = *(_DWORD *)((unsigned __int8)((*(_DWORD *)(a2 + 8) & 1) - 1) == 0 ? a2 + 0xA4 : 164);
+  v11 = *(_DWORD *)((unsigned __int8)((*(_DWORD *)(a2 + 8) & 1) - 1) == 0 ? a2 + 0xA0 : 160);
+  v12 = v7;
+  v13 = v9;
+  v14 = v4;
+  if ( !v7 )
+    goto LABEL_7;
+LABEL_5:
+  if ( !vostok::resources::base_of_intrusive_base::is_associated_with_fat(
+          (vostok::resources::base_of_intrusive_base *)v4,
+          (vostok::vfs::vfs_hashset *)v3) )
+    goto LABEL_9;
+  vostok::vfs::vfs_iterator::get_virtual_path(
+    (vostok::vfs::vfs_iterator *)v4,
+    (vostok::fs_new::virtual_path_string *)&v11,
+    result);
   return result;
 }

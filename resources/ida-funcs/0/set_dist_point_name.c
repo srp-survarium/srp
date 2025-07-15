@@ -1,79 +1,77 @@
-int __cdecl set_dist_point_name(DIST_POINT_NAME_st **pdp, v3_ext_ctx *ctx)
+int __usercall set_dist_point_name@<eax>(int a1@<ecx>, int a2@<ebx>, DIST_POINT_NAME_st **pdp, v3_ext_ctx *ctx)
 {
-  CONF_VALUE *cnf; // ecx
-  CONF_VALUE *v3; // edi
   stack_st_GENERAL_NAME *entries; // ebp
-  stack_st_GENERAL_NAME *v5; // edi
-  X509_name_st *v6; // esi
+  v3_ext_ctx *v6; // ebx
+  stack_st_GENERAL_NAME *v7; // edi
+  X509_name_st *v8; // esi
   stack_st_CONF_VALUE *section; // eax
-  stack_st_CONF_VALUE *v8; // edi
-  int v10; // ebx
-  int v11; // eax
-  DIST_POINT_NAME_st *v12; // eax
+  stack_st_CONF_VALUE *v10; // edi
+  int v12; // eax
+  DIST_POINT_NAME_st *v13; // eax
 
-  v3 = cnf;
   entries = 0;
-  if ( !strncmp(cnf->name, "fullname", 9u) )
+  if ( !strncmp(*(const char **)(a1 + 4), "fullname", 9u) )
   {
-    v5 = gnames_from_sectname(ctx, v3->value);
-    if ( !v5 )
+    v6 = ctx;
+    v7 = gnames_from_sectname(ctx, *(char **)(a1 + 8));
+    if ( !v7 )
       return -1;
     goto LABEL_14;
   }
-  if ( strcmp(v3->name, "relativename") )
+  if ( strcmp(*(const char **)(a1 + 4), "relativename") )
     return 0;
-  v6 = X509_NAME_new();
-  if ( !v6 )
+  v8 = X509_NAME_new();
+  if ( !v8 )
     return -1;
-  section = X509V3_get_section(ctx, v3->value);
-  v8 = section;
+  section = X509V3_get_section(ctx);
+  v10 = section;
   if ( !section )
   {
-    ERR_put_error(0x22u, 158, 150, ".\\crypto\\x509v3\\v3_crld.c", 138);
+    ERR_put_error(a2, 0x22u, 158, 150, ".\\crypto\\x509v3\\v3_crld.c", 138);
     return -1;
   }
-  v10 = X509V3_NAME_from_section(v6, section, 0x1001u);
-  X509V3_section_free(ctx, v8);
-  entries = (stack_st_GENERAL_NAME *)v6->entries;
-  v6->entries = 0;
-  X509_NAME_free(v6);
-  if ( !v10 || sk_num(&entries->stack) <= 0 )
+  v6 = (v3_ext_ctx *)X509V3_NAME_from_section(v8, section, 4097);
+  X509V3_section_free(ctx, v10);
+  entries = (stack_st_GENERAL_NAME *)v8->entries;
+  v8->entries = 0;
+  X509_NAME_free(v8);
+  if ( !v6 || sk_num(&entries->stack) <= 0 )
   {
 LABEL_18:
     if ( entries )
       sk_pop_free(&entries->stack, (void (__cdecl *)(void *))X509_NAME_ENTRY_free);
     return -1;
   }
-  v11 = sk_num(&entries->stack);
-  if ( *((_DWORD *)sk_value(&entries->stack, v11 - 1) + 2) )
+  v12 = sk_num(&entries->stack);
+  if ( *((_DWORD *)sk_value(&entries->stack, v12 - 1) + 2) )
   {
-    ERR_put_error(0x22u, 158, 161, ".\\crypto\\x509v3\\v3_crld.c", 155);
+    ERR_put_error((int)v6, 0x22u, 158, 161, ".\\crypto\\x509v3\\v3_crld.c", 155);
     goto LABEL_18;
   }
-  v5 = 0;
+  v7 = 0;
 LABEL_14:
   if ( *pdp )
   {
-    ERR_put_error(0x22u, 158, 160, ".\\crypto\\x509v3\\v3_crld.c", 165);
-    goto err_29;
+    ERR_put_error((int)v6, 0x22u, 158, 160, ".\\crypto\\x509v3\\v3_crld.c", 165);
+    goto err_31;
   }
-  v12 = (DIST_POINT_NAME_st *)ASN1_item_new(&local_it_11);
-  *pdp = v12;
-  if ( !v12 )
+  v13 = (DIST_POINT_NAME_st *)ASN1_item_new(&local_it_11);
+  *pdp = v13;
+  if ( !v13 )
   {
-err_29:
-    if ( v5 )
-      sk_pop_free(&v5->stack, (void (__cdecl *)(void *))GENERAL_NAME_free);
+err_31:
+    if ( v7 )
+      sk_pop_free(&v7->stack, (void (__cdecl *)(void *))GENERAL_NAME_free);
     goto LABEL_18;
   }
-  if ( v5 )
+  if ( v7 )
   {
-    v12->type = 0;
-    (*pdp)->name.fullname = v5;
+    v13->type = 0;
+    (*pdp)->name.fullname = v7;
   }
   else
   {
-    v12->type = 1;
+    v13->type = 1;
     (*pdp)->name.fullname = entries;
   }
   return 1;

@@ -4,15 +4,15 @@ void __thiscall Scaleform::GFx::Stream::Initialize(
         Scaleform::Log *plog,
         Scaleform::GFx::ParseControl *pparseControl)
 {
-  Scaleform::File *pObject; // ecx
+  Scaleform::RefCountVImpl *pObject; // ecx
   unsigned int ParseFlags; // eax
-  char *v7; // eax
+  const __m128i *v7; // eax
 
   if ( pinput )
     Scaleform::RefCountImpl::AddRef(pinput);
-  pObject = this->pInput.pObject;
+  pObject = (Scaleform::RefCountVImpl *)this->pInput.pObject;
   if ( pObject )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)pObject);
+    Scaleform::RefCountImpl::Release(pObject);
   this->pInput.pObject = (Scaleform::File *)pinput;
   this->pLog = plog;
   this->pParseControl = pparseControl;
@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::Stream::Initialize(
   this->UnusedBits = 0;
   if ( pinput )
   {
-    v7 = (char *)((int (__thiscall *)(Scaleform::GFx::Resource *))pinput->GetKey)(pinput);
+    v7 = (const __m128i *)((int (__thiscall *)(Scaleform::GFx::Resource *))pinput->GetKey)(pinput);
     Scaleform::String::operator=(&this->FileName, v7);
   }
   else

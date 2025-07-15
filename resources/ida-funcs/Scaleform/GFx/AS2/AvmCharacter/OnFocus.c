@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
         Scaleform::GFx::AS2::AvmCharacter *this,
-        Scaleform::GFx::InteractiveObject::FocusEventType event,
+        Scaleform::GFx::AS2::Value *event,
         Scaleform::GFx::InteractiveObject *oldOrNewFocusCh,
         unsigned int controllerIdx,
         Scaleform::GFx::FocusMovedType __formal)
@@ -14,47 +14,47 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
   Scaleform::GFx::AS2::Value *pCurrent; // esi
   long double v13; // st7
   Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // esi
-  const Scaleform::GFx::AS2::Value *v15; // eax
+  Scaleform::GFx::AS2::Value *v15; // eax
   Scaleform::GFx::AS2::Value *v16; // eax
   Scaleform::GFx::AS2::LocalFrame *pLocalFrame; // edi
   const Scaleform::GFx::AS2::FnCall *v18; // eax
   unsigned __int8 Flags; // bl
   unsigned int RefCount; // eax
   unsigned int v21; // eax
-  Scaleform::GFx::ASStringNode *pNode; // eax
+  Scaleform::GFx::ASStringNode *v22; // eax
   Scaleform::GFx::InteractiveObject *pDispObj; // [esp-10h] [ebp-88h]
   int v24; // [esp-4h] [ebp-7Ch]
-  Scaleform::GFx::ASString focusMethodName; // [esp+10h] [ebp-68h] BYREF
+  Scaleform::GFx::ASStringNode *v25[2]; // [esp+Ch] [ebp-6Ch] BYREF
   Scaleform::GFx::AS2::AvmCharacter *v26; // [esp+14h] [ebp-64h]
   Scaleform::GFx::AS2::Value v27; // [esp+18h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::FunctionRef focusMethod; // [esp+28h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value focusMethodVal; // [esp+34h] [ebp-44h] BYREF
-  Scaleform::GFx::AS2::Value result; // [esp+44h] [ebp-34h] BYREF
+  Scaleform::GFx::AS2::FunctionRef result; // [esp+28h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v29; // [esp+34h] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::Value ResIn; // [esp+44h] [ebp-34h] BYREF
   Scaleform::GFx::AS2::FnCall v31; // [esp+54h] [ebp-24h] BYREF
-  const Scaleform::GFx::AS2::Value *eventa; // [esp+7Ch] [ebp+4h]
+  Scaleform::GFx::AS2::Value *v; // [esp+7Ch] [ebp+4h]
 
   GetASEnvironment = this->GetASEnvironment;
   v26 = this;
-  focusMethodVal.T.Type = 0;
+  v29.T.Type = 0;
   v7 = ((int (__fastcall *)(Scaleform::GFx::AS2::AvmCharacter *))GetASEnvironment)(this);
   v8 = (Scaleform::GFx::AS2::Environment *)v7;
   if ( v7 )
   {
     v9 = 1;
     v10 = v7 + 116;
-    focusMethodName.pNode = *(Scaleform::GFx::ASStringNode **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v7 + 116) + 20) + 12)
-                                                             + 4 * ((event != MouseMove) + 88)
-                                                             + 164);
-    ++focusMethodName.pNode->RefCount;
+    v25[1] = *(Scaleform::GFx::ASStringNode **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v7 + 116) + 20) + 12)
+                                              + 4 * ((event != (Scaleform::GFx::AS2::Value *)1) + 88)
+                                              + 164);
+    ++v25[1]->RefCount;
     if ( this->GetMemberRaw(
            &this->Scaleform::GFx::AS2::ObjectInterface,
            (Scaleform::GFx::AS2::ASStringContext *)(v7 + 116),
-           &focusMethodName,
-           &focusMethodVal) )
+           (const Scaleform::GFx::ASString *)&v25[1],
+           &v29) )
     {
-      Scaleform::GFx::AS2::Value::ToFunction(&focusMethodVal, &focusMethod, 0);
-      Function = focusMethod.Function;
-      if ( focusMethod.Function )
+      Scaleform::GFx::AS2::Value::ToFunction(&v29, &result, 0);
+      Function = result.Function;
+      if ( result.Function )
       {
         if ( *(_BYTE *)(*(_DWORD *)v10 + 52) == 1 )
         {
@@ -76,11 +76,11 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
           Scaleform::GFx::AS2::Value::Value(&v27, oldOrNewFocusCh);
           ++v8->Stack.pCurrent;
           p_Stack = &v8->Stack;
-          eventa = v15;
+          v = v15;
           if ( v8->Stack.pCurrent >= v8->Stack.pPageEnd )
             Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::PushPage(&v8->Stack);
           if ( p_Stack->pCurrent )
-            Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, eventa);
+            Scaleform::GFx::AS2::Value::Value(p_Stack->pCurrent, v);
           if ( v27.T.Type >= 5u )
             Scaleform::GFx::AS2::Value::DropRefs(&v27);
         }
@@ -95,29 +95,29 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
         }
         v24 = p_Stack->pCurrent - p_Stack->pPageStart + 32 * p_Stack->Pages.Data.Size - 32;
         pDispObj = v26->pDispObj;
-        result.T.Type = 0;
+        ResIn.T.Type = 0;
         Scaleform::GFx::AS2::Value::Value(&v27, pDispObj);
-        Scaleform::GFx::AS2::FnCall::FnCall(&v31, &result, v16, v8, v9, v24);
-        pLocalFrame = focusMethod.pLocalFrame;
-        Function->Invoke(Function, v18, focusMethod.pLocalFrame, 0);
+        Scaleform::GFx::AS2::FnCall::FnCall(&v31, &ResIn, v16, v8, v9, v24);
+        pLocalFrame = result.pLocalFrame;
+        Function->Invoke(Function, v18, result.pLocalFrame, 0);
         Scaleform::GFx::AS2::FnCall::~FnCall(&v31);
         if ( v27.T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(&v27);
         Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32>::Pop(p_Stack, v9);
-        if ( result.T.Type >= 5u )
-          Scaleform::GFx::AS2::Value::DropRefs(&result);
+        if ( ResIn.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&ResIn);
       }
       else
       {
-        pLocalFrame = focusMethod.pLocalFrame;
+        pLocalFrame = result.pLocalFrame;
       }
-      Flags = focusMethod.Flags;
-      if ( (focusMethod.Flags & 2) == 0 )
+      Flags = result.Flags;
+      if ( (result.Flags & 2) == 0 )
       {
         if ( Function )
         {
           RefCount = Function->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             Function->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -129,7 +129,7 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
         if ( pLocalFrame )
         {
           v21 = pLocalFrame->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v21) != 0 )
+          if ( (v21 & 0x3FFFFFF) != 0 )
           {
             pLocalFrame->RefCount = v21 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);
@@ -137,11 +137,11 @@ void __thiscall Scaleform::GFx::AS2::AvmCharacter::OnFocus(
         }
       }
     }
-    pNode = focusMethodName.pNode;
-    --focusMethodName.pNode->RefCount;
-    if ( !pNode->RefCount )
-      Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+    v22 = v25[1];
+    --v25[1]->RefCount;
+    if ( !v22->RefCount )
+      Scaleform::GFx::ASStringNode::ReleaseNode(v22);
   }
-  if ( focusMethodVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&focusMethodVal);
+  if ( v29.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v29);
 }

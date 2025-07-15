@@ -5,8 +5,8 @@ void __thiscall std::bad_typeid::bad_typeid(std::bad_typeid *this, const std::ba
 }
 
 
-void __thiscall std::bad_typeid::bad_typeid(std::bad_typeid *this, const char *_Message)
+void __thiscall std::bad_typeid::bad_typeid(std::bad_typeid *this, char *_Message)
 {
-  std::exception::exception(this, &_Message);
+  std::exception::exception(this, (const char *const *)&_Message);
   this->__vftable = (std::bad_typeid_vtbl *)&std::bad_typeid::`vftable';
 }

@@ -1,275 +1,167 @@
 void __userpurge survarium::player_input_handler::process_first_person_mode(
         survarium::player_input_handler *this@<ecx>,
-        int a2@<edi>,
+        survarium::game_action_id a2@<esi>,
         const bool use_mouse_move)
 {
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v3; // ebx
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v4; // esi
-  int v5; // esi
-  float *v6; // ebx
+  survarium::player_input_handler *v3; // ecx
+  survarium::player_input_handler *v4; // ecx
+  survarium::player_input_handler *v5; // ecx
+  survarium::player_input_handler *v6; // ecx
   float v7; // xmm0_4
-  survarium::player_input_handler *v8; // ecx
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v9; // ebx
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v10; // esi
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v11; // eax
-  survarium::player_input_handler::action_state_enum second; // eax
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v13; // eax
-  survarium::player_input_handler::action_state_enum v14; // eax
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v15; // eax
-  survarium::player_input_handler::action_state_enum v16; // eax
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v17; // eax
-  survarium::player_input_handler::action_state_enum v18; // eax
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v19; // eax
-  survarium::player_input_handler::action_state_enum v20; // eax
-  const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> *v21; // eax
-  survarium::player_input_handler::action_state_enum v22; // eax
-  float horizontal_sensitivity; // [esp+Ch] [ebp-14h]
-  _BYTE v24[8]; // [esp+10h] [ebp-10h] BYREF
-  _BYTE v25[8]; // [esp+18h] [ebp-8h] BYREF
-  float vertical_sensitivity; // [esp+24h] [ebp+4h]
+  vostok::journaling::journal_usage_enum v8; // eax
+  float v9; // xmm0_4
+  float v10; // xmm0_4
+  survarium::player_input_handler *v11; // ecx
+  float v12; // xmm0_4
+  int v13; // edi
+  float *v14; // ebx
+  float *v15; // eax
+  survarium::player_input_handler *v16; // ecx
+  survarium::player_input_handler *v17; // ecx
+  survarium::player_input_handler *v18; // ecx
+  survarium::player_input_handler *v19; // ecx
+  survarium::player_input_handler *v20; // ecx
+  survarium::player_input_handler *v21; // ecx
+  survarium::player_input_handler *v22; // ecx
+  survarium::player_input_handler *v23; // ecx
+  survarium::player_input_handler *v24; // ecx
+  survarium::player_input_handler *v25; // ecx
+  survarium::player_input_handler *v26; // ecx
+  survarium::player_input_handler *v27; // ecx
+  survarium::player_input_handler *v28; // ecx
+  survarium::player_input_handler *v29; // ecx
+  survarium::player_input_handler *v30; // ecx
+  survarium::player_input_handler *v31; // ecx
+  survarium::player_input_handler *v32; // ecx
+  survarium::player_input_handler *v33; // ecx
+  survarium::player_input_handler *v34; // ecx
+  survarium::player_input_handler *v35; // ecx
+  survarium::player_input_handler *v36; // ecx
+  survarium::player_input_handler *v37; // ecx
+  survarium::player_input_handler *v38; // ecx
+  survarium::player_input_handler *v39; // ecx
+  survarium::player_input_handler *v40; // ecx
+  survarium::player_input_handler *v41; // ecx
+  survarium::player_input_handler *v42; // ecx
+  survarium::player_input_handler *v43; // ecx
+  int v44; // [esp+Ch] [ebp-1Ch] BYREF
+  float v45; // [esp+10h] [ebp-18h]
+  float v46; // [esp+14h] [ebp-14h]
+  _BYTE v47[8]; // [esp+18h] [ebp-10h] BYREF
+  _BYTE v48[8]; // [esp+20h] [ebp-8h] BYREF
 
-  if ( *(_DWORD *)(a2 + 88) != *(_DWORD *)(a2 + 92)
-    || !survarium::player_input::is_empty((survarium::player_input *)(a2 + 356)) )
+  if ( *(_DWORD *)(a2 + 672) != *(_DWORD *)(a2 + 676)
+    || (this = *(survarium::player_input_handler **)(a2 + 680), this != *(survarium::player_input_handler **)(a2 + 684))
+    || *(float *)(a2 + 824) != 0.0
+    || *(float *)(a2 + 828) != 0.0
+    || *(_DWORD *)(a2 + 832) )
   {
-    v3 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 88);
-    v4 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 92);
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)10) != v4 )
-      *(_DWORD *)(a2 + 372) |= 1u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)11) != v4 )
-      *(_DWORD *)(a2 + 372) |= 2u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)13) != v4 )
-      *(_DWORD *)(a2 + 372) |= 8u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)12) != v4 )
-      *(_DWORD *)(a2 + 372) |= 4u;
+    if ( survarium::player_input_handler::action_present(this, a2, (survarium::action_state_enum *)0xB, &v44) )
+      *(_DWORD *)(a2 + 832) |= 1u;
+    if ( survarium::player_input_handler::action_present(v3, a2, (survarium::action_state_enum *)0xC, &v44) )
+      *(_DWORD *)(a2 + 832) |= 2u;
+    if ( survarium::player_input_handler::action_present(v4, a2, (survarium::action_state_enum *)0xE, &v44) )
+      *(_DWORD *)(a2 + 832) |= 8u;
+    if ( survarium::player_input_handler::action_present(v5, a2, (survarium::action_state_enum *)0xD, &v44) )
+      *(_DWORD *)(a2 + 832) |= 4u;
     if ( use_mouse_move )
     {
-      v5 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a2 + 352) + 168) + 124);
-      horizontal_sensitivity = (float)(*(float *)(a2 + 84) * survarium::g_mouse_sensitivity) * 0.1;
-      v6 = (float *)((*(int (__thiscall **)(int, _BYTE *))(*(_DWORD *)v5 + 24))(v5, v24) + 4);
-      v7 = (float)((float)(*v6 / *(float *)(*(int (__thiscall **)(int, _BYTE *))(*(_DWORD *)v5 + 24))(v5, v25))
-                 * horizontal_sensitivity)
-         * 0.95492965;
-      vertical_sensitivity = v7;
       if ( survarium::g_mouse_invert )
-        vertical_sensitivity = -v7;
-      v3 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 88);
-      v4 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 92);
-      if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-             v3,
-             v4,
-             (survarium::first_predicate<enum survarium::game_action_id>)2) != v4 )
-        *(float *)(a2 + 380) = (float)(vertical_sensitivity * 0.017453292) + *(float *)(a2 + 380);
-      if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-             v3,
-             v4,
-             (survarium::first_predicate<enum survarium::game_action_id>)3) != v4 )
-        *(float *)(a2 + 380) = *(float *)(a2 + 380) - (float)(vertical_sensitivity * 0.017453292);
-      if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-             v3,
-             v4,
-             (survarium::first_predicate<enum survarium::game_action_id>)1) != v4 )
-        *(float *)(a2 + 384) = *(float *)(a2 + 384) - (float)(horizontal_sensitivity * 0.017453292);
-      if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-             v3,
-             v4,
-             0) != v4 )
-        *(float *)(a2 + 384) = (float)(horizontal_sensitivity * 0.017453292) + *(float *)(a2 + 384);
-    }
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)4) != v4 )
-      *(_DWORD *)(a2 + 372) |= 0x10u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v3,
-           v4,
-           (survarium::first_predicate<enum survarium::game_action_id>)30) != v4 )
-    {
-      if ( survarium::player_input_handler::alt_is_held(v8, a2) )
-        vostok::console_commands::execute("remove_player", execution_filter_all);
+        v7 = FLOAT_N1_0;
       else
-        *(_DWORD *)(a2 + 372) |= 0x20u;
-    }
-    v9 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 88);
-    v10 = *(const stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> **)(a2 + 92);
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)31) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x40u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)32) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x80u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)5) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x100u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)6) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x200u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)8) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x400u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)9) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x800u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)25) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x1000u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)26) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x2000u;
-    v11 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)48);
-    if ( v11 != v10 )
-    {
-      second = v11->second;
-      if ( second )
+        v7 = s_bm_current_air_resistance;
+      v46 = v7;
+      v8 = vostok::core::journal_usage();
+      v9 = *(float *)(a2 + 148);
+      if ( v8 == replay_journal )
+        v10 = v9 * g_journaling_mouse_sensitivity.x;
+      else
+        v10 = (float)(v9 * survarium::g_mouse_sensitivity) * 0.1;
+      v45 = v10;
+      if ( vostok::core::journal_usage() == replay_journal )
       {
-        if ( second == up )
-          *(_DWORD *)(a2 + 372) |= 0x8000u;
+        v12 = *(float *)(a2 + 148) * g_journaling_mouse_sensitivity.y;
       }
       else
       {
-        *(_DWORD *)(a2 + 372) |= 0x4000u;
+        v13 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a2 + 820) + 160) + 148);
+        v14 = (float *)((*(int (__thiscall **)(int, _BYTE *))(*(_DWORD *)v13 + 28))(v13, v47) + 4);
+        v15 = (float *)(*(int (__thiscall **)(int, _BYTE *))(*(_DWORD *)v13 + 28))(v13, v48);
+        v12 = (float)((float)((float)(*v14 / *v15) * v45) * v46) * 0.95492965;
       }
+      v46 = v12;
+      if ( survarium::player_input_handler::action_present(v11, a2, (survarium::action_state_enum *)2, &v44) )
+        *(float *)(a2 + 824) = (float)(v46 * 0.017453292) + *(float *)(a2 + 824);
+      if ( survarium::player_input_handler::action_present(v16, a2, (survarium::action_state_enum *)3, &v44) )
+        *(float *)(a2 + 824) = *(float *)(a2 + 824) - (float)(v46 * 0.017453292);
+      if ( survarium::player_input_handler::action_present(v17, a2, (survarium::action_state_enum *)1, &v44) )
+        *(float *)(a2 + 828) = *(float *)(a2 + 828) - (float)(v45 * 0.017453292);
+      if ( survarium::player_input_handler::action_present(v18, a2, 0, &v44) )
+        *(float *)(a2 + 828) = (float)(v45 * 0.017453292) + *(float *)(a2 + 828);
     }
-    v13 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)49);
-    if ( v13 != v10 )
+    if ( survarium::player_input_handler::action_present(v6, a2, (survarium::action_state_enum *)4, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x10u;
+    if ( survarium::player_input_handler::action_present(v19, a2, (survarium::action_state_enum *)0x25, &v44) )
+      *(_DWORD *)(a2 + 832) |= v44 != 1 ? 32 : 64;
+    if ( survarium::player_input_handler::action_present(v20, a2, (survarium::action_state_enum *)0x26, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x80u;
+    if ( survarium::player_input_handler::action_present(v21, a2, (survarium::action_state_enum *)0x27, &v44)
+      || survarium::player_input_handler::action_present(v22, a2, (survarium::action_state_enum *)0x28, &v44) )
     {
-      v14 = v13->second;
-      if ( v14 )
-      {
-        if ( v14 == up )
-          *(_DWORD *)(a2 + 372) |= (unsigned int)&loc_20000;
-      }
-      else
-      {
-        *(_DWORD *)(a2 + 372) |= (unsigned int)&_sbh_sizeHeaderList;
-      }
+      *(_DWORD *)(a2 + 832) |= 0x100u;
     }
-    v15 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)50);
-    if ( v15 != v10 )
+    if ( survarium::player_input_handler::action_present(v22, a2, (survarium::action_state_enum *)5, &v44)
+      || survarium::player_input_handler::action_present(v23, a2, (survarium::action_state_enum *)6, &v44) )
     {
-      v16 = v15->second;
-      if ( v16 )
-      {
-        if ( v16 == up )
-          *(_DWORD *)(a2 + 372) |= (unsigned int)&loc_7FFFE + 2;
-      }
-      else
-      {
-        *(_DWORD *)(a2 + 372) |= (unsigned int)&loc_3FFFF + 1;
-      }
+      *(_DWORD *)(a2 + 832) |= 0x200u;
     }
-    v17 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)51);
-    if ( v17 != v10 )
+    if ( survarium::player_input_handler::action_present(v23, a2, (survarium::action_state_enum *)7, &v44)
+      || survarium::player_input_handler::action_present(v24, a2, (survarium::action_state_enum *)8, &v44) )
     {
-      v18 = v17->second;
-      if ( v18 )
-      {
-        if ( v18 == up )
-          *(_DWORD *)(a2 + 372) |= (unsigned int)&loc_1FFFFE + 2;
-      }
-      else
-      {
-        *(_DWORD *)(a2 + 372) |= (unsigned int)&loc_FFFFF + 1;
-      }
+      *(_DWORD *)(a2 + 832) |= 0x400u;
     }
-    v19 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)52);
-    if ( v19 != v10 )
+    if ( survarium::player_input_handler::action_present(v24, a2, (survarium::action_state_enum *)9, &v44) && !v44 )
+      *(_DWORD *)(a2 + 832) |= 0x800u;
+    if ( survarium::player_input_handler::action_present(v25, a2, (survarium::action_state_enum *)0xA, &v44) && !v44 )
+      *(_DWORD *)(a2 + 832) |= 0x1000u;
+    if ( survarium::player_input_handler::action_present(v26, a2, (survarium::action_state_enum *)0x1C, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x2000u;
+    if ( survarium::player_input_handler::action_present(v27, a2, (survarium::action_state_enum *)0x1D, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x4000u;
+    if ( survarium::player_input_handler::action_present(v28, a2, (survarium::action_state_enum *)0x38, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x8000u;
+    if ( survarium::player_input_handler::action_present(v29, a2, (survarium::action_state_enum *)0x39, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&_sbh_sizeHeaderList;
+    if ( survarium::player_input_handler::action_present(v30, a2, (survarium::action_state_enum *)0x3A, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&loc_20000;
+    if ( survarium::player_input_handler::action_present(v31, a2, (survarium::action_state_enum *)0x3B, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&loc_3FFFF + 1;
+    if ( survarium::player_input_handler::action_present(v32, a2, (survarium::action_state_enum *)0x3C, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x80000u;
+    if ( survarium::player_input_handler::action_present(v33, a2, (survarium::action_state_enum *)0x3D, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&loc_100000;
+    if ( survarium::player_input_handler::action_present(v34, a2, (survarium::action_state_enum *)0x3E, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&loc_200000;
+    if ( survarium::player_input_handler::action_present(v35, a2, (survarium::action_state_enum *)0x29, &v44) )
+      *(_DWORD *)(a2 + 832) |= (unsigned int)&loc_400000;
+    if ( survarium::player_input_handler::action_present(v36, a2, (survarium::action_state_enum *)0x34, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x800000u;
+    if ( survarium::player_input_handler::action_present(v37, a2, (survarium::action_state_enum *)0x35, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x1000000u;
+    if ( survarium::player_input_handler::action_present(v38, a2, (survarium::action_state_enum *)0x1E, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x4000000u;
+    if ( survarium::player_input_handler::action_present(v39, a2, (survarium::action_state_enum *)0x23, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x8000000u;
+    if ( survarium::player_input_handler::action_present(v40, a2, (survarium::action_state_enum *)0x24, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x10000000u;
+    if ( survarium::player_input_handler::action_present(v41, a2, (survarium::action_state_enum *)0x1F, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x2000000u;
+    if ( survarium::player_input_handler::action_present(v42, a2, (survarium::action_state_enum *)0x20, &v44) )
+      *(_DWORD *)(a2 + 832) |= 0x20000000u;
+    if ( survarium::player_input_handler::action_present(v43, a2, (survarium::action_state_enum *)0x21, &v44) )
     {
-      v20 = v19->second;
-      if ( v20 )
-      {
-        if ( v20 == up )
-          *(_DWORD *)(a2 + 372) |= (unsigned int)&unk_800000;
-      }
-      else
-      {
-        *(_DWORD *)(a2 + 372) |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
-      }
+      if ( !v44 )
+        *(_DWORD *)(a2 + 832) |= 0x40000000u;
     }
-    v21 = stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-            v9,
-            v10,
-            (survarium::first_predicate<enum survarium::game_action_id>)53);
-    if ( v21 != v10 )
-    {
-      v22 = v21->second;
-      if ( v22 )
-      {
-        if ( v22 == up )
-          *(_DWORD *)(a2 + 372) |= (unsigned int)&vostok::memory::s_CRT_arena[22351416];
-      }
-      else
-      {
-        *(_DWORD *)(a2 + 372) |= (unsigned int)&vostok::memory::s_CRT_arena[5574200];
-      }
-    }
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)54) != v10 )
-      *(_DWORD *)(a2 + 372) |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)33) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x8000000u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)44) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x10000000u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)45) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x40000000u;
-    if ( stlp_std::priv::__find_if<stlp_std::pair<enum survarium::game_action_id,enum survarium::player_input_handler::action_state_enum> const *,survarium::first_predicate<enum survarium::game_action_id>>(
-           v9,
-           v10,
-           (survarium::first_predicate<enum survarium::game_action_id>)27) != v10 )
-      *(_DWORD *)(a2 + 372) |= 0x20000000u;
   }
 }

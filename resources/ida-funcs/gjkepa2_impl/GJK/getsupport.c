@@ -1,29 +1,35 @@
 void __userpurge gjkepa2_impl::GJK::getsupport(
-        const btVector3 *d@<edi>,
-        gjkepa2_impl::GJK::sSV *sv@<esi>,
-        gjkepa2_impl::GJK *this)
+        const btVector3 *d@<eax>,
+        gjkepa2_impl::GJK *this,
+        gjkepa2_impl::GJK::sSV *sv)
 {
-  long double v3; // st7
-  long double v4; // st6
-  long double v5; // st7
-  float v6; // [esp+Ch] [ebp-18h]
-  float v7; // [esp+10h] [ebp-14h]
-  unsigned __int64 v8; // [esp+14h] [ebp-10h] BYREF
-  unsigned __int64 v9; // [esp+1Ch] [ebp-8h]
+  float v3; // xmm2_4
+  float v4; // xmm1_4
+  btVector3 *v5; // esi
+  gjkepa2_impl::MinkowskiDiff *v6; // ecx
+  btVector3 *v7; // eax
+  btVector3 v8; // [esp+4h] [ebp-30h] BYREF
+  _BYTE v9[16]; // [esp+14h] [ebp-20h] BYREF
+  btVector3 v10; // [esp+24h] [ebp-10h] BYREF
 
-  v6 = d->mVec128.m128_f32[0];
-  v3 = 1.0
-     / sqrtf(
-         (float)((float)(v6 * v6) + (float)(d->mVec128.m128_f32[1] * d->mVec128.m128_f32[1]))
+  v3 = fsqrt(
+         (float)((float)(d->mVec128.m128_f32[0] * d->mVec128.m128_f32[0])
+               + (float)(d->mVec128.m128_f32[1] * d->mVec128.m128_f32[1]))
        + (float)(d->mVec128.m128_f32[2] * d->mVec128.m128_f32[2]));
-  v7 = v3;
-  v4 = v3 * d->mVec128.m128_f32[1];
-  *(float *)&v8 = v6 * v7;
-  HIDWORD(v9) = 0;
-  *((float *)&v8 + 1) = v4;
-  v5 = v3 * d->mVec128.m128_f32[2];
-  sv->d.mVec128.m128_u64[0] = v8;
-  *(float *)&v9 = v5;
-  sv->d.mVec128.m128_u64[1] = v9;
-  sv->w = (btVector3)gjkepa2_impl::MinkowskiDiff::Support(&this->m_shape, &sv->d, (int)&v8)->mVec128;
+  v8.mVec128.m128_f32[0] = d->mVec128.m128_f32[0] * (float)(s_bm_current_air_resistance / v3);
+  v4 = (float)(s_bm_current_air_resistance / v3) * d->mVec128.m128_f32[1];
+  v8.mVec128.m128_f32[2] = (float)(s_bm_current_air_resistance / v3) * d->mVec128.m128_f32[2];
+  v8.mVec128.m128_f32[1] = v4;
+  v8.mVec128.m128_i32[3] = 0;
+  sv->d = (btVector3)v8.mVec128;
+  v8.mVec128.m128_i32[0] = sv->d.mVec128.m128_i32[0] ^ _mask__NegFloat_;
+  v8.mVec128.m128_i32[1] = sv->d.mVec128.m128_i32[1] ^ _mask__NegFloat_;
+  v8.mVec128.m128_u64[1] = sv->d.mVec128.m128_u32[2] ^ (unsigned __int64)(unsigned int)_mask__NegFloat_;
+  v5 = gjkepa2_impl::MinkowskiDiff::Support1(&this->m_shape, &v8, (int)v9);
+  v7 = gjkepa2_impl::MinkowskiDiff::Support0(v6, (int)this, &v10, &sv->d);
+  v8.mVec128.m128_f32[0] = v7->mVec128.m128_f32[0] - v5->mVec128.m128_f32[0];
+  v8.mVec128.m128_f32[1] = v7->mVec128.m128_f32[1] - v5->mVec128.m128_f32[1];
+  v8.mVec128.m128_f32[2] = v7->mVec128.m128_f32[2] - v5->mVec128.m128_f32[2];
+  v8.mVec128.m128_i32[3] = 0;
+  sv->w = (btVector3)v8.mVec128;
 }

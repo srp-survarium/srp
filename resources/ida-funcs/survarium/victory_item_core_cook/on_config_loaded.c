@@ -1,56 +1,75 @@
 void __thiscall survarium::victory_item_core_cook::on_config_loaded(
         survarium::victory_item_core_cook *this,
-        vostok::resources::queries_result *data)
+        vostok::resources::queries_result *data,
+        vostok::physics::world *physics_world)
 {
-  vostok::resources::query_result *v2; // eax
-  vostok::resources::query_result_for_user *v3; // ecx
-  vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *unmanaged_resource; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v5; // ecx
-  const vostok::variant<32> **v6; // eax
-  vostok::configs::binary_config *v7; // ecx
-  const vostok::configs::binary_config_value *root; // eax
-  vostok::resources::memory_usage_type *v9; // eax
-  vostok::resources::unmanaged_resource *v10; // ecx
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> v11[2]; // [esp-4h] [ebp-3Ch] BYREF
-  vostok::resources::memory_usage_type *memory_usage; // [esp+4h] [ebp-34h]
-  vostok::resources::unmanaged_resource *object; // [esp+8h] [ebp-30h]
-  survarium::victory_item_core_cook *thisa; // [esp+Ch] [ebp-2Ch]
-  boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *v15; // [esp+20h] [ebp-18h] BYREF
-  vostok::resources::resource_ptr<survarium::game_world_object,vostok::resources::unmanaged_intrusive_base> v16; // [esp+28h] [ebp-10h] BYREF
-  vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base> cfg; // [esp+2Ch] [ebp-Ch] BYREF
-  survarium::victory_item_core *object_to_cook; // [esp+30h] [ebp-8h]
-  vostok::resources::query_result_for_cook *parent; // [esp+34h] [ebp-4h]
+  char *v3; // eax
+  survarium::victory_item_core *v4; // ecx
+  vostok::resources::class_id_enum v5; // eax
+  vostok::resources::class_id_enum v6; // edi
+  int v7; // eax
+  vostok::resources::queries_result *v8; // ebx
+  vostok::resources::queries_result *v9; // esi
+  vostok::particle::particle_system_instance_impl *v10; // ecx
+  survarium::victory_item_core_cook *v11; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v12; // [esp-8h] [ebp-1Ch] BYREF
+  vostok::resources::class_id_enum v13; // [esp-4h] [ebp-18h]
+  const char *v14; // [esp+0h] [ebp-14h]
+  const char *v15; // [esp+4h] [ebp-10h]
+  unsigned int v16; // [esp+8h] [ebp-Ch]
+  vostok::resources::query_result_for_cook *parent; // [esp+Ch] [ebp-8h]
+  vostok::resources::class_id_enum v18; // [esp+10h] [ebp-4h]
 
-  thisa = this;
-  parent = vostok::resources::queries_result::get_parent_query((vostok::resources::queries_result *)this, (int)data);
-  v2 = vostok::resources::queries_result::operator[](data, 0);
-  unmanaged_resource = vostok::resources::query_result_for_user::get_unmanaged_resource(
-                         v3,
-                         (const vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)v2,
-                         (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v16);
-  vostok::static_cast_resource_ptr<vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>,vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
-    (const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)unmanaged_resource,
-    &cfg);
-  vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v16);
-  object_to_cook = thisa->create_resource(thisa);
-  v6 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v5, (int)&cfg);
-  root = vostok::configs::binary_config::get_root(v7, (int)v6);
-  object_to_cook->load(object_to_cook, root);
-  if ( object_to_cook )
-    object = &object_to_cook->vostok::resources::unmanaged_resource;
+  parent = (vostok::resources::query_result_for_cook *)this;
+  v3 = vostok::memory::doug_lea_allocator::malloc_impl(
+         (vostok::memory::doug_lea_allocator *)this,
+         (int)survarium::g_allocator,
+         0x3C8u,
+         "victory_item_core",
+         v14,
+         v15,
+         v16);
+  if ( v3 )
+  {
+    survarium::victory_item_core::victory_item_core(v4, (int)v3, physics_world);
+    v6 = v5;
+    v18 = v5;
+  }
   else
-    object = 0;
-  vostok::resources::memory_usage_type::memory_usage_type(
-    (boost::_bi::list2<unsigned char &,vostok::network_core::packet_reader &> *)&vostok::resources::nocache_memory,
-    &v15,
-    (vostok::network_core::packet_reader *)0x178,
-    (vostok::network_core::packet_reader *)v11[1].m_object);
-  memory_usage = v9;
-  v11[0].m_object = v10;
+  {
+    v18 = unknown_data_class;
+    v6 = unknown_data_class;
+  }
+  if ( v6 == -472 )
+    v7 = 0;
+  else
+    survarium::portable_interactive_object_core::portable_interactive_object_core(
+      (survarium::portable_interactive_object_core *)v4,
+      v6 + 472);
+  v8 = data;
+  *(_DWORD *)(v6 + 444) = v7;
   vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&data,
+    (const vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v8->m_queries[0].m_unmanaged_resource);
+  v9 = data;
+  physics_world = 0;
+  if ( data )
+  {
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&physics_world);
+    physics_world = (vostok::physics::world *)v9;
+    _InterlockedExchangeAdd((volatile signed __int32 *)&v9->m_queries[0].m_target_quality_level, 1u);
+  }
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&data);
+  v13 = v18;
+  v12.m_object = v10;
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    &v12,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&physics_world);
+  survarium::victory_item_core_cook::process_loading_victory_item_core(
     v11,
-    (vostok::configs::binary_config *)object);
-  vostok::resources::query_result_for_cook::set_unmanaged_resource(memory_usage, parent, v11[0]);
-  vostok::resources::query_result_for_cook::finish_query(parent, result_success, assert_on_fail_true);
-  vostok::resources::resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>::~resource_ptr<survarium::booby_trap_core,vostok::resources::unmanaged_intrusive_base>((vostok::resources::resource_ptr<survarium::inventory,vostok::resources::unmanaged_intrusive_base> *)&cfg);
+    parent,
+    (vostok::resources::resource_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base>)v8->m_parent_query,
+    (survarium::victory_item_core *)v12.m_object,
+    v13);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&physics_world);
 }

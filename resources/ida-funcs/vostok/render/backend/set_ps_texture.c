@@ -1,9 +1,15 @@
-void __usercall vostok::render::backend::set_ps_texture(
-        vostok::render::backend *this@<esi>,
-        vostok::render::textures_handler<0> *name@<ecx>)
+void __userpurge vostok::render::backend::set_ps_texture(
+        vostok::render::backend *this@<ecx>,
+        int a2@<esi>,
+        char *name,
+        vostok::render::res_texture *texture)
 {
-  this->m_dirty_objects.pixel_textures = vostok::render::textures_handler<0>::set_overwrite(
-                                           name,
-                                           (const char *)&this->m_ps_textures_handler,
-                                           (vostok::render::res_texture *)name);
+  if ( vostok::render::textures_handler<1>::set_overwrite(
+         (vostok::render::textures_handler<1> *)this,
+         a2 + 3740,
+         name,
+         texture) )
+  {
+    *(_BYTE *)(a2 + 109) = 1;
+  }
 }

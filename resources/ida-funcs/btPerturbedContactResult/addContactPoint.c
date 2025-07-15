@@ -1,298 +1,363 @@
-void __userpurge btPerturbedContactResult::addContactPoint(
-        btPerturbedContactResult *this@<ecx>,
-        int a2@<ebx>,
-        int a3@<edi>,
-        int a4@<esi>,
+void __thiscall btPerturbedContactResult::addContactPoint(
+        btPerturbedContactResult *this,
         const btVector3 *normalOnBInWorld,
         const btVector3 *pointInWorld,
         float orgDepth)
 {
-  float v8; // xmm2_4
-  float v9; // xmm3_4
-  int v10; // xmm0_4
-  float *v11; // eax
-  float v12; // xmm7_4
-  float v13; // xmm6_4
-  float v14; // xmm4_4
-  float v15; // xmm0_4
+  float v5; // xmm2_4
+  float v6; // xmm3_4
+  float v7; // xmm0_4
+  float *v8; // eax
+  float v9; // xmm4_4
+  float v10; // xmm6_4
+  float v11; // xmm1_4
+  float v12; // xmm0_4
+  float v13; // xmm5_4
+  float v14; // xmm2_4
+  float v15; // xmm7_4
   float v16; // xmm3_4
-  float v17; // xmm1_4
-  float v18; // xmm5_4
-  float v19; // xmm2_4
-  float v20; // xmm6_4
-  float v21; // xmm3_4
-  float v22; // xmm7_4
-  float v23; // xmm2_4
+  float v17; // xmm7_4
+  float v18; // xmm3_4
+  float v19; // xmm5_4
+  float v20; // xmm3_4
+  float v21; // xmm4_4
+  float v22; // xmm6_4
+  float v23; // xmm3_4
   float v24; // xmm6_4
-  int v25; // xmm2_4
-  float v26; // xmm3_4
+  float v25; // xmm7_4
+  float v26; // xmm6_4
   float v27; // xmm5_4
-  float v28; // xmm4_4
+  float v28; // xmm7_4
   float v29; // xmm6_4
-  float v30; // xmm7_4
-  float v31; // xmm0_4
-  float v32; // xmm2_4
-  unsigned int v33; // xmm0_4
-  unsigned int v34; // xmm1_4
-  float *v35; // eax
-  float v36; // xmm3_4
-  float v37; // xmm2_4
-  float v38; // xmm1_4
+  float v30; // xmm5_4
+  float v31; // xmm7_4
+  float v32; // xmm5_4
+  float v33; // xmm6_4
+  float v34; // xmm6_4
+  float v35; // xmm5_4
+  float v36; // xmm7_4
+  float v37; // xmm6_4
+  float v38; // xmm5_4
   float v39; // xmm6_4
-  float v40; // xmm5_4
-  float v41; // xmm4_4
+  float v40; // xmm7_4
+  float v41; // xmm6_4
   float v42; // xmm5_4
   float v43; // xmm7_4
-  float v44; // xmm0_4
-  float v45; // xmm2_4
+  float v44; // xmm4_4
+  float v45; // xmm6_4
   float v46; // xmm0_4
-  float v47; // xmm1_4
-  float v48; // xmm3_4
+  float v47; // xmm6_4
+  const btVector3 *v48; // eax
   float v49; // xmm0_4
-  float v50; // xmm1_4
-  float v51; // xmm0_4
-  float v52; // xmm1_4
-  float v53; // xmm4_4
-  float v54; // xmm0_4
-  float v55; // xmm1_4
-  float v56; // xmm6_4
-  float v57; // xmm7_4
-  float v58; // xmm1_4
-  float v59; // xmm6_4
-  float v60; // xmm1_4
-  float v61; // xmm6_4
-  float v62; // xmm2_4
-  float v63; // xmm3_4
-  float v64; // xmm7_4
-  float v65; // xmm2_4
-  float v66; // xmm6_4
-  float v67; // xmm4_4
-  float v68; // xmm7_4
-  float v69; // xmm4_4
-  float v70; // xmm2_4
-  float v71; // xmm1_4
-  unsigned int v72; // xmm0_4
-  float v73; // xmm0_4
-  float v74; // xmm1_4
-  int v76; // [esp+D0h] [ebp-B4h]
-  int v77; // [esp+D4h] [ebp-B0h]
-  int v78; // [esp+D8h] [ebp-ACh]
-  float v79; // [esp+DCh] [ebp-A8h]
-  float newDepth; // [esp+E0h] [ebp-A4h]
-  float newDeptha; // [esp+E0h] [ebp-A4h]
-  float v82; // [esp+E4h] [ebp-A0h]
-  float v83; // [esp+E4h] [ebp-A0h]
-  float v84; // [esp+E8h] [ebp-9Ch]
-  float v85; // [esp+ECh] [ebp-98h]
-  float v86; // [esp+F0h] [ebp-94h]
-  __m128i v87; // [esp+F4h] [ebp-90h] BYREF
-  __m128i v88; // [esp+104h] [ebp-80h] BYREF
-  float v89; // [esp+114h] [ebp-70h]
-  float v90; // [esp+118h] [ebp-6Ch]
-  float v91; // [esp+11Ch] [ebp-68h]
-  float v92; // [esp+120h] [ebp-64h]
-  int v93; // [esp+124h] [ebp-60h]
-  float v94; // [esp+128h] [ebp-5Ch]
-  float v95; // [esp+12Ch] [ebp-58h]
-  int v96; // [esp+130h] [ebp-54h]
-  __m128i v97; // [esp+134h] [ebp-50h] BYREF
-  btTransform v98; // [esp+144h] [ebp-40h] BYREF
+  int *v50; // esi
+  unsigned int v51; // xmm0_4
+  unsigned int v52; // xmm1_4
+  float *v53; // eax
+  float v54; // xmm6_4
+  float v55; // xmm4_4
+  float v56; // xmm2_4
+  float v57; // xmm0_4
+  float v58; // xmm5_4
+  float v59; // xmm1_4
+  float v60; // xmm7_4
+  float v61; // xmm3_4
+  float v62; // xmm7_4
+  float v63; // xmm4_4
+  float v64; // xmm3_4
+  float v65; // xmm7_4
+  float v66; // xmm3_4
+  float v67; // xmm6_4
+  float v68; // xmm5_4
+  float v69; // xmm3_4
+  float v70; // xmm4_4
+  float v71; // xmm6_4
+  float v72; // xmm3_4
+  float v73; // xmm6_4
+  float v74; // xmm7_4
+  float v75; // xmm6_4
+  float v76; // xmm5_4
+  float v77; // xmm7_4
+  float v78; // xmm6_4
+  float v79; // xmm5_4
+  float v80; // xmm7_4
+  float v81; // xmm5_4
+  float v82; // xmm6_4
+  float v83; // xmm5_4
+  float v84; // xmm7_4
+  float v85; // xmm5_4
+  float v86; // xmm6_4
+  float v87; // xmm7_4
+  float v88; // xmm6_4
+  float v89; // xmm5_4
+  float v90; // xmm7_4
+  float v91; // xmm4_4
+  float v92; // xmm6_4
+  float v93; // xmm0_4
+  float v94; // xmm4_4
+  float v95; // xmm3_4
+  float v96; // xmm1_4
+  float v97; // xmm2_4
+  btManifoldResult *m_originalManifoldResult; // ebx
+  _DWORD *v99; // esi
+  const float *v100; // [esp+4h] [ebp-F0h]
+  btMatrix3x3 v101; // [esp+18h] [ebp-DCh] BYREF
+  float v102; // [esp+4Ch] [ebp-A8h] BYREF
+  float v103; // [esp+50h] [ebp-A4h] BYREF
+  float v104; // [esp+54h] [ebp-A0h] BYREF
+  float v105; // [esp+58h] [ebp-9Ch] BYREF
+  float v106; // [esp+5Ch] [ebp-98h] BYREF
+  float v107; // [esp+60h] [ebp-94h] BYREF
+  float v108; // [esp+64h] [ebp-90h] BYREF
+  float v109; // [esp+68h] [ebp-8Ch]
+  float v110; // [esp+6Ch] [ebp-88h]
+  float v111; // [esp+74h] [ebp-80h]
+  float v112; // [esp+78h] [ebp-7Ch]
+  float v113; // [esp+7Ch] [ebp-78h]
+  float v114; // [esp+84h] [ebp-70h]
+  float v115; // [esp+88h] [ebp-6Ch]
+  float v116; // [esp+8Ch] [ebp-68h]
+  float v117[2]; // [esp+94h] [ebp-60h] BYREF
+  float v118; // [esp+9Ch] [ebp-58h]
+  int v119; // [esp+A0h] [ebp-54h]
+  _DWORD v120[4]; // [esp+A4h] [ebp-50h] BYREF
+  btTransform v121; // [esp+B4h] [ebp-40h] BYREF
 
   if ( this->m_perturbA )
   {
-    v8 = normalOnBInWorld->mVec128.m128_f32[2] * orgDepth;
-    v9 = pointInWorld->mVec128.m128_f32[0] + (float)(normalOnBInWorld->mVec128.m128_f32[0] * orgDepth);
-    *(float *)&v87.m128i_i32[1] = pointInWorld->mVec128.m128_f32[1]
-                                + (float)(normalOnBInWorld->mVec128.m128_f32[1] * orgDepth);
-    *(float *)&v10 = pointInWorld->mVec128.m128_f32[2] + v8;
-    *(float *)v87.m128i_i32 = v9;
-    v87.m128i_i32[2] = v10;
-    v11 = (float *)btTransform::inverse(&this->m_transformA, &v98);
-    v12 = v11[12];
-    v13 = v11[13];
+    v5 = normalOnBInWorld->mVec128.m128_f32[2] * orgDepth;
+    v6 = pointInWorld->mVec128.m128_f32[0] + (float)(normalOnBInWorld->mVec128.m128_f32[0] * orgDepth);
+    v101.m_el[1].mVec128.m128_f32[0] = pointInWorld->mVec128.m128_f32[1]
+                                     + (float)(normalOnBInWorld->mVec128.m128_f32[1] * orgDepth);
+    v7 = pointInWorld->mVec128.m128_f32[2] + v5;
+    v101.m_el[0].mVec128.m128_f32[3] = v6;
+    v101.m_el[1].mVec128.m128_f32[1] = v7;
+    v8 = (float *)btTransform::inverse((btTransform *)this, (int)&this->m_transformA, &v121);
+    v9 = v8[14];
+    v10 = v8[12];
+    v11 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[2];
+    v12 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0];
+    v13 = v8[13];
     v14 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[1];
-    v15 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0];
-    v16 = v11[14];
-    v17 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[2];
-    v18 = (float)((float)(v15 * v12) + (float)(v14 * v13)) + (float)(v17 * v16);
-    *(float *)&v88.m128i_i32[1] = (float)((float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1]
-                                                        * v13)
-                                                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2]
-                                                        * v16))
-                                        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v12))
-                                + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[1];
-    v19 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v13;
-    v20 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v16;
-    v21 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * v12;
-    v22 = v11[2] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0];
-    v23 = v19 + v20;
-    v24 = v11[10];
-    *(float *)&v25 = (float)(v23 + v21) + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[2];
-    v26 = v11[6];
-    v27 = v18 + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[0];
-    v88.m128i_i32[2] = v25;
-    v82 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v26)
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v24))
-        + v22;
-    v86 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v11[5])
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v11[9]))
-        + (float)(v11[1] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0]);
-    v85 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v11[6])
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v24))
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v11[2]);
-    v84 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v11[5])
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v11[9]))
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v11[1]);
-    v79 = (float)(v15 * v11[1]) + (float)(v14 * v11[5]);
-    v28 = (float)((float)((float)(*(float *)&v87.m128i_i32[1] * (float)(v79 + (float)(v17 * v11[9])))
-                        + (float)(*(float *)&v87.m128i_i32[2]
-                                * (float)((float)((float)(v15 * v11[2]) + (float)(v14 * v11[6])) + (float)(v17 * v11[10]))))
-                + (float)((float)((float)((float)(v15 * *v11) + (float)(v14 * v11[4])) + (float)(v17 * v11[8]))
-                        * *(float *)v87.m128i_i32))
-        + v27;
-    v29 = normalOnBInWorld->mVec128.m128_f32[2];
-    v30 = normalOnBInWorld->mVec128.m128_f32[1];
-    v31 = (float)((float)((float)(*(float *)&v87.m128i_i32[1] * v84) + (float)(*(float *)&v87.m128i_i32[2] * v85))
-                + (float)((float)((float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1]
-                                                * v11[4])
-                                        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2]
-                                                * v11[8]))
-                                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * *v11))
-                        * *(float *)v87.m128i_i32))
-        + *(float *)&v88.m128i_i32[1];
-    v95 = (float)((float)((float)(*(float *)&v87.m128i_i32[1] * v86) + (float)(*(float *)&v87.m128i_i32[2] * v82))
-                + (float)((float)((float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1]
-                                                * v11[4])
-                                        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2]
-                                                * v11[8]))
-                                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * *v11))
-                        * *(float *)v87.m128i_i32))
-        + *(float *)&v25;
-    v32 = (float)((float)((float)(v28 - pointInWorld->mVec128.m128_f32[0]) * normalOnBInWorld->mVec128.m128_f32[0])
-                + (float)((float)(v31 - pointInWorld->mVec128.m128_f32[1]) * v30))
-        + (float)((float)(v95 - pointInWorld->mVec128.m128_f32[2]) * v29);
-    *(float *)v87.m128i_i32 = (float)(normalOnBInWorld->mVec128.m128_f32[0] * v32) + v28;
-    *(float *)&v87.m128i_i32[1] = (float)(v30 * v32) + v31;
-    v87.m128i_i64[1] = COERCE_UNSIGNED_INT((float)(v29 * v32) + v95);
-    newDepth = v32;
-    v97 = _mm_load_si128(&v87);
+    v15 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2];
+    v101.m_el[1].mVec128.m128_f32[3] = (float)((float)((float)(v11 * v9) + (float)(v12 * v10)) + (float)(v14 * v13))
+                                     + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[0];
+    v16 = (float)((float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v13)
+                        + (float)(v15 * v9))
+                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v10))
+        + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[1];
+    v17 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2];
+    v101.m_el[2].mVec128.m128_f32[0] = v16;
+    v18 = (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v13)
+        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v9);
+    v19 = v8[2] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+    v20 = (float)(v18 + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * v10))
+        + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[2];
+    v21 = v8[6];
+    v22 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v21;
+    v101.m_el[2].mVec128.m128_f32[1] = v20;
+    v23 = v8[10];
+    v24 = v22 + (float)(v17 * v23);
+    v25 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1];
+    v26 = v24 + v19;
+    v27 = v8[9];
+    v101.m_el[0].mVec128.m128_f32[0] = v26;
+    v28 = (float)(v25 * v8[5]) + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v27);
+    v29 = v8[4];
+    v30 = v8[8];
+    v106 = v28 + (float)(v8[1] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0]);
+    v31 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v29)
+                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v30))
+        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * *v8);
+    v32 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2];
+    v33 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v21;
+    v102 = v31;
+    v34 = v33 + (float)(v32 * v23);
+    v35 = v8[5];
+    v36 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2];
+    v107 = v34 + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v8[2]);
+    v37 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v35;
+    v38 = v8[4];
+    v39 = (float)(v37 + (float)(v36 * v8[9]))
+        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v8[1]);
+    v40 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2];
+    v105 = v39;
+    v41 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v38;
+    v42 = *v8;
+    v103 = (float)(v41 + (float)(v40 * v8[8]))
+         + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * *v8);
+    v43 = (float)((float)(v12 * v8[2]) + (float)(v14 * v21)) + (float)(v11 * v23);
+    v44 = (float)(v12 * v8[1]) + (float)(v14 * v8[5]);
+    v45 = v11 * v8[9];
+    v46 = (float)((float)(v12 * v42) + (float)(v14 * v8[4])) + (float)(v11 * v8[8]);
+    v104 = v43;
+    v101.m_el[0].mVec128.m128_f32[1] = v44 + v45;
+    v101.m_el[0].mVec128.m128_f32[2] = v46;
+    btMatrix3x3::setValue(
+      (btMatrix3x3 *)&v101.m_el[0].m_floats[2],
+      (int)&v108,
+      &v101.m_el[0].mVec128.m128_f32[1],
+      &v104,
+      &v103,
+      &v105,
+      &v107,
+      &v102,
+      &v106,
+      (const float *)&v101,
+      v100);
+    v47 = normalOnBInWorld->mVec128.m128_f32[2];
+    v48 = normalOnBInWorld;
+    v101.m_el[0].mVec128.m128_i32[2] = normalOnBInWorld->mVec128.m128_i32[1];
+    v49 = (float)((float)((float)((float)((float)(v108 * v101.m_el[0].mVec128.m128_f32[3])
+                                        + (float)(v109 * v101.m_el[1].mVec128.m128_f32[0]))
+                                + (float)(v110 * v101.m_el[1].mVec128.m128_f32[1]))
+                        + v101.m_el[1].mVec128.m128_f32[3])
+                - pointInWorld->mVec128.m128_f32[0])
+        * normalOnBInWorld->mVec128.m128_f32[0];
+    v101.m_el[0].mVec128.m128_i32[1] = normalOnBInWorld->mVec128.m128_i32[0];
+    v101.m_el[0].mVec128.m128_f32[0] = (float)(v49
+                                             + (float)((float)((float)((float)((float)((float)(v111
+                                                                                             * v101.m_el[0].mVec128.m128_f32[3])
+                                                                                     + (float)(v112
+                                                                                             * v101.m_el[1].mVec128.m128_f32[0]))
+                                                                             + (float)(v113
+                                                                                     * v101.m_el[1].mVec128.m128_f32[1]))
+                                                                     + v101.m_el[2].mVec128.m128_f32[0])
+                                                             - pointInWorld->mVec128.m128_f32[1])
+                                                     * v101.m_el[0].mVec128.m128_f32[2]))
+                                     + (float)((float)((float)((float)((float)((float)(v115
+                                                                                     * v101.m_el[1].mVec128.m128_f32[0])
+                                                                             + (float)(v116
+                                                                                     * v101.m_el[1].mVec128.m128_f32[1]))
+                                                                     + (float)(v114 * v101.m_el[0].mVec128.m128_f32[3]))
+                                                             + v101.m_el[2].mVec128.m128_f32[1])
+                                                     - pointInWorld->mVec128.m128_f32[2])
+                                             * v47);
+    v101.m_el[1].mVec128.m128_f32[3] = (float)(v101.m_el[0].mVec128.m128_f32[1] * v101.m_el[0].mVec128.m128_f32[0])
+                                     + (float)((float)((float)((float)(v108 * v101.m_el[0].mVec128.m128_f32[3])
+                                                             + (float)(v109 * v101.m_el[1].mVec128.m128_f32[0]))
+                                                     + (float)(v110 * v101.m_el[1].mVec128.m128_f32[1]))
+                                             + v101.m_el[1].mVec128.m128_f32[3]);
+    v101.m_el[2].mVec128.m128_f32[0] = (float)(v101.m_el[0].mVec128.m128_f32[2] * v101.m_el[0].mVec128.m128_f32[0])
+                                     + (float)((float)((float)((float)(v111 * v101.m_el[0].mVec128.m128_f32[3])
+                                                             + (float)(v112 * v101.m_el[1].mVec128.m128_f32[0]))
+                                                     + (float)(v113 * v101.m_el[1].mVec128.m128_f32[1]))
+                                             + v101.m_el[2].mVec128.m128_f32[0]);
+    v101.m_el[2].mVec128.m128_f32[1] = (float)(v47 * v101.m_el[0].mVec128.m128_f32[0])
+                                     + (float)((float)((float)((float)(v115 * v101.m_el[1].mVec128.m128_f32[0])
+                                                             + (float)(v116 * v101.m_el[1].mVec128.m128_f32[1]))
+                                                     + (float)(v114 * v101.m_el[0].mVec128.m128_f32[3]))
+                                             + v101.m_el[2].mVec128.m128_f32[1]);
+    v101.m_el[2].mVec128.m128_i32[2] = 0;
+    v50 = &v101.m_el[1].mVec128.m128_i32[3];
   }
   else
   {
-    *(float *)&v33 = (float)(normalOnBInWorld->mVec128.m128_f32[1] * orgDepth) + pointInWorld->mVec128.m128_f32[1];
-    *(float *)&v34 = (float)(normalOnBInWorld->mVec128.m128_f32[2] * orgDepth) + pointInWorld->mVec128.m128_f32[2];
-    *(float *)v87.m128i_i32 = pointInWorld->mVec128.m128_f32[0]
-                            + (float)(normalOnBInWorld->mVec128.m128_f32[0] * orgDepth);
-    *(__int64 *)((char *)v87.m128i_i64 + 4) = __PAIR64__(v34, v33);
-    v35 = (float *)btTransform::inverse(&this->m_transformB, &v98);
-    v36 = v35[12];
-    v37 = v35[13];
-    v38 = v35[14];
-    v39 = v35[10];
-    v40 = (float)((float)(v36 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0])
-                + (float)(v37 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[1]))
-        + (float)(v38 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[2]);
-    v41 = v35[5];
-    v94 = (float)((float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v37)
-                        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v38))
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v36))
-        + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[1];
-    v42 = v40 + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[0];
-    v43 = v35[4];
-    v44 = (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v37)
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v38);
-    v45 = v35[2];
-    v46 = (float)(v44 + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * v36))
-        + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[2];
-    v47 = v35[6];
-    v48 = v35[1];
-    v95 = v46;
-    v49 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v47;
-    v79 = v47;
-    v50 = v35[9];
-    v92 = (float)(v49 + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v39))
-        + (float)(v45 * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0]);
-    v86 = v41;
-    v85 = v50;
-    v51 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v41)
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v50))
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * v48);
-    v52 = v35[8];
-    v83 = v39;
-    v90 = v51;
-    newDeptha = v52;
-    v53 = *v35;
-    v84 = v43;
-    v54 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v43)
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v52))
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0] * *v35);
-    v55 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v79)
-                + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v39))
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v45);
-    v56 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v85;
-    v57 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[1];
-    v89 = v55;
-    v58 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v86) + v56)
-        + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v48);
-    v59 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * newDeptha;
-    v91 = v58;
-    v60 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v84) + v59)
-        + (float)(v53 * this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0]);
-    v61 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[2];
-    v82 = (float)((float)(v45 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0]) + (float)(v79 * v57))
-        + (float)(v83 * v61);
-    v62 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[1];
-    v63 = (float)((float)(v48 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0]) + (float)(v86 * v62))
-        + (float)(v85 * v61);
-    v64 = v84 * v62;
-    v65 = newDeptha * v61;
-    v66 = pointInWorld->mVec128.m128_f32[2];
-    v67 = (float)(v53 * this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0]) + v64;
-    v68 = pointInWorld->mVec128.m128_f32[1];
-    v69 = (float)((float)((float)(v67 + v65) * pointInWorld->mVec128.m128_f32[0]) + (float)(v68 * v63))
-        + (float)(v66 * v82);
-    v70 = pointInWorld->mVec128.m128_f32[0];
-    v71 = v60 * pointInWorld->mVec128.m128_f32[0];
-    *(float *)v88.m128i_i32 = v69 + v42;
-    *(float *)&v88.m128i_i32[1] = (float)((float)(v71 + (float)(v68 * v91)) + (float)(v66 * v89)) + v94;
-    *(float *)&v72 = (float)((float)((float)(v54 * v70) + (float)(v68 * v90)) + (float)(v66 * v92)) + v95;
-    v88.m128i_i64[1] = v72;
-    v73 = normalOnBInWorld->mVec128.m128_f32[2] * (float)(*(float *)&v87.m128i_i32[2] - *(float *)&v72);
-    v74 = normalOnBInWorld->mVec128.m128_f32[1];
-    v97 = _mm_load_si128(&v88);
-    newDepth = (float)(v73 + (float)(v74 * (float)(*(float *)&v87.m128i_i32[1] - *(float *)&v88.m128i_i32[1])))
-             + (float)(normalOnBInWorld->mVec128.m128_f32[0] * (float)(*(float *)v87.m128i_i32 - (float)(v69 + v42)));
+    *(float *)&v51 = (float)(normalOnBInWorld->mVec128.m128_f32[1] * orgDepth) + pointInWorld->mVec128.m128_f32[1];
+    *(float *)&v52 = (float)(normalOnBInWorld->mVec128.m128_f32[2] * orgDepth) + pointInWorld->mVec128.m128_f32[2];
+    v101.m_el[0].mVec128.m128_f32[3] = pointInWorld->mVec128.m128_f32[0]
+                                     + (float)(normalOnBInWorld->mVec128.m128_f32[0] * orgDepth);
+    v101.m_el[1].mVec128.m128_u64[0] = __PAIR64__(v52, v51);
+    v53 = (float *)btTransform::inverse((btTransform *)this, (int)&this->m_transformB, &v121);
+    v54 = v53[13];
+    v55 = v53[12];
+    v56 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[1];
+    v57 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[0];
+    v58 = v53[14];
+    v59 = this->m_unPerturbedTransform.m_basis.m_el[0].mVec128.m128_f32[2];
+    v60 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v58;
+    v101.m_el[1].mVec128.m128_f32[3] = (float)((float)((float)(v57 * v55) + (float)(v56 * v54)) + (float)(v59 * v58))
+                                     + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[0];
+    v61 = (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v54) + v60;
+    v62 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v55;
+    v63 = v55 * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+    v64 = (float)(v61 + v62) + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[1];
+    v65 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2];
+    v101.m_el[2].mVec128.m128_f32[0] = v64;
+    v66 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v54;
+    v67 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v58;
+    v68 = v53[2] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0];
+    v69 = (float)((float)(v66 + v67) + v63) + this->m_unPerturbedTransform.m_origin.mVec128.m128_f32[2];
+    v70 = v53[6];
+    v71 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v70;
+    v101.m_el[2].mVec128.m128_f32[1] = v69;
+    v72 = v53[10];
+    v73 = v71 + (float)(v65 * v72);
+    v74 = this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1];
+    v75 = v73 + v68;
+    v76 = v53[9];
+    v101.m_el[0].mVec128.m128_f32[2] = v75;
+    v77 = (float)(v74 * v53[5]) + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v76);
+    v78 = v53[4];
+    v79 = v53[8];
+    v101.m_el[0].mVec128.m128_f32[1] = v77
+                                     + (float)(v53[1] * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0]);
+    v80 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[1] * v78)
+                + (float)(this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[2] * v79))
+        + (float)(*v53 * this->m_unPerturbedTransform.m_basis.m_el[2].mVec128.m128_f32[0]);
+    v81 = v53[5];
+    v103 = (float)((float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v70)
+                 + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v72))
+         + (float)(v53[2] * this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0]);
+    v82 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v81;
+    v83 = v53[9];
+    v104 = v80;
+    v84 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2] * v83;
+    v85 = v53[4];
+    v86 = (float)(v82 + v84) + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * v53[1]);
+    v87 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[2];
+    v105 = v86;
+    v88 = this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[1] * v85;
+    v89 = *v53;
+    v107 = (float)(v88 + (float)(v87 * v53[8]))
+         + (float)(this->m_unPerturbedTransform.m_basis.m_el[1].mVec128.m128_f32[0] * *v53);
+    v90 = (float)((float)(v57 * v53[2]) + (float)(v56 * v70)) + (float)(v59 * v72);
+    v91 = (float)(v57 * v53[1]) + (float)(v56 * v53[5]);
+    v92 = v59 * v53[9];
+    v93 = (float)((float)(v57 * v89) + (float)(v56 * v53[4])) + (float)(v59 * v53[8]);
+    v102 = v90;
+    v106 = v91 + v92;
+    v101.m_el[0].mVec128.m128_f32[0] = v93;
+    btMatrix3x3::setValue(
+      &v101,
+      (int)&v108,
+      &v106,
+      &v102,
+      &v107,
+      &v105,
+      &v103,
+      &v104,
+      &v101.m_el[0].mVec128.m128_f32[1],
+      &v101.m_el[0].mVec128.m128_f32[2],
+      v100);
+    v94 = pointInWorld->mVec128.m128_f32[1];
+    v95 = pointInWorld->mVec128.m128_f32[2];
+    v48 = normalOnBInWorld;
+    v96 = (float)((float)((float)(v111 * pointInWorld->mVec128.m128_f32[0]) + (float)(v112 * v94)) + (float)(v113 * v95))
+        + v101.m_el[2].mVec128.m128_f32[0];
+    v97 = (float)(v114 * pointInWorld->mVec128.m128_f32[0]) + (float)(v115 * v94);
+    v117[0] = (float)((float)((float)(v108 * pointInWorld->mVec128.m128_f32[0]) + (float)(v109 * v94))
+                    + (float)(v110 * v95))
+            + v101.m_el[1].mVec128.m128_f32[3];
+    v119 = 0;
+    v117[1] = v96;
+    v118 = (float)(v97 + (float)(v116 * v95)) + v101.m_el[2].mVec128.m128_f32[1];
+    v50 = (int *)v117;
+    v101.m_el[0].mVec128.m128_f32[0] = (float)((float)(normalOnBInWorld->mVec128.m128_f32[2]
+                                                     * (float)(v101.m_el[1].mVec128.m128_f32[1] - v118))
+                                             + (float)(normalOnBInWorld->mVec128.m128_f32[1]
+                                                     * (float)(v101.m_el[1].mVec128.m128_f32[0] - v96)))
+                                     + (float)(normalOnBInWorld->mVec128.m128_f32[0]
+                                             * (float)(v101.m_el[0].mVec128.m128_f32[3] - v117[0]));
   }
-  ((void (__stdcall *)(const btVector3 *, __m128i *, _DWORD, int, int, int, int, int, int, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD, int, int, int, int, int, int, int, int, _DWORD, _DWORD, _DWORD, _DWORD, int, _DWORD, _DWORD, int))this->m_originalManifoldResult->addContactPoint)(
-    normalOnBInWorld,
-    &v97,
-    LODWORD(newDepth),
-    a3,
-    a4,
-    a2,
-    v76,
-    v77,
-    v78,
-    LODWORD(v79),
-    LODWORD(newDepth),
-    LODWORD(v82),
-    LODWORD(v84),
-    LODWORD(v85),
-    LODWORD(v86),
-    v87.m128i_i32[0],
-    v87.m128i_i32[1],
-    v87.m128i_i32[2],
-    v87.m128i_i32[3],
-    v88.m128i_i32[0],
-    v88.m128i_i32[1],
-    v88.m128i_i32[2],
-    v88.m128i_i32[3],
-    LODWORD(v89),
-    LODWORD(v90),
-    LODWORD(v91),
-    LODWORD(v92),
-    v93,
-    LODWORD(v94),
-    LODWORD(v95),
-    v96);
+  m_originalManifoldResult = this->m_originalManifoldResult;
+  v120[0] = *v50;
+  v99 = v50 + 1;
+  v120[1] = *v99++;
+  v120[2] = *v99;
+  v120[3] = v99[1];
+  ((void (__thiscall *)(btManifoldResult *, const btVector3 *, _DWORD *, int))m_originalManifoldResult->addContactPoint)(
+    m_originalManifoldResult,
+    v48,
+    v120,
+    v101.m_el[0].mVec128.m128_i32[0]);
 }

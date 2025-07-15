@@ -1,44 +1,34 @@
-void __thiscall vostok::logging::filter_tree::push_filter(
-        vostok::logging::filter_tree *this,
-        vostok::fixed_string<16> *initiator,
+void __userpurge vostok::logging::filter_tree::push_filter(
+        vostok::logging::filter_tree *this@<ecx>,
+        int a2@<eax>,
+        char *initiator,
         vostok::logging::verbosity verbosity,
         unsigned int thread_id)
 {
-  vostok::memory::base_allocator *v4; // eax
-  vostok::threading::reader_writer_lock *v5; // ecx
-  vostok::logging::initiator_filter *v6; // [esp+4h] [ebp-44h]
-  void *_Where; // [esp+2Ch] [ebp-1Ch]
-  vostok::logging::initiator_filter *v9; // [esp+34h] [ebp-14h]
-  vostok::threading::reader_writer_lock::mutex_raii raii; // [esp+38h] [ebp-10h] BYREF
-  vostok::logging::initiator_filter *filter; // [esp+44h] [ebp-4h]
+  int v6; // esi
+  vostok::threading::mutex *v7; // ecx
+  int v8; // eax
+  vostok::logging::filter_tree *v9; // ecx
+  vostok::threading::reader_writer_lock *v10; // ecx
+  vostok::threading::reader_writer_lock *v11; // [esp-4h] [ebp-10h]
 
   if ( !initiator )
-    initiator = (vostok::fixed_string<16> *)&buf;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  _Where = vostok::memory::base_allocator::malloc_impl(v4, 0x3Cu);
-  v9 = (vostok::logging::initiator_filter *)operator new(0x3Cu, _Where);
-  if ( v9 )
-  {
-    vostok::fixed_string<32>::fixed_string<32>(&v9->initiator);
-    v6 = v9;
-  }
+    initiator = (char *)uri;
+  v6 = (***(int (__thiscall ****)(_DWORD, int))(a2 + 12))(*(_DWORD *)(a2 + 12), 48);
+  vostok::strings::copy<32>((char (*)[32])(v6 + 16), initiator);
+  *(_DWORD *)(v6 + 12) = -1;
+  *(_DWORD *)(v6 + 8) = verbosity;
+  vostok::threading::reader_writer_lock::lock_write_impl(v11, (volatile signed __int64 *)a2);
+  vostok::threading::mutex::lock(v7, (_RTL_CRITICAL_SECTION *)(a2 + 32));
+  v8 = *(_DWORD *)(a2 + 24);
+  *(_DWORD *)v6 = 0;
+  *(_DWORD *)(v6 + 4) = v8;
+  if ( *(_DWORD *)(a2 + 20) )
+    **(_DWORD **)(a2 + 24) = v6;
   else
-  {
-    v6 = 0;
-  }
-  filter = v6;
-  vostok::fixed_string<16>::operator=(initiator, &v6->initiator);
-  v6->verbosity = verbosity;
-  filter->thread_id = thread_id;
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)&raii);
-  raii.lock = &this->lock;
-  raii.lock_type = lock_type_write;
-  vostok::threading::reader_writer_lock::lock(v5, lock_type_write);
-  raii.locked = 1;
-  vostok::intrusive_double_linked_list<vostok::logging::initiator_filter,vostok::logging::initiator_filter *,4,0,vostok::threading::mutex,vostok::no_size_policy,vostok::debug_policy>::push_back(
-    &this->filter_stack,
-    filter,
-    0);
-  vostok::logging::filter_tree::build_tree(this);
-  vostok::threading::reader_writer_lock::mutex_raii::~mutex_raii(&raii);
+    *(_DWORD *)(a2 + 20) = v6;
+  *(_DWORD *)(a2 + 24) = v6;
+  LeaveCriticalSection((LPCRITICAL_SECTION)(a2 + 32));
+  vostok::logging::filter_tree::build_tree(v9, a2);
+  vostok::threading::reader_writer_lock::unlock(v10, (volatile signed __int64 *)a2, lock_type_write);
 }

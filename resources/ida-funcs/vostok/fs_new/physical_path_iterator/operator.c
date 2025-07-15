@@ -1,50 +1,48 @@
-void __usercall vostok::fs_new::physical_path_iterator::operator++(
-        vostok::fs_new::physical_path_iterator *this@<ecx>,
-        unsigned int a2@<ebx>)
+void __thiscall vostok::fs_new::physical_path_iterator::operator++(
+        vostok::fs_new::physical_path_iterator *this,
+        _DWORD *do_debug_break)
 {
-  _BYTE *v2; // eax
-  bool do_debug_break; // [esp+17h] [ebp-149h] BYREF
-  unsigned __int64 saved_handle; // [esp+18h] [ebp-148h]
-  vostok::fs_new::physical_path_initializer initializer; // [esp+20h] [ebp-140h] BYREF
+  _DWORD *v2; // ebx
+  unsigned int v3; // eax
+  int v4; // ecx
+  int v5; // edi
+  _DWORD v6[81]; // [esp+10h] [ebp-14Ch] BYREF
+  int v7; // [esp+154h] [ebp-8h]
 
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( !*v2 || debug_macro_helper_ignore_always_2 || this->device )
+  v2 = do_debug_break;
+  if ( debug_macro_helper_ignore_always_3 || *do_debug_break )
   {
-    vostok::fs_new::physical_path_initializer::physical_path_initializer(&initializer);
-    saved_handle = this->search_handle;
-    if ( !this->device->find_next(this->device, &this->search_handle, &this->data) )
+    vostok::fs_new::physical_path_initializer::physical_path_initializer(
+      (vostok::fs_new::physical_path_initializer *)this,
+      v6);
+    v4 = *v2;
+    v5 = v2[78];
+    v7 = v2[79];
+    if ( !(*(unsigned __int8 (__thiscall **)(int, _DWORD *, _DWORD *))(*(_DWORD *)v4 + 48))(v4, v2 + 78, v2 + 2) )
     {
-      ((void (__thiscall *)(vostok::fs_new::device_file_system_interface *, _DWORD, _DWORD))this->device->find_close)(
-        this->device,
-        saved_handle,
-        HIDWORD(saved_handle));
-      LODWORD(this->search_handle) = -1;
-      HIDWORD(this->search_handle) = -1;
+      (*(void (__thiscall **)(_DWORD, int, int))(*(_DWORD *)*v2 + 52))(*v2, v5, v7);
+      v2[78] = -1;
+      v2[79] = -1;
     }
   }
   else
   {
+    v3 = occurances_left_2;
     if ( occurances_left_2 == -1 )
-      occurances_left_2 = vostok::ui::ui_dialog::input_priority((survarium::game_world *)debug_macro_helper_ignore_always_2);
-    if ( occurances_left_2-- )
+      v3 = 10;
+    occurances_left_2 = v3 - 1;
+    if ( v3 )
     {
-      if ( !debug_macro_helper_ignore_always_2 )
-      {
-        do_debug_break = 0;
-        vostok::debug::on_error(
-          a2,
-          &do_debug_break,
-          process_error_false,
-          &debug_macro_helper_ignore_always_2,
-          assert_untyped,
-          "assertion_failed",
-          "device",
-          ".\\physical_path_info_iterator.cpp",
-          "vostok::fs_new::physical_path_iterator::operator ++",
-          0x58u);
-        if ( vostok::debug::is_debugger_present() || do_debug_break )
-          __debugbreak();
-      }
+      HIBYTE(do_debug_break) = 0;
+      vostok::debug::on_error(
+        (bool *)&do_debug_break + 3,
+        process_error_false,
+        (bool *)"device",
+        ".\\physical_path_info_iterator.cpp",
+        "vostok::fs_new::physical_path_iterator::operator ++",
+        (const char *)0x58);
+      if ( vostok::debug::is_debugger_present() || HIBYTE(do_debug_break) )
+        __debugbreak();
     }
   }
 }

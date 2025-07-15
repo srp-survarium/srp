@@ -25,12 +25,12 @@ void __cdecl doexit(int code, int quick, int retcaller)
         onexitend_saved = (void (__cdecl **)())v4;
         while ( --v4 >= v3 )
         {
-          if ( *v4 != (void *)_encoded_null() )
+          if ( *v4 != _encoded_null() )
           {
             if ( v4 < v3 )
               break;
             v5 = (void (*)(void))_decode_pointer(*v4);
-            *v4 = (void *)_encoded_null();
+            *v4 = _encoded_null();
             v5();
             v6 = (void (__cdecl **)())_decode_pointer(__onexitbegin);
             v7 = (void (__cdecl **)())_decode_pointer(__onexitend);

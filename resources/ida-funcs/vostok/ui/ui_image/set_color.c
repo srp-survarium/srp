@@ -1,4 +1,4 @@
-void __thiscall vostok::ui::ui_image::set_color(vostok::ui::ui_text<vostok::ui::static_text> *this, unsigned int clr)
+void __thiscall vostok::ui::ui_image::set_color(vostok::ui::ui_progress_bar *this, unsigned int width)
 {
-  this->m_color = clr;
+  this->m_border_width = width;
 }

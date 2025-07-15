@@ -11,11 +11,11 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetExactCharBoundaries(const Sca
   Scaleform::GFx::AS2::RectangleObject *v9; // edi
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Value *Result; // esi
-  Scaleform::GFx::AS2::Environment *v12; // [esp+48h] [ebp-48h]
-  Scaleform::GFx::AS2::Environment *Env; // [esp+4Ch] [ebp-44h]
-  float v14; // [esp+5Ch] [ebp-34h]
-  Scaleform::Render::Rect<float> pCharRect; // [esp+60h] [ebp-30h] BYREF
-  Scaleform::Render::Rect<double> r; // [esp+70h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *v12; // [esp-8h] [ebp-48h]
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-44h]
+  float v14; // [esp+Ch] [ebp-34h]
+  Scaleform::Render::Rect<float> v15; // [esp+10h] [ebp-30h] BYREF
+  Scaleform::Render::Rect<double> r; // [esp+20h] [ebp-20h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextField )
   {
@@ -27,12 +27,12 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetExactCharBoundaries(const Sca
       v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
       v4 = Scaleform::GFx::AS2::Value::ToUInt32(v3, Env);
       GetMemberRaw = (Scaleform::Render::Text::DocView *)v2[1].GetMemberRaw;
-      pCharRect.x1 = 0.0;
-      pCharRect.y1 = 0.0;
+      v15.x1 = 0.0;
+      v15.y1 = 0.0;
       v14 = 0.0 + 0.0;
-      pCharRect.x2 = v14;
-      pCharRect.y2 = v14;
-      if ( Scaleform::Render::Text::DocView::GetExactCharBoundaries(GetMemberRaw, &pCharRect, v4) )
+      v15.x2 = v14;
+      v15.y2 = v14;
+      if ( Scaleform::Render::Text::DocView::GetExactCharBoundaries(GetMemberRaw, &v15, v4) )
       {
         pHeap = fn->Env->StringContext.pContext->pHeap;
         v7 = (Scaleform::GFx::AS2::RectangleObject *)pHeap->Alloc(pHeap, 52u, 0);
@@ -46,16 +46,16 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetExactCharBoundaries(const Sca
           v9 = 0;
         }
         v12 = fn->Env;
-        r.x1 = pCharRect.x1 * 0.05;
-        r.y1 = pCharRect.y1 * 0.05;
-        r.x2 = pCharRect.x2 * 0.05;
-        r.y2 = 0.05 * pCharRect.y2;
+        r.x1 = v15.x1 * 0.05;
+        r.y1 = v15.y1 * 0.05;
+        r.x2 = v15.x2 * 0.05;
+        r.y2 = 0.05 * v15.y2;
         Scaleform::GFx::AS2::RectangleObject::SetProperties(v9, v12, &r);
         Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v9);
         if ( v9 )
         {
           RefCount = v9->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v9->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v9);

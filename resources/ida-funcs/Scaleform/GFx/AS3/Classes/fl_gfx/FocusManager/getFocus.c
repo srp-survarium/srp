@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getFocus(
   v3 = this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)v3 + 16 * *((unsigned __int8 *)v3 + controllerIdx + 16212) + 3801,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&controllerIdx);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&controllerIdx);
   v4 = controllerIdx;
   if ( controllerIdx )
   {
@@ -57,7 +57,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getFocus(
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -79,7 +79,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::FocusManager::getFocus(
       else
       {
         v8 = v7->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v8) != 0 )
+        if ( (v8 & 0x3FFFFF) != 0 )
         {
           v7->RefCount = v8 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

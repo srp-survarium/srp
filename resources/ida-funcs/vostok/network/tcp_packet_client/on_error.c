@@ -3,51 +3,73 @@ void __thiscall vostok::network::tcp_packet_client::on_error(
         vostok::network_core::client_error_codes_enum client_error_code,
         const boost::system::error_code error_code)
 {
-  vostok::memory::doug_lea_allocator *v3; // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > v5; // [esp+8h] [ebp-9Ch]
-  int *_Where; // [esp+58h] [ebp-4Ch]
-  char v7; // [esp+64h] [ebp-40h]
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,enum vostok::network_core::client_error_codes_enum,boost::system::error_code>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::_bi::value<enum vostok::network_core::client_error_codes_enum>,boost::_bi::value<boost::system::error_code> > > result; // [esp+68h] [ebp-3Ch] BYREF
-  boost::function<void __cdecl(void)> f; // [esp+7Ch] [ebp-28h] BYREF
-  vostok::network::response *v10; // [esp+A0h] [ebp-4h]
+  vostok::network::tcp_packet_client *v3; // edi
+  bool v4; // zf
+  vostok::network::network_world_vtbl *v5; // ebx
+  vostok::network::network_world *m_world; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v7; // ecx
+  _BYTE v8[24]; // [esp-18h] [ebp-70h] BYREF
+  const char *v9; // [esp+0h] [ebp-58h]
+  const char *v10; // [esp+4h] [ebp-54h]
+  unsigned int v11; // [esp+8h] [ebp-50h]
+  int v12; // [esp+Ch] [ebp-4Ch]
+  vostok::network::tcp_packet_client *v13; // [esp+10h] [ebp-48h]
+  vostok::network::tcp_packet_client *v14; // [esp+14h] [ebp-44h]
+  vostok::network_core::client_error_codes_enum v15; // [esp+18h] [ebp-40h]
+  boost::system::error_code v16; // [esp+1Ch] [ebp-3Ch]
+  _DWORD v17[5]; // [esp+24h] [ebp-34h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+38h] [ebp-20h] BYREF
 
-  v7 = 0;
-  if ( !vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_on_error) )
+  v12 = 0;
+  v3 = this;
+  v4 = this->m_on_error.vtable == 0;
+  v13 = this;
+  if ( !v4 )
   {
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)vostok::network::g_allocator);
-    _Where = vostok::memory::doug_lea_allocator::malloc_impl(v3, 0x28u);
-    v10 = (vostok::network::response *)operator new(0x28u, _Where);
-    if ( v10 )
+    v5 = (vostok::network::network_world_vtbl *)vostok::memory::new_helper<vostok::network::functor_response>::call<vostok::memory::doug_lea_allocator>(
+                                                  vostok::network::g_allocator,
+                                                  v9,
+                                                  v10,
+                                                  v11);
+    if ( v5 )
     {
-      v5 = *(boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::bullet_manager,unsigned int,unsigned int,unsigned int>,boost::_bi::list4<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int>,boost::_bi::value<unsigned int> > > *)boost::bind<void,vostok::network::tcp_packet_client,enum vostok::network_core::client_error_codes_enum,boost::system::error_code,vostok::network::tcp_packet_client *,enum vostok::network_core::client_error_codes_enum,boost::system::error_code>(&result, (void (__thiscall *)(vostok::network::tcp_packet_client *, vostok::network_core::client_error_codes_enum, boost::system::error_code))vostok::network::tcp_packet_client::on_error_impl, this, client_error_code, error_code);
+      v15 = client_error_code;
+      v16 = error_code;
+      v14 = v3;
+      v17[0] = vostok::network::tcp_packet_client::on_error_impl;
+      v17[1] = v3;
+      v17[2] = client_error_code;
+      *(boost::system::error_code *)&v17[3] = error_code;
+      *(_DWORD *)v8 = &f;
+      qmemcpy(&v8[4], v17, 0x14u);
       boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-        (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v5.l_.a3_.t_,
-        &f);
-      if ( boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf3<void,survarium::weapon_core_shotgun_reload_state_cook,vostok::resources::queries_result &,vostok::mutable_buffer,survarium::weapon_state_creation_params const *>,boost::_bi::list4<boost::_bi::value<survarium::weapon_core_shotgun_reload_state_cook *>,boost::arg<1>,boost::_bi::value<vostok::mutable_buffer>,boost::_bi::value<survarium::weapon_state_creation_params const *>>>>(
-             (boost::detail::function::basic_vtable0<void> *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,enum vostok::network_core::client_error_codes_enum,boost::system::error_code>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::_bi::value<enum vostok::network_core::client_error_codes_enum>,boost::_bi::value<boost::system::error_code>>>>'::`2'::stored_vtable,
-             v5,
-             &f.functor) )
-      {
-        f.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,enum vostok::network_core::client_error_codes_enum,boost::system::error_code>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::_bi::value<enum vostok::network_core::client_error_codes_enum>,boost::_bi::value<boost::system::error_code>>>>'::`2'::stored_vtable.base.manager
-                                                          + 1);
-      }
-      else
-      {
-        f.vtable = 0;
-      }
-      v7 = 1;
-      v10->__vftable = (vostok::network::response_vtbl *)&vostok::network::response::`vftable';
-      v10->__vftable = (vostok::network::response_vtbl *)&vostok::network::functor_response::`vftable';
-      boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-        (boost::function<void __cdecl(void)> *)&v10[1],
-        &f);
-      vostok::network::network_world::add_response(this->m_world, v10);
+        0,
+        *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network::tcp_packet_client,enum vostok::network_core::client_error_codes_enum,boost::system::error_code>,boost::_bi::list3<boost::_bi::value<vostok::network::tcp_packet_client *>,boost::_bi::value<enum vostok::network_core::client_error_codes_enum>,boost::_bi::value<boost::system::error_code> > > *)v8,
+        *(int *)&v8[20]);
+      v5->finalize = (void (__thiscall *)(struct vostok::network::network_world *))vostok::network::g_allocator;
+      *(_DWORD *)&v8[20] = &v5->dispatch_callbacks;
+      v12 = 1;
+      v5->initialize = (void (__thiscall *)(struct vostok::network::network_world *))&vostok::network::functor_response::`vftable';
+      boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+        &f,
+        *(const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> **)&v8[20]);
+      v3 = v13;
     }
     else
     {
-      vostok::network::network_world::add_response(this->m_world, 0);
+      v5 = 0;
     }
-    if ( (v7 & 1) != 0 )
-      boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&f);
+    m_world = v3->m_world;
+    v5->tick = 0;
+    m_world = (vostok::network::network_world *)((char *)m_world + 12);
+    v7 = (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)_InterlockedExchange(
+                                                                                           (volatile __int32 *)&m_world->tick,
+                                                                                           (__int32)v5);
+    v4 = (v12 & 1) == 0;
+    m_world->__vftable = v5;
+    if ( !v4 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        v7,
+        (int *)&f);
   }
 }

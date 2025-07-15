@@ -7,13 +7,13 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
   Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *Data; // eax
   int v6; // edi
   Scaleform::GFx::Sprite::ActiveSoundItem *pObject; // ecx
-  Scaleform::GFx::Sprite::ActiveSoundItem **p_pObject; // eax
-  Scaleform::GFx::Sprite::ActiveSoundItem *v9; // eax
+  Scaleform::RefCountNTSImpl **p_pObject; // eax
+  Scaleform::RefCountNTSImpl *v9; // eax
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *p_Sounds; // esi
   unsigned int v11; // edi
   int v12; // esi
   Scaleform::GFx::DisplayObjectBase *pCharacter; // ecx
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> psi; // [esp+Ch] [ebp-4h]
+  Scaleform::RefCountNTSImpl *v14; // [esp+Ch] [ebp-4h]
 
   pActiveSounds = this->pActiveSounds;
   if ( pActiveSounds )
@@ -27,10 +27,10 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
       if ( pObject )
         ++pObject->RefCount;
       v9 = *p_pObject;
-      psi.pObject = v9;
-      if ( v9->pSoundObject == psndobj )
+      v14 = v9;
+      if ( (Scaleform::GFx::ASSoundIntf *)v9[1].RefCount == psndobj )
       {
-        v9->pChannel.pObject->Stop(v9->pChannel.pObject);
+        (*((void (__thiscall **)(Scaleform::RefCountNTSImpl_vtbl *))v9[1].~Scaleform::RefCountNTSImpl + 3))(v9[1].__vftable);
         p_Sounds = (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *)&this->pActiveSounds->Sounds;
         if ( this->pActiveSounds->Sounds.Data.Size == 1 )
         {
@@ -38,17 +38,14 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
             p_Sounds,
             p_Sounds,
             0);
-          v9 = psi.pObject;
+          v9 = v14;
         }
         else
         {
           if ( p_Sounds->Data[v6].pObject )
             Scaleform::RefCountNTSImpl::Release(p_Sounds->Data[v6].pObject);
-          memmove(
-            (unsigned __int8 *)&p_Sounds->Data[v6],
-            (unsigned __int8 *)&p_Sounds->Data[v6 + 1],
-            4 * (p_Sounds->Size - i) - 4);
-          v9 = psi.pObject;
+          memmove((int)&p_Sounds->Data[v6], (const __m128i *)&p_Sounds->Data[v6 + 1], 4 * (p_Sounds->Size - i) - 4);
+          v9 = v14;
           --p_Sounds->Size;
         }
       }
@@ -87,13 +84,13 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
   Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> *Data; // eax
   int v6; // edi
   Scaleform::GFx::Sprite::ActiveSoundItem *pObject; // ecx
-  Scaleform::GFx::Sprite::ActiveSoundItem **p_pObject; // eax
-  Scaleform::GFx::Sprite::ActiveSoundItem *v9; // eax
+  Scaleform::RefCountNTSImpl **p_pObject; // eax
+  Scaleform::RefCountNTSImpl *v9; // eax
   Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *p_Sounds; // esi
   unsigned int v11; // edi
   int v12; // esi
   Scaleform::GFx::DisplayObjectBase *pCharacter; // ecx
-  Scaleform::Ptr<Scaleform::GFx::Sprite::ActiveSoundItem> psi; // [esp+Ch] [ebp-4h]
+  Scaleform::RefCountNTSImpl *v14; // [esp+Ch] [ebp-4h]
 
   pActiveSounds = this->pActiveSounds;
   if ( pActiveSounds )
@@ -107,10 +104,10 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
       if ( pObject )
         ++pObject->RefCount;
       v9 = *p_pObject;
-      psi.pObject = v9;
-      if ( v9->pResource == pres )
+      v14 = v9;
+      if ( (Scaleform::GFx::SoundResource *)v9[2].__vftable == pres )
       {
-        v9->pChannel.pObject->Stop(v9->pChannel.pObject);
+        (*((void (__thiscall **)(Scaleform::RefCountNTSImpl_vtbl *))v9[1].~Scaleform::RefCountNTSImpl + 3))(v9[1].__vftable);
         p_Sounds = (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *)&this->pActiveSounds->Sounds;
         if ( this->pActiveSounds->Sounds.Data.Size == 1 )
         {
@@ -118,17 +115,14 @@ void __thiscall Scaleform::GFx::Sprite::StopActiveSounds(
             p_Sounds,
             p_Sounds,
             0);
-          v9 = psi.pObject;
+          v9 = v14;
         }
         else
         {
           if ( p_Sounds->Data[v6].pObject )
             Scaleform::RefCountNTSImpl::Release(p_Sounds->Data[v6].pObject);
-          memmove(
-            (unsigned __int8 *)&p_Sounds->Data[v6],
-            (unsigned __int8 *)&p_Sounds->Data[v6 + 1],
-            4 * (p_Sounds->Size - i) - 4);
-          v9 = psi.pObject;
+          memmove((int)&p_Sounds->Data[v6], (const __m128i *)&p_Sounds->Data[v6 + 1], 4 * (p_Sounds->Size - i) - 4);
+          v9 = v14;
           --p_Sounds->Size;
         }
       }

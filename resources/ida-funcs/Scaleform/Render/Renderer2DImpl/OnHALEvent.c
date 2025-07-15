@@ -14,9 +14,9 @@ void __thiscall Scaleform::Render::Renderer2DImpl::OnHALEvent(
     case HAL_Shutdown:
       Scaleform::Render::ContextImpl::RenderNotify::ReleaseAllContextData((Scaleform::Render::Renderer2DImpl *)((char *)this - 28));
       Scaleform::Render::MeshKeyManager::DestroyAllKeys((Scaleform::Render::MeshKeyManager *)this->MPool.HandleTable.PartiallyFreePages.Root.pPrev);
-      goto $LN2_39;
+      goto $LN2_44;
     case HAL_PrepareForReset:
-$LN2_39:
+$LN2_44:
       Scaleform::Render::GlyphCache::Destroy((Scaleform::Render::GlyphCache *)this->MPool.HandleTable.PartiallyFreePages.Root.pNext);
       break;
     default:

@@ -6,13 +6,13 @@ int __usercall tree_calculate_user_set@<eax>(
   X509_POLICY_NODE_st *anyPolicy; // ebp
   int v5; // esi
   char *v6; // eax
-  char *v7; // edi
+  asn1_object_st *v7; // edi
   X509_POLICY_NODE_st *sk; // esi
   X509_POLICY_DATA_st *v9; // eax
   X509_POLICY_TREE_st *v10; // edi
   stack_st *v11; // eax
   const stack_st *v12; // [esp+0h] [ebp-8h]
-  int i; // [esp+4h] [ebp-4h]
+  int v13; // [esp+4h] [ebp-4h]
 
   if ( sk_num(v12) <= 0 )
     return 1;
@@ -23,7 +23,7 @@ int __usercall tree_calculate_user_set@<eax>(
     while ( 1 )
     {
       v6 = sk_value(&policy_oids->stack, v5);
-      if ( OBJ_obj2nid((const asn1_object_st *)v6) == 746 )
+      if ( OBJ_obj2nid((const asn1_object_st *)v6) == (void *)746 )
         break;
       if ( ++v5 >= sk_num(&policy_oids->stack) )
         goto LABEL_6;
@@ -32,13 +32,13 @@ int __usercall tree_calculate_user_set@<eax>(
     return 1;
   }
 LABEL_6:
-  i = 0;
+  v13 = 0;
   if ( sk_num(&policy_oids->stack) <= 0 )
     return 1;
   while ( 1 )
   {
-    v7 = sk_value(&policy_oids->stack, i);
-    sk = tree_find_sk(auth_nodes, (const asn1_object_st *)v7);
+    v7 = (asn1_object_st *)sk_value(&policy_oids->stack, v13);
+    sk = tree_find_sk(auth_nodes, v7);
     if ( sk )
     {
       v10 = tree;
@@ -47,10 +47,10 @@ LABEL_6:
     if ( anyPolicy )
       break;
 LABEL_17:
-    if ( ++i >= sk_num(&policy_oids->stack) )
+    if ( ++v13 >= sk_num(&policy_oids->stack) )
       return 1;
   }
-  v9 = policy_data_new(0, (const asn1_object_st *)v7, anyPolicy->data->flags & 0x10);
+  v9 = (X509_POLICY_DATA_st *)policy_data_new(0, v7, anyPolicy->data->flags & 0x10);
   if ( !v9 )
     return 0;
   v10 = tree;

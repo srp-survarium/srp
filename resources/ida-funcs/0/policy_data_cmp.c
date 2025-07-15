@@ -1,4 +1,4 @@
-unsigned int __cdecl policy_data_cmp(const X509_POLICY_DATA_st *const *a, const X509_POLICY_DATA_st *const *b)
+unsigned int __cdecl policy_data_cmp(const void *a1, const void *a2)
 {
-  return OBJ_cmp((*a)->valid_policy, (*b)->valid_policy);
+  return OBJ_cmp(*(const asn1_object_st **)(*(_DWORD *)a1 + 4), *(const asn1_object_st **)(*(_DWORD *)a2 + 4));
 }

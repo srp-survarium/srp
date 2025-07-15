@@ -25,7 +25,7 @@ bignum_st *__cdecl BN_lshift(bignum_st *r, const bignum_st *a, int n)
   v5 = n / 32;
   v19 = n / 32;
   if ( top + n / 32 + 1 > r->dmax )
-    result = bn_expand2(r, (unsigned int *)(top + n / 32 + 1));
+    result = bn_expand2(r, top + n / 32 + 1);
   else
     result = r;
   if ( result )

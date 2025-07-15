@@ -2,7 +2,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::AddXmlLoadQueueEntry(
         Scaleform::GFx::AS2::MovieRoot *this,
         Scaleform::GFx::AS2::Object *pxmlobj,
         Scaleform::GFx::Resource *pxmlLoader,
-        char *purl,
+        const __m128i *purl,
         Scaleform::GFx::LoadQueueEntry::LoadMethod method)
 {
   char v6; // bl

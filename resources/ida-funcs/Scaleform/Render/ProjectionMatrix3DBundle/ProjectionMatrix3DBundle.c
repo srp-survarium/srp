@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::ProjectionMatrix3DBundle::ProjectionMatrix3DB
         Scaleform::Render::HAL *hal,
         Scaleform::Render::Matrix4x4Ref<float> *ppm)
 {
-  unsigned __int8 dst[64]; // [esp+10h] [ebp-40h] BYREF
+  __m128i dst[4]; // [esp+10h] [ebp-40h] BYREF
 
   this->__vftable = (Scaleform::Render::ProjectionMatrix3DBundle_vtbl *)&Scaleform::Render::Bundle::`vftable';
   this->RefCount = 1;
@@ -29,8 +29,8 @@ void __thiscall Scaleform::Render::ProjectionMatrix3DBundle::ProjectionMatrix3DB
   this->Prim.bHasProjectionMatrix = 0;
   if ( ppm )
   {
-    memcpy(dst, (unsigned __int8 *)&ppm->Scaleform::Render::Matrix4x4<float>, sizeof(dst));
-    memcpy((unsigned __int8 *)&this->Prim.ProjectionMatrix, dst, sizeof(this->Prim.ProjectionMatrix));
+    memcpy((int)dst, (const __m128i *)&ppm->Scaleform::Render::Matrix4x4<float>, sizeof(dst));
+    memcpy((int)&this->Prim.ProjectionMatrix, dst, sizeof(this->Prim.ProjectionMatrix));
     this->Prim.bHasProjectionMatrix = 1;
   }
 }

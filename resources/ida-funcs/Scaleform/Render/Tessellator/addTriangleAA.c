@@ -1,90 +1,84 @@
 void __thiscall Scaleform::Render::Tessellator::addTriangleAA(
         Scaleform::Render::Tessellator *this,
-        Scaleform::Render::Tessellator::MonoVertexType *v1,
-        Scaleform::Render::Tessellator::MonoVertexType *v2,
-        unsigned int v3,
+        __int64 v1,
+        _DWORD *v3,
         float cp)
 {
   Scaleform::Render::TessVertex **Pages; // ecx
-  const Scaleform::Render::TessVertex *v7; // edi
-  const Scaleform::Render::TessVertex *v8; // esi
-  Scaleform::Render::TessVertex *v9; // edx
+  const Scaleform::Render::TessVertex *v6; // edi
+  const Scaleform::Render::TessVertex *v7; // esi
+  Scaleform::Render::TessVertex *v8; // edx
   double x; // st7
-  Scaleform::Render::TessVertex *v11; // edx
-  Scaleform::Render::TessVertex *v12; // ecx
-  Scaleform::Render::TessVertex *v13; // edx
-  unsigned int v14; // eax
+  Scaleform::Render::TessVertex *v10; // edx
+  Scaleform::Render::TessVertex *v11; // ecx
+  Scaleform::Render::TessVertex *v12; // edx
+  unsigned int v13; // eax
   unsigned int FactorOneFlag; // edx
-  unsigned int v16; // eax
-  unsigned int v17; // ecx
+  unsigned int v15; // eax
+  unsigned int v16; // ecx
   unsigned int MonoStyle; // edx
-  const Scaleform::Render::TessVertex *refV1; // [esp+4h] [ebp-1Ch]
-  Scaleform::Render::TessVertex *aaV3; // [esp+8h] [ebp-18h]
-  float v21; // [esp+Ch] [ebp-14h]
-  Scaleform::Render::TessVertex *aaV2; // [esp+10h] [ebp-10h]
-  float aaV2a; // [esp+10h] [ebp-10h]
-  float aaV2b; // [esp+10h] [ebp-10h]
-  Scaleform::Render::Tessellator::TriangleType tri; // [esp+14h] [ebp-Ch] BYREF
+  Scaleform::Render::TessVertex *refVer; // [esp+4h] [ebp-1Ch]
+  Scaleform::Render::TessVertex *v19; // [esp+8h] [ebp-18h]
+  float v20; // [esp+Ch] [ebp-14h]
+  Scaleform::Render::TessVertex *aaVer; // [esp+10h] [ebp-10h]
+  float aaVera; // [esp+10h] [ebp-10h]
+  float aaVerb; // [esp+10h] [ebp-10h]
+  Scaleform::Render::Tessellator::TriangleType val; // [esp+14h] [ebp-Ch] BYREF
 
   if ( this->EdgeAAFlag )
   {
     Pages = this->MeshVertices.Pages;
-    refV1 = &Pages[(v1->srcVer & 0xFFFFFFF) >> 4][v1->srcVer & 0xF];
-    v7 = &Pages[(v2->srcVer & 0xFFFFFFF) >> 4][v2->srcVer & 0xF];
-    v8 = &Pages[(*(_DWORD *)v3 & 0xFFFFFFFu) >> 4][*(_DWORD *)v3 & 0xF];
-    v9 = Pages[(v1->aaVer & 0xFFFFFFF) >> 4];
-    x = v9[v1->aaVer & 0xF].x;
-    v11 = &v9[v1->aaVer & 0xF];
-    aaV2 = &Pages[(v2->aaVer & 0xFFFFFFF) >> 4][v2->aaVer & 0xF];
-    v21 = (x - v8->x) * (v8->y - v7->y) - (v11->y - v8->y) * (v8->x - v7->x);
-    v12 = &Pages[(*(_DWORD *)(v3 + 4) & 0xFFFFFFFu) >> 4][*(_DWORD *)(v3 + 4) & 0xF];
-    aaV3 = v12;
-    if ( v21 >= 0.0 )
+    refVer = &Pages[(*(_DWORD *)v1 & 0xFFFFFFFu) >> 4][*(_DWORD *)v1 & 0xF];
+    v6 = &Pages[(*(_DWORD *)HIDWORD(v1) & 0xFFFFFFFu) >> 4][*(_DWORD *)HIDWORD(v1) & 0xF];
+    v7 = &Pages[(*v3 & 0xFFFFFFFu) >> 4][*v3 & 0xF];
+    v8 = Pages[(*(_DWORD *)(v1 + 4) & 0xFFFFFFFu) >> 4];
+    x = v8[*(_DWORD *)(v1 + 4) & 0xF].x;
+    v10 = &v8[*(_DWORD *)(v1 + 4) & 0xF];
+    aaVer = &Pages[(*(_DWORD *)(HIDWORD(v1) + 4) & 0xFFFFFFFu) >> 4][*(_DWORD *)(HIDWORD(v1) + 4) & 0xF];
+    v20 = (x - v7->x) * (v7->y - v6->y) - (v10->y - v7->y) * (v7->x - v6->x);
+    v11 = &Pages[(v3[1] & 0xFFFFFFFu) >> 4][v3[1] & 0xF];
+    v19 = v11;
+    if ( v20 >= 0.0 )
     {
-      Scaleform::Render::Tessellator::moveVertexAA(this, refV1, v11, v7, v8);
-      v12 = aaV3;
+      Scaleform::Render::Tessellator::moveVertexAA(this, refVer, v10, v6, v7);
+      v11 = v19;
     }
-    v13 = aaV2;
-    aaV2a = (aaV2->x - refV1->x) * (refV1->y - v8->y) - (aaV2->y - refV1->y) * (refV1->x - v8->x);
-    if ( aaV2a >= 0.0 )
+    v12 = aaVer;
+    aaVera = (aaVer->x - refVer->x) * (refVer->y - v7->y) - (aaVer->y - refVer->y) * (refVer->x - v7->x);
+    if ( aaVera >= 0.0 )
     {
-      Scaleform::Render::Tessellator::moveVertexAA(this, v7, v13, v8, refV1);
-      v12 = aaV3;
+      Scaleform::Render::Tessellator::moveVertexAA(this, v6, v12, v7, refVer);
+      v11 = v19;
     }
-    aaV2b = (v12->x - v7->x) * (v7->y - refV1->y) - (v12->y - v7->y) * (v7->x - refV1->x);
-    if ( aaV2b >= 0.0 )
-      Scaleform::Render::Tessellator::moveVertexAA(this, v8, v12, refV1, v7);
-    *(_QWORD *)&tri.d.m.v1 = __PAIR64__((unsigned int)v2, (unsigned int)v1);
-    tri.d.t.v3 = v3;
+    aaVerb = (v11->x - v6->x) * (v6->y - refVer->y) - (v11->y - v6->y) * (v6->x - refVer->x);
+    if ( aaVerb >= 0.0 )
+      Scaleform::Render::Tessellator::moveVertexAA(this, v7, v11, refVer, v6);
+    *(_QWORD *)&val.d.m.v1 = v1;
+    val.d.t.v3 = (unsigned int)v3;
   }
   else
   {
-    v14 = Scaleform::Render::Tessellator::emitVertex(
+    v13 = Scaleform::Render::Tessellator::emitVertex(
             this,
             this->MeshIdx,
-            v1->srcVer & 0xFFFFFFF,
+            *(_DWORD *)v1 & 0xFFFFFFF,
             this->MonoStyle,
             this->FactorOneFlag);
     FactorOneFlag = this->FactorOneFlag;
-    tri.d.t.v1 = v14;
-    v16 = Scaleform::Render::Tessellator::emitVertex(
+    val.d.t.v1 = v13;
+    v15 = Scaleform::Render::Tessellator::emitVertex(
             this,
             this->MeshIdx,
-            v2->srcVer & 0xFFFFFFF,
+            *(_DWORD *)HIDWORD(v1) & 0xFFFFFFF,
             this->MonoStyle,
             FactorOneFlag);
-    v17 = this->FactorOneFlag;
+    v16 = this->FactorOneFlag;
     MonoStyle = this->MonoStyle;
-    tri.d.t.v2 = v16;
-    tri.d.t.v3 = Scaleform::Render::Tessellator::emitVertex(
-                   this,
-                   this->MeshIdx,
-                   *(_DWORD *)v3 & 0xFFFFFFF,
-                   MonoStyle,
-                   v17);
+    val.d.t.v2 = v15;
+    val.d.t.v3 = Scaleform::Render::Tessellator::emitVertex(this, this->MeshIdx, *v3 & 0xFFFFFFF, MonoStyle, v16);
   }
   Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::PushBack(
     &this->MeshTriangles,
     this->MeshIdx,
-    &tri);
+    &val);
 }

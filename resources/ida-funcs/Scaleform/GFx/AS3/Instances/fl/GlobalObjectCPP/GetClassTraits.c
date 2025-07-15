@@ -44,7 +44,7 @@ Scaleform::GFx::ASString *__thiscall Scaleform::GFx::AS3::Instances::fl::GlobalO
   if ( v12 && ((unsigned __int8)v12 & 1) == 0 )
   {
     pNode = v12[4].pNode;
-    if ( ((unsigned int)&byte_3FFFFF & (unsigned int)pNode) != 0 )
+    if ( ((unsigned int)pNode & 0x3FFFFF) != 0 )
     {
       v12[4].pNode = (Scaleform::GFx::ASStringNode *)((char *)pNode - 1);
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal((Scaleform::GFx::AS3::RefCountBaseGC<328> *)v12);

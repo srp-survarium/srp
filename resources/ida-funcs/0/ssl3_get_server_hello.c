@@ -7,36 +7,35 @@ int __cdecl ssl3_get_server_hello(ssl_st *s)
   unsigned __int8 *init_msg; // esi
   int version; // eax
   int v7; // edi
+  ssl_st *client_random; // edi
   unsigned int version_low; // esi
   ssl_session_st *session; // eax
-  int v10; // eax
-  ssl_session_st *v11; // ebp
-  ssl_st *v12; // edi
+  int v11; // eax
+  ssl_session_st *v12; // ebp
   unsigned int v13; // eax
   unsigned __int8 *session_id; // esi
   unsigned int sid_ctx_length; // eax
   unsigned __int8 *sid_ctx; // esi
-  unsigned __int8 *v17; // edi
-  ssl_session_st *v18; // eax
+  ssl_session_st *v17; // eax
   const ssl_method_st *method; // ecx
-  int v20; // esi
+  int v19; // esi
   stack_st_SSL_CIPHER *ciphers_by_id; // eax
-  ssl_session_st *v22; // eax
+  ssl_session_st *v21; // eax
   const ssl_cipher_st *cipher; // ecx
-  int v24; // eax
-  bool v25; // zf
-  int v26; // [esp-10h] [ebp-2Ch]
+  int v23; // eax
+  bool v24; // zf
+  int v25; // [esp-10h] [ebp-2Ch]
   int desc; // [esp+4h] [ebp-18h] BYREF
-  unsigned int v28; // [esp+8h] [ebp-14h]
-  int v29; // [esp+Ch] [ebp-10h] BYREF
+  unsigned int v27; // [esp+8h] [ebp-14h]
+  int v28; // [esp+Ch] [ebp-10h] BYREF
   unsigned __int8 *d; // [esp+10h] [ebp-Ch]
   int n; // [esp+14h] [ebp-8h]
-  int v32; // [esp+18h] [ebp-4h] BYREF
+  int v31; // [esp+18h] [ebp-4h] BYREF
 
   v1 = s;
-  result = s->method->ssl_get_message(s, 4384, 4385, -1, 20000, &v32);
+  result = s->method->ssl_get_message(s, 4384, 4385, -1, 20000, &v31);
   n = result;
-  if ( v32 )
+  if ( v31 )
   {
     if ( EVP_CIPHER_CTX_cipher(v1) == 65279 || EVP_CIPHER_CTX_cipher(v1) == 256 )
     {
@@ -48,17 +47,17 @@ int __cdecl ssl3_get_server_hello(ssl_st *s)
           s3->tmp.reuse_message = 1;
           return 1;
         }
-        v26 = 756;
+        v25 = 756;
         goto LABEL_9;
       }
     }
     v4 = v1->s3;
     if ( v4->tmp.message_type != 2 )
     {
-      v26 = 765;
+      v25 = 765;
 LABEL_9:
       desc = 10;
-      ERR_put_error(0x14u, 146, 114, ".\\ssl\\s3_clnt.c", v26);
+      ERR_put_error((int)v1, 0x14u, 146, 114, ".\\ssl\\s3_clnt.c", v25);
       goto f_err;
     }
     init_msg = (unsigned __int8 *)v1->init_msg;
@@ -68,21 +67,22 @@ LABEL_9:
     d = init_msg;
     if ( v7 != version >> 8 || init_msg[1] != (_BYTE)version )
     {
-      ERR_put_error(0x14u, 146, 266, ".\\ssl\\s3_clnt.c", 773);
+      ERR_put_error((int)v1, 0x14u, 146, 266, ".\\ssl\\s3_clnt.c", 773);
       v1->version = v1->version & 0xFF00 | BYTE1(s->version);
       desc = 70;
       goto f_err;
     }
     s = (ssl_st *)(init_msg + 2);
     qmemcpy(v4->server_random, init_msg + 2, sizeof(v4->server_random));
+    client_random = (ssl_st *)v4->client_random;
     s = (ssl_st *)((char *)s + 32);
     version_low = LOBYTE(s->version);
-    v28 = version_low;
+    v27 = version_low;
     s = (ssl_st *)((char *)s + 1);
     if ( version_low > 0x20 )
     {
       desc = 47;
-      ERR_put_error(0x14u, 146, 300, ".\\ssl\\s3_clnt.c", 791);
+      ERR_put_error((int)v1, 0x14u, 146, 300, ".\\ssl\\s3_clnt.c", 791);
       goto f_err;
     }
     if ( v1->version >= 769 )
@@ -90,132 +90,136 @@ LABEL_9:
       if ( v1->tls_session_secret_cb )
       {
         session = v1->session;
-        v29 = 0;
+        v28 = 0;
         session->master_key_length = 48;
         if ( v1->tls_session_secret_cb(
                v1,
                v1->session->master_key,
                &v1->session->master_key_length,
                0,
-               (ssl_cipher_st **)&v29,
+               (ssl_cipher_st **)&v28,
                v1->tls_session_secret_cb_arg) )
         {
-          v10 = v29;
-          if ( !v29 )
-            v10 = (int)v1->method->get_cipher_by_char((const unsigned __int8 *)s + version_low);
-          v1->session->cipher = (const ssl_cipher_st *)v10;
+          v11 = v28;
+          if ( !v28 )
+            v11 = (int)v1->method->get_cipher_by_char((const unsigned __int8 *)s + version_low);
+          v1->session->cipher = (const ssl_cipher_st *)v11;
         }
       }
     }
     if ( version_low )
     {
-      v11 = v1->session;
-      if ( version_low == v11->session_id_length )
+      v12 = v1->session;
+      if ( version_low == v12->session_id_length )
       {
-        v12 = s;
+        client_random = s;
         v13 = version_low;
-        session_id = v11->session_id;
+        session_id = v12->session_id;
         if ( v13 < 4 )
         {
 LABEL_26:
           if ( !v13
-            || *session_id == LOBYTE(v12->version)
-            && (v13 <= 1 || session_id[1] == BYTE1(v12->version) && (v13 <= 2 || session_id[2] == BYTE2(v12->version))) )
+            || *session_id == LOBYTE(client_random->version)
+            && (v13 <= 1
+             || session_id[1] == BYTE1(client_random->version)
+             && (v13 <= 2 || session_id[2] == BYTE2(client_random->version))) )
           {
             sid_ctx_length = v1->sid_ctx_length;
-            if ( sid_ctx_length == v11->sid_ctx_length )
+            if ( sid_ctx_length == v12->sid_ctx_length )
             {
               sid_ctx = v1->sid_ctx;
-              v17 = v11->sid_ctx;
+              client_random = (ssl_st *)v12->sid_ctx;
               if ( sid_ctx_length < 4 )
               {
 LABEL_36:
                 if ( !sid_ctx_length
-                  || *sid_ctx == *v17
-                  && (sid_ctx_length <= 1 || sid_ctx[1] == v17[1] && (sid_ctx_length <= 2 || sid_ctx[2] == v17[2])) )
+                  || *sid_ctx == LOBYTE(client_random->version)
+                  && (sid_ctx_length <= 1
+                   || sid_ctx[1] == BYTE1(client_random->version)
+                   && (sid_ctx_length <= 2 || sid_ctx[2] == BYTE2(client_random->version))) )
                 {
-                  version_low = v28;
+                  version_low = v27;
                   v1->hit = 1;
 LABEL_49:
                   method = v1->method;
                   s = (ssl_st *)((char *)s + version_low);
-                  v20 = (int)method->get_cipher_by_char((const unsigned __int8 *)s);
-                  if ( v20 )
+                  v19 = (int)method->get_cipher_by_char((const unsigned __int8 *)s);
+                  if ( v19 )
                   {
                     s = (ssl_st *)((char *)s + v1->method->put_cipher_by_char(0, 0));
                     ciphers_by_id = ssl_get_ciphers_by_id(v1);
-                    if ( sk_find(&ciphers_by_id->stack, (char *)v20) >= 0 )
+                    if ( sk_find((int)client_random, &ciphers_by_id->stack, (char *)v19) >= 0 )
                     {
-                      v22 = v1->session;
-                      cipher = v22->cipher;
+                      v21 = v1->session;
+                      cipher = v21->cipher;
                       if ( cipher )
-                        v22->cipher_id = cipher->id;
-                      if ( !v1->hit || v1->session->cipher_id == *(_DWORD *)(v20 + 8) )
+                        v21->cipher_id = cipher->id;
+                      if ( !v1->hit || v1->session->cipher_id == *(_DWORD *)(v19 + 8) )
                       {
-                        v1->s3->tmp.new_cipher = (const ssl_cipher_st *)v20;
+                        v1->s3->tmp.new_cipher = (const ssl_cipher_st *)v19;
                         if ( ssl3_digest_cached_records(v1) )
                         {
-                          v24 = LOBYTE(s->version);
-                          v25 = v1->hit == 0;
+                          v23 = LOBYTE(s->version);
+                          v24 = v1->hit == 0;
                           s = (ssl_st *)((char *)s + 1);
-                          if ( v25 || v24 == v1->session->compress_meth )
+                          if ( v24 || v23 == v1->session->compress_meth )
                           {
-                            if ( v24 )
+                            if ( v23 )
                             {
                               if ( ((unsigned int)&loc_20000 & v1->options) != 0 )
                               {
                                 desc = 47;
-                                ERR_put_error(0x14u, 146, 343, ".\\ssl\\s3_clnt.c", 915);
+                                ERR_put_error((int)v1, 0x14u, 146, 343, ".\\ssl\\s3_clnt.c", 915);
                                 goto f_err;
                               }
-                              v24 = (int)ssl3_comp_find(v1->ctx->comp_methods, v24);
-                              if ( !v24 )
+                              v23 = (int)ssl3_comp_find(v1->ctx->comp_methods, v23);
+                              if ( !v23 )
                               {
                                 desc = 47;
-                                ERR_put_error(0x14u, 146, 257, ".\\ssl\\s3_clnt.c", 924);
+                                ERR_put_error((int)v1, 0x14u, 146, 257, ".\\ssl\\s3_clnt.c", 924);
                                 goto f_err;
                               }
                             }
-                            v1->s3->tmp.new_compression = (const ssl_comp_st *)v24;
+                            v1->s3->tmp.new_compression = (const ssl_comp_st *)v23;
                             if ( v1->version >= 768 )
                             {
-                              if ( !ssl_parse_serverhello_tlsext(v1, (unsigned __int8 **)&s, d, n, &desc) )
+                              if ( !ssl_parse_serverhello_tlsext(v1, (unsigned __int16 **)&s, d, n, &desc) )
                               {
-                                ERR_put_error(0x14u, 146, 227, ".\\ssl\\s3_clnt.c", 940);
+                                ERR_put_error((int)v1, 0x14u, 146, 227, ".\\ssl\\s3_clnt.c", 940);
                                 goto f_err;
                               }
                               if ( ssl_check_serverhello_tlsext(v1) <= 0 )
                               {
-                                ERR_put_error(0x14u, 146, 275, ".\\ssl\\s3_clnt.c", 945);
+                                ERR_put_error((int)v1, 0x14u, 146, 275, ".\\ssl\\s3_clnt.c", 945);
                                 return -1;
                               }
                             }
                             if ( s == (ssl_st *)&d[n] )
                               return 1;
                             desc = 50;
-                            ERR_put_error(0x14u, 146, 115, ".\\ssl\\s3_clnt.c", 955);
+                            ERR_put_error((int)v1, 0x14u, 146, 115, ".\\ssl\\s3_clnt.c", 955);
                             goto f_err;
                           }
                           desc = 47;
-                          ERR_put_error(0x14u, 146, 344, ".\\ssl\\s3_clnt.c", 907);
+                          ERR_put_error((int)v1, 0x14u, 146, 344, ".\\ssl\\s3_clnt.c", 907);
                         }
                       }
                       else
                       {
                         desc = 47;
-                        ERR_put_error(0x14u, 146, 197, ".\\ssl\\s3_clnt.c", 876);
+                        ERR_put_error((int)v1, 0x14u, 146, 197, ".\\ssl\\s3_clnt.c", 876);
                       }
                     }
                     else
                     {
                       desc = 47;
-                      ERR_put_error(0x14u, 146, 261, ".\\ssl\\s3_clnt.c", 858);
+                      ERR_put_error((int)v1, 0x14u, 146, 261, ".\\ssl\\s3_clnt.c", 858);
                     }
                   }
                   else
                   {
                     desc = 47;
-                    ERR_put_error(0x14u, 146, 248, ".\\ssl\\s3_clnt.c", 847);
+                    ERR_put_error((int)v1, 0x14u, 146, 248, ".\\ssl\\s3_clnt.c", 847);
                   }
 f_err:
                   ssl3_send_alert(v1, 2, desc);
@@ -224,44 +228,44 @@ f_err:
               }
               else
               {
-                while ( *(_DWORD *)v17 == *(_DWORD *)sid_ctx )
+                while ( client_random->version == *(_DWORD *)sid_ctx )
                 {
                   sid_ctx_length -= 4;
                   sid_ctx += 4;
-                  v17 += 4;
+                  client_random = (ssl_st *)((char *)client_random + 4);
                   if ( sid_ctx_length < 4 )
                     goto LABEL_36;
                 }
               }
             }
             desc = 47;
-            ERR_put_error(0x14u, 146, 272, ".\\ssl\\s3_clnt.c", 820);
+            ERR_put_error((int)v1, 0x14u, 146, 272, ".\\ssl\\s3_clnt.c", 820);
             goto f_err;
           }
         }
         else
         {
-          while ( v12->version == *(_DWORD *)session_id )
+          while ( client_random->version == *(_DWORD *)session_id )
           {
             v13 -= 4;
             session_id += 4;
-            v12 = (ssl_st *)((char *)v12 + 4);
+            client_random = (ssl_st *)((char *)client_random + 4);
             if ( v13 < 4 )
               goto LABEL_26;
           }
         }
-        version_low = v28;
+        version_low = v27;
       }
     }
-    v18 = v1->session;
+    v17 = v1->session;
     v1->hit = 0;
-    if ( v18->session_id_length && !ssl_get_new_session(v1, 0) )
+    if ( v17->session_id_length && !ssl_get_new_session(v1, 0) )
     {
       desc = 80;
       goto f_err;
     }
     v1->session->session_id_length = version_low;
-    memcpy(v1->session->session_id, (unsigned __int8 *)s, version_low);
+    memcpy((int)v1->session->session_id, (const __m128i *)s, version_low);
     goto LABEL_49;
   }
   return result;

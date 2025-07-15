@@ -96,7 +96,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::GetPrefixForNamespace(const Scal
                   if ( result.pObject )
                   {
                     RefCount = result.pObject->RefCount;
-                    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+                    if ( (RefCount & 0x3FFFFFF) != 0 )
                     {
                       result.pObject->RefCount = RefCount - 1;
                       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -137,7 +137,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::GetPrefixForNamespace(const Scal
                   StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(p_StringContext->pContext);
                   StringNode = (Scaleform::GFx::AS2::XmlNodeObject *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                                        StringManager->pStringManager,
-                                                                       (char *)pData + 6,
+                                                                       (__m128i *)(pData + 6),
                                                                        Size - 6);
                 }
                 else
@@ -145,7 +145,7 @@ void __cdecl Scaleform::GFx::AS2::XmlNodeProto::GetPrefixForNamespace(const Scal
                   v24 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(p_StringContext->pContext);
                   StringNode = (Scaleform::GFx::AS2::XmlNodeObject *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                                        v24->pStringManager,
-                                                                       (char *)pData + 5,
+                                                                       (__m128i *)(pData + 5),
                                                                        Size - 5);
                 }
                 ++StringNode->RefCount;

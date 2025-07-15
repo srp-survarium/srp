@@ -9,7 +9,8 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsPoint(const Scaleform:
   Scaleform::GFx::AS2::Value *Result; // esi
   Scaleform::Render::Point<double> pt; // [esp+38h] [ebp-50h] BYREF
   Scaleform::Render::Rect<double> r; // [esp+48h] [ebp-40h] BYREF
-  Scaleform::GFx::AS2::Value ptv[2]; // [esp+68h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+68h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+78h] [ebp-10h] BYREF
 
   if ( fn->NArgs > 0 )
   {
@@ -39,14 +40,14 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsPoint(const Scaleform:
       r.x2 = 0.0;
       r.y2 = 0.0;
       `vector constructor iterator'(
-        (char *)ptv,
+        (char *)&params,
         0x10u,
         2,
         (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
       Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, fn->Env, &r);
-      Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v3, ptv);
+      Scaleform::GFx::AS2::GFxObject_GetPointProperties(fn->Env, v3, &params);
       if ( v3->GetObjectType(&v3->Scaleform::GFx::AS2::ObjectInterface) == Object_Point
-        || ptv[0].T.Type && ptv[0].T.Type != 10 && !Scaleform::GFx::AS2::Value::IsUndefined(&ptv[1]) )
+        || params.T.Type && params.T.Type != 10 && !Scaleform::GFx::AS2::Value::IsUndefined(&v11) )
       {
         Scaleform::GFx::AS2::PointObject::GetProperties(v3, fn->Env, &pt);
         if ( !Scaleform::GFx::NumberUtil::IsNaN(pt.x) && !Scaleform::GFx::NumberUtil::IsNaN(pt.y) )
@@ -58,7 +59,7 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsPoint(const Scaleform:
           v6 = Scaleform::Render::Rect<double>::Contains(&r, &pt);
           Scaleform::GFx::AS2::Value::SetBool(fn->Result, v6);
           `vector destructor iterator'(
-            (char *)ptv,
+            (char *)&params,
             0x10u,
             2,
             (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);
@@ -70,7 +71,7 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::ContainsPoint(const Scaleform:
         Result->V.BooleanValue = 0;
       }
       `vector destructor iterator'(
-        (char *)ptv,
+        (char *)&params,
         0x10u,
         2,
         (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

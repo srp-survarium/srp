@@ -1,51 +1,39 @@
-void __userpurge survarium::console_command_bind::console_command_bind(
-        survarium::console_command_bind *this@<ecx>,
-        int a2@<eax>,
+void __thiscall survarium::console_command_bind::console_command_bind(
+        survarium::console_command_bind *this,
         survarium::key_binder *binder,
-        unsigned int type)
+        survarium::keyboard_key_descr *type,
+        survarium::game_action_descr *a4)
 {
-  const char *v5; // edx
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > v7; // [esp-8h] [ebp-44h]
-  void (__thiscall *v8)(survarium::key_binder *, const char *, int); // [esp+Ch] [ebp-30h]
-  survarium::key_binder *v9; // [esp+10h] [ebp-2Ch]
-  boost::function<void __cdecl(char const *)> functor; // [esp+18h] [ebp-24h] BYREF
+  const char *v4; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v5; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int> > > v6; // [esp-10h] [ebp-54h]
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+10h] [ebp-34h] BYREF
+  void (__thiscall *v8)(survarium::key_binder *, char *, int); // [esp+34h] [ebp-10h]
+  survarium::keyboard_key_descr *v9; // [esp+38h] [ebp-Ch]
+  survarium::game_action_descr *v10; // [esp+3Ch] [ebp-8h]
 
-  v9 = binder;
+  v9 = type;
+  v10 = a4;
   v8 = survarium::key_binder::bind_key;
-  *(_QWORD *)&v7.f_.f_ = __PAIR64__(type, (unsigned int)binder);
-  functor.vtable = 0;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         &functor.functor,
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)survarium::key_binder::bind_key,
-         v7) )
-  {
-    functor.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,char const *>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::key_binder,char const *,int>,boost::_bi::list3<boost::_bi::value<survarium::key_binder *>,boost::arg<1>,boost::_bi::value<int>>>>'::`2'::stored_vtable
-                                                            + 1);
-  }
-  else
-  {
-    functor.vtable = 0;
-  }
-  v5 = "bind";
-  if ( type )
-    v5 = "bind_sec";
+  v6.l_.a1_.t_ = (survarium::key_binder *)survarium::key_binder::bind_key;
+  v6.l_.a3_.t_ = (int)type;
+  v6.f_.f_ = (void (__thiscall *)(survarium::key_binder *, const char *, int))&f;
+  boost::function<void __cdecl (char const *)>::function<void __cdecl (char const *)>(
+    (boost::function<void __cdecl(char const *)> *)this,
+    v6,
+    (int)a4);
+  v4 = "bind";
+  if ( a4 )
+    v4 = "bind_sec";
   vostok::console_commands::cc_delegate::cc_delegate(
-    (vostok::console_commands::cc_delegate *)a2,
-    v5,
-    &functor,
+    (vostok::console_commands::cc_delegate *)&f,
+    (int)binder,
+    v4,
+    &f,
     1,
     command_type_user_specific);
-  if ( functor.vtable )
-  {
-    if ( ((int)functor.vtable & 1) == 0 )
-    {
-      v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)functor.vtable & 0xFFFFFFFE);
-      if ( v6 )
-        v6(&functor.functor, &functor.functor, 2);
-    }
-  }
-  *(_DWORD *)(a2 + 100) = binder;
-  *(_DWORD *)(a2 + 96) = type;
-  *(_DWORD *)a2 = &survarium::console_command_bind::`vftable';
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v5, (int *)&f);
+  binder->m_key_bindings[8].m_action = a4;
+  binder->m_key_bindings[8].m_keyboard[0] = type;
+  binder->m_key_bindings[0].m_action = (survarium::game_action_descr *)&survarium::console_command_bind::`vftable';
 }

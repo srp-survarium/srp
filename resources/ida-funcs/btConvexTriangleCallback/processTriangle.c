@@ -1,54 +1,65 @@
 void __thiscall btConvexTriangleCallback::processTriangle(
         btConvexTriangleCallback *this,
-        btVector3 *triangle,
+        btTriangleShape *triangle,
         int partId,
         int triangleIndex)
 {
   btDispatcher *m_dispatcher; // ebx
+  btCollisionObject *m_triBody; // edi
   float m_collisionMarginTriangle; // xmm0_4
-  btCollisionAlgorithm *(__thiscall *findAlgorithm)(btDispatcher *, btCollisionObject *, btCollisionObject *, btPersistentManifold *); // edx
-  int v8; // esi
+  btDispatcher_vtbl *v8; // eax
+  btPolyhedralConvexShape_vtbl *v9; // eax
   btManifoldResult *m_resultOut; // ecx
-  btCollisionObject *m_convexBody; // [esp+180h] [ebp-ACh]
-  btCollisionObject *v11; // [esp+184h] [ebp-A8h]
-  btPersistentManifold *m_manifoldPtr; // [esp+188h] [ebp-A4h]
-  btCollisionObject *m_triBody; // [esp+1A4h] [ebp-88h]
-  btCollisionShape *m_collisionShape; // [esp+1A8h] [ebp-84h]
-  btTriangleShape v15; // [esp+1ACh] [ebp-80h] BYREF
+  btManifoldResult_vtbl *v11; // eax
+  btCollisionObject *m_convexBody; // [esp+4h] [ebp-ACh]
+  btCollisionObject *v13; // [esp+8h] [ebp-A8h]
+  btPersistentManifold *m_manifoldPtr; // [esp+Ch] [ebp-A4h]
+  const btVector3 *v15; // [esp+10h] [ebp-A0h]
+  int v16; // [esp+10h] [ebp-A0h]
+  int v17; // [esp+28h] [ebp-88h]
+  btCollisionShape *m_collisionShape; // [esp+2Ch] [ebp-84h]
+  btPolyhedralConvexShape v19; // [esp+30h] [ebp-80h] BYREF
 
   m_dispatcher = this->m_dispatcher;
   m_triBody = this->m_triBody;
   if ( this->m_convexBody->m_collisionShape->m_shapeType < 20 )
   {
-    btTriangleShape::btTriangleShape(&v15);
+    btTriangleShape::btTriangleShape(
+      triangle,
+      &v19,
+      &triangle->m_localScaling,
+      &triangle->m_implicitShapeDimensions,
+      v15);
     m_collisionMarginTriangle = this->m_collisionMarginTriangle;
     m_collisionShape = m_triBody->m_collisionShape;
-    m_triBody->m_collisionShape = &v15;
+    m_triBody->m_collisionShape = &v19;
     m_manifoldPtr = this->m_manifoldPtr;
-    v11 = this->m_triBody;
-    findAlgorithm = m_dispatcher->findAlgorithm;
+    v8 = m_dispatcher->__vftable;
+    v13 = this->m_triBody;
     m_convexBody = this->m_convexBody;
-    v15.m_collisionMargin = m_collisionMarginTriangle;
-    v8 = (int)findAlgorithm(m_dispatcher, m_convexBody, v11, m_manifoldPtr);
+    v19.m_collisionMargin = m_collisionMarginTriangle;
+    v9 = (btPolyhedralConvexShape_vtbl *)((int (__thiscall *)(btDispatcher *, btCollisionObject *, btCollisionObject *, btPersistentManifold *, int))v8->findAlgorithm)(
+                                           m_dispatcher,
+                                           m_convexBody,
+                                           v13,
+                                           m_manifoldPtr,
+                                           v16);
     m_resultOut = this->m_resultOut;
-    if ( m_resultOut->m_body0 == this->m_triBody )
-      m_resultOut->setShapeIdentifiersA(m_resultOut, partId, triangleIndex);
+    v19.__vftable = v9;
+    v11 = m_resultOut->__vftable;
+    if ( this->m_resultOut->m_body0 == this->m_triBody )
+      ((void (__cdecl *)(int, int))v11->setShapeIdentifiersA)(partId, triangleIndex);
     else
-      m_resultOut->setShapeIdentifiersB(m_resultOut, partId, triangleIndex);
-    (*(void (__thiscall **)(int, btCollisionObject *, btCollisionObject *, const btDispatcherInfo *, btManifoldResult *))(*(_DWORD *)v8 + 4))(
-      v8,
+      ((void (__cdecl *)(int, int))v11->setShapeIdentifiersB)(partId, triangleIndex);
+    (*(void (__thiscall **)(int, btCollisionObject *, btCollisionObject *, const btDispatcherInfo *, btManifoldResult *))(*(_DWORD *)v17 + 4))(
+      v17,
       this->m_convexBody,
       this->m_triBody,
       this->m_dispatchInfoPtr,
       this->m_resultOut);
-    (**(void (__thiscall ***)(int, _DWORD))v8)(v8, 0);
-    m_dispatcher->freeCollisionAlgorithm(m_dispatcher, (void *)v8);
+    (**(void (__thiscall ***)(int, _DWORD))v17)(v17, 0);
+    ((void (__thiscall *)(btDispatcher *))m_dispatcher->freeCollisionAlgorithm)(m_dispatcher);
     m_triBody->m_collisionShape = m_collisionShape;
-    v15.__vftable = (btTriangleShape_vtbl *)&btPolyhedralConvexShape::`vftable';
-    if ( v15.m_polyhedron )
-    {
-      ++gNumAlignedFree;
-      sAlignedFreeFunc(v15.m_polyhedron);
-    }
+    btPolyhedralConvexShape::~btPolyhedralConvexShape(&v19);
   }
 }

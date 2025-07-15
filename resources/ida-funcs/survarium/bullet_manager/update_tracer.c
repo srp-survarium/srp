@@ -3,68 +3,50 @@ void __thiscall survarium::bullet_manager::update_tracer(
         survarium::bullet *bullet,
         const vostok::math::float3 *position,
         const vostok::math::float3 *direction,
-        float length)
+        float *length,
+        int a6)
 {
-  survarium::bullet_manager::bullet_functor *v5; // eax
-  survarium::bullet_manager::bullet_functor *v6; // [esp+18h] [ebp-ACh]
-  vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,72> *target; // [esp+20h] [ebp-A4h]
-  volatile __int64 comperand; // [esp+24h] [ebp-A0h]
-  survarium::bullet_manager::bullet_functor *exchange; // [esp+2Ch] [ebp-98h]
-  boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::bullet_manager,unsigned short,vostok::math::float3 const &,vostok::math::float3 const &,float>,boost::_bi::list5<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned short>,boost::reference_wrapper<vostok::math::float3 const >,boost::reference_wrapper<vostok::math::float3 const >,boost::_bi::value<float> > > v11; // [esp+34h] [ebp-90h]
-  boost::function0<void> v12; // [esp+6Ch] [ebp-58h] BYREF
-  void *_Where; // [esp+8Ch] [ebp-38h]
-  boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::bullet_manager,unsigned short,vostok::math::float3 const &,vostok::math::float3 const &,float>,boost::_bi::list5<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned short>,boost::reference_wrapper<vostok::math::float3 const >,boost::reference_wrapper<vostok::math::float3 const >,boost::_bi::value<float> > > result; // [esp+9Ch] [ebp-28h] BYREF
-  boost::reference_wrapper<vostok::math::float3 const > a3; // [esp+B4h] [ebp-10h]
-  boost::reference_wrapper<vostok::math::float3 const > a4; // [esp+B8h] [ebp-Ch]
-  survarium::bullet_manager::bullet_functor *v17; // [esp+BCh] [ebp-8h]
-  survarium::bullet_manager::bullet_functor *functor; // [esp+C0h] [ebp-4h]
+  survarium::bullet_manager::bullet_functor *v6; // ebx
+  vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76> *v7; // ecx
+  survarium::bullet_manager::bullet_functor *v8; // eax
+  vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76> *v9; // ecx
+  _BYTE v10[28]; // [esp-1Ch] [ebp-58h] BYREF
+  _DWORD v11[6]; // [esp+Ch] [ebp-30h] BYREF
+  _DWORD v12[5]; // [esp+24h] [ebp-18h] BYREF
 
-  if ( this->m_engine )
+  v6 = 0;
+  if ( *(_DWORD *)&bullet->m_ricochet_count )
   {
-    _Where = survarium::bullet_manager::bullet_functor_mt_allocator::malloc_impl(
-               &this->m_mt_stack_allocator,
-               (survarium::game_camera *)0x58);
-    v17 = (survarium::bullet_manager::bullet_functor *)operator new(0x58u, _Where);
-    if ( v17 )
+    type_info::raw_name(&survarium::bullet_manager::bullet_functor `RTTI Type Descriptor');
+    v8 = vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76>::try_pop(
+           v7,
+           (volatile signed __int64 *)&bullet->m_start_position.elements[1]);
+    if ( v8 )
     {
-      survarium::bullet_manager::bullet_functor::bullet_functor(v17);
-      v6 = v5;
+      v8->functor.vtable = 0;
+      v8->resource.m_object = 0;
+      v6 = v8;
     }
-    else
-    {
-      v6 = 0;
-    }
-    functor = v6;
-    v6->position = *position;
-    functor->direction = *direction;
-    a4.t_ = (const vostok::math::float3 *)boost::addressof<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result>,boost::_bi::list2<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>>>>((boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)&functor->direction);
-    a3.t_ = (const vostok::math::float3 *)boost::addressof<boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::vfs::async_callbacks_data,vostok::vfs::mount_result>,boost::_bi::list2<boost::_bi::value<vostok::vfs::async_callbacks_data *>,boost::arg<1>>>>((boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::sound::sound_environment_cook,vostok::resources::queries_result &,vostok::math::float4x4 *>,boost::_bi::list3<boost::_bi::value<vostok::sound::sound_environment_cook *>,boost::arg<1>,boost::_bi::value<vostok::math::float4x4 *> > > *)&functor->position);
-    v11 = *boost::bind<void,survarium::bullet_manager,unsigned short,vostok::math::float3 const &,vostok::math::float3 const &,float,survarium::bullet_manager *,unsigned short,boost::reference_wrapper<vostok::math::float3 const>,boost::reference_wrapper<vostok::math::float3 const>,float>(
-             &result,
-             survarium::bullet_manager::update_tracer_impl,
-             this,
-             bullet->m_tracer_idx,
-             a3,
-             a4,
-             length);
-    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-      (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)v11.l_.a4_.t_,
-      &v12);
-    boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::bullet_manager,unsigned short,vostok::math::float3 const &,vostok::math::float3 const &,float>,boost::_bi::list5<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<unsigned short>,boost::reference_wrapper<vostok::math::float3 const>,boost::reference_wrapper<vostok::math::float3 const>,boost::_bi::value<float>>>>(
-      &v12,
-      v11);
-    boost::function0<void>::swap(&v12, &functor->functor);
-    boost::function<void __cdecl (void)>::~function<void __cdecl (void)>((boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag> *)&v12);
-    target = &this->m_functors;
-    exchange = functor;
-    do
-    {
-      comperand = target->m_top.whole;
-      exchange->next = target->m_top.m_pointer;
-    }
-    while ( vostok::threading::interlocked_compare_exchange(
-              &target->m_top.whole,
-              __SPAIR64__(HIDWORD(comperand), (unsigned int)exchange),
-              comperand) != comperand );
+    v6->position = *direction;
+    v6->direction.x = *length;
+    v6->direction.y = length[1];
+    v12[3] = &v6->direction;
+    v6->direction.z = length[2];
+    v12[0] = bullet;
+    v12[2] = &v6->position;
+    v12[1] = position;
+    v12[4] = a6;
+    v11[0] = survarium::bullet_manager::update_tracer_impl;
+    qmemcpy(&v11[1], v12, 0x14u);
+    *(_DWORD *)v10 = v6;
+    qmemcpy(&v10[4], v11, 0x18u);
+    boost::function<void __cdecl (void)>::operator=<boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::bullet_manager,survarium::bullet *,vostok::math::float3 const &,vostok::math::float3 const &,float>,boost::_bi::list5<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<survarium::bullet *>,boost::reference_wrapper<vostok::math::float3 const>,boost::reference_wrapper<vostok::math::float3 const>,boost::_bi::value<float>>>>(
+      0,
+      *(boost::_bi::bind_t<void,boost::_mfi::mf4<void,survarium::bullet_manager,survarium::bullet *,vostok::math::float3 const &,vostok::math::float3 const &,float>,boost::_bi::list5<boost::_bi::value<survarium::bullet_manager *>,boost::_bi::value<survarium::bullet *>,boost::reference_wrapper<vostok::math::float3 const >,boost::reference_wrapper<vostok::math::float3 const >,boost::_bi::value<float> > > *)v10,
+      *(int *)&v10[24]);
+    vostok::intrusive_mpmc_stack<survarium::bullet_manager::bullet_functor,survarium::bullet_manager::bullet_functor,76>::push(
+      v9,
+      (int)&bullet->m_start_velocity.z,
+      v6);
   }
 }

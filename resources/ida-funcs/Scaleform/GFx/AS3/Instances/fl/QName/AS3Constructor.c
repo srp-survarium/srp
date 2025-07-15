@@ -46,7 +46,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::QName::AS3Constructor(
           else
           {
             RefCount = pObject->RefCount;
-            if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFF) != 0 )
             {
               pObject->RefCount = RefCount - 1;
               Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -69,7 +69,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::QName::AS3Constructor(
         else
         {
           v13 = v11->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v13) != 0 )
+          if ( (v13 & 0x3FFFFF) != 0 )
           {
             v11->RefCount = v13 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);

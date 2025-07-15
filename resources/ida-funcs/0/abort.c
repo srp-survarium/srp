@@ -17,7 +17,7 @@ void __cdecl __noreturn abort()
   sigabrt = __get_sigabrt();
   if ( sigabrt )
   {
-    sigabrt = (void (__cdecl *)(int))raise(22);
+    sigabrt = (void (__cdecl *)(int))raise(v0, 22);
     v3 = v5;
   }
   if ( (__abort_behavior & 2) != 0 )

@@ -6,12 +6,12 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalIMECommand(const Scaleform::GFx::AS2
   Scaleform::GFx::AS2::Value *v4; // eax
   Scaleform::GFx::AS2::FnCall_vtbl *v5; // ebp
   Scaleform::GFx::AS2::Value *v6; // eax
-  Scaleform::GFx::ASStringNode *pNode; // esi
+  Scaleform::GFx::ASStringNode *v7; // esi
   bool v8; // zf
   Scaleform::GFx::ASStringNode *v9; // ecx
   Scaleform::GFx::AS2::Environment *Env; // [esp-14h] [ebp-20h]
   Scaleform::GFx::AS2::Environment *v11; // [esp-14h] [ebp-20h]
-  Scaleform::GFx::ASString result; // [esp+8h] [ebp-4h] BYREF
+  Scaleform::GFx::ASStringNode *v12; // [esp+8h] [ebp-4h] BYREF
 
   v1 = fn;
   if ( fn->NArgs >= 2 )
@@ -26,16 +26,16 @@ void __cdecl Scaleform::GFx::AS2::GAS_GlobalIMECommand(const Scaleform::GFx::AS2
       v5 = fn->__vftable;
       v11 = v1->Env;
       v6 = Scaleform::GFx::AS2::FnCall::Arg(v1, 0);
-      Scaleform::GFx::AS2::Value::ToStringImpl(v6, &result, v11, -1, 0);
-      pNode = result.pNode;
+      Scaleform::GFx::AS2::Value::ToStringImpl(v6, (Scaleform::GFx::ASString *)&v12, v11, -1, 0);
+      v7 = v12;
       ((void (__thiscall *)(Scaleform::RefCountVImpl *, Scaleform::GFx::MovieImpl *, const char *, Scaleform::GFx::AS2::FnCall_vtbl *))v3->Release)(
         v3,
         pMovieImpl,
-        result.pNode->pData,
+        v12->pData,
         v5);
-      v8 = pNode->RefCount-- == 1;
+      v8 = v7->RefCount-- == 1;
       if ( v8 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        Scaleform::GFx::ASStringNode::ReleaseNode(v7);
       v9 = (Scaleform::GFx::ASStringNode *)fn;
       v8 = fn->ThisFunctionRef.Function-- == (Scaleform::GFx::AS2::FunctionObject *)1;
       if ( v8 )

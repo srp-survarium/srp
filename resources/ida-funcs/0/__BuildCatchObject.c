@@ -8,7 +8,7 @@ void __cdecl __BuildCatchObject(
   int v5; // eax
   char *v6; // eax
   char *v7; // eax
-  void *v8; // [esp+0h] [ebp-28h]
+  int v8; // [esp+0h] [ebp-28h]
 
   if ( (pCatch->adjectives & 0x80000000) == 0 )
     v4 = (int (__stdcall *)())((char *)pRN + pCatch->dispCatchObj + 12);
@@ -20,7 +20,7 @@ void __cdecl __BuildCatchObject(
     if ( v5 == 1 )
     {
       v6 = __AdjustPointer((char *)pExcept->params.pExceptionObject, &pConv->thisDisplacement);
-      _CallMemberFunction1(v4, pConv->copyFunction, v6, (void *)1);
+      _CallMemberFunction1(v4, pConv->copyFunction, v6, 1);
     }
   }
   else

@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
   Scaleform::HashLH<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor,2,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> > *v8; // ecx
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *v9; // ecx
   Scaleform::GFx::ASConstString *v10; // eax
-  char *pData; // esi
+  const __m128i *pData; // esi
   unsigned int Length; // eax
   const Scaleform::String *v13; // eax
   void *v14; // esi
@@ -89,7 +89,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_net::SharedObject::FlushImpl_
         if ( v6 > (signed int)v9->SizeMask )
           break;
         v10 = (Scaleform::GFx::ASConstString *)&v9[4 * v6];
-        pData = (char *)v10[5].pNode->pData;
+        pData = (const __m128i *)v10[5].pNode->pData;
         v18 = (const Scaleform::GFx::AS3::Value *)&v10[6];
         Length = Scaleform::GFx::ASConstString::GetLength(v10 + 5);
         Scaleform::String::String((Scaleform::String *)&i, pData, Length);

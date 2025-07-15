@@ -1,7 +1,13 @@
 void __thiscall survarium::player_logic_jump_state::initialize(survarium::player_logic_jump_state *this)
 {
-  survarium::game_camera *v1; // ecx
+  int v2; // ecx
 
-  survarium::jump_logic::activate(&this->m_logic);
-  survarium::weapon_user_dead_state::finalize(v1);
+  this->m_is_sprinting = 0;
+  survarium::jump_logic::initialize((survarium::jump_logic *)this, &this->m_logic);
+  if ( this->m_is_sprinting )
+  {
+    v2 = -(this->m_sprint_initialize_callback.vtable != 0);
+    if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v2) != 0 )
+      boost::function0<void>::operator()((boost::function0<bool> *)v2, &this->m_sprint_initialize_callback.vtable);
+  }
 }

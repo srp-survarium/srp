@@ -32,7 +32,7 @@ int __cdecl png_handle_tIME(_DWORD *a1, int a2, unsigned int a3)
         v7 = buf[3];
         v6 = buf[2];
         *(_WORD *)src = buf[1] + (buf[0] << 8);
-        return png_set_tIME((int)a1, a2, src);
+        return png_set_tIME((int)a1, a2, (const __m128i *)src);
       }
     }
     else

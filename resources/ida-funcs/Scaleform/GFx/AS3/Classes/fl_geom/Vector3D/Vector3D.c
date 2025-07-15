@@ -3,15 +3,15 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
         Scaleform::GFx::AS3::ClassTraits::Traits *t)
 {
   Scaleform::GFx::AS3::InstanceTraits::Traits *v3; // ebx
-  Scaleform::GFx::AS3::Instances::fl::Catch *v4; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v4; // eax
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v5; // esi
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *pObject; // ecx
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v8; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v8; // eax
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v9; // esi
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v10; // ecx
   unsigned int v11; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v12; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v12; // eax
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v13; // esi
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v14; // ecx
   unsigned int v15; // eax
@@ -22,7 +22,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
   this->Y_AXIS.pObject = 0;
   this->Z_AXIS.pObject = 0;
   v3 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)this->pTraits.pObject[1].__vftable;
-  v4 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(v3);
+  v4 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(v3);
   v5 = (Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *)v4;
   if ( v4 )
   {
@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
     }
     this->X_AXIS.pObject = v5;
   }
-  v8 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(v3);
+  v8 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(v3);
   v9 = (Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *)v8;
   if ( v8 )
   {
@@ -85,7 +85,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
       else
       {
         v11 = v10->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+        if ( (v11 & 0x3FFFFF) != 0 )
         {
           v10->RefCount = v11 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);
@@ -94,7 +94,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
     }
     this->Y_AXIS.pObject = v9;
   }
-  v12 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(v3);
+  v12 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(v3);
   v13 = (Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *)v12;
   if ( v12 )
   {
@@ -121,7 +121,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_geom::Vector3D::Vector3D(
       else
       {
         v15 = v14->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & v15) != 0 )
+        if ( (v15 & 0x3FFFFF) != 0 )
         {
           v14->RefCount = v15 - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v14);

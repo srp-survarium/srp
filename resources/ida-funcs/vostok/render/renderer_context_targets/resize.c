@@ -1,11 +1,8 @@
-void __thiscall vostok::render::renderer_context_targets::resize(
-        vostok::render::renderer_context_targets *this,
+void __userpurge vostok::render::renderer_context_targets::resize(
+        vostok::render::renderer_context_targets *this@<ecx>,
+        vostok::render::enum_render_target_index a2@<edi>,
         vostok::math::uint2 size,
-        vostok::math::uint2 force_resize)
+        vostok::render::renderer_context_targets *force_resize)
 {
-  vostok::render::renderer_context_targets::create_targets(
-    (vostok::render::renderer_context_targets *)force_resize.x,
-    size.x,
-    (vostok::math::uint2)__PAIR64__(force_resize.x, size.y),
-    (vostok::render::renderer_context_targets *)force_resize.y);
+  vostok::render::renderer_context_targets::create_targets(force_resize, a2, size, (unsigned int)force_resize);
 }

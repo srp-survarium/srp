@@ -1,135 +1,70 @@
-void __thiscall survarium::lobby_menu::fill_ignore_list(survarium::lobby_menu *this, survarium::lobby_menu *thisa)
+void __thiscall survarium::lobby_menu::fill_ignore_list(survarium::lobby_menu *this, int a2)
 {
-  survarium::lobby_menu *v2; // ebx
-  int v3; // eax
-  survarium::flash_movie_resource *m_object; // edx
-  _DWORD *v5; // esi
-  unsigned int v6; // ebp
-  int v7; // ebx
-  survarium::flash_movie_resource *v8; // ecx
-  int v9; // edi
-  int v10; // edi
-  int v11; // ecx
-  survarium::flash_value value; // [esp+6Ch] [ebp-60h] BYREF
-  survarium::flash_value list_item; // [esp+84h] [ebp-48h] BYREF
-  survarium::flash_value array_value; // [esp+9Ch] [ebp-30h] BYREF
-  int v15; // [esp+B4h] [ebp-18h] BYREF
-  int v16; // [esp+B8h] [ebp-14h]
-  int v17; // [esp+BCh] [ebp-10h]
+  int v2; // esi
+  survarium::messaging_client *v3; // ebx
+  int v4; // eax
+  int v5; // edi
+  vostok::vectora<survarium::account_list_item> *p_m_ignore_list; // ebx
+  int v7; // eax
+  survarium::flash_value *v8; // ecx
+  survarium::flash_value *v9; // ecx
+  survarium::flash_value *v10; // ecx
+  survarium::flash_value *v11; // ecx
+  survarium::flash_value *v12; // ecx
+  unsigned int v13; // eax
+  Scaleform::GFx::Value pvalue; // [esp+10h] [ebp-54h] BYREF
+  Scaleform::GFx::Value v15; // [esp+28h] [ebp-3Ch] BYREF
+  survarium::flash_value value; // [esp+40h] [ebp-24h] BYREF
+  int i; // [esp+58h] [ebp-Ch]
+  unsigned int v18; // [esp+5Ch] [ebp-8h]
 
-  v2 = thisa;
-  v3 = (int)thisa->m_game->m_network_client->messaging_client(thisa->m_game->m_network_client);
-  m_object = thisa->m_lobby_menu_ui.m_object;
-  *(_DWORD *)array_value.body = 0;
-  *(_DWORD *)&array_value.body[4] = 0;
-  v5 = (_DWORD *)(v3 + 336);
-  Scaleform::GFx::Movie::CreateArray(m_object->movie->m_movie, (Scaleform::GFx::Value *)&array_value);
+  v2 = a2;
+  v3 = survarium::lobby_menu::messaging_client(this, a2);
+  v4 = *(_DWORD *)(a2 + 1600);
+  v5 = 0;
+  pvalue.pObjectInterface = 0;
+  pvalue.Type = VT_Undefined;
+  p_m_ignore_list = &v3->m_ignore_list;
+  Scaleform::GFx::Movie::CreateArray(*(Scaleform::GFx::Movie **)(*(_DWORD *)(v4 + 264) + 4), &pvalue);
   *(_DWORD *)value.body = 0;
   *(_DWORD *)&value.body[4] = 0;
-  v6 = 0;
-  if ( (v5[1] - *v5) / 52 )
+  v7 = p_m_ignore_list->_M_impl._M_finish - p_m_ignore_list->_M_impl._M_start;
+  v18 = 0;
+  if ( v7 )
   {
-    v7 = 0;
-    do
+    for ( i = 0; ; v5 = i )
     {
-      v8 = thisa->m_lobby_menu_ui.m_object;
-      *(_DWORD *)list_item.body = 0;
-      *(_DWORD *)&list_item.body[4] = 0;
-      Scaleform::GFx::Movie::CreateObject(v8->movie->m_movie, (Scaleform::GFx::Value *)&list_item, 0, 0, 0);
-      v9 = *(_DWORD *)(v7 + *v5);
-      if ( (value.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-          *(_DWORD *)value.body,
-          &value,
-          *(_DWORD *)&value.body[8]);
-        *(_DWORD *)value.body = 0;
-      }
-      *(_DWORD *)&value.body[4] = 4;
-      *(_DWORD *)&value.body[8] = v9;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)list_item.body
-                                                                                           + 20))(
-        *(_DWORD *)list_item.body,
-        *(_DWORD *)&list_item.body[8],
-        "id",
-        &value,
-        (list_item.body[4] & 0x8F) == 10);
-      v10 = *(_DWORD *)(v7 + *v5 + 4);
-      v11 = 0;
-      v15 = 0;
-      v16 = 6;
-      v17 = v10;
-      if ( (value.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-          *(_DWORD *)value.body,
-          &value,
-          *(_DWORD *)&value.body[8]);
-        v11 = v15;
-        *(_DWORD *)value.body = 0;
-      }
-      *(_DWORD *)&value.body[4] = 6;
-      *(_DWORD *)&value.body[8] = v10;
-      if ( (v16 & 0x40) != 0 )
-        (*(void (__thiscall **)(int, int *, int))(*(_DWORD *)v11 + 8))(v11, &v15, v17);
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)list_item.body
-                                                                                           + 20))(
-        *(_DWORD *)list_item.body,
-        *(_DWORD *)&list_item.body[8],
-        "name",
-        &value,
-        (list_item.body[4] & 0x8F) == 10);
-      if ( (value.body[4] & 0x40) != 0 )
-      {
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-          *(_DWORD *)value.body,
-          &value,
-          *(_DWORD *)&value.body[8]);
-        *(_DWORD *)value.body = 0;
-      }
-      *(_DWORD *)&value.body[4] = 4;
-      *(_DWORD *)&value.body[8] = 3;
-      (*(void (__thiscall **)(_DWORD, _DWORD, const char *, survarium::flash_value *, bool))(**(_DWORD **)list_item.body
-                                                                                           + 20))(
-        *(_DWORD *)list_item.body,
-        *(_DWORD *)&list_item.body[8],
-        "icon",
-        &value,
-        (list_item.body[4] & 0x8F) == 10);
-      (*(void (__thiscall **)(_DWORD, _DWORD, unsigned int, survarium::flash_value *))(**(_DWORD **)array_value.body + 52))(
-        *(_DWORD *)array_value.body,
-        *(_DWORD *)&array_value.body[8],
-        v6,
-        &list_item);
-      if ( (list_item.body[4] & 0x40) != 0 )
-        (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)list_item.body + 8))(
-          *(_DWORD *)list_item.body,
-          &list_item,
-          *(_DWORD *)&list_item.body[8]);
-      ++v6;
-      v7 += 52;
+      v15.pObjectInterface = 0;
+      v15.Type = VT_Undefined;
+      survarium::flash_movie::CreateObject(
+        (survarium::flash_movie *)0x48,
+        *(survarium::flash_value **)(*(_DWORD *)(v2 + 1600) + 264),
+        &v15);
+      survarium::flash_value::SetUInt(
+        v8,
+        (int)&value,
+        *(unsigned int *)((char *)&p_m_ignore_list->_M_impl._M_start->account_id + v5));
+      survarium::flash_value::SetMember(v9, &v15, "id", &value);
+      survarium::flash_value::SetString(&value, &p_m_ignore_list->_M_impl._M_start->account_name[v5]);
+      survarium::flash_value::SetMember(v10, &v15, "name", &value);
+      survarium::flash_value::SetUInt(v11, (int)&value, 3u);
+      survarium::flash_value::SetMember(v12, &v15, "icon", &value);
+      pvalue.pObjectInterface->SetElement(pvalue.pObjectInterface, (void *)pvalue.mValue.IValue, v18, &v15);
+      Scaleform::GFx::Value::~Value(&v15);
+      v13 = p_m_ignore_list->_M_impl._M_finish - p_m_ignore_list->_M_impl._M_start;
+      ++v18;
+      i += 72;
+      v2 = a2;
+      if ( v18 >= v13 )
+        break;
     }
-    while ( v6 < (v5[1] - *v5) / 52 );
-    v2 = thisa;
   }
   Scaleform::GFx::Movie::Invoke(
-    v2->m_lobby_menu_ui.m_object->movie->m_movie,
+    *(Scaleform::GFx::Movie **)(*(_DWORD *)(*(_DWORD *)(v2 + 1600) + 264) + 4),
     "root.set_ignored_list",
     0,
-    (const Scaleform::GFx::Value *)&array_value,
+    &pvalue,
     1u);
-  if ( (value.body[4] & 0x40) != 0 )
-  {
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)value.body + 8))(
-      *(_DWORD *)value.body,
-      &value,
-      *(_DWORD *)&value.body[8]);
-    *(_DWORD *)value.body = 0;
-  }
-  *(_DWORD *)&value.body[4] = 0;
-  if ( (array_value.body[4] & 0x40) != 0 )
-    (*(void (__thiscall **)(_DWORD, survarium::flash_value *, _DWORD))(**(_DWORD **)array_value.body + 8))(
-      *(_DWORD *)array_value.body,
-      &array_value,
-      *(_DWORD *)&array_value.body[8]);
+  Scaleform::GFx::Value::~Value((Scaleform::GFx::Value *)&value);
+  Scaleform::GFx::Value::~Value(&pvalue);
 }

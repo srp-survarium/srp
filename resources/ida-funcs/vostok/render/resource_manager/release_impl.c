@@ -1,90 +1,132 @@
 void __usercall vostok::render::resource_manager::release_impl(
-        const vostok::render::res_texture *texture@<eax>,
-        vostok::render::resource_manager *this)
+        vostok::render::resource_manager *this@<eax>,
+        vostok::render::res_texture *texture@<edi>,
+        unsigned int a3@<ecx>,
+        const char *a4@<ebx>,
+        const char *a5@<esi>)
 {
-  vostok::render::grass_render_model *m_object; // ebx
-  _BYTE *v4; // edi
-  void *m_reconstruction_info_actuality_tick_high; // esi
+  vostok::render::texture_storage *v5; // ecx
+  vostok::memory::doug_lea_allocator *v6; // esi
+  char *v7; // ebx
+  vostok::memory::doug_lea_allocator *v8; // ecx
 
-  m_object = vostok::render::g_allocator.m_object;
+  v5 = *(vostok::render::texture_storage **)((char *)&this->sh_created + (_DWORD)&loc_948DA + 2);
+  if ( v5 )
+    vostok::render::texture_storage::try_release(v5, texture->m_surface);
+  v6 = vostok::render::g_allocator;
   if ( texture )
   {
-    v4 = __RTCastToVoid((void **)&texture->__vftable);
-    ((void (__thiscall *)(const vostok::render::res_texture *, _DWORD))texture->~vostok::render::res_texture)(
-      texture,
-      0);
-    if ( v4 )
-    {
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v4);
-    }
+    v7 = __RTCastToVoid((void **)&texture->__vftable);
+    ((void (__thiscall *)(vostok::render::res_texture *, _DWORD))texture->~vostok::render::res_texture)(texture, 0);
+    vostok::memory::doug_lea_allocator::free_impl(v8, (int)v6, v7, a5, a4, a3);
   }
 }
 
 
-void __usercall vostok::render::resource_manager::release_impl<vostok::render::gs_data>(
+void __userpurge vostok::render::resource_manager::release_impl<vostok::render::gs_data>(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs_hw<vostok::render::gs_data> *xs_hw@<eax>)
+        int a2@<eax>,
+        const vostok::render::res_xs_hw<vostok::render::gs_data> *xs_hw)
 {
-  stlp_std::priv::_Rb_tree_node_base *M_left; // eax
-  vostok::render::map<vostok::render::resource_manager::shader_name_config_pair,vostok::render::res_xs_hw<vostok::render::gs_data> *,stlp_std::less<vostok::render::resource_manager::shader_name_config_pair> > *p_m_gs_hw_registry; // edi
-  vostok::render::grass_render_model *m_object; // edi
-  int v6; // [esp-4h] [ebp-10h] BYREF
+  const vostok::render::res_xs_hw<vostok::render::gs_data> *v3; // ebx
+  int v4; // edi
+  stlp_std::priv::_Rb_tree_node_base **v5; // esi
+  stlp_std::priv::_Rb_tree_node_base *i; // eax
+  stlp_std::priv::_Rb_tree_node_base *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  const char *v9; // [esp+0h] [ebp-10h]
+  const char *v10; // [esp+4h] [ebp-Ch]
+  unsigned int v11; // [esp+8h] [ebp-8h]
+  const vostok::render::resource_manager_call_destructor_predicate *v12; // [esp+Ch] [ebp-4h]
 
+  v3 = xs_hw;
   if ( xs_hw->m_is_registered )
   {
-    M_left = this->m_gs_hw_registry._M_t._M_header._M_data._M_left;
-    p_m_gs_hw_registry = &this->m_gs_hw_registry;
-    while ( M_left != (stlp_std::priv::_Rb_tree_node_base *)p_m_gs_hw_registry )
+    v4 = a2 + 557148;
+    v5 = (stlp_std::priv::_Rb_tree_node_base **)(a2 + 557156);
+    for ( i = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 557156);
+          i != (stlp_std::priv::_Rb_tree_node_base *)v4;
+          i = stlp_std::priv::_Rb_global<bool>::_M_increment(i) )
     {
-      if ( (vostok::render::res_xs_hw<vostok::render::gs_data> *)M_left[2]._M_left == xs_hw )
+      if ( (const vostok::render::res_xs_hw<vostok::render::gs_data> *)i[2]._M_left == v3 )
       {
-        stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::erase(
-          (stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::render_target *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)&v6,
-          (int)p_m_gs_hw_registry,
-          (stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >)M_left);
+        v7 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+               i,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 4),
+               v5,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 12));
+        vostok::memory::doug_lea_allocator::free_impl(
+          v8,
+          (int)vostok::render::g_allocator,
+          (char *)&v7->_M_color,
+          v9,
+          v10,
+          v11);
+        --*(_DWORD *)(v4 + 16);
         break;
       }
-      M_left = stlp_std::priv::_Rb_global<bool>::_M_increment(M_left);
     }
-    m_object = vostok::render::g_allocator.m_object;
-    vostok::render::res_xs_hw<vostok::render::ps_data>::~res_xs_hw<vostok::render::ps_data>((vostok::render::res_xs_hw<vostok::render::ps_data> *)this);
-    BYTE2(m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), xs_hw);
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::res_xs_hw<vostok::render::gs_data> const,vostok::render::resource_manager_call_destructor_predicate>(
+      vostok::render::g_allocator,
+      &xs_hw,
+      v9,
+      v10,
+      v11,
+      v12);
   }
 }
 
 
-void __usercall vostok::render::resource_manager::release_impl<vostok::render::ps_data>(
+void __userpurge vostok::render::resource_manager::release_impl<vostok::render::ps_data>(
         vostok::render::resource_manager *this@<ecx>,
-        vostok::render::res_xs_hw<vostok::render::ps_data> *xs_hw@<eax>)
+        int a2@<eax>,
+        vostok::render::res_xs_hw<vostok::render::gs_data> *xs_hw)
 {
-  stlp_std::priv::_Rb_tree_node_base *M_left; // eax
-  vostok::render::map<vostok::render::resource_manager::shader_name_config_pair,vostok::render::res_xs_hw<vostok::render::ps_data> *,stlp_std::less<vostok::render::resource_manager::shader_name_config_pair> > *p_m_ps_hw_registry; // edi
-  vostok::render::grass_render_model *m_object; // edi
-  int v6; // [esp-4h] [ebp-10h] BYREF
+  vostok::render::res_xs_hw<vostok::render::gs_data> *v3; // ebx
+  int v4; // edi
+  stlp_std::priv::_Rb_tree_node_base **v5; // esi
+  stlp_std::priv::_Rb_tree_node_base *i; // eax
+  stlp_std::priv::_Rb_tree_node_base *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  const char *v9; // [esp+0h] [ebp-10h]
+  const char *v10; // [esp+4h] [ebp-Ch]
+  unsigned int v11; // [esp+8h] [ebp-8h]
+  const vostok::render::resource_manager_call_destructor_predicate *v12; // [esp+Ch] [ebp-4h]
 
+  v3 = xs_hw;
   if ( xs_hw->m_is_registered )
   {
-    M_left = this->m_ps_hw_registry._M_t._M_header._M_data._M_left;
-    p_m_ps_hw_registry = &this->m_ps_hw_registry;
-    while ( M_left != (stlp_std::priv::_Rb_tree_node_base *)p_m_ps_hw_registry )
+    v4 = a2 + 557172;
+    v5 = (stlp_std::priv::_Rb_tree_node_base **)(a2 + 557180);
+    for ( i = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 557180);
+          i != (stlp_std::priv::_Rb_tree_node_base *)v4;
+          i = stlp_std::priv::_Rb_global<bool>::_M_increment(i) )
     {
-      if ( (vostok::render::res_xs_hw<vostok::render::ps_data> *)M_left[2]._M_left == xs_hw )
+      if ( (vostok::render::res_xs_hw<vostok::render::gs_data> *)i[2]._M_left == v3 )
       {
-        stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::erase(
-          (stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::render_target *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)&v6,
-          (int)p_m_ps_hw_registry,
-          (stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >)M_left);
+        v7 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+               i,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 4),
+               v5,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 12));
+        vostok::memory::doug_lea_allocator::free_impl(
+          v8,
+          (int)vostok::render::g_allocator,
+          (char *)&v7->_M_color,
+          v9,
+          v10,
+          v11);
+        --*(_DWORD *)(v4 + 16);
         break;
       }
-      M_left = stlp_std::priv::_Rb_global<bool>::_M_increment(M_left);
     }
-    m_object = vostok::render::g_allocator.m_object;
-    vostok::render::res_xs_hw<vostok::render::ps_data>::~res_xs_hw<vostok::render::ps_data>((vostok::render::res_xs_hw<vostok::render::ps_data> *)this);
-    BYTE2(m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), xs_hw);
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::res_xs_hw<vostok::render::gs_data> const,vostok::render::resource_manager_call_destructor_predicate>(
+      vostok::render::g_allocator,
+      (const vostok::render::res_xs_hw<vostok::render::gs_data> **)&xs_hw,
+      v9,
+      v10,
+      v11,
+      v12);
   }
 }
 
@@ -94,38 +136,50 @@ void __userpurge vostok::render::resource_manager::release_impl<vostok::render::
         int a2@<eax>,
         const vostok::render::res_xs_hw<vostok::render::vs_data> *xs_hw)
 {
-  const vostok::render::res_xs_hw<vostok::render::vs_data> *v3; // esi
-  stlp_std::priv::_Rb_tree_node_base *v5; // eax
-  int v6; // edi
-  int v7; // [esp-4h] [ebp-Ch] BYREF
-  const vostok::render::resource_manager_call_destructor_predicate *v8; // [esp+0h] [ebp-8h]
+  const vostok::render::res_xs_hw<vostok::render::vs_data> *v3; // ebx
+  int v4; // edi
+  stlp_std::priv::_Rb_tree_node_base **v5; // esi
+  stlp_std::priv::_Rb_tree_node_base *i; // eax
+  stlp_std::priv::_Rb_tree_node_base *v7; // eax
+  vostok::memory::doug_lea_allocator *v8; // ecx
+  const char *v9; // [esp+0h] [ebp-10h]
+  const char *v10; // [esp+4h] [ebp-Ch]
+  unsigned int v11; // [esp+8h] [ebp-8h]
+  const vostok::render::resource_manager_call_destructor_predicate *v12; // [esp+Ch] [ebp-4h]
 
   v3 = xs_hw;
   if ( xs_hw->m_is_registered )
   {
-    v5 = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 52);
-    v6 = a2 + 44;
-    while ( 1 )
+    v4 = a2 + 557124;
+    v5 = (stlp_std::priv::_Rb_tree_node_base **)(a2 + 557132);
+    for ( i = *(stlp_std::priv::_Rb_tree_node_base **)(a2 + 557132);
+          i != (stlp_std::priv::_Rb_tree_node_base *)v4;
+          i = stlp_std::priv::_Rb_global<bool>::_M_increment(i) )
     {
-      if ( v5 == (stlp_std::priv::_Rb_tree_node_base *)v6 )
+      if ( (const vostok::render::res_xs_hw<vostok::render::vs_data> *)i[2]._M_left == v3 )
       {
-        vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::res_xs_hw<vostok::render::vs_data> const,vostok::render::resource_manager_call_destructor_predicate>(
-          (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-          &xs_hw,
-          v8);
-        return;
-      }
-      if ( (const vostok::render::res_xs_hw<vostok::render::vs_data> *)v5[2]._M_left == v3 )
+        v7 = stlp_std::priv::_Rb_global<bool>::_Rebalance_for_erase(
+               i,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 4),
+               v5,
+               (stlp_std::priv::_Rb_tree_node_base **)(v4 + 12));
+        vostok::memory::doug_lea_allocator::free_impl(
+          v8,
+          (int)vostok::render::g_allocator,
+          (char *)&v7->_M_color,
+          v9,
+          v10,
+          v11);
+        --*(_DWORD *)(v4 + 16);
         break;
-      v5 = stlp_std::priv::_Rb_global<bool>::_M_increment(v5);
+      }
     }
-    stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::res_texture *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::res_texture *>>>::erase(
-      (stlp_std::map<vostok::fs_new::virtual_path_string,vostok::render::render_target *,vostok::render::resource_manager::str_pred,vostok::render::std_allocator<stlp_std::pair<vostok::fs_new::virtual_path_string,vostok::render::render_target *> > > *)&v7,
-      v6,
-      (stlp_std::priv::_Rb_tree_iterator<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *>,stlp_std::priv::_MapTraitsT<stlp_std::pair<vostok::fs_new::virtual_path_string const ,vostok::render::render_target *> > >)v5);
     vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::res_xs_hw<vostok::render::vs_data> const,vostok::render::resource_manager_call_destructor_predicate>(
-      (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
+      vostok::render::g_allocator,
       &xs_hw,
-      v8);
+      v9,
+      v10,
+      v11,
+      v12);
   }
 }

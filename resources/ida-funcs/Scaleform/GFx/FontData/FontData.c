@@ -1,7 +1,4 @@
-void __thiscall Scaleform::GFx::FontData::FontData(
-        Scaleform::GFx::FontData *this,
-        const char *name,
-        unsigned int fontFlags)
+void __thiscall Scaleform::GFx::FontData::FontData(Scaleform::GFx::FontData *this, char *name, unsigned int fontFlags)
 {
   char *v4; // edi
 
@@ -30,7 +27,7 @@ void __thiscall Scaleform::GFx::FontData::FontData(
   v4 = (char *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, strlen(name) + 1, 0);
   this->Name = v4;
   if ( v4 )
-    strcpy_s(v4, strlen(name) + 1, name);
+    strcpy_s((int)v4, v4, strlen(name) + 1, name);
   this->Flags |= 0x2000u;
 }
 

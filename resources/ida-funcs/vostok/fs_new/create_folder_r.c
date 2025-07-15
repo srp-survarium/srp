@@ -1,96 +1,88 @@
-bool __cdecl vostok::fs_new::create_folder_r(
+char __usercall vostok::fs_new::create_folder_r@<al>(
+        char *a1@<esi>,
         const vostok::fs_new::synchronous_device_interface *device,
-        vostok::fs_new::native_path_string *path,
+        const vostok::fs_new::native_path_string *path,
         bool create_last)
 {
-  survarium::game_camera *v4; // ecx
-  vostok::render::skeleton_model_instance *v5; // eax
+  char result; // al
+  int v5; // eax
   int v6; // eax
-  vostok::render::skeleton_model_instance *v7; // eax
-  survarium::game_camera *v8; // ecx
-  bool v9; // bl
-  unsigned int v12; // [esp+128h] [ebp-3BCh]
-  char s[2]; // [esp+136h] [ebp-3AEh] BYREF
-  char *begin_src; // [esp+138h] [ebp-3ACh]
-  char *end_src; // [esp+13Ch] [ebp-3A8h]
-  char v16; // [esp+142h] [ebp-3A2h]
-  char c; // [esp+143h] [ebp-3A1h]
-  vostok::fs_new::native_path_string part; // [esp+144h] [ebp-3A0h] BYREF
-  vostok::fs_new::path_part_iterator next_it; // [esp+260h] [ebp-284h] BYREF
-  bool result; // [esp+27Bh] [ebp-269h]
-  vostok::fs_new::native_path_string absolute_path; // [esp+27Ch] [ebp-268h] BYREF
-  unsigned int colon_pos; // [esp+394h] [ebp-150h]
-  unsigned int drive_part_length; // [esp+398h] [ebp-14Ch]
-  vostok::fs_new::native_path_string cur_path; // [esp+39Ch] [ebp-148h] BYREF
-  vostok::fs_new::path_part_iterator end_it; // [esp+4B4h] [ebp-30h] BYREF
-  vostok::fs_new::path_part_iterator it; // [esp+4CCh] [ebp-18h] BYREF
+  int v7; // esi
+  char v8; // [esp+Fh] [ebp-399h]
+  vostok::fs_new::path_part_iterator v9; // [esp+10h] [ebp-398h] BYREF
+  char *end; // [esp+28h] [ebp-380h] BYREF
+  char *begin; // [esp+2Ch] [ebp-37Ch] BYREF
+  _DWORD v12[6]; // [esp+30h] [ebp-378h] BYREF
+  vostok::fs_new::path_part_iterator v13; // [esp+48h] [ebp-360h] BYREF
+  vostok::fs_new::native_path_string v14; // [esp+60h] [ebp-348h] BYREF
+  vostok::fs_new::native_path_string v15; // [esp+178h] [ebp-230h] BYREF
+  vostok::fs_new::native_path_string v16; // [esp+290h] [ebp-118h] BYREF
 
-  vostok::fs_new::native_path_string::native_path_string(&absolute_path);
-  if ( !vostok::fs_new::convert_to_absolute_path<vostok::fs_new::native_path_string>(
-          (vostok::fixed_string<32> *)&absolute_path,
-          path,
-          assert_on_fail_true) )
-    return 0;
-  c = 58;
-  colon_pos = vostok::buffer_string::find(&absolute_path.m_string, 0x3Au);
-  v16 = 0;
-  survarium::weapon_user_dead_state::finalize(v4);
-  drive_part_length = colon_pos + 2;
-  vostok::fs_new::native_path_string::native_path_string(&cur_path);
-  v5 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&absolute_path);
-  end_src = (char *)v5 + drive_part_length;
-  begin_src = (char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&absolute_path);
-  vostok::fs_new::path_string_impl::clear(&cur_path.m_string);
-  vostok::buffer_string::append(&cur_path.m_string, begin_src, end_src);
-  vostok::fs_new::path_string_impl::verify_self(&cur_path);
-  v6 = vostok::fs_new::path_string_impl::length(&absolute_path);
-  v12 = v6 - drive_part_length;
-  v7 = vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&absolute_path);
-  it.m_include_empty_string_in_iteration = include_empty_string_in_iteration_false;
-  it.m_separator = 92;
-  it.m_path_str = (char *)v7 + drive_part_length;
-  it.m_path_end = (char *)v7 + drive_part_length + v12;
-  it.m_cur_str = (char *)v7 + drive_part_length;
-  it.m_cur_end = (char *)v7 + drive_part_length;
-  vostok::fs_new::path_part_iterator::operator++(&it);
-  vostok::fs_new::path_part_iterator::end(&end_it);
-  s[1] = 0;
-  survarium::weapon_user_dead_state::finalize(v8);
-  result = 1;
-  while ( it.m_include_empty_string_in_iteration != end_it.m_include_empty_string_in_iteration
-       || it.m_cur_str != end_it.m_cur_str )
+  vostok::fs_new::native_path_string::native_path_string(&v15);
+  result = vostok::fs_new::convert_to_absolute_path<vostok::fs_new::native_path_string>(
+             path,
+             a1,
+             &v15,
+             assert_on_fail_true);
+  if ( result )
   {
-    vostok::fs_new::native_path_string::native_path_string(&part);
-    vostok::fs_new::path_part_iterator::append_to_string<vostok::fs_new::virtual_path_string>(
-      &it,
-      (vostok::fs_new::virtual_path_string *)&part);
-    vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(&cur_path, &part.m_string);
-    next_it = it;
-    vostok::fs_new::path_part_iterator::operator++(&next_it);
-    if ( !create_last
-      && next_it.m_include_empty_string_in_iteration == end_it.m_include_empty_string_in_iteration
-      && next_it.m_cur_str == end_it.m_cur_str )
+    strchr(v15.m_string.m_begin, 0x3Au);
+    if ( v5 )
+      v6 = v5 - (unsigned int)v15.m_string.m_begin;
+    else
+      v6 = -1;
+    v7 = v6 + 2;
+    vostok::fs_new::native_path_string::native_path_string(&v14);
+    begin = v15.m_string.m_begin;
+    end = &v15.m_string.m_begin[v7];
+    vostok::fs_new::path_string_impl::assign<char const *>(
+      (vostok::fs_new::path_string_impl *)&v15.m_string.m_begin[v7],
+      &v14.m_string,
+      &begin,
+      (const char **)&end);
+    v9.m_include_empty_string_in_iteration = include_empty_string_in_iteration_false;
+    v9.m_path_str = &v15.m_string.m_begin[v7];
+    v9.m_cur_str = &v15.m_string.m_begin[v7];
+    v9.m_cur_end = &v15.m_string.m_begin[v7];
+    v9.m_separator = 92;
+    v9.m_path_end = v15.m_string.m_end;
+    vostok::fs_new::path_part_iterator::operator++((vostok::fs_new::path_part_iterator *)v15.m_string.m_begin, (int)&v9);
+    vostok::fs_new::path_part_iterator::path_part_iterator(&v13, 0, include_empty_string_in_iteration_false, 0);
+    v8 = 1;
+    while ( vostok::fs_new::path_part_iterator::operator!=(&v9, &v13) )
     {
-      return result;
+      vostok::fs_new::native_path_string::native_path_string(&v16);
+      if ( v9.m_cur_str != v9.m_cur_end )
+        vostok::buffer_string::append(
+          &v16.m_string,
+          v9.m_cur_end,
+          (char *)&v9.m_cur_str[*v9.m_cur_str == v9.m_separator]);
+      vostok::fs_new::path_string_impl::append<vostok::fixed_string<260>>(&v16, &v14.m_string);
+      qmemcpy(v12, &v9, sizeof(v12));
+      vostok::fs_new::path_part_iterator::operator++(0, (int)v12);
+      if ( !create_last && v12[0] == v13.m_include_empty_string_in_iteration && (const char *)v12[3] == v13.m_cur_str )
+        break;
+      v8 &= ((int (__thiscall *)(vostok::fs_new::device_file_system_interface *, vostok::fs_new::native_path_string *))device->m_device.m_device_file_system->create_folder)(
+              device->m_device.m_device_file_system,
+              &v14);
+      *v14.m_string.m_end++ = 92;
+      *v14.m_string.m_end = 0;
+      qmemcpy(&v9, v12, sizeof(v9));
     }
-    v9 = result;
-    result = vostok::fs_new::device_file_system_proxy_base::create_folder(&device->m_device, &cur_path) & v9;
-    s[0] = 92;
-    vostok::fs_new::path_string_impl::operator+=<char>(&cur_path, s);
-    it = next_it;
+    return v8;
   }
   return result;
 }
 
 
-bool __cdecl vostok::fs_new::create_folder_r(
+char __usercall vostok::fs_new::create_folder_r@<al>(
+        char *a1@<esi>,
         const vostok::fs_new::synchronous_device_interface *device,
-        const char *path,
-        bool create_last)
+        char *path)
 {
-  vostok::fs_new::native_path_string *v3; // eax
-  vostok::fs_new::path_string_impl v5; // [esp+140h] [ebp-114h] BYREF
+  const vostok::fs_new::native_path_string *v3; // eax
+  vostok::fs_new::native_path_string result; // [esp+0h] [ebp-114h] BYREF
 
-  v3 = vostok::fs_new::native_path_string::convert(path, &v5);
-  return vostok::fs_new::create_folder_r(device, v3, create_last);
+  v3 = vostok::fs_new::native_path_string::convert(&result, path);
+  return vostok::fs_new::create_folder_r(a1, device, v3, 0);
 }

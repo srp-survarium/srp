@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::ArraySortOnFunctor(
   Scaleform::Array<Scaleform::GFx::AS2::ArraySortFunctor,2,Scaleform::ArrayDefaultPolicy> *p_FunctorArray; // esi
   unsigned int Size; // ebx
   unsigned int v4; // ebp
-  Scaleform::GFx::AS2::ArraySortFunctor *__thata; // [esp+10h] [ebp+4h]
+  Scaleform::GFx::AS2::ArraySortFunctor *Data; // [esp+10h] [ebp+4h]
 
   this->This = __that->This;
   this->FieldArray = __that->FieldArray;
@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::ArraySortOnFunctor(
   this->FunctorArray.Data.Size = 0;
   this->FunctorArray.Data.Policy.Capacity = 0;
   Size = __that->FunctorArray.Data.Size;
-  __thata = __that->FunctorArray.Data.Data;
+  Data = __that->FunctorArray.Data.Data;
   if ( Size )
   {
     v4 = this->FunctorArray.Data.Size;
@@ -27,6 +27,6 @@ void __thiscall Scaleform::GFx::AS2::ArraySortOnFunctor::ArraySortOnFunctor(
     Scaleform::ConstructorMov<Scaleform::GFx::AS2::ArraySortFunctor>::ConstructArray(
       (char *)&p_FunctorArray->Data.Data[v4],
       Size,
-      __thata);
+      Data);
   }
 }

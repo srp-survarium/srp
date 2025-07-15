@@ -1,23 +1,26 @@
-void __thiscall vostok::particle::particle_system_instance_impl::shrink_particles(
-        vostok::particle::particle_system_instance_impl *this,
+void __userpurge vostok::particle::particle_system_instance_impl::shrink_particles(
+        vostok::particle::particle_system_instance_impl *this@<ecx>,
+        int a2@<edi>,
         float time_delta,
         float limit_over_total,
         unsigned int num_need_particles)
 {
-  vostok::particle::particle_emitter_instance *i; // [esp+10h] [ebp-8h]
-  vostok::particle::particle_emitter_instance *instance; // [esp+14h] [ebp-4h]
+  _DWORD *i; // esi
+  int v6; // eax
+  _DWORD *j; // esi
 
-  for ( instance = this->m_lods[this->m_current_lod].m_emitter_instance_list.m_first; instance; instance = instance->m_next )
-    ((void (__thiscall *)(vostok::particle::particle_emitter_instance *, _DWORD, _DWORD, unsigned int))instance->shrink_particles)(
-      instance,
+  for ( i = *(_DWORD **)(32 * *(_DWORD *)(a2 + 732) + a2 + 276); i; i = (_DWORD *)i[123] )
+    (*(void (__thiscall **)(_DWORD *, _DWORD, _DWORD, unsigned int))(*i + 24))(
+      i,
       LODWORD(time_delta),
       LODWORD(limit_over_total),
       num_need_particles);
-  if ( this->m_current_lod != this->m_old_lod )
+  v6 = *(_DWORD *)(a2 + 736);
+  if ( *(_DWORD *)(a2 + 732) != v6 )
   {
-    for ( i = this->m_lods[this->m_old_lod].m_emitter_instance_list.m_first; i; i = i->m_next )
-      ((void (__thiscall *)(vostok::particle::particle_emitter_instance *, _DWORD, _DWORD, unsigned int))i->shrink_particles)(
-        i,
+    for ( j = *(_DWORD **)(32 * v6 + a2 + 276); j; j = (_DWORD *)j[123] )
+      (*(void (__thiscall **)(_DWORD *, _DWORD, _DWORD, unsigned int))(*j + 24))(
+        j,
         LODWORD(time_delta),
         LODWORD(limit_over_total),
         num_need_particles);

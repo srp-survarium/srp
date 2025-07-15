@@ -1,146 +1,4 @@
-bool __thiscall Scaleform::HashNode<Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value::HashFunctor>::operator==<Scaleform::HashNode<Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value::HashFunctor>>(
-        Scaleform::HashNode<Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value::HashFunctor> *this,
-        const Scaleform::HashNode<Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Value::HashFunctor> *src)
-{
-  unsigned int Flags; // eax
-  bool v4; // bl
-  Scaleform::GFx::AS3::Value y; // [esp+8h] [ebp-10h] BYREF
-
-  Flags = src->First.Flags;
-  y.Bonus.pWeakProxy = src->First.Bonus.pWeakProxy;
-  y.value.VNumber = src->First.value.VNumber;
-  y.Flags = Flags;
-  if ( (Flags & 0x1F) > 9 )
-  {
-    if ( (Flags & 0x200) != 0 )
-      Scaleform::GFx::AS3::Value::AddRefWeakRef(&src->First);
-    else
-      Scaleform::GFx::AS3::Value::AddRefInternal(&src->First);
-  }
-  v4 = Scaleform::GFx::AS3::StrictEqual(&this->First, &y);
-  if ( (y.Flags & 0x1F) > 9 )
-  {
-    if ( (y.Flags & 0x200) != 0 )
-    {
-      Scaleform::GFx::AS3::Value::ReleaseWeakRef(&y);
-      return v4;
-    }
-    Scaleform::GFx::AS3::Value::ReleaseInternal(&y);
-  }
-  return v4;
-}
-
-
-Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> >,Scaleform::IdentityHash<int> > *__thiscall Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy>>,Scaleform::IdentityHash<int>>::operator=(
-        Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> >,Scaleform::IdentityHash<int> > *this,
-        const Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> >,Scaleform::IdentityHash<int> > *__that)
-{
-  Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> > *p_Second; // esi
-  bool Owner; // dl
-  Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> *pObject; // ebp
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *p_Data; // edi
-  bool __thata; // [esp+Ch] [ebp+4h]
-
-  p_Second = &this->Second;
-  this->First = __that->First;
-  if ( &this->Second != &__that->Second )
-  {
-    Owner = __that->Second.Owner;
-    pObject = __that->Second.pObject;
-    __that->Second.Owner = 0;
-    p_Data = &p_Second->pObject->Data;
-    __thata = Owner;
-    if ( p_Second->pObject != pObject )
-    {
-      if ( p_Data && this->Second.Owner )
-      {
-        this->Second.Owner = 0;
-        Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>(p_Data);
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, p_Data);
-      }
-      p_Second->pObject = pObject;
-    }
-    this->Second.Owner = __thata;
-  }
-  return this;
-}
-
-
-void __thiscall Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy>>,Scaleform::IdentityHash<int>>::operator=(
-        Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> >,Scaleform::IdentityHash<int> > *this,
-        const Scaleform::HashNode<int,Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> >,Scaleform::IdentityHash<int> >::NodeRef *src)
-{
-  const Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> > *pSecond; // eax
-  Scaleform::AutoPtr<Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> > *p_Second; // esi
-  bool Owner; // bl
-  Scaleform::ArrayLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2,Scaleform::ArrayDefaultPolicy> *pObject; // ebp
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy> *p_Data; // edi
-
-  this->First = *src->pFirst;
-  pSecond = src->pSecond;
-  p_Second = &this->Second;
-  if ( &this->Second != pSecond )
-  {
-    Owner = pSecond->Owner;
-    pObject = pSecond->pObject;
-    pSecond->Owner = 0;
-    p_Data = &p_Second->pObject->Data;
-    if ( p_Second->pObject != pObject )
-    {
-      if ( p_Data )
-      {
-        if ( this->Second.Owner )
-        {
-          this->Second.Owner = 0;
-          Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,Scaleform::AllocatorLH<Scaleform::Ptr<Scaleform::GFx::DisplayObject>,2>,Scaleform::ArrayDefaultPolicy>(p_Data);
-          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, p_Data);
-        }
-      }
-      p_Second->pObject = pObject;
-    }
-    p_Second->Owner = Owner;
-  }
-}
-
-
-Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *> > *__thiscall Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *>>::operator=(
-        Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *> > *this,
-        const Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *> > *__that)
-{
-  Scaleform::Render::ShapeMeshProvider *pObject; // eax
-  Scaleform::Render::ShapeMeshProvider *v4; // eax
-
-  this->First = __that->First;
-  pObject = __that->Second.pObject;
-  if ( pObject )
-    pObject->AddRef(&pObject->Scaleform::Render::MeshProvider);
-  v4 = this->Second.pObject;
-  if ( v4 )
-    v4->Release(&v4->Scaleform::Render::MeshProvider);
-  this->Second.pObject = __that->Second.pObject;
-  return this;
-}
-
-
-void __thiscall Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *>>::operator=(
-        Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *> > *this,
-        const Scaleform::HashNode<Scaleform::Render::ShapeMeshProvider *,Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>,Scaleform::FixedSizeHash<Scaleform::Render::ShapeMeshProvider *> >::NodeRef *src)
-{
-  const Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider> *pSecond; // edi
-  Scaleform::Render::ShapeMeshProvider *pObject; // eax
-
-  this->First = *src->pFirst;
-  pSecond = src->pSecond;
-  if ( pSecond->pObject )
-    pSecond->pObject->AddRef(&pSecond->pObject->Scaleform::Render::MeshProvider);
-  pObject = this->Second.pObject;
-  if ( pObject )
-    pObject->Release(&pObject->Scaleform::Render::MeshProvider);
-  this->Second = (Scaleform::Ptr<Scaleform::Render::ShapeMeshProvider>)pSecond->pObject;
-}
-
-
-void __thiscall Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *>>::operator=(
+void __thiscall Scaleform::HashNode<unsigned long,Scaleform::Ptr<Scaleform::GFx::AMP::Server::SwdInfo>,Scaleform::FixedSizeHash<unsigned long>>::operator=(
         Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> > *this,
         const Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,Scaleform::Ptr<Scaleform::Render::Text::FontHandle>,Scaleform::IdentityHash<Scaleform::Render::Text::TextFormat const *> >::NodeRef *src)
 {
@@ -155,28 +13,6 @@ void __thiscall Scaleform::HashNode<Scaleform::Render::Text::TextFormat const *,
   if ( pObject )
     Scaleform::RefCountImpl::Release(pObject);
   this->Second.pObject = (Scaleform::Render::Text::FontHandle *)*pSecond;
-}
-
-
-void __thiscall Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::operator=(
-        Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor> *this,
-        const Scaleform::HashNode<Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key,Scaleform::GFx::AS3::ClassTraits::Traits *,Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key::HashFunctor>::NodeRef *src)
-{
-  const Scaleform::GFx::AS3::MultinameHash<Scaleform::GFx::AS3::ClassTraits::Traits *,329>::Key *pFirst; // ebx
-  Scaleform::GFx::ASStringNode *pNode; // edi
-  Scaleform::GFx::ASStringNode *v5; // ecx
-
-  pFirst = src->pFirst;
-  pNode = src->pFirst->Name.pNode;
-  ++pNode->RefCount;
-  v5 = this->First.Name.pNode;
-  if ( v5->RefCount-- == 1 )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v5);
-  this->First.Name.pNode = pNode;
-  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_events::Event>::Set(
-    (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&this->First.pNs,
-    (const Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl_text::TextFormat> *)&pFirst->pNs);
-  this->Second = *src->pSecond;
 }
 
 
@@ -226,7 +62,7 @@ Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::GlobalContext:
   if ( v7 )
   {
     RefCount = v7->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v7->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v7);
@@ -263,7 +99,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2
   if ( v8 )
   {
     RefCount = v8->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v8->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);
@@ -385,7 +221,7 @@ Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2::SharedObjectPt
   if ( pObject )
   {
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -424,7 +260,7 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::AS2
   if ( pObject )
   {
     RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       pObject->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -530,58 +366,59 @@ void __thiscall Scaleform::HashNode<Scaleform::GFx::ResourceId,Scaleform::GFx::R
 }
 
 
-Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType> > *__thiscall Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType>>::operator=(
-        Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType> > *this,
-        const Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType> > *__that)
+Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor> *__thiscall Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor>::operator=(
+        Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor> *this,
+        const Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor> *__that)
 {
-  Scaleform::GFx::AS2::Object *pObject; // eax
-  Scaleform::GFx::AS2::Object *v4; // ecx
-  unsigned int RefCount; // eax
-
-  this->First = __that->First;
-  pObject = __that->Second.pObject;
-  if ( pObject )
-    pObject->RefCount = (pObject->RefCount + 1) & 0x8FFFFFFF;
-  v4 = this->Second.pObject;
-  if ( v4 )
+  Scaleform::String::operator=(&this->First, &__that->First);
+  if ( &this->Second != &__that->Second )
   {
-    RefCount = v4->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
-    {
-      v4->RefCount = RefCount - 1;
-      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v4);
-    }
+    Scaleform::StatBag::Clear(&this->Second.Bag);
+    Scaleform::StatBag::CombineStatBags(
+      &this->Second.Bag,
+      &__that->Second.Bag,
+      (bool (__thiscall *)(Scaleform::StatBag *, unsigned int, Scaleform::Stat *))Scaleform::StatBag::Add);
   }
-  this->Second.pObject = __that->Second.pObject;
+  this->Second.TotalMemory = __that->Second.TotalMemory;
   return this;
 }
 
 
-void __thiscall Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType>>::operator=(
-        Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType> > *this,
-        const Scaleform::HashNode<enum Scaleform::GFx::AS2::ASBuiltinType,Scaleform::Ptr<Scaleform::GFx::AS2::Object>,Scaleform::FixedSizeHash<enum Scaleform::GFx::AS2::ASBuiltinType> >::NodeRef *src)
+void __thiscall Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor>::operator=(
+        Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor> *this,
+        const Scaleform::HashNode<Scaleform::String,Scaleform::StatsUpdate::FileStats,Scaleform::String::NoCaseHashFunctor>::NodeRef *src)
 {
-  const Scaleform::Ptr<Scaleform::GFx::AS2::Object> *pSecond; // edi
-  Scaleform::GFx::AS2::Object *pObject; // ecx
-  unsigned int RefCount; // eax
+  const Scaleform::StatsUpdate::FileStats *pSecond; // edi
+  Scaleform::StatsUpdate::FileStats *p_Second; // esi
+
+  Scaleform::String::operator=(&this->First, src->pFirst);
+  pSecond = src->pSecond;
+  p_Second = &this->Second;
+  if ( p_Second != pSecond )
+  {
+    Scaleform::StatBag::Clear(&p_Second->Bag);
+    Scaleform::StatBag::CombineStatBags(
+      &p_Second->Bag,
+      &pSecond->Bag,
+      (bool (__thiscall *)(Scaleform::StatBag *, unsigned int, Scaleform::Stat *))Scaleform::StatBag::Add);
+  }
+  p_Second->TotalMemory = pSecond->TotalMemory;
+}
+
+
+void __thiscall Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::Server::SourceFileInfo>,Scaleform::FixedSizeHash<unsigned __int64>>::operator=(
+        Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64> > *this,
+        const Scaleform::HashNode<unsigned __int64,Scaleform::Ptr<Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes>,Scaleform::FixedSizeHash<unsigned __int64> >::NodeRef *src)
+{
+  Scaleform::GFx::Resource **pSecond; // edi
+  Scaleform::RefCountVImpl *pObject; // ecx
 
   this->First = *src->pFirst;
-  pSecond = src->pSecond;
-  if ( pSecond->pObject )
-    pSecond->pObject->RefCount = (pSecond->pObject->RefCount + 1) & 0x8FFFFFFF;
-  pObject = this->Second.pObject;
+  pSecond = (Scaleform::GFx::Resource **)src->pSecond;
+  if ( *pSecond )
+    Scaleform::RefCountImpl::AddRef(*pSecond);
+  pObject = (Scaleform::RefCountVImpl *)this->Second.pObject;
   if ( pObject )
-  {
-    RefCount = pObject->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
-    {
-      pObject->RefCount = RefCount - 1;
-      Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
-    }
-    this->Second = (Scaleform::Ptr<Scaleform::GFx::AS2::Object>)pSecond->pObject;
-  }
-  else
-  {
-    this->Second = (Scaleform::Ptr<Scaleform::GFx::AS2::Object>)pSecond->pObject;
-  }
+    Scaleform::RefCountImpl::Release(pObject);
+  this->Second.pObject = (Scaleform::GFx::AMP::ViewStats::BufferInstructionTimes *)*pSecond;
 }

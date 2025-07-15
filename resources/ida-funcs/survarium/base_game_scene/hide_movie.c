@@ -1,26 +1,21 @@
-void __usercall survarium::base_game_scene::hide_movie(
-        survarium::base_game_scene *this@<edx>,
-        vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base> *movie@<eax>,
-        int a3@<ecx>)
+void __userpurge survarium::base_game_scene::hide_movie(
+        const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *movie@<eax>,
+        vostok::particle::particle_system_instance_impl *a2@<ecx>,
+        survarium::base_game_scene *this)
 {
   vostok::render::game::renderer *v3; // ecx
-  survarium::flash_movie_resource *m_object; // eax
-  _DWORD v5[2]; // [esp-8h] [ebp-8h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v4; // [esp-4h] [ebp-14h] BYREF
 
-  v5[1] = a3;
   if ( movie->m_object )
   {
-    v3 = (vostok::render::game::renderer *)v5;
-    v5[0] = 0;
-    m_object = movie->m_object;
-    if ( m_object )
-    {
-      v5[0] = m_object;
-      v3 = (vostok::render::game::renderer *)_InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-    }
+    v4.m_object = a2;
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v4,
+      movie);
     vostok::render::game::renderer::hide_movie(
       v3,
       (const vostok::resources::resource_ptr<vostok::render::base_scene_view,vostok::resources::unmanaged_intrusive_base> *)this->m_game->m_renderer,
-      (vostok::resources::resource_ptr<survarium::flash_movie_resource,vostok::resources::unmanaged_intrusive_base>)&this->m_render_scene_view);
+      (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_render_scene_view,
+      v4);
   }
 }

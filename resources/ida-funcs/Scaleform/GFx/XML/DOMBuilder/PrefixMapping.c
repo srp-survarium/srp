@@ -6,7 +6,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::PrefixMapping(
   Scaleform::GFx::XML::Document *pObject; // eax
   Scaleform::GFx::XML::ObjectManager *v5; // ecx
   Scaleform::GFx::XML::ObjectManager *v6; // esi
-  char *pStr; // eax
+  __m128i *pStr; // eax
   Scaleform::GFx::XML::DOMStringNode *StringNode; // eax
   Scaleform::GFx::XML::DOMStringNode *Size; // eax
   Scaleform::GFx::XML::DOMStringNode *v10; // eax
@@ -30,7 +30,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::PrefixMapping(
   if ( v5 )
     ++v5->RefCount;
   v6 = pObject->MemoryManager.pObject;
-  pStr = (char *)uri->pStr;
+  pStr = (__m128i *)uri->pStr;
   v21.pNode = (Scaleform::GFx::XML::DOMStringNode *)uri->Size;
   memMgr.pObject = v6;
   v6 = (Scaleform::GFx::XML::ObjectManager *)((char *)v6 + 16);
@@ -43,7 +43,7 @@ void __thiscall Scaleform::GFx::XML::DOMBuilder::PrefixMapping(
   v20.pNode = (Scaleform::GFx::XML::DOMStringNode *)prefix->pStr;
   v10 = Scaleform::GFx::XML::DOMStringManager::CreateStringNode(
           (Scaleform::GFx::XML::DOMStringManager *)v6,
-          (char *)v20.pNode,
+          (__m128i *)v20.pNode,
           Size);
   Scaleform::GFx::XML::DOMString::DOMString(&v20, v10);
   v11 = Scaleform::GFx::XML::ObjectManager::CreatePrefix(memMgr.pObject, v20, v21);

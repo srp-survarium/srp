@@ -6,18 +6,18 @@ void __stdcall btAABB::btAABB(btAABB *this, float margin)
   float v5; // xmm3_4
   float v6; // xmm4_4
   float v7; // xmm0_4
-  float v8; // xmm1_4
+  float v8; // xmm2_4
   float v9; // xmm3_4
   float v10; // xmm0_4
-  float v11; // xmm1_4
+  float v11; // xmm2_4
   float v12; // xmm3_4
   float v13; // xmm0_4
   float v14; // xmm3_4
-  float v15; // xmm0_4
-  float v16; // xmm1_4
+  float v15; // xmm1_4
+  float v16; // xmm0_4
   float v17; // xmm3_4
-  float v18; // xmm0_4
-  float v19; // xmm1_4
+  float v18; // xmm1_4
+  float v19; // xmm0_4
   float v20; // xmm3_4
 
   if ( V2->mVec128.m128_f32[0] <= V3->mVec128.m128_f32[0] )
@@ -67,7 +67,7 @@ void __stdcall btAABB::btAABB(btAABB *this, float margin)
     v10 = V3->mVec128.m128_f32[2];
   }
   this->m_min.mVec128.m128_f32[2] = v10;
-  v13 = V2->mVec128.m128_f32[0];
+  v13 = V3->mVec128.m128_f32[0];
   if ( V3->mVec128.m128_f32[0] <= V2->mVec128.m128_f32[0] )
     v14 = V2->mVec128.m128_f32[0];
   else
@@ -76,9 +76,9 @@ void __stdcall btAABB::btAABB(btAABB *this, float margin)
   {
     v13 = V1->mVec128.m128_f32[0];
   }
-  else if ( V3->mVec128.m128_f32[0] > v13 )
+  else if ( v13 <= V2->mVec128.m128_f32[0] )
   {
-    v13 = V3->mVec128.m128_f32[0];
+    v13 = V2->mVec128.m128_f32[0];
   }
   this->m_max.mVec128.m128_f32[0] = v13;
   v15 = V2->mVec128.m128_f32[1];
@@ -89,13 +89,13 @@ void __stdcall btAABB::btAABB(btAABB *this, float margin)
     v17 = V3->mVec128.m128_f32[1];
   if ( v17 <= V1->mVec128.m128_f32[1] )
   {
-    v15 = V1->mVec128.m128_f32[1];
+    v16 = V1->mVec128.m128_f32[1];
   }
-  else if ( v16 > v15 )
+  else if ( v16 <= v15 )
   {
-    v15 = V3->mVec128.m128_f32[1];
+    v16 = V2->mVec128.m128_f32[1];
   }
-  this->m_max.mVec128.m128_f32[1] = v15;
+  this->m_max.mVec128.m128_f32[1] = v16;
   v18 = V2->mVec128.m128_f32[2];
   v19 = V3->mVec128.m128_f32[2];
   if ( v19 <= v18 )
@@ -104,13 +104,13 @@ void __stdcall btAABB::btAABB(btAABB *this, float margin)
     v20 = V3->mVec128.m128_f32[2];
   if ( v20 <= V1->mVec128.m128_f32[2] )
   {
-    v18 = V1->mVec128.m128_f32[2];
+    v19 = V1->mVec128.m128_f32[2];
   }
-  else if ( v19 > v18 )
+  else if ( v19 <= v18 )
   {
-    v18 = V3->mVec128.m128_f32[2];
+    v19 = V2->mVec128.m128_f32[2];
   }
-  this->m_max.mVec128.m128_f32[2] = v18;
+  this->m_max.mVec128.m128_f32[2] = v19;
   this->m_min.mVec128.m128_f32[0] = v6 - margin;
   this->m_min.mVec128.m128_f32[1] = this->m_min.mVec128.m128_f32[1] - margin;
   this->m_min.mVec128.m128_f32[2] = this->m_min.mVec128.m128_f32[2] - margin;

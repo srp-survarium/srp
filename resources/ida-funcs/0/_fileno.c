@@ -1,4 +1,4 @@
-int __usercall _fileno@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, _iobuf *stream)
+int __usercall _fileno@<eax>(int a1@<ebx>, int a2@<edi>, _iobuf *stream)
 {
   if ( stream )
     return stream->_file;

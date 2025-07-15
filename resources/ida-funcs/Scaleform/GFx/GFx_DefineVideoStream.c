@@ -3,7 +3,8 @@ void __stdcall Scaleform::GFx::GFx_DefineVideoStream(
         const Scaleform::GFx::TagInfo *tagInfo)
 {
   Scaleform::GFx::Video::VideoBase *pObject; // ecx
-  Scaleform::GFx::SWFProcessInfo *pAltStream; // ecx
+  Scaleform::GFx::SWFProcessInfo *pAltStream; // eax
+  Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // eax
 
   pObject = p->pLoadStates.pObject->pVideoPlayerState.pObject;
   if ( pObject )
@@ -15,6 +16,12 @@ void __stdcall Scaleform::GFx::GFx_DefineVideoStream(
     pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
     if ( !pAltStream )
       pAltStream = &p->ProcessInfo;
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)pAltStream);
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      &pAltStream->Stream,
+      "GFx_DefineVideoStream: Video library is not set.\n");
+    p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
+    if ( !p_ProcessInfo )
+      p_ProcessInfo = &p->ProcessInfo;
+    Scaleform::GFx::Stream::LogTagBytes(&p_ProcessInfo->Stream);
   }
 }

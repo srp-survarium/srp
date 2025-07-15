@@ -1,7 +1,7 @@
-int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bignum_ctx *ctx)
+int __cdecl RSA_eay_mod_exp(bignum_pool_item *r0, const bignum_st *I, rsa_st *rsa, bignum_ctx *ctx)
 {
-  bignum_st *v4; // ebx
-  bignum_st *v5; // eax
+  bignum_pool_item *v4; // ebx
+  bignum_pool_item *v5; // eax
   bool v6; // zf
   bignum_st *p; // eax
   bignum_st *p_a; // ebp
@@ -20,15 +20,15 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
   int v21; // eax
   bignum_st *v22; // eax
   bignum_st *dmp1; // ecx
-  const bignum_st *v24; // eax
+  bignum_pool_item *v24; // eax
   bignum_st *v25; // eax
-  const bignum_st *v26; // eax
+  bignum_pool_item *v26; // eax
   bignum_st *e; // ecx
   bignum_st *n; // eax
   bignum_st *v29; // ebx
   bignum_st *v30; // eax
   bignum_st *v31; // ecx
-  bignum_st *b; // [esp+10h] [ebp-88h]
+  bignum_pool_item *b; // [esp+10h] [ebp-88h]
   const bignum_st *mod; // [esp+14h] [ebp-84h]
   int v35; // [esp+18h] [ebp-80h]
   bignum_st v36; // [esp+1Ch] [ebp-7Ch] BYREF
@@ -47,7 +47,7 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
   b = BN_CTX_get(ctx);
   v5 = BN_CTX_get(ctx);
   v6 = (rsa->flags & 0x100) == 0;
-  rm = v5;
+  rm = (bignum_st *)v5;
   if ( v6 )
   {
     BN_init(&a);
@@ -73,13 +73,13 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
     mod = rsa->q;
   }
   if ( ((rsa->flags & 4) == 0
-     || BN_MONT_CTX_set_locked(&rsa->_method_mod_p, 9, p_a, ctx)
-     && BN_MONT_CTX_set_locked(&rsa->_method_mod_q, 9, mod, ctx))
-    && ((rsa->flags & 2) == 0 || BN_MONT_CTX_set_locked(&rsa->_method_mod_n, 9, rsa->n, ctx)) )
+     || BN_MONT_CTX_set_locked((int)ctx, &rsa->_method_mod_p, 9, p_a, ctx)
+     && BN_MONT_CTX_set_locked((int)ctx, &rsa->_method_mod_q, 9, mod, ctx))
+    && ((rsa->flags & 2) == 0 || BN_MONT_CTX_set_locked((int)ctx, &rsa->_method_mod_n, 9, rsa->n, ctx)) )
   {
     if ( (rsa->flags & 0x100) != 0 )
     {
-      v14 = BN_div(0, v4, I, rsa->q, ctx);
+      v14 = BN_div(0, v4->vals, I, rsa->q, ctx);
     }
     else
     {
@@ -92,7 +92,7 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
       v37.neg = I->neg;
       v13 = rsa->q;
       v37.flags = v37.flags & 1 | flags & 0xFFFFFFFE | 6;
-      v14 = BN_div(0, v4, &v37, v13, ctx);
+      v14 = BN_div(0, v4->vals, &v37, v13, ctx);
     }
     if ( v14 )
     {
@@ -110,11 +110,11 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
         dmq1 = (bignum_st *)v40;
         v41 = v41 & 1 | v15->flags & 0xFFFFFFFE | 6;
       }
-      if ( rsa->meth->bn_mod_exp(b, v4, dmq1, rsa->q, ctx, rsa->_method_mod_q) )
+      if ( rsa->meth->bn_mod_exp((bignum_st *)b, (const bignum_st *)v4, dmq1, rsa->q, ctx, rsa->_method_mod_q) )
       {
         if ( (rsa->flags & 0x100) != 0 )
         {
-          v21 = BN_div(0, v4, I, rsa->p, ctx);
+          v21 = BN_div(0, v4->vals, I, rsa->p, ctx);
         }
         else
         {
@@ -127,7 +127,7 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
           v37.neg = I->neg;
           v20 = rsa->p;
           v37.flags = v37.flags & 1 | v19 & 0xFFFFFFFE | 6;
-          v21 = BN_div(0, v4, &v37, v20, ctx);
+          v21 = BN_div(0, v4->vals, &v37, v20, ctx);
         }
         if ( v21 )
         {
@@ -145,40 +145,41 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
             dmp1 = (bignum_st *)v42;
             v43 = v43 & 1 | v22->flags & 0xFFFFFFFE | 6;
           }
-          if ( rsa->meth->bn_mod_exp(r0, v4, dmp1, rsa->p, ctx, rsa->_method_mod_p) && BN_sub(r0, r0, b) )
+          if ( rsa->meth->bn_mod_exp((bignum_st *)r0, (const bignum_st *)v4, dmp1, rsa->p, ctx, rsa->_method_mod_p)
+            && BN_sub(r0->vals, r0->vals, b->vals) )
           {
             v24 = r0;
-            if ( r0->neg )
+            if ( r0->vals[0].neg )
             {
-              if ( !BN_add(r0, r0, rsa->p) )
-                goto err_109;
+              if ( !BN_add(r0->vals, r0->vals, rsa->p) )
+                goto err_111;
               v24 = r0;
             }
-            if ( BN_mul(v4, v24, rsa->iqmp, ctx) )
+            if ( BN_mul(v4, v24, (bignum_pool_item *)rsa->iqmp, ctx) )
             {
               if ( (rsa->flags & 0x100) != 0 )
               {
-                v25 = v4;
+                v25 = (bignum_st *)v4;
               }
               else
               {
-                v44.d = v4->d;
-                v44.top = v4->top;
-                v44.dmax = v4->dmax;
-                v44.neg = v4->neg;
+                v44.d = v4->vals[0].d;
+                v44.top = v4->vals[0].top;
+                v44.dmax = v4->vals[0].dmax;
+                v44.neg = v4->vals[0].neg;
                 v25 = &v44;
-                v44.flags = v44.flags & 1 | v4->flags & 0xFFFFFFFE | 6;
+                v44.flags = v44.flags & 1 | v4->vals[0].flags & 0xFFFFFFFE | 6;
               }
-              if ( BN_div(0, r0, v25, rsa->p, ctx) )
+              if ( BN_div(0, r0->vals, v25, rsa->p, ctx) )
               {
                 v26 = r0;
-                if ( r0->neg )
+                if ( r0->vals[0].neg )
                 {
-                  if ( !BN_add(r0, r0, rsa->p) )
-                    goto err_109;
+                  if ( !BN_add(r0->vals, r0->vals, rsa->p) )
+                    goto err_111;
                   v26 = r0;
                 }
-                if ( BN_mul(v4, v26, rsa->q, ctx) && BN_add(r0, v4, b) )
+                if ( BN_mul(v4, v26, (bignum_pool_item *)rsa->q, ctx) && BN_add(r0->vals, v4->vals, b->vals) )
                 {
                   e = rsa->e;
                   if ( !e )
@@ -187,7 +188,7 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
                   if ( !n )
                     goto LABEL_51;
                   v29 = rm;
-                  if ( rsa->meth->bn_mod_exp(rm, r0, e, n, ctx, rsa->_method_mod_n)
+                  if ( rsa->meth->bn_mod_exp(rm, (const bignum_st *)r0, e, n, ctx, rsa->_method_mod_n)
                     && BN_sub(v29, v29, I)
                     && BN_div(0, v29, v29, rsa->n, ctx)
                     && (!v29->neg || BN_add(v29, v29, rsa->n)) )
@@ -202,7 +203,7 @@ int __cdecl RSA_eay_mod_exp(bignum_st *r0, const bignum_st *I, rsa_st *rsa, bign
                                         v36.neg = v30->neg,
                                         v31 = &v36,
                                         v36.flags = v36.flags & 1 | v30->flags & 0xFFFFFFFE | 6),
-                          rsa->meth->bn_mod_exp(r0, I, v31, rsa->n, ctx, rsa->_method_mod_n)) )
+                          rsa->meth->bn_mod_exp((bignum_st *)r0, I, v31, rsa->n, ctx, rsa->_method_mod_n)) )
                     {
 LABEL_51:
                       v35 = 1;
@@ -216,7 +217,7 @@ LABEL_51:
       }
     }
   }
-err_109:
+err_111:
   BN_CTX_end(ctx);
   return v35;
 }

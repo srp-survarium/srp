@@ -1,50 +1,37 @@
-void __thiscall vostok::collision::colliders::aabb_object::add_objects(
-        vostok::collision::colliders::aabb_object *this,
-        const vostok::collision::oct_node *node)
+void __userpurge vostok::collision::colliders::aabb_object::add_objects(
+        vostok::collision::colliders::aabb_object *this@<ecx>,
+        vostok::buffer_vector<vostok::collision::object const *> node)
 {
-  const vostok::collision::oct_node *v2; // edi
-  vostok::collision::oct_node **p_parent; // ebx
-  const vostok::collision::oct_node *v5; // esi
-  const vostok::collision::oct_node *i; // edi
-  vostok::vectora<vostok::collision::object const *> *m_objects; // esi
-  const void **M_finish; // eax
-  const stlp_std::__true_type *v9; // [esp+0h] [ebp-10h]
-  unsigned int v10; // [esp+4h] [ebp-Ch]
-  bool v11; // [esp+8h] [ebp-8h]
+  const vostok::collision::object **m_begin; // esi
+  const vostok::collision::object **v3; // edi
+  const vostok::collision::object **v4; // ebx
+  vostok::collision::object *i; // edi
+  vostok::buffer_vector<vostok::collision::object const *> *m_objects; // esi
+  vostok::buffer_vector<vostok::collision::object const *> v7; // [esp-4h] [ebp-18h]
 
-  v2 = node;
-  p_parent = &node->parent;
-  v5 = node;
+  m_begin = node.m_begin;
+  v3 = node.m_begin + 8;
+  v4 = node.m_begin;
   do
   {
-    if ( v5->octants[0] )
-      vostok::collision::colliders::aabb_object::add_objects(this, v5->octants[0]);
-    v5 = (const vostok::collision::oct_node *)((char *)v5 + 4);
+    if ( *v4 )
+    {
+      v7.m_begin = (const vostok::collision::object **)*v4;
+      vostok::collision::colliders::aabb_object::add_objects(this, v7);
+    }
+    ++v4;
   }
-  while ( v5 != (const vostok::collision::oct_node *)p_parent );
-  for ( i = (const vostok::collision::oct_node *)v2->objects; i; i = i->octants[7] )
+  while ( v4 != v3 );
+  for ( i = (vostok::collision::object *)m_begin[9]; i; i = i->m_next )
   {
-    if ( ((int)i[1].octants[0] & this->m_query_type) != 0 )
+    if ( (i->m_type & this->m_query_type) != 0 )
     {
       m_objects = this->m_objects;
-      M_finish = m_objects->_M_impl._M_finish;
-      node = i;
-      if ( M_finish == m_objects->_M_impl._M_end_of_storage._M_data )
-      {
-        stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int>>::_M_insert_overflow(
-          (stlp_std::priv::_Impl_vector<unsigned int,vostok::vectora_allocator<unsigned int> > *)&node,
-          (unsigned __int8 **)m_objects,
-          (int)M_finish,
-          (const unsigned int *)&node,
-          v9,
-          v10,
-          v11);
-      }
-      else
-      {
-        *M_finish = i;
-        ++m_objects->_M_impl._M_finish;
-      }
+      node.m_begin = (const vostok::collision::object **)i;
+      vostok::buffer_vector<vostok::collision::object const *>::push_back(
+        &node,
+        (int)m_objects,
+        (const vostok::collision::object **)&node);
     }
   }
 }

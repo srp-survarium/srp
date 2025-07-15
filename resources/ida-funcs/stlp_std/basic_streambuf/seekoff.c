@@ -5,9 +5,12 @@ stlp_std::fpos<int> *__thiscall stlp_std::basic_streambuf<char,stlp_std::char_tr
         int a4,
         int a5)
 {
+  stlp_std::fpos<int> *v5; // eax
+
+  v5 = result;
   result->_M_pos = -1;
   result->_M_st = 0;
-  return result;
+  return v5;
 }
 
 

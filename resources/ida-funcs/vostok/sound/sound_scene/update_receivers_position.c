@@ -1,40 +1,59 @@
-void __thiscall vostok::sound::sound_scene::update_receivers_position(vostok::sound::sound_scene *this)
+void __userpurge vostok::sound::sound_scene::update_receivers_position(
+        vostok::sound::sound_scene *this@<ecx>,
+        float a2@<xmm0>,
+        int a3)
 {
-  const vostok::math::float4x4 *v1; // eax
-  const vostok::math::float4x4 *v2; // eax
-  vostok::collision::object *v4; // [esp+Ch] [ebp-1DCh]
-  vostok::math::float3 *v5; // [esp+18h] [ebp-1D0h]
-  unsigned __int8 dst[64]; // [esp+1Ch] [ebp-1CCh] BYREF
-  vostok::collision::object *m_collision; // [esp+70h] [ebp-178h]
-  char v8; // [esp+77h] [ebp-171h]
-  vostok::math::half3_pod *p_m_val; // [esp+F8h] [ebp-F0h]
-  vostok::math::float3 result; // [esp+FCh] [ebp-ECh] BYREF
-  char v11; // [esp+10Bh] [ebp-DDh]
-  vostok::math::float4x4 v12; // [esp+10Ch] [ebp-DCh] BYREF
-  vostok::math::float4x4 left; // [esp+14Ch] [ebp-9Ch] BYREF
-  vostok::math::float3 v14; // [esp+18Ch] [ebp-5Ch] BYREF
-  vostok::math::float4x4 v15; // [esp+198h] [ebp-50h] BYREF
-  vostok::math::float3 position; // [esp+1D8h] [ebp-10h] BYREF
-  vostok::sound::receiver_collision *rc; // [esp+1E4h] [ebp-4h]
+  int v3; // ebx
+  unsigned __int16 *v4; // esi
+  vostok::math::half_pod *v5; // ecx
+  vostok::math::half_pod *v6; // ecx
+  float *v7; // ebx
+  float v8; // xmm1_4
+  float v9; // xmm2_4
+  float v10; // xmm0_4
+  vostok::math::float4x4 *v11; // eax
+  vostok::math::float4x4 v12; // [esp+Ch] [ebp-F0h] BYREF
+  vostok::math::float4x4 v13; // [esp+4Ch] [ebp-B0h] BYREF
+  vostok::math::float4x4 v14; // [esp+8Ch] [ebp-70h] BYREF
+  vostok::math::float3 v15; // [esp+CCh] [ebp-30h] BYREF
+  vostok::math::float3 v16; // [esp+D8h] [ebp-24h]
+  vostok::math::float3 v17; // [esp+E4h] [ebp-18h] BYREF
+  vostok::math::float4x4 *right; // [esp+F0h] [ebp-Ch]
+  int v19; // [esp+F4h] [ebp-8h]
 
-  for ( rc = this->m_receivers.m_first; rc; rc = rc->m_next )
+  v3 = *(_DWORD *)(a3 + 652);
+  v19 = v3;
+  if ( v3 )
   {
-    v11 = 0;
-    p_m_val = &rc->m_position->m_data.m_val;
-    vostok::math::half3_pod::operator vostok::math::float3(p_m_val, &result);
-    position = result;
-    v8 = 0;
-    m_collision = rc->m_collision;
-    v5 = vostok::math::aabb::extents(&m_collision->m_aabb, &v14);
-    memset(dst, 0, sizeof(dst));
-    *(float *)dst = v5->x;
-    *(float *)&dst[20] = v5->y;
-    *(float *)&dst[40] = v5->z;
-    *(float *)&dst[60] = FLOAT_1_0;
-    qmemcpy((void *)&left, dst, sizeof(left));
-    v4 = rc->m_collision;
-    v1 = vostok::math::create_translation(&v15, &position);
-    v2 = vostok::math::operator*(&v12, &left, v1);
-    this->m_spatial_tree->move(this->m_spatial_tree, v4, v2);
+    while ( 1 )
+    {
+      v4 = *(unsigned __int16 **)v3;
+      vostok::math::half_pod::operator float((vostok::math::half_pod *)this, *(unsigned __int16 **)v3);
+      v16.x = a2;
+      vostok::math::half_pod::operator float(v5, v4 + 1);
+      v16.y = a2;
+      vostok::math::half_pod::operator float(v6, v4 + 2);
+      v7 = *(float **)(v3 + 8);
+      v8 = v7[5] - v7[2];
+      v9 = v7[6] - v7[3];
+      v16.z = a2;
+      v10 = v7[4] - v7[1];
+      v15 = v16;
+      a2 = v10 * 0.5;
+      v17.x = a2;
+      v17.y = v8 * 0.5;
+      v17.z = v9 * 0.5;
+      right = vostok::math::create_translation(&v15, &v13);
+      v11 = vostok::math::create_scale(&v17, &v12);
+      vostok::math::mul4x3(right, v11, &v14);
+      (*(void (__thiscall **)(_DWORD, float *, vostok::math::float4x4 *))(**(_DWORD **)(a3 + 608) + 8))(
+        *(_DWORD *)(a3 + 608),
+        v7,
+        &v14);
+      v19 = *(_DWORD *)(v19 + 12);
+      if ( !v19 )
+        break;
+      v3 = v19;
+    }
   }
 }

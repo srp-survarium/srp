@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::StrokeSorter::FinalizePath(
   unsigned int v8; // ebx
   Scaleform::Render::StrokeSorter::PathType *v9; // ecx
   unsigned int v10; // eax
-  unsigned int p_4; // [esp+Ch] [ebp-4h]
+  unsigned int v11; // [esp+Ch] [ebp-4h]
 
   LastVertex = this->LastVertex;
   Size = this->SrcVertices.Size;
@@ -21,9 +21,9 @@ void __thiscall Scaleform::Render::StrokeSorter::FinalizePath(
   }
   else
   {
-    p_4 = Size - LastVertex;
+    v11 = Size - LastVertex;
     if ( closeFlag )
-      p_4 |= 0x20000000u;
+      v11 |= 0x20000000u;
     v8 = this->SrcPaths.Size >> 4;
     if ( v8 >= this->SrcPaths.NumPages )
       Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
@@ -32,7 +32,7 @@ void __thiscall Scaleform::Render::StrokeSorter::FinalizePath(
     v9 = this->SrcPaths.Pages[v8];
     v10 = this->SrcPaths.Size & 0xF;
     v9[v10].start = LastVertex;
-    v9[v10].numVer = p_4;
+    v9[v10].numVer = v11;
     ++this->SrcPaths.Size;
     this->LastVertex = this->SrcVertices.Size;
   }

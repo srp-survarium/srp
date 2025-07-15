@@ -52,12 +52,12 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::appendRotatio
          degrees * 3.141592653589793 / 180.0,
          (const Scaleform::Render::Point3<double> *)&v13,
          pivot);
-  memcpy((unsigned __int8 *)&dst, (unsigned __int8 *)&this->mat4, sizeof(dst));
+  memcpy((int)&dst, (const __m128i *)&this->mat4, sizeof(dst));
   Scaleform::Render::Matrix4x4<double>::MultiplyMatrix_NonOpt(&this->mat4, v7, &dst);
   if ( this->pDispObj )
   {
     Scaleform::Render::Matrix4x4<double>::operator Scaleform::Render::Matrix3x4<float>(&this->mat4, &v13);
-    memcpy((unsigned __int8 *)pivot, (unsigned __int8 *)&v13, sizeof(pivot));
+    memcpy((int)pivot, (const __m128i *)&v13, sizeof(pivot));
     this->pDispObj->SetMatrix3D(this->pDispObj, (const Scaleform::Render::Matrix3x4<float> *)pivot);
   }
 }

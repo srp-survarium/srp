@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::DisplayObjectBase::SetRendererString(
         Scaleform::GFx::DisplayObjectBase *this,
-        char *str)
+        const __m128i *str)
 {
   Scaleform::Render::TreeNode *RenderNode; // eax
   Scaleform::Render::ContextImpl::Entry *v3; // esi

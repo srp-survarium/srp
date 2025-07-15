@@ -3,377 +3,418 @@ char __thiscall Scaleform::GFx::AS3ValueObjectInterface::SetDisplayInfo(
         _DWORD *pdata,
         const Scaleform::GFx::Value::DisplayInfo *cinfo)
 {
-  int v3; // ecx
-  Scaleform::GFx::TextField *v5; // ebx
-  const Scaleform::GFx::Value::DisplayInfo *v6; // esi
+  Scaleform::GFx::AMP::ViewStats *v3; // eax
+  int v4; // ecx
+  Scaleform::AmpStats *Stats; // esi
+  Scaleform::AmpStats_vtbl *v6; // edi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::GFx::TextField *v9; // ebx
+  const Scaleform::GFx::Value::DisplayInfo *v10; // esi
   Scaleform::Render::TreeNode *RenderNode; // eax
-  const Scaleform::Render::Cxform *Cxform; // esi
-  long double v9; // st7
-  double v10; // st7
+  const Scaleform::Render::Cxform *Cxform; // eax
+  long double v13; // st7
+  double v14; // st7
   Scaleform::GFx::DisplayObjectBase::GeomDataType *pGeomData; // ecx
-  long double v12; // st7
-  Scaleform::GFx::DisplayObjectBase::GeomDataType *v13; // ecx
-  long double XRotation; // st7
-  Scaleform::GFx::DisplayObjectBase::GeomDataType *v15; // edi
   long double v16; // st7
+  Scaleform::GFx::DisplayObjectBase::GeomDataType *v17; // ecx
+  long double XRotation; // st7
+  Scaleform::GFx::DisplayObjectBase::GeomDataType *v19; // edi
+  long double v20; // st7
   long double YRotation; // st7
-  Scaleform::GFx::DisplayObjectBase::GeomDataType *v18; // edi
-  long double v19; // st7
-  long double (__thiscall *GetFOV)(Scaleform::GFx::DisplayObjectBase *); // eax
-  unsigned __int64 v21; // st7
   Scaleform::GFx::DisplayObjectBase::GeomDataType *v22; // edi
-  float *v23; // eax
+  long double v23; // st7
+  long double (__thiscall *GetFOV)(Scaleform::GFx::DisplayObjectBase *); // eax
+  unsigned __int64 v25; // st7
+  Scaleform::GFx::DisplayObjectBase::GeomDataType *v26; // edi
+  float *v27; // eax
   long double Y; // st7
   long double Rotation; // st7
-  long double v26; // st7
-  long double v27; // st6
-  double v28; // st7
-  long double v29; // st6
-  bool v30; // c0
-  bool v31; // c3
+  long double v30; // st7
+  long double v31; // st6
   double v32; // st7
-  double v33; // st7
-  long double v34; // st6
-  long double v35; // st7
-  long double v36; // st7
-  long double v37; // st7
-  int v38; // eax
+  long double v33; // st6
+  bool v34; // c0
+  bool v35; // c3
+  double v36; // st7
+  double v37; // st7
+  long double v38; // st6
   long double v39; // st7
   long double v40; // st7
-  int v41; // eax
-  bool v42; // al
-  Scaleform::GFx::TextField_vtbl *v43; // edx
-  long double v44; // st6
-  long double v45; // st6
-  long double v46; // st6
-  float v; // [esp+8D4h] [ebp-A8h]
-  Scaleform::Render::EdgeAAMode v_4; // [esp+8D8h] [ebp-A4h]
-  float v_4a; // [esp+8D8h] [ebp-A4h]
-  char result_2; // [esp+8EAh] [ebp-92h]
-  bool result_3; // [esp+8EBh] [ebp-91h]
-  long double result_4; // [esp+8ECh] [ebp-90h] BYREF
-  long double sx; // [esp+8F4h] [ebp-88h]
-  long double FOV; // [esp+8FCh] [ebp-80h]
-  long double ZScale; // [esp+904h] [ebp-78h]
-  Scaleform::Render::Matrix2x4<float> v56; // [esp+90Ch] [ebp-70h] BYREF
-  Scaleform::Render::Cxform v57; // [esp+92Ch] [ebp-50h] BYREF
-  long double v58; // [esp+954h] [ebp-28h]
-  long double X; // [esp+95Ch] [ebp-20h]
-  long double v60; // [esp+964h] [ebp-18h]
-  long double v61; // [esp+96Ch] [ebp-10h]
-  long double v62; // [esp+974h] [ebp-8h]
+  long double v41; // st7
+  int v42; // eax
+  long double v43; // st7
+  long double v44; // st7
+  int v45; // eax
+  bool v46; // al
+  Scaleform::GFx::TextField_vtbl *v47; // edx
+  long double v48; // st6
+  long double v49; // st6
+  long double v50; // st6
+  Scaleform::AmpStats *v51; // esi
+  Scaleform::AmpStats_vtbl *v52; // edi
+  unsigned __int64 v53; // rax
+  float sy; // [esp+A1Ch] [ebp-B8h]
+  Scaleform::Render::EdgeAAMode sy_4; // [esp+A20h] [ebp-B4h]
+  float sy_4a; // [esp+A20h] [ebp-B4h]
+  char result_2; // [esp+A32h] [ebp-A2h]
+  bool result_3; // [esp+A33h] [ebp-A1h]
+  long double result_4; // [esp+A34h] [ebp-A0h] BYREF
+  long double sx; // [esp+A3Ch] [ebp-98h]
+  long double FOV; // [esp+A44h] [ebp-90h]
+  long double ZScale; // [esp+A4Ch] [ebp-88h]
+  Scaleform::Render::Matrix2x4<float> v63; // [esp+A54h] [ebp-80h] BYREF
+  Scaleform::Render::Cxform v64; // [esp+A74h] [ebp-60h] BYREF
+  long double X; // [esp+A9Ch] [ebp-38h]
+  long double v66; // [esp+AA4h] [ebp-30h]
+  long double v67; // [esp+AACh] [ebp-28h]
+  Scaleform::AmpFunctionTimer v68; // [esp+AB4h] [ebp-20h] BYREF
+  long double v69; // [esp+AC4h] [ebp-10h]
+  long double v70; // [esp+ACCh] [ebp-8h]
 
-  v3 = pdata[5];
-  if ( (unsigned int)(*(_DWORD *)(v3 + 60) - 17) >= 0xC || (*(_DWORD *)(v3 + 56) & 0x20) != 0 )
+  v3 = this->GetAdvanceStats(this);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v68,
+    v3,
+    "ObjectInterface::SetDisplayInfo",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_ObjectInterface_SetDisplayInfo);
+  v4 = pdata[5];
+  if ( (unsigned int)(*(_DWORD *)(v4 + 60) - 17) >= 0xC || (*(_DWORD *)(v4 + 56) & 0x20) != 0 )
+  {
+    Stats = v68.Stats;
+    if ( v68.Stats )
+    {
+      v6 = v68.Stats->__vftable;
+      ProfileTicks = Scaleform::Timer::GetProfileTicks();
+      ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))v6->NativePopCallstack)(
+        Stats,
+        ProfileTicks - LODWORD(v68.StartTicks),
+        (ProfileTicks - v68.StartTicks) >> 32);
+    }
     return 0;
-  v5 = (Scaleform::GFx::TextField *)pdata[12];
+  }
+  v9 = (Scaleform::GFx::TextField *)pdata[12];
   result_2 = 0;
-  v6 = cinfo;
-  result_3 = v5->GetType(v5) == MouseWheel;
+  v10 = cinfo;
+  result_3 = v9->GetType(v9) == MouseWheel;
   if ( (cinfo->VarsSet & 0x4000) != 0 )
   {
-    v_4 = cinfo->EdgeAAMode;
-    RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(v5);
-    Scaleform::Render::TreeNode::SetEdgeAAMode(RenderNode, v_4);
+    sy_4 = cinfo->EdgeAAMode;
+    RenderNode = Scaleform::GFx::DisplayObjectBase::GetRenderNode(v9);
+    Scaleform::Render::TreeNode::SetEdgeAAMode(RenderNode, sy_4);
   }
   if ( (cinfo->VarsSet & 0x20) != 0 && !Scaleform::GFx::NumberUtil::IsNaN(cinfo->Alpha) )
   {
-    Cxform = Scaleform::GFx::DisplayObjectBase::GetCxform(v5);
-    v9 = cinfo->Alpha / 100.0;
-    qmemcpy(&v57, Cxform, sizeof(v57));
-    v57.M[0][3] = v9;
-    Scaleform::GFx::DisplayObjectBase::SetCxform(v5, &v57);
-    v5->SetAcceptAnimMoves(v5, 0);
-    v6 = cinfo;
+    Cxform = Scaleform::GFx::DisplayObjectBase::GetCxform(v9);
+    v13 = cinfo->Alpha / 100.0;
+    qmemcpy(&v64, Cxform, sizeof(v64));
+    v64.M[0][3] = v13;
+    Scaleform::GFx::DisplayObjectBase::SetCxform(v9, &v64);
+    v9->SetAcceptAnimMoves(v9, 0);
+    v10 = cinfo;
   }
-  if ( (v6->VarsSet & 0x40) != 0 )
-    v5->SetVisible(v5, v6->Visible);
-  if ( SLOBYTE(v6->VarsSet) < 0 )
+  if ( (v10->VarsSet & 0x40) != 0 )
+    v9->SetVisible(v9, v10->Visible);
+  if ( SLOBYTE(v10->VarsSet) < 0 )
   {
-    FOV = v6->Z * 20.0;
+    FOV = v10->Z * 20.0;
     if ( Scaleform::GFx::NumberUtil::IsNaN(FOV) )
-      v10 = 0.0;
+      v14 = 0.0;
     else
-      v10 = FOV;
-    result_4 = v10;
-    if ( v10 == -INFINITY || (result_4 = v10, v10 == INFINITY) )
-      v10 = 0.0;
-    pGeomData = v5->pGeomData;
-    if ( pGeomData->Z != v10 )
+      v14 = FOV;
+    result_4 = v14;
+    if ( v14 == -INFINITY || (result_4 = v14, v14 == INFINITY) )
+      v14 = 0.0;
+    pGeomData = v9->pGeomData;
+    if ( pGeomData->Z != v14 )
     {
-      pGeomData->Z = v10;
+      pGeomData->Z = v14;
       result_2 = 1;
     }
   }
-  if ( (v6->VarsSet & 0x400) != 0 )
+  if ( (v10->VarsSet & 0x400) != 0 )
   {
-    ZScale = v6->ZScale;
+    ZScale = v10->ZScale;
     if ( Scaleform::GFx::NumberUtil::IsNaN(ZScale)
       || (result_4 = ZScale, ZScale == -INFINITY)
       || Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(ZScale) )
     {
-      v12 = 100.0;
+      v16 = 100.0;
     }
     else
     {
-      v12 = ZScale;
+      v16 = ZScale;
     }
-    v13 = v5->pGeomData;
-    if ( v12 != v13->ZScale )
+    v17 = v9->pGeomData;
+    if ( v16 != v17->ZScale )
     {
-      v13->ZScale = v12;
+      v17->ZScale = v16;
       result_2 = 1;
     }
   }
-  if ( (v6->VarsSet & 0x100) != 0 )
+  if ( (v10->VarsSet & 0x100) != 0 )
   {
-    XRotation = v6->XRotation;
-    v15 = v5->pGeomData;
-    if ( v15->XRotation != XRotation )
+    XRotation = v10->XRotation;
+    v19 = v9->pGeomData;
+    if ( v19->XRotation != XRotation )
     {
-      v16 = fmod(XRotation, 360.0);
-      if ( v16 <= 180.0 )
+      v20 = fmod(XRotation, 360.0);
+      if ( v20 <= 180.0 )
       {
-        if ( v16 < -180.0 )
-          v16 = v16 + 360.0;
-        v15->XRotation = v16;
+        if ( v20 < -180.0 )
+          v20 = v20 + 360.0;
+        v19->XRotation = v20;
         result_2 = 1;
       }
       else
       {
         result_2 = 1;
-        v15->XRotation = v16 - 360.0;
+        v19->XRotation = v20 - 360.0;
       }
     }
   }
-  if ( (v6->VarsSet & 0x200) == 0 || (YRotation = v6->YRotation, v18 = v5->pGeomData, v18->YRotation == YRotation) )
+  if ( (v10->VarsSet & 0x200) == 0 || (YRotation = v10->YRotation, v22 = v9->pGeomData, v22->YRotation == YRotation) )
   {
     if ( !result_2 )
-      goto LABEL_44;
+      goto LABEL_46;
   }
   else
   {
-    v19 = fmod(YRotation, 360.0);
-    if ( v19 <= 180.0 )
+    v23 = fmod(YRotation, 360.0);
+    if ( v23 <= 180.0 )
     {
-      if ( v19 < -180.0 )
-        v19 = v19 + 360.0;
-      v18->YRotation = v19;
+      if ( v23 < -180.0 )
+        v23 = v23 + 360.0;
+      v22->YRotation = v23;
     }
     else
     {
-      v18->YRotation = v19 - 360.0;
+      v22->YRotation = v23 - 360.0;
     }
   }
-  v5->UpdateTransform3D(v5);
-LABEL_44:
-  if ( (v6->VarsSet & 0x800) != 0 )
+  v9->UpdateTransform3D(v9);
+LABEL_46:
+  if ( (v10->VarsSet & 0x800) != 0 )
   {
-    GetFOV = v5->GetFOV;
-    FOV = v6->FOV;
-    if ( FOV != GetFOV(v5) )
+    GetFOV = v9->GetFOV;
+    FOV = v10->FOV;
+    if ( FOV != GetFOV(v9) )
     {
-      *(double *)&v21 = fmod(FOV, 180.0);
-      ((void (__thiscall *)(Scaleform::GFx::TextField *, _DWORD, _DWORD))v5->SetFOV)(v5, v21, HIDWORD(v21));
+      *(double *)&v25 = fmod(FOV, 180.0);
+      ((void (__thiscall *)(Scaleform::GFx::TextField *, _DWORD, _DWORD))v9->SetFOV)(v9, v25, HIDWORD(v25));
     }
   }
   else
   {
-    if ( (v6->VarsSet & 0x1000) != 0 )
-      v5->SetProjectionMatrix3D(v5, &v6->ProjectionMatrix3D);
-    if ( (v6->VarsSet & 0x2000) != 0 )
-      v5->SetViewMatrix3D(v5, &v6->ViewMatrix3D);
+    if ( (v10->VarsSet & 0x1000) != 0 )
+      v9->SetProjectionMatrix3D(v9, &v10->ProjectionMatrix3D);
+    if ( (v10->VarsSet & 0x2000) != 0 )
+      v9->SetViewMatrix3D(v9, &v10->ViewMatrix3D);
   }
-  if ( (v6->VarsSet & 0x1F) == 0 )
-    return 1;
+  if ( (v10->VarsSet & 0x1F) == 0 )
+    goto LABEL_126;
   if ( result_3 )
   {
-    v5->Flags |= 0x2000u;
-    Scaleform::GFx::TextField::SetDirtyFlag(v5);
+    v9->Flags |= 0x2000u;
+    Scaleform::GFx::TextField::SetDirtyFlag(v9);
   }
-  v5->SetAcceptAnimMoves(v5, 0);
-  v22 = v5->pGeomData;
-  v23 = (float *)v5->GetMatrix(v5);
-  v56.M[0][0] = *v23;
-  v56.M[0][1] = v23[1];
-  v56.M[0][2] = v23[2];
-  v56.M[0][3] = v23[3];
-  v56.M[1][0] = v23[4];
-  v56.M[1][1] = v23[5];
-  v56.M[1][2] = v23[6];
-  v56.M[1][3] = v23[7];
-  if ( result_3 && (v6->VarsSet & 3) != 0 )
+  v9->SetAcceptAnimMoves(v9, 0);
+  v26 = v9->pGeomData;
+  v27 = (float *)v9->GetMatrix(v9);
+  v63.M[0][0] = *v27;
+  v63.M[0][1] = v27[1];
+  v63.M[0][2] = v27[2];
+  v63.M[0][3] = v27[3];
+  v63.M[1][0] = v27[4];
+  v63.M[1][1] = v27[5];
+  v63.M[1][2] = v27[6];
+  v63.M[1][3] = v27[7];
+  if ( result_3 && (v10->VarsSet & 3) != 0 )
   {
-    Scaleform::GFx::TextField::TransformToTextRectSpace(v5, (Scaleform::Render::Point<float> *)&result_4, v6);
+    Scaleform::GFx::TextField::TransformToTextRectSpace(v9, (Scaleform::Render::Point<float> *)&result_4, v10);
     X = *(float *)&result_4;
     Y = *((float *)&result_4 + 1);
+LABEL_63:
+    v66 = Y;
+    goto LABEL_64;
   }
-  else
+  if ( (v10->VarsSet & 1) != 0 )
+    X = v10->X;
+  if ( (v10->VarsSet & 2) != 0 )
   {
-    if ( (v6->VarsSet & 1) != 0 )
-      X = v6->X;
-    if ( (v6->VarsSet & 2) == 0 )
-      goto LABEL_62;
-    Y = v6->Y;
+    Y = v10->Y;
+    goto LABEL_63;
   }
-  v60 = Y;
-LABEL_62:
-  LODWORD(sx) = v6->VarsSet;
-  if ( (LOBYTE(sx) & 0x1C) == 0 )
-    goto LABEL_92;
-  Scaleform::Render::Matrix2x4<float>::operator=((Scaleform::Render::Matrix2x4<float> *)&v57, &v22->OrigMatrix);
-  v57.M[0][3] = v56.M[0][3];
-  v57.M[1][3] = v56.M[1][3];
-  v62 = atan2(v57.M[1][0], v57.M[0][0]);
-  result_4 = sqrt(v57.M[0][0] * v57.M[0][0] + v57.M[1][0] * v57.M[1][0]);
-  v58 = sqrt(v57.M[1][1] * v57.M[1][1] + v57.M[0][1] * v57.M[0][1]);
-  ZScale = v22->XScale / 100.0;
-  v61 = v22->YScale / 100.0;
-  FOV = v22->Rotation * 3.141592653589793 / 180.0;
-  if ( (LOBYTE(sx) & 4) != 0 )
-    Rotation = v6->Rotation;
-  else
-    Rotation = Scaleform::GFx::NumberUtil::NaN();
-  sx = Rotation;
-  if ( !Scaleform::GFx::NumberUtil::IsNaN(Rotation) )
+LABEL_64:
+  LODWORD(sx) = v10->VarsSet;
+  if ( (LOBYTE(sx) & 0x1C) != 0 )
   {
-    v26 = fmod(sx, 360.0);
-    if ( v26 <= 180.0 )
-    {
-      v30 = v26 > -180.0;
-      v31 = -180.0 == v26;
-      v29 = v26;
-      v28 = 180.0;
-      if ( !v30 && !v31 )
-        v29 = v29 + 360.0;
-    }
+    Scaleform::Render::Matrix2x4<float>::operator=((Scaleform::Render::Matrix2x4<float> *)&v64, &v26->OrigMatrix);
+    v64.M[0][3] = v63.M[0][3];
+    v64.M[1][3] = v63.M[1][3];
+    v70 = atan2(v64.M[1][0], v64.M[0][0]);
+    result_4 = sqrt(v64.M[1][0] * v64.M[1][0] + v64.M[0][0] * v64.M[0][0]);
+    v67 = sqrt(v64.M[1][1] * v64.M[1][1] + v64.M[0][1] * v64.M[0][1]);
+    ZScale = v26->XScale / 100.0;
+    v69 = v26->YScale / 100.0;
+    FOV = v26->Rotation * 3.141592653589793 / 180.0;
+    if ( (LOBYTE(sx) & 4) != 0 )
+      Rotation = v10->Rotation;
     else
+      Rotation = Scaleform::GFx::NumberUtil::NaN();
+    sx = Rotation;
+    if ( !Scaleform::GFx::NumberUtil::IsNaN(Rotation) )
     {
-      v27 = v26;
-      v28 = 180.0;
-      v29 = v27 - 360.0;
+      v30 = fmod(sx, 360.0);
+      if ( v30 <= 180.0 )
+      {
+        v34 = v30 > -180.0;
+        v35 = -180.0 == v30;
+        v33 = v30;
+        v32 = 180.0;
+        if ( !v34 && !v35 )
+          v33 = v33 + 360.0;
+      }
+      else
+      {
+        v31 = v30;
+        v32 = 180.0;
+        v33 = v31 - 360.0;
+      }
+      v26->Rotation = v33;
+      FOV = v33 * 3.141592653589793 / v32;
     }
-    v22->Rotation = v29;
-    FOV = v29 * 3.141592653589793 / v28;
-  }
-  if ( (v6->VarsSet & 8) != 0 )
-    v32 = v6->XScale / 100.0;
-  else
-    v32 = Scaleform::GFx::NumberUtil::NaN();
-  sx = v32;
-  if ( ZScale != v32 && !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(v32) )
-  {
-    v22->XScale = v6->XScale;
-    if ( 0.0 == result_4 || sx > 1.0e16 )
-    {
-      result_4 = 1.0;
-      ZScale = 0.0;
-    }
+    if ( (v10->VarsSet & 8) != 0 )
+      v36 = v10->XScale / 100.0;
     else
+      v36 = Scaleform::GFx::NumberUtil::NaN();
+    sx = v36;
+    if ( ZScale != v36 && !Scaleform::GFx::NumberUtil::IsNaNOrInfinity(v36) )
     {
-      ZScale = sx;
+      v26->XScale = v10->XScale;
+      if ( 0.0 == result_4 || sx > 1.0e16 )
+      {
+        result_4 = 1.0;
+        ZScale = 0.0;
+      }
+      else
+      {
+        ZScale = sx;
+      }
     }
-  }
-  if ( (v6->VarsSet & 0x10) != 0 )
-    v33 = v6->YScale / 100.0;
-  else
-    v33 = Scaleform::GFx::NumberUtil::NaN();
-  sx = v33;
-  v34 = v61;
-  if ( v61 == v33 )
-    goto LABEL_89;
-  if ( Scaleform::GFx::NumberUtil::IsNaNOrInfinity(v33) )
-  {
-    v35 = v61;
-    goto LABEL_91;
-  }
-  v22->YScale = v6->YScale;
-  v35 = 0.0;
-  if ( 0.0 != v58 && (v34 = sx, sx <= 1.0e16) )
-LABEL_89:
-    v35 = v34;
-  else
-    v58 = 1.0;
+    if ( (v10->VarsSet & 0x10) != 0 )
+      v37 = v10->YScale / 100.0;
+    else
+      v37 = Scaleform::GFx::NumberUtil::NaN();
+    sx = v37;
+    v38 = v69;
+    if ( v69 == v37 )
+      goto LABEL_91;
+    if ( Scaleform::GFx::NumberUtil::IsNaNOrInfinity(v37) )
+    {
+      v39 = v69;
+      goto LABEL_93;
+    }
+    v26->YScale = v10->YScale;
+    v39 = 0.0;
+    if ( 0.0 != v67 && (v38 = sx, sx <= 1.0e16) )
 LABEL_91:
-  *(float *)&sx = FOV - v62;
-  v_4a = *(float *)&sx;
-  *(float *)&sx = v35 / v58;
-  v = *(float *)&sx;
-  *(float *)&sx = ZScale / result_4;
-  Scaleform::GFx::ASCharacter_MatrixScaleAndRotate2x2(
-    (Scaleform::Render::Matrix2x4<float> *)&v57,
-    *(float *)&sx,
-    v,
-    v_4a);
-  v56.M[0][0] = v57.M[0][0];
-  v56.M[0][1] = v57.M[0][1];
-  v56.M[0][2] = v57.M[0][2];
-  v56.M[0][3] = v57.M[0][3];
-  v56.M[1][0] = v57.M[1][0];
-  v56.M[1][1] = v57.M[1][1];
-  v56.M[1][2] = v57.M[1][2];
-  v56.M[1][3] = v57.M[1][3];
-LABEL_92:
-  if ( (v6->VarsSet & 1) != 0 )
-    v36 = X;
+      v39 = v38;
+    else
+      v67 = 1.0;
+LABEL_93:
+    *(float *)&sx = FOV - v70;
+    sy_4a = *(float *)&sx;
+    *(float *)&sx = v39 / v67;
+    sy = *(float *)&sx;
+    *(float *)&sx = ZScale / result_4;
+    Scaleform::GFx::ASCharacter_MatrixScaleAndRotate2x2(
+      (Scaleform::Render::Matrix2x4<float> *)&v64,
+      *(float *)&sx,
+      sy,
+      sy_4a);
+    v63.M[0][0] = v64.M[0][0];
+    v63.M[0][1] = v64.M[0][1];
+    v63.M[0][2] = v64.M[0][2];
+    v63.M[0][3] = v64.M[0][3];
+    v63.M[1][0] = v64.M[1][0];
+    v63.M[1][1] = v64.M[1][1];
+    v63.M[1][2] = v64.M[1][2];
+    v63.M[1][3] = v64.M[1][3];
+  }
+  if ( (v10->VarsSet & 1) != 0 )
+    v40 = X;
   else
-    v36 = Scaleform::GFx::NumberUtil::NaN();
-  result_4 = v36;
-  if ( !Scaleform::GFx::NumberUtil::IsNaN(v36) )
+    v40 = Scaleform::GFx::NumberUtil::NaN();
+  result_4 = v40;
+  if ( !Scaleform::GFx::NumberUtil::IsNaN(v40) )
   {
     FOV = result_4;
     if ( result_4 == -INFINITY || Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(result_4) )
-      v37 = 0.0;
+      v41 = 0.0;
     else
-      v37 = result_4;
-    v38 = (int)floor(v37 * 20.0);
-    LODWORD(sx) = v38;
-    v22->X = v38;
-    v56.M[0][3] = (float)v38;
+      v41 = result_4;
+    v42 = (int)floor(v41 * 20.0);
+    LODWORD(sx) = v42;
+    v26->X = v42;
+    v63.M[0][3] = (float)v42;
   }
-  if ( (v6->VarsSet & 2) != 0 )
-    v39 = v60;
+  if ( (v10->VarsSet & 2) != 0 )
+    v43 = v66;
   else
-    v39 = Scaleform::GFx::NumberUtil::NaN();
-  result_4 = v39;
-  if ( !Scaleform::GFx::NumberUtil::IsNaN(v39) )
+    v43 = Scaleform::GFx::NumberUtil::NaN();
+  result_4 = v43;
+  if ( !Scaleform::GFx::NumberUtil::IsNaN(v43) )
   {
     FOV = result_4;
     if ( result_4 == -INFINITY || Scaleform::GFx::NumberUtil::IsPOSITIVE_INFINITY(result_4) )
-      v40 = 0.0;
+      v44 = 0.0;
     else
-      v40 = result_4;
-    v41 = (int)floor(v40 * 20.0);
-    LODWORD(sx) = v41;
-    v22->Y = v41;
-    v56.M[1][3] = (float)v41;
+      v44 = result_4;
+    v45 = (int)floor(v44 * 20.0);
+    LODWORD(sx) = v45;
+    v26->Y = v45;
+    v63.M[1][3] = (float)v45;
   }
-  if ( Scaleform::Render::Matrix2x4<float>::IsValid(&v56) )
+  if ( Scaleform::Render::Matrix2x4<float>::IsValid(&v63) )
   {
-    v42 = Scaleform::GFx::DisplayObjectBase::Has3D(v5);
-    v43 = v5->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
-    if ( v42 )
-      v43->UpdateTransform3D(v5);
+    v46 = Scaleform::GFx::DisplayObjectBase::Has3D(v9);
+    v47 = v9->Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
+    if ( v46 )
+      v47->UpdateTransform3D(v9);
     else
-      v43->SetMatrix(v5, &v56);
+      v47->SetMatrix(v9, &v63);
   }
-  if ( !result_3 )
-    return 1;
-  if ( (v6->VarsSet & 1) != 0 )
+  if ( result_3 )
   {
-    v44 = X * 20.0;
-    if ( X * 20.0 <= 0.0 )
-      v45 = v44 - 0.5;
-    else
-      v45 = v44 + 0.5;
-    v22->X = (int)v45;
+    if ( (v10->VarsSet & 1) != 0 )
+    {
+      v48 = X * 20.0;
+      if ( X * 20.0 <= 0.0 )
+        v49 = v48 - 0.5;
+      else
+        v49 = v48 + 0.5;
+      v26->X = (int)v49;
+    }
+    if ( (v10->VarsSet & 2) != 0 )
+    {
+      v50 = v66 * 20.0;
+      if ( v66 * 20.0 <= 0.0 )
+        v26->Y = (int)(v50 - 0.5);
+      else
+        v26->Y = (int)(v50 + 0.5);
+    }
   }
-  if ( (v6->VarsSet & 2) == 0 )
-    return 1;
-  v46 = v60 * 20.0;
-  if ( v60 * 20.0 <= 0.0 )
-    v22->Y = (int)(v46 - 0.5);
-  else
-    v22->Y = (int)(v46 + 0.5);
+LABEL_126:
+  v51 = v68.Stats;
+  if ( v68.Stats )
+  {
+    v52 = v68.Stats->__vftable;
+    v53 = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))v52->NativePopCallstack)(
+      v51,
+      v53 - LODWORD(v68.StartTicks),
+      (v53 - v68.StartTicks) >> 32);
+  }
   return 1;
 }

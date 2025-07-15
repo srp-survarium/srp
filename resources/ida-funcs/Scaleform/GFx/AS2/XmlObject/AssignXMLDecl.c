@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS2::XmlObject::AssignXMLDecl(
         Scaleform::GFx::XML::Document *pdoc)
 {
   Scaleform::GFx::XML::Document *v4; // esi
-  char *pData; // esi
+  __m128i *pData; // esi
   unsigned int Size; // ebp
   Scaleform::GFx::AS2::Environment *v7; // edi
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
@@ -13,45 +13,45 @@ void __thiscall Scaleform::GFx::AS2::XmlObject::AssignXMLDecl(
   Scaleform::GFx::AS2::StringManager *v11; // eax
   Scaleform::GFx::ASStringNode *v12; // eax
   Scaleform::GFx::AS2::Value v14; // [esp+10h] [ebp-28h] BYREF
-  Scaleform::StringBuffer xmlDecl; // [esp+20h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v15; // [esp+20h] [ebp-18h] BYREF
 
-  Scaleform::StringBuffer::StringBuffer(&xmlDecl, (char *)&buf, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v15, (const __m128i *)uri, Scaleform::Memory::pGlobalHeap);
   v4 = pdoc;
   if ( pdoc )
   {
-    Scaleform::StringBuffer::AppendString(&xmlDecl, "<?", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"<?", 0xFFFFFFFF);
     if ( v4->XMLVersion.pNode->Size )
     {
-      Scaleform::StringBuffer::AppendString(&xmlDecl, "xml version=\"", 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(&xmlDecl, (char *)v4->XMLVersion.pNode->pData, 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(&xmlDecl, "\"", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"xml version=\"", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)v4->XMLVersion.pNode->pData, 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"\"", 0xFFFFFFFF);
     }
     if ( v4->Encoding.pNode->Size )
     {
       if ( v4->XMLVersion.pNode->Size )
-        Scaleform::StringBuffer::AppendString(&xmlDecl, (char *)&stru_95AF78, 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(&xmlDecl, "encoding=\"", 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(&xmlDecl, (char *)v4->Encoding.pNode->pData, 0xFFFFFFFF);
-      Scaleform::StringBuffer::AppendString(&xmlDecl, "\"", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)" ", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"encoding=\"", 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)v4->Encoding.pNode->pData, 0xFFFFFFFF);
+      Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"\"", 0xFFFFFFFF);
     }
     if ( v4->Standalone != -1 )
     {
       if ( v4->XMLVersion.pNode->Size || v4->Encoding.pNode->Size )
-        Scaleform::StringBuffer::AppendString(&xmlDecl, (char *)&stru_95AF78, 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)" ", 0xFFFFFFFF);
       if ( v4->Standalone )
-        Scaleform::StringBuffer::AppendString(&xmlDecl, "standalone=\"yes\"", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"standalone=\"yes\"", 0xFFFFFFFF);
       else
-        Scaleform::StringBuffer::AppendString(&xmlDecl, "standalone=\"no\"", 0xFFFFFFFF);
+        Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"standalone=\"no\"", 0xFFFFFFFF);
     }
-    Scaleform::StringBuffer::AppendString(&xmlDecl, "?>", 0xFFFFFFFF);
+    Scaleform::StringBuffer::AppendString(&v15, (const __m128i *)"?>", 0xFFFFFFFF);
   }
   if ( v4->XMLVersion.pNode->Size || v4->Encoding.pNode->Size || v4->Standalone != -1 )
   {
-    pData = xmlDecl.pData;
-    Size = xmlDecl.Size;
+    pData = (__m128i *)v15.pData;
+    Size = v15.Size;
     v7 = (Scaleform::GFx::AS2::Environment *)penv;
-    if ( !xmlDecl.pData )
-      pData = (char *)&buf;
+    if ( !v15.pData )
+      pData = (__m128i *)uri;
     StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager((Scaleform::GFx::AS2::GlobalContext *)penv[4].Size);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, pData, Size);
     ++StringNode->RefCount;
@@ -77,5 +77,5 @@ void __thiscall Scaleform::GFx::AS2::XmlObject::AssignXMLDecl(
     if ( StringNode->RefCount-- == 1 )
       Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
   }
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&xmlDecl);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v15);
 }

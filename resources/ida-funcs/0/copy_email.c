@@ -5,7 +5,7 @@ int __cdecl copy_email(X509_name_st *ctx, stack_st_GENERAL_NAME *gens, int move_
   int index_by_NID; // esi
   ui_string_st *entry; // ebp
   const asn1_string_st *v8; // eax
-  X509_name_st *nm; // [esp+14h] [ebp+4h]
+  X509_name_st *name; // [esp+14h] [ebp+4h]
 
   v3 = 0;
   v4 = 0;
@@ -17,26 +17,26 @@ int __cdecl copy_email(X509_name_st *ctx, stack_st_GENERAL_NAME *gens, int move_
   {
     if ( ctx->canon_enc )
     {
-      nm = *(X509_name_st **)(*(_DWORD *)ctx->canon_enc + 16);
+      name = *(X509_name_st **)(*(_DWORD *)ctx->canon_enc + 16);
       goto LABEL_9;
     }
 LABEL_19:
-    ERR_put_error(0x22u, 122, 125, ".\\crypto\\x509v3\\v3_alt.c", 353);
+    ERR_put_error(0, 0x22u, 122, 125, ".\\crypto\\x509v3\\v3_alt.c", 353);
     goto LABEL_20;
   }
-  nm = X509_get_subject_name((x509_st *)ctx->bytes);
+  name = X509_get_subject_name((x509_st *)ctx->bytes);
 LABEL_9:
-  index_by_NID = X509_NAME_get_index_by_NID(nm, 48, -1);
+  index_by_NID = X509_NAME_get_index_by_NID(name, 0x30u, -1);
   if ( index_by_NID < 0 )
     return 1;
   while ( 1 )
   {
-    entry = (ui_string_st *)X509_NAME_get_entry(nm, index_by_NID);
+    entry = (ui_string_st *)X509_NAME_get_entry(name, index_by_NID);
     v8 = (const asn1_string_st *)UI_get0_output_string(entry);
-    v3 = ASN1_STRING_dup(v8);
+    v3 = ASN1_STRING_dup(0, v8);
     if ( move_p )
     {
-      X509_NAME_delete_entry(nm, index_by_NID);
+      X509_NAME_delete_entry(name, index_by_NID);
       X509_NAME_ENTRY_free((X509_name_entry_st *)entry);
       --index_by_NID;
     }
@@ -50,15 +50,15 @@ LABEL_9:
     v4->type = 1;
     if ( !sk_push(&gens->stack, (char *)v4) )
     {
-      ERR_put_error(0x22u, 122, 65, ".\\crypto\\x509v3\\v3_alt.c", 380);
+      ERR_put_error(0, 0x22u, 122, 65, ".\\crypto\\x509v3\\v3_alt.c", 380);
       goto LABEL_20;
     }
     v4 = 0;
-    index_by_NID = X509_NAME_get_index_by_NID(nm, 48, index_by_NID);
+    index_by_NID = X509_NAME_get_index_by_NID(name, 0x30u, index_by_NID);
     if ( index_by_NID < 0 )
       return 1;
   }
-  ERR_put_error(0x22u, 122, 65, ".\\crypto\\x509v3\\v3_alt.c", 373);
+  ERR_put_error((int)v3, 0x22u, 122, 65, ".\\crypto\\x509v3\\v3_alt.c", 373);
 LABEL_20:
   GENERAL_NAME_free(v4);
   ASN1_STRING_free(v3);

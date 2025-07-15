@@ -21,11 +21,11 @@ BOOL __thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::InitImageFileMovieDe
   Scaleform::GFx::DataAllocator::Block *v19; // eax
   const Scaleform::Render::Cxform *v20; // eax
   Scaleform::RefCountVImpl *pObject; // ecx
-  Scaleform::Render::ImageBase *pImage; // [esp+FCh] [ebp-B4h]
-  Scaleform::GFx::ImageResource *v24; // [esp+10Ch] [ebp-A4h]
-  Scaleform::Render::Matrix2x4<float> matrix; // [esp+110h] [ebp-A0h] BYREF
-  Scaleform::Render::Cxform v26; // [esp+130h] [ebp-80h] BYREF
-  Scaleform::GFx::CharPosInfo __that; // [esp+150h] [ebp-60h] BYREF
+  Scaleform::Render::ImageBase *pImage; // [esp+1Ch] [ebp-B4h]
+  Scaleform::GFx::ImageResource *v24; // [esp+2Ch] [ebp-A4h]
+  Scaleform::Render::Matrix2x4<float> matrix; // [esp+30h] [ebp-A0h] BYREF
+  Scaleform::Render::Cxform v26; // [esp+50h] [ebp-80h] BYREF
+  Scaleform::GFx::CharPosInfo __that; // [esp+70h] [ebp-60h] BYREF
 
   v6 = imgCreator;
   v7 = 0;

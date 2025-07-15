@@ -7,8 +7,8 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *__thiscall Sca
   Scaleform::GFx::AS3::SoundObject *v4; // esi
   unsigned int v5; // eax
   unsigned int v7; // eax
-  int Namespace; // eax
-  Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // edi
+  Scaleform::GFx::AS3::CheckResult *Namespace; // eax
+  Scaleform::GFx::AS3::CheckResult *pObject; // edi
   Scaleform::GFx::AS3::Instances::fl::Namespace *NamespaceByURI; // eax
   Scaleform::GFx::AS3::VM *pVM; // eax
   Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *Pan; // esi
@@ -30,28 +30,26 @@ Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *__thiscall Sca
      & 3;
   if ( v7 <= 1 && v4->RefCount )
   {
-    Namespace = Scaleform::GFx::AS3::Multiname::GetNamespace(v4);
-    pObject = (Scaleform::GFx::AS3::Instances::fl::Namespace *)Namespace;
-    if ( (*(_BYTE *)(Namespace + 40) & 0x1F) != 0 )
+    Namespace = (Scaleform::GFx::AS3::CheckResult *)Scaleform::GFx::AS3::Multiname::GetNamespace(v4);
+    pObject = Namespace;
+    if ( (Namespace[40].Result & 0x1F) != 0 )
       goto LABEL_12;
-    NamespaceByURI = Scaleform::GFx::AS3::Instances::fl::XMLList::FindNamespaceByURI(
-                       this,
-                       (const Scaleform::GFx::ASString *)(Namespace + 28));
+    NamespaceByURI = Scaleform::GFx::AS3::Instances::fl::XMLList::FindNamespaceByURI(this, Namespace + 28);
     goto LABEL_10;
   }
   pVM = this->pTraits.pObject->pVM;
-  pObject = pVM->DefXMLNamespace.pObject;
+  pObject = (Scaleform::GFx::AS3::CheckResult *)pVM->DefXMLNamespace.pObject;
   if ( !pObject )
   {
-    pObject = pVM->PublicNamespace.pObject;
+    pObject = (Scaleform::GFx::AS3::CheckResult *)pVM->PublicNamespace.pObject;
     goto LABEL_12;
   }
-  if ( (pObject->Prefix.Flags & 0x1F) == 0 )
+  if ( (pObject[40].Result & 0x1F) == 0 )
   {
-    NamespaceByURI = Scaleform::GFx::AS3::Instances::fl::XMLList::FindNamespaceByURI(this, &pObject->Uri);
+    NamespaceByURI = Scaleform::GFx::AS3::Instances::fl::XMLList::FindNamespaceByURI(this, pObject + 28);
 LABEL_10:
     if ( NamespaceByURI )
-      pObject = NamespaceByURI;
+      pObject = (Scaleform::GFx::AS3::CheckResult *)NamespaceByURI;
   }
 LABEL_12:
   Pan = (Scaleform::Pickable<Scaleform::GFx::AS3::Instances::fl::XMLList> *)v4->Pan;
@@ -64,7 +62,7 @@ LABEL_12:
     v15,
     (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)this,
     (const Scaleform::GFx::ASString *)&result,
-    pObject);
+    (Scaleform::GFx::AS3::Instances::fl::Namespace *)pObject);
   v13 = Pan[3].pV-- == (Scaleform::GFx::AS3::Instances::fl::XMLList *)1;
   v3->pV = (Scaleform::GFx::AS3::Instances::fl::XMLList *)mn;
   if ( v13 )

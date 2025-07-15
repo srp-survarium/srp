@@ -4,7 +4,7 @@ unsigned int __thiscall Scaleform::Render::ShapeDataFloatMP::AddFillStyle(
 {
   Scaleform::Render::ShapeDataFloat *pObject; // edi
   Scaleform::Render::FillStyleType *v3; // esi
-  Scaleform::GFx::Resource *v4; // ecx
+  Scaleform::Render::ComplexFill *v4; // ecx
 
   pObject = this->pData.pObject;
   Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorLH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
@@ -16,9 +16,9 @@ unsigned int __thiscall Scaleform::Render::ShapeDataFloatMP::AddFillStyle(
   if ( &pObject->Fills.Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::Data.Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::Data[pObject->Fills.Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::Data.Size] != (Scaleform::Render::FillStyleType *)8 )
   {
     v3->Color = fill->Color;
-    v4 = (Scaleform::GFx::Resource *)fill->pFill.pObject;
+    v4 = fill->pFill.pObject;
     if ( v4 )
-      Scaleform::RefCountImpl::AddRef(v4);
+      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v4);
     v3->pFill.pObject = fill->pFill.pObject;
   }
   return pObject->Fills.Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::Data.Size;

@@ -1,26 +1,31 @@
-void __fastcall btQuantizedBvh::setInternalNodeAabbMin(int nodeIndex, const btVector3 *aabbMin, btQuantizedBvh *this)
+void __userpurge btQuantizedBvh::setInternalNodeAabbMin(
+        btQuantizedBvh *this@<ecx>,
+        int a2@<eax>,
+        int nodeIndex,
+        const btVector3 *aabbMin)
 {
-  float v3; // xmm2_4
-  btQuantizedBvhNode *v4; // ecx
-  float v5; // xmm0_4
-  float v6; // xmm1_4
+  float v4; // xmm2_4
+  _WORD *v5; // ecx
+  float v6; // xmm0_4
+  float v7; // xmm1_4
+  _DWORD *v8; // edi
 
-  if ( this->m_useQuantization )
+  if ( *(_BYTE *)(a2 + 72) )
   {
-    v3 = aabbMin->mVec128.m128_f32[2] - this->m_bvhAabbMin.mVec128.m128_f32[2];
-    v4 = &this->m_quantizedContiguousNodes.m_data[nodeIndex];
-    v5 = this->m_bvhQuantization.mVec128.m128_f32[1]
-       * (float)(aabbMin->mVec128.m128_f32[1] - this->m_bvhAabbMin.mVec128.m128_f32[1]);
-    v6 = this->m_bvhQuantization.mVec128.m128_f32[2];
-    v4->m_quantizedAabbMin[0] = (int)(float)(this->m_bvhQuantization.mVec128.m128_f32[0]
-                                           * (float)(aabbMin->mVec128.m128_f32[0]
-                                                   - this->m_bvhAabbMin.mVec128.m128_f32[0]))
-                              & 0xFFFE;
-    v4->m_quantizedAabbMin[1] = (int)v5 & 0xFFFE;
-    v4->m_quantizedAabbMin[2] = (int)(float)(v6 * v3) & 0xFFFE;
+    v4 = *(float *)(nodeIndex + 8) - *(float *)(a2 + 24);
+    v5 = (_WORD *)(*(_DWORD *)(a2 + 148) + 16 * (_DWORD)this);
+    v6 = *(float *)(a2 + 52) * (float)(*(float *)(nodeIndex + 4) - *(float *)(a2 + 20));
+    v7 = *(float *)(a2 + 56);
+    *v5 = (int)(float)(*(float *)(a2 + 48) * (float)(*(float *)nodeIndex - *(float *)(a2 + 16))) & 0xFFFE;
+    v5[1] = (int)v6 & 0xFFFE;
+    v5[2] = (int)(float)(v7 * v4) & 0xFFFE;
   }
   else
   {
-    this->m_contiguousNodes.m_data[nodeIndex].m_aabbMinOrg = (btVector3)aabbMin->mVec128;
+    v8 = (_DWORD *)(((_DWORD)this << 6) + *(_DWORD *)(a2 + 108));
+    *v8++ = *(_DWORD *)nodeIndex;
+    *v8++ = *(_DWORD *)(nodeIndex + 4);
+    *v8 = *(_DWORD *)(nodeIndex + 8);
+    v8[1] = *(_DWORD *)(nodeIndex + 12);
   }
 }

@@ -14,7 +14,7 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetMaxVScroll(Scalefor
   Scaleform::Render::Text::LineBuffer::Line **i; // ecx
   unsigned int v16; // ecx
   unsigned __int16 v17; // ax
-  float top; // [esp+4h] [ebp-4h]
+  float v18; // [esp+4h] [ebp-4h]
 
   if ( (this->RTFlags & 3) != 0 )
   {
@@ -61,8 +61,8 @@ unsigned int __thiscall Scaleform::Render::Text::DocView::GetMaxVScroll(Scalefor
           break;
         if ( v3 )
         {
-          top = v14 - this->mLineBuffer.Geom.VisibleRect.y2 + this->mLineBuffer.Geom.VisibleRect.y1;
-          if ( (double)(*i)->Data32.OffsetY < top )
+          v18 = v14 - this->mLineBuffer.Geom.VisibleRect.y2 + this->mLineBuffer.Geom.VisibleRect.y1;
+          if ( (double)(*i)->Data32.OffsetY < v18 )
             break;
         }
         --v8;

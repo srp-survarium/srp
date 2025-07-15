@@ -31,8 +31,8 @@ DName *__cdecl UnDecorator::getOperatorName(DName *result, bool fIsTemplate, boo
   DName *Dimension; // eax
   const DName *v32; // eax
   DName *v33; // eax
-  DName *p_operatorName; // ecx
-  DName *v35; // eax
+  DName *p_rd; // ecx
+  DName *OperatorName; // eax
   DNameNode *v36; // ecx
   int v37; // eax
   int v38; // ecx
@@ -49,7 +49,7 @@ DName *__cdecl UnDecorator::getOperatorName(DName *result, bool fIsTemplate, boo
   DName v49; // [esp+38h] [ebp-70h] BYREF
   DName v50; // [esp+40h] [ebp-68h] BYREF
   DName v51; // [esp+48h] [ebp-60h] BYREF
-  DName v52; // [esp+50h] [ebp-58h] BYREF
+  DName resulta; // [esp+50h] [ebp-58h] BYREF
   DName v53; // [esp+58h] [ebp-50h] BYREF
   DName v54; // [esp+60h] [ebp-48h] BYREF
   DName v55; // [esp+68h] [ebp-40h] BYREF
@@ -57,17 +57,17 @@ DName *__cdecl UnDecorator::getOperatorName(DName *result, bool fIsTemplate, boo
   DName v57; // [esp+78h] [ebp-30h] BYREF
   DName v58; // [esp+80h] [ebp-28h] BYREF
   DName v59; // [esp+88h] [ebp-20h] BYREF
-  DName templateArguments; // [esp+90h] [ebp-18h] BYREF
-  DName name; // [esp+98h] [ebp-10h] BYREF
-  DName operatorName; // [esp+A0h] [ebp-8h] BYREF
+  DName v60; // [esp+90h] [ebp-18h] BYREF
+  DName v61; // [esp+98h] [ebp-10h] BYREF
+  DName rd; // [esp+A0h] [ebp-8h] BYREF
 
   v3 = *UnDecorator::gName;
-  *((_DWORD *)&operatorName + 1) &= 0xFFFF0000;
-  *((_DWORD *)&templateArguments + 1) &= 0xFFFF0000;
+  *((_DWORD *)&rd + 1) &= 0xFFFF0000;
+  *((_DWORD *)&v60 + 1) &= 0xFFFF0000;
   v4 = 0;
   v5 = UnDecorator::gName + 1;
-  operatorName.node = 0;
-  templateArguments.node = 0;
+  rd.node = 0;
+  v60.node = 0;
   ++UnDecorator::gName;
   if ( v3 <= 65 )
   {
@@ -81,28 +81,28 @@ DName *__cdecl UnDecorator::getOperatorName(DName *result, bool fIsTemplate, boo
           {
             if ( v3 <= 57 )
             {
-              DName::operator=(&operatorName, *(char **)&asc_820378[4 * *(v5 - 1)]);
+              DName::operator=(&rd, *(char **)&asc_6BA188[4 * *(v5 - 1)]);
               goto LABEL_8;
             }
             goto LABEL_68;
           }
-          *((_DWORD *)&templateArguments + 1) &= 0xFFFF0000;
-          templateArguments.node = 0;
+          *((_DWORD *)&v60 + 1) &= 0xFFFF0000;
+          v60.node = 0;
           if ( fIsTemplate )
           {
-            TemplateArgumentList = UnDecorator::getTemplateArgumentList(&v52);
+            TemplateArgumentList = UnDecorator::getTemplateArgumentList(&resulta);
             v13 = operator+(&v43, 60, TemplateArgumentList);
-            DName::operator+=(&templateArguments, v13);
-            if ( templateArguments.node && templateArguments.node->getLastChar(templateArguments.node) == 62 )
-              DName::operator+=(&templateArguments, 32);
-            DName::operator+=(&templateArguments, 62);
+            DName::operator+=(&v60, v13);
+            if ( v60.node && v60.node->getLastChar(v60.node) == 62 )
+              DName::operator+=(&v60, 32);
+            DName::operator+=(&v60, 62);
             if ( pfReadTemplateArguments )
               *pfReadTemplateArguments = 1;
             if ( !*UnDecorator::gName )
             {
               v10 = result;
-              result->node = templateArguments.node;
-              v11 = *((_DWORD *)&templateArguments + 1);
+              result->node = v60.node;
+              v11 = *((_DWORD *)&v60 + 1);
               goto LABEL_12;
             }
             v5 = ++UnDecorator::gName;
@@ -111,30 +111,30 @@ DName *__cdecl UnDecorator::getOperatorName(DName *result, bool fIsTemplate, boo
           ZName = UnDecorator::getZName(&v56, 0, 0);
           node = ZName->node;
           v16 = *((_DWORD *)ZName + 1);
-          operatorName.node = node;
-          *((_DWORD *)&operatorName + 1) = v16;
+          rd.node = node;
+          *((_DWORD *)&rd + 1) = v16;
           UnDecorator::gName = v14;
           if ( node && *(v14 - 1) == 49 )
           {
-            v17 = operator+(&v46, 126, &operatorName);
+            v17 = operator+(&v46, 126, &rd);
             node = v17->node;
             v18 = *((_DWORD *)v17 + 1);
-            operatorName.node = node;
-            *((_DWORD *)&operatorName + 1) = v18;
+            rd.node = node;
+            *((_DWORD *)&rd + 1) = v18;
           }
-          if ( !templateArguments.node )
+          if ( !v60.node )
           {
 LABEL_11:
             v10 = result;
             result->node = node;
-            v11 = *((_DWORD *)&operatorName + 1);
+            v11 = *((_DWORD *)&rd + 1);
 LABEL_12:
             *((_DWORD *)v10 + 1) = v11;
             return v10;
           }
-          DName::operator+=(&operatorName, &templateArguments);
+          DName::operator+=(&rd, &v60);
 LABEL_10:
-          node = operatorName.node;
+          node = rd.node;
           goto LABEL_11;
         }
         goto LABEL_68;
@@ -142,11 +142,11 @@ LABEL_10:
       goto LABEL_27;
     }
 LABEL_88:
-    DName::operator=(&operatorName, *(char **)&asc_82035C[4 * *(v5 - 1)]);
+    DName::operator=(&rd, *(char **)&asc_6BA16C[4 * *(v5 - 1)]);
     if ( v4 )
     {
-      if ( operatorName.node )
-        *((_DWORD *)&operatorName + 1) |= 0x200u;
+      if ( rd.node )
+        *((_DWORD *)&rd + 1) |= 0x200u;
       goto LABEL_10;
     }
     goto LABEL_8;
@@ -168,7 +168,7 @@ LABEL_88:
     {
       if ( v19 <= 86 )
       {
-        DName::operator=(&operatorName, *(char **)&aCdecl[4 * *(v5 - 1)]);
+        DName::operator=(&rd, *(char **)&aCdecl[4 * *(v5 - 1)]);
         goto LABEL_8;
       }
       if ( v19 <= 87 )
@@ -186,23 +186,23 @@ LABEL_88:
               goto LABEL_79;
             if ( v38 <= 70 )
             {
-              DName::DName(&name, (char *)nameTable[*(v39 - 1) + 4]);
+              DName::DName(&v61, (char *)nameTable[*(v39 - 1) + 4]);
               if ( *UnDecorator::gName == 63 )
               {
                 DecoratedName = UnDecorator::getDecoratedName(&v45);
-                DName::operator+=(&name, DecoratedName);
+                DName::operator+=(&v61, DecoratedName);
                 if ( *UnDecorator::gName == 64 )
                   ++UnDecorator::gName;
               }
               else
               {
                 SymbolName = UnDecorator::getSymbolName(&v59);
-                DName::operator+=(&name, SymbolName);
+                DName::operator+=(&v61, SymbolName);
               }
-              DName::operator+=(&name, "''");
+              DName::operator+=(&v61, "''");
               v10 = result;
-              result->node = name.node;
-              v11 = *((_DWORD *)&name + 1);
+              result->node = v61.node;
+              v11 = *((_DWORD *)&v61 + 1);
               goto LABEL_12;
             }
             if ( v38 <= 74 )
@@ -231,43 +231,43 @@ LABEL_68:
         DName::DName(result, DN_invalid);
         return result;
       }
-      DName::operator=(&operatorName, *(char **)&aCdecl[4 * *(v5 - 1)]);
+      DName::operator=(&rd, *(char **)&aCdecl[4 * *(v5 - 1)]);
       if ( !*UnDecorator::gName )
       {
-        DName::operator+(&operatorName, result, DN_truncated);
+        DName::operator+(&rd, result, DN_truncated);
         return result;
       }
       v23 = *UnDecorator::gName - 48;
       if ( v23 > 4 )
         goto LABEL_68;
-      DName::operator=(&templateArguments, (char *)rttiTable[v23]);
+      DName::operator=(&v60, (char *)rttiTable[v23]);
       v24 = *UnDecorator::gName++;
       if ( v24 == 48 )
       {
-        UnDecorator::getDataType(&name, 0);
+        UnDecorator::getDataType(&v61, 0);
         v42 = result;
-        v33 = DName::operator+(&name, &v49, 32);
-        p_operatorName = DName::operator+(v33, &v51, &operatorName);
+        v33 = DName::operator+(&v61, &v49, 32);
+        p_rd = DName::operator+(v33, &v51, &rd);
 LABEL_70:
-        DName::operator+(p_operatorName, v42, &templateArguments);
+        DName::operator+(p_rd, v42, &v60);
         return result;
       }
       if ( v24 == 49 )
       {
-        DName::operator+(&operatorName, &name, &templateArguments);
+        DName::operator+(&rd, &v61, &v60);
         SignedDimension = UnDecorator::getSignedDimension(&v48);
         v26 = DName::operator+(SignedDimension, &v54, 44);
-        DName::operator+=(&name, v26);
+        DName::operator+=(&v61, v26);
         v27 = UnDecorator::getSignedDimension(&v44);
         v28 = DName::operator+(v27, &v58, 44);
-        DName::operator+=(&name, v28);
+        DName::operator+=(&v61, v28);
         v29 = UnDecorator::getSignedDimension(&v57);
         v30 = DName::operator+(v29, &v50, 44);
-        DName::operator+=(&name, v30);
+        DName::operator+=(&v61, v30);
         Dimension = UnDecorator::getDimension(&v53, 0);
         v32 = DName::operator+(Dimension, &v55, 41);
-        DName::operator+=(&name, v32);
-        DName::operator+(&name, result, 39);
+        DName::operator+=(&v61, v32);
+        DName::operator+(&v61, result, 39);
         return result;
       }
       if ( (unsigned int)(v24 - 50) > 2 )
@@ -278,17 +278,17 @@ LABEL_70:
     }
     else
     {
-      DName::operator=(&operatorName, *(char **)&aCdecl[4 * *(v5 - 1)]);
-      v35 = UnDecorator::getOperatorName(&v47, 0, 0);
-      v36 = v35->node;
-      v37 = *((_DWORD *)v35 + 1);
-      templateArguments.node = v36;
-      *((_DWORD *)&templateArguments + 1) = v37;
+      DName::operator=(&rd, *(char **)&aCdecl[4 * *(v5 - 1)]);
+      OperatorName = UnDecorator::getOperatorName(&v47, 0, 0);
+      v36 = OperatorName->node;
+      v37 = *((_DWORD *)OperatorName + 1);
+      v60.node = v36;
+      *((_DWORD *)&v60 + 1) = v37;
       if ( v36 && (v37 & 0x400) != 0 )
         goto LABEL_68;
     }
     v42 = result;
-    p_operatorName = &operatorName;
+    p_rd = &rd;
     goto LABEL_70;
   }
   if ( v19 >= 68 )
@@ -303,16 +303,16 @@ LABEL_70:
         goto LABEL_27;
       if ( v20 != 48 )
         goto LABEL_68;
-      UnDecorator::getStringEncoding(&name, "`anonymous namespace'");
+      UnDecorator::getStringEncoding(&v61, "`anonymous namespace'");
       goto LABEL_48;
     }
     if ( v19 <= 64 )
       goto LABEL_68;
     if ( v19 > 66 )
     {
-      UnDecorator::getStringEncoding(&name, "`string'");
+      UnDecorator::getStringEncoding(&v61, "`string'");
 LABEL_48:
-      v11 = *((_DWORD *)&name + 1) | 0x1000;
+      v11 = *((_DWORD *)&v61 + 1) | 0x1000;
       goto LABEL_43;
     }
 LABEL_85:
@@ -321,11 +321,11 @@ LABEL_85:
   }
   if ( v19 == 57 )
   {
-    DName::DName(&name, (char *)tokenTable[*(v5 - 1) + 2]);
-    v11 = *((_DWORD *)&name + 1) | 0x8000;
+    DName::DName(&v61, (char *)tokenTable[*(v5 - 1) + 2]);
+    v11 = *((_DWORD *)&v61 + 1) | 0x8000;
 LABEL_43:
     v10 = result;
-    result->node = name.node;
+    result->node = v61.node;
     goto LABEL_12;
   }
   if ( v19 )
@@ -337,15 +337,15 @@ LABEL_43:
       DName::DName(result, (char *)tokenTable[*(v5 - 1) + 2]);
       return result;
     }
-    DName::operator=(&operatorName, (char *)tokenTable[*(v5 - 1) + 2]);
+    DName::operator=(&rd, (char *)tokenTable[*(v5 - 1) + 2]);
 LABEL_8:
-    if ( operatorName.node )
+    if ( rd.node )
     {
-      v6 = operator+(&v59, "operator", &operatorName);
+      v6 = operator+(&v59, "operator", &rd);
       v7 = v6->node;
       v8 = *((_DWORD *)v6 + 1);
-      operatorName.node = v7;
-      *((_DWORD *)&operatorName + 1) = v8;
+      rd.node = v7;
+      *((_DWORD *)&rd + 1) = v8;
     }
     goto LABEL_10;
   }

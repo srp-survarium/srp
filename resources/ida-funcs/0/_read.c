@@ -1,6 +1,6 @@
-int __usercall _read@<eax>(stlp_std::ioinfo **a1@<ebx>, unsigned int a2@<edi>, int fh, _BYTE *buf, unsigned int cnt)
+unsigned int __usercall _read@<eax>(stlp_std::ioinfo **a1@<ebx>, int a2@<edi>, int fh, char *buf, unsigned int cnt)
 {
-  int r; // [esp+14h] [ebp-1Ch]
+  unsigned int r; // [esp+14h] [ebp-1Ch]
 
   if ( fh == -2 )
   {
@@ -13,7 +13,7 @@ int __usercall _read@<eax>(stlp_std::ioinfo **a1@<ebx>, unsigned int a2@<edi>, i
     *__doserrno() = 0;
     *_errno() = 9;
 LABEL_7:
-    _invalid_parameter((unsigned int)a1, a2, 0);
+    _invalid_parameter((int)a1, a2, 0);
     return -1;
   }
   if ( cnt > 0x7FFFFFFF )

@@ -1,29 +1,34 @@
-void __thiscall vostok::ui::text_tree_draw_helper::create_window(
-        vostok::ui::text_tree_draw_helper *this,
+void __userpurge vostok::ui::text_tree_draw_helper::create_window(
+        vostok::ui::text_tree_draw_helper *this@<ecx>,
+        _DWORD *a2@<edi>,
         const char *text,
         vostok::math::float2 pos,
         vostok::math::float2 sz)
 {
-  int v4; // eax
-  int v5; // [esp+0h] [ebp-18h]
-  int v6; // [esp+4h] [ebp-14h]
-  vostok::ui::window *v7; // [esp+8h] [ebp-10h]
-  vostok::ui::text *wnd; // [esp+14h] [ebp-4h]
+  int v5; // esi
+  int v6; // eax
+  void (__thiscall ***v7)(_DWORD, vostok::math::float2 *); // eax
+  int v8; // eax
+  int v9; // eax
+  int v10; // ebx
+  int v11; // eax
 
-  wnd = this->m_world->create_text(this->m_world);
-  if ( this->m_cur_row % 2 )
-    wnd->set_color(wnd, this->m_params.color1);
+  v5 = (*(int (__thiscall **)(_DWORD))(*(_DWORD *)*a2 + 16))(*a2);
+  if ( (a2[13] & 1) != 0 )
+    v6 = a2[2];
   else
-    wnd->set_color(wnd, this->m_params.color2);
-  wnd->set_font(wnd, this->m_params.fnt);
-  wnd->set_align(wnd, al_left);
-  wnd->set_text(wnd, text);
-  v7 = wnd->w(wnd);
-  v7->set_position(v7, &pos);
-  v6 = (int)wnd->w(wnd);
-  (*(void (__thiscall **)(int, vostok::math::float2 *))(*(_DWORD *)v6 + 8))(v6, &sz);
-  v5 = (int)wnd->w(wnd);
-  (*(void (__thiscall **)(int, int))(*(_DWORD *)v5 + 16))(v5, 1);
-  v4 = ((int (__thiscall *)(vostok::ui::text *, int))wnd->w)(wnd, 1);
-  ((void (__thiscall *)(vostok::ui::window *, int))this->m_window->add_child)(this->m_window, v4);
+    v6 = a2[3];
+  (*(void (__thiscall **)(int, int))(*(_DWORD *)v5 + 4))(v5, v6);
+  (**(void (__thiscall ***)(int, _DWORD))v5)(v5, a2[4]);
+  (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v5 + 16))(v5, 0);
+  (*(void (__thiscall **)(int, const char *))(*(_DWORD *)v5 + 8))(v5, text);
+  v7 = (void (__thiscall ***)(_DWORD, vostok::math::float2 *))(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 28))(v5);
+  (**v7)(v7, &pos);
+  v8 = (*(int (__thiscall **)(int))(*(_DWORD *)v5 + 28))(v5);
+  (*(void (__thiscall **)(int, vostok::math::float2 *))(*(_DWORD *)v8 + 8))(v8, &sz);
+  v9 = (*(int (__thiscall **)(int))(*(_DWORD *)v5 + 28))(v5);
+  (*(void (__thiscall **)(int, int))(*(_DWORD *)v9 + 16))(v9, 1);
+  v10 = *(_DWORD *)a2[1];
+  v11 = (*(int (__thiscall **)(int, int))(*(_DWORD *)v5 + 28))(v5, 1);
+  (*(void (__thiscall **)(_DWORD, int))(v10 + 64))(a2[1], v11);
 }

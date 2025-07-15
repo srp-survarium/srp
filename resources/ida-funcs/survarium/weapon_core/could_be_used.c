@@ -1,10 +1,12 @@
-bool __thiscall survarium::weapon_core::could_be_used(survarium::weapon_core *this, const survarium::base_player *user)
+int __thiscall survarium::weapon_core::could_be_used(survarium::weapon_core *this, const survarium::base_player *user)
 {
-  const vostok::resources::resource_ptr<survarium::damage_model,vostok::resources::unmanaged_intrusive_base> *v2; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v3; // ecx
-  const vostok::variant<32> **v7; // [esp+8h] [ebp-8h]
+  int result; // eax
 
-  v2 = user->damage_model(user);
-  v7 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v3, (int)v2);
-  return (unsigned __int8)(*((_BYTE *)v7 + 827) + *((_BYTE *)v7 + 826)) != 2 || !this->m_is_double_handed;
+  if ( *(_BYTE *)(*(_DWORD *)((int (__thiscall *)(vostok::resources::unmanaged_resource **))this->m_prev_in_global_delay_delete_list->survarium::inventory_item::vostok::resources::unmanaged_resource::m_flags.survarium::inventory_item::vostok::resources::unmanaged_resource::m_flags)(&this->m_prev_in_global_delay_delete_list)
+                + 1745) != 2 )
+    return 1;
+  result = 0;
+  if ( !user->m_animation_player.m_tree_buffers[0][261] )
+    return 1;
+  return result;
 }

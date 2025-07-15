@@ -45,7 +45,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::AbstractEqual(
         v4 = r;
         v7 = *(_DWORD *)(v5.VInt + 20);
 LABEL_6:
-        (*(void (__thiscall **)(_DWORD, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(**(_DWORD **)(*(_DWORD *)(v7 + 64) + 36) + 20))(
+        (*(void (__thiscall **)(_DWORD, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(**(_DWORD **)(*(_DWORD *)(v7 + 64) + 36) + 32))(
           *(_DWORD *)(*(_DWORD *)(v7 + 64) + 36),
           result,
           resulta,
@@ -122,7 +122,7 @@ LABEL_35:
       v18 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(l->value.VS._1.VInt + 20) + 64) + 36);
       v22 = l->value.VS._1;
       stop = 1;
-      if ( !*(_BYTE *)(*(int (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v18 + 12))(
+      if ( !*(_BYTE *)(*(int (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v18 + 24))(
                         v18,
                         &v27,
                         &stop,
@@ -142,7 +142,7 @@ LABEL_35:
       v19 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(r->value.VS._1.VInt + 20) + 64) + 36);
       v23 = r->value.VS._1;
       stop = 1;
-      if ( !*(_BYTE *)(*(int (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v19 + 12))(
+      if ( !*(_BYTE *)(*(int (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v19 + 24))(
                         v19,
                         &v27,
                         &stop,
@@ -195,7 +195,7 @@ LABEL_88:
           Scaleform::GFx::AS3::Value::~Value(&v);
           return v21;
         }
-$LN10_85:
+$LN10_93:
         v8 = result;
         *resulta = 0;
         result->Result = 1;
@@ -225,7 +225,7 @@ $LN10_85:
         case 6u:
         case 0x10u:
         case 0x11u:
-          goto $LN10_85;
+          goto $LN10_93;
         default:
           switch ( v20 )
           {
@@ -233,7 +233,7 @@ $LN10_85:
             case 6u:
             case 0x10u:
             case 0x11u:
-              goto $LN10_85;
+              goto $LN10_93;
             default:
               if ( v.Flags == 4 )
               {
@@ -271,7 +271,7 @@ $LN10_85:
       }
       goto LABEL_88;
     }
-    goto $LN10_85;
+    goto $LN10_93;
   }
   switch ( v.Flags )
   {
@@ -308,10 +308,9 @@ LABEL_29:
       return v8;
     case 4u:
       *(double *)&v.Flags = l->value.VNumber;
-      if ( ((int)v.Bonus.pWeakProxy & 0x7FF00000) == 0x7FF00000
-        && (unsigned int)&loc_FFFFF & (unsigned int)v.Bonus.pWeakProxy | v.Flags
+      if ( ((int)v.Bonus.pWeakProxy & 0x7FF00000) == 0x7FF00000 && (int)v.Bonus.pWeakProxy & 0xFFFFF | v.Flags
         || (*(double *)&v.Flags = r->value.VNumber, ((int)v.Bonus.pWeakProxy & 0x7FF00000) == 0x7FF00000)
-        && (unsigned int)&loc_FFFFF & (unsigned int)v.Bonus.pWeakProxy | v.Flags )
+        && (int)v.Bonus.pWeakProxy & 0xFFFFF | v.Flags )
       {
         v8 = result;
         *resulta = 0;
@@ -365,7 +364,7 @@ LABEL_34:
       {
         v13 = r->value.VS._1;
         v14 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v13.VInt + 20) + 64) + 36);
-        (*(void (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v14 + 16))(
+        (*(void (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v14 + 28))(
           v14,
           result,
           resulta,
@@ -377,7 +376,7 @@ LABEL_34:
         goto LABEL_36;
       v15 = r->value.VS._1;
       v16 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v15.VInt + 20) + 64) + 36);
-      (*(void (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v16 + 24))(
+      (*(void (__thiscall **)(int, Scaleform::GFx::AS3::CheckResult *, bool *, Scaleform::GFx::AS3::Value::V1U, Scaleform::GFx::AS3::Value::V1U))(*(_DWORD *)v16 + 36))(
         v16,
         result,
         resulta,

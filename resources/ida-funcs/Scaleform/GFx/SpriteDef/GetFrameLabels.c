@@ -1,7 +1,7 @@
 Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall Scaleform::GFx::SpriteDef::GetFrameLabels(
         Scaleform::GFx::SpriteDef *this,
         unsigned int frameNumber,
-        Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *destArr)
+        Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *destArr)
 {
   Scaleform::StringHashLH<unsigned int,2,Scaleform::String::NoCaseHashFunctor,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF> > *p_NamedFrames; // esi
   Scaleform::HashSetBase<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<unsigned int,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::TableType *pTable; // ecx
@@ -18,8 +18,8 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
   Scaleform::String *v15; // ecx
   unsigned int v16; // eax
   _DWORD *v17; // ecx
-  int i; // [esp+10h] [ebp-Ch]
-  Scaleform::HashSetBase<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<unsigned int,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::TableType *it; // [esp+14h] [ebp-8h]
+  int v19; // [esp+10h] [ebp-Ch]
+  Scaleform::HashSetBase<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<unsigned int,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>,Scaleform::StringLH_HashNode<unsigned int,Scaleform::String::NoCaseHashFunctor>::NodeHashF> >::TableType *v20; // [esp+14h] [ebp-8h]
 
   p_NamedFrames = &this->NamedFrames;
   pTable = this->NamedFrames.mHash.pTable;
@@ -43,9 +43,9 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
     v5 = 0;
   }
   v8 = pTable;
-  it = pTable;
+  v20 = pTable;
   v9 = v5;
-  i = 0;
+  v19 = 0;
   while ( v8 )
   {
     EntryCount = v8->EntryCount;
@@ -55,31 +55,33 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
     if ( frameNumber == v11[5].HeapTypeBits )
     {
       v12 = v11 + 4;
-      Size = destArr->Data.Size;
+      Size = destArr->Size;
       v14 = Size + 1;
       if ( Size + 1 >= Size )
       {
-        if ( v14 >= destArr->Data.Policy.Capacity )
+        if ( v14 >= destArr->Policy.Capacity )
           Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)destArr,
+            destArr,
             destArr,
             v14 + (v14 >> 2));
       }
       else
       {
-        Scaleform::ConstructorMov<Scaleform::String>::DestructArray(&destArr->Data.Data[Size + 1], 0xFFFFFFFF);
-        if ( v14 < destArr->Data.Policy.Capacity >> 1 )
+        Scaleform::ConstructorMov<Scaleform::String>::DestructArray(
+          (Scaleform::String *)&destArr->Data[Size + 1],
+          0xFFFFFFFF);
+        if ( v14 < destArr->Policy.Capacity >> 1 )
           Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)destArr,
+            destArr,
             destArr,
             v14);
       }
-      v15 = &destArr->Data.Data[v14 - 1];
-      destArr->Data.Size = v14;
+      v15 = (Scaleform::String *)&destArr->Data[v14 - 1];
+      destArr->Size = v14;
       if ( v15 )
         Scaleform::String::String(v15, v12);
-      ++i;
-      v8 = it;
+      ++v19;
+      v8 = v20;
     }
     v16 = *(_DWORD *)(v8->EntryCount + 4);
     if ( v9 <= (int)v16 && ++v9 <= v16 )
@@ -95,5 +97,5 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
       while ( v9 <= v16 );
     }
   }
-  return i != 0 ? destArr : 0;
+  return v19 != 0 ? (Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *)destArr : 0;
 }

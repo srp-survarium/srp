@@ -2,6 +2,6 @@ survarium::medkit *__thiscall survarium::medkit::`vector deleting destructor'(su
 {
   survarium::medkit::~medkit(this);
   if ( (a2 & 1) != 0 )
-    operator delete(this);
+    operator delete((void *)this);
   return this;
 }

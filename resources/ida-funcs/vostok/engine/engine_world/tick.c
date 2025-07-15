@@ -1,43 +1,35 @@
 void __thiscall vostok::engine::engine_world::tick(vostok::engine::engine_world *this)
 {
-  vostok::resources::resources_manager *v2; // ecx
-  vostok::resources::resources_manager *v3; // ecx
-  vostok::resources::resources_manager *v4; // ecx
-  vostok::render::world *m_render_world; // esi
-  vostok::render::one_way_render_channel *m_is_logic_frame_ended; // ecx
-  vostok::threading *v7; // [esp+0h] [ebp-10h]
+  vostok::command_line::key *v2; // ecx
+  vostok::command_line::key *v3; // ecx
+  vostok::command_line::key *v4; // ecx
+  vostok::engine::engine_world *v5; // ecx
+  vostok::render::world *m_render_world; // edi
 
-  if ( vostok::threading::g_debug_single_thread.m_type == type_unset )
+  if ( vostok::command_line::key::is_set(
+         (vostok::command_line::key *)this,
+         (int)&vostok::threading::g_debug_single_thread) )
   {
-    vostok::threading::g_debug_single_thread.m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
+    vostok::resources::tick(v2);
   }
-  if ( vostok::threading::g_debug_single_thread.m_type != type_recursive )
-    vostok::resources::tick((vostok::resources::resources_manager *)this);
-  vostok::resources::dispatch_callbacks((vostok::resources::resources_manager *)this);
-  if ( vostok::threading::g_debug_single_thread.m_type == type_unset )
+  vostok::resources::dispatch_callbacks(v2);
+  if ( vostok::command_line::key::is_set(v3, (int)&vostok::threading::g_debug_single_thread) )
   {
-    vostok::threading::g_debug_single_thread.m_type = type_recursive;
-    vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-  }
-  if ( vostok::threading::g_debug_single_thread.m_type != type_recursive )
-  {
-    vostok::resources::dispatch_callbacks(v2);
-    this->m_sound_world->tick(this->m_sound_world);
-    vostok::resources::dispatch_callbacks(v3);
-    this->m_network_world->tick(this->m_network_world, 0);
-  }
-  if ( !s_logical_core_count )
-    vostok::threading::initialize_core_count(v7);
-  if ( s_logical_core_count == 1 )
-  {
-    vostok::engine::engine_world::logic_tick((vostok::engine::engine_world *)v2, (int)this);
     vostok::resources::dispatch_callbacks(v4);
+    this->m_sound_world->tick(this->m_sound_world);
+    vostok::engine::engine_world::network_tick(this);
   }
+  if ( vostok::threading::core_count(v4) == 1 )
+    vostok::engine::engine_world::logic_tick(v5, this);
   m_render_world = this->m_render_world;
-  m_is_logic_frame_ended = (vostok::render::one_way_render_channel *)m_render_world->m_is_logic_frame_ended;
-  if ( !m_is_logic_frame_ended )
-    vostok::render::one_way_render_channel::render_process_commands(0, 1);
+  if ( !m_render_world->m_is_logic_frame_ended )
+    vostok::render::one_way_render_channel::render_process_commands(
+      (vostok::render::one_way_render_channel *)v5,
+      (int)m_render_world,
+      1);
   if ( !m_render_world->m_is_editor_frame_ended )
-    vostok::render::one_way_render_channel::render_process_commands(m_is_logic_frame_ended, 1);
+    vostok::render::one_way_render_channel::render_process_commands(
+      (vostok::render::one_way_render_channel *)v5,
+      (int)&m_render_world->m_editor_channel,
+      1);
 }

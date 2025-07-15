@@ -5,10 +5,10 @@ void __thiscall Scaleform::Render::Text::DocView::OnDocumentParagraphRemoving(
   unsigned int v2; // esi
   Scaleform::Render::Text::LineBuffer::Line *v3; // edx
   unsigned int ParagraphId; // ebx
-  bool found; // [esp+13h] [ebp-1h]
+  char v5; // [esp+13h] [ebp-1h]
 
   v2 = 0;
-  found = 0;
+  v5 = 0;
   while ( this != (Scaleform::Render::Text::DocView *)-48
        && v2 < this->mLineBuffer.Lines.Data.Size
        && (v2 & 0x80000000) == 0 )
@@ -20,13 +20,13 @@ void __thiscall Scaleform::Render::Text::DocView::OnDocumentParagraphRemoving(
       ParagraphId = v3->Data32.GlyphsCount;
     if ( para->UniqueId == ParagraphId )
     {
-      found = 1;
+      v5 = 1;
       if ( (v3->MemSize & 0x80000000) == 0 )
         v3->Data32.TextPos = -1;
       else
-        v3->Data32.TextPos |= (unsigned int)&vostok::memory::s_CRT_arena[5574199];
+        v3->Data32.TextPos |= 0xFFFFFFu;
     }
-    else if ( found )
+    else if ( v5 )
     {
       break;
     }

@@ -1,6 +1,11 @@
-void dynamic_initializer_for__s_print_build_id__()
+void __thiscall dynamic_initializer_for__s_print_build_id__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &s_print_build_id);
+  vostok::command_line::key::key(
+    this,
+    &s_print_build_id,
+    (const char *)&s_spin_count.m_max_end,
+    uri,
+    uri,
+    "prints build id to stdout",
+    uri);
 }

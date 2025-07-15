@@ -1,6 +1,6 @@
-char __thiscall Scaleform::SysAlloc::shutdownHeapEngine(Scaleform::SysAlloc *this)
+bool __thiscall Scaleform::SysAlloc::shutdownHeapEngine(Scaleform::SysAlloc *this)
 {
-  char v1; // bl
+  bool v1; // bl
 
   v1 = Scaleform::MemoryHeap::ReleaseRootHeapMH();
   if ( Scaleform::HeapMH::GlobalRootMH )

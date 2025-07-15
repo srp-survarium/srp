@@ -1,65 +1,58 @@
 vostok::vfs::base_node<1> *__thiscall vostok::vfs::vfs_hashset::find_no_lock(
         vostok::vfs::vfs_hashset *this,
-        const char *path,
-        vostok::vfs::vfs_hashset::check_locks_bool check_locks)
+        vostok::vfs::vfs_hashset *path,
+        char *check_locks,
+        int a4)
 {
-  const char *v3; // eax
-  vostok::vfs::base_folder_node<1> *v5; // ecx
-  unsigned int v6; // [esp-8h] [ebp-180h]
-  vostok::vfs::base_folder_node<1> *pointer; // [esp+0h] [ebp-178h]
-  vostok::vfs::base_node<1> *v9; // [esp+14h] [ebp-164h]
-  vostok::fs_new::path_string_impl v10; // [esp+20h] [ebp-158h] BYREF
-  bool has_locks; // [esp+137h] [ebp-41h]
-  vostok::vfs::base_folder_node<1> *it_check_node; // [esp+138h] [ebp-40h]
-  bool branch_locked; // [esp+13Fh] [ebp-39h]
-  vostok::vfs::base_node<1> *node; // [esp+140h] [ebp-38h]
-  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> begin_end; // [esp+144h] [ebp-34h] BYREF
-  unsigned int hash; // [esp+164h] [ebp-14h]
-  vostok::vfs::overlapped_node_iterator it; // [esp+168h] [ebp-10h] BYREF
+  __int16 v4; // ax
+  vostok::vfs::overlapped_node_iterator *whole; // ecx
+  vostok::vfs::base_node<1> *node; // esi
+  vostok::vfs::base_node<1> *v7; // edi
+  vostok::vfs::base_folder_node<1> *pointer; // eax
+  char v10; // dl
+  _DWORD v11[4]; // [esp+Ch] [ebp-144h] BYREF
+  stlp_std::pair<vostok::vfs::overlapped_node_initializer,vostok::vfs::overlapped_node_initializer> patha; // [esp+1Ch] [ebp-134h] BYREF
+  vostok::buffer_string v13; // [esp+3Ch] [ebp-114h] BYREF
+  char v14; // [esp+14Ch] [ebp-4h]
 
-  vostok::fs_new::path_string_impl::path_string_impl(&v10, 47, &path);
-  v6 = vostok::fs_new::path_string_impl::length(&v10);
-  v3 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&v10);
-  hash = vostok::fs_new::path_crc32(v3, v6, 0);
-  vostok::vfs::vfs_hashset::equal_range(this, &begin_end, path, hash, lock_type_read);
-  vostok::vfs::overlapped_node_iterator::overlapped_node_iterator(&it, &begin_end.first);
-  node = it.node;
-  if ( it.node )
+  vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)this, &v13, check_locks);
+  v14 = 47;
+  v4 = vostok::fs_new::path_crc32(v13.m_begin, v13.m_end - v13.m_begin, 0);
+  vostok::vfs::vfs_hashset::equal_range(path, v4, &patha, check_locks, lock_type_read);
+  node = patha.first.node;
+  v11[0] = patha.first.path;
+  v11[2] = patha.first.lock_type;
+  v11[1] = patha.first.node;
+  v11[3] = patha.first.hashset_lock;
+  if ( patha.first.node )
   {
-    if ( check_locks == check_locks_true )
+    if ( a4 == 1 )
     {
-      if ( (node->m_flags & 1) == 1 )
-        pointer = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(node);
-      else
-        pointer = node->m_parent.pointer;
-      v5 = pointer;
-      it_check_node = pointer;
-      branch_locked = 0;
-      while ( it_check_node )
+      pointer = (patha.first.node->m_flags & 1) != 0
+              ? vostok::vfs::cast_folder<1>(patha.first.node)
+              : patha.first.node->m_parent.pointer;
+      v10 = 0;
+      if ( pointer )
       {
-        has_locks = vostok::vfs::base_folder_node<1>::has_some_lock(it_check_node);
-        if ( branch_locked )
+        do
         {
-          v5 = (vostok::vfs::base_folder_node<1> *)has_locks;
-          if ( !has_locks )
-          {
-            branch_locked = 0;
+          whole = (vostok::vfs::overlapped_node_iterator *)pointer->m_readers_writers_counters.m_counters.whole;
+          LOBYTE(whole) = whole != 0;
+          if ( v10 && !(_BYTE)whole )
             break;
-          }
+          v10 = (char)whole;
+          pointer = pointer->base.m_parent.pointer;
         }
-        branch_locked = has_locks;
-        v5 = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::physical_folder_node,1>(it_check_node)->m_parent.pointer;
-        it_check_node = v5;
+        while ( pointer );
+        node = patha.first.node;
       }
-      survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v5);
     }
-    v9 = node;
-    vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
-    return v9;
+    v7 = node;
   }
   else
   {
-    vostok::vfs::overlapped_node_iterator::~overlapped_node_iterator(&it);
-    return 0;
+    v7 = 0;
   }
+  vostok::vfs::overlapped_node_iterator::clear(whole, v11);
+  return v7;
 }

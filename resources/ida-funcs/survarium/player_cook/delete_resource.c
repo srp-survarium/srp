@@ -1,26 +1,21 @@
-void __thiscall survarium::player_cook::delete_resource(
-        survarium::player_cook *this,
+void __userpurge survarium::player_cook::delete_resource(
+        survarium::player_cook *this@<ecx>,
+        const char *a2@<ebx>,
         vostok::resources::resource_base *resource)
 {
-  void **p_m_target_quality_level; // esi
-  int f; // ebx
-  _BYTE *v4; // edi
-  void *v5; // esi
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // ebx
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  const char *v7; // [esp+0h] [ebp-8h]
+  unsigned int v8; // [esp+4h] [ebp-4h]
 
+  v3 = survarium::g_allocator;
   if ( resource )
-    p_m_target_quality_level = (void **)&resource[-2].m_target_quality_level;
-  else
-    p_m_target_quality_level = 0;
-  f = (int)survarium::g_allocator.f_.f_;
-  if ( p_m_target_quality_level )
   {
-    v4 = __RTCastToVoid(p_m_target_quality_level);
-    (*(void (__thiscall **)(void **, _DWORD))*p_m_target_quality_level)(p_m_target_quality_level, 0);
-    if ( v4 )
-    {
-      v5 = *(void **)(f + 20);
-      *(_BYTE *)(f + 42) = 0;
-      vostok_mspace_free(v5, v4);
-    }
+    v4 = __RTCastToVoid((void **)&resource->__vftable);
+    ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))resource->~vostok::resources::resource_base)(
+      resource,
+      0);
+    vostok::memory::doug_lea_allocator::free_impl(v5, (int)v3, v4, a2, v7, v8);
   }
 }

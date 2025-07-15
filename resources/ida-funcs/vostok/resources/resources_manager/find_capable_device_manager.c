@@ -1,21 +1,18 @@
 vostok::resources::device_manager *__thiscall vostok::resources::resources_manager::find_capable_device_manager(
         vostok::resources::resources_manager *this,
-        vostok::resources::resources_manager *file_path,
-        const char *file_patha)
+        const char *file_path,
+        int a3)
 {
-  _DWORD *v3; // esi
-  unsigned __int8 (__thiscall ***v4)(_DWORD, const char *); // edi
+  _DWORD *i; // esi
+  unsigned __int8 (__thiscall ***v4)(_DWORD, int); // edi
 
-  v3 = *(_DWORD **)((char *)&file_path->m_fs_tasks_execute_on_current_tick + (_DWORD)&loc_201FF + 1);
-  if ( v3 == *(_DWORD **)((char *)&loc_20204 + (_DWORD)file_path) )
-    return 0;
-  while ( 1 )
+  for ( i = *(_DWORD **)&file_path[(_DWORD)&loc_20205 + 3]; ; ++i )
   {
-    v4 = (unsigned __int8 (__thiscall ***)(_DWORD, const char *))*v3;
-    if ( (**(unsigned __int8 (__thiscall ***)(_DWORD, const char *))*v3)(*v3, file_patha) )
-      break;
-    if ( ++v3 == *(_DWORD **)((char *)&loc_20204 + (_DWORD)file_path) )
+    if ( i == *(_DWORD **)&file_path[(_DWORD)&loc_2020A + 2] )
       return 0;
+    v4 = (unsigned __int8 (__thiscall ***)(_DWORD, int))*i;
+    if ( (**(unsigned __int8 (__thiscall ***)(_DWORD, int))*i)(*i, a3) )
+      break;
   }
   return (vostok::resources::device_manager *)v4;
 }

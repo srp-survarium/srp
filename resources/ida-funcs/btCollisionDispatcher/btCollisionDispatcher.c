@@ -2,14 +2,13 @@ void __usercall btCollisionDispatcher::btCollisionDispatcher(
         btCollisionDispatcher *this@<esi>,
         btCollisionConfiguration *collisionConfiguration@<eax>)
 {
-  int v3; // ebp
-  btCollisionAlgorithmCreateFunc **v4; // ebx
-  int i; // edi
+  btCollisionAlgorithmCreateFunc **v3; // edi
+  int i; // ebx
+  int v5; // [esp+8h] [ebp-4h]
 
   this->__vftable = (btCollisionDispatcher_vtbl *)&btCollisionDispatcher::`vftable';
   this->m_dispatcherFlags = 2;
   this->m_manifoldsPtr.m_ownsMemory = 1;
-  v3 = 0;
   this->m_manifoldsPtr.m_data = 0;
   this->m_manifoldsPtr.m_size = 0;
   this->m_manifoldsPtr.m_capacity = 0;
@@ -22,12 +21,13 @@ void __usercall btCollisionDispatcher::btCollisionDispatcher(
   this->m_nearCallback = btCollisionDispatcher::defaultNearCallback;
   this->m_collisionAlgorithmPoolAllocator = collisionConfiguration->getCollisionAlgorithmPool(collisionConfiguration);
   this->m_persistentManifoldPoolAllocator = collisionConfiguration->getPersistentManifoldPool(collisionConfiguration);
-  v4 = this->m_doubleDispatch[0];
+  v5 = 0;
+  v3 = this->m_doubleDispatch[0];
   do
   {
     for ( i = 0; i < 36; ++i )
-      *v4++ = this->m_collisionConfiguration->getCollisionAlgorithmCreateFunc(this->m_collisionConfiguration, v3, i);
-    ++v3;
+      *v3++ = this->m_collisionConfiguration->getCollisionAlgorithmCreateFunc(this->m_collisionConfiguration, v5, i);
+    ++v5;
   }
-  while ( v3 < 36 );
+  while ( v5 < 36 );
 }

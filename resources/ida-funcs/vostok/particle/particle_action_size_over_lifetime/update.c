@@ -1,41 +1,29 @@
 void __userpurge vostok::particle::particle_action_size_over_lifetime::update(
         vostok::particle::particle_action_size_over_lifetime *this@<ecx>,
-        double a2@<xmm0>,
+        unsigned int a2@<edi>,
         vostok::particle::particle_emitter_instance *instance,
         vostok::particle::base_particle *P,
         float time)
 {
-  _BYTE *v5; // eax
-  const vostok::math::float3 *v6; // eax
-  vostok::particle::base_particle *v7; // ecx
-  const vostok::math::float3 *other_z; // [esp+8h] [ebp-6Ch]
-  boost::_bi::list1<vostok::network_core::packet_reader &> *m_seed; // [esp+10h] [ebp-64h]
-  vostok::math::float3 v11; // [esp+58h] [ebp-1Ch] BYREF
-  char v12; // [esp+67h] [ebp-Dh]
-  vostok::math::float3 size_scale; // [esp+68h] [ebp-Ch] BYREF
+  float v5; // xmm0_4
+  vostok::math::curve_line_ranged_xyz_float *v7; // ecx
+  float lifetime; // [esp+0h] [ebp-30h]
+  unsigned int m_seed; // [esp+8h] [ebp-28h]
+  vostok::math::float3 v10; // [esp+18h] [ebp-18h] BYREF
+  vostok::math::float3 v11; // [esp+24h] [ebp-Ch] BYREF
 
-  v12 = 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( *v5 )
-  {
-    a2 = time;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)instance);
-  }
-  m_seed = (boost::_bi::list1<vostok::network_core::packet_reader &> *)P->m_seed;
-  vostok::math::float3::float3(&v11, COERCE_UNSIGNED_INT(1.0), COERCE_UNSIGNED_INT(1.0), 1.0);
-  other_z = v6;
-  vostok::particle::base_particle::get_linear_lifetime(v7);
-  vostok::particle::curve_line_ranged_xyz_float::evaluate(
-    &this->m_size_over_life,
-    &size_scale,
-    *(float *)&a2,
-    other_z,
-    range_time_type,
-    m_seed);
+  v5 = s_bm_current_air_resistance;
+  m_seed = P->m_seed;
+  lifetime = P->lifetime;
+  v11.x = s_bm_current_air_resistance;
+  v11.y = s_bm_current_air_resistance;
+  v11.z = s_bm_current_air_resistance;
+  vostok::particle::base_particle::get_linear_lifetime_impl((vostok::particle::base_particle *)this, (int)P, lifetime);
+  vostok::math::curve_line_ranged_xyz_float::evaluate(v7, (int)&this->m_size_over_life, v5, &v10, v5, &v11, m_seed, a2);
   if ( this->m_multiply_x )
-    P->size.x = P->size.x * size_scale.x;
+    P->size.x = P->size.x * v10.x;
   if ( this->m_multiply_y )
-    P->size.y = P->size.y * size_scale.y;
+    P->size.y = P->size.y * v10.y;
   if ( this->m_multiply_z )
-    P->size.z = P->size.z * size_scale.z;
+    P->size.z = P->size.z * v10.z;
 }

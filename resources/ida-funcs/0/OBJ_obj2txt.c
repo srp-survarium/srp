@@ -1,7 +1,7 @@
 unsigned int __cdecl OBJ_obj2txt(char *buf, unsigned int buf_len, const asn1_object_st *a, int no_name)
 {
   char *v4; // ebp
-  unsigned int v5; // eax
+  void *v5; // eax
   unsigned int v6; // ebx
   const char *v7; // edi
   bignum_st *v9; // ecx
@@ -22,7 +22,7 @@ unsigned int __cdecl OBJ_obj2txt(char *buf, unsigned int buf_len, const asn1_obj
   int length; // [esp+14h] [ebp-2Ch]
   int v25; // [esp+18h] [ebp-28h]
   const unsigned __int8 *data; // [esp+1Ch] [ebp-24h]
-  char bufa[28]; // [esp+20h] [ebp-20h] BYREF
+  char src[28]; // [esp+20h] [ebp-20h] BYREF
 
   v4 = buf;
   size = buf_len;
@@ -35,11 +35,11 @@ unsigned int __cdecl OBJ_obj2txt(char *buf, unsigned int buf_len, const asn1_obj
   if ( !no_name )
   {
     v5 = OBJ_obj2nid(a);
-    v6 = v5;
+    v6 = (unsigned int)v5;
     if ( v5 )
     {
-      v7 = OBJ_nid2ln(v5);
-      if ( v7 || (v7 = OBJ_nid2sn(v6)) != 0 )
+      v7 = OBJ_nid2ln((int)v5, (unsigned int)v5);
+      if ( v7 || (v7 = OBJ_nid2sn(v6, v6)) != 0 )
       {
         if ( buf )
           BUF_strlcpy(buf, v7, buf_len);
@@ -64,7 +64,7 @@ unsigned int __cdecl OBJ_obj2txt(char *buf, unsigned int buf_len, const asn1_obj
       v13 = length-- == 1;
       ++data;
       if ( v13 && v12 < 0 )
-        goto err_7;
+        goto err_9;
       if ( v11 )
       {
         if ( !BN_add_word(v9, v12 & 0x7F) )
@@ -79,7 +79,7 @@ unsigned int __cdecl OBJ_obj2txt(char *buf, unsigned int buf_len, const asn1_obj
         break;
       if ( v11 )
         goto LABEL_28;
-      if ( v10 <= (unsigned int)&vostok::memory::s_CRT_arena[22351415] )
+      if ( v10 <= 0x1FFFFFF )
       {
         v10 <<= 7;
       }
@@ -162,16 +162,16 @@ LABEL_42:
       }
 LABEL_61:
       v9 = r;
-err_7:
+err_9:
       if ( v9 )
         BN_free(v9);
       return -1;
     }
-    BIO_snprintf(bufa, 0x1Au, ".%lu", v10);
-    v20 = strlen(bufa);
+    BIO_snprintf(src, 0x1Au, ".%lu", v10);
+    v20 = strlen(src);
     if ( v4 && size > 0 )
     {
-      BUF_strlcpy(v4, bufa, size);
+      BUF_strlcpy(v4, src, size);
       if ( v20 <= size )
       {
         v4 += v20;

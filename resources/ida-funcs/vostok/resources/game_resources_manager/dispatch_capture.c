@@ -1,79 +1,66 @@
-void __usercall vostok::resources::game_resources_manager::dispatch_capture(
-        vostok::resources::game_resources_manager *this@<ecx>,
-        vostok::resources::game_resources_manager *a2@<eax>,
-        double a3@<st0>)
+void __thiscall vostok::resources::game_resources_manager::dispatch_capture(
+        vostok::resources::game_resources_manager *this,
+        vostok::resources::game_resources_manager *resource,
+        vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock> a3)
 {
-  char v4; // dl
-  volatile signed __int32 *v5; // eax
-  vostok::resources::unmanaged_resource *m_object; // eax
-  vostok::resources::unmanaged_intrusive_base *v7; // ecx
-  vostok::resources::managed_resource *v8; // [esp-4h] [ebp-18h]
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> unmanaged_resource; // [esp+Ch] [ebp-8h] BYREF
-  vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> managed_resource; // [esp+10h] [ebp-4h] BYREF
+  survarium::pure_game_effect_emitter_base *m_object; // ebx
+  char v4; // al
+  vostok::resources::managed_resource *v5; // esi
+  vostok::resources::base_of_intrusive_base *v6; // eax
 
-  vostok::resources::game_resources_manager::capture_resource(
-    (vostok::intrusive_double_linked_list<vostok::resources::resource_base,vostok::resources::resource_base *,156,152,vostok::threading::single_threading_policy,vostok::size_policy,vostok::debug_policy> *)this,
-    a3,
-    a2);
-  v8 = (unsigned __int8)((this->m_resources_to_capture.m_mutex.m_mutex[0] & 1) - 1) == 0
-     ? (vostok::resources::managed_resource *)this
-     : 0;
-  managed_resource.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::set(
-    &managed_resource,
-    v8);
-  v4 = this->m_resources_to_capture.m_mutex.m_mutex[0] & 4;
-  unmanaged_resource.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    (vostok::intrusive_ptr<vostok::configs::binary_config,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&unmanaged_resource,
-    v4 != 4 ? 0 : (vostok::configs::binary_config *)this);
-  if ( (this->m_resources_to_capture.m_mutex.m_mutex[0] & 1) != 0 && this )
+  m_object = (survarium::pure_game_effect_emitter_base *)a3.m_object;
+  vostok::resources::game_resources_manager::capture_resource(this, resource, a3.m_object);
+  v4 = (m_object->vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags
+      & 1)
+     - 1;
+  a3.m_object = 0;
+  v5 = v4 == 0 ? (vostok::resources::managed_resource *)m_object : 0;
+  if ( v5 )
   {
-    v5 = (volatile signed __int32 *)&this[1].m_resources_to_capture.m_mutex.m_mutex[1] + 1;
+    vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(&a3);
+    a3.m_object = v5;
+    _InterlockedExchangeAdd(&v5->m_reference_count, 1u);
   }
-  else if ( (this->m_resources_to_capture.m_mutex.m_mutex[0] & 4) != 0 && this )
-  {
-    v5 = (volatile signed __int32 *)&this[1].m_resources_to_capture.vostok::threading::mutex;
-  }
-  else
-  {
-    v5 = 0;
-  }
-  _InterlockedExchangeAdd(v5, 0xFFFFFFFF);
-  vostok::threading::interlocked_and(v5 + 1, 0xFFFFFFFD);
-  m_object = unmanaged_resource.m_object;
-  if ( unmanaged_resource.m_object )
-  {
-    v7 = &unmanaged_resource.m_object->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&unmanaged_resource.m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v7, m_object);
-  }
-  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::~intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>(&managed_resource);
+  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+    (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&resource,
+    (unsigned __int8)((m_object->vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags
+                     & 4)
+                    - 4) == 0
+  ? m_object
+  : 0);
+  v6 = vostok::resources::resource_flags::cast_base_of_intrusive_base(m_object);
+  _InterlockedExchangeAdd(&v6->m_reference_count, 0xFFFFFFFF);
+  _InterlockedAnd(&v6->m_flags.m_flags, 0xFFFFFFFD);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&resource);
+  vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>::dec(&a3);
 }
 
 
 void __usercall vostok::resources::game_resources_manager::dispatch_capture(
         vostok::resources::game_resources_manager *this@<ecx>,
-        vostok::resources::game_resources_manager *a2@<eax>,
-        double a3@<st0>)
+        vostok::resources::game_resources_manager *a2@<eax>)
 {
-  vostok::resources::game_resources_manager *v4; // eax
-  vostok::resources::game_resources_manager *m_current_time_high; // edi
+  vostok::resources::resource_base *v3; // eax
+  vostok::resources::game_resources_manager *v4; // ecx
+  vostok::resources::resource_base *m_next_for_query_finished_callback; // edi
 
   if ( a2->m_resources_to_capture.m_first )
   {
-    v4 = (vostok::resources::game_resources_manager *)vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,180,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::pop_all_and_clear(
-                                                        &this->m_resources_to_capture,
-                                                        (int)a2);
-    if ( v4 )
+    v3 = vostok::intrusive_list<vostok::resources::resource_base,vostok::resources::resource_base *,180,vostok::threading::mutex,vostok::size_policy,vostok::no_debug_policy>::pop_all_and_clear(
+           &this->m_resources_to_capture,
+           (int)a2);
+    if ( v3 )
     {
       do
       {
-        m_current_time_high = (vostok::resources::game_resources_manager *)HIDWORD(v4->m_data.increase_quality_timer.m_current_time);
-        vostok::resources::game_resources_manager::dispatch_capture(v4, a2, a3);
-        v4 = m_current_time_high;
+        m_next_for_query_finished_callback = v3->m_next_for_query_finished_callback;
+        vostok::resources::game_resources_manager::dispatch_capture(
+          v4,
+          a2,
+          (vostok::intrusive_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base,vostok::threading::simple_lock>)v3);
+        v3 = m_next_for_query_finished_callback;
       }
-      while ( m_current_time_high );
+      while ( m_next_for_query_finished_callback );
     }
   }
 }

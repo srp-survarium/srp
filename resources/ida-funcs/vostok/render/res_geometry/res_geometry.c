@@ -1,7 +1,7 @@
 void __userpurge vostok::render::res_geometry::res_geometry(
         vostok::render::untyped_buffer *vb@<ecx>,
-        vostok::render::untyped_buffer *ib@<esi>,
-        vostok::render::res_declaration *dcl@<edx>,
+        vostok::render::untyped_buffer *ib@<edx>,
+        vostok::render::res_declaration *dcl@<esi>,
         vostok::render::res_geometry *this,
         unsigned int stride)
 {

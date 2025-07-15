@@ -66,7 +66,7 @@ void __thiscall Scaleform::GFx::AS3::EventChains::QueueEvents(
               v10 = v9->pObject;
               if ( v10 )
                 Scaleform::RefCountNTSImpl::Release(v10);
-              memmove((unsigned __int8 *)&v7->Data[v8], (unsigned __int8 *)&v7->Data[v8 + 1], 4 * (v7->Size - v8) - 4);
+              memmove((int)&v7->Data[v8], (const __m128i *)&v7->Data[v8 + 1], 4 * (v7->Size - v8) - 4);
               --v7->Size;
             }
           }

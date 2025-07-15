@@ -1,36 +1,42 @@
-void __thiscall vostok::vfs::async_callbacks_data::async_callbacks_data(
-        vostok::vfs::async_callbacks_data *this,
-        vostok::vfs::async_callbacks_data::type_enum type,
-        boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *in_env)
+void __userpurge vostok::vfs::async_callbacks_data::async_callbacks_data(
+        vostok::vfs::async_callbacks_data *this@<esi>,
+        const vostok::vfs::find_environment *in_env@<eax>,
+        vostok::vfs::async_callbacks_data::type_enum type)
 {
-  survarium::game_camera *v3; // ecx
-  survarium::game_camera *v4; // ecx
-  unsigned int partial_path_length; // [esp+2Ch] [ebp-Ch]
-  unsigned int path_to_find_length; // [esp+34h] [ebp-4h]
+  unsigned int v4; // edi
+  char *partial_path; // [esp-10h] [ebp-18h]
+  unsigned int v6; // [esp+10h] [ebp+8h]
 
   this->callbacks_count = 0;
   this->callbacks_called_count = 0;
   this->all_queries_done = 0;
-  vostok::vfs::find_environment::find_environment(&this->env, in_env);
-  this->result = result_error;
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)this,
-    &this->nodes_to_expand.m_size);
-  survarium::weapon_user_dead_state::finalize(v3);
+  this->env.find_results = in_env->find_results;
+  this->env.path_to_find = in_env->path_to_find;
+  this->env.partial_path = in_env->partial_path;
+  this->env.path_part_index = in_env->path_part_index;
+  this->env.out_iterator = in_env->out_iterator;
+  boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(
+    (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&in_env->callback,
+    (const boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&this->env.callback);
+  this->env.node = in_env->node;
+  this->env.node_parent = in_env->node_parent;
+  this->env.find_flags.m_flags = in_env->find_flags.m_flags;
+  this->env.file_system = in_env->file_system;
+  this->env.allocator = in_env->allocator;
+  this->env.mount_operation_id = in_env->mount_operation_id;
+  this->result = result_success;
+  this->nodes_to_expand.m_size = 0;
   this->nodes_to_expand.m_first = 0;
   this->nodes_to_expand.m_last = 0;
-  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
-    (boost::function1<void,enum vostok::network_core::disconnect_event_types_enum> *)&this->nodes_to_expand,
-    &this->previous_nodes_to_expand.m_size);
-  survarium::weapon_user_dead_state::finalize(v4);
+  this->previous_nodes_to_expand.m_size = 0;
   this->previous_nodes_to_expand.m_first = 0;
   this->previous_nodes_to_expand.m_last = 0;
   this->type = type;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&this->previous_nodes_to_expand);
-  path_to_find_length = vostok::strings::length((const char *)(&in_env->vtable)[1]);
-  partial_path_length = vostok::strings::length((const char *)in_env->functor.obj_ptr);
-  vostok::strings::copy(this->path_to_find, path_to_find_length + 1, this->env.path_to_find);
+  v6 = strlen(in_env->path_to_find);
+  v4 = strlen(in_env->partial_path);
+  vostok::strings::copy(this->path_to_find, v6 + 1, (char *)this->env.path_to_find);
+  partial_path = (char *)this->env.partial_path;
   this->env.path_to_find = this->path_to_find;
-  vostok::strings::copy(&this->path_to_find[path_to_find_length + 1], partial_path_length + 1, this->env.partial_path);
-  this->env.partial_path = &this->path_to_find[path_to_find_length + 1];
+  vostok::strings::copy(&this->path_to_find[v6 + 1], v4 + 1, partial_path);
+  this->env.partial_path = &this->path_to_find[v6 + 1];
 }

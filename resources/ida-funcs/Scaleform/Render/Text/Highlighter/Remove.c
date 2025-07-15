@@ -18,16 +18,16 @@ void __thiscall Scaleform::Render::Text::Highlighter::Remove(
   Scaleform::Render::Text::HighlightDesc *v16; // edi
   unsigned int v17; // ebp
   int v18; // [esp+10h] [ebp-3Ch]
-  unsigned int i; // [esp+14h] [ebp-38h]
-  Scaleform::Array<Scaleform::Render::Text::HighlightDesc,2,Scaleform::ArrayDefaultPolicy> addDescs; // [esp+18h] [ebp-34h] BYREF
-  Scaleform::Render::Text::HighlightDesc newdesc; // [esp+24h] [ebp-28h] BYREF
+  unsigned int index; // [esp+14h] [ebp-38h]
+  Scaleform::ArrayData<Scaleform::Render::Text::HighlightDesc,Scaleform::AllocatorGH<Scaleform::Render::Text::HighlightDesc,2>,Scaleform::ArrayDefaultPolicy> v20; // [esp+18h] [ebp-34h] BYREF
+  Scaleform::Render::Text::HighlightDesc val; // [esp+24h] [ebp-28h] BYREF
 
   v2 = cut;
   v3 = cut->StartPos + cut->Length;
   Data = 0;
   Size = 0;
-  memset(&addDescs, 0, sizeof(addDescs));
-  i = 0;
+  memset(&v20, 0, sizeof(v20));
+  index = 0;
   if ( this->Highlighters.Data.Size )
   {
     v18 = 0;
@@ -51,22 +51,22 @@ LABEL_14:
           v11 = StartPos - v9;
           v7->Length = v11;
           v7->GlyphNum = v11;
-          newdesc.Offset = v7->Offset;
-          newdesc.Id = v7->Id;
-          newdesc.Info.BackgroundColor.Raw = v7->Info.BackgroundColor.Raw;
+          val.Offset = v7->Offset;
+          val.Id = v7->Id;
+          val.Info.BackgroundColor.Raw = v7->Info.BackgroundColor.Raw;
           Raw = v7->Info.TextColor.Raw;
-          newdesc.Length = v10 - v3;
-          newdesc.GlyphNum = v10 - v3;
-          newdesc.Info.TextColor.Raw = Raw;
+          val.Length = v10 - v3;
+          val.GlyphNum = v10 - v3;
+          val.Info.TextColor.Raw = Raw;
           v13 = v7->Info.UnderlineColor.Raw;
           Flags = v7->Info.Flags;
-          newdesc.Info.UnderlineColor.Raw = v13;
-          newdesc.Info.Flags = Flags;
-          newdesc.StartPos = v3;
-          newdesc.AdjStartPos = v3;
+          val.Info.UnderlineColor.Raw = v13;
+          val.Info.Flags = Flags;
+          val.StartPos = v3;
+          val.AdjStartPos = v3;
           Scaleform::ArrayData<Scaleform::Render::Text::HighlightDesc,Scaleform::AllocatorGH<Scaleform::Render::Text::HighlightDesc,2>,Scaleform::ArrayDefaultPolicy>::PushBack(
-            &addDescs.Data,
-            &newdesc);
+            &v20,
+            &val);
           goto LABEL_15;
         }
         if ( v9 < StartPos )
@@ -84,18 +84,18 @@ LABEL_14:
       }
       Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::HighlightDesc,Scaleform::AllocatorLH<Scaleform::Render::Text::HighlightDesc,2>,Scaleform::ArrayDefaultPolicy>>::RemoveAt(
         &this->Highlighters,
-        i);
+        index);
       --v18;
-      --i;
+      --index;
 LABEL_15:
       this->HasUnderline = 0;
       this->Valid = 0;
 LABEL_16:
       ++v18;
-      if ( ++i >= this->Highlighters.Data.Size )
+      if ( ++index >= this->Highlighters.Data.Size )
       {
-        Size = addDescs.Data.Size;
-        Data = addDescs.Data.Data;
+        Size = v20.Size;
+        Data = v20.Data;
         break;
       }
       v2 = cut;
@@ -111,7 +111,7 @@ LABEL_16:
       --v17;
     }
     while ( v17 );
-    Data = addDescs.Data.Data;
+    Data = v20.Data;
   }
   if ( Data )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);

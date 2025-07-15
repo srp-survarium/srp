@@ -10,7 +10,7 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::Bookkeeper::Alloc(
   unsigned int Granularity; // edx
   unsigned int MinAlignMask; // ebx
   Scaleform::HeapPT::Bookkeeper *v10; // [esp+Ch] [ebp-8h]
-  Scaleform::Heap::HeapSegment *t; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::Heap::HeapSegment *v11; // [esp+10h] [ebp-4h] BYREF
 
   v3 = (int)size;
   v10 = this;
@@ -36,7 +36,7 @@ Scaleform::Heap::HeapSegment *__thiscall Scaleform::HeapPT::Bookkeeper::Alloc(
   size = result;
   if ( result )
   {
-    result = (Scaleform::Heap::HeapSegment *)Scaleform::HeapPT::AllocBitSet1::Alloc(p_Allocator, v5, &t);
+    result = (Scaleform::Heap::HeapSegment *)Scaleform::HeapPT::AllocBitSet1::Alloc(p_Allocator, v5, &v11);
 LABEL_10:
     ++size->UseCount;
   }

@@ -11,7 +11,7 @@ const _s_RTTIBaseClassDescriptor *__usercall FindSITargetTypeInstance@<eax>(
   const _s_RTTIBaseClassDescriptor *v9; // eax
   TypeDescriptor *pTypeDescriptor; // eax
   int v11; // eax
-  const _s_RTTIBaseClassDescriptor *pBCD; // [esp+Ch] [ebp-4h]
+  const _s_RTTIBaseClassDescriptor *v12; // [esp+Ch] [ebp-4h]
 
   pClassDescriptor = pCOLocator->pClassDescriptor;
   numBaseClasses = pClassDescriptor->numBaseClasses;
@@ -21,10 +21,10 @@ const _s_RTTIBaseClassDescriptor *__usercall FindSITargetTypeInstance@<eax>(
   {
     while ( 1 )
     {
-      pBCD = pBaseClassArray->arrayOfBaseClassDescriptors[v5];
-      if ( pBCD->pTypeDescriptor == pTargetTypeID )
+      v12 = pBaseClassArray->arrayOfBaseClassDescriptors[v5];
+      if ( v12->pTypeDescriptor == pTargetTypeID )
         break;
-      strcmp((unsigned __int8 *)pBCD->pTypeDescriptor->name, (unsigned __int8 *)pTargetTypeID->name);
+      strcmp((unsigned __int8 *)v12->pTypeDescriptor->name, (unsigned __int8 *)pTargetTypeID->name);
       if ( !v7 )
         break;
       if ( ++v5 >= numBaseClasses )
@@ -42,7 +42,7 @@ const _s_RTTIBaseClassDescriptor *__usercall FindSITargetTypeInstance@<eax>(
         if ( v11 )
           continue;
       }
-      return pBCD;
+      return v12;
     }
   }
   return 0;

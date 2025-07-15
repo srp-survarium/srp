@@ -1,4 +1,8 @@
-int __cdecl BIO_callback_ctrl(bio_st *b, int cmd, void (__cdecl *fp)(bio_st *, int, const char *, int, int, int))
+int __usercall BIO_callback_ctrl@<eax>(
+        int a1@<ebx>,
+        bio_st *b,
+        int cmd,
+        void (__cdecl *fp)(bio_st *, int, const char *, int, int, int))
 {
   int result; // eax
   int (__cdecl *callback)(bio_st *, int, const char *, int, int, int); // edi
@@ -17,7 +21,7 @@ int __cdecl BIO_callback_ctrl(bio_st *b, int cmd, void (__cdecl *fp)(bio_st *, i
   }
   else
   {
-    ERR_put_error(0x20u, 131, 121, ".\\crypto\\bio\\bio_lib.c", 387);
+    ERR_put_error(a1, 0x20u, 131, 121, ".\\crypto\\bio\\bio_lib.c", 387);
     return -2;
   }
   return result;

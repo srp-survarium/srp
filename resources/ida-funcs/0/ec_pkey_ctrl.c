@@ -1,11 +1,17 @@
-int __cdecl ec_pkey_ctrl(ssl_st *pkey, X509_algor_st *op, int arg1, pkcs7_signer_info_st *arg2)
+int __usercall ec_pkey_ctrl@<eax>(
+        int a1@<ebx>,
+        int a2@<edi>,
+        ssl_st *pkey,
+        X509_algor_st *op,
+        int arg1,
+        pkcs7_signer_info_st *arg2)
 {
-  int v5; // esi
-  int v6; // eax
-  asn1_object_st *v7; // eax
-  int v8; // esi
-  int v9; // eax
-  asn1_object_st *v10; // eax
+  void *v7; // esi
+  int v8; // eax
+  asn1_object_st *v9; // eax
+  void *v10; // esi
+  int v11; // eax
+  asn1_object_st *v12; // eax
   int psignid; // [esp+4h] [ebp-8h] BYREF
   X509_algor_st *psig; // [esp+8h] [ebp-4h] BYREF
 
@@ -18,14 +24,14 @@ int __cdecl ec_pkey_ctrl(ssl_st *pkey, X509_algor_st *op, int arg1, pkcs7_signer
     {
       if ( op->algorithm )
       {
-        v8 = OBJ_obj2nid(op->algorithm);
-        if ( v8 )
+        v10 = OBJ_obj2nid(op->algorithm);
+        if ( v10 )
         {
-          v9 = EVP_CIPHER_CTX_cipher(pkey);
-          if ( OBJ_find_sigid_by_algs((int *)&psig, v8, v9) )
+          v11 = EVP_CIPHER_CTX_cipher(pkey);
+          if ( OBJ_find_sigid_by_algs(a2, (int *)&psig, (int)v10, v11) )
           {
-            v10 = OBJ_nid2obj((unsigned int)psig);
-            X509_ALGOR_set0((X509_algor_st *)psignid, v10, -1, 0);
+            v12 = OBJ_nid2obj(a1, (unsigned int)psig);
+            X509_ALGOR_set0((X509_algor_st *)psignid, v12, -1, 0);
             return 1;
           }
         }
@@ -48,14 +54,14 @@ int __cdecl ec_pkey_ctrl(ssl_st *pkey, X509_algor_st *op, int arg1, pkcs7_signer
     {
       if ( op->algorithm )
       {
-        v5 = OBJ_obj2nid(op->algorithm);
-        if ( v5 )
+        v7 = OBJ_obj2nid(op->algorithm);
+        if ( v7 )
         {
-          v6 = EVP_CIPHER_CTX_cipher(pkey);
-          if ( OBJ_find_sigid_by_algs(&psignid, v5, v6) )
+          v8 = EVP_CIPHER_CTX_cipher(pkey);
+          if ( OBJ_find_sigid_by_algs(a2, &psignid, (int)v7, v8) )
           {
-            v7 = OBJ_nid2obj(psignid);
-            X509_ALGOR_set0(psig, v7, -1, 0);
+            v9 = OBJ_nid2obj(a1, psignid);
+            X509_ALGOR_set0(psig, v9, -1, 0);
             return 1;
           }
         }

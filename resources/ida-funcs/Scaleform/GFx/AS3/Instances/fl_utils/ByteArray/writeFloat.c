@@ -12,8 +12,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::ByteArray::writeFloat(
     v4 = v;
   else
     LODWORD(v4) = (((LODWORD(v) << 16) | LOWORD(v) & 0xFF00) << 8)
-                | ((((unsigned __int64)LODWORD(v) >> 16)
-                  | (unsigned int)&vostok::memory::s_CRT_arena[5508664] & LODWORD(v)) >> 8);
+                | ((((unsigned __int64)LODWORD(v) >> 16) | LODWORD(v) & 0xFF0000) >> 8);
   v5 = this->Position + 4;
   if ( v5 < this->Data.Data.Size )
   {

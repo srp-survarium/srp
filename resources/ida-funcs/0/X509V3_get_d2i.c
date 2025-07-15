@@ -1,4 +1,4 @@
-struct ASN1_VALUE_st *__cdecl X509V3_get_d2i(stack_st_X509_EXTENSION *x, int nid, int *crit, int *idx)
+struct ASN1_VALUE_st *__cdecl X509V3_get_d2i(stack_st_X509_EXTENSION *x, void *nid, X509_extension_st **crit, int *idx)
 {
   X509_extension_st *v4; // ebp
   int *v6; // edi
@@ -11,7 +11,7 @@ struct ASN1_VALUE_st *__cdecl X509V3_get_d2i(stack_st_X509_EXTENSION *x, int nid
     if ( idx )
       *idx = -1;
     if ( crit )
-      *crit = -1;
+      *crit = (X509_extension_st *)-1;
     return 0;
   }
   v6 = idx;
@@ -23,7 +23,7 @@ LABEL_24:
     if ( v6 )
       *v6 = -1;
     if ( crit )
-      *crit = -1;
+      *crit = (X509_extension_st *)-1;
     return 0;
   }
   while ( 1 )
@@ -41,7 +41,7 @@ LABEL_15:
     {
       if ( !crit )
         return 0;
-      *crit = -2;
+      *crit = (X509_extension_st *)-2;
       return 0;
     }
     v4 = (X509_extension_st *)v8;
@@ -56,6 +56,6 @@ LABEL_16:
     goto LABEL_24;
   }
   if ( crit )
-    *crit = (int)X509_EXTENSION_get_critical(v4);
-  return X509V3_EXT_d2i(v4);
+    *crit = X509_EXTENSION_get_critical(v4);
+  return X509V3_EXT_d2i((int)v8, v4);
 }

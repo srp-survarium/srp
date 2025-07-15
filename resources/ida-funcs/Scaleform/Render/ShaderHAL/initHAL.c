@@ -1,8 +1,8 @@
-bool __thiscall Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>::initHAL(
+char __thiscall Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface>::initHAL(
         Scaleform::Render::ShaderHAL<Scaleform::Render::D3D1x::ShaderManager,Scaleform::Render::D3D1x::ShaderInterface> *this,
         const Scaleform::Render::HALInitParams *params)
 {
-  bool result; // al
+  char result; // al
 
   result = Scaleform::Render::HAL::initHAL(this, params);
   if ( result )

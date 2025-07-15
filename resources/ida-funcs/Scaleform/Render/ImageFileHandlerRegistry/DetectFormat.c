@@ -1,4 +1,4 @@
-int __thiscall Scaleform::Render::ImageFileHandlerRegistry::DetectFormat(
+Scaleform::Render::ImageFileFormat __thiscall Scaleform::Render::ImageFileHandlerRegistry::DetectFormat(
         Scaleform::Render::ImageFileHandlerRegistry *this,
         Scaleform::Render::ImageFileReader **preader,
         Scaleform::File *file,

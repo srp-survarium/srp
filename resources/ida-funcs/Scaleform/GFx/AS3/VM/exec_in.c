@@ -34,7 +34,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_in(Scaleform::GFx::AS3::VM *this)
   {
     pObject = this->PublicNamespace.pObject;
     prop_name.Kind = MN_QName;
-    prop_name.Obj.pObject = pObject;
+    prop_name.Obj.pObject = &pObject->Scaleform::GFx::AS3::GASRefCountBase;
     if ( pObject )
     {
       ++pObject->RefCount;
@@ -56,7 +56,7 @@ void __thiscall Scaleform::GFx::AS3::VM::exec_in(Scaleform::GFx::AS3::VM *this)
         else
           Scaleform::GFx::AS3::Value::AddRefInternal(Undefined);
       }
-      v13 = (bool *)(*(int (__thiscall **)(_DWORD *, char *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*VInt + 16))(
+      v13 = (bool *)(*(int (__thiscall **)(_DWORD *, char *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*VInt + 28))(
                       VInt,
                       &v15,
                       &prop_name,

@@ -28,37 +28,37 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
   unsigned int v26; // edi
   unsigned int *v27; // ebp
   unsigned int start; // [esp+10h] [ebp-18h]
-  unsigned __int8 *end; // [esp+18h] [ebp-10h]
-  unsigned int blocks; // [esp+1Ch] [ebp-Ch]
-  unsigned int alignSh; // [esp+20h] [ebp-8h]
-  unsigned __int8 *base; // [esp+24h] [ebp-4h]
-  unsigned int nextTail; // [esp+38h] [ebp+10h]
-  unsigned int nextTaila; // [esp+38h] [ebp+10h]
-  unsigned int nextTailb; // [esp+38h] [ebp+10h]
-  unsigned int nextTailc; // [esp+38h] [ebp+10h]
+  unsigned __int8 *v30; // [esp+18h] [ebp-10h]
+  unsigned int BlockSize; // [esp+1Ch] [ebp-Ch]
+  unsigned int alignShift; // [esp+20h] [ebp-8h]
+  unsigned __int8 *v33; // [esp+24h] [ebp-4h]
+  unsigned int v34; // [esp+38h] [ebp+10h]
+  unsigned int v35; // [esp+38h] [ebp+10h]
+  unsigned int v36; // [esp+38h] [ebp+10h]
+  unsigned int v37; // [esp+38h] [ebp+10h]
 
   MinAlignShift = this->MinAlignShift;
   pData = seg->pData;
   v7 = (oldPtr - (char *)pData) >> this->MinAlignShift;
   v8 = (unsigned int *)&seg[1];
-  base = pData;
-  end = &pData[seg->DataSize];
+  v33 = pData;
+  v30 = &pData[seg->DataSize];
   start = v7;
-  blocks = Scaleform::Heap::BitSet2::GetBlockSize((const unsigned int *)&seg[1], v7);
-  alignSh = Scaleform::Heap::BitSet2::GetAlignShift((const unsigned int *)&seg[1], v7, blocks);
-  v9 = blocks << MinAlignShift;
-  v10 = ~((1 << (MinAlignShift + alignSh)) - 1) & ((1 << (MinAlignShift + alignSh)) - 1 + newSize);
-  *oldSize = blocks << MinAlignShift;
-  if ( v10 <= blocks << MinAlignShift )
+  BlockSize = Scaleform::Heap::BitSet2::GetBlockSize((const unsigned int *)&seg[1], v7);
+  alignShift = Scaleform::Heap::BitSet2::GetAlignShift((const unsigned int *)&seg[1], v7, BlockSize);
+  v9 = BlockSize << MinAlignShift;
+  v10 = ~((1 << (MinAlignShift + alignShift)) - 1) & ((1 << (MinAlignShift + alignShift)) - 1 + newSize);
+  *oldSize = BlockSize << MinAlignShift;
+  if ( v10 <= BlockSize << MinAlignShift )
   {
     if ( v10 < v9 )
     {
       v19 = 0;
       v20 = (Scaleform::HeapPT::BinTNode *)&oldPtr[v9];
-      v21 = (blocks << MinAlignShift) - v10;
-      if ( v20 < (Scaleform::HeapPT::BinTNode *)end )
+      v21 = (BlockSize << MinAlignShift) - v10;
+      if ( v20 < (Scaleform::HeapPT::BinTNode *)v30 )
       {
-        if ( ((v8[(start + blocks) >> 4] >> ((2 * (start + blocks)) & 0x1E)) & 3) != 0 )
+        if ( ((v8[(start + BlockSize) >> 4] >> ((2 * (start + BlockSize)) & 0x1E)) & 3) != 0 )
         {
           v19 = 0;
         }
@@ -70,15 +70,15 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
           v19 = ShortSize << MinAlignShift;
         }
       }
-      nextTailb = v19 + v21;
+      v36 = v19 + v21;
       if ( v19 + v21 >= 0x10 )
       {
         if ( v19 )
           Scaleform::HeapPT::FreeBin::Pull(&this->Bin, v20);
         v23 = (Scaleform::HeapPT::BinTNode *)&oldPtr[v10];
-        v24 = nextTailb >> MinAlignShift;
-        v25 = nextTailb >> MinAlignShift << MinAlignShift;
-        nextTailc = v24;
+        v24 = v36 >> MinAlignShift;
+        v25 = v36 >> MinAlignShift << MinAlignShift;
+        v37 = v24;
         if ( v24 >= 0x21 )
         {
           *(_WORD *)((char *)v23 + v25 - 2) = 33;
@@ -93,11 +93,11 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
         }
         v23->pSegment = seg;
         Scaleform::HeapPT::FreeBin::Push(&this->Bin, v23);
-        Scaleform::Heap::BitSet2::MarkBusy(v8, start, v10 >> MinAlignShift, alignSh);
-        v26 = ((char *)v23 - (char *)base) >> MinAlignShift;
+        Scaleform::Heap::BitSet2::MarkBusy(v8, start, v10 >> MinAlignShift, alignShift);
+        v26 = ((char *)v23 - (char *)v33) >> MinAlignShift;
         v8[v26 >> 4] &= ~(3 << ((2 * v26) & 0x1E));
-        v27 = &v8[(nextTailc + v26 - 1) >> 4];
-        *v27 &= ~(3 << ((2 * (nextTailc + v26 - 1)) & 0x1E));
+        v27 = &v8[(v37 + v26 - 1) >> 4];
+        *v27 &= ~(3 << ((2 * (v37 + v26 - 1)) & 0x1E));
       }
     }
     return oldPtr;
@@ -105,12 +105,12 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
   else
   {
     v11 = &oldPtr[v9];
-    if ( &oldPtr[v9] >= (char *)end || ((v8[(blocks + start) >> 4] >> ((2 * (blocks + start)) & 0x1E)) & 3) != 0 )
+    if ( &oldPtr[v9] >= (char *)v30 || ((v8[(BlockSize + start) >> 4] >> ((2 * (BlockSize + start)) & 0x1E)) & 3) != 0 )
       return 0;
     v12 = *((unsigned __int16 *)v11 + 6);
     if ( v12 >= 0x21 )
       v12 = *((_DWORD *)v11 + 4);
-    nextTail = v12 << MinAlignShift;
+    v34 = v12 << MinAlignShift;
     if ( v10 > v9 + (v12 << MinAlignShift) )
     {
       return 0;
@@ -118,17 +118,17 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
     else
     {
       Scaleform::HeapPT::FreeBin::Pull(&this->Bin, (Scaleform::HeapPT::BinTNode *)&oldPtr[v9]);
-      v13 = v9 + nextTail - v10;
+      v13 = v9 + v34 - v10;
       if ( v13 < 0x10 )
       {
-        v10 = v9 + nextTail;
+        v10 = v9 + v34;
       }
       else
       {
         v14 = (Scaleform::HeapPT::BinTNode *)&oldPtr[v10];
         v15 = v13 >> MinAlignShift;
         v16 = v15 << MinAlignShift;
-        nextTaila = v15;
+        v35 = v15;
         if ( v15 >= 0x21 )
         {
           *(_WORD *)((char *)v14 + v16 - 2) = 33;
@@ -143,11 +143,11 @@ char *__thiscall Scaleform::HeapPT::AllocBitSet2::ReallocInPlace(
         }
         v14->pSegment = seg;
         Scaleform::HeapPT::FreeBin::Push(&this->Bin, v14);
-        v17 = ((char *)v14 - (char *)base) >> MinAlignShift;
+        v17 = ((char *)v14 - (char *)v33) >> MinAlignShift;
         v8[v17 >> 4] &= ~(3 << ((2 * v17) & 0x1E));
-        v8[(nextTaila + v17 - 1) >> 4] &= ~(3 << ((2 * (nextTaila + v17 - 1)) & 0x1E));
+        v8[(v35 + v17 - 1) >> 4] &= ~(3 << ((2 * (v35 + v17 - 1)) & 0x1E));
       }
-      Scaleform::Heap::BitSet2::MarkBusy(v8, start, v10 >> MinAlignShift, alignSh);
+      Scaleform::Heap::BitSet2::MarkBusy(v8, start, v10 >> MinAlignShift, alignShift);
       return oldPtr;
     }
   }

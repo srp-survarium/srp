@@ -66,13 +66,13 @@ INTRNCVT_STATUS __cdecl _ld12tod(_LDBL12 *pld12, _CRT_DOUBLE *d)
   int v65; // [esp+28h] [ebp-Ch]
   int v66; // [esp+2Ch] [ebp-8h]
   int v67; // [esp+30h] [ebp-4h]
-  _LDBL12 *pld12a; // [esp+3Ch] [ebp+8h]
-  _LDBL12 *pld12b; // [esp+3Ch] [ebp+8h]
-  _LDBL12 *pld12c; // [esp+3Ch] [ebp+8h]
-  int pld12d; // [esp+3Ch] [ebp+8h]
-  _LDBL12 *pld12e; // [esp+3Ch] [ebp+8h]
-  _LDBL12 *pld12f; // [esp+3Ch] [ebp+8h]
-  _LDBL12 *pld12g; // [esp+3Ch] [ebp+8h]
+  int v68; // [esp+3Ch] [ebp+8h]
+  unsigned int v69; // [esp+3Ch] [ebp+8h]
+  int v70; // [esp+3Ch] [ebp+8h]
+  int v71; // [esp+3Ch] [ebp+8h]
+  int v72; // [esp+3Ch] [ebp+8h]
+  int v73; // [esp+3Ch] [ebp+8h]
+  int v74; // [esp+3Ch] [ebp+8h]
 
   v2 = *(_WORD *)&pld12->ld12[10];
   v63 = v2 & 0x8000;
@@ -83,7 +83,7 @@ INTRNCVT_STATUS __cdecl _ld12tod(_LDBL12 *pld12, _CRT_DOUBLE *d)
   v62 = v4;
   if ( v3 != -16383 )
   {
-    pld12a = 0;
+    v68 = 0;
     v57 = v60;
     v58 = v61;
     v59 = v62;
@@ -104,10 +104,10 @@ INTRNCVT_STATUS __cdecl _ld12tod(_LDBL12 *pld12, _CRT_DOUBLE *d)
       v67 = 0;
       v13 = 1 << (31 - v8 % 32);
       v14 = &v60 + v8 / 32;
-      pld12b = (_LDBL12 *)(v13 + *v14);
-      if ( (unsigned int)pld12b >= *v14 )
+      v69 = v13 + *v14;
+      if ( v69 >= *v14 )
       {
-        v15 = (unsigned int)pld12b < v13;
+        v15 = v69 < v13;
         goto LABEL_18;
       }
 LABEL_19:
@@ -115,13 +115,13 @@ LABEL_19:
       while ( 1 )
       {
         --v12;
-        *v14 = (unsigned int)pld12b;
+        *v14 = v69;
         if ( v12 < 0 || !v67 )
           break;
         v67 = 0;
         v14 = &v60 + v12;
         v16 = *v14 + 1;
-        pld12b = (_LDBL12 *)v16;
+        v69 = v16;
         if ( v16 >= *v14 )
         {
           v15 = v16 == 0;
@@ -131,13 +131,13 @@ LABEL_18:
         }
         goto LABEL_19;
       }
-      pld12a = (_LDBL12 *)v67;
+      v68 = v67;
     }
 LABEL_22:
     *v9 &= -1 << v66;
     if ( v65 + 1 < 3 )
       memset(&v60 + v65 + 1, 0, 4 * (3 - (v65 + 1)));
-    if ( pld12a )
+    if ( v68 )
       ++v3;
     if ( v3 >= DoubleFormat.min_exp - DoubleFormat.precision )
     {
@@ -150,17 +150,16 @@ LABEL_22:
           v50 = DoubleFormat.exp_width / 32;
           v51 = DoubleFormat.exp_width % 32;
           v65 = 0;
-          pld12g = 0;
+          v74 = 0;
           v67 = 32 - DoubleFormat.exp_width % 32;
           do
           {
-            v52 = *(&v60 + (_DWORD)pld12g);
+            v52 = *(&v60 + v74);
             v64 = ~(-1 << v51) & v52;
-            *(&v60 + (_DWORD)pld12g) = v65 | (v52 >> v51);
-            pld12g = (_LDBL12 *)((char *)pld12g + 1);
+            *(&v60 + v74++) = v65 | (v52 >> v51);
             v65 = v64 << v67;
           }
-          while ( (int)pld12g < 3 );
+          while ( v74 < 3 );
           v53 = 2;
           v54 = (unsigned int *)(&v62 - v50);
           do
@@ -183,19 +182,19 @@ LABEL_22:
           v43 = DoubleFormat.exp_width / 32;
           v44 = DoubleFormat.exp_width % 32;
           v65 = 0;
-          pld12f = 0;
+          v73 = 0;
           v67 = 32 - DoubleFormat.exp_width % 32;
           do
           {
-            v45 = (int *)(&v60 + (_DWORD)pld12f);
+            v45 = (int *)(&v60 + v73);
             v46 = *v45;
             v64 = ~(-1 << v44) & *v45;
             v47 = v67;
             *v45 = v65 | (v46 >> v44);
-            pld12f = (_LDBL12 *)((char *)pld12f + 1);
+            ++v73;
             v65 = v64 << v47;
           }
-          while ( (int)pld12f < 3 );
+          while ( v73 < 3 );
           v48 = 2;
           v49 = (unsigned int *)(&v62 - v43);
           do
@@ -219,19 +218,19 @@ LABEL_22:
       v62 = v59;
       v18 = (DoubleFormat.min_exp - v64) % 32;
       v65 = 0;
-      pld12c = 0;
+      v70 = 0;
       v67 = 32 - v18;
       do
       {
-        v19 = (int *)(&v60 + (_DWORD)pld12c);
+        v19 = (int *)(&v60 + v70);
         v20 = *v19;
         v64 = ~(-1 << v18) & *v19;
         v21 = v67;
         *v19 = v65 | (v20 >> v18);
-        pld12c = (_LDBL12 *)((char *)pld12c + 1);
+        ++v70;
         v65 = v64 << v21;
       }
-      while ( (int)pld12c < 3 );
+      while ( v70 < 3 );
       v22 = 2;
       v23 = (unsigned int *)(&v62 - v17);
       do
@@ -257,14 +256,14 @@ LABEL_22:
             goto LABEL_52;
         }
         v28 = v24 / 32;
-        pld12d = 0;
+        v71 = 0;
         v29 = 1 << (31 - v24 % 32);
         v30 = &v60 + v24 / 32;
         v31 = *v30 + v29;
         if ( v31 < *v30 || v31 < v29 )
-          pld12d = 1;
+          v71 = 1;
         *v30 = v31;
-        for ( k = pld12d; --v28 >= 0 && k; k = v35 )
+        for ( k = v71; --v28 >= 0 && k; k = v35 )
         {
           v33 = &v60 + v28;
           v34 = *v33 + 1;
@@ -281,19 +280,19 @@ LABEL_52:
       v36 = (DoubleFormat.exp_width + 1) / 32;
       v37 = (DoubleFormat.exp_width + 1) % 32;
       v65 = 0;
-      pld12e = 0;
+      v72 = 0;
       v67 = 32 - v37;
       do
       {
-        v38 = (int *)(&v60 + (_DWORD)pld12e);
+        v38 = (int *)(&v60 + v72);
         v39 = *v38;
         v64 = ~(-1 << v37) & *v38;
         v40 = v67;
         *v38 = v65 | (v39 >> v37);
-        pld12e = (_LDBL12 *)((char *)pld12e + 1);
+        ++v72;
         v65 = v64 << v40;
       }
-      while ( (int)pld12e < 3 );
+      while ( v72 < 3 );
       v41 = 2;
       v42 = (unsigned int *)(&v62 - v36);
       do

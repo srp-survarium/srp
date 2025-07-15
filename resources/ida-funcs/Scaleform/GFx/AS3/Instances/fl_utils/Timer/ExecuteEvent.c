@@ -37,7 +37,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::Timer::ExecuteEvent(
       {
         RefCount = result.pObject->RefCount;
         v5 = result.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           result.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v5);
@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_utils::Timer::ExecuteEvent(
   {
     v6 = efe.pObject->RefCount;
     v7 = efe.pObject;
-    if ( ((unsigned int)&byte_3FFFFF & v6) != 0 )
+    if ( (v6 & 0x3FFFFF) != 0 )
     {
       efe.pObject->RefCount = v6 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

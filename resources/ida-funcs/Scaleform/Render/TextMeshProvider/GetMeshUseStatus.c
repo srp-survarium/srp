@@ -1,4 +1,5 @@
-int __thiscall Scaleform::Render::TextMeshProvider::GetMeshUseStatus(Scaleform::Render::TextMeshProvider *this)
+Scaleform::Render::MeshUseStatus __thiscall Scaleform::Render::TextMeshProvider::GetMeshUseStatus(
+        Scaleform::Render::TextMeshProvider *this)
 {
   Scaleform::Render::MeshUseStatus v2; // ebp
   unsigned int v4; // ebx

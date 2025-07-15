@@ -19,6 +19,6 @@ void __thiscall Scaleform::GFx::AS3::Abc::ConstPool::ConstPool(Scaleform::GFx::A
   this->const_multiname.Data.Size = 0;
   this->const_multiname.Data.Policy.Capacity = 0;
   this->any_namespace.Kind = NS_Public;
-  this->any_namespace.NameURI.pStr = (const char *)&buf;
+  this->any_namespace.NameURI.pStr = uri;
   this->any_namespace.NameURI.Size = 0;
 }

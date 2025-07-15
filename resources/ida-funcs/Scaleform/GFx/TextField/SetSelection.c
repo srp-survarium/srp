@@ -5,13 +5,13 @@ void __thiscall Scaleform::GFx::TextField::SetSelection(Scaleform::GFx::TextFiel
   signed int v6; // edi
   signed int Length; // eax
   Scaleform::Render::TreeText *RenderNode; // eax
-  Scaleform::Ptr<Scaleform::GFx::Text::EditorKit> result; // [esp+4h] [ebp-4h] BYREF
+  Scaleform::RefCountVImpl *v9; // [esp+4h] [ebp-4h] BYREF
 
   if ( !this->pDocument.pObject->pEditorKit.pObject )
   {
-    Scaleform::GFx::TextField::CreateEditorKit(this, (int)this, (int)&result);
-    if ( result.pObject )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)result.pObject);
+    Scaleform::GFx::TextField::CreateEditorKit(this, (int)this, (int)&v9);
+    if ( v9 )
+      Scaleform::RefCountImpl::Release(v9);
   }
   pObject = this->pDocument.pObject;
   if ( pObject->pEditorKit.pObject )

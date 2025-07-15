@@ -1,4 +1,4 @@
-void __cdecl __noreturn Scaleform::Render::PNG::png_error_handler(png_struct_def *png_ptr, const char *msg)
+void __cdecl __noreturn Scaleform::Render::PNG::png_error_handler(png_struct_def *png_ptr, char *msg)
 {
   unsigned int v2; // edi
   int error_ptr; // eax
@@ -9,12 +9,12 @@ void __cdecl __noreturn Scaleform::Render::PNG::png_error_handler(png_struct_def
   v4 = error_ptr;
   if ( v2 >= 0x64 )
   {
-    strncpy_s((char *)(error_ptr + 32), 0x64u, msg, 0x63u);
+    strncpy_s(v2, (char *)(error_ptr + 32), 100, msg, 0x63u);
     *(_BYTE *)(v4 + 131) = 0;
   }
   else
   {
-    strcpy_s((char *)(error_ptr + 32), 0x64u, msg);
+    strcpy_s(v2, (char *)(error_ptr + 32), 100, msg);
   }
   png_longjmp(png_ptr, 1);
 }

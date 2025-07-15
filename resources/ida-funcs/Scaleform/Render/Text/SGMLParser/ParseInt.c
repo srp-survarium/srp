@@ -1,4 +1,7 @@
-char __cdecl Scaleform::Render::Text::SGMLParser<wchar_t>::ParseInt(int *pdestVal, const wchar_t *pstr, int len)
+char __cdecl Scaleform::Render::Text::SGMLParser<wchar_t>::ParseInt(
+        int *pdestVal,
+        const wchar_t *pstr,
+        unsigned int len)
 {
   unsigned int v3; // ebp
   const wchar_t *v5; // esi
@@ -6,7 +9,7 @@ char __cdecl Scaleform::Render::Text::SGMLParser<wchar_t>::ParseInt(int *pdestVa
   int v7; // ecx
   unsigned int v8; // ebx
   int v9; // ecx
-  int sign; // [esp+10h] [ebp+Ch]
+  int v10; // [esp+10h] [ebp+Ch]
 
   v3 = len;
   if ( !len )
@@ -14,10 +17,10 @@ char __cdecl Scaleform::Render::Text::SGMLParser<wchar_t>::ParseInt(int *pdestVa
   v5 = pstr;
   v6 = 0;
   v7 = 1;
-  sign = 1;
+  v10 = 1;
   if ( *pstr == 45 )
   {
-    sign = -1;
+    v10 = -1;
     v7 = -1;
   }
   else if ( *pstr != 43 )
@@ -38,7 +41,7 @@ LABEL_7:
       v6 = v9 + 10 * v6 - 48;
       if ( v8 >= v3 )
       {
-        v7 = sign;
+        v7 = v10;
         goto LABEL_11;
       }
     }

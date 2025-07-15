@@ -5,12 +5,12 @@ void __thiscall Scaleform::GFx::AS2::ASRefCountCollector::ForceEmergencyCollect(
   unsigned int PeakRootCount; // eax
   bool v4; // zf
   unsigned int PresetMaxRootCount; // ecx
-  Scaleform::GFx::AS2::RefCountCollector<323>::Stats pstat; // [esp+Ch] [ebp-8h] BYREF
+  Scaleform::GFx::AS2::RefCountCollector<323>::Stats v6; // [esp+Ch] [ebp-8h] BYREF
 
   Size = this->Roots.Size;
-  pstat.RootsFreedTotal = 0;
-  pstat.RootsNumber = 0;
-  Scaleform::GFx::AS2::RefCountCollector<323>::Collect(this, &pstat);
+  v6.RootsFreedTotal = 0;
+  v6.RootsNumber = 0;
+  Scaleform::GFx::AS2::RefCountCollector<323>::Collect(this, &v6);
   PeakRootCount = this->PeakRootCount;
   this->FrameCnt = 0;
   if ( Size >= PeakRootCount )

@@ -2,7 +2,7 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
         Scaleform::Render::Rasterizer *this,
         unsigned int scanline,
         unsigned __int8 *pRaster,
-        unsigned int numChannels,
+        int numChannels,
         int gammaIdx)
 {
   Scaleform::Render::Rasterizer::SortedY *Array; // ecx
@@ -16,8 +16,8 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
   int v14; // esi
   int v15; // eax
   int v16; // ecx
-  unsigned int numCells; // [esp+4h] [ebp-4h]
-  const Scaleform::Render::Rasterizer::Cell *const *cells; // [esp+Ch] [ebp+4h]
+  unsigned int v17; // [esp+4h] [ebp-4h]
+  Scaleform::Render::Rasterizer::Cell **v18; // [esp+Ch] [ebp+4h]
 
   if ( scanline < this->SortedYs.Size )
   {
@@ -25,7 +25,7 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
     Count = Array[scanline].Count;
     v8 = &this->SortedCells.Array[Array[scanline].Start];
     v9 = 0;
-    cells = (const Scaleform::Render::Rasterizer::Cell *const *)v8;
+    v18 = v8;
     if ( Count )
     {
       while ( 1 )
@@ -34,7 +34,7 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
         v9 += (*v8)->Cover;
         x = (*v8)->x;
         Area = (*v8)->Area;
-        numCells = --Count;
+        v17 = --Count;
         if ( Count )
         {
           do
@@ -48,8 +48,8 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
             --Count;
           }
           while ( Count );
-          cells = (const Scaleform::Render::Rasterizer::Cell *const *)v8;
-          numCells = Count;
+          v18 = v8;
+          v17 = Count;
         }
         if ( Area )
         {
@@ -65,12 +65,9 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
           if ( v13 > 255 )
             v13 = 255;
           if ( numChannels )
-            memset(
-              (int)&pRaster[numChannels * (x - this->MinX)],
-              (unsigned __int8 *)this->GammaLut[gammaIdx][v13],
-              numChannels);
-          Count = numCells;
-          v8 = (Scaleform::Render::Rasterizer::Cell **)cells;
+            memset((int)&pRaster[numChannels * (x - this->MinX)], this->GammaLut[gammaIdx][v13], numChannels);
+          Count = v17;
+          v8 = v18;
           ++x;
         }
         if ( !Count )
@@ -92,13 +89,10 @@ void __thiscall Scaleform::Render::Rasterizer::SweepScanline(
           v16 = v15 + (gammaIdx << 8);
           if ( this->GammaLut[0][v16] )
           {
-            memset(
-              (int)&pRaster[numChannels * (x - this->MinX)],
-              (unsigned __int8 *)this->GammaLut[0][v16],
-              numChannels * (v14 - x));
-            Count = numCells;
+            memset((int)&pRaster[numChannels * (x - this->MinX)], this->GammaLut[0][v16], numChannels * (v14 - x));
+            Count = v17;
           }
-          v8 = (Scaleform::Render::Rasterizer::Cell **)cells;
+          v8 = v18;
         }
       }
     }

@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::DrawTextManager::TextParams::TextParams(
   this->HAlignment = Align_Center;
   this->VAlignment = VAlign_Top;
   this->FontStyle = Normal;
-  Scaleform::String::operator=(p_FontName, "Times New Roman");
+  Scaleform::String::operator=(p_FontName, (const __m128i *)"Times New Roman");
   this->Multiline = 1;
   this->WordWrap = 1;
   this->Underline = 0;

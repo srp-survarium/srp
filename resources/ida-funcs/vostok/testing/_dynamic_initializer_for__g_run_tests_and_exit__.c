@@ -1,6 +1,11 @@
-void vostok::testing::_dynamic_initializer_for__g_run_tests_and_exit__()
+void __thiscall vostok::testing::_dynamic_initializer_for__g_run_tests_and_exit__(vostok::command_line::key *this)
 {
-  vostok::debug::protected_call(
-    (void (__cdecl *)(void *))vostok::command_line::protected_key_construct,
-    &vostok::testing::g_run_tests_and_exit);
+  vostok::command_line::key::key(
+    this,
+    &vostok::testing::g_run_tests_and_exit,
+    s_run_tests_and_exit_key_name,
+    uri,
+    "testing",
+    uri,
+    uri);
 }

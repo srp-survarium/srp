@@ -1,39 +1,56 @@
-void __usercall vostok::ui::ui_font::init_font(vostok::ui::ui_font *this@<ecx>, _DWORD *a2@<esi>)
+void __usercall vostok::ui::ui_font::init_font(vostok::ui::ui_font *this@<ecx>, int a2@<esi>)
 {
   int v2; // ecx
-  int v3; // edi
-  int v4; // eax
-  unsigned int v5; // edx
-  vostok::math::float4 *v6; // ecx
-  float *v7; // eax
+  int v3; // eax
+  int v4; // edi
+  char *v5; // eax
+  int v6; // eax
+  int v7; // edi
+  unsigned int v8; // edx
+  vostok::math::float4 *v9; // ecx
+  float *v10; // eax
 
-  v2 = a2[1];
-  a2[2] = 1101529088;
-  a2[5] = 256;
-  a2[3] = 1132462080;
-  a2[4] = 1132462080;
-  v3 = 0;
-  if ( a2[6] )
+  v2 = *(_DWORD *)(a2 + 4);
+  *(float *)(a2 + 8) = FLOAT_21_0;
+  *(_DWORD *)(a2 + 20) = 256;
+  *(float *)(a2 + 12) = FLOAT_256_0;
+  *(float *)(a2 + 16) = FLOAT_256_0;
+  v3 = *(_DWORD *)(a2 + 24);
+  if ( v3 )
   {
-    (*(void (__thiscall **)(int, _DWORD))(*(_DWORD *)v2 + 24))(v2, a2[6]);
-    a2[6] = 0;
+    (*(void (__thiscall **)(int, int, const char *, const char *, int))(*(_DWORD *)v2 + 24))(
+      v2,
+      v3,
+      "vostok::ui::ui_font::init_font",
+      ".\\ui_font.cpp",
+      35);
+    *(_DWORD *)(a2 + 24) = 0;
   }
-  v4 = (*(int (__thiscall **)(_DWORD, int))(*(_DWORD *)a2[1] + 16))(a2[1], 12 * a2[5]);
-  v5 = 0;
-  a2[6] = v4;
-  if ( a2[5] )
+  v4 = *(_DWORD *)(a2 + 4);
+  v5 = type_info::raw_name(&vostok::math::float3 `RTTI Type Descriptor');
+  v6 = (*(int (__thiscall **)(int, int, char *, const char *, const char *, int))(*(_DWORD *)v4 + 16))(
+         v4,
+         12 * *(_DWORD *)(a2 + 20),
+         v5,
+         "vostok::ui::ui_font::init_font",
+         ".\\ui_font.cpp",
+         36);
+  v7 = 0;
+  v8 = 0;
+  *(_DWORD *)(a2 + 24) = v6;
+  if ( *(_DWORD *)(a2 + 20) )
   {
-    v6 = vostok::ui::arial_21_symb;
+    v9 = vostok::ui::arial_21_symb;
     do
     {
-      v7 = (float *)(v3 + a2[6]);
-      *v7 = v6->x;
-      ++v5;
-      v3 += 12;
-      v7[1] = v6->y;
-      v7[2] = v6->z - v6->x;
-      ++v6;
+      v10 = (float *)(v7 + *(_DWORD *)(a2 + 24));
+      *v10 = v9->x;
+      ++v8;
+      v7 += 12;
+      v10[1] = v9->y;
+      v10[2] = v9->z - v9->x;
+      ++v9;
     }
-    while ( v5 < a2[5] );
+    while ( v8 < *(_DWORD *)(a2 + 20) );
   }
 }

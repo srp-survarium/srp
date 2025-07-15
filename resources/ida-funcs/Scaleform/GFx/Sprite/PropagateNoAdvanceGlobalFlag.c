@@ -34,7 +34,7 @@ void __usercall Scaleform::GFx::Sprite::PropagateNoAdvanceGlobalFlag(
         v7 = ((int (__thiscall *)(Scaleform::GFx::InteractiveObject *))v5->CheckAdvanceStatus)(v5);
         if ( v7 == -1 )
         {
-          v5->Flags |= (unsigned int)Scaleform::GFx::AS2::CreateShadow;
+          v5->Flags |= (unsigned int)&loc_400000;
         }
         else if ( v7 == 1 )
         {

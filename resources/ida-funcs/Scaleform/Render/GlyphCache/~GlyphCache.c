@@ -5,7 +5,7 @@ void __thiscall Scaleform::Render::GlyphCache::~GlyphCache(Scaleform::Render::Gl
   Scaleform::RefCountVImpl *v4; // ecx
   Scaleform::Render::Texture::UpdateDesc *Data; // eax
   Scaleform::Render::RawImage *v6; // ecx
-  $5BC0278F55994A57ED32D3AA213E1041 *v7; // edi
+  $9D459D18FC34DE13F2F77A193E41D32A *v7; // edi
   Scaleform::RefCountNTSImpl *pNext; // ecx
   Scaleform::Render::GlyphSlot *v9; // ecx
   Scaleform::Render::GlyphSlot *v10; // ecx
@@ -41,8 +41,8 @@ void __thiscall Scaleform::Render::GlyphCache::~GlyphCache(Scaleform::Render::Gl
   if ( v4 )
     Scaleform::RefCountImpl::Release(v4);
   Data = this->RectsToUpdate.Data;
-  this->Notifier.__vftable = (Scaleform::Render::GlyphCache::EvictNotifier_vtbl *)&Scaleform::Render::GlyphCacheConfig::`vftable';
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
+  this->Notifier.__vftable = (Scaleform::Render::GlyphCache::EvictNotifier_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
+  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, (void *)Data);
   Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2>>::ClearAndRelease((Scaleform::ArrayPagedBase<Scaleform::GFx::AS2::RefCountBaseGC<323> *,10,5,Scaleform::AllocatorPagedLH_POD<Scaleform::GFx::AS2::RefCountBaseGC<323> *,2> > *)&this->GlyphsToUpdate);
   v6 = this->UpdateBuffer.pObject;
   if ( v6 )
@@ -69,7 +69,7 @@ void __thiscall Scaleform::Render::GlyphCache::~GlyphCache(Scaleform::Render::Gl
     --v12;
   }
   while ( v12 >= 0 );
-  this->Scaleform::Render::GlyphCacheConfig::__vftable = (Scaleform::Render::GlyphCacheConfig_vtbl *)&Scaleform::Render::GlyphCacheConfig::`vftable';
+  this->Scaleform::Render::GlyphCacheConfig::__vftable = (Scaleform::Render::GlyphCacheConfig_vtbl *)&Scaleform::GFx::AMP::ConnStatusInterface::`vftable';
   this->Scaleform::Render::CacheBase::__vftable = (Scaleform::Render::CacheBase_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
   Scaleform::RefCountImplCore::~RefCountImplCore(this);
 }

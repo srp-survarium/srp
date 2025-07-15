@@ -1,30 +1,17 @@
-btMatrix3x3 *__userpurge btMatrix3x3::btMatrix3x3@<eax>(
-        btMatrix3x3 *this@<ecx>,
-        btMatrix3x3 *result@<eax>,
-        const float *xx,
-        const float *xy,
-        const float *xz,
-        const float *yx,
-        const float *yy,
-        const float *yz,
-        const float *zx,
-        const float *zy,
+btMatrix3x3 *__thiscall btMatrix3x3::btMatrix3x3(
+        btMatrix3x3 *this,
+        btMatrix3x3 *xx,
+        float *xy,
+        float *xz,
+        float *yx,
+        float *yy,
+        float *yz,
+        float *zx,
+        float *zy,
         const float *zz)
 {
-  double v11; // st7
+  const float *savedregs; // [esp+0h] [ebp+0h]
 
-  result->m_el[0].mVec128.m128_f32[0] = this->m_el[0].mVec128.m128_f32[0];
-  result->m_el[0].mVec128.m128_f32[1] = *xx;
-  result->m_el[0].mVec128.m128_f32[2] = *xy;
-  result->m_el[0].mVec128.m128_i32[3] = 0;
-  result->m_el[1].mVec128.m128_f32[0] = *xz;
-  result->m_el[1].mVec128.m128_f32[1] = *yx;
-  result->m_el[1].mVec128.m128_f32[2] = *yy;
-  result->m_el[1].mVec128.m128_i32[3] = 0;
-  result->m_el[2].mVec128.m128_f32[0] = *yz;
-  result->m_el[2].mVec128.m128_f32[1] = *zx;
-  v11 = *zy;
-  result->m_el[2].mVec128.m128_i32[3] = 0;
-  result->m_el[2].mVec128.m128_f32[2] = v11;
-  return result;
+  btMatrix3x3::setValue(this, (int)xx, xy, xz, yx, yy, yz, zx, zy, zz, savedregs);
+  return xx;
 }

@@ -1,94 +1,57 @@
-void __thiscall boost::asio::ip::detail::endpoint::endpoint(
+void __userpurge boost::asio::ip::detail::endpoint::endpoint(
+        boost::asio::ip::address *addr@<eax>,
         boost::asio::ip::detail::endpoint *this,
-        boost::asio::ip::address *addr,
-        u_short port_num)
+        int port_num)
 {
-  u_long hostlong; // [esp+28h] [ebp-3Ch]
-  std::bad_cast v5; // [esp+30h] [ebp-34h] BYREF
-  in_addr::<unnamed_type_S_un> S_un; // [esp+3Ch] [ebp-28h]
-  boost::array<unsigned char,16> bytes; // [esp+40h] [ebp-24h]
-  boost::asio::ip::address_v6 v6_addr; // [esp+50h] [ebp-14h] BYREF
+  u_long v4; // eax
+  boost::asio::ip::address *v5; // ecx
+  unsigned int scope_id; // eax
+  int v7; // [esp+0h] [ebp-20h]
+  int v8; // [esp+0h] [ebp-20h]
+  int v9; // [esp+4h] [ebp-1Ch]
+  int v10; // [esp+4h] [ebp-1Ch]
+  int v11; // [esp+8h] [ebp-18h]
+  int v12; // [esp+8h] [ebp-18h]
+  boost::asio::ip::address_v6 v13; // [esp+Ch] [ebp-14h] BYREF
 
-  *(_QWORD *)&this->data_.base.sa_family = 0;
-  *(_QWORD *)this->data_.v6.sin6_addr.u.Byte = 0;
-  *(_QWORD *)&this->data_.v6.sin6_addr.u.Word[4] = 0;
-  this->data_.v6.sin6_scope_id = 0;
+  memset(this, 0, sizeof(boost::asio::ip::detail::endpoint));
   if ( addr->type_ )
   {
     this->data_.base.sa_family = 23;
-    this->data_.v4.sin_port = htons(port_num);
+    this->data_.v4.sin_port = ((int (__stdcall *)(int, int, int, int, _DWORD))(&off_8E3A98 + 20))(
+                                port_num,
+                                v7,
+                                v9,
+                                v11,
+                                *(_DWORD *)v13.addr_.u.Byte);
     this->data_.v4.sin_addr.S_un.S_addr = 0;
-    boost::asio::ip::address::to_v6(addr, &v6_addr);
-    *(_DWORD *)&bytes.elems[4] = *(_DWORD *)&v6_addr.addr_.u.Word[2];
-    *(_QWORD *)&bytes.elems[8] = *(_QWORD *)&v6_addr.addr_.u.Word[4];
-    *(_DWORD *)this->data_.v6.sin6_addr.u.Byte = *(_DWORD *)v6_addr.addr_.u.Byte;
-    *(_DWORD *)&this->data_.v6.sin6_addr.u.Word[2] = *(_DWORD *)&bytes.elems[4];
-    *(_QWORD *)&this->data_.v6.sin6_addr.u.Word[4] = *(_QWORD *)&bytes.elems[8];
-    this->data_.v6.sin6_scope_id = v6_addr.scope_id_;
+    boost::asio::ip::address::to_v6(v5, addr, &v13);
+    scope_id = v13.scope_id_;
+    *(_QWORD *)this->data_.v6.sin6_addr.u.Byte = *(_QWORD *)v13.addr_.u.Byte;
+    *(_QWORD *)&this->data_.v6.sin6_addr.u.Word[4] = *(_QWORD *)&v13.addr_.u.Word[4];
+    this->data_.v6.sin6_scope_id = scope_id;
   }
   else
   {
     this->data_.base.sa_family = 2;
-    this->data_.v4.sin_port = htons(port_num);
+    this->data_.v4.sin_port = ((int (__stdcall *)(int, int, int, int, _DWORD))(&off_8E3A98 + 20))(
+                                port_num,
+                                v7,
+                                v9,
+                                v11,
+                                *(_DWORD *)v13.addr_.u.Byte);
     if ( addr->type_ )
     {
-      std::bad_cast::bad_cast(&v5, &stru_984D24.m_working_macro_list.m_buffer[1].m_store[404]);
-      boost::throw_exception(&v5);
-      std::bad_cast::~bad_cast(&v5);
+      std::bad_cast::bad_cast((std::bad_cast *)&v13.addr_.u.Word[4], "bad cast");
+      boost::throw_exception((const std::exception *)&v13.addr_.u.Word[4]);
+      std::bad_cast::~bad_cast((std::bad_cast *)&v13.addr_.u.Word[4]);
     }
-    S_un = addr->ipv4_address_.addr_.S_un;
-    hostlong = ntohl(S_un.S_addr);
-    this->data_.v4.sin_addr.S_un.S_addr = htonl(hostlong);
+    v4 = ntohl(addr->ipv4_address_.addr_.S_un.S_addr);
+    this->data_.v4.sin_addr.S_un.S_addr = ((int (__stdcall *)(u_long, int, int, int, _DWORD))(&off_8E3A98 + 10))(
+                                            v4,
+                                            v8,
+                                            v10,
+                                            v12,
+                                            *(_DWORD *)v13.addr_.u.Byte);
   }
-}
-
-
-void __thiscall boost::asio::ip::detail::endpoint::endpoint(
-        boost::asio::ip::detail::endpoint *this,
-        int family,
-        u_short port_num)
-{
-  *(_QWORD *)&this->data_.base.sa_family = 0;
-  *(_QWORD *)this->data_.v6.sin6_addr.u.Byte = 0;
-  *(_QWORD *)&this->data_.v6.sin6_addr.u.Word[4] = 0;
-  this->data_.v6.sin6_scope_id = 0;
-  if ( family == 2 )
-  {
-    this->data_.base.sa_family = 2;
-    this->data_.v4.sin_port = htons(port_num);
-    this->data_.v4.sin_addr.S_un.S_addr = 0;
-  }
-  else
-  {
-    this->data_.base.sa_family = 23;
-    this->data_.v4.sin_port = htons(port_num);
-    this->data_.v4.sin_addr.S_un.S_addr = 0;
-    this->data_.base.sa_data[6] = 0;
-    this->data_.base.sa_data[7] = 0;
-    this->data_.base.sa_data[8] = 0;
-    this->data_.base.sa_data[9] = 0;
-    this->data_.base.sa_data[10] = 0;
-    this->data_.base.sa_data[11] = 0;
-    this->data_.base.sa_data[12] = 0;
-    this->data_.base.sa_data[13] = 0;
-    this->data_.v6.sin6_addr.u.Byte[8] = 0;
-    this->data_.v6.sin6_addr.u.Byte[9] = 0;
-    this->data_.v6.sin6_addr.u.Byte[10] = 0;
-    this->data_.v6.sin6_addr.u.Byte[11] = 0;
-    this->data_.v6.sin6_addr.u.Byte[12] = 0;
-    this->data_.v6.sin6_addr.u.Byte[13] = 0;
-    this->data_.v6.sin6_addr.u.Byte[14] = 0;
-    this->data_.v6.sin6_addr.u.Byte[15] = 0;
-    this->data_.v6.sin6_scope_id = 0;
-  }
-}
-
-
-void __thiscall boost::asio::ip::detail::endpoint::endpoint(boost::asio::ip::detail::endpoint *this)
-{
-  *(_QWORD *)&this->data_.base.sa_family = 0;
-  *(_QWORD *)this->data_.v6.sin6_addr.u.Byte = 0;
-  *(_QWORD *)&this->data_.v6.sin6_addr.u.Word[4] = 0;
-  this->data_.v6.sin6_scope_id = 0;
-  *(_QWORD *)&this->data_.base.sa_family = 2;
 }

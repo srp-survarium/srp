@@ -26,7 +26,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_filters::BevelFilter::AS3Cons
   pObject = this->pTraits.pObject;
   highA = 1.0;
   shadowA = 1.0;
-  highC = (unsigned int)&vostok::memory::s_CRT_arena[5574199];
+  highC = 0xFFFFFF;
   stren = 1.0;
   shadowC = 0;
   qual = 1;

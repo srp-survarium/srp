@@ -60,12 +60,12 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
   Scaleform::Render::Text::Allocator *pObject; // [esp-18h] [ebp-44h]
   unsigned int v60; // [esp-8h] [ebp-34h]
   unsigned int v61; // [esp-8h] [ebp-34h]
-  Scaleform::Render::Text::Paragraph *remainedLen; // [esp+10h] [ebp-1Ch]
-  unsigned int remainedLena; // [esp+10h] [ebp-1Ch]
-  Scaleform::Render::Text::Paragraph *newPara; // [esp+14h] [ebp-18h] BYREF
+  Scaleform::Render::Text::Paragraph *v63; // [esp+10h] [ebp-1Ch]
+  Scaleform::Render::Text::Paragraph *v64; // [esp+10h] [ebp-1Ch]
+  Scaleform::Render::Text::Paragraph *v65; // [esp+14h] [ebp-18h] BYREF
   int v66; // [esp+18h] [ebp-14h]
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator destParaIter; // [esp+1Ch] [ebp-10h] BYREF
-  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator srcParaIter; // [esp+24h] [ebp-8h]
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator result; // [esp+1Ch] [ebp-10h] BYREF
+  int v68; // [esp+28h] [ebp-4h]
 
   v5 = Scaleform::Render::Text::StyledText::GetLength(text);
   v6 = length;
@@ -77,13 +77,13 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
   if ( !v6 || !text->Paragraphs.Data.Size )
     return 0;
   v7 = pos;
-  this->OnTextInserting(this, pos, v6, (const char *)&buf);
+  this->OnTextInserting(this, pos, v6, uri);
   pos = 0;
-  Scaleform::Render::Text::StyledText::GetNearestParagraphByIndex(this, &destParaIter, v7, &pos);
-  pArray = (Scaleform::Render::Text::Paragraph *)destParaIter.pArray;
-  if ( destParaIter.pArray
-    && (CurIndex = destParaIter.CurIndex, destParaIter.CurIndex >= 0)
-    && destParaIter.CurIndex < (signed int)destParaIter.pArray->Data.Size )
+  Scaleform::Render::Text::StyledText::GetNearestParagraphByIndex(this, &result, v7, &pos);
+  pArray = (Scaleform::Render::Text::Paragraph *)result.pArray;
+  if ( result.pArray
+    && (CurIndex = result.CurIndex, result.CurIndex >= 0)
+    && result.CurIndex < (signed int)result.pArray->Data.Size )
   {
     v10 = pos;
   }
@@ -92,8 +92,8 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
     Scaleform::Render::Text::StyledText::AppendNewParagraph(this, 0);
     pArray = (Scaleform::Render::Text::Paragraph *)&this->Paragraphs;
     CurIndex = 0;
-    destParaIter.pArray = &this->Paragraphs;
-    destParaIter.CurIndex = 0;
+    result.pArray = &this->Paragraphs;
+    result.CurIndex = 0;
     v10 = 0;
   }
   if ( pArray && CurIndex >= 0 && CurIndex < (signed int)pArray->Text.Size )
@@ -106,7 +106,7 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
   {
     pPara = text->Paragraphs.Data.Data->pPara;
     Size = pPara->Text.Size;
-    remainedLen = *(Scaleform::Render::Text::Paragraph **)&pArray->Text.pText[2 * CurIndex];
+    v63 = *(Scaleform::Render::Text::Paragraph **)&pArray->Text.pText[2 * CurIndex];
     if ( Size )
     {
       v15 = Size - 1;
@@ -117,29 +117,29 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
       if ( !*v16 )
         --Size;
     }
-    Scaleform::Render::Text::Paragraph::Copy(remainedLen, this->pTextAllocator.pObject, pPara, 0, v10, Size);
+    Scaleform::Render::Text::Paragraph::Copy(v63, this->pTextAllocator.pObject, pPara, 0, v10, Size);
     if ( !v10 )
-      Scaleform::Render::Text::Paragraph::SetFormat(remainedLen, this->pTextAllocator.pObject, pPara->pFormat.pObject);
+      Scaleform::Render::Text::Paragraph::SetFormat(v63, this->pTextAllocator.pObject, pPara->pFormat.pObject);
     v17 = pArray->Text.Size;
-    pos += remainedLen->Text.Size;
+    pos += v63->Text.Size;
     v18 = CurIndex < v17;
   }
   else
   {
     v18 = CurIndex < (signed int)pArray->Text.Size;
     v19 = *(Scaleform::Render::Text::Paragraph **)&pArray->Text.pText[2 * CurIndex];
-    srcParaIter.CurIndex = 0;
-    newPara = pArray;
+    v68 = 0;
+    v65 = pArray;
     v66 = CurIndex;
     if ( v18 )
       v66 = CurIndex + 1;
     inserted = Scaleform::Render::Text::StyledText::InsertNewParagraph(
                  this,
-                 (Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,Scaleform::AllocatorLH<Scaleform::Render::Text::StyledText::ParagraphPtrWrapper,2>,Scaleform::ArrayDefaultPolicy> >::Iterator *)&newPara,
+                 (Scaleform::Render::Text::Paragraph *)&v65,
                  v19->pFormat.pObject);
     v60 = v19->Text.Size - v10;
     pObject = this->pTextAllocator.pObject;
-    newPara = inserted;
+    v65 = inserted;
     Scaleform::Render::Text::Paragraph::Copy(inserted, pObject, v19, v10, 0, v60);
     Data = text->Paragraphs.Data.Data;
     v22 = Data->pPara;
@@ -167,7 +167,7 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
       if ( !*v29 )
         --v27;
     }
-    remainedLena = length - v27;
+    v64 = (Scaleform::Render::Text::Paragraph *)(length - v27);
     if ( !v10 )
       Scaleform::Render::Text::Paragraph::SetFormat(v19, this->pTextAllocator.pObject, v22->pFormat.pObject);
     if ( v24 )
@@ -191,14 +191,14 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
         --v32;
     }
     pos += v32;
-    if ( destParaIter.CurIndex < (signed int)destParaIter.pArray->Data.Size )
-      ++destParaIter.CurIndex;
+    if ( result.CurIndex < (signed int)result.pArray->Data.Size )
+      ++result.CurIndex;
     v36 = text->Paragraphs.Data.Size;
     if ( v36 > 0 )
-      srcParaIter.CurIndex = 1;
-    while ( srcParaIter.CurIndex >= 0 && srcParaIter.CurIndex < v36 && remainedLena )
+      v68 = 1;
+    while ( v68 >= 0 && v68 < v36 && v64 )
     {
-      v37 = text->Paragraphs.Data.Data[srcParaIter.CurIndex].pPara;
+      v37 = text->Paragraphs.Data.Data[v68].pPara;
       v38 = v37->Text.Size;
       if ( v38 )
       {
@@ -210,25 +210,26 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
         if ( !*v40 )
           --v38;
       }
-      if ( v38 > remainedLena || v38 == remainedLena && !Scaleform::Render::Text::Paragraph::HasNewLine(v37) )
+      if ( v38 > (unsigned int)v64
+        || (Scaleform::Render::Text::Paragraph *)v38 == v64 && !Scaleform::Render::Text::Paragraph::HasNewLine(v37) )
       {
         v61 = v38;
-        v41 = newPara;
-        Scaleform::Render::Text::Paragraph::Copy(newPara, this->pTextAllocator.pObject, v37, 0, 0, v61);
+        v41 = v65;
+        Scaleform::Render::Text::Paragraph::Copy(v65, this->pTextAllocator.pObject, v37, 0, 0, v61);
         Scaleform::Render::Text::Paragraph::SetFormat(v41, this->pTextAllocator.pObject, v37->pFormat.pObject);
         break;
       }
-      Scaleform::Render::Text::StyledText::InsertCopyOfParagraph(this, &destParaIter, v37);
+      Scaleform::Render::Text::StyledText::InsertCopyOfParagraph(this, &result, v37);
       v36 = text->Paragraphs.Data.Size;
-      remainedLena -= v38;
+      v64 = (Scaleform::Render::Text::Paragraph *)((char *)v64 - v38);
       pos += v38;
-      if ( srcParaIter.CurIndex < v36 )
-        ++srcParaIter.CurIndex;
-      if ( destParaIter.CurIndex < (signed int)destParaIter.pArray->Data.Size )
-        ++destParaIter.CurIndex;
+      if ( v68 < v36 )
+        ++v68;
+      if ( result.CurIndex < (signed int)result.pArray->Data.Size )
+        ++result.CurIndex;
     }
-    v42 = newPara;
-    newPara->StartIndex = pos;
+    v42 = v65;
+    v65->StartIndex = pos;
     v43 = v42->Text.Size;
     if ( v43 )
     {
@@ -242,13 +243,13 @@ unsigned int __thiscall Scaleform::Render::Text::StyledText::InsertStyledText(
         --v43;
     }
     pos += v43;
-    v17 = destParaIter.pArray->Data.Size;
-    v18 = destParaIter.CurIndex < v17;
+    v17 = result.pArray->Data.Size;
+    v18 = result.CurIndex < v17;
   }
   if ( v18 )
-    ++destParaIter.CurIndex;
-  v47 = destParaIter.pArray;
-  v48 = destParaIter.CurIndex;
+    ++result.CurIndex;
+  v47 = result.pArray;
+  v48 = result.CurIndex;
   v49 = pos;
   while ( v48 >= 0 )
   {

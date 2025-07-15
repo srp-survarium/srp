@@ -10,8 +10,8 @@ void __thiscall Scaleform::GFx::AS2::`anonymous namespace'::CandidateListLoader:
   Scaleform::GFx::ASStringManager *pStringManager; // ecx
   Scaleform::GFx::ASStringNode *v8; // eax
   Scaleform::GFx::ASStringNode *ConstStringNode; // [esp+10h] [ebp-2Ch] BYREF
-  Scaleform::GFx::AS2::Value asFunc; // [esp+14h] [ebp-28h] BYREF
-  Scaleform::GFx::Value func; // [esp+24h] [ebp-18h] BYREF
+  Scaleform::GFx::AS2::Value pdestVal; // [esp+14h] [ebp-28h] BYREF
+  Scaleform::GFx::Value pvalue; // [esp+24h] [ebp-18h] BYREF
 
   if ( ptarget )
   {
@@ -19,11 +19,11 @@ void __thiscall Scaleform::GFx::AS2::`anonymous namespace'::CandidateListLoader:
     v5 = (Scaleform::GFx::AS2::MovieRoot *)pObject->pMovie->pASMovieRoot.pObject;
     v6 = &ptarget->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
        + ptarget->AvmObjOffset;
-    func.pObjectInterface = 0;
-    func.Type = VT_Undefined;
-    asFunc.T.Type = 0;
-    Scaleform::GFx::Movie::CreateFunction(pObject->pMovie, &func, pObject->CustomFuncCandList.pObject, 0);
-    Scaleform::GFx::AS2::MovieRoot::Value2ASValue(v5, &func, &asFunc);
+    pvalue.pObjectInterface = 0;
+    pvalue.Type = VT_Undefined;
+    pdestVal.T.Type = 0;
+    Scaleform::GFx::Movie::CreateFunction(pObject->pMovie, &pvalue, pObject->CustomFuncCandList.pObject, 0);
+    Scaleform::GFx::AS2::MovieRoot::Value2ASValue(v5, &pvalue, &pdestVal);
     pStringManager = v5->BuiltinsMgr.pStringManager;
     LOBYTE(ptarget) = 0;
     ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(pStringManager, "SendIMEMessage", 0xEu, 0);
@@ -32,14 +32,14 @@ void __thiscall Scaleform::GFx::AS2::`anonymous namespace'::CandidateListLoader:
       (char *)v6 + 4,
       penv,
       &ConstStringNode,
-      &asFunc,
+      &pdestVal,
       &ptarget);
     v8 = ConstStringNode;
     --ConstStringNode->RefCount;
     if ( !v8->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(v8);
-    Scaleform::GFx::AS2::Value::~Value(&asFunc);
-    if ( (func.Type & 0x40) != 0 )
-      func.pObjectInterface->ObjectRelease(func.pObjectInterface, &func, (void *)func.mValue.IValue);
+    Scaleform::GFx::AS2::Value::~Value(&pdestVal);
+    if ( (pvalue.Type & 0x40) != 0 )
+      pvalue.pObjectInterface->ObjectRelease(pvalue.pObjectInterface, &pvalue, (void *)pvalue.mValue.IValue);
   }
 }

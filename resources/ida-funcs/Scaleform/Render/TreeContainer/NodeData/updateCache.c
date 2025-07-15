@@ -2,20 +2,20 @@ Scaleform::Render::TreeCacheNode *__thiscall Scaleform::Render::TreeContainer::N
         Scaleform::Render::TreeContainer::NodeData *this,
         Scaleform::Render::TreeCacheNode *pparent,
         Scaleform::Render::TreeCacheNode *pinsert,
-        int pnode,
-        unsigned __int16 depth)
+        Scaleform::Render::TreeNode *pnode,
+        int depth)
 {
   Scaleform::Render::TreeNode *v5; // ebp
-  Scaleform::Render::TreeCacheNode *v6; // esi
+  Scaleform::Render::TreeCacheNode *pRenderer; // esi
   int v8; // eax
-  int v9; // ecx
-  unsigned int v10; // esi
+  __int16 v9; // cx
+  unsigned __int16 v10; // si
   Scaleform::Render::TreeCacheContainer *v11; // eax
   Scaleform::Render::TreeCacheNode *v12; // eax
 
-  v5 = (Scaleform::Render::TreeNode *)pnode;
-  v6 = *(Scaleform::Render::TreeCacheNode **)(pnode + 12);
-  if ( v6 )
+  v5 = pnode;
+  pRenderer = pnode->pRenderer;
+  if ( pRenderer )
     goto LABEL_17;
   if ( pparent )
   {
@@ -28,7 +28,7 @@ Scaleform::Render::TreeCacheNode *__thiscall Scaleform::Render::TreeContainer::N
   }
   else
   {
-    v8 = 4;
+    LOWORD(v8) = 4;
   }
   v9 = this->Flags & 0xC;
   if ( (this->Flags & 0xC) == 0 )
@@ -39,7 +39,7 @@ LABEL_8:
     v10 |= 0x60u;
   if ( (this->Flags & 0x200) != 0 )
     v10 |= 0x200u;
-  pnode = 74;
+  pnode = (Scaleform::Render::TreeNode *)74;
   v11 = (Scaleform::Render::TreeCacheContainer *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                    Scaleform::Memory::pGlobalHeap,
                                                    pparent,
@@ -48,16 +48,16 @@ LABEL_8:
   if ( v11 )
   {
     Scaleform::Render::TreeCacheContainer::TreeCacheContainer(v11, v5, pparent->pRenderer2D, v10);
-    v6 = v12;
+    pRenderer = v12;
   }
   else
   {
-    v6 = 0;
+    pRenderer = 0;
   }
-  v5->pRenderer = v6;
-  if ( !v6 )
+  v5->pRenderer = pRenderer;
+  if ( !pRenderer )
     return 0;
 LABEL_17:
-  Scaleform::Render::TreeCacheNode::UpdateInsertIntoParent(v6, pparent, pinsert, this, depth);
-  return v6;
+  Scaleform::Render::TreeCacheNode::UpdateInsertIntoParent(pRenderer, pparent, pinsert, this, depth);
+  return pRenderer;
 }

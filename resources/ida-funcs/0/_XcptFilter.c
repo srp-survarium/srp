@@ -11,7 +11,7 @@ int __cdecl _XcptFilter(unsigned int xcptnum, _EXCEPTION_POINTERS *pxcptinfoptrs
   int v10; // ecx
   int v11; // eax
   int v12; // edi
-  void *oldpxcptinfoptrs; // [esp+4h] [ebp-8h]
+  int v13; // [esp+4h] [ebp-8h]
 
   result = (int)_getptd_noexit();
   v3 = (_DWORD *)result;
@@ -41,7 +41,7 @@ int __cdecl _XcptFilter(unsigned int xcptnum, _EXCEPTION_POINTERS *pxcptinfoptrs
       {
         if ( v7 != (void (__cdecl *)(int))1 )
         {
-          oldpxcptinfoptrs = (void *)v3[24];
+          v13 = v3[24];
           v3[24] = pxcptinfoptrs;
           v8 = v6[1];
           if ( v8 == 8 )
@@ -92,7 +92,7 @@ int __cdecl _XcptFilter(unsigned int xcptnum, _EXCEPTION_POINTERS *pxcptinfoptrs
             v6[2] = 0;
             v7(v8);
           }
-          v3[24] = oldpxcptinfoptrs;
+          v3[24] = v13;
         }
         return -1;
       }

@@ -5,36 +5,29 @@ bool __thiscall vostok::collision::aabb_object::ray_test(
         float max_distance,
         float *distance)
 {
-  float v5; // xmm0_4
-  float v6; // xmm1_4
-  float v7; // xmm2_4
-  float v8; // xmm4_4
-  float v9; // xmm5_4
-  float v10; // xmm6_4
-  vostok::collision::colliders::ray_aabb_collider *v11; // eax
-  __int64 v13; // [esp+64h] [ebp-5Ch]
-  float v14; // [esp+6Ch] [ebp-54h]
-  vostok::collision::colliders::sse::aabb_a16 v15; // [esp+70h] [ebp-50h] BYREF
-  vostok::collision::colliders::ray_aabb_collider v16; // [esp+90h] [ebp-30h] BYREF
+  unsigned int v5; // xmm2_4
+  unsigned int v6; // xmm3_4
+  float v7; // xmm1_4
+  float v8; // xmm2_4
+  float v9; // xmm3_4
+  vostok::collision::colliders::ray_aabb_collider *v10; // eax
+  vostok::math::float3 v12; // [esp+4h] [ebp-68h] BYREF
+  vostok::math::float3 v13; // [esp+10h] [ebp-5Ch] BYREF
+  vostok::collision::colliders::sse::aabb_a16 aabb; // [esp+1Ch] [ebp-50h] BYREF
+  vostok::collision::colliders::ray_aabb_collider v15; // [esp+3Ch] [ebp-30h] BYREF
 
-  v5 = (float)(this->m_aabb.max.x - this->m_aabb.min.x) * 0.5;
-  v6 = (float)(this->m_aabb.max.y - this->m_aabb.min.y) * 0.5;
-  v7 = (float)(this->m_aabb.max.z - this->m_aabb.min.z) * 0.5;
-  v8 = (float)(this->m_aabb.max.x + this->m_aabb.min.x) * 0.5;
-  v9 = (float)(this->m_aabb.max.y + this->m_aabb.min.y) * 0.5;
-  v10 = (float)(this->m_aabb.max.z + this->m_aabb.min.z) * 0.5;
-  *(float *)&v13 = v8 - v5;
-  *((float *)&v13 + 1) = v9 - v6;
-  v14 = v10 + v7;
-  *(_QWORD *)&v15.min.x = v13;
-  v15.min.z = v10 - v7;
-  *(float *)&v13 = v8 + v5;
-  *((float *)&v13 + 1) = v9 + v6;
-  v15.max.z = v10 + v7;
-  v15.min.padding = 0.0;
-  *(_QWORD *)&v15.max.x = v13;
-  v15.max.padding = 0.0;
-  vostok::collision::colliders::ray_aabb_collider::ray_aabb_collider(&v16, origin, direction);
-  return vostok::collision::colliders::ray_aabb_collider::intersects_aabb_sse(v11, &v15, distance)
+  *(float *)&v5 = (float)(this->m_aabb.max.y - this->m_aabb.min.y) * 0.5;
+  *(float *)&v6 = (float)(this->m_aabb.max.z - this->m_aabb.min.z) * 0.5;
+  v12.x = (float)(this->m_aabb.max.x - this->m_aabb.min.x) * 0.5;
+  v7 = this->m_aabb.max.x + this->m_aabb.min.x;
+  *(_QWORD *)&v12.elements[1] = __PAIR64__(v6, v5);
+  v8 = this->m_aabb.max.y + this->m_aabb.min.y;
+  v9 = (float)(this->m_aabb.max.z + this->m_aabb.min.z) * 0.5;
+  v13.x = v7 * 0.5;
+  v13.y = v8 * 0.5;
+  v13.z = v9;
+  vostok::collision::colliders::sse::construct_aabb_a16(&v13, &v12, &aabb);
+  vostok::collision::colliders::ray_aabb_collider::ray_aabb_collider(&v15, direction, origin);
+  return vostok::collision::colliders::ray_aabb_collider::intersects_aabb_sse(&aabb, v10, distance)
       && max_distance >= *distance;
 }

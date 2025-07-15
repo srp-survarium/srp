@@ -1,10 +1,10 @@
 void __thiscall vostok::resources::association_callback_helper::get_unmanaged(
         vostok::resources::association_callback_helper *this,
-        vostok::vfs::vfs_association **association)
+        vostok::particle::particle_system_instance_impl **association)
 {
-  vostok::configs::binary_config *v2; // eax
+  vostok::particle::particle_system_instance_impl *v2; // edi
 
-  v2 = (vostok::configs::binary_config *)*association;
+  v2 = *association;
   if ( *association )
   {
     if ( v2->type == 4 )

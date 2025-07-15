@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::ContextImpl::EntryTable::FreeEntryPage(
   p_LockObject = &this->pContext->pCaptureLock.pObject->LockObject;
   EnterCriticalSection(&p_LockObject->cs);
   ppage->pPrev->pNext = ppage->pNext;
-  ppage->pNext->Scaleform::Render::ContextImpl::EntryPageBase::Scaleform::ListNode<Scaleform::Render::ContextImpl::EntryPageBase>::$4A61B226162E7496F626396673AA06AD::pPrev = ppage->pPrev;
+  ppage->pNext->Scaleform::Render::ContextImpl::EntryPageBase::Scaleform::ListNode<Scaleform::Render::ContextImpl::EntryPageBase>::$0C503D7469F7CED3D5AC099D4C721B0A::pPrev = ppage->pPrev;
   Scaleform::Render::ContextImpl::EntryPage::RemoveEntriesFromList(ppage, &this->FreeNodes);
   pSnapshotPage = ppage->pSnapshotPage;
   for ( i = pSnapshotPage->pNewerSnapshotPage; i; i = i->pNewerSnapshotPage )
@@ -28,7 +28,7 @@ void __thiscall Scaleform::Render::ContextImpl::EntryTable::FreeEntryPage(
   if ( v6->pNext )
   {
     v6->pPrev->pNext = v6->pNext;
-    v6->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::SnapshotPage>::$C3DCB7443EC176C973748899EB0467D2::pPrev = v6->pPrev;
+    v6->pNext->Scaleform::ListNode<Scaleform::Render::ContextImpl::SnapshotPage>::$BA975D4AA5D1C976BB87C4661EC708FF::pPrev = v6->pPrev;
   }
   v7 = ppage->pSnapshotPage;
   pNewerSnapshotPage = v7->pNewerSnapshotPage;

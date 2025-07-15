@@ -39,7 +39,7 @@ void __thiscall Scaleform::StringLH::CopyConstructHelper(Scaleform::StringLH *th
                                          v4,
                                          *(_DWORD *)v3 & 0x7FFFFFFF,
                                          *(_DWORD *)v3 & 0x80000000,
-                                         (char *)(v3 + 8),
+                                         (const __m128i *)(v3 + 8),
                                          *(_DWORD *)v3 & 0x7FFFFFFF)
                        | 1;
   }

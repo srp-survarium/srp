@@ -1,12 +1,11 @@
 void __thiscall vostok::ui::ui_window::set_size(vostok::ui::ui_window *this, const vostok::math::float2 *size)
 {
-  float y; // ecx
+  vostok::math::float2 *p_m_size; // edi
 
-  if ( fabs(this->m_size.x - size->x) >= 0.0000099999997 || fabs(this->m_size.y - size->y) >= 0.0000099999997 )
+  p_m_size = &this->m_size;
+  if ( !vostok::math::float2_pod::is_similar(&this->m_size, size) )
   {
-    this->m_size.x = size->x;
-    y = size->y;
-    this->m_size.y = y;
-    vostok::ui::ui_window::emit_event((vostok::ui::ui_window *)LODWORD(y), (int)this, ev_size_changed, this, 0, 0);
+    *p_m_size = *size;
+    vostok::ui::ui_window::process_event(0, this, 0, 0);
   }
 }

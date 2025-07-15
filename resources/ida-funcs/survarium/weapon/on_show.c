@@ -1,69 +1,60 @@
-void __thiscall survarium::weapon::on_show(survarium::weapon *this)
+void __thiscall survarium::weapon::on_show(survarium::weapon *this, const bool real_insert)
 {
-  vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *p_m_render_scene; // eax
-  vostok::render::base_scene *m_object; // eax
-  survarium::base_game_scene *m_game_scene; // edx
-  vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *p_m_render_model; // eax
-  survarium::rifle_scope *v6; // eax
-  const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *v7; // edx
-  survarium::profile_slot_enum m_ammo_slot; // esi
-  survarium::profile_slot_enum ammo_slot; // eax
-  survarium::weapon *v10; // ecx
-  survarium::game_world_ui *m_game_ui; // edx
-  vostok::render::base_scene *v12; // eax
-  vostok::resources::unmanaged_intrusive_base *v13; // ecx
-  vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> scene; // [esp+14h] [ebp-44h] BYREF
-  vostok::math::float4x4 transform; // [esp+18h] [ebp-40h] BYREF
+  vostok::render::scene_renderer *v3; // ecx
+  survarium::rifle_scope *m_object; // edx
+  int v5; // edx
+  survarium::weapon *v6; // ecx
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v7; // [esp+Ch] [ebp-4h] BYREF
 
-  p_m_render_scene = &this->m_game_scene->m_render_scene;
-  this->m_is_in_scene = 1;
-  m_object = p_m_render_scene->m_object;
-  scene.m_object = 0;
-  if ( m_object )
+  if ( real_insert )
   {
-    scene.m_object = m_object;
-    _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
-  }
-  m_game_scene = this->m_game_scene;
-  p_m_render_model = &this->model.m_object->m_render_model;
-  qmemcpy((void *)&transform, &this->survarium::weapon_core::m_transform, sizeof(transform));
-  vostok::render::scene_renderer::add_model(
-    (vostok::render::scene_renderer *)m_game_scene->m_game->m_renderer,
-    &scene,
-    p_m_render_model,
-    &transform);
-  v6 = this->m_rifle_scope.m_object;
-  if ( v6
-    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-  {
-    v7 = (const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> *)v6->m_idle_scope.m_object;
-    qmemcpy((void *)&transform, &this->survarium::weapon_core::m_transform, sizeof(transform));
-    vostok::render::scene_renderer::add_model(
-      (vostok::render::scene_renderer *)this->m_game_scene,
-      &scene,
-      v7 + 66,
-      &transform);
-  }
-  if ( this->m_game_ui )
-  {
-    m_ammo_slot = this->m_ammo_slot;
-    ammo_slot = survarium::weapon_core::get_ammo_slot(this, first_ammo);
-    survarium::game_world_ui::set_ammo_type(this->m_game_ui, (m_ammo_slot != ammo_slot) + 1);
-    survarium::game_world_ui::set_fire_queue_size(
-      this->m_game_ui,
-      this->m_weapon_fire_queue_types[this->m_fire_queue_type]);
-    survarium::game_world_ui::show_ammo_indicator(this->m_game_ui, 1);
-    m_game_ui = this->m_game_ui;
-    if ( m_game_ui )
-      survarium::game_world_ui::show_crosshair(m_game_ui, 1);
-    survarium::weapon::set_ui_ammo(v10, (int)this, 1);
-    *(_DWORD *)(*(int *)((char *)&dword_10EF4 + (unsigned int)this->m_user) + 416) = 1;
-  }
-  v12 = scene.m_object;
-  if ( scene.m_object )
-  {
-    v13 = &scene.m_object->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&scene.m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v13, v12);
+    vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+      &v7,
+      (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_game_scene->m_render_scene);
+    m_object = this->m_rifle_scope.m_object;
+    if ( m_object
+      && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+    {
+      if ( this->m_is_scope_aimed && survarium::player::is_current((survarium::player *)v3, (int)this->m_user) )
+      {
+        vostok::render::scene_renderer::add_model(
+          (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_object->m_aimed_scope.m_object->m_render_model,
+          *(vostok::render::scene_renderer **)((char *)&dword_200060
+                                             + (unsigned int)this->m_game_scene->m_game->m_renderer),
+          &v7,
+          &this->m_current_transform,
+          &this->m_current_transform);
+        if ( this->m_rifle_scope.m_object->m_hide_weapon_on_aim )
+          vostok::render::scene_renderer::set_model_visible(
+            v3,
+            *(const vostok::resources::resource_ptr<vostok::render::render_model_instance,vostok::resources::unmanaged_intrusive_base> **)((char *)&dword_200060 + (unsigned int)this->m_game_scene->m_game->m_renderer),
+            (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(this->m_user[1].m_target_quality_level + 264),
+            1u,
+            (volatile int *)2);
+        this->m_aimed_scope_added = 1;
+      }
+      else
+      {
+        vostok::render::scene_renderer::add_model(
+          (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&m_object->m_idle_scope.m_object->m_render_model,
+          *(vostok::render::scene_renderer **)((char *)&dword_200060
+                                             + (unsigned int)this->m_game_scene->m_game->m_renderer),
+          &v7,
+          &this->m_current_transform,
+          &this->m_current_transform);
+      }
+    }
+    if ( !this->m_aimed_scope_added )
+      vostok::render::scene_renderer::add_model(
+        (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_model.m_object->m_render_model,
+        *(vostok::render::scene_renderer **)((char *)&dword_200060 + (unsigned int)this->m_game_scene->m_game->m_renderer),
+        &v7,
+        &this->m_current_transform,
+        &this->m_current_transform);
+    if ( survarium::player::is_current((survarium::player *)v3, (int)this->m_user) )
+      *(_DWORD *)(*(_DWORD *)((char *)&loc_11403 + v5 + 5) + 872) = 1;
+    survarium::weapon::set_foreground(this, *((_BYTE *)&loc_11439 + (unsigned int)this->m_user) == 0);
+    survarium::weapon::set_movable_static(v6);
+    vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v7);
   }
 }

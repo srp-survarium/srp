@@ -10,10 +10,10 @@ void __thiscall Scaleform::GFx::StateBagImpl::GetStatesAddRef(
   int v8; // eax
   Scaleform::GFx::Resource **v9; // esi
   Scaleform::GFx::StateBag_vtbl *v10; // eax
-  bool notFound; // [esp+Bh] [ebp-5h]
+  char v11; // [esp+Bh] [ebp-5h]
   unsigned int v12; // [esp+Ch] [ebp-4h]
 
-  notFound = 0;
+  v11 = 0;
   EnterCriticalSection((LPCRITICAL_SECTION)&this->pDelegate);
   v5 = count;
   if ( count )
@@ -39,7 +39,7 @@ void __thiscall Scaleform::GFx::StateBagImpl::GetStatesAddRef(
         }
         else
         {
-          notFound = 1;
+          v11 = 1;
         }
       }
       ++v6;
@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::StateBagImpl::GetStatesAddRef(
     v5 = count;
   }
   LeaveCriticalSection((LPCRITICAL_SECTION)&this->pDelegate);
-  if ( notFound )
+  if ( v11 )
   {
     v10 = this->Scaleform::GFx::StateBag::__vftable;
     if ( v10 )

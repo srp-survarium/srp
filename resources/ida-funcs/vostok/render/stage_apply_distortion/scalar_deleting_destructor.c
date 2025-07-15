@@ -2,14 +2,9 @@ vostok::render::stage_apply_distortion *__thiscall vostok::render::stage_apply_d
         vostok::render::stage_apply_distortion *this,
         char a2)
 {
-  vostok::render::res_effect *m_object; // eax
-
-  this->__vftable = (vostok::render::stage_apply_distortion_vtbl *)&stru_965008.m_sh_res_view;
-  m_object = this->m_sh_apply_distortion.m_object;
-  if ( m_object && !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      &this->m_sh_apply_distortion.m_object->vostok::resources::unmanaged_intrusive_base,
-      this->m_sh_apply_distortion.m_object);
+  this->__vftable = (vostok::render::stage_apply_distortion_vtbl *)&vostok::render::stage_apply_distortion::`vftable';
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_olta_effect);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&this->m_sh_apply_distortion);
   this->__vftable = (vostok::render::stage_apply_distortion_vtbl *)&vostok::render::stage::`vftable';
   if ( (a2 & 1) != 0 )
     operator delete(this);

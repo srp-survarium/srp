@@ -1,22 +1,17 @@
 vostok::render::effect_compiler *__usercall vostok::render::effect_compiler::set_fill_mode@<eax>(
         vostok::render::effect_compiler *this@<esi>,
-        D3D11_FILL_MODE fill_mode@<edi>)
+        vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > *fill_mode@<edi>,
+        vostok::command_line::key *a3@<ecx>)
 {
-  bool v2; // zf
+  char *v3; // eax
+  bool v4; // zf
 
-  if ( !this->m_shaders_cache_mode )
+  if ( !byte_61F4C[(_DWORD)this] && !vostok::command_line::key::is_set(a3, (int)&s_no_effect_result) )
   {
-    if ( s_no_effect_result.m_type == type_unset )
-    {
-      s_no_effect_result.m_type = type_recursive;
-      vostok::command_line::iterate_keys<vostok::command_line::key_initializator>();
-    }
-    if ( s_no_effect_result.m_type == type_recursive )
-    {
-      v2 = this->m_state_descriptor.m_rasterizer_desc.FillMode == fill_mode;
-      this->m_state_descriptor.m_rasterizer_desc.FillMode = fill_mode;
-      this->m_state_descriptor.m_rasterizer_desc_updated |= !v2;
-    }
+    v3 = (char *)this + (_DWORD)&loc_5033B + 1;
+    v4 = *(vostok::render::map<vostok::render::binary_shader_key_type,vostok::resources::resource_ptr<vostok::render::binary_shader_source,vostok::resources::unmanaged_intrusive_base>,stlp_std::less<vostok::render::binary_shader_key_type> > **)((char *)&this->m_shader_sources + (_DWORD)&loc_5033B + 1) == fill_mode;
+    *(_DWORD *)v3 = fill_mode;
+    v3[360] |= !v4;
   }
   return this;
 }

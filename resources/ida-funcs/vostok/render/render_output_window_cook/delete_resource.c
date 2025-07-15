@@ -2,43 +2,28 @@ void __thiscall vostok::render::render_output_window_cook::delete_resource(
         vostok::render::render_output_window_cook *this,
         vostok::resources::resource_base *resource)
 {
-  vostok::resources::resource_base *v2; // esi
-  void **M_finish; // eax
-  vostok::render::vector<vostok::render::render_output_window *> *p_m_output_windows; // edi
-  vostok::render::grass_render_model *m_object; // ebx
-  char *v6; // edi
-  malloc_state *m_reconstruction_info_actuality_tick_high; // esi
-  bool v8; // [esp+0h] [ebp-Ch]
+  char *m_end; // ebx
+  vostok::buffer_vector<enum survarium::game_action_id> *p_m_output_windows; // esi
+  const char *v4; // [esp+0h] [ebp-10h]
+  const char *v5; // [esp+4h] [ebp-Ch]
+  unsigned int v6; // [esp+8h] [ebp-8h]
+  survarium::game_effect *pointer; // [esp+Ch] [ebp-4h] BYREF
 
-  v2 = resource;
-  M_finish = vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows._M_impl._M_finish;
-  p_m_output_windows = &vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows;
-  if ( M_finish == vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows._M_impl._M_end_of_storage._M_data )
-  {
-    stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *>>::_M_insert_overflow(
-      (stlp_std::priv::_Impl_vector<void *,vostok::render::std_allocator<void *> > *)&resource,
-      (int)p_m_output_windows,
-      M_finish,
-      (void *const *)&resource,
-      (const stlp_std::__true_type *)1,
-      1,
-      v8);
-  }
-  else
-  {
-    *M_finish = resource;
-    ++p_m_output_windows->_M_impl._M_finish;
-  }
-  m_object = vostok::render::g_allocator.m_object;
-  if ( v2 )
-  {
-    v6 = __RTCastToVoid((void **)&v2->__vftable);
-    ((void (__thiscall *)(vostok::resources::resource_base *, _DWORD))v2->~vostok::resources::resource_base)(v2, 0);
-    if ( v6 )
-    {
-      m_reconstruction_info_actuality_tick_high = (malloc_state *)HIDWORD(m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v6);
-    }
-  }
+  pointer = (survarium::game_effect *)resource;
+  m_end = (char *)vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows.m_end;
+  p_m_output_windows = (vostok::buffer_vector<enum survarium::game_action_id> *)&vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows;
+  resource = (vostok::resources::resource_base *)stlp_std::find<vostok::render::render_output_window * *,vostok::render::render_output_window *>(
+                                                   (char *)vostok::quasi_singleton<vostok::render::scene_manager>::pinst->m_output_windows.m_begin,
+                                                   (int *)&resource,
+                                                   m_end);
+  if ( resource != (vostok::resources::resource_base *)m_end )
+    vostok::buffer_vector<vostok::render::sky_ambient_occlusion *>::erase(
+      p_m_output_windows,
+      (survarium::game_action_id **)&resource);
+  vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,survarium::base_network_client>(
+    vostok::render::g_allocator,
+    &pointer,
+    v4,
+    v5,
+    v6);
 }

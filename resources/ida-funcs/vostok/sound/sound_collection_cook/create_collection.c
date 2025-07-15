@@ -1,49 +1,40 @@
-vostok::sound::sound_collection *__thiscall vostok::sound::sound_collection_cook::create_collection(
+void __thiscall vostok::sound::sound_collection_cook::create_collection(
         vostok::sound::sound_collection_cook *this,
-        vostok::configs::binary_config_value *collection)
+        const vostok::configs::binary_config_value *collection)
 {
-  vostok::configs::binary_config_value *v2; // eax
-  const char *v3; // eax
-  int v4; // eax
-  unsigned int v7; // [esp+4h] [ebp-90h]
-  int v8; // [esp+Ch] [ebp-88h]
-  vostok::configs::binary_config_value *v10; // [esp+40h] [ebp-54h]
-  unsigned __int16 cyclic_repeating_index; // [esp+74h] [ebp-20h]
-  vostok::sound::sound_collection *buffer; // [esp+78h] [ebp-1Ch]
-  bool can_repeat_successively; // [esp+8Fh] [ebp-5h]
+  const char **v3; // eax
+  vostok::sound::collection_playback_types v4; // esi
+  vostok::configs::binary_config_value *v5; // ecx
+  unsigned int v6; // ebx
+  const char *v7; // eax
+  void *unmanaged_memory; // edi
+  DWORD TickCount; // eax
+  bool can_repeat_successively; // [esp+10h] [ebp-4h]
+  unsigned __int16 pointer; // [esp+1Ch] [ebp+8h]
 
-  v8 = strcmp(
-         (const char *)vostok::configs::binary_config_value::operator[](collection, "type")->data.pointer,
-         "random");
+  v3 = (const char **)vostok::configs::binary_config_value::operator[](collection, "type");
+  v4 = vostok::strings::compare(*v3, "random") != 0;
   can_repeat_successively = vostok::configs::binary_config_value::operator[](
                               collection,
                               "dont_repeat_sound_successively")->data.pointer != 0;
-  v10 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                  collection,
-                                                  "cyclic_repeat_from_sound");
-  cyclic_repeating_index = vostok::configs::binary_config_value::cast_number<unsigned short,unsigned __int64,unsigned int>(v10);
-  if ( vostok::configs::binary_config_value::value_exists(collection, "sound_items") )
-  {
-    v2 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                   collection,
-                                                   "sound_items");
-    v7 = vostok::configs::binary_config_value::size(v2);
-  }
+  pointer = (unsigned __int16)vostok::configs::binary_config_value::operator[](collection, "cyclic_repeat_from_sound")->data.pointer;
+  if ( vostok::configs::binary_config_value::value_exists(v5, (int)collection, (unsigned int)"sound_items") )
+    v6 = 24 * vostok::configs::binary_config_value::operator[](collection, "sound_items")->count / 24;
   else
+    v6 = 0;
+  v7 = type_info::name(&char `RTTI Type Descriptor', &__type_info_root_node);
+  unmanaged_memory = vostok::resources::allocate_unmanaged_memory(16 * (v6 + 19), v7);
+  if ( unmanaged_memory )
   {
-    v7 = 0;
+    TickCount = GetTickCount();
+    vostok::sound::sound_collection::sound_collection(
+      (vostok::sound::sound_collection *)unmanaged_memory,
+      v6,
+      v4,
+      can_repeat_successively,
+      pointer,
+      (stlp_std::pair<vostok::resources::resource_ptr<vostok::sound::sound_emitter,vostok::resources::unmanaged_intrusive_base>,vostok::sound::sound_collection_params> *)unmanaged_memory
+    + 19,
+      TickCount);
   }
-  v3 = type_info::name(&char `RTTI Type Descriptor', &__type_info_root_node);
-  buffer = (vostok::sound::sound_collection *)vostok::resources::allocate_unmanaged_memory(4 * v7 + 304, v3);
-  if ( !buffer )
-    return 0;
-  vostok::sound::sound_collection::sound_collection(
-    buffer,
-    (vostok::sound::collection_playback_types)(v8 != 0),
-    can_repeat_successively,
-    cyclic_repeating_index,
-    &buffer[1],
-    v7,
-    this->m_world->m_last_current_time_in_ms);
-  return (vostok::sound::sound_collection *)v4;
 }

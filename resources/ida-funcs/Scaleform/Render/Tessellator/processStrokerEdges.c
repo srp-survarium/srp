@@ -2,211 +2,204 @@ void __thiscall Scaleform::Render::Tessellator::processStrokerEdges(Scaleform::R
 {
   unsigned int v2; // ecx
   Scaleform::Render::Tessellator::MonoVertexType *start; // eax
-  Scaleform::Render::Tessellator::StrokerEdgeType *next; // edx
+  Scaleform::Render::Tessellator::MonoVertexType *next; // edx
   unsigned int srcVer; // edi
-  unsigned int node1; // ebx
-  int v7; // ecx
+  unsigned int v6; // ebx
+  unsigned int v7; // ecx
   unsigned int v8; // ecx
-  Scaleform::Render::Tessellator::StrokerEdgeType *v9; // ecx
-  unsigned int v10; // eax
-  Scaleform::Render::Tessellator::StrokerEdgeType *v11; // esi
-  int v12; // eax
-  int v13; // edx
-  int v14; // ebx
-  unsigned int v15; // edi
-  Scaleform::Render::Tessellator::StrokerEdgeType *v16; // ecx
-  unsigned int v17; // eax
-  int v18; // edx
-  int v19; // ebx
-  unsigned int v20; // edi
-  Scaleform::Render::Tessellator::StrokerEdgeType *v21; // ecx
-  unsigned int v22; // eax
-  int v23; // edx
-  int v24; // ebx
-  unsigned int v25; // edi
-  Scaleform::Render::Tessellator::StrokerEdgeType *v26; // ecx
-  unsigned int v27; // eax
+  Scaleform::Render::Tessellator::MonoVertexType *v9; // esi
+  int v10; // eax
+  int v11; // edx
+  int v12; // ebx
+  unsigned int v13; // edi
+  Scaleform::Render::Tessellator::StrokerEdgeType *v14; // ecx
+  unsigned int v15; // eax
+  int v16; // edx
+  int v17; // ebx
+  unsigned int v18; // edi
+  Scaleform::Render::Tessellator::StrokerEdgeType *v19; // ecx
+  unsigned int v20; // eax
+  int v21; // edx
+  int v22; // ebx
+  unsigned int v23; // edi
+  Scaleform::Render::Tessellator::StrokerEdgeType *v24; // ecx
+  unsigned int v25; // eax
   unsigned int j; // edi
-  Scaleform::Render::Tessellator::StrokerEdgeType *v29; // esi
-  Scaleform::Render::Tessellator::StrokerEdgeType *node2; // ecx
+  Scaleform::Render::Tessellator::StrokerEdgeType *v27; // esi
+  unsigned int node2; // ecx
+  unsigned int v29; // eax
+  Scaleform::Render::Tessellator::StrokerEdgeType *v30; // eax
   unsigned int v31; // eax
-  Scaleform::Render::Tessellator::StrokerEdgeType *v32; // eax
+  Scaleform::Render::Tessellator::StrokerEdgeType *v32; // ebx
   unsigned int v33; // eax
-  Scaleform::Render::Tessellator::StrokerEdgeType *v34; // ebx
-  unsigned int v35; // eax
-  unsigned int v36; // eax
+  unsigned int v34; // eax
   unsigned int Size; // edx
-  Scaleform::Render::Tessellator::StrokerEdgeType *v38; // esi
-  unsigned int v39; // ecx
-  unsigned int v40; // eax
-  unsigned int v41; // edi
+  Scaleform::Render::Tessellator::StrokerEdgeType *v36; // esi
+  unsigned int node1; // ecx
+  unsigned int v38; // eax
+  unsigned int v39; // edi
   Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *Arrays; // esi
   Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16> *p_MeshTriangles; // ebp
-  unsigned int v44; // edi
-  int v45; // ecx
-  unsigned int v46; // ebx
-  Scaleform::Render::Tessellator::TriangleType *v47; // edx
-  int v48; // eax
-  Scaleform::Render::Tessellator::TriangleType *v49; // eax
-  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v50; // edi
-  int v51; // eax
-  unsigned int v52; // esi
-  int v53; // ebx
-  Scaleform::Render::Tessellator::TriangleType *v54; // ecx
-  int *v55; // ecx
-  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v56; // esi
-  int v57; // ecx
-  unsigned int v58; // edx
-  unsigned int v59; // edi
-  unsigned int v60; // eax
-  Scaleform::Render::Tessellator::TriangleType *v61; // esi
-  int v62; // eax
-  Scaleform::Render::Tessellator::TriangleType *v63; // eax
-  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v64; // edi
-  int v65; // eax
-  int v66; // ecx
-  unsigned int v67; // esi
+  unsigned int v42; // edi
+  int v43; // ecx
+  unsigned int v44; // ebx
+  Scaleform::Render::Tessellator::TriangleType *v45; // edx
+  int v46; // eax
+  Scaleform::Render::Tessellator::TriangleType *v47; // eax
+  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v48; // edi
+  int v49; // eax
+  unsigned int v50; // esi
+  int v51; // ebx
+  Scaleform::Render::Tessellator::TriangleType *v52; // ecx
+  int *v53; // ecx
+  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v54; // esi
+  int v55; // ecx
+  unsigned int v56; // edx
+  unsigned int v57; // edi
+  unsigned int v58; // eax
+  Scaleform::Render::Tessellator::TriangleType *v59; // esi
+  int v60; // eax
+  Scaleform::Render::Tessellator::TriangleType *v61; // eax
+  Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::ArrayType *v62; // edi
+  int v63; // eax
+  int v64; // ecx
+  unsigned int v65; // esi
+  Scaleform::Render::Tessellator::TriangleType *v66; // edx
+  int v67; // edi
   Scaleform::Render::Tessellator::TriangleType *v68; // edx
-  int v69; // edi
-  Scaleform::Render::Tessellator::TriangleType *v70; // edx
-  Scaleform::Render::Tessellator::StrokerEdgeType *thisEdge; // [esp+10h] [ebp-40h]
-  Scaleform::Render::Tessellator::StrokerEdgeType *thisEdgea; // [esp+10h] [ebp-40h]
-  Scaleform::Render::Tessellator::StrokerEdgeType *thisEdgeb; // [esp+10h] [ebp-40h]
+  Scaleform::Render::Tessellator::MonoVertexType *v69; // [esp+10h] [ebp-40h]
+  Scaleform::Render::Tessellator::MonoVertexType *v70; // [esp+10h] [ebp-40h]
+  Scaleform::Render::Tessellator::StrokerEdgeType *v71; // [esp+10h] [ebp-40h]
   unsigned int i; // [esp+14h] [ebp-3Ch]
-  unsigned int ia; // [esp+14h] [ebp-3Ch]
-  unsigned int strtVer; // [esp+18h] [ebp-38h]
-  unsigned int strtVera; // [esp+18h] [ebp-38h]
-  unsigned int prevVer; // [esp+1Ch] [ebp-34h]
-  unsigned int prevVera; // [esp+1Ch] [ebp-34h]
-  Scaleform::Render::Tessellator::StrokerEdgeType *strtEdge; // [esp+20h] [ebp-30h]
-  Scaleform::Render::Tessellator::StrokerEdgeType *strtEdgea; // [esp+20h] [ebp-30h]
-  unsigned int v82; // [esp+24h] [ebp-2Ch]
-  int v83; // [esp+28h] [ebp-28h]
-  Scaleform::Render::Tessellator::StrokerEdgeType *e; // [esp+2Ch] [ebp-24h] BYREF
-  unsigned int v85; // [esp+30h] [ebp-20h]
-  Scaleform::Render::Tessellator *v86; // [esp+34h] [ebp-1Ch]
-  int v87; // [esp+38h] [ebp-18h]
-  int v88; // [esp+3Ch] [ebp-14h]
-  int v89; // [esp+44h] [ebp-Ch]
-  int v90; // [esp+48h] [ebp-8h]
+  unsigned int k; // [esp+14h] [ebp-3Ch]
+  unsigned int v74; // [esp+18h] [ebp-38h]
+  int v75; // [esp+18h] [ebp-38h]
+  int v76; // [esp+1Ch] [ebp-34h]
+  unsigned int v77; // [esp+1Ch] [ebp-34h]
+  unsigned int v78; // [esp+20h] [ebp-30h]
+  Scaleform::Render::Tessellator::StrokerEdgeType *v79; // [esp+20h] [ebp-30h]
+  unsigned int v80; // [esp+24h] [ebp-2Ch]
+  int v81; // [esp+28h] [ebp-28h]
+  Scaleform::Render::Tessellator::StrokerEdgeType val; // [esp+2Ch] [ebp-24h] BYREF
+  Scaleform::Render::Tessellator *v83; // [esp+34h] [ebp-1Ch]
+  int v84; // [esp+38h] [ebp-18h]
+  int v85; // [esp+3Ch] [ebp-14h]
+  int v86; // [esp+44h] [ebp-Ch]
+  int v87; // [esp+48h] [ebp-8h]
 
   v2 = 0;
-  v86 = this;
+  v83 = this;
   for ( i = 0; v2 < this->Monotones.Size; i = v2 )
   {
     start = this->Monotones.Pages[v2 >> 4][v2 & 0xF].start;
     if ( start )
     {
-      next = (Scaleform::Render::Tessellator::StrokerEdgeType *)start->next;
+      next = start->next;
       srcVer = start->srcVer;
-      strtVer = start->srcVer;
-      thisEdge = next;
+      v74 = start->srcVer;
+      v69 = next;
       if ( next )
       {
-        node1 = next->node1;
-        v7 = next->node1 & 0xFFFFFFF;
-        prevVer = next->node1;
-        e = (Scaleform::Render::Tessellator::StrokerEdgeType *)(srcVer & 0xFFFFFFF);
-        v85 = v7;
+        v6 = next->srcVer;
+        v7 = next->srcVer & 0xFFFFFFF;
+        v76 = next->srcVer;
+        val.node1 = srcVer & 0xFFFFFFF;
+        val.node2 = v7;
         if ( (srcVer & 0xFFFFFFF) != v7 )
         {
           v8 = this->StrokerEdges.Size >> 4;
-          strtEdge = (Scaleform::Render::Tessellator::StrokerEdgeType *)v8;
+          v78 = v8;
           if ( v8 >= this->StrokerEdges.NumPages )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
               (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StrokerEdges,
               v8);
-            v8 = (unsigned int)strtEdge;
+            v8 = v78;
           }
-          v9 = this->StrokerEdges.Pages[v8];
-          v10 = this->StrokerEdges.Size & 0xF;
-          v9[v10].node1 = (unsigned int)e;
-          v9[v10].node2 = v85;
-          ++this->StrokerEdges.Size;
-          next = thisEdge;
+          this->StrokerEdges.Pages[v8][this->StrokerEdges.Size++ & 0xF] = val;
+          next = v69;
         }
-        v11 = (Scaleform::Render::Tessellator::StrokerEdgeType *)next[1].node1;
-        thisEdgea = v11;
-        if ( v11 )
+        v9 = next->next;
+        v70 = v9;
+        if ( v9 )
         {
           while ( 1 )
           {
-            v12 = v11->node1 & 0xFFFFFFF;
-            if ( (v11->node1 & 0x80000000) == 0 )
+            v10 = v9->srcVer & 0xFFFFFFF;
+            if ( (v9->srcVer & 0x80000000) == 0 )
             {
-              v18 = v11->node1 & 0xFFFFFFF;
-              v19 = node1 & 0xFFFFFFF;
-              v88 = v18;
-              if ( v19 != v12 )
+              v16 = v9->srcVer & 0xFFFFFFF;
+              v17 = v6 & 0xFFFFFFF;
+              v85 = v16;
+              if ( v17 != v10 )
               {
-                v20 = this->StrokerEdges.Size >> 4;
-                if ( v20 >= this->StrokerEdges.NumPages )
+                v18 = this->StrokerEdges.Size >> 4;
+                if ( v18 >= this->StrokerEdges.NumPages )
                 {
                   Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                     (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StrokerEdges,
                     this->StrokerEdges.Size >> 4);
-                  v18 = v88;
+                  v16 = v85;
                 }
-                v21 = this->StrokerEdges.Pages[v20];
-                srcVer = strtVer;
-                v22 = this->StrokerEdges.Size & 0xF;
-                v21[v22].node1 = v19;
-                v21[v22].node2 = v18;
+                v19 = this->StrokerEdges.Pages[v18];
+                srcVer = v74;
+                v20 = this->StrokerEdges.Size & 0xF;
+                v19[v20].node1 = v17;
+                v19[v20].node2 = v16;
                 ++this->StrokerEdges.Size;
-                v11 = thisEdgea;
+                v9 = v70;
               }
-              prevVer = v11->node1;
+              v76 = v9->srcVer;
             }
             else
             {
-              v13 = srcVer & 0xFFFFFFF;
-              v14 = v11->node1 & 0xFFFFFFF;
-              v83 = srcVer & 0xFFFFFFF;
-              if ( v12 != (srcVer & 0xFFFFFFF) )
+              v11 = srcVer & 0xFFFFFFF;
+              v12 = v9->srcVer & 0xFFFFFFF;
+              v81 = srcVer & 0xFFFFFFF;
+              if ( v10 != (srcVer & 0xFFFFFFF) )
               {
-                v15 = this->StrokerEdges.Size >> 4;
-                if ( v15 >= this->StrokerEdges.NumPages )
+                v13 = this->StrokerEdges.Size >> 4;
+                if ( v13 >= this->StrokerEdges.NumPages )
                 {
                   Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
                     (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StrokerEdges,
                     this->StrokerEdges.Size >> 4);
-                  v13 = v83;
+                  v11 = v81;
                 }
-                v16 = this->StrokerEdges.Pages[v15];
-                v17 = this->StrokerEdges.Size & 0xF;
-                v16[v17].node1 = v14;
-                v16[v17].node2 = v13;
+                v14 = this->StrokerEdges.Pages[v13];
+                v15 = this->StrokerEdges.Size & 0xF;
+                v14[v15].node1 = v12;
+                v14[v15].node2 = v11;
                 ++this->StrokerEdges.Size;
-                v11 = thisEdgea;
+                v9 = v70;
               }
-              strtVer = v11->node1;
-              srcVer = v11->node1;
+              v74 = v9->srcVer;
+              srcVer = v9->srcVer;
             }
-            node1 = prevVer;
-            thisEdgea = (Scaleform::Render::Tessellator::StrokerEdgeType *)v11[1].node1;
-            if ( !thisEdgea )
+            v6 = v76;
+            v70 = v9->next;
+            if ( !v70 )
               break;
-            v11 = (Scaleform::Render::Tessellator::StrokerEdgeType *)v11[1].node1;
+            v9 = v9->next;
           }
         }
-        v23 = srcVer & 0xFFFFFFF;
-        v24 = node1 & 0xFFFFFFF;
-        v90 = srcVer & 0xFFFFFFF;
-        if ( v24 != (srcVer & 0xFFFFFFF) )
+        v21 = srcVer & 0xFFFFFFF;
+        v22 = v6 & 0xFFFFFFF;
+        v87 = srcVer & 0xFFFFFFF;
+        if ( v22 != (srcVer & 0xFFFFFFF) )
         {
-          v25 = this->StrokerEdges.Size >> 4;
-          if ( v25 >= this->StrokerEdges.NumPages )
+          v23 = this->StrokerEdges.Size >> 4;
+          if ( v23 >= this->StrokerEdges.NumPages )
           {
             Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16>::allocPage(
               (Scaleform::Render::ArrayPaged<Scaleform::Render::VertexBasic,4,16> *)&this->StrokerEdges,
               this->StrokerEdges.Size >> 4);
-            v23 = v90;
+            v21 = v87;
           }
-          v26 = this->StrokerEdges.Pages[v25];
-          v27 = this->StrokerEdges.Size & 0xF;
-          v26[v27].node1 = v24;
-          v26[v27].node2 = v23;
+          v24 = this->StrokerEdges.Pages[v23];
+          v25 = this->StrokerEdges.Size & 0xF;
+          v24[v25].node1 = v22;
+          v24[v25].node2 = v21;
           ++this->StrokerEdges.Size;
         }
         v2 = i;
@@ -223,171 +216,171 @@ void __thiscall Scaleform::Render::Tessellator::processStrokerEdges(Scaleform::R
       (bool (__cdecl *)(const Scaleform::Render::Tessellator::StrokerEdgeType *, const Scaleform::Render::Tessellator::StrokerEdgeType *))Scaleform::Render::Tessellator::cmpStrokerEdges);
     for ( j = 0; j < this->StrokerEdges.Size; ++j )
     {
-      v29 = &this->StrokerEdges.Pages[j >> 4][j & 0xF];
-      if ( (v29->node1 & 0x40000000) == 0 )
+      v27 = &this->StrokerEdges.Pages[j >> 4][j & 0xF];
+      if ( (v27->node1 & 0x40000000) == 0 )
       {
-        node2 = (Scaleform::Render::Tessellator::StrokerEdgeType *)v29->node2;
-        v85 = v29->node1;
-        e = node2;
-        v31 = Scaleform::Alg::LowerBoundSliced<Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::OuterEdgeType,4,16>,Scaleform::Render::Tessellator::OuterEdgeType,bool (__cdecl *)(Scaleform::Render::Tessellator::OuterEdgeType const &,Scaleform::Render::Tessellator::OuterEdgeType const &)>(
+        node2 = v27->node2;
+        val.node2 = v27->node1;
+        val.node1 = node2;
+        v29 = Scaleform::Alg::LowerBoundSliced<Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::OuterEdgeType,4,16>,Scaleform::Render::Tessellator::OuterEdgeType,bool (__cdecl *)(Scaleform::Render::Tessellator::OuterEdgeType const &,Scaleform::Render::Tessellator::OuterEdgeType const &)>(
                 &this->StrokerEdges,
                 0,
                 this->StrokerEdges.Size,
-                (const Scaleform::Render::Tessellator::StrokerEdgeType *)&e,
+                &val,
                 (bool (__cdecl *)(const Scaleform::Render::Tessellator::StrokerEdgeType *, const Scaleform::Render::Tessellator::StrokerEdgeType *))Scaleform::Render::Tessellator::cmpStrokerEdges);
-        if ( v31 < this->StrokerEdges.Size )
+        if ( v29 < this->StrokerEdges.Size )
         {
-          v32 = &this->StrokerEdges.Pages[v31 >> 4][v31 & 0xF];
-          if ( v29->node1 == v32->node2 && v29->node2 == v32->node1 )
+          v30 = &this->StrokerEdges.Pages[v29 >> 4][v29 & 0xF];
+          if ( v27->node1 == v30->node2 && v27->node2 == v30->node1 )
           {
-            v29->node1 |= 0x40000000u;
-            v32->node1 |= 0x40000000u;
+            v27->node1 |= 0x40000000u;
+            v30->node1 |= 0x40000000u;
           }
         }
       }
     }
-    v33 = 0;
-    for ( ia = 0; v33 < this->StrokerEdges.Size; ia = v33 )
+    v31 = 0;
+    for ( k = 0; v31 < this->StrokerEdges.Size; k = v31 )
     {
-      v34 = &this->StrokerEdges.Pages[v33 >> 4][v33 & 0xF];
-      strtEdgea = v34;
-      if ( (v34->node1 & 0x40000000) == 0 )
+      v32 = &this->StrokerEdges.Pages[v31 >> 4][v31 & 0xF];
+      v79 = v32;
+      if ( (v32->node1 & 0x40000000) == 0 )
       {
-        v35 = -1;
-        thisEdgeb = v34;
-        strtVera = -1;
+        v33 = -1;
+        v71 = v32;
+        v75 = -1;
         while ( 1 )
         {
-          prevVera = v35;
-          v36 = Scaleform::Alg::LowerBoundSliced<Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::StrokerEdgeType,4,16>,unsigned int,bool (__cdecl *)(Scaleform::Render::Tessellator::StrokerEdgeType const &,unsigned int)>(
+          v77 = v33;
+          v34 = Scaleform::Alg::LowerBoundSliced<Scaleform::Render::ArrayPaged<Scaleform::Render::Tessellator::StrokerEdgeType,4,16>,unsigned int,bool (__cdecl *)(Scaleform::Render::Tessellator::StrokerEdgeType const &,unsigned int)>(
                   &this->StrokerEdges,
                   0,
                   this->StrokerEdges.Size,
-                  &v34->node2,
+                  &v32->node2,
                   (bool (__cdecl *)(const Scaleform::Render::Tessellator::StrokerEdgeType *, unsigned int))Scaleform::Render::Tessellator::cmpStrokerNode1);
           Size = this->StrokerEdges.Size;
-          if ( v36 >= Size )
+          if ( v34 >= Size )
             break;
           while ( 1 )
           {
-            v38 = &this->StrokerEdges.Pages[v36 >> 4][v36 & 0xF];
-            v39 = v38->node1;
-            e = v38;
-            if ( (v39 & 0x40000000) == 0 && ((v39 ^ v34->node2) & 0xFFFFFFF) == 0 )
+            v36 = &this->StrokerEdges.Pages[v34 >> 4][v34 & 0xF];
+            node1 = v36->node1;
+            val.node1 = (unsigned int)v36;
+            if ( (node1 & 0x40000000) == 0 && ((node1 ^ v32->node2) & 0xFFFFFFF) == 0 )
               break;
-            if ( ++v36 >= Size )
+            if ( ++v34 >= Size )
               goto LABEL_59;
           }
-          v40 = Scaleform::Render::Tessellator::addStrokerJoin(this, v34, v38);
-          if ( prevVera == -1 )
+          v38 = Scaleform::Render::Tessellator::addStrokerJoin(this, v32, v36);
+          if ( v77 == -1 )
           {
-            strtVera = this->MeshVertices.Size - v40;
+            v75 = this->MeshVertices.Size - v38;
           }
           else
           {
-            v41 = this->MeshVertices.Size;
+            v39 = this->MeshVertices.Size;
             Arrays = this->MeshTriangles.Arrays;
             p_MeshTriangles = &this->MeshTriangles;
-            v44 = v41 - v40;
-            v45 = v34->node1 & 0xFFFFFFF;
-            v46 = Arrays->Size >> 4;
-            v82 = v44;
-            v87 = v45;
-            if ( v46 >= Arrays->NumPages )
+            v42 = v39 - v38;
+            v43 = v32->node1 & 0xFFFFFFF;
+            v44 = Arrays->Size >> 4;
+            v80 = v42;
+            v84 = v43;
+            if ( v44 >= Arrays->NumPages )
             {
               Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::allocPage(
                 p_MeshTriangles,
                 Arrays,
-                v46);
-              v45 = v87;
+                v44);
+              v43 = v84;
             }
-            v47 = Arrays->Pages[v46];
-            v48 = Arrays->Size & 0xF;
-            v47[v48].d.t.v1 = v45;
-            v49 = &v47[v48];
-            v49->d.t.v2 = prevVera;
-            v49->d.t.v3 = v44;
+            v45 = Arrays->Pages[v44];
+            v46 = Arrays->Size & 0xF;
+            v45[v46].d.t.v1 = v43;
+            v47 = &v45[v46];
+            v47->d.t.v2 = v77;
+            v47->d.t.v3 = v42;
             ++p_MeshTriangles->Arrays->Size;
-            v50 = p_MeshTriangles->Arrays;
-            v51 = thisEdgeb->node1 & 0xFFFFFFF;
-            v52 = v50->Size >> 4;
-            v53 = thisEdgeb->node2 & 0xFFFFFFF;
-            v88 = v51;
-            if ( v52 >= v50->NumPages )
+            v48 = p_MeshTriangles->Arrays;
+            v49 = v71->node1 & 0xFFFFFFF;
+            v50 = v48->Size >> 4;
+            v51 = v71->node2 & 0xFFFFFFF;
+            v85 = v49;
+            if ( v50 >= v48->NumPages )
             {
               Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::allocPage(
                 p_MeshTriangles,
-                v50,
-                v52);
-              v51 = v88;
+                v48,
+                v50);
+              v49 = v85;
             }
-            v54 = v50->Pages[v52];
-            v38 = e;
-            v55 = (int *)&v54[v50->Size & 0xF];
-            *v55 = v53;
-            v55[1] = v51;
-            v55[2] = v82;
+            v52 = v48->Pages[v50];
+            v36 = (Scaleform::Render::Tessellator::StrokerEdgeType *)val.node1;
+            v53 = (int *)&v52[v48->Size & 0xF];
+            *v53 = v51;
+            v53[1] = v49;
+            v53[2] = v80;
             ++p_MeshTriangles->Arrays->Size;
-            thisEdgeb->node1 |= 0x40000000u;
-            this = v86;
+            v71->node1 |= 0x40000000u;
+            this = v83;
           }
-          if ( v38 == strtEdgea )
+          if ( v36 == v79 )
           {
-            v56 = this->MeshTriangles.Arrays;
-            v57 = strtEdgea->node1 & 0xFFFFFFF;
-            v58 = this->MeshVertices.Size - 1;
-            v59 = v56->Size >> 4;
-            v89 = v57;
-            v90 = v58;
-            if ( v59 >= v56->NumPages )
+            v54 = this->MeshTriangles.Arrays;
+            v55 = v79->node1 & 0xFFFFFFF;
+            v56 = this->MeshVertices.Size - 1;
+            v57 = v54->Size >> 4;
+            v86 = v55;
+            v87 = v56;
+            if ( v57 >= v54->NumPages )
             {
               Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::allocPage(
                 &this->MeshTriangles,
-                v56,
-                v59);
-              v58 = v90;
-              v57 = v89;
+                v54,
+                v57);
+              v56 = v87;
+              v55 = v86;
             }
-            v60 = v56->Size;
-            v61 = v56->Pages[v59];
-            v62 = v60 & 0xF;
-            v61[v62].d.t.v1 = v57;
-            v63 = &v61[v62];
-            v63->d.t.v2 = v58;
-            v63->d.t.v3 = strtVera;
+            v58 = v54->Size;
+            v59 = v54->Pages[v57];
+            v60 = v58 & 0xF;
+            v59[v60].d.t.v1 = v55;
+            v61 = &v59[v60];
+            v61->d.t.v2 = v56;
+            v61->d.t.v3 = v75;
             ++this->MeshTriangles.Arrays->Size;
-            v64 = this->MeshTriangles.Arrays;
-            v65 = strtEdgea->node2 & 0xFFFFFFF;
-            v66 = strtEdgea->node1 & 0xFFFFFFF;
-            v67 = v64->Size >> 4;
-            v89 = v65;
-            v90 = v66;
-            if ( v67 >= v64->NumPages )
+            v62 = this->MeshTriangles.Arrays;
+            v63 = v79->node2 & 0xFFFFFFF;
+            v64 = v79->node1 & 0xFFFFFFF;
+            v65 = v62->Size >> 4;
+            v86 = v63;
+            v87 = v64;
+            if ( v65 >= v62->NumPages )
             {
               Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::allocPage(
                 &this->MeshTriangles,
-                v64,
-                v67);
-              v66 = v90;
-              v65 = v89;
+                v62,
+                v65);
+              v64 = v87;
+              v63 = v86;
             }
-            v68 = v64->Pages[v67];
-            v69 = v64->Size & 0xF;
-            v68[v69].d.t.v1 = v65;
-            v70 = &v68[v69];
-            v70->d.t.v2 = v66;
-            v70->d.t.v3 = strtVera;
+            v66 = v62->Pages[v65];
+            v67 = v62->Size & 0xF;
+            v66[v67].d.t.v1 = v63;
+            v68 = &v66[v67];
+            v68->d.t.v2 = v64;
+            v68->d.t.v3 = v75;
             ++this->MeshTriangles.Arrays->Size;
-            strtEdgea->node1 |= 0x40000000u;
+            v79->node1 |= 0x40000000u;
             break;
           }
-          v35 = this->MeshVertices.Size - 1;
-          thisEdgeb = v38;
-          v34 = v38;
+          v33 = this->MeshVertices.Size - 1;
+          v71 = v36;
+          v32 = v36;
         }
       }
 LABEL_59:
-      v33 = ia + 1;
+      v31 = k + 1;
     }
   }
 }

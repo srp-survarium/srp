@@ -11,22 +11,22 @@ char __thiscall Scaleform::Render::PNG::MemoryBufferImage::Decode(
   void *v9; // esi
   char v11; // bl
   void *v12; // esi
-  Scaleform::MemoryFile file; // [esp+20h] [ebp-1Ch] BYREF
+  Scaleform::MemoryFile v13; // [esp+20h] [ebp-1Ch] BYREF
 
-  Scaleform::MemoryFile::MemoryFile(&file, &this->FilePath, this->FileData.Data.Data, this->FileData.Data.Size);
-  if ( !file.IsValid(&file)
+  Scaleform::MemoryFile::MemoryFile(&v13, &this->FilePath, this->FileData.Data.Data, this->FileData.Data.Size);
+  if ( !v13.IsValid(&v13)
     || (v5 = (Scaleform::Render::PNG::LibPNGInput *)Scaleform::Memory::pGlobalHeap->Alloc(
                                                       Scaleform::Memory::pGlobalHeap,
                                                       400,
                                                       0)) == 0
-    || (Scaleform::Render::PNG::LibPNGInput::LibPNGInput(v5, (Scaleform::GFx::Resource *)&file),
+    || (Scaleform::Render::PNG::LibPNGInput::LibPNGInput(v5, (Scaleform::GFx::Resource *)&v13),
         (v7 = (void (__thiscall ***)(_DWORD, int))v6) == 0) )
   {
 LABEL_6:
-    v9 = (void *)(file.FilePath.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((file.FilePath.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    v9 = (void *)(v13.FilePath.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((v13.FilePath.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v9);
-    Scaleform::RefCountImplCore::~RefCountImplCore(&file);
+    Scaleform::RefCountImplCore::~RefCountImplCore(&v13);
     return 0;
   }
   v8 = *(void (__thiscall ***)(int, int))v6;
@@ -42,9 +42,9 @@ LABEL_6:
           copyScanline,
           arg);
   (**v7)(v7, 1);
-  v12 = (void *)(file.FilePath.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((file.FilePath.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v12 = (void *)(v13.FilePath.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v13.FilePath.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
-  Scaleform::RefCountImplCore::~RefCountImplCore(&file);
+  Scaleform::RefCountImplCore::~RefCountImplCore(&v13);
   return v11;
 }

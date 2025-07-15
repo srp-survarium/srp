@@ -9,7 +9,7 @@ int __cdecl jinit_arith_decoder(int a1)
 
   result = (**(int (__cdecl ***)(int, int, int))(a1 + 4))(a1, 1, 188);
   *(_DWORD *)(a1 + 424) = result;
-  *(_DWORD *)result = sub_378C40;
+  *(_DWORD *)result = sub_485900;
   v2 = (_DWORD *)(result + 120);
   v3 = 16;
   v4 = 0;

@@ -1,69 +1,52 @@
-void __thiscall vostok::render::game::renderer::end_frame(
-        vostok::render::game::renderer *this,
-        vostok::render::game::renderer *thisa)
+void __thiscall vostok::render::game::renderer::end_frame(vostok::render::game::renderer *this, int a2)
 {
-  char *v3; // edi
-  vostok::render::world *m_world; // eax
-  bool v5; // zf
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v7)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::world>,boost::_bi::list1<boost::_bi::value<vostok::render::world *> > > v8; // [esp-8h] [ebp-58h]
-  boost::function4<void,unsigned int,float,float,char const *> v9; // [esp+10h] [ebp-40h] BYREF
-  boost::function0<void> f; // [esp+30h] [ebp-20h] BYREF
-  char thisb; // [esp+54h] [ebp+4h]
+  vostok::render::base_command *v2; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::world>,boost::_bi::list1<boost::_bi::value<vostok::render::world *> > > v4; // [esp-8h] [ebp-60h]
+  int v5; // [esp+0h] [ebp-58h]
+  char v6; // [esp+10h] [ebp-48h]
+  vostok::render::functor_command *v7; // [esp+14h] [ebp-44h]
+  boost::function<void __cdecl(vostok::render::base_command &)> on_defer_execution; // [esp+18h] [ebp-40h] BYREF
+  boost::function<void __cdecl(void)> on_execute; // [esp+38h] [ebp-20h] BYREF
 
-  thisb = 0;
-  v3 = (char *)vostok::render::logic::g_allocator->call_malloc(vostok::render::logic::g_allocator, 152);
-  if ( v3 )
+  v6 = 0;
+  v7 = (vostok::render::functor_command *)vostok::memory::new_helper<vostok::render::functor_command>::call<vostok::memory::allocator_adapter<vostok::memory::single_size_fixed_allocator<1024,2048,vostok::threading::multi_threading_policy>>>(
+                                            (vostok::memory::allocator_adapter<vostok::memory::single_size_fixed_allocator<1024,2048,vostok::threading::multi_threading_policy> > *)((char *)&dword_200038 + a2),
+                                            "vostok::render::game::renderer::end_frame",
+                                            (const char *const)0x6A);
+  if ( v7 )
   {
-    v8.l_.a1_.t_ = thisa->m_world;
-    v8.f_.f_ = vostok::render::world::end_frame_logic;
-    f.vtable = 0;
-    boost::function0<void>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::world>,boost::_bi::list1<boost::_bi::value<vostok::render::world *>>>>(
-      (boost::function0<void> *)vostok::render::world::end_frame_logic,
-      (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::world>,boost::_bi::list1<boost::_bi::value<vostok::render::world *> > > *)&f,
-      v8);
-    v9.vtable = 0;
-    v3[12] = 0;
-    v3[13] = 1;
-    *((_DWORD *)v3 + 20) = 0;
-    *(_DWORD *)v3 = &vostok::render::functor_command::`vftable';
-    thisb = 3;
-    *((_DWORD *)v3 + 22) = 0;
-    boost::function0<void>::assign_to_own((boost::function0<void> *)(v3 + 88), &f);
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(&v9, (int)(v3 + 120));
+    v4.l_.a1_.t_ = *(vostok::render::world **)((char *)&dword_200050 + a2);
+    v4.f_.f_ = vostok::render::world::end_frame_logic;
+    boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+      (boost::function<void __cdecl(void)> *)vostok::render::world::end_frame_logic,
+      (boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::render::world>,boost::_bi::list1<boost::_bi::value<vostok::render::world *> > > *)&on_execute,
+      v4,
+      v5);
+    on_defer_execution.vtable = 0;
+    v6 = 3;
+    vostok::render::functor_command::functor_command(
+      v7,
+      (vostok::memory::base_allocator *)((char *)&dword_200038 + a2),
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_defer_execution,
+      (boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> *)&on_execute);
   }
   else
   {
-    v3 = 0;
+    v2 = 0;
   }
-  m_world = thisa->m_world;
-  v5 = thisa->m_world->m_logic_channel.m_channel.m_forward_queue.m_tail->next == 0;
-  *((_DWORD *)v3 + 1) = 0;
-  _InterlockedExchange(
-    (volatile __int32 *)&m_world->m_logic_channel.m_channel.m_forward_queue.m_head->next,
-    (__int32)v3);
-  m_world->m_logic_channel.m_channel.m_forward_queue.m_head = (vostok::render::base_command *)v3;
-  if ( v5 )
-    SetEvent(*(HANDLE *)m_world->m_logic_channel.m_wait_form_command_event.m_event.m_event);
-  if ( (thisb & 2) != 0 )
+  vostok::render::one_way_render_channel::owner_push_back(
+    *(vostok::render::one_way_render_channel **)((char *)&dword_200050 + a2),
+    v2);
+  if ( (v6 & 2) != 0 )
   {
-    thisb &= ~2u;
-    if ( v9.vtable )
-    {
-      if ( ((int)v9.vtable & 1) == 0 )
-      {
-        v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v9.vtable & 0xFFFFFFFE);
-        if ( v6 )
-          v6(&v9.functor, &v9.functor, 2);
-      }
-      v9.vtable = 0;
-    }
+    v6 &= ~2u;
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v3,
+      (int *)&on_defer_execution);
   }
-  if ( (thisb & 1) != 0 && f.vtable && ((int)f.vtable & 1) == 0 )
-  {
-    v7 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)f.vtable & 0xFFFFFFFE);
-    if ( v7 )
-      v7(&f.functor, &f.functor, 2);
-  }
+  if ( (v6 & 1) != 0 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v3,
+      (int *)&on_execute);
 }

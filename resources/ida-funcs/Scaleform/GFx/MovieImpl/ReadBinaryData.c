@@ -1,5 +1,5 @@
 bool __cdecl Scaleform::GFx::MovieImpl::ReadBinaryData(
-        Scaleform::ArrayPOD<unsigned char,2,Scaleform::ArrayDefaultPolicy> *pdata,
+        Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *pdata,
         Scaleform::File *pfile,
         int *pfileLen)
 {
@@ -11,21 +11,21 @@ bool __cdecl Scaleform::GFx::MovieImpl::ReadBinaryData(
   *pfileLen = v3;
   if ( !v3 )
     return 0;
-  if ( v3 >= pdata->Data.Size )
+  if ( v3 >= pdata->Size )
   {
-    if ( v3 >= pdata->Data.Policy.Capacity )
+    if ( v3 >= pdata->Policy.Capacity )
       Scaleform::ArrayDataBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)pdata,
+        pdata,
         pdata,
         v3 + (v3 >> 2));
   }
-  else if ( v3 < pdata->Data.Policy.Capacity >> 1 )
+  else if ( v3 < pdata->Policy.Capacity >> 1 )
   {
     Scaleform::ArrayDataBase<unsigned char,Scaleform::AllocatorGH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      (Scaleform::ArrayDataBase<char,Scaleform::AllocatorGH<char,2>,Scaleform::ArrayDefaultPolicy> *)pdata,
+      pdata,
       pdata,
       v3);
   }
-  pdata->Data.Size = v4;
-  return pfile->Read(pfile, pdata->Data.Data, *pfileLen) == *pfileLen;
+  pdata->Size = v4;
+  return pfile->Read(pfile, (unsigned __int8 *)pdata->Data, *pfileLen) == *pfileLen;
 }

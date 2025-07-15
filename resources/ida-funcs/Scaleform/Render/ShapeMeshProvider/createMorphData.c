@@ -9,24 +9,24 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
   int v8; // edi
   void (__thiscall *GetStrokeStyle)(Scaleform::Render::ShapeDataInterface *, unsigned int, Scaleform::Render::StrokeStyleType *); // edx
   void (__thiscall *v10)(Scaleform::Render::ShapeDataInterface *, unsigned int, Scaleform::Render::StrokeStyleType *); // eax
-  unsigned int v11; // esi
-  unsigned int v12; // eax
+  int v11; // esi
+  int v12; // eax
   Scaleform::Render::MorphShapeData *v13; // esi
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *p_ShapeData1; // esi
-  unsigned int Size; // eax
+  float v15; // eax
   void **p_Data; // edi
-  unsigned int v17; // ecx
+  int v17; // ecx
   Scaleform::RefCountVImpl *v18; // ecx
   bool v19; // zf
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *Data; // edi
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *p_ShapeData2; // esi
-  unsigned int v22; // eax
+  float v22; // eax
   void **v23; // edi
-  unsigned int v24; // ecx
+  int v24; // ecx
   Scaleform::RefCountVImpl *v25; // ecx
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v26; // edi
-  Scaleform::Render::ShapePathType v27; // esi
-  Scaleform::Render::ShapePathType v28; // eax
+  int v27; // esi
+  int v28; // eax
   Scaleform::Render::MorphShapeData *v29; // ebp
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v30; // edi
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v31; // ebp
@@ -38,8 +38,8 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
   unsigned int v37; // esi
   bool *v38; // eax
   double v39; // st7
-  Scaleform::Render::PathEdgeType v40; // esi
-  Scaleform::Render::PathEdgeType v41; // eax
+  int v40; // esi
+  int v41; // eax
   Scaleform::Render::MorphShapeData *v42; // ebp
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v43; // edi
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v44; // ebp
@@ -50,7 +50,7 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v49; // ebp
   unsigned int v50; // esi
   bool *v51; // eax
-  Scaleform::Render::ShapeDataInterface *v52; // ecx
+  _DWORD *v52; // ecx
   Scaleform::Render::MorphShapeData *v53; // ebp
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v54; // edi
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v55; // ebp
@@ -101,64 +101,78 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::DataStatus v100; // eax
   Scaleform::Render::MorphShapeData *v101; // eax
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::DataStatus v102; // ecx
-  Scaleform::Render::ShapeDataInterface *v103; // eax
+  Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v103; // eax
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v104; // edi
   unsigned int v105; // esi
   bool *v106; // ecx
-  Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *RefCount; // edi
+  Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v107; // edi
   unsigned int v108; // esi
   bool *v109; // edx
-  Scaleform::Render::ShapeDataInterface *v110; // eax
+  _DWORD *v110; // eax
   Scaleform::Render::MorphShapeData *v111; // ebx
   Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> >::DataStatus v112; // eax
   Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *v113; // edi
   unsigned int v114; // esi
   bool *v115; // eax
   Scaleform::ArrayLH<Scaleform::Render::FillStyleType,2,Scaleform::ArrayDefaultPolicy> *x; // [esp+58h] [ebp-160h]
-  Scaleform::Render::FillStyleType fs2; // [esp+74h] [ebp-144h] BYREF
-  Scaleform::Render::FillStyleType fs1; // [esp+7Ch] [ebp-13Ch] BYREF
-  int v119; // [esp+84h] [ebp-134h]
-  Scaleform::Render::ShapeDataInterface *morph1; // [esp+88h] [ebp-130h]
-  Scaleform::Render::ShapeDataInterface *morph2; // [esp+8Ch] [ebp-12Ch]
-  unsigned int styles1[3]; // [esp+90h] [ebp-128h] BYREF
-  float coord2[6]; // [esp+9Ch] [ebp-11Ch] BYREF
-  float coord1[6]; // [esp+B4h] [ebp-104h] BYREF
-  Scaleform::Render::ShapePosInfo posInfo2; // [esp+CCh] [ebp-ECh] BYREF
-  Scaleform::Render::ShapePosInfo posInfo1; // [esp+104h] [ebp-B4h] BYREF
-  Scaleform::Render::ShapePosInfo prevPos1; // [esp+13Ch] [ebp-7Ch] BYREF
-  unsigned int styles2[3]; // [esp+174h] [ebp-44h] BYREF
-  Scaleform::Render::ShapePosInfo prevPos2; // [esp+180h] [ebp-38h] BYREF
+  float v117; // [esp+74h] [ebp-144h] BYREF
+  Scaleform::RefCountVImpl *v118; // [esp+78h] [ebp-140h]
+  float v119; // [esp+7Ch] [ebp-13Ch] BYREF
+  Scaleform::RefCountVImpl *v120; // [esp+80h] [ebp-138h]
+  int v121; // [esp+84h] [ebp-134h]
+  Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *v122; // [esp+88h] [ebp-130h]
+  Scaleform::Render::ShapeDataInterface *v123; // [esp+8Ch] [ebp-12Ch]
+  unsigned int leftStyle; // [esp+90h] [ebp-128h] BYREF
+  unsigned int rightStyle; // [esp+94h] [ebp-124h]
+  unsigned int strokeStyle; // [esp+98h] [ebp-120h]
+  float v127; // [esp+9Ch] [ebp-11Ch] BYREF
+  float cy; // [esp+A0h] [ebp-118h]
+  float v129; // [esp+A4h] [ebp-114h]
+  float v130; // [esp+A8h] [ebp-110h]
+  float v131; // [esp+ACh] [ebp-10Ch]
+  float v132; // [esp+B0h] [ebp-108h]
+  float cx1; // [esp+B4h] [ebp-104h] BYREF
+  float y; // [esp+B8h] [ebp-100h]
+  float cx2; // [esp+BCh] [ebp-FCh]
+  Scaleform::RefCountVImpl *v136; // [esp+C0h] [ebp-F8h]
+  float v137; // [esp+C4h] [ebp-F4h]
+  Scaleform::RefCountVImpl *v138; // [esp+C8h] [ebp-F0h]
+  _DWORD v139[14]; // [esp+CCh] [ebp-ECh] BYREF
+  _DWORD v140[14]; // [esp+104h] [ebp-B4h] BYREF
+  Scaleform::RefCountVImpl *v141[14]; // [esp+13Ch] [ebp-7Ch] BYREF
+  _DWORD v142[3]; // [esp+174h] [ebp-44h] BYREF
+  Scaleform::RefCountVImpl *v143[14]; // [esp+180h] [ebp-38h] BYREF
 
   pObject = this->pShapeData.pObject;
   GetFillStyleCount = pObject->GetFillStyleCount;
-  morph2 = this->pMorphData.pObject->pMorphTo.pObject;
-  morph1 = pObject;
+  v123 = this->pMorphData.pObject->pMorphTo.pObject;
+  v122 = (Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > *)pObject;
   if ( GetFillStyleCount(pObject) )
   {
     v4 = 1;
     do
     {
       GetFillStyle = pObject->GetFillStyle;
-      fs1.pFill.pObject = 0;
-      GetFillStyle(pObject, v4, &fs1);
-      v6 = (Scaleform::RefCountVImpl *)fs1.pFill.pObject;
-      if ( fs1.pFill.pObject )
+      *(float *)&v120 = 0.0;
+      GetFillStyle(pObject, v4, (Scaleform::Render::FillStyleType *)&v119);
+      v6 = v120;
+      if ( *(float *)&v120 != 0.0 )
       {
-        if ( fs1.pFill.pObject->pGradient.pObject )
+        if ( v120[1].RefCount )
         {
-          v7 = morph2->GetFillStyle;
-          fs2.pFill.pObject = 0;
-          v7(morph2, v4, &fs2);
+          v7 = v123->GetFillStyle;
+          *(float *)&v118 = 0.0;
+          v7(v123, v4, (Scaleform::Render::FillStyleType *)&v117);
           if ( !Scaleform::Render::GradientData::operator==(
-                  fs1.pFill.pObject->pGradient.pObject,
-                  fs2.pFill.pObject->pGradient.pObject) )
+                  (Scaleform::Render::GradientData *)v120[1].RefCount,
+                  (const Scaleform::Render::GradientData *)v118[1].RefCount) )
           {
-            fs1.pFill.pObject->pGradient.pObject->pMorphTo = fs2.pFill.pObject->pGradient.pObject;
+            *(_DWORD *)(v120[1].RefCount + 20) = v118[1].RefCount;
             this->GradientMorph = 1;
           }
-          if ( fs2.pFill.pObject )
-            Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)fs2.pFill.pObject);
-          v6 = (Scaleform::RefCountVImpl *)fs1.pFill.pObject;
+          if ( *(float *)&v118 != 0.0 )
+            Scaleform::RefCountImpl::Release(v118);
+          v6 = v120;
         }
         if ( v6 )
           Scaleform::RefCountImpl::Release(v6);
@@ -173,69 +187,77 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
     do
     {
       GetStrokeStyle = pObject->GetStrokeStyle;
-      prevPos1.FillBase = 0;
-      prevPos1.StrokeBase = 0;
-      GetStrokeStyle(pObject, v8, (Scaleform::Render::StrokeStyleType *)&prevPos1);
-      if ( prevPos1.FillBase && *(_DWORD *)(prevPos1.FillBase + 12) )
+      v141[5] = 0;
+      v141[6] = 0;
+      GetStrokeStyle(pObject, v8, (Scaleform::Render::StrokeStyleType *)v141);
+      if ( v141[5] && v141[5][1].RefCount )
       {
-        v10 = morph2->GetStrokeStyle;
-        prevPos2.FillBase = 0;
-        prevPos2.StrokeBase = 0;
-        v10(morph2, v8, (Scaleform::Render::StrokeStyleType *)&prevPos2);
+        v10 = v123->GetStrokeStyle;
+        v143[5] = 0;
+        v143[6] = 0;
+        v10(v123, v8, (Scaleform::Render::StrokeStyleType *)v143);
         if ( !Scaleform::Render::GradientData::operator==(
-                *(Scaleform::Render::GradientData **)(prevPos1.FillBase + 12),
-                *(const Scaleform::Render::GradientData **)(prevPos2.FillBase + 12)) )
+                (Scaleform::Render::GradientData *)v141[5][1].RefCount,
+                (const Scaleform::Render::GradientData *)v143[5][1].RefCount) )
         {
-          *(_DWORD *)(*(_DWORD *)(prevPos1.FillBase + 12) + 20) = *(_DWORD *)(prevPos2.FillBase + 12);
+          *(_DWORD *)(v141[5][1].RefCount + 20) = v143[5][1].RefCount;
           this->GradientMorph = 1;
         }
-        if ( prevPos2.StrokeBase )
-          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)prevPos2.StrokeBase);
-        if ( prevPos2.FillBase )
-          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)prevPos2.FillBase);
+        if ( v143[6] )
+          Scaleform::RefCountImpl::Release(v143[6]);
+        if ( v143[5] )
+          Scaleform::RefCountImpl::Release(v143[5]);
       }
-      if ( prevPos1.StrokeBase )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)prevPos1.StrokeBase);
-      if ( prevPos1.FillBase )
-        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)prevPos1.FillBase);
+      if ( v141[6] )
+        Scaleform::RefCountImpl::Release(v141[6]);
+      if ( v141[5] )
+        Scaleform::RefCountImpl::Release(v141[5]);
       ++v8;
     }
     while ( v8 - 1 < pObject->GetStrokeStyleCount(pObject) );
   }
   v11 = pObject->GetStartingPos(pObject);
-  v12 = morph2->GetStartingPos(morph2);
-  posInfo1.Pos = v11;
-  posInfo1.Sfactor = 1.0;
+  v12 = v123->GetStartingPos(v123);
+  v140[0] = v11;
+  *(float *)&v140[12] = 1.0;
   v13 = this->pMorphData.pObject;
-  posInfo2.Sfactor = 1.0;
+  *(float *)&v139[12] = 1.0;
   p_ShapeData1 = &v13->ShapeData1;
-  memset(&posInfo1.StartX, 0, 44);
-  posInfo1.Initialized = 0;
-  posInfo2.Pos = v12;
-  memset(&posInfo2.StartX, 0, 44);
-  posInfo2.Initialized = 0;
+  memset(&v140[1], 0, 44);
+  LOBYTE(v140[13]) = 0;
+  v139[0] = v12;
+  memset(&v139[1], 0, 44);
+  LOBYTE(v139[13]) = 0;
   p_ShapeData1->Status = Status_Clean;
   Scaleform::ArrayDataBase<Scaleform::Render::FillStyleType,Scaleform::AllocatorLH<Scaleform::Render::FillStyleType,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
     &p_ShapeData1->Fills.Data,
     &p_ShapeData1->Fills,
     0);
-  Size = p_ShapeData1->Strokes.Data.Size;
+  v15 = *(float *)&p_ShapeData1->Strokes.Data.Size;
   p_Data = (void **)&p_ShapeData1->Strokes.Data.Data;
-  if ( Size )
+  if ( v15 == 0.0 )
   {
-    v17 = (unsigned int)*p_Data + 28 * Size - 8;
-    fs2.Color = v17;
-    fs1.Color = Size;
+    if ( !p_ShapeData1->Strokes.Data.Policy.Capacity )
+      Scaleform::ArrayDataBase<Scaleform::Render::StrokeStyleType,Scaleform::AllocatorLH<Scaleform::Render::StrokeStyleType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        &p_ShapeData1->Strokes.Data,
+        &p_ShapeData1->Strokes,
+        0);
+  }
+  else
+  {
+    v17 = (int)*p_Data + 28 * LODWORD(v15) - 8;
+    v117 = *(float *)&v17;
+    v119 = v15;
     do
     {
       v18 = *(Scaleform::RefCountVImpl **)(v17 + 4);
       if ( v18 )
         Scaleform::RefCountImpl::Release(v18);
-      if ( *(_DWORD *)fs2.Color )
-        Scaleform::RefCountImpl::Release(*(Scaleform::RefCountVImpl **)fs2.Color);
-      v17 = fs2.Color - 28;
-      v19 = fs1.Color-- == 1;
-      fs2.Color -= 28;
+      if ( *(_DWORD *)LODWORD(v117) )
+        Scaleform::RefCountImpl::Release(*(Scaleform::RefCountVImpl **)LODWORD(v117));
+      v17 = LODWORD(v117) - 28;
+      v19 = LODWORD(v119)-- == 1;
+      LODWORD(v117) -= 28;
     }
     while ( !v19 );
     if ( (p_ShapeData1->Strokes.Data.Policy.Capacity & 0xFFFFFFFE) != 0 )
@@ -247,13 +269,6 @@ void __thiscall Scaleform::Render::ShapeMeshProvider::createMorphData(Scaleform:
       }
       p_ShapeData1->Strokes.Data.Policy.Capacity = 0;
     }
-  }
-  else if ( !p_ShapeData1->Strokes.Data.Policy.Capacity )
-  {
-    Scaleform::ArrayDataBase<Scaleform::Render::StrokeStyleType,Scaleform::AllocatorLH<Scaleform::Render::StrokeStyleType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      &p_ShapeData1->Strokes.Data,
-      &p_ShapeData1->Strokes,
-      0);
   }
   p_ShapeData1->Strokes.Data.Size = 0;
   Data = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)p_ShapeData1->Data;
@@ -280,23 +295,31 @@ LABEL_46:
     &p_ShapeData2->Fills.Data,
     x,
     0);
-  v22 = p_ShapeData2->Strokes.Data.Size;
+  v22 = *(float *)&p_ShapeData2->Strokes.Data.Size;
   v23 = (void **)&p_ShapeData2->Strokes.Data.Data;
-  if ( v22 )
+  if ( v22 == 0.0 )
   {
-    v24 = (unsigned int)*v23 + 28 * v22 - 8;
-    fs2.Color = v24;
-    fs1.Color = v22;
+    if ( !p_ShapeData2->Strokes.Data.Policy.Capacity )
+      Scaleform::ArrayDataBase<Scaleform::Render::StrokeStyleType,Scaleform::AllocatorLH<Scaleform::Render::StrokeStyleType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        &p_ShapeData2->Strokes.Data,
+        &p_ShapeData2->Strokes,
+        0);
+  }
+  else
+  {
+    v24 = (int)*v23 + 28 * LODWORD(v22) - 8;
+    v117 = *(float *)&v24;
+    v119 = v22;
     do
     {
       v25 = *(Scaleform::RefCountVImpl **)(v24 + 4);
       if ( v25 )
         Scaleform::RefCountImpl::Release(v25);
-      if ( *(_DWORD *)fs2.Color )
-        Scaleform::RefCountImpl::Release(*(Scaleform::RefCountVImpl **)fs2.Color);
-      v24 = fs2.Color - 28;
-      v19 = fs1.Color-- == 1;
-      fs2.Color -= 28;
+      if ( *(_DWORD *)LODWORD(v117) )
+        Scaleform::RefCountImpl::Release(*(Scaleform::RefCountVImpl **)LODWORD(v117));
+      v24 = LODWORD(v117) - 28;
+      v19 = LODWORD(v119)-- == 1;
+      LODWORD(v117) -= 28;
     }
     while ( !v19 );
     if ( (p_ShapeData2->Strokes.Data.Policy.Capacity & 0xFFFFFFFE) != 0 )
@@ -308,13 +331,6 @@ LABEL_46:
       }
       p_ShapeData2->Strokes.Data.Policy.Capacity = 0;
     }
-  }
-  else if ( !p_ShapeData2->Strokes.Data.Policy.Capacity )
-  {
-    Scaleform::ArrayDataBase<Scaleform::Render::StrokeStyleType,Scaleform::AllocatorLH<Scaleform::Render::StrokeStyleType,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-      &p_ShapeData2->Strokes.Data,
-      &p_ShapeData2->Strokes,
-      0);
   }
   p_ShapeData2->Strokes.Data.Size = 0;
   v26 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)p_ShapeData2->Data;
@@ -330,17 +346,17 @@ LABEL_63:
   }
   v26->Size = 0;
   p_ShapeData2->StartX = 0.0;
-  HIBYTE(v119) = 1;
+  HIBYTE(v121) = 1;
   p_ShapeData2->StartY = 0.0;
   p_ShapeData2->LastX = 0.0;
   p_ShapeData2->LastY = 0.0;
   while ( 1 )
   {
-    v27 = morph1->ReadPathInfo(morph1, &posInfo1, coord1, styles1);
-    v28 = morph2->ReadPathInfo(morph2, &posInfo2, coord2, styles2);
-    if ( v27 == Shape_EndShape || v28 == Shape_EndShape )
+    v27 = v122->ReadPathInfo(v122, (Scaleform::Render::ShapePosInfo *)v140, &cx1, &leftStyle);
+    v28 = v123->ReadPathInfo(v123, (Scaleform::Render::ShapePosInfo *)v139, &v127, v142);
+    if ( !v27 || !v28 )
       break;
-    if ( v27 == Shape_NewLayer || HIBYTE(v119) )
+    if ( v27 == 2 || HIBYTE(v121) )
     {
       v29 = this->pMorphData.pObject;
       v30 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v29->ShapeData1.Data;
@@ -388,48 +404,48 @@ LABEL_63:
       v35->Size = v37;
       v38[v37 - 1] = 0;
       v36->Status = Status_StartLayer;
-      HIBYTE(v119) = 0;
+      HIBYTE(v121) = 0;
     }
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
       &this->pMorphData.pObject->ShapeData1,
-      styles1[0],
-      styles1[1],
-      styles1[2]);
+      leftStyle,
+      rightStyle,
+      strokeStyle);
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
       &this->pMorphData.pObject->ShapeData2,
-      styles1[0],
-      styles1[1],
-      styles1[2]);
+      leftStyle,
+      rightStyle,
+      strokeStyle);
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
       &this->pMorphData.pObject->ShapeData1,
-      coord1[0],
-      coord1[1]);
+      cx1,
+      y);
     Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
       &this->pMorphData.pObject->ShapeData2,
-      coord2[0],
-      coord2[1]);
+      v127,
+      cy);
 LABEL_81:
-    *(float *)&fs1.Color = coord1[0];
-    *(float *)&fs1.pFill.pObject = coord1[1];
+    v119 = cx1;
+    *(float *)&v120 = y;
 LABEL_82:
-    *(float *)&fs2.Color = coord2[0];
-    v39 = coord2[1];
+    v117 = v127;
+    v39 = cy;
 LABEL_83:
-    *(float *)&fs2.pFill.pObject = v39;
+    *(float *)&v118 = v39;
     while ( 1 )
     {
       while ( 1 )
       {
-        qmemcpy(&prevPos1, &posInfo1, sizeof(prevPos1));
-        qmemcpy(&prevPos2, &posInfo2, sizeof(prevPos2));
-        v40 = morph1->ReadEdge(morph1, &posInfo1, coord1);
-        v41 = morph2->ReadEdge(morph2, &posInfo2, coord2);
-        if ( v40 == Edge_EndPath )
+        qmemcpy(v141, v140, sizeof(v141));
+        qmemcpy(v143, v139, sizeof(v143));
+        v40 = v122->ReadEdge(v122, (Scaleform::Render::ShapePosInfo *)v140, &cx1);
+        v41 = v123->ReadEdge(v123, (Scaleform::Render::ShapePosInfo *)v139, &v127);
+        if ( !v40 )
           break;
-        if ( v41 == Edge_EndPath )
+        if ( !v41 )
         {
           v53 = this->pMorphData.pObject;
-          qmemcpy(&posInfo1, &prevPos1, sizeof(posInfo1));
+          qmemcpy(v140, v141, sizeof(v140));
           v54 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v53->ShapeData1.Data;
           v55 = &v53->ShapeData1;
           v56 = v54->Size + 1;
@@ -472,30 +488,30 @@ LABEL_83:
               v59->Size + 1);
           }
           v62 = v59->Data;
-          v63 = morph2;
+          v63 = v123;
           v59->Size = v61;
           v62[v61 - 1] = 6;
           v60->Status = Status_EndPath;
-          if ( v63->ReadPathInfo(v63, &posInfo2, coord2, styles2) )
+          if ( v63->ReadPathInfo(v63, (Scaleform::Render::ShapePosInfo *)v139, &v127, v142) )
           {
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
               &this->pMorphData.pObject->ShapeData1,
-              styles1[0],
-              styles1[1],
-              styles1[2]);
+              leftStyle,
+              rightStyle,
+              strokeStyle);
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
               &this->pMorphData.pObject->ShapeData2,
-              styles1[0],
-              styles1[1],
-              styles1[2]);
+              leftStyle,
+              rightStyle,
+              strokeStyle);
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
               &this->pMorphData.pObject->ShapeData1,
-              *(float *)&fs1.Color,
-              *(float *)&fs1.pFill.pObject);
+              v119,
+              *(float *)&v120);
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
               &this->pMorphData.pObject->ShapeData2,
-              coord2[0],
-              coord2[1]);
+              v127,
+              cy);
             goto LABEL_82;
           }
           v90 = this->pMorphData.pObject;
@@ -562,90 +578,90 @@ LABEL_83:
         }
         if ( v40 != v41 )
         {
-          if ( v40 == Edge_LineTo )
+          if ( v40 == 1 )
           {
-            if ( v41 != Edge_QuadTo )
+            if ( v41 != 2 )
             {
 LABEL_119:
               Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                 &this->pMorphData.pObject->ShapeData1,
-                coord1[0],
-                coord1[1]);
+                cx1,
+                y);
               Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::LineTo(
                 &this->pMorphData.pObject->ShapeData2,
-                coord2[0],
-                coord2[1]);
+                v127,
+                cy);
               goto LABEL_81;
             }
-            coord1[2] = coord1[0];
-            coord1[3] = coord1[1];
-            coord1[0] = (coord1[0] + *(float *)&fs1.Color) * 0.5;
-            coord1[1] = 0.5 * (coord1[1] + *(float *)&fs1.pFill.pObject);
+            cx2 = cx1;
+            *(float *)&v136 = y;
+            cx1 = (cx1 + v119) * 0.5;
+            y = 0.5 * (y + *(float *)&v120);
             goto LABEL_121;
           }
-          if ( v40 == Edge_QuadTo )
+          if ( v40 == 2 )
           {
-            if ( v41 == Edge_LineTo )
+            if ( v41 == 1 )
             {
-              coord2[2] = coord2[0];
-              coord2[3] = coord2[1];
-              coord2[0] = (coord2[0] + *(float *)&fs2.Color) * 0.5;
-              coord2[1] = 0.5 * (coord2[1] + *(float *)&fs2.pFill.pObject);
+              v129 = v127;
+              v130 = cy;
+              v127 = (v127 + v117) * 0.5;
+              cy = 0.5 * (cy + *(float *)&v118);
             }
 LABEL_121:
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::QuadTo(
               &this->pMorphData.pObject->ShapeData1,
-              coord1[0],
-              coord1[1],
-              coord1[2],
-              coord1[3]);
+              cx1,
+              y,
+              cx2,
+              *(float *)&v136);
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::QuadTo(
               &this->pMorphData.pObject->ShapeData2,
-              coord2[0],
-              coord2[1],
-              coord2[2],
-              coord2[3]);
-            *(float *)&fs1.Color = coord1[2];
-            *(float *)&fs1.pFill.pObject = coord1[3];
-            *(float *)&fs2.Color = coord2[2];
-            v39 = coord2[3];
+              v127,
+              cy,
+              v129,
+              v130);
+            v119 = cx2;
+            v120 = v136;
+            v117 = v129;
+            v39 = v130;
             goto LABEL_83;
           }
         }
         switch ( v40 )
         {
-          case Edge_LineTo:
+          case 1:
             goto LABEL_119;
-          case Edge_QuadTo:
+          case 2:
             goto LABEL_121;
-          case Edge_CubicTo:
+          case 3:
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::CubicTo(
               &this->pMorphData.pObject->ShapeData1,
-              coord1[0],
-              coord1[1],
-              coord1[2],
-              coord1[3],
-              coord1[4],
-              coord1[5]);
+              cx1,
+              y,
+              cx2,
+              *(float *)&v136,
+              v137,
+              *(float *)&v138);
             Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::CubicTo(
               &this->pMorphData.pObject->ShapeData2,
-              coord2[0],
-              coord2[1],
-              coord2[2],
-              coord2[3],
-              coord2[4],
-              coord2[5]);
-            *(float *)&fs1.Color = coord1[4];
-            *(float *)&fs1.pFill.pObject = coord1[5];
-            *(float *)&fs2.Color = coord2[4];
-            v39 = coord2[5];
+              v127,
+              cy,
+              v129,
+              v130,
+              v131,
+              v132);
+            v119 = v137;
+            v120 = v138;
+            v117 = v131;
+            v39 = v132;
             goto LABEL_83;
         }
       }
       v42 = this->pMorphData.pObject;
-      if ( v41 == Edge_EndPath )
+      if ( !v41 )
         break;
-      qmemcpy(&posInfo2, &prevPos2, sizeof(posInfo2));
+      qmemcpy(v139, v143, sizeof(v139));
       v43 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v42->ShapeData1.Data;
       v44 = &v42->ShapeData1;
       v45 = v43->Size + 1;
@@ -688,11 +704,15 @@ LABEL_121:
           v48->Size + 1);
       }
       v51 = v48->Data;
-      v52 = morph1;
+      v52 = &v122->__vftable;
       v48->Size = v50;
       v51[v50 - 1] = 6;
       v49->Status = Status_EndPath;
-      if ( v52->ReadPathInfo(v52, &posInfo1, coord1, styles1) == Shape_EndShape )
+      if ( !(*(int (__thiscall **)(_DWORD *, _DWORD *, float *, unsigned int *))(*v52 + 32))(
+              v52,
+              v140,
+              &cx1,
+              &leftStyle) )
       {
         v73 = this->pMorphData.pObject;
         v74 = v73->ShapeData1.Status;
@@ -780,24 +800,24 @@ LABEL_121:
       }
       Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
         &this->pMorphData.pObject->ShapeData1,
-        styles1[0],
-        styles1[1],
-        styles1[2]);
+        leftStyle,
+        rightStyle,
+        strokeStyle);
       Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
         &this->pMorphData.pObject->ShapeData2,
-        styles1[0],
-        styles1[1],
-        styles1[2]);
+        leftStyle,
+        rightStyle,
+        strokeStyle);
       Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
         &this->pMorphData.pObject->ShapeData1,
-        coord1[0],
-        coord1[1]);
+        cx1,
+        y);
       Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::MoveTo(
         &this->pMorphData.pObject->ShapeData2,
-        *(float *)&fs2.Color,
-        *(float *)&fs2.pFill.pObject);
-      *(float *)&fs1.Color = coord1[0];
-      *(float *)&fs1.pFill.pObject = coord1[1];
+        v117,
+        *(float *)&v118);
+      v119 = cx1;
+      *(float *)&v120 = y;
     }
     v64 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v42->ShapeData1.Data;
     v65 = &v42->ShapeData1;
@@ -848,37 +868,37 @@ LABEL_121:
   v101 = this->pMorphData.pObject;
   v102 = v101->ShapeData1.Status;
   v103 = &v101->ShapeData1;
-  morph1 = v103;
+  v122 = v103;
   if ( v102 != Status_EndShape && v102 )
   {
     if ( v102 == Status_EndPath )
     {
 LABEL_192:
-      RefCount = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)morph1[4].RefCount;
-      v108 = RefCount->Size + 1;
-      if ( v108 >= RefCount->Size )
+      v107 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v122->Data;
+      v108 = v107->Size + 1;
+      if ( v108 >= v107->Size )
       {
-        if ( v108 >= RefCount->Policy.Capacity )
+        if ( v108 >= v107->Policy.Capacity )
           Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            RefCount,
-            RefCount,
+            v107,
+            v107,
             v108 + (v108 >> 2));
       }
-      else if ( v108 < RefCount->Policy.Capacity >> 1 )
+      else if ( v108 < v107->Policy.Capacity >> 1 )
       {
         Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          RefCount,
-          RefCount,
-          RefCount->Size + 1);
+          v107,
+          v107,
+          v107->Size + 1);
       }
-      v109 = RefCount->Data;
-      v110 = morph1;
-      RefCount->Size = v108;
+      v109 = v107->Data;
+      v110 = &v122->__vftable;
+      v107->Size = v108;
       v109[v108 - 1] = 7;
-      v110[1].__vftable = (Scaleform::Render::ShapeDataInterface_vtbl *)6;
+      v110[2] = 6;
       goto LABEL_198;
     }
-    v104 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v103[4].RefCount;
+    v104 = (Scaleform::ArrayDataBase<bool,Scaleform::AllocatorLH<bool,2>,Scaleform::ArrayDefaultPolicy> *)v103->Data;
     v105 = v104->Size + 1;
     if ( v105 >= v104->Size )
     {
@@ -898,12 +918,12 @@ LABEL_192:
         v104,
         v104->Size + 1);
 LABEL_190:
-      v103 = morph1;
+      v103 = v122;
     }
     v106 = v104->Data;
     v104->Size = v105;
     v106[v105 - 1] = 6;
-    v103[1].__vftable = (Scaleform::Render::ShapeDataInterface_vtbl *)5;
+    v103->Status = Status_EndPath;
     goto LABEL_192;
   }
 LABEL_198:

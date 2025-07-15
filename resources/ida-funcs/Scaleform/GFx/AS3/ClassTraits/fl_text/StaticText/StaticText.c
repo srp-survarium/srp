@@ -12,14 +12,14 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_text::StaticText::StaticTex
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_text::StaticTextCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_text::StaticText_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_text::StaticText_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_text::StaticText::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = &v4->__vftable;
   if ( v4 )
   {
     Scaleform::GFx::AS3::InstanceTraits::CTraits::CTraits(v4, vm, &Scaleform::GFx::AS3::fl_text::StaticTextCI);
-    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_display::MorphShape::`vftable';
+    *v5 = &Scaleform::GFx::AS3::InstanceTraits::fl_text::StaticText::`vftable';
     v5[13] = 56;
   }
   else
@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_text::StaticText::StaticTex
         return;
       }
       RefCount = v9->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         v9->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v9);

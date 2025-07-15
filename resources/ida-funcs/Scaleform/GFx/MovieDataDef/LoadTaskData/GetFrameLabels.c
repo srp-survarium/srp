@@ -1,7 +1,7 @@
 Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall Scaleform::GFx::MovieDataDef::LoadTaskData::GetFrameLabels(
         Scaleform::GFx::MovieDataDef::LoadTaskData *this,
         unsigned int frameNumber,
-        Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *destArr)
+        Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *destArr)
 {
   Scaleform::GFx::MovieDataDef::LoadTaskData *v3; // ebx
   _DWORD *p_EntryCount; // ecx
@@ -18,16 +18,16 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
   Scaleform::String *v15; // ecx
   unsigned int v16; // eax
   _DWORD *v17; // ecx
-  bool locked; // [esp+Bh] [ebp-11h]
-  int i; // [esp+Ch] [ebp-10h]
-  _DWORD *it; // [esp+14h] [ebp-8h]
+  char v19; // [esp+Bh] [ebp-11h]
+  int v20; // [esp+Ch] [ebp-10h]
+  _DWORD *v22; // [esp+14h] [ebp-8h]
 
   v3 = this;
-  locked = 0;
+  v19 = 0;
   if ( this->LoadState < LS_LoadFinished )
   {
     EnterCriticalSection(&this->PlaylistLock.cs);
-    locked = 1;
+    v19 = 1;
   }
   p_EntryCount = &v3->NamedFrames.mHash.pTable->EntryCount;
   if ( p_EntryCount )
@@ -50,9 +50,9 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
     v5 = 0;
   }
   v8 = p_EntryCount;
-  it = p_EntryCount;
+  v22 = p_EntryCount;
   v9 = v5;
-  i = 0;
+  v20 = 0;
   while ( v8 )
   {
     v10 = *v8;
@@ -62,32 +62,34 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
     if ( frameNumber == v11[5].HeapTypeBits )
     {
       v12 = v11 + 4;
-      Size = destArr->Data.Size;
+      Size = destArr->Size;
       v14 = Size + 1;
       if ( Size + 1 >= Size )
       {
-        if ( v14 >= destArr->Data.Policy.Capacity )
+        if ( v14 >= destArr->Policy.Capacity )
           Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)destArr,
+            destArr,
             destArr,
             v14 + (v14 >> 2));
       }
       else
       {
-        Scaleform::ConstructorMov<Scaleform::String>::DestructArray(&destArr->Data.Data[Size + 1], 0xFFFFFFFF);
-        if ( v14 < destArr->Data.Policy.Capacity >> 1 )
+        Scaleform::ConstructorMov<Scaleform::String>::DestructArray(
+          (Scaleform::String *)&destArr->Data[Size + 1],
+          0xFFFFFFFF);
+        if ( v14 < destArr->Policy.Capacity >> 1 )
           Scaleform::ArrayDataBase<Scaleform::String,Scaleform::AllocatorGH<Scaleform::String,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Instances::fl::Object *,Scaleform::AllocatorGH<Scaleform::GFx::AS3::Instances::fl::Object *,2>,Scaleform::ArrayDefaultPolicy> *)destArr,
+            destArr,
             destArr,
             v14);
       }
-      v15 = &destArr->Data.Data[v14 - 1];
-      destArr->Data.Size = v14;
+      v15 = (Scaleform::String *)&destArr->Data[v14 - 1];
+      destArr->Size = v14;
       if ( v15 )
         Scaleform::String::String(v15, v12);
-      ++i;
+      ++v20;
       v3 = this;
-      v8 = it;
+      v8 = v22;
     }
     v16 = *(_DWORD *)(*v8 + 4);
     if ( v9 <= (int)v16 && ++v9 <= v16 )
@@ -103,7 +105,7 @@ Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *__thiscall 
       while ( v9 <= v16 );
     }
   }
-  if ( locked )
+  if ( v19 )
     LeaveCriticalSection(&v3->PlaylistLock.cs);
-  return i != 0 ? destArr : 0;
+  return v20 != 0 ? (Scaleform::Array<Scaleform::String,2,Scaleform::ArrayDefaultPolicy> *)destArr : 0;
 }

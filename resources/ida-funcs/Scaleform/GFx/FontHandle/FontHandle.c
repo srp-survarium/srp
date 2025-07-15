@@ -17,7 +17,7 @@ void __thiscall Scaleform::GFx::FontHandle::FontHandle(
         Scaleform::GFx::FontHandle *this,
         Scaleform::Render::Text::FontManagerBase *pmanager,
         Scaleform::GFx::Resource *pfont,
-        char *pfontName,
+        __m128i *pfontName,
         unsigned int overridenFontFlags,
         Scaleform::GFx::MovieDef *pdefImpl)
 {

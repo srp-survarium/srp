@@ -1,4 +1,4 @@
-int __cdecl atol(const char *nptr)
+unsigned int __usercall atol@<eax>(int a1@<ebx>, char *nptr)
 {
-  return strtol(nptr, 0, 10);
+  return strtol(a1, nptr, 0, 0xAu);
 }

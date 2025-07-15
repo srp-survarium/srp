@@ -12,59 +12,59 @@ void __cdecl Scaleform::Render::Math2D::SubdivideCubic<Scaleform::Render::Math2D
   double v10; // st3
   double v11; // st2
   double v12; // st7
-  float y34; // [esp+0h] [ebp-18h]
-  float y23; // [esp+4h] [ebp-14h]
-  float y23a; // [esp+4h] [ebp-14h]
-  float y123; // [esp+8h] [ebp-10h]
-  float y123a; // [esp+8h] [ebp-10h]
-  float y123b; // [esp+8h] [ebp-10h]
-  float x34; // [esp+Ch] [ebp-Ch]
-  float x34a; // [esp+Ch] [ebp-Ch]
-  float x1234; // [esp+10h] [ebp-8h]
-  float x1234a; // [esp+10h] [ebp-8h]
+  float v13; // [esp+0h] [ebp-18h]
+  float v14; // [esp+4h] [ebp-14h]
+  float y4; // [esp+4h] [ebp-14h]
+  float v16; // [esp+8h] [ebp-10h]
+  float v17; // [esp+8h] [ebp-10h]
+  float x4; // [esp+8h] [ebp-10h]
+  float v19; // [esp+Ch] [ebp-Ch]
+  float v20; // [esp+Ch] [ebp-Ch]
+  float v21; // [esp+10h] [ebp-8h]
+  float v22; // [esp+10h] [ebp-8h]
   float y1; // [esp+14h] [ebp-4h]
-  float x234; // [esp+1Ch] [ebp+4h]
-  float x234a; // [esp+1Ch] [ebp+4h]
-  float y234; // [esp+20h] [ebp+8h]
-  float y234a; // [esp+20h] [ebp+8h]
+  float v24; // [esp+1Ch] [ebp+4h]
+  float v25; // [esp+1Ch] [ebp+4h]
+  float v26; // [esp+20h] [ebp+8h]
+  float v27; // [esp+20h] [ebp+8h]
 
   y1 = c->y1;
   v5 = t;
-  y234 = (c->x2 - c->x1) * t + c->x1;
-  y123 = (c->y2 - y1) * v5 + y1;
-  x234 = (c->x3 - c->x2) * v5 + c->x2;
-  y23 = (c->y3 - c->y2) * v5 + c->y2;
-  x34 = (c->x4 - c->x3) * v5 + c->x3;
-  y34 = (c->y4 - c->y3) * v5 + c->y3;
-  v6 = y234;
-  x1234 = (x234 - y234) * v5 + y234;
-  v7 = y123;
-  y123a = (y23 - y123) * v5 + y123;
-  v8 = x34;
-  x234a = x234 + (x34 - x234) * v5;
+  v26 = (c->x2 - c->x1) * t + c->x1;
+  v16 = (c->y2 - y1) * v5 + y1;
+  v24 = (c->x3 - c->x2) * v5 + c->x2;
+  v14 = (c->y3 - c->y2) * v5 + c->y2;
+  v19 = (c->x4 - c->x3) * v5 + c->x3;
+  v13 = (c->y4 - c->y3) * v5 + c->y3;
+  v6 = v26;
+  v21 = (v24 - v26) * v5 + v26;
+  v7 = v16;
+  v17 = (v14 - v16) * v5 + v16;
+  v8 = v19;
+  v25 = v24 + (v19 - v24) * v5;
   v9 = v7;
-  y234a = y23 + (y34 - y23) * v5;
-  v10 = x1234;
-  x1234a = (x234a - x1234) * v5 + x1234;
-  v11 = v5 * (y234a - y123a) + y123a;
-  v12 = y123a;
-  x34a = v11;
-  y123b = c->x4;
-  y23a = c->y4;
+  v27 = v14 + (v13 - v14) * v5;
+  v10 = v21;
+  v22 = (v25 - v21) * v5 + v21;
+  v11 = v5 * (v27 - v17) + v17;
+  v12 = v17;
+  v20 = v11;
+  x4 = c->x4;
+  y4 = c->y4;
   c1->x1 = c->x1;
   c1->y1 = y1;
   c1->x2 = v6;
   c1->y2 = v9;
   c1->x3 = v10;
   c1->y3 = v12;
-  c1->x4 = x1234a;
-  c1->y4 = x34a;
-  c2->x1 = x1234a;
-  c2->y1 = x34a;
-  c2->x2 = x234a;
-  c2->y2 = y234a;
+  c1->x4 = v22;
+  c1->y4 = v20;
+  c2->x1 = v22;
+  c2->y1 = v20;
+  c2->x2 = v25;
+  c2->y2 = v27;
   c2->x3 = v8;
-  c2->y3 = y34;
-  c2->x4 = y123b;
-  c2->y4 = y23a;
+  c2->y3 = v13;
+  c2->x4 = x4;
+  c2->y4 = y4;
 }

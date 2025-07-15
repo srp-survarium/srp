@@ -1,10 +1,10 @@
-unsigned __int8 *__thiscall Scaleform::SysAllocMapper::allocMem(
+char *__thiscall Scaleform::SysAllocMapper::allocMem(
         Scaleform::SysAllocMapper *this,
         unsigned int size,
         unsigned int alignment)
 {
   unsigned int LastSegment; // eax
-  unsigned __int8 *result; // eax
+  char *result; // eax
   unsigned int i; // edi
 
   LastSegment = this->LastSegment;
@@ -29,7 +29,7 @@ unsigned __int8 *__thiscall Scaleform::SysAllocMapper::allocMem(
 }
 
 
-unsigned __int8 *__thiscall Scaleform::SysAllocMapper::allocMem(
+char *__thiscall Scaleform::SysAllocMapper::allocMem(
         Scaleform::SysAllocMapper *this,
         unsigned int pos,
         unsigned int size,
@@ -54,32 +54,32 @@ unsigned __int8 *__thiscall Scaleform::SysAllocMapper::allocMem(
   unsigned int v21; // eax
   int v22; // eax
   unsigned int v23; // ebx
-  unsigned __int8 *result; // eax
+  char *result; // eax
   unsigned int v25; // ecx
-  unsigned int start; // [esp+10h] [ebp-20h]
+  unsigned int v26; // [esp+10h] [ebp-20h]
   unsigned __int8 *Memory; // [esp+14h] [ebp-1Ch]
-  unsigned int found; // [esp+18h] [ebp-18h]
-  unsigned __int8 *ptr; // [esp+1Ch] [ebp-14h]
-  unsigned int rest; // [esp+20h] [ebp-10h]
-  unsigned int limit; // [esp+24h] [ebp-Ch]
-  unsigned int pages; // [esp+28h] [ebp-8h]
-  Scaleform::SysAllocMapper::Segment *seg; // [esp+2Ch] [ebp-4h]
+  int v28; // [esp+18h] [ebp-18h]
+  char *v29; // [esp+1Ch] [ebp-14h]
+  unsigned int v30; // [esp+20h] [ebp-10h]
+  unsigned int v31; // [esp+24h] [ebp-Ch]
+  unsigned int num; // [esp+28h] [ebp-8h]
+  Scaleform::SysAllocMapper::Segment *v33; // [esp+2Ch] [ebp-4h]
 
   PageShift = this->PageShift;
   v6 = &this->Segments[pos];
   v7 = v6->Size;
-  seg = v6;
+  v33 = v6;
   Memory = v6->Memory;
   PageSize = this->PageSize;
   v9 = (unsigned int *)&v6->Memory[v7
                                  - (~(PageSize - 1) & (((v7 + 8 * PageSize - 1) >> (PageShift + 3)) + PageSize - 1))];
-  pages = size >> PageShift;
+  num = size >> PageShift;
   v10 = (v7 - (~(PageSize - 1) & (((v7 + 8 * PageSize - 1) >> (PageShift + 3)) + PageSize - 1))) >> this->PageShift;
   v11 = 0;
-  start = 0;
-  limit = v10;
-  rest = -1;
-  found = -1;
+  v26 = 0;
+  v31 = v10;
+  v30 = -1;
+  v28 = -1;
   if ( !v10 )
     goto LABEL_31;
   while ( 1 )
@@ -88,10 +88,10 @@ unsigned __int8 *__thiscall Scaleform::SysAllocMapper::allocMem(
     v13 = v11 & 0x1F;
     if ( ((v9[v11 >> 5] >> v13) & 1) == 0 )
       break;
-    v11 += Scaleform::HeapPT::BitSet1::FindUsedSize(v9, v11, limit);
-    start = v11;
+    v11 += Scaleform::HeapPT::BitSet1::FindUsedSize(v9, v11, v31);
+    v26 = v11;
 LABEL_27:
-    if ( v11 >= limit )
+    if ( v11 >= v31 )
       goto LABEL_28;
   }
   v14 = Scaleform::HeapPT::BitSet1::HeadFreeTable[v13];
@@ -109,7 +109,7 @@ LABEL_27:
       else
         v22 = Scaleform::HeapPT::BitSet1::LastFreeBlock[BYTE1(v21)] + 8;
     }
-    else if ( ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & v21) != 0 )
+    else if ( (v21 & 0xFF0000) != 0 )
     {
       v22 = Scaleform::HeapPT::BitSet1::LastFreeBlock[BYTE2(v21)] + 16;
     }
@@ -131,47 +131,47 @@ LABEL_27:
     }
     else
     {
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & v16) != 0 )
+      if ( (v16 & 0xFF0000) != 0 )
         v18 = Scaleform::HeapPT::BitSet1::LastFreeBlock[BYTE2(v16)] + 16;
       else
         v18 = Scaleform::HeapPT::BitSet1::LastFreeBlock[HIBYTE(v16)] + 24;
       v17 = v18;
     }
   }
-  if ( size + (~(alignment - 1) & (unsigned int)&Memory[start * PageSize - 1 + alignment]) > (unsigned int)&Memory[start * PageSize + v17 * PageSize]
-    || v17 - pages >= rest
-    || (found = start, rest = v17 - pages, this->BestFit) )
+  if ( size + (~(alignment - 1) & (unsigned int)&Memory[v26 * PageSize - 1 + alignment]) > (unsigned int)&Memory[v26 * PageSize + v17 * PageSize]
+    || v17 - num >= v30
+    || (v28 = v26, v30 = v17 - num, this->BestFit) )
   {
-    start += v17;
-    v11 = start;
+    v26 += v17;
+    v11 = v26;
     goto LABEL_27;
   }
 LABEL_28:
-  if ( found == -1 )
+  if ( v28 == -1 )
   {
 LABEL_31:
     result = 0;
     goto LABEL_32;
   }
-  v23 = ((int)((~(alignment - 1) & (unsigned int)&Memory[found * PageSize - 1 + alignment])
-             - found * PageSize
+  v23 = ((int)((~(alignment - 1) & (unsigned int)&Memory[v28 * PageSize - 1 + alignment])
+             - v28 * PageSize
              - (_DWORD)Memory) >> this->PageShift)
-      + found;
-  result = (unsigned __int8 *)this->pMapper->MapPages(this->pMapper, &Memory[PageSize * v23], size);
-  ptr = result;
+      + v28;
+  result = (char *)this->pMapper->MapPages(this->pMapper, &Memory[PageSize * v23], size);
+  v29 = result;
   if ( !result )
   {
 LABEL_32:
     v25 = -1;
     goto LABEL_33;
   }
-  Scaleform::HeapPT::BitSet1::SetUsed(v9, v23, pages);
-  seg->PageCount += pages;
-  result = ptr;
+  Scaleform::HeapPT::BitSet1::SetUsed(v9, v23, num);
+  v33->PageCount += num;
+  result = v29;
   v25 = pos;
-  this->Footprint += pages << this->PageShift;
+  this->Footprint += num << this->PageShift;
 LABEL_33:
   this->LastSegment = v25;
-  this->LastUsed = &result[size];
+  this->LastUsed = (unsigned __int8 *)&result[size];
   return result;
 }

@@ -1,19 +1,19 @@
 int __cdecl decode_packed_entry_number(codebook *book, oggpack_buffer *b)
 {
-  int dec_maxlength; // ebp
   signed int v3; // eax
-  int v4; // ebx
+  int v4; // edi
   int v5; // esi
-  int used_entries; // edi
-  oggpack_buffer *v8; // ebx
-  void *v9; // eax
-  unsigned int v10; // eax
+  int used_entries; // eax
+  void *v8; // eax
+  unsigned int v9; // eax
+  int i; // edx
   int v11; // edx
-  int v12; // edx
-  int v13; // ecx
-  int v14; // eax
+  int v12; // ecx
+  int v13; // eax
+  int v14; // [esp+10h] [ebp-4h]
+  int bits; // [esp+1Ch] [ebp+8h]
 
-  dec_maxlength = book->dec_maxlength;
+  bits = book->dec_maxlength;
   v3 = oggpack_look(b, book->dec_firsttablen);
   if ( v3 < 0 )
   {
@@ -31,42 +31,35 @@ int __cdecl decode_packed_entry_number(codebook *book, oggpack_buffer *b)
     v5 = (v4 >> 15) & 0x7FFF;
     used_entries = book->used_entries - (book->dec_firsttable[v3] & 0x7FFF);
   }
-  v8 = b;
-  v9 = (void *)oggpack_look(b, dec_maxlength);
-  if ( (int)v9 >= 0 )
+  v14 = used_entries;
+  v8 = (void *)oggpack_look(b, bits);
+  if ( (int)v8 >= 0 )
+    goto LABEL_10;
+  do
   {
-LABEL_11:
-    v10 = bitreverse(v9);
-    v11 = used_entries - v5;
-    if ( used_entries - v5 > 1 )
+    if ( bits <= 1 )
+      break;
+    v8 = (void *)oggpack_look(b, --bits);
+  }
+  while ( (int)v8 < 0 );
+  if ( (int)v8 >= 0 )
+  {
+LABEL_10:
+    v9 = bitreverse(v8);
+    for ( i = v14 - v5; v14 - v5 > 1; i = v14 - v5 )
     {
-      do
-      {
-        v12 = v11 >> 1;
-        v13 = v10 < book->codelist[v12 + v5];
-        used_entries -= v12 & -v13;
-        v5 += v12 & (v13 - 1);
-        v11 = used_entries - v5;
-      }
-      while ( used_entries - v5 > 1 );
-      v8 = b;
+      v11 = i >> 1;
+      v12 = v9 < book->codelist[v11 + v5];
+      v14 -= v11 & -v12;
+      v5 += v11 & (v12 - 1);
     }
-    v14 = book->dec_codelengths[v5];
-    if ( v14 <= dec_maxlength )
+    v13 = book->dec_codelengths[v5];
+    if ( v13 <= bits )
     {
-      oggpack_adv(v8, v14);
+      oggpack_adv(b, v13);
       return v5;
     }
-    oggpack_adv(v8, dec_maxlength);
-  }
-  else
-  {
-    while ( dec_maxlength > 1 )
-    {
-      v9 = (void *)oggpack_look(b, --dec_maxlength);
-      if ( (int)v9 >= 0 )
-        goto LABEL_11;
-    }
+    oggpack_adv(b, bits);
   }
   return -1;
 }

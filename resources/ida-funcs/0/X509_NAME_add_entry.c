@@ -9,7 +9,7 @@ int __cdecl X509_NAME_add_entry(X509_name_st *name, X509_name_entry_st *ne, int 
   int v11; // ebp
   int i; // esi
   char *v13; // eax
-  BOOL inc; // [esp+8h] [ebp+4h]
+  BOOL v14; // [esp+8h] [ebp+4h]
 
   if ( !name )
     return 0;
@@ -24,12 +24,12 @@ int __cdecl X509_NAME_add_entry(X509_name_st *name, X509_name_entry_st *ne, int 
     if ( v7 )
     {
       v8 = *((_DWORD *)sk_value(&entries->stack, v7 - 1) + 2);
-      inc = 0;
+      v14 = 0;
     }
     else
     {
       v8 = 0;
-      inc = 1;
+      v14 = 1;
     }
   }
   else
@@ -46,7 +46,7 @@ int __cdecl X509_NAME_add_entry(X509_name_st *name, X509_name_entry_st *ne, int 
     {
       v8 = 0;
     }
-    inc = v8 == 0;
+    v14 = v8 == 0;
   }
   v9 = X509_NAME_ENTRY_dup(ne);
   v10 = v9;
@@ -55,11 +55,11 @@ int __cdecl X509_NAME_add_entry(X509_name_st *name, X509_name_entry_st *ne, int 
   v9->set = v8;
   if ( !sk_insert(&entries->stack, (char *)v9, v7) )
   {
-    ERR_put_error(0xBu, 113, 65, ".\\crypto\\x509\\x509name.c", 259);
+    ERR_put_error((int)entries, 0xBu, 113, 65, ".\\crypto\\x509\\x509name.c", 259);
     X509_NAME_ENTRY_free(v10);
     return 0;
   }
-  if ( inc )
+  if ( v14 )
   {
     v11 = sk_num(&entries->stack);
     for ( i = v7 + 1; i < v11; ++i )

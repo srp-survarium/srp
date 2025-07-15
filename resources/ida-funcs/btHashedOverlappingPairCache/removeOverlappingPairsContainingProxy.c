@@ -3,11 +3,11 @@ void __thiscall btHashedOverlappingPairCache::removeOverlappingPairsContainingPr
         btBroadphaseProxy *proxy,
         btDispatcher *dispatcher)
 {
-  void (__thiscall *processAllOverlappingPairs)(struct btHashedOverlappingPairCache *, btOverlapCallback *, btDispatcher *); // edx
-  btHashedOverlappingPairCache::removeOverlappingPairsContainingProxy::__l2::RemovePairCallback removeCallback; // [esp+0h] [ebp-8h] BYREF
+  btHashedOverlappingPairCache_vtbl *v3; // eax
+  _DWORD v4[2]; // [esp+0h] [ebp-8h] BYREF
 
-  processAllOverlappingPairs = this->processAllOverlappingPairs;
-  removeCallback.m_obsoleteProxy = proxy;
-  removeCallback.__vftable = (btHashedOverlappingPairCache::removeOverlappingPairsContainingProxy::__l2::RemovePairCallback_vtbl *)&`btHashedOverlappingPairCache::removeOverlappingPairsContainingProxy'::`2'::RemovePairCallback::`vftable';
-  processAllOverlappingPairs(this, &removeCallback, dispatcher);
+  v4[1] = proxy;
+  v3 = this->__vftable;
+  v4[0] = &`btHashedOverlappingPairCache::removeOverlappingPairsContainingProxy'::`2'::RemovePairCallback::`vftable';
+  v3->processAllOverlappingPairs(this, (btOverlapCallback *)v4, dispatcher);
 }

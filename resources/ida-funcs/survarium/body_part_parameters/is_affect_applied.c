@@ -1,18 +1,18 @@
-char __thiscall survarium::body_part_parameters::is_affect_applied(
-        survarium::body_part_parameters *this,
-        survarium::hit_affects_type_enum affect)
+char __userpurge survarium::body_part_parameters::is_affect_applied@<al>(
+        survarium::body_part_parameters *this@<ecx>,
+        int a2@<eax>,
+        const survarium::hit_affects_type_enum affect)
 {
-  survarium::game_camera *v2; // ecx
-  unsigned int i; // [esp+Ch] [ebp-4h]
+  int v3; // edx
+  _DWORD *i; // ecx
 
-  for ( i = 0; ; ++i )
+  v3 = 0;
+  if ( !((*(_DWORD *)(a2 + 40) - *(_DWORD *)(a2 + 36)) >> 3) )
+    return 0;
+  for ( i = *(_DWORD **)(a2 + 36); *i != affect; i += 2 )
   {
-    v2 = (survarium::game_camera *)(this->m_affects.m_end - this->m_affects.m_begin);
-    if ( i >= (unsigned int)v2 )
-      break;
-    survarium::weapon_user_dead_state::finalize(v2);
-    if ( this->m_affects.m_begin[i].first == affect )
-      return 1;
+    if ( ++v3 >= (unsigned int)((*(_DWORD *)(a2 + 40) - *(_DWORD *)(a2 + 36)) >> 3) )
+      return 0;
   }
-  return 0;
+  return 1;
 }

@@ -1,126 +1,63 @@
-void __userpurge vostok::animation::animation_player::unsubscribe(
-        vostok::animation::animation_player *channel_id@<eax>,
+void __thiscall vostok::animation::animation_player::unsubscribe(
         vostok::animation::animation_player *this,
-        boost::function<void __cdecl(unsigned int,float,float,char const *)> *callback_uid)
+        const char *channel_id,
+        char *callback_uid,
+        int a4)
 {
-  vostok::animation::subscribed_channel *i; // esi
-  const char *v5; // eax
-  vostok::animation::animation_player *v6; // ecx
-  bool v7; // cf
-  unsigned __int8 v8; // dl
-  int v9; // eax
-  vostok::animation::animation_callback *first_callback; // esi
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v11; // ecx
-  boost::function<void __cdecl(unsigned int,float,float,char const *)> *v12; // ecx
-  void (__cdecl *v13)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v14)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  void (__cdecl *v15)(_BYTE *, _BYTE *, int); // eax
-  boost::function2<void,unsigned int,unsigned int> f; // [esp+10h] [ebp-60h] BYREF
-  boost::function2<void,unsigned int,unsigned int> v17; // [esp+30h] [ebp-40h] BYREF
-  int v18; // [esp+50h] [ebp-20h]
-  _BYTE v19[24]; // [esp+58h] [ebp-18h] BYREF
+  int i; // esi
+  vostok::animation::animation_player *v5; // ecx
+  int j; // edi
+  boost::function1<void,vostok::physics::contact_point const &> *v7; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v8; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> *v9; // esi
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v11; // ecx
+  boost::function1<void,vostok::physics::contact_point const &> v12; // [esp+10h] [ebp-60h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> v13; // [esp+30h] [ebp-40h] BYREF
+  boost::function<void __cdecl(vostok::sound::create_sound_propagator_params const &)> f; // [esp+50h] [ebp-20h] BYREF
 
-  for ( i = this->m_first_subscribed_channel; ; i = i->next )
+  for ( i = *((_DWORD *)channel_id + 16434); i; i = *(_DWORD *)(i + 4) )
   {
-    v5 = i->channel_id;
-    v6 = channel_id;
-    while ( 1 )
+    if ( !vostok::strings::compare(*(const char **)i, callback_uid) )
     {
-      v7 = *v5 < (unsigned int)v6->m_tree_buffers[0][0];
-      if ( *v5 != v6->m_tree_buffers[0][0] )
-        break;
-      if ( !*v5 )
-        goto LABEL_7;
-      v8 = v5[1];
-      v7 = v8 < (unsigned int)v6->m_tree_buffers[0][1];
-      if ( v8 != v6->m_tree_buffers[0][1] )
-        break;
-      v5 += 2;
-      v6 = (vostok::animation::animation_player *)((char *)v6 + 2);
-      if ( !v8 )
+      for ( j = *(_DWORD *)(i + 8); j; j = *(_DWORD *)(j + 40) )
       {
-LABEL_7:
-        v9 = 0;
-        goto LABEL_9;
+        if ( *(_DWORD *)(j + 44) == a4 )
+        {
+          v13.vtable = 0;
+          boost::function1<void,boost::system::error_code>::function1<void,boost::system::error_code>(&v13, &f);
+          v9 = v7;
+          if ( (boost::function1<void,vostok::physics::contact_point const &> *)j != v7 )
+          {
+            v12.vtable = 0;
+            boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+              &v12,
+              v7);
+            boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+              v9,
+              (boost::function1<void,vostok::physics::contact_point const &> *)j);
+            boost::function1<fastdelegate::FastDelegate<float __cdecl (float,float,unsigned int,unsigned int,unsigned int,float)>,unsigned char>::move_assign(
+              (boost::function1<void,vostok::physics::contact_point const &> *)j,
+              &v12);
+            boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+              v10,
+              (int *)&v12);
+          }
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            v8,
+            (int *)&f);
+          boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+            v11,
+            (int *)&v13);
+          *(_DWORD *)(j + 44) = 0;
+          *(_BYTE *)(j + 49) = 0;
+          *((_BYTE *)channel_id + 65750) = 0;
+          break;
+        }
       }
+      if ( !*((_WORD *)channel_id + 32874) )
+        vostok::animation::animation_player::compact_callbacks(v5, (int)channel_id);
+      return;
     }
-    v9 = -v7 - (v7 - 1);
-LABEL_9:
-    if ( !v9 )
-      break;
   }
-  first_callback = i->first_callback;
-  if ( first_callback )
-  {
-    while ( 1 )
-    {
-      v6 = (vostok::animation::animation_player *)callback_uid;
-      if ( first_callback->callback_uid == callback_uid )
-        break;
-      first_callback = first_callback->next;
-      if ( !first_callback )
-        goto LABEL_29;
-    }
-    v18 = 0;
-    f.vtable = 0;
-    if ( first_callback != (vostok::animation::animation_callback *)&f )
-    {
-      v17.vtable = 0;
-      boost::function1<void,vostok::resources::query_result *>::move_assign(&v17, &f, callback_uid);
-      boost::function1<void,vostok::resources::query_result *>::move_assign(
-        &f,
-        (boost::function2<void,unsigned int,unsigned int> *)first_callback,
-        v11);
-      boost::function1<void,vostok::resources::query_result *>::move_assign(
-        (boost::function2<void,unsigned int,unsigned int> *)first_callback,
-        &v17,
-        v12);
-      if ( v17.vtable )
-      {
-        if ( ((int)v17.vtable & 1) == 0 )
-        {
-          v13 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)v17.vtable & 0xFFFFFFFE);
-          if ( v13 )
-            v13(&v17.functor, &v17.functor, 2);
-        }
-      }
-      if ( f.vtable )
-      {
-        if ( ((int)f.vtable & 1) == 0 )
-        {
-          v14 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)f.vtable & 0xFFFFFFFE);
-          if ( v14 )
-            v14(&f.functor, &f.functor, 2);
-        }
-      }
-      if ( v18 )
-      {
-        if ( (v18 & 1) == 0 )
-        {
-          v15 = *(void (__cdecl **)(_BYTE *, _BYTE *, int))(v18 & 0xFFFFFFFE);
-          if ( v15 )
-            v15(v19, v19, 2);
-        }
-      }
-    }
-    first_callback->callback_uid = 0;
-    first_callback->enabled = 0;
-    this->m_callbacks_are_actual = 0;
-  }
-LABEL_29:
-  if ( !this->m_in_tick )
-    vostok::animation::animation_player::compact_callbacks(v6, this);
-}
-
-
-void __fastcall vostok::animation::animation_player::unsubscribe(
-        boost::function<void __cdecl(unsigned int,float,float,char const *)> *callback_uid,
-        vostok::animation::animation_player *this,
-        vostok::animation::reserved_channel_ids_enum channel_id)
-{
-  BYTE1(channel_id) = 0;
-  vostok::animation::animation_player::unsubscribe(
-    (vostok::animation::animation_player *)&channel_id,
-    this,
-    callback_uid);
 }

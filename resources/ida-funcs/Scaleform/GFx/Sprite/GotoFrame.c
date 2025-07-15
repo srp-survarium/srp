@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::Sprite::GotoFrame(Scaleform::GFx::Sprite *this, 
   int v11; // eax
   unsigned __int8 AvmObjOffset; // al
   int v13; // eax
-  Scaleform::GFx::TimelineSnapshot snapshot; // [esp+4h] [ebp-34h] BYREF
+  Scaleform::GFx::TimelineSnapshot v14; // [esp+4h] [ebp-34h] BYREF
 
   if ( (this->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Flags
       & 0x800) != 0
@@ -36,11 +36,11 @@ void __thiscall Scaleform::GFx::Sprite::GotoFrame(Scaleform::GFx::Sprite *this, 
         else
         {
           Scaleform::GFx::TimelineSnapshot::TimelineSnapshot(
-            &snapshot,
+            &v14,
             Direction_Forward,
             this->pASRoot->pMovieImpl->pHeap,
             this);
-          Scaleform::GFx::TimelineSnapshot::MakeSnapshot(&snapshot, this->pDef.pObject, this->CurrentFrame + 1, v4 - 1);
+          Scaleform::GFx::TimelineSnapshot::MakeSnapshot(&v14, this->pDef.pObject, this->CurrentFrame + 1, v4 - 1);
           if ( this->AvmObjOffset )
           {
             for ( i = this->CurrentFrame + 1; i < v4; ++i )
@@ -54,8 +54,8 @@ void __thiscall Scaleform::GFx::Sprite::GotoFrame(Scaleform::GFx::Sprite *this, 
             }
           }
           this->CurrentFrame = v4;
-          Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(&snapshot, this);
-          Scaleform::GFx::TimelineSnapshot::~TimelineSnapshot(&snapshot);
+          Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(&v14, this);
+          Scaleform::GFx::TimelineSnapshot::~TimelineSnapshot(&v14);
         }
         AvmObjOffset = this->AvmObjOffset;
         if ( AvmObjOffset )
@@ -81,11 +81,11 @@ void __thiscall Scaleform::GFx::Sprite::GotoFrame(Scaleform::GFx::Sprite *this, 
       if ( v4 )
       {
         v7 = this->pASRoot->pMovieImpl->GetHeap(this->pASRoot->pMovieImpl);
-        Scaleform::GFx::TimelineSnapshot::TimelineSnapshot(&snapshot, Direction_Backward, v7, this);
-        Scaleform::GFx::TimelineSnapshot::MakeSnapshot(&snapshot, this->pDef.pObject, 0, v4 - 1);
+        Scaleform::GFx::TimelineSnapshot::TimelineSnapshot(&v14, Direction_Backward, v7, this);
+        Scaleform::GFx::TimelineSnapshot::MakeSnapshot(&v14, this->pDef.pObject, 0, v4 - 1);
         this->CurrentFrame = v4;
-        Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(&snapshot, this);
-        Scaleform::GFx::TimelineSnapshot::~TimelineSnapshot(&snapshot);
+        Scaleform::GFx::TimelineSnapshot::ExecuteSnapshot(&v14, this);
+        Scaleform::GFx::TimelineSnapshot::~TimelineSnapshot(&v14);
       }
       else
       {

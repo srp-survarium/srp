@@ -1,7 +1,7 @@
 int __cdecl ogg_sync_wrote(ogg_sync_state *oy, int bytes)
 {
   int storage; // edx
-  int v4; // eax
+  int v4; // ecx
 
   storage = oy->storage;
   if ( storage < 0 )

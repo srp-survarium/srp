@@ -27,7 +27,7 @@ int __cdecl deflate_fast(internal_state *s, int flush)
   BOOL v27; // ecx
   int v28; // ecx
   char *v29; // eax
-  int v30; // edi
+  int *v30; // edi
   int v31; // eax
   unsigned int v32; // ebp
   int v33; // eax
@@ -100,7 +100,7 @@ int __cdecl deflate_fast(internal_state *s, int flush)
       ++LOWORD(s[_length_code[v10] + 294].dummy);
       v12 = v11 - 1;
       if ( v12 >= 0x100u )
-        v13 = (unsigned __int8)byte_88F848[v12 >> 7];
+        v13 = (unsigned __int8)byte_7332C8[v12 >> 7];
       else
         v13 = _dist_code[v12];
       ++LOWORD(s[v13 + 610].dummy);
@@ -144,22 +144,22 @@ LABEL_28:
       else
         v29 = (char *)(v28 + s[14].dummy);
       _tr_flush_block(s, v29, s[27].dummy - v28, 0);
-      v30 = s->dummy;
+      v30 = (int *)s->dummy;
       s[23].dummy = s[27].dummy;
-      v31 = *(_DWORD *)(v30 + 28);
+      v31 = v30[7];
       v32 = *(_DWORD *)(v31 + 20);
-      if ( v32 > *(_DWORD *)(v30 + 16) )
-        v32 = *(_DWORD *)(v30 + 16);
+      if ( v32 > v30[4] )
+        v32 = v30[4];
       if ( v32 )
       {
-        memcpy(*(unsigned __int8 **)(v30 + 12), *(unsigned __int8 **)(v31 + 16), v32);
-        v33 = *(_DWORD *)(v30 + 28);
-        *(_DWORD *)(v30 + 12) += v32;
+        memcpy(v30[3], *(const __m128i **)(v31 + 16), v32);
+        v33 = v30[7];
+        v30[3] += v32;
         *(_DWORD *)(v33 + 16) += v32;
-        *(_DWORD *)(v30 + 20) += v32;
-        *(_DWORD *)(v30 + 16) -= v32;
-        *(_DWORD *)(*(_DWORD *)(v30 + 28) + 20) -= v32;
-        v34 = *(_DWORD **)(v30 + 28);
+        v30[5] += v32;
+        v30[4] -= v32;
+        *(_DWORD *)(v30[7] + 20) -= v32;
+        v34 = (_DWORD *)v30[7];
         if ( !v34[5] )
           v34[4] = v34[2];
       }

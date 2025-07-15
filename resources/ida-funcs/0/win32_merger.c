@@ -16,14 +16,14 @@ char *__cdecl win32_merger(dso_st *dso, const char *filespec1, const char *files
       v3 = win32_splitter(filespec1, 0);
       if ( !v3 )
       {
-        ERR_put_error(0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 586);
+        ERR_put_error(0, 0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 586);
         return 0;
       }
       v7 = win32_splitter(filespec2, 1);
       v4 = v7;
       if ( !v7 )
       {
-        ERR_put_error(0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 593);
+        ERR_put_error(0, 0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 593);
         CRYPTO_free(v3);
         return 0;
       }
@@ -54,14 +54,14 @@ char *__cdecl win32_merger(dso_st *dso, const char *filespec1, const char *files
         v3->file = v4->file;
         v3->filelen = v4->filelen;
       }
-      v6 = win32_joiner(v3);
+      v6 = win32_joiner(v3, (int)v4);
     }
     else
     {
       v6 = (char *)CRYPTO_malloc(strlen(filespec1) + 1, ".\\crypto\\dso\\dso_win32.c", 560);
       if ( !v6 )
       {
-        ERR_put_error(0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 564);
+        ERR_put_error(0, 0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 564);
         return 0;
       }
       strcpy(v6, filespec1);
@@ -71,13 +71,13 @@ char *__cdecl win32_merger(dso_st *dso, const char *filespec1, const char *files
   {
     if ( !filespec2 )
     {
-      ERR_put_error(0x25u, 134, 67, ".\\crypto\\dso\\dso_win32.c", 555);
+      ERR_put_error(0, 0x25u, 134, 67, ".\\crypto\\dso\\dso_win32.c", 555);
       return 0;
     }
     v6 = (char *)CRYPTO_malloc(strlen(filespec2) + 1, ".\\crypto\\dso\\dso_win32.c", 571);
     if ( !v6 )
     {
-      ERR_put_error(0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 575);
+      ERR_put_error(0, 0x25u, 134, 65, ".\\crypto\\dso\\dso_win32.c", 575);
       return 0;
     }
     strcpy(v6, filespec2);

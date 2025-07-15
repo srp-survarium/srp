@@ -1,4 +1,4 @@
-char __thiscall Scaleform::GFx::InteractiveObject::IsFocusRectEnabled(Scaleform::GFx::InteractiveObject *this)
+bool __thiscall Scaleform::GFx::InteractiveObject::IsFocusRectEnabled(Scaleform::GFx::InteractiveObject *this)
 {
   Scaleform::GFx::InteractiveObject *v3; // eax
 

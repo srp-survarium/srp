@@ -1,10 +1,10 @@
-Scaleform::GFx::ResourceId *__thiscall Scaleform::GFx::ImageResource::GetBaseImageId(
+Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::QName> *__thiscall Scaleform::GFx::ImageResource::GetBaseImageId(
         Scaleform::GFx::AS3::Instances::fl::XML *this,
-        Scaleform::GFx::ResourceId *result)
+        Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::QName> *result)
 {
-  Scaleform::GFx::ResourceId *v2; // eax
+  Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::QName> *v2; // eax
 
   v2 = result;
-  result->Id = 0;
+  result->pObject = 0;
   return v2;
 }

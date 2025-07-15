@@ -1,27 +1,27 @@
-void __thiscall vostok::ai::planning::generalized_action::generalized_action(
-        vostok::ai::planning::generalized_action *this,
+void __userpurge vostok::ai::planning::generalized_action::generalized_action(
+        vostok::ai::planning::generalized_action *this@<ecx>,
+        int a2@<edi>,
         const vostok::ai::planning::pddl_domain *domain,
-        unsigned int type,
-        const char *name,
-        unsigned int cost)
+        const unsigned int type,
+        char *name,
+        const unsigned int cost)
 {
-  survarium::weapon_core::cast_weapon_core((survarium::game_options *)this);
-  this->next = 0;
-  this->m_preconditions._M_impl._M_start = 0;
-  this->m_preconditions._M_impl._M_finish = 0;
-  this->m_preconditions._M_impl._M_end_of_storage._M_data = 0;
-  this->m_effects._M_impl._M_start = 0;
-  this->m_effects._M_impl._M_finish = 0;
-  this->m_effects._M_impl._M_end_of_storage._M_data = 0;
-  vostok::buffer_vector<unsigned int>::buffer_vector<unsigned int>(
-    &this->m_parameter_types,
-    (unsigned int *)this->m_parameter_types.m_buffer,
-    4u,
-    0);
-  vostok::fixed_vector<char const *,4>::fixed_vector<char const *,4>((vostok::fixed_vector<void const *,4> *)&this->m_clones);
-  this->m_parent = 0;
-  vostok::fixed_string<32>::fixed_string<32>(&this->m_caption, name);
-  this->m_type = type;
-  this->m_cost = cost;
-  this->m_domain = domain;
+  *(_DWORD *)a2 = 0;
+  *(_DWORD *)(a2 + 4) = 0;
+  *(_DWORD *)(a2 + 8) = 0;
+  *(_DWORD *)(a2 + 12) = 0;
+  *(_DWORD *)(a2 + 16) = 0;
+  *(_DWORD *)(a2 + 20) = 0;
+  *(_DWORD *)(a2 + 24) = 0;
+  *(_DWORD *)(a2 + 28) = a2 + 40;
+  *(_DWORD *)(a2 + 32) = a2 + 40;
+  *(_DWORD *)(a2 + 36) = a2 + 56;
+  *(_DWORD *)(a2 + 56) = a2 + 68;
+  *(_DWORD *)(a2 + 60) = a2 + 68;
+  *(_DWORD *)(a2 + 64) = a2 + 132;
+  *(_DWORD *)(a2 + 132) = 0;
+  vostok::fixed_string<32>::fixed_string<32>(0, (vostok::buffer_string *)(a2 + 136), name);
+  *(_DWORD *)(a2 + 180) = type;
+  *(_DWORD *)(a2 + 184) = cost;
+  *(_DWORD *)(a2 + 188) = domain;
 }

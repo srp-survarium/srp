@@ -11,11 +11,11 @@ void __thiscall Scaleform::GFx::TextField::UpdateUrlStyles(Scaleform::GFx::TextF
   const Scaleform::Render::Text::TextFormat *v10; // eax
   Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone> *Data; // ecx
   unsigned int Index; // ebx
-  Scaleform::Render::Text::Paragraph *v13; // edi
+  const Scaleform::Render::Text::Paragraph *v13; // edi
   Scaleform::RangeData<Scaleform::GFx::TextField::CSSHolderBase::UrlZone> *v14; // ebp
-  Scaleform::Render::Text::Paragraph *v15; // eax
+  Scaleform::Render::Text::StyledText *v15; // eax
   Scaleform::RefCountNTSImpl *v16; // ecx
-  Scaleform::Render::Text::Paragraph *v17; // edi
+  Scaleform::Render::Text::StyledText *v17; // edi
   int v18; // [esp+1Ch] [ebp-58h]
   unsigned int v19; // [esp+20h] [ebp-54h]
   Scaleform::Render::Text::TextFormat fmt; // [esp+24h] [ebp-50h] BYREF
@@ -34,7 +34,7 @@ void __thiscall Scaleform::GFx::TextField::UpdateUrlStyles(Scaleform::GFx::TextF
         if ( this->pCSSData.pObject->HasASStyleSheet(this->pCSSData.pObject) )
         {
           v4 = this->pCSSData.pObject->GetTextStyleManager(this->pCSSData.pObject);
-          v5 = (const Scaleform::Render::Text::TextFormat *)v4->GetStyle(v4, CSS_Tag, "a", -1u);
+          v5 = (const Scaleform::Render::Text::TextFormat *)v4->GetStyle(v4, CSS_Tag, (const char *)&stru_809F70, -1u);
           v6 = this->pCSSData.pObject->GetTextStyleManager(this->pCSSData.pObject);
           v7 = (const Scaleform::Render::Text::TextFormat *)v6->GetStyle(v6, CSS_Tag, "a:link", -1u);
           v8 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
@@ -62,7 +62,7 @@ void __thiscall Scaleform::GFx::TextField::UpdateUrlStyles(Scaleform::GFx::TextF
           }
           Data = this->pCSSData.pObject->UrlZones.Ranges.Data.Data;
           Index = Data[v18].Index;
-          v13 = (Scaleform::Render::Text::Paragraph *)(Index + Data[v18].Length);
+          v13 = (const Scaleform::Render::Text::Paragraph *)(Index + Data[v18].Length);
           Scaleform::Render::Text::DocView::SetTextFormat(this->pDocument.pObject, &fmt, Index, (unsigned int)v13);
           v14 = &this->pCSSData.pObject->UrlZones.Ranges.Data.Data[v18];
           v15 = Scaleform::Render::Text::StyledText::CopyStyledText(
@@ -73,7 +73,7 @@ void __thiscall Scaleform::GFx::TextField::UpdateUrlStyles(Scaleform::GFx::TextF
           v17 = v15;
           if ( v16 )
             Scaleform::RefCountNTSImpl::Release(v16);
-          v14->Data.SavedFmt.pObject = (Scaleform::Render::Text::StyledText *)v17;
+          v14->Data.SavedFmt.pObject = v17;
           Scaleform::Render::Text::TextFormat::~TextFormat(&fmt);
         }
         ++v18;

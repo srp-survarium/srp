@@ -1,13 +1,13 @@
-boost::asio::const_buffer *__cdecl boost::asio::operator+(
-        boost::asio::const_buffer *result,
-        const boost::asio::const_buffer *b,
+boost::asio::mutable_buffer *__usercall boost::asio::operator+@<eax>(
+        const boost::asio::mutable_buffer *b@<edx>,
+        boost::asio::mutable_buffer *result@<eax>,
         unsigned int start)
 {
-  unsigned int size; // [esp+0h] [ebp-14h]
+  unsigned int size; // ecx
 
-  if ( start <= b->size_ )
+  size = b->size_;
+  if ( start <= size )
   {
-    size = b->size_;
     result->data_ = (char *)b->data_ + start;
     result->size_ = size - start;
   }

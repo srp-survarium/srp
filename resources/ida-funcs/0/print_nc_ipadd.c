@@ -6,7 +6,7 @@ int __usercall print_nc_ipadd@<eax>(bio_st *bp@<ebx>, asn1_string_st *ip)
 
   data = ip->data;
   length = ip->length;
-  BIO_puts(bp, "IP:");
+  BIO_puts((int)bp, bp, "IP:");
   if ( length == 8 )
   {
     BIO_printf(bp, "%d.%d.%d.%d/%d.%d.%d.%d", *data, data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
@@ -20,11 +20,11 @@ int __usercall print_nc_ipadd@<eax>(bio_st *bp@<ebx>, asn1_string_st *ip)
       data += 2;
       if ( i == 7 )
       {
-        BIO_puts(bp, "/");
+        BIO_puts((int)bp, bp, "/");
       }
       else if ( i != 15 )
       {
-        BIO_puts(bp, (const char *)&stru_95963C.m_max_end);
+        BIO_puts((int)bp, bp, ":");
       }
     }
     return 1;

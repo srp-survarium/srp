@@ -4,7 +4,7 @@ int __cdecl _crtGetLocaleInfoA_stat(
         LCTYPE LCType,
         char *lpLCData,
         int cchData,
-        UINT code_page)
+        unsigned int code_page)
 {
   int v6; // eax
   int v7; // esi
@@ -17,7 +17,7 @@ int __cdecl _crtGetLocaleInfoA_stat(
   int v15; // eax
   int v16; // [esp+0h] [ebp-14h] BYREF
   int v17; // [esp+8h] [ebp-Ch] BYREF
-  int buff_size; // [esp+Ch] [ebp-8h]
+  int cchDataa; // [esp+Ch] [ebp-8h]
 
   v6 = f_use_2;
   v7 = 0;
@@ -47,7 +47,7 @@ LABEL_10:
     code_page = plocinfo->locinfo->lc_codepage;
   LocaleInfoW = GetLocaleInfoW(Locale, LCType, 0, 0);
   v9 = LocaleInfoW;
-  buff_size = LocaleInfoW;
+  cchDataa = LocaleInfoW;
   if ( !LocaleInfoW )
     return 0;
   if ( LocaleInfoW <= 0 || 0xFFFFFFE0 / LocaleInfoW < 2 )
@@ -79,7 +79,7 @@ LABEL_10:
 LABEL_23:
   if ( !v13 )
     return 0;
-  if ( GetLocaleInfoW(Locale, LCType, v13, buff_size) )
+  if ( GetLocaleInfoW(Locale, LCType, v13, cchDataa) )
   {
     if ( cchData )
       v15 = WideCharToMultiByte(code_page, 0, v13, -1, lpLCData, cchData, 0, 0);

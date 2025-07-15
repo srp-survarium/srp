@@ -9,8 +9,8 @@ BOOL __thiscall Scaleform::Render::Text::TextFormat::IsFontSame(
   if ( (this->PresentMask & 4) != 0
     && (fmt->PresentMask & 4) != 0
     && !Scaleform::String::CompareNoCase(
-          (const char *)((this->FontList.HeapTypeBits & 0xFFFFFFFC) + 8),
-          (const char *)((fmt->FontList.HeapTypeBits & 0xFFFFFFFC) + 8))
+          (char *)((this->FontList.HeapTypeBits & 0xFFFFFFFC) + 8),
+          (char *)((fmt->FontList.HeapTypeBits & 0xFFFFFFFC) + 8))
     || (this->PresentMask & 0x800) != 0
     && (fmt->PresentMask & 0x800) != 0
     && this->pFontHandle.pObject == fmt->pFontHandle.pObject )

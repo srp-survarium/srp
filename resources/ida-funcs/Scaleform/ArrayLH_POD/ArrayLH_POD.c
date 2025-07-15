@@ -2,14 +2,14 @@ void __thiscall Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,S
         Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,Scaleform::ArrayDefaultPolicy> *this,
         const Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,Scaleform::ArrayDefaultPolicy> *a)
 {
-  unsigned __int8 *Data; // ebp
+  Scaleform::GFx::AS2::WithStackEntry *Data; // ebp
   unsigned int Size; // edi
   unsigned int v5; // ebx
 
   this->Data.Data = 0;
   this->Data.Size = 0;
   this->Data.Policy.Capacity = 0;
-  Data = (unsigned __int8 *)a->Data.Data;
+  Data = a->Data.Data;
   Size = a->Data.Size;
   if ( Size )
   {
@@ -18,6 +18,6 @@ void __thiscall Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,S
       &this->Data,
       this,
       v5 + Size);
-    memcpy((unsigned __int8 *)&this->Data.Data[v5], Data, 8 * Size);
+    memcpy((int)&this->Data.Data[v5], (const __m128i *)Data, 8 * Size);
   }
 }

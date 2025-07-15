@@ -1,6 +1,6 @@
 void __usercall Scaleform::GFx::AS2::PointCtorFunction::Interpolate(char a1@<bl>, int fn)
 {
-  Scaleform::MemoryHeap *v2; // ecx
+  int v2; // ecx
   Scaleform::GFx::AS2::PointObject *v3; // eax
   Scaleform::GFx::AS2::PointObject *v4; // eax
   Scaleform::GFx::AS2::PointObject *v5; // edi
@@ -11,10 +11,10 @@ void __usercall Scaleform::GFx::AS2::PointCtorFunction::Interpolate(char a1@<bl>
   unsigned int v10; // eax
   Scaleform::GFx::AS2::Value *v11; // ecx
   Scaleform::GFx::AS2::Object *v12; // eax
-  Scaleform::GFx::AS2::Environment *v13; // ecx
+  _DWORD *v13; // ecx
   int v14; // ebx
-  unsigned int Size; // ebp
-  Scaleform::GFx::AS2::PagedStack<Scaleform::GFx::AS2::Value,32> *p_Stack; // ecx
+  int v15; // ebp
+  _DWORD *v16; // ecx
   Scaleform::GFx::AS2::Object *v17; // edi
   unsigned int v18; // eax
   const Scaleform::GFx::AS2::Value *v19; // edx
@@ -22,25 +22,25 @@ void __usercall Scaleform::GFx::AS2::PointCtorFunction::Interpolate(char a1@<bl>
   char v21; // bl
   unsigned int RefCount; // eax
   Scaleform::GFx::AS2::Environment *v23; // [esp-Ch] [ebp-5Ch]
-  Scaleform::GFx::AS2::PointObject *v25; // [esp+8h] [ebp-48h]
-  Scaleform::GFx::AS2::Object *p1; // [esp+Ch] [ebp-44h]
-  Scaleform::GFx::AS2::Value f; // [esp+10h] [ebp-40h] BYREF
-  Scaleform::Render::Point<double> pt1; // [esp+20h] [ebp-30h] BYREF
-  Scaleform::Render::Point<double> pt2; // [esp+30h] [ebp-20h] BYREF
-  Scaleform::Render::Point<double> pt; // [esp+40h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::PointObject *obj; // [esp+8h] [ebp-48h]
+  Scaleform::GFx::AS2::Object *pobj; // [esp+Ch] [ebp-44h]
+  Scaleform::GFx::AS2::Value v27; // [esp+10h] [ebp-40h] BYREF
+  Scaleform::Render::Point<double> pt; // [esp+20h] [ebp-30h] BYREF
+  Scaleform::Render::Point<double> v29; // [esp+30h] [ebp-20h] BYREF
+  Scaleform::Render::Point<double> v30; // [esp+40h] [ebp-10h] BYREF
 
-  v2 = *(Scaleform::MemoryHeap **)(*(_DWORD *)(*(_DWORD *)(fn + 24) + 116) + 24);
-  v3 = (Scaleform::GFx::AS2::PointObject *)v2->Alloc(v2, 52u, 0);
+  v2 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(fn + 24) + 116) + 24);
+  v3 = (Scaleform::GFx::AS2::PointObject *)(*(int (__thiscall **)(int, int, _DWORD))(*(_DWORD *)v2 + 40))(v2, 52, 0);
   if ( v3 )
   {
     Scaleform::GFx::AS2::PointObject::PointObject(v3, *(Scaleform::GFx::AS2::Environment **)(fn + 24));
     v5 = v4;
-    v25 = v4;
+    obj = v4;
   }
   else
   {
     v5 = 0;
-    v25 = 0;
+    obj = 0;
   }
   if ( *(int *)(fn + 28) <= 2 )
     goto LABEL_18;
@@ -50,41 +50,41 @@ void __usercall Scaleform::GFx::AS2::PointCtorFunction::Interpolate(char a1@<bl>
     v7 = &v6->Stack.Pages.Data.Data[*(_DWORD *)(fn + 32) >> 5]->Values[*(_DWORD *)(fn + 32) & 0x1F];
   v8 = Scaleform::GFx::AS2::Value::ToObject(v7, v6);
   v9 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
-  p1 = v8;
+  pobj = v8;
   v10 = *(_DWORD *)(fn + 32) - 1;
   v11 = 0;
   if ( v10 <= 32 * (v9->Stack.Pages.Data.Size - 1) + v9->Stack.pCurrent - v9->Stack.pPageStart )
     v11 = &v9->Stack.Pages.Data.Data[v10 >> 5]->Values[v10 & 0x1F];
   v12 = Scaleform::GFx::AS2::Value::ToObject(v11, v9);
-  v13 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
-  v14 = (char *)v13->Stack.pCurrent - (char *)v13->Stack.pPageStart;
-  Size = v13->Stack.Pages.Data.Size;
-  p_Stack = &v13->Stack;
+  v13 = *(_DWORD **)(fn + 24);
+  v14 = v13[1] - v13[2];
+  v15 = v13[6];
+  v16 = v13 + 1;
   v17 = v12;
   v18 = *(_DWORD *)(fn + 32) - 2;
   v19 = 0;
-  if ( v18 <= 32 * (Size - 1) + (v14 >> 4) )
-    v19 = &p_Stack->Pages.Data.Data[v18 >> 5]->Values[v18 & 0x1F];
-  Scaleform::GFx::AS2::Value::Value(&f, v19);
-  if ( p1 && v17 )
+  if ( v18 <= 32 * (v15 - 1) + (v14 >> 4) )
+    v19 = (const Scaleform::GFx::AS2::Value *)(*(_DWORD *)(v16[4] + 4 * (v18 >> 5)) + 16 * (v18 & 0x1F));
+  Scaleform::GFx::AS2::Value::Value(&v27, v19);
+  if ( pobj && v17 )
   {
-    Scaleform::GFx::AS2::GFxObject_GetPointProperties(*(Scaleform::GFx::AS2::Environment **)(fn + 24), p1, &pt1);
-    Scaleform::GFx::AS2::GFxObject_GetPointProperties(*(Scaleform::GFx::AS2::Environment **)(fn + 24), v17, &pt2);
-    v20 = Scaleform::GFx::AS2::Value::ToNumber(&f, (Scaleform::GFx::AS2::Environment *)*(_DWORD *)(fn + 24));
-    v5 = v25;
+    Scaleform::GFx::AS2::GFxObject_GetPointProperties(*(Scaleform::GFx::AS2::Environment **)(fn + 24), pobj, &pt);
+    Scaleform::GFx::AS2::GFxObject_GetPointProperties(*(Scaleform::GFx::AS2::Environment **)(fn + 24), v17, &v29);
+    v20 = Scaleform::GFx::AS2::Value::ToNumber(&v27, (Scaleform::GFx::AS2::Environment *)*(_DWORD *)(fn + 24));
+    v5 = obj;
     v23 = *(Scaleform::GFx::AS2::Environment **)(fn + 24);
-    pt.x = pt2.x + (pt1.x - pt2.x) * v20;
-    pt.y = v20 * (pt1.y - pt2.y) + pt2.y;
-    Scaleform::GFx::AS2::PointObject::SetProperties(v25, (int)v25, fn, v23, &pt, a1);
+    v30.x = v29.x + (pt.x - v29.x) * v20;
+    v30.y = v20 * (pt.y - v29.y) + v29.y;
+    Scaleform::GFx::AS2::PointObject::SetProperties(obj, (int)obj, fn, v23, &v30, a1);
     v21 = 1;
   }
   else
   {
     v21 = 0;
-    v5 = v25;
+    v5 = obj;
   }
-  if ( f.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&f);
+  if ( v27.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v27);
   if ( !v21 )
 LABEL_18:
     Scaleform::GFx::AS2::PointObject::SetProperties(
@@ -95,7 +95,7 @@ LABEL_18:
   if ( v5 )
   {
     RefCount = v5->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v5->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

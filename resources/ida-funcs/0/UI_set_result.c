@@ -9,7 +9,7 @@ void __cdecl UI_set_result(ui_st *ui, ui_string_st *uis, char *result)
   int result_maxsize; // eax
   char *result_buf; // esi
   char v11[16]; // [esp+10h] [ebp-24h] BYREF
-  char buf[16]; // [esp+20h] [ebp-14h] BYREF
+  char v12[16]; // [esp+20h] [ebp-14h] BYREF
 
   v3 = (unsigned __int8 *)result;
   v4 = strlen(result);
@@ -21,7 +21,7 @@ void __cdecl UI_set_result(ui_st *ui, ui_string_st *uis, char *result)
     {
       if ( type <= UIT_VERIFY )
       {
-        BIO_snprintf(buf, 0xDu, "%d", uis->_.string_data.result_minsize);
+        BIO_snprintf(v12, 0xDu, "%d", uis->_.string_data.result_minsize);
         BIO_snprintf(v11, 0xDu, "%d", uis->_.string_data.result_maxsize);
         if ( v4 >= uis->_.string_data.result_minsize )
         {
@@ -32,20 +32,20 @@ void __cdecl UI_set_result(ui_st *ui, ui_string_st *uis, char *result)
             if ( result_buf )
               BUF_strlcpy(result_buf, result, result_maxsize + 1);
             else
-              ERR_put_error(0x28u, 105, 105, ".\\crypto\\ui\\ui_lib.c", 886);
+              ERR_put_error((int)ui, 0x28u, 105, 105, ".\\crypto\\ui\\ui_lib.c", 886);
           }
           else
           {
             ui->flags |= 1u;
-            ERR_put_error(0x28u, 105, 100, ".\\crypto\\ui\\ui_lib.c", 877);
-            ERR_add_error_data(5, "You must type in ", buf, " to ", v11, " characters");
+            ERR_put_error((int)ui, 0x28u, 105, 100, ".\\crypto\\ui\\ui_lib.c", 877);
+            ERR_add_error_data(5, "You must type in ", v12, " to ", v11, " characters");
           }
         }
         else
         {
           ui->flags |= 1u;
-          ERR_put_error(0x28u, 105, 101, ".\\crypto\\ui\\ui_lib.c", 869);
-          ERR_add_error_data(5, "You must type in ", buf, " to ", v11, " characters");
+          ERR_put_error((int)ui, 0x28u, 105, 101, ".\\crypto\\ui\\ui_lib.c", 869);
+          ERR_add_error_data(5, "You must type in ", v12, " to ", v11, " characters");
         }
       }
       else if ( type == UIT_BOOLEAN )
@@ -75,7 +75,7 @@ void __cdecl UI_set_result(ui_st *ui, ui_string_st *uis, char *result)
         }
         else
         {
-          ERR_put_error(0x28u, 105, 105, ".\\crypto\\ui\\ui_lib.c", 899);
+          ERR_put_error((int)ui, 0x28u, 105, 105, ".\\crypto\\ui\\ui_lib.c", 899);
         }
       }
     }

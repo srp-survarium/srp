@@ -1,31 +1,45 @@
-vostok::mutable_buffer *__usercall vostok::animation::mixing::animation_lexeme::cloned_in_buffer@<eax>(
-        vostok::animation::mixing::animation_lexeme *this@<ecx>,
-        vostok::animation::mixing::base_lexeme *a2@<esi>)
+vostok::animation::mixing::animation_lexeme *__thiscall vostok::animation::mixing::animation_lexeme::cloned_in_buffer(
+        vostok::animation::mixing::animation_lexeme *this,
+        vostok::animation::mixing::animation_lexeme *a2)
 {
-  vostok::animation::mixing::animation_lexeme *v3; // eax
-  vostok::animation::mixing::animation_lexeme *v4; // ecx
-  vostok::mutable_buffer *v5; // eax
-  vostok::mutable_buffer *m_buffer; // ecx
+  vostok::animation::mixing::animation_lexeme *m_data; // esi
+  vostok::mutable_buffer *m_buffer; // eax
+  vostok::animation::mixing::animation_lexeme *v5; // eax
+  vostok::animation::mixing::animation_lexeme *m_object; // ecx
 
-  if ( a2[15].m_cloned )
-    return (vostok::mutable_buffer *)a2;
-  if ( !a2[16].m_buffer )
+  if ( a2->m_cloned )
+    return a2;
+  if ( !a2->m_cloned_instance.m_object )
   {
-    v3 = vostok::animation::mixing::base_lexeme::cloned_in_buffer<vostok::animation::mixing::animation_lexeme>(a2 + 15);
-    v4 = 0;
-    if ( v3 )
+    if ( a2->m_cloned )
     {
-      ++v3->m_reference_count;
-      v4 = v3;
+      m_data = a2;
     }
-    v5 = (vostok::mutable_buffer *)v4;
-    m_buffer = a2[16].m_buffer;
-    a2[16].m_buffer = v5;
-    if ( m_buffer )
+    else
     {
-      if ( m_buffer[2].m_data-- == (char *)1 )
-        (*(void (__thiscall **)(vostok::mutable_buffer *, _DWORD))m_buffer->m_data)(m_buffer, 0);
+      m_buffer = a2->vostok::animation::mixing::base_lexeme::m_buffer;
+      m_data = (vostok::animation::mixing::animation_lexeme *)m_buffer->m_data;
+      m_buffer->m_size -= 132;
+      m_buffer->m_data = (char *)&m_data[1];
+      if ( m_data )
+        vostok::animation::mixing::animation_lexeme::animation_lexeme(m_data, a2);
+      m_data->m_cloned = 1;
+    }
+    v5 = 0;
+    if ( m_data )
+    {
+      ++m_data->m_reference_count;
+      v5 = m_data;
+    }
+    m_object = a2->m_cloned_instance.m_object;
+    a2->m_cloned_instance.m_object = v5;
+    if ( m_object )
+    {
+      if ( m_object->m_reference_count-- == 1 )
+        ((void (__thiscall *)(vostok::animation::mixing::animation_lexeme *, _DWORD))m_object->~vostok::animation::mixing::binary_tree_base_node)(
+          m_object,
+          0);
     }
   }
-  return a2[16].m_buffer;
+  return a2->m_cloned_instance.m_object;
 }

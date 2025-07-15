@@ -21,7 +21,7 @@ void Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>::LogScriptError(
   {
     v4 = ((int (__thiscall *)(Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase> *))v2->__vftable[37].~Scaleform::GFx::LogBase<Scaleform::GFx::DisplayObjectBase>)(v2);
     if ( v4 )
-      (*(void (__thiscall **)(int, void *, const char *, char *))(*(_DWORD *)v4 + 4))(v4, &loc_34000, pfmt, va);
+      (*(void (__thiscall **)(int, int, const char *, char *))(*(_DWORD *)v4 + 4))(v4, 212992, pfmt, va);
   }
 }
 
@@ -50,9 +50,9 @@ void Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptError(
     GlobalLog = (Scaleform::Log *)v2[4].__vftable;
     if ( !GlobalLog )
       GlobalLog = Scaleform::Log::GetGlobalLog();
-    ((void (__thiscall *)(Scaleform::Log *, void *, const char *, char *))GlobalLog->LogMessageVarg)(
+    ((void (__thiscall *)(Scaleform::Log *, int, const char *, char *))GlobalLog->LogMessageVarg)(
       GlobalLog,
-      &loc_34000,
+      212992,
       pfmt,
       va);
   }

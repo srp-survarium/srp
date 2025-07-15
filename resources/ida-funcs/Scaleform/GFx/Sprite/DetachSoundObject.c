@@ -50,10 +50,7 @@ void __thiscall Scaleform::GFx::Sprite::DetachSoundObject(
       }
       else
       {
-        memmove(
-          (unsigned __int8 *)&v7->ASSounds.Data.Data[v9],
-          (unsigned __int8 *)&v7->ASSounds.Data.Data[v9 + 1],
-          4 * (Size - v9) - 4);
+        memmove((int)&v7->ASSounds.Data.Data[v9], (const __m128i *)&v7->ASSounds.Data.Data[v9 + 1], 4 * (Size - v9) - 4);
         --v7->ASSounds.Data.Size;
       }
     }

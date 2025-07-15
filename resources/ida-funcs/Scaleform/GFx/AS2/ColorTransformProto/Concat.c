@@ -5,15 +5,15 @@ void __cdecl Scaleform::GFx::AS2::ColorTransformProto::Concat(const Scaleform::G
   Scaleform::GFx::AS2::Object *v3; // edi
   Scaleform::GFx::AS2::ObjectInterface *ThisPtr; // eax
   Scaleform::Render::Cxform *p_pProto; // ebx
-  Scaleform::Render::Cxform c; // [esp+130h] [ebp-A0h] BYREF
-  Scaleform::GFx::AS2::Value __t; // [esp+150h] [ebp-80h] BYREF
-  Scaleform::GFx::AS2::Value v8; // [esp+160h] [ebp-70h] BYREF
-  Scaleform::GFx::AS2::Value v9; // [esp+170h] [ebp-60h] BYREF
-  Scaleform::GFx::AS2::Value v10; // [esp+180h] [ebp-50h] BYREF
-  Scaleform::GFx::AS2::Value v11; // [esp+190h] [ebp-40h] BYREF
-  Scaleform::GFx::AS2::Value v12; // [esp+1A0h] [ebp-30h] BYREF
-  Scaleform::GFx::AS2::Value v13; // [esp+1B0h] [ebp-20h] BYREF
-  Scaleform::GFx::AS2::Value v14; // [esp+1C0h] [ebp-10h] BYREF
+  Scaleform::Render::Cxform c; // [esp+10h] [ebp-A0h] BYREF
+  Scaleform::GFx::AS2::Value params; // [esp+30h] [ebp-80h] BYREF
+  Scaleform::GFx::AS2::Value v8; // [esp+40h] [ebp-70h] BYREF
+  Scaleform::GFx::AS2::Value v9; // [esp+50h] [ebp-60h] BYREF
+  Scaleform::GFx::AS2::Value v10; // [esp+60h] [ebp-50h] BYREF
+  Scaleform::GFx::AS2::Value v11; // [esp+70h] [ebp-40h] BYREF
+  Scaleform::GFx::AS2::Value v12; // [esp+80h] [ebp-30h] BYREF
+  Scaleform::GFx::AS2::Value v13; // [esp+90h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v14; // [esp+A0h] [ebp-10h] BYREF
 
   if ( fn->NArgs > 0 )
   {
@@ -39,13 +39,13 @@ void __cdecl Scaleform::GFx::AS2::ColorTransformProto::Concat(const Scaleform::G
         else
         {
           `vector constructor iterator'(
-            (char *)&__t,
+            (char *)&params,
             0x10u,
             8,
             (void *(__thiscall *)(void *))Scaleform::GFx::AS2::Value::Value);
-          Scaleform::GFx::AS2::GFxObject_GetColorTransformProperties(fn->Env, v3, &__t);
+          Scaleform::GFx::AS2::GFxObject_GetColorTransformProperties(fn->Env, v3, &params);
           Scaleform::Render::Cxform::Cxform(&c);
-          c.M[0][0] = Scaleform::GFx::AS2::Value::ToNumber(&__t, fn->Env);
+          c.M[0][0] = Scaleform::GFx::AS2::Value::ToNumber(&params, fn->Env);
           c.M[0][1] = Scaleform::GFx::AS2::Value::ToNumber(&v8, fn->Env);
           c.M[0][2] = Scaleform::GFx::AS2::Value::ToNumber(&v9, fn->Env);
           c.M[0][3] = Scaleform::GFx::AS2::Value::ToNumber(&v10, fn->Env);
@@ -55,7 +55,7 @@ void __cdecl Scaleform::GFx::AS2::ColorTransformProto::Concat(const Scaleform::G
           c.M[1][3] = Scaleform::GFx::AS2::Value::ToNumber(&v14, fn->Env);
           Scaleform::Render::Cxform::Prepend(p_pProto + 2, &c);
           `vector destructor iterator'(
-            (char *)&__t,
+            (char *)&params,
             0x10u,
             8,
             (void (__thiscall *)(void *))Scaleform::GFx::AS2::Value::~Value);

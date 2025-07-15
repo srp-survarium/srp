@@ -1,69 +1,76 @@
 void __thiscall vostok::network::match_client_impl::on_packet_received(
         vostok::network::match_client_impl *this,
         unsigned __int8 message_type,
-        vostok::network_core::packet_reader *reader)
+        const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *reader)
 {
-  survarium::game_camera *v3; // ecx
-  _BYTE *v4; // eax
-  survarium::game_camera *v5; // [esp-4h] [ebp-2C0h]
-  char v7; // [esp+290h] [ebp-2Ch]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+294h] [ebp-28h] BYREF
-  char v9; // [esp+2BBh] [ebp-1h]
+  vostok::network::match_client_impl *v3; // edi
+  boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::lobby::server::messages_enum> *v4; // ecx
+  bool has_passed_filters; // al
+  int v6; // ecx
+  vostok::network::match_client_impl *v7; // [esp-4h] [ebp-3Ch]
+  char v8; // [esp+10h] [ebp-28h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v9; // [esp+18h] [ebp-20h] BYREF
 
-  v7 = 0;
-  v3 = *(survarium::game_camera **)&this->m_packets_storage.elems[0][(_DWORD)&loc_258B9D + 3];
-  if ( message_type == 128 )
+  v3 = this;
+  v8 = 0;
+  if ( message_type == 80 )
   {
-    v9 = 0;
-    survarium::weapon_user_dead_state::finalize(v3);
-    if ( *v4 )
-    {
-      v5 = (survarium::game_camera *)vostok::network_core::packet_reader::eof(reader);
-      survarium::weapon_user_dead_state::finalize(v5);
-    }
-    *(_DWORD *)&this->m_packets_storage.elems[0][(_DWORD)&loc_258B9D + 3] = 1;
-    boost::function<void __cdecl (unsigned char,vostok::network_core::packet_reader &)>::operator=(
-      (boost::function<void __cdecl(unsigned int,unsigned int)> *)((char *)this + (_DWORD)&loc_258B7F + 1),
-      (boost::function2<void,unsigned int,unsigned int> *)((char *)this + (_DWORD)&loc_25856F + 1));
-    if ( !vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)Scaleform::Render::TreeNode::NodeData::operator= + (_DWORD)this)) )
-      boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::login_server_message_types_enum>::operator()(
-        (boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::lobby_server_message_types_enum> *)((char *)Scaleform::Render::TreeNode::NodeData::operator= + (_DWORD)this),
-        0,
+    *(_DWORD *)((char *)&loc_6EF80 + (_DWORD)this) = 2;
+    boost::function<void __cdecl (void)>::operator=(
+      (boost::function<void __cdecl(void)> *)((char *)&loc_6EF60 + (_DWORD)this),
+      (boost::function1<void,vostok::physics::contact_point const &> *)((char *)&loc_55F88 + (_DWORD)this));
+    if ( *(_DWORD *)&v3->m_packets_storage.elems[0][(_DWORD)&loc_6EF3F + 1] )
+      boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::login::server::messages_enum>::operator()(
+        v4,
+        &v3->m_packets_storage.elems[0][(_DWORD)&loc_6EF3F + 1],
+        successfully_connected,
         successfully_handshaked,
         host_cannot_be_resolved,
-        connection_successful);
+        (vostok::lobby::server::messages_enum)48);
+    boost::function2<void,vostok::vfs::vfs_locked_iterator const &,enum vostok::vfs::result_enum>::operator()(
+      (boost::function2<unsigned short,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &,vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> const &> *)v4,
+      (char *)&loc_6EF60 + (_DWORD)v3,
+      (const vostok::resources::resource_ptr<vostok::resources::managed_resource,vostok::resources::managed_intrusive_base> *)0x50,
+      reader);
   }
   else
   {
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "network:", error) )
+      || (has_passed_filters = vostok::logging::has_passed_filters(
+                                 (vostok::logging::filter_tree *)&initiator_raw.filter_stack,
+                                 (const char *)2),
+          this = v7,
+          has_passed_filters) )
     {
-      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>((boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v3);
-      v7 = 1;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)this,
+        &v9);
+      v8 = 1;
       vostok::logging::append(
-        &log_callback,
+        &v9,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\match_client_impl.cpp",
-        0x38u,
+        0x3Bu,
         "void __thiscall vostok::network::match_client_impl::on_packet_received(unsigned char,class vostok::network_core:"
-        ":packet_reader &)",
-        "network:",
+        ":buffer_reader &)",
+        &initiator_raw.filter_stack.gap0,
         error,
-        "connection forbidden");
+        "connection forbidden [%d]",
+        message_type);
     }
-    if ( (v7 & 1) != 0 )
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v3,
-        (int *)&log_callback);
-    if ( (!vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::operator!((vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)((char *)Scaleform::Render::TreeNode::NodeData::operator= + (_DWORD)this))
-        ? (unsigned int)boost::function3<bool,char const *,char const *,char const *>::dummy::nonnull
-        : 0) != 0 )
-      boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::login_server_message_types_enum>::operator()(
-        (boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::lobby_server_message_types_enum> *)((char *)Scaleform::Render::TreeNode::NodeData::operator= + (_DWORD)this),
-        0,
+    if ( (v8 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)this,
+        (int *)&v9);
+    v6 = -(*(_DWORD *)&v3->m_packets_storage.elems[0][(_DWORD)&loc_6EF3F + 1] != 0);
+    if ( ((unsigned int)vostok::memory::process_allocator::finalize_impl & v6) != 0 )
+      boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::login::server::messages_enum>::operator()(
+        (boost::function4<void,enum vostok::connection_error_types_enum,enum vostok::handshaking_error_types_enum,enum vostok::socket_error_types_enum,enum vostok::lobby::server::messages_enum> *)v6,
+        &v3->m_packets_storage.elems[0][(_DWORD)&loc_6EF3F + 1],
+        successfully_connected,
         successfully_handshaked,
         host_cannot_be_resolved,
-        invalid_session_id);
+        query_client_status|0x10);
   }
 }

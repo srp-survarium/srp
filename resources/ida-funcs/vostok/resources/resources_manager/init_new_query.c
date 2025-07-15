@@ -1,64 +1,133 @@
-void __usercall vostok::resources::resources_manager::init_new_query(
-        vostok::resources::resources_manager *this@<ecx>,
-        vostok::resources::query_result *query@<eax>)
+void __thiscall vostok::resources::resources_manager::init_new_query(
+        vostok::resources::resources_manager *this,
+        vostok::resources::resources_manager *query,
+        vostok::resources::query_result::only_try_to_get_associated_resource_bool only_try_to_get_associated_resource)
 {
-  vostok::resources::cook_base *cook; // eax
-  char *m_requery_path; // eax
-  void (__cdecl *v6)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  bool v7; // al
-  vostok::resources::query_result::consider_with_name_registry_result_enum v8; // eax
-  vostok::resources::query_result *v9; // ecx
-  vostok::resources::allocate_functionality *m_size; // ecx
-  vostok::resources::allocate_functionality *v11; // [esp+0h] [ebp-14Ch]
-  char *other; // [esp+Ch] [ebp-140h] BYREF
-  boost::function<void __cdecl(void)> dispatch_callback; // [esp+10h] [ebp-13Ch] BYREF
-  vostok::fs_new::virtual_path_string virtual_path; // [esp+30h] [ebp-11Ch] BYREF
+  vostok::fixed_string<260> *v3; // ecx
+  char *requested_path; // eax
+  vostok::fixed_string<260> *v5; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v6; // ecx
+  boost::function<void __cdecl(void)> *v7; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v8; // ecx
+  boost::function<void __cdecl(void)> *v9; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v10; // ecx
+  bool v11; // al
+  int v12; // eax
+  vostok::resources::query_result *v13; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::resources_manager,bool>,boost::_bi::list2<boost::_bi::value<vostok::resources::resources_manager *>,boost::_bi::value<bool> > > v14; // [esp-10h] [ebp-170h]
+  boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::resources_manager,bool>,boost::_bi::list2<boost::_bi::value<vostok::resources::resources_manager *>,boost::_bi::value<bool> > > v15; // [esp-10h] [ebp-170h]
+  vostok::resources::reallocating_bool v16; // [esp+0h] [ebp-160h]
+  vostok::fs_new::virtual_path_string v17; // [esp+10h] [ebp-150h] BYREF
+  boost::function<void __cdecl(void)> f; // [esp+128h] [ebp-38h] BYREF
+  int v19; // [esp+150h] [ebp-10h]
+  void (__thiscall *v20)(vostok::resources::resources_manager *, vostok::resources::allocate_functionality *); // [esp+154h] [ebp-Ch]
+  vostok::resources::resources_manager *v21; // [esp+158h] [ebp-8h]
+  int v22; // [esp+15Ch] [ebp-4h]
 
-  cook = vostok::resources::resources_manager::find_cook((int)this, query->m_class_id);
-  if ( cook && (cook->m_flags.m_flags & 8) != 0 )
+  if ( vostok::resources::query_result::is_translate_query(
+         (vostok::resources::query_result *)this,
+         only_try_to_get_associated_resource) )
   {
-    if ( query->m_create_resource_result == result_requery )
+    if ( *(_DWORD *)(only_try_to_get_associated_resource + 260) == 4 )
     {
-      m_requery_path = query->m_requery_path;
-      if ( !m_requery_path )
-        m_requery_path = query->m_request_path;
-      other = m_requery_path;
-      vostok::fs_new::virtual_path_string::virtual_path_string(&virtual_path, (const char **)&other);
-      dispatch_callback.vtable = 0;
-      vostok::vfs::query_hot_mount_and_wait(
-        (vostok::vfs::virtual_file_system *)((char *)&loc_20600 + (_DWORD)this),
-        &virtual_path,
-        0,
-        &vostok::memory::g_resources_helper_allocator,
-        (vostok::intrusive_ptr<survarium::inventory_item,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&dispatch_callback);
-      if ( dispatch_callback.vtable && ((int)dispatch_callback.vtable & 1) == 0 )
+      if ( !*(_DWORD *)(only_try_to_get_associated_resource + 268)
+        && !*(_DWORD *)(only_try_to_get_associated_resource + 272) )
       {
-        v6 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)dispatch_callback.vtable & 0xFFFFFFFE);
-        if ( v6 )
-          v6(&dispatch_callback.functor, &dispatch_callback.functor, 2);
+        requested_path = (char *)vostok::resources::query_result_for_user::get_requested_path((vostok::resources::query_result_for_user *)only_try_to_get_associated_resource);
+        vostok::fixed_string<260>::fixed_string<260>(v5, &v17.m_string, requested_path);
+        v17.m_separator = 47;
+        f.vtable = 0;
+        vostok::vfs::query_hot_mount_and_wait(
+          (vostok::fs_new::native_path_string *)((char *)&loc_20608 + (_DWORD)query),
+          &v17,
+          &vostok::memory::g_resources_helper_allocator,
+          &f);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v6,
+          (int *)&f);
+      }
+      if ( *(_DWORD *)(only_try_to_get_associated_resource + 268) )
+      {
+        vostok::fixed_string<260>::fixed_string<260>(
+          v3,
+          &v17.m_string,
+          *(char **)(only_try_to_get_associated_resource + 268));
+        v21 = query;
+        LOBYTE(v19) = 0;
+        v22 = v19;
+        v20 = vostok::resources::resources_manager::dispatch_callbacks;
+        v14.l_.a1_.t_ = (vostok::resources::resources_manager *)vostok::resources::resources_manager::dispatch_callbacks;
+        *(_DWORD *)&v14.l_.a2_.t_ = query;
+        v14.f_.f_ = (void (__thiscall *)(vostok::resources::resources_manager *, bool))&f;
+        v17.m_separator = 47;
+        boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v7, v14, v19);
+        vostok::vfs::query_hot_mount_and_wait(
+          (vostok::fs_new::native_path_string *)((char *)&loc_20608 + (_DWORD)query),
+          &v17,
+          &vostok::memory::g_resources_helper_allocator,
+          &f);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v8,
+          (int *)&f);
+      }
+      if ( *(_DWORD *)(only_try_to_get_associated_resource + 272) )
+      {
+        vostok::fixed_string<260>::fixed_string<260>(
+          v3,
+          &v17.m_string,
+          *(char **)(only_try_to_get_associated_resource + 272));
+        v21 = query;
+        LOBYTE(v19) = 0;
+        v22 = v19;
+        v20 = vostok::resources::resources_manager::dispatch_callbacks;
+        v15.l_.a1_.t_ = (vostok::resources::resources_manager *)vostok::resources::resources_manager::dispatch_callbacks;
+        *(_DWORD *)&v15.l_.a2_.t_ = query;
+        v15.f_.f_ = (void (__thiscall *)(vostok::resources::resources_manager *, bool))&f;
+        v17.m_separator = 47;
+        boost::function<void __cdecl (void)>::function<void __cdecl (void)>(v9, v15, v19);
+        vostok::vfs::query_hot_mount_and_wait(
+          (vostok::fs_new::native_path_string *)((char *)&loc_20608 + (_DWORD)query),
+          &v17,
+          &vostok::memory::g_resources_helper_allocator,
+          &f);
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          v10,
+          (int *)&f);
       }
     }
-    vostok::resources::resources_manager::push_to_translate_query(query, this);
+    vostok::resources::resources_manager::push_to_translate_query(
+      (vostok::resources::query_result *)only_try_to_get_associated_resource,
+      query);
   }
   else
   {
-    v7 = query->m_creation_data_from_user.m_data || query->m_creation_data_from_user.m_size;
-    v8 = vostok::resources::query_result::consider_with_name_registry(
-           (vostok::resources::query_result *)!v7,
-           (vostok::resources::query_result::only_try_to_get_associated_resource_bool)query);
-    if ( v8 == consider_with_name_registry_result_error
-      || v8 == consider_with_name_registry_result_got_associated_resource )
+    v11 = *(_DWORD *)(only_try_to_get_associated_resource + 208)
+       || *(_DWORD *)(only_try_to_get_associated_resource + 212);
+    v12 = vostok::resources::query_result::consider_with_name_registry(
+            (vostok::resources::query_result *)!v11,
+            (char *)only_try_to_get_associated_resource,
+            !v11);
+    if ( !v12 || v12 == 4 )
     {
-      if ( !_InterlockedExchangeAdd(&query->m_query_end_guard, 0xFFFFFFFF) )
-        vostok::resources::query_result::end_query_might_destroy_this_impl(v9, query);
+      vostok::resources::query_result::end_query_might_destroy_this(v13, only_try_to_get_associated_resource);
     }
-    else if ( v8 != consider_with_name_registry_result_added_as_referer )
+    else if ( v12 != 2 )
     {
-      m_size = (vostok::resources::allocate_functionality *)query->m_creation_data_from_user.m_size;
-      if ( query->m_creation_data_from_user.m_data || m_size )
-        vostok::resources::allocate_functionality::prepare_raw_resource(query, 0, m_size, v11);
+      if ( *(_DWORD *)(only_try_to_get_associated_resource + 208)
+        || *(_DWORD *)(only_try_to_get_associated_resource + 212) )
+      {
+        vostok::resources::allocate_functionality::prepare_raw_resource(
+          (vostok::resources::query_result *)only_try_to_get_associated_resource,
+          0,
+          v16);
+      }
       else
-        vostok::resources::query_result::process_request_path(0, query, 0);
+      {
+        vostok::resources::query_result::process_request_path(
+          0,
+          (vostok::resources::query_result_for_user *)only_try_to_get_associated_resource,
+          0);
+      }
     }
   }
 }

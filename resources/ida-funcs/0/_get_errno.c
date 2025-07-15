@@ -1,4 +1,4 @@
-int __cdecl _get_errno(int *pValue)
+int __usercall _get_errno@<eax>(int a1@<ebx>, int a2@<edi>, int *pValue)
 {
   if ( pValue )
   {
@@ -7,7 +7,7 @@ int __cdecl _get_errno(int *pValue)
   }
   else
   {
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(a1, a2, 0);
     return 22;
   }
 }

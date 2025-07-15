@@ -1,20 +1,27 @@
-void __thiscall survarium::animation_analysis_result::~animation_analysis_result(
-        survarium::animation_analysis_result *this)
+void __usercall survarium::animation_analysis_result::~animation_analysis_result(
+        survarium::animation_analysis_result *this@<ecx>,
+        const char *a2@<esi>)
 {
-  vostok::memory::doug_lea_allocator *v1; // eax
-  survarium::leg_key_times *j; // [esp+Ch] [ebp-Ch]
-  survarium::leg_key_times *i; // [esp+14h] [ebp-4h]
+  void **p_m_buffer; // ebx
+  char *m_buffer; // eax
+  const char *v5; // [esp+0h] [ebp-8h]
+  unsigned int v6; // [esp+4h] [ebp-4h]
 
   this->__vftable = (survarium::animation_analysis_result_vtbl *)&survarium::animation_analysis_result::`vftable';
-  for ( i = this->m_leg_key_times.m_begin; i != this->m_leg_key_times.m_end; ++i )
-    ;
+  p_m_buffer = &this->m_buffer;
   this->m_leg_key_times.m_end = this->m_leg_key_times.m_begin;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)&this->m_leg_key_times);
-  ___free_helper_Vdoug_lea_allocator_memory_vostok____CBX_memory_vostok__YAXAAVdoug_lea_allocator_01_AAPBX_Z(
-    v1,
-    &this->m_buffer);
-  for ( j = this->m_leg_key_times.m_begin; j != this->m_leg_key_times.m_end; ++j )
-    ;
+  m_buffer = (char *)this->m_buffer;
+  if ( m_buffer )
+  {
+    vostok::memory::doug_lea_allocator::free_impl(
+      (vostok::memory::doug_lea_allocator *)this,
+      (int)survarium::g_allocator,
+      m_buffer,
+      a2,
+      v5,
+      v6);
+    *p_m_buffer = 0;
+  }
   this->m_leg_key_times.m_end = this->m_leg_key_times.m_begin;
   vostok::resources::unmanaged_resource::~unmanaged_resource(this);
 }

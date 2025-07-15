@@ -1,92 +1,79 @@
-int __userpurge vostok::render::res_sampler_list::compare@<eax>(
-        const vostok::render::res_sampler_list *base@<edi>,
-        vostok::render::res_sampler_list *this)
+int __usercall vostok::render::res_sampler_list::compare@<eax>(
+        vostok::render::res_sampler_list *this@<edx>,
+        const vostok::render::res_sampler_list *base@<eax>)
 {
-  vostok::render::res_sampler_list *v2; // ebx
   unsigned int v3; // ecx
-  int v4; // esi
-  vostok::render::res_sampler_list **v5; // eax
-  vostok::sound::sound_world_vtbl **v6; // ebp
-  vostok::sound::sound_world_vtbl **v7; // ebp
-  unsigned int v9; // [esp+Ch] [ebp-4h] BYREF
+  unsigned int v4; // ebx
+  ID3D11SamplerState **m_begin; // edx
+  char *v6; // eax
+  unsigned int v7; // edi
 
-  v2 = this;
-  v3 = this->m_samplers._M_impl._M_finish - this->m_samplers._M_impl._M_start;
+  if ( ((((char *)this->m_samplers.m_end - (char *)this->m_samplers.m_begin)
+       ^ ((char *)base->m_samplers.m_end - (char *)base->m_samplers.m_begin))
+      & 0xFFFFFFFC) == 0 )
+    goto LABEL_6;
+  if ( this->m_samplers.m_end - this->m_samplers.m_begin < (unsigned int)(base->m_samplers.m_end
+                                                                        - base->m_samplers.m_begin) )
+    return -1;
+  if ( this->m_samplers.m_end - this->m_samplers.m_begin > (unsigned int)(base->m_samplers.m_end
+                                                                        - base->m_samplers.m_begin) )
+    return 1;
+LABEL_6:
+  v3 = base->m_samplers.m_end - base->m_samplers.m_begin;
   v4 = 0;
-  this = (vostok::render::res_sampler_list *)(base->m_samplers._M_impl._M_finish - base->m_samplers._M_impl._M_start);
-  v9 = v3;
-  v5 = &this;
-  if ( (unsigned int)this >= v3 )
-    v5 = (vostok::render::res_sampler_list **)&v9;
-  this = *v5;
-  if ( this )
+  if ( !v3 )
+    return 0;
+  m_begin = this->m_samplers.m_begin;
+  v6 = (char *)((char *)base->m_samplers.m_begin - (char *)m_begin);
+  while ( 1 )
   {
-    while ( 1 )
-    {
-      v6 = (vostok::sound::sound_world_vtbl **)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)&v2->m_samplers._M_impl._M_start[v4]);
-      if ( *v6 < boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)&base->m_samplers._M_impl._M_start[v4])->__vftable )
-        break;
-      v7 = (vostok::sound::sound_world_vtbl **)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)&v2->m_samplers._M_impl._M_start[v4]);
-      if ( *v7 > boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)&base->m_samplers._M_impl._M_start[v4])->__vftable )
-        return 1;
-      if ( ++v4 >= (unsigned int)this )
-        goto LABEL_7;
-    }
+    v7 = *(unsigned int *)((char *)m_begin + (_DWORD)v6);
+    if ( (unsigned int)*m_begin < v7 )
+      return -1;
+    if ( (unsigned int)*m_begin > v7 )
+      break;
+    ++v4;
+    ++m_begin;
+    if ( v4 >= v3 )
+      return 0;
   }
-  else
-  {
-LABEL_7:
-    if ( v2->m_samplers._M_impl._M_finish - v2->m_samplers._M_impl._M_start >= (unsigned int)(base->m_samplers._M_impl._M_finish
-                                                                                            - base->m_samplers._M_impl._M_start) )
-      return base->m_samplers._M_impl._M_finish - base->m_samplers._M_impl._M_start < (unsigned int)(v2->m_samplers._M_impl._M_finish - v2->m_samplers._M_impl._M_start);
-  }
-  return -1;
+  return 1;
 }
 
 
-int __thiscall vostok::render::res_sampler_list::compare(
-        vostok::render::res_sampler_list *this,
-        const vostok::render::res_sampler_list *base,
-        int *count)
+int __usercall vostok::render::res_sampler_list::compare@<eax>(
+        vostok::render::res_sampler_list *this@<ecx>,
+        const vostok::fixed_vector<vostok::render::sampler_slot,16> *base@<eax>)
 {
-  int v4; // ecx
+  vostok::render::sampler_slot *m_begin; // esi
+  unsigned int v3; // eax
   unsigned int v5; // ebx
-  const vostok::fixed_vector<vostok::render::sampler_slot,16> *v6; // edx
-  unsigned int v7; // eax
-  unsigned int v8; // esi
-  int v9; // edi
-  vostok::sound::sound_world *v10; // eax
-  unsigned int counta; // [esp+18h] [ebp+8h]
+  ID3D11SamplerState **v6; // ecx
+  ID3D11SamplerState **i; // edx
 
-  v4 = *count;
-  v5 = (count[1] - *count) / 84;
-  v6 = (const vostok::fixed_vector<vostok::render::sampler_slot,16> *)base;
-  v7 = base->m_samplers._M_impl._M_finish - base->m_samplers._M_impl._M_start;
-  v8 = 0;
-  counta = v7;
-  if ( !v5 )
-    return 0;
-  v9 = 0;
-  while ( v8 >= v7 )
-  {
-    if ( *(_DWORD *)(v9 + v4 + 76) != -1 )
-      return -1;
-LABEL_8:
-    ++v8;
-    v9 += 84;
-    if ( v8 >= v5 )
-      return 0;
-  }
-  if ( boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)(&v6->m_end->name.vostok::buffer_vector<vostok::render::sampler_slot>::m_begin
-                                                                                   + v8))->__vftable < (vostok::sound::sound_world_vtbl *)*(_DWORD *)(v9 + *count + 80) )
+  m_begin = base->m_begin;
+  v3 = base->m_end - base->m_begin;
+  if ( this->m_samplers.m_end - this->m_samplers.m_begin == v3 )
+    goto LABEL_6;
+  if ( this->m_samplers.m_end - this->m_samplers.m_begin < v3 )
     return -1;
-  v10 = boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)&base->m_samplers._M_impl._M_start[v8]);
-  v4 = *count;
-  if ( v10->__vftable <= (vostok::sound::sound_world_vtbl *)*(_DWORD *)(v9 + *count + 80) )
+  if ( this->m_samplers.m_end - this->m_samplers.m_begin > v3 )
+    return 1;
+LABEL_6:
+  v5 = 0;
+  if ( !v3 )
+    return 0;
+  v6 = this->m_samplers.m_begin;
+  for ( i = &m_begin->state; ; i += 21 )
   {
-    v6 = (const vostok::fixed_vector<vostok::render::sampler_slot,16> *)base;
-    v7 = counta;
-    goto LABEL_8;
+    if ( *v6 < *i )
+      return -1;
+    if ( *v6 > *i )
+      break;
+    ++v5;
+    ++v6;
+    if ( v5 >= v3 )
+      return 0;
   }
   return 1;
 }

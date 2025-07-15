@@ -1,10 +1,10 @@
 void __thiscall vostok::resources::query_resources_and_wait_callback_proxy_pred::callback(
         vostok::resources::query_resources_and_wait_callback_proxy_pred *this,
-        vostok::resources::queries_result *result)
+        vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> *result)
 {
-  boost::function1<void,vostok::render::ambient_volume_properties const &>::operator()(
-    (boost::function1<void,char const *> *)this,
+  boost::function1<bool,vostok::fs_new::synchronous_device_interface &>::operator()(
+    (boost::function1<void,vostok::memory::single_size_buffer_allocator<16,vostok::threading::single_threading_policy> const &> *)this,
     &this->callback_.vtable,
-    (const char *)result);
+    result);
   this->receieved_callback_ = 1;
 }

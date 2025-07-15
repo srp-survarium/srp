@@ -1,30 +1,13 @@
 void __thiscall btSoftBody::CJoint::Terminate(btSoftBody::CJoint *this, float dt)
 {
-  btRigidBody *m_rigid; // edx
-  btVector3 *p_m_sdrift; // ebx
-  btRigidBody *v5; // edx
-  const btVector3 *v6; // esi
-  btSoftBody::Cluster *m_soft; // edi
-  btVector3 impulse; // [esp+0h] [ebp-10h] BYREF
+  btVector3 v3; // [esp+0h] [ebp-10h] BYREF
 
   if ( this->m_split > 0.0 )
   {
-    m_rigid = this->m_bodies[0].m_rigid;
-    p_m_sdrift = &this->m_sdrift;
-    impulse.mVec128.m128_f32[0] = -this->m_sdrift.mVec128.m128_f32[0];
-    impulse.mVec128.m128_f32[1] = -this->m_sdrift.mVec128.m128_f32[1];
-    impulse.mVec128.m128_f32[2] = -this->m_sdrift.mVec128.m128_f32[2];
-    impulse.mVec128.m128_i32[3] = 0;
-    if ( m_rigid )
-      btRigidBody::applyImpulse(m_rigid, &impulse, this->m_rpos);
-    if ( this->m_bodies[0].m_soft )
-      btSoftBody::clusterDImpulse(&impulse, this->m_rpos, this->m_bodies[0].m_soft);
-    v5 = this->m_bodies[1].m_rigid;
-    v6 = &this->m_rpos[1];
-    if ( v5 )
-      btRigidBody::applyImpulse(v5, &this->m_sdrift, v6);
-    m_soft = this->m_bodies[1].m_soft;
-    if ( m_soft )
-      btSoftBody::clusterDImpulse(p_m_sdrift, v6, m_soft);
+    v3.mVec128.m128_i32[0] = this->m_sdrift.mVec128.m128_i32[0] ^ _mask__NegFloat_;
+    v3.mVec128.m128_i32[1] = this->m_sdrift.mVec128.m128_i32[1] ^ _mask__NegFloat_;
+    v3.mVec128.m128_u64[1] = this->m_sdrift.mVec128.m128_u32[2] ^ (unsigned __int64)(unsigned int)_mask__NegFloat_;
+    btSoftBody::Body::applyDImpulse(this->m_bodies, this->m_rpos, &v3);
+    btSoftBody::Body::applyDImpulse(&this->m_bodies[1], &this->m_rpos[1], &this->m_sdrift);
   }
 }

@@ -59,7 +59,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::scrol
     Scaleform::GFx::AS3::ASVM::_constructInstance(
       (Scaleform::GFx::AS3::ASVM *)this->pTraits.pObject->pVM,
       result,
-      (Scaleform::GFx::AS3::Object *)this->pTraits.pObject->pVM[1].ScopeStack.Data.Policy.Capacity,
+      (Scaleform::GFx::AS3::Object *)this->pTraits.pObject->pVM[1].ScopeStack.Data.Size,
       4u,
       argv);
     v13 = (Scaleform::GFx::AS3::Value *)&vars0;
@@ -89,7 +89,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::DisplayObject::scrol
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

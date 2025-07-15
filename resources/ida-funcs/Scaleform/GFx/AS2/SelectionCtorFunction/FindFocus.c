@@ -63,25 +63,25 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::FindFocus(const Scalefo
   Scaleform::GFx::ASStringNode *pNode; // ecx
   bool v62; // zf
   Scaleform::GFx::ASStringNode *v63; // ecx
-  Scaleform::GFx::AS2::Environment *Env; // [esp+C50h] [ebp-F4h]
-  Scaleform::GFx::AS2::Environment *v65; // [esp+C50h] [ebp-F4h]
-  Scaleform::GFx::AS2::Environment *v66; // [esp+C50h] [ebp-F4h]
-  __int16 v67; // [esp+C64h] [ebp-E0h]
-  float v68; // [esp+C64h] [ebp-E0h]
-  unsigned __int8 v69; // [esp+C6Ah] [ebp-DAh]
-  char v70; // [esp+C6Bh] [ebp-D9h]
-  Scaleform::GFx::ASString v71; // [esp+C6Ch] [ebp-D8h] BYREF
-  unsigned int v72; // [esp+C70h] [ebp-D4h]
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+C74h] [ebp-D0h] BYREF
-  Scaleform::GFx::DisplayObject *v74; // [esp+C78h] [ebp-CCh]
-  Scaleform::RefCountWeakSupportImpl *v75; // [esp+C7Ch] [ebp-C8h]
-  Scaleform::GFx::MovieImpl *v76; // [esp+C80h] [ebp-C4h]
-  Scaleform::GFx::AS2::Value v77; // [esp+C84h] [ebp-C0h] BYREF
-  Scaleform::GFx::ProcessFocusKeyInfo pfocusInfo; // [esp+C94h] [ebp-B0h] BYREF
-  Scaleform::GFx::InputEventsQueueEntry::KeyEntry keyEntry; // [esp+CC8h] [ebp-7Ch] BYREF
-  Scaleform::GFx::FocusGroupDescr pfocusGroup; // [esp+CD4h] [ebp-70h] BYREF
-  _BYTE v81[16]; // [esp+D14h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> v82; // [esp+D24h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp+0h] [ebp-F4h]
+  Scaleform::GFx::AS2::Environment *v65; // [esp+0h] [ebp-F4h]
+  Scaleform::GFx::AS2::Environment *v66; // [esp+0h] [ebp-F4h]
+  __int16 v67; // [esp+14h] [ebp-E0h]
+  float v68; // [esp+14h] [ebp-E0h]
+  unsigned __int8 v69; // [esp+1Ah] [ebp-DAh]
+  bool v70; // [esp+1Bh] [ebp-D9h]
+  Scaleform::GFx::ASString v71; // [esp+1Ch] [ebp-D8h] BYREF
+  unsigned int controllerIdx; // [esp+20h] [ebp-D4h]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+24h] [ebp-D0h] BYREF
+  Scaleform::GFx::DisplayObject *v74; // [esp+28h] [ebp-CCh]
+  Scaleform::RefCountWeakSupportImpl *v75; // [esp+2Ch] [ebp-C8h]
+  Scaleform::GFx::MovieImpl *v76; // [esp+30h] [ebp-C4h]
+  Scaleform::GFx::AS2::Value v77; // [esp+34h] [ebp-C0h] BYREF
+  Scaleform::GFx::ProcessFocusKeyInfo pfocusInfo; // [esp+44h] [ebp-B0h] BYREF
+  Scaleform::GFx::InputEventsQueueEntry::KeyEntry keyEntry; // [esp+78h] [ebp-7Ch] BYREF
+  Scaleform::GFx::FocusGroupDescr v80; // [esp+84h] [ebp-70h] BYREF
+  _BYTE v81[16]; // [esp+C4h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> v82; // [esp+D4h] [ebp-20h] BYREF
 
   v1 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v1);
@@ -89,12 +89,12 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::FindFocus(const Scalefo
   NArgs = fn->NArgs;
   if ( !NArgs )
     return;
-  v72 = 0;
+  controllerIdx = 0;
   if ( NArgs >= 6 )
   {
     Env = fn->Env;
     v3 = Scaleform::GFx::AS2::FnCall::Arg(fn, 5);
-    v72 = Scaleform::GFx::AS2::Value::ToUInt32(v3, Env);
+    controllerIdx = Scaleform::GFx::AS2::Value::ToUInt32(v3, Env);
   }
   v4 = fn->NArgs < 4;
   v5 = fn->Env;
@@ -106,8 +106,8 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::FindFocus(const Scalefo
     || Scaleform::GFx::AS2::FnCall::Arg(fn, 3)->T.Type == 1 )
   {
     Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
-      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[v72]].LastFocused,
-      (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+      (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[controllerIdx]].LastFocused,
+      &result);
     pObject = result.pObject;
     if ( result.pObject )
     {
@@ -135,7 +135,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::FindFocus(const Scalefo
   {
     v65 = fn->Env;
     v11 = Scaleform::GFx::AS2::FnCall::Arg(fn, 4);
-    LOBYTE(result.pObject) = Scaleform::GFx::AS2::Value::ToBool(v11, v65);
+    LOBYTE(result.pObject) = Scaleform::GFx::AS2::Value::ToBool(v11, (int)fn, v65);
   }
   v12 = fn->Env;
   v13 = 0;
@@ -157,7 +157,7 @@ LABEL_32:
       v16 = v77.T.Type;
       if ( v77.T.Type < 2u || v77.T.Type == 10 )
       {
-        ModalClip = Scaleform::GFx::MovieImpl::GetModalClip(v76, v72);
+        ModalClip = Scaleform::GFx::MovieImpl::GetModalClip(v76, controllerIdx);
         if ( ModalClip )
           ++ModalClip->RefCount;
         v14 = ModalClip;
@@ -182,7 +182,7 @@ LABEL_32:
     {
       v66 = fn->Env;
       v19 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-      v70 = Scaleform::GFx::AS2::Value::ToBool(v19, v66);
+      v70 = Scaleform::GFx::AS2::Value::ToBool(v19, (int)fn, v66);
     }
     pfocusInfo.Prev_aRect.x1 = 0.0;
     pfocusInfo.Prev_aRect.y1 = 0.0;
@@ -192,12 +192,12 @@ LABEL_32:
     pfocusInfo.Prev_aRect.y2 = 0.0;
     memset(&pfocusInfo.PrevKeyCode, 0, 13);
     keyEntry.Code = v67;
-    keyEntry.KeyboardIndex = v72;
-    v72 = v67;
+    keyEntry.KeyboardIndex = controllerIdx;
+    controllerIdx = v67;
     v20 = fn->Env;
     pfocusInfo.CurFocusIdx = -1;
     keyEntry.KeysState = v69;
-    Scaleform::GFx::FocusGroupDescr::FocusGroupDescr(&pfocusGroup, v20->StringContext.pContext->pHeap);
+    Scaleform::GFx::FocusGroupDescr::FocusGroupDescr(&v80, v20->StringContext.pContext->pHeap);
     v21 = v74;
     if ( v14 )
     {
@@ -209,10 +209,10 @@ LABEL_32:
     {
       CharacterHandle = 0;
     }
-    v23 = pfocusGroup.ModalClip.pObject;
-    if ( pfocusGroup.ModalClip.pObject )
+    v23 = v80.ModalClip.pObject;
+    if ( v80.ModalClip.pObject )
     {
-      --pfocusGroup.ModalClip.pObject->RefCount;
+      --v80.ModalClip.pObject->RefCount;
       v24 = v23;
       if ( v23->RefCount <= 0 )
       {
@@ -220,38 +220,38 @@ LABEL_32:
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v24);
       }
     }
-    pfocusGroup.ModalClip.pObject = CharacterHandle;
+    v80.ModalClip.pObject = CharacterHandle;
     v25 = (Scaleform::GFx::InteractiveObject *)v75;
     if ( v75 )
     {
       WeakProxy = Scaleform::RefCountWeakSupportImpl::CreateWeakProxy(v75);
-      v27 = pfocusGroup.LastFocused.pProxy.pObject;
-      if ( pfocusGroup.LastFocused.pProxy.pObject )
+      v27 = v80.LastFocused.pProxy.pObject;
+      if ( v80.LastFocused.pProxy.pObject )
       {
-        --pfocusGroup.LastFocused.pProxy.pObject->RefCount;
+        --v80.LastFocused.pProxy.pObject->RefCount;
         if ( !v27->RefCount )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v27);
       }
-      pfocusGroup.LastFocused.pProxy.pObject = WeakProxy;
+      v80.LastFocused.pProxy.pObject = WeakProxy;
     }
     else
     {
-      v28 = pfocusGroup.LastFocused.pProxy.pObject;
-      if ( pfocusGroup.LastFocused.pProxy.pObject )
+      v28 = v80.LastFocused.pProxy.pObject;
+      if ( v80.LastFocused.pProxy.pObject )
       {
-        --pfocusGroup.LastFocused.pProxy.pObject->RefCount;
+        --v80.LastFocused.pProxy.pObject->RefCount;
         if ( !v28->RefCount )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v28);
       }
-      pfocusGroup.LastFocused.pProxy.pObject = 0;
+      v80.LastFocused.pProxy.pObject = 0;
     }
     v29 = v76;
-    Scaleform::GFx::MovieImpl::InitFocusKeyInfo(v76, &pfocusInfo, &keyEntry, result, COERCE_FLOAT(&pfocusGroup));
+    Scaleform::GFx::MovieImpl::InitFocusKeyInfo(v76, &pfocusInfo, &keyEntry, result, COERCE_FLOAT(&v80));
     pfocusInfo.ManualFocus = 1;
     Scaleform::GFx::MovieImpl::ProcessFocusKey(v29, KeyDown, &keyEntry, &pfocusInfo);
     if ( !pfocusInfo.CurFocused.pObject || pfocusInfo.CurFocused.pObject == v25 )
     {
-      if ( v70 && pfocusGroup.TabableArray.Data.Size )
+      if ( v70 && v80.TabableArray.Data.Size )
       {
         if ( v67 == 9 )
         {
@@ -259,20 +259,20 @@ LABEL_32:
           if ( (v69 & 1) != 0 )
             Scaleform::GFx::AS2::Value::SetAsCharacter(
               v30,
-              pfocusGroup.TabableArray.Data.Data[pfocusGroup.TabableArray.Data.Size - 1].pObject);
+              v80.TabableArray.Data.Data[v80.TabableArray.Data.Size - 1].pObject);
           else
-            Scaleform::GFx::AS2::Value::SetAsCharacter(v30, pfocusGroup.TabableArray.Data.Data->pObject);
+            Scaleform::GFx::AS2::Value::SetAsCharacter(v30, v80.TabableArray.Data.Data->pObject);
         }
         else
         {
           v31 = 0;
           v32 = 0;
           v68 = 1.1754944e-38;
-          result.pObject = (Scaleform::GFx::Sprite *)pfocusGroup.TabableArray.Data.Size;
+          result.pObject = (Scaleform::GFx::Sprite *)v80.TabableArray.Data.Size;
           do
           {
-            v33 = pfocusGroup.TabableArray.Data.Data[v32].pObject;
-            v34 = &pfocusGroup.TabableArray.Data.Data[v32];
+            v33 = v80.TabableArray.Data.Data[v32].pObject;
+            v34 = &v80.TabableArray.Data.Data[v32];
             if ( v33 )
               ++v33->RefCount;
             v35 = v34->pObject;
@@ -287,8 +287,8 @@ LABEL_32:
               v36 = (__m128 *)((int (__thiscall *)(Scaleform::GFx::DisplayObjectBase *, _BYTE *))v35->Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable[1].UpdateTransform3D)(
                                 v35,
                                 v81);
-              Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v82, (Scaleform::Render::Rect<float> *)&v77, v36);
-              switch ( v72 )
+              Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v82, (__m128 *)&v77, v36);
+              switch ( controllerIdx )
               {
                 case '%':
                   v53 = v68 < 1.1754944e-38;
@@ -353,7 +353,7 @@ LABEL_84:
             ++v32;
           }
           while ( v32 < (unsigned int)result.pObject );
-          Scaleform::GFx::AS2::Value::SetAsCharacter(fn->Result, pfocusGroup.TabableArray.Data.Data[v31].pObject);
+          Scaleform::GFx::AS2::Value::SetAsCharacter(fn->Result, v80.TabableArray.Data.Data[v31].pObject);
           v21 = v74;
           v25 = (Scaleform::GFx::InteractiveObject *)v75;
         }
@@ -369,7 +369,7 @@ LABEL_84:
     {
       Scaleform::GFx::AS2::Value::SetAsCharacter(fn->Result, pfocusInfo.CurFocused.pObject);
     }
-    Scaleform::GFx::FocusGroupDescr::~FocusGroupDescr(&pfocusGroup);
+    Scaleform::GFx::FocusGroupDescr::~FocusGroupDescr(&v80);
     if ( pfocusInfo.CurFocused.pObject )
       Scaleform::RefCountNTSImpl::Release(pfocusInfo.CurFocused.pObject);
     if ( v21 )

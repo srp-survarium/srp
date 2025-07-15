@@ -15,7 +15,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Stage::focusGet(
   v2 = this->pTraits.pObject->pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM;
   Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)v2 + 16 * *((unsigned __int8 *)v2 + 16212) + 3801,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&v10);
+    &v10);
   pObject = v10.pObject;
   if ( !v10.pObject )
     goto LABEL_13;
@@ -55,7 +55,7 @@ LABEL_13:
       else
       {
         RefCount = v8->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v8->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

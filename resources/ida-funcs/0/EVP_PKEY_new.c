@@ -1,4 +1,4 @@
-evp_pkey_st *__cdecl EVP_PKEY_new()
+evp_pkey_st *__usercall EVP_PKEY_new@<eax>(int a1@<ebx>)
 {
   evp_pkey_st *result; // eax
 
@@ -16,7 +16,7 @@ evp_pkey_st *__cdecl EVP_PKEY_new()
   }
   else
   {
-    ERR_put_error(6u, 106, 65, ".\\crypto\\evp\\p_lib.c", 189);
+    ERR_put_error(a1, 6u, 106, 65, ".\\crypto\\evp\\p_lib.c", 189);
     return 0;
   }
   return result;

@@ -1,23 +1,26 @@
-void __userpurge vostok::strings::detail::tuples::concat(char *result@<eax>, vostok::strings::detail::tuples *this)
+void __userpurge vostok::strings::detail::tuples::concat(
+        vostok::strings::detail::tuples *this@<ecx>,
+        int a2@<esi>,
+        char *result)
 {
-  unsigned int v3; // ebp
-  unsigned __int8 *v4; // esi
-  unsigned int *p_second; // edi
+  unsigned __int8 *v3; // edi
+  unsigned int *v4; // ebx
+  unsigned int dst; // [esp+Ch] [ebp+8h]
 
-  memcpy((unsigned __int8 *)result, (unsigned __int8 *)this->m_strings[0].first, this->m_strings[0].second);
-  v3 = 1;
-  v4 = (unsigned __int8 *)&result[this->m_strings[0].second];
-  if ( this->m_count > 1 )
+  memcpy((unsigned __int8 *)result, *(unsigned __int8 **)a2, *(_DWORD *)(a2 + 4));
+  v3 = (unsigned __int8 *)&result[*(_DWORD *)(a2 + 4)];
+  dst = 1;
+  if ( *(_DWORD *)(a2 + 48) > 1u )
   {
-    p_second = &this->m_strings[1].second;
+    v4 = (unsigned int *)(a2 + 12);
     do
     {
-      memcpy(v4, (unsigned __int8 *)*(p_second - 1), *p_second);
-      v4 += *p_second;
-      ++v3;
-      p_second += 2;
+      memcpy(v3, (unsigned __int8 *)*(v4 - 1), *v4);
+      v3 += *v4;
+      ++dst;
+      v4 += 2;
     }
-    while ( v3 < this->m_count );
+    while ( dst < *(_DWORD *)(a2 + 48) );
   }
-  *v4 = 0;
+  *v3 = 0;
 }

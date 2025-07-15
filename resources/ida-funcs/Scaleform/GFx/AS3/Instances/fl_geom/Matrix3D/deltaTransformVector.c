@@ -9,7 +9,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::deltaTransfor
   Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
   long double v7; // st6
   long double v8; // st5
-  Scaleform::GFx::AS3::Instances::fl::Catch *v9; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v9; // eax
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v10; // esi
   Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *v11; // ecx
   unsigned int RefCount; // eax
@@ -27,14 +27,14 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::deltaTransfor
     pdOuta = v->x;
     pdOut_8a = v->y;
     pdOut_16a = v->z;
-    memcpy((unsigned __int8 *)&mat4NoTrans, (unsigned __int8 *)&this->mat4, sizeof(mat4NoTrans));
+    memcpy((int)&mat4NoTrans, (const __m128i *)&this->mat4, sizeof(mat4NoTrans));
     pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)v->pTraits.pObject;
     v7 = pdOut_8a;
     v8 = pdOuta;
     pdOut = mat4NoTrans.M[0][2] * pdOut_16a + mat4NoTrans.M[0][1] * pdOut_8a + mat4NoTrans.M[0][0] * pdOuta + 0.0;
     pdOut_8 = mat4NoTrans.M[1][1] * pdOut_8a + mat4NoTrans.M[1][0] * v8 + mat4NoTrans.M[1][2] * pdOut_16a + 0.0;
     pdOut_16 = pdOut_16a * mat4NoTrans.M[2][2] + v8 * mat4NoTrans.M[2][0] + v7 * mat4NoTrans.M[2][1] + 0.0;
-    v9 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
+    v9 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
     v10 = (Scaleform::GFx::AS3::Instances::fl_geom::Vector3D *)v9;
     if ( v9 )
     {
@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_geom::Matrix3D::deltaTransfor
           return;
         }
         RefCount = v11->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           v11->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);

@@ -9,7 +9,9 @@ Scaleform::GFx::DisplayObjContainer *__thiscall Scaleform::GFx::DisplayObjContai
 }
 
 
-void *__thiscall Scaleform::GFx::DisplayObjContainer::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::GFx::DisplayObjContainer *__thiscall Scaleform::GFx::DisplayObjContainer::`vector deleting destructor'(
+        char *this,
+        char a2)
 {
   return Scaleform::GFx::DisplayObjContainer::`vector deleting destructor'(
            (Scaleform::GFx::DisplayObjContainer *)(this - 12),

@@ -56,9 +56,9 @@ unsigned __int8 *__cdecl ASN1_item_ex_i2d(
       if ( templates )
         return (unsigned __int8 *)asn1_template_ex_i2d(pval, out, templates, tag, aclass);
       else
-        return (unsigned __int8 *)asn1_i2d_ex_primitive(it, pval, out, tag, aclass);
+        return (unsigned __int8 *)asn1_i2d_ex_primitive(it, (asn1_string_st **)pval, out, tag, aclass);
     case 1:
-      goto $LN44_2;
+      goto $LN44_3;
     case 2:
       if ( v8 && !v8(6, pval, it, 0) )
         return 0;
@@ -87,11 +87,11 @@ unsigned __int8 *__cdecl ASN1_item_ex_i2d(
                                   tag,
                                   aclass);
     case 5:
-      return (unsigned __int8 *)asn1_i2d_ex_primitive(it, pval, out, -1, aclass);
+      return (unsigned __int8 *)asn1_i2d_ex_primitive(it, (asn1_string_st **)pval, out, -1, aclass);
     case 6:
       if ( (aclass & 0x800) != 0 )
         constructed = 2;
-$LN44_2:
+$LN44_3:
       v15 = out;
       v16 = asn1_enc_restore(&len, out, pval, it);
       if ( v16 < 0 )

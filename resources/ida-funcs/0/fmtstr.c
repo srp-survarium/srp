@@ -1,7 +1,7 @@
 void __fastcall fmtstr(
         unsigned int *maxlen,
         char **buffer,
-        char **sbuffer,
+        const __m128i **sbuffer,
         unsigned int *currlen,
         char *value,
         char flags,
@@ -11,9 +11,9 @@ void __fastcall fmtstr(
   int v11; // eax
   int v12; // ebp
   char i; // al
-  int cnt; // [esp+24h] [ebp+14h]
+  int v14; // [esp+24h] [ebp+14h]
 
-  cnt = 0;
+  v14 = 0;
   if ( !value )
     value = "<NULL>";
   v11 = 0;
@@ -30,23 +30,23 @@ void __fastcall fmtstr(
     v12 = -v12;
   for ( ; v12 > 0; --v12 )
   {
-    if ( cnt >= max )
+    if ( v14 >= max )
       break;
     doapr_outch(sbuffer, buffer, maxlen, currlen, 32);
-    ++cnt;
+    ++v14;
   }
   for ( i = *value; *value; i = *++value )
   {
-    if ( cnt >= max )
+    if ( v14 >= max )
       break;
     doapr_outch(sbuffer, buffer, maxlen, currlen, i);
-    ++cnt;
+    ++v14;
   }
   for ( ; v12 < 0; ++v12 )
   {
-    if ( cnt >= max )
+    if ( v14 >= max )
       break;
     doapr_outch(sbuffer, buffer, maxlen, currlen, 32);
-    ++cnt;
+    ++v14;
   }
 }

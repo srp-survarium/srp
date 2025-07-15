@@ -1,82 +1,80 @@
 void __thiscall boost::asio::detail::win_iocp_io_service::shutdown_service(
         boost::asio::detail::win_iocp_io_service *this)
 {
-  _OVERLAPPED *v2; // [esp+28h] [ebp-4Ch]
-  _DWORD v3[2]; // [esp+2Ch] [ebp-48h] BYREF
-  _DWORD v4[2]; // [esp+34h] [ebp-40h] BYREF
-  boost::asio::detail::win_iocp_operation *next; // [esp+3Ch] [ebp-38h]
-  boost::asio::detail::win_iocp_operation *v6; // [esp+40h] [ebp-34h]
-  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *p_completed_ops; // [esp+44h] [ebp-30h]
-  boost::asio::detail::win_iocp_operation *front; // [esp+48h] [ebp-2Ch]
-  boost::asio::detail::timer_queue_base *i; // [esp+4Ch] [ebp-28h]
-  _OVERLAPPED *overlapped; // [esp+54h] [ebp-20h] BYREF
-  unsigned int completion_key; // [esp+58h] [ebp-1Ch] BYREF
-  unsigned int bytes_transferred; // [esp+5Ch] [ebp-18h] BYREF
-  boost::asio::detail::win_iocp_operation *op; // [esp+60h] [ebp-14h]
-  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> ops; // [esp+64h] [ebp-10h] BYREF
-  _LARGE_INTEGER timeout; // [esp+6Ch] [ebp-8h] BYREF
+  LONG i; // eax
+  boost::asio::detail::win_thread *v3; // ecx
+  boost::asio::detail::timer_queue_base *first; // esi
+  unsigned int LowPart; // eax
+  unsigned int v6; // esi
+  unsigned int *v7; // eax
+  boost::asio::detail::win_iocp_operation *v8; // ecx
+  boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *v9; // ecx
+  boost::asio::detail::win_iocp_operation *v10; // ecx
+  boost::asio::detail::win_thread *p; // ebx
+  void *handle; // [esp-18h] [ebp-38h]
+  void *v13; // [esp-14h] [ebp-34h]
+  LPOVERLAPPED Overlapped; // [esp+Ch] [ebp-14h] BYREF
+  unsigned int CompletionKey; // [esp+10h] [ebp-10h] BYREF
+  unsigned int NumberOfBytesTransferred; // [esp+14h] [ebp-Ch] BYREF
+  LARGE_INTEGER DueTime; // [esp+18h] [ebp-8h] BYREF
 
   InterlockedExchange(&this->shutdown_, 1);
   if ( this->timer_thread_.p_ )
   {
-    timeout.QuadPart = 1;
-    SetWaitableTimer(this->waitable_timer_.handle, &timeout, 1, 0, 0, 0);
+    handle = this->waitable_timer_.handle;
+    DueTime.QuadPart = 1;
+    SetWaitableTimer(handle, &DueTime, 1, 0, 0, 0);
   }
-  while ( InterlockedExchangeAdd(&this->outstanding_work_, 0) > 0 )
+  for ( i = InterlockedExchangeAdd(&this->outstanding_work_, 0);
+        i > 0;
+        i = InterlockedExchangeAdd(&this->outstanding_work_, 0) )
   {
-    survarium::weapon_core::cast_weapon_core((survarium::game_options *)&ops);
-    ops.front_ = 0;
-    ops.back_ = 0;
-    for ( i = this->timer_queues_.first_; i; i = i->next_ )
-      i->get_all_timers(i, &ops);
-    p_completed_ops = &this->completed_ops_;
-    front = this->completed_ops_.front_;
-    if ( front )
+    first = this->timer_queues_.first_;
+    DueTime.QuadPart = 0;
+    while ( first )
     {
-      if ( ops.back_ )
-        ops.back_->next_ = front;
-      else
-        ops.front_ = front;
-      ops.back_ = p_completed_ops->back_;
-      p_completed_ops->front_ = 0;
-      p_completed_ops->back_ = 0;
+      first->get_all_timers(first, (boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *)&DueTime);
+      first = first->next_;
     }
-    if ( ops.front_ )
+    boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::push<boost::asio::detail::win_iocp_operation>(
+      (boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation> *)&DueTime,
+      &this->completed_ops_);
+    LowPart = DueTime.LowPart;
+    if ( DueTime.LowPart )
     {
-      while ( 1 )
+      v6 = DueTime.LowPart;
+      do
       {
-        op = ops.front_;
-        if ( !ops.front_ )
-          break;
-        v6 = ops.front_;
-        next = ops.front_->next_;
-        ops.front_ = next;
-        if ( !next )
-          ops.back_ = 0;
-        v6->next_ = 0;
+        v7 = (unsigned int *)(LowPart + 20);
+        DueTime.LowPart = *v7;
+        if ( !DueTime.LowPart )
+          DueTime.QuadPart = 0;
+        *v7 = 0;
         InterlockedDecrement(&this->outstanding_work_);
-        v4[0] = 0;
-        v4[1] = boost::system::system_category();
-        op->func_(0, op, (const boost::system::error_code *)v4, 0);
+        boost::asio::detail::win_iocp_operation::destroy(v8, v6);
+        LowPart = DueTime.LowPart;
+        v6 = DueTime.LowPart;
       }
+      while ( DueTime.LowPart );
     }
     else
     {
-      bytes_transferred = 0;
-      completion_key = 0;
-      overlapped = 0;
-      GetQueuedCompletionStatus(this->iocp_.handle, &bytes_transferred, &completion_key, &overlapped, 0x1F4u);
-      if ( overlapped )
+      v13 = this->iocp_.handle;
+      NumberOfBytesTransferred = 0;
+      CompletionKey = 0;
+      Overlapped = 0;
+      GetQueuedCompletionStatus(v13, &NumberOfBytesTransferred, &CompletionKey, &Overlapped, 0x1F4u);
+      if ( Overlapped )
       {
         InterlockedDecrement(&this->outstanding_work_);
-        v2 = overlapped;
-        v3[0] = 0;
-        v3[1] = boost::system::system_category();
-        ((void (__cdecl *)(_DWORD, _OVERLAPPED *, _DWORD *, _DWORD))v2[1].InternalHigh)(0, v2, v3, 0);
+        boost::asio::detail::win_iocp_operation::destroy(v10, (int)Overlapped);
       }
     }
-    boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>((boost::asio::detail::op_queue<boost::asio::detail::timer_op> *)&ops);
+    boost::asio::detail::op_queue<boost::asio::detail::win_iocp_operation>::~op_queue<boost::asio::detail::win_iocp_operation>(
+      v9,
+      (int *)&DueTime);
   }
-  if ( this->timer_thread_.p_ )
-    boost::asio::detail::win_thread::join(this->timer_thread_.p_);
+  p = this->timer_thread_.p_;
+  if ( p )
+    boost::asio::detail::win_thread::join(v3, (int)p);
 }

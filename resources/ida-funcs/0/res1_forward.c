@@ -1,14 +1,14 @@
 int __cdecl res1_forward(
         oggpack_buffer *opb,
         vorbis_block *vb,
-        vorbis_block *vl,
+        _DWORD **vl,
         int **in,
-        int *nonzero,
+        char *nonzero,
         int ch,
         int **partword)
 {
-  int v7; // esi
-  int **v8; // ecx
+  int v7; // edi
+  int **v8; // esi
   int **v9; // eax
 
   v7 = ch;
@@ -18,7 +18,7 @@ int __cdecl res1_forward(
   v9 = in;
   do
   {
-    if ( *(int **)((char *)v9 + (char *)nonzero - (char *)in) )
+    if ( *(int **)((char *)v9 + nonzero - (char *)in) )
     {
       in[(_DWORD)v8] = *v9;
       v8 = (int **)((char *)v8 + 1);
@@ -28,7 +28,7 @@ int __cdecl res1_forward(
   }
   while ( v7 );
   if ( v8 )
-    return 01forward(opb, vl, in, v8, partword);
+    return 01forward(vl, opb, (vorbis_block *)in, v8, (char *)partword);
   else
     return 0;
 }

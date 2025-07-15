@@ -6,34 +6,34 @@ char __cdecl Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(
   Scaleform::String *v3; // esi
   char v5; // bl
   unsigned int FirstCharAt; // eax
-  char *pData; // eax
+  __m128i *pData; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
-  char *v9; // eax
+  __m128i *v9; // eax
   Scaleform::GFx::ASStringNode *v10; // eax
   bool v11; // zf
-  Scaleform::StringBuffer *p_name; // ecx
-  char *v13; // eax
+  Scaleform::StringBuffer *v12; // ecx
+  __m128i *v13; // eax
   Scaleform::GFx::ASStringNode *v14; // esi
-  char *v15; // eax
+  __m128i *v15; // eax
   Scaleform::GFx::ASStringNode *v16; // eax
   char v17; // [esp+Fh] [ebp-49h] BYREF
   Scaleform::GFx::ASStringNode *v18; // [esp+10h] [ebp-48h] BYREF
-  const char *pstr; // [esp+14h] [ebp-44h] BYREF
+  char *v19; // [esp+14h] [ebp-44h] BYREF
   Scaleform::GFx::AS2::Value v20; // [esp+18h] [ebp-40h] BYREF
-  Scaleform::StringBuffer name; // [esp+28h] [ebp-30h] BYREF
-  Scaleform::StringBuffer value; // [esp+40h] [ebp-18h] BYREF
+  Scaleform::StringBuffer v21; // [esp+28h] [ebp-30h] BYREF
+  Scaleform::StringBuffer v22; // [esp+40h] [ebp-18h] BYREF
 
-  Scaleform::StringBuffer::StringBuffer(&name, Scaleform::Memory::pGlobalHeap);
-  Scaleform::StringBuffer::StringBuffer(&value, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v21, Scaleform::Memory::pGlobalHeap);
+  Scaleform::StringBuffer::StringBuffer(&v22, Scaleform::Memory::pGlobalHeap);
   v3 = data;
   if ( (*(_DWORD *)(data->HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF) == 0 )
   {
-    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&value);
-    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&name);
+    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v22);
+    Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v21);
     return 0;
   }
   v5 = 1;
-  FirstCharAt = Scaleform::String::GetFirstCharAt(data, 0, &pstr);
+  FirstCharAt = Scaleform::String::GetFirstCharAt(data, 0, &v19);
   if ( FirstCharAt )
   {
     while ( 1 )
@@ -44,26 +44,26 @@ char __cdecl Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(
       }
       else if ( FirstCharAt == 38 )
       {
-        pData = value.pData;
-        if ( !value.pData )
-          pData = (char *)&buf;
+        pData = (__m128i *)v22.pData;
+        if ( !v22.pData )
+          pData = (__m128i *)uri;
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                        (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                        pData,
-                       value.Size);
+                       v22.Size);
         v5 = 1;
         ++StringNode->RefCount;
         v20.T.Type = 5;
         v20.NV.Int32Value = (int)StringNode;
         ++StringNode->RefCount;
-        v9 = name.pData;
+        v9 = (__m128i *)v21.pData;
         v17 = 0;
-        if ( !name.pData )
-          v9 = (char *)&buf;
+        if ( !v21.pData )
+          v9 = (__m128i *)uri;
         v18 = Scaleform::GFx::ASStringManager::CreateStringNode(
                 (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
                 v9,
-                name.Size);
+                v21.Size);
         ++v18->RefCount;
         pchar->SetMember(
           pchar,
@@ -80,8 +80,8 @@ char __cdecl Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(
         v11 = StringNode->RefCount-- == 1;
         if ( v11 )
           Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-        Scaleform::StringBuffer::Clear(&name);
-        Scaleform::StringBuffer::Clear(&value);
+        Scaleform::StringBuffer::Clear(&v21);
+        Scaleform::StringBuffer::Clear(&v22);
         v3 = data;
         goto LABEL_24;
       }
@@ -89,42 +89,42 @@ char __cdecl Scaleform::GFx::AS2::LoadVarsProto::LoadVariables(
         break;
       if ( FirstCharAt != 61 )
       {
-        p_name = &name;
+        v12 = &v21;
 LABEL_23:
-        Scaleform::StringBuffer::AppendChar(p_name, FirstCharAt);
+        Scaleform::StringBuffer::AppendChar(v12, FirstCharAt);
         goto LABEL_24;
       }
       v5 = 0;
 LABEL_24:
-      FirstCharAt = Scaleform::String::GetNextChar(v3, &pstr);
+      FirstCharAt = Scaleform::String::GetNextChar(v3, &v19);
       if ( !FirstCharAt )
         goto LABEL_25;
     }
-    p_name = &value;
+    v12 = &v22;
     goto LABEL_23;
   }
 LABEL_25:
-  if ( Scaleform::StringBuffer::GetLength(&name) )
+  if ( Scaleform::StringBuffer::GetLength(&v21) )
   {
-    v13 = value.pData;
-    if ( !value.pData )
-      v13 = (char *)&buf;
+    v13 = (__m128i *)v22.pData;
+    if ( !v22.pData )
+      v13 = (__m128i *)uri;
     v14 = Scaleform::GFx::ASStringManager::CreateStringNode(
             (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
             v13,
-            value.Size);
+            v22.Size);
     ++v14->RefCount;
     v20.T.Type = 5;
     v20.NV.Int32Value = (int)v14;
     ++v14->RefCount;
-    v15 = name.pData;
+    v15 = (__m128i *)v21.pData;
     LOBYTE(data) = 0;
-    if ( !name.pData )
-      v15 = (char *)&buf;
+    if ( !v21.pData )
+      v15 = (__m128i *)uri;
     v18 = Scaleform::GFx::ASStringManager::CreateStringNode(
             (Scaleform::GFx::ASStringManager *)penv->StringContext.pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
             v15,
-            name.Size);
+            v21.Size);
     ++v18->RefCount;
     pchar->SetMember(
       pchar,
@@ -142,7 +142,7 @@ LABEL_25:
     if ( v11 )
       Scaleform::GFx::ASStringNode::ReleaseNode(v14);
   }
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&value);
-  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&name);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v22);
+  Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>::~Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>((Scaleform::Array<char,2,Scaleform::ArrayDefaultPolicy> *)&v21);
   return 1;
 }

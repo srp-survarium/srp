@@ -12,20 +12,20 @@ char __cdecl Scaleform::GFx::AS2::AsBroadcaster::AddListener(
   Scaleform::GFx::AS2::Value *v9; // ecx
   unsigned int RefCount; // eax
   unsigned int v12; // eax
-  Scaleform::GFx::AS2::Value listenersVal; // [esp+Ch] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Value v13; // [esp+Ch] [ebp-20h] BYREF
   Scaleform::GFx::AS2::Value val; // [esp+1Ch] [ebp-10h] BYREF
 
   if ( !pthis || !plistener )
     return 0;
   pContext = penv->StringContext.pContext;
   v4 = pthis->__vftable;
-  listenersVal.T.Type = 0;
+  v13.T.Type = 0;
   if ( !((unsigned __int8 (__stdcall *)(Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::MovieImpl **, Scaleform::GFx::AS2::Value *))v4->GetMemberRaw)(
           &penv->StringContext,
           &pContext->pMovieRoot->pASMovieRoot.pObject[24].pMovieImpl,
-          &listenersVal) )
+          &v13) )
     goto LABEL_14;
-  v5 = Scaleform::GFx::AS2::Value::ToObject(&listenersVal, penv);
+  v5 = Scaleform::GFx::AS2::Value::ToObject(&v13, penv);
   v6 = (Scaleform::GFx::AS2::ArrayObject *)v5;
   if ( !v5 || v5->GetObjectType(&v5->Scaleform::GFx::AS2::ObjectInterface) != Object_Array )
     goto LABEL_14;
@@ -41,14 +41,14 @@ LABEL_10:
     if ( val.T.Type >= 5u )
       Scaleform::GFx::AS2::Value::DropRefs(&val);
     RefCount = v6->RefCount;
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFFF) != 0 )
     {
       v6->RefCount = RefCount - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
     }
 LABEL_14:
-    if ( listenersVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&listenersVal);
+    if ( v13.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v13);
     return 1;
   }
   while ( 1 )
@@ -63,12 +63,12 @@ LABEL_14:
       goto LABEL_10;
   }
   v12 = v6->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) != 0 )
+  if ( (v12 & 0x3FFFFFF) != 0 )
   {
     v6->RefCount = v12 - 1;
     Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);
   }
-  if ( listenersVal.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&listenersVal);
+  if ( v13.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v13);
   return 0;
 }

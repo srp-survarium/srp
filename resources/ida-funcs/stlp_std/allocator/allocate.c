@@ -21,9 +21,9 @@ _STLP_atomic_freelist::item *__thiscall stlp_std::allocator<wchar_t>::allocate(
 
   if ( __n > 0x7FFFFFFF )
   {
-    std::exception::exception(&pExceptionObject, &bad_alloc_Message_6, 1);
+    std::exception::exception(&pExceptionObject, &bad_alloc_Message_3, 1);
     pExceptionObject.__vftable = (std::exception_vtbl *)&std::bad_alloc::`vftable';
-    _CxxThrowException(&pExceptionObject, &_TI2_AVbad_alloc_std__);
+    _CxxThrowException((DWORD)&pExceptionObject, &_TI2_AVbad_alloc_std__);
   }
   if ( !__n )
     return 0;

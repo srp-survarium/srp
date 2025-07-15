@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS2::Environment::SetVariableRaw(
   Scaleform::GFx::InteractiveObject *Target; // eax
   int v17; // eax
   Scaleform::GFx::InteractiveObject_vtbl **v18; // ecx
-  Scaleform::GFx::AS2::Value dummy; // [esp+10h] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v19; // [esp+10h] [ebp-10h] BYREF
 
   v4 = pwithStack;
   if ( !pwithStack || (v6 = pwithStack->Data.Size - 1, v6 < 0) )
@@ -78,19 +78,19 @@ LABEL_3:
     }
     v12 = 0;
 LABEL_13:
-    dummy.T.Type = 0;
+    v19.T.Type = 0;
     if ( !v12 )
       goto LABEL_17;
     if ( (*(unsigned __int8 (__thiscall **)(int, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::ASString *, Scaleform::GFx::AS2::Value *))(*(_DWORD *)v12 + 16))(
            v12,
            this,
            varname,
-           &dummy) )
+           &v19) )
     {
       break;
     }
-    if ( dummy.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&dummy);
+    if ( v19.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v19);
 LABEL_17:
     if ( --v6 < 0 )
       goto LABEL_3;
@@ -99,6 +99,6 @@ LABEL_17:
   v15 = *(void (__thiscall **)(int, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::ASString *, const Scaleform::GFx::AS2::Value *, const Scaleform::ArrayLH_POD<Scaleform::GFx::AS2::WithStackEntry,323,Scaleform::ArrayDefaultPolicy> **))(*(_DWORD *)v12 + 12);
   LOBYTE(pwithStack) = 0;
   v15(v12, this, varname, val, &pwithStack);
-  if ( dummy.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&dummy);
+  if ( v19.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v19);
 }

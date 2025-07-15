@@ -1,11 +1,11 @@
-int __usercall ungetc@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int ch, _iobuf *stream)
+int __usercall ungetc@<eax>(int a1@<ebx>, int a2@<edi>, int ch, _iobuf *stream)
 {
   int retval; // [esp+10h] [ebp-1Ch]
 
   if ( stream )
   {
     _lock_file(stream);
-    retval = _ungetc_nolock(a1, ch, stream);
+    retval = _ungetc_nolock(a1, a2, ch, stream);
     _unlock_file(stream);
     return retval;
   }

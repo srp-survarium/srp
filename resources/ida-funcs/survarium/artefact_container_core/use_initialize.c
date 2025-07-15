@@ -1,18 +1,14 @@
-char __thiscall survarium::artefact_container_core::use_initialize(
+void __thiscall survarium::artefact_container_core::use_initialize(
         survarium::artefact_container_core *this,
-        survarium::game_camera *user)
+        vostok::intrusive_list<survarium::usable_object_user_data,survarium::usable_object_user_data *,20,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *user)
 {
-  BOOL v2; // ecx
+  survarium::usable_object_user_data *m_last; // eax
 
-  v2 = this->m_usable_object_users.m_first == 0;
-  if ( !v2 )
-    return 0;
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)v2);
-  vostok::intrusive_list<survarium::usable_object_user_data,survarium::usable_object_user_data *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-    (vostok::intrusive_list<vostok::ai::sensed_visual_object,vostok::ai::sensed_visual_object *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&this->m_usable_object_users,
+  vostok::intrusive_list<survarium::usable_object_user_data,survarium::usable_object_user_data *,20,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
     user,
-    0);
-  LODWORD(user->m_inverted_view_matrix.i.x) = this;
-  user->m_inverted_view_matrix.i.y = user->m_inverted_view_matrix.i.z;
-  return 1;
+    &this->m_usable_object_users.m_size);
+  m_last = user->m_last;
+  user[1].m_size = 0;
+  *(_DWORD *)&user->gap4 = this;
+  user->m_first = m_last;
 }

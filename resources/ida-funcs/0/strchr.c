@@ -35,7 +35,7 @@ main_loop:
         if ( (((v4 + 2130640639) ^ ~v4) & 0x81010100) != 0 )
           break;
         v7 = v6 & 0x81010100;
-        if ( v7 && (((unsigned int)&vostok::memory::s_CRT_arena[5639992] & v7) != 0 || (v5 & 0x80000000) == 0) )
+        if ( v7 && ((v7 & 0x1010100) != 0 || (v5 & 0x80000000) == 0) )
           return;
       }
       v8 = *((_DWORD *)v2 - 1);

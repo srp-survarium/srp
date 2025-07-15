@@ -14,7 +14,7 @@ Scaleform::Semaphore *__thiscall Scaleform::Semaphore::`vector deleting destruct
 }
 
 
-void *__thiscall Scaleform::Semaphore::`vector deleting destructor'(char *this, unsigned int a2)
+Scaleform::Semaphore *__thiscall Scaleform::Semaphore::`vector deleting destructor'(char *this, char a2)
 {
   return Scaleform::Semaphore::`vector deleting destructor'((Scaleform::Semaphore *)(this - 12), a2);
 }

@@ -59,7 +59,7 @@ void __thiscall Scaleform::GFx::AS3::XMLParser::SetNodeKind(
         {
           RefCount = ptr_el.pObject->RefCount;
           v10 = ptr_el.pObject;
-          if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFF) != 0 )
           {
             ptr_el.pObject->RefCount = RefCount - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

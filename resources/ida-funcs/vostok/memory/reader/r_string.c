@@ -1,16 +1,11 @@
-const char *__usercall vostok::memory::reader::r_string@<eax>(vostok::memory::reader *this@<ecx>, _DWORD *a2@<esi>)
+const char *__fastcall vostok::memory::reader::r_string(vostok::memory::reader *this, _DWORD *a2)
 {
   const char *result; // eax
-  int v3; // edx
-  const char *i; // ecx
+  const char *i; // esi
 
   result = (const char *)a2[1];
-  v3 = *a2 + a2[2];
-  for ( i = result; i != (const char *)v3; ++i )
-  {
-    if ( !*i )
-      break;
-  }
+  for ( i = result; i != (const char *)(*a2 + a2[2]) && *i; ++i )
+    ;
   a2[1] = i + 1;
   return result;
 }

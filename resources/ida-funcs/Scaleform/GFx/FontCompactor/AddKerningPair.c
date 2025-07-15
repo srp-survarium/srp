@@ -14,7 +14,7 @@ void __thiscall Scaleform::GFx::FontCompactor::AddKerningPair(
   int v12; // ebx
   Scaleform::GFx::FontCompactor::KerningPairType *v13; // edi
   int v14; // eax
-  int kp; // [esp+Ch] [ebp-8h]
+  int v15; // [esp+Ch] [ebp-8h]
 
   v4 = char1;
   p_GlyphCodes = &this->GlyphCodes;
@@ -35,16 +35,16 @@ void __thiscall Scaleform::GFx::FontCompactor::AddKerningPair(
     {
       p_KerningTable = &this->KerningTable;
       v11 = this->KerningTable.Size >> 6;
-      HIWORD(kp) = v8;
+      HIWORD(v15) = v8;
       v12 = adjustment;
-      LOWORD(kp) = v4;
+      LOWORD(v15) = v4;
       if ( v11 >= p_KerningTable->NumPages )
         Scaleform::ArrayPagedBase<Scaleform::GFx::FontCompactor::ContourType,6,64,Scaleform::AllocatorPagedGH_POD<Scaleform::GFx::FontCompactor::ContourType,261>>::allocatePage(
           p_KerningTable,
           v11);
       v13 = p_KerningTable->Pages[v11];
       v14 = p_KerningTable->Size & 0x3F;
-      *(_DWORD *)&v13[v14].Char1 = kp;
+      *(_DWORD *)&v13[v14].Char1 = v15;
       v13[v14].Adjustment = v12;
       ++p_KerningTable->Size;
     }

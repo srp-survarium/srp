@@ -25,31 +25,31 @@ void __thiscall Scaleform::GFx::StaticTextSnapshotData::Visit(
   double v22; // st7
   float *v23; // eax
   int v24; // eax
-  unsigned int v25; // [esp+BB8h] [ebp-ECh]
-  float v26; // [esp+BB8h] [ebp-ECh]
-  float radians; // [esp+BB8h] [ebp-ECh]
-  float v28; // [esp+BB8h] [ebp-ECh]
-  float v29; // [esp+BB8h] [ebp-ECh]
-  unsigned int v30; // [esp+BBCh] [ebp-E8h]
-  Scaleform::Render::Font *v31; // [esp+BBCh] [ebp-E8h]
-  float OffsetX; // [esp+BC0h] [ebp-E4h]
-  Scaleform::Render::Text::LineBuffer::GlyphEntry *v33; // [esp+BC0h] [ebp-E4h]
-  int Advance; // [esp+BC0h] [ebp-E4h]
-  float v35; // [esp+BC4h] [ebp-E0h]
-  int v36; // [esp+BC8h] [ebp-DCh]
-  unsigned int v37; // [esp+BCCh] [ebp-D8h]
-  Scaleform::GFx::StaticTextSnapshotData *v38; // [esp+BD0h] [ebp-D4h]
-  Scaleform::Render::Matrix2x4<float> v39; // [esp+BD4h] [ebp-D0h] BYREF
-  float v40; // [esp+BFCh] [ebp-A8h]
-  unsigned int Size; // [esp+C00h] [ebp-A4h]
-  float *v42; // [esp+C04h] [ebp-A0h]
-  float v43; // [esp+C08h] [ebp-9Ch]
-  float v44; // [esp+C0Ch] [ebp-98h]
-  Scaleform::Render::Text::LineBuffer *v45; // [esp+C10h] [ebp-94h]
-  unsigned int v46; // [esp+C18h] [ebp-8Ch]
-  Scaleform::Render::Rect<float> r; // [esp+C24h] [ebp-80h] BYREF
-  Scaleform::Render::Text::LineBuffer::GlyphIterator v48; // [esp+C34h] [ebp-70h] BYREF
-  Scaleform::Render::Rect<float> pr; // [esp+C94h] [ebp-10h] BYREF
+  unsigned int v25; // [esp+18h] [ebp-ECh]
+  float v26; // [esp+18h] [ebp-ECh]
+  float radians; // [esp+18h] [ebp-ECh]
+  float v28; // [esp+18h] [ebp-ECh]
+  float v29; // [esp+18h] [ebp-ECh]
+  unsigned int v30; // [esp+1Ch] [ebp-E8h]
+  Scaleform::Render::Font *v31; // [esp+1Ch] [ebp-E8h]
+  float OffsetX; // [esp+20h] [ebp-E4h]
+  Scaleform::Render::Text::LineBuffer::GlyphEntry *v33; // [esp+20h] [ebp-E4h]
+  int Advance; // [esp+20h] [ebp-E4h]
+  float v35; // [esp+24h] [ebp-E0h]
+  int v36; // [esp+28h] [ebp-DCh]
+  unsigned int v37; // [esp+2Ch] [ebp-D8h]
+  Scaleform::GFx::StaticTextSnapshotData *v38; // [esp+30h] [ebp-D4h]
+  Scaleform::Render::Matrix2x4<float> v39; // [esp+34h] [ebp-D0h] BYREF
+  float v40; // [esp+5Ch] [ebp-A8h]
+  unsigned int Size; // [esp+60h] [ebp-A4h]
+  float *v42; // [esp+64h] [ebp-A0h]
+  float v43; // [esp+68h] [ebp-9Ch]
+  float v44; // [esp+6Ch] [ebp-98h]
+  Scaleform::Render::Text::LineBuffer *v45; // [esp+70h] [ebp-94h]
+  unsigned int v46; // [esp+78h] [ebp-8Ch]
+  __m128 v47; // [esp+84h] [ebp-80h] BYREF
+  Scaleform::Render::Text::LineBuffer::GlyphIterator v48; // [esp+94h] [ebp-70h] BYREF
+  Scaleform::Render::Rect<float> v49; // [esp+F4h] [ebp-10h] BYREF
 
   v38 = this;
   if ( pvisitor )
@@ -149,17 +149,17 @@ void __thiscall Scaleform::GFx::StaticTextSnapshotData::Visit(
               v39.M[1][3] = v29 + v39.M[1][3];
               pvisitor->Matrix = v39;
               LOWORD(v24) = v33->Index;
-              r.x1 = 0.0;
-              r.y1 = 0.0;
-              r.x2 = 0.0;
-              r.y2 = 0.0;
+              v47.m128_f32[0] = 0.0;
+              v47.m128_f32[1] = 0.0;
+              v47.m128_f32[2] = 0.0;
+              v47.m128_f32[3] = 0.0;
               if ( (_WORD)v24 == 0xFFFF )
                 v24 = -1;
               else
                 v24 = (unsigned __int16)v24;
-              v31->GetGlyphBounds(v31, v24, &r);
-              Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v39, &pr, (__m128 *)&r);
-              pvisitor->Corners = pr;
+              v31->GetGlyphBounds(v31, v24, (Scaleform::Render::Rect<float> *)&v47);
+              Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v39, (__m128 *)&v49, &v47);
+              pvisitor->Corners = v49;
               pvisitor->bSelected = Scaleform::GFx::StaticTextSnapshotData::IsSelected(v38, v19, v19 + 1);
               pvisitor->OnVisit(pvisitor);
               ++v37;

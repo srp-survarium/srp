@@ -12,11 +12,11 @@ void __thiscall Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(
   int v10; // eax
 
   RefCount = this->RefCount;
-  if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) == 0 )
+  if ( (RefCount & 0x3FFFFFF) == 0 )
   {
     if ( (RefCount & 0x8000000) != 0 )
     {
-      this->RefCount = (unsigned int)&vostok::memory::s_CRT_arena[55905848] | RefCount;
+      this->RefCount = RefCount | 0x4000000;
       return;
     }
     pRCC = this->pRCC;

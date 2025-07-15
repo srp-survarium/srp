@@ -1,4 +1,4 @@
-void __usercall nc_match_single(GENERAL_NAME_st *gen@<edx>, unsigned int a2@<ebx>, GENERAL_NAME_st *base)
+void __usercall nc_match_single(GENERAL_NAME_st *gen@<edx>, int a2@<ebx>, int a3@<edi>, GENERAL_NAME_st *base)
 {
   switch ( base->type )
   {
@@ -6,7 +6,7 @@ void __usercall nc_match_single(GENERAL_NAME_st *gen@<edx>, unsigned int a2@<ebx
       nc_email(gen->d.rfc822Name, base->d.rfc822Name);
       break;
     case 2:
-      nc_dns(gen->d.rfc822Name);
+      nc_dns((int *)base->d.ptr, a2, a3, gen->d.rfc822Name);
       break;
     case 4:
       nc_dn(gen->d.directoryName, base->d.directoryName);

@@ -1,4 +1,4 @@
-tm *__usercall OPENSSL_gmtime@<eax>(unsigned int a1@<ebx>, const __int64 *timer, tm *result)
+tm *__usercall OPENSSL_gmtime@<eax>(int a1@<ebx>, const __int64 *timer, tm *result)
 {
   tm *v3; // eax
   tm *v4; // esi

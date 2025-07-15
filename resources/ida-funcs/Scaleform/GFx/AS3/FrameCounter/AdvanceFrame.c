@@ -4,23 +4,37 @@ void __userpurge Scaleform::GFx::AS3::FrameCounter::AdvanceFrame(
         bool nextFrame,
         float framePos)
 {
+  Scaleform::GFx::MovieImpl *pMovieImpl; // ecx
   Scaleform::GFx::AS3::MovieRoot *pObject; // esi
-  Scaleform::GFx::AS3::ASVM *v6; // eax
+  Scaleform::AmpStats *Stats; // esi
+  Scaleform::AmpStats_vtbl *v8; // edi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::AmpFunctionTimer _amp_timer_; // [esp+8h] [ebp-10h] BYREF
 
-  pObject = (Scaleform::GFx::AS3::MovieRoot *)this->pASRoot->pMovieImpl->pASMovieRoot.pObject;
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_,
+    this->pASRoot->pMovieImpl->AdvanceStats.pObject,
+    "FrameCounter::AdvanceFrame",
+    Amp_Profile_Level_Medium,
+    Amp_Native_Function_Id_Invalid);
+  pMovieImpl = this->pASRoot->pMovieImpl;
+  pObject = (Scaleform::GFx::AS3::MovieRoot *)pMovieImpl->pASMovieRoot.pObject;
   if ( nextFrame )
   {
-    if ( pObject->ASFramesToExecute )
-    {
-      Scaleform::GFx::AS3::VM::ExecuteCode(pObject->pAVM.pObject, pObject->ASFramesToExecute);
-      v6 = pObject->pAVM.pObject;
-      if ( v6->HandleException )
-        v6->HandleException = 0;
-      pObject->ASFramesToExecute = 0;
-    }
+    Scaleform::GFx::AS3::MovieRoot::ExecuteCtors((Scaleform::GFx::AS3::MovieRoot *)pMovieImpl->pASMovieRoot.pObject);
     Scaleform::GFx::AS3::MovieRoot::ExecuteActionQueue(pObject, a2, AL_Highest);
     Scaleform::GFx::AS3::MovieRoot::ExecuteActionQueue(pObject, a2, AL_High);
     Scaleform::GFx::AS3::FrameCounter::QueueFrameActions(this);
     Scaleform::GFx::AS3::MovieRoot::RequeueActionQueue(pObject, AL_Count_, AL_Frame);
+  }
+  Stats = _amp_timer_.Stats;
+  if ( _amp_timer_.Stats )
+  {
+    v8 = _amp_timer_.Stats->__vftable;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))v8->NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(_amp_timer_.StartTicks),
+      (ProfileTicks - _amp_timer_.StartTicks) >> 32);
   }
 }

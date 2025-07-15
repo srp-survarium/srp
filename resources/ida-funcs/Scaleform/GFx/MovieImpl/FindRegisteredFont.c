@@ -1,18 +1,18 @@
 Scaleform::GFx::FontResource *__thiscall Scaleform::GFx::MovieImpl::FindRegisteredFont(
         Scaleform::GFx::MovieImpl *this,
-        const char *pfontName,
+        char *pfontName,
         __int16 matchFontFlags,
         Scaleform::GFx::MovieDef **ppsrcMovieDef)
 {
   unsigned int Size; // edx
   int v6; // edi
   Scaleform::Render::Font *pObject; // ecx
-  const char *v8; // eax
-  unsigned int n; // [esp+10h] [ebp-4h]
+  char *v8; // eax
+  unsigned int v10; // [esp+10h] [ebp-4h]
 
   Size = this->RegisteredFonts.Data.Size;
   v6 = 0;
-  n = Size;
+  v10 = Size;
   if ( !Size )
     return 0;
   while ( 1 )
@@ -24,10 +24,10 @@ LABEL_5:
     if ( ++v6 >= Size )
       return 0;
   }
-  v8 = pObject->GetName(pObject);
+  v8 = (char *)pObject->GetName(pObject);
   if ( Scaleform::String::CompareNoCase(v8, pfontName) )
   {
-    Size = n;
+    Size = v10;
     goto LABEL_5;
   }
   *ppsrcMovieDef = this->RegisteredFonts.Data.Data[v6].pMovieDef.pObject;

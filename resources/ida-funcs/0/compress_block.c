@@ -111,7 +111,7 @@ void __usercall compress_block(internal_state *s@<eax>, ct_data_s *ltree, ct_dat
         }
         v26 = v5 - 1;
         if ( v26 >= 0x100 )
-          v27 = (unsigned __int8)byte_88F848[v26 >> 7];
+          v27 = (unsigned __int8)byte_7332C8[v26 >> 7];
         else
           v27 = _dist_code[v26];
         dad = dtree[v27].dl.dad;

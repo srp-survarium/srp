@@ -47,7 +47,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::LoaderInfo::ExecuteI
       {
         RefCount = obj->RefCount;
         v7 = obj;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           obj->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v7);

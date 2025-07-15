@@ -14,20 +14,20 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::AddInterface(
   Scaleform::GFx::AS2::RefCountBaseGC<323> *pObject; // ecx
   unsigned int RefCount; // eax
   unsigned int v14; // eax
-  Scaleform::GFx::AS2::Value prototypeVal; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v15; // [esp+Ch] [ebp-10h] BYREF
 
   if ( this->pInterfaces || pinterface )
   {
     pContext = psc->pContext;
     v8 = pinterface->Scaleform::GFx::AS2::Object::Scaleform::GFx::AS2::ObjectInterface::__vftable;
-    prototypeVal.T.Type = 0;
+    v15.T.Type = 0;
     if ( v8->GetMemberRaw(
            &pinterface->Scaleform::GFx::AS2::ObjectInterface,
            psc,
            (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[23].pASSupport,
-           &prototypeVal) )
+           &v15) )
     {
-      v9 = Scaleform::GFx::AS2::Value::ToObject(&prototypeVal, 0);
+      v9 = Scaleform::GFx::AS2::Value::ToObject(&v15, 0);
       v10 = v9;
       if ( v9 )
         v9->RefCount = (v9->RefCount + 1) & 0x8FFFFFFF;
@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::AddInterface(
       if ( v11->pObject )
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -48,15 +48,15 @@ void __thiscall Scaleform::GFx::AS2::GASPrototypeBase::AddInterface(
       if ( v10 )
       {
         v14 = v10->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v14) != 0 )
+        if ( (v14 & 0x3FFFFFF) != 0 )
         {
           v10->RefCount = v14 - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v10);
         }
       }
     }
-    if ( prototypeVal.T.Type >= 5u )
-      Scaleform::GFx::AS2::Value::DropRefs(&prototypeVal);
+    if ( v15.T.Type >= 5u )
+      Scaleform::GFx::AS2::Value::DropRefs(&v15);
   }
   else
   {

@@ -1,68 +1,88 @@
 vostok::math::quaternion *__usercall slerp_optimized@<eax>(
         const vostok::math::quaternion *q0@<ecx>,
         const vostok::math::quaternion *q1@<eax>,
-        _QWORD *a3@<esi>,
-        float t)
+        vostok::math::quaternion *t,
+        float a4)
 {
-  float y; // xmm2_4
-  float z; // xmm6_4
-  float v6; // xmm3_4
-  float w; // xmm5_4
-  float v8; // xmm4_4
-  float v9; // xmm0_4
-  float v10; // xmm1_4
-  float v11; // xmm0_4
-  float v12; // xmm0_4
-  float i_sinom; // [esp+4h] [ebp-40h]
-  float i_sinoma; // [esp+4h] [ebp-40h]
-  float sign; // [esp+8h] [ebp-3Ch]
-  float t_omega; // [esp+Ch] [ebp-38h]
-  float t_omegaa; // [esp+Ch] [ebp-38h]
-  float Scale0; // [esp+10h] [ebp-34h]
-  __int64 v20; // [esp+28h] [ebp-1Ch]
-  float x; // [esp+30h] [ebp-14h]
-  __int64 v22; // [esp+34h] [ebp-10h]
-  __int64 v23; // [esp+3Ch] [ebp-8h]
+  float z; // xmm5_4
+  __m128 y_low; // xmm6
+  float v6; // xmm2_4
+  float y; // xmm1_4
+  float w; // xmm4_4
+  float v9; // xmm3_4
+  __m128 v10; // xmm0
+  float v11; // xmm7_4
+  __m128i v12; // xmm0
+  float v13; // xmm1_4
+  __m128 v14; // xmm0
+  __m128i v15; // xmm0
+  float v16; // xmm0_4
+  float v17; // xmm0_4
+  vostok::math::quaternion *result; // eax
+  float v19; // [esp+10h] [ebp-50h]
+  float v20; // [esp+18h] [ebp-48h]
+  float x; // [esp+1Ch] [ebp-44h]
+  float v22; // [esp+20h] [ebp-40h]
+  float v23; // [esp+20h] [ebp-40h]
+  float v24; // [esp+24h] [ebp-3Ch]
+  float v25; // [esp+28h] [ebp-38h]
+  float v26; // [esp+2Ch] [ebp-34h]
 
-  y = q0->y;
   z = q1->z;
+  y_low = (__m128)LODWORD(q1->y);
   v6 = q0->z;
+  y = q0->y;
   w = q1->w;
-  v8 = q0->w;
-  v20 = *(_QWORD *)&q1->x;
-  v9 = (float)((float)((float)(q1->x * q0->x) + (float)(q1->y * y)) + (float)(z * v6)) + (float)(w * v8);
+  v9 = q0->w;
   x = q0->x;
-  i_sinom = v9;
-  if ( v9 >= 0.0 )
+  v20 = q1->x;
+  v10 = y_low;
+  v10.m128_f32[0] = (float)((float)((float)(y_low.m128_f32[0] * y) + (float)(z * v6)) + (float)(w * v9))
+                  + (float)(q1->x * q0->x);
+  v26 = y;
+  v25 = q1->y;
+  if ( v10.m128_f32[0] >= 0.0 )
   {
-    sign = *(float *)&clear_value;
+    v11 = FLOAT_1_0;
   }
   else
   {
-    v9 = -v9;
-    i_sinom = v9;
-    sign = -1.0;
+    v10 = _mm_xor_ps(v10, (__m128)_mask__NegFloat_);
+    v11 = FLOAT_N1_0;
   }
-  if ( v9 >= 0.99998999 )
+  if ( v10.m128_f32[0] >= 0.99998999 )
   {
-    v11 = t;
-    v10 = *(float *)&clear_value - t;
+    v23 = 1.0 - a4;
+    v16 = a4;
   }
   else
   {
-    t_omega = acosf(i_sinom);
-    i_sinoma = 1.0 / sinf(t_omega);
-    Scale0 = sinf(t_omega - (float)(t_omega * t)) * i_sinoma;
-    v10 = Scale0;
-    t_omegaa = sinf(t_omega * t) * i_sinoma;
-    v11 = t_omegaa;
+    v12 = (__m128i)_mm_cvtps_pd(v10);
+    __libm_sse2_acos();
+    *(float *)v12.m128i_i32 = *(double *)v12.m128i_i64;
+    v22 = *(float *)v12.m128i_i32;
+    *(double *)v12.m128i_i64 = *(float *)v12.m128i_i32;
+    __libm_sse2_sin(v12);
+    v13 = *(double *)v12.m128i_i64;
+    v19 = 1.0 / v13;
+    v14 = (__m128)LODWORD(v22);
+    v14.m128_f32[0] = v22 - (float)(v22 * a4);
+    v24 = v22 * a4;
+    v15 = (__m128i)_mm_cvtps_pd(v14);
+    __libm_sse2_sin(v15);
+    *(float *)v15.m128i_i32 = *(double *)v15.m128i_i64;
+    v23 = *(float *)v15.m128i_i32 * (float)(1.0 / v13);
+    *(double *)v15.m128i_i64 = v24;
+    __libm_sse2_sin(v15);
+    y_low.m128_f32[0] = v25;
+    y = v26;
+    v16 = v24 * v19;
   }
-  v12 = v11 * sign;
-  *(float *)&v22 = (float)(x * v10) + (float)(*(float *)&v20 * v12);
-  *((float *)&v22 + 1) = (float)(y * v10) + (float)(*((float *)&v20 + 1) * v12);
-  *a3 = v22;
-  *(float *)&v23 = (float)(v6 * v10) + (float)(z * v12);
-  *((float *)&v23 + 1) = (float)(v8 * v10) + (float)(w * v12);
-  a3[1] = v23;
-  return (vostok::math::quaternion *)a3;
+  v17 = v16 * v11;
+  result = t;
+  t->x = (float)(x * v23) + (float)(v20 * v17);
+  t->y = (float)(y * v23) + (float)(y_low.m128_f32[0] * v17);
+  t->z = (float)(v6 * v23) + (float)(z * v17);
+  t->w = (float)(v9 * v23) + (float)(w * v17);
+  return result;
 }

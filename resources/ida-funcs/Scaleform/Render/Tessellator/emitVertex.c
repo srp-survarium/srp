@@ -9,7 +9,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::emitVertex(
   unsigned int result; // eax
   unsigned int v7; // edx
   unsigned int Size; // esi
-  Scaleform::Render::TessVertex v2; // [esp+8h] [ebp-14h] BYREF
+  Scaleform::Render::TessVertex val; // [esp+8h] [ebp-14h] BYREF
 
   Pages = this->MeshVertices.Pages;
   result = ver & 0xFFFFFFF;
@@ -29,14 +29,14 @@ unsigned int __thiscall Scaleform::Render::Tessellator::emitVertex(
 LABEL_9:
       Size = this->MeshVertices.Size;
       *(_DWORD *)(v7 + 8) = Size;
-      v2.x = *(float *)v7;
-      v2.y = *(float *)(v7 + 4);
-      v2.Idx = Size;
-      v2.Styles[1] = style;
-      v2.Styles[0] = style;
-      v2.Flags = flags;
-      v2.Mesh = meshIdx;
-      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &v2);
+      val.x = *(float *)v7;
+      val.y = *(float *)(v7 + 4);
+      val.Idx = Size;
+      val.Styles[1] = style;
+      val.Styles[0] = style;
+      val.Flags = flags;
+      val.Mesh = meshIdx;
+      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &val);
       return Size;
     }
     else
@@ -70,7 +70,7 @@ unsigned int __thiscall Scaleform::Render::Tessellator::emitVertex(
   unsigned int v10; // edx
   unsigned int Size; // esi
   float v12; // ecx
-  Scaleform::Render::TessVertex v2; // [esp+8h] [ebp-14h] BYREF
+  Scaleform::Render::TessVertex val; // [esp+8h] [ebp-14h] BYREF
 
   result = ver & 0xFFFFFFF;
   Pages = this->MeshVertices.Pages;
@@ -94,14 +94,14 @@ LABEL_15:
       Size = this->MeshVertices.Size;
       *(_DWORD *)(v10 + 8) = Size;
       v12 = *(float *)(v10 + 4);
-      v2.x = *(float *)v10;
-      v2.y = v12;
-      v2.Styles[0] = style1;
-      v2.Styles[1] = style2;
-      v2.Idx = Size;
-      v2.Flags = flags;
-      v2.Mesh = meshIdx;
-      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &v2);
+      val.x = *(float *)v10;
+      val.y = v12;
+      val.Styles[0] = style1;
+      val.Styles[1] = style2;
+      val.Idx = Size;
+      val.Flags = flags;
+      val.Mesh = meshIdx;
+      Scaleform::Render::ArrayPaged<Scaleform::Render::TessVertex,4,16>::PushBack(&this->MeshVertices, &val);
       return Size;
     }
     else

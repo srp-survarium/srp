@@ -10,10 +10,10 @@ void __thiscall Scaleform::Render::ImagePlane::GetMipLevel(
   unsigned int Width; // edi
   unsigned int FormatPitch; // eax
   int v10; // ecx
-  unsigned int totalLevelSize; // [esp+4h] [ebp-10h]
+  int v11; // [esp+4h] [ebp-10h]
   Scaleform::Render::ImagePlane *v12; // [esp+8h] [ebp-Ch]
-  Scaleform::Render::Size<unsigned long> sz; // [esp+Ch] [ebp-8h] BYREF
-  unsigned __int8 *pa; // [esp+20h] [ebp+Ch]
+  Scaleform::Render::Size<unsigned long> v13; // [esp+Ch] [ebp-8h] BYREF
+  unsigned __int8 *v14; // [esp+20h] [ebp+Ch]
 
   p->Width = this->Width;
   p->Height = this->Height;
@@ -22,17 +22,17 @@ void __thiscall Scaleform::Render::ImagePlane::GetMipLevel(
   pData = this->pData;
   v12 = this;
   p->pData = pData;
-  totalLevelSize = 0;
+  v11 = 0;
   if ( level )
   {
     Height = p->Height;
     Width = p->Width;
-    pa = pData;
+    v14 = pData;
     do
     {
-      sz.Width = Width;
-      sz.Height = Height;
-      pa += Scaleform::Render::ImageData::GetMipLevelSize(format, &sz, plane);
+      v13.Width = Width;
+      v13.Height = Height;
+      v14 += Scaleform::Render::ImageData::GetMipLevelSize(format, &v13, plane);
       Width >>= 1;
       if ( !Width )
         Width = 1;
@@ -40,7 +40,7 @@ void __thiscall Scaleform::Render::ImagePlane::GetMipLevel(
       if ( !Height )
         Height = 1;
       FormatPitch = Scaleform::Render::ImageData::GetFormatPitch(format, Width, plane);
-      totalLevelSize += v10;
+      v11 += v10;
       --level;
     }
     while ( level );
@@ -48,7 +48,7 @@ void __thiscall Scaleform::Render::ImagePlane::GetMipLevel(
     p->Width = Width;
     p->Height = Height;
     p->Pitch = FormatPitch;
-    p->pData = pa;
+    p->pData = v14;
   }
-  p->DataSize = this->DataSize - totalLevelSize;
+  p->DataSize = this->DataSize - v11;
 }

@@ -1,200 +1,216 @@
-void __userpurge vostok::particle::particle_domain_complex::load_impl<vostok::configs::binary_config_value>(
-        vostok::particle::particle_domain_complex *this@<ecx>,
-        float a2@<xmm0>,
-        vostok::configs::binary_config_value *prop)
+void __thiscall vostok::particle::particle_domain_complex::load_impl<vostok::configs::binary_config_value>(
+        vostok::particle::particle_domain_complex *this,
+        const vostok::configs::binary_config_value *prop,
+        vostok::configs::binary_config_value *default_value)
 {
   const vostok::configs::binary_config_value *v3; // eax
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v4; // ecx
-  const vostok::variant<32> **v5; // eax
-  vostok::math::float3 v7; // [esp+10h] [ebp-B4h] BYREF
-  vostok::math::float3 v8; // [esp+1Ch] [ebp-A8h] BYREF
-  vostok::math::float3 v9; // [esp+28h] [ebp-9Ch] BYREF
-  vostok::math::float3 v10; // [esp+34h] [ebp-90h] BYREF
-  vostok::math::float3 v11; // [esp+40h] [ebp-84h] BYREF
-  vostok::math::float3 v12; // [esp+4Ch] [ebp-78h] BYREF
-  vostok::math::float3 v13; // [esp+58h] [ebp-6Ch] BYREF
-  vostok::math::float3 v14; // [esp+64h] [ebp-60h] BYREF
-  vostok::math::float3 v15; // [esp+70h] [ebp-54h] BYREF
-  vostok::math::float3 v16; // [esp+7Ch] [ebp-48h] BYREF
-  vostok::math::float3 result; // [esp+88h] [ebp-3Ch] BYREF
-  vostok::math::float3 default_value; // [esp+94h] [ebp-30h] BYREF
-  vostok::configs::binary_config_value *v19; // [esp+A0h] [ebp-24h]
-  vostok::configs::binary_config_value *v20; // [esp+A4h] [ebp-20h]
-  vostok::configs::binary_config_value *v21; // [esp+A8h] [ebp-1Ch]
-  const vostok::configs::binary_config_value *cylinder_config; // [esp+ACh] [ebp-18h]
-  const vostok::configs::binary_config_value *sphere_config; // [esp+B0h] [ebp-14h]
-  vostok::configs::binary_config_value *config_value; // [esp+B4h] [ebp-10h]
-  const vostok::configs::binary_config_value *box_config; // [esp+B8h] [ebp-Ch]
-  const vostok::configs::binary_config_value *line_config; // [esp+BCh] [ebp-8h]
-  const vostok::configs::binary_config_value *domain_type_config; // [esp+C0h] [ebp-4h]
+  vostok::configs::binary_config_value *v4; // ecx
+  const vostok::configs::binary_config_value *v5; // eax
+  vostok::configs::binary_config_value *v6; // ecx
+  const vostok::configs::binary_config_value *v7; // eax
+  vostok::configs::binary_config_value *v8; // ecx
+  vostok::configs::binary_config_value *v9; // esi
+  vostok::configs::binary_config_value *v10; // ecx
+  char **v11; // eax
+  const vostok::configs::binary_config_value *v12; // eax
+  const vostok::configs::binary_config_value *v13; // ebx
+  vostok::configs::binary_config_value *v14; // ecx
+  int v15; // xmm0_4
+  const vostok::configs::binary_config_value *v16; // edi
+  vostok::configs::binary_config_value *v17; // ecx
+  unsigned int *p_id_crc; // esi
+  vostok::configs::binary_config_value *v19; // ecx
+  vostok::configs::binary_config_value *v20; // ecx
+  int v21; // xmm0_4
+  char *v22; // eax
+  const vostok::configs::binary_config_value *v23; // edi
+  const vostok::configs::binary_config_value *v24; // esi
+  vostok::configs::binary_config_value *v25; // ecx
+  vostok::configs::binary_config_value *v26; // ecx
+  int v27; // xmm0_4
+  char *v28; // eax
+  unsigned __int8 *v29; // edi
+  vostok::configs::binary_config_value *v30; // ecx
+  vostok::configs::binary_config_value *v31; // ecx
+  vostok::configs::binary_config_value *v32; // ecx
+  vostok::configs::binary_config_value *v33; // ecx
+  const vostok::configs::binary_config_value *v34; // eax
+  vostok::configs::binary_config_value *v35; // ecx
+  const vostok::configs::binary_config_value *v36; // eax
+  vostok::configs::binary_config_value *v37; // ecx
+  const vostok::configs::binary_config_value *v38; // eax
+  vostok::configs::binary_config_value config_value; // [esp+Ch] [ebp-30h] BYREF
+  vostok::configs::binary_config_value v40; // [esp+24h] [ebp-18h] BYREF
+  vostok::configs::binary_config_value *default_valuea; // [esp+48h] [ebp+Ch]
 
-  vostok::math::float3::float3((vostok::math::float3 *)&this->m_translate, &default_value);
-  this->m_translate = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                        &result,
-                        prop,
-                        "Translate",
-                        &default_value)->vostok::math::float3_pod;
-  vostok::math::float3::float3((vostok::math::float3 *)&this->m_rotate, &v16);
-  this->m_rotate = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                     &v15,
-                     prop,
-                     "Rotate",
-                     &v16)->vostok::math::float3_pod;
-  vostok::math::float3::float3((vostok::math::float3 *)&this->m_scale, &v14);
-  this->m_scale = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                    &v13,
-                    prop,
-                    "Scale",
-                    &v14)->vostok::math::float3_pod;
-  this->m_affect_velocity = vostok::particle::read_config_value<bool,vostok::configs::binary_config_value>(
-                              prop,
-                              "AffectVelocity",
-                              &this->m_affect_velocity);
-  domain_type_config = vostok::configs::binary_config_value::operator[](prop, "DomainType");
-  if ( vostok::configs::binary_config_value::value_exists(
-         (vostok::configs::binary_config_value *)domain_type_config,
-         "selected_value") )
+  *(vostok::platform_pointer_selector<char const ,1>::helper *)((char *)&v40.id.max_storage + 4) = (vostok::platform_pointer_selector<char const ,1>::helper)prop[5].id.max_storage;
+  *(_DWORD *)&v40.type = prop[5].id_crc;
+  v3 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+         "Translate",
+         (vostok::configs::binary_config_value *)this,
+         &v40,
+         default_value,
+         (const void **)&v40.id.max_storage + 1);
+  prop[5].id = (vostok::platform_pointer_selector<char const ,1>::helper)v3->data.max_storage;
+  prop[5].id_crc = (unsigned int)v3->id.pointer;
+  HIDWORD(v40.id.max_storage) = *(_DWORD *)&prop[5].type;
+  v40.id_crc = (unsigned int)prop[6].data.pointer;
+  *(_DWORD *)&v40.type = HIDWORD(prop[6].data.max_storage);
+  v5 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+         "Rotate",
+         v4,
+         &v40,
+         default_value,
+         (const void **)&v40.id.max_storage + 1);
+  *(_DWORD *)&prop[5].type = v5->data.pointer;
+  prop[6].data.pointer = (const void *)HIDWORD(v5->data.max_storage);
+  HIDWORD(prop[6].data.max_storage) = v5->id.pointer;
+  *(vostok::platform_pointer_selector<char const ,1>::helper *)((char *)&v40.id.max_storage + 4) = (vostok::platform_pointer_selector<char const ,1>::helper)prop[6].id.max_storage;
+  *(_DWORD *)&v40.type = prop[6].id_crc;
+  v7 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+         "Scale",
+         v6,
+         &v40,
+         default_value,
+         (const void **)&v40.id.max_storage + 1);
+  prop[6].id = (vostok::platform_pointer_selector<char const ,1>::helper)v7->data.max_storage;
+  prop[6].id_crc = (unsigned int)v7->id.pointer;
+  BYTE4(prop[9].id.max_storage) = vostok::particle::read_config_value<bool,vostok::configs::binary_config_value>(
+                                    "AffectVelocity",
+                                    v8,
+                                    default_value,
+                                    (const bool *)&prop[9].id.max_storage + 4);
+  v9 = vostok::configs::binary_config_value::operator[](default_value, "DomainType");
+  if ( vostok::configs::binary_config_value::value_exists(v10, (int)v9, (unsigned int)"selected_value") )
   {
-    v3 = vostok::configs::binary_config_value::operator[](
-           (vostok::configs::binary_config_value *)domain_type_config,
-           "selected_value");
-    v5 = stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(v4, (int)v3);
-    this->m_domain_type = vostok::particle::domain_type_from_string((const char *)v5);
+    v11 = (char **)vostok::configs::binary_config_value::operator[](v9, "selected_value");
+    BYTE6(prop[9].id.max_storage) = vostok::particle::domain_type_from_string(*v11);
   }
-  switch ( this->m_domain_type )
+  switch ( BYTE6(prop[9].id.max_storage) )
   {
-    case 1u:
-      line_config = vostok::configs::binary_config_value::operator[](
-                      (vostok::configs::binary_config_value *)domain_type_config,
-                      "Line");
-      this->m_line_width = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                             a2,
-                             (vostok::configs::binary_config_value *)line_config,
-                             "Length",
-                             &this->m_line_width);
-      break;
-    case 2u:
-      v19 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      (vostok::configs::binary_config_value *)domain_type_config,
-                                                      "Triangle");
-      vostok::math::float3::float3((vostok::math::float3 *)&this->164, &v12);
-      this->164 = ($03587BACB216BA0890FE706AD1985887)*vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                                                        &v11,
-                                                        v19,
-                                                        "PointA",
-                                                        &v12);
-      vostok::math::float3::float3((vostok::math::float3 *)&this->m_triangle_b, &v10);
-      this->m_triangle_b = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                             &v9,
-                             v19,
-                             "PointB",
-                             &v10)->vostok::math::float3_pod;
-      vostok::math::float3::float3((vostok::math::float3 *)&this->m_triangle_c, &v8);
-      this->m_triangle_c = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
-                             &v7,
-                             v19,
-                             "PointC",
-                             &v8)->vostok::math::float3_pod;
-      break;
-    case 4u:
-      box_config = vostok::configs::binary_config_value::operator[](
-                     (vostok::configs::binary_config_value *)domain_type_config,
-                     "Box");
-      this->m_box_width = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                            a2,
-                            (vostok::configs::binary_config_value *)box_config,
-                            "Width",
-                            &this->m_box_width);
-      this->m_box_height = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                             a2,
-                             (vostok::configs::binary_config_value *)box_config,
-                             "Height",
-                             &this->m_box_height);
-      this->m_box_depth = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                            a2,
-                            (vostok::configs::binary_config_value *)box_config,
-                            "Depth",
-                            &this->m_box_depth);
-      break;
-    case 5u:
-      sphere_config = vostok::configs::binary_config_value::operator[](
-                        (vostok::configs::binary_config_value *)domain_type_config,
-                        "Sphere");
-      this->m_inner_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               (vostok::configs::binary_config_value *)sphere_config,
-                               "RadiusInner",
-                               &this->m_inner_radius);
-      this->m_outer_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               (vostok::configs::binary_config_value *)sphere_config,
-                               "RadiusOuter",
-                               &this->m_outer_radius);
-      break;
-    case 6u:
-      cylinder_config = vostok::configs::binary_config_value::operator[](
-                          (vostok::configs::binary_config_value *)domain_type_config,
-                          "Cylinder");
-      this->m_inner_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               (vostok::configs::binary_config_value *)cylinder_config,
-                               "RadiusInner",
-                               &this->m_inner_radius);
-      this->m_outer_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               (vostok::configs::binary_config_value *)cylinder_config,
-                               "RadiusOuter",
-                               &this->m_outer_radius);
-      this->m_cylinder_height = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                                  a2,
-                                  (vostok::configs::binary_config_value *)cylinder_config,
-                                  "Height",
-                                  &this->m_cylinder_height);
-      break;
-    case 7u:
-      v20 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      (vostok::configs::binary_config_value *)domain_type_config,
-                                                      "Cone");
-      this->m_outer_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               v20,
-                               "Radius",
-                               &this->m_outer_radius);
-      this->m_cylinder_height = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                                  a2,
-                                  v20,
-                                  "Height",
-                                  &this->m_cylinder_height);
-      break;
-    case 9u:
-      v21 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                      (vostok::configs::binary_config_value *)domain_type_config,
-                                                      "Disc");
-      this->m_inner_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               v21,
-                               "RadiusInner",
-                               &this->m_inner_radius);
-      this->m_outer_radius = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                               a2,
-                               v21,
-                               "RadiusOuter",
-                               &this->m_outer_radius);
-      break;
-    case 0xAu:
-      config_value = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                               (vostok::configs::binary_config_value *)domain_type_config,
-                                                               "Rectangle");
-      this->m_box_width = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                            a2,
-                            config_value,
-                            "Width",
-                            &this->m_box_width);
-      this->m_box_height = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
-                             a2,
-                             config_value,
-                             "Height",
-                             &this->m_box_height);
+    case 1:
+      v12 = vostok::configs::binary_config_value::operator[](v9, "Line");
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 200);
+      v15 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "Length",
+              v14,
+              v12,
+              (const vostok::configs::binary_config_value *)((char *)prop + 200));
+      goto LABEL_5;
+    case 2:
+      default_valuea = vostok::configs::binary_config_value::operator[](v9, "Triangle");
+      HIDWORD(v40.id.max_storage) = *(_DWORD *)&prop[6].type;
+      v40.id_crc = (unsigned int)prop[7].data.pointer;
+      *(_DWORD *)&v40.type = HIDWORD(prop[7].data.max_storage);
+      v34 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+              "PointA",
+              (vostok::configs::binary_config_value *)((char *)&v40.id.max_storage + 4),
+              &v40,
+              default_valuea,
+              (const void **)&v40.id.max_storage + 1);
+      *(_DWORD *)&prop[6].type = v34->data.pointer;
+      prop[7].data.pointer = (const void *)HIDWORD(v34->data.max_storage);
+      HIDWORD(prop[7].data.max_storage) = v34->id.pointer;
+      *(vostok::platform_pointer_selector<char const ,1>::helper *)((char *)&v40.id.max_storage + 4) = (vostok::platform_pointer_selector<char const ,1>::helper)prop[7].id.max_storage;
+      *(_DWORD *)&v40.type = prop[7].id_crc;
+      v36 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+              "PointB",
+              v35,
+              (const vostok::configs::binary_config_value *)((char *)&config_value.id.max_storage + 4),
+              default_valuea,
+              (const void **)&v40.id.max_storage + 1);
+      prop[7].id = (vostok::platform_pointer_selector<char const ,1>::helper)v36->data.max_storage;
+      prop[7].id_crc = (unsigned int)v36->id.pointer;
+      HIDWORD(v40.id.max_storage) = *(_DWORD *)&prop[7].type;
+      v40.id_crc = (unsigned int)prop[8].data.pointer;
+      *(_DWORD *)&v40.type = HIDWORD(prop[8].data.max_storage);
+      v38 = vostok::particle::read_config_value<vostok::math::float3,vostok::configs::binary_config_value>(
+              "PointC",
+              v37,
+              &config_value,
+              default_valuea,
+              (const void **)&v40.id.max_storage + 1);
+      *(_DWORD *)&prop[7].type = v38->data.pointer;
+      prop[8].data.pointer = (const void *)HIDWORD(v38->data.max_storage);
+      HIDWORD(prop[8].data.max_storage) = v38->id.pointer;
+      return;
+    case 4:
+      v16 = vostok::configs::binary_config_value::operator[](v9, "Box");
+      HIDWORD(prop[8].id.max_storage) = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+                                          "Width",
+                                          v17,
+                                          v16,
+                                          (const vostok::configs::binary_config_value *)((char *)prop + 204));
+      p_id_crc = &prop[8].id_crc;
+      v21 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "Height",
+              v19,
+              v16,
+              (const vostok::configs::binary_config_value *)((char *)prop + 208));
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 212);
+      v22 = "Depth";
+      goto LABEL_7;
+    case 5:
+      v29 = "Sphere";
+      goto LABEL_12;
+    case 6:
+      v16 = vostok::configs::binary_config_value::operator[](v9, "Cylinder");
+      prop[9].data.pointer = (const void *)vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+                                             "RadiusInner",
+                                             v31,
+                                             v16,
+                                             prop + 9);
+      p_id_crc = (unsigned int *)&prop[9].data.max_storage + 1;
+      v21 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "RadiusOuter",
+              v32,
+              v16,
+              (const vostok::configs::binary_config_value *)((char *)prop + 220));
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 224);
+      v22 = "Height";
+LABEL_7:
+      *p_id_crc = v21;
+      v15 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(v22, v20, v16, v13);
+      goto LABEL_5;
+    case 7:
+      v23 = vostok::configs::binary_config_value::operator[](v9, "Cone");
+      v24 = (const vostok::configs::binary_config_value *)((char *)prop + 220);
+      v27 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "Radius",
+              v33,
+              v23,
+              (const vostok::configs::binary_config_value *)((char *)prop + 220));
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 224);
+      goto LABEL_9;
+    case 9:
+      v29 = "Disc";
+LABEL_12:
+      v23 = vostok::configs::binary_config_value::operator[](v9, (char *)v29);
+      v24 = prop + 9;
+      v27 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "RadiusInner",
+              v30,
+              v23,
+              prop + 9);
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 220);
+      v28 = "RadiusOuter";
+      goto LABEL_10;
+    case 0xA:
+      v23 = vostok::configs::binary_config_value::operator[](v9, "Rectangle");
+      v24 = (const vostok::configs::binary_config_value *)((char *)prop + 204);
+      v27 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(
+              "Width",
+              v25,
+              v23,
+              (const vostok::configs::binary_config_value *)((char *)prop + 204));
+      v13 = (const vostok::configs::binary_config_value *)((char *)prop + 208);
+LABEL_9:
+      v28 = "Height";
+LABEL_10:
+      v24->data.pointer = (const void *)v27;
+      v15 = vostok::particle::read_config_value<float,vostok::configs::binary_config_value>(v28, v26, v23, v13);
+LABEL_5:
+      v13->data.pointer = (const void *)v15;
       break;
     default:
       return;

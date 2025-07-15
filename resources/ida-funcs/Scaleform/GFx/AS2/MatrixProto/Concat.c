@@ -5,9 +5,9 @@ void __cdecl Scaleform::GFx::AS2::MatrixProto::Concat(const Scaleform::GFx::AS2:
   Scaleform::GFx::AS2::Value *v3; // eax
   Scaleform::GFx::AS2::MatrixObject *v4; // edi
   const Scaleform::Render::Matrix2x4<float> *Matrix; // eax
-  Scaleform::GFx::AS2::Environment *Env; // [esp+3Ch] [ebp-54h]
-  Scaleform::Render::Matrix2x4<float> result; // [esp+50h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v8; // [esp+70h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-54h]
+  Scaleform::Render::Matrix2x4<float> result; // [esp+10h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v8; // [esp+30h] [ebp-20h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Matrix )
   {

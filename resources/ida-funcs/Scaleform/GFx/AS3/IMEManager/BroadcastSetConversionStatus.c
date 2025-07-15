@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::AS3::IMEManager::BroadcastSetConversionStatus(
         Scaleform::GFx::AS3::IMEManager *this,
-        char *pString)
+        Scaleform::GFx::ASStringNode *pString)
 {
-  Scaleform::GFx::AS3::IMEManager::DispatchEvent(this, pString, "SetConversionStatus", "StatusWindow");
+  Scaleform::GFx::AS3::IMEManager::DispatchEvent(this, pString, (__m128i *)"SetConversionStatus", "StatusWindow");
 }

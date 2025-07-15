@@ -10,7 +10,7 @@ void __thiscall Scaleform::Render::FileHeaderReaderImpl::FileHeaderReaderImpl(
   int v8; // edi
   int v9; // ebx
   int v10; // ebp
-  int bytesRead; // [esp+2Ch] [ebp+14h]
+  int v12; // [esp+2Ch] [ebp+14h]
 
   this->pHeader = 0;
   if ( file && file->IsValid(file) )
@@ -25,9 +25,9 @@ void __thiscall Scaleform::Render::FileHeaderReaderImpl::FileHeaderReaderImpl(
       v8 = sizeNeeded;
       v9 = HIDWORD(v7);
       v10 = v7;
-      bytesRead = file->Read(file, tempBuffer, sizeNeeded);
+      v12 = file->Read(file, tempBuffer, sizeNeeded);
       ((void (__thiscall *)(Scaleform::File *, int, int, _DWORD))file->LSeek)(file, v10, v9, 0);
-      if ( bytesRead >= v8 )
+      if ( v12 >= v8 )
         this->pHeader = tempBuffer;
     }
   }

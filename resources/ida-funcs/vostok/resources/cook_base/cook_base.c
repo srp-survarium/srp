@@ -2,9 +2,9 @@ void __userpurge vostok::resources::cook_base::cook_base(
         vostok::resources::cook_base *this@<esi>,
         vostok::resources::class_id_enum resource_class@<ecx>,
         DWORD creation_thread_id@<eax>,
-        DWORD allocate_thread_id@<edi>,
         vostok::resources::cook_base::reuse_enum reuse_type,
-        vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> flags)
+        vostok::enum_flags<enum vostok::resources::cook_base::flags_enum> flags,
+        DWORD allocate_thread_id)
 {
   DWORD CurrentThreadId; // eax
 

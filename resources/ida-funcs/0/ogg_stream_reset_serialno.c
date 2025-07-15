@@ -1,10 +1,11 @@
 int __cdecl ogg_stream_reset_serialno(ogg_stream_state *os, int serialno)
 {
-  int v3; // edx
+  ogg_stream_state *v2; // edx
+  int v4; // edx
 
-  if ( !os || !os->body_data )
+  if ( ogg_stream_check(os) )
     return -1;
-  ogg_stream_reset(os);
-  *(_DWORD *)(v3 + 336) = serialno;
+  ogg_stream_reset(v2);
+  *(_DWORD *)(v4 + 336) = serialno;
   return 0;
 }

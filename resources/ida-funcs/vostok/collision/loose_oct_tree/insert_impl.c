@@ -1,36 +1,37 @@
-void __usercall vostok::collision::loose_oct_tree::insert_impl(
-        vostok::collision::loose_oct_tree *this@<eax>,
-        vostok::collision::object *const object@<edi>)
+void __userpurge vostok::collision::loose_oct_tree::insert_impl(
+        vostok::collision::loose_oct_tree *this@<ecx>,
+        vostok::collision::loose_oct_tree *a2@<eax>,
+        vostok::collision::object *const object)
 {
-  unsigned int v2; // xmm1_4
   unsigned int v3; // xmm2_4
-  float v4; // xmm0_4
+  unsigned int v4; // xmm3_4
   float v5; // xmm1_4
-  bool v7; // zf
-  float v8; // xmm2_4
-  vostok::math::float3 aabb_extents; // [esp+8h] [ebp-18h] BYREF
-  vostok::math::float3 aabb_center; // [esp+14h] [ebp-Ch] BYREF
+  float v6; // xmm2_4
+  bool v8; // zf
+  float v9; // xmm3_4
+  vostok::math::float3 v10; // [esp+10h] [ebp-18h] BYREF
+  vostok::math::float3 v11; // [esp+1Ch] [ebp-Ch] BYREF
 
-  *(float *)&v2 = (float)(object->m_aabb.max.y + object->m_aabb.min.y) * 0.5;
-  *(float *)&v3 = (float)(object->m_aabb.max.z + object->m_aabb.min.z) * 0.5;
-  aabb_center.x = (float)(object->m_aabb.min.x + object->m_aabb.max.x) * 0.5;
-  v4 = object->m_aabb.max.x - object->m_aabb.min.x;
-  *(_QWORD *)&aabb_center.elements[1] = __PAIR64__(v3, v2);
-  v5 = object->m_aabb.max.y - object->m_aabb.min.y;
-  v7 = !this->m_initialized;
-  v8 = (float)(object->m_aabb.max.z - object->m_aabb.min.z) * 0.5;
-  aabb_extents.x = v4 * 0.5;
-  aabb_extents.y = v5 * 0.5;
-  aabb_extents.z = v8;
-  if ( v7 )
+  *(float *)&v3 = (float)(object->m_aabb.max.y + object->m_aabb.min.y) * 0.5;
+  *(float *)&v4 = (float)(object->m_aabb.max.z + object->m_aabb.min.z) * 0.5;
+  v10.x = (float)(object->m_aabb.min.x + object->m_aabb.max.x) * 0.5;
+  v5 = object->m_aabb.max.x - object->m_aabb.min.x;
+  *(_QWORD *)&v10.elements[1] = __PAIR64__(v4, v3);
+  v6 = object->m_aabb.max.y - object->m_aabb.min.y;
+  v8 = !a2->m_initialized;
+  v9 = (float)(object->m_aabb.max.z - object->m_aabb.min.z) * 0.5;
+  v11.x = v5 * 0.5;
+  v11.y = v6 * 0.5;
+  v11.z = v9;
+  if ( v8 )
   {
-    vostok::collision::loose_oct_tree::initialize(this, object, &aabb_center, &aabb_extents);
+    vostok::collision::loose_oct_tree::initialize(object, this, a2, &v10, &v11);
   }
   else
   {
-    ++this->m_object_count;
-    if ( vostok::collision::loose_oct_tree::out_of_bounds(&aabb_extents, &aabb_center, this) )
-      vostok::collision::loose_oct_tree::update_bounds(this, &aabb_extents, &aabb_center);
-    vostok::collision::loose_oct_tree::insert(this, this->m_root, object, &this->m_aabb_center, this->m_aabb_extents);
+    ++a2->m_objects_count;
+    if ( vostok::collision::loose_oct_tree::out_of_bounds(a2, &v10, &v11) )
+      vostok::collision::loose_oct_tree::update_bounds(a2, &v10, (int)object, &v11);
+    vostok::collision::loose_oct_tree::insert(a2, a2->m_root, object, &a2->m_aabb_center, a2->m_aabb_extents);
   }
 }

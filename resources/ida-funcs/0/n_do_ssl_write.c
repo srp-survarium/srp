@@ -1,4 +1,4 @@
-int __fastcall n_do_ssl_write(signed int len, ssl_st *s, unsigned __int8 *buf)
+int __fastcall n_do_ssl_write(unsigned int len, ssl_st *s, const __m128i *buf)
 {
   ssl2_state_st *s2; // eax
   unsigned int v5; // edi
@@ -23,7 +23,7 @@ int __fastcall n_do_ssl_write(signed int len, ssl_st *s, unsigned __int8 *buf)
   v5 = 0;
   v6 = len;
   if ( s2->wpend_len )
-    return write_pending(s, buf, len);
+    return write_pending(s, len, (const unsigned __int8 *)buf, len);
   if ( s2->clear_text )
   {
     v22 = 0;
@@ -31,7 +31,7 @@ int __fastcall n_do_ssl_write(signed int len, ssl_st *s, unsigned __int8 *buf)
   else
   {
     object = X509_EXTENSION_get_object((ui_string_st *)s->write_hash);
-    v22 = EVP_MD_size((const env_md_st *)object);
+    v22 = EVP_MD_size(v6, (const env_md_st *)object);
     if ( v22 < 0 )
       return -1;
   }
@@ -80,7 +80,7 @@ int __fastcall n_do_ssl_write(signed int len, ssl_st *s, unsigned __int8 *buf)
   s->s2->padding = v5;
   s->s2->mac_data = s->s2->wbuf + 3;
   s->s2->wact_data = &s->s2->wbuf[v22 + 3];
-  memcpy(s->s2->wact_data, buf, v6);
+  memcpy((int)s->s2->wact_data, buf, v6);
   if ( v5 )
     memset((int)&s->s2->wact_data[v6], 0, v5);
   v16 = s->s2;
@@ -116,8 +116,8 @@ int __fastcall n_do_ssl_write(signed int len, ssl_st *s, unsigned __int8 *buf)
   s->s2->write_ptr = v19;
   ++s->s2->write_sequence;
   s->s2->wpend_tot = len;
-  s->s2->wpend_buf = buf;
+  s->s2->wpend_buf = (const unsigned __int8 *)buf;
   s->s2->wpend_ret = v6;
   s->s2->wpend_off = 0;
-  return write_pending(s, buf, len);
+  return write_pending(s, v6, (const unsigned __int8 *)buf, len);
 }

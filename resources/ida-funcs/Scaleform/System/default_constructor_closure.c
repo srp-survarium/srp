@@ -1,9 +1,10 @@
 void __thiscall Scaleform::System::`default constructor closure'(Scaleform::System *this)
 {
-  if ( (LOBYTE(_S3_4.m_inverted_view_matrix.lines[0].elements[3]) & 1) == 0 )
-    LODWORD(_S3_4.m_inverted_view_matrix.i.w) |= 1u;
-  LODWORD(_S3_4.m_inverted_view_matrix.i.x) = &Scaleform::SysAllocMalloc::`vftable';
-  LODWORD(_S3_4.m_inverted_view_matrix.i.y) = &_S3_4.m_inverted_view_matrix;
-  LOBYTE(_S3_4.m_inverted_view_matrix.lines[0].elements[2]) = 1;
-  Scaleform::System::Init((Scaleform::SysAllocBase *)&_S3_4.m_inverted_view_matrix);
+  if ( (`Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::InitSystemSingleton'::`2'::`local static guard'
+      & 1) == 0 )
+    `Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::InitSystemSingleton'::`2'::`local static guard' |= 1u;
+  `Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::InitSystemSingleton'::`2'::Container.__vftable = (Scaleform::SysAllocBase_vtbl *)&Scaleform::SysAllocMalloc::`vftable';
+  dword_47EAA78 = (int)&`Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::InitSystemSingleton'::`2'::Container;
+  byte_47EAA7C = 1;
+  Scaleform::System::Init(&`Scaleform::SysAllocBase_SingletonSupport<Scaleform::SysAllocMalloc,Scaleform::SysAlloc>::InitSystemSingleton'::`2'::Container);
 }

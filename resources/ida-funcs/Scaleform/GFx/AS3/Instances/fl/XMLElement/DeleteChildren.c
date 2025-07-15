@@ -35,7 +35,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::DeleteChildren(
             else
             {
               RefCount = v11->RefCount;
-              if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+              if ( (RefCount & 0x3FFFFF) != 0 )
               {
                 v11->RefCount = RefCount - 1;
                 Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v11);
@@ -105,7 +105,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLElement::DeleteChildren(
         return;
       }
       v9 = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);

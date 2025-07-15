@@ -3,28 +3,29 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_events::Event::AS3Constructor
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv)
 {
-  unsigned int v3; // ebx
-  Scaleform::GFx::AS3::VM *pVM; // esi
-  const Scaleform::GFx::AS3::VM::Error *v6; // eax
+  unsigned int v3; // edi
+  const Scaleform::GFx::AS3::VM::Error *v5; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  Scaleform::GFx::AS3::Value *v8; // edi
-  Scaleform::GFx::AS3::VM::Error v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::GFx::AS3::Value *v7; // ebx
+  Scaleform::StringDataPtr v8; // [esp-14h] [ebp-28h]
+  Scaleform::GFx::AS3::VM::Error v9; // [esp+Ch] [ebp-8h] BYREF
 
   v3 = argc;
   if ( argc )
   {
-    v8 = argv;
+    v7 = argv;
     Scaleform::GFx::AS3::Value::Convert2String(argv, (Scaleform::GFx::AS3::CheckResult *)&argc, &this->Type);
     if ( v3 >= 2 )
-      *((_BYTE *)this + 48) ^= (Scaleform::GFx::AS3::Value::Convert2Boolean(v8 + 1) ^ *((_BYTE *)this + 48)) & 1;
+      *((_BYTE *)this + 48) ^= (Scaleform::GFx::AS3::Value::Convert2Boolean(v7 + 1) ^ *((_BYTE *)this + 48)) & 1;
     if ( v3 >= 3 )
-      *((_BYTE *)this + 48) ^= (*((_BYTE *)this + 48) ^ (2 * Scaleform::GFx::AS3::Value::Convert2Boolean(v8 + 2))) & 2;
+      *((_BYTE *)this + 48) ^= (*((_BYTE *)this + 48) ^ (2 * Scaleform::GFx::AS3::Value::Convert2Boolean(v7 + 2))) & 2;
   }
   else
   {
-    pVM = this->pTraits.pObject->pVM;
-    Scaleform::GFx::AS3::VM::Error::Error(&v9, eWrongArgumentCountError, pVM);
-    Scaleform::GFx::AS3::VM::ThrowArgumentError(pVM, v6);
+    v8.pStr = "Event::AS3Constructor";
+    v8.Size = 21;
+    Scaleform::GFx::AS3::VM::Error::Error(&v9, eWrongArgumentCountError, this->pTraits.pObject->pVM, v8, 1, 1, 0);
+    Scaleform::GFx::AS3::VM::ThrowArgumentError(this->pTraits.pObject->pVM, v5);
     pNode = v9.Message.pNode;
     --v9.Message.pNode->RefCount;
     if ( !pNode->RefCount )

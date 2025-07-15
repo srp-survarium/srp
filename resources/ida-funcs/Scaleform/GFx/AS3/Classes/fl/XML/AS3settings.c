@@ -42,7 +42,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl::XML::AS3settings(
       else
       {
         RefCount = pData->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pData->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pData);

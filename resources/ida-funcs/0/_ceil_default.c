@@ -1,8 +1,8 @@
 long double __cdecl _ceil_default(long double x)
 {
-  unsigned int v1; // ebx
+  __int16 v1; // bx
   int v2; // eax
-  long double result; // [esp+1Ch] [ebp-8h]
+  long double v4; // [esp+1Ch] [ebp-8h]
   int savedregs; // [esp+24h] [ebp+0h] BYREF
 
   v1 = _ctrlfp();
@@ -17,21 +17,21 @@ long double __cdecl _ceil_default(long double x)
         return x;
       }
       if ( v2 == 3 )
-        return _handle_qnan1(0xCu, x, v1);
+        return _handle_qnan1(0xCu, x);
     }
-    return _except1((int)&savedregs, 8, 12, x, x + 1.0, v1);
+    return _except1((int)&savedregs, 8u, 0xCu, x, x + 1.0, v1);
   }
   else
   {
-    result = _frnd(x);
-    if ( x == result || (v1 & 0x20) != 0 )
+    v4 = _frnd(x);
+    if ( x == v4 || (v1 & 0x20) != 0 )
     {
       _ctrlfp();
-      return result;
+      return v4;
     }
     else
     {
-      return _except1((int)&savedregs, 16, 12, x, result, v1);
+      return _except1((int)&savedregs, 0x10u, 0xCu, x, v4, v1);
     }
   }
 }

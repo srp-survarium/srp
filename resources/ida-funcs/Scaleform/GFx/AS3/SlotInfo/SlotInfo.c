@@ -10,6 +10,7 @@ void __thiscall Scaleform::GFx::AS3::SlotInfo::SlotInfo(
   const Scaleform::GFx::AS3::Instances::fl::Namespace *pObject; // ecx
   const Scaleform::GFx::AS3::ClassTraits::Traits *v9; // ecx
   Scaleform::GFx::AS3::VMAbcFile *v10; // ecx
+  Scaleform::GFx::ASStringNode *v11; // ecx
 
   *(_DWORD *)this ^= (*(_DWORD *)this ^ *(_DWORD *)other) & 1;
   v3 = *(_DWORD *)this ^ ((unsigned __int8)*(_DWORD *)this ^ (unsigned __int8)*(_DWORD *)other) & 2;
@@ -36,4 +37,8 @@ void __thiscall Scaleform::GFx::AS3::SlotInfo::SlotInfo(
   if ( v10 )
     v10->RefCount = (v10->RefCount + 1) & 0x8FBFFFFF;
   this->TI = other->TI;
+  v11 = other->Name.pObject;
+  if ( v11 )
+    ++v11->RefCount;
+  this->Name.pObject = other->Name.pObject;
 }

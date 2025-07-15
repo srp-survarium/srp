@@ -2,7 +2,7 @@ int __thiscall Scaleform::BufferedFile::Read(Scaleform::BufferedFile *this, unsi
 {
   unsigned int Pos; // eax
   signed int v5; // ebx
-  unsigned __int8 *v6; // ecx
+  const __m128i *v6; // ecx
   int result; // eax
   signed int v8; // edi
   unsigned __int8 *v9; // ebp
@@ -15,10 +15,10 @@ int __thiscall Scaleform::BufferedFile::Read(Scaleform::BufferedFile *this, unsi
 LABEL_4:
     Pos = this->Pos;
     v5 = this->DataSize - Pos;
-    v6 = &this->pBuffer[Pos];
+    v6 = (const __m128i *)&this->pBuffer[Pos];
     if ( v5 < numBytes )
     {
-      memcpy(pdestBuffer, v6, v5);
+      memcpy((int)pdestBuffer, v6, v5);
       v8 = numBytes - v5;
       v9 = &pdestBuffer[v5];
       this->Pos = this->DataSize;
@@ -28,7 +28,7 @@ LABEL_4:
         v12 = this->Pos;
         if ( (int)(this->DataSize - v12) < v8 )
           v8 = this->DataSize - v12;
-        memcpy(v9, &this->pBuffer[v12], v8);
+        memcpy((int)v9, (const __m128i *)&this->pBuffer[v12], v8);
         this->Pos += v8;
         return v5 + v8;
       }
@@ -48,7 +48,7 @@ LABEL_4:
     }
     else
     {
-      memcpy(pdestBuffer, v6, numBytes);
+      memcpy((int)pdestBuffer, v6, numBytes);
       this->Pos += numBytes;
       return numBytes;
     }

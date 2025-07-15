@@ -1,4 +1,4 @@
-bool __thiscall Scaleform::WaitConditionImpl::Wait(
+char __thiscall Scaleform::WaitConditionImpl::Wait(
         Scaleform::WaitConditionImpl *this,
         Scaleform::Mutex *pmutex,
         DWORD delay)
@@ -12,13 +12,13 @@ bool __thiscall Scaleform::WaitConditionImpl::Wait(
   DWORD v11; // ebp
   volatile unsigned int v12; // edi
   Scaleform::MutexImpl *v13; // esi
-  bool result; // [esp+Fh] [ebp-5h]
-  volatile unsigned int lockCount; // [esp+10h] [ebp-4h]
+  char v14; // [esp+Fh] [ebp-5h]
+  volatile unsigned int LockCount; // [esp+10h] [ebp-4h]
 
   v3 = pmutex;
-  result = 0;
-  lockCount = pmutex->pImpl->LockCount;
-  if ( !lockCount )
+  v14 = 0;
+  LockCount = pmutex->pImpl->LockCount;
+  if ( !LockCount )
     return 0;
   EnterCriticalSection(&this->WaitQueueLoc.cs);
   NewEvent = Scaleform::WaitConditionImpl::GetNewEvent(this);
@@ -46,7 +46,7 @@ bool __thiscall Scaleform::WaitConditionImpl::Wait(
   }
   else
   {
-    v10 = lockCount;
+    v10 = LockCount;
     do
     {
       ReleaseMutex(pmutex->pImpl->hMutexOrSemaphore);
@@ -60,7 +60,7 @@ bool __thiscall Scaleform::WaitConditionImpl::Wait(
   EnterCriticalSection(&this->WaitQueueLoc.cs);
   if ( !v11 || v11 == 128 )
   {
-    result = 1;
+    v14 = 1;
     ResetEvent(NewEvent->hEvent);
     NewEvent->pNext = this->pFreeEventList;
   }
@@ -73,7 +73,7 @@ bool __thiscall Scaleform::WaitConditionImpl::Wait(
   NewEvent->pPrev = 0;
   this->pFreeEventList = NewEvent;
   LeaveCriticalSection(&this->WaitQueueLoc.cs);
-  v12 = lockCount;
+  v12 = LockCount;
   do
   {
     v13 = pmutex->pImpl;
@@ -82,5 +82,5 @@ bool __thiscall Scaleform::WaitConditionImpl::Wait(
     --v12;
   }
   while ( v12 );
-  return result;
+  return v14;
 }

@@ -1,6 +1,6 @@
 bool __thiscall Scaleform::SysAllocStatic::ReallocInPlace(
         Scaleform::SysAllocStatic *this,
-        void *oldPtr,
+        char *oldPtr,
         unsigned int oldSize,
         unsigned int newSize,
         unsigned int alignment)
@@ -24,5 +24,5 @@ bool __thiscall Scaleform::SysAllocStatic::ReallocInPlace(
            oldPtr,
            oldSize,
            newSize,
-           alignment) < ReallocFailed;
+           alignment) < 2;
 }

@@ -1,9 +1,9 @@
 char __thiscall Scaleform::GFx::FontManagerStates::CheckStateChange(
         Scaleform::GFx::FontManagerStates *this,
-        Scaleform::GFx::FontLib *pfontLib,
-        Scaleform::GFx::FontMap *pfontMap,
-        Scaleform::GFx::FontProvider *pfontProvider,
-        Scaleform::GFx::Translator *ptranslator)
+        Scaleform::GFx::Resource *pfontLib,
+        Scaleform::GFx::Resource *pfontMap,
+        Scaleform::GFx::Resource *pfontProvider,
+        Scaleform::GFx::Resource *ptranslator)
 {
   char v6; // bl
   Scaleform::RefCountVImpl *pObject; // ecx
@@ -12,45 +12,45 @@ char __thiscall Scaleform::GFx::FontManagerStates::CheckStateChange(
   Scaleform::RefCountVImpl *v10; // ecx
 
   v6 = 0;
-  if ( this->pFontLib.pObject != pfontLib )
+  if ( (Scaleform::GFx::Resource *)this->pFontLib.pObject != pfontLib )
   {
     v6 = 1;
     if ( pfontLib )
-      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pfontLib);
+      Scaleform::RefCountImpl::AddRef(pfontLib);
     pObject = (Scaleform::RefCountVImpl *)this->pFontLib.pObject;
     if ( pObject )
       Scaleform::RefCountImpl::Release(pObject);
-    this->pFontLib.pObject = pfontLib;
+    this->pFontLib.pObject = (Scaleform::GFx::FontLib *)pfontLib;
   }
-  if ( this->pFontMap.pObject != pfontMap )
+  if ( (Scaleform::GFx::Resource *)this->pFontMap.pObject != pfontMap )
   {
     v6 |= 2u;
     if ( pfontMap )
-      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pfontMap);
+      Scaleform::RefCountImpl::AddRef(pfontMap);
     v8 = (Scaleform::RefCountVImpl *)this->pFontMap.pObject;
     if ( v8 )
       Scaleform::RefCountImpl::Release(v8);
-    this->pFontMap.pObject = pfontMap;
+    this->pFontMap.pObject = (Scaleform::GFx::FontMap *)pfontMap;
   }
-  if ( this->pFontProvider.pObject != pfontProvider )
+  if ( (Scaleform::GFx::Resource *)this->pFontProvider.pObject != pfontProvider )
   {
     v6 |= 4u;
     if ( pfontProvider )
-      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)pfontProvider);
+      Scaleform::RefCountImpl::AddRef(pfontProvider);
     v9 = (Scaleform::RefCountVImpl *)this->pFontProvider.pObject;
     if ( v9 )
       Scaleform::RefCountImpl::Release(v9);
-    this->pFontProvider.pObject = pfontProvider;
+    this->pFontProvider.pObject = (Scaleform::GFx::FontProvider *)pfontProvider;
   }
-  if ( this->pTranslator.pObject != ptranslator )
+  if ( (Scaleform::GFx::Resource *)this->pTranslator.pObject != ptranslator )
   {
     v6 |= 8u;
     if ( ptranslator )
-      Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)ptranslator);
+      Scaleform::RefCountImpl::AddRef(ptranslator);
     v10 = (Scaleform::RefCountVImpl *)this->pTranslator.pObject;
     if ( v10 )
       Scaleform::RefCountImpl::Release(v10);
-    this->pTranslator.pObject = ptranslator;
+    this->pTranslator.pObject = (Scaleform::GFx::Translator *)ptranslator;
   }
   return v6;
 }

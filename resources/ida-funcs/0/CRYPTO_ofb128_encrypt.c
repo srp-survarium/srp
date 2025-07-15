@@ -14,7 +14,7 @@ void __cdecl CRYPTO_ofb128_encrypt(
   unsigned int v12; // ecx
   int v13; // edx
   unsigned __int8 *v14; // eax
-  int v15; // esi
+  unsigned int v15; // esi
   unsigned int v16; // [esp+10h] [ebp-4h]
   int v17; // [esp+20h] [ebp+Ch]
 

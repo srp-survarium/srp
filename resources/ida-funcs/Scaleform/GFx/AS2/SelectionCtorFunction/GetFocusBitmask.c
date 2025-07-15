@@ -12,7 +12,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusBitmask(const S
   Scaleform::GFx::AS2::Environment *v11; // [esp-8h] [ebp-1Ch]
   Scaleform::RefCountNTSImpl *v12; // [esp+Ch] [ebp-8h]
   Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+10h] [ebp-4h] BYREF
-  unsigned __int16 bm; // [esp+18h] [ebp+4h]
+  unsigned __int16 v14; // [esp+18h] [ebp+4h]
 
   v2 = fn->Result;
   Scaleform::GFx::AS2::Value::DropRefs(v2);
@@ -32,13 +32,13 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusBitmask(const S
         v12 = v7;
         if ( v7 )
           ++v7->RefCount;
-        bm = 0;
+        v14 = 0;
         do
         {
           pMovieImpl = fn->Env->Target->pASRoot->pMovieImpl;
           Scaleform::WeakPtr<Scaleform::GFx::InteractiveObject>::operator Scaleform::Ptr<Scaleform::GFx::InteractiveObject>(
             (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)&pMovieImpl->FocusGroups[pMovieImpl->FocusGroupIndexes[v4]].LastFocused,
-            (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&result);
+            &result);
           pObject = result.pObject;
           if ( result.pObject )
           {
@@ -46,7 +46,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusBitmask(const S
             Scaleform::RefCountNTSImpl::Release(pObject);
           }
           if ( pObject == v12 )
-            bm |= v5;
+            v14 |= v5;
           if ( pObject )
             Scaleform::RefCountNTSImpl::Release(pObject);
           ++v4;
@@ -57,7 +57,7 @@ void __cdecl Scaleform::GFx::AS2::SelectionCtorFunction::GetFocusBitmask(const S
         if ( v10->T.Type >= 5u )
           Scaleform::GFx::AS2::Value::DropRefs(fn->Result);
         v10->T.Type = 3;
-        v10->NV.NumberValue = (double)bm;
+        v10->NV.NumberValue = (double)v14;
         if ( v12 )
           Scaleform::RefCountNTSImpl::Release(v12);
       }

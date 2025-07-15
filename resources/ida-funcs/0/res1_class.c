@@ -1,7 +1,7 @@
-int **__cdecl res1_class(vorbis_block *vb, vorbis_info_residue0 **vl, int **in, int *nonzero, int ch)
+int **__cdecl res1_class(vorbis_block *vb, _DWORD *vl, int **in, char *nonzero, int ch)
 {
-  int v5; // esi
-  int v6; // ecx
+  int v5; // edi
+  int v6; // esi
   int **v7; // eax
 
   v5 = ch;
@@ -11,7 +11,7 @@ int **__cdecl res1_class(vorbis_block *vb, vorbis_info_residue0 **vl, int **in, 
   v7 = in;
   do
   {
-    if ( *(int **)((char *)v7 + (char *)nonzero - (char *)in) )
+    if ( *(int **)((char *)v7 + nonzero - (char *)in) )
       in[v6++] = *v7;
     ++v7;
     --v5;

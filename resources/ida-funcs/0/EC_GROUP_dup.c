@@ -1,18 +1,18 @@
-ec_group_st *__cdecl EC_GROUP_dup(const ec_group_st *a)
+ec_group_st *__usercall EC_GROUP_dup@<eax>(int a1@<ebx>, const ec_group_st *a)
 {
-  ec_group_st *v2; // eax
-  ec_group_st *v3; // esi
+  ec_group_st *v3; // eax
+  ec_group_st *v4; // esi
 
   if ( !a )
     return 0;
-  v2 = EC_GROUP_new(a->meth);
-  v3 = v2;
-  if ( !v2 )
+  v3 = EC_GROUP_new(a->meth);
+  v4 = v3;
+  if ( !v3 )
     return 0;
-  if ( !EC_GROUP_copy(v2, a) )
+  if ( !EC_GROUP_copy(a1, v3, a) )
   {
-    EC_GROUP_free(v3);
+    EC_GROUP_free(v4);
     return 0;
   }
-  return v3;
+  return v4;
 }

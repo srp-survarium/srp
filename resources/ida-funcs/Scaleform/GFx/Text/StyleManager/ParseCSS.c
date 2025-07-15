@@ -1,6 +1,6 @@
 bool __thiscall Scaleform::GFx::Text::StyleManager::ParseCSS(
         Scaleform::GFx::Text::StyleManager *this,
-        const char *buffer,
+        char *buffer,
         unsigned int len)
 {
   wchar_t *v4; // esi

@@ -1,59 +1,46 @@
 void __usercall vostok::render::skeleton_render_model::skeleton_render_model(
         vostok::render::skeleton_render_model *this@<ecx>,
-        _DWORD *a2@<eax>)
+        vostok::shared_string *a2@<edi>)
 {
-  vostok::strings::shared::manager *v3; // ecx
-  vostok::strings::shared::profile *v4; // eax
-  vostok::render::backend *v5; // ecx
-  volatile signed __int32 *p_m_reference_count; // edi
-  vostok::strings::shared::manager *v7; // ecx
-  vostok::strings::shared::profile *v8; // eax
-  vostok::render::backend *v9; // ecx
-  volatile signed __int32 *v10; // edi
-  vostok::shared_string name; // [esp+8h] [ebp-4h] BYREF
+  vostok::render::backend *v2; // ecx
+  vostok::strings::shared::profile *v3; // eax
+  vostok::shared_string *v4; // ecx
+  bool v5; // zf
+  vostok::render::backend *v6; // ecx
+  vostok::strings::shared::profile *v7; // eax
+  vostok::shared_string name; // [esp+4h] [ebp-4h] BYREF
 
-  vostok::render::render_model::render_model(this);
-  *a2 = &vostok::render::skeleton_render_model::`vftable';
-  a2[80] = 0;
-  a2[81] = 0;
-  a2[82] = 0;
-  v4 = vostok::strings::shared::manager::string(v3, (const char *)s_manager.m_variable);
-  p_m_reference_count = 0;
-  name.m_pointer.m_object = 0;
-  if ( v4 )
+  vostok::render::render_model::render_model(this, (int)a2);
+  a2->m_pointer.m_object = (vostok::strings::shared::profile *)&vostok::render::skeleton_render_model::`vftable';
+  a2[80].m_pointer.m_object = (vostok::strings::shared::profile *)&a2[83];
+  a2[81].m_pointer.m_object = (vostok::strings::shared::profile *)&a2[83];
+  a2[82].m_pointer.m_object = (vostok::strings::shared::profile *)&a2[2131];
+  vostok::shared_string::shared_string(a2 + 2131, &name.m_pointer, "bones_matrices");
+  v3 = (vostok::strings::shared::profile *)vostok::render::backend::register_constant_host(
+                                             v2,
+                                             SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+                                             &name,
+                                             0);
+  v5 = name.m_pointer.m_object == 0;
+  a2[78].m_pointer.m_object = v3;
+  if ( !v5 )
   {
-    p_m_reference_count = &v4->m_reference_count;
-    name.m_pointer.m_object = v4;
-    v5 = (vostok::render::backend *)_InterlockedExchangeAdd(&v4->m_reference_count, 1u);
+    v4 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v4 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  a2[78] = vostok::render::backend::register_constant_host(
-             v5,
-             (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-             &name,
-             rc_float);
-  if ( p_m_reference_count )
-  {
-    v7 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(p_m_reference_count, 0xFFFFFFFF);
-    if ( !v7 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
-  }
-  v8 = vostok::strings::shared::manager::string(v7, (const char *)s_manager.m_variable);
-  v10 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v8 )
-  {
-    v10 = &v8->m_reference_count;
-    name.m_pointer.m_object = v8;
-    v9 = (vostok::render::backend *)_InterlockedExchangeAdd(&v8->m_reference_count, 1u);
-  }
-  a2[79] = vostok::render::backend::register_constant_host(
-             v9,
-             (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-             &name,
-             rc_float);
-  if ( v10 )
-  {
-    if ( !_InterlockedExchangeAdd(v10, 0xFFFFFFFF) )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
-  }
+  vostok::shared_string::shared_string(v4, &name.m_pointer, "prev_bones_matrices");
+  v7 = (vostok::strings::shared::profile *)vostok::render::backend::register_constant_host(
+                                             v6,
+                                             SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+                                             &name,
+                                             0);
+  v5 = name.m_pointer.m_object == 0;
+  a2[79].m_pointer.m_object = v7;
+  if ( !v5 && !_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF) )
+    vostok::strings::shared::detail::intrusive_base::destroy(
+      0,
+      (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
 }

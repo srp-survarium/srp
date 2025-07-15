@@ -11,7 +11,7 @@ void __thiscall Scaleform::GFx::AS3::Classes::fl_gfx::TextFieldEx::setVerticalAl
   Scaleform::Render::Text::DocView *v8; // eax
   unsigned __int8 v9; // dl
 
-  if ( LOBYTE(this->pTraits.pObject->pVM[1].ExceptionObj.Bonus.pWeakProxy) )
+  if ( *(&this->pTraits.pObject->pVM[1].HandleException + 4) )
   {
     pObject = (Scaleform::GFx::TextField *)textField->pDispObj.pObject;
     if ( !strcmp(valign->pNode->pData, "none") )

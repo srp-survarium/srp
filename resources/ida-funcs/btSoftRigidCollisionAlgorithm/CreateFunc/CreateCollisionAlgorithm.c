@@ -5,6 +5,7 @@ btCollisionAlgorithm *__thiscall btSoftRigidCollisionAlgorithm::CreateFunc::Crea
         btCollisionObject *body1)
 {
   btCollisionAlgorithm *result; // eax
+  btDispatcher *m_dispatcher1; // ecx
 
   result = (btCollisionAlgorithm *)ci->m_dispatcher1->allocateCollisionAlgorithm(ci->m_dispatcher1, 20);
   if ( this->m_swapped )
@@ -12,18 +13,19 @@ btCollisionAlgorithm *__thiscall btSoftRigidCollisionAlgorithm::CreateFunc::Crea
     if ( result )
     {
       result->__vftable = (btCollisionAlgorithm_vtbl *)&btCollisionAlgorithm::`vftable';
-      result->m_dispatcher = ci->m_dispatcher1;
+      m_dispatcher1 = ci->m_dispatcher1;
       LOBYTE(result[2].__vftable) = 1;
-      result->__vftable = (btCollisionAlgorithm_vtbl *)&btSoftRigidCollisionAlgorithm::`vftable';
-      return result;
+      goto LABEL_6;
     }
   }
   else if ( result )
   {
     result->__vftable = (btCollisionAlgorithm_vtbl *)&btCollisionAlgorithm::`vftable';
-    result->m_dispatcher = ci->m_dispatcher1;
+    m_dispatcher1 = ci->m_dispatcher1;
     LOBYTE(result[2].__vftable) = 0;
+LABEL_6:
     result->__vftable = (btCollisionAlgorithm_vtbl *)&btSoftRigidCollisionAlgorithm::`vftable';
+    result->m_dispatcher = m_dispatcher1;
     return result;
   }
   return 0;

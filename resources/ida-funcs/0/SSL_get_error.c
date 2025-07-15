@@ -10,7 +10,7 @@ int __cdecl SSL_get_error(const ssl_st *s, int i)
     return 0;
   v3 = ERR_peek_error();
   if ( v3 )
-    return 4 * ((v3 & 0xFF000000) == (_DWORD)&vostok::memory::s_CRT_arena[22351416]) + 1;
+    return 4 * ((v3 & 0xFF000000) == 0x2000000) + 1;
   v4 = i == 0;
   if ( i < 0 )
   {

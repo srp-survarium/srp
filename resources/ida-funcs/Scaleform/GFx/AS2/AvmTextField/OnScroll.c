@@ -11,41 +11,41 @@ void __thiscall Scaleform::GFx::AS2::AvmTextField::OnScroll(Scaleform::GFx::AS2:
   Scaleform::RefCountNTSImpl *v11; // ecx
   Scaleform::RefCountNTSImpl *v12; // ecx
   Scaleform::GFx::AS2::Value *Data; // esi
-  Scaleform::Array<Scaleform::GFx::AS2::Value,2,Scaleform::ArrayDefaultPolicy> params; // [esp+10h] [ebp-60h] BYREF
+  Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy> > a; // [esp+10h] [ebp-60h] BYREF
   Scaleform::GFx::AS2::Value v; // [esp+1Ch] [ebp-54h] BYREF
-  Scaleform::GFx::AS2::MovieRoot::ActionEntry ae; // [esp+2Ch] [ebp-44h] BYREF
+  Scaleform::GFx::AS2::MovieRoot::ActionEntry entry; // [esp+2Ch] [ebp-44h] BYREF
 
   v2 = (Scaleform::GFx::InteractiveObject *)*((_DWORD *)&this[-1].VariableVal.NV + 3);
   v3 = ((int (__thiscall *)(Scaleform::GFx::ASString *))this[-1].VariableName.pNode[5].pManager)(&this[-1].VariableName);
-  memset((void *)&ae.mEventId, 0, 13);
-  ae.mEventId.RollOverCnt = 0;
-  memset(&ae.mEventId.KeysState, 0, 11);
-  ae.mEventId.ControllerIndex = -1;
-  memset(&ae.FunctionParams, 0, 16);
-  ae.pNextEntry = 0;
-  ae.Type = Entry_CFunction;
+  memset((void *)&entry.mEventId, 0, 13);
+  entry.mEventId.RollOverCnt = 0;
+  memset(&entry.mEventId.KeysState, 0, 11);
+  entry.mEventId.ControllerIndex = -1;
+  memset(&entry.FunctionParams, 0, 16);
+  entry.pNextEntry = 0;
+  entry.Type = Entry_CFunction;
   if ( v2 )
     ++v2->RefCount;
   v4 = (Scaleform::GFx::AS2::MovieRoot::ActionQueueType *)(*(_DWORD *)(*((_DWORD *)&this[-1].VariableVal.NV + 3) + 16)
                                                          + 68);
-  ae.pCharacter.pObject = v2;
-  ae.pActionBuffer.pObject = 0;
-  ae.CFunction = (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::AvmTextField::BroadcastMessage;
-  if ( !Scaleform::GFx::AS2::MovieRoot::ActionQueueType::FindEntry(v4, AP_Frame, &ae) )
+  entry.pCharacter.pObject = v2;
+  entry.pActionBuffer.pObject = 0;
+  entry.CFunction = Scaleform::GFx::AS2::AvmTextField::BroadcastMessage;
+  if ( !Scaleform::GFx::AS2::MovieRoot::ActionQueueType::FindEntry(v4, AP_Frame, &entry) )
   {
     v5 = *(Scaleform::GFx::ASStringManager **)(*(_DWORD *)(*(_DWORD *)(*(_DWORD *)(v3 + 116) + 20) + 12) + 788);
-    memset(&params, 0, sizeof(params));
+    memset(&a, 0, sizeof(a));
     ConstStringNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(v5, "onScroller", 0xAu, 0);
     ++ConstStringNode->RefCount;
     ++ConstStringNode->RefCount;
     v.T.Type = 5;
     v.NV.Int32Value = (int)ConstStringNode;
     Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-      &params.Data,
-      &params,
+      &a.Data,
+      &a,
       1u);
-    if ( &params.Data.Data[params.Data.Size] == (Scaleform::GFx::AS2::Value *)16
-      || (Scaleform::GFx::AS2::Value::Value(&params.Data.Data[params.Data.Size - 1], &v), v.T.Type >= 5u) )
+    if ( &a.Data.Data[a.Data.Size] == (Scaleform::GFx::AS2::Value *)16
+      || (Scaleform::GFx::AS2::Value::Value(&a.Data.Data[a.Data.Size - 1], &v), v.T.Type >= 5u) )
     {
       Scaleform::GFx::AS2::Value::DropRefs(&v);
     }
@@ -66,11 +66,11 @@ void __thiscall Scaleform::GFx::AS2::AvmTextField::OnScroll(Scaleform::GFx::AS2:
       v.NV.Int32Value = 0;
     }
     Scaleform::ArrayDataBase<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
-      &params.Data,
-      &params,
-      params.Data.Size + 1);
-    if ( &params.Data.Data[params.Data.Size] == (Scaleform::GFx::AS2::Value *)16
-      || (Scaleform::GFx::AS2::Value::Value(&params.Data.Data[params.Data.Size - 1], &v), v.T.Type >= 5u) )
+      &a.Data,
+      &a,
+      a.Data.Size + 1);
+    if ( &a.Data.Data[a.Data.Size] == (Scaleform::GFx::AS2::Value *)16
+      || (Scaleform::GFx::AS2::Value::Value(&a.Data.Data[a.Data.Size - 1], &v), v.T.Type >= 5u) )
     {
       Scaleform::GFx::AS2::Value::DropRefs(&v);
     }
@@ -91,14 +91,14 @@ void __thiscall Scaleform::GFx::AS2::AvmTextField::OnScroll(Scaleform::GFx::AS2:
     if ( v12 )
       Scaleform::RefCountNTSImpl::Release(v12);
     v10->pActionBuffer.pObject = 0;
-    v10->CFunction = (void (__cdecl *)(const Scaleform::GFx::AS2::FnCall *))Scaleform::GFx::AS2::AvmTextField::BroadcastMessage;
+    v10->CFunction = Scaleform::GFx::AS2::AvmTextField::BroadcastMessage;
     Scaleform::ArrayBase<Scaleform::ArrayData<Scaleform::GFx::AS2::Value,Scaleform::AllocatorGH<Scaleform::GFx::AS2::Value,2>,Scaleform::ArrayDefaultPolicy>>::operator=(
       &v10->FunctionParams,
-      &params);
-    Data = params.Data.Data;
-    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::DestructArray(params.Data.Data, params.Data.Size);
+      &a);
+    Data = a.Data.Data;
+    Scaleform::ConstructorMov<Scaleform::GFx::AS2::Value>::DestructArray(a.Data.Data, a.Data.Size);
     if ( Data )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
   }
-  Scaleform::GFx::AS2::MovieRoot::ActionEntry::~ActionEntry(&ae);
+  Scaleform::GFx::AS2::MovieRoot::ActionEntry::~ActionEntry(&entry);
 }

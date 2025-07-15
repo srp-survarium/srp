@@ -19,15 +19,15 @@ void __cdecl png_write_finish_row(int a1)
         if ( (unsigned __int8)++*(_BYTE *)(a1 + 313) >= 7u )
           break;
         *(_DWORD *)(a1 + 240) = (*(_DWORD *)(a1 + 228)
-                               + (unsigned __int8)byte_8608C8[*(unsigned __int8 *)(a1 + 313)]
+                               + (unsigned __int8)byte_6F4210[*(unsigned __int8 *)(a1 + 313)]
                                - 1
-                               - (unsigned int)(unsigned __int8)byte_8608C0[*(unsigned __int8 *)(a1 + 313)])
-                              / (unsigned __int8)byte_8608C8[*(unsigned __int8 *)(a1 + 313)];
+                               - (unsigned int)(unsigned __int8)byte_6F4208[*(unsigned __int8 *)(a1 + 313)])
+                              / (unsigned __int8)byte_6F4210[*(unsigned __int8 *)(a1 + 313)];
         *(_DWORD *)(a1 + 236) = (*(_DWORD *)(a1 + 232)
-                               + (unsigned __int8)byte_8608D8[*(unsigned __int8 *)(a1 + 313)]
+                               + (unsigned __int8)byte_6F4220[*(unsigned __int8 *)(a1 + 313)]
                                - 1
-                               - (unsigned int)(unsigned __int8)byte_8608D0[*(unsigned __int8 *)(a1 + 313)])
-                              / (unsigned __int8)byte_8608D8[*(unsigned __int8 *)(a1 + 313)];
+                               - (unsigned int)(unsigned __int8)byte_6F4218[*(unsigned __int8 *)(a1 + 313)])
+                              / (unsigned __int8)byte_6F4220[*(unsigned __int8 *)(a1 + 313)];
         if ( (*(_DWORD *)(a1 + 116) & 2) != 0 )
           break;
       }
@@ -70,7 +70,7 @@ LABEL_24:
       while ( v2 != 1 );
       if ( *(_DWORD *)(a1 + 136) < *(_DWORD *)(a1 + 180) )
         png_write_IDAT(a1, *(unsigned __int8 **)(a1 + 176), *(_DWORD *)(a1 + 180) - *(_DWORD *)(a1 + 136));
-      sub_36C300(a1);
+      sub_478FC0(a1);
       *(_DWORD *)(a1 + 164) = 0;
     }
   }

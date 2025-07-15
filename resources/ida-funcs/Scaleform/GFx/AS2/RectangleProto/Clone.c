@@ -9,8 +9,11 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Clone(const Scaleform::GFx::AS
   Scaleform::GFx::AS2::Value *v7; // esi
   int i; // ebp
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::ASStringContext *p_StringContext; // [esp-10h] [ebp-58h]
-  Scaleform::GFx::AS2::Value params[4]; // [esp+8h] [ebp-40h] BYREF
+  Scaleform::GFx::ASStringNode *p_StringContext; // [esp-10h] [ebp-58h]
+  Scaleform::GFx::AS2::Value v11; // [esp+8h] [ebp-40h] BYREF
+  char v12; // [esp+18h] [ebp-30h]
+  char v13; // [esp+28h] [ebp-20h]
+  char v14; // [esp+38h] [ebp-10h]
   _UNKNOWN *retaddr; // [esp+48h] [ebp+0h] BYREF
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_Rectangle )
@@ -31,13 +34,16 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Clone(const Scaleform::GFx::AS
     {
       v6 = 0;
     }
-    p_StringContext = &fn->Env->StringContext;
-    params[0].T.Type = 0;
-    params[1].T.Type = 0;
-    params[2].T.Type = 0;
-    params[3].T.Type = 0;
-    Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, p_StringContext, params);
-    Scaleform::GFx::AS2::RectangleObject::SetProperties(v6, &fn->Env->StringContext, params);
+    p_StringContext = (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext;
+    v11.T.Type = 0;
+    v12 = 0;
+    v13 = 0;
+    v14 = 0;
+    Scaleform::GFx::AS2::RectangleObject::GetProperties(p_pProto, p_StringContext, &v11);
+    Scaleform::GFx::AS2::RectangleObject::SetProperties(
+      v6,
+      (Scaleform::GFx::ASStringNode *)&fn->Env->StringContext,
+      &v11);
     Scaleform::GFx::AS2::Value::SetAsObject(fn->Result, v6);
     v7 = (Scaleform::GFx::AS2::Value *)&retaddr;
     for ( i = 3; i >= 0; --i )
@@ -49,7 +55,7 @@ void __cdecl Scaleform::GFx::AS2::RectangleProto::Clone(const Scaleform::GFx::AS
     if ( v6 )
     {
       RefCount = v6->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         v6->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v6);

@@ -1,5 +1,5 @@
 void __cdecl Camellia_cfb8_encrypt(
-        const unsigned __int8 *in,
+        unsigned __int8 *in,
         unsigned __int8 *out,
         unsigned int length,
         const camellia_key_st *key,

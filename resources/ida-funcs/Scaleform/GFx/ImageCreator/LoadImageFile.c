@@ -4,35 +4,39 @@ Scaleform::Render::Image *__userpurge Scaleform::GFx::ImageCreator::LoadImageFil
         Scaleform::String info,
         Scaleform::String *url)
 {
-  const Scaleform::GFx::ImageCreateInfo *pData; // ebp
-  Scaleform::GFx::ImageFileHandlerRegistry *Size; // ebx
+  Scaleform::String::DataDesc *pData; // ebp
+  unsigned int Size; // ebx
   Scaleform::String *v6; // esi
   Scaleform::Render::TextureManager *pObject; // ecx
   char v8; // al
   Scaleform::String *v9; // eax
   Scaleform::String *v10; // eax
   Scaleform::String *v11; // eax
-  Scaleform::RefCountVImpl *v12; // esi
+  Scaleform::File *v12; // esi
   Scaleform::Render::ImageFileHandlerRegistry *v13; // ebx
   bool v14; // zf
-  Scaleform::MemoryHeap *Use; // eax
-  Scaleform::Render::ImageUpdateSync *v16; // edx
-  int v17; // edi
+  int v15; // eax
+  int v16; // edx
+  Scaleform::Render::ImageSource *v17; // edi
   int v18; // ebx
   void *v20; // esi
   int v21; // [esp+4h] [ebp-44h]
-  Scaleform::Render::ImageFileReader *reader; // [esp+18h] [ebp-30h]
-  Scaleform::Render::ImageCreateArgs args; // [esp+1Ch] [ebp-2Ch] BYREF
-  Scaleform::FileStat tmp; // [esp+30h] [ebp-18h] BYREF
+  _DWORD *v23; // [esp+18h] [ebp-30h]
+  Scaleform::Render::ImageFileReader *preader; // [esp+1Ch] [ebp-2Ch] BYREF
+  int v25; // [esp+20h] [ebp-28h] BYREF
+  volatile int RefCount; // [esp+24h] [ebp-24h]
+  int v27; // [esp+28h] [ebp-20h]
+  int v28; // [esp+2Ch] [ebp-1Ch]
+  Scaleform::FileStat pfileStat; // [esp+30h] [ebp-18h] BYREF
 
-  pData = (const Scaleform::GFx::ImageCreateInfo *)info.pData;
-  Size = (Scaleform::GFx::ImageFileHandlerRegistry *)info.pData[2].Size;
+  pData = info.pData;
+  Size = info.pData[2].Size;
   if ( !Size || !*(_DWORD *)info.pData[1].Data )
     return 0;
   v21 = a2;
   v6 = url;
   Scaleform::String::String(&info, url);
-  if ( !Scaleform::String::HasExtension((const char *)((v6->HeapTypeBits & 0xFFFFFFFC) + 8)) )
+  if ( !Scaleform::String::HasExtension((char *)((v6->HeapTypeBits & 0xFFFFFFFC) + 8)) )
   {
     pObject = this->pTextureManager.pObject;
     if ( !pObject )
@@ -40,77 +44,68 @@ Scaleform::Render::Image *__userpurge Scaleform::GFx::ImageCreator::LoadImageFil
     v8 = ((int (__thiscall *)(Scaleform::Render::TextureManager *, int))pObject->GetTextureFormatSupport)(pObject, v21);
     if ( (v8 & 1) != 0 )
     {
-      v9 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, ".dds");
+      v9 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, (const __m128i *)".dds");
       goto LABEL_12;
     }
     if ( (v8 & 0x28) != 0 )
     {
-      v9 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, ".pvr");
+      v9 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, (const __m128i *)".pvr");
 LABEL_12:
       Scaleform::String::operator=(&info, v9);
       Scaleform::String::~String((Scaleform::String *)&url);
-      if ( Scaleform::SysFile::GetFileStat(&tmp, &info) )
+      if ( Scaleform::SysFile::GetFileStat(&pfileStat, &info) )
         goto file_detected;
       goto LABEL_13;
     }
     if ( (v8 & 0x10) == 0
-      || (v10 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, ".sif"),
+      || (v10 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, (const __m128i *)".sif"),
           Scaleform::String::operator=(&info, v10),
           Scaleform::String::~String((Scaleform::String *)&url),
-          !Scaleform::SysFile::GetFileStat(&tmp, &info)) )
+          !Scaleform::SysFile::GetFileStat(&pfileStat, &info)) )
     {
 LABEL_13:
-      v11 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, ".tga");
+      v11 = Scaleform::String::operator+(v6, (Scaleform::String *)&url, (const __m128i *)".tga");
       Scaleform::String::operator=(&info, v11);
       Scaleform::String::~String((Scaleform::String *)&url);
     }
   }
 file_detected:
-  v12 = (Scaleform::RefCountVImpl *)((int (__thiscall *)(Scaleform::GFx::FileOpener *, unsigned int, int, int, int))pData->pFileOpener->OpenFile)(
-                                      pData->pFileOpener,
-                                      (info.HeapTypeBits & 0xFFFFFFFC) + 8,
-                                      33,
-                                      438,
-                                      v21);
-  v13 = &Size->Scaleform::Render::ImageFileHandlerRegistry;
-  memset(&args.pHeap, 0, 16);
-  LODWORD(tmp.ModifyTime) = 0;
-  if ( Scaleform::Render::ImageFileHandlerRegistry::DetectFormat(
-         v13,
-         (Scaleform::Render::ImageFileReader **)&args,
-         (Scaleform::File *)v12,
-         0,
-         0) != ImageFile_Unknown )
+  v12 = (Scaleform::File *)(*(int (__thiscall **)(_DWORD, unsigned int, int, int, int))(**(_DWORD **)pData[1].Data + 4))(
+                             *(_DWORD *)pData[1].Data,
+                             (info.HeapTypeBits & 0xFFFFFFFC) + 8,
+                             33,
+                             438,
+                             v21);
+  v13 = (Scaleform::Render::ImageFileHandlerRegistry *)(Size + 12);
+  v25 = 0;
+  RefCount = 0;
+  v27 = 0;
+  v28 = 0;
+  LODWORD(pfileStat.ModifyTime) = 0;
+  if ( Scaleform::Render::ImageFileHandlerRegistry::DetectFormat(v13, &preader, v12, 0, 0) != 1 )
   {
-    v14 = pData->RUse == Use_FontTexture;
-    Use = (Scaleform::MemoryHeap *)pData->Use;
-    args.pManager = (Scaleform::Render::TextureManager *)pData->pHeap;
-    v16 = (Scaleform::Render::ImageUpdateSync *)reader[3].__vftable;
-    args.pHeap = Use;
-    args.pUpdateSync = v16;
+    v14 = pData[1].Size == 3;
+    v15 = *(_DWORD *)pData->Data;
+    RefCount = pData->RefCount;
+    v16 = v23[3];
+    v25 = v15;
+    v27 = v16;
     if ( v14 )
-      LODWORD(tmp.ModifyTime) = 9;
-    v17 = (*(int (__thiscall **)(unsigned int, Scaleform::RefCountVImpl *, Scaleform::MemoryHeap **))(*(_DWORD *)args.Use + 20))(
-            args.Use,
-            v12,
-            &args.pHeap);
+      LODWORD(pfileStat.ModifyTime) = 9;
+    v17 = preader->ReadImageSource(preader, v12, &v25);
     if ( v17 )
     {
-      v18 = ((int (__thiscall *)(Scaleform::Render::ImageFileReader *, const Scaleform::GFx::ImageCreateInfo *))reader->MatchFormat)(
-              reader,
-              pData);
-      (*(void (__thiscall **)(int))(*(_DWORD *)v17 + 8))(v17);
+      v18 = (*(int (__thiscall **)(_DWORD *, Scaleform::String::DataDesc *))(*v23 + 16))(v23, pData);
+      v17->Release(v17);
       if ( v12 )
-        Scaleform::RefCountImpl::Release(v12);
+        Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v12);
       Scaleform::String::~String(&info);
       return (Scaleform::Render::Image *)v18;
     }
   }
-  v18 = ((int (__thiscall *)(Scaleform::Render::ImageFileHandlerRegistry *, Scaleform::RefCountVImpl *))v13->ReadImage)(
-          v13,
-          v12);
+  v18 = ((int (__thiscall *)(Scaleform::Render::ImageFileHandlerRegistry *, Scaleform::File *))v13->ReadImage)(v13, v12);
   if ( v12 )
-    Scaleform::RefCountImpl::Release(v12);
+    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v12);
   v20 = (void *)(info.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((info.HeapTypeBits & 0xFFFFFFFC) + 4), -1) != 1 )
     return (Scaleform::Render::Image *)v18;

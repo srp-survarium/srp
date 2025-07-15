@@ -1,6 +1,6 @@
 char __thiscall Scaleform::GFx::AS3::MovieRoot::ExtractPathAndName(
         Scaleform::GFx::AS3::MovieRoot *this,
-        char *fullPath,
+        __m128i *fullPath,
         Scaleform::GFx::ASString *ppath,
         Scaleform::GFx::ASString *pname)
 {
@@ -13,19 +13,19 @@ char __thiscall Scaleform::GFx::AS3::MovieRoot::ExtractPathAndName(
   Scaleform::GFx::ASStringNode *v11; // esi
   Scaleform::GFx::ASStringNode *v12; // ecx
 
-  v4 = strlen(fullPath);
+  v4 = strlen(fullPath->m128i_i8);
   if ( !v4 )
     return 0;
-  while ( fullPath[v4] != 46 )
+  while ( fullPath->m128i_i8[v4] != 46 )
   {
     if ( !--v4 )
       return 0;
   }
-  v6 = &fullPath[v4];
+  v6 = &fullPath->m128i_i8[v4];
   if ( !v6 )
     return 0;
-  v7 = v6 - fullPath;
-  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(this->BuiltinsMgr.pStringManager, (char *)v6 + 1);
+  v7 = v6 - (const char *)fullPath;
+  StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(this->BuiltinsMgr.pStringManager, (__m128i *)(v6 + 1));
   StringNode->RefCount += 2;
   pNode = pname->pNode;
   v10 = pname->pNode->RefCount-- == 1;

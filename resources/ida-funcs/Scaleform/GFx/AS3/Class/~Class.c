@@ -5,7 +5,7 @@ void __thiscall Scaleform::GFx::AS3::Class::~Class(Scaleform::GFx::AS3::Class *t
   Scaleform::GFx::AS3::Class *v4; // ecx
   unsigned int v5; // eax
 
-  this->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Class::`vftable';
   pObject = this->pPrototype.pObject;
   if ( pObject )
   {
@@ -16,7 +16,7 @@ void __thiscall Scaleform::GFx::AS3::Class::~Class(Scaleform::GFx::AS3::Class *t
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS3::Class::~Class(Scaleform::GFx::AS3::Class *t
       return;
     }
     v5 = v4->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v5) != 0 )
+    if ( (v5 & 0x3FFFFF) != 0 )
     {
       v4->RefCount = v5 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);

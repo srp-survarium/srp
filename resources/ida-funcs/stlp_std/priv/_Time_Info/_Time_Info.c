@@ -2,21 +2,21 @@ void __thiscall stlp_std::priv::_Time_Info::_Time_Info(stlp_std::priv::_Time_Inf
 {
   stlp_std::priv::_Time_Info_Base::_Time_Info_Base(this);
   `eh vector constructor iterator'(
-    this->_M_dayname,
+    (char *)this->_M_dayname,
     0x18u,
     14,
     (void (__thiscall *)(void *))stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::`default constructor closure',
-    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block);
+    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::~_String_base<char,stlp_std::allocator<char>>);
   `eh vector constructor iterator'(
-    this->_M_monthname,
+    (char *)this->_M_monthname,
     0x18u,
     24,
     (void (__thiscall *)(void *))stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::`default constructor closure',
-    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block);
+    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::~_String_base<char,stlp_std::allocator<char>>);
   `eh vector constructor iterator'(
-    this->_M_am_pm,
+    (char *)this->_M_am_pm,
     0x18u,
     2,
     (void (__thiscall *)(void *))stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char>>::`default constructor closure',
-    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block);
+    (void (__thiscall *)(void *))stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::~_String_base<char,stlp_std::allocator<char>>);
 }

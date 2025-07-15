@@ -1,6 +1,6 @@
 BOOL __usercall inspect_error@<eax>(
-        int x0@<eax>,
-        int y1@<ecx>,
+        int y1@<eax>,
+        int x0,
         int x1,
         int y0,
         const float *mask,
@@ -8,108 +8,87 @@ BOOL __usercall inspect_error@<eax>(
         vorbis_info_floor1 *info)
 {
   int v7; // ecx
-  unsigned int v9; // ebp
-  int v10; // ebx
+  int v8; // edi
+  unsigned int v9; // ebx
+  int v10; // edx
   int v11; // eax
-  int v12; // eax
-  int v13; // eax
-  int v14; // ecx
-  int v15; // esi
+  int v12; // edx
+  unsigned int v13; // ebx
+  int v14; // edx
+  float twofitatten; // xmm2_4
   vorbis_info_floor1 *v16; // ecx
-  int v18; // ebp
-  int v20; // edi
-  float *v21; // esi
-  int v22; // edi
-  int v23; // eax
-  int v24; // eax
-  int v25; // ecx
-  int y; // [esp+10h] [ebp-1Ch]
-  int val; // [esp+14h] [ebp-18h]
-  int n; // [esp+18h] [ebp-14h]
-  int err; // [esp+1Ch] [ebp-10h]
-  int sy; // [esp+20h] [ebp-Ch]
-  int base; // [esp+24h] [ebp-8h]
-  int ady; // [esp+28h] [ebp-4h]
-  float x1a; // [esp+30h] [ebp+4h]
-  float x; // [esp+34h] [ebp+8h]
-  int xa; // [esp+34h] [ebp+8h]
-  float maska; // [esp+38h] [ebp+Ch]
-  float maskb; // [esp+38h] [ebp+Ch]
-  float mdcta; // [esp+3Ch] [ebp+10h]
+  const float *v18; // esi
+  int v19; // eax
+  int v20; // edx
+  float maxerr; // xmm0_4
+  int v22; // [esp+Ch] [ebp-18h]
+  int v23; // [esp+10h] [ebp-14h]
+  int v24; // [esp+14h] [ebp-10h]
+  int v25; // [esp+18h] [ebp-Ch]
+  int v26; // [esp+1Ch] [ebp-8h]
+  int v27; // [esp+1Ch] [ebp-8h]
+  int v28; // [esp+20h] [ebp-4h]
+  int v29; // [esp+34h] [ebp+10h]
 
   v7 = y1 - y0;
-  v9 = abs32(v7);
-  v10 = x1 - x0;
-  v11 = v7 / (x1 - x0);
-  base = v11;
+  v8 = x1 - x0;
+  v9 = abs32(y1 - y0);
+  v10 = (y1 - y0) / (x1 - x0);
+  v22 = v10;
+  v11 = v10 - 1;
   if ( v7 >= 0 )
-    v12 = v11 + 1;
-  else
-    v12 = v11 - 1;
-  sy = v12;
-  y = y0;
-  err = 0;
-  v13 = (int)(mask[x0] * 7.314285755157471 + 1023.5);
-  if ( v13 <= 1023 )
-    v14 = v13 < 0 ? 0 : v13;
-  else
-    v14 = 1023;
-  v15 = y0 - v14;
-  val = v14;
+    v11 = v10 + 1;
+  v25 = 0;
+  v23 = v11;
+  v28 = y0;
+  v26 = vorbis_dBquant(&mask[x0]);
+  v13 = v9 - abs32(v8 * v12);
+  v14 = (y0 - v26) * (y0 - v26);
+  twofitatten = info->twofitatten;
   v16 = info;
-  ady = v9 - abs32(v10 * base);
-  v18 = v15 * v15;
-  n = 1;
-  if ( mask[x0] <= mdct[x0] + info->twofitatten )
+  v24 = 1;
+  if ( (float)(mdct[x0] + twofitatten) >= mask[x0]
+    && ((float)v26 > (float)(info->maxover + (float)y0) || (float)((float)y0 - info->maxunder) > (float)v26) )
   {
-    x = (float)y0;
-    maska = (float)val;
-    if ( maska > info->maxover + x || x - info->maxunder > maska )
-      return 1;
+    return 1;
   }
-  v20 = x0 + 1;
-  xa = v20;
-  if ( v20 < x1 )
+  v29 = x0 + 1;
+  if ( x0 + 1 < x1 )
   {
-    v21 = (float *)&mask[v20];
-    v22 = (char *)mdct - (char *)mask;
+    v18 = &mask[x0 + 1];
     while ( 1 )
     {
-      v23 = ady + err;
-      err += ady;
-      if ( err < v10 )
+      v25 += v13;
+      if ( v25 < v8 )
       {
-        y += base;
+        v19 = v22;
       }
       else
       {
-        y += sy;
-        err = v23 - v10;
+        v25 -= v8;
+        v19 = v23;
       }
-      v24 = (int)(*v21 * 7.314285755157471 + 1023.5);
-      v25 = v24 <= 1023 ? (v24 < 0 ? 0 : v24) : 1023;
-      ++n;
-      v18 += (y - v25) * (y - v25);
-      if ( *v21 <= *(float *)((char *)v21 + v22) + info->twofitatten )
+      v28 += v19;
+      v27 = vorbis_dBquant(v18);
+      v14 = (v28 - v27) * (v28 - v27) + v20;
+      ++v24;
+      if ( (float)(*(const float *)((char *)v18 + (char *)mdct - (char *)mask) + twofitatten) >= *v18
+        && v27
+        && ((float)v27 > (float)(info->maxover + (float)v28) || (float)((float)v28 - info->maxunder) > (float)v27) )
       {
-        if ( v25 )
-        {
-          mdcta = (float)y;
-          maskb = (float)v25;
-          if ( maskb > info->maxover + mdcta || mdcta - info->maxunder > maskb )
-            return 1;
-        }
+        return 1;
       }
-      ++v21;
-      if ( ++xa >= x1 )
+      ++v29;
+      ++v18;
+      if ( v29 >= x1 )
       {
         v16 = info;
         break;
       }
     }
   }
-  x1a = (float)n;
-  if ( v16->maxerr < v16->maxover * v16->maxover / x1a )
-    return 0;
-  return v16->maxerr >= v16->maxunder * v16->maxunder / x1a && v16->maxerr < (double)(v18 / n);
+  maxerr = v16->maxerr;
+  return (float)((float)(v16->maxover * v16->maxover) / (float)v24) <= maxerr
+      && (float)((float)(v16->maxunder * v16->maxunder) / (float)v24) <= maxerr
+      && (float)(v14 / v24) > maxerr;
 }

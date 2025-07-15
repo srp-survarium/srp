@@ -4,7 +4,7 @@ void __thiscall btTriangleShapeEx::getAabb(
         btVector3 *aabbMin,
         btVector3 *aabbMax)
 {
-  btAABB v4; // [esp+120h] [ebp-20h] BYREF
+  btAABB v4; // [esp+44h] [ebp-20h] BYREF
 
   btAABB::btAABB(&v4, this->m_collisionMargin);
   *aabbMin = v4.m_min;

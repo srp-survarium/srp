@@ -1,12 +1,12 @@
 Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::SetSuperProperty(
         Scaleform::GFx::AS3::CheckResult *result,
         Scaleform::GFx::AS3::VM *vm,
-        Scaleform::GFx::AS3::Traits *ot,
-        Scaleform::GFx::AS3::Value *_this,
+        const Scaleform::GFx::AS3::Traits *ot,
+        Scaleform::GFx::ASStringNode *_this,
         const Scaleform::ArrayLH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::Namespace>,2,Scaleform::ArrayDefaultPolicy> *mn,
-        const Scaleform::GFx::AS3::Value *value)
+        Scaleform::GFx::AS3::Value *value)
 {
-  Scaleform::GFx::AS3::Value *v6; // ebx
+  Scaleform::GFx::ASStringNode *v6; // ebx
   Scaleform::GFx::AS3::Traits *ValueTraits; // eax
   Scaleform::GFx::AS3::Traits *pObject; // esi
   Scaleform::GFx::AS3::SlotInfo *FixedSlot; // edi
@@ -18,8 +18,8 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::SetSuperProperty(
   index = 0;
   ValueTraits = ot;
   if ( !ot )
-    ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(vm, _this);
-  pObject = (Scaleform::GFx::AS3::Traits *)ValueTraits->pParent.pObject;
+    ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(vm, (const Scaleform::GFx::AS3::Value *)_this);
+  pObject = ValueTraits->pParent.pObject;
   if ( pObject )
   {
     index = 0;
@@ -34,7 +34,7 @@ Scaleform::GFx::AS3::CheckResult *__cdecl Scaleform::GFx::AS3::SetSuperProperty(
           Scaleform::GFx::AS3::SlotInfo::SetSlotValue(
             FixedSlot,
             (Scaleform::GFx::AS3::CheckResult *)&ot,
-            vm,
+            (Scaleform::GFx::ASStringNode *)vm,
             value,
             v6,
             VT)->Result) )

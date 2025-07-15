@@ -7,7 +7,7 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   Scaleform::GFx::ASStringNode *pNode; // eax
   unsigned int Flags; // eax
   Scaleform::GFx::ASStringNode *v7; // eax
-  char *v8; // eax
+  __m128i *v8; // eax
   Scaleform::GFx::ASStringNode *v9; // eax
   Scaleform::GFx::ASStringNode *v10; // eax
   unsigned int v11; // eax
@@ -63,7 +63,7 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   *(float *)&prop_name.pNode = COERCE_FLOAT(
                                  Scaleform::GFx::ASStringManager::CreateStringNode(
                                    StringManagerRef->pStringManager,
-                                   "indexInRun"));
+                                   (__m128i *)"indexInRun"));
   ++prop_name.pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &prop_name, &val, aNone);
   pNode = prop_name.pNode;
@@ -95,14 +95,14 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   --prop_name.pNode->RefCount;
   if ( !v7->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v7);
-  v8 = (char *)this->pFont->GetName(this->pFont);
+  v8 = (__m128i *)this->pFont->GetName(this->pFont);
   v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, v8);
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Value::Value(&v53, v);
   *(float *)&prop_name.pNode = COERCE_FLOAT(
                                  Scaleform::GFx::ASStringManager::CreateStringNode(
                                    StringManagerRef->pStringManager,
-                                   "font"));
+                                   (__m128i *)"font"));
   ++prop_name.pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, &prop_name, &v53, aNone);
   v9 = prop_name.pNode;
@@ -133,11 +133,7 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   v[0].pNode = Raw;
   val.Flags = v11 & 0xFFFFFFE0 | 4;
   val.value.VNumber = (double)(unsigned int)Raw;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                 StringManagerRef->pStringManager,
-                 (char *)&stru_9555EC,
-                 5u,
-                 0);
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateConstStringNode(StringManagerRef->pStringManager, "color", 5u, 0);
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v13 = v[0].pNode;
@@ -176,7 +172,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v16 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_a");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_a");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v17 = v[0].pNode;
@@ -196,7 +194,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v18 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_b");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_b");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v19 = v[0].pNode;
@@ -216,7 +216,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v20 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_c");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_c");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v21 = v[0].pNode;
@@ -236,7 +238,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v22 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_d");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_d");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v23 = v[0].pNode;
@@ -256,7 +260,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v24 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_tx");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_tx");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v25 = v[0].pNode;
@@ -276,7 +282,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v26 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "matrix_ty");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"matrix_ty");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v27 = v[0].pNode;
@@ -304,7 +312,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v[0].pNode;
   val.Flags = v28 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner0x");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner0x");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v29 = v[0].pNode;
@@ -324,7 +334,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v[0].pNode;
   val.Flags = v30 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner0y");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner0y");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v31 = v[0].pNode;
@@ -344,7 +356,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v[0].pNode;
   val.Flags = v32 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner1x");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner1x");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v33 = v[0].pNode;
@@ -364,7 +378,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = v51;
   val.Flags = v34 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner1y");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner1y");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v35 = v[0].pNode;
@@ -384,7 +400,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = v51;
   val.Flags = v36 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner2x");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner2x");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v37 = v[0].pNode;
@@ -404,7 +422,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = v52;
   val.Flags = v38 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner2y");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner2y");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v39 = v[0].pNode;
@@ -424,7 +444,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = v52;
   val.Flags = v40 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner3x");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner3x");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v41 = v[0].pNode;
@@ -444,7 +466,9 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   }
   val.value.VNumber = *(double *)&v53.Flags;
   val.Flags = v42 & 0xFFFFFFE0 | 4;
-  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, "corner3y");
+  v[0].pNode = Scaleform::GFx::ASStringManager::CreateStringNode(
+                 StringManagerRef->pStringManager,
+                 (__m128i *)"corner3y");
   ++v[0].pNode->RefCount;
   Scaleform::GFx::AS3::Object::AddDynamicSlotValuePair(pV, v, &val, aNone);
   v43 = v[0].pNode;
@@ -472,7 +496,7 @@ void __thiscall Scaleform::GFx::AS3::TextSnapshotGlyphVisitor::OnVisit(
   if ( pV && ((unsigned __int8)pV & 1) == 0 )
   {
     RefCount = pV->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       pV->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pV);

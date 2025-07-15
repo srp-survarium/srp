@@ -1,55 +1,51 @@
-void __thiscall survarium::weapon_core::deactivate(survarium::weapon_core *this)
+void __thiscall survarium::weapon_core::deactivate(survarium::weapon_core *this, BOOL real_remove)
 {
-  survarium::weapon_core *v1; // ecx
-  survarium::base_player *v2; // eax
-  survarium::weapon_core *v3; // ecx
-  survarium::weapon_core *v4; // ecx
-  survarium::weapon_core *v5; // ecx
-  survarium::weapon_core *v6; // ecx
-  survarium::game_camera *v7; // ecx
-  int v8; // eax
-  survarium::base_player *v9; // [esp+0h] [ebp-20h]
-  survarium::base_player *v10; // [esp+4h] [ebp-1Ch]
-  survarium::base_player *v11; // [esp+8h] [ebp-18h]
-  survarium::base_player *v12; // [esp+Ch] [ebp-14h]
-  survarium::base_player *v13; // [esp+10h] [ebp-10h]
-  survarium::base_player *user; // [esp+14h] [ebp-Ch]
+  survarium::base_player *v3; // ecx
+  vostok::ai::fsm *m_logic; // edi
+  vostok::ai::fsm_state *m_current_state; // ecx
+  survarium::base_player *v6; // ecx
+  vostok::ai::fsm_state *m_first; // eax
 
-  if ( g_is_server )
-  {
-    user = survarium::weapon_core::get_user(this, (int)this);
-    v2 = survarium::weapon_core::get_user(v1, (int)this);
-    user->unsubscribe_animation_player(user, "sound_events", v2);
-    v13 = survarium::weapon_core::get_user(v3, (int)this);
-    v13->unsubscribe_animation_player(v13, "shell_extraction", this);
-    v12 = survarium::weapon_core::get_user(v4, (int)this);
-    v12->unsubscribe_animation_player(v12, "left_hand_corrector", this);
-    v11 = survarium::weapon_core::get_user(v5, (int)this);
-    v11->unsubscribe_animation_player(v11, "right_hand_corrector", this);
-  }
-  survarium::character_dispersion_calculator::set_character_dispersion_params(
-    &this->m_dispersion_calculator.m_character_calculator,
-    0);
-  survarium::character_recoil_calculator::set_character_recoil_params(
-    &this->m_recoil_calculator.m_character_calculator,
-    0);
-  this->m_breath_vibration_calculator.m_user = 0;
-  survarium::breath_vibration_calculator::set_breath_holding_params(&this->m_breath_vibration_calculator, 0);
-  survarium::weapon_core::instant_hide(this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "Right heel", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "Right toe", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "Left heel", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "Left toe", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "left_hand_ik", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "right_hand_ik", this);
+  survarium::base_player::unsubscribe_animation_player(
+    (survarium::base_player *)this,
+    (int)this->m_user,
+    "shell_extraction",
+    (int)this);
+  this->on_hide(this, real_remove);
   if ( this->m_is_in_sprint_transition )
   {
-    v10 = survarium::weapon_core::get_user(this, (int)this);
-    v10->unsubscribe_animation_player(v10, channel_id_on_animation_lexeme_end, this);
-    v9 = survarium::weapon_core::get_user(v6, (int)this);
-    survarium::weapon_user_dead_state::finalize(v7);
-    v9->unsubscribe_animation_player(v9, channel_id_on_animation_lexeme_end, (const void *)(v8 + 1));
+    survarium::base_player::unsubscribe_animation_player(
+      v3,
+      (vostok::animation::reserved_channel_ids_enum)this->m_user,
+      (const void *)3,
+      (int)this);
+    this->m_is_in_sprint_transition = 0;
   }
-  survarium::weapon_user_animations_selector::deactivate(&this->m_user_animations_selector);
-  vostok::ai::fsm::set_initial_state(this->m_logic, 0);
+  m_logic = this->m_logic;
+  m_current_state = m_logic->m_current_state;
+  if ( m_current_state )
+  {
+    m_current_state->finalize(m_current_state);
+    m_logic->m_current_state = 0;
+  }
+  survarium::player_params_modifiers_container::remove_modifier(
+    &this->m_user->m_profile->modifiers,
+    movement_speed_modifier,
+    &this->m_move_speed_modifier);
+  if ( real_remove )
+  {
+    survarium::base_player::unsubscribe_from_player_death(v6, (int)this->m_user, &this->m_player_death_subscriber);
+    this->m_dispersion_calculator.m_character_params = 0;
+    this->m_dispersion_calculator.m_character_skill_factor_params = 0;
+    this->m_recoil_calculator.m_character_calculator.m_params = 0;
+    m_first = this->m_breath_vibration_calculator.m_logic.m_states.m_first;
+    this->m_breath_vibration_calculator.m_user = 0;
+    while ( m_first )
+    {
+      m_first[1].next = (vostok::ai::fsm_state *)this->m_breath_vibration_calculator.m_user;
+      m_first = m_first->next;
+    }
+    this->m_user = 0;
+  }
+  this->m_portable_interactive_object->deactivate(this->m_portable_interactive_object, real_remove);
 }

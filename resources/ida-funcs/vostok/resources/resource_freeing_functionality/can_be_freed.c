@@ -5,18 +5,19 @@ char __thiscall vostok::resources::resource_freeing_functionality::can_be_freed(
         bool *can_try_decrease_quality)
 {
   char v4; // bl
+  vostok::threading::simple_lock *v6; // ecx
 
   v4 = 1;
   if ( resource->m_quality_levels_count == 1 || !resource->is_increasing_quality(resource) )
     v4 = 0;
-  if ( !vostok::resources::resource_base::has_user_references((vostok::resources::resource_base *)this, resource) && !v4 )
+  if ( !vostok::resources::resource_base::has_user_references(resource) && !v4 )
     return vostok::resources::resource_freeing_functionality::parents_can_be_freed(
              resource,
-             (vostok::threading::simple_lock *)can_try_free,
-             this,
              can_try_free,
+             v6,
+             this,
              can_try_decrease_quality);
-  *can_try_decrease_quality = 0;
   *can_try_free = 0;
+  *can_try_decrease_quality = 0;
   return 0;
 }

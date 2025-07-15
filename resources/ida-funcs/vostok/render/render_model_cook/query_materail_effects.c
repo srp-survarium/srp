@@ -1,268 +1,258 @@
 void __thiscall vostok::render::render_model_cook::query_materail_effects(
         vostok::render::render_model_cook *this,
         vostok::render::cook_intermediate_data *cook_data,
-        vostok::render::cook_intermediate_data *cook_dataa)
+        vostok::render::cook_intermediate_data *pointer)
 {
-  int v3; // ebp
-  vostok::render::cook_intermediate_data *v4; // ecx
-  vostok::render::grass_render_model *m_object; // esi
-  unsigned int m_num_render_models; // esi
-  const vostok::resources::request *v7; // ebx
-  const vostok::variant<32> **v8; // edi
-  int v9; // esi
-  char *m_buffer; // ebx
+  vostok::render::cook_intermediate_data *v3; // esi
+  vostok::memory::doug_lea_allocator *v4; // ecx
+  unsigned int m_num_render_models; // ebx
+  void *v6; // esp
+  void *v7; // esp
+  void *v8; // esp
+  void *v9; // esp
+  vostok::buffer_string *v10; // ebx
+  bool v11; // zf
   unsigned int material_index; // eax
-  vostok::resources::unmanaged_resource *v12; // ebp
-  vostok::resources::unmanaged_resource *v13; // ecx
-  vostok::resources::unmanaged_resource *v14; // eax
-  vostok::resources::unmanaged_resource *v15; // ecx
-  vostok::fs_new::virtual_path_string *v16; // edi
-  vostok::fs_new::virtual_path_string *material_effects_instance_request_path; // eax
-  const char *v18; // eax
-  vostok::variant<32> *v19; // eax
-  _DWORD *v20; // edi
-  _DWORD *v21; // esi
-  vostok::resources::unmanaged_resource *v22; // edx
-  vostok::variant<32> *v23; // esi
-  vostok::detail::abstract_type_helper *m_helper; // ecx
-  void (__cdecl *v25)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::render::grass_render_model *v26; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  void *v28; // esi
-  void *v29; // esi
-  void *v30; // esi
-  vostok::resources::unmanaged_resource *v31; // [esp-4h] [ebp-180h]
-  unsigned int model_index; // [esp+10h] [ebp-16Ch]
-  int v33; // [esp+14h] [ebp-168h]
-  vostok::variant<32> *v34; // [esp+18h] [ebp-164h]
-  vostok::variant<32> **user_data_variants_ptrs; // [esp+1Ch] [ebp-160h]
-  vostok::resources::request *requests; // [esp+20h] [ebp-15Ch]
-  vostok::variant<32> *user_data_variants; // [esp+24h] [ebp-158h]
-  vostok::fs_new::virtual_path_string *pathes; // [esp+28h] [ebp-154h]
-  vostok::render::mesh_type_enum model_type; // [esp+2Ch] [ebp-150h]
-  __int64 model_type_4; // [esp+30h] [ebp-14Ch]
-  unsigned int num_requests; // [esp+3Ch] [ebp-140h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+40h] [ebp-13Ch] BYREF
-  vostok::fs_new::path_string_impl v43; // [esp+64h] [ebp-118h] BYREF
+  vostok::fs_new::virtual_path_string *v13; // ecx
+  vostok::particle::particle_system_instance_impl *m_object; // esi
+  survarium::pure_game_effect_emitter_base **v15; // eax
+  survarium::pure_game_effect_emitter_base *v16; // ecx
+  vostok::particle::particle_system_instance_impl *v17; // eax
+  vostok::buffer_string *v18; // ecx
+  vostok::fixed_string<260> *v19; // ecx
+  char *m_begin; // eax
+  char *v21; // eax
+  char *m_end; // edx
+  const vostok::resources::request *v23; // eax
+  unsigned int v24; // ecx
+  const vostok::variant<32> *v25; // eax
+  vostok::memory::doug_lea_allocator *v26; // esi
+  const vostok::variant<32> **v27; // edi
+  vostok::render::cook_intermediate_data *v28; // ecx
+  vostok::render::enum_vertex_input_type v29; // eax
+  int v30; // eax
+  unsigned int v31; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v32; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::render_model_cook,vostok::resources::queries_result &,vostok::render::cook_intermediate_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::render_model_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::cook_intermediate_data *> > > v33; // [esp-10h] [ebp-190h] BYREF
+  BOOL v34; // [esp-4h] [ebp-184h]
+  const char *v35; // [esp+0h] [ebp-180h] BYREF
+  const char *v36; // [esp+4h] [ebp-17Ch]
+  unsigned int v37; // [esp+8h] [ebp-178h]
+  vostok::fixed_string<260> v38; // [esp+Ch] [ebp-174h] BYREF
+  char v39; // [esp+11Ch] [ebp-64h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::render_model_cook,vostok::resources::queries_result &,vostok::render::cook_intermediate_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::render_model_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::cook_intermediate_data *> > > f; // [esp+120h] [ebp-60h] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v41; // [esp+140h] [ebp-40h] BYREF
+  unsigned int v42; // [esp+144h] [ebp-3Ch]
+  void (__thiscall *v43)(vostok::render::render_model_cook *, vostok::resources::queries_result *, vostok::render::cook_intermediate_data *); // [esp+148h] [ebp-38h]
+  vostok::render::cook_intermediate_data *v44; // [esp+14Ch] [ebp-34h]
+  const vostok::variant<32> **v45; // [esp+150h] [ebp-30h]
+  const vostok::resources::request *v46; // [esp+158h] [ebp-28h]
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v47; // [esp+15Ch] [ebp-24h] BYREF
+  const vostok::variant<32> *const *v48; // [esp+160h] [ebp-20h]
+  int v49; // [esp+164h] [ebp-1Ch]
+  vostok::render::cook_intermediate_data *v50; // [esp+168h] [ebp-18h]
+  survarium::pure_game_effect_emitter_base *object; // [esp+16Ch] [ebp-14h] BYREF
+  unsigned int v52; // [esp+170h] [ebp-10h]
+  int __formal; // [esp+174h] [ebp-Ch] BYREF
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> v54; // [esp+178h] [ebp-8h] BYREF
 
-  v3 = (int)cook_dataa;
-  if ( cook_dataa->status_failed )
+  v3 = pointer;
+  if ( pointer->status_failed )
   {
     vostok::resources::query_result_for_cook::finish_query_impl(
       (vostok::resources::query_result_for_cook *)this,
-      result_error,
+      (vostok::memory::single_size_buffer_allocator<76,vostok::threading::single_threading_policy> *)pointer->parent_query,
+      result_success,
       assert_on_fail_true,
-      error_type_cook_failed);
-    if ( cook_dataa->assets )
-      vostok::memory::detail::delete_array_helper_impl<vostok::memory::doug_lea_allocator,vostok::render::model_asset,vostok::memory::detail::call_destructor_predicate>(
-        &cook_dataa->assets,
-        (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object);
-    m_object = vostok::render::g_allocator.m_object;
-    vostok::render::cook_intermediate_data::~cook_intermediate_data(v4, (int)cook_dataa);
-    BYTE2(m_object->m_children_resources.m_lock) = 0;
-    vostok_mspace_free((void *)HIDWORD(m_object->m_reconstruction_info_actuality_tick), cook_dataa);
+      result_out_of_memory|0x8);
+    if ( v3->assets )
+      vostok::memory::delete_array_helper<vostok::memory::doug_lea_allocator,vostok::render::model_asset>(
+        &v3->assets,
+        v4,
+        vostok::render::g_allocator);
+    vostok::memory::delete_helper<vostok::memory::doug_lea_allocator,vostok::render::cook_intermediate_data>(
+      vostok::render::g_allocator,
+      &pointer,
+      v35,
+      v36,
+      v37);
   }
   else
   {
-    m_num_render_models = cook_dataa->m_num_render_models;
-    num_requests = m_num_render_models;
-    pathes = (vostok::fs_new::virtual_path_string *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                      (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                      276 * m_num_render_models);
-    v7 = (const vostok::resources::request *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                               (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                               8 * m_num_render_models);
-    requests = v7;
-    user_data_variants = (vostok::variant<32> *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                  (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                  48 * m_num_render_models);
-    v8 = (const vostok::variant<32> **)vostok::memory::doug_lea_allocator::malloc_impl(
-                                         (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                         4 * m_num_render_models);
-    user_data_variants_ptrs = (vostok::variant<32> **)v8;
-    model_index = 0;
-    if ( cook_dataa->m_num_render_models )
+    m_num_render_models = pointer->m_num_render_models;
+    v42 = m_num_render_models;
+    v6 = alloca(276 * m_num_render_models);
+    v7 = alloca(8 * m_num_render_models);
+    v46 = (const vostok::resources::request *)&v35;
+    v8 = alloca(48 * m_num_render_models);
+    __formal = (int)&v35;
+    v9 = alloca(4 * m_num_render_models);
+    v52 = 0;
+    v48 = (const vostok::variant<32> *const *)&v35;
+    if ( m_num_render_models )
     {
-      v9 = 0;
-      v33 = 0;
-      v34 = user_data_variants;
-      m_buffer = pathes->m_string.m_buffer;
-      while ( 1 )
+      v50 = 0;
+      v49 = __formal;
+      v10 = (vostok::buffer_string *)&v35;
+      do
       {
-        model_type = LOWORD(vostok::configs::binary_config_value::operator[](
-                              *(vostok::configs::binary_config_value **)(*(_DWORD *)(*(_DWORD *)(v3 + 288) + v9 + 8)
-                                                                       + 264),
-                              "type")->data.max_storage);
-        if ( cook_data->root_model_path.m_string.m_max_end == (char *)29 )
-          model_type = mt_grass_mesh;
+        __formal = (unsigned __int16)vostok::configs::binary_config_value::operator[](
+                                       (*(vostok::configs::binary_config_value ***)((char *)&v50->root_model_path.m_string.m_max_end
+                                                                                  + (unsigned int)v3->assets))[66],
+                                       "type")->data.pointer;
+        v11 = cook_data->root_model_path.m_string.m_max_end == (char *)26;
+        v44 = 0;
+        if ( v11 )
+          __formal = 200;
         material_index = vostok::render::cook_intermediate_data::find_material_index(
-                           cook_data,
-                           v3,
-                           *(const char **)(*(_DWORD *)(v3 + 288) + v9 + 12));
-        v12 = 0;
+                           v50,
+                           (int)v3,
+                           *(char **)&v50->root_model_path.m_string.m_buffer[(unsigned int)v3->assets]);
+        object = 0;
         if ( material_index != -1 )
         {
-          v13 = cook_dataa->assets[material_index].material.m_object;
-          v14 = 0;
-          if ( v13 )
+          m_object = (vostok::particle::particle_system_instance_impl *)v3->assets[material_index].material.m_object;
+          v54.m_object = 0;
+          if ( m_object )
           {
-            v14 = v13;
-            _InterlockedExchangeAdd(&v13->m_reference_count, 1u);
+            vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v54);
+            v54.m_object = m_object;
+            _InterlockedExchangeAdd(&m_object->m_reference_count, 1u);
           }
-          v15 = 0;
-          if ( v14 )
-          {
-            v15 = v14;
-            _InterlockedExchangeAdd(&v14->m_reference_count, 1u);
-          }
-          v12 = v15;
-          if ( v14 && !_InterlockedExchangeAdd(&v14->m_reference_count, 0xFFFFFFFF) )
-            vostok::resources::unmanaged_intrusive_base::destroy(&v14->vostok::resources::unmanaged_intrusive_base, v14);
+          vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+            &v41,
+            &v54);
+          v16 = *v15;
+          *v15 = 0;
+          object = v16;
+          vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v41);
+          vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v54);
         }
-        if ( m_buffer == (char *)12 )
+        if ( v10 )
         {
-          v16 = 0;
+          vostok::fs_new::virtual_path_string::virtual_path_string(v13, (int)v10);
+          v54.m_object = v17;
         }
         else
         {
-          *((_DWORD *)m_buffer - 3) = m_buffer;
-          *((_DWORD *)m_buffer - 2) = m_buffer;
-          *((_DWORD *)m_buffer - 1) = m_buffer + 260;
-          *m_buffer = 0;
-          *m_buffer = 0;
-          m_buffer[260] = 47;
-          v16 = (vostok::fs_new::virtual_path_string *)(m_buffer - 12);
+          v54.m_object = 0;
         }
-        v31 = 0;
-        if ( v12 )
+        vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+          &v47,
+          (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&object);
+        v38.m_begin = v38.m_buffer;
+        v38.m_end = v38.m_buffer;
+        v38.m_max_end = &v39;
+        v38.m_buffer[0] = 0;
+        v39 = 47;
+        if ( v47.m_object
+          && (v18 = (vostok::buffer_string *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr) != 0 )
         {
-          v31 = v12;
-          _InterlockedExchangeAdd(&v12->m_reference_count, 1u);
-        }
-        material_effects_instance_request_path = vostok::render::get_material_effects_instance_request_path(&v43, v31);
-        vostok::fs_new::virtual_path_string::operator=(v16, material_effects_instance_request_path);
-        if ( *((_DWORD *)m_buffer - 2) == *((_DWORD *)m_buffer - 3) )
-          v18 = "nomaterial";
-        else
-          v18 = (const char *)*((_DWORD *)m_buffer - 3);
-        requests[model_index].path = v18;
-        v19 = v34;
-        v20 = 0;
-        requests[model_index].id = material_effects_instance_class;
-        if ( v34 )
-        {
-          v34->m_helper = 0;
-          v34->m_type_id = 0;
+          vostok::fs_new::path_string_impl::assignf(
+            &v38,
+            (vostok::buffer_string *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr,
+            (vostok::buffer_string *)&stru_7F9BE8.allocator,
+            (const char *)v47.m_object->m_lods[0].m_template.m_object);
         }
         else
         {
-          v19 = 0;
+          vostok::fs_new::path_string_impl::assignf(&v38, v18, (vostok::buffer_string *)&stru_7F9BE8.allocator, uri);
         }
-        user_data_variants_ptrs[model_index] = v19;
-        v21 = vostok::memory::doug_lea_allocator::malloc_impl(
-                (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                0x10u);
-        if ( v21 )
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v47);
+        vostok::fixed_string<260>::operator=(&v38, (const vostok::fixed_string<260> *)v54.m_object);
+        if ( v10->m_end == v10->m_begin )
         {
-          if ( v12 )
-            _InterlockedExchangeAdd(&v12->m_reference_count, 1u);
-          *v21 = vostok::render::mesh_type_to_vertex_input_type_0(model_type);
-          v21[1] = 0;
-          if ( v22 )
+          m_begin = v10->m_begin;
+          if ( v10->m_begin != "nomaterial" )
           {
-            v21[1] = v22;
-            _InterlockedExchangeAdd(&v22->m_reference_count, 1u);
+            v10->m_end = m_begin;
+            *m_begin = 0;
+            vostok::buffer_string::operator+=(v10, "nomaterial");
           }
-          v21[2] = 2;
-          *((_BYTE *)v21 + 12) = 1;
-          if ( v22 && !_InterlockedExchangeAdd(&v22->m_reference_count, 0xFFFFFFFF) )
-            vostok::resources::unmanaged_intrusive_base::destroy(&v22->vostok::resources::unmanaged_intrusive_base, v22);
-          v20 = v21;
         }
-        v23 = user_data_variants_ptrs[model_index];
-        m_helper = v23->m_helper;
-        if ( m_helper )
+        vostok::fixed_string<260>::fixed_string<260>(v19, (vostok::buffer_string *)&v38.m_end, v10->m_begin);
+        v21 = v10->m_begin;
+        m_end = v38.m_end;
+        v10->m_end = v10->m_begin;
+        *v21 = 0;
+        vostok::buffer_string::operator+=(v10, m_end);
+        v23 = v46;
+        v24 = v52;
+        v46[v52].path = v10->m_begin;
+        v23[v24].id = material_effects_instance_class;
+        v25 = (const vostok::variant<32> *)v49;
+        if ( v49 )
         {
-          m_helper->destroy(m_helper, v23->m_storage);
-          v23->m_helper = 0;
+          *(_DWORD *)(v49 + 40) = 0;
+          v25->m_type_id = 0;
         }
-        v23->m_type_id = vostok::detail::type_to_int<vostok::render::material_effects_instance_cook_data *>::get();
-        if ( v23 != (vostok::variant<32> *)-8 )
-          *(_DWORD *)v23->m_storage = v20;
-        *(_DWORD *)v23->m_helper_storage = &vostok::detail::concrete_type_helper<vostok::render::material_effects_instance_cook_data *>::`vftable';
-        v23->m_helper = (vostok::detail::abstract_type_helper *)v23;
-        if ( v12 && !_InterlockedExchangeAdd(&v12->m_reference_count, 0xFFFFFFFF) )
-          vostok::resources::unmanaged_intrusive_base::destroy(&v12->vostok::resources::unmanaged_intrusive_base, v12);
-        v33 += 288;
-        ++v34;
-        m_buffer += 276;
-        ++model_index;
-        v3 = (int)cook_dataa;
-        if ( model_index >= cook_dataa->m_num_render_models )
-          break;
-        v9 = v33;
+        else
+        {
+          v25 = 0;
+        }
+        v26 = vostok::render::g_allocator;
+        v27 = (const vostok::variant<32> **)&v48[v24];
+        v45 = v27;
+        *v27 = v25;
+        v54.m_object = (vostok::particle::particle_system_instance_impl *)vostok::memory::new_helper<vostok::render::material_effects_instance_cook_data>::call<vostok::memory::doug_lea_allocator>(
+                                                                            v26,
+                                                                            v35,
+                                                                            v36,
+                                                                            v37);
+        if ( v54.m_object )
+        {
+          v34 = 1;
+          v33.l_.a3_.t_ = v28;
+          vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base>(
+            (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)&v33.l_.a3_,
+            object);
+          v29 = vostok::render::mesh_type_to_vertex_input_type(__formal);
+          vostok::render::material_effects_instance_cook_data::material_effects_instance_cook_data(
+            v29,
+            (vostok::render::material_effects_instance_cook_data *)v54.m_object,
+            (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base>)v33.l_.a3_.t_,
+            v34,
+            (vostok::render::enum_cull_mode)v35);
+          v27 = v45;
+          __formal = v30;
+        }
+        else
+        {
+          __formal = 0;
+        }
+        vostok::variant<32>::set<vostok::render::material_effects_instance_cook_data *>(
+          (vostok::variant<32> *)v28,
+          *v27,
+          (vostok::render::material_effects_instance_cook_data **)&__formal);
+        vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&object);
+        v31 = pointer->m_num_render_models;
+        ++v52;
+        v50 = (vostok::render::cook_intermediate_data *)((char *)v50 + 288);
+        v49 += 48;
+        v3 = pointer;
+        v10 += 23;
       }
-      v8 = (const vostok::variant<32> **)user_data_variants_ptrs;
-      m_num_render_models = num_requests;
-      v7 = requests;
+      while ( v52 < v31 );
     }
-    HIDWORD(model_type_4) = cook_data;
-    LODWORD(model_type_4) = vostok::render::render_model_cook::finish_model_creation;
-    if ( survarium::generate_shaders_world::is_loading() )
-    {
-      callback.vtable = 0;
-    }
-    else
-    {
-      *(_QWORD *)&callback.functor.obj_ptr = model_type_4;
-      callback.functor.vostok_pointer_size_alignment[2] = (void *)v3;
-      callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::render::render_model_cook,vostok::resources::queries_result &,vostok::render::cook_intermediate_data *>,boost::_bi::list3<boost::_bi::value<vostok::render::render_model_cook *>,boost::arg<1>,boost::_bi::value<vostok::render::cook_intermediate_data *>>>>'::`2'::stored_vtable
-                                                               + 1);
-    }
+    v45 = (const vostok::variant<32> **)v3;
+    v44 = cook_data;
+    v43 = vostok::render::render_model_cook::finish_model_creation;
+    v33.l_.a1_.t_ = (vostok::render::render_model_cook *)vostok::render::render_model_cook::finish_model_creation;
+    v33.l_.a3_.t_ = cook_data;
+    v33.f_.f_ = (void (__thiscall *)(vostok::render::render_model_cook *, vostok::resources::queries_result *, vostok::render::cook_intermediate_data *))&f;
+    boost::function<void __cdecl (vostok::resources::queries_result &)>::function<void __cdecl (vostok::resources::queries_result &)>(
+      (boost::function<void __cdecl(vostok::resources::queries_result &)> *)this,
+      v33,
+      (int)v3);
     vostok::resources::query_resources(
-      v7,
-      m_num_render_models,
-      &callback,
-      (vostok::memory::base_allocator *)vostok::render::g_allocator.m_object,
-      v8,
-      *(vostok::resources::query_result_for_cook **)(v3 + 276),
+      v46,
+      v42,
+      vostok::render::g_allocator,
+      v48,
+      (const vostok::variant<32> **)pointer->parent_query,
       assert_on_fail_true);
-    if ( callback.vtable )
-    {
-      if ( ((int)callback.vtable & 1) == 0 )
-      {
-        v25 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-        if ( v25 )
-          v25(&callback.functor, &callback.functor, 2);
-      }
-    }
-    v26 = vostok::render::g_allocator.m_object;
-    if ( v8 )
-    {
-      m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-      BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v8);
-      v26 = vostok::render::g_allocator.m_object;
-    }
-    if ( user_data_variants )
-    {
-      v28 = (void *)HIDWORD(v26->m_reconstruction_info_actuality_tick);
-      BYTE2(v26->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(v28, user_data_variants);
-      v26 = vostok::render::g_allocator.m_object;
-    }
-    if ( v7 )
-    {
-      v29 = (void *)HIDWORD(v26->m_reconstruction_info_actuality_tick);
-      BYTE2(v26->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(v29, (void *)v7);
-      v26 = vostok::render::g_allocator.m_object;
-    }
-    if ( pathes )
-    {
-      v30 = (void *)HIDWORD(v26->m_reconstruction_info_actuality_tick);
-      BYTE2(v26->m_children_resources.m_lock) = 0;
-      vostok_mspace_free(v30, pathes);
-    }
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v32,
+      (int *)&f);
   }
 }

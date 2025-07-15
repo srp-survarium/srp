@@ -4,9 +4,7 @@ void __usercall vostok::resources::query_result::unlock_fat_it(
 {
   if ( *(_DWORD *)(a2 + 164) )
   {
-    vostok::threading::interlocked_and((volatile int *)(a2 + 688), 0xFFFFFFEF);
-    vostok::threading::interlocked_exchange_add(
-      (int *)((char *)&dword_201B8 + (unsigned int)vostok::resources::g_resources_manager.m_variable),
-      0xFFFFFFFF);
+    _InterlockedAnd((volatile signed __int32 *)(a2 + 704), 0xFFFFFFEF);
+    _InterlockedExchangeAdd(&s_resources_manager_buffer.m_count_of_pending_query_with_fat_it, 0xFFFFFFFF);
   }
 }

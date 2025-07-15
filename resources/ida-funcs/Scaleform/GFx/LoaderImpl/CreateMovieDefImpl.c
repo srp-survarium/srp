@@ -1,5 +1,5 @@
 Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDefImpl(
-        Scaleform::String pls,
+        Scaleform::GFx::LoadStates *pls,
         Scaleform::GFx::MovieDataDef *pmd,
         unsigned int loadConstants,
         Scaleform::GFx::MovieBindProcess **ppbindProcess,
@@ -8,8 +8,8 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDef
         unsigned int memoryArena)
 {
   Scaleform::GFx::MovieDataDef *v7; // ebp
-  Scaleform::GFx::LoadStates *pData; // esi
-  Scaleform::GFx::MovieDefBindStates *v9; // edi
+  Scaleform::GFx::LoadStates *v8; // esi
+  Scaleform::GFx::Resource *pObject; // edi
   Scaleform::GFx::MovieDefImpl *v10; // eax
   Scaleform::GFx::MovieDefImpl *v11; // eax
   Scaleform::GFx::MovieDefImpl *v12; // edi
@@ -19,16 +19,16 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDef
   void *v16; // esi
   Scaleform::GFx::ResourceKey::KeyInterface *pKeyInterface; // ecx
   const char *Error; // eax
-  Scaleform::GFx::ResourceLib::BindHandle phandle; // [esp+18h] [ebp-10h] BYREF
-  Scaleform::GFx::ResourceKey movieImplKey; // [esp+20h] [ebp-8h] BYREF
+  Scaleform::GFx::ResourceLib::BindHandle v20; // [esp+18h] [ebp-10h] BYREF
+  Scaleform::GFx::ResourceKey result; // [esp+20h] [ebp-8h] BYREF
 
   v7 = pmd;
-  pData = (Scaleform::GFx::LoadStates *)pls.pData;
-  v9 = *(Scaleform::GFx::MovieDefBindStates **)pls.pData->Data;
-  phandle.State = RS_Unbound;
-  phandle.pResource = 0;
-  Scaleform::GFx::MovieDefImpl::CreateMovieKey(&movieImplKey, pmd, v9);
-  if ( Scaleform::GFx::ResourceWeakLib::BindResourceKey(pData->pWeakResourceLib.pObject, &phandle, &movieImplKey) == 3 )
+  v8 = pls;
+  pObject = (Scaleform::GFx::Resource *)pls->pBindStates.pObject;
+  v20.State = RS_Unbound;
+  v20.pResource = 0;
+  Scaleform::GFx::MovieDefImpl::CreateMovieKey(&result, pmd, pObject);
+  if ( Scaleform::GFx::ResourceWeakLib::BindResourceKey(v8->pWeakResourceLib.pObject, &v20, &result) == RS_NeedsResolve )
   {
     v10 = (Scaleform::GFx::MovieDefImpl *)Scaleform::Memory::pGlobalHeap->Alloc(Scaleform::Memory::pGlobalHeap, 32, 0);
     if ( v10 )
@@ -36,10 +36,10 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDef
       Scaleform::GFx::MovieDefImpl::MovieDefImpl(
         v10,
         v7,
-        v9,
-        pData->pLoaderImpl.pObject,
+        pObject,
+        (Scaleform::GFx::Resource *)v8->pLoaderImpl.pObject,
         loadConstants,
-        pData->pLoaderImpl.pObject->pStateBag.pObject,
+        (Scaleform::GFx::Resource *)v8->pLoaderImpl.pObject->pStateBag.pObject,
         Scaleform::Memory::pGlobalHeap,
         0,
         memoryArena);
@@ -57,7 +57,7 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDef
                                                   52,
                                                   0);
       if ( v14 )
-        Scaleform::GFx::MovieBindProcess::MovieBindProcess(v14, pData, v12, ploadStack);
+        Scaleform::GFx::MovieBindProcess::MovieBindProcess(v14, (Scaleform::GFx::Resource *)v8, v12, ploadStack);
       else
         v15 = 0;
       *v13 = v15;
@@ -67,72 +67,72 @@ Scaleform::GFx::MovieDefImpl *__cdecl Scaleform::GFx::LoaderImpl::CreateMovieDef
           Scaleform::GFx::Resource::Release(v12);
 LABEL_12:
         Scaleform::String::String(
-          &pls,
-          "Failed to bind SWF file \"",
-          (char *)((v7->pData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8),
-          "\"\n");
+          (Scaleform::String *)&pls,
+          (const __m128i *)"Failed to bind SWF file \"",
+          (const __m128i *)((v7->pData.pObject->FileURL.HeapTypeBits & 0xFFFFFFFC) + 8),
+          (const __m128i *)"\"\n");
         Scaleform::GFx::ResourceLib::ResourceSlot::CancelResolve(
-          phandle.pSlot,
-          (char *)((pls.HeapTypeBits & 0xFFFFFFFC) + 8));
-        v16 = (void *)(pls.HeapTypeBits & 0xFFFFFFFC);
-        if ( InterlockedExchangeAdd((volatile LONG *)((pls.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+          v20.pSlot,
+          (const __m128i *)(((unsigned int)pls & 0xFFFFFFFC) + 8));
+        v16 = (void *)((unsigned int)pls & 0xFFFFFFFC);
+        if ( InterlockedExchangeAdd((volatile LONG *)(((unsigned int)pls & 0xFFFFFFFC) + 4), -1) == 1 )
           Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v16);
-        pKeyInterface = movieImplKey.pKeyInterface;
-        if ( !movieImplKey.pKeyInterface )
+        pKeyInterface = result.pKeyInterface;
+        if ( !result.pKeyInterface )
           goto LABEL_16;
         goto LABEL_15;
       }
     }
     if ( !v12 )
       goto LABEL_12;
-    Scaleform::GFx::ResourceLib::ResourceSlot::Resolve(phandle.pSlot, v12);
+    Scaleform::GFx::ResourceLib::ResourceSlot::Resolve(v20.pSlot, v12);
   }
   else
   {
-    v12 = (Scaleform::GFx::MovieDefImpl *)Scaleform::GFx::ResourceLib::BindHandle::WaitForResolve(&phandle);
+    v12 = (Scaleform::GFx::MovieDefImpl *)Scaleform::GFx::ResourceLib::BindHandle::WaitForResolve(&v20);
     if ( !v12 )
     {
-      if ( pData->pLog.pObject )
+      if ( v8->pLog.pObject )
       {
-        if ( phandle.State < RS_WaitingResolve )
-          Error = (const char *)&buf;
+        if ( v20.State < RS_WaitingResolve )
+          Error = uri;
         else
-          Error = Scaleform::GFx::ResourceLib::ResourceSlot::GetError(phandle.pSlot);
+          Error = Scaleform::GFx::ResourceLib::ResourceSlot::GetError(v20.pSlot);
         Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogError(
-          &pData->pLog.pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
-          "%s",
+          &v8->pLog.pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+          (const char *)&stru_7F9BE8.allocator,
           Error);
       }
-      pKeyInterface = movieImplKey.pKeyInterface;
-      if ( !movieImplKey.pKeyInterface )
+      pKeyInterface = result.pKeyInterface;
+      if ( !result.pKeyInterface )
         goto LABEL_16;
 LABEL_15:
-      movieImplKey.pKeyInterface->Release(pKeyInterface, movieImplKey.hKeyData);
+      result.pKeyInterface->Release(pKeyInterface, result.hKeyData);
 LABEL_16:
-      if ( phandle.State == RS_Available )
+      if ( v20.State == RS_Available )
       {
-        Scaleform::GFx::Resource::Release(phandle.pResource);
+        Scaleform::GFx::Resource::Release(v20.pResource);
         return 0;
       }
       else
       {
-        if ( phandle.State >= RS_WaitingResolve )
-          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)phandle.pResource);
+        if ( v20.State >= RS_WaitingResolve )
+          Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v20.pResource);
         return 0;
       }
     }
   }
-  if ( movieImplKey.pKeyInterface )
-    movieImplKey.pKeyInterface->Release(movieImplKey.pKeyInterface, movieImplKey.hKeyData);
-  if ( phandle.State == RS_Available )
+  if ( result.pKeyInterface )
+    result.pKeyInterface->Release(result.pKeyInterface, result.hKeyData);
+  if ( v20.State == RS_Available )
   {
-    Scaleform::GFx::Resource::Release(phandle.pResource);
+    Scaleform::GFx::Resource::Release(v20.pResource);
     return v12;
   }
   else
   {
-    if ( phandle.State >= RS_WaitingResolve )
-      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)phandle.pResource);
+    if ( v20.State >= RS_WaitingResolve )
+      Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v20.pResource);
     return v12;
   }
 }

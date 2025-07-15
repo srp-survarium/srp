@@ -1,37 +1,34 @@
-boost::system::error_code *__cdecl boost::asio::detail::socket_ops::getaddrinfo(
-        boost::system::error_code *result,
-        const char *host,
+boost::system::error_code *__usercall boost::asio::detail::socket_ops::getaddrinfo@<eax>(
+        const char *host@<eax>,
+        int *a2@<edi>,
         const char *service,
         const addrinfo *hints,
-        addrinfo **resulta,
+        addrinfo **result,
         boost::system::error_code *ec)
 {
-  boost::system::error_code *v6; // eax
-  int m_val; // edx
-  const boost::system::error_category *m_cat; // eax
-  const boost::system::error_category *v9; // ecx
-  const char *v11; // [esp+0h] [ebp-7Ch]
-  const char *v12; // [esp+4h] [ebp-78h]
-  boost::system::error_code v13; // [esp+70h] [ebp-Ch] BYREF
-  int error; // [esp+78h] [ebp-4h]
+  const char *v6; // esi
+  int v7; // eax
+  boost::system::error_code *v8; // eax
+  int m_val; // ecx
+  int v11; // [esp+0h] [ebp-10h]
+  int v12; // [esp+8h] [ebp-8h] BYREF
 
-  if ( host && *host )
-    v12 = host;
-  else
-    v12 = 0;
-  if ( service && *service )
-    v11 = service;
-  else
-    v11 = 0;
+  v6 = host;
+  if ( !host || !*host )
+    v6 = 0;
+  if ( !service || !*service )
+    service = 0;
   WSASetLastError(0);
-  error = getaddrinfo(v12, v11, hints, resulta);
-  v6 = boost::asio::detail::socket_ops::translate_addrinfo_error(&v13, error);
-  m_val = v6->m_val;
-  m_cat = v6->m_cat;
-  ec->m_val = m_val;
-  ec->m_cat = m_cat;
-  v9 = ec->m_cat;
-  result->m_val = ec->m_val;
-  result->m_cat = v9;
-  return result;
+  v7 = ((int (__stdcall *)(const char *, const char *, const addrinfo *, addrinfo **, int))(&off_8E3A98 + 11))(
+         v6,
+         service,
+         hints,
+         result,
+         v11);
+  v8 = boost::asio::detail::socket_ops::translate_addrinfo_error(v7, &v12);
+  *ec = *v8;
+  m_val = v8->m_val;
+  a2[1] = (int)v8->m_cat;
+  *a2 = m_val;
+  return (boost::system::error_code *)a2;
 }

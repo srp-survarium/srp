@@ -1,4 +1,5 @@
-int __cdecl EC_POINT_point2oct(
+unsigned int __usercall EC_POINT_point2oct@<eax>(
+        int a1@<ebx>,
         const ec_group_st *group,
         const ec_point_st *point,
         point_conversion_form_t form,
@@ -17,13 +18,13 @@ int __cdecl EC_POINT_point2oct(
     }
     else
     {
-      ERR_put_error(0x10u, 123, 101, ".\\crypto\\ec\\ec_lib.c", 955);
+      ERR_put_error(a1, 0x10u, 123, 101, ".\\crypto\\ec\\ec_lib.c", 955);
       return 0;
     }
   }
   else
   {
-    ERR_put_error(0x10u, 123, 66, ".\\crypto\\ec\\ec_lib.c", 950);
+    ERR_put_error(a1, 0x10u, 123, 66, ".\\crypto\\ec\\ec_lib.c", 950);
     return 0;
   }
 }

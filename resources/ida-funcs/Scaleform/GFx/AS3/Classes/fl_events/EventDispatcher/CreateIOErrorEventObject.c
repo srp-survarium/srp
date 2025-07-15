@@ -1,7 +1,7 @@
 Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *__thiscall Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateIOErrorEventObject(
         Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *this,
         Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *result,
-        char *errText)
+        __m128i *errText)
 {
   Scaleform::GFx::AS3::ASVM *pVM; // esi
   Scaleform::GFx::ASStringNode *pStr; // eax
@@ -34,11 +34,11 @@ Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *__thiscall Scaleform::GF
   params[2].Flags = 1;
   params[2].Bonus.pWeakProxy = 0;
   params[2].value.VS._1.VBool = 0;
-  errText = (char *)Scaleform::GFx::ASStringManager::CreateStringNode(pVM->StringManagerRef->pStringManager, errText);
-  ++*((_DWORD *)errText + 3);
+  errText = (__m128i *)Scaleform::GFx::ASStringManager::CreateStringNode(pVM->StringManagerRef->pStringManager, errText);
+  ++errText->m128i_i32[3];
   Scaleform::GFx::AS3::Value::Value(&params[3], (const Scaleform::GFx::ASString *)&errText);
   v6 = (Scaleform::GFx::ASStringNode *)errText;
-  --*((_DWORD *)errText + 3);
+  --errText->m128i_i32[3];
   if ( !v6->RefCount )
     Scaleform::GFx::ASStringNode::ReleaseNode(v6);
   pObject = this->pTraits.pObject;

@@ -1,133 +1,167 @@
 void __thiscall vostok::network_core::udp_match_connection::handle_send(
         vostok::network_core::udp_match_connection *this,
         vostok::network_core::udp_match_packet *packet,
-        boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *error_code,
+        const boost::system::error_code *error_code,
         unsigned int bytes_transferred)
 {
-  survarium::game_camera *v4; // ecx
-  survarium::base_project::resolve_link_object *v5; // esi
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
+  vostok::network_core::udp_match_packet *m_first; // eax
+  vostok::network_core::udp_match_packet *v6; // ecx
+  vostok::network_core::udp_match_packet *next; // edx
+  vostok::network_core::udp_match_packet *v8; // eax
+  vostok::network_core::udp_match_connection::state m_state; // ecx
+  __m128i v10; // xmm0
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v11; // ecx
   bool has_passed_filters; // al
-  unsigned int v9; // [esp+38h] [ebp-A8h]
-  vostok::network_core::udp_match_packet *v10; // [esp+3Ch] [ebp-A4h]
-  char v11; // [esp+6Ch] [ebp-74h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v12; // [esp+70h] [ebp-70h] BYREF
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+90h] [ebp-50h] BYREF
-  stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > v14; // [esp+B4h] [ebp-2Ch] BYREF
-  vostok::network_core::base_packet v15; // [esp+CCh] [ebp-14h] BYREF
-  char v16; // [esp+D7h] [ebp-9h]
-  unsigned __int8 *buffer; // [esp+D8h] [ebp-8h]
-  bool success; // [esp+DFh] [ebp-1h]
+  bool v13; // zf
+  bool v14; // al
+  vostok::memory::single_size_buffer_allocator<1364,vostok::threading::multi_threading_policy> *m_packets_allocator; // [esp-8h] [ebp-60h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v16; // [esp-4h] [ebp-5Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v17; // [esp-4h] [ebp-5Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v18; // [esp-4h] [ebp-5Ch]
+  char v19; // [esp+Ch] [ebp-4Ch]
+  vostok::network_core::udp_match_packet *v20; // [esp+10h] [ebp-48h] BYREF
+  unsigned int m_size; // [esp+14h] [ebp-44h]
+  int v22; // [esp+18h] [ebp-40h] BYREF
+  boost::random::uniform_smallint<int> *v23; // [esp+1Ch] [ebp-3Ch]
+  stlp_std::priv::_String_base<char,stlp_std::allocator<char> > v24; // [esp+20h] [ebp-38h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v25; // [esp+38h] [ebp-20h] BYREF
 
-  v11 = 0;
+  v19 = 0;
   --this->m_pending_operations_count;
-  success = vostok::intrusive_list<vostok::ai::sensed_visual_object,vostok::ai::sensed_visual_object *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::erase(
-              (vostok::intrusive_list<vostok::ai::sensed_visual_object,vostok::ai::sensed_visual_object *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&this->m_outgoing_packets,
-              (vostok::ai::sensed_visual_object *)packet);
-  v16 = 0;
-  survarium::weapon_user_dead_state::finalize(v4);
-  if ( (*((_BYTE *)packet + 42) & 0x40) != 0 )
+  m_first = this->m_outgoing_packets.m_first;
+  if ( m_first )
   {
-    if ( this->m_state == connected
-      || (v10 = packet,
-          v5 = stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object>>::end(
-                 (stlp_std::priv::_Impl_vector<survarium::base_project::resolve_link_object,survarium::std_allocator<survarium::base_project::resolve_link_object> > *)((*((_BYTE *)packet + 42) & 0x40) != 0),
-                 (int)packet),
-          v9 = (unsigned int)v5 + (unsigned __int8)vostok::network_core::udp_match_packet::header_size(v10),
-          v15.m_buffer = packet->m_buffer.elems,
-          v15.m_buffer_size = v9,
-          vostok::network_core::udp_match_connection::is_low_level_packet(&v15)) )
+    v6 = 0;
+    while ( m_first != packet )
     {
-      buffer = packet->m_buffer.elems;
-      packet->m_buffer.elems[0] = (*(_WORD *)&packet->m_buffer.elems[4] & 1) != 0;
-      vostok::intrusive_list<survarium::usable_object_user_data,survarium::usable_object_user_data *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
-        (vostok::intrusive_list<vostok::ai::sensed_visual_object,vostok::ai::sensed_visual_object *,28,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)&this->m_unacknowledged_packets,
-        (survarium::game_camera *)packet,
-        0);
+      v6 = m_first;
+      m_first = m_first->next;
+      if ( !m_first )
+      {
+        if ( packet )
+          goto LABEL_13;
+        break;
+      }
     }
+    --this->m_outgoing_packets.m_size;
+    next = m_first->next;
+    if ( v6 )
+      v6->next = next;
     else
+      this->m_outgoing_packets.m_first = next;
+    if ( !m_first->next )
     {
-      vostok::network_core::delete_udp_match_packet(
-        this->m_packets_allocator,
-        (vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::node **)&packet);
+      v8 = v6;
+      if ( !v6 )
+        v8 = this->m_outgoing_packets.m_first;
+      this->m_outgoing_packets.m_last = v8;
     }
+  }
+LABEL_13:
+  v13 = (*((_BYTE *)packet + 107) & 0x40) == 0;
+  m_size = packet->m_buffer.m_size;
+  if ( v13
+    || (m_state = this->m_state, m_state == connecting)
+    || (v10 = _mm_loadl_epi64((const __m128i *)(packet->m_buffer.m_buffer + 4)),
+        v23 = (boost::random::uniform_smallint<int> *)v10.m128i_i32[1],
+        v22 = v10.m128i_i8[0] & 1,
+        (v10.m128i_i8[0] & 1) != 0)
+    || m_state && !vostok::network_core::udp_match_connection::is_low_level_packet(packet) )
+  {
+    m_packets_allocator = this->m_packets_allocator;
+    v20 = packet;
+    vostok::network_core::delete_udp_match_packet(
+      m_packets_allocator,
+      (vostok::memory::single_size_buffer_allocator<140,vostok::threading::simple_lock>::node **)&v20);
+    v11 = v16;
   }
   else
   {
-    vostok::network_core::delete_udp_match_packet(
-      this->m_packets_allocator,
-      (vostok::memory::single_size_buffer_allocator<300,vostok::threading::single_threading_policy>::node **)&packet);
+    *packet->m_buffer.m_buffer = (*((_DWORD *)packet->m_buffer.m_buffer + 1) & 1) != 0;
+    this->m_packets_orderer->get_sending_message_info(
+      this->m_packets_orderer,
+      (vostok::network_core::udp_match_message_type_info *)&v20,
+      packet->message_type);
+    v22 = (unsigned __int16)v20 - BYTE2(v20);
+    v23 = (boost::random::uniform_smallint<int> *)((unsigned __int16)v20 + BYTE2(v20));
+    packet->next_send_time_in_ms = boost::random::uniform_smallint<int>::generate<boost::random::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253>>(
+                                     v23,
+                                     (int)&v22,
+                                     &this->m_random_generator,
+                                     (boost::mpl::bool_<1>)m_size)
+                                 + packet->last_send_time_in_ms;
+    vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy>::push_back(
+      (vostok::intrusive_list<vostok::network_core::udp_match_packet,vostok::network_core::udp_match_packet *,60,vostok::threading::single_threading_policy,vostok::size_policy,vostok::no_debug_policy> *)packet,
+      &this->m_unacknowledged_packets.m_size);
   }
-  v6 = error_code;
-  if ( (error_code->vtable != 0
-      ? (unsigned int)boost::intrusive::detail::destructor_impl<boost::intrusive::detail::generic_hook<boost::intrusive::get_set_node_algo<void *,0>,boost::intrusive::member_tag,1,0>>
-      : 0) != 0 )
+  if ( (error_code->m_val != 0 ? (unsigned int)vostok::memory::process_allocator::finalize_impl : 0) != 0 )
   {
     if ( !vostok::core::g_log_filter_tree
       || (has_passed_filters = vostok::logging::has_passed_filters(
-                                 vostok::core::g_log_filter_tree,
-                                 "network_core:",
-                                 error),
-          (v6 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)has_passed_filters) != 0) )
+                                 (vostok::logging::filter_tree *)"network_core",
+                                 (const char *)2),
+          v11 = v17,
+          has_passed_filters) )
     {
-      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(v6);
-      v11 = 3;
-      (*((void (__thiscall **)(boost::detail::function::vtable_base *, stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *, boost::detail::function::vtable_base *))(&error_code->vtable)[1]->manager
-       + 2))(
-        (&error_code->vtable)[1],
-        &v14,
-        error_code->vtable);
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v11,
+        &v25);
+      v19 = 3;
+      error_code->m_cat->message(
+        error_code->m_cat,
+        (stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::allocator<char> > *)&v24,
+        error_code->m_val);
       vostok::logging::append(
-        &log_callback,
+        &v25,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
-        &stru_984D24.m_working_macro_list.m_buffer[4].m_store[348],
-        0x77u,
-        &stru_984D24.m_working_macro_list.m_buffer[4].m_store[172],
-        "network_core:",
+        ".\\udp_match_connection.cpp",
+        0x91u,
+        "void __thiscall vostok::network_core::udp_match_connection::handle_send(class vostok::network_core::udp_match_pa"
+        "cket &,const class boost::system::error_code &,unsigned int)",
+        "network_core",
         error,
-        &stru_984D24.m_working_macro_list.m_buffer[1].m_store[416],
-        v14._M_start_of_storage._M_data);
+        "error during writing to socket: %s\r\n",
+        v24._M_start_of_storage._M_data);
     }
-    if ( (v11 & 2) != 0 )
+    if ( (v19 & 2) != 0 )
     {
-      v11 &= ~2u;
-      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v14);
+      v19 &= ~2u;
+      stlp_std::priv::_String_base<char,stlp_std::allocator<char>>::_M_deallocate_block(&v24);
     }
-    if ( (v11 & 1) != 0 )
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v6,
-        (int *)&log_callback);
-    vostok::network_core::udp_match_connection::on_error(
-      this,
-      unable_to_write_to_socket,
-      *(boost::system::error_code *)&error_code->vtable);
+    v13 = (v19 & 1) == 0;
   }
-  else if ( !bytes_transferred )
+  else
   {
+    if ( bytes_transferred == m_size )
+      return;
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "network_core:", error) )
+      || (v14 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"network_core", (const char *)2),
+          v11 = v18,
+          v14) )
     {
-      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(v6);
-      v11 = 4;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v11,
+        &v25);
+      v19 = 4;
       vostok::logging::append(
-        &v12,
+        &v25,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
-        &stru_984D24.m_working_macro_list.m_buffer[4].m_store[348],
-        0x7Du,
-        &stru_984D24.m_working_macro_list.m_buffer[4].m_store[172],
-        "network_core:",
+        ".\\udp_match_connection.cpp",
+        0x97u,
+        "void __thiscall vostok::network_core::udp_match_connection::handle_send(class vostok::network_core::udp_match_pa"
+        "cket &,const class boost::system::error_code &,unsigned int)",
+        "network_core",
         error,
-        &stru_984D24.m_working_macro_list.m_buffer[2].m_store[312]);
+        "unable to write to socket(%d => %d)\r\n",
+        m_size,
+        bytes_transferred);
     }
-    if ( (v11 & 4) != 0 )
-      boost::function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>::~function<enum vostok::animation::callback_return_type_enum __cdecl (vostok::animation::animation_callback_params &)>(
-        (boost::function<void __cdecl(unsigned int,float,float,char const *)> *)v6,
-        (int *)&v12);
-    vostok::network_core::udp_match_connection::on_error(
-      this,
-      unable_to_write_to_socket,
-      *(boost::system::error_code *)&error_code->vtable);
+    v13 = (v19 & 4) == 0;
   }
+  if ( !v13 )
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v11,
+      (int *)&v25);
 }

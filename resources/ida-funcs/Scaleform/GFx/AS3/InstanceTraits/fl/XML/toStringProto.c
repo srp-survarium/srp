@@ -12,7 +12,8 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::toStringProto(
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::AS3::Instances::fl::XML *VInt; // ecx
   Scaleform::GFx::ASStringNode *v11; // eax
-  Scaleform::GFx::AS3::VM::Error v12; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr v12; // [esp-8h] [ebp-1Ch]
+  Scaleform::GFx::AS3::VM::Error v13; // [esp+Ch] [ebp-8h] BYREF
 
   v4 = (const Scaleform::GFx::AS3::Value *)_this;
   if ( ((int)_this->pData & 0x1Fu) - 12 <= 3
@@ -37,10 +38,12 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::XML::toStringProto(
   }
   else
   {
-    Scaleform::GFx::AS3::VM::Error::Error(&v12, eInvokeOnIncompatibleObjectError, vm);
+    v12.pStr = "XML::toStringProto";
+    v12.Size = 18;
+    Scaleform::GFx::AS3::VM::Error::Error(&v13, eInvokeOnIncompatibleObjectError, vm, v12);
     Scaleform::GFx::AS3::VM::ThrowTypeError(vm, v8);
-    pNode = v12.Message.pNode;
-    --v12.Message.pNode->RefCount;
+    pNode = v13.Message.pNode;
+    --v13.Message.pNode->RefCount;
     if ( !pNode->RefCount )
       Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
   }

@@ -9,8 +9,8 @@ char __cdecl Scaleform::GFx::LoaderImpl::IsProtocolImage(Scaleform::String *url,
   bool v10; // al
   void *v11; // esi
   bool v12; // bl
-  Scaleform::String urlLowerCase; // [esp+10h] [ebp-8h] BYREF
-  Scaleform::String result; // [esp+14h] [ebp-4h] BYREF
+  Scaleform::String result; // [esp+10h] [ebp-8h] BYREF
+  Scaleform::String v14; // [esp+14h] [ebp-4h] BYREF
 
   if ( (unsigned int)Scaleform::String::GetLength(url) <= 6 )
     return 0;
@@ -20,12 +20,12 @@ char __cdecl Scaleform::GFx::LoaderImpl::IsProtocolImage(Scaleform::String *url,
   if ( v3 != 105 && v3 != 115 )
     return 0;
   v4 = v3 == 115;
-  Scaleform::String::ToLower(url, &urlLowerCase);
+  Scaleform::String::ToLower(url, &result);
   v5 = strcmp(
-         (const char *)((Scaleform::String::Substring(&urlLowerCase, &result, v4, v4 + 6)->HeapTypeBits & 0xFFFFFFFC) + 8),
+         (const char *)((Scaleform::String::Substring(&result, &v14, v4, v4 + 6)->HeapTypeBits & 0xFFFFFFFC) + 8),
          "img://") == 0;
-  v6 = (void *)(result.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((result.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v6 = (void *)(v14.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((v14.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v6);
   if ( v5 )
   {
@@ -33,26 +33,26 @@ char __cdecl Scaleform::GFx::LoaderImpl::IsProtocolImage(Scaleform::String *url,
       *bilinear = 1;
     if ( sync )
       *sync = v4 != 0;
-    v7 = (void *)(urlLowerCase.HeapTypeBits & 0xFFFFFFFC);
-    if ( InterlockedExchangeAdd((volatile LONG *)((urlLowerCase.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+    v7 = (void *)(result.HeapTypeBits & 0xFFFFFFFC);
+    if ( InterlockedExchangeAdd((volatile LONG *)((result.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
       Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v7);
     return 1;
   }
-  v9 = Scaleform::String::Substring(&urlLowerCase, &result, v4, v4 + 8);
+  v9 = Scaleform::String::Substring(&result, &v14, v4, v4 + 8);
   v10 = Scaleform::String::operator==(v9, "imgps://");
-  v11 = (void *)(result.HeapTypeBits & 0xFFFFFFFC);
+  v11 = (void *)(v14.HeapTypeBits & 0xFFFFFFFC);
   v12 = v10;
-  if ( InterlockedExchangeAdd((volatile LONG *)((result.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  if ( InterlockedExchangeAdd((volatile LONG *)((v14.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v11);
   if ( !v12 )
   {
-    Scaleform::String::~String(&urlLowerCase);
+    Scaleform::String::~String(&result);
     return 0;
   }
   if ( bilinear )
     *bilinear = 0;
   if ( sync )
     *sync = v4 != 0;
-  Scaleform::String::~String(&urlLowerCase);
+  Scaleform::String::~String(&result);
   return 1;
 }

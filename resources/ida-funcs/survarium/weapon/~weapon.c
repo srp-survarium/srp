@@ -1,68 +1,48 @@
-void __usercall survarium::weapon::~weapon(survarium::weapon *this@<ecx>, int a2@<esi>)
+void __usercall survarium::weapon::~weapon(survarium::weapon *this@<ecx>, int a2@<eax>)
 {
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *v2; // eax
-  unsigned __int8 v3; // bl
-  unsigned __int8 i; // bl
-  int v5; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v3; // eax
+  vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *v4; // esi
+  unsigned __int8 v5; // bl
   int v6; // eax
-  void *v7; // eax
+  unsigned __int8 j; // bl
   int v8; // eax
-  vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *in_instance; // [esp+8h] [ebp-8h]
-  vostok::render::scene_renderer *scene; // [esp+Ch] [ebp-4h]
+  survarium::weapon_core *v9; // ecx
+  const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *i; // [esp+Ch] [ebp-4h]
 
-  v2 = *(vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> **)(a2 + 4032);
-  *(_DWORD *)a2 = &survarium::weapon::`vftable';
-  if ( v2 )
+  v3 = *(vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> **)(a2 + 1672);
+  v4 = v3 + 1;
+  *(_DWORD *)a2 = &survarium::weapon::`vftable'{for `survarium::interactive_object'};
+  *(_DWORD *)(a2 + 16) = &survarium::weapon::`vftable'{for `survarium::inventory_item'};
+  if ( v3[1].m_object
+    && vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
   {
-    in_instance = v2 + 1;
-    if ( v2[1].m_object )
+    v5 = 0;
+    for ( i = *(const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> **)((char *)&dword_200060 + v3[40].m_object->m_fat_it.m_type);
+          v5 < *(_BYTE *)(a2 + 1504);
+          ++v5 )
     {
-      if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
-      {
-        v3 = 0;
-        for ( scene = *(vostok::render::scene_renderer **)(v2[42].m_object->grm_satisfaction_tree_hook.color_ + 16);
-              v3 < *(_BYTE *)(a2 + 4016);
-              ++v3 )
-        {
-          if ( vostok::particle::is_playing((const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)(4 * v3 + *(_DWORD *)(a2 + 4008))) )
-            vostok::render::scene_renderer::remove_particle_system_instance(
-              scene,
-              (const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *)scene,
-              in_instance);
-        }
-        for ( i = 0; i < *(_BYTE *)(a2 + 4017); ++i )
-        {
-          if ( vostok::particle::is_playing((const vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *)(4 * i + *(_DWORD *)(a2 + 4012))) )
-            vostok::render::scene_renderer::remove_particle_system_instance(
-              scene,
-              (const vostok::resources::resource_ptr<vostok::render::base_scene,vostok::resources::unmanaged_intrusive_base> *)scene,
-              in_instance);
-        }
-      }
+      v6 = 4 * v5;
+      if ( *(_DWORD *)(*(_DWORD *)(v6 + *(_DWORD *)(a2 + 1496)) + 744) )
+        vostok::render::scene_renderer::remove_particle_system_instance(
+          (vostok::render::scene_renderer *)(v6 + *(_DWORD *)(a2 + 1496)),
+          i,
+          v4,
+          (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)(v6 + *(_DWORD *)(a2 + 1496)));
+    }
+    for ( j = 0; j < *(_BYTE *)(a2 + 1505); ++j )
+    {
+      v8 = 4 * j;
+      if ( *(_DWORD *)(*(_DWORD *)(v8 + *(_DWORD *)(a2 + 1500)) + 744) )
+        vostok::render::scene_renderer::remove_particle_system_instance(
+          (vostok::render::scene_renderer *)(v8 + *(_DWORD *)(a2 + 1500)),
+          i,
+          v4,
+          (vostok::resources::resource_ptr<survarium::pure_game_effect_emitter_base,vostok::resources::unmanaged_intrusive_base> *)(v8 + *(_DWORD *)(a2 + 1500)));
     }
   }
-  v5 = *(_DWORD *)(a2 + 4028);
-  if ( v5 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v5 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 4028) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 4028));
-  v6 = *(_DWORD *)(a2 + 4020);
-  if ( v6 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v6 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 4020) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 4020));
-  if ( *(_DWORD *)(a2 + 3992) )
-  {
-    v7 = *(void **)(a2 + 3984);
-    if ( v7 )
-      pt3free(v7);
-    *(_DWORD *)(a2 + 3984) = 0;
-    *(_DWORD *)(a2 + 3992) = 0;
-  }
-  v8 = *(_DWORD *)(a2 + 3760);
-  if ( v8 && !_InterlockedExchangeAdd((volatile signed __int32 *)(v8 + 208), 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(
-      (vostok::resources::unmanaged_intrusive_base *)(*(_DWORD *)(a2 + 3760) + 208),
-      *(vostok::resources::unmanaged_resource **)(a2 + 3760));
-  survarium::weapon_core::~weapon_core((survarium::weapon_core *)a2);
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a2 + 1676));
+  vostok::intrusive_ptr<survarium::weapon_user_animations_container,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec((vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a2 + 1668));
+  vostok::circular_buffer<survarium::fx_history_item,10>::~circular_buffer<survarium::fx_history_item,10>((vostok::circular_buffer<survarium::fx_history_item,10> *)(a2 + 1508));
+  vostok::intrusive_ptr<vostok::sound::sound_instance_proxy,vostok::sound::sound_instance_proxy,vostok::threading::single_threading_policy>::dec((vostok::intrusive_ptr<vostok::sound::sound_instance_proxy,vostok::sound::sound_instance_proxy,vostok::threading::single_threading_policy> *)(a2 + 1280));
+  survarium::weapon_core::~weapon_core(v9, a2);
 }

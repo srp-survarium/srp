@@ -26,7 +26,7 @@ wchar_t *__thiscall Scaleform::Render::Text::Paragraph::TextBuffer::CreatePositi
   }
   v8 = Size - pos;
   if ( v8 )
-    memmove((unsigned __int8 *)&this->pText[pos + length], (unsigned __int8 *)&this->pText[pos], 2 * v8);
+    memmove((int)&this->pText[pos + length], (const __m128i *)&this->pText[pos], 2 * v8);
   pText = this->pText;
   this->Size += length;
   return &pText[pos];

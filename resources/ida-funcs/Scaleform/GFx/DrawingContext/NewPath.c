@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::DrawingContext::NewPath(Scaleform::GFx::DrawingC
     Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayDH<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
       &v9,
       &this->PosInfo,
-      Shape_NewPath,
+      1u,
       this->FillStyle0,
       FillStyle1,
       StrokeStyle,
@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::DrawingContext::NewPath(Scaleform::GFx::DrawingC
     Scaleform::Render::ShapeDataPackedEncoder<Scaleform::ArrayDH<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::StartPath(
       &v9,
       &this->PosInfo,
-      Shape_NewLayer,
+      2u,
       this->FillStyle0,
       FillStyle1,
       StrokeStyle,

@@ -1,39 +1,81 @@
 void __usercall mdct_butterfly_16(float *x@<eax>)
 {
-  float *v1; // ecx
-  float r0; // [esp+0h] [ebp-8h]
-  float r0a; // [esp+0h] [ebp-8h]
-  float r0b; // [esp+0h] [ebp-8h]
-  float r0c; // [esp+0h] [ebp-8h]
-  float r1; // [esp+4h] [ebp-4h]
-  float r1a; // [esp+4h] [ebp-4h]
-  float r1b; // [esp+4h] [ebp-4h]
-  float r1c; // [esp+4h] [ebp-4h]
+  float v1; // xmm1_4
+  float v2; // xmm6_4
+  float v3; // xmm0_4
+  float v4; // xmm1_4
+  float v5; // xmm2_4
+  float v6; // xmm3_4
+  float v7; // xmm5_4
+  float v8; // xmm2_4
+  float v9; // xmm1_4
+  float v10; // xmm0_4
+  float v11; // xmm2_4
+  float v12; // xmm0_4
+  float v13; // xmm3_4
+  float v14; // xmm0_4
+  float v15; // xmm5_4
+  float v16; // xmm4_4
+  float v17; // xmm2_4
+  float v18; // xmm6_4
+  float v19; // xmm2_4
+  float v20; // xmm3_4
+  float v21; // xmm4_4
+  float v22; // xmm2_4
+  float v23; // xmm5_4
+  float v24; // xmm2_4
+  float v25; // xmm0_4
+  float v26; // xmm4_4
+  float v27; // xmm0_4
+  float v28; // xmm1_4
+  float v29; // xmm0_4
+  float *v30; // ecx
 
-  r0 = x[1] - x[9];
-  r1 = *x - x[8];
-  x[8] = x[8] + *x;
-  x[9] = x[9] + x[1];
-  *x = (r1 + r0) * 0.7071067690849304;
-  x[1] = (r0 - r1) * 0.7071067690849304;
-  r0a = x[3] - x[11];
-  r1a = x[10] - x[2];
-  x[10] = x[10] + x[2];
-  x[11] = x[11] + x[3];
-  x[2] = r0a;
-  x[3] = r1a;
-  r0b = x[12] - x[4];
-  r1b = x[13] - x[5];
-  x[12] = x[12] + x[4];
-  x[13] = x[13] + x[5];
-  x[4] = (r0b - r1b) * 0.7071067690849304;
-  x[5] = 0.7071067690849304 * (r0b + r1b);
-  r0c = x[14] - x[6];
-  r1c = x[15] - x[7];
-  x[14] = x[14] + x[6];
-  x[15] = x[15] + x[7];
-  x[6] = r0c;
-  x[7] = r1c;
+  v1 = x[9];
+  v2 = x[10];
+  v3 = x[1] - v1;
+  v4 = v1 + x[1];
+  v5 = x[8];
+  v6 = *x - v5;
+  v7 = x[3];
+  x[8] = v5 + *x;
+  v8 = v6 + v3;
+  x[9] = v4;
+  v9 = hsqt2;
+  v10 = (float)(v3 - v6) * hsqt2;
+  *x = v8 * hsqt2;
+  v11 = x[2];
+  x[1] = v10;
+  v12 = x[11];
+  v13 = v7 - v12;
+  v14 = v12 + v7;
+  v15 = x[12];
+  v16 = v2 - v11;
+  v17 = v11 + v2;
+  v18 = x[13];
+  x[10] = v17;
+  v19 = x[4];
+  x[11] = v14;
+  x[3] = v16;
+  x[2] = v13;
+  v20 = x[5];
+  v21 = v15 - v19;
+  v22 = v19 + v15;
+  v23 = x[15];
+  x[12] = v22;
+  v24 = (float)(v21 - (float)(v18 - v20)) * v9;
+  v25 = (float)(v18 - v20) + v21;
+  v26 = x[14];
+  v27 = v25 * v9;
+  v28 = x[7];
+  x[13] = v20 + v18;
+  x[4] = v24;
+  x[5] = v27;
+  v29 = x[6];
+  x[14] = v29 + v26;
+  x[15] = v28 + v23;
+  x[6] = v26 - v29;
+  x[7] = v23 - v28;
   mdct_butterfly_8(x);
-  mdct_butterfly_8(v1);
+  mdct_butterfly_8(v30);
 }

@@ -1,27 +1,45 @@
-char *__userpurge ppmd_allocator::ExpandUnits@<eax>(
-        ppmd_allocator *this@<edi>,
-        ppmd_allocator *OldPtr@<esi>,
-        unsigned int OldNU)
+unsigned __int8 *__thiscall ppmd_allocator::ExpandUnits(
+        ppmd_allocator *this,
+        ppmd_allocator *OldPtr,
+        BLK_NODE *OldNU,
+        unsigned int a4)
 {
-  int v4; // ebx
-  char *result; // eax
-  void *v6; // [esp+0h] [ebp-8h]
-  char *ptr; // [esp+Ch] [ebp+4h]
+  unsigned __int8 *result; // eax
+  unsigned __int8 *v6; // ecx
+  int v7; // edx
+  _DWORD *v8; // edi
+  unsigned __int8 *v9; // esi
+  bool v10; // zf
+  BLK_NODE *v11; // ecx
+  int v12; // [esp+8h] [ebp-4h]
+  int v13; // [esp+18h] [ebp+Ch]
 
-  v4 = this->Indx2Units[OldNU + 37];
-  if ( v4 == this->Units2Indx[OldNU] )
-    return (char *)OldPtr;
-  result = (char *)ppmd_allocator::AllocUnits(this, OldNU + 1);
-  ptr = result;
+  v12 = OldPtr->Indx2Units[a4 + 37];
+  if ( v12 == OldPtr->Units2Indx[a4] )
+    return (unsigned __int8 *)OldNU;
+  result = ppmd_allocator::AllocUnits(OldPtr, a4 + 1);
   if ( result )
   {
-    ppmd_allocator::UnitsCpy(result, OldNU, OldPtr, v6);
-    result = ptr;
-    OldPtr->BList[0].Stamp = (unsigned int)this->BList[v4].next;
-    this->BList[v4].next = (BLK_NODE *)OldPtr;
-    OldPtr->m_allocator = (vostok::memory::base_allocator *)-1;
-    OldPtr->BList[0].next = (BLK_NODE *)OldNU;
-    ++this->BList[v4].Stamp;
+    v13 = a4;
+    v6 = result;
+    v7 = (char *)OldNU - (char *)result;
+    do
+    {
+      *(_DWORD *)v6 = *(_DWORD *)&v6[v7];
+      *((_DWORD *)v6 + 1) = *(_DWORD *)&v6[v7 + 4];
+      v9 = &v6[v7 + 8];
+      v8 = v6 + 8;
+      v6 += 12;
+      v10 = v13-- == 1;
+      *v8 = *(_DWORD *)v9;
+    }
+    while ( !v10 );
+    v11 = &OldPtr->BList[v12];
+    OldNU->next = OldPtr->BList[v12].next;
+    v11->next = OldNU;
+    OldNU->Stamp = -1;
+    OldNU[1].Stamp = a4;
+    ++v11->Stamp;
   }
   return result;
 }

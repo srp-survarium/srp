@@ -27,7 +27,7 @@ void __stdcall Scaleform::GFx::GFx_RemoveObject2Loader(
   p_TagMemAllocator = &pObject->TagMemAllocator;
   if ( BytesLeft < 8 )
   {
-    pCurrent = (unsigned __int8 *)Scaleform::GFx::DataAllocator::OverflowAlloc(p_TagMemAllocator, 8u);
+    pCurrent = Scaleform::GFx::DataAllocator::OverflowAlloc(p_TagMemAllocator, 8u);
   }
   else
   {
@@ -43,7 +43,10 @@ LABEL_10:
     if ( pCurrent )
     {
       (*(void (__thiscall **)(unsigned __int8 *, Scaleform::GFx::LoadProcess *))(*(_DWORD *)pCurrent + 32))(pCurrent, p);
-      Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)*((unsigned __int16 *)v7 + 2));
+      Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+        &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+        "  RemoveObject2(%d)\n",
+        *((unsigned __int16 *)v7 + 2));
       Scaleform::GFx::LoadProcess::AddExecuteTag(p, (Scaleform::GFx::ExecuteTag *)v7);
     }
   }

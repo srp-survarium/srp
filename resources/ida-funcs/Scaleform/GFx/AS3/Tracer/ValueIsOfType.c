@@ -1,7 +1,7 @@
 char __thiscall Scaleform::GFx::AS3::Tracer::ValueIsOfType(
         Scaleform::GFx::AS3::Tracer *this,
         const Scaleform::GFx::AS3::Value *value,
-        const Scaleform::GFx::AS3::ClassTraits::Traits *type)
+        Scaleform::GFx::AS3::ClassTraits::Traits *type)
 {
   unsigned int v3; // edx
   const Scaleform::GFx::AS3::InstanceTraits::Traits *InstanceTraits; // eax

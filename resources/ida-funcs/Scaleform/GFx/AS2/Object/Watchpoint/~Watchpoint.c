@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::AS2::Object::Watchpoint::~Watchpoint(Scaleform::
     if ( this->Callback.Function )
     {
       RefCount = Function->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFFF) != 0 )
       {
         Function->RefCount = RefCount - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(Function);
@@ -33,7 +33,7 @@ void __thiscall Scaleform::GFx::AS2::Object::Watchpoint::~Watchpoint(Scaleform::
     if ( pLocalFrame )
     {
       v8 = pLocalFrame->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v8) != 0 )
+      if ( (v8 & 0x3FFFFFF) != 0 )
       {
         pLocalFrame->RefCount = v8 - 1;
         Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

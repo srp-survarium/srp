@@ -4,7 +4,7 @@ double __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphHeight(
 {
   Scaleform::Lock *pFontLock; // edi
   double result; // st7
-  float glyphIndexa; // [esp+Ch] [ebp+4h]
+  float v5; // [esp+Ch] [ebp+4h]
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
   {
@@ -14,9 +14,9 @@ double __thiscall Scaleform::Render::ExternalFontWinAPI::GetGlyphHeight(
   {
     pFontLock = this->pFontLock;
     EnterCriticalSection(&pFontLock->cs);
-    glyphIndexa = this->Glyphs.Data.Data[glyphIndex].Bounds.y2 - this->Glyphs.Data.Data[glyphIndex].Bounds.y1;
+    v5 = this->Glyphs.Data.Data[glyphIndex].Bounds.y2 - this->Glyphs.Data.Data[glyphIndex].Bounds.y1;
     LeaveCriticalSection(&pFontLock->cs);
-    return glyphIndexa;
+    return v5;
   }
   return result;
 }

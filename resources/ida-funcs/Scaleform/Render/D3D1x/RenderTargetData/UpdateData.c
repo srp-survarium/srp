@@ -1,8 +1,8 @@
 void __usercall Scaleform::Render::D3D1x::RenderTargetData::UpdateData(
-        Scaleform::Render::DepthStencilBuffer *pdsb@<eax>,
+        ID3D11View *pdss@<eax>,
         Scaleform::Render::RenderBuffer *buffer,
         ID3D11View *prt,
-        ID3D11View *pdss)
+        Scaleform::Render::DepthStencilBuffer *pdsb)
 {
   Scaleform::Render::RenderBuffer::RenderTargetData *pRenderTargetData; // esi
   Scaleform::Render::D3D1x::RenderTargetData *v6; // esi
@@ -43,14 +43,10 @@ void __usercall Scaleform::Render::D3D1x::RenderTargetData::UpdateData(
                                                            24,
                                                            0);
       if ( v6 )
-      {
-        Scaleform::Render::D3D1x::RenderTargetData::RenderTargetData(v6, buffer, prt, pdsb, pdss);
-        buffer->pRenderTargetData = v7;
-      }
+        Scaleform::Render::D3D1x::RenderTargetData::RenderTargetData(v6, buffer, pdsb, prt, pdss);
       else
-      {
-        buffer->pRenderTargetData = 0;
-      }
+        v7 = 0;
+      buffer->pRenderTargetData = v7;
     }
   }
 }

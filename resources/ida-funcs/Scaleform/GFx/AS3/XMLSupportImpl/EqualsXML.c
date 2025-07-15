@@ -34,10 +34,10 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
       goto LABEL_11;
     pData = r_buf.pData;
     if ( !r_buf.pData )
-      pData = (char *)&buf;
+      pData = (char *)uri;
     v10 = l_buf.pData;
     if ( !l_buf.pData )
-      v10 = (char *)&buf;
+      v10 = (char *)uri;
     if ( !strncmp(v10, pData, r_buf.Size) )
       v11 = 1;
     else
@@ -82,10 +82,10 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::XMLSupportImpl
       goto LABEL_15;
     pData = rbuf.pData;
     if ( !rbuf.pData )
-      pData = (char *)&buf;
+      pData = (char *)uri;
     v9 = lbuf.pData;
     if ( !lbuf.pData )
-      v9 = (char *)&buf;
+      v9 = (char *)uri;
     if ( !strncmp(v9, pData, lbuf.Size) )
       v10 = 1;
     else

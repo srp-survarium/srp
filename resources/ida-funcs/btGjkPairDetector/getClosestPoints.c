@@ -1,9 +1,14 @@
 void __thiscall btGjkPairDetector::getClosestPoints(
         btGjkPairDetector *this,
-        const btDiscreteCollisionDetectorInterface::ClosestPointInput *input,
-        btDiscreteCollisionDetectorInterface::Result *output,
+        btDiscreteCollisionDetectorInterface::Result *input,
+        btIDebugDraw *output,
         btIDebugDraw *debugDraw,
         bool swapResults)
 {
-  btGjkPairDetector::getClosestPointsNonVirtual(this, this, input, output, debugDraw);
+  btGjkPairDetector::getClosestPointsNonVirtual(
+    this,
+    (const btDiscreteCollisionDetectorInterface::ClosestPointInput *)this,
+    input,
+    output,
+    (int)debugDraw);
 }

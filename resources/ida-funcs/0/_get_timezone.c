@@ -1,4 +1,4 @@
-int __usercall _get_timezone@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, int *_Timezone)
+int __usercall _get_timezone@<eax>(int a1@<ebx>, int a2@<edi>, int *_Timezone)
 {
   if ( _Timezone )
   {

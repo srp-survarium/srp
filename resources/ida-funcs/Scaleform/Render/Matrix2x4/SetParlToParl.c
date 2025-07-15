@@ -1,14 +1,14 @@
 Scaleform::Render::Matrix2x4<float> *__thiscall Scaleform::Render::Matrix2x4<float>::SetParlToParl(
         Scaleform::Render::Matrix2x4<float> *this,
-        const float *src,
-        const float *dst)
+        float *src,
+        float *dst)
 {
-  float v6; // [esp+2Ch] [ebp-34h]
-  float v7; // [esp+30h] [ebp-30h]
-  float v8; // [esp+34h] [ebp-2Ch]
-  float v9; // [esp+38h] [ebp-28h]
-  float v10; // [esp+3Ch] [ebp-24h]
-  Scaleform::Render::Matrix2x4<float> m; // [esp+40h] [ebp-20h] BYREF
+  float v6; // [esp+Ch] [ebp-34h]
+  float v7; // [esp+10h] [ebp-30h]
+  float v8; // [esp+14h] [ebp-2Ch]
+  float v9; // [esp+18h] [ebp-28h]
+  float v10; // [esp+1Ch] [ebp-24h]
+  Scaleform::Render::Matrix2x4<float> m; // [esp+20h] [ebp-20h] BYREF
 
   v6 = src[4] - *src;
   v7 = *src;

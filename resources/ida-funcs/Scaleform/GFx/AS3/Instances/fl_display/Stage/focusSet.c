@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Stage::focusSet(
     (Scaleform::WeakPtr<Scaleform::GFx::Sprite> *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM
   + 16 * *((unsigned __int8 *)pVM[1].__vftable[1].~Scaleform::GFx::AS3::VM + 16212)
   + 3801,
-    (Scaleform::Ptr<Scaleform::GFx::InteractiveObject> *)&value);
+    (Scaleform::Ptr<Scaleform::GFx::Sprite> *)&value);
   v6 = value;
   if ( value )
   {

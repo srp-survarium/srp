@@ -52,7 +52,7 @@ void __thiscall Scaleform::GFx::AS3::AvmTextField::ProceedImageSubstitution(
   Scaleform::Render::Text::ImageDesc *v48; // esi
   Scaleform::Render::Image *v49; // ecx
   double v50; // st7
-  char *v51; // eax
+  const __m128i *v51; // eax
   Scaleform::Render::Matrix2x4<float> *p_Matrix; // eax
   Scaleform::GFx::ASStringNode *v53; // eax
   float sy; // [esp+5Ch] [ebp-17Ch]
@@ -110,7 +110,7 @@ LABEL_82:
     Scaleform::GFx::AS3::Value::Value((Scaleform::GFx::AS3::Value *)&dimr, (const Scaleform::GFx::ASString *)&baseLineX);
     pObject = vm->PublicNamespace.pObject;
     mn.Kind = MN_QName;
-    mn.Obj.pObject = pObject;
+    mn.Obj.pObject = &pObject->Scaleform::GFx::AS3::GASRefCountBase;
     if ( pObject )
       pObject->RefCount = (pObject->RefCount + 1) & 0x8FBFFFFF;
     mn.Name.Flags = 0;
@@ -163,7 +163,7 @@ LABEL_80:
         Scaleform::RefCountNTSImpl::Release(v27);
       goto LABEL_82;
     }
-    Scaleform::UTF8Util::DecodeString(isElem.SubString, str.pNode->pData, str.pNode->Size + 1);
+    Scaleform::UTF8Util::DecodeString(isElem.SubString, (char *)str.pNode->pData, str.pNode->Size + 1);
     v13 = str.pNode;
     p_RefCount = &str.pNode->RefCount;
     isElem.SubStringLen = Length;
@@ -226,7 +226,9 @@ LABEL_80:
         Scaleform::RefCountImpl::Release(v25);
       if ( result[3].Result )
       {
-        Scaleform::LogDebugMessage((Scaleform::LogMessageId)135168, "ImageCreator is null in ProceedImageSubstitution");
+        Scaleform::LogDebugMessage(
+          (Scaleform::GFx::AS3::RefCountBaseGC<328> *)((char *)&loc_20FFD + 3),
+          "ImageCreator is null in ProceedImageSubstitution");
         v21 = (Scaleform::GFx::Resource *)LODWORD(v);
 LABEL_30:
         if ( v21 )
@@ -267,7 +269,7 @@ LABEL_30:
           --*(_DWORD *)(LODWORD(v) + 12);
           if ( !v36->RefCount )
             Scaleform::GFx::ASStringNode::ReleaseNode(v36);
-          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 16))(
+          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 28))(
                            v34,
                            &result[3],
                            &mn3,
@@ -290,7 +292,7 @@ LABEL_30:
           --*(_DWORD *)(LODWORD(v) + 12);
           if ( !v38->RefCount )
             Scaleform::GFx::ASStringNode::ReleaseNode(v38);
-          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 16))(
+          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 28))(
                            v34,
                            &result[3],
                            &mn4,
@@ -313,7 +315,7 @@ LABEL_30:
           --*(_DWORD *)(LODWORD(v) + 12);
           if ( !v40->RefCount )
             Scaleform::GFx::ASStringNode::ReleaseNode(v40);
-          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 16))(
+          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 28))(
                            v34,
                            &result[3],
                            &mn5,
@@ -343,7 +345,7 @@ LABEL_30:
           if ( !v44->RefCount )
             Scaleform::GFx::ASStringNode::ReleaseNode(v44);
           Scaleform::StringBuffer::StringBuffer(&sb, Scaleform::Memory::pGlobalHeap);
-          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 16))(
+          if ( *(_BYTE *)(*(int (__thiscall **)(char *, Scaleform::GFx::AS3::CheckResult *, Scaleform::GFx::AS3::Multiname *, Scaleform::GFx::AS3::Value *))(*(_DWORD *)v34 + 28))(
                            v34,
                            &result[3],
                            &mn6,
@@ -352,7 +354,7 @@ LABEL_30:
             Scaleform::GFx::AS3::Value::Convert2String(&val, v34, &result[3], &sb);
             idStr = sb.pData;
             if ( !sb.pData )
-              idStr = (const char *)&buf;
+              idStr = uri;
           }
           v45 = ptextField;
           v46 = (Scaleform::Render::Text::ImageDesc *)Scaleform::RefCountBaseStatImpl<Scaleform::RefCountNTSImpl,78>::operator new(
@@ -379,7 +381,7 @@ LABEL_30:
           isElem.pImageDesc.pObject->BaseLineX = v50 * 0.05000000074505806;
           isElem.pImageDesc.pObject->BaseLineY = 0.05000000074505806 * *(float *)&v;
           isElem.pImageDesc.pObject->ScreenWidth = screenWidth;
-          v51 = (char *)idStr;
+          v51 = (const __m128i *)idStr;
           isElem.pImageDesc.pObject->ScreenHeight = screenHeight;
           if ( v51 )
             Scaleform::GFx::TextField::AddIdImageDescAssoc(v45, v51, isElem.pImageDesc.pObject);

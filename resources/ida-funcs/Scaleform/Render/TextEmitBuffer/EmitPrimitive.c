@@ -1,33 +1,33 @@
 void __thiscall Scaleform::Render::TextEmitBuffer::EmitPrimitive(
         Scaleform::Render::TextEmitBuffer *this,
-        Scaleform::Render::TextPrepareBuffer *prepareBuffer,
+        Scaleform::Render::PrimitivePrepareBuffer *prepareBuffer,
         Scaleform::Render::HAL *hal)
 {
-  unsigned int ProcessingLayer; // ebx
+  const Scaleform::Render::VertexFormat *pSourceVFormat; // ebx
   Scaleform::Render::TextPrimitiveBundle *pBundle; // ecx
   _DWORD *p_pData; // eax
   Scaleform::Render::Primitive *v7; // edi
   int v8; // eax
-  bool layerProcessingFinished; // [esp+Fh] [ebp-1h]
+  char v9; // [esp+Fh] [ebp-1h]
   Scaleform::Render::PrimitivePrepareBuffer *prepareBuffera; // [esp+14h] [ebp+4h]
 
-  layerProcessingFinished = 1;
+  v9 = 1;
   if ( this->pItem == prepareBuffer->pItem )
   {
-    ProcessingLayer = prepareBuffer->ProcessingLayer;
-    if ( ProcessingLayer < this->pBundle->Layers.Size )
+    pSourceVFormat = prepareBuffer->pSourceVFormat;
+    if ( (unsigned int)pSourceVFormat < this->pBundle->Layers.Size )
     {
-      ++ProcessingLayer;
-      layerProcessingFinished = 0;
+      pSourceVFormat = (const Scaleform::Render::VertexFormat *)((char *)pSourceVFormat + 1);
+      v9 = 0;
     }
   }
   else
   {
-    ProcessingLayer = this->pBundle->Layers.Size;
+    pSourceVFormat = (const Scaleform::Render::VertexFormat *)this->pBundle->Layers.Size;
   }
-  if ( this->EmitLayer < ProcessingLayer )
+  if ( this->EmitLayer < (unsigned int)pSourceVFormat )
   {
-    prepareBuffera = &prepareBuffer->PPBuffer;
+    prepareBuffera = (Scaleform::Render::PrimitivePrepareBuffer *)&prepareBuffer->pInstancedVFormat;
     do
     {
       pBundle = this->pBundle;
@@ -56,9 +56,9 @@ void __thiscall Scaleform::Render::TextEmitBuffer::EmitPrimitive(
       Scaleform::Render::Primitive::emitToHAL(v7, v7, prepareBuffera, &this->PEBuffer, hal);
       ++this->EmitLayer;
     }
-    while ( this->EmitLayer < ProcessingLayer );
+    while ( this->EmitLayer < (unsigned int)pSourceVFormat );
   }
-  if ( layerProcessingFinished )
+  if ( v9 )
   {
     if ( this->MaskStatus )
     {

@@ -1,8 +1,9 @@
-void __usercall btSoftBody::defaultCollisionHandler(btSoftBody *this@<ecx>, btSoftBody *psb@<eax>)
+void __usercall btSoftBody::defaultCollisionHandler(btSoftBody *this@<esi>, btSoftBody *psb@<eax>)
 {
   int collisions; // ecx
-  int v5; // eax
+  int v4; // eax
   btCollisionShape *m_collisionShape; // ebx
+  const btDbvtNode *v6; // ecx
   double v7; // st7
   btDbvtNode *m_root; // eax
   btDbvtNode *v9; // edi
@@ -10,11 +11,11 @@ void __usercall btSoftBody::defaultCollisionHandler(btSoftBody *this@<ecx>, btSo
   btSoftBody *v11; // [esp+10h] [ebp-28h] BYREF
   btSoftBody *v12; // [esp+14h] [ebp-24h]
   float v13; // [esp+18h] [ebp-20h]
-  btSoftColliders::CollideCL_SS docollide; // [esp+1Ch] [ebp-1Ch] BYREF
+  btSoftColliders::CollideCL_SS v14; // [esp+1Ch] [ebp-1Ch] BYREF
 
   collisions = psb->m_cfg.collisions;
-  v5 = (unsigned __int8)collisions & (unsigned __int8)this->m_cfg.collisions & 0x30;
-  if ( v5 == 16 )
+  v4 = (unsigned __int8)collisions & (unsigned __int8)this->m_cfg.collisions & 0x30;
+  if ( v4 == 16 )
   {
     if ( this != psb )
     {
@@ -29,94 +30,91 @@ void __usercall btSoftBody::defaultCollisionHandler(btSoftBody *this@<ecx>, btSo
         btDbvt::collideTT<btSoftColliders::CollideVF_SS>(
           (const btDbvtNode *)&v11,
           m_root,
-          psb->m_fdbvt.m_root,
+          (btAlignedObjectArray<GrahamVector2> *)psb->m_fdbvt.m_root,
           (btSoftColliders::CollideVF_SS *)&v11);
       v11 = psb;
       v9 = psb->m_ndbvt.m_root;
       v12 = this;
       if ( v9 )
         btDbvt::collideTT<btSoftColliders::CollideVF_SS>(
-          this->m_fdbvt.m_root,
+          v6,
           v9,
-          this->m_fdbvt.m_root,
+          (btAlignedObjectArray<GrahamVector2> *)this->m_fdbvt.m_root,
           (btSoftColliders::CollideVF_SS *)&v11);
     }
   }
-  else if ( v5 == 32 && (this != psb || (collisions & 0x40) != 0) )
+  else if ( v4 == 32 && (this != psb || (collisions & 0x40) != 0) )
   {
-    LODWORD(docollide.erp) = clear_value;
-    memset(&docollide.idt, 0, 16);
-    btSoftColliders::CollideCL_SS::Process(&docollide, this, psb);
+    v14.erp = s_bm_current_air_resistance;
+    memset(&v14.idt, 0, 16);
+    btSoftColliders::CollideCL_SS::Process(&v14, this, psb);
   }
 }
 
 
-void __thiscall btSoftBody::defaultCollisionHandler(btSoftBody *this, btSoftBody *pco, btCollisionObject *pcoa)
+void __thiscall btSoftBody::defaultCollisionHandler(btSoftBody *this, btSoftBody *pco, int a3)
 {
-  char m_internalType; // al
+  int v3; // ebx
   btCollisionShape *m_collisionShape; // ecx
-  btCollisionShape_vtbl *v5; // edx
-  int v6; // esi
-  float (__thiscall *getMargin)(btCollisionShape *); // eax
-  __m128i v8; // xmm0
-  long double v9; // st7
-  const btDbvtNode *m_root; // edi
-  float v11; // [esp+4A8h] [ebp-D0h]
-  btSoftColliders::CollideCL_RS v12; // [esp+4ACh] [ebp-CCh] BYREF
-  float v13; // [esp+4C8h] [ebp-B0h]
-  float vol; // [esp+4CCh] [ebp-ACh]
-  float vol_4; // [esp+4D0h] [ebp-A8h]
-  btDbvtAabbMm vol_12; // [esp+4D8h] [ebp-A0h] BYREF
-  unsigned __int64 v17; // [esp+508h] [ebp-70h]
-  unsigned __int64 v18; // [esp+510h] [ebp-68h]
-  __m128i v19; // [esp+518h] [ebp-60h] BYREF
-  __m128i v20[4]; // [esp+528h] [ebp-50h] BYREF
-  unsigned __int64 v21; // [esp+568h] [ebp-10h]
-  unsigned __int64 v22; // [esp+570h] [ebp-8h]
+  btCollisionShape_vtbl *v5; // eax
+  btDbvtNode *m_root; // eax
+  float v7; // [esp+Ch] [ebp-B4h]
+  float v8; // [esp+10h] [ebp-B0h]
+  float v9; // [esp+14h] [ebp-ACh]
+  float v10; // [esp+18h] [ebp-A8h]
+  btSoftBody::Node policy; // [esp+20h] [ebp-A0h] BYREF
+  float v12; // [esp+90h] [ebp-30h]
+  float v13; // [esp+94h] [ebp-2Ch]
+  float v14; // [esp+98h] [ebp-28h]
+  int v15; // [esp+9Ch] [ebp-24h]
+  float v16[4]; // [esp+A0h] [ebp-20h] BYREF
+  btVector3 v17; // [esp+B0h] [ebp-10h] BYREF
 
   if ( (pco->m_cfg.collisions & 0xF) == 1 )
   {
-    m_internalType = pcoa->m_internalType;
+    v3 = (*(_BYTE *)(a3 + 244) & 2) != 0 ? a3 : 0;
+    v12 = *(float *)(a3 + 64);
+    v13 = *(float *)(a3 + 68);
+    v14 = *(float *)(a3 + 72);
     m_collisionShape = pco->m_collisionShape;
+    v15 = *(_DWORD *)(a3 + 76);
     v5 = m_collisionShape->__vftable;
-    v17 = pcoa->m_worldTransform.m_origin.mVec128.m128_u64[0];
-    v18 = pcoa->m_worldTransform.m_origin.mVec128.m128_u64[1];
-    v21 = pcoa->m_worldTransform.m_origin.mVec128.m128_u64[0];
-    v22 = pcoa->m_worldTransform.m_origin.mVec128.m128_u64[1];
-    v6 = m_internalType & 2;
-    getMargin = v5->getMargin;
-    v13 = *(float *)&v17 - *(float *)&v21;
-    vol = *((float *)&v17 + 1) - *((float *)&v21 + 1);
-    vol_4 = *(float *)&v18 - *(float *)&v22;
-    v11 = getMargin(m_collisionShape);
-    pcoa->m_collisionShape->getAabb(
-      pcoa->m_collisionShape,
-      &pcoa->m_worldTransform,
-      (btVector3 *)&v19,
-      (btVector3 *)v20);
-    v8 = _mm_load_si128(&v19);
-    vol_12.mi.mVec128.m128_i32[3] = v8.m128i_i32[3];
-    vol_12.mi.mVec128.m128_f32[0] = *(float *)v19.m128i_i32 - v11;
-    vol_12.mx = (btVector3)_mm_load_si128(v20);
-    vol_12.mi.mVec128.m128_f32[1] = *(float *)&v8.m128i_i32[1] - v11;
-    vol_12.mi.mVec128.m128_f32[2] = *(float *)&v8.m128i_i32[2] - v11;
-    LODWORD(v12.erp) = pco;
-    LODWORD(v12.idt) = pcoa;
-    vol_12.mx.mVec128.m128_f32[0] = vol_12.mx.mVec128.m128_f32[0] + v11;
-    LODWORD(v12.m_margin) = v6 != 0 ? pcoa : 0;
-    vol_12.mx.mVec128.m128_f32[1] = vol_12.mx.mVec128.m128_f32[1] + v11;
-    vol_12.mx.mVec128.m128_f32[2] = v11 + vol_12.mx.mVec128.m128_f32[2];
-    v9 = sqrtf((float)((float)(vol_4 * vol_4) + (float)(vol * vol)) + (float)(v13 * v13));
+    policy.m_v = *(btVector3 *)(a3 + 64);
+    v8 = v12 - policy.m_v.mVec128.m128_f32[0];
+    v9 = v13 - policy.m_v.mVec128.m128_f32[1];
+    v10 = v14 - policy.m_v.mVec128.m128_f32[2];
+    v7 = v5->getMargin(m_collisionShape);
+    (*(void (__thiscall **)(_DWORD, int, float *, btVector3 *))(**(_DWORD **)(a3 + 204) + 4))(
+      *(_DWORD *)(a3 + 204),
+      a3 + 16,
+      v16,
+      &v17);
+    *(float *)&policy.m_tag = v16[0];
+    *(float *)&policy.m_material = v16[1];
+    *((float *)&policy.btSoftBody::Feature + 2) = v16[2];
+    *((float *)&policy.btSoftBody::Feature + 3) = v16[3];
+    policy.m_x = (btVector3)v17.mVec128;
+    qmemcpy(&policy.m_f, &policy, 0x20u);
+    policy.m_f.mVec128.m128_f32[0] = v16[0] - v7;
+    policy.m_f.mVec128.m128_f32[1] = policy.m_f.mVec128.m128_f32[1] - v7;
+    policy.m_f.mVec128.m128_f32[2] = policy.m_f.mVec128.m128_f32[2] - v7;
+    policy.m_tag = pco;
+    policy.m_n.mVec128.m128_f32[0] = policy.m_n.mVec128.m128_f32[0] + v7;
+    policy.m_n.mVec128.m128_f32[1] = policy.m_n.mVec128.m128_f32[1] + v7;
+    policy.m_n.mVec128.m128_f32[2] = policy.m_n.mVec128.m128_f32[2] + v7;
+    policy.m_x.mVec128.m128_f32[0] = v7;
     m_root = pco->m_ndbvt.m_root;
-    v12.friction = v9 + v11;
-    v12.threshold = v11;
+    policy.m_material = (btSoftBody::Material *)a3;
+    *((_DWORD *)&policy.btSoftBody::Feature + 2) = v3;
+    *((float *)&policy.btSoftBody::Feature + 3) = fsqrt((float)((float)(v10 * v10) + (float)(v9 * v9)) + (float)(v8 * v8))
+                                                + v7;
     if ( m_root )
-      btDbvt::collideTV<btSoftColliders::CollideSDF_RS>(&vol_12, m_root, (btSoftColliders::CollideSDF_RS *)&v12);
+      btDbvt::collideTV<btSoftColliders::CollideSDF_RS>((const btDbvtAabbMm *)&policy.m_f, m_root, &policy);
   }
   else if ( (pco->m_cfg.collisions & 0xF) == 2 )
   {
-    LODWORD(v12.erp) = clear_value;
-    memset(&v12.idt, 0, 16);
-    btSoftColliders::CollideCL_RS::Process(&v12, pcoa, pco);
+    *(float *)&policy.m_tag = s_bm_current_air_resistance;
+    memset(&policy.m_material, 0, 16);
+    btSoftColliders::CollideCL_RS::Process((btCollisionObject *)a3, (btSoftColliders::CollideCL_RS *)&policy, pco);
   }
 }

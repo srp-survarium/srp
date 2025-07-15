@@ -9,7 +9,7 @@ void __thiscall Scaleform::Render::StrokerAA::calcWidths(
   double totalWidthR; // st7
   bool v8; // al
   double v9; // st7
-  bool wa; // [esp+4h] [ebp+4h]
+  bool v10; // [esp+4h] [ebp+4h]
 
   w->solidWidthL = this->WidthLeft;
   w->solidWidthR = this->WidthRight;
@@ -34,13 +34,13 @@ void __thiscall Scaleform::Render::StrokerAA::calcWidths(
   w->totalLimitR = w->totalWidthR * this->MiterLimit;
   w->totalWidth = (w->totalWidthR + w->totalWidthL) * 0.5;
   w->solidWidth = 0.5 * (w->solidWidthR + w->solidWidthL);
-  wa = w->solidWidthL > 0.0;
+  v10 = w->solidWidthL > 0.0;
   v5 = w->solidWidthR > 0.0;
-  w->solidFlagL = wa;
+  w->solidFlagL = v10;
   w->solidFlagR = v5;
   w->aaFlagL = this->AaWidthLeft > 0.0;
   w->aaFlagR = this->AaWidthRight > 0.0;
-  v6 = wa || v5 || this->StyleLeft != this->StyleRight;
+  v6 = v10 || v5 || this->StyleLeft != this->StyleRight;
   totalWidthR = w->totalWidthR;
   w->solidFlag = v6;
   v8 = w->totalWidthL < totalWidthR;

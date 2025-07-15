@@ -1,33 +1,33 @@
-ssl_session_st *__cdecl SSL_SESSION_new()
+ssl_session_st *__usercall SSL_SESSION_new@<eax>(int a1@<ebx>)
 {
-  _DWORD *v0; // eax
-  _DWORD *v1; // esi
+  _DWORD *v1; // eax
+  _DWORD *v2; // esi
 
-  v0 = CRYPTO_malloc(240, ".\\ssl\\ssl_sess.c", 192);
-  v1 = v0;
-  if ( v0 )
+  v1 = CRYPTO_malloc(240, ".\\ssl\\ssl_sess.c", 192);
+  v2 = v1;
+  if ( v1 )
   {
-    memset((int)v0, 0, 0xF0u);
-    v1[40] = 1;
-    v1[41] = 1;
-    v1[42] = 304;
-    v1[43] = _time64(0);
-    v1[50] = 0;
-    v1[51] = 0;
-    v1[44] = 0;
-    v1[52] = 0;
-    v1[53] = 0;
-    v1[54] = 0;
-    v1[55] = 0;
-    v1[56] = 0;
-    CRYPTO_new_ex_data(0);
-    v1[35] = 0;
-    v1[36] = 0;
-    return (ssl_session_st *)v1;
+    memset((int)v1, 0, 240);
+    v2[40] = 1;
+    v2[41] = 1;
+    v2[42] = 304;
+    v2[43] = _time64(0);
+    v2[50] = 0;
+    v2[51] = 0;
+    v2[44] = 0;
+    v2[52] = 0;
+    v2[53] = 0;
+    v2[54] = 0;
+    v2[55] = 0;
+    v2[56] = 0;
+    CRYPTO_new_ex_data(0, a1);
+    v2[35] = 0;
+    v2[36] = 0;
+    return (ssl_session_st *)v2;
   }
   else
   {
-    ERR_put_error(0x14u, 189, 65, ".\\ssl\\ssl_sess.c", 195);
+    ERR_put_error(a1, 0x14u, 189, 65, ".\\ssl\\ssl_sess.c", 195);
     return 0;
   }
 }

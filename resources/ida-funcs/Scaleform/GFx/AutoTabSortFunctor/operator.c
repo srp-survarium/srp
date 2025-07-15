@@ -3,24 +3,24 @@ int __thiscall Scaleform::GFx::AutoTabSortFunctor::operator()(
         const Scaleform::GFx::InteractiveObject *a,
         const Scaleform::GFx::InteractiveObject *b)
 {
-  const Scaleform::Render::Rect<float> *v3; // eax
-  const Scaleform::Render::Rect<float> *v4; // eax
+  __m128 *v3; // eax
+  __m128 *v4; // eax
   double y1; // st5
   double v6; // st4
   double v7; // st5
   double v8; // st4
-  float v10; // [esp+1E8h] [ebp-74h]
-  float v11; // [esp+1E8h] [ebp-74h]
-  float v12; // [esp+1E8h] [ebp-74h]
-  float v13; // [esp+1E8h] [ebp-74h]
-  float v14; // [esp+1E8h] [ebp-74h]
-  float v15; // [esp+1E8h] [ebp-74h]
-  float v16; // [esp+1ECh] [ebp-70h] BYREF
-  float v17; // [esp+1F0h] [ebp-6Ch]
-  Scaleform::Render::Rect<float> pr; // [esp+1FCh] [ebp-60h] BYREF
-  Scaleform::Render::Rect<float> v19; // [esp+20Ch] [ebp-50h] BYREF
-  Scaleform::Render::Matrix2x4<float> pmat; // [esp+21Ch] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> v21; // [esp+23Ch] [ebp-20h] BYREF
+  float v10; // [esp+8h] [ebp-74h]
+  float v11; // [esp+8h] [ebp-74h]
+  float v12; // [esp+8h] [ebp-74h]
+  float v13; // [esp+8h] [ebp-74h]
+  float v14; // [esp+8h] [ebp-74h]
+  float v15; // [esp+8h] [ebp-74h]
+  float v16; // [esp+Ch] [ebp-70h] BYREF
+  float v17; // [esp+10h] [ebp-6Ch]
+  Scaleform::Render::Rect<float> pr; // [esp+1Ch] [ebp-60h] BYREF
+  Scaleform::Render::Rect<float> v19; // [esp+2Ch] [ebp-50h] BYREF
+  Scaleform::Render::Matrix2x4<float> pmat; // [esp+3Ch] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> v21; // [esp+5Ch] [ebp-20h] BYREF
 
   pmat.M[0][0] = 1.0;
   pmat.M[0][1] = 0.0;
@@ -40,10 +40,10 @@ int __thiscall Scaleform::GFx::AutoTabSortFunctor::operator()(
   v21.M[1][3] = 0.0;
   v21.M[1][1] = 1.0;
   Scaleform::GFx::DisplayObjectBase::GetLevelMatrix(&b->Scaleform::GFx::DisplayObject, &v21);
-  v3 = a->GetFocusRect(a, &v16);
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&pmat, &pr, v3);
-  v4 = b->GetFocusRect(b, &v16);
-  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v21, &v19, v4);
+  v3 = (__m128 *)a->GetFocusRect(a, &v16);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&pmat, (__m128 *)&pr, v3);
+  v4 = (__m128 *)b->GetFocusRect(b, &v16);
+  Scaleform::Render::Matrix2x4<float>::EncloseTransform(&v21, (__m128 *)&v19, v4);
   v16 = (pr.x2 + pr.x1) * 0.5;
   y1 = pr.y1;
   v17 = (pr.y2 + pr.y1) * 0.5;

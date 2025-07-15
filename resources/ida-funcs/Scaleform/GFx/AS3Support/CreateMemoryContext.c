@@ -20,9 +20,9 @@ Scaleform::GFx::MemoryContext *__userpurge Scaleform::GFx::AS3Support::CreateMem
   int v18; // [esp+3Ch] [ebp+10h]
 
   qmemcpy((void *)&desc, memParams, sizeof(desc));
-  desc.Flags |= (debugHeap ? 0x1000 : 0) | 3;
-  InitialDynamicLimit = memParams->InitialDynamicLimit;
   desc.HeapId = 3;
+  desc.Flags = desc.Flags & 0xFFFFFFFC | (debugHeap ? 0x1000 : 0) | 2;
+  InitialDynamicLimit = memParams->InitialDynamicLimit;
   desc.Limit = (unsigned int)&loc_20000;
   if ( InitialDynamicLimit != -1 )
     desc.Limit = InitialDynamicLimit;

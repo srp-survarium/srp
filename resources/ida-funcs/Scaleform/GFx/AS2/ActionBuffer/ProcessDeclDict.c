@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS2::ActionBuffer::ProcessDeclDict(
         Scaleform::GFx::AS2::ActionBuffer *this,
         Scaleform::GFx::AS2::ASStringContext *psc,
-        unsigned int startPc,
+        int startPc,
         unsigned int stopPc,
         Scaleform::GFx::AS2::ActionLogger *log)
 {
@@ -18,35 +18,35 @@ void __thiscall Scaleform::GFx::AS2::ActionBuffer::ProcessDeclDict(
   Scaleform::GFx::ASStringNode *v17; // esi
   int v18; // edi
   Scaleform::GFx::ASStringNode *v19; // ecx
-  const unsigned __int8 *Buffer; // [esp+8h] [ebp-8h]
+  unsigned __int8 *v20; // [esp+8h] [ebp-8h]
   Scaleform::ArrayCC<Scaleform::GFx::ASString,323,Scaleform::ArrayDefaultPolicy> *v21; // [esp+Ch] [ebp-4h]
-  unsigned int count; // [esp+18h] [ebp+8h]
+  unsigned int v22; // [esp+18h] [ebp+8h]
 
   pObject = this->pBufferData.pObject;
   if ( !pObject->BufferLen || (pBuffer = pObject->pBuffer, !*pBuffer) )
     pBuffer = 0;
   DeclDictProcessedAt = this->DeclDictProcessedAt;
-  Buffer = pBuffer;
+  v20 = pBuffer;
   if ( DeclDictProcessedAt != startPc )
   {
     if ( DeclDictProcessedAt == -1 )
     {
       this->DeclDictProcessedAt = startPc;
       p_Dictionary = &this->Dictionary;
-      count = *(unsigned __int16 *)&pBuffer[startPc + 3];
+      v22 = *(unsigned __int16 *)&pBuffer[startPc + 3];
       v11 = startPc + 2;
       v21 = p_Dictionary;
       Scaleform::ArrayDataCC<Scaleform::GFx::ASString,Scaleform::AllocatorLH<Scaleform::GFx::ASString,323>,Scaleform::ArrayDefaultPolicy>::Resize(
         &p_Dictionary->Data,
-        count);
+        v22);
       v12 = 0;
-      if ( count )
+      if ( v22 )
       {
         while ( 1 )
         {
           StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                          (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                         (char *)&Buffer[v11 + 3]);
+                         (__m128i *)&v20[v11 + 3]);
           ++StringNode->RefCount;
           v14 = (int)&p_Dictionary->Data.Data[v12];
           ++StringNode->RefCount;
@@ -58,27 +58,27 @@ void __thiscall Scaleform::GFx::AS2::ActionBuffer::ProcessDeclDict(
           v16 = StringNode->RefCount-- == 1;
           if ( v16 )
             Scaleform::GFx::ASStringNode::ReleaseNode(StringNode);
-          if ( Buffer[v11 + 3] )
+          if ( v20[v11 + 3] )
             break;
 LABEL_18:
           ++v12;
           ++v11;
-          if ( v12 >= count )
+          if ( v12 >= v22 )
             return;
           p_Dictionary = v21;
         }
         while ( v11 < stopPc )
         {
-          if ( !Buffer[++v11 + 3] )
+          if ( !v20[++v11 + 3] )
             goto LABEL_18;
         }
         if ( log->IsVerboseActionErrors(log) )
           Scaleform::GFx::AS2::ActionLogger::LogScriptError(log, "Action buffer dict length exceeded");
-        for ( ; v12 < count; ++v12 )
+        for ( ; v12 < v22; ++v12 )
         {
           v17 = Scaleform::GFx::ASStringManager::CreateStringNode(
                   (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                  "<invalid>");
+                  (__m128i *)"<invalid>");
           ++v17->RefCount;
           v18 = (int)&v21->Data.Data[v12];
           ++v17->RefCount;

@@ -1,12 +1,5 @@
-vostok::resources::cook_base::reuse_enum __usercall vostok::resources::cook_base::reuse_type@<eax>(
-        vostok::resources::cook_base *this@<ecx>,
-        int a2@<eax>)
-{
-  return *(_DWORD *)(a2 + 12);
-}
-
-
-int __fastcall vostok::resources::cook_base::reuse_type(int a1, vostok::resources::class_id_enum resource_class)
+vostok::resources::cook_base::reuse_enum __cdecl vostok::resources::cook_base::reuse_type(
+        vostok::resources::class_id_enum resource_class)
 {
   vostok::resources::cook_base *cook; // eax
 

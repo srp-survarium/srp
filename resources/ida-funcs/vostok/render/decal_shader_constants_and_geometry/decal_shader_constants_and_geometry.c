@@ -1,110 +1,78 @@
 void __usercall vostok::render::decal_shader_constants_and_geometry::decal_shader_constants_and_geometry(
         vostok::render::decal_shader_constants_and_geometry *this@<ecx>,
-        vostok::render::shader_constant_host **a2@<eax>)
+        vostok::render::shader_constant_host **a2@<edi>)
 {
-  vostok::strings::shared::profile *v3; // eax
+  vostok::render::backend *v2; // ecx
+  vostok::shared_string *v3; // ecx
   vostok::render::backend *v4; // ecx
-  volatile signed __int32 *p_m_reference_count; // edi
-  vostok::strings::shared::manager *v6; // ecx
-  vostok::strings::shared::profile *v7; // eax
+  vostok::shared_string *v5; // ecx
+  vostok::render::backend *v6; // ecx
+  vostok::shared_string *v7; // ecx
   vostok::render::backend *v8; // ecx
-  volatile signed __int32 *v9; // edi
-  vostok::strings::shared::manager *v10; // ecx
-  vostok::strings::shared::profile *v11; // eax
-  vostok::render::backend *v12; // ecx
-  volatile signed __int32 *v13; // edi
-  vostok::strings::shared::manager *v14; // ecx
-  vostok::strings::shared::profile *v15; // eax
-  vostok::render::backend *v16; // ecx
-  volatile signed __int32 *v17; // edi
-  vostok::render::decal_shader_constants_and_geometry *v18; // ecx
-  vostok::shared_string name; // [esp+8h] [ebp-4h] BYREF
+  vostok::render::decal_shader_constants_and_geometry *v9; // ecx
+  vostok::shared_string name; // [esp+Ch] [ebp-4h] BYREF
 
   a2[4] = 0;
   a2[5] = 0;
+  LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.y) = a2;
   a2[6] = 0;
-  `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_waiting_for_bind_action = (survarium::game_action_id)a2;
-  v3 = vostok::strings::shared::manager::string(
-         (vostok::strings::shared::manager *)this,
-         (const char *)s_manager.m_variable);
-  p_m_reference_count = 0;
-  name.m_pointer.m_object = 0;
-  if ( v3 )
-  {
-    p_m_reference_count = &v3->m_reference_count;
-    name.m_pointer.m_object = v3;
-    v4 = (vostok::render::backend *)_InterlockedExchangeAdd(&v3->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string((vostok::shared_string *)this, &name.m_pointer, "world_to_decal");
   *a2 = vostok::render::backend::register_constant_host(
-          v4,
-          (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+          v2,
+          SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
           &name,
-          rc_float);
-  if ( p_m_reference_count )
+          0);
+  if ( name.m_pointer.m_object )
   {
-    v6 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(p_m_reference_count, 0xFFFFFFFF);
-    if ( !v6 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v3 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v3 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v7 = vostok::strings::shared::manager::string(v6, (const char *)s_manager.m_variable);
-  v9 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v7 )
-  {
-    v9 = &v7->m_reference_count;
-    name.m_pointer.m_object = v7;
-    v8 = (vostok::render::backend *)_InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v3, &name.m_pointer, "s_eye_ray_corner");
   a2[1] = vostok::render::backend::register_constant_host(
-            v8,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v4,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v9 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v10 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v9, 0xFFFFFFFF);
-    if ( !v10 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v5 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v5 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v11 = vostok::strings::shared::manager::string(v10, (const char *)s_manager.m_variable);
-  v13 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v11 )
-  {
-    v13 = &v11->m_reference_count;
-    name.m_pointer.m_object = v11;
-    v12 = (vostok::render::backend *)_InterlockedExchangeAdd(&v11->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v5, &name.m_pointer, "decal_tangent_to_view_space_matrix");
   a2[2] = vostok::render::backend::register_constant_host(
-            v12,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v6,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v13 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v14 = (vostok::strings::shared::manager *)_InterlockedExchangeAdd(v13, 0xFFFFFFFF);
-    if ( !v14 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v7 = (vostok::shared_string *)_InterlockedExchangeAdd(&name.m_pointer.m_object->m_reference_count, 0xFFFFFFFF);
+    if ( !v7 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  v15 = vostok::strings::shared::manager::string(v14, (const char *)s_manager.m_variable);
-  v17 = 0;
-  name.m_pointer.m_object = 0;
-  if ( v15 )
-  {
-    v17 = &v15->m_reference_count;
-    name.m_pointer.m_object = v15;
-    v16 = (vostok::render::backend *)_InterlockedExchangeAdd(&v15->m_reference_count, 1u);
-  }
+  vostok::shared_string::shared_string(v7, &name.m_pointer, "decal_angle_parameters");
   a2[3] = vostok::render::backend::register_constant_host(
-            v16,
-            (int)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
+            v8,
+            SLODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
             &name,
-            rc_float);
-  if ( v17 )
+            0);
+  if ( name.m_pointer.m_object )
   {
-    v18 = (vostok::render::decal_shader_constants_and_geometry *)_InterlockedExchangeAdd(v17, 0xFFFFFFFF);
-    if ( !v18 )
-      vostok::strings::shared::manager::remove(0, (vostok::strings::shared::profile *)s_manager.m_variable);
+    v9 = (vostok::render::decal_shader_constants_and_geometry *)_InterlockedExchangeAdd(
+                                                                  &name.m_pointer.m_object->m_reference_count,
+                                                                  0xFFFFFFFF);
+    if ( !v9 )
+      vostok::strings::shared::detail::intrusive_base::destroy(
+        0,
+        (vostok::hash_multiset<vostok::strings::shared::profile,vostok::strings::shared::profile *,4,vostok::detail::fixed_size_policy<32768>,vostok::strings::shared::manager::hash_function,vostok::strings::shared::manager::hash_function,vostok::threading::single_threading_policy> *)name.m_pointer.m_object);
   }
-  vostok::render::decal_shader_constants_and_geometry::create_decal_geometry(v18, (bool)v17, a2);
+  vostok::render::decal_shader_constants_and_geometry::create_decal_geometry(v9, (int)a2);
 }

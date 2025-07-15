@@ -1,4 +1,4 @@
-int __cdecl EVP_PKEY_keygen_init(evp_pkey_ctx_st *ctx)
+int __usercall EVP_PKEY_keygen_init@<eax>(int a1@<ebx>, evp_pkey_ctx_st *ctx)
 {
   const evp_pkey_method_st *pmeth; // eax
   int (__cdecl *keygen_init)(evp_pkey_ctx_st *); // eax
@@ -21,7 +21,7 @@ int __cdecl EVP_PKEY_keygen_init(evp_pkey_ctx_st *ctx)
   }
   else
   {
-    ERR_put_error(6u, 147, 150, ".\\crypto\\evp\\pmeth_gn.c", 122);
+    ERR_put_error(a1, 6u, 147, 150, ".\\crypto\\evp\\pmeth_gn.c", 122);
     return -2;
   }
   return result;

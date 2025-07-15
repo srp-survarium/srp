@@ -5,18 +5,18 @@ Scaleform::GFx::AS2::FunctionRef *__thiscall Scaleform::GFx::AS2::ObjectInterfac
 {
   Scaleform::GFx::AS2::GlobalContext *pContext; // edx
   Scaleform::GFx::AS2::ObjectInterface_vtbl *v4; // esi
-  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+  Scaleform::GFx::AS2::Value v6; // [esp+Ch] [ebp-10h] BYREF
 
   pContext = psc->pContext;
   v4 = this->__vftable;
-  val.T.Type = 0;
+  v6.T.Type = 0;
   if ( v4->GetMemberRaw(
          this,
          psc,
          (const Scaleform::GFx::ASString *)&pContext->pMovieRoot->pASMovieRoot.pObject[24].RefCount,
-         &val) )
+         &v6) )
   {
-    Scaleform::GFx::AS2::Value::ToFunction(&val, result, 0);
+    Scaleform::GFx::AS2::Value::ToFunction(&v6, result, 0);
   }
   else
   {
@@ -24,7 +24,7 @@ Scaleform::GFx::AS2::FunctionRef *__thiscall Scaleform::GFx::AS2::ObjectInterfac
     result->Function = 0;
     result->pLocalFrame = 0;
   }
-  if ( val.T.Type >= 5u )
-    Scaleform::GFx::AS2::Value::DropRefs(&val);
+  if ( v6.T.Type >= 5u )
+    Scaleform::GFx::AS2::Value::DropRefs(&v6);
   return result;
 }

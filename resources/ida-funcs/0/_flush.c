@@ -20,7 +20,7 @@ int __cdecl _flush(_iobuf *str)
     {
       v10 = (char *)(str->_ptr - base);
       v9 = str->_base;
-      v5 = _fileno(str);
+      v5 = _fileno(0, (int)v4, str);
       if ( (char *)_write(v5, v9, (unsigned int)v10) == v4 )
       {
         v6 = str->_flag;

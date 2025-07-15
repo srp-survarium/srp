@@ -7,50 +7,60 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::Sort<Scaleform::GFx::AS
         Scaleform::GFx::AS3::Instances::fl_vec::Vector_double *currObj)
 {
   unsigned int v6; // eax
-  Scaleform::GFx::AS3::VM *v7; // eax
-  unsigned int v8; // edi
-  unsigned int Size; // eax
-  unsigned int v10; // ecx
-  double *v11; // edx
-  unsigned int v12; // esi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v14; // eax
-  Scaleform::GFx::ASStringNode *v15; // eax
-  __int16 v16; // ax
-  bool v17; // cc
-  int v18; // esi
-  unsigned int v19; // eax
-  unsigned int k; // ebx
-  unsigned int v21; // esi
-  const long double **v22; // esi
-  unsigned int v23; // ebx
-  Scaleform::GFx::ASStringNode *v24; // ecx
-  const Scaleform::MemoryHeap *MHeap; // eax
+  Scaleform::GFx::AS3::VM *VMRef; // edi
+  Scaleform::GFx::AS3::ClassTraits::fl::Number *v8; // esi
+  Scaleform::GFx::AS3::Traits *v9; // ebx
+  const char *v10; // eax
+  Scaleform::GFx::AS3::ClassTraits::fl::Number *pObject; // esi
+  Scaleform::GFx::AS3::Traits *ValueTraits; // ebx
+  const char *pData; // eax
+  const char *v14; // eax
+  unsigned int v15; // eax
+  const Scaleform::GFx::AS3::VM::Error *v16; // eax
+  Scaleform::GFx::ASStringNode *v17; // eax
+  Scaleform::GFx::ASStringNode *v18; // eax
+  Scaleform::GFx::ASStringNode *v19; // eax
+  Scaleform::GFx::AS3::VM *v20; // eax
+  const Scaleform::MemoryHeap *MHeap; // edx
+  unsigned int v22; // edi
+  unsigned int v23; // ecx
+  double *v24; // edx
+  int v25; // ebx
+  unsigned int v26; // esi
   int v27; // esi
+  unsigned int Size; // eax
   unsigned int j; // ebx
-  unsigned int v29; // esi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
-  Scaleform::GFx::AS3::Instances::fl::Catch *v31; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v32; // esi
+  unsigned int v30; // esi
+  const long double **v31; // esi
+  unsigned int v32; // ebx
+  Scaleform::GFx::ASStringNode *v33; // ecx
+  Scaleform::GFx::AS3::VM *v35; // esi
+  int v36; // esi
+  unsigned int i; // ebx
+  unsigned int v38; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *v39; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object *v40; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v41; // esi
   Scaleform::GFx::AS3::VM *pVM; // eax
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *v34; // ecx
-  Scaleform::Pair<Scaleform::GFx::ASString,unsigned long> *Data; // eax
-  Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *v36; // esi
-  unsigned int v37; // eax
-  Scaleform::GFx::AS3::Impl::CompareAsStringInd v38; // [esp-4h] [ebp-6Ch]
-  Scaleform::GFx::AS3::CheckResult v39; // [esp+13h] [ebp-55h] BYREF
-  int functor; // [esp+14h] [ebp-54h] OVERLAPPED BYREF
-  int flags; // [esp+18h] [ebp-50h] BYREF
-  unsigned int i; // [esp+1Ch] [ebp-4Ch]
-  Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *v43; // [esp+20h] [ebp-48h]
-  Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr v44; // [esp+24h] [ebp-44h] BYREF
-  Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector vc; // [esp+2Ch] [ebp-3Ch] BYREF
-  Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> *p_ptrs; // [esp+34h] [ebp-34h]
-  Scaleform::ArrayDH<double,2,Scaleform::ArrayDefaultPolicy> newSA; // [esp+38h] [ebp-30h] BYREF
-  Scaleform::GFx::AS3::Value compareFunction; // [esp+48h] [ebp-20h] BYREF
-  Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> ptrs; // [esp+58h] [ebp-10h] BYREF
+  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *v43; // ecx
+  const char *v44; // eax
+  unsigned int *p_RefCount; // esi
+  unsigned int v46; // eax
+  Scaleform::StringDataPtr v47; // [esp-10h] [ebp-70h]
+  Scaleform::StringDataPtr v48; // [esp-8h] [ebp-68h]
+  Scaleform::GFx::AS3::Impl::CompareAsStringInd v49; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS3::CheckResult v50; // [esp+Fh] [ebp-51h] BYREF
+  unsigned int functor; // [esp+10h] [ebp-50h] OVERLAPPED BYREF
+  int flags; // [esp+14h] [ebp-4Ch] BYREF
+  Scaleform::GFx::ASStringNode *v53; // [esp+18h] [ebp-48h]
+  Scaleform::StringDataPtr arg2; // [esp+1Ch] [ebp-44h] BYREF
+  Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector vc; // [esp+24h] [ebp-3Ch] BYREF
+  Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> *p_ptrs; // [esp+2Ch] [ebp-34h]
+  Scaleform::ArrayDH<double,2,Scaleform::ArrayDefaultPolicy> newSA; // [esp+30h] [ebp-30h] BYREF
+  Scaleform::GFx::AS3::Value compareFunction; // [esp+40h] [ebp-20h] BYREF
+  Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> ptrs; // [esp+50h] [ebp-10h] BYREF
 
-  v43 = (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)this;
+  v53 = (Scaleform::GFx::ASStringNode *)this;
   compareFunction.Flags = 0;
   compareFunction.Bonus.pWeakProxy = 0;
   flags = 0;
@@ -61,776 +71,427 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<double>::Sort<Scaleform::GFx::AS
     {
       Scaleform::GFx::AS3::Value::Assign(&compareFunction, argv);
     }
-    else if ( !Scaleform::GFx::AS3::Value::Convert2Int32(argv, &v39, (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
+    else if ( !Scaleform::GFx::AS3::Value::Convert2Int32(argv, &v50, (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
     {
-LABEL_28:
       VMRef = this->VMRef;
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&vc, eCheckTypeFailedError, VMRef);
-      Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v14);
-      v15 = (Scaleform::GFx::ASStringNode *)vc.Ptrs;
-      --vc.Ptrs->Data.pHeap;
-      if ( !v15->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v15);
-      v16 = compareFunction.Flags;
-      v17 = (compareFunction.Flags & 0x1F) <= 9;
-LABEL_31:
-      if ( v17 )
-        return;
-      if ( (v16 & 0x200) != 0 )
-        goto LABEL_33;
-LABEL_92:
-      Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
-      return;
+      pObject = currObj->pTraits.pObject->pVM->TraitsNumber.pObject;
+      ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, argv);
+      pData = pObject->GetName(pObject, (Scaleform::GFx::ASString *)&functor)->pNode->pData;
+      v48.Size = (unsigned int)pData;
+      if ( pData )
+        strlen(pData);
+      v48.pStr = (const char *)&arg2;
+      v14 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))ValueTraits->GetName)(ValueTraits);
+      v47.pStr = v14;
+      if ( v14 )
+        goto LABEL_19;
+      goto LABEL_20;
     }
   }
-  if ( argc > 1
-    && !Scaleform::GFx::AS3::Value::Convert2Int32(argv + 1, &v39, (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
+  if ( argc <= 1
+    || Scaleform::GFx::AS3::Value::Convert2Int32(argv + 1, &v50, (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
   {
-    goto LABEL_28;
-  }
-  v7 = this->VMRef;
-  v8 = 0;
-  newSA.Data.pHeap = v7->MHeap;
-  memset(&newSA, 0, 12);
-  if ( (compareFunction.Flags & 0x1F) != 0
-    && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
-  {
-    MHeap = v7->MHeap;
-    vc.Ptrs = &ptrs;
-    memset(&ptrs, 0, 12);
-    ptrs.Data.pHeap = MHeap;
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
-    Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
-    v44.Vm = this->VMRef;
-    v44.Func = &compareFunction;
-    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr>(
-      &ptrs,
-      0,
-      ptrs.Data.Size,
-      (Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr)__PAIR64__(&compareFunction, (unsigned int)v44.Vm));
-    if ( (flags & 4) != 0 )
+    v20 = this->VMRef;
+    MHeap = v20->MHeap;
+    v22 = 0;
+    memset(&newSA, 0, 12);
+    newSA.Data.pHeap = MHeap;
+    if ( (compareFunction.Flags & 0x1F) != 0
+      && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
     {
-      v27 = 1;
-      if ( ptrs.Data.Size > 1 )
+      vc.Ptrs = &ptrs;
+      memset(&ptrs, 0, 12);
+      ptrs.Data.pHeap = MHeap;
+      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
+      Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
+      v35 = this->VMRef;
+      arg2.Size = (unsigned int)&compareFunction;
+      arg2.pStr = (const char *)v35;
+      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr>(
+        &ptrs,
+        0,
+        ptrs.Data.Size,
+        (Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr)__PAIR64__(&compareFunction, (unsigned int)v35));
+      if ( (flags & 4) != 0 )
       {
-        while ( !Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr::Equal(
-                   &v44,
-                   (long double *)ptrs.Data.Data[v27 - 1],
-                   (long double *)ptrs.Data.Data[v27]) )
+        v36 = 1;
+        if ( ptrs.Data.Size > 1 )
         {
-          if ( ++v27 >= ptrs.Data.Size )
-            goto LABEL_66;
+          while ( !Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr::Equal(
+                     (Scaleform::GFx::AS3::VectorBase<double>::CompareValuePtr *)&arg2,
+                     (long double *)ptrs.Data.Data[v36 - 1],
+                     (long double *)ptrs.Data.Data[v36]) )
+          {
+            if ( ++v36 >= ptrs.Data.Size )
+              goto LABEL_77;
+          }
+          Scaleform::GFx::AS3::Value::SetNull(result);
+          vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+          goto LABEL_102;
         }
-        Scaleform::GFx::AS3::Value::SetNull(result);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-        goto LABEL_35;
       }
-    }
-LABEL_66:
-    for ( j = 0; j < ptrs.Data.Size; ++j )
-    {
-      v29 = v8 + 1;
-      v44.Vm = (Scaleform::GFx::AS3::VM *)ptrs.Data.Data[j];
-      if ( v8 + 1 >= v8 )
+LABEL_77:
+      for ( i = 0; i < ptrs.Data.Size; ++i )
       {
-        if ( v29 >= newSA.Data.Policy.Capacity )
-          Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-            newSA.Data.pHeap,
-            v29 + (v29 >> 2));
-      }
-      else if ( v29 < newSA.Data.Policy.Capacity >> 1 )
-      {
-        Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-          newSA.Data.pHeap,
-          v8 + 1);
-      }
-      ++v8;
-      newSA.Data.Size = v29;
-      if ( &newSA.Data.Data[v29] != (long double *)8 )
-        newSA.Data.Data[v29 - 1] = *(double *)&v44.Vm->__vftable;
-    }
-LABEL_76:
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-    goto LABEL_77;
-  }
-  if ( (flags & 0x10) != 0 )
-  {
-    ptrs.Data.pHeap = v7->MHeap;
-    memset(&ptrs, 0, 12);
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::Value2NumberCollector::`vftable';
-    vc.Ptrs = &ptrs;
-    Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
-    LOBYTE(i) = (flags & 2) != 0;
-    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
-      (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
-      0,
-      ptrs.Data.Size,
-      (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)i);
-    Size = ptrs.Data.Size;
-    if ( (flags & 4) != 0 )
-    {
-      v10 = 1;
-      if ( ptrs.Data.Size > 1 )
-      {
-        v11 = (double *)(ptrs.Data.Data + 4);
-        while ( *v11 != *(v11 - 2) )
+        v38 = v22 + 1;
+        arg2.pStr = (const char *)ptrs.Data.Data[i];
+        if ( v22 + 1 >= v22 )
         {
-          Size = ptrs.Data.Size;
-          ++v10;
-          v11 += 2;
-          if ( v10 >= ptrs.Data.Size )
-            goto LABEL_22;
-        }
-        Scaleform::GFx::AS3::Value::SetSInt32(result, 0);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-LABEL_35:
-        v16 = compareFunction.Flags;
-        v17 = (compareFunction.Flags & 0x1F) <= 9;
-        goto LABEL_31;
-      }
-    }
-LABEL_22:
-    i = 0;
-    if ( Size )
-    {
-      functor = 0;
-      do
-      {
-        v12 = v8 + 1;
-        v44.Vm = (Scaleform::GFx::AS3::VM *)&this->ValueA.Data.Data[*(int *)((char *)ptrs.Data.Data + functor + 8)];
-        if ( v8 + 1 >= v8 )
-        {
-          if ( v12 >= newSA.Data.Policy.Capacity )
+          if ( v38 >= newSA.Data.Policy.Capacity )
             Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
               (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
               newSA.Data.pHeap,
-              v12 + (v12 >> 2));
+              v38 + (v38 >> 2));
         }
-        else if ( v12 < newSA.Data.Policy.Capacity >> 1 )
+        else if ( v38 < newSA.Data.Policy.Capacity >> 1 )
         {
           Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
             (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
             newSA.Data.pHeap,
-            v8 + 1);
+            v22 + 1);
         }
-        ++v8;
-        newSA.Data.Size = v12;
-        if ( &newSA.Data.Data[v12] != (long double *)8 )
-          newSA.Data.Data[v12 - 1] = *(double *)&v44.Vm->__vftable;
-        functor += 16;
-        ++i;
+        ++v22;
+        newSA.Data.Size = v38;
+        if ( &newSA.Data.Data[v38] != (long double *)8 )
+          newSA.Data.Data[v38 - 1] = *(double *)arg2.pStr;
       }
-      while ( i < ptrs.Data.Size );
-    }
-    goto LABEL_76;
-  }
-  ptrs.Data.pHeap = v7->MHeap;
-  vc.Ptrs = (Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> *)v7;
-  memset(&ptrs, 0, 12);
-  vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::Value2StrCollector::`vftable';
-  p_ptrs = &ptrs;
-  Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
-  BYTE1(functor) = flags & 1;
-  LOBYTE(functor) = (flags & 2) != 0;
-  *(_WORD *)&v38.Desc = functor;
-  v38.UseLocale = (flags & 0x400) != 0;
-  BYTE2(functor) = v38.UseLocale;
-  Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
-    (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
-    0,
-    ptrs.Data.Size,
-    v38);
-  if ( (flags & 4) != 0 )
-  {
-    v18 = 1;
-    if ( ptrs.Data.Size > 1 )
-    {
-      while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
-                (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&functor,
-                (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v18 - 2],
-                (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v18]) )
-      {
-        if ( ++v18 >= ptrs.Data.Size )
-          goto LABEL_46;
-      }
-      Scaleform::GFx::AS3::Value::SetNull(result);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&ptrs);
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-      goto LABEL_35;
-    }
-  }
-LABEL_46:
-  v19 = ptrs.Data.Size;
-  for ( k = 0; k < ptrs.Data.Size; ++k )
-  {
-    v21 = v8 + 1;
-    v44.Vm = (Scaleform::GFx::AS3::VM *)&v43[1].Data[(int)ptrs.Data.Data[2 * k + 1]];
-    if ( v8 + 1 >= v8 )
-    {
-      if ( v21 >= newSA.Data.Policy.Capacity )
-        Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-          newSA.Data.pHeap,
-          v21 + (v21 >> 2));
-    }
-    else if ( v21 < newSA.Data.Policy.Capacity >> 1 )
-    {
-      Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-        newSA.Data.pHeap,
-        v8 + 1);
-    }
-    ++v8;
-    newSA.Data.Size = v21;
-    if ( &newSA.Data.Data[v21] != (long double *)8 )
-      newSA.Data.Data[v21 - 1] = *(double *)&v44.Vm->__vftable;
-    v19 = ptrs.Data.Size;
-  }
-  vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-  v22 = &ptrs.Data.Data[2 * v19 - 2];
-  if ( v19 )
-  {
-    v23 = v19;
-    do
-    {
-      v24 = (Scaleform::GFx::ASStringNode *)*v22;
-      if ( (*((_DWORD *)*v22 + 3))-- == 1 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v24);
-      v22 -= 2;
-      --v23;
-    }
-    while ( v23 );
-  }
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-LABEL_77:
-  if ( (flags & 8) != 0 )
-  {
-    pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->pTraits.pObject;
-    v31 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
-    v32 = v31;
-    if ( v31 )
-    {
-      Scaleform::GFx::AS3::Instances::fl::Object::Object(v31, pObject);
-      v32->__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_double::`vftable';
-      pVM = pObject->pVM;
-      v34 = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
-      LOBYTE(v32[1]._pRCC) = 0;
-      v32[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
-      v32[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::`vftable';
-      v32[1].pPrev = 0;
-      v32[1].RefCount = 0;
-      v32[1].pTraits.pObject = 0;
-      v32[1].DynAttrs.mHash.pTable = v34;
     }
     else
     {
-      v32 = 0;
+      if ( (flags & 0x10) == 0 )
+      {
+        ptrs.Data.pHeap = v20->MHeap;
+        vc.Ptrs = (Scaleform::ArrayDH<double const *,2,Scaleform::ArrayDefaultPolicy> *)v20;
+        memset(&ptrs, 0, 12);
+        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::Value2StrCollector::`vftable';
+        p_ptrs = &ptrs;
+        Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
+        BYTE1(functor) = flags & 1;
+        LOBYTE(functor) = (flags & 2) != 0;
+        *(_WORD *)&v49.Desc = functor;
+        v49.UseLocale = (flags & 0x400) != 0;
+        BYTE2(functor) = v49.UseLocale;
+        Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
+          (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
+          0,
+          ptrs.Data.Size,
+          v49);
+        if ( (flags & 4) != 0 )
+        {
+          v27 = 1;
+          if ( ptrs.Data.Size > 1 )
+          {
+            while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
+                      (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&functor,
+                      (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v27 - 2],
+                      (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v27]) )
+            {
+              if ( ++v27 >= ptrs.Data.Size )
+                goto LABEL_57;
+            }
+            Scaleform::GFx::AS3::Value::SetNull(result);
+            vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+            Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&ptrs);
+            Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+            goto LABEL_102;
+          }
+        }
+LABEL_57:
+        Size = ptrs.Data.Size;
+        for ( j = 0; j < ptrs.Data.Size; ++j )
+        {
+          v30 = v22 + 1;
+          arg2.pStr = (const char *)(v53->RefCount + 8 * (int)ptrs.Data.Data[2 * j + 1]);
+          if ( v22 + 1 >= v22 )
+          {
+            if ( v30 >= newSA.Data.Policy.Capacity )
+              Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+                (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+                newSA.Data.pHeap,
+                v30 + (v30 >> 2));
+          }
+          else if ( v30 < newSA.Data.Policy.Capacity >> 1 )
+          {
+            Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v22 + 1);
+          }
+          ++v22;
+          newSA.Data.Size = v30;
+          if ( &newSA.Data.Data[v30] != (long double *)8 )
+            newSA.Data.Data[v30 - 1] = *(double *)arg2.pStr;
+          Size = ptrs.Data.Size;
+        }
+        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        v31 = &ptrs.Data.Data[2 * Size - 2];
+        if ( Size )
+        {
+          v32 = Size;
+          do
+          {
+            v33 = (Scaleform::GFx::ASStringNode *)*v31;
+            if ( (*((_DWORD *)*v31 + 3))-- == 1 )
+              Scaleform::GFx::ASStringNode::ReleaseNode(v33);
+            v31 -= 2;
+            --v32;
+          }
+          while ( v32 );
+        }
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+        goto LABEL_88;
+      }
+      ptrs.Data.pHeap = MHeap;
+      memset(&ptrs, 0, 12);
+      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::Value2NumberCollector::`vftable';
+      vc.Ptrs = &ptrs;
+      Scaleform::GFx::AS3::VectorBase<double>::ForEach(this, &vc);
+      LOBYTE(functor) = (flags & 2) != 0;
+      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
+        (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
+        0,
+        ptrs.Data.Size,
+        (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)functor);
+      if ( (flags & 4) != 0 )
+      {
+        v23 = 1;
+        if ( ptrs.Data.Size > 1 )
+        {
+          v24 = (double *)(ptrs.Data.Data + 4);
+          while ( *v24 != *(v24 - 2) )
+          {
+            ++v23;
+            v24 += 2;
+            if ( v23 >= ptrs.Data.Size )
+              goto LABEL_41;
+          }
+          Scaleform::GFx::AS3::Value::SetSInt32(result, 0);
+          vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+          ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
+          goto LABEL_102;
+        }
+      }
+LABEL_41:
+      functor = 0;
+      if ( ptrs.Data.Size )
+      {
+        v25 = 0;
+        do
+        {
+          v26 = v22 + 1;
+          arg2.pStr = (const char *)(v53->RefCount + 8 * (int)ptrs.Data.Data[v25 + 2]);
+          if ( v22 + 1 >= v22 )
+          {
+            if ( v26 >= newSA.Data.Policy.Capacity )
+              Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+                (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+                newSA.Data.pHeap,
+                v26 + (v26 >> 2));
+          }
+          else if ( v26 < newSA.Data.Policy.Capacity >> 1 )
+          {
+            Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v22 + 1);
+          }
+          ++v22;
+          newSA.Data.Size = v26;
+          if ( &newSA.Data.Data[v26] != (long double *)8 )
+            newSA.Data.Data[v26 - 1] = *(double *)arg2.pStr;
+          v25 += 4;
+          ++functor;
+        }
+        while ( functor < ptrs.Data.Size );
+      }
     }
-    Scaleform::GFx::AS3::VectorBase<double>::Append((Scaleform::GFx::AS3::VectorBase<double> *)&v32[1], &newSA);
-    Scaleform::GFx::AS3::Value::Pick(result, v32);
-  }
-  else
-  {
-    Data = v43[2].Data;
-    v36 = v43 + 1;
-    if ( v8 >= v43[1].Size )
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<double>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+LABEL_88:
+    if ( (flags & 8) != 0 )
     {
-      if ( v8 >= v43[1].Policy.Capacity )
+      v39 = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->pTraits.pObject;
+      v40 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(v39);
+      v41 = v40;
+      if ( v40 )
+      {
+        Scaleform::GFx::AS3::Instances::fl::Object::Object(v40, v39);
+        v41->__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_double::`vftable';
+        pVM = v39->pVM;
+        v43 = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
+        LOBYTE(v41[1]._pRCC) = 0;
+        v41[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
+        v41[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::VectorBase<double>::`vftable';
+        v41[1].pPrev = 0;
+        v41[1].RefCount = 0;
+        v41[1].pTraits.pObject = 0;
+        v41[1].DynAttrs.mHash.pTable = v43;
+      }
+      else
+      {
+        v41 = 0;
+      }
+      Scaleform::GFx::AS3::VectorBase<double>::Append((Scaleform::GFx::AS3::VectorBase<double> *)&v41[1], &newSA);
+      Scaleform::GFx::AS3::Value::Pick(result, v41);
+    }
+    else
+    {
+      v44 = v53[1].pData;
+      p_RefCount = &v53->RefCount;
+      if ( v22 >= v53->HashFlags )
+      {
+        if ( v22 >= v53->Size )
+          Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&v53->RefCount,
+            v44,
+            v22 + (v22 >> 2));
+      }
+      else if ( v22 < v53->Size >> 1 )
+      {
         Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          v43 + 1,
-          Data,
-          v8 + (v8 >> 2));
+          (Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&v53->RefCount,
+          v44,
+          v22);
+      }
+      v46 = 0;
+      for ( p_RefCount[1] = v22; v46 < p_RefCount[1]; ++v46 )
+        *(double *)(*p_RefCount + 8 * v46) = newSA.Data.Data[v46];
+      Scaleform::GFx::AS3::Value::Assign(result, currObj);
     }
-    else if ( v8 < v43[1].Policy.Capacity >> 1 )
-    {
-      Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::AS3::Value const *,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-        v43 + 1,
-        Data,
-        v8);
-    }
-    v37 = 0;
-    for ( v36->Size = v8; v37 < v36->Size; ++v37 )
-      *(double *)&v36->Data[v37] = newSA.Data.Data[v37];
-    Scaleform::GFx::AS3::Value::Assign(result, currObj);
+    ((void (__stdcall *)(long double *))Scaleform::Memory::pGlobalHeap->Free)(newSA.Data.Data);
+LABEL_102:
+    if ( (compareFunction.Flags & 0x1F) <= 9 )
+      return;
+    if ( (compareFunction.Flags & 0x200) != 0 )
+      goto LABEL_29;
+    goto LABEL_104;
   }
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, newSA.Data.Data);
+  VMRef = this->VMRef;
+  v8 = currObj->pTraits.pObject->pVM->TraitsNumber.pObject;
+  v9 = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, argv + 1);
+  v10 = v8->GetName(v8, (Scaleform::GFx::ASString *)&functor)->pNode->pData;
+  v48.Size = (unsigned int)v10;
+  if ( v10 )
+    strlen(v10);
+  v48.pStr = (const char *)&arg2;
+  v14 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))v9->GetName)(v9);
+  v47.pStr = v14;
+  if ( v14 )
+  {
+LABEL_19:
+    v15 = strlen(v14);
+    goto LABEL_21;
+  }
+LABEL_20:
+  v15 = 0;
+LABEL_21:
+  v47.Size = v15;
+  Scaleform::GFx::AS3::VM::Error::Error(
+    (Scaleform::GFx::AS3::VM::Error *)&vc,
+    eCheckTypeFailedError,
+    (Scaleform::String)VMRef,
+    v47,
+    v48);
+  Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v16);
+  v17 = (Scaleform::GFx::ASStringNode *)vc.Ptrs;
+  --vc.Ptrs->Data.pHeap;
+  if ( !v17->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v17);
+  v18 = v53;
+  --v53->RefCount;
+  if ( !v18->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v18);
+  v19 = (Scaleform::GFx::ASStringNode *)functor;
+  --*(_DWORD *)(functor + 12);
+  if ( !v19->RefCount )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v19);
   if ( (compareFunction.Flags & 0x1F) > 9 )
   {
     if ( (compareFunction.Flags & 0x200) != 0 )
     {
-LABEL_33:
+LABEL_29:
       Scaleform::GFx::AS3::Value::ReleaseWeakRef(&compareFunction);
       return;
     }
-    goto LABEL_92;
+LABEL_104:
+    Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
   }
 }
 
 
 void __thiscall Scaleform::GFx::AS3::VectorBase<long>::Sort<Scaleform::GFx::AS3::Instances::fl_vec::Vector_int>(
         Scaleform::GFx::AS3::VectorBase<long> *this,
-        Scaleform::GFx::AS3::Value *result,
+        Scaleform::GFx::ASStringNode *result,
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv,
-        Scaleform::GFx::AS3::Instances::fl_vec::Vector_int *currObj)
+        Scaleform::GFx::ASStringNode *currObj)
 {
-  Scaleform::GFx::AS3::Value *v5; // esi
-  unsigned int v6; // ebp
-  unsigned int v7; // edi
-  unsigned int v9; // eax
-  Scaleform::GFx::AS3::VM *VMRef; // eax
-  unsigned int v11; // edi
-  unsigned int v12; // ecx
-  double *v13; // edx
-  int v14; // ebp
-  unsigned int v15; // esi
-  int *v16; // ebx
-  Scaleform::GFx::AS3::VM *v17; // esi
-  const Scaleform::GFx::AS3::VM::Error *v18; // eax
+  const Scaleform::GFx::AS3::Value *v5; // ebp
+  unsigned int v6; // esi
+  Scaleform::GFx::AS3::VectorBase<long> *v7; // ebx
+  unsigned int v8; // eax
+  Scaleform::GFx::AS3::Value *v9; // ebp
+  Scaleform::GFx::AS3::VM *VMRef; // edi
+  Scaleform::GFx::AS3::ClassTraits::fl::int_ *v11; // esi
+  Scaleform::GFx::AS3::Traits *v12; // ebp
+  const char *v13; // eax
+  Scaleform::GFx::AS3::ClassTraits::fl::int_ *v14; // esi
+  Scaleform::GFx::AS3::Traits *ValueTraits; // ebp
+  const char *pData; // eax
+  const char *v17; // eax
+  unsigned int v18; // eax
+  const Scaleform::GFx::AS3::VM::Error *v19; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  int v20; // esi
-  Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *v21; // eax
-  unsigned int v22; // esi
-  int *v23; // ebx
-  Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *v24; // esi
-  Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *v25; // ebp
-  Scaleform::GFx::ASStringNode *v26; // ecx
-  int v28; // esi
+  Scaleform::GFx::ASStringNode *v21; // eax
+  Scaleform::GFx::ASStringNode *v22; // eax
+  const Scaleform::MemoryHeap *pLower; // edx
+  unsigned int v24; // edi
+  unsigned int v25; // ecx
+  double *v26; // edx
+  int v27; // ebp
+  unsigned int v28; // esi
   int *v29; // ebx
-  unsigned int v30; // esi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
-  Scaleform::GFx::AS3::Instances::fl::Catch *v32; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v33; // esi
+  int v30; // esi
+  Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *v31; // eax
+  Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *v32; // ebp
+  unsigned int v33; // esi
+  int *v34; // ebx
+  Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *v35; // esi
+  Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *v36; // ebp
+  Scaleform::GFx::ASStringNode *v37; // ecx
+  int v39; // esi
+  unsigned int v40; // ebp
+  int *v41; // ebx
+  unsigned int v42; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *Size; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object *v44; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v45; // esi
   Scaleform::GFx::AS3::VM *pVM; // eax
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *MHeap; // ecx
-  const Scaleform::Ptr<Scaleform::GFx::ASStringNode> **Data; // eax
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *v37; // esi
-  unsigned int v38; // eax
-  Scaleform::GFx::AS3::Impl::CompareAsStringInd v39; // [esp-4h] [ebp-68h]
+  const Scaleform::MemoryHeap *pHeap; // eax
+  unsigned int v49; // eax
+  Scaleform::StringDataPtr v50; // [esp-10h] [ebp-74h]
+  Scaleform::StringDataPtr v51; // [esp-8h] [ebp-6Ch]
+  Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr v52; // [esp-8h] [ebp-6Ch]
+  Scaleform::GFx::AS3::Impl::CompareAsStringInd v53; // [esp-4h] [ebp-68h]
   int flags; // [esp+10h] [ebp-54h] BYREF
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *v41; // [esp+14h] [ebp-50h]
+  Scaleform::GFx::AS3::VectorBase<long> *v55; // [esp+14h] [ebp-50h]
   Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector vc; // [esp+18h] [ebp-4Ch] BYREF
-  int v43; // [esp+20h] [ebp-44h]
-  Scaleform::MemoryHeap *v44; // [esp+24h] [ebp-40h]
-  Scaleform::GFx::AS3::VM::Error v45; // [esp+28h] [ebp-3Ch] BYREF
+  int v57; // [esp+20h] [ebp-44h]
+  Scaleform::GFx::ASStringNode *v58; // [esp+24h] [ebp-40h]
+  Scaleform::GFx::AS3::VM::Error v59; // [esp+28h] [ebp-3Ch] BYREF
   Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector *p_vc; // [esp+30h] [ebp-34h]
   Scaleform::ArrayDH<long,2,Scaleform::ArrayDefaultPolicy> newSA; // [esp+34h] [ebp-30h] BYREF
   Scaleform::GFx::AS3::Value compareFunction; // [esp+44h] [ebp-20h] BYREF
   Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> ptrs; // [esp+54h] [ebp-10h] BYREF
 
   v5 = argv;
-  v6 = 0;
-  v7 = argc;
-  v41 = (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)this;
-  compareFunction.Flags = 0;
-  compareFunction.Bonus.pWeakProxy = 0;
-  flags = 0;
-  if ( argc )
-  {
-    v9 = argv->Flags & 0x1F;
-    if ( v9 > 0xF || v9 == 14 || v9 == 5 || v9 == 15 || v9 == 6 || v9 == 7 || v9 == 12 || v9 == 13 )
-    {
-      Scaleform::GFx::AS3::Value::Assign(&compareFunction, argv);
-    }
-    else if ( !Scaleform::GFx::AS3::Value::Convert2Int32(
-                 argv,
-                 (Scaleform::GFx::AS3::CheckResult *)&argc,
-                 (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
-    {
-      goto LABEL_28;
-    }
-  }
-  if ( v7 <= 1
-    || Scaleform::GFx::AS3::Value::Convert2Int32(
-         v5 + 1,
-         (Scaleform::GFx::AS3::CheckResult *)&argc,
-         (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
-  {
-    VMRef = this->VMRef;
-    newSA.Data.pHeap = VMRef->MHeap;
-    v11 = 0;
-    memset(&newSA, 0, 12);
-    if ( (compareFunction.Flags & 0x1F) != 0
-      && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
-    {
-      ptrs.Data.pHeap = VMRef->MHeap;
-      memset(&ptrs, 0, 12);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
-      vc.Ptrs = &ptrs;
-      Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
-        (Scaleform::GFx::AS3::VectorBase<unsigned long> *)this,
-        (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&vc);
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)this->VMRef;
-      v45.Message.pNode = (Scaleform::GFx::ASStringNode *)&compareFunction;
-      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr>(
-        &ptrs,
-        0,
-        ptrs.Data.Size,
-        (Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr)__PAIR64__(&compareFunction, v45.ID));
-      if ( (flags & 4) == 0 || (v28 = 1, ptrs.Data.Size <= 1) )
-      {
-LABEL_64:
-        if ( ptrs.Data.Size )
-        {
-          do
-          {
-            v29 = (int *)ptrs.Data.Data[v6];
-            v30 = v11 + 1;
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v30 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v30 + (v30 >> 2));
-            }
-            else if ( v30 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v30;
-            if ( &newSA.Data.Data[v30] != (int *)4 )
-              newSA.Data.Data[v30 - 1] = *v29;
-            ++v6;
-          }
-          while ( v6 < ptrs.Data.Size );
-        }
-LABEL_74:
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-LABEL_75:
-        if ( (flags & 8) != 0 )
-        {
-          pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->pTraits.pObject;
-          v32 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
-          v33 = v32;
-          if ( v32 )
-          {
-            Scaleform::GFx::AS3::Instances::fl::Object::Object(v32, pObject);
-            v33->__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_int::`vftable';
-            pVM = pObject->pVM;
-            MHeap = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
-            LOBYTE(v33[1]._pRCC) = 0;
-            v33[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
-            v33[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::VectorBase<long>::`vftable';
-            v33[1].pPrev = 0;
-            v33[1].RefCount = 0;
-            v33[1].pTraits.pObject = 0;
-            v33[1].DynAttrs.mHash.pTable = MHeap;
-          }
-          else
-          {
-            v33 = 0;
-          }
-          Scaleform::GFx::AS3::VectorBase<unsigned long>::Append(
-            (Scaleform::GFx::AS3::VectorBase<unsigned long> *)&v33[1],
-            (const Scaleform::ArrayDH<unsigned long,2,Scaleform::ArrayDefaultPolicy> *)&newSA);
-          Scaleform::GFx::AS3::Value::Pick(result, v33);
-        }
-        else
-        {
-          Data = v41[2].Data;
-          v37 = v41 + 1;
-          if ( v11 >= v41[1].Size )
-          {
-            if ( v11 >= v41[1].Policy.Capacity )
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                v41 + 1,
-                Data,
-                v11 + (v11 >> 2));
-          }
-          else if ( v11 < v41[1].Policy.Capacity >> 1 )
-          {
-            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              v41 + 1,
-              Data,
-              v11);
-          }
-          v38 = 0;
-          for ( v37->Size = v11; v38 < v37->Size; ++v38 )
-            v37->Data[v38] = (const Scaleform::Ptr<Scaleform::GFx::ASStringNode> *)newSA.Data.Data[v38];
-          Scaleform::GFx::AS3::Value::Assign(result, currObj);
-        }
-        ((void (__stdcall *)(int *))Scaleform::Memory::pGlobalHeap->Free)(newSA.Data.Data);
-        goto LABEL_89;
-      }
-      while ( !Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr::Equal(
-                 (Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr *)&v45,
-                 (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v28 - 1],
-                 (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v28]) )
-      {
-        if ( ++v28 >= ptrs.Data.Size )
-          goto LABEL_64;
-      }
-      Scaleform::GFx::AS3::Value::SetNull(result);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-    }
-    else
-    {
-      if ( (flags & 0x10) != 0 )
-      {
-        ptrs.Data.pHeap = VMRef->MHeap;
-        memset(&ptrs, 0, 12);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<long>::Value2NumberCollector::`vftable';
-        vc.Ptrs = &ptrs;
-        Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
-          (Scaleform::GFx::AS3::VectorBase<unsigned long> *)this,
-          (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&vc);
-        LOBYTE(argc) = (flags & 2) != 0;
-        Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
-          (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
-          0,
-          ptrs.Data.Size,
-          (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)argc);
-        if ( (flags & 4) != 0 )
-        {
-          v12 = 1;
-          if ( ptrs.Data.Size > 1 )
-          {
-            v13 = (double *)(ptrs.Data.Data + 4);
-            while ( *v13 != *(v13 - 2) )
-            {
-              ++v12;
-              v13 += 2;
-              if ( v12 >= ptrs.Data.Size )
-                goto LABEL_22;
-            }
-            Scaleform::GFx::AS3::Value::SetSInt32(result, 0);
-            vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-            Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-            ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
-            goto LABEL_89;
-          }
-        }
-LABEL_22:
-        argc = 0;
-        if ( ptrs.Data.Size )
-        {
-          v14 = 0;
-          do
-          {
-            v15 = v11 + 1;
-            v16 = (int *)&v41[1].Data[(int)ptrs.Data.Data[v14 + 2]];
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v15 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v15 + (v15 >> 2));
-            }
-            else if ( v15 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v15;
-            if ( &newSA.Data.Data[v15] != (int *)4 )
-              newSA.Data.Data[v15 - 1] = *v16;
-            v14 += 4;
-            ++argc;
-          }
-          while ( argc < ptrs.Data.Size );
-        }
-        goto LABEL_74;
-      }
-      v44 = VMRef->MHeap;
-      p_vc = &vc;
-      vc.__vftable = 0;
-      vc.Ptrs = 0;
-      v43 = 0;
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<long>::Value2StrCollector::`vftable';
-      v45.Message.pNode = (Scaleform::GFx::ASStringNode *)VMRef;
-      Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
-        (Scaleform::GFx::AS3::VectorBase<unsigned long> *)this,
-        (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&v45);
-      LOBYTE(argc) = (flags & 2) != 0;
-      BYTE1(argc) = flags & 1;
-      *(_WORD *)&v39.Desc = argc;
-      v39.UseLocale = (flags & 0x400) != 0;
-      BYTE2(argc) = v39.UseLocale;
-      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
-        (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&vc,
-        0,
-        (unsigned int)vc.Ptrs,
-        v39);
-      if ( (flags & 4) == 0
-        || (v20 = 1, vc.Ptrs <= (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)1) )
-      {
-LABEL_44:
-        v21 = vc.Ptrs;
-        if ( vc.Ptrs )
-        {
-          do
-          {
-            v22 = v11 + 1;
-            v23 = (int *)&v41[1].Data[(int)vc.__vftable[v6].operator()];
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v22 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v22 + (v22 >> 2));
-            }
-            else if ( v22 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v22;
-            if ( &newSA.Data.Data[v22] != (int *)4 )
-              newSA.Data.Data[v22 - 1] = *v23;
-            v21 = vc.Ptrs;
-            ++v6;
-          }
-          while ( (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)v6 < vc.Ptrs );
-        }
-        v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        v24 = &vc.__vftable[(int)v21 - 1];
-        if ( v21 )
-        {
-          v25 = v21;
-          do
-          {
-            v26 = (Scaleform::GFx::ASStringNode *)v24->~Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector;
-            if ( (*((_DWORD *)v24->~Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector + 3))-- == 1 )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v26);
-            --v24;
-            v25 = (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v25 - 1);
-          }
-          while ( v25 );
-        }
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, vc.__vftable);
-        goto LABEL_75;
-      }
-      while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
-                (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&argc,
-                (const Scaleform::GFx::ASString *)&vc.__vftable[v20 - 1],
-                (const Scaleform::GFx::ASString *)&vc.__vftable[v20]) )
-      {
-        if ( (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)++v20 >= vc.Ptrs )
-          goto LABEL_44;
-      }
-      Scaleform::GFx::AS3::Value::SetNull(result);
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&vc);
-      ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
-    }
-LABEL_89:
-    if ( (compareFunction.Flags & 0x1F) <= 9 )
-      return;
-    if ( (compareFunction.Flags & 0x200) == 0 )
-      goto LABEL_91;
-    goto LABEL_32;
-  }
-LABEL_28:
-  v17 = this->VMRef;
-  Scaleform::GFx::AS3::VM::Error::Error(&v45, eCheckTypeFailedError, v17);
-  Scaleform::GFx::AS3::VM::ThrowTypeError(v17, v18);
-  pNode = v45.Message.pNode;
-  --v45.Message.pNode->RefCount;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  if ( (compareFunction.Flags & 0x1F) > 9 )
-  {
-    if ( (compareFunction.Flags & 0x200) == 0 )
-    {
-LABEL_91:
-      Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
-      return;
-    }
-LABEL_32:
-    Scaleform::GFx::AS3::Value::ReleaseWeakRef(&compareFunction);
-  }
-}
-
-
-void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Sort<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object>(
-        Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value> *this,
-        Scaleform::GFx::AS3::Value *result,
-        unsigned int argc,
-        Scaleform::GFx::AS3::Value *argv,
-        Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *currObj)
-{
-  Scaleform::GFx::AS3::Value *v5; // esi
-  unsigned int v6; // edi
-  unsigned int v8; // eax
-  Scaleform::GFx::AS3::VM *v9; // eax
-  unsigned int v10; // ebp
-  unsigned int v11; // ecx
-  Scaleform::Pair<double,unsigned long> *v12; // edx
-  Scaleform::GFx::AS3::Value *v13; // edi
-  unsigned int v14; // esi
-  Scaleform::GFx::AS3::VM *VMRef; // esi
-  const Scaleform::GFx::AS3::VM::Error *v16; // eax
-  Scaleform::GFx::ASStringNode *v17; // eax
-  __int16 v18; // ax
-  bool v19; // cc
-  unsigned int v20; // esi
-  Scaleform::GFx::AS3::Value *v21; // eax
-  int v22; // esi
-  unsigned int Size; // edi
-  unsigned int j; // ebx
-  Scaleform::GFx::AS3::Value *v25; // edi
-  unsigned int v26; // esi
-  unsigned int v27; // esi
-  Scaleform::GFx::AS3::Value *v28; // eax
-  const Scaleform::GFx::AS3::Value **k; // esi
-  Scaleform::GFx::ASStringNode *v30; // ecx
-  const Scaleform::MemoryHeap *MHeap; // eax
-  Scaleform::GFx::AS3::VM *v33; // edi
-  int v34; // esi
-  unsigned int i; // edi
-  Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *v36; // ecx
-  unsigned int v37; // esi
-  unsigned int v38; // esi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
-  Scaleform::GFx::AS3::Instances::fl::Catch *v40; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v41; // esi
-  Scaleform::GFx::AS3::VM *pVM; // eax
-  Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *v43; // ecx
-  unsigned int v44; // edi
-  const Scaleform::MemoryHeap *pHeap; // ebx
-  Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *p_ValueA; // esi
-  Scaleform::Pair<double,unsigned long> *v47; // eax
-  unsigned int v48; // ecx
-  unsigned int v49; // ebx
-  int v50; // edi
-  Scaleform::GFx::AS3::Value *Data; // esi
-  Scaleform::GFx::AS3::Impl::CompareAsStringInd v52; // [esp-4h] [ebp-68h]
-  int flags; // [esp+10h] [ebp-54h] BYREF
-  Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value> *v54; // [esp+14h] [ebp-50h]
-  Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector vc; // [esp+18h] [ebp-4Ch] BYREF
-  Scaleform::ArrayDH<Scaleform::GFx::AS3::Value const *,2,Scaleform::ArrayDefaultPolicy> *p_ptrs; // [esp+20h] [ebp-44h]
-  Scaleform::ArrayDH<Scaleform::GFx::AS3::Value,2,Scaleform::ArrayDefaultPolicy> newSA; // [esp+24h] [ebp-40h] BYREF
-  Scaleform::GFx::AS3::Value compareFunction; // [esp+34h] [ebp-30h] BYREF
-  Scaleform::ArrayDH<Scaleform::GFx::AS3::Value const *,2,Scaleform::ArrayDefaultPolicy> ptrs; // [esp+44h] [ebp-20h] BYREF
-  Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> pairs; // [esp+54h] [ebp-10h] BYREF
-
-  v5 = argv;
   v6 = argc;
-  v54 = this;
+  v7 = this;
+  v55 = this;
   compareFunction.Flags = 0;
   compareFunction.Bonus.pWeakProxy = 0;
   flags = 0;
@@ -846,475 +507,455 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Sor
                  (Scaleform::GFx::AS3::CheckResult *)&argc,
                  (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
     {
-LABEL_28:
-      VMRef = this->VMRef;
-      Scaleform::GFx::AS3::VM::Error::Error((Scaleform::GFx::AS3::VM::Error *)&vc, eCheckTypeFailedError, VMRef);
-      Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v16);
-      v17 = (Scaleform::GFx::ASStringNode *)vc.Ptrs;
-      --vc.Ptrs->Data.pHeap;
-      if ( !v17->RefCount )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v17);
-      v18 = compareFunction.Flags;
-      v19 = (compareFunction.Flags & 0x1F) <= 9;
-LABEL_31:
-      if ( v19 )
-        return;
-      if ( (v18 & 0x200) != 0 )
-        goto LABEL_33;
-      goto LABEL_116;
+      VMRef = v7->VMRef;
+      v14 = *(Scaleform::GFx::AS3::ClassTraits::fl::int_ **)(*(_DWORD *)(currObj->Size + 64) + 312);
+      ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, v5);
+      pData = v14->GetName(v14, (Scaleform::GFx::ASString *)&currObj)->pNode->pData;
+      v51.Size = (unsigned int)pData;
+      if ( pData )
+        strlen(pData);
+      v51.pStr = (const char *)&argc;
+      v17 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))ValueTraits->GetName)(ValueTraits);
+      v50.pStr = v17;
+      if ( v17 )
+        goto LABEL_19;
+      goto LABEL_20;
     }
   }
-  if ( v6 > 1
-    && !Scaleform::GFx::AS3::Value::Convert2Int32(
-          v5 + 1,
-          (Scaleform::GFx::AS3::CheckResult *)&argc,
-          (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
+  if ( v6 > 1 )
   {
-    goto LABEL_28;
+    v9 = (Scaleform::GFx::AS3::Value *)&v5[1];
+    if ( !Scaleform::GFx::AS3::Value::Convert2Int32(
+            v9,
+            (Scaleform::GFx::AS3::CheckResult *)&argc,
+            (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
+    {
+      VMRef = v7->VMRef;
+      v11 = *(Scaleform::GFx::AS3::ClassTraits::fl::int_ **)(*(_DWORD *)(currObj->Size + 64) + 312);
+      v12 = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, v9);
+      v13 = v11->GetName(v11, (Scaleform::GFx::ASString *)&currObj)->pNode->pData;
+      v51.Size = (unsigned int)v13;
+      if ( v13 )
+        strlen(v13);
+      v51.pStr = (const char *)&argc;
+      v17 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))v12->GetName)(v12);
+      v50.pStr = v17;
+      if ( v17 )
+      {
+LABEL_19:
+        v18 = strlen(v17);
+LABEL_21:
+        v50.Size = v18;
+        Scaleform::GFx::AS3::VM::Error::Error(&v59, eCheckTypeFailedError, (Scaleform::String)VMRef, v50, v51);
+        Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v19);
+        pNode = v59.Message.pNode;
+        --v59.Message.pNode->RefCount;
+        if ( !pNode->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        if ( !--result->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(result);
+        v21 = currObj;
+        --currObj->RefCount;
+        if ( !v21->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v21);
+        goto LABEL_27;
+      }
+LABEL_20:
+      v18 = 0;
+      goto LABEL_21;
+    }
   }
-  v9 = this->VMRef;
-  v10 = 0;
-  newSA.Data.pHeap = v9->MHeap;
+  v22 = (Scaleform::GFx::ASStringNode *)v7->VMRef;
+  pLower = (const Scaleform::MemoryHeap *)v22[1].pLower;
+  v24 = 0;
   memset(&newSA, 0, 12);
+  newSA.Data.pHeap = pLower;
   if ( (compareFunction.Flags & 0x1F) != 0
     && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
   {
-    MHeap = v9->MHeap;
+    ptrs.Data.pHeap = pLower;
+    memset(&ptrs, 0, 12);
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
     vc.Ptrs = &ptrs;
-    memset(&ptrs, 0, 12);
-    ptrs.Data.pHeap = MHeap;
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
-    Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ForEach(this, &vc);
-    v33 = this->VMRef;
-    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::GFx::AS3::Value const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::CompareValuePtr>(
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
+      (Scaleform::GFx::AS3::VectorBase<unsigned long> *)v7,
+      (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&vc);
+    v52 = (Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr)__PAIR64__(&compareFunction, v7->VMRef);
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)v7->VMRef;
+    v59.Message.pNode = (Scaleform::GFx::ASStringNode *)&compareFunction;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr>(
       &ptrs,
-      0,
-      ptrs.Data.Size,
-      (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::CompareValuePtr)__PAIR64__(
-                                                                                      &compareFunction,
-                                                                                      (unsigned int)v33));
-    if ( (flags & 4) != 0 )
-    {
-      v34 = 1;
-      if ( ptrs.Data.Size > 1 )
-      {
-        while ( Scaleform::GFx::AS3::Impl::CompareFunct(
-                  v33,
-                  &compareFunction,
-                  (Scaleform::GFx::AS3::Value *)ptrs.Data.Data[v34 - 1],
-                  (Scaleform::GFx::AS3::Value *)ptrs.Data.Data[v34]) )
-        {
-          if ( ++v34 >= ptrs.Data.Size )
-            goto LABEL_71;
-        }
-        Scaleform::GFx::AS3::Value::SetNull(result);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-        Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(0, 0);
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-        goto LABEL_114;
-      }
-    }
-LABEL_71:
-    for ( i = 0; i < ptrs.Data.Size; ++i )
-    {
-      v36 = (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)ptrs.Data.Data[i];
-      pairs = *v36;
-      if ( ((int)v36->Data.Data & 0x1F) > 9u )
-      {
-        if ( ((int)v36->Data.Data & 0x200) != 0 )
-          Scaleform::GFx::AS3::Value::AddRefWeakRef((Scaleform::GFx::AS3::Value *)v36);
-        else
-          Scaleform::GFx::AS3::Value::AddRefInternal((Scaleform::GFx::AS3::Value *)v36);
-      }
-      v37 = v10 + 1;
-      if ( v10 + 1 >= v10 )
-      {
-        if ( v37 >= newSA.Data.Policy.Capacity )
-          Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-            newSA.Data.pHeap,
-            v37 + (v37 >> 2));
-      }
-      else
-      {
-        Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(&newSA.Data.Data[v37], 0xFFFFFFFF);
-        if ( v37 < newSA.Data.Policy.Capacity >> 1 )
-          Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-            newSA.Data.pHeap,
-            v37);
-      }
-      ++v10;
-      v38 = v37;
-      newSA.Data.Size = v10;
-      if ( &newSA.Data.Data[v38] != (Scaleform::GFx::AS3::Value *)16 )
-      {
-        newSA.Data.Data[v38 - 1] = (Scaleform::GFx::AS3::Value)pairs;
-        if ( ((int)pairs.Data.Data & 0x1F) > 9u )
-        {
-          if ( ((int)pairs.Data.Data & 0x200) != 0 )
-            Scaleform::GFx::AS3::Value::AddRefWeakRef((Scaleform::GFx::AS3::Value *)&pairs);
-          else
-            Scaleform::GFx::AS3::Value::AddRefInternal((Scaleform::GFx::AS3::Value *)&pairs);
-        }
-      }
-      if ( ((int)pairs.Data.Data & 0x1F) > 9u )
-      {
-        if ( ((int)pairs.Data.Data & 0x200) != 0 )
-          Scaleform::GFx::AS3::Value::ReleaseWeakRef((Scaleform::GFx::AS3::Value *)&pairs);
-        else
-          Scaleform::GFx::AS3::Value::ReleaseInternal((Scaleform::GFx::AS3::Value *)&pairs);
-      }
-    }
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-  }
-  else
-  {
-    if ( (flags & 0x10) != 0 )
-    {
-      pairs.Data.pHeap = v9->MHeap;
-      memset(&pairs, 0, 12);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Value2NumberCollector::`vftable';
-      vc.Ptrs = (Scaleform::ArrayDH<Scaleform::GFx::AS3::Value const *,2,Scaleform::ArrayDefaultPolicy> *)&pairs;
-      Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ForEach(this, &vc);
-      LOBYTE(argc) = (flags & 2) != 0;
-      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
-        &pairs,
-        0,
-        pairs.Data.Size,
-        (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)argc);
-      if ( (flags & 4) != 0 )
-      {
-        v11 = 1;
-        if ( pairs.Data.Size > 1 )
-        {
-          v12 = pairs.Data.Data + 1;
-          while ( v12->First != v12[-1].First )
-          {
-            ++v11;
-            ++v12;
-            if ( v11 >= pairs.Data.Size )
-              goto LABEL_22;
-          }
-          Scaleform::GFx::AS3::Value::SetSInt32(result, 0);
-          vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pairs.Data.Data);
-LABEL_35:
-          Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(0, 0);
-          Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
-          v18 = compareFunction.Flags;
-          v19 = (compareFunction.Flags & 0x1F) <= 9;
-          goto LABEL_31;
-        }
-      }
-LABEL_22:
-      argv = 0;
-      if ( pairs.Data.Size )
-      {
-        argc = 0;
-        do
-        {
-          v13 = &this->ValueA.Data.Data[*(unsigned int *)((char *)&pairs.Data.Data->Second + argc)];
-          v14 = v10 + 1;
-          if ( v10 + 1 >= v10 )
-          {
-            if ( v14 >= newSA.Data.Policy.Capacity )
-              Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v14 + (v14 >> 2));
-          }
-          else
-          {
-            Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(&newSA.Data.Data[v14], 0xFFFFFFFF);
-            if ( v14 < newSA.Data.Policy.Capacity >> 1 )
-              Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v14);
-          }
-          ++v10;
-          v20 = v14;
-          v21 = &newSA.Data.Data[v20 - 1];
-          newSA.Data.Size = v10;
-          if ( &newSA.Data.Data[v20] != (Scaleform::GFx::AS3::Value *)16 )
-          {
-            v21->Flags = v13->Flags;
-            v21->Bonus.pWeakProxy = v13->Bonus.pWeakProxy;
-            v21->value.VS._1.VInt = v13->value.VS._1.VInt;
-            v21->value.VS._2.VObj = v13->value.VS._2.VObj;
-            if ( (v13->Flags & 0x1F) > 9 )
-            {
-              if ( (v13->Flags & 0x200) != 0 )
-                Scaleform::GFx::AS3::Value::AddRefWeakRef(v13);
-              else
-                Scaleform::GFx::AS3::Value::AddRefInternal(v13);
-            }
-          }
-          argc += 16;
-          argv = (Scaleform::GFx::AS3::Value *)((char *)argv + 1);
-        }
-        while ( (unsigned int)argv < pairs.Data.Size );
-      }
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, pairs.Data.Data);
-      goto LABEL_94;
-    }
-    ptrs.Data.pHeap = v9->MHeap;
-    vc.Ptrs = (Scaleform::ArrayDH<Scaleform::GFx::AS3::Value const *,2,Scaleform::ArrayDefaultPolicy> *)v9;
-    memset(&ptrs, 0, 12);
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Value2StrCollector::`vftable';
-    p_ptrs = &ptrs;
-    Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ForEach(this, &vc);
-    BYTE1(argc) = flags & 1;
-    LOBYTE(argc) = (flags & 2) != 0;
-    *(_WORD *)&v52.Desc = argc;
-    v52.UseLocale = (flags & 0x400) != 0;
-    BYTE2(argc) = v52.UseLocale;
-    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
-      (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
       0,
       ptrs.Data.Size,
       v52);
     if ( (flags & 4) != 0 )
     {
-      v22 = 1;
+      v39 = 1;
       if ( ptrs.Data.Size > 1 )
       {
-        while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
-                  (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&argc,
-                  (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v22 - 2],
-                  (const Scaleform::GFx::ASString *)&ptrs.Data.Data[2 * v22]) )
+        while ( !Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr::Equal(
+                   (Scaleform::GFx::AS3::VectorBase<long>::CompareValuePtr *)&v59,
+                   (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v39 - 1],
+                   (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v39]) )
         {
-          if ( ++v22 >= ptrs.Data.Size )
-            goto LABEL_49;
+          if ( ++v39 >= ptrs.Data.Size )
+            goto LABEL_78;
         }
-        Scaleform::GFx::AS3::Value::SetNull(result);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&ptrs);
-        goto LABEL_35;
+        Scaleform::GFx::AS3::Value::SetNull((Scaleform::GFx::AS3::Value *)result);
+        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+        goto LABEL_104;
       }
     }
-LABEL_49:
-    Size = ptrs.Data.Size;
-    for ( j = 0; j < ptrs.Data.Size; ++j )
+LABEL_78:
+    v40 = 0;
+    if ( ptrs.Data.Size )
     {
-      v25 = &v54->ValueA.Data.Data[(int)ptrs.Data.Data[2 * j + 1]];
-      v26 = v10 + 1;
-      if ( v10 + 1 >= v10 )
+      do
       {
-        if ( v26 >= newSA.Data.Policy.Capacity )
-          Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-            newSA.Data.pHeap,
-            v26 + (v26 >> 2));
-      }
-      else
-      {
-        Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(&newSA.Data.Data[v26], 0xFFFFFFFF);
-        if ( v26 < newSA.Data.Policy.Capacity >> 1 )
-          Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-            (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-            newSA.Data.pHeap,
-            v26);
-      }
-      ++v10;
-      v27 = v26;
-      v28 = &newSA.Data.Data[v27 - 1];
-      newSA.Data.Size = v10;
-      if ( &newSA.Data.Data[v27] != (Scaleform::GFx::AS3::Value *)16 )
-      {
-        v28->Flags = v25->Flags;
-        v28->Bonus.pWeakProxy = v25->Bonus.pWeakProxy;
-        v28->value.VS._1.VInt = v25->value.VS._1.VInt;
-        v28->value.VS._2.VObj = v25->value.VS._2.VObj;
-        if ( (v25->Flags & 0x1F) > 9 )
+        v41 = (int *)ptrs.Data.Data[v40];
+        v42 = v24 + 1;
+        if ( v24 + 1 >= v24 )
         {
-          if ( (v25->Flags & 0x200) != 0 )
-            Scaleform::GFx::AS3::Value::AddRefWeakRef(v25);
-          else
-            Scaleform::GFx::AS3::Value::AddRefInternal(v25);
+          if ( v42 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v42 + (v42 >> 2));
         }
+        else if ( v42 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v42;
+        if ( &newSA.Data.Data[v42] != (int *)4 )
+          newSA.Data.Data[v42 - 1] = *v41;
+        ++v40;
       }
-      Size = ptrs.Data.Size;
+      while ( v40 < ptrs.Data.Size );
+      v7 = v55;
     }
-    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-    for ( k = &ptrs.Data.Data[2 * Size - 2]; Size; --Size )
-    {
-      v30 = (Scaleform::GFx::ASStringNode *)*k;
-      if ( (*k)->value.VS._2.VObj-- == (Scaleform::GFx::AS3::Object *)1 )
-        Scaleform::GFx::ASStringNode::ReleaseNode(v30);
-      k -= 2;
-    }
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
   }
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-LABEL_94:
-  if ( (flags & 8) != 0 )
+  else if ( (flags & 0x10) != 0 )
   {
-    pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->pTraits.pObject;
-    v40 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
-    v41 = v40;
-    if ( v40 )
+    ptrs.Data.pHeap = pLower;
+    memset(&ptrs, 0, 12);
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<long>::Value2NumberCollector::`vftable';
+    vc.Ptrs = &ptrs;
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
+      (Scaleform::GFx::AS3::VectorBase<unsigned long> *)v7,
+      (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&vc);
+    LOBYTE(argc) = (flags & 2) != 0;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
+      (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
+      0,
+      ptrs.Data.Size,
+      (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)argc);
+    if ( (flags & 4) != 0 )
     {
-      Scaleform::GFx::AS3::Instances::fl::Object::Object(v40, pObject);
-      v41->__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_object::`vftable';
-      pVM = pObject->pVM;
-      v43 = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
-      LOBYTE(v41[1]._pRCC) = 0;
-      v41[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
-      v41[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::`vftable';
-      v41[1].pPrev = 0;
-      v41[1].RefCount = 0;
-      v41[1].pTraits.pObject = 0;
-      v41[1].DynAttrs.mHash.pTable = v43;
+      v25 = 1;
+      if ( ptrs.Data.Size > 1 )
+      {
+        v26 = (double *)(ptrs.Data.Data + 4);
+        while ( *v26 != *(v26 - 2) )
+        {
+          ++v25;
+          v26 += 2;
+          if ( v25 >= ptrs.Data.Size )
+            goto LABEL_41;
+        }
+        Scaleform::GFx::AS3::Value::SetSInt32((Scaleform::GFx::AS3::Value *)result, 0);
+        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+LABEL_27:
+        if ( (compareFunction.Flags & 0x1F) <= 9 )
+          return;
+        if ( (compareFunction.Flags & 0x200) != 0 )
+          goto LABEL_29;
+        goto LABEL_106;
+      }
     }
-    else
+LABEL_41:
+    argc = 0;
+    if ( ptrs.Data.Size )
     {
-      v41 = 0;
+      v27 = 0;
+      do
+      {
+        v28 = v24 + 1;
+        v29 = &v55->ValueA.Data.Data[(int)ptrs.Data.Data[v27 + 2]];
+        if ( v24 + 1 >= v24 )
+        {
+          if ( v28 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v28 + (v28 >> 2));
+        }
+        else if ( v28 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v28;
+        if ( &newSA.Data.Data[v28] != (int *)4 )
+          newSA.Data.Data[v28 - 1] = *v29;
+        v27 += 4;
+        ++argc;
+      }
+      while ( argc < ptrs.Data.Size );
     }
-    Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value>::Append(
-      (Scaleform::GFx::AS3::VectorBase<Scaleform::GFx::AS3::Value> *)&v41[1],
-      &newSA);
-    Scaleform::GFx::AS3::Value::Pick(result, v41);
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+    v7 = v55;
   }
   else
   {
-    v44 = v54->ValueA.Data.Size;
-    pHeap = v54->ValueA.Data.pHeap;
-    p_ValueA = (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&v54->ValueA;
-    if ( v10 >= v44 )
+    v58 = v22[1].pLower;
+    p_vc = &vc;
+    vc.__vftable = 0;
+    vc.Ptrs = 0;
+    v57 = 0;
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<long>::Value2StrCollector::`vftable';
+    v59.Message.pNode = v22;
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
+      (Scaleform::GFx::AS3::VectorBase<unsigned long> *)v7,
+      (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&v59);
+    LOBYTE(argc) = (flags & 2) != 0;
+    BYTE1(argc) = flags & 1;
+    *(_WORD *)&v53.Desc = argc;
+    v53.UseLocale = (flags & 0x400) != 0;
+    BYTE2(argc) = v53.UseLocale;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
+      (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&vc,
+      0,
+      (unsigned int)vc.Ptrs,
+      v53);
+    if ( (flags & 4) != 0 )
     {
-      if ( v10 >= v54->ValueA.Data.Policy.Capacity )
-        Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          p_ValueA,
-          pHeap,
-          v10 + (v10 >> 2));
+      v30 = 1;
+      if ( vc.Ptrs > (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)1 )
+      {
+        while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
+                  (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&argc,
+                  (const Scaleform::GFx::ASString *)&vc.__vftable[v30 - 1],
+                  (const Scaleform::GFx::ASString *)&vc.__vftable[v30]) )
+        {
+          if ( (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)++v30 >= vc.Ptrs )
+            goto LABEL_57;
+        }
+        Scaleform::GFx::AS3::Value::SetNull((Scaleform::GFx::AS3::Value *)result);
+        v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&vc);
+        ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
+        goto LABEL_104;
+      }
+    }
+LABEL_57:
+    v31 = vc.Ptrs;
+    v32 = 0;
+    if ( vc.Ptrs )
+    {
+      do
+      {
+        v33 = v24 + 1;
+        v34 = &v55->ValueA.Data.Data[(int)vc.__vftable[(_DWORD)v32].operator()];
+        if ( v24 + 1 >= v24 )
+        {
+          if ( v33 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v33 + (v33 >> 2));
+        }
+        else if ( v33 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v33;
+        if ( &newSA.Data.Data[v33] != (int *)4 )
+          newSA.Data.Data[v33 - 1] = *v34;
+        v31 = vc.Ptrs;
+        v32 = (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v32 + 1);
+      }
+      while ( v32 < vc.Ptrs );
+      v7 = v55;
+    }
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    v35 = &vc.__vftable[(int)v31 - 1];
+    if ( v31 )
+    {
+      v36 = v31;
+      do
+      {
+        v37 = (Scaleform::GFx::ASStringNode *)v35->~Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector;
+        if ( (*((_DWORD *)v35->~Scaleform::GFx::AS3::VectorBase<long>::ValuePtrCollector + 3))-- == 1 )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v37);
+        --v35;
+        v36 = (Scaleform::ArrayDH<long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v36 - 1);
+      }
+      while ( v36 );
+    }
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, vc.__vftable);
+  }
+  if ( (flags & 8) != 0 )
+  {
+    Size = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->Size;
+    v44 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(Size);
+    v45 = v44;
+    if ( v44 )
+    {
+      Scaleform::GFx::AS3::Instances::fl::Object::Object(v44, Size);
+      v45->__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_int::`vftable';
+      pVM = Size->pVM;
+      MHeap = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
+      LOBYTE(v45[1]._pRCC) = 0;
+      v45[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
+      v45[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::VectorBase<long>::`vftable';
+      v45[1].pPrev = 0;
+      v45[1].RefCount = 0;
+      v45[1].pTraits.pObject = 0;
+      v45[1].DynAttrs.mHash.pTable = MHeap;
     }
     else
     {
-      Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(
-        (Scaleform::GFx::AS3::Value *)&p_ValueA->Data[v10],
-        v44 - v10);
-      if ( v10 < p_ValueA->Policy.Capacity >> 1 )
-        Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-          p_ValueA,
-          pHeap,
-          v10);
+      v45 = 0;
     }
-    p_ValueA->Size = v10;
-    if ( v10 > v44 )
+    Scaleform::GFx::AS3::VectorBase<unsigned long>::Append(
+      (Scaleform::GFx::AS3::VectorBase<unsigned long> *)&v45[1],
+      (const Scaleform::ArrayDH<unsigned long,2,Scaleform::ArrayDefaultPolicy> *)&newSA);
+    Scaleform::GFx::AS3::Value::Pick((Scaleform::GFx::AS3::Value *)result, v45);
+  }
+  else
+  {
+    pHeap = v7->ValueA.Data.pHeap;
+    if ( v24 >= v7->ValueA.Data.Size )
     {
-      v47 = &p_ValueA->Data[v44];
-      v48 = v10 - v44;
-      if ( v10 != v44 )
-      {
-        do
-        {
-          if ( v47 )
-          {
-            LODWORD(v47->First) = 0;
-            HIDWORD(v47->First) = 0;
-          }
-          ++v47;
-          --v48;
-        }
-        while ( v48 );
-      }
+      if ( v24 >= v7->ValueA.Data.Policy.Capacity )
+        Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+          (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&v7->ValueA,
+          pHeap,
+          v24 + (v24 >> 2));
+    }
+    else if ( v24 < v7->ValueA.Data.Policy.Capacity >> 1 )
+    {
+      Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&v7->ValueA,
+        pHeap,
+        v24);
     }
     v49 = 0;
-    if ( p_ValueA->Size )
-    {
-      v50 = 0;
-      do
-      {
-        Scaleform::GFx::AS3::Value::Assign((Scaleform::GFx::AS3::Value *)&p_ValueA->Data[v50], &newSA.Data.Data[v50]);
-        ++v49;
-        ++v50;
-      }
-      while ( v49 < p_ValueA->Size );
-    }
-    Scaleform::GFx::AS3::Value::Assign(result, currObj);
+    for ( v7->ValueA.Data.Size = v24; v49 < v7->ValueA.Data.Size; ++v49 )
+      v7->ValueA.Data.Data[v49] = newSA.Data.Data[v49];
+    Scaleform::GFx::AS3::Value::Assign((Scaleform::GFx::AS3::Value *)result, (Scaleform::GFx::AS3::Object *)currObj);
   }
-  Data = newSA.Data.Data;
-  Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(newSA.Data.Data, v10);
-  Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, Data);
-LABEL_114:
+  ((void (__stdcall *)(int *))Scaleform::Memory::pGlobalHeap->Free)(newSA.Data.Data);
+LABEL_104:
   if ( (compareFunction.Flags & 0x1F) <= 9 )
     return;
   if ( (compareFunction.Flags & 0x200) != 0 )
   {
-LABEL_33:
+LABEL_29:
     Scaleform::GFx::AS3::Value::ReleaseWeakRef(&compareFunction);
     return;
   }
-LABEL_116:
+LABEL_106:
   Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
 }
 
 
 void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::Sort<Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint>(
         Scaleform::GFx::AS3::VectorBase<unsigned long> *this,
-        Scaleform::GFx::AS3::Value *result,
+        Scaleform::GFx::ASStringNode *result,
         unsigned int argc,
         Scaleform::GFx::AS3::Value *argv,
-        Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint *currObj)
+        Scaleform::GFx::ASStringNode *currObj)
 {
-  Scaleform::GFx::AS3::Value *v5; // esi
-  unsigned int v6; // ebp
-  unsigned int v7; // edi
-  unsigned int v9; // eax
-  Scaleform::GFx::AS3::VM *VMRef; // eax
-  unsigned int v11; // edi
-  unsigned int v12; // ecx
-  double *v13; // edx
-  int v14; // ebp
-  unsigned int v15; // esi
-  unsigned int *v16; // ebx
-  Scaleform::GFx::AS3::VM *v17; // esi
-  const Scaleform::GFx::AS3::VM::Error *v18; // eax
+  const Scaleform::GFx::AS3::Value *v5; // ebp
+  unsigned int v6; // esi
+  Scaleform::GFx::AS3::VectorBase<unsigned long> *v7; // ebx
+  unsigned int v8; // eax
+  Scaleform::GFx::AS3::Value *v9; // ebp
+  Scaleform::GFx::AS3::VM *VMRef; // edi
+  Scaleform::GFx::AS3::ClassTraits::fl::uint *v11; // esi
+  Scaleform::GFx::AS3::Traits *v12; // ebp
+  const char *v13; // eax
+  Scaleform::GFx::AS3::ClassTraits::fl::uint *v14; // esi
+  Scaleform::GFx::AS3::Traits *ValueTraits; // ebp
+  const char *pData; // eax
+  const char *v17; // eax
+  unsigned int v18; // eax
+  const Scaleform::GFx::AS3::VM::Error *v19; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  int v20; // esi
-  Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *v21; // eax
-  unsigned int v22; // esi
-  unsigned int *v23; // ebx
-  Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *v24; // esi
-  Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *v25; // ebp
-  Scaleform::GFx::ASStringNode *v26; // ecx
-  int v28; // esi
+  Scaleform::GFx::ASStringNode *v21; // eax
+  Scaleform::GFx::ASStringNode *v22; // eax
+  const Scaleform::MemoryHeap *pLower; // edx
+  unsigned int v24; // edi
+  unsigned int v25; // ecx
+  double *v26; // edx
+  int v27; // ebp
+  unsigned int v28; // esi
   unsigned int *v29; // ebx
-  unsigned int v30; // esi
-  Scaleform::GFx::AS3::InstanceTraits::Traits *pObject; // edi
-  Scaleform::GFx::AS3::Instances::fl::Catch *v32; // eax
-  Scaleform::GFx::AS3::Instances::fl::Catch *v33; // esi
+  int v30; // esi
+  Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *v31; // eax
+  Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *v32; // ebp
+  unsigned int v33; // esi
+  unsigned int *v34; // ebx
+  Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *v35; // esi
+  Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *v36; // ebp
+  Scaleform::GFx::ASStringNode *v37; // ecx
+  int v39; // esi
+  unsigned int v40; // ebp
+  unsigned int *v41; // ebx
+  unsigned int v42; // esi
+  Scaleform::GFx::AS3::InstanceTraits::Traits *Size; // edi
+  Scaleform::GFx::AS3::Instances::fl::Object *v44; // eax
+  Scaleform::GFx::AS3::Instances::fl::Object *v45; // esi
   Scaleform::GFx::AS3::VM *pVM; // eax
   Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *MHeap; // ecx
-  const Scaleform::Ptr<Scaleform::GFx::ASStringNode> **Data; // eax
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *v37; // esi
-  unsigned int v38; // eax
-  Scaleform::GFx::AS3::Impl::CompareAsStringInd v39; // [esp-4h] [ebp-68h]
+  const Scaleform::MemoryHeap *pHeap; // eax
+  unsigned int v49; // eax
+  Scaleform::StringDataPtr v50; // [esp-10h] [ebp-74h]
+  Scaleform::StringDataPtr v51; // [esp-8h] [ebp-6Ch]
+  Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr v52; // [esp-8h] [ebp-6Ch]
+  Scaleform::GFx::AS3::Impl::CompareAsStringInd v53; // [esp-4h] [ebp-68h]
   int flags; // [esp+10h] [ebp-54h] BYREF
-  Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *v41; // [esp+14h] [ebp-50h]
+  Scaleform::GFx::AS3::VectorBase<unsigned long> *v55; // [esp+14h] [ebp-50h]
   Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector vc; // [esp+18h] [ebp-4Ch] BYREF
-  int v43; // [esp+20h] [ebp-44h]
-  Scaleform::MemoryHeap *v44; // [esp+24h] [ebp-40h]
-  Scaleform::GFx::AS3::VM::Error v45; // [esp+28h] [ebp-3Ch] BYREF
+  int v57; // [esp+20h] [ebp-44h]
+  Scaleform::GFx::ASStringNode *v58; // [esp+24h] [ebp-40h]
+  Scaleform::GFx::AS3::VM::Error v59; // [esp+28h] [ebp-3Ch] BYREF
   Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector *p_vc; // [esp+30h] [ebp-34h]
   Scaleform::ArrayDH<unsigned long,2,Scaleform::ArrayDefaultPolicy> newSA; // [esp+34h] [ebp-30h] BYREF
   Scaleform::GFx::AS3::Value compareFunction; // [esp+44h] [ebp-20h] BYREF
   Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> ptrs; // [esp+54h] [ebp-10h] BYREF
 
   v5 = argv;
-  v6 = 0;
-  v7 = argc;
-  v41 = (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)this;
+  v6 = argc;
+  v7 = this;
+  v55 = this;
   compareFunction.Flags = 0;
   compareFunction.Bonus.pWeakProxy = 0;
   flags = 0;
   if ( argc )
   {
-    v9 = argv->Flags & 0x1F;
-    if ( v9 > 0xF || v9 == 14 || v9 == 5 || v9 == 15 || v9 == 6 || v9 == 7 || v9 == 12 || v9 == 13 )
+    v8 = argv->Flags & 0x1F;
+    if ( v8 > 0xF || v8 == 14 || v8 == 5 || v8 == 15 || v8 == 6 || v8 == 7 || v8 == 12 || v8 == 13 )
     {
       Scaleform::GFx::AS3::Value::Assign(&compareFunction, argv);
     }
@@ -1323,318 +964,369 @@ void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::Sort<Scaleform::
                  (Scaleform::GFx::AS3::CheckResult *)&argc,
                  (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
     {
-      goto LABEL_28;
+      VMRef = v7->VMRef;
+      v14 = *(Scaleform::GFx::AS3::ClassTraits::fl::uint **)(*(_DWORD *)(currObj->Size + 64) + 316);
+      ValueTraits = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, v5);
+      pData = v14->GetName(v14, (Scaleform::GFx::ASString *)&currObj)->pNode->pData;
+      v51.Size = (unsigned int)pData;
+      if ( pData )
+        strlen(pData);
+      v51.pStr = (const char *)&argc;
+      v17 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))ValueTraits->GetName)(ValueTraits);
+      v50.pStr = v17;
+      if ( v17 )
+        goto LABEL_19;
+      goto LABEL_20;
     }
   }
-  if ( v7 <= 1
-    || Scaleform::GFx::AS3::Value::Convert2Int32(
-         v5 + 1,
-         (Scaleform::GFx::AS3::CheckResult *)&argc,
-         (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
+  if ( v6 > 1 )
   {
-    VMRef = this->VMRef;
-    newSA.Data.pHeap = VMRef->MHeap;
-    v11 = 0;
-    memset(&newSA, 0, 12);
-    if ( (compareFunction.Flags & 0x1F) != 0
-      && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
+    v9 = (Scaleform::GFx::AS3::Value *)&v5[1];
+    if ( !Scaleform::GFx::AS3::Value::Convert2Int32(
+            v9,
+            (Scaleform::GFx::AS3::CheckResult *)&argc,
+            (Scaleform::GFx::AS3::Value::V1U *)&flags)->Result )
     {
-      ptrs.Data.pHeap = VMRef->MHeap;
-      memset(&ptrs, 0, 12);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
-      vc.Ptrs = &ptrs;
-      Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(this, &vc);
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)this->VMRef;
-      v45.Message.pNode = (Scaleform::GFx::ASStringNode *)&compareFunction;
-      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr>(
-        &ptrs,
-        0,
-        ptrs.Data.Size,
-        (Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr)__PAIR64__(&compareFunction, v45.ID));
-      if ( (flags & 4) == 0 || (v28 = 1, ptrs.Data.Size <= 1) )
+      VMRef = v7->VMRef;
+      v11 = *(Scaleform::GFx::AS3::ClassTraits::fl::uint **)(*(_DWORD *)(currObj->Size + 64) + 316);
+      v12 = Scaleform::GFx::AS3::VM::GetValueTraits(VMRef, v9);
+      v13 = v11->GetName(v11, (Scaleform::GFx::ASString *)&currObj)->pNode->pData;
+      v51.Size = (unsigned int)v13;
+      if ( v13 )
+        strlen(v13);
+      v51.pStr = (const char *)&argc;
+      v17 = **(const char ***)((int (__thiscall *)(Scaleform::GFx::AS3::Traits *))v12->GetName)(v12);
+      v50.pStr = v17;
+      if ( v17 )
       {
-LABEL_64:
-        if ( ptrs.Data.Size )
+LABEL_19:
+        v18 = strlen(v17);
+LABEL_21:
+        v50.Size = v18;
+        Scaleform::GFx::AS3::VM::Error::Error(&v59, eCheckTypeFailedError, (Scaleform::String)VMRef, v50, v51);
+        Scaleform::GFx::AS3::VM::ThrowTypeError(VMRef, v19);
+        pNode = v59.Message.pNode;
+        --v59.Message.pNode->RefCount;
+        if ( !pNode->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
+        if ( !--result->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(result);
+        v21 = currObj;
+        --currObj->RefCount;
+        if ( !v21->RefCount )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v21);
+        goto LABEL_27;
+      }
+LABEL_20:
+      v18 = 0;
+      goto LABEL_21;
+    }
+  }
+  v22 = (Scaleform::GFx::ASStringNode *)v7->VMRef;
+  pLower = (const Scaleform::MemoryHeap *)v22[1].pLower;
+  v24 = 0;
+  memset(&newSA, 0, 12);
+  newSA.Data.pHeap = pLower;
+  if ( (compareFunction.Flags & 0x1F) != 0
+    && ((compareFunction.Flags & 0x1F) - 12 > 3 || compareFunction.value.VS._1.VInt) )
+  {
+    ptrs.Data.pHeap = pLower;
+    memset(&ptrs, 0, 12);
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector::`vftable';
+    vc.Ptrs = &ptrs;
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(v7, &vc);
+    v52 = (Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr)__PAIR64__(&compareFunction, v7->VMRef);
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)v7->VMRef;
+    v59.Message.pNode = (Scaleform::GFx::ASStringNode *)&compareFunction;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr>(
+      &ptrs,
+      0,
+      ptrs.Data.Size,
+      v52);
+    if ( (flags & 4) != 0 )
+    {
+      v39 = 1;
+      if ( ptrs.Data.Size > 1 )
+      {
+        while ( !Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr::Equal(
+                   (Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr *)&v59,
+                   (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v39 - 1],
+                   (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v39]) )
         {
-          do
-          {
-            v29 = (unsigned int *)ptrs.Data.Data[v6];
-            v30 = v11 + 1;
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v30 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v30 + (v30 >> 2));
-            }
-            else if ( v30 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v30;
-            if ( &newSA.Data.Data[v30] != (unsigned int *)4 )
-              newSA.Data.Data[v30 - 1] = *v29;
-            ++v6;
-          }
-          while ( v6 < ptrs.Data.Size );
+          if ( ++v39 >= ptrs.Data.Size )
+            goto LABEL_78;
         }
-LABEL_74:
+        Scaleform::GFx::AS3::Value::SetNull((Scaleform::GFx::AS3::Value *)result);
         vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-LABEL_75:
-        if ( (flags & 8) != 0 )
-        {
-          pObject = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->pTraits.pObject;
-          v32 = (Scaleform::GFx::AS3::Instances::fl::Catch *)Scaleform::GFx::AS3::Traits::Alloc(pObject);
-          v33 = v32;
-          if ( v32 )
-          {
-            Scaleform::GFx::AS3::Instances::fl::Object::Object(v32, pObject);
-            v33->__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::`vftable';
-            pVM = pObject->pVM;
-            MHeap = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
-            LOBYTE(v33[1]._pRCC) = 0;
-            v33[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
-            v33[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Catch_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::`vftable';
-            v33[1].pPrev = 0;
-            v33[1].RefCount = 0;
-            v33[1].pTraits.pObject = 0;
-            v33[1].DynAttrs.mHash.pTable = MHeap;
-          }
-          else
-          {
-            v33 = 0;
-          }
-          Scaleform::GFx::AS3::VectorBase<unsigned long>::Append(
-            (Scaleform::GFx::AS3::VectorBase<unsigned long> *)&v33[1],
-            &newSA);
-          Scaleform::GFx::AS3::Value::Pick(result, v33);
-        }
-        else
-        {
-          Data = v41[2].Data;
-          v37 = v41 + 1;
-          if ( v11 >= v41[1].Size )
-          {
-            if ( v11 >= v41[1].Policy.Capacity )
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                v41 + 1,
-                Data,
-                v11 + (v11 >> 2));
-          }
-          else if ( v11 < v41[1].Policy.Capacity >> 1 )
-          {
-            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-              v41 + 1,
-              Data,
-              v11);
-          }
-          v38 = 0;
-          for ( v37->Size = v11; v38 < v37->Size; ++v38 )
-            v37->Data[v38] = (const Scaleform::Ptr<Scaleform::GFx::ASStringNode> *)newSA.Data.Data[v38];
-          Scaleform::GFx::AS3::Value::Assign(result, currObj);
-        }
-        ((void (__stdcall *)(unsigned int *))Scaleform::Memory::pGlobalHeap->Free)(newSA.Data.Data);
-        goto LABEL_89;
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+        goto LABEL_104;
       }
-      while ( !Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr::Equal(
-                 (Scaleform::GFx::AS3::VectorBase<unsigned long>::CompareValuePtr *)&v45,
-                 (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v28 - 1],
-                 (Scaleform::GFx::AS3::Value::V1U *)ptrs.Data.Data[v28]) )
+    }
+LABEL_78:
+    v40 = 0;
+    if ( ptrs.Data.Size )
+    {
+      do
       {
-        if ( ++v28 >= ptrs.Data.Size )
-          goto LABEL_64;
+        v41 = (unsigned int *)ptrs.Data.Data[v40];
+        v42 = v24 + 1;
+        if ( v24 + 1 >= v24 )
+        {
+          if ( v42 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v42 + (v42 >> 2));
+        }
+        else if ( v42 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v42;
+        if ( &newSA.Data.Data[v42] != (unsigned int *)4 )
+          newSA.Data.Data[v42 - 1] = *v41;
+        ++v40;
       }
-      Scaleform::GFx::AS3::Value::SetNull(result);
-      vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-      Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+      while ( v40 < ptrs.Data.Size );
+      v7 = v55;
+    }
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+  }
+  else if ( (flags & 0x10) != 0 )
+  {
+    ptrs.Data.pHeap = pLower;
+    memset(&ptrs, 0, 12);
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::Value2NumberCollector::`vftable';
+    vc.Ptrs = &ptrs;
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(v7, &vc);
+    LOBYTE(argc) = (flags & 2) != 0;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
+      (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
+      0,
+      ptrs.Data.Size,
+      (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)argc);
+    if ( (flags & 4) != 0 )
+    {
+      v25 = 1;
+      if ( ptrs.Data.Size > 1 )
+      {
+        v26 = (double *)(ptrs.Data.Data + 4);
+        while ( *v26 != *(v26 - 2) )
+        {
+          ++v25;
+          v26 += 2;
+          if ( v25 >= ptrs.Data.Size )
+            goto LABEL_41;
+        }
+        Scaleform::GFx::AS3::Value::SetSInt32((Scaleform::GFx::AS3::Value *)result, 0);
+        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, 0);
+LABEL_27:
+        if ( (compareFunction.Flags & 0x1F) <= 9 )
+          return;
+        if ( (compareFunction.Flags & 0x200) != 0 )
+          goto LABEL_29;
+        goto LABEL_106;
+      }
+    }
+LABEL_41:
+    argc = 0;
+    if ( ptrs.Data.Size )
+    {
+      v27 = 0;
+      do
+      {
+        v28 = v24 + 1;
+        v29 = &v55->ValueA.Data.Data[(int)ptrs.Data.Data[v27 + 2]];
+        if ( v24 + 1 >= v24 )
+        {
+          if ( v28 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v28 + (v28 >> 2));
+        }
+        else if ( v28 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v28;
+        if ( &newSA.Data.Data[v28] != (unsigned int *)4 )
+          newSA.Data.Data[v28 - 1] = *v29;
+        v27 += 4;
+        ++argc;
+      }
+      while ( argc < ptrs.Data.Size );
+    }
+    vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
+    v7 = v55;
+  }
+  else
+  {
+    v58 = v22[1].pLower;
+    p_vc = &vc;
+    vc.__vftable = 0;
+    vc.Ptrs = 0;
+    v57 = 0;
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::Value2StrCollector::`vftable';
+    v59.Message.pNode = v22;
+    Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
+      v7,
+      (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&v59);
+    LOBYTE(argc) = (flags & 2) != 0;
+    BYTE1(argc) = flags & 1;
+    *(_WORD *)&v53.Desc = argc;
+    v53.UseLocale = (flags & 0x400) != 0;
+    BYTE2(argc) = v53.UseLocale;
+    Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
+      (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&vc,
+      0,
+      (unsigned int)vc.Ptrs,
+      v53);
+    if ( (flags & 4) != 0 )
+    {
+      v30 = 1;
+      if ( vc.Ptrs > (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)1 )
+      {
+        while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
+                  (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&argc,
+                  (const Scaleform::GFx::ASString *)&vc.__vftable[v30 - 1],
+                  (const Scaleform::GFx::ASString *)&vc.__vftable[v30]) )
+        {
+          if ( (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)++v30 >= vc.Ptrs )
+            goto LABEL_57;
+        }
+        Scaleform::GFx::AS3::Value::SetNull((Scaleform::GFx::AS3::Value *)result);
+        v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+        Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&vc);
+        ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
+        goto LABEL_104;
+      }
+    }
+LABEL_57:
+    v31 = vc.Ptrs;
+    v32 = 0;
+    if ( vc.Ptrs )
+    {
+      do
+      {
+        v33 = v24 + 1;
+        v34 = &v55->ValueA.Data.Data[(int)vc.__vftable[(_DWORD)v32].operator()];
+        if ( v24 + 1 >= v24 )
+        {
+          if ( v33 >= newSA.Data.Policy.Capacity )
+            Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+              (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+              newSA.Data.pHeap,
+              v33 + (v33 >> 2));
+        }
+        else if ( v33 < newSA.Data.Policy.Capacity >> 1 )
+        {
+          Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+            (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
+            newSA.Data.pHeap,
+            v24 + 1);
+        }
+        ++v24;
+        newSA.Data.Size = v33;
+        if ( &newSA.Data.Data[v33] != (unsigned int *)4 )
+          newSA.Data.Data[v33 - 1] = *v34;
+        v31 = vc.Ptrs;
+        v32 = (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v32 + 1);
+      }
+      while ( v32 < vc.Ptrs );
+      v7 = v55;
+    }
+    v59.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+    v35 = &vc.__vftable[(int)v31 - 1];
+    if ( v31 )
+    {
+      v36 = v31;
+      do
+      {
+        v37 = (Scaleform::GFx::ASStringNode *)v35->~Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector;
+        if ( (*((_DWORD *)v35->~Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector + 3))-- == 1 )
+          Scaleform::GFx::ASStringNode::ReleaseNode(v37);
+        --v35;
+        v36 = (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v36 - 1);
+      }
+      while ( v36 );
+    }
+    Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, vc.__vftable);
+  }
+  if ( (flags & 8) != 0 )
+  {
+    Size = (Scaleform::GFx::AS3::InstanceTraits::Traits *)currObj->Size;
+    v44 = (Scaleform::GFx::AS3::Instances::fl::Object *)Scaleform::GFx::AS3::Traits::Alloc(Size);
+    v45 = v44;
+    if ( v44 )
+    {
+      Scaleform::GFx::AS3::Instances::fl::Object::Object(v44, Size);
+      v45->__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::Instances::fl_vec::Vector_uint::`vftable';
+      pVM = Size->pVM;
+      MHeap = (Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::AS3::Object::DynAttrsKey,2>,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>,Scaleform::HashNode<Scaleform::GFx::AS3::Object::DynAttrsKey,Scaleform::GFx::AS3::Value,Scaleform::GFx::AS3::Object::DynAttrsKey::HashFunctor>::NodeHashF> >::TableType *)pVM->MHeap;
+      LOBYTE(v45[1]._pRCC) = 0;
+      v45[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)pVM;
+      v45[1].__vftable = (Scaleform::GFx::AS3::Instances::fl::Object_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::`vftable';
+      v45[1].pPrev = 0;
+      v45[1].RefCount = 0;
+      v45[1].pTraits.pObject = 0;
+      v45[1].DynAttrs.mHash.pTable = MHeap;
     }
     else
     {
-      if ( (flags & 0x10) != 0 )
-      {
-        ptrs.Data.pHeap = VMRef->MHeap;
-        memset(&ptrs, 0, 12);
-        vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::Value2NumberCollector::`vftable';
-        vc.Ptrs = &ptrs;
-        Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(this, &vc);
-        LOBYTE(argc) = (flags & 2) != 0;
-        Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsNumberInd>(
-          (Scaleform::ArrayDH<Scaleform::Pair<double,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&ptrs,
-          0,
-          ptrs.Data.Size,
-          (Scaleform::GFx::AS3::Impl::CompareAsNumberInd)argc);
-        if ( (flags & 4) != 0 )
-        {
-          v12 = 1;
-          if ( ptrs.Data.Size > 1 )
-          {
-            v13 = (double *)(ptrs.Data.Data + 4);
-            while ( *v13 != *(v13 - 2) )
-            {
-              ++v12;
-              v13 += 2;
-              if ( v12 >= ptrs.Data.Size )
-                goto LABEL_22;
-            }
-            Scaleform::GFx::AS3::Value::SetSInt32(result, 0);
-            vc.__vftable = (Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-            Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, ptrs.Data.Data);
-            ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
-            goto LABEL_89;
-          }
-        }
-LABEL_22:
-        argc = 0;
-        if ( ptrs.Data.Size )
-        {
-          v14 = 0;
-          do
-          {
-            v15 = v11 + 1;
-            v16 = (unsigned int *)&v41[1].Data[(int)ptrs.Data.Data[v14 + 2]];
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v15 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v15 + (v15 >> 2));
-            }
-            else if ( v15 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v15;
-            if ( &newSA.Data.Data[v15] != (unsigned int *)4 )
-              newSA.Data.Data[v15 - 1] = *v16;
-            v14 += 4;
-            ++argc;
-          }
-          while ( argc < ptrs.Data.Size );
-        }
-        goto LABEL_74;
-      }
-      v44 = VMRef->MHeap;
-      p_vc = &vc;
-      vc.__vftable = 0;
-      vc.Ptrs = 0;
-      v43 = 0;
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::Value2StrCollector::`vftable';
-      v45.Message.pNode = (Scaleform::GFx::ASStringNode *)VMRef;
-      Scaleform::GFx::AS3::VectorBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode>>::ForEach(
-        this,
-        (Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc *)&v45);
-      LOBYTE(argc) = (flags & 2) != 0;
-      BYTE1(argc) = flags & 1;
-      *(_WORD *)&v39.Desc = argc;
-      v39.UseLocale = (flags & 0x400) != 0;
-      BYTE2(argc) = v39.UseLocale;
-      Scaleform::Alg::QuickSortSlicedSafe<Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy>,Scaleform::GFx::AS3::Impl::CompareAsStringInd>(
-        (Scaleform::ArrayDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2,Scaleform::ArrayDefaultPolicy> *)&vc,
-        0,
-        (unsigned int)vc.Ptrs,
-        v39);
-      if ( (flags & 4) == 0
-        || (v20 = 1, vc.Ptrs <= (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)1) )
-      {
-LABEL_44:
-        v21 = vc.Ptrs;
-        if ( vc.Ptrs )
-        {
-          do
-          {
-            v22 = v11 + 1;
-            v23 = (unsigned int *)&v41[1].Data[(int)vc.__vftable[v6].operator()];
-            if ( v11 + 1 >= v11 )
-            {
-              if ( v22 >= newSA.Data.Policy.Capacity )
-                Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                  (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                  newSA.Data.pHeap,
-                  v22 + (v22 >> 2));
-            }
-            else if ( v22 < newSA.Data.Policy.Capacity >> 1 )
-            {
-              Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
-                (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&newSA,
-                newSA.Data.pHeap,
-                v11 + 1);
-            }
-            ++v11;
-            newSA.Data.Size = v22;
-            if ( &newSA.Data.Data[v22] != (unsigned int *)4 )
-              newSA.Data.Data[v22 - 1] = *v23;
-            v21 = vc.Ptrs;
-            ++v6;
-          }
-          while ( (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)v6 < vc.Ptrs );
-        }
-        v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-        v24 = &vc.__vftable[(int)v21 - 1];
-        if ( v21 )
-        {
-          v25 = v21;
-          do
-          {
-            v26 = (Scaleform::GFx::ASStringNode *)v24->~Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector;
-            if ( (*((_DWORD *)v24->~Scaleform::GFx::AS3::VectorBase<unsigned long>::ValuePtrCollector + 3))-- == 1 )
-              Scaleform::GFx::ASStringNode::ReleaseNode(v26);
-            --v24;
-            v25 = (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)((char *)v25 - 1);
-          }
-          while ( v25 );
-        }
-        Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, vc.__vftable);
-        goto LABEL_75;
-      }
-      while ( Scaleform::GFx::AS3::Impl::CompareAsString::Compare(
-                (Scaleform::GFx::AS3::Impl::CompareAsStringInd *)&argc,
-                (const Scaleform::GFx::ASString *)&vc.__vftable[v20 - 1],
-                (const Scaleform::GFx::ASString *)&vc.__vftable[v20]) )
-      {
-        if ( (Scaleform::ArrayDH<unsigned long const *,2,Scaleform::ArrayDefaultPolicy> *)++v20 >= vc.Ptrs )
-          goto LABEL_44;
-      }
-      Scaleform::GFx::AS3::Value::SetNull(result);
-      v45.ID = (Scaleform::GFx::AS3::VM::ErrorID)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
-      Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::~ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>((Scaleform::ArrayDataBase<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<Scaleform::GFx::ASString,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)&vc);
-      ((void (__stdcall *)(_DWORD))Scaleform::Memory::pGlobalHeap->Free)(0);
+      v45 = 0;
     }
-LABEL_89:
-    if ( (compareFunction.Flags & 0x1F) <= 9 )
-      return;
-    if ( (compareFunction.Flags & 0x200) == 0 )
-      goto LABEL_91;
-    goto LABEL_32;
+    Scaleform::GFx::AS3::VectorBase<unsigned long>::Append(
+      (Scaleform::GFx::AS3::VectorBase<unsigned long> *)&v45[1],
+      &newSA);
+    Scaleform::GFx::AS3::Value::Pick((Scaleform::GFx::AS3::Value *)result, v45);
   }
-LABEL_28:
-  v17 = this->VMRef;
-  Scaleform::GFx::AS3::VM::Error::Error(&v45, eCheckTypeFailedError, v17);
-  Scaleform::GFx::AS3::VM::ThrowTypeError(v17, v18);
-  pNode = v45.Message.pNode;
-  --v45.Message.pNode->RefCount;
-  if ( !pNode->RefCount )
-    Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  if ( (compareFunction.Flags & 0x1F) > 9 )
+  else
   {
-    if ( (compareFunction.Flags & 0x200) == 0 )
+    pHeap = v7->ValueA.Data.pHeap;
+    if ( v24 >= v7->ValueA.Data.Size )
     {
-LABEL_91:
-      Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
-      return;
+      if ( v24 >= v7->ValueA.Data.Policy.Capacity )
+        Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+          (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&v7->ValueA,
+          pHeap,
+          v24 + (v24 >> 2));
     }
-LABEL_32:
-    Scaleform::GFx::AS3::Value::ReleaseWeakRef(&compareFunction);
+    else if ( v24 < v7->ValueA.Data.Policy.Capacity >> 1 )
+    {
+      Scaleform::ArrayDataBase<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,Scaleform::AllocatorDH<Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Instances::fl::XML>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        (Scaleform::ArrayDataBase<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,Scaleform::AllocatorDH<Scaleform::Ptr<Scaleform::GFx::ASStringNode> const *,2>,Scaleform::ArrayDefaultPolicy> *)&v7->ValueA,
+        pHeap,
+        v24);
+    }
+    v49 = 0;
+    for ( v7->ValueA.Data.Size = v24; v49 < v7->ValueA.Data.Size; ++v49 )
+      v7->ValueA.Data.Data[v49] = newSA.Data.Data[v49];
+    Scaleform::GFx::AS3::Value::Assign((Scaleform::GFx::AS3::Value *)result, (Scaleform::GFx::AS3::Object *)currObj);
   }
+  ((void (__stdcall *)(unsigned int *))Scaleform::Memory::pGlobalHeap->Free)(newSA.Data.Data);
+LABEL_104:
+  if ( (compareFunction.Flags & 0x1F) <= 9 )
+    return;
+  if ( (compareFunction.Flags & 0x200) != 0 )
+  {
+LABEL_29:
+    Scaleform::GFx::AS3::Value::ReleaseWeakRef(&compareFunction);
+    return;
+  }
+LABEL_106:
+  Scaleform::GFx::AS3::Value::ReleaseInternal(&compareFunction);
 }

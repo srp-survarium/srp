@@ -51,8 +51,8 @@ void __thiscall Scaleform::GFx::DisplayList::Clear(
       if ( pCharacter )
         Scaleform::RefCountNTSImpl::Release(pCharacter);
       memmove(
-        (unsigned __int8 *)this->DisplayObjectArray.Data.Data,
-        (unsigned __int8 *)&this->DisplayObjectArray.Data.Data[1],
+        (int)this->DisplayObjectArray.Data.Data,
+        (const __m128i *)&this->DisplayObjectArray.Data.Data[1],
         12 * (this->DisplayObjectArray.Data.Size - 1));
       --this->DisplayObjectArray.Data.Size;
     }

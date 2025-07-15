@@ -49,7 +49,7 @@ void __thiscall Scaleform::GFx::AS2::Value::DropRefs(Scaleform::GFx::AS2::Value 
           if ( pObjectValue )
           {
             RefCount = pObjectValue->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+            if ( (RefCount & 0x3FFFFFF) != 0 )
             {
               pObjectValue->RefCount = RefCount - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObjectValue);
@@ -64,7 +64,7 @@ void __thiscall Scaleform::GFx::AS2::Value::DropRefs(Scaleform::GFx::AS2::Value 
           if ( pLocalFrame )
           {
             v7 = pLocalFrame->RefCount;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v7) != 0 )
+            if ( (v7 & 0x3FFFFFF) != 0 )
             {
               pLocalFrame->RefCount = v7 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pLocalFrame);

@@ -66,9 +66,9 @@ $LL34:
               break;
             Scaleform::Render::Text::SGMLParser<wchar_t>::SkipAttribute(this);
           }
-          goto $LN33_3;
+          goto $LN33_6;
         case 9:
-$LN33_3:
+$LN33_6:
           if ( this->Iter.CurChar == 62 )
           {
             Scaleform::Render::Text::SGMLCharIter<wchar_t>::operator++(&this->Iter);

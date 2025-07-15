@@ -17,18 +17,18 @@ void __thiscall stlp_std::basic_filebuf<char,stlp_std::char_traits<char>>::_M_se
                                                      v3,
                                                      &stlp_std::codecvt<char,char,int>::id);
     this->_M_codecvt = v5;
-    v6 = v5->do_encoding(v5);
+    v6 = v5->do_encoding((stlp_std::codecvt<char,char,int> *)v5);
     __on_imbue = 1;
     __loc = (stlp_std::locale *)v6;
     p_on_imbue = &__on_imbue;
     if ( v6 >= 1 )
       p_on_imbue = (int *)&__loc;
     this->_M_width = *p_on_imbue;
-    v8 = this->_M_codecvt->do_max_length(this->_M_codecvt);
+    v8 = this->_M_codecvt->do_max_length((stlp_std::codecvt<char,char,int> *)this->_M_codecvt);
     this->_M_constant_width = v6 > 0;
     M_codecvt = this->_M_codecvt;
     this->_M_max_width = v8;
-    this->_M_always_noconv = M_codecvt->do_always_noconv(M_codecvt);
+    this->_M_always_noconv = M_codecvt->do_always_noconv((stlp_std::codecvt<char,char,int> *)M_codecvt);
   }
   else
   {
@@ -62,18 +62,18 @@ void __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>:
                                                         v3,
                                                         &stlp_std::codecvt<wchar_t,char,int>::id);
     this->_M_codecvt = v5;
-    v6 = v5->do_encoding(v5);
+    v6 = v5->do_encoding((stlp_std::codecvt<wchar_t,char,int> *)v5);
     __on_imbue = 1;
     __loc = (stlp_std::locale *)v6;
     p_on_imbue = &__on_imbue;
     if ( v6 >= 1 )
       p_on_imbue = (int *)&__loc;
     this->_M_width = *p_on_imbue;
-    v8 = this->_M_codecvt->do_max_length(this->_M_codecvt);
+    v8 = this->_M_codecvt->do_max_length((stlp_std::codecvt<wchar_t,char,int> *)this->_M_codecvt);
     this->_M_constant_width = v6 > 0;
     M_codecvt = this->_M_codecvt;
     this->_M_max_width = v8;
-    this->_M_always_noconv = M_codecvt->do_always_noconv(M_codecvt);
+    this->_M_always_noconv = M_codecvt->do_always_noconv((stlp_std::codecvt<wchar_t,char,int> *)M_codecvt);
   }
   else
   {

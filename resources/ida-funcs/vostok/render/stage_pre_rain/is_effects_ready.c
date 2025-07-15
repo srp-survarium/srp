@@ -1,6 +1,9 @@
-BOOL __usercall vostok::render::stage_pre_rain::is_effects_ready@<eax>(
-        vostok::render::stage_pre_rain *this@<ecx>,
-        int a2@<eax>)
+BOOL __thiscall vostok::render::stage_pre_rain::is_effects_ready(vostok::render::stage_pre_rain *this)
 {
-  return *(_DWORD *)(a2 + 24) && *(_DWORD *)(a2 + 28);
+  BOOL result; // eax
+
+  result = 0;
+  if ( this->m_wet_surface_effect.m_object )
+    return this->m_effect_shadow_direct.m_object != 0;
+  return result;
 }

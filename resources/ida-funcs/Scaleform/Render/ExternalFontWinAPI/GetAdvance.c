@@ -4,7 +4,7 @@ double __thiscall Scaleform::Render::ExternalFontWinAPI::GetAdvance(
 {
   Scaleform::Lock *pFontLock; // ebx
   double result; // st7
-  float glyphIndexa; // [esp+Ch] [ebp+4h]
+  float Advance; // [esp+Ch] [ebp+4h]
 
   if ( (unsigned __int16)glyphIndex == 0xFFFF )
   {
@@ -14,9 +14,9 @@ double __thiscall Scaleform::Render::ExternalFontWinAPI::GetAdvance(
   {
     pFontLock = this->pFontLock;
     EnterCriticalSection(&pFontLock->cs);
-    glyphIndexa = this->Glyphs.Data.Data[glyphIndex].Advance;
+    Advance = this->Glyphs.Data.Data[glyphIndex].Advance;
     LeaveCriticalSection(&pFontLock->cs);
-    return glyphIndexa;
+    return Advance;
   }
   return result;
 }

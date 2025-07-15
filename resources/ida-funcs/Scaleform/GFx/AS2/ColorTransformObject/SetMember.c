@@ -8,7 +8,7 @@ char __thiscall Scaleform::GFx::AS2::ColorTransformObject::SetMember(
   unsigned int v7; // esi
   int v8; // edi
   int v9; // ebx
-  long double v; // st7
+  long double v10; // st7
   __int64 v12; // [esp+1Ch] [ebp-8h]
 
   if ( !strcmp(name->pNode->pData, "redMultiplier") )
@@ -59,8 +59,8 @@ char __thiscall Scaleform::GFx::AS2::ColorTransformObject::SetMember(
     v7 = 0;
     v8 = 0;
     v9 = 0;
-    v = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
-    if ( !Scaleform::GFx::NumberUtil::IsNaN(v) )
+    v10 = Scaleform::GFx::AS2::Value::ToNumber(val, penv);
+    if ( !Scaleform::GFx::NumberUtil::IsNaN(v10) )
     {
       v12 = (__int64)Scaleform::GFx::AS2::Value::ToNumber(val, penv);
       v7 = BYTE2(v12);

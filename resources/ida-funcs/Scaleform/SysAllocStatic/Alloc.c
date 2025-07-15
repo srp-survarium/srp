@@ -1,7 +1,11 @@
-void *__thiscall Scaleform::SysAllocStatic::Alloc(
+Scaleform::HeapPT::DualTNode *__thiscall Scaleform::SysAllocStatic::Alloc(
         Scaleform::SysAllocStatic *this,
         unsigned int size,
-        Scaleform::HeapPT::TreeSeg *alignment)
+        unsigned int alignment)
 {
-  return Scaleform::HeapPT::AllocLite::Alloc(this->pAllocator, size, (unsigned int)alignment, &alignment);
+  return Scaleform::HeapPT::AllocLite::Alloc(
+           this->pAllocator,
+           size,
+           alignment,
+           (Scaleform::HeapPT::TreeSeg **)&alignment);
 }

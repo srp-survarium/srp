@@ -1,21 +1,19 @@
-mallinfo *__usercall pt3mallinfo@<eax>(int a1@<edi>, mallinfo *result, ...)
+mallinfo *__usercall pt3mallinfo@<eax>(int a1@<esi>, mallinfo *result, ...)
 {
-  bool v2; // sf
-  malloc_arena *v3; // esi
-  mallinfo *v4; // eax
-  malloc_state *v6; // [esp+0h] [ebp-5Ch]
+  mallinfo *v2; // eax
+  malloc_arena *i; // edi
+  mallinfo v5; // [esp+8h] [ebp-28h] BYREF
 
-  v2 = __malloc_initialized < 0;
   *(_DWORD *)(a1 + 28) = 0;
-  if ( v2 )
+  if ( __malloc_initialized < 0 )
     ptmalloc_init();
-  v3 = &main_arena;
-  do
+  v2 = vostok_mspace_mallinfo((malloc_state *)&main_arena.buf_[8], &v5);
+  for ( i = main_arena.next; ; i = i->next )
   {
-    v4 = internal_mallinfo((mallinfo *)&v3->buf_[8], v6);
-    v3 = v3->next;
-    *(_DWORD *)(a1 + 28) += v4->uordblks;
+    *(_DWORD *)(a1 + 28) += v2->uordblks;
+    if ( i == &main_arena )
+      break;
+    v2 = vostok_mspace_mallinfo((malloc_state *)&i->buf_[8], &v5);
   }
-  while ( v3 != &main_arena );
   return (mallinfo *)a1;
 }

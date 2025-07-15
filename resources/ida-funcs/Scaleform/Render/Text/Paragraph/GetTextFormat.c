@@ -23,14 +23,14 @@ Scaleform::Render::Text::TextFormat *__thiscall Scaleform::Render::Text::Paragra
   Scaleform::Render::Text::TextFormat *v22; // eax
   Scaleform::Render::Text::TextFormat *v23; // edi
   Scaleform::MemoryHeap *pHeap; // [esp-4h] [ebp-8Ch]
-  unsigned int i; // [esp+10h] [ebp-78h]
-  Scaleform::Render::Text::Paragraph::FormatRunIterator it; // [esp+14h] [ebp-74h] BYREF
-  Scaleform::Render::Text::TextFormat finalTextFmt; // [esp+38h] [ebp-50h] BYREF
-  Scaleform::Render::Text::TextFormat v29; // [esp+60h] [ebp-28h] BYREF
+  int v26; // [esp+10h] [ebp-78h]
+  Scaleform::Render::Text::Paragraph::FormatRunIterator v27; // [esp+14h] [ebp-74h] BYREF
+  Scaleform::Render::Text::TextFormat fmt; // [esp+38h] [ebp-50h] BYREF
+  Scaleform::Render::Text::TextFormat resulta; // [esp+60h] [ebp-28h] BYREF
 
   v4 = startPos;
   Scaleform::Render::Text::Paragraph::FormatRunIterator::FormatRunIterator(
-    &it,
+    &v27,
     &this->FormatInfo,
     &this->Text,
     startPos);
@@ -42,96 +42,96 @@ Scaleform::Render::Text::TextFormat *__thiscall Scaleform::Render::Text::Paragra
   else
     v7 = v6 - startPos;
   v8 = Scaleform::Memory::pGlobalHeap->GetAllocHeap(Scaleform::Memory::pGlobalHeap, this);
-  finalTextFmt.RefCount = 1;
-  Scaleform::StringDH::StringDH(&finalTextFmt.FontList, v8);
-  Scaleform::StringDH::StringDH(&finalTextFmt.Url, v8);
-  finalTextFmt.pImageDesc.pObject = 0;
-  finalTextFmt.pFontHandle.pObject = 0;
-  finalTextFmt.ColorV = -16777216;
-  finalTextFmt.LetterSpacing = 0;
-  finalTextFmt.FontSize = 0;
-  finalTextFmt.FormatFlags = 0;
-  finalTextFmt.PresentMask = 0;
-  i = 0;
+  fmt.RefCount = 1;
+  Scaleform::StringDH::StringDH(&fmt.FontList, v8);
+  Scaleform::StringDH::StringDH(&fmt.Url, v8);
+  fmt.pImageDesc.pObject = 0;
+  fmt.pFontHandle.pObject = 0;
+  fmt.ColorV = -16777216;
+  fmt.LetterSpacing = 0;
+  fmt.FontSize = 0;
+  fmt.FormatFlags = 0;
+  fmt.PresentMask = 0;
+  v26 = 0;
   if ( v7 > 0 )
   {
-    CurTextIndex = it.CurTextIndex;
+    CurTextIndex = v27.CurTextIndex;
     do
     {
-      if ( CurTextIndex >= it.pText->Size )
+      if ( CurTextIndex >= v27.pText->Size )
         break;
-      v10 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&it);
+      v10 = Scaleform::Render::Text::Paragraph::FormatRunIterator::operator*(&v27);
       pObject = v10->PlaceHolder.pFormat.pObject;
       if ( pObject )
       {
-        if ( i++ )
+        if ( v26++ )
         {
-          v13 = Scaleform::Render::Text::TextFormat::Intersection(pObject, &v29, &finalTextFmt);
-          Scaleform::Render::Text::TextFormat::operator=(&finalTextFmt, v13);
-          Scaleform::Render::Text::TextFormat::~TextFormat(&v29);
+          v13 = Scaleform::Render::Text::TextFormat::Intersection(pObject, &resulta, &fmt);
+          Scaleform::Render::Text::TextFormat::operator=(&fmt, v13);
+          Scaleform::Render::Text::TextFormat::~TextFormat(&resulta);
         }
         else
         {
-          Scaleform::Render::Text::TextFormat::operator=(&finalTextFmt, pObject);
+          Scaleform::Render::Text::TextFormat::operator=(&fmt, pObject);
         }
       }
       Index = v10->PlaceHolder.Index;
       Length = v10->PlaceHolder.Length;
       v7 += v4 - Index - Length;
       v4 = Index + Length;
-      if ( it.FormatIterator.Index < 0 || it.FormatIterator.Index >= it.FormatIterator.pArray->Ranges.Data.Size )
+      if ( v27.FormatIterator.Index < 0 || v27.FormatIterator.Index >= v27.FormatIterator.pArray->Ranges.Data.Size )
       {
-        CurTextIndex = it.pText->Size;
+        CurTextIndex = v27.pText->Size;
       }
       else
       {
-        if ( it.CurTextIndex >= it.FormatIterator.pArray->Ranges.Data.Data[it.FormatIterator.Index].Index )
+        if ( v27.CurTextIndex >= v27.FormatIterator.pArray->Ranges.Data.Data[v27.FormatIterator.Index].Index )
         {
-          CurTextIndex = it.FormatIterator.pArray->Ranges.Data.Data[it.FormatIterator.Index].Length + it.CurTextIndex;
-          it.CurTextIndex = CurTextIndex;
-          if ( it.FormatIterator.Index < (signed int)it.FormatIterator.pArray->Ranges.Data.Size )
-            ++it.FormatIterator.Index;
+          CurTextIndex = v27.FormatIterator.pArray->Ranges.Data.Data[v27.FormatIterator.Index].Length + v27.CurTextIndex;
+          v27.CurTextIndex = CurTextIndex;
+          if ( v27.FormatIterator.Index < (signed int)v27.FormatIterator.pArray->Ranges.Data.Size )
+            ++v27.FormatIterator.Index;
           continue;
         }
-        CurTextIndex = it.FormatIterator.pArray->Ranges.Data.Data[it.FormatIterator.Index].Index;
+        CurTextIndex = v27.FormatIterator.pArray->Ranges.Data.Data[v27.FormatIterator.Index].Index;
       }
-      it.CurTextIndex = CurTextIndex;
+      v27.CurTextIndex = CurTextIndex;
     }
     while ( v7 > 0 );
   }
-  pHeap = finalTextFmt.FontList.pHeap;
+  pHeap = fmt.FontList.pHeap;
   result->RefCount = 1;
-  Scaleform::StringDH::CopyConstructHelper(&result->FontList, &finalTextFmt.FontList, pHeap);
-  Scaleform::StringDH::CopyConstructHelper(&result->Url, &finalTextFmt.Url, finalTextFmt.FontList.pHeap);
-  v16 = finalTextFmt.pImageDesc.pObject;
-  if ( finalTextFmt.pImageDesc.pObject )
+  Scaleform::StringDH::CopyConstructHelper(&result->FontList, &fmt.FontList, pHeap);
+  Scaleform::StringDH::CopyConstructHelper(&result->Url, &fmt.Url, fmt.FontList.pHeap);
+  v16 = fmt.pImageDesc.pObject;
+  if ( fmt.pImageDesc.pObject )
   {
-    ++finalTextFmt.pImageDesc.pObject->RefCount;
-    v16 = finalTextFmt.pImageDesc.pObject;
+    ++fmt.pImageDesc.pObject->RefCount;
+    v16 = fmt.pImageDesc.pObject;
   }
-  v17 = (Scaleform::GFx::Resource *)finalTextFmt.pFontHandle.pObject;
+  v17 = (Scaleform::GFx::Resource *)fmt.pFontHandle.pObject;
   result->pImageDesc.pObject = v16;
   if ( v17 )
   {
     Scaleform::RefCountImpl::AddRef(v17);
-    v17 = (Scaleform::GFx::Resource *)finalTextFmt.pFontHandle.pObject;
+    v17 = (Scaleform::GFx::Resource *)fmt.pFontHandle.pObject;
   }
-  LetterSpacing = finalTextFmt.LetterSpacing;
-  ColorV = finalTextFmt.ColorV;
+  LetterSpacing = fmt.LetterSpacing;
+  ColorV = fmt.ColorV;
   result->pFontHandle.pObject = (Scaleform::Render::Text::FontHandle *)v17;
-  FontSize = finalTextFmt.FontSize;
+  FontSize = fmt.FontSize;
   result->LetterSpacing = LetterSpacing;
-  PresentMask = finalTextFmt.PresentMask;
+  PresentMask = fmt.PresentMask;
   result->ColorV = ColorV;
-  LOBYTE(ColorV) = finalTextFmt.FormatFlags;
+  LOBYTE(ColorV) = fmt.FormatFlags;
   result->FontSize = FontSize;
   result->FormatFlags = ColorV;
   result->PresentMask = PresentMask;
-  Scaleform::Render::Text::TextFormat::~TextFormat(&finalTextFmt);
-  v22 = it.PlaceHolder.pFormat.pObject;
-  if ( it.PlaceHolder.pFormat.pObject )
+  Scaleform::Render::Text::TextFormat::~TextFormat(&fmt);
+  v22 = v27.PlaceHolder.pFormat.pObject;
+  if ( v27.PlaceHolder.pFormat.pObject )
   {
-    --it.PlaceHolder.pFormat.pObject->RefCount;
+    --v27.PlaceHolder.pFormat.pObject->RefCount;
     v23 = v22;
     if ( !v22->RefCount )
     {

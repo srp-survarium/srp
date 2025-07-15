@@ -1,4 +1,4 @@
-int __usercall _filbuf@<eax>(unsigned int a1@<ebx>, _iobuf *str)
+int __usercall _filbuf@<eax>(int a1@<ebx>, _iobuf *str)
 {
   int flag; // eax
   int v3; // eax
@@ -52,7 +52,7 @@ int __usercall _filbuf@<eax>(unsigned int a1@<ebx>, _iobuf *str)
     else
     {
       v6 = &__pioinfo[_fileno(a1, 0, str) >> 5];
-      v7 = (ioinfo *)((char *)*v6 + 64 * (_fileno(a1, (unsigned int)v6, str) & 0x1F));
+      v7 = (ioinfo *)((char *)*v6 + 64 * (_fileno(a1, (int)v6, str) & 0x1F));
     }
     if ( (v7->osfile & 0x82) == 0x82 )
       str->_flag |= 0x2000u;

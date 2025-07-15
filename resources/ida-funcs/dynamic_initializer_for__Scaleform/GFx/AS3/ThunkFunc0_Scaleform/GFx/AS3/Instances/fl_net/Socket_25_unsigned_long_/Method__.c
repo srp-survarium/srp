@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_net::Socket::readUnsignedByte;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_net::Socket,25,unsigned long>::Method) = Scaleform::GFx::AS3::Instances::fl_net::Socket::readUnsignedByte;
-  dword_AAC4EC = 0;
+  dword_8F0CA4 = 0;
   return result;
 }

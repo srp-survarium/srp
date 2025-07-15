@@ -13,7 +13,7 @@ void __thiscall Scaleform::Render::TextPrimitiveBundle::EmitToHAL(
     }
     Scaleform::Render::TextEmitBuffer::EmitPrimitive(
       (Scaleform::Render::TextEmitBuffer *)&qp->136,
-      (Scaleform::Render::TextPrepareBuffer *)&qp->40,
+      (Scaleform::Render::PrimitivePrepareBuffer *)&qp->40,
       qp->pHAL);
   }
 }

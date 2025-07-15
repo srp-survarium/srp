@@ -17,7 +17,7 @@ void __thiscall Scaleform::Render::RBGenericImpl::DepthStencilBuffer::Release(
     v4 = &this->Scaleform::Render::RBGenericImpl::CacheData;
     pManager = this->pManager;
     v4->pPrev->pNext = v4->pNext;
-    v4->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$EA02E2A925554C6B16FA29F8B6C1D51A::pPrev = v4->pPrev;
+    v4->pNext->Scaleform::ListNode<Scaleform::Render::RBGenericImpl::CacheData>::$33C6E2185EE5619ED4522D9BD84BBA53::pPrev = v4->pPrev;
     v6 = !(v2 ^ v3 | v1) + 5;
     p_RefCount = (int)&pManager[v6 + 4].RefCount;
     v4->ListType = v6;

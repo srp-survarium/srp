@@ -3,373 +3,371 @@ void __cdecl vostok::render::arrange_surfaces_by_lod(
         vostok::render::model_lods_descriptor **lods_descriptor)
 {
   vostok::configs::binary_config *m_object; // eax
-  vostok::render::model_lods_descriptor *v3; // eax
-  unsigned __int8 **m_lod_surfaces; // ecx
-  int v5; // edx
-  const char *v6; // esi
-  vostok::resources::query_result_for_cook *v7; // eax
-  char *v8; // ecx
-  const char *v9; // eax
-  void (__cdecl *v10)(vostok::platform_pointer_selector<char const ,1>::helper *, vostok::platform_pointer_selector<char const ,1>::helper *, int); // eax
-  unsigned __int64 *m_root; // eax
-  unsigned __int64 v12; // xmm0_8
-  const char *v13; // esi
-  vostok::configs::binary_config_value *v14; // eax
-  vostok::configs::binary_config_value *v15; // eax
-  const vostok::configs::binary_config_value *pointer; // edi
-  int v17; // ecx
-  int v18; // ebx
-  _DWORD *v19; // eax
-  unsigned __int8 *v20; // ebp
-  int v21; // eax
-  unsigned __int8 *j; // ecx
-  const char *v23; // eax
-  int surface_index; // eax
-  void (__cdecl *v25)(void *, const char *, unsigned int, const char *, const char *, vostok::logging::verbosity, const char *, unsigned int, vostok::logging::callback_flag); // esi
-  vostok::resources::query_result_for_cook *parent_query; // eax
-  char *m_requery_path; // ecx
-  const char *m_request_path; // eax
-  void (__cdecl *v29)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  vostok::memory::doug_lea_allocator *v30; // eax
-  vostok::render::model_lods_descriptor *v31; // eax
+  vostok::memory::doug_lea_allocator *v3; // esi
+  char *v4; // eax
+  vostok::memory::doug_lea_allocator *v5; // ecx
+  vostok::render::model_lods_descriptor *v6; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v7; // ecx
+  unsigned __int8 **m_lod_surfaces; // eax
+  int v9; // edx
+  bool v10; // al
+  vostok::resources::query_result_for_cook *v11; // ecx
+  const char *v12; // eax
+  const vostok::configs::binary_config_value *v13; // eax
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v14; // ecx
+  char *v15; // edi
+  const vostok::configs::binary_config_value *v16; // eax
+  vostok::configs::binary_config_value *v17; // ecx
+  vostok::configs::binary_config_value *v18; // eax
+  char **obj_ptr; // ebx
+  signed int v20; // eax
+  unsigned __int8 *v21; // edi
+  char *v22; // eax
+  unsigned int m_num_render_models; // ebx
+  vostok::fs_new::virtual_path_string *p_m_surface_name; // esi
+  int v25; // eax
+  bool has_passed_filters; // al
+  vostok::resources::query_result_for_cook *parent_query; // ecx
+  const char *requested_path; // eax
+  vostok::render::model_lods_descriptor *v29; // eax
+  vostok::configs::binary_config_value *v30; // ecx
+  vostok::configs::binary_config_value *v31; // eax
   vostok::configs::binary_config_value *v32; // eax
-  vostok::configs::binary_config_value *v33; // eax
-  bool v34; // al
-  vostok::configs::binary_config_value *v35; // eax
-  const vostok::configs::binary_config_value *v36; // eax
-  float v37; // xmm0_4
-  vostok::configs::binary_config_value *v38; // eax
-  const vostok::configs::binary_config_value *v39; // eax
-  float v40; // xmm0_4
-  vostok::configs::binary_config_value *v41; // eax
+  bool v33; // al
+  vostok::configs::binary_config_value *v34; // eax
+  const vostok::configs::binary_config_value *v35; // eax
+  float pointer; // xmm0_4
+  vostok::configs::binary_config_value *v37; // eax
+  const vostok::configs::binary_config_value *v38; // eax
+  float v39; // xmm0_4
+  const vostok::configs::binary_config_value *v40; // eax
+  vostok::configs::binary_config_value *v41; // ecx
   vostok::configs::binary_config_value *v42; // eax
   const vostok::configs::binary_config_value *v43; // eax
   float v44; // xmm0_4
-  float v45; // xmm0_4
-  int v46; // ebx
-  int v47; // edi
-  int v48; // eax
-  unsigned __int8 v49; // cl
-  unsigned __int8 *v50; // esi
-  unsigned __int8 *v51; // eax
-  void *m_reconstruction_info_actuality_tick_high; // esi
-  unsigned __int8 *v53; // [esp-Ch] [ebp-C8h]
-  unsigned __int8 i; // [esp+13h] [ebp-A9h]
-  unsigned __int8 result_lod_surfaces_count[4]; // [esp+14h] [ebp-A8h] BYREF
-  int v56; // [esp+18h] [ebp-A4h]
-  int v57; // [esp+1Ch] [ebp-A0h]
-  const vostok::configs::binary_config_value *it; // [esp+20h] [ebp-9Ch]
-  unsigned int v59; // [esp+24h] [ebp-98h]
-  unsigned __int8 *v60; // [esp+28h] [ebp-94h]
-  const vostok::configs::binary_config_value *it_e; // [esp+2Ch] [ebp-90h]
-  vostok::configs::binary_config_value t_root; // [esp+30h] [ebp-8Ch] BYREF
-  vostok::configs::binary_config_value t_surfaces; // [esp+48h] [ebp-74h] BYREF
-  unsigned __int8 *result_lod_surfaces[3]; // [esp+68h] [ebp-54h] BYREF
-  const char *lods[3]; // [esp+74h] [ebp-48h]
-  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> log_callback; // [esp+80h] [ebp-3Ch] BYREF
-  vostok::configs::binary_config_value t_lods; // [esp+A0h] [ebp-1Ch] BYREF
+  int v45; // eax
+  int v46; // edi
+  int v47; // eax
+  unsigned __int8 v48; // cl
+  int v49; // esi
+  unsigned int v50; // edx
+  unsigned __int8 **v51; // ecx
+  unsigned __int8 **v52; // esi
+  vostok::memory::doug_lea_allocator *v53; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v54; // [esp-4h] [ebp-C4h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v55; // [esp-4h] [ebp-C4h]
+  const char *v56; // [esp+0h] [ebp-C0h]
+  const char *v57; // [esp+0h] [ebp-C0h]
+  const char *v58; // [esp+4h] [ebp-BCh]
+  const char *v59; // [esp+4h] [ebp-BCh]
+  unsigned int v60; // [esp+8h] [ebp-B8h]
+  unsigned int v61; // [esp+8h] [ebp-B8h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v62; // [esp+10h] [ebp-B0h] BYREF
+  vostok::configs::binary_config_value v63; // [esp+30h] [ebp-90h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v64; // [esp+48h] [ebp-78h] BYREF
+  _DWORD v65[3]; // [esp+68h] [ebp-58h] BYREF
+  _DWORD v66[3]; // [esp+74h] [ebp-4Ch]
+  vostok::configs::binary_config_value v67; // [esp+80h] [ebp-40h] BYREF
+  char **v68; // [esp+98h] [ebp-28h]
+  char *right; // [esp+9Ch] [ebp-24h]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v70; // [esp+A0h] [ebp-20h]
+  unsigned int v71; // [esp+A4h] [ebp-1Ch]
+  unsigned int v72; // [esp+A8h] [ebp-18h]
+  int v73; // [esp+ACh] [ebp-14h]
+  char **v74; // [esp+B0h] [ebp-10h]
+  int v75; // [esp+B4h] [ebp-Ch]
+  __int16 v76; // [esp+B8h] [ebp-8h] BYREF
+  unsigned __int8 v77; // [esp+BAh] [ebp-6h]
+  unsigned __int8 v78; // [esp+BEh] [ebp-2h]
+  unsigned __int8 v79; // [esp+BFh] [ebp-1h]
+  int v80; // [esp+C8h] [ebp+8h]
 
-  memset(result_lod_surfaces_count, 0, 3);
+  v75 = 0;
+  memset(v65, 0, sizeof(v65));
+  v76 = 0;
+  v77 = 0;
   m_object = cook_data->model_settings_config.m_object;
-  v56 = 0;
-  memset(result_lod_surfaces, 0, sizeof(result_lod_surfaces));
   if ( m_object )
   {
-    m_root = (unsigned __int64 *)m_object->m_root;
-    t_root.data.max_storage = *m_root;
-    t_root.id.max_storage = m_root[1];
-    v12 = m_root[2];
-    lods[0] = "LOD0";
-    lods[1] = "LOD1";
-    lods[2] = "LOD2";
-    *(_QWORD *)&t_root.id_crc = v12;
-    if ( vostok::configs::binary_config_value::value_exists(&t_root, "lod_hierrarchy") )
+    qmemcpy((void *)&v67, m_object->m_root, sizeof(v67));
+    v66[0] = "LOD0";
+    v66[1] = "LOD1";
+    v66[2] = "LOD2";
+    if ( vostok::configs::binary_config_value::value_exists(0, (int)&v67, (unsigned int)"lod_hierrarchy") )
     {
-      t_lods = *vostok::configs::binary_config_value::operator[](&t_root, "lod_hierrarchy");
-      v60 = result_lod_surfaces_count;
-      v59 = 0;
-      v57 = 3;
+      v13 = vostok::configs::binary_config_value::operator[](&v67, "lod_hierrarchy");
+      v72 = 0;
+      qmemcpy((void *)&v63, v13, sizeof(v63));
+      v14 = 0;
+      v70 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)&v76;
+      v73 = 3;
       do
       {
-        v13 = lods[v59 / 4];
-        if ( vostok::configs::binary_config_value::value_exists(&t_lods, v13) )
+        v15 = (char *)v66[v72 / 4];
+        if ( vostok::configs::binary_config_value::value_exists(
+               (vostok::configs::binary_config_value *)v14,
+               (int)&v63,
+               (unsigned int)v15) )
         {
-          v14 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&t_lods, v13);
-          if ( vostok::configs::binary_config_value::value_exists(v14, "surfaces") )
+          v16 = vostok::configs::binary_config_value::operator[](&v63, v15);
+          if ( vostok::configs::binary_config_value::value_exists(v17, (int)v16, (unsigned int)"surfaces") )
           {
-            v15 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](&t_lods, v13);
-            t_surfaces = *vostok::configs::binary_config_value::operator[](v15, "surfaces");
-            pointer = (const vostok::configs::binary_config_value *)t_surfaces.data.pointer;
-            v17 = 24 * HIWORD(*(_DWORD *)&t_surfaces.type);
-            it_e = (const vostok::configs::binary_config_value *)((char *)t_surfaces.data.pointer + v17);
-            v18 = v17 / 24;
-            it = (const vostok::configs::binary_config_value *)t_surfaces.data.pointer;
-            i = 0;
-            v19 = vostok::memory::doug_lea_allocator::malloc_impl(
-                    (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                    (unsigned __int8)((char)(24 * LOBYTE(t_surfaces.count)) / 24) + 8);
-            *v19++ = (unsigned __int8)v18;
-            v20 = (unsigned __int8 *)(v19 + 1);
-            *v19 = 1;
-            v21 = (int)v19 + (unsigned __int8)v18 + 4;
-            for ( j = v20; j != (unsigned __int8 *)v21; ++j )
-            {
-              if ( j )
-                *j = 0;
-            }
-            result_lod_surfaces[v59 / 4] = v20;
-            if ( pointer != it_e )
+            v18 = vostok::configs::binary_config_value::operator[](&v63, v15);
+            qmemcpy(
+              (void *)&v64.functor,
+              vostok::configs::binary_config_value::operator[](v18, "surfaces"),
+              sizeof(v64.functor));
+            obj_ptr = (char **)v64.functor.obj_ptr;
+            v20 = 24 * ((unsigned int)v64.functor.vostok_pointer_size_alignment[5] >> 16);
+            v68 = (char **)((char *)v64.functor.obj_ptr + v20);
+            v74 = (char **)v64.functor.obj_ptr;
+            v78 = 0;
+            v79 = v20 / 24;
+            v21 = vostok::memory::new_array_helper<unsigned char>::call<vostok::memory::doug_lea_allocator>(
+                    vostok::render::g_allocator,
+                    v79,
+                    v56,
+                    v58,
+                    v60);
+            v65[v72 / 4] = v21;
+            if ( obj_ptr != v68 )
             {
               do
               {
-                if ( t_surfaces.type == 4 )
-                  v23 = (const char *)it->data.pointer;
+                if ( *((_WORD *)&v64.functor.data + 10) == 4 )
+                  v22 = *v74;
                 else
-                  v23 = (const char *)vostok::intrusive_ptr<survarium::weapon_core_base_state,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::c_ptr((vostok::intrusive_ptr<vostok::sound::encoded_sound_interface,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&it->id);
-                surface_index = vostok::render::cook_intermediate_data::find_surface_index(cook_data, v23);
-                if ( surface_index == -1 )
+                  v22 = v74[2];
+                v71 = 0;
+                right = v22;
+                m_num_render_models = cook_data->m_num_render_models;
+                if ( cook_data->m_num_render_models )
                 {
-                  LOBYTE(v18) = v18 - 1;
-                  if ( !vostok::core::g_log_filter_tree
-                    || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render_pc_dx11:", error) )
+                  p_m_surface_name = &cook_data->assets->m_surface_name;
+                  while ( vostok::strings::compare(p_m_surface_name->m_string.m_begin, right) )
                   {
-                    v25 = vostok::core::g_log_callback;
-                    log_callback.vtable = 0;
-                    if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-                      `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-                        &log_callback.functor,
-                        &log_callback.functor,
-                        destroy_functor_tag);
-                    if ( v25 )
-                    {
-                      log_callback.functor.obj_ptr = v25;
-                      log_callback.vtable = (boost::detail::function::vtable_base *)((char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                                                                   + 1);
-                    }
-                    else
-                    {
-                      log_callback.vtable = 0;
-                    }
+                    ++v71;
+                    p_m_surface_name = (vostok::fs_new::virtual_path_string *)((char *)p_m_surface_name + 288);
+                    if ( v71 >= m_num_render_models )
+                      goto LABEL_24;
+                  }
+                  v25 = v71;
+                }
+                else
+                {
+LABEL_24:
+                  v25 = -1;
+                }
+                if ( v25 == -1 )
+                {
+                  --v79;
+                  if ( !vostok::core::g_log_filter_tree
+                    || (has_passed_filters = vostok::logging::has_passed_filters(
+                                               (vostok::logging::filter_tree *)"render_pc_dx11",
+                                               (const char *)2),
+                        v14 = v55,
+                        has_passed_filters) )
+                  {
+                    boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+                      v14,
+                      &v62);
                     parent_query = cook_data->parent_query;
-                    m_requery_path = parent_query->m_requery_path;
-                    v56 |= 2u;
-                    if ( m_requery_path )
-                      m_request_path = m_requery_path;
-                    else
-                      m_request_path = parent_query->m_request_path;
+                    v75 |= 2u;
+                    requested_path = vostok::resources::query_result_for_user::get_requested_path(parent_query);
                     vostok::logging::append(
-                      &log_callback,
+                      &v62,
                       (void *const)vostok::core::g_log_flags,
                       &vostok::core::g_log_format,
                       ".\\render_model_cooker.cpp",
-                      0x2D2u,
+                      0x2D4u,
                       "void __cdecl vostok::render::arrange_surfaces_by_lod(struct vostok::render::cook_intermediate_data"
                       " *,struct vostok::render::model_lods_descriptor *&)",
-                      "render_pc_dx11:",
+                      "render_pc_dx11",
                       error,
                       "Incorrect model LOD settings for %s",
-                      m_request_path);
+                      requested_path);
                   }
-                  if ( (v56 & 2) != 0 )
+                  if ( (v75 & 2) != 0 )
                   {
-                    v56 &= ~2u;
-                    if ( log_callback.vtable )
-                    {
-                      if ( ((int)log_callback.vtable & 1) == 0 )
-                      {
-                        v29 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)log_callback.vtable & 0xFFFFFFFE);
-                        if ( v29 )
-                          v29(&log_callback.functor, &log_callback.functor, 2);
-                      }
-                    }
+                    v75 &= ~2u;
+                    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+                      (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v14,
+                      (int *)&v62);
                   }
                 }
                 else
                 {
-                  v20[i++] = surface_index;
+                  v14 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v78++;
+                  v21[(_DWORD)v14] = v25;
                 }
-                ++it;
+                v74 += 6;
               }
-              while ( it != it_e );
+              while ( v74 != v68 );
             }
-            if ( (_BYTE)v18 )
-              *v60 = v18;
+            if ( v79 )
+            {
+              v14 = v70;
+              LOBYTE(v70->vtable) = v79;
+            }
           }
         }
-        v59 += 4;
-        ++v60;
-        --v57;
+        v72 += 4;
+        v70 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)((char *)v70 + 1);
+        --v73;
       }
-      while ( v57 );
-      v30 = (vostok::memory::doug_lea_allocator *)boost::get_pointer<vostok::sound::sound_scene>((vostok::sound::sound_world *)vostok::render::g_allocator.m_object);
-      v31 = (vostok::render::model_lods_descriptor *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                       v30,
-                                                       result_lod_surfaces_count[1]
-                                                     + result_lod_surfaces_count[2]
-                                                     + result_lod_surfaces_count[0]
-                                                     + 36);
-      *lods_descriptor = v31;
-      if ( v31 )
+      while ( v73 );
+      v29 = (vostok::render::model_lods_descriptor *)vostok::memory::doug_lea_allocator::malloc_impl(
+                                                       (vostok::memory::doug_lea_allocator *)(unsigned __int8)v76,
+                                                       (int)vostok::render::g_allocator,
+                                                       HIBYTE(v76) + v77 + (unsigned __int8)v76 + 36,
+                                                       "model_lods_descriptor",
+                                                       v56,
+                                                       v58,
+                                                       v60);
+      *lods_descriptor = v29;
+      if ( v29 )
       {
-        v31->m_lod_calc_type = 0;
-        v31->m_lod_params_default = 1;
+        v29->m_lod_calc_type = 0;
+        v29->m_lod_params_default = 1;
       }
-      if ( vostok::configs::binary_config_value::value_exists(&t_root, "lod_switching") )
+      if ( vostok::configs::binary_config_value::value_exists(v30, (int)&v67, (unsigned int)"lod_switching") )
       {
-        vostok::configs::binary_config_value::operator[](&t_root, "lod_switching");
-        v32 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        &t_root,
-                                                        "lod_switching");
+        vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
+        v31 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
         (*lods_descriptor)->m_lod_calc_type = (unsigned __int8)vostok::configs::binary_config_value::operator[](
-                                                                 v32,
+                                                                 v31,
                                                                  "type")->data.pointer;
-        v33 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                        &t_root,
-                                                        "lod_switching");
-        v34 = vostok::configs::binary_config_value::operator[](v33, "default_params")->data.pointer != 0;
-        (*lods_descriptor)->m_lod_params_default = v34;
-        if ( !v34 )
+        v32 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
+        v33 = vostok::configs::binary_config_value::operator[](v32, "default_params")->data.pointer != 0;
+        (*lods_descriptor)->m_lod_params_default = v33;
+        if ( !v33 )
         {
-          v35 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          &t_root,
-                                                          "lod_switching");
-          v36 = vostok::configs::binary_config_value::operator[](v35, "param0");
-          if ( v36->type == 2 )
-            v37 = *(float *)&v36->data.pointer;
+          v34 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
+          v35 = vostok::configs::binary_config_value::operator[](v34, "param0");
+          if ( v35->type == 2 )
+            pointer = *(float *)&v35->data.pointer;
           else
-            v37 = (float)(int)v36->data.pointer;
-          (*lods_descriptor)->m_lod_custom_params[0] = v37;
-          v38 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          &t_root,
-                                                          "lod_switching");
-          v39 = vostok::configs::binary_config_value::operator[](v38, "param1");
-          if ( v39->type == 2 )
-            v40 = *(float *)&v39->data.pointer;
+            pointer = (float)(int)v35->data.pointer;
+          (*lods_descriptor)->m_lod_custom_params[0] = pointer;
+          v37 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
+          v38 = vostok::configs::binary_config_value::operator[](v37, "param1");
+          if ( v38->type == 2 )
+            v39 = *(float *)&v38->data.pointer;
           else
-            v40 = (float)(int)v39->data.pointer;
-          (*lods_descriptor)->m_lod_custom_params[1] = v40;
-          v41 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                          &t_root,
-                                                          "lod_switching");
-          if ( vostok::configs::binary_config_value::value_exists(v41, "param2") )
+            v39 = (float)(int)v38->data.pointer;
+          (*lods_descriptor)->m_lod_custom_params[1] = v39;
+          v40 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
+          if ( vostok::configs::binary_config_value::value_exists(v41, (int)v40, (unsigned int)"param2") )
           {
-            v42 = (vostok::configs::binary_config_value *)vostok::configs::binary_config_value::operator[](
-                                                            &t_root,
-                                                            "lod_switching");
+            v42 = vostok::configs::binary_config_value::operator[](&v67, "lod_switching");
             v43 = vostok::configs::binary_config_value::operator[](v42, "param2");
             if ( v43->type == 2 )
               v44 = *(float *)&v43->data.pointer;
             else
               v44 = (float)(int)v43->data.pointer;
-            (*lods_descriptor)->m_lod_custom_params[2] = v44;
+            v45 = (int)*lods_descriptor;
           }
           else
           {
+            v45 = (int)*lods_descriptor;
             if ( (*lods_descriptor)->m_lod_calc_type )
-              v45 = epsilon_3_11;
+              v44 = epsilon_3_4;
             else
-              v45 = 240.0;
-            (*lods_descriptor)->m_lod_custom_params[2] = v45;
+              v44 = FLOAT_240_0;
           }
+          *(float *)(v45 + 28) = v44;
         }
       }
       v46 = 0;
-      v47 = 0;
-      v57 = 3;
+      v80 = 0;
+      v73 = 3;
       do
       {
-        v48 = (int)*lods_descriptor;
-        v49 = result_lod_surfaces_count[v47];
-        v50 = result_lod_surfaces[v47];
-        *(_BYTE *)(v48 + v47) = v49;
-        *(_DWORD *)(v48 + 4 * v47 + 4) = v48 + v46 + 36;
-        v53 = (unsigned __int8 *)(v48 + v46 + 36);
-        v46 += v49;
-        memcpy(v53, v50, v49);
-        if ( v50 )
-        {
-          v51 = v50;
-          m_reconstruction_info_actuality_tick_high = (void *)HIDWORD(vostok::render::g_allocator.m_object->m_reconstruction_info_actuality_tick);
-          BYTE2(vostok::render::g_allocator.m_object->m_children_resources.m_lock) = 0;
-          vostok_mspace_free(m_reconstruction_info_actuality_tick_high, v51 - 8);
-        }
-        ++v47;
-        --v57;
+        v47 = (int)*lods_descriptor;
+        v48 = *((_BYTE *)&v76 + v46);
+        v49 = v80;
+        *(_BYTE *)(v47 + v46) = v48;
+        v50 = v48;
+        v80 += v48;
+        v51 = (unsigned __int8 **)(v47 + 4 * v46 + 4);
+        *v51 = (unsigned __int8 *)(v47 + v49 + 36);
+        v52 = (unsigned __int8 **)&v65[v46];
+        memcpy(*v51, *v52, v50);
+        if ( *v52 )
+          vostok::memory::doug_lea_allocator::free_impl(
+            v53,
+            (int)vostok::render::g_allocator,
+            (char *)*v52 - 8,
+            v57,
+            v59,
+            v61);
+        ++v46;
+        --v73;
       }
-      while ( v57 );
+      while ( v73 );
     }
   }
   else
   {
-    v3 = (vostok::render::model_lods_descriptor *)vostok::memory::doug_lea_allocator::malloc_impl(
-                                                    (vostok::memory::doug_lea_allocator *)vostok::render::g_allocator.m_object,
-                                                    0x24u);
-    if ( v3 )
+    v3 = vostok::render::g_allocator;
+    v4 = type_info::raw_name(&vostok::render::model_lods_descriptor `RTTI Type Descriptor');
+    v6 = (vostok::render::model_lods_descriptor *)vostok::memory::doug_lea_allocator::malloc_impl(
+                                                    v5,
+                                                    (int)v3,
+                                                    0x24u,
+                                                    v4,
+                                                    v56,
+                                                    v58,
+                                                    v60);
+    if ( v6 )
     {
-      v3->m_lod_calc_type = 0;
-      v3->m_lod_params_default = 1;
+      v6->m_lod_calc_type = 0;
+      v6->m_lod_params_default = 1;
     }
     else
     {
-      v3 = 0;
+      v6 = 0;
     }
-    *lods_descriptor = v3;
-    m_lod_surfaces = v3->m_lod_surfaces;
-    v5 = 3;
+    *lods_descriptor = v6;
+    v7 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)v6;
+    m_lod_surfaces = v6->m_lod_surfaces;
+    v9 = 3;
     do
     {
-      v3->m_lod_surfaces_count[0] = 0;
+      LOBYTE(v7->vtable) = 0;
       *m_lod_surfaces = 0;
-      v3 = (vostok::render::model_lods_descriptor *)((char *)v3 + 1);
+      v7 = (boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)((char *)v7 + 1);
       ++m_lod_surfaces;
-      --v5;
+      --v9;
     }
-    while ( v5 );
+    while ( v9 );
     if ( !vostok::core::g_log_filter_tree
-      || vostok::logging::has_passed_filters(vostok::core::g_log_filter_tree, "render_pc_dx11:", error) )
+      || (v10 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"render_pc_dx11", (const char *)2),
+          v7 = v54,
+          v10) )
     {
-      v6 = (const char *)vostok::core::g_log_callback;
-      t_surfaces.data.pointer = 0;
-      if ( `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager )
-        `boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager(
-          (const boost::detail::function::function_buffer *)&t_surfaces.id,
-          (boost::detail::function::function_buffer *)&t_surfaces.id,
-          destroy_functor_tag);
-      if ( v6 )
-      {
-        t_surfaces.id.pointer = v6;
-        t_surfaces.data.pointer = (char *)&`boost::function9<void,void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag>::assign_to<void (__cdecl *)(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>'::`2'::stored_vtable.base.manager
-                                + 1;
-      }
-      else
-      {
-        t_surfaces.data.pointer = 0;
-      }
-      v7 = cook_data->parent_query;
-      v8 = v7->m_requery_path;
-      v56 = 1;
-      if ( v8 )
-        v9 = v8;
-      else
-        v9 = v7->m_request_path;
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v7,
+        &v64);
+      v11 = cook_data->parent_query;
+      v75 = 1;
+      v12 = vostok::resources::query_result_for_user::get_requested_path(v11);
       vostok::logging::append(
-        (const boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *)&t_surfaces,
+        &v64,
         (void *const)vostok::core::g_log_flags,
         &vostok::core::g_log_format,
         ".\\render_model_cooker.cpp",
-        0x2ACu,
+        0x2AFu,
         "void __cdecl vostok::render::arrange_surfaces_by_lod(struct vostok::render::cook_intermediate_data *,struct vost"
         "ok::render::model_lods_descriptor *&)",
-        "render_pc_dx11:",
+        "render_pc_dx11",
         error,
         "Incorrect model settings for %s",
-        v9);
+        v12);
     }
-    if ( (v56 & 1) != 0 && t_surfaces.data.pointer && ((int)t_surfaces.data.pointer & 1) == 0 )
-    {
-      v10 = *(void (__cdecl **)(vostok::platform_pointer_selector<char const ,1>::helper *, vostok::platform_pointer_selector<char const ,1>::helper *, int))((int)t_surfaces.data.pointer & 0xFFFFFFFE);
-      if ( v10 )
-        v10(&t_surfaces.id, &t_surfaces.id, 2);
-    }
+    if ( (v75 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v7,
+        (int *)&v64);
   }
 }

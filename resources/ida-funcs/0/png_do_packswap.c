@@ -11,18 +11,18 @@ _BYTE *__cdecl png_do_packswap(int a1, _BYTE *a2)
     v3 = (unsigned int)&a2[*(_DWORD *)(a1 + 4)];
     if ( *(_BYTE *)(a1 + 9) == 1 )
     {
-      v4 = &unk_8605A0;
+      v4 = &unk_6F3EE8;
     }
     else if ( *(_BYTE *)(a1 + 9) == 2 )
     {
-      v4 = &unk_8606A0;
+      v4 = &unk_6F3FE8;
     }
     else
     {
       result = (_BYTE *)*(unsigned __int8 *)(a1 + 9);
       if ( result != (_BYTE *)4 )
         return result;
-      v4 = &unk_8607A0;
+      v4 = &unk_6F40E8;
     }
     for ( i = a2; ; ++i )
     {

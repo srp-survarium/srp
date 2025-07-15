@@ -1,6 +1,6 @@
 void __thiscall Scaleform::GFx::Sprite::AttachSoundObject(
         Scaleform::GFx::Sprite *this,
-        Scaleform::GFx::ASSoundIntf *psobj)
+        Scaleform::GFx::AS3::ClassTraits::Traits *psobj)
 {
   Scaleform::GFx::Sprite::ActiveSounds *v3; // eax
   Scaleform::GFx::Sprite::ActiveSounds *pActiveSounds; // esi
@@ -55,5 +55,5 @@ void __thiscall Scaleform::GFx::Sprite::AttachSoundObject(
   Data = p_ASSounds->Data;
   p_ASSounds->Size = v7;
   if ( &Data[v7] != (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::ClassTraits::Traits> *)4 )
-    Data[v7 - 1].pObject = (Scaleform::GFx::AS3::ClassTraits::Traits *)psobj;
+    Data[v7 - 1].pObject = psobj;
 }

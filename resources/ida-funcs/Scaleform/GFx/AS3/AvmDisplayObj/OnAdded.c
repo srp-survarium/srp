@@ -44,7 +44,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnAdded(Scaleform::GFx::AS3:
       {
         RefCount = evt.pObject->RefCount;
         pObject = evt.pObject;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           evt.pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -57,12 +57,12 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnAdded(Scaleform::GFx::AS3:
     this->pDispObj->pASRoot->CheckAvm(this->pDispObj->pASRoot);
     pDispObj = this->pDispObj;
     v9 = &pDispObj->pASRoot->Scaleform::GFx::DisplayObjectBase::__vftable;
-    if ( !*(_BYTE *)(v9[10] + 92) )
+    if ( !*(_BYTE *)(v9[10] + 96) )
     {
       pASRoot = (const Scaleform::GFx::ASString *)pDispObj->pASRoot;
       (*(void (__thiscall **)(_DWORD *))(*v9 + 16))(v9);
       Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher::CreateEventObject(
-        (Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *)pASRoot[10].pNode[19].Size,
+        (Scaleform::GFx::AS3::Classes::fl_events::EventDispatcher *)pASRoot[10].pNode[21].RefCount,
         (Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::Object> *)&evt,
         pASRoot + 76,
         0,
@@ -74,7 +74,7 @@ void __thiscall Scaleform::GFx::AS3::AvmDisplayObj::OnAdded(Scaleform::GFx::AS3:
         {
           v11 = evt.pObject->RefCount;
           v12 = evt.pObject;
-          if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+          if ( (v11 & 0x3FFFFF) != 0 )
           {
             evt.pObject->RefCount = v11 - 1;
             Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v12);

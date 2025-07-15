@@ -1,10 +1,10 @@
 int __cdecl _ioinit()
 {
-  stlp_std::ioinfo *v0; // eax
-  unsigned int *j; // ecx
+  unsigned __int8 *v0; // eax
+  unsigned __int8 *j; // ecx
   int v2; // edi
   unsigned __int8 *v3; // ebx
-  stlp_std::ioinfo *v4; // eax
+  unsigned __int8 *v4; // eax
   stlp_std::ioinfo **v5; // ecx
   unsigned int k; // edx
   char *v7; // esi
@@ -22,23 +22,23 @@ int __cdecl _ioinit()
   ms_exc.registration.TryLevel = 0;
   GetStartupInfoA(&StartupInfo);
   ms_exc.registration.TryLevel = -2;
-  v0 = (stlp_std::ioinfo *)_calloc_crt(0x20u, 0x40u);
+  v0 = _calloc_crt(0x20u, 0x40u);
   if ( !v0 )
     return -1;
-  __pioinfo[0] = v0;
+  __pioinfo[0] = (stlp_std::ioinfo *)v0;
   _nhandle = 32;
-  for ( j = &v0[56].lock.SpinCount; v0 < (stlp_std::ioinfo *)j; j = &__pioinfo[0][56].lock.SpinCount )
+  for ( j = v0 + 2048; v0 < j; j = (unsigned __int8 *)&__pioinfo[0][56].lock.SpinCount )
   {
-    v0->osfile = 0;
-    v0->osfhnd = -1;
-    v0->pipech = 10;
-    v0->lockinitflag = 0;
-    LOBYTE(v0[1].osfhnd) = 0;
-    BYTE1(v0[1].osfhnd) = 10;
-    BYTE2(v0[1].osfhnd) = 10;
-    v0[1].lock.RecursionCount = 0;
-    LOBYTE(v0[1].lock.LockCount) = 0;
-    v0 = (stlp_std::ioinfo *)((char *)v0 + 64);
+    v0[4] = 0;
+    *(_DWORD *)v0 = -1;
+    v0[5] = 10;
+    *((_DWORD *)v0 + 2) = 0;
+    v0[36] = 0;
+    v0[37] = 10;
+    v0[38] = 10;
+    *((_DWORD *)v0 + 14) = 0;
+    v0[52] = 0;
+    v0 += 64;
   }
   if ( StartupInfo.cbReserved2 && StartupInfo.lpReserved2 )
   {
@@ -50,27 +50,27 @@ int __cdecl _ioinit()
     i = 1;
     while ( (int)_nhandle < v2 )
     {
-      v4 = (stlp_std::ioinfo *)_calloc_crt(0x20u, 0x40u);
+      v4 = _calloc_crt(0x20u, 0x40u);
       if ( !v4 )
       {
         v2 = _nhandle;
         break;
       }
       v5 = &__pioinfo[i];
-      *v5 = v4;
+      *v5 = (stlp_std::ioinfo *)v4;
       _nhandle += 32;
-      for ( k = (unsigned int)&v4[56].lock.SpinCount; (unsigned int)v4 < k; k = (unsigned int)&(*v5)[56].lock.SpinCount )
+      for ( k = (unsigned int)(v4 + 2048); (unsigned int)v4 < k; k = (unsigned int)&(*v5)[56].lock.SpinCount )
       {
-        v4->osfile = 0;
-        v4->osfhnd = -1;
-        v4->pipech = 10;
-        v4->lockinitflag = 0;
-        LOBYTE(v4[1].osfhnd) &= 0x80u;
-        BYTE1(v4[1].osfhnd) = 10;
-        BYTE2(v4[1].osfhnd) = 10;
-        v4[1].lock.RecursionCount = 0;
-        LOBYTE(v4[1].lock.LockCount) = 0;
-        v4 = (stlp_std::ioinfo *)((char *)v4 + 64);
+        v4[4] = 0;
+        *(_DWORD *)v4 = -1;
+        v4[5] = 10;
+        *((_DWORD *)v4 + 2) = 0;
+        v4[36] &= 0x80u;
+        v4[37] = 10;
+        v4[38] = 10;
+        *((_DWORD *)v4 + 14) = 0;
+        v4[52] = 0;
+        v4 += 64;
       }
       ++i;
     }

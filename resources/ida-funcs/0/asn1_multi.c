@@ -1,4 +1,4 @@
-asn1_type_st *__cdecl asn1_multi(int utype, char *section, v3_ext_ctx *cnf)
+asn1_type_st *__cdecl asn1_multi(int utype, const char *section, v3_ext_ctx *cnf)
 {
   stack_st_CONF_VALUE *v3; // edi
   asn1_type_st *v4; // ebp
@@ -29,7 +29,7 @@ asn1_type_st *__cdecl asn1_multi(int utype, char *section, v3_ext_ctx *cnf)
   v6 = cnf;
   if ( cnf )
   {
-    v7 = X509V3_get_section(cnf);
+    v7 = X509V3_get_section((int)cnf, cnf);
     v3 = v7;
     if ( v7 )
     {
@@ -62,7 +62,7 @@ LABEL_10:
         v4 = ASN1_TYPE_new();
         if ( v4 )
         {
-          v13 = ASN1_STRING_type_new(utype);
+          v13 = ASN1_STRING_type_new(utype, utype);
           v4->value.boolean = (int)v13;
           if ( v13 )
           {

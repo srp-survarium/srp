@@ -1,23 +1,33 @@
 void __usercall Scaleform::GFx::AS3::MovieRoot::DoActions(Scaleform::GFx::AS3::MovieRoot *this@<ecx>, int a2@<ebp>)
 {
-  unsigned int ASFramesToExecute; // eax
-  Scaleform::GFx::AS3::ASVM *pObject; // eax
-  Scaleform::GFx::AS3::MovieRoot::ActionLevel i; // edi
-  Scaleform::GFx::AS3::ASVM *v6; // esi
+  Scaleform::GFx::AS3::MovieRoot::ActionLevel i; // esi
+  Scaleform::GFx::AS3::ASVM *pObject; // edi
+  Scaleform::AmpStats *Stats; // edi
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // esi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::AmpFunctionTimer _amp_timer_Amp_Native_Function_Id_DoActions; // [esp+8h] [ebp-10h] BYREF
 
-  ASFramesToExecute = this->ASFramesToExecute;
-  if ( ASFramesToExecute )
-  {
-    Scaleform::GFx::AS3::VM::ExecuteCode(this->pAVM.pObject, ASFramesToExecute);
-    pObject = this->pAVM.pObject;
-    if ( pObject->HandleException )
-      pObject->HandleException = 0;
-    this->ASFramesToExecute = 0;
-  }
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &_amp_timer_Amp_Native_Function_Id_DoActions,
+    this->pMovieImpl->AdvanceStats.pObject,
+    "MovieRoot::DoActions",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_DoActions);
+  Scaleform::GFx::AS3::MovieRoot::ExecuteCtors(this);
   for ( i = AL_Highest; (unsigned int)i < AL_Count_; ++i )
     Scaleform::GFx::AS3::MovieRoot::ExecuteActionQueue(this, a2, i);
   Scaleform::GFx::AS3::MovieRoot::CheckSocketMessages(this);
-  v6 = this->pAVM.pObject;
-  if ( v6->HandleException )
-    v6->HandleException = 0;
+  pObject = this->pAVM.pObject;
+  if ( pObject->HandleException )
+    pObject->HandleException = 0;
+  Stats = _amp_timer_Amp_Native_Function_Id_DoActions.Stats;
+  if ( _amp_timer_Amp_Native_Function_Id_DoActions.Stats )
+  {
+    p_NativePopCallstack = &_amp_timer_Amp_Native_Function_Id_DoActions.Stats->NativePopCallstack;
+    ProfileTicks = Scaleform::Timer::GetProfileTicks();
+    ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+      Stats,
+      ProfileTicks - LODWORD(_amp_timer_Amp_Native_Function_Id_DoActions.StartTicks),
+      (ProfileTicks - _amp_timer_Amp_Native_Function_Id_DoActions.StartTicks) >> 32);
+  }
 }

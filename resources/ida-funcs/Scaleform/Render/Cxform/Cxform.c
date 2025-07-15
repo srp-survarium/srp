@@ -1,13 +1,11 @@
 void __thiscall Scaleform::Render::Cxform::Cxform(Scaleform::Render::Cxform *this, Scaleform::Render::Color color)
 {
-  this->M[0][0] = 0.0;
-  this->M[0][1] = 0.0;
-  this->M[0][2] = 0.0;
-  this->M[0][3] = 0.0;
-  this->M[1][0] = (double)color.Channels.Red / 255.0;
-  this->M[1][1] = (double)color.Channels.Green / 255.0;
-  this->M[1][2] = (double)color.Channels.Blue / 255.0;
-  this->M[1][3] = (double)color.Channels.Alpha / 255.0;
+  *(_QWORD *)&this->M[0][0] = 0;
+  *(_QWORD *)&this->M[0][2] = 0;
+  this->M[1][0] = (float)color.Channels.Red * 0.0039215689;
+  this->M[1][1] = (float)color.Channels.Green * 0.0039215689;
+  this->M[1][2] = (float)color.Channels.Blue * 0.0039215689;
+  this->M[1][3] = (float)HIBYTE(color.Raw) * 0.0039215689;
 }
 
 

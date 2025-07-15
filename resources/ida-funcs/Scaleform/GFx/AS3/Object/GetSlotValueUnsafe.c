@@ -35,7 +35,7 @@ Scaleform::GFx::AS3::CheckResult *__thiscall Scaleform::GFx::AS3::Object::GetSlo
     ++pNode->RefCount;
   }
   mn.Kind = MN_QName;
-  mn.Obj.pObject = ns;
+  mn.Obj.pObject = &ns->Scaleform::GFx::AS3::GASRefCountBase;
   if ( ns )
     ns->RefCount = (ns->RefCount + 1) & 0x8FBFFFFF;
   mn.Name.Flags = 0;

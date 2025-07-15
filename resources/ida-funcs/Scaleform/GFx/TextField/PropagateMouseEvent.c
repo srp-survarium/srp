@@ -12,25 +12,25 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
   unsigned int v10; // eax
   unsigned int v11; // ebx
   Scaleform::GFx::TextField::CSSHolderBase *v12; // ecx
-  Scaleform::GFx::MouseState *v13; // ebx
+  float *v13; // ebx
   Scaleform::GFx::MouseState *MouseState; // ebx
   bool v15; // zf
   unsigned int v16; // eax
   unsigned int v17; // ebx
   unsigned int v18; // eax
-  bool IsUrlUnderMouseCursor; // al
+  char IsUrlUnderMouseCursor; // al
   unsigned int v20; // eax
   unsigned int (__thiscall *GetCursorType)(Scaleform::GFx::InteractiveObject *); // edx
   unsigned int v22; // eax
   unsigned int v23; // ebx
   Scaleform::GFx::TextField::CSSHolderBase *v24; // ecx
   Scaleform::GFx::MouseState *v25; // ebx
-  Scaleform::GFx::MovieImpl *v26; // [esp+280h] [ebp-3Ch]
-  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+284h] [ebp-38h] BYREF
-  Scaleform::GFx::MouseState *v28; // [esp+288h] [ebp-34h]
-  Scaleform::Render::Point<float> x; // [esp+28Ch] [ebp-30h] BYREF
-  Scaleform::Range purlRangePos; // [esp+294h] [ebp-28h] BYREF
-  Scaleform::Render::Matrix2x4<float> v31; // [esp+29Ch] [ebp-20h] BYREF
+  Scaleform::GFx::MovieImpl *v26; // [esp+20h] [ebp-3Ch]
+  Scaleform::Ptr<Scaleform::GFx::Sprite> result; // [esp+24h] [ebp-38h] BYREF
+  Scaleform::GFx::MouseState *v28; // [esp+28h] [ebp-34h]
+  Scaleform::Render::Point<float> x; // [esp+2Ch] [ebp-30h] BYREF
+  Scaleform::Render::Point<float> p; // [esp+34h] [ebp-28h] BYREF
+  Scaleform::Render::Matrix2x4<float> v31; // [esp+3Ch] [ebp-20h] BYREF
 
   pMovieImpl = this->pASRoot->pMovieImpl;
   v26 = pMovieImpl;
@@ -70,12 +70,12 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
           Scaleform::GFx::TextField::ChangeUrlFormat(
             this,
             Link_release,
-            (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+            (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
             0);
           Scaleform::GFx::TextField::ChangeUrlFormat(
             this,
             Link_rollout,
-            (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+            (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
             0);
         }
         pObject = (Scaleform::GFx::TextField *)result.pObject;
@@ -105,12 +105,9 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
         if ( !v15 )
         {
           Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(this, &v31);
-          *(float *)&purlRangePos.Index = MouseState->LastPosition.x;
-          *(float *)&purlRangePos.Length = MouseState->LastPosition.y;
-          Scaleform::Render::Matrix2x4<float>::TransformByInverse(
-            &v31,
-            &x,
-            (const Scaleform::Render::Point<float> *)&purlRangePos);
+          p.x = MouseState->LastPosition.x;
+          p.y = MouseState->LastPosition.y;
+          Scaleform::Render::Matrix2x4<float>::TransformByInverse(&v31, &x, &p);
           Scaleform::GFx::Text::EditorKit::OnMouseMove(
             (Scaleform::GFx::Text::EditorKit *)this->pDocument.pObject->pEditorKit.pObject,
             x.x,
@@ -121,42 +118,42 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
           && (this->pDocument.pObject->pDocument.pObject->RTFlags & 1) != 0 )
         {
           v16 = id->ControllerIndex;
-          purlRangePos.Index = 0;
-          purlRangePos.Length = 0;
-          LOBYTE(x.x) = Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v16, 0, &purlRangePos);
+          p.x = 0.0;
+          p.y = 0.0;
+          LOBYTE(x.x) = Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v16, 0, (Scaleform::Range *)&p);
           if ( LOBYTE(x.x) )
           {
             v17 = id->ControllerIndex;
-            if ( !Scaleform::GFx::TextField::IsUrlTheSame(this, v17, &purlRangePos) )
+            if ( !Scaleform::GFx::TextField::IsUrlTheSame(this, v17, (const Scaleform::Range *)&p) )
             {
               Scaleform::GFx::TextField::ChangeUrlFormat(
                 this,
                 Link_release,
-                (const Scaleform::Render::Text::Style *)v17,
+                (Scaleform::Render::Text::TextFormat *)v17,
                 0);
               Scaleform::GFx::TextField::ChangeUrlFormat(
                 this,
                 Link_rollout,
-                (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+                (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
                 0);
             }
             Scaleform::GFx::TextField::ChangeUrlFormat(
               this,
               (Scaleform::GFx::TextField::LinkEvent)(~(2 * (unsigned __int8)v28->CurButtonsState) & 2),
-              (const Scaleform::Render::Text::Style *)id->ControllerIndex,
-              &purlRangePos);
+              (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
+              (const Scaleform::Range *)&p);
           }
           else
           {
             Scaleform::GFx::TextField::ChangeUrlFormat(
               this,
               Link_release,
-              (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+              (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
               0);
             Scaleform::GFx::TextField::ChangeUrlFormat(
               this,
               Link_rollout,
-              (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+              (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
               0);
           }
           Scaleform::GFx::TextField::SetHandCursor(this, SLOBYTE(x.x));
@@ -175,7 +172,7 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
           Scaleform::GFx::TextField::ChangeUrlFormat(
             this,
             Link_rollout,
-            (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+            (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
             0);
           GetCursorType = this->GetCursorType;
           this->Flags &= ~0x20u;
@@ -192,9 +189,9 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
         {
           v11 = id->ControllerIndex;
           v28 = Scaleform::GFx::MovieImpl::GetMouseState(v26, v11);
-          purlRangePos.Index = 0;
-          purlRangePos.Length = 0;
-          if ( Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v11, 0, &purlRangePos) )
+          p.x = 0.0;
+          p.y = 0.0;
+          if ( Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v11, 0, (Scaleform::Range *)&p) )
           {
             v12 = this->pCSSData.pObject;
             if ( v12 )
@@ -203,27 +200,24 @@ void __thiscall Scaleform::GFx::TextField::PropagateMouseEvent(
                 Scaleform::GFx::TextField::ChangeUrlFormat(
                   this,
                   Link_press,
-                  (const Scaleform::Render::Text::Style *)id->ControllerIndex,
-                  &purlRangePos);
+                  (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
+                  (const Scaleform::Range *)&p);
             }
           }
           pMovieImpl = v26;
         }
         if ( this->pDocument.pObject->pEditorKit.pObject )
         {
-          v13 = Scaleform::GFx::MovieImpl::GetMouseState(pMovieImpl, id->ControllerIndex);
+          v13 = (float *)Scaleform::GFx::MovieImpl::GetMouseState(pMovieImpl, id->ControllerIndex);
           Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(this, &v31);
-          *(float *)&purlRangePos.Index = v13->LastPosition.x;
-          *(float *)&purlRangePos.Length = v13->LastPosition.y;
-          Scaleform::Render::Matrix2x4<float>::TransformByInverse(
-            &v31,
-            &x,
-            (const Scaleform::Render::Point<float> *)&purlRangePos);
+          p.x = v13[8];
+          p.y = v13[9];
+          Scaleform::Render::Matrix2x4<float>::TransformByInverse(&v31, &x, &p);
           Scaleform::GFx::Text::EditorKit::OnMouseDown(
             (Scaleform::GFx::Text::EditorKit *)this->pDocument.pObject->pEditorKit.pObject,
             x.x,
             x.y,
-            v13->CurButtonsState);
+            v13[6]);
 LABEL_65:
           if ( !Scaleform::GFx::InteractiveObject::IsInPlayList(this) )
             Scaleform::GFx::InteractiveObject::AddToPlayList(this);
@@ -243,9 +237,9 @@ LABEL_69:
     {
       v23 = id->ControllerIndex;
       LODWORD(x.x) = Scaleform::GFx::MovieImpl::GetMouseState(v26, v23);
-      purlRangePos.Index = 0;
-      purlRangePos.Length = 0;
-      if ( Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v23, 0, &purlRangePos) )
+      p.x = 0.0;
+      p.y = 0.0;
+      if ( Scaleform::GFx::TextField::IsUrlUnderMouseCursor(this, v23, 0, (Scaleform::Range *)&p) )
       {
         v24 = this->pCSSData.pObject;
         if ( v24 )
@@ -254,14 +248,14 @@ LABEL_69:
             Scaleform::GFx::TextField::ChangeUrlFormat(
               this,
               Link_release,
-              (const Scaleform::Render::Text::Style *)id->ControllerIndex,
-              &purlRangePos);
+              (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
+              (const Scaleform::Range *)&p);
         }
       }
       Scaleform::GFx::TextField::ChangeUrlFormat(
         this,
         Link_release,
-        (const Scaleform::Render::Text::Style *)id->ControllerIndex,
+        (Scaleform::Render::Text::TextFormat *)id->ControllerIndex,
         0);
       pMovieImpl = v26;
     }
@@ -269,12 +263,9 @@ LABEL_69:
       goto LABEL_68;
     v25 = Scaleform::GFx::MovieImpl::GetMouseState(pMovieImpl, id->ControllerIndex);
     Scaleform::GFx::DisplayObjectBase::GetWorldMatrix(this, &v31);
-    *(float *)&purlRangePos.Index = v25->LastPosition.x;
-    *(float *)&purlRangePos.Length = v25->LastPosition.y;
-    Scaleform::Render::Matrix2x4<float>::TransformByInverse(
-      &v31,
-      &x,
-      (const Scaleform::Render::Point<float> *)&purlRangePos);
+    p.x = v25->LastPosition.x;
+    p.y = v25->LastPosition.y;
+    Scaleform::Render::Matrix2x4<float>::TransformByInverse(&v31, &x, &p);
     Scaleform::GFx::Text::EditorKit::OnMouseUp(
       (Scaleform::GFx::Text::EditorKit *)this->pDocument.pObject->pEditorKit.pObject,
       x.x,

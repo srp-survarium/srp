@@ -3,7 +3,7 @@ void __thiscall Scaleform::Render::ViewMatrix3DBundle::ViewMatrix3DBundle(
         Scaleform::Render::HAL *hal,
         Scaleform::Render::Matrix3x4Ref<float> *pvm)
 {
-  unsigned __int8 dst[48]; // [esp+10h] [ebp-30h] BYREF
+  __m128i dst[3]; // [esp+10h] [ebp-30h] BYREF
 
   this->__vftable = (Scaleform::Render::ViewMatrix3DBundle_vtbl *)&Scaleform::Render::Bundle::`vftable';
   this->RefCount = 1;
@@ -28,8 +28,8 @@ void __thiscall Scaleform::Render::ViewMatrix3DBundle::ViewMatrix3DBundle(
   this->Prim.bHasViewMatrix = 0;
   if ( pvm )
   {
-    memcpy(dst, (unsigned __int8 *)&pvm->Scaleform::Render::Matrix3x4<float>, sizeof(dst));
-    memcpy((unsigned __int8 *)&this->Prim.ViewMatrix, dst, sizeof(this->Prim.ViewMatrix));
+    memcpy((int)dst, (const __m128i *)&pvm->Scaleform::Render::Matrix3x4<float>, sizeof(dst));
+    memcpy((int)&this->Prim.ViewMatrix, dst, sizeof(this->Prim.ViewMatrix));
     this->Prim.bHasViewMatrix = 1;
   }
 }

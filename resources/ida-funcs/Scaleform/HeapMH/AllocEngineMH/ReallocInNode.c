@@ -1,4 +1,4 @@
-void *__thiscall Scaleform::HeapMH::AllocEngineMH::ReallocInNode(
+Scaleform::HeapMH::NodeMH *__thiscall Scaleform::HeapMH::AllocEngineMH::ReallocInNode(
         Scaleform::HeapMH::AllocEngineMH *this,
         Scaleform::HeapMH::NodeMH *node,
         char *oldPtr,
@@ -7,7 +7,7 @@ void *__thiscall Scaleform::HeapMH::AllocEngineMH::ReallocInNode(
         bool globalLocked)
 {
   Scaleform::LockSafe *p_RootLock; // edi
-  void *v8; // esi
+  Scaleform::HeapMH::NodeMH *v8; // esi
 
   if ( globalLocked )
     return Scaleform::HeapMH::AllocEngineMH::reallocInNodeNoLock(

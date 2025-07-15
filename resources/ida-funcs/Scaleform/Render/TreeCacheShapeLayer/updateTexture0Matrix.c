@@ -6,7 +6,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateTexture0Matrix(
   Scaleform::Render::MeshProvider_vtbl *v4; // ebx
   Scaleform::Render::MeshProvider *v5; // edi
   unsigned int v6; // eax
-  Scaleform::Render::Matrix2x4<float> m; // [esp+30h] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> m; // [esp+14h] [ebp-20h] BYREF
 
   if ( !this->ComplexShape )
   {
@@ -28,7 +28,7 @@ void __thiscall Scaleform::Render::TreeCacheShapeLayer::updateTexture0Matrix(
         v5 = &MeshProvider->Scaleform::Render::MeshProvider;
         v6 = Scaleform::Render::TreeCacheShapeLayer::calcMeshGenFlags(this);
         v4->GetFillMatrix(v5, this->pMeshKey.pObject->pMesh.pObject, &m, this->Layer, 0, v6);
-        Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(&this->M, &m, Element_Cxform);
+        Scaleform::Render::MatrixPoolImpl::HMatrix::SetTextureMatrix(&this->M, &m, 0);
       }
     }
   }

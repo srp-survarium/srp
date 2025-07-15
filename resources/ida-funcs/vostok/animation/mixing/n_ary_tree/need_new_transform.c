@@ -1,29 +1,27 @@
 bool __thiscall vostok::animation::mixing::n_ary_tree::need_new_transform(
         vostok::animation::mixing::n_ary_tree *this,
-        const vostok::animation::mixing::n_ary_tree *target_time_in_ms,
-        unsigned int target_time_in_msa)
+        unsigned int target_time_in_ms,
+        int a3)
 {
-  const vostok::animation::mixing::n_ary_tree *v3; // ebx
-  _DWORD *v4; // ebp
+  unsigned int v3; // ebx
+  _DWORD *v4; // esi
   bool result; // al
   int v6; // ecx
-  vostok::animation::mixing::animated_object_holder *m_animated_objects; // ecx
-  vostok::animation::mixing::animated_object_holder *v8; // esi
+  int v7; // ecx
 
   v3 = target_time_in_ms;
-  v4 = &target_time_in_ms->m_weight_root->__vftable;
+  v4 = *(_DWORD **)(target_time_in_ms + 4);
   for ( result = 0; v4; v4 = (_DWORD *)v4[10] )
   {
     v6 = v4[7];
-    if ( *(_DWORD *)(v6 + 164) == target_time_in_msa && (*(_WORD *)(v6 + 168) & 0x1DF) != 0 )
+    if ( *(_DWORD *)(v6 + 160) == a3 && (*(_WORD *)(v6 + 164) & 0x1DF) != 0 )
     {
-      m_animated_objects = v3->m_animated_objects;
-      v8 = &m_animated_objects[v3->m_animated_objects_count];
-      target_time_in_ms = (const vostok::animation::mixing::n_ary_tree *)v4[9];
+      v7 = 136 * *(_DWORD *)(v3 + 36);
+      target_time_in_ms = v4[9];
       stlp_std::priv::__find<vostok::animation::mixing::animated_object_holder *,void const *>(
-        m_animated_objects,
-        v8,
-        (const void *const *)&target_time_in_ms)->need_new_transform = 1;
+        *(vostok::animation::mixing::animated_object_holder **)(v3 + 24),
+        (const void **)&target_time_in_ms,
+        (vostok::animation::mixing::animated_object_holder *)(*(_DWORD *)(v3 + 24) + v7))->need_new_transform = 1;
       result = 1;
     }
   }

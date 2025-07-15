@@ -1,9 +1,9 @@
 int __stdcall Scaleform::Render::EnumFontFamExProc(
-        tagENUMLOGFONTEXW *lpelfe,
-        tagNEWTEXTMETRICEXW *lpntme,
-        unsigned int FontType,
-        _BYTE *lParam)
+        const tagLOGFONTW *a1,
+        const tagTEXTMETRICW *a2,
+        unsigned int a3,
+        _BYTE *a4)
 {
-  *lParam = 1;
+  *a4 = 1;
   return 0;
 }

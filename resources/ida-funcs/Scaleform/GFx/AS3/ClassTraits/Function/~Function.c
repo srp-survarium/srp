@@ -21,7 +21,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Function::~Function(Scaleform:
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -38,7 +38,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Function::~Function(Scaleform:
     else
     {
       v5 = v4->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v5) != 0 )
+      if ( (v5 & 0x3FFFFF) != 0 )
       {
         v4->RefCount = v5 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v4);
@@ -55,7 +55,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Function::~Function(Scaleform:
     else
     {
       v7 = v6->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v7) != 0 )
+      if ( (v7 & 0x3FFFFF) != 0 )
       {
         v6->RefCount = v7 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v6);
@@ -72,7 +72,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Function::~Function(Scaleform:
     else
     {
       v9 = v8->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
         v8->RefCount = v9 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v8);
@@ -89,7 +89,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::Function::~Function(Scaleform:
       return;
     }
     v11 = v10->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v11) != 0 )
+    if ( (v11 & 0x3FFFFF) != 0 )
     {
       v10->RefCount = v11 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

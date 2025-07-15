@@ -3,17 +3,16 @@ void __thiscall vostok::ai::planning::base_lexeme::add_to_target_world_state_as_
         vostok::ai::planning::specified_problem *problem,
         unsigned int *offset)
 {
-  vostok::variant<32> *value; // [esp+8h] [ebp-10h] BYREF
-  vostok::ai::planning::base_lexeme *m_lexeme; // [esp+14h] [ebp-4h]
+  unsigned int **v3; // ebx
+  vostok::buffer_vector<unsigned int> *v5; // ecx
 
-  m_lexeme = (vostok::ai::planning::base_lexeme *)this->m_left.m_lexeme;
-  vostok::ai::planning::base_lexeme::add_to_target_world_state(m_lexeme, problem, offset);
-  value = (vostok::variant<32> *)*offset;
-  vostok::buffer_vector<unsigned int>::push_back(
-    (vostok::buffer_vector<vostok::variant<32> const *> *)&problem->m_target_offsets,
-    (const vostok::variant<32> **)&value);
-  vostok::ai::planning::base_lexeme::add_to_target_world_state(
-    (vostok::ai::planning::base_lexeme *)this->m_right.m_lexeme,
+  v3 = (unsigned int **)offset;
+  ((void (__stdcall *)(vostok::ai::planning::specified_problem *, unsigned int *))this->m_left.m_lexeme->m_function_pointers->m_world_state_filler)(
     problem,
     offset);
+  offset = *v3;
+  vostok::buffer_vector<unsigned int>::push_back(v5, (int)&problem->m_target_offsets, (const unsigned int *)&offset);
+  ((void (__stdcall *)(vostok::ai::planning::specified_problem *, unsigned int **))this->m_right.m_lexeme->m_function_pointers->m_world_state_filler)(
+    problem,
+    v3);
 }

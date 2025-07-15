@@ -4,7 +4,7 @@ Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *__thiscall Scaleform::GF
         unsigned int method_ind)
 {
   Scaleform::HashLH<unsigned long,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Function>,Scaleform::FixedSizeHash<unsigned long>,340,Scaleform::HashNode<unsigned long,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Function>,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashsetCachedNodeEntry<Scaleform::HashNode<unsigned long,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Function>,Scaleform::FixedSizeHash<unsigned long> >,Scaleform::HashNode<unsigned long,Scaleform::GFx::AS3::SPtr<Scaleform::GFx::AS3::InstanceTraits::Function>,Scaleform::FixedSizeHash<unsigned long> >::NodeHashF> > *p_FunctionTraitsCache; // ebx
-  signed int Index; // eax
+  int Index; // eax
   int v6; // eax
   int v7; // eax
   Scaleform::GFx::AS3::VM *VMRef; // edi
@@ -55,7 +55,7 @@ Scaleform::GFx::AS3::Instances::fl::GlobalObjectScript *__thiscall Scaleform::GF
   {
     RefCount = gos->RefCount;
     v14 = gos;
-    if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+    if ( (RefCount & 0x3FFFFF) != 0 )
     {
       gos->RefCount = RefCount - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v14);

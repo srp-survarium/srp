@@ -14,18 +14,18 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::CreateScale9Grid(Scaleform::G
   Scaleform::Render::Scale9GridInfo *v13; // edi
   Scaleform::Render::TreeNode *v14; // eax
   const Scaleform::Render::Matrix2x4<float> *v15; // eax
-  int v16; // [esp+5Ch] [ebp-64h] BYREF
-  float x1; // [esp+60h] [ebp-60h]
-  float y1; // [esp+64h] [ebp-5Ch]
-  float x2; // [esp+68h] [ebp-58h]
-  float y2; // [esp+6Ch] [ebp-54h]
-  Scaleform::Render::Rect<float> result; // [esp+70h] [ebp-50h] BYREF
-  float v22; // [esp+80h] [ebp-40h]
-  float v23; // [esp+84h] [ebp-3Ch]
-  float v24; // [esp+88h] [ebp-38h]
-  float v25; // [esp+8Ch] [ebp-34h]
-  Scaleform::Render::Rect<float> v26; // [esp+90h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> shapeMtx; // [esp+A0h] [ebp-20h] BYREF
+  int v16; // [esp+Ch] [ebp-64h] BYREF
+  float x1; // [esp+10h] [ebp-60h]
+  float y1; // [esp+14h] [ebp-5Ch]
+  float x2; // [esp+18h] [ebp-58h]
+  float y2; // [esp+1Ch] [ebp-54h]
+  Scaleform::Render::Rect<float> result; // [esp+20h] [ebp-50h] BYREF
+  float v22; // [esp+30h] [ebp-40h]
+  float v23; // [esp+34h] [ebp-3Ch]
+  float v24; // [esp+38h] [ebp-38h]
+  float v25; // [esp+3Ch] [ebp-34h]
+  Scaleform::Render::Rect<float> bounds; // [esp+40h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> shapeMtx; // [esp+50h] [ebp-20h] BYREF
 
   pParent = this->pParent;
   v3 = (float *)this->GetMatrix(this);
@@ -59,11 +59,11 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::CreateScale9Grid(Scaleform::G
       else
       {
         v10 = 0.0;
-        p_result = &v26;
-        v26.x1 = 0.0;
-        v26.y1 = 0.0;
-        v26.x2 = 0.0;
-        v26.y2 = 0.0;
+        p_result = &bounds;
+        bounds.x1 = 0.0;
+        bounds.y1 = 0.0;
+        bounds.x2 = 0.0;
+        bounds.y2 = 0.0;
       }
       x1 = p_result->x1;
       y1 = p_result->y1;
@@ -86,7 +86,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::CreateScale9Grid(Scaleform::G
     v22 = v10;
     v24 = v10;
     v25 = v10;
-    GetRectBounds(pParent, &v26, (const Scaleform::Render::Matrix2x4<float> *)&result);
+    GetRectBounds(pParent, &bounds, (const Scaleform::Render::Matrix2x4<float> *)&result);
     v16 = 2;
     v13 = (Scaleform::Render::Scale9GridInfo *)Scaleform::Memory::pGlobalHeap->AllocAutoHeap(
                                                  Scaleform::Memory::pGlobalHeap,
@@ -98,7 +98,7 @@ void __thiscall Scaleform::GFx::DisplayObjectBase::CreateScale9Grid(Scaleform::G
       v14 = Scaleform::GFx::DisplayObjectBase::GetRenderNode(pParent);
       Scaleform::Render::TreeNode::GetScale9Grid(v14, &result);
       v15 = pParent->GetMatrix(pParent);
-      Scaleform::Render::Scale9GridInfo::Scale9GridInfo(v13, &result, v15, &shapeMtx, &v26);
+      Scaleform::Render::Scale9GridInfo::Scale9GridInfo(v13, &result, v15, &shapeMtx, &bounds);
     }
   }
 }

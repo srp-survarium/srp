@@ -24,7 +24,7 @@ Scaleform::Render::GlyphNode *__thiscall Scaleform::Render::GlyphQueue::FindGlyp
   result = *v6;
   pSlot = result->pSlot;
   pSlot->pPrev->pNext = pSlot->pNext;
-  pSlot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$5BC0278F55994A57ED32D3AA213E1041::pPrev = pSlot->pPrev;
+  pSlot->pNext->Scaleform::ListNode<Scaleform::Render::GlyphSlot>::$9D459D18FC34DE13F2F77A193E41D32A::pPrev = pSlot->pPrev;
   pSlot->pPrev = this->SlotQueue.Root.pPrev;
   pSlot->pNext = (Scaleform::Render::GlyphSlot *)&this->SlotQueue;
   this->SlotQueue.Root.pPrev->pNext = pSlot;

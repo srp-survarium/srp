@@ -19,5 +19,5 @@ void __thiscall Scaleform::HeapPT::AllocEngine::releaseSegmentTiny(
     --i;
   }
   this->TinyFreeSpace -= seg->DataSize;
-  Scaleform::HeapPT::AllocEngine::freeSegment(this, seg);
+  Scaleform::HeapPT::AllocEngine::freeSegment(this, (unsigned int)seg);
 }

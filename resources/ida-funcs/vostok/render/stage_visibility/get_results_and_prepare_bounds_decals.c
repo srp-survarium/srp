@@ -1,55 +1,42 @@
-void __userpurge vostok::render::stage_visibility::get_results_and_prepare_bounds_decals(
-        vostok::fixed_string<512> *(__thiscall **out_counter)(struct vostok::resources::resource_base *this, vostok::fixed_string<512> *result)@<edi>,
+void __thiscall vostok::render::stage_visibility::get_results_and_prepare_bounds_decals(
         vostok::render::stage_visibility *this,
-        vostok::math::float4 **out_bounds)
+        vostok::math::float4 **out_bounds,
+        unsigned int *out_counter,
+        int *a4)
 {
-  vostok::render::base_scene_view *m_object; // eax
-  vostok::resources::unmanaged_resource *m_prev_in_global_delay_delete_list; // ebp
-  vostok::resources::unmanaged_resource *i; // esi
-  vostok::fixed_string<512> *(__thiscall *log_string)(struct vostok::resources::resource_base *, vostok::fixed_string<512> *); // eax
-  bool v7; // al
-  vostok::fixed_string<512> *(__thiscall *v8)(struct vostok::resources::resource_base *, vostok::fixed_string<512> *); // eax
-  vostok::math::aabb *v9; // eax
-  int v10; // eax
-  const vostok::math::float4x4 *v11; // [esp+4h] [ebp-94h]
-  __int64 v12; // [esp+14h] [ebp-84h]
-  __int64 v13; // [esp+1Ch] [ebp-7Ch]
-  __int64 v14; // [esp+3Ch] [ebp-5Ch]
-  __int64 v15; // [esp+44h] [ebp-54h]
-  __int64 v16; // [esp+4Ch] [ebp-4Ch]
-  vostok::math::float4x4 v17; // [esp+54h] [ebp-44h] BYREF
+  float w; // eax
+  int *v5; // ebx
+  int v6; // esi
+  int v7; // eax
+  vostok::math::float4x4 *v8; // eax
+  const vostok::math::float4x4 *v9; // eax
+  _DWORD *v10; // ecx
+  _DWORD *v11; // edi
+  vostok::math::float4x4 v12; // [esp+Ch] [ebp-70h] BYREF
+  vostok::math::aabb v13; // [esp+4Ch] [ebp-30h] BYREF
+  char v14; // [esp+64h] [ebp-18h] BYREF
+  int *i; // [esp+74h] [ebp-8h]
 
-  m_object = this->m_context->m_scene_view.m_object;
-  m_prev_in_global_delay_delete_list = m_object[4].m_prev_in_global_delay_delete_list;
-  for ( i = m_object[4].m_next_in_global_delay_delete_list;
-        i != m_prev_in_global_delay_delete_list;
-        *out_bounds = (vostok::math::float4 *)(v10 + 16) )
+  w = out_bounds[1][1016].w;
+  v5 = *(int **)(LODWORD(w) + 48352);
+  for ( i = *(int **)(LODWORD(w) + 48356); v5 != i; *out_counter = (unsigned int)(v10 + 4) )
   {
-    log_string = i->__vftable[5].log_string;
-    v7 = log_string != (vostok::fixed_string<512> *(__thiscall *)(struct vostok::resources::resource_base *, vostok::fixed_string<512> *))-1
-      && *((_BYTE *)log_string + (unsigned int)this->m_static_results_array) == 0;
-    LOBYTE(i->__vftable[5].unlink_child_resource) = v7;
-    v8 = *out_counter;
-    i->__vftable[5].log_string = *out_counter;
-    *out_counter = (vostok::fixed_string<512> *(__thiscall *)(struct vostok::resources::resource_base *, vostok::fixed_string<512> *))((char *)v8 + 1);
-    v14 = *(_QWORD *)&i->__vftable[3].increase_quality_to_target;
-    v15 = *(_QWORD *)&i->__vftable[4].~vostok::resources::resource_base;
-    v16 = *(_QWORD *)&i->__vftable[4].link_child_resource;
-    v9 = (vostok::math::aabb *)vostok::math::float4x4::identity(&v17);
-    vostok::math::aabb::modify(v9, v11);
-    *(float *)&v12 = (float)(*((float *)&v15 + 1) + *(float *)&v14) * 0.5;
-    *((float *)&v12 + 1) = (float)(*(float *)&v16 + *((float *)&v14 + 1)) * 0.5;
-    *(float *)&v13 = (float)(*((float *)&v16 + 1) + *(float *)&v15) * 0.5;
-    *((float *)&v13 + 1) = sqrtf(
-                             (float)((float)((float)((float)(*((float *)&v16 + 1) - *(float *)&v15) * 0.5)
-                                           * (float)((float)(*((float *)&v16 + 1) - *(float *)&v15) * 0.5))
-                                   + (float)((float)((float)(*((float *)&v15 + 1) - *(float *)&v14) * 0.5)
-                                           * (float)((float)(*((float *)&v15 + 1) - *(float *)&v14) * 0.5)))
-                           + (float)((float)((float)(*(float *)&v16 - *((float *)&v14 + 1)) * 0.5)
-                                   * (float)((float)(*(float *)&v16 - *((float *)&v14 + 1)) * 0.5)));
-    v10 = (int)*out_bounds;
-    *(_QWORD *)v10 = v12;
-    *(_QWORD *)(v10 + 8) = v13;
-    i = (vostok::resources::unmanaged_resource *)((char *)i + 4);
+    v6 = *v5;
+    *(_BYTE *)(v6 + 152) = vostok::render::stage_visibility::occluded(
+                             (vostok::render::stage_visibility *)out_bounds,
+                             *(_DWORD *)(*v5 + 140));
+    v7 = *a4;
+    *(_DWORD *)(*v5 + 140) = *a4;
+    *a4 = v7 + 1;
+    qmemcpy(&v13, (const void *)(*v5 + 100), sizeof(v13));
+    v8 = vostok::math::float4x4::identity(0, &v12);
+    v9 = vostok::render::aabb_to_occlusion_bound(&v13, (const vostok::math::float4x4 *)&v14, (vostok::math::aabb *)v8);
+    v10 = (_DWORD *)*out_counter;
+    v11 = (_DWORD *)*out_counter;
+    *v11++ = LODWORD(v9->i.x);
+    *v11++ = LODWORD(v9->i.y);
+    *v11 = LODWORD(v9->i.z);
+    ++v5;
+    v11[1] = LODWORD(v9->i.w);
   }
 }

@@ -8,12 +8,12 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetCharIndexAtPoint(const Scalef
   Scaleform::GFx::AS2::Value *Result; // esi
   int v8; // edi
   long double v9; // st7
-  Scaleform::GFx::AS2::Environment *y; // [esp+4h] [ebp-14h]
-  Scaleform::GFx::AS2::Environment *ya; // [esp+4h] [ebp-14h]
-  float yb; // [esp+4h] [ebp-14h]
-  long double x; // [esp+10h] [ebp-8h]
-  float fna; // [esp+1Ch] [ebp+4h]
-  float fnb; // [esp+1Ch] [ebp+4h]
+  Scaleform::GFx::AS2::Environment *Env; // [esp+4h] [ebp-14h]
+  Scaleform::GFx::AS2::Environment *v11; // [esp+4h] [ebp-14h]
+  float v12; // [esp+4h] [ebp-14h]
+  long double v13; // [esp+10h] [ebp-8h]
+  float v14; // [esp+1Ch] [ebp+4h]
+  float v15; // [esp+1Ch] [ebp+4h]
 
   if ( fn->ThisPtr && fn->ThisPtr->GetObjectType(fn->ThisPtr) == Object_TextField )
   {
@@ -21,18 +21,18 @@ void __cdecl Scaleform::GFx::AS2::AvmTextField::GetCharIndexAtPoint(const Scalef
     v3 = (unsigned int)(ThisPtr->GetObjectType(ThisPtr) - 2) > 3 ? 0 : ThisPtr[1].__vftable;
     if ( fn->NArgs >= 2 )
     {
-      y = fn->Env;
+      Env = fn->Env;
       v4 = Scaleform::GFx::AS2::FnCall::Arg(fn, 0);
-      x = Scaleform::GFx::AS2::Value::ToNumber(v4, y);
-      ya = fn->Env;
+      v13 = Scaleform::GFx::AS2::Value::ToNumber(v4, Env);
+      v11 = fn->Env;
       v5 = Scaleform::GFx::AS2::FnCall::Arg(fn, 1);
-      fna = Scaleform::GFx::AS2::Value::ToNumber(v5, ya) * 20.0;
-      yb = fna;
-      fnb = 20.0 * x;
+      v14 = Scaleform::GFx::AS2::Value::ToNumber(v5, v11) * 20.0;
+      v12 = v14;
+      v15 = 20.0 * v13;
       CharIndexAtPoint = Scaleform::Render::Text::DocView::GetCharIndexAtPoint(
                            (Scaleform::Render::Text::DocView *)v3[1].GetMemberRaw,
-                           fnb,
-                           yb);
+                           v15,
+                           v12);
       Result = fn->Result;
       v8 = CharIndexAtPoint;
       if ( CharIndexAtPoint == -1 )

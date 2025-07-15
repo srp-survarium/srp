@@ -1,4 +1,4 @@
-void __stdcall __noreturn threadstartex(DWORD *ptd)
+void __stdcall __noreturn threadstartex(DWORD *lpFlsData)
 {
   unsigned int flsindex; // eax
   _DWORD *v2; // eax
@@ -10,20 +10,20 @@ void __stdcall __noreturn threadstartex(DWORD *ptd)
   v2 = (_DWORD *)__fls_getvalue(flsindex);
   if ( v2 )
   {
-    v2[21] = ptd[21];
-    v2[22] = ptd[22];
-    v2[1] = ptd[1];
-    _freefls(ptd);
+    v2[21] = lpFlsData[21];
+    v2[22] = lpFlsData[22];
+    v2[1] = lpFlsData[1];
+    _freefls(lpFlsData);
   }
   else
   {
     v3 = __get_flsindex();
-    if ( !__fls_setvalue(v3, ptd) )
+    if ( !__fls_setvalue(v3, lpFlsData) )
     {
       LastError = GetLastError();
       ExitThread(LastError);
     }
-    *ptd = GetCurrentThreadId();
+    *lpFlsData = GetCurrentThreadId();
   }
   if ( _FPmtinit )
   {

@@ -14,7 +14,7 @@ void __cdecl Camellia_encrypt(const unsigned __int8 *a1, unsigned __int8 *a2, _D
   v4 = alloca(((char *)v8 - ((char *)a3 - 127)) & 0x3C0);
   v10 = &v11;
   v9 = (char *)&a3[16 * v3];
-  v8[0] = 8133407;
+  v8[0] = 6769055;
   v5 = _byteswap_ulong(*((_DWORD *)a1 + 1));
   v6 = _x86_Camellia_encrypt(v8[1], v8[2], v8[3], v8[4], v9);
   *(_DWORD *)a2 = _byteswap_ulong(v6);

@@ -4,7 +4,7 @@ int __cdecl inflate(z_stream_s *strm, int flush)
   internal_state *state; // edi
   unsigned __int8 *next_out; // eax
   unsigned int dummy; // ebx
-  unsigned __int8 *next_in; // ebp
+  __m128i *next_in; // ebp
   int v7; // ecx
   unsigned int avail_in; // eax
   unsigned int v9; // esi
@@ -142,7 +142,7 @@ int __cdecl inflate(z_stream_s *strm, int flush)
     state->dummy = 12;
   next_out = strm->next_out;
   dummy = state[14].dummy;
-  next_in = strm->next_in;
+  next_in = (__m128i *)strm->next_in;
   left = strm->avail_out;
   out = left;
   v7 = state->dummy;
@@ -166,10 +166,10 @@ int __cdecl inflate(z_stream_s *strm, int flush)
         {
           if ( !avail_in )
             goto inf_leave;
-          v11 = *next_in << v9;
+          v11 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v11;
         }
         if ( (state[2].dummy & 2) != 0 && dummy == 35615 )
@@ -225,10 +225,10 @@ int __cdecl inflate(z_stream_s *strm, int flush)
         {
           if ( !avail_in )
             goto inf_leave;
-          v15 = *next_in << v9;
+          v15 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v15;
           have = avail_in;
         }
@@ -263,10 +263,10 @@ LABEL_34:
 LABEL_44:
           if ( !avail_in )
             goto inf_leave;
-          v17 = *next_in << v9;
+          v17 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v17;
           have = avail_in;
         }
@@ -289,10 +289,10 @@ LABEL_46:
 LABEL_52:
           if ( !avail_in )
             goto inf_leave;
-          v19 = *next_in << v9;
+          v19 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v19;
           have = avail_in;
         }
@@ -320,10 +320,10 @@ $LN737:
           {
             while ( avail_in )
             {
-              v21 = *next_in << v9;
+              v21 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               dummy += v21;
               have = avail_in;
               if ( v9 >= 0x10 )
@@ -352,7 +352,7 @@ LABEL_63:
             *(_DWORD *)(v23 + 16) = 0;
         }
         state->dummy = 5;
-$LN738:
+$LN738_0:
         if ( (state[4].dummy & 0x400) != 0 )
         {
           v24 = state[16].dummy;
@@ -374,20 +374,20 @@ $LN738:
                 len = *(_DWORD *)(state[8].dummy + 20) - state[16].dummy;
                 if ( v24 + len > v26 )
                   v24 = v26 - len;
-                memcpy((unsigned __int8 *)(len + v131), next_in, v24);
+                memcpy(len + v131, next_in, v24);
                 v24 = this;
                 avail_in = have;
               }
             }
             if ( (state[4].dummy & 0x200) != 0 )
             {
-              v27 = crc32(state[6].dummy, next_in, this);
+              v27 = crc32(state[6].dummy, (const unsigned __int8 *)next_in, this);
               v24 = this;
               state[6].dummy = v27;
               avail_in = have;
             }
             avail_in -= v24;
-            next_in += v24;
+            next_in = (__m128i *)((char *)next_in + v24);
             state[16].dummy -= v24;
             have = avail_in;
           }
@@ -404,7 +404,7 @@ $LN739:
           v28 = 0;
           do
           {
-            v29 = next_in[v28];
+            v29 = next_in->m128i_u8[v28];
             thisa = v28 + 1;
             v30 = state[8].dummy;
             len = v29;
@@ -429,11 +429,11 @@ $LN739:
           while ( thisa < avail_in );
           if ( (state[4].dummy & 0x200) != 0 )
           {
-            state[6].dummy = crc32(state[6].dummy, next_in, thisa);
+            state[6].dummy = crc32(state[6].dummy, (const unsigned __int8 *)next_in, thisa);
             avail_in = have;
           }
           avail_in -= thisa;
-          next_in += thisa;
+          next_in = (__m128i *)((char *)next_in + thisa);
           have = avail_in;
           if ( len )
             goto inf_leave;
@@ -446,7 +446,7 @@ $LN739:
         }
         state[16].dummy = 0;
         state->dummy = 7;
-$LN741:
+$LN741_0:
         if ( (state[4].dummy & 0x1000) != 0 )
         {
           if ( !avail_in )
@@ -454,7 +454,7 @@ $LN741:
           v33 = 0;
           do
           {
-            v34 = next_in[v33];
+            v34 = next_in->m128i_u8[v33];
             thisb = v33 + 1;
             v35 = state[8].dummy;
             len = v34;
@@ -479,11 +479,11 @@ $LN741:
           while ( thisb < avail_in );
           if ( (state[4].dummy & 0x200) != 0 )
           {
-            state[6].dummy = crc32(state[6].dummy, next_in, thisb);
+            state[6].dummy = crc32(state[6].dummy, (const unsigned __int8 *)next_in, thisb);
             avail_in = have;
           }
           avail_in -= thisb;
-          next_in += thisb;
+          next_in = (__m128i *)((char *)next_in + thisb);
           have = avail_in;
           if ( len )
             goto inf_leave;
@@ -495,17 +495,17 @@ $LN741:
             *(_DWORD *)(v37 + 36) = 0;
         }
         state->dummy = 8;
-$LN743:
+$LN743_0:
         if ( (state[4].dummy & 0x200) != 0 )
         {
           if ( v9 < 0x10 )
           {
             while ( avail_in )
             {
-              v38 = *next_in << v9;
+              v38 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               dummy += v38;
               have = avail_in;
               if ( v9 >= 0x10 )
@@ -545,13 +545,13 @@ LABEL_121:
       case 4:
         goto $LN737;
       case 5:
-        goto $LN738;
+        goto $LN738_0;
       case 6:
         goto $LN739;
       case 7:
-        goto $LN741;
+        goto $LN741_0;
       case 8:
-        goto $LN743;
+        goto $LN743_0;
       case 9:
         if ( v9 >= 0x20 )
           goto LABEL_130;
@@ -559,10 +559,10 @@ LABEL_121:
         {
           if ( !avail_in )
             goto inf_leave;
-          v41 = *next_in << v9;
+          v41 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v41;
           have = avail_in;
         }
@@ -575,11 +575,11 @@ LABEL_130:
         dummy = 0;
         v9 = 0;
         state->dummy = 10;
-$LN317:
+$LN317_0:
         if ( !state[3].dummy )
         {
           v2->next_out = put;
-          v2->next_in = next_in;
+          v2->next_in = (unsigned __int8 *)next_in;
           v2->avail_in = avail_in;
           v2->avail_out = left;
           state[15].dummy = v9;
@@ -591,10 +591,10 @@ $LN317:
         strm->adler = v43;
         avail_in = have;
         state->dummy = 11;
-$LN312_0:
+$LN312_1:
         if ( flush == 5 )
           goto inf_leave;
-$LN311_0:
+$LN311_1:
         if ( state[1].dummy )
         {
           v44 = v9 & 7;
@@ -608,10 +608,10 @@ $LN311_0:
           {
             while ( avail_in )
             {
-              v45 = *next_in << v9;
+              v45 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               dummy += v45;
               have = avail_in;
               if ( v9 >= 3 )
@@ -635,7 +635,7 @@ LABEL_139:
               dummy = v47 >> 2;
               state[19].dummy = (int)"`\a";
               state[21].dummy = 9;
-              state[20].dummy = (int)&unk_88CC00;
+              state[20].dummy = (int)&unk_730680;
               state[22].dummy = 5;
               state->dummy = 18;
               v9 = v48 - 2;
@@ -658,11 +658,11 @@ LABEL_144:
         }
         goto LABEL_297;
       case 10:
-        goto $LN317;
+        goto $LN317_0;
       case 11:
-        goto $LN312_0;
+        goto $LN312_1;
       case 12:
-        goto $LN311_0;
+        goto $LN311_1;
       case 13:
         v49 = v9 & 7;
         v9 -= v49;
@@ -673,10 +673,10 @@ LABEL_144:
         {
           if ( !avail_in )
             goto inf_leave;
-          v50 = *next_in << v9;
+          v50 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v50;
           have = avail_in;
         }
@@ -692,7 +692,7 @@ LABEL_148:
         state[16].dummy = v51;
         v9 = 0;
         state->dummy = 14;
-$LN744:
+$LN744_1:
         v52 = state[16].dummy;
         thisc = v52;
         if ( !v52 )
@@ -709,16 +709,16 @@ $LN744:
         }
         if ( !v52 )
           goto inf_leave;
-        memcpy(put, next_in, thisc);
+        memcpy((int)put, next_in, thisc);
         have -= thisc;
         left -= thisc;
         put += thisc;
-        next_in += thisc;
+        next_in = (__m128i *)((char *)next_in + thisc);
         state[16].dummy -= thisc;
         avail_in = have;
         goto LABEL_297;
       case 14:
-        goto $LN744;
+        goto $LN744_1;
       case 15:
         if ( v9 >= 0xE )
           goto LABEL_161;
@@ -726,10 +726,10 @@ $LN744:
         {
           if ( !avail_in )
             goto inf_leave;
-          v53 = *next_in << v9;
+          v53 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v53;
           have = avail_in;
         }
@@ -754,7 +754,7 @@ LABEL_161:
         }
         state[26].dummy = 0;
         state->dummy = 16;
-$LN519:
+$LN519_1:
         if ( state[26].dummy < (unsigned int)state[23].dummy )
         {
           while ( v9 >= 3 )
@@ -768,10 +768,10 @@ LABEL_168:
           }
           while ( avail_in )
           {
-            v60 = *next_in << v9;
+            v60 = next_in->m128i_u8[0] << v9;
             --avail_in;
             v9 += 8;
-            ++next_in;
+            next_in = (__m128i *)((char *)next_in + 1);
             dummy += v60;
             have = avail_in;
             if ( v9 >= 3 )
@@ -820,12 +820,12 @@ LABEL_179:
                 {
                   while ( avail_in )
                   {
-                    v66 = *next_in << v9;
+                    v66 = next_in->m128i_u8[0] << v9;
                     bits = last;
                     --avail_in;
                     v9 += 8;
                     dummy += v66;
-                    ++next_in;
+                    next_in = (__m128i *)((char *)next_in + 1);
                     have = avail_in;
                     if ( v9 >= *(_DWORD *)&last + 2 )
                       goto LABEL_188;
@@ -855,12 +855,12 @@ LABEL_188:
                   {
                     while ( avail_in )
                     {
-                      v69 = *next_in << v9;
+                      v69 = next_in->m128i_u8[0] << v9;
                       bits = last;
                       --avail_in;
                       v9 += 8;
                       dummy += v69;
-                      ++next_in;
+                      next_in = (__m128i *)((char *)next_in + 1);
                       have = avail_in;
                       if ( v9 >= *(_DWORD *)&last + 3 )
                         goto LABEL_194;
@@ -879,12 +879,12 @@ LABEL_194:
                   {
                     while ( avail_in )
                     {
-                      v72 = *next_in << v9;
+                      v72 = next_in->m128i_u8[0] << v9;
                       bits = last;
                       --avail_in;
                       v9 += 8;
                       dummy += v72;
-                      ++next_in;
+                      next_in = (__m128i *)((char *)next_in + 1);
                       have = avail_in;
                       if ( v9 >= *(_DWORD *)&last + 7 )
                         goto LABEL_198;
@@ -924,12 +924,12 @@ LABEL_198:
               {
                 while ( avail_in )
                 {
-                  v63 = *next_in << v9;
+                  v63 = next_in->m128i_u8[0] << v9;
                   v61.bits = thisd.bits;
                   --avail_in;
                   v9 += 8;
                   dummy += v63;
-                  ++next_in;
+                  next_in = (__m128i *)((char *)next_in + 1);
                   have = avail_in;
                   if ( v9 >= thisd.bits )
                     goto LABEL_183;
@@ -947,11 +947,11 @@ LABEL_183:
           }
           while ( avail_in )
           {
-            v62 = *next_in << v9;
+            v62 = next_in->m128i_u8[0] << v9;
             --avail_in;
             v9 += 8;
             dummy += v62;
-            ++next_in;
+            next_in = (__m128i *)((char *)next_in + 1);
             have = avail_in;
             v61 = *(code *)(state[19].dummy + 4 * (dummy & ((1 << state[21].dummy) - 1)));
             thisd = v61;
@@ -1005,13 +1005,13 @@ $LN746:
           strm->avail_out = left;
           v79 = out;
           strm->next_out = v78;
-          strm->next_in = next_in;
+          strm->next_in = (unsigned __int8 *)next_in;
           strm->avail_in = have;
           state[14].dummy = dummy;
           state[15].dummy = v9;
           inflate_fast(strm, v79);
           avail_out = strm->avail_out;
-          next_in = strm->next_in;
+          next_in = (__m128i *)strm->next_in;
           avail_in = strm->avail_in;
           dummy = state[14].dummy;
           v9 = state[15].dummy;
@@ -1026,11 +1026,11 @@ $LN746:
         {
           while ( avail_in )
           {
-            v82 = *next_in << v9;
+            v82 = next_in->m128i_u8[0] << v9;
             --avail_in;
             v9 += 8;
             dummy += v82;
-            ++next_in;
+            next_in = (__m128i *)((char *)next_in + 1);
             have = avail_in;
             v81 = *(code *)(state[19].dummy + 4 * (dummy & ((1 << state[21].dummy) - 1)));
             thisf = v81;
@@ -1052,12 +1052,12 @@ LABEL_219:
           {
             while ( avail_in )
             {
-              v83 = *next_in << v9;
+              v83 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
               dummy += v83;
               len = last.bits;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               have = avail_in;
               thisg = *(code *)(state[19].dummy
                               + 4 * (last.val + ((dummy & ((1 << (last.bits + last.op)) - 1)) >> last.bits)));
@@ -1101,10 +1101,10 @@ $LN697:
           {
             while ( avail_in )
             {
-              v85 = *next_in << v9;
+              v85 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               dummy += v85;
               have = avail_in;
               if ( v9 >= state[18].dummy )
@@ -1126,11 +1126,11 @@ $LN698:
         {
           while ( avail_in )
           {
-            v88 = *next_in << v9;
+            v88 = next_in->m128i_u8[0] << v9;
             --avail_in;
             v9 += 8;
             dummy += v88;
-            ++next_in;
+            next_in = (__m128i *)((char *)next_in + 1);
             have = avail_in;
             v87 = *(code *)(state[20].dummy + 4 * (dummy & ((1 << state[22].dummy) - 1)));
             thish = v87;
@@ -1152,12 +1152,12 @@ LABEL_241:
           {
             while ( avail_in )
             {
-              v89 = *next_in << v9;
+              v89 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
               dummy += v89;
               len = last.bits;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               have = avail_in;
               thisi = *(code *)(state[20].dummy
                               + 4 * (last.val + ((dummy & ((1 << (last.bits + last.op)) - 1)) >> last.bits)));
@@ -1190,10 +1190,10 @@ $LN699:
           {
             while ( avail_in )
             {
-              v91 = *next_in << v9;
+              v91 = next_in->m128i_u8[0] << v9;
               --avail_in;
               v9 += 8;
-              ++next_in;
+              next_in = (__m128i *)((char *)next_in + 1);
               dummy += v91;
               have = avail_in;
               if ( v9 >= state[18].dummy )
@@ -1266,7 +1266,7 @@ LABEL_265:
           state->dummy = 18;
         goto LABEL_297;
       case 16:
-        goto $LN519;
+        goto $LN519_1;
       case 17:
         goto $LN745;
       case 18:
@@ -1297,10 +1297,10 @@ LABEL_265:
         {
           if ( !avail_in )
             goto inf_leave;
-          v102 = *next_in << v9;
+          v102 = next_in->m128i_u8[0] << v9;
           --avail_in;
           v9 += 8;
-          ++next_in;
+          next_in = (__m128i *)((char *)next_in + 1);
           dummy += v102;
           have = avail_in;
         }
@@ -1343,17 +1343,17 @@ LABEL_297:
         v9 = 0;
 LABEL_288:
         state->dummy = 25;
-$LN748:
+$LN748_0:
         if ( !state[2].dummy || !state[4].dummy )
           goto LABEL_301;
         if ( v9 < 0x20 )
         {
           while ( avail_in )
           {
-            v106 = *next_in << v9;
+            v106 = next_in->m128i_u8[0] << v9;
             --avail_in;
             v9 += 8;
-            ++next_in;
+            next_in = (__m128i *)((char *)next_in + 1);
             dummy += v106;
             have = avail_in;
             if ( v9 >= 0x20 )
@@ -1371,12 +1371,12 @@ LABEL_294:
         v9 = 0;
 LABEL_301:
         state->dummy = 26;
-$LN750:
+$LN750_0:
         ret = 1;
 inf_leave:
         strm->next_out = put;
         strm->avail_out = left;
-        strm->next_in = next_in;
+        strm->next_in = (unsigned __int8 *)next_in;
         strm->avail_in = avail_in;
         v100 = state[10].dummy == 0;
         state[14].dummy = dummy;
@@ -1416,9 +1416,9 @@ inf_leave:
         }
         return result;
       case 25:
-        goto $LN748;
+        goto $LN748_0;
       case 26:
-        goto $LN750;
+        goto $LN750_0;
       case 27:
         ret = -3;
         goto inf_leave;

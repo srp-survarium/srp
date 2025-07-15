@@ -20,12 +20,12 @@ int __fastcall do_buf(
   unsigned __int8 v17; // dl
   int v18; // eax
   int v19; // eax
-  unsigned __int8 flagsa; // [esp+13h] [ebp-31h]
-  unsigned __int8 flagsb; // [esp+13h] [ebp-31h]
+  char v21; // [esp+13h] [ebp-31h]
+  unsigned __int8 i; // [esp+13h] [ebp-31h]
   unsigned int val; // [esp+14h] [ebp-30h] BYREF
   int v24; // [esp+18h] [ebp-2Ch]
   unsigned __int8 *v25; // [esp+1Ch] [ebp-28h]
-  char *do_quotes; // [esp+20h] [ebp-24h]
+  char *v26; // [esp+20h] [ebp-24h]
   int (__cdecl *v27)(void *, const void *, int); // [esp+24h] [ebp-20h]
   unsigned __int8 *v28; // [esp+28h] [ebp-1Ch]
   int v29; // [esp+2Ch] [ebp-18h]
@@ -35,7 +35,7 @@ int __fastcall do_buf(
 
   v7 = buflen;
   v8 = buf;
-  do_quotes = quotes;
+  v26 = quotes;
   v25 = buf;
   v31 = buflen;
   v27 = io_ch;
@@ -48,8 +48,8 @@ int __fastcall do_buf(
   v29 = v10;
   while ( 2 )
   {
-    if ( v9 != v8 || (flagsa = 32, (flags & 1) == 0) )
-      flagsa = 0;
+    if ( v9 != v8 || (v21 = 32, (flags & 1) == 0) )
+      v21 = 0;
     switch ( v10 )
     {
       case 0:
@@ -82,10 +82,10 @@ int __fastcall do_buf(
         v9 = v12 + 2;
 LABEL_13:
         if ( v9 == v28 && (flags & 1) != 0 )
-          flagsa = 64;
+          v21 = 64;
         if ( (type & 8) == 0 )
         {
-          v19 = do_esc_char(flags | flagsa, v27, arg, v14, do_quotes);
+          v19 = do_esc_char(flags | v21, v27, arg, v14, v26);
           if ( v19 < 0 )
             return -1;
           v24 += v19;
@@ -102,10 +102,10 @@ LABEL_26:
         v30 = UTF8_putc(v32, 6, v14);
         if ( v30 <= 0 )
           goto LABEL_26;
-        v17 = flags | flagsa;
-        for ( flagsb = flags | flagsa; ; v17 = flagsb )
+        v17 = flags | v21;
+        for ( i = flags | v21; ; v17 = i )
         {
-          v18 = do_esc_char(v17, v27, arg, v32[v16], do_quotes);
+          v18 = do_esc_char(v17, v27, arg, v32[v16], v26);
           if ( v18 < 0 )
             break;
           v24 += v18;

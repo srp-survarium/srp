@@ -7,7 +7,7 @@ void *__cdecl CallCatchBlock(
         unsigned int NLGCode)
 {
   void *handlerAddress; // ecx
-  void *v7; // ebx
+  unsigned int v7; // ebx
   void *v8; // eax
   unsigned int magicNumber; // eax
   FrameInfo FrameInfo; // [esp+10h] [ebp-3Ch] BYREF
@@ -19,7 +19,7 @@ void *__cdecl CallCatchBlock(
   void *continuationAddress; // [esp+30h] [ebp-1Ch]
   CPPEH_RECORD ms_exc; // [esp+34h] [ebp-18h]
 
-  v7 = handlerAddress;
+  v7 = (unsigned int)handlerAddress;
   continuationAddress = handlerAddress;
   ExceptionObjectDestroyed = 0;
   saveESP = (void *)pRN[-1].state;
@@ -29,7 +29,7 @@ void *__cdecl CallCatchBlock(
   _getptd()->_curexception = pExcept;
   _getptd()->_curcontext = pContext;
   ms_exc.registration.TryLevel = 1;
-  _CallCatchBlock2(pRN, pFuncInfo, v7, CatchDepth, NLGCode);
+  _CallCatchBlock2((int)pRN, (int)pExcept, pRN, pFuncInfo, v7, CatchDepth, NLGCode);
   continuationAddress = v8;
   ms_exc.registration.TryLevel = -2;
   pRN[-1].state = (int)saveESP;

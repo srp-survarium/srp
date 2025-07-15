@@ -5,64 +5,80 @@ void __thiscall btSphereTriangleCollisionAlgorithm::processCollision(
         const btDispatcherInfo *dispatchInfo,
         btManifoldResult *resultOut)
 {
-  bool m_swapped; // dl
-  btCollisionObject *v7; // eax
-  btCollisionObject *v8; // ecx
-  btTriangleShape *m_collisionShape; // edi
-  btPersistentManifold *m_manifoldPtr; // ebx
-  btIDebugDraw *m_debugDraw; // edx
-  unsigned __int64 v12; // xmm0_8
-  btPersistentManifold *v13; // eax
-  bool v14; // [esp+1D0h] [ebp-B4h]
-  btPersistentManifold *v15; // [esp+1D0h] [ebp-B4h]
-  SphereTriangleDetector v16; // [esp+1E4h] [ebp-A0h] BYREF
-  btDiscreteCollisionDetectorInterface::ClosestPointInput v17; // [esp+1F4h] [ebp-90h] BYREF
+  bool m_swapped; // al
+  btCollisionObject *v7; // ecx
+  btCollisionObject *v8; // edx
+  btPersistentManifold *m_manifoldPtr; // edi
+  btSphereShape *m_collisionShape; // eax
+  btTriangleShape *v11; // esi
+  btPersistentManifold *v12; // esi
+  btTransform *p_m_rootTransB; // ecx
+  btTransform *p_m_rootTransA; // edx
+  btIDebugDraw *m_debugDraw; // [esp-8h] [ebp-B8h]
+  btCollisionObject *v16; // [esp+Ch] [ebp-A4h]
+  SphereTriangleDetector v17; // [esp+10h] [ebp-A0h] BYREF
+  btDiscreteCollisionDetectorInterface::ClosestPointInput input; // [esp+20h] [ebp-90h] BYREF
 
   if ( this->m_manifoldPtr )
   {
     m_swapped = this->m_swapped;
     v7 = col0;
-    v8 = col1;
-    if ( !m_swapped )
+    if ( m_swapped )
+    {
+      v8 = col1;
+      v16 = col1;
+    }
+    else
     {
       v8 = col0;
-      v7 = col1;
+      v16 = col0;
     }
-    m_collisionShape = (btTriangleShape *)v7->m_collisionShape;
     m_manifoldPtr = this->m_manifoldPtr;
-    v16.m_sphere = (btSphereShape *)v8->m_collisionShape;
+    if ( !m_swapped )
+      v7 = col1;
+    input.m_stackAlloc = 0;
+    m_collisionShape = (btSphereShape *)v8->m_collisionShape;
+    v11 = (btTriangleShape *)v7->m_collisionShape;
     resultOut->m_manifoldPtr = m_manifoldPtr;
-    v16.m_triangle = m_collisionShape;
-    v16.m_contactBreakingThreshold = this->m_manifoldPtr->m_contactBreakingThreshold;
-    v17.m_maximumDistanceSquared = 9.9999998e17;
-    v17.m_transformA.m_basis.m_el[0].mVec128.m128_u64[0] = v8->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
-    v17.m_transformA.m_basis.m_el[0].mVec128.m128_u64[1] = v8->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-    v17.m_transformA.m_basis.m_el[1] = v8->m_worldTransform.m_basis.m_el[1];
-    v17.m_transformA.m_basis.m_el[2] = v8->m_worldTransform.m_basis.m_el[2];
-    v17.m_transformA.m_origin.mVec128.m128_u64[0] = v8->m_worldTransform.m_origin.mVec128.m128_u64[0];
+    v17.m_triangle = v11;
+    v17.m_sphere = m_collisionShape;
+    v17.m_contactBreakingThreshold = this->m_manifoldPtr->m_contactBreakingThreshold;
+    input.m_maximumDistanceSquared = FLOAT_9_9999998e17;
+    input.m_transformA.m_basis.m_el[0].mVec128.m128_u64[0] = v16->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
+    input.m_transformA.m_basis.m_el[0].mVec128.m128_u64[1] = v16->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
+    input.m_transformA.m_basis.m_el[1] = v16->m_worldTransform.m_basis.m_el[1];
+    input.m_transformA.m_basis.m_el[2] = v16->m_worldTransform.m_basis.m_el[2];
+    input.m_transformA.m_origin = v16->m_worldTransform.m_origin;
+    input.m_transformB.m_basis.m_el[0].mVec128.m128_u64[0] = v7->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
+    input.m_transformB.m_basis.m_el[0].mVec128.m128_u64[1] = v7->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
+    input.m_transformB.m_basis.m_el[1] = v7->m_worldTransform.m_basis.m_el[1];
+    input.m_transformB.m_basis.m_el[2] = v7->m_worldTransform.m_basis.m_el[2];
+    LOBYTE(m_collisionShape) = this->m_swapped;
+    input.m_transformB.m_origin.mVec128.m128_i32[0] = v7->m_worldTransform.m_origin.mVec128.m128_i32[0];
     m_debugDraw = dispatchInfo->m_debugDraw;
-    v17.m_transformA.m_origin.mVec128.m128_u64[1] = v8->m_worldTransform.m_origin.mVec128.m128_u64[1];
-    v17.m_transformB.m_basis.m_el[0].mVec128.m128_u64[0] = v7->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[0];
-    v17.m_transformB.m_basis.m_el[0].mVec128.m128_u64[1] = v7->m_worldTransform.m_basis.m_el[0].mVec128.m128_u64[1];
-    v17.m_transformB.m_basis.m_el[1] = v7->m_worldTransform.m_basis.m_el[1];
-    v17.m_transformB.m_basis.m_el[2] = v7->m_worldTransform.m_basis.m_el[2];
-    v17.m_transformB.m_origin.mVec128.m128_u64[0] = v7->m_worldTransform.m_origin.mVec128.m128_u64[0];
-    v12 = v7->m_worldTransform.m_origin.mVec128.m128_u64[1];
-    v14 = this->m_swapped;
-    v16.__vftable = (SphereTriangleDetector_vtbl *)&SphereTriangleDetector::`vftable';
-    v17.m_stackAlloc = 0;
-    v17.m_transformB.m_origin.mVec128.m128_u64[1] = v12;
-    SphereTriangleDetector::getClosestPoints(&v16, &v17, resultOut, m_debugDraw, v14);
+    *(unsigned __int64 *)((char *)input.m_transformB.m_origin.mVec128.m128_u64 + 4) = *(unsigned __int64 *)((char *)v7->m_worldTransform.m_origin.mVec128.m128_u64 + 4);
+    v17.__vftable = (SphereTriangleDetector_vtbl *)&SphereTriangleDetector::`vftable';
+    input.m_transformB.m_origin.mVec128.m128_i32[3] = v7->m_worldTransform.m_origin.mVec128.m128_i32[3];
+    SphereTriangleDetector::getClosestPoints(&v17, &input, resultOut, m_debugDraw, (bool)m_collisionShape);
     if ( this->m_ownManifold )
     {
-      v13 = resultOut->m_manifoldPtr;
-      if ( v13->m_cachedPoints )
+      v12 = resultOut->m_manifoldPtr;
+      if ( v12->m_cachedPoints )
       {
-        v15 = resultOut->m_manifoldPtr;
-        if ( v13->m_body0 == resultOut->m_body0 )
-          btPersistentManifold::refreshContactPoints(v15, &resultOut->m_rootTransA, &resultOut->m_rootTransB);
+        if ( v12->m_body0 == resultOut->m_body0 )
+        {
+          p_m_rootTransB = &resultOut->m_rootTransB;
+          p_m_rootTransA = &resultOut->m_rootTransA;
+        }
         else
-          btPersistentManifold::refreshContactPoints(v15, &resultOut->m_rootTransB, &resultOut->m_rootTransA);
+        {
+          p_m_rootTransB = &resultOut->m_rootTransA;
+          p_m_rootTransA = &resultOut->m_rootTransB;
+        }
+        btPersistentManifold::refreshContactPoints(
+          (btPersistentManifold *)p_m_rootTransB,
+          p_m_rootTransA,
+          resultOut->m_manifoldPtr);
       }
     }
   }

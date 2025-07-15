@@ -1,10 +1,10 @@
 stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *__thiscall stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char>>::_M_assign_dispatch<char const *>(
         stlp_std::basic_string<char,stlp_std::char_traits<char>,stlp_std::priv::__iostring_allocator<char> > *this,
-        const char *__f,
-        const char *__l,
+        char *__f,
+        char *__l,
         const stlp_std::__false_type *__formal)
 {
-  const char *v4; // eax
+  char *v4; // eax
   const char *v6; // ecx
   char *M_data; // esi
   unsigned __int8 *M_finish; // ebx
@@ -45,11 +45,11 @@ LABEL_6:
 
 stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_assign_dispatch<wchar_t const *>(
         stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *this,
-        const wchar_t *__f,
-        const wchar_t *__l,
+        wchar_t *__f,
+        wchar_t *__l,
         const stlp_std::__false_type *__formal)
 {
-  const wchar_t *v4; // eax
+  wchar_t *v4; // eax
   const wchar_t *v6; // ecx
   wchar_t *M_data; // edi
   unsigned __int8 *M_finish; // esi

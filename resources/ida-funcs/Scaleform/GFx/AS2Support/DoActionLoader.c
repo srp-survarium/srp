@@ -3,15 +3,20 @@ void __thiscall Scaleform::GFx::AS2Support::DoActionLoader(
         Scaleform::GFx::LoadProcess *p,
         const Scaleform::GFx::TagInfo *tagInfo)
 {
-  Scaleform::GFx::AS3::RefCountBaseGC<328> *v3; // ecx
   Scaleform::GFx::MovieDataDef::LoadTaskData *pObject; // ecx
   unsigned int BytesLeft; // edx
   Scaleform::GFx::DataAllocator *p_TagMemAllocator; // ecx
   unsigned __int8 *pCurrent; // eax
-  Scaleform::GFx::AS2::DoActionTag *v8; // esi
+  Scaleform::GFx::AS2::DoActionTag *v7; // esi
 
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource((Scaleform::GFx::AS3::RefCountBaseGC<328> *)tagInfo->TagType);
-  Scaleform::Render::JPEG::JPEGRwSource::TermSource(v3);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParse(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "tag %d: DoActionLoader\n",
+    tagInfo->TagType);
+  Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>::LogParseAction(
+    &p->Scaleform::GFx::LogBase<Scaleform::GFx::LoadProcess>,
+    "-- actions in frame %d\n",
+    p->pLoadData.pObject->LoadingFrame);
   pObject = p->pLoadData.pObject;
   BytesLeft = pObject->TagMemAllocator.BytesLeft;
   p_TagMemAllocator = &pObject->TagMemAllocator;
@@ -25,13 +30,13 @@ void __thiscall Scaleform::GFx::AS2Support::DoActionLoader(
     p_TagMemAllocator->pCurrent += 8;
     p_TagMemAllocator->BytesLeft = BytesLeft - 8;
   }
-  v8 = 0;
+  v7 = 0;
   if ( pCurrent )
   {
     *(_DWORD *)pCurrent = &Scaleform::GFx::AS2::DoActionTag::`vftable';
     *((_DWORD *)pCurrent + 1) = 0;
-    v8 = (Scaleform::GFx::AS2::DoActionTag *)pCurrent;
+    v7 = (Scaleform::GFx::AS2::DoActionTag *)pCurrent;
   }
-  Scaleform::GFx::AS2::DoActionTag::Read(v8, p);
-  Scaleform::GFx::LoadProcess::AddExecuteTag(p, v8);
+  Scaleform::GFx::AS2::DoActionTag::Read(v7, p);
+  Scaleform::GFx::LoadProcess::AddExecuteTag(p, v7);
 }

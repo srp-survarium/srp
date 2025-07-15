@@ -1,10 +1,19 @@
-void __thiscall survarium::weapon::deactivate(survarium::weapon *this)
+void __thiscall survarium::weapon::deactivate(survarium::weapon *this, BOOL real_remove)
 {
-  ((void (__stdcall *)(const char *, survarium::base_player *))this->m_user->unsubscribe_animation_player)(
-    "sound_events",
-    this->m_user);
-  this->m_user->unsubscribe_animation_player(this->m_user, "shell_extraction", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "left_hand_corrector", this);
-  this->m_user->unsubscribe_animation_player(this->m_user, "right_hand_corrector", this);
-  survarium::weapon_core::deactivate(this);
+  vostok::sound::sound_instance_proxy *p_m_breath_holding_sound_effect; // esi
+  vostok::intrusive_ptr<vostok::sound::sound_instance_proxy,vostok::sound::sound_instance_proxy,vostok::threading::single_threading_policy> *v4; // ecx
+
+  survarium::weapon_core::deactivate(this, real_remove);
+  this->m_breath_holding_sound_effect.m_user = 0;
+  p_m_breath_holding_sound_effect = (vostok::sound::sound_instance_proxy *)&this->m_breath_holding_sound_effect;
+  if ( p_m_breath_holding_sound_effect->__vftable )
+  {
+    if ( vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr )
+    {
+      (*((void (__thiscall **)(vostok::sound::sound_instance_proxy_vtbl *))p_m_breath_holding_sound_effect->play + 3))(p_m_breath_holding_sound_effect->__vftable);
+      vostok::intrusive_ptr<vostok::sound::sound_instance_proxy,vostok::sound::sound_instance_proxy,vostok::threading::single_threading_policy>::operator=(
+        v4,
+        p_m_breath_holding_sound_effect);
+    }
+  }
 }

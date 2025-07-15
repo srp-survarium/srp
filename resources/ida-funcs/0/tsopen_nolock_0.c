@@ -1,13 +1,13 @@
 int __usercall tsopen_nolock_0@<eax>(
         int *pfh@<eax>,
-        unsigned int a2@<edi>,
+        int a2@<edi>,
         int *punlock_flag,
         const wchar_t *path,
         int oflag,
         int shflag,
         char pmode)
 {
-  unsigned int v8; // edi
+  int v8; // edi
   unsigned int v9; // eax
   int v10; // eax
   char *v11; // eax
@@ -17,14 +17,14 @@ int __usercall tsopen_nolock_0@<eax>(
   DWORD v16; // esi
   char v17; // cl
   _BYTE *v18; // eax
-  HINSTANCE__ *v19; // eax
-  unsigned int v20; // eax
-  int v21; // eax
-  int v22; // edi
-  doubleint v23; // rax
-  int v24; // eax
-  doubleint v25; // rax
-  unsigned int v26; // eax
+  int v19; // edi
+  HINSTANCE__ *v20; // eax
+  unsigned int v21; // eax
+  int v22; // eax
+  __int64 v23; // rax
+  unsigned int nolock; // eax
+  __int64 v25; // rax
+  DWORD v26; // eax
   int v27; // eax
   _BYTE *v28; // eax
   _BYTE *v29; // eax
@@ -36,7 +36,7 @@ int __usercall tsopen_nolock_0@<eax>(
   int v35; // [esp-Ch] [ebp-4Ch]
   DWORD v36; // [esp-8h] [ebp-48h]
   _SECURITY_ATTRIBUTES SecurityAttributes; // [esp+Ch] [ebp-34h] BYREF
-  int inputbuf; // [esp+1Ch] [ebp-24h] BYREF
+  int v38; // [esp+1Ch] [ebp-24h] BYREF
   int fmode; // [esp+20h] [ebp-20h] BYREF
   void *osfh; // [esp+24h] [ebp-1Ch]
   int bom; // [esp+28h] [ebp-18h] BYREF
@@ -63,7 +63,7 @@ int __usercall tsopen_nolock_0@<eax>(
     fileflags = 16;
   }
   if ( _get_fmode(0, a2, &fmode) )
-    _invoke_watson(0, a2, (unsigned int)pfh);
+    _invoke_watson(0, a2, (int)pfh);
   if ( (oflag & 0x8000) == 0 && ((oflag & 0x74000) != 0 || fmode != 0x8000) )
     fileflags |= 0x80u;
   v8 = 0x80000000;
@@ -77,12 +77,12 @@ LABEL_13:
         *__doserrno() = 0;
         *pfh = -1;
         *_errno() = 22;
-        _invalid_parameter(0, v8, 0x16u);
+        _invalid_parameter(0, v8, 22);
         return 22;
       }
       goto LABEL_14;
     }
-    if ( (oflag & 8) != 0 && (oflag & 0x70000) != 0 )
+    if ( (oflag & 8) != 0 && (((unsigned int)&loc_6FFFB + 5) & oflag) != 0 )
     {
 LABEL_14:
       fileaccess = -1073741824;
@@ -154,7 +154,7 @@ LABEL_42:
     fileattrib = 1;
   if ( (oflag & 0x40) != 0 )
   {
-    fileattrib |= (unsigned int)&vostok::memory::s_CRT_arena[55905848];
+    fileattrib |= 0x4000000u;
     fileaccess |= (unsigned int)&_sbh_sizeHeaderList;
     fileshare |= 4u;
   }
@@ -227,22 +227,23 @@ LABEL_42:
       goto LABEL_131;
     if ( (oflag & 2) != 0 )
     {
-      bom = _lseek_nolock(*pfh, -1, 2u);
+      v19 = -1;
+      bom = _lseek_nolock(0, -1, *pfh, -1, 2u);
       if ( bom == -1 )
       {
         if ( *__doserrno() != 131 )
         {
 LABEL_74:
-          _close_nolock(*pfh);
+          _close_nolock(0, v19, *pfh);
           return *_errno();
         }
       }
       else
       {
         v35 = *pfh;
-        inputbuf = 0;
-        if ( !_read_nolock(0xFFFFFFFF, v35, &inputbuf, 1u) && (_WORD)inputbuf == 26 && _chsize_nolock(*pfh, bom) == -1
-          || _lseek_nolock(*pfh, 0, 0) == -1 )
+        v38 = 0;
+        if ( !_read_nolock(-1, v35, (char *)&v38, 1u) && (_WORD)v38 == 26 && _chsize_nolock(-1, *pfh, bom) == -1
+          || _lseek_nolock(0, -1, *pfh, 0, 0) == -1 )
         {
           goto LABEL_74;
         }
@@ -251,6 +252,7 @@ LABEL_74:
   }
   if ( fileflags >= 0 )
     goto LABEL_131;
+  v19 = 475136;
   if ( (oflag & 0x74000) == 0 )
   {
     if ( (fmode & 0x74000) != 0 )
@@ -258,13 +260,13 @@ LABEL_74:
     else
       oflag |= 0x4000u;
   }
-  v19 = (HINSTANCE__ *)(oflag & 0x74000);
+  v20 = (HINSTANCE__ *)(oflag & 0x74000);
   if ( (oflag & 0x74000) == 0x4000 )
   {
     tmode = 0;
     goto LABEL_95;
   }
-  if ( v19 == &_sbh_sizeHeaderList || v19 == (HINSTANCE__ *)&loc_14000 )
+  if ( v20 == &_sbh_sizeHeaderList || v20 == (HINSTANCE__ *)&loc_14000 )
   {
     if ( (oflag & 0x301) != 0x301 )
       goto LABEL_95;
@@ -272,20 +274,20 @@ LABEL_93:
     tmode = 2;
     goto LABEL_95;
   }
-  if ( v19 == (HINSTANCE__ *)&loc_20000 || v19 == (HINSTANCE__ *)((char *)&loc_23FFF + 1) )
+  if ( v20 == (HINSTANCE__ *)&loc_20000 || v20 == (HINSTANCE__ *)((char *)&loc_23FFE + 2) )
     goto LABEL_93;
-  if ( v19 == (HINSTANCE__ *)((char *)&loc_3FFFF + 1) || v19 == (HINSTANCE__ *)&loc_43FFC + 1 )
+  if ( v20 == (HINSTANCE__ *)((char *)&loc_3FFFF + 1) || v20 == (HINSTANCE__ *)((char *)&loc_43FFE + 2) )
     tmode = 1;
 LABEL_95:
-  if ( (oflag & 0x70000) == 0 )
+  if ( (((unsigned int)&loc_6FFFB + 5) & oflag) == 0 )
     goto LABEL_131;
   bom = 0;
   if ( (fileflags & 0x40) != 0 )
     goto LABEL_131;
-  v20 = fileaccess & 0xC0000000;
+  v21 = fileaccess & 0xC0000000;
   if ( (fileaccess & 0xC0000000) == 0x40000000 )
   {
-    v21 = bomlen;
+    v22 = bomlen;
     if ( !bomlen )
       goto LABEL_131;
     if ( (unsigned int)bomlen > 2 )
@@ -293,46 +295,46 @@ LABEL_95:
       if ( (unsigned int)bomlen > 4 )
       {
 LABEL_103:
-        if ( v21 != 5 )
+        if ( v22 != 5 )
           goto LABEL_131;
         goto LABEL_104;
       }
-      if ( _lseeki64_nolock(*pfh, 0, 2u).bigint )
+      if ( _lseeki64_nolock(0, 475136, *pfh, 0, 2u) )
       {
-        v25.bigint = _lseeki64_nolock(*pfh, 0, 0).bigint;
-        v26 = v25.twoints.upperhalf & v25.twoints.lowerhalf;
+        v25 = _lseeki64_nolock(0, 475136, *pfh, 0, 0);
+        v26 = HIDWORD(v25) & v25;
         goto LABEL_119;
       }
     }
     goto LABEL_104;
   }
-  if ( v20 == 0x80000000 )
+  if ( v21 == 0x80000000 )
     goto LABEL_109;
-  if ( v20 != -1073741824 )
+  if ( v21 != -1073741824 )
     goto LABEL_131;
-  v21 = bomlen;
+  v22 = bomlen;
   if ( !bomlen )
     goto LABEL_131;
   if ( (unsigned int)bomlen <= 2 )
     goto LABEL_104;
   if ( (unsigned int)bomlen > 4 )
     goto LABEL_103;
-  if ( !_lseeki64_nolock(*pfh, 0, 2u).bigint )
+  if ( !_lseeki64_nolock(0, 475136, *pfh, 0, 2u) )
   {
 LABEL_104:
-    v22 = 0;
+    v19 = 0;
     if ( tmode == 1 )
     {
-      bom = (int)&vostok::memory::s_CRT_arena[1362471];
+      bom = 12565487;
       bomlen = 3;
 LABEL_129:
       while ( 1 )
       {
-        v27 = _write(0, (unsigned int)pfh, *pfh, (char *)&bom + v22, bomlen - v22);
+        v27 = _write(0, (int)pfh, *pfh, (char *)&bom + v19, bomlen - v19);
         if ( v27 == -1 )
           goto LABEL_74;
-        v22 += v27;
-        if ( bomlen <= v22 )
+        v19 += v27;
+        if ( bomlen <= v19 )
           goto LABEL_131;
       }
     }
@@ -344,25 +346,25 @@ LABEL_129:
     }
     goto LABEL_131;
   }
-  v23.bigint = _lseeki64_nolock(*pfh, 0, 0).bigint;
-  if ( (v23.twoints.upperhalf & v23.twoints.lowerhalf) == -1 )
+  v23 = _lseeki64_nolock(0, 475136, *pfh, 0, 0);
+  if ( (HIDWORD(v23) & (unsigned int)v23) == 0xFFFFFFFF )
     goto LABEL_74;
 LABEL_109:
-  v24 = _read_nolock(0x74000u, *pfh, &bom, 3u);
-  if ( v24 == -1 )
+  nolock = _read_nolock(475136, *pfh, (char *)&bom, 3u);
+  if ( nolock == -1 )
     goto LABEL_74;
-  if ( v24 != 2 )
+  if ( nolock != 2 )
   {
-    if ( v24 != 3 )
+    if ( nolock != 3 )
     {
 LABEL_127:
-      v26 = _lseek_nolock(*pfh, 0, 0);
+      v26 = _lseek_nolock(0, 475136, *pfh, 0, 0);
 LABEL_119:
       if ( v26 == -1 )
         goto LABEL_74;
       goto LABEL_131;
     }
-    if ( (unsigned __int8 *)bom == &vostok::memory::s_CRT_arena[1362471] )
+    if ( bom == 12565487 )
     {
       tmode = 1;
       goto LABEL_131;
@@ -370,13 +372,13 @@ LABEL_119:
   }
   if ( (unsigned __int16)bom == 65534 )
   {
-    _close_nolock(*pfh);
+    _close_nolock(0, 475136, *pfh);
     *_errno() = 22;
     return 22;
   }
   if ( (unsigned __int16)bom != 65279 )
     goto LABEL_127;
-  if ( _lseek_nolock(*pfh, 2, 0) == -1 )
+  if ( _lseek_nolock(0, 475136, *pfh, 2, 0) == -1 )
     goto LABEL_74;
   tmode = 2;
 LABEL_131:

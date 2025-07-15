@@ -81,7 +81,7 @@ main_loop_entrance:
       *(_DWORD *)dest = (unsigned __int8)v11;
       goto fill_with_EOS_dwords;
     }
-    if ( ((unsigned int)&vostok::memory::s_CRT_arena[5508664] & v11) == 0 )
+    if ( (v11 & 0xFF0000) == 0 )
     {
       *(_DWORD *)dest = (unsigned __int16)v11;
       goto fill_with_EOS_dwords;

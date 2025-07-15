@@ -9,7 +9,7 @@ int __thiscall Scaleform::GFx::FontCompactor::ComputePathHash(Scaleform::GFx::Fo
   unsigned int v8; // ecx
   int v9; // edx
   Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261> > *v11; // [esp+10h] [ebp-10h]
-  unsigned __int8 edge[12]; // [esp+14h] [ebp-Ch] BYREF
+  unsigned __int8 data[12]; // [esp+14h] [ebp-Ch] BYREF
 
   v2 = pos;
   p_Decoder = &this->Decoder;
@@ -27,14 +27,14 @@ int __thiscall Scaleform::GFx::FontCompactor::ComputePathHash(Scaleform::GFx::Fo
     RawEdge = Scaleform::GFx::PathDataDecoder<Scaleform::ArrayPagedLH_POD<unsigned char,12,256,261>>::ReadRawEdge(
                 p_Decoder,
                 v5,
-                edge);
+                data);
     v5 += RawEdge;
     v8 = 0;
     if ( RawEdge )
     {
       do
       {
-        v9 = (33 * v4) ^ edge[v8++];
+        v9 = (33 * v4) ^ data[v8++];
         v4 = v9;
       }
       while ( v8 < RawEdge );

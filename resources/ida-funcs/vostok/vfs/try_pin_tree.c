@@ -2,90 +2,70 @@ vostok::vfs::result_enum __cdecl vostok::vfs::try_pin_tree(
         vostok::vfs::base_node<1> *node,
         vostok::vfs::find_environment *env)
 {
-  const char *v3; // eax
-  vostok::vfs::find_enum m_flags; // [esp-Ch] [ebp-188h]
-  vostok::vfs::virtual_file_system *file_system; // [esp-8h] [ebp-184h]
-  vostok::memory::base_allocator *allocator; // [esp-4h] [ebp-180h]
-  bool v7; // [esp+3h] [ebp-179h]
-  vostok::vfs::result_enum v8; // [esp+28h] [ebp-154h]
-  vostok::vfs::base_node<1> *i; // [esp+2Ch] [ebp-150h]
-  vostok::vfs::base_node<1> *it_child; // [esp+30h] [ebp-14Ch]
-  vostok::fs_new::virtual_path_string link_target_path; // [esp+34h] [ebp-148h] BYREF
-  vostok::vfs::result_enum link_result; // [esp+150h] [ebp-2Ch]
-  vostok::vfs::vfs_locked_iterator link_iterator; // [esp+154h] [ebp-28h] BYREF
-  vostok::vfs::result_enum result; // [esp+168h] [ebp-14h]
-  bool go_recursive; // [esp+16Fh] [ebp-Dh]
-  vostok::vfs::base_folder_node<1> *folder; // [esp+170h] [ebp-Ch]
-  vostok::vfs::result_enum child_result; // [esp+174h] [ebp-8h]
-  vostok::vfs::base_node<1> *node_which_failed; // [esp+178h] [ebp-4h]
+  vostok::vfs::result_enum result; // eax
+  unsigned int m_flags; // eax
+  vostok::vfs::result_enum sync; // eax
+  vostok::vfs::result_enum v6; // edi
+  vostok::vfs::vfs_locked_iterator *v7; // ecx
+  vostok::vfs::base_folder_node<1> *v8; // esi
+  vostok::vfs::base_node<1> *i; // ebx
+  vostok::vfs::base_node<1> *j; // esi
+  vostok::vfs::virtual_file_system *file_system; // [esp-8h] [ebp-148h]
+  vostok::memory::base_allocator *allocator; // [esp-4h] [ebp-144h]
+  vostok::fs_new::virtual_path_string out_path; // [esp+10h] [ebp-130h] BYREF
+  vostok::vfs::vfs_locked_iterator out_iterator; // [esp+12Ch] [ebp-14h] BYREF
+  vostok::vfs::find_environment *enva; // [esp+14Ch] [ebp+Ch]
 
   if ( node == env->node )
-    goto LABEL_6;
-  result = vostok::vfs::overlapped_chain_is_expanded(node, env);
-  if ( result != result_error )
+    goto LABEL_8;
+  result = vostok::vfs::overlapped_chain_is_expanded(env, node);
+  if ( result != result_success )
     return result;
-  vostok::vfs::change_subfat_ref_for_overlapped(1, node, &env->mount_operation_id);
+  vostok::vfs::change_subfat_ref_for_overlapped(
+    node,
+    (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>)1,
+    &env->mount_operation_id);
   if ( (node->m_flags & 0x300) == 0 )
   {
-LABEL_6:
-    if ( (node->m_flags & 1) == 1 )
+LABEL_8:
+    if ( (node->m_flags & 1) != 0 && ((env->find_flags.m_flags & 1) != 0 || node == env->node) )
     {
-      v7 = (env->find_flags.m_flags & 1) != 0 || node == env->node;
-      go_recursive = v7;
-      if ( v7 )
+      v8 = vostok::vfs::cast_folder<1>(node);
+      for ( i = v8->m_first_child.pointer; i; i = i->m_next.pointer )
       {
-        child_result = result_error;
-        node_which_failed = 0;
-        folder = vostok::vfs::node_cast<vostok::vfs::base_folder_node,vostok::vfs::base_node,1>(node);
-        for ( it_child = folder->m_first_child.pointer; it_child; it_child = it_child->m_next.pointer )
+        enva = (vostok::vfs::find_environment *)vostok::vfs::try_pin_tree(i, env);
+        if ( enva != (vostok::vfs::find_environment *)1 )
         {
-          child_result = vostok::vfs::try_pin_tree(it_child, env);
-          if ( child_result != result_error )
-          {
-            node_which_failed = it_child;
-            break;
-          }
-        }
-        if ( node_which_failed )
-        {
-          for ( i = folder->m_first_child.pointer; i != node_which_failed; i = i->m_next.pointer )
+          for ( j = v8->m_first_child.pointer; j != i; j = j->m_next.pointer )
             vostok::vfs::decref_children(
-              i,
+              j,
               (vostok::vfs::find_enum)env->find_flags.m_flags,
               &env->file_system->hashset,
               env->mount_operation_id,
               0);
-          return child_result;
-        }
-        else
-        {
-          return 1;
+          return (vostok::vfs::result_enum)enva;
         }
       }
-      else
-      {
-        return 1;
-      }
     }
-    else
-    {
-      return 1;
-    }
+    return 1;
   }
   else
   {
-    vostok::fs_new::virtual_path_string::virtual_path_string(&link_target_path);
-    vostok::vfs::find_link_target_path<1>(node, (vostok::fs_new::native_path_string *)&link_target_path);
-    vostok::vfs::vfs_iterator::vfs_iterator(&link_iterator);
-    link_iterator.mount_operation_id = 0;
+    out_path.m_string.m_begin = out_path.m_string.m_buffer;
+    out_path.m_string.m_end = out_path.m_string.m_buffer;
+    out_path.m_string.m_max_end = &out_path.m_separator;
+    out_path.m_string.m_buffer[0] = 0;
+    out_path.m_separator = 47;
+    vostok::vfs::find_link_target_path<1>(&out_path);
+    m_flags = env->find_flags.m_flags;
     allocator = env->allocator;
     file_system = env->file_system;
-    m_flags = env->find_flags.m_flags;
-    v3 = (const char *)vostok::intrusive_ptr<vostok::animation::mixing::binary_tree_weight_node,vostok::animation::mixing::binary_tree_base_node,vostok::threading::single_threading_policy>::c_ptr((vostok::intrusive_ptr<vostok::render::skeleton_model_instance,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&link_target_path);
-    link_result = vostok::vfs::try_find_sync(v3, &link_iterator, m_flags, file_system, allocator);
-    vostok::vfs::vfs_locked_iterator::clear_without_unpin(&link_iterator);
-    v8 = link_result;
-    vostok::vfs::vfs_locked_iterator::~vfs_locked_iterator(&link_iterator);
-    return v8;
+    memset(&out_iterator, 0, sizeof(out_iterator));
+    sync = vostok::vfs::try_find_sync(out_path.m_string.m_begin, &out_iterator, m_flags, file_system, allocator);
+    out_iterator.m_node = 0;
+    out_iterator.m_link_target = 0;
+    v6 = sync;
+    vostok::vfs::vfs_locked_iterator::clear(v7, (int)&out_iterator);
+    return v6;
   }
 }

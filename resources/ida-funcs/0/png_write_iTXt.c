@@ -32,8 +32,8 @@ unsigned int __cdecl png_write_iTXt(_DWORD *a1, int a2, LPCSTR a3, LPCSTR a4, ch
       v14 = lstrlenA(a6);
     else
       v14 = 0;
-    v14 = sub_36B9A0((int)a1, (int)a6, v14, a2 - 2, (int)v10);
-    sub_36AD20(a1, 1767135348, v14 + v7 + v13 + v12 + 5);
+    v14 = sub_478660((int)a1, (int)a6, v14, a2 - 2, v10);
+    sub_4779E0(a1, 1767135348, v14 + v7 + v13 + v12 + 5);
     png_write_chunk_data(a1, (unsigned __int8 *)pointer, v13 + 1);
     buf[0] = a2 != 1 && a2 != -1;
     buf[1] = 0;
@@ -47,7 +47,7 @@ unsigned int __cdecl png_write_iTXt(_DWORD *a1, int a2, LPCSTR a3, LPCSTR a4, ch
       png_write_chunk_data(a1, (unsigned __int8 *)lpString, v7 + 1);
     else
       png_write_chunk_data(a1, buf, v7 + 1);
-    sub_36C070((int)a1, (int)v10, v14);
+    sub_478D30((int)a1, (int)v10, v14);
     png_write_chunk_end((int)a1);
     png_free((int)a1, pointer);
     return png_free((int)a1, v11);

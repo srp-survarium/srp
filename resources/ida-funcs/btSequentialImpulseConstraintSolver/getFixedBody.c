@@ -1,18 +1,18 @@
 btRigidBody *__usercall btSequentialImpulseConstraintSolver::getFixedBody@<eax>(
-        btRigidBody *a1@<ecx>,
-        float a2@<xmm10>)
+        btRigidBody *this@<ecx>,
+        float a2@<xmm4>)
 {
   int v2; // ecx
-  btVector3 motionState; // [esp+0h] [ebp-10h] BYREF
+  btVector3 v4; // [esp+0h] [ebp-10h] BYREF
 
   if ( (_S1_9 & 1) == 0 )
   {
     _S1_9 |= 1u;
-    motionState.mVec128.m128_i32[3] = 0;
-    btRigidBody::btRigidBody(a1, COERCE_FLOAT(&motionState), 0, 0, 0);
-    atexit(btSequentialImpulseConstraintSolver::getFixedBody_::_2_::_dynamic_atexit_destructor_for__s_fixed__);
+    v4.mVec128.m128_i32[3] = 0;
+    btRigidBody::btRigidBody(this, a2, (btRigidBody::btRigidBodyConstructionInfo *)&v4, 0, 0, 0);
+    atexit((int (__cdecl *)())btSequentialImpulseConstraintSolver::getFixedBody_::_2_::_dynamic_atexit_destructor_for__s_fixed__);
   }
-  memset(&motionState, 0, sizeof(motionState));
-  btRigidBody::setMassProps(&s_fixed, a2, &motionState);
+  *(unsigned __int64 *)((char *)v4.mVec128.m128_u64 + 4) = 0;
+  btRigidBody::setMassProps(&s_fixed, &v4, 0.0);
   return (btRigidBody *)v2;
 }

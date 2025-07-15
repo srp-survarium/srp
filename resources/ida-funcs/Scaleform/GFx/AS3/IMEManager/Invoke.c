@@ -9,7 +9,7 @@ bool __userpurge Scaleform::GFx::AS3::IMEManager::Invoke@<al>(
 {
   char *v8; // ebx
   unsigned int v9; // esi
-  unsigned __int8 *v10; // edi
+  char *v10; // edi
   Scaleform::GFx::Value *p_CandListVal; // ebp
   char *v12; // esi
   bool i; // al
@@ -21,20 +21,16 @@ bool __userpurge Scaleform::GFx::AS3::IMEManager::Invoke@<al>(
   if ( this->pMovie && (this->CandListVal.Type & 0x8Fu) >= 2 )
   {
     v9 = strlen(pmethodName);
-    v10 = (unsigned __int8 *)((int (__thiscall *)(Scaleform::MemoryHeap *, unsigned int, _DWORD, int))Scaleform::Memory::pGlobalHeap->Alloc)(
-                               Scaleform::Memory::pGlobalHeap,
-                               v9 + 1,
-                               0,
-                               a2);
+    v10 = (char *)((int (__thiscall *)(Scaleform::MemoryHeap *, unsigned int, _DWORD, int))Scaleform::Memory::pGlobalHeap->Alloc)(
+                    Scaleform::Memory::pGlobalHeap,
+                    v9 + 1,
+                    0,
+                    a2);
     mem.pObjectInterface = 0;
-    memcpy(v10, (unsigned __int8 *)presult, v9);
+    memcpy((int)v10, (const __m128i *)presult, v9);
     v10[v9] = 0;
     p_CandListVal = &this->CandListVal;
-    v12 = strtok_s(
-            0,
-            (char *)v10,
-            (const char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
-            (char **)&mem);
+    v12 = strtok_s(0, v10, ".", (char **)&mem);
     Scaleform::GFx::Value::Value((Scaleform::GFx::Value *)&mem.Type, p_CandListVal);
     Scaleform::GFx::Value::Value((Scaleform::GFx::Value *)&func.Type, p_CandListVal);
     for ( i = mem.mValue.BValue; (mem.mValue.BValue & 0x8F) != 1; i = mem.mValue.BValue )
@@ -49,11 +45,7 @@ bool __userpurge Scaleform::GFx::AS3::IMEManager::Invoke@<al>(
         v12,
         &func.Type,
         (mem.mValue.BValue & 0x8F) == 10);
-      v12 = strtok_s(
-              (unsigned int)v12,
-              0,
-              (const char *)&stru_957BE0.vostok::resources::unmanaged_resource::vostok::resources::resource_base::vostok::resources::resource_quality::vostok::resources::resource_children::vostok::resources::resource_flags::m_flags,
-              (char **)&mem);
+      v12 = strtok_s((int)v12, 0, ".", (char **)&mem);
     }
     v14 = i & 0x8F;
     if ( v14 != 1 )

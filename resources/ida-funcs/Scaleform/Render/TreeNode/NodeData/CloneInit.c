@@ -13,12 +13,10 @@ char __thiscall Scaleform::Render::TreeNode::NodeData::CloneInit(
   unsigned int State; // eax
   int v11; // esi
   Scaleform::Render::TreeNode *v12; // edi
-  Scaleform::Render::TreeNode::NodeData *data; // [esp+10h] [ebp-4h]
+  Scaleform::Render::StateBag *WritableData; // [esp+10h] [ebp-4h]
 
   p_States = &this->States;
-  data = (Scaleform::Render::TreeNode::NodeData *)Scaleform::Render::ContextImpl::Entry::getWritableData(
-                                                    node,
-                                                    (unsigned int)&vostok::memory::s_CRT_arena[5508664]);
+  WritableData = (Scaleform::Render::StateBag *)Scaleform::Render::ContextImpl::Entry::getWritableData(node, 0xFF0000u);
   if ( ((int)p_States->pInterface & 1) != 0 )
     v4 = 1;
   else
@@ -42,7 +40,7 @@ char __thiscall Scaleform::Render::TreeNode::NodeData::CloneInit(
       else if ( v9 != 9 )
       {
         Scaleform::Render::StateBag::SetStateVoid(
-          &data->States,
+          WritableData + 8,
           (Scaleform::Render::StateData::Interface *)v8,
           v7->pData);
       }

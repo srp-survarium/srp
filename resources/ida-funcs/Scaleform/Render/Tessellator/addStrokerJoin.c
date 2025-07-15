@@ -27,163 +27,163 @@ unsigned int __thiscall Scaleform::Render::Tessellator::addStrokerJoin(
   float yb; // [esp+28h] [ebp-58h]
   float yc; // [esp+28h] [ebp-58h]
   float yd; // [esp+28h] [ebp-58h]
-  float dx2; // [esp+3Ch] [ebp-44h]
-  float yi; // [esp+40h] [ebp-40h] BYREF
-  float xi; // [esp+44h] [ebp-3Ch] BYREF
-  float len1; // [esp+48h] [ebp-38h]
-  float len2; // [esp+4Ch] [ebp-34h]
-  float dx1; // [esp+50h] [ebp-30h]
-  double x; // [esp+54h] [ebp-2Ch]
-  float turn; // [esp+5Ch] [ebp-24h]
-  double d1; // [esp+60h] [ebp-20h]
-  float width; // [esp+68h] [ebp-18h]
-  float epsilon; // [esp+6Ch] [ebp-14h]
-  unsigned int refVertex; // [esp+70h] [ebp-10h]
-  Scaleform::Render::Tessellator::TriangleType tri; // [esp+74h] [ebp-Ch] BYREF
-  float dy1b; // [esp+84h] [ebp+4h]
-  float dy1c; // [esp+84h] [ebp+4h]
-  float dy1d; // [esp+84h] [ebp+4h]
-  float dy1e; // [esp+84h] [ebp+4h]
-  float dy1f; // [esp+84h] [ebp+4h]
-  float dy1g; // [esp+84h] [ebp+4h]
-  float dy1; // [esp+84h] [ebp+4h]
-  float dy1h; // [esp+84h] [ebp+4h]
-  float dy1a; // [esp+84h] [ebp+4h]
-  float dy1i; // [esp+84h] [ebp+4h]
-  float dy1j; // [esp+84h] [ebp+4h]
-  float dy1k; // [esp+84h] [ebp+4h]
-  float dy1l; // [esp+84h] [ebp+4h]
-  float dy1m; // [esp+84h] [ebp+4h]
-  float dy1n; // [esp+84h] [ebp+4h]
-  float dy1o; // [esp+84h] [ebp+4h]
-  float dy1p; // [esp+84h] [ebp+4h]
-  float dy2a; // [esp+88h] [ebp+8h]
-  float dy2b; // [esp+88h] [ebp+8h]
-  float dy2; // [esp+88h] [ebp+8h]
+  float v29; // [esp+3Ch] [ebp-44h]
+  float v30; // [esp+40h] [ebp-40h] BYREF
+  float v31; // [esp+44h] [ebp-3Ch] BYREF
+  float v32; // [esp+48h] [ebp-38h]
+  float v33; // [esp+4Ch] [ebp-34h]
+  float v34; // [esp+50h] [ebp-30h]
+  double v35; // [esp+54h] [ebp-2Ch]
+  float v36; // [esp+5Ch] [ebp-24h]
+  double v37; // [esp+60h] [ebp-20h]
+  float v38; // [esp+68h] [ebp-18h]
+  float v39; // [esp+6Ch] [ebp-14h]
+  unsigned int v40; // [esp+70h] [ebp-10h]
+  Scaleform::Render::Tessellator::TriangleType val; // [esp+74h] [ebp-Ch] BYREF
+  float v42; // [esp+84h] [ebp+4h]
+  float v43; // [esp+84h] [ebp+4h]
+  float v44; // [esp+84h] [ebp+4h]
+  float v45; // [esp+84h] [ebp+4h]
+  float v46; // [esp+84h] [ebp+4h]
+  float v47; // [esp+84h] [ebp+4h]
+  float v48; // [esp+84h] [ebp+4h]
+  float v49; // [esp+84h] [ebp+4h]
+  float x; // [esp+84h] [ebp+4h]
+  float v51; // [esp+84h] [ebp+4h]
+  float v52; // [esp+84h] [ebp+4h]
+  float v53; // [esp+84h] [ebp+4h]
+  float v54; // [esp+84h] [ebp+4h]
+  float v55; // [esp+84h] [ebp+4h]
+  float v56; // [esp+84h] [ebp+4h]
+  float v57; // [esp+84h] [ebp+4h]
+  float v58; // [esp+84h] [ebp+4h]
+  float v59; // [esp+88h] [ebp+8h]
+  float v60; // [esp+88h] [ebp+8h]
+  float v61; // [esp+88h] [ebp+8h]
 
   node2 = e1->node2;
   Pages = this->MeshVertices.Pages;
   v6 = e1->node1 & 0xFFFFFFF;
-  width = this->EdgeAAWidth * -2.0;
+  v38 = this->EdgeAAWidth * -2.0;
   v7 = &Pages[v6 >> 4][v6 & 0xF];
-  refVertex = node2 & 0xFFFFFFF;
+  v40 = node2 & 0xFFFFFFF;
   v8 = &Pages[(node2 & 0xFFFFFFF) >> 4][node2 & 0xF];
   v9 = e2->node2 & 0xFFFFFFF;
-  d1 = v8->x - v7->x;
-  dy2a = d1;
+  v37 = v8->x - v7->x;
+  v59 = v37;
   v10 = &Pages[v9 >> 4][v9 & 0xF];
-  dy1b = v8->y - v7->y;
-  dy1c = dy1b * dy1b + dy2a * dy2a;
-  dy1d = sqrt(dy1c);
-  len1 = dy1d;
-  x = v10->x - v8->x;
-  dy2b = x;
-  dy1e = v10->y - v8->y;
-  dy1f = dy1e * dy1e + dy2b * dy2b;
-  dy1g = sqrt(dy1f);
-  len2 = dy1g;
-  turn = Scaleform::Render::Math2D::TurnRatio<Scaleform::Render::TessVertex,Scaleform::Render::TessVertex,Scaleform::Render::TessVertex>(
-           v7,
-           v8,
-           v10,
-           len1,
-           dy1g);
-  v11 = dy1g;
-  epsilon = (dy1g + len1) * this->IntersectionEpsilon;
-  dx1 = (v7->y - v8->y) * width / len1;
-  dy1 = d1 * width / len1;
-  dx2 = (v8->y - v10->y) * width / len2;
-  dy2 = width * x / len2;
-  xi = v8->x;
-  yi = v8->y;
-  *(float *)&d1 = fabs(turn);
-  if ( *(float *)&d1 >= 0.125 )
+  v42 = v8->y - v7->y;
+  v43 = v42 * v42 + v59 * v59;
+  v44 = sqrt(v43);
+  v32 = v44;
+  v35 = v10->x - v8->x;
+  v60 = v35;
+  v45 = v10->y - v8->y;
+  v46 = v45 * v45 + v60 * v60;
+  v47 = sqrt(v46);
+  v33 = v47;
+  v36 = Scaleform::Render::Math2D::TurnRatio<Scaleform::Render::TessVertex,Scaleform::Render::TessVertex,Scaleform::Render::TessVertex>(
+          v7,
+          v8,
+          v10,
+          v32,
+          v47);
+  v11 = v47;
+  v39 = (v47 + v32) * this->IntersectionEpsilon;
+  v34 = (v7->y - v8->y) * v38 / v32;
+  v48 = v37 * v38 / v32;
+  v29 = (v8->y - v10->y) * v38 / v33;
+  v61 = v38 * v35 / v33;
+  v31 = v8->x;
+  v30 = v8->y;
+  *(float *)&v37 = fabs(v36);
+  if ( *(float *)&v37 >= 0.125 )
   {
-    *(double *)&tri.d.m.v1 = v8->x + dx1;
-    *(float *)&x = *(double *)&tri.d.m.v1;
-    ya = epsilon;
-    epsilon = v10->y + dy2;
-    dy = epsilon;
-    epsilon = v10->x + dx2;
-    v22 = epsilon;
-    epsilon = dy2 + v8->y;
-    cy = epsilon;
-    epsilon = dx2 + v8->x;
-    v20 = epsilon;
-    epsilon = dy1 + v8->y;
-    by = epsilon;
-    epsilon = dy1 + v7->y;
-    ay = epsilon;
-    epsilon = dx1 + v7->x;
-    if ( Scaleform::Render::Math2D::Intersection(epsilon, ay, *(float *)&x, by, v20, cy, v22, dy, &xi, &yi, ya) )
+    *(double *)&val.d.m.v1 = v8->x + v34;
+    *(float *)&v35 = *(double *)&val.d.m.v1;
+    ya = v39;
+    v39 = v10->y + v61;
+    dy = v39;
+    v39 = v10->x + v29;
+    v22 = v39;
+    v39 = v61 + v8->y;
+    cy = v39;
+    v39 = v29 + v8->x;
+    v20 = v39;
+    v39 = v48 + v8->y;
+    by = v39;
+    v39 = v48 + v7->y;
+    ay = v39;
+    v39 = v34 + v7->x;
+    if ( Scaleform::Render::Math2D::Intersection(v39, ay, *(float *)&v35, by, v20, cy, v22, dy, &v31, &v30, ya) )
     {
-      *(float *)&d1 = xi - v8->x;
-      epsilon = yi - v8->y;
-      epsilon = epsilon * epsilon + *(float *)&d1 * *(float *)&d1;
-      epsilon = sqrt(epsilon);
-      *(float *)&d1 = epsilon;
-      v13 = turn;
-      if ( turn <= 0.0 )
+      *(float *)&v37 = v31 - v8->x;
+      v39 = v30 - v8->y;
+      v39 = v39 * v39 + *(float *)&v37 * *(float *)&v37;
+      v39 = sqrt(v39);
+      *(float *)&v37 = v39;
+      v13 = v36;
+      if ( v36 <= 0.0 )
       {
         v15 = this;
-        epsilon = -width * 4.0;
-        if ( epsilon < (double)*(float *)&d1 )
+        v39 = -v38 * 4.0;
+        if ( v39 < (double)*(float *)&v37 )
         {
-          v16 = dy1;
-          dy1j = dx1 * 2.0 + dy1 + v8->y;
-          yb = dy1j;
-          dy1k = *(double *)&tri.d.m.v1 - v16 * 2.0;
-          Scaleform::Render::Tessellator::emitStrokerVertex(this, dy1k, yb);
-          dy1l = dy2 + v8->y - dx2 * 2.0;
-          yc = dy1l;
-          dy1m = dx2 + v8->x + 2.0 * dy2;
-          Scaleform::Render::Tessellator::emitStrokerVertex(this, dy1m, yc);
+          v16 = v48;
+          v52 = v34 * 2.0 + v48 + v8->y;
+          yb = v52;
+          v53 = *(double *)&val.d.m.v1 - v16 * 2.0;
+          Scaleform::Render::Tessellator::emitStrokerVertex(this, v53, yb);
+          v54 = v61 + v8->y - v29 * 2.0;
+          yc = v54;
+          v55 = v29 + v8->x + 2.0 * v61;
+          Scaleform::Render::Tessellator::emitStrokerVertex(this, v55, yc);
           Size = this->MeshVertices.Size;
-          tri.d.t.v3 = Size - 1;
-          tri.d.t.v1 = refVertex;
-          tri.d.t.v2 = Size - 2;
+          val.d.t.v3 = Size - 1;
+          val.d.t.v1 = v40;
+          val.d.t.v2 = Size - 2;
           Scaleform::Render::ArrayJagged<Scaleform::Render::Tessellator::TriangleType,4,16>::PushBack(
             &this->MeshTriangles,
             0,
-            &tri);
+            &val);
           return 2;
         }
       }
       else
       {
-        v14 = len1;
-        if ( len2 <= (double)len1 )
-          v14 = len2;
-        turn = v14;
+        v14 = v32;
+        if ( v33 <= (double)v32 )
+          v14 = v33;
+        v36 = v14;
         v15 = this;
-        epsilon = turn / v13;
-        if ( epsilon < (double)*(float *)&d1 )
+        v39 = v36 / v13;
+        if ( v39 < (double)*(float *)&v37 )
           goto LABEL_15;
       }
-      Scaleform::Render::Tessellator::emitStrokerVertex(v15, xi, yi);
+      Scaleform::Render::Tessellator::emitStrokerVertex(v15, v31, v30);
       return 1;
     }
 LABEL_15:
-    dy1n = dy1 + v8->y;
-    Scaleform::Render::Tessellator::emitStrokerVertex(this, *(float *)&x, dy1n);
-    dy1o = dy2 + v8->y;
-    yd = dy1o;
-    dy1p = v8->x + dx2;
-    Scaleform::Render::Tessellator::emitStrokerVertex(this, dy1p, yd);
+    v56 = v48 + v8->y;
+    Scaleform::Render::Tessellator::emitStrokerVertex(this, *(float *)&v35, v56);
+    v57 = v61 + v8->y;
+    yd = v57;
+    v58 = v8->x + v29;
+    Scaleform::Render::Tessellator::emitStrokerVertex(this, v58, yd);
     return 2;
   }
-  if ( len1 <= v11 )
+  if ( v32 <= v11 )
   {
-    dy1i = dy2 + v8->y;
-    y = dy1i;
-    dy1a = v8->x + dx2;
+    v51 = v61 + v8->y;
+    y = v51;
+    x = v8->x + v29;
   }
   else
   {
-    dy1h = dy1 + v8->y;
-    y = dy1h;
-    dy1a = v8->x + dx1;
+    v49 = v48 + v8->y;
+    y = v49;
+    x = v8->x + v34;
   }
-  Scaleform::Render::Tessellator::emitStrokerVertex(this, dy1a, y);
+  Scaleform::Render::Tessellator::emitStrokerVertex(this, x, y);
   return 1;
 }

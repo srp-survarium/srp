@@ -1,217 +1,271 @@
 Scaleform::Render::GlyphNode *__userpurge Scaleform::Render::GlyphCache::RasterizeGlyph@<eax>(
         Scaleform::Render::GlyphCache *this@<ecx>,
-        float a2@<ebp>,
-        float a3@<edi>,
+        float a2@<ebx>,
+        float a3@<ebp>,
         Scaleform::Render::GlyphRunData *data,
-        Scaleform::Render::GlyphNode *tm,
-        Scaleform::Render::GlyphParam *gp)
+        Scaleform::Render::TextMeshProvider *tm,
+        const Scaleform::Render::GlyphParam *gp)
 {
+  Scaleform::AmpServer *Instance; // eax
+  Scaleform::AmpStats *v8; // eax
+  Scaleform::AmpStats *v9; // edi
+  void (__thiscall **v10)(_DWORD, _DWORD, _DWORD); // esi
+  unsigned __int64 v11; // rax
+  Scaleform::Render::GlyphNode *PrerasterizedGlyph; // eax
+  Scaleform::AmpStats *Stats; // esi
+  Scaleform::Render::GlyphNode *v16; // ebx
+  void (__thiscall **p_NativePopCallstack)(Scaleform::AmpStats *, unsigned __int64); // edi
+  unsigned __int64 ProfileTicks; // rax
+  Scaleform::AmpStats *v19; // edi
+  void (__thiscall **v20)(_DWORD, _DWORD, _DWORD); // esi
+  unsigned __int64 v21; // rax
   int LowerCaseTop; // ebx
-  double v10; // st7
-  unsigned __int16 v11; // ax
+  double v23; // st7
+  unsigned __int16 UpperCaseTop; // ax
   unsigned int HintedNomHeight; // eax
-  unsigned int v13; // ebx
-  unsigned int v14; // ebp
-  unsigned int v15; // edi
-  unsigned int v16; // eax
-  unsigned int v17; // ecx
-  unsigned int v18; // edi
+  unsigned int v26; // ebx
+  unsigned int v27; // ebp
+  unsigned int v28; // edi
+  unsigned int v29; // eax
+  Scaleform::Render::GlyphNode *v30; // ecx
+  unsigned int v31; // edi
   Scaleform::Render::GlyphNode *Glyph; // eax
-  double v20; // st7
-  unsigned int v21; // ebp
-  unsigned __int8 *v22; // edi
-  void (__thiscall *Clear)(struct Scaleform::Render::Rasterizer *); // edx
-  unsigned __int8 *v24; // [esp-4h] [ebp-38h]
-  float y2b; // [esp+18h] [ebp-1Ch]
-  float y2; // [esp+18h] [ebp-1Ch]
-  Scaleform::Render::Rasterizer *y2a; // [esp+18h] [ebp-1Ch]
-  float stretch; // [esp+1Ch] [ebp-18h]
-  float y1b; // [esp+20h] [ebp-14h]
-  float y1c; // [esp+20h] [ebp-14h]
-  float y1; // [esp+20h] [ebp-14h]
-  unsigned int y1a; // [esp+20h] [ebp-14h]
-  float scale; // [esp+28h] [ebp-Ch]
-  float scalea; // [esp+28h] [ebp-Ch]
-  __int16 scaleb; // [esp+28h] [ebp-Ch]
-  int upperCaseTop; // [esp+2Ch] [ebp-8h]
-  unsigned int upperCaseTopa; // [esp+2Ch] [ebp-8h]
-  char autoFit; // [esp+38h] [ebp+4h]
-  float autoFitb; // [esp+38h] [ebp+4h]
-  float autoFitc; // [esp+38h] [ebp+4h]
-  unsigned int autoFita; // [esp+38h] [ebp+4h]
-  Scaleform::Render::GlyphNode *node; // [esp+3Ch] [ebp+8h]
-  bool filter; // [esp+40h] [ebp+Ch]
+  double v33; // st7
+  unsigned int v34; // ebp
+  unsigned __int8 *v35; // edi
+  void (__thiscall *Clear)(struct Scaleform::Render::Rasterizer *); // eax
+  Scaleform::AmpStats *v37; // esi
+  void (__thiscall **v38)(Scaleform::AmpStats *, unsigned __int64); // edi
+  unsigned __int64 v39; // rax
+  unsigned __int8 *v40; // [esp-4h] [ebp-48h]
+  float v42; // [esp+18h] [ebp-2Ch]
+  float v43; // [esp+18h] [ebp-2Ch]
+  Scaleform::Render::Rasterizer *p_Ras; // [esp+18h] [ebp-2Ch]
+  float v45; // [esp+1Ch] [ebp-28h]
+  float v46; // [esp+20h] [ebp-24h]
+  float v47; // [esp+20h] [ebp-24h]
+  float v48; // [esp+20h] [ebp-24h]
+  unsigned int MaxSlotHeight; // [esp+20h] [ebp-24h]
+  float NomHeight; // [esp+28h] [ebp-1Ch]
+  float v51; // [esp+28h] [ebp-1Ch]
+  __int16 v52; // [esp+28h] [ebp-1Ch]
+  int v53; // [esp+2Ch] [ebp-18h]
+  unsigned int SlotPadding; // [esp+2Ch] [ebp-18h]
+  Scaleform::AmpFunctionTimer v55; // [esp+34h] [ebp-10h] BYREF
+  char dataa; // [esp+48h] [ebp+4h]
+  float datac; // [esp+48h] [ebp+4h]
+  float datad; // [esp+48h] [ebp+4h]
+  unsigned int datab; // [esp+48h] [ebp+4h]
+  Scaleform::Render::TextMeshProvider *tma; // [esp+4Ch] [ebp+8h]
+  bool gpa; // [esp+50h] [ebp+Ch]
 
-  LowerCaseTop = 0;
+  Instance = Scaleform::AmpServer::GetInstance();
+  v8 = Instance->GetDisplayStats(Instance);
+  Scaleform::AmpFunctionTimer::AmpFunctionTimer(
+    &v55,
+    v8,
+    "GlyphCache::RasterizeGlyph",
+    Amp_Profile_Level_Low,
+    Amp_Native_Function_Id_GlyphCache_RasterizeGlyph);
   if ( this->MaxNumTextures )
   {
     if ( data->RasterSize )
     {
-      return Scaleform::Render::GlyphCache::getPrerasterizedGlyph(
-               this,
-               data,
-               (Scaleform::Render::TextMeshProvider *)tm,
-               gp);
+      PrerasterizedGlyph = Scaleform::Render::GlyphCache::getPrerasterizedGlyph(this, data, tm, gp);
+      Stats = v55.Stats;
+      v16 = PrerasterizedGlyph;
+      if ( v55.Stats )
+      {
+        p_NativePopCallstack = &v55.Stats->NativePopCallstack;
+        ProfileTicks = Scaleform::Timer::GetProfileTicks();
+        ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*p_NativePopCallstack)(
+          Stats,
+          ProfileTicks - LODWORD(v55.StartTicks),
+          (ProfileTicks - v55.StartTicks) >> 32);
+      }
+      return v16;
     }
     else if ( data->pShape )
     {
-      upperCaseTop = 0;
-      if ( !this->Param.UseAutoFit || (autoFit = 1, (gp->Flags & 2) == 0) )
-        autoFit = 0;
+      LowerCaseTop = 0;
+      v53 = 0;
+      if ( !this->Param.UseAutoFit || (dataa = 1, (gp->Flags & 2) == 0) )
+        dataa = 0;
       if ( (gp->Flags & 4) != 0 )
-        v10 = 2.5;
+        v23 = 2.5;
       else
-        v10 = 1.0;
-      stretch = v10;
-      if ( autoFit )
+        v23 = 1.0;
+      v45 = v23;
+      if ( dataa )
       {
         LowerCaseTop = (unsigned __int16)Scaleform::Render::Font::GetLowerCaseTop(gp->pFont->pFont, this);
-        v11 = Scaleform::Render::Font::GetUpperCaseTop(gp->pFont->pFont, this);
-        upperCaseTop = v11;
-        if ( !LowerCaseTop || !v11 )
-          autoFit = 0;
+        UpperCaseTop = Scaleform::Render::Font::GetUpperCaseTop(gp->pFont->pFont, this);
+        v53 = UpperCaseTop;
+        if ( !LowerCaseTop || !UpperCaseTop )
+          dataa = 0;
       }
       HintedNomHeight = data->HintedNomHeight;
-      scale = data->NomHeight;
+      NomHeight = data->NomHeight;
       if ( HintedNomHeight )
       {
-        scale = (float)HintedNomHeight;
-        autoFit = 0;
+        NomHeight = (float)HintedNomHeight;
+        dataa = 0;
       }
-      y1b = (double)gp->FontSize * 0.0625;
-      scalea = y1b / scale;
-      y1c = data->GlyphBounds.y1 * scalea;
-      y1 = floor(y1c);
-      y2b = data->GlyphBounds.y2 * scalea;
-      y2 = ceil(y2b);
-      if ( y2 <= (double)y1 )
+      v46 = (double)gp->FontSize * 0.0625;
+      v51 = v46 / NomHeight;
+      v47 = data->GlyphBounds.y1 * v51;
+      v48 = floor(v47);
+      v42 = data->GlyphBounds.y2 * v51;
+      v43 = ceil(v42);
+      if ( v43 <= (double)v48 )
       {
-        y2 = 0.0;
-        y1 = 0.0;
+        v43 = 0.0;
+        v48 = 0.0;
       }
-      if ( (unsigned int)(__int64)(y2 - y1) + 2 * this->SlotPadding < this->MaxSlotHeight )
+      if ( (unsigned int)(__int64)(v43 - v48) + 2 * this->SlotPadding < this->MaxSlotHeight )
       {
-        y2a = &this->Ras;
+        p_Ras = &this->Ras;
         ((void (*)(void))this->Ras.Clear)();
-        if ( autoFit )
+        if ( dataa )
         {
-          autoFitb = (double)gp->FontSize * 0.0625;
+          datac = (double)gp->FontSize * 0.0625;
           Scaleform::Render::GlyphCache::addShapeAutoFit(
             this,
-            (unsigned int *)LowerCaseTop,
+            (int *)LowerCaseTop,
             data->pShape,
             (__int64)data->NomHeight,
             LowerCaseTop,
-            upperCaseTop,
-            autoFitb,
-            stretch);
+            v53,
+            datac,
+            v45);
         }
         else
         {
-          autoFitc = scalea * stretch;
+          datad = v51 * v45;
           Scaleform::Render::GlyphCache::addShapeToRasterizer(
             this,
-            (unsigned int *)LowerCaseTop,
-            (float *)gp,
+            (char *)LowerCaseTop,
+            (float *)data,
             data->pShape,
-            autoFitc,
-            scalea,
+            datad,
+            v51,
             a3,
             a2);
         }
-        v13 = 0;
-        upperCaseTopa = this->SlotPadding;
-        v14 = 0;
-        v15 = 0;
-        scaleb = 0;
-        if ( Scaleform::Render::Rasterizer::SortCells(y2a) )
+        v26 = 0;
+        SlotPadding = this->SlotPadding;
+        v27 = 0;
+        v28 = 0;
+        v52 = 0;
+        if ( Scaleform::Render::Rasterizer::SortCells(p_Ras) )
         {
-          v16 = this->Ras.MinY - upperCaseTopa;
-          v14 = this->Ras.MinX - upperCaseTopa;
-          v15 = upperCaseTopa + this->Ras.MaxX;
-          scaleb = v16;
-          v13 = upperCaseTopa + this->Ras.MaxY;
+          v29 = this->Ras.MinY - SlotPadding;
+          v27 = this->Ras.MinX - SlotPadding;
+          v28 = SlotPadding + this->Ras.MaxX;
+          v52 = v29;
+          v26 = SlotPadding + this->Ras.MaxY;
         }
         else
         {
-          v16 = 0;
+          v29 = 0;
         }
-        v17 = v15 - v14 + 1;
-        v18 = v13 - v16 + 1;
-        autoFita = v17;
-        y1a = v18;
-        if ( v18 > this->MaxSlotHeight )
+        v30 = (Scaleform::Render::GlyphNode *)(v28 - v27 + 1);
+        v31 = v26 - v29 + 1;
+        datab = (unsigned int)v30;
+        MaxSlotHeight = v31;
+        if ( v31 > this->MaxSlotHeight )
         {
-          y1a = this->MaxSlotHeight;
-          v18 = y1a;
+          MaxSlotHeight = this->MaxSlotHeight;
+          v31 = MaxSlotHeight;
         }
-        Glyph = Scaleform::Render::GlyphCache::allocateGlyph(
-                  this,
-                  (Scaleform::Render::TextMeshProvider *)tm,
-                  gp,
-                  v17,
-                  v18);
-        node = Glyph;
+        Glyph = Scaleform::Render::GlyphCache::allocateGlyph(this, tm, gp, v30, (Scaleform::Render::GlyphNode *)v31);
+        tma = (Scaleform::Render::TextMeshProvider *)Glyph;
         if ( Glyph )
         {
           Glyph->Scale = 1.0;
-          Glyph->Origin.x = 16 * v14;
-          Glyph->Origin.y = 16 * scaleb;
+          Glyph->Origin.x = 16 * v27;
+          Glyph->Origin.y = 16 * v52;
           Scaleform::ArrayBase<Scaleform::ArrayData<unsigned char,Scaleform::AllocatorLH_POD<unsigned char,2>,Scaleform::ArrayDefaultPolicy>>::Resize(
             &this->RasterData,
-            autoFita * v18);
-          v24 = this->RasterData.Data.Data;
-          this->RasterPitch = autoFita;
-          memset((int)v24, 0, autoFita * v18);
-          v20 = 1.0;
+            datab * v31);
+          v40 = this->RasterData.Data.Data;
+          this->RasterPitch = datab;
+          memset((int)v40, 0, datab * v31);
+          v33 = 1.0;
           if ( 1.0 != this->Ras.Gamma1 )
           {
-            Scaleform::Render::Rasterizer::SetGamma1(y2a, 1.0);
-            v20 = 1.0;
+            Scaleform::Render::Rasterizer::SetGamma1(p_Ras, 1.0);
+            v33 = 1.0;
           }
-          filter = autoFita >= 5 && v20 < stretch;
-          v21 = 0;
+          gpa = datab >= 5 && v33 < v45;
+          v34 = 0;
           if ( this->Ras.SortedYs.Size )
           {
-            while ( upperCaseTopa + v21 < v18 )
+            while ( SlotPadding + v34 < v31 )
             {
-              v22 = &this->RasterData.Data.Data[(upperCaseTopa + v21) * this->RasterPitch];
-              Scaleform::Render::Rasterizer::SweepScanline(y2a, v21, &v22[upperCaseTopa], 1u, 0);
-              if ( filter )
-                Scaleform::Render::GlyphCache::filterScanline(this, v22, autoFita);
-              if ( ++v21 >= this->Ras.SortedYs.Size )
+              v35 = &this->RasterData.Data.Data[(SlotPadding + v34) * this->RasterPitch];
+              Scaleform::Render::Rasterizer::SweepScanline(p_Ras, v34, &v35[SlotPadding], 1u, 0);
+              if ( gpa )
+                Scaleform::Render::GlyphCache::filterScanline(this, v35, datab);
+              if ( ++v34 >= this->Ras.SortedYs.Size )
                 break;
-              v18 = y1a;
+              v31 = MaxSlotHeight;
             }
           }
-          Scaleform::Render::GlyphCache::updateTextureGlyph(this, node);
-          Clear = y2a->Clear;
+          Scaleform::Render::GlyphCache::updateTextureGlyph(this, (const Scaleform::Render::GlyphNode *)tma);
+          Clear = p_Ras->Clear;
           ++this->RasterizationCount;
-          Clear(y2a);
-          return node;
+          Clear(p_Ras);
+          v37 = v55.Stats;
+          if ( v55.Stats )
+          {
+            v38 = &v55.Stats->NativePopCallstack;
+            v39 = Scaleform::Timer::GetProfileTicks();
+            ((void (__thiscall *)(Scaleform::AmpStats *, _DWORD, _DWORD))*v38)(
+              v37,
+              v39 - LODWORD(v55.StartTicks),
+              (v39 - v55.StartTicks) >> 32);
+          }
+          return (Scaleform::Render::GlyphNode *)tma;
         }
         else
         {
           this->Result = Res_CacheFull;
           Scaleform::Render::GlyphCache::cacheFullWarning(this);
+          Scaleform::AmpFunctionTimer::~AmpFunctionTimer(&v55);
           return 0;
         }
       }
       else
       {
         this->Result = Res_ShapeIsTooBig;
+        Scaleform::AmpFunctionTimer::~AmpFunctionTimer(&v55);
         return 0;
       }
     }
     else
     {
+      v19 = v55.Stats;
       this->Result = Res_ShapeNotFound;
+      if ( v19 )
+      {
+        v20 = (void (__thiscall **)(_DWORD, _DWORD, _DWORD))&v19->NativePopCallstack;
+        v21 = Scaleform::Timer::GetProfileTicks();
+        (*v20)(v19, v21 - LODWORD(v55.StartTicks), (v21 - v55.StartTicks) >> 32);
+      }
       return 0;
     }
   }
   else
   {
+    v9 = v55.Stats;
     this->Result = Res_NoRasterCache;
+    if ( v9 )
+    {
+      v10 = (void (__thiscall **)(_DWORD, _DWORD, _DWORD))&v9->NativePopCallstack;
+      v11 = Scaleform::Timer::GetProfileTicks();
+      (*v10)(v9, v11 - LODWORD(v55.StartTicks), (v11 - v55.StartTicks) >> 32);
+    }
     return 0;
   }
 }

@@ -10,7 +10,7 @@ Scaleform::Render::MeshKey *__thiscall Scaleform::Render::MeshKeyManager::Create
 
   result = Scaleform::Render::MeshKeySet::findMatchingKey(keySet, layer, flags, keyData, cfg);
   if ( !result )
-    return Scaleform::Render::MeshKeySet::CreateKey(keySet, keyData, flags);
+    return Scaleform::Render::MeshKeySet::CreateKey(keySet, (const __m128i *)keyData, flags);
   ++result->UseCount;
   return result;
 }
@@ -71,7 +71,7 @@ Scaleform::Render::MeshKey *__thiscall Scaleform::Render::MeshKeyManager::Create
   v11 = provider->hKeySet.pKeySet;
   result = Scaleform::Render::MeshKeySet::findMatchingKey(v11, layer, flags, keyData, cfg);
   if ( !result )
-    return Scaleform::Render::MeshKeySet::CreateKey(v11, keyData, flags);
+    return Scaleform::Render::MeshKeySet::CreateKey(v11, (const __m128i *)keyData, flags);
   ++result->UseCount;
   return result;
 }

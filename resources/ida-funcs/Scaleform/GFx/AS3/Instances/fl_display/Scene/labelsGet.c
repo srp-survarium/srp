@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::labelsGet(
       else
       {
         RefCount = pObject->RefCount;
-        if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFF) != 0 )
         {
           pObject->RefCount = RefCount - 1;
           Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -95,7 +95,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::labelsGet(
         frameLabel.pObject->FrameNumber = Data[v12].Number - v13->Offset + 1;
         StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(
                        v15->FrameName.pNode->pManager,
-                       (char *)((Data[v12].Name.HeapTypeBits & 0xFFFFFFFC) + 8),
+                       (__m128i *)((Data[v12].Name.HeapTypeBits & 0xFFFFFFFC) + 8),
                        *(_DWORD *)(Data[v12].Name.HeapTypeBits & 0xFFFFFFFC) & 0x7FFFFFFF);
         ++StringNode->RefCount;
         pNode = v15->FrameName.pNode;
@@ -117,7 +117,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::labelsGet(
         if ( frameLabel.pObject && ((int)frameLabel.pObject & 1) == 0 )
         {
           v19 = frameLabel.pObject->RefCount;
-          if ( ((unsigned int)&byte_3FFFFF & v19) != 0 )
+          if ( (v19 & 0x3FFFFF) != 0 )
           {
             v20 = frameLabel.pObject;
             frameLabel.pObject->RefCount = v19 - 1;
@@ -157,7 +157,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::labelsGet(
               0);
             v23 = Scaleform::GFx::ASStringManager::CreateStringNode(
                     pVM->StringManagerRef->pStringManager,
-                    (char *)((labels.Data.Data[v22].HeapTypeBits & 0xFFFFFFFC) + 8));
+                    (__m128i *)((labels.Data.Data[v22].HeapTypeBits & 0xFFFFFFFC) + 8));
             v24 = i;
             ++v23->RefCount;
             v25 = frameLabel.pObject;
@@ -188,7 +188,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_display::Scene::labelsGet(
               {
                 v27 = frameLabel.pObject->RefCount;
                 v28 = frameLabel.pObject;
-                if ( ((unsigned int)&byte_3FFFFF & v27) != 0 )
+                if ( (v27 & 0x3FFFFF) != 0 )
                 {
                   frameLabel.pObject->RefCount = v27 - 1;
                   Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v28);

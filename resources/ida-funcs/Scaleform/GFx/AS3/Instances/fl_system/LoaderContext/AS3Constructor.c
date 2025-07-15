@@ -25,7 +25,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_system::LoaderContext::AS3Con
     {
       v9 = *(_DWORD *)(argc + 16);
       v10 = (Scaleform::GFx::AS3::RefCountBaseGC<328> *)argc;
-      if ( ((unsigned int)&byte_3FFFFF & v9) != 0 )
+      if ( (v9 & 0x3FFFFF) != 0 )
       {
         *(_DWORD *)(argc + 16) = v9 - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v10);

@@ -1,4 +1,4 @@
-int __cdecl ec_GF2m_simple_field_mul(
+bignum_pool_item *__cdecl ec_GF2m_simple_field_mul(
         const ec_group_st *group,
         bignum_st *r,
         const bignum_st *a,

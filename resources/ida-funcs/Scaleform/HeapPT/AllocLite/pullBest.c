@@ -52,14 +52,14 @@ Scaleform::HeapPT::DualTNode *__thiscall Scaleform::HeapPT::AllocLite::pullBest(
   unsigned int v9; // ecx
   Scaleform::HeapPT::DualTNode *pPrev; // eax
   Scaleform::HeapPT::DualTNode *pNext; // ecx
-  Scaleform::HeapPT::DualTNode *head; // [esp+10h] [ebp+4h]
+  Scaleform::HeapPT::DualTNode *blocksa; // [esp+10h] [ebp+4h]
 
   if ( alignMask <= this->MinMask )
     return Scaleform::HeapPT::AllocLite::pullBest(this, blocks);
   GrEq = (Scaleform::HeapPT::DualTNode *)Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::SizeAccessor>::FindGrEq(
                                            &this->SizeTree.Tree,
                                            blocks);
-  head = GrEq;
+  blocksa = GrEq;
   if ( GrEq )
   {
     MinShift = this->MinShift;
@@ -81,13 +81,13 @@ Scaleform::HeapPT::DualTNode *__thiscall Scaleform::HeapPT::AllocLite::pullBest(
       if ( (blocks << MinShift) + v8 <= (unsigned int)GrEq + (GrEq->Size << MinShift) )
         break;
       GrEq = GrEq->pNext;
-      if ( GrEq == head )
+      if ( GrEq == blocksa )
       {
         result = (Scaleform::HeapPT::DualTNode *)Scaleform::RadixTree<Scaleform::HeapPT::DualTNode,Scaleform::HeapPT::AllocLite::SizeAccessor>::FindGrEq(
                                                    &this->SizeTree.Tree,
                                                    GrEq->Size + 1);
         GrEq = result;
-        head = result;
+        blocksa = result;
         if ( !result )
           return result;
       }

@@ -22,10 +22,10 @@ char __thiscall Scaleform::Render::SIF::SIFFileImageSource::ReadHeader(
   unsigned int Width; // ecx
   unsigned __int8 v22; // [esp+47h] [ebp-9h] BYREF
   unsigned __int32 v23; // [esp+48h] [ebp-8h] BYREF
-  unsigned __int8 fourcc[4]; // [esp+4Ch] [ebp-4h] BYREF
+  char first[4]; // [esp+4Ch] [ebp-4h] BYREF
 
-  this->pFile.pObject->Read(this->pFile.pObject, fourcc, 4);
-  if ( strncmp((const char *)fourcc, "SIF ", 4u) )
+  this->pFile.pObject->Read(this->pFile.pObject, (unsigned __int8 *)first, 4);
+  if ( strncmp(first, "SIF ", 4u) )
     return 0;
   pObject = this->pFile.pObject;
   Read = pObject->Read;

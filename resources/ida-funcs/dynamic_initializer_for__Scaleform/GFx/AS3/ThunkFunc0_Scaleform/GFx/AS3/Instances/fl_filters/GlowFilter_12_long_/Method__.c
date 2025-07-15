@@ -4,6 +4,6 @@ void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scale
 
   result = Scaleform::GFx::AS3::Instances::fl_filters::BlurFilter::qualityGet;
   LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter,12,long>::Method) = Scaleform::GFx::AS3::Instances::fl_filters::BlurFilter::qualityGet;
-  dword_AADEEC = 0;
+  dword_8F26A4 = 0;
   return result;
 }

@@ -7,7 +7,7 @@ void __usercall Scaleform::GFx::AS2::NameFunction::AddConstMembers(
         unsigned __int8 flags,
         int a7)
 {
-  Scaleform::MemoryHeap *v7; // esi
+  Scaleform::MemoryHeap *pHeap; // esi
   Scaleform::GFx::AS2::Object *v8; // eax
   Scaleform::GFx::AS2::Object *v9; // esi
   Scaleform::GFx::AS2::Object_vtbl *v10; // ebp
@@ -16,20 +16,22 @@ void __usercall Scaleform::GFx::AS2::NameFunction::AddConstMembers(
   bool v13; // zf
   Scaleform::GFx::ASStringNode *pStringNode; // [esp+Ch] [ebp-28h]
   Scaleform::GFx::ASStringNode *v17; // [esp+18h] [ebp-1Ch]
-  Scaleform::MemoryHeap *pheap; // [esp+1Ch] [ebp-18h]
-  Scaleform::GFx::AS2::Object *pfuncProto; // [esp+20h] [ebp-14h] BYREF
+  Scaleform::MemoryHeap *v18; // [esp+1Ch] [ebp-18h]
+  Scaleform::GFx::ASStringNode *Prototype; // [esp+20h] [ebp-14h] BYREF
   Scaleform::GFx::AS2::Value v20; // [esp+24h] [ebp-10h] BYREF
   _UNKNOWN *retaddr; // [esp+34h] [ebp+0h]
 
-  v7 = psc->pContext->pHeap;
-  pheap = v7;
-  pfuncProto = Scaleform::GFx::AS2::GlobalContext::GetPrototype(psc->pContext, ASBuiltin_Function);
+  pHeap = psc->pContext->pHeap;
+  v18 = pHeap;
+  Prototype = (Scaleform::GFx::ASStringNode *)Scaleform::GFx::AS2::GlobalContext::GetPrototype(
+                                                psc->pContext,
+                                                ASBuiltin_Function);
   if ( pfunctions->Name )
   {
     while ( 1 )
     {
-      v8 = (Scaleform::GFx::AS2::Object *)((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, Scaleform::GFx::AS2::LocalFrame **, unsigned __int8 *))v7->Alloc)(
-                                            v7,
+      v8 = (Scaleform::GFx::AS2::Object *)((int (__thiscall *)(Scaleform::MemoryHeap *, int, _DWORD, Scaleform::GFx::AS2::LocalFrame **, unsigned __int8 *))pHeap->Alloc)(
+                                            pHeap,
                                             56,
                                             0,
                                             p_pLocalFrame,
@@ -58,19 +60,19 @@ void __usercall Scaleform::GFx::AS2::NameFunction::AddConstMembers(
       if ( v11 )
         v11->RefCount = (v11->RefCount + 1) & 0x8FFFFFFF;
       retaddr = 0;
-      pfuncProto = (Scaleform::GFx::AS2::Object *)Scaleform::GFx::ASStringManager::CreateConstStringNode(
-                                                    (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
-                                                    *(char **)a7,
-                                                    strlen(*(const char **)a7),
-                                                    0);
-      ++pfuncProto->RefCount;
+      Prototype = Scaleform::GFx::ASStringManager::CreateConstStringNode(
+                    (Scaleform::GFx::ASStringManager *)psc->pContext->pMovieRoot->pASMovieRoot.pObject[39].pMovieImpl,
+                    *(char **)a7,
+                    strlen(*(const char **)a7),
+                    0);
+      ++Prototype->RefCount;
       p_flags = &flags;
       p_pLocalFrame = &v20.V.FunctionValue.pLocalFrame;
-      (*((void (__thiscall **)(const Scaleform::GFx::AS2::NameFunction *, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::AS2::Object **))pfunctions->Name
+      (*((void (__thiscall **)(const Scaleform::GFx::AS2::NameFunction *, Scaleform::GFx::AS2::ASStringContext *, Scaleform::GFx::ASStringNode **))pfunctions->Name
        + 10))(
         pfunctions,
         psc,
-        &pfuncProto);
+        &Prototype);
       if ( !--v17->RefCount )
         Scaleform::GFx::ASStringNode::ReleaseNode(v17);
       if ( v20.T.Type >= 5u )
@@ -78,7 +80,7 @@ void __usercall Scaleform::GFx::AS2::NameFunction::AddConstMembers(
       if ( v11 )
       {
         RefCount = v11->RefCount;
-        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+        if ( (RefCount & 0x3FFFFFF) != 0 )
         {
           v11->RefCount = RefCount - 1;
           Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v11);
@@ -88,7 +90,7 @@ void __usercall Scaleform::GFx::AS2::NameFunction::AddConstMembers(
       ++pfunctions;
       if ( v13 )
         break;
-      v7 = pheap;
+      pHeap = v18;
     }
   }
 }

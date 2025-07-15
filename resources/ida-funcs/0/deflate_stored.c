@@ -6,7 +6,7 @@ int __cdecl deflate_stored(internal_state *s, int flush)
   unsigned int v5; // edx
   unsigned int v6; // eax
   char *v7; // edx
-  int v8; // edi
+  int *v8; // edi
   int v9; // eax
   unsigned int v10; // ebx
   int v11; // eax
@@ -14,7 +14,7 @@ int __cdecl deflate_stored(internal_state *s, int flush)
   int v13; // edx
   unsigned int v14; // ecx
   char *v15; // eax
-  int v16; // edi
+  int *v16; // edi
   int v17; // eax
   unsigned int v18; // ebx
   int v19; // eax
@@ -52,22 +52,22 @@ int __cdecl deflate_stored(internal_state *s, int flush)
     else
       v7 = (char *)(v4 + s[14].dummy);
     _tr_flush_block(s, v7, max_block_size, 0);
-    v8 = s->dummy;
+    v8 = (int *)s->dummy;
     s[23].dummy = s[27].dummy;
-    v9 = *(_DWORD *)(v8 + 28);
+    v9 = v8[7];
     v10 = *(_DWORD *)(v9 + 20);
-    if ( v10 > *(_DWORD *)(v8 + 16) )
-      v10 = *(_DWORD *)(v8 + 16);
+    if ( v10 > v8[4] )
+      v10 = v8[4];
     if ( v10 )
     {
-      memcpy(*(unsigned __int8 **)(v8 + 12), *(unsigned __int8 **)(v9 + 16), v10);
-      v11 = *(_DWORD *)(v8 + 28);
-      *(_DWORD *)(v8 + 12) += v10;
+      memcpy(v8[3], *(const __m128i **)(v9 + 16), v10);
+      v11 = v8[7];
+      v8[3] += v10;
       *(_DWORD *)(v11 + 16) += v10;
-      *(_DWORD *)(v8 + 20) += v10;
-      *(_DWORD *)(v8 + 16) -= v10;
-      *(_DWORD *)(*(_DWORD *)(v8 + 28) + 20) -= v10;
-      v12 = *(_DWORD **)(v8 + 28);
+      v8[5] += v10;
+      v8[4] -= v10;
+      *(_DWORD *)(v8[7] + 20) -= v10;
+      v12 = (_DWORD *)v8[7];
       if ( !v12[5] )
         v12[4] = v12[2];
     }
@@ -83,22 +83,22 @@ LABEL_36:
       else
         v15 = (char *)(v13 + s[14].dummy);
       _tr_flush_block(s, v15, v14, 0);
-      v16 = s->dummy;
+      v16 = (int *)s->dummy;
       s[23].dummy = s[27].dummy;
-      v17 = *(_DWORD *)(v16 + 28);
+      v17 = v16[7];
       v18 = *(_DWORD *)(v17 + 20);
-      if ( v18 > *(_DWORD *)(v16 + 16) )
-        v18 = *(_DWORD *)(v16 + 16);
+      if ( v18 > v16[4] )
+        v18 = v16[4];
       if ( v18 )
       {
-        memcpy(*(unsigned __int8 **)(v16 + 12), *(unsigned __int8 **)(v17 + 16), v18);
-        v19 = *(_DWORD *)(v16 + 28);
-        *(_DWORD *)(v16 + 12) += v18;
+        memcpy(v16[3], *(const __m128i **)(v17 + 16), v18);
+        v19 = v16[7];
+        v16[3] += v18;
         *(_DWORD *)(v19 + 16) += v18;
-        *(_DWORD *)(v16 + 20) += v18;
-        *(_DWORD *)(v16 + 16) -= v18;
-        *(_DWORD *)(*(_DWORD *)(v16 + 28) + 20) -= v18;
-        v20 = *(_DWORD **)(v16 + 28);
+        v16[5] += v18;
+        v16[4] -= v18;
+        *(_DWORD *)(v16[7] + 20) -= v18;
+        v20 = (_DWORD *)v16[7];
         if ( !v20[5] )
           v20[4] = v20[2];
       }

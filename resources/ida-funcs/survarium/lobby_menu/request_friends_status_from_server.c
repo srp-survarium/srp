@@ -1,45 +1,43 @@
-void __usercall survarium::lobby_menu::request_friends_status_from_server(
-        survarium::lobby_menu *this@<ecx>,
-        int a2@<eax>)
+void __thiscall survarium::lobby_menu::request_friends_status_from_server(
+        survarium::lobby_menu *this,
+        unsigned int delay_ms)
 {
-  unsigned int v3; // ebx
-  survarium::scheduler::record *v4; // eax
-  void (__cdecl *v5)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::lobby_menu,unsigned int,unsigned int>,boost::_bi::list3<boost::_bi::value<survarium::lobby_menu *>,boost::arg<1>,boost::arg<2> > > v6; // [esp-10h] [ebp-44h]
-  int v7; // [esp+0h] [ebp-34h]
-  boost::function<void __cdecl(unsigned int,unsigned int)> active; // [esp+10h] [ebp-24h] BYREF
+  survarium::scheduler *v2; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::lobby_menu,unsigned int,unsigned int>,boost::_bi::list3<boost::_bi::value<survarium::lobby_menu *>,boost::arg<1>,boost::arg<2> > > v4; // [esp-14h] [ebp-48h]
+  bool v5; // [esp+0h] [ebp-34h]
+  unsigned int v6; // [esp+4h] [ebp-30h]
+  unsigned int v7; // [esp+8h] [ebp-2Ch]
+  boost::function<void __cdecl(unsigned int,unsigned int)> f; // [esp+10h] [ebp-24h] BYREF
 
-  if ( !*(_BYTE *)(a2 + 268) )
+  if ( !*(_BYTE *)(delay_ms + 1656) )
   {
-    v3 = *(_DWORD *)(*(_DWORD *)(a2 + 168) + 1012);
-    active.vtable = (boost::detail::function::vtable_base *)survarium::lobby_menu::request_friends_status_from_server_impl;
-    (&active.vtable)[1] = 0;
-    v6.f_.f_ = (void (__thiscall *__ptr64)(survarium::lobby_menu *, unsigned int, unsigned int))(unsigned int)survarium::lobby_menu::request_friends_status_from_server_impl;
-    active.functor.obj_ptr = (void *)a2;
-    *(_QWORD *)&v6.l_.a1_.t_ = *(_QWORD *)&active.functor.obj_ptr;
-    boost::function2<void,unsigned int,unsigned int>::function2<void,unsigned int,unsigned int>(
+    if ( *(int *)(delay_ms + 1588) < 0 )
+      survarium::scheduler::unregister(
+        (survarium::scheduler *)this,
+        delay_ms + 168,
+        (survarium::scheduler::identifier *)(delay_ms + 1588));
+    f.functor.bound_memfunc_ptr.obj_ptr = (void *)delay_ms;
+    f.functor.vostok_pointer_size_alignment[2] = survarium::lobby_menu::request_friends_status_from_server_impl;
+    f.functor.vostok_pointer_size_alignment[3] = 0;
+    HIDWORD(v4.f_.f_) = survarium::lobby_menu::request_friends_status_from_server_impl;
+    *(_QWORD *)&v4.l_.a1_.t_ = __PAIR64__(delay_ms, 0);
+    LODWORD(v4.f_.f_) = &f;
+    boost::function<void __cdecl (unsigned int,unsigned int)>::function<void __cdecl (unsigned int,unsigned int)>(
       0,
-      (int)&active,
-      a2,
+      v4,
+      (int)f.functor.vostok_pointer_size_alignment[5]);
+    survarium::scheduler::register_for_update(
+      (survarium::scheduler *)(delay_ms + 168),
+      0x2710u,
+      v2,
+      (survarium::scheduler::identifier *)(delay_ms + 1588),
+      &f,
+      v5,
       v6,
       v7);
-    v4 = survarium::scheduler::register_object(
-           (survarium::scheduler *)&active,
-           (survarium::scheduler *)(*(_DWORD *)(a2 + 168) + 896),
-           (survarium::scheduler::identifier *)(a2 + 204),
-           &active,
-           1);
-    *(_DWORD *)&v4->survarium::scheduler::scheduler_record = -2147473648;
-    v4->m_max_update_count = 1;
-    v4->m_last_update_time = v3;
-    if ( active.vtable )
-    {
-      if ( ((int)active.vtable & 1) == 0 )
-      {
-        v5 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)active.vtable & 0xFFFFFFFE);
-        if ( v5 )
-          v5(&active.functor, &active.functor, 2);
-      }
-    }
+    boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+      v3,
+      (int *)&f);
   }
 }

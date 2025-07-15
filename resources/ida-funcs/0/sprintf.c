@@ -1,31 +1,31 @@
-int sprintf(char *string, const char *format, ...)
+int __usercall sprintf@<eax>(int a1@<edi>, int a2@<esi>, char *string, char *format, ...)
 {
-  int v3; // eax
-  bool v4; // sf
-  int v5; // esi
-  _iobuf str; // [esp+4h] [ebp-20h] BYREF
+  int v5; // eax
+  bool v6; // sf
+  int v7; // esi
+  _iobuf stream; // [esp+4h] [ebp-20h] BYREF
   va_list argptr; // [esp+34h] [ebp+10h] BYREF
 
   va_start(argptr, format);
   if ( format && string )
   {
-    str._base = string;
-    str._ptr = string;
-    str._cnt = 0x7FFFFFFF;
-    str._flag = 66;
-    v3 = _output_l(&str, format, 0, argptr);
-    v4 = --str._cnt < 0;
-    v5 = v3;
-    if ( v4 )
-      _flsbuf(0, &str);
+    stream._base = string;
+    stream._ptr = string;
+    stream._cnt = 0x7FFFFFFF;
+    stream._flag = 66;
+    v5 = _output_l(&stream, format, 0, argptr);
+    v6 = --stream._cnt < 0;
+    v7 = v5;
+    if ( v6 )
+      _flsbuf(0, &stream);
     else
-      *str._ptr = 0;
-    return v5;
+      *stream._ptr = 0;
+    return v7;
   }
   else
   {
     *_errno() = 22;
-    _invalid_parameter(0, 0, 0, 0, 0);
+    _invalid_parameter(0, a1, a2);
     return -1;
   }
 }

@@ -1,37 +1,34 @@
 void __usercall vostok::tasks::task::unlink_from_children(vostok::tasks::task *this@<ecx>, _DWORD *a2@<esi>)
 {
-  int *v2; // edx
-  int v3; // eax
-  signed __int32 v4; // eax
+  vostok::tasks::task *v2; // eax
+  vostok::tasks::task *m_next_task_in_child_queue; // ecx
+  vostok::tasks::task *v4; // ecx
+  volatile signed __int32 *p_m_state; // edx
+  signed __int32 m_state; // eax
 
   while ( a2[6] )
   {
-    v2 = (int *)a2[6];
+    v2 = (vostok::tasks::task *)a2[6];
     --a2[4];
-    v3 = *v2;
-    a2[6] = *v2;
-    if ( !v3 )
+    m_next_task_in_child_queue = v2->m_next_task_in_child_queue;
+    a2[6] = v2->m_next_task_in_child_queue;
+    if ( !m_next_task_in_child_queue )
       a2[7] = 0;
-    *v2 = 0;
-    if ( v2[22] != 3 )
+    v4 = v2;
+    p_m_state = &v2->m_state;
+    v2->m_next_task_in_child_queue = 0;
+    m_state = v2->m_state;
+    while ( m_state != 3 )
     {
-      do
+      while ( 1 )
       {
-        while ( 1 )
-        {
-          v4 = _InterlockedCompareExchange(v2 + 22, 4, 2);
-          if ( v4 != 2 )
-            break;
-          v2[21] = 0;
-          _InterlockedCompareExchange(v2 + 22, 2, 4);
-        }
+        m_state = _InterlockedCompareExchange(p_m_state, 4, 2);
+        if ( m_state != 2 )
+          break;
+        v4->m_parent = 0;
+        _InterlockedCompareExchange(p_m_state, 2, 4);
       }
-      while ( v4 != 3 );
     }
-    if ( !_InterlockedDecrement(v2 + 23) )
-      vostok::tasks::task_allocator::deallocate(
-        (vostok::tasks::task_allocator *)(v2 + 23),
-        (int)&s_task_manager.m_task_allocator,
-        (vostok::tasks::task *)v2);
+    vostok::tasks::task::decrement_reference_count_and_deallocate_when_zero(v4, (unsigned int)v4);
   }
 }

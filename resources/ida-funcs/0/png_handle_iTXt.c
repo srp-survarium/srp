@@ -1,4 +1,4 @@
-int __cdecl png_handle_iTXt(int a1, int a2, int a3)
+int __cdecl png_handle_iTXt(int a1, _DWORD *a2, int a3)
 {
   int result; // eax
   _DWORD *pointer; // [esp+0h] [ebp-2Ch]

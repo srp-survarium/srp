@@ -8,7 +8,7 @@ void __cdecl Scaleform::GFx::AS3::InstanceTraits::fl::int_::AS3toFixed(
 {
   const Scaleform::GFx::AS3::VM::Error *v6; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
-  char *pStr; // esi
+  __m128i *pStr; // esi
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
   const Scaleform::GFx::AS3::Instances::fl::Namespace *CurrNamespace; // eax
   Scaleform::GFx::ASStringNode *ID; // eax
@@ -41,7 +41,7 @@ LABEL_6:
                                            ^ *(_BYTE *)&f.Scaleform::NumericBase)
                                           & 0x1F;
     f.Convert(&f);
-    pStr = (char *)Scaleform::DoubleFormatter::GetResult(&f, &v15)->pStr;
+    pStr = (__m128i *)Scaleform::DoubleFormatter::GetResult(&f, &v15)->pStr;
     StringManagerRef = vm->StringManagerRef;
     CurrNamespace = Scaleform::GFx::AS3::Instances::fl::XMLElement::GetCurrNamespace((Scaleform::GFx::AS3::Instances::fl::XMLAttr *)&f);
     v.ID = (Scaleform::GFx::AS3::VM::ErrorID)Scaleform::GFx::ASStringManager::CreateStringNode(

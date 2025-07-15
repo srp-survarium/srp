@@ -7,5 +7,5 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl_text::TextField::htmlTextSet(
 
   pObject = (Scaleform::GFx::TextField *)this->pDispObj.pObject;
   pObject->Flags |= 2u;
-  Scaleform::GFx::TextField::SetTextValue(pObject, (char *)value->pNode->pData, 1, 1);
+  Scaleform::GFx::TextField::SetTextValue(pObject, (const __m128i *)value->pNode->pData, 1, 1);
 }

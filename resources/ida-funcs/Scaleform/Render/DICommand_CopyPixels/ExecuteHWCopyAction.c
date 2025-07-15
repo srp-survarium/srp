@@ -4,9 +4,9 @@ void __thiscall Scaleform::Render::DICommand_CopyPixels::ExecuteHWCopyAction(
         Scaleform::Render::Texture **tex,
         const Scaleform::Render::Matrix2x4<float> *texgen)
 {
-  Scaleform::Render::Matrix2x4<float> m2; // [esp+2Ch] [ebp-60h] BYREF
-  Scaleform::Render::Matrix2x4<float> m1; // [esp+4Ch] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+6Ch] [ebp-20h] BYREF
+  Scaleform::Render::Matrix2x4<float> m2; // [esp+Ch] [ebp-60h] BYREF
+  Scaleform::Render::Matrix2x4<float> m1; // [esp+2Ch] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+4Ch] [ebp-20h] BYREF
 
   m2.M[0][0] = 1.0;
   m2.M[0][1] = 0.0;

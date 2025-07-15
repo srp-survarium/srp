@@ -1,10 +1,10 @@
-engine_st *__cdecl ENGINE_get_pkey_meth(evp_pkey_method_st *e, int nid)
+engine_st *__usercall ENGINE_get_pkey_meth@<eax>(int a1@<ebx>, engine_st *e, int nid)
 {
-  int (__cdecl *verify_init)(engine_st *, evp_pkey_method_st **, const int **, int); // eax
+  int (__cdecl *pkey_meths)(engine_st *, evp_pkey_method_st **, const int **, int); // eax
 
-  verify_init = (int (__cdecl *)(engine_st *, evp_pkey_method_st **, const int **, int))e->verify_init;
-  if ( verify_init && verify_init((engine_st *)e, &e, 0, nid) )
-    return (engine_st *)e;
-  ERR_put_error(0x26u, 192, 101, ".\\crypto\\engine\\tb_pkmeth.c", 127);
+  pkey_meths = e->pkey_meths;
+  if ( pkey_meths && pkey_meths(e, (evp_pkey_method_st **)&e, 0, nid) )
+    return e;
+  ERR_put_error(a1, 0x26u, 192, 101, ".\\crypto\\engine\\tb_pkmeth.c", 127);
   return 0;
 }

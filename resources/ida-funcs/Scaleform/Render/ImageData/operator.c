@@ -17,7 +17,7 @@ Scaleform::Render::ImageData *__thiscall Scaleform::Render::ImageData::operator=
   Scaleform::Render::ImagePlane *v16; // eax
   unsigned __int8 *pData; // [esp+10h] [ebp-Ch]
   unsigned int v19; // [esp+18h] [ebp-4h]
-  const Scaleform::Render::ImageData *rhsa; // [esp+20h] [ebp+4h]
+  unsigned int Pitch; // [esp+20h] [ebp+4h]
 
   Flags = this->Flags;
   if ( (Flags & 2) != 0 )
@@ -65,10 +65,10 @@ Scaleform::Render::ImageData *__thiscall Scaleform::Render::ImageData::operator=
     v19 = Height;
     pData = v14->pData;
     DataSize = v14->DataSize;
-    rhsa = (const Scaleform::Render::ImageData *)v14->Pitch;
+    Pitch = v14->Pitch;
     v16 = &this->pPlanes[v11];
     v16->Height = v19;
-    v16->Pitch = (unsigned int)rhsa;
+    v16->Pitch = Pitch;
     ++v9;
     v16->Width = Width;
     v16->DataSize = DataSize;

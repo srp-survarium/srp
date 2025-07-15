@@ -9,17 +9,17 @@ void __usercall drawBox(
   int v6; // xmm4_4
   int v7; // xmm5_4
   int v8; // xmm3_4
-  void (__thiscall *drawLine)(btIDebugDraw *, const btVector3 *, const btVector3 *, const btVector3 *); // eax
-  _DWORD v10[2]; // [esp+80h] [ebp-80h] BYREF
-  int v11; // [esp+88h] [ebp-78h]
-  int v12; // [esp+8Ch] [ebp-74h]
-  _DWORD v13[4]; // [esp+90h] [ebp-70h] BYREF
-  _DWORD v14[4]; // [esp+A0h] [ebp-60h] BYREF
-  _DWORD v15[4]; // [esp+B0h] [ebp-50h] BYREF
-  _DWORD v16[4]; // [esp+C0h] [ebp-40h] BYREF
-  _DWORD v17[4]; // [esp+D0h] [ebp-30h] BYREF
-  _DWORD v18[4]; // [esp+E0h] [ebp-20h] BYREF
-  _DWORD v19[4]; // [esp+F0h] [ebp-10h] BYREF
+  btIDebugDraw_vtbl *v9; // eax
+  _DWORD v10[2]; // [esp+60h] [ebp-80h] BYREF
+  int v11; // [esp+68h] [ebp-78h]
+  int v12; // [esp+6Ch] [ebp-74h]
+  _DWORD v13[4]; // [esp+70h] [ebp-70h] BYREF
+  _DWORD v14[4]; // [esp+80h] [ebp-60h] BYREF
+  _DWORD v15[4]; // [esp+90h] [ebp-50h] BYREF
+  _DWORD v16[4]; // [esp+A0h] [ebp-40h] BYREF
+  _DWORD v17[4]; // [esp+B0h] [ebp-30h] BYREF
+  _DWORD v18[4]; // [esp+C0h] [ebp-20h] BYREF
+  _DWORD v19[4]; // [esp+D0h] [ebp-10h] BYREF
 
   v4 = mins->mVec128.m128_i32[0];
   v5 = mins->mVec128.m128_i32[1];
@@ -30,7 +30,7 @@ void __usercall drawBox(
   v14[2] = v11;
   v15[2] = v11;
   v8 = maxs->mVec128.m128_i32[2];
-  drawLine = idraw->drawLine;
+  v9 = idraw->__vftable;
   v10[0] = v4;
   v10[1] = v5;
   v12 = 0;
@@ -59,7 +59,7 @@ void __usercall drawBox(
   v19[1] = v7;
   v19[2] = v8;
   v19[3] = 0;
-  drawLine(idraw, (const btVector3 *)v10, (const btVector3 *)v13, color);
+  v9->drawLine(idraw, (const btVector3 *)v10, (const btVector3 *)v13, color);
   idraw->drawLine(idraw, (const btVector3 *)v13, (const btVector3 *)v14, color);
   idraw->drawLine(idraw, (const btVector3 *)v14, (const btVector3 *)v15, color);
   idraw->drawLine(idraw, (const btVector3 *)v15, (const btVector3 *)v10, color);

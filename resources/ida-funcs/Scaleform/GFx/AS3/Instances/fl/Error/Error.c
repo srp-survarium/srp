@@ -6,11 +6,13 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Error::Error(
   Scaleform::GFx::AS3::Traits *pObject; // eax
   Scaleform::GFx::ASStringNode *p_EmptyStringNode; // eax
   Scaleform::GFx::ASStringNode *v6; // eax
-  int v7; // eax
-  Scaleform::GFx::ASStringNode *v8; // edi
+  Scaleform::GFx::AS3::Traits *v7; // eax
+  Scaleform::GFx::ASStringNode *v8; // eax
+  int v9; // eax
+  Scaleform::GFx::ASStringNode *v10; // edi
   Scaleform::GFx::ASStringNode *pNode; // ecx
-  Scaleform::GFx::ASStringNode *v11; // ecx
-  $6995B294EB399C8E7199C0A182ACF77B *v12; // eax
+  Scaleform::GFx::ASStringNode *v13; // ecx
+  $877A9988573213A5FC37040398A8D661 *v14; // eax
 
   v2 = t;
   Scaleform::GFx::AS3::Instance::Instance(this, t);
@@ -22,16 +24,21 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::Error::Error(
   v6 = &this->pTraits.pObject->pVM->StringManagerRef->pStringManager->EmptyStringNode;
   this->name.pNode = v6;
   ++v6->RefCount;
+  v7 = this->pTraits.pObject;
   this->ID = 0;
-  v7 = (int)v2->GetName(v2, (Scaleform::GFx::ASString *)&t);
-  v8 = *(Scaleform::GFx::ASStringNode **)v7;
-  ++*(_DWORD *)(*(_DWORD *)v7 + 12);
+  v8 = &v7->pVM->StringManagerRef->pStringManager->EmptyStringNode;
+  this->StackTrace.pNode = v8;
+  ++v8->RefCount;
+  v9 = (int)v2->GetName(v2, (Scaleform::GFx::ASString *)&t);
+  v10 = *(Scaleform::GFx::ASStringNode **)v9;
+  ++*(_DWORD *)(*(_DWORD *)v9 + 12);
   pNode = this->name.pNode;
   if ( pNode->RefCount-- == 1 )
     Scaleform::GFx::ASStringNode::ReleaseNode(pNode);
-  v11 = (Scaleform::GFx::ASStringNode *)t;
-  v12 = &t->12;
-  this->name.pNode = v8;
-  if ( !--v12->pPrev )
-    Scaleform::GFx::ASStringNode::ReleaseNode(v11);
+  v13 = (Scaleform::GFx::ASStringNode *)t;
+  v14 = &t->12;
+  this->name.pNode = v10;
+  if ( !--v14->pPrev )
+    Scaleform::GFx::ASStringNode::ReleaseNode(v13);
+  Scaleform::GFx::AS3::VM::GetStackTraceASString(this->pTraits.pObject->pVM, &this->StackTrace, "\t");
 }

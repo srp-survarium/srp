@@ -1,71 +1,134 @@
 void __thiscall vostok::render::system_renderer::draw_ui_vertices(
         vostok::render::system_renderer *this,
-        vostok::render::system_renderer *vertices,
+        vostok::render::vertex_formats::TL *vertices,
         unsigned __int8 *count,
-        unsigned int prim_type,
+        unsigned int *prim_type,
         int point_type,
-        int point_typea)
+        int a6)
 {
-  unsigned int *v6; // ebp
-  unsigned __int8 *v7; // eax
-  int v8; // ecx
-  vostok::render::backend *v9; // ecx
-  const char *m_conflicted_key_name; // edi
-  unsigned int v11; // ebp
-  bool v12; // al
-  const char *v13; // ebx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v6; // ecx
+  bool v7; // al
+  unsigned __int8 *v8; // eax
+  vostok::render::vertex_buffer *v9; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v10; // ecx
+  bool has_passed_filters; // al
+  int v12; // ecx
+  int y_low; // eax
+  vostok::render::backend *v14; // ecx
+  vostok::render::backend *v15; // ecx
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v16; // [esp-4h] [ebp-3Ch]
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> *v17; // [esp-4h] [ebp-3Ch]
+  char v18; // [esp+10h] [ebp-28h]
+  unsigned int v_offset; // [esp+14h] [ebp-24h] BYREF
+  boost::function<void __cdecl(void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)> v20; // [esp+18h] [ebp-20h] BYREF
 
-  v6 = (unsigned int *)prim_type;
+  v18 = 0;
   if ( vostok::render::system_renderer::is_effects_ready(this, vertices) )
   {
-    v7 = (unsigned __int8 *)vostok::render::vertex_buffer::lock(&vertices->m_vertex_stream, *v6, 0x1Cu, &prim_type);
-    memcpy(v7, count, 28 * *v6);
-    vertices->m_vertex_stream.m_position += vertices->m_vertex_stream.m_lock_count
-                                          * vertices->m_vertex_stream.m_lock_stride;
-    (*(void (__stdcall **)(int, ID3D11Buffer *, _DWORD))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                       + 60))(
-      `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-      vertices->m_vertex_stream.m_buffer.m_object->m_hardware_buffer,
-      0);
-    vostok::render::res_geometry::apply(vertices->m_ui_geom.m_object);
+    v8 = (unsigned __int8 *)vostok::render::vertex_buffer::lock(
+                              (vostok::render::vertex_buffer *)&vertices[4].p.elements[1],
+                              &v_offset,
+                              *prim_type,
+                              0x1Cu);
+    memcpy(v8, count, 28 * *prim_type);
+    vostok::render::vertex_buffer::unlock(v9, (int *)&vertices[4].p.y);
+    if ( s_test_ui )
+    {
+      if ( !vostok::core::g_log_filter_tree
+        || (has_passed_filters = vostok::logging::has_passed_filters(
+                                   (vostok::logging::filter_tree *)"render_pc_dx11",
+                                   (const char *)2),
+            v10 = v17,
+            has_passed_filters) )
+      {
+        boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+          v10,
+          &v20);
+        v18 = 2;
+        vostok::logging::append(
+          &v20,
+          (void *const)vostok::core::g_log_flags,
+          &vostok::core::g_log_format,
+          ".\\system_renderer.cpp",
+          0x2DEu,
+          "void __thiscall vostok::render::system_renderer::draw_ui_vertices(const struct vostok::render::vertex_formats:"
+          ":TL *,const unsigned int &,int,int)",
+          "render_pc_dx11",
+          error,
+          "test ui: point type: %d, prim_type: %d, count: %d, offset: %d",
+          a6,
+          point_type,
+          *prim_type,
+          v_offset);
+      }
+      if ( (v18 & 2) != 0 )
+        boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+          (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v10,
+          (int *)&v20);
+    }
+    vostok::render::res_geometry::apply((vostok::render::res_geometry *)v10, LODWORD(vertices[10].uv.x));
+    y_low = LODWORD(vertices[7].uv.y);
     if ( point_type )
     {
-      vostok::render::res_effect::apply((vostok::render::res_effect *)3, &vertices->m_sh_ui.m_object->__vftable);
-      m_conflicted_key_name = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      v11 = *v6;
-      v12 = *((_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 529) != 3;
-      v13 = `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name;
-      *((_BYTE *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name + 162) = v12;
-      if ( v12 )
-        *((_DWORD *)m_conflicted_key_name + 529) = 3;
-      vostok::render::backend::flush(v9, (int)m_conflicted_key_name);
-      if ( v13[104] )
-        ++*((_DWORD *)v13 + 25);
-      (*(void (__stdcall **)(int, unsigned int, unsigned int))(*(_DWORD *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y
-                                                             + 52))(
-        `boost::asio::error::get_misc_category'::`2'::`local static guard'.m_game->m_game_world.m_mouse_pos.y,
-        v11,
-        prim_type);
+      *(_DWORD *)(y_low + 22048) = 3;
+      vostok::render::res_effect::apply_pass((vostok::render::res_effect *)v12, y_low);
+      vostok::render::backend::render(
+        (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,
+        v15,
+        *prim_type,
+        v_offset);
     }
     else
     {
-      if ( point_typea )
+      if ( a6 )
       {
-        v8 = 1;
-        if ( point_typea != 1 )
-          v8 = 2;
+        v12 = 1;
+        if ( a6 == 1 )
+          *(_DWORD *)(y_low + 22048) = 1;
+        else
+          *(_DWORD *)(y_low + 22048) = 2;
       }
       else
       {
-        v8 = 0;
+        *(_DWORD *)(y_low + 22048) = 0;
       }
-      vostok::render::res_effect::apply((vostok::render::res_effect *)v8, &vertices->m_sh_ui.m_object->__vftable);
+      vostok::render::res_effect::apply_pass((vostok::render::res_effect *)v12, y_low);
       vostok::render::backend::render_indexed(
-        (vostok::render::backend *)`boost::asio::error::get_misc_category'::`2'::`local static guard'.m_conflicted_key_name,
-        (3 * *v6) >> 1,
+        (vostok::render::backend *)LODWORD(vostok::quasi_singleton<vostok::render::particle_shader_constants>::pinst.z),
+        (3 * *prim_type) >> 1,
+        v14,
         D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
         0,
-        prim_type);
+        v_offset);
     }
+  }
+  else
+  {
+    if ( !vostok::core::g_log_filter_tree
+      || (v7 = vostok::logging::has_passed_filters((vostok::logging::filter_tree *)"render_pc_dx11", (const char *)2),
+          v6 = v16,
+          v7) )
+    {
+      boost::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>::function<void __cdecl (void *,char const *,unsigned int,char const *,char const *,enum vostok::logging::verbosity,char const *,unsigned int,enum vostok::logging::callback_flag)>(
+        v6,
+        &v20);
+      v18 = 1;
+      vostok::logging::append(
+        &v20,
+        (void *const)vostok::core::g_log_flags,
+        &vostok::core::g_log_format,
+        ".\\system_renderer.cpp",
+        0x2CEu,
+        "void __thiscall vostok::render::system_renderer::draw_ui_vertices(const struct vostok::render::vertex_formats::T"
+        "L *,const unsigned int &,int,int)",
+        "render_pc_dx11",
+        error,
+        "draw_ui_vertices: effects not ready");
+    }
+    if ( (v18 & 1) != 0 )
+      boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+        (boost::function1<void,vostok::sound::create_sound_propagator_params const &> *)v6,
+        (int *)&v20);
   }
 }

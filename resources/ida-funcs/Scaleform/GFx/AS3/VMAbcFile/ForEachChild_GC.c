@@ -1,7 +1,7 @@
 void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
         Scaleform::GFx::AS3::VMAbcFile *this,
         Scaleform::GFx::AS3::RefCountCollector<328> *prcc,
-        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **))
+        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **, const Scaleform::GFx::AS3::RefCountBaseGC<328> *))
 {
   _DWORD *p_EntryCount; // eax
   unsigned int v5; // ecx
@@ -74,7 +74,7 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
     v11 = *(_DWORD *)(v10 + 12 * v9 + 16) == 0;
     v12 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)(v10 + 12 * v9 + 16);
     if ( !v11 )
-      op(prcc, v12);
+      op(prcc, v12, this);
     v13 = *(_DWORD *)(*v8 + 4);
     if ( v9 <= (int)v13 && ++v9 <= v13 )
     {
@@ -119,7 +119,7 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
     v11 = *(_DWORD *)(v21 + 12 * v20 + 16) == 0;
     v22 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)(v21 + 12 * v20 + 16);
     if ( !v11 )
-      op(prcc, v22);
+      op(prcc, v22, this);
     v23 = *(_DWORD *)(*v19 + 4);
     if ( v20 <= (int)v23 && ++v20 <= v23 )
     {
@@ -141,7 +141,7 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
     v11 = Data[i].pObject == 0;
     p_pObject = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&Data[i].pObject;
     if ( !v11 )
-      op(prcc, p_pObject);
+      op(prcc, p_pObject, this);
   }
   v29 = &this->FunctionTraitsCache.mHash.pTable->EntryCount;
   if ( v29 )
@@ -173,7 +173,7 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
     v11 = *(_DWORD *)(16 * v34 + v35 + 20) == 0;
     v36 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)(16 * v34 + v35 + 20);
     if ( !v11 )
-      op(prcc, v36);
+      op(prcc, v36, this);
     v37 = *(_DWORD *)(*v33 + 4);
     if ( v34 <= (int)v37 && ++v34 <= v37 )
     {
@@ -193,8 +193,8 @@ void __thiscall Scaleform::GFx::AS3::VMAbcFile::ForEachChild_GC(
   {
     v41 = this->LoadedClasses.Data.Data;
     v11 = v41[j].pObject == 0;
-    v42 = &v41[j].pObject;
+    v42 = (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&v41[j].pObject;
     if ( !v11 )
-      op(prcc, v42);
+      op(prcc, v42, this);
   }
 }

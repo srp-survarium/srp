@@ -8,15 +8,15 @@ void __thiscall Scaleform::Render::Text::DocView::SetViewRect(
   unsigned int v6; // ecx
   unsigned int MaxHScroll; // eax
   unsigned int MaxVScroll; // eax
-  float v9; // [esp+40h] [ebp-28h]
-  float x2; // [esp+40h] [ebp-28h]
-  float v11; // [esp+44h] [ebp-24h]
-  float y1; // [esp+44h] [ebp-24h]
-  float y2; // [esp+48h] [ebp-20h]
-  Scaleform::Render::Rect<float> v14; // [esp+48h] [ebp-20h]
-  float v15; // [esp+48h] [ebp-20h]
-  float v16; // [esp+48h] [ebp-20h]
-  __int64 v17; // [esp+60h] [ebp-8h]
+  float v9; // [esp+18h] [ebp-28h]
+  float x2; // [esp+18h] [ebp-28h]
+  float v11; // [esp+1Ch] [ebp-24h]
+  float y1; // [esp+1Ch] [ebp-24h]
+  float y2; // [esp+20h] [ebp-20h]
+  Scaleform::Render::Rect<float> v14; // [esp+20h] [ebp-20h]
+  float v15; // [esp+20h] [ebp-20h]
+  float v16; // [esp+20h] [ebp-20h]
+  __int64 v17; // [esp+38h] [ebp-8h]
 
   if ( this->ViewRect.x1 != rect->x1
     || this->ViewRect.x2 != rect->x2

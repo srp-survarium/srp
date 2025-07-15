@@ -1,18 +1,7 @@
-void __thiscall survarium::anomaly_state::finalize(survarium::anomaly_state *this)
+void __userpurge survarium::anomaly_state::finalize(survarium::anomaly_state *this@<ecx>, int a2@<edi>, int forced)
 {
-  survarium::game_camera *v1; // ecx
-  stlp_std::vector<vostok::variant<32> const *,survarium::std_allocator<vostok::variant<32> const *> > *v2; // ecx
-  survarium::zone_group **v4; // [esp+4h] [ebp-10h]
-  boost::arg<1> *result; // [esp+8h] [ebp-Ch]
-  unsigned int g; // [esp+10h] [ebp-4h]
+  unsigned int i; // ebx
 
-  for ( g = 0; g < stlp_std::priv::_Impl_vector<void *,vostok::vectora_allocator<void *>>::size(&this->groups._M_impl); ++g )
-  {
-    survarium::weapon_user_dead_state::finalize(v1);
-    result = (boost::arg<1> *)&stlp_std::priv::_Impl_vector<unsigned char,stlp_std::allocator<unsigned char>>::begin(
-                                 v2,
-                                 (int)&this->groups)[g];
-    v4 = (survarium::zone_group **)stlp_std::priv::_VoidCastTraitsAux<void *,void *>::cv_ref(result);
-    survarium::zone_group::finalize(*v4);
-  }
+  for ( i = 0; i < (*(_DWORD *)(a2 + 32) - *(_DWORD *)(a2 + 28)) >> 2; ++i )
+    survarium::zone_group::finalize((survarium::zone_group *)this, *(_DWORD *)(*(_DWORD *)(a2 + 28) + 4 * i), forced);
 }

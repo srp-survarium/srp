@@ -2,7 +2,7 @@ vostok::render::static_render_model *__thiscall vostok::render::grass_render_mod
         vostok::render::static_render_model *this,
         char a2)
 {
-  vostok::render::render_model::~render_model(this);
+  vostok::render::render_model::~render_model(this, this);
   if ( (a2 & 1) != 0 )
     operator delete(this);
   return this;

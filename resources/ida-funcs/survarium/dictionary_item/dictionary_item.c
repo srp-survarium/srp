@@ -1,28 +1,16 @@
-void __usercall survarium::dictionary_item::dictionary_item(
-        survarium::dictionary_item *this@<esi>,
-        const survarium::dictionary_item *__that@<edi>)
+void __thiscall survarium::dictionary_item::dictionary_item(
+        survarium::dictionary_item *this,
+        const survarium::dictionary_item *__that,
+        int a3)
 {
-  char *m_begin; // edx
-  char *v3; // ecx
-  char *v4; // ebx
-
-  this->item_id = __that->item_id;
-  this->item_cfg.m_object = 0;
-  vostok::intrusive_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::set(
-    &this->item_cfg,
-    &__that->item_cfg);
-  m_begin = __that->item_cfg_name.m_begin;
-  v3 = (char *)(__that->item_cfg_name.m_end - m_begin);
-  this->item_cfg_name.m_max_end = (char *)&this->item_category;
-  v4 = v3;
-  this->item_cfg_name.m_begin = this->item_cfg_name.m_buffer;
-  this->item_cfg_name.m_end = this->item_cfg_name.m_buffer;
-  memcpy((unsigned __int8 *)this->item_cfg_name.m_buffer, (unsigned __int8 *)m_begin, (unsigned int)v3);
-  this->item_cfg_name.m_end += (unsigned int)v4;
-  *this->item_cfg_name.m_end = 0;
-  this->item_category = __that->item_category;
-  this->combat_log_icon = __that->combat_log_icon;
-  this->is_premium = __that->is_premium;
-  this->is_stack = __that->is_stack;
-  this->weight = __that->weight;
+  __that->item_id = *(_DWORD *)a3;
+  vostok::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::intrusive_ptr<survarium::player,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)&__that->item_cfg,
+    (const vostok::intrusive_ptr<vostok::particle::particle_system_instance_impl,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock> *)(a3 + 4));
+  vostok::fixed_string<260>::fixed_string<260>(&__that->item_cfg_name, (const vostok::fixed_string<260> *)(a3 + 8));
+  __that->item_category = *(_BYTE *)(a3 + 280);
+  __that->combat_log_icon = *(_BYTE *)(a3 + 281);
+  __that->is_premium = *(_BYTE *)(a3 + 282);
+  __that->is_stack = *(_BYTE *)(a3 + 283);
+  qmemcpy(__that->modifiers, (const void *)(a3 + 284), 0x60u);
 }

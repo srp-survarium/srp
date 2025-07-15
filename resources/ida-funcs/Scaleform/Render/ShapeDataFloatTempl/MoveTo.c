@@ -7,12 +7,12 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned
   unsigned int Size; // eax
   unsigned int v6; // edi
   unsigned __int8 *v7; // eax
-  Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > encoder; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v8; // [esp+10h] [ebp-4h] BYREF
 
   Data = this->Data;
   Size = Data->Data.Size;
   v6 = Size + 1;
-  encoder.Data = Data;
+  v8.Data = Data;
   if ( Size + 1 >= Size )
   {
     if ( v6 >= Data->Data.Policy.Capacity )
@@ -33,10 +33,10 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::Array<unsigned
   if ( v7 )
     *v7 = 2;
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteFloat(
-    &encoder,
+    &v8,
     x);
   Scaleform::Render::PathDataEncoder<Scaleform::Array<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteFloat(
-    &encoder,
+    &v8,
     y);
   this->StartX = x;
   this->StartY = y;
@@ -55,12 +55,12 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<un
   unsigned int Size; // eax
   unsigned int v6; // edi
   unsigned __int8 *v7; // edx
-  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > encoder; // [esp+10h] [ebp-4h] BYREF
+  Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy> > v8; // [esp+10h] [ebp-4h] BYREF
 
   Data = this->Data;
   Size = Data->Data.Size;
   v6 = Size + 1;
-  encoder.Data = Data;
+  v8.Data = Data;
   if ( Size + 1 >= Size )
   {
     if ( v6 >= Data->Data.Policy.Capacity )
@@ -80,10 +80,10 @@ void __thiscall Scaleform::Render::ShapeDataFloatTempl<Scaleform::ArrayLH_POD<un
   Data->Data.Size = v6;
   v7[v6 - 1] = 2;
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteFloat(
-    &encoder,
+    &v8,
     x);
   Scaleform::Render::PathDataEncoder<Scaleform::ArrayLH_POD<unsigned char,2,Scaleform::ArrayDefaultPolicy>>::WriteFloat(
-    &encoder,
+    &v8,
     y);
   this->StartX = x;
   this->StartY = y;

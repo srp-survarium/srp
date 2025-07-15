@@ -51,7 +51,7 @@ void __thiscall Scaleform::GFx::AS2::CSSFileLoaderAndParserImpl::Init(
     LOBYTE(pTarget) = v12;
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, this->pFileData);
     this->pFileData = 0;
-    Scaleform::GFx::AS2::StyleSheetObject::NotifyOnLoad(v10, penv, (const Scaleform::GFx::ASString)pTarget);
+    Scaleform::GFx::AS2::StyleSheetObject::NotifyOnLoad(v10, penv, (Scaleform::GFx::ASStringNode *)pTarget);
   }
   else
   {

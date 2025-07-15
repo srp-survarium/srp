@@ -2,44 +2,44 @@ void __thiscall survarium::scaleform_movie_cook::translate_query(
         survarium::scaleform_movie_cook *this,
         vostok::resources::query_result_for_cook *parent)
 {
-  char *m_requery_path; // eax
-  void (__cdecl *v3)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int); // eax
-  boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::scaleform_movie_cook,vostok::resources::queries_result &,vostok::resources::query_result_for_cook *>,boost::_bi::list3<boost::_bi::value<survarium::scaleform_movie_cook *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result_for_cook *> > > v4; // [esp-10h] [ebp-50h]
-  int v5; // [esp+0h] [ebp-40h]
-  vostok::variant<32> *user_data; // [esp+Ch] [ebp-34h] BYREF
-  vostok::resources::request requests; // [esp+10h] [ebp-30h] BYREF
-  unsigned __int64 v8; // [esp+18h] [ebp-28h]
-  boost::function<void __cdecl(vostok::resources::queries_result &)> callback; // [esp+20h] [ebp-20h] BYREF
+  const char *requested_path; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v3; // ecx
+  vostok::memory::doug_lea_allocator *v4; // [esp-10h] [ebp-50h]
+  int v5[2]; // [esp+10h] [ebp-30h] BYREF
+  survarium::scaleform_movie_cook *v6; // [esp+18h] [ebp-28h]
+  vostok::resources::query_result_for_cook *v7; // [esp+1Ch] [ebp-24h]
+  unsigned __int64 v8; // [esp+20h] [ebp-20h]
+  void (__thiscall *v9)(survarium::scaleform_movie_cook *, vostok::resources::queries_result *, vostok::resources::resource_ptr<vostok::resources::unmanaged_resource,vostok::resources::unmanaged_intrusive_base> *); // [esp+30h] [ebp-10h]
+  vostok::resources::query_result_for_cook *v10; // [esp+34h] [ebp-Ch]
+  unsigned __int64 v11; // [esp+38h] [ebp-8h]
 
-  requests.path = (const char *)survarium::scaleform_movie_cook::on_raw_data_loaded;
-  requests.id = unknown_data_class;
-  v4.f_.f_ = (void (__thiscall *__ptr64)(survarium::scaleform_movie_cook *, vostok::resources::queries_result *, vostok::resources::query_result_for_cook *))(unsigned int)survarium::scaleform_movie_cook::on_raw_data_loaded;
-  v8 = __PAIR64__((unsigned int)parent, (unsigned int)this);
-  v4.l_ = (boost::_bi::list3<boost::_bi::value<survarium::scaleform_movie_cook *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result_for_cook *> >)__PAIR64__((unsigned int)parent, (unsigned int)this);
-  boost::function1<void,vostok::resources::queries_result &>::function1<void,vostok::resources::queries_result &>(
-    (boost::function1<void,vostok::resources::queries_result &> *)this,
-    (int)&callback,
-    (int)parent,
-    v4,
-    v5);
-  m_requery_path = parent->m_requery_path;
-  if ( !m_requery_path )
-    m_requery_path = parent->m_request_path;
-  requests.path = m_requery_path;
-  requests.id = raw_data_class;
-  user_data = 0;
-  vostok::resources::query_resources(
-    &requests,
-    1u,
-    &callback,
-    (vostok::memory::base_allocator *)survarium::g_allocator.f_.f_,
-    (const vostok::variant<32> **)&user_data,
-    parent,
-    assert_on_fail_true);
-  if ( callback.vtable && ((int)callback.vtable & 1) == 0 )
+  v6 = this;
+  v5[0] = (int)survarium::scaleform_movie_cook::on_raw_data_loaded;
+  v5[1] = 0;
+  v7 = parent;
+  v9 = survarium::scaleform_movie_cook::on_raw_data_loaded;
+  v10 = 0;
+  v11 = __PAIR64__((unsigned int)parent, (unsigned int)this);
+  if ( Scaleform::Render::RenderEvent::GetListenerStatus((vostok::particle::particle_action *)this) )
   {
-    v3 = *(void (__cdecl **)(boost::detail::function::function_buffer *, boost::detail::function::function_buffer *, int))((int)callback.vtable & 0xFFFFFFFE);
-    if ( v3 )
-      v3(&callback.functor, &callback.functor, 2);
+    v5[0] = 0;
   }
+  else
+  {
+    v6 = (survarium::scaleform_movie_cook *)v9;
+    v7 = v10;
+    v8 = v11;
+    v5[0] = (int)&`boost::function1<void,vostok::resources::queries_result &>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::scaleform_movie_cook,vostok::resources::queries_result &,vostok::resources::query_result_for_cook *>,boost::_bi::list3<boost::_bi::value<survarium::scaleform_movie_cook *>,boost::arg<1>,boost::_bi::value<vostok::resources::query_result_for_cook *>>>>'::`2'::stored_vtable
+          + 1;
+  }
+  v4 = survarium::g_allocator;
+  requested_path = vostok::resources::query_result_for_user::get_requested_path(parent);
+  vostok::resources::query_resource(
+    requested_path,
+    (vostok::variant<32> *)3,
+    v4,
+    0,
+    (const vostok::variant<32> **)parent,
+    assert_on_fail_true);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(v3, v5);
 }

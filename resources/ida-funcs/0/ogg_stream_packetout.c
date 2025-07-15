@@ -1,7 +1,7 @@
 int __cdecl ogg_stream_packetout(ogg_stream_state *os, ogg_packet *op)
 {
-  if ( os && os->body_data )
-    return packetout(os, op, 1);
-  else
+  if ( ogg_stream_check(os) )
     return 0;
+  else
+    return packetout(os, op, 1);
 }

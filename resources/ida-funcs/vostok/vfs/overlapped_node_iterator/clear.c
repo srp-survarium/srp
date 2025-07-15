@@ -1,14 +1,17 @@
-void __thiscall vostok::vfs::overlapped_node_iterator::clear(vostok::vfs::overlapped_node_iterator *this)
+void __usercall vostok::vfs::overlapped_node_iterator::clear(
+        vostok::vfs::overlapped_node_iterator *this@<ecx>,
+        _DWORD *a2@<esi>)
 {
-  vostok::threading::lock_type_enum v1; // eax
-  vostok::threading::reader_writer_lock *v2; // ecx
+  volatile signed __int64 *v2; // eax
+  vostok::threading::reader_writer_lock *v3; // [esp-4h] [ebp-4h]
 
-  if ( this->hashset_lock )
+  v2 = (volatile signed __int64 *)a2[3];
+  if ( v2 )
   {
-    v1 = vostok::vfs::to_threading_lock_type(this->lock_type);
-    vostok::threading::reader_writer_lock::unlock(v2, &this->hashset_lock->m_readers_writers_counter, v1);
+    v3 = (vostok::threading::reader_writer_lock *)((a2[2] != 1) + 1);
+    vostok::threading::reader_writer_lock::unlock(v3, v2, (vostok::threading::lock_type_enum)v3);
   }
-  this->hashset_lock = 0;
-  this->lock_type = lock_type_uninitialized;
-  this->node = 0;
+  a2[3] = 0;
+  a2[2] = 0;
+  a2[1] = 0;
 }

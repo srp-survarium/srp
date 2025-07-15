@@ -1,24 +1,34 @@
-unsigned int __usercall vostok::render::get_format_block_size@<eax>(DXGI_FORMAT format@<eax>)
+unsigned int __usercall vostok::render::get_format_block_size@<eax>(int format@<eax>)
 {
-  unsigned int result; // eax
+  int v1; // eax
+  int v3; // eax
+  int v4; // eax
 
-  switch ( byte_634422[format] )
+  if ( format > 34 )
   {
-    case 0:
-      result = 16;
-      break;
-    case 1:
-      result = 8;
-      break;
-    case 2:
-      result = 4;
-      break;
-    case 3:
-      result = 2;
-      break;
-    case 4:
-      result = 1;
-      break;
+    v3 = format - 44;
+    if ( !v3 )
+      return 4;
+    v4 = v3 - 5;
+    if ( v4 && (unsigned int)(v4 - 4) >= 2 )
+      return 1;
+    else
+      return 2;
   }
-  return result;
+  else
+  {
+    if ( format == 34 )
+      return 4;
+    v1 = format - 2;
+    if ( v1 )
+    {
+      if ( v1 != 8 )
+        return 4;
+      return 8;
+    }
+    else
+    {
+      return 16;
+    }
+  }
 }

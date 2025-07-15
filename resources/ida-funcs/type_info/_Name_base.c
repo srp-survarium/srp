@@ -33,8 +33,8 @@ LABEL_9:
         _This->_m_data = v8;
         if ( v8 )
         {
-          if ( strcpy_s((char *)v8, v7, pTmpUndName) )
-            _invoke_watson((unsigned int)v6, (unsigned int)_This, v7);
+          if ( strcpy_s((int)_This, (char *)v8, v7, pTmpUndName) )
+            _invoke_watson((int)v6, (int)_This, v7);
           v6->memPtr = _This->_m_data;
           v6->next = __ptype_info_node->next;
           __ptype_info_node->next = v6;

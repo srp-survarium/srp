@@ -23,9 +23,12 @@ void __cdecl Scaleform::GFx::AS3::Instances::FunctionBase::toStringProto(
     f.Convert(&f);
     Scaleform::GFx::ASString::Append(
       (Scaleform::GFx::ASString *)&_this,
-      f.ValueStr,
+      (const __m128i *)f.ValueStr,
       (Scaleform::GFx::ASStringNode *)strlen(f.ValueStr));
-    Scaleform::GFx::ASString::Append((Scaleform::GFx::ASString *)&_this, "]", (Scaleform::GFx::ASStringNode *)1);
+    Scaleform::GFx::ASString::Append(
+      (Scaleform::GFx::ASString *)&_this,
+      (const __m128i *)"]",
+      (Scaleform::GFx::ASStringNode *)1);
     Scaleform::GFx::AS3::Value::Assign(result, (const Scaleform::GFx::ASString *)&_this);
     v7 = _this;
     --_this->RefCount;

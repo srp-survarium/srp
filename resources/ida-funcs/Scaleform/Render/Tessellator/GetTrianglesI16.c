@@ -8,12 +8,12 @@ void __thiscall Scaleform::Render::Tessellator::GetTrianglesI16(
   unsigned int v5; // edx
   Scaleform::Render::Tessellator::TriangleType *v8; // esi
   unsigned __int16 *v9; // eax
-  unsigned int meshIdxa; // [esp+4h] [ebp+4h]
+  unsigned int i; // [esp+4h] [ebp+4h]
 
   if ( num )
   {
     v5 = 16 * meshIdx;
-    for ( meshIdxa = 16 * meshIdx; ; v5 = meshIdxa )
+    for ( i = 16 * meshIdx; ; v5 = i )
     {
       v8 = &(*(Scaleform::Render::Tessellator::TriangleType ***)((char *)&this->MeshTriangles.Arrays->Pages + v5))[start >> 4][start & 0xF];
       *idx = this->MeshVertices.Pages[v8->d.t.v1 >> 4][v8->d.t.v1 & 0xF].Idx;

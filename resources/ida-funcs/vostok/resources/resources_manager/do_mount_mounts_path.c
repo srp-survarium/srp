@@ -1,246 +1,157 @@
-void __thiscall vostok::resources::resources_manager::do_mount_mounts_path(
-        vostok::resources::resources_manager *this,
-        vostok::resources::resources_manager *thisa)
+void __thiscall vostok::resources::resources_manager::do_mount_mounts_path(vostok::resources::resources_manager *this)
 {
-  char *m_buffer; // eax
-  const char *v3; // ecx
-  bool v4; // zf
-  vostok::vfs::vfs_mount *m_object; // ecx
-  vostok::resources::vfs_sub_fat_resource *user_data; // eax
-  vostok::resources::fs_task_unmount *v7; // eax
-  vostok::resources::fs_task_unmount *v8; // ecx
-  vostok::resources::fs_task_unmount *v9; // eax
-  const char *m_begin; // eax
-  char *v11; // eax
-  char *v12; // ecx
-  vostok::vfs::vfs_mount *v13; // ecx
-  vostok::resources::vfs_sub_fat_resource *v14; // eax
-  vostok::resources::unmanaged_resource *v15; // edi
-  vostok::resources::fs_task_unmount *v16; // eax
-  vostok::resources::fs_task_unmount *v17; // ecx
-  vostok::resources::fs_task_unmount *v18; // eax
-  vostok::resources::vfs_sub_fat_resource *v19; // eax
-  vostok::resources::unmanaged_intrusive_base *v20; // ecx
-  _BYTE v21[44]; // [esp-2Ch] [ebp-C44h] BYREF
-  vostok::resources::intrusive_fs_task_unmount_base *v22; // [esp+0h] [ebp-C18h]
-  vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> sub_fat_resource; // [esp+14h] [ebp-C04h] BYREF
-  vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> converted_sub_fat_resource; // [esp+18h] [ebp-C00h] BYREF
-  int v25; // [esp+1Ch] [ebp-BFCh]
-  void (__thiscall *v26)(vostok::resources::resources_manager *, BOOL); // [esp+20h] [ebp-BF8h]
-  vostok::resources::resources_manager *m_variable; // [esp+24h] [ebp-BF4h]
-  vostok::vfs::mount_result result; // [esp+2Ch] [ebp-BECh] BYREF
-  vostok::vfs::mount_result result_converted; // [esp+34h] [ebp-BE4h] BYREF
-  vostok::fs_new::virtual_path_string virtual_path; // [esp+3Ch] [ebp-BDCh] BYREF
-  vostok::fs_new::native_path_string mounts_converted_path; // [esp+150h] [ebp-AC8h] BYREF
-  vostok::vfs::query_mount_arguments mounts_converted_args; // [esp+268h] [ebp-9B0h] BYREF
-  vostok::vfs::query_mount_arguments mounts_args; // [esp+740h] [ebp-4D8h] BYREF
+  vostok::vfs::query_mount_arguments *v1; // ecx
+  boost::function<void __cdecl(void)> *v2; // ecx
+  char *v3; // eax
+  void *v4; // eax
+  vostok::resources::fs_task_unmount *v5; // eax
+  vostok::fs_new::path_string_impl *v6; // ecx
+  vostok::fixed_string<260> *v7; // ecx
+  vostok::vfs::query_mount_arguments *v8; // ecx
+  boost::function<void __cdecl(void)> *v9; // ecx
+  char *v10; // eax
+  void *v11; // eax
+  vostok::resources::fs_task_unmount *v12; // eax
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v13; // ecx
+  boost::function1<void,vostok::sound::create_sound_propagator_params const &> *v14; // ecx
+  _BYTE v15[48]; // [esp-30h] [ebp-C50h] BYREF
+  vostok::vfs::query_mount_arguments args; // [esp+10h] [ebp-C10h] BYREF
+  vostok::vfs::query_mount_arguments v17; // [esp+4E8h] [ebp-738h] BYREF
+  vostok::fs_new::native_path_string v18; // [esp+9C0h] [ebp-260h] BYREF
+  vostok::fixed_string<260> v19; // [esp+ADCh] [ebp-144h] BYREF
+  char v20; // [esp+BECh] [ebp-34h]
+  void (__thiscall *v21)(vostok::resources::resources_manager *, vostok::resources::allocate_functionality *); // [esp+BF0h] [ebp-30h]
+  vostok::resources::resources_manager *v22; // [esp+BF4h] [ebp-2Ch]
+  vostok::resources::vfs_sub_fat_resource *m_object; // [esp+BF8h] [ebp-28h]
+  vostok::vfs::mount_result result; // [esp+BFCh] [ebp-24h] BYREF
+  vostok::vfs::mount_result v25; // [esp+C04h] [ebp-1Ch] BYREF
+  vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> v26; // [esp+C10h] [ebp-10h] BYREF
+  void (__thiscall *v27)(vostok::resources::resources_manager *, vostok::resources::allocate_functionality *); // [esp+C14h] [ebp-Ch]
+  vostok::resources::resources_manager *v28; // [esp+C18h] [ebp-8h]
+  vostok::resources::resource_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base> v29; // [esp+C1Ch] [ebp-4h] BYREF
 
-  m_buffer = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_max_end = &virtual_path.m_separator;
-  virtual_path.m_string.m_begin = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_end = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_buffer[0] = 0;
-  v3 = "mounts.sources";
-  do
-  {
-    if ( m_buffer >= virtual_path.m_string.m_max_end )
-      break;
-    *m_buffer = *v3;
-    m_buffer = virtual_path.m_string.m_end + 1;
-    v4 = *++v3 == 0;
-    ++virtual_path.m_string.m_end;
-  }
-  while ( !v4 );
-  *(_DWORD *)&v21[40] = 1;
-  *(_DWORD *)&v21[36] = 1;
-  *(_DWORD *)&v21[32] = 0;
-  *m_buffer = 0;
-  virtual_path.m_separator = 47;
-  boost::function<void __cdecl (vostok::vfs::mount_result)>::function<void __cdecl (vostok::vfs::mount_result)>(
-    (boost::function<void __cdecl(vostok::vfs::mount_result)> *)v21,
-    0);
+  vostok::fixed_string<260>::fixed_string<260>((vostok::fixed_string<260> *)this, &v19, "mounts.sources");
+  *(_DWORD *)&v15[12] = 1;
+  *(_DWORD *)&v15[8] = 1;
+  v20 = 47;
+  *(_DWORD *)&v15[16] = 0;
   vostok::vfs::query_mount_arguments::mount_physical_path(
-    &mounts_args,
-    &vostok::memory::g_resources_unmanaged_allocator,
-    &virtual_path,
-    &thisa->m_mounts_path,
-    "mounts.sources",
-    *(vostok::fs_new::asynchronous_device_interface **)((char *)&loc_205F8 + (_DWORD)thisa),
+    v1,
+    (int)&args,
+    (vostok::vfs::query_mount_arguments *)&vostok::memory::g_resources_unmanaged_allocator,
+    &v19,
+    (const vostok::fs_new::virtual_path_string *)&s_resources_manager_buffer.m_mounts_path,
+    (vostok::fs_new::native_path_string *)"mounts.sources",
+    s_resources_manager_buffer.m_hdd->m_queries.m_forward_queue.m_static_memory,
     0,
-    *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)v21,
-    *(vostok::vfs::recursive_bool *)&v21[32],
-    *(vostok::vfs::lock_operation_enum *)&v21[36],
-    *(vostok::fs_new::watcher_enabled_bool *)&v21[40]);
-  m_variable = vostok::resources::g_resources_manager.m_variable;
-  LOBYTE(v25) = 0;
-  v26 = vostok::resources::resources_manager::dispatch_callbacks;
-  *(_DWORD *)&v21[4] = vostok::resources::g_resources_manager.m_variable;
-  *(_DWORD *)&v21[12] = 0;
-  *(_DWORD *)&v21[8] = v25;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         (boost::detail::function::function_buffer *)&v21[20],
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::resources::resources_manager::dispatch_callbacks,
-         *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > *)&v21[4]) )
-  {
-    *(_DWORD *)&v21[12] = &stru_95BE78.m_string.m_buffer[13];
-  }
-  else
-  {
-    *(_DWORD *)&v21[12] = 0;
-  }
+    0,
+    *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)&v15[8]);
+  v28 = &s_resources_manager_buffer;
+  LOBYTE(v26.m_object) = 0;
+  v29.m_object = v26.m_object;
+  v27 = vostok::resources::resources_manager::dispatch_callbacks;
+  *(_DWORD *)&v15[4] = vostok::resources::resources_manager::dispatch_callbacks;
+  *(_DWORD *)&v15[8] = &s_resources_manager_buffer;
+  *(_DWORD *)v15 = &v15[16];
+  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+    v2,
+    *(boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::resources_manager,bool>,boost::_bi::list2<boost::_bi::value<vostok::resources::resources_manager *>,boost::_bi::value<bool> > > *)v15,
+    (int)v26.m_object);
   vostok::vfs::query_mount_and_wait(
     &result,
-    (vostok::vfs::virtual_file_system *)((char *)&loc_20600 + (_DWORD)thisa),
-    &mounts_args,
-    *(boost::function<void __cdecl(void)> *)&v21[12]);
-  m_object = 0;
-  if ( result.mount.m_object )
-  {
-    m_object = result.mount.m_object;
-    _InterlockedExchangeAdd(&result.mount.m_object->m_reference_count, 1u);
-  }
-  user_data = (vostok::resources::vfs_sub_fat_resource *)m_object->user_data;
-  sub_fat_resource.m_object = 0;
-  if ( user_data )
-  {
-    sub_fat_resource.m_object = user_data;
-    _InterlockedExchangeAdd(&user_data->m_reference_count, 1u);
-  }
-  if ( !_InterlockedExchangeAdd(&m_object->m_reference_count, 0xFFFFFFFF) )
-    vostok::vfs::vfs_intrusive_mount_base::destroy(m_object, m_object);
-  if ( vostok::memory::g_resources_helper_allocator.call_malloc(&vostok::memory::g_resources_helper_allocator, 40) )
-    vostok::resources::fs_task_unmount::fs_task_unmount(
-      (vostok::resources::fs_task_unmount *)&sub_fat_resource,
-      &sub_fat_resource);
+    &s_resources_manager_buffer.m_vfs,
+    &args,
+    *(boost::function<void __cdecl(void)> *)&v15[16]);
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v15[44],
+    &result.mount);
+  vostok::resources::get_sub_fat_resource(
+    &v26,
+    *(vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v15[44]);
+  v3 = type_info::raw_name(&vostok::resources::fs_task_unmount `RTTI Type Descriptor');
+  v4 = vostok::memory::g_resources_helper_allocator.call_malloc(
+         &vostok::memory::g_resources_helper_allocator,
+         40,
+         v3,
+         "vostok::resources::resources_manager::do_mount_mounts_path",
+         ".\\resources_manager_helper.cpp",
+         98);
+  if ( v4 )
+    vostok::resources::fs_task_unmount::fs_task_unmount((vostok::resources::fs_task_unmount *)&v26, (int)v4, &v26);
   else
-    v7 = 0;
-  v8 = 0;
-  if ( v7 )
-  {
-    v8 = v7;
-    _InterlockedExchangeAdd(&v7->m_reference_count, 1u);
-  }
-  v9 = thisa->m_mounts_ptr.m_object;
-  thisa->m_mounts_ptr.m_object = v8;
-  if ( v9 && !_InterlockedExchangeAdd(&v9->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::intrusive_fs_task_unmount_base::destroy(v22, v9);
-  mounts_converted_path.m_string.m_begin = mounts_converted_path.m_string.m_buffer;
-  m_begin = thisa->m_mounts_path.m_string.m_begin;
-  mounts_converted_path.m_string.m_end = mounts_converted_path.m_string.m_buffer;
-  mounts_converted_path.m_string.m_max_end = &mounts_converted_path.m_separator;
-  mounts_converted_path.m_string.m_buffer[0] = 0;
-  mounts_converted_path.m_separator = 92;
+    v5 = 0;
+  vostok::intrusive_ptr<vostok::resources::fs_task_unmount,vostok::resources::intrusive_fs_task_unmount_base,vostok::threading::simple_lock>::operator=(
+    &s_resources_manager_buffer.m_mounts_ptr,
+    v5);
+  vostok::fs_new::native_path_string::native_path_string(&v18);
   vostok::fs_new::path_string_impl::assignf_with_conversion(
-    &mounts_converted_path,
-    (vostok::fs_new::path_string_impl *)&stru_95BE78,
-    m_begin,
-    &stru_95BE78.m_string.m_buffer[60]);
-  vostok::fs_new::create_folder_r(
-    (const vostok::fs_new::synchronous_device_interface *)((char *)thisa + (_DWORD)&loc_205EB + 1),
-    &mounts_converted_path,
-    1);
-  v11 = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_max_end = &virtual_path.m_separator;
-  virtual_path.m_string.m_begin = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_end = virtual_path.m_string.m_buffer;
-  virtual_path.m_string.m_buffer[0] = 0;
-  v12 = &stru_95BE78.m_string.m_buffer[4];
-  do
-  {
-    if ( v11 >= virtual_path.m_string.m_max_end )
-      break;
-    *v11 = *v12;
-    v11 = virtual_path.m_string.m_end + 1;
-    v4 = *++v12 == 0;
-    ++virtual_path.m_string.m_end;
-  }
-  while ( !v4 );
-  *(_DWORD *)&v21[40] = 1;
-  *(_DWORD *)&v21[36] = 1;
-  *(_DWORD *)&v21[32] = 0;
-  *v11 = 0;
-  virtual_path.m_separator = 47;
-  boost::function<void __cdecl (vostok::vfs::mount_result)>::function<void __cdecl (vostok::vfs::mount_result)>(
-    (boost::function<void __cdecl(vostok::vfs::mount_result)> *)v21,
-    0);
+    v6,
+    &v18,
+    (vostok::fs_new::path_string_impl *)"%s/platforms/%s",
+    s_resources_manager_buffer.m_mounts_path.m_string.m_begin,
+    "pc_dx11");
+  vostok::fs_new::create_folder_r((char *)&v18, &s_resources_manager_buffer.m_sync_device, &v18, 1);
+  vostok::fixed_string<260>::fixed_string<260>(v7, &v19, "mounts");
+  *(_DWORD *)&v15[12] = 1;
+  *(_DWORD *)&v15[8] = 1;
+  v20 = 47;
+  *(_DWORD *)&v15[16] = 0;
   vostok::vfs::query_mount_arguments::mount_physical_path(
-    &mounts_converted_args,
-    &vostok::memory::g_resources_unmanaged_allocator,
-    &virtual_path,
-    &mounts_converted_path,
-    &stru_95BE78.m_string.m_buffer[4],
-    *(vostok::fs_new::asynchronous_device_interface **)((char *)&loc_205F8 + (_DWORD)thisa),
+    v8,
+    (int)&v17,
+    (vostok::vfs::query_mount_arguments *)&vostok::memory::g_resources_unmanaged_allocator,
+    &v19,
+    (const vostok::fs_new::virtual_path_string *)&v18,
+    (vostok::fs_new::native_path_string *)"mounts",
+    s_resources_manager_buffer.m_hdd->m_queries.m_forward_queue.m_static_memory,
     0,
-    *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)v21,
-    *(vostok::vfs::recursive_bool *)&v21[32],
-    *(vostok::vfs::lock_operation_enum *)&v21[36],
-    *(vostok::fs_new::watcher_enabled_bool *)&v21[40]);
-  m_variable = vostok::resources::g_resources_manager.m_variable;
-  LOBYTE(v25) = 0;
-  v26 = vostok::resources::resources_manager::dispatch_callbacks;
-  *(_DWORD *)&v21[4] = vostok::resources::g_resources_manager.m_variable;
-  *(_DWORD *)&v21[12] = 0;
-  *(_DWORD *)&v21[8] = v25;
-  if ( boost::detail::function::basic_vtable1<void,bool>::assign_to<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::resources::device_manager,vostok::resources::query_result *,bool>,boost::_bi::list3<boost::_bi::value<vostok::resources::device_manager *>,boost::_bi::value<vostok::resources::query_result *>,boost::arg<1>>>>(
-         (boost::detail::function::function_buffer *)&v21[20],
-         (boost::detail::function::basic_vtable1<void,vostok::resources::queries_result &> *)vostok::resources::resources_manager::dispatch_callbacks,
-         *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,survarium::animated_model_instance_cook,vostok::resources::queries_result &,survarium::animated_model_instance *>,boost::_bi::list3<boost::_bi::value<survarium::animated_model_instance_cook *>,boost::arg<1>,boost::_bi::value<survarium::animated_model_instance *> > > *)&v21[4]) )
-  {
-    *(_DWORD *)&v21[12] = &stru_95BE78.m_string.m_buffer[13];
-  }
-  else
-  {
-    *(_DWORD *)&v21[12] = 0;
-  }
+    0,
+    *(boost::function<void __cdecl(vostok::vfs::mount_result)> *)&v15[8]);
+  v22 = &s_resources_manager_buffer;
+  LOBYTE(v29.m_object) = 0;
+  m_object = v29.m_object;
+  v21 = vostok::resources::resources_manager::dispatch_callbacks;
+  *(_DWORD *)&v15[4] = vostok::resources::resources_manager::dispatch_callbacks;
+  *(_DWORD *)&v15[8] = &s_resources_manager_buffer;
+  *(_DWORD *)v15 = &v15[16];
+  boost::function<void __cdecl (void)>::function<void __cdecl (void)>(
+    v9,
+    *(boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::resources::resources_manager,bool>,boost::_bi::list2<boost::_bi::value<vostok::resources::resources_manager *>,boost::_bi::value<bool> > > *)v15,
+    (int)v29.m_object);
   vostok::vfs::query_mount_and_wait(
-    &result_converted,
-    (vostok::vfs::virtual_file_system *)((char *)&loc_20600 + (_DWORD)thisa),
-    &mounts_converted_args,
-    *(boost::function<void __cdecl(void)> *)&v21[12]);
-  v13 = 0;
-  if ( result_converted.mount.m_object )
-  {
-    v13 = result_converted.mount.m_object;
-    _InterlockedExchangeAdd(&result_converted.mount.m_object->m_reference_count, 1u);
-  }
-  v14 = (vostok::resources::vfs_sub_fat_resource *)v13->user_data;
-  v15 = 0;
-  converted_sub_fat_resource.m_object = 0;
-  if ( v14 )
-  {
-    v15 = v14;
-    converted_sub_fat_resource.m_object = v14;
-    _InterlockedExchangeAdd(&v14->m_reference_count, 1u);
-  }
-  if ( !_InterlockedExchangeAdd(&v13->m_reference_count, 0xFFFFFFFF) )
-    vostok::vfs::vfs_intrusive_mount_base::destroy(v13, v13);
-  if ( vostok::memory::g_resources_helper_allocator.call_malloc(&vostok::memory::g_resources_helper_allocator, 40) )
-    vostok::resources::fs_task_unmount::fs_task_unmount(
-      (vostok::resources::fs_task_unmount *)&converted_sub_fat_resource,
-      &converted_sub_fat_resource);
+    &v25,
+    &s_resources_manager_buffer.m_vfs,
+    &v17,
+    *(boost::function<void __cdecl(void)> *)&v15[16]);
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>(
+    (vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v15[44],
+    &v25.mount);
+  vostok::resources::get_sub_fat_resource(
+    &v29,
+    *(vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock> *)&v15[44]);
+  v10 = type_info::raw_name(&vostok::resources::fs_task_unmount `RTTI Type Descriptor');
+  v11 = vostok::memory::g_resources_helper_allocator.call_malloc(
+          &vostok::memory::g_resources_helper_allocator,
+          40,
+          v10,
+          "vostok::resources::resources_manager::do_mount_mounts_path",
+          ".\\resources_manager_helper.cpp",
+          124);
+  if ( v11 )
+    vostok::resources::fs_task_unmount::fs_task_unmount((vostok::resources::fs_task_unmount *)&v29, (int)v11, &v29);
   else
-    v16 = 0;
-  v17 = 0;
-  if ( v16 )
-  {
-    v17 = v16;
-    _InterlockedExchangeAdd(&v16->m_reference_count, 1u);
-  }
-  v18 = thisa->m_mounts_converted_ptr.m_object;
-  thisa->m_mounts_converted_ptr.m_object = v17;
-  if ( v18 && !_InterlockedExchangeAdd(&v18->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::intrusive_fs_task_unmount_base::destroy(v22, v18);
-  if ( v15 && !_InterlockedExchangeAdd(&v15->m_reference_count, 0xFFFFFFFF) )
-    vostok::resources::unmanaged_intrusive_base::destroy(&v15->vostok::resources::unmanaged_intrusive_base, v15);
-  vostok::vfs::mount_result::~mount_result(&result_converted);
-  vostok::vfs::query_mount_arguments::~query_mount_arguments(&mounts_converted_args);
-  v19 = sub_fat_resource.m_object;
-  if ( sub_fat_resource.m_object )
-  {
-    v20 = &sub_fat_resource.m_object->vostok::resources::unmanaged_intrusive_base;
-    if ( !_InterlockedExchangeAdd(&sub_fat_resource.m_object->m_reference_count, 0xFFFFFFFF) )
-      vostok::resources::unmanaged_intrusive_base::destroy(v20, v19);
-  }
-  vostok::vfs::mount_result::~mount_result(&result);
-  vostok::vfs::query_mount_arguments::~query_mount_arguments(&mounts_args);
+    v12 = 0;
+  vostok::intrusive_ptr<vostok::resources::fs_task_unmount,vostok::resources::intrusive_fs_task_unmount_base,vostok::threading::simple_lock>::operator=(
+    &s_resources_manager_buffer.m_mounts_converted_ptr,
+    v12);
+  vostok::intrusive_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v29);
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec(&v25.mount);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v13,
+    (int *)&v17.callback);
+  vostok::intrusive_ptr<vostok::resources::vfs_sub_fat_resource,vostok::resources::unmanaged_intrusive_base,vostok::threading::simple_lock>::dec(&v26);
+  vostok::intrusive_ptr<vostok::vfs::vfs_mount,vostok::vfs::vfs_intrusive_mount_base,vostok::threading::simple_lock>::dec(&result.mount);
+  boost::function3<void,unsigned char,enum survarium::match_stats_events_dict_enum,unsigned short>::clear(
+    v14,
+    (int *)&args.callback);
 }

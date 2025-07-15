@@ -12,7 +12,7 @@ double __thiscall btClosestNotMeConvexResultCallback::addSingleResult(
                              * (float)(this->m_convexToWorld.mVec128.m128_f32[1]
                                      - this->m_convexFromWorld.mVec128.m128_f32[1])))
              + (float)(convexResult->m_hitNormalLocal.mVec128.m128_f32[0]
-                     * (float)(this->m_convexToWorld.mVec128.m128_f32[0] - this->m_convexFromWorld.mVec128.m128_f32[0]))) >= (float)-this->m_allowedPenetration )
+                     * (float)(this->m_convexToWorld.mVec128.m128_f32[0] - this->m_convexFromWorld.mVec128.m128_f32[0]))) >= COERCE_FLOAT(LODWORD(this->m_allowedPenetration) ^ _mask__NegFloat_) )
   {
     return 1.0;
   }

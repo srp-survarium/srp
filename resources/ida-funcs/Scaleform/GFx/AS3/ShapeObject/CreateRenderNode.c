@@ -8,10 +8,6 @@ Scaleform::Ptr<Scaleform::Render::TreeNode> *__thiscall Scaleform::GFx::AS3::Sha
 
   pObject = this->pDef.pObject;
   v4 = (Scaleform::GFx::MovieDefImpl *)((int (*)(void))this->GetResourceMovieDef)();
-  Scaleform::GFx::ShapeBaseCharacterDef::CreateTreeShape(
-    pObject,
-    result,
-    (Scaleform::Render::ShapeMeshProvider *)context,
-    v4);
+  Scaleform::GFx::ShapeBaseCharacterDef::CreateTreeShape(pObject, result, context, v4);
   return result;
 }

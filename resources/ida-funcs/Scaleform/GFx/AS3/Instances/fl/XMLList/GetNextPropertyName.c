@@ -4,7 +4,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::GetNextPropertyName
         Scaleform::GFx::AS3::GlobalSlotIndex ind)
 {
   Scaleform::GFx::AS3::StringManager *StringManagerRef; // edi
-  char *ValueStr; // esi
+  __m128i *ValueStr; // esi
   unsigned int Size; // eax
   Scaleform::GFx::ASStringNode *pNode; // eax
   Scaleform::GFx::ASString v; // [esp+4h] [ebp-54h] BYREF
@@ -19,7 +19,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::GetNextPropertyName
   {
     Scaleform::LongFormatter::LongFormatter(&f, ind.Index - 1);
     Scaleform::LongFormatter::Convert(&f);
-    ValueStr = f.ValueStr;
+    ValueStr = (__m128i *)f.ValueStr;
     Size = Scaleform::LongFormatter::GetSize(&f);
     v.pNode = Scaleform::GFx::ASStringManager::CreateStringNode(StringManagerRef->pStringManager, ValueStr, Size);
     ++v.pNode->RefCount;

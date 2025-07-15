@@ -10,31 +10,31 @@ DName *__cdecl UnDecorator::getEnumType(DName *result)
   int v8; // edx
   DName *v9; // eax
   DName v10; // [esp+0h] [ebp-10h] BYREF
-  DName ecsuName; // [esp+8h] [ebp-8h] BYREF
+  DName v11; // [esp+8h] [ebp-8h] BYREF
 
   v1 = *UnDecorator::gName;
-  ecsuName.node = 0;
-  *((_DWORD *)&ecsuName + 1) &= 0xFFFF0000;
+  v11.node = 0;
+  *((_DWORD *)&v11 + 1) &= 0xFFFF0000;
   if ( v1 )
   {
     switch ( v1 )
     {
       case '0':
       case '1':
-        DName::operator=(&ecsuName, "char ");
+        DName::operator=(&v11, "char ");
         break;
       case '2':
       case '3':
-        DName::operator=(&ecsuName, "short ");
+        DName::operator=(&v11, "short ");
         break;
       case '4':
         break;
       case '5':
-        DName::operator=(&ecsuName, "int ");
+        DName::operator=(&v11, "int ");
         break;
       case '6':
       case '7':
-        DName::operator=(&ecsuName, "long ");
+        DName::operator=(&v11, "long ");
         break;
       default:
         DName::DName(result, DN_invalid);
@@ -44,12 +44,12 @@ DName *__cdecl UnDecorator::getEnumType(DName *result)
     v3 = v2 - 49;
     if ( v3 && (v4 = v3 - 2) != 0 && (v5 = v4 - 2) != 0 && v5 != 2 )
     {
-      v8 = *((_DWORD *)&ecsuName + 1);
-      node = ecsuName.node;
+      v8 = *((_DWORD *)&v11 + 1);
+      node = v11.node;
     }
     else
     {
-      v6 = operator+(&v10, "unsigned ", &ecsuName);
+      v6 = operator+(&v10, "unsigned ", &v11);
       node = v6->node;
       v8 = *((_DWORD *)v6 + 1);
     }

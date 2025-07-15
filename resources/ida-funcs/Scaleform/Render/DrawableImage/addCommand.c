@@ -6,10 +6,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::ContextImpl::Context *pControlContext; // eax
   Scaleform::Render::DICommand_SourceRect *v5; // eax
   _DWORD *v6; // esi
-  Scaleform::GFx::Resource *v7; // ecx
+  Scaleform::Render::Filter *v7; // ecx
   Scaleform::Render::DICommandQueue *v8; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v11; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -18,13 +19,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v10 = 0;
+  v11 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v10)
+    || (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10))
+    && (!v11 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v11)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -35,9 +34,9 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     {
       Scaleform::Render::DICommand_SourceRect::DICommand_SourceRect(v5, cmd);
       *v6 = &Scaleform::Render::DICommand_ApplyFilter::`vftable';
-      v7 = (Scaleform::GFx::Resource *)cmd->pFilter.pObject;
+      v7 = cmd->pFilter.pObject;
       if ( v7 )
-        Scaleform::RefCountImpl::AddRef(v7);
+        Scaleform::RefCountImpl::AddRef((Scaleform::GFx::Resource *)v7);
       v6[9] = cmd->pFilter.pObject;
     }
     if ( (cmd->GetRenderCaps(cmd) & 0x10) != 0 )
@@ -65,7 +64,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DrawableImage *v7; // ecx
   Scaleform::Render::DICommandQueue *v8; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v11; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -74,18 +74,16 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v10 = 0;
+  v11 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v10)
+    || (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10))
+    && (!v11 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v11)) )
   {
-    v5 = Scaleform::Render::DICommandQueue::allocCommandFromPage(
-           this->pQueue.pObject,
-           0xCu,
-           &this->pQueue.pObject->QueueLock);
+    v5 = (_DWORD *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
+                     this->pQueue.pObject,
+                     0xCu,
+                     &this->pQueue.pObject->QueueLock);
     v6 = v5;
     if ( v5 )
     {
@@ -121,7 +119,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   _DWORD *v6; // edi
   Scaleform::Render::DICommandQueue *v7; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -130,13 +129,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v9 = 0;
+  v10 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v9)
+    || (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9))
+    && (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -174,7 +171,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DrawableImage *v7; // ecx
   Scaleform::Render::DICommandQueue *v8; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v11; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -183,13 +181,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v10 = 0;
+  v11 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v10)
+    || (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10))
+    && (!v11 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v11)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -229,7 +225,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   _DWORD *v6; // esi
   Scaleform::Render::DICommandQueue *v7; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -238,13 +235,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v9 = 0;
+  v10 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v9)
+    || (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9))
+    && (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -280,7 +275,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::ContextImpl::Context *pControlContext; // eax
   Scaleform::Render::DICommandQueue *v5; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v7; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -289,13 +285,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v7 = 0;
+  v8 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v7)
+    || (!v7 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v7))
+    && (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8)) )
   {
     Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Render::DICommand_CopyPixels>(
       this->pQueue.pObject,
@@ -325,7 +319,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DrawableImage *v7; // ecx
   Scaleform::Render::DICommandQueue *v8; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v11; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -334,18 +329,16 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v10 = 0;
+  v11 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v10)
+    || (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10))
+    && (!v11 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v11)) )
   {
-    v5 = Scaleform::Render::DICommandQueue::allocCommandFromPage(
-           this->pQueue.pObject,
-           8u,
-           &this->pQueue.pObject->QueueLock);
+    v5 = (_DWORD *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
+                     this->pQueue.pObject,
+                     8u,
+                     &this->pQueue.pObject->QueueLock);
     v6 = v5;
     if ( v5 )
     {
@@ -379,7 +372,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_Draw *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -388,13 +382,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_Draw *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                 this->pQueue.pObject,
@@ -425,7 +417,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_FillRect *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -434,13 +427,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_FillRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                     this->pQueue.pObject,
@@ -470,7 +461,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::ContextImpl::Context *pControlContext; // eax
   Scaleform::Render::DICommandQueue *v5; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v7; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -479,13 +471,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v7 = 0;
+  v8 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v7)
+    || (!v7 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v7))
+    && (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8)) )
   {
     Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Render::DICommand_FloodFill>(this->pQueue.pObject, cmd);
     if ( (cmd->GetRenderCaps(cmd) & 0x10) != 0 )
@@ -511,7 +501,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_GetColorBoundsRect *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -520,13 +511,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_GetColorBoundsRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                               this->pQueue.pObject,
@@ -556,7 +545,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::ContextImpl::Context *pControlContext; // eax
   Scaleform::Render::DICommandQueue *v5; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v7; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -565,13 +555,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v7 = 0;
+  v8 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v7)
+    || (!v7 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v7))
+    && (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8)) )
   {
     Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Render::DICommand_GetPixel32>(
       this->pQueue.pObject,
@@ -599,7 +587,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_GetPixels *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -608,13 +597,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_GetPixels *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                      this->pQueue.pObject,
@@ -645,7 +632,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_Histogram *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -654,13 +642,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_Histogram *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                      this->pQueue.pObject,
@@ -691,7 +677,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_HitTest *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -700,13 +687,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_HitTest *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                    this->pQueue.pObject,
@@ -738,7 +723,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   _DWORD *v6; // esi
   Scaleform::Render::DICommandQueue *v7; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -747,13 +733,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v9 = 0;
+  v10 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v9)
+    || (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9))
+    && (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -792,7 +776,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_Noise *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -801,13 +786,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_Noise *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                  this->pQueue.pObject,
@@ -838,7 +821,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_PaletteMap *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -847,13 +831,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_PaletteMap *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -884,7 +866,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_PerlinNoise *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -893,13 +876,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_PerlinNoise *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                        this->pQueue.pObject,
@@ -930,7 +911,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_PixelDissolve *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -939,13 +921,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_PixelDissolve *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                          this->pQueue.pObject,
@@ -977,7 +957,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   _DWORD *v6; // esi
   Scaleform::Render::DICommandQueue *v7; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v10; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -986,13 +967,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v9 = 0;
+  v10 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v9)
+    || (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9))
+    && (!v10 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v10)) )
   {
     v5 = (Scaleform::Render::DICommand_SourceRect *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -1029,7 +1008,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_SetPixel32 *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -1038,13 +1018,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_SetPixel32 *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                       this->pQueue.pObject,
@@ -1075,7 +1053,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::DICommand_SetPixels *v5; // eax
   Scaleform::Render::DICommandQueue *v6; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v9; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -1084,13 +1063,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v8 = 0;
+  v9 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v8)
+    || (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8))
+    && (!v9 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v9)) )
   {
     v5 = (Scaleform::Render::DICommand_SetPixels *)Scaleform::Render::DICommandQueue::allocCommandFromPage(
                                                      this->pQueue.pObject,
@@ -1120,7 +1097,8 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
   Scaleform::Render::ContextImpl::Context *pControlContext; // eax
   Scaleform::Render::DICommandQueue *v5; // esi
   Scaleform::Event *p_ExecuteDone; // esi
-  Scaleform::Render::DISourceImages sources; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v7; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::Render::DrawableImage *v8; // [esp+Ch] [ebp-4h]
 
   pObject = this->pContext.pObject;
   if ( pObject )
@@ -1129,13 +1107,11 @@ void __thiscall Scaleform::Render::DrawableImage::addCommand<Scaleform::Render::
     if ( pControlContext )
       pControlContext->DIChangesRequired = 1;
   }
-  sources.pImages[0] = 0;
-  sources.pImages[1] = 0;
-  if ( !cmd->GetSourceImages(cmd, &sources)
-    || (!sources.pImages[0]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[0]))
-    && (!sources.pImages[1]
-     || Scaleform::Render::DrawableImage::mergeQueueWith(this, (Scaleform::Render::DrawableImage *)sources.pImages[1])) )
+  v7 = 0;
+  v8 = 0;
+  if ( !cmd->GetSourceImages(cmd, (Scaleform::Render::DISourceImages *)&v7)
+    || (!v7 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v7))
+    && (!v8 || Scaleform::Render::DrawableImage::mergeQueueWith(this, v8)) )
   {
     Scaleform::Render::DICommandQueue::AddCommand_NTS<Scaleform::Render::DICommand_Threshold>(this->pQueue.pObject, cmd);
     if ( (cmd->GetRenderCaps(cmd) & 0x10) != 0 )

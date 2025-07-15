@@ -1,7 +1,7 @@
 void __usercall stlp_std::priv::_Stl_norm_and_round(
         unsigned __int64 *p@<eax>,
         int *norm@<ecx>,
-        signed __int64 prodhi,
+        unsigned __int64 prodhi,
         unsigned __int64 prodlo)
 {
   int v4; // edx
@@ -9,7 +9,7 @@ void __usercall stlp_std::priv::_Stl_norm_and_round(
   unsigned __int64 v6; // kr00_8
 
   *norm = 0;
-  if ( prodhi < 0 )
+  if ( (prodhi & 0x8000000000000000uLL) != 0LL )
   {
     v5 = HIDWORD(prodlo);
     v4 = prodlo;
@@ -24,7 +24,7 @@ void __usercall stlp_std::priv::_Stl_norm_and_round(
       return;
     }
     *(_DWORD *)p = (2 * prodhi) | (HIDWORD(prodlo) >> 31);
-    *((_DWORD *)p + 1) = (unsigned __int64)prodhi >> 31;
+    *((_DWORD *)p + 1) = prodhi >> 31;
     *norm = 1;
     v4 = 2 * prodlo;
     v5 = prodlo >> 31;

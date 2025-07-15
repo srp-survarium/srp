@@ -65,7 +65,7 @@ LABEL_22:
   if ( v6.VInt && !v6.VBool )
   {
     v10 = *(_DWORD *)(v6.VInt + 16);
-    if ( ((unsigned int)&byte_3FFFFF & v10) != 0 )
+    if ( (v10 & 0x3FFFFF) != 0 )
     {
       *(_DWORD *)(v6.VInt + 16) = v10 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v6.VObj);

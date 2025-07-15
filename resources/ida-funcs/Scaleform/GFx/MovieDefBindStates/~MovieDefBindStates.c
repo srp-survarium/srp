@@ -6,8 +6,8 @@ void __thiscall Scaleform::GFx::MovieDefBindStates::~MovieDefBindStates(Scalefor
   Scaleform::RefCountVImpl *v5; // ecx
   Scaleform::RefCountVImpl *v6; // ecx
   Scaleform::RefCountVImpl *v7; // ecx
-  Scaleform::GFx::URLBuilder *v8; // ecx
-  Scaleform::GFx::FileOpener *v9; // ecx
+  Scaleform::RefCountVImpl *v8; // ecx
+  Scaleform::RefCountVImpl *v9; // ecx
 
   pObject = (Scaleform::RefCountVImpl *)this->pImagePackParams.pObject;
   if ( pObject )
@@ -27,11 +27,11 @@ void __thiscall Scaleform::GFx::MovieDefBindStates::~MovieDefBindStates(Scalefor
   v7 = (Scaleform::RefCountVImpl *)this->pImageCreator.pObject;
   if ( v7 )
     Scaleform::RefCountImpl::Release(v7);
-  v8 = this->pURLBulider.pObject;
+  v8 = (Scaleform::RefCountVImpl *)this->pURLBulider.pObject;
   if ( v8 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v8);
-  v9 = this->pFileOpener.pObject;
+    Scaleform::RefCountImpl::Release(v8);
+  v9 = (Scaleform::RefCountVImpl *)this->pFileOpener.pObject;
   if ( v9 )
-    Scaleform::RefCountImpl::Release((Scaleform::RefCountVImpl *)v9);
+    Scaleform::RefCountImpl::Release(v9);
   Scaleform::RefCountImplCore::~RefCountImplCore(this);
 }

@@ -52,8 +52,8 @@ int __cdecl png_handle_sCAL(int a1, int a2, unsigned int a3)
                   a1,
                   a2,
                   **(char **)(a1 + 680),
-                  (char *)(*(_DWORD *)(a1 + 680) + 1),
-                  (char *)(v5 + *(_DWORD *)(a1 + 680)));
+                  (const __m128i *)(*(_DWORD *)(a1 + 680) + 1),
+                  (const __m128i *)(v5 + *(_DWORD *)(a1 + 680)));
               else
                 png_warning(a1, "Invalid sCAL chunk ignored: non-positive height");
             }

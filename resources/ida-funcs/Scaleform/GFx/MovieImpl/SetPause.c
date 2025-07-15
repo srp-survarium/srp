@@ -18,7 +18,7 @@ void __thiscall Scaleform::GFx::MovieImpl::SetPause(Scaleform::GFx::MovieImpl *t
   {
     if ( (_BYTE)pause )
     {
-      this->Flags |= 0x100000u;
+      this->Flags |= (unsigned int)&loc_100000;
       this->PauseTickMs = Scaleform::Timer::GetTicks() / 0x3E8;
     }
     else

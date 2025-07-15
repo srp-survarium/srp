@@ -1,273 +1,237 @@
 void __userpurge Wm4::ConvexHull2<float>::ConvexHull2<float>(
-        int iVertexQuantity@<eax>,
-        Wm4::Vector2<float> *akVertex@<ecx>,
-        const Wm4::Vector2<float> *a3@<edi>,
-        Wm4::ConvexHull2<float> *this,
+        Wm4::Vector2<float> *akVertex@<eax>,
+        int a2@<edi>,
+        Wm4::HullEdge2<float> **this,
+        int iVertexQuantity,
         float fEpsilon,
         bool bOwner,
         Wm4::Query::Type eQueryType)
 {
-  Wm4::Mapper2<float> *m_iVertexQuantity; // ecx
-  int v9; // eax
-  int v10; // ecx
-  int v11; // edi
-  bool v12; // cc
+  Wm4::ConvexHull2<float> *v7; // ebx
+  Wm4::Mapper2<float> *v9; // ecx
+  float v10; // xmm0_4
+  int v11; // eax
+  int v12; // ecx
   Wm4::Vector2<float> *v13; // eax
-  vostok::math::float2 *v14; // eax
-  Wm4::Query2<float> *v15; // eax
-  Wm4::Vector2<float> *m_akSVertex; // ecx
-  int v17; // edx
-  int v18; // ecx
-  Wm4::Vector2<float> *v19; // eax
-  double v20; // st7
+  float v14; // xmm2_4
+  int v15; // esi
+  int v16; // ecx
+  bool v17; // cc
   float *m_afTuple; // eax
-  float v22; // eax
-  int v23; // edi
-  int *v24; // eax
+  float v19; // xmm0_4
+  float v20; // xmm1_4
+  float *v21; // eax
+  float v22; // xmm1_4
+  Wm4::Query2<float> *v23; // eax
+  Wm4::Vector2<float> *m_akSVertex; // ecx
   int v25; // edx
-  int *v26; // edi
-  int *v27; // eax
-  int v28; // ecx
-  int v29; // edi
-  int *v30; // eax
-  int v31; // edx
-  int v32; // edx
-  Wm4::ConvexHull2<float> *v33; // ecx
-  int v34; // edi
-  float v35; // edi
-  _DWORD *v36; // eax
-  _DWORD *v37; // esi
-  _DWORD *v38; // eax
-  _DWORD *v39; // edi
-  float m_fEpsilon; // [esp+0h] [ebp-6Ch]
-  const Wm4::Vector2<float> *v41; // [esp+4h] [ebp-68h]
-  float fScale; // [esp+10h] [ebp-5Ch] BYREF
-  Wm4::Vector2<float> kMin; // [esp+14h] [ebp-58h] BYREF
-  Wm4::Vector2<float> v44; // [esp+1Ch] [ebp-50h] BYREF
-  float v45[2]; // [esp+24h] [ebp-48h] BYREF
-  Wm4::Mapper2<float> kMapper; // [esp+2Ch] [ebp-40h] BYREF
+  int v26; // ecx
+  float *v27; // eax
+  Wm4::HullEdge2<float> **v28; // eax
+  Wm4::ConvexHull2<float> *v29; // eax
+  Wm4::ConvexHull2<float> *v30; // edi
+  Wm4::HullEdge2<float> **v31; // eax
+  int v32; // eax
+  Wm4::HullEdge2<float> **v33; // eax
+  int m_iSimplexQuantity; // ecx
+  Wm4::HullEdge2<float> *v35; // ecx
+  Wm4::ConvexHull2<float> *v36; // eax
+  Wm4::HullEdge2<float> **v37; // eax
+  int v38; // eax
+  int v39; // eax
+  Wm4::HullEdge2<float> *v40; // esi
+  Wm4::ConvexHull2<float> *v41; // edi
+  Wm4::ConvexHull2<float> *m_iDimension; // ecx
+  Wm4::ConvexHull2<float> *v43; // eax
+  int m_iVertexQuantity; // [esp-8h] [ebp-5Ch]
+  float fEpsilona; // [esp+0h] [ebp-54h]
+  Wm4::ConvexHull2<float> *fEpsilonb; // [esp+0h] [ebp-54h]
+  Wm4::ConvexHull2<float> *fEpsilonc; // [esp+0h] [ebp-54h]
+  int v48; // [esp+4h] [ebp-50h]
+  float v49[5]; // [esp+14h] [ebp-40h] BYREF
+  int v50; // [esp+28h] [ebp-2Ch]
+  Wm4::HullEdge2<float> *v51; // [esp+2Ch] [ebp-28h]
+  int iV0; // [esp+30h] [ebp-24h]
+  Wm4::HullEdge2<float> *v53; // [esp+34h] [ebp-20h]
+  char v54; // [esp+38h] [ebp-1Ch]
+  float v55; // [esp+3Ch] [ebp-18h]
+  float v56; // [esp+40h] [ebp-14h]
+  float v57; // [esp+44h] [ebp-10h]
+  float v58; // [esp+48h] [ebp-Ch]
 
-  this->m_fEpsilon = fEpsilon;
-  v41 = a3;
-  this->m_eQueryType = QT_REAL;
-  this->m_iVertexQuantity = iVertexQuantity;
-  this->m_iDimension = 0;
-  this->m_iSimplexQuantity = 0;
-  this->m_aiIndex = 0;
-  this->m_bOwner = 0;
-  this->__vftable = (Wm4::ConvexHull2<float>_vtbl *)&Wm4::ConvexHull2<float>::`vftable';
-  Wm4::Vector2<float>::Vector2<float>(&this->m_kLineOrigin, &Wm4::Vector2<float>::ZERO);
-  Wm4::Vector2<float>::Vector2<float>(&this->m_kLineDirection, &Wm4::Vector2<float>::ZERO);
-  m_iVertexQuantity = (Wm4::Mapper2<float> *)this->m_iVertexQuantity;
-  m_fEpsilon = this->m_fEpsilon;
-  this->m_akVertex = akVertex;
-  this->m_akSVertex = 0;
-  this->m_pkQuery = 0;
-  Wm4::Mapper2<float>::Mapper2<float>(m_iVertexQuantity, (int)m_iVertexQuantity, akVertex, m_fEpsilon);
-  if ( !kMapper.m_iDimension )
+  v7 = (Wm4::ConvexHull2<float> *)this;
+  v48 = a2;
+  Wm4::ConvexHull<float>::ConvexHull<float>((int)this, 3, 0, iVertexQuantity, 0);
+  v7->__vftable = (Wm4::ConvexHull2<float>_vtbl *)&Wm4::ConvexHull2<float>::`vftable';
+  v7->m_kLineOrigin = Wm4::Vector2<float>::ZERO;
+  v7->m_kLineDirection = Wm4::Vector2<float>::ZERO;
+  fEpsilona = v7->m_fEpsilon;
+  m_iVertexQuantity = v7->m_iVertexQuantity;
+  v7->m_akVertex = akVertex;
+  v7->m_akSVertex = 0;
+  v7->m_pkQuery = 0;
+  Wm4::Mapper2<float>::Mapper2<float>(v9, (int)v49, m_iVertexQuantity, akVertex, fEpsilona);
+  if ( !v50 )
     return;
-  if ( kMapper.m_iDimension == 1 )
+  if ( v50 == 1 )
   {
-    this->m_iDimension = 1;
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)&kMapper.m_kOrigin,
-      (vostok::math::float2 *)&this->m_kLineOrigin);
-    Wm4::Vector2<float>::operator=(
-      (vostok::math::float2 *)kMapper.m_akDirection,
-      (vostok::math::float2 *)&this->m_kLineDirection);
+    v10 = v55;
+    v7->m_iDimension = 1;
+    v7->m_kLineOrigin.m_afTuple[0] = v10;
+    v7->m_kLineOrigin.m_afTuple[1] = v56;
+    v7->m_kLineDirection.m_afTuple[0] = v57;
+    v7->m_kLineDirection.m_afTuple[1] = v58;
     return;
   }
-  v9 = 8 * this->m_iVertexQuantity;
-  v10 = (unsigned __int64)(unsigned int)this->m_iVertexQuantity >> 29 != 0;
-  this->m_iDimension = 2;
-  this->m_akSVertex = (Wm4::Vector2<float> *)operator new[](v9 | -v10);
-  Wm4::Vector2<float>::Vector2<float>(&kMin, &kMapper.m_kMin);
-  v11 = 0;
-  v12 = this->m_iVertexQuantity <= 0;
-  fScale = 1.0 / kMapper.m_fMaxRange;
-  if ( !v12 )
+  v11 = 8 * v7->m_iVertexQuantity;
+  v12 = (unsigned __int64)(unsigned int)v7->m_iVertexQuantity >> 29 != 0;
+  v7->m_iDimension = 2;
+  v13 = (Wm4::Vector2<float> *)operator new[](v11 | -v12);
+  v14 = s_bm_current_air_resistance / v49[4];
+  v15 = 0;
+  v16 = 0;
+  v17 = v7->m_iVertexQuantity <= 0;
+  v7->m_akSVertex = v13;
+  if ( !v17 )
   {
     do
     {
-      v13 = Wm4::Vector2<float>::operator-(&kMin, &v44, &this->m_akVertex[v11], v41);
-      v14 = (vostok::math::float2 *)Wm4::Vector2<float>::operator*(v45, v13->m_afTuple, fScale);
-      Wm4::Vector2<float>::operator=(v14, (vostok::math::float2 *)&this->m_akSVertex[v11++]);
+      m_afTuple = v7->m_akVertex[v16].m_afTuple;
+      v19 = *m_afTuple;
+      v20 = m_afTuple[1];
+      v21 = v7->m_akSVertex[v16].m_afTuple;
+      v22 = (float)(v20 - v49[1]) * v14;
+      ++v16;
+      *v21 = (float)(v19 - v49[0]) * v14;
+      v21[1] = v22;
     }
-    while ( v11 < this->m_iVertexQuantity );
+    while ( v16 < v7->m_iVertexQuantity );
   }
-  v15 = (Wm4::Query2<float> *)operator new(0xCu);
-  if ( v15 )
+  v23 = (Wm4::Query2<float> *)operator new(0xCu);
+  if ( v23 )
   {
-    m_akSVertex = this->m_akSVertex;
-    v17 = this->m_iVertexQuantity;
-    v15->__vftable = (Wm4::Query2<float>_vtbl *)&Wm4::Query2<float>::`vftable';
-    v15->m_iVQuantity = v17;
-    v15->m_akVertex = m_akSVertex;
+    m_akSVertex = v7->m_akSVertex;
+    v25 = v7->m_iVertexQuantity;
+    v23->__vftable = (Wm4::Query2<float>_vtbl *)&Wm4::Query2<float>::`vftable';
+    v23->m_iVQuantity = v25;
+    v23->m_akVertex = m_akSVertex;
   }
   else
   {
-    v15 = 0;
+    v23 = 0;
   }
-  v18 = 0;
-  v12 = this->m_iVertexQuantity <= 0;
-  this->m_pkQuery = v15;
-  if ( !v12 )
+  v26 = 0;
+  v17 = v7->m_iVertexQuantity <= 0;
+  v7->m_pkQuery = v23;
+  if ( !v17 )
   {
     do
     {
-      v19 = this->m_akSVertex;
-      v20 = v19[v18].m_afTuple[0];
-      m_afTuple = v19[v18].m_afTuple;
-      *m_afTuple = v20;
-      ++v18;
-      m_afTuple[1] = m_afTuple[1];
+      v27 = v7->m_akSVertex[v26++].m_afTuple;
+      *v27 = *v27;
+      v27[1] = v27[1];
     }
-    while ( v18 < this->m_iVertexQuantity );
+    while ( v26 < v7->m_iVertexQuantity );
   }
-  v22 = COERCE_FLOAT(operator new(0x18u));
-  if ( kMapper.m_bExtremeCCW )
+  v28 = (Wm4::HullEdge2<float> **)operator new(0x18u);
+  if ( !v54 )
   {
-    v23 = kMapper.m_aiExtreme[1];
-    if ( v22 == 0.0 )
+    if ( v28 )
     {
-      fScale = 0.0;
+      Wm4::HullEdge2<float>::HullEdge2<float>(v51, v28, v53, a2);
+      v30 = v36;
     }
     else
     {
-      *(_DWORD *)LODWORD(v22) = kMapper.m_aiExtreme[0];
-      *(_DWORD *)(LODWORD(v22) + 4) = v23;
-      *(_DWORD *)(LODWORD(v22) + 8) = 0;
-      *(_DWORD *)(LODWORD(v22) + 12) = 0;
-      *(_DWORD *)(LODWORD(v22) + 16) = 0;
-      *(_DWORD *)(LODWORD(v22) + 20) = -1;
-      fScale = v22;
+      v30 = 0;
     }
-    v24 = (int *)operator new(0x18u);
-    if ( v24 )
+    v37 = (Wm4::HullEdge2<float> **)operator new(0x18u);
+    if ( v37 )
     {
-      v25 = kMapper.m_aiExtreme[2];
-      *v24 = v23;
-      v24[1] = v25;
-      v24[2] = 0;
-      v24[3] = 0;
-      v24[4] = 0;
-      v24[5] = -1;
-      v26 = v24;
+      Wm4::HullEdge2<float>::HullEdge2<float>(v53, v37, (Wm4::HullEdge2<float> *)iV0, v48);
+      v15 = v38;
     }
-    else
+    v33 = (Wm4::HullEdge2<float> **)operator new(0x18u);
+    m_iSimplexQuantity = (int)fEpsilonc;
+    if ( v33 )
     {
-      v26 = 0;
+      v35 = (Wm4::HullEdge2<float> *)iV0;
+      goto LABEL_26;
     }
-    v27 = (int *)operator new(0x18u);
-    if ( v27 )
-    {
-      v28 = kMapper.m_aiExtreme[2];
+LABEL_27:
+    v39 = 0;
+    goto LABEL_28;
+  }
+  if ( v28 )
+  {
+    Wm4::HullEdge2<float>::HullEdge2<float>(v51, v28, (Wm4::HullEdge2<float> *)iV0, a2);
+    v30 = v29;
+  }
+  else
+  {
+    v30 = 0;
+  }
+  v31 = (Wm4::HullEdge2<float> **)operator new(0x18u);
+  if ( v31 )
+  {
+    Wm4::HullEdge2<float>::HullEdge2<float>((Wm4::HullEdge2<float> *)iV0, v31, v53, v48);
+    v15 = v32;
+  }
+  v33 = (Wm4::HullEdge2<float> **)operator new(0x18u);
+  m_iSimplexQuantity = (int)fEpsilonb;
+  if ( !v33 )
+    goto LABEL_27;
+  v35 = v53;
+LABEL_26:
+  Wm4::HullEdge2<float>::HullEdge2<float>(v35, v33, v51, v48);
 LABEL_28:
-      v32 = kMapper.m_aiExtreme[0];
-      v27[5] = -1;
-      v27[4] = 0;
-      v27[3] = 0;
-      v27[2] = 0;
-      v27[1] = v32;
-      *v27 = v28;
-      goto LABEL_30;
+  v30->m_iDimension = v15;
+  *(_DWORD *)(v15 + 8) = v30;
+  *(_DWORD *)(v15 + 12) = v39;
+  v30->m_iVertexQuantity = v39;
+  *(_DWORD *)(v39 + 8) = v15;
+  v40 = 0;
+  *(_DWORD *)(v39 + 12) = v30;
+  v17 = v7->m_iVertexQuantity <= 0;
+  this = (Wm4::HullEdge2<float> **)v30;
+  if ( v17 )
+  {
+LABEL_31:
+    v41 = (Wm4::ConvexHull2<float> *)this;
+    v7->m_iSimplexQuantity = 0;
+    m_iDimension = v41;
+    do
+    {
+      ++v7->m_iSimplexQuantity;
+      m_iDimension = (Wm4::ConvexHull2<float> *)m_iDimension->m_iDimension;
     }
+    while ( m_iDimension != v41 );
+    v7->m_aiIndex = (int *)operator new[](4 * v7->m_iSimplexQuantity);
+    v7->m_iSimplexQuantity = 0;
+    v43 = v41;
+    do
+    {
+      m_iSimplexQuantity = v7->m_iSimplexQuantity;
+      v7->m_aiIndex[m_iSimplexQuantity] = (int)v43->__vftable;
+      ++v7->m_iSimplexQuantity;
+      v43 = (Wm4::ConvexHull2<float> *)v43->m_iDimension;
+    }
+    while ( v43 != v41 );
   }
   else
   {
-    v29 = kMapper.m_aiExtreme[2];
-    if ( v22 == 0.0 )
+    while ( Wm4::ConvexHull2<float>::Update(
+              (Wm4::ConvexHull2<float> *)m_iSimplexQuantity,
+              (int)v7,
+              (Wm4::HullEdge2<float> **)v7,
+              (Wm4::HullEdge2<float> **)&this,
+              v40) )
     {
-      fScale = 0.0;
+      v40 = (Wm4::HullEdge2<float> *)((char *)v40 + 1);
+      if ( (int)v40 >= v7->m_iVertexQuantity )
+        goto LABEL_31;
     }
-    else
-    {
-      *(_DWORD *)LODWORD(v22) = kMapper.m_aiExtreme[0];
-      *(_DWORD *)(LODWORD(v22) + 4) = v29;
-      *(_DWORD *)(LODWORD(v22) + 8) = 0;
-      *(_DWORD *)(LODWORD(v22) + 12) = 0;
-      *(_DWORD *)(LODWORD(v22) + 16) = 0;
-      *(_DWORD *)(LODWORD(v22) + 20) = -1;
-      fScale = v22;
-    }
-    v30 = (int *)operator new(0x18u);
-    if ( v30 )
-    {
-      v31 = kMapper.m_aiExtreme[1];
-      *v30 = v29;
-      v30[1] = v31;
-      v30[2] = 0;
-      v30[3] = 0;
-      v30[4] = 0;
-      v30[5] = -1;
-      v26 = v30;
-    }
-    else
-    {
-      v26 = 0;
-    }
-    v27 = (int *)operator new(0x18u);
-    if ( v27 )
-    {
-      v28 = kMapper.m_aiExtreme[1];
-      goto LABEL_28;
-    }
+    v41 = (Wm4::ConvexHull2<float> *)this;
   }
-  v27 = 0;
-LABEL_30:
-  *(float *)&v33 = fScale;
-  *(_DWORD *)(LODWORD(fScale) + 12) = v26;
-  v26[2] = (int)v33;
-  v26[3] = (int)v27;
-  v33->m_iVertexQuantity = (int)v27;
-  v27[2] = (int)v26;
-  v27[3] = (int)v33;
-  v34 = 0;
-  v12 = this->m_iVertexQuantity <= 0;
-  fScale = *(float *)&v33;
-  if ( v12 )
-  {
-LABEL_33:
-    v35 = fScale;
-    Wm4::HullEdge2<float>::GetIndices(
-      (Wm4::HullEdge2<float> *)LODWORD(fScale),
-      &this->m_iSimplexQuantity,
-      &this->m_aiIndex);
-    v36 = *(_DWORD **)(LODWORD(v35) + 12);
-    if ( v36 )
-    {
-      do
-      {
-        if ( v36 == (_DWORD *)LODWORD(v35) )
-          break;
-        v37 = (_DWORD *)v36[3];
-        operator delete(v36);
-        v36 = v37;
-      }
-      while ( v37 );
-    }
-    operator delete((void *)LODWORD(v35));
-  }
-  else
-  {
-    while ( Wm4::ConvexHull2<float>::Update(v33, (Wm4::HullEdge2<float> **)this, (int)&fScale) )
-    {
-      if ( ++v34 >= this->m_iVertexQuantity )
-        goto LABEL_33;
-    }
-    v38 = *(_DWORD **)(LODWORD(fScale) + 12);
-    if ( v38 )
-    {
-      do
-      {
-        if ( v38 == (_DWORD *)LODWORD(fScale) )
-          break;
-        v39 = (_DWORD *)v38[3];
-        operator delete(v38);
-        v38 = v39;
-      }
-      while ( v39 );
-    }
-    operator delete((void *)LODWORD(fScale));
-  }
+  Wm4::HullEdge2<float>::DeleteAll((Wm4::HullEdge2<float> *)m_iSimplexQuantity, v41);
 }

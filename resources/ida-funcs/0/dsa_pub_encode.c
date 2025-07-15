@@ -16,13 +16,13 @@ int __cdecl dsa_pub_encode(X509_pubkey_st *pk, const evp_pkey_st *pkey)
   str = 0;
   if ( pkey->save_parameters && dsa->p && dsa->q && dsa->g )
   {
-    v4 = ASN1_STRING_new();
+    v4 = ASN1_STRING_new(0);
     v5 = i2d_DSAparams(dsa, &v4->data);
     v4->length = v5;
     if ( v5 <= 0 )
     {
-      ERR_put_error(0xAu, 118, 65, ".\\crypto\\dsa\\dsa_ameth.c", 154);
-      goto err_73;
+      ERR_put_error(0, 0xAu, 118, 65, ".\\crypto\\dsa\\dsa_ameth.c", 154);
+      goto err_75;
     }
     v2 = v4;
     v7 = 16;
@@ -37,15 +37,15 @@ int __cdecl dsa_pub_encode(X509_pubkey_st *pk, const evp_pkey_st *pkey)
   {
     v11 = v8;
     v10 = (unsigned __int8 *)str;
-    v9 = OBJ_nid2obj(0x74u);
+    v9 = OBJ_nid2obj((int)v2, 0x74u);
     if ( X509_PUBKEY_set0_param(pk, v9, v7, v2, v10, v11) )
       return 1;
   }
   else
   {
-    ERR_put_error(0xAu, 118, 65, ".\\crypto\\dsa\\dsa_ameth.c", 169);
+    ERR_put_error((int)v2, 0xAu, 118, 65, ".\\crypto\\dsa\\dsa_ameth.c", 169);
   }
-err_73:
+err_75:
   if ( str )
     CRYPTO_free(str);
   if ( v2 )

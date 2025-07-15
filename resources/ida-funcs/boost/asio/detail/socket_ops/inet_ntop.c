@@ -1,66 +1,64 @@
-char *__cdecl boost::asio::detail::socket_ops::inet_ntop(
+char *__usercall boost::asio::detail::socket_ops::inet_ntop@<eax>(
+        char *src@<eax>,
         int af,
-        in_addr::<unnamed_type_S_un> *src,
         char *dest,
         unsigned int length,
-        unsigned int scope_id,
-        boost::system::error_code *ec)
+        boost::system::error_code *scope_id)
 {
-  const boost::system::error_category *v6; // edx
-  const boost::system::error_category *v8; // edx
-  const boost::system::error_category *v9; // [esp+8h] [ebp-BCh]
-  INT v10; // [esp+Ch] [ebp-B8h]
-  const boost::system::error_category *v11; // [esp+1Ch] [ebp-A8h]
-  boost::asio::detail::socket_ops::inet_ntop::__l5::<unnamed_type_address> address; // [esp+34h] [ebp-90h] BYREF
-  unsigned int address_length; // [esp+B8h] [ebp-Ch]
-  int result; // [esp+BCh] [ebp-8h]
-  unsigned int string_length; // [esp+C0h] [ebp-4h] BYREF
+  DWORD v7; // eax
+  char *v8; // esi
+  INT v9; // eax
+  int v10; // edi
+  int v11; // esi
+  sockaddr saAddress; // [esp+10h] [ebp-88h] BYREF
+  int v13; // [esp+20h] [ebp-78h]
+  int v14; // [esp+24h] [ebp-74h]
+  unsigned int v15; // [esp+28h] [ebp-70h]
+  unsigned int dwAddressStringLength; // [esp+94h] [ebp-4h] BYREF
 
   WSASetLastError(0);
-  if ( af == 2 || af == 23 )
+  if ( af == 2 )
   {
-    if ( af == 2 )
-    {
-      address_length = 16;
-      *(_DWORD *)&address.base.sa_family = 2;
-      address.v4.sin_addr.S_un = *src;
-    }
-    else
-    {
-      address_length = 28;
-      *(_QWORD *)&address.base.sa_family = 23;
-      address.v6.sin6_scope_id = scope_id;
-      address.storage.__ss_align = *(_QWORD *)&src->S_un_b.s_b1;
-      *(_QWORD *)&address.v6.sin6_addr.u.Word[4] = *(_QWORD *)&src[2].S_un_b.s_b1;
-    }
-    string_length = length;
-    v10 = WSAAddressToStringA(&address.base, address_length, 0, dest, &string_length);
-    v11 = boost::system::system_category();
-    ec->m_val = WSAGetLastError();
-    ec->m_cat = v11;
-    result = v10;
-    if ( v10 == -1 )
-    {
-      if ( !ec->m_val )
-      {
-        v9 = boost::system::system_category();
-        ec->m_val = 10022;
-        ec->m_cat = v9;
-      }
-    }
-    else
-    {
-      v8 = boost::system::system_category();
-      ec->m_val = 0;
-      ec->m_cat = v8;
-    }
-    return result != -1 ? dest : 0;
+    v7 = 16;
+    saAddress.sa_family = 2;
+    *(_WORD *)saAddress.sa_data = 0;
+    *(_DWORD *)&saAddress.sa_data[2] = *(_DWORD *)src;
   }
   else
   {
-    v6 = boost::system::system_category();
-    ec->m_val = 10047;
-    ec->m_cat = v6;
-    return 0;
+    if ( af != 23 )
+    {
+      scope_id->m_cat = boost::system::system_category();
+      scope_id->m_val = 10047;
+      return 0;
+    }
+    v7 = 28;
+    saAddress.sa_family = 23;
+    *(_DWORD *)&saAddress.sa_data[2] = 0;
+    *(_WORD *)saAddress.sa_data = 0;
+    v15 = length;
+    *(_DWORD *)&saAddress.sa_data[6] = *(_DWORD *)src;
+    v8 = src + 4;
+    *(_DWORD *)&saAddress.sa_data[10] = *(_DWORD *)v8;
+    v8 += 4;
+    v13 = *(_DWORD *)v8;
+    v14 = *((_DWORD *)v8 + 1);
   }
+  dwAddressStringLength = 256;
+  v9 = WSAAddressToStringA(&saAddress, v7, 0, dest, &dwAddressStringLength);
+  v10 = boost::asio::detail::socket_ops::error_wrapper<int>(scope_id, v9);
+  if ( v10 != -1 )
+  {
+    v11 = 0;
+LABEL_10:
+    scope_id->m_cat = boost::system::system_category();
+    scope_id->m_val = v11;
+    return v10 != -1 ? dest : 0;
+  }
+  if ( !scope_id->m_val )
+  {
+    v11 = 10022;
+    goto LABEL_10;
+  }
+  return v10 != -1 ? dest : 0;
 }

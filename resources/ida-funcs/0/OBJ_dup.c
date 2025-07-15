@@ -1,34 +1,32 @@
-asn1_object_st *__cdecl OBJ_dup(const asn1_object_st *o)
+asn1_object_st *__usercall OBJ_dup@<eax>(int a1@<ebx>, const asn1_object_st *o)
 {
-  unsigned __int8 *v2; // ebp
+  char *v2; // ebp
   asn1_object_st *v4; // ebx
   unsigned __int8 *v5; // edi
-  unsigned __int8 *data; // eax
+  const __m128i *data; // eax
   const char *ln; // eax
-  unsigned int v8; // edi
-  unsigned __int8 *v9; // eax
-  unsigned int v10; // edi
-  unsigned __int8 *str; // [esp+8h] [ebp-4h]
-  unsigned __int8 *v12; // [esp+10h] [ebp+4h]
+  unsigned int v8; // kr00_4
+  char *v9; // eax
+  unsigned int v10; // kr04_4
+  const char *str; // [esp+8h] [ebp-4h]
 
   v2 = 0;
   if ( !o )
     return 0;
   if ( (o->flags & 1) == 0 )
     return (asn1_object_st *)o;
-  v4 = ASN1_OBJECT_new();
+  v4 = ASN1_OBJECT_new(a1);
   if ( !v4 )
   {
-    ERR_put_error(8u, 101, 13, ".\\crypto\\objects\\obj_lib.c", 80);
+    ERR_put_error(0, 8u, 101, 13, ".\\crypto\\objects\\obj_lib.c", 80);
     return 0;
   }
   v5 = (unsigned __int8 *)CRYPTO_malloc(o->length, ".\\crypto\\objects\\obj_lib.c", 83);
-  v12 = v5;
   if ( !v5 )
-    goto err_20;
-  data = (unsigned __int8 *)o->data;
+    goto err_22;
+  data = (const __m128i *)o->data;
   if ( data )
-    memcpy(v5, data, o->length);
+    memcpy((int)v5, data, o->length);
   v4->data = v5;
   v4->length = o->length;
   v4->nid = o->nid;
@@ -40,29 +38,27 @@ asn1_object_st *__cdecl OBJ_dup(const asn1_object_st *o)
 LABEL_13:
     if ( o->sn )
     {
-      v10 = strlen(o->sn) + 1;
-      str = (unsigned __int8 *)CRYPTO_malloc(v10, ".\\crypto\\objects\\obj_lib.c", 105);
+      v10 = strlen(o->sn);
+      str = (const char *)CRYPTO_malloc(v10 + 1, ".\\crypto\\objects\\obj_lib.c", 105);
       if ( !str )
-        goto LABEL_15;
-      memcpy(str, (unsigned __int8 *)o->sn, v10);
-      v4->sn = (const char *)str;
+        goto err_22;
+      memcpy((int)str, (const __m128i *)o->sn, v10 + 1);
+      v4->sn = str;
     }
     v4->flags = o->flags | 0xD;
     return v4;
   }
-  v8 = strlen(ln) + 1;
-  v9 = (unsigned __int8 *)CRYPTO_malloc(v8, ".\\crypto\\objects\\obj_lib.c", 96);
+  v8 = strlen(ln);
+  v9 = (char *)CRYPTO_malloc(v8 + 1, ".\\crypto\\objects\\obj_lib.c", 96);
   v2 = v9;
   if ( v9 )
   {
-    memcpy(v9, (unsigned __int8 *)o->ln, v8);
-    v4->ln = (const char *)v2;
+    memcpy((int)v9, (const __m128i *)o->ln, v8 + 1);
+    v4->ln = v2;
     goto LABEL_13;
   }
-LABEL_15:
-  v5 = v12;
-err_20:
-  ERR_put_error(8u, 101, 65, ".\\crypto\\objects\\obj_lib.c", 114);
+err_22:
+  ERR_put_error((int)v4, 8u, 101, 65, ".\\crypto\\objects\\obj_lib.c", 114);
   if ( v2 )
     CRYPTO_free(v2);
   if ( v5 )

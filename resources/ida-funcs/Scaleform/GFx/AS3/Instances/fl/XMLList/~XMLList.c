@@ -28,7 +28,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::~XMLList(
     else
     {
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
@@ -45,7 +45,7 @@ void __thiscall Scaleform::GFx::AS3::Instances::fl::XMLList::~XMLList(
       return;
     }
     v7 = v6->RefCount;
-    if ( ((unsigned int)&byte_3FFFFF & v7) != 0 )
+    if ( (v7 & 0x3FFFFF) != 0 )
     {
       v6->RefCount = v7 - 1;
       Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(v6);

@@ -1,4 +1,4 @@
-void __cdecl Scaleform::GFx::AS2::_dynamic_atexit_destructor_for__Rectangle_NaNParams__()
+void Scaleform::GFx::AS2::_dynamic_atexit_destructor_for__Rectangle_NaNParams__()
 {
   Scaleform::GFx::AS2::Value *v0; // esi
   int i; // edi

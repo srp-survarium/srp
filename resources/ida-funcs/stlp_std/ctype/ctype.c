@@ -10,7 +10,7 @@ void __thiscall stlp_std::ctype<char>::ctype<char>(
   this->__vftable = (stlp_std::ctype<char>_vtbl *)&stlp_std::ctype<char>::`vftable';
   v4 = __tab;
   if ( !__tab )
-    v4 = (const stlp_std::ctype_base::mask *)&dword_8167B0;
+    v4 = (const stlp_std::ctype_base::mask *)&dword_6B3930;
   this->_M_ctype_table = v4;
   this->_M_delete = __tab && __del;
 }

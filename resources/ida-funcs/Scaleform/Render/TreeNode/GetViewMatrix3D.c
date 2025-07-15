@@ -3,7 +3,7 @@ char __thiscall Scaleform::Render::TreeNode::GetViewMatrix3D(
         Scaleform::Render::Matrix3x4<float> *mat)
 {
   unsigned int State; // eax
-  unsigned __int8 dst[48]; // [esp+10h] [ebp-30h] BYREF
+  __m128i dst[3]; // [esp+10h] [ebp-30h] BYREF
 
   State = Scaleform::Render::StateBag::GetState(
             (Scaleform::Render::StateBag *)(*(_DWORD *)(*(_DWORD *)(((unsigned int)this & 0xFFFFF000) + 0x10)
@@ -15,7 +15,7 @@ char __thiscall Scaleform::Render::TreeNode::GetViewMatrix3D(
             State_FSCommandHandler);
   if ( !State )
     return 0;
-  memcpy(dst, (unsigned __int8 *)(*(_DWORD *)(State + 4) + 16), sizeof(dst));
-  memcpy((unsigned __int8 *)mat, dst, sizeof(Scaleform::Render::Matrix3x4<float>));
+  memcpy((int)dst, (const __m128i *)(*(_DWORD *)(State + 4) + 16), sizeof(dst));
+  memcpy((int)mat, dst, sizeof(Scaleform::Render::Matrix3x4<float>));
   return 1;
 }

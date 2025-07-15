@@ -4,7 +4,7 @@ void __cdecl Scaleform::GFx::AS2::GASImeCtorFunction::GetCompositionString(const
   Scaleform::GFx::MovieImpl *MovieImpl; // eax
   int v3; // eax
   Scaleform::RefCountVImpl *v4; // ebx
-  const wchar_t *v5; // esi
+  wchar_t *v5; // esi
   Scaleform::GFx::MovieImpl *v6; // eax
   Scaleform::GFx::ASStringManager *v7; // eax
   Scaleform::GFx::ASStringNode *StringNode; // esi
@@ -19,7 +19,7 @@ void __cdecl Scaleform::GFx::AS2::GASImeCtorFunction::GetCompositionString(const
     v4 = (Scaleform::RefCountVImpl *)v3;
     v5 = 0;
     if ( v3 )
-      v5 = (const wchar_t *)(*(int (__thiscall **)(int))(*(_DWORD *)v3 + 88))(v3);
+      v5 = (wchar_t *)(*(int (__thiscall **)(int))(*(_DWORD *)v3 + 88))(v3);
     v6 = Scaleform::GFx::AS2::Environment::GetMovieImpl(fn->Env);
     v7 = v6->pASMovieRoot.pObject->GetStringManager(v6->pASMovieRoot.pObject);
     StringNode = Scaleform::GFx::ASStringManager::CreateStringNode(v7, v5, -1);

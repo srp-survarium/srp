@@ -5,8 +5,8 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadMovieClip(
 {
   Scaleform::GFx::MovieImpl *pMovieImpl; // eax
   Scaleform::GFx::LoadStates *v5; // edi
-  unsigned int v6; // ecx
-  Scaleform::GFx::Sprite *v7; // ebp
+  Scaleform::String::DataDesc *LoadFlags; // ecx
+  int v7; // ebp
   Scaleform::GFx::LoadQueueEntry *pNext; // ecx
   bool v9; // bl
   Scaleform::GFx::InteractiveObject *v10; // eax
@@ -16,10 +16,10 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadMovieClip(
   void *v14; // esi
   int v15; // eax
   char v16; // al
-  unsigned int Id; // ecx
+  int Id; // ecx
   Scaleform::GFx::Sprite *LevelMovie; // eax
   int v19; // eax
-  const Scaleform::String *v20; // eax
+  const Scaleform::String *UrlStrGfx; // eax
   void *v21; // ebx
   Scaleform::GFx::MovieDefBindStates *v22; // eax
   Scaleform::Log *Log; // eax
@@ -27,25 +27,25 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadMovieClip(
   Scaleform::GFx::ImageResource *v25; // eax
   Scaleform::String::DataDesc *v26; // eax
   Scaleform::GFx::MovieDefImpl *ImageMovieDef; // ebx
-  Scaleform::GFx::LogState *v28; // edi
-  Scaleform::GFx::InteractiveObject *pObject; // esi
+  Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *v28; // edi
+  Scaleform::RefCountNTSImpl *v29; // esi
   int v30; // eax
   Scaleform::GFx::AS2::Environment *v31; // edi
   Scaleform::GFx::AS2::Object *v32; // eax
-  Scaleform::GFx::InteractiveObject *v33; // ecx
+  Scaleform::RefCountNTSImpl *v33; // ecx
   bool v34; // zf
   Scaleform::GFx::LoadQueueEntryMT *i; // edi
   Scaleform::GFx::LoadQueueEntry *pQueueEntry; // eax
   void *v37; // edx
   void *v38; // ecx
   Scaleform::GFx::LoadQueueEntry_vtbl *v39; // eax
-  Scaleform::GFx::InteractiveObject *v40; // edi
+  unsigned __int8 *v40; // edi
   Scaleform::GFx::MovieDefImpl *v41; // eax
-  Scaleform::GFx::InteractiveObject *v42; // edi
-  Scaleform::GFx::Sprite_vtbl *v43; // ebx
+  Scaleform::RefCountNTSImpl *v42; // edi
+  int v43; // ebx
   Scaleform::GFx::ASString *Name; // eax
   Scaleform::GFx::ASStringNode *pData; // eax
-  Scaleform::GFx::InteractiveObject *v46; // eax
+  int v46; // eax
   Scaleform::GFx::ASSupport *v47; // ecx
   Scaleform::GFx::MovieImpl *v48; // ecx
   unsigned int Size; // edx
@@ -57,46 +57,50 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadMovieClip(
   Scaleform::GFx::AS2::Object *v55; // eax
   Scaleform::GFx::AS2::Object *v56; // edi
   void (__thiscall *SetValue)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, const Scaleform::GFx::AS2::Value *); // eax
-  Scaleform::GFx::InteractiveObject *v58; // edi
+  Scaleform::RefCountNTSImpl *v58; // edi
   volatile LONG *v59; // [esp+20h] [ebp-A0h]
   Scaleform::GFx::ResourceBinding *v60; // [esp+28h] [ebp-98h]
   Scaleform::GFx::ResourceId v61; // [esp+2Ch] [ebp-94h]
   Scaleform::String url; // [esp+38h] [ebp-88h] BYREF
-  Scaleform::Ptr<Scaleform::GFx::MovieDefImpl> pmovieDef; // [esp+3Ch] [ebp-84h]
-  unsigned int lf; // [esp+40h] [ebp-80h]
-  Scaleform::String urlStrGfx; // [esp+44h] [ebp-7Ch] BYREF
-  Scaleform::String level0Path; // [esp+48h] [ebp-78h] BYREF
+  Scaleform::GFx::Resource *v63; // [esp+3Ch] [ebp-84h]
+  Scaleform::Render::Image *pimage; // [esp+40h] [ebp-80h]
+  Scaleform::String filename; // [esp+44h] [ebp-7Ch] BYREF
+  Scaleform::String path; // [esp+48h] [ebp-78h] BYREF
   Scaleform::String result; // [esp+4Ch] [ebp-74h] BYREF
-  Scaleform::GFx::LogState *plog; // [esp+50h] [ebp-70h]
-  bool charIsLoadedSuccessfully; // [esp+57h] [ebp-69h]
-  Scaleform::Ptr<Scaleform::GFx::InteractiveObject> poldChar; // [esp+58h] [ebp-68h]
-  unsigned int loadFlags; // [esp+5Ch] [ebp-64h] BYREF
-  Scaleform::GFx::InteractiveObject *pparent; // [esp+60h] [ebp-60h]
-  Scaleform::GFx::ResourceId newCharId; // [esp+64h] [ebp-5Ch]
-  int filelength; // [esp+68h] [ebp-58h]
-  BOOL bilinearImage; // [esp+6Ch] [ebp-54h] BYREF
-  Scaleform::GFx::ImageCreateInfo icinfo; // [esp+70h] [ebp-50h] BYREF
-  Scaleform::GFx::CharacterCreateInfo ccinfo; // [esp+90h] [ebp-30h] BYREF
+  Scaleform::GFx::LogState *pObject; // [esp+50h] [ebp-70h]
+  bool v69; // [esp+57h] [ebp-69h]
+  Scaleform::RefCountNTSImpl *v70; // [esp+58h] [ebp-68h]
+  Scaleform::String v71; // [esp+5Ch] [ebp-64h] BYREF
+  unsigned __int8 *pParent; // [esp+60h] [ebp-60h]
+  int v73; // [esp+64h] [ebp-5Ch]
+  unsigned int FileLength; // [esp+68h] [ebp-58h]
+  BOOL v75; // [esp+6Ch] [ebp-54h] BYREF
+  _DWORD v76[4]; // [esp+70h] [ebp-50h] BYREF
+  Scaleform::Log *v77; // [esp+80h] [ebp-40h]
+  Scaleform::String::DataDesc *v78; // [esp+84h] [ebp-3Ch]
+  Scaleform::String::DataDesc *v79; // [esp+88h] [ebp-38h]
+  Scaleform::GFx::MovieImpl *v80; // [esp+8Ch] [ebp-34h]
+  _DWORD v81[3]; // [esp+90h] [ebp-30h] BYREF
   Scaleform::GFx::URLBuilder::LocationInfo loc; // [esp+9Ch] [ebp-24h] BYREF
-  Scaleform::GFx::URLBuilder::LocationInfo v79; // [esp+A8h] [ebp-18h] BYREF
-  char v80[8]; // [esp+B4h] [ebp-Ch] BYREF
-  char v81[4]; // [esp+BCh] [ebp-4h] BYREF
+  Scaleform::GFx::URLBuilder::LocationInfo v83; // [esp+A8h] [ebp-18h] BYREF
+  char v84[8]; // [esp+B4h] [ebp-Ch] BYREF
+  char v85[4]; // [esp+BCh] [ebp-4h] BYREF
 
-  Scaleform::String::String(&level0Path);
-  Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(this, &level0Path);
+  Scaleform::String::String(&path);
+  Scaleform::GFx::AS2::MovieRoot::GetLevel0Path(this, &path);
   Scaleform::String::String(&url, &p_entry->URL);
-  Scaleform::String::String(&urlStrGfx);
+  Scaleform::String::String(&filename);
   pMovieImpl = this->pMovieImpl;
   v5 = pls;
-  v6 = pMovieImpl->pMainMovieDef.pObject->pBindData.pObject->LoadFlags;
-  plog = pls->pLog.pObject;
+  LoadFlags = (Scaleform::String::DataDesc *)pMovieImpl->pMainMovieDef.pObject->pBindData.pObject->LoadFlags;
+  pObject = pls->pLog.pObject;
   v7 = 0;
-  loadFlags = v6;
+  v71.pData = LoadFlags;
   pNext = p_entry[1].pNext;
   v9 = 0;
-  poldChar.pObject = 0;
-  pparent = 0;
-  pmovieDef.pObject = 0;
+  v70 = 0;
+  pParent = 0;
+  v63 = 0;
   if ( !pNext )
   {
     if ( p_entry[1].__vftable == (Scaleform::GFx::LoadQueueEntry_vtbl *)-1 )
@@ -111,7 +115,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ProcessLoadMovieClip(
       {
 LABEL_23:
         Scaleform::GFx::MovieImpl::ReleaseLevelMovie(this->pMovieImpl, (int)p_entry[1].__vftable);
-        newCharId.Id = 0x40000;
+        v73 = 0x40000;
         goto LABEL_24;
       }
       LevelMovie = Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(this, 0);
@@ -124,16 +128,16 @@ LABEL_23:
   v11 = v10;
   if ( v10 )
     ++v10->RefCount;
-  poldChar.pObject = v10;
+  v70 = v10;
   if ( v10 )
   {
-    pparent = v10->pParent;
-    if ( !pparent )
+    pParent = (unsigned __int8 *)v10->pParent;
+    if ( !pParent )
     {
       Scaleform::RefCountNTSImpl::Release(v10);
 LABEL_8:
-      v12 = (void *)(urlStrGfx.HeapTypeBits & 0xFFFFFFFC);
-      v59 = (volatile LONG *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 4);
+      v12 = (void *)(filename.HeapTypeBits & 0xFFFFFFFC);
+      v59 = (volatile LONG *)((filename.HeapTypeBits & 0xFFFFFFFC) + 4);
       goto LABEL_9;
     }
     v15 = (int)v10->GetResourceMovieDef(v10);
@@ -141,43 +145,43 @@ LABEL_8:
     Id = v11->Id.Id;
     v5 = pls;
     v9 = (v16 & 0x10) != 0;
-    newCharId.Id = Id;
+    v73 = Id;
 LABEL_24:
-    filelength = 0;
+    FileLength = 0;
     if ( v9 )
     {
-      v20 = Scaleform::GFx::GetUrlStrGfx(&result, &url);
-      Scaleform::String::operator=(&urlStrGfx, v20);
+      UrlStrGfx = Scaleform::GFx::GetUrlStrGfx(&result, &url);
+      Scaleform::String::operator=(&filename, UrlStrGfx);
       v21 = (void *)(result.HeapTypeBits & 0xFFFFFFFC);
       if ( InterlockedExchangeAdd((volatile LONG *)((result.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
         Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v21);
     }
     if ( Scaleform::String::GetLength(&url) )
     {
-      LOBYTE(bilinearImage) = 0;
-      if ( !Scaleform::GFx::LoaderImpl::IsProtocolImage(&url, (bool *)&bilinearImage, 0) )
+      LOBYTE(v75) = 0;
+      if ( !Scaleform::GFx::LoaderImpl::IsProtocolImage(&url, (bool *)&v75, 0) )
       {
         v34 = !p_entry->QuietOpen;
-        lf = loadFlags | 0x10001;
+        pimage = (Scaleform::Render::Image *)(v71.HeapTypeBits | 0x10001);
         if ( !v34 )
-          lf |= 0x200000u;
-        if ( !Scaleform::String::GetLength(&urlStrGfx)
-          || (Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&loc, File_LoadMovie, &urlStrGfx, &level0Path),
-              ImageMovieDef = Scaleform::GFx::LoaderImpl::CreateMovie_LoadState(v5, &loc, lf, 0, 0),
-              pmovieDef.pObject = ImageMovieDef,
+          pimage = (Scaleform::Render::Image *)((unsigned int)&loc_200000 | (unsigned int)pimage);
+        if ( !Scaleform::String::GetLength(&filename)
+          || (Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&loc, File_LoadMovie, &filename, &path),
+              ImageMovieDef = Scaleform::GFx::LoaderImpl::CreateMovie_LoadState(v5, &loc, (unsigned int)pimage, 0, 0),
+              v63 = ImageMovieDef,
               Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&loc),
               !ImageMovieDef) )
         {
-          Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&v79, File_LoadMovie, &url, &level0Path);
-          ImageMovieDef = Scaleform::GFx::LoaderImpl::CreateMovie_LoadState(v5, &v79, lf, 0, 0);
-          pmovieDef.pObject = ImageMovieDef;
-          Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&v79);
+          Scaleform::GFx::URLBuilder::LocationInfo::LocationInfo(&v83, File_LoadMovie, &url, &path);
+          ImageMovieDef = Scaleform::GFx::LoaderImpl::CreateMovie_LoadState(v5, &v83, (unsigned int)pimage, 0, 0);
+          v63 = ImageMovieDef;
+          Scaleform::GFx::URLBuilder::LocationInfo::~LocationInfo(&v83);
           if ( !ImageMovieDef )
           {
-            v28 = plog;
-            if ( plog && !p_entry->QuietOpen )
+            v28 = (Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *)pObject;
+            if ( pObject && !p_entry->QuietOpen )
               Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
-                &plog->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+                &pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
                 "Failed loading URL \"%s\"",
                 (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
 LABEL_39:
@@ -189,97 +193,88 @@ LABEL_39:
               {
                 if ( v28 && !p_entry->QuietOpen )
                   Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
-                    &v28->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+                    v28 + 3,
                     "Failed loading SWF \"%s\": ActionScript version mismatch",
                     (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
-                pObject = poldChar.pObject;
-                if ( poldChar.pObject )
+                v29 = v70;
+                if ( v70 )
                 {
-                  v30 = (*(int (__thiscall **)(char *))(*((_DWORD *)&poldChar.pObject->__vftable
-                                                        + poldChar.pObject->AvmObjOffset)
-                                                      + 4))((char *)&poldChar.pObject->__vftable + 4
-                                                                                                 * poldChar.pObject->AvmObjOffset);
+                  v30 = ((int (__thiscall *)(char *))(&v70->__vftable)[BYTE1(v70[8].__vftable)][1].~Scaleform::RefCountNTSImpl)((char *)v70 + 4 * BYTE1(v70[8].__vftable));
                   v31 = (Scaleform::GFx::AS2::Environment *)(*(int (__thiscall **)(int))(*(_DWORD *)v30 + 124))(v30);
                   v32 = Scaleform::GFx::AS2::Value::ToObject((Scaleform::GFx::AS2::Value *)&p_entry[1].Type, v31);
                   if ( v32 )
-                    ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::InteractiveObject *, const char *, _DWORD))v32->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].SetValue)(
+                    ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, Scaleform::RefCountNTSImpl *, const char *, _DWORD))v32->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].SetValue)(
                       v32,
                       v31,
-                      pObject,
+                      v29,
                       "ActionScriptMismatch",
                       0);
                 }
                 Scaleform::GFx::Resource::Release(ImageMovieDef);
-                if ( !pObject )
+                if ( !v29 )
                   goto LABEL_52;
-                v33 = pObject;
+                v33 = v29;
 LABEL_51:
                 Scaleform::RefCountNTSImpl::Release(v33);
 LABEL_52:
-                Scaleform::String::~String(&urlStrGfx);
+                Scaleform::String::~String(&filename);
                 Scaleform::String::~String(&url);
-                Scaleform::String::~String(&level0Path);
+                Scaleform::String::~String(&path);
                 return;
               }
-              ccinfo.pCharDef = ImageMovieDef->pBindData.pObject->pDataDef.pObject;
+              v81[0] = ImageMovieDef->pBindData.pObject->pDataDef.pObject;
               v47 = this->Scaleform::GFx::ASMovieRootBase::pASSupport.pObject;
-              ccinfo.pResource = 0;
-              ccinfo.pBindDefImpl = ImageMovieDef;
-              v7 = (Scaleform::GFx::Sprite *)((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, Scaleform::GFx::CharacterCreateInfo *, Scaleform::GFx::InteractiveObject *, unsigned int, int))v47->CreateCharacterInstance)(
-                                               v47,
-                                               this->pMovieImpl,
-                                               &ccinfo,
-                                               pparent,
-                                               newCharId.Id,
-                                               3);
-              Scaleform::GFx::Sprite::SetLoadedSeparately(v7, (int)ImageMovieDef, (int)v28, 1);
+              v81[2] = 0;
+              v81[1] = ImageMovieDef;
+              v7 = ((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, _DWORD *, unsigned __int8 *, int, int))v47->CreateCharacterInstance)(
+                     v47,
+                     this->pMovieImpl,
+                     v81,
+                     pParent,
+                     v73,
+                     3);
+              Scaleform::GFx::Sprite::SetLoadedSeparately((Scaleform::GFx::Sprite *)v7, (int)ImageMovieDef, (int)v28, 1);
             }
 LABEL_75:
             v39 = p_entry[1].__vftable;
-            charIsLoadedSuccessfully = v7 != 0;
+            v69 = v7 != 0;
             if ( v39 == (Scaleform::GFx::LoadQueueEntry_vtbl *)-1 )
             {
               if ( v7
-                || (v40 = pparent,
-                    v41 = (Scaleform::GFx::MovieDefImpl *)((int (__thiscall *)(Scaleform::GFx::InteractiveObject *, char *, int))pparent->GetResourceMovieDef)(
-                                                            pparent,
-                                                            v80,
+                || (v40 = pParent,
+                    v41 = (Scaleform::GFx::MovieDefImpl *)(*(int (__thiscall **)(unsigned __int8 *, char *, int))(*(_DWORD *)pParent + 256))(
+                                                            pParent,
+                                                            v84,
                                                             65537),
                     Scaleform::GFx::MovieDefImpl::GetCharacterCreateInfo(v41, v60, v61),
-                    (v7 = (Scaleform::GFx::Sprite *)((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, char *, Scaleform::GFx::InteractiveObject *))this->pASSupport.pObject->CreateCharacterInstance)(
-                                                      this->pASSupport.pObject,
-                                                      this->pMovieImpl,
-                                                      v81,
-                                                      v40)) != 0) )
+                    (v7 = ((int (__thiscall *)(Scaleform::GFx::ASSupport *, Scaleform::GFx::MovieImpl *, char *, unsigned __int8 *))this->pASSupport.pObject->CreateCharacterInstance)(
+                            this->pASSupport.pObject,
+                            this->pMovieImpl,
+                            v85,
+                            v40)) != 0) )
               {
-                Scaleform::GFx::InteractiveObject::AddToPlayList(v7);
-                v42 = poldChar.pObject;
-                v7->CreateFrame = poldChar.pObject->CreateFrame;
-                v7->Depth = v42->Depth;
-                if ( (v42->Scaleform::GFx::DisplayObject::Flags & 2) == 0 )
+                Scaleform::GFx::InteractiveObject::AddToPlayList((Scaleform::GFx::InteractiveObject *)v7);
+                v42 = v70;
+                *(Scaleform::RefCountNTSImpl *)(v7 + 24) = v70[3];
+                if ( ((int)v42[10].__vftable & 2) == 0 )
                 {
-                  v43 = v7->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable;
-                  Name = Scaleform::GFx::DisplayObject::GetName(v42, (Scaleform::GFx::ASString *)&result);
-                  v43->SetName(v7, Name);
+                  v43 = *(_DWORD *)v7;
+                  Name = Scaleform::GFx::DisplayObject::GetName(
+                           (Scaleform::GFx::DisplayObject *)v42,
+                           (Scaleform::GFx::ASString *)&result);
+                  (*(void (__thiscall **)(int, Scaleform::GFx::ASString *))(v43 + 500))(v7, Name);
                   pData = (Scaleform::GFx::ASStringNode *)result.pData;
                   --result.pData[1].Size;
                   if ( !pData->RefCount )
                     Scaleform::GFx::ASStringNode::ReleaseNode(pData);
                 }
-                v46 = pparent;
-                if ( pparent )
-                  v46 = (Scaleform::GFx::InteractiveObject *)(*(int (__thiscall **)(char *))(*((_DWORD *)&pparent->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                                                             + pparent->AvmObjOffset)
-                                                                                           + 4))(
-                                                               (char *)&pparent->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                             + 4 * pparent->AvmObjOffset);
-                ((void (__thiscall *)(Scaleform::GFx::InteractiveObject *, Scaleform::GFx::InteractiveObject *, Scaleform::GFx::Sprite *))v46->SetZScale)(
-                  v46,
-                  v42,
-                  v7);
-                v42->pParent = 0;
-                this->ResolveStickyVariables(this, v7);
-                Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayListLocal<Scaleform::GFx::Sprite>(v7);
+                v46 = (int)pParent;
+                if ( pParent )
+                  v46 = (*(int (__thiscall **)(unsigned __int8 *))(*(_DWORD *)&pParent[4 * pParent[65]] + 4))(&pParent[4 * pParent[65]]);
+                (*(void (__thiscall **)(int, Scaleform::RefCountNTSImpl *, int))(*(_DWORD *)v46 + 116))(v46, v42, v7);
+                v42[4].__vftable = 0;
+                this->ResolveStickyVariables(this, (Scaleform::GFx::InteractiveObject *)v7);
+                Scaleform::GFx::InteractiveObject::ModifyOptimizedPlayListLocal<Scaleform::GFx::Sprite>((Scaleform::GFx::InteractiveObject *)v7);
               }
             }
             else
@@ -287,24 +282,26 @@ LABEL_75:
               if ( v7 )
               {
                 Scaleform::GFx::AS2::AvmSprite::SetLevel(
-                  (Scaleform::GFx::AS2::AvmSprite *)(&v7->Scaleform::GFx::DisplayObjContainer::Scaleform::GFx::InteractiveObject::Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
-                                                   + v7->AvmObjOffset),
+                  (Scaleform::GFx::AS2::AvmSprite *)(v7 + 4 * *(unsigned __int8 *)(v7 + 65)),
                   (int)v39);
-                Scaleform::GFx::MovieImpl::SetLevelMovie(this->pMovieImpl, (int)p_entry[1].__vftable, v7);
+                Scaleform::GFx::MovieImpl::SetLevelMovie(
+                  this->pMovieImpl,
+                  (int)p_entry[1].__vftable,
+                  (Scaleform::GFx::DisplayObjContainer *)v7);
                 this->pMovieImpl->Flags &= ~0x100u;
-                this->ResolveStickyVariables(this, v7);
+                this->ResolveStickyVariables(this, (Scaleform::GFx::InteractiveObject *)v7);
               }
               if ( !Scaleform::GFx::AS2::MovieRoot::GetLevelMovie(this, 0) && v28 )
               {
                 Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
-                  &v28->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+                  v28 + 3,
                   "_level0 unloaded - no further playback possible");
                 if ( v7 )
-                  Scaleform::RefCountNTSImpl::Release(v7);
+                  Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)v7);
                 if ( ImageMovieDef )
                   Scaleform::GFx::Resource::Release(ImageMovieDef);
-                v33 = poldChar.pObject;
-                if ( !poldChar.pObject )
+                v33 = v70;
+                if ( !v70 )
                   goto LABEL_52;
                 goto LABEL_51;
               }
@@ -335,7 +332,7 @@ LABEL_90:
                                                                                  + 124))((int)v53 + 4 * v53->AvmObjOffset);
             v55 = Scaleform::GFx::AS2::Value::ToObject((Scaleform::GFx::AS2::Value *)&p_entry[1].Type, v54);
             v56 = v55;
-            if ( charIsLoadedSuccessfully )
+            if ( v69 )
             {
               if ( v55 )
               {
@@ -343,22 +340,22 @@ LABEL_90:
                   v55,
                   (Scaleform::GFx::AS2::RefCountCollector<323> *)v54,
                   (Scaleform::GFx::AS2::RefCountBaseGC<323>::OperationGC)v7);
-                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::Sprite *, int, int))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].GetValue)(
+                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, int, unsigned int, unsigned int))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].GetValue)(
                   v56,
                   v54,
                   v7,
-                  filelength,
-                  filelength);
-                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::Sprite *, _DWORD))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].Finalize_GC)(
+                  FileLength,
+                  FileLength);
+                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, int, _DWORD))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].Finalize_GC)(
                   v56,
                   v54,
                   v7,
                   0);
               }
-              v7->ExecuteFrame0Events(v7);
+              (*(void (__thiscall **)(int))(*(_DWORD *)v7 + 440))(v7);
               this->DoActions(this);
               if ( v56 )
-                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, Scaleform::GFx::Sprite *))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].~Scaleform::GFx::AS2::Object)(
+                ((void (__thiscall *)(Scaleform::GFx::AS2::Object *, Scaleform::GFx::AS2::Environment *, int))v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].~Scaleform::GFx::AS2::Object)(
                   v56,
                   v54,
                   v7);
@@ -368,13 +365,13 @@ LABEL_90:
               v34 = Scaleform::String::GetLength(&url) == 0;
               SetValue = v56->Scaleform::GFx::AS2::ASRefCountBase<Scaleform::GFx::AS2::Object>::Scaleform::GFx::AS2::RefCountBaseGC<323>::__vftable[1].SetValue;
               if ( v34 )
-                ((void (__stdcall *)(Scaleform::GFx::AS2::Environment *, Scaleform::GFx::Sprite *, const char *, _DWORD))SetValue)(
+                ((void (__stdcall *)(Scaleform::GFx::AS2::Environment *, int, const char *, _DWORD))SetValue)(
                   v54,
                   v7,
                   "Unknown error",
                   0);
               else
-                ((void (__stdcall *)(Scaleform::GFx::AS2::Environment *, Scaleform::GFx::Sprite *, const char *, _DWORD))SetValue)(
+                ((void (__stdcall *)(Scaleform::GFx::AS2::Environment *, int, const char *, _DWORD))SetValue)(
                   v54,
                   v7,
                   "URLNotFound",
@@ -382,92 +379,93 @@ LABEL_90:
             }
             if ( Scaleform::String::GetLength(&url) )
             {
-              v58 = poldChar.pObject;
+              v58 = v70;
             }
             else
             {
-              if ( poldChar.pObject )
-                Scaleform::RefCountNTSImpl::Release(poldChar.pObject);
+              if ( v70 )
+                Scaleform::RefCountNTSImpl::Release(v70);
               v58 = 0;
               Scaleform::GFx::AS2::MemoryContextImpl::HeapLimit::Collect(
                 &this->MemContext.pObject->LimHandler,
                 this->pMovieImpl->pHeap);
             }
             if ( v7 )
-              Scaleform::RefCountNTSImpl::Release(v7);
-            if ( pmovieDef.pObject )
-              Scaleform::GFx::Resource::Release(pmovieDef.pObject);
+              Scaleform::RefCountNTSImpl::Release((Scaleform::RefCountNTSImpl *)v7);
+            if ( v63 )
+              Scaleform::GFx::Resource::Release(v63);
             if ( v58 )
               Scaleform::RefCountNTSImpl::Release(v58);
-            v12 = (void *)(urlStrGfx.HeapTypeBits & 0xFFFFFFFC);
-            v59 = (volatile LONG *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 4);
+            v12 = (void *)(filename.HeapTypeBits & 0xFFFFFFFC);
+            v59 = (volatile LONG *)((filename.HeapTypeBits & 0xFFFFFFFC) + 4);
             goto LABEL_9;
           }
         }
-        filelength = ImageMovieDef->pBindData.pObject->pDataDef.pObject->pData.pObject->Header.FileLength;
+        FileLength = ImageMovieDef->pBindData.pObject->pDataDef.pObject->pData.pObject->Header.FileLength;
 LABEL_38:
-        v28 = plog;
+        v28 = (Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *)pObject;
         goto LABEL_39;
       }
-      lf = (unsigned int)Scaleform::GFx::LoadStates::GetImageCreator(v5);
-      if ( lf )
+      pimage = (Scaleform::Render::Image *)Scaleform::GFx::LoadStates::GetImageCreator(v5);
+      if ( pimage )
       {
-        icinfo.pHeap = this->pMovieImpl->pHeap;
-        icinfo.Use = 1;
-        icinfo.RUse = Use_Bitmap;
-        loadFlags = (unsigned int)v5->pImageFileHandlerRegistry.pObject;
+        v76[1] = this->pMovieImpl->pHeap;
+        v76[2] = 1;
+        v76[3] = 1;
+        v71.pData = (Scaleform::String::DataDesc *)v5->pImageFileHandlerRegistry.pObject;
         v22 = v5->pBindStates.pObject;
-        icinfo.Type = Create_Protocol;
-        memset(&icinfo.pLog, 0, 16);
+        v76[0] = 0;
+        v77 = 0;
+        v78 = 0;
+        v79 = 0;
+        v80 = 0;
         result.pData = (Scaleform::String::DataDesc *)v22->pFileOpener.pObject;
         Log = Scaleform::GFx::LoadStates::GetLog(v5);
         v24 = this->pMovieImpl;
-        icinfo.pLog = Log;
-        icinfo.pIFHRegistry = (Scaleform::GFx::ImageFileHandlerRegistry *)loadFlags;
-        icinfo.pMovie = v24;
-        icinfo.pFileOpener = (Scaleform::GFx::FileOpener *)result.pData;
-        Scaleform::String::String((Scaleform::String *)&loadFlags, (char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
-        lf = (*(int (__thiscall **)(unsigned int, Scaleform::GFx::ImageCreateInfo *, unsigned int *))(*(_DWORD *)lf + 4))(
-               lf,
-               &icinfo,
-               &loadFlags);
-        Scaleform::String::~String((Scaleform::String *)&loadFlags);
-        if ( lf )
+        v77 = Log;
+        v79 = v71.pData;
+        v80 = v24;
+        v78 = result.pData;
+        Scaleform::String::String(&v71, (const __m128i *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
+        pimage = (Scaleform::Render::Image *)((int (__thiscall *)(Scaleform::Render::Image *, _DWORD *, Scaleform::String *))pimage->AddRef)(
+                                               pimage,
+                                               v76,
+                                               &v71);
+        Scaleform::String::~String(&v71);
+        if ( pimage )
         {
           v25 = (Scaleform::GFx::ImageResource *)this->pMovieImpl->pHeap->Alloc(this->pMovieImpl->pHeap, 52, 0);
-          if ( v25
-            && (Scaleform::GFx::ImageResource::ImageResource(v25, (Scaleform::Render::Image *)lf, Use_Bitmap),
-                (result.pData = v26) != 0) )
+          if ( v25 && (Scaleform::GFx::ImageResource::ImageResource(v25, pimage, Use_Bitmap), (result.pData = v26) != 0) )
           {
             ImageMovieDef = Scaleform::GFx::MovieImpl::CreateImageMovieDef(
                               this->pMovieImpl,
                               (Scaleform::GFx::ImageResource *)result.pData,
-                              bilinearImage,
-                              (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8),
-                              v5);
-            pmovieDef.pObject = ImageMovieDef;
+                              v75,
+                              (char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8),
+                              (Scaleform::Log *)v5);
+            v63 = ImageMovieDef;
             Scaleform::GFx::Resource::Release((Scaleform::GFx::Resource *)result.pData);
           }
           else
           {
             ImageMovieDef = 0;
           }
-          (*(void (__thiscall **)(unsigned int))(*(_DWORD *)lf + 8))(lf);
+          pimage->Release(pimage);
           goto LABEL_38;
         }
-        v28 = plog;
-        if ( plog )
+        v28 = (Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *)pObject;
+        if ( pObject )
           Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
-            &plog->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+            &pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
             "ImageCreator::LoadProtocolImage failed to load image \"%s\"",
             (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
       }
       else
       {
-        v28 = plog;
-        if ( plog )
+        v28 = (Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *)pObject;
+        if ( pObject )
           Scaleform::GFx::LogBase<Scaleform::GFx::LogState>::LogScriptWarning(
-            &plog->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
+            &pObject->Scaleform::GFx::LogBase<Scaleform::GFx::LogState>,
             "ImageCreator is not installed,failed to load image \"%s\"",
             (const char *)((url.HeapTypeBits & 0xFFFFFFFC) + 8));
       }
@@ -487,20 +485,20 @@ LABEL_38:
           }
         }
       }
-      v28 = plog;
+      v28 = (Scaleform::GFx::LogBase<Scaleform::GFx::LogState> *)pObject;
     }
     ImageMovieDef = 0;
     goto LABEL_75;
   }
-  v12 = (void *)(urlStrGfx.HeapTypeBits & 0xFFFFFFFC);
-  v59 = (volatile LONG *)((urlStrGfx.HeapTypeBits & 0xFFFFFFFC) + 4);
+  v12 = (void *)(filename.HeapTypeBits & 0xFFFFFFFC);
+  v59 = (volatile LONG *)((filename.HeapTypeBits & 0xFFFFFFFC) + 4);
 LABEL_9:
   if ( InterlockedExchangeAdd(v59, -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v12);
   v13 = (void *)(url.HeapTypeBits & 0xFFFFFFFC);
   if ( InterlockedExchangeAdd((volatile LONG *)((url.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v13);
-  v14 = (void *)(level0Path.HeapTypeBits & 0xFFFFFFFC);
-  if ( InterlockedExchangeAdd((volatile LONG *)((level0Path.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
+  v14 = (void *)(path.HeapTypeBits & 0xFFFFFFFC);
+  if ( InterlockedExchangeAdd((volatile LONG *)((path.HeapTypeBits & 0xFFFFFFFC) + 4), -1) == 1 )
     Scaleform::Memory::pGlobalHeap->Free(Scaleform::Memory::pGlobalHeap, v14);
 }

@@ -12,7 +12,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEve
   unsigned int RefCount; // eax
 
   Scaleform::GFx::AS3::ClassTraits::Traits::Traits(this, vm, &Scaleform::GFx::AS3::fl_events::TransformGestureEventCI);
-  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEvent_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_system::SecurityDomain::`vftable';
+  this->__vftable = (Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEvent_vtbl *)&Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEvent::`vftable';
   MHeap = vm->MHeap;
   v4 = (Scaleform::GFx::AS3::InstanceTraits::CTraits *)MHeap->Alloc(MHeap, 120u, 0);
   v5 = v4;
@@ -36,7 +36,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEve
   if ( v7 )
   {
     Scaleform::GFx::AS3::Class::Class(v7, this);
-    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_net::SharedObjectFlushStatus::`vftable';
+    v8->__vftable = (Scaleform::GFx::AS3::Class_vtbl *)&Scaleform::GFx::AS3::Classes::fl_events::TransformGestureEvent::`vftable';
     v8[1].__vftable = (Scaleform::GFx::AS3::Class_vtbl *)"gesturePan";
     v8[1].pRCCRaw = (unsigned int)"gestureRotate";
     v8[1].pNext = (const Scaleform::GFx::AS3::RefCountBaseGC<328> *)"gestureSwipe";
@@ -58,7 +58,7 @@ void __thiscall Scaleform::GFx::AS3::ClassTraits::fl_events::TransformGestureEve
         return;
       }
       RefCount = pObject->RefCount;
-      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      if ( (RefCount & 0x3FFFFF) != 0 )
       {
         pObject->RefCount = RefCount - 1;
         Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);

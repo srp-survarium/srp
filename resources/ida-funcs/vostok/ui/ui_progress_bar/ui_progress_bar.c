@@ -1,41 +1,24 @@
-void __usercall vostok::ui::ui_progress_bar::ui_progress_bar(vostok::ui::ui_progress_bar *this@<ecx>, int a2@<eax>)
+void __usercall vostok::ui::ui_progress_bar::ui_progress_bar(
+        vostok::ui::ui_progress_bar *this@<esi>,
+        vostok::ui::ui_world *world@<edi>)
 {
-  float y; // edx
+  _DWORD *v2; // eax
 
-  y = this->m_position.y;
-  *(float *)(a2 + 8) = y;
-  *(_DWORD *)(a2 + 4) = &vostok::ui::ui_window::`vftable';
-  *(_DWORD *)(a2 + 12) = 0;
-  *(_DWORD *)(a2 + 16) = 0;
-  *(_DWORD *)(a2 + 20) = 0;
-  *(_DWORD *)(a2 + 24) = 0;
-  *(_DWORD *)(a2 + 28) = 0;
-  *(_DWORD *)(a2 + 32) = 0;
-  *(_DWORD *)(a2 + 36) = 0;
-  *(float *)(a2 + 40) = y;
-  *(_DWORD *)(a2 + 44) = 0;
-  *(_BYTE *)(a2 + 48) = 0;
-  *(_BYTE *)(a2 + 49) = 1;
-  *(_BYTE *)(a2 + 50) = 0;
-  *(_BYTE *)(a2 + 51) = 0;
-  *(_DWORD *)(a2 + 52) = 0;
-  *(_DWORD *)(a2 + 56) = 0;
-  *(float *)(a2 + 60) = y;
-  *(_DWORD *)(a2 + 64) = 0;
-  *(_DWORD *)(a2 + 68) = this;
-  *(_DWORD *)a2 = &vostok::ui::ui_progress_bar::`vftable'{for `vostok::ui::progress_bar'};
-  *(_DWORD *)(a2 + 4) = &vostok::ui::ui_progress_bar::`vftable'{for `vostok::ui::ui_window'};
-  *(_DWORD *)(a2 + 72) = -7401961;
-  *(_DWORD *)(a2 + 76) = -1284079;
-  *(_DWORD *)(a2 + 80) = -13905202;
-  *(_DWORD *)(a2 + 84) = 1;
-  *(_DWORD *)(a2 + 88) = 1;
-  *(_DWORD *)(a2 + 92) = 0;
-  *(_DWORD *)(a2 + 96) = 100;
-  *(_DWORD *)(a2 + 100) = 0;
-  *(_DWORD *)(a2 + 112) = a2 + 148;
-  *(_DWORD *)(a2 + 104) = a2 + 116;
-  *(_DWORD *)(a2 + 108) = a2 + 116;
-  *(_BYTE *)(a2 + 116) = 0;
-  *(_BYTE *)(a2 + 148) = 0;
+  vostok::ui::ui_window::ui_window(&this->vostok::ui::ui_window, world->m_allocator);
+  *v2 = &vostok::ui::ui_progress_bar::`vftable'{for `vostok::ui::ui_window'};
+  this->vostok::ui::progress_bar::__vftable = (vostok::ui::ui_progress_bar_vtbl *)&vostok::ui::ui_progress_bar::`vftable'{for `vostok::ui::progress_bar'};
+  this->m_ui_world = world;
+  this->m_back_color.m_value = -7401961;
+  this->m_front_color.m_value = -1284079;
+  this->m_text_color.m_value = -13905202;
+  this->m_border_width = 1;
+  this->m_border_height = 1;
+  this->m_minimum = 0;
+  this->m_maximum = 100;
+  this->m_value = 0;
+  this->m_text.m_begin = this->m_text.m_buffer;
+  this->m_text.m_end = this->m_text.m_buffer;
+  this->m_text.m_buffer[0] = 0;
+  this->m_text.m_max_end = (char *)&this->m_draw_text;
+  this->m_draw_text = 0;
 }

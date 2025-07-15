@@ -35,12 +35,12 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::GetMember(
   unsigned int v33; // eax
   int v34; // esi
   int v35; // eax
-  char *v36; // ebp
+  __m128i *v36; // ebp
   Scaleform::GFx::AS2::StringManager *StringManager; // eax
   Scaleform::GFx::ASStringNode *v38; // eax
   int v39; // esi
-  char **v40; // eax
-  char *v41; // esi
+  __m128i **v40; // eax
+  __m128i *v41; // esi
   Scaleform::GFx::AS2::StringManager *v42; // eax
   Scaleform::GFx::ASStringNode *v43; // esi
   Scaleform::GFx::AS2::Value *v44; // ecx
@@ -64,13 +64,13 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::GetMember(
   Scaleform::GFx::XML::ElementNode *v62; // eax
   Scaleform::GFx::XML::ShadowRefBase *v63; // ecx
   Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> *v64; // eax
-  char *v65; // esi
+  __m128i *v65; // esi
   Scaleform::GFx::AS2::StringManager *v66; // eax
   Scaleform::GFx::AS2::Environment *StringNode; // eax
   Scaleform::GFx::AS2::Value *v68; // ecx
   int v69; // esi
   int v70; // esi
-  char *v71; // esi
+  __m128i *v71; // esi
   Scaleform::GFx::AS2::StringManager *v72; // eax
   int v73; // esi
   Scaleform::Ptr<Scaleform::GFx::AS2::XmlNodeObject> result; // [esp+18h] [ebp-34h] BYREF
@@ -118,7 +118,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::GetMember(
         if ( v51 )
         {
           RefCount = v51->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+          if ( (RefCount & 0x3FFFFFF) != 0 )
           {
             v51->RefCount = RefCount - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v51);
@@ -170,7 +170,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::GetMember(
           {
             v31 = v75.pObject->RefCount;
             pObject = v75.pObject;
-            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v31) != 0 )
+            if ( (v31 & 0x3FFFFFF) != 0 )
             {
               v75.pObject->RefCount = v31 - 1;
               Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(pObject);
@@ -182,7 +182,7 @@ char __thiscall Scaleform::GFx::AS2::XmlNodeObject::GetMember(
       if ( !v25 )
         return 1;
       v33 = v25->RefCount;
-      if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v33) == 0 )
+      if ( (v33 & 0x3FFFFFF) == 0 )
         return 1;
       v25->RefCount = v33 - 1;
       Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v25);
@@ -250,7 +250,7 @@ LABEL_58:
       v69 = *(_DWORD *)&this->ResolveHandler.Flags;
       if ( !v69 || *(_BYTE *)(v69 + 32) != 1 )
         goto LABEL_13;
-      v40 = *(char ***)(v69 + 40);
+      v40 = *(__m128i ***)(v69 + 40);
       goto LABEL_45;
     case M_alpha:
       v17 = *(_DWORD *)&this->ResolveHandler.Flags;
@@ -283,12 +283,12 @@ LABEL_58:
       v35 = *(_DWORD *)(v34 + 36);
       if ( *(_DWORD *)(v35 + 12) )
       {
-        v36 = *(char **)v35;
+        v36 = *(__m128i **)v35;
         StringManager = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v6->StringContext.pContext);
         penv = Scaleform::GFx::ASStringManager::CreateStringNode(StringManager->pStringManager, v36);
         ++penv->RefCount;
-        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&penv, (char *)&stru_95963C.m_max_end);
-        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&penv, **(char ***)(v34 + 12));
+        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&penv, (const __m128i *)":");
+        Scaleform::GFx::ASString::operator+=((Scaleform::GFx::ASString *)&penv, **(const __m128i ***)(v34 + 12));
         Scaleform::GFx::AS2::Value::SetString(val, (const Scaleform::GFx::ASString *)&penv);
         v38 = penv;
         --penv->RefCount;
@@ -298,7 +298,7 @@ LABEL_58:
         return 1;
       }
 LABEL_77:
-      v65 = **(char ***)(v34 + 12);
+      v65 = **(__m128i ***)(v34 + 12);
       v66 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v6->StringContext.pContext);
       StringNode = (Scaleform::GFx::AS2::Environment *)Scaleform::GFx::ASStringManager::CreateStringNode(
                                                          v66->pStringManager,
@@ -328,7 +328,7 @@ LABEL_47:
         goto LABEL_13;
       if ( *(_BYTE *)(v39 + 32) == 1 )
         goto LABEL_12;
-      v40 = *(char ***)(v39 + 12);
+      v40 = *(__m128i ***)(v39 + 12);
 LABEL_45:
       v41 = *v40;
       v42 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v6->StringContext.pContext);
@@ -368,7 +368,7 @@ LABEL_46:
       v70 = *(_DWORD *)&this->ResolveHandler.Flags;
       if ( !v70 || *(_BYTE *)(v70 + 32) != 1 )
         goto LABEL_13;
-      v71 = **(char ***)(v70 + 36);
+      v71 = **(__m128i ***)(v70 + 36);
       v72 = Scaleform::GFx::AS2::GlobalContext::GetStringManager(v6->StringContext.pContext);
       v43 = Scaleform::GFx::ASStringManager::CreateStringNode(v72->pStringManager, v71);
       goto LABEL_46;
@@ -405,7 +405,7 @@ LABEL_9:
         if ( v12 )
         {
           v13 = v12->RefCount;
-          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v13) != 0 )
+          if ( (v13 & 0x3FFFFFF) != 0 )
           {
             v12->RefCount = v13 - 1;
             Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v12);

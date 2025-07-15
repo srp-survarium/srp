@@ -1,16 +1,16 @@
-int __cdecl Scaleform::ReadInteger(Scaleform::StringDataPtr *str, int defaultValue, char separator)
+unsigned int __cdecl Scaleform::ReadInteger(Scaleform::StringDataPtr *str, int defaultValue, char separator)
 {
-  const char *pStr; // ebx
+  char *pStr; // ebx
   unsigned int i; // esi
   unsigned int Size; // eax
   unsigned int v6; // ecx
-  Scaleform::StringDataPtr token; // [esp+8h] [ebp-8h] BYREF
+  Scaleform::StringDataPtr result; // [esp+8h] [ebp-8h] BYREF
 
-  Scaleform::StringDataPtr::GetNextToken(str, &token, separator);
-  pStr = token.pStr;
-  if ( !token.Size || !token.pStr || !isdigit(*token.pStr) )
+  Scaleform::StringDataPtr::GetNextToken(str, &result, separator);
+  pStr = (char *)result.pStr;
+  if ( !result.Size || !result.pStr || !isdigit(*result.pStr) )
     return defaultValue;
-  for ( i = 1; i < token.Size; ++i )
+  for ( i = 1; i < result.Size; ++i )
   {
     if ( !isdigit(pStr[i]) )
       break;
@@ -21,5 +21,5 @@ int __cdecl Scaleform::ReadInteger(Scaleform::StringDataPtr *str, int defaultVal
     v6 = str->Size;
   str->pStr += v6;
   str->Size = Size - v6;
-  return atoi(pStr);
+  return atoi((int)pStr, pStr);
 }

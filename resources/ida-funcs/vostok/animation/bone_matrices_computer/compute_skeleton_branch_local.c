@@ -1,56 +1,63 @@
-void __thiscall vostok::animation::bone_matrices_computer::compute_skeleton_branch_local(
-        vostok::animation::bone_matrices_computer *this,
-        vostok::animation::bone_matrices_computer *bone,
+void __userpurge vostok::animation::bone_matrices_computer::compute_skeleton_branch_local(
+        vostok::animation::bone_matrices_computer *this@<ecx>,
+        float a2@<xmm4>,
+        const vostok::animation::skeleton_bone *bone,
         vostok::math::float4x4 *result,
-        const vostok::animation::skeleton_bone *bone_mask,
-        const unsigned int *result_masks)
+        unsigned int *bone_mask,
+        const unsigned int *result_masks,
+        unsigned __int8 calc_mask)
 {
-  unsigned int m_id; // eax
-  const vostok::animation::skeleton_bone *m_animations; // esi
-  int v7; // edi
-  const unsigned int *v8; // ebp
-  const unsigned int *v9; // eax
-  vostok::math::float4x4 v11; // [esp+18h] [ebp-44h] BYREF
-  const vostok::animation::skeleton_bone *e; // [esp+68h] [ebp+Ch]
+  unsigned int m_mask; // eax
+  const vostok::animation::skeleton_bone *m_children_begin; // esi
+  int v10; // edi
+  unsigned int *v11; // eax
+  vostok::math::float4x4 v12; // [esp+Ch] [ebp-48h] BYREF
+  vostok::animation::bone_matrices_computer *v13; // [esp+4Ch] [ebp-8h]
+  const vostok::animation::skeleton_bone *m_children_end; // [esp+5Ch] [ebp+8h]
+  unsigned int *result_masksa; // [esp+64h] [ebp+10h]
 
+  v13 = this;
   if ( bone_mask )
-    m_id = (unsigned int)bone_mask->m_id;
+    m_mask = *bone_mask;
   else
-    m_id = bone->m_layers_count;
+    m_mask = bone->m_mask;
   qmemcpy(
-    (void *)result,
+    result,
     vostok::animation::bone_matrices_computer::computed_local_bone_matrix(
       this,
       (vostok::animation::bone_transform *)this,
-      &v11,
-      bone,
-      m_id),
+      &v12,
+      (unsigned int)bone,
+      m_mask),
     sizeof(vostok::math::float4x4));
-  m_animations = (const vostok::animation::skeleton_bone *)bone->m_animations;
-  e = (const vostok::animation::skeleton_bone *)bone->m_animations_count;
-  if ( m_animations != e )
+  m_children_begin = bone->m_children_begin;
+  m_children_end = bone->m_children_end;
+  if ( m_children_begin != m_children_end )
   {
-    v7 = (char *)m_animations - (char *)bone;
+    v10 = (char *)m_children_begin - (char *)bone;
     do
     {
-      if ( result_masks )
+      if ( (calc_mask & m_children_begin->m_calc_mask) != 0 )
       {
-        v8 = &result_masks[v7 / 20];
-        v9 = &result_masks[((char *)bone->m_animations - (char *)bone) / 20];
+        if ( result_masks )
+          result_masksa = (unsigned int *)&result_masks[v10 / 28];
+        else
+          result_masksa = 0;
+        v11 = 0;
+        if ( result_masks )
+          v11 = (unsigned int *)&result_masks[bone->m_children_begin - bone];
+        vostok::animation::bone_matrices_computer::compute_skeleton_branch_local(
+          v13,
+          a2,
+          m_children_begin,
+          &result[v10 / 28],
+          v11,
+          result_masksa,
+          calc_mask);
       }
-      else
-      {
-        v8 = 0;
-        v9 = 0;
-      }
-      vostok::animation::bone_matrices_computer::compute_skeleton_branch_local(
-        this,
-        m_animations++,
-        &result[v7 / 20],
-        v9,
-        v8);
-      v7 += 20;
+      ++m_children_begin;
+      v10 += 28;
     }
-    while ( m_animations != e );
+    while ( m_children_begin != m_children_end );
   }
 }

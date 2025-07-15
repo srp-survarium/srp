@@ -18,10 +18,9 @@ int __cdecl check_crl(x509_store_ctx_st *ctx, X509_crl_st *crl)
   int v17; // eax
   int (__cdecl *v18)(int, x509_store_ctx_st *); // edx
   int (__cdecl *v20)(int, x509_store_ctx_st *); // eax
-  evp_pkey_st *pubkey; // eax
-  int (__cdecl *v22)(int, x509_store_ctx_st *); // ecx
-  int v23; // eax
-  int (__cdecl *v24)(int, x509_store_ctx_st *); // edx
+  int (__cdecl *v21)(int, x509_store_ctx_st *); // ecx
+  int v22; // eax
+  int (__cdecl *v23)(int, x509_store_ctx_st *); // edx
   evp_pkey_st *x; // [esp+Ch] [ebp-4h]
 
   error_depth = ctx->error_depth;
@@ -40,7 +39,7 @@ int __cdecl check_crl(x509_store_ctx_st *ctx, X509_crl_st *crl)
       ctx->error = 33;
       v6 = verify_cb(0, ctx);
       if ( !v6 )
-        goto err_2;
+        goto err_4;
     }
   }
   else
@@ -57,7 +56,7 @@ int __cdecl check_crl(x509_store_ctx_st *ctx, X509_crl_st *crl)
       ctx->error = 35;
       v6 = v7(0, ctx);
       if ( !v6 )
-        goto err_2;
+        goto err_4;
     }
     if ( SLOBYTE(ctx->current_crl_score) >= 0 )
     {
@@ -65,15 +64,15 @@ int __cdecl check_crl(x509_store_ctx_st *ctx, X509_crl_st *crl)
       ctx->error = 44;
       v6 = v8(0, ctx);
       if ( !v6 )
-        goto err_2;
+        goto err_4;
     }
-    if ( (ctx->current_crl_score & 8) == 0 && check_crl_path(ctx, ctx->current_issuer) <= 0 )
+    if ( (ctx->current_crl_score & 8) == 0 && check_crl_path(ctx, ctx->current_issuer, (int)current_issuer) <= 0 )
     {
       v9 = ctx->verify_cb;
       ctx->error = 54;
       v6 = v9(0, ctx);
       if ( !v6 )
-        goto err_2;
+        goto err_4;
     }
     if ( (crl->idp_flags & 2) != 0 )
     {
@@ -81,7 +80,7 @@ int __cdecl check_crl(x509_store_ctx_st *ctx, X509_crl_st *crl)
       ctx->error = 41;
       v6 = v10(0, ctx);
       if ( !v6 )
-        goto err_2;
+        goto err_4;
     }
   }
   if ( (ctx->current_crl_score & 0x40) == 0 )
@@ -138,30 +137,29 @@ LABEL_31:
     }
     ctx->current_crl = 0;
   }
-  pubkey = X509_get_pubkey(current_issuer);
-  x = pubkey;
-  if ( pubkey )
+  x = X509_get_pubkey(current_issuer);
+  if ( x )
   {
-    if ( X509_CRL_verify(crl, pubkey) > 0 )
+    if ( X509_CRL_verify(crl) > 0 )
     {
 LABEL_41:
       v6 = 1;
-      goto err_2;
+      goto err_4;
     }
-    v24 = ctx->verify_cb;
+    v23 = ctx->verify_cb;
     ctx->error = 8;
-    v23 = v24(0, ctx);
+    v22 = v23(0, ctx);
   }
   else
   {
-    v22 = ctx->verify_cb;
+    v21 = ctx->verify_cb;
     ctx->error = 6;
-    v23 = v22(0, ctx);
+    v22 = v21(0, ctx);
   }
-  v6 = v23;
-  if ( v23 )
+  v6 = v22;
+  if ( v22 )
     goto LABEL_41;
-err_2:
+err_4:
   EVP_PKEY_free(x);
   return v6;
 }

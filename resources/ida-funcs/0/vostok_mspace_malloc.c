@@ -1,178 +1,176 @@
-int *__usercall vostok_mspace_malloc@<eax>(malloc_state *msp@<eax>, unsigned int bytes)
+malloc_chunk **__usercall vostok_mspace_malloc@<eax>(malloc_state *msp@<eax>, unsigned int bytes)
 {
-  unsigned int v4; // edi
-  unsigned int v5; // ebx
-  unsigned int v6; // eax
-  int *result; // eax
+  unsigned int v3; // edi
+  unsigned int v4; // ebx
+  unsigned int v5; // eax
+  malloc_chunk **result; // eax
   char (__stdcall *out_of_memory_handler)(void *, const void *, int); // eax
-  unsigned int v9; // ebx
+  unsigned int v8; // ebx
+  malloc_chunk **v9; // eax
   malloc_chunk *v10; // edi
   malloc_chunk *v11; // ecx
-  char *v12; // eax
-  int v13; // edx
-  malloc_chunk *v14; // ebp
-  char *v15; // eax
+  unsigned int v12; // ebx
+  malloc_chunk **v13; // eax
   malloc_chunk *fd; // ecx
-  unsigned int v17; // ebx
-  int v18; // ecx
-  malloc_chunk *v19; // edi
-  unsigned int v20; // eax
-  int v21; // edx
-  malloc_chunk *v22; // ecx
+  unsigned int v15; // ecx
+  unsigned int v16; // ebx
+  malloc_chunk *v17; // edi
+  unsigned int v18; // eax
+  unsigned int v19; // eax
   unsigned int dvsize; // edx
-  malloc_chunk *v24; // ecx
-  unsigned int v25; // eax
-  char *v26; // edx
-  malloc_chunk *top; // eax
-  unsigned int topsize; // ecx
-  malloc_chunk *DV; // [esp+10h] [ebp-8h]
-  int F; // [esp+1Ch] [ebp+4h]
+  malloc_chunk *dv; // ecx
+  unsigned int v22; // eax
+  char *v23; // edx
+  unsigned int v24; // eax
+  malloc_chunk *v25; // [esp+10h] [ebp-Ch]
+  int v26; // [esp+18h] [ebp-4h]
+  malloc_chunk **v27; // [esp+18h] [ebp-4h]
+  malloc_chunk *v28; // [esp+24h] [ebp+8h]
 
-  F = 1;
+  v26 = 1;
   while ( bytes > 0xF4 )
   {
     if ( bytes >= 0xFFFFFFC0 )
     {
-      v4 = -1;
+      v3 = -1;
       goto LABEL_16;
     }
-    v4 = (bytes + 11) & 0xFFFFFFF8;
+    v3 = (bytes + 11) & 0xFFFFFFF8;
     if ( msp->treemap )
     {
-      result = (int *)tmalloc_large(msp, (bytes + 11) & 0xFFFFFFF8);
+      result = (malloc_chunk **)tmalloc_large(msp, v3);
 LABEL_15:
       if ( result )
         return result;
     }
 LABEL_16:
-    if ( v4 <= msp->dvsize )
+    if ( v3 <= msp->dvsize )
     {
-LABEL_40:
+LABEL_41:
       dvsize = msp->dvsize;
-      v24 = msp->dv;
-      v25 = dvsize - v4;
-      if ( dvsize - v4 < 0x10 )
+      dv = msp->dv;
+      v22 = dvsize - v3;
+      if ( dvsize - v3 < 0x10 )
       {
         msp->dvsize = 0;
         msp->dv = 0;
-        v24->head = dvsize | 3;
-        *(unsigned int *)((char *)&v24->head + dvsize) |= 1u;
+        dv->head = dvsize | 3;
+        *(unsigned int *)((char *)&dv->head + dvsize) |= 1u;
+        return &dv->fd;
       }
-      else
-      {
-        v26 = (char *)v24 + v4;
-        msp->dvsize = v25;
-        msp->dv = (malloc_chunk *)((char *)v24 + v4);
-        *((_DWORD *)v26 + 1) = v25 | 1;
-        *(_DWORD *)&v26[v25] = v25;
-        v24->head = v4 | 3;
-      }
-      return (int *)&v24->fd;
+      v23 = (char *)dv + v3;
+      msp->dv = (malloc_chunk *)((char *)dv + v3);
+      msp->dvsize = v22;
+      *((_DWORD *)v23 + 1) = v22 | 1;
+      *(_DWORD *)&v23[v22] = v22;
+LABEL_43:
+      dv->head = v3 | 3;
+      return &dv->fd;
     }
-    if ( v4 < msp->topsize )
+    if ( v3 < msp->topsize )
     {
-      msp->topsize -= v4;
-      top = msp->top;
-      topsize = msp->topsize;
-      msp->top = (malloc_chunk *)((char *)top + v4);
-      *(unsigned int *)((char *)&top->head + v4) = topsize | 1;
-      top->head = v4 | 3;
-      return (int *)&top->fd;
+      msp->topsize -= v3;
+      dv = msp->top;
+      v24 = msp->topsize | 1;
+      msp->top = (malloc_chunk *)((char *)dv + v3);
+      *(unsigned int *)((char *)&dv->head + v3) = v24;
+      goto LABEL_43;
     }
     out_of_memory_handler = msp->out_of_memory_handler;
     if ( !out_of_memory_handler )
-      return sys_alloc(msp, v4);
-    if ( !F )
+      return (malloc_chunk **)sys_alloc(msp, v3);
+    if ( !v26 )
     {
       out_of_memory_handler(msp, msp->out_of_memory_parameter, 0);
       return 0;
     }
-    F = 0;
+    v26 = 0;
     if ( !out_of_memory_handler(msp, msp->out_of_memory_parameter, 1) )
       return 0;
   }
   if ( bytes >= 0xB )
-    v4 = (bytes + 11) & 0xFFFFFFF8;
+    v3 = (bytes + 11) & 0xFFFFFFF8;
   else
-    v4 = 16;
-  v5 = v4 >> 3;
-  v6 = msp->smallmap >> (v4 >> 3);
-  if ( (v6 & 3) == 0 )
+    v3 = 16;
+  v4 = v3 >> 3;
+  v5 = msp->smallmap >> (v3 >> 3);
+  if ( (v5 & 3) == 0 )
   {
-    if ( v4 <= msp->dvsize )
-      goto LABEL_40;
-    if ( v6 )
+    if ( v3 <= msp->dvsize )
+      goto LABEL_41;
+    if ( v5 )
     {
-      _BitScanForward((unsigned int *)&v13, (2 * (-1 << v5)) & (v6 << v5) & -((2 * (-1 << v5)) & (v6 << v5)));
-      v14 = msp->smallbins[2 * v13 + 2];
-      v15 = (char *)&msp->smallbins[2 * v13];
-      fd = v14->fd;
-      if ( v15 == (char *)fd )
+      _BitScanForward(&v5, (2 * (-1 << v4)) & (v5 << v4) & -((2 * (-1 << v4)) & (v5 << v4)));
+      v12 = v5;
+      v13 = &msp->smallbins[2 * v5];
+      v28 = v13[2];
+      fd = v28->fd;
+      if ( v13 == (malloc_chunk **)fd )
       {
-        msp->smallmap &= ~(1 << v13);
+        msp->smallmap &= ~(1 << v12);
       }
       else
       {
         if ( (char *)fd < msp->least_addr )
           abort();
-        msp->smallbins[2 * v13 + 2] = fd;
-        fd->bk = (malloc_chunk *)v15;
+        v13[2] = fd;
+        fd->bk = (malloc_chunk *)v13;
       }
-      v17 = 8 * v13 - v4;
-      v18 = v4 | 3;
-      v19 = (malloc_chunk *)((char *)v14 + v4);
-      v14->head = v18;
-      v19->head = v17 | 1;
-      *(unsigned int *)((char *)&v19->prev_foot + v17) = v17;
-      v20 = msp->dvsize;
-      if ( v20 )
+      v15 = v3;
+      v16 = 8 * v12 - v3;
+      v17 = (malloc_chunk *)((char *)v28 + v3);
+      v28->head = v15 | 3;
+      v17->head = v16 | 1;
+      *(unsigned int *)((char *)&v17->prev_foot + v16) = v16;
+      v18 = msp->dvsize;
+      if ( v18 )
       {
-        DV = msp->dv;
-        v21 = 1 << (v20 >> 3);
-        if ( (msp->smallmap & v21) != 0 )
+        v19 = v18 >> 3;
+        v25 = msp->dv;
+        v27 = &msp->smallbins[2 * v19];
+        if ( (msp->smallmap & (1 << v19)) != 0 )
         {
-          v22 = msp->smallbins[2 * (v20 >> 3) + 2];
-          if ( (char *)v22 < msp->least_addr )
+          if ( msp->smallbins[2 * v19 + 2] < (malloc_chunk *)msp->least_addr )
             abort();
+          v27 = (malloc_chunk **)msp->smallbins[2 * v19 + 2];
         }
         else
         {
-          msp->smallmap |= v21;
-          v22 = (malloc_chunk *)&msp->smallbins[2 * (v20 >> 3)];
+          msp->smallmap |= 1 << v19;
         }
-        msp->smallbins[2 * (v20 >> 3) + 2] = DV;
-        v22->bk = DV;
-        DV->fd = v22;
-        DV->bk = (malloc_chunk *)&msp->smallbins[2 * (v20 >> 3)];
+        msp->smallbins[2 * v19 + 2] = v25;
+        v27[3] = v25;
+        v25->fd = (malloc_chunk *)v27;
+        v25->bk = (malloc_chunk *)&msp->smallbins[2 * v19];
       }
-      result = (int *)&v14->fd;
-      msp->dv = v19;
-      msp->dvsize = v17;
+      result = &v28->fd;
+      msp->dvsize = v16;
+      msp->dv = v17;
       return result;
     }
     if ( msp->treemap )
     {
-      result = (int *)tmalloc_small((malloc_chunk *)msp, (malloc_chunk *)v4);
+      result = (malloc_chunk **)tmalloc_small(msp, v3);
       goto LABEL_15;
     }
     goto LABEL_16;
   }
-  v9 = ((v6 & 1) == 0) + v5;
-  v10 = msp->smallbins[2 * v9 + 2];
+  v8 = ((v5 & 1) == 0) + v4;
+  v9 = &msp->smallbins[2 * v8];
+  v10 = msp->smallbins[2 * v8 + 2];
   v11 = v10->fd;
-  v12 = (char *)&msp->smallbins[2 * v9];
-  if ( v12 == (char *)v11 )
+  if ( v9 == (malloc_chunk **)v11 )
   {
-    msp->smallmap &= ~(1 << v9);
+    msp->smallmap &= ~(1 << v8);
   }
   else
   {
     if ( (char *)v11 < msp->least_addr )
       abort();
-    msp->smallbins[2 * v9 + 2] = v11;
-    v11->bk = (malloc_chunk *)v12;
+    msp->smallbins[2 * v8 + 2] = v11;
+    v11->bk = (malloc_chunk *)v9;
   }
-  v10->head = (8 * v9) | 3;
-  *(&v10->head + 2 * v9) |= 1u;
-  return (int *)&v10->fd;
+  v10->head = (8 * v8) | 3;
+  *(&v10->head + 2 * v8) |= 1u;
+  return &v10->fd;
 }

@@ -48,6 +48,6 @@ void ERR_add_error_data(int num, ...)
       }
       while ( v9 < num );
     }
-    ERR_set_error_data((char *)v3, 3);
+    ERR_set_error_data(v4, (char *)v3, 3);
   }
 }

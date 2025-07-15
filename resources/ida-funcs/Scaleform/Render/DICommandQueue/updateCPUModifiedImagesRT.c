@@ -5,9 +5,9 @@ void __thiscall Scaleform::Render::DICommandQueue::updateCPUModifiedImagesRT(Sca
   Scaleform::Render::DrawableImage *v4; // esi
   Scaleform::Render::DrawableImage *v5; // ecx
   Scaleform::Ptr<Scaleform::Render::DrawableImage> *p_pCPUModifiedNext; // edi
-  Scaleform::Lock *lock; // [esp+Ch] [ebp-4h]
+  Scaleform::Lock *lpCriticalSection; // [esp+Ch] [ebp-4h]
 
-  lock = &this->QueueLock;
+  lpCriticalSection = &this->QueueLock;
   EnterCriticalSection(&this->QueueLock.cs);
   pObject = this->pCPUModifiedImageList.pObject;
   v3 = 0;
@@ -40,5 +40,5 @@ void __thiscall Scaleform::Render::DICommandQueue::updateCPUModifiedImagesRT(Sca
     while ( v4 );
     (*(void (__thiscall **)(_DWORD *))(*v3 + 8))(v3);
   }
-  LeaveCriticalSection(&lock->cs);
+  LeaveCriticalSection(&lpCriticalSection->cs);
 }

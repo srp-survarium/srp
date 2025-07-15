@@ -1,31 +1,37 @@
-void __thiscall btSparseSdf<3>::Reset(btSparseSdf<3> *this, btSparseSdf<3> *thisa)
+void __usercall btSparseSdf<3>::Reset(btSparseSdf<3> *this@<ecx>, int a2@<esi>)
 {
-  int m_size; // ebp
-  int i; // edi
-  btSparseSdf<3>::Cell **v4; // ecx
-  btSparseSdf<3>::Cell *v5; // eax
-  btSparseSdf<3>::Cell *next; // esi
+  int v2; // edi
+  _DWORD **v3; // eax
+  _DWORD *v4; // ecx
+  _DWORD *v5; // ebx
+  int v6; // [esp+4h] [ebp-4h]
 
-  m_size = thisa->cells.m_size;
-  for ( i = 0; i < m_size; ++i )
+  v2 = 0;
+  v6 = *(_DWORD *)(a2 + 4);
+  if ( v6 > 0 )
   {
-    v4 = &thisa->cells.m_data[i];
-    v5 = *v4;
-    *v4 = 0;
-    if ( v5 )
+    do
     {
-      do
+      v3 = (_DWORD **)(*(_DWORD *)(a2 + 12) + 4 * v2);
+      v4 = *v3;
+      *v3 = 0;
+      if ( v4 )
       {
-        next = v5->next;
-        operator delete(v5);
-        v5 = next;
+        do
+        {
+          v5 = (_DWORD *)v4[70];
+          operator delete(v4);
+          v4 = v5;
+        }
+        while ( v5 );
       }
-      while ( next );
+      ++v2;
     }
+    while ( v2 < v6 );
   }
-  thisa->puid = 0;
-  thisa->ncells = 0;
-  thisa->voxelsz = 0.25;
-  thisa->nprobes = 1;
-  thisa->nqueries = 1;
+  *(_DWORD *)(a2 + 24) = 0;
+  *(_DWORD *)(a2 + 28) = 0;
+  *(float *)(a2 + 20) = FLOAT_0_25;
+  *(_DWORD *)(a2 + 32) = 1;
+  *(_DWORD *)(a2 + 36) = 1;
 }

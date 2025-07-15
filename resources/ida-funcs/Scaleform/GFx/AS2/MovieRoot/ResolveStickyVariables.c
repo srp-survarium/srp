@@ -13,16 +13,16 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ResolveStickyVariables(
   _DWORD *v10; // ebp
   int v11; // eax
   unsigned int *v12; // esi
-  Scaleform::GFx::MovieImpl::StickyVarNode *v13; // esi
+  int v13; // esi
   int v14; // edi
-  int (__thiscall *v15)(_DWORD *, Scaleform::GFx::ASString *, Scaleform::GFx::MovieImpl::StickyVarNode *, Scaleform::GFx::InteractiveObject **); // edx
+  int (__thiscall *v15)(_DWORD *, int, int, Scaleform::GFx::InteractiveObject **); // edx
   int v16; // eax
-  Scaleform::GFx::MovieImpl::StickyVarNode *pNext; // edi
+  int v17; // edi
   Scaleform::GFx::MovieImpl *v18; // ecx
-  Scaleform::GFx::InteractiveObject *ppermanent; // [esp+14h] [ebp-18h]
-  Scaleform::GFx::AS2::MovieRoot::StickyVarNode *ppermanentTail; // [esp+18h] [ebp-14h]
-  Scaleform::GFx::MovieImpl::StickyVarNode *path; // [esp+1Ch] [ebp-10h]
-  Scaleform::GFx::MovieImpl::StickyVarNode *_pnode[2]; // [esp+24h] [ebp-8h] BYREF
+  Scaleform::GFx::InteractiveObject *v19; // [esp+14h] [ebp-18h]
+  int v20; // [esp+18h] [ebp-14h]
+  const Scaleform::GFx::ASString *v21; // [esp+1Ch] [ebp-10h]
+  Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::ArrayLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2,Scaleform::ArrayDefaultPolicy> *,Scaleform::GFx::ASStringHashFunctor>::NodeRef v23; // [esp+24h] [ebp-8h] BYREF
 
   v2 = pch;
   pObject = pch->pNameHandle.pObject;
@@ -30,7 +30,7 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ResolveStickyVariables(
   if ( !pObject )
     pObject = Scaleform::GFx::DisplayObject::CreateCharacterHandle(pch);
   p_NamePath = &pObject->NamePath;
-  path = (Scaleform::GFx::MovieImpl::StickyVarNode *)&pObject->NamePath;
+  v21 = &pObject->NamePath;
   v6 = (*(int (__thiscall **)(int))(*((_DWORD *)&v2->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                     + v2->AvmObjOffset)
                                   + 4))((int)v2 + 4 * v2->AvmObjOffset);
@@ -49,54 +49,52 @@ void __thiscall Scaleform::GFx::AS2::MovieRoot::ResolveStickyVariables(
       v12 = &pTable[1].SizeMask + 3 * v11;
       if ( v12 )
       {
-        v13 = (Scaleform::GFx::MovieImpl::StickyVarNode *)v12[1];
-        _pnode[0] = v13;
-        ppermanent = 0;
-        ppermanentTail = 0;
+        v13 = v12[1];
+        v23.pFirst = (const Scaleform::GFx::ASString *)v13;
+        v19 = 0;
+        v20 = 0;
         if ( v13 )
         {
           do
           {
             v14 = v10[1];
-            v15 = *(int (__thiscall **)(_DWORD *, Scaleform::GFx::ASString *, Scaleform::GFx::MovieImpl::StickyVarNode *, Scaleform::GFx::InteractiveObject **))(*v10 + 124);
+            v15 = *(int (__thiscall **)(_DWORD *, int, int, Scaleform::GFx::InteractiveObject **))(*v10 + 124);
             LOBYTE(pch) = 0;
-            v16 = v15(v10, &v13->Name, v13 + 1, &pch);
+            v16 = v15(v10, v13 + 4, v13 + 16, &pch);
             (*(void (__thiscall **)(_DWORD *, int))(v14 + 12))(v10 + 1, v16);
-            pNext = v13->pNext;
-            if ( v13->Permanent )
+            v17 = *(_DWORD *)(v13 + 8);
+            if ( *(_BYTE *)(v13 + 12) )
             {
-              if ( ppermanent )
-                ppermanentTail->pNext = v13;
+              if ( v19 )
+                *(_DWORD *)(v20 + 8) = v13;
               else
-                ppermanent = (Scaleform::GFx::InteractiveObject *)v13;
-              ppermanentTail = (Scaleform::GFx::AS2::MovieRoot::StickyVarNode *)v13;
-              v13->pNext = 0;
+                v19 = (Scaleform::GFx::InteractiveObject *)v13;
+              v20 = v13;
+              *(_DWORD *)(v13 + 8) = 0;
             }
             else
             {
-              ((void (__thiscall *)(Scaleform::GFx::MovieImpl::StickyVarNode *, int))v13->~Scaleform::GFx::MovieImpl::StickyVarNode)(
-                v13,
-                1);
+              (**(void (__thiscall ***)(int, int))v13)(v13, 1);
             }
-            v13 = pNext;
+            v13 = v17;
           }
-          while ( pNext );
-          if ( ppermanent )
+          while ( v17 );
+          if ( v19 )
           {
-            if ( ppermanent != (Scaleform::GFx::InteractiveObject *)_pnode[0] )
+            if ( v19 != (Scaleform::GFx::InteractiveObject *)v23.pFirst )
             {
               v18 = this->pMovieImpl;
-              _pnode[0] = path;
-              pch = ppermanent;
-              _pnode[1] = (Scaleform::GFx::MovieImpl::StickyVarNode *)&pch;
+              v23.pFirst = v21;
+              pch = v19;
+              v23.pSecond = (Scaleform::ArrayLH<Scaleform::GFx::AS3::Instances::fl_events::EventDispatcher::Listener,2,Scaleform::ArrayDefaultPolicy> *const *)&pch;
               Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::Set<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef>(
                 &v18->StickyVariables.mHash,
                 &v18->StickyVariables,
-                (const Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeRef *)_pnode);
+                &v23);
             }
             return;
           }
-          p_NamePath = (const Scaleform::GFx::ASString *)path;
+          p_NamePath = v21;
           v4 = this;
         }
         Scaleform::HashSetBase<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeAltHashF,Scaleform::AllocatorLH<Scaleform::GFx::ASString,324>,Scaleform::HashsetNodeEntry<Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>,Scaleform::HashNode<Scaleform::GFx::ASString,Scaleform::GFx::MovieImpl::StickyVarNode *,Scaleform::GFx::ASStringHashFunctor>::NodeHashF>>::RemoveAlt<Scaleform::GFx::ASString>(

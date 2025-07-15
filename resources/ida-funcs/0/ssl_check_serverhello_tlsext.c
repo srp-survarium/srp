@@ -1,21 +1,21 @@
-int __cdecl ssl_check_serverhello_tlsext(ssl_st *s)
+int __usercall ssl_check_serverhello_tlsext@<eax>(int a1@<ebx>, ssl_st *s)
 {
-  bool v1; // zf
+  bool v2; // zf
   ssl_session_st *session; // eax
   unsigned __int8 *tlsext_ecpointformatlist; // ecx
   const ssl_cipher_st *new_cipher; // eax
-  int v5; // eax
+  int v6; // eax
   ssl_ctx_st *ctx; // eax
-  int v9; // edi
+  int v10; // edi
   int (__cdecl *tlsext_servername_callback)(ssl_st *, int *, void *); // ecx
-  ssl_ctx_st *v11; // eax
   ssl_ctx_st *v12; // eax
-  int v13; // eax
+  ssl_ctx_st *v13; // eax
+  int v14; // eax
   int desc; // [esp+4h] [ebp-4h] BYREF
 
-  v1 = s->tlsext_ecpointformatlist == 0;
+  v2 = s->tlsext_ecpointformatlist == 0;
   desc = 112;
-  if ( !v1 )
+  if ( !v2 )
   {
     if ( s->tlsext_ecpointformatlist_length )
     {
@@ -28,12 +28,12 @@ int __cdecl ssl_check_serverhello_tlsext(ssl_st *s)
           new_cipher = s->s3->tmp.new_cipher;
           if ( (new_cipher->algorithm_mkey & 0xE0) != 0 || (new_cipher->algorithm_auth & 0x40) != 0 )
           {
-            v5 = 0;
+            v6 = 0;
             while ( *tlsext_ecpointformatlist++ )
             {
-              if ( ++v5 >= s->session->tlsext_ecpointformatlist_length )
+              if ( ++v6 >= s->session->tlsext_ecpointformatlist_length )
               {
-                ERR_put_error(0x14u, 280, 157, ".\\ssl\\t1_lib.c", 1492);
+                ERR_put_error(a1, 0x14u, 280, 157, ".\\ssl\\t1_lib.c", 1492);
                 return -1;
               }
             }
@@ -43,30 +43,30 @@ int __cdecl ssl_check_serverhello_tlsext(ssl_st *s)
     }
   }
   ctx = s->ctx;
-  v9 = 0;
+  v10 = 0;
   if ( ctx && (tlsext_servername_callback = ctx->tlsext_servername_callback) != 0
     || (ctx = s->initial_ctx) != 0 && (tlsext_servername_callback = ctx->tlsext_servername_callback) != 0 )
   {
-    v9 = tlsext_servername_callback(s, &desc, ctx->tlsext_servername_arg);
+    v10 = tlsext_servername_callback(s, &desc, ctx->tlsext_servername_arg);
   }
   if ( s->tlsext_status_type != -1 && !s->tlsext_status_expected )
   {
-    v11 = s->ctx;
-    if ( v11 )
+    v12 = s->ctx;
+    if ( v12 )
     {
-      if ( v11->tlsext_status_cb )
+      if ( v12->tlsext_status_cb )
       {
         if ( s->tlsext_ocsp_resp )
         {
           CRYPTO_free(s->tlsext_ocsp_resp);
           s->tlsext_ocsp_resp = 0;
         }
-        v12 = s->ctx;
+        v13 = s->ctx;
         s->tlsext_ocsp_resplen = -1;
-        v13 = v12->tlsext_status_cb(s, v12->tlsext_status_arg);
-        if ( v13 )
+        v14 = v13->tlsext_status_cb(s, v13->tlsext_status_arg);
+        if ( v14 )
         {
-          if ( v13 >= 0 )
+          if ( v14 >= 0 )
             goto LABEL_27;
           desc = 80;
         }
@@ -74,12 +74,12 @@ int __cdecl ssl_check_serverhello_tlsext(ssl_st *s)
         {
           desc = 113;
         }
-        v9 = 2;
+        v10 = 2;
       }
     }
   }
 LABEL_27:
-  switch ( v9 )
+  switch ( v10 )
   {
     case 1:
       ssl3_send_alert(s, 1, desc);

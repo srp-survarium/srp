@@ -4,6 +4,8 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalStreamSoundLoader(
 {
   Scaleform::GFx::AudioBase *pObject; // ecx
   int v3; // eax
+  Scaleform::GFx::SWFProcessInfo *pAltStream; // eax
+  Scaleform::GFx::SWFProcessInfo *p_ProcessInfo; // eax
 
   pObject = p->pLoadStates.pObject->pAudioState.pObject;
   if ( pObject )
@@ -16,6 +18,15 @@ void __stdcall Scaleform::GFx::GFx_DefineExternalStreamSoundLoader(
   }
   else
   {
-    Scaleform::Render::JPEG::JPEGRwSource::TermSource(0);
+    pAltStream = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
+    if ( !pAltStream )
+      pAltStream = &p->ProcessInfo;
+    Scaleform::GFx::LogBase<Scaleform::GFx::Stream>::LogParse(
+      &pAltStream->Stream,
+      "GFx_DefineExternalStreamSoundLoader: Audio library is not set.\n");
+    p_ProcessInfo = (Scaleform::GFx::SWFProcessInfo *)p->pAltStream;
+    if ( !p_ProcessInfo )
+      p_ProcessInfo = &p->ProcessInfo;
+    Scaleform::GFx::Stream::LogTagBytes(&p_ProcessInfo->Stream);
   }
 }

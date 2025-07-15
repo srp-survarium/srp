@@ -20,7 +20,7 @@ void __thiscall Scaleform::Render::Tessellator::swapChains(
   unsigned int *v17; // eax
   unsigned int *v18; // ebx
   unsigned int v19; // edx
-  unsigned int startIna; // [esp+8h] [ebp+4h]
+  int v20; // [esp+8h] [ebp+4h]
 
   for ( i = startIn; i < endIn; *v17 = v19 )
   {
@@ -29,15 +29,15 @@ void __thiscall Scaleform::Render::Tessellator::swapChains(
     v6 = Pages[v5->pos1 >> 4][v5->pos1 & 0xF];
     v7 = Pages[v5->pos2 >> 4][v5->pos2 & 0xF];
     v8 = v6 >> 4;
-    startIna = v6 & 0xF;
-    this->InteriorChains.Pages[v8][startIna]->flags |= 0x10u;
+    v20 = v6 & 0xF;
+    this->InteriorChains.Pages[v8][v20]->flags |= 0x10u;
     v9 = v7 >> 4;
     v10 = v7 & 0xF;
     v9 *= 4;
     v11 = (*(Scaleform::Render::Tessellator::MonoChainType ***)((char *)this->InteriorChains.Pages + v9))[v10];
     v11->flags |= 0x10u;
     v12 = this->InteriorChains.Pages;
-    v13 = &v12[v8][startIna];
+    v13 = &v12[v8][v20];
     v14 = &(*(Scaleform::Render::Tessellator::MonoChainType ***)((char *)v12 + v9))[v10];
     v15 = *v13;
     *v13 = *v14;

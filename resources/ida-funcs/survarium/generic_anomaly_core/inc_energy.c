@@ -1,9 +1,12 @@
-void __thiscall survarium::generic_anomaly_core::inc_energy(survarium::generic_anomaly_core *this, float amount)
+int __usercall survarium::generic_anomaly_core::inc_energy@<eax>(
+        survarium::generic_anomaly_core *this@<ecx>,
+        int result@<eax>,
+        float a3@<xmm0>)
 {
-  survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
-  if ( this->energy_enabled )
+  if ( *(_BYTE *)(result + 328) )
   {
-    this->m_energy_current = this->m_energy_current + amount;
-    survarium::weapon_user_dead_state::finalize((survarium::game_camera *)this);
+    result += 332;
+    *(float *)result = a3 + *(float *)result;
   }
+  return result;
 }

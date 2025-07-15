@@ -10,18 +10,18 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginBitmapFill(const Scalefo
   Scaleform::GFx::AS2::MatrixObject *v8; // ebx
   const Scaleform::Render::Matrix2x4<float> *Matrix; // eax
   Scaleform::GFx::AS2::Value *v10; // eax
-  char v11; // bl
+  bool v11; // bl
   Scaleform::GFx::AS2::Value *v12; // eax
   Scaleform::GFx::FillType v13; // eax
   unsigned int RefCount; // eax
-  Scaleform::GFx::AS2::Environment *Env; // [esp+80h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v16; // [esp+80h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v17; // [esp+80h] [ebp-64h]
-  Scaleform::GFx::AS2::Environment *v18; // [esp+80h] [ebp-64h]
-  Scaleform::GFx::InteractiveObject *Target; // [esp+9Ch] [ebp-48h]
-  Scaleform::GFx::ImageResource *pRCC; // [esp+A0h] [ebp-44h]
-  Scaleform::Render::Matrix2x4<float> mtx; // [esp+A4h] [ebp-40h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+C4h] [ebp-20h] BYREF
+  Scaleform::GFx::AS2::Environment *Env; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v16; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v17; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::AS2::Environment *v18; // [esp-4h] [ebp-64h]
+  Scaleform::GFx::InteractiveObject *Target; // [esp+18h] [ebp-48h]
+  Scaleform::GFx::ImageResource *pimageRes; // [esp+1Ch] [ebp-44h]
+  Scaleform::Render::Matrix2x4<float> mtx; // [esp+20h] [ebp-40h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+40h] [ebp-20h] BYREF
 
   ThisPtr = fn->ThisPtr;
   if ( ThisPtr )
@@ -49,8 +49,8 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginBitmapFill(const Scalefo
         v4->RefCount = (v4->RefCount + 1) & 0x8FFFFFFF;
         if ( v4->GetObjectType(&v4->Scaleform::GFx::AS2::ObjectInterface) != Object_BitmapData )
           goto LABEL_24;
-        pRCC = (Scaleform::GFx::ImageResource *)v5[3].pRCC;
-        if ( !pRCC )
+        pimageRes = (Scaleform::GFx::ImageResource *)v5[3].pRCC;
+        if ( !pimageRes )
           goto LABEL_24;
         Scaleform::Render::Matrix2x4<float>::Matrix2x4<float>(&mtx);
         if ( fn->NArgs > 1 )
@@ -68,24 +68,24 @@ void __cdecl Scaleform::GFx::AS2::AvmSprite::SpriteBeginBitmapFill(const Scalefo
           {
             v17 = fn->Env;
             v10 = Scaleform::GFx::AS2::FnCall::Arg(fn, 2);
-            v11 = Scaleform::GFx::AS2::Value::ToBool(v10, v17);
+            v11 = Scaleform::GFx::AS2::Value::ToBool(v10, (int)v5, v17);
             if ( fn->NArgs > 3 )
             {
               v18 = fn->Env;
               v12 = Scaleform::GFx::AS2::FnCall::Arg(fn, 3);
-              if ( Scaleform::GFx::AS2::Value::ToBool(v12, v18) )
+              if ( Scaleform::GFx::AS2::Value::ToBool(v12, (int)v5, v18) )
               {
-                v13 = (v11 == 0) + 64;
+                v13 = !v11 + 64;
 LABEL_23:
                 Scaleform::GFx::AS2::AvmSprite::BeginBitmapFill(
                   (Scaleform::GFx::AS2::AvmSprite *)(&Target->Scaleform::GFx::DisplayObject::Scaleform::GFx::DisplayObjectBase::Scaleform::RefCountBaseWeakSupport<Scaleform::GFx::DisplayObjectBase,322>::Scaleform::RefCountBaseStatImpl<Scaleform::RefCountWeakSupportImpl,322>::Scaleform::RefCountWeakSupportImpl::Scaleform::RefCountNTSImpl::Scaleform::RefCountNTSImplCore::__vftable
                                                    + Target->AvmObjOffset),
                   v13,
-                  pRCC,
+                  pimageRes,
                   &mtx);
 LABEL_24:
                 RefCount = v5->RefCount;
-                if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & RefCount) != 0 )
+                if ( (RefCount & 0x3FFFFFF) != 0 )
                 {
                   v5->RefCount = RefCount - 1;
                   Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v5);

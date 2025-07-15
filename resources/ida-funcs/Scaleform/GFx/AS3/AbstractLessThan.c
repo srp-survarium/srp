@@ -82,9 +82,9 @@ LABEL_23:
     if ( v18 )
     {
       str1 = _1.value.VNumber;
-      if ( (HIDWORD(str1) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(str1) | LODWORD(str1)
+      if ( (HIDWORD(str1) & 0x7FF00000) == 0x7FF00000 && HIDWORD(str1) & 0xFFFFF | LODWORD(str1)
         || (str1 = _2.value.VNumber, (HIDWORD(str1) & 0x7FF00000) == 0x7FF00000)
-        && (unsigned int)&loc_FFFFF & HIDWORD(str1) | LODWORD(str1) )
+        && HIDWORD(str1) & 0xFFFFF | LODWORD(str1) )
       {
         *resulta = undefined3;
       }

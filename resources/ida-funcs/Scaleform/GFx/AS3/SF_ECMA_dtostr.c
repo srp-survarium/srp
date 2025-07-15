@@ -37,9 +37,9 @@ int __usercall Scaleform::GFx::AS3::SF_ECMA_dtostr@<eax>(
     return strlen(buffer);
   }
   intVal = val;
-  if ( (HIDWORD(intVal) & 0x7FF00000) == 0x7FF00000 && (unsigned int)&loc_FFFFF & HIDWORD(intVal) | LODWORD(intVal) )
+  if ( (HIDWORD(intVal) & 0x7FF00000) == 0x7FF00000 && HIDWORD(intVal) & 0xFFFFF | LODWORD(intVal) )
   {
-    strcpy(buffer, "NaN");
+    *(_DWORD *)buffer = 5136718;
     return 3;
   }
   if ( val == INFINITY )
@@ -74,7 +74,7 @@ int __usercall Scaleform::GFx::AS3::SF_ECMA_dtostr@<eax>(
       }
     }
   }
-  v6 = Scaleform::SFsprintf(temp, 0x28u, (const char *)&intVal, val);
+  v6 = Scaleform::SFsprintf(temp, 0x28u, (char *)&intVal, val);
   v7 = 0;
   if ( v6 <= 0 )
   {
@@ -185,7 +185,7 @@ LABEL_43:
       if ( v15 > 1 )
       {
         v26 = v15 - 1;
-        memset((int)v16, (unsigned __int8 *)0x30, v15 - 1);
+        memset((int)v16, 48, v15 - 1);
         v16 += v26;
         v13 = buffer;
       }

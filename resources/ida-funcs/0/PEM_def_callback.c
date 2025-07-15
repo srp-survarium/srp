@@ -1,16 +1,16 @@
-int __cdecl PEM_def_callback(char *buf, int num, int w, char *key)
+int __cdecl PEM_def_callback(char *buf, int num, int w, const __m128i *key)
 {
   signed int v4; // esi
   int result; // eax
-  const char *pw_prompt; // edi
+  char *pw_prompt; // edi
   _iobuf *v7; // eax
 
   if ( key )
   {
-    v4 = strlen(key);
+    v4 = strlen(key->m128i_i8);
     if ( v4 > num )
       v4 = num;
-    memcpy((unsigned __int8 *)buf, (unsigned __int8 *)key, v4);
+    memcpy((int)buf, key, v4);
     return v4;
   }
   else
@@ -21,7 +21,7 @@ int __cdecl PEM_def_callback(char *buf, int num, int w, char *key)
     if ( EVP_read_pw_string_min(buf, 4, num, pw_prompt, w) )
     {
 LABEL_10:
-      ERR_put_error(9u, 100, 109, ".\\crypto\\pem\\pem_lib.c", 111);
+      ERR_put_error(num, 9u, 100, 109, ".\\crypto\\pem\\pem_lib.c", 111);
       memset((int)buf, 0, num);
       return -1;
     }
@@ -33,7 +33,7 @@ LABEL_10:
         if ( result >= 4 )
           break;
         v7 = __iob_func();
-        fprintf(v7 + 2, "phrase is too short, needs to be at least %d chars\n", 4);
+        fprintf((int)pw_prompt, v7 + 2, "phrase is too short, needs to be at least %d chars\n", 4);
         if ( EVP_read_pw_string_min(buf, 4, num, pw_prompt, w) )
           goto LABEL_10;
       }

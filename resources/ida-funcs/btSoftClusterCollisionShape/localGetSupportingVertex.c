@@ -6,79 +6,38 @@ btVector3 *__thiscall btSoftClusterCollisionShape::localGetSupportingVertex(
   const btSoftBody::Cluster *m_cluster; // ecx
   float v4; // xmm2_4
   float v5; // xmm3_4
-  float v6; // xmm4_4
-  int m_size; // ebx
-  btSoftBody::Node **m_data; // edi
-  int v9; // esi
-  int v10; // eax
-  float v11; // xmm0_4
-  _DWORD *v12; // edx
-  btVector3 *v13; // eax
+  btSoftBody::Node **m_data; // esi
+  int m_size; // ecx
+  int v8; // edx
+  int v9; // edi
+  float i; // xmm1_4
+  btVector3 *v11; // eax
+  int p_m_x; // esi
 
   m_cluster = this->m_cluster;
   v4 = vec->mVec128.m128_f32[2];
   v5 = vec->mVec128.m128_f32[1];
-  v6 = vec->mVec128.m128_f32[0];
-  m_size = m_cluster->m_nodes.m_size;
   m_data = m_cluster->m_nodes.m_data;
+  m_size = m_cluster->m_nodes.m_size;
+  v8 = 1;
   v9 = 0;
-  v10 = 1;
-  v11 = (float)((float)((*m_data)->m_x.mVec128.m128_f32[1] * v5) + (float)((*m_data)->m_x.mVec128.m128_f32[2] * v4))
-      + (float)((*m_data)->m_x.mVec128.m128_f32[0] * vec->mVec128.m128_f32[0]);
-  if ( m_size > 1 )
+  for ( i = (float)((float)((*m_data)->m_x.mVec128.m128_f32[1] * v5) + (float)((*m_data)->m_x.mVec128.m128_f32[2] * v4))
+          + (float)((*m_data)->m_x.mVec128.m128_f32[0] * vec->mVec128.m128_f32[0]); v8 < m_size; ++v8 )
   {
-    if ( m_size - 1 >= 4 )
+    if ( (float)((float)((float)(m_data[v8]->m_x.mVec128.m128_f32[1] * v5)
+                       + (float)(m_data[v8]->m_x.mVec128.m128_f32[2] * v4))
+               + (float)(m_data[v8]->m_x.mVec128.m128_f32[0] * vec->mVec128.m128_f32[0])) > i )
     {
-      v12 = m_data + 3;
-      do
-      {
-        if ( (float)((float)((float)(*(float *)(*(v12 - 2) + 20) * v5) + (float)(*(float *)(*(v12 - 2) + 24) * v4))
-                   + (float)(v6 * *(float *)(*(v12 - 2) + 16))) > v11 )
-        {
-          v11 = (float)((float)(*(float *)(*(v12 - 2) + 20) * v5) + (float)(*(float *)(*(v12 - 2) + 24) * v4))
-              + (float)(v6 * *(float *)(*(v12 - 2) + 16));
-          v9 = v10;
-        }
-        if ( (float)((float)((float)(*(float *)(*(v12 - 1) + 20) * v5) + (float)(*(float *)(*(v12 - 1) + 24) * v4))
-                   + (float)(v6 * *(float *)(*(v12 - 1) + 16))) > v11 )
-        {
-          v11 = (float)((float)(*(float *)(*(v12 - 1) + 20) * v5) + (float)(*(float *)(*(v12 - 1) + 24) * v4))
-              + (float)(v6 * *(float *)(*(v12 - 1) + 16));
-          v9 = v10 + 1;
-        }
-        if ( (float)((float)((float)(*(float *)(*v12 + 20) * v5) + (float)(*(float *)(*v12 + 24) * v4))
-                   + (float)(v6 * *(float *)(*v12 + 16))) > v11 )
-        {
-          v11 = (float)((float)(*(float *)(*v12 + 20) * v5) + (float)(*(float *)(*v12 + 24) * v4))
-              + (float)(v6 * *(float *)(*v12 + 16));
-          v9 = v10 + 2;
-        }
-        if ( (float)((float)((float)(*(float *)(v12[1] + 20) * v5) + (float)(*(float *)(v12[1] + 24) * v4))
-                   + (float)(v6 * *(float *)(v12[1] + 16))) > v11 )
-        {
-          v11 = (float)((float)(*(float *)(v12[1] + 20) * v5) + (float)(*(float *)(v12[1] + 24) * v4))
-              + (float)(v6 * *(float *)(v12[1] + 16));
-          v9 = v10 + 3;
-        }
-        v10 += 4;
-        v12 += 4;
-      }
-      while ( v10 < m_size - 3 );
-    }
-    for ( ; v10 < m_size; ++v10 )
-    {
-      if ( (float)((float)((float)(m_data[v10]->m_x.mVec128.m128_f32[1] * v5)
-                         + (float)(m_data[v10]->m_x.mVec128.m128_f32[2] * v4))
-                 + (float)(v6 * m_data[v10]->m_x.mVec128.m128_f32[0])) > v11 )
-      {
-        v11 = (float)((float)(m_data[v10]->m_x.mVec128.m128_f32[1] * v5)
-                    + (float)(m_data[v10]->m_x.mVec128.m128_f32[2] * v4))
-            + (float)(v6 * m_data[v10]->m_x.mVec128.m128_f32[0]);
-        v9 = v10;
-      }
+      i = (float)((float)(m_data[v8]->m_x.mVec128.m128_f32[1] * v5) + (float)(m_data[v8]->m_x.mVec128.m128_f32[2] * v4))
+        + (float)(m_data[v8]->m_x.mVec128.m128_f32[0] * vec->mVec128.m128_f32[0]);
+      v9 = v8;
     }
   }
-  v13 = result;
-  *result = m_data[v9]->m_x;
-  return v13;
+  v11 = result;
+  p_m_x = (int)&m_data[v9]->m_x;
+  result->mVec128.m128_i32[0] = *(_DWORD *)p_m_x;
+  p_m_x += 4;
+  result->mVec128.m128_i32[1] = *(_DWORD *)p_m_x;
+  result->mVec128.m128_u64[1] = *(_QWORD *)(p_m_x + 4);
+  return v11;
 }

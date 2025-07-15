@@ -13,12 +13,12 @@ char __thiscall Scaleform::GFx::MorphCharacterDef::DefPointTestLocal(
   float (__thiscall *GetRatio)(Scaleform::GFx::DisplayObjectBase *); // eax
   Scaleform::Render::ShapeMeshProvider *pObject; // ebx
   char v13; // bl
-  float morphRatio; // [esp+20h] [ebp-60h]
-  float y1; // [esp+44h] [ebp-3Ch]
-  float x2; // [esp+48h] [ebp-38h]
-  float y2; // [esp+4Ch] [ebp-34h]
-  Scaleform::Render::Rect<float> bounds; // [esp+50h] [ebp-30h] BYREF
-  Scaleform::Render::Matrix2x4<float> result; // [esp+60h] [ebp-20h] BYREF
+  float v15; // [esp+8h] [ebp-60h]
+  float y1; // [esp+2Ch] [ebp-3Ch]
+  float x2; // [esp+30h] [ebp-38h]
+  float y2; // [esp+34h] [ebp-34h]
+  Scaleform::Render::Rect<float> bounds; // [esp+38h] [ebp-30h] BYREF
+  Scaleform::Render::Matrix2x4<float> result; // [esp+48h] [ebp-20h] BYREF
 
   v4 = 0;
   if ( pinst && (pinst->Flags & 1) != 0 )
@@ -39,8 +39,8 @@ char __thiscall Scaleform::GFx::MorphCharacterDef::DefPointTestLocal(
     GetRatio = v10->GetRatio;
     pObject = this->pShapeMeshProvider.pObject;
     result.M[1][1] = 1.0;
-    morphRatio = GetRatio(pinst);
-    v9 = Scaleform::Render::ShapeMeshProvider::HitTestShape(pObject, &result, pt->x, pt->y, morphRatio, 0, 0, v4);
+    v15 = GetRatio(pinst);
+    v9 = Scaleform::Render::ShapeMeshProvider::HitTestShape(pObject, &result, pt->x, pt->y, v15, 0, 0, v4);
   }
   else
   {
@@ -55,7 +55,10 @@ char __thiscall Scaleform::GFx::MorphCharacterDef::DefPointTestLocal(
       0);
     if ( v4 )
     {
-      v8 = Scaleform::Render::Scale9GridInfo::AdjustBounds(v4, (Scaleform::Render::Rect<float> *)&result, &bounds);
+      v8 = Scaleform::Render::Scale9GridInfo::AdjustBounds(
+             v4,
+             (Scaleform::Render::Rect<float> *)&result,
+             COERCE_FLOAT(&bounds));
       y1 = v8->y1;
       x2 = v8->x2;
       y2 = v8->y2;

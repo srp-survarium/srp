@@ -1,45 +1,33 @@
 vostok::math::float4x4 *__userpurge survarium::weapon::calculate_locator@<eax>(
-        survarium::weapon *this@<ecx>,
-        int a2@<eax>,
-        vostok::math::float4x4 *result,
-        const vostok::render::model_locator_item *locator,
+        long double locator@<esi:edi>,
+        __m128i a2@<xmm0>,
+        vostok::math::float4x4 *this,
+        const vostok::math::float4x4 *transform,
         const vostok::math::float4x4 *matrices,
-        unsigned int matrices_count)
+        const unsigned int matrices_count)
 {
-  unsigned __int16 m_bone; // ax
-  const vostok::math::float4x4 *p_m_offset; // [esp+0h] [ebp-DCh]
-  unsigned __int16 v10; // [esp+18h] [ebp-C4h]
-  vostok::math::float4x4 right; // [esp+1Ch] [ebp-C0h] BYREF
-  vostok::math::float4x4 left; // [esp+5Ch] [ebp-80h] BYREF
-  vostok::math::float4x4 v13; // [esp+9Ch] [ebp-40h] BYREF
+  vostok::math::float4x4 *v7; // edx
+  vostok::math::float4x4 v9; // [esp+Ch] [ebp-84h] BYREF
+  vostok::math::float4x4 v10; // [esp+4Ch] [ebp-44h] BYREF
+  unsigned __int16 v11; // [esp+98h] [ebp+8h]
 
-  if ( (_S6_0 & 1) == 0 )
+  HIDWORD(locator) = &add;
+  if ( (_S9_0 & 1) == 0 )
   {
-    _S6_0 |= 1u;
-    vostok::math::create_rotation_y(
-      &_S3_4.m_inverted_view_matrix.lines[3].elements[1],
-      COERCE_VOSTOK_MATH_FLOAT4X4_(3.1415927));
+    _S9_0 |= 1u;
+    vostok::math::create_rotation_y(locator, a2, &add, 3.1415927);
   }
-  m_bone = locator->m_bone;
-  p_m_offset = &locator->m_offset;
-  v10 = m_bone;
-  qmemcpy((void *)&right, (const void *)(a2 + 344), sizeof(right));
-  if ( m_bone == 0xFFFF )
+  v11 = *(_WORD *)(LODWORD(locator) + 96);
+  vostok::math::mul4x3((const vostok::math::float4x4 *)(LODWORD(locator) + 32), &add, &v10);
+  if ( v11 == 0xFFFF )
   {
-    vostok::math::mul4x3(
-      &left,
-      (const vostok::math::float4x4 *)&_S3_4.m_inverted_view_matrix.lines[3].elements[1],
-      p_m_offset);
-    vostok::math::mul4x3(result, &left, &right);
+    v7 = &v10;
   }
   else
   {
-    vostok::math::mul4x3(
-      &left,
-      (const vostok::math::float4x4 *)&_S3_4.m_inverted_view_matrix.lines[3].elements[1],
-      p_m_offset);
-    vostok::math::mul4x3(&v13, &left, &matrices[v10]);
-    vostok::math::mul4x3(result, &v13, &right);
+    vostok::math::mul4x3(&matrices[v11], &v10, &v9);
+    v7 = &v9;
   }
-  return result;
+  vostok::math::mul4x3(transform, v7, this);
+  return this;
 }
